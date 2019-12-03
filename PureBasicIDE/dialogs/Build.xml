@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<!-- Build progress dialog for the PureBasic IDE -->
+
+
+<window id="#WINDOW_Build" lang="Compiler:BuildWindowTitle" label="Dialog_Build" forcesize="yes" flags="#PB_Window_SizeGadget|#PB_Window_TitleBar">
+  <vbox spacing="10" expand="item:1">
+    <vbox spacing="5" expand="item:2">
+      <frame lang="Compiler:BuildProgress">
+        <listicon id="#GADGET_Build_Targets"  height="140" flags="#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection">
+          <column width="250" lang="Compiler:TargetList" />
+          <column width="100" lang="Misc:Status"/>
+        </listicon>
+      </frame>
+
+      <frame lang="Compiler:BuildLog">
+        <listview id="#GADGET_Build_Log"  height="60" />
+      </frame>
+    </vbox>
+
+    <multibox>
+      <!-- visible during compilation -->
+      <container id="#GADGET_Build_WorkContainer" margin="0">
+        <hbox expand="item:2">
+          <checkbox id="#GADGET_Build_CloseWhenDone" lang="Compiler:CloseWhenDone"/>
+          <empty />
+          <button id="#GADGET_Build_Abort" lang="Misc:Abort" width="120" />
+        </hbox>      
+      </container>
+
+      <!-- visible after compilation -->
+      <container id="#GADGET_Build_DoneContainer" margin="0" invisible="yes">
+        <hbox expand="item:3">
+          <button id="#GADGET_Build_Copy" lang="Misc:Copy" width="120" />
+          <button id="#GADGET_Build_Save" lang="Misc:Save" width="120" />
+          <empty />
+          <button id="#GADGET_Build_Close" lang="Misc:Close" width="120" />
+        </hbox>
+      </container>
+    </multibox>
+
+  </vbox>
+</window>

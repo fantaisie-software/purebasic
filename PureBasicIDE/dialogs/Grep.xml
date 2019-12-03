@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<!-- Grep Dialog for the PureBasic IDE -->
+
+<dialoggroup>
+
+  <!--  Grep  -->
+  <window id="#WINDOW_Grep" lang="Find:GrepTitle" label="Dialog_Grep" width="480" invisible="yes">
+    <vbox spacing="10" expand="item:2">
+      <gridbox colexpand="item:2">
+        <text lang="Find:SearchFor" text=": " flags="#PB_Text_Right" />
+        <combobox id="#GADGET_Grep_FindWord" boxheight="150" flags="#PB_ComboBox_Editable" />
+        
+        <text lang="Find:RootDirectory" text=": " flags="#PB_Text_Right" />
+        <hbox expand="item:1">
+          <combobox id="#GADGET_Grep_Directory" boxheight="150" flags="#PB_ComboBox_Editable" />
+          <button id="#GADGET_Grep_SelectDirectory"     text="..." width="30" height="ignore" />
+          <button id="#GADGET_Grep_UseCurrentDirectory" text="." width="25" height="ignore" />
+        </hbox>
+        
+        <text lang="Find:Extensions" text=": " flags="#PB_Text_Right" />
+        <combobox id="#GADGET_Grep_Pattern" boxheight="150" flags="#PB_ComboBox_Editable" />
+      </gridbox>
+      
+      <container margin="vertical:10,horizontal:15" flags="#PB_Container_Single">
+        <gridbox rowspacing="0">
+          <checkbox id="#GADGET_Grep_MatchCase"  lang="Find:CaseSensitive" />
+          <checkbox id="#GADGET_Grep_NoComments" lang="Find:NoComments" />
+          <checkbox id="#GADGET_Grep_WholeWord"  lang="Find:WholeWord" />
+          <checkbox id="#GADGET_Grep_NoStrings"  lang="Find:NoStrings" />
+          <checkbox id="#GADGET_Grep_Recurse"    lang="Find:IncludeSubdirs" />
+        </gridbox>
+      </container>
+      
+      <hbox spacing="5">
+        <button id="#GADGET_Grep_Find"   lang="Find:Start" />        
+        <button id="#GADGET_Grep_Stop"   lang="Find:Stop" />
+        <button id="#GADGET_Grep_Cancel" lang="Misc:Cancel" />
+      </hbox> 
+    </vbox>
+
+    <shortcut key="#PB_Shortcut_Return" id="#GADGET_Grep_Find" />
+    <shortcut key="#PB_Shortcut_Escape" id="#GADGET_Grep_Cancel" />
+  </window>
+  
+  
+  <!-- Grep Results -->
+  <window id="#WINDOW_GrepOutput" lang="Find:OutputTitle" label="Dialog_GrepOutput" width="480" height="400" flags="#PB_Window_SizeGadget">
+    <vbox expand="item:1">
+      <listview id="#GADGET_GrepOutput_List" />
+      <hbox expand="item:1">
+        <text id="#GADGET_GrepOutput_Current" flags="#PB_Text_Border" />
+        <button id="#GADGET_GrepOutput_Clear" lang="Find:Clear" width="80" />
+      </hbox>
+    </vbox>
+
+    <shortcut key="#PB_Shortcut_Escape" id="#GADGET_GrepOutput_Close" />
+  </window>
+
+</dialoggroup>

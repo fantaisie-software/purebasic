@@ -1,0 +1,1015 @@
+;--------------------------------------------------------------------------------------------
+;  Copyright (c) Fantaise Software. All rights reserved.
+;  Dual licensed under the GPL and Fantaisie Software licenses.
+;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
+;--------------------------------------------------------------------------------------------
+
+
+
+Procedure BuildShortcutNamesTable()
+
+  ShortcutNames(0)  = ""
+  ShortcutValues(0) = 0
+
+  Restore ShortcutKeys
+  index = 1
+
+  ; number keys   
+  For i = 0 To 9
+    ShortcutNames(index) = Str(i)
+    Read.l ShortcutValues(index)
+    index + 1
+  Next i
+  
+  ; character keys
+  For i = 'A' To 'Z'
+    ShortcutNames(index) = Chr(i)
+    Read.l ShortcutValues(index)
+    index + 1
+  Next i  
+  
+  ; function keys
+  For i = 1 To 24
+    ShortcutNames(index) = "F" + Str(i)
+    Read.l ShortcutValues(index)
+    index + 1
+  Next i    
+  
+  ; numpad keys
+  For i = 0 To 9
+    ShortcutNames(index) = Language("Shortcuts", "Numpad")+" "+Str(i)
+    Read.l ShortcutValues(index)
+    index + 1
+  Next i    
+  
+  ; other keys
+  For index = 71 To #NbShortcutKeys-1
+    ShortcutNames(index) = Language("Shortcuts","Key"+Str(index))
+    Read.l ShortcutValues(index)
+  Next index
+
+EndProcedure
+
+
+Procedure CreateKeyboardShortcuts(Window)
+
+  For item = 0 To #MENU_LastShortcutItem
+    If KeyboardShortcuts(item) <> -1 And KeyboardShortcuts(item) <> 0
+      If item = #MENU_AutoComplete_OK And Window = #WINDOW_Main
+        If KeyboardShortcuts(item) <> #PB_Shortcut_Tab And KeyboardShortcuts(item) <> #PB_Shortcut_Return
+          ; we have special shortcuts for Tab and Enter on Scintilla which call the appropriate autocomplete
+          ; as well, so do not add such a shortcut again!
+          ; this shortcut is needed on the main window as well for the "insert end keyword on double press" option
+          AddKeyboardShortcut(Window, KeyboardShortcuts(item), item)
+        EndIf
+      ElseIf item <> #MENU_AutoComplete_Abort Or Window = #WINDOW_AutoComplete ; add "abort" only to teh autocomplete window
+        AddKeyboardShortcut(Window, KeyboardShortcuts(item), item)
+      EndIf
+    EndIf
+  Next item
+    
+EndProcedure
+
+Procedure GetBaseKeyIndex(Shortcut)
+
+  If Shortcut
+    For i = 0 To #NbShortcutKeys-1
+      If Shortcut & ~(#PB_Shortcut_Control|#PB_Shortcut_Alt|#PB_Shortcut_Shift|#PB_Shortcut_Command) = ShortcutValues(i)
+        ProcedureReturn i
+      EndIf
+    Next i
+  EndIf
+  
+  ProcedureReturn 0
+EndProcedure
+
+Procedure.s GetShortcutText(Shortcut)
+
+  If Shortcut = -1
+    ProcedureReturn ""
+  EndIf
+  
+  Text$ = ""
+  
+  CompilerIf #CompileMac
+    If Shortcut & #PB_Shortcut_Command
+      Text$ + "+CMD" ; do not use the name from the Language here, as only "CMD" produces that key symbol
+    EndIf     
+  CompilerEndIf
+ 
+  CompilerIf #CompileWindows = 0
+  
+    ; On Linux and OSX, the MenuItem command parses the text for shortcuts, so it needs to be the
+    ; english name here!
+    ;
+    If Shortcut & #PB_Shortcut_Control
+      Text$ + "+Ctrl"
+    EndIf   
+    If Shortcut & #PB_Shortcut_Alt
+      Text$ + "+Alt"
+    EndIf          
+    If Shortcut & #PB_Shortcut_Shift
+      Text$ + "+Shift"
+    EndIf     
+  
+  CompilerElse
+  
+    ; For other OS, put the language specific strings here
+    ;
+    If Shortcut & #PB_Shortcut_Control
+      Text$ + "+" + Language("Shortcuts","Control")
+    EndIf   
+    If Shortcut & #PB_Shortcut_Alt
+      Text$ + "+" + Language("Shortcuts","Alt")
+    EndIf          
+    If Shortcut & #PB_Shortcut_Shift
+      Text$ + "+" + Language("Shortcuts","Shift")
+    EndIf   
+  
+  CompilerEndIf
+  
+  Text$ + "+" + ShortcutNames(GetBaseKeyIndex(Shortcut))
+  
+  ProcedureReturn Right(Text$, Len(Text$)-1)
+EndProcedure
+
+Procedure ShortcutMenuItem(MenuItemID, Text$)
+
+  Select MenuItemID
+  
+    ; suppress the image so the checkmark shows
+    Case #MENU_Debugger, #MENU_EncodingPlain, #MENU_EncodingUtf8, #MENU_NewlineWindows, #MENU_NewlineLinux, #MENU_NewlineMacOS, #MENU_ShowLog
+      ImageID = 0 
+  
+    Default
+      ImageID = ToolbarMenuImage(MenuItemID)
+  
+  EndSelect
+
+  If MenuItemID >= 0 ; On OS X, MenuItemID can be negative for #PB_Menu_Quit, #PB_Menu_About and #PB_Menu_Preferences
+    Shortcut$ = GetShortcutText(KeyboardShortcuts(MenuItemID))
+  EndIf
+  
+  If Shortcut$ = ""
+    ProcedureReturn MenuItem(MenuItemID, Text$, ImageID)
+  Else
+    ProcedureReturn MenuItem(MenuItemID, Text$ + Chr(9) + Shortcut$, ImageID)
+  EndIf
+
+EndProcedure
+
+
+Procedure FillShortcutList()
+
+  ClearGadgetItems(#GADGET_Preferences_ShortcutList)
+  Restore ShortcutItems
+  
+  For item = 0 To #MENU_LastShortcutItem
+    Read.s MenuTitle$
+    Read.s MenuItem$
+    Read.l DefaultShortcut
+    
+    If MenuTitle$ <> ""
+      Text$ = RemoveString(Language("MenuTitle",MenuTitle$), "&") + " -> " + RemoveString(Language("MenuItem",MenuItem$), "&")
+    Else
+      Text$ = Language("Shortcuts",MenuItem$)
+    EndIf
+  
+    AddGadgetItem(#GADGET_Preferences_ShortcutList, -1, Text$)
+    SetGadgetItemText(#GADGET_Preferences_ShortcutList, item, GetShortcutText(Prefs_KeyboardShortcuts(item)), 1)
+  Next item
+    
+EndProcedure
+
+
+Procedure.s GetShortcutOwner(Shortcut)
+
+  ; check main window shortcuts
+  ;
+  Restore ShortcutItems
+  
+  If IsWindow(#WINDOW_Preferences)
+    For i = 0 To #MENU_LastShortcutItem
+      Read.s MenuTitle$
+      Read.s MenuItem$
+      Read.l DefaultShortcut
+    
+      If Prefs_KeyboardShortcuts(i) = Shortcut
+        If MenuTitle$ = ""
+          ProcedureReturn Language("Shortcuts",MenuItem$)
+        Else
+          ProcedureReturn RemoveString(Language("MenuTitle",MenuTitle$)+" -> "+Language("MenuItem",MenuItem$), "&")
+        EndIf      
+      EndIf
+    Next i  
+  Else  
+    For i = 0 To #MENU_LastShortcutItem
+      Read.s MenuTitle$
+      Read.s MenuItem$  
+      Read.l DefaultShortcut
+    
+      If KeyboardShortcuts(i) = Shortcut
+        If MenuTitle$ = ""
+          ProcedureReturn Language("Shortcuts",MenuItem$)
+        Else
+          ProcedureReturn RemoveString(Language("MenuTitle",MenuTitle$)+" -> "+Language("MenuItem",MenuItem$), "&")
+        EndIf        
+      EndIf
+    Next i
+  EndIf
+  
+  ; check add tools shortcuts
+  ;
+  If IsWindow(#WINDOW_AddTools)
+    ForEach ToolsList_Edit()
+      If ToolsList_Edit()\Shortcut = Shortcut
+        ProcedureReturn Language("Shortcuts","ExternalTool")+": "+ToolsList_Edit()\MenuItemName$
+      EndIf
+    Next ToolsList_Edit()
+  Else
+    ForEach ToolsList()
+      If ToolsList()\Shortcut = Shortcut
+        ProcedureReturn Language("Shortcuts","ExternalTool")+": "+ToolsList()\MenuItemName$        
+      EndIf
+    Next ToolsList()
+  EndIf
+  
+  ; Check the main menu's shortcuts
+  ;
+  If Shortcut = #PB_Shortcut_Alt | (#PB_Shortcut_A + Asc(UCase(Language("MenuTitle","File")))-'A')
+    ProcedureReturn Language("Shortcuts","Menu")+": "+Language("MenuTitle","File")
+    
+  ElseIf Shortcut = #PB_Shortcut_Alt | (#PB_Shortcut_A + Asc(UCase(Language("MenuTitle","Edit")))-'A')
+    ProcedureReturn Language("Shortcuts","Menu")+": "+Language("MenuTitle","Edit")
+    
+  ElseIf Shortcut = #PB_Shortcut_Alt | (#PB_Shortcut_A + Asc(UCase(Language("MenuTitle","Compiler")))-'A')
+    ProcedureReturn Language("Shortcuts","Menu")+": "+Language("MenuTitle","Compiler")
+    
+  ElseIf Shortcut = #PB_Shortcut_Alt | (#PB_Shortcut_A + Asc(UCase(Language("MenuTitle","Tools")))-'A')
+    ProcedureReturn Language("Shortcuts","Menu")+": "+Language("MenuTitle","Tools")
+    
+  ElseIf Shortcut = #PB_Shortcut_Alt | (#PB_Shortcut_A + Asc(UCase(Language("MenuTitle","Help")))-'A')
+    ProcedureReturn Language("Shortcuts","Menu")+": "+Language("MenuTitle","Help")
+    
+  EndIf  
+  
+  ; Check for Tab & Shift+Tab (these are for intend/unintend. they can't be changed because they are handled directly by the keyhandler)
+  ;
+  If Shortcut = #PB_Shortcut_Tab Or Shortcut = #PB_Shortcut_Shift | #PB_Shortcut_Tab
+    ProcedureReturn Language("Shortcuts","TabIntend")
+  EndIf
+  
+  ; check for reserved shortcuts
+  ;
+  Restore ReservedShortcuts
+  Repeat
+    Read.l ReservedShortcut
+    If Shortcut = ReservedShortcut
+      ProcedureReturn Language("Shortcuts","SystemShortcut")
+    EndIf
+  Until Shortcut = -1  
+      
+EndProcedure
+
+Procedure IsShortcutUsed(Shortcut, CurrentPrefsItem, *CurrentAddTool)
+
+  If Shortcut = 0 Or Shortcut = -1
+    ProcedureReturn 0
+  EndIf
+  
+  ; special check: Tab and Enter can be used to confirm AutoComplete even though
+  ; they are also used for Indent/Unindent (the code handles this)
+  ;
+  If CurrentPrefsItem = #MENU_AutoComplete_OK And (Shortcut = #PB_Shortcut_Tab Or Shortcut = #PB_Shortcut_Return)
+    ProcedureReturn 0
+  EndIf
+  
+  ; check main window shortcuts
+  ;
+  If IsWindow(#WINDOW_Preferences)
+    For i = 0 To #MENU_LastShortcutItem
+      If Prefs_KeyboardShortcuts(i) = Shortcut And i <> CurrentPRefsItem
+        ProcedureReturn 1
+      EndIf
+    Next i  
+  Else  
+    For i = 0 To #MENU_LastShortcutItem
+      If KeyboardShortcuts(i) = Shortcut
+        ProcedureReturn 1
+      EndIf
+    Next i
+  EndIf
+  
+  ; check add tools shortcuts
+  ;
+  If IsWindow(#WINDOW_AddTools)
+    ForEach ToolsList_Edit()
+      If ToolsList_Edit()\Shortcut = Shortcut And @ToolsList_Edit() <> *CurrentAddTool
+        ProcedureReturn 1
+      EndIf
+    Next ToolsList_Edit()
+  Else
+    ForEach ToolsList()
+      If ToolsList()\Shortcut = Shortcut
+        ProcedureReturn 1
+      EndIf 
+    Next ToolsList()
+  EndIf
+  
+  ; Check the main menu's shortcuts
+  ;
+  If Shortcut = #PB_Shortcut_Alt | (#PB_Shortcut_A + Asc(UCase(Language("MenuTitle","File")))-'A')
+    ProcedureReturn 1
+    
+  ElseIf Shortcut = #PB_Shortcut_Alt | (#PB_Shortcut_A + Asc(UCase(Language("MenuTitle","Edit")))-'A')
+    ProcedureReturn 1
+    
+  ElseIf Shortcut = #PB_Shortcut_Alt | (#PB_Shortcut_A + Asc(UCase(Language("MenuTitle","Compiler")))-'A')
+    ProcedureReturn 1
+    
+  ElseIf Shortcut = #PB_Shortcut_Alt | (#PB_Shortcut_A + Asc(UCase(Language("MenuTitle","Tools")))-'A')
+    ProcedureReturn 1
+    
+  ElseIf Shortcut = #PB_Shortcut_Alt | (#PB_Shortcut_A + Asc(UCase(Language("MenuTitle","Help")))-'A')
+    ProcedureReturn 1
+    
+  EndIf   
+  
+  ; Check for Tab & Shift+Tab (these are for intend/unintend. they can't be changed because they are handled directly by the keyhandler)
+  ;
+  If Shortcut = #PB_Shortcut_Tab Or Shortcut = #PB_Shortcut_Shift | #PB_Shortcut_Tab
+    ProcedureReturn 1
+  EndIf
+  
+  ; check for reserved shortcuts
+  ;
+  Restore ReservedShortcuts
+  Repeat
+    Read.l ReservedShortcut
+    If Shortcut = ReservedShortcut
+      ProcedureReturn 1
+    EndIf
+  Until ReservedShortcut = -1
+    
+  ProcedureReturn 0
+EndProcedure
+
+Procedure.s ShortcutToIndependantName(Shortcut)
+
+  If Shortcut = -1
+    ProcedureReturn ""
+  EndIf
+  
+  Text$ = ""
+  
+  If Shortcut & #PB_Shortcut_Control
+    Text$ + "CONTROL+" 
+  EndIf 
+  
+  If Shortcut & #PB_Shortcut_Alt
+    Text$ + "ALT+"
+  EndIf        
+  
+  If Shortcut & #PB_Shortcut_Shift
+    Text$ + "SHIFT+"
+  EndIf   
+
+  If Shortcut & #PB_Shortcut_Command
+    Text$ + "COMMAND+"
+  EndIf   
+  
+  Text$ + Str(GetBaseKeyIndex(Shortcut)) ; do not use the shortcut name,as it is language specific
+  
+  ProcedureReturn Text$
+
+EndProcedure
+
+Procedure IndependantNameToShortcut(Name$)
+
+  Name$ = RemoveString(RemoveString(UCase(Name$), " "), Chr(9))
+  
+  Index = Val(StringField(Name$, CountString(Name$, "+")+1, "+"))
+  If Index > 0 And Index <= #NbShortcutKeys
+    Shortcut = ShortcutValues(Index)
+  Else
+    Shortcut = 0
+  EndIf
+      
+  If FindString(Name$, "CONTROL", 1) <> 0
+    Shortcut | #PB_Shortcut_Control
+  EndIf
+  
+  If FindString(Name$, "ALT", 1) <> 0
+    Shortcut | #PB_Shortcut_Alt
+  EndIf
+  
+  If FindString(Name$, "SHIFT", 1) <> 0
+    Shortcut | #PB_Shortcut_Shift
+  EndIf
+  
+  CompilerIf #CompileMac ; apply the CONTROL one only on the mac
+    If FindString(Name$, "CONTROL", 1) <> 0
+      Shortcut | #PB_Shortcut_Command
+    EndIf  
+  CompilerEndIf
+  
+  ProcedureReturn Shortcut
+EndProcedure
+
+CompilerIf #CompileMacCarbon
+
+; OSX uses symbols for its shortcuts. Unfortunately these are characters in the unicode range, but the IDE is ascii only.
+; To solve this, we "subclass" the ListIcon's ItemData callback by replacing it and calling the original one only when needed
+; In the callback we construct a unicode string with our shortcut symbols and set it
+; This way we have a consisten user interface with other Mac apps
+;
+Global ItemDataCallbackUPP, RealItemDataCallbackUPP, ShortcutColumnProperty
+
+ProcedureC MacItemCallback(Gadget, itemID, property, itemData, ChangeValue)
+  Status = #noErr
+ 
+  ; itemID-1 is the index in the gadget
+  Shortcut = Prefs_KeyboardShortcuts(itemID-1)
+  
+  ; Keep this in sync with the ListIconGadget.c handling in the callback
+  ; We lookup the column list to find out what column is used
+  ;
+  If ChangeValue = 0 And property = ShortcutColumnProperty And Shortcut <> 0
+
+    *Buffer = AllocateMemory(500*SizeOf(WORD))
+    If *Buffer
+      *Cursor.WORD = *Buffer
+      
+      If Shortcut & #PB_Shortcut_Control
+        *Cursor\w = $2303 ; /* U+2303 UP ARROWHEAD */
+        *Cursor + 2
+      EndIf
+
+      If Shortcut & #PB_Shortcut_Alt
+        *Cursor\w = $2325 ; /* U+2325 OPTION KEY */
+        *Cursor + 2
+      EndIf
+
+      If Shortcut & #PB_Shortcut_Shift
+        *Cursor\w = $21E7 ; /* U+21E7 UPWARDS WHITE ARROW */
+        *Cursor + 2
+      EndIf
+
+      If Shortcut & #PB_Shortcut_Command
+        *Cursor\w = $2318 ; /* Command key symbol U+2318 PLACE OF INTEREST SIGN */
+        *Cursor + 2
+      EndIf     
+      
+      Shortcut = Shortcut & $FFFF
+      
+      Select Shortcut
+      
+        Case #PB_Shortcut_A To #PB_Shortcut_Z
+          *Cursor\w = Shortcut - 'a' + 'A'
+          *Cursor + 2
+        
+        Case #PB_Shortcut_Back
+          *Cursor\w = $232B ; /* U+232B ERASE To THE LEFT */
+          *Cursor + 2
+
+        Case #PB_Shortcut_Return
+          *Cursor\w = $21A9 ; /* U+21A9 LEFTWARDS ARROW With HOOK */
+          *Cursor + 2
+
+        Case #PB_Shortcut_Escape
+          *Cursor\w = $238B ; /* U+238B BROKEN CIRCLE With NORTHWEST ARROW */
+          *Cursor + 2
+
+        Case #PB_Shortcut_Prior
+          *Cursor\w = $21DE ; /* U+21DE UPWARDS ARROW With DOUBLE STROKE */
+          *Cursor + 2
+
+        Case #PB_Shortcut_Next
+          *Cursor\w = $21DF ; /* U+21DF DOWNWARDS ARROW With DOUBLE STROKE */
+          *Cursor + 2
+
+        Case #PB_Shortcut_End
+          *Cursor\w = $2198 ; /* U+2198 SOUTH EAST ARROW */
+          *Cursor + 2
+
+        Case #PB_Shortcut_Home
+          *Cursor\w = $2196 ; /* U+2196 NORTH WEST ARROW */
+          *Cursor + 2
+
+        Case #PB_Shortcut_Left
+          *Cursor\w = $2190 ; /* U+2190 LEFTWARDS ARROW */
+          *Cursor + 2
+
+        Case #PB_Shortcut_Up
+          *Cursor\w = $2191 ; /* U+2191 UPWARDS ARROW */
+          *Cursor + 2
+
+        Case #PB_Shortcut_Right
+          *Cursor\w = $2192 ; /* U+2192 RIGHTWARDS ARROW */
+          *Cursor + 2
+
+        Case #PB_Shortcut_Down
+          *Cursor\w = $2193 ; /* U+2193 DOWNWARDS ARROW */
+          *Cursor + 2
+
+        Case #PB_Shortcut_Delete
+          *Cursor\w = $2326 ; /* U+2326 ERASE To THE RIGHT */
+          *Cursor + 2
+
+        Case #PB_Shortcut_F1
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '1': *Cursor + 2
+
+        Case #PB_Shortcut_F2
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '2': *Cursor + 2
+
+        Case #PB_Shortcut_F3
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '3': *Cursor + 2
+
+        Case #PB_Shortcut_F4
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '4': *Cursor + 2
+
+        Case #PB_Shortcut_F5
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '5': *Cursor + 2
+
+        Case #PB_Shortcut_F6
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '6': *Cursor + 2
+
+        Case #PB_Shortcut_F7
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '7': *Cursor + 2
+
+        Case #PB_Shortcut_F8
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '8': *Cursor + 2
+
+        Case #PB_Shortcut_F9
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '9': *Cursor + 2
+
+        Case #PB_Shortcut_F10
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '1': *Cursor + 2
+          *Cursor\w = '0': *Cursor + 2
+
+        Case #PB_Shortcut_F11
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '1': *Cursor + 2
+          *Cursor\w = '1': *Cursor + 2
+
+        Case #PB_Shortcut_F12
+          *Cursor\w = 'F': *Cursor + 2
+          *Cursor\w = '1': *Cursor + 2
+          *Cursor\w = '2': *Cursor + 2
+          
+        Default
+          If Shortcut > 32 And Shortcut < 127
+            *Cursor\w = Shortcut
+            *Cursor + 2
+          Else
+            Name$ = GetShortcutText(Shortcut) ; stuff like Tab, Space, etc etc
+            PokeS(*Cursor, Name$, -1, #PB_Unicode)
+            *Cursor + StringByteLength(Name$, #PB_Unicode)
+          EndIf
+      
+      EndSelect
+      
+      ; Apply the string to the element
+      ;
+      *CFString = CFStringCreateWithBytes_(#kCFAllocatorDefault, *Buffer, *Cursor-*Buffer, #kCFStringEncodingUnicode, #False)  
+      If *CFString
+        SetDataBrowserItemDataText_(itemData, *CFString)
+        CFRelease_(*CFString)
+      EndIf
+    
+      FreeMemory(*Buffer)
+    EndIf
+    
+  Else
+
+    ; Call the real PB callback for all items that we do not handle here
+    Status = InvokeDataBrowserItemDataUPP_(Gadget, itemID, property, itemData, ChangeValue, RealItemDataCallbackUPP)
+  EndIf
+  
+  ProcedureReturn Status
+EndProcedure
+
+Procedure SetupMacPrefsShortcutCallback()
+  If ItemDataCallbackUPP = 0 
+    ItemDataCallbackUPP = NewDataBrowserItemDataUPP_(@MacItemCallback())
+  EndIf
+  
+  If ItemDataCallbackUPP
+    ; Get the PropertyID of the shortcut column for later use
+    If GetDataBrowserTableViewColumnProperty_(GadgetID(#GADGET_Preferences_ShortcutList), 1, @ShortcutColumnProperty) = #noErr ; 2 text columns only
+      Callbacks.DataBrowserCallbacks\version = #kDataBrowserLatestCallbacks ; in MacExtensions.pb
+    
+      If GetDataBrowserCallbacks_(GadgetID(#GADGET_Preferences_ShortcutList), @Callbacks) = #noErr
+        RealItemDataCallbackUPP    = Callbacks\itemDataCallback
+        Callbacks\itemDataCallback = ItemDataCallbackUPP
+        SetDataBrowserCallbacks_(GadgetID(#GADGET_Preferences_ShortcutList), @Callbacks)
+      EndIf
+    EndIf
+  EndIf
+EndProcedure
+
+CompilerEndIf
+
+;- Default shortcuts
+; Default shortcuts for the IDE, they are depending of the plateform so put them here
+;
+CompilerIf #CompileLinux | #CompileWindows
+  #SHORTCUT_New                = #PB_Shortcut_Control | #PB_Shortcut_N
+  #SHORTCUT_Open               = #PB_Shortcut_Control | #PB_Shortcut_O
+  #SHORTCUT_Save               = #PB_Shortcut_Control | #PB_Shortcut_S
+  #SHORTCUT_Close              = #PB_Shortcut_Control | #PB_Shortcut_W
+  #SHORTCUT_Undo               = #PB_Shortcut_Control | #PB_Shortcut_Z
+  #SHORTCUT_Redo               = #PB_Shortcut_Control | #PB_Shortcut_Y
+  #SHORTCUT_Cut                = #PB_Shortcut_Control | #PB_Shortcut_X
+  #SHORTCUT_Copy               = #PB_Shortcut_Control | #PB_Shortcut_C
+  #SHORTCUT_Paste              = #PB_Shortcut_Control | #PB_Shortcut_V
+  #SHORTCUT_CommentSelection   = #PB_Shortcut_Control | #PB_Shortcut_B
+  #SHORTCUT_UnCommentSelection = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_B ; Avoid 'Alt+B' shorcut as it conflict with german menu title: http://www.purebasic.fr/english/viewtopic.php?f=23&t=37098
+  #SHORTCUT_SelectAll          = #PB_Shortcut_Control | #PB_Shortcut_A
+  #SHORTCUT_Goto               = #PB_Shortcut_Control | #PB_Shortcut_G
+  #SHORTCUT_JumpToKeyword      = #PB_Shortcut_Control | #PB_Shortcut_K
+  #SHORTCUT_LastViewedLine     = #PB_Shortcut_Control | #PB_Shortcut_L
+  #SHORTCUT_AddMarker          = #PB_Shortcut_Control | #PB_Shortcut_F2
+  #SHORTCUT_JumpToMarker       = #PB_Shortcut_F2
+  #SHORTCUT_Find               = #PB_Shortcut_Control | #PB_Shortcut_F
+  #SHORTCUT_FindNext           = #PB_Shortcut_F3 
+  #SHORTCUT_FindPrevious       = #PB_Shortcut_Shift | #PB_Shortcut_F3 
+  #SHORTCUT_FindInFiles        = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_F
+  #SHORTCUT_NewProject         = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_N
+  #SHORTCUT_OpenProject        = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_O
+  #SHORTCUT_CloseProject       = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_W
+  #SHORTCUT_AddProjectFile     = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_A
+  #SHORTCUT_RemoveProjectFile  = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_R
+  #SHORTCUT_MakeBackup         = #PB_Shortcut_Control | #PB_Shortcut_M
+  #SHORTCUT_TodoList           = #PB_Shortcut_Control | #PB_Shortcut_T
+  #SHORTCUT_CompileRun         = #PB_Shortcut_F5
+  #SHORTCUT_Run                = #PB_Shortcut_Shift   | #PB_Shortcut_F5
+  #SHORTCUT_VisualDesigner     = #PB_Shortcut_Alt | #PB_Shortcut_V
+  #SHORTCUT_StructureViewer    = #PB_Shortcut_Alt | #PB_Shortcut_S
+  #SHORTCUT_Help               = #PB_Shortcut_F1
+  #SHORTCUT_NextOpenedFile     = #PB_Shortcut_Tab | #PB_Shortcut_Control
+  #SHORTCUT_PreviousOpenedFile = #PB_Shortcut_Tab | #PB_Shortcut_Control | #PB_Shortcut_Shift  
+  #SHORTCUT_ShiftCommentRight  = #PB_Shortcut_Control | #PB_Shortcut_E
+  #SHORTCUT_ShiftCommentLeft   = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_E
+  #SHORTCUT_SelectBlock        = #PB_Shortcut_Control | #PB_Shortcut_M
+  #SHORTCUT_DeselectBlock      = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_M
+  #SHORTCUT_ProcedureListUpdate= #PB_Shortcut_F12
+  #SHORTCUT_VariableViewer     = 0 ; Alt+V allready used by VD!
+  #SHORTCUT_ColorPicker        = 0 ; Alt+P is for Menu/&Project
+  #SHORTCUT_AsciiTable         = #PB_Shortcut_A | #PB_Shortcut_Alt
+  #SHORTCUT_Explorer           = #PB_Shortcut_X | #PB_Shortcut_Alt
+  #SHORTCUT_ToggleFolds        = #PB_Shortcut_Control | #PB_Shortcut_F4  
+  #SHORTCUT_ToggleThisFold     = #PB_Shortcut_F4
+  #SHORTCUT_Stop               = #PB_Shortcut_F6
+  #SHORTCUT_Continue           = #PB_Shortcut_F7
+  #SHORTCUT_Step               = #PB_Shortcut_F8
+  #SHORTCUT_StepX              = #PB_Shortcut_Control | #PB_Shortcut_F8
+  #SHORTCUT_StepOver           = #PB_Shortcut_F10
+  #SHORTCUT_StepOut            = #PB_Shortcut_F11
+  #SHORTCUT_BreakPoint         = #PB_Shortcut_F9
+  #SHORTCUT_AutoComplete       = #PB_Shortcut_Control | #PB_Shortcut_Space
+  #SHORTCUT_AutoCompleteConfirm= #PB_Shortcut_Tab
+  #SHORTCUT_AutoCompleteAbort  = #PB_Shortcut_Escape
+  #SHORTCUT_AutoIndent         = #PB_Shortcut_Control | #PB_Shortcut_I
+CompilerElse
+  ; MacOS default shortcuts
+  ;
+  #SHORTCUT_New                = #PB_Shortcut_Command | #PB_Shortcut_N
+  #SHORTCUT_Open               = #PB_Shortcut_Command | #PB_Shortcut_O
+  #SHORTCUT_Save               = #PB_Shortcut_Command | #PB_Shortcut_S
+  #SHORTCUT_Close              = #PB_Shortcut_Command | #PB_Shortcut_W
+  #SHORTCUT_Undo               = #PB_Shortcut_Command | #PB_Shortcut_Z
+  #SHORTCUT_Redo               = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_Z
+  #SHORTCUT_Cut                = #PB_Shortcut_Command | #PB_Shortcut_X
+  #SHORTCUT_Copy               = #PB_Shortcut_Command | #PB_Shortcut_C
+  #SHORTCUT_Paste              = #PB_Shortcut_Command | #PB_Shortcut_V
+  #SHORTCUT_CommentSelection   = #PB_Shortcut_Command | #PB_Shortcut_B
+  #SHORTCUT_UnCommentSelection = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_B
+  #SHORTCUT_SelectAll          = #PB_Shortcut_Command | #PB_Shortcut_A
+  #SHORTCUT_Goto               = #PB_Shortcut_Command | #PB_Shortcut_G
+  #SHORTCUT_JumpToKeyword      = #PB_Shortcut_Command | #PB_Shortcut_K
+  #SHORTCUT_LastViewedLine     = #PB_Shortcut_Command | #PB_Shortcut_L
+  #SHORTCUT_AddMarker          = #PB_Shortcut_Command | #PB_Shortcut_F2
+  #SHORTCUT_JumpToMarker       = #PB_Shortcut_F2
+  #SHORTCUT_Find               = #PB_Shortcut_Command | #PB_Shortcut_F
+  #SHORTCUT_FindNext           = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_F
+  #SHORTCUT_FindPrevious       = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_P
+  #SHORTCUT_FindInFiles        = 0
+  #SHORTCUT_NewProject         = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_N
+  #SHORTCUT_OpenProject        = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_O
+  #SHORTCUT_CloseProject       = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_W
+  #SHORTCUT_AddProjectFile     = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_A
+  #SHORTCUT_RemoveProjectFile  = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_R
+  #SHORTCUT_MakeBackup         = #PB_Shortcut_Command | #PB_Shortcut_M
+  #SHORTCUT_TodoList           = #PB_Shortcut_Command | #PB_Shortcut_Alt  | #PB_Shortcut_T
+  #SHORTCUT_CompileRun         = #PB_Shortcut_F5
+  #SHORTCUT_Run                = #PB_Shortcut_Shift   | #PB_Shortcut_F5
+  #SHORTCUT_VisualDesigner     = #PB_Shortcut_Command | #PB_Shortcut_Y
+  #SHORTCUT_StructureViewer    = #PB_Shortcut_Command | #PB_Shortcut_Alt | #PB_Shortcut_S
+  #SHORTCUT_Help               = #PB_Shortcut_F1
+  #SHORTCUT_NextOpenedFile     = #PB_Shortcut_Tab | #PB_Shortcut_Control
+  #SHORTCUT_PreviousOpenedFile = #PB_Shortcut_Tab | #PB_Shortcut_Control | #PB_Shortcut_Shift
+  #SHORTCUT_ShiftCommentRight  = #PB_Shortcut_Command | #PB_Shortcut_E
+  #SHORTCUT_ShiftCommentLeft   = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_E
+  #SHORTCUT_SelectBlock        = #PB_Shortcut_Command | #PB_Shortcut_M
+  #SHORTCUT_DeselectBlock      = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_M
+  #SHORTCUT_ProcedureListUpdate= #PB_Shortcut_F12
+  #SHORTCUT_VariableViewer     = #PB_Shortcut_Command | #PB_Shortcut_Alt | #PB_Shortcut_V
+  #SHORTCUT_ColorPicker        = #PB_Shortcut_Command | #PB_Shortcut_Alt | #PB_Shortcut_M
+  #SHORTCUT_AsciiTable         = #PB_Shortcut_Command | #PB_Shortcut_Alt | #PB_Shortcut_A
+  #SHORTCUT_Explorer           = #PB_Shortcut_Command | #PB_Shortcut_Alt | #PB_Shortcut_X
+  #SHORTCUT_ToggleFolds        = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_T
+  #SHORTCUT_ToggleThisFold     = #PB_Shortcut_Command | #PB_Shortcut_T  
+  #SHORTCUT_Stop               = #PB_Shortcut_F6
+  #SHORTCUT_Continue           = #PB_Shortcut_F7
+  #SHORTCUT_Step               = #PB_Shortcut_F8
+  #SHORTCUT_StepX              = #PB_Shortcut_Command | #PB_Shortcut_F8
+  #SHORTCUT_BreakPoint         = #PB_Shortcut_F9
+  #SHORTCUT_StepOver           = #PB_Shortcut_F10
+  #SHORTCUT_StepOut            = #PB_Shortcut_F11 
+  #SHORTCUT_AutoComplete       = #PB_Shortcut_Control | #PB_Shortcut_Space ; CMT+Space is reserved in 10.4
+  #SHORTCUT_AutoCompleteConfirm= #PB_Shortcut_Tab ; to be tested
+  #SHORTCUT_AutoCompleteAbort  = #PB_Shortcut_Escape
+  #SHORTCUT_AutoIndent         = #PB_Shortcut_Command | #PB_Shortcut_I
+CompilerEndIf
+
+
+;- Datasection
+DataSection
+
+  ; This list specifies each menu item that can have a shortcut.
+  ; first is the menu title, second the menuitem (all language ID's)
+  ; If MenuTitle is empty, the string is searched in the "Shortcuts" group.
+  ; Following is the default shortcut for this item.
+  ; they must be in the order of menu ID's in the Enumeration (1st is 0)
+  ;
+  ; NOTE: On Mac, About, Exit and Preferences have fixed shortcuts. However, there
+  ; is a dummy constant in their place in the menu constants, so even though this is loaded, it is ignored
+  ;
+  ShortcutItems:  
+    Data$ "File", "New":           Data.l #SHORTCUT_New
+    Data$ "File", "Open":          Data.l #SHORTCUT_Open
+    Data$ "File", "Save":          Data.l #SHORTCUT_Save
+    Data$ "File", "SaveAs":        Data.l 0
+    Data$ "File", "SaveAll":       Data.l 0
+    Data$ "File", "Reload":        Data.l 0
+    Data$ "File", "Close":         Data.l #SHORTCUT_Close     
+    Data$ "File", "CloseAll":      Data.l 0
+    Data$ "File", "DiffCurrent":   Data.l 0   
+    Data$ "File", "EncodingPlain": Data.l 0
+    Data$ "File", "EncodingUtf8":  Data.l 0
+    Data$ "File", "NewlineWindows":Data.l 0
+    Data$ "File", "NewlineLinux":  Data.l 0
+    Data$ "File", "NewlineMacOS":  Data.l 0      
+    ;Data$ "File", "SortSources":   Data.l 0
+    Data$ "File", "Preferences":   Data.l 0
+    Data$ "File", "EditHistory":   Data.l 0
+    Data$ "File", "Quit":          Data.l 0
+
+    Data$ "Edit", "Undo":           Data.l #SHORTCUT_Undo
+    Data$ "Edit", "Redo":           Data.l #SHORTCUT_Redo
+    Data$ "Edit", "Cut":            Data.l #SHORTCUT_Cut
+    Data$ "Edit", "Copy":           Data.l #SHORTCUT_Copy
+    Data$ "Edit", "Paste":          Data.l #SHORTCUT_Paste
+    Data$ "Edit", "InsertComment":  Data.l #SHORTCUT_CommentSelection
+    Data$ "Edit", "RemoveComment":  Data.l #SHORTCUT_UnCommentSelection
+    Data$ "Edit", "AutoIndent":     Data.l #SHORTCUT_AutoIndent
+    Data$ "Edit", "SelectAll":      Data.l #SHORTCUT_SelectAll
+    Data$ "Edit", "Goto":           Data.l #SHORTCUT_Goto
+    Data$ "Edit", "JumpToKeyword":  Data.l #SHORTCUT_JumpToKeyword
+    Data$ "Edit", "LastViewedLine": Data.l #SHORTCUT_LastViewedLine
+    Data$ "Edit", "ToggleThisFold": Data.l #SHORTCUT_ToggleThisFold
+    Data$ "Edit", "ToggleFolds":    Data.l #SHORTCUT_ToggleFolds
+    Data$ "Edit", "AddMarker":      Data.l #SHORTCUT_AddMarker
+    Data$ "Edit", "JumpToMarker":   Data.l #SHORTCUT_JumpToMarker
+    Data$ "Edit", "ClearMarkers":   Data.l 0
+    Data$ "Edit", "Find":           Data.l #SHORTCUT_Find
+    Data$ "Edit", "FindNext":       Data.l #SHORTCUT_FindNext
+    Data$ "Edit", "FindPrevious":   Data.l #SHORTCUT_FindPrevious
+    Data$ "Edit", "FindInFiles":    Data.l #SHORTCUT_FindInFiles
+    
+    Data$ "Project", "NewProject":         Data.l #SHORTCUT_NewProject
+    Data$ "Project", "OpenProject":        Data.l #SHORTCUT_OpenProject
+    Data$ "Project", "CloseProject":       Data.l #SHORTCUT_CloseProject
+    Data$ "Project", "ProjectOptions":     Data.l 0
+    Data$ "Project", "AddProjectFile":     Data.l #SHORTCUT_AddProjectFile
+    Data$ "Project", "RemoveProjectFile":  Data.l #SHORTCUT_RemoveProjectFile    
+    Data$ "Project", "OpenProjectFolder":  Data.l 0
+    
+    Data$ "Form", "NewForm":          Data.l 0
+    Data$ "Form", "FormSwitch":       Data.l 0
+    Data$ "Form", "FormDuplicate":    Data.l 0
+    Data$ "Form", "FormImageManager": Data.l 0
+    
+    Data$ "Compiler", "Compile":           Data.l #SHORTCUT_CompileRun
+    Data$ "Compiler", "RunExe":            Data.l #SHORTCUT_Run
+    Data$ "Compiler", "SyntaxCheck":       Data.l 0
+    Data$ "Compiler", "DebuggerCompile":   Data.l 0
+    Data$ "Compiler", "NoDebuggerCompile": Data.l 0
+    Data$ "Compiler", "RestartCompiler":   Data.l 0
+    Data$ "Compiler", "CompilerOptions":   Data.l 0
+    Data$ "Compiler", "CreateEXE":         Data.l 0 
+    Data$ "Compiler", "BuildAllTargets":   Data.l 0
+    
+    Data$ "Debugger", "Debugger":        Data.l 0
+    Data$ "Debugger", "Stop":            Data.l #SHORTCUT_Stop
+    Data$ "Debugger", "Run":             Data.l #SHORTCUT_Continue
+    Data$ "Debugger", "Step":            Data.l #SHORTCUT_Step
+    Data$ "Debugger", "StepX":           Data.l #SHORTCUT_StepX
+    Data$ "Debugger", "StepOver":        Data.l #SHORTCUT_StepOver
+    Data$ "Debugger", "StepOut":         Data.l #SHORTCUT_StepOut
+    Data$ "Debugger", "Kill":            Data.l 0
+    Data$ "Debugger", "BreakPoint":      Data.l #SHORTCUT_BreakPoint
+    Data$ "Debugger", "BreakClear":      Data.l 0
+    Data$ "Debugger", "DataBreakPoints": Data.l 0
+    Data$ "Debugger", "ShowLog":         Data.l 0
+    Data$ "Debugger", "ClearLog":        Data.l 0
+    Data$ "Debugger", "CopyLog"    :     Data.l 0
+    Data$ "Debugger", "ClearErrorMarks": Data.l 0    
+    Data$ "Debugger", "DebugOutput":     Data.l 0
+    Data$ "Debugger", "WatchList":       Data.l 0
+    Data$ "Debugger", "VariableList":    Data.l 0
+    Data$ "Debugger", "Profiler":        Data.l 0
+    Data$ "Debugger", "History":         Data.l 0
+    Data$ "Debugger", "Memory":          Data.l 0
+    Data$ "Debugger", "LibraryViewer":   Data.l 0    
+    Data$ "Debugger", "DebugAsm":        Data.l 0
+    Data$ "Debugger", "Purifier":        Data.l 0
+
+    Data$ "Tools", "VisualDesigner":   Data.l #SHORTCUT_VisualDesigner
+    Data$ "Tools", "StructureViewer":  Data.l #SHORTCUT_StructureViewer
+    Data$ "Tools", "FileViewer":       Data.l 0
+    Data$ "Tools", "VariableViewer":   Data.l #SHORTCUT_VariableViewer
+    Data$ "Tools", "ColorPicker":      Data.l #SHORTCUT_ColorPicker
+    Data$ "Tools", "AsciiTable":       Data.l #SHORTCUT_AsciiTable
+    Data$ "Tools", "Explorer":         Data.l #SHORTCUT_Explorer
+    Data$ "Tools", "ProcedureBrowser": Data.l 0
+    Data$ "Tools", "Issues":           Data.l 0
+    Data$ "Tools", "ProjectPanel":     Data.l 0
+    Data$ "Tools", "Templates":        Data.l 0
+    Data$ "Tools", "Diff":             Data.l 0 
+    Data$ "Tools", "AddTools":         Data.l 0 
+
+    Data$ "Help", "Help":              Data.l #SHORTCUT_Help
+    Data$ "Help", "UpdateCheck":       Data.l 0
+    Data$ "Help", "About":             Data.l 0
+
+    Data$ "", "NextOpenFile":        Data.l #SHORTCUT_NextOpenedFile
+    Data$ "", "PreviousOpenFile":    Data.l #SHORTCUT_PreviousOpenedFile
+    Data$ "", "ShiftCommentRight":   Data.l #SHORTCUT_ShiftCommentRight
+    Data$ "", "ShiftCommentLeft":    Data.l #SHORTCUT_ShiftCommentLeft   
+    Data$ "", "SelectBlock":         Data.l #SHORTCUT_SelectBlock
+    Data$ "", "DeselectBlock":       Data.l #SHORTCUT_DeselectBlock  
+    Data$ "", "AutoComplete":        Data.l #SHORTCUT_AutoComplete
+    Data$ "", "AutoCompleteConfirm": Data.l #SHORTCUT_AutoCompleteConfirm
+    Data$ "", "AutoCompleteAbort":   Data.l #SHORTCUT_AutoCompleteAbort
+    Data$ "", "ProceduresUpdate":    Data.l #SHORTCUT_ProcedureListUpdate    
+    
+  ; This is a list of shortcuts used by the OS or Windowmanager. Trying to use these
+  ; wil output an error
+  ;
+  ReservedShortcuts:
+    Data.l #PB_Shortcut_Control | #PB_Shortcut_Alt | #PB_Shortcut_Delete ; i wonder what that one is for.. ;)
+  
+    CompilerIf #CompileWindows  
+      Data.l #PB_Shortcut_Alt | #PB_Shortcut_Tab
+      Data.l #PB_Shortcut_Alt | #PB_Shortcut_F4
+      
+    CompilerElse
+      Data.l #PB_Shortcut_Control | #PB_Shortcut_Alt | #PB_Shortcut_F1
+      Data.l #PB_Shortcut_Control | #PB_Shortcut_Alt | #PB_Shortcut_F2
+      Data.l #PB_Shortcut_Control | #PB_Shortcut_Alt | #PB_Shortcut_F3
+      Data.l #PB_Shortcut_Control | #PB_Shortcut_Alt | #PB_Shortcut_F4
+      Data.l #PB_Shortcut_Control | #PB_Shortcut_Alt | #PB_Shortcut_F5
+      Data.l #PB_Shortcut_Control | #PB_Shortcut_Alt | #PB_Shortcut_F6
+      Data.l #PB_Shortcut_Control | #PB_Shortcut_Alt | #PB_Shortcut_F7
+      Data.l #PB_Shortcut_Control | #PB_Shortcut_Alt | #PB_Shortcut_Back
+    
+    CompilerEndIf
+    
+    Data.l -1 ; indicates the end of the reserved list
+    
+  
+
+  ; Note: Since the #PB_Shortcut_* Constants have different values for each OS,
+  ; they need to be listed here, so they can be read into an array.
+  ; The constants are sorted as they appear in the language list (and thus in the shortcut Combobox)
+  ;
+  ShortcutKeys:
+    Data.l #PB_Shortcut_0 
+    Data.l #PB_Shortcut_1 
+    Data.l #PB_Shortcut_2 
+    Data.l #PB_Shortcut_3 
+    Data.l #PB_Shortcut_4 
+    Data.l #PB_Shortcut_5 
+    Data.l #PB_Shortcut_6 
+    Data.l #PB_Shortcut_7 
+    Data.l #PB_Shortcut_8 
+    Data.l #PB_Shortcut_9 
+    Data.l #PB_Shortcut_A 
+    Data.l #PB_Shortcut_B 
+    Data.l #PB_Shortcut_C 
+    Data.l #PB_Shortcut_D 
+    Data.l #PB_Shortcut_E 
+    Data.l #PB_Shortcut_F 
+    Data.l #PB_Shortcut_G 
+    Data.l #PB_Shortcut_H 
+    Data.l #PB_Shortcut_I 
+    Data.l #PB_Shortcut_J 
+    Data.l #PB_Shortcut_K 
+    Data.l #PB_Shortcut_L 
+    Data.l #PB_Shortcut_M 
+    Data.l #PB_Shortcut_N 
+    Data.l #PB_Shortcut_O 
+    Data.l #PB_Shortcut_P 
+    Data.l #PB_Shortcut_Q 
+    Data.l #PB_Shortcut_R 
+    Data.l #PB_Shortcut_S 
+    Data.l #PB_Shortcut_T 
+    Data.l #PB_Shortcut_U 
+    Data.l #PB_Shortcut_V 
+    Data.l #PB_Shortcut_W 
+    Data.l #PB_Shortcut_X 
+    Data.l #PB_Shortcut_Y 
+    Data.l #PB_Shortcut_Z 
+    Data.l #PB_Shortcut_F1 
+    Data.l #PB_Shortcut_F2 
+    Data.l #PB_Shortcut_F3 
+    Data.l #PB_Shortcut_F4 
+    Data.l #PB_Shortcut_F5 
+    Data.l #PB_Shortcut_F6 
+    Data.l #PB_Shortcut_F7 
+    Data.l #PB_Shortcut_F8 
+    Data.l #PB_Shortcut_F9 
+    Data.l #PB_Shortcut_F10 
+    Data.l #PB_Shortcut_F11 
+    Data.l #PB_Shortcut_F12 
+    Data.l #PB_Shortcut_F13 
+    Data.l #PB_Shortcut_F14 
+    Data.l #PB_Shortcut_F15 
+    Data.l #PB_Shortcut_F16 
+    Data.l #PB_Shortcut_F17 
+    Data.l #PB_Shortcut_F18 
+    Data.l #PB_Shortcut_F19 
+    Data.l #PB_Shortcut_F20 
+    Data.l #PB_Shortcut_F21 
+    Data.l #PB_Shortcut_F22 
+    Data.l #PB_Shortcut_F23 
+    Data.l #PB_Shortcut_F24   
+    Data.l #PB_Shortcut_Pad0 
+    Data.l #PB_Shortcut_Pad1 
+    Data.l #PB_Shortcut_Pad2 
+    Data.l #PB_Shortcut_Pad3 
+    Data.l #PB_Shortcut_Pad4 
+    Data.l #PB_Shortcut_Pad5 
+    Data.l #PB_Shortcut_Pad6 
+    Data.l #PB_Shortcut_Pad7 
+    Data.l #PB_Shortcut_Pad8 
+    Data.l #PB_Shortcut_Pad9  
+    Data.l #PB_Shortcut_Back ; key no 71. first key in the language section
+    Data.l #PB_Shortcut_Tab  
+    Data.l #PB_Shortcut_Clear 
+    Data.l #PB_Shortcut_Return 
+    Data.l #PB_Shortcut_Menu  
+    Data.l #PB_Shortcut_Pause 
+    Data.l #PB_Shortcut_Print 
+    Data.l #PB_Shortcut_Capital 
+    Data.l #PB_Shortcut_Escape 
+    Data.l #PB_Shortcut_Space 
+    Data.l #PB_Shortcut_PageUp 
+    Data.l #PB_Shortcut_PageDown 
+    Data.l #PB_Shortcut_End 
+    Data.l #PB_Shortcut_Home 
+    Data.l #PB_Shortcut_Left 
+    Data.l #PB_Shortcut_Up 
+    Data.l #PB_Shortcut_Right 
+    Data.l #PB_Shortcut_Down 
+    Data.l #PB_Shortcut_Select 
+    Data.l #PB_Shortcut_Execute 
+    Data.l #PB_Shortcut_Snapshot 
+    Data.l #PB_Shortcut_Insert 
+    Data.l #PB_Shortcut_Delete 
+    Data.l #PB_Shortcut_Help   
+    Data.l #PB_Shortcut_LeftWindows 
+    Data.l #PB_Shortcut_RightWindows 
+    Data.l #PB_Shortcut_Apps  
+    Data.l #PB_Shortcut_Multiply 
+    Data.l #PB_Shortcut_Add 
+    Data.l #PB_Shortcut_Separator 
+    Data.l #PB_Shortcut_Subtract 
+    Data.l #PB_Shortcut_Decimal 
+    Data.l #PB_Shortcut_Divide 
+    Data.l #PB_Shortcut_Numlock 
+    Data.l #PB_Shortcut_Scroll  
+      
+EndDataSection

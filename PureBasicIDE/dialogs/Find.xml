@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<!-- Find/Replace Dialog for the PureBasic IDE -->
+
+<window id="#WINDOW_Find" lang="Find:FindTitle" label="Dialog_Find" width="450">
+  <vbox spacing="10" expand="item:2">
+    <gridbox colexpand="item:2">
+      <text lang="Find:SearchFor" text=": " flags="#PB_Text_Right" />
+      <combobox id="#GADGET_Find_FindWord" boxheight="150" flags="#PB_ComboBox_Editable" />
+      
+      <checkbox id="#GADGET_Find_DoReplace" lang="Find:ReplaceWith" text=": " flags="#PB_Checkbox_Right" />
+      <combobox id="#GADGET_Find_ReplaceWord" boxheight="150" flags="#PB_ComboBox_Editable" />
+    </gridbox>
+    
+    <container margin="vertical:10,horizontal:15" flags="#PB_Container_Single">
+      <gridbox rowspacing="0">
+        <checkbox id="#GADGET_Find_Case"          lang="Find:CaseSensitive" />
+        <checkbox id="#GADGET_Find_NoComments"    lang="Find:NoComments" />
+        <checkbox id="#GADGET_Find_WholeWord"     lang="Find:WholeWord" />
+        <checkbox id="#GADGET_Find_NoStrings"     lang="Find:NoStrings" />
+        <checkbox id="#GADGET_Find_SelectionOnly" lang="Find:SelectionOnly" />
+      </gridbox>
+    </container>
+    
+    <hbox spacing="10">
+      <button id="#GADGET_Find_FindNext"     lang="Find:FindNext" />
+      <button id="#GADGET_Find_FindPrevious" lang="Find:FindPrevious" />
+      <button id="#GADGET_Find_Replace"      lang="Find:Replace" />
+      <button id="#GADGET_Find_Replaceall"   lang="Find:ReplaceAll" />
+      <button id="#GADGET_Find_Close"        lang="Misc:Close" />
+    </hbox>
+  </vbox>
+
+  <shortcut key="#PB_Shortcut_Return" id="#GADGET_Find_FindNext" />
+  <shortcut key="#PB_Shortcut_Escape" id="#GADGET_Find_Close" />
+</window>

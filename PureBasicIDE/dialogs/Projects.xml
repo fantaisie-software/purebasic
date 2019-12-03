@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<!-- Project management related Dialogs for the PureBasic IDE -->
+
+<dialoggroup>
+
+  <!-- Project options dialog -->
+  <window id="#WINDOW_ProjectOptions" lang="Project:Title" width="600"  label="Dialog_ProjectOptions" forcesize="yes"  flags="#PB_Window_SizeGadget">
+    <vbox spacing="10" expand="item:1">
+      <panel id="#GADGET_Project_Panel">
+        <tab lang="Project:OptionTab">
+          <vbox spacing="10" expand="item:1">
+            <frame lang="Project:ProjectInfo">
+              <gridbox colexpand="item:2" colspacing="5" rowexpand="item:3">
+                <text lang="Project:ProjectFile" text=": " />
+                <multibox>                  
+                  <hbox spacing="5" expand="item:1">
+                    <string id="#GADGET_Project_File" width="150" invisible="yes" />
+                    <button id="#GADGET_Project_ChooseFile" text="..." width="30" height="ignore" invisible="yes"/>
+                  </hbox>
+                  <string id="#GADGET_Project_FileStatic" disabled="yes"/>
+                </multibox>
+
+                <text lang="Project:ProjectName" text=": " />
+                <string id="#GADGET_Project_Name" width="150" />
+
+                <text lang="Project:Comments" text=": "/>
+                <editor id="#GADGET_Project_Comments" width="150" height="50" />
+              </gridbox>
+            </frame>
+
+            <frame lang="Project:LoadOptions">
+              <vbox spacing="5">
+                <checkbox id="#GADGET_Project_SetDefault" lang="Project:SetDefault" />
+                <checkbox id="#GADGET_Project_CloseAllFiles" lang="Project:CloseAllFiles" />
+
+                <empty height="5" />
+
+                <text lang="Project:WhenOpening" />
+                <singlebox margin="left:15,right:0,vertical:0">
+                  <vbox spacing="2">
+                    <option id="#GADGET_Project_OpenLoadLast"    lang="Project:OpenLoadLast" />
+                    <option id="#GADGET_Project_OpenLoadAll"     lang="Project:OpenLoadAll" />
+                    <option id="#GADGET_Project_OpenLoadDefault" lang="Project:OpenLoadDefault" />
+                    <option id="#GADGET_Project_OpenLoadMain"    lang="Project:OpenLoadMain" />
+                    <option id="#GADGET_Project_OpenLoadNone"    lang="Project:OpenLoadNone" />
+                  </vbox>
+                </singlebox>
+              </vbox>
+            </frame>
+          </vbox>
+        </tab>
+
+        <tab lang="Project:FileTab">
+          <gridbox colspacing="5" rowspacing="5" rowexpand="item:2">
+            <explorercombo id="#GADGET_Project_ExplorerCombo" flags="#PB_Explorer_Editable" />
+            <hbox spacing="5" expand="item:3">
+              <button id="#GADGET_Project_AddFile" lang="Misc:Add" width="60" />
+              <button id="#GADGET_Project_RemoveFile" lang="Misc:Remove" width="60" />
+              <empty width="30" />
+              <button id="#GADGET_Project_NewFile" lang="Misc:New" width="60" />
+              <button id="#GADGET_Project_OpenFile" lang="Misc:Open" width="60" />
+              <button id="#GADGET_Project_ViewFile" lang="Project:View" width="60" />
+            </hbox>
+
+            <!-- ExplorerList does not support patterns on OSX yet -->
+            <compiler if="#CompileMac = 0">
+              <vbox spacing="5" expand="item:1">
+                <explorerlist id="#GADGET_Project_Explorer" width="180" flags="#PB_Explorer_AlwaysShowSelection|#PB_Explorer_MultiSelect|#PB_Explorer_FullRowSelect"/>
+                <combobox id="#GADGET_Project_ExplorerPattern" />
+              </vbox>
+            <compilerelse />
+              <explorerlist id="#GADGET_Project_Explorer" width="180" flags="#PB_Explorer_AlwaysShowSelection|#PB_Explorer_MultiSelect|#PB_Explorer_FullRowSelect"/>
+            </compiler>
+
+            <vbox spacing="5" expand="item:1">
+              <listicon id="#GADGET_Project_FileList" width="400" flags="#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_MultiSelect|#PB_Explorer_FullRowSelect">
+                <column lang="Misc:File" width="400" />
+              </listicon>
+
+              <container margin="10" flags="#PB_Container_Single">
+                <gridbox colspacing="5" rowspacing="2">
+                  <checkbox id="#GADGET_Project_FileLoad"  lang="Project:FileLoad" flags="#PB_Checkbox_ThreeState" />
+                  <checkbox id="#GADGET_Project_FileScan"  lang="Project:FileScan" flags="#PB_Checkbox_ThreeState" />
+
+                  <checkbox id="#GADGET_Project_FileWarn"  lang="Project:FileWarn" flags="#PB_Checkbox_ThreeState" />
+                  <checkbox id="#GADGET_Project_FilePanel" lang="Project:FilePanel" flags="#PB_Checkbox_ThreeState" />
+                </gridbox>
+              </container>
+            </vbox>
+          </gridbox>
+        </tab>
+      </panel>
+
+      <hbox spacing="10" expand="item:2">
+        <button id="#GADGET_Project_OpenOptions" lang="Project:CompilerOptions" width="90"/>
+        <empty width="90"/>
+        <button id="#GADGET_Project_Ok" lang="Misc:Ok" width="90" />
+        <button id="#GADGET_Project_Cancel" lang="Misc:Cancel" width="90" />
+      </hbox>
+    </vbox>
+
+    <shortcut key="#PB_Shortcut_Return" id="#GADGET_Project_Ok" />
+    <shortcut key="#PB_Shortcut_Escape" id="#GADGET_Project_Cancel" />
+  </window>
+
+</dialoggroup>

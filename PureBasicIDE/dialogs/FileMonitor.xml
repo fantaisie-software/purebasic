@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!-- FileMonitor requester dialog for the PureBasic IDE -->
+
+<window id="#WINDOW_FileMonitor" text="PureBasic"  label="Dialog_FileMonitor" width="400" height="130" flags="#PB_Window_ScreenCentered|#PB_Window_TitleBar" closebutton="no">
+  <vbox spacing="10" expand="item:1">
+    <singlebox margin="10" expand="yes">
+      <text id="#GADGET_FileMonitor_Text" lang="FileStuff:ModifiedOnDisk1" />
+    </singlebox>
+
+    <hbox spacing="10" expand="item:2">
+      <button id="#GADGET_FileMonitor_ViewDiff" lang="FileStuff:ViewDiff" width="90" />
+      <empty />
+      <button id="#GADGET_FileMonitor_Reload" lang="FileStuff:Reload" width="90" />
+      <button id="#GADGET_FileMonitor_Cancel" lang="Misc:Cancel" width="90" />
+    </hbox>
+  </vbox>
+
+  <shortcut key="#PB_Shortcut_Escape" id="#GADGET_FileMonitor_Cancel" />
+</window>
+
+
+

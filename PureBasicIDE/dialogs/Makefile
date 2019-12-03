@@ -1,0 +1,3 @@
+
+default: 
+	make --directory ..

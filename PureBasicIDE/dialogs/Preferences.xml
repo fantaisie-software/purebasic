@@ -1,0 +1,1076 @@
+<?xml version="1.0"?>
+
+<!-- Preferences Dialog for the PureBasic IDE -->
+
+<window label="Dialog_Preferences" id="#WINDOW_Preferences" lang="Preferences:Title" invisible="yes">
+  <vbox spacing="10">
+    <hbox spacing="10">
+      <tree id="#GADGET_Preferences_Tree" width="#DEFAULT_PreferencesTreeWidth">
+        <item sublevel="0" lang="Preferences:General" />
+        <item sublevel="1" lang="Preferences:Language" />
+        <item sublevel="1" lang="Shortcuts:Shortcuts" />
+        <item sublevel="1" lang="Preferences:Themes" />
+        <item sublevel="1" lang="Preferences:Toolbar" />        
+        <item sublevel="0" lang="Preferences:Editor" />
+        <item sublevel="1" lang="Preferences:Editing" />
+        <item sublevel="1" lang="Preferences:Colors" />
+        <item sublevel="2" lang="Preferences:Keywords" />
+        <item sublevel="1" lang="Preferences:Folding" />
+        <item sublevel="1" lang="Preferences:Indent" />
+        <item sublevel="1" lang="Preferences:AutoComplete" />
+        <item sublevel="2" lang="Preferences:AutoCompleteList" />
+        <item sublevel="1" lang="Preferences:Issues" />
+        <item sublevel="1" lang="Preferences:EditHistory" />
+        <item sublevel="0" lang="Preferences:Compiler" />
+        <item sublevel="1" lang="Preferences:DefaultsShort" />
+        <compiler if="#SpiderBasic">
+           <!-- Disable the debugger and form param on spiderbasic for now -->
+        <compilerelse/>
+          <item sublevel="0" lang="Preferences:Debugger" />
+          <item sublevel="1" lang="Preferences:IndividualSettings" />
+          <item sublevel="1" lang="Preferences:DefaultWindows" />
+          <item sublevel="0" lang="Preferences:Form" />
+        </compiler>
+        <item sublevel="0" lang="Preferences:Tools" />
+        <item sublevel="1" lang="Preferences:Options" />
+        <item sublevel="0" lang="Preferences:ImportExport" />
+      </tree>
+
+      <multibox>
+
+        <!-- General -->
+        <container margin="0" expand="horizontal" id="#GADGET_Preferences_FirstContainer+0">
+          <vbox expand="no">
+            <frame lang="Preferences:General" margin="5">
+              <vbox spacing="20">
+                <vbox>
+                  <checkbox id="#GADGET_Preferences_RunOnce"              lang="Preferences:RunOnce" />
+                  <checkbox id="#GADGET_Preferences_NoSplashScreen"       lang="Preferences:NoSplashScreen" />
+                  <checkbox id="#GADGET_Preferences_MemorizeWindow"       lang="Preferences:MemorizeWindow" />
+                  <checkbox id="#GADGET_Preferences_AutoReload"           lang="Preferences:AutoReload" />
+                  <checkbox id="#GADGET_Preferences_DisplayFullPath"      lang="Preferences:DisplayFullPath" />                
+                </vbox>
+
+                <gridbox colspacing="10" colexpand="item:2">
+                  <text lang="Preferences:FileHistorySize" text=": " />
+                  <singlebox expand="no" margin="0">
+                    <string id="#GADGET_Preferences_FileHistorySize" flags="#PB_String_Numeric" width="80" />
+                  </singlebox>
+
+                  <text lang="Preferences:FindHistorySize" text=": " />
+                  <singlebox expand="no" margin="0">
+                    <string id="#GADGET_Preferences_FindHistorySize" flags="#PB_String_Numeric"  width="80" />
+                  </singlebox>
+                </gridbox>
+                  
+                <compiler if="#CompileMacCarbon">
+                  <gridbox colspacing="10" colexpand="item:2">
+                    <text text="ToolsPanel Size: " />
+                    <scrollbar name="Mac_ToolsPanelSize" min="30" max="100" page="10" height="20" />
+                    <text text="Errorlog Size: " />
+                    <scrollbar name="Mac_ErrorLogSize" min="30" max="100" page="10" height="20" />
+                  </gridbox>
+                </compiler>
+    
+              </vbox>
+            </frame>
+
+            <frame lang="Preferences:Updates" margin="5">
+              <gridbox colspacing="10" colexpand="item:2">
+                <text lang="Preferences:CheckInterval" text=": " />
+                <combobox id="#GADGET_Preferences_UpdateCheckInterval" width="150">
+                  <item lang="Preferences:IntervalAlways" />
+                  <item lang="Preferences:IntervalWeekly" />
+                  <item lang="Preferences:IntervalMonthly" />
+                  <item lang="Preferences:IntervalNever" />
+                </combobox>
+
+                <text lang="Preferences:CheckVersions" text=": " />
+                <combobox id="#GADGET_Preferences_UpdateCheckVersions" width="150">
+                  <item lang="Preferences:VersionsAll" />
+                  <item lang="Preferences:VersionsFinal" />
+                  <item lang="Preferences:VersionsLTS" />
+                </combobox>
+              </gridbox>
+            </frame>
+          </vbox>
+        </container>
+
+        <!-- Language -->
+        <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+1">
+          <frame lang="Preferences:Language" margin="5">
+            <vbox spacing="10">
+              <combobox id="#GADGET_Preferences_Languages" />
+              <text id="#GADGET_Preferences_LanguageInfo" />
+            </vbox>
+          </frame>
+        </container>
+
+        <!-- Shortcuts -->
+        <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+2">
+          <frame lang="Shortcuts:Shortcuts" margin="5">
+            <vbox expand="item:1" spacing="10">
+              <listicon id="#GADGET_Preferences_ShortcutList" flags="#PB_ListIcon_FullRowSelect">
+                <column width="200" lang="Shortcuts:Action" />
+                <column width="90" lang="Shortcuts:Shortcut" />
+              </listicon>
+              
+              <hbox expand="item:2" spacing="10">
+                <!--
+                <checkbox id="#GADGET_Preferences_ShortcutControl" lang="Shortcuts:Control" />
+                <checkbox id="#GADGET_Preferences_ShortcutAlt"     lang="Shortcuts:Alt" />
+                <checkbox id="#GADGET_Preferences_ShortcutShift"   lang="Shortcuts:Shift" />
+                <checkbox id="#GADGET_Preferences_ShortcutCommand" lang="Shortcuts:Command" />
+                <combobox id="#GADGET_Preferences_ShortcutKey" />
+                -->
+                <text lang="Shortcuts:SelectShortcut" text=":" />
+                <shortcutgadget id="#GADGET_Preferences_SelectShortcut" width="100" />
+                <button   id="#GADGET_Preferences_ShortcutSet"      lang="Shortcuts:Set" width="50"  height="ignore"/> <!-- use the combobox height here -->
+              </hbox>
+            </vbox>
+          </frame>
+        </container>
+
+        <!-- Themes -->
+        <container margin="0" expand="yes" invisible="yes" id="#GADGET_Preferences_FirstContainer+3">
+          <frame lang="Preferences:Themes" margin="5">
+            <vbox expand="item:1" spacing="5">
+              <scroll   id="#GADGET_Preferences_Themes" flags="#PB_ScrollArea_Single" innerwidth="-1" innerheight="-1"/>
+              <singlebox margin="top:5,left:5">
+                <vbox spacing="5">
+                  <checkbox id="#GADGET_Preferences_EnableMenuIcons"      lang="Preferences:EnableMenuIcons" />
+                  <checkbox id="#GADGET_Preferences_ShowMainToolbar"      lang="Preferences:ShowMainToolbar" />
+                </vbox>
+              </singlebox>
+            </vbox>
+          </frame>
+        </container>
+
+        <!-- Toolbar -->
+        <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+4">
+          <vbox expand="item:1">
+            <frame lang="Preferences:ToolbarLayout" margin="5">
+              <listicon id="#GADGET_Preferences_ToolbarList" flags="#PB_ListIcon_FullRowSelect">
+                <column width="180" lang="Preferences:Icon" />
+                <column width="180" lang="Preferences:Action" />
+              </listicon>
+            </frame>
+
+            <hbox expand="item:1">
+              <frame lang="Preferences:ItemSettings" margin="5">
+                <vbox spacing="10">
+                  <gridbox columns="3" rowspacing="2" colexpand="item:3">
+                    <combobox id="#GADGET_Preferences_ToolbarIconType" width="140">
+                      <item lang="Preferences:Separator" />
+                      <item lang="Preferences:Space" />
+                      <item lang="Preferences:StandardButton" />
+                      <item lang="Preferences:ThemeIcon" />
+                      <item lang="Preferences:ExternalIcon" />
+                    </combobox>
+
+                    <text text="->" />
+                    <multibox>
+                      <combobox id="#GADGET_Preferences_ToolbarIconList" width="120"/>
+                      <hbox expand="item:1">
+                        <string id="#GADGET_Preferences_ToolbarIconName" />
+                        <button id="#GADGET_Preferences_ToolbarOpenIcon" text="..." width="40" />
+                      </hbox>
+                    </multibox>
+
+                    <combobox id="#GADGET_Preferences_ToolbarActionType">
+                      <item lang="Preferences:ActionMenu" />
+                      <item lang="Preferences:ActionTool" />
+                    </combobox>
+                    <text text="->" />
+                    <combobox id="#GADGET_Preferences_ToolbarActionList" />
+                  </gridbox>
+
+                  <hbox expand="equal">
+                    <singlebox margin="0" expand="no" align="center">
+                      <button id="#GADGET_Preferences_ToolbarAdd" lang="Preferences:Add" width="90" />
+                    </singlebox>
+                    <singlebox margin="0" expand="no" align="center">
+                      <button id="#GADGET_Preferences_ToolbarSet" lang="Preferences:Set" width="90" />
+                    </singlebox>
+                  </hbox>
+                </vbox>
+              </frame>
+              <frame lang="Preferences:ItemPosition" margin="5">
+                <vbox>
+                  <button id="#GADGET_Preferences_ToolbarMoveUp"   lang="Preferences:Up" width="80"/>
+                  <button id="#GADGET_Preferences_ToolbarMoveDown" lang="Preferences:Down" />
+                  <button id="#GADGET_Preferences_ToolbarDelete"   lang="Preferences:Remove" />
+                </vbox>
+              </frame>
+            </hbox>
+
+            <frame lang="Preferences:ToolbarSets" expand="no" align="center" margin="5">
+              <hbox spacing="10">
+                <button id="#GADGET_Preferences_ToolbarDefault" lang="Preferences:ToolbarDefault" width="150" />
+                <button id="#GADGET_Preferences_ToolbarClassic" lang="Preferences:ToolbarClassic" width="150" />
+              </hbox>
+            </frame>
+          </vbox>
+        </container>
+
+        <!-- Editor -->
+        <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+5">
+          <vbox expand="no">
+            <frame lang="Preferences:FilesPanel" margin="5">
+              <vbox>
+                <checkbox id="#GADGET_Preferences_FilesPanelMultiline"    lang="Preferences:FilesPanelMultiline" />
+                <checkbox id="#GADGET_Preferences_FilesPanelCloseButtons" lang="Preferences:FilesPanelCloseButtons" />
+                <checkbox id="#GADGET_Preferences_FilesPanelNewButton"    lang="Preferences:FilesPanelNewButton" />
+              </vbox>
+            </frame>
+            
+            <frame lang="Preferences:Editor" margin="5">            
+              <vbox spacing="10">
+                <vbox>
+                  <checkbox id="#GADGET_Preferences_MonitorFileChanges" lang="Preferences:MonitorFileChanges" />
+                  <checkbox id="#GADGET_Preferences_AutoSave"        lang="Preferences:AutoSave" />
+                  <!-- removed 
+                  <checkbox id="#GADGET_Preferences_AutoSaveExe"     lang="Preferences:AutoSaveExe" />
+                  -->
+                  <checkbox id="#GADGET_Preferences_AutoSaveAll"     lang="Preferences:AutoSaveAll" />
+                  <checkbox id="#GADGET_Preferences_MemorizeCursor"  lang="Preferences:MemorizeCursor" />
+                  <checkbox id="#GADGET_Preferences_MemorizeMarkers" lang="Preferences:MemorizeMarkers" />
+                  <checkbox id="#GADGET_Preferences_AlwaysHideLog"   lang="Preferences:AlwaysHideLog" />
+                </vbox>
+
+                <gridbox colspacing="10" colexpand="item:2">
+                  <text lang="Preferences:SaveSettings" text=": " />
+                  <combobox id="#GADGET_Preferences_SaveProjectSettings">
+                    <item lang="Preferences:SaveSettings0" />
+                    <item lang="Preferences:SaveSettings1" />
+                    <item lang="Preferences:SaveSettings2" />
+                    <item lang="Preferences:SaveSettings3" />
+                  </combobox>
+
+                  <text lang="Preferences:TabLength" text=": " />
+                  <hbox spacing="10" expand="item:2">
+                    <string id="#GADGET_Preferences_TabLength" flags="#PB_String_Numeric" width="80" />
+                    <checkbox id="#GADGET_Preferences_RealTab" lang="Preferences:RealTab" />
+                  </hbox>
+
+                  <text lang="Preferences:SourcePath" text=": " />
+                  <hbox expand="item:1">
+                    <string id="#GADGET_Preferences_SourcePath" />
+                    <button id="#GADGET_Preferences_GetSourcePath" text="..." width="40" height="ignore" />
+                  </hbox>
+                  
+                  <text lang="Preferences:CodeFileExtensions" text=": " />
+                  <string id= "#GADGET_Preferences_CodeFileExtensions" />
+                </gridbox>
+              </vbox>
+            </frame>
+          </vbox>              
+        </container>
+
+        <!-- Fonts / Margins -->
+        <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+6">
+          <frame lang="Preferences:Editing" margin="5">
+            <vbox>
+              <hbox spacing="10" expand="item:2">
+                <button id="#GADGET_Preferences_SelectFont" lang="Preferences:SelectFont" width="120" />
+                <text id="#GADGET_Preferences_CurrentFont" text="AaBbCc 01234 +-*/()" flags="#PB_Text_Center|#PB_Text_Border" />
+              </hbox>
+              <empty height="5" />
+
+              <!-- removed
+              <checkbox id="#GADGET_Preferences_EnableColoring" lang="Preferences:EnableColoring" />
+              -->
+              <checkbox id="#GADGET_Preferences_EnableBolding" lang="Preferences:EnableBolding" />
+              <checkbox id="#GADGET_Preferences_EnableCaseCorrection" lang="Preferences:EnableCase" />
+              <compiler if="#CompileMacCarbon"> <!-- disabled on OSX due to flickering -->                    
+                <checkbox id="#GADGET_Preferences_EnableBraceMatch"   disabled="yes" lang="Preferences:EnableBraceMatch" />                    
+              <compilerelse/>
+                <checkbox id="#GADGET_Preferences_EnableBraceMatch" lang="Preferences:EnableBraceMatch" />
+              </compiler>
+              <checkbox id="#GADGET_Preferences_EnableKeywordMatch" lang="Preferences:EnableKeywordMatch" />
+              <checkbox id="#GADGET_Preferences_EnableLineNumbers" lang="Preferences:EnableLineNumbers" />
+              <!-- removed 
+              <checkbox id="#GADGET_Preferences_EnableMarkers"     lang="Preferences:EnableMarkers" />              
+              -->
+            </vbox>
+          </frame>
+        </container>
+
+        <!-- Colors -->
+        <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+7">
+          <frame lang="Preferences:Colors" margin="5">
+            <vbox expand="item:1" spacing="10">
+              <scroll flags="#PB_ScrollArea_Single" scrolling="vertical">
+                <gridbox columns="4" colexpand="item:2" colspacing="10">
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+6"  text="" invisible="yes" /> <text id="#GADGET_Preferences_FirstColorText+6"  lang="Preferences:Color6"  text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+6"  /> <button id="#GADGET_Preferences_FirstSelectColor+6"  text="..." width="40" />                
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+1"  text="" invisible="yes" /> <text id="#GADGET_Preferences_FirstColorText+1"  lang="Preferences:Color1"  text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+1"  /> <button id="#GADGET_Preferences_FirstSelectColor+1"  text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+37" text="" invisible="yes" /> <text id="#GADGET_Preferences_FirstColorText+37" lang="Preferences:Color37" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+37" /> <button id="#GADGET_Preferences_FirstSelectColor+37" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+20" text="" invisible="yes" /> <text id="#GADGET_Preferences_FirstColorText+20" lang="Preferences:Color20" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+20" /> <button id="#GADGET_Preferences_FirstSelectColor+20" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+19" text="" invisible="yes" /> <text id="#GADGET_Preferences_FirstColorText+19" lang="Preferences:Color19" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+19" /> <button id="#GADGET_Preferences_FirstSelectColor+19" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+18" text="" invisible="yes" /> <text id="#GADGET_Preferences_FirstColorText+18" lang="Preferences:Color18" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+18" /> <button id="#GADGET_Preferences_FirstSelectColor+18" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+36" text="" /> <text id="#GADGET_Preferences_FirstColorText+36" lang="Preferences:Color36" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+36" /> <button id="#GADGET_Preferences_FirstSelectColor+36" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+17" text="" /> <text id="#GADGET_Preferences_FirstColorText+17" lang="Preferences:Color17" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+17" /> <button id="#GADGET_Preferences_FirstSelectColor+17" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+14" text="" /> <text id="#GADGET_Preferences_FirstColorText+14" lang="Preferences:Color14" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+14" /> <button id="#GADGET_Preferences_FirstSelectColor+14" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+16" text="" /> <text id="#GADGET_Preferences_FirstColorText+16" lang="Preferences:Color16" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+16" /> <button id="#GADGET_Preferences_FirstSelectColor+16" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+15" text="" /> <text id="#GADGET_Preferences_FirstColorText+15" lang="Preferences:Color15" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+15" /> <button id="#GADGET_Preferences_FirstSelectColor+15" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+2"  text="" /> <text id="#GADGET_Preferences_FirstColorText+2"  lang="Preferences:Color2"  text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+2"  /> <button id="#GADGET_Preferences_FirstSelectColor+2"  text="..." width="40" />                
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+0"  text="" /> <text id="#GADGET_Preferences_FirstColorText+0"  lang="Preferences:Color0"  text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+0"  /> <button id="#GADGET_Preferences_FirstSelectColor+0"  text="..." width="40" />                  
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+31" text="" /> <text id="#GADGET_Preferences_FirstColorText+31" lang="Preferences:Color31" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+31" /> <button id="#GADGET_Preferences_FirstSelectColor+31"  text="..." width="40" />                  
+				          <checkbox id="#GADGET_Preferences_FirstColorCheck+35" text="" /> <text id="#GADGET_Preferences_FirstColorText+35" lang="Preferences:Color35" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+35" /> <button id="#GADGET_Preferences_FirstSelectColor+35" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+10" text="" /> <text id="#GADGET_Preferences_FirstColorText+10" lang="Preferences:Color10" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+10" /> <button id="#GADGET_Preferences_FirstSelectColor+10" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+3"  text="" /> <text id="#GADGET_Preferences_FirstColorText+3"  lang="Preferences:Color3"  text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+3"  /> <button id="#GADGET_Preferences_FirstSelectColor+3"  text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+12" text="" /> <text id="#GADGET_Preferences_FirstColorText+12" lang="Preferences:Color12" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+12" /> <button id="#GADGET_Preferences_FirstSelectColor+12" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+7"  text="" /> <text id="#GADGET_Preferences_FirstColorText+7"  lang="Preferences:Color7"  text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+7"  /> <button id="#GADGET_Preferences_FirstSelectColor+7"  text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+4"  text="" /> <text id="#GADGET_Preferences_FirstColorText+4"  lang="Preferences:Color4"  text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+4"  /> <button id="#GADGET_Preferences_FirstSelectColor+4"  text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+5"  text="" /> <text id="#GADGET_Preferences_FirstColorText+5"  lang="Preferences:Color5"  text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+5"  /> <button id="#GADGET_Preferences_FirstSelectColor+5"  text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+9"  text="" /> <text id="#GADGET_Preferences_FirstColorText+9"  lang="Preferences:Color9"  text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+9"  /> <button id="#GADGET_Preferences_FirstSelectColor+9"  text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+13" text="" /> <text id="#GADGET_Preferences_FirstColorText+13" lang="Preferences:Color13" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+13" /> <button id="#GADGET_Preferences_FirstSelectColor+13" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+8"  text="" /> <text id="#GADGET_Preferences_FirstColorText+8"  lang="Preferences:Color8"  text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+8"  /> <button id="#GADGET_Preferences_FirstSelectColor+8"  text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+11" text="" /> <text id="#GADGET_Preferences_FirstColorText+11" lang="Preferences:Color11" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+11" /> <button id="#GADGET_Preferences_FirstSelectColor+11" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+28" text="" /> <text id="#GADGET_Preferences_FirstColorText+28" lang="Preferences:Color28" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+28" /> <button id="#GADGET_Preferences_FirstSelectColor+28" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+29" text="" /> <text id="#GADGET_Preferences_FirstColorText+29" lang="Preferences:Color29" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+29" /> <button id="#GADGET_Preferences_FirstSelectColor+29" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+34" text="" /> <text id="#GADGET_Preferences_FirstColorText+34" lang="Preferences:Color34" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+34" /> <button id="#GADGET_Preferences_FirstSelectColor+34" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+30" text="" /> <text id="#GADGET_Preferences_FirstColorText+30" lang="Preferences:Color30" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+30" /> <button id="#GADGET_Preferences_FirstSelectColor+30" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+21" text="" /> <text id="#GADGET_Preferences_FirstColorText+21" lang="Preferences:Color21" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+21" /> <button id="#GADGET_Preferences_FirstSelectColor+21" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+22" text="" /> <text id="#GADGET_Preferences_FirstColorText+22" lang="Preferences:Color22" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+22" /> <button id="#GADGET_Preferences_FirstSelectColor+22" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+23" text="" /> <text id="#GADGET_Preferences_FirstColorText+23" lang="Preferences:Color23" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+23" /> <button id="#GADGET_Preferences_FirstSelectColor+23" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+24" text="" /> <text id="#GADGET_Preferences_FirstColorText+24" lang="Preferences:Color24" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+24" /> <button id="#GADGET_Preferences_FirstSelectColor+24" text="..." width="40" />                  
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+32" text="" /> <text id="#GADGET_Preferences_FirstColorText+32" lang="Preferences:Color32" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+32" /> <button id="#GADGET_Preferences_FirstSelectColor+32" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+33" text="" /> <text id="#GADGET_Preferences_FirstColorText+33" lang="Preferences:Color33" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+33" /> <button id="#GADGET_Preferences_FirstSelectColor+33" text="..." width="40" />                                    
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+25" text="" /> <text id="#GADGET_Preferences_FirstColorText+25" lang="Preferences:Color25" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+25" /> <button id="#GADGET_Preferences_FirstSelectColor+25" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+26" text="" /> <text id="#GADGET_Preferences_FirstColorText+26" lang="Preferences:Color26" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+26" /> <button id="#GADGET_Preferences_FirstSelectColor+26" text="..." width="40" />
+                  <checkbox id="#GADGET_Preferences_FirstColorCheck+27" text="" /> <text id="#GADGET_Preferences_FirstColorText+27" lang="Preferences:Color27" text=": " flags="#PB_Text_Right" /> <image id="#GADGET_Preferences_FirstColor+27" /> <button id="#GADGET_Preferences_FirstSelectColor+27" text="..." width="40" />
+                </gridbox>                
+              </scroll>
+              <hbox expand="item:2">
+                <text lang="Preferences:DefaultColors" text=": " />
+                <combobox id="#GADGET_Preferences_ColorSchemes" />
+                <button id="#GADGET_Preferences_ColorSchemeSet" lang="Preferences:Set" width="60" height="ignore" />
+              </hbox>
+            </vbox>
+          </frame>
+        </container>
+        
+        <!-- Custom Keywords -->
+        <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+8">
+          <vbox expand="item:1">
+            <frame lang="Preferences:Keywords" text=": " margin="5">
+              <vbox expand="item:1" spacing="10">
+                <listview id="#GADGET_Preferences_KeywordList" flags="#PB_ListView_Multiselect" />
+                <hbox expand="item:1">
+                  <string id="#GADGET_Preferences_KeywordText" />
+                  <button id="#GADGET_Preferences_KeywordAdd" lang="Preferences:Add" width="80" />
+                  <button id="#GADGET_Preferences_KeywordRemove" lang="Preferences:Remove" width="80" />
+                </hbox>
+              </vbox>
+            </frame>
+
+            <frame lang="Preferences:KeywordsFile" text=": " margin="5">
+              <hbox expand="item:1" spacing="5">
+                <string id="#GADGET_Preferences_KeywordFile" width="200" />
+                <button id="#GADGET_Preferences_GetKeywordFile" text="..." width="40" />
+              </hbox>
+            </frame>
+          </vbox>        
+        </container>
+
+        <!-- Folding -->
+        <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+9">
+          <vbox expand="item:2">
+            <frame lang="Preferences:Folding" margin="5">
+              <checkbox id="#GADGET_Preferences_EnableFolding"     lang="Preferences:EnableFolding" />
+            </frame>
+            <vbox expand="equal">
+              <frame lang="Preferences:FoldStartWords" margin="5">
+                <vbox expand="item:1" spacing="10">
+                  <listview id="#GADGET_Preferences_FoldStartList"  flags="#PB_ListView_Multiselect"/>
+                  <hbox expand="item:1">
+                    <string id="#GADGET_Preferences_FoldStartText" />
+                    <button id="#GADGET_Preferences_FoldStartAdd"    lang="Preferences:Add" width="80" />
+                    <button id="#GADGET_Preferences_FoldStartRemove" lang="Preferences:Remove" width="80" />
+                  </hbox>
+                </vbox>
+              </frame>
+
+              <frame lang="Preferences:FoldEndWords" margin="5">
+                <vbox expand="item:1" spacing="10">
+                  <listview id="#GADGET_Preferences_FoldEndList"  flags="#PB_ListView_Multiselect"/>
+                  <hbox expand="item:1">
+                    <string id="#GADGET_Preferences_FoldEndText" />
+                    <button id="#GADGET_Preferences_FoldEndAdd"    lang="Preferences:Add" width="80" />
+                    <button id="#GADGET_Preferences_FoldEndRemove" lang="Preferences:Remove" width="80" />
+                  </hbox>
+                </vbox>
+              </frame>
+            </vbox>
+          </vbox>
+        </container>
+
+        <!-- Indent -->
+        <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+10">
+          <frame lang="Preferences:IndentTitle" margin="5">
+            <vbox spacing="10" expand="item:2">
+              <singlebox margin="5">
+                <hbox spacing="10">
+                  <vbox spacing="0">
+                    <option id="#GADGET_Preferences_IndentNo"        lang="Preferences:IndentNo" />
+                    <option id="#GADGET_Preferences_IndentBlock"     lang="Preferences:IndentBlock" />
+                    <option id="#GADGET_Preferences_IndentSensitive" lang="Preferences:IndentSensitive" />
+                  </vbox>
+
+                  <vbox expand="no" align="top">
+                    <checkbox id="#GADGET_Preferences_ShowIndentGuides" lang="Preferences:ShowIndentGuides" />
+                    <checkbox id="#GADGET_Preferences_ShowWhiteSpace" lang="Preferences:ShowWhiteSpace" />
+
+                    <!-- currently not implemented! -->
+                    <checkbox id="#GADGET_Preferences_BackspaceUnindent" lang="Preferences:BackspaceUnindent" invisible="yes"/>
+                  </vbox>
+                </hbox> 
+              </singlebox>
+
+              <listicon id="#GADGET_Preferences_IndentList" flags="#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection">
+                <column width="200" lang="Preferences:Keyword" />
+                <column width="60"  lang="Preferences:Before" />
+                <column width="60"  lang="Preferences:After" />
+              </listicon>
+
+              <gridbox columns="5" colexpand="item:1" colspacing="5" rowspacing="5">
+                <text lang="Preferences:Keyword" text=":" />
+                <text lang="Preferences:Before"  text=":" />
+                <text lang="Preferences:After"   text=":" />
+                <empty colspan="2" />
+
+                <string id="#GADGET_Preferences_IndentKeyword" width="100" />
+                <string id="#GADGET_Preferences_IndentBefore" width="50" />
+                <string id="#GADGET_Preferences_IndentAfter" width="50" />
+                <button id="#GADGET_Preferences_IndentAdd" lang="Preferences:AddSet"  width="70"/>
+                <button id="#GADGET_Preferences_IndentRemove" lang="Misc:Remove" width="70"/>
+              </gridbox>
+            </vbox>
+          </frame>
+        </container>
+
+        <!-- Autocomplete -->
+        <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+11">
+          <frame lang="Preferences:AutoComplete" margin="5">
+            <vbox spacing="10">
+
+              <vbox spacing="0">
+                <option id="#GADGET_Preferences_CharMatch1" lang="Preferences:DisplayFullList" />
+                <option id="#GADGET_Preferences_CharMatch2" lang="Preferences:FirstCharMatch" />
+                <option id="#GADGET_Preferences_CharMatch3" lang="Preferences:AllWordMatch" />
+              </vbox>
+
+              <gridbox colexpand="item:2">
+                <text lang="Preferences:BoxWidth" text=": " />
+                <singlebox expand="no" margin="0">
+                  <string id="#GADGET_Preferences_BoxWidth" width="100"/>
+                </singlebox>
+
+                <text lang="Preferences:BoxHeight" text=": "/>
+                <singlebox expand="no" margin="0">
+                  <string id="#GADGET_Preferences_BoxHeight" width="100"/>
+                </singlebox>
+              </gridbox>
+
+
+              <vbox spacing="0">
+                <checkbox id="#GADGET_Preferences_AddBrackets"    lang="Preferences:AddBrackets" />
+                <checkbox id="#GADGET_Preferences_AddSpaces"      lang="Preferences:AddSpaces" />
+                <checkbox id="#GADGET_Preferences_AddEndKeywords" lang="Preferences:AddEndKeywords" />
+              </vbox>
+
+              <vbox spacing="0">
+                <checkbox id="#GADGET_Preferences_StructureItems" lang="Preferences:AutoPopupStructures" />
+                <checkbox id="#GADGET_Preferences_ModulePrefix"   lang="Preferences:AutoPopupModules" />
+                <checkbox id="#GADGET_Preferences_AutoPopup"      lang="Preferences:AutoPopupNormal" />
+                <singlebox margin="left:30">
+                  <vbox spacing="0">
+                    <!-- removed 
+                    <checkbox id="#GADGET_Preferences_NoComments" lang="Preferences:NoComments" />
+                    <checkbox id="#GADGET_Preferences_NoStrings"  lang="Preferences:NoStrings" />
+                    -->
+                    <hbox expand="item:2">
+                      <string id="#GADGET_Preferences_AutoPopupLength" width="60" />
+                      <text id="#GADGET_Preferences_AutoPopupText" lang="Preferences:PopupLength" />
+                    </hbox>
+                  </vbox>
+                </singlebox>
+              </vbox>
+            </vbox>
+          </frame>
+        </container>
+
+
+        <!-- Autocomplete List -->
+        <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+12">
+          <frame lang="Preferences:ListOptions" margin="5">
+            <vbox spacing="5" expand="item:1">
+              <hbox spacing="10" expand="equal">
+                <listicon id="#GADGET_Preferences_CodeOptions" height="250" flags="#PB_ListIcon_CheckBoxes|#PB_ListIcon_FullRowSelect">
+                  <column lang="Preferences:SourceItems" width="160" />
+                </listicon>
+                              
+                <listicon id="#GADGET_Preferences_PBOptions" height="250" flags="#PB_ListIcon_CheckBoxes|#PB_ListIcon_FullRowSelect">
+                  <column lang="Preferences:PBItems" width="160" />
+                </listicon>
+              </hbox>
+
+              <singlebox margin="5">
+                <vbox spacing="2">
+                  <text lang="Preferences:AddFrom" text=":" />
+                  <singlebox margin="left:15">
+                    <vbox spacing="0">
+                      <option id="#GADGET_Preferences_SourceOnly"      lang="Preferences:SourceOnly" />
+                      <option id="#GADGET_Preferences_ProjectOnly"     lang="Preferences:ProjectOnly" />
+                      <option id="#GADGET_Preferences_ProjectAllFiles" lang="Preferences:ProjectAllFiles" />
+                      <option id="#GADGET_Preferences_AllFiles"        lang="Preferences:AllFiles" />
+                    </vbox>
+                  </singlebox>
+                </vbox>
+              </singlebox>
+            </vbox>
+          </frame>
+        </container>
+        
+        <!-- Code Issues -->
+        <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+13">
+          <frame lang="Preferences:Issues" margin="5">
+            <vbox expand="item:1" spacing="15">            
+              <vbox expand="item:1">
+                <listicon id="#GADGET_Preferences_IssueList" height="150" flags="#PB_ListIcon_FullRowSelect|#PB_ListIcon_GridLines|#PB_ListIcon_AlwaysShowSelection">
+                  <column lang="Preferences:IssueNameShort" width="100" />
+                  <column lang="Preferences:IssueExprShort" width="180" />
+                  <column lang="ToolsPanel:Priority" width="80" />                
+                </listicon>
+                
+                <hbox expand="item:3">
+                  <button id="#GADGET_Preferences_NewIssue" lang="Misc:New" width="80" />
+                  <button id="#GADGET_Preferences_UpdateIssue" lang="Misc:Update" width="80" />
+                  <empty/>
+                  <button id="#GADGET_Preferences_DeleteIssue" lang="Misc:Delete" width="80" />
+                </hbox>
+              </vbox>
+              
+              <vbox expand="item:1">
+                <gridbox colexpand="item:2" colspacing="5">
+                  <text lang="Preferences:IssueName" text=":" flags="#PB_Text_Right"/>
+                  <string id="#GADGET_Preferences_IssueName"/>
+         
+                  <text lang="Preferences:IssueExpr" text=":" flags="#PB_Text_Right"/>
+                  <string id="#GADGET_Preferences_IssueExpr"/>
+
+                  <text lang="ToolsPanel:Priority" text=":" flags="#PB_Text_Right"/>
+                  <combobox id="#GADGET_Preferences_IssuePriority" flags="#PB_Combobox_Image">
+                    <item lang="ToolsPanel:Prio0"/>
+                    <item lang="ToolsPanel:Prio1"/>
+                    <item lang="ToolsPanel:Prio2"/>
+                    <item lang="ToolsPanel:Prio3"/>
+                    <item lang="ToolsPanel:Prio4"/>
+                  </combobox>
+
+                  <text lang="Misc:Color" text=":" flags="#PB_Text_Right"/>
+                  <hbox expand="no"> 
+                    <singlebox expand="no" align="center">
+                      <image id="#GADGET_Preferences_IssueColor"/>
+                    </singlebox>
+                    <button id="#GADGET_Preferences_SelectIssueColor" text="..." width="40"/>
+                  </hbox>                  
+                </gridbox>
+                
+                <gridbox colexpand="equal" colspacing="10">
+                  <option id="#GADGET_Preferences_IssueCodeNoColor" lang="Preferences:IssueCodeNoColor" />
+                  <checkbox id="#GADGET_Preferences_IssueInTool" lang="Preferences:IssueInTool" />
+                  
+                  <option id="#GADGET_Preferences_IssueCodeBack" lang="Preferences:IssueCodeBack" />
+                  <checkbox id="#GADGET_Preferences_IssueInBrowser" lang="Preferences:IssueInBrowser" />
+                  
+                  <option id="#GADGET_Preferences_IssueCodeLine" lang="Preferences:IssueCodeLine" />
+                  <empty/>               
+                </gridbox>
+              </vbox>
+            </vbox>              
+          </frame>          
+        </container>            
+        
+        <!-- Edit history -->
+        <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+14">
+          <frame lang="Preferences:EditHistory" margin="5">
+            <vbox spacing="20" expand="item:3">
+              <vbox spacing="5">
+                <checkbox id="#GADGET_Preferences_EnableHistory" lang="Preferences:EnableHistory" />
+                <singlebox margin="left:15">
+                  <vbox spacing="2">
+                    <hbox spacing="5" expand="no">
+                      <text lang="Preferences:HistoryTimer1" />
+                      <string id="#GADGET_Preferences_HistoryTimer" width="50" />
+                      <text lang="Preferences:HistoryTimer2" />
+                    </hbox>
+                    
+                    <hbox spacing="5" expand="no">
+                      <text lang="Preferences:HistoryMaxSize1" />
+                      <string id="#GADGET_Preferences_HistoryMaxFileSize" width="50" />
+                      <text lang="Preferences:HistoryMaxSize2" />
+                    </hbox>
+                  </vbox>
+                </singlebox>
+              </vbox>             
+              
+              <vbox spacing="5">
+                <text lang="Preferences:PurgeSessions" />
+                <singlebox margin="left:15">
+                  <vbox spacing="2">
+                    <option id="#GADGET_Preferences_HistoryPurgeNever" lang="Preferences:PurgeNever" />
+                    <hbox spacing="5" expand="no">
+                      <option id="#GADGET_Preferences_HistoryPurgeByCount" lang="Preferences:PurgeByCount1" />
+                      <string id="#GADGET_Preferences_HistoryCount" width="50" />
+                      <text id="#GADGET_Preferences_HistoryPurgeByCount2" lang="Preferences:PurgeByCount2" />
+                    </hbox>
+                    <hbox spacing="5" expand="no">
+                      <option id="#GADGET_Preferences_HistoryPurgeByDays" lang="Preferences:PurgeByDays1" />
+                      <string id="#GADGET_Preferences_HistoryDays" width="50" />
+                      <text id="#GADGET_Preferences_HistoryPurgeByDays2" lang="Preferences:PurgeByDays2" />
+                    </hbox>
+                  </vbox>
+                </singlebox>
+              </vbox>
+              
+              <text id="#GADGET_Preferences_HistoryFile" />
+            </vbox>
+          </frame>
+        </container>
+        
+        <!-- Compiler -->
+        <container margin="0" expand="yes" invisible="yes" id="#GADGET_Preferences_FirstContainer+15">
+          <vbox spacing="10" expand="item:2">
+            <compiler if="#SpiderBasic">          
+              <hbox expand="item:2" spacing="5">
+                <text lang="Preferences:WebBrowser" text=": " width="80" />
+                <string id="#GADGET_Preferences_WebBrowser" />
+                <button id="#GADGET_Preferences_SelectWebBrowser" text="..." height="ignore" />
+              </hbox>
+              <hbox expand="item:2">
+                <text lang="Preferences:WebServerPort" text=": "/>
+                <string id="#GADGET_Preferences_WebServerPort" flags="#PB_String_Numeric"/>
+              </hbox>
+              <hbox expand="item:2" spacing="5">
+                <text lang="Preferences:JDK" text=": " width="80" />
+                <string id="#GADGET_Preferences_JDK" />
+                <button id="#GADGET_Preferences_SelectJDK" text="..." height="ignore" />
+              </hbox>
+              <hbox expand="item:2">
+                <text lang="Preferences:AppleTeamID" text=": "/>
+                <string id="#GADGET_Preferences_AppleTeamID"/>
+              </hbox>
+            </compiler>
+            
+            <frame lang="Preferences:DefaultCompiler" margin="15">
+              <text id="#GADGET_Preferences_DefaultCompiler"/>
+            </frame>
+
+            <frame lang="Preferences:MoreCompilers" margin="5">
+              <vbox spacing="5" expand="item:1">
+                <listicon id="#GADGET_Preferences_CompilerList" height="200" flags="#PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect">
+                  <column lang="Preferences:CompilerVersion" width="200" />
+                  <column lang="Preferences:CompilerPath"    width="300" />
+                </listicon>
+
+                <hbox spacing="5" expand="equal">
+                  <button id="#GADGET_Preferences_AddCompiler"    lang="Misc:Add" />
+                  <button id="#GADGET_Preferences_RemoveCompiler" lang="Misc:Remove" />
+                  <button id="#GADGET_Preferences_ClearCompilers" lang="Misc:Clear" />
+                </hbox>
+                
+                <hbox spacing="5" expand="item:1">
+                  <string id="#GADGET_Preferences_CompilerExe" />
+                  <button id="#GADGET_Preferences_SelectCompiler" text="..." height="ignore" />
+                </hbox>
+              </vbox>
+            </frame>
+          </vbox>
+        </container>
+
+        <!-- Defaults -->
+        <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+16">
+          <frame lang="Preferences:Defaults" margin="5">
+            <vbox spacing="10">
+              <gridbox>
+                <checkbox id="#GADGET_Preferences_ErrorLog"   lang="Debugger:ShowErrorLog" />
+                <checkbox id="#GADGET_Preferences_UseCompileCount" text="#PB_Editor_CompileCount"/>
+
+                <checkbox id="#GADGET_Preferences_Debugger"   lang="Compiler:EnableDebugger" />
+                <checkbox id="#GADGET_Preferences_UseBuildCount" text="#PB_Editor_BuildCount"/>
+                
+                <compiler if="#SpiderBasic">
+                  <!-- nothing -->
+                <compilerelse/>
+                
+                  <checkbox id="#GADGET_Preferences_Purifier" lang="Compiler:EnablePurifier" />
+                  <checkbox id="#GADGET_Preferences_UseCreateExecutable" text="#PB_Editor_CreateExecutable"/>
+                  
+                  <checkbox id="#GADGET_Preferences_InlineASM"  lang="Compiler:EnableASM" />
+                  <checkbox id="#GADGET_Preferences_OnError"    lang="Compiler:EnableOnError" />
+                  
+                  <checkbox id="#GADGET_Preferences_Thread"     lang="Compiler:EnableThread"  colspan="2" />
+  
+                  <checkbox id="#GADGET_Preferences_XPSkin"     lang="Compiler:EnableXP" colspan="2"/>
+                  
+                  <checkbox id="#GADGET_Preferences_VistaAdmin" lang="Compiler:EnableAdmin" colspan="2" />
+  
+                  <checkbox id="#GADGET_Preferences_VistaUser"  lang="Compiler:EnableUser" colspan="2" />
+                  
+                  <checkbox id="#GADGET_Preferences_DPIAware"   lang="Compiler:DPIAware" colspan="2"/>
+  
+                  <checkbox id="#GADGET_Preferences_TemporaryExe" lang="Compiler:TemporaryExe" colspan="2" />
+                  
+                </compiler>
+              </gridbox>
+
+              <gridbox colspacing="10" colexpand="item:2">
+                <text lang="Preferences:SubSystem" text=": " />
+                <string id="#GADGET_Preferences_SubSystem" />
+
+                <compiler if="#SpiderBasic">
+                  <!-- nothing -->
+                <compilerelse/>
+
+                  <text lang="Compiler:ExeFormat" text=": " />
+                  <combobox id="#GADGET_Preferences_ExecutableFormat">
+                    <compiler if="#CompileWindows">
+                      <item text="Windows" />
+                      <item text="Console" />
+                      <item text="Shared Dll" />
+                    </compiler>
+                    <compiler if="#CompileLinux">
+                      <item text="Linux" />
+                      <item text="Console" />
+                      <item text="Shared .so" />
+                    </compiler>
+                    <compiler if="#CompileMac">
+                      <item text="MacOS" />
+                      <item text="Console" />
+                      <item text="Shared .dynlib" />
+                    </compiler>
+                  </combobox>
+  
+                  <text lang="Preferences:CPU" text=": " />
+                  <combobox id="#GADGET_Preferences_CPU">
+                    <item lang="Compiler:AllCPU" />
+                    <item lang="Compiler:DynamicCPU" />
+                    <compiler if="#CompileMac=0">
+                      <item lang="Compiler:MMX" />
+                      <item lang="Compiler:3DNOW" />
+                      <item lang="Compiler:SSE" />
+                      <item lang="Compiler:SSE2" />
+                    </compiler>
+                  </combobox>
+                </compiler>
+
+                <text lang="Compiler:TextEncoding" text=": " />
+                <combobox id="#GADGET_Preferences_Encoding">
+                  <item lang="Compiler:EncodingPlain" />
+                  <item lang="Compiler:EncodingUtf8" />
+                </combobox>
+
+                <text lang="Compiler:NewLineType" text=": " />
+                <combobox id="#GADGET_Preferences_NewLineType">
+                  <item text="Windows (CRLF)" />
+                  <item text="Linux (LF)" />
+                  <item text="MacOS (CR)" />
+                </combobox>
+              </gridbox>
+            </vbox>
+          </frame>
+        </container>
+
+        <!-- Debugger -->
+        <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+17">
+          <vbox>
+            <hbox expand="equal">
+              <frame lang="Preferences:DebuggerMode" margin="5">
+                <combobox id="#GADGET_Preferences_DebuggerMode">
+                  <!-- <compiler if="#CompileMac = 0"> --> <!-- Not supported on mac yet OSX-debug --> 
+                    <item lang="Preferences:IDEDebugger" />
+                  <!-- </compiler> -->
+                  <item lang="Preferences:GUIDebugger" />
+                  <item lang="Preferences:ConsoleDebugger" />
+                </combobox>
+              </frame>
+
+              <frame lang="Preferences:WarningMode" margin="5">
+                <combobox id="#GADGET_Preferences_WarningMode">
+                  <item lang="Preferences:WarningsIgnore" />
+                  <item lang="Preferences:WarningsDisplay" />
+                  <item lang="Preferences:WarningsError" />
+                </combobox>
+              </frame>
+            </hbox>
+            
+            <frame lang="Preferences:DebuggerGeneral" margin="5">
+              <vbox spacing="5">
+                <checkbox id="#GADGET_Preferences_DebuggerMemorizeWindows" lang="Preferences:DebuggerMemorize" />
+                <checkbox id="#GADGET_Preferences_DebuggerAlwaysOnTop"     lang="Preferences:DebuggerOnTop" />
+                <checkbox id="#GADGET_Preferences_DebuggerBringToTop"      lang="Preferences:AutoSetOnTop" />
+                <empty height="5" />
+                <checkbox id="#GADGET_Preferences_DebuggerLogTimeStamp"    lang="Preferences:LogTimeStamp" />
+                <checkbox id="#GADGET_Preferences_DebuggerStopAtStart"     lang="Preferences:StopAtStart" />
+                <checkbox id="#GADGET_Preferences_DebuggerStopAtEnd"       lang="Preferences:StopAtEnd" />
+                <empty height="5" />
+                <checkbox id="#GADGET_Preferences_KillOnError"             lang="Preferences:KillOnError" />
+                <checkbox id="#GADGET_Preferences_KeepErrorMarks"          lang="Preferences:KeepErrorMarks" />
+                <checkbox id="#GADGET_Preferences_AutoClearLog"            lang="Preferences:AutoClearLog" />
+                <checkbox id="#GADGET_Preferences_DisplayErrorWindow"      lang="Preferences:DisplayErrorWindow" />
+                <empty height="5" />
+                <hbox expand="no">
+                  <text lang="Preferences:DebuggerTimeout" text=": " />
+                  <string id="#GADGET_Preferences_DebuggerTimeout" width="60" />
+                </hbox>
+              </vbox>
+            </frame>
+          </vbox>
+        </container>
+
+        <!-- Debugger Settings -->
+        <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+18">
+          <vbox>
+            <frame lang="Preferences:DebugOutput" margin="5">
+              <vbox>
+                <checkbox id="#GADGET_Preferences_DebugIsHex"        lang="Preferences:IsHex" />
+                <checkbox id="#GADGET_Preferences_DebugOutTimeStamp" lang="Preferences:DebugTimeStamp" />
+                <checkbox id="#GADGET_Preferences_DebugToLog"        lang="Preferences:DebugToLog" />
+                
+                <hbox expand="item:1">
+                  <checkbox id="#GADGET_Preferences_DebugOutUseFont" lang="Preferences:CustomFont" text=": " />
+                  <button   id="#GADGET_Preferences_DebugOutFont"    lang="Preferences:SelectFont" width="150" />
+                </hbox>
+              </vbox>
+            </frame>
+            
+            <frame lang="Preferences:Profiler" margin="5">
+              <vbox>
+                <checkbox id="#GADGET_Preferences_ProfilerStartup" lang="Preferences:ProfilerStartup" />
+              </vbox>
+            </frame>
+            
+            <frame lang="Preferences:AsmDebug" margin="5">
+              <vbox>
+                <checkbox id="#GADGET_Preferences_RegisterIsHex"   lang="Preferences:RegisterIsHex" />
+                <checkbox id="#GADGET_Preferences_StackIsHex"      lang="Preferences:StackIsHex" />
+                <checkbox id="#GADGET_Preferences_AutoStackUpdate" lang="Preferences:AutoStackUpdate" />
+              </vbox>
+            </frame>
+
+            <hbox>
+              <frame lang="Preferences:MemoryViewer" margin="5">
+                <vbox expand="no" align="top">
+                  <checkbox id="#GADGET_Preferences_MemoryIsHex"     lang="Preferences:IsHex" />
+                  <checkbox id="#GADGET_Preferences_MemoryOneColumn" lang="Preferences:MemoryOneColumn" />
+                </vbox>
+              </frame>
+
+              <frame lang="Preferences:VariableViewer" margin="5">
+                <vbox expand="no" align="top">
+                  <checkbox id="#GADGET_Preferences_VariableIsHex" lang="Preferences:IsHex" />
+                </vbox>
+              </frame>
+            </hbox>
+          </vbox>
+        </container>
+
+        <!-- Debugger Windows -->
+        <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+19">
+          <frame lang="Preferences:AutoOpenWindows" margin="5">
+            <vbox>              
+              <checkbox id="#GADGET_Preferences_DataBreakpointsOpen"     lang="Preferences:DataBreakpoints" />
+              <checkbox id="#GADGET_Preferences_DebugWindowOpen"         lang="Preferences:DebugOutput" />
+              <checkbox id="#GADGET_Preferences_WatchlistWindowOpen"     lang="Preferences:Watchlist" />
+              <checkbox id="#GADGET_Preferences_VariableWindowOpen"      lang="Preferences:VariableViewer" />
+              <checkbox id="#GADGET_Preferences_ProfilerWindowOpen"      lang="Preferences:Profiler" />
+              <checkbox id="#GADGET_Preferences_HistoryWindowOpen"       lang="Preferences:CallStack" />
+              <checkbox id="#GADGET_Preferences_MemoryWindowOpen"        lang="Preferences:MemoryViewer" />
+              <checkbox id="#GADGET_Preferences_LibraryViewerWindowOpen" lang="Preferences:LibraryViewer" />
+              <checkbox id="#GADGET_Preferences_PurifierOpen"            lang="Preferences:Purifier" />
+              <checkbox id="#GADGET_Preferences_AsmWindowOpen"           lang="Preferences:AsmDebug" />
+            </vbox>
+          </frame>
+        </container>
+
+          <!-- Form -->
+          <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+20">
+              <frame lang="Preferences:Form" margin="5">
+                  <vbox spacing="20">
+                      <vbox>
+                          <checkbox id="#GADGET_Preferences_FormVariable"              lang="Preferences:FormVariable" />
+                          <checkbox id="#GADGET_Preferences_FormVariableCaption"       lang="Preferences:FormVariableCaption" />
+                          <checkbox id="#GADGET_Preferences_FormGrid"       lang="Preferences:FormGrid" />
+                          <checkbox id="#GADGET_Preferences_FormEventProcedure"     lang="Preferences:FormEventProcedure" />
+                      </vbox>
+                      
+                      <gridbox colspacing="10" colexpand="item:2">
+                          <text lang="Preferences:FormGridSize" text=": " />
+                          <singlebox expand="no" margin="0">
+                              <string id="#GADGET_Preferences_FormGridSize" flags="#PB_String_Numeric" width="80" />
+                          </singlebox>
+
+                          <text lang="Preferences:FormSkin" text=": " />
+                          <combobox id="#GADGET_Preferences_FormSkin">
+                              <item text="OS X" />
+                              <item text="Windows 7" />
+                              <item text="Windows 8" />
+                              <item text="Linux Ubuntu" />
+                          </combobox>
+
+                      </gridbox>
+
+                  </vbox>
+              </frame>
+          </container>
+
+        <!-- Toolspanel -->
+        <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+21">
+          <vbox expand="item:2">
+            <frame lang="Preferences:ToolsPanelItems" margin="5">
+              <gridbox columns="3" colspacing="10" rowspacing="0">
+                <text lang="Preferences:AvailableTools" text=": "/>
+                <empty />
+                <text lang="Preferences:UsedTools" text=": " />
+
+                <listview id="#GADGET_Preferences_AvailableTools" width="130" />
+                <vbox>
+                  <button id="#GADGET_Preferences_AddTool"      lang="Preferences:Add" />
+                  <button id="#GADGET_Preferences_RemoveTool"   lang="Preferences:Remove" />
+                  <button id="#GADGET_Preferences_MoveToolUp"   lang="Preferences:Up" />
+                  <button id="#GADGET_Preferences_MoveToolDown" lang="Preferences:Down" />
+                </vbox>
+                <listview id="#GADGET_Preferences_UsedTools" width="130" />
+              </gridbox>
+            </frame>
+
+            <frame id="#GADGET_Preferences_ToolSettingsTitle" lang="Preferences:Configuration" margin="5">
+              <container id="#GADGET_Preferences_ToolSettingsContainer">
+                <!-- tools configuration -->
+              </container>
+            </frame>
+          </vbox>
+        </container>
+
+        <!-- Toolspanel Settings -->
+        <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+22">
+          <frame lang="Preferences:ToolsPanelOptions" margin="5">
+            <vbox spacing="15">
+              <combobox id="#GADGET_Preferences_ToolsPanelSide">
+                <item lang="Preferences:ToolsPanelRight" />
+                <item lang="Preferences:ToolsPanelLeft" />
+              </combobox>
+              
+              <!-- put it here for OSX, as the rest is hidden later (so it does not look too ugly) -->
+              <compiler if="#CompileMac">
+                <checkbox id="#GADGET_Preferences_AutoHidePanel"            lang="Preferences:AutoHidePanel" />
+              </compiler>
+
+              <gridbox columns="4" colexpand="item:1">
+                <checkbox id="#GADGET_Preferences_UseToolsPanelFont" lang="Preferences:CustomFont" text=": "/>
+                <button id="#GADGET_Preferences_SelectToolsPanelFont" lang="Preferences:SelectFont" colspan="3" />
+                
+                <!-- put it here for Linux, as the rest is hidden later (so it does not look too ugly) -->
+                <compiler if="#CompileLinux">
+                  <checkbox colspan="4" id="#GADGET_Preferences_AutoHidePanel" lang="Preferences:AutoHidePanel" />
+                </compiler>
+                
+                <empty colspan="4" height="5"/>
+                
+                <checkbox id="#GADGET_Preferences_UseToolsPanelColors" lang="Preferences:CustomColors"  text=": "/>              
+                <text     id="#GADGET_Preferences_ToolsPanelFrontColorText"   lang="Preferences:ToolsFrontColor" text=": " flags="#PB_Text_Right" />
+                <image    id="#GADGET_Preferences_ToolsPanelFrontColor"       width="40" />
+                <button   id="#GADGET_Preferences_ToolsPanelFrontColorSelect" text="..." width="50" />
+
+                <empty/>
+                <text   id="#GADGET_Preferences_ToolsPanelBackColorText"   lang="Preferences:ToolsBackColor" text=": " flags="#PB_Text_Right" />
+                <image  id="#GADGET_Preferences_ToolsPanelBackColor"       width="40" />
+                <button id="#GADGET_Preferences_ToolsPanelBackColorSelect" text="..." width="50" />
+              </gridbox>
+
+              <vbox>
+                <checkbox id="#GADGET_Preferences_NoIndependantToolsColors" lang="Preferences:NoIndependandColors" />           
+                <!-- normal location for Windos -->
+                <compiler if="#CompileWindows">                
+                  <checkbox id="#GADGET_Preferences_AutoHidePanel"            lang="Preferences:AutoHidePanel" />
+                </compiler>
+                <hbox expand="no">
+                  <text   id="#GADGET_Preferences_ToolsPanelDelayText" lang="Preferences:AutoHideDelay" text=": " />
+                  <string id="#GADGET_Preferences_ToolsPanelDelay" width="60" />
+                </hbox>
+              </vbox>
+            </vbox>
+          </frame>
+        </container>
+
+        <!-- Import / Export -->
+        <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+23">
+          <vbox expand="no" align="top">
+            <frame lang="Preferences:Export" margin="5">
+              <vbox spacing="10">
+                <gridbox>
+                  <checkbox id="#GADGET_Preferences_ExpShortcut" lang="Preferences:IncludeShortcut" />
+                  <checkbox id="#GADGET_Preferences_ExpColor"    lang="Preferences:IncludeColors" />
+                  <checkbox id="#GADGET_Preferences_ExpToolbar"  lang="Preferences:IncludeToolbar" />
+                  <checkbox id="#GADGET_Preferences_ExpFolding"  lang="Preferences:IncludeFolding" />
+                </gridbox>
+
+                <vbox>
+                  <hbox expand="item:2" spacing="10">
+                    <text lang="Preferences:SaveTo" text=": " width="80" />
+                    <string id="#GADGET_Preferences_ExportFile" />
+                    <button id="#GADGET_Preferences_GetExportFile" text="..." width="50" height="ignore" />
+                  </hbox>
+                  <singlebox margin="0" expand="no" align="center">
+                    <button id="#GADGET_Preferences_Export" lang="Misc:Save" width="130" />
+                  </singlebox>
+                </vbox>
+              </vbox>
+            </frame>
+
+            <frame lang="Preferences:Import" margin="5">
+              <vbox spacing="10">
+                <vbox>
+                  <hbox expand="item:2" spacing="10">
+                    <text lang="Preferences:LoadFrom" text=": " width="80" />
+                    <string id="#GADGET_Preferences_ImportFile" />
+                    <button id="#GADGET_Preferences_GetImportFile" text="..." width="50" height="ignore" />
+                  </hbox>
+                  <singlebox margin="0" expand="no" align="center">
+                    <button id="#GADGET_Preferences_OpenImport" lang="Preferences:Open" width="130" />
+                  </singlebox>
+                </vbox>
+
+                <gridbox>
+                  <checkbox id="#GADGET_Preferences_ImpShortcut" lang="Preferences:IncludeShortcut" />
+                  <checkbox id="#GADGET_Preferences_ImpColor"    lang="Preferences:IncludeColors" />
+                  <checkbox id="#GADGET_Preferences_ImpToolbar"  lang="Preferences:IncludeToolbar" />
+                  <checkbox id="#GADGET_Preferences_ImpFolding"  lang="Preferences:IncludeFolding" />
+                </gridbox>
+
+                <singlebox margin="0" expand="no" align="center">
+                  <button id="#GADGET_Preferences_Import" lang="Preferences:Import" width="130" />
+                </singlebox>
+              </vbox>
+            </frame>
+          </vbox>
+        </container>
+          
+
+      </multibox>
+    </hbox>
+    
+
+    <hbox spacing="10" expand="no" align="right">
+      <button id="#GADGET_Preferences_Ok"     lang="Misc:Ok" width="90" />
+      <button id="#GADGET_Preferences_Cancel" lang="Misc:Cancel" width="90" />
+      <button id="#GADGET_Preferences_Apply"  lang="Preferences:Apply" width="90" disabled="yes" />
+    </hbox>
+  </vbox>
+
+  <shortcut key="#PB_Shortcut_Return" id="#GADGET_Preferences_Ok" />
+  <shortcut key="#PB_Shortcut_Escape" id="#GADGET_Preferences_Cancel" />
+</window>
+  

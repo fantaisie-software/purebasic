@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+
+<!-- Structure Viewer for the PureBasic IDE -->
+
+<window id="#WINDOW_StructureViewer" label="Dialog_StructureViewer" lang="StructureViewer:Title" flags="#PB_Window_SizeGadget" invisible="yes">
+  <vbox expand="item:1">
+    <vbox spacing="0" expand="item:3">
+      <panel id="#GADGET_StructureViewer_Panel" height="30"> <!-- force the min height as it won't show on osx else -->
+        <tab lang="StructureViewer:Structures" margin="top:1" />
+        <tab lang="StructureViewer:Interfaces" margin="top:1" />
+        <tab lang="StructureViewer:Constants"  margin="top:1" />
+      </panel>
+
+      <gridbox columns="14" colspacing="0" rowspacing="0" colexpand="equal">
+        <button id="#GADGET_StructureViewer_Char0+0"  text="*" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+1"  text="A" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+2"  text="B" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+3"  text="C" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+4"  text="D" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+5"  text="E" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+6"  text="F" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+7"  text="G" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+8"  text="H" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+9"  text="I" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+10" text="J" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+11" text="K" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+12" text="L" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+13" text="M" flags="#PB_Button_Toggle" />
+
+        <button id="#GADGET_StructureViewer_Char0+14" text="N" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+15" text="O" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+16" text="P" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+17" text="Q" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+18" text="R" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+19" text="S" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+20" text="T" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+21" text="U" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+22" text="V" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+23" text="W" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+24" text="X" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+25" text="Y" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+26" text="Z" flags="#PB_Button_Toggle" />
+        <button id="#GADGET_StructureViewer_Char0+27" text="_" flags="#PB_Button_Toggle" />
+      </gridbox>
+
+      <listview id="#GADGET_StructureViewer_List" />
+    </vbox>
+
+    <gridbox columns="3">
+      <button id="#GADGET_StructureViewer_Parent" lang="StructureViewer:Parent" />
+      <string id="#GADGET_StructureViewer_Name" colspan="2" />
+
+      <compiler if="#DEFAULT_CanWindowStayOnTop">
+        <checkbox id="#GADGET_StructureViewer_OnTop" lang="StructureViewer:StayOnTop" />
+      <compilerelse />
+        <empty />
+      </compiler>
+      <button id="#GADGET_StructureViewer_InsertName" lang="StructureViewer:InsertName" />
+      <button id="#GADGET_StructureViewer_InsertCopy" lang="StructureViewer:InsertCopy" />
+
+      <empty colspan="2" />
+      <button id="#GADGET_StructureViewer_InsertStruct" lang="StructureViewer:Insert" />
+    </gridbox>
+  </vbox>
+
+  <shortcut key="#PB_Shortcut_Return" id="#GADGET_StructureViewer_Ok" />
+  <shortcut key="#PB_Shortcut_Escape" id="#GADGET_StructureViewer_Cancel" />
+</window>

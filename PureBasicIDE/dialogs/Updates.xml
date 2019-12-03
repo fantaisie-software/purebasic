@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<!-- "New Updates Available" Dialog for the PureBasic IDE -->
+
+<window id="#WINDOW_Updates" lang="Updates:Title" label="Dialog_Updates" invisible="yes">
+  <vbox spacing="10" expand="item:1">
+    <frame>
+      <vbox spacing="5" expand="item:1">
+        <singlebox expand="no" align="center" height="100">
+          <text id="#GADGET_Updates_Message" flags="#PB_Text_Center"/>
+        </singlebox>  
+
+        <hyperlink id="#GADGET_Updates_Website" lang="Updates:VisitWebSite" color="$0000F0" flags="#PB_HyperLink_Underline" />
+        <hyperlink id="#GADGET_Updates_Settings" lang="Updates:ChangeSetting" color="$0000F0" flags="#PB_HyperLink_Underline" />        
+      </vbox>
+    </frame>
+   
+    <singlebox expand="no" align="center">
+      <button id="#GADGET_Updates_Ok" lang="Misc:Ok" width="120" />
+    </singlebox>
+  </vbox>
+
+  <shortcut key="#PB_Shortcut_Return" id="#GADGET_Updates_Ok" />
+  <shortcut key="#PB_Shortcut_Escape" id="#GADGET_Updates_Ok" />
+</window>

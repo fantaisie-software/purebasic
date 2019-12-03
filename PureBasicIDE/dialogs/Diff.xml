@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+
+<!-- Diff Dialog for the PureBasic IDE -->
+
+<dialoggroup>
+
+  <!--  Diff Dialog  -->
+  <window id="#WINDOW_DiffDialog" lang="Diff:DialogTitle" label="Dialog_DiffDialog" width="400" invisible="yes">
+    <vbox spacing="10" expand="item:1">
+      <panel>
+        <tab lang="Diff:FilesTab" margin="10">
+          <gridbox columns="3" colspacing="5" rowspacing="10" colexpand="item:2" rowexpand="no">
+            <text lang="Diff:File1" text=": "  flags="#PB_Text_Right" />
+            <combobox id="#GADGET_DiffDialog_File1" width="250" flags="#PB_ComboBox_Editable" />
+            <button id="#GADGET_DiffDialog_ChooseFile1" text="..." width="30" height="ignore" />
+
+            <text lang="Diff:File2" text=": "  flags="#PB_Text_Right" />
+            <combobox id="#GADGET_DiffDialog_File2" width="250" flags="#PB_ComboBox_Editable" />
+            <button id="#GADGET_DiffDialog_ChooseFile2" text="..." width="30" height="ignore" />
+
+            <empty colspan="3" />
+            <singlebox expand="no" align="center" colspan="3">
+              <button id="#GADGET_DiffDialog_CompareFiles" lang="Diff:Compare" width="90" />
+            </singlebox>
+          </gridbox>
+        </tab>
+        
+        <tab lang="Diff:DirectoriesTab" margin="10">
+          <gridbox columns="4" colspacing="5" rowspacing="10" colexpand="item:2" rowexpand="no">
+            <text lang="Diff:Directory1" text=": " flags="#PB_Text_Right" />
+            <combobox id="#GADGET_DiffDialog_Directory1" width="250" flags="#PB_ComboBox_Editable" />
+            <button id="#GADGET_DiffDialog_ChooseDirectory1" text="..." width="30" height="ignore" />
+            <button id="#GADGET_DiffDialog_CurrentDirectory1" text="." width="25" height="ignore" />
+
+            <text lang="Diff:Directory2" text=": "  flags="#PB_Text_Right" />
+            <combobox id="#GADGET_DiffDialog_Directory2" width="250" flags="#PB_ComboBox_Editable" />
+            <button id="#GADGET_DiffDialog_ChooseDirectory2" text="..." width="30" height="ignore" />
+            <button id="#GADGET_DiffDialog_CurrentDirectory2" text="." width="25" height="ignore" />
+
+            <text lang="Find:Extensions" text=": " flags="#PB_Text_Right" />
+            <combobox id="#GADGET_DiffDialog_Pattern" flags="#PB_ComboBox_Editable" />
+            <empty colspan="2" />
+
+            <empty />
+            <checkbox id="#GADGET_DiffDialog_Recurse" lang="Find:IncludeSubdirs" colspan="3" />
+
+            <empty colspan="4"/>
+            <singlebox expand="no" align="center" colspan="4">
+              <button id="#GADGET_DiffDialog_CompareDirectories" lang="Diff:Compare" width="90" />
+            </singlebox>
+          </gridbox>
+        </tab>
+
+        <tab lang="Diff:OptionsTab" margin="10">
+          <vbox spacing="5" expand="no" align="top">
+            <checkbox id="#GADGET_DiffDialog_IgnoreSpaceAll" lang="Diff:IgnoreSpaceAll"/>
+            <checkbox id="#GADGET_DiffDialog_IgnoreSpaceLeft" lang="Diff:IgnoreSpaceLeft"/>
+            <checkbox id="#GADGET_DiffDialog_IgnoreSpaceRight" lang="Diff:IgnoreSpaceRight"/>
+            <empty height="5" />
+            <checkbox id="#GADGET_DiffDialog_IgnoreCase" lang="Diff:IgnoreCase" />
+          </vbox>
+        </tab>
+      </panel>
+
+      <singlebox expand="no" align="right">
+        <button id="#GADGET_DiffDialog_Cancel" lang="Misc:Cancel" width="90" />
+      </singlebox>
+    </vbox>
+
+    <shortcut key="#PB_Shortcut_Escape" id="#GADGET_DiffDialog_Cancel" />
+  </window>
+
+  <!-- Grep Results -->
+  <!--
+  
+  
+  <window id="#WINDOW_GrepOutput" lang="Find:OutputTitle" label="Dialog_GrepOutput" width="480" height="400" flags="#PB_Window_SizeGadget">
+    <vbox expand="item:1">
+      <listview id="#GADGET_GrepOutput_List" />
+      <hbox expand="item:1">
+        <text id="#GADGET_GrepOutput_Current" flags="#PB_Text_Border" />
+        <button id="#GADGET_GrepOutput_Clear" lang="Find:Clear" width="80" />
+      </hbox>
+    </vbox>
+
+    <shortcut key="#PB_Shortcut_Escape" id="#GADGET_GrepOutput_Close" />
+  </window>
+  -->
+
+</dialoggroup>

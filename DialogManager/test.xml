@@ -1,0 +1,799 @@
+<?xml version="1.0"?>
+
+<dialoggroup>
+
+  <!-- Preferences -->
+  <window text="Preferences" label="TestDialog" width="660" flags="#PB_Window_SizeGadget">
+    <vbox spacing="10">
+      <hbox spacing="10">
+        <tree width="190" name="tree" />
+        <multibox>
+
+          <container margin="0" expand="horizontal" name="container0">
+            <frame text="General" margin="5">
+              <vbox spacing="20">
+                <vbox>
+                  <checkbox text="Run only one Instance" />
+                  <checkbox text="Disable Splash Screen" />
+                  <checkbox text="Memorize Window positions" />
+                  <checkbox text="Show main Toolbar" />
+                  <checkbox text="Show window contents while moving the Splitter" disabled="yes" />
+                  <checkbox text="Auto-reload last open sources" />
+                  <checkbox text="Switch to correct sourcefile on Error" />
+                  <checkbox text="Display full Source path in Titlebar" />
+                  <checkbox text="Display Icons in the Menu" />
+                </vbox>
+  
+                <gridbox colspacing="10" colexpand="item:2">
+                  <text text="RecentFiles list size: " />
+                  <singlebox expand="no" margin="0">
+                    <string text="10" width="80" />
+                  </singlebox>
+                  
+                  <text text="Search History size: " />
+                  <singlebox expand="no" margin="0">
+                    <string text="10" width="80" />
+                  </singlebox>
+  
+                  <text text="VisualDesigner: " />
+                  <hbox expand="item:1">
+                    <string />
+                    <button text="..." width="30" />
+                  </hbox>
+                </gridbox>
+                
+              </vbox>
+            </frame>
+          </container>
+
+          <container margin="0" expand="horizontal" invisible="yes" name="container1">
+            <frame text="Language" margin="5">
+              <vbox spacing="10">
+                <combobox />
+                <text text="Language Information:\n\nLast Updated:    08/11/2006\nCreator:    PureBasic Team\nEmail:    support@purebasic.com" />
+              </vbox>
+            </frame>
+          </container>
+
+          <container margin="0" invisible="yes" name="container2">
+            <frame text="Shortcuts" margin="5">
+              <vbox expand="item:1" spacing="10">
+                <listicon />
+                <hbox expand="item:5" spacing="10">
+                  <checkbox text="Ctrl" />
+                  <checkbox text="Alt" />
+                  <checkbox text="Shift" />
+                  <checkbox text="Cmd" disabled="yes" />
+                  <combobox />
+                  <button text="Set" width="50"/>
+                </hbox>
+              </vbox>
+            </frame>
+          </container>
+
+          <container margin="0" invisible="yes" name="container3">
+            <vbox expand="item:1">
+              <frame text="Toolbar Layout" margin="5">
+                <listicon />
+              </frame>
+
+              <hbox expand="item:1">
+                <frame text="Item Settings" margin="5">
+                  <vbox spacing="10">
+                    <gridbox columns="3" rowspacing="2">
+                      <combobox width="120"/>
+                      <text text="->" />
+                      <combobox width="120"/>
+                      <combobox />
+                      <text text="->" />
+                      <combobox />
+                    </gridbox>
+                    <hbox expand="equal">
+                      <singlebox margin="0" expand="no" align="center">
+                        <button text="Add" width="90" />
+                      </singlebox>
+                      <singlebox margin="0" expand="no" align="center">
+                        <button text="Set" width="90" />
+                      </singlebox>
+                    </hbox>
+                  </vbox>
+                </frame>
+                <frame text="Position" margin="5">
+                  <vbox>
+                    <button text="Up" width="80"/>
+                    <button text="Down" />
+                    <button text="Remove" />
+                  </vbox>
+                </frame>
+              </hbox>
+
+              <frame text="Default Sets" expand="no" align="center" margin="5">
+                <hbox spacing="10">
+                  <button text="Default Toolbar" width="150" />
+                  <button text="Classic Toolbar" width="150" />
+                </hbox>
+              </frame>
+            </vbox>
+          </container>
+
+          <container margin="0" expand="horizontal" invisible="yes" name="container4">
+            <frame text="Editor" margin="5">
+              <vbox spacing="10">
+                <vbox>
+                  <checkbox text="Auto-save before 'Compile/Run'" />
+                  <checkbox text="Auto-save before 'Create Executable'" />
+                  <checkbox text="Save all sources with Auto-save" />
+                  <checkbox text="Memorize Cursor positions" />
+                  <checkbox text="Memorize Marker positions" />
+                  <checkbox text="Always hide the error log (ignore the per-source setting)" />
+                </vbox>
+
+                <gridbox colspacing="10" colexpand="item:2">
+                  <text text="Save Settings to: " />
+                  <combobox />
+                  
+                  <text text="Tab Length: " />
+                  <hbox spacing="10" expand="item:2">
+                    <string text="2" width="80" />
+                    <checkbox text="Use real Tab (ASCII 9)" />
+                  </hbox>
+                  
+                  <text text="Source Directory: " />
+                  <hbox expand="item:1">
+                    <string />
+                    <button text="..." width="40" />
+                  </hbox>
+                </gridbox>
+              </vbox>
+            </frame>
+          </container>
+
+          <container margin="0" expand="horizontal" invisible="yes" name="container5">
+            <frame text="Default Settings for new Files" margin="5">
+              <vbox spacing="10">
+                <vbox>
+                  <checkbox text="Show Error Log" />
+                  <checkbox text="Enable Debugger" />
+                  <checkbox text="Enable inline ASM support" />
+                  <checkbox text="Create unicode executable" />
+                  <checkbox text="Create threadsafe executable" />
+                  <checkbox text="Enable XP skin support" disabled="yes" />
+                  <checkbox text="Enable OnError lines support" disabled="yes" />
+                </vbox>
+                
+                <gridbox colspacing="10" colexpand="item:2">
+                  <text text="Library Subsystem: " />
+                  <string />
+                  
+                  <text text="Executable Format: " />
+                  <combobox />
+                  
+                  <text text="CPU Optimisation: " />
+                  <combobox />
+                  
+                  <text text="Sourcefile Text encoding: " />
+                  <combobox />
+                  
+                  <text text="Sourcefile Newline format: " />
+                  <combobox />
+                </gridbox>
+              </vbox>
+            </frame>
+          </container>
+
+          <container margin="0" expand="horizontal" invisible="yes" name="container6">
+            <frame text="Fonts/Margins" margin="5">
+              <vbox>
+                <hbox spacing="10" expand="item:2">
+                  <button text="Select Font" width="120" />
+                  <text text="AaBbCc 01234 +-*/()" flags="#PB_Text_Center|#PB_Text_Border" />
+                </hbox>
+                <empty height="5" />
+
+                <checkbox text="Enable Syntax coloring" />
+                <singlebox margin="left:30">
+                  <vbox>
+                    <checkbox text="Enable bolding of Keywords" />
+                    <checkbox text="Enable Case correction" />
+                  </vbox>
+                </singlebox>
+                <empty height="0" />
+                
+                <checkbox text="Display Line numbers" />
+                <checkbox text="Enable Line Markers" />
+                <checkbox text="Enable Source Line folding" />
+              </vbox>
+            </frame>
+          </container>
+
+          <container margin="0" invisible="yes" name="container7">
+            <frame text="Colors" margin="5">
+              <vbox expand="item:1" spacing="10">
+                <scroll flags="#PB_ScrollArea_Single" scrolling="vertical">
+                  <gridbox columns="3" colexpand="item:1" colspacing="10">
+                    <text text="ASM Keywords: "      flags="#PB_Text_Right" /> <image width="40"/> <button text="..." width="40" />
+                    <text text="Background: "        flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Basic Keywords: "    flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Comments: "          flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Constants: "         flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Labels: "            flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Normal Text: "       flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Numbers: "           flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Operators (*/+-): "  flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Pointers: "          flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Functions: "         flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Separators (;,[]): " flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Strings: "           flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Structures: "        flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="LineNumbers: "       flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="LineNumbers Background: " flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Line Markers: "           flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Currentline Background: " flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Selection Background: "   flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Selection Text: "         flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Cursor: "                 flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Current Line Background (Debugger): " flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Current Line Symbol (Debugger): "     flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Error Background (Debugger): "        flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Error Symbol (Debugger): "            flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Breakpoint Background (Debugger): "   flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Breakpoint Symbol (Debugger): "       flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                    <text text="Background for non-editable files (Debugger): " flags="#PB_Text_Right" /> <image /> <button text="..." width="40" />
+                  </gridbox>
+                </scroll>
+                <hbox expand="item:2">
+                  <text text="Default Color Schemes: " />
+                  <combobox />
+                  <button text="Set" width="60" />
+                </hbox>
+              </vbox>
+            </frame>
+          </container>
+
+          <container margin="0" invisible="yes" name="container8">
+            <vbox expand="equal">
+              <frame text="Folding start Keywords" margin="5">
+                <vbox expand="item:1" spacing="10">
+                  <listview />
+                  <hbox expand="item:1">
+                    <string />
+                    <button text="Add" width="80" />
+                    <button text="Remove" width="80" />
+                  </hbox>
+                </vbox>
+              </frame>
+
+              <frame text="Folding end Keywords" margin="5">
+                <vbox expand="item:1" spacing="10">
+                  <listview />
+                  <hbox expand="item:1">
+                    <string />
+                    <button text="Add" width="80" />
+                    <button text="Remove" width="80" />
+                  </hbox>
+                </vbox>
+              </frame>
+            </vbox>
+          </container>
+
+          <container margin="0" expand="horizontal" invisible="yes" name="container9">
+            <frame text="Settings" margin="5">
+              <vbox spacing="10">
+                <checkbox text="Enable the AutoComplete feature" />
+
+                <vbox spacing="0">
+                  <option text="Display the full AutoComplete list" />
+                  <option text="Display all words that match the first character" />
+                  <option text="Display only workds that begin with the typed word" />
+                </vbox>
+
+                <gridbox colexpand="item:2">
+                  <text text="Box width: " />
+                  <singlebox expand="no" margin="0">
+                    <string text="400" width="100"/>
+                  </singlebox>
+
+                  <text text="Box height: " />
+                  <singlebox expand="no" margin="0">
+                    <string text="200" width="100"/>
+                  </singlebox>
+                </gridbox>
+                
+
+                <vbox spacing="0">
+                  <checkbox text="Add opening Brackets to Functions/Arrays/Lists" />
+                  <checkbox text="Add a Space after PB Keywords followed by an expression" />
+                  <checkbox text="Add matching 'End' keyword if Tab/Enter is pressed twice" />
+                  <checkbox text="Automatically Popup the AutoComplete Window" />
+                </vbox>
+  
+                <singlebox margin="left:30">
+                  <vbox spacing="0">
+                    <checkbox text="Disable automatic Popup inside Comments" disabled="yes" />
+                    <checkbox text="Disable automatic Popup inside Strings" disabled="yes" />
+                    <hbox expand="item:2">
+                      <string text="3" width="60" disabled="yes" />
+                      <text text="Characters needed before opening the list" disabled="yes" />
+                    </hbox>
+                  </vbox>
+                </singlebox>
+              </vbox>
+            </frame>
+          </container>
+
+          <container margin="0" invisible="yes" name="container10">
+            <frame text="Items to display in the AutoComplete List" margin="5">
+              <scroll flags="#PB_ScrollArea_Single" scrolling="vertical">
+                <vbox spacing="10">
+                  <vbox spacing="0">
+                    <checkbox text="PureBasic Keywords" />
+                    <checkbox text="Assembly Keywords" />
+                    <checkbox text="PureBasic Functions" />
+                    <checkbox text="API Functions" />
+                  </vbox><vbox spacing="0">
+                    <checkbox text="Procedures of the current Source" />
+                    <checkbox text="Procedures of all open Sources" />
+                  </vbox><vbox spacing="0">
+                    <checkbox text="Predefined Structures" />
+                    <checkbox text="Structures of the current Source" />
+                    <checkbox text="Structures of all open Sources" />
+                  </vbox><vbox spacing="0">
+                    <checkbox text="Predefined Interfaces" />
+                    <checkbox text="Interfaces of the current Source" />
+                    <checkbox text="Interfaces of all open Sources" />
+                  </vbox><vbox spacing="0">
+                    <checkbox text="Predefined Constants" />
+                    <checkbox text="Constants of the current Source" />
+                    <checkbox text="Constants of all open Sources" />
+                  </vbox><vbox spacing="0">
+                    <checkbox text="Variables of the current Source" />
+                    <checkbox text="Variables of all open Sources" />
+                  </vbox><vbox spacing="0">
+                    <checkbox text="Arrays of the current Source" />
+                    <checkbox text="Arrays of all open Sources" />
+                  </vbox><vbox spacing="0">
+                    <checkbox text="LinkedLists of the current Source" />
+                    <checkbox text="LinkedLists of all open Sources" />
+                  </vbox><vbox spacing="0">
+                    <checkbox text="Macros of the current Source" />
+                    <checkbox text="Macros of all open Sources" />
+                  </vbox><vbox spacing="0">
+                    <checkbox text="Imported Functions of the current Source" />
+                    <checkbox text="Imported Functions of all open Sources" />
+                  </vbox>
+                </vbox>
+              </scroll>
+            </frame>
+          </container>
+
+          <container margin="0" expand="horizontal" invisible="yes" name="container11">
+            <vbox>
+              <frame text="Choose Debugger Type" margin="5">
+                <combobox />
+              </frame>
+
+              <frame text="General Options" margin="5">
+                <vbox spacing="5">
+                  <checkbox text="Memorize debugger window positions" />
+                  <checkbox text="Keep all debugger windows on top" />
+                  <checkbox text="Bring debugger windows to front when one is focused" />
+                  <empty height="5" />
+                  <checkbox text="Display Timestamp in Error log" />
+                  <checkbox text="Stop execution at program start" />
+                  <checkbox text="Stop execution before program end" />
+                  <empty height="5" />
+                  <checkbox text="Kill Program after an Error" />
+                  <checkbox text="Keep Error marks after program end" />
+                  <checkbox text="Clear Error log on each run" />
+                </vbox>
+              </frame>
+            </vbox>
+          </container>
+
+          <container margin="0" expand="horizontal" invisible="yes" name="container12">
+            <vbox>
+              <frame text="Debug Output" margin="5">
+                <vbox>
+                  <checkbox text="Display Hex values" />
+                  <checkbox text="Add Timestamp" />
+                  <checkbox text="Display debug output in the error log" />
+                </vbox>
+              </frame>
+              
+              <frame text="Asm Debugger" margin="5">
+                <vbox>
+                  <checkbox text="Display Registers as hex" />
+                  <checkbox text="Display Stack as hex" />
+                  <checkbox text="Update Stack trace automatically" />
+                </vbox>
+              </frame>
+
+              <frame text="Memory Viewer" margin="5">
+                <vbox>
+                  <checkbox text="Display Hex values" />
+                  <checkbox text="Array view in one column only" />
+                </vbox>
+              </frame>
+
+              <frame text="Variable Viewer" margin="5">
+                <vbox>
+                  <checkbox text="Display Hex values" />
+                </vbox>
+              </frame>
+            </vbox>
+          </container>
+
+          <container margin="0" expand="horizontal" invisible="yes" name="container13">
+            <frame text="Open Windows on debugger start" margin="5">
+              <vbox>
+                <checkbox text="Debug Output" />
+                <checkbox text="Asm Debugger" />
+                <checkbox text="Memory Viewer" />
+                <checkbox text="Variable Viewer" />
+                <checkbox text="Procedure Callstack" />
+                <checkbox text="Library Viewer" />
+                <checkbox text="Watchlist" />
+              </vbox>
+            </frame>
+          </container>
+
+          <container margin="0" invisible="yes" name="container14">
+            <vbox expand="item:2">
+              <frame text="Tools in the ToolsPanel" margin="5">
+                <gridbox columns="3" colspacing="10" rowspacing="0">
+                  <text text="Available Tools:" />
+                  <empty />
+                  <text text="Displayed Tools:" />
+
+                  <listview width="130" />
+                  <vbox>
+                    <button text="Add" />
+                    <button text="Remove" />
+                    <button text="Up" />
+                    <button text="Down" />
+                  </vbox>
+                  <listview width="130" />
+                </gridbox>
+              </frame>
+
+              <frame text="Configuration" margin="5">
+                <container>
+                  <!-- tools configuration -->
+                </container>
+              </frame>
+            </vbox>
+          </container>
+
+          <container margin="0" expand="horizontal" invisible="yes" name="container15">
+            <frame text="ToolsPanel Options" margin="5">
+              <vbox spacing="15">
+                <vbox>
+                  <combobox />
+                  <button text="Select Font" />
+                </vbox>
+
+                <gridbox columns="3" colexpand="item:1">
+                  <text text="Front Color: " flags="#PB_Text_Right" />
+                  <image width="40" />
+                  <button text="..." width="50" />
+
+                  <text text="Background Color: " flags="#PB_Text_Right" />
+                  <image width="40" />
+                  <button text="..." width="50" />
+                </gridbox>
+
+                <vbox>
+                  <checkbox text="Do not use colors/fonts for tools in external windows" />
+                  <checkbox text="Automatically hide the Panel" />
+                </vbox>
+              </vbox>
+            </frame>
+          </container>
+
+          <container margin="0" invisible="yes" name="container16">
+            <vbox>
+              <frame text="Export Settings" margin="5">
+                <vbox spacing="10">
+                  <gridbox>
+                    <checkbox text="Include Shortcut settings" />
+                    <checkbox text="Include Color settings" />
+                    <checkbox text="Include Toolbar layout" />
+                    <checkbox text="Include Folding keywords" />
+                  </gridbox>
+
+                  <vbox>
+                    <hbox expand="item:2" spacing="10">
+                      <text text="Save to:" width="80" />
+                      <string />
+                      <button text="..." width="50" />
+                    </hbox>
+                    <singlebox margin="0" expand="no" align="center">
+                      <button text="Save" width="130" />
+                    </singlebox>
+                  </vbox>
+                </vbox>
+              </frame>
+              
+              <frame text="Import Settings" margin="5">
+                <vbox spacing="10">
+                  <vbox>
+                    <hbox expand="item:2" spacing="10">
+                      <text text="Load from:" width="80" />
+                      <string />
+                      <button text="..." width="50" />
+                    </hbox>
+                    <singlebox margin="0" expand="no" align="center">
+                      <button text="Open" width="130" />
+                    </singlebox>
+                  </vbox>
+
+                  <gridbox>
+                    <checkbox text="Include Shortcut settings" />
+                    <checkbox text="Include Color settings" />
+                    <checkbox text="Include Toolbar layout" />
+                    <checkbox text="Include Folding keywords" />
+                  </gridbox>
+
+                  <singlebox margin="0" expand="no" align="center">
+                    <button text="Import" width="130" />
+                  </singlebox>
+                </vbox>
+              </frame>
+            </vbox>
+          </container>
+          
+        </multibox>
+      </hbox>
+
+      <hbox spacing="10" expand="no" align="right">
+        <button text="Ok" width="90" />
+        <button text="Cancel" width="90" />
+        <button text="Apply" width="90" disabled="yes" />
+      </hbox>
+    </vbox>
+  </window>
+
+  <!-- Compiler Options -->
+  <window text="Compiler Options" label="TestDialog2323" width="425" flags="#PB_Window_SizeGadget">
+    <vbox spacing="15" expand="item:1">
+      <panel>
+        <tab text="Compiler Options" expand="horizontal">
+          <gridbox colexpand="item:2" colspacing="10">
+            <checkbox text="Main source file: " />
+            <hbox expand="item:1">
+              <string disabled="yes" />
+              <button text="..." width="30" disabled="yes" />
+            </hbox>
+            
+            <checkbox text="Use Icon: " />
+            <hbox expand="item:1">
+              <string disabled="yes" />
+              <button text="..." width="30" disabled="yes" />
+            </hbox>
+
+            <empty height="5" colspan="2" />
+            <checkbox text="Enable Debugger" colspan="2" />
+            <checkbox text="Enable inline ASM support" colspan="2" />
+            <checkbox text="Create unicode executable" colspan="2" />
+            <checkbox text="Create threafdafe executable" colspan="2" />
+            <checkbox text="Enable XP skin support" disabled="yes" colspan="2" />
+            <checkbox text="Enable OnError lines support" disabled="yes" colspan="2" />
+            <empty height="5" colspan="2" />
+
+            <text text="Library Subsystem: " />
+            <string />
+            
+            <text text="Executable Format: " />
+            <hbox>
+              <combobox />
+              <combobox />
+            </hbox>
+            
+            <text text="Executable Commandline: " />
+              <string />
+          </gridbox>
+        </tab>
+      </panel>
+
+      <gridbox colexpand="item:2">
+        <text text="Sourcefile Text encoding: " />
+        <combobox />
+        
+        <text text="Sourcefile Newline format: " />
+        <combobox />
+      </gridbox>
+
+      <singlebox margin="5">
+        <hbox spacing="20" expand="equal">
+          <button text="Ok" />
+          <button text="Cancel" />
+        </hbox>
+      </singlebox>
+    </vbox>
+  </window>
+
+  <!-- Goto Window -->
+  <window text="Goto..." label="TestDialog8" width="230">
+    <vbox spacing="10">
+      <string />
+      <hbox spacing="10" expand="equal">
+        <button text="Ok" />
+        <button text="Cancel" />
+      </hbox>
+    </vbox>
+  </window>
+
+  <!-- Grep Results -->
+  <window id="1" text="Find/Replace" label="TestDialog7" width="480" flags="#PB_Window_SizeGadget">
+    <vbox expand="item:1">
+      <listview width="300" height="300" />
+      <hbox expand="item:1">
+        <text flags="#PB_Text_Border" />
+        <button text="Clear" width="80" />
+      </hbox>
+    </vbox>
+  </window>
+
+  <!--  Grep  -->
+  <window id="1" text="Find in files" label="TestDialog2" width="480">
+    <vbox spacing="10" expand="item:2">
+      <gridbox colexpand="item:2">
+        <text text="Search for: " flags="#PB_Text_Right" />
+        <combobox boxheight="150" flags="#PB_ComboBox_Editable" />
+        
+        <text text="Root directory: " flags="#PB_Text_Right" />
+        <hbox expand="item:1">
+          <combobox boxheight="150" flags="#PB_ComboBox_Editable" />
+          <button text="..." width="30" />
+          <button text="." width="20" />
+        </hbox>
+
+        <text text="Extension filter: " flags="#PB_Text_Right" />
+        <combobox boxheight="150" flags="#PB_ComboBox_Editable" />
+      </gridbox>
+      
+      <container margin="vertical:10,horizontal:15" flags="#PB_Container_Single">
+        <gridbox rowspacing="0">
+          <checkbox text="Case Sensitive" />
+          <checkbox text="Don't search in Comments" />
+          <checkbox text="Whole Words only" />
+          <checkbox text="Don't search in Strings" />
+          <checkbox text="Search inside Selection only" />
+        </gridbox>
+      </container>
+      
+      <hbox spacing="10">
+        <button text="Start" />
+        <button text="Stop" />
+        <button text="Cancel" />
+      </hbox>
+    </vbox>
+  </window>
+
+  <!--  Find/Replace  -->
+  <window id="1" text="Find/Replace" label="TestDialog3" width="450">
+    <vbox spacing="10" expand="item:2">
+      <gridbox colexpand="item:2">
+        <text text="Search for: " flags="#PB_Text_Right" />
+        <combobox boxheight="150" flags="#PB_ComboBox_Editable" />
+
+        <checkbox text="Replace with: " flags="#PB_Checkbox_Right" />
+        <combobox boxheight="150" flags="#PB_ComboBox_Editable" />
+      </gridbox>
+
+      <container margin="vertical:10,horizontal:15" flags="#PB_Container_Single">
+        <gridbox rowspacing="0">
+          <checkbox text="Case Sensitive" />
+          <checkbox text="Don't search in Comments" />
+          <checkbox text="Whole Words only" />
+          <checkbox text="Don't search in Strings" />
+          <checkbox text="Search inside Selection only" />
+        </gridbox>
+      </container>
+
+      <hbox spacing="10">
+        <button text="Find Next" />
+        <button text="Replace" />
+        <button text="Replace All" />
+        <button text="Close" />
+      </hbox>
+    </vbox>
+  </window>
+
+  <!--  Sort Sources  -->
+  <window text="Sort Sources..." label="TestDialog4">
+    <hbox spacing="10">
+      <listview width="200" height="230"/>
+  
+      <vbox width="80" expand="item:3">
+        <button text="Up" />
+        <button text="Down" />
+        <empty />
+        <button text="Ok" />
+        <button text="Cancel" />
+      </vbox>
+    </hbox>
+  </window>
+  
+  
+  <window text="Hello" label="TestDialog999" margin="10" width = "500" height="300">
+
+    <panel>
+      <tab text="Ello!">
+        <gridbox columns="3" colspacing="15" rowspacing="5" rowexpand="no">
+          <button text="aaaaaaaaaaabbbbb" />
+          <button text="c" />
+          <button text="cdef" />
+      
+          <button text="a" />
+          <empty />
+          <button text="b" />
+      
+          <button text="aaaaaaaaaaabbbbb" />
+          <button text="c" />
+          <button text="cdef" />
+        </gridbox>
+      </tab>
+    </panel>
+  
+    <!--
+    <vbox spacing="5">
+  
+      <multibox>
+        <checkbox text="a" />
+        <button text="b" invisible="yes" />
+      </multibox>
+      
+      <button text="aaaaaaaaaaaaaaaaabbbbbbccccccccccccccc" flags="#PB_Button_Default" disabled="yes" />
+  
+      <hbox spacing="15" expand="item:2">
+        <button text="yes"/>
+        <button text="abc"/>
+      </hbox>
+    </vbox>
+    -->
+  </window>
+
+  <window id="0" text="Compiler Options" label="TestDialogddddddd">
+    <!-- <gridbox columns="2" colexpand="item:2">
+      <button text="hellp world" />
+      <hbox expand="item:1">
+        <string />
+        <button text="..." />
+      </hbox>
+      <checkbox text="Hello, this is a very long checkbox text" colspan="2" />
+    </gridbox> -->
+    
+    <vbox>
+      <singlebox margin="0" expand="no">
+        <button text="Hello, this is a very long checkbox text which will result in a wrong calculation for the size!" />
+      </singlebox>
+      <singlebox margin="0" expand="no">
+        <text text="Hello, this is a very long checkbox text which will result in a wrong calculation for the size!" />
+      </singlebox>
+      <singlebox margin="0" expand="no">      
+        <checkbox text="Hello, this is a very long checkbox text which will result in a wrong calculation for the size!" />
+      </singlebox>
+    </vbox>
+  
+ <!--   <gridbox columns="3" colexpand="yes">
+      <button text = "a" colspan="2" />
+      <button text = "b" rowspan="2" />
+      
+      <button text = "c" />
+      <button text = "d" />
+      <button text = "e" />
+
+      <button text = "f" />
+      <button text = "gf" colspan="2" />
+    </gridbox> -->
+
+   <!-- <hbox>
+      <button text="a" />
+      <button text="abcdefgd" />
+      <button text="ssssssssssssssssssssssss" />
+      <button text="ccc" />
+    </hbox> -->
+  </window> 
+
+</dialoggroup>

@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+
+<!-- Create App App dialog for the SpiderBasic IDE -->
+
+<window label="Dialog_CreateApp" id="#WINDOW_CreateApp" lang="App:CreateAppTitle" invisible="yes">
+  <vbox spacing="10" expand="item:1">
+
+
+    <panel width="450" id="#GADGET_App_Panel">
+       <!-- <panel multiline="yes"> -->
+        <tab lang="App:Web">
+          <vbox spacing="10" expand="item:3">
+
+            <frame lang="WebApp:Settings" text=": ">
+              <gridbox colexpand="item:2" colspacing="10">
+                <text lang="WebApp:Name"  text=": " />
+                <string id="#GADGET_WebApp_Name" />
+
+                <text lang="WebApp:Icon"  text=": " />
+                <hbox expand="item:1">
+                  <string id="#GADGET_WebApp_Icon" width="150" />
+                  <button id="#GADGET_WebApp_SelectIcon" text="..." width="30" height="ignore" />
+                </hbox>
+                
+                <text lang="WebApp:HtmlFilename"  text=": " />
+                <hbox expand="item:1">
+                  <string id="#GADGET_WebApp_HtmlFilename" width="150" />
+                  <button id="#GADGET_WebApp_SelectHtmlFilename" text="..." width="30" height="ignore" />
+                </hbox>
+                
+                <text lang="WebApp:JavaScriptFilename"  text=": " />
+                <string id="#GADGET_WebApp_JavaScriptFilename" />
+                
+                <text lang="WebApp:JavaScriptPath"  text=": " />
+                <string id="#GADGET_WebApp_JavaScriptPath" />
+              
+                <checkbox id="#GADGET_WebApp_EnableResourceDirectory" lang="WebApp:ResourceDirectory" text=": " />
+                <hbox expand="item:1">
+                  <string id="#GADGET_WebApp_ResourceDirectory" width="150" />
+                  <button id="#GADGET_WebApp_SelectResourceDirectory" text="..." width="30" height="ignore" />
+                </hbox>
+                
+                <checkbox id="#GADGET_WebApp_CopyJavaScriptLibrary" lang="WebApp:CopyJavaScriptLibrary" colspan="2" />
+
+                <checkbox id="#GADGET_WebApp_EnableDebugger" lang="App:EnableDebugger" colspan="2" />
+
+              </gridbox>`
+            </frame>
+            
+            <frame lang="WebApp:PostProcessing" text=": ">
+              <gridbox colexpand="item:2" colspacing="10">
+                <text lang="WebApp:Script" />
+                <string id="#GADGET_WebApp_ExportCommandLine" />
+                
+                <text lang="WebApp:ScriptParameter" />
+                <string id="#GADGET_WebApp_ExportArguments" />
+              </gridbox>`
+            </frame>
+          
+          </vbox>
+        </tab>
+      
+        <tab lang="App:iOS" expand="horizontal">
+          
+          <vbox spacing="10">
+
+          <frame lang="iOSApp:Settings">
+            <gridbox colexpand="item:2" colspacing="5">
+      
+            <text lang="iOSApp:Name" text=": " /> 
+            <hbox>
+              <string id="#GADGET_iOSApp_Name" width="150" />
+              <text lang="iOSApp:Version" text=": " />
+              <string id="#GADGET_iOSApp_Version" width="100" />
+            </hbox>
+            
+            <text lang="iOSApp:Icon"  text=": " />
+            <hbox expand="item:1">
+              <string id="#GADGET_iOSApp_Icon" width="150" />
+              <button id="#GADGET_iOSApp_SelectIcon" text="..." width="30" height="ignore" />
+            </hbox>
+      
+            <text lang="iOSApp:PackageID" text=": " />
+            <string id="#GADGET_iOSApp_PackageID" width="150" />
+      
+            <text lang="iOSApp:StartupImage" text=": " />
+            <hbox expand="item:1">
+              <string id="#GADGET_iOSApp_StartupImage" width="150" />
+              <button id="#GADGET_iOSApp_SelectStartupImage" text="..." width="30" height="ignore" />
+            </hbox>
+            
+            <text lang="iOSApp:Orientation" text=": " />
+            <hbox>
+              <combobox id="#GADGET_iOSApp_Orientation" width="80">
+                <item text="Any" />
+                <item text="Portrait" />
+                <item text="Landscape" />
+              </combobox>
+              <checkbox id="#GADGET_iOSApp_FullScreen" lang="iOSApp:FullScreen"/>
+              <checkbox id="#GADGET_iOSApp_Geolocation" lang="iOSApp:Geolocation"/>
+            </hbox>
+            
+            <checkbox id="#GADGET_iOSApp_EnableResourceDirectory" lang="iOSApp:ResourceDirectory" text=": " />
+            <hbox expand="item:1">
+              <string id="#GADGET_iOSApp_ResourceDirectory" width="150" />
+              <button id="#GADGET_iOSApp_SelectResourceDirectory" text="..." width="30" height="ignore" />
+            </hbox>
+            
+            </gridbox>
+            
+          </frame>
+
+          <hbox expand="item:2">
+            <text lang="iOSApp:Output" text=": " />
+            <string id="#GADGET_iOSApp_Output" width="150" />
+            <button id="#GADGET_iOSApp_SelectOutput" text="..." width="30" height="ignore" />
+          </hbox>
+          
+          <checkbox id="#GADGET_iOSApp_AutoUpload" lang="iOSApp:AutoUpload" />
+          
+          <checkbox id="#GADGET_iOSApp_EnableDebugger" lang="App:EnableDebugger" />
+          
+          <hbox expand="item:2">
+            <button width="250" id="#GADGET_iOSApp_CheckInstall" lang="iOSApp:CheckInstall" />
+            <text />
+          </hbox>
+          
+          </vbox>
+
+        </tab>
+      
+        <tab lang="App:Android" expand="horizontal">
+          
+          <vbox spacing="10">
+
+          <frame lang="AndroidApp:Settings">
+            <gridbox colexpand="item:2" colspacing="5">
+      
+            <text lang="AndroidApp:Name" text=": " /> 
+            <hbox>
+              <string id="#GADGET_AndroidApp_Name" width="150" />
+              <text lang="AndroidApp:Version" text=": " />
+              <string id="#GADGET_AndroidApp_Version" width="100" />
+            </hbox>
+            
+            <text lang="AndroidApp:Icon"  text=": " />
+            <hbox expand="item:1">
+              <string id="#GADGET_AndroidApp_Icon" width="150" />
+              <button id="#GADGET_AndroidApp_SelectIcon" text="..." width="30" height="ignore" />
+            </hbox>
+      
+            <text lang="AndroidApp:PackageID" text=": " />
+            <string id="#GADGET_AndroidApp_PackageID" width="150" />
+      
+            <text lang="AndroidApp:IAPKey" text=": " />
+            <string id="#GADGET_AndroidApp_IAPKey" width="150" />
+      
+            <text lang="AndroidApp:StartupImage" text=": " />
+            <hbox expand="item:1">
+              <string id="#GADGET_AndroidApp_StartupImage" width="150" />
+              <button id="#GADGET_AndroidApp_SelectStartupImage" text="..." width="30" height="ignore"/>
+            </hbox>
+            
+            <text lang="AndroidApp:Orientation" text=": " />
+            <hbox>
+              <combobox id="#GADGET_AndroidApp_Orientation" width="80">
+                <item text="Any" />
+                <item text="Portrait" />
+                <item text="Landscape" />
+              </combobox>
+              <checkbox id="#GADGET_AndroidApp_FullScreen" lang="AndroidApp:FullScreen"/>
+              <checkbox id="#GADGET_AndroidApp_Geolocation" lang="AndroidApp:Geolocation"/>
+            </hbox>
+            
+            <checkbox id="#GADGET_AndroidApp_EnableResourceDirectory" lang="AndroidApp:ResourceDirectory" text=": " />
+            <hbox expand="item:1">
+              <string id="#GADGET_AndroidApp_ResourceDirectory" width="150" />
+              <button id="#GADGET_AndroidApp_SelectResourceDirectory" text="..." width="30" height="ignore" />
+            </hbox>
+
+            </gridbox>
+            
+          </frame>
+
+          <hbox expand="item:2">
+            <text lang="AndroidApp:Output" text=": " />
+            <string id="#GADGET_AndroidApp_Output" width="150" />
+            <button id="#GADGET_AndroidApp_SelectOutput" text="..." width="30" height="ignore" />
+          </hbox>
+          
+          <checkbox id="#GADGET_AndroidApp_AutoUpload" lang="AndroidApp:AutoUpload" />
+
+          <checkbox id="#GADGET_AndroidApp_EnableDebugger" lang="App:EnableDebugger" />
+
+          </vbox>
+
+      </tab>
+      
+      
+      
+    </panel>
+      
+    <hbox spacing="10">
+      <button id="#GADGET_App_OK" lang="App:OK" width="90" />
+      <button id="#GADGET_App_Create" lang="App:Create" width="90" />
+      <!-- <button id="#GADGET_App_CreateAll" lang="App:CreateAll" width="90" /> -->
+      <button id="#GADGET_App_Cancel" lang="App:Cancel" width="90" />
+    </hbox>
+  </vbox>
+
+  <shortcut key="#PB_Shortcut_Return" id="#GADGET_App_Create" />
+  <shortcut key="#PB_Shortcut_Escape" id="#GADGET_App_Cancel" />
+</window>

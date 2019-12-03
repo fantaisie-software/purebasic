@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+
+<!-- Add Tools Dialog for the PureBasic IDE -->
+
+<dialoggroup>
+
+  <!-- Add Tools -->
+  <window id="#WINDOW_AddTools" label="Dialog_AddTools" lang="AddTools:Title" flags="#PB_Window_SizeGadget">
+    <vbox spacing="10" expand="item:1">
+      <hbox spacing="10" expand="item:1">
+        <listicon id="#GADGET_AddTools_List" flags="#PB_ListIcon_GridLines | #PB_ListIcon_FullRowSelect | #PB_ListIcon_CheckBoxes">
+          <column lang="AddTools:Name"        width="100" />
+          <column lang="AddTools:Trigger"     width="100" />
+          <column lang="AddTools:Commandline" width="100" />
+        </listicon>
+  
+        <vbox spacing="5" expand="item:4">
+          <button id="#GADGET_AddTools_New"    lang="AddTools:New" />
+          <button id="#GADGET_AddTools_Edit"   lang="AddTools:Edit" />
+          <button id="#GADGET_AddTools_Delete" lang="AddTools:Delete" />
+  
+          <singlebox margin="0" expand="horizontal" align="center">
+            <vbox spacing="5">
+              <button id="#GADGET_AddTools_Up"   lang="AddTools:Up" />
+              <button id="#GADGET_AddTools_Down" lang="AddTools:Down" />
+            </vbox>
+          </singlebox>
+        </vbox>
+      </hbox>
+  
+      <singlebox margin="5" expand="no" align="center">
+        <hbox spacing="20">
+          <button id="#GADGET_AddTools_Ok"     lang="Misc:Ok"     width="100" />
+          <button id="#GADGET_AddTools_Cancel" lang="Misc:Cancel" width="100" />
+        </hbox>
+      </singlebox>
+    </vbox>
+
+    <shortcut key="#PB_Shortcut_Return" id="#GADGET_AddTools_Ok" />
+    <shortcut key="#PB_Shortcut_Escape" id="#GADGET_AddTools_Cancel" />
+  </window>
+
+  
+  <!-- Edit Tools -->
+  <window id="#WINDOW_EditTools" label="Dialog_EditTools" lang="AddTools:EditTitle" width="600">
+    <vbox spacing="10">
+      <hbox spacing="10" expand="item:1">
+        <vbox spacing="10">
+          <vbox spacing="0">
+            <text lang="AddTools:Commandline" text=": " />
+            <hbox expand="item:1">
+              <string id="#GADGET_EditTools_CommandLine" />
+              <button id="#GADGET_EditTools_ChooseCommandLine" text="..." width="50" height="ignore" />
+            </hbox>
+          </vbox>
+
+          <vbox spacing="0">
+            <text lang="AddTools:Arguments" text=": " />
+            <hbox expand="item:1">
+              <string id="#GADGET_EditTools_Arguments" />
+              <button id="#GADGET_EditTools_ArgumentsInfo" lang="AddTools:Info" width="50" height="ignore" />
+            </hbox>
+          </vbox>
+
+          <vbox spacing="0">
+            <text lang="AddTools:WorkingDir" text=": " />
+            <hbox expand="item:1">
+              <string id="#GADGET_EditTools_WorkingDir" />
+              <button id="#GADGET_EditTools_ChooseWorkingDir" text="..." width="50" height="ignore" />
+            </hbox>
+          </vbox>
+
+          <vbox spacing="0">
+            <text lang="AddTools:Name" text=": " />
+            <string id="#GADGET_EditTools_MenuEntry" />
+          </vbox>
+
+          <vbox spacing="0">
+            <text lang="AddTools:TriggerEvent" text=": " />
+            <combobox id="#GADGET_EditTools_Trigger">
+              <item lang="AddTools:Trigger0" />
+              <item lang="AddTools:Trigger1" />
+              <item lang="AddTools:Trigger2" />
+              <item lang="AddTools:Trigger3" />
+              <item lang="AddTools:Trigger4" />
+              <item lang="AddTools:Trigger5" />
+              <item lang="AddTools:Trigger6" />
+              <item lang="AddTools:Trigger7" />
+              <item lang="AddTools:Trigger8" />
+              <item lang="AddTools:Trigger9" />
+              <item lang="AddTools:Trigger10" />
+              <item lang="AddTools:Trigger11" />
+              <item lang="AddTools:Trigger12" />
+              <item lang="AddTools:Trigger13" />
+			  <item lang="AddTools:Trigger14" />
+            </combobox>
+          </vbox>
+
+          <vbox spacing="0">
+            <text lang="AddTools:Shortcut" text=": " />
+            <!--
+            <hbox>
+              <checkbox id="#GADGET_EditTools_ShortcutControl" lang="Shortcuts:Control" />
+              <checkbox id="#GADGET_EditTools_ShortcutAlt"     lang="Shortcuts:Alt" />
+              <checkbox id="#GADGET_EditTools_ShortcutShift"   lang="Shortcuts:Shift" />
+              <checkbox id="#GADGET_EditTools_ShortcutCommand" lang="Shortcuts:Command" />
+              <combobox id="#GADGET_EditTools_ShortcutKey" width="70" boxheight="200" />
+            </hbox>
+            -->
+            <shortcutgadget id="#GADGET_EditTools_Shortcut" width="100" />
+          </vbox>
+        </vbox>
+
+        <frame lang="AddTools:" margin="10">
+          <vbox expand="item:8">
+            <checkbox id="#GADGET_EditTools_WaitForQuit" lang="AddTools:WaitForQuit" />
+            <checkbox id="#GADGET_EditTools_RunHidden"   lang="AddTools:RunHidden" />
+            <checkbox id="#GADGET_EditTools_HideEditor"  lang="AddTools:HideEditor" />
+            <checkbox id="#GADGET_EditTools_Reload"      lang="AddTools:Reload" />
+
+            <singlebox margin="left:30">
+              <vbox>
+                <option id="#GADGET_EditTools_ReloadNew" lang="AddTools:ReloadNew" />
+                <option id="#GADGET_EditTools_ReloadOld" lang="AddTools:ReloadOld" />
+              </vbox>
+            </singlebox>
+
+            <checkbox id="#GADGET_EditTools_HideFromMenu" lang="AddTools:HideFromMenu" />
+            
+            <checkbox id="#GADGET_EditTools_SourceSpecific" lang="AddTools:SourceSpecific" />
+
+            <empty />
+
+            <vbox spacing="0">
+              <text lang="AddTools:ConfigLine" />
+              <string id="#GADGET_EditTools_ConfigLine" />
+            </vbox>
+          </vbox>
+        </frame>
+      </hbox>
+
+      <singlebox margin="5" expand="no" align="center">
+        <hbox spacing="20">
+          <button id="#GADGET_EditTools_Ok"     lang="Misc:Ok"     width="100" />
+          <button id="#GADGET_EditTools_Cancel" lang="Misc:Cancel" width="100" />
+        </hbox>
+      </singlebox>
+    </vbox>
+
+    <shortcut key="#PB_Shortcut_Return" id="#GADGET_EditTools_Ok" />
+    <shortcut key="#PB_Shortcut_Escape" id="#GADGET_EditTools_Cancel" />
+  </window>
+
+</dialoggroup>
+  

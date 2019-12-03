@@ -1,0 +1,407 @@
+<?xml version="1.0"?>
+
+<!-- Compiler Options Dialog for the PureBasic IDE -->
+
+<!--  
+  Note:
+    The generated output from this file is actually included twice in the IDE source.
+    This way we can have a slightly modified version of the dialog for the projects
+    (the #IDE_ProjectCompilerOptions is defined for the second include)
+    
+    The label for the window below is actually a macro to avoid a duplicate label error.    
+-->
+
+<window id="#WINDOW_Option" lang="Compiler:OptionsTitle" label="Dialog_CompilerOptionsMacro()" invisible="yes">
+  <vbox spacing="10" expand="item:1">
+    <hbox spacing="10">
+
+      <!-- Project specific stuff -->
+      <compiler if="Defined(IDE_ProjectCompilerOptions, #PB_Constant)">
+        <vbox spacing="5" expand="item:2">
+          <compiler if="#CompileWindows">
+            <hbox spacing="5" expand="equal">
+              <buttonimage id="#GADGET_Option_AddTarget" />
+              <buttonimage id="#GADGET_Option_CopyTarget" />
+              <buttonimage id="#GADGET_Option_EditTarget" />
+              <buttonimage id="#GADGET_Option_RemoveTarget" />
+              <buttonimage id="#GADGET_Option_TargetUp" />
+              <buttonimage id="#GADGET_Option_TargetDown" />
+            </hbox>
+          <compilerelse />
+            <!-- on non-Windows, a little larger spacing looks better -->
+            <hbox spacing="8" expand="equal">
+              <buttonimage id="#GADGET_Option_AddTarget" />
+              <buttonimage id="#GADGET_Option_CopyTarget" />
+              <buttonimage id="#GADGET_Option_EditTarget" />
+              <buttonimage id="#GADGET_Option_RemoveTarget" />
+              <buttonimage id="#GADGET_Option_TargetUp" />
+              <buttonimage id="#GADGET_Option_TargetDown" />
+            </hbox>
+          </compiler>
+
+          <listicon id="#GADGET_Option_TargetList" width="150" flags="#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_FullRowSelect">
+            <column width="125" lang="Compiler:TargetList" />
+          </listicon>
+
+          <container margin="5" flags="#PB_Container_Single">
+            <vbox spacing="2">
+              <checkbox id="#GADGET_Option_DefaultTarget" lang="Compiler:DefaultTarget" />
+              <checkbox id="#GADGET_Option_TargetEnabled" lang="Compiler:EnableTarget" />
+            </vbox>
+          </container>
+        </vbox>
+      </compiler>
+
+      <panel width="450" id="#GADGET_Option_Panel">
+        <!-- <panel multiline="yes"> -->
+
+        <tab lang="Resources:CompilerOptions" expand="horizontal">
+          <gridbox colexpand="item:2" colspacing="5">
+            <compiler if="Defined(IDE_ProjectCompilerOptions, #PB_Constant)">                        
+              <!-- for projects, we have the input/outputfile settings -->
+              <text lang="Compiler:InputFile" text=": " />
+              <hbox expand="item:1">
+                <string id="#GADGET_Option_MainFile" width="150" />
+                <button id="#GADGET_Option_SelectMainFile" text="..." width="30" height="ignore" />
+              </hbox>
+
+              <text id="#GADGET_Option_OutputFileLabel" lang="Compiler:OutputFile" text=": " />
+              <hbox expand="item:1">
+                <string id="#GADGET_Option_OutputFile" width="150" />
+                <button id="#GADGET_Option_SelectOutputFile" text="..." width="30" height="ignore" />
+              </hbox>  
+            <compilerelse />
+              <!-- for normal options, we have the mainfile option -->
+              <checkbox id="#GADGET_Option_UseMainFile" lang="Compiler:MainFile" text=": " />
+              <hbox expand="item:1">
+                <string id="#GADGET_Option_MainFile" width="150" />
+                <button id="#GADGET_Option_SelectMainFile" text="..." width="30" height="ignore" />
+              </hbox>
+            </compiler>
+
+            <empty height="5" colspan="2" />
+            <checkbox id="#GADGET_Option_UseCompiler" lang="Compiler:UseCompiler" text=": " />
+            <combobox id="#GADGET_Option_SelectCompiler" width="250" />
+
+             <compiler if="#SpiderBasic">
+              <!-- Nothing here -->
+              <checkbox id="#GADGET_Option_OptimizeJS"     lang="Compiler:OptimizeJS"    colspan="2" />
+              
+              <text id="#GADGET_Option_WindowTheme"        lang="Compiler:WindowTheme" text=": "/>
+              <combobox id="#GADGET_Option_SelectWindowTheme" width="50" />
+                
+              <text id="#GADGET_Option_GadgetTheme"        lang="Compiler:GadgetTheme" text=": "/>
+              <combobox id="#GADGET_Option_SelectGadgetTheme" width="50" />
+              
+            <compilerelse/>
+              <checkbox id="#GADGET_Option_UseIcon" lang="Compiler:UseIcon" text=": " />
+              <hbox expand="item:1">
+                <string id="#GADGET_Option_IconName" width="150" />
+                <button id="#GADGET_Option_SelectIcon" text="..." width="30" height="ignore" />
+              </hbox>
+              
+              <empty height="5" colspan="2" />
+              <checkbox id="#GADGET_Option_EnableASM"     lang="Compiler:EnableASM"      colspan="2" />
+              <checkbox id="#GADGET_Option_EnableThread"  lang="Compiler:EnableThread"   colspan="2" />
+              <checkbox id="#GADGET_Option_EnableOnError" lang="Compiler:EnableOnError"  colspan="2" />
+              <checkbox id="#GADGET_Option_EnableXP"      lang="Compiler:EnableXP"       colspan="2" />
+              <checkbox id="#GADGET_Option_EnableAdmin"   lang="Compiler:EnableAdmin"    colspan="2" />
+              <checkbox id="#GADGET_Option_EnableUser"    lang="Compiler:EnableUser"     colspan="2" />            
+              <checkbox id="#GADGET_Option_DPIAware"      lang="Compiler:DPIAware"       colspan="2" />
+            </compiler>
+
+            <empty height="5" colspan="2" />
+            <text lang="Compiler:SubSystem" text=": " />
+            <string id="#GADGET_Option_SubSystem" width="150" />
+
+            <compiler if="#SpiderBasic">
+              <!-- Nothing here -->
+            <compilerelse/>
+
+              <text lang="Compiler:ExeFormat" text=": " />
+              <hbox>
+                <!-- We do not have a good set for default width for the comboboxes. So we have a separate here for each os -->
+  
+                <compiler if="#CompileWindows">
+                  <combobox id="#GADGET_Option_ExecutableFormat" width="80">
+                    <item text="Windows" />
+                    <item text="Console" />
+                    <item text="Shared Dll" />
+                  </combobox>
+                </compiler>
+  
+                <compiler if="#CompileLinux">
+                  <combobox id="#GADGET_Option_ExecutableFormat" width="150">
+                    <item text="Linux" />
+                    <item text="Console" />
+                    <item text="Shared .so" />
+                  </combobox>
+                </compiler>
+  
+                <compiler if="#CompileMac">
+                  <combobox id="#GADGET_Option_ExecutableFormat" width="150">
+                    <item text="MacOS" />
+                    <item text="Console" />
+                    <item text="Shared .dylib" />
+                  </combobox>
+                </compiler>
+  
+                <compiler if="#CompileWindows">
+                  <combobox id="#GADGET_Option_CPU" width="110">
+                    <item lang="Compiler:AllCPU" />
+                    <item lang="Compiler:DynamicCPU" />
+                    <item lang="Compiler:MMX" />
+                    <item lang="Compiler:3DNOW" />
+                    <item lang="Compiler:SSE" />
+                    <item lang="Compiler:SSE2" />
+                  </combobox>
+                </compiler>
+  
+                <compiler if="#CompileLinux">
+                  <combobox id="#GADGET_Option_CPU" width="150">
+                    <item lang="Compiler:AllCPU" />
+                    <item lang="Compiler:DynamicCPU" />
+                    <item lang="Compiler:MMX" />
+                    <item lang="Compiler:3DNOW" />
+                    <item lang="Compiler:SSE" />
+                    <item lang="Compiler:SSE2" />
+                  </combobox>
+                </compiler>
+  
+                <compiler if="#CompileMac">
+                  <combobox id="#GADGET_Option_CPU" width="150">
+                    <item lang="Compiler:AllCPU" />
+                    <item lang="Compiler:DynamicCPU" />
+                  </combobox>
+                </compiler>
+              </hbox>
+  
+              <text lang="Compiler:LinkerOptions" text=": " />
+              <hbox expand="item:1">
+                <string id="#GADGET_Option_Linker" width="150" />
+                <button id="#GADGET_Option_GetLinker" text="..." width="30" height="ignore" />
+              </hbox>
+            </compiler>
+          </gridbox>
+        </tab>
+
+        <tab lang="Resources:CompileRun">
+          <vbox spacing="10" expand="item:3">
+
+            <frame lang="Preferences:Debugger" text=": ">
+              <gridbox colexpand="item:2" colspacing="10">
+                <checkbox id="#GADGET_Option_Debugger" lang="Compiler:EnableDebugger" colspan="2" />
+                
+                <!-- SpiderBasic specific -->
+                <compiler if="#SpiderBasic">
+                  <!-- Nothing here -->
+                <compilerelse/>
+                  <checkbox id="#GADGET_Option_Purifier" lang="Compiler:EnablePurifier" colspan="2" />
+  
+                  <checkbox id="#GADGET_Option_SelectDebugger" lang="Compiler:SelectDebugger" text=": "/>
+                  <combobox id="#GADGET_Option_DebuggerMode">
+                    <!-- <compiler if="#CompileMac = 0"> -->
+                    <!-- Not supported on mac yet OSX-debug -->
+                    <item lang="Preferences:IDEDebugger" />
+                    <!-- </compiler> -->
+                    <item lang="Preferences:GUIDebugger" />
+                    <item lang="Preferences:ConsoleDebugger" />
+                  </combobox>
+  
+                  <checkbox id="#GADGET_Option_SelectWarning" lang="Compiler:SelectWarning" text=": "/>
+                  <combobox id="#GADGET_Option_WarningMode">
+                    <item lang="Preferences:WarningsIgnore" />
+                    <item lang="Preferences:WarningsDisplay" />
+                    <item lang="Preferences:WarningsError" />
+                  </combobox>
+                </compiler>                  
+              </gridbox>
+            </frame>
+
+            <!-- SpiderBasic specific -->
+            <compiler if="#SpiderBasic">
+              <!-- Nothing here -->
+              <gridbox colexpand="item:2" colspacing="10">
+                <text lang="Compiler:WebServerAddress" text=": " />
+                <string id="#GADGET_Option_WebServerAddress" text="" width="100"/>
+              </gridbox>              
+            <compilerelse/>
+              <frame lang="Compiler:ExecuteOptions" text=": ">
+                <gridbox colexpand="item:2" colspacing="10">
+                  <text lang="Compiler:CommandLine" text=": " />
+                  <string id="#GADGET_Option_CommandLine" width="100" />
+  
+                  <text lang="Compiler:CurrentDirectory" text=": " />
+                  <hbox expand="item:1" spacing="5">
+                    <string id="#GADGET_Option_CurrentDir" width="100" />
+                    <button id="#GADGET_Option_SelectCurrentDir" text="..." width="30" height="ignore" />
+                  </hbox>
+  
+                  <checkbox id="#GADGET_Option_TemporaryExe" lang="Compiler:TemporaryExe" colspan="2"/>
+                </gridbox>
+              </frame>
+            </compiler>
+
+            <frame lang="Compiler:ExecuteTools" text=": ">
+              <listicon id="#GADGET_Option_ToolsList" height="80" flags="#PB_ListIcon_Checkboxes|#PB_ListIcon_FullRowSelect">
+                <column lang="AddTools:Name"    width="100" />
+                <column lang="AddTools:Trigger" width="150" />
+                <column lang="Compiler:GlobalSetting" width="100" />
+              </listicon>
+            </frame>
+
+          </vbox>
+        </tab>
+
+        <tab lang="Resources:Constants">
+          <vbox expand="item:2" spacing="10">
+            <frame lang="Compiler:EditorConstants" text=": ">
+              <gridbox colexpand="no" colspacing="10" align="left">
+                <checkbox id="#GADGET_Option_UseCompileCount" text="#PB_Editor_CompileCount: " />
+                <string id="#GADGET_Option_CompileCount" text="" width="100" flags="#PB_String_Numeric"/>
+
+                <checkbox id="#GADGET_Option_UseBuildCount" text="#PB_Editor_BuildCount: " />
+                <string id="#GADGET_Option_BuildCount" text="" width="100" flags="#PB_String_Numeric"/>
+
+                <checkbox id="#GADGET_Option_UseCreateExe" text="#PB_Editor_CreateExecutable"/>
+                <empty/>
+              </gridbox>
+            </frame>
+
+            <vbox expand="item:1" spacing="5">
+              <listicon id="#GADGET_Option_ConstantList"  height="100" flags="#PB_ListIcon_FullRowSelect|#PB_ListIcon_CheckBoxes|#PB_ListIcon_AlwaysShowSelection">
+                <column lang="Compiler:CustomConstants" text=": " width="400" />
+              </listicon>
+
+              <string id="#GADGET_Option_ConstantLine" />
+
+              <hbox>
+                <button id="#GADGET_Option_ConstantAdd"    lang="Misc:Add" />
+                <button id="#GADGET_Option_ConstantSet"    lang="Misc:Set" />
+                <button id="#GADGET_Option_ConstantRemove" lang="Misc:Remove" />
+                <button id="#GADGET_Option_ConstantClear"  lang="Misc:Clear" />
+              </hbox>
+            </vbox>
+          </vbox>
+        </tab>
+
+        <compiler if="#SpiderBasic">
+          <!-- Nothing here -->
+        <compilerelse/>
+        <!-- Windows only parts -->
+        <compiler if="#CompileWindows">
+
+          <tab lang="Resources:VersionInfo">
+            <vbox spacing="10" expand="item:2">
+              <checkbox id="#GADGET_Option_IncludeVersion" lang="Resources:IncludeVersion" />
+
+              <scroll scrolling="vertical">
+                <gridbox colexpand="item:2">
+                  <text lang="Resources:RequiredFields" colspan="2" />
+                  <empty height="5" colspan="2" />
+
+                  <text lang="Resources:VersionField0"  text=" *: " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+0" />
+                  <text lang="Resources:VersionField1"  text=" *: " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+1" />
+                  <text lang="Resources:VersionField2"  text=" *: " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+2" />
+                  <text lang="Resources:VersionField3"  text=" *: " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+3" />
+                  <text lang="Resources:VersionField4"  text=" *: " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+4" />
+                  <text lang="Resources:VersionField5"  text=" *: " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+5" />
+                  <text lang="Resources:VersionField6"  text=" *: " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+6" />
+                  <text lang="Resources:VersionField7"  text=" *: " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+7" />
+                  <text lang="Resources:VersionField8"  text=" *: " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+8" />
+
+                  <text lang="Resources:VersionField9"  text=": " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+9" />
+                  <text lang="Resources:VersionField10" text=": " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+10" />
+                  <text lang="Resources:VersionField11" text=": " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+11" />
+                  <text lang="Resources:VersionField12" text=": " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+12" />
+                  <text lang="Resources:VersionField13" text=": " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+13" />
+                  <text lang="Resources:VersionField14" text=": " flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+14" />
+
+                  <!-- the #PB_Text_Right is only working on windows, but this is windows-only anyway. -->
+                  <string id="#GADGET_Option_VersionValue0+18" flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+21" />
+                  <string id="#GADGET_Option_VersionValue0+19" flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+22" />
+                  <string id="#GADGET_Option_VersionValue0+20" flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+23" />
+
+                  <text lang="Resources:VersionField15" text=": " flags="#PB_Text_Right" />
+                  <combobox id="#GADGET_Option_VersionValue0+15" />
+                  <text lang="Resources:VersionField16" text=": " flags="#PB_Text_Right" />
+                  <combobox id="#GADGET_Option_VersionValue0+16" />
+                  <text lang="Resources:VersionField17" text=": " flags="#PB_Text_Right" />
+                  <combobox id="#GADGET_Option_VersionValue0+17" />
+
+                  <empty height="5" colspan="2" />
+                  <singlebox colspan="2" expand="no" align="center">
+                    <button id="#GADGET_Option_Tokens" lang="Resources:Tokens" width="120" />
+                  </singlebox>
+                </gridbox>
+              </scroll>
+            </vbox>
+          </tab>
+
+          <tab lang="Resources:Resources">
+            <vbox expand="item:1">
+              <listview id="#GADGET_Option_ResourceList" />
+
+              <hbox>
+                <button id="#GADGET_Option_ResourceAdd"    lang="Misc:Add" />
+                <button id="#GADGET_Option_ResourceRemove" lang="Misc:Remove" />
+                <button id="#GADGET_Option_ResourceClear"  lang="Misc:Clear" />
+              </hbox>
+
+              <hbox expand="item:1">
+                <string id="#GADGET_Option_ResourceFile" />
+                <button id="#GADGET_Option_ResourceSelectFile" text="..." width="40" height="ignore" />
+              </hbox>
+            </vbox>
+          </tab>
+
+        </compiler>
+
+        </compiler>
+
+        <!-- todo for later 
+        <tab text="Dependencies">
+        </tab>        
+        -->
+
+      </panel>
+    </hbox>
+    
+    <hbox spacing="10" expand="item:2">
+      <!-- Project specific stuff -->
+      <compiler if="Defined(IDE_ProjectCompilerOptions, #PB_Constant)">
+        <button id="#GADGET_Option_OpenProject" lang="Project:ProjectOptions" width="90" />
+      <compilerelse/>
+        <empty />
+      </compiler>
+      
+      <empty />    
+      
+      <button id="#GADGET_Option_Ok" lang="Misc:Ok" width="90" />
+      <button id="#GADGET_Option_Cancel" lang="Misc:Cancel" width="90" />
+    </hbox>
+  </vbox>
+
+  <shortcut key="#PB_Shortcut_Return" id="#GADGET_Option_Ok" />
+  <shortcut key="#PB_Shortcut_Escape" id="#GADGET_Option_Cancel" />
+</window>
+
+

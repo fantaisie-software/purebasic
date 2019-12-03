@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!-- Templates Editing Dialog for the PureBasic IDE -->
+
+<window id="#WINDOW_Template" label="Dialog_Templates" flags="#PB_Window_SizeGadget" invisible="yes">
+  <vbox spacing="10" expand="item:1">
+    <frame lang="Templates:Code" text=": ">
+      <scintilla id="#GADGET_Template_Editor" />
+    </frame>
+
+    <frame lang="Templates:Comment" text=": ">
+      <scintilla id="#GADGET_Template_SetComment" height="75" />
+    </frame>
+
+    <hbox spacing="20" expand="no" align="center">
+      <button id="#GADGET_Template_Save"   lang="Misc:Save"   width="120" />
+      <button id="#GADGET_Template_Cancel" lang="Misc:Cancel" width="120" />
+    </hbox>
+  </vbox>
+</window>

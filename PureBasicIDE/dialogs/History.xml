@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<!-- History Dialog for the PureBasic IDE -->
+
+<window id="#WINDOW_EditHistory" label="Dialog_History" lang="History:Title" flags="#PB_Window_SizeGadget|#PB_Window_MaximizeGadget|#PB_Window_MinimizeGadget">
+  <splitter id="#GADGET_History_Splitter" flags="#PB_Splitter_Vertical|#PB_Splitter_FirstFixed" firstmin="100" secondmin="1">
+    <panel id="#GADGET_History_Panel">
+      <tab lang="History:ViewSession">
+        <vbox spacing="10" expand="item:2">
+          <hbox spacing="10" expand="item:2">
+            <text lang="History:Session" text=":"/>
+            <combobox id="#GADGET_History_SessionCombo" />
+          </hbox>
+          <tree id="#GADGET_History_SessionTree" flags="#PB_Tree_AlwaysShowSelection" />
+        </vbox>
+      </tab> 
+      <tab lang="History:ViewFile">
+        <vbox spacing="10" expand="item:2">
+          <hbox spacing="10" expand="item:2">
+            <text lang="History:File" text=":"/>
+            <combobox id="#GADGET_History_FileCombo" flags="#PB_ComboBox_Image"/>
+          </hbox>
+          <listicon id="#GADGET_History_FileList" flags="#PB_ListIcon_FullRowSelect | #PB_ListIcon_AlwaysShowSelection">
+            <column lang="History:Time" width="300" />
+          </listicon>
+        </vbox>
+      </tab>
+    </panel>
+    <scintilla id= "#GADGET_History_Source"/>
+  </splitter>
+</window>
+
+  
+  

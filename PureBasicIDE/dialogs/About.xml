@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!-- About Dialog for the PureBasic IDE -->
+
+<window label="Dialog_About" id="#WINDOW_About" lang="Misc:AboutWindowTitle" height="400" invisible="yes">
+  <vbox spacing="10" expand="item:2">
+    <image id="#GADGET_About_Image"/>
+    <editor id="#GADGET_About_Editor" flags="#PB_Editor_ReadOnly" />
+    <singlebox expand="no" align="center">
+      <button id="#GADGET_About_Ok" lang="Misc:Ok" width="120" />
+    </singlebox>
+  </vbox>
+
+  <shortcut key="#PB_Shortcut_Return" id="#GADGET_About_Ok" />
+  <shortcut key="#PB_Shortcut_Escape" id="#GADGET_About_Ok" />
+</window>
