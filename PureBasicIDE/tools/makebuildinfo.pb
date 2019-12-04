@@ -25,43 +25,6 @@ Global SvnBranch$, SvnRevision$
 
 OpenConsole()
 
-Procedure GetSvnInfo()
-  
-  svn = RunProgram(#Subversion, "info . --xml", GetCurrentDirectory(), #PB_Program_Open|#PB_Program_Read|#PB_Program_Hide|#PB_Program_Ascii)
-  If svn
-    Info$ = ""
-    While ProgramRunning(svn)
-      Info$ + ReadProgramString(svn) + Chr(13) + Chr(10)
-    Wend  
-    CloseProgram(svn)
-    
-    ; works in ascii only
-    If ParseXML(0, Info$) And XMLStatus(0) = #PB_XML_Success
-      *Entry = XMLNodeFromPath(RootXMLNode(0), "/info/entry")
-      If *Entry
-        SvnRevision$ = GetXMLAttribute(*Entry, "revision")
-      EndIf    
-      
-      *Entry = XMLNodeFromPath(RootXMLNode(0), "/info/entry/url")
-      If *Entry
-        Url$ = GetXMLNodeText(*Entry)
-        If Left(Url$, 38) = "svn://svn.purebasic.fr/home/svn/Fr34k/"
-          SvnBranch$ = StringField(Right(Url$, Len(Url$)-38), 1, "/")
-          
-        ElseIf Left(Url$, 35) = "svn://192.168.0.100/home/svn/Fr34k/" ; For a strange reason, my build PC doesn't resolve svn.purebasic.fr correctly anymore, so I use local IP
-          SvnBranch$ = StringField(Right(Url$, Len(Url$)-35), 1, "/")
-        EndIf
-      EndIf
-      
-      FreeXML(0)
-    EndIf
-  Else
-    PrintN("makebuildinfo - svn executable not found.")
-    End 1 ; failure
-  EndIf
-  
-EndProcedure
-
 Procedure.s GetCompilerVersion()
   Version$ = ""
 
@@ -95,7 +58,6 @@ If Right(BuildDirectory$, 1) <> "/"
   BuildDirectory$ + "/"
 EndIf
 
-GetSvnInfo()
 Compiler$ = GetCompilerVersion()
 Version$ = Trim(StringField(Compiler$, 1, "(")) ; remove "(Windows - x86)"
 Version$ = Right(Version$, Len(Version$) - 10)  ; remove "PureBasic "
