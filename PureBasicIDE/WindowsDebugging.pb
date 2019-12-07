@@ -11,11 +11,11 @@ CompilerIf #CompileWindows
     ; It's used in debugging.pb as well, so declare them in the global scope
     CompilerIf #CompileX86
       !extrn _PB_StringHeap
-      !extrn _PB_Memory_Heap           
+      !extrn _PB_Memory_Heap
     CompilerElse
       !extrn PB_StringHeap
       !extrn PB_Memory_Heap
-    CompilerEndIf  
+    CompilerEndIf
     
     ; For easier bug hunting (use with GetLastError_() for example
     ;
@@ -44,7 +44,7 @@ CompilerIf #CompileWindows
         !mov [p.v_MemoryBase], rax
         !mov rax, qword [PB_Memory_Heap]
         !mov [p.v_MemoryHeap], rax
-      CompilerEndIf  
+      CompilerEndIf
       
       If HeapValidate_(StringHeap, 0, 0) = 0
         MessageRequester("StringHeap corrupted !", File$+" : "+Str(Line))
@@ -56,13 +56,13 @@ CompilerIf #CompileWindows
 
       If HeapValidate_(MemoryHeap, 0, 0) = 0
         MessageRequester("AllocateMemory heap corrupted !", File$+" : "+Str(Line))
-      EndIf  
+      EndIf
     EndProcedure
 
     Macro TestHeaps
       _TestHeaps(#PB_Compiler_File, #PB_Compiler_Line)
-    EndMacro  
+    EndMacro
     
-  CompilerEndIf  
+  CompilerEndIf
   
 CompilerEndIf

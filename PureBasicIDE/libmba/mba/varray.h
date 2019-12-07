@@ -2,7 +2,7 @@
 #define MBA_VARRAY_H
 
 /* varray - a variable sized array
- */ 
+ */
 
 #ifdef __cplusplus
 extern "C" {
@@ -56,9 +56,9 @@ extern "C" {
 #endif
 
 struct varray {
-	size_t size;                                          /* element size */
-	ptrdiff_t al;  /* relative offset of this object to allocator of bins */
-	ref_t bins[16];                                 /* 0 to 2^20 elements */
+  size_t size;                                          /* element size */
+  ptrdiff_t al;  /* relative offset of this object to allocator of bins */
+  ref_t bins[16];                                 /* 0 to 2^20 elements */
 };
 
 LIBMBA_API int varray_init(struct varray *va, size_t membsize, struct allocator *al);

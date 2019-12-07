@@ -9,7 +9,7 @@
 ;
 Enumeration #DEBUGGER_MENU_LAST ; add after the debuggers own shortcuts
   #MENU_Debugger_Stop
-  #MENU_Debugger_Run  
+  #MENU_Debugger_Run
   #MENU_Debugger_Step
   #MENU_Debugger_StepX
   #MENU_Debugger_StepOut
@@ -17,7 +17,7 @@ Enumeration #DEBUGGER_MENU_LAST ; add after the debuggers own shortcuts
   #MENU_Debugger_Kill
   #MENU_Debugger_DebugOutput
   #MENU_Debugger_Watchlist
-  #MENU_Debugger_VariableList  
+  #MENU_Debugger_VariableList
   #MENU_Debugger_History
   #MENU_Debugger_Memory
   #MENU_Debugger_LibraryViewer
@@ -45,7 +45,7 @@ Procedure IsDebuggedFile(*Source.SourceFile)
 
   ; no source passed (not loaded yet maybe?)
   ;
-  If *Source = 0  
+  If *Source = 0
     ProcedureReturn 0
   EndIf
   
@@ -65,12 +65,12 @@ Procedure IsDebuggedFile(*Source.SourceFile)
   
     If IsEqualFile(*Source\FileName$, RunningDebuggers()\FileName$)
       ProcedureReturn @RunningDebuggers() ; return the debugger structure
-    EndIf    
+    EndIf
   
-    If RunningDebuggers()\IncludedFiles ; is filename buffer initialized            
-      *Cursor = RunningDebuggers()\IncludedFiles 
+    If RunningDebuggers()\IncludedFiles ; is filename buffer initialized
+      *Cursor = RunningDebuggers()\IncludedFiles
       *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the source path string
-      *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)                              
+      *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)
       For i = 1 To RunningDebuggers()\NbIncludedFiles  ; check all included files
         ; the included filenames may include "../" so use ResolveRelativePath() on them, which resolves that to get a unique filename
         FileName$ = UniqueFilename(PeekAscii(*Cursor))
@@ -118,24 +118,24 @@ Procedure GetDebuggerFileNumber(*Debugger.DebuggerData, *Source.SourceFile)
   If *Source\FileName$ = "" ; can only be the main source
     If IsDebuggedFile(*Source) = *Debugger
       ProcedureReturn 0
-    EndIf    
+    EndIf
     
   Else
     If IsEqualFile(*Source\FileName$, *Debugger\FileName$)
       ProcedureReturn 0
-    EndIf    
+    EndIf
   
-    If *Debugger\IncludedFiles ; is filename buffer initialized            
-      *Cursor = *Debugger\IncludedFiles 
-      *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the source path string      
-      *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)                            
+    If *Debugger\IncludedFiles ; is filename buffer initialized
+      *Cursor = *Debugger\IncludedFiles
+      *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the source path string
+      *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)
       For i = 1 To *Debugger\NbIncludedFiles  ; check all included files
         If IsEqualFile(*Source\FileName$, PeekAscii(*Cursor))
           ProcedureReturn i ; return the file number
         EndIf
         *Cursor + MemoryAsciiLength(*Cursor) + 1
       Next i
-    EndIf    
+    EndIf
   
   EndIf
 
@@ -144,8 +144,8 @@ EndProcedure
 
 
 Procedure UpdateErrorLogMenuState()
-  If *ActiveSource And AlwaysHideLog = 0 
-    DisableMenuItem(#MENU, #MENU_ShowLog, 0) ; the log is always viewable, as it displays compiler errors too  
+  If *ActiveSource And AlwaysHideLog = 0
+    DisableMenuItem(#MENU, #MENU_ShowLog, 0) ; the log is always viewable, as it displays compiler errors too
   
     If *ActiveSource = *ProjectInfo Or *ActiveSource\ProjectFile
       State = ProjectShowLog
@@ -155,23 +155,23 @@ Procedure UpdateErrorLogMenuState()
       Size  = *ActiveSource\LogSize
     EndIf
     
-    If State And Size > 0 
+    If State And Size > 0
       DisableMenuAndToolbarItem(#MENU_ClearLog, 0)
-      DisableMenuAndToolbarItem(#MENU_CopyLog, 0)  
+      DisableMenuAndToolbarItem(#MENU_CopyLog, 0)
     Else
       DisableMenuAndToolbarItem(#MENU_ClearLog, 1)
       DisableMenuAndToolbarItem(#MENU_CopyLog, 1)
-    EndIf 
+    EndIf
   Else
     DisableMenuItem(#MENU, #MENU_ShowLog, 1)
     DisableMenuAndToolbarItem(#MENU_ClearLog, 1)
-    DisableMenuAndToolbarItem(#MENU_CopyLog, 1)    
+    DisableMenuAndToolbarItem(#MENU_CopyLog, 1)
   EndIf
 EndProcedure
 
 
 
-Procedure SetDebuggerMenuStates() 
+Procedure SetDebuggerMenuStates()
   
   IsEnabled = 0
   *Target.CompileTarget = GetActiveCompileTarget()
@@ -183,13 +183,13 @@ Procedure SetDebuggerMenuStates()
     NonPBFile = 0
   Else
     NonPBFile = 1
-  EndIf 
+  EndIf
 
   If IsToolBar(#TOOLBAR)
     SetToolBarButtonState(#TOOLBAR, #MENU_Debugger, IsEnabled)
   EndIf
   
-  SetMenuItemState(#MENU, #MENU_Debugger, IsEnabled)  
+  SetMenuItemState(#MENU, #MENU_Debugger, IsEnabled)
   
   *Debugger.DebuggerData = GetDebuggerForFile(*ActiveSource)
   
@@ -201,41 +201,41 @@ Procedure SetDebuggerMenuStates()
           DisableMenuAndToolbarItem(#MENU_Stop, 0)
           DisableMenuAndToolbarItem(#MENU_Run, 1)
           DisableMenuAndToolbarItem(#MENU_Step, 1)
-          DisableMenuAndToolbarItem(#MENU_StepX, 1) 
-          DisableMenuAndToolbarItem(#MENU_StepOver, 1) 
-          DisableMenuAndToolbarItem(#MENU_StepOut, 1) 
+          DisableMenuAndToolbarItem(#MENU_StepX, 1)
+          DisableMenuAndToolbarItem(#MENU_StepOver, 1)
+          DisableMenuAndToolbarItem(#MENU_StepOut, 1)
           
         Case 0 ; running
           DisableMenuAndToolbarItem(#MENU_Stop, 0)
           DisableMenuAndToolbarItem(#MENU_Run, 1)
           DisableMenuAndToolbarItem(#MENU_Step, 1)
-          DisableMenuAndToolbarItem(#MENU_StepX, 1)  
-          DisableMenuAndToolbarItem(#MENU_StepOver, 1)  
-          DisableMenuAndToolbarItem(#MENU_StepOut, 1)            
+          DisableMenuAndToolbarItem(#MENU_StepX, 1)
+          DisableMenuAndToolbarItem(#MENU_StepOver, 1)
+          DisableMenuAndToolbarItem(#MENU_StepOut, 1)
         
         Case 6 ; fatal error (cannot continue)
           DisableMenuAndToolbarItem(#MENU_Stop, 1)
           DisableMenuAndToolbarItem(#MENU_Run, 1)
           DisableMenuAndToolbarItem(#MENU_Step, 1)
-          DisableMenuAndToolbarItem(#MENU_StepX, 1) 
-          DisableMenuAndToolbarItem(#MENU_StepOver, 1)  
-          DisableMenuAndToolbarItem(#MENU_StepOut, 1)            
+          DisableMenuAndToolbarItem(#MENU_StepX, 1)
+          DisableMenuAndToolbarItem(#MENU_StepOver, 1)
+          DisableMenuAndToolbarItem(#MENU_StepOut, 1)
           
         Case 5 ; program ended
           DisableMenuAndToolbarItem(#MENU_Stop, 1)
           DisableMenuAndToolbarItem(#MENU_Run, 1)
           DisableMenuAndToolbarItem(#MENU_Step, 1)
-          DisableMenuAndToolbarItem(#MENU_StepX, 1) 
-          DisableMenuAndToolbarItem(#MENU_StepOver, 1)  
-          DisableMenuAndToolbarItem(#MENU_StepOut, 1)            
+          DisableMenuAndToolbarItem(#MENU_StepX, 1)
+          DisableMenuAndToolbarItem(#MENU_StepOver, 1)
+          DisableMenuAndToolbarItem(#MENU_StepOut, 1)
         
         Default ; stopped for some other reason (can continue)
           DisableMenuAndToolbarItem(#MENU_Stop, 1)
           DisableMenuAndToolbarItem(#MENU_Run, 0)
           DisableMenuAndToolbarItem(#MENU_Step, 0)
-          DisableMenuAndToolbarItem(#MENU_StepX, 0)  
+          DisableMenuAndToolbarItem(#MENU_StepX, 0)
           DisableMenuAndToolbarItem(#MENU_StepOver, 0)
-          DisableMenuAndToolbarItem(#MENU_StepOut, 0)  
+          DisableMenuAndToolbarItem(#MENU_StepOut, 0)
         
       EndSelect
 
@@ -248,19 +248,19 @@ Procedure SetDebuggerMenuStates()
         DisableMenuAndToolbarItem(#MENU_Purifier, 1)
       EndIf
                       
-      DisableMenuAndToolbarItem(#MENU_Kill, 0)                      
+      DisableMenuAndToolbarItem(#MENU_Kill, 0)
       DisableMenuAndToolbarItem(#MENU_DebugOutput, 0)
       DisableMenuAndToolbarItem(#MENU_Watchlist, 0)
       DisableMenuAndToolbarItem(#MENU_VariableList, 0)
       DisableMenuAndToolbarItem(#MENU_Profiler, 0)
       DisableMenuAndToolbarItem(#MENU_Memory, 0)
       DisableMenuAndToolbarItem(#MENU_DebugAsm, 0)
-      DisableMenuAndToolbarItem(#MENU_History, 0)  
-      DisableMenuAndToolbarItem(#MENU_LibraryViewer, 0)   
-      DisableMenuAndToolbarItem(#MENU_DataBreakPoints, 0)   
+      DisableMenuAndToolbarItem(#MENU_History, 0)
+      DisableMenuAndToolbarItem(#MENU_LibraryViewer, 0)
+      DisableMenuAndToolbarItem(#MENU_DataBreakPoints, 0)
 ;     ElseIf *Debugger
 ;       DisableMenuAndToolbarItem(#MENU_Debugger, 0)
-; 
+;
 ;       DisableMenuAndToolbarItem(#MENU_Stop, 1)
 ;       DisableMenuAndToolbarItem(#MENU_Run, 1)
 ;       DisableMenuAndToolbarItem(#MENU_Step, 1)
@@ -271,7 +271,7 @@ Procedure SetDebuggerMenuStates()
 ;       DisableMenuAndToolbarItem(#MENU_VariableList, 1)
 ;       DisableMenuAndToolbarItem(#MENU_Memory, 1)
 ;       DisableMenuAndToolbarItem(#MENU_DebugAsm, 1)
-;       DisableMenuAndToolbarItem(#MENU_History, 1)    
+;       DisableMenuAndToolbarItem(#MENU_History, 1)
     Else
       DisableMenuAndToolbarItem(#MENU_Debugger, 0)
 
@@ -279,20 +279,20 @@ Procedure SetDebuggerMenuStates()
       DisableMenuAndToolbarItem(#MENU_Run, 1)
       DisableMenuAndToolbarItem(#MENU_Step, 1)
       DisableMenuAndToolbarItem(#MENU_StepX, 1)
-      DisableMenuAndToolbarItem(#MENU_StepOver, 1)  
-      DisableMenuAndToolbarItem(#MENU_StepOut, 1)        
-      DisableMenuAndToolbarItem(#MENU_Kill, 1)                
+      DisableMenuAndToolbarItem(#MENU_StepOver, 1)
+      DisableMenuAndToolbarItem(#MENU_StepOut, 1)
+      DisableMenuAndToolbarItem(#MENU_Kill, 1)
       DisableMenuAndToolbarItem(#MENU_DebugOutput, 1)
       DisableMenuAndToolbarItem(#MENU_Watchlist, 1)
       DisableMenuAndToolbarItem(#MENU_VariableList, 1)
       DisableMenuAndToolbarItem(#MENU_Memory, 1)
       DisableMenuAndToolbarItem(#MENU_DebugAsm, 1)
       DisableMenuAndToolbarItem(#MENU_History, 1)
-      DisableMenuAndToolbarItem(#MENU_LibraryViewer, 1)    
-      DisableMenuAndToolbarItem(#MENU_Profiler, 1)    
-      DisableMenuAndToolbarItem(#MENU_DataBreakPoints, 1)    
+      DisableMenuAndToolbarItem(#MENU_LibraryViewer, 1)
+      DisableMenuAndToolbarItem(#MENU_Profiler, 1)
+      DisableMenuAndToolbarItem(#MENU_DataBreakPoints, 1)
       DisableMenuAndToolbarItem(#MENU_Purifier, 1)
-    EndIf    
+    EndIf
  
   ElseIf IsEnabled And NonPBFile = 0
     DisableMenuAndToolbarItem(#MENU_Debugger, 0)
@@ -301,9 +301,9 @@ Procedure SetDebuggerMenuStates()
     DisableMenuAndToolbarItem(#MENU_Run, 1)
     DisableMenuAndToolbarItem(#MENU_Step, 1)
     DisableMenuAndToolbarItem(#MENU_StepX, 1)
-    DisableMenuAndToolbarItem(#MENU_StepOver, 1)  
-    DisableMenuAndToolbarItem(#MENU_StepOut, 1)            
-    DisableMenuAndToolbarItem(#MENU_Kill, 1)   
+    DisableMenuAndToolbarItem(#MENU_StepOver, 1)
+    DisableMenuAndToolbarItem(#MENU_StepOut, 1)
+    DisableMenuAndToolbarItem(#MENU_Kill, 1)
         
     DisableMenuAndToolbarItem(#MENU_DebugOutput, 1)
     DisableMenuAndToolbarItem(#MENU_Watchlist, 1)
@@ -311,9 +311,9 @@ Procedure SetDebuggerMenuStates()
     DisableMenuAndToolbarItem(#MENU_DebugAsm, 1)
     DisableMenuAndToolbarItem(#MENU_History, 1)
     DisableMenuAndToolbarItem(#MENU_Memory, 1)
-    DisableMenuAndToolbarItem(#MENU_LibraryViewer, 1)      
-    DisableMenuAndToolbarItem(#MENU_Profiler, 1)      
-    DisableMenuAndToolbarItem(#MENU_DataBreakPoints, 1)      
+    DisableMenuAndToolbarItem(#MENU_LibraryViewer, 1)
+    DisableMenuAndToolbarItem(#MENU_Profiler, 1)
+    DisableMenuAndToolbarItem(#MENU_DataBreakPoints, 1)
     DisableMenuAndToolbarItem(#MENU_Purifier, 1)
   
                
@@ -323,24 +323,24 @@ Procedure SetDebuggerMenuStates()
 ; ;     Else
 ;       DisableMenuAndToolbarItem(#MENU_BreakPoint, 0)
 ;       DisableMenuAndToolbarItem(#MENU_BreakClear, 0)
-; ;     EndIf    
+; ;     EndIf
         
-  Else    
+  Else
     DisableMenuAndToolbarItem(#MENU_Debugger, NonPBFile)
   
     DisableMenuAndToolbarItem(#MENU_Stop, 1)
     DisableMenuAndToolbarItem(#MENU_Run, 1)
     DisableMenuAndToolbarItem(#MENU_Step, 1)
     DisableMenuAndToolbarItem(#MENU_StepX, 1)
-    DisableMenuAndToolbarItem(#MENU_StepOver, 1)  
-    DisableMenuAndToolbarItem(#MENU_StepOut, 1)            
-    DisableMenuAndToolbarItem(#MENU_Kill, 1)    
+    DisableMenuAndToolbarItem(#MENU_StepOver, 1)
+    DisableMenuAndToolbarItem(#MENU_StepOut, 1)
+    DisableMenuAndToolbarItem(#MENU_Kill, 1)
     DisableMenuAndToolbarItem(#MENU_BreakPoint, NonPBFile)
     DisableMenuAndToolbarItem(#MENU_BreakClear, NonPBFile)
     DisableMenuAndToolbarItem(#MENU_DataBreakPoints, 1)
     DisableMenuAndToolbarItem(#MENU_ShowLog, 1)
 ;     DisableMenuAndToolbarItem(#MENU_ClearLog, 1)
-;     DisableMenuAndToolbarItem(#MENU_CopyLog, 1)    
+;     DisableMenuAndToolbarItem(#MENU_CopyLog, 1)
     DisableMenuAndToolbarItem(#MENU_DebugOutput, 1)
     DisableMenuAndToolbarItem(#MENU_Watchlist, 1)
     DisableMenuAndToolbarItem(#MENU_VariableList, 1)
@@ -352,7 +352,7 @@ Procedure SetDebuggerMenuStates()
     DisableMenuAndToolbarItem(#MENU_Purifier, 1)
   EndIf
   
-  If *ActiveSource And *ActiveSource <> *ProjectInfo  
+  If *ActiveSource And *ActiveSource <> *ProjectInfo
     DisableMenuAndToolbarItem(#MENU_BreakPoint, 0)
     DisableMenuAndToolbarItem(#MENU_BreakClear, 0)
     DisableMenuAndToolbarItem(#MENU_ClearErrorMarks, 0)
@@ -360,19 +360,19 @@ Procedure SetDebuggerMenuStates()
     DisableMenuAndToolbarItem(#MENU_BreakPoint, 1)
     DisableMenuAndToolbarItem(#MENU_BreakClear, 1)
     DisableMenuAndToolbarItem(#MENU_ClearErrorMarks, 1)
-  EndIf  
+  EndIf
   
   CompilerIf #CompilePPC
     DisableMenuAndToolbarItem(#MENU_DebugAsm, 1) ; TODO: ASM registers support not supported on OS X
   CompilerEndIf
     
-  UpdateErrorLogMenuState()  
+  UpdateErrorLogMenuState()
 EndProcedure
 
 Procedure Debugger_AddLog_BySource(*Source.SourceFile, Message$, TimeStamp)
   If LogTimeStamp
     Message$ = "[" + FormatDate(Language("Debugger","TimeStamp"), TimeStamp) + "] " + Message$
-  EndIf        
+  EndIf
   
   If *Source = *ProjectInfo Or *Source\ProjectFile ; project mode
   
@@ -387,9 +387,9 @@ Procedure Debugger_AddLog_BySource(*Source.SourceFile, Message$, TimeStamp)
     AddElement(ProjectLog())
     ProjectLog() = Message$
   
-  Else      
+  Else
     ; add the messages to the source structure
-    ;  
+    ;
     If *Source\LogSize = #MAX_ErrorLog  ; log buffer is full (remove first line)
       For i = 0 To #MAX_ErrorLog-2
         *Source\LogLines$[i] = *Source\LogLines$[i+1]
@@ -398,15 +398,15 @@ Procedure Debugger_AddLog_BySource(*Source.SourceFile, Message$, TimeStamp)
     EndIf
     
     *Source\LogLines$[*Source\LogSize] = Message$
-    *Source\LogSize + 1     
-  EndIf 
+    *Source\LogSize + 1
+  EndIf
     
   ; the *Source is not neccesarily the active source, so do not just add the
   ; message to the log, but update the full list now
   ;
   ErrorLog_Refresh()
   
-  UpdateErrorLogMenuState() 
+  UpdateErrorLogMenuState()
 
 EndProcedure
 
@@ -418,9 +418,9 @@ Procedure Debugger_AddLog(*Debugger.DebuggerData, Message$, TimeStamp)
   ; add message to the gadget
   ;
   If ((*ActiveSource = *ProjectInfo Or *ActiveSource\ProjectFile) And *Debugger\ID = ProjectDebuggerID) Or (*Debugger = IsDebuggedFile(*ActiveSource))
-    AddGadgetItem(#GADGET_ErrorLog, -1, Message$)    
-    SetGadgetState(#GADGET_ErrorLog, CountGadgetItems(#GADGET_ErrorLog)-1)        
-  EndIf     
+    AddGadgetItem(#GADGET_ErrorLog, -1, Message$)
+    SetGadgetState(#GADGET_ErrorLog, CountGadgetItems(#GADGET_ErrorLog)-1)
+  EndIf
   
   If *Debugger\ID = ProjectDebuggerID
   
@@ -437,8 +437,8 @@ Procedure Debugger_AddLog(*Debugger.DebuggerData, Message$, TimeStamp)
   
   Else
   
-    ; add the messages to all source files associated with this debugger 
-    ;  
+    ; add the messages to all source files associated with this debugger
+    ;
     ForEach FileList()
       If @FileList() <> *ProjectInfo And *Debugger = IsDebuggedFile(@FileList())
       
@@ -450,7 +450,7 @@ Procedure Debugger_AddLog(*Debugger.DebuggerData, Message$, TimeStamp)
         EndIf
         
         FileList()\LogLines$[FileList()\LogSize] = Message$
-        FileList()\LogSize + 1      
+        FileList()\LogSize + 1
       EndIf
     Next FileList()
     ChangeCurrentElement(FileList(), *ActiveSource)
@@ -481,8 +481,8 @@ Procedure Debugger_SaveWatchlist(*Debugger.DebuggerData)
     ; save the debug window history (if any)
     ;
     If *Debugger\Windows[#DEBUGGER_WINDOW_Debug]
-      Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]    
-      *Target\ExpressionHistorySize = CountGadgetItems(Gadget) 
+      Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]
+      *Target\ExpressionHistorySize = CountGadgetItems(Gadget)
       
       If *Target\ExpressionHistorySize > #MAX_EpressionHistory
         *Target\ExpressionHistorySize = #MAX_EpressionHistory
@@ -491,19 +491,19 @@ Procedure Debugger_SaveWatchlist(*Debugger.DebuggerData)
       For i = 0 To *Target\ExpressionHistorySize - 1
         *Target\ExpressionHistory$[i] = GetGadgetItemText(Gadget, i)
       Next i
-    EndIf  
+    EndIf
   
     ; There is no reading from the program below
     ; this kills the watchlist save feature!
     ;If *Debugger\ProgramState = -1 ; after a fatal error, this can happen.
     ;  ProcedureReturn ; cannot read from unloaded/unconnected exe
-    ;EndIf  
+    ;EndIf
   
     *Target\Watchlist$ = ""
   
     ;
     ; NOTE: we access the ListIconGadget of the VariableGadget directly here
-    ; This only works as long as there are no structures in it! 
+    ; This only works as long as there are no structures in it!
     ; (which are currently not supported in the watchlist anyway)
     ; so if there are ever structures supported here, this MUST be changed!
     ;
@@ -516,12 +516,12 @@ Procedure Debugger_SaveWatchlist(*Debugger.DebuggerData)
         If ProcName$ <> ""
           *Target\Watchlist$ + ProcName$ + ">"
         EndIf
-        *Target\Watchlist$ + GetGadgetItemText(Gadget, i-1, 2) + ";"        
+        *Target\Watchlist$ + GetGadgetItemText(Gadget, i-1, 2) + ";"
       Next i
       
       ; cut the last ","
-      *Target\Watchlist$ = Left(*Target\Watchlist$, Len(*Target\Watchlist$)-1)      
-    EndIf  
+      *Target\Watchlist$ = Left(*Target\Watchlist$, Len(*Target\Watchlist$)-1)
+    EndIf
     
     ; remove all spaces to save space
     ; (to array indexes, there are automatically spaces added)
@@ -570,20 +570,20 @@ Procedure Debugger_Started(*Debugger.DebuggerData)
           SendDebuggerCommand(*Debugger, @Command)
           
         EndIf
-      Until Line = -1      
+      Until Line = -1
             
     EndIf
   Next FileList()
-  ChangeCurrentElement(FileList(), *ActiveSource) 
+  ChangeCurrentElement(FileList(), *ActiveSource)
   
   ; transmit watchlist to exe
-  ;  
+  ;
   *Target.CompileTarget = FindTargetFromID(*Debugger\TriggerTargetID)
   If *Target
 
-    ; load DebutOutput expression history 
+    ; load DebutOutput expression history
     ;
-    Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]    
+    Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]
     For i = 0 To *Target\ExpressionHistorySize - 1
       AddGadgetItem(Gadget, -1, *Target\ExpressionHistory$[i])
     Next i
@@ -614,7 +614,7 @@ Procedure Debugger_Started(*Debugger.DebuggerData)
                 Break
               EndIf
             Next i
-          EndIf          
+          EndIf
         EndIf
         
         ; Convert to UTF8 to correctly preserve Map keys (which may contain unicode chars)
@@ -626,18 +626,18 @@ Procedure Debugger_Started(*Debugger.DebuggerData)
         Command\Value1 = ProcIndex
         Command\Value2 = 0 ; report no errors!
         Command\DataSize = UTF8Length
-        SendDebuggerCommandWithData(*Debugger, @Command, @VariableUTF8$)        
+        SendDebuggerCommandWithData(*Debugger, @Command, @VariableUTF8$)
       
         index + 1
-        Entry$ = StringField(*Target\Watchlist$, index, ";")      
-      Wend  
+        Entry$ = StringField(*Target\Watchlist$, index, ";")
+      Wend
     
       ; update complete list:
       ;
       Command.CommandInfo\Command = #COMMAND_GetWatchlist
-      SendDebuggerCommand(*Debugger, @Command) 
+      SendDebuggerCommand(*Debugger, @Command)
       
-    EndIf 
+    EndIf
     
     ; Apply any saved purifier options (ignored if purifier is off)
     If *Target\PurifierGranularity$ <> ""
@@ -667,12 +667,12 @@ Procedure Debugger_Ended(*Debugger.DebuggerData)
   ;
   ; Note: Check if a source isn't in another debug session as well!
   ForEach FileList()
-    If @FileList() <> *ProjectInfo    
+    If @FileList() <> *ProjectInfo
       ThisDebugger  = #False
       OtherDebugger = #False
       
       ; Check the direct link to a debugger
-      ;     
+      ;
       If FileList()\DebuggerID
         *FileDebugger.DebuggerData = FindDebuggerFromID(FileList()\DebuggerID)
         If *FileDebugger = *Debugger
@@ -696,13 +696,13 @@ Procedure Debugger_Ended(*Debugger.DebuggerData)
                 OtherDebugger = #True
                 Break  ; no need to look further in this case
               EndIf
-            EndIf    
+            EndIf
           
             ; included files
-            If RunningDebuggers()\IncludedFiles ; is filename buffer initialized            
-              *Cursor = RunningDebuggers()\IncludedFiles 
+            If RunningDebuggers()\IncludedFiles ; is filename buffer initialized
+              *Cursor = RunningDebuggers()\IncludedFiles
               *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the source path string
-              *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)                              
+              *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)
               For i = 1 To RunningDebuggers()\NbIncludedFiles  ; check all included files
                 ; the included filenames may include "../" so use ResolveRelativePath() on them, which resolves that to get a unique filename
                 FileName$ = UniqueFilename(PeekAscii(*Cursor))
@@ -716,24 +716,24 @@ Procedure Debugger_Ended(*Debugger.DebuggerData)
                 EndIf
                 *Cursor + MemoryAsciiLength(*Cursor) + 1
               Next i
-            EndIf        
+            EndIf
           EndIf
-        Next RunningDebuggers()     
+        Next RunningDebuggers()
       EndIf
   
       ; Only clean up when no longer in any debugger's files
       ;
-      If ThisDebugger And OtherDebugger = #False     
+      If ThisDebugger And OtherDebugger = #False
         If DebuggerKeepErrorMarks = 0
           ClearErrorLines(@FileList())
-        EndIf    
+        EndIf
       
         ClearCurrentLine(@FileList())
         SetReadOnly(FileList()\EditorGadget, 0)
       EndIf
     EndIf
   Next FileList()
-  ChangeCurrentElement(FileList(), *ActiveSource) 
+  ChangeCurrentElement(FileList(), *ActiveSource)
   
   SetDebuggerMenuStates()
   ActivateMainWindow() ; re-enable the focus on editor gadget (http://www.purebasic.fr/english/viewtopic.php?f=4&t=46375&p=352864#p352864)
@@ -758,12 +758,12 @@ Procedure Debugger_SwitchToFile(*Debugger.DebuggerData, Line)
     result = 1
   Else
     result = LoadSourceFile(FileName$)
-  EndIf  
+  EndIf
   
   ProcedureReturn result
 EndProcedure
 
-Procedure DebuggerCallback(*Debugger.DebuggerData)  
+Procedure DebuggerCallback(*Debugger.DebuggerData)
   
   CompilerIf #PB_Compiler_Debugger
     InDebuggerCallback = #True
@@ -785,9 +785,9 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           Text$ = Language("Debugger", "VersionError")
         Case #ERROR_NetworkFail
           Text$ = Language("Debugger", "NetworkError")
-      EndSelect   
+      EndSelect
       
-      Text$ = StringField(Text$, 1, Left(#NewLine, 1)) ; first line only      
+      Text$ = StringField(Text$, 1, Left(#NewLine, 1)) ; first line only
 
       Debugger_AddLog(*Debugger, Text$, *Debugger\Command\TimeStamp)
       Debugger_Ended(*Debugger) ; re-enable editing the sources
@@ -805,13 +805,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         Command\Value1 = *Target\WarningMode
       Else
         Command\Value1 = WarningMode ; global setting
-      EndIf  
-      SendDebuggerCommand(*Debugger, @Command)             
+      EndIf
+      SendDebuggerCommand(*Debugger, @Command)
     
       ; here the program really starts
       Debugger_AddLog(*Debugger, Language("Debugger","ExeStarted"), *Debugger\Command\TimeStamp)
       Debugger_Started(*Debugger)
-      ChangeStatus(Language("Debugger","ExeStarted"), -1)    
+      ChangeStatus(Language("Debugger","ExeStarted"), -1)
     
     Case #COMMAND_End
       Debugger_AddLog(*Debugger, Language("Debugger","ExeEnded"), *Debugger\Command\TimeStamp)
@@ -838,19 +838,19 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       Else
         Text$ + "  (32bit"
       EndIf
-      If *Debugger\IsUnicode: Text$ + ", Unicode": EndIf      
-      If *Debugger\IsThread : Text$ + ", Thread" : EndIf      
-      If *Debugger\IsPurifier: Text$ + ", Purifier": EndIf      
-      Text$ + ")" 
+      If *Debugger\IsUnicode: Text$ + ", Unicode": EndIf
+      If *Debugger\IsThread : Text$ + ", Thread" : EndIf
+      If *Debugger\IsPurifier: Text$ + ", Purifier": EndIf
+      Text$ + ")"
            
-      Debugger_AddLog(*Debugger, Text$, *Debugger\Command\TimeStamp) 
+      Debugger_AddLog(*Debugger, Text$, *Debugger\Command\TimeStamp)
       
         
     Case #COMMAND_Error
       FileName$ = GetDebuggerFile(*Debugger, *Debugger\Command\Value1)
       LineNumber = *Debugger\Command\Value1 & $FFFFFF + 1
       
-      If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)      
+      If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)
         ; the compiled file has the IDE settings appended to it, so the reported error line
         ; might be bigger than what the user sees. correct this here
         If LineNumber > GetLinesCount(*ActiveSource)
@@ -863,11 +863,11 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             ClearCurrentLine(@FileList())
           EndIf
         Next FileList()
-        ChangeCurrentElement(FileList(), *ActiveSource)      
+        ChangeCurrentElement(FileList(), *ActiveSource)
 
-        MarkErrorLine(LineNumber)      
+        MarkErrorLine(LineNumber)
         MarkCurrentLine(LineNumber)
-      EndIf    
+      EndIf
       
       If FileName$ <> ""
         Debugger_AddLog(*Debugger, Language("Debugger", "LogError") + " " + GetFilePart(FileName$) + " ("+Language("Misc","Line")+": " + Str(LineNumber)+")", *Debugger\Command\TimeStamp)
@@ -876,21 +876,21 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       EndIf
       Debugger_AddLog(*Debugger, Language("Debugger", "LogError") +" " + PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
 
-      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekAscii(*Debugger\CommandData), -1)                  
+      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekAscii(*Debugger\CommandData), -1)
       
       If DebuggerKillOnError
         Debugger_Ended(*Debugger)
         Debugger_ForceDestroy(*Debugger)
-      EndIf            
+      EndIf
       
-      SetDebuggerMenuStates() 
-      SetWindowForeGround(#WINDOW_Main)    
+      SetDebuggerMenuStates()
+      SetWindowForeGround(#WINDOW_Main)
 
     Case #COMMAND_Warning
       FileName$ = GetDebuggerFile(*Debugger, *Debugger\Command\Value1)
       LineNumber = *Debugger\Command\Value1 & $FFFFFF + 1
       
-      If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)          
+      If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)
         ; the compiled file has the IDE settings appended to it, so the reported error line
         ; might be bigger than what the user sees. correct this here
         If LineNumber > GetLinesCount(*ActiveSource)
@@ -898,8 +898,8 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         EndIf
         
         ; just mark as warning, no stop or currentline change
-        MarkWarningLine(LineNumber)      
-      EndIf    
+        MarkWarningLine(LineNumber)
+      EndIf
       
       If FileName$ <> ""
         Debugger_AddLog(*Debugger, Language("Debugger", "LogWarning") + " " + GetFilePart(FileName$) + " ("+Language("Misc","Line")+": " + Str(LineNumber)+")", *Debugger\Command\TimeStamp)
@@ -908,11 +908,11 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       EndIf
       Debugger_AddLog(*Debugger, Language("Debugger", "LogWarning") +" " + PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
 
-      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekAscii(*Debugger\CommandData), -1)                  
+      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekAscii(*Debugger\CommandData), -1)
 
 
     Case #COMMAND_Stopped
-      Text$ = Language("Debugger","Stopped") 
+      Text$ = Language("Debugger","Stopped")
       
       Select *Debugger\Command\Value2
         Case 3: Text$ + " (CallDebugger)": SetWindowForeGround(#WINDOW_Main)
@@ -921,7 +921,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         Case 8: Text$ + " ("+Language("Debugger","UserRequest")+")"
         
         Case 9
-          ; The DataBreakpoint functions have processed the eariler #COMMAND_DataBreakPoint, 
+          ; The DataBreakpoint functions have processed the eariler #COMMAND_DataBreakPoint,
           ; so the matching Condition is marked in the breakpoint list
           Text$ + " (" + Language("Debugger","DataBreakpoint")
           *Point.DataBreakPoint = *Debugger\FirstDataBreakPoint
@@ -957,12 +957,12 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         FileName$ = GetDebuggerFile(*Debugger, *Debugger\Command\Value1)
         LineNumber = *Debugger\Command\Value1 & $FFFFFF + 1
 
-        If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)    
+        If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)
           ; the compiled file has the IDE settings appended to it, so the reported error line
           ; might be bigger than what the user sees. correct this here
           If LineNumber > GetLinesCount(*ActiveSource)
             LineNumber = GetLinesCount(*ActiveSource)
-          EndIf      
+          EndIf
         
           ; remove any old current line mark
           ForEach FileList()
@@ -979,7 +979,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       SetDebuggerMenuStates()
       
-    Case #COMMAND_Continued      
+    Case #COMMAND_Continued
       Debugger_AddLog(*Debugger, Language("Debugger","Continued"), *Debugger\Command\TimeStamp)
       ChangeStatus(Language("Debugger","Continued"), -1)
       SetDebuggerMenuStates()
@@ -990,7 +990,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           ClearCurrentLine(@FileList())
         EndIf
       Next FileList()
-      ChangeCurrentElement(FileList(), *ActiveSource)   
+      ChangeCurrentElement(FileList(), *ActiveSource)
       
     Case #COMMAND_Debug
       If DebugOutputToErrorLog ; if set, this procedure is responsible for the debug output
@@ -1000,24 +1000,24 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             Message$ + Hex(*Debugger\Command\Value2, #PB_Long)
           Else
             Message$ + Str(*Debugger\Command\Value2)
-          EndIf        
+          EndIf
         ElseIf *Debugger\Command\Value1 = 8 ; string
           String$ = PeekS(*Debugger\CommandData, *Debugger\Command\DataSize)
           If Left(String$, 19) = "[OutputDebugString]"
             Message$ = String$ ; do not add the [Debug] from above
           Else
             Message$ + String$
-          EndIf                            
+          EndIf
         ElseIf *Debugger\Command\Value1 = 9 ; float
-          Message$ + StrF_Debug(PeekF(@*Debugger\Command\Value2))        
-        EndIf  
+          Message$ + StrF_Debug(PeekF(@*Debugger\Command\Value2))
+        EndIf
         
         ; Truncate the Message to avoid display problems on Windows, and because debugging
         ; such large things is no longer reasonably viewable anyway
         ;
         If Len(Message$) > 4096
           Message$ = Left(Message$, 4096) + " [...]"
-        EndIf 
+        EndIf
         
         Debugger_AddLog(*Debugger, Message$, *Debugger\Command\TimeStamp)
       EndIf
@@ -1025,7 +1025,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
     Case #COMMAND_DebugDouble
       If DebugOutputToErrorLog ; if set, this procedure is responsible for the debug output
         Debugger_AddLog(*Debugger, "[Debug] " + StrD_Debug(PeekD(@*Debugger\Command\Value1)), *Debugger\Command\TimeStamp)
-      EndIf  
+      EndIf
       
     Case #COMMAND_DebugQuad
       If DebugOutputToErrorLog ; if set, this procedure is responsible for the debug output
@@ -1034,12 +1034,12 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           Message$ + Hex(PeekQ(@*Debugger\Command\Value1), #PB_Quad)
         Else
           Message$ + Str(PeekQ(@*Debugger\Command\Value1))
-        EndIf        
+        EndIf
         
         Debugger_AddLog(*Debugger, Message$, *Debugger\Command\TimeStamp)
-      EndIf     
+      EndIf
       
-    Case #COMMAND_Expression 
+    Case #COMMAND_Expression
 
       ; expresion evaluation for tooltips
       ; check if this message is for us (the debug output uses this message too)
@@ -1072,38 +1072,38 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             Name$    = PeekS(*Debugger\CommandData+8, (*Debugger\Command\DataSize-8) / #CharSize)
             Message$ = Name$ + " = " + StrD_Debug(PeekD(*Debugger\CommandData))
             SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
-            SendEditorMessage(#SCI_CALLTIPSETHLT, 0, Len(Name$))            
+            SendEditorMessage(#SCI_CALLTIPSETHLT, 0, Len(Name$))
           
           Case 4 ; string
             Message$ = PeekS(*Debugger\CommandData, (*Debugger\Command\DataSize) / #CharSize)
-            Name$    = PeekS(*Debugger\CommandData + (Len(Message$) + 1) * #CharSize, *Debugger\Command\DataSize / #CharSize - Len(Message$) - 1)                        
+            Name$    = PeekS(*Debugger\CommandData + (Len(Message$) + 1) * #CharSize, *Debugger\Command\DataSize / #CharSize - Len(Message$) - 1)
             Message$ = Name$ + " = " + Chr(34) + Message$ + Chr(34)
             
             If Len(Message$) > 100
               Message$ = Left(Message$, 96) + "..."
-            EndIf            
+            EndIf
             
             ; result buffer must be freed
             CodePage = SendEditorMessage(#SCI_GETCODEPAGE)
-            *Buffer = StringToCodePage(CodePage, Message$)            
+            *Buffer = StringToCodePage(CodePage, Message$)
             If *Buffer
-              SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, *Buffer)            
-              SendEditorMessage(#SCI_CALLTIPSETHLT, 0, CodePageLength(CodePage, Name$))   
+              SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, *Buffer)
+              SendEditorMessage(#SCI_CALLTIPSETHLT, 0, CodePageLength(CodePage, Name$))
               FreeMemory(*Buffer)
             EndIf
           
-          Case 5 ; structure 
-            *Pointer = *Debugger\CommandData  
+          Case 5 ; structure
+            *Pointer = *Debugger\CommandData
             Message$ = ""
             
             Type$ = PeekS(*Pointer, -1, #PB_Ascii): *Pointer + Len(Type$) + 1
-            Count = PeekL(*Pointer): *Pointer + 4   
+            Count = PeekL(*Pointer): *Pointer + 4
             
             For i = 1 To Count
               type        = PeekB(*Pointer): *Pointer + 1
               dynamictype = PeekB(*Pointer): *Pointer + 1
               sublevel    = PeekL(*Pointer): *Pointer + 4
-              Name$       = PeekS(*Pointer, -1, #PB_Ascii): *Pointer + Len(Name$) + 1              
+              Name$       = PeekS(*Pointer, -1, #PB_Ascii): *Pointer + Len(Name$) + 1
               Line$       = Chr(10) + Space(sublevel*2 + 1) + "\" + Name$
               
               If IS_ARRAY(type)
@@ -1112,14 +1112,14 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               ElseIf IS_LINKEDLIST(type)
                 Line$ + "()" ; ignore the current and size for now (looks better)
 
-              ElseIf IS_MAP(type) 
-                Line$ + "()"             
+              ElseIf IS_MAP(type)
+                Line$ + "()"
                          
               ElseIf IS_POINTER(type) ; pointer
                 If *Debugger\Is64bit
-                  Line$ + " = " + Str(PeekQ(*Pointer))               
+                  Line$ + " = " + Str(PeekQ(*Pointer))
                 Else
-                  Line$ + " = " + Str(PeekL(*Pointer))              
+                  Line$ + " = " + Str(PeekL(*Pointer))
                 EndIf
               Else ; no pointer
                 Select type
@@ -1127,36 +1127,36 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
                   Case #TYPE_ASCII:     Line$ + " = " + StrU(PeekB(*Pointer), #PB_Byte)
                   Case #TYPE_WORD:      Line$ + " = " + Str(PeekW(*Pointer))
                   Case #TYPE_UNICODE:   Line$ + " = " + StrU(PeekW(*Pointer), #PB_Word)
-                  Case #TYPE_LONG:      Line$ + " = " + Str(PeekL(*Pointer)) 
+                  Case #TYPE_LONG:      Line$ + " = " + Str(PeekL(*Pointer))
                   Case #TYPE_STRUCTURE: ; structure, do not add a =
-                  Case #TYPE_FLOAT:     Line$ + " = " + StrF_Debug(PeekF(*Pointer))                 
+                  Case #TYPE_FLOAT:     Line$ + " = " + StrF_Debug(PeekF(*Pointer))
                   Case #TYPE_DOUBLE:    Line$ + " = " + StrD_Debug(PeekD(*Pointer))
-                  Case #TYPE_QUAD:      Line$ + " = " + Str(PeekQ(*Pointer))                 
+                  Case #TYPE_QUAD:      Line$ + " = " + Str(PeekQ(*Pointer))
                   Case #TYPE_CHARACTER: Line$ + " = " + Str(PeekL(*Pointer)) ; allready transformed to int here
                   
                   Case #TYPE_INTEGER
                     If *Debugger\Is64bit
-                      Line$ + " = " + Str(PeekQ(*Pointer))               
+                      Line$ + " = " + Str(PeekQ(*Pointer))
                     Else
-                      Line$ + " = " + Str(PeekL(*Pointer))              
+                      Line$ + " = " + Str(PeekL(*Pointer))
                     EndIf
                   
                   Case #TYPE_STRING, #TYPE_FIXEDSTRING
                     String$ = PeekS(*Pointer)
-                    Line$ + " = " + Chr(34) + String$ + Chr(34) 
+                    Line$ + " = " + Chr(34) + String$ + Chr(34)
                 EndSelect
-              EndIf   
+              EndIf
               
-              *Pointer + GetValueSize(type, *Pointer, *Debugger\Is64bit)  
+              *Pointer + GetValueSize(type, *Pointer, *Debugger\Is64bit)
               
               ; do not display too large structures !
               If i <= 25
-                If Len(Line$) > 100 
+                If Len(Line$) > 100
                   Line$ = Left(Line$, 96) + " ..."
                 EndIf
                   
                 Message$ + Line$
-              EndIf          
+              EndIf
             Next i
             
             If Count > 25
@@ -1169,12 +1169,12 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             
             ; result buffer must be freed
             CodePage = SendEditorMessage(#SCI_GETCODEPAGE)
-            *Buffer = StringToCodePage(CodePage, Message$)            
+            *Buffer = StringToCodePage(CodePage, Message$)
             If *Buffer
-              SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, *Buffer)            
-              SendEditorMessage(#SCI_CALLTIPSETHLT, 0, CodePageLength(CodePage, Name$) + 11)   
+              SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, *Buffer)
+              SendEditorMessage(#SCI_CALLTIPSETHLT, 0, CodePageLength(CodePage, Name$) + 11)
               FreeMemory(*Buffer)
-            EndIf            
+            EndIf
 
           Case 6 ; long (ppc only)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / #CharSize)
@@ -1186,9 +1186,9 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / #CharSize)
             Message$ = Name$ + " = " + StrF_Debug(PeekF(*Debugger\CommandData))
             SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
-            SendEditorMessage(#SCI_CALLTIPSETHLT, 0, Len(Name$))            
+            SendEditorMessage(#SCI_CALLTIPSETHLT, 0, Len(Name$))
  
-        EndSelect        
+        EndSelect
         
       EndIf
       
@@ -1205,15 +1205,15 @@ Procedure Debugger_ShowLine(*Debugger.DebuggerData, Line)
   FileName$ = GetDebuggerFile(*Debugger, Line)
   LineNumber = Line & $FFFFFF + 1
 
-  If Debugger_SwitchToFile(*Debugger, Line)          
+  If Debugger_SwitchToFile(*Debugger, Line)
     ; make sure the linenumber is not too hight (could happen in the profiler)
     If LineNumber > GetLinesCount(*ActiveSource)
       LineNumber = GetLinesCount(*ActiveSource)
-    EndIf          
+    EndIf
     ChangeActiveLine(LineNumber, -5)
     
     ActivateMainWindow()
-  EndIf   
+  EndIf
           
 EndProcedure
 
@@ -1229,7 +1229,7 @@ Procedure ProcessDebuggerEvent()
     
   CompilerElse
     ; process debugger and automation requests
-    ; if there are debugger messages, automation is not checked, so the debugger has priority        
+    ; if there are debugger messages, automation is not checked, so the debugger has priority
     If Debugger_ProcessIncommingCommands() = 0 And ProcessAutomationRequest() = 0
     EndIf
   CompilerEndIf
@@ -1245,7 +1245,7 @@ Procedure Debugger_Run(*Debugger.DebuggerData = 0)
   If *Debugger = 0 ; get the activesource debugger if none is supplied
     *Debugger.DebuggerData = GetDebuggerForFile(*ActiveSource)
   EndIf
-  If *Debugger    
+  If *Debugger
     If *Debugger\ProgramState <> 0 And *Debugger\ProgramState <> -1 And *Debugger\ProgramState <> 6 And *Debugger\ProgramState <> 5
     
       Command.CommandInfo\Command = #COMMAND_Run
@@ -1258,7 +1258,7 @@ Procedure Debugger_Run(*Debugger.DebuggerData = 0)
 EndProcedure
 
 Procedure Debugger_Stop(*Debugger.DebuggerData = 0)
-  If *Debugger = 0 ; get the activesource debugger if none is supplied    
+  If *Debugger = 0 ; get the activesource debugger if none is supplied
     *Debugger.DebuggerData = GetDebuggerForFile(*ActiveSource)
   EndIf
   If *Debugger
@@ -1267,7 +1267,7 @@ Procedure Debugger_Stop(*Debugger.DebuggerData = 0)
       Command.CommandInfo\Command = #COMMAND_Stop
       Command\DataSize = 0
       SendDebuggerCommand(*Debugger, @Command)
-      ; program state is updated once the debugger responds with #COMMAND_Stopped    
+      ; program state is updated once the debugger responds with #COMMAND_Stopped
     
     EndIf
   EndIf
@@ -1285,11 +1285,11 @@ Procedure Debugger_Step(*Debugger.DebuggerData = 0)
       Command\Value1 = 1  ; 1 step
       SendDebuggerCommand(*Debugger, @Command)
       
-      *Debugger\ProgramState = -2 ; indicate step mode      
+      *Debugger\ProgramState = -2 ; indicate step mode
       SetDebuggerMenuStates()
       ChangeStatus(Language("Debugger","OneStep"), -1)
     
-    EndIf    
+    EndIf
   EndIf
 EndProcedure
 
@@ -1320,12 +1320,12 @@ Procedure Debugger_StepX(*Debugger.DebuggerData = 0)
         Command\Value1 = LastStepValue
         SendDebuggerCommand(*Debugger, @Command)
         
-        *Debugger\ProgramState = -2 ; indicate step mode      
+        *Debugger\ProgramState = -2 ; indicate step mode
         SetDebuggerMenuStates()
         ChangeStatus(LanguagePattern("Debugger","StepX", "%x%", Str(LastStepValue)), -1)
       EndIf
       
-    EndIf  
+    EndIf
   EndIf
 EndProcedure
 
@@ -1341,11 +1341,11 @@ Procedure Debugger_StepOver(*Debugger.DebuggerData = 0)
       Command\Value1 = -1  ; means "step over"
       SendDebuggerCommand(*Debugger, @Command)
       
-      *Debugger\ProgramState = -2 ; indicate step mode      
+      *Debugger\ProgramState = -2 ; indicate step mode
       SetDebuggerMenuStates()
       ChangeStatus(Language("Debugger","StepOver"), -1)
     
-    EndIf    
+    EndIf
   EndIf
 EndProcedure
 
@@ -1361,11 +1361,11 @@ Procedure Debugger_StepOut(*Debugger.DebuggerData = 0)
       Command\Value1 = -2  ; means "step out"
       SendDebuggerCommand(*Debugger, @Command)
       
-      *Debugger\ProgramState = -2 ; indicate step mode      
+      *Debugger\ProgramState = -2 ; indicate step mode
       SetDebuggerMenuStates()
       ChangeStatus(Language("Debugger","StepOut"), -1)
     
-    EndIf    
+    EndIf
   EndIf
 EndProcedure
 
@@ -1379,7 +1379,7 @@ Procedure Debugger_Kill(*Debugger.DebuggerData = 0)
   EndIf
   If *Debugger
   
-    Debugger_SaveWatchlist(*Debugger)    
+    Debugger_SaveWatchlist(*Debugger)
     
     ; remove any old current line mark
     ; enable all included sources for editing again
@@ -1394,12 +1394,12 @@ Procedure Debugger_Kill(*Debugger.DebuggerData = 0)
         SetReadOnly(FileList()\EditorGadget, 0)
       EndIf
     Next FileList()
-    ChangeCurrentElement(FileList(), *ActiveSource)     
+    ChangeCurrentElement(FileList(), *ActiveSource)
         
-    Debugger_AddLog(*Debugger, Language("Debugger","ExeKilled"), Date()) 
-    ChangeStatus(Language("Debugger","ExeKilled"), 3000)      
+    Debugger_AddLog(*Debugger, Language("Debugger","ExeKilled"), Date())
+    ChangeStatus(Language("Debugger","ExeKilled"), 3000)
     
-    Debugger_ForceDestroy(*Debugger) ; force removing of the debugger/exe      
+    Debugger_ForceDestroy(*Debugger) ; force removing of the debugger/exe
   
     SetDebuggerMenuStates()
   EndIf
@@ -1419,7 +1419,7 @@ Procedure Debugger_BreakPoint(Line)
     Else
       MarkBreakPoint(Line)
       Action = 1 ; add breakpoint
-    EndIf  
+    EndIf
     
     *Debugger.DebuggerData = IsDebuggedFile(*ActiveSource)
     If *Debugger
@@ -1427,8 +1427,8 @@ Procedure Debugger_BreakPoint(Line)
       Command\Value1 = Action
       Command\Value2 = Line | (GetDebuggerFileNumber(*Debugger, *ActiveSource) << 24)
       Command\DataSize = 0
-      SendDebuggerCommand(*Debugger, @Command)    
-    EndIf  
+      SendDebuggerCommand(*Debugger, @Command)
+    EndIf
   EndIf
   
 EndProcedure
@@ -1445,13 +1445,13 @@ Procedure Debugger_ClearBreakPoints()
       Command\Value1 = 3 ; clear all
       Command\Value2 = GetDebuggerFileNumber(*Debugger, *ActiveSource)
       Command\DataSize = 0
-      SendDebuggerCommand(*Debugger, @Command)    
-    EndIf 
-  EndIf  
+      SendDebuggerCommand(*Debugger, @Command)
+    EndIf
+  EndIf
   
 EndProcedure
 
-Procedure Debugger_EvaluateAtCursor(position)  
+Procedure Debugger_EvaluateAtCursor(position)
 
   If *ActiveSource <> *ProjectInfo
     *Debugger.DebuggerData = GetDebuggerForFile(*ActiveSource)
@@ -1462,18 +1462,18 @@ Procedure Debugger_EvaluateAtCursor(position)
       ; entire selection
       ;
       selStart = SendEditorMessage(#SCI_GETSELECTIONSTART, 0, 0)
-      selEnd = SendEditorMessage(#SCI_GETSELECTIONEND  , 0, 0)  
+      selEnd = SendEditorMessage(#SCI_GETSELECTIONEND  , 0, 0)
       If selStart > selEnd
         Swap selStart, selEnd
       EndIf
       
       If selStart <= position And selStart <> selEnd And position <= selEnd
         ; multiline is now allowed, as there could be a line continuation
-        Expr$ = Space(selEnd - selStart)    
+        Expr$ = Space(selEnd - selStart)
         range.TextRange\chrg\cpMin  = selStart
         range\chrg\cpMax            = selEnd
-        range\lpstrText             = @Expr$     
-        SendEditorMessage(#SCI_GETTEXTRANGE, 0, @range)         
+        range\lpstrText             = @Expr$
+        SendEditorMessage(#SCI_GETTEXTRANGE, 0, @range)
         
         If *ActiveSource\Parser\Encoding = 1
           Expr$ = PeekS(@Expr$, -1, #PB_UTF8)
@@ -1482,15 +1482,15 @@ Procedure Debugger_EvaluateAtCursor(position)
         EndIf
         
         Expr$ = Trim(Expr$)
-        IsVariableExpression = 0    
+        IsVariableExpression = 0
       EndIf
       
       ; try the current word now if the selection is not ok
       ;
       If Expr$ = ""
-        Line      = SendEditorMessage(#SCI_LINEFROMPOSITION, position, 0) 
-        linestart = SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0)    
-        column    = CountCharacters(*ActiveSource\EditorGadget, linestart, position)            
+        Line      = SendEditorMessage(#SCI_LINEFROMPOSITION, position, 0)
+        linestart = SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0)
+        column    = CountCharacters(*ActiveSource\EditorGadget, linestart, position)
         Line$     = GetLine(line)
         
         If Line$ <> ""
@@ -1502,8 +1502,8 @@ Procedure Debugger_EvaluateAtCursor(position)
             selStart-1
           EndIf
                   
-          Expr$ = Mid(Line$, selStart+1, selEnd - selStart + 1) 
-          IsVariableExpression = 1          
+          Expr$ = Mid(Line$, selStart+1, selEnd - selStart + 1)
+          IsVariableExpression = 1
         EndIf
       EndIf
 
@@ -1515,8 +1515,8 @@ Procedure Debugger_EvaluateAtCursor(position)
         Command\Value1 = AsciiConst('S','C','I','N') ; to identify the sender
         Command\Value2 = SendEditorMessage(#SCI_LINEFROMPOSITION, position, 0)  | (GetDebuggerFileNumber(*Debugger, *ActiveSource) << 24)
         Command\DataSize = (Len(Expr$)+1) * SizeOf(Character)
-        SendDebuggerCommandWithData(*Debugger, @Command, @Expr$)    
-        Debug Expr$       
+        SendDebuggerCommandWithData(*Debugger, @Command, @Expr$)
+        Debug Expr$
       EndIf
     
     EndIf
@@ -1530,14 +1530,14 @@ EndProcedure
 ; updates the shortcuts to all the windows of this debugger
 ; called when any new window is opened, or after prefs change
 ;
-Procedure Debugger_AddShortcuts(Window)  
+Procedure Debugger_AddShortcuts(Window)
   
   If KeyboardShortcuts(#MENU_Stop)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_Stop), #MENU_Debugger_Stop)
-  EndIf      
+  EndIf
   If KeyboardShortcuts(#MENU_Run)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_Run), #MENU_Debugger_Run)
-  EndIf      
+  EndIf
   If KeyboardShortcuts(#MENU_Step)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_Step), #MENU_Debugger_Step)
   EndIf
@@ -1552,31 +1552,31 @@ Procedure Debugger_AddShortcuts(Window)
   EndIf
   If KeyboardShortcuts(#MENU_Kill)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_Kill), #MENU_Debugger_Kill)
-  EndIf      
+  EndIf
   If KeyboardShortcuts(#MENU_DebugOutput)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_DebugOutput), #MENU_Debugger_DebugOutput)
-  EndIf 
+  EndIf
   If KeyboardShortcuts(#MENU_Watchlist)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_Watchlist), #MENU_Debugger_Watchlist)
-  EndIf 
+  EndIf
   If KeyboardShortcuts(#MENU_VariableList)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_VariableList), #MENU_Debugger_VariableList)
-  EndIf 
+  EndIf
   If KeyboardShortcuts(#MENU_History)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_History), #MENU_Debugger_History)
-  EndIf 
+  EndIf
   If KeyboardShortcuts(#MENU_Memory)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_Memory), #MENU_Debugger_Memory)
-  EndIf 
+  EndIf
   If KeyboardShortcuts(#MENU_LibraryViewer)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_LibraryViewer), #MENU_Debugger_LibraryViewer)
-  EndIf 
+  EndIf
   If KeyboardShortcuts(#MENU_DebugAsm)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_DebugAsm), #MENU_Debugger_DebugAsm)
-  EndIf 
+  EndIf
   If KeyboardShortcuts(#MENU_DataBreakPoints)
     AddKeyboardShortcut(Window, KeyboardShortcuts(#MENU_DataBreakPoints), #MENU_Debugger_DataBreakPoints)
-  EndIf 
+  EndIf
 
 EndProcedure
 
@@ -1587,14 +1587,14 @@ Procedure Debugger_RemoveExtraShortcuts()
 
   ForEach RunningDebuggers()
     For i = 0 To #DEBUGGER_WINDOW_LAST-1
-      If IsWindow(RunningDebuggers()\Windows[i])  
+      If IsWindow(RunningDebuggers()\Windows[i])
 
         If KeyboardShortcuts(#MENU_Stop)
           RemoveKeyboardShortcut(RunningDebuggers()\Windows[i], KeyboardShortcuts(#MENU_Stop))
-        EndIf      
+        EndIf
         If KeyboardShortcuts(#MENU_Run)
           RemoveKeyboardShortcut(RunningDebuggers()\Windows[i], KeyboardShortcuts(#MENU_Run))
-        EndIf      
+        EndIf
         If KeyboardShortcuts(#MENU_Step)
           RemoveKeyboardShortcut(RunningDebuggers()\Windows[i], KeyboardShortcuts(#MENU_Step))
         EndIf
@@ -1637,7 +1637,7 @@ Procedure Debugger_RemoveExtraShortcuts()
 
 
       EndIf
-    Next i    
+    Next i
   Next RunningDebuggers()
 
 EndProcedure
@@ -1646,10 +1646,10 @@ Procedure Debugger_AddExtraShortcuts()
 
   ForEach RunningDebuggers()
     For i = 0 To #DEBUGGER_WINDOW_LAST-1
-      If IsWindow(RunningDebuggers()\Windows[i])  
+      If IsWindow(RunningDebuggers()\Windows[i])
         Debugger_AddShortcuts(RunningDebuggers()\Windows[i])
       EndIf
-    Next i      
+    Next i
   Next RunningDebuggers()
 
 EndProcedure
@@ -1675,7 +1675,7 @@ Procedure Debugger_ProcessShortcuts(EventWindowID, EventID)
             Case #MENU_Debugger_Stop
               Debugger_Stop(@RunningDebuggers())
               
-            Case #MENU_Debugger_Run 
+            Case #MENU_Debugger_Run
               Debugger_Run(@RunningDebuggers())
             
             Case #MENU_Debugger_Step
@@ -1690,31 +1690,31 @@ Procedure Debugger_ProcessShortcuts(EventWindowID, EventID)
             Case #MENU_Debugger_StepOver
               Debugger_StepOver(@RunningDebuggers())
             
-            Case #MENU_Debugger_Kill            
+            Case #MENU_Debugger_Kill
               Debugger_Kill(@RunningDebuggers())
               
             Case #MENU_Debugger_DebugOutput
               OpenDebugWindow(@RunningDebuggers(), #True)
             
             Case #MENU_Debugger_Watchlist
-              OpenWatchListWindow(@RunningDebuggers())   
+              OpenWatchListWindow(@RunningDebuggers())
             
-            Case #MENU_Debugger_VariableList      
-              OpenVariableWindow(@RunningDebuggers())     
+            Case #MENU_Debugger_VariableList
+              OpenVariableWindow(@RunningDebuggers())
             
             Case #MENU_Debugger_History
-              OpenHistoryWindow(@RunningDebuggers())       
+              OpenHistoryWindow(@RunningDebuggers())
             
             Case #MENU_Debugger_Memory
               OpenMemoryViewerWindow(@RunningDebuggers())
               
             Case #MENU_Debugger_LibraryViewer
-              OpenLibraryViewerWindow(@RunningDebuggers())   
+              OpenLibraryViewerWindow(@RunningDebuggers())
             
             Case #MENU_Debugger_DebugAsm
-              OpenAsmWindow(@RunningDebuggers())  
+              OpenAsmWindow(@RunningDebuggers())
             
-            Case #MENU_Debugger_DataBreakPoints   
+            Case #MENU_Debugger_DataBreakPoints
               OpenDataBreakpointWindow(@RunningDebuggers())		        
 		            
             

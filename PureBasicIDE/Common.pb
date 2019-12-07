@@ -54,7 +54,7 @@ Enumeration 0
   #COLOR_Marker
   #COLOR_CurrentLine
   #COLOR_Selection
-  #COLOR_SelectionFront  
+  #COLOR_SelectionFront
   #COLOR_Cursor
   #COLOR_DebuggerLine
   #COLOR_DebuggerLineSymbol
@@ -68,7 +68,7 @@ Enumeration 0
   #COLOR_ProcedureBack
   #COLOR_CustomKeyword
   #COLOR_DebuggerWarning
-  #COLOR_DebuggerWarningSymbol  
+  #COLOR_DebuggerWarningSymbol
   #COLOR_Whitespace
   #COLOR_Module
   #COLOR_SelectionRepeat
@@ -106,7 +106,7 @@ Enumeration 1 ; 0 is reserved
   #WINDOW_Warnings
   #WINDOW_ProjectOptions
   #WINDOW_Build
-  #WINDOW_Help 
+  #WINDOW_Help
   #WINDOW_Diff
   #WINDOW_DiffDirectory
   #WINDOW_DiffDialog
@@ -114,7 +114,7 @@ Enumeration 1 ; 0 is reserved
   #WINDOW_EditHistory
   #WINDOW_EditHistoryShutdown
   #WINDOW_Updates
-  #WINDOW_Form_Parent  
+  #WINDOW_Form_Parent
   
   CompilerIf #DEBUG
     #WINDOW_Debugging ; for global use. all gadgets are #PB_Any on this window
@@ -126,14 +126,14 @@ EndEnumeration
 Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_FilesPanel     ; now a custom drawn CanvasGadget
   #GADGET_ToolsPanel
-  #GADGET_ToolsPanelFake ; for hidden toolspanel  
+  #GADGET_ToolsPanelFake ; for hidden toolspanel
   #GADGET_ErrorLog
   
   #GADGET_ToolsSplitter
   #GADGET_LogSplitter
   #GADGET_SourceContainer
   #GADGET_LogDummy   ; dummy to put in the splitter when log is hidden (replaces the sourcecontainer)
-  #GADGET_ToolsDummy ; dummy to put in when it is not used (to replace the seconds splitter)    
+  #GADGET_ToolsDummy ; dummy to put in when it is not used (to replace the seconds splitter)
   
   #GADGET_ProjectInfo
   #GADGET_ProjectInfo_FrameProject
@@ -165,7 +165,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Form_Parent_OK
   #GADGET_Form_Parent_Cancel
   
-  #GADGET_ProcedureBrowser  
+  #GADGET_ProcedureBrowser
   
   #GADGET_ProjectPanel
 
@@ -209,8 +209,8 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_ToolsPanelDelay
   #GADGET_Preferences_MemorizeMarkers
   #GADGET_Preferences_ColorSchemes
-  #GADGET_Preferences_ColorSchemeSet  
-  #GADGET_Preferences_ExpShortcut  
+  #GADGET_Preferences_ColorSchemeSet
+  #GADGET_Preferences_ExpShortcut
   #GADGET_Preferences_ExpToolbar
   #GADGET_Preferences_ExpColor
   #GADGET_Preferences_ExpFolding
@@ -221,7 +221,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_ImpToolbar
   #GADGET_Preferences_ImpColor
   #GADGET_Preferences_ImpFolding
-  #GADGET_Preferences_ImportFile 
+  #GADGET_Preferences_ImportFile
   #GADGET_Preferences_GetImportFile
   #GADGET_Preferences_OpenImport
   #GADGET_Preferences_Import
@@ -229,11 +229,11 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_NoSplashScreen
   #GADGET_Preferences_DisplayFullPath
   #GADGET_Preferences_EnableMenuIcons
-  #GADGET_Preferences_DebuggerMode  
+  #GADGET_Preferences_DebuggerMode
   #GADGET_Preferences_AutoClearLog
   #GADGET_Preferences_DisplayErrorWindow
   #GADGET_Preferences_DebuggerMemorizeWindows ; first to auto-disable
-  #GADGET_Preferences_WarningMode  
+  #GADGET_Preferences_WarningMode
   #GADGET_Preferences_KeepErrorMarks
   #GADGET_Preferences_DebuggerAlwaysOnTop
   #GADGET_Preferences_DebuggerBringToTop
@@ -241,11 +241,11 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_DebuggerStopAtEnd
   #GADGET_Preferences_DebuggerLogTimeStamp
   #GADGET_Preferences_DebuggerTimeout
-  #GADGET_Preferences_KillOnError  
-  #GADGET_Preferences_DebugOutUseFont  
-  #GADGET_Preferences_DebugOutFont  
+  #GADGET_Preferences_KillOnError
+  #GADGET_Preferences_DebugOutUseFont
+  #GADGET_Preferences_DebugOutFont
   #GADGET_Preferences_DebugIsHex
-  #GADGET_Preferences_DebugOutTimeStamp  
+  #GADGET_Preferences_DebugOutTimeStamp
   #GADGET_Preferences_RegisterIsHex
   #GADGET_Preferences_StackIsHex
   #GADGET_Preferences_AutoStackUpdate
@@ -262,7 +262,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_ProfilerWindowOpen
   #GADGET_Preferences_HistoryWindowOpen
   #GADGET_Preferences_LibraryViewerWindowOpen
-  #GADGET_Preferences_WatchlistWindowOpen  ; last auto-disabled     
+  #GADGET_Preferences_WatchlistWindowOpen  ; last auto-disabled
   #GADGET_Preferences_SaveProjectSettings
   #GADGET_Preferences_SelectToolsPanelFont
   #GADGET_Preferences_UseToolsPanelFont
@@ -272,7 +272,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_ToolsPanelFrontColorSelect
   #GADGET_Preferences_ToolsPanelBackColor
   #GADGET_Preferences_ToolsPanelBackColorText
-  #GADGET_Preferences_ToolsPanelBackColorSelect  
+  #GADGET_Preferences_ToolsPanelBackColorSelect
   #GADGET_Preferences_NoIndependantToolsColors
   #GADGET_Preferences_KeywordList
   #GADGET_Preferences_KeywordText
@@ -280,7 +280,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_KeywordRemove
   #GADGET_Preferences_KeywordFile
   #GADGET_Preferences_GetKeywordFile
-  #GADGET_Preferences_EnableFolding  
+  #GADGET_Preferences_EnableFolding
   #GADGET_Preferences_FoldStartList  ; first to autodisable
   #GADGET_Preferences_FoldStartText
   #GADGET_Preferences_FoldStartAdd
@@ -312,13 +312,13 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_VistaAdmin
   #GADGET_Preferences_VistaUser
   #GADGET_Preferences_DPIAware
-  #GADGET_Preferences_Thread  
+  #GADGET_Preferences_Thread
   #GADGET_Preferences_OnError
   #GADGET_Preferences_ExecutableFormat
   #GADGET_Preferences_CPU
-  #GADGET_Preferences_NewLineType  
-  #GADGET_Preferences_Encoding 
-  #GADGET_Preferences_SubSystem 
+  #GADGET_Preferences_NewLineType
+  #GADGET_Preferences_Encoding
+  #GADGET_Preferences_SubSystem
   #GADGET_Preferences_UseCompileCount
   #GADGET_Preferences_UseBuildCount
   #GADGET_Preferences_UseCreateExecutable
@@ -331,17 +331,17 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_MoveToolUp
   #GADGET_Preferences_MoveToolDown
   #GADGET_Preferences_ToolSettingsContainer
-  #GADGET_Preferences_ToolSettingsScrollArea       
+  #GADGET_Preferences_ToolSettingsScrollArea
   #GADGET_Preferences_ExplorerMode0
   #GADGET_Preferences_ExplorerMode1
   #GADGET_Preferences_ExplorerSavePath
   #GADGET_Preferences_ExplorerShowHidden
   #GADGET_Preferences_ProcedureBrowserSort
-  #GADGET_Preferences_ProcedureBrowserGroup  
+  #GADGET_Preferences_ProcedureBrowserGroup
   #GADGET_Preferences_ProcedureProtoType
 ;  #GADGET_Preferences_ColorPickerHistory
   #GADGET_Preferences_Languages
-  #GADGET_Preferences_LanguageInfo    
+  #GADGET_Preferences_LanguageInfo
 ;  #GADGET_Preferences_EnableColoring
   #GADGET_Preferences_EnableBolding
   #GADGET_Preferences_EnableCaseCorrection
@@ -350,20 +350,20 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_ShowWhiteSpace
   #GADGET_Preferences_ShowIndentGuides
   #GADGET_Preferences_EnableBraceMatch
-  #GADGET_Preferences_EnableKeywordMatch  
+  #GADGET_Preferences_EnableKeywordMatch
   #GADGET_Preferences_SelectFont
-  #GADGET_Preferences_CurrentFont    
+  #GADGET_Preferences_CurrentFont
   #GADGET_Preferences_CharMatch1
   #GADGET_Preferences_CharMatch2
   #GADGET_Preferences_CharMatch3
   #GADGET_Preferences_BoxWidth
-  #GADGET_Preferences_BoxHeight 
-  #GADGET_Preferences_AutoPopup  
-  #GADGET_Preferences_AddBrackets 
+  #GADGET_Preferences_BoxHeight
+  #GADGET_Preferences_AutoPopup
+  #GADGET_Preferences_AddBrackets
   #GADGET_Preferences_AddSpaces
-  #GADGET_Preferences_AddEndKeywords 
+  #GADGET_Preferences_AddEndKeywords
 ;  #GADGET_Preferences_NoComments
-;  #GADGET_Preferences_NoStrings  
+;  #GADGET_Preferences_NoStrings
   #GADGET_Preferences_AutoPopupLength
   #GADGET_Preferences_StructureItems
   #GADGET_Preferences_ModulePrefix
@@ -372,7 +372,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_SourceOnly
   #GADGET_Preferences_ProjectOnly
   #GADGET_Preferences_ProjectAllFiles
-  #GADGET_Preferences_AllFiles 
+  #GADGET_Preferences_AllFiles
   #GADGET_Preferences_ShortcutBox
   #GADGET_Preferences_ShortcutList
   ;#GADGET_Preferences_ShortcutControl
@@ -395,7 +395,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_ToolbarSet
   #GADGET_Preferences_ToolbarClassic
   #GADGET_Preferences_ToolbarDefault
-  #GADGET_Preferences_ToolbarList  
+  #GADGET_Preferences_ToolbarList
   #GADGET_Preferences_FirstColor
   #GADGET_Preferences_LastColor       = #GADGET_Preferences_FirstColor + #COLOR_Last
   #GADGET_Preferences_FirstSelectColor
@@ -403,13 +403,13 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_FirstColorText
   #GADGET_Preferences_LastColorText   = #GADGET_Preferences_FirstColorText + #COLOR_Last
   #GADGET_Preferences_FirstColorCheck
-  #GADGET_Preferences_LastColorCheck  = #GADGET_Preferences_FirstColorCheck + #COLOR_Last  
-  #GADGET_Preferences_TemplatesAskDelete  
+  #GADGET_Preferences_LastColorCheck  = #GADGET_Preferences_FirstColorCheck + #COLOR_Last
+  #GADGET_Preferences_TemplatesAskDelete
   #GADGET_Preferences_FirstContainer
   #GADGET_Preferences_LastContainer   = #GADGET_Preferences_FirstContainer + 24
   #GADGET_Preferences_ToolsPanelDelayText
   #GADGET_Preferences_ToolSettingsTitle
-  #GADGET_Preferences_AutoPopupText      
+  #GADGET_Preferences_AutoPopupText
   #GADGET_Preferences_Themes
   #GADGET_Preferences_DefaultCompiler
   #GADGET_Preferences_CompilerList
@@ -438,14 +438,14 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_EnableHistory
   #GADGET_Preferences_HistoryTimer  ; first to auto disable
   #GADGET_Preferences_HistoryMaxFileSize
-  #GADGET_Preferences_HistoryPurgeNever  
+  #GADGET_Preferences_HistoryPurgeNever
   #GADGET_Preferences_HistoryPurgeByDays
   #GADGET_Preferences_HistoryPurgeByDays2
   #GADGET_Preferences_HistoryPurgeByCount
   #GADGET_Preferences_HistoryPurgeByCount2
   #GADGET_Preferences_HistoryDays
   #GADGET_Preferences_HistoryCount    ; last to auto disable
-  #GADGET_Preferences_HistoryFile    
+  #GADGET_Preferences_HistoryFile
   #GADGET_Preferences_FilesPanelMultiline
   #GADGET_Preferences_FilesPanelCloseButtons
   #GADGET_Preferences_FilesPanelNewButton
@@ -483,7 +483,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
 
   #GADGET_Goto_Line
   #GADGET_Goto_Cancel
-  #GADGET_Goto_Ok 
+  #GADGET_Goto_Ok
   
   #GADGET_Find_FindWord
   #GADGET_Find_ReplaceWord
@@ -515,7 +515,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Grep_FindWord
   #GADGET_Grep_Directory
   #GADGET_Grep_SelectDirectory
-  #GADGET_Grep_UseCurrentDirectory    
+  #GADGET_Grep_UseCurrentDirectory
   #GADGET_Grep_Pattern
   #GADGET_Grep_MatchCase
   #GADGET_Grep_Recurse
@@ -539,19 +539,19 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
 
   #GADGET_Option_UseMainFile
   #GADGET_Option_MainFile         ; also for inputfile in project mode
-  #GADGET_Option_SelectMainFile  
+  #GADGET_Option_SelectMainFile
   #GADGET_Option_OutputFileLabel  ; only in project mode (hidden in SpiderBasic)
   #GADGET_Option_OutputFile       ; only in project mode (hidden in SpiderBasic)
   #GADGET_Option_SelectOutputFile ; only in project mode (hidden in SpiderBasic)
-  #GADGET_Option_Debugger 
+  #GADGET_Option_Debugger
   #GADGET_Option_Purifier
-  #GADGET_Option_SelectDebugger 
+  #GADGET_Option_SelectDebugger
   #GADGET_Option_DebuggerMode
   #GADGET_Option_SelectWarning
   #GADGET_Option_WarningMode
          
-  #GADGET_Option_UseCompiler  ; First to be disabled/enabled in "Main file" loop   
-  #GADGET_Option_SelectCompiler      
+  #GADGET_Option_UseCompiler  ; First to be disabled/enabled in "Main file" loop
+  #GADGET_Option_SelectCompiler
   CompilerIf #SpiderBasic
     #GADGET_Option_OptimizeJS
     #GADGET_Option_WindowTheme
@@ -560,40 +560,40 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_Option_SelectGadgetTheme
     #GADGET_Option_WebServerAddress
   CompilerElse
-    #GADGET_Option_UseIcon       
+    #GADGET_Option_UseIcon
     #GADGET_Option_SelectIcon
     #GADGET_Option_IconName
-    #GADGET_Option_EnableThread            
-    #GADGET_Option_EnableXP         
+    #GADGET_Option_EnableThread
+    #GADGET_Option_EnableXP
     #GADGET_Option_EnableAdmin
     #GADGET_Option_EnableUser
     #GADGET_Option_DPIAware
-    #GADGET_Option_EnableOnError    
-    #GADGET_Option_ExecutableFormat 
-    #GADGET_Option_EnableASM  
-    #GADGET_Option_CPU  
+    #GADGET_Option_EnableOnError
+    #GADGET_Option_ExecutableFormat
+    #GADGET_Option_EnableASM
+    #GADGET_Option_CPU
     #GADGET_Option_Linker
     #GADGET_Option_GetLinker
-  CompilerEndIf  
+  CompilerEndIf
   #GADGET_Option_SubSystem
   #GADGET_Option_UseCompileCount
   #GADGET_Option_UseBuildCount
   #GADGET_Option_UseCreateExe
   #GADGET_Option_BuildCount
-  #GADGET_Option_CompileCount     
+  #GADGET_Option_CompileCount
   #GADGET_Option_ConstantList
   #GADGET_Option_ConstantAdd
   #GADGET_Option_ConstantSet
   #GADGET_Option_ConstantRemove
   #GADGET_Option_ConstantClear
-  #GADGET_Option_ConstantLine  ; Last label to be disabled/enabled in the 'Main file' loop  
+  #GADGET_Option_ConstantLine  ; Last label to be disabled/enabled in the 'Main file' loop
   #GADGET_Option_CommandLine
   #GADGET_Option_CurrentDir
   #GADGET_Option_SelectCurrentDir
   #GADGET_Option_TemporaryExe
-  #GADGET_Option_ToolsList       
-  #GADGET_Option_Ok               
-  #GADGET_Option_Cancel   
+  #GADGET_Option_ToolsList
+  #GADGET_Option_Ok
+  #GADGET_Option_Cancel
   #GADGET_Option_Panel
   #GADGET_Option_IncludeVersion
   #GADGET_Option_VersionText0
@@ -607,7 +607,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Option_ResourceRemove
   #GADGET_Option_ResourceClear
   #GADGET_Option_ResourceFile
-  #GADGET_Option_ResourceSelectFile  
+  #GADGET_Option_ResourceSelectFile
   #GADGET_Option_AddTarget
   #GADGET_Option_EditTarget
   #GADGET_Option_CopyTarget
@@ -616,7 +616,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Option_TargetDown
   #GADGET_Option_TargetList
   #GADGET_Option_DefaultTarget
-  #GADGET_Option_TargetEnabled  
+  #GADGET_Option_TargetEnabled
   #GADGET_Option_DefaultTargetMenu ; not real gadgets, but needed to know the difference between gadget and popupmenu action
   #GADGET_Option_TargetEnabledMenu
   #GADGET_Option_OpenProject
@@ -637,11 +637,11 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_EditTools_WorkingDir
   #GADGET_EditTools_ChooseWorkingDir
   #GADGET_EditTools_MenuEntry
-  #GADGET_EditTools_Trigger  
+  #GADGET_EditTools_Trigger
   #GADGET_EditTools_Ok
   #GADGET_EditTools_Cancel
   #GADGET_EditTools_RunHidden  ; first for loop processing
-;   #GADGET_EditTools_ShortcutControl  
+;   #GADGET_EditTools_ShortcutControl
 ;   #GADGET_EditTools_ShortcutAlt
 ;   #GADGET_EditTools_ShortcutShift
 ;   #GADGET_EditTools_ShortcutCommand
@@ -652,9 +652,9 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_EditTools_ReloadNew
   #GADGET_EditTools_ReloadOld
   #GADGET_EditTools_WaitForQuit
-  #GADGET_EditTools_ConfigLine  
+  #GADGET_EditTools_ConfigLine
   #GADGET_EditTools_SourceSpecific
-  #GADGET_EditTools_HideFromMenu ; last for loop processing   
+  #GADGET_EditTools_HideFromMenu ; last for loop processing
 
 
   
@@ -688,11 +688,11 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Template_AddDir
   #GADGET_Template_RemoveDir
   #GADGET_Template_Up
-  #GADGET_Template_Down   
+  #GADGET_Template_Down
   #GADGET_Template_Tree     ; last to auto-disable
   #GADGET_Template_Comment
   #GADGET_Template_Frame1
-  #GADGET_Template_Frame2  
+  #GADGET_Template_Frame2
   #GADGET_Template_Editor
   #GADGET_Template_SetComment
   #GADGET_Template_Save
@@ -705,20 +705,20 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Color_HSV
   #GADGET_Color_HSL
   #GADGET_Color_Wheel
-  #GADGET_Color_Palette 
+  #GADGET_Color_Palette
   #GADGET_Color_Name    ; last handled in loop
   #GADGET_Color_Canvas1
   #GADGET_Color_Canvas2
-  #GADGET_Color_Canvas3  
+  #GADGET_Color_Canvas3
   #GADGET_Color_Label1
   #GADGET_Color_Label2
   #GADGET_Color_Label3
   #GADGET_Color_Scheme
   #GADGET_Color_Scroll
-  #GADGET_Color_Filter  
+  #GADGET_Color_Filter
   #GADGET_Color_UseAlpha
   #GADGET_Color_CanvasAlpha
-  #GADGET_Color_Current  
+  #GADGET_Color_Current
   #GADGET_Color_Input0 ; for R, G, B, A, H, S, L, handled in loops
   #GADGET_Color_Input1
   #GADGET_Color_Input2
@@ -777,7 +777,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   
   #GADGET_Diff_Busy
   #GADGET_Diff_File1
-  #GADGET_Diff_File2 
+  #GADGET_Diff_File2
   #GADGET_Diff_Title1
   #GADGET_Diff_Title2
   #GADGET_Diff_Container1
@@ -788,16 +788,16 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Diff_FileTitle
   
   #GADGET_DiffDialog_File1       ; first to process in loop
-  #GADGET_DiffDialog_File2  
+  #GADGET_DiffDialog_File2
   #GADGET_DiffDialog_Directory1
   #GADGET_DiffDialog_Directory2
   #GADGET_DiffDialog_Pattern     ; last to process in loop
   #GADGET_DiffDialog_ChooseFile1
-  #GADGET_DiffDialog_ChooseFile2 
+  #GADGET_DiffDialog_ChooseFile2
   #GADGET_DiffDialog_ChooseDirectory1
   #GADGET_DiffDialog_ChooseDirectory2
   #GADGET_DiffDialog_CurrentDirectory1
-  #GADGET_DiffDialog_CurrentDirectory2    
+  #GADGET_DiffDialog_CurrentDirectory2
   #GADGET_DiffDialog_Recurse
   #GADGET_DiffDialog_CompareFiles
   #GADGET_DiffDialog_CompareDirectories
@@ -805,7 +805,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_DiffDialog_IgnoreSpaceAll
   #GADGET_DiffDialog_IgnoreSpaceLeft
   #GADGET_DiffDialog_IgnoreSpaceRight
-  #GADGET_DiffDialog_Cancel  
+  #GADGET_DiffDialog_Cancel
  
   #GADGET_History_Panel
   #GADGET_History_Source
@@ -827,7 +827,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Issues_MultiFile
   #GADGET_Issues_Export
 
-  ; Help viewer for Linux and OSX 
+  ; Help viewer for Linux and OSX
   #GADGET_Help_Panel
   #GADGET_Help_Tree
   #GADGET_Help_Index
@@ -842,7 +842,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Help_Previous
   #GADGET_Help_Viewer
   #GADGET_Help_Container
-  #GADGET_Help_Splitter    
+  #GADGET_Help_Splitter
   
   ; Linux only
   #GADGET_Help_Editor
@@ -914,14 +914,14 @@ EndEnumeration
 ;
 Enumeration 0
   #MENU_New     ; first item that can have a shortcut assigned in the preferences. Must have value 0!!
-  #MENU_Open               
-  #MENU_Save               
-  #MENU_SaveAs    
+  #MENU_Open
+  #MENU_Save
+  #MENU_SaveAs
   #MENU_SaveAll
   #MENU_Reload
-  #MENU_Close   
+  #MENU_Close
   #MENU_CloseAll
-  #MENU_DiffCurrent  
+  #MENU_DiffCurrent
   #MENU_EncodingPlain
   #MENU_EncodingUtf8
   #MENU_NewlineWindows
@@ -940,26 +940,26 @@ Enumeration 0
   CompilerEndIf
 
   #MENU_Undo                 ; first to AutoDisable (UpdateMenuStates())
-  #MENU_Redo             
-  #MENU_Cut                  
-  #MENU_Copy               
-  #MENU_Paste 
-  #MENU_CommentSelection   
-  #MENU_UnCommentSelection 
+  #MENU_Redo
+  #MENU_Cut
+  #MENU_Copy
+  #MENU_Paste
+  #MENU_CommentSelection
+  #MENU_UnCommentSelection
   #MENU_AutoIndent
-  #MENU_SelectAll   
-  #MENU_Goto   
+  #MENU_SelectAll
+  #MENU_Goto
   #MENU_JumpToKeyword
   #MENU_LastViewedLine
   #MENU_ToggleThisFold
-  #MENU_ToggleFolds  
+  #MENU_ToggleFolds
   #MENU_AddMarker
   #MENU_JumpToMarker
-  #MENU_ClearMarkers        
-  #MENU_Find               
-  #MENU_FindNext           
+  #MENU_ClearMarkers
+  #MENU_Find
+  #MENU_FindNext
   #MENU_FindPrevious       ; last to AutoDisable
-  #MENU_FindInFiles  
+  #MENU_FindInFiles
   
   #MENU_NewProject
   #MENU_OpenProject
@@ -973,40 +973,40 @@ Enumeration 0
   #MENU_NewForm
   #MENU_FormSwitch
   #MENU_Duplicate
-  #MENU_FormImageManager    
+  #MENU_FormImageManager
 
-  #MENU_CompileRun         
-  #MENU_RunExe    
+  #MENU_CompileRun
+  #MENU_RunExe
   #MENU_SyntaxCheck
   #MENU_DebuggerCompile
   #MENU_NoDebuggerCompile
-  #MENU_RestartCompiler  
+  #MENU_RestartCompiler
   #MENU_CompilerOption
-  #MENU_CreateExecutable   
+  #MENU_CreateExecutable
   #MENU_BuildAllTargets
   
-  #MENU_Debugger  
+  #MENU_Debugger
   #MENU_Stop
-  #MENU_Run  
+  #MENU_Run
   #MENU_Step
   #MENU_StepX
   #MENU_StepOver
-  #MENU_StepOut  
-  #MENU_Kill  
+  #MENU_StepOut
+  #MENU_Kill
   #MENU_BreakPoint
   #MENU_BreakClear
   #MENU_DataBreakPoints
   #MENU_ShowLog
   #MENU_ClearLog
-  #MENU_CopyLog  
-  #MENU_ClearErrorMarks  
+  #MENU_CopyLog
+  #MENU_ClearErrorMarks
   #MENU_DebugOutput
   #MENU_Watchlist
   #MENU_VariableList
   #MENU_Profiler
   #MENU_History
   #MENU_Memory
-  #MENU_LibraryViewer  
+  #MENU_LibraryViewer
   #MENU_DebugAsm
   #MENU_Purifier
   ;#MENU_CPUMonitor
@@ -1025,8 +1025,8 @@ Enumeration 0
   #MENU_Diff
   #MENU_AddTools
                              
-  #MENU_Help  
-  #MENU_UpdateCheck 
+  #MENU_Help
+  #MENU_UpdateCheck
   
   CompilerIf #CompileMac
     #MENU_AboutNotUsed
@@ -1034,8 +1034,8 @@ Enumeration 0
     #MENU_About
   CompilerEndIf
                                
-  #MENU_NextOpenedFile     
-  #MENU_PreviousOpenedFile     
+  #MENU_NextOpenedFile
+  #MENU_PreviousOpenedFile
   
   #MENU_ShiftCommentRight
   #MENU_ShiftCommentLeft
@@ -1043,11 +1043,11 @@ Enumeration 0
   #MENU_SelectBlock
   #MENU_DeselectBlock
 
-  #MENU_AutoComplete  
+  #MENU_AutoComplete
   #MENU_AutoComplete_OK ; can now have a custom shortcut too
-  #MENU_AutoComplete_Abort  
+  #MENU_AutoComplete_Abort
   
-  #MENU_ProcedureListUpdate    
+  #MENU_ProcedureListUpdate
   
   #MENU_LastShortcutItemDummy ; to avoid changing #MENU_LastShortcutItem everytime
   #MENU_LastShortcutItem = #MENU_LastShortcutItemDummy-1
@@ -1089,7 +1089,7 @@ Enumeration 0
   #MENU_Diff_Refresh
   #MENU_Diff_Colors
   #MENU_Diff_Swap
-  #MENU_Diff_Vertical  
+  #MENU_Diff_Vertical
   #MENU_Diff_HideFiles
   #MENU_Diff_ShowTool
   #MENU_Diff_Up
@@ -1102,11 +1102,11 @@ Enumeration 0
   #MENU_AddTools_Start
   #MENU_AddTools_End       = #MENU_AddTools_Start + #MAX_AddTools
   
-  #MENU_AddHelpFiles_Start 
+  #MENU_AddHelpFiles_Start
   #MENU_AddHelpFiles_End   = #MENU_AddHelpFiles_Start + #MAX_AddHelp
   
   #MENU_DefaultTarget_Start
-  #MENU_DefaultTarget_End    = #MENU_DefaultTarget_Start + #MAX_MenuTargets  
+  #MENU_DefaultTarget_End    = #MENU_DefaultTarget_Start + #MAX_MenuTargets
   
   #MENU_BuildTarget_Start
   #MENU_BuildTarget_End    = #MENU_BuildTarget_Start + #MAX_MenuTargets
@@ -1137,7 +1137,7 @@ Enumeration 0
   #MENU_ProjectPanel_Add
   #MENU_ProjectPanel_Remove       ; last in Case ... To ...
   
-  #MENU_ProjectInfo_EditTarget 
+  #MENU_ProjectInfo_EditTarget
   #MENU_ProjectInfo_DefaultTarget
   #MENU_ProjectInfo_EnableTarget
   
@@ -1151,7 +1151,7 @@ Enumeration 0
   
   CompilerIf #DEBUG
     #MENU_Debugging
-  CompilerEndIf  
+  CompilerEndIf
   
   CompilerIf #CompileMacCocoa
     #MENU_AutocompleteUp   ; keyboard shortcuts for the autocomplete window on Cocoa
@@ -1192,13 +1192,13 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #FILE_LoadLanguage
   #FILE_StructureViewer
   #FILE_RunOnce
-  #FILE_Grep  
+  #FILE_Grep
   #FILE_AutoComplete
   #FILE_ReadConfig
   #FILE_SaveConfig
   ;#FILE_CPUInfo
   #FILE_StandaloneDebugger
-  #FILE_Resources  
+  #FILE_Resources
   #FILE_Template
   #FILE_MacroError
   #FILE_CheckProject
@@ -1208,7 +1208,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #FILE_Diff
   #FILE_Database
   #FILE_ExportIssues
-EndEnumeration 
+EndEnumeration
 
 ;- Fonts
 ;
@@ -1219,14 +1219,14 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #FONT_ToolsPanel
   #FONT_DebugOut
   
-  CompilerIf #CompileWindows  
-    #FONT_ToolsPanelFake 
+  CompilerIf #CompileWindows
+    #FONT_ToolsPanelFake
   CompilerEndIf
   
   CompilerIf #CompileLinux
-    #FONT_Help_Text 
-    #FONT_Help_Title 
-    #FONT_Help_Bold 
+    #FONT_Help_Text
+    #FONT_Help_Title
+    #FONT_Help_Bold
     #FONT_Help_Example
   CompilerEndIf
 EndEnumeration
@@ -1250,7 +1250,7 @@ Enumeration
   #HISTORY_Open
   #HISTORY_Close
   #HISTORY_Save
-  #HISTORY_SaveAs  
+  #HISTORY_SaveAs
   #HISTORY_Reload
   #HISTORY_Edit
   
@@ -1261,7 +1261,7 @@ EndEnumeration
 ;
 Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Startup
-  #IMAGE_PureBasicLogo 
+  #IMAGE_PureBasicLogo
   
   #IMAGE_ToolsPanelLeft
   #IMAGE_ToolsPanelRight
@@ -1275,7 +1275,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Preferences_LastColor = #IMAGE_Preferences_FirstColor + #COLOR_Last
   
   #IMAGE_Preferences_ToolsPanelFrontColor
-  #IMAGE_Preferences_ToolsPanelBackColor  
+  #IMAGE_Preferences_ToolsPanelBackColor
   
   #IMAGE_Preferences_IssueColor
 
@@ -1324,10 +1324,10 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_IssueExport
   #IMAGE_AllIssues
   #IMAGE_Priority0  ; first in loop
-  #IMAGE_Priority1 
-  #IMAGE_Priority2 
-  #IMAGE_Priority3 
-  #IMAGE_Priority4  ; last in loop  
+  #IMAGE_Priority1
+  #IMAGE_Priority2
+  #IMAGE_Priority3
+  #IMAGE_Priority4  ; last in loop
   
   #IMAGE_FormIcons_Cursor
   #IMAGE_FormIcons_Button
@@ -1530,7 +1530,7 @@ EndEnumeration
 Enumeration
   ;#DRAG_Profiler = 0  - reserved for debugger
   #DRAG_SortSources = 1
-  #DRAG_Preferences_Toolbar  
+  #DRAG_Preferences_Toolbar
   #DRAG_Preferences_ToolsFromAvailable
   #DRAG_Preferences_ToolsFromUsed
   #DRAG_AddTools
@@ -1551,7 +1551,7 @@ Enumeration ; AddTools Trigger values
   #TRIGGER_BeforeCreateExe
   #TRIGGER_AfterCreateExe
   #TRIGGER_SourceLoad
-  #TRIGGER_SourceSave  
+  #TRIGGER_SourceSave
   #TRIGGER_FileViewer_All
   #TRIGGER_FileViewer_Unknown
   #TRIGGER_FileViewer_Special
@@ -1568,7 +1568,7 @@ Enumeration 0
   #AUTOCOMPLETE_PBKeywords
   #AUTOCOMPLETE_ASMKeywords
   #AUTOCOMPLETE_PBFunctions
-  #AUTOCOMPLETE_APIFunctions  
+  #AUTOCOMPLETE_APIFunctions
   #AUTOCOMPLETE_CurrentFileFunctions
   #AUTOCOMPLETE_AllFilesFunctions
   #AUTOCOMPLETE_Structures
@@ -1579,8 +1579,8 @@ Enumeration 0
   #AUTOCOMPLETE_AllFileInterfaces
   #AUTOCOMPLETE_Constants
   #AUTOCOMPLETE_CurrentFileConstants
-  #AUTOCOMPLETE_AllFileConstants 
-  #AUTOCOMPLETE_CurrentFileVariables 
+  #AUTOCOMPLETE_AllFileConstants
+  #AUTOCOMPLETE_CurrentFileVariables
   #AUTOCOMPLETE_AllFileVariables
   #AUTOCOMPLETE_CurrentFileArrays
   #AUTOCOMPLETE_AllFileArrays
@@ -1589,43 +1589,43 @@ Enumeration 0
   #AUTOCOMPLETE_CurrentFileMacros
   #AUTOCOMPLETE_AllFileMacros
   #AUTOCOMPLETE_CurrentFileImports
-  #AUTOCOMPLETE_AllFileImports  
+  #AUTOCOMPLETE_AllFileImports
 EndEnumeration
 
 ;- SourceParser data
 ;
 ; Note: MUST be kept in sync with the data section and ParserData structures below!
 ;
-Enumeration 0  
+Enumeration 0
   ; The first entries correspond to the Sorted[] array in the ParserData structure
   ; These entries also correspond to the AutoCompleteOptions()/VariableViewerOptions() array.
   #ITEM_Variable      ; variable, but could also be item in Structure def etc
   #ITEM_Array
   #ITEM_LinkedList
-  #ITEM_Map  
-  #ITEM_Procedure 
-  #ITEM_Macro         ; A FunctionMacro can be known by the Prototype$ field, so no need to separate those  
-  #ITEM_Import        ; Not used in code data, only in sorted data (actual items are all #ITEM_UnknownBraced) 
+  #ITEM_Map
+  #ITEM_Procedure
+  #ITEM_Macro         ; A FunctionMacro can be known by the Prototype$ field, so no need to separate those
+  #ITEM_Import        ; Not used in code data, only in sorted data (actual items are all #ITEM_UnknownBraced)
   #ITEM_Constant
   #ITEM_DeclareModule ; used for module tracking and also for autocomplete of module names
   #ITEM_Prototype
   #ITEM_Structure
   #ITEM_Interface
-  #ITEM_Label    
-  #ITEM_Declare  
+  #ITEM_Label
+  #ITEM_Declare
   
   ; Items following are not in the Sorted[] array
   #ITEM_FoldStart      ; for the folding only
   #ITEM_FoldEnd
   #ITEM_MacroEnd       ; so we know what stuff to ignore later on
-  #ITEM_ProcedureEnd   ; for procedure background color  
-  #ITEM_Define  
+  #ITEM_ProcedureEnd   ; for procedure background color
+  #ITEM_Define
   #ITEM_Keyword
-  #ITEM_CommentMark    ; ";-" marks      
+  #ITEM_CommentMark    ; ";-" marks
   #ITEM_Issue          ; code issues markers in comments
   #ITEM_UnknownBraced  ; could be array, list or function call. needs to be resolved later
   
-  ; Module boundaries (separate items for fast search)  
+  ; Module boundaries (separate items for fast search)
   #ITEM_EndDeclareModule
   #ITEM_Module
   #ITEM_EndModule
@@ -1641,7 +1641,7 @@ EndEnumeration
 
 ; Settings for the AutocompletePBOptions() array
 ;
-Enumeration 
+Enumeration
   #PBITEM_Keyword
   #PBITEM_ASMKeyword
   #PBITEM_Function
@@ -1670,10 +1670,10 @@ DataSection
     Data$ "Import"
     Data$ "Constant"
     Data$ "Module"
-    Data$ "Prototype"    
+    Data$ "Prototype"
     Data$ "Structure"
     Data$ "Interface"
-    Data$ "Label"    
+    Data$ "Label"
     
   SourceItem_Defaults:
     Data.l #True
@@ -1685,7 +1685,7 @@ DataSection
     Data.l #True
     Data.l #True
     Data.l #True
-    Data.l #False    
+    Data.l #False
     Data.l #False
     Data.l #False
     Data.l #False
@@ -1727,7 +1727,7 @@ Structure SourceItem
   Length.w     ; Character length (only for code items)
   FullLength.w ; length including the call prototype (for #ITEM_UnknownBraced + Import detection + structure+extends combinations)
 
-  Name$  
+  Name$
   ModulePrefix$; the module prefix (if any)
 
   ; Item specific String data
@@ -1775,7 +1775,7 @@ Structure SortedData
   *Imports.SourceItem[#PARSER_VTSize]
   *Constants.SourceItem[#PARSER_VTSize]
   *Modules.SourceItem[#PARSER_VTSize]
-  *Prototypes.SourceItem[#PARSER_VTSize]  
+  *Prototypes.SourceItem[#PARSER_VTSize]
   *Structures.SourceItem[#PARSER_VTSize]
   *Interfaces.SourceItem[#PARSER_VTSize]
   *Labels.SourceItem[#PARSER_VTSize]
@@ -1798,8 +1798,8 @@ EndStructure
 
 ; Sorted parser data for a specific module
 ; The module "" identifies the global scope
-Structure SortedModule 
-  Name$ ; module name in proper case (without and "IMPL::" prefix) 
+Structure SortedModule
+  Name$ ; module name in proper case (without and "IMPL::" prefix)
   StructureUnion
     Indexed.IndexedData[#ITEM_LastSorted+1] ; indexed access per #ITEM_...
     Sorted.SortedData                       ; named access per \Arrays[x]
@@ -1813,7 +1813,7 @@ Structure ParserData
   SourceItemCount.l           ; currently used array entries (= LineNumber count)
   SourceItemSize.l            ; allocated size of the array
   
-  Encoding.l      ; 0 = ascii, 1 = utf-8  
+  Encoding.l      ; 0 = ascii, 1 = utf-8
   
   ; Sorted index data per module. A module name prefixed with "IMPL::" contains the info
   ; inside a Module/EndModule block. All module names here are uppercase
@@ -1823,7 +1823,7 @@ Structure ParserData
   ;
   ; The data is only sorted by first char, the rest is unsorted
   ;
-  SortedValid.l  
+  SortedValid.l
   Map Modules.SortedModule()
  *MainModule.SortedModule ; points inside the Modules() map
  
@@ -1935,7 +1935,7 @@ Structure PTR
   StructureUnion
     a.a[0]
     b.b[0] ; even when declaring with an array like this, we still
-    c.c[0] ; can use the single \b, which is perfect for a universial     
+    c.c[0] ; can use the single \b, which is perfect for a universial
     w.w[0] ; pointer variable
     u.u[0]
     l.l[0]
@@ -1956,15 +1956,15 @@ Structure CompileTarget
   ID.i           ; unique ID to identify this target (unique while the IDE runs)
   IsProject.l    ; true if not from a sourcefile
   IsForm.i       ; not null if this is a form (pointer to FormWindow())
-  FileName$      ; source filename 
+  FileName$      ; source filename
   
   ; Only for project targets
   ;
   IsEnabled.l
   IsDefault.l
 
-  Name$          ; target name    
-  OutputFile$    ; target filename 
+  Name$          ; target name
+  OutputFile$    ; target filename
 
   ; Use of the "filename" related fields
   ;
@@ -2035,7 +2035,7 @@ Structure CompileTarget
   CompilerEndIf
   
   ; Compiler options
-  ;  
+  ;
   EnableASM.l
   EnableThread.l
   EnableXP.l
@@ -2061,26 +2061,26 @@ Structure CompileTarget
   CustomCompiler.l    ; true or false
   CompilerVersion$    ; version string (without copyright notice)
 
-  CustomDebugger.l  
-  DebuggerType.l  
-  CustomWarning.l  
+  CustomDebugger.l
+  DebuggerType.l
+  CustomWarning.l
   WarningMode.l
-  ExecutableName$  
+  ExecutableName$
   CommandLine$
   CurrentDirectory$
   TemporaryExePlace.l
-  EnabledTools$  
+  EnabledTools$
   UseCompileCount.l
   UseBuildCount.l
   UseCreateExe.l
   CompileCount.l
-  BuildCount.l  
+  BuildCount.l
   
   EnablePurifier.l
   PurifierGranularity$      ; granularity options "Local, Global, String, dynamic"
 
   VersionInfo.l
-  VersionField$[24]    
+  VersionField$[24]
   NbResourceFiles.l
   ResourceFiles$[#MAX_ResourceFiles]
   
@@ -2112,7 +2112,7 @@ EndStructure
 
 ;- SourceFile structure
 Structure SourceFile Extends CompileTarget
-  NewLineType.l   ; 0 = windows (crlf), 1 = linux (lf)  
+  NewLineType.l   ; 0 = windows (crlf), 1 = linux (lf)
   IsCode.l        ; 1 for PB files, 0 else
   
   ExistsOnDisk.l   ; if 0, the file was never saved, or deleted while open (so report it as modified, and do not monitor it further)
@@ -2126,7 +2126,7 @@ Structure SourceFile Extends CompileTarget
   LineNumbersCount.l     ; depending on edit control
 
   CurrentLine.l
-  CurrentLineOld.l  
+  CurrentLineOld.l
   ParserDataChanged.l    ; set to true if an update of ProcedureBrowser etc is needed
   
   CurrentColumnBytes.l   ; current cursor position in bytes      (one UTF-8 char can have multiple bytes)
@@ -2160,17 +2160,17 @@ Structure SourceFile Extends CompileTarget
   ;
   ErrorLog.l     ; debugger log used?
   LogSize.l
-  LogLines$[#MAX_ErrorLog]   
+  LogLines$[#MAX_ErrorLog]
 
   DebuggerID.i    ; unique ID of the debugger launched from this source (0 if none)
-  ;DebuggerData.i ; pointer to a DebuggerData Structure (0 if not connected)  
+  ;DebuggerData.i ; pointer to a DebuggerData Structure (0 if not connected)
   
   ProjectFile.i   ; pointer to a ProjectFile Structure (0 if not part of the open project)
   FormFile.i
     
   ; history information
   HistoryName.s       ; either the filename or a unique id string for unsaved files
-  ExcludeFromHistory.l; exclude from history (too large size) 
+  ExcludeFromHistory.l; exclude from history (too large size)
   FreshFile.l         ; true if the file was new and not saved yet
 EndStructure
 
@@ -2190,12 +2190,12 @@ Structure ProjectFileConfig
   PanelState$      ; string of "0"/"1" for every parent directory of the file to indicate whether it is expanded in panel (empty if ShowPanel=0)
 EndStructure
 
-Structure ProjectFile Extends ProjectFileConfig    
+Structure ProjectFile Extends ProjectFileConfig
   ; Only if the file is currently loaded
   *Source.SourceFile
   
   ; Only if the file is corrently NOT loaded
-  Parser.ParserData    ; parsed source data   
+  Parser.ParserData    ; parsed source data
   
   LastOpen.l     ; valid while saving/closing a project
   Md5$             ; the md5 associated to the file when it was last saved
@@ -2221,7 +2221,7 @@ EndStructure
 Structure BuildLogInfo
   File$
   Line.l
-  IsWarning.l ; warning or error ?    
+  IsWarning.l ; warning or error ?
 EndStructure
 
 Structure ColorSetting
@@ -2252,13 +2252,13 @@ Structure ToolsData
   Flags.l
   ReloadSource.l
   HideEditor.l
-  HideFromMenu.l 
+  HideFromMenu.l
   SourceSpecific.l
   DeactivateTool.l
 EndStructure
 
 Structure ToolbarItem
-  Name$  
+  Name$
   Action$
   Image.i
 EndStructure
@@ -2270,7 +2270,7 @@ Structure IndentEntry
   After.l  ; units after the keyword
 EndStructure
 
-Structure Issue 
+Structure Issue
   ; config info
   Name$
   Expression$
@@ -2306,19 +2306,19 @@ EndStructure
 
 Interface ToolsPanelInterface
   CreateFunction(PanelItemID)    ; called when the panelitem was created (external Tools should call UseGadgetList(PanelItemID) before adding gadgets)
-  DestroyFunction()              ; called when the item is destroyed 
+  DestroyFunction()              ; called when the item is destroyed
      
   ResizeHandler(PanelWidth, PanelHeight)   ; called after the panel is resized
   EventHandler(EventGadgetID)              ; called for unhandled events in the main window (isn't neccesarily an event for this item, so always check)
   
   PreferenceLoad()    ; called when the preferences are loaded (each tool should have it's own group!)
-  PreferenceSave()    ; called when the preferences are saved to file 
+  PreferenceSave()    ; called when the preferences are saved to file
   
   PreferenceStart()   ; called when the preferences window is opened.. you should make a copy of all preferences and work with them from now on, so after a 'Cancel' nothing will be changed
   PreferenceApply()   ; called when 'Ok' or 'Apply' is hit.. you should apply the temporary preferences options to the real ones. Note: the tool will be destroyed/recreated to refresh it, so no need to do that.
   PreferenceCreate()  ; this item is selected for configuration.. create the needed gadgets (in the current gadgetlist)
   PreferenceDestroy() ; another item is selected for configuration.. save changes and destroy the gadgets
-  PreferenceEvents(EventGadgetID) ; unhandled gadget events of the Prefs window are passed here to be handled  
+  PreferenceEvents(EventGadgetID) ; unhandled gadget events of the Prefs window are passed here to be handled
   PreferenceChanged(IsConfigOpen) ; must return 1 if any changes were done to this tools preference settings
 EndInterface
 
@@ -2360,10 +2360,10 @@ Structure ToolsPanelEntry
   
   ; values set up in the init procedure
   ;
-  NeedPreferences.l      ; set to 1 if the PreferenceLoad/Save() functions are implemented 
+  NeedPreferences.l      ; set to 1 if the PreferenceLoad/Save() functions are implemented
   NeedConfiguration.l    ; set to 1 if the tool has any options in the Preferences Window (PreferenceCreate, PReferenceDestroy, Preferenceevents functions)
-  NeedDestroyFunction.l  ; set to 1 if the DestroyFunction() function is implemented  
-                         ; all other functions MUST be implemented for each tool!  
+  NeedDestroyFunction.l  ; set to 1 if the DestroyFunction() function is implemented
+                         ; all other functions MUST be implemented for each tool!
                          
   PreferencesWidth.l  ; required with to put the preferences gadgets
   PreferencesHeight.l ; required height to put the preferences gadgets
@@ -2374,7 +2374,7 @@ Structure ToolsPanelEntry
   ; for external plugins, these should be set to the real strings
   ;
   PanelTitle$        ; title in the PanelGadget
-  ToolName$          ; tool name (used in the Preferences)  
+  ToolName$          ; tool name (used in the Preferences)
 EndStructure
 
 
@@ -2387,7 +2387,7 @@ Structure ToolsPanelEntry_Real Extends ToolsPanelEntry
 EndStructure
 
 Structure ZipEntry
-  Name$    
+  Name$
   *Content
   Crc32.l
   Compression.l
@@ -2450,7 +2450,7 @@ Global DiffIgnoreCase, DiffIgnoreSpaceAll, DiffIgnoreSpaceLeft, DiffIgnoreSpaceR
 Global GrepWindowDialog.DialogWindow, GrepWindowPosition.DialogPosition
 Global GrepOutputDialog.DialogWindow, GrepOutputPosition.DialogPosition
 Global GrepCaseSensitive, GrepWholeWord, GrepNoComments, GrepNoStrings, GrepRecurse
-Global NbGrepFiles 
+Global NbGrepFiles
 
 Global BuildWindowDialog.DialogWindow, BuildWindowPosition.DialogPosition
 
@@ -2460,9 +2460,9 @@ Global StructureViewerStayOnTop
 Global GotoWindowDialog.DialogWindow
 Global SortSourcesWindowDialog.DialogWindow, SortSourcesWindowPositon.DialogPosition
 Global AddToolsWindowDialog.DialogWindow, AddToolsWindowPositon.DialogPosition
-Global EditToolsWindowDialog.DialogWindow, EditToolsWindowPositon.DialogPosition 
-Global AboutWindowDialog.DialogWindow, AboutWindowPositon.DialogPosition 
-Global PreferenceWindowDialog.DialogWindow, PreferenceWindowPositon.DialogPosition 
+Global EditToolsWindowDialog.DialogWindow, EditToolsWindowPositon.DialogPosition
+Global AboutWindowDialog.DialogWindow, AboutWindowPositon.DialogPosition
+Global PreferenceWindowDialog.DialogWindow, PreferenceWindowPositon.DialogPosition
 Global UpdateWindowDialog.DialogWindow, UpdateWindowPositon.DialogPosition
 
 CompilerIf #SpiderBasic
@@ -2568,8 +2568,8 @@ Global CompileSource.SourceFile     ; must be global (for Windows (where the str
 ; Special variable to indicate that 'EndMacro' is a folding keyword
 ; as all folding is ignored until AFTER EndMacro, so it will not be detected otherwise!
 ;
-Global IsMacroFolding 
-Global IsMouseDwelling, MouseDwellPosition, IsVariableExpression ; for IDE debugger and #SCN_DWELLSTART handling 
+Global IsMacroFolding
+Global IsMouseDwelling, MouseDwellPosition, IsVariableExpression ; for IDE debugger and #SCN_DWELLSTART handling
 
 CompilerIf #PB_Compiler_Unicode
   #MaxSizeHT = 65535
@@ -2613,7 +2613,7 @@ Global *FormInfo.SourceFile ; the fake sourcefile in the File tab
 ;
 
 ; this is as large as there are #ITEM_x, so we can just stick any item type in it and not get an error
-Global Dim AutocompleteOptions.l(#ITEM_Last) 
+Global Dim AutocompleteOptions.l(#ITEM_Last)
 Global Dim AutocompletePBOptions.l(#PBITEM_Last)
 
 Global NewList AvailablePanelTools.ToolsPanelEntry_Real()
@@ -2669,7 +2669,7 @@ Global NewList BraceStack.l()
 
 Global Dim Colors.ColorSetting(#COLOR_Last)
 
-Global NewList CustomKeywordList.s() 
+Global NewList CustomKeywordList.s()
 
 
 ; We store all SourceItem structures in a global LinkedList,
@@ -2691,7 +2691,7 @@ Global Dim ForwardMatches.l(0, 0)
 Global Dim BackwardMatches.l(0, 0)
 
 Global NewList Warnings.CompilerWarning()
-Global NewList BuildInfo.BuildLogInfo() 
+Global NewList BuildInfo.BuildLogInfo()
 
 Global NewList Compilers.Compiler()
 
@@ -2730,7 +2730,7 @@ EndProcedure
 
 
 CompilerIf #PB_Compiler_Debugger
-  ; Useful to ensures a ProcessEvent() is NEVER called in the debugger callback as it can generate very wierd bug 
+  ; Useful to ensures a ProcessEvent() is NEVER called in the debugger callback as it can generate very wierd bug
   ; (new debugger event is processed While being in a debugger event. It is wrong, As it can changes the display order, and creates wierd bug).
   ;
   Global InDebuggerCallback = #False

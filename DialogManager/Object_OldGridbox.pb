@@ -15,9 +15,9 @@ XIncludeFile "Object_BoxBase.pb"
 ; columns = number of columns (default = 2)
 ;
 ; colspacing = space to add between columns/rows (default = 5)
-; rowspacing 
+; rowspacing
 ;
-; colexpand = yes           - items get bigger to fill all space 
+; colexpand = yes           - items get bigger to fill all space
 ; rowexpand   no            - do not expand to fill all space
 ;             equal         - force equal sized items
 ;             item:<number> - expand only one item if space is available
@@ -62,21 +62,21 @@ Procedure DlgGridBox_New(*StaticData.DialogObjectData)
       *THIS\Columns = Val(Value$)
     Else
       *THIS\Columns = 2 ; default value
-    EndIf 
+    EndIf
         
     Value$ = DialogObjectKey(*StaticData, "COLSPACING")
     If Value$
       *THIS\colSpacing = Val(Value$)
-    Else 
+    Else
       *THIS\colSpacing = 5
-    EndIf 
+    EndIf
     
     Value$ = DialogObjectKey(*StaticData, "ROWSPACING")
     If Value$
       *THIS\rowSpacing = Val(Value$)
     Else
       *THIS\rowSpacing = 5
-    EndIf 
+    EndIf
     
     Value$ = UCase(DialogObjectKey(*StaticData, "COLEXPAND"))
     If Value$ = "NO"
@@ -88,7 +88,7 @@ Procedure DlgGridBox_New(*StaticData.DialogObjectData)
       *THIS\colExpandItem = Val(Right(Value$, Len(Value$)-5)) - 1 ; we coung from 1
     Else
       *THIS\colExpand = #Dlg_Expand_Yes
-    EndIf    
+    EndIf
     
     Value$ = UCase(DialogObjectKey(*StaticData, "ROWEXPAND"))
     If Value$ = "YES"
@@ -100,7 +100,7 @@ Procedure DlgGridBox_New(*StaticData.DialogObjectData)
       *THIS\rowExpandItem = Val(Right(Value$, Len(Value$)-5)) - 1 ; we coung from 1
     Else
       *THIS\rowExpand = #Dlg_Expand_No
-    EndIf   
+    EndIf
     
   EndIf
   
@@ -123,13 +123,13 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
     For i = 0 To *THIS\NbChilds-1
       Width = 0
       Height = 0
-      *THIS\Childs[i]\SizeRequest(@Width, @Height) 
+      *THIS\Childs[i]\SizeRequest(@Width, @Height)
       
-      col  = i % *THIS\Columns      
-      row  = i / *THIS\Columns         
+      col  = i % *THIS\Columns
+      row  = i / *THIS\Columns
       *THIS\colSize[col] = Max(*THIS\colSize[col], Width)
       *THIS\rowSize[row] = Max(*THIS\rowSize[row], Height)
-    Next i      
+    Next i
 
     *Width\l  = (*THIS\Columns - 1) * *THIS\colSpacing
     *Height\l = (RowCount - 1) * *THIS\rowSpacing
@@ -155,7 +155,7 @@ EndProcedure
 
 Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
 
-  If *THIS\NbChilds > 0  
+  If *THIS\NbChilds > 0
   
     RowCount = *THIS\NbChilds / *THIS\Columns
     If RowCount * *THIS\Columns < *THIS\NbChilds
@@ -180,23 +180,23 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
     ElseIf Width < *THIS\RequestedWidth
       If *THIS\RequestedWidth = 0
         *THIS\RequestedWidth = 1 ; prevent division by 0 error
-      EndIf      
+      EndIf
       For i = 0 To *THIS\Columns-1
         ColSize(i) = (*THIS\colSize[i] * Width) / *THIS\RequestedWidth
-      Next i  
+      Next i
     
     ; normal expanding
     ElseIf *THIS\colExpand = #Dlg_Expand_Yes
       Extra = (Width - *THIS\RequestedWidth) / *THIS\Columns
       For i = 0 To *THIS\Columns-1
         ColSize(i) = *THIS\colSize[i] + Extra
-      Next i  
+      Next i
     
     ; expand one item only, or no expanding
     Else
       If *THIS\colExpand = #Dlg_Expand_Item
         Extra = Width - *THIS\RequestedWidth
-      Else ; no groing at all  
+      Else ; no groing at all
         Extra = 0
       EndIf
       
@@ -205,7 +205,7 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
           ColSize(i) = *THIS\colSize[i] + Extra
         Else
           ColSize(i) = *THIS\colSize[i]
-        EndIf 
+        EndIf
       Next i
           
     EndIf
@@ -226,23 +226,23 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
     ElseIf Height < *THIS\RequestedHeight
       If *THIS\RequestedHeight = 0
         *THIS\RequestedHeight = 1 ; prevent division by 0 error
-      EndIf      
+      EndIf
       For i = 0 To RowCount-1
         RowSize(i) = (*THIS\rowSize[i] * Height) / *THIS\RequestedHeight
-      Next i  
+      Next i
     
     ; normal expanding
     ElseIf *THIS\rowExpand = #Dlg_Expand_Yes
       Extra = (Height - *THIS\RequestedHeight) / RowCount
       For i = 0 To RowCount-1
         RowSize(i) = *THIS\rowSize[i] + Extra
-      Next i  
+      Next i
     
     ; expand one item only, or no expanding
     Else
       If *THIS\rowExpand = #Dlg_Expand_Item
         Extra = Height - *THIS\RequestedHeight
-      Else ; no groing at all  
+      Else ; no groing at all
         Extra = 0
       EndIf
       
@@ -251,17 +251,17 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
           RowSize(i) = *THIS\rowSize[i] + Extra
         Else
           RowSize(i) = *THIS\rowSize[i]
-        EndIf 
+        EndIf
       Next i
           
-    EndIf  
+    EndIf
   
   
     ; Actual Child resizing...
     ;
     For i = 0 To *THIS\NbChilds-1
-      col  = i % *THIS\Columns      
-      row  = i / *THIS\Columns      
+      col  = i % *THIS\Columns
+      row  = i / *THIS\Columns
       posx = x + col * *THIS\colSpacing
       posy = y + row * *THIS\rowSpacing
       For j = 0 To col-1: posx + ColSize(j): Next j

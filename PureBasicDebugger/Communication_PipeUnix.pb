@@ -21,7 +21,7 @@ CompilerIf #CompileWindows = 0
 Structure PipeStructure
   piperead.l
   pipewrite.l
-EndStructure  
+EndStructure
 
 #SIGKILL = 9
 #SIGUSR1 = 10
@@ -31,7 +31,7 @@ EndStructure
 ;
 #_IOFBF = 0  ;/* Fully buffered.  */
 #_IOLBF = 1  ;/* Line buffered.  */
-#_IONBF = 2  ;/* No buffering.  */   
+#_IONBF = 2  ;/* No buffering.  */
 
 ; fcntl_() command values
 ;
@@ -52,21 +52,21 @@ CompilerEndIf
 
 ; errno is a macro on Linux and OSX
 ; We only need the EAGAIN error code here
-; 
+;
 CompilerIf #CompileLinux
   ImportC ""
     __errno_location()
-  EndImport 
+  EndImport
   
   Macro errno()
     PeekL(__errno_location())
-  EndMacro 
+  EndMacro
   
   #EAGAIN = 11
 CompilerElse
   ImportC ""
     __error()
-  EndImport 
+  EndImport
   
   Macro errno()
     PeekL(__error())
@@ -103,29 +103,29 @@ Structure UnixPipe_Communication
   
   ; Pipe file descriptors (non-fifo mode)
   InPipe.PipeStructure
-  OutPipe.PipeStructure  
+  OutPipe.PipeStructure
   
   ; Open pipe handles (type: FILE *)
   InPipeHandle.i
   OutPipeHandle.i
   
-  IsFatalError.l  
+  IsFatalError.l
   CommandReceived.l   ; was there any command received yet?
-  CommandTimeout.l    ; time of exe creation for timeout test  
+  CommandTimeout.l    ; time of exe creation for timeout test
   EndReceived.l       ; was #COMMAND_End received yet ?
-  EndTimeout.l        ; time of exe quit, timeout to be able to receive COMMAND_End before firing an error    
+  EndTimeout.l        ; time of exe quit, timeout to be able to receive COMMAND_End before firing an error
   
   ; The command stack is protected by a mutex separate from the overall
   ; "receive" mutex, so commands can be read from the stack while the thread
   ; is actually receiving data.
-  StackMutex.i  
+  StackMutex.i
   
-  ; waiting commands      
+  ; waiting commands
   StackCount.l
-  Stack.CommandStackStruct[#MAX_COMMANDSTACK]  
+  Stack.CommandStackStruct[#MAX_COMMANDSTACK]
 EndStructure
 
-; All WinPipe Objects are handled in a LinkedList, 
+; All WinPipe Objects are handled in a LinkedList,
 ; protected by a mutex for ALL access to make it save with the thread
 ;
 Global NewList UnixPipe_Data.UnixPipe_Communication()
@@ -142,12 +142,12 @@ Procedure UnixPipe_FatalError(*This.UnixPipe_Communication, *Command.CommandInfo
   
   CompilerIf #PRINT_DEBUGGER_COMMANDS
     PrintN("THREAD::FATAL_ERROR->"+Str(FatalError))
-  CompilerEndIf  
+  CompilerEndIf
 
   CompilerIf #NOTHREAD = 0
     LockMutex(*This\StackMutex)
   
-      ; clear stack, so the fatal error is the only one    
+      ; clear stack, so the fatal error is the only one
       For i = 0 To *This\StackCount-1
         If *This\Stack[i]\CommandData
           FreeMemory(*This\Stack[i]\CommandData)
@@ -159,7 +159,7 @@ Procedure UnixPipe_FatalError(*This.UnixPipe_Communication, *Command.CommandInfo
       *This\Stack[0]\Command\Value2    = 0
       *This\Stack[0]\Command\TimeStamp = Date()
       *This\Stack[0]\CommandData       = 0
-      *This\StackCount = 1     
+      *This\StackCount = 1
     
     UnlockMutex(*This\StackMutex)
     
@@ -167,7 +167,7 @@ Procedure UnixPipe_FatalError(*This.UnixPipe_Communication, *Command.CommandInfo
     *Command\Command   = #COMMAND_FatalError
     *Command\Value1    = FatalError
     *Command\Value2    = 0
-    *Command\TimeStamp = Date()            
+    *Command\TimeStamp = Date()
        
   CompilerEndIf
 
@@ -181,7 +181,7 @@ Procedure UnixPipe_ReadCommand(*This.UnixPipe_Communication, *Command.CommandInf
   ;   command structure at a time. If this happens, we simply wait for the rest
   ;   to be received right here. Since commands are sent in one write op on the
   ;   other side, it means if we receive some part, the rest will come through right
-  ;   away as well. 
+  ;   away as well.
   ;
   ; Use 1 as size_t in all reads, as fread_() discards the data if not all of size_t
   ; is read at once! (i tested it also for non-blocking mode)
@@ -229,7 +229,7 @@ Procedure UnixPipe_ReadCommand(*This.UnixPipe_Communication, *Command.CommandInf
     
     If *pCommandData\i = 0
       UnixPipe_FatalError(*This, *Command, #ERROR_Memory)
-      ProcedureReturn #True      
+      ProcedureReturn #True
     EndIf
     
     Received = 0
@@ -244,19 +244,19 @@ Procedure UnixPipe_ReadCommand(*This.UnixPipe_Communication, *Command.CommandInf
       
       Received + Result
       
-      If Received < *Command\DataSize  
+      If Received < *Command\DataSize
         Delay(1) ; wait for more data
       EndIf
-    Until Received = *Command\DataSize     
-  EndIf  
+    Until Received = *Command\DataSize
+  EndIf
     
   CompilerIf #PRINT_DEBUGGER_COMMANDS
     PrintN("THREAD::RECEIVE->"+Str(*Command\Command))
-  CompilerEndIf   
+  CompilerEndIf
   
   *This\CommandReceived = 1
   
-  If *Command\Command = #COMMAND_End   
+  If *Command\Command = #COMMAND_End
     *This\EndReceived = 1
   EndIf
   
@@ -269,7 +269,7 @@ CompilerIf #NOTHREAD = 0
   ;
   ProcedureDLL UnixPipe_ReceiveThread(Dummy)
   
-    ; This is a single thread for all debuggers, so it never quits which 
+    ; This is a single thread for all debuggers, so it never quits which
     ; makes it a lot easier/saver as we never need to worry if the thread still runs or not
     ;
     ; We receive into a local buffer, so the stack can still be read by the main thread
@@ -289,39 +289,39 @@ CompilerIf #NOTHREAD = 0
           While UnixPipe_Data()\Connected And UnixPipe_Data()\EndReceived = 0 And UnixPipe_Data()\IsFatalError = 0
           
             ; Do not receive anything if the stack is full
-            If UnixPipe_Data()\StackCount >= #MAX_COMMANDSTACK 
+            If UnixPipe_Data()\StackCount >= #MAX_COMMANDSTACK
               ; This check can be done without a mutex lock, as only this thread
               ; can increase the stack, and a decrease during the check has no concequence
               Break
-            EndIf         
+            EndIf
           
             If UnixPipe_ReadCommand(@UnixPipe_Data(), @Command, @*CommandData)
               If UnixPipe_Data()\IsFatalError = 0
               
                 ; now lock the stack mutex and add data to the stack
-                ; we know there is a free spot, as we checked above 
+                ; we know there is a free spot, as we checked above
                 ; (And the main thread only decreases the stack)
                 LockMutex(UnixPipe_Data()\StackMutex)
                   
                   ; add to stack
                   CopyMemory(@Command, @UnixPipe_Data()\Stack[UnixPipe_Data()\StackCount]\Command, SizeOf(CommandInfo))
                   UnixPipe_Data()\Stack[UnixPipe_Data()\StackCount]\CommandData = *CommandData
-                  UnixPipe_Data()\StackCount + 1  
+                  UnixPipe_Data()\StackCount + 1
                 
                 UnlockMutex(UnixPipe_Data()\StackMutex)
                               
-              EndIf                           
+              EndIf
             
               TotalCount + 1
               
               ; break (and unlock mutex) after a lot of commands are read so the main thread can read it
-              If TotalCount > 50 
+              If TotalCount > 50
                 Break 2
-              EndIf              
+              EndIf
             Else
               Break ; nothing to read, so on to the next debugger
             EndIf
-          Wend  
+          Wend
           
         Next UnixPipe_Data()
       
@@ -355,7 +355,7 @@ Procedure UnixPipe_Connect(*This.UnixPipe_Communication)
     ; ToAscii() uses a static buffer, so it cannot be used for both string args!
     ; Note: The order is important, first In, then Out
     ;
-    CompilerIf #PB_Compiler_Unicode 
+    CompilerIf #PB_Compiler_Unicode
       PokeS(@ascii_wb.l, "wb", -1, #PB_Ascii) ; use a long for this short string
       PokeS(@ascii_rb.l, "rb", -1, #PB_Ascii) ; use a long for this short string
       *This\InPipeHandle = fopen_(ToAscii(*This\InFifoName$), @ascii_rb)
@@ -363,19 +363,19 @@ Procedure UnixPipe_Connect(*This.UnixPipe_Communication)
     CompilerElse
       *This\InPipeHandle = fopen_(*This\InFifoName$, "rb")
       *This\OutPipeHandle = fopen_(*This\OutFifoName$, "wb")
-    CompilerEndIf  
+    CompilerEndIf
   
-  Else  
+  Else
     
     ; Note: The order is important, first In, then Out
     *This\InPipeHandle  = fdopen_(*This\InPipe\piperead, ToAscii("rb"))
-    *This\OutPipeHandle = fdopen_(*This\OutPipe\pipewrite, ToAscii("wb"))    
+    *This\OutPipeHandle = fdopen_(*This\OutPipe\pipewrite, ToAscii("wb"))
     
   EndIf
   
   If *This\InPipeHandle And *This\OutPipeHandle
     ; Set the read pipe to non-blocking mode
-    ; Without this, nothing will work, as the thread will block with 
+    ; Without this, nothing will work, as the thread will block with
     ; the mutex locked and we have a deadlock.
     ;
     FD = fileno_(*This\InPipeHandle)
@@ -390,7 +390,7 @@ Procedure UnixPipe_Connect(*This.UnixPipe_Communication)
       fclose_(*This\InPipeHandle)
       fclose_(*This\OutPipeHandle)
       ProcedureReturn #False
-    EndIf  
+    EndIf
   
     ; Set both pipes to non-buffered mode
     ;
@@ -400,12 +400,12 @@ Procedure UnixPipe_Connect(*This.UnixPipe_Communication)
     
     ; Start the command received timeout now
     ;
-    *This\CommandReceived = 0 
-    *This\CommandTimeout  = ElapsedMilliseconds()    
+    *This\CommandReceived = 0
+    *This\CommandTimeout  = ElapsedMilliseconds()
     
     CompilerIf #PRINT_DEBUGGER_COMMANDS
       PrintN("COMMUNICATION::CONNECT OK")
-    CompilerEndIf  
+    CompilerEndIf
     
     *This\Connected = 1 ; the thread can start reading
     ProcedureReturn #True
@@ -413,7 +413,7 @@ Procedure UnixPipe_Connect(*This.UnixPipe_Communication)
 
   CompilerIf #PRINT_DEBUGGER_COMMANDS
     PrintN("COMMUNICATION::CONNECT FAIL")
-  CompilerEndIf  
+  CompilerEndIf
 
   ProcedureReturn #False
 EndProcedure
@@ -423,7 +423,7 @@ Procedure UnixPipe_Disconnect(*This.UnixPipe_Communication)
 
   CompilerIf #PRINT_DEBUGGER_COMMANDS
     PrintN("COMMUNICATION::DISCONNECT")
-  CompilerEndIf  
+  CompilerEndIf
 
   LockMutex(UnixPipe_Mutex)
     ; Note: The order is important, first In, then Out
@@ -449,7 +449,7 @@ Procedure UnixPipe_Send(*This.UnixPipe_Communication, *Command.CommandInfo, *Com
     fwrite_(*CommandData, *Command\DataSize, 1, *This\OutPipeHandle)
   EndIf
 
-  fflush_(*This\OutPipeHandle) 
+  fflush_(*This\OutPipeHandle)
 EndProcedure
 
 
@@ -460,20 +460,20 @@ Procedure UnixPipe_Receive(*This.UnixPipe_Communication, *Command.CommandInfo, *
 
     LockMutex(*This\StackMutex)
     
-      If *This\StackCount > 0            
+      If *This\StackCount > 0
         CopyMemory(@*This\Stack[0]\command, *Command, SizeOf(CommandInfo))
         *pCommandData\i = *This\Stack[0]\commanddata
       
         ; remove this command from the stack
         *This\StackCount - 1
         If *This\StackCount > 0
-          MoveMemory(@*This\Stack[1], @*This\Stack[0], SizeOf(CommandStackStruct) * *This\StackCount)      
+          MoveMemory(@*This\Stack[1], @*This\Stack[0], SizeOf(CommandStackStruct) * *This\StackCount)
         EndIf
         
         Result = 1
       EndIf
     
-    UnlockMutex(*This\StackMutex)   
+    UnlockMutex(*This\StackMutex)
    
     
   CompilerElse
@@ -482,7 +482,7 @@ Procedure UnixPipe_Receive(*This.UnixPipe_Communication, *Command.CommandInfo, *
       Result = UnixPipe_ReadCommand(*This, *Command, *pCommandData)
     EndIf
   
-  CompilerEndIf 
+  CompilerEndIf
   
   ProcedureReturn Result
 EndProcedure
@@ -501,30 +501,30 @@ Procedure UnixPipe_CheckErrors(*This.UnixPipe_Communication, *Command.CommandInf
   ElseIf *This\UseFIFO = 0 And *This\EndTimeout <> 0 And (ElapsedMilliseconds() - *This\EndTimeout) > DebuggerTimeout/5
     CompilerIf #PRINT_DEBUGGER_COMMANDS
       PrintN("COMMUNICATION::EXE QUIT")
-    CompilerEndIf    
+    CompilerEndIf
     *Command\Command   = #COMMAND_FatalError
     *Command\Value1    = #ERROR_ExeQuit
     *Command\Value2    = 0
     *Command\TimeStamp = Date()
     *This\IsFatalError = #True
-    ProcedureReturn #True    
+    ProcedureReturn #True
     
   ElseIf *This\UseFIFO = 0 And *This\EndTimeout = 0 And WaitProgram(ProcessObject, 0) ; if true, exe has quit
 
     ; Check if there is still a command in the buffer!
     ; Do not fire the error if there is still data
-    ;  
-    LockMutex(*This\StackMutex)     
+    ;
+    LockMutex(*This\StackMutex)
       If *This\StackCount = 0
         *This\EndTimeout = ElapsedMilliseconds() ; register the time the exe quit
-      EndIf     
-    UnlockMutex(*This\StackMutex)      
+      EndIf
+    UnlockMutex(*This\StackMutex)
     ProcedureReturn #False ; no error yet, allow some time to receive COMMAND_End first
   
   ElseIf *This\CommandReceived = 0 And ElapsedMilliseconds() - *This\CommandTimeout > DebuggerTimeout
     CompilerIf #PRINT_DEBUGGER_COMMANDS
       PrintN("COMMUNICATION::TIMEOUT")
-    CompilerEndIf   
+    CompilerEndIf
     *Command\Command   = #COMMAND_FatalError
     *Command\Value1    = #ERROR_Timeout
     *Command\Value2    = 0
@@ -541,11 +541,11 @@ EndProcedure
 
 
 
-Procedure UnixPipe_Close(*This.UnixPipe_Communication) 
+Procedure UnixPipe_Close(*This.UnixPipe_Communication)
 
   CompilerIf #PRINT_DEBUGGER_COMMANDS
     PrintN("COMMUNICATION::CLOSE")
-  CompilerEndIf  
+  CompilerEndIf
 
   LockMutex(UnixPipe_Mutex)
     ; The streams are already closed in Disconnect(), so delete the FIFOs now
@@ -555,10 +555,10 @@ Procedure UnixPipe_Close(*This.UnixPipe_Communication)
     Else
       ; Close the pipe ends that were never used in this process
       close_(*This\InPipe\pipewrite)
-      close_(*This\OutPipe\piperead)    
-    EndIf    
+      close_(*This\OutPipe\piperead)
+    EndIf
     
-    ; clear stack, if any data left  
+    ; clear stack, if any data left
     For i = 0 To *This\StackCount-1
       If *This\Stack[i]\CommandData
         FreeMemory(*This\Stack[i]\CommandData)
@@ -569,7 +569,7 @@ Procedure UnixPipe_Close(*This.UnixPipe_Communication)
     FreeMutex(*This\StackMutex)
     
     ChangeCurrentElement(UnixPipe_Data(), *This)
-    DeleteElement(UnixPipe_Data())  
+    DeleteElement(UnixPipe_Data())
   UnlockMutex(UnixPipe_Mutex)
 EndProcedure
 
@@ -601,7 +601,7 @@ Procedure CreatePipeCommunication()
       DeleteElement(UnixPipe_Data())
     EndIf
     
-  UnlockMutex(UnixPipe_Mutex)  
+  UnlockMutex(UnixPipe_Mutex)
     
   CompilerIf #NOTHREAD = 0
     EndIf
@@ -624,10 +624,10 @@ Procedure CreateFifoCommunication()
   CompilerEndIf
   
   ; create the fifo's
-  ;      
+  ;
   For i = 0 To 50
     FifoIn$ = "/tmp/.pb-FIFO-"+Str(Random($7FFFFFFF))
-    If mkfifo_(ToAscii(FifoIn$), #S_IRUSR|#S_IWUSR|#S_IRGRP|#S_IWGRP) = 0 
+    If mkfifo_(ToAscii(FifoIn$), #S_IRUSR|#S_IWUSR|#S_IRGRP|#S_IWGRP) = 0
       Break
     Else
       FifoIn$ = ""
@@ -640,7 +640,7 @@ Procedure CreateFifoCommunication()
 
   For i = 0 To 50
     FifoOut$ = "/tmp/.pb-FIFO-"+Str(Random($7FFFFFFF))
-    If mkfifo_(ToAscii(FifoOut$), #S_IRUSR|#S_IWUSR|#S_IRGRP|#S_IWGRP) = 0 
+    If mkfifo_(ToAscii(FifoOut$), #S_IRUSR|#S_IWUSR|#S_IRGRP|#S_IWGRP) = 0
       Break
     Else
       FifoOut$ = ""
@@ -661,7 +661,7 @@ Procedure CreateFifoCommunication()
     UnixPipe_Data()\OutFifoName$ = FifoOut$
     *Result = @UnixPipe_Data()
 
-  UnlockMutex(UnixPipe_Mutex)  
+  UnlockMutex(UnixPipe_Mutex)
     
   CompilerIf #NOTHREAD = 0
     EndIf

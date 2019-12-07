@@ -30,16 +30,16 @@ struct PB_ObjectStructure // PB_Object
 {
   int StructureSize;
   int IncrementStep;
-  
-  integer ObjectsNumber;            // defined integer for better alignment below  
+
+  integer ObjectsNumber;            // defined integer for better alignment below
   integer **ElementTable;           // Table for static ID objects (2x * to check if the object number inside is 0 or not)
   PB_SimpleList *ListFirstElement;  // for PB_Any objects
 
-  ObjectFreeFunction FreeID;        // to call when reallocating a static ID    
+  ObjectFreeFunction FreeID;        // to call when reallocating a static ID
 
   integer CurrentID;             // for the object enumeration without callback (static id)
   PB_SimpleList *CurrentElement; // (dynamic id)
-  
+
   #ifdef THREAD
     // the mutex locking is now the only difference for the thread/nothread implementation
     M_MUTEX ObjectMutex;
@@ -61,7 +61,7 @@ struct PB_BlockStruct;
 
 typedef struct PB_BlockElementStruct
 {
-  union 
+  union
   {
     struct PB_BlockStruct        *Block;
     struct PB_BlockElementStruct *NextFree;
@@ -76,11 +76,11 @@ typedef struct PB_BlockStruct
   int Size;
   int NextIndex;
   int FreeCount;
-  
+
   #ifdef PB_64
     int _alignment; // make sure all elements remain properly aligned (for access speed)
-  #endif    
-  
+  #endif
+
   PB_BlockElement Elements[];
 } PB_Block;
 
@@ -100,7 +100,7 @@ struct PB_BlockAllocStruct // PB_BlockAlloc
 {
   PB_Block *FirstFullBlock;
   PB_Block *FirstFreeBlock;
-  
+
   PB_BlockShared *Shared; // for shared allocators
 
   integer TotalAllocated;
@@ -109,6 +109,6 @@ struct PB_BlockAllocStruct // PB_BlockAlloc
   int     MaxCount;
   int     NeedLock;
 
-  M_MUTEX Mutex;       // locking is now determined by a flag 
+  M_MUTEX Mutex;       // locking is now determined by a flag
 };
 

@@ -30,37 +30,37 @@ extern "C" {
 typedef del_fn rst_fn;
 
 struct pool {
-	new_fn object_new;
-	del_fn object_del;
-	rst_fn object_rst;
-	void *context;
-	size_t size;
-	int flags;
-	unsigned char *bitset;
-	unsigned int max_size;
-	unsigned int unused;
-	struct stack stk;
-	struct allocator *al;
+  new_fn object_new;
+  del_fn object_del;
+  rst_fn object_rst;
+  void *context;
+  size_t size;
+  int flags;
+  unsigned char *bitset;
+  unsigned int max_size;
+  unsigned int unused;
+  struct stack stk;
+  struct allocator *al;
 };
 
 LIBMBA_API int pool_create(struct pool *p,
-	unsigned int max_size,
-	new_fn object_new,
-	del_fn object_del,
-	rst_fn object_rst,
-	void *context,
-	size_t size,
-	int undo,
-	struct allocator *al);
+  unsigned int max_size,
+  new_fn object_new,
+  del_fn object_del,
+  rst_fn object_rst,
+  void *context,
+  size_t size,
+  int undo,
+  struct allocator *al);
 LIBMBA_API int pool_destroy(struct pool *p);
 LIBMBA_API struct pool *pool_new(unsigned int max_size,
-	new_fn object_new,
-	del_fn object_del,
-	rst_fn object_rst,
-	void *context,
-	size_t size,
-	int flags,
-	struct allocator *al);
+  new_fn object_new,
+  del_fn object_del,
+  rst_fn object_rst,
+  void *context,
+  size_t size,
+  int flags,
+  struct allocator *al);
 LIBMBA_API int pool_del(struct pool *p);
 LIBMBA_API int pool_clean(struct pool *p);
 

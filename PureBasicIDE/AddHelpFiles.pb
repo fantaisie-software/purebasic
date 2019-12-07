@@ -10,7 +10,7 @@ Procedure AddHelpFiles_Init()
   AddHelpFiles_Count = 0
   
   ; all extensions are now accepted as help files (unknown ones are opened in the fileviewer)
-  ;  
+  ;
   If ExamineDirectory(0, PureBasicPath$+#DEFAULT_HelpPath, "*")
     While NextDirectoryEntry(0)
       If DirectoryEntryType(0) = 1
@@ -34,7 +34,7 @@ EndProcedure
 
 Procedure AddHelpFiles_AddMenuEntries()
 
-  For i = 0 To AddHelpFiles_Count-1 
+  For i = 0 To AddHelpFiles_Count-1
     MenuItem(#MENU_AddHElpFiles_Start + i, ReplaceString(HelpFiles(i), "&", "&&")) ; escape the "help underline char"
 ;     If GetExtensionPart(HelpFiles(i)) = "" ; files without extension
 ;       MenuItem(#MENU_AddHElpFiles_Start + i, HelpFiles(i))
@@ -49,7 +49,7 @@ Procedure AddHelpFiles_Display(MenuID)
 
   File$ = HelpFiles(MenuID - #MENU_AddHelpFiles_Start)
   
-  CompilerIf #CompileWindows  
+  CompilerIf #CompileWindows
     If LCase(GetExtensionPart(File$)) = "hlp" Or LCase(GetExtensionPart(File$)) = "chm" ; on windows, open these with the help lib.
       OpenHelp(PureBasicPath$+#DEFAULT_HelpPath+File$, "")
       ProcedureReturn
@@ -57,7 +57,7 @@ Procedure AddHelpFiles_Display(MenuID)
   CompilerEndIf
 
   ; open any external help with the internal file viewer (or external tool if the user configured it like that)
-  ;  
+  ;
   FileViewer_OpenFile(PureBasicPath$+#DEFAULT_HelpPath+File$)
   
 EndProcedure

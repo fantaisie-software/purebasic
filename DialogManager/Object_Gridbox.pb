@@ -15,9 +15,9 @@ XIncludeFile "Object_BoxBase.pb"
 ; columns = number of columns (default = 2)
 ;
 ; colspacing = space to add between columns/rows (default = 5)
-; rowspacing 
+; rowspacing
 ;
-; colexpand = yes           - items get bigger to fill all space 
+; colexpand = yes           - items get bigger to fill all space
 ; rowexpand   no            - do not expand to fill all space
 ;             equal         - force equal sized items
 ;             item:<number> - expand only one item if space is available
@@ -46,12 +46,12 @@ Structure DlgGridBoxRow
   Cols.DlgGridBoxChild[#MAX_COLUMNS]
 EndStructure
 
-Structure DlgGridBox Extends DlgBase  
+Structure DlgGridBox Extends DlgBase
   NbColumns.l
-  NbRows.l  
+  NbRows.l
   NextChild.l
   
-  Rows.DlgGridBoxRow[#MAX_ROWS] ; here the childs are stored    
+  Rows.DlgGridBoxRow[#MAX_ROWS] ; here the childs are stored
 
   colSpacing.l
   rowSpacing.l
@@ -79,21 +79,21 @@ Procedure DlgGridBox_New(*StaticData.DialogObjectData)
       *THIS\NbColumns = Val(Value$)
     Else
       *THIS\NbColumns = 2 ; default value
-    EndIf 
+    EndIf
         
     Value$ = DialogObjectKey(*StaticData, "COLSPACING")
     If Value$
       *THIS\colSpacing = Val(Value$)
-    Else 
+    Else
       *THIS\colSpacing = 5
-    EndIf 
+    EndIf
     
     Value$ = DialogObjectKey(*StaticData, "ROWSPACING")
     If Value$
       *THIS\rowSpacing = Val(Value$)
     Else
       *THIS\rowSpacing = 5
-    EndIf 
+    EndIf
     
     Value$ = UCase(DialogObjectKey(*StaticData, "COLEXPAND"))
     If Value$ = "NO"
@@ -105,7 +105,7 @@ Procedure DlgGridBox_New(*StaticData.DialogObjectData)
       *THIS\colExpandItem = Val(Right(Value$, Len(Value$)-5)) - 1 ; we coung from 1
     Else
       *THIS\colExpand = #Dlg_Expand_Yes
-    EndIf    
+    EndIf
     
     Value$ = UCase(DialogObjectKey(*StaticData, "ROWEXPAND"))
     If Value$ = "YES"
@@ -117,7 +117,7 @@ Procedure DlgGridBox_New(*StaticData.DialogObjectData)
       *THIS\rowExpandItem = Val(Right(Value$, Len(Value$)-5)) - 1 ; we coung from 1
     Else
       *THIS\rowExpand = #Dlg_Expand_No
-    EndIf   
+    EndIf
     
   EndIf
   
@@ -139,16 +139,16 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
         If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
           Width = 0
           Height = 0
-          Child\SizeRequest(@Width, @Height) 
+          Child\SizeRequest(@Width, @Height)
           
           ; for now we only count the non-spaning childs.
           ; the others are calculated later
           ;
           If *THIS\Rows[row]\Cols[col]\Colspan = 1
             *THIS\colSize[col] = Max(*THIS\colSize[col], Width)
-          EndIf    
+          EndIf
                 
-          If *THIS\Rows[row]\Cols[col]\Rowspan = 1 
+          If *THIS\Rows[row]\Cols[col]\Rowspan = 1
             *THIS\rowSize[row] = Max(*THIS\rowSize[row], Height)
           EndIf
         EndIf
@@ -170,16 +170,16 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
           If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
             Width = 0
             Height = 0
-            Child\SizeRequest(@Width, @Height) 
+            Child\SizeRequest(@Width, @Height)
             
             ; calculate colspan requirements
             ;
-            If colspan > 1           
+            If colspan > 1
               ; calculate size of the spaned columns
               Size = (colspan-1) * *THIS\colSpacing
               For i = 0 To colspan-1
                 Size + *THIS\colSize[col+i]
-              Next i 
+              Next i
               
               ; action is only needed if this is not enough. What to do depends on the expansion mode
               If Size < Width
@@ -198,8 +198,8 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
                     *THIS\colSize[col+i] + Size
                   Next i
 
-                ; expand one item only (see if it is in our span)                  
-                ElseIf *THIS\colExpand = #Dlg_Expand_Item And (*THIS\colExpandItem >= col And *THIS\colExpandItem < col + colspan) 
+                ; expand one item only (see if it is in our span)
+                ElseIf *THIS\colExpand = #Dlg_Expand_Item And (*THIS\colExpandItem >= col And *THIS\colExpandItem < col + colspan)
                   *THIS\colSize[*THIS\colExpandItem] + (Width - Size)
                   
                 Else ; no expanding, or above case failed. add the space to the last column
@@ -207,7 +207,7 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
                 
                 EndIf
                   
-              EndIf                              
+              EndIf
             EndIf
             
             
@@ -237,8 +237,8 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
                     *THIS\rowSize[row+i] + Size
                   Next i
 
-                ; expand one item only (see if it is in our span)                  
-                ElseIf *THIS\rowExpand = #Dlg_Expand_Item And (*THIS\rowExpandItem >= row And *THIS\rowExpandItem < row + rowspan) 
+                ; expand one item only (see if it is in our span)
+                ElseIf *THIS\rowExpand = #Dlg_Expand_Item And (*THIS\rowExpandItem >= row And *THIS\rowExpandItem < row + rowspan)
                   *THIS\rowSize[*THIS\rowExpandItem] + (Height - Size)
                   
                 Else ; no expanding, or above case failed. add the space to the last column
@@ -246,7 +246,7 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
                 
                 EndIf
                   
-              EndIf                              
+              EndIf
             EndIf
             
             
@@ -296,9 +296,9 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
       ; example: structureviewer
       ; so when there are many columns, calc with float. (only in equal extend mode)
       ;
-      If *THIS\NbColumns > 10 
+      If *THIS\NbColumns > 10
         SizeF.f = (Width - (*THIS\NbColumns-1) * *THIS\colSpacing) / *THIS\NbColumns
-        For i = 0 To *THIS\NbColumns-1        
+        For i = 0 To *THIS\NbColumns-1
           ColSize(i) = SizeF * (i + 1) - SizeF * i ; calculate difference between two fields. this way the rounding error gets equally distributed
         Next i
       Else
@@ -309,23 +309,23 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
       EndIf
       
     ; not enough space anyway
-    ElseIf Width < *THIS\RequestedWidth And Width > 0     
+    ElseIf Width < *THIS\RequestedWidth And Width > 0
       For i = 0 To *THIS\NbColumns-1
         ColSize(i) = (*THIS\colSize[i] * Width) / *THIS\RequestedWidth
-      Next i  
+      Next i
     
     ; normal expanding
     ElseIf *THIS\colExpand = #Dlg_Expand_Yes
       Extra = (Width - *THIS\RequestedWidth) / *THIS\NbColumns
       For i = 0 To *THIS\NbColumns-1
         ColSize(i) = *THIS\colSize[i] + Extra
-      Next i  
+      Next i
     
     ; expand one item only, or no expanding
     Else
       If *THIS\colExpand = #Dlg_Expand_Item
         Extra = Width - *THIS\RequestedWidth
-      Else ; no groing at all  
+      Else ; no groing at all
         Extra = 0
       EndIf
       
@@ -334,7 +334,7 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
           ColSize(i) = *THIS\colSize[i] + Extra
         Else
           ColSize(i) = *THIS\colSize[i]
-        EndIf 
+        EndIf
       Next i
 
     EndIf
@@ -354,20 +354,20 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
     ElseIf Height < *THIS\RequestedHeight And Height > 0
       For i = 0 To *THIS\NbRows-1
         RowSize(i) = (*THIS\rowSize[i] * Height) / *THIS\RequestedHeight
-      Next i  
+      Next i
     
     ; normal expanding
     ElseIf *THIS\rowExpand = #Dlg_Expand_Yes
       Extra = (Height - *THIS\RequestedHeight) / *THIS\NbRows
       For i = 0 To *THIS\NbRows-1
         RowSize(i) = *THIS\rowSize[i] + Extra
-      Next i  
+      Next i
     
     ; expand one item only, or no expanding
     Else
       If *THIS\rowExpand = #Dlg_Expand_Item
         Extra = Height - *THIS\RequestedHeight
-      Else ; no groing at all  
+      Else ; no groing at all
         Extra = 0
       EndIf
       
@@ -376,7 +376,7 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
           RowSize(i) = *THIS\rowSize[i] + Extra
         Else
           RowSize(i) = *THIS\rowSize[i]
-        EndIf 
+        EndIf
       Next i
       
     EndIf
@@ -387,7 +387,7 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
     
     For row = 0 To *THIS\NbRows-1
       For col = 0 To *THIS\NbColumns-1
-        Child.DialogObject = *THIS\Rows[row]\Cols[col]\Child     
+        Child.DialogObject = *THIS\Rows[row]\Cols[col]\Child
         If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
         
           posx = x + col * *THIS\colSpacing
@@ -398,14 +398,14 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
           colspan = *THIS\Rows[row]\Cols[col]\Colspan
           rowspan = *THIS\Rows[row]\Cols[col]\Rowspan
           Width   = ColSize(col)
-          Height  = RowSize(row)          
+          Height  = RowSize(row)
           For j = 1 To colspan-1: Width  + ColSize(col+j) + *THIS\colSpacing: Next j
           For j = 1 To rowspan-1: Height + RowSize(row+j) + *THIS\rowSpacing: Next j
           
           Child\SizeApply(posx, posy, Width, Height)
-        EndIf      
+        EndIf
       Next col
-    Next row   
+    Next row
 
   EndIf
       
@@ -423,14 +423,14 @@ Procedure DlgGridBox_AddChild(*THIS.DlgGridBox, Child.DialogObject)
   While *THIS\Rows[row]\Cols[col]\Child <> #DlgGrid_Empty
     *THIS\NextChild + 1
     row = *THIS\NextChild / *THIS\NbColumns
-    col = *THIS\NextChild % *THIS\NbColumns    
+    col = *THIS\NextChild % *THIS\NbColumns
   Wend
    
   ; Add dummy span objects if needed (check the child for that)
   ;
-  *ChildData.DlgBase = Child  
+  *ChildData.DlgBase = Child
   colspan = Val(DialogObjectKey(*ChildData\StaticData, "COLSPAN"))
-  rowspan = Val(DialogObjectKey(*ChildData\StaticData, "ROWSPAN"))  
+  rowspan = Val(DialogObjectKey(*ChildData\StaticData, "ROWSPAN"))
   If colspan < 1: colspan = 1: EndIf ; each call takes at least one row and column
   If rowspan < 1: rowspan = 1: EndIf
   
@@ -446,9 +446,9 @@ Procedure DlgGridBox_AddChild(*THIS.DlgGridBox, Child.DialogObject)
   
   ; set the child. (to the top/left of the spanning area if it is used)
   ;
-  *THIS\Rows[row]\Cols[col]\Child   = Child  
-  *THIS\Rows[row]\Cols[col]\Colspan = colspan  
-  *THIS\Rows[row]\Cols[col]\Rowspan = rowspan    
+  *THIS\Rows[row]\Cols[col]\Child   = Child
+  *THIS\Rows[row]\Cols[col]\Colspan = colspan
+  *THIS\Rows[row]\Cols[col]\Rowspan = rowspan
   *THIS\NextChild + 1
   
   *ChildData\Parent = *THIS
@@ -465,7 +465,7 @@ Procedure DlgGridBox_FoldApply(*THIS.DlgGridBox, State)
       
         If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
           Child\FoldApply(State) ; calling the interface in the structure directly gives an invalid memory access.. bug maybe?
-        EndIf      
+        EndIf
       Next col
     Next row
     
@@ -527,13 +527,13 @@ EndProcedure
 
 Procedure DlgGridBox_Update(*THIS.DlgGridBox)
   For row = 0 To *THIS\NbRows-1
-    For col = 0 To *THIS\NbColumns-1  
+    For col = 0 To *THIS\NbColumns-1
       Child.DialogObject = *THIS\Rows[row]\Cols[col]\Child
       If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
       
         Child\Update()
 
-      EndIf    
+      EndIf
     Next col
   Next row
 EndProcedure
@@ -542,13 +542,13 @@ EndProcedure
 
 Procedure DlgGridBox_Destroy(*THIS.DlgGridBox)
   For row = 0 To *THIS\NbRows-1
-    For col = 0 To *THIS\NbColumns-1  
+    For col = 0 To *THIS\NbColumns-1
       Child.DialogObject = *THIS\Rows[row]\Cols[col]\Child
       If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
       
         Child\Destroy()
 
-      EndIf    
+      EndIf
     Next col
   Next row
 

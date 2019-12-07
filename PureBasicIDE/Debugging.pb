@@ -39,15 +39,15 @@ Declare.s DumpDialogHirachy(*Object.DlgBase, Indent)
 CompilerIf #CompileWindows
 
   Structure PROCESS_HEAP_ENTRY_Block
-    hMem.i     
+    hMem.i
     dwReserved.l[3]
   EndStructure
   
   Structure PROCESS_HEAP_ENTRY_Region
-    dwCommittedSize.l   
+    dwCommittedSize.l
     dwUnCommittedSize.l
     lpFirstBlock.i
-    lpLastBlock.i 
+    lpLastBlock.i
   EndStructure
   
   Structure PROCESS_HEAP_ENTRY
@@ -65,11 +65,11 @@ CompilerIf #CompileWindows
   #PROCESS_HEAP_ENTRY_BUSY        = $0004
   #PROCESS_HEAP_ENTRY_DDESHARE    = $0020
   #PROCESS_HEAP_ENTRY_MOVEABLE    = $0010
-  #PROCESS_HEAP_REGION            = $0001 
+  #PROCESS_HEAP_REGION            = $0001
   #PROCESS_HEAP_UNCOMMITTED_RANGE = $0002
 
   Procedure.s HeapStats(Heap)
-    Protected Entry.PROCESS_HEAP_ENTRY 
+    Protected Entry.PROCESS_HEAP_ENTRY
     Protected Blocks, Size, Overhead
     Protected Uncommitted
     
@@ -83,21 +83,21 @@ CompilerIf #CompileWindows
         Uncommitted + Entry\cbData
       EndIf
     Wend
-    HeapUnlock_(Heap)  
+    HeapUnlock_(Heap)
     
     Result$ = "Allocated Blocks  : " + Str(Blocks) + #NewLine
     If Blocks > 0
-      Result$ + "Avg. Block Size   : " + StrByteSize(Size/Blocks) + #NewLine    
+      Result$ + "Avg. Block Size   : " + StrByteSize(Size/Blocks) + #NewLine
     EndIf
-    Result$ + "Total Memory      : " + StrByteSize(Size) + #NewLine    
+    Result$ + "Total Memory      : " + StrByteSize(Size) + #NewLine
     Result$ + "Heap Overhead     : " + StrByteSize(Overhead) + #NewLine
     Result$ + "Uncommitted Memory: " + StrByteSize(Uncommitted) + #NewLine
 
-    If HeapValidate_(Heap, 0, #Null)      
+    If HeapValidate_(Heap, 0, #Null)
       Result$ + "Heap valiadtion   : Ok" + #NewLine
     Else
       Result$ + "Heap valiadtion   : Failed !!!" + #NewLine
-    EndIf    
+    EndIf
     
     ProcedureReturn Result$
   EndProcedure
@@ -127,7 +127,7 @@ Procedure.s DumpDlgBox(*Box.DlgBoxBase, Indent)
     Text$ + Space(Indent) + "Spacing = "+Str(*Box2\Spacing)+", Expand = "+Str(*Box2\Expand)+", Item = "+Str(*Box2\ExpandItem) + ", Align = "+Str(*Box2\Align)+#NewLine
     Text$ + Space(Indent) + "RequestedSize = "+Str(*Box2\RequestedSize) + #NewLine
     
-    Text$ + Space(Indent) + "ChildSizes ="    
+    Text$ + Space(Indent) + "ChildSizes ="
     For i = 0 To *Box\NbChilds-1
       Text$ + " " + Str(*Box2\ChildSizes[i])
     Next i
@@ -212,12 +212,12 @@ Procedure.s DumpDialogHirachy(*Object.DlgBase, Indent)
               Text$ + Space(Indent+2)+"(Gridbox: Colspan = "+Str(*GRid\Rows[row]\Cols[col]\Colspan)+", Rowspan = "+Str(*GRid\Rows[row]\Cols[col]\Rowspan)+")"+#NewLine
             EndIf
     
-          EndIf 
+          EndIf
         Next col
       Next row
       
     
-    Case #DIALOG_Empty 
+    Case #DIALOG_Empty
       Text$ + "----- Empty -----"+#NewLine
     
     Case #DIALOG_Button:      Text$ + DumpDlgGadget(*Object, "Button", Indent)
@@ -243,7 +243,7 @@ Procedure.s DumpDialogHirachy(*Object.DlgBase, Indent)
       Text$ + "----- Panel -----"+#NewLine
       Text$ + DumpDlgBox(*Object, Indent)
       
-    Case #DIALOG_Tab  
+    Case #DIALOG_Tab
       *Tab.DlgTab = *Object
       Text$ + "----- Tab -----"+#NewLine
       Text$ + Space(Indent) + "Title = "+GetGadgetItemText(*Tab\ParentGadget, *Tab\ItemIndex) + #NewLine
@@ -255,9 +255,9 @@ Procedure.s DumpDialogHirachy(*Object.DlgBase, Indent)
       Text$ + Space(Indent) + "InnerWidth = "+Str(*Scroll\InnerWidth) + ", InnerHeight = "+Str(*Scroll\InnerHeight) + ", Scrolling = "+Str(*Scroll\Scrolling)+#NewLine
       Text$ + DumpDlgBin(*Object, Indent)
       
-    Case #DIALOG_Frame  
+    Case #DIALOG_Frame
       *Frame.DlgFrame = *Object
-      Text$ + "----- Frame -----"+#NewLine      
+      Text$ + "----- Frame -----"+#NewLine
       Text$ + Space(Indent) + "Title = "+GetGadgetText(*Frame\Gadget) + #NewLine
       Text$ + Space(Indent) + "Boder = t:"+Str(*Frame\BorderTop)+", b:"+Str(*Frame\BorderBottom)+", l:"+Str(*Frame\BorderLeft)+", r:"+Str(*Frame\BorderRight)+#NewLine
       Text$ + DumpDlgBin(*Object, Indent)
@@ -324,17 +324,17 @@ Procedure DebuggingWindowEvents(EventID)
                   Else
                     Prefix$ = *Item\ModulePrefix$ + "::"
                   EndIf
-                  Content$ + " -> ["+Str(*Item\Position)+"] "+Kind$+"="+Prefix$+*Item\Name$+" "+*Item\StringData$       
+                  Content$ + " -> ["+Str(*Item\Position)+"] "+Kind$+"="+Prefix$+*Item\Name$+" "+*Item\StringData$
                   *Item = *Item\Next
                 Wend
                 
-                Content$ + #NewLine          
+                Content$ + #NewLine
               Next i
             
             Else
               Content$ = "-- Array count is 0 --"
-            EndIf        
-          Else    
+            EndIf
+          Else
             Content$ = "-- Array pointer is 0 --"
           EndIf
           
@@ -370,22 +370,22 @@ Procedure DebuggingWindowEvents(EventID)
                   If First
                     Content$ + #NewLine + Title$ + #NewLine
                     First = #False
-                  EndIf                
+                  EndIf
                 
                   If Char = 0
                     Content$ + "_  "
                   Else
                     Content$ + Chr(Char-1+'A') + "  "
-                  EndIf                
+                  EndIf
                   Content$ + *Item\Name$ + " " + *Item\StringData$ + #NewLine
                   *Item = *Item\NextSorted
                 Wend
-              Next Char             
+              Next Char
             Next Type
           Next *ActiveSource\Parser\Modules()
           
         Case #DEBUG_SortedIssues
-          SortParserData(@*ActiveSource\Parser) ; ensure it is up to date          
+          SortParserData(@*ActiveSource\Parser) ; ensure it is up to date
           Content$ = ""
           *Item.SourceItem = *ActiveSource\Parser\SortedIssues
           While *Item
@@ -395,7 +395,7 @@ Procedure DebuggingWindowEvents(EventID)
         
         Case #DEBUG_ProjectTokens
           Content$ = ""
-          If IsProject          
+          If IsProject
             If ListSize(ProjectFiles()) > 0
               ForEach ProjectFiles()
                 Content$ + "  #####################################################" + #NewLine
@@ -441,17 +441,17 @@ Procedure DebuggingWindowEvents(EventID)
                         If First
                           Content$ + #NewLine + Title$ + #NewLine
                           First = #False
-                        EndIf                
+                        EndIf
                       
                         If Char = 0
                           Content$ + "_  "
                         Else
                           Content$ + Chr(Char-1+'A') + "  "
-                        EndIf                
+                        EndIf
                         Content$ + *Item\Name$ + " " + *Item\StringData$ + #NewLine
                         *Item = *Item\NextSorted
                       Wend
-                    Next Char             
+                    Next Char
                   Next Type
                 Next *Parser\Modules()
 
@@ -504,7 +504,7 @@ Procedure DebuggingWindowEvents(EventID)
             Content$ = DumpDialogHirachy(EditToolsWindowDialog, 0) ; the main object is directly the DlgWindow object
           Else
             Content$ = "-- EditTools Window not open --"
-          EndIf    
+          EndIf
           
         Case #DEBUG_MemoryStats ; memory stats
           CompilerIf #CompileWindows
@@ -518,7 +518,7 @@ Procedure DebuggingWindowEvents(EventID)
               !mov [p.v_MemoryBase], eax
               !mov eax, dword [_PB_Memory_Heap]
               !mov [p.v_MemoryHeap], eax
-            CompilerElse    
+            CompilerElse
               !mov rax, qword [PB_StringHeap]
               !mov [p.v_StringHeap], rax
               !mov rax, qword [_PB_MemoryBase]
@@ -554,9 +554,9 @@ Procedure DebuggingWindowEvents(EventID)
             Content$ = "-- Windows only --"
           CompilerEndIf
           
-      EndSelect  
+      EndSelect
       
-      SetGadgetText(Debugging_Editor, Content$)  
+      SetGadgetText(Debugging_Editor, Content$)
     
     EndIf
   
@@ -567,7 +567,7 @@ Procedure DebuggingWindowEvents(EventID)
     
     ResizeGadget(Debugging_Combo, 10, 10, w-180, c)
     ResizeGadget(Debugging_Display, w-160, 10, 150, c)
-    ResizeGadget(Debugging_Editor, 10, c+20, w-20, h-c-30)        
+    ResizeGadget(Debugging_Editor, 10, c+20, w-20, h-c-30)
   
   ElseIf EventID = #PB_Event_CloseWindow
     CloseWindow(#WINDOW_Debugging)
@@ -600,7 +600,7 @@ Procedure OpenDebuggingWindow()
     AddGadgetItem(Debugging_Combo, -1, "DialogManager - Sort Sources")
     AddGadgetItem(Debugging_Combo, -1, "Memory Stats (Windows Only)")
     
-    SetGadgetState(Debugging_Combo, 0)    
+    SetGadgetState(Debugging_Combo, 0)
     
     CompilerIf #CompileWindows
       SetGadgetFont(Debugging_Editor, GetStockObject_(#ANSI_FIXED_FONT))

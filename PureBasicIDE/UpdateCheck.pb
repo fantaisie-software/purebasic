@@ -43,7 +43,7 @@
 Structure Release
   Name$      ; string for display
   Category.l ; see below
-  Number.l   ; release number (same as #PB_Compiler_Version)    
+  Number.l   ; release number (same as #PB_Compiler_Version)
   Beta.l     ; number of beta release (if category is "beta")
   LTS.l      ; true if this is an LTS version
   SortKey.l  ; for simpler sorting
@@ -117,7 +117,7 @@ Procedure UpdateWindowEvents(EventID)
 
   EndSelect
   
-  If Quit 
+  If Quit
     If MemorizeWindow
       UpdateWindowDialog\Close(@UpdateWindowPositon)
     Else
@@ -131,10 +131,10 @@ Procedure ReadVersionFile(FileName$, List Releases.Release())
   ClearList(Releases())
   Result = #False
 
-  If LoadXML(#XML_UpdateCheck, FileName$) 
+  If LoadXML(#XML_UpdateCheck, FileName$)
     If XMLStatus(#XML_UpdateCheck) = #PB_XML_Success And MainXMLNode(#XML_UpdateCheck)
       ; check the namespace
-      *AllVersions = MainXMLNode(#XML_UpdateCheck)       
+      *AllVersions = MainXMLNode(#XML_UpdateCheck)
       If ResolveXMLNodeName(*AllVersions, "/") = #ProductWebSite$ + "/namespace/versions"
         
         ; examine child nodes
@@ -146,7 +146,7 @@ Procedure ReadVersionFile(FileName$, List Releases.Release())
               Case "final":  Category = #CATEGORY_Final
               Case "bugfix": Category = #CATEGORY_Bugfix
               Case "beta":   Category = #CATEGORY_Beta
-              Default:       Category = -1              
+              Default:       Category = -1
             EndSelect
             
             If Category <> -1 ; filter unknown categories (for future expandability)
@@ -239,7 +239,7 @@ Procedure UpdateCheckTimer()
     ; a beta release
     CurrentCategory = #CATEGORY_Beta
     CurrentBeta >> 8  ; remove the alpha part
-  EndIf  
+  EndIf
   
   ; filter the available releases list by:
   ;  - the list of previously checked versions
@@ -270,7 +270,7 @@ Procedure UpdateCheckTimer()
       If CheckedReleases()\Category = AvailableReleases()\Category And
             CheckedReleases()\Number = AvailableReleases()\Number And
             CheckedReleases()\Beta = AvailableReleases()\Beta And
-            CheckedReleases()\LTS = AvailableReleases()\LTS And 
+            CheckedReleases()\LTS = AvailableReleases()\LTS And
             CheckedReleases()\Name$ = AvailableReleases()\Name$
             
         Filter = #True
@@ -280,7 +280,7 @@ Procedure UpdateCheckTimer()
     
     If Filter
       DeleteElement(AvailableReleases())
-    EndIf  
+    EndIf
   Next AvailableReleases()
   
   
@@ -307,9 +307,9 @@ Procedure UpdateCheckTimer()
         Text$ + AvailableReleases()\Name$ + #NewLine
       Next AvailableReleases()
 
-      SetGadgetText(#GADGET_Updates_Message, Text$)      
+      SetGadgetText(#GADGET_Updates_Message, Text$)
       SetGadgetColor(#GADGET_Updates_Website, #PB_Gadget_FrontColor, $F00000)
-      SetGadgetColor(#GADGET_Updates_Settings, #PB_Gadget_FrontColor, $F00000)      
+      SetGadgetColor(#GADGET_Updates_Settings, #PB_Gadget_FrontColor, $F00000)
   
       UpdateWindowDialog\GuiUpdate() ; needed in case the text is very big
       HideWindow(#WINDOW_Updates, #False)
@@ -322,7 +322,7 @@ Procedure UpdateCheckTimer()
           gtk_window_set_position_(WindowID(#WINDOW_Updates), #GTK_WIN_POS_CENTER)
         EndIf
       CompilerEndIf
-    EndIf  
+    EndIf
     
   ElseIf UpdateCheck_ShowNoUpdates = #True
     
@@ -351,8 +351,8 @@ Procedure UpdateCheck_Download(Dummy)
   ; debugging
   ;UpdateCheck_DownloadResult = CopyFile("b:\versions.xml", UpdateCheckFile$ + "_new")
   
-  UpdateCheck_DownloadResult = ReceiveHTTPFile(#UPDATE_CHECK_URL, UpdateCheckFile$ + "_new")  
-  UpdateCheck_DownloadComplete = #True  
+  UpdateCheck_DownloadResult = ReceiveHTTPFile(#UPDATE_CHECK_URL, UpdateCheckFile$ + "_new")
+  UpdateCheck_DownloadComplete = #True
 
 EndProcedure
 
@@ -397,7 +397,7 @@ Procedure CheckForUpdatesSchedule()
   UpdateCheck_ShowNoUpdates = #False
 
   ; Do the check only if the configured interval elapsed
-  ;  
+  ;
   Select UpdateCheckInterval
   
     Case #UPDATE_Interval_Start
@@ -406,7 +406,7 @@ Procedure CheckForUpdatesSchedule()
     Case #UPDATE_Interval_Weekly
       If Date() > LastUpdateCheck + (7 * 24 * 60 * 60 * 60)
         UpdateCheck_Start()
-      EndIf      
+      EndIf
     
     Case #UPDATE_Interval_Monthly
       Now = Date()

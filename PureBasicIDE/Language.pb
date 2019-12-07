@@ -92,7 +92,7 @@ Procedure CollectLanguageInfo()
             
             FinishDirectory(1)
           EndIf
-        EndIf   
+        EndIf
       EndIf
     Wend
     
@@ -102,7 +102,7 @@ Procedure CollectLanguageInfo()
 EndProcedure
 
 ; Read the entry from the language file and apply any needed codepage
-; translation to oem page. 
+; translation to oem page.
 ; (note that the codepage stuff is windows+unicode only For now.)
 ;
 Procedure.s ReadLanguageEntry(Key$, DefaultValue$)
@@ -124,10 +124,10 @@ Procedure.s ReadLanguageEntry(Key$, DefaultValue$)
         
         MultiByteToWideChar_(CodePage, 0, *AsciiBuffer, -1, @Result$, Length)
         FreeMemory(*AsciiBuffer)
-      EndIf        
+      EndIf
 
     CompilerEndIf
-  CompilerEndIf  
+  CompilerEndIf
 
   ProcedureReturn Trim(Result$)
 EndProcedure
@@ -162,9 +162,9 @@ Procedure LoadLanguage()
   Global Dim LanguageNames.s(NbLanguageStrings)
 
   ; Now load the standard language:
-  ;  
+  ;
   Group = 0
-  StringIndex = 0  
+  StringIndex = 0
 
   Restore Language
   Repeat
@@ -219,7 +219,7 @@ Procedure LoadLanguage()
   Next Group
 
   ; Now try to load an external language file
-  ;       
+  ;
   If CurrentLanguage$ <> "English"
   
     ; get info from the saved languagefilename only
@@ -232,7 +232,7 @@ Procedure LoadLanguage()
     ; do a quick search if the language is found.
     ; if the LanguageFile$ was valid, there should be only this one language in the list.
     ;
-    ForEach AvailableLanguages()    
+    ForEach AvailableLanguages()
       If UCase(AvailableLanguages()\Name$) = UCase(CurrentLanguage$)
         Found = 1
         Break
@@ -242,19 +242,19 @@ Procedure LoadLanguage()
     ; if the language is not found yet, the LanguageFile$ was probably invalid
     ; (maybe the purebasic dir was moved or something..)
     ; Do a complete scan for languages then
-    If Found = 0    
+    If Found = 0
       CollectLanguageInfo()
       
       ; search again
-      ForEach AvailableLanguages()    
+      ForEach AvailableLanguages()
         If UCase(AvailableLanguages()\Name$) = UCase(CurrentLanguage$)
           Found = 1
           Break
         EndIf
-      Next AvailableLanguages()    
+      Next AvailableLanguages()
     EndIf
        
-    If Found 
+    If Found
       ; save for the next IDE start:
       LanguageFile$ = AvailableLanguages()\FileName$
       
@@ -286,14 +286,14 @@ Procedure LoadLanguage()
 
           EndIf
         Next Group
-        ClosePreferences()    
-      EndIf    
+        ClosePreferences()
+      EndIf
     Else
       If CommandlineBuild = 0
-        MessageRequester(#ProductName$, "The language '"+CurrentLanguage$+"' cannot be found!"+#NewLine+"The default language will be used.", #FLAG_Error)      
+        MessageRequester(#ProductName$, "The language '"+CurrentLanguage$+"' cannot be found!"+#NewLine+"The default language will be used.", #FLAG_Error)
       ElseIf QuietBuild = 0
         PrintN("-- The language '"+CurrentLanguage$+"' cannot be found!")
-        PrintN("-- The Default language will be used.")       
+        PrintN("-- The Default language will be used.")
       EndIf
       CurrentLanguage$ = "English"
     EndIf
@@ -311,7 +311,7 @@ Procedure.s Language(Group$, Name$)
   Name$   = UCase(Name$)
   String$ = "##### String not found! #####"  ; to help find bugs
 
-  If LanguageGroups(Group)\Name$ <> Group$  ; check if it is the same group as last time   
+  If LanguageGroups(Group)\Name$ <> Group$  ; check if it is the same group as last time
     For Group = 1 To NbLanguageGroups
       If Group$ = LanguageGroups(Group)\Name$
         Break
@@ -368,7 +368,7 @@ EndProcedure
 DataSection
 
   Language:
-    ; Special Keywords: 
+    ; Special Keywords:
     ; "_GROUP_" will indicate a new group in the datasection
     ; "_END_" will indicate the end of the language list (as there is no fixed number anymore)
     ; "LanguageInfo" group is reserved to store information about the language in a language file
@@ -387,7 +387,7 @@ DataSection
       Data$ "Compiler",         "&Compiler"
       Data$ "Debugger",         "&Debugger"
       Data$ "Tools",            "&Tools"
-      Data$ "Help",             "&Help"                         
+      Data$ "Help",             "&Help"
 
     ; ===================================================
     ;- Group - MenuItem
@@ -400,9 +400,9 @@ DataSection
       Data$ "SaveAs",           "Save &As..."
       Data$ "SaveAll",          "Sa&ve All"
       Data$ "Reload",           "R&eload"
-      Data$ "Close",            "&Close"      
+      Data$ "Close",            "&Close"
       Data$ "CloseAll",         "C&lose All"
-      Data$ "DiffCurrent",      "View chan&ges"               
+      Data$ "DiffCurrent",      "View chan&ges"
       Data$ "FileFormat",       "F&ile format"
       Data$ "EncodingPlain",    "Encoding: &Plain Text"
       Data$ "EncodingUtf8",     "Encoding: &Utf8"
@@ -415,26 +415,26 @@ DataSection
       Data$ "EditHistory",      "Session &History"
       Data$ "Quit",             "&Quit"
 
-      Data$ "Undo",             "&Undo"  
+      Data$ "Undo",             "&Undo"
       Data$ "Redo",             "&Redo"
       Data$ "Cut",              "Cu&t"
       Data$ "Copy",             "&Copy"
-      Data$ "Paste",            "&Paste" 
+      Data$ "Paste",            "&Paste"
       Data$ "InsertComment",    "I&nsert comments"
       Data$ "RemoveComment",    "Re&move comments"
       Data$ "AutoIndent",       "Format indentation"
       Data$ "SelectAll",        "Select &All"
-      Data$ "Goto",             "&Goto..."   
+      Data$ "Goto",             "&Goto..."
       Data$ "JumpToKeyword",    "Goto matching &Keyword"
       Data$ "LastViewedLine",   "Goto recent &Line"
       Data$ "ToggleThisFold",   "Toggle current fol&d"
-      Data$ "ToggleFolds",      "T&oggle all folds"                      
+      Data$ "ToggleFolds",      "T&oggle all folds"
       Data$ "AddMarker",        "Add/Remove &Marker"
       Data$ "JumpToMarker",     "&Jump to Marker"
       Data$ "ClearMarkers",     "Cl&ear Markers"
       Data$ "Find",             "&Find/Replace..."
-      Data$ "FindNext",         "Find &Next"  
-      Data$ "FindPrevious",     "Find &Previous"  
+      Data$ "FindNext",         "Find &Next"
+      Data$ "FindPrevious",     "Find &Previous"
       Data$ "FindInFiles",      "Find &in Files..."
       
       Data$ "NewProject",       "&New Project..."
@@ -446,19 +446,19 @@ DataSection
       Data$ "RemoveProjectFile","&Remove File from Project"
       Data$ "BackupManager",    "&Manage Backups..."
       Data$ "MakeBackup",       "Make &Backup..."
-      Data$ "TodoList",         "&Tasks..."  
+      Data$ "TodoList",         "&Tasks..."
       Data$ "OpenProjectFolder","Open Project &Folder"
       
-      Data$ "NewForm",          "&New Form"  
-      Data$ "FormSwitch",       "&Switch Code/Design View"  
-      Data$ "FormDuplicate",    "&Duplicate Object"  
-      Data$ "FormImageManager", "&Image Manager..."  
+      Data$ "NewForm",          "&New Form"
+      Data$ "FormSwitch",       "&Switch Code/Design View"
+      Data$ "FormDuplicate",    "&Duplicate Object"
+      Data$ "FormImageManager", "&Image Manager..."
       
       Data$ "Compile",          "&Compile/Run"
-      Data$ "RunExe",           "&Run"       
+      Data$ "RunExe",           "&Run"
       Data$ "SyntaxCheck",      "&Syntax check"
       Data$ "DebuggerCompile",  "Compile with Debugger"
-      Data$ "NoDebuggerCompile","Compile without Debugger"  
+      Data$ "NoDebuggerCompile","Compile without Debugger"
       Data$ "RestartCompiler",  "Re&start Compiler"
       Data$ "CompilerOptions",  "Compiler &Options..."
       CompilerIf #SpiderBasic
@@ -468,7 +468,7 @@ DataSection
       CompilerEndIf
       Data$ "SetDefaultTarget", "Set &default Target"
       Data$ "BuildTarget",      "Build &Target"
-      Data$ "BuildAllTargets",  "&Build all Targets" 
+      Data$ "BuildAllTargets",  "&Build all Targets"
       
       Data$ "Debugger",         "Use &Debugger"
       Data$ "Stop",             "&Stop"
@@ -485,7 +485,7 @@ DataSection
       Data$ "ShowLog",          "&Show Error Log"
       Data$ "ClearLog",         "&Clear Log"
       Data$ "CopyLog",          "C&opy Log"
-      Data$ "ClearErrorMarks",  "Clear &Error Marks"      
+      Data$ "ClearErrorMarks",  "Clear &Error Marks"
       Data$ "DebugOutput",      "Debug &Output"
       Data$ "WatchList",        "&Watchlist"
       Data$ "VariableList",     "&Variable Viewer"
@@ -496,24 +496,24 @@ DataSection
       Data$ "Purifier",         "Purifier"
       Data$ "DebugAsm",         "&Assembly"
       
-      Data$ "VisualDesigner",   "&Form Designer" 
+      Data$ "VisualDesigner",   "&Form Designer"
       Data$ "StructureViewer",  "&Structure Viewer"
       Data$ "FileViewer",       "&File Viewer"
       Data$ "VariableViewer",   "&Variable Viewer"
       Data$ "ColorPicker",      "&Color Picker"
       Data$ "AsciiTable",       "&Character Table"
       Data$ "Explorer",         "&Explorer"
-      Data$ "ProcedureBrowser", "&Procedure Browser"     
+      Data$ "ProcedureBrowser", "&Procedure Browser"
       Data$ "Issues",           "&Issue Browser"
-      Data$ "Templates",        "&Templates"     
+      Data$ "Templates",        "&Templates"
       Data$ "ProjectPanel",     "P&roject Panel"
-      Data$ "Diff",             "C&ompare Files/Folders" 
+      Data$ "Diff",             "C&ompare Files/Folders"
       Data$ "AddTools",         "Configure &Tools..."
 
-      Data$ "Help",             "&Help..."   
-      Data$ "UpdateCheck",      "&Check for updates" 
+      Data$ "Help",             "&Help..."
+      Data$ "UpdateCheck",      "&Check for updates"
       Data$ "ExternalHelp",     "&External Help"
-      Data$ "About",            "&About"           
+      Data$ "About",            "&About"
       
 
     ; ===================================================
@@ -522,9 +522,9 @@ DataSection
     ; ===================================================
 
       Data$ "ProcedureBrowserShort", "Procedures"
-      Data$ "ProcedureBrowserLong",  "Procedure Browser"      
+      Data$ "ProcedureBrowserLong",  "Procedure Browser"
       Data$ "Explorer",         "Explorer"
-      Data$ "AsciiTable",       "Character Table"   
+      Data$ "AsciiTable",       "Character Table"
       Data$ "VariableViewerShort", "Variables"
       Data$ "VariableViewerLong",  "Variable Viewer"
       Data$ "ProjectPanelShort","Project"
@@ -550,15 +550,15 @@ DataSection
 
       Data$ "Variables",        "Variables"
       Data$ "Arrays",           "Arrays"
-      Data$ "LinkedLists",      "LinkedLists"      
+      Data$ "LinkedLists",      "LinkedLists"
       Data$ "Structures",       "Structures"
-      Data$ "Interfaces",       "Interfaces"      
+      Data$ "Interfaces",       "Interfaces"
       Data$ "Constants",        "Constants"
       Data$ "AllSources",       "Display Elements from all open sources"
       Data$ "ScanFor",          "Scan for"
       
       Data$ "TemplatesLong",    "Code Templates"
-      Data$ "TemplatesShort",   "Templates"      
+      Data$ "TemplatesShort",   "Templates"
       
       Data$ "Favorites",       "Favorites"
       Data$ "AddFavorite",     "Add to Favorites"
@@ -570,16 +570,16 @@ DataSection
       Data$ "Priority",         "Priority"
       Data$ "IssueName",        "Issue"
       Data$ "IssueText",        "Text"
-      Data$ "Prio0",            "Blocker"     
-      Data$ "Prio1",            "High"     
-      Data$ "Prio2",            "Normal"     
-      Data$ "Prio3",            "Low"     
-      Data$ "Prio4",            "Info"    
+      Data$ "Prio0",            "Blocker"
+      Data$ "Prio1",            "High"
+      Data$ "Prio2",            "Normal"
+      Data$ "Prio3",            "Low"
+      Data$ "Prio4",            "Info"
       Data$ "AllIssues",        "All issues"
       
       Data$ "SingleFile",       "Show issues of current source only"
       Data$ "MultiFile",        "Show issues of all open files/project files"
-      Data$ "Export",           "Export issue list" 
+      Data$ "Export",           "Export issue list"
 
     ; ===================================================
     ;- Group - FileStuff
@@ -627,7 +627,7 @@ DataSection
     ; ===================================================
     ;- Group - Project
     Data$ "_GROUP_",            "Project"
-    ; ===================================================    
+    ; ===================================================
     
       Data$ "Title",            "Project Options"
       Data$ "TitleNew",         "Create new Project"
@@ -636,8 +636,8 @@ DataSection
       Data$ "TitleShort",       "Project"
       Data$ "CompilerOptions",  "Compiler Options"
       Data$ "ProjectOptions",   "Project Options"
-      Data$ "CreateProject",    "Create"   
-      Data$ "DefaultName",      "New Project"   
+      Data$ "CreateProject",    "Create"
+      Data$ "DefaultName",      "New Project"
       Data$ "TabTitle",         "Project"
       
       Data$ "OptionTab",        "Project Options"
@@ -666,7 +666,7 @@ DataSection
       Data$ "FileScan",         "Scan file for Autocomplete"
       Data$ "FileLoad",         "Load file when opening the project"
       Data$ "FilePanel",        "Show file in the Project panel"
-      Data$ "FileWarn",         "Display a warning if file changed"     
+      Data$ "FileWarn",         "Display a warning if file changed"
       
       Data$ "Filename",         "Filename"
       Data$ "FileScanShort",    "Scan"
@@ -674,7 +674,7 @@ DataSection
       Data$ "FilePanelShort",   "Panel"
       Data$ "FileWarnShort",    "Warn"
       Data$ "FileSize",         "Size"
-      Data$ "FileModified",     "Last Modified"      
+      Data$ "FileModified",     "Last Modified"
       Data$ "FileDateFormat",   "%mm/%dd/%yyyy - %hh:%ii"
       Data$ "LastOpen",         "Last open"
       Data$ "LastOpenText",     "%date% by %user% on %host%"
@@ -688,10 +688,10 @@ DataSection
       Data$ "CompileCountShort","Compile"
       Data$ "BuildCountShort",  "Build"
       Data$ "FormatShort",      "Format"
-      Data$ "InputFile",        "Input File"      
+      Data$ "InputFile",        "Input File"
       
       Data$ "AddDirectory",     "Should the content of the following directory be added to the project ?"
-      Data$ "AddManyFiles",     "Do you really want to add %filecount% files to the project?" 
+      Data$ "AddManyFiles",     "Do you really want to add %filecount% files to the project?"
       CompilerIf #SpiderBasic
         Data$ "Pattern",          "SpiderBasic Projects (*.sbp)|*.sbp|All files (*.*)|*.*"
       CompilerElse
@@ -723,12 +723,12 @@ DataSection
       Data$ "OpenExplorerWindows", "Open in Explorer"
       Data$ "OpenExplorerLinux",   "Open in Filemanager"
       Data$ "OpenExplorerMac",     "Open in Finder"
-      Data$ "ReallyClose",         "Really close the project?" 
+      Data$ "ReallyClose",         "Really close the project?"
  
     ; ===================================================
     ;- Group - Preferences
     Data$ "_GROUP_",            "Preferences"
-    ; ===================================================    
+    ; ===================================================
     
       Data$ "Title",            "Preferences"
       Data$ "Apply",            "Apply"
@@ -738,7 +738,7 @@ DataSection
       Data$ "RunOnce",          "Run only one Instance"
       Data$ "ShowMainToolbar",  "Show main Toolbar"
       Data$ "VisualDesigner",   "VisualDesigner"
-      Data$ "AutoReload",       "Auto-reload last open sources"      
+      Data$ "AutoReload",       "Auto-reload last open sources"
       Data$ "FileHistorySize",  "RecentFiles list size"
       Data$ "FindHistorySize",  "Search History size"
       Data$ "Language",         "Language"
@@ -746,10 +746,10 @@ DataSection
       Data$ "FileName",         "Filename"
       Data$ "LastUpdated",      "Last Updated"
       Data$ "Creator",          "Creator"
-      Data$ "Email",            "Email"     
-      Data$ "EnableMenuIcons",  "Display Icons in the Menu"   
-      Data$ "DisplayFullPath",  "Display full Source Path in TitleBar"    
-      Data$ "NoSplashScreen",   "Disable Splash Screen"   
+      Data$ "Email",            "Email"
+      Data$ "EnableMenuIcons",  "Display Icons in the Menu"
+      Data$ "DisplayFullPath",  "Display full Source Path in TitleBar"
+      Data$ "NoSplashScreen",   "Disable Splash Screen"
       
       Data$ "Updates",          "Updates"
       Data$ "CheckInterval",    "Check for updates"
@@ -768,8 +768,8 @@ DataSection
       Data$ "TabLength",        "Tab Length"
       Data$ "RealTab",          "Use real Tab (ASCII 9)"
       Data$ "SourcePath",       "Source Directory"
-      Data$ "MemorizeCursor",   "Memorize Cursor position"  
-      Data$ "MemorizeMarkers",  "Memorize Marker positions"            
+      Data$ "MemorizeCursor",   "Memorize Cursor position"
+      Data$ "MemorizeMarkers",  "Memorize Marker positions"
       Data$ "Defaults",         "Default Settings for new Files"
       Data$ "DefaultsShort",    "Defaults"
       Data$ "CPU",              "CPU Optimisation"
@@ -781,10 +781,10 @@ DataSection
       CompilerElse
         Data$ "SaveSettings1",    "The file <filename>.pb.cfg"
       CompilerEndIf
-      Data$ "SaveSettings2",    "A common file project.cfg for every directory" 
-      Data$ "SaveSettings3",    "Don't save anything"    
+      Data$ "SaveSettings2",    "A common file project.cfg for every directory"
+      Data$ "SaveSettings3",    "Don't save anything"
       Data$ "AlwaysHideLog",    "Always hide the error log (ignore the per-source setting)"
-      Data$ "MonitorFileChanges","Monitor open files for changes on disk"      
+      Data$ "MonitorFileChanges","Monitor open files for changes on disk"
       Data$ "FilesPanel",             "File selection"
       Data$ "FilesPanelMultiline",    "Display multiple rows"
       Data$ "FilesPanelCloseButtons", "Display close buttons in each tab"
@@ -802,7 +802,7 @@ DataSection
       Data$ "EnableLineNumbers","Display Line numbers"
       Data$ "EnableMarkers",    "Enable Line Markers"
       Data$ "SelectFont",       "Select Font"
-      Data$ "DefaultColors",    "Default Color Schemes" 
+      Data$ "DefaultColors",    "Default Color Schemes"
       Data$ "ShowWhiteSpace",   "Show whitespace characters"
       Data$ "ShowIndentGuides", "Show indentation guides"
       
@@ -827,7 +827,7 @@ DataSection
       Data$ "Color17",          "Currentline Background"
       Data$ "Color18",          "Selection Background"
       Data$ "Color19",          "Selection Text"
-      Data$ "Color20",          "Cursor"      
+      Data$ "Color20",          "Cursor"
       Data$ "Color21",          "Current Line Background (Debugger)"
       Data$ "Color22",          "Current Line Symbol (Debugger)"
       Data$ "Color23",          "Error Background (Debugger)"
@@ -853,7 +853,7 @@ DataSection
       Data$ "Folding",          "Folding"
       Data$ "EnableFolding",    "Enable Source Line folding"
       Data$ "FoldStartWords",   "Folding start Keywords"
-      Data$ "FoldEndWords",     "Folding end Keywords"       
+      Data$ "FoldEndWords",     "Folding end Keywords"
       
       Data$ "Themes",           "Themes"
       Data$ "Toolbar",          "Toolbar"
@@ -877,8 +877,8 @@ DataSection
       Data$ "IconPattern",      "Icon Files (*.ico, *.png)|*.ico;*.png|All Files (*.*)|*.*"
       Data$ "MaxItems",         "Maximum number of toolbar items reached"
                        
-      Data$ "Tools",            "ToolsPanel"  
-      Data$ "Options",          "Options"   
+      Data$ "Tools",            "ToolsPanel"
+      Data$ "Options",          "Options"
       Data$ "ToolsPanelOptions","ToolsPanel Options"
       Data$ "ToolsPanelLeft",   "Panel on the left side"
       Data$ "ToolsPanelRight",  "Panel on the right side"
@@ -894,11 +894,11 @@ DataSection
       Data$ "Remove",           "Remove"
       Data$ "Up",               "Up"
       Data$ "Down",             "Down"
-      Data$ "Configuration",    "Configuration"      
+      Data$ "Configuration",    "Configuration"
       Data$ "ExplorerMode",     "Displaymode of the Explorer"
       Data$ "ExplorerTree",     "Explorer Tree"
       Data$ "ExplorerList",     "Explorer List"
-      Data$ "ExplorerSavePath", "Remember last displayed Directory"           
+      Data$ "ExplorerSavePath", "Remember last displayed Directory"
       Data$ "ProcedureSort",    "Sort Procedures by name"
       Data$ "ProcedureGroup",   "Group Markers"
       Data$ "ProcedurePrototype", "Display Procedure Arguments"
@@ -924,8 +924,8 @@ DataSection
       Data$ "AddBrackets",      "Add opening Brackets to Functions/Arrays/Lists"
       Data$ "AddSpaces",        "Add a Space after PB Keywords followed by an expression"
       Data$ "AddEndKeywords",   "Add matching 'End' keyword if insert is pressed twice"
-      Data$ "ListOptions",      "Items to display in the AutoComplete List"            
-      Data$ "NoComments",       "Disable automatic popup inside Comments"      
+      Data$ "ListOptions",      "Items to display in the AutoComplete List"
+      Data$ "NoComments",       "Disable automatic popup inside Comments"
       Data$ "NoStrings",        "Disable automatic popup inside Strings"
       Data$ "PopupLength",      "Characters needed before opening the list"
       
@@ -969,7 +969,7 @@ DataSection
       Data$ "DefaultCompiler",  "Default Compiler"
       Data$ "MoreCompilers",    "Additional Compilers"
       Data$ "CompilerVersion",  "Version"
-      Data$ "CompilerPath",     "Path"      
+      Data$ "CompilerPath",     "Path"
       Data$ "SelectCompiler",   "Select PureBasic compiler..."
       
       Data$ "EditHistory",     "Session History"
@@ -989,7 +989,7 @@ DataSection
       
       Data$ "AutoClearLog",     "Clear Errorlog on each run"
       Data$ "DisplayErrorWindow", "Display compilation errors in a window"
-      Data$ "DebuggerMode",     "Choose Debugger Type"      
+      Data$ "DebuggerMode",     "Choose Debugger Type"
       Data$ "IDEDebugger",      "Integrated IDE Debugger"
       Data$ "GUIDebugger",      "Standalone GUI Debugger"
       Data$ "ConsoleDebugger",  "Console only Debugger"
@@ -1009,7 +1009,7 @@ DataSection
       Data$ "DebugOutput",      "Debug Output"
       Data$ "AsmDebug",         "Asm Debugger"
       Data$ "MemoryViewer",     "Memory Viewer"
-      Data$ "VariableViewer",   "Variable Viewer"      
+      Data$ "VariableViewer",   "Variable Viewer"
       Data$ "LibraryViewer",    "Library Viewer"
       Data$ "IsHex",            "Display Hex values"
       Data$ "RegisterIsHex",    "Display Registers as hex"
@@ -1029,7 +1029,7 @@ DataSection
       Data$ "DebuggerTimeout",  "Timeout for Debugger startup (ms)"
       
             
-      Data$ "ImportExport",     "Import/Export" 
+      Data$ "ImportExport",     "Import/Export"
       Data$ "Import",           "Import Settings"
       Data$ "Export",           "Export Settings"
       Data$ "IncludeShortcut",  "Include Shortcut settings"
@@ -1041,8 +1041,8 @@ DataSection
       Data$ "Open",             "Open"
       Data$ "PrefExportPattern","Preference settings (*.prefs)|*.prefs|Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
       Data$ "ImportComplete",   "Importing Preferences complete."
-      Data$ "ExportComplete",   "Exporting Preferences complete."  
-      Data$ "UnknownPrefFormat","This Preference file format is unknown."    
+      Data$ "ExportComplete",   "Exporting Preferences complete."
+      Data$ "UnknownPrefFormat","This Preference file format is unknown."
       
       Data$ "Accessibility",    "Accessibility"
       Data$ "ShowHiddenFiles",  "Show hidden files/directories."
@@ -1069,7 +1069,7 @@ DataSection
       Data$ "IssueCodeLineLimit","Only up to %limit% issues that change the line background can be defined."
       Data$ "IssueInTool",      "Show in issue tool"
       Data$ "IssueInBrowser",   "Show in procedure browser"
-      Data$ "InvalidExpr",      "Invalid regular expression"      
+      Data$ "InvalidExpr",      "Invalid regular expression"
       
       CompilerIf #SpiderBasic
         Data$ "WebBrowser",  "Web browser"
@@ -1100,7 +1100,7 @@ DataSection
       Data$ "ContinueSearch",   "Do you want to search from the start of the file?"
       Data$ "ContinueSearchReverse", "Do you want to search from the end of the file?"
       Data$ "SearchComplete",   "Search/Replace complete"
-      Data$ "MatchesFound",     "matches found"      
+      Data$ "MatchesFound",     "matches found"
       
       Data$ "GrepTitle",        "Find in files"
       Data$ "OutputTitle",      "Find in files - Results"
@@ -1117,19 +1117,19 @@ DataSection
       Data$ "Info",             "Info"
       Data$ "NeedString",       "You have to enter a string to find"
       Data$ "NeedPath",         "You have to choose a root path"
-      Data$ "Clear",            "Clear"   
-      Data$ "BinaryFile",       "Binary file"   
+      Data$ "Clear",            "Clear"
+      Data$ "BinaryFile",       "Binary file"
 
     ; ===================================================
     ;- Group - Diff
     Data$ "_GROUP_",            "Diff"
     ; ===================================================
 
-      Data$ "Title",            "Compare Files"   
+      Data$ "Title",            "Compare Files"
       Data$ "Busy",             "Comparing, please wait..."
       Data$ "RequesterTitle",   "Choose a file to compare..."
       Data$ "CurrentEdit",      "currently edited version"
-      Data$ "FileError",        "The file '%file%' could not be opened."      
+      Data$ "FileError",        "The file '%file%' could not be opened."
       Data$ "FileBinary",       "The file '%file%' is a binary file.%newline%Only text files can be compared."
       
       Data$ "Open1",            "Open left file for editing"
@@ -1139,7 +1139,7 @@ DataSection
       Data$ "Colors",           "Enable Syntax coloring"
       Data$ "Vertical",         "Split View vertically"
       Data$ "ShowTool",         "Open 'Compare' tool"
-      Data$ "HideFiles",        "Hide file differences"      
+      Data$ "HideFiles",        "Hide file differences"
       Data$ "Down",             "Go to next difference"
       Data$ "Up",               "Go to previous difference"
       
@@ -1154,7 +1154,7 @@ DataSection
       Data$ "IgnoreCase",       "Ignore case changes"
       Data$ "IgnoreSpaceAll",   "Ignore all space changes"
       Data$ "IgnoreSpaceLeft",  "Ignore space changes on the left side of a line"
-      Data$ "IgnoreSpaceRight", "Ignore space changes on the right side of a line"      
+      Data$ "IgnoreSpaceRight", "Ignore space changes on the right side of a line"
       Data$ "EmptyField",       "All fields must be filled out."
       Data$ "Compare",          "Compare"
       
@@ -1173,7 +1173,7 @@ DataSection
     Data$ "_GROUP_",            "History"
     ; ===================================================
 
-      Data$ "Title",            "Session History"   
+      Data$ "Title",            "Session History"
       Data$ "ViewFile",         "File"
       Data$ "ViewSession",      "Session"
       
@@ -1220,15 +1220,15 @@ DataSection
     Data$ "_GROUP_",            "Compiler"
     ; ===================================================
     
-      Data$ "OptionsTitle",     "Compiler Options"	  
+      Data$ "OptionsTitle",     "Compiler Options"
       Data$ "InputFile",        "Input source file"
       Data$ "OutputFile",       "Output executable"
-	    Data$ "MainFile",         "Main source file"
+      Data$ "MainFile",         "Main source file"
       Data$ "UseIcon",          "Use Icon"
       Data$ "UseCompiler",      "Use Compiler"
       Data$ "EnableDebugger",   "Enable Debugger"
       Data$ "EnablePurifier",   "Enable Purifier"
-      Data$ "EnableASM",        "Enable inline ASM syntax coloring"      
+      Data$ "EnableASM",        "Enable inline ASM syntax coloring"
       Data$ "EnableXP",         "Enable modern theme support (for Windows XP and above)"
       Data$ "EnableAdmin",      "Request Administrator mode for Windows Vista and above"
       Data$ "EnableUser",       "Request User mode for Windows Vista and above (no virtualisation)"
@@ -1238,9 +1238,9 @@ DataSection
       Data$ "ExeFormat",        "Executable format"
       Data$ "SubSystem",        "Library Subsystem"
       Data$ "CommandLine",      "Executable Commandline"
-      Data$ "NewLineType",      "Sourcefile Newline format" 
-      Data$ "TextEncoding",     "Sourcefile Text encoding"    
-      Data$ "UnknownVersion",   "Cannot read version"  
+      Data$ "NewLineType",      "Sourcefile Newline format"
+      Data$ "TextEncoding",     "Sourcefile Text encoding"
+      Data$ "UnknownVersion",   "Cannot read version"
       
       Data$ "EncodingPlain",    "Plain Text"
       Data$ "EncodingUtf8",     "UTF-8"
@@ -1260,12 +1260,12 @@ DataSection
         Data$ "ExportSuccess",   "Export successful (%target%)."
         Data$ "ExportCommandLineSuccess", "Post processing tool launched (%commandline%)."
         Data$ "ExportCommandLineError", "Post processing tool can't be launched (%commandline%)."
-        Data$ "SourcePattern",   "SpiderBasic Files (*.sb, *.sbi)|*.sb;*.sbi|SpiderBasic Sourcecodes (*.sb)|*.sb|PureBasic Includefiles (*.sbi)|*.sbi|All Files (*.*)|*.*"  
+        Data$ "SourcePattern",   "SpiderBasic Files (*.sb, *.sbi)|*.sb;*.sbi|SpiderBasic Sourcecodes (*.sb)|*.sb|PureBasic Includefiles (*.sbi)|*.sbi|All Files (*.*)|*.*"
       CompilerElse
-        Data$ "SourcePattern",   "PureBasic Files (*.pb, *.pbi)|*.pb;*.pbi|PureBasic Sourcecodes (*.pb)|*.pb|PureBasic Includefiles (*.pbi)|*.pbi|All Files (*.*)|*.*"  
+        Data$ "SourcePattern",   "PureBasic Files (*.pb, *.pbi)|*.pb;*.pbi|PureBasic Sourcecodes (*.pb)|*.pb|PureBasic Includefiles (*.pbi)|*.pbi|All Files (*.*)|*.*"
       CompilerEndIf
       
-      Data$ "IconPattern",      "Icon files (*.ico)|*.ico|All Files (*.*)|*.*" 
+      Data$ "IconPattern",      "Icon files (*.ico)|*.ico|All Files (*.*)|*.*"
       Data$ "DllPattern",       "Shared DLL (*.dll)|*.DLL|All Files (*.*)|*.*"
       Data$ "ExePattern",       "Executable (*.exe)|*.EXE|All Files (*.*)|*.*"
       Data$ "AllFilesPattern",  "All Files (*.*)|*.*"
@@ -1289,10 +1289,10 @@ DataSection
       
       Data$ "ErrorLine",        "Line"
       Data$ "ErrorMainFile",    "Error in the MainFile"
-      Data$ "ErrorIncludeFile", "Error in included File"      
-      Data$ "FileError",        "Cannot read Compiler output!"    
+      Data$ "ErrorIncludeFile", "Error in included File"
+      Data$ "FileError",        "Cannot read Compiler output!"
       Data$ "Warning",          "Warning"
-      Data$ "WarningTotals",    "Compilation succeeded with %warnings% warning(s)."  
+      Data$ "WarningTotals",    "Compilation succeeded with %warnings% warning(s)."
       Data$ "LogCompiler",      "[COMPILER]"
       
       Data$ "ProgramEnded",     "The execution of the Program has finished."
@@ -1322,7 +1322,7 @@ DataSection
       Data$ "GlobalSetting",    "Global setting"
       
       Data$ "EditorConstants",  "Editor constants"
-      Data$ "CustomConstants",  "Custom constants"    
+      Data$ "CustomConstants",  "Custom constants"
       
       Data$ "TargetList",       "Compile targets"
       Data$ "AddTarget",        "Add new target"
@@ -1335,7 +1335,7 @@ DataSection
       Data$ "DefaultTarget",    "Set as default target"
       Data$ "EnableTarget",     "Enable in 'Build all Targets'"
       
-      Data$ "DefaultTargetName","Default Target"   
+      Data$ "DefaultTargetName","Default Target"
       Data$ "NewTargetName",    "New Target"
       Data$ "EnterTargetName",  "Enter target name"
       Data$ "TargetCopySuffix", "(Copy)"
@@ -1348,7 +1348,7 @@ DataSection
       Data$ "BuildWindowTitle", "Building..."
       Data$ "BuildProgress",    "Progress"
       Data$ "BuildLog",         "Log"
-      Data$ "CloseWhenDone",    "Close window if completed successful"     
+      Data$ "CloseWhenDone",    "Close window if completed successful"
       Data$ "StatusOk",         "Ok"
       Data$ "StatusError",      "Error"
       Data$ "StatusWarning",    "Warnings: %count%"
@@ -1384,7 +1384,7 @@ DataSection
       Data$ "Creating",           "Creating app"
       Data$ "DownloadingTemplate","Downloading new template (~50 MB)"
       Data$ "Deploying"          ,"Deploying app..."
-      Data$ "NoAppOutput"        ,"App output filename needs to be specificied" 
+      Data$ "NoAppOutput"        ,"App output filename needs to be specificied"
       Data$ "iOSMacOnly"         ,"iOS app can be only created on MacOS"
       Data$ "AndroidWindowsOnly" ,"Android app can be only created on Windows"
       Data$ "SelectIcon"         ,"Select an icon"
@@ -1471,7 +1471,7 @@ DataSection
       Data$ "VersionInfo",      "Version Info"
       Data$ "Resources",        "Resources"
       
-      Data$ "OpenResource",     "Select resource script to add..."      
+      Data$ "OpenResource",     "Select resource script to add..."
       Data$ "ResourcePattern",  "PORC resource scripts (*.rc)|*.rc|All Files (*.*)|*.*"
       
       Data$ "IncludeVersion",   "Include Version Information"
@@ -1490,7 +1490,7 @@ DataSection
       Data$ "VersionField11",   "Private Build"
       Data$ "VersionField12",   "Special Build"
       Data$ "VersionField13",   "Email"
-      Data$ "VersionField14",   "Website"            
+      Data$ "VersionField14",   "Website"
       Data$ "VersionField15",   "File OS"
       Data$ "VersionField16",   "File Type"
       Data$ "VersionField17",   "Language"
@@ -1500,26 +1500,26 @@ DataSection
       Data$ "Tokens",           "Tokens"
       Data$ "Token0",           "%OS : OS used for compilation."
       Data$ "Token1",           "%SOURCE : Source filename."
-      Data$ "Token2",           "%EXECUTABLE : Executable name."      
-      Data$ "Token3",           "%COMPILECOUNT : The #PB_Editor_CompileCount value."      
-      Data$ "Token4",           "%BUILDCOUNT : The #PB_Editor_BuildCount value."      
+      Data$ "Token2",           "%EXECUTABLE : Executable name."
+      Data$ "Token3",           "%COMPILECOUNT : The #PB_Editor_CompileCount value."
+      Data$ "Token4",           "%BUILDCOUNT : The #PB_Editor_BuildCount value."
       Data$ "DateTokens",       "Furthermore, all Tokens of the FormatDate() command can be used."
                   
       
     ; ===================================================
     ;- Group - AddTools
     Data$ "_GROUP_",            "AddTools"
-    ; =================================================== 
+    ; ===================================================
     
-      Data$ "Title",            "Configure Tools" 
+      Data$ "Title",            "Configure Tools"
       Data$ "Name",             "Name"
       Data$ "Commandline",      "Commandline"
-      Data$ "Trigger",          "Trigger"         
+      Data$ "Trigger",          "Trigger"
       Data$ "New",              "New"
       Data$ "Edit",             "Edit"
       Data$ "Delete",           "Delete"
       Data$ "Up",               "Move up"
-      Data$ "Down",             "Move Down"   
+      Data$ "Down",             "Move Down"
       
       Data$ "EditTitle",        "Edit Tool Settings"
       Data$ "Arguments",        "Arguments"
@@ -1534,7 +1534,7 @@ DataSection
       Data$ "Reload",           "Reload Source after tool has quit"
       Data$ "ReloadNew",        "into new source"
       Data$ "ReloadOld",        "into current source"
-      Data$ "CompileTemp",      "Use the temp file for compilation"  
+      Data$ "CompileTemp",      "Use the temp file for compilation"
       Data$ "HideFromMenu",     "Hide Tool from the Main menu"
       Data$ "SourceSpecific",   "Enable Tool on a per-source basis"
       Data$ "None",             "None"
@@ -1553,9 +1553,9 @@ DataSection
       Data$ "Trigger4",         "After Compile/Run"
       Data$ "Trigger5",         "Run compiled Program"
       Data$ "Trigger6",         "Before Create Executable"
-      Data$ "Trigger7",         "After Create Executable"      
+      Data$ "Trigger7",         "After Create Executable"
       Data$ "Trigger8",         "Sourcecode loaded"
-      Data$ "Trigger9",         "Sourcecode saved"             
+      Data$ "Trigger9",         "Sourcecode saved"
       Data$ "Trigger10",        "Replace Fileviewer - All files"
       Data$ "Trigger11",        "Replace FileViewer - Unknown files"
       Data$ "Trigger12",        "Replace FileViewer - Special file"
@@ -1577,7 +1577,7 @@ DataSection
     ; ===================================================
     ;- Group - Shortcuts
     Data$ "_GROUP_",            "Shortcuts"
-    ; ===================================================      
+    ; ===================================================
     
       Data$ "Shortcuts",        "Shortcuts"
       Data$ "Shortcut",         "Shortcut"
@@ -1588,7 +1588,7 @@ DataSection
       Data$ "Shift",            "Shift"
       Data$ "Control",          "Ctrl"
       Data$ "Command",          "Cmd"
-      Data$ "Numpad",           "Numpad"  
+      Data$ "Numpad",           "Numpad"
       
       Data$ "NextOpenFile",     "Jump to next open File"
       Data$ "PreviousOpenFile", "Jump to previous open File"
@@ -1601,18 +1601,18 @@ DataSection
       Data$ "AutoCompleteAbort",  "Close the AutoComplete Window"
       Data$ "ProceduresUpdate", "Trigger Update of Procedure & Variable Viewer"
       
-      Data$ "AllreadyUsed",     "The shortcut you specified is already used by" 
+      Data$ "AllreadyUsed",     "The shortcut you specified is already used by"
       Data$ "ExternalTool",     "External Tool"
       Data$ "Menu",             "Menu"
       Data$ "TabIntend",        "Indent/Unindent code Selection"
-      Data$ "SystemShortcut",   "Reserved Shortcut for the System"         
+      Data$ "SystemShortcut",   "Reserved Shortcut for the System"
       Data$ "SelectShortcut",   "Select shortcut"
       
       Data$ "Key71",            "Backspace"
       Data$ "Key72",            "Tab"
       Data$ "Key73",            "Clear"
       Data$ "Key74",            "Return"
-      Data$ "Key75",            "Alt" 
+      Data$ "Key75",            "Alt"
       Data$ "Key76",            "Pause"
       Data$ "Key77",            "Print"
       Data$ "Key78",            "Caps Lock"
@@ -1654,7 +1654,7 @@ DataSection
       Data$ "Contents",         "Contents"
       Data$ "Index",            "Index"
       Data$ "Search",           "Search"
-      Data$ "StartSearch",      "Search"   
+      Data$ "StartSearch",      "Search"
       Data$ "Back",             "Go back"
       Data$ "Forward",          "Go forward"
       Data$ "Home",             "Reference"
@@ -1672,10 +1672,10 @@ DataSection
     ; ===================================================
     ;- Group - FileViewer
     Data$ "_GROUP_",            "FileViewer"
-    ; ===================================================      
+    ; ===================================================
       
-      Data$ "Title",            "File Viewer"      
-      Data$ "Pattern",          "Image Files (*.bmp, *.png, *.jpg, *.jpeg, *.tga, *.ico)|*.bmp;*.png;*.jpg;*.jpeg;*.tga;*.ico|HTML Documents (*.html, *.htm)|*.html;*.htm|Text Documents (*.txt)|*.txt|All Files (*.*)|*.*"      
+      Data$ "Title",            "File Viewer"
+      Data$ "Pattern",          "Image Files (*.bmp, *.png, *.jpg, *.jpeg, *.tga, *.ico)|*.bmp;*.png;*.jpg;*.jpeg;*.tga;*.ico|HTML Documents (*.html, *.htm)|*.html;*.htm|Text Documents (*.txt)|*.txt|All Files (*.*)|*.*"
       Data$ "Open",             "Open File"
       Data$ "Close",            "Close File"
       Data$ "Next",             "Show next File"
@@ -1687,28 +1687,28 @@ DataSection
 ;     ; ===================================================
 ;     ;- Group - CPUMonitor
 ;     Data$ "_GROUP_",            "CPUMonitor"
-;     ; ===================================================        
-;       
-;       Data$ "Title",            "CPU Monitor"    
+;     ; ===================================================
+;
+;       Data$ "Title",            "CPU Monitor"
 ;       Data$ "Intervall",        "Update Interval (ms)"
 ;       Data$ "Free",             "Free Resources"
-;       Data$ "All",              "Total Usage"      
+;       Data$ "All",              "Total Usage"
 ;       Data$ "Program",          "Program"
 ;       Data$ "CPUTime",          "CPU Time"
 ;       Data$ "CPUUsage",         "CPU Usage"
 ;       Data$ "MEMUsage",         "Memory"
 ;       Data$ "InvalidIntervall", "Invalid Interval size!"
 ;       Data$ "MonitorError",     "The CPU Monitor is not available on this system!"
-; 
+;
 
     ; ===================================================
     ;- Group - Templates
     Data$ "_GROUP_",            "Templates"
-    ; =================================================== 
+    ; ===================================================
 
       Data$ "Title",           "Templates"
       Data$ "EnterName",       "Enter Template Name"
-      Data$ "EnterDirName",    "Enter Directory Name" 
+      Data$ "EnterDirName",    "Enter Directory Name"
       
       Data$ "Code",            "Code"
       Data$ "Comment",         "Comment"
@@ -1744,14 +1744,14 @@ DataSection
     ; ===================================================
     ;- Group - Debugger
     Data$ "_GROUP_",            "Debugger"
-    ; =================================================== 
+    ; ===================================================
          
       Data$ "ShowErrorLog",     "Show Error Log"
       Data$ "LogEmpty",         "The Error Log is empty."
       
       Data$ "IsRunning",        "This Source file or Project is already being debugged by the IDE."
       Data$ "IsRunning2",       "Do you want to use the standalone debugger?"
-      Data$ "ExecuteError",     "Cannot execute the file with the internal debugger. Please try the standalone one."      
+      Data$ "ExecuteError",     "Cannot execute the file with the internal debugger. Please try the standalone one."
       Data$ "ExecutableType",   "Executable type"
       
       Data$ "TimeStamp",        "%hh:%ii:%ss"
@@ -1765,20 +1765,20 @@ DataSection
       Data$ "OneStep",          "Executing one Step."
       Data$ "StepX",            "Executing %x% Steps."
       Data$ "StepOver",         "Executing procedure."
-      Data$ "StepOut",          "Executing rest of the procedure."      
+      Data$ "StepOut",          "Executing rest of the procedure."
       Data$ "ExeKilled",        "The Program was killed."
          
       Data$ "Breakpoint",       "Breakpoint"
       Data$ "BeforeEnd",        "Program about to end"
-      Data$ "UserRequest",      "User request"    
+      Data$ "UserRequest",      "User request"
       Data$ "DataBreakpoint",   "Data Breakpoint"
       
       Data$ "LogError",         "[ERROR]"
-      Data$ "LogWarning",       "[WARNING]"      
+      Data$ "LogWarning",       "[WARNING]"
       Data$ "EditError",        "Cannot edit sourcecode. It is being debugged."
       Data$ "MemoryError",      "Cannot allocate memory for Debugger communication!%newline%Debugger quitting..."
       Data$ "PipeError",        "Connection to debugged executable broken!%newline%Debugger quitting..."
-      Data$ "VersionError",     "The Version of debugger and executable do not match!%newline%Try recompiling the executable.%newline%If the problem persists, reinstall PureBasic."     
+      Data$ "VersionError",     "The Version of debugger and executable do not match!%newline%Try recompiling the executable.%newline%If the problem persists, reinstall PureBasic."
       Data$ "ExeQuitError",     "The debugged executable quit unexpectedly."
       Data$ "TimeoutError",     "The debugged executable did not respond to communication for %timeout% seconds. Disconnecting."
       Data$ "NetworkError",     "The network connection to the executable was lost."
@@ -1787,13 +1787,13 @@ DataSection
       Data$ "Debug",            "Debug"
       Data$ "Clear",            "Clear"
       Data$ "Copy",             "Copy all"
-      Data$ "Save",             "Save"  
+      Data$ "Save",             "Save"
       
       Data$ "AsmWindowTitle",   "Asm Debugger"
       Data$ "Registers",        "Processor Registers"
-      Data$ "Stack",            "Stack Trace"            
-      Data$ "Set",              "Set" 
-      Data$ "Update",           "Update"  
+      Data$ "Stack",            "Stack Trace"
+      Data$ "Set",              "Set"
+      Data$ "Update",           "Update"
       
       Data$ "MemoryWindowTitle","Memory Viewer"
       Data$ "Range",            "Range"
@@ -1815,20 +1815,20 @@ DataSection
       Data$ "VariableWindowTitle","Variable Viewer"
       Data$ "Variables",        "Variables"
       Data$ "Arrays",           "Arrays"
-      Data$ "LinkedLists",      "LinkedLists"   
-      Data$ "Maps",             "Maps"   
+      Data$ "LinkedLists",      "LinkedLists"
+      Data$ "Maps",             "Maps"
       Data$ "Name",             "Name"
       Data$ "Scope",            "Scope"
-      Data$ "Value",            "Value" 
+      Data$ "Value",            "Value"
       Data$ "Size",             "Size"
       Data$ "Current",          "Current"
       Data$ "Index",            "Index"
       Data$ "WatchlistAdd",     "Add to Watchlist"
-      Data$ "ViewArrayList",    "View Array/List/Map"  
-      Data$ "ArrayListName",    "Array/List/Map Name"    
+      Data$ "ViewArrayList",    "View Array/List/Map"
+      Data$ "ArrayListName",    "Array/List/Map Name"
       Data$ "ItemRange",        "Display Range"
       Data$ "NonZeroItems",     "Display Non-zero items only"
-      Data$ "AllItems",         "Display all items"  
+      Data$ "AllItems",         "Display all items"
       Data$ "EnterRange",       "Enter range to display"
       
       Data$ "HistoryWindowTitle", "Procedure Callstack"
@@ -1839,18 +1839,18 @@ DataSection
       Data$ "CurrentPosition",  "Current Code position"
       Data$ "ShowVariables",    "Variables"
       Data$ "Updating",         "Updating data, please wait."
-      Data$ "CallCount",        "Call count"      
+      Data$ "CallCount",        "Call count"
       Data$ "Reset",            "Reset"
       Data$ "ResetAll",         "Reset All"
       
-      Data$ "WatchListTitle",   "Watch List"      
-      Data$ "Add",              "Add"      
+      Data$ "WatchListTitle",   "Watch List"
+      Data$ "Add",              "Add"
       Data$ "Remove",           "Remove"
       Data$ "Procedure",        "Procedure"
       Data$ "Variable",         "Variable"
       Data$ "AddVariable",      "Add Variable to List"
-      Data$ "NoProcedure",      "--- Main ---"    
-      Data$ "AllProcedures",    "--- All ---"  
+      Data$ "NoProcedure",      "--- Main ---"
+      Data$ "AllProcedures",    "--- All ---"
       Data$ "VariableError",    "Cannot add variable!"
       
       Data$ "DataBreakpoints",  "Data Breakpoints"
@@ -1870,22 +1870,22 @@ DataSection
       Data$ "StringIntervall",  "String variables"
       Data$ "DynamicIntervall", "Allocated memory"
       Data$ "CheckAlways",      "Every line"
-      Data$ "CheckLines",       "Every %lines% lines"     
-      Data$ "CheckNever",       "Never" 
+      Data$ "CheckLines",       "Every %lines% lines"
+      Data$ "CheckNever",       "Never"
       
       Data$ "ProfilerTitle",    "Profiler"
-      Data$ "ProfilerNoData",   "No Profiler data available."      
+      Data$ "ProfilerNoData",   "No Profiler data available."
       Data$ "CalledLines",      "Called Lines"
       Data$ "CallsPerLine",     "Calls / Line"
       Data$ "Zoomin",           "Zoom in"
       Data$ "Zoomout",          "Zoom out"
       Data$ "ViewLine",         "Show code line"
     
-      Data$ "NoData",           "This Data is currently not available." 
+      Data$ "NoData",           "This Data is currently not available."
       
       Data$ "SaveFileTitle",    "Save File as..."
-      Data$ "SaveFilePattern",  "Text Files (*.txt)|*.txt|All Files (*.*)|*.*"  
-      Data$ "SaveError",        "Cannot create File: '%filename%'" 
+      Data$ "SaveFilePattern",  "Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
+      Data$ "SaveError",        "Cannot create File: '%filename%'"
       
       Data$ "BigArray",         "The Array has more than 50000 elements.%newline%Do you really want to view them all?"
       Data$ "BigList",          "The LinkedList has more than 50000 elements.%newline%Do you really want to view them all?"
@@ -1893,7 +1893,7 @@ DataSection
     ; ===================================================
     ;- Group - NetworkDebugger
     Data$ "_GROUP_",            "NetworkDebugger"
-    ; ===================================================      
+    ; ===================================================
       
       Data$ "Waiting",         "Waiting for the network connection to be established..."
       Data$ "Unavailable",     "Network access could not be established."
@@ -1908,11 +1908,11 @@ DataSection
       Data$ "ConnectionDenied", "Connection denied."
                  
       Data$ "ConnectTitle",     "Connecting to"
-      Data$ "Connect",          "Connecting to server..."      
+      Data$ "Connect",          "Connecting to server..."
       Data$ "QueryStatus",      "Querying status..."
       Data$ "ConnectionSuccess","Connection established successfully."
       Data$ "ConnectionFailed", "Connection failed."
-      Data$ "ConnectionLost",   "Connection lost."    
+      Data$ "ConnectionLost",   "Connection lost."
       Data$ "ConnectFailed",    "Could not connect to server"
       Data$ "NeedPassword",     "A password is required."
       Data$ "WrongPassword",    "Password incorrect."
@@ -1922,7 +1922,7 @@ DataSection
       Data$ "Error_WrongVersion",   "The PureBasic Versions do not match."
       Data$ "Error_NoExecutable",   "The server is not a debugger enabled executable."
       Data$ "Error_NoDebugger",     "The server is not a PureBasic debugger."
-      Data$ "Error_NoService",      "The server cannot provide the requested service."            
+      Data$ "Error_NoService",      "The server cannot provide the requested service."
       Data$ "Error_FatalError",     "Fatal error."
 
         
@@ -1949,8 +1949,8 @@ DataSection
       Data$ "Memory",           "Memory"
       Data$ "DebugOutput",      "Output"
       Data$ "Library",          "Library"
-      Data$ "Profiler",         "Profiler" 
-      Data$ "Purifier",         "Purifier"     
+      Data$ "Profiler",         "Profiler"
+      Data$ "Purifier",         "Purifier"
       
     ; ===================================================
     ;- Group - Misc
@@ -1963,13 +1963,13 @@ DataSection
       Data$ "File",             "File"
       
       Data$ "Ok",               "Ok"
-      Data$ "Cancel",           "Cancel"   
-      Data$ "Close",            "Close" 
-      Data$ "Save",             "Save"  
+      Data$ "Cancel",           "Cancel"
+      Data$ "Close",            "Close"
+      Data$ "Save",             "Save"
       Data$ "Abort",            "Abort"
       Data$ "Open",             "Open"
-      Data$ "New",              "New"     
-      Data$ "Copy",             "Copy" 
+      Data$ "New",              "New"
+      Data$ "Copy",             "Copy"
       Data$ "Update",           "Update"
       Data$ "Delete",           "Delete"
       Data$ "Color",            "Color"
@@ -2007,9 +2007,9 @@ DataSection
       Data$ "OpenFile",         "Choose File to open..."
       Data$ "SaveFile",         "Choose File to save..."
       
-      Data$ "AboutWindowTitle", "About..."      
+      Data$ "AboutWindowTitle", "About..."
       Data$ "GotoWindowTitle",  "Goto..."
-      Data$ "SortSourcesTitle", "Sort Sources..."  
+      Data$ "SortSourcesTitle", "Sort Sources..."
       Data$ "MacroErrorTitle",  "Macro Error"
       Data$ "WarningsTitle",    "Compiler Warnings"
                
@@ -2141,7 +2141,7 @@ DataSection
     CompilerElse
       Data$ "MaskPBF",              "PureBasic Form (*.pbf)|*.pbf"
       Data$ "MaskPB",               "PureBasic File (*.pb)|*.pb;*.pbi"
-    CompilerEndIf    
+    CompilerEndIf
     Data$ "OpenProject",          "Open Project..."
     Data$ "SaveProject",          "Save Project..."
     Data$ "NoGadgetSelected",     "No gadget selected (or gadget items not applicable)."

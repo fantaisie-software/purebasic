@@ -20,7 +20,7 @@ Enumeration 1
   #GADGET_StepOver
   #GADGET_StepOut
   #GADGET_Quit
-  #GADGET_Log 
+  #GADGET_Log
   
   #GADGET_Debug
   #GADGET_Watchlist
@@ -37,7 +37,7 @@ Enumeration 1
   #GADGET_BreakSet
   #GADGET_BreakClear
   #GADGET_DataBreak
-  #GADGET_SelectSource  
+  #GADGET_SelectSource
   
   #GADGET_Minimize
   #GADGET_Maximize
@@ -45,7 +45,7 @@ EndEnumeration
 
 Enumeration #DEBUGGER_MENU_LAST ; add after the debuggers own shortcuts
   #MENU_Stop
-  #MENU_Run  
+  #MENU_Run
   #MENU_Step
   #MENU_StepOver
   #MENU_StepOut
@@ -76,7 +76,7 @@ Global NewList DelayedActions.DelayedAction()
 
 ; representing the displeyed source files
 ;
-Structure DisplayedSource  
+Structure DisplayedSource
   FileName$
   IsLoaded.l
   IsRequested.l ; network mode

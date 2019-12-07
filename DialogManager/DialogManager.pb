@@ -37,7 +37,7 @@ Procedure CreateNextDialogObject()
       *Window.DlgWindow   = Object
 
     ; these are all similar, so they share the object functions
-    Case #DIALOG_Button:   Object = DlgGadget_New(*CreateDialogData) 
+    Case #DIALOG_Button:   Object = DlgGadget_New(*CreateDialogData)
     Case #DIALOG_Checkbox: Object = DlgGadget_New(*CreateDialogData)
     Case #DIALOG_Option:   Object = DlgGadget_New(*CreateDialogData)
     Case #DIALOG_Image:    Object = DlgGadget_New(*CreateDialogData)
@@ -47,7 +47,7 @@ Procedure CreateNextDialogObject()
     Case #DIALOG_ComboBox: Object = DlgGadget_New(*CreateDialogData)
     Case #DIALOG_Text:     Object = DlgGadget_New(*CreateDialogData)
     Case #DIALOG_String:   Object = DlgGadget_New(*CreateDialogData)
-    Case #DIALOG_Editor:   Object = DlgGadget_New(*CreateDialogData)    
+    Case #DIALOG_Editor:   Object = DlgGadget_New(*CreateDialogData)
     Case #DIALOG_ScrollBar:Object = DlgGadget_New(*CreateDialogData)
     Case #DIALOG_ProgressBar:Object = DlgGadget_New(*CreateDialogData)
     Case #DIALOG_ShortcutGadget:Object = DlgGadget_New(*CreateDialogData)
@@ -76,7 +76,7 @@ Procedure CreateNextDialogObject()
     Case #DIALOG_HBox:     Object = DlgBox_New(*CreateDialogData)
     Case #DIALOG_Multibox: Object = DlgMultibox_New(*CreateDialogData)
     Case #DIALOG_Singlebox:Object = DlgSinglebox_New(*CreateDialogData)
-    Case #DIALOG_Gridbox:  Object = DlgGridbox_New(*CreateDialogData)    
+    Case #DIALOG_Gridbox:  Object = DlgGridbox_New(*CreateDialogData)
     Case #DIALOG_Empty:    Object = DlgEmpty_New(*CreateDialogData)
     
     Default
@@ -90,7 +90,7 @@ Procedure CreateNextDialogObject()
   ; Skip the data of this object
   ;
   StringCount = 4 + *CreateDialogData\KeyCount * 2
-  *CreateDialogData + SizeOf(DialogObjectData) 
+  *CreateDialogData + SizeOf(DialogObjectData)
   For i = 1 To StringCount
     *CreateDialogData + (MemoryStringLength(*CreateDialogData) + 1) * SizeOf(Character)
   Next i
@@ -103,7 +103,7 @@ Procedure CreateNextDialogObject()
       
       ; Skip the data of this object
       StringCount = 4 + *CreateDialogData\KeyCount * 2
-      *CreateDialogData + SizeOf(DialogObjectData) 
+      *CreateDialogData + SizeOf(DialogObjectData)
       For i = 1 To StringCount
         *CreateDialogData + (MemoryStringLength(*CreateDialogData) + 1) * SizeOf(Character)
       Next i
@@ -149,8 +149,8 @@ Procedure OpenDialog(*DataOffset.DialogObjectData, ParentID = 0, *Sizing.DialogP
   
   If *DataOffset\Type = #DIALOG_Window ; the toplevel object must be a window
     
-    *CreateDialogData = *DataOffset    
-    DialogParentWindowID = ParentID    
+    *CreateDialogData = *DataOffset
+    DialogParentWindowID = ParentID
     Window.DialogObject = CreateNextDialogObject()
     *Window.DlgWindow   = Window
     
@@ -162,13 +162,13 @@ Procedure OpenDialog(*DataOffset.DialogObjectData, ParentID = 0, *Sizing.DialogP
       *Shortcut + SizeOf(DialogShortcutData) ; skip shortcut data
     Wend
 
-    ; The SizeRequest is always needed to calculate minimum sizes internally, 
+    ; The SizeRequest is always needed to calculate minimum sizes internally,
     ; even If we do not use the values.
     ;
-    Window\SizeRequest(@Width.l, @Height.l)        
+    Window\SizeRequest(@Width.l, @Height.l)
     
     If *Sizing And *Window\StaticData\Flags & #PB_Window_SizeGadget And *Sizing\Width <> -1 And *Sizing\Height <> -1
-      If UCase(DialogObjectKey(*Window\StaticData, "FORCESIZE")) = "YES"      
+      If UCase(DialogObjectKey(*Window\StaticData, "FORCESIZE")) = "YES"
         ; do not go below the request size if forcesize=yes
         Width  = Max(Width, *Sizing\Width)
         Height = Max(Height, *Sizing\Height)
@@ -189,36 +189,36 @@ Procedure OpenDialog(*DataOffset.DialogObjectData, ParentID = 0, *Sizing.DialogP
         AdjustWindowRectEx_(@Border.Rect, #WS_TILEDWINDOW, #False, #WS_EX_WINDOWEDGE)
         x = (GetSystemMetrics_(#SM_CXSCREEN)-Width-(Border\bottom-Border\top)) / 2
         y = (GetSystemMetrics_(#SM_CYSCREEN)-Height-(Border\right-Border\left)) / 2
-      CompilerEndIf        
+      CompilerEndIf
     EndIf
     
     ; resize window (even when it gets maximized now) so the restored size is correct
     ;
-    ResizeWindow(*Window\Window, x, y, Width, Height)    
+    ResizeWindow(*Window\Window, x, y, Width, Height)
 
     CompilerIf #CompileLinuxGtk2
       If x = #PB_Ignore And y = #PB_Ignore
-        gtk_window_set_position_(WindowID(*Window\Window), #GTK_WIN_POS_CENTER_ALWAYS)      
+        gtk_window_set_position_(WindowID(*Window\Window), #GTK_WIN_POS_CENTER_ALWAYS)
       EndIf
-    CompilerEndIf    
+    CompilerEndIf
     
     CompilerIf #CompileMacCarbon
       If x = #PB_Ignore And y = #PB_Ignore
         #kWindowCenterOnMainScreen = 1
         RepositionWindow_(WindowID(*Window\Window), 0, #kWindowCenterOnMainScreen)
       EndIf
-    CompilerEndIf        
+    CompilerEndIf
     
     CompilerIf #CompileMacCocoa
       If x = #PB_Ignore And y = #PB_Ignore
         PB_Gadget_CenterWindow(WindowID(*Window\Window))
       EndIf
-    CompilerEndIf   
+    CompilerEndIf
     
     If *Sizing And *Sizing\IsMaximized And *Window\StaticData\Flags & #PB_Window_MaximizeGadget
       SetWindowState(*Window\Window, #PB_Window_Maximize)
-      Window\SizeApply(0, 0, WindowWidth(*Window\Window), WindowHeight(*Window\Window))     
-    Else    
+      Window\SizeApply(0, 0, WindowWidth(*Window\Window), WindowHeight(*Window\Window))
+    Else
       Window\SizeApply(0, 0, Width, Height)
     EndIf
     
@@ -233,19 +233,19 @@ Procedure OpenDialog(*DataOffset.DialogObjectData, ParentID = 0, *Sizing.DialogP
       ;
       CompilerIf #CompileLinuxGtk2
         If x = #PB_Ignore And y = #PB_Ignore
-          gtk_window_set_position_(WindowID(*Window\Window), #GTK_WIN_POS_CENTER)      
+          gtk_window_set_position_(WindowID(*Window\Window), #GTK_WIN_POS_CENTER)
         EndIf
-      CompilerEndIf    
+      CompilerEndIf
       
       CompilerIf #CompileMacCarbon
         If x = #PB_Ignore And y = #PB_Ignore
           #kWindowCenterOnMainScreen = 1
           RepositionWindow_(WindowID(*Window\Window), 0, #kWindowCenterOnMainScreen)
         EndIf
-      CompilerEndIf           
-    EndIf       
+      CompilerEndIf
+    EndIf
   
-    CompilerIf #PB_Compiler_Debugger  
+    CompilerIf #PB_Compiler_Debugger
       Else
         MessageRequester("Dialog Manager", "Incorrect dialog data!")
     CompilerEndIf
@@ -263,14 +263,14 @@ EndProcedure
 CompilerIf 0
 XIncludeFile "test.pb"
 
-; 
+;
 ; If CreateImage(1, 45, 20)
 ;   If StartDrawing(ImageOutput(1))
-;     Box(0, 0, 45, 20, $000000)    
+;     Box(0, 0, 45, 20, $000000)
 ;     Box(1, 1, 43, 18, $C0C0C0)
 ;     StopDrawing()
 ;   EndIf
-; EndIf   
+; EndIf
 
 Window.DialogWindow = OpenDialog(?TestDialogddddddd, 0, 0)
 
@@ -298,10 +298,10 @@ Event = WaitWindowEvent()
 ;          HideGadget(Window\Gadget("container"+Str(TreeCurrent)), 1)
 ;          TreeCurrent = New
 ;        EndIf
-;  
+;
 ;      EndIf
 ;      CompilerEndIf
-;    
+;
 ;    ElseIf Event = #PB_Event_SizeWindow
 ;      Window\SizeUpdate()
 ;    EndIf

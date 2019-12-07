@@ -54,11 +54,11 @@ Procedure HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged
 
   If *Color <> 0
     WriteString("</FONT>")
-  EndIf  
+  EndIf
   
   If IsBold
     WriteString("</B>")
-  EndIf  
+  EndIf
 
 EndProcedure
 
@@ -93,7 +93,7 @@ InitSyntaxCheckArrays()
 InitSyntaxHilightning()
 
 
-File$ = OpenFileRequester("Choose File: ", "C:\", "PB Files|*.pb|All Files|*,*", 0) 
+File$ = OpenFileRequester("Choose File: ", "C:\", "PB Files|*.pb|All Files|*,*", 0)
 If ReadFile(0, File$)
   Size = Lof()
   *Buffer = AllocateMemory(Size)

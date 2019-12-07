@@ -28,7 +28,7 @@ Procedure PreferenceModify_Load(FileName$)
   File = ReadFile(#PB_Any, FileName$)
   If File
     
-    ClearList(PreferenceModify_List())    
+    ClearList(PreferenceModify_List())
     Group$ = ""
     
     While Eof(File) = 0
@@ -39,8 +39,8 @@ Procedure PreferenceModify_Load(FileName$)
       ElseIf Left(Line$, 1) = "[" And FindString(Line$, "]", 1) <> 0 ; group name
         Group$ = Mid(Line$, 2, FindString(Line$, "]", 1)-2)
               
-      ElseIf FindString(Line$, "=", 1) <> 0 ; key, otherwise invalid entry        
-        pos = FindString(Line$, "=", 1) 
+      ElseIf FindString(Line$, "=", 1) <> 0 ; key, otherwise invalid entry
+        pos = FindString(Line$, "=", 1)
         AddElement(PreferenceModify_List())
         PreferenceModify_List()\Group$ = Group$
         PreferenceModify_List()\Key$   = Trim(Left(Line$, pos-1))
@@ -49,7 +49,7 @@ Procedure PreferenceModify_Load(FileName$)
         If Left(PreferenceModify_List()\Value$, 1) = " " ; usually like this: "Key = Value"
           PreferenceModify_List()\Value$ = Right(PreferenceModify_List()\Value$, Len(PreferenceModify_List()\Value$)-1)
         EndIf
-      EndIf           
+      EndIf
     Wend
   
     PreferenceModify_Group$ = ""
@@ -124,7 +124,7 @@ Procedure _PreferenceModify_FindKey(Key$)
   ; search the list
   ;
   ForEach PreferenceModify_List()
-    If UCase(PreferenceModify_List()\Group$) = UCase(PreferenceModify_Group$) And UCase(PreferenceModify_List()\Key$) = UCase(Key$)     
+    If UCase(PreferenceModify_List()\Group$) = UCase(PreferenceModify_Group$) And UCase(PreferenceModify_List()\Key$) = UCase(Key$)
       ProcedureReturn 1; found the key, Return success
     EndIf
   Next PreferenceModify_List()
@@ -133,19 +133,19 @@ Procedure _PreferenceModify_FindKey(Key$)
   ProcedureReturn 0
 EndProcedure
 
-Procedure _PreferenceModify_FindOrAddKey(Key$)  
-  If _PreferenceModify_FindKey(Key$) = 0  
+Procedure _PreferenceModify_FindOrAddKey(Key$)
+  If _PreferenceModify_FindKey(Key$) = 0
     ; not found, add a new one
     LastElement(PreferenceModify_List())
     AddElement(PreferenceModify_List())
     PreferenceModify_List()\Group$ = PreferenceModify_Group$
-    PreferenceModify_List()\Key$   = Key$  
+    PreferenceModify_List()\Key$   = Key$
   EndIf
 EndProcedure
 
 Procedure PreferenceModify_SetLong(Key$, Value.l)
   _PreferenceModify_FindOrAddKey(Key$)
-  PreferenceModify_List()\Value$ = Str(Value)   
+  PreferenceModify_List()\Value$ = Str(Value)
 EndProcedure
 
 Procedure PreferenceModify_SetFloat(Key$, Value.f)

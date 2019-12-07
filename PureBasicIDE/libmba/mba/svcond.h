@@ -13,12 +13,12 @@ extern "C" {
 #include <mba/pool.h>
 
 typedef struct {
-	struct pool *sempool;
-	svsem_t *blocked_lock;
-	svsem_t *block_queue;
-	svsem_t *unblock_lock;
-	int waiters_blocked;
-	int waiters_to_unblock;
+  struct pool *sempool;
+  svsem_t *blocked_lock;
+  svsem_t *block_queue;
+  svsem_t *unblock_lock;
+  int waiters_blocked;
+  int waiters_to_unblock;
 } svcond_t;
 
 int svcond_create(svcond_t *cond, struct pool *sempool);

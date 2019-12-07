@@ -13,7 +13,7 @@ Global Backup_UseHelpToolF1
 Global HelpToolHomeUrl$
 
 
-Procedure Help_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID) 
+Procedure Help_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
 
   ButtonImageGadget(#GADGET_HelpTool_Back,    0, 0, 0, 0, ImageID(#IMAGE_Help_Back))
   ButtonImageGadget(#GADGET_HelpTool_Forward, 0, 0, 0, 0, ImageID(#IMAGE_Help_Forward))
@@ -28,14 +28,14 @@ Procedure Help_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   CompilerIf #CompileWindows
     HelpToolHomeUrl$ = "mk:@MSITStore:" + PureBasicPath$ + "PureBasic.chm::/Reference/reference.html"
   CompilerElse
-    Select UCase(CurrentLanguage$) 
+    Select UCase(CurrentLanguage$)
       Case "FRANCAIS"
         HelpToolHomeUrl$ = "file://"+PureBasicPath$+"help/purebasic_french/reference/reference.html"
       Case "DEUTSCH"
         HelpToolHomeUrl$ = "file://"+PureBasicPath$+"help/purebasic_german/reference/reference.html"
       Default
         HelpToolHomeUrl$ = "file://"+PureBasicPath$+"help/purebasic/reference/reference.html"
-    EndSelect 
+    EndSelect
   CompilerEndIf
   
   WebGadget(#GADGET_HelpTool_Viewer, 0, 0, 0, 0, HelpToolHomeUrl$)
@@ -44,7 +44,7 @@ Procedure Help_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
 
 EndProcedure
 
-Procedure Help_DestroyFunction(*Entry.ToolsPanelEntry) 
+Procedure Help_DestroyFunction(*Entry.ToolsPanelEntry)
 
   HelpToolOpen = #False
   
@@ -73,7 +73,7 @@ Procedure Help_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
     ResizeGadget(#GADGET_HelpTool_Help,  PanelWidth-5-Width, 5, Width, Height)
   EndIf
   
-  ResizeGadget(#GADGET_HelpTool_Viewer, 0, 10+Height, PanelWidth, PanelHeight-Height-10)  
+  ResizeGadget(#GADGET_HelpTool_Viewer, 0, 10+Height, PanelWidth, PanelHeight-Height-10)
 
 EndProcedure
 
@@ -108,7 +108,7 @@ Procedure Help_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
 EndProcedure
 
 
-Procedure Help_PreferenceStart(*Entry.ToolsPanelEntry) 
+Procedure Help_PreferenceStart(*Entry.ToolsPanelEntry)
 
   ; Use the backup variable during the PReferences changing
   Backup_UseHelpToolF1 = UseHelpToolF1
@@ -116,7 +116,7 @@ Procedure Help_PreferenceStart(*Entry.ToolsPanelEntry)
 EndProcedure
 
 
-Procedure Help_PreferenceApply(*Entry.ToolsPanelEntry) 
+Procedure Help_PreferenceApply(*Entry.ToolsPanelEntry)
 
   ; put the backup variable back
   UseHelpToolF1 = Backup_UseHelpToolF1
@@ -125,7 +125,7 @@ EndProcedure
 
 
 
-Procedure Help_PreferenceCreate(*Entry.ToolsPanelEntry) 
+Procedure Help_PreferenceCreate(*Entry.ToolsPanelEntry)
 
   CheckBoxGadget(#GADGET_Preferences_UseHelpToolF1, 10, 10, 300, 25, Language("Help","OpenF1"))
   SetGadgetState(#GADGET_Preferences_UseHelpToolF1, Backup_UseHelpToolF1)
@@ -143,8 +143,8 @@ Procedure Help_PreferenceDestroy(*Entry.ToolsPanelEntry)
 EndProcedure
 
 
-Procedure Help_PreferenceEvents(*Entry.ToolsPanelEntry, EventGadgetID) 
-  ; 
+Procedure Help_PreferenceEvents(*Entry.ToolsPanelEntry, EventGadgetID)
+  ;
   ; nothing to do here
   ;
 EndProcedure

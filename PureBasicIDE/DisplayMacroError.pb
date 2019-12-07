@@ -25,11 +25,11 @@ For i = 1 To #NbIntendKeywords
   Read.l IntendKeywords(i)\Intend
   Read.l IntendKeywords(i)\NextIntend
   Read.l IntendKeywords(i)\LineBefore
-  Read.l IntendKeywords(i)\LineAfter  
+  Read.l IntendKeywords(i)\LineAfter
 Next i
 
 Procedure MacroErrorWindowEvents(EventID)
-  Protected Close = 0  
+  Protected Close = 0
 
   If EventID = #PB_Event_SizeWindow
     GetRequiredSize(#GADGET_MacroError_Close, @ButtonWidth, @ButtonHeight)
@@ -43,7 +43,7 @@ Procedure MacroErrorWindowEvents(EventID)
   ElseIf EventID = #PB_Event_Menu And EventMenu() = #MENU_MacroError_Close
     Close = 1
   
-  ElseIf EventID = #PB_Event_CloseWindow 
+  ElseIf EventID = #PB_Event_CloseWindow
     Close = 1
 
   EndIf
@@ -55,7 +55,7 @@ Procedure MacroErrorWindowEvents(EventID)
     EndIf
   
     CloseWindow(#WINDOW_MacroError)
-  EndIf  
+  EndIf
 
 EndProcedure
 
@@ -66,25 +66,25 @@ Procedure DisplayMacroError(MacroErrorLine, List MacroLines.s())
     CloseWindow(#WINDOW_MacroError)
   EndIf
   
-  If OpenWindow(#WINDOW_MacroError, 0, 0, MacroErrorWindowWidth, MacroErrorWindowHeight, Language("Misc", "MacroErrorTitle"), #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_ScreenCentered|#PB_Window_Invisible, WindowID(#WINDOW_Main))  
+  If OpenWindow(#WINDOW_MacroError, 0, 0, MacroErrorWindowWidth, MacroErrorWindowHeight, Language("Misc", "MacroErrorTitle"), #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_ScreenCentered|#PB_Window_Invisible, WindowID(#WINDOW_Main))
     CreateCodeViewer(#GADGET_MacroError_Scintilla, 0, 0, 0, 0, #False)
     ButtonGadget(#GADGET_MacroError_Close, 0, 0, 0, 0, Language("Misc", "Close"), #PB_Button_Default)
     
     AddKeyboardShortcut(#WINDOW_MacroError, #PB_Shortcut_Return, #MENU_MacroError_Close)
-    AddKeyboardShortcut(#WINDOW_MacroError, #PB_Shortcut_Escape, #MENU_MacroError_Close)  
+    AddKeyboardShortcut(#WINDOW_MacroError, #PB_Shortcut_Escape, #MENU_MacroError_Close)
     
     ; read the lines into an array
     ;
     Count = ListSize(MacroLines())
-    Protected Dim Lines.s(Count)      
-    index = 0    
+    Protected Dim Lines.s(Count)
+    index = 0
     ForEach MacroLines()
       Lines(index) = MacroLines()
       index + 1
-    Next MacroLines()     
+    Next MacroLines()
 
     ; format the lines
-    Protected NewList Stack()    
+    Protected NewList Stack()
     Protected Dim AddLines(Count) ; nonzero for each line where an empty line is before
     Intend = 0
     
@@ -158,13 +158,13 @@ Procedure DisplayMacroError(MacroErrorLine, List MacroLines.s())
                 
                 Break
               EndIf
-            Next i     
+            Next i
           
           Else
             *Cursor + #CharSize
-          EndIf  
+          EndIf
                 
-        Wend   
+        Wend
         
         ; calculate intend for this line
         ForEach Stack()
@@ -183,13 +183,13 @@ Procedure DisplayMacroError(MacroErrorLine, List MacroLines.s())
         
         ; calculate intend for next line
         ForEach Stack()
-          Intend + IntendKeywords(Stack())\NextIntend         
-        Next Stack()                
+          Intend + IntendKeywords(Stack())\NextIntend
+        Next Stack()
         
         ; add new lines if needed (only if there is a single keyword on the line
-        If ListSize(Stack()) = 1 
+        If ListSize(Stack()) = 1
           AddLines(index) + IntendKeywords(Stack())\LineBefore
-          AddLines(index+1) + IntendKeywords(Stack())\LineAfter         
+          AddLines(index+1) + IntendKeywords(Stack())\LineAfter
         EndIf
       EndIf
     Next index
@@ -210,23 +210,23 @@ Procedure DisplayMacroError(MacroErrorLine, List MacroLines.s())
     EndIf
     
     MacroErrorWindowEvents(#PB_Event_SizeWindow)
-    HideWindow(#WINDOW_MacroError, 0)    
+    HideWindow(#WINDOW_MacroError, 0)
     
     ; mark the error line. (must calculate added lines first)
     Increase = 0
     For i = 1 To MacroErrorLine - 1
       If AddLines(i) > 0
-        Increase + 1    
+        Increase + 1
       EndIf
     Next i
     MacroErrorLine + Increase - 1
     
     ScintillaSendMessage(#GADGET_MacroError_Scintilla, #SCI_LINESCROLL, 0, MacroErrorLine-4)
-    ScintillaSendMessage(#GADGET_MacroError_Scintilla, #SCI_ENSUREVISIBLE, MacroErrorLine, 0)    
+    ScintillaSendMessage(#GADGET_MacroError_Scintilla, #SCI_ENSUREVISIBLE, MacroErrorLine, 0)
     ScintillaSendMessage(#GADGET_MacroError_Scintilla, #SCI_SETSEL, ScintillaSendMessage(#GADGET_MacroError_Scintilla, #SCI_POSITIONFROMLINE, MacroErrorLine), ScintillaSendMessage(#GADGET_MacroError_Scintilla, #SCI_GETLINEENDPOSITION, MacroErrorLine))
     
     SetActiveWindow(#WINDOW_MacroError)
-    SetActiveGadget(#GADGET_MacroError_Close)    
+    SetActiveGadget(#GADGET_MacroError_Close)
   EndIf
     
 
@@ -248,7 +248,7 @@ DataSection
   ; Order does not matter.
   ;
   ; First the Keyword, then the keyword, that 'neutralized' it (for multiple, separate with ",")
-  ; then the intend change For the line With the keyword, 
+  ; then the intend change For the line With the keyword,
   ; then the change for the line after the keyword
   ; then wether the command should be preceeded by an empty line
   ; then wether the command should be followed by an empty line
@@ -258,7 +258,7 @@ DataSection
     Data$ "Else", ""                      : Data.l -1, 1, 0, 0
     Data$ "ElseIf", ""                    : Data.l -1, 1, 0, 0
     Data$ "EndIf", "If"                   : Data.l -1, 0, 0, 0
-    Data$ "Select", "EndSelect"           : Data.l  0, 2, 0, 0 
+    Data$ "Select", "EndSelect"           : Data.l  0, 2, 0, 0
     Data$ "Case", ""                      : Data.l -1, 1, 0, 0
     Data$ "Default", ""                   : Data.l -1, 1, 0, 0
     Data$ "EndSelect", "Select"           : Data.l -2, 0, 0, 0

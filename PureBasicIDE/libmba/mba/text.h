@@ -298,17 +298,17 @@ LIBMBA_API int wcs_length(const wchar_t *src, const wchar_t *slim);
 LIBMBA_API size_t str_size(const unsigned char *src, const unsigned char *slim);
 LIBMBA_API size_t wcs_size(const wchar_t *src, const wchar_t *slim);
 LIBMBA_API int str_copy(const unsigned char *src, const unsigned char *slim,
-		unsigned char *dst, unsigned char *dlim, int n);
+    unsigned char *dst, unsigned char *dlim, int n);
 LIBMBA_API int wcs_copy(const wchar_t *src, const wchar_t *slim,
-		wchar_t *dst, wchar_t *dlim, int n);
+    wchar_t *dst, wchar_t *dlim, int n);
 LIBMBA_API int str_copy_new(const unsigned char *src, const unsigned char *slim,
-		unsigned char **dst, int n, struct allocator *al);
+    unsigned char **dst, int n, struct allocator *al);
 LIBMBA_API int wcs_copy_new(const wchar_t *src, const wchar_t *slim,
-		wchar_t **dst, int n, struct allocator *al);
+    wchar_t **dst, int n, struct allocator *al);
 
 LIBMBA_API int utf8towc(const unsigned char *src, const unsigned char *slim, wchar_t *wc);
 LIBMBA_API int utf8casecmp(const unsigned char *str1, const unsigned char *str1lim,
-		const unsigned char *str2, const unsigned char *str2lim);
+    const unsigned char *str2, const unsigned char *str2lim);
 LIBMBA_API int utf8tolower(unsigned char *str, unsigned char *slim);
 LIBMBA_API int utf8toupper(unsigned char *str, unsigned char *slim);
 
@@ -318,9 +318,9 @@ LIBMBA_API int dsnprintf(char *str, size_t size, const char *format, ...);
 #if !defined(_GNU_SOURCE)
 
 #if !defined(_BSD_SOURCE) && \
-	!defined(_XOPEN_SOURCE_EXTENDED) && \
-	!defined(_WIN32) && \
-	!(defined(__APPLE__) && defined(__MACH__))
+  !defined(_XOPEN_SOURCE_EXTENDED) && \
+  !defined(_WIN32) && \
+  !(defined(__APPLE__) && defined(__MACH__))
 LIBMBA_API char *strdup(const char *s);
 #endif
 
@@ -329,9 +329,9 @@ LIBMBA_API wchar_t *wcsdup(const wchar_t *s);
 LIBMBA_API size_t strnlen(const char *s, size_t maxlen);
 
 #if (__STDC_VERSION__ < 199901L) && \
-	!defined(_BSD_SOURCE) && \
-	(_XOPEN_VERSION < 500) && \
-	!(defined(__APPLE__) && defined(__MACH__))
+  !defined(_BSD_SOURCE) && \
+  (_XOPEN_VERSION < 500) && \
+  !(defined(__APPLE__) && defined(__MACH__))
 #include <stdarg.h>
 int vsnprintf(char *str, size_t size, const char *format, va_list ap);
 #endif

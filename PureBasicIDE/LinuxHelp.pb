@@ -22,7 +22,7 @@ EndStructure
 Structure Help_Directory
   link$
   Pointer.i
-  Length.l  
+  Length.l
 EndStructure
 
 Structure Help_Link
@@ -117,7 +117,7 @@ Procedure InitLinuxHelp()
       
     If FileSize(PureBasicPath$ + File$) <= 0 ; just in case someone renamed the files (like was done in 3.94)
       File$ = LCase(#ProductName$)+".help"
-    EndIf    
+    EndIf
 
     If OpenPack(0, PureBasicPath$ + File$)
 
@@ -128,7 +128,7 @@ Procedure InitLinuxHelp()
       ; 1) contents table : LONG (sublevel) + STRING (name) + STRING (link)
       ; 2) index table    : STRING (functionname) + STRING (link)
       ; 3) directory table: LONG (pointer) + LONG (length) + STRING (link)
-      ; 4) data 
+      ; 4) data
       ;
       ; Note: The directorytable pointer is still a long on x64 (as it is just relative to the data start)
       ;   so we have a compatible format. In memory, it is stored in an integer though as the base will be
@@ -155,7 +155,7 @@ Procedure InitLinuxHelp()
         Help_Contents_Size + 1
         *Cursor + 4 ; sublevel
         *Cursor + MemoryStringLength(*Cursor, #PB_Ascii) + 1 ; name
-        *Cursor + MemoryStringLength(*Cursor, #PB_Ascii) + 1 ; link        
+        *Cursor + MemoryStringLength(*Cursor, #PB_Ascii) + 1 ; link
       Wend
 
       ; now read the data
@@ -188,7 +188,7 @@ Procedure InitLinuxHelp()
       While *Cursor < *BufferEnd
         Help_Index_Size + 1
         *Cursor + MemoryStringLength(*Cursor, #PB_Ascii) + 1 ; name
-        *Cursor + MemoryStringLength(*Cursor, #PB_Ascii) + 1 ; link        
+        *Cursor + MemoryStringLength(*Cursor, #PB_Ascii) + 1 ; link
       Wend
 
       ; now read the data
@@ -220,7 +220,7 @@ Procedure InitLinuxHelp()
       While *Cursor < *BufferEnd
         Help_Directory_Size + 1
         *Cursor + 8 ; pointer + length
-        *Cursor + MemoryStringLength(*Cursor, #PB_Ascii) + 1 ; link        
+        *Cursor + MemoryStringLength(*Cursor, #PB_Ascii) + 1 ; link
       Wend
 
       ; now read the data
@@ -253,7 +253,7 @@ Procedure InitLinuxHelp()
       ;
       MaxLength = 0
       For i = 0 To Help_Directory_Size-1
-        Help_Directory(i)\Pointer + *Help_Data 
+        Help_Directory(i)\Pointer + *Help_Data
         If Help_Directory(i)\Length > MaxLength
           MaxLength = Help_Directory(i)\Length
         EndIf
@@ -300,7 +300,7 @@ Procedure LoadHelpPage(Link$, AddToHistory)
         ; Images are not supported.
   
         IsCodeSection = 0
-        CurrentStyle  = #STYLE_Normal  
+        CurrentStyle  = #STYLE_Normal
 
         ClearList(Help_Links())
         ClearList(Help_Styles())
@@ -309,7 +309,7 @@ Procedure LoadHelpPage(Link$, AddToHistory)
         *StringStart = *Cursor
         *BufferEnd   = *Cursor + Help_Directory(index)\Length
 
-        *PageCursor.BYTE  = *PageBuffer              
+        *PageCursor.BYTE  = *PageBuffer
         
         While *Cursor < *BufferEnd
           If *Cursor\b = '{'
@@ -322,16 +322,16 @@ Procedure LoadHelpPage(Link$, AddToHistory)
             EndIf
             
             If CompareMemory(*Cursor, ToAscii("{TITLE}"), 7) = 1
-              *Cursor + 7    
+              *Cursor + 7
               *StringStart = *Cursor
               IsCodeSection = 0
-              CurrentStyle = #STYLE_Title                      
+              CurrentStyle = #STYLE_Title
   
             ElseIf CompareMemory(*Cursor, ToAscii("{BOLD}"), 6) = 1
               *Cursor + 6
               *StringStart = *Cursor
               IsCodeSection = 0
-              CurrentStyle = #STYLE_Bold                
+              CurrentStyle = #STYLE_Bold
   
             ElseIf CompareMemory(*Cursor, ToAscii("{FUNCTION}"), 10) = 1
               *Cursor + 10
@@ -346,7 +346,7 @@ Procedure LoadHelpPage(Link$, AddToHistory)
               CurrentStyle = #STYLE_Code
   
             ElseIf CompareMemory(*Cursor, ToAscii("{TEXT}"), 6) = 1
-              *Cursor + 6        
+              *Cursor + 6
               *StringStart = *Cursor
               IsCodeSection = 0
               CurrentStyle = #STYLE_Normal
@@ -379,8 +379,8 @@ Procedure LoadHelpPage(Link$, AddToHistory)
                   Case "GREEN"   : Help_Styles()\Style  = #STYLE_Normal_Green
                   Case "BLUE"    : Help_Styles()\Style  = #STYLE_Normal_Blue
                   Case "ORANGE"  : Help_Styles()\Style  = #STYLE_Normal_Orange
-                EndSelect            
-              EndIf                  
+                EndSelect
+              EndIf
               
               *StringStart = *Cursor
               While *Cursor\b <> '}'
@@ -389,11 +389,11 @@ Procedure LoadHelpPage(Link$, AddToHistory)
                 *Cursor + 1
               Wend
               
-              Help_Styles()\Length = *Cursor - *StringStart              
+              Help_Styles()\Length = *Cursor - *StringStart
               *Cursor + 1
               *StringStart = *Cursor
               
-            ElseIf CompareMemory(*Cursor, ToAscii("{LINK:"), 6) = 1                            
+            ElseIf CompareMemory(*Cursor, ToAscii("{LINK:"), 6) = 1
   
               *Cursor + 6
               *StringStart = *Cursor
@@ -402,8 +402,8 @@ Procedure LoadHelpPage(Link$, AddToHistory)
               Wend
               
               AddElement(Help_Links())
-              Help_Links()\Link$ = PeekS(*StringStart, *Cursor - *StringStart, #PB_Ascii)    
-              Help_Links()\LinkStart = *PageCursor - *PageBuffer        
+              Help_Links()\Link$ = PeekS(*StringStart, *Cursor - *StringStart, #PB_Ascii)
+              Help_Links()\LinkStart = *PageCursor - *PageBuffer
   
               *Cursor + 1
               *StringStart = *Cursor
@@ -424,29 +424,29 @@ Procedure LoadHelpPage(Link$, AddToHistory)
             Else ; literal char, just skip it
               *StringStart = *Cursor ; as we finished the last style, we need to update this!
               
-              *PageCursor\b = *Cursor\b          
+              *PageCursor\b = *Cursor\b
               *PageCursor + 1
-              *Cursor + 1              
+              *Cursor + 1
   
             EndIf
             
-          Else 
-            *PageCursor\b = *Cursor\b          
+          Else
+            *PageCursor\b = *Cursor\b
             *PageCursor + 1
-            *Cursor + 1      
+            *Cursor + 1
           EndIf
-        Wend  
+        Wend
         
         If *StringStart < *Cursor
           AddElement(Help_Styles())
           If *StringStart = Help_Directory(index)\Pointer
             ; the whole file has no coloring/formating marks, so it is probably an example file, use the fixed font
             Help_Styles()\Style = #STYLE_Code
-          Else            
-            Help_Styles()\Style = CurrentStyle                      
+          Else
+            Help_Styles()\Style = CurrentStyle
           EndIf
-          Help_Styles()\Length = *Cursor-*StringStart    
-        EndIf        
+          Help_Styles()\Length = *Cursor-*StringStart
+        EndIf
         
         *PageCursor\b = 0 ; 0-terminate the buffer
         
@@ -459,12 +459,12 @@ Procedure LoadHelpPage(Link$, AddToHistory)
         
         ; now do the styling
         ;
-        ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STARTSTYLING, 0, $FFFFFF)      
+        ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STARTSTYLING, 0, $FFFFFF)
         
         ForEach Help_Styles()
           ScintillaSendMessage(#GADGET_Help_Editor, #SCI_SETSTYLING, Help_Styles()\Length, Help_Styles()\Style)
         Next Help_Styles()
-        ClearList(Help_Styles())        
+        ClearList(Help_Styles())
         
         ScintillaSendMessage(#GADGET_Help_Editor, #SCI_SETREADONLY, 1, 0)
         
@@ -504,7 +504,7 @@ Procedure LoadHelpPage(Link$, AddToHistory)
     EndIf
   EndIf
   
-  ;ResizeGadget(#GADGET_Help_Splitter, 5, 35, WindowWidth(#WINDOW_Help)-10, WindowHeight(#WINDOW_Help)-40)  
+  ;ResizeGadget(#GADGET_Help_Splitter, 5, 35, WindowWidth(#WINDOW_Help)-10, WindowHeight(#WINDOW_Help)-40)
 
 EndProcedure
 
@@ -516,13 +516,13 @@ ProcedureC HelpMouseEvents(*Window._GtkWidget, *Event._GdkEventButton, user_type
     If position <> -1
       ForEach Help_Links()
       
-        If Help_Links()\LinkStart <= position And Help_Links()\LinkEnd >= position 
+        If Help_Links()\LinkStart <= position And Help_Links()\LinkEnd >= position
           LoadHelpPage(Help_Links()\Link$, 1)
           ProcedureReturn 1 ; ignore event
         
         EndIf
       
-      Next Help_Links()        
+      Next Help_Links()
     EndIf
   EndIf
  
@@ -575,16 +575,16 @@ Procedure OpenHelpWindow()
           ButtonGadget(#GADGET_Help_SearchGo, 0, 45, 100, 25, Language("Help", "StartSearch"))
           ListViewGadget(#GADGET_Help_SearchResults, 0, 80, 0, 0)
 
-      CloseGadgetList()    
+      CloseGadgetList()
       
               
-      ScintillaGadget(#GADGET_Help_Editor, 0, 0, 0, 0, 0)    
+      ScintillaGadget(#GADGET_Help_Editor, 0, 0, 0, 0, 0)
       
       ; GTKSignalConnect(GadgetID(#GADGET_Help_Panel), "size-allocate", @PanelSizeChangeSignal(), 0)
       GTKSignalConnect(GadgetID(#GADGET_Help_Editor), "button-press-event", @HelpMouseEvents(), 0)
 
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_USEPOPUP, 1, 0) ; use the scintilla popup
-      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_SETMARGINWIDTHN, 0, 0)       
+      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_SETMARGINWIDTHN, 0, 0)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_SETMARGINWIDTHN, 1, 0)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_SETWRAPMODE, 1, 0) ; wrap at word boundaries
 
@@ -594,15 +594,15 @@ Procedure OpenHelpWindow()
       ;ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFONT,  #STYLE_DEFAULT, "") - do not call this, use the default font
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETSIZE, #STYLE_DEFAULT,  FontSize)
               
-      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETBACK, #STYLE_DEFAULT, Colors(#COLOR_GlobalBackground)\DisplayValue)        
+      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETBACK, #STYLE_DEFAULT, Colors(#COLOR_GlobalBackground)\DisplayValue)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_DEFAULT, Colors(#COLOR_NormalText)\DisplayValue)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLECLEARALL, 0, 0) ; apply these settings to all styles
       
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Normal_Function, Colors(#COLOR_PureKeyword)\DisplayValue)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Normal_Constant, Colors(#COLOR_Constant)\DisplayValue)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Normal_Comment,  Colors(#COLOR_Comment)\DisplayValue)
-      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Normal_Keyword,  Colors(#COLOR_BasicKeyword)\DisplayValue)  
-      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETBOLD, #STYLE_Normal_Keyword,  1)      
+      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Normal_Keyword,  Colors(#COLOR_BasicKeyword)\DisplayValue)
+      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETBOLD, #STYLE_Normal_Keyword,  1)
       
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Normal_Red,    $000099)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Normal_Green,  $009900)
@@ -611,7 +611,7 @@ Procedure OpenHelpWindow()
       
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Code_Function, Colors(#COLOR_PureKeyword)\DisplayValue)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Code_Constant, Colors(#COLOR_Constant)\DisplayValue)
-      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Code_Comment, Colors(#COLOR_Comment)\DisplayValue)        
+      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Code_Comment, Colors(#COLOR_Comment)\DisplayValue)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Code_Keyword, Colors(#COLOR_BasicKeyword)\DisplayValue)
                                        
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFONT, #STYLE_Code, ToAscii(EditorFontName$))
@@ -630,14 +630,14 @@ Procedure OpenHelpWindow()
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETSIZE, #STYLE_Title, TitleSize)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETBOLD, #STYLE_Title, 1)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Function, Colors(#COLOR_PureKeyword)\DisplayValue)
-      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETBOLD, #STYLE_Function, 1)  
+      ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETBOLD, #STYLE_Function, 1)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETFORE, #STYLE_Link, Colors(#COLOR_PureKeyword)\DisplayValue)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETHOTSPOT, #STYLE_Link, 1)
       ScintillaSendMessage(#GADGET_Help_Editor, #SCI_STYLESETUNDERLINE, #STYLE_Link, 1)
 
       SplitterGadget(#GADGET_Help_Splitter, 5, 10+HelpButtonHeight, HelpWindowWidth-10, HelpWindowHeight-15-HelpButtonHeight, #GADGET_Help_Panel, #GADGET_Help_Editor, #PB_Splitter_Vertical)
 
-      InitLinuxHelp() ; load the help file and prepare the data        
+      InitLinuxHelp() ; load the help file and prepare the data
 
       ;SubLevel = 0
       For i = 0 To Help_Contents_Size-1
@@ -651,11 +651,11 @@ Procedure OpenHelpWindow()
       AddKeyboardShortcut(#WINDOW_Help, #PB_Shortcut_Return, #MENU_Help_Enter)
 
       EnsureWindowOnDesktop(#WINDOW_Help)
-      HideWindow(#WINDOW_Help, 0)        
+      HideWindow(#WINDOW_Help, 0)
       LoadHelpPage("", -1) ; make sure the colors are initialized
       
-      ResizeGadget(#GADGET_Help_Splitter, 5, 10+HelpButtonHeight, WindowWidth(#WINDOW_Help)-10, WindowHeight(#WINDOW_Help)-15-HelpButtonHeight)        
-      SetGadgetState(#GADGET_Help_Splitter, HelpWindowSplitter)        
+      ResizeGadget(#GADGET_Help_Splitter, 5, 10+HelpButtonHeight, WindowWidth(#WINDOW_Help)-10, WindowHeight(#WINDOW_Help)-15-HelpButtonHeight)
+      SetGadgetState(#GADGET_Help_Splitter, HelpWindowSplitter)
       
       ClearList(Help_History())
 
@@ -665,7 +665,7 @@ Procedure OpenHelpWindow()
     SetWindowForeground(#WINDOW_Help)
   EndIf
   
-  ;ResizeGadget(#GADGET_Help_Splitter, 5, 35, WindowWidth(#WINDOW_Help)-10, WindowHeight(#WINDOW_Help)-40)    
+  ;ResizeGadget(#GADGET_Help_Splitter, 5, 35, WindowWidth(#WINDOW_Help)-10, WindowHeight(#WINDOW_Help)-40)
 
 EndProcedure
 
@@ -675,11 +675,11 @@ Procedure HelpWindowEvents(EventID)
   If EventID = #PB_Event_Gadget
     EventGadget = EventGadget()
     
-  ElseIf EventID = #PB_Event_Menu 
+  ElseIf EventID = #PB_Event_Menu
     If EventMenu() = #MENU_Help_Enter And GetActiveGadget() = #GADGET_Help_SearchValue
       EventID = #PB_Event_Gadget
       EventGadget = #GADGET_Help_SearchGo
-    EndIf    
+    EndIf
   EndIf
 
   Select EventID
@@ -705,13 +705,13 @@ Procedure HelpWindowEvents(EventID)
           index = GetGadgetState(#GADGET_Help_Tree)
           If index <> -1
             LoadHelpPage( Help_Contents(index)\link$ , 1)
-          EndIf             
+          EndIf
 
         Case #GADGET_Help_Index
           index = GetGadgetState(#GADGET_Help_Index)
           If index <> -1
             LoadHelpPage( Help_Index(index)\link$ , 1)
-          EndIf   
+          EndIf
 
         Case #GADGET_Help_Parent
           Found = 0
@@ -753,7 +753,7 @@ Procedure HelpWindowEvents(EventID)
             EndIf
           EndIf
 
-        Case #GADGET_Help_Next            
+        Case #GADGET_Help_Next
           Found = 0
           For i = 0 To Help_Contents_Size-1
             If Help_Contents(i)\Link$ = Help_History()
@@ -785,7 +785,7 @@ Procedure HelpWindowEvents(EventID)
               While *Cursor < *BufferEnd
                 If word_found = 0 And CompareMemoryString(ToAscii(Search$), *Cursor, #PB_String_NoCase, SearchLength, #PB_Ascii) = 0
        
-                  ; page matches search. 
+                  ; page matches search.
                   word_found = 1
                   If title_found = 1
                     AddElement(Help_Search())
@@ -808,7 +808,7 @@ Procedure HelpWindowEvents(EventID)
                     Help_Search() = Help_Directory(page)\link$
                     AddGadgetItem(#GADGET_Help_SearchResults, -1, PageTitle$)
                     Break
-                  EndIf                
+                  EndIf
 
                 EndIf
                 *Cursor + 1
@@ -828,7 +828,7 @@ Procedure HelpWindowEvents(EventID)
           If index <> -1
             SelectElement(Help_Search(), index)
             LoadHelpPage( Help_Search() , 1)
-          EndIf   
+          EndIf
         
         Case #GADGET_Help_Splitter
           PanelWidth  = GetGadgetAttribute(#GADGET_Help_Panel, #PB_Panel_ItemWidth)
@@ -842,7 +842,7 @@ Procedure HelpWindowEvents(EventID)
           ResizeGadget(#GADGET_Help_Index        , 0, 0, PanelWidth, PanelHeight)
           ResizeGadget(#GADGET_Help_SearchValue  , 10, 10, PanelWidth-20, StringHeight)
           ResizeGadget(#GADGET_Help_SearchGo     , (PanelWidth-ButtonWidth)/2, 20+StringHeight, ButtonWidth, ButtonHeight)
-          ResizeGadget(#GADGET_Help_SearchResults, 0, 30+StringHeight+ButtonHeight, PanelWidth, PanelHeight-30-StringHeight-ButtonHeight)             
+          ResizeGadget(#GADGET_Help_SearchResults, 0, 30+StringHeight+ButtonHeight, PanelWidth, PanelHeight-30-StringHeight-ButtonHeight)
 
       EndSelect
 
@@ -882,15 +882,15 @@ Procedure UpdateHelpWindow()
   
   ; Reload the helpfile if the language really changed
   ;
-  If HelpLanguage$ <> CurrentLanguage$  
+  If HelpLanguage$ <> CurrentLanguage$
     If ListSize(Help_History()) > 0
       Link$ = Help_History()
     Else
       Link$ = "reference/reference"
     EndIf
   
-    HelpWindowEvents(#PB_Event_CloseWindow)        
-    Help_Loaded = 0  ; will cause a reload of the file    
+    HelpWindowEvents(#PB_Event_CloseWindow)
+    Help_Loaded = 0  ; will cause a reload of the file
     OpenHelpWindow() ; will load the new helpfile
     
     LoadHelpPage(Link$, #True)

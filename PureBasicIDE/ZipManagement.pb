@@ -12,7 +12,7 @@
 ; They should support most simple zip files.
 ;
 
-;- ZIP format structures 
+;- ZIP format structures
 ;  (as far as this code supports them)
 ;
 #SIGNATURE_LocalFileHeader = $04034b50
@@ -107,8 +107,8 @@ EndStructure
 ; Note: Everything in this structure is in normal processor byte order
 CompilerIf Defined(ZipEntry, #PB_Structure) = 0
   Structure ZipEntry
-    Name$    
-    *Content.i  
+    Name$
+    *Content.i
     Crc32.l
     Compression.l
     Compressed.l
@@ -137,7 +137,7 @@ Procedure ScanZip(*Buffer, Size, List Files.ZipEntry())
 
             If WORD_LE(*Entry\VersionNeeded) <= #SupportedVersion And (WORD_LE(*Entry\Compression) = #COMPRESSION_Store Or WORD_LE(*Entry\Compression) = #COMPRESSION_Deflate)
               If LONG_LE(*Entry\CompressedSize) > 0 And LONG_LE(*Entry\CompressedSize) < Size And LONG_LE(*Entry\UncompressedSize) > 0 And LONG_LE(*Entry\UncompressedSize) < 1024*1024*3 ; only interested in small files with this code
-                If WORD_LE(*Entry\FileNameLength) > 0 
+                If WORD_LE(*Entry\FileNameLength) > 0
                   If LONG_LE(*Entry\LocalHeaderOffset) >= 0 And LONG_LE(*Entry\LocalHeaderOffset) < Size - LONG_LE(*Entry\CompressedSize) - SizeOf(LocalFileHeader)
                   
                     *Header.LocalFileHeader = *Buffer + LONG_LE(*Entry\LocalHeaderOffset)
@@ -162,7 +162,7 @@ Procedure ScanZip(*Buffer, Size, List Files.ZipEntry())
         
         EndIf
       EndIf
-    EndIf            
+    EndIf
   EndIf
 
   ProcedureReturn ListSize(Files())
@@ -181,7 +181,7 @@ Procedure ExtractZip(*Entry.ZipEntry)
       CopyMemory(*Entry\Content, *Buffer, *Entry\Uncompressed)
       Success = 1
       
-    Else 
+    Else
       stream.z_stream
       stream\next_in   = *Entry\Content
       stream\avail_in  = *Entry\Compressed
@@ -199,13 +199,13 @@ Procedure ExtractZip(*Entry.ZipEntry)
       EndIf
     EndIf
     
-    If Success = 0 Or CRC32Fingerprint(*Buffer, *Entry\Uncompressed) <> *Entry\Crc32 
+    If Success = 0 Or CRC32Fingerprint(*Buffer, *Entry\Uncompressed) <> *Entry\Crc32
       FreeMemory(*Buffer)
       *Buffer = 0
     EndIf
   EndIf
   
-  ProcedureReturn *Buffer  
+  ProcedureReturn *Buffer
 EndProcedure
 
 

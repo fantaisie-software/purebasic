@@ -6,9 +6,9 @@
 
 
 ; -----------------------------------------------------------------
-;  
+;
 ; Returns the Path where to store PureBasic specific config files
-;   On Windows  : %UsersDir%\ApplicationData\PureBasic 
+;   On Windows  : %UsersDir%\ApplicationData\PureBasic
 ;   On Linux/Mac: %home%\.purebasic\
 ;
 ; Also ensures that the returned path exists.
@@ -42,7 +42,7 @@ Procedure.s PureBasicConfigPath()
       If SHGetPathFromIDList_(pidl, @ConfigPath$) = 0
         ConfigPath$ = GetHomeDirectory()
       EndIf
-    EndIf  
+    EndIf
     
     CompilerIf #SpiderBasic
       If Right(ConfigPath$, 1) <> "\"
@@ -59,12 +59,12 @@ Procedure.s PureBasicConfigPath()
       EndIf
     CompilerEndIf
       
-    ; Ensure that the path exists 
+    ; Ensure that the path exists
     ; Must check all parents too, as CreateDirectory() fails else
     ;
     If FileSize(ConfigPath$) <> -2
       Index = 3 ; the drive surely exists
-      While FindString(ConfigPath$, "\", Index+1) > 0      
+      While FindString(ConfigPath$, "\", Index+1) > 0
         Index = FindString(ConfigPath$, "\", Index+1)
         If FileSize(Left(ConfigPath$, Index)) <> -2
           If CreateDirectory(Left(ConfigPath$, Index)) = 0

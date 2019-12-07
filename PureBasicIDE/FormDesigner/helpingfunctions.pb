@@ -36,7 +36,7 @@ Procedure.i EqualPathLen (s1$, s2$)
     equal + 1
     If *p1\c = #Slash
       ret = equal
-    EndIf   
+    EndIf
     *p1 + SizeOf(character)
     *p2 + SizeOf(character)
   Wend
@@ -64,7 +64,7 @@ Procedure.s RelativePath (baseDir$, absPath$)
   parent$ = ".." + Chr(#Slash)
   For i = 1 To s
     ret$ + parent$
-  Next   
+  Next
   
   ProcedureReturn ret$ + Mid(absPath$, equal+1)
 EndProcedure
@@ -73,7 +73,7 @@ CompilerIf #PB_Compiler_OS=#PB_OS_MacOS
   RunProgram("open",doc,"",#PB_Program_Open)
 CompilerElse
   RunProgram(doc)
-CompilerEndIf  
+CompilerEndIf
 EndProcedure
 
 ; Drawing functions for special cells in grid gadget

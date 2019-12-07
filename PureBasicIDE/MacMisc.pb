@@ -47,13 +47,13 @@ EndProcedure
 Procedure OSStartupCode()
   ; Set the default Path Values
   ;
-	Home$ = GetEnvironmentVariable("HOME")
-	If Right(Home$, 1) <> #Separator
-	  Home$ + #Separator 
-	EndIf
+  Home$ = GetEnvironmentVariable("HOME")
+  If Right(Home$, 1) <> #Separator
+    Home$ + #Separator
+  EndIf
 
-	If PureBasicPath$ = "" ; Only change if not set by commandline
-	  CompilerIf #SpiderBasic
+  If PureBasicPath$ = "" ; Only change if not set by commandline
+    CompilerIf #SpiderBasic
       PureBasicPath$ = GetEnvironmentVariable("SPIDERBASIC_HOME")
     CompilerElse
       PureBasicPath$ = GetEnvironmentVariable("PUREBASIC_HOME")
@@ -62,24 +62,24 @@ Procedure OSStartupCode()
     CompilerIf Defined(FredLocalCompile, #PB_Constant) ; Fred config
       CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
         CompilerIf #SpiderBasic
-          PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\SpiderBasic_x64\" 
-        CompilerElse  
+          PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\SpiderBasic_x64\"
+        CompilerElse
           PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\PureBasic_x64\"
         CompilerEndIf
       CompilerElse
         CompilerIf #SpiderBasic
-          PureBasicPath$ = "/Users/fred/svn/"+#SVNVersion+"/Build/SpiderBasic" 
-        CompilerElse  
+          PureBasicPath$ = "/Users/fred/svn/"+#SVNVersion+"/Build/SpiderBasic"
+        CompilerElse
           PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\PureBasic_x86\"
         CompilerEndIf
       CompilerEndIf
     CompilerEndIf
-	  
-		If PureBasicPath$ <> ""
-		  If Right(PureBasicPath$, 1) <> #Separator
-			  PureBasicPath$ + #Separator
-		  EndIf
-		Else
+    
+    If PureBasicPath$ <> ""
+      If Right(PureBasicPath$, 1) <> #Separator
+        PureBasicPath$ + #Separator
+      EndIf
+    Else
       ; If the PUREBASIC_HOME isn't set, then it's probably launched from the Finder so gets the bundle path
       ;
       Bundle = CFBundleGetMainBundle_()
@@ -88,31 +88,31 @@ Procedure OSStartupCode()
         If BundleURL
           *Buffer = AllocateMemory(256)
           CFURLGetFileSystemRepresentation_(BundleURL, #True, *Buffer, 255) ; it returns a byte buffer (UTF-8)
-          BundlePath$ = PeekS(*Buffer, -1, #PB_UTF8)        ; It returns something like: /tmp/PureBasic.app, so gets the path only          
+          BundlePath$ = PeekS(*Buffer, -1, #PB_UTF8)        ; It returns something like: /tmp/PureBasic.app, so gets the path only
           FreeMemory(*Buffer)
           
           CompilerIf #SpiderBasic
             ; If SpiderBasic home is bundled inside the .app, uses this path.
             ; Note: it needs to be in the resources directory, or the app signing will fail
-            ; 
-            If FileSize(BundlePath$ + "/Contents/Resources/compilers") = -2   
+            ;
+            If FileSize(BundlePath$ + "/Contents/Resources/compilers") = -2
               PureBasicPath$ = BundlePath$ + "/Contents/Resources/"
             Else
-              PureBasicPath$ = GetPathPart(BundlePath$)        ; It returns something like: /tmp/PureBasic.app, so gets the path only          
+              PureBasicPath$ = GetPathPart(BundlePath$)        ; It returns something like: /tmp/PureBasic.app, so gets the path only
             EndIf
           CompilerElse
             ; If PureBasic home is bundled inside the .app, uses this path.
             ; Note: it needs to be in the resources directory, or the app signing will fail
-            ; 
-            If FileSize(BundlePath$ + "/Contents/Resources/compilers") = -2   
+            ;
+            If FileSize(BundlePath$ + "/Contents/Resources/compilers") = -2
               PureBasicPath$ = BundlePath$ + "/Contents/Resources/"
             Else
-              PureBasicPath$ = GetPathPart(BundlePath$)        ; It returns something like: /tmp/PureBasic.app, so gets the path only          
+              PureBasicPath$ = GetPathPart(BundlePath$)        ; It returns something like: /tmp/PureBasic.app, so gets the path only
             EndIf
           CompilerEndIf
         EndIf
       EndIf
-    EndIf  
+    EndIf
   EndIf
 
   TempPath$ = "/tmp/"
@@ -162,10 +162,10 @@ Procedure OSStartupCode()
   ButtonBackgroundColor = GetButtonBackgroundColor()
   
   ; Install the "Open Document" event handler
-	; Do not do this in OSStartupCode so we only receive this event when we wre ready
-	; to actually load a file...
+  ; Do not do this in OSStartupCode so we only receive this event when we wre ready
+  ; to actually load a file...
   ;
-  PB_Gadget_SetOpenFinderFiles(@OpenDocument())  
+  PB_Gadget_SetOpenFinderFiles(@OpenDocument())
 
   ProcedureReturn 1
 EndProcedure
@@ -234,7 +234,7 @@ EndProcedure
 
 Procedure.s Session_Start()
   ; no need to track any information
-  ProcedureReturn "" 
+  ProcedureReturn ""
 EndProcedure
 
 Procedure Session_End(OSSessionID$)
@@ -249,7 +249,7 @@ ProcedureC RawKeyEventHandler(*NextHandler, *event, *handlerdata)
   ; Call down the handler chain to see if this key will be handled (shortcut etc)
   ; If not, dispatch this event to the ScintillaGadget. Works quite well
   ;
-  If CallNextEventHandler_(*NextHandler, *event) <> #noErr  
+  If CallNextEventHandler_(*NextHandler, *event) <> #noErr
     SendEventToEventTarget_(*event, GetControlEventTarget_(GadgetID(*ActiveSource\EditorGadget)))
   EndIf
   
@@ -278,7 +278,7 @@ Procedure ToolsPanel_ApplyColors(Gadget)
   Else
     If ToolsPanelFontID <> #PB_Default
       SetGadgetFont(Gadget, ToolsPanelFontID)
-    EndIf  
+    EndIf
   
     If ToolsPanelUseColors
       SetGadgetColor(Gadget, #PB_Gadget_FrontColor, ToolsPanelFrontColor)
@@ -290,11 +290,11 @@ Procedure ToolsPanel_ApplyColors(Gadget)
 EndProcedure
 
 ; Procedure CPUMonitor_Init()
-;  
+;
 ;   IsCPUMonitorInitialized = 0
-; 
+;
 ; EndProcedure
-; 
+;
 ; ; This procedure must do the following:
 ; ; - update the #GADGET_CPU_List values for each process
 ; ; - update the CPUUsage value in the RunningDebuggers() list (for all processes)

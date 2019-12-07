@@ -46,7 +46,7 @@ Procedure.s UniqueFilename(FileName$)
     ProcedureReturn ""
   EndIf
 
-  ; On Windows, we need to replace all "/" with "\" to have a unique path, 
+  ; On Windows, we need to replace all "/" with "\" to have a unique path,
   ; as both can be mixed as separator characters!
   ;
   ; We also do the conversion in the other direction so we can easily share
@@ -58,7 +58,7 @@ Procedure.s UniqueFilename(FileName$)
     FileName$ = ReplaceString(FileName$, "\", "/")
   CompilerEndIf
 
-  *Cursor.Character = @FileName$  
+  *Cursor.Character = @FileName$
   While *Cursor\c
   
     If *Cursor\c = Asc(#Separator)
@@ -83,19 +83,19 @@ Procedure.s UniqueFilename(FileName$)
         ; Make sure the cursor stays inside the string.
         ; Otherwise, if removing a large dir towards the string end, *Cursor might
         ; end up outside of the valid string and create an endless loop
-        *Cursor = *BackCursor 
+        *Cursor = *BackCursor
       
-      ElseIf PeekS(*Cursor, 3) = #Separator + "." + #Separator        
+      ElseIf PeekS(*Cursor, 3) = #Separator + "." + #Separator
         ; simply remove this refrence to the own directory
         PokeS(*Cursor, PeekS(*Cursor + 2*SizeOf(Character)))
                 
       Else
         *Cursor + SizeOf(Character)
-      EndIf 
+      EndIf
       
     Else
       *Cursor + SizeOf(Character)
-    EndIf           
+    EndIf
   Wend
 
   ProcedureReturn Filename$
@@ -147,7 +147,7 @@ Procedure.s CreateRelativePath(BasePath$, FileName$)
   BasePath$ = UniqueFilename(BasePath$)
   
   ; check if both are really full paths:
-  ;  
+  ;
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows
     If Mid(BasePath$, 2, 1) = ":" And Mid(FileName$, 2, 1) = ":"
       ; Both have drive letters.. check the drive match
@@ -192,7 +192,7 @@ Procedure.s CreateRelativePath(BasePath$, FileName$)
         BasePath$ = Right(BasePath$, Len(BasePath$)-x)
         FileName$ = Right(FileName$, Len(FileName$)-x)
         Break
-      EndIf    
+      EndIf
     EndIf
   Next x
   
@@ -207,7 +207,7 @@ Procedure.s CreateRelativePath(BasePath$, FileName$)
     FileName$ = FullFileName$ ; use the full name here
   EndIf
   
-  ProcedureReturn FileName$       
+  ProcedureReturn FileName$
 EndProcedure
 
 ; Tries to resolve a (relative or full) FileName$ relative to the
@@ -217,7 +217,7 @@ EndProcedure
 Procedure.s ResolveRelativePath(BasePath$, FileName$)
 
   ; do the cutting of "../" even if basepath is actually empty
-  If BasePath$ <> "" 
+  If BasePath$ <> ""
     BasePath$ = UniqueFilename(BasePath$)
   
     If Right(BasePath$, 1) <> #Separator
@@ -227,7 +227,7 @@ Procedure.s ResolveRelativePath(BasePath$, FileName$)
     If FindString(FileName$, #Separator, 1) = 0
       FileName$ = BasePath$ + FileName$
     
-    CompilerIf #PB_Compiler_OS = #PB_OS_Windows    
+    CompilerIf #PB_Compiler_OS = #PB_OS_Windows
       ElseIf Left(FileName$, 2) = "\\"  ; Network file path, Windows only (like: \\192.168.0.1\Test.pb)
         ; FileName$ remains untouched here (it contains a drive letter)
     CompilerEndIf
@@ -240,7 +240,7 @@ Procedure.s ResolveRelativePath(BasePath$, FileName$)
   
     CompilerIf #PB_Compiler_OS = #PB_OS_Windows
       ElseIf Mid(FileName$, 2, 1) = ":"
-        ; FileName$ remains untouched here (it contains a drive letter)   
+        ; FileName$ remains untouched here (it contains a drive letter)
     CompilerEndIf
     
     Else

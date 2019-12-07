@@ -12,7 +12,7 @@ XIncludeFile "Object_BinBase.pb"
 ;
 ; Accepted keys in the XML:
 ;
-;   All accepted by DlgBinBase 
+;   All accepted by DlgBinBase
 ;
 ;  forcesize = yes/no (default)
 ;              If the window is resizable, do not allow resizing below the
@@ -70,7 +70,7 @@ Procedure DlgWindow_New(*StaticData.DialogObjectData, ParentID)
 
     If *StaticData\Gadget <> -1
       *THIS\Window = *StaticData\Gadget
-    EndIf    
+    EndIf
     
     DlgBinBase_GetOptions(*THIS) ; read all the margin etc options
     
@@ -89,15 +89,15 @@ Procedure DlgWindow_SizeRequest(*THIS.DlgWindow, *Width.LONG, *Height.LONG)
 
   If *THIS\Child
     *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
-  EndIf  
+  EndIf
   
   *Width\l  = Max(*THIS\RequestedWidth +*THIS\lMargin+*THIS\lMargin, *THIS\StaticData\MinWidth)
   *Height\l = Max(*THIS\RequestedHeight+*THIS\tMargin+*THIS\bMargin, *THIS\StaticData\MinHeight)
   
   
   If UCase(DialogObjectKey(*THIS\StaticData, "FORCESIZE")) = "YES"
-    WindowBounds(*THIS\Window, *Width\l, *Height\l, #PB_Ignore, #PB_Ignore)     
-  EndIf  
+    WindowBounds(*THIS\Window, *Width\l, *Height\l, #PB_Ignore, #PB_Ignore)
+  EndIf
 EndProcedure
 
 
@@ -113,7 +113,7 @@ Procedure DlgWindow_SizeApply(*THIS.DlgWindow, x, y, Width, Height)
     DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)
     
     *THIS\Child\SizeApply(x, y, Width, Height)
-  EndIf  
+  EndIf
   
 EndProcedure
 
@@ -154,7 +154,7 @@ Procedure DialogWindow_Fold(*THIS.DlgWindow, Name$, State)
     *Result\Folded = State
     
     If State
-      RESULT\FoldApply(State)    
+      RESULT\FoldApply(State)
       
     Else
       ; To unfold (show) the childs, we must first ensure that
@@ -170,8 +170,8 @@ Procedure DialogWindow_Fold(*THIS.DlgWindow, Name$, State)
       Wend
       
       If unfold
-        RESULT\FoldApply(State) 
-      EndIf    
+        RESULT\FoldApply(State)
+      EndIf
     EndIf
     
     ; we need a recalc here!
@@ -181,9 +181,9 @@ EndProcedure
 
 
 Procedure DialogWindow_LanguageUpdate(*THIS.DlgWindow)
-  Protected THIS.DialogWindow = *THIS  
-  SetWindowTitle(*THIS\Window, DialogObjectText(*THIS\StaticData)) 
-  THIS\Update()  
+  Protected THIS.DialogWindow = *THIS
+  SetWindowTitle(*THIS\Window, DialogObjectText(*THIS\StaticData))
+  THIS\Update()
   ; do not automatically trigger a gui update in case the user wants to change language stuff himself first
 EndProcedure
 
@@ -193,22 +193,22 @@ Procedure DialogWindow_GuiUpdate(*THIS.DlgWindow)
   
   THIS\SizeRequest(@Width, @Height) ; re-calculate required sizes
   
-  If GetWindowState(*THIS\Window) & #PB_Window_Maximize Or *THIS\StaticData\Flags & #PB_Window_SizeGadget  
+  If GetWindowState(*THIS\Window) & #PB_Window_Maximize Or *THIS\StaticData\Flags & #PB_Window_SizeGadget
     ; window is maximized or user-sizable, so do not resize the window, except to enforce a minimum size
-    If UCase(DialogObjectKey(*THIS\StaticData, "FORCESIZE")) = "YES"      
+    If UCase(DialogObjectKey(*THIS\StaticData, "FORCESIZE")) = "YES"
       Width  = Max(Width, WindowWidth(*THIS\Window))
       Height = Max(Height, WindowHeight(*THIS\Window))
       ResizeWindow(*THIS\Window, #PB_Ignore, #PB_Ignore, Width, Height)
     Else
       Width  = WindowWidth(*THIS\Window)
-      Height = WindowHeight(*THIS\Window)    
+      Height = WindowHeight(*THIS\Window)
     EndIf
   Else
     ; fixed size, nonmaximized dialog.. change the size to the new requested value
     ResizeWindow(*THIS\Window, #PB_Ignore, #PB_Ignore, Width, Height)
   EndIf
   
-  THIS\SizeApply(0, 0, Width, Height) ; resize childs  
+  THIS\SizeApply(0, 0, Width, Height) ; resize childs
 EndProcedure
 
 

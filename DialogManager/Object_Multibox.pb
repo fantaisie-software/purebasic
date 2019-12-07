@@ -8,7 +8,7 @@
 XIncludeFile "Object_BoxBase.pb"
 
 ;
-; multibox 
+; multibox
 ;   A box with multiple childs in the same position. Used to put multiple containers
 ;   inside and show only one of them at a time.
 ;
@@ -38,17 +38,17 @@ EndProcedure
 
 Procedure DlgMultibox_SizeRequest(*THIS.DlgMultibox, *Width.LONG, *Height.LONG)
   *Width\l  = 0
-  *Height\l = 0  
+  *Height\l = 0
 
   For i = 0 To *THIS\NbChilds-1
     Height = 0
     Width  = 0
     
-    *THIS\Childs[i]\SizeRequest(@Width, @Height)       
+    *THIS\Childs[i]\SizeRequest(@Width, @Height)
     
     *Width\l  = Max(*Width\l,  Width)
     *Height\l = Max(*Height\l, Height)
-  Next i      
+  Next i
 
 
   *Width\l  = Max(*Width\l,  *THIS\StaticData\MinWidth)
@@ -59,8 +59,8 @@ EndProcedure
 
 Procedure DlgMultibox_SizeApply(*THIS.DlgMultibox, x, y, Width, Height)
   For i = 0 To *THIS\NbChilds-1
-    *THIS\Childs[i]\SizeApply(x, y, Width, Height)        
-  Next i      
+    *THIS\Childs[i]\SizeApply(x, y, Width, Height)
+  Next i
 EndProcedure
 
 

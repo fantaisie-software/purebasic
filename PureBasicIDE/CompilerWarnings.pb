@@ -17,23 +17,23 @@ Procedure WarningWindowEvents(EventID)
       Case #GADGET_Warnings_List
         If EventType() = #PB_EventType_LeftDoubleClick
           Index = GetGadgetState(#GADGET_Warnings_List)
-          If Index <> -1 And SelectElement(Warnings(), Index)     
+          If Index <> -1 And SelectElement(Warnings(), Index)
                              
             If Warnings()\File$ = "" ; it is an unsaved file!
-              If *WarningWindowSource And Warnings()\Line <> -1  
+              If *WarningWindowSource And Warnings()\Line <> -1
                 ChangeCurrentElement(FileList(), *WarningWindowSource)
                 ChangeActiveSourcecode()
  
                 ChangeActiveLine(Warnings()\Line, -5)
-                SetSelection(Warnings()\Line, 1, Warnings()\Line, -1)              
-              EndIf                          
+                SetSelection(Warnings()\Line, 1, Warnings()\Line, -1)
+              EndIf
             Else
               ; will simply switch, if the file is open
-              If LoadSourceFile(Warnings()\File$) And Warnings()\Line <> -1  
+              If LoadSourceFile(Warnings()\File$) And Warnings()\Line <> -1
                 ChangeActiveLine(Warnings()\Line, -5)
-                SetSelection(Warnings()\Line, 1, Warnings()\Line, -1)              
+                SetSelection(Warnings()\Line, 1, Warnings()\Line, -1)
               EndIf
-            EndIf          
+            EndIf
             
           EndIf
         EndIf
@@ -43,11 +43,11 @@ Procedure WarningWindowEvents(EventID)
       
     EndSelect
   
-  ElseIf EventID = #PB_Event_SizeWindow    
+  ElseIf EventID = #PB_Event_SizeWindow
     GetRequiredSize(#GADGET_Warnings_Close, @ButtonWidth, @ButtonHeight)
-    ButtonWidth = Max(ButtonWidth, 80)    
+    ButtonWidth = Max(ButtonWidth, 80)
     ResizeGadget(#GADGET_Warnings_List, 5, 5, WindowWidth(#WINDOW_Warnings)-10, WindowHeight(#WINDOW_Warnings)-25-ButtonHeight)
-    ResizeGadget(#GADGET_Warnings_Close, (WindowWidth(#WINDOW_Warnings)-ButtonWidth)/2, WindowHeight(#WINDOW_Warnings)-10-ButtonHeight, ButtonWidth, ButtonHeight)    
+    ResizeGadget(#GADGET_Warnings_Close, (WindowWidth(#WINDOW_Warnings)-ButtonWidth)/2, WindowHeight(#WINDOW_Warnings)-10-ButtonHeight, ButtonWidth, ButtonHeight)
   
   ElseIf EventID = #PB_Event_CloseWindow
     Close = 1
@@ -104,16 +104,16 @@ Procedure DisplayCompilerWarnings()
       AddGadgetColumn(#GADGET_Warnings_List, 1, Language("Misc","Line"), 40)
       AddGadgetColumn(#GADGET_Warnings_List, 2, Language("Misc","File"), 140)
     
-    ButtonGadget(#GADGET_Warnings_Close, 0, 0, 0, 0, Language("Misc", "Close"), #PB_Button_Default)         
+    ButtonGadget(#GADGET_Warnings_Close, 0, 0, 0, 0, Language("Misc", "Close"), #PB_Button_Default)
     
     AddKeyboardShortcut(#WINDOW_Warnings, #PB_Shortcut_Return, #MENU_Warnings_Close)
     AddKeyboardShortcut(#WINDOW_Warnings, #PB_Shortcut_Escape, #MENU_Warnings_Close)
         
     ForEach Warnings()
-      Text$ = Warnings()\Message$+Chr(10)      
+      Text$ = Warnings()\Message$+Chr(10)
       If Warnings()\Line <> -1
         Text$ + Str(Warnings()\Line)
-      EndIf      
+      EndIf
       Text$ + Chr(10) + Warnings()\RelativeFile$
       
       AddGadgetItem(#GADGET_Warnings_List, -1, Text$)

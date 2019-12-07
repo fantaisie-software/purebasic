@@ -18,7 +18,7 @@ CompilerIf #CompileWindows
 
 
 Structure WinPipe_Communication
-  *Vtbl.CommunicationVtbl   
+  *Vtbl.CommunicationVtbl
   
   ; named pipes are used, so we can use RunProgram() to manage the exe
   ;
@@ -30,33 +30,33 @@ Structure WinPipe_Communication
   OutPipeName$
   
   ; open pipe handles
-  InPipeHandle.i  
+  InPipeHandle.i
   OutPipeHandle.i
   
   
   ; Win9x does not support CreateNamedPipe(), so use anonymouse pipes there
   ;
-  IsNamedPipe.l 
+  IsNamedPipe.l
   DebuggerInPipeHandle.i  ; handles to the debugger end of the anonymous
-  DebuggerOutPipeHandle.i  
+  DebuggerOutPipeHandle.i
   
-  IsFatalError.l  
+  IsFatalError.l
   CommandReceived.l   ; was there any command received yet?
-  CommandTimeout.l    ; time of exe creation for timeout test  
+  CommandTimeout.l    ; time of exe creation for timeout test
   EndReceived.l       ; was #COMMAND_End received yet ?
-  EndTimeout.l        ; time of exe quit, timeout to be able to receive COMMAND_End before firing an error  
+  EndTimeout.l        ; time of exe quit, timeout to be able to receive COMMAND_End before firing an error
   
   ; The command stack is protected by a mutex separate from the overall
   ; "receive" mutex, so commands can be read from the stack while the thread
   ; is actually receiving data.
-  StackMutex.i 
+  StackMutex.i
   
-  ; waiting commands    
+  ; waiting commands
   StackCount.l
-  Stack.CommandStackStruct[#MAX_COMMANDSTACK]  
+  Stack.CommandStackStruct[#MAX_COMMANDSTACK]
 EndStructure
 
-; All WinPipe Objects are handled in a LinkedList, 
+; All WinPipe Objects are handled in a LinkedList,
 ; protected by a mutex for ALL access to make it save with the thread
 ;
 Global NewList WinPipe_Data.WinPipe_Communication()
@@ -73,7 +73,7 @@ Procedure WinPipe_FatalError(*This.WinPipe_Communication, *Command.CommandInfo, 
   *This\IsFatalError = #True
 
   CompilerIf #NOTHREAD = 0
-    ; clear stack, so the fatal error is the only one    
+    ; clear stack, so the fatal error is the only one
     For i = 0 To *This\StackCount-1
       If *This\Stack[i]\CommandData
         FreeMemory(*This\Stack[i]\CommandData)
@@ -85,13 +85,13 @@ Procedure WinPipe_FatalError(*This.WinPipe_Communication, *Command.CommandInfo, 
     *This\Stack[0]\Command\Value2    = 0
     *This\Stack[0]\Command\TimeStamp = Date()
     *This\Stack[0]\CommandData       = 0
-    *This\StackCount = 1     
+    *This\StackCount = 1
     
   CompilerElse
     *Command\Command   = #COMMAND_FatalError
     *Command\Value1    = FatalError
     *Command\Value2    = 0
-    *Command\TimeStamp = Date()            
+    *Command\TimeStamp = Date()
        
   CompilerEndIf
 
@@ -102,7 +102,7 @@ Procedure WinPipe_ReadCommand(*This.WinPipe_Communication, *Command.CommandInfo,
   
   *pCommandData\i = 0
   BytesAvailable  = 0
-  PeekNamedPipe_(*This\InPipeHandle, #Null, 0, #Null, @BytesAvailable, #Null)  
+  PeekNamedPipe_(*This\InPipeHandle, #Null, 0, #Null, @BytesAvailable, #Null)
     
   ; atleast a full command struct must be available
   If BytesAvailable >= SizeOf(CommandInfo)
@@ -120,7 +120,7 @@ Procedure WinPipe_ReadCommand(*This.WinPipe_Communication, *Command.CommandInfo,
       
         *CommandData = AllocateMemory(*Command\DataSize)
         If *CommandData
-          ; 
+          ;
           ; This read may block, as we do not test if all is availeble, but this is ok.
           ; We cannot wait for all to be available, as it may be more than the pipe buffer can store!
           ;
@@ -128,7 +128,7 @@ Procedure WinPipe_ReadCommand(*This.WinPipe_Communication, *Command.CommandInfo,
           Repeat
             Result = ReadFile_(*This\InPipeHandle, *CommandData+Received, *Command\DataSize-Received, @BytesRead, #Null)
             Received + BytesRead
-          Until Result = 0 Or Received = *Command\DataSize         
+          Until Result = 0 Or Received = *Command\DataSize
           
           If Received = *Command\DataSize
             *pCommandData\i = *CommandData
@@ -139,12 +139,12 @@ Procedure WinPipe_ReadCommand(*This.WinPipe_Communication, *Command.CommandInfo,
           
         Else
           WinPipe_FatalError(*This, *Command, #ERROR_Memory)
-        EndIf                           
+        EndIf
         
         ;
         ; Nothing else to do when no data for this command
         ;
-      EndIf     
+      EndIf
                           
     Else
       WinPipe_FatalError(*This, *Command, #ERROR_Pipe)
@@ -152,17 +152,17 @@ Procedure WinPipe_ReadCommand(*This.WinPipe_Communication, *Command.CommandInfo,
     
     CompilerIf #PRINT_DEBUGGER_COMMANDS
       PrintN("THREAD::RECEIVE->"+Str(*Command\Command))
-    CompilerEndIf   
+    CompilerEndIf
     
     *This\CommandReceived = 1
     
-    If *Command\Command = #COMMAND_End   
+    If *Command\Command = #COMMAND_End
       *This\EndReceived = 1
     EndIf
     
     ; There is a command now in any case (its an error command if something goes wrong)
     ProcedureReturn #True
-  EndIf    
+  EndIf
           
   ProcedureReturn #False
 EndProcedure
@@ -171,11 +171,11 @@ CompilerIf #NOTHREAD = 0
 
   Procedure WinPipe_ReceiveThread(Dummy)
   
-    ; This is a single thread for all debuggers, so it never quits which 
+    ; This is a single thread for all debuggers, so it never quits which
     ; makes it a lot easier/saver as we never need to worry if the thread still runs or not
     ;
     Protected Command.CommandInfo
-    Protected *CommandData    
+    Protected *CommandData
     
     Repeat
       LockMutex(WinPipe_Mutex)  ; full protection needed!
@@ -188,25 +188,25 @@ CompilerIf #NOTHREAD = 0
           While WinPipe_Data()\EndReceived = 0 And WinPipe_Data()\IsFatalError = 0
           
             ; Do not receive anything if the stack is full
-            If WinPipe_Data()\StackCount >= #MAX_COMMANDSTACK 
+            If WinPipe_Data()\StackCount >= #MAX_COMMANDSTACK
               ; This check can be done without a mutex lock, as only this thread
               ; can increase the stack, and a decrease during the check has no concequence
               Break
-            EndIf         
+            EndIf
                     
           
             If WinPipe_ReadCommand(@WinPipe_Data(), @Command, @*CommandData)
               If WinPipe_Data()\IsFatalError = 0
               
                 ; now lock the stack mutex and add data to the stack
-                ; we know there is a free spot, as we checked above 
+                ; we know there is a free spot, as we checked above
                 ; (And the main thread only decreases the stack)
                 LockMutex(WinPipe_Data()\StackMutex)
                   
                   ; add to stack
                   CopyMemory(@Command, @WinPipe_Data()\Stack[WinPipe_Data()\StackCount]\Command, SizeOf(CommandInfo))
                   WinPipe_Data()\Stack[WinPipe_Data()\StackCount]\CommandData = *CommandData
-                  WinPipe_Data()\StackCount + 1  
+                  WinPipe_Data()\StackCount + 1
                 
                 UnlockMutex(WinPipe_Data()\StackMutex)
                 
@@ -215,13 +215,13 @@ CompilerIf #NOTHREAD = 0
               TotalCount + 1
               
               ; break (and unlock mutex) after a lot of commands are read so the main thread can read it
-              If TotalCount > 50 
+              If TotalCount > 50
                 Break 2
-              EndIf              
+              EndIf
             Else
               Break ; nothing to read, so on to the next debugger
             EndIf
-          Wend  
+          Wend
           
         Next WinPipe_Data()
       
@@ -276,20 +276,20 @@ Procedure WinPipe_Receive(*This.WinPipe_Communication, *Command.CommandInfo, *pC
 
     LockMutex(*This\StackMutex)
     
-      If *This\StackCount > 0            
+      If *This\StackCount > 0
         CopyMemory(@*This\Stack[0]\command, *Command, SizeOf(CommandInfo))
         *pCommandData\i = *This\Stack[0]\commanddata
       
         ; remove this command from the stack
         *This\StackCount - 1
         If *This\StackCount > 0
-          MoveMemory(@*This\Stack[1], @*This\Stack[0], SizeOf(CommandStackStruct) * *This\StackCount)      
+          MoveMemory(@*This\Stack[1], @*This\Stack[0], SizeOf(CommandStackStruct) * *This\StackCount)
         EndIf
         
         Result = 1
       EndIf
     
-    UnlockMutex(*This\StackMutex)   
+    UnlockMutex(*This\StackMutex)
     
   CompilerElse
   
@@ -297,7 +297,7 @@ Procedure WinPipe_Receive(*This.WinPipe_Communication, *Command.CommandInfo, *pC
       Result = WinPipe_ReadCommand(*This, *Command, *pCommandData)
     EndIf
   
-  CompilerEndIf 
+  CompilerEndIf
   
   ProcedureReturn Result
 EndProcedure
@@ -315,18 +315,18 @@ Procedure WinPipe_CheckErrors(*This.WinPipe_Communication, *Command.CommandInfo,
     *Command\Value2    = 0
     *Command\TimeStamp = Date()
     *This\IsFatalError = #True
-    ProcedureReturn #True    
+    ProcedureReturn #True
     
   ElseIf *This\EndTimeout = 0 And WaitProgram(ProcessObject, 0) ; if true, exe has quit
 
     ; Check if there is still a command in the buffer!
     ; Do not fire the error if there is still data
-    ;  
-    LockMutex(*This\StackMutex)     
+    ;
+    LockMutex(*This\StackMutex)
       If *This\StackCount = 0
         *This\EndTimeout = ElapsedMilliseconds() ; register the time the exe quit
-      EndIf     
-    UnlockMutex(*This\StackMutex)      
+      EndIf
+    UnlockMutex(*This\StackMutex)
     ProcedureReturn #False ; no error yet, allow some time to receive COMMAND_End first
   
   ElseIf *This\CommandReceived = 0 And ElapsedMilliseconds() - *This\CommandTimeout > DebuggerTimeout
@@ -346,7 +346,7 @@ EndProcedure
 
 
 
-Procedure WinPipe_Close(*This.WinPipe_Communication) 
+Procedure WinPipe_Close(*This.WinPipe_Communication)
   LockMutex(WinPipe_Mutex)
     If *This\InPipeHandle
       CloseHandle_(*This\InPipeHandle)
@@ -361,7 +361,7 @@ Procedure WinPipe_Close(*This.WinPipe_Communication)
       ; Close the other side of the anonymous pipes.
       ; (The debugger actually duplicates these, so we can close
       ;  them here without interfering with what the debugger does)
-      ; 
+      ;
       If *This\DebuggerInPipeHandle
         CloseHandle_(*This\DebuggerInPipeHandle)
       EndIf
@@ -370,7 +370,7 @@ Procedure WinPipe_Close(*This.WinPipe_Communication)
       EndIf
     EndIf
         
-    ; clear stack, if any data left  
+    ; clear stack, if any data left
     For i = 0 To *This\StackCount-1
       If *This\Stack[i]\CommandData
         FreeMemory(*This\Stack[i]\CommandData)
@@ -381,14 +381,14 @@ Procedure WinPipe_Close(*This.WinPipe_Communication)
     FreeMutex(*This\StackMutex)
     
     ChangeCurrentElement(WinPipe_Data(), *This)
-    DeleteElement(WinPipe_Data())  
+    DeleteElement(WinPipe_Data())
   UnlockMutex(WinPipe_Mutex)
 EndProcedure
 
 
 
 Procedure CreatePipeCommunication()
-  *Result = 0 
+  *Result = 0
 
   ; there is only 1 thread for everything
   CompilerIf #NOTHREAD = 0
@@ -409,10 +409,10 @@ Procedure CreatePipeCommunication()
       Else
         IsWin9x = 0
       EndIf
-    EndIf    
+    EndIf
   CompilerElse
     IsWin9x = 0
-  CompilerEndIf  
+  CompilerEndIf
   
   ; Win9x does not support CreateNamedPipe() so we use anonymous pipes there
   ; Since RunProgram() does not inherit any handles, the child must use
@@ -420,7 +420,7 @@ Procedure CreatePipeCommunication()
   ;
   ; Keep the Names pipes on the newer OS though, as i do not know if the
   ; required PROCESS_DUP_HANDLE is granted to the child process on Vista and such
-  ; 
+  ;
   If IsWin9x
   
     If CreatePipe_(@Pipe1Read, @Pipe1Write, #Null, 2048) And CreatePipe_(@Pipe2Read, @Pipe2Write, #Null, 2048)
@@ -430,19 +430,19 @@ Procedure CreatePipeCommunication()
         AddElement(WinPipe_Data())
         WinPipe_Data()\Vtbl            = ?WinPipe_Vtbl
         WinPipe_Data()\InPipeHandle    = Pipe1Read
-        WinPipe_Data()\OutPipeHandle   = Pipe2Write 
-        WinPipe_Data()\DebuggerInPipeHandle  = Pipe2Read  
-        WinPipe_Data()\DebuggerOutPipeHandle = Pipe1Write  
-        WinPipe_Data()\IsNamedPipe     = #False  
-        WinPipe_Data()\StackMutex      = CreateMutex()  
-        WinPipe_Data()\CommandReceived = 0 
-        WinPipe_Data()\CommandTimeout  = ElapsedMilliseconds()                      
-        WinPipe_Data()\StackCount      = 0          
+        WinPipe_Data()\OutPipeHandle   = Pipe2Write
+        WinPipe_Data()\DebuggerInPipeHandle  = Pipe2Read
+        WinPipe_Data()\DebuggerOutPipeHandle = Pipe1Write
+        WinPipe_Data()\IsNamedPipe     = #False
+        WinPipe_Data()\StackMutex      = CreateMutex()
+        WinPipe_Data()\CommandReceived = 0
+        WinPipe_Data()\CommandTimeout  = ElapsedMilliseconds()
+        WinPipe_Data()\StackCount      = 0
         *Result = @WinPipe_Data()
         
       UnlockMutex(WinPipe_Mutex)
       
-    EndIf    
+    EndIf
   
   Else
   
@@ -451,10 +451,10 @@ Procedure CreatePipeCommunication()
     OutPipeName$ = "\\.\pipe\PureBasic_DebuggerPipeB_" + Hex(Rand)
     
     InPipeHandle = CreateNamedPipe_(@InPipeName$, #PIPE_ACCESS_INBOUND, 0, 1, 0, 2048, 1000, #Null)
-    If InPipeHandle <> #INVALID_HANDLE_VALUE      
+    If InPipeHandle <> #INVALID_HANDLE_VALUE
   
       OutPipeHandle = CreateNamedPipe_(@OutPipeName$, #PIPE_ACCESS_OUTBOUND, 0, 1, 2048, 0, 1000, #Null)
-      If OutPipeHandle <> #INVALID_HANDLE_VALUE      
+      If OutPipeHandle <> #INVALID_HANDLE_VALUE
         
         LockMutex(WinPipe_Mutex)
       
@@ -463,12 +463,12 @@ Procedure CreatePipeCommunication()
           WinPipe_Data()\InPipeName$     = InPipeName$
           WinPipe_Data()\OutPipeName$    = OutPipeName$
           WinPipe_Data()\InPipeHandle    = InPipeHandle
-          WinPipe_Data()\OutPipeHandle   = OutPipeHandle  
-          WinPipe_Data()\IsNamedPipe     = #True  
-          WinPipe_Data()\StackMutex      = CreateMutex()  
-          WinPipe_Data()\CommandReceived = 0 
-          WinPipe_Data()\CommandTimeout  = ElapsedMilliseconds()                      
-          WinPipe_Data()\StackCount      = 0          
+          WinPipe_Data()\OutPipeHandle   = OutPipeHandle
+          WinPipe_Data()\IsNamedPipe     = #True
+          WinPipe_Data()\StackMutex      = CreateMutex()
+          WinPipe_Data()\CommandReceived = 0
+          WinPipe_Data()\CommandTimeout  = ElapsedMilliseconds()
+          WinPipe_Data()\StackCount      = 0
           *Result = @WinPipe_Data()
           
         UnlockMutex(WinPipe_Mutex)
@@ -476,7 +476,7 @@ Procedure CreatePipeCommunication()
       Else
         CloseHandle_(InPipeHandle) ; cleanup first open handle
       EndIf
-    EndIf  
+    EndIf
     
   EndIf
     

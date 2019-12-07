@@ -42,7 +42,7 @@ Procedure OpenAboutWindow()
               #NewLine +
               FormerDeveloppers$ +
               #ProductName$ + ", all the provided tools and components" + #NewLine +
-              "are copyright © 1998-2019 Fantaisie Software" + #NewLine +
+              "are copyright Â© 1998-2019 Fantaisie Software" + #NewLine +
               #NewLine +
               #ProductWebSite$ + #NewLine +
               #NewLine +
@@ -54,16 +54,16 @@ Procedure OpenAboutWindow()
               "Thanks to Mark James for the 'silk icon set'." + #NewLine +
               "http://www.famfamfam.com/lab/icons/silk/" + #NewLine +
               #NewLine +
-              "Thanks to Neil Hodgson for the scintilla" + #NewLine + 
+              "Thanks to Neil Hodgson for the scintilla" + #NewLine +
               "editing component." + #NewLine +
               #NewLine +
-              "Scintilla © 1998-2017 Neil Hodgson <neilh@scintilla.org> "
+              "Scintilla Â© 1998-2017 Neil Hodgson <neilh@scintilla.org> "
    
       ; For better debugging
       ;
       Text$ + #NewLine + #NewLine
       Text$ + "IDE build on " + FormatDate("%mm/%dd/%yyyy [%hh:%ii]", #PB_Compiler_Date) + " by " + #BUILDINFO_User + #NewLine
-      Text$ + "Branch: " + #BUILDINFO_Branch + "  Revision: " + #BUILDINFO_Revision + #NewLine    
+      Text$ + "Branch: " + #BUILDINFO_Branch + "  Revision: " + #BUILDINFO_Revision + #NewLine
 
       CompilerIf #CompileWindows
         ; Let's have a cool centered text box on Windows
@@ -79,7 +79,7 @@ Procedure OpenAboutWindow()
         PB_Gadget_CenterEditorGadget(GadgetID(#GADGET_About_Editor))
       CompilerEndIf
       
-      SetGadgetText(#GADGET_About_Editor, Text$)      
+      SetGadgetText(#GADGET_About_Editor, Text$)
   
       CompilerIf #CompileLinuxGtk2
         ; center for gtk2
@@ -131,7 +131,7 @@ Procedure AboutWindowEvents(EventID)
     
   EndSelect
   
-  If Quit 
+  If Quit
     If MemorizeWindow
       AboutWindowDialog\Close(@AboutWindowPositon)
     Else

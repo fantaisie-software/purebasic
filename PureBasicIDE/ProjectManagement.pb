@@ -53,7 +53,7 @@ EndProcedure
 ; for simpler XML reading
 ;
 Procedure.s Xml_SingleLine(Input$)  ; simply cuts all newline and trims spaces
-  Input$ = RemoveString(Input$, Chr(13)) 
+  Input$ = RemoveString(Input$, Chr(13))
   Input$ = RemoveString(Input$, Chr(10))
   ProcedureReturn Trim(Input$)
 EndProcedure
@@ -65,17 +65,17 @@ Procedure.s Xml_MultiLine(Input$)   ; cuts newline at beginning and end and trim
   Input$ = ReplaceString(Input$, Chr(13)+Chr(10), Chr(10))
   Input$ = ReplaceString(Input$, Chr(13), Chr(10))
 
-  ; remove empty lines at beginning and end  
+  ; remove empty lines at beginning and end
   Input$ = Trim(Input$)
-  While Left(Input$, 1) = Chr(10)             
+  While Left(Input$, 1) = Chr(10)
     Input$ = LTrim(Right(Input$, Len(Input$)-1))
   Wend
 
-  While Right(Input$, 1) = Chr(10)             
+  While Right(Input$, 1) = Chr(10)
     Input$ = RTrim(Left(Input$, Len(Input$)-1))
   Wend
   
-  ; trim spaces inbetween lines, and put back system newline  
+  ; trim spaces inbetween lines, and put back system newline
   Count   = CountString(Input$, Chr(10))+1
   Output$ = ""
   For i = 1 To Count
@@ -156,7 +156,7 @@ Procedure IsProjectFile(FileName$)
     ; Project files are rather small, so this is ok
     ;
     If LoadXML(#XML_CheckProject, FileName$)
-      If XMLStatus(#XML_CheckProject) = #PB_XML_Success And MainXMLNode(#XML_CheckProject) 
+      If XMLStatus(#XML_CheckProject) = #PB_XML_Success And MainXMLNode(#XML_CheckProject)
         If ResolveXMLNodeName(MainXMLNode(#XML_CheckProject), "/") = "http://www.purebasic.com/namespace/project"
           Result = #True
         EndIf
@@ -174,7 +174,7 @@ Procedure.s ProjectName(FileName$) ; Get the project name from a project file
   Result$ = ""
 
   If LoadXML(#XML_CheckProject, FileName$)
-    If XMLStatus(#XML_CheckProject) = #PB_XML_Success And MainXMLNode(#XML_CheckProject) 
+    If XMLStatus(#XML_CheckProject) = #PB_XML_Success And MainXMLNode(#XML_CheckProject)
       If ResolveXMLNodeName(MainXMLNode(#XML_CheckProject), "/") = "http://www.purebasic.com/namespace/project"
         *Config = GetSection(MainXMLNode(#XML_CheckProject), "config")
         If *Config
@@ -206,7 +206,7 @@ Procedure IsCodeFile(FileName$)
   ; PB and SB extensions always work
   If Ext$ = "PB" Or Ext$ = "PBI" Or Ext$ = "PBF" Or Ext$ = "SB" Or Ext$ = "SBI" Or Ext$ = "SBF"
     ProcedureReturn #True
-  EndIf    
+  EndIf
   
   ; Check custom extensions from the preferences
   Count = CountString(CodeFileExtensions$, ",") + 1
@@ -214,7 +214,7 @@ Procedure IsCodeFile(FileName$)
     If Ext$ = UCase(Trim(StringField(CodeFileExtensions$, i, ",")))
       ProcedureReturn #True
     EndIf
-  Next i    
+  Next i
   
   ProcedureReturn #False
 EndProcedure
@@ -245,7 +245,7 @@ Procedure CopyProjectConfig(*Source.ProjectFileConfig, *Dest.ProjectFileConfig)
   *Dest\AutoLoad    = *Source\AutoLoad
   *Dest\AutoScan    = *Source\AutoScan
   *Dest\ShowPanel   = *Source\ShowPanel
-  *Dest\ShowWarning = *Source\ShowWarning  
+  *Dest\ShowWarning = *Source\ShowWarning
 EndProcedure
 
 ; Clear any allocated data in a project filelist file before removing it
@@ -264,9 +264,9 @@ Procedure UnlinkSourceFromProject(*Source.SourceFile, RescanFile)
 
   If *Source\ProjectFile
     *File.ProjectFile = *Source\ProjectFile
-    *File\Source        = 0    
-    *Source\ProjectFile = 0    
-    RefreshSourceTitle(*Source)   
+    *File\Source        = 0
+    *Source\ProjectFile = 0
+    RefreshSourceTitle(*Source)
     
     If *Source = *ActiveSource
       UpdateMenuStates()
@@ -292,9 +292,9 @@ Procedure LinkSourceToProject(*Source.SourceFile, *File.ProjectFile = 0)
   If *Source\FileName$ ; cannot link a non-saved file
 
     ; find project file (if not specified)
-    If *File = 0  
+    If *File = 0
       ForEach ProjectFiles()
-        If IsEqualFile(*Source\FileName$, ProjectFiles()\FileName$)        
+        If IsEqualFile(*Source\FileName$, ProjectFiles()\FileName$)
           *File = @ProjectFiles()
           Break
         EndIf
@@ -306,8 +306,8 @@ Procedure LinkSourceToProject(*Source.SourceFile, *File.ProjectFile = 0)
     EndIf
 
     ; check again, as the file may not be in the project at all
-    If *File    
-      *Source\ProjectFile = *File      
+    If *File
+      *Source\ProjectFile = *File
       *File\Source = *Source
       
       FreeSourceItemArray(@*File\Parser) ; free any data we have from a previous scan
@@ -317,7 +317,7 @@ Procedure LinkSourceToProject(*Source.SourceFile, *File.ProjectFile = 0)
         UpdateMenuStates()
         UpdateMainWindowTitle()
         ErrorLog_SyncState()     ; the state may change as now the ProjectShowLog counts
-      EndIf    
+      EndIf
     EndIf
   EndIf
 
@@ -366,18 +366,18 @@ Procedure SetProjectDefaultTarget()
   If ListSize(ProjectTargets()) = 0
     ; No targets are present, create a new default one
     ;
-    AddElement(ProjectTargets())            
+    AddElement(ProjectTargets())
     SetCompileTargetDefaults(@ProjectTargets()) ; preference default values
     
     ProjectTargets()\ID = GetUniqueID()
     
     ; Set project specific stuff within the target
-    ;    
+    ;
     ProjectTargets()\IsProject = #True
     ProjectTargets()\Name$     = Language("Compiler", "DefaultTargetName")
     ProjectTargets()\IsEnabled = #True
     ProjectTargets()\IsDefault = #True
-    *DefaultTarget = @ProjectTargets()     
+    *DefaultTarget = @ProjectTargets()
   
   Else
     
@@ -386,19 +386,19 @@ Procedure SetProjectDefaultTarget()
     
     ForEach ProjectTargets()
       If ProjectTargets()\IsDefault
-        *DefaultTarget = @ProjectTargets() 
+        *DefaultTarget = @ProjectTargets()
         Break
-      EndIf     
+      EndIf
     Next ProjectTargets()
     
     ; make sure the flag value is consistent
     ForEach ProjectTargets()
-      If *DefaultTarget = @ProjectTargets() 
+      If *DefaultTarget = @ProjectTargets()
         ProjectTargets()\IsDefault = #True
       Else
         ProjectTargets()\IsDefault = #False
-      EndIf     
-    Next ProjectTargets()        
+      EndIf
+    Next ProjectTargets()
   EndIf
   
 EndProcedure
@@ -427,8 +427,8 @@ Procedure ResizeProjectInfo(Width, Height)
   ; size for other parts
   PartHeight = (Height-60-InfoHeight) / 2
 
-  ResizeGadget(#GADGET_ProjectInfo_FrameProject, 20-BorderOffset, 20-BorderOffset, Width-40, InfoHeight)    
-  ResizeGadget(#GADGET_ProjectInfo_Info, 30-BorderOffset, 25+ProjectInfoFrameHeight-BorderOffset, Width-65-ButtonWidth, InfoHeight-15-ProjectInfoFrameHeight)  
+  ResizeGadget(#GADGET_ProjectInfo_FrameProject, 20-BorderOffset, 20-BorderOffset, Width-40, InfoHeight)
+  ResizeGadget(#GADGET_ProjectInfo_Info, 30-BorderOffset, 25+ProjectInfoFrameHeight-BorderOffset, Width-65-ButtonWidth, InfoHeight-15-ProjectInfoFrameHeight)
   ResizeGadget(#GADGET_ProjectInfo_OpenOptions, Width-30-ButtonWidth-BorderOffset, 25+ProjectInfoFrameHeight-BorderOffset, ButtonWidth, Button1Height)
   ResizeGadget(#GADGET_ProjectInfo_OpenCompilerOptions, Width-30-ButtonWidth-BorderOffset, 30+ProjectInfoFrameHeight+Button1Height-BorderOffset, ButtonWidth, Button1Height)
 
@@ -444,7 +444,7 @@ Procedure ResizeProjectInfo(Width, Height)
       If i <> 5 ; leave the "size" column alone
         SendMessage_(GadgetID(#GADGET_ProjectInfo_Files), #LVM_SETCOLUMNWIDTH, i, #LVSCW_AUTOSIZE_USEHEADER)
       EndIf
-    Next i    
+    Next i
     
     For i = 1 To 8
       If i <> 7 ; leave the "format" column alone
@@ -457,7 +457,7 @@ EndProcedure
 
 Procedure.s ProjectInfo_Boolean(Input)
   If Input
-    ProcedureReturn Language("Misc","Yes") 
+    ProcedureReturn Language("Misc","Yes")
   Else
     ProcedureReturn ""
   EndIf
@@ -494,21 +494,21 @@ Procedure UpdateProjectInfo()
       Text$ + ProjectInfo_Boolean(ProjectFiles()\AutoLoad) + Chr(10)
       Text$ + ProjectInfo_Boolean(ProjectFiles()\ShowWarning) + Chr(10)
       Text$ + ProjectInfo_Boolean(ProjectFiles()\AutoScan) + Chr(10)
-      Text$ + ProjectInfo_Boolean(ProjectFiles()\ShowPanel) + Chr(10)      
+      Text$ + ProjectInfo_Boolean(ProjectFiles()\ShowPanel) + Chr(10)
       
       Size = FileSize(ProjectFiles()\Filename$)
       If Size < 0 ; file missing
         Text$ + Chr(10) + Chr(10)
       Else
-        Text$ + StrByteSize(Size) + Chr(10)      
+        Text$ + StrByteSize(Size) + Chr(10)
         Text$ + FormatDate(Language("Project","FileDateFormat"), GetFileDate(ProjectFiles()\Filename$, #PB_Date_Modified))
-      EndIf        
+      EndIf
       
       If ProjectFiles()\AutoScan
         ImageID = OptionalImageID(#IMAGE_ProjectPanel_FileScanned)
       Else
         ImageID = OptionalImageID(#IMAGE_ProjectPanel_File)
-      EndIf    
+      EndIf
       AddGadgetItem(#GADGET_ProjectInfo_Files, -1, Text$, ImageID)
       
       ; Associate the ProjectFile structure (for the Popup menu)
@@ -535,7 +535,7 @@ Procedure UpdateProjectInfo()
         Text$ + Str(ProjectTargets()\BuildCount) + Chr(10)
       Else
         Text$ + Chr(10)
-      EndIf     
+      EndIf
       
       ; These are also not localized in the Compile Options/Preferences
       ;
@@ -550,20 +550,20 @@ Procedure UpdateProjectInfo()
           Case 0: Text$ + "Linux" + Chr(10)
           Case 1: Text$ + "Console" + Chr(10)
           Case 2: Text$ + ".so" + Chr(10)
-        CompilerEndIf      
+        CompilerEndIf
           
         CompilerIf #CompileMac
           Case 0: Text$ + "MacOS" + Chr(10)
           Case 1: Text$ + "Console" + Chr(10)
           Case 2: Text$ + ".dylib" + Chr(10)
-        CompilerEndIf              
+        CompilerEndIf
       EndSelect
       
-      Text$ + ProjectTargets()\MainFile$            
-      AddGadgetItem(#GADGET_ProjectInfo_Targets, -1, Text$, ProjectTargetImage(@ProjectTargets()))    
-    Next ProjectTargets()  
+      Text$ + ProjectTargets()\MainFile$
+      AddGadgetItem(#GADGET_ProjectInfo_Targets, -1, Text$, ProjectTargetImage(@ProjectTargets()))
+    Next ProjectTargets()
     
-    ResizeProjectInfo(GadgetWidth(#GADGET_ProjectInfo), GadgetHeight(#GADGET_ProjectInfo))   
+    ResizeProjectInfo(GadgetWidth(#GADGET_ProjectInfo), GadgetHeight(#GADGET_ProjectInfo))
   EndIf
 
 EndProcedure
@@ -578,7 +578,7 @@ Procedure UpdateProjectInfoPreferences()
     SetGadgetText(#GADGET_ProjectInfo_FrameTargets, Language("Project","ProjectTargets"))
     
     SetGadgetText(#GADGET_ProjectInfo_OpenOptions, Language("Project","ProjectOptions"))
-    SetGadgetText(#GADGET_ProjectInfo_OpenCompilerOptions, Language("Project","CompilerOptions")) 
+    SetGadgetText(#GADGET_ProjectInfo_OpenCompilerOptions, Language("Project","CompilerOptions"))
     
     SetGadgetItemText(#GADGET_ProjectInfo_Files, -1, Language("Project","Filename"), 0)
     SetGadgetItemText(#GADGET_ProjectInfo_Files, -1, Language("Project","FileLoadShort"), 1)
@@ -599,7 +599,7 @@ Procedure UpdateProjectInfoPreferences()
     SetGadgetItemText(#GADGET_ProjectInfo_Targets, -1, Language("Project","InputFile"), 8)
   
     ; to autosize the columns on Windows
-    ResizeProjectInfo(GadgetWidth(#GADGET_ProjectInfo), GadgetHeight(#GADGET_ProjectInfo))   
+    ResizeProjectInfo(GadgetWidth(#GADGET_ProjectInfo), GadgetHeight(#GADGET_ProjectInfo))
                 
     ; Theme icons and content get changed in a normal update
     UpdateProjectInfo()
@@ -609,13 +609,13 @@ EndProcedure
 
 
 Procedure AddProjectInfo()
-  If *ProjectInfo = 0     
+  If *ProjectInfo = 0
     
     ; The Project info is always at the beginning
     FirstElement(FileList())
     *ProjectInfo = InsertElement(FileList())
     
-    If *ProjectInfo    
+    If *ProjectInfo
     
       OpenGadgetList(#GADGET_SourceContainer)
       
@@ -623,10 +623,10 @@ Procedure AddProjectInfo()
       ;
       ContainerGadget(#GADGET_ProjectInfo, 0, 0, 0, 0, #PB_Container_Double)
         FrameGadget(#GADGET_ProjectInfo_FrameProject, 0, 0, 0, 0, Language("Project","ProjectInfo"))
-        	CompilerIf #CompileWindows
-        		ProjectInfoFlags = #SS_LEFTNOWORDWRAP
+          CompilerIf #CompileWindows
+            ProjectInfoFlags = #SS_LEFTNOWORDWRAP
           CompilerEndIf
-        	TextGadget(#GADGET_ProjectInfo_Info, 0, 0, 0, 0, "", ProjectInfoFlags)
+          TextGadget(#GADGET_ProjectInfo_Info, 0, 0, 0, 0, "", ProjectInfoFlags)
           ButtonGadget(#GADGET_ProjectInfo_OpenOptions, 0, 0, 0, 0, Language("Project","ProjectOptions"))
           ButtonGadget(#GADGET_ProjectInfo_OpenCompilerOptions, 0, 0, 0, 0, Language("Project","CompilerOptions"))
    
@@ -657,7 +657,7 @@ Procedure AddProjectInfo()
           AddGadgetColumn(#GADGET_ProjectInfo_Targets, 5, Language("Project","CompileCountShort"), 60)
           AddGadgetColumn(#GADGET_ProjectInfo_Targets, 6, Language("Project","BuildCountShort"), 60)
           AddGadgetColumn(#GADGET_ProjectInfo_Targets, 7, Language("Project","FormatShort"), 60)
-          AddGadgetColumn(#GADGET_ProjectInfo_Targets, 8, Language("Project","InputFile"), 200)         
+          AddGadgetColumn(#GADGET_ProjectInfo_Targets, 8, Language("Project","InputFile"), 200)
           
           CompilerIf #CompileWindows
             ; Make the settings columns centered for a better look
@@ -674,7 +674,7 @@ Procedure AddProjectInfo()
       ProjectInfoFrameHeight = Max(GadgetHeight(#GADGET_ProjectInfo_FrameProject, #PB_Gadget_RequiredSize) + 3, 10)
                   
       ; *ActiveSource is modified in CreateEditorGadget()
-      *RealActiveSource = *ActiveSource                      
+      *RealActiveSource = *ActiveSource
                   
       ; This creates a full Scintilla with the big callback, but it is never shown,
       ; and so it doesn't matter. This way, the code that expects a Scintilla to be
@@ -683,12 +683,12 @@ Procedure AddProjectInfo()
       CreateEditorGadget()
       HideEditorGadget(*ProjectInfo\EditorGadget, 1) ; this is never visible
       
-      ; Back to the active source. 
+      ; Back to the active source.
       *ActiveSource = *RealActiveSource
       
       CloseGadgetList()
       
-      ; Note: 
+      ; Note:
       ;   The TabBarGadget cannot handle an Add with a number beyond the count of items
       ;   Probably a bug that should be fixed there. But this workaround will do the trick
       If CountTabBarGadgetItems(#GADGET_FilesPanel) = 0
@@ -711,14 +711,14 @@ EndProcedure
 
 Procedure RemoveProjectInfo()
   If *ProjectInfo
-    Gadget = *ProjectInfo\EditorGadget  
+    Gadget = *ProjectInfo\EditorGadget
   
     ChangeCurrentElement(FileList(), *ProjectInfo)
     Index = ListIndex(FileList())
-    DeleteElement(FileList())   
+    DeleteElement(FileList())
   
-    If *ActiveSource = *ProjectInfo ; currently visible  
-      FirstElement(FileList())   
+    If *ActiveSource = *ProjectInfo ; currently visible
+      FirstElement(FileList())
       *ActiveSource = 0
     Else
       ChangeCurrentElement(FileList(), *ActiveSource)
@@ -727,16 +727,16 @@ Procedure RemoveProjectInfo()
     RemoveTabBarGadgetItem(#GADGET_FilesPanel, Index)
     
     ; Its important to 0 this before the next ChangeActiveSourcecode()
-    *ProjectInfo = 0  
+    *ProjectInfo = 0
   
     ChangeActiveSourcecode()
     FreeEditorGadget(Gadget)
     
     If *ActiveSource
       SetActiveGadget(*ActiveSource\EditorGadget)
-    EndIf 
+    EndIf
 
-    FreeGadget(#GADGET_ProjectInfo)    
+    FreeGadget(#GADGET_ProjectInfo)
   EndIf
 EndProcedure
 
@@ -748,11 +748,11 @@ Procedure CheckProjectVersion(Filename$)
   VersionString$ = GetXMLAttribute(MainXMLNode(#XML_LoadProject), "version")
   Creator$       = GetXMLAttribute(MainXMLNode(#XML_LoadProject), "creator")
   
-  version = Int(ValD(VersionString$) * 100.0)  
+  version = Int(ValD(VersionString$) * 100.0)
   If GetXMLAttribute(MainXMLNode(#XML_LoadProject), "minversion") = ""
     minversion = 0
   Else
-    minversion = Int(ValD(GetXMLAttribute(MainXMLNode(#XML_LoadProject), "minversion")) * 100.0)  
+    minversion = Int(ValD(GetXMLAttribute(MainXMLNode(#XML_LoadProject), "minversion")) * 100.0)
   EndIf
   
   If version < #Project_Version
@@ -762,13 +762,13 @@ Procedure CheckProjectVersion(Filename$)
     Text$ + Language("Project","CurrentVersion") + ": " + #Project_VersionString + #NewLine
     Text$ + Language("Project","LastWrittenBy")  + ": " + Creator$ + #NewLine
     If CommandlineBuild = 0
-      Text$ + #NewLine + Language("Project", "LoadAnyway")      
+      Text$ + #NewLine + Language("Project", "LoadAnyway")
       If MessageRequester(Language("Project","TitleShort"), Text$, #FLAG_Question|#PB_MessageRequester_YesNo) = #PB_MessageRequester_No
         ProcedureReturn #False
-      EndIf         
+      EndIf
     Else
       PrintN(Text$)
-      ProcedureReturn #False      
+      ProcedureReturn #False
     EndIf
 
       
@@ -782,10 +782,10 @@ Procedure CheckProjectVersion(Filename$)
       Text$ + #NewLine + Language("Project", "LoadAnyway")
       If MessageRequester(Language("Project","TitleShort"), Text$, #FLAG_Question|#PB_MessageRequester_YesNo) = #PB_MessageRequester_No
         ProcedureReturn #False
-      EndIf 
+      EndIf
     Else
       PrintN(Text$)
-      ProcedureReturn #False 
+      ProcedureReturn #False
     EndIf
     
   ElseIf version > #Project_Version
@@ -795,7 +795,7 @@ Procedure CheckProjectVersion(Filename$)
     Text$ + Language("Project","CurrentVersion") + ": " + #Project_VersionString + #NewLine
     Text$ + Language("Project","LastWrittenBy")  + ": " + Creator$
     
-    If CommandlineBuild = 0    
+    If CommandlineBuild = 0
       MessageRequester(Language("Project","TitleShort"), Text$, #FLAG_Error)
     Else
       PrintN(Text$)
@@ -818,18 +818,18 @@ Procedure LoadProject(Filename$)
     ProcedureReturn #True ; there is no sense in reloading the project (it even causes trouble, as we load before we close/save)
   EndIf
 
-  WarnFiles$ = "" ; files that were modified while closed  
+  WarnFiles$ = "" ; files that were modified while closed
 
   ; Load the XML and validate the main node and namespace
   ;
   IsLoaded = 0
   If LoadXML(#XML_LoadProject, FileName$)
-    If XMLStatus(#XML_LoadProject) = #PB_XML_Success And MainXMLNode(#XML_LoadProject) 
+    If XMLStatus(#XML_LoadProject) = #PB_XML_Success And MainXMLNode(#XML_LoadProject)
       If ResolveXMLNodeName(MainXMLNode(#XML_LoadProject), "/") = "http://www.purebasic.com/namespace/project"
         IsLoaded = 1
       EndIf
     EndIf
-  EndIf     
+  EndIf
        
   If IsLoaded
   
@@ -852,7 +852,7 @@ Procedure LoadProject(Filename$)
       ProjectLastOpenUser$   = ""
       ProjectLastOpenEditor$ = Xml_SingleLine(GetXMLAttribute(*Main, "creator"))
         
-      ProjectFile$      = FileName$    
+      ProjectFile$      = FileName$
       ProjectName$      = Language("Project","DefaultName")
       ProjectComments$  = ""
       ProjectCloseFiles = 1
@@ -869,7 +869,7 @@ Procedure LoadProject(Filename$)
       If *Config
         *Options = XMLNodeFromPath(*Config, "options")
         If *Options
-          ProjectName$      = Xml_SingleLine(GetXMLAttribute(*Options, "name"))        
+          ProjectName$      = Xml_SingleLine(GetXMLAttribute(*Options, "name"))
           ProjectCloseFiles = Xml_Boolean(GetXMLAttribute(*Options, "closefiles"), ProjectCloseFiles)
           ProjectOpenMode   = Xml_Integer(GetXMLAttribute(*Options, "openmode"))
         EndIf
@@ -878,8 +878,8 @@ Procedure LoadProject(Filename$)
         *BuildWindow = XMLNodeFromPath(*Config, "buildwindow")
         If *BuildWindow
           AutoCloseBuildWindow = Xml_Boolean(GetXMLAttribute(*BuildWindow, "autoclose"), AutoCloseBuildWindow)
-        EndIf     
-      EndIf 
+        EndIf
+      EndIf
       
       
       ; Automatically managed data
@@ -907,7 +907,7 @@ Procedure LoadProject(Filename$)
           ProjectLastOpenHost$ = Xml_SingleLine(GetXMLAttribute(*LastOpen, "host"))
           ProjectLastOpenUser$ = Xml_SingleLine(GetXMLAttribute(*LastOpen, "user"))
         EndIf
-      EndIf     
+      EndIf
       
       ; This is important to set to 0 as when we load one of the project files below
       ; we have no target info yet, and this could be set from an old Project to an invalid address!
@@ -916,7 +916,7 @@ Procedure LoadProject(Filename$)
       
       ; Project file list
       ; (load this even in commandline build mode, so the project is correctly saved back!)
-      ;            
+      ;
       *Files = GetSection(*Main, "files")
       If *Files
         *File = ChildXMLNode(*Files)
@@ -939,8 +939,8 @@ Procedure LoadProject(Filename$)
               ProjectFiles()\AutoScan    = IsCodeFile(ProjectFiles()\Filename$)
               ProjectFiles()\ShowPanel   = 1
               ProjectFiles()\ShowWarning = 1
-              ProjectFiles()\LastOpen    = 0       
-              ProjectFiles()\PanelState$ = "" 
+              ProjectFiles()\LastOpen    = 0
+              ProjectFiles()\PanelState$ = ""
             EndIf
             
             *Fingerprint = XMLNodeFromPath(*File, "fingerprint")
@@ -952,7 +952,7 @@ Procedure LoadProject(Filename$)
           *File = NextXMLNode(*File)
         Wend
         
-      EndIf   
+      EndIf
 
       ; Project targets
       ;
@@ -960,7 +960,7 @@ Procedure LoadProject(Filename$)
       
       *Targets = GetSection(*Main, "targets")
       If *Targets
-        *Target = ChildXMLNode(*Targets)  
+        *Target = ChildXMLNode(*Targets)
         
         While *Target
           If XMLNodeType(*Target) = #PB_XML_Normal And GetXMLNodeName(*Target) = "target"
@@ -969,13 +969,13 @@ Procedure LoadProject(Filename$)
             ProjectTargets()\IsProject = #True
             ProjectTargets()\IsEnabled = Xml_Boolean(GetXMLAttribute(*Target, "enabled"))
             ProjectTargets()\IsDefault = Xml_Boolean(GetXMLAttribute(*Target, "default"))
-            ProjectTargets()\Name$     = Xml_SingleLine(GetXMLAttribute(*Target, "name"))            
+            ProjectTargets()\Name$     = Xml_SingleLine(GetXMLAttribute(*Target, "name"))
 
             ; loop through the entries
             ;
             *Entry = ChildXMLNode(*Target)
             While *Entry
-               If XMLNodeType(*Entry) = #PB_XML_Normal 
+               If XMLNodeType(*Entry) = #PB_XML_Normal
                  Select GetXMLNodeName(*Entry)
                    Case "inputfile" :  ProjectTargets()\MainFile$         = Xml_SingleLine(GetXMLAttribute(*Entry, "value"))
                    Case "outputfile":  ProjectTargets()\OutputFile$       = Xml_SingleLine(GetXMLAttribute(*Entry, "value"))
@@ -1010,7 +1010,7 @@ Procedure LoadProject(Filename$)
                      CompilerEndIf
                      
                    CompilerIf #SpiderBasic
-                     Case "export"                            
+                     Case "export"
                        ProjectTargets()\WebAppName$            = Xml_SingleLine(GetXMLAttribute(*Entry, "webappname"))
                        ProjectTargets()\WebAppIcon$            = Xml_SingleLine(GetXMLAttribute(*Entry, "webappicon"))
                        ProjectTargets()\HtmlFilename$          = Xml_SingleLine(GetXMLAttribute(*Entry, "htmlfilename"))
@@ -1055,7 +1055,7 @@ Procedure LoadProject(Filename$)
                    
                    Case "purifier"
                      ProjectTargets()\EnablePurifier = Xml_Boolean(GetXMLAttribute(*Entry, "enable"))
-                     ProjectTargets()\PurifierGranularity$ = Xml_SingleLine(GetXMLAttribute(*Entry, "granularity"))              
+                     ProjectTargets()\PurifierGranularity$ = Xml_SingleLine(GetXMLAttribute(*Entry, "granularity"))
                    
                    Case "temporaryexe"
                      If LCase(Xml_SingleLine(GetXMLAttribute(*Entry, "value"))) = "source"
@@ -1129,7 +1129,7 @@ Procedure LoadProject(Filename$)
                          ProjectTargets()\NbConstants + 1
                        EndIf
                        *Constant = NextXMLNode(*Constant)
-                     Wend                     
+                     Wend
                      
                  EndSelect
                EndIf
@@ -1147,7 +1147,7 @@ Procedure LoadProject(Filename$)
       EndIf
       
       ; Ensure that there is a default target (create on if there are no targets)
-      SetProjectDefaultTarget()    
+      SetProjectDefaultTarget()
       
       If ProjectOpenMode = 3 And CommandlineBuild = 0
         ; open the mainfile of the default target only
@@ -1192,15 +1192,15 @@ Procedure LoadProject(Filename$)
                   ; There is almost no flicker anymore, so it actually looks quite good.
                   ;
                   ; Note: don't put this in the LoadSourceFile() routine as it can be call from the debugger and flushing the event will get another debug event !
-                  FlushEvents()                
+                  FlushEvents()
                 PopListPosition(ProjectFiles())
               EndIf
             EndIf
           
-          Else            
+          Else
             If ProjectFiles()\ShowWarning And ProjectFiles()\Md5$ <> LCase(FileFingerprint(ProjectFiles()\FileName$, #PB_Cipher_MD5))
               WarnFiles$ + #NewLine + ProjectFiles()\FileName$
-            EndIf            
+            EndIf
           
             If ProjectOpenMode = 1 Or (ProjectOpenMode = 0 And ProjectFiles()\LastOpen) Or (ProjectOpenMode = 2 And ProjectFiles()\AutoLoad)
               PushListPosition(ProjectFiles())
@@ -1211,13 +1211,13 @@ Procedure LoadProject(Filename$)
                 ; There is almost no flicker anymore, so it actually looks quite good.
                 ;
                 ; Note: don't put this in the LoadSourceFile() routine as it can be call from the debugger and flushing the event will get another debug event !
-                FlushEvents()              
+                FlushEvents()
               PopListPosition(ProjectFiles())
-            EndIf   
+            EndIf
           EndIf
   
           ; Update the data kept on this file (source link or scanned data)
-          UpdateProjectFile(@ProjectFiles())     
+          UpdateProjectFile(@ProjectFiles())
         Next
            
         ; Display our file warning (if any)
@@ -1226,21 +1226,21 @@ Procedure LoadProject(Filename$)
         EndIf
         
         ; Update the menu to reflect the new target list
-        StartFlickerFix(#WINDOW_Main)          
-        CreateIDEMenu() 
+        StartFlickerFix(#WINDOW_Main)
+        CreateIDEMenu()
         StopFlickerFix(#WINDOW_Main, 1)
         
         ; clear project log
         ClearList(ProjectLog())
         
-        ; Check if there is any file open from the project 
+        ; Check if there is any file open from the project
         ;
         *ProjectSource.SourceFile = 0
         ForEach FileList()
           If FileList()\ProjectFile
             If @FileList() = *ActiveSource
               *ProjectSource = *ActiveSource ; use this and do not look further
-              Break 
+              Break
             Else
               *ProjectSource = @FileList() ; continue search to find the last one in the list
             EndIf
@@ -1270,7 +1270,7 @@ Procedure LoadProject(Filename$)
     
   EndIf
   
-  If Success = #False 
+  If Success = #False
     If CommandlineBuild = 0
       MessageRequester(Language("Project","TitleShort"), Language("Project","LoadError")+#NewLine+FileName$, #FLAG_Error)
     Else
@@ -1283,10 +1283,10 @@ Procedure LoadProject(Filename$)
     UpdateMainWindowTitle() ; put the project name in the title
   EndIf
 
-  ; Can exist even on failure  
+  ; Can exist even on failure
   If IsXML(#XML_LoadProject)
     FreeXML(#XML_LoadProject)
-  EndIf  
+  EndIf
   
   ProcedureReturn Success
 EndProcedure
@@ -1319,7 +1319,7 @@ Procedure SaveProject(ShowErrors)
 
   If CreateXML(#XML_SaveProject, #PB_UTF8)
 
-    ; Generate main node    
+    ; Generate main node
     ;
     *Main = CreateXMLNode(RootXMLNode(#XML_SaveProject), "project")
     SetXMLAttribute(*Main, "xmlns",   "http://www.purebasic.com/namespace")
@@ -1328,7 +1328,7 @@ Procedure SaveProject(ShowErrors)
         
     ; User-changable configuration
     ;
-    *Config = NewSection(*Main, "config")    
+    *Config = NewSection(*Main, "config")
     *Options = AppendNode(*Config, "options")
     SetXMLAttribute(*Options, "closefiles", Str(ProjectCloseFiles))
     SetXMLAttribute(*Options, "openmode",   Str(ProjectOpenMode))
@@ -1375,7 +1375,7 @@ Procedure SaveProject(ShowErrors)
       SetXMLAttribute(*FileConfig, "load",     Str(ProjectFiles()\AutoLoad))
       SetXMLAttribute(*FileConfig, "scan",     Str(ProjectFiles()\AutoScan))
       SetXMLAttribute(*FileConfig, "panel",    Str(ProjectFiles()\ShowPanel))
-      SetXMLAttribute(*FileConfig, "warn",     Str(ProjectFiles()\ShowWarning))      
+      SetXMLAttribute(*FileConfig, "warn",     Str(ProjectFiles()\ShowWarning))
       SetXMLAttribute(*FileConfig, "lastopen", Str(ProjectFiles()\LastOpen))
       
       If ProjectFiles()\ShowPanel
@@ -1383,10 +1383,10 @@ Procedure SaveProject(ShowErrors)
       EndIf
       
       ; files are saved in CloseProject() before this, so its ok
-      If ProjectFiles()\ShowWarning        
+      If ProjectFiles()\ShowWarning
         *Fingerprint = AppendNode(*File, "fingerprint")
-        SetXMLAttribute(*Fingerprint, "md5", FileFingerprint(ProjectFiles()\FileName$, #PB_Cipher_MD5))        
-      EndIf            
+        SetXMLAttribute(*Fingerprint, "md5", FileFingerprint(ProjectFiles()\FileName$, #PB_Cipher_MD5))
+      EndIf
     Next ProjectFiles()
     
     ; Project target list
@@ -1404,13 +1404,13 @@ Procedure SaveProject(ShowErrors)
       *Node = AppendNode(*Target, "inputfile")
       SetXMLAttribute(*Node, "value", ProjectTargets()\MainFile$)
       
-      *Node = AppendNode(*Target, "outputfile")  
+      *Node = AppendNode(*Target, "outputfile")
       SetXMLAttribute(*Node, "value", ProjectTargets()\OutputFile$)
       
       If ProjectTargets()\CustomCompiler
         *Node = AppendNode(*Target, "compiler")
-        SetXMLAttribute(*Node, "version", ProjectTargets()\CompilerVersion$)        
-      EndIf            
+        SetXMLAttribute(*Node, "version", ProjectTargets()\CompilerVersion$)
+      EndIf
       
       If ProjectTargets()\CommandLine$
         *Node = AppendNode(*Target, "commandline")
@@ -1469,7 +1469,7 @@ Procedure SaveProject(ShowErrors)
         SetXMLAttribute(*Export, "webappicon"         , ProjectTargets()\WebAppIcon$)       ; Node won't be created if the value is empty
         SetXMLAttribute(*Export, "htmlfilename"       , ProjectTargets()\HtmlFilename$)       ; Node won't be created if the value is empty
         SetXMLAttribute(*Export, "javascriptfilename" , ProjectTargets()\JavaScriptFilename$) ;
-        SetXMLAttribute(*Export, "javascriptpath"     , ProjectTargets()\JavaScriptPath$) 
+        SetXMLAttribute(*Export, "javascriptpath"     , ProjectTargets()\JavaScriptPath$)
         SetXMLAttribute(*Export, "copyjavascriptlibrary"  , Str(ProjectTargets()\CopyJavaScriptLibrary))
         SetXMLAttribute(*Export, "exportcommandline"  , ProjectTargets()\ExportCommandLine$)
         SetXMLAttribute(*Export, "exportarguments"    , ProjectTargets()\ExportArguments$)
@@ -1564,8 +1564,8 @@ Procedure SaveProject(ShowErrors)
           Case 0: SetXMLAttribute(*Warnings, "type", "ignore")
           Case 1: SetXMLAttribute(*Warnings, "type", "display")
           Case 2: SetXMLAttribute(*Warnings, "type", "error")
-        EndSelect    
-      EndIf  
+        EndSelect
+      EndIf
       
       If ProjectTargets()\UseCompileCount Or ProjectTargets()\CompileCount <> 0
         *CompileCount = AppendNode(*Target, "compilecount")
@@ -1577,12 +1577,12 @@ Procedure SaveProject(ShowErrors)
         *BuildCount = AppendNode(*Target, "buildcount")
         SetXMLAttribute(*BuildCount, "enable", Str(ProjectTargets()\UseBuildCount))
         SetXMLAttribute(*BuildCount, "value", Str(ProjectTargets()\BuildCount))
-      EndIf      
+      EndIf
       
       If ProjectTargets()\UseCreateExe
         *CreateExe = AppendNode(*Target, "execonstant")
-        SetXMLAttribute(*CreateExe, "enable", "1") 
-      EndIf      
+        SetXMLAttribute(*CreateExe, "enable", "1")
+      EndIf
       
       WriteVersion = ProjectTargets()\VersionInfo
       If ProjectTargets()\VersionInfo
@@ -1595,7 +1595,7 @@ Procedure SaveProject(ShowErrors)
         Next i
       EndIf
       
-      If WriteVersion         
+      If WriteVersion
         *Version = AppendNode(*Target, "versioninfo")
         SetXMLAttribute(*Version, "enable", Str(ProjectTargets()\VersionInfo))
         For i = 0 To 23
@@ -1621,7 +1621,7 @@ Procedure SaveProject(ShowErrors)
           SetXMLAttribute(*Constant, "value", ProjectTargets()\Constant$[i])
           SetXMLAttribute(*Constant, "enable", Str(ProjectTargets()\ConstantEnabled[i]))
         Next i
-      EndIf        
+      EndIf
       
       If ProjectTargets()\Watchlist$
         AppendNode(*Target, "watchlist", ProjectTargets()\Watchlist$)
@@ -1639,7 +1639,7 @@ Procedure SaveProject(ShowErrors)
     ; Save the file
     ;
     If SaveXML(#XML_SaveProject, ProjectFile$)
-      Success = #True      
+      Success = #True
     EndIf
     
     FreeXML(#XML_SaveProject)
@@ -1647,7 +1647,7 @@ Procedure SaveProject(ShowErrors)
   
   If Success = #False And ShowErrors
     MessageRequester(Language("Project", "TitleShort"), Language("Project", "SaveError"), #FLAG_Error)
-  EndIf    
+  EndIf
   
   ProcedureReturn Success
 EndProcedure
@@ -1666,7 +1666,7 @@ Procedure OpenProject()
 
     FileName$ = OpenFileRequester(Language("Project","TitleOpen"), Path$, Language("Project","Pattern"), 0)
     If FileName$ <> ""
-      LoadProject(FileName$) ; closes the old project if still open    
+      LoadProject(FileName$) ; closes the old project if still open
     EndIf
   
   EndIf
@@ -1681,17 +1681,17 @@ Procedure CloseProject(IsIDEShutdown = #False)
       ProjectOptionsEvents(#PB_Event_CloseWindow)
     EndIf
     
-    If IsWindow(#WINDOW_Option) 
+    If IsWindow(#WINDOW_Option)
       ; close these only if they belong to the project (ie there is a project code open)
       If *ActiveSource\ProjectFile
         OptionWindowEvents(#PB_Event_CloseWindow)
       EndIf
-    EndIf 
+    EndIf
     
     
     If IsWindow(#WINDOW_Build)
       BuildWindowEvents(#PB_Event_CloseWindow)
-    EndIf    
+    EndIf
     
     ; Is there a debugger running for the project ?
     ;
@@ -1733,9 +1733,9 @@ Procedure CloseProject(IsIDEShutdown = #False)
           Else
             Cancelled = #True ; The user can press "Cancel" when a source has been modified in the project and it doesn't want to close the project anymore
             Break ; abort, keep the last source the active one
-          EndIf        
+          EndIf
           
-          ChangeCurrentElement(ProjectFiles(), *ProjectFile) 
+          ChangeCurrentElement(ProjectFiles(), *ProjectFile)
         EndIf
       Next ProjectFiles()
       
@@ -1750,11 +1750,11 @@ Procedure CloseProject(IsIDEShutdown = #False)
     If Cancelled = #False
       ; unlink all codes (do not keep any data).
       ForEach FileList()
-        If @FileList() <> *ProjectInfo 
+        If @FileList() <> *ProjectInfo
           UnlinkSourceFromProject(@FileList(), #False)
         EndIf
       Next FileList()
-      ChangeCurrentElement(FileList(), *ActiveSource)           
+      ChangeCurrentElement(FileList(), *ActiveSource)
       
       ; Save the project, and do not close if this is impossible
       ; (also saves the "last open" state)
@@ -1766,7 +1766,7 @@ Procedure CloseProject(IsIDEShutdown = #False)
       
       If Result = #False
         ProcedureReturn #False
-      EndIf    
+      EndIf
       
       ; clean up the file list
       ForEach ProjectFiles()
@@ -1788,11 +1788,11 @@ Procedure CloseProject(IsIDEShutdown = #False)
       UpdateMainWindowTitle() ; remove the project name from the title
       
       ; Update the menu to reflect the now empty target list
-      StartFlickerFix(#WINDOW_Main)          
-      CreateIDEMenu() 
+      StartFlickerFix(#WINDOW_Main)
+      CreateIDEMenu()
       StopFlickerFix(#WINDOW_Main, 1)
     Else
-      ProcedureReturn #False ; The project has not been closed.     
+      ProcedureReturn #False ; The project has not been closed.
     EndIf
   EndIf
 
@@ -1839,11 +1839,11 @@ Procedure UpdateProjectOptionStates()
           If FileLoad <> *File\AutoLoad:    FileLoad = -1:  EndIf
           If FileScan <> *File\AutoScan:    FileScan = -1:  EndIf
           If FileWarn <> *File\ShowWarning: FileWarn = -1:  EndIf
-          If FilePanel <> *File\ShowPanel:  FilePanel = -1: EndIf            
-        EndIf          
+          If FilePanel <> *File\ShowPanel:  FilePanel = -1: EndIf
+        EndIf
       EndIf
     Next i
-  EndIf  
+  EndIf
   
   If Selected > 0
     Disable = 0
@@ -1858,7 +1858,7 @@ Procedure UpdateProjectOptionStates()
     DisableGadget(#GADGET_Project_ViewFile, Disable)
   EndIf
   
-  DisableGadget(#GADGET_Project_RemoveFile, Disable)  
+  DisableGadget(#GADGET_Project_RemoveFile, Disable)
   DisableGadget(#GADGET_Project_FileLoad,   Disable)
   DisableGadget(#GADGET_Project_FileScan,   Disable)
   DisableGadget(#GADGET_Project_FileWarn,   Disable)
@@ -1876,7 +1876,7 @@ EndProcedure
 Procedure RecursiveAddFiles(ID, Base$, List Files.s())
 
   Select MessageRequester(Language("Project","Title"), Language("Project","AddDirectory")+#NewLine+Base$, #PB_MessageRequester_YesNoCancel|#FLAG_Question)
-    Case #PB_MessageRequester_Yes     
+    Case #PB_MessageRequester_Yes
       If ExamineDirectory(ID, Base$, "*")
         While NextDirectoryEntry(ID)
           Name$ = DirectoryEntryName(ID)
@@ -1886,14 +1886,14 @@ Procedure RecursiveAddFiles(ID, Base$, List Files.s())
               If RecursiveAddFiles(ID+1, Base$+Name$+#Separator, Files()) = #False
                 FinishDirectory(ID)
                 ProcedureReturn #False ; send the "cancel" out to the main level
-              EndIf 
+              EndIf
             EndIf
             
-          Else 
+          Else
             AddElement(Files())
             Files() = Base$ + Name$
             
-          EndIf          
+          EndIf
         Wend
         FinishDirectory(ID)
       EndIf
@@ -1919,9 +1919,9 @@ Procedure AddProjectOptionFiles(FileList$)
   ; Deselect all items in the gadget, as we only select newly added ones
   SetGadgetState(#GADGET_Project_FileList, -1)
 
-  ; First gather recursively all directory content to add 
+  ; First gather recursively all directory content to add
   ; if directories are included (ask the user for every directory)
-  ;   
+  ;
   For i = 1 To Count
     File$ = Trim(StringField(FileList$, i, Chr(10)))
     
@@ -1935,12 +1935,12 @@ Procedure AddProjectOptionFiles(FileList$)
         ProcedureReturn
       EndIf
       
-    Else  
+    Else
       AddElement(Files())
       Files() = File$
       
     EndIf
-  Next i  
+  Next i
   
   ; Filter files that are already in the project
   ;
@@ -1957,7 +1957,7 @@ Procedure AddProjectOptionFiles(FileList$)
         Next i
       
         ; remove this file from the "to add" list
-        DeleteElement(Files()) 
+        DeleteElement(Files())
         Break
       EndIf
     Next ProjectConfig()
@@ -1983,8 +1983,8 @@ Procedure AddProjectOptionFiles(FileList$)
   
   If IsProjectCreation
     BasePath$ = GetPathPart(NewProjectFile$)
-  Else 
-    BasePath$ = GetPathPart(ProjectFile$) 
+  Else
+    BasePath$ = GetPathPart(ProjectFile$)
   EndIf
   
   ForEach Files()
@@ -1995,7 +1995,7 @@ Procedure AddProjectOptionFiles(FileList$)
     ProjectConfig()\ShowPanel   = 1
     ProjectConfig()\ShowWarning = 1
     
-    AddGadgetItem(#GADGET_Project_FileList, -1, CreateRelativePath(BasePath$, Files()))    
+    AddGadgetItem(#GADGET_Project_FileList, -1, CreateRelativePath(BasePath$, Files()))
     Index = CountGadgetItems(#GADGET_Project_FileList)-1
     SetGadgetItemData(#GADGET_Project_FileList, Index, @ProjectConfig())
     SetGadgetItemState(#GADGET_Project_FileList, Index, #PB_ListIcon_Selected)
@@ -2005,7 +2005,7 @@ Procedure AddProjectOptionFiles(FileList$)
 
 EndProcedure
 
-; for project creation only. 
+; for project creation only.
 ; Resolve/Change the project filename and the filelist
 ;
 Procedure ProjectFileChange(NewFile$)
@@ -2016,11 +2016,11 @@ Procedure ProjectFileChange(NewFile$)
     ;
     If GetExtensionPart(GetFilePart(NewFile$)) = ""
       NewFile$ + #ProjectFileExtension
-    EndIf     
+    EndIf
 
     ; Resolve the new file by the current directory, because there it would be saved if
     ; we did not resolve anything. (the user should use a full path anyway)
-    ;  
+    ;
     NewProjectFile$ = ResolveRelativePath(GetCurrentDirectory(), NewFile$)
     
     If GetGadgetText(#GADGET_Project_File) <> NewProjectFile$
@@ -2043,7 +2043,7 @@ Procedure ProjectOptionsEvents(EventID)
     EventID  = #PB_Event_Gadget   ; to normal gadget events...
     EventGadgetID = EventMenu()
   Else
-    EventGadgetID = EventGadget()        
+    EventGadgetID = EventGadget()
   EndIf
  
 
@@ -2077,16 +2077,16 @@ Procedure ProjectOptionsEvents(EventID)
           ; this also resolves relative names etc
           If GetGadgetText(#GADGET_Project_File) <> NewProjectFile$
             ProjectFileChange(GetGadgetText(#GADGET_Project_File))
-          EndIf      
+          EndIf
           
           If NewProjectFile$ = ""
             ProjectOK = 0
             MessageRequester(Language("Project","Title"), Language("Project","NeedFile"))
           
-          ElseIf FileSize(NewProjectFile$) > -1          
+          ElseIf FileSize(NewProjectFile$) > -1
             If MessageRequester(Language("Project","TitleNew"), Language("FileStuff","FileExists")+#NewLine+Language("FileStuff","OverWrite"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_No
-              ProjectOK = 0      
-            EndIf       
+              ProjectOK = 0
+            EndIf
           
           EndIf
           
@@ -2098,7 +2098,7 @@ Procedure ProjectOptionsEvents(EventID)
             Else
               CloseFile(#FILE_CheckProject)
             EndIf
-          EndIf          
+          EndIf
         EndIf
         
         If ProjectOK
@@ -2112,29 +2112,29 @@ Procedure ProjectOptionsEvents(EventID)
             ProjectLastOpenDate    = 0
             ProjectLastOpenHost$   = ""
             ProjectLastOpenUser$   = ""
-            ProjectLastOpenEditor$ = ""            
+            ProjectLastOpenEditor$ = ""
             
             ; no targets yet (a default one is created below)
-            ClearList(ProjectTargets())     
+            ClearList(ProjectTargets())
             ClearList(ProjectFiles()) ; filled with the config below
-            ClearList(ProjectLog())          
+            ClearList(ProjectLog())
             
             ; add the info source
             AddProjectInfo()
             
             ; switch to the info source, so the user can directly get to the projects compiler options etc
-            FirstElement(FileList())            
+            FirstElement(FileList())
             ChangeActiveSourceCode()
           EndIf
           
-          ; Update the options          
+          ; Update the options
           ProjectName$     = Trim(GetGadgetText(#GADGET_Project_Name))
           ProjectComments$ = GetGadgetText(#GADGET_Project_Comments)
           
           If GetGadgetState(#GADGET_Project_SetDefault)
             DefaultProjectFile$ = ProjectFile$
           ElseIf IsEqualFile(DefaultProjectFile$, ProjectFile$) ; do not unset if this was not the default project
-            DefaultProjectFile$ = ""            
+            DefaultProjectFile$ = ""
           EndIf
           
           ProjectCloseFiles = GetGadgetState(#GADGET_Project_CloseAllFiles)
@@ -2149,7 +2149,7 @@ Procedure ProjectOptionsEvents(EventID)
             ProjectOpenMode = 3
           Else
             ProjectOpenMode = 4
-          EndIf          
+          EndIf
           
           ; Now remove any file from the real project file list if it is not in the config list
           ; We do not just do a ClearList() and re-fill it, becase the ProjectPanel stores
@@ -2170,9 +2170,9 @@ Procedure ProjectOptionsEvents(EventID)
                 UnlinkSourceFromProject(ProjectFiles()\Source, #False)
                 ChangeCurrentElement(ProjectFiles(), *ProjectFile)
               EndIf
-              ClearProjectFile(@ProjectFiles()) 
+              ClearProjectFile(@ProjectFiles())
               DeleteElement(ProjectFiles())
-            EndIf            
+            EndIf
           Next ProjectFiles()
           
           ; Now add/update the current/new files
@@ -2200,25 +2200,25 @@ Procedure ProjectOptionsEvents(EventID)
           SetProjectDefaultTarget()
           
           ; Update the menu to reflect the new target list
-          StartFlickerFix(#WINDOW_Main)          
-          CreateIDEMenu() 
+          StartFlickerFix(#WINDOW_Main)
+          CreateIDEMenu()
           StopFlickerFix(#WINDOW_Main, 1)
           
           If SaveProject(#True)              ; do not save modified sources
             RecentFiles_AddFile(ProjectFile$, #True) ; add to recent projects in case we create a new project here
             Quit = 1
-          EndIf           
+          EndIf
                           
-          UpdateMainWindowTitle() ; show name changes                                   
-        EndIf        
+          UpdateMainWindowTitle() ; show name changes
+        EndIf
              
       Case #GADGET_Project_Cancel
         Quit = 1
       
       Case #GADGET_Project_Panel
-        ; Update the project file base if it changes on panel switches. 
+        ; Update the project file base if it changes on panel switches.
         ; This way if the user switches to the file panel, he will see the correct relative path always
-        ;        
+        ;
         If IsProjectCreation
           If GetGadgetText(#GADGET_Project_File) <> NewProjectFile$
             ProjectFileChange(NewProjectFile$)
@@ -2228,14 +2228,14 @@ Procedure ProjectOptionsEvents(EventID)
       Case #GADGET_Project_OpenOptions
         OpenOptionWindow(#True)
   
-      Case #GADGET_Project_ChooseFile            
+      Case #GADGET_Project_ChooseFile
         File$ = GetGadgetText(#GADGET_Project_File)
         If File$ = ""
           File$ = SourceDirectory$
         Else
           ; always resolve from the CurrentDirectory() as there is no basepath for project files
           File$ = ResolveRelativePath(GetCurrentDirectory(), File$)
-        EndIf        
+        EndIf
         
         File$ = SaveFileRequester(Language("Project","TitleSave"), File$, Language("Project","Pattern"), 0)
         If File$ <> ""
@@ -2250,10 +2250,10 @@ Procedure ProjectOptionsEvents(EventID)
     
       Case #GADGET_Project_Explorer
         If EventType() = #PB_EventType_DragStart
-          Last  = CountGadgetItems(#GADGET_Project_Explorer)-1        
+          Last  = CountGadgetItems(#GADGET_Project_Explorer)-1
           Base$ = GetGadgetText(#GADGET_Project_Explorer)
           All$  = ""
-          For i = 0 To Last       
+          For i = 0 To Last
             State = GetGadgetItemState(#GADGET_Project_Explorer, i)
             If State & #PB_Explorer_Selected
               Name$ = GetGadgetItemText(#GADGET_Project_Explorer, i, 0)
@@ -2269,7 +2269,7 @@ Procedure ProjectOptionsEvents(EventID)
           
           If All$ <> ""
             DragFiles(Left(All$, Len(All$)-1), #PB_Drag_Copy) ; cut the final Chr(10)
-          EndIf        
+          EndIf
         
         Else
           If ProjectExplorerPath$ <> GetGadgetText(#GADGET_Project_Explorer)
@@ -2282,7 +2282,7 @@ Procedure ProjectOptionsEvents(EventID)
         CompilerIf #CompileWindows
           ; adjust the column size to any scrollbar changes etc
           SendMessage_(GadgetID(#GADGET_Project_Explorer), #LVM_SETCOLUMNWIDTH, 0, #LVSCW_AUTOSIZE_USEHEADER)
-        CompilerEndIf            
+        CompilerEndIf
         
       Case #GADGET_Project_ExplorerCombo
         If ProjectExplorerPath$ <> GetGadgetText(#GADGET_Project_ExplorerCombo)
@@ -2291,7 +2291,7 @@ Procedure ProjectOptionsEvents(EventID)
           UpdateProjectOptionStates()
         EndIf
       
-      Case #GADGET_Project_ExplorerPattern ; not present on OSX 
+      Case #GADGET_Project_ExplorerPattern ; not present on OSX
         If ProjectExplorerPattern <> GetGadgetState(#GADGET_Project_ExplorerPattern)
           ProjectExplorerPattern = GetGadgetState(#GADGET_Project_ExplorerPattern)
           SetGadgetText(#GADGET_Project_Explorer, StringField(ExplorerPatternStrings$, ProjectExplorerPattern+1, "|"))
@@ -2301,11 +2301,11 @@ Procedure ProjectOptionsEvents(EventID)
       Case #GADGET_Project_FileList
         UpdateProjectOptionStates()
   
-      Case #GADGET_Project_AddFile        
-        Last  = CountGadgetItems(#GADGET_Project_Explorer)-1        
+      Case #GADGET_Project_AddFile
+        Last  = CountGadgetItems(#GADGET_Project_Explorer)-1
         Base$ = GetGadgetText(#GADGET_Project_Explorer)
         All$  = ""
-        For i = 0 To Last       
+        For i = 0 To Last
           State = GetGadgetItemState(#GADGET_Project_Explorer, i)
           If State & #PB_Explorer_Selected
             Name$ = GetGadgetItemText(#GADGET_Project_Explorer, i, 0)
@@ -2323,14 +2323,14 @@ Procedure ProjectOptionsEvents(EventID)
         EndIf
 
       Case #GADGET_Project_RemoveFile
-        Last  = CountGadgetItems(#GADGET_Project_FileList)-1          
+        Last  = CountGadgetItems(#GADGET_Project_FileList)-1
         For i = Last To 0 Step -1 ; step backwards to not modify indexes of other items!
           If GetGadgetItemState(#GADGET_Project_FileList, i) & #PB_ListIcon_Selected
-            ChangeCurrentElement(ProjectConfig(), GetGadgetItemData(#GADGET_Project_FileList, i))            
+            ChangeCurrentElement(ProjectConfig(), GetGadgetItemData(#GADGET_Project_FileList, i))
             DeleteElement(ProjectConfig())
             RemoveGadgetItem(#GADGET_Project_FileList, i)
           EndIf
-        Next i       
+        Next i
         UpdateProjectOptionStates() ; no more selected items
 
       Case #GADGET_Project_NewFile
@@ -2360,7 +2360,7 @@ Procedure ProjectOptionsEvents(EventID)
             If MessageRequester(#ProductName$, Language("FileStuff","FileExists")+#NewLine+Language("FileStuff","OverWrite"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_No
               FileName$ = "" ; abort
             EndIf
-          EndIf  
+          EndIf
           
           If FileName$ <> ""
             ; Try to create the file, then open it.
@@ -2374,7 +2374,7 @@ Procedure ProjectOptionsEvents(EventID)
               MessageRequester(#ProductName$, Language("FileStuff","CreateError"), #FLAG_Error)
             EndIf
           EndIf
-        EndIf      
+        EndIf
       
       Case #GADGET_Project_OpenFile
         If IsProjectCreation
@@ -2389,19 +2389,19 @@ Procedure ProjectOptionsEvents(EventID)
       
         FileName$ = OpenFileRequester(Language("FileStuff","OpenFileTitle"), Path$, Language("FileStuff","Pattern"), SelectedFilePattern, #PB_Requester_MultiSelection)
         If FileName$ <> ""
-          SelectedFilePattern = SelectedFilePattern() 
+          SelectedFilePattern = SelectedFilePattern()
           
-          All$ = ""      
+          All$ = ""
           While FileName$ <> ""
             All$ + FileName$ + Chr(10)
             FileName$ = NextSelectedFileName()
           Wend
           
-          AddProjectOptionFiles(Left(All$, Len(All$)-1)) ; cut the final Chr(10)      
-        EndIf      
+          AddProjectOptionFiles(Left(All$, Len(All$)-1)) ; cut the final Chr(10)
+        EndIf
       
-      Case #GADGET_Project_ViewFile    
-        Last  = CountGadgetItems(#GADGET_Project_FileList)-1          
+      Case #GADGET_Project_ViewFile
+        Last  = CountGadgetItems(#GADGET_Project_FileList)-1
         For i = 0 To Last
           If GetGadgetItemState(#GADGET_Project_FileList, i) & #PB_ListIcon_Selected
             *File.ProjectFileConfig = GetGadgetItemData(#GADGET_Project_FileList, i)
@@ -2412,47 +2412,47 @@ Procedure ProjectOptionsEvents(EventID)
               FileViewer_OpenFile(*File\FileName$)
             EndIf
           EndIf
-        Next i                  
+        Next i
       
       Case #GADGET_Project_FileLoad
         State = GetGadgetState(#GADGET_Project_FileLoad) ; can only be 1 or 0 (-1 cannot be user set)
-        Last  = CountGadgetItems(#GADGET_Project_FileList)-1          
+        Last  = CountGadgetItems(#GADGET_Project_FileList)-1
         For i = 0 To Last
           If GetGadgetItemState(#GADGET_Project_FileList, i) & #PB_ListIcon_Selected
             *File.ProjectFileConfig = GetGadgetItemData(#GADGET_Project_FileList, i)
-            *File\AutoLoad = State 
+            *File\AutoLoad = State
           EndIf
-        Next i      
+        Next i
       
       Case #GADGET_Project_FileScan
         State = GetGadgetState(#GADGET_Project_FileScan) ; can only be 1 or 0 (-1 cannot be user set)
-        Last  = CountGadgetItems(#GADGET_Project_FileList)-1          
+        Last  = CountGadgetItems(#GADGET_Project_FileList)-1
         For i = 0 To Last
           If GetGadgetItemState(#GADGET_Project_FileList, i) & #PB_ListIcon_Selected
             *File.ProjectFileConfig = GetGadgetItemData(#GADGET_Project_FileList, i)
-            *File\AutoScan = State 
+            *File\AutoScan = State
           EndIf
-        Next i         
+        Next i
       
       Case #GADGET_Project_FileWarn
         State = GetGadgetState(#GADGET_Project_FileWarn) ; can only be 1 or 0 (-1 cannot be user set)
-        Last  = CountGadgetItems(#GADGET_Project_FileList)-1          
+        Last  = CountGadgetItems(#GADGET_Project_FileList)-1
         For i = 0 To Last
           If GetGadgetItemState(#GADGET_Project_FileList, i) & #PB_ListIcon_Selected
             *File.ProjectFileConfig = GetGadgetItemData(#GADGET_Project_FileList, i)
-            *File\ShowWarning = State 
+            *File\ShowWarning = State
           EndIf
-        Next i         
+        Next i
       
       Case #GADGET_Project_FilePanel
         State = GetGadgetState(#GADGET_Project_FilePanel) ; can only be 1 or 0 (-1 cannot be user set)
-        Last  = CountGadgetItems(#GADGET_Project_FileList)-1          
+        Last  = CountGadgetItems(#GADGET_Project_FileList)-1
         For i = 0 To Last
           If GetGadgetItemState(#GADGET_Project_FileList, i) & #PB_ListIcon_Selected
             *File.ProjectFileConfig = GetGadgetItemData(#GADGET_Project_FileList, i)
-            *File\ShowPanel = State 
+            *File\ShowPanel = State
           EndIf
-        Next i         
+        Next i
 
     EndSelect
 
@@ -2464,14 +2464,14 @@ Procedure ProjectOptionsEvents(EventID)
       ; autosize the explorerlist column
       SendMessage_(GadgetID(#GADGET_Project_Explorer), #LVM_SETCOLUMNWIDTH, 0, #LVSCW_AUTOSIZE_USEHEADER)
       SendMessage_(GadgetID(#GADGET_Project_FileList), #LVM_SETCOLUMNWIDTH, 0, #LVSCW_AUTOSIZE_USEHEADER)
-    CompilerEndIf    
+    CompilerEndIf
   
   ElseIf EventID = #PB_Event_CloseWindow
     Quit = 1
    
   EndIf
   
-  If Quit 
+  If Quit
     If IsProjectCreation
       DisableWindow(#WINDOW_Main, 0)
     EndIf
@@ -2483,11 +2483,11 @@ Procedure ProjectOptionsEvents(EventID)
     EndIf
     
     ProjectOptionsDialog = 0
-    IsProjectCreation    = 0  
+    IsProjectCreation    = 0
     
     ClearList(ProjectConfig())
         
-    UpdateProjectInfo()    
+    UpdateProjectInfo()
     UpdateProjectPanel()
     UpdateMenuStates() ; apply any project changes to the menu
   EndIf
@@ -2500,11 +2500,11 @@ Procedure OpenProjectOptions(NewProject)
     ; cannot open the window when already open
     ; also cannot create a new project if project creation is in progress
     SetWindowForeground(#WINDOW_ProjectOptions)
-    ProcedureReturn 
+    ProcedureReturn
   EndIf
   
   If NewProject
-    ; We need to close the previous project before opening a new one. 
+    ; We need to close the previous project before opening a new one.
     ; This also ensures that any old ProjectOptions gets closed
     ;
     If CloseProject() = 0
@@ -2512,7 +2512,7 @@ Procedure OpenProjectOptions(NewProject)
     EndIf
   EndIf
   
-  ProjectOptionsDialog = OpenDialog(?Dialog_ProjectOptions, WindowID(#WINDOW_Main), @ProjectOptionsPosition)  
+  ProjectOptionsDialog = OpenDialog(?Dialog_ProjectOptions, WindowID(#WINDOW_Main), @ProjectOptionsPosition)
   If ProjectOptionsDialog
     EnsureWindowOnDesktop(#WINDOW_ProjectOptions)
     
@@ -2527,20 +2527,20 @@ Procedure OpenProjectOptions(NewProject)
       RemoveGadgetColumn(#GADGET_Project_Explorer, 1)
       RemoveGadgetColumn(#GADGET_Project_Explorer, 1)
       RemoveGadgetColumn(#GADGET_Project_Explorer, 1)
-    CompilerEndIf    
+    CompilerEndIf
     
     CompilerIf #CompileWindows
       ; autosize the explorerlist column
       SendMessage_(GadgetID(#GADGET_Project_Explorer), #LVM_SETCOLUMNWIDTH, 0, #LVSCW_AUTOSIZE_USEHEADER)
       SendMessage_(GadgetID(#GADGET_Project_FileList), #LVM_SETCOLUMNWIDTH, 0, #LVSCW_AUTOSIZE_USEHEADER)
-    CompilerEndIf   
+    CompilerEndIf
    
-    If NewProject  
+    If NewProject
       IsProjectCreation = 1
       SetWindowTitle(#WINDOW_ProjectOptions, Language("Project","TitleNew"))
       SetGadgetText(#GADGET_Project_Ok, Language("Project", "CreateProject"))
           
-      HideGadget(#GADGET_Project_OpenOptions, 1)  
+      HideGadget(#GADGET_Project_OpenOptions, 1)
       HideGadget(#GADGET_Project_FileStatic, 1)
       HideGadget(#GADGET_Project_File, 0)
       HideGadget(#GADGET_Project_ChooseFile, 0)
@@ -2549,7 +2549,7 @@ Procedure OpenProjectOptions(NewProject)
       ;
       NewProjectFile$ = ""
       SetGadgetText(#GADGET_Project_File, "")
-      SetGadgetText(#GADGET_Project_Name, Language("Project", "DefaultName"))            
+      SetGadgetText(#GADGET_Project_Name, Language("Project", "DefaultName"))
       
       SetGadgetState(#GADGET_Project_CloseAllFiles, 1)
       SetGadgetState(#GADGET_Project_OpenLoadLast, 1)
@@ -2559,9 +2559,9 @@ Procedure OpenProjectOptions(NewProject)
       
       ClearList(ProjectConfig()) ; no files in the list yet
       
-      ProjectOptionsDialog\GuiUpdate() ; to resize from the new strings    
+      ProjectOptionsDialog\GuiUpdate() ; to resize from the new strings
         
-      DisableWindow(#WINDOW_Main, 1)      
+      DisableWindow(#WINDOW_Main, 1)
       SetActiveGadget(#GADGET_Project_File)
   
     Else
@@ -2590,19 +2590,19 @@ Procedure OpenProjectOptions(NewProject)
         AddElement(ProjectConfig())
         CopyProjectConfig(@ProjectFiles(), @ProjectConfig())
         
-        AddGadgetItem(#GADGET_Project_FileList, -1, CreateRelativePath(BasePath$, ProjectConfig()\FileName$))    
+        AddGadgetItem(#GADGET_Project_FileList, -1, CreateRelativePath(BasePath$, ProjectConfig()\FileName$))
         Index = CountGadgetItems(#GADGET_Project_FileList)-1
         SetGadgetItemData(#GADGET_Project_FileList, Index, @ProjectConfig())
-      Next ProjectFiles()      
+      Next ProjectFiles()
 
     EndIf
     
     ; This also fills the explorer pattern in the project options and sets the correct state
-    UpdateExplorerPatterns()    
+    UpdateExplorerPatterns()
     SetGadgetText(#GADGET_Project_Explorer, ProjectExplorerPath$+StringField(ExplorerPatternStrings$, ProjectExplorerPattern+1, "|"))
     SetGadgetText(#GADGET_Project_ExplorerCombo, ProjectExplorerPath$)
     
-    UpdateProjectOptionStates() ; disable some buttons as needed    
+    UpdateProjectOptionStates() ; disable some buttons as needed
   EndIf
 
 EndProcedure
@@ -2612,7 +2612,7 @@ Procedure UpdateProjectOptionsWindow()
 
   ProjectOptionsDialog\LanguageUpdate()
   
-  If IsProjectCreation    
+  If IsProjectCreation
     SetWindowTitle(#WINDOW_ProjectOptions, Language("Project","TitleNew"))
     SetGadgetText(#GADGET_Project_Ok, Language("Project", "CreateProject"))
   EndIf
@@ -2646,7 +2646,7 @@ Procedure AddProjectFile()
         EndIf
       Next i
       
-      If exists = 0     
+      If exists = 0
         LastElement(ProjectConfig())
         AddElement(ProjectConfig())
         ProjectConfig()\FileName$   = *ActiveSource\FileName$
@@ -2655,16 +2655,16 @@ Procedure AddProjectFile()
         ProjectConfig()\ShowPanel   = 1
         ProjectConfig()\ShowWarning = 1
         
-        AddGadgetItem(#GADGET_Project_FileList, -1, CreateRelativePath(GetPathPart(ProjectFile$) , *ActiveSource\FileName$))    
+        AddGadgetItem(#GADGET_Project_FileList, -1, CreateRelativePath(GetPathPart(ProjectFile$) , *ActiveSource\FileName$))
         Index = CountGadgetItems(#GADGET_Project_FileList)-1
         SetGadgetItemData(#GADGET_Project_FileList, Index, @ProjectConfig())
         SetGadgetState(#GADGET_Project_FileList, Index)
       EndIf
       
       
-      UpdateProjectOptionStates()                 ; reflect the new gadget states       
-      SetGadgetState(#GADGET_Project_Panel, 1)    ; so the user notices that the config is open   
-      SetWindowForeground(#WINDOW_ProjectOptions) 
+      UpdateProjectOptionStates()                 ; reflect the new gadget states
+      SetGadgetState(#GADGET_Project_Panel, 1)    ; so the user notices that the config is open
+      SetWindowForeground(#WINDOW_ProjectOptions)
       SetActiveGadget(#GADGET_Project_FileList)
       
     Else
@@ -2676,10 +2676,10 @@ Procedure AddProjectFile()
       ProjectFiles()\AutoLoad    = 0
       ProjectFiles()\AutoScan    = 1
       ProjectFiles()\ShowPanel   = 1
-      ProjectFiles()\ShowWarning = 1    
+      ProjectFiles()\ShowWarning = 1
       
       UpdateProjectFile(@ProjectFiles())
-      UpdateMenuStates()                   ; reflect the changed settings 
+      UpdateMenuStates()                   ; reflect the changed settings
       UpdateProjectInfo()
       UpdateProjectPanel()
     
@@ -2697,31 +2697,31 @@ Procedure RemoveProjectFile()
       last = CountGadgetItems(#GADGET_Project_FileList)-1
       For i = 0 To last
         *ConfigFile.ProjectFileConfig = GetGadgetItemData(#GADGET_Project_FileList, i)
-        If IsEqualFile(*ConfigFile\FileName$, *ActiveSource\FileName$)          
-          ChangeCurrentElement(ProjectConfig(), *ConfigFile)            
+        If IsEqualFile(*ConfigFile\FileName$, *ActiveSource\FileName$)
+          ChangeCurrentElement(ProjectConfig(), *ConfigFile)
           DeleteElement(ProjectConfig())
-          RemoveGadgetItem(#GADGET_Project_FileList, i)                  
+          RemoveGadgetItem(#GADGET_Project_FileList, i)
           Break
         EndIf
       Next i
 
       SetGadgetState(#GADGET_Project_FileList, -1)
-      UpdateProjectOptionStates()                 ; reflect the new gadget states       
-      SetGadgetState(#GADGET_Project_Panel, 1)    ; so the user notices that the config is open   
-      SetWindowForeground(#WINDOW_ProjectOptions) 
-      SetActiveGadget(#GADGET_Project_FileList)      
+      UpdateProjectOptionStates()                 ; reflect the new gadget states
+      SetGadgetState(#GADGET_Project_Panel, 1)    ; so the user notices that the config is open
+      SetWindowForeground(#WINDOW_ProjectOptions)
+      SetActiveGadget(#GADGET_Project_FileList)
       
     Else
-      ; No config window, remove the file from the project directly      
+      ; No config window, remove the file from the project directly
       
       *File.ProjectFile = *ActiveSource\ProjectFile
       UnlinkSourceFromProject(*ActiveSource, #False)
       
-      ClearProjectFile(*File)      
+      ClearProjectFile(*File)
       ChangeCurrentElement(ProjectFiles(), *File)
       DeleteElement(ProjectFiles())
       
-      UpdateMenuStates()                   ; reflect the changed settings 
+      UpdateMenuStates()                   ; reflect the changed settings
       UpdateProjectInfo()
       UpdateProjectPanel()
 

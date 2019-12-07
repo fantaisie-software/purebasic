@@ -21,11 +21,11 @@ Procedure Standalone_LoadPreferences()
     PreferenceGroup("Global")
       CurrentLanguage$            = ReadPreferenceString("CurrentLanguage"   , "English")
       LanguageFile$               = ReadPreferenceString("LanguageFile", "")
-      EnableKeywordBolding        = ReadPreferenceLong  ("EnableKeywordBolding", 1)        
+      EnableKeywordBolding        = ReadPreferenceLong  ("EnableKeywordBolding", 1)
       TabLength                   = ReadPreferenceLong  ("TabLength"         , 2)
       DisplayFullPath             = ReadPreferenceLong  ("DisplayFullPath", 0)
-      ShowWhiteSpace              = ReadPreferenceLong  ("ShowWhiteSpace"    , 0)    
-      ShowIndentGuides            = ReadPreferenceLong  ("ShowIndentGuides"  , 0)    
+      ShowWhiteSpace              = ReadPreferenceLong  ("ShowWhiteSpace"    , 0)
+      ShowIndentGuides            = ReadPreferenceLong  ("ShowIndentGuides"  , 0)
 
 
     PreferenceGroup("Editor")
@@ -51,7 +51,7 @@ Procedure Standalone_LoadPreferences()
         CustomKeywordColor   = ReadPreferenceLong("CustomKeywordColor", $666600)
       Else
         CustomKeywordColor   = BasicKeywordColor
-      EndIf      
+      EndIf
       
       If ReadPreferenceLong("CommentColor_Disabled", 0) = 0
         CommentColor   = ReadPreferenceLong("CommentColor", $AAAA00)
@@ -223,7 +223,7 @@ Procedure Standalone_LoadPreferences()
         DebuggerMemorizeWindows    = ReadPreferenceLong("MemorizeWindows", 1)
         IsDebuggerMaximized        = ReadPreferenceLong("IsDebuggerMaximized", 0)
         DebuggerOnTop              = ReadPreferenceLong("StayOnTop", #DEFAULT_DebuggerStayOnTop)
-        DebuggerBringToTop         = ReadPreferenceLong("AutoBringToTop", #DEFAULT_DebuggerBringToTop) 
+        DebuggerBringToTop         = ReadPreferenceLong("AutoBringToTop", #DEFAULT_DebuggerBringToTop)
         CallDebuggerOnStart        = ReadPreferenceLong("CallOnStart", 0)
         CallDebuggerOnEnd          = ReadPreferenceLong("CallOnEnd", 0)
         LogTimeStamp               = ReadPreferenceLong("LogTimeStamp", 1)
@@ -250,13 +250,13 @@ Procedure Standalone_LoadPreferences()
         EndIf
         If FindString(UCase(DebugOutFontStyle$),"ITALIC",1)
           DebugOutFontStyle | #PB_Font_Italic
-        EndIf      
+        EndIf
         
         If DebugOutFont$ = "" Or DebugOutUseFont = 0
           DebugOutFontID = #PB_Default
         Else
           DebugOutFontID = FontID(LoadFont(#PB_Any, DebugOutFont$, DebugOutFontSize, DebugOutFontStyle))
-        EndIf           
+        EndIf
         
         RegisterIsHex              = ReadPreferenceLong("RegisterIsHex", 0)
         StackIsHex                 = ReadPreferenceLong("StackIsHex", 0)
@@ -273,8 +273,8 @@ Procedure Standalone_LoadPreferences()
         MemoryViewerX              = ReadPreferenceLong("MemoryViewerX", 50)
         MemoryViewerY              = ReadPreferenceLong("MemoryViewerY", 50)
         MemoryViewerWidth          = ReadPreferenceLong("MemoryViewerWidth", 700)
-        MemoryViewerHeight         = ReadPreferenceLong("MemoryViewerHeight", 300) 
-        MemoryViewerMaximize       = ReadPreferenceLong("MemoryViewerMaximize", 0) 
+        MemoryViewerHeight         = ReadPreferenceLong("MemoryViewerHeight", 300)
+        MemoryViewerMaximize       = ReadPreferenceLong("MemoryViewerMaximize", 0)
         
         VariableIsHex              = ReadPreferenceLong("VariableIsHex", 0)
         VariableWindowX            = ReadPreferenceLong("VariableWindowX", 100)
@@ -292,22 +292,22 @@ Procedure Standalone_LoadPreferences()
         WatchListWindowX           = ReadPreferenceLong("WatchListWindowX", 50)
         WatchListWindowY           = ReadPreferenceLong("WatchListWindowY", 50)
         WatchListWindowWidth       = ReadPreferenceLong("WatchListWindowWidth", 700)
-        WatchListWindowHeight      = ReadPreferenceLong("WatchListWindowHeight", 300) 
+        WatchListWindowHeight      = ReadPreferenceLong("WatchListWindowHeight", 300)
         WatchListWindowMaximize    = ReadPreferenceLong("WatchListWindowMaximize", 0)
                         
         LibraryViewerX             = ReadPreferenceLong("LibraryViewerX", 20)
         LibraryViewerY             = ReadPreferenceLong("LibraryViewerY", 20)
         LibraryViewerWidth         = ReadPreferenceLong("LibraryViewerWidth", 600)
-        LibraryViewerHeight        = ReadPreferenceLong("LibraryViewerHeight", 440) 
+        LibraryViewerHeight        = ReadPreferenceLong("LibraryViewerHeight", 440)
         LibraryViewerSplitter2     = ReadPreferenceLong("LibraryViewerSplitter1", 300)
-        LibraryViewerSplitter3     = ReadPreferenceLong("LibraryViewerSplitter2", 130)        
-        LibraryViewerMaximize      = ReadPreferenceLong("LibraryViewerMaximize", 0)        
+        LibraryViewerSplitter3     = ReadPreferenceLong("LibraryViewerSplitter2", 130)
+        LibraryViewerMaximize      = ReadPreferenceLong("LibraryViewerMaximize", 0)
                 
         IsMiniDebugger             = ReadPreferenceLong("IsMiniDebugger", 0)
         DebuggerMainWindowX        = ReadPreferenceLong("DebuggerMainWindowX", 80)
         DebuggerMainWindowY        = ReadPreferenceLong("DebuggerMainWindowY", 80)
         DebuggerMainWindowWidth    = ReadPreferenceLong("DebuggerMainWindowWidth", 600)
-        DebuggerMainWindowHeight   = ReadPreferenceLong("DebuggerMainWindowHeight", 500)          
+        DebuggerMainWindowHeight   = ReadPreferenceLong("DebuggerMainWindowHeight", 500)
         
         AutoOpenDebugOutput        = ReadPreferenceLong("AutoOpenDebugOutput", 0)
         AutoOpenAsmWindow          = ReadPreferenceLong("AutoOpenAsmWindow", 0)
@@ -370,7 +370,7 @@ Procedure Standalone_SavePreferences()
       WritePreferenceLong("AutoBringToTop",   DebuggerBringToTop)
       WritePreferenceLong("CallOnStart",      CallDebuggerOnStart)
       WritePreferenceLong("CallOnEnd",        CallDebuggerOnEnd)
-      WritePreferenceLong("LogTimeStamp",     LogTimeStamp) 
+      WritePreferenceLong("LogTimeStamp",     LogTimeStamp)
   
       WritePreferenceLong("DebugTimeStamp",   DebugTimeStamp)
       WritePreferenceLong("DebugIsHex",       DebugIsHex)
@@ -424,8 +424,8 @@ Procedure Standalone_SavePreferences()
       WritePreferenceLong("LibraryViewerWidth",     LibraryViewerWidth)
       WritePreferenceLong("LibraryViewerHeight",    LibraryViewerHeight)
       WritePreferenceLong("LibraryViewerSplitter1", LibraryViewerSplitter1)
-      WritePreferenceLong("LibraryViewerSplitter2", LibraryViewerSplitter2)  
-      WritePreferenceLong("LibraryViewerMaximize",  LibraryViewerMaximize)  
+      WritePreferenceLong("LibraryViewerSplitter2", LibraryViewerSplitter2)
+      WritePreferenceLong("LibraryViewerMaximize",  LibraryViewerMaximize)
   
       If DebuggerMemorizeWindows ; only modify this value when the memorize option is on
         WritePreferenceLong("IsMiniDebugger", IsMiniDebugger)
@@ -433,17 +433,17 @@ Procedure Standalone_SavePreferences()
       WritePreferenceLong("DebuggerMainWindowX",   DebuggerMainWindowX)
       WritePreferenceLong("DebuggerMainWindowY",   DebuggerMainWindowY)
       WritePreferenceLong("DebuggerMainWindowWidth",  DebuggerMainWindowWidth)
-      WritePreferenceLong("DebuggerMainWindowHeight", DebuggerMainWindowHeight)   
+      WritePreferenceLong("DebuggerMainWindowHeight", DebuggerMainWindowHeight)
   
       WritePreferenceLong("AutoOpenDebugOutput",    AutoOpenDebugOutput)
       WritePreferenceLong("AutoOpenAsmWindow",      AutoOpenAsmWindow)
       WritePreferenceLong("AutoOpenMemoryViewer",   AutoOpenMemoryViewer)
       WritePreferenceLong("AutoOpenVariableViewer", AutoOpenVariableViewer)
       WritePreferenceLong("AutoOpenHistory",        AutoOpenHistory)
-      WritePreferenceLong("AutoOpenWatchlist",      AutoOpenWatchlist)    
-      WritePreferenceLong("AutoOpenLibraryViewer",  AutoOpenLibraryViewer)    
-      WritePreferenceLong("AutoOpenDataBreakpoints",AutoOpenDataBreakpoints)   
-      WritePreferenceLong("AutoOpenPurifier",       AutoOpenPurifier) 
+      WritePreferenceLong("AutoOpenWatchlist",      AutoOpenWatchlist)
+      WritePreferenceLong("AutoOpenLibraryViewer",  AutoOpenLibraryViewer)
+      WritePreferenceLong("AutoOpenDataBreakpoints",AutoOpenDataBreakpoints)
+      WritePreferenceLong("AutoOpenPurifier",       AutoOpenPurifier)
       
       WritePreferenceLong("AutoOpenProfiler",       AutoOpenProfiler)
       WritePreferenceLong("ProfilerRunAtStart",     ProfilerRunAtStart)
@@ -457,7 +457,7 @@ Procedure Standalone_SavePreferences()
       WritePreferenceLong("DataBreakpointWindowX",       DataBreakpointWindowX)
       WritePreferenceLong("DataBreakpointWindowY",       DataBreakpointWindowY)
       WritePreferenceLong("DataBreakpointWindowWidth",   DataBreakpointWindowWidth)
-      WritePreferenceLong("DataBreakpointWindowHeight",  DataBreakpointWindowHeight) 
+      WritePreferenceLong("DataBreakpointWindowHeight",  DataBreakpointWindowHeight)
       WritePreferenceLong("DataBreakpointWindowMaximize", DataBreakpointWindowMaximize)
       
       WritePreferenceLong("PurifierWindowX",             PurifierWindowX)
@@ -465,7 +465,7 @@ Procedure Standalone_SavePreferences()
       
     ClosePreferences()
   Else
-    MessageRequester("PureBasic Debugger", ReplaceString(Language("Misc","PreferenceError"), "%filename%", PreferenceFile$, 1), #FLAG_Error)  
+    MessageRequester("PureBasic Debugger", ReplaceString(Language("Misc","PreferenceError"), "%filename%", PreferenceFile$, 1), #FLAG_Error)
   EndIf
 
 EndProcedure

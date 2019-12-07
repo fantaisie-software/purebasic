@@ -30,7 +30,7 @@ Procedure UpdateExplorerPatterns()
 
   If IsPattern
     ClearGadgetItems(#GADGET_Explorer_Pattern)
-  EndIf  
+  EndIf
   If IsProjectPattern
     ClearGadgetItems(#GADGET_Project_ExplorerPattern)
   EndIf
@@ -51,18 +51,18 @@ Procedure UpdateExplorerPatterns()
     ExplorerPatternStrings$ + StringField(AddTools_PatternStrings$, i+1, "|") + "|"
     i + 2
     Count + 1
-  Wend  
+  Wend
 
   ; read patterns from OpenFile() pattern (don't include the *.* one!)
   ;
-  Pattern$ = Language("FileStuff","Pattern")  
+  Pattern$ = Language("FileStuff","Pattern")
   For i = 1 To 9 Step 2
     If IsPattern
       AddGadgetItem(#GADGET_Explorer_Pattern, -1, StringField(Pattern$, i, "|"))
     EndIf
     If IsProjectPattern
       AddGadgetItem(#GADGET_Project_ExplorerPattern, -1, StringField(Pattern$, i, "|"))
-    EndIf    
+    EndIf
     
     ExplorerPatternStrings$ + StringField(Pattern$, i+1, "|") + "|"
     Count + 1
@@ -70,14 +70,14 @@ Procedure UpdateExplorerPatterns()
   
   ; read patterns from FileViewer patterns
   ;
-  Pattern$ = Language("FileViewer","Pattern")   
+  Pattern$ = Language("FileViewer","Pattern")
   CompilerIf #CompileWindows = 0
     ; have to remove the .ico pattern...
     ; it is a language string, so catch multiple forms
     Pattern$ = RemoveString(Pattern$, ", *.ico")
     Pattern$ = RemoveString(Pattern$, ",*.ico")
     Pattern$ = RemoveString(Pattern$, ";*.ico")
-  CompilerEndIf    
+  CompilerEndIf
   
   i = 1
   Repeat
@@ -104,7 +104,7 @@ Procedure UpdateExplorerPatterns()
   ;
   If ExplorerPattern >= Count Or ExplorerPattern < -1
     ExplorerPattern = 0
-  EndIf  
+  EndIf
   
   If ProjectExplorerPattern >= Count Or ProjectExplorerPattern < -1
     ProjectExplorerPattern = 0
@@ -143,7 +143,7 @@ Procedure InsertFavorite(Position, Entry$)
 EndProcedure
 
 
-Procedure Explorer_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID) 
+Procedure Explorer_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
 
   ComboBoxGadget(#GADGET_Explorer_Pattern, 0, 0, 0, 0)
   UpdateExplorerPatterns()
@@ -195,7 +195,7 @@ Procedure Explorer_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
     ToolsPanel_ApplyColors(#GADGET_Explorer)
     ToolsPanel_ApplyColors(#GADGET_Explorer_Favorites)
-  EndIf   
+  EndIf
   
   ; apply the splitter position after the resize only
   ExplorerSplitterApplied = #False
@@ -218,7 +218,7 @@ Procedure Explorer_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight
     Space = 3
   CompilerElse
     Space = 6 ; looks better on Linux/OSX with some more space
-  CompilerEndIf  
+  CompilerEndIf
 
   If *Entry\IsSeparateWindow
     CompilerIf #CompileWindows | #CompileLinux
@@ -227,20 +227,20 @@ Procedure Explorer_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight
       ResizeGadget(#GADGET_Explorer_Splitter, 5, 10+PatternHeight, PanelWidth-10, PanelHeight-15-PatternHeight-Height)
     CompilerElse
       ResizeGadget(#GADGET_Explorer_Splitter, 5, 5, PanelWidth-10, PanelHeight-10-Height)
-    CompilerEndIf        
+    CompilerEndIf
     ResizeGadget(#GADGET_Explorer_AddFavorite, PanelWidth-5-Space-2*Width, PanelHeight-Height, Width, Height)
     ResizeGadget(#GADGET_Explorer_RemoveFavorite, PanelWidth-5-Width, PanelHeight-Height, Width, Height)
   Else
-    CompilerIf #CompileWindows | #CompileLinux 
+    CompilerIf #CompileWindows | #CompileLinux
       PatternHeight = GetRequiredHeight(#GADGET_Explorer_Pattern)
       ResizeGadget(#GADGET_Explorer_Pattern, 0, 0, PanelWidth, PatternHeight)
       ResizeGadget(#GADGET_Explorer_Splitter, 0, PatternHeight+1, PanelWidth, PanelHeight-PatternHeight-7-Height)
     CompilerElse
       ResizeGadget(#GADGET_Explorer_Splitter, 0, 0, PanelWidth, PanelHeight-6-Height)
-    CompilerEndIf 
+    CompilerEndIf
     ResizeGadget(#GADGET_Explorer_AddFavorite, PanelWidth-Space-2*Width, PanelHeight-Height-2, Width, Height)
     ResizeGadget(#GADGET_Explorer_RemoveFavorite, PanelWidth-Width, PanelHeight-Height-2, Width, Height)
-  EndIf    
+  EndIf
   
   CompilerIf #CompileWindows
     If ExplorerMode = 0
@@ -301,14 +301,14 @@ Procedure.s NextExplorerEntry()
       If GetGadgetState(#GADGET_Explorer) & #PB_Explorer_File
         Result$ = ResolveRelativePath(CurrentDirectory$, GetGadgetText(#GADGET_Explorer)) ; Ensure we really have a full path (use the initial current directory if not: http://www.purebasic.fr/english/viewtopic.php?f=4&t=55801)
   
-      ElseIf Explorer_FilesOnly = 0 
+      ElseIf Explorer_FilesOnly = 0
         Result$ = GetGadgetText(#GADGET_Explorer) + #Separator ; to distinguish directories
       EndIf
     EndIf
       
   EndIf
   
-  ProcedureReturn Result$ 
+  ProcedureReturn Result$
 EndProcedure
 
 Procedure Explorer_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
@@ -350,7 +350,7 @@ Procedure Explorer_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         SelectElement(ExplorerFavorites(), Index)
         Entry$ = ExplorerFavorites()
         
-        If EventType() = #PB_EventType_LeftDoubleClick 
+        If EventType() = #PB_EventType_LeftDoubleClick
           If Right(Entry$, 1) = #Separator
             ; open directory in explorer
             SetGadgetText(#GADGET_Explorer, Entry$)
@@ -362,9 +362,9 @@ Procedure Explorer_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         ElseIf EventType() = #PB_EventType_DragStart
           DragFiles(Entry$, #PB_Drag_Copy)
           
-        EndIf       
+        EndIf
         
-      EndIf      
+      EndIf
 
     Case #GADGET_Explorer_Pattern
       If GetGadgetState(#GADGET_Explorer_Pattern) <> ExplorerPattern
@@ -373,8 +373,8 @@ Procedure Explorer_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
       EndIf
     
     
-    Case #GADGET_Explorer   
-      ExplorerPath$ = GetPathPart(GetGadgetText(#GADGET_Explorer))    
+    Case #GADGET_Explorer
+      ExplorerPath$ = GetPathPart(GetGadgetText(#GADGET_Explorer))
 
       If EventType() = #PB_EventType_DragStart
         Files$ = ""
@@ -403,20 +403,20 @@ Procedure Explorer_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
 ;           EndIf
         EndIf
       
-      ElseIf EventType() = #PB_EventType_LeftDoubleClick   
+      ElseIf EventType() = #PB_EventType_LeftDoubleClick
         
         ExamineExplorerEntries(#True)
         Repeat
           FileName$ = NextExplorerEntry()
           If FileName$ <> ""
-            LoadSourceFile(FileName$) 
+            LoadSourceFile(FileName$)
             
             ; Flush events. So when many sources are opened at once, the User can see a bit the
             ; progress, instead of just an unresponsive window for quite a while.
             ; There is almost no flicker anymore, so it actually looks quite good.
             ;
             ; Note: don't put this in the LoadSourceFile() routine as it can be call from the debugger and flushing the event will get another debug event !
-            FlushEvents()            
+            FlushEvents()
           EndIf
         Until FileName$ = ""
 
@@ -472,17 +472,17 @@ Procedure Explorer_FavoritesDropEvent()
 EndProcedure
 
 
-Procedure Explorer_PreferenceLoad(*Entry.ToolsPanelEntry) 
+Procedure Explorer_PreferenceLoad(*Entry.ToolsPanelEntry)
 
-  PreferenceGroup("Explorer")  
-  ExplorerMode               = ReadPreferenceLong  ("Mode", 0) ; 0=ExplorerList 1=ExplorerTree       
+  PreferenceGroup("Explorer")
+  ExplorerMode               = ReadPreferenceLong  ("Mode", 0) ; 0=ExplorerList 1=ExplorerTree
   ExplorerPattern            = ReadPreferenceLong  ("Pattern", 0)
   ExplorerSavePath           = ReadPreferenceLong  ("SavePath", 1)
   ExplorerShowHidden         = ReadPreferenceLong  ("ShowHidden", 0)
   ExplorerSplitter           = ReadPreferenceLong  ("Splitter", 90)
   
   If ExplorerPath$ = "" ; only load this if not set by commandline
-    ExplorerPath$            = ReadPreferenceString("Path", SourcePath$)   
+    ExplorerPath$            = ReadPreferenceString("Path", SourcePath$)
   EndIf
   
   Count = ReadPreferenceLong("Favorites", 0)
@@ -498,11 +498,11 @@ Procedure Explorer_PreferenceLoad(*Entry.ToolsPanelEntry)
 EndProcedure
 
 
-Procedure Explorer_PreferenceSave(*Entry.ToolsPanelEntry) 
+Procedure Explorer_PreferenceSave(*Entry.ToolsPanelEntry)
 
   PreferenceComment("")
-  PreferenceGroup("Explorer") 
-  WritePreferenceLong  ("Mode",       ExplorerMode)  
+  PreferenceGroup("Explorer")
+  WritePreferenceLong  ("Mode",       ExplorerMode)
   WritePreferenceLong  ("Pattern",    ExplorerPattern)
   WritePreferenceLong  ("SavePath",   ExplorerSavePath)
   WritePreferenceLong  ("ShowHidden", ExplorerShowHidden)
@@ -521,7 +521,7 @@ EndProcedure
 
 
 
-Procedure Explorer_PreferenceStart(*Entry.ToolsPanelEntry) 
+Procedure Explorer_PreferenceStart(*Entry.ToolsPanelEntry)
 
   ; Use the backup variable during the PReferences changing
   Backup_ExplorerMode       = ExplorerMode
@@ -531,7 +531,7 @@ Procedure Explorer_PreferenceStart(*Entry.ToolsPanelEntry)
 EndProcedure
 
 
-Procedure Explorer_PreferenceApply(*Entry.ToolsPanelEntry) 
+Procedure Explorer_PreferenceApply(*Entry.ToolsPanelEntry)
 
   ; put the backup variable back
   ExplorerMode       = Backup_ExplorerMode
@@ -542,7 +542,7 @@ EndProcedure
 
 
 
-Procedure Explorer_PreferenceCreate(*Entry.ToolsPanelEntry) 
+Procedure Explorer_PreferenceCreate(*Entry.ToolsPanelEntry)
 
   Top = 10
   text = TextGadget(#PB_Any, 10, Top, 300, 25, Language("Preferences","ExplorerMode")+":"): Top + 25
@@ -603,8 +603,8 @@ Procedure Explorer_PreferenceDestroy(*Entry.ToolsPanelEntry)
 EndProcedure
 
 
-Procedure Explorer_PreferenceEvents(*Entry.ToolsPanelEntry, EventGadgetID) 
-  ; 
+Procedure Explorer_PreferenceEvents(*Entry.ToolsPanelEntry, EventGadgetID)
+  ;
   ; nothing to do here
   ;
 EndProcedure
@@ -620,15 +620,15 @@ Procedure Explorer_PreferenceChanged(*Entry.ToolsPanelEntry, IsConfigOpen)
       If ExplorerShowHidden <> GetGadgetState(#GADGET_Preferences_ExplorerShowHidden)
         ProcedureReturn 1
       EndIf
-    CompilerEndIf    
+    CompilerEndIf
   
   Else
-    If ExplorerMode <> Backup_ExplorerMode Or ExplorerSavePath <> Backup_ExplorerSavePath 
+    If ExplorerMode <> Backup_ExplorerMode Or ExplorerSavePath <> Backup_ExplorerSavePath
       ProcedureReturn 1
     EndIf
     
     CompilerIf #CompileWindows = 0 ; not supported there yet
-      If ExplorerShowHidden <> Backup_ExplorerShowHidden    
+      If ExplorerShowHidden <> Backup_ExplorerShowHidden
         ProcedureReturn 1
       EndIf
     CompilerEndIf
@@ -660,7 +660,7 @@ Explorer_VT\PreferenceChanged   = @Explorer_PreferenceChanged()
 AddElement(AvailablePanelTools())
 
 AvailablePanelTools()\FunctionsVT          = @Explorer_VT
-AvailablePanelTools()\NeedPreferences      = 1 
+AvailablePanelTools()\NeedPreferences      = 1
 AvailablePanelTools()\NeedConfiguration    = 1
 AvailablePanelTools()\PreferencesWidth     = 320
 AvailablePanelTools()\PreferencesHeight    = 145

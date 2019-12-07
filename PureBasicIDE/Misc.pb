@@ -47,7 +47,7 @@ Procedure EnsureWindowOnDesktop(Window)
     
     ; else check if any of the window corners is on this desktop
     ;
-    ElseIf l < dr And l > dl 
+    ElseIf l < dr And l > dl
       If t < db And t > dt ; top/left corner on screen
         monitor = i
         mode    = 1
@@ -56,7 +56,7 @@ Procedure EnsureWindowOnDesktop(Window)
         mode    = 2
       EndIf
       
-    ElseIf r > dl And r < dr 
+    ElseIf r > dl And r < dr
       If t < db And t > dt ; top/right corner on screen
         monitor = i
         mode    = 3
@@ -97,7 +97,7 @@ Procedure EnsureWindowOnDesktop(Window)
       
     Else ; bottom/right corner
       If b < dt+#DesktopMargin: b = dt+#DesktopMargin: EndIf
-      If r < dl+#DesktopMargin: r = dl+#DesktopMargin: EndIf      
+      If r < dl+#DesktopMargin: r = dl+#DesktopMargin: EndIf
       t = b - #DesktopMargin
       l = r - WindowWidth(Window)
     
@@ -149,7 +149,7 @@ Procedure OptionalImageID(Image)
 EndProcedure
 
 Procedure FindMemoryString(*Buffer, Length, String$, Mode)
-  StrLength = Len(String$)  
+  StrLength = Len(String$)
   *BufferEnd = *Buffer + Length - StrLength
   While *Buffer <= *BufferEnd
     If CompareMemoryString(*Buffer, @String$, Mode, StrLength) = 0
@@ -223,7 +223,7 @@ Procedure ParseString(String$)
       
       Wend
     
-    EndIf  
+    EndIf
   EndIf
 
   ProcedureReturn ParseString_NbTokens
@@ -231,7 +231,7 @@ EndProcedure
 
 ; returns the given token from a previously parsed string
 ; index is one based!
-; 
+;
 Procedure.s GetStringToken(Index)
   Shared ParseString_NbTokens
   
@@ -255,7 +255,7 @@ Procedure.s StrByteSize(Size.q)
     ProcedureReturn StrF(Size / (1024 * 1024), 2) + " Mb"
   
   Else
-    ProcedureReturn StrF(Size / (1024 * 1024 * 1024), 2) + " Gb"  
+    ProcedureReturn StrF(Size / (1024 * 1024 * 1024), 2) + " Gb"
   
   EndIf
 
@@ -273,7 +273,7 @@ Procedure IsNumeric(Text$, *Output.INTEGER)
     Start$ = "$"
   ElseIf Left(Text$, 1) = "%"
     Chars.s = "10"
-    Text$ = Right(Text$, Len(Text$)-1)   
+    Text$ = Right(Text$, Len(Text$)-1)
     Start$ = "%"
   Else
     Chars.s = "1234567890"
@@ -299,7 +299,7 @@ Procedure IsNumeric(Text$, *Output.INTEGER)
   ; return number
   ;
   *Output\i = Val(Start$ + Text$)
-  ProcedureReturn #True  
+  ProcedureReturn #True
 EndProcedure
 
 
@@ -336,7 +336,7 @@ Procedure CatchPackedImage(Image, *Address.LONG, Index)
     If *Buffer
       If UncompressMemory(*Address, Compressed, *Buffer, Uncompressed, #PB_PackerPlugin_BriefLZ)
         Result = CatchImage(Image, *Buffer)
-      EndIf      
+      EndIf
       FreeMemory(*Buffer)
     EndIf
   EndIf
@@ -389,7 +389,7 @@ Procedure.s ModulePrefix(Name$, ModuleName$)
 EndProcedure
 
 ; Convert string to Ascii/UTF8 depending on CodePage
-; CodePage is the scintilla value #SC_CP_UTF8 or 0 
+; CodePage is the scintilla value #SC_CP_UTF8 or 0
 ;
 Procedure StringToCodePage(CodePage, String$)
   If CodePage = #SC_CP_UTF8
@@ -407,7 +407,7 @@ Procedure StringToCodePage(CodePage, String$)
 EndProcedure
 
 ; Get the length of the string in the given code page
-; CodePage is the scintilla value #SC_CP_UTF8 or 0 
+; CodePage is the scintilla value #SC_CP_UTF8 or 0
 Procedure CodePageLength(CodePage, String$)
   If CodePage = #SC_CP_UTF8
     Format = #PB_UTF8

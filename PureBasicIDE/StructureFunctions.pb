@@ -30,7 +30,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
   ; skip whitespace
   While *Cursor < *BufferEnd And (*Cursor\b = ' ' Or *Cursor\b = 9)
     *Cursor + 1
-  Wend  
+  Wend
   
   ; Properly skip any 'Align' part
   If *BufferEnd-*Cursor >= 6 And CompareMemoryString(*Cursor, ToAscii("Align"), #PB_String_NoCase, 5, #PB_Ascii) = #PB_String_Equal And ValidCharacters(*Cursor\a[5]) = 0
@@ -80,7 +80,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
             EndIf
           Else
             *Cursor + 1
-          EndIf          
+          EndIf
         Wend
         *Cursor + 1 ; skip second "
       
@@ -115,9 +115,9 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
       
       Else
         *Cursor + 1
-      EndIf        
+      EndIf
       
-    Wend    
+    Wend
   EndIf
   
   ; finally start scanning for structure items
@@ -158,7 +158,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
           Prefix$ = "List "
           *Cursor = *Cursor2 ; skip keyword and whitespace
           *Start = *Cursor
-        EndIf      
+        EndIf
       
       ElseIf *Cursor < *BufferEnd-4 And (PeekB(*Cursor+3) = ' ' Or PeekB(*Cursor+3) = 9) And CompareMemoryString(*Cursor, ToAscii("Map"), #PB_String_NoCase, 3, #PB_Ascii) = #PB_String_Equal
         *Cursor2.BYTE = *Cursor+3
@@ -170,7 +170,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
           Prefix$ = "Map "
           *Cursor = *Cursor2 ; skip keyword and whitespace
           *Start = *Cursor
-        EndIf      
+        EndIf
       
       EndIf
       
@@ -188,11 +188,11 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
       
       If *Cursor < *BufferEnd And *Cursor\b = '$'
         *Cursor + 1
-      EndIf      
+      EndIf
       
       While *Cursor < *BufferEnd And (*Cursor\b = ' ' Or *Cursor\b = 9)
         *Cursor + 1
-      Wend      
+      Wend
       
       ; get the type
       If *Cursor < *BufferEnd And *Cursor\b = '.'
@@ -276,16 +276,16 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
       If *Cursor <= *BufferEnd
         Field$ = PeekS(*Start, *Cursor - *Start, #PB_Ascii)
         Field$ = RemoveString(Field$, " ")  ; cut whitespace
-        Field$ = RemoveString(Field$, Chr(9)) 
+        Field$ = RemoveString(Field$, Chr(9))
         
         Select UCase(Field$) ; filter some stuff
         
           Case "STRUCTUREUNION", "ENDSTRUCTUREUNION", "COMPILERIF", "COMPILERELSE", "COMPILERENDIF", "COMPILERSELECT", "COMPILERCASE", "COMPILERDEFAULT", "COMPILERENDSELECT", "", "*"
             ; skip to newline or : to ignore anything after compiler directives
             While *Cursor < *BufferEnd
-              Select *Cursor\b              
+              Select *Cursor\b
                 Case 10, 13 ; we can continue parsing here
-                  Break               
+                  Break
                 Case ':' ; can be module start or : separator
                    If *Cursor < *BufferEnd - 1 And *Cursor\b[1] = ':'
                      *Cursor + 2
@@ -296,17 +296,17 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
                   While *Cursor < *BufferEnd And *Cursor\b <> 13 And *Cursor\b <> 10
                     *Cursor + 1
                   Wend
-                  Break                
-                Case 39 ; ' 
+                  Break
+                Case 39 ; '
                   *Cursor + 1
                   While *Cursor < *BufferEnd And *Cursor <> 39
                     *Cursor + 1
-                  Wend                
+                  Wend
                 Case '"'
                   *Cursor + 1
                   While *Cursor < *BufferEnd And *Cursor <> '"'
                     *Cursor + 1
-                  Wend             
+                  Wend
                 Case '~'
                   If (*Cursor + 1) < *BufferEnd And *Cursor\b[1] = '"'
                     *Cursor + 2
@@ -316,11 +316,11 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
                       Else
                         *Cursor + 1
                       EndIf
-                    Wend 
+                    Wend
                   EndIf
               EndSelect
               *Cursor + 1
-            Wend            
+            Wend
           
           Default
             ; Seems to be a valid field
@@ -420,7 +420,7 @@ Procedure ParseInterface(*Buffer, Length, List Output.s())
               *Cursor + 1
               While *Cursor < *BufferEnd And *Cursor\b <> '"'
                 *Cursor + 1
-              Wend  
+              Wend
               
             Case '~'
               If (*Cursor + 1) < *BufferEnd And *Cursor\b[1] = '"'
@@ -431,8 +431,8 @@ Procedure ParseInterface(*Buffer, Length, List Output.s())
                   Else
                     *Cursor + 1
                   EndIf
-                Wend 
-              EndIf            
+                Wend
+              EndIf
             
             Case 39 ; ' is possible here too
               *Cursor + 1
@@ -443,7 +443,7 @@ Procedure ParseInterface(*Buffer, Length, List Output.s())
           EndSelect
           
           *Cursor + 1
-        Wend      
+        Wend
         
         If *Cursor < *BufferEnd And *Cursor\b = ')'
           *Cursor + 1
@@ -454,30 +454,30 @@ Procedure ParseInterface(*Buffer, Length, List Output.s())
             Case "COMPILERIF", "COMPILERELSE", "COMPILERENDIF", "COMPILERSELECT", "COMPILERCASE", "COMPILERDEFAULT", "COMPILERENDSELECT", ""
               ; ignore until : ; or newline
               While *Cursor < *BufferEnd
-                Select *Cursor\b              
+                Select *Cursor\b
                   Case 10, 13 ; we can continue parsing here
-                    Break    
+                    Break
                   Case ':' ; can be module start or : separator
                    If *Cursor < *BufferEnd - 1 And *Cursor\b[1] = ':'
                      *Cursor + 2
                    Else
                      Break
-                   EndIf               
+                   EndIf
                   Case ';' ; have to skip the line, then continue
                     While *Cursor < *BufferEnd And *Cursor\b <> 13 And *Cursor\b <> 10
                       *Cursor + 1
                     Wend
-                    Break                
-                  Case 39 ; ' 
+                    Break
+                  Case 39 ; '
                     *Cursor + 1
                     While *Cursor < *BufferEnd And *Cursor <> 39
                       *Cursor + 1
-                    Wend                
-                  Case '"'       
+                    Wend
+                  Case '"'
                     *Cursor + 1
                     While *Cursor < *BufferEnd And *Cursor <> '"'
                       *Cursor + 1
-                    Wend        
+                    Wend
                   Case '~'
                     If (*Cursor + 1) < *BufferEnd And *Cursor\b[1] = '"'
                       *Cursor + 2
@@ -487,20 +487,20 @@ Procedure ParseInterface(*Buffer, Length, List Output.s())
                         Else
                           *Cursor + 1
                         EndIf
-                      Wend 
-                    EndIf                     
+                      Wend
+                    EndIf
                             
                 EndSelect
                 *Cursor + 1
-              Wend                
+              Wend
           
-            Default            
+            Default
               ; done
               AddElement(Output())
-              Output() = Trim(PeekS(*Start, *Cursor - *Start, #PB_Ascii))         
+              Output() = Trim(PeekS(*Start, *Cursor - *Start, #PB_Ascii))
           EndSelect
           
-        EndIf      
+        EndIf
       EndIf
      
     Else ; anything invalid, just skip it (including newline, separators etc
@@ -552,9 +552,9 @@ Procedure FindStructureInterfaceFromSource(*Source.SourceFile, Name$, ModuleName
   ; walk all Structures or interfaces in this source
   *Item.SourceItem = *Source\Parser\Modules(UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
   While *Item
-    If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCase) = #PB_String_Equal      
+    If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCase) = #PB_String_Equal
       Break
-    EndIf      
+    EndIf
     *Item = *Item\NextSorted
   Wend
   
@@ -562,9 +562,9 @@ Procedure FindStructureInterfaceFromSource(*Source.SourceFile, Name$, ModuleName
   If *Item = 0 And ModuleName$ <> ""
     *Item.SourceItem = *Source\Parser\Modules("IMPL::" + UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
     While *Item
-      If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCase) = #PB_String_Equal      
+      If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCase) = #PB_String_Equal
         Break
-      EndIf      
+      EndIf
       *Item = *Item\NextSorted
     Wend
   EndIf
@@ -581,11 +581,11 @@ Procedure FindStructureInterfaceFromSource(*Source.SourceFile, Name$, ModuleName
     ;
     ExtendBase$ = StringField(*Item\Content$, 1, Chr(10)) ; holds the base struct, if any
     ExtendBase$ = ResolveStructureType(@*Source\Parser, *Item, *Item\SortedLine, ExtendBase$)
-    If ExtendBase$ <> ""                
+    If ExtendBase$ <> ""
       FindStructureInterface(ExtendBase$, Type, Output(), Recursion + 1)
-    EndIf            
+    EndIf
     
-    If Type = #ITEM_Structure                       
+    If Type = #ITEM_Structure
       EndKeyword = #KEYWORD_EndStructure
     Else
       EndKeyword = #KEYWORD_EndInterface
@@ -597,7 +597,7 @@ Procedure FindStructureInterfaceFromSource(*Source.SourceFile, Name$, ModuleName
       If *EndItem\Type = #ITEM_Keyword And *EndItem\Keyword = EndKeyword
         EndIndex = ScintillaSendMessage(*Source\EditorGadget, #SCI_POSITIONFROMLINE, Line) + *EndItem\Position
         Break
-      EndIf          
+      EndIf
       Parser_NextItem(*Source\Parser, *EndItem, Line)
     Wend
     
@@ -615,7 +615,7 @@ Procedure FindStructureInterfaceFromSource(*Source.SourceFile, Name$, ModuleName
             ParseStructure(*Buffer, EndIndex-StartIndex, TempList())
             ForEach TempList()
               AddElement(Output())
-              Output() = ResolveStructureFieldType(@*Source\Parser, *Item, TempList())                
+              Output() = ResolveStructureFieldType(@*Source\Parser, *Item, TempList())
             Next TempList()
           Else
             ParseInterface(*Buffer, EndIndex-StartIndex, Output())
@@ -676,29 +676,7 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
           
           ; Request structure content
           ForceDefaultCompiler()
-          CompilerWrite("STRUCTURE"+Chr(9)+Trim(Name$))    
-          Repeat
-            Response$ = CompilerRead()
-            
-            If Response$ = "OUTPUT"+Chr(9)+"COMPLETE"
-              Break
-            Else
-              AddElement(Output())            
-              Output() = Response$
-            EndIf
-          ForEver
-          ProcedureReturn #True
-  
-        EndIf
-      Next i
-    
-    Else
-      For i = InterfaceHT(c, 0) To InterfaceHT(c, 1) 
-        If CompareMemoryString(@Name$, @InterfaceList(i), #PB_String_NoCase) = #PB_String_Equal
-          
-          ; Request structure content
-          CompilerWrite("INTERFACE"+Chr(9)+Trim(Name$))  
-          ForceDefaultCompiler()  
+          CompilerWrite("STRUCTURE"+Chr(9)+Trim(Name$))
           Repeat
             Response$ = CompilerRead()
             
@@ -712,7 +690,29 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
           ProcedureReturn #True
   
         EndIf
-      Next i    
+      Next i
+    
+    Else
+      For i = InterfaceHT(c, 0) To InterfaceHT(c, 1)
+        If CompareMemoryString(@Name$, @InterfaceList(i), #PB_String_NoCase) = #PB_String_Equal
+          
+          ; Request structure content
+          CompilerWrite("INTERFACE"+Chr(9)+Trim(Name$))
+          ForceDefaultCompiler()
+          Repeat
+            Response$ = CompilerRead()
+            
+            If Response$ = "OUTPUT"+Chr(9)+"COMPLETE"
+              Break
+            Else
+              AddElement(Output())
+              Output() = Response$
+            EndIf
+          ForEver
+          ProcedureReturn #True
+  
+        EndIf
+      Next i
     
     EndIf
     
@@ -734,7 +734,7 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
   
   ; Note: this can be called inside another function which loops on FileList() too!
   ; (also for recursive searches!)
-  Current = ListIndex(FileList())  
+  Current = ListIndex(FileList())
   ForEach FileList()
     If @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource
       If AutoCompleteAllFiles Or (AutoCompleteProject And *ActiveSource\ProjectFile And FileList()\ProjectFile)
@@ -743,7 +743,7 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
           SelectElement(FileList(), Current) ; important
           ProcedureReturn #True
         EndIf
-      EndIf 
+      EndIf
     EndIf
   Next FileList()
   SelectElement(FileList(), Current)
@@ -784,12 +784,12 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
           ;
           ExtendBase$ = StringField(*Item\Content$, 1, Chr(10)) ; holds the base struct, if any
           ExtendBase$ = ResolveStructureType(@ProjectFiles()\Parser, *Item, *Item\SortedLine, ExtendBase$)
-          If ExtendBase$ <> ""                
+          If ExtendBase$ <> ""
             FindStructureInterface(ExtendBase$, Type, Output(), Recursion + 1)
-          EndIf              
+          EndIf
         
           If Len(*Item\Content$) > Len(ExtendBase$)+1
-            Count = CountString(*Item\Content$, Chr(10)) 
+            Count = CountString(*Item\Content$, Chr(10))
             For i = 2 To Count+1 ; The first slot is the Extends base structure always (even if empty)
               AddElement(Output())
               Entry$ = StringField(*Item\Content$, i, Chr(10))
@@ -797,9 +797,9 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
                 Output() = ResolveStructureFieldType(@ProjectFiles()\Parser, *Item, Entry$)
               Else
                 Output() = Entry$
-              EndIf                
-            Next i  
-          EndIf       
+              EndIf
+            Next i
+          EndIf
           
           SelectElement(ProjectFiles(), Current)
           ProcedureReturn #True
@@ -807,7 +807,7 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
       EndIf
     Next ProjectFiles()
     SelectElement(ProjectFiles(), Current)
-  EndIf    
+  EndIf
 
   ProcedureReturn #False
 EndProcedure
@@ -825,11 +825,11 @@ Procedure.s StructureFieldKind(Entry$)
   Entry$ = Trim(ReplaceString(Entry$, Chr(9), " ")) ; do not remove yet for the List/Array/Map check
 
   ; Test also for the space, as it could be "ArraySomething.l" else
-  If CompareMemoryString(@Entry$, @"Array ", #PB_String_NoCase, 6) = #PB_String_Equal 
+  If CompareMemoryString(@Entry$, @"Array ", #PB_String_NoCase, 6) = #PB_String_Equal
     ProcedureReturn "Array"
-  ElseIf CompareMemoryString(@Entry$, @"List ", #PB_String_NoCase, 5) = #PB_String_Equal 
+  ElseIf CompareMemoryString(@Entry$, @"List ", #PB_String_NoCase, 5) = #PB_String_Equal
     ProcedureReturn "List"
-  ElseIf CompareMemoryString(@Entry$, @"Map ", #PB_String_NoCase, 4) = #PB_String_Equal 
+  ElseIf CompareMemoryString(@Entry$, @"Map ", #PB_String_NoCase, 4) = #PB_String_Equal
     ProcedureReturn "Map"
   Else
     ProcedureReturn ""
@@ -839,24 +839,24 @@ EndProcedure
 Procedure.s StructureFieldName(Entry$)
   Entry$ = Trim(ReplaceString(Entry$, Chr(9), " ")) ; do not remove yet for the List/Array/Map check
   
-  If CompareMemoryString(@Entry$, @"Array ", #PB_String_NoCase, 6) = #PB_String_Equal 
+  If CompareMemoryString(@Entry$, @"Array ", #PB_String_NoCase, 6) = #PB_String_Equal
     Entry$ = Right(Entry$, Len(Entry$)-6)
-  ElseIf CompareMemoryString(@Entry$, @"List ", #PB_String_NoCase, 5) = #PB_String_Equal 
+  ElseIf CompareMemoryString(@Entry$, @"List ", #PB_String_NoCase, 5) = #PB_String_Equal
     Entry$ = Right(Entry$, Len(Entry$)-5)
-  ElseIf CompareMemoryString(@Entry$, @"Map ", #PB_String_NoCase, 4) = #PB_String_Equal 
+  ElseIf CompareMemoryString(@Entry$, @"Map ", #PB_String_NoCase, 4) = #PB_String_Equal
     Entry$ = Right(Entry$, Len(Entry$)-4)
   EndIf
 
-  Entry$ = RemoveString(Entry$, " ")   ; now cut whitespace            
+  Entry$ = RemoveString(Entry$, " ")   ; now cut whitespace
   Entry$ = RemoveString(Entry$, "*")   ; * is not present when accessing pointer structure items!
   Entry$ = StringField(Entry$, 1, "[") ; cut array stuff
   Entry$ = StringField(Entry$, 1, "(") ; cut dynamic array stuff
   Entry$ = StringField(Entry$, 1, "{") ; cut fixed string stuff
-  ProcedureReturn StringField(Entry$, 1, ".")   
+  ProcedureReturn StringField(Entry$, 1, ".")
 EndProcedure
 
 Procedure.s StructureFieldType(Entry$)
-  Entry$ = RemoveString(RemoveString(Entry$, Chr(9)), " ") ; cut whitespace (messes up "List Something.l()", but we only want the type anyway)        
+  Entry$ = RemoveString(RemoveString(Entry$, Chr(9)), " ") ; cut whitespace (messes up "List Something.l()", but we only want the type anyway)
   Entry$ = StringField(Entry$, 1, "[") ; cut array stuff
   Entry$ = StringField(Entry$, 1, "(") ; cut dynamic array stuff
   Entry$ = StringField(Entry$, 1, "{") ; cut fixed string stuff
@@ -877,21 +877,21 @@ Procedure FindPrototypeInModule(Name$, ModuleName$)
   ; All files have sorted data now (as we just sorted the active source above)
   
   ; Note: This function can be called inside another that loops on FileList(),
-  ;   so do not use *ActiveSource to restore the position!  
+  ;   so do not use *ActiveSource to restore the position!
   Current = ListIndex(FileList())
   ForEach FileList()
-    If @FileList() <> *ProjectInfo 
+    If @FileList() <> *ProjectInfo
       If AutoCompleteAllFiles Or @FileList() = *ActiveSource Or (AutoCompleteProject And *ActiveSource\ProjectFile And FileList()\ProjectFile)
         ; walk all Structures or interfaces in this source
         *Item.SourceItem = FileList()\Parser\Modules(UCase(ModuleName$))\Sorted\Prototypes[Bucket]
         While *Item
           If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCase) = #PB_String_Equal
-            ChangeCurrentElement(FileList(), *ActiveSource) ; important            
+            ChangeCurrentElement(FileList(), *ActiveSource) ; important
             ProcedureReturn *Item
-          EndIf      
+          EndIf
           *Item = *Item\NextSorted
         Wend
-      EndIf 
+      EndIf
     EndIf
   Next FileList()
   SelectElement(FileList(), Current)
@@ -900,7 +900,7 @@ Procedure FindPrototypeInModule(Name$, ModuleName$)
   ; Check Project files
   ;
   If AutoCompleteProject And *ActiveSource\ProjectFile
-    Current = ListIndex(ProjectFiles())  
+    Current = ListIndex(ProjectFiles())
     ForEach ProjectFiles()
       If ProjectFiles()\Source = 0
         ; walk all Structures in this source
@@ -914,7 +914,7 @@ Procedure FindPrototypeInModule(Name$, ModuleName$)
       EndIf
     Next ProjectFiles()
     SelectElement(ProjectFiles(), Current)
-  EndIf    
+  EndIf
 
 EndProcedure
 
@@ -942,7 +942,7 @@ Procedure FindPrototype(Name$)
     EndIf
     ProcedureReturn *ProtoItem
     
-  Else  
+  Else
     ProcedureReturn FindPrototypeInModule(Name$, "") ; search global space
   EndIf
 

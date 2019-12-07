@@ -13,7 +13,7 @@ XIncludeFile "CompilerFlags.pb"
 
 ; Fred config, easier to handle switch between PB versions when debugging the IDE
 ;
-CompilerIf Defined(FredLocalCompile, #PB_Constant) And Not Defined(BUILD_DIRECTORY, #PB_Constant)   
+CompilerIf Defined(FredLocalCompile, #PB_Constant) And Not Defined(BUILD_DIRECTORY, #PB_Constant)
   CompilerIf #SpiderBasic
     #FredProcessorPath = "javascript"
   CompilerElseIf #PB_Compiler_Processor = #PB_Processor_x64
@@ -177,7 +177,7 @@ CompilerEndIf
 ;   so to not duplicate all the stuff, we generate the file once from the xml
 ;   and then include it here twice, with the #IDE_ProjectCompilerOptions defined
 ;   for only one of them to make the few changes.
-; 
+;
 ;   To not get a duplicate label error, the generated label in the file is actually
 ;   a macro which is replaced with the real label on compilation
 ;
@@ -185,7 +185,7 @@ Macro Dialog_CompilerOptionsMacro()
   CompilerIf Defined(IDE_ProjectCompilerOptions, #PB_Constant)
     Dialog_ProjectCompilerOptions:
   CompilerElse
-    Dialog_CompilerOptions:    
+    Dialog_CompilerOptions:
   CompilerEndIf
 EndMacro
 
@@ -206,7 +206,7 @@ XIncludeFile "Issues.pb"
 
 ; windows specific
 XIncludeFile "WindowsMisc.pb"
-XIncludeFile "WindowsHelp.pb" 
+XIncludeFile "WindowsHelp.pb"
 
 ; linux specific
 XIncludeFile "LinuxMisc.pb"
@@ -248,7 +248,7 @@ LoadPreferences()
 
 CompilerIf #CompileMac
   ; Avoid to be run from the image disk, as some feature won't work.
-  ; 
+  ;
   If FindString(LCase(PureBasicPath$), "/apptranslocation/")
     MessageRequester("Error", #ProductName$ + " can't be run directly from the dmg disk, it needs to be drag'n'dropped in Application or in any other place.", #FLAG_Error)
     OSEndCode()
@@ -301,19 +301,19 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
         If TextWidth(Version$) > 480 And FindString(Version$, "- (c)", 1) <> 0
           CopyRight$ = Trim(Right(Version$, Len(Version$) - FindString(Version$, "- (c)", 1))) ; will still include the (c)
           Version$   = Trim(Left(Version$, FindString(Version$, "- (c)", 1) - 1))
-          DrawText((500-TextWidth(Version$)) / 2, 145, Version$)          
-          DrawText((500-TextWidth(CopyRight$)) / 2, 145 + TextHeight(Version$) + 1, CopyRight$)          
+          DrawText((500-TextWidth(Version$)) / 2, 145, Version$)
+          DrawText((500-TextWidth(CopyRight$)) / 2, 145 + TextHeight(Version$) + 1, CopyRight$)
         Else
-          DrawText((500-TextWidth(Version$)) / 2, 145, Version$)          
+          DrawText((500-TextWidth(Version$)) / 2, 145, Version$)
           DrawText((500-TextWidth("00/00/0000")) / 2, 145 + TextHeight(Version$) + 1, FormatDate("%mm/%dd/%yyyy", #PB_Compiler_Date))
-        EndIf                   
+        EndIf
       
         StopDrawing()
-      EndIf      
+      EndIf
       
       ImageGadget(#GADGET_Startup_Image, 0, 0, 500, 200, ImageID(#IMAGE_Startup))
       SetWindowStayOnTop(#WINDOW_Startup, #True) ; force the window to the top ! Note: every messagerequester are now wrapped to MessageRequesterSafe() and will close this splash screen if still opened
-      HideWindow(#WINDOW_Startup, #False)                  
+      HideWindow(#WINDOW_Startup, #False)
       
       FlushEvents()
     EndIf
@@ -339,10 +339,10 @@ If CommandlineBuild
   CommandlineProjectBuild()
   
   ; commandline building should not affect IDE prefs, so no need to save them
-  KillCompiler()  
+  KillCompiler()
   DeleteRegisteredFiles()
   CompilerCleanup()
-  OSEndCode()  
+  OSEndCode()
   CloseConsole()
   
   If CommandlineBuildSuccess
@@ -379,7 +379,7 @@ SetupFileMonitor()
 ; Calculate the hidden width of the toolspanel (for autohide)
 ; Can be done only after the gadget is displayed
 CompilerIf #CompileLinux
-  ToolsPanelHiddenWidth = GetGadgetAttribute(#GADGET_ToolsPanel, #PB_Panel_TabHeight)  
+  ToolsPanelHiddenWidth = GetGadgetAttribute(#GADGET_ToolsPanel, #PB_Panel_TabHeight)
   If ToolsPanelVisible = 0
     ResizeMainWindow()
   EndIf
@@ -393,9 +393,9 @@ Else
   ErrorLogHeight_Hidden = ErrorLogHeight ; simply set the "hidden" value to the prefs one
 EndIf
 
-If ToolsPanelVisible    
+If ToolsPanelVisible
   If ToolsPanelSide = 0
-    SetGadgetState(#GADGET_ToolsSplitter, GadgetWidth(#GADGET_ToolsSplitter)-ToolsPanelWidth)  
+    SetGadgetState(#GADGET_ToolsSplitter, GadgetWidth(#GADGET_ToolsSplitter)-ToolsPanelWidth)
   Else
     SetGadgetState(#GADGET_ToolsSplitter, ToolsPanelWidth)
   EndIf
@@ -405,7 +405,7 @@ EndIf
 
 If ToolsPanelAutoHide Or ToolsPanelMode = 0 ; hide the panel if we do not need it
   ToolsPanel_Hide()
-EndIf  
+EndIf
 
 ; Initialize history session (do this before opening any files)
 ;
@@ -438,7 +438,7 @@ EndIf
 ; Now load the default project (or LastOpen one) (only if there was not a project loaded from commandline)
 ; Always load the project first, so it does look better as all project files are also saved as opened file
 ;
-If IsProject = 0 
+If IsProject = 0
   ; The last opened only if there is no default project!
   If AutoReload And LastOpenProjectFile$ And DefaultProjectFile$ = ""
     LoadProject(LastOpenProjectFile$)
@@ -448,11 +448,11 @@ If IsProject = 0
     EndIf
   EndIf
 
-  ; switch back to the last commandline source, if the -l option was present  
+  ; switch back to the last commandline source, if the -l option was present
   If *LastLoadedSource And *LastLoadedSource <> *ActiveSource
     ChangeCurrentElement(FileList(), *LastLoadedSource)
     ChangeActiveSourceCode()
-  EndIf  
+  EndIf
 EndIf
 LastOpenProjectFile$ = "" ; reset after loading
 
@@ -480,13 +480,13 @@ ForEach OpenFilesCommandLine()
   ; There is almost no flicker anymore, so it actually looks quite good.
   ;
   ; Note: don't put this in the LoadSourceFile() routine as it can be call from the debugger and flushing the event will get another debug event !
-  FlushEvents()  
+  FlushEvents()
 Next OpenFilesCommandLine()
 ClearList(OpenFilesCommandLine())
 
 ; apply the -l option (do this before opening the default project
 ;
-If *ActiveSource And InitialSourceLine > 0 And InitialSourceLine < GetLinesCount(*ActiveSource) 
+If *ActiveSource And InitialSourceLine > 0 And InitialSourceLine < GetLinesCount(*ActiveSource)
   ChangeActiveLine(InitialSourceLine, -5)
   *LastLoadedSource = *ActiveSource
 Else
@@ -505,7 +505,7 @@ CloseSplashScreen()
 
 FlushEvents()
 
-CompilerIf #Demo  
+CompilerIf #Demo
   DemoText$ = "This is the free version of "+DefaultCompiler\VersionString$+#NewLine
   DemoText$ + "Please have a look at the 'Examples' folder for test programs."+#NewLine+#NewLine
   DemoText$ + "Free version limitations:"+#NewLine
@@ -515,13 +515,13 @@ CompilerIf #Demo
     CompilerIf #CompileWindows
       DemoText$ + "- No Win32 API support"+#NewLine
       DemoText$ + "- No DLL creation"+#NewLine
-    CompilerEndIf  
+    CompilerEndIf
     DemoText$ + "- Code size limitation (about 800 lines)"+#NewLine+#NewLine
   CompilerEndIf
   DemoText$ + "Thanks a lot for using " + #ProductName$ + " !"+#NewLine+#NewLine
-  DemoText$ + "The Fantaisie Software Team." 
+  DemoText$ + "The Fantaisie Software Team."
   MessageRequester("Information", DemoText$, #FLAG_INFO)
-  FlushEvents() 
+  FlushEvents()
 CompilerEndIf
 
 AddTools_Execute(#TRIGGER_EditorStart, 0)
@@ -568,7 +568,7 @@ Repeat
           InitialSourceLine = Val(Right(FileName$, Len(FileName$)-7))
           If InitialSourceLine > 0 And InitialSourceLine < GetLinesCount(*ActiveSource) ; apply the -l option
             ChangeActiveLine(InitialSourceLine, -5)
-          EndIf        
+          EndIf
         ElseIf FileName$ <> ""
           LoadSourceFile(FileName$)
           
@@ -612,7 +612,7 @@ Procedure ShutdownIDE()
   ; can call it as well for an orderly shutdown.
   ; (maybe this can be implemented for #SIGTERM on unix as well)
   
-  AddTools_Execute(#TRIGGER_EditorEnd, 0)    
+  AddTools_Execute(#TRIGGER_EditorEnd, 0)
   
   ; make sure the project is saved and all related windows closed
   ;
@@ -653,7 +653,7 @@ Procedure ShutdownIDE()
   If IsWindow(#WINDOW_AddTools)
     AddTools_WindowEvents(#PB_Event_CloseWindow)
   EndIf
-;   
+;
 ;   If IsWindow(#WINDOW_CPUMonitor)
 ;     CPUMonitorWindowEvents(#PB_Event_CloseWindow)
 ;   EndIf
@@ -667,19 +667,19 @@ Procedure ShutdownIDE()
   EndIf
   
   If IsWindow(#WINDOW_Warnings)
-    WarningWindowEvents(#PB_Event_CloseWindow)       
+    WarningWindowEvents(#PB_Event_CloseWindow)
   EndIf
   
   If IsWindow(#WINDOW_Diff)
     DiffWindowEvents(#PB_Event_CloseWindow)
-  EndIf     
+  EndIf
   
   If IsWindow(#WINDOW_DiffDialog)
     DiffDialogWindowEvents(#PB_Event_CloseWindow)
-  EndIf    
+  EndIf
   
   If IsWindow(#WINDOW_FileMonitor)
-    FileMonitorWindowEvents(#PB_Event_CloseWindow)     
+    FileMonitorWindowEvents(#PB_Event_CloseWindow)
   EndIf
   
   ; OptionWindow is closed when the source is closed
@@ -704,13 +704,13 @@ Procedure ShutdownIDE()
   ;
   ForEach AvailablePanelTools()
     If AvailablePanelTools()\IsSeparateWindow
-      If AvailablePanelTools()\NeedDestroyFunction                       
+      If AvailablePanelTools()\NeedDestroyFunction
         Tool.ToolsPanelInterface = @AvailablePanelTools()
         Tool\DestroyFunction()
-      EndIf    
+      EndIf
       
       If MemorizeWindow And IsWindowMinimized(AvailablePanelTools()\ToolWindowID) = 0
-        Window = AvailablePanelTools()\ToolWindowID      
+        Window = AvailablePanelTools()\ToolWindowID
         AvailablePanelTools()\ToolWindowX      = WindowX(Window)
         AvailablePanelTools()\ToolWindowY      = WindowY(Window)
         AvailablePanelTools()\ToolWindowWidth  = WindowWidth(Window)
@@ -734,19 +734,19 @@ Procedure ShutdownIDE()
     
   Else
     EditorWindowWidth  = Memorize_EditorWidth
-    EditorWindowHeight = Memorize_EditorHeight  
+    EditorWindowHeight = Memorize_EditorHeight
   EndIf
   
   ; Save the splitter positions if the PB splitters are used.
   ; This is done also when MemorizeWindow is off, to be the same as the non-PB splitters
   ;
-  If ErrorLogVisible 
+  If ErrorLogVisible
     ErrorLogHeight = GadgetHeight(#GADGET_LogSplitter) - GetGadgetState(#GADGET_LogSplitter)
   Else
     ErrorLogHeight = ErrorLogHeight_Hidden
   EndIf
   
-  If ToolsPanelVisible    
+  If ToolsPanelVisible
     If ToolsPanelSide = 0
       ToolsPanelWidth = GadgetWidth(#GADGET_ToolsSplitter) - GetGadgetState(#GADGET_ToolsSplitter)
     Else

@@ -89,7 +89,7 @@ Procedure AddFormInfo(FileName$ = "")
     ScintillaSendMessage(FileList()\EditorGadget, #SCI_SETCODEPAGE, 0, 0)
   Else
     ScintillaSendMessage(FileList()\EditorGadget, #SCI_SETCODEPAGE, #SC_CP_UTF8, 0)
-  EndIf   
+  EndIf
 
   If EnableColoring
     SetBackgroundColor(FileList()\EditorGadget)
@@ -102,7 +102,7 @@ Procedure AddFormInfo(FileName$ = "")
   
   ResizeMainWindow()
   
-  ActivateTool("Form")      
+  ActivateTool("Form")
 EndProcedure
 
 Procedure ResizeFormInfo(Width, Height)
@@ -122,11 +122,11 @@ Procedure ResizeFormInfo(Width, Height)
   
   If swidth < 1
     swidth = 1
-  EndIf 
+  EndIf
   
   If sheight < 1 ; ResizeImage can't handle 0 or negative size
     sheight = 1
-  EndIf 
+  EndIf
   
   ; Only resize it for bigger size, to have a fast splitter resize (resizing image and canvas is somewhat slow on big screen)
   ;
@@ -168,7 +168,7 @@ Procedure FD_PrepareTestCode(compile = 1)
   If Not compile
     FullSourceScan(*ActiveSource)
     UpdateFolding(*ActiveSource, 0, -1)
-    UpdateProcedureList()      
+    UpdateProcedureList()
     UpdateVariableViewer()
   EndIf
 
@@ -177,7 +177,7 @@ EndProcedure
 
 ;- FormPanel plugin functions
 
-Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)  
+Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
 
   PanelGadget(#Form_Prop, 0, 0, 50, 50)
   AddGadgetItem(#Form_Prop, 0, Language("Form", "Toolbox"))
@@ -195,7 +195,7 @@ Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
         AddGadgetItem(gadgetlist, i, Gadgets()\name, ImageID(Gadgets()\icon), 1)
         SetGadgetItemData(gadgetlist, i, Gadgets()\type)
         i + 1
-      EndIf 
+      EndIf
     Next
     
     node1 = i
@@ -303,7 +303,7 @@ Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   
 EndProcedure
 
-Procedure FormPanel_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)   
+Procedure FormPanel_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
 
   If *Entry\IsSeparateWindow
     ResizeGadget(#Form_SplitterInt, 5, 5, PanelWidth-10, PanelHeight-10)
@@ -327,7 +327,7 @@ Procedure FormPanel_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeigh
 
 EndProcedure
 
-Procedure FormPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)   
+Procedure FormPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
   If EventGadgetID = #Form_SplitterInt
     grid_ResizeGadget(propgrid, 0, 0, GadgetWidth(#Form_GridContainer), GadgetHeight(#Form_GridContainer))
     ResizeGadget(#Form_PropObjList, 0, 0, GetGadgetAttribute(#Form_Prop, #PB_Panel_ItemWidth), GetGadgetAttribute(#Form_Prop, #PB_Panel_ItemHeight))
@@ -510,7 +510,7 @@ Procedure FormPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
                   
                   FormChanges(1)
                   
-                  Select form_gadget_type 
+                  Select form_gadget_type
                     Case #Form_Type_ListIcon
                       AddElement(FormWindows()\FormGadgets()\Columns())
                       FormWindows()\FormGadgets()\Columns()\name = "Column 1"
@@ -549,7 +549,7 @@ Procedure FormPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         EndSelect
         
         
-      Case #Form_PropObjList 
+      Case #Form_PropObjList
         Select EventType()
           Case #PB_EventType_DragStart
             propobjlist_src = GetGadgetState(#Form_PropObjList)
@@ -598,7 +598,7 @@ Procedure FormPanel_DestroyFunction(*Entry.ToolsPanelEntry)
   
 EndProcedure
 
-Procedure FormPanel_PreferenceLoad(*Entry.ToolsPanelEntry)  
+Procedure FormPanel_PreferenceLoad(*Entry.ToolsPanelEntry)
 
   PreferenceGroup("FormPanel")
   form_splitter_pos = ReadPreferenceLong("SplitterPos", 230)
@@ -609,11 +609,11 @@ Procedure FormPanel_PreferenceLoad(*Entry.ToolsPanelEntry)
 
 EndProcedure
 
-Procedure FormPanel_PreferenceSave(*Entry.ToolsPanelEntry)   
+Procedure FormPanel_PreferenceSave(*Entry.ToolsPanelEntry)
       
   PreferenceComment("")
-  PreferenceGroup("FormPanel")  
-    WritePreferenceLong("SplitterPos", form_splitter_pos)    
+  PreferenceGroup("FormPanel")
+    WritePreferenceLong("SplitterPos", form_splitter_pos)
 EndProcedure
 
 ;- Initialisation code
@@ -635,7 +635,7 @@ CompilerIf Not #SpiderBasic
   AvailablePanelTools()\FunctionsVT          = @FormPanel_VT
   AvailablePanelTools()\NeedPreferences      = 1
   AvailablePanelTools()\NeedConfiguration    = 0
-  AvailablePanelTools()\NeedDestroyFunction  = 1   
+  AvailablePanelTools()\NeedDestroyFunction  = 1
   AvailablePanelTools()\ToolID$              = "Form"
   AvailablePanelTools()\PanelTitle$          = "FormShort"
   AvailablePanelTools()\ToolName$            = "FormLong"

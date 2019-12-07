@@ -77,7 +77,7 @@ M_INLINE(void *) PB_Object_GetObjectDirect(PB_Object *Object, integer DynamicOrA
 
 // Threadlocal memory functions
 //
-// Note: PB_Object_InitThreadMemory() may only be called from a library init function! Initialization at a 
+// Note: PB_Object_InitThreadMemory() may only be called from a library init function! Initialization at a
 //   later time will cause problems if other threads are already running
 //
 M_PBFUNCTION(void *)  PB_Object_GetThreadMemory(integer MemoryID);
@@ -116,7 +116,7 @@ M_PBFUNCTION(void)            PB_Object_BlockClearAll   (PB_BlockAlloc *Alloc);
  * Note: Do not call PB_Object_InitThreadMemory in such an initialization function, as this
  *   may only be done from a real library init function (see above)
  *
- * The function PB_Object_InitOnce() can be used to initialize a PB_Object at a late time in 
+ * The function PB_Object_InitOnce() can be used to initialize a PB_Object at a late time in
  * a simple way. *Output must be 0 before the call, and will be 0 after. There is no need for a Guard here
  */
 
@@ -124,9 +124,9 @@ M_PBFUNCTION(void)            PB_Object_BlockClearAll   (PB_BlockAlloc *Alloc);
   typedef union
   {
     PVOID *Ptr;
-  } PB_Object_Guard;  
+  } PB_Object_Guard;
   #define PB_OBJECT_GUARD_VALUE {0}
- 
+
 #else
   typedef pthread_once_t PB_Object_Guard;
   #define PB_OBJECT_GUARD_VALUE PTHREAD_ONCE_INIT

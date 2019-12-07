@@ -9,7 +9,7 @@
 CompilerIf #CompileWindows
 
 
-Interface IMSHelp20 
+Interface IMSHelp20
   QueryInterface(a.l, b.l)
   AddRef()
   Release()
@@ -54,7 +54,7 @@ DataSection
   IID_IMSHelp20: ; 4A791148-19E4-11D3-B86B-00C04F79F802
     Data.l $4A791148
     Data.w $19E4, $11D3
-    Data.b $B8, $6B, $00, $C0, $4F, $79, $F8, $02      
+    Data.b $B8, $6B, $00, $C0, $4F, $79, $F8, $02
 EndDataSection
 
 
@@ -69,7 +69,7 @@ Procedure.l IsPlatformSDKAvaiable()
       ValueData$ = Space(260)
       ValueDataSize = 260
       
-      Result = RegEnumValue_(NewKey, Index, @ValueName$, @ValueNameSize, 0, @ValueType, 0, 0)      
+      Result = RegEnumValue_(NewKey, Index, @ValueName$, @ValueNameSize, 0, @ValueType, 0, 0)
       
       If Result = #ERROR_SUCCESS And ValueType = #REG_SZ
         
@@ -80,7 +80,7 @@ Procedure.l IsPlatformSDKAvaiable()
           
         ElseIf Left(UCase(ValueName$),27) = "MS-HELP://MS.PSDKSVR2003SP1" ; current version: ms-help://MS.PSDKSVR2003SP1.1033
           PlatformSDKHelpString$ = ValueName$
-          IsAvaiable = 1          
+          IsAvaiable = 1
                       
           Break ; this one has priority, so abort now
         EndIf
@@ -97,7 +97,7 @@ Procedure.l IsPlatformSDKAvaiable()
 EndProcedure
 
 
-Procedure.l DisplayPlatformSDKHelp(Keyword$)  
+Procedure.l DisplayPlatformSDKHelp(Keyword$)
   Success = 0
 
   If PlatformSDKObject = 0
@@ -121,7 +121,7 @@ Procedure.l DisplayPlatformSDKHelp(Keyword$)
         PlatformSDKObject\SetCollection(BSTR_HelpSelection, BSTR_NullString)
       
         SysFreeString_(BSTR_HelpSelection)
-        SysFreeString_(BSTR_NullString)                
+        SysFreeString_(BSTR_NullString)
           
       EndIf
     
@@ -131,10 +131,10 @@ Procedure.l DisplayPlatformSDKHelp(Keyword$)
 
   If PlatformSDKObject <> 0
   
-    BSTR_Keyword = SysAllocString_(@Keyword$)                
+    BSTR_Keyword = SysAllocString_(@Keyword$)
     
     PlatformSDKObject\Contents()
-    If PlatformSDKObject\DisplayTopicFromF1Keyword(BSTR_Keyword) = #S_OK    
+    If PlatformSDKObject\DisplayTopicFromF1Keyword(BSTR_Keyword) = #S_OK
          
       PlatformSDKObject\SyncIndex(BSTR_Keyword, 1)
       PlatformSDKObject\Index()
@@ -185,14 +185,14 @@ Procedure DisplayHelp(CurrentWord$)
     OpenHelp(PureBasicPath$+"Help\ASMFPU.hlp", CurrentWord$)
   
   ElseIf *ActiveSource\EnableASM And IsASMKeyword(CurrentWord$) And FileSize(PureBasicPath$+"Help\ASM.hlp") > 0
-    OpenHelp(PureBasicPath$+"Help\ASM.hlp", CurrentWord$)      
+    OpenHelp(PureBasicPath$+"Help\ASM.hlp", CurrentWord$)
   
   ElseIf CurrentWord$ = ""
     HtmlHelp(PureBasicPath$ + #ProductName$ + ".chm", "")
     
     
   ElseIf CheckPureBasicKeyWords(CurrentWord$) <> ""
-    HtmlHelp(PureBasicPath$ + #ProductName$ + ".chm", CheckPureBasicKeyWords(CurrentWord$)+".html")      
+    HtmlHelp(PureBasicPath$ + #ProductName$ + ".chm", CheckPureBasicKeyWords(CurrentWord$)+".html")
     
     
   Else
@@ -206,22 +206,22 @@ Procedure DisplayHelp(CurrentWord$)
         CurrentWord$ = Left(CurrentWord$, Len(CurrentWord$)-1) ; cut the '_'
         
         If FileSize(PureBasicpath$+"Help\Win32.hlp") > 0
-          OpenHelp(PureBasicpath$+"Help\Win32.hlp", CurrentWord$)      
+          OpenHelp(PureBasicpath$+"Help\Win32.hlp", CurrentWord$)
         Else
           If DisplayPlatformSDKHelp(CurrentWord$) = 0
             HtmlHelp(PureBasicPath$+#ProductName$ + ".chm", "") ; Fallback to PB help if all API help fail
           EndIf
-        EndIf    
+        EndIf
       
       ElseIf HelpDirectory$ = "UNKNOWN"
         HtmlHelp(PureBasicPath$+#ProductName$ + ".chm", "")
       
       Else ; build in command or userlib
         If LCase(Right(HelpDirectory$, 4)) = ".chm"  ; A .chm has been defined in the .DESC -> It's a user lib with its own help
-          HtmlHelp(PureBasicPath$+"Help\"+HelpDirectory$, CurrentWord$+".html")        
-        Else 
-          HtmlHelp(PureBasicPath$+#ProductName$ + ".chm", HelpDirectory$+"/"+CurrentWord$+".html")      
-        EndIf      
+          HtmlHelp(PureBasicPath$+"Help\"+HelpDirectory$, CurrentWord$+".html")
+        Else
+          HtmlHelp(PureBasicPath$+#ProductName$ + ".chm", HelpDirectory$+"/"+CurrentWord$+".html")
+        EndIf
         
       EndIf
     EndIf

@@ -23,7 +23,7 @@ XIncludeFile "GetRequiredSize.pb"
 ;
 ; Accepted keys in the XML:
 ;
-;   All accepted by DlgBinBase 
+;   All accepted by DlgBinBase
 ;
 
 ; We need to keep track of the current PanelGadget, so the DlgTab knows where
@@ -56,7 +56,7 @@ Procedure DlgPanel_New(*StaticData.DialogObjectData)
 
     If *StaticData\Gadget <> -1
       *THIS\Gadget = *StaticData\Gadget
-    EndIf    
+    EndIf
     
     ; Multiline flag (windows)
     ;
@@ -65,9 +65,9 @@ Procedure DlgPanel_New(*StaticData.DialogObjectData)
     ;
 ;     CompilerIf #CompileWindows
 ;       If UCase(DialogObjectKey(*StaticData, "MULTILINE")) = "YES"
-;         *THIS\Multiline = 1 ; is applied when all childs are added.    
+;         *THIS\Multiline = 1 ; is applied when all childs are added.
 ;       EndIf
-;     CompilerEndIf    
+;     CompilerEndIf
     
     ; Push the Gadget info on our stack
     ;
@@ -84,17 +84,17 @@ EndProcedure
 
 Procedure DlgPanel_SizeRequest(*THIS.DlgPanel, *Width.LONG, *Height.LONG)
   *Width\l  = 0
-  *Height\l = 0  
+  *Height\l = 0
 
   For i = 0 To *THIS\NbChilds-1
     Height = 0
     Width  = 0
     
-    *THIS\Childs[i]\SizeRequest(@Width, @Height)       
+    *THIS\Childs[i]\SizeRequest(@Width, @Height)
     
     *Width\l  = Max(*Width\l,  Width)
     *Height\l = Max(*Height\l, Height)
-  Next i   
+  Next i
 
   CompilerIf #CompileWindows
     *Width\l  + 4
@@ -104,7 +104,7 @@ Procedure DlgPanel_SizeRequest(*THIS.DlgPanel, *Width.LONG, *Height.LONG)
   CompilerIf #CompileMac
     *Width\l  + 8
     *Height\l + GetGadgetAttribute(*THIS\Gadget, #PB_Panel_TabHeight) + 4
-  CompilerEndIf  
+  CompilerEndIf
 
   CompilerIf #CompileLinux
     If *THIS\NbChilds > 0
@@ -138,13 +138,13 @@ Procedure DlgPanel_SizeApply(*THIS.DlgPanel, x, y, Width, Height)
       gtk_widget_size_request_(*Label, @Size.GtkRequisition)     ; get the min required size
         
       Height - Size\height - 14
-      Width  - 4    
+      Width  - 4
     EndIf
-  CompilerEndIf 
+  CompilerEndIf
 
   For i = 0 To *THIS\NbChilds-1
-    *THIS\Childs[i]\SizeApply(0, 0, Width, Height)        
-  Next i      
+    *THIS\Childs[i]\SizeApply(0, 0, Width, Height)
+  Next i
 EndProcedure
 
 
@@ -153,11 +153,11 @@ Procedure DlgPanel_Finish(*THIS.DlgPanel)
   
   ; Multiline flag (windows, must be after CloseGadgetList())
 ;   CompilerIf #CompileWindows
-;     If *THIS\Multiline 
-;       SetWindowLongPtr_(GadgetID(*THIS\Gadget), #GWL_STYLE, GetWindowLongPtr_(GadgetID(*THIS\Gadget), #GWL_STYLE) | #TCS_MULTILINE)    
+;     If *THIS\Multiline
+;       SetWindowLongPtr_(GadgetID(*THIS\Gadget), #GWL_STYLE, GetWindowLongPtr_(GadgetID(*THIS\Gadget), #GWL_STYLE) | #TCS_MULTILINE)
 ;     EndIf
-;   CompilerEndIf    
-;   
+;   CompilerEndIf
+;
   ; Pop our Panel stack
   ;
   If LastElement(DlgPanel_Stack())
@@ -219,7 +219,7 @@ Procedure DlgTab_SizeRequest(*THIS.DlgTab, *Width.LONG, *Height.LONG)
 
   If *THIS\Child
     *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
-  EndIf  
+  EndIf
   
   *Width\l  = Max(*THIS\RequestedWidth +*THIS\lMargin+*THIS\lMargin,  *THIS\StaticData\MinWidth)
   *Height\l = Max(*THIS\RequestedHeight+*THIS\tMargin+*THIS\bMargin, *THIS\StaticData\MinHeight)
@@ -231,10 +231,10 @@ Procedure DlgTab_SizeApply(*THIS.DlgTab, x, y, Width, Height)
 
   If *THIS\Child
     x = 0
-    y = 0     
-    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)      
+    y = 0
+    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)
     *THIS\Child\SizeApply(x, y, Width, Height)
-  EndIf  
+  EndIf
   
 EndProcedure
 

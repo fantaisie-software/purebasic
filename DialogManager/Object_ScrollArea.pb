@@ -12,7 +12,7 @@ XIncludeFile "Object_BinBase.pb"
 ;
 ; Accepted keys in the XML:
 ;
-;   All accepted by DlgBinBase 
+;   All accepted by DlgBinBase
 ;
 ;   The Childs will always get the size they ask for, exept if scrolling is set to one
 ;   direction only and the gadget cannot grow.
@@ -45,9 +45,9 @@ Procedure DlgScroll_New(*StaticData.DialogObjectData)
   If *THIS
     *THIS\VTable      = ?DlgScroll_VTable
     *THIS\StaticData  = *StaticData
-    *THIS\HasTitle    = #False ; for DlgBinBase_Update()    
+    *THIS\HasTitle    = #False ; for DlgBinBase_Update()
     *THIS\InnerWidth  = Val(DialogObjectKey(*StaticData, "INNERWIDTH"))
-    *THIS\InnerHeight = Val(DialogObjectKey(*StaticData, "INNERHEIGHT"))   
+    *THIS\InnerHeight = Val(DialogObjectKey(*StaticData, "INNERHEIGHT"))
     
     Value$ = DialogObjectKey(*StaticData, "STEP")
     If Value$
@@ -73,7 +73,7 @@ Procedure DlgScroll_New(*StaticData.DialogObjectData)
       *THIS\Gadget = *StaticData\Gadget
     EndIf
     
-    DlgBinBase_GetOptions(*THIS) ; read all the margin etc options    
+    DlgBinBase_GetOptions(*THIS) ; read all the margin etc options
   EndIf
   
   ProcedureReturn *THIS
@@ -86,8 +86,8 @@ Procedure DlgScroll_SizeRequest(*THIS.DlgScroll, *Width.LONG, *Height.LONG)
   *THIS\RequestedHeight = 0
 
   If *THIS\Child
-    *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)    
-  EndIf  
+    *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
+  EndIf
   
   ; TODO: maybe measure the real sizes of the scrollbars
   If *THIS\Scrolling = #DlgScroll_Vertical
@@ -124,14 +124,14 @@ Procedure DlgScroll_SizeApply(*THIS.DlgScroll, x, y, Width, Height)
     SetGadgetAttribute(*THIS\Gadget, #PB_ScrollArea_InnerHeight, AreaHeight)
   EndIf
 
-  If *THIS\Child      
+  If *THIS\Child
     x = 0
     y = 0
     Width  = AreaWidth
-    Height = AreaHeight      
-    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)      
+    Height = AreaHeight
+    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)
     *THIS\Child\SizeApply(x, y, Width, Height)
-  EndIf  
+  EndIf
   
 EndProcedure
 

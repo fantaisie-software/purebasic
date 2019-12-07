@@ -8,7 +8,7 @@
 ;
 ; simple pack utility to use the PB packer functions from the commandline.
 ;
-; usage: 
+; usage:
 ;   pbpack [-q] [-l<n>] outfile.pak file1 file2 file3 ...
 ;
 ; NOTE: Commadline order is important! (-q always before -l if both exist)
@@ -38,12 +38,12 @@ CompilerIf #PB_Compiler_Processor = #PB_Processor_x86
     Message$ + "File : " + ErrorFile() + #CRLF$
     Message$ + "Line : " + Str(ErrorLine())
   
-    MessageRequester("Error", Message$, 0)    
+    MessageRequester("Error", Message$, 0)
     End
 
   ErrorHandler_End:
 
-  OnErrorGoto(?ErrorHandler)  
+  OnErrorGoto(?ErrorHandler)
   
 CompilerEndIf
 CompilerEndIf
@@ -87,7 +87,7 @@ EndIf
 
 OpenConsole() ; open console in any case for error output!
 
-If verbose  
+If verbose
   ; PackerCallback(@Callback())
 EndIf
 
@@ -121,17 +121,17 @@ While InFile$ <> ""
     PrintN("")
     CloseFile(0)
     DeleteFile(OutFile$)
-    End 1    
+    End 1
   ElseIf Lof(1) = 0
     PrintN("  Error: Compression of the file failed! (File is Empty)")
     PrintN("")
     CloseFile(0)
     CloseFile(1)
     DeleteFile(OutFile$)
-    End 1       
+    End 1
   Else
   
-    NbFiles + 1 
+    NbFiles + 1
     If verbose
       Print("  ")
     EndIf
@@ -147,7 +147,7 @@ While InFile$ <> ""
       CloseFile(1)
       CloseFile(0)
       DeleteFile(OutFile$)
-      End 1       
+      End 1
     EndIf
     
     ReadData(1, *InBuffer, FileSize)
@@ -165,14 +165,14 @@ While InFile$ <> ""
     EndIf
     
     If verbose
-      PrintN(RSet("", 76-DisplayedChars, "#")) ; fill the line to 100% :)  
+      PrintN(RSet("", 76-DisplayedChars, "#")) ; fill the line to 100% :)
     EndIf
     
     FreeMemory(*InBuffer)
     FreeMemory(*Outbuffer)
 
   EndIf
-  InFile$ = ProgramParameter() 
+  InFile$ = ProgramParameter()
 Wend
 
 CloseFile(0)

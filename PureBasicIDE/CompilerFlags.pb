@@ -12,7 +12,7 @@
 ;
 ; This is shared with the GUI Debugger
 
-; NOTE: The three special constants (#DEMO, #GTKVersion, #DEBUG) are now set by the 
+; NOTE: The three special constants (#DEMO, #GTKVersion, #DEBUG) are now set by the
 ; makefile via commandline, so no "MakeFlags.pb" is needed anymore.
 ;
 ; The following make targets are available:
@@ -118,7 +118,7 @@ Global DefaultEditorFontName$
 
 ; OS specific switches
 ;
-CompilerSelect #PB_Compiler_OS 
+CompilerSelect #PB_Compiler_OS
 CompilerCase #PB_OS_Windows ;- Windows
   #CompileWindows   = 1  ; this is for the lazy guys :)
   #CompileLinux     = 0
@@ -146,9 +146,9 @@ CompilerCase #PB_OS_Windows ;- Windows
   #DEFAULT_DebuggerBringToTop = 0
   
   #DEFAULT_ListIconImageSize  = 16 ; on windows 16x16 is required to even display!
-  #DEFAULT_ListIconImageOffset= 2  ; place to put the real 12x12 image  
+  #DEFAULT_ListIconImageOffset= 2  ; place to put the real 12x12 image
   
-  #DEFAULT_VisualDesigner     = "Visual Designer.exe" 
+  #DEFAULT_VisualDesigner     = "Visual Designer.exe"
   #DEFAULT_CatalogPath        = "Catalogs\"
   #DEFAILT_LibraryViewerPlugin= "Debugger\"
   #DEFAULT_ThemePath          = "Themes\"
@@ -199,12 +199,12 @@ CompilerCase #PB_OS_Linux ;- Linux
   #PATH_CaseInSensitive = 0  ; are filenames case sensitive?
 
   ; Platform specific default values:
-  ;  
+  ;
   #DEFAULT_DebuggerSource     = "../PureBasicDebugger/"
   #DEFAULT_DebuggerStayOnTop  = 1
-  #DEFAULT_DebuggerBringToTop = 1  
+  #DEFAULT_DebuggerBringToTop = 1
   
-  #DEFAULT_ListIconImageSize  = 12 ; 12x12 looks better on linux  
+  #DEFAULT_ListIconImageSize  = 12 ; 12x12 looks better on linux
   #DEFAULT_ListIconImageOffset= 0  ; place to put the real 12x12 image
   
   #DEFAULT_VisualDesigner     = ""     ; will remove the VD entry from the menu
@@ -217,7 +217,7 @@ CompilerCase #PB_OS_Linux ;- Linux
   #DEFAULT_SplitterWidth      = 6
   #DEFAULT_EditorFontSize     = 10
    
-  #DEFAULT_FunctionFile       = "pbfunctions.txt"  ; related to Temp$ path 
+  #DEFAULT_FunctionFile       = "pbfunctions.txt"  ; related to Temp$ path
   #DEFAULT_ApiFile            = "compilers/apifunctions.txt" ; related to PB path
 
   #DEFAULT_NewLineType        = 1 ; lf
@@ -226,7 +226,7 @@ CompilerCase #PB_OS_Linux ;- Linux
   #DEFAULT_ImageBorder        = 0 ; for colorpicker
   
   #DEFAULT_CanWindowStayOnTop = 1
-  #DEFAULT_BigButtons         = 1 
+  #DEFAULT_BigButtons         = 1
   
   #DEFAULT_PreferencesTreeWidth = 300 ; Linux has bigger fonts, so increase this size
   
@@ -267,9 +267,9 @@ CompilerCase #PB_OS_MacOS ;- MacOS
  
   #DEFAULT_DebuggerSource     = "../PureBasicDebugger/"
   #DEFAULT_DebuggerStayOnTop  = 1
-  #DEFAULT_DebuggerBringToTop = 1  
+  #DEFAULT_DebuggerBringToTop = 1
   
-  #DEFAULT_ListIconImageSize  = 12 ; 12x12 looks better on linux  
+  #DEFAULT_ListIconImageSize  = 12 ; 12x12 looks better on linux
   #DEFAULT_ListIconImageOffset= 0  ; place to put the real 12x12 image
   
   #DEFAULT_VisualDesigner     = ""     ; will remove the VD entry from the menu
@@ -281,7 +281,7 @@ CompilerCase #PB_OS_MacOS ;- MacOS
   DefaultEditorFontName$      = "Monaco"
   #DEFAULT_EditorFontSize     = 14
    
-  #DEFAULT_FunctionFile       = "pbfunctions.txt"  ; related to Temp$ path 
+  #DEFAULT_FunctionFile       = "pbfunctions.txt"  ; related to Temp$ path
   #DEFAULT_ApiFile            = "compilers/apifunctions.txt" ; related to PB path
 
   #DEFAULT_NewLineType        = 1 ; lf (on OS X, the norm is now lf, no more 'cr' http://www.purebasic.fr/english/viewtopic.php?f=24&t=55391)

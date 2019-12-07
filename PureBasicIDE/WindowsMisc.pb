@@ -8,13 +8,13 @@
 ;windows only
 CompilerIf #CompileWindows
 
-#NM_CUSTOMDRAW = #NM_FIRST - 12 
+#NM_CUSTOMDRAW = #NM_FIRST - 12
 
-#CDDS_ITEM = $10000  
-#CDDS_PREPAINT = $1 
-#CDDS_ITEMPREPAINT = #CDDS_ITEM | #CDDS_PREPAINT 
-#CDRF_DODEFAULT = $0 
-#CDRF_NOTIFYITEMDRAW = $20 
+#CDDS_ITEM = $10000
+#CDDS_PREPAINT = $1
+#CDDS_ITEMPREPAINT = #CDDS_ITEM | #CDDS_PREPAINT
+#CDRF_DODEFAULT = $0
+#CDRF_NOTIFYITEMDRAW = $20
 
 #ODS_NOACCEL = $100
 
@@ -37,28 +37,28 @@ Global OSVersion = OSVersion() ; Used to disactivate the ownerdraw menus on NT4
 
 Procedure UpdateRegistryKey(Key, Path$, Value$)
 
-	NeedUpdate = 1 ; By default, the key is changed, unless we found exactly the same string
+  NeedUpdate = 1 ; By default, the key is changed, unless we found exactly the same string
 
   If RegCreateKeyEx_(Key, Path$, 0, #Null$, #REG_OPTION_NON_VOLATILE, #KEY_ALL_ACCESS, 0, @NewKey, @KeyInfo) = #ERROR_SUCCESS
 
-		; Get the current value, and check if we need to update it
-		;  
-  	CurrentValue$ = Space(#MAX_PATH*2) ; Ensure it will be big enough for a path + some infos
-  	CurrentValueSize = Len(CurrentValue$)*#CharSize
-  	If RegQueryValueEx_(NewKey, "", 0, @Type, @CurrentValue$, @CurrentValueSize) = #ERROR_SUCCESS
-    	If Value$ = CurrentValue$
-    		NeedUpdate = 0
-    	EndIf
+    ; Get the current value, and check if we need to update it
+    ;
+    CurrentValue$ = Space(#MAX_PATH*2) ; Ensure it will be big enough for a path + some infos
+    CurrentValueSize = Len(CurrentValue$)*#CharSize
+    If RegQueryValueEx_(NewKey, "", 0, @Type, @CurrentValue$, @CurrentValueSize) = #ERROR_SUCCESS
+      If Value$ = CurrentValue$
+        NeedUpdate = 0
+      EndIf
     EndIf
     
     If NeedUpdate
-    	RegSetValueEx_(NewKey, "", 0, #REG_SZ,  @Value$, (Len(Value$)+1) * #CharSize)
+      RegSetValueEx_(NewKey, "", 0, #REG_SZ,  @Value$, (Len(Value$)+1) * #CharSize)
     EndIf
     
     RegCloseKey_(NewKey)
   EndIf
 
-	ProcedureReturn NeedUpdate
+  ProcedureReturn NeedUpdate
 EndProcedure
 
 
@@ -84,14 +84,14 @@ Procedure OSStartupCode()
     CompilerIf Defined(FredLocalCompile, #PB_Constant) ; Fred config
       CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
         CompilerIf #SpiderBasic
-          PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\SpiderBasic_x64\" 
-        CompilerElse  
+          PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\SpiderBasic_x64\"
+        CompilerElse
           PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\PureBasic_x64\"
         CompilerEndIf
       CompilerElse
         CompilerIf #SpiderBasic
-          PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\SpiderBasic_x86\" 
-        CompilerElse  
+          PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\SpiderBasic_x86\"
+        CompilerElse
           PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\PureBasic_x86\"
         CompilerEndIf
       CompilerEndIf
@@ -124,7 +124,7 @@ Procedure OSStartupCode()
     PreferencesFile$ = PureBasicConfigPath() + #PreferenceFileName$
   EndIf
   
-  If AddToolsFile$ = "" ; Only change if not set by commandline  
+  If AddToolsFile$ = "" ; Only change if not set by commandline
     AddToolsFile$    = PureBasicConfigPath() + "Tools.prefs"
   EndIf
     
@@ -166,12 +166,12 @@ Procedure OSStartupCode()
     ; Create .pb, .pbi, .pbp and .pbf association
     ; We include the position of preferences etc in the registry commandline
     ; so switches like /LOCAL will also effect later opened files.
-    ;    
+    ;
     CommandLine$ =          Chr(34) + ProgramFilename() + Chr(34)
     CommandLine$ + " "    + Chr(34) + "%1"              + Chr(34)
     CommandLine$ + " /P " + Chr(34) + PreferencesFile$  + Chr(34)
     CommandLine$ + " /T " + Chr(34) + TemplatesFile$    + Chr(34)
-    CommandLine$ + " /A " + Chr(34) + AddToolsFile$     + Chr(34)    
+    CommandLine$ + " /A " + Chr(34) + AddToolsFile$     + Chr(34)
     CommandLine$ + " /H " + Chr(34) + HistoryDatabaseFile$ + Chr(34)
     
     ; Note: since we now include the /P /A etc into the registry commandline,
@@ -181,7 +181,7 @@ Procedure OSStartupCode()
     ; The icon is at index 1. It is the PBSourceFile.ico that is added in the
     ; resource script created by makeversion.exe
     ;
-    Icon$ = ProgramFilename() + ",1" 
+    Icon$ = ProgramFilename() + ",1"
   
     ; Vista and newer - only HKEY_CURRENT_USER is allowed!
     ; Now also used on XP, as else if an admin runs the IDE, the user will never be able
@@ -234,18 +234,18 @@ Procedure OSStartupCode()
       NeedUpdate | UpdateRegistryKey(#HKEY_LOCAL_MACHINE, "Software\CLASSES\" + #ProjectFileExtension, ExecutableName$)
       NeedUpdate | UpdateRegistryKey(#HKEY_LOCAL_MACHINE, "Software\CLASSES\" + #FormFileExtension, ExecutableName$)
       
-    EndIf  
+    EndIf
     
     ; We don't do it at every start, as it can take some time, and a bad desktop flikering (if the registry hasn't
     ; changed since the last run, there is no need refresh anyway)
     ;
     If NeedUpdate
-	    ; Notify the shell of the extension change
-	    ;
-	    #SHCNE_ASSOCCHANGED = $08000000
-	    #SHCNF_IDLIST       = $0000    
-	    SHChangeNotify_(#SHCNE_ASSOCCHANGED, #SHCNF_IDLIST, #Null, #Null)
-	  EndIf
+      ; Notify the shell of the extension change
+      ;
+      #SHCNE_ASSOCCHANGED = $08000000
+      #SHCNF_IDLIST       = $0000
+      SHChangeNotify_(#SHCNE_ASSOCCHANGED, #SHCNF_IDLIST, #Null, #Null)
+    EndIf
     
   EndIf
  
@@ -260,7 +260,7 @@ EndProcedure
 
 Procedure OSEndCode()
 
-  ClosePlatformSDKWindow()   
+  ClosePlatformSDKWindow()
   
   If RunOnceMutex
     CloseHandle_(RunOnceMutex)
@@ -282,7 +282,7 @@ Procedure ApplySYSTEMMenuState(MenuItem)
   If info\fState & #MFS_DISABLED
     EnableMenuItem_(DebuggerSystemMenu, MenuItem<<4, #MF_BYCOMMAND|#MF_GRAYED)
   Else
-    EnableMenuItem_(DebuggerSystemMenu, MenuItem<<4, #MF_BYCOMMAND|#MF_ENABLED)    
+    EnableMenuItem_(DebuggerSystemMenu, MenuItem<<4, #MF_BYCOMMAND|#MF_ENABLED)
   EndIf
   
 EndProcedure
@@ -310,7 +310,7 @@ Procedure MainWindowCallback(Window, Message, wParam, lParam)
       ; There is almost no flicker anymore, so it actually looks quite good.
       ;
       ; Note: don't put this in the LoadSourceFile() routine as it can be call from the debugger and flushing the event will get another debug event !
-      FlushEvents()      
+      FlushEvents()
     Next i
     
     DragFinish_(*hdrop)
@@ -319,7 +319,7 @@ Procedure MainWindowCallback(Window, Message, wParam, lParam)
     wParam & $FFF0    ; mask out the windows internal 4 bits
     If wParam < $F000 ; check for our own commands
       PostMessage_(WindowID(#WINDOW_Main), #WM_COMMAND, wParam>>4, 0) ; simulate the normal menu command
-      result = 0    
+      result = 0
     EndIf
     
   ;ElseIf Message = #WM_UNINITMENUPOPUP ; This one is Windows 98/2000/XP only (ie: not NT4)
@@ -351,16 +351,16 @@ Procedure MainWindowCallback(Window, Message, wParam, lParam)
       ApplySYSTEMMenuState(#MENU_LibraryViewer)
 
       Result = 0
-    EndIf  
+    EndIf
     
   ; allow external programs to access the Log (ie TailBite)
   ; Now also handles the RunOnce feature's data
   ;
   ElseIf Message = #WM_COPYDATA
-    *copydata.COPYDATASTRUCT = lParam    
-    If *copydata\dwData = AsciiConst3('L', 'O', 'G') And *ActiveSource And *copydata\cbData > 0      
+    *copydata.COPYDATASTRUCT = lParam
+    If *copydata\dwData = AsciiConst3('L', 'O', 'G') And *ActiveSource And *copydata\cbData > 0
       Message$ = PeekS(*copydata\lpData, *copydata\cbData, #PB_Ascii)
-      Debugger_AddLog_BySource(*ActiveSource, Message$, Date())    
+      Debugger_AddLog_BySource(*ActiveSource, Message$, Date())
       result = #True
         
     ElseIf *copydata\dwData = AsciiConst('O', 'N', 'C', 'E') And *copydata\cbData > 0  ; RunOnce files are sent
@@ -369,16 +369,16 @@ Procedure MainWindowCallback(Window, Message, wParam, lParam)
       
       ; Check if this message is for this instance
       ;
-      If IsEqualFile(Sender$, ProgramFilename())      
+      If IsEqualFile(Sender$, ProgramFilename())
         ; Send a response back to the sender that it can quit now
         PostMessage_(wParam, RunOnceMessageID, AsciiConst('D', 'O', 'N', 'E'), WindowID(#WINDOW_Main))
       
         ; Open the files
-        Count = Val(StringField(List$, 2, Chr(10)))        
-        Line  = Val(StringField(List$, 3, Chr(10))) ; for -l option        
+        Count = Val(StringField(List$, 2, Chr(10)))
+        Line  = Val(StringField(List$, 3, Chr(10))) ; for -l option
         
         For i = 1 To Count
-          FileName$ = StringField(List$, 3+i, Chr(10)) 
+          FileName$ = StringField(List$, 3+i, Chr(10))
   
           If FileName$ <> ""
             LoadSourceFile(FileName$)
@@ -394,7 +394,7 @@ Procedure MainWindowCallback(Window, Message, wParam, lParam)
         
         If Line > 0 And Line < GetLinesCount(*ActiveSource) ; apply the -l option
           ChangeActiveLine(Line, -5)
-        EndIf   
+        EndIf
         
         ; NOTE:
         ;   Do not call SetWindowForeground_Real() as it does the ugly hack to attach to the forground
@@ -414,9 +414,9 @@ Procedure MainWindowCallback(Window, Message, wParam, lParam)
         ;   Explorer doubleclicks and the like which is the important part
         ;
         SetWindowForeground(#WINDOW_Main)
-      EndIf        
+      EndIf
         
-      result = #True 
+      result = #True
       
     ElseIf *copydata\dwData = AsciiConst('A', 'U', 'T', '1') And *copydata\cbData > 0
       ; Automation request. Use new values like 'AUT2' for new/incompatible requests
@@ -444,8 +444,8 @@ Procedure MainWindowCallback(Window, Message, wParam, lParam)
       DisplayPopupMenu(#POPUPMENU, WindowID(#WINDOW_Main))
     EndIf
   
-  ElseIf Message = #WM_DRAWITEM  
-    *lpdis.DRAWITEMSTRUCT = lParam 
+  ElseIf Message = #WM_DRAWITEM
+    *lpdis.DRAWITEMSTRUCT = lParam
     
     If wParam <> 0 ; ownerdrawn statusbar field
       TextStart$ = Left(StatusBarOwnerDrawText$, *lpdis\itemData&$FFFF)
@@ -460,7 +460,7 @@ Procedure MainWindowCallback(Window, Message, wParam, lParam)
       DrawTextRect\left+1
       DrawText_(*lpdis\hDC, @TextStart$, Len(TextStart$), DrawTextRect, #DT_VCENTER | #DT_SINGLELINE)
       
-      hOldObject = SelectObject_(*lpdis\hDC, StatusbarBoldFontID)            
+      hOldObject = SelectObject_(*lpdis\hDC, StatusbarBoldFontID)
       
       GetTextExtentPoint32_(*lpdis\hDC, TextBold$, Len(TextBold$), @sizebold.SIZE)
       DrawTextRect\left+sizestart\cx
@@ -468,20 +468,20 @@ Procedure MainWindowCallback(Window, Message, wParam, lParam)
                                
       If hOldObject
         SelectObject_(*lpdis\hDC, hOldObject)
-      EndIf      
+      EndIf
 
       DrawTextRect\left+sizebold\cx
       DrawText_(*lpdis\hDC, @TextEnd$, Len(TextEnd$), DrawTextRect, #DT_VCENTER | #DT_SINGLELINE)
     EndIf
       
-    result = #True        
+    result = #True
     
   ElseIf Message = #WM_QUERYENDSESSION
     ; session is about to end, check for unsaved sources / close them
-    ; only checks/asks, does not close sources 
+    ; only checks/asks, does not close sources
     ; returns 1 when not aported, so the shutdown can continue
     If Window = WindowID(#WINDOW_Main) ; received on multiple windows, so respond only once!
-      result = CheckAllSourcesSaved() 
+      result = CheckAllSourcesSaved()
     EndIf
   
   ElseIf Message = #WM_ENDSESSION
@@ -491,7 +491,7 @@ Procedure MainWindowCallback(Window, Message, wParam, lParam)
     If wParam And Window = WindowID(#WINDOW_Main)
       ; orderly shutdown of the IDE.
       ; Note that asking/saving sources is done on the WM_QUERYENDSESSION already
-      ShutdownIDE() 
+      ShutdownIDE()
     EndIf
     
   EndIf
@@ -519,15 +519,15 @@ Procedure CreateSYSTEMMenu()
   If hMenu And hSubMenu
     
     ; Menu ids in the sysmenu should be below $F000 and above $000F (as the low 4 bits are masked out)
-    ;    
+    ;
     AppendMenu_(hSubMenu, #MF_STRING, #MENU_Stop<<4,  LanguageStringAddress("MenuItem","Stop"))
     AppendMenu_(hSubMenu, #MF_STRING, #MENU_Run<<4,   LanguageStringAddress("MenuItem","Run"))
-    AppendMenu_(hSubMenu, #MF_STRING, #MENU_Kill<<4,  LanguageStringAddress("MenuItem","Kill"))  
+    AppendMenu_(hSubMenu, #MF_STRING, #MENU_Kill<<4,  LanguageStringAddress("MenuItem","Kill"))
     AppendMenu_(hSubMenu, #MF_SEPARATOR, 0, @"")
     AppendMenu_(hSubMenu, #MF_STRING, #MENU_Step<<4,  LanguageStringAddress("MenuItem","Step"))
-    AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepX<<4, LanguageStringAddress("MenuItem","StepX")) 
-    AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepOver<<4, LanguageStringAddress("MenuItem","StepOver")) 
-    AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepOut<<4, LanguageStringAddress("MenuItem","StepOut"))          
+    AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepX<<4, LanguageStringAddress("MenuItem","StepX"))
+    AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepOver<<4, LanguageStringAddress("MenuItem","StepOver"))
+    AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepOut<<4, LanguageStringAddress("MenuItem","StepOut"))
     AppendMenu_(hSubMenu, #MF_SEPARATOR, 0, @"")
     AppendMenu_(hSubMenu, #MF_STRING, #MENU_DebugOutput<<4,  LanguageStringAddress("MenuItem","DebugOutput"))
     AppendMenu_(hSubMenu, #MF_STRING, #MENU_Watchlist<<4,    LanguageStringAddress("MenuItem","WatchList"))
@@ -536,15 +536,15 @@ Procedure CreateSYSTEMMenu()
     AppendMenu_(hSubMenu, #MF_STRING, #MENU_History<<4,      LanguageStringAddress("MenuItem","History"))
     AppendMenu_(hSubMenu, #MF_STRING, #MENU_Memory<<4,       LanguageStringAddress("MenuItem","Memory"))
     AppendMenu_(hSubMenu, #MF_STRING, #MENU_LibraryViewer<<4,       LanguageStringAddress("MenuItem","LibraryViewer"))
-    AppendMenu_(hSubMenu, #MF_STRING, #MENU_DebugAsm<<4,     LanguageStringAddress("MenuItem","DebugAsm"))         
+    AppendMenu_(hSubMenu, #MF_STRING, #MENU_DebugAsm<<4,     LanguageStringAddress("MenuItem","DebugAsm"))
     
     
     ; insert into system menu
     ;
     InsertMenu_(hMenu, #SC_CLOSE, #MF_BYCOMMAND|#MF_POPUP|#MF_STRING, hSubMenu, LanguageStringAddress("MenuTitle","Debugger"))
-    InsertMenu_(hMenu, #SC_CLOSE, #MF_BYCOMMAND|#MF_SEPARATOR, 0, @"")    
+    InsertMenu_(hMenu, #SC_CLOSE, #MF_BYCOMMAND|#MF_SEPARATOR, 0, @"")
     
-    DebuggerSystemMenu = hSubMenu ; the value is needed in the mainWindowCallback too  
+    DebuggerSystemMenu = hSubMenu ; the value is needed in the mainWindowCallback too
   EndIf
   
 EndProcedure
@@ -562,7 +562,7 @@ Procedure GetWindowMetrics()
   StatusbarHeight = StatusBarHeight(#STATUSBAR)
   ; GUI is created now, so set up the callback
   ;
-  SetWindowCallback(@MainWindowCallback())  
+  SetWindowCallback(@MainWindowCallback())
     
   ; Turn on the drag & drop feature..
   ;
@@ -571,13 +571,13 @@ Procedure GetWindowMetrics()
   ; Windows only:
   ; Adds the debugger commands to the Systemmenu, making them accessible by rightclicking
   ; on the TaskbarButton too
-  ;  
+  ;
   CreateSYSTEMMenu()
   
-  ; get the bold font for the statusbar  
+  ; get the bold font for the statusbar
   If GetObject_(GetStockObject_(#DEFAULT_GUI_FONT), SizeOf(LOGFONT), @fontinfo.LOGFONT)
-    fontinfo\lfWeight = #FW_BOLD  
-    StatusbarBoldFontID = CreateFontIndirect_(@fontinfo)    
+    fontinfo\lfWeight = #FW_BOLD
+    StatusbarBoldFontID = CreateFontIndirect_(@fontinfo)
   EndIf
   
   If StatusbarBoldFontID = 0
@@ -651,9 +651,9 @@ Procedure RunOnce_Startup(InitialSourceLine)
       ; wait for a response
       Timeout.q = ElapsedMilliseconds() + 10000 ; since it is a hidden process, we can afford a bigger timeout
       
-      While Timeout > ElapsedMilliseconds()      
-        If WaitWindowEvent(100) = RunOnceMessageID               
-          If EventwParam() = AsciiConst('H', 'W', 'N', 'D') ; response from an older instance          
+      While Timeout > ElapsedMilliseconds()
+        If WaitWindowEvent(100) = RunOnceMessageID
+          If EventwParam() = AsciiConst('H', 'W', 'N', 'D') ; response from an older instance
             Target = EventlParam() ; target HWND
             
             ; allow the target window to grab the keyboard focus.
@@ -682,24 +682,24 @@ Procedure RunOnce_Startup(InitialSourceLine)
             copydata.COPYDATASTRUCT
             copydata\dwData = AsciiConst('O', 'N', 'C', 'E') ; to identify the kind of data ('LOG' is used to access the error log)
             copydata\cbData = (Len(List$) + 1)*#CharSize ; include null
-            copydata\lpData = @List$             
+            copydata\lpData = @List$
             SendMessage_(Target, #WM_COPYDATA, WindowID(0), @copydata)
             
             Debug "Sending #WM_COPYDATA: " + List$
 
             ; No more loop quitting, as there could be multiple instances answering,
-            ; and we have to send the WM_COPYDATA to all (the right one will react to it)          
+            ; and we have to send the WM_COPYDATA to all (the right one will react to it)
             ;
             ; To not wait the full timeout, the (correct) target will send a 'DONE'
             ; Message, on which we quit
           ElseIf EventwParam() = AsciiConst('D', 'O', 'N', 'E')
             Break
           
-          EndIf     
-        EndIf             
+          EndIf
+        EndIf
       Wend
       
-      CloseWindow(0)    
+      CloseWindow(0)
     EndIf
     
   EndIf
@@ -727,16 +727,16 @@ EndProcedure
 ; Similar to RunOnce, but must support concurrent sessions (to support the case of RunOnce=off)
 Procedure Session_IsRunning(OSSessionID$)
   Handle = OpenMutex_(#SYNCHRONIZE, #False, @OSSessionID$)
-  If Handle 
+  If Handle
     CloseHandle_(Handle)
     ProcedureReturn #True
   EndIf
 
-  ProcedureReturn #False 
+  ProcedureReturn #False
 EndProcedure
 
 Procedure.s Session_Start()
-  SID$ = "PB_Session_" + History_MakeUniqueId()  
+  SID$ = "PB_Session_" + History_MakeUniqueId()
   SessionMutex = CreateMutex_(0, 0, SID$)
   ProcedureReturn SID$
 EndProcedure
@@ -751,12 +751,12 @@ Procedure AutoComplete_FocusProc(Window, Message, wParam, lParam)
   If AutoCompleteWindowOpen
 
     If Message = #WM_KILLFOCUS
-      AutoComplete_Close()      
+      AutoComplete_Close()
           
-    ElseIf Message = #WM_KEYDOWN Or Message = #WM_KEYUP    
-      ; redirect all key messages except up/down, tab and return/esc to the scintilla gadget    
+    ElseIf Message = #WM_KEYDOWN Or Message = #WM_KEYUP
+      ; redirect all key messages except up/down, tab and return/esc to the scintilla gadget
       If wParam = #VK_LEFT Or wParam = #VK_RIGHT Or wParam = #VK_PRIOR Or wParam = #VK_NEXT Or wParam = #VK_HOME Or wParam = #VK_END
-        AutoComplete_Close()   
+        AutoComplete_Close()
         PostMessage_(GadgetID(*ActiveSource\EditorGadget), Message, wParam, lParam) ; also post this message!
         
       ; handle specially the tab/enter if it is the "confirm" shortcut
@@ -769,18 +769,18 @@ Procedure AutoComplete_FocusProc(Window, Message, wParam, lParam)
       ; Note: for unhandled Enter/Tab, we must first close the AutoComplete window or else
       ; the event will not be handled by the main window as it checks if the Scintilla has the focus!
       ElseIf wParam = #VK_RETURN Or wParam = #VK_TAB
-        AutoComplete_Close()   
-        PostMessage_(GadgetID(*ActiveSource\EditorGadget), Message, wParam, lParam) ; also post this message!      
+        AutoComplete_Close()
+        PostMessage_(GadgetID(*ActiveSource\EditorGadget), Message, wParam, lParam) ; also post this message!
         ProcedureReturn 0
 
       ElseIf  wParam <> #VK_UP And wParam <> #VK_DOWN And wParam <> #VK_ESCAPE
         PostMessage_(GadgetID(*ActiveSource\EditorGadget), Message, wParam, lParam)
-        ProcedureReturn 0     
-      EndIf 
+        ProcedureReturn 0
+      EndIf
 
-    EndIf   
+    EndIf
   
-  EndIf   
+  EndIf
 
   ProcedureReturn CallWindowProc_(AutoCompleteWindowProc, Window, Message, wParam, lParam)
 EndProcedure
@@ -801,7 +801,7 @@ Procedure AutoComplete_AdjustWindowSize(MaxWidth, MaxHeight)
     NewHeight = ItemHeight * CountGadgetItems(#GADGET_AutoComplete_List) + GetSystemMetrics_(#SM_CYEDGE) * 2
     If NewHeight > MaxHeight
       NewHeight = MaxHeight
-    EndIf    
+    EndIf
   EndIf
   
   ResizeGadget(#GADGET_AutoComplete_List, #PB_Ignore, #PB_Ignore, #PB_Ignore, NewHeight)
@@ -819,7 +819,7 @@ Procedure ToolsPanel_ApplyColors(Gadget)
   Else
     If ToolsPanelFontID <> #PB_Default
       SetGadgetFont(Gadget, ToolsPanelFontID)
-    EndIf  
+    EndIf
     
     If ToolsPanelUseColors
       SetGadgetColor(Gadget, #PB_Gadget_FrontColor, ToolsPanelFrontColor)

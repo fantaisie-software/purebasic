@@ -5,10 +5,10 @@
  */
 
 typedef struct _iter {
-	unsigned long i1;
-	unsigned long i2;
-	unsigned long i3;
-	void *p;
+  unsigned long i1;
+  unsigned long i2;
+  unsigned long i3;
+  void *p;
 } iter_t;
 
 typedef void (*iterate_fn)(void *obj, iter_t *iter);

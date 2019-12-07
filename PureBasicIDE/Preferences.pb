@@ -27,8 +27,8 @@ Procedure LoadDialogPosition(*Position.DialogPosition, x=-1, y=-1, Width=0, Heig
   *Position\x           = ReadPreferenceLong(Prefix$+"X", x)
   *Position\y           = ReadPreferenceLong(Prefix$+"Y", y)
   *Position\Width       = ReadPreferenceLong(Prefix$+"Width", Width)
-  *Position\Height      = ReadPreferenceLong(Prefix$+"Height", Height)  
-  *Position\IsMaximized = ReadPreferenceLong(Prefix$+"IsMaximized", 0)  
+  *Position\Height      = ReadPreferenceLong(Prefix$+"Height", Height)
+  *Position\IsMaximized = ReadPreferenceLong(Prefix$+"IsMaximized", 0)
 EndProcedure
 
 ; SaveType: 0-save position only, 1-include width/height, 2-include maximize state
@@ -55,7 +55,7 @@ Procedure UpdatePreferenceSyntaxColor(ColorIndex, Color)
     Box(1, 1, Width-2, Height-2, Color)
     StopDrawing()
     SetGadgetState(#GADGET_Preferences_FirstColor+ColorIndex, ImageID(#IMAGE_Preferences_FirstColor+ColorIndex))
-  EndIf        
+  EndIf
 EndProcedure
 
 Procedure LoadPreferences()
@@ -67,16 +67,16 @@ Procedure LoadPreferences()
       PrefsVersion                = ReadPreferenceLong  ("Version", 0)
       AutoReload                  = ReadPreferenceLong  ("AutoReload"        , 1)
       MemorizeWindow              = ReadPreferenceLong  ("MemorizeWindow"    , 1)
-      CurrentLanguage$            = ReadPreferenceString("CurrentLanguage"   , "English")      
+      CurrentLanguage$            = ReadPreferenceString("CurrentLanguage"   , "English")
       LanguageFile$               = ReadPreferenceString("LanguageFile"      , "")
-      CurrentTheme$               = ReadPreferenceString("CurrentTheme"      , "SilkTheme.zip")      
+      CurrentTheme$               = ReadPreferenceString("CurrentTheme"      , "SilkTheme.zip")
       EnableBraceMatch            = ReadPreferenceLong  ("EnableBraceMatch"  , 1)
       EnableKeywordMatch          = ReadPreferenceLong  ("EnableKeywordMatch", 1)
       EnableKeywordBolding        = ReadPreferenceLong  ("EnableKeywordBolding", 1)
       EnableCaseCorrection        = ReadPreferenceLong  ("EnableCaseCorrection", 1)
-      EnableLineNumbers           = ReadPreferenceLong  ("EnableLineNumbers" ,  1)      
-      ShowWhiteSpace              = ReadPreferenceLong  ("ShowWhiteSpace"    , 0)    
-      ShowIndentGuides            = ReadPreferenceLong  ("ShowIndentGuides"  , 0)    
+      EnableLineNumbers           = ReadPreferenceLong  ("EnableLineNumbers" ,  1)
+      ShowWhiteSpace              = ReadPreferenceLong  ("ShowWhiteSpace"    , 0)
+      ShowIndentGuides            = ReadPreferenceLong  ("ShowIndentGuides"  , 0)
       AutoSave                    = ReadPreferenceLong  ("AutoSave"          , 1)
       AutoSaveAll                 = ReadPreferenceLong  ("AutoSaveAll"       , 1)
       SaveProjectSettings         = ReadPreferenceLong  ("SaveSettingsMode"  , 0)
@@ -130,7 +130,7 @@ Procedure LoadPreferences()
       
       FilesPanelMultiline    = ReadPreferenceLong("FilesPanelMultiline", #False)
       FilesPanelCloseButtons = ReadPreferenceLong("FilesPanelCloseButtons", #True)
-      FilesPanelNewButton    = ReadPreferenceLong("FilesPanelNewButton", #False)      
+      FilesPanelNewButton    = ReadPreferenceLong("FilesPanelNewButton", #False)
       
       CodeFileExtensions$ = ReadPreferenceString("CodeFileExtensions", "")
       
@@ -201,7 +201,7 @@ Procedure LoadPreferences()
       EndIf
      
     
-    ;- - Folding  
+    ;- - Folding
     PreferenceGroup("Folding")
       EnableFolding    = ReadPreferenceLong("EnableFolding",  1)
       
@@ -211,7 +211,7 @@ Procedure LoadPreferences()
       FoldStart$(1) = ";{"
       FoldStart$(2) = "Macro"
       FoldStart$(3) = "Procedure"
-      FoldStart$(4) = "ProcedureC"      
+      FoldStart$(4) = "ProcedureC"
       FoldStart$(5) = "ProcedureDLL"
       FoldStart$(6) = "ProcedureCDLL"
       FoldStart$(7) = "Module"
@@ -225,12 +225,12 @@ Procedure LoadPreferences()
       FoldEnd$(6) = "CompilerEndIf"
                   
       NbFoldStartWords = ReadPreferenceLong("StartWords", NbFoldStartWords)
-      NbFoldEndWords = ReadPreferenceLong("EndWords", NbFoldEndWords)      
+      NbFoldEndWords = ReadPreferenceLong("EndWords", NbFoldEndWords)
       For i = 1 To NbFoldStartWords
         FoldStart$(i) = ReadPreferenceString("Start_"+Str(i), FoldStart$(i))
       Next i
       For i = 1 To NbFoldEndWords
-        FoldEnd$(i)   = ReadPreferenceString("End_"+Str(i), FoldEnd$(i))      
+        FoldEnd$(i)   = ReadPreferenceString("End_"+Str(i), FoldEnd$(i))
       Next i
       
       ; If new keywords are added to the language, they should be handled like this:
@@ -257,18 +257,18 @@ Procedure LoadPreferences()
         Read.l NbIndentKeywords
         Dim IndentKeywords.IndentEntry(NbIndentKeywords)
         
-        For i = 0 To NbIndentKeywords-1        
+        For i = 0 To NbIndentKeywords-1
           Read.s IndentKeywords(i)\Keyword$
           Read.l IndentKeywords(i)\Before
           Read.l IndentKeywords(i)\After
-        Next i         
+        Next i
       
       Else
-        ; Load existing list      
+        ; Load existing list
         Dim IndentKeywords.IndentEntry(NbIndentKeywords)
         
         ; Note: we need to exclude all duplicate keywords (can happens if an old PB version is used with the same pref (new keywords will be added again)
-        ; 
+        ;
         ;
         NbUniqueIndentKeywords = 0
         For i = 0 To NbIndentKeywords-1
@@ -320,7 +320,7 @@ Procedure LoadPreferences()
         IndentKeywords(NbIndentKeywords)\Keyword$ = "EndModule"
         IndentKeywords(NbIndentKeywords)\Before = -1
         IndentKeywords(NbIndentKeywords)\After  = 0
-        NbIndentKeywords+1        
+        NbIndentKeywords+1
       EndIf
       
       If PrefsVersion < 540
@@ -339,7 +339,7 @@ Procedure LoadPreferences()
     PreferenceGroup("Projects")
       DefaultProjectFile$ = ReadPreferenceString("DefaultProject", "")
       
-      LoadDialogPosition(@ProjectOptionsPosition, -1, -1, 0, 0, "ProjectOptions") ; will get a minimum size anyway, so no default w/h            
+      LoadDialogPosition(@ProjectOptionsPosition, -1, -1, 0, 0, "ProjectOptions") ; will get a minimum size anyway, so no default w/h
       
     ;- - Form
     PreferenceGroup("Form")
@@ -359,7 +359,7 @@ Procedure LoadPreferences()
       EndSelect
       
     ;- - EditHistory
-    PreferenceGroup("EditHistory")    
+    PreferenceGroup("EditHistory")
       EnableHistory      = ReadPreferenceLong("Enable", 1)
       HistoryTimer       = ReadPreferenceLong("Timer", 5)
       HistoryMaxFileSize = ReadPreferenceLong("MaxFileSize", 2*1024*1024) ; 2mb max
@@ -373,12 +373,12 @@ Procedure LoadPreferences()
     PreferenceGroup("Issues")
       IssueMultiFile = ReadPreferenceLong("MultiFile", 1)
       SelectedIssue  = ReadPreferenceLong("Selected",  0) ; means display all issues
-      IssuesCol1     = ReadPreferenceLong("ColSize1", 60) 
-      IssuesCol2     = ReadPreferenceLong("ColSize2", 250) 
-      IssuesCol3     = ReadPreferenceLong("ColSize3", 50) 
-      IssuesCol4     = ReadPreferenceLong("ColSize4", 120) 
-      IssuesCol5     = ReadPreferenceLong("ColSize5", 80) 
-      IssueCount     = ReadPreferenceLong("Count", -1)   
+      IssuesCol1     = ReadPreferenceLong("ColSize1", 60)
+      IssuesCol2     = ReadPreferenceLong("ColSize2", 250)
+      IssuesCol3     = ReadPreferenceLong("ColSize3", 50)
+      IssuesCol4     = ReadPreferenceLong("ColSize4", 120)
+      IssuesCol5     = ReadPreferenceLong("ColSize5", 80)
+      IssueCount     = ReadPreferenceLong("Count", -1)
       
       ClearList(Issues())
       If IssueCount < 0
@@ -390,7 +390,7 @@ Procedure LoadPreferences()
         Issues()\Color       = Colors(#COLOR_DebuggerWarning)\UserValue
         Issues()\CodeMode    = 1 ; mark the backgroundo of the regex only
         Issues()\InTool      = 1
-        Issues()\InBrowser   = 0    
+        Issues()\InBrowser   = 0
         
         AddElement(Issues())
         Issues()\Name$       = "Fixme"
@@ -399,7 +399,7 @@ Procedure LoadPreferences()
         Issues()\Color       = Colors(#COLOR_DebuggerError)\UserValue
         Issues()\CodeMode    = 1 ; mark the backgroundo of the regex only
         Issues()\InTool      = 1
-        Issues()\InBrowser   = 0           
+        Issues()\InBrowser   = 0
         
       Else
       
@@ -418,10 +418,10 @@ Procedure LoadPreferences()
             Issues()\Priority = 0
           ElseIf Issues()\Priority > 4
             Issues()\Priority = 4
-          EndIf                
+          EndIf
         Next i
         
-      EndIf    
+      EndIf
       
       InitIssueList()
       
@@ -434,7 +434,7 @@ Procedure LoadPreferences()
       LoadDialogPosition(@BuildWindowPosition,      -1, -1, 550, 350, "Build")
       LoadDialogPosition(@UpdateWindowPositon,      -1, -1,   0,   0, "Updates")
     
-    ;- - Shortcuts  
+    ;- - Shortcuts
     PreferenceGroup("Shortcuts")
       Restore ShortcutItems
       For i = 0 To #MENU_LastShortcutItem
@@ -442,7 +442,7 @@ Procedure LoadPreferences()
         Read.s MenuItem$
         Read.l DefaultShortcut
         KeyboardShortcuts(i) = ReadPreferenceLong(MenuItem$, DefaultShortcut)
-      Next i    
+      Next i
 
       ; a little fix to not have a shortcut twice, since i switched two shortcut values in the defaults
       If KeyboardShortcuts(#MENU_ToggleFolds) = KeyboardShortcuts(#MENU_ToggleThisFold) And KeyboardShortcuts(#MENU_ToggleThisFold) = #SHORTCUT_ToggleThisFold
@@ -467,7 +467,7 @@ Procedure LoadPreferences()
         Toolbar(i)\Action$ = ReadPreferenceString("Action_"+Str(i), Toolbar(i)\Action$)
       Next i
     
-    ;- - FindWindow  
+    ;- - FindWindow
     PreferenceGroup("FindWindow")
       LoadDialogPosition(@FindWindowPosition)
       FindHistorySize            = ReadPreferenceLong("HistorySize", 10)
@@ -476,7 +476,7 @@ Procedure LoadPreferences()
       FindWholeWord              = ReadPreferenceLong("WholeWord", 0)
       FindSelectionOnly          = ReadPreferenceLong("SelectionOnly", 0)
       FindNoComments             = ReadPreferenceLong("NoComments", 0)
-      FindNoStrings              = ReadPreferenceLong("NoStrings", 0)   
+      FindNoStrings              = ReadPreferenceLong("NoStrings", 0)
       
       If FindHistorySize > #MAX_FindHistory
         FindHistorySize = #MAX_FindHistory
@@ -502,13 +502,13 @@ Procedure LoadPreferences()
       
       For j = 0 To 4
         For i = 1 To FindHistorySize
-          DiffDialogHistory(j, i) = ReadPreferenceString("History_"+Str(j)+"_"+Str(i), "")   
-        Next i     
+          DiffDialogHistory(j, i) = ReadPreferenceString("History_"+Str(j)+"_"+Str(i), "")
+        Next i
       Next j
 
-    ;- - GrepWindow  
-    PreferenceGroup("GrepWindow")  
-      LoadDialogPosition(@GrepWindowPosition)              
+    ;- - GrepWindow
+    PreferenceGroup("GrepWindow")
+      LoadDialogPosition(@GrepWindowPosition)
       GrepCaseSensitive          = ReadPreferenceLong("CaseSensitive", 0)
       GrepWholeWord              = ReadPreferenceLong("WholeWord", 0)
       GrepNoComments             = ReadPreferenceLong("NoComments", 0)
@@ -518,33 +518,33 @@ Procedure LoadPreferences()
       For i = 1 To FindHistorySize
         GrepFindHistory(i)       = ReadPreferenceString("FindHistory_"+Str(i), "")
         GrepDirectoryHistory(i)  = ReadPreferenceString("DirectoryHistory_"+Str(i), "")
-        GrepExtensionHistory(i)  = ReadPreferenceString("ExtensionHistory_"+Str(i), "")        
-      Next i      
+        GrepExtensionHistory(i)  = ReadPreferenceString("ExtensionHistory_"+Str(i), "")
+      Next i
     
     ;- - GrepOutput
     PreferenceGroup("GrepOutput")
-      LoadDialogPosition(@GrepOutputPosition, 100, 100, 430, 300)    
+      LoadDialogPosition(@GrepOutputPosition, 100, 100, 430, 300)
 
-;     ;- - CPUMonitor  
+;     ;- - CPUMonitor
 ;     PreferenceGroup("CPUMonitor")
 ;       CPUWindowX            = ReadPreferenceLong("X",            0)
 ;       CPUWindowY            = ReadPreferenceLong("Y",            0)
 ;       CPUWindowWidth        = ReadPreferenceLong("Width",      500)
 ;       CPUWindowHeight       = ReadPreferenceLong("Height",     400)
 ;       CPUUpdateIntervall    = ReadPreferenceLong("Intervall", 1000)
-;       CPUStayOnTop          = ReadPreferenceLong("OnTop",        1)      
+;       CPUStayOnTop          = ReadPreferenceLong("OnTop",        1)
 ;       DisplayCPUTotal       = ReadPreferenceLong("DisplayTotal", #PB_ListIcon_Checked)
 ;       DisplayCPUFree        = ReadPreferenceLong("DisplayFree",  0)
-;       
+;
 ;       Restore CPUMonitorColors
 ;       index = 0
 ;       Repeat
 ;         Read.l CPUColors(index)
 ;         index + 1
-;       Until CPUColors(index-1) = -1      
-;       
-;       NBCPUColors           = ReadPreferenceLong("NbColors", index)      
-;       
+;       Until CPUColors(index-1) = -1
+;
+;       NBCPUColors           = ReadPreferenceLong("NbColors", index)
+;
 ;       For index = 0 To NbCPUColors-1
 ;         CPUColors(index) = ReadPreferenceLong("Color_"+Str(index), CPUColors(index))
 ;       Next index
@@ -554,7 +554,7 @@ Procedure LoadPreferences()
       ToolsPanelWidth            = ReadPreferenceLong("Width", 220)
       ToolsPanelSide             = ReadPreferenceLong("Side", 0) ; Side: 0 = Right, 1 = Left
       ToolsPanelUseFont          = ReadPreferenceLong("UseFont", 0)
-      ToolsPanelUseColors        = ReadPreferenceLong("UseColors", 1)       
+      ToolsPanelUseColors        = ReadPreferenceLong("UseColors", 1)
       ToolsPanelFontName$        = ReadPreferenceString("Font", "")
       ToolsPanelFontSize         = ReadPreferenceLong("FontSize", 12)
       ToolsPanelFontStyle$       = ReadPreferenceString("FontStyle", "None")
@@ -562,14 +562,14 @@ Procedure LoadPreferences()
       CompilerIf #SpiderBasic
         ToolsPanelBackColor        = ReadPreferenceLong("BackColor", $FFFFFF)
       CompilerElse
-        ToolsPanelBackColor        = ReadPreferenceLong("BackColor", $DFFFFF)    
+        ToolsPanelBackColor        = ReadPreferenceLong("BackColor", $DFFFFF)
       CompilerEndIf
-      NoIndependantToolsColors   = ReadPreferenceLong("NoIndependantColors", 1) 
-      ToolsPanelAutoHide         = ReadPreferenceLong("AutoHide", 0)   
+      NoIndependantToolsColors   = ReadPreferenceLong("NoIndependantColors", 1)
+      ToolsPanelAutoHide         = ReadPreferenceLong("AutoHide", 0)
 
       
       CompilerIf #CompileWindows
-        ToolsPanelHideDelay        = ReadPreferenceLong("HideDelay", 2500)  
+        ToolsPanelHideDelay        = ReadPreferenceLong("HideDelay", 2500)
       CompilerElse
         ToolsPanelHideDelay = 0 ; no timer on linux/mac, so the delay must be 0
       CompilerEndIf
@@ -580,7 +580,7 @@ Procedure LoadPreferences()
       EndIf
       If FindString(UCase(ToolsPanelFontStyle$),"ITALIC",1)
         ToolsPanelFontStyle | #PB_Font_Italic
-      EndIf      
+      EndIf
       
       If ToolsPanelFontName$ = "" Or ToolsPanelUseFont = 0
         ToolsPanelFontID = #PB_Default
@@ -594,45 +594,45 @@ Procedure LoadPreferences()
       ;
       If ActiveToolsCount = -1 ; value didn't exist.. use the default setup
         ForEach AvailablePanelTools()
-          Name$ = UCase(AvailablePanelTools()\ToolID$)                      
+          Name$ = UCase(AvailablePanelTools()\ToolID$)
           If Name$ = "PROCEDUREBROWSER"
             AddElement(UsedPanelTools())  ; add the tool to the active list
-            UsedPanelTools() = @AvailablePanelTools() 
-            Break  
+            UsedPanelTools() = @AvailablePanelTools()
+            Break
           EndIf
-        Next AvailablePanelTools()                 
+        Next AvailablePanelTools()
         
-        ForEach AvailablePanelTools() 
-          Name$ = UCase(AvailablePanelTools()\ToolID$)                      
+        ForEach AvailablePanelTools()
+          Name$ = UCase(AvailablePanelTools()\ToolID$)
           If Name$ = "FORM"
             AddElement(UsedPanelTools())  ; add the tool to the active list
-            UsedPanelTools() = @AvailablePanelTools() 
-            Break  
+            UsedPanelTools() = @AvailablePanelTools()
+            Break
           EndIf
-        Next AvailablePanelTools()            
+        Next AvailablePanelTools()
         
-        ForEach AvailablePanelTools() 
-          Name$ = UCase(AvailablePanelTools()\ToolID$)                      
+        ForEach AvailablePanelTools()
+          Name$ = UCase(AvailablePanelTools()\ToolID$)
           If Name$ = "PROJECTPANEL"
             AddElement(UsedPanelTools())  ; add the tool to the active list
-            UsedPanelTools() = @AvailablePanelTools() 
-            Break  
+            UsedPanelTools() = @AvailablePanelTools()
+            Break
           EndIf
-        Next AvailablePanelTools()          
+        Next AvailablePanelTools()
         
         ForEach AvailablePanelTools()  ; add explorer after procedurebrowser!
-          Name$ = UCase(AvailablePanelTools()\ToolID$)                      
+          Name$ = UCase(AvailablePanelTools()\ToolID$)
           If Name$ = "EXPLORER"
             AddElement(UsedPanelTools())  ; add the tool to the active list
-            UsedPanelTools() = @AvailablePanelTools() 
-            Break  
+            UsedPanelTools() = @AvailablePanelTools()
+            Break
           EndIf
-        Next AvailablePanelTools()                         
+        Next AvailablePanelTools()
         
-      Else      
+      Else
         FormPresent = 0
         ClearList(UsedPanelTools())
-        For i = 1 To ActiveToolsCount 
+        For i = 1 To ActiveToolsCount
           Name$ = UCase(ReadPreferenceString("Tool_"+Str(i), ""))
           ForEach AvailablePanelTools()
             If Name$ = UCase(AvailablePanelTools()\ToolID$)
@@ -640,7 +640,7 @@ Procedure LoadPreferences()
               UsedPanelTools() = @AvailablePanelTools()
               Break
             EndIf
-          Next AvailablePanelTools()        
+          Next AvailablePanelTools()
           If Name$ = "FORM"
             FormPresent = 1
           EndIf
@@ -648,29 +648,29 @@ Procedure LoadPreferences()
         
         ; automatically add the form designer tool if upgrading from an older preferences file
         If PrefsVersion < 510 And FormPresent = 0
-          ForEach AvailablePanelTools() 
-            Name$ = UCase(AvailablePanelTools()\ToolID$)                      
+          ForEach AvailablePanelTools()
+            Name$ = UCase(AvailablePanelTools()\ToolID$)
             If Name$ = "FORM"
               AddElement(UsedPanelTools())  ; add the tool to the active list
-              UsedPanelTools() = @AvailablePanelTools() 
-              Break  
+              UsedPanelTools() = @AvailablePanelTools()
+              Break
             EndIf
-          Next AvailablePanelTools()        
+          Next AvailablePanelTools()
         EndIf
         
       EndIf
       
     ;- - ToolsPanelMetrics
     PreferenceGroup("ToolsPanelMetrics")
-      ; Now Read the window settings for all available tools 
+      ; Now Read the window settings for all available tools
       ;
       ForEach AvailablePanelTools()
         AvailablePanelTools()\ToolWindowX      = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_X", 0)
         AvailablePanelTools()\ToolWindowY      = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Y", 0)
         AvailablePanelTools()\ToolWindowWidth  = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Width", 250)
-        AvailablePanelTools()\ToolWindowHeight = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Height", 460)        
-        AvailablePanelTools()\IsToolStayOnTop  = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Top", 0)                
-      Next AvailablePanelTools()      
+        AvailablePanelTools()\ToolWindowHeight = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Height", 460)
+        AvailablePanelTools()\IsToolStayOnTop  = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Top", 0)
+      Next AvailablePanelTools()
             
       If ListSize(UsedPanelTools()) = 0
         ToolsPanelMode = 0 ; do not display the Panel at all
@@ -678,12 +678,12 @@ Procedure LoadPreferences()
         ToolsPanelMode = 1
       EndIf
       
-      ; now read the configuration for all available tools 
+      ; now read the configuration for all available tools
       ;
       ForEach AvailablePanelTools()
         If AvailablePanelTools()\NeedPreferences
           PanelTool.ToolsPanelInterface = @AvailablePanelTools()
-          PanelTool\PreferenceLoad()        
+          PanelTool\PreferenceLoad()
         EndIf
       Next AvailablePanelTools()
 
@@ -699,10 +699,10 @@ Procedure LoadPreferences()
       
     ;- - MacroErrorWindow
     PreferenceGroup("MacroErrorWindow")
-      MacroErrorWindowWidth      = ReadPreferenceLong("Width",  450)      
+      MacroErrorWindowWidth      = ReadPreferenceLong("Width",  450)
       MacroErrorWindowHeight     = ReadPreferenceLong("Height", 300)
     
-    ;- - StructureViewer  
+    ;- - StructureViewer
     PreferenceGroup("StructureViewer")
       LoadDialogPosition(@StructureViewerPosition, 100, 100, 400, 400)
       StructureViewerStayOnTop   = ReadPreferenceLong("StayOnTop", 1)
@@ -714,21 +714,21 @@ Procedure LoadPreferences()
         AddElement(Compilers())
         Compilers()\Executable$    = ReadPreferenceString("Compiler"+Str(i)+"_Exe", "")
         Compilers()\MD5$           = ReadPreferenceString("Compiler"+Str(i)+"_Md5", "")
-        Compilers()\VersionString$ = ReadPreferenceString("Compiler"+Str(i)+"_Version", "Unknown")        
+        Compilers()\VersionString$ = ReadPreferenceString("Compiler"+Str(i)+"_Version", "Unknown")
         
         If Compilers()\MD5$ <> "" And FileFingerprint(Compilers()\Executable$, #PB_Cipher_MD5) = Compilers()\MD5$
           ; the compiler is still there and has not been updated
-          Compilers()\Validated     = #True                    
+          Compilers()\Validated     = #True
           Compilers()\VersionNumber = Val(LSet(RemoveString(StringField(Compilers()\VersionString$, 2, " "), "."), 3, "0"))
         Else
           ; will try to get the info from the exe (and set it to validated)
-          GetCompilerVersion(Compilers()\Executable$, @Compilers())                    
+          GetCompilerVersion(Compilers()\Executable$, @Compilers())
         EndIf
       Next i
       SortCompilers()
       
       
-    ;- - CompilerDefaults  
+    ;- - CompilerDefaults
     PreferenceGroup("CompilerDefaults")
       LoadDialogPosition(@OptionWindowPosition)
       LoadDialogPosition(@ProjectOptionWindowPosition, -1, -1, 0, 0, "ProjectOption")
@@ -741,11 +741,11 @@ Procedure LoadPreferences()
       OptionDPIAware             = ReadPreferenceLong("DPIAware", 0)
       OptionThread               = ReadPreferenceLong("Thread",    0)
       OptionOnError              = ReadPreferenceLong("OnError",   0)
-      OptionCPU                  = ReadPreferenceLong("CPU",       0)  
+      OptionCPU                  = ReadPreferenceLong("CPU",       0)
       OptionExeFormat            = ReadPreferenceLong("ExeFormat", 0)
       OptionNewLineType          = ReadPreferenceLong("NewLineType", #DEFAULT_NewLineType)
       OptionSubSystem$           = ReadPreferenceString("SubSystem", "")
-      OptionErrorLog             = ReadPreferenceLong("ShowErrorLog", 1)      
+      OptionErrorLog             = ReadPreferenceLong("ShowErrorLog", 1)
       OptionEncoding             = ReadPreferenceLong("TextEncoding", 1) ; UTF8 text is default
       OptionUseCompileCount      = ReadPreferenceLong("UseCompileCount", 0)
       OptionUseBuildCount        = ReadPreferenceLong("UseBuildCount", 0)
@@ -773,27 +773,27 @@ Procedure LoadPreferences()
       Next i
       
       SortList(CustomKeywordList(), 2)
-      BuildCustomKeywordTable()      
+      BuildCustomKeywordTable()
       
     ;- - AddTools
-    PreferenceGroup("AddTools")    
+    PreferenceGroup("AddTools")
       LoadDialogPosition(@AddToolsWindowPositon, -1, -1, 400, 300)
       EditToolsWindowPositon\x = ReadPreferenceLong("EditX",    -1)
-      EditToolsWindowPositon\y = ReadPreferenceLong("EditY",    -1)  
+      EditToolsWindowPositon\y = ReadPreferenceLong("EditY",    -1)
       
       
     ;- - AutoComplete
-    PreferenceGroup("AutoComplete")    
-      AutoCompleteCharMatchOnly   = ReadPreferenceLong("CharMatchOnly",      2) ; 0=list all, 1=list those matching 1st char, 2=list only matching all word 
+    PreferenceGroup("AutoComplete")
+      AutoCompleteCharMatchOnly   = ReadPreferenceLong("CharMatchOnly",      2) ; 0=list all, 1=list those matching 1st char, 2=list only matching all word
       AutoCompleteAddBrackets     = ReadPreferenceLong("AddBrackets",        0)
       AutoCompleteAddSpaces       = ReadPreferenceLong("AddSpaces",          0)
       AutoCompleteAddEndKeywords  = ReadPreferenceLong("AddEndKeyWords",     0)
       AutoCompleteWindowWidth     = ReadPreferenceLong("Width",            230) ; 150 is way too small on Linux
-      AutoCompleteWindowHeight    = ReadPreferenceLong("Height",           300) 
+      AutoCompleteWindowHeight    = ReadPreferenceLong("Height",           300)
       AutoPopupNormal             = ReadPreferenceLong("AutoPopup",          1)
       ;AutoCompleteNoStrings       = ReadPreferenceLong("NoStrings",          1)
       ;AutoCompleteNoComments      = ReadPreferenceLong("NoComments",         1)
-      AutoCompletePopupLength     = ReadPreferenceLong("AutoPopupLength",    3)      
+      AutoCompletePopupLength     = ReadPreferenceLong("AutoPopupLength",    3)
       AutoPopupStructures         = ReadPreferenceLong("CompleteStructures", 1)
       AutoPopupModules            = ReadPreferenceLong("CompleteModules",    1)
       AutoCompleteProject         = ReadPreferenceLong("ProjectItems",       1)
@@ -803,7 +803,7 @@ Procedure LoadPreferences()
       AutoCompleteNoStrings = 1
       AutoCompleteNoComments = 1
       
-      OldOptions = ReadPreferenceLong("Options", 0) 
+      OldOptions = ReadPreferenceLong("Options", 0)
       If OldOptions
         ; translate the old preferences options to the new format
         AutocompleteOptions(#ITEM_Variable)   = OldOptions & ((1<<#AUTOCOMPLETE_CurrentFileVariables)|(1<<#AUTOCOMPLETE_AllFileVariables))
@@ -817,7 +817,7 @@ Procedure LoadPreferences()
         AutocompleteOptions(#ITEM_Prototype)  = #False
         AutocompleteOptions(#ITEM_Structure)  = OldOptions & ((1<<#AUTOCOMPLETE_CurrentFileStructures)|(1<<#AUTOCOMPLETE_AllFileStructures))
         AutocompleteOptions(#ITEM_Interface)  = OldOptions & ((1<<#AUTOCOMPLETE_CurrentFileInterfaces)|(1<<#AUTOCOMPLETE_AllFileInterfaces))
-        AutocompleteOptions(#ITEM_Label)      = #False   
+        AutocompleteOptions(#ITEM_Label)      = #False
 
         AutocompletePBOptions(#PBITEM_Keyword)     = OldOptions & (1<<#AUTOCOMPLETE_PBKeywords)
         AutocompletePBOptions(#PBITEM_ASMKeyword)  = OldOptions & (1<<#AUTOCOMPLETE_ASMKeywords)
@@ -896,7 +896,7 @@ Procedure LoadPreferences()
         HelpWindowHeight           = ReadPreferenceLong("Height", 400)
         HelpWindowSplitter         = ReadPreferenceLong("Splitter", 180)
         HelpWindowMaximized        = ReadPreferenceLong("IsMaximized", 0)
-    CompilerEndIf 
+    CompilerEndIf
     
     ;- - Debugger
     PreferenceGroup("Debugger")
@@ -912,7 +912,7 @@ Procedure LoadPreferences()
         DebuggerKeepErrorMarks     = ReadPreferenceLong("KeepErrorMarks", 1)
         IsDebuggerMaximized        = ReadPreferenceLong("IsDebuggerMaximized", 0)
         DebuggerOnTop              = ReadPreferenceLong("StayOnTop", #DEFAULT_DebuggerStayOnTop)
-        DebuggerBringToTop         = ReadPreferenceLong("AutoBringToTop", #DEFAULT_DebuggerBringToTop) 
+        DebuggerBringToTop         = ReadPreferenceLong("AutoBringToTop", #DEFAULT_DebuggerBringToTop)
         CallDebuggerOnStart        = ReadPreferenceLong("CallOnStart", 0)
         CallDebuggerOnEnd          = ReadPreferenceLong("CallOnEnd", 0)
         LogTimeStamp               = ReadPreferenceLong("LogTimeStamp", 1)
@@ -943,13 +943,13 @@ Procedure LoadPreferences()
         EndIf
         If FindString(UCase(DebugOutFontStyle$),"ITALIC",1)
           DebugOutFontStyle | #PB_Font_Italic
-        EndIf      
+        EndIf
         
         If DebugOutFont$ = "" Or DebugOutUseFont = 0
           DebugOutFontID = #PB_Default
         Else
           DebugOutFontID = LoadFont(#FONT_DebugOut, DebugOutFont$, DebugOutFontSize, DebugOutFontStyle)
-        EndIf        
+        EndIf
 
         RegisterIsHex              = ReadPreferenceLong("RegisterIsHex", 0)
         StackIsHex                 = ReadPreferenceLong("StackIsHex", 0)
@@ -966,8 +966,8 @@ Procedure LoadPreferences()
         MemoryViewerX              = ReadPreferenceLong("MemoryViewerX", 50)
         MemoryViewerY              = ReadPreferenceLong("MemoryViewerY", 50)
         MemoryViewerWidth          = ReadPreferenceLong("MemoryViewerWidth", 600)
-        MemoryViewerHeight         = ReadPreferenceLong("MemoryViewerHeight", 300) 
-        MemoryViewerMaximize       = ReadPreferenceLong("MemoryViewerMaximize", 0) 
+        MemoryViewerHeight         = ReadPreferenceLong("MemoryViewerHeight", 300)
+        MemoryViewerMaximize       = ReadPreferenceLong("MemoryViewerMaximize", 0)
         
         VariableIsHex              = ReadPreferenceLong("VariableIsHex", 0)
         VariableWindowX            = ReadPreferenceLong("VariableWindowX", 100)
@@ -985,13 +985,13 @@ Procedure LoadPreferences()
         WatchListWindowX           = ReadPreferenceLong("WatchListWindowX", 50)
         WatchListWindowY           = ReadPreferenceLong("WatchListWindowY", 50)
         WatchListWindowWidth       = ReadPreferenceLong("WatchListWindowWidth", 700)
-        WatchListWindowHeight      = ReadPreferenceLong("WatchListWindowHeight", 300) 
+        WatchListWindowHeight      = ReadPreferenceLong("WatchListWindowHeight", 300)
         WatchListWindowMaximize    = ReadPreferenceLong("WatchListWindowMaximize", 0)
         
         LibraryViewerX             = ReadPreferenceLong("LibraryViewerX", 120)
         LibraryViewerY             = ReadPreferenceLong("LibraryViewerY", 120)
         LibraryViewerWidth         = ReadPreferenceLong("LibraryViewerWidth", 600)
-        LibraryViewerHeight        = ReadPreferenceLong("LibraryViewerHeight", 440) 
+        LibraryViewerHeight        = ReadPreferenceLong("LibraryViewerHeight", 440)
         LibraryViewerSplitter1     = ReadPreferenceLong("LibraryViewerSplitter1", 300)
         LibraryViewerSplitter2     = ReadPreferenceLong("LibraryViewerSplitter2", 130)
         LibraryViewerMaximize      = ReadPreferenceLong("LibraryViewerMaximize", 0)
@@ -1000,7 +1000,7 @@ Procedure LoadPreferences()
         DebuggerMainWindowX        = ReadPreferenceLong("DebuggerMainWindowX", 80)
         DebuggerMainWindowY        = ReadPreferenceLong("DebuggerMainWindowY", 80)
         DebuggerMainWindowWidth    = ReadPreferenceLong("DebuggerMainWindowWidth", 600)
-        DebuggerMainWindowHeight   = ReadPreferenceLong("DebuggerMainWindowHeight", 500)          
+        DebuggerMainWindowHeight   = ReadPreferenceLong("DebuggerMainWindowHeight", 500)
         
         AutoOpenDebugOutput        = ReadPreferenceLong("AutoOpenDebugOutput", 0)
         AutoOpenAsmWindow          = ReadPreferenceLong("AutoOpenAsmWindow", 0)
@@ -1030,7 +1030,7 @@ Procedure LoadPreferences()
         PurifierWindowX            = ReadPreferenceLong("PurifierWindowX", 50)
         PurifierWindowY            = ReadPreferenceLong("PurifierWindowY", 50)
 
-  ClosePreferences()  
+  ClosePreferences()
 EndProcedure
 
 
@@ -1039,8 +1039,8 @@ Procedure SavePreferences()
 
 
   If CreatePreferences(PreferencesFile$)
-    PreferenceComment(" PureBasic IDE Preference File")    
-    PreferenceComment("")  
+    PreferenceComment(" PureBasic IDE Preference File")
+    PreferenceComment("")
   
     ;- - Global
     PreferenceComment("")
@@ -1051,7 +1051,7 @@ Procedure SavePreferences()
       WritePreferenceString("CurrentLanguage",      CurrentLanguage$)
       WritePreferenceString("LanguageFile",         LanguageFile$)
       WritePreferenceString("CurrentTheme",         CurrentTheme$)
-      WritePreferenceString("SourceDirectory",      SourcePath$) 
+      WritePreferenceString("SourceDirectory",      SourcePath$)
       ;WritePreferenceLong  ("EnableColoring",       EnableColoring)
       WritePreferenceLong  ("EnableBraceMatch",     EnableBraceMatch)
       WritePreferenceLong  ("EnableKeywordMatch",   EnableKeywordMatch)
@@ -1063,7 +1063,7 @@ Procedure SavePreferences()
       WritePreferenceLong  ("ShowIndentGuides",     ShowIndentGuides)
       WritePreferenceLong  ("AutoSave",             AutoSave)
       WritePreferenceLong  ("AutoSaveAll",          AutoSaveAll)
-      WritePreferenceLong  ("SaveSettingsMode",     SaveProjectSettings)       
+      WritePreferenceLong  ("SaveSettingsMode",     SaveProjectSettings)
       WritePreferenceLong  ("RunOnce",              Editor_RunOnce)
       WritePreferenceLong  ("ShowToolbar",          ShowMainToolbar)
       WritePreferenceLong  ("TabLength",            TabLength)
@@ -1071,8 +1071,8 @@ Procedure SavePreferences()
       WritePreferenceLong  ("MemorizeCursor",       MemorizeCursor)
       WritePreferenceLong  ("MemorizeMarkers",      MemorizeMarkers)
       WritePreferenceLong  ("LastFilePattern",      SelectedFilePattern)
-      WritePreferenceLong  ("EnableMenuIcons",      EnableMenuIcons)  
-      WritePreferenceLong  ("DisplayFullPath",      DisplayFullPath)   
+      WritePreferenceLong  ("EnableMenuIcons",      EnableMenuIcons)
+      WritePreferenceLong  ("DisplayFullPath",      DisplayFullPath)
       WritePreferenceLong  ("NoSplashScreen",       NoSplashScreen)
       WritePreferenceLong  ("AlwaysHideLog",        AlwaysHideLog)
       WritePreferenceLong  ("ShowCompilerProgress", ShowCompilerProgress)
@@ -1110,19 +1110,19 @@ Procedure SavePreferences()
         If Colors(i)\Enabled = 0
           WritePreferenceLong(ColorKey$+"_Disabled", 1)
         EndIf
-      Next i      
+      Next i
 
       EditorFontStyle$ = ""
       If EditorFontStyle & #PB_Font_Bold
         EditorFontStyle$ + "Bold,"
       EndIf
       If EditorFontStyle & #PB_Font_Italic
-        EditorFontStyle$ + "Italic,"      
-      EndIf      
+        EditorFontStyle$ + "Italic,"
+      EndIf
       
-      WritePreferenceString("EditorFontName",       EditorFontName$)      
+      WritePreferenceString("EditorFontName",       EditorFontName$)
       WritePreferenceLong  ("EditorFontSize",       EditorFontSize)
-      WritePreferenceString("EditorFontStyle",      EditorFontStyle$)    
+      WritePreferenceString("EditorFontStyle",      EditorFontStyle$)
       
     ;- - Projects
     PreferenceGroup("Projects")
@@ -1135,7 +1135,7 @@ Procedure SavePreferences()
     ;- - Folding
     PreferenceComment("")
     PreferenceGroup("Folding")
-      WritePreferenceLong("EnableFolding", EnableFolding)      
+      WritePreferenceLong("EnableFolding", EnableFolding)
       
       NbSavedWords = 0
       For i = 1 To NbFoldStartWords
@@ -1163,11 +1163,11 @@ Procedure SavePreferences()
       WritePreferenceLong("BackspaceUnindent", BackspaceUnindent)
       WritePreferenceLong("NbKeywords",        NbIndentKeywords)
       
-      For i = 0 To NbIndentKeywords-1        
+      For i = 0 To NbIndentKeywords-1
         WritePreferenceString("Keyword_"+Str(i), IndentKeywords(i)\Keyword$)
         WritePreferenceLong("Before_"+Str(i), IndentKeywords(i)\Before)
         WritePreferenceLong("After_"+Str(i), IndentKeywords(i)\After)
-      Next i         
+      Next i
       
     ;- - Form
     PreferenceGroup("Form")
@@ -1180,7 +1180,7 @@ Procedure SavePreferences()
       WritePreferenceLong("FormSkinVersion",  FormSkinVersion)
     
     ;- - EditHistory
-    PreferenceGroup("EditHistory")    
+    PreferenceGroup("EditHistory")
       WritePreferenceLong("Enable", EnableHistory)
       WritePreferenceLong("Timer", HistoryTimer)
       WritePreferenceLong("MaxFileSize", HistoryMaxFileSize)
@@ -1212,7 +1212,7 @@ Procedure SavePreferences()
         WritePreferenceLong("Mode_" + i,      Issues()\CodeMode)
         WritePreferenceLong("InTool_" + i,    Issues()\InTool)
         WritePreferenceLong("InBrowser_" + i, Issues()\InBrowser)
-      Next Issues()  
+      Next Issues()
             
           
     ;- - MiscWindows
@@ -1221,8 +1221,8 @@ Procedure SavePreferences()
       SaveDialogPosition(@PreferenceWindowPositon,  0, "Preference")
       SaveDialogPosition(@AboutWindowPositon,       0, "About")
       SaveDialogPosition(@SortSourcesWindowPositon, 0, "SortSources")
-      SaveDialogPosition(@WarningWindowPosition,    1, "Warning")      
-      SaveDialogPosition(@BuildWindowPosition,      1, "Build")      
+      SaveDialogPosition(@WarningWindowPosition,    1, "Warning")
+      SaveDialogPosition(@BuildWindowPosition,      1, "Build")
       SaveDialogPosition(@UpdateWindowPositon,      0, "Updates")
       
     ;- - Shortcuts
@@ -1258,44 +1258,44 @@ Procedure SavePreferences()
       WritePreferenceLong  ("WholeWord",     FindWholeWord)
       WritePreferenceLong  ("SelectionOnly", FindSelectionOnly)
       WritePreferenceLong  ("NoComments",    FindNoComments)
-      WritePreferenceLong  ("NoStrings",     FindNoStrings)       
+      WritePreferenceLong  ("NoStrings",     FindNoStrings)
     
       For i = 1 To FindHistorySize
         If FindSearchHistory(i) <> ""
-          WritePreferenceString("SearchHistory_"+Str(i), FindSearchHistory(i))        
+          WritePreferenceString("SearchHistory_"+Str(i), FindSearchHistory(i))
         EndIf
       Next i
       
       For i = 1 To FindHistorySize
         If FindReplaceHistory(i) <> ""
-          WritePreferenceString("ReplaceHistory_"+Str(i), FindReplaceHistory(i))      
+          WritePreferenceString("ReplaceHistory_"+Str(i), FindReplaceHistory(i))
         EndIf
       Next i
       
     ;- - DiffWindow
     PreferenceComment("")
     PreferenceGroup("DiffWindow")
-      SaveDialogPosition(@DiffWindowPosition, 2, "Output")   
-      SaveDialogPosition(@DiffDirectoryWindowPosition, 2, "Directory")   
-      SaveDialogPosition(@DiffDialogWindowPosition, 0, "Dialog")   
+      SaveDialogPosition(@DiffWindowPosition, 2, "Output")
+      SaveDialogPosition(@DiffDirectoryWindowPosition, 2, "Directory")
+      SaveDialogPosition(@DiffDialogWindowPosition, 0, "Dialog")
       WritePreferenceLong("Vertical",    DiffVertical)
-      WritePreferenceLong("Colors",      DiffShowColors)     
-      WritePreferenceLong("IgnoreCase",  DiffIgnoreCase)     
-      WritePreferenceLong("IgnoreSpaceAll",   DiffIgnoreSpaceAll)     
-      WritePreferenceLong("IgnoreSpaceLeft",  DiffIgnoreSpaceLeft)     
-      WritePreferenceLong("IgnoreSpaceRight", DiffIgnoreSpaceRight)  
-      WritePreferenceLong("Recurse",          DiffRecurse)  
+      WritePreferenceLong("Colors",      DiffShowColors)
+      WritePreferenceLong("IgnoreCase",  DiffIgnoreCase)
+      WritePreferenceLong("IgnoreSpaceAll",   DiffIgnoreSpaceAll)
+      WritePreferenceLong("IgnoreSpaceLeft",  DiffIgnoreSpaceLeft)
+      WritePreferenceLong("IgnoreSpaceRight", DiffIgnoreSpaceRight)
+      WritePreferenceLong("Recurse",          DiffRecurse)
       
       For j = 0 To 4
         For i = 1 To FindHistorySize
           If DiffDialogHistory(j, i) <> ""
             WritePreferenceString("History_"+Str(j)+"_"+Str(i), DiffDialogHistory(j, i))
           EndIf
-        Next i    
-      Next j  
+        Next i
+      Next j
 
     ;- - GrepWindow
-    PreferenceComment("")      
+    PreferenceComment("")
     PreferenceGroup("GrepWindow")
       SaveDialogPosition(@GrepWindowPosition)
       WritePreferenceLong  ("CaseSensitive" , GrepCaseSensitive)
@@ -1313,16 +1313,16 @@ Procedure SavePreferences()
       For i = 1 To FindHistorySize
         If GrepDirectoryHistory(i) <> ""
           WritePreferenceString("DirectoryHistory_"+Str(i), GrepDirectoryHistory(i))
-        EndIf      
+        EndIf
       Next i
       
       For i = 1 To FindHistorySize
         If GrepExtensionHistory(i) <> ""
           WritePreferenceString("ExtensionHistory_"+Str(i), GrepExtensionHistory(i))
-        EndIf      
-      Next i      
+        EndIf
+      Next i
       
-    ;- - GrepOutput 
+    ;- - GrepOutput
     PreferenceComment("")
     PreferenceGroup("GrepOutput")
       SaveDialogPosition(@GrepOutputPosition, 1)
@@ -1336,7 +1336,7 @@ Procedure SavePreferences()
 ;       WritePreferenceLong("Width",     CPUWindowWidth)
 ;       WritePreferenceLong("Height",    CPUWindowHeight)
 ;       WritePreferenceLong("Intervall", CPUUpdateIntervall)
-;       WritePreferenceLong("OnTop",     CPUStayOnTop)  
+;       WritePreferenceLong("OnTop",     CPUStayOnTop)
 ;       WritePreferenceLong("DisplayTotal",DisplayCPUTotal)
 ;       WritePreferenceLong("DisplayFree", DisplayCPUFree)
 ;       WritePreferenceLong("NbColors",  NBCPUColors)
@@ -1352,49 +1352,49 @@ Procedure SavePreferences()
         ToolsPanelFontStyle$ + "Bold,"
       EndIf
       If ToolsPanelFontStyle & #PB_Font_Italic
-        ToolsPanelFontStyle$ + "Italic,"      
-      EndIf    
+        ToolsPanelFontStyle$ + "Italic,"
+      EndIf
     
       WritePreferenceLong  ("Width",            ToolsPanelWidth)
       WritePreferenceLong  ("Side",             ToolsPanelSide)
       WritePreferenceLong  ("UseFont",          ToolsPanelUseFont)
-      WritePreferenceLong  ("UseColors",        ToolsPanelUseColors)  
+      WritePreferenceLong  ("UseColors",        ToolsPanelUseColors)
       WritePreferenceString("Font",             ToolsPanelFontName$)
       WritePreferenceLong  ("Fontsize",         ToolsPanelFontSize)
       WritePreferenceString("FontStyle",        ToolsPanelFontStyle$)
       WritePreferenceLong  ("FrontColor",       ToolsPanelFrontColor)
       WritePreferenceLong  ("BackColor",        ToolsPanelBackColor)
       WritePreferenceLong  ("NoIndependantColors", NoIndependantToolsColors)
-      WritePreferenceLong  ("AutoHide",         ToolsPanelAutoHide)         
-      WritePreferenceLong  ("HideDelay",        ToolsPanelHideDelay)   
+      WritePreferenceLong  ("AutoHide",         ToolsPanelAutoHide)
+      WritePreferenceLong  ("HideDelay",        ToolsPanelHideDelay)
       WritePreferenceLong  ("ActiveTools",      ListSize(UsedPanelTools()))
 
       i = 0
       ForEach UsedPanelTools()
         i + 1
         *ToolData.ToolsPanelEntry = UsedPanelTools()
-        WritePreferenceString("Tool_"+Str(i), *ToolData\ToolID$)      
+        WritePreferenceString("Tool_"+Str(i), *ToolData\ToolID$)
       Next UsedPanelTools()
       
     ;- - ToolsPanelMetrics
     PreferenceComment("")
     PreferenceGroup("ToolsPanelMetrics")
-      ; Now write the window settings for all available tools 
+      ; Now write the window settings for all available tools
       ;
       ForEach AvailablePanelTools()
         WritePreferenceLong(AvailablePanelTools()\ToolName$+"_X", AvailablePanelTools()\ToolWindowX)
         WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Y", AvailablePanelTools()\ToolWindowY)
         WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Width", AvailablePanelTools()\ToolWindowWidth)
-        WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Height", AvailablePanelTools()\ToolWindowHeight)  
-        WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Top", AvailablePanelTools()\IsToolStayOnTop)  
-      Next AvailablePanelTools()          
+        WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Height", AvailablePanelTools()\ToolWindowHeight)
+        WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Top", AvailablePanelTools()\IsToolStayOnTop)
+      Next AvailablePanelTools()
       
       ; save all available tools preferences
       ;
       ForEach AvailablePanelTools()
         If AvailablePanelTools()\NeedPreferences
           PanelTool.ToolsPanelInterface = @AvailablePanelTools()
-          PanelTool\PreferenceSave()        
+          PanelTool\PreferenceSave()
         EndIf
       Next AvailablePanelTools()
 
@@ -1428,7 +1428,7 @@ Procedure SavePreferences()
       WritePreferenceLong("Count", ListSize(Compilers()))
       ForEach Compilers()
         Index$ = "Compiler"+Str(ListIndex(Compilers())+1)
-        WritePreferenceString(Index$+"_Exe",     Compilers()\Executable$)        
+        WritePreferenceString(Index$+"_Exe",     Compilers()\Executable$)
         If Compilers()\Validated
           WritePreferenceString(Index$+"_Md5",   Compilers()\MD5$)
         Else
@@ -1448,7 +1448,7 @@ Procedure SavePreferences()
       WritePreferenceLong  ("InlineASM",          OptionInlineASM)
       WritePreferenceLong  ("XPSkin",             OptionXPSkin)
       WritePreferenceLong  ("VistaAdmin",         OptionVistaAdmin)
-      WritePreferenceLong  ("VistaUser",          OptionVistaUser)    
+      WritePreferenceLong  ("VistaUser",          OptionVistaUser)
       WritePreferenceLong  ("DPIAware",           OptionDPIAware)
       WritePreferenceLong  ("Thread",             OptionThread)
       WritePreferenceLong  ("OnError",            OptionOnError)
@@ -1490,15 +1490,15 @@ Procedure SavePreferences()
       WritePreferenceLong("EditX", EditToolsWindowPositon\x)
       WritePreferenceLong("EditY", EditToolsWindowPositon\y)
     
-    ;- - AutoComplete  
+    ;- - AutoComplete
     PreferenceComment("")
     PreferenceGroup("AutoComplete")
       WritePreferenceLong  ("CharMatchOnly",      AutoCompleteCharMatchOnly)
       WritePreferenceLong  ("AddBrackets",        AutoCompleteAddBrackets)
       WritePreferenceLong  ("AddSpaces",          AutoCompleteAddSpaces)
-      WritePreferenceLong  ("AddEndKeywords",     AutoCompleteAddEndKeywords)             
+      WritePreferenceLong  ("AddEndKeywords",     AutoCompleteAddEndKeywords)
       WritePreferenceLong  ("Width",              AutoCompleteWindowWidth)
-      WritePreferenceLong  ("Height",             AutoCompleteWindowHeight)     
+      WritePreferenceLong  ("Height",             AutoCompleteWindowHeight)
       WritePreferenceLong  ("AutoPopup",          AutoPopupNormal)
       ;WritePreferenceLong  ("NoStrings",          AutoCompleteNoStrings)
       ;WritePreferenceLong  ("NoComments",         AutoCompleteNoComments)
@@ -1518,7 +1518,7 @@ Procedure SavePreferences()
       For i = 0 To #PBITEM_Last
         Read.s ItemName$
         WritePreferenceLong(ItemName$, AutocompletePBOptions(i))
-      Next i      
+      Next i
       
       
     ;- - RecentFiles
@@ -1538,13 +1538,13 @@ Procedure SavePreferences()
           Break
         EndIf
         WritePreferenceString("RecentProject_"+Str(i), RecentFiles(#MAX_RecentFiles+i))
-      Next i      
+      Next i
       
       
-    ;- - OpenedFiles  
+    ;- - OpenedFiles
     PreferenceComment("")
     PreferenceGroup("OpenedFiles")
-      WritePreferenceLong  ("Count", ListSize(OpenFiles()))      
+      WritePreferenceLong  ("Count", ListSize(OpenFiles()))
       ForEach OpenFiles()
         WritePreferenceString("OpenedFile_"+Str(ListIndex(OpenFiles())+1), OpenFiles())
       Next OpenFiles()
@@ -1560,7 +1560,7 @@ Procedure SavePreferences()
         WritePreferenceLong("Width",       HelpWindowWidth)
         WritePreferenceLong("Height",      HelpWindowHeight)
         WritePreferenceLong("Splitter",    HelpWindowSplitter)
-        WritePreferenceLong("IsMaximized", HelpWindowMaximized) 
+        WritePreferenceLong("IsMaximized", HelpWindowMaximized)
     CompilerEndIf
     
     ;- - Debugger
@@ -1575,8 +1575,8 @@ Procedure SavePreferences()
         WritePreferenceLong("CallOnStart",      CallDebuggerOnStart)
         WritePreferenceLong("CallOnEnd",        CallDebuggerOnEnd)
         WritePreferenceLong("LogTimeStamp",     LogTimeStamp)
-        WritePreferenceLong("ErrorLogHeight",   ErrorLogHeight) 
-        WritePreferenceLong("KillOnError",      DebuggerKillOnError)  
+        WritePreferenceLong("ErrorLogHeight",   ErrorLogHeight)
+        WritePreferenceLong("KillOnError",      DebuggerKillOnError)
         WritePreferenceLong("AutoClearLog",     AutoClearLog)
         WritePreferenceLong("DisplayErrorWindow", DisplayErrorWindow)
         WritePreferenceLong("WarningMode",      WarningMode)
@@ -1587,8 +1587,8 @@ Procedure SavePreferences()
           DebugOutFontStyle$ + "Bold,"
         EndIf
         If DebugOutFontStyle & #PB_Font_Italic
-          DebugOutFontStyle$ + "Italic,"      
-        EndIf          
+          DebugOutFontStyle$ + "Italic,"
+        EndIf
 
         WritePreferenceLong("DebugTimeStamp",   DebugTimeStamp)
         WritePreferenceLong("DebugIsHex",       DebugIsHex)
@@ -1596,8 +1596,8 @@ Procedure SavePreferences()
         WritePreferenceLong("DebugOutputToErrorLog", DebugOutputToErrorLog)
         WritePreferenceLong("DebugOutUseFont",  DebugOutUseFont)
         WritePreferenceString("DebugOutFont",     DebugOutFont$)
-        WritePreferenceLong("DebugOutFontSize", DebugOutFontSize)        
-        WritePreferenceString("DebugOutFontStyle", DebugOutFontStyle$)        
+        WritePreferenceLong("DebugOutFontSize", DebugOutFontSize)
+        WritePreferenceString("DebugOutFontStyle", DebugOutFontStyle$)
         WritePreferenceLong("DebugWindowX",     DebugWindowX)
         WritePreferenceLong("DebugWindowY",     DebugWindowY)
         WritePreferenceLong("DebugWindowWidth", DebugWindowWidth)
@@ -1646,14 +1646,14 @@ Procedure SavePreferences()
         WritePreferenceLong("LibraryViewerWidth",     LibraryViewerWidth)
         WritePreferenceLong("LibraryViewerHeight",    LibraryViewerHeight)
         WritePreferenceLong("LibraryViewerSplitter1", LibraryViewerSplitter1)
-        WritePreferenceLong("LibraryViewerSplitter2", LibraryViewerSplitter2)             
-        WritePreferenceLong("LibraryViewerMaximize",  LibraryViewerMaximize)             
+        WritePreferenceLong("LibraryViewerSplitter2", LibraryViewerSplitter2)
+        WritePreferenceLong("LibraryViewerMaximize",  LibraryViewerMaximize)
 
         WritePreferenceLong("IsMiniDebugger",        IsMiniDebugger)
         WritePreferenceLong("DebuggerMainWindowX",   DebuggerMainWindowX)
         WritePreferenceLong("DebuggerMainWindowY",   DebuggerMainWindowY)
         WritePreferenceLong("DebuggerMainWindowWidth",  DebuggerMainWindowWidth)
-        WritePreferenceLong("DebuggerMainWindowHeight", DebuggerMainWindowHeight)   
+        WritePreferenceLong("DebuggerMainWindowHeight", DebuggerMainWindowHeight)
 
         WritePreferenceLong("AutoOpenDebugOutput",    AutoOpenDebugOutput)
         WritePreferenceLong("AutoOpenAsmWindow",      AutoOpenAsmWindow)
@@ -1712,7 +1712,7 @@ Procedure IsPreferenceChanged()
     If OptionJDK$ <> GetGadgetText(#GADGET_Preferences_JDK): ProcedureReturn 1: EndIf
     If OptionAppleTeamID$ <> GetGadgetText(#GADGET_Preferences_AppleTeamID): ProcedureReturn 1: EndIf
   CompilerElse
-    If OptionPurifier        <> GetGadgetState(#GADGET_Preferences_Purifier): ProcedureReturn 1: EndIf  
+    If OptionPurifier        <> GetGadgetState(#GADGET_Preferences_Purifier): ProcedureReturn 1: EndIf
     If OptionInlineASM       <> GetGadgetState(#GADGET_Preferences_InlineASM): ProcedureReturn 1: EndIf
     If OptionXPSkin          <> GetGadgetState(#GADGET_Preferences_XPSkin): ProcedureReturn 1: EndIf
     If OptionVistaAdmin      <> GetGadgetState(#GADGET_Preferences_VistaAdmin): ProcedureReturn 1: EndIf
@@ -1730,10 +1730,10 @@ Procedure IsPreferenceChanged()
   ;If DebugSystemMessages   <> GetGadgetState(#GADGET_Preferences_SystemMessages): ProcedureReturn 1: EndIf
   If ToolsPanelHideDelay   <> Val(GetGadgetText(#GADGET_Preferences_ToolsPanelDelay)): ProcedureReturn 1: EndIf
   If AutoCompletePopupLength <> Val(GetGadgetText(#GADGET_Preferences_AutoPopupLength)): ProcedureReturn 1: EndIf
-  If MemorizeMarkers       <> GetGadgetState(#GADGET_Preferences_MemorizeMarkers): ProcedureReturn 1: EndIf  
+  If MemorizeMarkers       <> GetGadgetState(#GADGET_Preferences_MemorizeMarkers): ProcedureReturn 1: EndIf
   If ToolsPanelAutoHide    <> GetGadgetState(#GADGET_Preferences_AutoHidePanel): ProcedureReturn 1: EndIf
 ;  If AutoCompleteNoComments<> GetGadgetState(#GADGET_Preferences_NoComments): ProcedureReturn 1: EndIf
-;  If AutoCompleteNoStrings <> GetGadgetState(#GADGET_Preferences_NoStrings): ProcedureReturn 1: EndIf   
+;  If AutoCompleteNoStrings <> GetGadgetState(#GADGET_Preferences_NoStrings): ProcedureReturn 1: EndIf
   If NoSplashScreen        <> GetGadgetState(#GADGET_Preferences_NoSplashScreen): ProcedureReturn 1: EndIf
   If DisplayFullPath       <> GetGadgetState(#GADGET_Preferences_DisplayFullPath): ProcedureReturn 1: EndIf
   If EnableMenuIcons       <> GetGadgetState(#GADGET_Preferences_EnableMenuIcons): ProcedureReturn 1: EndIf
@@ -1812,13 +1812,13 @@ Procedure IsPreferenceChanged()
   If AutoOpenLibraryViewer     <> GetGadgetState(#GADGET_Preferences_LibraryViewerWindowOpen): ProcedureReturn 1: EndIf
   If AutoClearLog              <> GetGadgetState(#GADGET_Preferences_AutoClearLog): ProcedureReturn 1: EndIf
   If DisplayErrorWindow        <> GetGadgetState(#GADGET_Preferences_DisplayErrorWindow): ProcedureReturn 1: EndIf
-  If ProfilerRunAtStart        <> GetGadgetState(#GADGET_Preferences_ProfilerStartup): ProcedureReturn 1: EndIf  
-  If MonitorFileChanges        <> GetGadgetState(#GADGET_Preferences_MonitorFileChanges): ProcedureReturn 1: EndIf  
-  If FormVariable              <> GetGadgetState(#GADGET_Preferences_FormVariable): ProcedureReturn 1: EndIf  
-  If FormVariableCaption       <> GetGadgetState(#GADGET_Preferences_FormVariableCaption): ProcedureReturn 1: EndIf  
-  If FormGrid                  <> GetGadgetState(#GADGET_Preferences_FormGrid): ProcedureReturn 1: EndIf  
-  If FormGridSize              <> Val(GetGadgetText(#GADGET_Preferences_FormGridSize)): ProcedureReturn 1: EndIf  
-  If FormEventProcedure        <> GetGadgetState(#GADGET_Preferences_FormEventProcedure): ProcedureReturn 1: EndIf  
+  If ProfilerRunAtStart        <> GetGadgetState(#GADGET_Preferences_ProfilerStartup): ProcedureReturn 1: EndIf
+  If MonitorFileChanges        <> GetGadgetState(#GADGET_Preferences_MonitorFileChanges): ProcedureReturn 1: EndIf
+  If FormVariable              <> GetGadgetState(#GADGET_Preferences_FormVariable): ProcedureReturn 1: EndIf
+  If FormVariableCaption       <> GetGadgetState(#GADGET_Preferences_FormVariableCaption): ProcedureReturn 1: EndIf
+  If FormGrid                  <> GetGadgetState(#GADGET_Preferences_FormGrid): ProcedureReturn 1: EndIf
+  If FormGridSize              <> Val(GetGadgetText(#GADGET_Preferences_FormGridSize)): ProcedureReturn 1: EndIf
+  If FormEventProcedure        <> GetGadgetState(#GADGET_Preferences_FormEventProcedure): ProcedureReturn 1: EndIf
   If EnableHistory             <> GetGadgetState(#GADGET_Preferences_EnableHistory): ProcedureReturn 1: EndIf
   If HistoryTimer              <> Val(GetGadgetText(#GADGET_Preferences_HistoryTimer)): ProcedureReturn 1: EndIf
   If HistoryMaxFileSize        <> Val(GetGadgetText(#GADGET_Preferences_HistoryMaxFileSize))*1024: ProcedureReturn 1: EndIf
@@ -1849,8 +1849,8 @@ Procedure IsPreferenceChanged()
       
   EndSelect
   
-  If FormSkin <> TempFormSkin: ProcedureReturn 1: EndIf  
-  If FormSkinVersion <> TempFormSkinVersion: ProcedureReturn 1: EndIf  
+  If FormSkin <> TempFormSkin: ProcedureReturn 1: EndIf
+  If FormSkinVersion <> TempFormSkinVersion: ProcedureReturn 1: EndIf
   
   If GetGadgetState(#GADGET_Preferences_HistoryPurgeNever)
     TempPurgeMode = 0
@@ -1867,8 +1867,8 @@ Procedure IsPreferenceChanged()
   If DebugOutUseFont           <> GetGadgetState(#GADGET_Preferences_DebugOutUseFont): ProcedureReturn 1: EndIf
   If DebugOutFont$      <> PreferenceDebugOutFont$: ProcedureReturn 1: EndIf
   If DebugOutFontSize   <> PreferenceDebugOutFontSize: ProcedureReturn 1: EndIf
-  If DebugOutFontStyle  <> PreferenceDebugOutFontStyle: ProcedureReturn 1: EndIf  
-  If Val(GetGadgetText(#GADGET_Preferences_DebuggerTimeout)) <> DebuggerTimeout: ProcedureReturn 1: EndIf 
+  If DebugOutFontStyle  <> PreferenceDebugOutFontStyle: ProcedureReturn 1: EndIf
+  If Val(GetGadgetText(#GADGET_Preferences_DebuggerTimeout)) <> DebuggerTimeout: ProcedureReturn 1: EndIf
 
   If GetGadgetState(#GADGET_Preferences_CharMatch1)
     CharMatchOnly = 0
@@ -1876,7 +1876,7 @@ Procedure IsPreferenceChanged()
     CharMatchOnly = 1
   Else
     CharMatchOnly = 2
-  EndIf  
+  EndIf
   
   If CharMatchOnly <> AutoCompleteCharMatchOnly
     ProcedureReturn 1
@@ -1888,9 +1888,9 @@ Procedure IsPreferenceChanged()
         ProcedureReturn 1
       EndIf
     Else
-      If AutocompleteOptions(i) 
+      If AutocompleteOptions(i)
         ProcedureReturn 1
-      EndIf  
+      EndIf
     EndIf
   Next i
   
@@ -1900,9 +1900,9 @@ Procedure IsPreferenceChanged()
         ProcedureReturn 1
       EndIf
     Else
-      If AutocompletePBOptions(i) 
+      If AutocompletePBOptions(i)
         ProcedureReturn 1
-      EndIf  
+      EndIf
     EndIf
   Next i
   
@@ -1911,16 +1911,16 @@ Procedure IsPreferenceChanged()
   ElseIf GetGadgetState(#GADGET_Preferences_ProjectOnly)
     If AutoCompleteProject = 0 Or AutoCompleteAllFiles: ProcedureReturn 1: EndIf
   ElseIf GetGadgetState(#GADGET_Preferences_ProjectAllFiles)
-    If AutoCompleteProject = 0 Or AutoCompleteAllFiles = 0: ProcedureReturn 1: EndIf  
+    If AutoCompleteProject = 0 Or AutoCompleteAllFiles = 0: ProcedureReturn 1: EndIf
   Else
-    If AutoCompleteProject Or AutoCompleteAllFiles = 0: ProcedureReturn 1: EndIf  
-  EndIf  
+    If AutoCompleteProject Or AutoCompleteAllFiles = 0: ProcedureReturn 1: EndIf
+  EndIf
   
   If CustomKeywordFile$ <> GetGadgetText(#GADGET_Preferences_KeywordFile): ProcedureReturn 1: EndIf
   If ListSize(CustomKeywordList()) <> CountGadgetItems(#GADGET_Preferences_KeywordList): ProcedureReturn 1: EndIf
   ForEach CustomKeywordList()
     If CustomKeywordList() <> GetGadgetItemText(#GADGET_Preferences_KeywordList, ListIndex(CustomKeywordList()), 0): ProcedureReturn 1: EndIf
-  Next CustomKeywordList()  
+  Next CustomKeywordList()
   
   If NbFoldStartWords <> CountGadgetItems(#GADGET_Preferences_FoldStartList): ProcedureReturn 1: EndIf
   For i = 1 To NbFoldStartWords
@@ -1958,18 +1958,18 @@ Procedure IsPreferenceChanged()
     ProcedureReturn 1
   EndIf
 
-  For item = 0 To #MENU_LastShortcutItem            
+  For item = 0 To #MENU_LastShortcutItem
     If KeyboardShortcuts(item) <> Prefs_KeyboardShortcuts(item)
       ProcedureReturn 1
     EndIf
-  Next item  
+  Next item
   
   If ToolbarItemCount <> PreferenceToolbarCount: ProcedureReturn 1: EndIf
   For i = 1 To ToolbarItemCount
     If Toolbar(i)\Name$ <> PreferenceToolbar(i)\Name$ Or Toolbar(i)\Action$ <> PreferenceToolbar(i)\Action$
       ProcedureReturn 1
     EndIf
-  Next i    
+  Next i
   
   If ToolsPanelUseFont    <> GetGadgetState(#GADGET_Preferences_UseToolsPanelFont): ProcedureReturn 1: EndIf
   If ToolsPanelFontName$  <> PreferenceToolsPanelFont$: ProcedureReturn 1: EndIf
@@ -1977,7 +1977,7 @@ Procedure IsPreferenceChanged()
   If ToolsPanelFontStyle  <> PreferenceToolsPanelFontStyle: ProcedureReturn 1: EndIf
 
   ; Toolspanel cloring not working on Linux/OSX
-  If ToolsPanelUseColors  <> GetGadgetState(#GADGET_Preferences_UseToolsPanelColors): ProcedureReturn 1: EndIf  
+  If ToolsPanelUseColors  <> GetGadgetState(#GADGET_Preferences_UseToolsPanelColors): ProcedureReturn 1: EndIf
   If NoIndependantToolsColors <> GetGadgetState(#GADGET_Preferences_NoIndependantToolsColors): ProcedureReturn 1: EndIf
   If ToolsPanelFrontColor <> PreferenceToolsPanelFrontColor: ProcedureReturn 1: EndIf
   If ToolsPanelBackColor  <> PreferenceToolsPanelBackColor: ProcedureReturn 1: EndIf
@@ -1990,7 +1990,7 @@ Procedure IsPreferenceChanged()
   ResetList(NewUsedPanelTools())
   While NextElement(UsedPanelTools()) And NextElement(NewUsedPanelTools()) ; both have same length (tested above)
     If UsedPanelTools() <> NewUsedPanelTools()
-      ProcedureReturn 1 
+      ProcedureReturn 1
     EndIf
   Wend
   
@@ -2007,7 +2007,7 @@ Procedure IsPreferenceChanged()
         ProcedureReturn 1
       EndIf
     EndIf
-  Next AvailablePanelTools()        
+  Next AvailablePanelTools()
   
   If ListSize(Compilers()) <> ListSize(PreferenceCompilers())
     ProcedureReturn 1
@@ -2061,7 +2061,7 @@ Procedure ApplyPreferences()
   StartFlickerFix(#WINDOW_Main)
  
   ; make sure unused entrys in the Arrays are empty.. in case the max values get changed
-  ; 
+  ;
   For i = FilesHistorySize + 1 To #MAX_RecentFiles
     RecentFiles(i) = ""
     RecentFiles(#MAX_RecentFiles+i) = "" ; recent projects
@@ -2069,10 +2069,10 @@ Procedure ApplyPreferences()
   
   For i = FindHistorySize + 1 To #MAX_FindHistory
     FindSearchHistory(i) = ""
-    FindReplaceHistory(i) = ""      
+    FindReplaceHistory(i) = ""
     GrepFindHistory(i) = ""
     GrepDirectoryHistory(i) = ""
-    GrepExtensionHistory(i) = ""  
+    GrepExtensionHistory(i) = ""
     For j = 0 To 4
       DiffDialogHistory(j, i) = ""
     Next j
@@ -2081,13 +2081,13 @@ Procedure ApplyPreferences()
   ; read values from the Gadgets
   ;
   EditorFontName$ = PreferenceFontName$
-  EditorFontSize  = PreferenceFontSize 
+  EditorFontSize  = PreferenceFontSize
   EditorFontStyle = PreferenceFontStyle
   
   For i = 0 To #COLOR_Last
     Colors(i)\UserValue = Colors(i)\PrefsValue
     Colors(i)\Enabled   = GetGadgetState(#GADGET_Preferences_FirstColorCheck+i)
-  Next i 
+  Next i
   
   DebugOutputToErrorLog = GetGadgetState(#GADGET_Preferences_DebugToLog)
   ;DebugSystemMessages   = GetGadgetState(#GADGET_Preferences_SystemMessages)
@@ -2099,12 +2099,12 @@ Procedure ApplyPreferences()
 ;  AutoCompleteNoStrings = GetGadgetState(#GADGET_Preferences_NoStrings)
   NoSplashScreen        = GetGadgetState(#GADGET_Preferences_NoSplashScreen)
   DisplayFullPath       = GetGadgetState(#GADGET_Preferences_DisplayFullPath)
-  EnableMenuIcons       = GetGadgetState(#GADGET_Preferences_EnableMenuIcons)  
+  EnableMenuIcons       = GetGadgetState(#GADGET_Preferences_EnableMenuIcons)
   AutoReload            = GetGadgetState(#GADGET_Preferences_AutoReload)
   MemorizeWindow        = GetGadgetState(#GADGET_Preferences_MemorizeWindow)
 ;  EnableColoring        = GetGadgetState(#GADGET_Preferences_EnableColoring)
   EnableCaseCorrection  = GetGadgetState(#GADGET_Preferences_EnableCaseCorrection)
-  EnableKeywordBolding  = GetGadgetState(#GADGET_Preferences_EnableBolding)  
+  EnableKeywordBolding  = GetGadgetState(#GADGET_Preferences_EnableBolding)
   AutoSave              = GetGadgetState(#GADGET_Preferences_AutoSave)
   AutoSaveAll           = GetGadgetState(#GADGET_Preferences_AutoSaveAll)
   Editor_RunOnce        = GetGadgetState(#GADGET_Preferences_RunOnce)
@@ -2147,10 +2147,10 @@ Procedure ApplyPreferences()
   ShowIndentGuides      = GetGadgetState(#GADGET_Preferences_ShowIndentGuides)
   EnableBraceMatch      = GetGadgetState(#GADGET_Preferences_EnableBraceMatch)
   EnableKeywordMatch    = GetGadgetState(#GADGET_Preferences_EnableKeywordMatch)
-  EnableFolding         = GetGadgetState(#GADGET_Preferences_EnableFolding) 
+  EnableFolding         = GetGadgetState(#GADGET_Preferences_EnableFolding)
   AutoCompleteWindowWidth   = Val(GetGadgetText(#GADGET_Preferences_BoxWidth))
   AutoCompleteWindowHeight  = Val(GetGadgetText(#GADGET_Preferences_BoxHeight))
-  AutoCompleteAddBrackets   = GetGadgetState(#GADGET_Preferences_AddBrackets)  
+  AutoCompleteAddBrackets   = GetGadgetState(#GADGET_Preferences_AddBrackets)
   AutoCompleteAddSpaces     = GetGadgetState(#GADGET_Preferences_AddSpaces)
   AutoCompleteAddEndKeywords= GetGadgetState(#GADGET_Preferences_AddEndKeywords)
   AutoPopupStructures       = GetGadgetState(#GADGET_Preferences_StructureItems)
@@ -2158,7 +2158,7 @@ Procedure ApplyPreferences()
   RealTab                   = GetGadgetState(#GADGET_Preferences_RealTab)
   AutoPopupNormal           = GetGadgetState(#GADGET_Preferences_AutoPopup)
   SaveProjectSettings       = GetGadgetState(#GADGET_Preferences_SaveProjectSettings)
-  OptionErrorLog            = GetGadgetState(#GADGET_Preferences_ErrorLog)    
+  OptionErrorLog            = GetGadgetState(#GADGET_Preferences_ErrorLog)
   DebuggerMode              = GetGadgetState(#GADGET_Preferences_DebuggerMode)+1
 ;   CompilerIf #CompileMac ; OSX-debug
 ;     DebuggerMode+1
@@ -2166,17 +2166,17 @@ Procedure ApplyPreferences()
   WarningMode               = GetGadgetState(#GADGET_Preferences_WarningMode)
   DebuggerMemorizeWindows   = GetGadgetState(#GADGET_Preferences_DebuggerMemorizeWindows)
   DebuggerOnTop             = GetGadgetState(#GADGET_Preferences_DebuggerAlwaysOnTop)
-  DebuggerBringToTop        = GetGadgetState(#GADGET_Preferences_DebuggerBringToTop) 
+  DebuggerBringToTop        = GetGadgetState(#GADGET_Preferences_DebuggerBringToTop)
   CallDebuggerOnStart       = GetGadgetState(#GADGET_Preferences_DebuggerStopAtStart)
   CallDebuggerOnEnd         = GetGadgetState(#GADGET_Preferences_DebuggerStopAtEnd)
   LogTimeStamp              = GetGadgetState(#GADGET_Preferences_DebuggerLogTimeStamp)
   DebugTimeStamp            = GetGadgetState(#GADGET_Preferences_DebugOutTimeStamp)
   DebuggerKeepErrorMarks    = GetGadgetState(#GADGET_Preferences_KeepErrorMarks)
-  DebuggerKillOnError       = GetGadgetState(#GADGET_Preferences_KillOnError)  
+  DebuggerKillOnError       = GetGadgetState(#GADGET_Preferences_KillOnError)
   DebugIsHex                = GetGadgetState(#GADGET_Preferences_DebugIsHex)
   RegisterIsHex             = GetGadgetState(#GADGET_Preferences_RegisterIsHex)
   StackIsHex                = GetGadgetState(#GADGET_Preferences_StackIsHex)
-  AutoStackUpdate           = GetGadgetState(#GADGET_Preferences_AutoStackUpdate)  
+  AutoStackUpdate           = GetGadgetState(#GADGET_Preferences_AutoStackUpdate)
   MemoryIsHex               = GetGadgetState(#GADGET_Preferences_MemoryIsHex)
   MemoryOneColumnOnly       = GetGadgetState(#GADGET_Preferences_MemoryOneColumn)
   VariableIsHex             = GetGadgetState(#GADGET_Preferences_VariableIsHex)
@@ -2187,8 +2187,8 @@ Procedure ApplyPreferences()
   AutoOpenVariableViewer    = GetGadgetState(#GADGET_Preferences_VariableWindowOpen)
   AutoOpenProfiler          = GetGadgetState(#GADGET_Preferences_ProfilerWindowOpen)
   AutoOpenHistory           = GetGadgetState(#GADGET_Preferences_HistoryWindowOpen)
-  AutoOpenWatchlist         = GetGadgetState(#GADGET_Preferences_WatchlistWindowOpen)  
-  AutoOpenPurifier          = GetGadgetState(#GADGET_Preferences_PurifierOpen)  
+  AutoOpenWatchlist         = GetGadgetState(#GADGET_Preferences_WatchlistWindowOpen)
+  AutoOpenPurifier          = GetGadgetState(#GADGET_Preferences_PurifierOpen)
   AutoOpenLibraryViewer     = GetGadgetState(#GADGET_Preferences_LibraryViewerWindowOpen)
   AutoClearLog              = GetGadgetState(#GADGET_Preferences_AutoClearLog)
   DisplayErrorWindow        = GetGadgetState(#GADGET_Preferences_DisplayErrorWindow)
@@ -2209,7 +2209,7 @@ Procedure ApplyPreferences()
   
   ; free old issue data, copy prefs back and then init it again
   ClearIssueList()
-  CopyList(PreferenceIssues(), Issues())  
+  CopyList(PreferenceIssues(), Issues())
   InitIssueList()
   
   Select GetGadgetState(#GADGET_Preferences_FormSkin)
@@ -2231,7 +2231,7 @@ Procedure ApplyPreferences()
   ; Reload specific form skin variables and fonts
   InitVars()
   
-  ; Note: EnableHistory needs a restart to take effect  
+  ; Note: EnableHistory needs a restart to take effect
   EnableHistory = GetGadgetState(#GADGET_Preferences_EnableHistory)
   
   HistoryTimer = Val(GetGadgetText(#GADGET_Preferences_HistoryTimer))
@@ -2262,7 +2262,7 @@ Procedure ApplyPreferences()
   MaxSessionCount = Val(GetGadgetText(#GADGET_Preferences_HistoryCount))
   If MaxSessionCount < 1
     MaxSessionCount = 1
-  EndIf  
+  EndIf
   
   If GetGadgetState(#GADGET_Preferences_HistoryPurgeNever)
     HistoryPurgeMode = 0
@@ -2281,7 +2281,7 @@ Procedure ApplyPreferences()
   
   ; to know if we need to restart the compiler (for language change)
   OldLanguage$     = CurrentLanguage$
-  CurrentLanguage$ = GetGadgetText(#GADGET_Preferences_Languages)  
+  CurrentLanguage$ = GetGadgetText(#GADGET_Preferences_Languages)
 
   If GetGadgetState(#GADGET_Preferences_CharMatch1)
     AutoCompleteCharMatchOnly = 0
@@ -2351,13 +2351,13 @@ Procedure ApplyPreferences()
   ;
   ClearGadgetItems(#GADGET_Preferences_FoldStartList)
   For i = 1 To NbFoldStartWords
-    AddGadgetItem(#GADGET_Preferences_FoldStartList, -1, FoldStart$(i))    
+    AddGadgetItem(#GADGET_Preferences_FoldStartList, -1, FoldStart$(i))
   Next i
   
   ClearGadgetItems(#GADGET_Preferences_FoldEndList)
   For i = 1 To NbFoldEndWords
-    AddGadgetItem(#GADGET_Preferences_FoldEndList, -1, FoldEnd$(i))    
-  Next i  
+    AddGadgetItem(#GADGET_Preferences_FoldEndList, -1, FoldEnd$(i))
+  Next i
   
   ; Indentation
   ;
@@ -2374,33 +2374,33 @@ Procedure ApplyPreferences()
   NbIndentKeywords = CountGadgetItems(#GADGET_Preferences_IndentList)
   Dim IndentKeywords.IndentEntry(NbIndentKeywords)
   
-  For i = 0 To NbIndentKeywords-1  
+  For i = 0 To NbIndentKeywords-1
     IndentKeywords(i)\Keyword$ = Trim(GetGadgetItemText(#GADGET_Preferences_IndentList, i, 0))
     IndentKeywords(i)\Before   = Val(Trim(GetGadgetItemText(#GADGET_Preferences_IndentList, i, 1)))
     IndentKeywords(i)\After    = Val(Trim(GetGadgetItemText(#GADGET_Preferences_IndentList, i, 2)))
-  Next i 
+  Next i
   
   ; Rebuild the VT. This changes the order of elements (sort), so update the gadget content
   ; So the next IsPreferenceChanged() will return false
-  ;  
+  ;
   BuildIndentVT()
   
-  For i = 0 To NbIndentKeywords-1  
+  For i = 0 To NbIndentKeywords-1
     SetGadgetItemText(#GADGET_Preferences_IndentList, i, IndentKeywords(i)\Keyword$, 0)
     SetGadgetItemText(#GADGET_Preferences_IndentList, i, Str(IndentKeywords(i)\Before), 1)
     SetGadgetItemText(#GADGET_Preferences_IndentList, i, Str(IndentKeywords(i)\After), 2)
-  Next i 
+  Next i
   SetGadgetText(#GADGET_Preferences_IndentKeyword, "")
   SetGadgetText(#GADGET_Preferences_IndentBefore, "")
   SetGadgetText(#GADGET_Preferences_IndentAfter, "")
   SetGadgetState(#GADGET_Preferences_IndentList, -1)
   
   ; Toolspanel colors
-  ;  
+  ;
   ToolsPanelUseFont    = GetGadgetState(#GADGET_Preferences_UseToolsPanelFont)
   ToolsPanelFontName$  = PreferenceToolsPanelFont$
   ToolsPanelFontSize   = PreferenceToolsPanelFontSize
-  ToolsPanelFontStyle  = PreferenceToolsPanelFontStyle  
+  ToolsPanelFontStyle  = PreferenceToolsPanelFontStyle
 
   ToolsPanelUseColors  = GetGadgetState(#GADGET_Preferences_UseToolsPanelColors)
   NoIndependantToolsColors  = GetGadgetState(#GADGET_Preferences_NoIndependantToolsColors)
@@ -2411,18 +2411,18 @@ Procedure ApplyPreferences()
     ToolsPanelFontID = #PB_Default
   Else
     ToolsPanelFontID = LoadFont(#FONT_ToolsPanel, PreferenceToolsPanelFont$, PreferenceToolsPanelFontSize, PreferenceToolsPanelFontStyle)
-  EndIf    
+  EndIf
   
   DebugOutUseFont    = GetGadgetState(#GADGET_Preferences_DebugOutUseFont)
   DebugOutFont$      = PreferenceDebugOutFont$
   DebugOutFontSize   = PreferenceDebugOutFontSize
-  DebugOutFontStyle  = PreferenceDebugOutFontStyle 
+  DebugOutFontStyle  = PreferenceDebugOutFontStyle
   
   If PreferenceDebugOutFont$ = "" Or DebugOutUseFont = 0
     DebugOutFontID = #PB_Default
   Else
     DebugOutFontID = LoadFont(#FONT_DebugOut, DebugOutFont$, DebugOutFontSize, DebugOutFontStyle)
-  EndIf     
+  EndIf
   
   ; destroy/recreate the current ToolsPanel settings (if any) to make it update it's values
   ;
@@ -2433,7 +2433,7 @@ Procedure ApplyPreferences()
     OpenGadgetList(#GADGET_Preferences_ToolSettingsContainer)
       ScrollAreaGadget(#GADGET_Preferences_ToolSettingsScrollArea, 0, 0, GadgetWidth(#GADGET_Preferences_ToolSettingsContainer), GadgetHeight(#GADGET_Preferences_ToolSettingsContainer), *CurrentPreferenceToolData\PreferencesWidth, *CurrentPreferenceToolData\PreferencesHeight, 10, #PB_ScrollArea_Single)
         CurrentPreferenceTool\PreferenceCreate()
-      CloseGadgetList()              
+      CloseGadgetList()
     CloseGadgetList()
   EndIf
   
@@ -2444,7 +2444,7 @@ Procedure ApplyPreferences()
       PanelTool.ToolsPanelInterface = @AvailablePanelTools()
       PanelTool\PreferenceApply()
     EndIf
-  Next AvailablePanelTools()        
+  Next AvailablePanelTools()
 
   ; filter out wrong values
   ;
@@ -2452,7 +2452,7 @@ Procedure ApplyPreferences()
     SourcePath$ + #Separator
   EndIf
 
-  If TabLength <= 0 
+  If TabLength <= 0
     TabLength = 1
   EndIf
   
@@ -2486,18 +2486,18 @@ Procedure ApplyPreferences()
   
   ; apply the shortcut settings
   ;
-  For item = 0 To #MENU_LastShortcutItem            
+  For item = 0 To #MENU_LastShortcutItem
     KeyboardShortcuts(item) = Prefs_KeyboardShortcuts(item)
   Next item
   
   ; Load the new stuff
   ;
   LoadLanguage()
-  LoadEditorFonts()  
+  LoadEditorFonts()
       
   ; updating of the main window must be before the hilighning
   ;
-  UpdateMainWindow()  
+  UpdateMainWindow()
 
   ; update the menus
   ;
@@ -2505,26 +2505,26 @@ Procedure ApplyPreferences()
   
   CompilerIf #CompileWindows | #CompileMac ; re-add the shortcuts for tab/enter
     AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
-    AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab) 
-    AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)        
+    AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
+    AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
   CompilerEndIf
   
   CreateIDEMenu()
-  CreateIDEPopupMenu()   
-  CreateKeyboardShortcuts(#WINDOW_Main)  
+  CreateIDEPopupMenu()
+  CreateKeyboardShortcuts(#WINDOW_Main)
   
   ; update shortcuts on the autocomplete window
   ;
   If AutoCompleteWindowReady
     RemoveKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_All)
 
-; Now added automatically below as they can be customized too    
+; Now added automatically below as they can be customized too
 ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Escape, #MENU_AutoComplete_Abort)
-;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Return, #MENU_AutoComplete_Ok)        
-;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Tab, #MENU_AutoComplete_Ok)        
+;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Return, #MENU_AutoComplete_Ok)
+;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Tab, #MENU_AutoComplete_Ok)
     
-    ; put all main window shortcuts here too. 
-    CreateKeyboardShortcuts(#WINDOW_AutoComplete)   
+    ; put all main window shortcuts here too.
+    CreateKeyboardShortcuts(#WINDOW_AutoComplete)
   EndIf
     
   
@@ -2532,19 +2532,19 @@ Procedure ApplyPreferences()
   ; Adds the debugger commands to the Systemmenu, making them accessible by rightclicking
   ; on the TaskbarButton too
   ;
-  CompilerIf #CompileWindows   
-    CreateSYSTEMMenu()  
+  CompilerIf #CompileWindows
+    CreateSYSTEMMenu()
   CompilerEndIf
 
   
   ; update the toolbar
   ;
-  FreeIDEToolbar()  
+  FreeIDEToolbar()
   ToolbarItemCount = PreferenceToolbarCount
   For i = 1 To ToolbarItemCount
     Toolbar(i)\Name$ = PreferenceToolbar(i)\Name$
     Toolbar(i)\Action$ = PreferenceToolbar(i)\Action$
-  Next i  
+  Next i
   CreateIDEToolBar()
   
   ; Update additional compiler list
@@ -2553,31 +2553,31 @@ Procedure ApplyPreferences()
   ForEach PreferenceCompilers()
     AddElement(Compilers())
     Compilers() = PreferenceCompilers() ; structure copy
-  Next PreferenceCompilers()  
+  Next PreferenceCompilers()
   SortCompilers()
   
   ; calc which colors are actually used for display
-  CalculateHilightningColors()  
+  CalculateHilightningColors()
 
   ; update all syntax hilighthing
   ;
   *Source = *ActiveSource
   ForEach FileList()
-    If @FileList() <> *ProjectInfo 
-      *ActiveSource = @FileList()        
+    If @FileList() <> *ProjectInfo
+      *ActiveSource = @FileList()
       
       FullSourceScan(@FileList())                     ; re-scan autocomplete + procedurebrowser
-      SortParserData(@FileList()\Parser, @FileList()) ; update sorted data in case its not the active source       
+      SortParserData(@FileList()\Parser, @FileList()) ; update sorted data in case its not the active source
       UpdateFolding(@FileList(), 0, -1)               ; redo all folding
       
       If EnableColoring
         SetUpHilightningColors() ; needed for every gadget individually now (scintilla)
         SetBackgroundColor()
         SetLineNumberColor()
-        UpdateHilightning()   ; hilight everything after a prefs update      
+        UpdateHilightning()   ; hilight everything after a prefs update
       Else
         RemoveAllColoring()
-      EndIf    
+      EndIf
 
       ; refresh icon of project info (if present)
       If @FileList() = *ProjectInfo
@@ -2593,7 +2593,7 @@ Procedure ApplyPreferences()
   Next FileList()
   
   ChangeCurrentElement(FileList(), *Source)
-  *ActiveSource = *Source  
+  *ActiveSource = *Source
   
   ; Re-scan all non-loaded project files for changed options
   ;
@@ -2612,7 +2612,7 @@ Procedure ApplyPreferences()
   UpdateSelectionRepeat()
   
   UpdateToolbarView()
-  RunOnce_UpdateSetting()  
+  RunOnce_UpdateSetting()
   
   UpdateProjectInfoPreferences()
   
@@ -2620,7 +2620,7 @@ Procedure ApplyPreferences()
   SetDebuggerMenuStates()
   
   ; now update all open windows
-  ;  
+  ;
   If IsWindow(#WINDOW_About)
     AboutWindowDialog\LanguageUpdate()
     AboutWindowDialog\GuiUpdate()
@@ -2631,11 +2631,11 @@ Procedure ApplyPreferences()
     AddToolsWindowDialog\GuiUpdate()
   EndIf
     
-  If IsWindow(#WINDOW_EditTools)    
+  If IsWindow(#WINDOW_EditTools)
     UpdateEditToolsWindow()
   EndIf
         
-  If IsWindow(#WINDOW_Option)    
+  If IsWindow(#WINDOW_Option)
     UpdateOptionWindow()
   EndIf
   
@@ -2647,31 +2647,31 @@ Procedure ApplyPreferences()
     UpdateProjectOptionsWindow()
   EndIf
     
-  If IsWindow(#WINDOW_Grep)    
+  If IsWindow(#WINDOW_Grep)
     UpdateGrepWindow()
   EndIf
   
-  If IsWindow(#WINDOW_GrepOutput)    
+  If IsWindow(#WINDOW_GrepOutput)
     GrepOutputDialog\LanguageUpdate()
     GrepOutputDialog\GuiUpdate()
-  EndIf  
-    
-  If IsWindow(#WINDOW_Find)    
-    UpdateFindWindow()  
   EndIf
     
-  If IsWindow(#WINDOW_FileViewer)    
+  If IsWindow(#WINDOW_Find)
+    UpdateFindWindow()
+  EndIf
+    
+  If IsWindow(#WINDOW_FileViewer)
     UpdateFileViewerWindow()
   EndIf
     
-  If IsWindow(#WINDOW_Goto)    
+  If IsWindow(#WINDOW_Goto)
     GotoWindowDialog\LanguageUpdate()
-    GotoWindowDialog\GuiUpdate()  
+    GotoWindowDialog\GuiUpdate()
   EndIf
     
-  If IsWindow(#WINDOW_StructureViewer)    
+  If IsWindow(#WINDOW_StructureViewer)
     StructureViewerDialog\LanguageUpdate()
-    StructureViewerDialog\GuiUpdate()  
+    StructureViewerDialog\GuiUpdate()
   EndIf
   
 ;   If IsWindow(#WINDOW_CPUMonitor)
@@ -2699,7 +2699,7 @@ Procedure ApplyPreferences()
   EndIf
   
   If IsWindow(#WINDOW_FileMonitor)
-    FileMonitorWindowEvents(#PB_Event_CloseWindow) ; just close this, no updating    
+    FileMonitorWindowEvents(#PB_Event_CloseWindow) ; just close this, no updating
   EndIf
   
   If IsWindow(#WINDOW_EditHistory)
@@ -2707,11 +2707,11 @@ Procedure ApplyPreferences()
   EndIf
   
   If IsWindow(#WINDOW_Updates)
-    UpdateWindowEvents(#PB_Event_CloseWindow) ; just close this, no updating    
+    UpdateWindowEvents(#PB_Event_CloseWindow) ; just close this, no updating
   EndIf
        
   CompilerIf #CompileLinux | #CompileMac
-    If IsWindow(#WINDOW_Help)    
+    If IsWindow(#WINDOW_Help)
       UpdateHelpWindow()
     EndIf
   CompilerEndIf
@@ -2745,22 +2745,22 @@ EndProcedure
 Procedure OpenPreferencesWindow()
 
   If IsWindow(#WINDOW_Preferences) <> 0
-	  SetWindowForeground(#WINDOW_Preferences)
-	  ProcedureReturn
+    SetWindowForeground(#WINDOW_Preferences)
+    ProcedureReturn
   EndIf
   
   PreferenceWindowDialog = OpenDialog(?Dialog_Preferences, WindowID(#WINDOW_Main), @PreferenceWindowPositon)
   If PreferenceWindowDialog = 0
     ProcedureReturn
-  EndIf  
+  EndIf
   
   EnsureWindowOnDesktop(#WINDOW_Preferences)
   
   ;- General
-  ; 
+  ;
   SetGadgetState(#GADGET_Preferences_RunOnce, Editor_RunOnce)
-  SetGadgetState(#GADGET_Preferences_MemorizeWindow, MemorizeWindow)  
-  SetGadgetState(#GADGET_Preferences_AutoReload, AutoReload)   
+  SetGadgetState(#GADGET_Preferences_MemorizeWindow, MemorizeWindow)
+  SetGadgetState(#GADGET_Preferences_AutoReload, AutoReload)
   SetGadgetState(#GADGET_Preferences_DisplayFullPath, DisplayFullPath)
   SetGadgetState(#GADGET_Preferences_NoSplashScreen, NoSplashScreen)
   
@@ -2778,9 +2778,9 @@ Procedure OpenPreferencesWindow()
     GADGET_ErrorLogSize   = PreferenceWindowDialog\Gadget("Mac_ErrorLogSize")
     
     SetGadgetAttribute(GADGET_ToolsPanelSize, #PB_ScrollBar_Maximum, WindowWidth(#WINDOW_Main)-30)
-    SetGadgetAttribute(GADGET_ErrorLogSize, #PB_ScrollBar_Maximum, WindowHeight(#WINDOW_Main)-200)    
+    SetGadgetAttribute(GADGET_ErrorLogSize, #PB_ScrollBar_Maximum, WindowHeight(#WINDOW_Main)-200)
     SetGadgetState(GADGET_ToolsPanelSize, ToolsPanelWidth)
-    SetGadgetState(GADGET_ErrorLogSize, ErrorLogHeight)          
+    SetGadgetState(GADGET_ErrorLogSize, ErrorLogHeight)
   CompilerEndIf
 
   CompilerIf #CompileMac
@@ -2799,18 +2799,18 @@ Procedure OpenPreferencesWindow()
     
     If UCase(AvailableLanguages()\Name$) = UCase(CurrentLanguage$)
       SelectedLanguage = ListIndex(AvailableLanguages())
-    EndIf              
+    EndIf
   Next AvailableLanguages()
   
   SetGadgetState(#GADGET_Preferences_Languages, SelectedLanguage)
   SelectElement(AvailableLanguages(), SelectedLanguage)
     
-  Info$ = Language("Preferences", "LanguageInfo") + ":"  + #NewLine + #NewLine    
+  Info$ = Language("Preferences", "LanguageInfo") + ":"  + #NewLine + #NewLine
   Info$ + Language("Preferences", "LastUpdated")  + ":    " + AvailableLanguages()\Date$ + #NewLine
   Info$ + Language("Preferences", "Creator")      + ":    " + AvailableLanguages()\Creator$ + #NewLine
   Info$ + Language("Preferences", "Email")        + ":    " + AvailableLanguages()\CreatorEmail$ + #NewLine + #NewLine
   Info$ + Language("Preferences", "FileName")     + ":    " + CreateRelativePath(PureBasicPath$, AvailableLanguages()\FileName$)
-  SetGadgetText(#GADGET_Preferences_LanguageInfo, Info$)       
+  SetGadgetText(#GADGET_Preferences_LanguageInfo, Info$)
       
 
   ;- --> Shortcuts
@@ -2818,7 +2818,7 @@ Procedure OpenPreferencesWindow()
   SetGadgetItemAttribute(#GADGET_Preferences_ShortcutList, 0, #PB_ListIcon_ColumnWidth, GadgetWidth(#GADGET_Preferences_ShortcutList)-120, 0)
   
   ; copy the values to modify them in the preferences
-  For item = 0 To #MENU_LastShortcutItem            
+  For item = 0 To #MENU_LastShortcutItem
     Prefs_KeyboardShortcuts(item) = KeyboardShortcuts(item)
   Next item
   FillShortcutList()
@@ -2837,9 +2837,9 @@ Procedure OpenPreferencesWindow()
   PreferenceToolbarCount = ToolbarItemCount
   For i = 1 To ToolbarItemCount
     PreferenceToolbar(i)\Name$ = Toolbar(i)\Name$
-    PreferenceToolbar(i)\Action$ = Toolbar(i)\Action$             
+    PreferenceToolbar(i)\Action$ = Toolbar(i)\Action$
     AddGadgetItem(#GADGET_Preferences_ToolbarList, -1, "")
-  Next i          
+  Next i
   UpdatePrefsToolbarList()
   
   ToolbarPreferenceMode = -1
@@ -2852,22 +2852,22 @@ Procedure OpenPreferencesWindow()
   ;- Editor
   ;
   SetGadgetState(#GADGET_Preferences_MonitorFileChanges, MonitorFileChanges)
-  SetGadgetState(#GADGET_Preferences_SaveProjectSettings, SaveProjectSettings)             
+  SetGadgetState(#GADGET_Preferences_SaveProjectSettings, SaveProjectSettings)
   SetGadgetState(#GADGET_Preferences_AutoSave, AutoSave)
   SetGadgetState(#GADGET_Preferences_AutoSaveAll, AutoSaveAll)
-  SetGadgetState(#GADGET_Preferences_MemorizeCursor, MemorizeCursor)    
-  SetGadgetState(#GADGET_Preferences_MemorizeMarkers, MemorizeMarkers)       
+  SetGadgetState(#GADGET_Preferences_MemorizeCursor, MemorizeCursor)
+  SetGadgetState(#GADGET_Preferences_MemorizeMarkers, MemorizeMarkers)
   SetGadgetState(#GADGET_Preferences_AlwaysHideLog, AlwaysHideLog)
   SetGadgetState(#GADGET_Preferences_RealTab, RealTab)
   
   SetGadgetText(#GADGET_Preferences_TabLength, Str(TabLength))
-  SetGadgetText(#GADGET_Preferences_SourcePath, SourcePath$)    
+  SetGadgetText(#GADGET_Preferences_SourcePath, SourcePath$)
   
   EnableGadgetDrop(#GADGET_Preferences_SourcePath, #PB_Drop_Files, #PB_Drag_Copy)
   
   SetGadgetState(#GADGET_Preferences_FilesPanelMultiline, FilesPanelMultiline)
   SetGadgetState(#GADGET_Preferences_FilesPanelCloseButtons, FilesPanelCloseButtons)
-  SetGadgetState(#GADGET_Preferences_FilesPanelNewButton, FilesPanelNewButton)  
+  SetGadgetState(#GADGET_Preferences_FilesPanelNewButton, FilesPanelNewButton)
   
   SetGadgetText(#GADGET_Preferences_CodeFileExtensions, CodeFileExtensions$)
   
@@ -2880,7 +2880,7 @@ Procedure OpenPreferencesWindow()
   ;
   PreferenceFontName$ = EditorFontName$
   PreferenceFontSize  = EditorFontSize
-  PreferenceFontStyle = EditorFontStyle            
+  PreferenceFontStyle = EditorFontStyle
   If LoadFont(#FONT_Preferences_CurrentFont, PreferenceFontName$, PreferenceFontSize, PreferenceFontStyle)
     SetGadgetFont(#GADGET_Preferences_CurrentFont, FontID(#FONT_Preferences_CurrentFont))
   EndIf
@@ -2894,10 +2894,10 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_EnableBolding, EnableKeywordBolding)
   SetGadgetState(#GADGET_Preferences_EnableCaseCorrection, EnableCaseCorrection)
   SetGadgetState(#GADGET_Preferences_EnableLineNumbers, EnableLineNumbers)
-;  SetGadgetState(#GADGET_Preferences_EnableMarkers, EnableMarkers)  
-  SetGadgetState(#GADGET_Preferences_EnableBraceMatch, EnableBraceMatch)  
-  SetGadgetState(#GADGET_Preferences_EnableKeywordMatch, EnableKeywordMatch)  
-  SetGadgetState(#GADGET_Preferences_EnableFolding, EnableFolding)  
+;  SetGadgetState(#GADGET_Preferences_EnableMarkers, EnableMarkers)
+  SetGadgetState(#GADGET_Preferences_EnableBraceMatch, EnableBraceMatch)
+  SetGadgetState(#GADGET_Preferences_EnableKeywordMatch, EnableKeywordMatch)
+  SetGadgetState(#GADGET_Preferences_EnableFolding, EnableFolding)
  
   
 ;   If EnableColoring = 0
@@ -2918,7 +2918,7 @@ Procedure OpenPreferencesWindow()
       EndIf
       
       UpdatePreferenceSyntaxColor(i, Color)
-    EndIf                   
+    EndIf
 
     If Colors(i)\PrefsValue = -1
       DisableGadget(#GADGET_Preferences_FirstColorText+i, 1)
@@ -2942,13 +2942,13 @@ Procedure OpenPreferencesWindow()
 
   ;- ------> Custom Keywords
   ;
-  SetGadgetText(#GADGET_Preferences_KeywordFile, CustomKeywordFile$)     
+  SetGadgetText(#GADGET_Preferences_KeywordFile, CustomKeywordFile$)
   
   ForEach CustomKeywordList()
     AddGadgetItem(#GADGET_Preferences_KeywordList, -1, CustomKeywordList())
   Next CustomKeywordList()
   
-  EnableGadgetDrop(#GADGET_Preferences_KeywordFile, #PB_Drop_Files, #PB_Drag_Copy)  
+  EnableGadgetDrop(#GADGET_Preferences_KeywordFile, #PB_Drop_Files, #PB_Drag_Copy)
   
   ; we accept files and text here (both are added as keywords)
   EnableGadgetDrop(#GADGET_Preferences_KeywordList, #PB_Drop_Text, #PB_Drag_Copy)
@@ -2967,16 +2967,16 @@ Procedure OpenPreferencesWindow()
   If EnableFolding = 0
     For i = #GADGET_Preferences_FoldStartList To #GADGET_Preferences_FoldEndRemove
       DisableGadget(i, 1)
-    Next i            
-  EndIf  
+    Next i
+  EndIf
   
   EnableGadgetDrop(#GADGET_Preferences_FoldStartList, #PB_Drop_Text, #PB_Drag_Copy)
   EnableGadgetDrop(#GADGET_Preferences_FoldEndList, #PB_Drop_Text, #PB_Drag_Copy)
 
   ;- --> Indentation
   ;
-  SetGadgetState(#GADGET_Preferences_ShowWhiteSpace, ShowWhiteSpace)  
-  SetGadgetState(#GADGET_Preferences_ShowIndentGuides, ShowIndentGuides)   
+  SetGadgetState(#GADGET_Preferences_ShowWhiteSpace, ShowWhiteSpace)
+  SetGadgetState(#GADGET_Preferences_ShowIndentGuides, ShowIndentGuides)
   
   If IndentMode = #INDENT_None
     SetGadgetState(#GADGET_Preferences_IndentNo, 1)
@@ -2988,9 +2988,9 @@ Procedure OpenPreferencesWindow()
         
   SetGadgetState(#GADGET_Preferences_BackspaceUnindent, BackspaceUnindent)
   
-  For i = 0 To NbIndentKeywords-1  
+  For i = 0 To NbIndentKeywords-1
     AddGadgetItem(#GADGET_Preferences_IndentList, -1, IndentKeywords(i)\Keyword$+Chr(10)+Str(IndentKeywords(i)\Before)+Chr(10)+Str(IndentKeywords(i)\After))
-  Next i 
+  Next i
   
   If IndentMode < 2
     For i = #GADGET_Preferences_IndentList To #GADGET_Preferences_IndentRemove
@@ -3017,7 +3017,7 @@ Procedure OpenPreferencesWindow()
   If AutoPopupNormal = 0
 ;    DisableGadget(#GADGET_Preferences_NoComments, 1)
 ;    DisableGadget(#GADGET_Preferences_NoStrings, 1)
-    DisableGadget(#GADGET_Preferences_AutoPopupLength, 1)  
+    DisableGadget(#GADGET_Preferences_AutoPopupLength, 1)
   EndIf
 
   ;- ------> AutoComplete List
@@ -3060,7 +3060,7 @@ Procedure OpenPreferencesWindow()
       StopDrawing()
     EndIf
     SetGadgetState(#GADGET_Preferences_IssueColor, ImageID(#IMAGE_Preferences_IssueColor))
-  EndIf 
+  EndIf
   
   ; Small hack:
   ; the option gadgets have other gadgets created in between them due to the layout, so
@@ -3144,7 +3144,7 @@ Procedure OpenPreferencesWindow()
       AddGadgetItem(#GADGET_Preferences_CompilerList, -1, PreferenceCompilers()\VersionString$+Chr(10)+PreferenceCompilers()\Executable$)
     Else
       AddGadgetItem(#GADGET_Preferences_CompilerList, -1, Language("Compiler","UnknownVersion")+Chr(10)+PreferenceCompilers()\Executable$)
-    EndIf    
+    EndIf
   Next Compilers()
   
   EnableGadgetDrop(#GADGET_Preferences_CompilerList, #PB_Drop_Files, #PB_Drag_Copy)
@@ -3154,10 +3154,10 @@ Procedure OpenPreferencesWindow()
   ;
   SetGadgetState(#GADGET_Preferences_Debugger, OptionDebugger)
   SetGadgetState(#GADGET_Preferences_ErrorLog, OptionErrorLog)
-  SetGadgetState(#GADGET_Preferences_Encoding, OptionEncoding)                                  
-  SetGadgetState(#GADGET_Preferences_NewLineType, OptionNewLineType)  
-  SetGadgetState(#GADGET_Preferences_UseCompileCount, OptionUseCompileCount)  
-  SetGadgetState(#GADGET_Preferences_UseBuildCount, OptionUseBuildCount)  
+  SetGadgetState(#GADGET_Preferences_Encoding, OptionEncoding)
+  SetGadgetState(#GADGET_Preferences_NewLineType, OptionNewLineType)
+  SetGadgetState(#GADGET_Preferences_UseCompileCount, OptionUseCompileCount)
+  SetGadgetState(#GADGET_Preferences_UseBuildCount, OptionUseBuildCount)
 
   SetGadgetText(#GADGET_Preferences_SubSystem, OptionSubSystem$)
   
@@ -3175,17 +3175,17 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_DPIAware, OptionDPIAware)
     SetGadgetState(#GADGET_Preferences_Thread, OptionThread)
     SetGadgetState(#GADGET_Preferences_OnError, OptionOnError)
-    SetGadgetState(#GADGET_Preferences_ExecutableFormat, OptionExeFormat)                              
-    SetGadgetState(#GADGET_Preferences_CPU, OptionCPU)    
-    SetGadgetState(#GADGET_Preferences_TemporaryExe, OptionTemporaryExe)    
-    SetGadgetState(#GADGET_Preferences_UseCreateExecutable, OptionUseCreateExe)  
+    SetGadgetState(#GADGET_Preferences_ExecutableFormat, OptionExeFormat)
+    SetGadgetState(#GADGET_Preferences_CPU, OptionCPU)
+    SetGadgetState(#GADGET_Preferences_TemporaryExe, OptionTemporaryExe)
+    SetGadgetState(#GADGET_Preferences_UseCreateExecutable, OptionUseCreateExe)
   CompilerEndIf
   
   CompilerIf #CompileWindows = 0
     DisableGadget(#GADGET_Preferences_XPSkin, 1)
     DisableGadget(#GADGET_Preferences_VistaAdmin, 1)
     DisableGadget(#GADGET_Preferences_VistaUser, 1)
-    DisableGadget(#GADGET_Preferences_DPIAware, 1)                 
+    DisableGadget(#GADGET_Preferences_DPIAware, 1)
   CompilerEndIf
   
 
@@ -3241,7 +3241,7 @@ Procedure OpenPreferencesWindow()
 
   SetGadgetState(#GADGET_Preferences_RegisterIsHex, RegisterIsHex)
   SetGadgetState(#GADGET_Preferences_StackIsHex, StackIsHex)
-  SetGadgetState(#GADGET_Preferences_AutoStackUpdate, AutoStackUpdate)              
+  SetGadgetState(#GADGET_Preferences_AutoStackUpdate, AutoStackUpdate)
 
   CompilerIf #CompileMac
     SetGadgetState(#GADGET_Preferences_RegisterIsHex, 0)
@@ -3249,54 +3249,54 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_AutoStackUpdate, 0)
     DisableGadget(#GADGET_Preferences_RegisterIsHex, 1)
     DisableGadget(#GADGET_Preferences_StackIsHex, 1)
-    DisableGadget(#GADGET_Preferences_AutoStackUpdate, 1)        
+    DisableGadget(#GADGET_Preferences_AutoStackUpdate, 1)
     HideGadget(#GADGET_Preferences_ToolbarClassic, 1)
   CompilerEndIf
       
   SetGadgetState(#GADGET_Preferences_MemoryIsHex, MemoryIsHex)
-  SetGadgetState(#GADGET_Preferences_MemoryOneColumn, MemoryOneColumnOnly)              
+  SetGadgetState(#GADGET_Preferences_MemoryOneColumn, MemoryOneColumnOnly)
 
   SetGadgetState(#GADGET_Preferences_VariableIsHex, VariableIsHex)
   
   SetGadgetState(#GADGET_Preferences_ProfilerStartup, ProfilerRunAtStart)
 
   ;- --> Default Windows
-  ;  
+  ;
   SetGadgetState(#GADGET_Preferences_DebugWindowOpen, AutoOpenDebugOutput)
   SetGadgetState(#GADGET_Preferences_AsmWindowOpen, AutoOpenAsmWindow)
   SetGadgetState(#GADGET_Preferences_MemoryWindowOpen, AutoOpenMemoryViewer)
   SetGadgetState(#GADGET_Preferences_VariableWindowOpen, AutoOpenVariableViewer)
   SetGadgetState(#GADGET_Preferences_ProfilerWindowOpen, AutoOpenProfiler)
   SetGadgetState(#GADGET_Preferences_HistoryWindowOpen, AutoOpenHistory)
-  SetGadgetState(#GADGET_Preferences_WatchlistWindowOpen, AutoOpenWatchlist)                       
-  SetGadgetState(#GADGET_Preferences_LibraryViewerWindowOpen, AutoOpenLibraryViewer)                       
-  SetGadgetState(#GADGET_Preferences_DataBreakpointsOpen, AutoOpenDataBreakpoints)                       
+  SetGadgetState(#GADGET_Preferences_WatchlistWindowOpen, AutoOpenWatchlist)
+  SetGadgetState(#GADGET_Preferences_LibraryViewerWindowOpen, AutoOpenLibraryViewer)
+  SetGadgetState(#GADGET_Preferences_DataBreakpointsOpen, AutoOpenDataBreakpoints)
   SetGadgetState(#GADGET_Preferences_PurifierOpen, AutoOpenPurifier)
   
   CompilerIf #CompileMac
     SetGadgetState(#GADGET_Preferences_AsmWindowOpen, 0)
     DisableGadget(#GADGET_Preferences_AsmWindowOpen, 1)
-  CompilerEndIf  
+  CompilerEndIf
 
   If DebuggerMode = 3 ; disable for console debugger only
     For i = #GADGET_Preferences_DebuggerMemorizeWindows To #GADGET_Preferences_WatchlistWindowOpen
       DisableGadget(i, 1)
-    Next i                    
-  EndIf  
+    Next i
+  EndIf
   
 
-  ;- ToolsPanel  
+  ;- ToolsPanel
   ;
   DisableGadget(#GADGET_Preferences_AddTool, 1)      ; initial state is always disabled
   DisableGadget(#GADGET_Preferences_RemoveTool, 1)
   DisableGadget(#GADGET_Preferences_MoveToolUp, 1)
-  DisableGadget(#GADGET_Preferences_MoveToolDown, 1)  
+  DisableGadget(#GADGET_Preferences_MoveToolDown, 1)
   
   ; we can copy from available to used
   ; we can move from used to available (it disappears in the used list then)
   ; and we can move inside the used list
-  EnableGadgetDrop(#GADGET_Preferences_UsedTools, #PB_Drop_Private, #PB_Drag_Copy, #DRAG_Preferences_ToolsFromAvailable) 
-  EnableGadgetDrop(#GADGET_Preferences_UsedTools, #PB_Drop_Private, #PB_Drag_Move, #DRAG_Preferences_ToolsFromUsed) 
+  EnableGadgetDrop(#GADGET_Preferences_UsedTools, #PB_Drop_Private, #PB_Drag_Copy, #DRAG_Preferences_ToolsFromAvailable)
+  EnableGadgetDrop(#GADGET_Preferences_UsedTools, #PB_Drop_Private, #PB_Drag_Move, #DRAG_Preferences_ToolsFromUsed)
   EnableGadgetDrop(#GADGET_Preferences_AvailableTools, #PB_Drop_Private, #PB_Drag_Move, #DRAG_Preferences_ToolsFromUsed)
   
   ForEach AvailablePanelTools()
@@ -3320,7 +3320,7 @@ Procedure OpenPreferencesWindow()
     NewUsedPanelTools() = UsedPanelTools()
   Next UsedPanelTools()
 
-  CurrentPreferenceTool      = 0  
+  CurrentPreferenceTool      = 0
   *CurrentPreferenceToolData = 0
     
   ; now tell all Tools that the preferences are opened and that they should
@@ -3332,7 +3332,7 @@ Procedure OpenPreferencesWindow()
       PanelTool.ToolsPanelInterface = @AvailablePanelTools()
       PanelTool\PreferenceStart()
     EndIf
-  Next AvailablePanelTools()            
+  Next AvailablePanelTools()
                  
 
   ;- --> Options
@@ -3376,7 +3376,7 @@ Procedure OpenPreferencesWindow()
   PreferenceToolsPanelFontSize   = ToolsPanelFontSize
   PreferenceToolsPanelFontStyle  = ToolsPanelFontStyle
 
-  SetGadgetState(#GADGET_Preferences_NoIndependantToolsColors, NoIndependantToolsColors)              
+  SetGadgetState(#GADGET_Preferences_NoIndependantToolsColors, NoIndependantToolsColors)
   SetGadgetState(#GADGET_Preferences_AutoHidePanel, ToolsPanelAutoHide)
   If ToolsPanelAutoHide = 0
     DisableGadget(#GADGET_Preferences_ToolsPanelDelay, 1)
@@ -3417,7 +3417,7 @@ Procedure OpenPreferencesWindow()
   EnableGadgetDrop(#GADGET_Preferences_ImportFile, #PB_Drop_Files, #PB_Drag_Copy)
   
   ;- Form
-  ; 
+  ;
   SetGadgetState(#GADGET_Preferences_FormVariable, FormVariable)
   SetGadgetState(#GADGET_Preferences_FormVariableCaption, FormVariableCaption)
   SetGadgetState(#GADGET_Preferences_FormGrid, FormGrid)
@@ -3436,17 +3436,17 @@ Procedure OpenPreferencesWindow()
         Case 8
           SetGadgetState(#GADGET_Preferences_FormSkin,2)
       EndSelect
-    EndSelect  
+    EndSelect
   
   PreferenceCurrentPage = 0
   For i = 0 To CountGadgetItems(#GADGET_Preferences_Tree) - 1
     SetGadgetItemState(#GADGET_Preferences_Tree, i, #PB_Tree_Expanded)
   Next i
 
-  DisableGadget(#GADGET_Preferences_Apply, 1)    
+  DisableGadget(#GADGET_Preferences_Apply, 1)
 
   PreferenceWindowDialog\GuiUpdate() ; important, to take care of image changes etc
-  HideWindow(#WINDOW_Preferences, 0)  
+  HideWindow(#WINDOW_Preferences, 0)
   
   ; fix required for the centereing of non-resizable windows in the dialog manager
   ; (works only if window is visible)
@@ -3455,9 +3455,9 @@ Procedure OpenPreferencesWindow()
       While WindowEvent(): Wend
       gtk_window_set_position_(WindowID(#WINDOW_Preferences), #GTK_WIN_POS_CENTER)
     EndIf
-  CompilerEndIf  
+  CompilerEndIf
   
-  SetActiveWindow(#WINDOW_Preferences) ;TODO: check why preferences loose focus when they are opened. 
+  SetActiveWindow(#WINDOW_Preferences) ;TODO: check why preferences loose focus when they are opened.
   SetActiveGadget(#GADGET_Preferences_Tree)
 
 EndProcedure
@@ -3468,17 +3468,17 @@ Procedure UpdatePreferenceWindow()
   PreferenceWindowDialog\LanguageUpdate()
 
   SelectElement(AvailableLanguages(), SelectedLanguage)
-  Info$ = Language("Preferences", "LanguageInfo") + ":"  + #NewLine + #NewLine    
+  Info$ = Language("Preferences", "LanguageInfo") + ":"  + #NewLine + #NewLine
   Info$ + Language("Preferences", "LastUpdated")  + ":    " + AvailableLanguages()\Date$ + #NewLine
   Info$ + Language("Preferences", "Creator")      + ":    " + AvailableLanguages()\Creator$ + #NewLine
   Info$ + Language("Preferences", "Email")        + ":    " + AvailableLanguages()\CreatorEmail$ + #NewLine + #NewLine
   Info$ + Language("Preferences", "FileName")     + ":    " + CreateRelativePath(PureBasicPath$, AvailableLanguages()\FileName$)
-  SetGadgetText(#GADGET_Preferences_LanguageInfo, Info$) 
+  SetGadgetText(#GADGET_Preferences_LanguageInfo, Info$)
 
   ToolbarPreferenceMode = -1
   ToolbarPreferenceAction = -1
   UpdatePrefsToolbarList()
-  UpdatePrefsToolbarItem()    
+  UpdatePrefsToolbarItem()
 
   FillShortcutList()
 
@@ -3501,7 +3501,7 @@ Procedure UpdatePreferenceWindow()
     Else
       SetGadgetItemText(#GADGET_Preferences_AvailableTools, ListIndex(AvailablePanelTools()), Language("ToolsPanel", AvailablePanelTools()\ToolName$), 0)
     EndIf
-  Next AvailablePanelTools()              
+  Next AvailablePanelTools()
 
   ForEach NewUsedPanelTools()
     *ToolData.ToolsPanelEntry = NewUsedPanelTools()
@@ -3514,9 +3514,9 @@ Procedure UpdatePreferenceWindow()
    
   If CurrentPreferenceTool
     If *CurrentPreferenceToolData\ExternalPlugin
-      SetGadgetText(#GADGET_Preferences_ToolSettingsTitle, Language("Preferences","Configuration") + " - " + *CurrentPreferenceToolData\ToolName$)  
+      SetGadgetText(#GADGET_Preferences_ToolSettingsTitle, Language("Preferences","Configuration") + " - " + *CurrentPreferenceToolData\ToolName$)
     Else
-      SetGadgetText(#GADGET_Preferences_ToolSettingsTitle, Language("Preferences","Configuration") + " - " + Language("ToolsPanel", *CurrentPreferenceToolData\ToolName$))  
+      SetGadgetText(#GADGET_Preferences_ToolSettingsTitle, Language("Preferences","Configuration") + " - " + Language("ToolsPanel", *CurrentPreferenceToolData\ToolName$))
     EndIf
     
     CurrentPreferenceTool\PreferenceDestroy()
@@ -3525,15 +3525,15 @@ Procedure UpdatePreferenceWindow()
     OpenGadgetList(#GADGET_Preferences_ToolSettingsContainer)
       ScrollAreaGadget(#GADGET_Preferences_ToolSettingsScrollArea, 0, 0, GadgetWidth(#GADGET_Preferences_ToolSettingsContainer)-4, GadgetHeight(#GADGET_Preferences_ToolSettingsContainer)-4, *CurrentPreferenceToolData\PreferencesWidth, *CurrentPreferenceToolData\PreferencesHeight, 10, #PB_ScrollArea_Single)
         CurrentPreferenceTool\PreferenceCreate()
-      CloseGadgetList()              
-    CloseGadgetList() 
+      CloseGadgetList()
+    CloseGadgetList()
     
     ; gives the prefs function to update these values during creation (good for the dynamic gui stuff)
     SetGadgetAttribute(#GADGET_Preferences_ToolSettingsScrollArea, #PB_ScrollArea_InnerWidth, *CurrentPreferenceToolData\PreferencesWidth)
-    SetGadgetAttribute(#GADGET_Preferences_ToolSettingsScrollArea, #PB_ScrollArea_InnerHeight, *CurrentPreferenceToolData\PreferencesHeight)   
+    SetGadgetAttribute(#GADGET_Preferences_ToolSettingsScrollArea, #PB_ScrollArea_InnerHeight, *CurrentPreferenceToolData\PreferencesHeight)
   Else
     SetGadgetText(#GADGET_Preferences_ToolSettingsTitle, Language("Preferences","Configuration"))
-  EndIf    
+  EndIf
   
   ; set images for the priorities from the theme
   For i = 0 To 4
@@ -3544,7 +3544,7 @@ Procedure UpdatePreferenceWindow()
   ForEach PreferenceIssues()
     SetGadgetItemImage(#GADGET_Preferences_IssueList, ListIndex(PreferenceIssues()), OptionalImageID(#IMAGE_Priority0 + PreferenceIssues()\Priority))
     SetGadgetItemText(#GADGET_Preferences_IssueList, ListIndex(PreferenceIssues()), Language("ToolsPanel","Prio" + PreferenceIssues()\Priority), 2)
-  Next PreferenceIssues()  
+  Next PreferenceIssues()
 
   PreferenceWindowDialog\GuiUpdate()
 
@@ -3578,15 +3578,15 @@ Procedure ExportPreferences()
       EndIf
       If GetGadgetState(#GADGET_Preferences_ExpFolding)
         WritePreferenceLong("IncludeFolding", 1)
-      EndIf        
+      EndIf
 
     ; write shortcuts
     ;
     If GetGadgetState(#GADGET_Preferences_ExpShortcut)
       PreferenceComment("")
       PreferenceComment("Shortcut settings")
-      PreferenceComment("") 
-      PreferenceGroup("Shortcuts")    
+      PreferenceComment("")
+      PreferenceGroup("Shortcuts")
       
       Restore ShortcutItems
       For i = 0 To #MENU_LastShortcutItem
@@ -3594,7 +3594,7 @@ Procedure ExportPreferences()
         Read.s MenuItem$
         Read.l DefaultShortcut
         WritePreferenceString(MenuItem$, ShortcutToIndependantName(Prefs_KeyboardShortcuts(i)))
-      Next i    
+      Next i
     EndIf
     
 
@@ -3603,14 +3603,14 @@ Procedure ExportPreferences()
     If GetGadgetState(#GADGET_Preferences_ExpToolbar)
       PreferenceComment("")
       PreferenceComment("Toolbar layout")
-      PreferenceComment("") 
-      PreferenceGroup("Toolbar") 
+      PreferenceComment("")
+      PreferenceGroup("Toolbar")
       
       WritePreferenceLong("ItemCount", PreferenceToolbarCount)
       For i = 1 To PreferenceToolbarCount
         WritePreferenceString("Icon_"+Str(i), PreferenceToolbar(i)\Name$)
-        WritePreferenceString("Action_"+Str(i), PreferenceToolbar(i)\Action$)        
-      Next i         
+        WritePreferenceString("Action_"+Str(i), PreferenceToolbar(i)\Action$)
+      Next i
     EndIf
     
     ; write colors
@@ -3618,9 +3618,9 @@ Procedure ExportPreferences()
     If GetGadgetState(#GADGET_Preferences_ExpColor)
       PreferenceComment("")
       PreferenceComment("Color settings")
-      PreferenceComment("") 
+      PreferenceComment("")
       
-      PreferenceGroup("Colors") 
+      PreferenceGroup("Colors")
       
       Restore ColorKeys
       For i = 0 To #COLOR_Last
@@ -3639,8 +3639,8 @@ Procedure ExportPreferences()
     If GetGadgetState(#GADGET_Preferences_ExpFolding)
       PreferenceComment("")
       PreferenceComment("Folding Keywords")
-      PreferenceComment("") 
-      PreferenceGroup("Folding") 
+      PreferenceComment("")
+      PreferenceGroup("Folding")
       
       StartCount = CountGadgetItems(#GADGET_Preferences_FoldStartList)
       EndCount = CountGadgetItems(#GADGET_Preferences_FoldEndList)
@@ -3652,10 +3652,10 @@ Procedure ExportPreferences()
       Next i
       For i = 1 To EndCount
         WritePreferenceString("End_"+Str(i), GetGadgetItemText(#GADGET_Preferences_FoldEndList, i-1, 0))
-      Next i 
-    EndIf        
+      Next i
+    EndIf
      
-    ClosePreferences()  
+    ClosePreferences()
     MessageRequester(#ProductName$, Language("Preferences", "ExportComplete"), #FLAG_Info)
   Else
     MessageRequester(#ProductName$, LanguagePattern("Misc", "PreferenceError", "%filename%", FileName$), #FLAG_ERROR)
@@ -3672,11 +3672,11 @@ Procedure ImportPreferences()
       ; check for the jaPBe files...
       
       ClosePreferences() ; must reopen the file to get the non-group strings in a jaPBe file
-      OpenPreferences(FileName$)      
+      OpenPreferences(FileName$)
       
       If ReadPreferenceString("DefaultFont", "--non-existent--") <> "--non-existent--"
         
-        ; we can only take the colors from the file, toolspanel/debugger colors not supported 
+        ; we can only take the colors from the file, toolspanel/debugger colors not supported
         
         Colors( 0)\PrefsValue = ValHex(ReadPreferenceString("ASMKeywordFore",  Hex(Colors( 0)\PrefsValue)))
         Colors( 1)\PrefsValue = ValHex(ReadPreferenceString("DefaultBack",     Hex(Colors( 1)\PrefsValue)))
@@ -3703,18 +3703,18 @@ Procedure ImportPreferences()
         ; apply the colors to the gadgets
         For i = 0 To #COLOR_Last
           UpdatePreferenceSyntaxColor(i, Colors(i)\PrefsValue)
-        Next i 
+        Next i
 
-        MessageRequester(#ProductName$, Language("Preferences", "ImportComplete"), #FLAG_Info)           
+        MessageRequester(#ProductName$, Language("Preferences", "ImportComplete"), #FLAG_Info)
       Else
-        MessageRequester(#ProductName$, Language("Preferences", "UnknownPrefFormat"), #FLAG_Error)           
+        MessageRequester(#ProductName$, Language("Preferences", "UnknownPrefFormat"), #FLAG_Error)
       EndIf
     
     Else ; ok, it is our own format
     
       IsShortcuts = ReadPreferenceLong("IncludeShortcuts", 0)
       IsToolbar   = ReadPreferenceLong("IncludeToolbar", 0)
-      IsColors    = ReadPreferenceLong("IncludeColors", 0) 
+      IsColors    = ReadPreferenceLong("IncludeColors", 0)
       IsFolding   = ReadPreferenceLong("IncludeFolding", 0)
       
       If GetGadgetState(#GADGET_Preferences_ImpShortcut) And IsShortcuts And PreferenceGroup("Shortcuts")
@@ -3724,9 +3724,9 @@ Procedure ImportPreferences()
           Read.s MenuItem$
           Read.l DefaultShortcut
           ShortcutName$ = ReadPreferenceString(MenuItem$, ShortcutToIndependantName(Prefs_KeyboardShortcuts(i)))
-          Prefs_KeyboardShortcuts(i) = IndependantNameToShortcut(ShortcutName$)        
-        Next i    
-        FillShortcutList()      
+          Prefs_KeyboardShortcuts(i) = IndependantNameToShortcut(ShortcutName$)
+        Next i
+        FillShortcutList()
       EndIf
       
       If GetGadgetState(#GADGET_Preferences_ImpToolbar) And IsToolbar And PreferenceGroup("Toolbar")
@@ -3737,11 +3737,11 @@ Procedure ImportPreferences()
           PreferenceToolbar(i)\Name$ = ConvertToolbarIconName(ReadPreferenceString("Icon_"+Str(i), PreferenceToolbar(i)\Name$))
           PreferenceToolbar(i)\Action$ = ReadPreferenceString("Action_"+Str(i), PreferenceToolbar(i)\Action$)
           AddGadgetItem(#GADGET_Preferences_ToolbarList, -1, "")
-        Next i  
+        Next i
         
-        UpdatePrefsToolbarList()      
+        UpdatePrefsToolbarList()
         ToolbarPreferenceMode = -1
-        ToolbarPreferenceAction = -1          
+        ToolbarPreferenceAction = -1
         UpdatePrefsToolbarItem()
         
       EndIf
@@ -3761,7 +3761,7 @@ Procedure ImportPreferences()
           Else
             Color = $C0C0C0
             DisableGadget(#GADGET_Preferences_FirstColorText+i, 1)
-            DisableGadget(#GADGET_Preferences_FirstSelectColor+i,1)              
+            DisableGadget(#GADGET_Preferences_FirstSelectColor+i,1)
           EndIf
           UpdatePreferenceSyntaxColor(i, Color)
         Next i
@@ -3775,8 +3775,8 @@ Procedure ImportPreferences()
             Box(0, 0, 45, 21, $000000)
             Box(1, 1, 43, 19, PreferenceToolsPanelFrontColor)
             StopDrawing()
-          EndIf    
-          SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))      
+          EndIf
+          SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))
         EndIf
   
         If IsImage(#IMAGE_Preferences_ToolsPanelBackColor)
@@ -3784,8 +3784,8 @@ Procedure ImportPreferences()
             Box(0, 0, 45, 21, $000000)
             Box(1, 1, 43, 19, PreferenceToolsPanelBackColor)
             StopDrawing()
-          EndIf    
-          SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))      
+          EndIf
+          SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))
         EndIf
   
       EndIf
@@ -3808,7 +3808,7 @@ Procedure ImportPreferences()
           If String$ <> ""
             AddGadgetItem(#GADGET_Preferences_FoldEndList, -1, String$)
           EndIf
-        Next i    
+        Next i
         
       EndIf
       MessageRequester(#ProductName$, Language("Preferences", "ImportComplete"), #FLAG_Info)
@@ -3818,7 +3818,7 @@ Procedure ImportPreferences()
 
     ClosePreferences()
     
-  Else    
+  Else
     MessageRequester(#ProductName$, Language("Misc", "ReadError")+".", #FLAG_ERROR)
   EndIf
    
@@ -3832,9 +3832,9 @@ Procedure CheckImportPreferencesFile() ; open the file, do not import anything
     
     If PreferenceGroup("Sections") = 0
       ; this might be a jaPBe color scheme file. i was asked to support this.
-      DisableGadget(#GADGET_Preferences_ImpShortcut, 1)  
-      DisableGadget(#GADGET_Preferences_ImpToolbar, 1)  
-      DisableGadget(#GADGET_Preferences_ImpFolding, 1)  
+      DisableGadget(#GADGET_Preferences_ImpShortcut, 1)
+      DisableGadget(#GADGET_Preferences_ImpToolbar, 1)
+      DisableGadget(#GADGET_Preferences_ImpFolding, 1)
       
       ClosePreferences() ; must reopen the file to get the non-group strings in a jaPBe file
       OpenPreferences(FileName$)
@@ -3843,8 +3843,8 @@ Procedure CheckImportPreferencesFile() ; open the file, do not import anything
         DisableGadget(#GADGET_Preferences_ImpColor, 0) ; yes, seems to be a jaPBe color file
       Else
         DisableGadget(#GADGET_Preferences_Import, 1) ; this file is unknown
-        DisableGadget(#GADGET_Preferences_ImpColor, 1)    
-        MessageRequester(#ProductName$, Language("Preferences", "UnknownPrefFormat"), #FLAG_Error)             
+        DisableGadget(#GADGET_Preferences_ImpColor, 1)
+        MessageRequester(#ProductName$, Language("Preferences", "UnknownPrefFormat"), #FLAG_Error)
       EndIf
     
     Else ; our own export format it is.
@@ -3871,7 +3871,7 @@ Procedure CheckImportPreferencesFile() ; open the file, do not import anything
         DisableGadget(#GADGET_Preferences_ImpFolding, 0)
       Else
         DisableGadget(#GADGET_Preferences_ImpFolding, 1)
-      EndIf  
+      EndIf
       
     EndIf
       
@@ -3880,8 +3880,8 @@ Procedure CheckImportPreferencesFile() ; open the file, do not import anything
   Else
 
     MessageRequester(#ProductName$, Language("Misc", "ReadError")+".")
-    DisableGadget(#GADGET_Preferences_Import, 1)  
-    DisableGadget(#GADGET_Preferences_ImpShortcut, 1)  
+    DisableGadget(#GADGET_Preferences_Import, 1)
+    DisableGadget(#GADGET_Preferences_ImpShortcut, 1)
     DisableGadget(#GADGET_Preferences_ImpToolbar, 1)
     DisableGadget(#GADGET_Preferences_ImpColor, 1)
     DisableGadget(#GADGET_Preferences_ImpFolding, 1)
@@ -3894,7 +3894,7 @@ EndProcedure
 Procedure UpdateToolsPanel_ToolsSettings(Gadget)
 
   state = GetGadgetState(Gadget)
-  If state <> -1              
+  If state <> -1
     If CurrentPreferenceTool
       CurrentPreferenceTool\PreferenceDestroy() ; close the settings for previous tool
       FreeGadget(#GADGET_Preferences_ToolSettingsScrollArea)
@@ -3906,31 +3906,31 @@ Procedure UpdateToolsPanel_ToolsSettings(Gadget)
       SetGadgetState(#GADGET_Preferences_AvailableTools, -1) ; deselect the other gadget, so you can tell to which Tool the settings belong
       
       SelectElement(NewUsedPanelTools(), state)
-      *CurrentPreferenceToolData = NewUsedPanelTools()      
+      *CurrentPreferenceToolData = NewUsedPanelTools()
     Else
       SetGadgetState(#GADGET_Preferences_UsedTools, -1)
       
       SelectElement(AvailablePanelTools(), state)
-      *CurrentPreferenceToolData = @AvailablePanelTools()      
+      *CurrentPreferenceToolData = @AvailablePanelTools()
     EndIf
 
     If *CurrentPreferenceToolData\NeedConfiguration
-      CurrentPreferenceTool = *CurrentPreferenceToolData         
+      CurrentPreferenceTool = *CurrentPreferenceToolData
       OpenGadgetList(#GADGET_Preferences_ToolSettingsContainer)
         ScrollAreaGadget(#GADGET_Preferences_ToolSettingsScrollArea, 0, 0, GadgetWidth(#GADGET_Preferences_ToolSettingsContainer), GadgetHeight(#GADGET_Preferences_ToolSettingsContainer), *CurrentPreferenceToolData\PreferencesWidth, *CurrentPreferenceToolData\PreferencesHeight, 10, #PB_ScrollArea_Single)
           CurrentPreferenceTool\PreferenceCreate()
-        CloseGadgetList()              
-      CloseGadgetList() 
+        CloseGadgetList()
+      CloseGadgetList()
       
-      If *CurrentPreferenceToolData\ExternalPlugin       
-        SetGadgetText(#GADGET_Preferences_ToolSettingsTitle, Language("Preferences","Configuration") + " - " + *CurrentPreferenceToolData\ToolName$)                        
+      If *CurrentPreferenceToolData\ExternalPlugin
+        SetGadgetText(#GADGET_Preferences_ToolSettingsTitle, Language("Preferences","Configuration") + " - " + *CurrentPreferenceToolData\ToolName$)
       Else
-        SetGadgetText(#GADGET_Preferences_ToolSettingsTitle, Language("Preferences","Configuration") + " - " + Language("ToolsPanel", *CurrentPreferenceToolData\ToolName$))            
+        SetGadgetText(#GADGET_Preferences_ToolSettingsTitle, Language("Preferences","Configuration") + " - " + Language("ToolsPanel", *CurrentPreferenceToolData\ToolName$))
       EndIf
     EndIf
     
     If Gadget = #GADGET_Preferences_UsedTools
-      DisableGadget(#GADGET_Preferences_AddTool, 1)    
+      DisableGadget(#GADGET_Preferences_AddTool, 1)
       DisableGadget(#GADGET_Preferences_RemoveTool, 0)
       If state > 0
         DisableGadget(#GADGET_Preferences_MoveToolUp, 0)
@@ -3950,31 +3950,31 @@ Procedure UpdateToolsPanel_ToolsSettings(Gadget)
       found = 0
       
       ForEach NewUsedPanelTools()
-        If NewUsedPanelTools() = @AvailablePanelTools()            
+        If NewUsedPanelTools() = @AvailablePanelTools()
           found = 1
           Break
         EndIf
       Next NewUsedPanelTools()
       
-      If found = 0          
-        DisableGadget(#GADGET_Preferences_AddTool, 0)  
+      If found = 0
+        DisableGadget(#GADGET_Preferences_AddTool, 0)
       Else
-        DisableGadget(#GADGET_Preferences_AddTool, 1)  
+        DisableGadget(#GADGET_Preferences_AddTool, 1)
       EndIf
       DisableGadget(#GADGET_Preferences_RemoveTool, 1)
       DisableGadget(#GADGET_Preferences_MoveToolUp, 1)
-      DisableGadget(#GADGET_Preferences_MoveToolDown, 1) 
+      DisableGadget(#GADGET_Preferences_MoveToolDown, 1)
       
     EndIf
   
   Else
   
-    DisableGadget(#GADGET_Preferences_AddTool, 1)    
+    DisableGadget(#GADGET_Preferences_AddTool, 1)
     DisableGadget(#GADGET_Preferences_RemoveTool, 1)
     DisableGadget(#GADGET_Preferences_MoveToolUp, 1)
-    DisableGadget(#GADGET_Preferences_MoveToolDown, 1) 
+    DisableGadget(#GADGET_Preferences_MoveToolDown, 1)
       
-  EndIf     
+  EndIf
 
 EndProcedure
 
@@ -4005,15 +4005,15 @@ Procedure Preferences_AddNewCompiler(Executable$)
       Compiler$ = UniqueFileName(Executable$ + "/pbcompiler")
     
     ElseIf FileSize(Executable$ + "/compilers/pbcompiler") > 0
-      Compiler$ = UniqueFileName(Executable$ + "/compilers/pbcompiler")    
+      Compiler$ = UniqueFileName(Executable$ + "/compilers/pbcompiler")
   CompilerEndIf
   
   EndIf
   
   If Compiler$ = "" ; no matching file found
-    AddElement(PreferenceCompilers()) 
+    AddElement(PreferenceCompilers())
     PreferenceCompilers()\Executable$ = Executable$
-    PreferenceCompilers()\Validated   = #False  
+    PreferenceCompilers()\Validated   = #False
       
   Else
   
@@ -4034,17 +4034,17 @@ Procedure Preferences_AddNewCompiler(Executable$)
     
     ; Validate and add
     ;
-    AddElement(PreferenceCompilers())  
+    AddElement(PreferenceCompilers())
     GetCompilerVersion(Compiler$, @PreferenceCompilers())
     
     If PreferenceCompilers()\Validated
       AddGadgetItem(#GADGET_Preferences_CompilerList, -1, PreferenceCompilers()\VersionString$+Chr(10)+PreferenceCompilers()\Executable$)
     Else
       AddGadgetItem(#GADGET_Preferences_CompilerList, -1, Language("Compiler","UnknownVersion")+Chr(10)+PreferenceCompilers()\Executable$)
-    EndIf 
-    SetActiveGadget(#GADGET_Preferences_CompilerList)  
+    EndIf
+    SetActiveGadget(#GADGET_Preferences_CompilerList)
   
-  EndIf 
+  EndIf
     
 EndProcedure
 
@@ -4060,7 +4060,7 @@ Procedure PreferencesWindowEvents(EventID)
     EventID  = #PB_Event_Gadget   ; to normal gadget events...
     EventGadgetID = EventMenu()
   Else
-    EventGadgetID = EventGadget()        
+    EventGadgetID = EventGadget()
   EndIf
   
   
@@ -4078,7 +4078,7 @@ Procedure PreferencesWindowEvents(EventID)
         
         If Target <> DragItem
           Name$ = PreferenceToolbar(DragItem)\Name$
-          Action$ = PreferenceToolbar(DragItem)\Action$        
+          Action$ = PreferenceToolbar(DragItem)\Action$
           If Target > DragItem
             For i = DragItem To Target-1
               PreferenceToolbar(i)\Name$ = PreferenceToolbar(i+1)\Name$
@@ -4089,13 +4089,13 @@ Procedure PreferencesWindowEvents(EventID)
             For i = DragItem To Target+1 Step -1
               PreferenceToolbar(i)\Name$ = PreferenceToolbar(i-1)\Name$
               PreferenceToolbar(i)\Action$ = PreferenceToolbar(i-1)\Action$
-            Next i        
+            Next i
           
           EndIf
           PreferenceToolbar(Target)\Name$ = Name$
-          PreferenceToolbar(Target)\Action$ = Action$                        
-          UpdatePrefsToolbarList()    
-        EndIf    
+          PreferenceToolbar(Target)\Action$ = Action$
+          UpdatePrefsToolbarList()
+        EndIf
         UpdatePrefsToolbarItem()
         
         
@@ -4104,7 +4104,7 @@ Procedure PreferencesWindowEvents(EventID)
         If FileSize(Path$) <> -2 ; probably a file then
           Path$ = GetPathPart(Path$)
         EndIf
-        SetGadgetText(#GADGET_Preferences_SourcePath, Path$)  
+        SetGadgetText(#GADGET_Preferences_SourcePath, Path$)
         
      Case #GADGET_Preferences_KeywordList
         If EventDropType() = #PB_Drop_Text
@@ -4121,8 +4121,8 @@ Procedure PreferencesWindowEvents(EventID)
               *Start = *Pointer
               While *Pointer\c And ValidCharacters(*Pointer\c)
                 *Pointer + SizeOf(Character)
-              Wend            
-              Word$ = PeekS(*Start, (*Pointer-*Start)/SizeOf(Character))            
+              Wend
+              Word$ = PeekS(*Start, (*Pointer-*Start)/SizeOf(Character))
               AddGadgetItem(#GADGET_Preferences_KeywordList, -1, Word$)
             EndIf
           Wend
@@ -4141,16 +4141,16 @@ Procedure PreferencesWindowEvents(EventID)
                 If ValidCharacters(*Cursor\c) = 0
                   Word$ = ""
                   Break
-                EndIf    
+                EndIf
                 *Cursor + SizeOf(Character)
-              Wend    
+              Wend
             
               If Word$ <> ""
                 AddGadgetItem(#GADGET_Preferences_KeywordList, -1, Word$)
               EndIf
             Wend
             CloseFile(#FILE_LoadFunctions)
-          EndIf  
+          EndIf
           SetGadgetState(#GADGET_Preferences_KeywordList, CountGadgetItems(#GADGET_Preferences_KeywordList)-1)
           SetGadgetState(#GADGET_Preferences_KeywordList, -1)
                 
@@ -4176,8 +4176,8 @@ Procedure PreferencesWindowEvents(EventID)
             *Start = *Pointer
             While *Pointer\c And ValidCharacters(*Pointer\c)
               *Pointer + SizeOf(Character)
-            Wend            
-            Word$ = PeekS(*Start, (*Pointer-*Start)/SizeOf(Character))            
+            Wend
+            Word$ = PeekS(*Start, (*Pointer-*Start)/SizeOf(Character))
 
             If Word$ <> "" And CountGadgetItems(EventGadgetID) < #MAX_FoldWords
               AddGadgetItem(EventGadgetID, -1, Word$)
@@ -4185,7 +4185,7 @@ Procedure PreferencesWindowEvents(EventID)
           EndIf
         Wend
         SetGadgetState(EventGadgetID, CountGadgetItems(EventGadgetID)-1)
-        SetGadgetState(EventGadgetID, -1)  
+        SetGadgetState(EventGadgetID, -1)
 
 
       Case #GADGET_Preferences_ExportFile
@@ -4204,7 +4204,7 @@ Procedure PreferencesWindowEvents(EventID)
           found = 0
           
           ForEach NewUsedPanelTools()
-            If NewUsedPanelTools() = @AvailablePanelTools()            
+            If NewUsedPanelTools() = @AvailablePanelTools()
               found = 1
               SetGadgetState(#GADGET_Preferences_UsedTools, ListIndex(NewUsedPanelTools()))
               Break
@@ -4228,7 +4228,7 @@ Procedure PreferencesWindowEvents(EventID)
               AddGadgetItem(#GADGET_Preferences_UsedTools, Target, AvailablePanelTools()\ToolName$+"*")
             Else
               AddGadgetItem(#GADGET_Preferences_UsedTools, Target, Language("ToolsPanel", AvailablePanelTools()\ToolName$))
-            EndIf        
+            EndIf
           
             SetGadgetState(#GADGET_Preferences_UsedTools, Target)
           EndIf
@@ -4238,11 +4238,11 @@ Procedure PreferencesWindowEvents(EventID)
           Target = GetGadgetState(#GADGET_Preferences_UsedTools)
           If Target = -1
             Target = CountGadgetItems(#GADGET_Preferences_UsedTools)-1
-          EndIf          
+          EndIf
         
-          If Target <> DragItem            
+          If Target <> DragItem
             SelectElement(NewUsedPanelTools(), DragItem)
-            Value = NewUsedPanelTools()                       
+            Value = NewUsedPanelTools()
             Text$ = GetGadgetItemText(#GADGET_Preferences_UsedTools, DragItem)
             
             DeleteElement(NewUsedPanelTools())
@@ -4263,7 +4263,7 @@ Procedure PreferencesWindowEvents(EventID)
               SelectElement(NewUsedPanelTools(), Target)
               InsertElement(NewUsedPanelTools())
             
-            EndIf                
+            EndIf
             
             NewUsedPanelTools() = Value
             SetGadgetItemText(#GADGET_Preferences_UsedTools, Target, Text$)
@@ -4286,13 +4286,13 @@ Procedure PreferencesWindowEvents(EventID)
           CurrentPreferenceTool\PreferenceDestroy() ; close the settings for previous tool
           FreeGadget(#GADGET_Preferences_ToolSettingsScrollArea)
         EndIf
-        CurrentPreferenceTool = 0 
-        SetGadgetState(#GADGET_Preferences_AvailableTools, -1)     
-        SetGadgetState(#GADGET_Preferences_UsedTools, -1)     
-        DisableGadget(#GADGET_Preferences_AddTool, 1)      
+        CurrentPreferenceTool = 0
+        SetGadgetState(#GADGET_Preferences_AvailableTools, -1)
+        SetGadgetState(#GADGET_Preferences_UsedTools, -1)
+        DisableGadget(#GADGET_Preferences_AddTool, 1)
         DisableGadget(#GADGET_Preferences_RemoveTool, 1)
         DisableGadget(#GADGET_Preferences_MoveToolUp, 1)
-        DisableGadget(#GADGET_Preferences_MoveToolDown, 1)   
+        DisableGadget(#GADGET_Preferences_MoveToolDown, 1)
 
       Case #GADGET_Preferences_CompilerList
         Files$ = EventDropFiles()
@@ -4314,7 +4314,7 @@ Procedure PreferencesWindowEvents(EventID)
   
   ElseIf EventID = #PB_Event_Gadget
   
-    Select EventGadgetID  
+    Select EventGadgetID
         
         CompilerIf #SpiderBasic
           Case #GADGET_Preferences_SelectWebBrowser
@@ -4342,9 +4342,9 @@ Procedure PreferencesWindowEvents(EventID)
           If index > 16 : index + 4 : EndIf ; As we have remove some tree item, we need to shift them
         CompilerEndIf
         If index <> -1 And index <> PreferenceCurrentPage
-          HideGadget(#GADGET_Preferences_FirstContainer+index, 0)  
-          HideGadget(#GADGET_Preferences_FirstContainer+PreferenceCurrentPage, 1)        
-          PreferenceCurrentPage = index                
+          HideGadget(#GADGET_Preferences_FirstContainer+index, 0)
+          HideGadget(#GADGET_Preferences_FirstContainer+PreferenceCurrentPage, 1)
+          PreferenceCurrentPage = index
         EndIf
     
       Case #GADGET_Preferences_Ok
@@ -4354,13 +4354,13 @@ Procedure PreferencesWindowEvents(EventID)
       Case #GADGET_Preferences_Cancel
         Quit = 1
 
-      Case #GADGET_Preferences_Apply       
+      Case #GADGET_Preferences_Apply
         DisableGadget(#GADGET_Preferences_Ok, 1) ; disable OK/Cancel to avoid a crash if OK is called during the apply (as we process the event loop somewhere in ApplyPreferences() -> recursive call)
         DisableGadget(#GADGET_Preferences_Cancel, 1)
         ApplyPreferences()
-        UpdatePreferenceWindow()  
+        UpdatePreferenceWindow()
         SetWindowForeground(#WINDOW_Preferences)
-        DisableGadget(#GADGET_Preferences_Apply, 1)                          
+        DisableGadget(#GADGET_Preferences_Apply, 1)
         DisableGadget(#GADGET_Preferences_Ok, 0)
         DisableGadget(#GADGET_Preferences_Cancel, 0)
         
@@ -4368,7 +4368,7 @@ Procedure PreferencesWindowEvents(EventID)
         Enabled = GetGadgetState(#GADGET_Preferences_EnableHistory)
         For i = #GADGET_Preferences_HistoryTimer To #GADGET_Preferences_HistoryCount
           DisableGadget(i, 1-Enabled)
-        Next i    
+        Next i
 
       Case #GADGET_Preferences_GetSourcePath
         Path$ = PathRequester("", GetGadgetText(#GADGET_Preferences_SourcePath))
@@ -4382,14 +4382,14 @@ Procedure PreferencesWindowEvents(EventID)
 ;         DisableGadget(#GADGET_Preferences_EnableBolding, 1-state)
 ;         For i = #GADGET_Preferences_FirstSelectColor To #GADGET_Preferences_LastSelectColor
 ;           DisableGadget(i, 1-state)
-;         Next i        
+;         Next i
                 
       Case #GADGET_Preferences_EnableLineNumbers
-        state = GetGadgetState(#GADGET_Preferences_EnableLineNumbers)       
+        state = GetGadgetState(#GADGET_Preferences_EnableLineNumbers)
 
         For i = #GADGET_Preferences_FoldStartList To #GADGET_Preferences_FoldEndRemove
           DisableGadget(i, 1-state)
-        Next i         
+        Next i
         
         If state = 1 And GetGadgetState(#GADGET_Preferences_EnableFolding) = 0
           For i = #GADGET_Preferences_FoldStartList To #GADGET_Preferences_FoldEndRemove
@@ -4404,7 +4404,7 @@ Procedure PreferencesWindowEvents(EventID)
         state = GetGadgetState(#GADGET_Preferences_EnableFolding)
         For i = #GADGET_Preferences_FoldStartList To #GADGET_Preferences_FoldEndRemove
           DisableGadget(i, 1-state)
-        Next i        
+        Next i
   
       Case #GADGET_Preferences_SelectFont
         If FontRequester(PreferenceFontName$, PreferenceFontSize, PreferenceFontStyle) And SelectedFontName() <> ""
@@ -4412,9 +4412,9 @@ Procedure PreferencesWindowEvents(EventID)
           If LoadFont(#FONT_Preferences_CurrentFont, SelectedFontName(), SelectedFontSize(), SelectedFontStyle())
             SetGadgetFont(#GADGET_Preferences_CurrentFont, FontID(#FONT_Preferences_CurrentFont))
             
-            PreferenceFontName$ = SelectedFontName() 
-            PreferenceFontSize  = SelectedFontSize() 
-            PreferenceFontStyle = SelectedFontStyle()             
+            PreferenceFontName$ = SelectedFontName()
+            PreferenceFontSize  = SelectedFontSize()
+            PreferenceFontStyle = SelectedFontStyle()
           Else
             LoadFont(#FONT_Preferences_CurrentFont, PreferenceFontName$, PreferenceFontSize, PreferenceFontStyle)
             SetGadgetFont(#GADGET_Preferences_CurrentFont, FontID(#FONT_Preferences_CurrentFont))
@@ -4426,13 +4426,13 @@ Procedure PreferencesWindowEvents(EventID)
           SelectedLanguage = GetGadgetState(#GADGET_Preferences_Languages)
           SelectElement(AvailableLanguages(), SelectedLanguage)
           
-          Info$ = Language("Preferences", "LanguageInfo") + ":"  + #NewLine + #NewLine    
+          Info$ = Language("Preferences", "LanguageInfo") + ":"  + #NewLine + #NewLine
           Info$ + Language("Preferences", "LastUpdated")  + ":    " + AvailableLanguages()\Date$ + #NewLine
           Info$ + Language("Preferences", "Creator")      + ":    " + AvailableLanguages()\Creator$ + #NewLine
           Info$ + Language("Preferences", "Email")        + ":    " + AvailableLanguages()\CreatorEmail$ + #NewLine + #NewLine
           Info$ + Language("Preferences", "FileName")     + ":    " + CreateRelativePath(PureBasicPath$, AvailableLanguages()\FileName$)
-          SetGadgetText(#GADGET_Preferences_LanguageInfo, Info$)          
-        EndIf        
+          SetGadgetText(#GADGET_Preferences_LanguageInfo, Info$)
+        EndIf
       
       Case #GADGET_Preferences_GetKeywordFile
         File$ = OpenFileRequester(Language("Preferences", "OpenKeywordFile"), GetGadgetText(#GADGET_Preferences_KeywordFile), Language("Compiler", "AllFilesPattern"), 0)
@@ -4448,7 +4448,7 @@ Procedure PreferencesWindowEvents(EventID)
           SetGadgetState(#GADGET_Preferences_KeywordList, CountGadgetItems(#GADGET_Preferences_KeywordList)-1)
           SetGadgetState(#GADGET_Preferences_KeywordList, -1)
           SetGadgetText(#GADGET_Preferences_KeywordText, "")
-        EndIf      
+        EndIf
             
       Case #GADGET_Preferences_KeywordRemove
         ; go backwards, so the removed items do not change any index...
@@ -4456,7 +4456,7 @@ Procedure PreferencesWindowEvents(EventID)
           If GetGadgetItemState(#GADGET_Preferences_KeywordList, i) ; selected
             RemoveGadgetItem(#GADGET_Preferences_KeywordList, i)
           EndIf
-        Next i                    
+        Next i
         
       Case #GADGET_Preferences_FoldStartAdd
         Text$ = GetGadgetText(#GADGET_Preferences_FoldStartText)
@@ -4474,7 +4474,7 @@ Procedure PreferencesWindowEvents(EventID)
           SetGadgetState(#GADGET_Preferences_FoldEndList, CountGadgetItems(#GADGET_Preferences_FoldEndList)-1)
           SetGadgetState(#GADGET_Preferences_FoldEndList, -1)
           SetGadgetText(#GADGET_Preferences_FoldEndText, "")
-        EndIf      
+        EndIf
       
       Case #GADGET_Preferences_FoldStartRemove
         ; go backwards, so the removed items do not change any index...
@@ -4482,7 +4482,7 @@ Procedure PreferencesWindowEvents(EventID)
           If GetGadgetItemState(#GADGET_Preferences_FoldStartList, i) ; selected
             RemoveGadgetItem(#GADGET_Preferences_FoldStartList, i)
           EndIf
-        Next i           
+        Next i
 
       Case #GADGET_Preferences_FoldEndRemove
         ; go backwards, so the removed items do not change any index...
@@ -4490,10 +4490,10 @@ Procedure PreferencesWindowEvents(EventID)
           If GetGadgetItemState(#GADGET_Preferences_FoldEndList, i) ; selected
             RemoveGadgetItem(#GADGET_Preferences_FoldEndList, i)
           EndIf
-        Next i           
+        Next i
       
 
-      Case #GADGET_Preferences_ToolbarList   
+      Case #GADGET_Preferences_ToolbarList
         UpdatePrefsToolbarItem()
         
         If EventType() = #PB_EventType_DragStart
@@ -4534,30 +4534,30 @@ Procedure PreferencesWindowEvents(EventID)
           PreferenceToolbar(index)\Name$ = PreferenceToolbar(index-1)\Name$
           PreferenceToolbar(index)\Action$ = PreferenceToolbar(index-1)\Action$
           PreferenceToolbar(index-1)\Name$ = Name$
-          PreferenceToolbar(index-1)\Action$ = Action$    
-          SetGadgetState(#GADGET_Preferences_ToolbarList, index-2)                
+          PreferenceToolbar(index-1)\Action$ = Action$
+          SetGadgetState(#GADGET_Preferences_ToolbarList, index-2)
           UpdatePrefsToolbarList()
         EndIf
                 
       Case #GADGET_Preferences_ToolbarMoveDown
         index = GetGadgetState(#GADGET_Preferences_ToolbarList) + 1
-        If index < PreferenceToolbarCount And index <> 0       
+        If index < PreferenceToolbarCount And index <> 0
           Name$ = PreferenceToolbar(index)\Name$
           Action$ = PreferenceToolbar(index)\Action$
           PreferenceToolbar(index)\Name$ = PreferenceToolbar(index+1)\Name$
           PreferenceToolbar(index)\Action$ = PreferenceToolbar(index+1)\Action$
           PreferenceToolbar(index+1)\Name$ = Name$
-          PreferenceToolbar(index+1)\Action$ = Action$  
-          SetGadgetState(#GADGET_Preferences_ToolbarList, index)                  
+          PreferenceToolbar(index+1)\Action$ = Action$
+          SetGadgetState(#GADGET_Preferences_ToolbarList, index)
           UpdatePrefsToolbarList()
-        EndIf      
+        EndIf
             
       Case #GADGET_Preferences_ToolbarDelete
         index = GetGadgetState(#GADGET_Preferences_ToolbarList) + 1
         If index <> 0
           For i = index+1 To PreferenceToolbarCount
             PreferenceToolbar(i-1)\Name$ = PreferenceToolbar(i)\Name$
-            PreferenceToolbar(i-1)\Action$ = PreferenceToolbar(i)\Action$            
+            PreferenceToolbar(i-1)\Action$ = PreferenceToolbar(i)\Action$
           Next i
           PreferenceToolbarCount - 1
           RemoveGadgetItem(#GADGET_Preferences_ToolbarList, index-1)
@@ -4574,20 +4574,20 @@ Procedure PreferencesWindowEvents(EventID)
         
         If PreferenceToolbarCount < #MAX_ToolbarButtons
           AddGadgetItem(#GADGET_Preferences_ToolbarList, -1, "")
-          PreferenceToolbarCount + 1  
+          PreferenceToolbarCount + 1
           index = PreferenceToolbarCount
           If GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 0
             PreferenceToolbar(index)\Name$ = "Separator"
-            PreferenceToolbar(index)\Action$ = "" 
+            PreferenceToolbar(index)\Action$ = ""
           ElseIf GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 1
             PreferenceToolbar(index)\Name$ = "Space"
-            PreferenceToolbar(index)\Action$ = "" 
+            PreferenceToolbar(index)\Action$ = ""
           Else
-            Select GetGadgetState(#GADGET_Preferences_ToolbarIconType)   
+            Select GetGadgetState(#GADGET_Preferences_ToolbarIconType)
               Case 2 ; standard
                 PreferenceToolbar(index)\Name$ = StandardButtonName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
               Case 3 ; menu
-                PreferenceToolbar(index)\Name$ = ToolbarMenuName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)            
+                PreferenceToolbar(index)\Name$ = ToolbarMenuName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
               Case 4 ; external
                 PreferenceToolbar(index)\Name$ = "External:"+GetGadgetText(#GADGET_Preferences_ToolbarIconName)
             EndSelect
@@ -4597,7 +4597,7 @@ Procedure PreferencesWindowEvents(EventID)
             Else
               PreferenceToolbar(index)\Action$ = "Tool:"+GetGadgetText(#GADGET_Preferences_ToolbarActionList)
             EndIf
-          EndIf       
+          EndIf
           UpdatePrefsToolbarList()
         Else
           MessageRequester("PureBasic", Language("Preferences","MaxItems"), #FLAG_Error)
@@ -4609,16 +4609,16 @@ Procedure PreferencesWindowEvents(EventID)
         
           If GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 0
             PreferenceToolbar(index)\Name$ = "Separator"
-            PreferenceToolbar(index)\Action$ = ""  
+            PreferenceToolbar(index)\Action$ = ""
           ElseIf GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 1
             PreferenceToolbar(index)\Name$ = "Space"
-            PreferenceToolbar(index)\Action$ = ""  
+            PreferenceToolbar(index)\Action$ = ""
           Else
-            Select GetGadgetState(#GADGET_Preferences_ToolbarIconType)   
+            Select GetGadgetState(#GADGET_Preferences_ToolbarIconType)
               Case 2 ; standard
                 PreferenceToolbar(index)\Name$ = StandardButtonName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
               Case 3 ; menu
-                PreferenceToolbar(index)\Name$ = ToolbarMenuName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)            
+                PreferenceToolbar(index)\Name$ = ToolbarMenuName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
               Case 4 ; external
                 PreferenceToolbar(index)\Name$ = "External:"+GetGadgetText(#GADGET_Preferences_ToolbarIconName)
             EndSelect
@@ -4628,9 +4628,9 @@ Procedure PreferencesWindowEvents(EventID)
             Else
               PreferenceToolbar(index)\Action$ = "Tool:"+GetGadgetText(#GADGET_Preferences_ToolbarActionList)
             EndIf
-          EndIf       
-          UpdatePrefsToolbarList()       
-        EndIf        
+          EndIf
+          UpdatePrefsToolbarList()
+        EndIf
       
       Case #GADGET_Preferences_ToolbarClassic
         ClearGadgetItems(#GADGET_Preferences_ToolbarList)
@@ -4641,7 +4641,7 @@ Procedure PreferencesWindowEvents(EventID)
           Read.s PreferenceToolbar(i)\Name$
           Read.s PreferenceToolbar(i)\Action$
           AddGadgetItem(#GADGET_Preferences_ToolbarList, -1, "")
-        Next i      
+        Next i
         UpdatePrefsToolbarList()
         UpdatePrefsToolbarItem()
       
@@ -4654,16 +4654,16 @@ Procedure PreferencesWindowEvents(EventID)
           Read.s PreferenceToolbar(i)\Name$
           Read.s PreferenceToolbar(i)\Action$
           AddGadgetItem(#GADGET_Preferences_ToolbarList, -1, "")
-        Next i      
+        Next i
         UpdatePrefsToolbarList()
         UpdatePrefsToolbarItem()
       
-      Case #GADGET_Preferences_VistaAdmin          
+      Case #GADGET_Preferences_VistaAdmin
         If GetGadgetState(#GADGET_Preferences_VistaAdmin)
           SetGadgetState(#GADGET_Preferences_VistaUser, 0) ; both cannot be at once
         EndIf
 
-      Case #GADGET_Preferences_VistaUser 
+      Case #GADGET_Preferences_VistaUser
         If GetGadgetState(#GADGET_Preferences_VistaUser)
           SetGadgetState(#GADGET_Preferences_VistaAdmin, 0) ; both cannot be at once
         EndIf
@@ -4672,9 +4672,9 @@ Procedure PreferencesWindowEvents(EventID)
       Case #GADGET_Preferences_AutoPopup
         state = GetGadgetState(#GADGET_Preferences_AutoPopup)
 ;        DisableGadget(#GADGET_Preferences_NoComments, 1-state)
-;        DisableGadget(#GADGET_Preferences_NoStrings, 1-state) 
-        DisableGadget(#GADGET_Preferences_AutoPopupLength, 1-state) 
-        DisableGadget(#GADGET_Preferences_AutoPopupText, 1-state) 
+;        DisableGadget(#GADGET_Preferences_NoStrings, 1-state)
+        DisableGadget(#GADGET_Preferences_AutoPopupLength, 1-state)
+        DisableGadget(#GADGET_Preferences_AutoPopupText, 1-state)
           
         
       Case #GADGET_Preferences_ToolsPanelFrontColorSelect
@@ -4686,8 +4686,8 @@ Procedure PreferencesWindowEvents(EventID)
               Box(0, 0, 45, 21, $000000)
               Box(1, 1, 43, 19, Color)
               StopDrawing()
-            EndIf    
-            SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))      
+            EndIf
+            SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))
           EndIf
         EndIf
       
@@ -4700,10 +4700,10 @@ Procedure PreferencesWindowEvents(EventID)
               Box(0, 0, 45, 21, $000000)
               Box(1, 1, 43, 19, Color)
               StopDrawing()
-            EndIf    
-            SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))      
+            EndIf
+            SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))
           EndIf
-        EndIf      
+        EndIf
       
       Case #GADGET_Preferences_SelectToolsPanelFont
         If FontRequester(PreferenceToolsPanelFont$, PreferenceToolsPanelFontSize, PreferenceToolsPanelFontStyle) <> 0 And SelectedFontName() <> ""
@@ -4721,7 +4721,7 @@ Procedure PreferencesWindowEvents(EventID)
         DisableGadget(#GADGET_Preferences_ToolsPanelFrontColorSelect, 1-state)
         DisableGadget(#GADGET_Preferences_ToolsPanelBackColorSelect, 1-state)
                 
-      Case #GADGET_Preferences_AvailableTools   
+      Case #GADGET_Preferences_AvailableTools
         UpdateToolsPanel_ToolsSettings(#GADGET_Preferences_AvailableTools)
               
         If EventType() = #PB_EventType_DragStart
@@ -4740,7 +4740,7 @@ Procedure PreferencesWindowEvents(EventID)
           If DragItem <> -1
             DragPrivate(#DRAG_Preferences_ToolsFromUsed, #PB_Drag_Move)
           EndIf
-        EndIf  
+        EndIf
          
       
       Case #GADGET_Preferences_AddTool
@@ -4748,14 +4748,14 @@ Procedure PreferencesWindowEvents(EventID)
         found = 0
         
         ForEach NewUsedPanelTools()
-          If NewUsedPanelTools() = @AvailablePanelTools()            
+          If NewUsedPanelTools() = @AvailablePanelTools()
             found = 1
             SetGadgetState(#GADGET_Preferences_UsedTools, ListIndex(NewUsedPanelTools()))
             Break
           EndIf
         Next NewUsedPanelTools()
         
-        If found = 0            
+        If found = 0
           LastElement(NewUsedPanelTools())
           AddElement(NewUsedPanelTools())
           NewUsedPanelTools() = @AvailablePanelTools()
@@ -4764,7 +4764,7 @@ Procedure PreferencesWindowEvents(EventID)
             AddGadgetItem(#GADGET_Preferences_UsedTools, -1, AvailablePanelTools()\ToolName$+"*")
           Else
             AddGadgetItem(#GADGET_Preferences_UsedTools, -1, Language("ToolsPanel", AvailablePanelTools()\ToolName$))
-          EndIf        
+          EndIf
           DisableGadget(#GADGET_Preferences_AddTool, 1)
         EndIf
 
@@ -4778,28 +4778,28 @@ Procedure PreferencesWindowEvents(EventID)
           CurrentPreferenceTool\PreferenceDestroy() ; close the settings for previous tool
           FreeGadget(#GADGET_Preferences_ToolSettingsScrollArea)
         EndIf
-        CurrentPreferenceTool = 0      
-        DisableGadget(#GADGET_Preferences_AddTool, 1)      
+        CurrentPreferenceTool = 0
+        DisableGadget(#GADGET_Preferences_AddTool, 1)
         DisableGadget(#GADGET_Preferences_RemoveTool, 1)
         DisableGadget(#GADGET_Preferences_MoveToolUp, 1)
-        DisableGadget(#GADGET_Preferences_MoveToolDown, 1)   
+        DisableGadget(#GADGET_Preferences_MoveToolDown, 1)
         
              
       Case #GADGET_Preferences_MoveToolUp
         index = GetGadgetState(#GADGET_Preferences_UsedTools)
         SelectElement(NewUsedPanelTools(), index)
         
-        Current = NewUsedPanelTools()                
+        Current = NewUsedPanelTools()
         PreviousElement(NewUsedPanelTools())
         Previous = NewUsedPanelTools()
-        NewUsedPanelTools() = Current        
+        NewUsedPanelTools() = Current
         NextElement(NewUsedPanelTools())
         NewUsedPanelTools() = Previous
 
         Text$ = GetGadgetItemText(#GADGET_Preferences_UsedTools, index, 0)
         SetGadgetItemText(#GADGET_Preferences_UsedTools, index, GetGadgetItemText(#GADGET_Preferences_UsedTools, index-1, 0), 0)
-        SetGadgetItemText(#GADGET_Preferences_UsedTools, index-1, Text$, 0)        
-        SetGadgetState(#GADGET_Preferences_UsedTools, index-1)    
+        SetGadgetItemText(#GADGET_Preferences_UsedTools, index-1, Text$, 0)
+        SetGadgetState(#GADGET_Preferences_UsedTools, index-1)
         
         If index <= 1
           DisableGadget(#GADGET_Preferences_MoveToolUp, 1)
@@ -4811,25 +4811,25 @@ Procedure PreferencesWindowEvents(EventID)
         index = GetGadgetState(#GADGET_Preferences_UsedTools)
         SelectElement(NewUsedPanelTools(), index)
         
-        Current = NewUsedPanelTools()                
+        Current = NewUsedPanelTools()
         NextElement(NewUsedPanelTools())
         NextElement = NewUsedPanelTools()
-        NewUsedPanelTools() = Current        
+        NewUsedPanelTools() = Current
         PreviousElement(NewUsedPanelTools())
-        NewUsedPanelTools() = NextElement 
+        NewUsedPanelTools() = NextElement
 
         Text$ = GetGadgetItemText(#GADGET_Preferences_UsedTools, index, 0)
         SetGadgetItemText(#GADGET_Preferences_UsedTools, index, GetGadgetItemText(#GADGET_Preferences_UsedTools, index+1, 0), 0)
-        SetGadgetItemText(#GADGET_Preferences_UsedTools, index+1, Text$, 0)        
+        SetGadgetItemText(#GADGET_Preferences_UsedTools, index+1, Text$, 0)
         SetGadgetState(#GADGET_Preferences_UsedTools, index+1)
         
         DisableGadget(#GADGET_Preferences_MoveToolUp, 0)
         If index >= ListSize(NewUsedPanelTools())-2
           DisableGadget(#GADGET_Preferences_MoveToolDown, 1)
-        EndIf    
+        EndIf
       
       Case #GADGET_Preferences_AutoHidePanel
-        state = GetGadgetState(#GADGET_Preferences_AutoHidePanel)    
+        state = GetGadgetState(#GADGET_Preferences_AutoHidePanel)
         DisableGadget(#GADGET_Preferences_ToolsPanelDelay, 1-state)
         DisableGadget(#GADGET_Preferences_ToolsPanelDelayText, 1-state)
  
@@ -4839,11 +4839,11 @@ Procedure PreferencesWindowEvents(EventID)
         If index = -1
           Shortcut = 0
         Else
-          Shortcut = Prefs_KeyboardShortcuts(index)        
+          Shortcut = Prefs_KeyboardShortcuts(index)
         EndIf
         SetGadgetState(#GADGET_Preferences_SelectShortcut, Shortcut)
 
-;         If Shortcut & #PB_Shortcut_Control ; on win98, using "Shortcut & #PB_Shortcut_Control" directly in setgadgetstate does not work!        
+;         If Shortcut & #PB_Shortcut_Control ; on win98, using "Shortcut & #PB_Shortcut_Control" directly in setgadgetstate does not work!
 ;           SetGadgetState(#GADGET_Preferences_ShortcutControl, 1)
 ;         Else
 ;           SetGadgetState(#GADGET_Preferences_ShortcutControl, 0)
@@ -4854,15 +4854,15 @@ Procedure PreferencesWindowEvents(EventID)
 ;           SetGadgetState(#GADGET_Preferences_ShortcutAlt,     0)
 ;         EndIf
 ;         If Shortcut & #PB_Shortcut_Shift
-;           SetGadgetState(#GADGET_Preferences_ShortcutShift,   1)          
+;           SetGadgetState(#GADGET_Preferences_ShortcutShift,   1)
 ;         Else
-;           SetGadgetState(#GADGET_Preferences_ShortcutShift,   0)          
+;           SetGadgetState(#GADGET_Preferences_ShortcutShift,   0)
 ;         EndIf
-;         
+;
 ;         CompilerIf #CompileMac
 ;           SetGadgetState(#GADGET_Preferences_ShortcutCommand, Shortcut & #PB_Shortcut_Command)
 ;         CompilerEndIf
-;                
+;
 ;         SetGadgetState(#GADGET_Preferences_ShortcutKey, GetBaseKeyIndex(Shortcut))
       
       Case #GADGET_Preferences_ShortcutSet
@@ -4884,7 +4884,7 @@ Procedure PreferencesWindowEvents(EventID)
         index = GetGadgetState(#GADGET_Preferences_ShortcutList)
         If index >= 0
           If IsShortcutUsed(Shortcut, index, 0)
-            MessageRequester(#ProductName$, Language("Shortcuts","AllreadyUsed")+#NewLine+Chr(34)+GetShortcutOwner(Shortcut)+Chr(34), #FLAG_Info)        
+            MessageRequester(#ProductName$, Language("Shortcuts","AllreadyUsed")+#NewLine+Chr(34)+GetShortcutOwner(Shortcut)+Chr(34), #FLAG_Info)
           Else
             Prefs_KeyboardShortcuts(index) = Shortcut ; must be before the SetText for OSX (see ShortcutManagement.pb)
             SetGadgetItemText(#GADGET_Preferences_ShortcutList, index, GetShortcutText(Shortcut), 1)
@@ -4899,7 +4899,7 @@ Procedure PreferencesWindowEvents(EventID)
         Else
           For i = #GADGET_Preferences_DebuggerMemorizeWindows To #GADGET_Preferences_WatchlistWindowOpen
             DisableGadget(i, 1)
-          Next i        
+          Next i
         EndIf
         
       Case #GADGET_Preferences_DebugOutUseFont
@@ -4913,7 +4913,7 @@ Procedure PreferencesWindowEvents(EventID)
           PreferenceDebugOutFontStyle = SelectedFontStyle()
         EndIf
         
-      Case #GADGET_Preferences_ColorSchemeSet      
+      Case #GADGET_Preferences_ColorSchemeSet
         index = GetGadgetState(#GADGET_Preferences_ColorSchemes)
         
         Restore DefaultColorSchemes
@@ -4922,12 +4922,12 @@ Procedure PreferencesWindowEvents(EventID)
         If index >= 0 And index < NbSchemes
           
           ; skip all schemes before the index
-          For i = 1 To index 
+          For i = 1 To index
             Read.s Name$
             For c = 0 To #COLOR_Last+2 ; skip colors+toolspanel colors
               Read.l color
             Next c
-          Next i           
+          Next i
           
           Read.s Name$ ; skip name
           
@@ -4952,27 +4952,27 @@ Procedure PreferencesWindowEvents(EventID)
           CompilerEndIf
                     
           ; apply the colors to the gadgets
-          For i = 0 To #COLOR_Last       
+          For i = 0 To #COLOR_Last
             If Colors(i)\PrefsValue <> -1
               Color = Colors(i)\PrefsValue
               DisableGadget(#GADGET_Preferences_FirstColorText+i, 0)
               DisableGadget(#GADGET_Preferences_FirstSelectColor+i, 0)
             Else
-              Color = $C0C0C0 
+              Color = $C0C0C0
               DisableGadget(#GADGET_Preferences_FirstColorText+i, 1)
-              DisableGadget(#GADGET_Preferences_FirstSelectColor+i,1)              
+              DisableGadget(#GADGET_Preferences_FirstSelectColor+i,1)
             EndIf
             
             UpdatePreferenceSyntaxColor(i, Color)
-          Next i 
+          Next i
     
           If IsImage(#IMAGE_Preferences_ToolsPanelFrontColor)
             If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelFrontColor))
               Box(0, 0, 45, 21, $000000)
               Box(1, 1, 43, 19, PreferenceToolsPanelFrontColor)
               StopDrawing()
-            EndIf    
-            SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))      
+            EndIf
+            SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))
           EndIf
     
           If IsImage(#IMAGE_Preferences_ToolsPanelBackColor)
@@ -4980,9 +4980,9 @@ Procedure PreferencesWindowEvents(EventID)
               Box(0, 0, 45, 21, $000000)
               Box(1, 1, 43, 19, PreferenceToolsPanelBackColor)
               StopDrawing()
-            EndIf    
-            SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))      
-          EndIf            
+            EndIf
+            SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))
+          EndIf
         
         EndIf
                      
@@ -4996,7 +4996,7 @@ Procedure PreferencesWindowEvents(EventID)
           SetGadgetText(#GADGET_Preferences_ExportFile, File$)
         EndIf
       
-      Case #GADGET_Preferences_GetImportFile       
+      Case #GADGET_Preferences_GetImportFile
         File$ = OpenFileRequester(Language("Misc","OpenFile"), GetGadgetText(#GADGET_Preferences_ImportFile), Language("Preferences","PrefExportPattern"), 0)
         If File$ <> ""
           SetGadgetText(#GADGET_Preferences_ImportFile, File$)
@@ -5004,26 +5004,26 @@ Procedure PreferencesWindowEvents(EventID)
           DisableGadget(#GADGET_Preferences_ImpToolbar, 1)
           DisableGadget(#GADGET_Preferences_ImpColor, 1)
           DisableGadget(#GADGET_Preferences_ImpFolding, 1)
-          DisableGadget(#GADGET_Preferences_Import, 1)          
+          DisableGadget(#GADGET_Preferences_Import, 1)
         EndIf
         
-      Case #GADGET_Preferences_ImportFile     
+      Case #GADGET_Preferences_ImportFile
         If EventType() = #PB_EventType_Change
           DisableGadget(#GADGET_Preferences_ImpShortcut, 1) ; disable again, as it is a new file
           DisableGadget(#GADGET_Preferences_ImpToolbar, 1)
           DisableGadget(#GADGET_Preferences_ImpColor, 1)
           DisableGadget(#GADGET_Preferences_ImpFolding, 1)
-          DisableGadget(#GADGET_Preferences_Import, 1)                
+          DisableGadget(#GADGET_Preferences_Import, 1)
         EndIf
       
       Case #GADGET_Preferences_Export
-        ExportPreferences()       
+        ExportPreferences()
       
       Case #GADGET_Preferences_OpenImport
         CheckImportPreferencesFile()
       
-      Case #GADGET_Preferences_Import     
-        ImportPreferences()   
+      Case #GADGET_Preferences_Import
+        ImportPreferences()
         
       Case #GADGET_Preferences_AddCompiler
         If GetGadgetText(#GADGET_Preferences_CompilerExe) <> ""
@@ -5097,7 +5097,7 @@ Procedure PreferencesWindowEvents(EventID)
             FlushEvents() ; Need to flush as else a #PB_EventType_Change causes an immediate update because of the SetGadgetState above
             SetGadgetText(#GADGET_Preferences_IndentKeyword, "")
             SetGadgetText(#GADGET_Preferences_IndentBefore, "")
-            SetGadgetText(#GADGET_Preferences_IndentAfter, "")            
+            SetGadgetText(#GADGET_Preferences_IndentAfter, "")
           Else
             SetGadgetItemText(#GADGET_Preferences_IndentList, Index, Keyword$, 0)
             SetGadgetItemText(#GADGET_Preferences_IndentList, Index, Str(Before), 1)
@@ -5106,7 +5106,7 @@ Procedure PreferencesWindowEvents(EventID)
             ; Update to match our sanity checked input
             SetGadgetText(#GADGET_Preferences_IndentKeyword, Keyword$)
             SetGadgetText(#GADGET_Preferences_IndentBefore, Str(Before))
-            SetGadgetText(#GADGET_Preferences_IndentAfter, Str(After))            
+            SetGadgetText(#GADGET_Preferences_IndentAfter, Str(After))
           EndIf
         EndIf
       
@@ -5117,7 +5117,7 @@ Procedure PreferencesWindowEvents(EventID)
           SetGadgetText(#GADGET_Preferences_IndentKeyword, "")
           SetGadgetText(#GADGET_Preferences_IndentBefore, "")
           SetGadgetText(#GADGET_Preferences_IndentAfter, "")
-        EndIf      
+        EndIf
         
       CompilerIf #CompileMacCarbon
       
@@ -5146,8 +5146,8 @@ Procedure PreferencesWindowEvents(EventID)
         Else
           ; enable all gadgets
           For i = #GADGET_Preferences_UpdateIssue To #GADGET_Preferences_IssueInBrowser
-            DisableGadget(i, 0)                        
-          Next i        
+            DisableGadget(i, 0)
+          Next i
           
           ; set the proper data
           SelectElement(PreferenceIssues(), index)
@@ -5179,13 +5179,13 @@ Procedure PreferencesWindowEvents(EventID)
               SetGadgetState(#GADGET_Preferences_IssueCodeBack, 0)
               SetGadgetState(#GADGET_Preferences_IssueCodeLine, 1)
           EndSelect
-        EndIf        
+        EndIf
       
       Case #GADGET_Preferences_NewIssue, #GADGET_Preferences_UpdateIssue
-        ; almost the same code here for both events        
+        ; almost the same code here for both events
         ; first check regex
         regex = CreateRegularExpression(#PB_Any, GetGadgetText(#GADGET_Preferences_IssueExpr))
-        If regex 
+        If regex
           FreeRegularExpression(regex)
           
           ; there is a quite low limit (6) on possible markers for the issues, so check this here
@@ -5228,7 +5228,7 @@ Procedure PreferencesWindowEvents(EventID)
                 PreferenceIssues()\CodeMode = 2
               EndIf
   
-              ; update gadget            
+              ; update gadget
               SetGadgetItemText(#GADGET_Preferences_IssueList, index, PreferenceIssues()\Name$, 0)
               SetGadgetItemText(#GADGET_Preferences_IssueList, index, PreferenceIssues()\Expression$, 1)
               SetGadgetItemText(#GADGET_Preferences_IssueList, index, Language("ToolsPanel","Prio" + PreferenceIssues()\Priority), 2)
@@ -5240,7 +5240,7 @@ Procedure PreferencesWindowEvents(EventID)
             MessageRequester(#ProductName$, ReplaceString(Language("Preferences","IssueCodeLineLimit"), "%limit%", Str(#MAX_IssueMarkers)), #FLAG_Error)
           EndIf
           
-        Else  
+        Else
           ; regex is invalid
           MessageRequester(#ProductName$, Language("Preferences","InvalidExpr") + #NewLine + RegularExpressionError(), #FLAG_Error)
         EndIf
@@ -5265,9 +5265,9 @@ Procedure PreferencesWindowEvents(EventID)
             Box(1, 1, 43, 18, NewColor)
             StopDrawing()
           EndIf
-          SetGadgetState(#GADGET_Preferences_IssueColor, ImageID(#IMAGE_Preferences_IssueColor))        
+          SetGadgetState(#GADGET_Preferences_IssueColor, ImageID(#IMAGE_Preferences_IssueColor))
           PreferenceIssueColor = NewColor
-        EndIf      
+        EndIf
 
       Default
         If EventGadgetID >= #GADGET_Preferences_FirstSelectColor And EventGadgetID <= #GADGET_Preferences_LastSelectColor
@@ -5276,7 +5276,7 @@ Procedure PreferencesWindowEvents(EventID)
           If Color <> -1
             Colors(index)\PrefsValue = Color
             UpdatePreferenceSyntaxColor(index, Color)
-          EndIf        
+          EndIf
         
         ElseIf CurrentPreferenceTool  ; unknown gadget event.. sent too ToolsPanel tool
           CurrentPreferenceTool\PreferenceEvents(EventGadgetID)
@@ -5301,7 +5301,7 @@ Procedure PreferencesWindowEvents(EventID)
     EndIf
     
   ElseIf EventID = #PB_Event_CloseWindow
-     Quit = 1  
+     Quit = 1
      
   EndIf
   
@@ -5324,13 +5324,13 @@ Procedure PreferencesWindowEvents(EventID)
     
     For i = #IMAGE_Preferences_FirstColor To #IMAGE_Preferences_LastColor
       FreeImage(i)
-    Next i            
+    Next i
     
     If MemorizeWindow
       PreferenceWindowDialog\Close(@PreferenceWindowPositon)
     Else
       PreferenceWindowDialog\Close()
-    EndIf 
+    EndIf
   EndIf
 EndProcedure
 
@@ -5340,7 +5340,7 @@ DataSection
 
   ;- Color Preference keys
   ; List of names in order of the #COLOR values that contains the keys
-  ; for loading/saving the preferences  
+  ; for loading/saving the preferences
   ;
   ColorKeys:
     Data$ "ASMKeywordColor"
@@ -5380,7 +5380,7 @@ DataSection
     Data$ "IndentColor"
     Data$ "ModuleColor"
     Data$ "SelectionRepeatColor"
-    Data$ "PlainBackground"    
+    Data$ "PlainBackground"
     
   ;- DefaultColorSchemes
   ;
@@ -5399,45 +5399,45 @@ DataSection
     Data.l $000000
     Data.l $FFFFFF
     Data.l $800000
-    Data.l $FFFFFF ; #COLOR_ASMKeyword               
-    Data.l $C37B23 ; #COLOR_BasicKeyword             
-    Data.l $009001 ; #COLOR_Comment                  
-    Data.l $724B92 ; #COLOR_Constant                 
-    Data.l $000000 ; #COLOR_Label                    
-    Data.l $000000 ; #COLOR_NormalText               
-    Data.l $000000 ; #COLOR_Number                   
-    Data.l $000000 ; #COLOR_Operator                 
-    Data.l $000000 ; #COLOR_Pointer                  
-    Data.l $F39B43 ; #COLOR_PureKeyword              
-    Data.l $000000 ; #COLOR_Separator                
-    Data.l $F39B43 ; #COLOR_String                   
-    Data.l $000000 ; #COLOR_Structure                
-    Data.l $808080 ; #COLOR_LineNumber               
-    Data.l $F0F0F0 ; #COLOR_LineNumberBack           
-    Data.l $000000 ; #COLOR_Marker                   
-    Data.l $F8F8F8 ; #COLOR_CurrentLine              
-    Data.l $6A240A ; #COLOR_Selection                
-    Data.l $FFFFFF ; #COLOR_SelectionFront           
-    Data.l $000000 ; #COLOR_Cursor                   
-    Data.l $00FFFF ; #COLOR_DebuggerLine             
-    Data.l $00FFFF ; #COLOR_DebuggerLineSymbol       
-    Data.l $0000FF ; #COLOR_DebuggerError            
-    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol      
-    Data.l $FFFF00 ; #COLOR_DebuggerBreakPoint       
-    Data.l $FFFF00 ; #COLOR_DebuggerBreakpointSymbol 
-    Data.l $F5F5F5 ; #COLOR_DisabledBack             
-    Data.l $CC0000 ; #COLOR_GoodBrace                
-    Data.l $0000CC ; #COLOR_BadBrace                 
-    Data.l $FFFFFF ; #COLOR_ProcedureBack            
-    Data.l 0       ; #COLOR_CustomKeyword            
-    Data.l $0080FF ; #COLOR_DebuggerWarning          
-    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol    
-    Data.l $008000 ; #COLOR_Whitespace               
-    Data.l $000000 ; #COLOR_Module                   
+    Data.l $FFFFFF ; #COLOR_ASMKeyword
+    Data.l $C37B23 ; #COLOR_BasicKeyword
+    Data.l $009001 ; #COLOR_Comment
+    Data.l $724B92 ; #COLOR_Constant
+    Data.l $000000 ; #COLOR_Label
+    Data.l $000000 ; #COLOR_NormalText
+    Data.l $000000 ; #COLOR_Number
+    Data.l $000000 ; #COLOR_Operator
+    Data.l $000000 ; #COLOR_Pointer
+    Data.l $F39B43 ; #COLOR_PureKeyword
+    Data.l $000000 ; #COLOR_Separator
+    Data.l $F39B43 ; #COLOR_String
+    Data.l $000000 ; #COLOR_Structure
+    Data.l $808080 ; #COLOR_LineNumber
+    Data.l $F0F0F0 ; #COLOR_LineNumberBack
+    Data.l $000000 ; #COLOR_Marker
+    Data.l $F8F8F8 ; #COLOR_CurrentLine
+    Data.l $6A240A ; #COLOR_Selection
+    Data.l $FFFFFF ; #COLOR_SelectionFront
+    Data.l $000000 ; #COLOR_Cursor
+    Data.l $00FFFF ; #COLOR_DebuggerLine
+    Data.l $00FFFF ; #COLOR_DebuggerLineSymbol
+    Data.l $0000FF ; #COLOR_DebuggerError
+    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
+    Data.l $FFFF00 ; #COLOR_DebuggerBreakPoint
+    Data.l $FFFF00 ; #COLOR_DebuggerBreakpointSymbol
+    Data.l $F5F5F5 ; #COLOR_DisabledBack
+    Data.l $CC0000 ; #COLOR_GoodBrace
+    Data.l $0000CC ; #COLOR_BadBrace
+    Data.l $FFFFFF ; #COLOR_ProcedureBack
+    Data.l 0       ; #COLOR_CustomKeyword
+    Data.l $0080FF ; #COLOR_DebuggerWarning
+    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
+    Data.l $008000 ; #COLOR_Whitespace
+    Data.l $000000 ; #COLOR_Module
     Data.l $FAECAB ; #COLOR_SelectionRepeat
     Data.l $FFFFFF ; #COLOR_PlainBackground
 
-  CompilerElse    
+  CompilerElse
   
     ; total number of defined schemes:
     Data.l 8
@@ -5484,7 +5484,7 @@ DataSection
     Data.l $DFFFFF ; #COLOR_ProcedureBack
     Data.l $660000 ; #COLOR_CustomKeyword
     Data.l $00D0FF ; #COLOR_DebuggerWarning
-    Data.l $00D0FF ; #COLOR_DebuggerWarningSymbol 
+    Data.l $00D0FF ; #COLOR_DebuggerWarningSymbol
     Data.l $AAAA00 ; #COLOR_Whitespace
     Data.l 0       ; #COLOR_Module
     Data.l $A7FFB0 ; #COLOR_SelectionRepeat
@@ -5495,310 +5495,310 @@ DataSection
     Data.l $000000
     Data.l $FFFFFF
     Data.l $800000
-    Data.l $FFFFFF ; #COLOR_ASMKeyword               
-    Data.l $FF0000 ; #COLOR_BasicKeyword             
-    Data.l $008000 ; #COLOR_Comment                  
-    Data.l $000000 ; #COLOR_Constant                 
-    Data.l $000000 ; #COLOR_Label                    
-    Data.l $000000 ; #COLOR_NormalText               
-    Data.l $000000 ; #COLOR_Number                   
-    Data.l $000000 ; #COLOR_Operator                 
-    Data.l $000000 ; #COLOR_Pointer                  
-    Data.l $000000 ; #COLOR_PureKeyword              
-    Data.l $000000 ; #COLOR_Separator                
-    Data.l $000000 ; #COLOR_String                   
-    Data.l $000000 ; #COLOR_Structure                
-    Data.l $808080 ; #COLOR_LineNumber               
-    Data.l $F0F0F0 ; #COLOR_LineNumberBack           
-    Data.l $000000 ; #COLOR_Marker                   
-    Data.l $F0F0F0 ; #COLOR_CurrentLine              
-    Data.l $6A240A ; #COLOR_Selection                
-    Data.l $FFFFFF ; #COLOR_SelectionFront           
-    Data.l $000000 ; #COLOR_Cursor                   
-    Data.l $00FFFF ; #COLOR_DebuggerLine             
-    Data.l $00FFFF ; #COLOR_DebuggerLineSymbol       
-    Data.l $0000FF ; #COLOR_DebuggerError            
-    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol      
-    Data.l $FFFF00 ; #COLOR_DebuggerBreakPoint       
-    Data.l $FFFF00 ; #COLOR_DebuggerBreakpointSymbol 
-    Data.l $F5F5F5 ; #COLOR_DisabledBack              
-    Data.l $FF0000 ; #COLOR_GoodBrace                
-    Data.l $0000FF ; #COLOR_BadBrace                 
-    Data.l $FFFFFF ; #COLOR_ProcedureBack            
-    Data.l 0       ; #COLOR_CustomKeyword            
-    Data.l $0080FF ; #COLOR_DebuggerWarning          
-    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol    
-    Data.l $008000 ; #COLOR_Whitespace               
-    Data.l $000000 ; #COLOR_Module  
-    Data.l $F9D6CA ; #COLOR_SelectionRepeat      
-    Data.l $FFFFFF ; #COLOR_PlainBackground           
+    Data.l $FFFFFF ; #COLOR_ASMKeyword
+    Data.l $FF0000 ; #COLOR_BasicKeyword
+    Data.l $008000 ; #COLOR_Comment
+    Data.l $000000 ; #COLOR_Constant
+    Data.l $000000 ; #COLOR_Label
+    Data.l $000000 ; #COLOR_NormalText
+    Data.l $000000 ; #COLOR_Number
+    Data.l $000000 ; #COLOR_Operator
+    Data.l $000000 ; #COLOR_Pointer
+    Data.l $000000 ; #COLOR_PureKeyword
+    Data.l $000000 ; #COLOR_Separator
+    Data.l $000000 ; #COLOR_String
+    Data.l $000000 ; #COLOR_Structure
+    Data.l $808080 ; #COLOR_LineNumber
+    Data.l $F0F0F0 ; #COLOR_LineNumberBack
+    Data.l $000000 ; #COLOR_Marker
+    Data.l $F0F0F0 ; #COLOR_CurrentLine
+    Data.l $6A240A ; #COLOR_Selection
+    Data.l $FFFFFF ; #COLOR_SelectionFront
+    Data.l $000000 ; #COLOR_Cursor
+    Data.l $00FFFF ; #COLOR_DebuggerLine
+    Data.l $00FFFF ; #COLOR_DebuggerLineSymbol
+    Data.l $0000FF ; #COLOR_DebuggerError
+    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
+    Data.l $FFFF00 ; #COLOR_DebuggerBreakPoint
+    Data.l $FFFF00 ; #COLOR_DebuggerBreakpointSymbol
+    Data.l $F5F5F5 ; #COLOR_DisabledBack
+    Data.l $FF0000 ; #COLOR_GoodBrace
+    Data.l $0000FF ; #COLOR_BadBrace
+    Data.l $FFFFFF ; #COLOR_ProcedureBack
+    Data.l 0       ; #COLOR_CustomKeyword
+    Data.l $0080FF ; #COLOR_DebuggerWarning
+    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
+    Data.l $008000 ; #COLOR_Whitespace
+    Data.l $000000 ; #COLOR_Module
+    Data.l $F9D6CA ; #COLOR_SelectionRepeat
+    Data.l $FFFFFF ; #COLOR_PlainBackground
 
 
     Data$ "PHP extended"
     Data.l $000000
     Data.l $F4F4F4
     Data.l $724B92
-    Data.l $FFFFFF ; #COLOR_ASMKeyword               
-    Data.l $008000 ; #COLOR_BasicKeyword             
-    Data.l $0080FF ; #COLOR_Comment                  
-    Data.l $724B92 ; #COLOR_Constant                 
-    Data.l $A00000 ; #COLOR_Label                    
-    Data.l $A00000 ; #COLOR_NormalText               
-    Data.l $FF0000 ; #COLOR_Number                   
-    Data.l $008080 ; #COLOR_Operator                 
-    Data.l $000000 ; #COLOR_Pointer                  
-    Data.l $008000 ; #COLOR_PureKeyword              
-    Data.l $000000 ; #COLOR_Separator                
-    Data.l $0000FF ; #COLOR_String                   
-    Data.l $800000 ; #COLOR_Structure                
-    Data.l $000000 ; #COLOR_LineNumber               
-    Data.l $F0F0F0 ; #COLOR_LineNumberBack           
-    Data.l $AAAA00 ; #COLOR_Marker                   
-    Data.l $F5F5F5 ; #COLOR_CurrentLine              
-    Data.l $C0C0C0 ; #COLOR_Selection                
-    Data.l $000000 ; #COLOR_SelectionFront           
-    Data.l $000000 ; #COLOR_Cursor                   
-    Data.l $FFE8E8 ; #COLOR_DebuggerLine             
-    Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol       
-    Data.l $8080FF ; #COLOR_DebuggerError            
-    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol      
-    Data.l $00D0FF ; #COLOR_DebuggerBreakPoint       
-    Data.l $00D0FF ; #COLOR_DebuggerBreakpointSymbol 
-    Data.l $F5F5F5 ; #COLOR_DisabledBack               
-    Data.l $008000 ; #COLOR_GoodBrace                
-    Data.l $0000FF ; #COLOR_BadBrace                 
-    Data.l $FFFFFF ; #COLOR_ProcedureBack             
-    Data.l 0       ; #COLOR_CustomKeyword             
-    Data.l $FFFF00 ; #COLOR_DebuggerWarning           
-    Data.l $FFFF00 ; #COLOR_DebuggerWarningSymbol    
-    Data.l $0080FF ; #COLOR_Whitespace               
-    Data.l $A00000 ; #COLOR_Module  
-    Data.l $DCDCDC ; #COLOR_SelectionRepeat   
-    Data.l $FFFFFF ; #COLOR_PlainBackground              
+    Data.l $FFFFFF ; #COLOR_ASMKeyword
+    Data.l $008000 ; #COLOR_BasicKeyword
+    Data.l $0080FF ; #COLOR_Comment
+    Data.l $724B92 ; #COLOR_Constant
+    Data.l $A00000 ; #COLOR_Label
+    Data.l $A00000 ; #COLOR_NormalText
+    Data.l $FF0000 ; #COLOR_Number
+    Data.l $008080 ; #COLOR_Operator
+    Data.l $000000 ; #COLOR_Pointer
+    Data.l $008000 ; #COLOR_PureKeyword
+    Data.l $000000 ; #COLOR_Separator
+    Data.l $0000FF ; #COLOR_String
+    Data.l $800000 ; #COLOR_Structure
+    Data.l $000000 ; #COLOR_LineNumber
+    Data.l $F0F0F0 ; #COLOR_LineNumberBack
+    Data.l $AAAA00 ; #COLOR_Marker
+    Data.l $F5F5F5 ; #COLOR_CurrentLine
+    Data.l $C0C0C0 ; #COLOR_Selection
+    Data.l $000000 ; #COLOR_SelectionFront
+    Data.l $000000 ; #COLOR_Cursor
+    Data.l $FFE8E8 ; #COLOR_DebuggerLine
+    Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol
+    Data.l $8080FF ; #COLOR_DebuggerError
+    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
+    Data.l $00D0FF ; #COLOR_DebuggerBreakPoint
+    Data.l $00D0FF ; #COLOR_DebuggerBreakpointSymbol
+    Data.l $F5F5F5 ; #COLOR_DisabledBack
+    Data.l $008000 ; #COLOR_GoodBrace
+    Data.l $0000FF ; #COLOR_BadBrace
+    Data.l $FFFFFF ; #COLOR_ProcedureBack
+    Data.l 0       ; #COLOR_CustomKeyword
+    Data.l $FFFF00 ; #COLOR_DebuggerWarning
+    Data.l $FFFF00 ; #COLOR_DebuggerWarningSymbol
+    Data.l $0080FF ; #COLOR_Whitespace
+    Data.l $A00000 ; #COLOR_Module
+    Data.l $DCDCDC ; #COLOR_SelectionRepeat
+    Data.l $FFFFFF ; #COLOR_PlainBackground
 
     Data$ "Black Style"
     Data.l $008000
     Data.l $000000
     Data.l $FFFFFF
-    Data.l $000000 ; #COLOR_ASMKeyword               
-    Data.l $00CCCC ; #COLOR_BasicKeyword             
-    Data.l $808080 ; #COLOR_Comment                  
-    Data.l $808000 ; #COLOR_Constant                 
-    Data.l $FFFF80 ; #COLOR_Label                    
-    Data.l $C08000 ; #COLOR_NormalText               
-    Data.l $808080 ; #COLOR_Number                   
-    Data.l $808080 ; #COLOR_Operator                 
-    Data.l $E6E600 ; #COLOR_Pointer                  
-    Data.l $008000 ; #COLOR_PureKeyword              
-    Data.l $00CCCC ; #COLOR_Separator                
-    Data.l $FFFFFF ; #COLOR_String                   
-    Data.l $808000 ; #COLOR_Structure                
-    Data.l $FF8080 ; #COLOR_LineNumber               
-    Data.l $5E0000 ; #COLOR_LineNumberBack           
-    Data.l $AAAA00 ; #COLOR_Marker                   
-    Data.l $292929 ; #COLOR_CurrentLine              
-    Data.l $C0C0C0 ; #COLOR_Selection                
-    Data.l $000000 ; #COLOR_SelectionFront           
-    Data.l $FFFFFF ; #COLOR_Cursor                   
-    Data.l $FFFFFF ; #COLOR_DebuggerLine             
-    Data.l $FFFFFF ; #COLOR_DebuggerLineSymbol       
-    Data.l $0000FF ; #COLOR_DebuggerError            
-    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol      
-    Data.l $99994D ; #COLOR_DebuggerBreakPoint       
-    Data.l $99994D ; #COLOR_DebuggerBreakpointSymbol 
-    Data.l $3C0000 ; #COLOR_DisabledBack             
-    Data.l $00CCCC ; #COLOR_GoodBrace                
-    Data.l $0000FF ; #COLOR_BadBrace                 
-    Data.l $000000 ; #COLOR_ProcedureBack            
-    Data.l $D0D0D0 ; #COLOR_CustomKeyword            
-    Data.l $0080FF ; #COLOR_DebuggerWarning          
-    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol    
-    Data.l $808080 ; #COLOR_Whitespace               
-    Data.l $C08000 ; #COLOR_Module    
-    Data.l $464646 ; #COLOR_SelectionRepeat     
-    Data.l $000000 ; #COLOR_PlainBackground          
+    Data.l $000000 ; #COLOR_ASMKeyword
+    Data.l $00CCCC ; #COLOR_BasicKeyword
+    Data.l $808080 ; #COLOR_Comment
+    Data.l $808000 ; #COLOR_Constant
+    Data.l $FFFF80 ; #COLOR_Label
+    Data.l $C08000 ; #COLOR_NormalText
+    Data.l $808080 ; #COLOR_Number
+    Data.l $808080 ; #COLOR_Operator
+    Data.l $E6E600 ; #COLOR_Pointer
+    Data.l $008000 ; #COLOR_PureKeyword
+    Data.l $00CCCC ; #COLOR_Separator
+    Data.l $FFFFFF ; #COLOR_String
+    Data.l $808000 ; #COLOR_Structure
+    Data.l $FF8080 ; #COLOR_LineNumber
+    Data.l $5E0000 ; #COLOR_LineNumberBack
+    Data.l $AAAA00 ; #COLOR_Marker
+    Data.l $292929 ; #COLOR_CurrentLine
+    Data.l $C0C0C0 ; #COLOR_Selection
+    Data.l $000000 ; #COLOR_SelectionFront
+    Data.l $FFFFFF ; #COLOR_Cursor
+    Data.l $FFFFFF ; #COLOR_DebuggerLine
+    Data.l $FFFFFF ; #COLOR_DebuggerLineSymbol
+    Data.l $0000FF ; #COLOR_DebuggerError
+    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
+    Data.l $99994D ; #COLOR_DebuggerBreakPoint
+    Data.l $99994D ; #COLOR_DebuggerBreakpointSymbol
+    Data.l $3C0000 ; #COLOR_DisabledBack
+    Data.l $00CCCC ; #COLOR_GoodBrace
+    Data.l $0000FF ; #COLOR_BadBrace
+    Data.l $000000 ; #COLOR_ProcedureBack
+    Data.l $D0D0D0 ; #COLOR_CustomKeyword
+    Data.l $0080FF ; #COLOR_DebuggerWarning
+    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
+    Data.l $808080 ; #COLOR_Whitespace
+    Data.l $C08000 ; #COLOR_Module
+    Data.l $464646 ; #COLOR_SelectionRepeat
+    Data.l $000000 ; #COLOR_PlainBackground
 
     Data$ "Blue Style"
     Data.l $80FFFF
     Data.l $804000
-    Data.l $724B92        
-    Data.l $FFEAD9 ; #COLOR_ASMKeyword               
-    Data.l $800000 ; #COLOR_BasicKeyword             
-    Data.l $006400 ; #COLOR_Comment                  
-    Data.l $000080 ; #COLOR_Constant                 
-    Data.l $000000 ; #COLOR_Label                    
-    Data.l $000000 ; #COLOR_NormalText               
-    Data.l $0000FF ; #COLOR_Number                   
-    Data.l $0000FF ; #COLOR_Operator                 
-    Data.l $000000 ; #COLOR_Pointer                  
-    Data.l $FF0000 ; #COLOR_PureKeyword              
-    Data.l $000000 ; #COLOR_Separator                
-    Data.l $646464 ; #COLOR_String                   
-    Data.l $000000 ; #COLOR_Structure                
-    Data.l $80FFFF ; #COLOR_LineNumber               
-    Data.l $804000 ; #COLOR_LineNumberBack           
-    Data.l $AAAA00 ; #COLOR_Marker                   
-    Data.l $FFF1E6 ; #COLOR_CurrentLine              
-    Data.l $C0C0C0 ; #COLOR_Selection                
-    Data.l $000000 ; #COLOR_SelectionFront           
-    Data.l $000000 ; #COLOR_Cursor                   
-    Data.l $FFE8E8 ; #COLOR_DebuggerLine             
-    Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol       
-    Data.l $0000FF ; #COLOR_DebuggerError            
-    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol      
-    Data.l $AAAA00 ; #COLOR_DebuggerBreakPoint       
-    Data.l $AAAA00 ; #COLOR_DebuggerBreakpointSymbol 
-    Data.l $FFEAD9 ; #COLOR_DisabledBack             
-    Data.l $800000 ; #COLOR_GoodBrace                
-    Data.l $0000FF ; #COLOR_BadBrace                 
-    Data.l $FFEAD9 ; #COLOR_ProcedureBack            
-    Data.l 0       ; #COLOR_CustomKeyword            
-    Data.l $0080FF ; #COLOR_DebuggerWarning          
-    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol    
-    Data.l $006400 ; #COLOR_Whitespace               
-    Data.l $000000 ; #COLOR_Module      
-    Data.l $FFD8B7 ; #COLOR_SelectionRepeat 
-    Data.l $FFEAD9 ; #COLOR_PlainBackground            
+    Data.l $724B92
+    Data.l $FFEAD9 ; #COLOR_ASMKeyword
+    Data.l $800000 ; #COLOR_BasicKeyword
+    Data.l $006400 ; #COLOR_Comment
+    Data.l $000080 ; #COLOR_Constant
+    Data.l $000000 ; #COLOR_Label
+    Data.l $000000 ; #COLOR_NormalText
+    Data.l $0000FF ; #COLOR_Number
+    Data.l $0000FF ; #COLOR_Operator
+    Data.l $000000 ; #COLOR_Pointer
+    Data.l $FF0000 ; #COLOR_PureKeyword
+    Data.l $000000 ; #COLOR_Separator
+    Data.l $646464 ; #COLOR_String
+    Data.l $000000 ; #COLOR_Structure
+    Data.l $80FFFF ; #COLOR_LineNumber
+    Data.l $804000 ; #COLOR_LineNumberBack
+    Data.l $AAAA00 ; #COLOR_Marker
+    Data.l $FFF1E6 ; #COLOR_CurrentLine
+    Data.l $C0C0C0 ; #COLOR_Selection
+    Data.l $000000 ; #COLOR_SelectionFront
+    Data.l $000000 ; #COLOR_Cursor
+    Data.l $FFE8E8 ; #COLOR_DebuggerLine
+    Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol
+    Data.l $0000FF ; #COLOR_DebuggerError
+    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
+    Data.l $AAAA00 ; #COLOR_DebuggerBreakPoint
+    Data.l $AAAA00 ; #COLOR_DebuggerBreakpointSymbol
+    Data.l $FFEAD9 ; #COLOR_DisabledBack
+    Data.l $800000 ; #COLOR_GoodBrace
+    Data.l $0000FF ; #COLOR_BadBrace
+    Data.l $FFEAD9 ; #COLOR_ProcedureBack
+    Data.l 0       ; #COLOR_CustomKeyword
+    Data.l $0080FF ; #COLOR_DebuggerWarning
+    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
+    Data.l $006400 ; #COLOR_Whitespace
+    Data.l $000000 ; #COLOR_Module
+    Data.l $FFD8B7 ; #COLOR_SelectionRepeat
+    Data.l $FFEAD9 ; #COLOR_PlainBackground
 
     Data$ "White Style"
     Data.l $000000
     Data.l $FFFFFF
     Data.l $0000FF
-    Data.l $FFFFFF ; #COLOR_ASMKeyword               
-    Data.l $800000 ; #COLOR_BasicKeyword             
-    Data.l $008000 ; #COLOR_Comment                  
-    Data.l $000080 ; #COLOR_Constant                 
-    Data.l $808080 ; #COLOR_Label                    
-    Data.l $C08080 ; #COLOR_NormalText               
-    Data.l $800000 ; #COLOR_Number                   
-    Data.l $800000 ; #COLOR_Operator                 
-    Data.l $C08080 ; #COLOR_Pointer                  
-    Data.l $FF0000 ; #COLOR_PureKeyword              
-    Data.l $800000 ; #COLOR_Separator                
-    Data.l $0080FF ; #COLOR_String                   
-    Data.l $C08080 ; #COLOR_Structure                
-    Data.l $6F6F6F ; #COLOR_LineNumber               
-    Data.l $E8E8E8 ; #COLOR_LineNumberBack           
-    Data.l $AAAA00 ; #COLOR_Marker                   
-    Data.l $FFFFFF ; #COLOR_CurrentLine              
-    Data.l $DED4D6 ; #COLOR_Selection                
-    Data.l $000000 ; #COLOR_SelectionFront           
-    Data.l $000000 ; #COLOR_Cursor                   
-    Data.l $FFE8E8 ; #COLOR_DebuggerLine             
-    Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol       
-    Data.l $0000FF ; #COLOR_DebuggerError            
-    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol      
-    Data.l $AAAA00 ; #COLOR_DebuggerBreakPoint       
-    Data.l $AAAA00 ; #COLOR_DebuggerBreakpointSymbol 
-    Data.l $FFFFFF ; #COLOR_DisabledBack             
-    Data.l $800000 ; #COLOR_GoodBrace                
-    Data.l $0000FF ; #COLOR_BadBrace                 
-    Data.l $FFFFFF ; #COLOR_ProcedureBack            
-    Data.l 0       ; #COLOR_CustomKeyword            
-    Data.l $0080FF ; #COLOR_DebuggerWarning          
-    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol    
-    Data.l $008000 ; #COLOR_Whitespace               
-    Data.l $C08080 ; #COLOR_Module   
-    Data.l $EDE7E8 ; #COLOR_SelectionRepeat   
-    Data.l $FFFFFF ; #COLOR_PlainBackground             
+    Data.l $FFFFFF ; #COLOR_ASMKeyword
+    Data.l $800000 ; #COLOR_BasicKeyword
+    Data.l $008000 ; #COLOR_Comment
+    Data.l $000080 ; #COLOR_Constant
+    Data.l $808080 ; #COLOR_Label
+    Data.l $C08080 ; #COLOR_NormalText
+    Data.l $800000 ; #COLOR_Number
+    Data.l $800000 ; #COLOR_Operator
+    Data.l $C08080 ; #COLOR_Pointer
+    Data.l $FF0000 ; #COLOR_PureKeyword
+    Data.l $800000 ; #COLOR_Separator
+    Data.l $0080FF ; #COLOR_String
+    Data.l $C08080 ; #COLOR_Structure
+    Data.l $6F6F6F ; #COLOR_LineNumber
+    Data.l $E8E8E8 ; #COLOR_LineNumberBack
+    Data.l $AAAA00 ; #COLOR_Marker
+    Data.l $FFFFFF ; #COLOR_CurrentLine
+    Data.l $DED4D6 ; #COLOR_Selection
+    Data.l $000000 ; #COLOR_SelectionFront
+    Data.l $000000 ; #COLOR_Cursor
+    Data.l $FFE8E8 ; #COLOR_DebuggerLine
+    Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol
+    Data.l $0000FF ; #COLOR_DebuggerError
+    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
+    Data.l $AAAA00 ; #COLOR_DebuggerBreakPoint
+    Data.l $AAAA00 ; #COLOR_DebuggerBreakpointSymbol
+    Data.l $FFFFFF ; #COLOR_DisabledBack
+    Data.l $800000 ; #COLOR_GoodBrace
+    Data.l $0000FF ; #COLOR_BadBrace
+    Data.l $FFFFFF ; #COLOR_ProcedureBack
+    Data.l 0       ; #COLOR_CustomKeyword
+    Data.l $0080FF ; #COLOR_DebuggerWarning
+    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
+    Data.l $008000 ; #COLOR_Whitespace
+    Data.l $C08080 ; #COLOR_Module
+    Data.l $EDE7E8 ; #COLOR_SelectionRepeat
+    Data.l $FFFFFF ; #COLOR_PlainBackground
 
         
     Data$ "Grey Style"
     Data.l $6F3F00
     Data.l $8F8F8F
     Data.l $FF0000
-    Data.l $AFAFAF ; #COLOR_ASMKeyword               
-    Data.l $000000 ; #COLOR_BasicKeyword             
-    Data.l $FFFFFF ; #COLOR_Comment                  
-    Data.l $7F007F ; #COLOR_Constant                 
-    Data.l $FF0000 ; #COLOR_Label                    
-    Data.l $000000 ; #COLOR_NormalText               
-    Data.l $0000AF ; #COLOR_Number                   
-    Data.l $000000 ; #COLOR_Operator                 
-    Data.l $005FAF ; #COLOR_Pointer                  
-    Data.l $FF0000 ; #COLOR_PureKeyword              
-    Data.l $000000 ; #COLOR_Separator                
-    Data.l $007F00 ; #COLOR_String                   
-    Data.l $005FAF ; #COLOR_Structure                
-    Data.l $6F3F00 ; #COLOR_LineNumber               
-    Data.l $8F8F8F ; #COLOR_LineNumberBack           
-    Data.l $9F9F00 ; #COLOR_Marker                   
-    Data.l $AFAFAF ; #COLOR_CurrentLine              
-    Data.l $AF6F00 ; #COLOR_Selection                
-    Data.l $FFFFFF ; #COLOR_SelectionFront           
-    Data.l $000000 ; #COLOR_Cursor                   
-    Data.l $FFDFDF ; #COLOR_DebuggerLine             
-    Data.l $FFDFDF ; #COLOR_DebuggerLineSymbol       
-    Data.l $0000FF ; #COLOR_DebuggerError            
-    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol      
-    Data.l $9F9F00 ; #COLOR_DebuggerBreakPoint       
-    Data.l $9F9F00 ; #COLOR_DebuggerBreakpointSymbol 
-    Data.l $AFAFAF ; #COLOR_DisabledBack             
-    Data.l $000000 ; #COLOR_GoodBrace                
-    Data.l $0000FF ; #COLOR_BadBrace                 
-    Data.l $AFAFAF ; #COLOR_ProcedureBack            
-    Data.l 0       ; #COLOR_CustomKeyword            
-    Data.l $0080FF ; #COLOR_DebuggerWarning          
-    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol    
-    Data.l $FFFFFF ; #COLOR_Whitespace               
-    Data.l $000000 ; #COLOR_Module 
-    Data.l $FFA915 ; #COLOR_SelectionRepeat     
-    Data.l $FFFFFF ; #COLOR_PlainBackground             
+    Data.l $AFAFAF ; #COLOR_ASMKeyword
+    Data.l $000000 ; #COLOR_BasicKeyword
+    Data.l $FFFFFF ; #COLOR_Comment
+    Data.l $7F007F ; #COLOR_Constant
+    Data.l $FF0000 ; #COLOR_Label
+    Data.l $000000 ; #COLOR_NormalText
+    Data.l $0000AF ; #COLOR_Number
+    Data.l $000000 ; #COLOR_Operator
+    Data.l $005FAF ; #COLOR_Pointer
+    Data.l $FF0000 ; #COLOR_PureKeyword
+    Data.l $000000 ; #COLOR_Separator
+    Data.l $007F00 ; #COLOR_String
+    Data.l $005FAF ; #COLOR_Structure
+    Data.l $6F3F00 ; #COLOR_LineNumber
+    Data.l $8F8F8F ; #COLOR_LineNumberBack
+    Data.l $9F9F00 ; #COLOR_Marker
+    Data.l $AFAFAF ; #COLOR_CurrentLine
+    Data.l $AF6F00 ; #COLOR_Selection
+    Data.l $FFFFFF ; #COLOR_SelectionFront
+    Data.l $000000 ; #COLOR_Cursor
+    Data.l $FFDFDF ; #COLOR_DebuggerLine
+    Data.l $FFDFDF ; #COLOR_DebuggerLineSymbol
+    Data.l $0000FF ; #COLOR_DebuggerError
+    Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
+    Data.l $9F9F00 ; #COLOR_DebuggerBreakPoint
+    Data.l $9F9F00 ; #COLOR_DebuggerBreakpointSymbol
+    Data.l $AFAFAF ; #COLOR_DisabledBack
+    Data.l $000000 ; #COLOR_GoodBrace
+    Data.l $0000FF ; #COLOR_BadBrace
+    Data.l $AFAFAF ; #COLOR_ProcedureBack
+    Data.l 0       ; #COLOR_CustomKeyword
+    Data.l $0080FF ; #COLOR_DebuggerWarning
+    Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
+    Data.l $FFFFFF ; #COLOR_Whitespace
+    Data.l $000000 ; #COLOR_Module
+    Data.l $FFA915 ; #COLOR_SelectionRepeat
+    Data.l $FFFFFF ; #COLOR_PlainBackground
 
     Data$ "Accessibility"
-    Data.l 0 
+    Data.l 0
     Data.l $FFFFFF
     Data.l $000000
-    Data.l $FFFFFF  ; #COLOR_ASMKeyword               
-    Data.l $FF0000  ; #COLOR_BasicKeyword             
-    Data.l $0000FF  ; #COLOR_Comment                     
-    Data.l 0        ; #COLOR_Constant                 
-    Data.l 0        ; #COLOR_Label                    
-    Data.l 0        ; #COLOR_NormalText               
-    Data.l 0        ; #COLOR_Number                   
-    Data.l 0        ; #COLOR_Operator                 
-    Data.l 0        ; #COLOR_Pointer                  
-    Data.l 9        ; #COLOR_PureKeyword              
-    Data.l 0        ; #COLOR_Separator                
-    Data.l 0        ; #COLOR_String                   
-    Data.l 0        ; #COLOR_Structure                
-    Data.l $FFFFFF  ; #COLOR_LineNumber               
-    Data.l 0        ; #COLOR_LineNumberBack           
-    Data.l 0        ; #COLOR_Marker                   
-    Data.l $FFFFFF  ; #COLOR_CurrentLine              
+    Data.l $FFFFFF  ; #COLOR_ASMKeyword
+    Data.l $FF0000  ; #COLOR_BasicKeyword
+    Data.l $0000FF  ; #COLOR_Comment
+    Data.l 0        ; #COLOR_Constant
+    Data.l 0        ; #COLOR_Label
+    Data.l 0        ; #COLOR_NormalText
+    Data.l 0        ; #COLOR_Number
+    Data.l 0        ; #COLOR_Operator
+    Data.l 0        ; #COLOR_Pointer
+    Data.l 9        ; #COLOR_PureKeyword
+    Data.l 0        ; #COLOR_Separator
+    Data.l 0        ; #COLOR_String
+    Data.l 0        ; #COLOR_Structure
+    Data.l $FFFFFF  ; #COLOR_LineNumber
+    Data.l 0        ; #COLOR_LineNumberBack
+    Data.l 0        ; #COLOR_Marker
+    Data.l $FFFFFF  ; #COLOR_CurrentLine
     Data.l -1       ; #COLOR_Selection  - special setting to always use the syscolors
-    Data.l -1       ; #COLOR_SelectionFront           
-    Data.l 0        ; #COLOR_Cursor                   
-    Data.l $00FFFF  ; #COLOR_DebuggerLine             
-    Data.l $00FFFF  ; #COLOR_DebuggerLineSymbol       
-    Data.l $0000FF  ; #COLOR_DebuggerError            
-    Data.l $0000FF  ; #COLOR_DebuggerErrorSymbol      
-    Data.l $008000  ; #COLOR_DebuggerBreakPoint       
-    Data.l $008000  ; #COLOR_DebuggerBreakpointSymbol 
-    Data.l $C0C0C0  ; #COLOR_DisabledBack                
-    Data.l 0        ; #COLOR_GoodBrace                
-    Data.l $0000FF  ; #COLOR_BadBrace                 
-    Data.l $FFFFFF  ; #COLOR_ProcedureBack            
-    Data.l 0        ; #COLOR_CustomKeyword            
-    Data.l $0080FF  ; #COLOR_DebuggerWarning          
-    Data.l $0080FF  ; #COLOR_DebuggerWarningSymbol    
-    Data.l $0000FF  ; #COLOR_Whitespace               
-    Data.l 0        ; #COLOR_Module  
-    Data.l $FFFFFF  ; #COLOR_SelectionRepeat      
-    Data.l $FFFFFF  ; #COLOR_PlainBackground           
+    Data.l -1       ; #COLOR_SelectionFront
+    Data.l 0        ; #COLOR_Cursor
+    Data.l $00FFFF  ; #COLOR_DebuggerLine
+    Data.l $00FFFF  ; #COLOR_DebuggerLineSymbol
+    Data.l $0000FF  ; #COLOR_DebuggerError
+    Data.l $0000FF  ; #COLOR_DebuggerErrorSymbol
+    Data.l $008000  ; #COLOR_DebuggerBreakPoint
+    Data.l $008000  ; #COLOR_DebuggerBreakpointSymbol
+    Data.l $C0C0C0  ; #COLOR_DisabledBack
+    Data.l 0        ; #COLOR_GoodBrace
+    Data.l $0000FF  ; #COLOR_BadBrace
+    Data.l $FFFFFF  ; #COLOR_ProcedureBack
+    Data.l 0        ; #COLOR_CustomKeyword
+    Data.l $0080FF  ; #COLOR_DebuggerWarning
+    Data.l $0080FF  ; #COLOR_DebuggerWarningSymbol
+    Data.l $0000FF  ; #COLOR_Whitespace
+    Data.l 0        ; #COLOR_Module
+    Data.l $FFFFFF  ; #COLOR_SelectionRepeat
+    Data.l $FFFFFF  ; #COLOR_PlainBackground
     
   
   ; List of default Indent keywords (as of 4.50)
   ; Newer keywords are added in the code above for a better transition between versions
   ; Format is: Keyword, Indentunits before, IndentUnits after
   ; Order and case do not matter
-  ;  
+  ;
   DefaultIndentList:
     Data.l 45   ; Number of default keywords
     
     Data$ "If":                Data.l  0, 1
     Data$ "Else":              Data.l -1, 1
-    Data$ "ElseIf":            Data.l -1, 1    
+    Data$ "ElseIf":            Data.l -1, 1
     Data$ "EndIf":             Data.l -1, 0
                                          
     Data$ "Select":            Data.l  0, 2
@@ -5821,11 +5821,11 @@ DataSection
     Data$ "Procedure":         Data.l  0, 1
     Data$ "ProcedureC":        Data.l  0, 1
     Data$ "ProcedureCDLL":     Data.l  0, 1
-    Data$ "ProcedureDLL":      Data.l  0, 1    
+    Data$ "ProcedureDLL":      Data.l  0, 1
     Data$ "EndProcedure":      Data.l -1, 0
                                          
     Data$ "For":               Data.l  0, 1
-    Data$ "ForEach":           Data.l  0, 1 
+    Data$ "ForEach":           Data.l  0, 1
     Data$ "Next":              Data.l -1, 0
                                          
     Data$ "Repeat":            Data.l  0, 1
@@ -5833,10 +5833,10 @@ DataSection
     Data$ "Until":             Data.l -1, 0
     
     Data$ "While":             Data.l  0, 1
-    Data$ "Wend":              Data.l -1, 0    
+    Data$ "Wend":              Data.l -1, 0
                                          
     Data$ "Import":            Data.l  0, 1
-    Data$ "ImportC":           Data.l  0, 1    
+    Data$ "ImportC":           Data.l  0, 1
     Data$ "EndImport":         Data.l -1, 0
                                          
     Data$ "Enumeration":       Data.l  0, 1
@@ -5848,7 +5848,7 @@ DataSection
     Data$ "Macro":             Data.l  0, 1
     Data$ "EndMacro":          Data.l -1, 0
                                          
-    Data$ "Structure":         Data.l  0, 1 
+    Data$ "Structure":         Data.l  0, 1
     Data$ "EndStructure":      Data.l -1, 0
                                          
     Data$ "StructureUnion":    Data.l  0, 1

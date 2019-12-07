@@ -70,8 +70,8 @@ Procedure GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, 
     *EndIndex\i   = (*WordEnd   - *Buffer)/#CharSize
   CompilerElse
     *StartIndex\i = *WordStart - *Buffer
-    *EndIndex\i   = *WordEnd   - *Buffer  
-  CompilerEndIf     
+    *EndIndex\i   = *WordEnd   - *Buffer
+  CompilerEndIf
 
   ProcedureReturn Found
 EndProcedure
@@ -105,7 +105,7 @@ EndProcedure
 ; CompilerIf #CompileWindows | #CompileMac; this function must be stdcall on windows and cdecl on linux (on mac, it MUST be ProcedureDLL for the callback to work!)
 ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)  ;}
 ; CompilerElse
-;   ProcedureCDLL ScintillaCallBack(EditorWindow.l, EditorGadget.l, *scinotify.SCNotification, lParam.l) 
+;   ProcedureCDLL ScintillaCallBack(EditorWindow.l, EditorGadget.l, *scinotify.SCNotification, lParam.l)
 ; CompilerEndIf
 
   Shared HilightGadget
@@ -123,12 +123,12 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)  ;}
       *Buffer = AllocateMemory(range\chrg\cpMax - range\chrg\cpMin + 1)
       If *Buffer
        range\lpstrText = *Buffer
-       reallength = ScintillaSendMessage(EditorGadget, #SCI_GETTEXTRANGE, 0, @range)         
+       reallength = ScintillaSendMessage(EditorGadget, #SCI_GETTEXTRANGE, 0, @range)
        HilightGadget = EditorGadget
       
        ScintillaSendMessage(EditorGadget, #SCI_STARTSTYLING, range\chrg\cpMin, $FFFFFF)
-       HilightningEngine(*Buffer, reallength, -1, @HilightCallback(), 0)          
-       FreeMemory(*Buffer)                
+       HilightningEngine(*Buffer, reallength, -1, @HilightCallback(), 0)
+       FreeMemory(*Buffer)
       EndIf
       
     Case #SCN_DWELLSTART
@@ -147,18 +147,18 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)  ;}
         ; entire selection
         ;
         selStart = ScintillaSendMessage(EditorGadget, #SCI_GETSELECTIONSTART, 0, 0)
-        selEnd = ScintillaSendMessage(EditorGadget, #SCI_GETSELECTIONEND  , 0, 0)  
+        selEnd = ScintillaSendMessage(EditorGadget, #SCI_GETSELECTIONEND  , 0, 0)
         If selStart > selEnd
           Swap selStart, selEnd
         EndIf
         
         If selStart <= *scinotify\position And selStart <> selEnd And *scinotify\position <= selEnd
           ; multiline is now allowed, as there could be a line continuation
-          Expr$ = Space(selEnd - selStart)    
+          Expr$ = Space(selEnd - selStart)
           range.TextRange\chrg\cpMin  = selStart
           range\chrg\cpMax            = selEnd
-          range\lpstrText             = @Expr$     
-          ScintillaSendMessage(EditorGadget, #SCI_GETTEXTRANGE, 0, @range)         
+          range\lpstrText             = @Expr$
+          ScintillaSendMessage(EditorGadget, #SCI_GETTEXTRANGE, 0, @range)
           
           If ScintillaSendMessage(EditorGadget, #SCI_GETCODEPAGE) = #SC_CP_UTF8
             Expr$ = PeekS(@Expr$, -1, #PB_UTF8)
@@ -167,17 +167,17 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)  ;}
           EndIf
           
           Expr$ = Trim(Expr$)
-          IsVariableExpression = 0  
+          IsVariableExpression = 0
         EndIf
         
         ; try the current word now if the selection is not ok
         ;
         If Expr$ = ""
-          line      = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position, 0) 
-          linestart = ScintillaSendMessage(EditorGadget, #SCI_POSITIONFROMLINE, line, 0)                
+          line      = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position, 0)
+          linestart = ScintillaSendMessage(EditorGadget, #SCI_POSITIONFROMLINE, line, 0)
           Line$     = GetLine(EditorGadget, line)
           
-          If Line$ <> "" And GetWordBoundary(@Line$, Len(Line$), *scinotify\position - linestart, @selStart, @selEnd, 1) ; include * or #            
+          If Line$ <> "" And GetWordBoundary(@Line$, Len(Line$), *scinotify\position - linestart, @selStart, @selEnd, 1) ; include * or #
             If Mid(Line$, selEnd+2, 2) = "()"
               selEnd + 2
             EndIf
@@ -199,9 +199,9 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)  ;}
         If Expr$ <> ""
           Command.CommandInfo\Command = #COMMAND_EvaluateExpressionWithStruct ; structures allowed
           Command\Value1 = AsciiConst('S','C','I','N') ; to identify the sender
-          Command\Value2 = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position, 0) | (CurrentSource << 24)   
+          Command\Value2 = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position, 0) | (CurrentSource << 24)
           Command\DataSize = (Len(Expr$)+1) * SizeOf(Character)
-          SendDebuggerCommandWithData(*DebuggerData, @Command, @Expr$)          
+          SendDebuggerCommandWithData(*DebuggerData, @Command, @Expr$)
         EndIf
 
       EndIf
@@ -220,7 +220,7 @@ Procedure LoadSourceBuffer(*Buffer, Length, Format)
   Result = 0
   UseGadgetList(WindowID(#WINDOW_Main))
 
-  Result = ScintillaGadget(#PB_Any, 0, 0, 0, 0, @ScintillaCallBack()) 
+  Result = ScintillaGadget(#PB_Any, 0, 0, 0, 0, @ScintillaCallBack())
   If Result
   
     If Format = #PB_UTF8
@@ -229,7 +229,7 @@ Procedure LoadSourceBuffer(*Buffer, Length, Format)
       ScintillaSendMessage(Result, #SCI_SETCODEPAGE, 0, 0)
     EndIf
   
-    ScintillaSendMessage(Result, #SCI_SETTABWIDTH, TabLength, 0)                 
+    ScintillaSendMessage(Result, #SCI_SETTABWIDTH, TabLength, 0)
                 
     ; load the text
     ; use #SCI_APPENDTEXT so we do not need a 0 terminateion
@@ -247,17 +247,17 @@ Procedure LoadSourceBuffer(*Buffer, Length, Format)
       CompilerEndIf
     CompilerEndIf
                   
-    ScintillaSendMessage(Result, #SCI_STYLESETFONT, #STYLE_DEFAULT, ToAscii(Font$))   
+    ScintillaSendMessage(Result, #SCI_STYLESETFONT, #STYLE_DEFAULT, ToAscii(Font$))
     ScintillaSendMessage(Result, #SCI_STYLESETSIZE, #STYLE_DEFAULT, EditorFontSize)
    
     If EditorFontStyle & #PB_Font_Bold
-      ScintillaSendMessage(Result, #SCI_STYLESETBOLD, #STYLE_DEFAULT, 1)    
+      ScintillaSendMessage(Result, #SCI_STYLESETBOLD, #STYLE_DEFAULT, 1)
     EndIf
     If EditorFontStyle & #PB_Font_Italic
-      ScintillaSendMessage(Result, #SCI_STYLESETITALIC, #STYLE_DEFAULT, 1)    
-    EndIf           
+      ScintillaSendMessage(Result, #SCI_STYLESETITALIC, #STYLE_DEFAULT, 1)
+    EndIf
     
-    ScintillaSendMessage(Result, #SCI_STYLESETBACK, #STYLE_DEFAULT, BackgroundColor)        
+    ScintillaSendMessage(Result, #SCI_STYLESETBACK, #STYLE_DEFAULT, BackgroundColor)
     
     ; make all the #STYLE_DEFAULT changes effective on the other styles
     ScintillaSendMessage(Result, #SCI_STYLECLEARALL, 0, 0)
@@ -268,12 +268,12 @@ Procedure LoadSourceBuffer(*Buffer, Length, Format)
       ScintillaSendMessage(Result, #SCI_STYLESETBOLD,  2, 1)             ; Bold (no effect on linux, but maybe on windows later)
       ScintillaSendMessage(Result, #SCI_STYLESETFONT, 14, ToAscii(BoldFont$))
       ScintillaSendMessage(Result, #SCI_STYLESETSIZE, 14, EditorFontSize)
-      ScintillaSendMessage(Result, #SCI_STYLESETBOLD,  14, 1)            
+      ScintillaSendMessage(Result, #SCI_STYLESETBOLD,  14, 1)
       If EditorFontStyle & #PB_Font_Italic
-        ScintillaSendMessage(Result, #SCI_STYLESETITALIC, 2, 1)    
-        ScintillaSendMessage(Result, #SCI_STYLESETITALIC, 14, 1)    
-      EndIf          
-    EndIf        
+        ScintillaSendMessage(Result, #SCI_STYLESETITALIC, 2, 1)
+        ScintillaSendMessage(Result, #SCI_STYLESETITALIC, 14, 1)
+      EndIf
+    EndIf
     
     ScintillaSendMessage(Result, #SCI_SETREADONLY, 1, 0)
     ScintillaSendMessage(Result, #SCI_SETLEXER, #SCLEX_CONTAINER, 0)
@@ -282,10 +282,10 @@ Procedure LoadSourceBuffer(*Buffer, Length, Format)
     ScintillaSendMessage(Result, #SCI_SETMARGINTYPEN, 0, #SC_MARGIN_NUMBER)
     ScintillaSendMessage(Result, #SCI_SETMARGINTYPEN, 1, #SC_MARGIN_SYMBOL)
     
-    ScintillaSendMessage(Result, #SCI_SETMARGINMASKN, 1, -1) 
+    ScintillaSendMessage(Result, #SCI_SETMARGINMASKN, 1, -1)
     
     Lines$ = "_" + RSet("", Len(Str(ScintillaSendMessage(Result, #SCI_GETLINECOUNT, 0, 0))), "9")
-    ScintillaSendMessage(Result, #SCI_SETMARGINWIDTHN, 0, ScintillaSendMessage(Result, #SCI_TEXTWIDTH, #STYLE_LINENUMBER, ToAscii(Lines$)))  
+    ScintillaSendMessage(Result, #SCI_SETMARGINWIDTHN, 0, ScintillaSendMessage(Result, #SCI_TEXTWIDTH, #STYLE_LINENUMBER, ToAscii(Lines$)))
     ScintillaSendMessage(Result, #SCI_SETMARGINWIDTHN, 1, 15)
     
     
@@ -301,40 +301,40 @@ Procedure LoadSourceBuffer(*Buffer, Length, Format)
     ScintillaSendMessage(Result, #SCI_STYLESETFORE, 10, NumberColor)
     ScintillaSendMessage(Result, #SCI_STYLESETFORE, 11, PointerColor)
     ScintillaSendMessage(Result, #SCI_STYLESETFORE, 12, SeparatorColor)
-    ScintillaSendMessage(Result, #SCI_STYLESETFORE, 13, LabelColor)   
-    ScintillaSendMessage(Result, #SCI_STYLESETFORE, 14, CustomKeywordColor)   
-    ScintillaSendMessage(Result, #SCI_STYLESETFORE, 15, ModuleColor)   
-    ScintillaSendMessage(Result, #SCI_STYLESETFORE, 16, BadBraceColor)   
+    ScintillaSendMessage(Result, #SCI_STYLESETFORE, 13, LabelColor)
+    ScintillaSendMessage(Result, #SCI_STYLESETFORE, 14, CustomKeywordColor)
+    ScintillaSendMessage(Result, #SCI_STYLESETFORE, 15, ModuleColor)
+    ScintillaSendMessage(Result, #SCI_STYLESETFORE, 16, BadBraceColor)
     
     ScintillaSendMessage(Result, #SCI_MARKERDEFINE, 1, #SC_MARK_BACKGROUND)  ; current line back
     ScintillaSendMessage(Result, #SCI_MARKERDEFINE, 2, #SC_MARK_ARROW)       ; current line symbol
     ScintillaSendMessage(Result, #SCI_MARKERDEFINE, 3, #SC_MARK_BACKGROUND)  ; warning back
-    ScintillaSendMessage(Result, #SCI_MARKERDEFINE, 4, #SC_MARK_CHARACTER+'!') ; warning symbol        
+    ScintillaSendMessage(Result, #SCI_MARKERDEFINE, 4, #SC_MARK_CHARACTER+'!') ; warning symbol
     ScintillaSendMessage(Result, #SCI_MARKERDEFINE, 5, #SC_MARK_BACKGROUND)  ; error back
     ScintillaSendMessage(Result, #SCI_MARKERDEFINE, 6, #SC_MARK_CIRCLE)      ; error symbol
     ScintillaSendMessage(Result, #SCI_MARKERDEFINE, 7, #SC_MARK_BACKGROUND)  ; breakpoint back
-    ScintillaSendMessage(Result, #SCI_MARKERDEFINE, 8, #SC_MARK_SMALLRECT)      ; breakpoint symbol        
+    ScintillaSendMessage(Result, #SCI_MARKERDEFINE, 8, #SC_MARK_SMALLRECT)      ; breakpoint symbol
 
     ScintillaSendMessage(Result, #SCI_MARKERSETFORE, 2, $000000)
     ScintillaSendMessage(Result, #SCI_MARKERSETFORE, 4, $000000)
     ScintillaSendMessage(Result, #SCI_MARKERSETFORE, 6, $000000)
     ScintillaSendMessage(Result, #SCI_MARKERSETFORE, 8, $000000)
     
-    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 1, DebuggerLineColor)  
-    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 2, DebuggerLineSymbolColor)  
-    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 3, DebuggerWarningColor)  
-    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 4, DebuggerWarningSymbolColor)         
-    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 5, DebuggerErrorColor)  
-    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 6, DebuggerErrorSymbolColor)  
-    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 7, DebuggerBreakPointColor)  
-    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 8, DebuggerBreakpointSymbolColor)         
+    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 1, DebuggerLineColor)
+    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 2, DebuggerLineSymbolColor)
+    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 3, DebuggerWarningColor)
+    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 4, DebuggerWarningSymbolColor)
+    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 5, DebuggerErrorColor)
+    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 6, DebuggerErrorSymbolColor)
+    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 7, DebuggerBreakPointColor)
+    ScintillaSendMessage(Result, #SCI_MARKERSETBACK, 8, DebuggerBreakpointSymbolColor)
   
-    ScintillaSendMessage(Result, #SCI_SETCARETFORE,     CursorColor, 0)              
+    ScintillaSendMessage(Result, #SCI_SETCARETFORE,     CursorColor, 0)
     ScintillaSendMessage(Result, #SCI_SETCARETLINEBACK, CurrentLineColor, 0)
-    ScintillaSendMessage(Result, #SCI_STYLESETBACK, #STYLE_LINENUMBER, LineNumberBackColor) 
-    ScintillaSendMessage(Result, #SCI_STYLESETFORE, #STYLE_LINENUMBER, LineNumberColor)   
+    ScintillaSendMessage(Result, #SCI_STYLESETBACK, #STYLE_LINENUMBER, LineNumberBackColor)
+    ScintillaSendMessage(Result, #SCI_STYLESETFORE, #STYLE_LINENUMBER, LineNumberColor)
     ScintillaSendMessage(Result, #SCI_SETFOLDMARGINCOLOUR, 1, LineNumberBackColor)
-    ScintillaSendMessage(Result, #SCI_SETFOLDMARGINHICOLOUR, 1, LineNumberBackColor)    
+    ScintillaSendMessage(Result, #SCI_SETFOLDMARGINHICOLOUR, 1, LineNumberBackColor)
     
     ScintillaSendMessage(Result, #SCI_SETMOUSEDWELLTIME, 1000) ; for variable viewing in mouseover
 
@@ -351,35 +351,35 @@ Procedure LoadSourceBuffer(*Buffer, Length, Format)
       ScintillaSendMessage(Result, #SCI_SETINDENTATIONGUIDES, #SC_IV_LOOKBOTH)
     Else
       ScintillaSendMessage(Result, #SCI_SETINDENTATIONGUIDES, #SC_IV_NONE)
-    EndIf      
+    EndIf
 
     CompilerIf #CompileWindows
       If SelectionColor = -1 ; special accessibility scheme
-        ScintillaSendMessage(Result, #SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT)) 
+        ScintillaSendMessage(Result, #SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
       Else
         ScintillaSendMessage(Result, #SCI_SETSELBACK,    1, SelectionColor)
       EndIf
       
-      If SelectionFrontColor = -1        
-        ScintillaSendMessage(Result, #SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT)) 
+      If SelectionFrontColor = -1
+        ScintillaSendMessage(Result, #SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
       Else
         ScintillaSendMessage(Result, #SCI_SETSELFORE,    1, SelectionFrontColor)
       EndIf
     CompilerElse
       ScintillaSendMessage(Result, #SCI_SETSELBACK,    1, SelectionColor)
-      ScintillaSendMessage(Result, #SCI_SETSELFORE,    1, SelectionFrontColor)      
-    CompilerEndIf  
+      ScintillaSendMessage(Result, #SCI_SETSELFORE,    1, SelectionFrontColor)
+    CompilerEndIf
     
     ; mark all breakpoints that are allready set for this file (passed with optionsfile)
     ;
     ForEach BreakPoints()
       If (BreakPoints()>>24) & $FF = CurrentSource
         ScintillaSendMessage(Result, #SCI_MARKERADD, BreakPoints()&$FFFFFF, 7)
-        ScintillaSendMessage(Result, #SCI_MARKERADD, BreakPoints()&$FFFFFF, 8)            
+        ScintillaSendMessage(Result, #SCI_MARKERADD, BreakPoints()&$FFFFFF, 8)
       EndIf
     Next BreakPoints()
     
-  EndIf            
+  EndIf
 
 
   ProcedureReturn Result
@@ -388,19 +388,19 @@ EndProcedure
 ; create a new editorgadget and loads the given file into it
 ; returns the GadgetID of the loaded source
 Procedure LoadSource(FileName$)
-  Result = 0    
+  Result = 0
 
   If ReadFile(0, FileName$)
-    Format = ReadStringFormat(0) ; try to detect string format     
+    Format = ReadStringFormat(0) ; try to detect string format
     Length = Lof(0)-Loc(0)
     
     *Buffer = AllocateMemory(Length+1) ; for the terminating 0 !
     If *Buffer
-      Length = ReadData(0, *Buffer, Length)      
+      Length = ReadData(0, *Buffer, Length)
       Result = LoadSourceBuffer(*Buffer, Length, Format)
       
       FreeMemory(*Buffer)
-    EndIf    
+    EndIf
     CloseFile(0)
   EndIf
 
@@ -436,10 +436,10 @@ Procedure SetupHilightning()
     
     If EnableKeywordBolding
       ; bold font isn't loaded, as it is only used in the scintilla gadget
-      EditorBoldFontName$ = BoldFontName$  
+      EditorBoldFontName$ = BoldFontName$
     Else
       EditorBoldFontName$ = EditorFontName$
-    EndIf  
+    EndIf
     
   CompilerElse
     EditorBoldFontName$ = EditorFontName$
@@ -458,7 +458,7 @@ Procedure SetupHilightning()
   *NumberColor        = 10
   *PointerColor       = 11
   *SeparatorColor     = 12
-  *LabelColor         = 13  
+  *LabelColor         = 13
   *CustomKeywordColor = 14
   *ModuleColor        = 15
   *BadEscapeColor     = 16
@@ -489,7 +489,7 @@ Procedure SourceLineAction(Line.l, Action)
     HideGadget(SourceFiles(CurrentSource)\Gadget, 1)
   EndIf
   
-  CurrentSource = (Line >> 24) & $FF 
+  CurrentSource = (Line >> 24) & $FF
   SetGadgetState(#GADGET_SelectSource, CurrentSource)
   
   If SourceFiles(CurrentSource)\IsLoaded
@@ -504,7 +504,7 @@ Procedure SourceLineAction(Line.l, Action)
       If *DebuggerData\IsNetwork And *DebuggerData\ProgramState <> -1 And SourceFiles(CurrentSource)\IsRequested = 0
         Command.CommandInfo\Command = #COMMAND_GetFile
         Command\Value1 = CurrentSource
-        SendDebuggerCommand(*DebuggerData, @Command)  
+        SendDebuggerCommand(*DebuggerData, @Command)
         SourceFiles(CurrentSource)\IsRequested = 1
         
         ; Add this action to the delayed action lists
@@ -516,7 +516,7 @@ Procedure SourceLineAction(Line.l, Action)
         DelayedActions()\Action    = Action
         
         Standalone_ResizeGUI()
-      EndIf    
+      EndIf
     
       ProcedureReturn
     EndIf
@@ -526,7 +526,7 @@ Procedure SourceLineAction(Line.l, Action)
 
   Select Action
   
-    Case #ACTION_MarkCurrentLine  
+    Case #ACTION_MarkCurrentLine
       ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 1)
       ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 2)
       
@@ -537,11 +537,11 @@ Procedure SourceLineAction(Line.l, Action)
     
     Case #ACTION_MarkError
       ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 5)
-      ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 6)    
+      ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 6)
     
     Case #ACTION_MarkWarning
       ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 3)
-      ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 4)    
+      ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 4)
       
   EndSelect
   
@@ -596,7 +596,7 @@ Procedure UnmarkBreakPoint() ; unmark the current line as breakpoint and return 
     Line = ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_LINEFROMPOSITION, ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_GETCURRENTPOS, 0, 0), 0)
     ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERDELETE, Line, 7)
     ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERDELETE, Line, 8)
-    RedrawGadget(SourceFiles(CurrentSource)\Gadget)   
+    RedrawGadget(SourceFiles(CurrentSource)\Gadget)
     ProcedureReturn Line | (CurrentSource<< 24)
   Else
     ProcedureReturn -1
@@ -605,8 +605,8 @@ Procedure UnmarkBreakPoint() ; unmark the current line as breakpoint and return 
 EndProcedure
 
 Procedure ClearBreakPoints() ; clear all breakpoint marks
-  ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERDELETEALL, 7, 0)      
-  ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERDELETEALL, 8, 0)      
+  ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERDELETEALL, 7, 0)
+  ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERDELETEALL, 8, 0)
   RedrawGadget(SourceFiles(CurrentSource)\Gadget)
 EndProcedure
 
@@ -617,8 +617,8 @@ Procedure Debugger_ShowLine(*Debugger.DebuggerData, Line)
     HideGadget(SourceFiles(CurrentSource)\Gadget, 1)
   EndIf
   
-  CurrentSource = (Line >> 24) & $FF 
-  SetGadgetState(#GADGET_SelectSource, CurrentSource)  
+  CurrentSource = (Line >> 24) & $FF
+  SetGadgetState(#GADGET_SelectSource, CurrentSource)
   
   If SourceFiles(CurrentSource)\IsLoaded
     HideGadget(SourceFiles(CurrentSource)\Gadget, 0)
@@ -632,7 +632,7 @@ Procedure Debugger_ShowLine(*Debugger.DebuggerData, Line)
       If *DebuggerData\IsNetwork And *DebuggerData\ProgramState <> -1 And SourceFiles(CurrentSource)\IsRequested = 0
         Command.CommandInfo\Command = #COMMAND_GetFile
         Command\Value1 = CurrentSource
-        SendDebuggerCommand(*DebuggerData, @Command)  
+        SendDebuggerCommand(*DebuggerData, @Command)
         SourceFiles(CurrentSource)\IsRequested = 1
       EndIf
     
@@ -649,7 +649,7 @@ Procedure Debugger_ShowLine(*Debugger.DebuggerData, Line)
   
   RedrawGadget(SourceFiles(CurrentSource)\Gadget)
   SetWindowForeground(#WINDOW_Main)
-  SetActiveGadget(SourceFiles(CurrentSource)\Gadget)  
+  SetActiveGadget(SourceFiles(CurrentSource)\Gadget)
 
 EndProcedure
 

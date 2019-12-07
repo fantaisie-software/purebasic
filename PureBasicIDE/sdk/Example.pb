@@ -8,14 +8,14 @@
 ; ------------------------------------------------------------
 ;
 
-; 
+;
 ; This short example shows how to use the wrapper to the
 ; IDE's Automation library provided in Automation.pb to
 ; connect to the IDE and get it to open the Preferences dialog.
 ;
 ; The available commands in the dll and their parameters are
 ; described in the Automation.pb file.
-; 
+;
 
 XIncludeFile "Automation.pb"
 

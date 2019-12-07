@@ -18,7 +18,7 @@
  */
 
 #define LIBRARYINFO_Objects  0x00000001 // ExamineObjects() and NextObject() is implemented
-#define LIBRARYINFO_Text     0x00000002 // GetObjectText() is implemented 
+#define LIBRARYINFO_Text     0x00000002 // GetObjectText() is implemented
 #define LIBRARYINFO_Data     0x00000004 // GetObjectData() and FreeObjectData() is implemented
 #define LIBRARYINFO_SwapData 0x00000008 // SwapObjectData() is implemented
 
@@ -26,11 +26,11 @@ typedef struct PB_StructureLibraryInfo
 {
   int size;          // must be sizeof this structure (for future compatibility)
   int mask;          // LIBRARYINFO mask (defines the provided information)
-  
+
   char *LibraryID;   // unique ID string for this library (for internal use)
   char *Name;        // Library Name as displayed to the user
   char *NameShort;   // Library Name as used in ShowLibraryViewer("name")
-  
+
   char *ListTitles;  // for LIBRARYINFO_Objects: provides a Tab separated list of table headers (for the ListIcon display. format: TITLE1<tab>Size1<tab>TITLE2<tab>Size2)
 
   int (*ExamineObjects)(void); // start object enumeration (return true if successfull, false if not)
@@ -56,6 +56,6 @@ typedef struct
   int Format;         // PB_PixelFormat values (32bit or 24bit only)
   int BytesPerPixel;  // 3 or 4
   int Pitch;
-  int Width;  
+  int Width;
   int Height;         // Following is the image data in top-down format
 } PB_LibraryViewer_Image;

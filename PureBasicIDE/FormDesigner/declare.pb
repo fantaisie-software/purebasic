@@ -288,7 +288,7 @@ EndStructure
 ; Help structures used when generating and parsing source code
 Structure two
   a.i : b.i
-EndStructure 
+EndStructure
 Structure twostring
   a.s
   b.s
@@ -985,7 +985,7 @@ Procedure InitVars()
         
       EndIf
       
-      P_WinHeight = 29 
+      P_WinHeight = 29
       P_Status = 23
       P_Menu = 22
       P_FontSize = 9

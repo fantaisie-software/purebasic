@@ -36,13 +36,13 @@ Procedure.s GetCompilerVersion(Compiler$)
         If bytesread > 0
           Version$ = StringField(PeekS(*Buffer, bytesread, #PB_Ascii), 1, Chr(13))
         EndIf
-      Until result = 0   
+      Until result = 0
      
       CloseHandle_(process\hProcess)
       CloseHandle_(process\hThread)
       CloseHandle_(hReadPipe)
      
-    EndIf 
+    EndIf
 
     FreeMemory(*Buffer)
   EndIf
@@ -58,7 +58,7 @@ Procedure.s GetSvnRevision()
     Info$ = ""
     While ProgramRunning(svn)
       Info$ + ReadProgramString(svn) + Chr(13) + Chr(10)
-    Wend  
+    Wend
     CloseProgram(svn)
     
     ; works in ascii only
@@ -66,14 +66,14 @@ Procedure.s GetSvnRevision()
       *Entry = XMLNodeFromPath(RootXMLNode(0), "/info/entry")
       If *Entry
         Revision$ = GetXMLAttribute(*Entry, "revision")
-      EndIf    
+      EndIf
       FreeXML(0)
     EndIf
   EndIf
   
   If Revision$ = ""
-    ProcedureReturn "0" ; fallback for the VersionNumber 
-  Else  
+    ProcedureReturn "0" ; fallback for the VersionNumber
+  Else
     ProcedureReturn Revision$
   EndIf
 EndProcedure
@@ -83,7 +83,7 @@ EndProcedure
 Procedure.s MakeVersionNumber(VersionString$, SvnRevision$)
   Version$ = StringField(VersionString$, 2, " ")
   Major$   = StringField(Version$, 1, ".")
-  Minor$   = StringField(Version$, 2, ".") 
+  Minor$   = StringField(Version$, 2, ".")
   
   ProcedureReturn Major$+","+Minor$+",0,"+SvnRevision$
 EndProcedure
@@ -99,7 +99,7 @@ ReturnValue = 1
 If BuildType$ And FileName$
   
   If GetEnvironmentVariable("PB_JAVASCRIPT") = "1" ; SpiderBasic build
-    ProductName$ = "SpiderBasic"  
+    ProductName$ = "SpiderBasic"
     Home$ = GetEnvironmentVariable("SPIDERBASIC_HOME")
     Compiler$ = "sbcompiler.exe"
   Else ; PureBasic build
@@ -110,7 +110,7 @@ If BuildType$ And FileName$
   
   If Right(Home$, 1) <> "\"
     Home$ + "\"
-  EndIf  
+  EndIf
   
   Version$ = GetCompilerVersion(Home$ + "Compilers\" + Compiler$)
   Revision$ = GetSvnRevision()
@@ -122,11 +122,11 @@ If BuildType$ And FileName$
     ; It is used as the icon for PB sourcefiles
     ; (as windows no longer does this automatically because we changed
     ;  the registry stuff a bit in the IDE)
-    ;  
+    ;
     ;  FileName$ is a relative directory only!
     ;Icon$ = GetPathPart(GetCurrentDirectory() + FileName$) + "PBSourceFile.ico"
     IconFile$ = ReplaceString(IconFile$, "/", "\")
-    IconFile$ = ReplaceString(IconFile$, "\", "\\") 
+    IconFile$ = ReplaceString(IconFile$, "\", "\\")
 
     ; a small fix if cygwin is used for the build tools on Windows
     If LCase(Left(IconFile$, 12)) = "\\cygdrive\\"
@@ -136,7 +136,7 @@ If BuildType$ And FileName$
     ; Sanity check
     If FindString(Version$, " - (c)") = 0
       PrintN("The compiler version string has changed and the parsing will be wrong. Exiting")
-      End 1  
+      End 1
     EndIf
     
     WriteStringN(0, "2 ICON "+#Q+IconFile$+#Q)
@@ -151,7 +151,7 @@ If BuildType$ And FileName$
     WriteStringN(0, "  BLOCK "+#Q+"StringFileInfo"+#Q)
     WriteStringN(0, "  {")
     WriteStringN(0, "    BLOCK "+#Q+"000004b0"+#Q)
-    WriteStringN(0, "    {")  
+    WriteStringN(0, "    {")
     WriteStringN(0, "      VALUE "+#Q+"CompanyName"     +#Q+", "+#Q+"Fantaisie Software\0"+#Q)
     WriteStringN(0, "      VALUE "+#Q+"ProductName"     +#Q+", "+#Q+ProductName$+"\0"+#Q)
     WriteStringN(0, "      VALUE "+#Q+"ProductVersion"  +#Q+", "+#Q+StringField(Version$, 1, " - (c)")+"\0"+#Q) ; Version is like this: "SpiderBasic 1.00 (Windows - x86) - (c) 2014 Fantaisie Software"
@@ -165,20 +165,20 @@ If BuildType$ And FileName$
     
     If BuildType$ = "demo"
       Comment$ + "  (free version)"
-      WriteStringN(0, "      VALUE "+#Q+"SpecialBuild"    +#Q+", "+#Q+"Free Version:  Register your version at http://www."+LCase(ProductName$)+".com\0"+#Q)        
+      WriteStringN(0, "      VALUE "+#Q+"SpecialBuild"    +#Q+", "+#Q+"Free Version:  Register your version at http://www."+LCase(ProductName$)+".com\0"+#Q)
     ElseIf BuildType$ = "debug"
       Comment$ + "  (beta version)"
       WriteStringN(0, "      VALUE "+#Q+"SpecialBuild"    +#Q+", "+#Q+"Beta Version:  See http://forums."+LCase(ProductName$)+".com to report bugs.\0"+#Q)
-    EndIf    
+    EndIf
     
     WriteStringN(0, "      VALUE "+#Q+"Comment"         +#Q+", "+#Q+Comment$+"\0"+#Q)
-    WriteStringN(0, "    }")            
-    WriteStringN(0, "  }")  
+    WriteStringN(0, "    }")
+    WriteStringN(0, "  }")
     WriteStringN(0, "  BLOCK "+#Q+"VarFileInfo"+#Q)
     WriteStringN(0, "  {")
-    WriteStringN(0, "    VALUE "+#Q+"Translation"+#Q+", 0x0000, 0x4b0")   
-    WriteStringN(0, "  }")            
-    WriteStringN(0, "}")      
+    WriteStringN(0, "    VALUE "+#Q+"Translation"+#Q+", 0x0000, 0x4b0")
+    WriteStringN(0, "  }")
+    WriteStringN(0, "}")
   
     CloseFile(0)
     

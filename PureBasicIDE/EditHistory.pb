@@ -46,7 +46,7 @@ ImportC ""
   sqlite3_finalize.l(*sqlite3_stmt)
   
   sqlite3_threadsafe.l()
-EndImport 
+EndImport
 
 #SQLITE_STATIC = 0
 #SQLITE_TRANSIENT = -1
@@ -55,7 +55,7 @@ EndImport
 #SQLITE_ROW = 100
 #SQLITE_DONE = 101
 
-;- Libmba stuff 
+;- Libmba stuff
 ;
 CompilerIf #CompileWindows
   ImportC #BUILD_DIRECTORY + "libmba/libmba.lib"
@@ -67,7 +67,7 @@ CompilerEndIf
 
   varray_new(membsize, *al)
   varray_del.l(*va)
-  varray_get(*va, idx)   
+  varray_get(*va, idx)
 
 EndImport
 
@@ -89,7 +89,7 @@ EndStructure
 Enumeration 1
   #DATA_Empty ; data is null. the file is empty
   #DATA_Same  ; data is null. the file is the same as on the previous event
-  #DATA_Diff  ; data is a diff since the previous event 
+  #DATA_Diff  ; data is a diff since the previous event
   #DATA_Full  ; data is the full file content (this is the case for new files in a session that are not empty)
   #DATA_DiffZ ; data is a diff (zlib compressed)
   #DATA_FullZ ; data is full file (zlib compressed)
@@ -98,8 +98,8 @@ EndEnumeration
 ; asynchronous handling of events for speed
 Structure HistoryEvent
  *QueueNext.HistoryEvent ; next event in queue
- *ProcessedNext.HistoryEvent ; next in list of processed events 
-  SourceID.i     ; id of the originating source  
+ *ProcessedNext.HistoryEvent ; next in list of processed events
+  SourceID.i     ; id of the originating source
   HistoryName.s ; filename or unique name for new files
   Encoding.l
   Event.l
@@ -116,7 +116,7 @@ Structure EventSource
   EventID.l
   Encoding.l
  *Buffer   ; never #null (0-size event sources are not cached)
-  Size.l  
+  Size.l
 EndStructure
 
 Global NewList EventSourceCache.EventSource()
@@ -124,7 +124,7 @@ Global NewList EventSourceCache.EventSource()
 Global OSSessionID$, SessionID
 Global CurrentHistoryFile$, CurrentHistorySource
 Global CompilerVersionWritten = #False
-Global StartOfDay 
+Global StartOfDay
 Global CurrentUser$ = UserName()
 Global NewMap HistoryFirstLines.i() ; map of first displayed lines for each file
 
@@ -142,7 +142,7 @@ Global *HistoryFirstProcessed.HistoryEvent = 0
 Declare History_EventThread(*Dummy)
 
 Procedure.s SqlEscape(String$)
-  ProcedureReturn ReplaceString(String$, "'", "''")  
+  ProcedureReturn ReplaceString(String$, "'", "''")
 EndProcedure
 
 CompilerIf #PB_Compiler_Debugger
@@ -163,7 +163,7 @@ CompilerIf #PB_Compiler_Debugger
   
   Procedure DatabaseQuery_DEBUG(db, sql$)
     Debug "[DB QUERY] " + sql$
-    r = DatabaseQuery(db, sql$)      
+    r = DatabaseQuery(db, sql$)
     If r = 0
       Debug "[DB FAILURE] " + DatabaseError()
       CallDebugger
@@ -173,7 +173,7 @@ CompilerIf #PB_Compiler_Debugger
   
   Macro DatabaseQuery(db, sql)
     DatabaseQuery_DEBUG(db, sql)
-  EndMacro  
+  EndMacro
 
 CompilerEndIf
 
@@ -182,7 +182,7 @@ Procedure.s History_VersionString(CompilerVersion$)
   Title$ = CompilerVersion$
   Title$ = RemoveString(Title$, "Windows - ") ; remove the OS part as it is redundant information
   Title$ = RemoveString(Title$, "Linux - ")
-  Title$ = RemoveString(Title$, "MacOS X - ")  
+  Title$ = RemoveString(Title$, "MacOS X - ")
   Title$ = RemoveString(Title$, #ProductName$ + " ") ; also remove the prefix
   ProcedureReturn Title$
 EndProcedure
@@ -194,14 +194,14 @@ Procedure.s History_GetOption(Key$)
       Value$ = GetDatabaseString(#DB_History, 0)
     EndIf
     FinishDatabaseQuery(#DB_History)
-  EndIf   
+  EndIf
   ProcedureReturn Value$
 EndProcedure
 
 Procedure History_SetOption(Key$, Value$)
   ; the ON CONFLICT clause of the table causes any old value for the same key to be deleted
   ; automatically
-  DatabaseUpdate(#DB_History, "INSERT INTO options (key, value) VALUES ('" + SqlEscape(Key$) + "', '" + SqlEscape(Value$) + "')")  
+  DatabaseUpdate(#DB_History, "INSERT INTO options (key, value) VALUES ('" + SqlEscape(Key$) + "', '" + SqlEscape(Value$) + "')")
 EndProcedure
 
 Procedure StartHistorySession()
@@ -255,7 +255,7 @@ Procedure StartHistorySession()
     EndIf
     If Minor$ = ""
       History_SetOption("version.minor", "1")
-    EndIf    
+    EndIf
   
     ; Session table:
     ;   session_id : primary key of table
@@ -278,7 +278,7 @@ Procedure StartHistorySession()
     ;   previous_event : id of previous event for the file (if any)
     ;   encoding       : encoding of source file
     ;   data           : file data or null, depending on type
-    ;    
+    ;
     DatabaseUpdate(#DB_History, "CREATE TABLE IF NOT EXISTS event(event_id INTEGER PRIMARY KEY, session_id INTEGER NOT NULL, filename TEXT NOT NULL, event INTEGER NOT NULL, time INTEGER NOT NULL, type INTEGER NOT NULL, previous_event INTEGER, encoding INTEGER NOT NULL, data BLOB)")
     
     ; create indices for fast searching
@@ -321,7 +321,7 @@ EndProcedure
 
 Procedure HistoryCompilerLoaded()
   If HistoryActive And CompilerVersionWritten = #False
-    Title$ = History_VersionString(DefaultCompiler\VersionString$)  
+    Title$ = History_VersionString(DefaultCompiler\VersionString$)
     DatabaseUpdate(#DB_History, "UPDATE session SET version = '" + SqlEscape(Title$) + "' WHERE session_id = " + Str(SessionID))
     CompilerVersionWritten = #True
   EndIf
@@ -336,7 +336,7 @@ Procedure DetectCrashedHistorySession()
     ; display most recent if multiple crashes (could happen if multiple instances are running and the pc crashes)
     sql$ = "SELECT session_id, os_id FROM session "
     sql$ + "WHERE end_time = 0 AND warned = 0 "
-    sql$ + "ORDER BY start_time DESC" 
+    sql$ + "ORDER BY start_time DESC"
     
     If DatabaseQuery(#DB_History, sql$)
       ; check any hits against the running sessions
@@ -355,12 +355,12 @@ Procedure DetectCrashedHistorySession()
     
     If ListSize(CrashedSID()) > 0
       
-      ; set the warned flag for all these sessions      
-      DatabaseUpdate(#DB_History, "BEGIN TRANSACTION")      
+      ; set the warned flag for all these sessions
+      DatabaseUpdate(#DB_History, "BEGIN TRANSACTION")
       ForEach CrashedSID()
         DatabaseUpdate(#DB_History, "UPDATE session SET warned = 1 WHERE session_id = " + Str(CrashedSID()))
-      Next CrashedSID()      
-      DatabaseUpdate(#DB_History, "COMMIT TRANSACTION")      
+      Next CrashedSID()
+      DatabaseUpdate(#DB_History, "COMMIT TRANSACTION")
       
       ; ask if the session history should be shown
       If MessageRequester(#ProductName$, Language("History", "CrashedInfo"), #FLAG_Question|#PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
@@ -385,7 +385,7 @@ Procedure History_FlushEvents()
   
     ; wait until the queue is clear
     ; no need for any locking as it is just a simple check
-    While *HistoryQueueHead 
+    While *HistoryQueueHead
       WaitWindowEvent(50)
       
       If Hidden And (ElapsedMilliseconds() - WaitStart > 250)
@@ -393,15 +393,15 @@ Procedure History_FlushEvents()
         Hidden = #False
         
         CompilerIf #CompileLinuxGtk2
-          gtk_window_set_position_(WindowID(#WINDOW_EditHistoryShutdown), #GTK_WIN_POS_CENTER_ALWAYS)     
-        CompilerEndIf    
+          gtk_window_set_position_(WindowID(#WINDOW_EditHistoryShutdown), #GTK_WIN_POS_CENTER_ALWAYS)
+        CompilerEndIf
         
         CompilerIf #CompileMacCocoa
           PB_Gadget_CenterWindow(WindowID(#WINDOW_EditHistoryShutdown))
-        CompilerEndIf          
+        CompilerEndIf
       EndIf
         
-    Wend   
+    Wend
     
     Window\Close(0)
     
@@ -448,7 +448,7 @@ Procedure EndHistorySession()
       ; purge by session count
       ; exclude running and crashed (not warned) sessions
       sql$ = "SELECT session_id FROM session "
-      sql$ + "WHERE end_time <> 0 OR warned = 1 " 
+      sql$ + "WHERE end_time <> 0 OR warned = 1 "
       sql$ + "ORDER BY start_time DESC"
       
       If DatabaseQuery(#DB_History, sql$)
@@ -468,14 +468,14 @@ Procedure EndHistorySession()
           PurgeList$ + Str(GetDatabaseLong(#DB_History, 0))
         Wend
         
-        FinishDatabaseQuery(#DB_History)        
+        FinishDatabaseQuery(#DB_History)
       EndIf
       
     ElseIf HistoryPurgeMode = 2
     
       ; purge by start date
       CurrentDate = Date()
-      StartOfDay = Date(Year(CurrentDate), Month(CurrentDate), Day(CurrentDate), 0, 0, 0)      
+      StartOfDay = Date(Year(CurrentDate), Month(CurrentDate), Day(CurrentDate), 0, 0, 0)
       CutOff = AddDate(StartOfDay, #PB_Date_Day, -MaxSessionDays)
       
       ; cut off by end_time
@@ -495,7 +495,7 @@ Procedure EndHistorySession()
           PurgeList$ + Str(GetDatabaseLong(#DB_History, 0))
         Wend
         
-        FinishDatabaseQuery(#DB_History)        
+        FinishDatabaseQuery(#DB_History)
       EndIf
       
     EndIf
@@ -509,14 +509,14 @@ Procedure EndHistorySession()
     EndIf
     
     ; close db
-    CloseDatabase(#DB_History)    
+    CloseDatabase(#DB_History)
     
   EndIf
 EndProcedure
 
 ; Make a unique ID string for file identification
 ;
-Procedure.s History_MakeUniqueId() 
+Procedure.s History_MakeUniqueId()
   Length = 16
   Dim Buffer.a(Length-1)
 
@@ -554,7 +554,7 @@ Procedure History_AsyncUpdateName(PreviousName$, Name$)
   CompilerEndIf
   
   ; Use bind variables as we cannot modify strings in this thread
-  CompilerIf #PB_Compiler_Unicode 
+  CompilerIf #PB_Compiler_Unicode
     If sqlite3_prepare16_v2(DatabaseID(#DB_History), @"UPDATE event SET filename = ? WHERE filename = ? AND session_id = ?", -1, @*Statement, #Null) = #SQLITE_OK
       sqlite3_bind_text16(*Statement, 1, @Name$, -1, #SQLITE_STATIC)
       sqlite3_bind_text16(*Statement, 2, @PreviousName$, -1, #SQLITE_STATIC)
@@ -563,7 +563,7 @@ Procedure History_AsyncUpdateName(PreviousName$, Name$)
       sqlite3_bind_text(*Statement, 1, @Name$, -1, #SQLITE_STATIC)
       sqlite3_bind_text(*Statement, 2, @PreviousName$, -1, #SQLITE_STATIC)
   CompilerEndIf
-      sqlite3_bind_int(*Statement, 3, SessionID)    
+      sqlite3_bind_int(*Statement, 3, SessionID)
       
       While sqlite3_step(*Statement) = #SQLITE_ROW: Wend
       sqlite3_finalize(*Statement)
@@ -578,12 +578,12 @@ Procedure History_AsyncDeleteEvent(EventID)
     Debug "Async: deleting event with id: " + Str(EventID)
   CompilerEndIf
   
-  CompilerIf #PB_Compiler_Unicode 
+  CompilerIf #PB_Compiler_Unicode
     If sqlite3_prepare16_v2(DatabaseID(#DB_History), @"DELETE FROM event WHERE event_id = ?", -1, @*Statement, #Null) = #SQLITE_OK
   CompilerElse
     If sqlite3_prepare_v2(DatabaseID(#DB_History), @"DELETE FROM event WHERE event_id = ?", -1, @*Statement, #Null) = #SQLITE_OK
   CompilerEndIf
-      sqlite3_bind_int(*Statement, 1, EventID)    
+      sqlite3_bind_int(*Statement, 1, EventID)
       
       While sqlite3_step(*Statement) = #SQLITE_ROW: Wend
       sqlite3_finalize(*Statement)
@@ -606,16 +606,16 @@ ProcedureC History_Diff_idx(*Lines.HistoryDiffLines, idx.l, *context)
 EndProcedure
 
 ProcedureC History_Diff_cmp(*e1.HistoryDiffLine, *e2.HistoryDiffLine, *context)
-  If *e1\Checksum = *e2\Checksum 
+  If *e1\Checksum = *e2\Checksum
     ProcedureReturn 0
   Else
     ProcedureReturn 1
-  EndIf 
+  EndIf
 EndProcedure
 
 Procedure History_DiffEditSize(*edit.diff_edit, Array Lines.HistoryDiffLine(1))
   Size = 0
-  Last = *edit\off + *edit\len - 1  
+  Last = *edit\off + *edit\len - 1
   For index = *edit\off To  Last
     Size + Lines(index)\Length
   Next index
@@ -637,7 +637,7 @@ Procedure History_DiffPreProcess(*Event.HistoryEvent, Array Lines.HistoryDiffLin
       *Pointer + 1
       If *Pointer < *BufferEnd And *Pointer\b = 10
         *Pointer + 1
-      EndIf    
+      EndIf
     ElseIf *Pointer\b = 10
       *Pointer + 1
     Else
@@ -694,7 +694,7 @@ Procedure History_MakeDiff(*Output, *OutSize.INTEGER, *Event.HistoryEvent, *Prev
 
   *OutputEnd = *Output + *OutSize\i
   *Pointer.PTR = *Output
-  *Pointer\l = *Event\Size ; store original size  
+  *Pointer\l = *Event\Size ; store original size
   *Pointer + 4 ; skip original size storage
   
   For i = 0 To sn-1
@@ -713,7 +713,7 @@ Procedure History_MakeDiff(*Output, *OutSize.INTEGER, *Event.HistoryEvent, *Prev
         *Pointer\b = 'D': *Pointer + 1
         *Pointer\l = History_DiffEditSize(*edit, OldLines()): *Pointer + 4
       
-      Case #DIFF_INSERT   
+      Case #DIFF_INSERT
         *Pointer\b = 'A': *Pointer + 1
         EditSize = History_DiffEditSize(*edit, NewLines())
         *Pointer\l = EditSize: *Pointer + 4
@@ -721,17 +721,17 @@ Procedure History_MakeDiff(*Output, *OutSize.INTEGER, *Event.HistoryEvent, *Prev
         If *Pointer + EditSize > *OutputEnd
           varray_del(*ses)
           ProcedureReturn #False
-        EndIf    
+        EndIf
         
         CopyMemory(*Event\Content + NewLines(*edit\off)\Offset, *Pointer, EditSize)
         *Pointer + EditSize
                      
-    EndSelect      
+    EndSelect
   Next i
 
   varray_del(*ses)
   
-  *OutSize\i = *Pointer - *Output  
+  *OutSize\i = *Pointer - *Output
   ProcedureReturn #True
 EndProcedure
 
@@ -763,7 +763,7 @@ Procedure History_ApplyDiff(*Output, *PreviousBuffer, *Diff.PTR, DiffSize)
         Size = *Diff\l: *Diff + 4
         CopyMemory(*Diff, *Output, Size)
         *Diff + Size
-        *Output + Size        
+        *Output + Size
       
       Default
         ; something is wrong here
@@ -780,7 +780,7 @@ Procedure History_WriteEvent(*Event.HistoryEvent)
   ; calculate checksum if needed
   If *Event\Checksum = 0 And *Event\Content And *Event\Size
     *Event\Checksum = CRC32Fingerprint(*Event\Content, *Event\Size)
-  EndIf    
+  EndIf
 
   ; find any previous event for the same source and remove it from the list
   ; this list is accessed only by this thread
@@ -806,7 +806,7 @@ Procedure History_WriteEvent(*Event.HistoryEvent)
       *Update\ProcessedNext = *Previous\ProcessedNext
     Else
       *HistoryFirstProcessed = *Previous\ProcessedNext
-    EndIf    
+    EndIf
     
     ; if the event is close, and the only previous event is open or create,
     ; drop both from the db to avoid lots of empty open/close event combinations
@@ -829,7 +829,7 @@ Procedure History_WriteEvent(*Event.HistoryEvent)
   *StorageBuffer = #Null
   
   If *Event\Content = #Null
-    Type = #DATA_Empty    
+    Type = #DATA_Empty
     PreviousEventID = 0
     *Event\DiffCount = 0
     
@@ -838,7 +838,7 @@ Procedure History_WriteEvent(*Event.HistoryEvent)
     Type = #DATA_Full
     PreviousEventID = 0
     StorageSize = *Event\Size
-    *StorageBuffer = *Event\Content 
+    *StorageBuffer = *Event\Content
     
     ; attemt to compress
     CompilerIf #ENABLE_HISTORY_COMPRESSION
@@ -868,7 +868,7 @@ Procedure History_WriteEvent(*Event.HistoryEvent)
     Type = #DATA_Full
     PreviousEventID = 0
     StorageSize = *Event\Size
-    *StorageBuffer = *Event\Content 
+    *StorageBuffer = *Event\Content
     *Event\DiffCount = *Previous\DiffCount + 1
     
     ; try to diff
@@ -912,7 +912,7 @@ Procedure History_WriteEvent(*Event.HistoryEvent)
   
   ; Update the DB
   ; We cannot use the Database functions for thread safety
-  ; Use the sqlite functions directly    
+  ; Use the sqlite functions directly
   ; In PB, sqlite is compiled threadsafe, so this is ok
   CompilerIf #HISTORY_WRITE_ASYNC = #False
     Debug "Async: writing history event: " + Str(*Event\Event)
@@ -983,7 +983,7 @@ Procedure History_EventThread(*Dummy)
       If *HistoryQueueHead = 0
         *HistoryQueueTail = 0
       EndIf
-    UnlockMutex(*HistoryMutex)    
+    UnlockMutex(*HistoryMutex)
     
     ; write the event
     History_WriteEvent(*Event)
@@ -1011,7 +1011,7 @@ Procedure HistoryEvent(*Source.SourceFile, Event)
     EndIf
   
     Size = ScintillaSendMessage(*Source\EditorGadget, #SCI_GETLENGTH, 0, 0)
-    If Size > HistoryMaxFileSize 
+    If Size > HistoryMaxFileSize
   
       ; Size checking works like this:
       ; If the file is too large on open, it is excluded entirely (ExludeFromHistory = true)
@@ -1039,12 +1039,12 @@ Procedure HistoryEvent(*Source.SourceFile, Event)
     
     EndIf
     
-    ; get the content    
+    ; get the content
     If Size = 0
       *Buffer = #Null
     Else
       *Buffer = AllocateMemory(Size+1)
-      ScintillaSendMessage(*Source\EditorGadget,#SCI_GETTEXT, Size+1, *Buffer)      
+      ScintillaSendMessage(*Source\EditorGadget,#SCI_GETTEXT, Size+1, *Buffer)
     EndIf
     
     ; enqueue a task to write this event in the thread
@@ -1071,7 +1071,7 @@ Procedure HistoryEvent(*Source.SourceFile, Event)
           *HistoryQueueTail\QueueNext = *Event
           *HistoryQueueTail = *Event
         EndIf
-      UnlockMutex(*HistoryMutex)  
+      UnlockMutex(*HistoryMutex)
       SignalSemaphore(*HistorySemaphore)
     
     CompilerElse
@@ -1089,7 +1089,7 @@ Procedure HistoryTimer()
       If @FileList() <> *ProjectInfo And FileList()\IsForm = 0 And FileList()\ExcludeFromHistory = 0
         ; the event writing figures out if there are changes
         ; and will discard this event if there are none
-        HistoryEvent(@FileList(), #HISTORY_Edit)        
+        HistoryEvent(@FileList(), #HISTORY_Edit)
       EndIf
     Next FileList()
   
@@ -1145,7 +1145,7 @@ Procedure History_LoadEventSource(EventID)
   *Buffer = 0
   Size = 0
     
-  If DatabaseQuery(#DB_History, "SELECT type, previous_event, encoding, data FROM event WHERE event_id = " + Str(EventID))    
+  If DatabaseQuery(#DB_History, "SELECT type, previous_event, encoding, data FROM event WHERE event_id = " + Str(EventID))
     If NextDatabaseRow(#DB_History)
       Type        = GetDatabaseLong(#DB_History, 0)
       PreviousID  = GetDatabaseLong(#DB_History, 1)
@@ -1168,7 +1168,7 @@ Procedure History_LoadEventSource(EventID)
           FinishDatabaseQuery(#DB_History)
 
           Size = PeekL(*Diff) ; stores final size
-          *Buffer = AllocateMemory(Size + 1) ; need to add a NULL (for scintilla SETTEXT)          
+          *Buffer = AllocateMemory(Size + 1) ; need to add a NULL (for scintilla SETTEXT)
           *Previous.EventSource = History_LoadEventSource(PreviousID)
           History_ApplyDiff(*Buffer, *Previous\Buffer, *Diff, DiffSize)
           FreeMemory(*Diff)
@@ -1184,10 +1184,10 @@ Procedure History_LoadEventSource(EventID)
           FinishDatabaseQuery(#DB_History)
 
           Size = PeekL(*Diff) ; stores final size
-          *Buffer = AllocateMemory(Size + 1) ; need to add a NULL (for scintilla SETTEXT)          
+          *Buffer = AllocateMemory(Size + 1) ; need to add a NULL (for scintilla SETTEXT)
           *Previous.EventSource = History_LoadEventSource(PreviousID)
           History_ApplyDiff(*Buffer, *Previous\Buffer, *Diff, DiffSize)
-          FreeMemory(*Diff)     
+          FreeMemory(*Diff)
 
         Case #DATA_Full
           Size = DatabaseColumnSize(#DB_History, 3)
@@ -1200,7 +1200,7 @@ Procedure History_LoadEventSource(EventID)
           *Compressed = AllocateMemory(CompressedSize)
           GetDatabaseBlob(#DB_History, 3, *Compressed, CompressedSize)
           Size = PeekL(*Compressed)
-          *Buffer = AllocateMemory(Size + 1) ; need to add a NULL (for scintilla SETTEXT)          
+          *Buffer = AllocateMemory(Size + 1) ; need to add a NULL (for scintilla SETTEXT)
           uncompress(*Buffer, @Size, *Compressed + 4, CompressedSize - 4)
           FreeMemory(*Compressed)
           FinishDatabaseQuery(#DB_History)
@@ -1212,7 +1212,7 @@ Procedure History_LoadEventSource(EventID)
       EndSelect
     Else
       FinishDatabaseQuery(#DB_History)
-    EndIf    
+    EndIf
   EndIf
 
   If *Buffer
@@ -1238,7 +1238,7 @@ Procedure History_LoadEventSource(EventID)
   
   Else
     ProcedureReturn @EmptyEventSource
-  EndIf 
+  EndIf
 EndProcedure
 
 Procedure History_ShowEventSource(EventID)
@@ -1254,7 +1254,7 @@ Procedure History_ShowEventSource(EventID)
   HistoryFirstLines(CurrentHistoryFile$) = FirstLine
 
   *File.EventSource = History_LoadEventSource(EventID)
-  If *File\Buffer    
+  If *File\Buffer
     SetCodeViewer(#GADGET_History_Source, *File\Buffer, *File\Encoding)
     ; no FreeMemory(), as the loaded buffer lives on in the cache!
   Else
@@ -1271,7 +1271,7 @@ Procedure History_ShowEventSource(EventID)
       ScintillaSendMessage(#GADGET_History_Source, #SCI_LINESCROLL, 0, FirstLine)
     EndIf
     FinishDatabaseQuery(#DB_History)
-  EndIf      
+  EndIf
   
 EndProcedure
 
@@ -1292,7 +1292,7 @@ Procedure.s History_SessionDisplayName(sid, OsID$, Version$, User$, StartTime, E
   
   If sid = SessionID
     Session$ = Language("History", "CurrentSession")
-  Else      
+  Else
     If EndTime = 0
       If Session_IsRunning(OsID$)
         ; session still running
@@ -1322,9 +1322,9 @@ Procedure.s History_SessionDisplayName(sid, OsID$, Version$, User$, StartTime, E
       Session$ + " - " + User$
     EndIf
     If Version$ <> CurrentVersion$
-      Session$ + " - " + Version$ 
+      Session$ + " - " + Version$
     EndIf
-  EndIf  
+  EndIf
   
   ProcedureReturn Session$
 EndProcedure
@@ -1334,7 +1334,7 @@ Procedure History_FillFileList()
   ClearGadgetItems(#GADGET_History_FileList)
   
   Index = GetGadgetState(#GADGET_History_FileCombo)
-  If Index = -1    
+  If Index = -1
     ProcedureReturn
   EndIf
   
@@ -1363,7 +1363,7 @@ Procedure History_FillFileList()
       ImageID = OptionalImageID(#IMAGE_History_First + Action)
       ; always use DateTime here because this list includes all sessions
       AddGadgetItem(#GADGET_History_FileList, index, DateTimeToString(Time), ImageID)
-      SetGadgetItemData(#GADGET_History_FileList, index, EventID)      
+      SetGadgetItemData(#GADGET_History_FileList, index, EventID)
       index + 1
     Wend
    
@@ -1414,7 +1414,7 @@ Procedure History_FillSessionTree()
   ClearGadgetItems(#GADGET_History_SessionTree)
   
   Index = GetGadgetState(#GADGET_History_SessionCombo)
-  If Index = -1    
+  If Index = -1
     ProcedureReturn
   EndIf
   
@@ -1464,7 +1464,7 @@ Procedure History_FillSessionTree()
       EndIf
       
       AddGadgetItem(#GADGET_History_SessionTree, index, TimeStr$, ImageID, 1)
-      SetGadgetItemData(#GADGET_History_SessionTree, index, EventID)      
+      SetGadgetItemData(#GADGET_History_SessionTree, index, EventID)
       index + 1
     Wend
    
@@ -1505,7 +1505,7 @@ Procedure History_FillSessionCombo(DisplaySID)
       EndIf
       
       AddGadgetItem(#GADGET_History_SessionCombo, index, Session$)
-      SetGadgetItemData(#GADGET_History_SessionCombo, index, sid)      
+      SetGadgetItemData(#GADGET_History_SessionCombo, index, sid)
       index + 1
     Wend
     
@@ -1528,7 +1528,7 @@ Procedure OpenEditHistoryWindow(DisplaySID = -1)
 
   If HistoryActive = 0
     ProcedureReturn
-  EndIf 
+  EndIf
 
   ; Calculate start of the current day for the TimeToString() procedure
   CurrentDate = Date()
@@ -1543,7 +1543,7 @@ Procedure OpenEditHistoryWindow(DisplaySID = -1)
       EnsureWindowOnDesktop(#WINDOW_EditHistory)
 
       InitCodeViewer(#GADGET_History_Source, EnableLineNumbers)
-      HideWindow(#WINDOW_EditHistory, 0)    
+      HideWindow(#WINDOW_EditHistory, 0)
       
       SetGadgetState(#GADGET_History_Splitter, EditHistorySplitter)
     EndIf
@@ -1552,8 +1552,8 @@ Procedure OpenEditHistoryWindow(DisplaySID = -1)
     SetWindowForeground(#WINDOW_EditHistory)
   EndIf
 
-  ; make sure all events are written to the db  
-  History_FlushEvents()  
+  ; make sure all events are written to the db
+  History_FlushEvents()
   
   ; refresh display
   History_FillSessionCombo(DisplaySID)
@@ -1576,7 +1576,7 @@ Procedure EditHistoryWindowEvent(EventID)
 
   Select EventID
   
-    Case #PB_Event_Gadget    
+    Case #PB_Event_Gadget
       Select EventGadget()
       
         Case #GADGET_History_Splitter
@@ -1586,7 +1586,7 @@ Procedure EditHistoryWindowEvent(EventID)
           CompilerElse
             ; need to resize the gui accordingly
             EditHistoryDialog\SizeUpdate()
-          CompilerEndIf          
+          CompilerEndIf
       
         Case #GADGET_History_SessionCombo
           History_FillSessionTree()
@@ -1598,7 +1598,7 @@ Procedure EditHistoryWindowEvent(EventID)
             If EventID <> -1
               History_ShowEventSource(EventID)
             EndIf
-          EndIf      
+          EndIf
           
         Case #GADGET_History_FileCombo
           History_FillFileList()
@@ -1629,7 +1629,7 @@ Procedure EditHistoryWindowEvent(EventID)
       ForEach EventSourceCache()
         FreeMemory(EventSourceCache()\Buffer)
       Next EventSourceCache()
-      ClearList(EventSourceCache())      
+      ClearList(EventSourceCache())
   
   EndSelect
 

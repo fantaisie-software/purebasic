@@ -50,15 +50,15 @@ typedef struct PB_List
   PB_ListHeader *Last;
   PB_ListHeader *Current; // Don't move it, as it is used internally by the compiler
   PB_ListHeader **CurrentVariable;
-  
+
   integer NbElements;
   integer Index;
   integer *StructureMap;
-  
+
   // Every List has its private allocator, so we can call ClearAll() for a fast ClearList()
   // Also this way Lists in separate threads work without a lock for allocation
   PB_BlockAlloc *Allocator;
-  
+
   // see PushListPosition.c
   PB_ListPosition *PositionStack;
 
@@ -86,11 +86,11 @@ PB_ListObject;
 typedef struct
 {
   PB_ListHeader Header;
-	union
-	{
-  	int   Long;
-		char *String;
-	} Type;
+  union
+  {
+    int   Long;
+    char *String;
+  } Type;
 } PB_ListElement;
 
 M_PBFUNCTION(PB_List *) PB_NewList(integer ElementSize, PB_ListObject *ListObject, integer *StructureMap, int ElementType);

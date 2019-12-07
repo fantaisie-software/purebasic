@@ -17,7 +17,7 @@ Structure Standalone_Debuggers
   Parameters$
   Directory$
   
-  WaitStatus.l     ; set to one after execution ended  
+  WaitStatus.l     ; set to one after execution ended
 EndStructure
 
 Global NewList Standalone_Debuggers.Standalone_Debuggers()
@@ -25,7 +25,7 @@ Global NewList Standalone_Debuggers.Standalone_Debuggers()
 DisableDebugger
 ProcedureDLL StandaloneDebuggers_WaitThread(*Info.Standalone_Debuggers) ; DLL is important in MacOS X
  
-   RunProgram(*Info\CommandLine$, *Info\Parameters$, *Info\Directory$, #PB_Program_Wait)  
+   RunProgram(*Info\CommandLine$, *Info\Parameters$, *Info\Directory$, #PB_Program_Wait)
   *Info\WaitStatus = 1
 
 EndProcedure
@@ -50,7 +50,7 @@ CompilerIf #CompileWindows
     If ShellExecuteEx_(@info) And info\hProcess
       WaitForSingleObject_(info\hProcess, #INFINITE)
       CloseHandle_(info\hProcess)
-    EndIf  
+    EndIf
     *Info\WaitStatus = 1
   
   EndProcedure
@@ -75,7 +75,7 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
  
   ; The OSX "open" command cuts the commandline parameters, so we
   ; use a fixed filename for this case. Ugly, but works
-  ; 
+  ;
   CompilerIf #CompileMac
     If DebuggerCMD$ = "open"
       CommFile$ = "/tmp/.pbstandalone.out"
@@ -93,7 +93,7 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
  
   If CreateFile(#FILE_StandaloneDebugger, CommFile$)
   
-    ; 
+    ;
     ; Important: the command file is utf-8!
     ;
   
@@ -148,10 +148,10 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
     Wend
     
     
-    ; just write breakpoints of any open file, those that are not compiled 
+    ; just write breakpoints of any open file, those that are not compiled
     ; with this source will be ignored
     ;
-    ForEach FileList()    
+    ForEach FileList()
       If @FileList() <> *ProjectInfo
         Line = -1
         Repeat
@@ -165,19 +165,19 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
             EndIf
             
           EndIf
-        Until Line = -1 
+        Until Line = -1
       EndIf
     Next FileList()
     ChangeCurrentElement(FileList(), *ActiveSource)
   
-    CloseFile(#FILE_StandaloneDebugger)   
+    CloseFile(#FILE_StandaloneDebugger)
     
     AddElement(Standalone_Debuggers())
     Standalone_Debuggers()\Directory$ = Directory$
     Standalone_Debuggers()\WaitStatus = 0
-    Standalone_Debuggers()\CommandLine$ = DebuggerCMD$    
+    Standalone_Debuggers()\CommandLine$ = DebuggerCMD$
     Standalone_Debuggers()\CommFile$    = CommFile$
-    Standalone_Debuggers()\Parameters$  = Parameters$ + " -o "+Chr(34)+CommFile$+Chr(34)  
+    Standalone_Debuggers()\Parameters$  = Parameters$ + " -o "+Chr(34)+CommFile$+Chr(34)
     Standalone_Debuggers()\CompileTargetID= *Target\ID
     
     Debug "Standalone: "
@@ -230,7 +230,7 @@ Procedure StandaloneDebuggers_CheckExits()
         ;
         ; the breakpoints are ignored for now,as it might be a little confusing
         ; if they are altered after you quit the debugger
-        ;        
+        ;
         *Target.CompileTarget = FindTargetFromID(Standalone_Debuggers()\CompileTargetID)
 
         If *Target
@@ -255,7 +255,7 @@ Procedure StandaloneDebuggers_CheckExits()
         EndIf
         
         ; Do not delete here. This is too soon on Linux with debugger in a terminal
-        ; (these files are deleted on IDE end)        
+        ; (these files are deleted on IDE end)
         ; DeleteFile(Standalone_Debuggers()\CommFile$)
       EndIf
   

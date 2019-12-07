@@ -81,7 +81,7 @@ Procedure FD_Save(Filename$)
     FormChanges(0)
     
     ProcedureReturn #True
-  EndIf 
+  EndIf
 EndProcedure
 
 
@@ -123,7 +123,7 @@ Procedure OpenReadNextParamOld(line.s,pos,includeequal = 0)
       newpos = FindString(line,"=",pos)
     EndIf
     
-    If Not newpos 
+    If Not newpos
       newpos = FindString(line,",",pos)
     EndIf
     
@@ -242,7 +242,7 @@ Procedure OpenReadGadgetParams(line.s)
         FormWindows()\c_image = num + 1
       EndIf
     ElseIf leftvar = "IP"
-      If num >= FormWindows()\c_ip 
+      If num >= FormWindows()\c_ip
         FormWindows()\c_ip = num + 1
       EndIf
     ElseIf leftvar = "Scrollbar"
@@ -635,7 +635,7 @@ Procedure FD_Open(file.s,update = 0)
       If *Buffer
         StreamTextOut(*Buffer, FileLength)
       
-        If SendEditorMessage(#SCI_GETCODEPAGE) = #SC_CP_UTF8 
+        If SendEditorMessage(#SCI_GETCODEPAGE) = #SC_CP_UTF8
           Format = #PB_UTF8
         Else
           Format = #PB_Ascii
@@ -698,7 +698,7 @@ Procedure FD_Open(file.s,update = 0)
         If Eof(handle)
           end_condition = 1
         EndIf
-      EndIf      
+      EndIf
       
       If FindString(line, "Custom gadget initialisation")
         templine.s = Mid(line,3,Len(line) - 2)
@@ -870,7 +870,7 @@ Procedure FD_Open(file.s,update = 0)
         CustGadgInit()\a = custgadgetnb
         CustGadgInit()\b = line
         Continue
-      EndIf ;} 
+      EndIf ;}
       If is_custgadgetcreate ;{ will parse element values (only if they are next to each others)
         is_custgadgetcreate = 0
         
@@ -1076,7 +1076,7 @@ Procedure FD_Open(file.s,update = 0)
               caption = Mid(caption,2,Len(caption) - 2)
             EndIf
             FormWindows()\FormGadgets()\caption = caption
-          EndIf 
+          EndIf
           
           If posequal = -1
             start = startnext + 1
@@ -1185,7 +1185,7 @@ Procedure FD_Open(file.s,update = 0)
         
         If winy <> "y"
           FormWindows()\y = DesktopScaledY(Val(winy))
-        EndIf 
+        EndIf
         
         start = startnext + 1
         startnext = OpenReadNextParam(line,start)
@@ -1229,7 +1229,7 @@ Procedure FD_Open(file.s,update = 0)
                 EndIf
               Next
             Next
-          Else 
+          Else
             For i = 0 To numflags
               thisflags.s = Trim(StringField(flags,i+1,"|"))
               
@@ -1259,7 +1259,7 @@ Procedure FD_Open(file.s,update = 0)
             parentwin = ReplaceString(parentwin, "WindowID(", "")
             parentwin = ReplaceString(parentwin, ")", "")
             FormWindows()\parent = parentwin
-          EndIf 
+          EndIf
         EndIf
         
         
@@ -1296,7 +1296,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}      
+      EndIf ;}
       If procname = "CalendarGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Calendar
@@ -1308,7 +1308,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}     
+      EndIf ;}
       If procname = "CanvasGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Canvas
@@ -1318,7 +1318,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}      
+      EndIf ;}
       If procname = "CheckBoxGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Checkbox
@@ -1352,7 +1352,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}      
+      EndIf ;}
       If procname = "EditorGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Editor
@@ -1384,7 +1384,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}      
+      EndIf ;}
       If procname = "ExplorerTreeGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_ExplorerTree
@@ -1407,7 +1407,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;} 
+      EndIf ;}
       If procname = "FrameGadget" Or procname = "Frame3DGadget"  ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Frame3D
@@ -1438,7 +1438,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}      
+      EndIf ;}
       If procname = "ListIconGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_ListIcon
@@ -1460,7 +1460,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}        
+      EndIf ;}
       If procname = "ListViewGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_ListView
@@ -1480,7 +1480,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}    
+      EndIf ;}
       If procname = "OptionGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Option
@@ -1501,7 +1501,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}      
+      EndIf ;}
       If procname = "ScintillaGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Scintilla
@@ -1519,7 +1519,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}      
+      EndIf ;}
       If procname = "ScrollBarGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Scrollbar
@@ -1531,7 +1531,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}  
+      EndIf ;}
       If procname = "SpinGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Spin
@@ -1542,7 +1542,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}        
+      EndIf ;}
       If procname = "StringGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_StringGadget
@@ -1564,7 +1564,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}      
+      EndIf ;}
       If procname = "TrackBarGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Trackbar
@@ -1575,7 +1575,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}      
+      EndIf ;}
       If procname = "TreeGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_TreeGadget
@@ -1596,7 +1596,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
         Continue
-      EndIf ;}      
+      EndIf ;}
       If procname = "ContainerGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Container
@@ -1622,7 +1622,7 @@ Procedure FD_Open(file.s,update = 0)
         LastElement(GadgetList())
         AddElement(GadgetList()) : GadgetList()\a = FormWindows()\FormGadgets()\itemnumber : GadgetList()\b = -1
         Continue
-      EndIf ;}     
+      EndIf ;}
       If procname = "PanelGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Panel
@@ -1806,7 +1806,7 @@ Procedure FD_Open(file.s,update = 0)
           OpenTempImg()\img = ReplaceString(OpenTempImg()\img,"?","") ; remove the ? from data label
         EndIf
         Continue
-      EndIf ;}      
+      EndIf ;}
       If procname = "ToolBarImageButton" ;{
         AddElement(FormWindows()\FormToolbars())
         
@@ -1837,7 +1837,7 @@ Procedure FD_Open(file.s,update = 0)
           EndIf
         Next
       EndIf ;}
-      If procname = "ToolBarToolTip" ;{ 
+      If procname = "ToolBarToolTip" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         ;toolbarid = Trim(Mid(line,start,startnext-start))
@@ -1955,7 +1955,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormStatusbars()\width = width
         Continue
       EndIf ;}
-      If procname = "StatusBarText" ;{ 
+      If procname = "StatusBarText" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         ;toolbarid = Trim(Mid(line,start,startnext-start))
@@ -1975,7 +1975,7 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormStatusbars()\text = tooltip
         OpenReadStatusFlags(line,start)
       EndIf ;}
-      If procname = "StatusBarProgress" ;{ 
+      If procname = "StatusBarProgress" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         ;toolbarid = Trim(Mid(line,start,startnext-start))
@@ -1990,8 +1990,8 @@ Procedure FD_Open(file.s,update = 0)
         SelectElement(FormWindows()\FormStatusbars(),fieldindex)
         FormWindows()\FormStatusbars()\progressbar = 1
         OpenReadStatusFlags(line,start)
-      EndIf ;}      
-      If procname = "StatusBarImage" ;{ 
+      EndIf ;}
+      If procname = "StatusBarImage" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         ;toolbarid = Trim(Mid(line,start,startnext-start))
@@ -2002,11 +2002,11 @@ Procedure FD_Open(file.s,update = 0)
         start = startnext + 1
 
         SelectElement(FormWindows()\FormStatusbars(),fieldindex)
-        start = OpenReadStatusFlagsImageID(line, start)   
+        start = OpenReadStatusFlagsImageID(line, start)
         
         OpenReadStatusFlags(line,start)
       EndIf ;}
-      If procname = "SetGadgetColor" ;{ 
+      If procname = "SetGadgetColor" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         gadgetid.s = Trim(Mid(line,start,startnext-start))
@@ -2051,7 +2051,7 @@ Procedure FD_Open(file.s,update = 0)
             EndIf
         Next
       EndIf ;}
-      If procname = "SetWindowColor" ;{ 
+      If procname = "SetWindowColor" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         gadgetid.s = Trim(Mid(line,start,startnext-start))
@@ -2086,7 +2086,7 @@ Procedure FD_Open(file.s,update = 0)
           FormWindows()\color = newcolor
         EndIf
       EndIf ;}
-      If procname = "HideWindow" ;{ 
+      If procname = "HideWindow" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         gadgetid.s = Trim(Mid(line,start,startnext-start))
@@ -2102,7 +2102,7 @@ Procedure FD_Open(file.s,update = 0)
           FormWindows()\hidden = val
         EndIf
       EndIf ;}
-      If procname = "DisableWindow" ;{ 
+      If procname = "DisableWindow" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         gadgetid.s = Trim(Mid(line,start,startnext-start))
@@ -2118,7 +2118,7 @@ Procedure FD_Open(file.s,update = 0)
           FormWindows()\disabled = val
         EndIf
       EndIf ;}
-      If procname = "HideGadget" ;{ 
+      If procname = "HideGadget" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         gadgetid.s = Trim(Mid(line,start,startnext-start))
@@ -2137,7 +2137,7 @@ Procedure FD_Open(file.s,update = 0)
             EndIf
           Next
       EndIf ;}
-      If procname = "GadgetToolTip" ;{ 
+      If procname = "GadgetToolTip" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line, start)
         gadgetid.s = Trim(Mid(line, start, startnext - start))
@@ -2166,7 +2166,7 @@ Procedure FD_Open(file.s,update = 0)
           EndIf
         Next
       EndIf ;}
-      If procname = "DisableGadget" ;{ 
+      If procname = "DisableGadget" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         gadgetid.s = Trim(Mid(line,start,startnext-start))
@@ -2185,7 +2185,7 @@ Procedure FD_Open(file.s,update = 0)
             EndIf
           Next
       EndIf ;}
-      If procname = "LoadFont" ;{ 
+      If procname = "LoadFont" ;{
         AddElement(Fonts())
         start = FindString(line, "(") + 1
         startnext = FindString(line,",",start + 1)
@@ -2228,7 +2228,7 @@ Procedure FD_Open(file.s,update = 0)
         EndIf
         Fonts()\flags = winflag
       EndIf ;}
-      If procname = "SetGadgetFont" ;{ 
+      If procname = "SetGadgetFont" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         gadgetid.s = Trim(Mid(line,start,startnext-start))
@@ -2259,7 +2259,7 @@ Procedure FD_Open(file.s,update = 0)
         Next
         
       EndIf ;}
-      If procname = "SetGadgetState" ;{ 
+      If procname = "SetGadgetState" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         gadgetid.s = Trim(Mid(line,start,startnext-start))
@@ -2285,7 +2285,7 @@ Procedure FD_Open(file.s,update = 0)
           EndIf
         Next
       EndIf ;}
-      If procname = "AddGadgetColumn" ;{ 
+      If procname = "AddGadgetColumn" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         gadgetid.s = Trim(Mid(line,start,startnext-start))
@@ -2314,7 +2314,7 @@ Procedure FD_Open(file.s,update = 0)
             EndIf
           Next
       EndIf ;}
-      If procname = "ResizeGadget" ;{ 
+      If procname = "ResizeGadget" ;{
         start = FindString(line, "(") + 1
         startnext = OpenReadNextParam(line,start)
         gadgetid.s = Trim(Mid(line,start,startnext-start))
@@ -2381,7 +2381,7 @@ Procedure FD_Open(file.s,update = 0)
         SelectElement(FormWindows()\FormImg(),FormWindows()\FormToolbars()\img - 1)
         FormWindows()\FormToolbars()\img = @FormWindows()\FormImg()
       EndIf
-    Next    
+    Next
     
     ForEach FormWindows()\FormGadgets()
       If FormWindows()\FormGadgets()\image
@@ -2395,7 +2395,7 @@ Procedure FD_Open(file.s,update = 0)
 ;           FindParent(FormWindows()\FormGadgets()\parent)
 ;           width = FormWindows()\FormGadgets()\x2 - FormWindows()\FormGadgets()\x1
 ;           PopListPosition(FormWindows()\FormGadgets())
-;           
+;
 ;           FormWindows()\FormGadgets()\x2 - FormWindows()\FormGadgets()\x1
 ;           FormWindows()\FormGadgets()\x1 = width - FormWindows()\FormGadgets()\x1
 ;           FormWindows()\FormGadgets()\x2 + FormWindows()\FormGadgets()\x1
@@ -2405,17 +2405,17 @@ Procedure FD_Open(file.s,update = 0)
 ;           FormWindows()\FormGadgets()\x2 + FormWindows()\FormGadgets()\x1
 ;         EndIf
 ;       EndIf
-;       
+;
 ;       If Not FormWindows()\FormGadgets()\lock_top
 ;         If FormWindows()\FormGadgets()\parent
 ;           PushListPosition(FormWindows()\FormGadgets())
 ;           FindParent(FormWindows()\FormGadgets()\parent)
 ;           height = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1
-;           
+;
 ;           If FormWindows()\FormGadgets()\type = #Form_Type_Panel
 ;             height - Panel_Height
 ;           EndIf
-;           
+;
 ;           PopListPosition(FormWindows()\FormGadgets())
 ;           FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1
 ;           FormWindows()\FormGadgets()\y1 = height - FormWindows()\FormGadgets()\y1
@@ -2426,44 +2426,44 @@ Procedure FD_Open(file.s,update = 0)
 ;           FormWindows()\FormGadgets()\y2 + FormWindows()\FormGadgets()\y1
 ;         EndIf
 ;       EndIf
-;       
+;
 ;       If FormWindows()\FormGadgets()\lock_left And FormWindows()\FormGadgets()\lock_right
 ;         If FormWindows()\FormGadgets()\parent
 ;           PushListPosition(FormWindows()\FormGadgets())
 ;           FindParent(FormWindows()\FormGadgets()\parent)
 ;           width = FormWindows()\FormGadgets()\x2 - FormWindows()\FormGadgets()\x1
 ;           PopListPosition(FormWindows()\FormGadgets())
-;           
+;
 ;           FormWindows()\FormGadgets()\x2 = FormWindows()\FormGadgets()\x1 + width - (FormWindows()\FormGadgets()\x2 - FormWindows()\FormGadgets()\x1)
 ;         Else
 ;           FormWindows()\FormGadgets()\x2 = FormWindows()\FormGadgets()\x1 + FormWindows()\width - (FormWindows()\FormGadgets()\x2 - FormWindows()\FormGadgets()\x1)
 ;         EndIf
 ;       EndIf
-;       
+;
 ;       If FormWindows()\FormGadgets()\lock_top And FormWindows()\FormGadgets()\lock_bottom
 ;         If FormWindows()\FormGadgets()\parent
 ;           PushListPosition(FormWindows()\FormGadgets())
 ;           FindParent(FormWindows()\FormGadgets()\parent)
 ;           height = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1
-;           
+;
 ;           If FormWindows()\FormGadgets()\type = #Form_Type_Panel
 ;             height - Panel_Height
 ;           EndIf
-;           
+;
 ;           PopListPosition(FormWindows()\FormGadgets())
 ;           FormWindows()\FormGadgets()\y2 = FormWindows()\FormGadgets()\y1 + height - (FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1)
 ;         Else
 ;           height = FormWindows()\height
-;           
+;
 ;           If ListSize(FormWindows()\FormStatusbars())
 ;             height - P_Status
 ;           EndIf
-;           
+;
 ;           If FormSkin <> #PB_OS_MacOS
 ;             If ListSize(FormWindows()\FormMenus())
 ;               height - P_Menu
 ;             EndIf
-;             
+;
 ;             If ListSize(FormWindows()\FormToolbars())
 ;               toptoolpadding = 16
 ;               toptoolpadding + 6
@@ -2472,7 +2472,7 @@ Procedure FD_Open(file.s,update = 0)
 ;             EndIf
 ;             height - toptoolpadding
 ;           EndIf
-;           
+;
 ;           FormWindows()\FormGadgets()\y2 = FormWindows()\FormGadgets()\y1 + height - (FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1)
 ;         EndIf
 ;       EndIf
@@ -2501,7 +2501,7 @@ Procedure FD_Open(file.s,update = 0)
     Else
       redraw = 1
     EndIf
-  EndIf 
+  EndIf
 EndProcedure
 Procedure FD_UpdateCode()
   FD_Open(FormWindows()\current_file,1)

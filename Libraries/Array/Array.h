@@ -31,11 +31,11 @@
 typedef struct PB_Array
 {
   int       NbDimensions;
-	integer   ElementSize;
-	integer  *StructureMap;
-	struct PB_Array **Address;
-	integer   NbElements; // Warning, if you add or change an item, the compiler needs to be modified (for runtime array bound check)
-	int       Type; 
+  integer   ElementSize;
+  integer  *StructureMap;
+  struct PB_Array **Address;
+  integer   NbElements; // Warning, if you add or change an item, the compiler needs to be modified (for runtime array bound check)
+  int       Type;
 } PB_Array;
 
 

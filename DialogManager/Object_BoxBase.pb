@@ -25,10 +25,10 @@ EndStructure
 
 
 Procedure DlgBoxBase_AddChild(*THIS.DlgBoxBase, Child.DialogObject)
-  CompilerIf #PB_Compiler_Debugger 
+  CompilerIf #PB_Compiler_Debugger
     If *THIS\NbChilds >= #MAX_CHILDLIST
       MessageRequester("Dialog Manager", "Too many immediate child items (" + Str(#MAX_CHILDLIST) + ") !")
-    EndIf      
+    EndIf
   CompilerEndIf
   
   *THIS\Childs[*THIS\NbChilds] = Child
@@ -46,7 +46,7 @@ Procedure DlgBoxBase_FoldApply(*THIS.DlgBoxBase, State)
     
     For i = 0 To *THIS\NbChilds-1
       *THIS\Childs[i]\FoldApply(State)
-    Next i      
+    Next i
   EndIf
 EndProcedure
 
@@ -62,7 +62,7 @@ Procedure DlgBoxBase_Find(*THIS.DlgBoxBase, Name$)
     If Result <> 0
       ProcedureReturn Result
     EndIf
-  Next i  
+  Next i
 EndProcedure
 
 

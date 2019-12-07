@@ -12,7 +12,7 @@ XIncludeFile "Object_BinBase.pb"
 ;
 ; Accepted keys in the XML:
 ;
-;   All accepted by DlgBinBase 
+;   All accepted by DlgBinBase
 ;
 
 Structure DlgContainer Extends DlgBinBase
@@ -36,7 +36,7 @@ Procedure DlgContainer_New(*StaticData.DialogObjectData)
       *THIS\Gadget = *StaticData\Gadget
     EndIf
     
-    DlgBinBase_GetOptions(*THIS) ; read all the margin etc options    
+    DlgBinBase_GetOptions(*THIS) ; read all the margin etc options
   EndIf
   
   ProcedureReturn *THIS
@@ -50,7 +50,7 @@ Procedure DlgContainer_SizeRequest(*THIS.DlgContainer, *Width.LONG, *Height.LONG
 
   If *THIS\Child
     *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
-  EndIf  
+  EndIf
   
   CompilerIf #CompileWindows
     If *THIS\StaticData\Flags & #PB_Container_Flat
@@ -84,13 +84,13 @@ Procedure DlgContainer_SizeRequest(*THIS.DlgContainer, *Width.LONG, *Height.LONG
     ;
     If *THIS\StaticData\Flags & (#PB_Container_Flat|#PB_Container_Single)
       *THIS\BorderWidth  = 2 ; represents 2x the border size
-      *THIS\BorderHeight = 2    
+      *THIS\BorderHeight = 2
     ElseIf *THIS\StaticData\Flags =  #PB_Container_BorderLess
       *THIS\BorderWidth  = 0
       *THIS\BorderHeight = 0
     Else
       *THIS\BorderWidth  = 4
-      *THIS\BorderHeight = 4    
+      *THIS\BorderHeight = 4
     EndIf
     *THIS\BorderInClient = #True
   CompilerEndIf
@@ -103,7 +103,7 @@ Procedure DlgContainer_SizeRequest(*THIS.DlgContainer, *Width.LONG, *Height.LONG
       *THIS\BorderHeight = 0
     Else
       *THIS\BorderWidth  = 16 ; 8px border on all types except borderless
-      *THIS\BorderHeight = 16    
+      *THIS\BorderHeight = 16
     EndIf
     *THIS\BorderInClient = #False
   CompilerEndIf
@@ -117,7 +117,7 @@ EndProcedure
 Procedure DlgContainer_SizeApply(*THIS.DlgContainer, x, y, Width, Height)
   ResizeGadget(*THIS\Gadget, x, y, Width, Height)
 
-  If *THIS\Child    
+  If *THIS\Child
     If *THIS\BorderInClient
       x = *THIS\BorderWidth / 2 ; need to add an offset from the border
       y = *THIS\BorderHeight / 2
@@ -127,11 +127,11 @@ Procedure DlgContainer_SizeApply(*THIS.DlgContainer, x, y, Width, Height)
     EndIf
   
     Width  - *THIS\BorderWidth
-    Height - *THIS\BorderHeight       
-    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)    
+    Height - *THIS\BorderHeight
+    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)
   
     *THIS\Child\SizeApply(x, y, Width, Height)
-  EndIf  
+  EndIf
   
 EndProcedure
 

@@ -30,7 +30,7 @@ Procedure SetWindowForeground(Window)
 
   If GetWindowLongPtr_(WindowID(Window), #GWL_STYLE) & #WS_MINIMIZE
     ShowWindow_(WindowID(Window), #SW_RESTORE)
-  EndIf 
+  EndIf
 
   BringWindowToTop_(WindowID(Window))
   SetForegroundWindow_(WindowID(Window))
@@ -57,7 +57,7 @@ Procedure SetWindowForeground_Real(Window)
   
   If GetWindowLongPtr_(hWnd, #GWL_STYLE) & #WS_MINIMIZE
     ShowWindow_(hWnd, #SW_RESTORE)
-  EndIf 
+  EndIf
  
   ; Check To see If we are the foreground thread
  
@@ -75,10 +75,10 @@ Procedure SetWindowForeground_Real(Window)
   ; If we attached our thread, detach it now
   If (foregroundThreadID <> ourThreadID)
     AttachThreadInput_(foregroundThreadID, ourThreadID, #False)
-  EndIf 
+  EndIf
 
-	; Needed to redraw the frame, as the window is activated but the frame stay in inactive color (at least on XP)
-	RedrawWindow_(hWnd, #Null, #Null, #RDW_FRAME | #RDW_INVALIDATE) 
+  ; Needed to redraw the frame, as the window is activated but the frame stay in inactive color (at least on XP)
+  RedrawWindow_(hWnd, #Null, #Null, #RDW_FRAME | #RDW_INVALIDATE)
  
 EndProcedure
 
@@ -98,7 +98,7 @@ Procedure GetPanelWidth(Gadget)
 ;   If SendMessage_(GadgetID(Gadget), #TCM_GETITEM, GetGadgetState(Gadget), @tc)
 ;     GetClientRect_(tc\lParam, rect.RECT)
 ;     ProcedureReturn rect\right
-;   EndIf 
+;   EndIf
   ProcedureReturn GetGadgetAttribute(Gadget, #PB_Panel_ItemWidth)
 EndProcedure
 
@@ -107,7 +107,7 @@ Procedure GetPanelHeight(Gadget)
 ;   If SendMessage_(GadgetID(Gadget), #TCM_GETITEM, GetGadgetState(Gadget), @tc)
 ;     GetClientRect_(tc\lParam, rect.RECT)
 ;     ProcedureReturn rect\bottom
-;   EndIf 
+;   EndIf
   ProcedureReturn GetGadgetAttribute(Gadget, #PB_Panel_ItemHeight)
 EndProcedure
 
@@ -171,7 +171,7 @@ Procedure RichEdit_StreamCallback_2(*StreamInfo.AdditionalStreamInfo_2, *Buffer,
       CopyMemory(*StreamInfo\Buffer, *Buffer, BufferLength)
       
       *StreamInfo\Buffer + BufferLength
-      *StreamInfo\Length - BufferLength      
+      *StreamInfo\Length - BufferLength
       *Result\l = BufferLength
     
     Else
@@ -188,7 +188,7 @@ Procedure RichEdit_StreamCallback_2(*StreamInfo.AdditionalStreamInfo_2, *Buffer,
       CopyMemory(*Buffer, *StreamInfo\Buffer, BufferLength)
       
       *StreamInfo\Buffer + BufferLength
-      *StreamInfo\Length - BufferLength      
+      *StreamInfo\Length - BufferLength
       *Result\l = BufferLength
     
     Else
@@ -239,7 +239,7 @@ Procedure SetSortArrow_NoTheme(Gadget, Column, Direction)
       For y = 0 To 9
         For x = 0 To 9
           Read.b Pixel
-          If Pixel 
+          If Pixel
             Plot(x, y, $000000)
           EndIf
         Next x
@@ -253,7 +253,7 @@ Procedure SetSortArrow_NoTheme(Gadget, Column, Direction)
       For y = 9 To 0 Step -1
         For x = 0 To 9
           Read.b Pixel
-          If Pixel 
+          If Pixel
             Plot(x, y, $000000)
           EndIf
         Next x
@@ -266,7 +266,7 @@ Procedure SetSortArrow_NoTheme(Gadget, Column, Direction)
   Protected item.HD_ITEM, Header, Columns, Text$, i
   
   Header = SendMessage_(GadgetID(Gadget), #LVM_GETHEADER, 0, 0)
-  If Header    
+  If Header
     Columns = SendMessage_(Header, #HDM_GETITEMCOUNT, 0, 0)
 
     For i = 0 To Columns-1
@@ -274,9 +274,9 @@ Procedure SetSortArrow_NoTheme(Gadget, Column, Direction)
 
       If Column = i
         item\mask       = #HDI_BITMAP | #HDI_FORMAT | #HDI_TEXT
-        item\fmt        = #HDF_BITMAP | #HDF_BITMAP_ON_RIGHT | #HDF_STRING 
+        item\fmt        = #HDF_BITMAP | #HDF_BITMAP_ON_RIGHT | #HDF_STRING
         item\pszText    = @Text$
-        item\cchTextMax = Len(Text$)      
+        item\cchTextMax = Len(Text$)
               
         If Direction = 1
           item\hbm = ImageID(UpImage)
@@ -285,15 +285,15 @@ Procedure SetSortArrow_NoTheme(Gadget, Column, Direction)
         EndIf
       Else
         item\mask       = #HDI_FORMAT | #HDI_TEXT
-        item\fmt        = #HDF_STRING 
+        item\fmt        = #HDF_STRING
         item\pszText    = @Text$
-        item\cchTextMax = Len(Text$)      
+        item\cchTextMax = Len(Text$)
         item\hbm        = 0
       EndIf
 
-      SendMessage_(Header, #HDM_SETITEM, i, @item)      
+      SendMessage_(Header, #HDM_SETITEM, i, @item)
     Next i
-  EndIf  
+  EndIf
 EndProcedure
  
 DataSection
@@ -315,9 +315,9 @@ EndDataSection
 Procedure SetSortArrow_Theme(Gadget, Column, Direction)
   Header = SendMessage_(GadgetID(Gadget), #LVM_GETHEADER, 0, 0)
   
-  If Header        
-    Columns = SendMessage_(Header, #HDM_GETITEMCOUNT, 0, 0)    
-    item.HD_ITEM\mask = #HDI_FORMAT    
+  If Header
+    Columns = SendMessage_(Header, #HDM_GETITEMCOUNT, 0, 0)
+    item.HD_ITEM\mask = #HDI_FORMAT
     
     For i = 0 To Columns-1
       If Column = i
@@ -346,11 +346,11 @@ Procedure SetSortArrow(Gadget, Column, Direction)
   ; PB_Gadget_GetCommonControlsVersion() is called by ListIconGadget, so this is ok
   ;
   CompilerIf #PB_Compiler_Processor = #PB_Processor_x86
-    !extrn _PB_Gadget_IsThemed  
+    !extrn _PB_Gadget_IsThemed
     !mov eax, [_PB_Gadget_IsThemed]
     !mov [p.v_IsThemed], eax
   CompilerElse
-    !extrn PB_Gadget_IsThemed  
+    !extrn PB_Gadget_IsThemed
     !mov rax, qword 0
     !mov eax, dword [PB_Gadget_IsThemed]
     !mov [p.v_IsThemed], rax
@@ -360,7 +360,7 @@ Procedure SetSortArrow(Gadget, Column, Direction)
     SetSortArrow_Theme(Gadget, Column, Direction)
   Else
     SetSortArrow_NoTheme(Gadget, Column, Direction)
-  EndIf 
+  EndIf
 EndProcedure
 
 Procedure ZeroMemory(*Buffer, Size)
@@ -377,7 +377,7 @@ EndProcedure
 
 Procedure ModifierKeyPressed(Key)
   Select Key
-    Case #PB_Shortcut_Shift:   vKey = #VK_SHIFT      
+    Case #PB_Shortcut_Shift:   vKey = #VK_SHIFT
     Case #PB_Shortcut_Control: vKey = #VK_CONTROL
     Case #PB_Shortcut_Alt:     vKey = #VK_MENU
   EndSelect
@@ -386,11 +386,11 @@ Procedure ModifierKeyPressed(Key)
     ProcedureReturn #True
   Else
     ProcedureReturn #False
-  EndIf      
+  EndIf
 EndProcedure
 
 Procedure OpenWebBrowser(Url$)
-  ShellExecute_(#Null, @"open", @Url$, @"", @"", #SW_SHOWNORMAL)    
+  ShellExecute_(#Null, @"open", @Url$, @"", @"", #SW_SHOWNORMAL)
 EndProcedure
 
 CompilerEndIf

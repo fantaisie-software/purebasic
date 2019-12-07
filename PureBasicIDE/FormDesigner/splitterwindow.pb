@@ -38,7 +38,7 @@ Procedure EventSplitterWin(gadget, event_type)
         d_gadget1 = GetGadgetItemData(#Form_Splitter_1st,GetGadgetState(#Form_Splitter_1st))
       Else
         d_gadget1 = 0
-      EndIf 
+      EndIf
       
       If GetGadgetState(#Form_Splitter_2nd) > -1
         d_gadget2 = GetGadgetItemData(#Form_Splitter_2nd,GetGadgetState(#Form_Splitter_2nd))

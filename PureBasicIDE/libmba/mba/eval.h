@@ -2,7 +2,7 @@
 #define MBA_EVAL_H
 
 /* eval - calculate a simple arithmetic expression
- */ 
+ */
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,9 +29,9 @@ typedef int (*symlook_fn)(const tchar *name, unsigned long *val, void *context);
 LIBMBA_API struct eval *eval_new(symlook_fn symlook, void *context);
 LIBMBA_API int eval_del(struct eval *eval);
 LIBMBA_API int eval_expression(struct eval *eval,
-		const tchar *expr,
-		const tchar *elim,
-		unsigned long *result);
+    const tchar *expr,
+    const tchar *elim,
+    unsigned long *result);
 
 #ifdef __cplusplus
 }

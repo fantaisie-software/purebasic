@@ -89,18 +89,18 @@ Procedure Debugger_UpdateWindowPreferences()
       UpdatePurifierWindow(@RunningDebuggers())
     EndIf
     
-    UpdateWatchListWindow(@RunningDebuggers()) ; this is always open    
+    UpdateWatchListWindow(@RunningDebuggers()) ; this is always open
     UpdateDataBreakpointWindow(@RunningDebuggers()) ; also always open
     
     ; update the stay on top setting
     ;
     CompilerIf #DEFAULT_CanWindowStayOnTop
       For i = 0 To #DEBUGGER_WINDOW_LAST-1
-        If RunningDebuggers()\Windows[i] <> 0        
+        If RunningDebuggers()\Windows[i] <> 0
           SetWindowStayOnTop(RunningDebuggers()\Windows[i], DebuggerOnTop)
         EndIf
       Next i
-    CompilerEndIf     
+    CompilerEndIf
     
   Next RunningDebuggers()
 
@@ -116,7 +116,7 @@ Procedure Debugger_ProcessEvents(EventWindowID, EventID)
   ; save and restore this, as this procedure might be called from
   ; a "ForEach RunningDebuggers()" itself!
   ;
-  Index = ListIndex(RunningDebuggers())  
+  Index = ListIndex(RunningDebuggers())
 
   ForEach RunningDebuggers()
 
@@ -186,7 +186,7 @@ Procedure Debugger_ProcessEvents(EventWindowID, EventID)
           Default ; unknown !?
             Processed = 0
         
-        EndSelect      
+        EndSelect
       
         Break 2
       EndIf

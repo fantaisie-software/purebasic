@@ -3,109 +3,109 @@
 TARGET = $(PB_BUILDTARGET)/ide
 
 ifeq ($(PB_JAVASCRIPT),1)
-  HOME=$(SPIDERBASIC_HOME)
-  IDENAME=SpiderBasic
-  STARTUPIMAGE=data/SpiderBasic/SplashScreen.png
-  ABOUTIMAGE=data/SpiderBasic/About.bmp
-  ICOFILE=data/SpiderBasic/Logo.ico
-  ICOSOURCEFILE=data/SpiderBasic/Logo.ico
-  OSXICOFILE=data/SpiderBasic/Logo.icns
+	HOME=$(SPIDERBASIC_HOME)
+	IDENAME=SpiderBasic
+	STARTUPIMAGE=data/SpiderBasic/SplashScreen.png
+	ABOUTIMAGE=data/SpiderBasic/About.bmp
+	ICOFILE=data/SpiderBasic/Logo.ico
+	ICOSOURCEFILE=data/SpiderBasic/Logo.ico
+	OSXICOFILE=data/SpiderBasic/Logo.icns
 else
-  HOME=$(PUREBASIC_HOME)
-  IDENAME=PureBasic
-  STARTUPIMAGE=data/startuplogo.png
-  ABOUTIMAGE=data/purebasiclogo.bmp
-  ICOFILE=data/PBLogoBig.ico
-  ICOSOURCEFILE=data/PBSourceFile.ico
-  OSXICOFILE=data/logo/PB 3D Mac Icon.icns
+	HOME=$(PUREBASIC_HOME)
+	IDENAME=PureBasic
+	STARTUPIMAGE=data/startuplogo.png
+	ABOUTIMAGE=data/purebasiclogo.bmp
+	ICOFILE=data/PBLogoBig.ico
+	ICOSOURCEFILE=data/PBSourceFile.ico
+	OSXICOFILE=data/logo/PB 3D Mac Icon.icns
 endif
 
 
 ifeq ($(PB_WINDOWS),1)
-  PBCOMPILER = pbcompiler /QUIET
-  IDE = $(HOME)/$(IDENAME).exe
-  IDEFLAGS = /THREAD /UNICODE /XP /USER /ICON "$(ICOFILE)" /DPIAWARE
-  MAKEEXE = /EXE
-  PBPACK = $(TARGET)/pbpack.exe
-  MAKEBUILDINFO = $(TARGET)/makebuildinfo.exe
-  PBPACKFLAGS = /LINENUMBERING /CONSOLE
-  DEBUGFLAGS = /LINENUMBERING /DEBUGGER /CONSOLE
-  VERSIONFLAG = /RESOURCE $(TARGET)/VersionInfo.rc
-  CONSTANT = /CONSTANT
-  PURIFIER = /PURIFIER
-  DEBUGSYMBOLS =
-  CPUMONITORLIB = 
-  DIALOGCOMPILER = $(PB_BUILDTARGET)/dialogcompiler/DialogCompiler.exe
-  MACPLIST =
-  MACPLISTCOMMAND =
-  ONERROR = /LINENUMBERING
-  NETWORKSUPPORT = $(TARGET)/NetworkSupport.obj
-  LIBMBA = $(TARGET)/libmba/libmba.lib
-  DOMAINSOCKET = 
-  COLORTABLE = $(HOME)/Catalogs/ColorTable.xml
+	PBCOMPILER = pbcompiler /QUIET
+	IDE = $(HOME)/$(IDENAME).exe
+	IDEFLAGS = /THREAD /UNICODE /XP /USER /ICON "$(ICOFILE)" /DPIAWARE
+	MAKEEXE = /EXE
+	PBPACK = $(TARGET)/pbpack.exe
+	MAKEBUILDINFO = $(TARGET)/makebuildinfo.exe
+	PBPACKFLAGS = /LINENUMBERING /CONSOLE
+	DEBUGFLAGS = /LINENUMBERING /DEBUGGER /CONSOLE
+	VERSIONFLAG = /RESOURCE $(TARGET)/VersionInfo.rc
+	CONSTANT = /CONSTANT
+	PURIFIER = /PURIFIER
+	DEBUGSYMBOLS =
+	CPUMONITORLIB =
+	DIALOGCOMPILER = $(PB_BUILDTARGET)/dialogcompiler/DialogCompiler.exe
+	MACPLIST =
+	MACPLISTCOMMAND =
+	ONERROR = /LINENUMBERING
+	NETWORKSUPPORT = $(TARGET)/NetworkSupport.obj
+	LIBMBA = $(TARGET)/libmba/libmba.lib
+	DOMAINSOCKET =
+	COLORTABLE = $(HOME)/Catalogs/ColorTable.xml
 
-  ECHOQUOTE = 
-  
-  ICON = ico  
-  THEMEFOLDER = $(HOME)/Themes
+	ECHOQUOTE =
+
+	ICON = ico
+	THEMEFOLDER = $(HOME)/Themes
 
 else
-  PBCOMPILER = pbcompiler -q
+	PBCOMPILER = pbcompiler -q
 
 ifeq ($(PB_MACOS),1)
-  IDE = $(HOME)/$(IDENAME).app
-  IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)"
-  MACPLIST = $(TARGET)/macplist
-  MACPLISTCOMMAND = $(TARGET)/macplist $(HOME)/$(IDENAME).app
-	
-	ifeq ($(PB_CARBON),1) 
-	  IDEFLAGS += --subsystem carbon
+	IDE = $(HOME)/$(IDENAME).app
+	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)"
+	MACPLIST = $(TARGET)/macplist
+	MACPLISTCOMMAND = $(TARGET)/macplist $(HOME)/$(IDENAME).app
+
+	ifeq ($(PB_CARBON),1)
+		IDEFLAGS += --subsystem carbon
 	endif
 else
 	IDENAME_LOWERCASE = $(shell echo $(IDENAME) | tr A-Z a-z)
-  IDE = $(HOME)/compilers/$(IDENAME_LOWERCASE)
-  IDEFLAGS = --thread --unicode --subsystem gtk2
-  MACPLIST =
-  MACPLISTCOMMAND =
+	IDE = $(HOME)/compilers/$(IDENAME_LOWERCASE)
+	IDEFLAGS = --thread --unicode --subsystem gtk2
+	MACPLIST =
+	MACPLISTCOMMAND =
 endif
 
-  CONSTANT = --constant
-  PURIFIER = --purifier
-  MAKEEXE = -e
-  PBPACK = $(TARGET)/pbpack
-  MAKEBUILDINFO = $(TARGET)/makebuildinfo
-  PBPACKFLAGS =
-  DEBUGFLAGS = -d
-  DEBUGSYMBOLS = -ds
-  VERSIONFLAG =
-  CPUMONITORLIB =
-  DIALOGCOMPILER = $(PB_BUILDTARGET)/dialogcompiler/dialogcompiler
-  ONERROR = --linenumbering
-  NETWORKSUPPORT = $(TARGET)/NetworkSupport.o
-  DOMAINSOCKET = $(TARGET)/AutomationDomainSocket.o
-  LIBMBA = $(TARGET)/libmba/libmba.a
-  COLORTABLE = $(HOME)/catalogs/ColorTable.xml
-  
-  ECHOQUOTE = "
-  
-  ICON = png
-  THEMEFOLDER = $(HOME)/themes
+	CONSTANT = --constant
+	PURIFIER = --purifier
+	MAKEEXE = -e
+	PBPACK = $(TARGET)/pbpack
+	MAKEBUILDINFO = $(TARGET)/makebuildinfo
+	PBPACKFLAGS =
+	DEBUGFLAGS = -d
+	DEBUGSYMBOLS = -ds
+	VERSIONFLAG =
+	CPUMONITORLIB =
+	DIALOGCOMPILER = $(PB_BUILDTARGET)/dialogcompiler/dialogcompiler
+	ONERROR = --linenumbering
+	NETWORKSUPPORT = $(TARGET)/NetworkSupport.o
+	DOMAINSOCKET = $(TARGET)/AutomationDomainSocket.o
+	LIBMBA = $(TARGET)/libmba/libmba.a
+	COLORTABLE = $(HOME)/catalogs/ColorTable.xml
+
+	ECHOQUOTE = "
+
+	ICON = png
+	THEMEFOLDER = $(HOME)/themes
 
 endif
 
 PACKLEVEL = -q -l4
 
 THEMES = \
-  $(TARGET)/DefaultTheme.zip \
-  $(THEMEFOLDER)/SilkTheme.zip
-  
+	$(TARGET)/DefaultTheme.zip \
+	$(THEMEFOLDER)/SilkTheme.zip
+
 PROFILERICONS = \
-  $(TARGET)/arrow.$(ICON) \
-  $(TARGET)/select.$(ICON) \
-  $(TARGET)/zoomin.$(ICON) \
-  $(TARGET)/zoomout.$(ICON) \
-  $(TARGET)/zoomall.$(ICON) \
-  $(TARGET)/cross.$(ICON)
+	$(TARGET)/arrow.$(ICON) \
+	$(TARGET)/select.$(ICON) \
+	$(TARGET)/zoomin.$(ICON) \
+	$(TARGET)/zoomout.$(ICON) \
+	$(TARGET)/zoomall.$(ICON) \
+	$(TARGET)/cross.$(ICON)
 
 DIALOGS = \
 $(TARGET)/Find.pb \
@@ -127,23 +127,23 @@ $(TARGET)/CreateApp.pb \
 $(TARGET)/Updates.pb
 
 DEPENDENCIES = \
-  $(COLORTABLE) \
-  $(TARGET)/images.pak \
-  *.pb \
-  ../PureBasicDebugger/*.pb \
-  $(DIALOGS) \
-  $(VERSIONINFO) \
-  $(CPUMONITORLIB) \
-  $(MACPLIST) \
-  $(PROFILERICONS) \
-  $(THEMES) \
-  $(MAKEBUILDINFO) \
-  $(NETWORKSUPPORT) \
-  $(DOMAINSOCKET)
+	$(COLORTABLE) \
+	$(TARGET)/images.pak \
+	*.pb \
+	../PureBasicDebugger/*.pb \
+	$(DIALOGS) \
+	$(VERSIONINFO) \
+	$(CPUMONITORLIB) \
+	$(MACPLIST) \
+	$(PROFILERICONS) \
+	$(THEMES) \
+	$(MAKEBUILDINFO) \
+	$(NETWORKSUPPORT) \
+	$(DOMAINSOCKET)
 
 
 ifeq ($(PB_JAVASCRIPT),1)
-  IDEFLAGS+=$(CONSTANT) SpiderBasic=1
+	IDEFLAGS+=$(CONSTANT) SpiderBasic=1
 endif
 
 #
@@ -235,7 +235,7 @@ $(TARGET)/%.png : ../PureBasicDebugger/Data/%.png $(TARGET)/dummy
 	cp $< $@
 
 $(TARGET)/%.pb : dialogs/%.xml $(DIALOGCOMPILER) $(TARGET)/dummy
-	$(DIALOGCOMPILER) $< $@ 
+	$(DIALOGCOMPILER) $< $@
 
 # theme targets (-mkdir supresses errors if the directory exists)
 #
@@ -273,7 +273,7 @@ VERSION_DEBUG: $(TARGET)/makeversion.exe $(TARGET)/dummy
 
 VERSION_DEMO: $(TARGET)/makeversion.exe $(TARGET)/dummy
 	$(TARGET)/makeversion.exe demo $(TARGET)/VersionInfo.rc $(shell PWD)/$(ICOSOURCEFILE)
-	
+
 # Windows only: Syntax highlighting dll
 dll : tools/HighlightingDll.pb
 	$(PBCOMPILER) tools/HighlightingDll.pb /dll /exe "$(HOME)/SDK/Syntax Highlighting/SyntaxHilighting.dll" /CONSTANT MAKEFILE=1
@@ -335,7 +335,7 @@ $(DOMAINSOCKET) : AutomationDomainSocket.c
 endif
 
 
- 
+
 $(TARGET)/dummy:
 	mkdir "$(TARGET)"
 	touch $(TARGET)/dummy

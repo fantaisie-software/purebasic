@@ -99,7 +99,7 @@ Procedure FormUndo()
               EndIf
               If FormWindows()\FormGadgets()\itemnumber = g_2
                 FormWindows()\FormGadgets()\splitter = inumber
-              EndIf            
+              EndIf
             Next
             PopListPosition(FormWindows()\FormGadgets())
           EndIf
@@ -122,7 +122,7 @@ Procedure FormUndo()
           FormWindows()\FormGadgets()\scrolly = FormWindows()\UndoActions()\ActionGadget()\scrolly
           NextElement(FormWindows()\UndoActions()\ActionGadget())
         Next
-      EndIf 
+      EndIf
       redraw = 1
       ;SelectGadget(FormWindows()\FormGadgets())
       FD_UpdateSplitter()
@@ -277,7 +277,7 @@ Procedure FormRedo()
               EndIf
               If FormWindows()\FormGadgets()\itemnumber = g_2
                 FormWindows()\FormGadgets()\splitter = inumber
-              EndIf            
+              EndIf
             Next
             PopListPosition(FormWindows()\FormGadgets())
           EndIf
@@ -357,7 +357,7 @@ Procedure FormAddUndoAction(addaction, window, gadget = -1, type = 0, pos = 0, t
   ChangeCurrentElement(FormWindows(),window)
   
   ; if something has been undone, then delete these actions before adding a new one
-  max = ListSize(FormWindows()\UndoActions()) - 1 
+  max = ListSize(FormWindows()\UndoActions()) - 1
   If FormWindows()\undo_pos < max
     element = FormWindows()\undo_pos + 1
     For i = element To max
@@ -384,7 +384,7 @@ Procedure FormAddUndoAction(addaction, window, gadget = -1, type = 0, pos = 0, t
     FormWindows()\UndoActions()\type = type
   Else
     LastElement(FormWindows()\UndoActions())
-  EndIf 
+  EndIf
   
   If gadget > 0
     If pos = 0

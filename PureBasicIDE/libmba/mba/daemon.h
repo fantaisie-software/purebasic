@@ -8,10 +8,10 @@
 extern FILE *logfp;
 
 pid_t daemonize(mode_t mask,
-		const char *runpath,
-		const char *pidpath,
-		const char *lockpath,
-		const char *logpath);
+    const char *runpath,
+    const char *pidpath,
+    const char *lockpath,
+    const char *logpath);
 int daemonlog(const char *fmt, ...);
 
 #endif /* MBA_DAEMON_H */

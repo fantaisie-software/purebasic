@@ -98,13 +98,13 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
           
         ; do not extra save the source in these cases!
         ElseIf Trigger = #TRIGGER_SourceSave Or Trigger = #TRIGGER_SourceLoad Or Trigger = #TRIGGER_SourceClose ; no current source, or not saved. for SaveSource, we cannot save again as it will be an endless loop!
-          ToolArguments$ = ReplaceString(ToolArguments$, "%FILE", *Target\FileName$, 1)          
+          ToolArguments$ = ReplaceString(ToolArguments$, "%FILE", *Target\FileName$, 1)
 
         ElseIf CommandlineBuild = 0 And *Target = *ActiveSource
           File$ = *Target\FileName$
           
           *CurrentElement = ToolsList()
-          SaveSourceFile(File$) ; This can trigger other tool so we need to preserve our element 
+          SaveSourceFile(File$) ; This can trigger other tool so we need to preserve our element
           HistoryEvent(*ActiveSource, #HISTORY_Save)
           ChangeCurrentElement(ToolsList(), *CurrentElement)
           
@@ -150,7 +150,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       EndIf
 
       If FindString(Test$, "%EXECUTABLE", 1)
-        If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_AfterCreateExe Or Trigger = #TRIGGER_ProgramRun        
+        If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_AfterCreateExe Or Trigger = #TRIGGER_ProgramRun
           ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", AddTools_ExecutableName$, 1)
         ElseIf *Target = 0
           ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", "", 1)
@@ -202,11 +202,11 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
         Else
           ToolArguments$ = ReplaceString(ToolArguments$, "%PROJECT", "", 1)
         EndIf
-      EndIf  
+      EndIf
         
       If FindString(Test$, "%HOME", 1)
         ToolArguments$ = ReplaceString(ToolArguments$, "%HOME", PureBasicPath$, 1)
-      EndIf  
+      EndIf
 
     EndIf
     
@@ -224,7 +224,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
     ;
     Protected NewList EnvVars.s()
     
-    AddTools_SetEnvVar(EnvVars(), "IDE", ProgramFilename())    
+    AddTools_SetEnvVar(EnvVars(), "IDE", ProgramFilename())
     AddTools_SetEnvVar(EnvVars(), "Compiler", *CurrentCompiler\Executable$) ; use *CurrentCompiler to have the real compiler path if multiple compiler are available
     
     AddTools_SetEnvVar(EnvVars(), "Preferences", PreferencesFile$)
@@ -240,16 +240,16 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       AddTools_SetEnvVar(EnvVars(), "Thread", Str(*Target\EnableThread))
       CompilerIf #CompileWindows
         AddTools_SetEnvVar(EnvVars(), "XPSkin", Str(*Target\EnableXP))
-        AddTools_SetEnvVar(EnvVars(), "OnError", Str(*Target\EnableOnError))      
+        AddTools_SetEnvVar(EnvVars(), "OnError", Str(*Target\EnableOnError))
       CompilerEndIf
       AddTools_SetEnvVar(EnvVars(), "Debugger", Str(*Target\Debugger))
       AddTools_SetEnvVar(EnvVars(), "SubSystem", *Target\SubSystem$)
       
-      If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_ProgramRun 
-        AddTools_SetEnvVar(EnvVars(), "Executable", AddTools_ExecutableName$)       
+      If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_ProgramRun
+        AddTools_SetEnvVar(EnvVars(), "Executable", AddTools_ExecutableName$)
       Else ; return the last created executable name for all other triggers
-        AddTools_SetEnvVar(EnvVars(), "Executable", *Target\ExecutableName$)    
-      EndIf    
+        AddTools_SetEnvVar(EnvVars(), "Executable", *Target\ExecutableName$)
+      EndIf
       
     EndIf
     
@@ -257,11 +257,11 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       AddTools_SetEnvVar(EnvVars(), "Scintilla", Str(GadgetID(*Source\EditorGadget)))
       
       UpdateCursorPosition()
-      GetSelection(@LineStart, @RowStart, @LineEnd, @RowEnd)      
+      GetSelection(@LineStart, @RowStart, @LineEnd, @RowEnd)
             
-      AddTools_SetEnvVar(EnvVars(), "Cursor", Str(*Source\CurrentLine)+"x"+Str(*Source\CurrentColumnChars))      
+      AddTools_SetEnvVar(EnvVars(), "Cursor", Str(*Source\CurrentLine)+"x"+Str(*Source\CurrentColumnChars))
       AddTools_SetEnvVar(EnvVars(), "Selection", Str(LineStart)+"x"+Str(RowStart)+"x"+Str(LineEnd)+"x"+Str(RowEnd))
-      AddTools_SetEnvVar(EnvVars(), "Word", GetCurrentWord())     
+      AddTools_SetEnvVar(EnvVars(), "Word", GetCurrentWord())
     EndIf
     
     AddTools_SetEnvVar(EnvVars(), "Language", CurrentLanguage$)
@@ -301,23 +301,23 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
     EndIf
 
     If ToolsList()\Flags & 1  ; wait until tool quits
-      Flags | #PB_Program_Open ; no wait flag, as we do this with ProgramRunning()    
+      Flags | #PB_Program_Open ; no wait flag, as we do this with ProgramRunning()
       
       If CommandlineBuild = 0
         If ToolsList()\HideEditor
           IsMaximized = IsWindowMaximized(#WINDOW_Main)
           HideWindow(#WINDOW_Main, 1)
         Else
-          DisableWindow(#WINDOW_Main, 1)        
-        EndIf    
-      EndIf  
+          DisableWindow(#WINDOW_Main, 1)
+        EndIf
+      EndIf
       
-      Program = RunProgram(ToolsList()\CommandLine$, ToolArguments$, ToolWorkingDir$, Flags)      
+      Program = RunProgram(ToolsList()\CommandLine$, ToolArguments$, ToolWorkingDir$, Flags)
 
       If Program
         If CommandlineBuild = 0
           While WaitProgram(Program, 10) = 0
-            FlushEvents()        
+            FlushEvents()
           Wend
         Else
           WaitProgram(Program)
@@ -338,7 +338,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
         EndIf
       EndIf
 
-      If File$ <> ""        
+      If File$ <> ""
         If CommandlineBuild = 0 And ToolsList()\ReloadSource <> 0
           If ToolsList()\ReloadSource = 1
             NewSource("", #False)
@@ -372,7 +372,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
     ; clear all the set up environment variables
     ForEach EnvVars()
       RemoveEnvironmentVariable(EnvVars())
-    Next EnvVars()    
+    Next EnvVars()
     
     If CommandlineBuild = 0
       CompilerIf #CompileWindows
@@ -380,7 +380,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
         ; foreground app (the tool) ends while the IDE is still disabled, so it does not
         ; get the focus anymore. There is no other way around than to grab the focus
         ; back afterwards.
-        ;    
+        ;
         SetWindowForeground_Real(#WINDOW_Main)
       CompilerEndIf
   
@@ -395,7 +395,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
 EndProcedure
 
 
-Procedure AddTools_Execute(Trigger, *Target.CompileTarget)  
+Procedure AddTools_Execute(Trigger, *Target.CompileTarget)
 
   If Trigger = #TRIGGER_Menu
 
@@ -404,7 +404,7 @@ Procedure AddTools_Execute(Trigger, *Target.CompileTarget)
     MenuID = *Target
     If MenuID >= #MENU_AddTools_Start And MenuID - #MENU_AddTools_Start < ListSize(ToolsList())
       SelectElement(ToolsList(), MenuID - #MENU_AddTools_Start)
-      If ToolsList()\DeactivateTool = 0        
+      If ToolsList()\DeactivateTool = 0
         AddTools_ExecuteCurrent(#TRIGGER_Menu, *ActiveSource)
       EndIf
     EndIf
@@ -506,7 +506,7 @@ Procedure AddTools_UpdateListItem(index)
     SetGadgetItemText(#GADGET_AddTools_List, index, Language("AddTools","Trigger"+Str(ToolsList_Edit()\Trigger)), 1)
   EndIf
 
-  SetGadgetItemText(#GADGET_AddTools_List, index, ToolsList_Edit()\CommandLine$, 2)  
+  SetGadgetItemText(#GADGET_AddTools_List, index, ToolsList_Edit()\CommandLine$, 2)
 
 EndProcedure
 
@@ -556,9 +556,9 @@ Procedure AddTools_UpdateDisabledState()
   
   If Trigger = #TRIGGER_BeforeCompile Or Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_ProgramRun Or Trigger = #TRIGGER_BeforeCreateExe Or Trigger = #TRIGGER_AfterCreateExe Or Trigger = #TRIGGER_SourceLoad Or Trigger = #TRIGGER_SourceSave Or Trigger = #TRIGGER_SourceClose
     DisableSourceSpecific = 0
-  Else  
+  Else
     DisableSourceSpecific = 1
-  EndIf      
+  EndIf
 
   If GetGadgetState(#GADGET_EditTools_WaitForQuit) = 0
     DisableHideEditor = 1
@@ -591,7 +591,7 @@ Procedure AddTools_UpdateDisabledState()
   
   CompilerIf #CompileMac = 0
     DisableShortcutCommand = 1
-  CompilerEndIf  
+  CompilerEndIf
 
   ; Update all disable states at once
   ;
@@ -640,7 +640,7 @@ Procedure AddTools_OpenEditWindow()
       
 ;       SetGadgetState(#GADGET_EditTools_ShortcutControl, 0)
 ;       SetGadgetState(#GADGET_EditTools_ShortcutAlt,     0)
-;       SetGadgetState(#GADGET_EditTools_ShortcutShift,   0)          
+;       SetGadgetState(#GADGET_EditTools_ShortcutShift,   0)
 ;       SetGadgetState(#GADGET_EditTools_ShortcutCommand, 0)
 ;       SetGadgetState(#GADGET_EditTools_ShortcutKey, 0)
       SetGadgetState(#GADGET_EditTools_Shortcut, 0)
@@ -653,23 +653,23 @@ Procedure AddTools_OpenEditWindow()
       SetGadgetText(#GADGET_EditTools_ConfigLine,  ToolsList_Edit()\ConfigLine$)
 
 ;       If ToolsList_Edit()\Shortcut & #PB_Shortcut_Control ; win 98 problem!
-;         SetGadgetState(#GADGET_EditTools_ShortcutControl, 1)          
+;         SetGadgetState(#GADGET_EditTools_ShortcutControl, 1)
 ;       Else
 ;         SetGadgetState(#GADGET_EditTools_ShortcutControl, 0)
 ;       EndIf
-;       
-;       If ToolsList_Edit()\Shortcut & #PB_Shortcut_Alt        
+;
+;       If ToolsList_Edit()\Shortcut & #PB_Shortcut_Alt
 ;         SetGadgetState(#GADGET_EditTools_ShortcutAlt,     1)
 ;       Else
-;         SetGadgetState(#GADGET_EditTools_ShortcutAlt,     0)          
-;       EndIf               
-;       
-;       If ToolsList_Edit()\Shortcut & #PB_Shortcut_Shift
-;         SetGadgetState(#GADGET_EditTools_ShortcutShift,   1) 
-;       Else
-;         SetGadgetState(#GADGET_EditTools_ShortcutShift,   0) 
+;         SetGadgetState(#GADGET_EditTools_ShortcutAlt,     0)
 ;       EndIf
-;       
+;
+;       If ToolsList_Edit()\Shortcut & #PB_Shortcut_Shift
+;         SetGadgetState(#GADGET_EditTools_ShortcutShift,   1)
+;       Else
+;         SetGadgetState(#GADGET_EditTools_ShortcutShift,   0)
+;       EndIf
+;
 ;       CompilerIf #CompileMac
 ;         SetGadgetState(#GADGET_EditTools_ShortcutCommand, ToolsList_Edit()\Shortcut & #PB_Shortcut_Command)
 ;       CompilerEndIf
@@ -793,7 +793,7 @@ Procedure AddTools_EditWindowEvents(EventID)
           MessageRequester(#ProductName$, Language("AddTools","NoName"), #FLAG_Info)
 
         Else
-          index = ListIndex(ToolsList_Edit())         
+          index = ListIndex(ToolsList_Edit())
           
           Name$ = LCase(Trim(GetGadgetText(#GADGET_EditTools_MenuEntry)))
           
@@ -900,7 +900,7 @@ Procedure AddTools_EditWindowEvents(EventID)
     EndSelect
 
 
-  ElseIf EventID = #PB_Event_CloseWindow  
+  ElseIf EventID = #PB_Event_CloseWindow
     Quit = 1
 
   EndIf
@@ -1011,7 +1011,7 @@ Procedure AddTools_WindowEvents(EventID)
       ElseIf Target < DragItem ; if Target=DragItem we do nothing
         For i = DragItem To Target+1 Step -1
           AddTools_SwitchElements(i, i-1)
-        Next i             
+        Next i
       
       EndIf
       SetGadgetState(#GADGET_AddTools_List, Target)
@@ -1019,7 +1019,7 @@ Procedure AddTools_WindowEvents(EventID)
     EndIf
 
   ElseIf EventID = #PB_Event_Gadget
-    Select EventGadgetID  
+    Select EventGadgetID
     
       Case #GADGET_AddTools_List
         If EventType() = #PB_EventType_DragStart
@@ -1035,7 +1035,7 @@ Procedure AddTools_WindowEvents(EventID)
             SelectElement(ToolsList_Edit(), index)
             AddTools_OpenEditWindow()
           EndIf
-        EndIf  
+        EndIf
 
       Case #GADGET_AddTools_New
         If ListSize(ToolsList_Edit()) < #MAX_AddTools
@@ -1052,7 +1052,7 @@ Procedure AddTools_WindowEvents(EventID)
         EndIf
 
       Case #GADGET_AddTools_Delete
-        index = GetGadgetState(#GADGET_AddTools_List)  
+        index = GetGadgetState(#GADGET_AddTools_List)
         
         If index <> -1
           RemoveGadgetItem(#GADGET_AddTools_List, index)
@@ -1154,11 +1154,11 @@ Procedure AddTools_WindowEvents(EventID)
           
           CompilerIf #CompileWindows | #CompileMac ; re-add the shortcuts for tab/enter
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
-            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab) 
-            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)        
-          CompilerEndIf          
+            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
+            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
+          CompilerEndIf
           
-          StartFlickerFix(#WINDOW_Main)          
+          StartFlickerFix(#WINDOW_Main)
           CreateIDEMenu() ; update the menu
           StopFlickerFix(#WINDOW_Main, 1)
           
@@ -1178,7 +1178,7 @@ Procedure AddTools_WindowEvents(EventID)
   ElseIf EventID = #PB_Event_SizeWindow
     AddToolsWindowDialog\SizeUpdate()
 
-  ElseIf EventID = #PB_Event_CloseWindow  
+  ElseIf EventID = #PB_Event_CloseWindow
     If IsWindow(#WINDOW_EditTools)
       AddTools_EditWindowEvents(#PB_Event_CloseWindow)
     EndIf

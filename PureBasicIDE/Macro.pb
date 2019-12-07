@@ -8,7 +8,7 @@
 CompilerIf #PB_Compiler_Unicode = 0
   
   ; We could use PeekS(Memory, -1, #PB_Ascii) for both code, but it will have a performance hit
-  ; 
+  ;
   Macro PeekAscii(Memory)
     PeekS(Memory)
   EndMacro
@@ -19,11 +19,11 @@ CompilerIf #PB_Compiler_Unicode = 0
   
   Macro PeekAsciiLength(Memory, Length)
     PeekS(Memory, Length)
-  EndMacro  
+  EndMacro
   
   Macro PokeAscii(Memory, Text)
     PokeS(Memory, Text)
-  EndMacro    
+  EndMacro
   
   Macro PokeUnicode(Memory, Text)
     PokeS(Memory, Text, -1, #PB_Unicode)
@@ -31,11 +31,11 @@ CompilerIf #PB_Compiler_Unicode = 0
   
   Macro ReadAsciiString(File)
     ReadString(File)
-  EndMacro   
+  EndMacro
   
   Macro MemoryAsciiLength(Memory)
     MemoryStringLength(Memory)
-  EndMacro 
+  EndMacro
   
   Macro ToAscii(String)
     @String
@@ -78,11 +78,11 @@ CompilerElse
   
   Macro PeekAsciiLength(Memory, Length)
     PeekS(Memory, Length, #PB_Ascii)
-  EndMacro  
+  EndMacro
   
   Macro PokeAscii(Memory, Text)
     PokeS(Memory, Text, -1, #PB_Ascii)
-  EndMacro  
+  EndMacro
   
   Macro PokeUnicode(Memory, Text)
     PokeS(Memory, Text)
@@ -90,7 +90,7 @@ CompilerElse
   
   Macro ReadAsciiString(File)
     ReadString(File, #PB_Ascii)
-  EndMacro     
+  EndMacro
   
   Macro MemoryAsciiLength(Memory)
     MemoryStringLength(Memory, #PB_Ascii)

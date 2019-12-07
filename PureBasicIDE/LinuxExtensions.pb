@@ -4,7 +4,7 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ;--------------------------------------------------------------------------------------------
 
-; this file should contain all linux specific extension 
+; this file should contain all linux specific extension
 ; functions that are "self contained" ie, do not need anything of the
 ; IDE, so they can be reused by the debugger and such
 ;
@@ -31,22 +31,22 @@ CompilerEndIf
 
 
 Structure XClientMessageEvent
- type.l 	     ; int
+ type.l        ; int
  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
    alignment1.l
  CompilerEndIf
- serial.i      ; unsigned long		/* # of last request processed by server */
- send_event.l  ; Bool (=int)		/* true if this came from a SendEvent request */
+ serial.i      ; unsigned long    /* # of last request processed by server */
+ send_event.l  ; Bool (=int)    /* true if this came from a SendEvent request */
  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
    alignment2.l
  CompilerEndIf
- *display      ; pointer	/* Display the event was read from */
- window.i      ; Window (= pointer) 
+ *display      ; pointer  /* Display the event was read from */
+ window.i      ; Window (= pointer)
  message_type.i; Atom (= pointer)
  format.l      ; int
  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
    alignment3.l
- CompilerEndIf 
+ CompilerEndIf
  StructureUnion
   b.b[20]      ; char
   s.w[10]      ; short
@@ -91,18 +91,18 @@ Structure _GdkWindowObject ; PB def is empty!
   ; incomplete def!
 EndStructure
 
-;#define GDK_WINDOW_XDISPLAY(win)      (GDK_SCREEN_X11 (GDK_WINDOW_SCREEN (win))->xdisplay)   
+;#define GDK_WINDOW_XDISPLAY(win)      (GDK_SCREEN_X11 (GDK_WINDOW_SCREEN (win))->xdisplay)
 ;#define GDK_WINDOW_XID(win)           (GDK_DRAWABLE_IMPL_X11(((GdkWindowObject *)win)->impl)->xid)
 ;#define GDK_WINDOW_SCREEN(win)         (GDK_DRAWABLE_IMPL_X11 (((GdkWindowObject *)win)->impl)->screen)
 ;#define GDK_SCREEN_X11(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), GDK_TYPE_SCREEN_X11, GdkScreenX11))
 ;#define GDK_DRAWABLE_IMPL_X11(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), GDK_TYPE_DRAWABLE_IMPL_X11, GdkDrawableImplX11))
  
-Procedure XDisplayFromWindowID(*Window.GtkWidget) 
+Procedure XDisplayFromWindowID(*Window.GtkWidget)
   *gdkwindowobj._GdkWindowObject = *Window\window
   *impl.GdkDrawableImplX11 = *gdkwindowobj\impl
   *screen.GdkScreenX11 = *impl\screen
-  ProcedureReturn *screen\xdisplay       
-EndProcedure   
+  ProcedureReturn *screen\xdisplay
+EndProcedure
 
 
 ; ---------------------------------------------------
@@ -185,7 +185,7 @@ Procedure.s GetWindowManager(WindowID = 0)
   EndIf
    
   ProcedureReturn Result$
-EndProcedure 
+EndProcedure
 
 
 Procedure GTKSignalConnect(*Widget, Signal$, Function, user_data)
@@ -195,9 +195,9 @@ EndProcedure
 
 Procedure ShowWindowMaximized(Window)
   ; PB4 supports all this now (also gtk1)
-  ;    
+  ;
   SetWindowState(Window, #PB_Window_Maximize)
-  HideWindow(Window, 0) 
+  HideWindow(Window, 0)
 EndProcedure
 
 
@@ -223,7 +223,7 @@ Procedure SetWindowForeground(Window)
 
   *Widget._GtkWidget = WindowID(Window)
   gdk_window_raise_(*Widget\Window)
-  SetActiveWindow(Window)  
+  SetActiveWindow(Window)
 
 EndProcedure
 
@@ -237,7 +237,7 @@ EndProcedure
 
 
 Procedure SetWindowStayOnTop(Window, StayOnTop)
-  StickyWindow(Window, StayOnTop) 
+  StickyWindow(Window, StayOnTop)
 EndProcedure
 
 
@@ -262,7 +262,7 @@ Procedure SelectComboBoxText(Gadget)
 
   If *Entry
     gtk_editable_select_region_(*Entry, 0, -1)
-    gtk_widget_grab_focus_(*Entry)    
+    gtk_widget_grab_focus_(*Entry)
   EndIf
 EndProcedure
 
@@ -322,7 +322,7 @@ Global FileManagerParameters$
 Global FileManagerName$
 Global FileManagerFound
 
-Procedure DetectFileManager()  
+Procedure DetectFileManager()
   Protected NewList Managers.s()
     
   If FileManagerFound = 0
@@ -330,7 +330,7 @@ Procedure DetectFileManager()
     ; Try to find a suitable file manager from a list of managers
     ; Check the WindowManager name to try the ones that are usually the default
     ; on a WindowManager first
-    ;  
+    ;
     WindowManager$ = UCase(GetWindowManager())
     
     ; Window manager names can contain version info etc
@@ -339,29 +339,29 @@ Procedure DetectFileManager()
       ; Gnome desktop
       AddElement(Managers()): Managers() = "nautilus"
       AddElement(Managers()): Managers() = "gnome-commander"
-      AddElement(Managers()): Managers() = "dolphin"     
+      AddElement(Managers()): Managers() = "dolphin"
       AddElement(Managers()): Managers() = "konqueror"
       AddElement(Managers()): Managers() = "krusader"
-      AddElement(Managers()): Managers() = "thunar"  
+      AddElement(Managers()): Managers() = "thunar"
       
     ElseIf FindString(WindowManager$, "KWIN", 1)
       ; KDE
-      AddElement(Managers()): Managers() = "dolphin"   ; kde4 default      
+      AddElement(Managers()): Managers() = "dolphin"   ; kde4 default
       AddElement(Managers()): Managers() = "konqueror" ; kde3 default
       AddElement(Managers()): Managers() = "krusader"
       AddElement(Managers()): Managers() = "nautilus"
       AddElement(Managers()): Managers() = "gnome-commander"
       AddElement(Managers()): Managers() = "thunar"
     
-    ; ElseIf FindString(WindowManager$, "XFWM", 1)  
+    ; ElseIf FindString(WindowManager$, "XFWM", 1)
       ; Xfce (use the below fallback for that and others)
       
     Else
       ; fallback
-      AddElement(Managers()): Managers() = "thunar"     
-      AddElement(Managers()): Managers() = "dolphin"     
+      AddElement(Managers()): Managers() = "thunar"
+      AddElement(Managers()): Managers() = "dolphin"
       AddElement(Managers()): Managers() = "konqueror"
-      AddElement(Managers()): Managers() = "krusader" 
+      AddElement(Managers()): Managers() = "krusader"
       AddElement(Managers()): Managers() = "nautilus"
       AddElement(Managers()): Managers() = "gnome-commander"
 
@@ -370,7 +370,7 @@ Procedure DetectFileManager()
     ; Test which file manager exists
     ;
     ForEach Managers()
-    	CommandLine$ = "which "+Managers()+" > "+TempPath$+"PB_ManagerTest.txt 2>/dev/null"
+      CommandLine$ = "which "+Managers()+" > "+TempPath$+"PB_ManagerTest.txt 2>/dev/null"
       If system_(ToAscii(CommandLine$)) = 0
         file = ReadFile(#PB_Any, TempPath$+"PB_ManagerTest.txt")
         If file
@@ -390,19 +390,19 @@ Procedure DetectFileManager()
 
             Case "konqueror"
               FileManagerName$ = "Konqueror"
-              FileManagerParameters$ = ""            
+              FileManagerParameters$ = ""
 
             Case "dolphin"
               FileManagerName$ = "Dolphin"
-              FileManagerParameters$ = ""  
+              FileManagerParameters$ = ""
 
             Case "krusader"
               FileManagerName$ = "Krusader"
-              FileManagerParameters$ = "--left " 
+              FileManagerParameters$ = "--left "
             
             Case "thunar"
               FileManagerName$ = "Thunar"
-              FileManagerParameters$ = ""              
+              FileManagerParameters$ = ""
             
           EndSelect
           
@@ -411,8 +411,8 @@ Procedure DetectFileManager()
       EndIf
     Next Managers()
     
-    DeleteFile(TempPath$+"PB_ManagerTest.txt")    
-  EndIf  
+    DeleteFile(TempPath$+"PB_ManagerTest.txt")
+  EndIf
 EndProcedure
 
 
@@ -434,7 +434,7 @@ EndProcedure
 
 Procedure ModifierKeyPressed(Key)
   Select Key
-    Case #PB_Shortcut_Shift:   mod = #GDK_SHIFT_MASK      
+    Case #PB_Shortcut_Shift:   mod = #GDK_SHIFT_MASK
     Case #PB_Shortcut_Control: mod = #GDK_CONTROL_MASK
     Case #PB_Shortcut_Alt:     mod = #GDK_MOD1_MASK
   EndSelect
@@ -452,7 +452,7 @@ EndProcedure
 
 Procedure OpenWebBrowser(Url$)
 
-  If RunProgram("xdg-open", Url$, "") = #False           
+  If RunProgram("xdg-open", Url$, "") = #False
     browser$ = Trim(GetEnvironmentVariable("BROWSER"))
     If browser$ = ""
       If RunProgram("gnome-open", Url$, "") = #False

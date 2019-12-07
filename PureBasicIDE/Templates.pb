@@ -10,12 +10,12 @@
 
 Structure Template
   Name$
-  IsDirectory.l 
+  IsDirectory.l
   Sublevel.l
   IsExpanded.l ; for directories
   
   Comment$
-  Code$      
+  Code$
 EndStructure
 
 Global NewList Template.Template()
@@ -30,12 +30,12 @@ Global TemplateWindowDialog.DialogWindow, TemplateWindowPosition.DialogPosition
 
 Global *Templates.ToolsPanelEntry ; for global access to the data...
 
-Procedure.s Template_Escape(String$)  
-  ProcedureReturn ReplaceString(ReplaceString(String$, "\", "\\"), #NewLine, "\n")  
+Procedure.s Template_Escape(String$)
+  ProcedureReturn ReplaceString(ReplaceString(String$, "\", "\\"), #NewLine, "\n")
 EndProcedure
 
 Procedure.s Template_Unescape(String$, NewlineSequence$ = #NewLine)
-  ; 
+  ;
   ; A simple ReplaceString() does not work, as "\n" is escaped to "\\n", so
   ; no matter how the replaces are done, a newline gets inserted.
   ;
@@ -48,8 +48,8 @@ Procedure.s Template_Unescape(String$, NewlineSequence$ = #NewLine)
       Length  - 1
     ElseIf Mid(String$, Index, 2) = "\n"
       String$ = Left(String$, index-1) + NewlineSequence$ + Right(String$, Length-index-1) ; cut all the \n
-      Length  - 2 + Len(NewlineSequence$)     
-    EndIf    
+      Length  - 2 + Len(NewlineSequence$)
+    EndIf
     
     Index + 1
   Wend
@@ -92,12 +92,12 @@ Procedure Template_Save()
       If Template()\IsDirectory
         WriteStringN(#FILE_Template, Space(sublevel*2)+"Directory: "+Template()\Name$)
         If Template()\IsExpanded
-          WriteStringN(#FILE_Template, Space(sublevel*2)+"Expanded")               
+          WriteStringN(#FILE_Template, Space(sublevel*2)+"Expanded")
         EndIf
         sublevel + 1
       Else
         WriteStringN(#FILE_Template, Space(sublevel*2)+"Template: "+Template()\Name$)
-        If Template()\Comment$ <> ""          
+        If Template()\Comment$ <> ""
           WriteStringN(#FILE_Template, Space(sublevel*2+2)+"Comment: "+Template()\Comment$)
         EndIf
         WriteStringN(#FILE_Template, Space(sublevel*2+2)+"Code: "+Template()\Code$)
@@ -108,7 +108,7 @@ Procedure Template_Save()
     While sublevel > 0
       sublevel - 1
       WriteStringN(#FILE_Template, Space(sublevel*2)+"CloseDirectory")
-    Wend    
+    Wend
     
     CloseFile(#FILE_Template)
   EndIf
@@ -122,56 +122,56 @@ Procedure Template_UpdateGadgetStates()
     ; disable template window
     For i = #GADGET_Template_Add To #GADGET_Template_Tree
       DisableGadget(i, 1)
-    Next i    
+    Next i
   
   Else
     
     index = GetGadgetState(#GADGET_Template_Tree)
-    If index = -1           
+    If index = -1
     
       DisableGadget(#GADGET_Template_Edit, 1)
-      DisableGadget(#GADGET_Template_Remove, 1)          
+      DisableGadget(#GADGET_Template_Remove, 1)
       DisableGadget(#GADGET_Template_RemoveDir, 1)
       DisableGadget(#GADGET_Template_Up, 1)
-      DisableGadget(#GADGET_Template_Down, 1)    
+      DisableGadget(#GADGET_Template_Down, 1)
       
       DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Use, 1)
       DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Edit, 1)
       DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Remove, 1)
       DisableMenuItem(#POPUPMENU_Template, #MENU_Template_RemoveDir, 1)
-      DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Rename, 1)      
+      DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Rename, 1)
       DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Up, 1)
-      DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Down, 1) 
+      DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Down, 1)
       
-      SetGadgetText(#GADGET_Template_Comment, "") 
+      SetGadgetText(#GADGET_Template_Comment, "")
                
-    Else    
+    Else
     
-      SelectElement(Template(), index)    
+      SelectElement(Template(), index)
       
       If Template()\IsDirectory
         DisableGadget(#GADGET_Template_Edit, 1)
-        DisableGadget(#GADGET_Template_Remove, 1)               
+        DisableGadget(#GADGET_Template_Remove, 1)
         DisableGadget(#GADGET_Template_RemoveDir, 0)
         
         DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Use, 1)
         DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Edit, 1)
         DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Remove, 1)
-        DisableMenuItem(#POPUPMENU_Template, #MENU_Template_RemoveDir, 0)      
+        DisableMenuItem(#POPUPMENU_Template, #MENU_Template_RemoveDir, 0)
          
-        SetGadgetText(#GADGET_Template_Comment, "") 
+        SetGadgetText(#GADGET_Template_Comment, "")
                      
       Else
         DisableGadget(#GADGET_Template_Edit, 0)
-        DisableGadget(#GADGET_Template_Remove, 0)          
-        DisableGadget(#GADGET_Template_RemoveDir, 1) 
+        DisableGadget(#GADGET_Template_Remove, 0)
+        DisableGadget(#GADGET_Template_RemoveDir, 1)
         
         DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Use, 0)
         DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Edit, 0)
         DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Remove, 0)
-        DisableMenuItem(#POPUPMENU_Template, #MENU_Template_RemoveDir, 1)            
+        DisableMenuItem(#POPUPMENU_Template, #MENU_Template_RemoveDir, 1)
         
-        SetGadgetText(#GADGET_Template_Comment, Template_Unescape(Template()\Comment$))  
+        SetGadgetText(#GADGET_Template_Comment, Template_Unescape(Template()\Comment$))
                   
       EndIf
       
@@ -190,14 +190,14 @@ Procedure Template_UpdateGadgetStates()
       disable = 1
       While NextElement(Template())
         If Template()\Sublevel = Sublevel
-          disable = 0        
+          disable = 0
           Break
         ElseIf Template()\Sublevel < Sublevel
-          Break 
+          Break
         EndIf
       Wend
       DisableGadget(#GADGET_Template_Down, disable)
-      DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Down, disable)    
+      DisableMenuItem(#POPUPMENU_Template, #MENU_Template_Down, disable)
       
     EndIf
   
@@ -207,7 +207,7 @@ EndProcedure
 
 Procedure TemplateWindowEvents(EventID)
 
-  If EventID = #PB_Event_CloseWindow  
+  If EventID = #PB_Event_CloseWindow
     If MemorizeWindow
       TemplateWindowDialog\Close(@TemplateWindowPosition)
     Else
@@ -217,7 +217,7 @@ Procedure TemplateWindowEvents(EventID)
     If *Templates ; if its a separate window, it may be closed!
       For i = #GADGET_Template_Add To #GADGET_Template_Tree
         DisableGadget(i, 0) ; reenable all gadgets
-      Next i    
+      Next i
       Template_UpdateGadgetStates()           ; update the disabled state
       
       ; put focus back on templates window if it is separate
@@ -225,8 +225,8 @@ Procedure TemplateWindowEvents(EventID)
         SetActiveWindow(*Templates\ToolWindowID)
       EndIf
       
-      SetActiveGadget(#GADGET_Template_Tree)   
-    EndIf    
+      SetActiveGadget(#GADGET_Template_Tree)
+    EndIf
             
   
   ElseIf EventID = #PB_Event_Gadget
@@ -240,7 +240,7 @@ Procedure TemplateWindowEvents(EventID)
       Length = ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_GETTEXTLENGTH, 0, 0)
       Text$ = Space(Length)
       ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_GETTEXT, Length+1, @Text$)
-      Template()\Comment$ = Template_Escape(PeekS(@Text$, -1, #PB_UTF8))      
+      Template()\Comment$ = Template_Escape(PeekS(@Text$, -1, #PB_UTF8))
 
       SetGadgetText(#GADGET_Template_Comment, GetGadgetText(#GADGET_Template_SetComment))
       TemplateWindowEvents(#PB_Event_CloseWindow) ; close the window
@@ -248,7 +248,7 @@ Procedure TemplateWindowEvents(EventID)
       ; Write the templates immediately to disk, so if the IDE crash or force closed, it won't be lost
       Template_Save()
     
-    ElseIf EventGadget() = #GADGET_Template_Cancel    
+    ElseIf EventGadget() = #GADGET_Template_Cancel
       TemplateWindowEvents(#PB_Event_CloseWindow)
       
     EndIf
@@ -267,22 +267,22 @@ Procedure OpenTemplateWindow()
     EnsureWindowOnDesktop(#WINDOW_Template)
  
     ScintillaSendMessage(#GADGET_Template_Editor, #SCI_USEPOPUP, 1, 0) ; use the scintilla popup
-    ScintillaSendMessage(#GADGET_Template_Editor, #SCI_SETMARGINWIDTHN, 0, 0)       
-    ScintillaSendMessage(#GADGET_Template_Editor, #SCI_SETMARGINWIDTHN, 1, 0)            
+    ScintillaSendMessage(#GADGET_Template_Editor, #SCI_SETMARGINWIDTHN, 0, 0)
+    ScintillaSendMessage(#GADGET_Template_Editor, #SCI_SETMARGINWIDTHN, 1, 0)
     ScintillaSendMessage(#GADGET_Template_Editor, #SCI_STYLESETFONT,  #STYLE_DEFAULT, ToAscii(EditorFontName$))
-    ScintillaSendMessage(#GADGET_Template_Editor, #SCI_STYLESETSIZE, #STYLE_DEFAULT,  EditorFontSize) 
-    ScintillaSendMessage(#GADGET_Template_Editor, #SCI_STYLECLEARALL, 0, 0) 
+    ScintillaSendMessage(#GADGET_Template_Editor, #SCI_STYLESETSIZE, #STYLE_DEFAULT,  EditorFontSize)
+    ScintillaSendMessage(#GADGET_Template_Editor, #SCI_STYLECLEARALL, 0, 0)
     
     Text$ = Template_Unescape(Template()\Code$)
     ScintillaSendMessage(#GADGET_Template_Editor, #SCI_SETTEXT, 0, ToUTF8(Text$))
 
     ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_USEPOPUP, 1, 0) ; use the scintilla popup
-    ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_SETMARGINWIDTHN, 0, 0)       
-    ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_SETMARGINWIDTHN, 1, 0)            
+    ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_SETMARGINWIDTHN, 0, 0)
+    ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_SETMARGINWIDTHN, 1, 0)
     ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_SETWRAPMODE, 1, 0) ; wrap at word boundaries
     ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_STYLESETFONT,  #STYLE_DEFAULT, ToAscii(EditorFontName$))
-    ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_STYLESETSIZE, #STYLE_DEFAULT,  EditorFontSize) 
-    ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_STYLECLEARALL, 0, 0)        
+    ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_STYLESETSIZE, #STYLE_DEFAULT,  EditorFontSize)
+    ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_STYLECLEARALL, 0, 0)
  
     Text$ = Template_Unescape(Template()\Comment$)
     ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_SETTEXT, 0, ToUTF8(Text$))
@@ -291,7 +291,7 @@ Procedure OpenTemplateWindow()
       ; Use system defaults for selected text for screenreader access
       ;
       ScintillaSendMessage(#GADGET_Template_Editor, #SCI_SETSELBACK, 1, GetSysColor_(#COLOR_HIGHLIGHT))
-      ScintillaSendMessage(#GADGET_Template_Editor, #SCI_SETSELFORE, 1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))        
+      ScintillaSendMessage(#GADGET_Template_Editor, #SCI_SETSELFORE, 1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
       ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_SETSELBACK, 1, GetSysColor_(#COLOR_HIGHLIGHT))
       ScintillaSendMessage(#GADGET_Template_SetComment, #SCI_SETSELFORE, 1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
     CompilerEndIf
@@ -330,7 +330,7 @@ Procedure Template_SaveState()
     Template_FirstVisible = TreeGadgetItemNumber(#GADGET_Template_Tree,  SendMessage_(GadgetID(#GADGET_Template_Tree), #TVM_GETNEXTITEM, #TVGN_FIRSTVISIBLE, 0))
   CompilerEndIf
   
-  If currentindex = -1  
+  If currentindex = -1
     ResetList(Template())
   Else
     SelectElement(Template(), currentindex)
@@ -369,7 +369,7 @@ Procedure Template_FillTree()
   
   ForEach Template()
     If Template()\IsDirectory And Template()\IsExpanded
-      SetGadgetItemState(#GADGET_Template_Tree, ListIndex(Template()), #PB_Tree_Expanded)      
+      SetGadgetItemState(#GADGET_Template_Tree, ListIndex(Template()), #PB_Tree_Expanded)
     EndIf
   Next Template()
        
@@ -377,7 +377,7 @@ Procedure Template_FillTree()
     
     SendMessage_(GadgetID(#GADGET_Template_Tree), #TVM_ENSUREVISIBLE, 0, GadgetItemID(#GADGET_Template_Tree, Template_FirstVisible))
   
-  CompilerEndIf  
+  CompilerEndIf
   
   Template_UpdateGadgetStates()
   
@@ -411,7 +411,7 @@ Procedure Template_Insert()
         Code$ = ReplaceString(Template$, #NewLine, #NewLine+Prefix$)
         InsertCodeString(Code$)
         SetActiveGadget(*ActiveSource\EditorGadget)
-      EndIf  
+      EndIf
     EndIf
   EndIf
 
@@ -437,7 +437,7 @@ Procedure Template_MoveElement(*Element.Template, *Target.Template, Type)
   
   If Type = 1 ; move up
     InsertElement(Template())
-  ElseIf Type = 2 ; move down 
+  ElseIf Type = 2 ; move down
     If *Target\IsDirectory = 0 ; we must skip the directory of the target first
       AddElement(Template())
     Else
@@ -446,7 +446,7 @@ Procedure Template_MoveElement(*Element.Template, *Target.Template, Type)
           AddElement(Template())
           Break
         EndIf
-        If Template()\Sublevel <= *Target\Sublevel   
+        If Template()\Sublevel <= *Target\Sublevel
           InsertElement(Template())
           Break
         EndIf
@@ -457,20 +457,20 @@ Procedure Template_MoveElement(*Element.Template, *Target.Template, Type)
       InsertElement(Template())
     Else
       AddElement(Template())
-    EndIf    
+    EndIf
   EndIf
   
-  *New.Template = @Template()      
+  *New.Template = @Template()
   SwapElements(Template(), *Element, *New)
   ChangeCurrentElement(Template(), *New) ; remove the dummy element again
-  DeleteElement(Template()) 
+  DeleteElement(Template())
     
   Sublevel = *Element\Sublevel
   
   If Type = 3 And *Target\IsDirectory
     *Element\Sublevel = *Target\Sublevel + 1
   Else
-    *Element\Sublevel = *Target\Sublevel  
+    *Element\Sublevel = *Target\Sublevel
   EndIf
   
   If *Element\IsDirectory = 1 ; we must move the rest of the directory
@@ -484,7 +484,7 @@ Procedure Template_MoveElement(*Element.Template, *Target.Template, Type)
         *NewGetPouint = 0
       EndIf
 
-      ChangeCurrentElement(Template(), *AddPoint)      
+      ChangeCurrentElement(Template(), *AddPoint)
       AddElement(Template())
       *New.Template = @Template()
       
@@ -504,7 +504,7 @@ Procedure Template_MoveElement(*Element.Template, *Target.Template, Type)
   EndIf
   
   ChangeCurrentElement(Template(), *Element)
-  Template_Selection = ListIndex(Template()) ; mark the moved element as selected one  
+  Template_Selection = ListIndex(Template()) ; mark the moved element as selected one
   
   Template_FillTree()
 
@@ -523,7 +523,7 @@ Procedure Template_DropEvent()
   ;
   If Template_DragItem <> Target
     SelectElement(Template(), Template_DragItem)
-    *Element.Template = @Template()          
+    *Element.Template = @Template()
     SelectElement(Template(), Target)
     *Target.Template = @Template()
 
@@ -547,7 +547,7 @@ Procedure Template_DropEvent()
 
 EndProcedure
   
-Procedure Template_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID) 
+Procedure Template_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   Shared Templae_FirstResize
   
   ButtonImageGadget(#GADGET_Template_Add,       0, 0, 0, 0, ImageID(#IMAGE_Template_Add))
@@ -564,14 +564,14 @@ Procedure Template_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   GadgetToolTip(#GADGET_Template_AddDir,    Language("Templates","NewDir"))
   GadgetToolTip(#GADGET_Template_RemoveDir, Language("Templates","DeleteDir"))
   GadgetToolTip(#GADGET_Template_Up,        Language("Templates","Up"))
-  GadgetToolTip(#GADGET_Template_Down,      Language("Templates","Down"))  
+  GadgetToolTip(#GADGET_Template_Down,      Language("Templates","Down"))
  
   TreeGadget(#GADGET_Template_Tree, 0, 0, 0, 0, #PB_Tree_AlwaysShowSelection)
   TextGadget(#GADGET_Template_Comment, 0, 0, 0, 0, "", #PB_Text_Border)
   ;SplitterGadget(#GADGET_Template_Splitter, 0, 0, 0, 0, #GADGET_Template_Tree, #GADGET_Template_Comment, #PB_Splitter_SecondFixed)
   Templae_FirstResize = 1 ; to set the splitter pos after! the resize
     
-  If EnableMenuIcons    
+  If EnableMenuIcons
     *Popup = CreatePopupImageMenu(#POPUPMENU_Template)
   Else
     *Popup = CreatePopupMenu(#POPUPMENU_Template)
@@ -590,14 +590,14 @@ Procedure Template_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
     MenuItem(#MENU_Template_Rename, Language("Templates","MenuRename"))
     MenuBar()
     MenuItem(#MENU_Template_Up, Language("Templates","MenuUp"), ImageID(#IMAGE_Template_Up))
-    MenuItem(#MENU_Template_Down, Language("Templates","MenuDown"), ImageID(#IMAGE_Template_Down))        
+    MenuItem(#MENU_Template_Down, Language("Templates","MenuDown"), ImageID(#IMAGE_Template_Down))
   EndIf
   
   Template_FillTree()
 
   If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
     ToolsPanel_ApplyColors(#GADGET_Template_Tree)
-  EndIf   
+  EndIf
   
   EnableGadgetDrop(#GADGET_Template_Tree, #PB_Drop_Private, #PB_Drag_Move, #DRAG_Templates)
   
@@ -613,7 +613,7 @@ EndProcedure
 
 Procedure Template_DestroyFunction(*Entry.ToolsPanelEntry)
 
-  Template_SaveState() 
+  Template_SaveState()
   
   *Templates = 0
   
@@ -630,7 +630,7 @@ Procedure Template_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight
 ;     Templae_FirstResize = 0
 ;   Else
 ;     Template_Splitter = PanelHeight-32-GetGadgetState(#GADGET_Template_Splitter)
-;   EndIf  
+;   EndIf
 
 
   ; All the buttons should have the same size, so only call it once
@@ -658,7 +658,7 @@ Procedure Template_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight
   Else
     ResizeGadget(#GADGET_Template_Tree, 0, 10+Height, PanelWidth, PanelHeight-Height-80)
     ResizeGadget(#GADGET_Template_Comment, 0, PanelHeight-65, PanelWidth, 65)
-  EndIf  
+  EndIf
   
   CompilerIf #CompileLinux
     ; required for the TextGadget() to correctly wrap the lines
@@ -674,19 +674,19 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
 
   Select EventGadgetID
   
-    Case #GADGET_Template_Add  
+    Case #GADGET_Template_Add
       Name$ = InputRequester(Language("Templates","Title"), Language("Templates","EnterName")+":", "")
       If Name$ <> ""
         Template_SaveState()
         
         index = GetGadgetState(#GADGET_Template_Tree)
-        If index = -1          
+        If index = -1
           LastElement(Template())
           AddElement(Template())
           Sublevel = 0
-        Else          
+        Else
           SelectElement(Template(), index)
-          Sublevel = Template()\Sublevel          
+          Sublevel = Template()\Sublevel
           If Template()\IsDirectory
             IsExpanded = Template()\IsExpanded
             IsEmpty    = 1
@@ -694,31 +694,31 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
               If NextElement(Template()) = 0
                 AddElement(Template())
                 Break
-              EndIf             
+              EndIf
               If Template()\Sublevel <= Sublevel
                 InsertElement(Template())
                 Break
               EndIf
               IsEmpty = 0 ; at least one item was found
-            ForEver                
+            ForEver
             
             If IsExpanded Or IsEmpty ; only add as child to opened dirs, or if it was new
-              Sublevel + 1   
+              Sublevel + 1
             EndIf
           Else
-            AddElement(Template())                  
-          EndIf          
-        EndIf        
+            AddElement(Template())
+          EndIf
+        EndIf
         Template()\Name$ = Name$
-        Template()\IsDirectory = 0                
+        Template()\IsDirectory = 0
         Template()\Sublevel = Sublevel
         index = ListIndex(Template())
         Template_FillTree()
         
         SetGadgetState(#GADGET_Template_Tree, index)
         SelectElement(Template(), index)
-        OpenTemplateWindow() ; start editing this template        
-      EndIf      
+        OpenTemplateWindow() ; start editing this template
+      EndIf
            
     Case #GADGET_Template_Edit
       index = GetGadgetState(#GADGET_Template_Tree)
@@ -731,7 +731,7 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
     
     Case #GADGET_Template_Remove
       index = GetGadgetState(#GADGET_Template_Tree)
-      If index <> -1  
+      If index <> -1
         SelectElement(Template(), index)
         If Template()\IsDirectory = 0
           
@@ -739,16 +739,16 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
             If MessageRequester(#ProductName$, Language("Templates", "DeleteQuestion"), #FLAG_QUESTION|#PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
               Template_SaveState()
               DeleteElement(Template())
-              Template_FillTree()            
+              Template_FillTree()
             EndIf
           Else
             Template_SaveState()
             DeleteElement(Template())
-            Template_FillTree()          
+            Template_FillTree()
           EndIf
         
         EndIf
-      EndIf      
+      EndIf
     
     Case #GADGET_Template_AddDir
       Name$ = InputRequester(Language("Templates","Title"), Language("Templates","EnterDirName")+":", "")
@@ -756,11 +756,11 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         Template_SaveState()
         
         index = GetGadgetState(#GADGET_Template_Tree)
-        If index = -1          
+        If index = -1
           LastElement(Template())
           AddElement(Template())
           Sublevel = 0
-        Else          
+        Else
           SelectElement(Template(), index)
           Sublevel = Template()\Sublevel
           If Template()\IsDirectory
@@ -771,26 +771,26 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
               If NextElement(Template()) = 0
                 AddElement(Template())
                 Break
-              EndIf             
+              EndIf
               If Template()\Sublevel <= Sublevel
                 InsertElement(Template())
                 Break
               EndIf
               IsEmpty = 0 ; at least one item was found
-            ForEver                
+            ForEver
             
             If IsExpanded Or IsEmpty ; only add as child to opened dirs, or if it was new
-              Sublevel + 1   
-            EndIf                     
+              Sublevel + 1
+            EndIf
           Else
             AddElement(Template())
-          EndIf          
+          EndIf
         EndIf
         
         index = ListIndex(Template())
         
         Template()\Name$ = Name$
-        Template()\IsDirectory = 1                
+        Template()\IsDirectory = 1
         Template()\Sublevel = Sublevel
         Template_FillTree()
         
@@ -799,10 +799,10 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
     
     Case #GADGET_Template_RemoveDir
       index = GetGadgetState(#GADGET_Template_Tree)
-      If index <> -1      
+      If index <> -1
         SelectElement(Template(), index)
         If Template()\IsDirectory
-          Sublevel = Template()\Sublevel        
+          Sublevel = Template()\Sublevel
           If NextElement(Template())
             If Template()\Sublevel > Sublevel ; this is a subitem of the dir
               delete = 0
@@ -821,10 +821,10 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
           EndIf
         
           If delete
-            Template_SaveState()            
+            Template_SaveState()
             Repeat
               DeleteElement(Template())
-            Until NextElement(Template()) = 0 Or Template()\Sublevel <= Sublevel       
+            Until NextElement(Template()) = 0 Or Template()\Sublevel <= Sublevel
             Template_FillTree()
           EndIf
         EndIf
@@ -836,28 +836,28 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
       
 ;         CompilerIf #CompileWindows
 ;           SendMessage_(GadgetID(#GADGET_Template_Tree), #TVM_EDITLABEL, 0, GadgetItemID(#GADGET_Template_Tree, index))
-;         
-;         CompilerElse      
+;
+;         CompilerElse
       
           SelectElement(Template(), index)
           If Template()\IsDirectory
             Title$ = Language("Templates","EnterDirName")
           Else
             Title$ = Language("Templates","EnterName")
-          EndIf         
+          EndIf
           Name$ = InputRequester(Language("Templates","Title"), Title$, Template()\Name$)
           If Name$ <> ""
             Template()\Name$ = Name$
-            SetGadgetItemText(#GADGET_Template_Tree, index, Name$, 0)          
-          EndIf  
-;           
+            SetGadgetItemText(#GADGET_Template_Tree, index, Name$, 0)
+          EndIf
+;
 ;         CompilerEndIf
-;                 
+;
       EndIf
       
 
-    Case #GADGET_Template_Use   
-      Template_Insert()  
+    Case #GADGET_Template_Use
+      Template_Insert()
     
     Case #GADGET_Template_Tree
       If EventType() = #PB_EventType_DragStart
@@ -872,9 +872,9 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
       ElseIf EventType() = #PB_EventType_RightClick
         Template_UpdateGadgetStates()
         If *Entry\IsSeparateWindow
-          DisplayPopupMenu(#POPUPMENU_Template, WindowID(*Entry\ToolWindowID))                
+          DisplayPopupMenu(#POPUPMENU_Template, WindowID(*Entry\ToolWindowID))
         Else
-          DisplayPopupMenu(#POPUPMENU_Template, WindowID(#WINDOW_Main))                
+          DisplayPopupMenu(#POPUPMENU_Template, WindowID(#WINDOW_Main))
         EndIf
       
       Else
@@ -884,7 +884,7 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
       
     Case #GADGET_Template_Up
       index = GetGadgetState(#GADGET_Template_Tree)
-      If index > 0        
+      If index > 0
         SelectElement(Template(), index)
         *Current.Template = @Template()
         
@@ -899,7 +899,7 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
       EndIf
     
     Case #GADGET_Template_Down
-      index = GetGadgetState(#GADGET_Template_Tree)      
+      index = GetGadgetState(#GADGET_Template_Tree)
       If index <> -1
         SelectElement(Template(), index)
         *Current.Template = @Template()
@@ -909,9 +909,9 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
             Template_MoveElement(*Current, @Template(), 2)
             Break
           ElseIf Template()\Sublevel < *Current\Sublevel
-            Break 
+            Break
           EndIf
-        Wend                
+        Wend
       EndIf
 
   EndSelect
@@ -919,7 +919,7 @@ Procedure Template_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
 EndProcedure
 
 
-Procedure Template_PreferenceLoad(*Entry.ToolsPanelEntry) 
+Procedure Template_PreferenceLoad(*Entry.ToolsPanelEntry)
 
   PreferenceGroup("Templates")
   TemplateWindowPosition\x      = ReadPreferenceLong("WindowX", 100)
@@ -981,9 +981,9 @@ Procedure Template_PreferenceLoad(*Entry.ToolsPanelEntry)
               sublevel = 0
             EndIf
         
-        EndSelect        
+        EndSelect
         
-      Wend    
+      Wend
     
       FirstElement(Template())
       DeleteElement(Template()) ; remove the dummy element
@@ -991,22 +991,22 @@ Procedure Template_PreferenceLoad(*Entry.ToolsPanelEntry)
     EndIf
   
     CloseFile(#FILE_Template)
-  EndIf  
+  EndIf
 
 EndProcedure
 
 
-Procedure Template_PreferenceSave(*Entry.ToolsPanelEntry) 
+Procedure Template_PreferenceSave(*Entry.ToolsPanelEntry)
 
   PreferenceComment("")
   PreferenceGroup("Templates")
   WritePreferenceLong("WindowX", TemplateWindowPosition\x)
   WritePreferenceLong("WindowY", TemplateWindowPosition\y)
   WritePreferenceLong("WindowWidth", TemplateWindowPosition\Width)
-  WritePreferenceLong("WindowHeight", TemplateWindowPosition\Height) 
-  WritePreferenceLong("Splitter", Template_Splitter) 
-  WritePreferenceLong("Selection", Template_Selection) 
-  WritePreferenceLong("FirstVisible", Template_FirstVisible) 
+  WritePreferenceLong("WindowHeight", TemplateWindowPosition\Height)
+  WritePreferenceLong("Splitter", Template_Splitter)
+  WritePreferenceLong("Selection", Template_Selection)
+  WritePreferenceLong("FirstVisible", Template_FirstVisible)
   WritePreferenceLong("AskDelete", Template_AskDelete)
   
     
@@ -1017,21 +1017,21 @@ Procedure Template_PreferenceSave(*Entry.ToolsPanelEntry)
 EndProcedure
 
 
-Procedure Template_PreferenceStart(*Entry.ToolsPanelEntry) 
+Procedure Template_PreferenceStart(*Entry.ToolsPanelEntry)
 
   Backup_Template_AskDelete = Template_AskDelete
   
 EndProcedure
 
 
-Procedure Template_PreferenceApply(*Entry.ToolsPanelEntry) 
+Procedure Template_PreferenceApply(*Entry.ToolsPanelEntry)
 
   Template_AskDelete = Backup_Template_AskDelete
   
 EndProcedure
 
 
-Procedure Template_PreferenceCreate(*Entry.ToolsPanelEntry) 
+Procedure Template_PreferenceCreate(*Entry.ToolsPanelEntry)
                  
   CheckBoxGadget(#GADGET_Preferences_TemplatesAskDelete, 10, 10, 300, 25, Language("Templates","DeletePreference"))
   SetGadgetState(#GADGET_Preferences_TemplatesAskDelete, Backup_Template_AskDelete)
@@ -1042,14 +1042,14 @@ Procedure Template_PreferenceCreate(*Entry.ToolsPanelEntry)
 EndProcedure
 
 
-Procedure Template_PreferenceDestroy(*Entry.ToolsPanelEntry) 
+Procedure Template_PreferenceDestroy(*Entry.ToolsPanelEntry)
 
   Backup_Template_AskDelete = GetGadgetState(#GADGET_Preferences_TemplatesAskDelete)
 
 EndProcedure
 
 
-Procedure Template_PreferenceEvents(*Entry.ToolsPanelEntry, EventGadgetID) 
+Procedure Template_PreferenceEvents(*Entry.ToolsPanelEntry, EventGadgetID)
   ;
   ; nothing here
   ;
@@ -1096,9 +1096,9 @@ Template_VT\PreferenceChanged   = @Template_PreferenceChanged()
 AddElement(AvailablePanelTools())
 
 AvailablePanelTools()\FunctionsVT          = @Template_VT
-AvailablePanelTools()\NeedPreferences      = 1 
+AvailablePanelTools()\NeedPreferences      = 1
 AvailablePanelTools()\NeedConfiguration    = 1
-AvailablePanelTools()\NeedDestroyFunction  = 1 ; to save the file!  
+AvailablePanelTools()\NeedDestroyFunction  = 1 ; to save the file!
 AvailablePanelTools()\PreferencesWidth     = 320
 AvailablePanelTools()\PreferencesHeight    = 80
 AvailablePanelTools()\ToolID$              = "Templates"

@@ -69,7 +69,7 @@ Procedure FD_Copy()
   countpaste = 0
   ClearList(clipboard())
   ClearList(duplicates())
-  ForEach FormWindows()\FormGadgets()  
+  ForEach FormWindows()\FormGadgets()
     If FormWindows()\FormGadgets()\selected And Not FormWindows()\FormGadgets()\splitter And FormWindows()\FormGadgets()\type <> #Form_Type_Splitter
       ok = 1
       ForEach duplicates()
@@ -86,7 +86,7 @@ Procedure FD_Copy()
 EndProcedure
 Procedure FD_Cut()
   FD_Copy()
-  ForEach FormWindows()\FormGadgets()  
+  ForEach FormWindows()\FormGadgets()
     If FormWindows()\FormGadgets()\selected
       FD_DeleteGadgetA(FormWindows()\FormGadgets())
     EndIf
@@ -160,7 +160,7 @@ Procedure FD_Paste()
       FormWindows()\FormGadgets()\lock_top = clipboard()\lock_top
       FormWindows()\FormGadgets()\lock_bottom = clipboard()\lock_bottom
       FormWindows()\FormGadgets()\itemnumber = itemnumbers
-      itemnumbers + 1      
+      itemnumbers + 1
       
       CopyList(clipboard()\Items(),FormWindows()\FormGadgets()\Items())
       CopyList(clipboard()\Columns(),FormWindows()\FormGadgets()\Columns())
@@ -186,7 +186,7 @@ Procedure FD_Paste()
     FD_UpdateObjList()
     redraw = 1
     FormChanges(1)
-  EndIf 
+  EndIf
 EndProcedure
 
 
@@ -204,7 +204,7 @@ Procedure FD_CopyEvent()
       grid_SetActiveGadget(temp_grid)
       temp_clipboard = 1
     EndIf
-  EndIf   
+  EndIf
   temp_grid = column_grid
   If temp_grid
     If grid_EventEditing(temp_grid)
@@ -212,7 +212,7 @@ Procedure FD_CopyEvent()
       grid_SetActiveGadget(temp_grid)
       temp_clipboard = 1
     EndIf
-  EndIf   
+  EndIf
   temp_grid = prefs_custgadgets
   If temp_grid
     If grid_EventEditing(temp_grid)
@@ -220,7 +220,7 @@ Procedure FD_CopyEvent()
       grid_SetActiveGadget(temp_grid)
       temp_clipboard = 1
     EndIf
-  EndIf   
+  EndIf
   If currentview = 1
 ;     FD_CopyCode()
   ElseIf Not temp_clipboard
@@ -241,7 +241,7 @@ Procedure FD_CutEvent()
       grid_SetActiveGadget(temp_grid)
       temp_clipboard = 1
     EndIf
-  EndIf          
+  EndIf
   temp_grid = column_grid
   If temp_grid
     If grid_EventEditing(temp_grid)
@@ -249,7 +249,7 @@ Procedure FD_CutEvent()
       grid_SetActiveGadget(temp_grid)
       temp_clipboard = 1
     EndIf
-  EndIf          
+  EndIf
   temp_grid = prefs_custgadgets
   If temp_grid
     If grid_EventEditing(temp_grid)
@@ -257,7 +257,7 @@ Procedure FD_CutEvent()
       grid_SetActiveGadget(temp_grid)
       temp_clipboard = 1
     EndIf
-  EndIf          
+  EndIf
   If currentview = 0 And Not temp_clipboard
     FD_Cut()
   EndIf
@@ -276,7 +276,7 @@ Procedure FD_PasteEvent()
       grid_SetActiveGadget(temp_grid)
       temp_clipboard = 1
     EndIf
-  EndIf  
+  EndIf
   temp_grid = column_grid
   If temp_grid
     If grid_EventEditing(temp_grid)
@@ -284,7 +284,7 @@ Procedure FD_PasteEvent()
       grid_SetActiveGadget(temp_grid)
       temp_clipboard = 1
     EndIf
-  EndIf  
+  EndIf
   temp_grid = prefs_custgadgets
   If temp_grid
     If grid_EventEditing(temp_grid)
@@ -292,7 +292,7 @@ Procedure FD_PasteEvent()
       grid_SetActiveGadget(temp_grid)
       temp_clipboard = 1
     EndIf
-  EndIf  
+  EndIf
   If currentview = 0 And Not temp_clipboard
     FD_Paste()
   EndIf

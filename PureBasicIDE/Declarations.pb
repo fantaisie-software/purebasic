@@ -53,7 +53,7 @@ Declare IsWindowMaximized(Window)   ; return true if window is maximized
 Declare IsWindowMinimized(Window)   ; return true if window is minimized
 Declare SetWindowForeground(Window) ; put window in foreground
 Declare SetWindowForeground_NoActivate(Window) ; set window to the foreground without giving it the focus (and without a focus event!)
-Declare SetWindowStayOnTop(Window, StayOnTop) ; make window stay on top 
+Declare SetWindowStayOnTop(Window, StayOnTop) ; make window stay on top
 Declare GetPanelWidth(Gadget)       ; get width of panelgadget items
 Declare GetPanelHeight(Gadget)      ; get hight of panelgadget items
 Declare GetPanelItemID(Gadget, Item) ; get id of panelgadget item (only for plugins)
@@ -73,7 +73,7 @@ Declare OpenWebBrowser(Url$)           ; open the default web browser
 
 CompilerIf #CompileWindows
   Declare SetCodePage(Gadget)         ; set the correct codepage for the editorgadget (windows only)
-  Declare SetWindowForeground_Real(Window) ; grab focus from other apps  
+  Declare SetWindowForeground_Real(Window) ; grab focus from other apps
 CompilerEndIf
 CompilerIf #CompileLinux
   Declare GTKSignalConnect(*Widget, Signal$, Function, user_data)
@@ -194,10 +194,10 @@ Declare UpdateIsCodeStatus()                        ; The pb-file non-pb-file mo
 
 ; Used by Templates/Macro Error window
 ; CompilerIf #CompileWindows | #CompileMac
-;   DeclareDLL EmptyScintillaCallback(EditorWindow.l, EditorGadget.l, *scinotify.SCNotification, lParam.l) 
+;   DeclareDLL EmptyScintillaCallback(EditorWindow.l, EditorGadget.l, *scinotify.SCNotification, lParam.l)
 ; CompilerElse
 ;   DeclareCDLL EmptyScintillaCallback(EditorWindow.l, EditorGadget.l, *scinotify.SCNotification, lParam.l)
-; CompilerEndIf 
+; CompilerEndIf
 
 ; ===========================================
 ; other files
@@ -231,7 +231,7 @@ Declare AddTools_WindowEvents(EventID)
 Declare CreateAutoCompleteWindow()        ; create the autocomplete window (only called on startup)
 Declare OpenAutoCompleteWindow()          ; display the autocomplete window
 Declare AutoCompleteWindowEvents(EventID) ; handle autocomplete events
-Declare AutoComplete_CheckAutoPopup()     ; checks if the conditions of auto-popup are met 
+Declare AutoComplete_CheckAutoPopup()     ; checks if the conditions of auto-popup are met
 Declare AutoComplete_WordUpdate(IsInitial=#False); while the autocomplete window is open, call that when the user continues typing
 Declare AutoComplete_Close()              ; abort autocomplete
 Declare AutoComplete_Insert()             ; confirm autocomplete
@@ -303,7 +303,7 @@ Declare CompileRun(CheckSyntax)         ; execute compile/run
 Declare CreateExecutable()              ; execute create executable
 Declare Run()                           ; run compiled source
 Declare CompileRunProject(CheckSyntax)  ; project mode actions
-Declare RunProject()          
+Declare RunProject()
 Declare CreateExecutableProject()
 Declare BuildTarget(*Target.CompileTarget)
 Declare BuildAll()
@@ -359,7 +359,7 @@ Declare IsBinaryFile(*Buffer, Length) ; returns true if the buffer contains nont
 ;
 Declare OpenFindWindow()
 Declare UpdateFindWindow()
-Declare FindWindowEvents(EventID)  
+Declare FindWindowEvents(EventID)
 
 
 ;- FileSystem.pb
@@ -411,7 +411,7 @@ Declare ShiftComments(IsRight)
 Declare CheckSearchStringComment(line, column, IsAutoComplete) ; returns if the line/column (both 0 based) is in comment/string and returns 1 if that complies with the search settings
 Declare CheckStringComment(Cursor)    ; returns 1 if the cursor position is inside a string or comment
 Declare QuickHelpFromLine(line, cursorposition)
-; Declare DisplayItemAtCursor(Position)  
+; Declare DisplayItemAtCursor(Position)
 Declare.s CreateFoldingInformation()   ; creates a string representing the file's folding state
 Declare ApplyFoldingInformation(Folding$) ; applies a string from CreateFoldingInformation() to the file
 
@@ -427,7 +427,7 @@ Declare HistoryTimer()
 Declare OpenEditHistoryWindow(DisplaySID = -1)
 Declare UpdateEditHistoryWindow()
 Declare EditHistoryWindowEvent(EventID)
-Declare.s History_MakeUniqueId() 
+Declare.s History_MakeUniqueId()
 
 ;- IDEDebugger.pb
 ;
@@ -498,7 +498,7 @@ Declare CodePageLength(CodePage, String$)    ; get length of string in Scintilla
 Declare LoadPreferences()             ; load the preferences file
 Declare SavePreferences()             ; save the prefs to file
 Declare ApplyPreferences()            ; apply prefs changes to the editor and all open windows
-Declare OpenPreferencesWindow()   
+Declare OpenPreferencesWindow()
 Declare UpdatePreferenceWindow()
 Declare PreferencesWindowEvents(EventID)
 
@@ -531,7 +531,7 @@ Declare RemoveProjectFile()
 Declare ProjectOptionsEvents(EventID)
 Declare OpenProjectOptions(NewProject)
 Declare UpdateProjectOptionsWindow()
-Declare IsCodeFile(FileName$)         ; returns true for PB and SB files 
+Declare IsCodeFile(FileName$)         ; returns true for PB and SB files
 Declare IsPureBasicFile(FileName$)    ; returns true only for PB files (in PB mode) or SB files (in SB mode), but also for the respective project files
 
 ;- ProjectPanel.pb
@@ -546,7 +546,7 @@ Declare ProjectPanelMenuEvent(MenuItemID)
 Declare CloseSplashScreen()
 
 Procedure MessageRequesterSafe(Title$, Text$, Flags=0)
-  CloseSplashScreen()  
+  CloseSplashScreen()
   ProcedureReturn MessageRequester(Title$, Text$, Flags)
 EndProcedure
 
@@ -589,7 +589,7 @@ Declare SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Repor
 Declare AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile) ; fill the *Source structure with the project settings from *Buffer. (return new project length)
 Declare LoadSourceFile(FileName$, Activate = 1)  ; load the given file into a new source (if not allready open)
 Declare SaveSourceFile(FileName$)     ; save the current source to the given name
-Declare LoadTempFile(FileName$)       ; load the specified file over the current opened source 
+Declare LoadTempFile(FileName$)       ; load the specified file over the current opened source
 Declare SaveTempFile(FileName$)       ; save the current source to a temp name (no change of modified/unmodified by this!)
 Declare LoadSource()                  ; open the 'load source' dialog and load any choosen files
 Declare OpenIncludeOnDoubleClick()    ; after doubleclick on Includefile, open that file
@@ -622,7 +622,7 @@ Declare ClosestSourceItem(*Parser.ParserData, *Line.INTEGER, Position) ; Return 
 Declare FindProcedureStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER) ; Find the item that starts the current procedure (if any)
 Declare ItemInsideProcedure(*Parser.ParserData, Line, *Item.SourceItem) ; returns true if the given item is inside a procedure
 Declare MatchKeywordBackward(*Parser.ParserData, *pLine.INTEGER, *pItem.INTEGER)      ; locate a matching keyword in the parser data
-Declare MatchKeywordForward(*Parser.ParserData, *pLine.INTEGER, *pItem.INTEGER)  
+Declare MatchKeywordForward(*Parser.ParserData, *pLine.INTEGER, *pItem.INTEGER)
 Declare FindLoopStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER)
 Declare FindBreakKeywords(*Parser.ParserData, *Item.SourceItem, Line, List Items.SourceItemPair())
 Declare FindModuleStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER, List OpenModules.s())
@@ -665,7 +665,7 @@ Declare.s InterfaceFieldName(Entry$)
 ;
 Declare InitStructureViewer()         ; initialize the viewer arrays
 Declare DisplayStructureRootList()    ; display the root list in the viewer
-Declare OpenStructureViewerWindow() 
+Declare OpenStructureViewerWindow()
 Declare UpdateStructureViewerWindow()
 Declare StructureViewerWindowEvents(EventID)
 

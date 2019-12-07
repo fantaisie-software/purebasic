@@ -35,7 +35,7 @@ EndProcedure
 
 Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
   
-  If IsWindow(#WINDOW_CreateApp) = 0  
+  If IsWindow(#WINDOW_CreateApp) = 0
     
     ; Reuse the Options_CurrentBasePath$ from CompilerOption to have our path relative to the source or to the project file
     ;
@@ -50,7 +50,7 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
     EndIf
     
     CreateAppWindowDialog = OpenDialog(?Dialog_CreateApp, WindowID(#WINDOW_Main), @CreateAppWindowPosition)
-    If CreateAppWindowDialog    
+    If CreateAppWindowDialog
       EnsureWindowOnDesktop(#WINDOW_CreateApp)
       
       *CurrentAppTarget = *Target
@@ -164,7 +164,7 @@ Procedure RelativeFilenameRequester(Gadget, Title$, Filter$)
   File$ = ResolveRelativePath(Options_CurrentBasePath$, GetGadgetText(Gadget))
   If Trim(File$) = ""
     File$ = Options_CurrentBasePath$
-  EndIf 
+  EndIf
   
   File$ = OpenFileRequester(Title$, File$, Filter$, 0)
   If File$
@@ -175,10 +175,10 @@ EndProcedure
 
 
 Procedure RelativePathRequester(Gadget, Title$)
-  File$ = ResolveRelativePath(Options_CurrentBasePath$, GetGadgetText(Gadget)) 
+  File$ = ResolveRelativePath(Options_CurrentBasePath$, GetGadgetText(Gadget))
   If Trim(File$) = ""
     File$ = Options_CurrentBasePath$
-  EndIf 
+  EndIf
   
   File$ = PathRequester(Title$, File$)
   If File$
@@ -269,7 +269,7 @@ Procedure CheckAndroidPackageID(ID$)
         For i = 1 To Len(Field$)
           Char$ = LCase(Mid(Field$, i, 1))
           If (Char$ < "a" Or Char$ > "z") And (Char$ < "0" Or Char$ > "9")  And Char$ <> "_" ; a field can only contains ascii chars and numbers
-            ProcedureReturn 0             
+            ProcedureReturn 0
           EndIf
         Next
       Next
@@ -308,7 +308,7 @@ Procedure CreateAppWindowEvents(EventID)
     Case #PB_Event_CloseWindow
       CloseCreateAppWindow()
       
-    Case #PB_Event_Gadget        
+    Case #PB_Event_Gadget
     
       Select GadgetID
           
@@ -359,7 +359,7 @@ Procedure CreateAppWindowEvents(EventID)
           
         Case #GADGET_iOSApp_CheckInstall
           If MessageRequester(#ProductName$, Language("iOSApp","DoCheckInstall"), #FLAG_Info | #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
-            RunProgram("open", "-a Terminal.app " + #DQUOTE$ + PureBasicPath$ + "install-cordova.sh" + #DQUOTE$, "", #PB_Program_Wait) 
+            RunProgram("open", "-a Terminal.app " + #DQUOTE$ + PureBasicPath$ + "install-cordova.sh" + #DQUOTE$, "", #PB_Program_Wait)
           EndIf
           
         Case #GADGET_App_OK
@@ -388,13 +388,13 @@ Procedure CreateAppWindowEvents(EventID)
                     If RunProgram(*CurrentAppTarget\ExportCommandLine$, *CurrentAppTarget\ExportArguments$, GetPathPart(*CurrentAppTarget\FileName$))
                       Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportCommandLineSuccess", "%commandline%", *CurrentAppTarget\ExportCommandLine$), Date())
                     Else
-                      MessageRequester(#ProductName$, LanguagePattern("Compiler", "ExportCommandLineError", "%commandline%", *CurrentAppTarget\ExportCommandLine$), #FLAG_ERROR)        
-                    EndIf  
+                      MessageRequester(#ProductName$, LanguagePattern("Compiler", "ExportCommandLineError", "%commandline%", *CurrentAppTarget\ExportCommandLine$), #FLAG_ERROR)
+                    EndIf
                   EndIf
                 EndIf
                 
               Else
-                MessageRequester(#ProductName$, Language("Compiler","ExportHtmlMissingError"), #FLAG_ERROR)        
+                MessageRequester(#ProductName$, Language("Compiler","ExportHtmlMissingError"), #FLAG_ERROR)
               EndIf
               
             Case 1 ; iOS
@@ -414,7 +414,7 @@ Procedure CreateAppWindowEvents(EventID)
                 ElseIf FileSize("/usr/local/bin/cordova") = -1
                   
                   If MessageRequester(#ProductName$, Language("iOSApp","NoCordova"), #FLAG_Error | #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
-                    RunProgram("open", "-a Terminal.app " + #DQUOTE$ + PureBasicPath$ + "install-cordova.sh" + #DQUOTE$, "", #PB_Program_Wait) 
+                    RunProgram("open", "-a Terminal.app " + #DQUOTE$ + PureBasicPath$ + "install-cordova.sh" + #DQUOTE$, "", #PB_Program_Wait)
                   EndIf
                   
                 Else

@@ -16,13 +16,13 @@ XIncludeFile "GetRequiredSize.pb"
 ;  only the default options (see Object_Base.pb)
 ;
 ;
-; for ComboBox: 
+; for ComboBox:
 ;   boxheight = size of the dropdown Box (Default=200)
 ;
 ; for scrollbar:
 ;   min, max, page
 ;
-; 
+;
 ; Note: A ListIcon is created with 1 column, but if <column> is used, the default column is removed
 ;
 
@@ -66,13 +66,13 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
     *THIS.DlgGadget = AllocateMemory(SizeOf(DlgGadget))
   EndIf
   
-  If *THIS    
-    ; 
+  If *THIS
+    ;
     ; Note: Most Gadgets have the same stuff to do. (gtk_size_request simply), so this object
     ;  represents most gadgets. Some (like list, tree etc) do not do a size_request, but simply
     ;  return the minimal value. these use a separate vtable. finally, combobox is a bit special,
     ;  because of the meaning of its height parameter.
-    ;     
+    ;
     *THIS\VTable     = ?DlgGadget_VTable
     *THIS\StaticData = *StaticData
     *THIS\HasTitle   = #True
@@ -80,8 +80,8 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
     
     Select *StaticData\Type
     
-      Case #DIALOG_Text        
-        *THIS\Gadget = TextGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)                  
+      Case #DIALOG_Text
+        *THIS\Gadget = TextGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)
     
       Case #DIALOG_String
         *THIS\Gadget = StringGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)
@@ -101,7 +101,7 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
         *THIS\HasTitle = #False
         
       Case #DIALOG_Checkbox
-        *THIS\Gadget = CheckBoxGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags) 
+        *THIS\Gadget = CheckBoxGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)
         
       Case #DIALOG_Option
         *THIS\Gadget = OptionGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData))
@@ -113,8 +113,8 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
         
       Case #DIALOG_ListIcon
         *THIS\VTable   = ?DlgFixedGadget_VTable
-        *THIS\Gadget   = ListIconGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), 300, *StaticData\Flags)        
-        *THIS\HasTitle = #False        
+        *THIS\Gadget   = ListIconGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), 300, *StaticData\Flags)
+        *THIS\HasTitle = #False
         
       Case #DIALOG_Tree
         *THIS\VTable   = ?DlgFixedGadget_VTable
@@ -129,8 +129,8 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
         
         Case #DIALOG_ExplorerList
           *THIS\VTable   = ?DlgFixedGadget_VTable
-          *THIS\Gadget   = ExplorerListGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)        
-          *THIS\HasTitle = #True        
+          *THIS\Gadget   = ExplorerListGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)
+          *THIS\HasTitle = #True
           
         Case #DIALOG_ExplorerTree
           *THIS\VTable   = ?DlgFixedGadget_VTable
@@ -139,9 +139,9 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
   
         Case #DIALOG_ExplorerCombo
           *THIS\Gadget   = ExplorerComboGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)
-          *THIS\HasTitle = #True      
+          *THIS\HasTitle = #True
         
-      CompilerEndIf        
+      CompilerEndIf
            
       Case #DIALOG_Editor
         *THIS\VTable   = ?DlgFixedGadget_VTable
@@ -152,9 +152,9 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
           Else
             SetGadgetText(*StaticData\Gadget, DialogObjectText(*StaticData))
           EndIf
-        EndIf       
+        EndIf
       
-      CompilerIf Defined(DIALOG_USE_SCINTILLA, #PB_Constant)  
+      CompilerIf Defined(DIALOG_USE_SCINTILLA, #PB_Constant)
       
         Case #DIALOG_Scintilla
           *THIS\VTable   = ?DlgFixedGadget_VTable
@@ -182,7 +182,7 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
           Page = Val(Value$)
         Else
           Page = 10
-        EndIf                        
+        EndIf
       
         *THIS\VTable   = ?DlgFixedGadget_VTable
         *THIS\Gadget   = ScrollBarGadget(*StaticData\Gadget, 0, 0, 0, 0, Min, Max, Page, *StaticData\Flags)
@@ -222,16 +222,16 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
         EndIf
         
         *THIS\VTable   = ?DlgFixedGadget_VTable
-        *THIS\Gadget   = TrackBarGadget(*StaticData\Gadget, 0, 0, 0, 0, Min, Max, *StaticData\Flags)        
+        *THIS\Gadget   = TrackBarGadget(*StaticData\Gadget, 0, 0, 0, 0, Min, Max, *StaticData\Flags)
        
-      Case #DIALOG_HyperLink    
+      Case #DIALOG_HyperLink
         Value$ = DialogObjectKey(*StaticData, "COLOR")
         If Value$
           Color = Val(Value$)
         Else
           Color = 0
-        EndIf    
-        *THIS\Gadget = HyperLinkGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), Color, *StaticData\Flags)                  
+        EndIf
+        *THIS\Gadget = HyperLinkGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), Color, *StaticData\Flags)
            
        
     EndSelect
@@ -246,7 +246,7 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
 EndProcedure
 
 ; for the gadgets that can handle child items in the xml (combobox, tree, listicon (for columns))
-Procedure DlgGadget_AddItem(*Gadget.DlgItemGadget, *StaticData.DialogObjectData)  
+Procedure DlgGadget_AddItem(*Gadget.DlgItemGadget, *StaticData.DialogObjectData)
   If *StaticData\Type = #DIALOG_Item
     AddGadgetItem(*Gadget\Gadget, *Gadget\NbItems, DialogObjectText(*StaticData), 0, *StaticData\Flags) ; flags stores the sublevel for tree items
   Else
@@ -257,7 +257,7 @@ Procedure DlgGadget_AddItem(*Gadget.DlgItemGadget, *StaticData.DialogObjectData)
       If GadgetType(*Gadget\Gadget) = #PB_GadgetType_ListIcon
         RemoveGadgetColumn(*Gadget\Gadget, 0)
       Else
-        CompilerIf #CompileMac = 0 ; no columns support on OSX for explorerlist      
+        CompilerIf #CompileMac = 0 ; no columns support on OSX for explorerlist
           For i = 1 To 4 ; 4 default columns
             RemoveGadgetColumn(*Gadget\Gadget, 0)
           Next i
@@ -274,7 +274,7 @@ EndProcedure
 
 
 Procedure DlgGadget_SizeRequest(*THIS.DlgGadget, *Width.LONG, *Height.LONG)
-  GetRequiredSize(*THIS\Gadget, *Width, *Height, *THIS\StaticData\Flags)  
+  GetRequiredSize(*THIS\Gadget, *Width, *Height, *THIS\StaticData\Flags)
   *Width\l  = Max(*Width\l, *THIS\StaticData\MinWidth)
   *Height\l = Max(*Height\l, *THIS\StaticData\MinHeight)
 EndProcedure
@@ -286,7 +286,7 @@ Procedure DlgGadget_Update(*THIS.DlgGadget)
   EndIf
   
   ; Update itemlists / columns
-  If *THIS\StaticData\Type = #DIALOG_ComboBox Or *THIS\StaticData\Type = #DIALOG_Tree 
+  If *THIS\StaticData\Type = #DIALOG_ComboBox Or *THIS\StaticData\Type = #DIALOG_Tree
     selection = GetGadgetState(*THIS\Gadget)
     *List.DlgItemGadget = *THIS
     For i = 0 To *List\NbItems -1
@@ -300,7 +300,7 @@ Procedure DlgGadget_Update(*THIS.DlgGadget)
       SetGadgetItemText(*THIS\Gadget, -1, DialogObjectText(*List\Items[i]), i) ; change column title
     Next i
   
-  EndIf  
+  EndIf
 EndProcedure
 
 Procedure DlgGadget_SizeApply(*THIS.DlgGadget, x.l, y.l, Width.l, Height.l)
@@ -318,7 +318,7 @@ Procedure DlgGadget_SizeApply(*THIS.DlgGadget, x.l, y.l, Width.l, Height.l)
   ;
   ;CompilerIf #CompileWindows Or #CompileMacCocoa
     If *THIS\StaticData\Type = #DIALOG_Text And *THIS\StaticData\Flags & #PB_Text_Border = 0
-      NeededHeight = Max(*THIS\StaticData\MinHeight, GetRequiredHeight(*THIS\Gadget, *THIS\StaticData\Flags))      
+      NeededHeight = Max(*THIS\StaticData\MinHeight, GetRequiredHeight(*THIS\Gadget, *THIS\StaticData\Flags))
       If NeededHeight <= Height-2
         ResizeGadget(*THIS\Gadget, x, y+2, Width, Height-2)
         ProcedureReturn
@@ -338,17 +338,17 @@ Procedure DlgListView_SizeRequest(*THIS.DlgGadget, *Width.LONG, *Height.LONG)
   ;   never a partial one. So there can be an ugly gap at the bottom if the size
   ;   is not a multiple if the item height. So we request a size that is a multiple
   ;   of that on windows for a better look:
-  ;  
+  ;
   CompilerIf #CompileWindows
     ItemHeight = SendMessage_(GadgetID(*THIS\Gadget), #LB_GETITEMHEIGHT, 0, 0)
     
     If ItemHeight > 0
-      Border = GetSystemMetrics_(#SM_CYEDGE)*2          
+      Border = GetSystemMetrics_(#SM_CYEDGE)*2
       Count  = (*Height\l - Border) / ItemHeight
       
       If (Count * ItemHeight + Border) < *Height\l
         *Height\l = (Count+1) * ItemHeight + Border
-      EndIf    
+      EndIf
     EndIf
   CompilerEndIf
 EndProcedure
@@ -381,7 +381,7 @@ DataSection
     
     
   ; Special VTable for ListView on windows
-  ; As we use a special way for height request 
+  ; As we use a special way for height request
   ;
   DlgListView_VTable:
     Data.i @DlgBase_SizeRequestWrapper()
@@ -392,7 +392,7 @@ DataSection
     Data.i @DlgBase_Find()
     Data.i @DlgBase_Finish()
     Data.i @DlgGadget_Update()
-    Data.i @DlgBase_Destroy()  
+    Data.i @DlgBase_Destroy()
 
 
 EndDataSection

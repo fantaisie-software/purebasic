@@ -16,10 +16,10 @@ Prototype ColorPicker_Mode_Setup(*Entry, CanvasX, CanvasY, CanvasWidth, CanvasHe
 Prototype ColorPicker_Mode_Event(*Entry, Gadget, Type)
 
 Structure ColorPickerData Extends ToolsPanelEntry
-  Mode$       ; current mode  
+  Mode$       ; current mode
   RGBColor.l  ; current RGB color (no alpha component)
   
-  ; for alpha mode  
+  ; for alpha mode
   UseAlpha.l
   VerticalAlpha.l ; if true, draw alpha above solid in the color field
   a.f
@@ -49,7 +49,7 @@ Structure ColorPickerData Extends ToolsPanelEntry
   ; for Palette/Name
   First.l
   Rows.l
-  Cols.l  
+  Cols.l
   RowHeight.l
   BoxWidth.l
   Palette$
@@ -68,7 +68,7 @@ Structure Palette
   ID$
   Name$
   Count.l
-  Array Entry.ColorEntry(0)   
+  Array Entry.ColorEntry(0)
 EndStructure
 
 Structure ColorHistory
@@ -85,7 +85,7 @@ Global NewList PaletteList.Palette()
 Global *Palette.Palette
 Global FilteredPalette.Palette ; this is always a filtered copy of the current palette
 
-Declare ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHeight) 
+Declare ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHeight)
 Declare ColorPicker_UpdateColor(*Entry.ColorPickerData, Color)
 Declare ColorPicker_TriggerResize(*Entry.ColorPickerData)
 
@@ -127,7 +127,7 @@ Procedure ColorPicker_LoadPalettes(*Entry.ColorPickerData)
                 PaletteList()\Count + 1
               EndIf
               *Color = NextXMLNode(*Color)
-            Wend            
+            Wend
             If PaletteList()\Count > 0
               Dim PaletteList()\Entry(PaletteList()\Count-1)
             EndIf
@@ -145,7 +145,7 @@ Procedure ColorPicker_LoadPalettes(*Entry.ColorPickerData)
                 i + 1
               EndIf
               *Color = NextXMLNode(*Color)
-            Wend            
+            Wend
           EndIf
           *Palette = NextXMLNode(*Palette)
         Wend
@@ -164,7 +164,7 @@ Procedure ColorPicker_LoadPalettes(*Entry.ColorPickerData)
     EndIf
         
     FirstElement(PaletteList())
-    *Palette = @PaletteList()       
+    *Palette = @PaletteList()
     
   
     ; fill the combobox
@@ -178,8 +178,8 @@ Procedure ColorPicker_LoadPalettes(*Entry.ColorPickerData)
         *Palette = @PaletteList()
       EndIf
     Next PaletteList()
-    SetGadgetState(#GADGET_Color_Scheme, index)    
-  EndIf  
+    SetGadgetState(#GADGET_Color_Scheme, index)
+  EndIf
 
 EndProcedure
 
@@ -191,7 +191,7 @@ Procedure ColorPicker_TransparentFilter(x, y, SourceColor, TargetColor)
     ProcedureReturn AlphaBlend(SourceColor, $FFC0C0C0)
   Else
     ProcedureReturn AlphaBlend(SourceColor, $FFFFFFFF)
-  EndIf  
+  EndIf
 EndProcedure
 
 
@@ -212,7 +212,7 @@ EndProcedure
 ; Draw a double arrow marker for slides
 ;
 Procedure ColorPicker_DrawArrow(x, y1, y2)
-  Line(x-4, y1,   9, 1, $FFFFFF) 
+  Line(x-4, y1,   9, 1, $FFFFFF)
   Line(x-3, y1+1, 7, 1, $FFFFFF)
   Line(x-2, y1+2, 5, 1, $FFFFFF)
   Line(x-1, y1+3, 3, 1, $FFFFFF)
@@ -222,11 +222,11 @@ Procedure ColorPicker_DrawArrow(x, y1, y2)
   Line(x-1, y1+2, 3, 1, $000000)
   Line(x,   y1+3, 1, 1, $000000)
   
-  Line(x-4, y2,   9, 1, $FFFFFF) 
+  Line(x-4, y2,   9, 1, $FFFFFF)
   Line(x-3, y2-1, 7, 1, $FFFFFF)
   Line(x-2, y2-2, 5, 1, $FFFFFF)
   Line(x-1, y2-3, 3, 1, $FFFFFF)
-  Line(x,   y2-4, 1, 1, $FFFFFF) 
+  Line(x,   y2-4, 1, 1, $FFFFFF)
   Line(x-3, y2,   7, 1, $000000)
   Line(x-2, y2-1, 5, 1, $000000)
   Line(x-1, y2-2, 3, 1, $000000)
@@ -307,7 +307,7 @@ Procedure ColorPicker_RGB_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canvas
   
   ResizeGadget(#GADGET_Color_Canvas1, CanvasX+LabelWidth, CanvasY+5,  CanvasWidth-LabelWidth, 30)
   ResizeGadget(#GADGET_Color_Canvas2, CanvasX+LabelWidth, CanvasY+45, CanvasWidth-LabelWidth, 30)
-  ResizeGadget(#GADGET_Color_Canvas3, CanvasX+LabelWidth, CanvasY+85, CanvasWidth-LabelWidth, 30)  
+  ResizeGadget(#GADGET_Color_Canvas3, CanvasX+LabelWidth, CanvasY+85, CanvasWidth-LabelWidth, 30)
   
   ; Get the current color
   ;
@@ -322,7 +322,7 @@ EndProcedure
 
 
 Procedure ColorPicker_RGB_Event(*Entry.ColorPickerData, Gadget, Type)
-  If Gadget = #GADGET_Color_Canvas1 Or Gadget = #GADGET_Color_Canvas2 Or Gadget = #GADGET_Color_Canvas3  
+  If Gadget = #GADGET_Color_Canvas1 Or Gadget = #GADGET_Color_Canvas2 Or Gadget = #GADGET_Color_Canvas3
     If Type = #PB_EventType_LeftButtonDown Or (Type = #PB_EventType_MouseMove And GetGadgetAttribute(Gadget, #PB_Canvas_Buttons) & #PB_Canvas_LeftButton)
     
       value.f = (GetGadgetAttribute(Gadget, #PB_Canvas_MouseX) - 1) / (DesktopScaledX(GadgetWidth(Gadget)) - 3)
@@ -333,11 +333,11 @@ Procedure ColorPicker_RGB_Event(*Entry.ColorPickerData, Gadget, Type)
         Case #GADGET_Color_Canvas1: *Entry\r = value
         Case #GADGET_Color_Canvas2: *Entry\g = value
         Case #GADGET_Color_Canvas3: *Entry\b = value
-      EndSelect      
+      EndSelect
     
       *Entry\RGBColor = RGB(*Entry\r * 255, *Entry\g * 255, *Entry\b * 255)
       ColorPicker_RGB_Update(*Entry)
-    EndIf  
+    EndIf
   EndIf
 EndProcedure
 
@@ -349,7 +349,7 @@ Procedure ColorPicker_HSV_Update(*Entry.ColorPickerData, DrawAll)
   ; change it if the hue changed as it is quite slow to draw
   ;
   If DrawAll
-    If StartDrawing(ImageOutput(#IMAGE_Color_Content2))    
+    If StartDrawing(ImageOutput(#IMAGE_Color_Content2))
       w = OutputWidth()
       h = OutputHeight()
       Box(0, 0, w, h, $000000)
@@ -358,7 +358,7 @@ Procedure ColorPicker_HSV_Update(*Entry.ColorPickerData, DrawAll)
         For y = 0 To h-3
           Plot(1+x, 1+y, HSVToRGB(*Entry\h, x / (w-3), 1.0-(y / (h-3))))
         Next y
-      Next x      
+      Next x
     
       StopDrawing()
     EndIf
@@ -367,22 +367,22 @@ Procedure ColorPicker_HSV_Update(*Entry.ColorPickerData, DrawAll)
   ;  redraw the canvases with new markers
   ;
   If StartDrawing(CanvasOutput(#GADGET_Color_Canvas1))
-    DrawImage(ImageID(#IMAGE_Color_Content1), 0, 0)  
+    DrawImage(ImageID(#IMAGE_Color_Content1), 0, 0)
     ColorPicker_DrawArrow(1 + Int((*Entry\h * (OutputWidth() - 3)) / 360.0), 1, DesktopScaledY(28))
     StopDrawing()
-  EndIf  
+  EndIf
   
-  If StartDrawing(CanvasOutput(#GADGET_Color_Canvas2))  
-    DrawImage(ImageID(#IMAGE_Color_Content2), 0, 0)   
+  If StartDrawing(CanvasOutput(#GADGET_Color_Canvas2))
+    DrawImage(ImageID(#IMAGE_Color_Content2), 0, 0)
     ColorPicker_DrawCross(1 + Int(*Entry\s * (OutputWidth()-3)), 1 + Int((1.0 - *Entry\v) * (OutputHeight()-3)))
     StopDrawing()
-  EndIf    
+  EndIf
    
   ColorPicker_UpdateColor(*Entry, HSVToRGB(*Entry\h, *Entry\s, *Entry\v))
 EndProcedure
 
 
-Procedure ColorPicker_HSV_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, CanvasWidth, CanvasHeight)    
+Procedure ColorPicker_HSV_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, CanvasWidth, CanvasHeight)
   
   ; Limit the height to a 4/3 ratio to avoid an overly long picker area
   If CanvasHeight*3 > CanvasWidth*4
@@ -394,7 +394,7 @@ Procedure ColorPicker_HSV_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canvas
   ImageWidth = DesktopScaledX(CanvasWidth)
   ImageHeight = DesktopScaledY(CanvasHeight)
   
-  CreateImage(#IMAGE_Color_Content1, ImageWidth, ImageHeight, 24) 
+  CreateImage(#IMAGE_Color_Content1, ImageWidth, ImageHeight, 24)
   If StartDrawing(ImageOutput(#IMAGE_Color_Content1))
     Box(0, 0, ImageWidth, ImageHeight, $000000)
     For x = 0 To ImageWidth-3
@@ -410,7 +410,7 @@ Procedure ColorPicker_HSV_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canvas
   
   HideGadget(#GADGET_Color_Canvas1, 0)
   HideGadget(#GADGET_Color_Canvas2, 0)
-  HideGadget(#GADGET_Color_Canvas3, 1)  
+  HideGadget(#GADGET_Color_Canvas3, 1)
   HideGadget(#GADGET_Color_Scheme, 1)
   HideGadget(#GADGET_Color_Scroll, 1)
   HideGadget(#GADGET_Color_Filter, 1)
@@ -419,32 +419,32 @@ Procedure ColorPicker_HSV_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canvas
   HideGadget(#GADGET_Color_Label3, 1)
   
   ResizeGadget(#GADGET_Color_Canvas1, CanvasX, CanvasY, CanvasWidth, 30)
-  ResizeGadget(#GADGET_Color_Canvas2, CanvasX, CanvasY+35, CanvasWidth, CanvasHeight-35)  
+  ResizeGadget(#GADGET_Color_Canvas2, CanvasX, CanvasY+35, CanvasWidth, CanvasHeight-35)
   
-  ColorPicker_HSV_Update(*Entry, #True)  
+  ColorPicker_HSV_Update(*Entry, #True)
   
   ProcedureReturn CanvasHeight ; actual height used
 EndProcedure
 
 
 Procedure ColorPicker_HSV_Event(*Entry.ColorPickerData, Gadget, Type)
-  If Gadget = #GADGET_Color_Canvas1 
+  If Gadget = #GADGET_Color_Canvas1
     If Type = #PB_EventType_LeftButtonDown Or (Type = #PB_EventType_MouseMove And GetGadgetAttribute(#GADGET_Color_Canvas1, #PB_Canvas_Buttons) & #PB_Canvas_LeftButton)
       *Entry\h = ((GetGadgetAttribute(#GADGET_Color_Canvas1, #PB_Canvas_MouseX) - 1) * 360.0) / (DesktopScaledX(GadgetWidth(#GADGET_Color_Canvas1)) - 3)
       If *Entry\h < 0: *Entry\h = 0: EndIf
-      If *Entry\h >= 360: value = 360: EndIf   
-      ColorPicker_HSV_Update(*Entry, #True) ; redraw main area 
-    EndIf  
+      If *Entry\h >= 360: value = 360: EndIf
+      ColorPicker_HSV_Update(*Entry, #True) ; redraw main area
+    EndIf
   ElseIf Gadget = #GADGET_Color_Canvas2
     If Type = #PB_EventType_LeftButtonDown Or (Type = #PB_EventType_MouseMove And GetGadgetAttribute(#GADGET_Color_Canvas2, #PB_Canvas_Buttons) & #PB_Canvas_LeftButton)
       *Entry\s = (GetGadgetAttribute(#GADGET_Color_Canvas2, #PB_Canvas_MouseX)-1) / (DesktopScaledX(GadgetWidth(#GADGET_Color_Canvas2))-3)
       *Entry\v = 1.0 - (GetGadgetAttribute(#GADGET_Color_Canvas2, #PB_Canvas_MouseY)-1) / (DesktopScaledX(GadgetHeight(#GADGET_Color_Canvas2))-3)
       If *Entry\s < 0: *Entry\s = 0: EndIf
-      If *Entry\s > 1: *Entry\s = 1: EndIf           
+      If *Entry\s > 1: *Entry\s = 1: EndIf
       If *Entry\v < 0: *Entry\v = 0: EndIf
       If *Entry\v > 1: *Entry\v = 1: EndIf
       ColorPicker_HSV_Update(*Entry, #False)     ; no redraw of the s/v area
-    EndIf    
+    EndIf
   EndIf
 EndProcedure
 
@@ -471,7 +471,7 @@ Procedure ColorPicker_HSL_Update(*Entry.ColorPickerData)
   ColorPicker_UpdateColor(*Entry, HSLToRGB(*Entry\h, *Entry\s, *Entry\l))
 EndProcedure
 
-Procedure ColorPicker_HSL_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, CanvasWidth, CanvasHeight)  
+Procedure ColorPicker_HSL_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, CanvasWidth, CanvasHeight)
 
   ; Limit the height to a 4/3 ratio to avoid an overly long picker area
   If CanvasHeight*3 > CanvasWidth*4
@@ -482,7 +482,7 @@ Procedure ColorPicker_HSL_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canvas
   ImageWidth = DesktopScaledX(CanvasWidth)
   ImageHeight = DesktopScaledY(CanvasHeight)
   
-  CreateImage(#IMAGE_Color_Content1, ImageWidth, ImageHeight -35, 24) 
+  CreateImage(#IMAGE_Color_Content1, ImageWidth, ImageHeight -35, 24)
   If StartDrawing(ImageOutput(#IMAGE_Color_Content1))
     Box(0, 0, w, ImageHeight-35, $000000)
     For x = 0 To ImageWidth-3
@@ -491,9 +491,9 @@ Procedure ColorPicker_HSL_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canvas
       Next y
     Next x
     StopDrawing()
-  EndIf  
+  EndIf
 
-  RGBToHSL(*Entry\RGBColor, @*Entry\h, @*Entry\s, @*Entry\l)  
+  RGBToHSL(*Entry\RGBColor, @*Entry\h, @*Entry\s, @*Entry\l)
   
   HideGadget(#GADGET_Color_Canvas1, 0)
   HideGadget(#GADGET_Color_Canvas2, 0)
@@ -506,31 +506,31 @@ Procedure ColorPicker_HSL_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canvas
   HideGadget(#GADGET_Color_Label3, 1)
   
   ResizeGadget(#GADGET_Color_Canvas1, CanvasX, CanvasY, CanvasWidth, CanvasHeight-35)
-  ResizeGadget(#GADGET_Color_Canvas2, CanvasX, CanvasY+CanvasHeight-30, CanvasWidth, 30)  
+  ResizeGadget(#GADGET_Color_Canvas2, CanvasX, CanvasY+CanvasHeight-30, CanvasWidth, 30)
 
-  ColorPicker_HSL_Update(*Entry)  
+  ColorPicker_HSL_Update(*Entry)
   
   ProcedureReturn CanvasHeight ; actual height used
 EndProcedure
 
 Procedure ColorPicker_HSL_Event(*Entry.ColorPickerData, Gadget, Type)
-  If Gadget = #GADGET_Color_Canvas1 
+  If Gadget = #GADGET_Color_Canvas1
     If Type = #PB_EventType_LeftButtonDown Or (Type = #PB_EventType_MouseMove And GetGadgetAttribute(#GADGET_Color_Canvas1, #PB_Canvas_Buttons) & #PB_Canvas_LeftButton)
       *Entry\h = ((GetGadgetAttribute(#GADGET_Color_Canvas1, #PB_Canvas_MouseX)-1) * 360.0) / (DesktopScaledX(GadgetWidth(#GADGET_Color_Canvas1))-3)
       *Entry\s = 1.0 - (GetGadgetAttribute(#GADGET_Color_Canvas1, #PB_Canvas_MouseY)-1) / (DesktopScaledY(GadgetHeight(#GADGET_Color_Canvas1))-2)
       If *Entry\h < 0: *Entry\h = 0: EndIf
-      If *Entry\h >= 360.0: *Entry\h = 360: EndIf           
+      If *Entry\h >= 360.0: *Entry\h = 360: EndIf
       If *Entry\s <= 0: *Entry\s = 0.001: EndIf
       If *Entry\s > 1: *Entry\s = 1: EndIf
-      ColorPicker_HSL_Update(*Entry)    
-    EndIf  
+      ColorPicker_HSL_Update(*Entry)
+    EndIf
   ElseIf Gadget = #GADGET_Color_Canvas2
     If Type = #PB_EventType_LeftButtonDown Or (Type = #PB_EventType_MouseMove And GetGadgetAttribute(#GADGET_Color_Canvas2, #PB_Canvas_Buttons) & #PB_Canvas_LeftButton)
       *Entry\l = (GetGadgetAttribute(#GADGET_Color_Canvas2, #PB_Canvas_MouseX)-1) / (DesktopScaledX(GadgetWidth(#GADGET_Color_Canvas2))-3)
       If *Entry\l < 0: *Entry\l = 0: EndIf
-      If *Entry\l > 1: *Entry\l = 1: EndIf      
-      ColorPicker_HSL_Update(*Entry)    
-    EndIf    
+      If *Entry\l > 1: *Entry\l = 1: EndIf
+      ColorPicker_HSL_Update(*Entry)
+    EndIf
   EndIf
 EndProcedure
 
@@ -546,14 +546,14 @@ Procedure Rotate(Angle.f, *x.FLOAT, *y.FLOAT)
   *y\f = y
 EndProcedure
 
-Procedure ColorPicker_WheelFilter(x, y, SourceColor, TargetColor) 
-  Center  = OutputWidth() / 2  
+Procedure ColorPicker_WheelFilter(x, y, SourceColor, TargetColor)
+  Center  = OutputWidth() / 2
   Angle.f = Mod(Degree(ATan2(x-Center, y-Center)) + 360, 360)
-  ProcedureReturn HueToRGB(Angle)  
+  ProcedureReturn HueToRGB(Angle)
 EndProcedure
 
 Procedure ColorPicker_WheelCenterFilter(x, y, SourceColor, TargetColor)
-  Center = OutputWidth() / 2  
+  Center = OutputWidth() / 2
 
   ; first rotate the x/y around the center by the negative (hue+30) degrees
   ; so the triangle is upright, with the v direction parallel to the y axis and
@@ -585,33 +585,33 @@ Procedure ColorPicker_Wheel_Update(*Entry.ColorPickerData, DrawAll)
   If DrawAll
     If StartDrawing(ImageOutput(#IMAGE_Color_Content1))
       w = OutputWidth()
-      h = OutputHeight()    
+      h = OutputHeight()
       Center = w / 2
       Radius = w / 2 - 10
     
       ; clear the center
       DrawingMode(#PB_2DDrawing_Default)
-      Circle(Center, Center, *Entry\TriangleRadius, $FFFFFF)    
+      Circle(Center, Center, *Entry\TriangleRadius, $FFFFFF)
       DrawingMode(#PB_2DDrawing_Outlined)
       Circle(Center, Center, *Entry\TriangleRadius, $000000)
       
-      ; draw the triangle         
+      ; draw the triangle
       x1 = Center + Cos(Radian(*Entry\h)) * (*Entry\TriangleRadius-2) ; inner radius at hue
       y1 = Center + Sin(Radian(*Entry\h)) * (*Entry\TriangleRadius-2)
       x2 = Center + Cos(Radian(*Entry\h + 120.0)) * (*Entry\TriangleRadius-2) ; inner radius at full v
       y2 = Center + Sin(Radian(*Entry\h + 120.0)) * (*Entry\TriangleRadius-2)
       x3 = Center + Cos(Radian(*Entry\h + 240.0)) * (*Entry\TriangleRadius-2) ; inner radius at full s
-      y3 = Center + Sin(Radian(*Entry\h + 240.0)) * (*Entry\TriangleRadius-2)    
+      y3 = Center + Sin(Radian(*Entry\h + 240.0)) * (*Entry\TriangleRadius-2)
 
-      DrawingMode(#PB_2DDrawing_Default)      
+      DrawingMode(#PB_2DDrawing_Default)
       LineXY(x1, y1, x2, y2, $000000)
       LineXY(x1, y1, x3, y3, $000000)
-      LineXY(x2, y2, x3, y3, $000000)   
+      LineXY(x2, y2, x3, y3, $000000)
 
       ; fill the triangle
       DrawingMode(#PB_2DDrawing_CustomFilter)
       CustomFilterCallback(@ColorPicker_WheelCenterFilter())
-      FillArea(Center, Center, $000000)    
+      FillArea(Center, Center, $000000)
       
       StopDrawing()
     EndIf
@@ -621,12 +621,12 @@ Procedure ColorPicker_Wheel_Update(*Entry.ColorPickerData, DrawAll)
     DrawImage(ImageID(#IMAGE_Color_Content1), 0, 0)
 
     w = OutputWidth()
-    h = OutputHeight()    
+    h = OutputHeight()
     Center = w / 2
     Radius = w / 2 - 10
     
     x0 = Center + Cos(Radian(*Entry\h)) * (Radius-1)  ; outer radius at hue
-    y0 = Center + Sin(Radian(*Entry\h)) * (Radius-1)            
+    y0 = Center + Sin(Radian(*Entry\h)) * (Radius-1)
     x1 = Center + Cos(Radian(*Entry\h)) * (*Entry\TriangleRadius+1) ; inner radius at hue
     y1 = Center + Sin(Radian(*Entry\h)) * (*Entry\TriangleRadius+1)
     LineXY(x0, y0, x1, y1, $FFFFFF)
@@ -634,7 +634,7 @@ Procedure ColorPicker_Wheel_Update(*Entry.ColorPickerData, DrawAll)
     ; draw the cross marker
     ; do the action from the WheelCenterFilter() in reverse order
     ;
-    DrawingMode(#PB_2DDrawing_Default)    
+    DrawingMode(#PB_2DDrawing_Default)
     r_x.f = - ((*Entry\TriangleSide * *Entry\v) / 2) + (*Entry\s * (*Entry\TriangleSide * *Entry\v))
     r_y.f = - (*Entry\TriangleHeight / 3) + ((1.0 - *Entry\v) * *Entry\TriangleHeight)
     Rotate(*Entry\h + 30.0, @r_x, @r_y)
@@ -673,7 +673,7 @@ Procedure ColorPicker_Wheel_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canv
       *Entry\TriangleRadius = Radius - 30
     Else
       *Entry\TriangleRadius  = Radius * 0.85
-    EndIf      
+    EndIf
     
    ; Precalculate some values
    ; The triangle in the middle is an equilateral triangle, so these are simple to calculate
@@ -683,14 +683,14 @@ Procedure ColorPicker_Wheel_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canv
    *Entry\TriangleHeight = (3.0 * *Entry\TriangleRadius) / 2.0
     
     DrawingMode(#PB_2DDrawing_CustomFilter)
-    CustomFilterCallback(@ColorPicker_WheelFilter())    
+    CustomFilterCallback(@ColorPicker_WheelFilter())
     Circle(Center, Center, Radius)
 
     DrawingMode(#PB_2DDrawing_Outlined)
     Circle(Center, Center, Radius, $000000)
              
     StopDrawing()
-  EndIf  
+  EndIf
 
   RGBToHSV(*Entry\RGBColor, @*Entry\h, @*Entry\s, @*Entry\v)
 
@@ -714,7 +714,7 @@ EndProcedure
 Procedure ColorPicker_Wheel_Event(*Entry.ColorPickerData, Gadget, Type)
   Static State
 
-  If Gadget = #GADGET_Color_Canvas1 
+  If Gadget = #GADGET_Color_Canvas1
     ; get info
     w = DesktopScaledX(GadgetWidth(#GADGET_Color_Canvas1))
     h = DesktopScaledY(GadgetHeight(#GADGET_Color_Canvas1))
@@ -722,7 +722,7 @@ Procedure ColorPicker_Wheel_Event(*Entry.ColorPickerData, Gadget, Type)
     y = GetGadgetAttribute(#GADGET_Color_Canvas1, #PB_Canvas_MouseY)
     
     Center = w / 2
-    Radius = (w / 2) - 10    
+    Radius = (w / 2) - 10
   
   
     ; handle event
@@ -735,12 +735,12 @@ Procedure ColorPicker_Wheel_Event(*Entry.ColorPickerData, Gadget, Type)
           State = 2 ; Mouse down in V/S area
         ElseIf Distance <= Radius
           State = 1 ; Mouse down in H area
-        EndIf          
+        EndIf
             
       Case #PB_EventType_LeftButtonUp
         State = 0
         
-    EndSelect  
+    EndSelect
     
     ; update values
     Select State
@@ -752,14 +752,14 @@ Procedure ColorPicker_Wheel_Event(*Entry.ColorPickerData, Gadget, Type)
       Case 2
         ; same action as the WheelCenterFilter()
         r_x.f = x - Center
-        r_y.f = y - Center      
+        r_y.f = y - Center
         Rotate(-(*Entry\h + 30.0), @r_x, @r_y)
         
         ; calculate v first, as we need it for s
         *Entry\v = 1.0 - ((r_y + (*Entry\TriangleHeight / 3.0)) / *ColorPicker\TriangleHeight)
         If *Entry\v < 0: *Entry\v = 0: EndIf
-        If *Entry\v > 1: *Entry\v = 1: EndIf            
-        *Entry\s = (r_x + ((*Entry\TriangleSide * *Entry\v) /  2.0)) / (*Entry\TriangleSide * *Entry\v)      
+        If *Entry\v > 1: *Entry\v = 1: EndIf
+        *Entry\s = (r_x + ((*Entry\TriangleSide * *Entry\v) /  2.0)) / (*Entry\TriangleSide * *Entry\v)
         If *Entry\s < 0: *Entry\s = 0: EndIf
         If *Entry\s > 1: *Entry\s = 1: EndIf
         ColorPicker_Wheel_Update(*Entry, #False)
@@ -777,7 +777,7 @@ Procedure ColorPicker_Palette_Update(*Entry.ColorPickerData)
     h = OutputHeight()
     
     ; if a palette has less items than can be displayed, it is important to remove old content
-    Box(0, 0, w, h, $FFFFFF) 
+    Box(0, 0, w, h, $FFFFFF)
   
     DrawingMode(#PB_2DDrawing_Outlined)
     Box(0, 0, w, h, $000000)
@@ -801,20 +801,20 @@ Procedure ColorPicker_Palette_Update(*Entry.ColorPickerData)
     StopDrawing()
   EndIf
   
-  ; No ColorPicker_UpdateColor() here, as the color only changes on a click     
+  ; No ColorPicker_UpdateColor() here, as the color only changes on a click
 EndProcedure
 
 
-Procedure ColorPicker_Palette_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, CanvasWidth, CanvasHeight)  
+Procedure ColorPicker_Palette_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, CanvasWidth, CanvasHeight)
   ; load the palettes
   ColorPicker_LoadPalettes(*Entry)
 
   ; There is no backing image for this picker, as
-  ; everything can be drawn directly on the canvas 
+  ; everything can be drawn directly on the canvas
   
   ComboHeight = GetRequiredHeight(#GADGET_Color_Scheme)
 
-  *Entry\First = 0  
+  *Entry\First = 0
   *Entry\Cols  = (CanvasWidth - 20) / 16
   *Entry\Rows  = (CanvasHeight - ComboHeight - 5) / 16
   
@@ -824,7 +824,7 @@ Procedure ColorPicker_Palette_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Ca
   yoffset = CanvasY + 5 + ComboHeight + ((CanvasHeight - ComboHeight - 5) % 16) / 2
 
   SetGadgetAttribute(#GADGET_Color_Scroll, #PB_ScrollBar_Maximum, Int(Round(*Palette\Count / *Entry\Cols, #PB_Round_Up)))
-  SetGadgetAttribute(#GADGET_Color_Scroll, #PB_ScrollBar_PageLength, *Entry\Rows)   
+  SetGadgetAttribute(#GADGET_Color_Scroll, #PB_ScrollBar_PageLength, *Entry\Rows)
   SetGadgetState(#GADGET_Color_Scroll, 0)
   
   If *Entry\Cols * *Entry\Rows >= *Palette\Count
@@ -866,14 +866,14 @@ Procedure ColorPicker_Palette_Event(*Entry.ColorPickerData, Gadget, Type)
           ; trigger a resize which sets up the display of this new palette
           ColorPicker_TriggerResize(*Entry)
         EndIf
-      EndIf      
+      EndIf
       
     Case #GADGET_Color_Scroll
       *Entry\First = GetGadgetState(#GADGET_Color_Scroll) * *Entry\Cols
-      ColorPicker_Palette_Update(*Entry)    
+      ColorPicker_Palette_Update(*Entry)
     
     Case #GADGET_Color_Canvas1
-      If Type = #PB_EventType_LeftButtonDown      
+      If Type = #PB_EventType_LeftButtonDown
         col = Round(GetGadgetAttribute(#GADGET_Color_Canvas1, #PB_Canvas_MouseX) / DesktopScaledX(16), #PB_Round_Down)
         row = Round(GetGadgetAttribute(#GADGET_Color_Canvas1, #PB_Canvas_MouseY) / DesktopScaledY(16), #PB_Round_Down)
         Color = *Entry\First + row * *Entry\Cols + col
@@ -883,7 +883,7 @@ Procedure ColorPicker_Palette_Event(*Entry.ColorPickerData, Gadget, Type)
           *Entry\RGBColor = *Palette\Entry(Color)\Color
           ColorPicker_Palette_Update(*Entry)
           ColorPicker_UpdateColor(*Entry, *Entry\RGBColor)
-        EndIf       
+        EndIf
       EndIf
     
   
@@ -895,7 +895,7 @@ EndProcedure
 Procedure ColorPicker_Name_UpdateFilter(*Entry.ColorPickerData)
   ; make a copy of the real palette and sort it by name
   FilteredPalette\Count = *Palette\Count
-  CopyArray(*Palette\Entry(), FilteredPalette\Entry())  
+  CopyArray(*Palette\Entry(), FilteredPalette\Entry())
   SortStructuredArray(FilteredPalette\Entry(), #PB_Sort_Ascending|#PB_Sort_NoCase, OffsetOf(ColorEntry\Name$), #PB_String)
   
   ; apply the filter
@@ -926,20 +926,20 @@ Procedure ColorPicker_Name_UpdateFilter(*Entry.ColorPickerData)
     Next ReadEntry
     
     FilteredPalette\Count = WriteEntry
-  EndIf  
+  EndIf
   
   ; update the scrollbar
   SetGadgetAttribute(#GADGET_Color_Scroll, #PB_ScrollBar_Maximum, FilteredPalette\Count)
-  SetGadgetAttribute(#GADGET_Color_Scroll, #PB_ScrollBar_PageLength, *Entry\Rows)   
+  SetGadgetAttribute(#GADGET_Color_Scroll, #PB_ScrollBar_PageLength, *Entry\Rows)
   
-  *Entry\First = 0  
+  *Entry\First = 0
   SetGadgetState(#GADGET_Color_Scroll, 0)
   
   If *Entry\Rows >= FilteredPalette\Count
     DisableGadget(#GADGET_Color_Scroll, 1)
   Else
     DisableGadget(#GADGET_Color_Scroll, 0)
-  EndIf  
+  EndIf
 EndProcedure
 
 Procedure ColorPicker_Name_Update(*Entry.ColorPickerData)
@@ -949,7 +949,7 @@ Procedure ColorPicker_Name_Update(*Entry.ColorPickerData)
     
     w = OutputWidth()
     h = OutputHeight()
-    Box(0, 0, w, h, $FFFFFF)  
+    Box(0, 0, w, h, $FFFFFF)
     
     DrawingMode(#PB_2DDrawing_Default|#PB_2DDrawing_Transparent)
     For row = 0 To *Entry\Rows ; draw also the last half row in the remaining space
@@ -958,7 +958,7 @@ Procedure ColorPicker_Name_Update(*Entry.ColorPickerData)
       EndIf
     
       y = 1 + row * *Entry\RowHeight
-      If row % 2          
+      If row % 2
         Box(1, y, w-2, *Entry\RowHeight, $E0E0E0)
       Else
         Box(1, y, w-2, *Entry\RowHeight, $FFFFFF)
@@ -966,11 +966,11 @@ Procedure ColorPicker_Name_Update(*Entry.ColorPickerData)
       
       Box(w-3-*Entry\BoxWidth, y+2, *Entry\BoxWidth, *Entry\RowHeight-4, FilteredPalette\Entry(*Entry\First + row)\Color)
       DrawText(5, y+4, FilteredPalette\Entry(*Entry\First + row)\Name$, $000000)
-    Next row     
+    Next row
     
     If FilteredPalette\Count = 0
       DrawText(5, 5, Language("ToolsPanel", "NoMatch"), $808080)
-    EndIf 
+    EndIf
     
     ; do this last, to draw over the last maybe half row in the gadget
     DrawingMode(#PB_2DDrawing_Outlined)
@@ -979,7 +979,7 @@ Procedure ColorPicker_Name_Update(*Entry.ColorPickerData)
     StopDrawing()
   EndIf
   
-  ; No ColorPicker_UpdateColor() here, as the color only changes on a click    
+  ; No ColorPicker_UpdateColor() here, as the color only changes on a click
 EndProcedure
 
 
@@ -991,7 +991,7 @@ Procedure ColorPicker_Name_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canva
   
 
   ; There is no backing image for this picker, as
-  ; everything can be drawn directly on the canvas 
+  ; everything can be drawn directly on the canvas
   
   SetGadgetText(#GADGET_Color_Label1, Language("ToolsPanel", "Color_Filter")+": ")
   GetRequiredSize(#GADGET_Color_Label1, @LabelWidth, @LabelHeight)
@@ -1002,10 +1002,10 @@ Procedure ColorPicker_Name_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canva
   max = 0
   If StartDrawing(CanvasOutput(#GADGET_Color_Canvas1))
     DrawingFont(GetGadgetFont(#PB_Default))
-    *Entry\RowHeight = TextHeight("Hg") + 8    
+    *Entry\RowHeight = TextHeight("Hg") + 8
     For i = 0 To *Palette\Count-1
       max = Max(max, TextWidth(*Palette\Entry(i)\Name$))
-    Next i   
+    Next i
     StopDrawing()
   EndIf
     
@@ -1020,7 +1020,7 @@ Procedure ColorPicker_Name_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canva
     *Entry\BoxWidth = 60
   EndIf
   
-  Height = CanvasHeight - ComboHeight - 10 - FilterHeight    
+  Height = CanvasHeight - ComboHeight - 10 - FilterHeight
   *Entry\Rows  = (Height-2) / *Entry\RowHeight
   
   SetGadgetText(#GADGET_Color_Filter, "")
@@ -1034,7 +1034,7 @@ Procedure ColorPicker_Name_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canva
   HideGadget(#GADGET_Color_Filter, 0)
   HideGadget(#GADGET_Color_Label1, 0)
   HideGadget(#GADGET_Color_Label2, 1)
-  HideGadget(#GADGET_Color_Label3, 1)  
+  HideGadget(#GADGET_Color_Label3, 1)
   
   ResizeGadget(#GADGET_Color_Canvas1, CanvasX, CanvasY+ComboHeight+5, CanvasWidth-20, Height)
   ResizeGadget(#GADGET_Color_Scheme, CanvasX, CanvasY, CanvasWidth, ComboHeight)
@@ -1061,20 +1061,20 @@ Procedure ColorPicker_Name_Event(*Entry.ColorPickerData, Gadget, Type)
           ; trigger a resize which sets up the display of this new palette
           ColorPicker_TriggerResize(*Entry)
         EndIf
-      EndIf      
+      EndIf
       
     Case #GADGET_Color_Scroll
       *Entry\First = GetGadgetState(#GADGET_Color_Scroll)
-      ColorPicker_Name_Update(*Entry)  
+      ColorPicker_Name_Update(*Entry)
       
     Case #GADGET_Color_Filter
       If Type = #PB_EventType_Change
         ColorPicker_Name_UpdateFilter(*Entry)
         ColorPicker_Name_Update(*Entry)
-      EndIf  
+      EndIf
     
     Case #GADGET_Color_Canvas1
-      If Type = #PB_EventType_LeftButtonDown      
+      If Type = #PB_EventType_LeftButtonDown
         row = (GetGadgetAttribute(#GADGET_Color_Canvas1, #PB_Canvas_MouseY) - 1) / *Entry\RowHeight
         Color = *Entry\First + row
         
@@ -1083,7 +1083,7 @@ Procedure ColorPicker_Name_Event(*Entry.ColorPickerData, Gadget, Type)
           *Entry\RGBColor = FilteredPalette\Entry(Color)\Color
           ColorPicker_Name_Update(*Entry)
           ColorPicker_UpdateColor(*Entry, *Entry\RGBColor) ; not done in Name_Update()
-        EndIf       
+        EndIf
       EndIf
     
   EndSelect
@@ -1125,17 +1125,17 @@ Procedure ColorPicker_UpdateColor(*Entry.ColorPickerData, Color)
       DrawingMode(#PB_2DDrawing_Default)
       ColorPicker_DrawArrow(1+*Entry\a * (w-3), 1, DesktopScaledY(28))
       StopDrawing()
-    EndIf  
+    EndIf
   EndIf
 
   ; Redraw the color area
   ;
   If StartDrawing(CanvasOutput(#GADGET_Color_Current))
     w = OutputWidth()
-    h = OutputHeight()    
+    h = OutputHeight()
     Box(1, 1, w-2, h-2, Color)
     
-    If *Entry\UseAlpha      
+    If *Entry\UseAlpha
       DrawingMode(#PB_2DDrawing_CustomFilter)
       CustomFilterCallback(@ColorPicker_TransparentFilter())
       
@@ -1143,11 +1143,11 @@ Procedure ColorPicker_UpdateColor(*Entry.ColorPickerData, Color)
         Box(1, 1, w-2, (h-2)/2, ColorPicker_AddAlpha(Color, Int(*Entry\a * 255.0)))
       Else
         Box(1, 1, (w-2)/2, h-2, ColorPicker_AddAlpha(Color, Int(*Entry\a * 255.0)))
-      EndIf        
-    EndIf    
+      EndIf
+    EndIf
     
     DrawingMode(#PB_2DDrawing_Outlined)
-    Box(0, 0, w, h, $000000)    
+    Box(0, 0, w, h, $000000)
     StopDrawing()
   EndIf
     
@@ -1184,10 +1184,10 @@ Procedure ColorPicker_UpdateHistory(*Entry.ColorPickerData)
   If StartDrawing(CanvasOutput(#GADGET_Color_History))
     w = OutputWidth()
     h = OutputHeight()
-    Box(0, 0, w, h, $FFFFFF)    
+    Box(0, 0, w, h, $FFFFFF)
     
     cols = (w-5) / 23
-    If cols < 1: cols = 1: EndIf    
+    If cols < 1: cols = 1: EndIf
 
     For i = 0 To #ColorPicker_History-1
       x = 4 + (i % cols) * 23
@@ -1200,14 +1200,14 @@ Procedure ColorPicker_UpdateHistory(*Entry.ColorPickerData)
         DrawingMode(#PB_2DDrawing_CustomFilter)
         CustomFilterCallback(@ColorPicker_TransparentFilter())
         Box(x, y, 20, 20, ColorPicker_AddAlpha(ColorPicker_History(i)\Color, ColorPicker_History(i)\Alpha))
-      EndIf      
+      EndIf
       
       DrawingMode(#PB_2DDrawing_Outlined)
-      Box(x, y, 20, 20, $000000)      
+      Box(x, y, 20, 20, $000000)
     Next i
     
     DrawingMode(#PB_2DDrawing_Outlined)
-    Box(0, 0, w, h, $000000)    
+    Box(0, 0, w, h, $000000)
     
     StopDrawing()
   EndIf
@@ -1218,29 +1218,29 @@ Procedure ColorPicker_SetModeFunctions(*Entry.ColorPickerData, Mode$)
 
   Select *Entry\Mode$
     
-    Case "HSV"  
+    Case "HSV"
       *Entry\SetupFunction = @ColorPicker_HSV_Setup()
-      *Entry\EventFunction = @ColorPicker_HSV_Event()   
+      *Entry\EventFunction = @ColorPicker_HSV_Event()
     
-    Case "HSL"  
+    Case "HSL"
       *Entry\SetupFunction = @ColorPicker_HSL_Setup()
-      *Entry\EventFunction = @ColorPicker_HSL_Event()   
+      *Entry\EventFunction = @ColorPicker_HSL_Event()
     
-    Case "WHEEL"  
+    Case "WHEEL"
       *Entry\SetupFunction = @ColorPicker_Wheel_Setup()
-      *Entry\EventFunction = @ColorPicker_Wheel_Event()    
+      *Entry\EventFunction = @ColorPicker_Wheel_Event()
     
-    Case "PALETTE"  
+    Case "PALETTE"
       *Entry\SetupFunction = @ColorPicker_Palette_Setup()
-      *Entry\EventFunction = @ColorPicker_Palette_Event()  
+      *Entry\EventFunction = @ColorPicker_Palette_Event()
 
-    Case "NAME"  
+    Case "NAME"
       *Entry\SetupFunction = @ColorPicker_Name_Setup()
-      *Entry\EventFunction = @ColorPicker_Name_Event()  
+      *Entry\EventFunction = @ColorPicker_Name_Event()
     
-    Default ; RGB is the fallback 
+    Default ; RGB is the fallback
       *Entry\SetupFunction = @ColorPicker_RGB_Setup()
-      *Entry\EventFunction = @ColorPicker_RGB_Event()    
+      *Entry\EventFunction = @ColorPicker_RGB_Event()
   
   EndSelect
 
@@ -1249,12 +1249,12 @@ EndProcedure
 Procedure ColorPicker_TriggerResize(*Entry.ColorPickerData)
   If *Entry\IsSeparateWindow
     If #DEFAULT_CanWindowStayOnTop
-      ColorPicker_ResizeHandler(*Entry, WindowWidth(*Entry\ToolWindowID), WindowHeight(*Entry\ToolWindowID)-GetRequiredHeight(*Entry\ToolStayOnTop)-5)              
+      ColorPicker_ResizeHandler(*Entry, WindowWidth(*Entry\ToolWindowID), WindowHeight(*Entry\ToolWindowID)-GetRequiredHeight(*Entry\ToolStayOnTop)-5)
     Else
-      ColorPicker_ResizeHandler(*Entry, WindowWidth(*Entry\ToolWindowID), WindowHeight(*Entry\ToolWindowID))      
-    EndIf  
+      ColorPicker_ResizeHandler(*Entry, WindowWidth(*Entry\ToolWindowID), WindowHeight(*Entry\ToolWindowID))
+    EndIf
   Else
-    ColorPicker_ResizeHandler(*Entry, GetGadgetAttribute(#GADGET_ToolsPanel, #PB_Panel_ItemWidth), GetGadgetAttribute(#GADGET_ToolsPanel, #PB_Panel_ItemHeight))        
+    ColorPicker_ResizeHandler(*Entry, GetGadgetAttribute(#GADGET_ToolsPanel, #PB_Panel_ItemWidth), GetGadgetAttribute(#GADGET_ToolsPanel, #PB_Panel_ItemHeight))
   EndIf
 EndProcedure
 
@@ -1262,33 +1262,33 @@ CompilerIf #CompileWindows
 
   ; To handle scrolling events in realtime one Windows. Not needed on Linux/OSX
   ;
-  Procedure ColorPicker_ScrollbarCallback(Window, Message, wParam, lParam)   
+  Procedure ColorPicker_ScrollbarCallback(Window, Message, wParam, lParam)
     ; call the original callback first, so the gadget state is properly updated.
-    ;    
+    ;
     Result = CallWindowProc_(ScrollBarOldCallback, Window, Message, wParam, lParam)
     
     ; now check our event
     ;
     If *ColorPicker And Message = #WM_HSCROLL Or Message = #WM_VSCROLL
-      *ColorPicker\EventFunction(*ColorPicker, #GADGET_Color_Scroll, 0)        
-    EndIf      
+      *ColorPicker\EventFunction(*ColorPicker, #GADGET_Color_Scroll, 0)
+    EndIf
 
-    ProcedureReturn Result    
-  EndProcedure   
+    ProcedureReturn Result
+  EndProcedure
   
 CompilerEndIf
 
 ;- ----- ToolsPanel interface -----
 
-Procedure ColorPicker_CreateFunction(*Entry.ColorPickerData, PanelItemID)  
+Procedure ColorPicker_CreateFunction(*Entry.ColorPickerData, PanelItemID)
   *ColorPicker = *Entry
 
   ButtonGadget(#GADGET_Color_RGB,     0, 0, 0, 0, Language("ToolsPanel","Mode_RGB"),     #PB_Button_Toggle)
   ButtonGadget(#GADGET_Color_HSV,     0, 0, 0, 0, Language("ToolsPanel","Mode_HSV"),     #PB_Button_Toggle)
   ButtonGadget(#GADGET_Color_HSL,     0, 0, 0, 0, Language("ToolsPanel","Mode_HSL"),     #PB_Button_Toggle)
   ButtonGadget(#GADGET_Color_Wheel,   0, 0, 0, 0, Language("ToolsPanel","Mode_Wheel"),   #PB_Button_Toggle)
-  ButtonGadget(#GADGET_Color_Palette, 0, 0, 0, 0, Language("ToolsPanel","Mode_Palette"), #PB_Button_Toggle)   
-  ButtonGadget(#GADGET_Color_Name,    0, 0, 0, 0, Language("ToolsPanel","Mode_Name"),    #PB_Button_Toggle) 
+  ButtonGadget(#GADGET_Color_Palette, 0, 0, 0, 0, Language("ToolsPanel","Mode_Palette"), #PB_Button_Toggle)
+  ButtonGadget(#GADGET_Color_Name,    0, 0, 0, 0, Language("ToolsPanel","Mode_Name"),    #PB_Button_Toggle)
   
   CanvasGadget(#GADGET_Color_Canvas1, 0, 0, 0, 0, #PB_Canvas_ClipMouse)
   CanvasGadget(#GADGET_Color_Canvas2, 0, 0, 0, 0, #PB_Canvas_ClipMouse)
@@ -1309,7 +1309,7 @@ Procedure ColorPicker_CreateFunction(*Entry.ColorPickerData, PanelItemID)
   CanvasGadget(#GADGET_Color_CanvasAlpha, 0, 0, 0, 0, #PB_Canvas_ClipMouse)
   SetGadgetState(#GADGET_Color_UseAlpha, *Entry\UseAlpha)
   
-  CanvasGadget(#GADGET_Color_Current, 0, 0, 0, 0)  
+  CanvasGadget(#GADGET_Color_Current, 0, 0, 0, 0)
   TextGadget(#GADGET_Color_Text0, 0, 0, 0, 0, "R: ")
   TextGadget(#GADGET_Color_Text1, 0, 0, 0, 0, "G: ")
   TextGadget(#GADGET_Color_Text2, 0, 0, 0, 0, "B: ")
@@ -1321,7 +1321,7 @@ Procedure ColorPicker_CreateFunction(*Entry.ColorPickerData, PanelItemID)
   For Gadget = #GADGET_Color_Input0 To #GADGET_Color_Input6
     StringGadget(Gadget, 0, 0, 0, 0, "", #PB_String_Numeric)
   Next Gadget
-  StringGadget(#GADGET_Color_Hex, 0, 0, 0, 0, "") ; for hex input  
+  StringGadget(#GADGET_Color_Hex, 0, 0, 0, 0, "") ; for hex input
   
   ButtonGadget(#GADGET_Color_Insert, 0, 0, 0, 0,    Language("ToolsPanel", "Color_Insert"))
   ButtonGadget(#GADGET_Color_InsertRGB, 0, 0, 0, 0, Language("ToolsPanel", "Color_RGB"))
@@ -1335,21 +1335,21 @@ Procedure ColorPicker_CreateFunction(*Entry.ColorPickerData, PanelItemID)
     HideGadget(#GADGET_Color_Input3, 1) ; A field
   EndIf
   
-  ColorPicker_SetModeFunctions(*Entry, *Entry\Mode$)  
+  ColorPicker_SetModeFunctions(*Entry, *Entry\Mode$)
   
-  Select *Entry\Mode$    
+  Select *Entry\Mode$
     Case "HSV"    : SetGadgetState(#GADGET_Color_HSV, 1)
-    Case "HSL"    : SetGadgetState(#GADGET_Color_HSL, 1)  
+    Case "HSL"    : SetGadgetState(#GADGET_Color_HSL, 1)
     Case "WHEEL"  : SetGadgetState(#GADGET_Color_Wheel, 1)
     Case "PALETTE": SetGadgetState(#GADGET_Color_Palette, 1)
     Case "NAME"   : SetGadgetState(#GADGET_Color_Name, 1)
-    Default       : SetGadgetState(#GADGET_Color_RGB, 1) ; fallback  
+    Default       : SetGadgetState(#GADGET_Color_RGB, 1) ; fallback
   EndSelect
 
 EndProcedure
 
 
-Procedure ColorPicker_DestroyFunction(*Entry.ColorPickerData) 
+Procedure ColorPicker_DestroyFunction(*Entry.ColorPickerData)
   *ColorPicker = 0
   
   If IsImage(#IMAGE_Color_Content1) ; not all picker modes need these
@@ -1364,13 +1364,13 @@ Procedure ColorPicker_DestroyFunction(*Entry.ColorPickerData)
   EndIf
   
   ; this will trigger a reload when the color picker is created again
-  ; to update language etc  
+  ; to update language etc
   ClearList(PaletteList())
   *Palette = 0
 EndProcedure
 
 
-Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHeight) 
+Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHeight)
   Protected Dim ButtonWidth(#GADGET_Color_Name - #GADGET_Color_RGB)
   
   y = 5
@@ -1379,11 +1379,11 @@ Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHei
   For Gadget = #GADGET_Color_RGB To #GADGET_Color_Name
     GetRequiredSize(Gadget, @ButtonWidth(Gadget-#GADGET_Color_RGB), @ButtonHeight)
     Total + ButtonWidth(Gadget-#GADGET_Color_RGB)
-  Next Gadget  
+  Next Gadget
   Total + 10 + (#GADGET_Color_Name-#GADGET_Color_RGB) * 2
   
   If Total <= PanelWidth ; one row
-    Extra = (PanelWidth - Total) / (#GADGET_Color_Name-#GADGET_Color_RGB+1)      
+    Extra = (PanelWidth - Total) / (#GADGET_Color_Name-#GADGET_Color_RGB+1)
     If Extra > 100
       Extra = 100
     EndIf
@@ -1392,7 +1392,7 @@ Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHei
     For Gadget = #GADGET_Color_RGB To #GADGET_Color_Name
       ResizeGadget(Gadget, x, y, ButtonWidth(Gadget-#GADGET_Color_RGB)+Extra, ButtonHeight)
       x + ButtonWidth(Gadget-#GADGET_Color_RGB) + Extra + 2
-    Next Gadget    
+    Next Gadget
     y + ButtonHeight + 5
         
   Else ; two rows
@@ -1400,7 +1400,7 @@ Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHei
     For i = 0 To 2
       ButtonWidth(i) = Max(ButtonWidth(i), ButtonWidth(i+3))
       Total + ButtonWidth(i)
-    Next i  
+    Next i
     Total + 14
     
     If Total <= PanelWidth
@@ -1418,41 +1418,41 @@ Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHei
     y + 2 * ButtonHeight + 7
   EndIf
  
-  ; Calculate height of everything below the picker area 
+  ; Calculate height of everything below the picker area
   ;
-  UseAlphaHeight = GetRequiredHeight(#GADGET_Color_UseAlpha)    
-  GetRequiredSize(#GADGET_Color_Text0, @TextWidth, @TextHeight)  
-  InputHeight = Max(TextHeight, GetRequiredHeight(#GADGET_Color_Input0))  
+  UseAlphaHeight = GetRequiredHeight(#GADGET_Color_UseAlpha)
+  GetRequiredSize(#GADGET_Color_Text0, @TextWidth, @TextHeight)
+  InputHeight = Max(TextHeight, GetRequiredHeight(#GADGET_Color_Input0))
   ColorWidth = PanelWidth - 30 - 2 * (TextWidth + 40)
   
   ButtonWidth(0) = GetRequiredWidth(#GADGET_Color_Insert)
   ButtonWidth(1) = GetRequiredWidth(#GADGET_Color_InsertRGB)
   ButtonWidth(2) = GetRequiredWidth(#GADGET_Color_Save)
-  Total          = ButtonWidth(0)+ButtonWidth(1)+ButtonWidth(2) + 14    
+  Total          = ButtonWidth(0)+ButtonWidth(1)+ButtonWidth(2) + 14
   ButtonHeight   = GetRequiredHeight(#GADGET_Color_Insert)
     
-  cols = (PanelWidth - 15) / 23   ; history display 
+  cols = (PanelWidth - 15) / 23   ; history display
   If cols < 1: cols = 1: EndIf
-  rows = Int(Round(#ColorPicker_History / cols, #PB_Round_Up))  
+  rows = Int(Round(#ColorPicker_History / cols, #PB_Round_Up))
     
-  RestHeight = 0  
+  RestHeight = 0
   RestHeight + UseAlphaHeight + 15
   If *Entry\UseAlpha
     RestHeight + 35 ; alpha slider
-  EndIf  
+  EndIf
   If ColorWidth < 60 ; color will be above values entries
     RestHeight + 65
-  EndIf  
-  RestHeight + (InputHeight+5) * 3 ; R, G, B entries  
+  EndIf
+  RestHeight + (InputHeight+5) * 3 ; R, G, B entries
   If *Entry\UseAlpha
     RestHeight + InputHeight + 5 ; A entry
-  EndIf  
-  RestHeight + InputHeight + 15 ; hex entry and space    
+  EndIf
+  RestHeight + InputHeight + 15 ; hex entry and space
   If Total <= PanelWidth ; buttons in single row
     RestHeight + ButtonHeight + 15
   Else
     RestHeight + 2*ButtonHeight + 17
-  EndIf  
+  EndIf
   RestHeight + rows*23 + 5 ; history
   
   ; resize the canvas (and init it)
@@ -1462,7 +1462,7 @@ Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHei
   
   ; prevent negative or 0 values here
   If CanvasWidth  < 10: CanvasWidth  = 10: EndIf
-  If CanvasHeight < 10: CanvasHeight = 10: EndIf  
+  If CanvasHeight < 10: CanvasHeight = 10: EndIf
   CanvasHeight = *Entry\SetupFunction(*Entry, 5, y, CanvasWidth, CanvasHeight)  ; a picker can use less height
   
   y + CanvasHeight + 5
@@ -1476,10 +1476,10 @@ Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHei
     y + 35
   EndIf
   
-  y + 10   
+  y + 10
   
   If ColorWidth >= 60 ; enough space for column mode
-    *Entry\VerticalAlpha = 1  
+    *Entry\VerticalAlpha = 1
     If *Entry\UseAlpha
       ResizeGadget(#GADGET_Color_Current, PanelWidth-5-ColorWidth, y, ColorWidth, InputHeight*5 + 20)
     Else
@@ -1519,7 +1519,7 @@ Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHei
     ResizeGadget(#GADGET_Color_Insert, 5, y, ButtonWidth(0)+Extra, ButtonHeight)
     ResizeGadget(#GADGET_Color_InsertRGB, 7+ButtonWidth(0)+Extra, y, ButtonWidth(1)+Extra, ButtonHeight)
     ResizeGadget(#GADGET_Color_Save, 9+ButtonWidth(0)+ButtonWidth(1)+2*Extra, y, ButtonWidth(2)+Extra, ButtonHeight)
-    y + ButtonHeight + 15    
+    y + ButtonHeight + 15
   Else
     ; double row
     ButtonWidth(0) = Max(ButtonWidth(0), ButtonWidth(2))
@@ -1534,11 +1534,11 @@ Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHei
     ResizeGadget(#GADGET_Color_InsertRGB, 7+ButtonWidth(0)+Extra, y, ButtonWidth(1)+Extra, ButtonHeight)
     y + ButtonHeight + 2
     ResizeGadget(#GADGET_Color_Save, 5, y, ButtonWidth(0)+Extra, ButtonHeight)
-    y + ButtonHeight + 15       
+    y + ButtonHeight + 15
   EndIf
   
   ; history
-  width = cols * 23 + 5  
+  width = cols * 23 + 5
   ResizeGadget(#GADGET_Color_History, (PanelWidth-width)/2, y, width, rows*23 + 5)
   
   ; to update the resized color, history and alpha aras
@@ -1552,7 +1552,7 @@ Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHei
       RedrawWindow_(GadgetID(Gadget), #Null, #Null, #RDW_INVALIDATE)
     Next Gadget
     RedrawWindow_(GadgetID(#GADGET_Color_Hex), #Null, #Null, #RDW_INVALIDATE)
-  CompilerEndIf 
+  CompilerEndIf
 
 EndProcedure
 
@@ -1588,7 +1588,7 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
       EndIf
   
     Case #GADGET_Color_Canvas1, #GADGET_Color_Canvas2, #GADGET_Color_Canvas3, #GADGET_Color_Scheme, #GADGET_Color_Scroll, #GADGET_Color_Filter
-      *Entry\EventFunction(*Entry, EventGadgetID, EventType())       
+      *Entry\EventFunction(*Entry, EventGadgetID, EventType())
     
     Case #GADGET_Color_UseAlpha
       *Entry\UseAlpha = GetGadgetState(#GADGET_Color_UseAlpha)
@@ -1601,15 +1601,15 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
         HideGadget(#GADGET_Color_Text3, 1)
         HideGadget(#GADGET_Color_Input3, 1)
       EndIf
-      ColorPicker_TriggerResize(*Entry) ; will resize the shown gadget and redraw everything 
+      ColorPicker_TriggerResize(*Entry) ; will resize the shown gadget and redraw everything
     
     Case #GADGET_Color_CanvasAlpha
-      If EventType() = #PB_EventType_LeftButtonDown Or (EventType() = #PB_EventType_MouseMove And GetGadgetAttribute(#GADGET_Color_CanvasAlpha, #PB_Canvas_Buttons) & #PB_Canvas_LeftButton)      
+      If EventType() = #PB_EventType_LeftButtonDown Or (EventType() = #PB_EventType_MouseMove And GetGadgetAttribute(#GADGET_Color_CanvasAlpha, #PB_Canvas_Buttons) & #PB_Canvas_LeftButton)
         *Entry\a = (GetGadgetAttribute(#GADGET_Color_CanvasAlpha, #PB_Canvas_MouseX) - 1) / (DesktopScaledX(GadgetWidth(#GADGET_Color_CanvasAlpha)) - 3)
         If *Entry\a < 0: *Entry\a = 0: EndIf
         If *Entry\a > 1: *Entry\a = 1: EndIf
         ColorPicker_UpdateColor(*Entry, *Entry\RGBColor)
-      EndIf  
+      EndIf
       
     Case #GADGET_Color_Insert
       If *ActiveSource <> *ProjectInfo
@@ -1631,7 +1631,7 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
     
     Case #GADGET_Color_Save
       ; move all entries one slot and add the current color
-      MoveMemory(@ColorPicker_History(0), @ColorPicker_History(1), SizeOf(ColorEntry)*(#ColorPicker_History-1))      
+      MoveMemory(@ColorPicker_History(0), @ColorPicker_History(1), SizeOf(ColorEntry)*(#ColorPicker_History-1))
       ColorPicker_History(0)\Color = *Entry\RGBColor
       If *Entry\UseAlpha
         ColorPicker_History(0)\Alpha = Int(*Entry\a * 255.0)
@@ -1649,7 +1649,7 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
           row = (y-4) / 23
           If x <= (col*23)+24 And y <= (col*23)+24 ; check that we are really within a box and not in the inbetween space
             cols = (GadgetWidth(#GADGET_Color_History)-5) / 23
-            If cols < 1: cols = 1: EndIf             
+            If cols < 1: cols = 1: EndIf
             entry = row*cols + col
             
             If entry >= 0 And entry < #ColorPicker_History
@@ -1659,22 +1659,22 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
                   SetGadgetState(#GADGET_Color_UseAlpha, 0)
                   HideGadget(#GADGET_Color_CanvasAlpha, 1)
                   HideGadget(#GADGET_Color_Text3, 1)
-                  HideGadget(#GADGET_Color_Input3, 1)                                    
-                EndIf                               
+                  HideGadget(#GADGET_Color_Input3, 1)
+                EndIf
               Else
                 If *Entry\UseAlpha = 0
                   *Entry\UseAlpha = 1
                   SetGadgetState(#GADGET_Color_UseAlpha, 1)
                   HideGadget(#GADGET_Color_CanvasAlpha, 0)
                   HideGadget(#GADGET_Color_Text3, 0)
-                  HideGadget(#GADGET_Color_Input3, 0)      
-                EndIf    
-                *Entry\a = ColorPicker_History(entry)\Alpha / 255.0                 
+                  HideGadget(#GADGET_Color_Input3, 0)
+                EndIf
+                *Entry\a = ColorPicker_History(entry)\Alpha / 255.0
               EndIf
               
               ; re-initialize the picker with the new color
               *Entry\RGBColor = ColorPicker_History(entry)\Color
-              ColorPicker_TriggerResize(*Entry)                   
+              ColorPicker_TriggerResize(*Entry)
             EndIf
           EndIf
         EndIf
@@ -1693,7 +1693,7 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
           EndSelect
           
           *Entry\IgnoreInputField = EventGadgetID
-          ColorPicker_TriggerResize(*Entry)   
+          ColorPicker_TriggerResize(*Entry)
           *Entry\IgnoreInputField = 0
         EndIf
       EndIf
@@ -1730,7 +1730,7 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
               EndIf
           EndSelect
           *Entry\IgnoreInputField = EventGadgetID
-          ColorPicker_TriggerResize(*Entry)   
+          ColorPicker_TriggerResize(*Entry)
           *Entry\IgnoreInputField = 0
         EndIf
       EndIf
@@ -1748,7 +1748,7 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
           *Entry\RGBColor = Color
           
           *Entry\IgnoreInputField = EventGadgetID
-          ColorPicker_TriggerResize(*Entry)   
+          ColorPicker_TriggerResize(*Entry)
           *Entry\IgnoreInputField = 0
         EndIf
       EndIf
@@ -1759,18 +1759,18 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
 EndProcedure
 
 
-Procedure ColorPicker_PreferenceLoad(*Entry.ColorPickerData)  
+Procedure ColorPicker_PreferenceLoad(*Entry.ColorPickerData)
 
   PreferenceGroup("ColorPicker")
     *Entry\Mode$    = ReadPreferenceString("Mode", "RGB")
-    *Entry\RGBColor = ReadPreferenceLong("Color", $BFBF3F) & $FFFFFF ; default to a color in the middle of the spectrum (and mask out any alpha)            
-    *Entry\UseAlpha = ReadPreferenceLong("UseAlpha", 0)    
-    *Entry\a        = ReadPreferenceLong("Alpha", $FF) / 255.0    
+    *Entry\RGBColor = ReadPreferenceLong("Color", $BFBF3F) & $FFFFFF ; default to a color in the middle of the spectrum (and mask out any alpha)
+    *Entry\UseAlpha = ReadPreferenceLong("UseAlpha", 0)
+    *Entry\a        = ReadPreferenceLong("Alpha", $FF) / 255.0
     *Entry\Palette$ = ReadPreferenceString("Palette", "2") ; the CSS3 palette is the default (as it has many entries)
     
 
     ; read stored colors
-    ;        
+    ;
     HistorySize = ReadPreferenceLong("HistorySize", -1)
     If HistorySize > 0
       ; backward compatibility mode
@@ -1781,8 +1781,8 @@ Procedure ColorPicker_PreferenceLoad(*Entry.ColorPickerData)
       ; init the history to the default values
       For i = 0 To #ColorPicker_History-1
         ColorPicker_History(i)\Color = $FFFFFF
-        ColorPicker_History(i)\Alpha = -1      
-      Next i      
+        ColorPicker_History(i)\Alpha = -1
+      Next i
       
       ; color 0 used to be the current color (now stored separately)
       For i = 1 To HistorySize
@@ -1795,17 +1795,17 @@ Procedure ColorPicker_PreferenceLoad(*Entry.ColorPickerData)
         ColorPicker_History(i)\Alpha = ReadPreferenceLong("Alpha_"+Str(i), -1)
       Next i
       
-    EndIf  
+    EndIf
 
 EndProcedure
 
 
-Procedure ColorPicker_PreferenceSave(*Entry.ColorPickerData)   
+Procedure ColorPicker_PreferenceSave(*Entry.ColorPickerData)
       
   PreferenceComment("")
-  PreferenceGroup("ColorPicker")  
-    WritePreferenceString("Mode", *Entry\Mode$)    
-    WritePreferenceLong("Color", *Entry\RGBColor)    
+  PreferenceGroup("ColorPicker")
+    WritePreferenceString("Mode", *Entry\Mode$)
+    WritePreferenceLong("Color", *Entry\RGBColor)
     WritePreferenceLong("UseAlpha", *Entry\UseAlpha)
     WritePreferenceLong("Alpha", Int(*Entry\a * 255.0))
     
@@ -1840,9 +1840,9 @@ ColorPicker_VT\PreferenceSave      = @ColorPicker_PreferenceSave()
 AddElement(AvailablePanelTools())
 
 AvailablePanelTools()\FunctionsVT          = @ColorPicker_VT
-AvailablePanelTools()\NeedPreferences      = 1 
+AvailablePanelTools()\NeedPreferences      = 1
 AvailablePanelTools()\NeedConfiguration    = 0
-AvailablePanelTools()\NeedDestroyFunction  = 1   
+AvailablePanelTools()\NeedDestroyFunction  = 1
 AvailablePanelTools()\ToolID$              = "ColorPicker"
 AvailablePanelTools()\PanelTitle$          = "ColorPicker"
 AvailablePanelTools()\ToolName$            = "ColorPicker"
@@ -1918,7 +1918,7 @@ Procedure RGBToHSV(Color, *h.FLOAT, *s.FLOAT, *v.FLOAT)
    
   Else
     *s\f = 0
-    *h\f = 0 
+    *h\f = 0
   EndIf
 EndProcedure
 
@@ -2006,7 +2006,7 @@ Procedure HSVToRGB(h.f, s.f, v.f)
   Protected.f r, g, b
   
   ; make sure it is always less than 360, else we get black
-  h = Mod(h, 360.0)  
+  h = Mod(h, 360.0)
   
   If s = 0
     r = v
@@ -2059,7 +2059,7 @@ Procedure HSLToRGB(h.f, s.f, l.f)
   Protected.f r, g, b
   
   ; make sure it is always less than 360, else we get black
-  h = Mod(h, 360.0)  
+  h = Mod(h, 360.0)
   
   If l <= 0.5
     p2 = l * (1.0 + s)
@@ -2067,7 +2067,7 @@ Procedure HSLToRGB(h.f, s.f, l.f)
     p2 = l + s - l * s
   EndIf
   
-  p1 = 2.0 * l - p2  
+  p1 = 2.0 * l - p2
   r = HSLToRGBComponent(p1, p2, h+120)
   g = HSLToRGBComponent(p1, p2, h)
   b = HSLToRGBComponent(p1, p2, h-120)

@@ -55,7 +55,7 @@ Procedure RecentFiles_AddFile(FileName$, IsProject)
     ; Also notify the OS of the file usage
     ; This is useful for the 'recent file' list in the start menu and Windows7 Taskbar
     
-    CompilerIf #PB_Compiler_Unicode    
+    CompilerIf #PB_Compiler_Unicode
       #SHARD_PATH = $00000003
     CompilerElse
       #SHARD_PATH = $00000002
@@ -88,7 +88,7 @@ Procedure RecentFiles_AddFile(FileName$, IsProject)
   
   If Found = 0
     index = FilesHistorySize
-  EndIf  
+  EndIf
 
   ; now move all other files one index down..
   ;
@@ -108,12 +108,12 @@ Procedure RecentFiles_AddFile(FileName$, IsProject)
   
   If Count = OldCount And Count = FilesHistorySize
     ; rename the menu items for Recentfiles (no recreation of the whole menu)
-    For i = 1 To FilesHistorySize    
+    For i = 1 To FilesHistorySize
       SetMenuItemText(#MENU, #MENU_RecentFiles_Start+Offset+i-1, ReplaceString(RecentFiles_EntryString(Offset+i), "&", "&&"))
     Next i
   Else
     ; the count changed.. we must re-create the menu
-    StartFlickerFix(#WINDOW_Main)          
+    StartFlickerFix(#WINDOW_Main)
     CreateIDEMenu() ; update the menu
     StopFlickerFix(#WINDOW_Main, 1)
   EndIf
@@ -127,8 +127,8 @@ Procedure RecentFiles_Open(MenuItemID)
   If MenuItemID >= #MENU_RecentFiles_Start And MenuItemID <= #MENU_RecentFiles_End
     If Trim(RecentFiles(MenuItemID - #MENU_RecentFiles_Start + 1)) <> ""
     
-      If MenuItemID < #MENU_RecentFiles_Start+#MAX_RecentFiles ; RecentFiles range    
-        LoadSourceFile(RecentFiles(MenuItemID - #MENU_RecentFiles_Start + 1)) 
+      If MenuItemID < #MENU_RecentFiles_Start+#MAX_RecentFiles ; RecentFiles range
+        LoadSourceFile(RecentFiles(MenuItemID - #MENU_RecentFiles_Start + 1))
       Else ; RecentProjects range
         LoadProject(RecentFiles(MenuItemID - #MENU_RecentFiles_Start + 1))
       EndIf

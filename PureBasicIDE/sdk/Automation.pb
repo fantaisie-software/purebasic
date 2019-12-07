@@ -13,7 +13,7 @@
 ; This file provides a wrapper to the Automation.dll library
 ; and to the functionality exposed by the IDE.
 ;
-; The available functions for communicating with the IDE 
+; The available functions for communicating with the IDE
 ; are described below.
 ;
 ;
@@ -91,7 +91,7 @@ Global AUTO_RPC_ProcessEvents.AUTO_RPC_ProcessEvents
 Global AUTO_Library
 Global NewMap AUTO_EventCallbacks()
 
-Procedure AUTO_EventCallback(*Call)    
+Procedure AUTO_EventCallback(*Call)
   Protected Count, Index
   
   Debug "event"
@@ -99,12 +99,12 @@ Procedure AUTO_EventCallback(*Call)
   
   Select AUTO_RPC_GetFunction(*Call)
   
-    Case "AutoComplete"      
+    Case "AutoComplete"
     CallDebugger
       Protected NewList Entries.s()
       Protected AutoCompleteEvent.AUTO_Event_AutoComplete = AUTO_EventCallbacks("AutoComplete")
       
-      If AutoCompleteEvent      
+      If AutoCompleteEvent
         Count = AUTO_RPC_CountParameters(*Call)
         For Index = 0 To Count-1
           AddElement(Entries())
@@ -116,7 +116,7 @@ Procedure AUTO_EventCallback(*Call)
         AUTO_RPC_CallResponse(*Call, ListSize(Entries()))
         ForEach Entries()
           AUTO_RPC_SetString(*Call, ListIndex(Entries()), Entries())
-        Next Entries()        
+        Next Entries()
       Else
         AUTO_RPC_CallError(*Call, "Event not registered")
       EndIf
@@ -165,7 +165,7 @@ Procedure AUTO_Initialize(Library$ = "")
     AUTO_RPC_CountParameters= GetFunction(AUTO_Library, "AUTO_RPC_CountParameters")
     AUTO_RPC_GetFunctionPtr = GetFunction(AUTO_Library, "AUTO_RPC_GetFunctionPtr")
     AUTO_RPC_SetCallback    = GetFunction(AUTO_Library, "AUTO_RPC_SetCallback")
-    AUTO_RPC_ProcessEvents  = GetFunction(AUTO_Library, "AUTO_RPC_ProcessEvents") 
+    AUTO_RPC_ProcessEvents  = GetFunction(AUTO_Library, "AUTO_RPC_ProcessEvents")
     
     AUTO_RPC_SetCallback(@AUTO_EventCallback())
   EndIf
@@ -221,22 +221,22 @@ EndProcedure
 
 CompilerIf #PB_Compiler_Debugger
   
-  Procedure AutoCompleteCallback(List Entries.s())    
+  Procedure AutoCompleteCallback(List Entries.s())
     Debug "have callback call"
     ForEach Entries()
       Debug Entries()
-      Entries() + "XX"      
+      Entries() + "XX"
     Next
   EndProcedure
   
 
   If AUTO_Initialize("C:\PureBasic\v4.60\SDK\Automation\Automation.dll")
-    If AUTO_ConnectToAny()           
+    If AUTO_ConnectToAny()
       AUTO_RegisterEvent("AutoComplete", @AutoCompleteCallback())
     
       Debug AUTO_MenuCommand("Preferences")
       
-      AUTO_ProcessEvents(100000)    
+      AUTO_ProcessEvents(100000)
       AUTO_Disconnect()
     Else
       Debug AUTO_LastError()

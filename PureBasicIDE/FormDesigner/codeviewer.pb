@@ -96,7 +96,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
     If FormWindows()\FormToolbars()\id <> ""
       searchduplicate = 0
       ForEach FormWindows()\FormMenus()
-        If FormWindows()\FormToolbars()\id = FormWindows()\FormMenus()\id 
+        If FormWindows()\FormToolbars()\id = FormWindows()\FormMenus()\id
           searchduplicate = 1
           
           If FormWindows()\FormToolbars()\event <> ""
@@ -136,7 +136,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
         imgvar + ", "
       EndIf
       
-      imgvar + Img()\id 
+      imgvar + Img()\id
     Else
       Img()\id = "#Img_" + FormWindows()\variable + "_" + Str(ListIndex(FormWindows()\FormImg()))
       imgenum + "  " + Img()\id + #Endline
@@ -224,13 +224,13 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
     Next
     
     If jpgdecoder
-      content + "UseJPEGImageDecoder()" + #Endline 
+      content + "UseJPEGImageDecoder()" + #Endline
     EndIf
     If pngdecoder
-      content + "UsePNGImageDecoder()" + #Endline 
+      content + "UsePNGImageDecoder()" + #Endline
     EndIf
     If tgadecoder
-      content + "UseJTAImageDecoder()" + #Endline 
+      content + "UseJTAImageDecoder()" + #Endline
     EndIf
     If tiffdecoder
       content + "UseTIFFImageDecoder()" + #Endline
@@ -298,13 +298,13 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
           flags + " | "
         EndIf
         flags + "#PB_Font_StrikeOut"
-      EndIf      
+      EndIf
       If Fonts()\flags & FlagValue("#PB_Font_Underline")
         If flags <> ""
           flags + " | "
         EndIf
         flags + "#PB_Font_Underline"
-      EndIf      
+      EndIf
         If flags <> ""
           flags = ", " + flags
         EndIf
@@ -312,7 +312,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
       content + "LoadFont("+Fonts()\id+","+Chr(34)+Fonts()\name+Chr(34)+", "+Str(Fonts()\size)+flags+")" + #Endline
     Next
     content +"" + #Endline
-  EndIf 
+  EndIf
   
   
   ForEach FormWindows()\FormGadgets()
@@ -349,7 +349,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
     If MenuVars()\b <> ""
       procedurestring.s = "Declare " + MenuVars()\b + "(Event)" + #Endline
       FormProcedures(procedurestring) = procedurestring
-    EndIf 
+    EndIf
   Next
   
   ForEach FormProcedures()
@@ -380,7 +380,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
   ForEach FormProcedures()
     content + FormProcedures()
   Next
-  ClearMap(FormProcedures())  
+  ClearMap(FormProcedures())
   
   content + #Endline
     
@@ -423,7 +423,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
           EndIf
           If codepaddingy <> ""
             codepaddingy + " + "
-          EndIf    
+          EndIf
         
         EndIf
           
@@ -765,11 +765,11 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
             EndSelect ;}
             
             ; additionnal parameters (min, max...)
-            Select FormWindows()\FormGadgets()\type ;{  
+            Select FormWindows()\FormGadgets()\type ;{
               Case #Form_Type_Date ;{
                 If flags <> ""
                   line + ", 0"
-                EndIf 
+                EndIf
                 ;}
   
               Case #Form_Type_ButtonImg ;{
@@ -912,7 +912,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
               Case #Form_Type_Splitter
                 content + "  SetGadgetState("+variable+", "+Str(FormWindows()\FormGadgets()\state)+")" + #Endline
             EndSelect
-          EndIf 
+          EndIf
           
           If FormWindows()\FormGadgets()\frontcolor > -1
             content + "  SetGadgetColor("+variable+", #PB_Gadget_FrontColor,RGB("+Str(Red(FormWindows()\FormGadgets()\frontcolor))+","+Str(Green(FormWindows()\FormGadgets()\frontcolor))+","+Str(Blue(FormWindows()\FormGadgets()\frontcolor))+"))" + #Endline
@@ -1165,7 +1165,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
             EndIf
           Next
           
-          If found 
+          If found
             content + "  CreateImageMenu("+Str(menucount)+", WindowID("+variable+"))" + #Endline
           Else
             content + "  CreateMenu("+Str(menucount)+", WindowID("+variable+"))" + #Endline
@@ -1176,7 +1176,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
           ForEach FormWindows()\FormMenus()
             If FormWindows()\FormMenus()\separator
               content + "  MenuBar()" + #Endline
-            Else 
+            Else
               Select FormWindows()\FormMenus()\level
                 Case 0
                   For finishlevel = level To 2 Step -1
@@ -1228,7 +1228,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                     EndIf
                     
                     content + ")" + #Endline
-                  EndIf 
+                  EndIf
                   level = FormWindows()\FormMenus()\level
               EndSelect
             EndIf
@@ -1252,13 +1252,13 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
   content +"EndProcedure" + #Endline + #Endline
   
   If codegenresize
-    content + "Procedure ResizeGadgets" + FormWindows()\variable + "()" + #Endline 
+    content + "Procedure ResizeGadgets" + FormWindows()\variable + "()" + #Endline
     content + "  Protected FormWindowWidth, FormWindowHeight" + #Endline
     If FormWindows()\pbany
       variable.s = FormWindows()\variable
     Else
       variable.s = "#"+FormWindows()\variable
-    EndIf 
+    EndIf
     content + "  FormWindowWidth = WindowWidth(" + variable + ")" + #Endline
     content + "  FormWindowHeight = WindowHeight(" + variable + ")" + #Endline
     
@@ -1271,8 +1271,8 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
     content + "  Select event" + #Endline
     
     If codegenresize
-      content + "    Case #PB_Event_SizeWindow" + #Endline 
-      content + "      ResizeGadgets" + FormWindows()\variable + "()" + #Endline 
+      content + "    Case #PB_Event_SizeWindow" + #Endline
+      content + "      ResizeGadgets" + FormWindows()\variable + "()" + #Endline
     EndIf
     
     content + "    Case #PB_Event_CloseWindow" + #Endline
@@ -1335,7 +1335,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
     ForEach MenuVars()
       If MenuVars()\b <> ""
         content + "Procedure " + MenuVars()\b + "(Event) : EndProcedure" + #Endline
-      EndIf 
+      EndIf
     Next
       
     ; Gadgets
@@ -1355,7 +1355,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
   
   If testcode
     content + "Open"+FormWindows()\variable+"()" + #Endline + #Endline
-    content + "Repeat" + #Endline + "  event = WaitWindowEvent()" + #Endline    
+    content + "Repeat" + #Endline + "  event = WaitWindowEvent()" + #Endline
     content + "Until " + FormWindows()\variable + "_Events(event) = #False" + #Endline + #Endline + "End"
   EndIf
   

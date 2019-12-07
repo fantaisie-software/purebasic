@@ -99,7 +99,7 @@ Procedure.i grid_NewWindowMouseX(windownr.i)
   If wmx >= 0
     grids_gs_windowmousedx = dmx-wmx
   EndIf
-  ProcedureReturn DesktopMouseX()-grids_gs_windowmousedx                 
+  ProcedureReturn DesktopMouseX()-grids_gs_windowmousedx
 EndProcedure
 Procedure.i grid_NewWindowMouseY(windownr.i)
   Protected wmy.i, dmy.i
@@ -109,7 +109,7 @@ Procedure.i grid_NewWindowMouseY(windownr.i)
   If wmy >= 0
     grids_gs_windowmousedy = dmy-wmy
   EndIf
-  ProcedureReturn DesktopMouseY()-grids_gs_windowmousedy                 
+  ProcedureReturn DesktopMouseY()-grids_gs_windowmousedy
 EndProcedure
 
 Procedure grid_Max(val1,val2)
@@ -267,7 +267,7 @@ Structure Grid_Struct
   
   ; When edit mode is on and user keys "tab" then "enter", go to the cell below the last edited cell.
   keep_pos_col.i
-  keep_pos_row.i 
+  keep_pos_row.i
   
   ; Edit cursor
   timer_edit.b  ; on / off
@@ -620,7 +620,7 @@ ProcedureDLL GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 10
   
   CompilerIf #PB_Compiler_OS = #PB_OS_Linux
     Protected *wid.GtkWidget
-    *wid.GtkWidget = GadgetID(*grid\hscroll) 
+    *wid.GtkWidget = GadgetID(*grid\hscroll)
     Grid_Scrollbar_Width = *wid\allocation\height
     
     ResizeGadget(*grid\hscroll,x,y+height-Grid_Scrollbar_Width,width-Grid_Scrollbar_Width,Grid_Scrollbar_Width)
@@ -756,7 +756,7 @@ ProcedureDLL grid_FreeGadget(*grid.Grid_Struct)
   
   CloseWindow(*grid\ac_window)
   
-  If *grid\hscroll 
+  If *grid\hscroll
     FreeGadget(*grid\hscroll)
   EndIf
   
@@ -910,7 +910,7 @@ ProcedureDLL grid_SetGadgetAttribute(*grid.Grid_Struct, attribute, value)
         value = 0
       EndIf
       
-      If *grid\yscroll <> value 
+      If *grid\yscroll <> value
         *grid\yscroll = value
         SetGadgetState(*grid\vscroll,*grid\yscroll)
         
@@ -1237,7 +1237,7 @@ ProcedureDLL grid_SetColumnWidth(*grid.Grid_Struct, index, width = -1, padding =
       width + 17*2
     EndIf
     
-    For i = 0 To *grid\maxnumrows - 1  
+    For i = 0 To *grid\maxnumrows - 1
       cell_width = grid_GetCellTextWidth(*grid.Grid_Struct, index, i)
 
       If FindMapElement(*grid\cells(),Str(*grid\col(index))+"x"+Str(*grid\row(i)))
@@ -1270,15 +1270,15 @@ ProcedureDLL grid_GetColumnWidth(*grid.Grid_Struct, index)
   col.s = Str(*grid\col(index))
   
   If FindMapElement(*grid\cols(), col)
-    width = *grid\cols()\wh 
+    width = *grid\cols()\wh
   Else
-    width = *grid\default_col_width 
+    width = *grid\default_col_width
   EndIf
   
   ProcedureReturn width
 EndProcedure
 ProcedureDLL grid_SetRowCaption(*grid.Grid_Struct, index, caption.s)
-  Protected row.s 
+  Protected row.s
   
   row.s = Str(*grid\row(index))
   If Not FindMapElement(*grid\rows(),row)
@@ -1301,7 +1301,7 @@ ProcedureDLL grid_SetRowCaption(*grid.Grid_Struct, index, caption.s)
   *grid\redraw = #True
 EndProcedure
 ProcedureDLL grid_SetRowData(*grid.Grid_Struct, index, g_data)
-  Protected row.s 
+  Protected row.s
   
   row.s = Str(*grid\row(index))
   If Not FindMapElement(*grid\rows(),row)
@@ -1354,7 +1354,7 @@ ProcedureDLL grid_GetRowHeight(*grid.Grid_Struct, index)
   
   row.s = Str(*grid\row(index))
   If FindMapElement(*grid\rows(), row)
-    height = *grid\rows()\wh 
+    height = *grid\rows()\wh
   Else
     height = *grid\default_row_height
   EndIf
@@ -1363,7 +1363,7 @@ ProcedureDLL grid_GetRowHeight(*grid.Grid_Struct, index)
 EndProcedure
 
 ProcedureDLL grid_HideRow(*grid.Grid_Struct, index, hide.b)
-  Protected row.s 
+  Protected row.s
   
   row.s = Str(*grid\row(index))
   If Not FindMapElement(*grid\rows(),row)
@@ -1935,7 +1935,7 @@ ProcedureDLL grid_PasteToSelection(*grid.Grid_Struct)
     tx = 0
     While Len(clip_line) > 0
       tpos = FindString(clip_line,Chr(9),1)
-      If tpos > 0 
+      If tpos > 0
         grid_SetCellString( *grid, *grid\sel()\sel_col + tx,*grid\sel()\sel_row + ty,Left(clip_line,tpos-1))
         clip_line = Right(clip_line,Len(clip_line)-tpos)
         tx + 1
@@ -2088,10 +2088,10 @@ ProcedureDLL grid_SetSelectionStyle(*grid.Grid_Struct,col_index ,row_index ,font
       add_start.b = #True
       add_end.b = #True
       ForEach *grid\cells()\style()
-        If selstart = *grid\cells()\style()\style_end 
+        If selstart = *grid\cells()\style()\style_end
           add_start = #False
         EndIf
-        If selend = *grid\cells()\style()\style_end 
+        If selend = *grid\cells()\style()\style_end
           add_end = #False
         EndIf
       Next
@@ -2258,9 +2258,9 @@ ProcedureDLL grid_SetSelectionStyle(*grid.Grid_Struct,col_index ,row_index ,font
       *grid\tfontflags | #Grid_TextEdit_Font_Strikethrough
     ElseIf strikethrough = 0 And *grid\tfontflags & #Grid_TextEdit_Font_Strikethrough
       *grid\tfontflags - #Grid_TextEdit_Font_Strikethrough
-    EndIf    
+    EndIf
   EndIf
-  EndIf 
+  EndIf
   
   *grid\redraw = #True
 EndProcedure
@@ -2306,7 +2306,7 @@ ProcedureDLL grid_InsertColumn(*grid.Grid_Struct,index, caption.s = "", width = 
   Protected endloop, i
   
   If index = -1
-    index = *grid\maxnumcols 
+    index = *grid\maxnumcols
   EndIf
   
   DisableDebugger
@@ -2773,7 +2773,7 @@ Procedure grid_GetLastCellSelected(*grid.Grid_Struct, *row, *column)
     PokeL(*row,*grid\sel()\sel_row)
     PokeL(*column,*grid\sel()\sel_col)
     
-  EndIf 
+  EndIf
 EndProcedure
 
 Procedure grid_GetEditPosFromMouse(*grid.Grid_Struct, current_column, current_row, mouse_x, mouse_y)
@@ -2824,7 +2824,7 @@ Procedure grid_GetEditPosFromMouse(*grid.Grid_Struct, current_column, current_ro
         DrawingFont(FontID(grids_fonts()\hfont))
       EndIf
       
-      textend = *grid\cells()\style()\style_end 
+      textend = *grid\cells()\style()\style_end
       
       
       For i = textstart To textend
@@ -2993,7 +2993,7 @@ Procedure grid_GetWidthFromPos(*grid.Grid_Struct, current_column, current_row, p
         DrawingFont(FontID(grids_fonts()\hfont))
       EndIf
       
-      textend = *grid\cells()\style()\style_end 
+      textend = *grid\cells()\style()\style_end
       
       
       For i = textstart To textend
@@ -3028,7 +3028,7 @@ Procedure grid_BeginEditing(*grid.Grid_Struct, col, row)
     If FindMapElement(*grid\cells(),Str(*grid\col(col))+"x"+Str(*grid\row(row)))
       Select *grid\cells()\type
         Case #Grid_Cell_Checkbox, #Grid_Cell_Combobox, #Grid_Cell_Custom, #Grid_Cell_SpinGadget
-          ok = #False 
+          ok = #False
       EndSelect
     EndIf
     
@@ -3059,7 +3059,7 @@ Procedure grid_BeginEditing(*grid.Grid_Struct, col, row)
         CopyList(*grid\cells()\style(),*grid\edit_old_style())
       EndIf
       
-      If content = "" 
+      If content = ""
         If Not FindMapElement(*grid\cells(),Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
           AddMapElement(*grid\cells(),Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
           *grid\cells()\backColor = *grid\color_background
@@ -3094,7 +3094,7 @@ Procedure grid_BeginEditing(*grid.Grid_Struct, col, row)
       *grid\redraw_ignore_grid = #True
     EndIf
   EndIf
-  EndIf 
+  EndIf
 EndProcedure
 
 Procedure grid_StopEditing(*grid.Grid_Struct)
@@ -3112,7 +3112,7 @@ Procedure grid_StopEditing(*grid.Grid_Struct)
       *grid\events()\event_column = *grid\sel()\sel_col
       *grid\events()\event_row = *grid\sel()\sel_row
       *grid\events()\event_cell = #Grid_Event_Cell_ContentChange
-      EndIf 
+      EndIf
     EndIf
     
     *grid\edit_col = -1
@@ -3274,7 +3274,7 @@ Procedure grid_DoEditFieldEvent(*grid.Grid_Struct, key)
         
         If *grid\tfontflags & #Grid_TextEdit_Font_Strikethrough
           strikethrough = 1
-        EndIf      
+        EndIf
         grid_SetSelectionStyle( *grid, -1,-1,*grid\tfont,*grid\tfontsize,bold,italic, underline,strikethrough,*grid\tfontcolor,*grid\edit_pos-1,*grid\edit_pos)
       EndIf
       
@@ -3372,7 +3372,7 @@ Procedure grid_DoHoverEvent(*grid.Grid_Struct,x, y)
       
       If y <= *grid\header_col_height
         If x >= (drawing_x2 - 5) And x <= (drawing_x2 + 5)
-          *grid\resize_col = current_column 
+          *grid\resize_col = current_column
           *grid\resize_posx = drawing_x
           *grid\resize_posy = drawing_x2
       
@@ -3454,7 +3454,7 @@ Procedure grid_DrawSpin(drawing_x, drawing_x2, drawing_y,drawing_y2, *grid)
 EndProcedure
 
 
-Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)  
+Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
   Protected drawing_x, drawing_x2, drawing_y, drawing_y2, current_column, current_row, indexed_current_column, indexed_current_row, width, rowCaptionWidth, firstcell_coll, firstcell_row, column_selected.b
   Protected caption.s, cell.s, height, height2, edit_col, textwidth, leftpadding, toppadding, tempcontent.s, tempwidth, content.s, fontkey.s, textx, textstart, text.s, newtextx
   Protected row_selected.b, wtext, xcursor, sel_end, sel_start, selend, selstart, abc, cellcolor, selected_cell
@@ -3659,16 +3659,16 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
             If grid_IsCellSelected( *grid,  current_column, current_row)
               ; get width
               If FindMapElement(*grid\cols(), Str(indexed_current_column))
-                width = *grid\cols()\wh 
+                width = *grid\cols()\wh
               Else
-                width = *grid\default_col_width 
+                width = *grid\default_col_width
               EndIf
               
               ;get height
               If FindMapElement(*grid\rows(), Str(indexed_current_row))
-                height = *grid\rows()\wh 
+                height = *grid\rows()\wh
               Else
-                height = *grid\default_row_height 
+                height = *grid\default_row_height
               EndIf
               
               DrawingMode(#PB_2DDrawing_AlphaBlend)
@@ -3694,7 +3694,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
             
             
             If FindMapElement(*grid\cells(), cell)
-            Select *grid\cells()\type 
+            Select *grid\cells()\type
               Case #Grid_Cell_Combobox_Editable, #Grid_Cell_SpinGadget ; Make the edit field 22px smaller to leave space for the combo box button
                 *grid\edit_x2 - 22
               Case #Grid_Cell_Text ; Extend the edit field width according to the cell content if the cell is in text mode.
@@ -3716,7 +3716,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
                   Wend
                 EndIf
             EndSelect
-            EndIf 
+            EndIf
             ;}
           Else ;{- Not in edit mode, draw the cell according to its cell type.
             If redraw_grid
@@ -4019,7 +4019,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
             DrawText((rowCaptionWidth - wtext) / 2,drawing_y + (*grid\rows()\wh - 12) / 2, caption)
             
             LineXY(0,drawing_y + *grid\rows()\wh,rowCaptionWidth,drawing_y + *grid\rows()\wh,*grid\color_linedark)
-          EndIf 
+          EndIf
           drawing_y + *grid\rows()\wh + 1
         Else
           If Not *grid\header_row_hidden
@@ -4079,9 +4079,9 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
   EndIf
   
   ; Draw combo box button if needed
-  If (*grid\edit_col > -1 Or *grid\edit_row > -1) And *grid\edit_col >= *grid\xscroll And *grid\edit_col <= *grid\xscroll_end And *grid\edit_row >= *grid\yscroll And *grid\edit_row <= *grid\yscroll_end 
+  If (*grid\edit_col > -1 Or *grid\edit_row > -1) And *grid\edit_col >= *grid\xscroll And *grid\edit_col <= *grid\xscroll_end And *grid\edit_row >= *grid\yscroll And *grid\edit_row <= *grid\yscroll_end
     If FindMapElement(*grid\cells(), Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
-      If *grid\cells()\type = #Grid_Cell_Combobox_Editable    
+      If *grid\cells()\type = #Grid_Cell_Combobox_Editable
         grid_DrawCombo(*grid\edit_x, *grid\edit_x2 + 22, *grid\edit_y, *grid\edit_y2, *grid)
       EndIf
       If *grid\cells()\type = #Grid_Cell_SpinGadget
@@ -4126,7 +4126,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
         leftpadding = *grid\cells()\ident
       EndIf
       
-      xcursor = leftpadding + grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,*grid\edit_pos) 
+      xcursor = leftpadding + grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,*grid\edit_pos)
       
       ; If cell is a combo box, remove the scroll width to the x cursor pos.
       If *grid\cells()\type = #Grid_Cell_Combobox_Editable Or *grid\cells()\type = #Grid_Cell_SpinGadget Or *grid\cells()\type = #Grid_Cell_TextWrap
@@ -4166,7 +4166,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
         DrawingMode(#PB_2DDrawing_AlphaBlend)
         
         ; Need to use the inverted color using formula below, but then change text color!
-        Box(selstart, toppadding,selend - selstart,height, *grid\cells()\backColor ! $FFFFFFFF) ;RGBA(180,215,255,255)) 
+        Box(selstart, toppadding,selend - selstart,height, *grid\cells()\backColor ! $FFFFFFFF) ;RGBA(180,215,255,255))
         DrawingMode(#PB_2DDrawing_Transparent)
         
         sel_start + 1
@@ -4360,7 +4360,7 @@ Procedure grid_RedrawComboList(*grid.Grid_Struct)
     
     DrawingMode(#PB_2DDrawing_Outlined)
     Box(0,0,OutputWidth(),OutputHeight(),RGB(100,100,100))
-    DrawingMode(#PB_2DDrawing_Transparent) 
+    DrawingMode(#PB_2DDrawing_Transparent)
   
     StopDrawing()
   EndIf
@@ -4459,7 +4459,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
           col = 0
           row + 1
         EndIf
-      EndIf 
+      EndIf
       
       If key = #PB_Shortcut_Tab
         ClearList(*grid\sel())
@@ -4596,7 +4596,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
           *grid\events()\event_column = *grid\edit_col
           *grid\events()\event_row = *grid\edit_row
           *grid\events()\event_cell = #Grid_Event_Cell_ContentChange
-        EndIf 
+        EndIf
       EndIf
       
       ; Set the selected cell at the next row
@@ -4638,16 +4638,16 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
           *grid\events()\event_column = *grid\edit_col
           *grid\events()\event_row = *grid\edit_row
           *grid\events()\event_cell = #Grid_Event_Cell_ContentChange
-        EndIf 
+        EndIf
       EndIf
       
       ; Set the selected cell at the next row
       If *grid\edit_col+1 < *grid\maxnumcols
-        *grid\sel()\sel_col = *grid\edit_col + 1 
+        *grid\sel()\sel_col = *grid\edit_col + 1
         *grid\sel()\sel_col_end = *grid\edit_col + 1
       Else
-        *grid\sel()\sel_col = *grid\edit_col 
-        *grid\sel()\sel_col_end = *grid\edit_col 
+        *grid\sel()\sel_col = *grid\edit_col
+        *grid\sel()\sel_col_end = *grid\edit_col
       EndIf
       
       *grid\sel()\sel_row = *grid\edit_row
@@ -4676,7 +4676,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
           *grid\events()\event_column = *grid\edit_col
           *grid\events()\event_row = *grid\edit_row
           *grid\events()\event_cell = #Grid_Event_Cell_ContentChange
-        EndIf 
+        EndIf
       EndIf
       
       If *grid\keep_pos_col > -1 And *grid\keep_pos_row > -1
@@ -4696,8 +4696,8 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
         *grid\keep_pos_row = -1
       Else
         ; Set the selected cell at the next row
-        *grid\sel()\sel_col = *grid\edit_col 
-        *grid\sel()\sel_col_end = *grid\edit_col 
+        *grid\sel()\sel_col = *grid\edit_col
+        *grid\sel()\sel_col_end = *grid\edit_col
         
         
         If *grid\edit_row + 1 < *grid\maxnumrows
@@ -4784,7 +4784,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
       If FindMapElement(*grid\cells(), Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
         If *grid\cells()\type = #Grid_Cell_Combobox_Editable Or *grid\cells()\type = #Grid_Cell_SpinGadget Or *grid\cells()\type = #Grid_Cell_TextWrap
           StartDrawing(ImageOutput(*grid\tempimg))
-          width = grid_GetCellTextWidth(*grid, *grid\edit_col, *grid\edit_row) 
+          width = grid_GetCellTextWidth(*grid, *grid\edit_col, *grid\edit_row)
           
           If width >= (*grid\edit_x2 - *grid\edit_x)
             ; get cursor position taking into account the combo scroll position
@@ -4806,7 +4806,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
       
       AddElement(*grid\events())
       *grid\events()\event = #Grid_Event_Cursor
-      *grid\tstyle = #False      
+      *grid\tstyle = #False
       ;}
     ElseIf key = #PB_Shortcut_Home And modifier = #PB_Canvas_Shift ;{-
       *grid\keep_pos_col = - 1
@@ -4853,7 +4853,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
       *grid\redraw_ignore_grid = #True
 
       ;}
-    Else 
+    Else
       *grid\keep_pos_col = -1
       *grid\keep_pos_row = -1
       If key = #PB_Shortcut_Left ;{-
@@ -4972,7 +4972,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
         Else
           If *grid\edit_pos < Len(grid_GetCellString( *grid, *grid\edit_col,*grid\edit_row))
             *grid\edit_pos + 1
-          EndIf 
+          EndIf
           
           *grid\edit_sel_start = 0
           *grid\edit_sel_end = 0
@@ -5006,7 +5006,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
         *grid\events()\event = #Grid_Event_Cursor
         *grid\tstyle = #False
         ;}
-      ElseIf key = #PB_Shortcut_Up ;{- 
+      ElseIf key = #PB_Shortcut_Up ;{-
         *grid\edit_pos = 0
         *grid\edit_combo_pos = 0
         
@@ -5197,7 +5197,7 @@ Procedure grid_DoLeftButtonDownEvent(*grid.Grid_Struct, mousex, mousey, rightbut
       *grid\events()\event_column = *grid\sel()\sel_col
       *grid\events()\event_row = *grid\sel()\sel_row
       *grid\events()\event_cell = #Grid_Event_Cell_ContentChange
-      EndIf 
+      EndIf
     EndIf
     
     *grid\edit_col = -1
@@ -5332,7 +5332,7 @@ Procedure grid_DoLeftButtonDownEvent(*grid.Grid_Struct, mousex, mousey, rightbut
               If FindMapElement(*grid\cells(),Str(*grid\col(*grid\sel()\sel_col))+"x"+Str(*grid\row(*grid\sel()\sel_row)))
                 Select *grid\cells()\type
                   Case #Grid_Cell_Checkbox, #Grid_Cell_Combobox, #Grid_Cell_Custom
-                    ok = #False 
+                    ok = #False
                   Case #Grid_Cell_SpinGadget ; don't get into edit mode if dbl click on spin button
                     cellcombo.s = grid_GetCurrentCellCombo(*grid,GetGadgetAttribute(*grid\canvas,#PB_Canvas_MouseX),GetGadgetAttribute(*grid\canvas,#PB_Canvas_MouseY))
                     If Val(StringField(cellcombo, 1, "x")) > -1 And Val(StringField(cellcombo, 2, "x")) > -1
@@ -5371,7 +5371,7 @@ Procedure grid_DoLeftButtonDownEvent(*grid.Grid_Struct, mousex, mousey, rightbut
                   CopyList(*grid\cells()\style(),*grid\edit_old_style())
                 EndIf
                 
-                If content = "" 
+                If content = ""
                   If Not FindMapElement(*grid\cells(),Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
                     AddMapElement(*grid\cells(),Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
                     *grid\cells()\backColor = *grid\color_background
@@ -5458,7 +5458,7 @@ Procedure grid_DoMouseMoveEvent(*grid.Grid_Struct, mousex, mousey)
       *grid\redraw = #True
     EndIf
   ElseIf *grid\resizing ; Column or Row resizing
-    If *grid\resize_col <> -1 
+    If *grid\resize_col <> -1
       *grid\resize_posy = mousex
       
       If *grid\resize_posy >= *grid\innerwidth - 2
@@ -5468,14 +5468,14 @@ Procedure grid_DoMouseMoveEvent(*grid.Grid_Struct, mousex, mousey)
       EndIf
       
       grid_SetColumnWidth( *grid,  *grid\resize_col, *grid\resize_posy - *grid\resize_posx)
-    ElseIf *grid\resize_row <> -1 
+    ElseIf *grid\resize_row <> -1
       *grid\resize_posy = mousey
       
       If *grid\resize_posy >= *grid\innerheight - 2
         *grid\resize_posy = *grid\innerheight - 2
       ElseIf *grid\resize_posy <= *grid\resize_posx
         *grid\resize_posy = *grid\resize_posx + 1
-      EndIf                  
+      EndIf
       grid_SetRowHeight( *grid,  *grid\resize_row, *grid\resize_posy - *grid\resize_posx)
     EndIf
     
@@ -5527,7 +5527,7 @@ Procedure grid_DoMouseMoveEvent(*grid.Grid_Struct, mousex, mousey)
         *grid\redraw_ignore_grid = #True
       EndIf
       ; No mouse button down: change mouse cursor if required
-    ElseIf *grid\edit_col > -1 And *grid\edit_row > -1 
+    ElseIf *grid\edit_col > -1 And *grid\edit_row > -1
       If mousex > *grid\edit_x And mousex < *grid\edit_x2 And mousey > *grid\edit_y And mousey < *grid\edit_y2
         If *grid\cursor <> #PB_Cursor_IBeam
           SetGadgetAttribute(*grid\canvas,#PB_Canvas_Cursor,#PB_Cursor_IBeam)
@@ -5600,12 +5600,12 @@ Procedure grid_DoLeftButtonUpEvent(*grid.Grid_Struct, mousex, mousey)
         ResizeGadget(*grid\ac_list, 0,0,combo_w,200)
 
         ; do not display combobox as the click happened on a combobox already opened.
-        If *grid\ac_row = row And *grid\ac_col = col And *grid\ac_row <> -1 And *grid\ac_col <> -1 
+        If *grid\ac_row = row And *grid\ac_col = col And *grid\ac_row <> -1 And *grid\ac_col <> -1
           *grid\ac_row = -1
           *grid\ac_col = -1
         Else
           If *grid\ac_active = 0
-            HideWindow(*grid\ac_window,0) 
+            HideWindow(*grid\ac_window,0)
           EndIf
           
           StickyWindow(*grid\ac_window,1)
@@ -5615,17 +5615,17 @@ Procedure grid_DoLeftButtonUpEvent(*grid.Grid_Struct, mousex, mousey)
           *grid\ac_row = row
           *grid\ac_col = col
           ; internal combo box list is stored in the state param of the cell
-          If *grid\cells()\state <> 0 
+          If *grid\cells()\state <> 0
             ChangeCurrentElement(*grid\combolists(),*grid\cells()\state)
             icombo = 0
             *grid\ac_currentcombo = *grid\cells()\state
-          EndIf 
+          EndIf
           
           grid_RedrawComboList(*grid)
         EndIf
       EndIf
     EndIf
-  EndIf 
+  EndIf
   
   If ((cell <> *grid\cell_selected And cell <> *grid\cell_selected_move) Or (cell = *grid\cell_selected And *grid\cell_selected <> *grid\cell_selected_move)) And cell <> ""
     ; go to the last selected block
@@ -5739,7 +5739,7 @@ ProcedureDLL grid_AddCellSelection(*grid.Grid_Struct, col, col_end, row, row_end
 EndProcedure
 
 ProcedureDLL grid_EventEditingRow(*grid.Grid_Struct)
-  ProcedureReturn *grid\edit_row 
+  ProcedureReturn *grid\edit_row
 EndProcedure
 
 ProcedureDLL grid_EventEditingColumn(*grid.Grid_Struct)
@@ -5802,7 +5802,7 @@ ProcedureDLL grid_EventNextCell(*grid.Grid_Struct)
 EndProcedure
 
 ProcedureDLL grid_EventFirstCell(*grid.Grid_Struct)
-  *grid\c_event_index_cells = -1 
+  *grid\c_event_index_cells = -1
 EndProcedure
 
 ; BindEvent procedures
@@ -6197,7 +6197,7 @@ EndProcedure
 
 ProcedureDLL grid_WindowEvent()
   ForEach grid_grids()
-    If grid_grids()\ac_active 
+    If grid_grids()\ac_active
       grid_CloseCombo(grid_grids())
     EndIf
   Next

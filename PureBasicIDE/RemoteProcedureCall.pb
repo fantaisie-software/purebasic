@@ -22,7 +22,7 @@ Structure RPC_Parameter
     Float.f
     Double.d
    *Memory
-  EndStructureUnion  
+  EndStructureUnion
 EndStructure
 
 Structure RPC_Call
@@ -71,7 +71,7 @@ Procedure RPC_InitCall(*Call.RPC_Call, Function$, NbParameters)
   
   If NbParameters > 0
     Dim *Call\Parameter(NbParameters-1)
-  EndIf  
+  EndIf
 EndProcedure
 
 ; Re-initialize an existing Call with values for the response:
@@ -91,7 +91,7 @@ Procedure RPC_InitResponse(*Call.RPC_Call, NbParameters, ErrorFlag = 0)
   
   If NbParameters > 0
     Dim *Call\Parameter(NbParameters-1)
-  EndIf  
+  EndIf
 EndProcedure
 
 ; The format is:
@@ -115,7 +115,7 @@ Procedure RPC_Encode(*Call.RPC_Call)
   NameLength = StringByteLength(*Call\Function$, #PB_UTF8) + 1
   Size = 24 + NameLength
   For i = 0 To *Call\NbParameters-1
-    Size + 1 + *Call\Parameter(i)\Size    
+    Size + 1 + *Call\Parameter(i)\Size
     If *Call\Parameter(i)\Type = -1 Or *Call\Parameter(i)\Type = #PB_String
       Size + 4
     EndIf
@@ -178,7 +178,7 @@ Procedure RPC_Encode(*Call.RPC_Call)
     Next i
     
     Success = 1
-  EndIf  
+  EndIf
   
   ProcedureReturn Success
 EndProcedure
@@ -205,7 +205,7 @@ Procedure RPC_Decode(*Call.RPC_Call, *Encoded, Size, CopyBuffer = #True)
       *Call\IsResponse   = PeekL(*Encoded+4)
       *Call\ResponseID   = PeekL(*Encoded+8)
       *Call\ErrorFlag    = PeekL(*Encoded+12)
-      *Call\NbParameters = PeekL(*Encoded+16)      
+      *Call\NbParameters = PeekL(*Encoded+16)
       *Call\Function$    = PeekS(*Encoded+24, -1, #PB_UTF8)
       *Pointer = *Encoded + 24 + PeekL(*Encoded+20)
       
@@ -213,7 +213,7 @@ Procedure RPC_Decode(*Call.RPC_Call, *Encoded, Size, CopyBuffer = #True)
         Dim *Call\Parameter(*Call\NbParameters-1)
         
         For i = 0 To *Call\NbParameters-1
-          *Call\Parameter(i)\Type = PeekB(*Pointer): 
+          *Call\Parameter(i)\Type = PeekB(*Pointer):
           *Pointer + 1
           
           Select *Call\Parameter(i)\Type
@@ -241,13 +241,13 @@ Procedure RPC_Decode(*Call.RPC_Call, *Encoded, Size, CopyBuffer = #True)
               *Call\Parameter(i)\Size = PeekL(*Pointer)
               *Pointer + 4
               *Call\Parameter(i)\String$ = PeekS(*Pointer, -1, #PB_UTF8)
-              *Pointer + *Call\Parameter(i)\Size       
+              *Pointer + *Call\Parameter(i)\Size
     
             Case -1
               *Call\Parameter(i)\Size = PeekL(*Pointer)
               *Pointer + 4
               *Call\Parameter(i)\Memory = *Pointer
-              *Pointer + *Call\Parameter(i)\Size         
+              *Pointer + *Call\Parameter(i)\Size
               
           EndSelect
         Next i

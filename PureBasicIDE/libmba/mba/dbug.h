@@ -25,10 +25,10 @@ extern "C" {
 LIBMBA_API int dbug_stacktrace(void **buf, int off, int n);
 LIBMBA_API unsigned char *dbug_resolve_symbol(void *sym, unsigned char *buf, unsigned char *blim);
 LIBMBA_API int dbug_sprint_stacktrace(unsigned char *str,
-			unsigned char *slim,
-			void **syms,
-			int sn,
-			const unsigned char *msg);
+      unsigned char *slim,
+      void **syms,
+      int sn,
+      const unsigned char *msg);
 LIBMBA_API int dbug_fprint_stacktrace(FILE *stream, int off, int n, const char *msg);
 
 #ifdef __cplusplus

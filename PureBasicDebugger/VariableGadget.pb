@@ -24,7 +24,7 @@ Enumeration
   #SORTTYPE_Unknown
   #SORTTYPE_Byte
   #SORTTYPE_Ascii
-  #SORTTYPE_Character    
+  #SORTTYPE_Character
   #SORTTYPE_Unicode
   #SORTTYPE_Word
   #SORTTYPE_Long
@@ -89,7 +89,7 @@ Procedure VariableGadget_CatchIcon(*Address)
     
     If result And realImage And StartDrawing(ImageOutput(result))
       Box(0, 0, #DEFAULT_ListIconImageSize, #DEFAULT_ListIconImageSize, $FFFFFF)
-      DrawImage(ImageID(realImage), #DEFAULT_ListIconImageOffset, #DEFAULT_ListIconImageOffset)    
+      DrawImage(ImageID(realImage), #DEFAULT_ListIconImageOffset, #DEFAULT_ListIconImageOffset)
       StopDrawing()
     EndIf
   CompilerEndIf
@@ -130,11 +130,11 @@ EndProcedure
 ; Note:
 ;   Array, List, Map are only possible inside structures (where they always sort by order),
 ;   So we do not have to take care of these in the compare proc
-; 
+;
 Procedure VariableGadget_Compare(*Gadget.VariableGadget, index1, index2)
-  *items.VariableGadget_ItemList = *Gadget\Items    
+  *items.VariableGadget_ItemList = *Gadget\Items
   *entry1.VariableGadget_Entry   = @*items\item[index1]
-  *entry2.VariableGadget_Entry   = @*items\item[index2]  
+  *entry2.VariableGadget_Entry   = @*items\item[index2]
   
   If *entry1\Parent = -1 And *entry2\Parent = -1
     ; both are toplevel items, so compare them
@@ -145,7 +145,7 @@ Procedure VariableGadget_Compare(*Gadget.VariableGadget, index1, index2)
     If *Gadget\IndexSort
       NameResult = (index1 - index2) * *Gadget\SortDirection ; compare indexes instead of names for the main level
     Else
-      ; ignore the * in front of names      
+      ; ignore the * in front of names
       *Name1 = @*entry1\Name$
       If PeekC(*Name1) = '*'
         *Name1 + SizeOf(Character)
@@ -154,7 +154,7 @@ Procedure VariableGadget_Compare(*Gadget.VariableGadget, index1, index2)
       *Name2 = @*entry2\Name$
       If PeekC(*Name2) = '*'
         *Name2 + SizeOf(Character)
-      EndIf   
+      EndIf
       
       NameResult =  CompareMemoryString(*Name1, *Name2, #PB_String_NoCase) * *Gadget\SortDirection ; PB is case insensitive
     EndIf
@@ -164,13 +164,13 @@ Procedure VariableGadget_Compare(*Gadget.VariableGadget, index1, index2)
     
     ElseIf *Gadget\SortColumn = *Gadget\ExtraColumns+1 ; value column
       ; Spechial thing for the Watchlist. List all out of scope values at the end
-      If *entry1\Value$ = "---" 
+      If *entry1\Value$ = "---"
         If *entry2\Value$ <> "---"
           ProcedureReturn 1
         EndIf
       ElseIf *entry2\Value$ = "---"
         ProcedureReturn -1
-      EndIf              
+      EndIf
     
       ; sort first by type, then by value
       Type1 = VariableGadget_SortType(*entry1\Type)
@@ -187,7 +187,7 @@ Procedure VariableGadget_Compare(*Gadget.VariableGadget, index1, index2)
           ProcedureReturn NameResult
         Else
           ProcedureReturn Result
-        EndIf            
+        EndIf
         
       ElseIf *entry1\Value$ = *entry2\Value$ Or Type1 = #SORTTYPE_Unknown ; equal values, use name then
         ProcedureReturn NameResult
@@ -198,7 +198,7 @@ Procedure VariableGadget_Compare(*Gadget.VariableGadget, index1, index2)
           Quad2.q = Val("$" + *entry2\Value$)
         Else
           Quad1.q = Val(*entry1\Value$)
-          Quad2.q = Val(*entry2\Value$)            
+          Quad2.q = Val(*entry2\Value$)
         EndIf
         
         ; cannot just do "ProcedureReturn Quad1-Quad2" as that could exceed the returnvalue size on x86
@@ -220,7 +220,7 @@ Procedure VariableGadget_Compare(*Gadget.VariableGadget, index1, index2)
           ProcedureReturn (-1) * *Gadget\SortDirection
         Else
           ProcedureReturn *Gadget\SortDirection
-        EndIf          
+        EndIf
       
       Else ; string types
         ProcedureReturn CompareMemoryString(@*entry1\Value$, @*entry2\Value$) * *Gadget\SortDirection ; use case sensitive here
@@ -237,20 +237,20 @@ Procedure VariableGadget_Compare(*Gadget.VariableGadget, index1, index2)
       Else
         ProcedureReturn Result * *Gadget\SortDirection
       EndIf
-    EndIf           
+    EndIf
   
   Else
     ; atleast one is not a toplevel one
     ; find the index of the toplevel item for both items
     topindex1 = index1
     While *items\item[topindex1]\Parent <> -1
-      topindex1 = *items\item[topindex1]\Parent 
+      topindex1 = *items\item[topindex1]\Parent
     Wend
   
     topindex2 = index2
     While *items\item[topindex2]\Parent <> -1
-      topindex2 = *items\item[topindex2]\Parent 
-    Wend    
+      topindex2 = *items\item[topindex2]\Parent
+    Wend
     
     If topindex1 = topindex2
       ; both are in the same toplevel node, so just compare by index to keep the
@@ -279,8 +279,8 @@ CompilerIf #CompileWindows
       ProcedureReturn 0 ; this may not happen, as we use SetGadgetItemData() to set all index values
     Else
       ProcedureReturn VariableGadget_Compare(*Gadget, *data1\UserData, *data2\UserData)
-    EndIf    
-  EndProcedure    
+    EndIf
+  EndProcedure
   
   Procedure VariableGadget_ParentCallback(Window, Message, wParam, lParam)
     Callback = GetProp_(Window, "Variable_Callback")
@@ -290,7 +290,7 @@ CompilerIf #CompileWindows
       RemoveProp_(Window, "Variable_Callback")
       
     ElseIf Message = #WM_NOTIFY
-      *nmv.NM_LISTVIEW = lParam      
+      *nmv.NM_LISTVIEW = lParam
       If *nmv\hdr\code = #LVN_COLUMNCLICK
 
         ; find the right gadget (if it is a variablegadget at all)
@@ -299,7 +299,7 @@ CompilerIf #CompileWindows
             
             ; set new column/direction
             If VariableGadget_List()\SortColumn = *nmv\iSubItem
-              VariableGadget_List()\SortDirection * -1 
+              VariableGadget_List()\SortDirection * -1
             Else
               VariableGadget_List()\SortColumn    = *nmv\iSubItem
               VariableGadget_List()\SortDirection = 1
@@ -416,13 +416,13 @@ Procedure VariableGadget_Sort(Gadget)
       SendMessage_(GadgetID(Gadget), #LVM_SORTITEMS, *Gadget, @VariableGadget_SortProc())
     EndIf
     
-    SetSortArrow(Gadget, *Gadget\SortColumn, *Gadget\SortDirection) 
+    SetSortArrow(Gadget, *Gadget\SortColumn, *Gadget\SortDirection)
   CompilerEndIf
 
   CompilerIf #CompileMac
     ; Even though OSX takes care of most of the sorting stuff itself (column arrow etc), we still must
     ; re-initiate a sort after we made changes, because the PB ListIconGadget always adds items at the end
-    ; and only maps the internal linkedlist through the data callback, so a single AddGadgetItem() in the middle 
+    ; and only maps the internal linkedlist through the data callback, so a single AddGadgetItem() in the middle
     ; messes up the cached sort data that OSX seems to be keeping
     ;
 ;     If *Gadget\SortColumn <> -1
@@ -448,7 +448,7 @@ EndProcedure
 Procedure VariableGadget_Create(Gadget, x, y, Width, Height, ExtraColumn$, DefaultSort, IndexSort)
   Static IsInitialized
   
-  If IsInitialized = 0  
+  If IsInitialized = 0
     VariableGadget_Icons(#TYPE_BYTE)       = VariableGadget_CatchIcon(?VariableGadget_Byte)
     VariableGadget_Icons(#TYPE_WORD)       = VariableGadget_CatchIcon(?VariableGadget_Word)
     VariableGadget_Icons(#TYPE_LONG)       = VariableGadget_CatchIcon(?VariableGadget_Long)
@@ -465,25 +465,25 @@ Procedure VariableGadget_Create(Gadget, x, y, Width, Height, ExtraColumn$, Defau
     
     
     VariableGadget_NodeOpen  = VariableGadget_CatchIcon(?VariableGadget_NodeOpen)
-    VariableGadget_NodeClose = VariableGadget_CatchIcon(?VariableGadget_NodeClose)    
+    VariableGadget_NodeClose = VariableGadget_CatchIcon(?VariableGadget_NodeClose)
     IsInitialized = 1
   EndIf
 
   If AddElement(VariableGadget_List())
   
     If ExtraColumn$ <> ""
-      Result = ListIconGadget(Gadget, x, y, Width, Height, StringField(ExtraColumn$, 1, Chr(10)), 100, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect)      
+      Result = ListIconGadget(Gadget, x, y, Width, Height, StringField(ExtraColumn$, 1, Chr(10)), 100, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect)
       If Gadget = #PB_Any
         VariableGadget_List()\Gadget = Result
       Else
         VariableGadget_List()\Gadget = Gadget
-      EndIf   
+      EndIf
       
       ExtraColumns = 1
-      While StringField(ExtraColumn$, ExtraColumns+1, Chr(10)) <> ""        
+      While StringField(ExtraColumn$, ExtraColumns+1, Chr(10)) <> ""
         AddGadgetColumn(VariableGadget_List()\Gadget, ExtraColumns, StringField(ExtraColumn$, ExtraColumns+1, Chr(10)), 100)
         ExtraColumns + 1
-      Wend      
+      Wend
          
       AddGadgetColumn(VariableGadget_List()\Gadget, ExtraColumns, Language("Debugger","Name"), 200)
       AddGadgetColumn(VariableGadget_List()\Gadget, ExtraColumns+1, Language("Debugger","Value"), 800)
@@ -494,11 +494,11 @@ Procedure VariableGadget_Create(Gadget, x, y, Width, Height, ExtraColumn$, Defau
         VariableGadget_List()\Gadget = Result
       Else
         VariableGadget_List()\Gadget = Gadget
-      EndIf      
+      EndIf
             
       AddGadgetColumn(VariableGadget_List()\Gadget, 1, Language("Debugger","Value"), 800)
       VariableGadget_List()\ExtraColumns = 0
-    EndIf    
+    EndIf
     
     VariableGadget_List()\IndexSort = IndexSort
     If DefaultSort
@@ -523,16 +523,16 @@ Procedure VariableGadget_Create(Gadget, x, y, Width, Height, ExtraColumn$, Defau
 ;       If ItemCompareUPP = 0
 ;         ItemCompareUPP = NewDataBrowserItemCompareUPP_(@VariableGadget_ItemCompareCallback())
 ;       EndIf
-;       
+;
 ;       If ItemCompareUPP
 ;         ; add our sort callback to the listicon's callbacks
 ;         Callbacks.DataBrowserCallbacks\version = #kDataBrowserLatestCallbacks ; in MacExtensions.pb
-; 
+;
 ;         If GetDataBrowserCallbacks_(GadgetID(VariableGadget_List()\Gadget), @Callbacks) = #noErr
 ;           Callbacks\itemCompareCallback = ItemCompareUPP
 ;           SetDataBrowserCallbacks_(GadgetID(VariableGadget_List()\Gadget), @Callbacks)
 ;         EndIf
-;         
+;
 ;         ; set all columns to sortable
 ;         For i = 0 To VariableGadget_List()\ExtraColumns+1 ; the ImageColumn is only present after the first AddGadgetItem
 ;           If GetDataBrowserTableViewColumnProperty_(GadgetID(VariableGadget_List()\Gadget), i, @ColumnProperty) = #noErr
@@ -564,8 +564,8 @@ Procedure VariableGadget_Free(Gadget)
     *items.VariableGadget_ItemList = VariableGadget_List()\Items
     For i = 0 To VariableGadget_List()\ItemCount-1
       FreePBString(@*items\item[i]\Name$)
-      FreePBString(@*items\item[i]\Value$)  
-      FreePBString(@*items\item[i]\Extra$)         
+      FreePBString(@*items\item[i]\Value$)
+      FreePBString(@*items\item[i]\Extra$)
     Next i
     
     FreeMemory(VariableGadget_List()\Items)
@@ -595,7 +595,7 @@ Procedure VariableGadget_Lock(Gadget)
     *VariableGadget\TreeModel = gtk_tree_view_get_model_(GadgetID(Gadget))
     g_object_ref_(*VariableGadget\TreeModel) ; must be ref'ed or it is destroyed
     gtk_tree_view_set_model_(GadgetID(Gadget), #Null) ; disconnect the model for a faster update
-  CompilerEndIf      
+  CompilerEndIf
 EndProcedure
 
 Procedure VariableGadget_Unlock(Gadget)
@@ -622,7 +622,7 @@ Procedure.s VariableGadget_EntryText(*VariableGadget.VariableGadget, realindex)
   
   Text$ = *items\item[realindex]\Extra$ + *items\item[realindex]\Name$
   
-  Select *items\item[realindex]\Kind 
+  Select *items\item[realindex]\Kind
   
     Case #TYPE_ARRAY
       ; For Arrays, we include the dimensions (in Value$)
@@ -637,9 +637,9 @@ Procedure.s VariableGadget_EntryText(*VariableGadget.VariableGadget, realindex)
       ; Normal item
       Text$ + Chr(10) + *items\item[realindex]\Value$
   
-  EndSelect 
+  EndSelect
     
-  ProcedureReturn Text$         
+  ProcedureReturn Text$
 EndProcedure
 
 ; you MUST call this for every event you receive for the gadget
@@ -658,14 +658,14 @@ Procedure VariableGadget_Event(Gadget)
       If VariableGadget_List()\IsLocked = #False And VariableGadget_List()\Items
         *items.VariableGadget_ItemList = VariableGadget_List()\Items
         
-        realindex = GetGadgetItemData(Gadget, index)        
+        realindex = GetGadgetItemData(Gadget, index)
         indexbefore = index
         
         VariableGadget_Lock(Gadget)
         
         If *items\item[realindex]\Node = 1
-          RemoveGadgetItem(Gadget, index) ; re-add this item to change the image                      
-          AddGadgetItem(Gadget, index, VariableGadget_EntryText(*VariableGadget, realindex), ImageID(VariableGadget_NodeClose))                         
+          RemoveGadgetItem(Gadget, index) ; re-add this item to change the image
+          AddGadgetItem(Gadget, index, VariableGadget_EntryText(*VariableGadget, realindex), ImageID(VariableGadget_NodeClose))
           SetGadgetItemData(Gadget, index, realindex)
           
           *items\item[realindex]\Node = 2
@@ -674,71 +674,71 @@ Procedure VariableGadget_Event(Gadget)
           realindex + 1
           
           While realindex < VariableGadget_List()\ItemCount And *items\item[realindex]\sublevel > sublevel
-            If *items\item[realindex]\Node = 1                    
-              AddGadgetItem(Gadget, index, VariableGadget_EntryText(*VariableGadget, realindex), ImageID(VariableGadget_NodeOpen))  
+            If *items\item[realindex]\Node = 1
+              AddGadgetItem(Gadget, index, VariableGadget_EntryText(*VariableGadget, realindex), ImageID(VariableGadget_NodeOpen))
               SetGadgetItemData(Gadget, index, realindex)
-              index + 1                  
+              index + 1
               
               ; skip node contents
               sublevel2 = *items\item[realindex]\Sublevel
               realindex + 1
               While  realindex < VariableGadget_List()\ItemCount And *items\item[realindex]\sublevel > sublevel2
                 realindex + 1
-              Wend                  
+              Wend
             Else
               If *items\item[realindex]\Node = 2
                 Image = VariableGadget_NodeClose
               Else
                 Image = VariableGadget_Icons(*items\item[realindex]\Type & #TYPEMASK)
-              EndIf                   
-              AddGadgetItem(Gadget, index, VariableGadget_EntryText(*VariableGadget, realindex), ImageID(Image)) 
-              SetGadgetItemData(Gadget, index, realindex)              
-              index + 1                   
+              EndIf
+              AddGadgetItem(Gadget, index, VariableGadget_EntryText(*VariableGadget, realindex), ImageID(Image))
+              SetGadgetItemData(Gadget, index, realindex)
+              index + 1
               realindex + 1
-            EndIf                             
-          Wend   
+            EndIf
+          Wend
           
-          DoSort = 1                    
+          DoSort = 1
           
           
         ElseIf *items\item[realindex]\Node = 2
-          RemoveGadgetItem(Gadget, index) ; re-add this item to change the image             
+          RemoveGadgetItem(Gadget, index) ; re-add this item to change the image
           AddGadgetItem(Gadget, index, VariableGadget_EntryText(*VariableGadget, realindex), ImageID(VariableGadget_NodeOpen))
           SetGadgetItemData(Gadget, index, realindex)
           
           *items\item[realindex]\Node = 1
           sublevel = *items\item[realindex]\Sublevel
           index + 1
-          realindex + 1                        
+          realindex + 1
           
           While realindex < VariableGadget_List()\ItemCount And *items\item[realindex]\sublevel > sublevel
             If *items\item[realindex]\Node = 1
-              RemoveGadgetItem(Gadget, index)               
+              RemoveGadgetItem(Gadget, index)
               
               ; skip node contents (because they are not visible in the gadget)
               sublevel2 = *items\item[realindex]\Sublevel
               realindex + 1
               While  realindex < VariableGadget_List()\ItemCount And *items\item[realindex]\sublevel > sublevel2
                 realindex + 1
-              Wend                  
+              Wend
             Else
-              RemoveGadgetItem(Gadget, index)                
+              RemoveGadgetItem(Gadget, index)
               realindex + 1
-            EndIf                             
-          Wend    
+            EndIf
+          Wend
 
         EndIf
         
-        VariableGadget_Unlock(Gadget)  
+        VariableGadget_Unlock(Gadget)
         
         SetGadgetState(Gadget, indexbefore)
         
         If DoSort
           ; must be after the SetGadgetState, as the index is wrong else!
-          VariableGadget_Sort(Gadget)  
+          VariableGadget_Sort(Gadget)
         EndIf
                   
-      EndIf 
+      EndIf
            
       
     EndIf
@@ -763,8 +763,8 @@ Procedure VariableGadget_Allocate(Gadget, NbItems)
     *items.VariableGadget_ItemList = VariableGadget_List()\Items
     For i = 0 To VariableGadget_List()\ItemCount-1
       FreePBString(@*items\item[i]\Name$)
-      FreePBString(@*items\item[i]\Value$)          
-      FreePBString(@*items\item[i]\Extra$) 
+      FreePBString(@*items\item[i]\Value$)
+      FreePBString(@*items\item[i]\Extra$)
     Next i
     
     FreeMemory(VariableGadget_List()\Items)
@@ -774,11 +774,11 @@ Procedure VariableGadget_Allocate(Gadget, NbItems)
   ; set the current count to 0, and reset parent index
   ;
   VariableGadget_List()\ItemCount       = 0
-  VariableGadget_List()\CurrentParent   = -1 
+  VariableGadget_List()\CurrentParent   = -1
   VariableGadget_List()\CurrentSublevel = 0
   
   ; allocate new space for the items
-  ;      
+  ;
   If NbItems > 0
     VariableGadget_List()\Items = AllocateMemory(NbItems * SizeOf(VariableGadget_Entry))
   EndIf
@@ -815,13 +815,13 @@ Procedure VariableGadget_Expand(Gadget)
           Image = VariableGadget_Icons(*items\item[i]\Type & #TYPEMASK)
         EndIf
                  
-        AddGadgetItem(Gadget, Index, VariableGadget_EntryText(*VariableGadget, i), ImageID(Image))           
+        AddGadgetItem(Gadget, Index, VariableGadget_EntryText(*VariableGadget, i), ImageID(Image))
         SetGadgetItemData(Gadget, Index, i)
         Index + 1
       Else
         If *items\item[i]\Node <> 0 ; a node -> set to collapsed
           *items\item[i]\Node = 1
-        EndIf              
+        EndIf
                   
       EndIf
  
@@ -836,7 +836,7 @@ EndProcedure
 ; this is to speed up the list modification
 ;
 Procedure VariableGadget_Use(Gadget)
-  Shared *VariableGadget_Used.VariableGadget 
+  Shared *VariableGadget_Used.VariableGadget
   *VariableGadget_Used = GetGadgetData(Gadget)
 EndProcedure
 
@@ -862,7 +862,7 @@ Procedure VariableGadget_Add(Type, DynamicType, Sublevel, Extra$, Name$, ModuleN
   Type & #IGNORE_PARAM ; remove the "direct param" flag if it is set
   
   index = *VariableGadget_Used\ItemCount
-  *items.VariableGadget_ItemList = *VariableGadget_Used\Items  
+  *items.VariableGadget_ItemList = *VariableGadget_Used\Items
   
   ; add the separating chr(10) to the extra text
   If *VariableGadget_Used\ExtraColumns > 0
@@ -882,10 +882,10 @@ Procedure VariableGadget_Add(Type, DynamicType, Sublevel, Extra$, Name$, ModuleN
     *VariableGadget_Used\CurrentSublevel = Sublevel
   
     *items\item[index]\Kind     = Kind
-    *items\item[index]\Type     = Type    
+    *items\item[index]\Type     = Type
     *items\item[index]\Node     = 0
-    *items\item[index]\SubLevel = SubLevel    
-    *items\item[index]\Parent   = *VariableGadget_Used\CurrentParent    
+    *items\item[index]\SubLevel = SubLevel
+    *items\item[index]\Parent   = *VariableGadget_Used\CurrentParent
     *items\item[index]\Name$    = Name$
     *items\item[index]\Extra$   = Extra$
     *items\item[index]\Value$   = ""
@@ -904,12 +904,12 @@ Procedure VariableGadget_Add(Type, DynamicType, Sublevel, Extra$, Name$, ModuleN
             Size$ = "-"
           Else
             Size$ = Str(PeekQ(*Value))
-          EndIf       
+          EndIf
           If PeekQ(*Value+8) = -1
             Current$ = "-"
           Else
             Current$ = Str(PeekQ(*Value+8))
-          EndIf       
+          EndIf
         Else
           If PeekL(*Value) = -1
             Size$ = "-"
@@ -920,12 +920,12 @@ Procedure VariableGadget_Add(Type, DynamicType, Sublevel, Extra$, Name$, ModuleN
             Current$ = "-"
           Else
             Current$ = Str(PeekL(*Value+4))
-          EndIf   
+          EndIf
         EndIf
         *items\item[index]\Value$ = Language("Debugger","Size") + ": " + Size$ + "   " + Language("Debugger","Current") + ": " + Current$
       Else
         *items\item[index]\Value$ = ""
-      EndIf      
+      EndIf
     
     ElseIf IS_MAP(Kind)
       If *Value
@@ -936,21 +936,21 @@ Procedure VariableGadget_Add(Type, DynamicType, Sublevel, Extra$, Name$, ModuleN
           Else
             *items\item[index]\Value$ +  Str(PeekQ(*Value))
           EndIf
-          *Value + 8        
+          *Value + 8
         Else
           If PeekL(*Value) = -1
             *items\item[index]\Value$ +  "-"
           Else
             *items\item[index]\Value$ +  Str(PeekL(*Value))
           EndIf
-          *Value + 4   
-        EndIf        
-        *items\item[index]\Value$ + "   " + Language("Debugger","Current")+": "      
+          *Value + 4
+        EndIf
+        *items\item[index]\Value$ + "   " + Language("Debugger","Current")+": "
         If PeekB(*Value) ; IsCurrent
           *items\item[index]\Value$ + Chr(34)+PeekS(*Value+1)+Chr(34) ; in external debugger format
         Else
           *items\item[index]\Value$ + "-"
-        EndIf                     
+        EndIf
       Else
         *items\item[index]\Value$ = ""
       EndIf
@@ -962,7 +962,7 @@ Procedure VariableGadget_Add(Type, DynamicType, Sublevel, Extra$, Name$, ModuleN
           *items\item[index]\Value$ = Hex(PeekQ(*Value), #PB_Quad)
         ElseIf Is64bit
           *items\item[index]\Value$ = Str(PeekQ(*Value))
-        ElseIf VariableIsHex        
+        ElseIf VariableIsHex
           *items\item[index]\Value$ = Hex(PeekL(*Value), #PB_Long)
         Else
           *items\item[index]\Value$ = Str(PeekL(*Value))
@@ -974,42 +974,42 @@ Procedure VariableGadget_Add(Type, DynamicType, Sublevel, Extra$, Name$, ModuleN
         *items\item[index]\Node = 1
         *VariableGadget_Used\CurrentParent = index ; this is the new parent
         
-      ElseIf *Value 
-        Select Type & #TYPEMASK   
-          Case #TYPE_BYTE       
+      ElseIf *Value
+        Select Type & #TYPEMASK
+          Case #TYPE_BYTE
             If VariableIsHex
               *items\item[index]\Value$ = Hex(PeekB(*Value), #PB_Byte)
             Else
               *items\item[index]\Value$ = Str(PeekB(*Value))
-            EndIf 
+            EndIf
             
-          Case #TYPE_ASCII       
+          Case #TYPE_ASCII
             If VariableIsHex
               *items\item[index]\Value$ = Hex(PeekB(*Value) & $FF) ; todo
             Else
               *items\item[index]\Value$ = Str(PeekB(*Value) & $FF)
-            EndIf 
+            EndIf
                       
           Case #TYPE_UNICODE
             If VariableIsHex
               *items\item[index]\Value$ = Hex(PeekW(*Value) & $FFFF) ; todo
             Else
               *items\item[index]\Value$ = Str(PeekW(*Value) & $FFFF)
-            EndIf   
+            EndIf
                       
           Case #TYPE_WORD
             If VariableIsHex
               *items\item[index]\Value$ = Hex(PeekW(*Value), #PB_Word)
             Else
               *items\item[index]\Value$ = Str(PeekW(*Value))
-            EndIf   
+            EndIf
                     
           Case #TYPE_LONG, #TYPE_CHARACTER ; chars are passed as longs
             If VariableIsHex
               *items\item[index]\Value$ = Hex(PeekL(*Value), #PB_Long)
             Else
               *items\item[index]\Value$ = Str(PeekL(*Value))
-            EndIf 
+            EndIf
             
           Case #TYPE_STRING, #TYPE_FIXEDSTRING
             *items\item[index]\Value$ = Chr(34) + PeekS(*Value) + Chr(34)
@@ -1017,37 +1017,37 @@ Procedure VariableGadget_Add(Type, DynamicType, Sublevel, Extra$, Name$, ModuleN
           Case #TYPE_FLOAT
             *items\item[index]\Value$ = StrF_Debug(PeekF(*Value))
             
-          Case #TYPE_DOUBLE        
-            *items\item[index]\Value$ = StrD_Debug(PeekD(*Value))      
+          Case #TYPE_DOUBLE
+            *items\item[index]\Value$ = StrD_Debug(PeekD(*Value))
             
           Case #TYPE_QUAD
             If VariableIsHex
               *items\item[index]\Value$ = Hex(PeekQ(*Value), #PB_Quad)
             Else
               *items\item[index]\Value$ = Str(PeekQ(*Value))
-            EndIf   
+            EndIf
             
           Case #TYPE_INTEGER
             If Is64bit And VariableIsHex
               *items\item[index]\Value$ = Hex(PeekQ(*Value), #PB_Quad)
             ElseIf Is64bit
               *items\item[index]\Value$ = Str(PeekQ(*Value))
-            ElseIf VariableIsHex        
+            ElseIf VariableIsHex
               *items\item[index]\Value$ = Hex(PeekL(*Value), #PB_Long)
             Else
               *items\item[index]\Value$ = Str(PeekL(*Value))
             EndIf
                    
-        EndSelect     
-      EndIf   
+        EndSelect
+      EndIf
     EndIf
     
-    If Sublevel = 0 ; only the main level is visible when adding!   
+    If Sublevel = 0 ; only the main level is visible when adding!
       If *items\item[index]\Node = 1
         Image = VariableGadget_NodeOpen
       Else
         Image = VariableGadget_Icons(Type & #TYPEMASK)
-      EndIf     
+      EndIf
     
       gadgetindex = CountGadgetItems(*VariableGadget_Used\Gadget)
       AddGadgetItem(*VariableGadget_Used\Gadget, gadgetindex, VariableGadget_EntryText(*VariableGadget_Used, index), ImageID(Image))
@@ -1067,7 +1067,7 @@ EndProcedure
 Procedure VariableGadget_SyncAll()
   Shared *VariableGadget_Used.VariableGadget
 
-  *items.VariableGadget_ItemList = *VariableGadget_Used\Items  
+  *items.VariableGadget_ItemList = *VariableGadget_Used\Items
   If *items
     Gadget = *VariableGadget_Used\Gadget
     Last   = CountGadgetItems(Gadget) - 1
@@ -1080,7 +1080,7 @@ Procedure VariableGadget_SyncAll()
       Else
         SetGadgetItemText(Gadget, i, *items\item[index]\Value$, *VariableGadget_Used\ExtraColumns+1)
       EndIf
-    Next i  
+    Next i
   EndIf
 EndProcedure
 
@@ -1092,7 +1092,7 @@ EndProcedure
 Procedure VariableGadget_SyncItem(ListIndex)
   Shared *VariableGadget_Used.VariableGadget
 
-  *items.VariableGadget_ItemList = *VariableGadget_Used\Items  
+  *items.VariableGadget_ItemList = *VariableGadget_Used\Items
   If *items
     Gadget = *VariableGadget_Used\Gadget
     Last   = CountGadgetItems(Gadget) - 1
@@ -1103,12 +1103,12 @@ Procedure VariableGadget_SyncItem(ListIndex)
         If *items\item[index]\Kind = #TYPE_ARRAY
           ; special handling for array type
           SetGadgetItemText(Gadget, i, *items\item[index]\Name$ + "(" + *items\item[index]\Value$ + ")", *VariableGadget_Used\ExtraColumns)
-        Else      
+        Else
           SetGadgetItemText(Gadget, i, *items\item[index]\Value$, *VariableGadget_Used\ExtraColumns+1)
         EndIf
         Break
       EndIf
-    Next i  
+    Next i
   EndIf
 EndProcedure
 
@@ -1121,7 +1121,7 @@ EndProcedure
 Procedure VariableGadget_Set(index, *Value, Is64bit, AutoSync)
   Shared *VariableGadget_Used.VariableGadget
 
-  *items.VariableGadget_ItemList = *VariableGadget_Used\Items  
+  *items.VariableGadget_ItemList = *VariableGadget_Used\Items
   If *items And index < *VariableGadget_Used\ItemCount And *Value
     Type = *items\item[index]\Type
     
@@ -1134,12 +1134,12 @@ Procedure VariableGadget_Set(index, *Value, Is64bit, AutoSync)
           Size$ = "-"
         Else
           Size$ = Str(PeekQ(*Value))
-        EndIf       
+        EndIf
         If PeekQ(*Value+8) = -1
           Current$ = "-"
         Else
           Current$ = Str(PeekQ(*Value+8))
-        EndIf       
+        EndIf
       Else
         If PeekL(*Value) = -1
           Size$ = "-"
@@ -1150,7 +1150,7 @@ Procedure VariableGadget_Set(index, *Value, Is64bit, AutoSync)
           Current$ = "-"
         Else
           Current$ = Str(PeekL(*Value+4))
-        EndIf   
+        EndIf
       EndIf
       *items\item[index]\Value$ = Language("Debugger","Size") + ": " + Size$ + "   " + Language("Debugger","Current") + ": " + Current$
     
@@ -1162,69 +1162,69 @@ Procedure VariableGadget_Set(index, *Value, Is64bit, AutoSync)
         Else
           *items\item[index]\Value$ +  Str(PeekQ(*Value))
         EndIf
-        *Value + 8        
+        *Value + 8
       Else
         If PeekL(*Value) = -1
           *items\item[index]\Value$ +  "-"
         Else
           *items\item[index]\Value$ +  Str(PeekL(*Value))
         EndIf
-        *Value + 4   
-      EndIf        
-      *items\item[index]\Value$ + "   " + Language("Debugger","Current")+": "      
+        *Value + 4
+      EndIf
+      *items\item[index]\Value$ + "   " + Language("Debugger","Current")+": "
       If PeekB(*Value) ; IsCurrent
         *items\item[index]\Value$ + Chr(34)+PeekS(*Value+1)+Chr(34) ; in external debugger format
       Else
         *items\item[index]\Value$ + "-"
-      EndIf                     
+      EndIf
     
     ElseIf IS_POINTER(Type)
       If Is64bit And VariableIsHex
         *items\item[index]\Value$ = Hex(PeekQ(*Value), #PB_Quad)
       ElseIf Is64bit
         *items\item[index]\Value$ = Str(PeekQ(*Value))
-      ElseIf VariableIsHex        
+      ElseIf VariableIsHex
         *items\item[index]\Value$ = Hex(PeekL(*Value), #PB_Long)
       Else
         *items\item[index]\Value$ = Str(PeekL(*Value))
       EndIf
 
-    Else         
-      Select Type & #TYPEMASK   
-        Case #TYPE_BYTE       
+    Else
+      Select Type & #TYPEMASK
+        Case #TYPE_BYTE
           If VariableIsHex
             *items\item[index]\Value$ = Hex(PeekB(*Value), #PB_Byte)
           Else
             *items\item[index]\Value$ = Str(PeekB(*Value))
-          EndIf 
+          EndIf
 
-        Case #TYPE_ASCII       
+        Case #TYPE_ASCII
           If VariableIsHex
             *items\item[index]\Value$ = Hex(PeekB(*Value) & $FF)
           Else
             *items\item[index]\Value$ = Str(PeekB(*Value) & $FF)
-          EndIf 
+          EndIf
                     
         Case #TYPE_UNICODE
           If VariableIsHex
             *items\item[index]\Value$ = Hex(PeekW(*Value) & $FFFF)
           Else
             *items\item[index]\Value$ = Str(PeekW(*Value) & $FFFF)
-          EndIf  
+          EndIf
                     
         Case #TYPE_WORD
           If VariableIsHex
             *items\item[index]\Value$ = Hex(PeekW(*Value), #PB_Word)
           Else
             *items\item[index]\Value$ = Str(PeekW(*Value))
-          EndIf   
+          EndIf
                   
         Case #TYPE_LONG, #TYPE_CHARACTER ; chars are passed as longs
           If VariableIsHex
             *items\item[index]\Value$ = Hex(PeekL(*Value), #PB_Long)
           Else
             *items\item[index]\Value$ = Str(PeekL(*Value))
-          EndIf 
+          EndIf
           
         Case #TYPE_STRING, #TYPE_FIXEDSTRING
           *items\item[index]\Value$ = Chr(34) + PeekS(*Value) + Chr(34)
@@ -1232,29 +1232,29 @@ Procedure VariableGadget_Set(index, *Value, Is64bit, AutoSync)
         Case #TYPE_FLOAT
           *items\item[index]\Value$ = StrF_Debug(PeekF(*Value))
           
-        Case #TYPE_DOUBLE        
-          *items\item[index]\Value$ = StrD_Debug(PeekD(*Value))      
+        Case #TYPE_DOUBLE
+          *items\item[index]\Value$ = StrD_Debug(PeekD(*Value))
           
         Case #TYPE_QUAD
           If VariableIsHex
             *items\item[index]\Value$ = Hex(PeekQ(*Value), #PB_Quad)
           Else
             *items\item[index]\Value$ = Str(PeekQ(*Value))
-          EndIf   
+          EndIf
           
         Case #TYPE_INTEGER
           If Is64bit And VariableIsHex
             *items\item[index]\Value$ = Hex(PeekQ(*Value), #PB_Quad)
           ElseIf Is64bit
             *items\item[index]\Value$ = Str(PeekQ(*Value))
-          ElseIf VariableIsHex        
+          ElseIf VariableIsHex
             *items\item[index]\Value$ = Hex(PeekL(*Value), #PB_Long)
           Else
             *items\item[index]\Value$ = Str(PeekL(*Value))
           EndIf
                  
-      EndSelect               
-    EndIf    
+      EndSelect
+    EndIf
     
     ; update the text if the item is visible
     ;
@@ -1275,13 +1275,13 @@ EndProcedure
 Procedure VariableGadget_SetString(index, String$, AutoSync)
   Shared *VariableGadget_Used.VariableGadget
 
-  *items.VariableGadget_ItemList = *VariableGadget_Used\Items  
-  If *items And index < *VariableGadget_Used\ItemCount 
+  *items.VariableGadget_ItemList = *VariableGadget_Used\Items
+  If *items And index < *VariableGadget_Used\ItemCount
     *items\item[index]\Value$ = String$
     
     If AutoSync
       VariableGadget_SyncItem(index)
-    EndIf  
+    EndIf
   EndIf
   
 EndProcedure
@@ -1329,13 +1329,13 @@ DataSection
   VariableGadget_String:    : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "string.png"
   VariableGadget_Float:     : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "float.png"
   VariableGadget_NodeOpen:  : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "struct1.png"
-  VariableGadget_NodeClose: : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "struct2.png"  
-  VariableGadget_Char:      : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "char.png"  
-  VariableGadget_Fixed:     : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "fixed.png"  
-  VariableGadget_Double:    : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "double.png"  
-  VariableGadget_Quad:      : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "quad.png"  
+  VariableGadget_NodeClose: : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "struct2.png"
+  VariableGadget_Char:      : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "char.png"
+  VariableGadget_Fixed:     : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "fixed.png"
+  VariableGadget_Double:    : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "double.png"
+  VariableGadget_Quad:      : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "quad.png"
   VariableGadget_Integer:   : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "integer.png"
-  VariableGadget_Ascii:     : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "ascii.png"  
-  VariableGadget_Unicode:   : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "unicode.png"  
+  VariableGadget_Ascii:     : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "ascii.png"
+  VariableGadget_Unicode:   : IncludeBinary #DEFAULT_DebuggerSource + "Data" + #Separator + "unicode.png"
   
 EndDataSection

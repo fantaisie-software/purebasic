@@ -9,7 +9,7 @@
 
 Global NewList CommandlineTargetNames.s()
 Global CommandLineProjectFile$ = ""
-Global CommandLineBuildReadOnly 
+Global CommandLineBuildReadOnly
 
 Procedure CommandlineProjectBuild()
   NewList *Targets.CompileTarget()
@@ -62,9 +62,9 @@ Procedure CommandlineProjectBuild()
     EndIf
       
   
-    ; need to wait for the default compiler to be ready 
+    ; need to wait for the default compiler to be ready
     ; as there is no check for it unless the compiler needs to be switched later
-    If WaitForCompilerReady()        
+    If WaitForCompilerReady()
     
       ; build each target
       ClearList(BuildInfo())
@@ -76,7 +76,7 @@ Procedure CommandlineProjectBuild()
         If QuietBuild = 0
           PrintN(RSet("", 78, "-"))
           PrintN("  " + LanguagePattern("Compiler","BuildStart", "%target%", *Targets()\Name$))
-          PrintN(RSet("", 78, "-"))        
+          PrintN(RSet("", 78, "-"))
         EndIf
       
         Result$ = BuildProjectTarget(*Targets(), 0, #True, #False)
@@ -91,9 +91,9 @@ Procedure CommandlineProjectBuild()
     
         If Result$ <> "" And WarningCount = OldWarningCount And QuietBuild = 0
           ; Failures are loged as errors and warnings give a "success with warnings" line, so add a line for success here too
-          ; do this before executing the tools for a consistent log output     
+          ; do this before executing the tools for a consistent log output
           PrintN(Language("Compiler","BuildSuccess"))
-        EndIf   
+        EndIf
     
         ; Update the target's build counts and execute any tools
         If Result$ <> ""
@@ -103,34 +103,34 @@ Procedure CommandlineProjectBuild()
           
           If *Targets()\UseBuildCount
             *Targets()\BuildCount + 1
-          EndIf    
+          EndIf
           
           AddTools_ExecutableName$ = Result$
-          AddTools_Execute(#TRIGGER_AfterCreateExe, *Targets()) 
+          AddTools_Execute(#TRIGGER_AfterCreateExe, *Targets())
         Else
           ; add an error message in quiet mode to correctly identify the target
           If QuietBuild
             PrintN("-- " + LanguagePattern("Compiler", "TargetBuildError", "%target%", *Targets()\Name$))
           EndIf
-        EndIf    
+        EndIf
         
         AddElement(Summary())
         Summary() = "  " + LSet(*Targets()\Name$, 58)
         
         If Result$ = ""
           Summary() + "[ " + Language("Compiler","StatusError") + " ]"
-          FailCount + 1          
+          FailCount + 1
         ElseIf WarningCount > OldWarningCount
           Summary() + "[ " + LanguagePattern("Compiler","StatusWarning", "%count%", Str(WarningCount - OldWarningCount)) + " ]"
-          SuccessCount + 1 ; this is a success too          
+          SuccessCount + 1 ; this is a success too
         Else
           Summary() + "[ " + Language("Compiler","StatusOk") + " ]"
-          SuccessCount + 1          
+          SuccessCount + 1
         EndIf
         
         OldWarningCount = WarningCount
         If QuietBuild = 0
-          PrintN("")   
+          PrintN("")
         EndIf
       Next *Targets()
       
@@ -151,7 +151,7 @@ Procedure CommandlineProjectBuild()
         EndIf
         If WarningCount > 0
           PrintN("  " + LanguagePattern("Compiler", "BuildStatsWarning", "%count%", Str(WarningCount)))
-        EndIf    
+        EndIf
         If CompilationAborted
           PrintN("  " + Language("Compiler","BuildStatsAborted"))
         EndIf
@@ -176,7 +176,7 @@ EndProcedure
 
 Procedure CommandlineVersion()
   OpenConsole()
-  Version$ = #ProductName$+" IDE " + #BUILDINFO_Version 
+  Version$ = #ProductName$+" IDE " + #BUILDINFO_Version
   Version$ + " [" + #BUILDINFO_Branch + "; " + #BUILDINFO_Revision + "; " + FormatDate("%dd-%mm-%yyyy]", #PB_Compiler_Date)
   Version$ + FormatDate(" - (c) %yyyy Fantaisie Software", #PB_Compiler_Date)
   PrintN(Version$)
@@ -189,7 +189,7 @@ Procedure CommandlineHelp()
   CompilerIf #CompileWindows
     CompilerIf #SpiderBasic
       PrintN("Usage: spiderbasic [options] files...")
-    CompilerElse      
+    CompilerElse
       PrintN("Usage: purebasic [options] files...")
     CompilerEndIf
     PrintN("")
@@ -213,11 +213,11 @@ Procedure CommandlineHelp()
     PrintN("  /TARGET <name> Specify a target to build")
     PrintN("  /QUIET         Only show errors during the build")
     PrintN("  /READONLY      Do not update the project file after the build")
-    PrintN("")  
+    PrintN("")
   CompilerElse
     CompilerIf #SpiderBasic
       PrintN("Usage: spiderbasic [options] files...")
-    CompilerElse      
+    CompilerElse
       PrintN("Usage: purebasic [options] files...")
     CompilerEndIf
     PrintN("")
@@ -239,7 +239,7 @@ Procedure CommandlineHelp()
     PrintN("  -T or --target <name>       Specify a target to build")
     PrintN("  -q or --quiet               Only show errors during the build")
     PrintN("  -r or --readonly            Do not update the project file after the build")
-    PrintN("")    
+    PrintN("")
   CompilerEndIf
   
   CloseConsole()
@@ -292,7 +292,7 @@ EndProcedure
 
 ; Returns true if editor should continue start up
 ;
-Procedure ParseCommandline()  
+Procedure ParseCommandline()
   CompilerIf #CompileWindows
     Shared DontCreateExtensions ; to tell the startup code not to modify the registry
   CompilerEndIf
@@ -319,9 +319,9 @@ Procedure ParseCommandline()
         Case "/A": Parameter$ = "-a"
         Case "/H": Parameter$ = "-H"
         Case "/S": Parameter$ = "-s"
-        Case "/E": Parameter$ = "-e"      
-        Case "/L": Parameter$ = "-l"        
-        Case "/BUILD"   : Parameter$ = "-b"        
+        Case "/E": Parameter$ = "-e"
+        Case "/L": Parameter$ = "-l"
+        Case "/BUILD"   : Parameter$ = "-b"
         Case "/TARGET"  : Parameter$ = "-T"
         Case "/QUIET"   : Parameter$ = "-q"
         Case "/READONLY": Parameter$ = "-r"
@@ -373,7 +373,7 @@ Procedure ParseCommandline()
       
       Case "-H"
         ParameterIndex + 1
-        HistoryDatabaseFile$ = ResolveRelativePath(CurrentDirectory$, ProgramParameter(ParameterIndex))      
+        HistoryDatabaseFile$ = ResolveRelativePath(CurrentDirectory$, ProgramParameter(ParameterIndex))
       
       Case "-s"
         ParameterIndex + 1
@@ -388,7 +388,7 @@ Procedure ParseCommandline()
         ExplorerPath$ = ResolveRelativePath(CurrentDirectory$, ProgramParameter(ParameterIndex))
         If Right(ExplorerPath$, 1) <> #Separator
           ExplorerPath$ + #Separator
-        EndIf   
+        EndIf
         
       Case "-l"
         ParameterIndex + 1
@@ -405,7 +405,7 @@ Procedure ParseCommandline()
         ParameterIndex + 1
         CommandLineProjectFile$ = ResolveRelativePath(CurrentDirectory$, ProgramParameter(ParameterIndex))
       
-      Case "-T"     
+      Case "-T"
         ParameterIndex + 1
         AddElement(CommandlineTargetNames())
         CommandlineTargetNames() = Trim(ProgramParameter(ParameterIndex))
@@ -414,27 +414,27 @@ Procedure ParseCommandline()
         Case "/NOEXT"
           DontCreateExtensions = 1
           
-        Case "/LOCAL"        
-          Directory$ = GetPathPart(ProgramFilename())        
+        Case "/LOCAL"
+          Directory$ = GetPathPart(ProgramFilename())
           PreferencesFile$ = Directory$ + #PreferenceFileName$
           TemplatesFile$   = Directory$ + "Templates.prefs"
-          AddToolsFile$    = Directory$ + "Tools.prefs"    
-          HistoryDatabaseFile$ = Directory$ + "History.db"      
-          UpdateCheckFile$ = Directory$+ "UpdateCheck.xml"     
+          AddToolsFile$    = Directory$ + "Tools.prefs"
+          HistoryDatabaseFile$ = Directory$ + "History.db"
+          UpdateCheckFile$ = Directory$+ "UpdateCheck.xml"
         
         Case "/PORTABLE"
           DontCreateExtensions = 1  ; implies /NOEXT as well
           
-          Directory$ = GetPathPart(ProgramFilename())        
+          Directory$ = GetPathPart(ProgramFilename())
           PreferencesFile$ = Directory$ + #PreferenceFileName$
           TemplatesFile$   = Directory$ + "Templates.prefs"
-          AddToolsFile$    = Directory$ + "Tools.prefs"        
+          AddToolsFile$    = Directory$ + "Tools.prefs"
           HistoryDatabaseFile$ = Directory$ + "History.db"
-          UpdateCheckFile$ = Directory$+ "UpdateCheck.xml"     
+          UpdateCheckFile$ = Directory$+ "UpdateCheck.xml"
   
-      CompilerEndIf      
+      CompilerEndIf
       
-      Case "" ; filter out the empty string  
+      Case "" ; filter out the empty string
       
       Default ; parameter is interpretated as a filename or wildcard for filenames
         If FindString(Parameter$, "*", 1) = 0 And FindString(Parameter$, "?", 1) = 0
@@ -445,7 +445,7 @@ Procedure ParseCommandline()
           Path$ = ResolveRelativePath(CurrentDirectory$, GetPathPart(Parameter$))
           If Right(Path$, 1) <> #Separator: Path$ + #Separator: EndIf
           If ExamineDirectory(0, Path$, GetFilePart(Parameter$))
-            While NextDirectoryEntry(0)            
+            While NextDirectoryEntry(0)
               If DirectoryEntryType(0) = 1
                 AddElement(OpenFilesCommandline())
                 OpenFilesCommandline() = Path$ + DirectoryEntryName(0)
@@ -457,9 +457,9 @@ Procedure ParseCommandline()
         
         EndIf
             
-    EndSelect  
+    EndSelect
     
-  Next ParameterIndex  
+  Next ParameterIndex
   
   If UpdateCheckFile$ = ""
     UpdateCheckFile$ = PureBasicConfigPath() + "UpdateCheck.xml" ; Warning PureBasicConfigPath() create the directory if not exists, so don't call it if we use the /PORTABLE or /LOCAL flag

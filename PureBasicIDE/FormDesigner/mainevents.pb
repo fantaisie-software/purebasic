@@ -15,7 +15,7 @@ Procedure.i FD_NewWindowMouseX(windownr.i)
   If wmx >= 0
     form_gs_windowmousedx = dmx-wmx
   EndIf
-  ProcedureReturn DesktopMouseX()-form_gs_windowmousedx                 
+  ProcedureReturn DesktopMouseX()-form_gs_windowmousedx
 EndProcedure
 Procedure.i FD_NewWindowMouseY(windownr.i)
   Protected wmy.i, dmy.i
@@ -25,7 +25,7 @@ Procedure.i FD_NewWindowMouseY(windownr.i)
   If wmy >= 0
     form_gs_windowmousedy = dmy-wmy
   EndIf
-  ProcedureReturn DesktopMouseY()-form_gs_windowmousedy                 
+  ProcedureReturn DesktopMouseY()-form_gs_windowmousedy
 EndProcedure
 
 Procedure FD_FindParent(item_number)
@@ -47,7 +47,7 @@ Procedure FD_ReadProcedureList()
     If @FileList() <> *ProjectInfo And FileList()\IsForm = 0
       InsideMacro = 0
       
-      If FileList()\Parser\SourceItemArray    
+      If FileList()\Parser\SourceItemArray
         For i = 0 To FileList()\Parser\SourceItemCount-1
           *Item.SourceItem = FileList()\Parser\SourceItemArray\Line[i]\First
           While *Item
@@ -60,18 +60,18 @@ Procedure FD_ReadProcedureList()
                 FDProcList()\Prototype$ = *Item\Prototype$
                 
               EndIf
-            EndIf  
+            EndIf
             
             If *Item\Type = #ITEM_CommentMark
             ElseIf *Item\Type = #ITEM_Macro
-              InsideMacro = 1                  
+              InsideMacro = 1
             ElseIf *Item\Type = #ITEM_MacroEnd
-              InsideMacro = 0  
-            EndIf                 
+              InsideMacro = 0
+            EndIf
             
           *Item = *Item\Next
         Wend
-      Next i    
+      Next i
     EndIf
     
     ; first sort the list
@@ -85,7 +85,7 @@ Procedure FD_ReadProcedureList()
         While NextElement(FDProcList())
           Change = 0
           
-          If ProcedureBrowserSort = 0 
+          If ProcedureBrowserSort = 0
             If FDProcList()\Line < *Previous\Line
               Change = 1
             EndIf
@@ -117,7 +117,7 @@ Procedure FD_ReadProcedureList()
           
           If Change
             SwapElements(FDProcList(), *Previous, @FDProcList())
-            Done = 0 
+            Done = 0
           EndIf
           
           *Previous = @FDProcList()
@@ -133,7 +133,7 @@ Procedure FD_ReadProcedureList()
         grid_AddComboBoxItem(propgrid,propgrid_proccombo, -1, Text$)
       EndIf
       
-    Next FDProcList()    
+    Next FDProcList()
     EndIf
   Next
   PopListPosition(FileList())
@@ -154,7 +154,7 @@ Procedure FD_OpenPBFile(proc.s)
           linepos = Loc(handle)
           line.s = ReadString(handle)
           
-          If FindString(line,proc.s + "(") Or FindString(line,proc.s + " ") 
+          If FindString(line,proc.s + "(") Or FindString(line,proc.s + " ")
             lineproc = linenb
           EndIf
 
@@ -172,7 +172,7 @@ EndProcedure
 Procedure FD_CheckVariable(string.s)
   If FindString(string, " ") Or FindString(string, ".") Or FindString(string, "-") Or FindString(string, "/") Or
      FindString(string, "\") Or FindString(string, "|") Or FindString(string, "?") Or FindString(string, "!") Or
-     FindString(string, "@") Or FindString(string, "£") Or FindString(string, "$") Or FindString(string, "=")
+     FindString(string, "@") Or FindString(string, "Â£") Or FindString(string, "$") Or FindString(string, "=")
     
     MessageRequester(appname, Language("Form","WrongVarName"))
     ProcedureReturn #False
@@ -200,7 +200,7 @@ Procedure PropGridFoldImgProc(x,y,width,height,column,row)
   Line(xpos + 3, ypos + 5, 5, 1, RGB(0, 0, 0))
 EndProcedure
 Procedure PropGridAddNode(grid, row, title.s)
-  grid_InsertRow(grid, row) 
+  grid_InsertRow(grid, row)
   grid_SetRowData(grid, row, -100)
   grid_SetCellBackColor(grid, 0, row, RGB(238, 238, 238))
   grid_SetCellType(grid, 0, row, #Grid_Cell_Custom)
@@ -238,7 +238,7 @@ Procedure PropGridFoldNode(grid, row, fold = -1)
     If fold = 0
       firstblock = 0
     EndIf
-    If fold = 1 
+    If fold = 1
       firstblock = 1
     EndIf
     
@@ -263,7 +263,7 @@ Procedure PropGridFoldNode(grid, row, fold = -1)
     If width < 40
       width = 40
     EndIf
-    grid_SetColumnWidth(grid, 2, width)    
+    grid_SetColumnWidth(grid, 2, width)
   EndIf
   
   ; dirty way to remember which node is closed (fine as there's only 3 nodes anyway)
@@ -375,7 +375,7 @@ Procedure FD_UpdateScrollbars(resizewin = 0)
     If IsGadget(#GADGET_Form_ScrollV)
       FreeGadget(#GADGET_Form_ScrollV)
     EndIf
-  EndIf  
+  EndIf
   
   redraw = 1
 EndProcedure
@@ -410,7 +410,7 @@ Procedure FD_SelectGadget(gadget)
     grid_SetCellString(propgrid,2,2,FormWindows()\FormGadgets()\variable)
     grid_SetCellState(propgrid,2,3,FormWindows()\FormGadgets()\captionvariable)
     
-    Select FormWindows()\FormGadgets()\type 
+    Select FormWindows()\FormGadgets()\type
       Case #Form_Type_Editor, #Form_Type_Canvas
         grid_SetCellLockState(propgrid, 2, 4, 1)
         
@@ -479,7 +479,7 @@ Procedure FD_SelectGadget(gadget)
     PropGridAddItem(propgrid, i, Language("Form", "LockBottom"))
     grid_SetCellType(propgrid,2,i,#Grid_Cell_Checkbox)
     grid_SetCellState(propgrid,2,i,FormWindows()\FormGadgets()\lock_bottom)
-    i + 1  
+    i + 1
     
     PropGridAddItem(propgrid, i, Language("Form", "Font"))
     grid_SetCellType(propgrid,2,i,#Grid_Cell_Custom)
@@ -1270,7 +1270,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
             
             grids_fonts()\hfont = LoadFont(#PB_Any,grids_fonts()\fontname,grids_fonts()\fontsize, fontflags)
             fd_fontid = grids_fonts()\hfont
-          EndIf            
+          EndIf
         EndIf
       EndIf
       
@@ -1704,7 +1704,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 imgid = #Img_Win7Option
             EndSelect
             DrawAlphaImage(ImageID(imgid), x1, y1 + (y2 - y1 - ImageHeight(imgid)) /2)
-          EndIf      
+          EndIf
           
           DrawingFont(FontID(fd_fontid))
           If gadgfrontcolor <> -1
@@ -2059,7 +2059,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 Else
                   Box(x1 + 9,y1 + 8 + 9, x2 - x1 - 18,4,RGBA(114,114,114,255))
                 EndIf
-              EndIf 
+              EndIf
               
             Case #PB_OS_Windows
               If flag & FlagValue("#PB_TrackBar_Vertical")
@@ -2092,7 +2092,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                     wstart + 8
                   Wend
                 EndIf
-              EndIf 
+              EndIf
               
             Case #PB_OS_Linux
               If flag & FlagValue("#PB_TrackBar_Vertical")
@@ -2125,7 +2125,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                     wstart + 8
                   Wend
                 EndIf
-              EndIf 
+              EndIf
           EndSelect
         ;}
         Case #Form_Type_ProgressBar ;{
@@ -2632,7 +2632,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               
               ;hscroll
               x1 = oldx1
-              y2 = oldy2 
+              y2 = oldy2
               y1 = y2-14
               x2 - 14
               Line(x1,y1,x2-x1,1,RGBA(228,228,228,255))
@@ -2649,7 +2649,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 maxscroll = (FormWindows()\FormGadgets()\min + ScrollAreaW - (FormWindows()\FormGadgets()\x2 - FormWindows()\FormGadgets()\x1))
                 If maxscroll > 0
                   start.f = FormWindows()\FormGadgets()\scrollx / maxscroll
-                  start * (x2-x1- length) 
+                  start * (x2-x1- length)
                   RoundBox(x1 + start,y1 + 4, length,8,3,3,RGBA(195,195,195,255))
                 EndIf
                 PopListPosition(FormWindows()\FormGadgets())
@@ -2683,7 +2683,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   DrawAlphaImage(ImageID(#Img_Win8ScrollUp),x1 +  (x2 - x1 - ImageWidth(#Img_Win8ScrollUp)) / 2, y1 + 5)
                   DrawAlphaImage(ImageID(#Img_Win8ScrollDown),x1 +  (x2 - x1 - ImageWidth(#Img_Win8ScrollUp)) / 2, y2 - 5 - ImageHeight(#Img_Win8ScrollDown))
               EndSelect
-              length = (y2 - y1 - 34)/3 
+              length = (y2 - y1 - 34)/3
               
               If *pointer
                 PushListPosition(FormWindows()\FormGadgets())
@@ -2709,7 +2709,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               
               ;hscroll
               x1 = oldx1
-              y2 = oldy2 
+              y2 = oldy2
               y1 = y2-20
               x2 - 20
               DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
@@ -2732,7 +2732,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 maxscroll = (FormWindows()\FormGadgets()\min + ScrollAreaW - (FormWindows()\FormGadgets()\x2 - FormWindows()\FormGadgets()\x1))
                 If maxscroll > 0
                   start.f = FormWindows()\FormGadgets()\scrollx / maxscroll
-                  start * (x2-x1-34 - length) 
+                  start * (x2-x1-34 - length)
                   Select FormSkinVersion
                     Case 7
                       RoundBox(x1 + 17 + 1 + start,y1 + 1, (x2 - x1 - 34)/3,y2-y1-2,1,1,RGBA(155,155,155,255))
@@ -2768,7 +2768,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               DrawAlphaImage(ImageID(#Img_ScrollUp),x1 +  (x2 - x1 - 6) / 2, y1 + 6)
               DrawAlphaImage(ImageID(#Img_ScrollDown),x1 +  (x2 - x1 - 6) / 2, y2 - 10)
               
-              length = (y2 - y1 - 34)/3 
+              length = (y2 - y1 - 34)/3
               
               If *pointer
                 PushListPosition(FormWindows()\FormGadgets())
@@ -2788,7 +2788,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               
               ;hscroll
               x1 = oldx1
-              y2 = oldy2 
+              y2 = oldy2
               y1 = y2-20
               x2 - 20
               DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
@@ -2804,7 +2804,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 maxscroll = (FormWindows()\FormGadgets()\min + ScrollAreaW - (FormWindows()\FormGadgets()\x2 - FormWindows()\FormGadgets()\x1))
                 If maxscroll > 0
                   start.f = FormWindows()\FormGadgets()\scrollx / maxscroll
-                  start * (x2-x1-34 - length) 
+                  start * (x2-x1-34 - length)
                   RoundBox(x1 + 17 + 1 + start,y1 + 1, (x2 - x1 - 34)/3,y2-y1-2,1,1,RGBA(155,155,155,255))
                   DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   Box(x1 + 17 + 2 + start,y1 + 2, (x2 - x1 - 34)/3 - 2,(y2-y1)*3/8 - 4,RGBA(236,236,236,255))
@@ -3094,7 +3094,7 @@ Procedure FD_UpdateSplitter()
         
         s_g1 = FormWindows()\FormGadgets()\gadget1
         s_g2 = FormWindows()\FormGadgets()\gadget2
-        s_vertical = FormWindows()\FormGadgets()\flags & FlagValue("#PB_Splitter_Vertical") 
+        s_vertical = FormWindows()\FormGadgets()\flags & FlagValue("#PB_Splitter_Vertical")
         s_pos = FormWindows()\FormGadgets()\state
         
         PushListPosition(FormWindows()\FormGadgets())
@@ -3387,7 +3387,7 @@ Procedure FD_LeftDown(x,y)
                     width + TextWidth(FormWindows()\FormGadgets()\Items()\name) + 24
                   Next
                   
-                  Select FormSkin 
+                  Select FormSkin
                     Case #PB_OS_MacOS
                       nx1 = x1 + (x2-x1-width) / 2
                       ForEach FormWindows()\FormGadgets()\Items()
@@ -3566,7 +3566,7 @@ Procedure FD_LeftDown(x,y)
         y - toptoolpadding - topmenupadding
       Case #PB_OS_Linux
         y - toptoolpadding - topmenupadding
-    EndSelect    
+    EndSelect
     
     If Not moving And Not scrollingx And Not scrollingy And Not resizing_win And Not splittersel
       count_select = 0
@@ -3598,7 +3598,7 @@ Procedure FD_LeftDown(x,y)
       EndIf
     EndIf
     
-  EndIf 
+  EndIf
 
   redraw = 1
 EndProcedure
@@ -3685,7 +3685,7 @@ Procedure FD_Move(x,y)
       d_x2 = 0
     ElseIf d_x2 > FormWindows()\width
       d_x2 = FormWindows()\width
-    EndIf    
+    EndIf
     If d_y1 < 0
       d_y1 = 0
     ElseIf d_y1 > FormWindows()\height
@@ -3695,7 +3695,7 @@ Procedure FD_Move(x,y)
       d_y2 = 0
     ElseIf d_y2 > FormWindows()\height
       d_y2 = FormWindows()\height
-    EndIf      
+    EndIf
     
     redraw = 1
   EndIf ;}
@@ -3778,7 +3778,7 @@ Procedure FD_Move(x,y)
         FormWindows()\FormGadgets()\x1 = newx1
         FormWindows()\FormGadgets()\y2 = newy2
         FormWindows()\FormGadgets()\y1 = newy1
-      EndIf 
+      EndIf
     Next
     If moveundo
       moveresizeundo = 1
@@ -4065,7 +4065,7 @@ Procedure FD_Move(x,y)
               FormWindows()\FormGadgets()\x2 = FormWindows()\FormGadgets()\x1 + FormGridSize
             EndIf
         EndSelect
-      EndIf 
+      EndIf
     Next
   
 
@@ -4081,7 +4081,7 @@ Procedure FD_Move(x,y)
     winoldw = FormWindows()\width
     winoldh = FormWindows()\height
     
-    FormWindows()\width = px_win 
+    FormWindows()\width = px_win
     FormWindows()\height = py_win
     
     If FormWindows()\height <= 5
@@ -4202,7 +4202,7 @@ Procedure FD_Move(x,y)
         Break
       EndIf
     EndIf
-  Next  
+  Next
   
   Select FormSkin
     Case #PB_OS_MacOS
@@ -4424,7 +4424,7 @@ Procedure FD_LeftUp(x,y)
       
       FormChanges(1)
       
-      Select form_gadget_type 
+      Select form_gadget_type
         Case #Form_Type_ListIcon
           AddElement(FormWindows()\FormGadgets()\Columns())
           FormWindows()\FormGadgets()\Columns()\name = "Column 1"
@@ -4762,7 +4762,7 @@ Procedure FD_LeftUp(x,y)
       FormAddUndoAction(0,FormWindows(),-1,0,1,-1,-1,1)
     EndIf
     
-  EndIf  
+  EndIf
   ;}
   
   If menuselected
@@ -4860,7 +4860,7 @@ Procedure FD_Redraw()
       Select FormSkinVersion
         Case 7
           ; window has a 8px border
-          DrawingMode(#PB_2DDrawing_Gradient)          
+          DrawingMode(#PB_2DDrawing_Gradient)
           BackColor(RGB(210, 232, 232))
           GradientColor(0.5, RGB(184,220,250))
           FrontColor(RGB(210, 232, 232))
@@ -5250,7 +5250,7 @@ Procedure FD_Redraw()
           Box(x1,y1,x2 - x1, y2 - y1,RGB(188,188,188))
         Else
           RoundBox(x1,y1,x2 - x1, y2 - y1,3,3,RGB(152,152,152))
-        EndIf        
+        EndIf
       Else
         If FormWindows()\FormStatusbars()\img
           ChangeCurrentElement(FormWindows()\FormImg(),FormWindows()\FormStatusbars()\img)
@@ -5279,7 +5279,7 @@ Procedure FD_Redraw()
           
           DrawImage(ImageID(img),toolx,tooly)
           DrawingMode(#PB_2DDrawing_Transparent)
-        EndIf 
+        EndIf
       EndIf
       
       FormWindows()\FormStatusbars()\x1 = sbx
@@ -5685,10 +5685,10 @@ Procedure FD_Redraw()
           
           If Not finish
             nextmenuy - 20
-          EndIf 
+          EndIf
         EndIf
         
-        If finish 
+        If finish
           If FormWindows()\FormMenus()\level = level
             If FormWindows()\FormMenus()\separator
               Line(submenux,posy + 6,width ,1,RGB(200,200,200))
@@ -5697,7 +5697,7 @@ Procedure FD_Redraw()
               FormWindows()\FormMenus()\y1 = posy
               FormWindows()\FormMenus()\y2 = posy + 12
               posy + 12
-            Else 
+            Else
               If FormWindows()\FormMenus()\icon
                 ChangeCurrentElement(FormWindows()\FormImg(),FormWindows()\FormMenus()\icon)
                 img = ImageManager(FormWindows()\FormImg()\img)
@@ -5741,14 +5741,14 @@ Procedure FD_Redraw()
               EndIf
               
               posy + 20
-            EndIf 
+            EndIf
             
             If propgrid_menu = FormWindows()\FormMenus()
               DrawingMode(#PB_2DDrawing_Outlined)
               Box(FormWindows()\FormMenus()\x1, FormWindows()\FormMenus()\y1, FormWindows()\FormMenus()\x2 - FormWindows()\FormMenus()\x1 , FormWindows()\FormMenus()\y2 - FormWindows()\FormMenus()\y1, RGB(0,0,0))
               DrawingMode(#PB_2DDrawing_Transparent)
             EndIf
-          EndIf 
+          EndIf
         Else
           Break
         EndIf
@@ -5837,7 +5837,7 @@ If duration < 35
   Delay(15)
 EndIf
 EndProcedure
-Procedure FD_KeyDown(key, modifier)  
+Procedure FD_KeyDown(key, modifier)
   ChangeCurrentElement(FormWindows(),currentwindow)
   addaction = 1
   ForEach FormWindows()\FormGadgets()
@@ -5903,17 +5903,17 @@ Procedure FD_KeyDown(key, modifier)
             If FD_AlignPoint(FormWindows()\FormGadgets()\y2 - FormGridSize) > FormWindows()\FormGadgets()\y1
               FormAddUndoAction(addaction,FormWindows(),FormWindows()\FormGadgets(),0,1)
               addaction = 0
-              height = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1 
+              height = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1
               FormWindows()\FormGadgets()\y2 = FormWindows()\FormGadgets()\y1 + height - FormGridSize
               FD_UpdateSplitter()
               FormChanges(1)
               FormAddUndoAction(addaction,FormWindows(),FormWindows()\FormGadgets(),0)
-            EndIf         
+            EndIf
           Else
             If FD_AlignPoint(FormWindows()\FormGadgets()\y1 - FormGridSize) >= 0 And FD_AlignPoint(FormWindows()\FormGadgets()\y2 - FormGridSize) <= FormWindows()\height
               FormAddUndoAction(addaction,FormWindows(),FormWindows()\FormGadgets(),0,1)
               addaction = 0
-              height = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1 
+              height = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1
               FormWindows()\FormGadgets()\y1 = FD_AlignPoint(FormWindows()\FormGadgets()\y1 - FormGridSize)
               FormWindows()\FormGadgets()\y2 = FormWindows()\FormGadgets()\y1 + height
               FD_UpdateSplitter()
@@ -5928,7 +5928,7 @@ Procedure FD_KeyDown(key, modifier)
             If FD_AlignPoint(FormWindows()\FormGadgets()\y2 + FormGridSize) <= FormWindows()\height
               FormAddUndoAction(addaction,FormWindows(),FormWindows()\FormGadgets(),0,1)
               addaction = 0
-              height = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1 
+              height = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1
               FormWindows()\FormGadgets()\y2 = FormWindows()\FormGadgets()\y1 + height + FormGridSize
               FD_UpdateSplitter()
               FormChanges(1)
@@ -5938,7 +5938,7 @@ Procedure FD_KeyDown(key, modifier)
             If FD_AlignPoint(FormWindows()\FormGadgets()\y1 + FormGridSize) >= 0 And FD_AlignPoint(FormWindows()\FormGadgets()\y2 + FormGridSize) <= FormWindows()\height
               FormAddUndoAction(addaction,FormWindows(),FormWindows()\FormGadgets(),0,1)
               addaction = 0
-              height = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1 
+              height = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1
               FormWindows()\FormGadgets()\y1 = FD_AlignPoint(FormWindows()\FormGadgets()\y1 + FormGridSize)
               FormWindows()\FormGadgets()\y2 = FormWindows()\FormGadgets()\y1 + height
               FD_UpdateSplitter()
@@ -6029,7 +6029,7 @@ Procedure FD_RightClick(x, y)
         PushListPosition(FormWindows()\FormGadgets())
         ChangeCurrentElement(FormWindows()\FormGadgets(),el)
         Select FormWindows()\FormGadgets()\type
-          Case #Form_Type_Panel,#Form_Type_TreeGadget, #Form_Type_ListView, #Form_Type_Combo,#Form_Type_Editor 
+          Case #Form_Type_Panel,#Form_Type_TreeGadget, #Form_Type_ListView, #Form_Type_Combo,#Form_Type_Editor
             DisplayPopupMenu(#Form_Menu17,WindowID(#WINDOW_Main))
           Case #Form_Type_ListIcon
             DisplayPopupMenu(#Form_Menu16,WindowID(#WINDOW_Main))
@@ -6187,7 +6187,7 @@ Procedure FD_InitSelectParent(parent_gadget)
   PushListPosition(FormWindows()\FormGadgets())
   ForEach FormWindows()\FormGadgets()
     If FormWindows()\FormGadgets() <> this_gadget
-      Select FormWindows()\FormGadgets()\type 
+      Select FormWindows()\FormGadgets()\type
         Case #Form_Type_Container, #Form_Type_Panel, #Form_Type_ScrollArea
           AddGadgetItem(#GADGET_Form_Parent_Select,i,FormWindows()\FormGadgets()\variable)
           SetGadgetItemData(#GADGET_Form_Parent_Select,i,FormWindows()\FormGadgets()\itemnumber)
@@ -6228,7 +6228,7 @@ Procedure FD_EventSelectParent(EventID)
             parent_sel = GetGadgetItemData(#GADGET_Form_Parent_Select,parent_sel)
             parent_sel_item = GetGadgetState(#GADGET_Form_Parent_SelectItem)
             
-            ChangeCurrentElement(FormWindows()\FormGadgets(), form_select_parent_gadget) 
+            ChangeCurrentElement(FormWindows()\FormGadgets(), form_select_parent_gadget)
             
             FormWindows()\FormGadgets()\parent = parent_sel
             FormWindows()\FormGadgets()\parent_item = parent_sel_item
@@ -6244,7 +6244,7 @@ Procedure FD_EventSelectParent(EventID)
             
             FD_FindParent(parent_sel)
             new_pos = FormWindows()\FormGadgets()
-            ChangeCurrentElement(FormWindows()\FormGadgets(), form_select_parent_gadget) 
+            ChangeCurrentElement(FormWindows()\FormGadgets(), form_select_parent_gadget)
             MoveElement(FormWindows()\FormGadgets(), #PB_List_After, new_pos)
             
             
@@ -6390,13 +6390,13 @@ Procedure FD_ProcessEventGridGadget(col,row)
       FormWindows()\FormGadgets()\hidden = grid_GetCellState(propgrid, 2,row)
     Case 13 ; Disabled
       FormWindows()\FormGadgets()\disabled = grid_GetCellState(propgrid, 2,row)
-    Case 15 ; 
+    Case 15 ;
       FormWindows()\FormGadgets()\lock_left = grid_GetCellState(propgrid, 2,row)
-    Case 16 ; 
+    Case 16 ;
       FormWindows()\FormGadgets()\lock_right = grid_GetCellState(propgrid, 2,row)
-    Case 17 ; 
+    Case 17 ;
       FormWindows()\FormGadgets()\lock_top = grid_GetCellState(propgrid, 2,row)
-    Case 18 ; 
+    Case 18 ;
       FormWindows()\FormGadgets()\lock_bottom = grid_GetCellState(propgrid, 2,row)
     Default
       i = 20
@@ -6808,8 +6808,8 @@ Procedure FD_ProcessMenuEvent(menu_event)
       
           CompilerIf #CompileWindows | #CompileMac
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
-            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)  
-            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)              
+            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
+            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
           CompilerEndIf
           
         Else ; switch to design view
@@ -7064,7 +7064,7 @@ Procedure FD_ProcessMenuEvent(menu_event)
       ForEach FormWindows()\FormGadgets()
         If FormWindows()\FormGadgets()\selected
           Select FormWindows()\FormGadgets()\type
-            Case #Form_Type_Panel,#Form_Type_TreeGadget, #Form_Type_ListView, #Form_Type_ListIcon, #Form_Type_Combo,#Form_Type_Editor 
+            Case #Form_Type_Panel,#Form_Type_TreeGadget, #Form_Type_ListView, #Form_Type_ListIcon, #Form_Type_Combo,#Form_Type_Editor
               items_gadget = FormWindows()\FormGadgets()
           EndSelect
           Break
@@ -7163,45 +7163,45 @@ EndProcedure
 Procedure FD_EventMain(gadget, event_type)
   Select gadget
     Case #GADGET_Form_Canvas ;{
-			If currentwindow    ; Ensure there is still a window, or it can crash when closing a form on Linux/x64
-	      Select event_type
-	        Case #PB_EventType_MouseWheel
-	          If IsGadget(#GADGET_Form_ScrollV)
-	            SetGadgetState(#GADGET_Form_ScrollV,GetGadgetState(#GADGET_Form_ScrollV) - GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_WheelDelta)*3)
-	            FormWindows()\paddingy = GetGadgetState(#GADGET_Form_ScrollV)
-	            redraw = 1
-	          EndIf
-	        Case #PB_EventType_LeftButtonDown
-	          x = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseX)
-	          y = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseY)
-	          
-	;           If GetGadgetAttribute(#GADGET_Form_Canvas, #PB_Canvas_Modifiers) & #PB_Canvas_Control
-	;             FD_RightClick(x, y)
-	;           Else
-	            FD_LeftDown(x,y)
-	;           EndIf
-	          
-	        Case #PB_EventType_MouseMove
-	          x = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseX)
-	          y = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseY)
-	          FD_Move(x, y)
-	          
-	        Case #PB_EventType_LeftButtonUp
-	          x = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseX)
-	          y = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseY)
-	          FD_LeftUp(x,y)
-	          
-	        Case #PB_EventType_RightClick
-	          x = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseX)
-	          y = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseY)
-	          FD_RightClick(x, y)
-	          
-	        Case #PB_EventType_KeyDown 
-	          FD_KeyDown(GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Key),GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Modifiers))
-	        Case #PB_EventType_KeyUp
-	      EndSelect
+      If currentwindow    ; Ensure there is still a window, or it can crash when closing a form on Linux/x64
+        Select event_type
+          Case #PB_EventType_MouseWheel
+            If IsGadget(#GADGET_Form_ScrollV)
+              SetGadgetState(#GADGET_Form_ScrollV,GetGadgetState(#GADGET_Form_ScrollV) - GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_WheelDelta)*3)
+              FormWindows()\paddingy = GetGadgetState(#GADGET_Form_ScrollV)
+              redraw = 1
+            EndIf
+          Case #PB_EventType_LeftButtonDown
+            x = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseX)
+            y = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseY)
+            
+  ;           If GetGadgetAttribute(#GADGET_Form_Canvas, #PB_Canvas_Modifiers) & #PB_Canvas_Control
+  ;             FD_RightClick(x, y)
+  ;           Else
+              FD_LeftDown(x,y)
+  ;           EndIf
+            
+          Case #PB_EventType_MouseMove
+            x = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseX)
+            y = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseY)
+            FD_Move(x, y)
+            
+          Case #PB_EventType_LeftButtonUp
+            x = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseX)
+            y = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseY)
+            FD_LeftUp(x,y)
+            
+          Case #PB_EventType_RightClick
+            x = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseX)
+            y = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseY)
+            FD_RightClick(x, y)
+            
+          Case #PB_EventType_KeyDown
+            FD_KeyDown(GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Key),GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Modifiers))
+          Case #PB_EventType_KeyUp
+        EndSelect
       EndIf
-      ;} 
+      ;}
   EndSelect
 EndProcedure
 
@@ -7239,7 +7239,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
           If col = 0
             grid_SetGadgetAttribute(propgrid,#Grid_Attribute_SelectedColumn,1)
           EndIf
-        EndIf 
+        EndIf
       Case #Grid_Event_Cell
         Select grid_EventType(propgrid)
           Case #Grid_Event_Cell_RightButtonUp ;{
@@ -7332,7 +7332,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
               PropGridFoldNode(propgrid, row)
             EndIf
             
-            If propgrid_gadget ;{ 
+            If propgrid_gadget ;{
               PushListPosition(FormWindows()\FormGadgets())
               ChangeCurrentElement(FormWindows()\FormGadgets(),propgrid_gadget)
               row = grid_EventRow(propgrid)
@@ -7388,7 +7388,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                       Else
                         newfontflags | FlagValue("#PB_Font_Bold")
                       EndIf
-                    EndIf 
+                    EndIf
                     If fontflags & #PB_Font_Italic
                       If newfontflags = 0
                         newfontflags = FlagValue("#PB_Font_Italic")
@@ -7409,7 +7409,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                       Else
                         newfontflags | FlagValue("#PB_Font_StrikeOut")
                       EndIf
-                    EndIf                     
+                    EndIf
                     FormWindows()\FormGadgets()\gadgetfontflags = newfontflags
                     
                     display.s = FormWindows()\FormGadgets()\gadgetfont + " " + Str(FormWindows()\FormGadgets()\gadgetfontsize) + " "
@@ -7603,7 +7603,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
   If imglist_grid ;{
     ;grid_DoEvent(imglist_grid,EventID)
     EventGrid = grid_Event(imglist_grid)
-    Select EventGrid 
+    Select EventGrid
       Case #Grid_Event_Cell
         Select grid_EventType(imglist_grid)
           Case #Grid_Event_Cell_LeftButtonUp
@@ -7679,7 +7679,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
   If items_grid ;{
     ;grid_DoEvent(items_grid,EventID)
     EventGrid = grid_Event(items_grid)
-    Select EventGrid 
+    Select EventGrid
       Case #Grid_Event_Cell
         Select grid_EventType(items_grid)
           Case #Grid_Event_Cell_LeftButtonUp
@@ -7742,7 +7742,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                       If FormWindows()\FormGadgets()\parent = items_gadget_num And FormWindows()\FormGadgets()\parent_item = -2
                         FormWindows()\FormGadgets()\parent_item = row + 1
                       EndIf
-                    Next                        
+                    Next
                     FD_UpdateItems()
                     FormAddUndoAction(0,FormWindows(),FormWindows()\FormGadgets())
                     FormChanges(1)
@@ -7812,7 +7812,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
   If column_grid ;{
     ;grid_DoEvent(column_grid, EventID)
     EventGrid = grid_Event(column_grid)
-    Select EventGrid 
+    Select EventGrid
       Case #Grid_Event_Cell
         Select grid_EventType(column_grid)
           Case #Grid_Event_Cell_LeftButtonUp
@@ -7883,12 +7883,12 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
             PopListPosition(FormWindows()\FormGadgets())
         EndSelect
     EndSelect
-  EndIf ;}  
+  EndIf ;}
   
   
-  Select EventID      
+  Select EventID
       
-    Case #PB_Event_GadgetDrop ;{ 
+    Case #PB_Event_GadgetDrop ;{
       If EventGadget() = #GADGET_Form_Canvas And EventDropType() = #PB_Drop_Private And EventDropPrivate() = 50
         If drag_type > 0
           var.s = ""
@@ -7992,7 +7992,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
               FormWindows()\c_canvas + 1
           EndSelect ;}
           
-          d_x1 = FD_NewWindowMouseX(#WINDOW_Main) - GadgetX(#GADGET_SourceContainer) 
+          d_x1 = FD_NewWindowMouseX(#WINDOW_Main) - GadgetX(#GADGET_SourceContainer)
           d_y1 = FD_NewWindowMouseY(#WINDOW_Main) - GadgetY(#GADGET_SourceContainer) - MenuHeight() - ToolBarHeight(#TOOLBAR)
           
           d_x1 = FD_AlignPoint(d_x1)
@@ -8000,7 +8000,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
           d_x2 = 100 + d_x1
           d_y2 = 25 + d_y1
           
-          parent = 0 
+          parent = 0
           If LastElement(FormWindows()\FormGadgets())
             Repeat
               this_parent = FormWindows()\FormGadgets()\parent
@@ -8128,7 +8128,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
           itemnumbers + 1
           FormChanges(1)
           
-          Select drag_type 
+          Select drag_type
             Case #Form_Type_ListIcon
               AddElement(FormWindows()\FormGadgets()\Columns())
               FormWindows()\FormGadgets()\Columns()\name = "Column 1"
@@ -8235,13 +8235,13 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
               FormChanges(1)
             Else
               MessageRequester(appname,Language("Form", "MoveGadgetWarning"))
-            EndIf 
+            EndIf
           Else
             MessageRequester(appname,Language("Form", "MoveGadgetWarning"))
           EndIf
           
         EndIf
-      EndIf ;} 
+      EndIf ;}
     Case #PB_Event_Gadget
       FD_EventMain(EventGadgetID, EventType)
       EventSplitterWin(EventGadgetID, EventType)

@@ -11,24 +11,24 @@
 Global GrepAbort
 
 ; Procedure CheckGrepAbort()
-; 
+;
 ;   Repeat
 ;     Event = WindowEvent()
-;     
+;
 ;     CompilerIf #CompileWindows
 ;       CompilerEvents(Event)
 ;     CompilerEndIf
-; 
+;
 ;     If EventWindow() = #WINDOW_Grep
 ;       If Event = #PB_EventGadget And EventGadget() = #GADGET_Grep_Stop
 ;         Result = 1
 ;       EndIf
 ;     EndIf
-; 
+;
 ;   Until Event = 0
-; 
+;
 ;   ProcedureReturn Result
-; 
+;
 ; EndProcedure
 
 Procedure UpdateFindComboBox(GadgetID) ; Works the same for find & replace combo
@@ -70,7 +70,7 @@ Procedure DisableGrepWindow(State)
   DisableGadget(#GADGET_Grep_NoComments, State)
   DisableGadget(#GADGET_Grep_NoStrings, State)
 
-  DisableGadget(#GADGET_Grep_Cancel, State)  
+  DisableGadget(#GADGET_Grep_Cancel, State)
   DisableGadget(#GADGET_Grep_Find, State)
   
   If State
@@ -88,14 +88,14 @@ Procedure SearchStringInFile(FileID, Filename$, String$, InitialPathLength)
   If ReadFile(FileID, Filename$)
     
     StringMode   = ReadStringFormat(FileID)  ; try to detect UTF8 bom
-    FileLength   = Lof(FileID) - Loc(FileID) ; substract bom size   
+    FileLength   = Lof(FileID) - Loc(FileID) ; substract bom size
     StringLength = Len(String$)
     BinaryCount  = 0 ; with more than 10 nontext chars, we consider it binary
 
     If FileLength And StringLength
 
       *BufferStart = AllocateMemory(FileLength+10)
-      If *BufferStart        
+      If *BufferStart
 
         ReadData(FileID, *BufferStart, FileLength)
 
@@ -109,7 +109,7 @@ Procedure SearchStringInFile(FileID, Filename$, String$, InitialPathLength)
         If StringMode = #PB_UTF8
           *String = StringToUTF8(String$)
           StringLength = StringByteLength(String$, #PB_UTF8)
-        Else          
+        Else
           *String = StringToAscii(String$)
         EndIf
 
@@ -151,7 +151,7 @@ Procedure SearchStringInFile(FileID, Filename$, String$, InitialPathLength)
   
                 ; LogLine$ = Right(Filename$, Len(Filename$)-InitialPathLength-1)+": "+Str(Line)+" - "+PeekS(*LineStart, LineLength)
                 
-                LogLine$ = Filename$+": "+Str(Line)+" - "+ReplaceString(PeekS(*LineStart, LineLength, StringMode), Chr(9), "  ") ; Replace all Tab with 2 spaces 
+                LogLine$ = Filename$+": "+Str(Line)+" - "+ReplaceString(PeekS(*LineStart, LineLength, StringMode), Chr(9), "  ") ; Replace all Tab with 2 spaces
               EndIf
               
               AddGadgetItem(#GADGET_GrepOutput_List, -1, LogLine$)
@@ -178,11 +178,11 @@ Procedure SearchStringInFile(FileID, Filename$, String$, InitialPathLength)
             
           ElseIf GrepNoStrings And *Buffer\a = '~' And PeekA(*Buffer + 1) = '"'
             *Buffer + 2
-            While *Buffer\a And *Buffer\a <> 13 And *Buffer\a <> 10 And *Buffer\a <> '"'  
+            While *Buffer\a And *Buffer\a <> 13 And *Buffer\a <> 10 And *Buffer\a <> '"'
               If *Buffer\a = '\'
                 *Buffer + 1 ; skip \
                 If *Buffer\a And *Buffer\a <> 13 And *Buffer\a <> 10
-                  *Buffer + 1 ; skip escaped char if this is not the end of the line 
+                  *Buffer + 1 ; skip escaped char if this is not the end of the line
                 EndIf
               Else
                 *Buffer+1
@@ -237,15 +237,15 @@ Procedure Grep(DirectoryID, Directory$, String$, PatternList$, InitialPathLength
 
   ; First, check only directories if recursing is on
   ;
-  If GrepRecurse 
+  If GrepRecurse
     If ExamineDirectory(DirectoryID, Directory$, "")
     
-      While NextDirectoryEntry(DirectoryID) And GrepAbort = 0        
+      While NextDirectoryEntry(DirectoryID) And GrepAbort = 0
         FlushEvents() ; handle window and stop events
         
         If DirectoryEntryType(DirectoryID) = 2 And DirectoryEntryName(DirectoryID) <> ".." And DirectoryEntryName(DirectoryID) <> "."
           Grep(DirectoryID+1, Directory$+DirectoryEntryName(DirectoryID)+#Separator, String$, PatternList$, InitialPathLength)
-        EndIf        
+        EndIf
       Wend
       
       FinishDirectory(DirectoryID)
@@ -258,7 +258,7 @@ Procedure Grep(DirectoryID, Directory$, String$, PatternList$, InitialPathLength
   
   ; Now check all the Patterns (if any)
   ; We need to keep track of allready seen filenames, as one might match multiple patterns!
-  ; 
+  ;
   NewList SeachedFiles.s()
   
   If Trim(PatternList$) = ""
@@ -268,13 +268,13 @@ Procedure Grep(DirectoryID, Directory$, String$, PatternList$, InitialPathLength
   Index = 1
   Repeat
     Pattern$ = Trim(StringField(PatternList$, Index, ","))
-    If Pattern$  
-      If ExamineDirectory(DirectoryID, Directory$, Pattern$)    
-        While NextDirectoryEntry(DirectoryID) And GrepAbort = 0  
+    If Pattern$
+      If ExamineDirectory(DirectoryID, Directory$, Pattern$)
+        While NextDirectoryEntry(DirectoryID) And GrepAbort = 0
           FlushEvents() ; handle window and stop events
           
-          If DirectoryEntryType(DirectoryID) = 1 
-            Filename$  = DirectoryEntryName(DirectoryID) 
+          If DirectoryEntryType(DirectoryID) = 1
+            Filename$  = DirectoryEntryName(DirectoryID)
             Found = 0
             
             ForEach SeachedFiles()
@@ -285,18 +285,18 @@ Procedure Grep(DirectoryID, Directory$, String$, PatternList$, InitialPathLength
               EndIf
             Next SeachedFiles()
             
-            If Found = 0               
+            If Found = 0
               AddElement(SeachedFiles())
               SeachedFiles() = FileName$
               
               SetGadgetText(#GADGET_GrepOutput_Current, CreateRelativePath(Grep_BaseDirectory$, Directory$+FileName$))
               SearchStringInFile(#FILE_Grep, Directory$+Filename$, String$, InitialPathLength)
             EndIf
-          EndIf     
+          EndIf
         Wend
         
         FinishDirectory(DirectoryID)
-      EndIf    
+      EndIf
     EndIf
     
     Index + 1
@@ -424,14 +424,14 @@ Procedure OpenGrepWindow()
       SetGadgetState(#GADGET_Grep_FindWord, 0)
       GetSelection(@LineStart, @RowStart, @LineEnd, @RowEnd)
       
-      If LineStart = LineEnd And RowStart <> RowEnd      
+      If LineStart = LineEnd And RowStart <> RowEnd
         ; display the default selection in the box
         Line$ = Mid(GetLine(LineStart-1), RowStart, RowEnd-RowStart)
-        SetGadgetText(#GADGET_Grep_FindWord, Line$)                 
-      EndIf      
+        SetGadgetText(#GADGET_Grep_FindWord, Line$)
+      EndIf
   
       DisableGrepWindow(0)
-      HideWindow(#WINDOW_Grep, 0)    
+      HideWindow(#WINDOW_Grep, 0)
     EndIf
 
   Else
@@ -479,13 +479,13 @@ Procedure GrepWindowEvents(EventID)
     Case #PB_Event_CloseWindow
       Quit = 1
       
-    Case #PB_Event_GadgetDrop    
+    Case #PB_Event_GadgetDrop
       If GadgetID = #GADGET_Grep_Directory
         Path$ = StringField(EventDropFiles(), 1, Chr(10))
         If FileSize(Path$) <> -2 ; probably a file then
           Path$ = GetPathPart(Path$)
         EndIf
-        SetGadgetText(#GADGET_Grep_Directory, Path$) 
+        SetGadgetText(#GADGET_Grep_Directory, Path$)
       EndIf
 
     Case #PB_Event_Gadget
@@ -536,7 +536,7 @@ Procedure GrepWindowEvents(EventID)
               
               UpdateFindComboBox(#Gadget_Grep_FindWord)
               UpdateFindComboBox(#Gadget_Grep_Directory)
-              UpdateFindComboBox(#Gadget_Grep_Pattern)              
+              UpdateFindComboBox(#Gadget_Grep_Pattern)
 
               If Grep(0, Directory$, String$, GetGadgetText(#GADGET_Grep_Pattern)+",", Len(Directory$))
                 If IsWindow(#WINDOW_GrepOutput) ; the window could have been closed!

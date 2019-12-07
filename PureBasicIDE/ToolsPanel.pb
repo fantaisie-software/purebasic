@@ -10,13 +10,13 @@ Procedure ActivateTool(Name$)
 
   If ToolsPanelMode
     ; try the tools in the panel first
-    ;  
+    ;
     ForEach UsedPanelTools()
       *PanelToolData.ToolsPanelEntry = UsedPanelTools()
-      If *PanelToolData\ToolID$ = Name$  
+      If *PanelToolData\ToolID$ = Name$
         SetGadgetState(#GADGET_ToolsPanel, ListIndex(UsedPanelTools()))
         CurrentTool = UsedPanelTools()
-        CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))     
+        CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
         Opened = 1
         Break
       EndIf
@@ -24,11 +24,11 @@ Procedure ActivateTool(Name$)
     
     If Opened And ToolsPanelAutoHide And ToolsPanelVisible = 0
       If ToolsPanelHideDelay < 2500
-        ToolsPanelHideTime.q = ElapsedMilliseconds() + 2500 ; stay open for at least 2.5 seconds!       
+        ToolsPanelHideTime.q = ElapsedMilliseconds() + 2500 ; stay open for at least 2.5 seconds!
       Else
         ToolsPanelHideTime.q = ElapsedMilliseconds() + ToolsPanelHideDelay
       EndIf
-      ToolsPanel_Show()      
+      ToolsPanel_Show()
     EndIf
   EndIf
   
@@ -37,7 +37,7 @@ Procedure ActivateTool(Name$)
     ; now try the rest and open in external window
     ;
     ForEach AvailablePanelTools()
-      If AvailablePanelTools()\ToolID$ = Name$ 
+      If AvailablePanelTools()\ToolID$ = Name$
         If AvailablePanelTools()\IsSeparateWindow
           SetWindowForeground(AvailablePanelTools()\ToolWindowID)
           SetActiveWindow(AvailablePanelTools()\ToolWindowID)
@@ -56,19 +56,19 @@ Procedure ActivateTool(Name$)
 
           WindowWidth = AvailablePanelTools()\ToolWindowWidth
           If WindowWidth < AvailablePanelTools()\ToolMinWindowWidth
-			    	WindowWidth = AvailablePanelTools()\ToolMinWindowWidth
-			    EndIf
-			
-			    WindowHeight = AvailablePanelTools()\ToolWindowHeight
+            WindowWidth = AvailablePanelTools()\ToolMinWindowWidth
+          EndIf
+      
+          WindowHeight = AvailablePanelTools()\ToolWindowHeight
           If WindowHeight < AvailablePanelTools()\ToolMinWindowHeight
-			    	WindowHeight = AvailablePanelTools()\ToolMinWindowHeight
-			    EndIf
-			
+            WindowHeight = AvailablePanelTools()\ToolMinWindowHeight
+          EndIf
+      
           Window = OpenWindow(#PB_Any, AvailablePanelTools()\ToolWindowX, AvailablePanelTools()\ToolWindowY, WindowWidth, WindowHeight, Title$, Flags)
           If Window
             EnsureWindowOnDesktop(Window)
-          	WindowBounds(Window, AvailablePanelTools()\ToolMinWindowWidth, AvailablePanelTools()\ToolMinWindowHeight, #PB_Ignore, #PB_Ignore)
-          	          
+            WindowBounds(Window, AvailablePanelTools()\ToolMinWindowWidth, AvailablePanelTools()\ToolMinWindowHeight, #PB_Ignore, #PB_Ignore)
+                      
             AvailablePanelTools()\IsSeparateWindow = 1
             AvailablePanelTools()\ToolWindowID = Window
             Tool.ToolsPanelInterface = @AvailablePanelTools()
@@ -83,12 +83,12 @@ Procedure ActivateTool(Name$)
               AvailablePanelTools()\ToolStayOnTop = CheckBoxGadget(#PB_Any, 5, WindowHeight(Window)-25, WindowWidth(Window)-10, 25, Language("Misc","StayOnTop"))
               Height = GetRequiredHeight(AvailablePanelTools()\ToolStayOnTop)
               ResizeGadget(AvailablePanelTools()\ToolStayOnTop, 5, WindowHeight(Window)-Height-5, WindowWidth(Window)-10, Height)
-              SetGadgetState(AvailablePanelTools()\ToolStayOnTop, AvailablePanelTools()\IsToolStayOnTop)            
+              SetGadgetState(AvailablePanelTools()\ToolStayOnTop, AvailablePanelTools()\IsToolStayOnTop)
               SetWindowStayOnTop(Window, AvailablePanelTools()\IsToolStayOnTop)
-              Tool\ResizeHandler(WindowWidth(Window), WindowHeight(Window)-Height-5)    
+              Tool\ResizeHandler(WindowWidth(Window), WindowHeight(Window)-Height-5)
             Else
-              Tool\ResizeHandler(WindowWidth(Window), WindowHeight(Window))            
-            EndIf            
+              Tool\ResizeHandler(WindowWidth(Window), WindowHeight(Window))
+            EndIf
           EndIf
         EndIf
         
@@ -112,7 +112,7 @@ Procedure ToolsPanel_CreateFake_Default()
   Else
     ImageGadget(#GADGET_ToolsPanelFake, 0, 0, 0, 0, ImageID(#IMAGE_ToolsPanelLeft))
   EndIf
-  ToolsPanelHiddenWidth = 16   
+  ToolsPanelHiddenWidth = 16
 
 EndProcedure
 
@@ -127,7 +127,7 @@ CompilerIf #CompileWindows
     #TCS_RIGHT = $2
   
     ; on windows we have a special replacement for the hidden panel (= vertical tab)
-    ; which does not work on XP. 
+    ; which does not work on XP.
     ; Intrestingly, this works ok on vista (though the gadget is displayed without skins there)
     If OSVersion() <> #PB_OS_Windows_XP
     
@@ -150,8 +150,8 @@ CompilerIf #CompileWindows
         ; system default font looks ugly.
         ; all this will not be done on XP anyway (were there is another default font)
         ;
-        FontID = FontID(LoadFont(#PB_Any, "MS Sans Serif", 10, #PB_Font_HighQuality))             
-        SendMessage_(FakeToolsPanelID, #WM_SETFONT, FontID, 0)        
+        FontID = FontID(LoadFont(#PB_Any, "MS Sans Serif", 10, #PB_Font_HighQuality))
+        SendMessage_(FakeToolsPanelID, #WM_SETFONT, FontID, 0)
             
         ForEach UsedPanelTools()
           *ToolData.ToolsPanelEntry = UsedPanelTools()
@@ -165,7 +165,7 @@ CompilerIf #CompileWindows
           panelitem\pszText = @Text$
           SendMessage_(FakeToolsPanelID, #TCM_INSERTITEM, ListIndex(UsedPanelTools()), @panelitem)
           
-        Next UsedPanelTools()      
+        Next UsedPanelTools()
         
       EndIf
     
@@ -215,7 +215,7 @@ CompilerIf #CompileLinux
             ; set the needed orientation for the tab label
             ; Note that the actual label is now inside a container (because of image support)
             ;
-            *LabelContainer.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(#GADGET_ToolsPanelFake), gtk_notebook_get_nth_page_(GadgetID(#GADGET_ToolsPanelFake), ListIndex(UsedPanelTools())))            
+            *LabelContainer.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(#GADGET_ToolsPanelFake), gtk_notebook_get_nth_page_(GadgetID(#GADGET_ToolsPanelFake), ListIndex(UsedPanelTools())))
             *Children = gtk_container_get_children_(*LabelContainer)
             *Label.GtkWidget = g_list_nth_data_(*Children, 1) ; label is the second child (image slot is always present)
             g_list_free_(*Children) ; free this list
@@ -226,7 +226,7 @@ CompilerIf #CompileLinux
               gtk_label_set_angle(*Label, 90)
             EndIf
             
-          Next UsedPanelTools()  
+          Next UsedPanelTools()
           
         CloseGadgetList()
         
@@ -250,7 +250,7 @@ CompilerIf #CompileLinux
           ToolsPanelHiddenWidth = 50
         EndIf
         
-      Else 
+      Else
         ToolsPanel_CreateFake_Default() ; use fallback
       
       EndIf
@@ -267,7 +267,7 @@ CompilerEndIf
 
 Procedure ToolsPanel_Create(IsUpdate)
 
-  UseGadgetList(WindowID(#WINDOW_Main)) 
+  UseGadgetList(WindowID(#WINDOW_Main))
   
   ; create the gadget that represents the "hidden" panel
   ;
@@ -315,7 +315,7 @@ Procedure ToolsPanel_Create(IsUpdate)
     EndIf
     HideGadget(#GADGET_ToolsPanel, 1)
    
-  EndIf   
+  EndIf
   
 EndProcedure
 
@@ -348,17 +348,17 @@ Procedure ToolsPanel_Update()
   ;
   ForEach AvailablePanelTools()
     If AvailablePanelTools()\IsSeparateWindow
-      If AvailablePanelTools()\NeedDestroyFunction                       
+      If AvailablePanelTools()\NeedDestroyFunction
         Tool.ToolsPanelInterface = @AvailablePanelTools()
         Tool\DestroyFunction()
-      EndIf    
+      EndIf
     
       If MemorizeWindow
         Window = AvailablePanelTools()\ToolWindowID
         AvailablePanelTools()\ToolWindowX      = WindowX(Window)
         AvailablePanelTools()\ToolWindowY      = WindowY(Window)
         AvailablePanelTools()\ToolWindowWidth  = WindowWidth(Window)
-        AvailablePanelTools()\ToolWindowHeight = WindowHeight(Window)        
+        AvailablePanelTools()\ToolWindowHeight = WindowHeight(Window)
       EndIf
       CloseWindow(AvailablePanelTools()\ToolWindowID)
       AvailablePanelTools()\ToolWindowID = -1
@@ -371,7 +371,7 @@ Procedure ToolsPanel_Update()
   ForEach NewUsedPanelTools()
     AddElement(UsedPanelTools())
     UsedPanelTools() = NewUsedPanelTools()
-  Next NewUsedPanelTools()  
+  Next NewUsedPanelTools()
   
   ; now re-create the whole thing
   ;
@@ -380,12 +380,12 @@ Procedure ToolsPanel_Update()
   ; Swap the gadgets in the splitter if the Toolspanelside changed.
   ; we need to check which is the toolspanel, as ToolsPanelSide is allready updated,
   ; we cannot use that one to know where the panel is now :)
-  ;        
+  ;
   If GadgetType(GetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget)) = #PB_GadgetType_Panel
     OldSide = 1
   Else
     OldSide = 0
-  EndIf       
+  EndIf
   
   If OldSide <> ToolsPanelSide
     ; create a dummy gadget for the swap
@@ -419,7 +419,7 @@ Procedure ToolsPanel_Update()
   ;
   If ToolsPanelVisible And CurrentTool
     CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
-  EndIf 
+  EndIf
 EndProcedure
 
 ; checks the autohide state of the ToolsPanel.
@@ -443,10 +443,10 @@ Procedure ToolsPanel_CheckAutoHide()
       
       ;Debug "Width: " + Str(ToolsPanelWidth) + ", X: "+Str(Offset)
               
-      If ToolsPanelVisible And Offset > ToolsPanelWidth + 40 
+      If ToolsPanelVisible And Offset > ToolsPanelWidth + 40
         If ToolsPanelHideTime = 0 ; first time the panel was left
           ToolsPanelHideTime.q = ElapsedMilliseconds() + ToolsPanelHideDelay
-        ElseIf ToolsPanelHideTime < ElapsedMilliseconds() ; the hide timout has passed          
+        ElseIf ToolsPanelHideTime < ElapsedMilliseconds() ; the hide timout has passed
           ToolsPanel_Hide()
           ToolsPanelHideTime = 0
         EndIf
@@ -465,7 +465,7 @@ EndProcedure
 Procedure ToolsPanel_Hide()
 
   CompilerIf #CompileWindows
-    If FakeToolsPanelID 
+    If FakeToolsPanelID
       SendMessage_(FakeToolsPanelID, #TCM_SETCURSEL, GetGadgetState(#GADGET_ToolsPanel), 0)
     EndIf
   CompilerEndIf
@@ -476,12 +476,12 @@ Procedure ToolsPanel_Hide()
     EndIf
   CompilerEndIf
 
-  If ToolsPanelVisible ; no check for ToolsPanelMode here, as we call this to hide the panel when ToolsPanelMode = 0    
+  If ToolsPanelVisible ; no check for ToolsPanelMode here, as we call this to hide the panel when ToolsPanelMode = 0
     If ErrorLogVisible
       State = GetGadgetState(#GADGET_LogSplitter) ; somehow the reparenting makes the slider jump in the second splitter on linux, so only reset it after ResizeWindow()
     EndIf
     
-    If ToolsPanelSide = 0     
+    If ToolsPanelSide = 0
       ToolsPanelWidth_Hidden = GadgetWidth(#GADGET_ToolsSplitter) - GetGadgetState(#GADGET_ToolsSplitter)
       SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget, #GADGET_ToolsDummy)
     Else
@@ -490,13 +490,13 @@ Procedure ToolsPanel_Hide()
     EndIf
     
     ToolsPanelVisible = 0
-    HideGadget(#GADGET_ToolsSplitter, 1)   
+    HideGadget(#GADGET_ToolsSplitter, 1)
     HideGadget(#GADGET_ToolsPanelFake, 0)
-    ResizeMainWindow()  
+    ResizeMainWindow()
     
     If ErrorLogVisible
       SetGadgetState(#GADGET_LogSplitter, State)
-    EndIf 
+    EndIf
   EndIf
  
 EndProcedure
@@ -510,28 +510,28 @@ Procedure ToolsPanel_Show()
       OldGadget = #GADGET_SourceContainer
     EndIf
     
-    HideGadget(#GADGET_ToolsSplitter, 0) 
+    HideGadget(#GADGET_ToolsSplitter, 0)
   
     If ToolsPanelSide = 0
       SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget, OldGadget)
     Else
       SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_SecondGadget, OldGadget)
-    EndIf           
+    EndIf
         
     ToolsPanelVisible = 1
     HideGadget(#GADGET_ToolsPanelFake, 1)
     ResizeMainWindow()
     
-    ; apply the old state again.    
+    ; apply the old state again.
     If ToolsPanelSide = 0
-      SetGadgetState(#GADGET_ToolsSplitter, GadgetWidth(#GADGET_ToolsSplitter)-ToolsPanelWidth_Hidden)  
+      SetGadgetState(#GADGET_ToolsSplitter, GadgetWidth(#GADGET_ToolsSplitter)-ToolsPanelWidth_Hidden)
     Else
       SetGadgetState(#GADGET_ToolsSplitter, ToolsPanelWidth_Hidden)
-    EndIf  
+    EndIf
     
     If ErrorLogVisible
       SetGadgetState(#GADGET_LogSplitter, State)
-    EndIf 
+    EndIf
   EndIf
     
 EndProcedure

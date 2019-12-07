@@ -6,7 +6,7 @@
 
 ; Now for all OS
 ;
-Structure PB_LibraryViewer_Image  
+Structure PB_LibraryViewer_Image
   Format.l         ; #PB_PixelFormat values (32bit or 24bit only)
   BytesPerPixel.l  ; 3 or 4
   Pitch.l
@@ -16,10 +16,10 @@ EndStructure
 
 
 Procedure Plugin_Image_DisplayObject(WindowID, *Buffer, Size)
-  *Header.PB_LibraryViewer_Image = *Buffer    
+  *Header.PB_LibraryViewer_Image = *Buffer
   Success = 0
   
-  If *Buffer And Size > 0  
+  If *Buffer And Size > 0
     *Object = CreateImage(#PB_Any, *Header\Width, *Header\Height, *Header\BytesPerPixel * 8)
     If *Object And StartDrawing(ImageOutput(*Object))
       *OutputBuffer = DrawingBuffer()
@@ -29,18 +29,18 @@ Procedure Plugin_Image_DisplayObject(WindowID, *Buffer, Size)
       If *OutputBuffer
       
         ; little trick: make Pitch negative and start at the last row if Y is reversed
-        If OutputFormat & #PB_PixelFormat_ReversedY          
+        If OutputFormat & #PB_PixelFormat_ReversedY
           *OutputBuffer + (*Header\Height-1) * OutputPitch
           OutputPitch  = -OutputPitch
           OutputFormat = OutputFormat & (~#PB_PixelFormat_ReversedY)
         EndIf
         
-        *InputBuffer = *Buffer + SizeOf(PB_LibraryViewer_Image)  
+        *InputBuffer = *Buffer + SizeOf(PB_LibraryViewer_Image)
 
         ; If the formats match we just make a fast line copy
-        ; Otherwise the Input and Output have the same BPP as we created them 
+        ; Otherwise the Input and Output have the same BPP as we created them
         ; that way so we only need To Map BGR->RGB And RGB->BGR which is rather simple
-        ;          
+        ;
         For y = 0 To *Header\Height-1
           *Input.Local_Array  = *InputBuffer + (y * *Header\Pitch)
           *Output.Local_Array = *OutputBuffer + (y * OutputPitch)
@@ -48,9 +48,9 @@ Procedure Plugin_Image_DisplayObject(WindowID, *Buffer, Size)
           If OutputFormat = *Header\Format
             CopyMemory(*Input, *Output, *Header\Width * *Header\BytesPerPixel)
           
-          ElseIf *Header\BytesPerPixel = 3 ; no alpha 
+          ElseIf *Header\BytesPerPixel = 3 ; no alpha
           
-            CompilerIf #CompileMac 
+            CompilerIf #CompileMac
               ; OSX is a special case here as it does not have 24bit images, so we need
               ; to convert 24bit to 32bit here for crossplatform compatibility
               ;
@@ -97,10 +97,10 @@ Procedure Plugin_Image_DisplayObject(WindowID, *Buffer, Size)
             
               *Input + 4
               *Output + 4
-            Next x    
+            Next x
           
-          EndIf        
-        Next y    
+          EndIf
+        Next y
       
         Success = 1
       EndIf
@@ -108,11 +108,11 @@ Procedure Plugin_Image_DisplayObject(WindowID, *Buffer, Size)
     EndIf
   EndIf
   
-  If Success     
+  If Success
     ; Create the gadget for the image. No UseGadgetList needed, as this is an internal plugin
-    ImageGadget(#PB_Any, 0, 0, *Header\Width, *Header\Height, ImageID(*Object))  
+    ImageGadget(#PB_Any, 0, 0, *Header\Width, *Header\Height, ImageID(*Object))
     
-    ; The only thing needed to be freed later is the Image, so pass this back  
+    ; The only thing needed to be freed later is the Image, so pass this back
     ProcedureReturn *Object
   Else
     ProcedureReturn 0

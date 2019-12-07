@@ -22,20 +22,20 @@
 
 typedef struct
 {
-	int StartDrawing;
+  int StartDrawing;
 } PB_DebuggerGlobals;
 
 typedef struct
-{    
+{
   char *Filename;     // default catalog filename (no path)
-  char *Application;  // "Application" field of the catalog file  
+  char *Application;  // "Application" field of the catalog file
   char *Group;        // group name (should be unique. use library name for example)
   int   Initialized;  // set to 0 initially, used by debugger to know what was loaded
 
-  struct          
+  struct
   {
-    char *Key; 
-    char *Value; 
+    char *Key;
+    char *Value;
   } Defaults[];       // default values for the group, ending with 2 null pointers or empty strings
 } PB_Language;
 
@@ -113,11 +113,11 @@ M_PBFUNCTION(void) PB_DEBUGGER_CheckSingleFlags(const char *FunctionName, const 
 #define CheckSingleFlags(a, ...) { \
   static int __singleflags##a[] = { __VA_ARGS__ }; \
   PB_DEBUGGER_CheckSingleFlags(__FUNCTION__, #a, a,  __singleflags##a, sizeof(__singleflags##a) / sizeof(int)); }
-  
+
 
 
 M_PBFUNCTION(void) PB_DEBUGGER_CheckImageID(const char *FunctionName, void *ImageHandle, const char *ParameterName);
-  
+
 #define CheckImageID(a) PB_DEBUGGER_CheckImageID(__FUNCTION__, a, #a)
 
 
@@ -125,7 +125,7 @@ M_PBFUNCTION(void) PB_DEBUGGER_CheckImageID(const char *FunctionName, void *Imag
 
 
 // Used by the keyboard, mouse and engine3d debug files
-// 
+//
 void PB_ScreenDebug_IsScreen(const char *Message);
 
 // for debugger parser support

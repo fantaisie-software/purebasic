@@ -64,7 +64,7 @@ EndProcedure
 
 ; These are macros even though they are long, because of speed for large sources
 ; Used for scanning the parsed data
-; 
+;
 Macro Parser_FirstItem(_Parser, _Item, _Line)
   _Line = 0
   _Item = _Parser\SourceItemArray\Line[0]\First
@@ -124,7 +124,7 @@ Procedure BuildFoldingVT()
         EndIf
         If BackwardMatches(Match, 0) > MaxBackward
           MaxBackward = BackwardMatches(Match, 0)
-        EndIf              
+        EndIf
       EndIf
     Until Keyword = 0
     
@@ -143,9 +143,9 @@ Procedure BuildFoldingVT()
         ForwardMatches(Keyword, ForwardMatches(Keyword, 0)) = Match
         
         BackwardMatches(Match, 0) + 1
-        BackwardMatches(Match, BackwardMatches(Match, 0)) = Keyword             
+        BackwardMatches(Match, BackwardMatches(Match, 0)) = Keyword
       EndIf
-    Until Keyword = 0    
+    Until Keyword = 0
   EndIf
  
 
@@ -153,27 +153,27 @@ Procedure BuildFoldingVT()
 
   For i = 0 To 255
     FoldStartVT(i) = 0
-    FoldEndVT(i) = 0 
+    FoldEndVT(i) = 0
   Next i
   
   For i = 1 To #NbBasicKeywords
     FoldKeywords(i) = 0
   Next i
 
-  SortArray(FoldStart$(), 2, 1, NbFoldStartWords)    
+  SortArray(FoldStart$(), 2, 1, NbFoldStartWords)
   
   k = 0
-  For i = 1 To NbFoldStartWords    
+  For i = 1 To NbFoldStartWords
     If k <> Asc(LCase(Left(FoldStart$(i), 1)))
       FoldStartVT2(k) = i-1
-      FoldStartVT2(Asc(UCase(Chr(k)))) = i-1      
+      FoldStartVT2(Asc(UCase(Chr(k)))) = i-1
       k = Asc(LCase(Left(FoldStart$(i), 1)))
       FoldStartVT(k) = i
       FoldStartVT(Asc(UCase(Chr(k)))) = i
     EndIf
     
     index = IsBasicKeyword(FoldStart$(i))
-    If index 
+    If index
       FoldKeywords(index) = 1
     EndIf
   Next i
@@ -189,18 +189,18 @@ Procedure BuildFoldingVT()
     EndIf
   
     If k <> Asc(LCase(Left(FoldEnd$(i), 1)))
-      FoldEndVT2(k) = i-1 
-      FoldEndVT2(Asc(UCase(Chr(k)))) = i-1    
+      FoldEndVT2(k) = i-1
+      FoldEndVT2(Asc(UCase(Chr(k)))) = i-1
       k = Asc(LCase(Left(FoldEnd$(i), 1)))
       FoldEndVT(k) = i
       FoldEndVT(Asc(UCase(Chr(k)))) = i
     EndIf
     
     index = IsBasicKeyword(FoldEnd$(i))
-    If index 
+    If index
       FoldKeywords(index) = 2
-    EndIf    
-  Next i  
+    EndIf
+  Next i
   FoldEndVT2(k) = NbFoldEndWords
   FoldEndVT2(Asc(UCase(Chr(k)))) = NbFoldEndWords
 
@@ -221,8 +221,8 @@ Procedure FreeSourceItems(*Item.SourceItem)
 ;     Next
 ;     If found = 0
 ;       Debug "Trying to free a SourceItem that does not exist!!"
-;       CallDebugger 
-;     EndIf          
+;       CallDebugger
+;     EndIf
     ; ------------------------------------------
   
     ChangeCurrentElement(SourceItemHeap(), *Item)
@@ -245,29 +245,29 @@ Procedure FreeSourceItemArray(*Parser.ParserData)
   ClearMap(*Parser\Modules())
   
   ; Sorted data no longer valid
-  *Parser\SortedValid = #False  
+  *Parser\SortedValid = #False
 EndProcedure
 
 
 ; creates and links a new sourceitem structure at the end of the current line
 ; returns the allocated structure space
-Procedure AddSourceItem(Type, Line, Position, Length) 
+Procedure AddSourceItem(Type, Line, Position, Length)
   *Item.SourceItem = 0
   
   If AddElement(SourceItemHeap())
     *Item = @SourceItemHeap()
     *Item\Type     = Type
     *Item\Position = Position
-    *Item\Length   = Length    
+    *Item\Length   = Length
     
     If *Parser_Array\Line[Line]\Last = 0
       *Parser_Array\Line[Line]\First = *Item
       *Parser_Array\Line[Line]\Last  = *Item
     Else
       *Item\Previous = *Parser_Array\Line[Line]\Last
-      *Parser_Array\Line[Line]\Last\Next = *Item      
+      *Parser_Array\Line[Line]\Last\Next = *Item
       *Parser_Array\Line[Line]\Last = *Item
-    EndIf         
+    EndIf
   EndIf
      
   ProcedureReturn *Item
@@ -284,8 +284,8 @@ Procedure CompareSourceItems(*Item1.SourceItem, *Item2.SourceItem)
       ProcedureReturn #False
     EndIf
  
-    *Item1 = *Item1\Next  
-    *Item2 = *Item2\Next  
+    *Item1 = *Item1\Next
+    *Item2 = *Item2\Next
   Wend
 
   ; One of the two is 0 here. If the other is not 0 as well,
@@ -303,7 +303,7 @@ EndProcedure
 ; *Buffer is the start of the buffer (or line)
 ;
 ; NOTE: also used outside of Parser, so don't use global parser state!
-Procedure IsLineContinuation(*Buffer, *Pointer.PTR) 
+Procedure IsLineContinuation(*Buffer, *Pointer.PTR)
 
   ; Tokens that cause line continuation:
   ; ',' '|' '+' And Or Xor
@@ -338,11 +338,11 @@ Procedure IsLineContinuation(*Buffer, *Pointer.PTR)
       ProcedureReturn Bool(CompareMemoryString(*Pointer, ToAscii("Or"), #PB_String_NoCase, 2, #PB_Ascii) = #PB_String_Equal)
       
     ElseIf *LineEnd-*Pointer >= 3 And ValidCharacters(*Pointer\a[3]) = 0
-      ProcedureReturn Bool(CompareMemoryString(*Pointer, ToAscii("And"), #PB_String_NoCase, 3, #PB_Ascii) = #PB_String_Equal Or 
+      ProcedureReturn Bool(CompareMemoryString(*Pointer, ToAscii("And"), #PB_String_NoCase, 3, #PB_Ascii) = #PB_String_Equal Or
                              CompareMemoryString(*Pointer, ToAscii("Xor"), #PB_String_NoCase, 3, #PB_Ascii) = #PB_String_Equal)
 
     EndIf
-  EndIf 
+  EndIf
   
   ProcedureReturn #False ; no line continuation
 EndProcedure
@@ -371,7 +371,7 @@ Procedure IsContinuedLineStart(Line$)
         ; non-whitespace means it cannot be inline code
         FoundChar = #True
       EndIf
-    EndIf    
+    EndIf
   
     If *Pointer\c = '"' ; string
       *Pointer + #CharSize
@@ -405,9 +405,9 @@ Procedure IsContinuedLineStart(Line$)
           EndIf
         Else
           *Pointer + #CharSize
-        EndIf        
+        EndIf
       Wend
-      *Pointer + #CharSize ; skip second "    
+      *Pointer + #CharSize ; skip second "
     
     ElseIf *Pointer\c = 10 Or *Pointer\c = 13 Or *Pointer\c = ';' Or *Pointer\c = 0 ; line end or comment or buffer end
       Break
@@ -415,7 +415,7 @@ Procedure IsContinuedLineStart(Line$)
     Else
       *Pointer + #CharSize
       
-    EndIf  
+    EndIf
   Wend
   
   CompilerIf #PB_Compiler_Unicode
@@ -438,9 +438,9 @@ EndProcedure
 ; Note: *pCursor is a pointer to the *Cursor from ScanBuffer
 ;
 Macro Parser_SkipSpace(_Cursor)
-  While _Cursor\b = ' ' Or _Cursor\b = 9 
+  While _Cursor\b = ' ' Or _Cursor\b = 9
     _Cursor + 1
-  Wend   
+  Wend
 EndMacro
 
 Macro Parser_SkipString(_Cursor)
@@ -518,9 +518,9 @@ Procedure Parser_Comment(*pCursor.PTR)
           AddSourceItem(#ITEM_FoldEnd, Parser_CurrentLine, -1, -1)
           Break
         EndIf
-      Next i        
+      Next i
     EndIf
-  EndIf 
+  EndIf
 
   *Cursor + 1 ; skip comment start
 
@@ -531,7 +531,7 @@ Procedure Parser_Comment(*pCursor.PTR)
       *Cursor + 1
     Wend
     
-    *Item.SourceItem = AddSourceItem(#ITEM_CommentMark, Parser_CurrentLine, -1, -1)      
+    *Item.SourceItem = AddSourceItem(#ITEM_CommentMark, Parser_CurrentLine, -1, -1)
     
     If *Start < *Cursor
       If Parser_Encoding = 1 ; utf8
@@ -544,7 +544,7 @@ Procedure Parser_Comment(*pCursor.PTR)
     EndIf
 
 
-  Else 
+  Else
     ; skip to line end
     *Start = *Cursor
     While *Cursor\b And *Cursor\b <> 10 And *Cursor\b <> 13
@@ -552,7 +552,7 @@ Procedure Parser_Comment(*pCursor.PTR)
     Wend
     
     ; check issues
-    If *Start < *Cursor And Parser_IgnoreCommentItems = #False    
+    If *Start < *Cursor And Parser_IgnoreCommentItems = #False
       If Parser_Encoding = 1 ; utf8
         Comment$ = PeekS(*Start, *Cursor - *Start, #PB_UTF8)
       Else
@@ -562,14 +562,14 @@ Procedure Parser_Comment(*pCursor.PTR)
       If Trim(Comment$) <> ""
         ScanCommentIssues(Comment$, FoundIssues(), #False) ; source parser mode
         ForEach FoundIssues()
-          *Item.SourceItem = AddSourceItem(#ITEM_Issue, Parser_CurrentLine, -1, -1)      
+          *Item.SourceItem = AddSourceItem(#ITEM_Issue, Parser_CurrentLine, -1, -1)
           *Item\Name$ = FoundIssues()\Text$
           *Item\Issue = FoundIssues()\Issue
         Next FoundIssues()
       EndIf
     EndIf
 
-  EndIf  
+  EndIf
   
   ; process/skip newline
   Parser_Newline(*Cursor)
@@ -593,7 +593,7 @@ Procedure Parser_SkipBraces(*pCursor.PTR, StartBrace, EndBrace)
       
         Case 0 ; end of data
           Result = #False
-          Break      
+          Break
       
         Case 13, 10 ; newline
           If IsLineContinuation(*Parser_LineStart, *Cursor)
@@ -612,7 +612,7 @@ Procedure Parser_SkipBraces(*pCursor.PTR, StartBrace, EndBrace)
             Break
           EndIf
         
-        Case ';' 
+        Case ';'
           If IsLineContinuation(*Parser_LineStart, *Cursor)
             Parser_Comment(@*Cursor)
           Else
@@ -639,7 +639,7 @@ Procedure Parser_SkipBraces(*pCursor.PTR, StartBrace, EndBrace)
                 *Cursor + 1
                 If *Cursor\b And *Cursor\b <> 13 And *Cursor\b <> 10
                   *Cursor + 1
-                EndIf                
+                EndIf
               Else
                 *Cursor + 1
               EndIf
@@ -667,7 +667,7 @@ Procedure Parser_SkipBraces(*pCursor.PTR, StartBrace, EndBrace)
     
     If *Cursor\b = EndBrace
       *Cursor + 1
-    EndIf    
+    EndIf
   EndIf
 
   *pCursor\p = *Cursor
@@ -679,16 +679,16 @@ Procedure Parser_SkipType(*pCursor.PTR)
 
   Parser_SkipSpace(*Cursor)
 
-  If *Cursor\a = '.'    
-    *Cursor + 1    
+  If *Cursor\a = '.'
+    *Cursor + 1
     Parser_SkipSpace(*Cursor)
     
     While ValidCharacters(*Cursor\a) ; skip type
       *Cursor + 1
-    Wend   
+    Wend
     
-    Parser_SkipSpace(*Cursor) 
-  EndIf  
+    Parser_SkipSpace(*Cursor)
+  EndIf
   
   ; check this even without a ".", as it could be "Var${10}"
   ; note that the constant expression may be multiline, so use the generic routine
@@ -776,7 +776,7 @@ Procedure.s Parser_Cleanup(Input$)
           PreserveSpace = #False
         Else
           *Cursor\c = 1
-        EndIf        
+        EndIf
         *Cursor + #CharSize
         
       Case ','
@@ -813,7 +813,7 @@ Procedure.s Parser_Cleanup(Input$)
     EndSelect
   ForEver
   
-  ; step two: 
+  ; step two:
   ; - remove all stuff marked chr(1)
   ; - replace the comma (marked chr(2)) with ", " for readability
   Result$ = ReplaceString(RemoveString(Input$, Chr(1)), Chr(2), ", ")
@@ -824,7 +824,7 @@ EndProcedure
 
 ; Name$ is needed to check for a $
 ;
-Procedure.s Parser_GetType(*pCursor.PTR, Name$) 
+Procedure.s Parser_GetType(*pCursor.PTR, Name$)
   *Cursor.PTR = *pCursor\p ; We could use *pCursor\p\b, but this way should be faster
 
   Parser_SkipSpace(*Cursor)
@@ -833,13 +833,13 @@ Procedure.s Parser_GetType(*pCursor.PTR, Name$)
     If *Cursor\b = '{'
       *Start = *Cursor
       If Parser_SkipBraces(@*Cursor, '{', '}')
-        Type$ = "s" + Parser_Cleanup(PeekS(*Start, *Cursor - *Start, #PB_Ascii)) ; store all types as lowercase 
+        Type$ = "s" + Parser_Cleanup(PeekS(*Start, *Cursor - *Start, #PB_Ascii)) ; store all types as lowercase
       EndIf
     Else
-      Type$ = "s"     
-    EndIf        
+      Type$ = "s"
+    EndIf
      
-  ElseIf *Cursor\b = '.'    
+  ElseIf *Cursor\b = '.'
     *Cursor + 1
     
     Parser_SkipSpace(*Cursor)
@@ -847,16 +847,16 @@ Procedure.s Parser_GetType(*pCursor.PTR, Name$)
     *Start = *Cursor
     While ValidCharacters(*Cursor\a)
       *Cursor + 1
-    Wend    
+    Wend
     
-    If *Start < *Cursor 
+    If *Start < *Cursor
       Type$ = LCase(PeekS(*Start, *Cursor - *Start, #PB_Ascii)) ; store in lowercase
     EndIf
     
     Parser_SkipSpace(*Cursor)
     
     If *Cursor\b = '{'
-      ; check for fixed string type    
+      ; check for fixed string type
       *Start = *Cursor
       If Parser_SkipBraces(@*Cursor, '{', '}')
         Type$ + Parser_Cleanup(PeekS(*Start, *Cursor - *Start, #PB_Ascii))
@@ -870,15 +870,15 @@ Procedure.s Parser_GetType(*pCursor.PTR, Name$)
       *Start = *Cursor
       While ValidCharacters(*Cursor\a)
         *Cursor + 1
-      Wend    
+      Wend
       
-      If *Start < *Cursor 
+      If *Start < *Cursor
         Type$ + "::" + LCase(PeekS(*Start, *Cursor - *Start, #PB_Ascii))
-      EndIf    
+      EndIf
     EndIf
 
     
-  EndIf  
+  EndIf
   
   *pCursor\p = *Cursor
   ProcedureReturn Type$
@@ -893,7 +893,7 @@ Procedure.s Parser_GetWord(*pCursor.PTR)
     *Start = *Cursor
     *Cursor + 1
     
-    While ValidCharacters(*Cursor\a) 
+    While ValidCharacters(*Cursor\a)
       *Cursor + 1
     Wend
     
@@ -902,7 +902,7 @@ Procedure.s Parser_GetWord(*pCursor.PTR)
     EndIf
     
     Word$ = PeekS(*Start, *Cursor - *Start, #PB_Ascii)
-  EndIf  
+  EndIf
   
   *pCursor\p = *Cursor
   ProcedureReturn Word$
@@ -917,7 +917,7 @@ Procedure.s Parser_ModulePrefix(*pCursor.PTR)
     Word$ = Parser_GetWord(@*Cursor)
     Parser_SkipSpace(*Cursor)
   
-    If *Cursor\a = ':' And *Cursor\a[1] = ':'    
+    If *Cursor\a = ':' And *Cursor\a[1] = ':'
       *Cursor + 2
       Parser_SkipSpace(*Cursor)
       
@@ -948,7 +948,7 @@ Procedure.s Parser_GetPrototype(*pCursor.PTR)
       Else
         Result$ = Parser_Cleanup(PeekS(*Start, *pCursor\p - *Start, #PB_Ascii))
       EndIf
-    EndIf    
+    EndIf
   EndIf
 
   ProcedureReturn Result$
@@ -966,11 +966,11 @@ Procedure Parser_GetUnknownWord(*pCursor.PTR, InImport, ModulePrefix$)
   ;
   *Start.BYTE = *Cursor
   Word$  = Parser_GetWord(@*Cursor)
-  length = Len(Word$)      
+  length = Len(Word$)
   
   
   ; filter numbers. Note: the .xx part of a number is handled in the '.' handler
-  If IsDecNumber(*Start, length) = 0 And (*Start\b <> '*' Or IsDecNumber(*Start+1, length-1) = 0)    
+  If IsDecNumber(*Start, length) = 0 And (*Start\b <> '*' Or IsDecNumber(*Start+1, length-1) = 0)
     Parser_SkipSpace(*Cursor)
     
     ; Check if this is actually a label (first text on the line, and followed by a ":")
@@ -988,9 +988,9 @@ Procedure Parser_GetUnknownWord(*pCursor.PTR, InImport, ModulePrefix$)
     EndIf
     
     If IsLabel
-      *Item = AddSourceItem(#ITEM_Label, Parser_CurrentLine, *Start-*Parser_LineStart, length) 
-      *Item\Name$ = Word$     
-      *Item\IsDefinition = #True  
+      *Item = AddSourceItem(#ITEM_Label, Parser_CurrentLine, *Start-*Parser_LineStart, length)
+      *Item\Name$ = Word$
+      *Item\IsDefinition = #True
       *Item\ModulePrefix$ = ModulePrefix$
        
     Else
@@ -998,7 +998,7 @@ Procedure Parser_GetUnknownWord(*pCursor.PTR, InImport, ModulePrefix$)
       
       Parser_SkipSpace(*Cursor)
       
-      ; something( is a function, array, list, macro. 
+      ; something( is a function, array, list, macro.
       ; something[ can only be a structure item array
       ; Note: to filer structure fields, see the handler for the '\' char
       ;
@@ -1015,38 +1015,38 @@ Procedure Parser_GetUnknownWord(*pCursor.PTR, InImport, ModulePrefix$)
           Wend
           If *Cursor\b = ')'
             *Cursor + 1
-          EndIf    
+          EndIf
         
         ElseIf IsBasicFunction(WordU$) = -1 And IsAPIFunction(*Start, length) = -1
-          *Item = AddSourceItem(#ITEM_UnknownBraced, Parser_CurrentLine, *Start-*Parser_LineStart, length) 
+          *Item = AddSourceItem(#ITEM_UnknownBraced, Parser_CurrentLine, *Start-*Parser_LineStart, length)
           *Item\ModulePrefix$ = ModulePrefix$
           *Item\Name$ = Word$
           *Item\Type$ = Type$
-          *Item\Scope = #SCOPE_UNKNOWN     
+          *Item\Scope = #SCOPE_UNKNOWN
           
-          ; Get the length of the full call/array args etc. 
+          ; Get the length of the full call/array args etc.
           ; This is actually used to properly detect Imports
-          ;          
+          ;
           *Cursor2.BYTE = *Cursor ; do not skip the prototype with the normal cursor!
           Parser_PushState()
           
           If InImport
             ; for items in imports, keep the prototype in the "guess" field
-            *Item\Type$ = Type$ + Chr(10) + Parser_GetPrototype(@*Cursor2)               
+            *Item\Type$ = Type$ + Chr(10) + Parser_GetPrototype(@*Cursor2)
           Else
-            Parser_SkipPrototype(@*Cursor2)                  
-          EndIf          
+            Parser_SkipPrototype(@*Cursor2)
+          EndIf
           If *Cursor2 > *Cursor And PeekB(*Cursor2 - 1) = ')'
             *Item\FullLength = *Cursor2 - *Start
-          EndIf      
+          EndIf
           
-          Parser_PopState()      
+          Parser_PopState()
           
 
-        EndIf  
+        EndIf
                 
-      ElseIf *Cursor\b <> '[' 
-        *Item = AddSourceItem(#ITEM_Variable, Parser_CurrentLine, *Start-*Parser_LineStart, length) 
+      ElseIf *Cursor\b <> '['
+        *Item = AddSourceItem(#ITEM_Variable, Parser_CurrentLine, *Start-*Parser_LineStart, length)
         *Item\Name$ = Word$
         *Item\Type$ = Type$
         *Item\Scope = #SCOPE_UNKNOWN
@@ -1061,7 +1061,7 @@ EndProcedure
 
 ; returns number of source items added (also adds ITEM_Keyword for the NewList etc)
 ; mode:
-;  0 - Define, Global, Protected, Static 
+;  0 - Define, Global, Protected, Static
 ;  1 - Procedure arguments (handle 'Array' 'List', stop at a ')')
 ;  2 - Shared (handle Arrays/Lists without NewList etc)
 ;
@@ -1099,19 +1099,19 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
     EndIf
     
     ; check for module prefix
-    ModulePrefix$ = Parser_ModulePrefix(@*Cursor)    
+    ModulePrefix$ = Parser_ModulePrefix(@*Cursor)
     
     ; must be one of: variable name, NewList, Dim, Array, List
     *Start = *Cursor
     ItemLine = Parser_CurrentLine
     ItemPosition = *Start - *Parser_LineStart
     Word$  = Parser_GetWord(@*Cursor)
-    If Word$    
-      Keyword = IsBasicKeyword(Word$)      
+    If Word$
+      Keyword = IsBasicKeyword(Word$)
       
       If Keyword
         *Item = AddSourceItem(#ITEM_Keyword, Parser_CurrentLine, *Start-*Parser_LineStart, Len(Word$))
-        *Item\Keyword = Keyword      
+        *Item\Keyword = Keyword
       EndIf
       
       ; Note: The syntax "Global NewList struct\item()" is not allowed and makes no sense,
@@ -1129,28 +1129,28 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
           EndIf
           
           If Keyword = #KEYWORD_NewList Or Keyword = #KEYWORD_List
-            *Item = AddSourceItem(#ITEM_LinkedList, ItemLine, ItemPosition, Len(Word$)) 
+            *Item = AddSourceItem(#ITEM_LinkedList, ItemLine, ItemPosition, Len(Word$))
           ElseIf Keyword = #KEYWORD_Dim Or Keyword = #KEYWORD_Array
-            *Item = AddSourceItem(#ITEM_Array, ItemLine, ItemPosition, Len(Word$)) 
+            *Item = AddSourceItem(#ITEM_Array, ItemLine, ItemPosition, Len(Word$))
           Else
-            *Item = AddSourceItem(#ITEM_Map, ItemLine, ItemPosition, Len(Word$)) 
+            *Item = AddSourceItem(#ITEM_Map, ItemLine, ItemPosition, Len(Word$))
           EndIf
           *Item\Name$ = Word$
           *Item\Type$ = Type$
-          *Item\Scope = Scope        
+          *Item\Scope = Scope
           *Item\ModulePrefix$ = ModulePrefix$
-          Count + 1  
+          Count + 1
         EndIf
         
       Else ; normal variable
         Type$ = Parser_GetType(@*Cursor, Word$)
         If Type$ = ""
           Type$ = DefaultType$
-        EndIf    
+        EndIf
         
         Type = #ITEM_Variable
         If Mode = 2 ; check for Array/list/map sharing
-          Parser_SkipSpace(*Cursor)          
+          Parser_SkipSpace(*Cursor)
           If *Cursor\b = '('
             *Cursor + 1
             Parser_SkipSpace(*Cursor)
@@ -1161,12 +1161,12 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
           EndIf
         EndIf
 
-        *Item = AddSourceItem(Type, ItemLine, ItemPosition, Len(Word$)) 
+        *Item = AddSourceItem(Type, ItemLine, ItemPosition, Len(Word$))
         *Item\Name$ = Word$
         *Item\Type$ = Type$
-        *Item\Scope = Scope        
+        *Item\Scope = Scope
         *Item\ModulePrefix$ = ModulePrefix$
-        Count + 1        
+        Count + 1
       EndIf
 
     EndIf
@@ -1198,9 +1198,9 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
           nesting + 1
         
         Case ')', '}', ']'
-          If nesting = 0 And Mode = 1 
+          If nesting = 0 And Mode = 1
             ; If we have a ), its the closing of the prototype
-            ; If we have a ] or }, its a mismatched paren, so just skip it 
+            ; If we have a ] or }, its a mismatched paren, so just skip it
             ;  (do Not Break the, search without moving on as that ends in an endless loop)
             If *Cursor\b = ')'
               Break 2
@@ -1254,7 +1254,7 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
           If *Cursor\b = '$'
             *Cursor + 1
           EndIf
-          Parser_SkipType(@*Cursor)                         
+          Parser_SkipType(@*Cursor)
           Continue ; do not execute the "*Cursor + 1" below
           
         Case  '.'
@@ -1266,19 +1266,19 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
           Wend
           If *Cursor\b = '$'
             *Cursor + 1
-          EndIf  
+          EndIf
           Continue ; do not execute the "*Cursor + 1" below
           
         Case '@'
           *Cursor + 1
-          Parser_SkipSpace(*Cursor)      
+          Parser_SkipSpace(*Cursor)
           If ValidCharacters(*Cursor\a) Or (*Cursor\a = '*' And ValidCharacters(*Cursor\a[1]))
             Parser_GetUnknownWord(@*Cursor, 0, ModulePrefix$) ; cannot be in an import here anyway
           EndIf
           Continue ; do not execute the "*Cursor + 1" below
           
         Case '?'
-          *Cursor + 1 
+          *Cursor + 1
           Parser_SkipSpace(*Cursor)
           
           *Start = *Cursor
@@ -1286,17 +1286,17 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
             *Cursor + 1
           Wend
           
-          If *Cursor > *Start      
-            *Item = AddSourceItem(#ITEM_Label, Parser_CurrentLine, *Start-*Parser_LineStart, *Cursor-*Start) 
-            *Item\Name$ = PeekS(*Start, *Cursor - *Start, #PB_Ascii)     
-            *Item\IsDefinition = #False           
+          If *Cursor > *Start
+            *Item = AddSourceItem(#ITEM_Label, Parser_CurrentLine, *Start-*Parser_LineStart, *Cursor-*Start)
+            *Item\Name$ = PeekS(*Start, *Cursor - *Start, #PB_Ascii)
+            *Item\IsDefinition = #False
             *Item\ModulePrefix$ = ModulePrefix$
-          EndIf  
-          Continue ; do not execute the "*Cursor + 1" below        
+          EndIf
+          Continue ; do not execute the "*Cursor + 1" below
 
-        Case '#' 
+        Case '#'
           *Start = *Cursor
-          *Cursor + 1     
+          *Cursor + 1
           
           While ValidCharacters(*Cursor\a)
             *Cursor + 1
@@ -1305,12 +1305,12 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
             *Cursor + 1
           EndIf
           
-          If *Cursor > *Start + 1      
+          If *Cursor > *Start + 1
             *Item = AddSourceItem(#ITEM_Constant, Parser_CurrentLine, *Start-*Parser_LineStart, *Cursor-*Start)
             *Item\Name$ = PeekS(*Start, *Cursor - *Start, #PB_Ascii) ; no UTF8 needed, as code can be only ascii
             *Item\ModulePrefix$ = ModulePrefix$
             *Item\IsAssignment = #False ; can only be the use of a constant
-          EndIf  
+          EndIf
           Continue ; do not execute the "*Cursor + 1" below
                
         Case '$' ; hex numbers
@@ -1324,8 +1324,8 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
           *Cursor + 1
           While *Cursor\b = '1' Or *Cursor\b = '0'
             *Cursor + 1
-          Wend       
-          Continue        
+          Wend
+          Continue
                
         Default
           If ValidCharacters(*Cursor\a) Or (*Cursor\a = '*' And ValidCharacters(*Cursor\a[1]))
@@ -1355,7 +1355,7 @@ EndProcedure
 ;   LineOffset must be the first line in the buffer
 ;   LastLine must be the highest line number included in the buffer
 ;
-Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, DetectChanges)   
+Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, DetectChanges)
   *Cursor.PTR = *Buffer
   *BufferEnd  = *Buffer + Length
   
@@ -1387,7 +1387,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
   If DetectChanges
     ; Keep the old line contents around until the end to detect changes
     *OldArray.ParsedLines = AllocateMemory((LastLine-LineOffset+1) * SizeOf(ParsedLine))
-    CopyMemory(@*Parser_Array\Line[LineOffset], *OldArray, (LastLine-LineOffset+1) * SizeOf(ParsedLine))  
+    CopyMemory(@*Parser_Array\Line[LineOffset], *OldArray, (LastLine-LineOffset+1) * SizeOf(ParsedLine))
   Else
     ; free old contents now
     For Line = LineOffset To LastLine
@@ -1408,25 +1408,25 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
     ; Check for presence of a module prefix
     ModulePrefix$ = Parser_ModulePrefix(@*Cursor)
     
-    ; Check for a keyword    
+    ; Check for a keyword
     ;
     Keyword = 0
     k = BasicKeywordsHT(*Cursor\a)
-    If k                
+    If k
       While k <= #NbBasicKeywords
         length  = Len(BasicKeywords(k))
         compare = CompareMemoryString(ToAscii(BasicKeywords(k)), *Cursor, 1, length, #PB_Ascii)  ; Case insensitive compare
         
         If compare = 0 And (ValidCharacters(PeekA(*Cursor + length)) = 0 Or PeekB(*Cursor + length) = '$') ; if the compare=0, then we have atleast length chars left
         
-          ; found a keyword here          
+          ; found a keyword here
           Keyword = k
           
           If PeekB(*Cursor + length) = '$'
             length + 1
-          EndIf              
+          EndIf
           
-          *Item = AddSourceItem(#ITEM_Keyword, Parser_CurrentLine, *Cursor-*Parser_LineStart, length)            
+          *Item = AddSourceItem(#ITEM_Keyword, Parser_CurrentLine, *Cursor-*Parser_LineStart, length)
           *Item\Keyword = k ; store keyword index
                
           ; For keywords that are also fold points, we have an array for a fast check
@@ -1435,11 +1435,11 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
               AddSourceItem(#ITEM_FoldStart, Parser_CurrentLine, -1, -1)
             ElseIf FoldKeywords(Keyword) = 2
               AddSourceItem(#ITEM_FoldEnd, Parser_CurrentLine, -1, -1)
-            EndIf  
-          EndIf    
+            EndIf
+          EndIf
           
           ; skip the word
-          *Cursor + length    
+          *Cursor + length
           
           Break
           
@@ -1451,12 +1451,12 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
           
         EndIf
       Wend
-    EndIf    
+    EndIf
     
     ; Check folding keywords that are not PB keywords (could be macros or procedures)
     ; Don't check for ; comments, because that is done again in Parser_Comment()
     ;
-    If EnableFolding And Keyword = 0 And *Cursor\b <> ';' 
+    If EnableFolding And Keyword = 0 And *Cursor\b <> ';'
       If FoldStartVT(*Cursor\a)
         For i = FoldStartVT(*Cursor\a) To FoldStartVT2(*Cursor\a)
           length = Len(FoldStart$(i))
@@ -1474,9 +1474,9 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
             AddSourceItem(#ITEM_FoldEnd, Parser_CurrentLine, -1, -1)
             Break
           EndIf
-        Next i        
+        Next i
       EndIf
-    EndIf      
+    EndIf
     
     If Keyword ; we have a keyword here
     
@@ -1497,14 +1497,14 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
               Case #KEYWORD_UnuseModule  : Kind = #ITEM_UnuseModule
             EndSelect
             *Item = AddSourceItem(Kind, Parser_CurrentLine, *Start-*Parser_LineStart, Len(Name$))
-            *Item\Name$ = Name$            
+            *Item\Name$ = Name$
           EndIf
           
         Case #KEYWORD_EndModule
-          AddSourceItem(#ITEM_EndModule, Parser_CurrentLine, -1, -1) 
+          AddSourceItem(#ITEM_EndModule, Parser_CurrentLine, -1, -1)
 
         Case #KEYWORD_EndDeclareModule
-          AddSourceItem(#ITEM_EndDeclareModule, Parser_CurrentLine, -1, -1)           
+          AddSourceItem(#ITEM_EndDeclareModule, Parser_CurrentLine, -1, -1)
       
         Case #KEYWORD_Structure, #KEYWORD_Interface
           Parser_SkipSpace(*Cursor)
@@ -1520,7 +1520,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
             
             ; Default if no Extends found
             *Item\Content$ = ""
-            *Item\FullLength = *Item\Length 
+            *Item\FullLength = *Item\Length
             
             ; Look forward for an extends
             ; Use separate cursor for this, so the Extends keyword is correctly handled/detected later
@@ -1528,11 +1528,11 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
             *ForwardCursor = *Cursor
             Parser_SkipSpace(*ForwardCursor)
             If UCase(Parser_GetWord(@*ForwardCursor)) = "EXTENDS"
-              Parser_SkipSpace(*ForwardCursor)              
+              Parser_SkipSpace(*ForwardCursor)
               Prefix$ = Parser_ModulePrefix(@*ForwardCursor)
               If Prefix$
                 Prefix$ + "::"
-              EndIf              
+              EndIf
               *Item\Content$ = Prefix$ + Parser_GetWord(@*ForwardCursor)
               *Item\FullLength = *ForwardCursor-*Start
             EndIf
@@ -1540,52 +1540,52 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
             ; Note: there is no look forward for an 'Align' in structures, because the align may be an
             ;   expression which can span multiple lines. So the *Item\FullLength never includes any
             ;   Align part. This part is handled separately when parsing structure (see StructureFunctions.pb)
-          EndIf     
+          EndIf
                 
         Case #KEYWORD_EndMacro
-          AddSourceItem(#ITEM_MacroEnd, Parser_CurrentLine, -1, -1) 
+          AddSourceItem(#ITEM_MacroEnd, Parser_CurrentLine, -1, -1)
         
-        Case #KEYWORD_EndProcedure   
-          AddSourceItem(#ITEM_ProcedureEnd, Parser_CurrentLine, -1, -1)     
+        Case #KEYWORD_EndProcedure
+          AddSourceItem(#ITEM_ProcedureEnd, Parser_CurrentLine, -1, -1)
         
-        Case #KEYWORD_Declare, #KEYWORD_DeclareC, #KEYWORD_DeclareCDLL, #KEYWORD_DeclareDLL, #KEYWORD_Prototype, #KEYWORD_PrototypeC  
+        Case #KEYWORD_Declare, #KEYWORD_DeclareC, #KEYWORD_DeclareCDLL, #KEYWORD_DeclareDLL, #KEYWORD_Prototype, #KEYWORD_PrototypeC
           Parser_SkipType(@*Cursor)
           Parser_SkipSpace(*Cursor)
           *Start = *Cursor
           Name$ = Parser_GetWord(@*Cursor)
-          If Name$ 
-            If Keyword = #KEYWORD_Prototype Or Keyword = #KEYWORD_PrototypeC 
+          If Name$
+            If Keyword = #KEYWORD_Prototype Or Keyword = #KEYWORD_PrototypeC
               *Item = AddSourceItem(#ITEM_Prototype, Parser_CurrentLine, *Start - *Parser_LineStart, Len(Name$))
             Else
               *Item = AddSourceItem(#ITEM_Declare, Parser_CurrentLine, *Start - *Parser_LineStart, Len(Name$))
             EndIf
             *Item\Name$ = Name$
             *Item\Prototype$ = Parser_GetPrototype(@*Cursor)
-          EndIf     
+          EndIf
           
         Case #KEYWORD_Macro
           Parser_SkipSpace(*Cursor)
           *Start = *Cursor
           Name$ = Parser_GetWord(@*Cursor)
-          If Name$ 
+          If Name$
             *Item = AddSourceItem(#ITEM_Macro, Parser_CurrentLine, *Start-*Parser_LineStart, Len(Name$))
             *Item\Name$ = Name$
             *Item\Prototype$ = Parser_GetPrototype(@*Cursor)
-          EndIf   
+          EndIf
           
         Case #KEYWORD_Procedure, #KEYWORD_ProcedureC, #KEYWORD_ProcedureCDLL, #KEYWORD_ProcedureDLL
           Parser_SkipType(@*Cursor)
           Parser_SkipSpace(*Cursor)
           *Start = *Cursor
           Name$ = Parser_GetWord(@*Cursor)
-          If Name$ 
+          If Name$
             *Item = AddSourceItem(#ITEM_Procedure, Parser_CurrentLine, *Start-*Parser_LineStart, Len(Name$))
             *Item\Name$ = Name$
             
             ; get the variable definitions, as they become local variables!
             ; use different pointer, as it will be changed
             Parser_PushState()
-            *Cursor2.PTR = *Cursor            
+            *Cursor2.PTR = *Cursor
             Parser_SkipSpace(*Cursor2)
             If *Cursor2\b = '('
               *Cursor2 + 1
@@ -1594,8 +1594,8 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
             Parser_PopState()
             
             ; get prototype the normal way
-            *Item\Prototype$ = Parser_GetPrototype(@*Cursor)            
-          EndIf            
+            *Item\Prototype$ = Parser_GetPrototype(@*Cursor)
+          EndIf
                            
         Case #KEYWORD_Define, #KEYWORD_Global, #KEYWORD_Protected, #KEYWORD_Static, #KEYWORD_Shared, #KEYWORD_Threaded
           ; All these definitions can have a "Define.xxx" style type now.
@@ -1609,13 +1609,13 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
           ; Get the variables. Take the scope type into account
           ;
           Select Keyword
-            Case #KEYWORD_Define      
-              ItemLine = Parser_CurrentLine  
+            Case #KEYWORD_Define
+              ItemLine = Parser_CurrentLine
               If Parser_GetVariables(@*Cursor, Type$, #SCOPE_UNKNOWN, 0) = 0
                 ; no variables, so it sets the default type, we have an item for this
                 *Item = AddSourceItem(#ITEM_Define, ItemLine, -1, -1)
                 *Item\Type$ = Type$
-              EndIf          
+              EndIf
         
             Case #KEYWORD_Global
               Parser_GetVariables(@*Cursor, Type$, #SCOPE_GLOBAL, 0)
@@ -1640,7 +1640,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
           *Start = *Cursor
           ItemLine = Parser_CurrentLine
           ItemPosition = *Start - *Parser_LineStart
-          Name$ = Parser_GetWord(@*Cursor)                    
+          Name$ = Parser_GetWord(@*Cursor)
           If Name$
             ;
             ; Note: We can now have syntax like this:
@@ -1653,7 +1653,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
             *Cursor2.PTR = *Cursor
             Identified = #True
             Parser_SkipType(@*Cursor2)
-            Parser_SkipSpace(*Cursor2) 
+            Parser_SkipSpace(*Cursor2)
             If *Cursor2\b = '['  ; structure subfield, must be skipped
               Identified = Parser_SkipBraces(@*Cursor2, '[', ']')
               Parser_SkipSpace(*Cursor2)
@@ -1664,12 +1664,12 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
               Parser_SkipSpace(*Cursor2)
             Else
               IsBraced = 0
-            EndIf            
+            EndIf
             
             If Identified And *Cursor2\b = '\' And IsBraced = 0
               ; Its a structure variable
               ;
-              *Item = AddSourceItem(#ITEM_Variable, ItemLine, ItemPosition, Len(Name$)) 
+              *Item = AddSourceItem(#ITEM_Variable, ItemLine, ItemPosition, Len(Name$))
               *Item\Name$ = Name$
               *Item\Type$ = Parser_GetType(@*Cursor, "") ; cannot be $, its a structure!
               *Item\Scope = #SCOPE_UNKNOWN
@@ -1679,14 +1679,14 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
               ; It is an unknown braced token, as the Dim/NewList/NewMap actually applies to
               ; the item inside the Structure, Not the outer token
               ;
-              *Item = AddSourceItem(#ITEM_UnknownBraced, ItemLine, ItemPosition, Len(Name$)) 
+              *Item = AddSourceItem(#ITEM_UnknownBraced, ItemLine, ItemPosition, Len(Name$))
               *Item\Name$ = Name$
               *Item\Type$ = Parser_GetType(@*Cursor, "") ; cannot be $, its a structure!
-              *Item\Scope = #SCOPE_UNKNOWN                          
+              *Item\Scope = #SCOPE_UNKNOWN
               *Item\ModulePrefix$ = ModulePrefix$
               If *Cursor2 > *Cursor And PeekB(*Cursor2 - 1) = ')' ; get full length
                 *Item\FullLength = *Cursor2 - *Start
-              EndIf   
+              EndIf
             
             Else
               ; Its a real array, list, map
@@ -1695,10 +1695,10 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
               If Keyword = #KEYWORD_Dim Or Keyword = #KEYWORD_ReDim
                 *Item = AddSourceItem(#ITEM_Array, ItemLine, ItemPosition, Len(Name$))
               ElseIf Keyword = #KEYWORD_NewMap
-                *Item = AddSourceItem(#ITEM_Map, ItemLine, ItemPosition, Len(Name$))              
+                *Item = AddSourceItem(#ITEM_Map, ItemLine, ItemPosition, Len(Name$))
               Else
                 *Item = AddSourceItem(#ITEM_LinkedList, ItemLine, ItemPosition, Len(Name$))
-              EndIf            
+              EndIf
               *Item\Name$ = Name$
               *Item\Scope = #SCOPE_UNKNOWN
               *Item\ModulePrefix$ = ModulePrefix$
@@ -1727,7 +1727,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
           InImport = 1
           
         Case #KEYWORD_EndImport
-          InImport = 0        
+          InImport = 0
 
       EndSelect
     
@@ -1749,13 +1749,13 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
       
     ElseIf *Cursor\b = '@'
       *Cursor + 1
-      Parser_SkipSpace(*Cursor)      
+      Parser_SkipSpace(*Cursor)
       If ValidCharacters(*Cursor\a) Or (*Cursor\a = '*' And ValidCharacters(*Cursor\a[1]))
         Parser_GetUnknownWord(@*Cursor, 0, ModulePrefix$)
       EndIf
       
     ElseIf *Cursor\b = '?'
-      *Cursor + 1 
+      *Cursor + 1
       Parser_SkipSpace(*Cursor)
       
       *Start = *Cursor
@@ -1763,12 +1763,12 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
         *Cursor + 1
       Wend
       
-      If *Cursor > *Start      
-        *Item = AddSourceItem(#ITEM_Label, Parser_CurrentLine, *Start-*Parser_LineStart, *Cursor-*Start) 
-        *Item\Name$ = PeekS(*Start, *Cursor - *Start, #PB_Ascii)     
-        *Item\IsDefinition = #False           
+      If *Cursor > *Start
+        *Item = AddSourceItem(#ITEM_Label, Parser_CurrentLine, *Start-*Parser_LineStart, *Cursor-*Start)
+        *Item\Name$ = PeekS(*Start, *Cursor - *Start, #PB_Ascii)
+        *Item\IsDefinition = #False
         *Item\ModulePrefix$ = ModulePrefix$
-      EndIf  
+      EndIf
       
     ElseIf *Cursor\b = '\'
       ; If this is encountered outside of a string, it can mean only one thing:
@@ -1802,7 +1802,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
 
     ElseIf *Cursor\b = '#' ; A constant
       *Start = *Cursor
-      *Cursor + 1     
+      *Cursor + 1
       
       While *Cursor < *BufferEnd And ValidCharacters(*Cursor\a)
         *Cursor + 1
@@ -1811,26 +1811,26 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
         *Cursor + 1
       EndIf
       
-      If *Cursor > *Start + 1      
+      If *Cursor > *Start + 1
         *Item = AddSourceItem(#ITEM_Constant, Parser_CurrentLine, *Start-*Parser_LineStart, *Cursor-*Start)
         *Item\Name$ = PeekS(*Start, *Cursor - *Start, #PB_Ascii) ; no UTF8 needed, as code can be only ascii
         *Item\ModulePrefix$ = ModulePrefix$
         
         Parser_SkipSpace(*Cursor)
-        *Item\IsAssignment = Bool(*Cursor\b = '=')        
-      EndIf                     
+        *Item\IsAssignment = Bool(*Cursor\b = '=')
+      EndIf
     
     ElseIf *Cursor\b = 13 Or *Cursor\b = 10 ; NewLine
       Parser_Newline(*Cursor)
        
     ElseIf *Cursor\b = '"'  ; skip strings
-      Parser_SkipString(*Cursor)    
+      Parser_SkipString(*Cursor)
       
     ElseIf *Cursor\b = '~' And PeekB(*Cursor + 1) = '"'
       Parser_SkipEscapeString(*Cursor)
     
     ElseIf *Cursor\b = 39  ; skip character constants
-      Parser_SkipCharConst(*Cursor) 
+      Parser_SkipCharConst(*Cursor)
     
     ElseIf *Cursor\b = '!' ; direct asm lines
       *BackCursor.BYTE = *Cursor - 1
@@ -1857,7 +1857,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
     Else
       *Cursor + 1 ; continue at next char
     EndIf
-  Wend    
+  Wend
   
   ; Check for changes and free old source entries (if requested)
   ; if not requested, old source entries were freed at the top
@@ -1869,12 +1869,12 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
       If CompareSourceItems(*Parser_Array\Line[Line]\First, *OldFirst) = #False
         ListModified = #True
       EndIf
-      FreeSourceItems(*OldFirst) 
+      FreeSourceItems(*OldFirst)
     Next Line
     FreeMemory(*OldArray)
   EndIf
         
-  ProcedureReturn ListModified    
+  ProcedureReturn ListModified
 EndProcedure
 
 
@@ -1886,7 +1886,7 @@ Procedure FullSourceScan(*Source.SourceFile)
   ; free any old data
   FreeSourceItemArray(@*Source\Parser)
 
-  ; this is always at least 1 as even an empty gadget has one line...  
+  ; this is always at least 1 as even an empty gadget has one line...
   *Source\Parser\SourceItemCount = ScintillaSendMessage(*Source\EditorGadget, #SCI_GETLINECOUNT)
   *Source\Parser\SourceItemSize  = *Source\Parser\SourceItemCount+20 ; allocate for a few extra lines
   *Source\Parser\SourceItemArray = AllocateMemory(*Source\Parser\SourceItemSize * SizeOf(ParsedLine))
@@ -1920,10 +1920,10 @@ Procedure PartialSourceScan(*Source.SourceFile, StartLine, EndLine)
     LineCount = ScintillaSendMessage(*Source\EditorGadget, #SCI_GETLINECOUNT, 0, 0)
     While EndLine < LineCount-1 And HasLineContinuation(EndLine, *Source)
       EndLine + 1
-    Wend    
+    Wend
   
-    Range.TextRange\chrg\cpMin = ScintillaSendMessage(*Source\EditorGadget, #SCI_POSITIONFROMLINE, StartLine)  
-    Range\chrg\cpMax           = ScintillaSendMessage(*Source\EditorGadget, #SCI_GETLINEENDPOSITION, EndLine)  
+    Range.TextRange\chrg\cpMin = ScintillaSendMessage(*Source\EditorGadget, #SCI_POSITIONFROMLINE, StartLine)
+    Range\chrg\cpMax           = ScintillaSendMessage(*Source\EditorGadget, #SCI_GETLINEENDPOSITION, EndLine)
     Length = Range\chrg\cpMax - Range\chrg\cpMin
     
     If Length >= 0  ; must also act on a 0 length to scan lines that have become empty by editing!
@@ -1938,7 +1938,7 @@ Procedure PartialSourceScan(*Source.SourceFile, StartLine, EndLine)
       
         FreeMemory(Range\lpstrText)
       EndIf
-    EndIf   
+    EndIf
   EndIf
   
   ProcedureReturn Result
@@ -1948,7 +1948,7 @@ EndProcedure
 Procedure ScanLine(*Source.SourceFile, Line)
   If *Source\IsCode
     ProcedureReturn PartialSourceScan(*Source, Line, Line)
-  Else  
+  Else
     ProcedureReturn #False
   EndIf
 EndProcedure
@@ -1966,14 +1966,14 @@ Procedure SourceLineCorrection(*Source.SourceFile, Line, LinesAdded)
       LastLine = Line+LinesAdded
     
       ; need to realloc the buffer. Allocate some extra so there is no realloc for every newline
-      If Count+LinesAdded > *Source\Parser\SourceItemSize      
+      If Count+LinesAdded > *Source\Parser\SourceItemSize
         *Array = ReAllocateMemory(*Array, (Count+LinesAdded+20) * SizeOf(ParsedLine))
         If *Array
           *Source\Parser\SourceItemSize = Count+LinesAdded+20
         EndIf
       EndIf
       
-      If *Array        
+      If *Array
         MoveMemory(*Array + Line*SizeOf(ParsedLine), *Array + LastLine*SizeOf(ParsedLine), (Count-Line)*SizeOf(ParsedLine))
         
         ; need to zero out the new entries, else we get a double free later!
@@ -1982,24 +1982,24 @@ Procedure SourceLineCorrection(*Source.SourceFile, Line, LinesAdded)
           *Array\Line[i]\Last  = 0
         Next i
         
-        *Source\Parser\SourceItemArray = *Array      
+        *Source\Parser\SourceItemArray = *Array
         *Source\Parser\SourceItemCount + LinesAdded
       EndIf
-    Else 
+    Else
       LastLine = Line-LinesAdded ; LinesAdded is negative here, so this is right!
           
       ; free all entries of the gone lines
       For i = Line To LastLine-1
-        FreeSourceItems(*Array\Line[i]\First)  
+        FreeSourceItems(*Array\Line[i]\First)
         *Array\Line[i]\First = 0 ; just to be sure!
-        *Array\Line[i]\Last  = 0 
+        *Array\Line[i]\Last  = 0
       Next i
     
       ; no realloc needed here
-      MoveMemory(*Array + LastLine*SizeOf(ParsedLine), *Array + Line*SizeOf(ParsedLine), (Count-LastLine)*SizeOf(ParsedLine))           
+      MoveMemory(*Array + LastLine*SizeOf(ParsedLine), *Array + Line*SizeOf(ParsedLine), (Count-LastLine)*SizeOf(ParsedLine))
       
       *Source\Parser\SourceItemCount + LinesAdded
-    EndIf  
+    EndIf
   EndIf
 EndProcedure
 
@@ -2022,21 +2022,21 @@ Procedure GetBucket(*Name.Character)
   ProcedureReturn Index
 EndProcedure
 
-Procedure Parser_AddSorted(*List.IndexedData, *Item.SourceItem, Line) 
+Procedure Parser_AddSorted(*List.IndexedData, *Item.SourceItem, Line)
 
   ; This is actually only valid inside a sorted item
   *Item\SortedLine = Line
 
-  ; Get name pointer and get bucket index 
-  ;  
+  ; Get name pointer and get bucket index
+  ;
   Index = GetBucket(@*Item\Name$)
   
   ; for the comparing, we include the first char again
-  *Name = @*Item\Name$        
+  *Name = @*Item\Name$
   
-  If *List\Bucket[Index] = 0 
+  If *List\Bucket[Index] = 0
     *Item\NextSorted    = 0
-    *List\Bucket[Index] = *Item   
+    *List\Bucket[Index] = *Item
 
   Else
     compare = CompareMemoryString(*Name, @*List\Bucket[Index]\Name$, #PB_String_NoCase)
@@ -2046,16 +2046,16 @@ Procedure Parser_AddSorted(*List.IndexedData, *Item.SourceItem, Line)
       If *Item\Type = #ITEM_Variable And *List\Bucket[Index]\Type$ = ""
         *List\Bucket[Index]\Type$ = *Item\Type$
       EndIf
-      ProcedureReturn 
+      ProcedureReturn
     
     ElseIf compare < 0
       *Item\NextSorted    = *List\Bucket[Index]
-      *List\Bucket[Index] = *Item   
+      *List\Bucket[Index] = *Item
     
     Else
       *Previous.SourceItem = *List\Bucket[Index]
       
-      While *Previous\NextSorted 
+      While *Previous\NextSorted
         compare = CompareMemoryString(*Name, @*Previous\NextSorted\Name$, #PB_String_NoCase)
         
         If compare = 0
@@ -2064,13 +2064,13 @@ Procedure Parser_AddSorted(*List.IndexedData, *Item.SourceItem, Line)
           Break
         Else
           *Previous = *Previous\NextSorted
-        EndIf         
+        EndIf
       Wend
       
       *Item\NextSorted     = *Previous\NextSorted
       *Previous\NextSorted = *Item
-    EndIf   
-  EndIf   
+    EndIf
+  EndIf
 
 EndProcedure
 
@@ -2082,7 +2082,7 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
 
   ; no need to do this if no scanning took place
   If *Parser\SortedValid Or (*Source And *Source\IsCode = 0)
-    ProcedureReturn    
+    ProcedureReturn
   EndIf
   
   ; savety check
@@ -2093,16 +2093,16 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
   
   ; clear any old data
   ClearMap(*Parser\Modules())
-  *CurrentModule.SortedModule = AddMapElement(*Parser\Modules(), "")  
+  *CurrentModule.SortedModule = AddMapElement(*Parser\Modules(), "")
   *CurrentModule\Name$ = ""
   *Parser\MainModule = *CurrentModule
   
   *CurrentIssue.SourceItem = 0
-  *Parser\SortedIssues = 0  
+  *Parser\SortedIssues = 0
   
   ; Now walk the code, and add items (taking scope etc into account)
   ;
-  InProcedure  = 0  
+  InProcedure  = 0
   InImport     = 0
   InModuleImpl = 0
   InEnumeration= 0
@@ -2129,7 +2129,7 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
           *CurrentModule = AddMapElement(*Parser\Modules(), UCase(*Item\Name$))
           *CurrentModule\Name$ = *Item\Name$
         
-        Case #ITEM_EndDeclareModule, #ITEM_EndModule   
+        Case #ITEM_EndDeclareModule, #ITEM_EndModule
           ; end of a module declaration. back to the main one
           *CurrentModule = *Parser\MainModule
           
@@ -2143,7 +2143,7 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
           ; get mixed in
           If InEnumeration Or *Item\IsAssignment
             Parser_AddSorted(@*CurrentModule\Sorted\Constants, *Item, Line)
-          EndIf    
+          EndIf
           
         Case #ITEM_Structure, #ITEM_Interface
           Parser_AddSorted(@*CurrentModule\Indexed[*Item\Type], *Item, Line)
@@ -2163,12 +2163,12 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
                 *Parser\SortedIssues = *Item
               Else
                 *CurrentIssue\NextSorted = *Item
-              EndIf          
+              EndIf
               *Item\NextSorted = 0
-              *Item\SortedLine = Line          
-              *CurrentIssue    = *Item            
+              *Item\SortedLine = Line
+              *CurrentIssue    = *Item
             EndIf
-          Wend        
+          Wend
           
         Case #ITEM_Procedure
           Parser_AddSorted(@*CurrentModule\Sorted\Procedures, *Item, Line)
@@ -2190,10 +2190,10 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
                 *Parser\SortedIssues = *Item
               Else
                 *CurrentIssue\NextSorted = *Item
-              EndIf          
+              EndIf
               *Item\NextSorted = 0
-              *Item\SortedLine = Line          
-              *CurrentIssue    = *Item    
+              *Item\SortedLine = Line
+              *CurrentIssue    = *Item
             EndIf
           Wend
           
@@ -2203,27 +2203,27 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
           
             ; if we have a source with it, get the prototype from there
             ; if there is no source, then its a Project file, and the parsed data already
-            ; holds the correct prototype        
+            ; holds the correct prototype
             If *Source And *Item\FullLength > *Item\Length
               ; FullLength includes name and type, so cut that (for only the prototype)
               Line$ = GetContinuationLine(Line, @StartOffset, *Source)
               ProtoStart = StartOffset + BytesToChars(Line$, StartOffset, *Parser\Encoding, *Item\Position+*Item\Length)
               ProtoLength = BytesToChars(Line$, ProtoStart, *Parser\Encoding, *Item\FullLength-*Item\Length)
-              Text$ = Mid(Line$, ProtoStart+1, ProtoLength) 
+              Text$ = Mid(Line$, ProtoStart+1, ProtoLength)
               *Cursor.BYTE = ToAscii(Text$)
-              *Parser_LineStart = *Cursor         
+              *Parser_LineStart = *Cursor
               Parser_SkipType(@*Cursor)
               Parser_SkipSpace(*Cursor)
               Proto$ = Parser_Cleanup(PeekS(*Cursor, -1, #PB_Ascii))
               
               *Item\Type$ = StringField(*Item\Type$, 1, Chr(10)) + Chr(10) + Proto$
-            EndIf      
+            EndIf
           
             Parser_AddSorted(@*CurrentModule\Sorted\Imports, *Item, Line)
             DefinitionEnd = *Item\Position + *Item\FullLength
             
             ; Skip all items on this line that are inside the prototype of this
-            ; Import, so we skip any variables inside that prototype properly         
+            ; Import, so we skip any variables inside that prototype properly
             While *Item\Next And *Item\Next\Position < DefinitionEnd
               *Item = *Item\Next
             Wend
@@ -2257,13 +2257,13 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
             *Parser\SortedIssues = *Item
           Else
             *CurrentIssue\NextSorted = *Item
-          EndIf          
+          EndIf
           *Item\NextSorted = 0
-          *Item\SortedLine = Line          
+          *Item\SortedLine = Line
           *CurrentIssue    = *Item
           
-      EndSelect 
-    EndIf   
+      EndSelect
+    EndIf
     
     Parser_NextItem(*Parser, *Item, Line)
   Wend
@@ -2290,7 +2290,7 @@ Procedure ScanFile(FileName$, *Parser.ParserData)
       *Parser\Encoding = 0
     Else
       *Parser\Encoding = 1
-    EndIf   
+    EndIf
   
     Size = Lof(#FILE_ScanSource)-Loc(#FILE_ScanSource)
     
@@ -2305,24 +2305,24 @@ Procedure ScanFile(FileName$, *Parser.ParserData)
         *Cursor.PTR = *Buffer
         
         AddElement(*LineStarts())
-        *LineStarts() = *Cursor        
+        *LineStarts() = *Cursor
         
         While *Cursor\b  ; there is a NULL anyway
           If *Cursor\b = 13 And *Cursor\b[1] = 10
             LineCount + 1
             *Cursor + 2
             AddElement(*LineStarts())
-            *LineStarts() = *Cursor               
+            *LineStarts() = *Cursor
             
           ElseIf *Cursor\b = 13 Or *Cursor\b = 10
             LineCount + 1
             *Cursor + 1
             AddElement(*LineStarts())
-            *LineStarts() = *Cursor               
+            *LineStarts() = *Cursor
             
           Else
             *Cursor + 1
-          EndIf            
+          EndIf
         Wend
         
         *Parser\SourceItemCount = LineCount
@@ -2367,17 +2367,17 @@ Procedure ScanFile(FileName$, *Parser.ParserData)
                       SelectElement(*LineStarts(), Line)
                       *EndCursor = *LineStarts() + *EndItem\Position
                       Break
-                    EndIf              
+                    EndIf
                     Parser_NextItem(*Parser, *EndItem, Line)
                   Wend
                   
                   If *EndCursor
                     ClearList(Items())
-                    If Type = #ITEM_Structure                  
+                    If Type = #ITEM_Structure
                       ParseStructure(*StartCursor, *EndCursor-*StartCursor, Items())
                     Else
                       ParseInterface(*StartCursor, *EndCursor-*StartCursor, Items())
-                    EndIf                  
+                    EndIf
                     
                     ; Add our new parsed content to the start item
                     ;
@@ -2403,7 +2403,7 @@ Procedure ScanFile(FileName$, *Parser.ParserData)
 EndProcedure
 
 ; Convert a char offset (0-based) to a byte offset in the specified encoding
-Procedure CharsToBytes(Line$, Start, Encoding, Chars)  
+Procedure CharsToBytes(Line$, Start, Encoding, Chars)
   If Encoding = 0
     ProcedureReturn StringByteLength(Mid(Line$, Start+1, Chars), #PB_Ascii)
   Else
@@ -2462,9 +2462,9 @@ Procedure ClosestSourceItem(*Parser.ParserData, *Line.INTEGER, Position)
     *Item.SourceItem = *Parser\SourceItemArray\Line[*Line\i]\Last
     
     ; Look on the current line for items below our position
-    ;    
+    ;
     While *Item
-      If *Item\Position >= 0 And *Item\Position <= Position 
+      If *Item\Position >= 0 And *Item\Position <= Position
         ProcedureReturn *Item
       Else
         *Item = *Item\Previous
@@ -2478,7 +2478,7 @@ Procedure ClosestSourceItem(*Parser.ParserData, *Line.INTEGER, Position)
         ProcedureReturn *Parser\SourceItemArray\Line[*Line\i]\Last
       EndIf
     Wend
-  EndIf  
+  EndIf
   
   ProcedureReturn 0 ; absolutely no sourceitems before the current location
 EndProcedure
@@ -2509,7 +2509,7 @@ Procedure FindProcedureStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER)
         EndIf
         
       Case #ITEM_Macro, #ITEM_ProcedureEnd ; inside a macro, or outside of a procedure. abort
-        Break             
+        Break
         
     EndSelect
     Parser_PreviousItem(*Parser, *Item, Line)
@@ -2533,7 +2533,7 @@ EndProcedure
 ; The following results are possible: (*pLine\i is set according to *pItem\i)
 ;
 ; Result=#True, *pItem\i <> 0
-;  -> A matching item was found 
+;  -> A matching item was found
 ; Result=#True, *pItem\i = 0
 ;  -> No matching item was needed (for example with a keyword like "Declare")
 ; Result=#False, *pItem\i <> 0
@@ -2588,7 +2588,7 @@ Procedure MatchKeywordBackward(*Parser.ParserData, *pLine.INTEGER, *pItem.INTEGE
         Next i
         
         If IsMatch
-          If ListSize(KeywordStack()) = 0         
+          If ListSize(KeywordStack()) = 0
             ; empty stack, so we matched the original item
             ; (it does not matter if we have further possible matches here)
             *pItem\i = *Item
@@ -2599,12 +2599,12 @@ Procedure MatchKeywordBackward(*Parser.ParserData, *pLine.INTEGER, *pItem.INTEGE
             ; this keyword has further matches, so make it our current search keyword
             Keyword = *Item\Keyword
             
-          Else 
+          Else
             ; we matched this stack level, so pop it
             Keyword = KeywordStack()
             DeleteElement(KeywordStack())
             
-          EndIf      
+          EndIf
           
         ElseIf ForwardMatches(*Item\Keyword, 0) > 0
           ; if this keyword has forward matches, then we have a mismatch! (as it is a EndXXX for example)
@@ -2616,12 +2616,12 @@ Procedure MatchKeywordBackward(*Parser.ParserData, *pLine.INTEGER, *pItem.INTEGE
         ElseIf BackwardMatches(*Item\Keyword, 0) > 0
           ; this item has backward matches, so put it on the stack
           AddElement(KeywordStack())
-          KeywordStack() = Keyword        
+          KeywordStack() = Keyword
           Keyword = *Item\Keyword
         
         EndIf ; if the found keyword has no matches at all, then we just ignore it
       EndIf
-    EndIf    
+    EndIf
   ForEver
 
 EndProcedure
@@ -2671,7 +2671,7 @@ Procedure MatchKeywordForward(*Parser.ParserData, *pLine.INTEGER, *pItem.INTEGER
         Next i
         
         If IsMatch
-          If ListSize(KeywordStack()) = 0         
+          If ListSize(KeywordStack()) = 0
             ; empty stack, so we matched the original item
             ; (it does not matter if we have further possible matches here)
             *pItem\i = *Item
@@ -2682,12 +2682,12 @@ Procedure MatchKeywordForward(*Parser.ParserData, *pLine.INTEGER, *pItem.INTEGER
             ; this keyword has further matches, so make it our current search keyword
             Keyword = *Item\Keyword
             
-          Else 
+          Else
             ; we matched this stack level, so pop it
             Keyword = KeywordStack()
             DeleteElement(KeywordStack())
             
-          EndIf      
+          EndIf
           
         ElseIf BackwardMatches(*Item\Keyword, 0) > 0
           ; if this keyword has backward matches, then we have a mismatch! (as it is a EndXXX for example)
@@ -2699,12 +2699,12 @@ Procedure MatchKeywordForward(*Parser.ParserData, *pLine.INTEGER, *pItem.INTEGER
         ElseIf ForwardMatches(*Item\Keyword, 0) > 0
           ; this item has forward matches, so put it on the stack
           AddElement(KeywordStack())
-          KeywordStack() = Keyword        
+          KeywordStack() = Keyword
           Keyword = *Item\Keyword
         
         EndIf ; if the found keyword has no matches at all, then we just ignore it
       EndIf
-    EndIf    
+    EndIf
   ForEver
 
 EndProcedure
@@ -2714,9 +2714,9 @@ EndProcedure
 ;
 Procedure FindLoopStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER)
   *Item.SourceItem = *pItem\i
-  Line             = *Line\i    
+  Line             = *Line\i
   
-  ; Move away from the end item if we are on it 
+  ; Move away from the end item if we are on it
   ;
   If *Item And *Item\Type = #ITEM_Keyword And (*Item\Keyword = #KEYWORD_Next Or *Item\Keyword = #KEYWORD_ForEver Or *Item\Keyword = #KEYWORD_Until Or*Item\Keyword = #KEYWORD_Wend)
     Parser_PreviousItem(*Parser, *Item, Line)
@@ -2739,7 +2739,7 @@ Procedure FindLoopStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER)
         
       Case #ITEM_Procedure, #ITEM_Macro, #ITEM_ProcedureEnd, #ITEM_Module, #ITEM_EndModule, #ITEM_DeclareModule, #ITEM_EndDeclareModule
         ; inside a macro, or found a procedure or module bound, so abort
-        Break             
+        Break
       
       Case #ITEM_Keyword
         Select *Item\Keyword
@@ -2752,10 +2752,10 @@ Procedure FindLoopStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER)
               ProcedureReturn #True
             EndIf
           
-          Case #KEYWORD_Next, #KEYWORD_ForEver, #KEYWORD_Until, #KEYWORD_Wend 
+          Case #KEYWORD_Next, #KEYWORD_ForEver, #KEYWORD_Until, #KEYWORD_Wend
             Level + 1
 
-        EndSelect        
+        EndSelect
         
     EndSelect
     Parser_PreviousItem(*Parser, *Item, Line)
@@ -2824,8 +2824,8 @@ Procedure FindBreakKeywords(*Parser.ParserData, *Item.SourceItem, Line, List Ite
         
       ; we have reached the end of the procedure (or we were inside a macro)
       ; this also terminates our loop search as we can have no loops past the procedure end
-      Case #ITEM_MacroEnd, #ITEM_ProcedureEnd 
-        Break       
+      Case #ITEM_MacroEnd, #ITEM_ProcedureEnd
+        Break
         
       Case #ITEM_Keyword
         Select *Item\Keyword
@@ -2834,7 +2834,7 @@ Procedure FindBreakKeywords(*Parser.ParserData, *Item.SourceItem, Line, List Ite
             ; This is also executed on our start element, so we start at Level=1 (in loop mode)
             Level + 1
           
-          Case #KEYWORD_Next, #KEYWORD_ForEver, #KEYWORD_Until, #KEYWORD_Wend             
+          Case #KEYWORD_Next, #KEYWORD_ForEver, #KEYWORD_Until, #KEYWORD_Wend
             Level - 1
             If Level = 0 And ProcedureMode = #False
               Break ; When we reach 0, it terminated our own loop
@@ -2844,7 +2844,7 @@ Procedure FindBreakKeywords(*Parser.ParserData, *Item.SourceItem, Line, List Ite
             If Level = 1 And ProcedureMode = #False
               AddElement(Items())
               Items()\Item = *Item
-              Items()\Line = Line                
+              Items()\Line = Line
             EndIf
             
           Case #KEYWORD_ProcedureReturn
@@ -2854,7 +2854,7 @@ Procedure FindBreakKeywords(*Parser.ParserData, *Item.SourceItem, Line, List Ite
               Items()\Line = Line
             EndIf
           
-        EndSelect           
+        EndSelect
         
     EndSelect
     Parser_NextItem(*Parser, *Item, Line)
@@ -2894,7 +2894,7 @@ Procedure FindModuleStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER, Lis
     
       Case #ITEM_Macro  ; the start point was inside a macro. abort
         ClearList(OpenModules())
-        Break     
+        Break
     
       Case #ITEM_DeclareModule, #ITEM_Module
         ; found the module decl/impl start
@@ -2931,7 +2931,7 @@ Procedure FindModuleStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER, Lis
         If Not Closed
           AddElement(OpenModules())
           OpenModules() = *Item\Name$
-        EndIf        
+        EndIf
       
       Case #ITEM_UnuseModule
         AddElement(ClosedModules())
@@ -2954,7 +2954,7 @@ EndProcedure
 ; If IncludeSelf is true, the result may be the initial item iself if it fits the criteria
 ;
 ; Returns true if such an item is found, false if not inside any block
-; 
+;
 Procedure FindBlockStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER, IncludeSelf)
   *Item.SourceItem = *pItem\i
   Line = *Line\i
@@ -2992,7 +2992,7 @@ Procedure FindBlockStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER, Incl
         EndIf
         
       EndIf
-    EndIf  
+    EndIf
     Parser_PreviousItem(*Parser, *Item, Line)
   Wend
   
@@ -3005,17 +3005,17 @@ Procedure.s ResolveStructureTypeFromSorted(*Parser.ParserData, Type$, List Modul
   ; does nothing if already sorted
   SortParserData(*Parser, *Source)
   
-  Bucket = GetBucket(@Type$)  
+  Bucket = GetBucket(@Type$)
   
   ; look at each module name separately
   ForEach ModuleNames()
   
     *Module.SortedModule = FindMapElement(*Parser\Modules(), UCase(ModuleNames()))
-    If *Module 
+    If *Module
     
       ; Structures
       ;
-      *Item.SourceItem = *Module\Sorted\Structures[Bucket]      
+      *Item.SourceItem = *Module\Sorted\Structures[Bucket]
       While *Item
         Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCase)
           Case #PB_String_Equal
@@ -3034,7 +3034,7 @@ Procedure.s ResolveStructureTypeFromSorted(*Parser.ParserData, Type$, List Modul
       
       ; Interfaces
       ;
-      *Item.SourceItem = *Module\Sorted\Interfaces[Bucket]      
+      *Item.SourceItem = *Module\Sorted\Interfaces[Bucket]
       While *Item
         Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCase)
           Case #PB_String_Equal
@@ -3049,11 +3049,11 @@ Procedure.s ResolveStructureTypeFromSorted(*Parser.ParserData, Type$, List Modul
           Case #PB_String_Greater: *Item = *Item\NextSorted
           Default:                  Break
         EndSelect
-      Wend  
+      Wend
       
       ; Prototypes
       ;
-      *Item.SourceItem = *Module\Sorted\Prototypes[Bucket]      
+      *Item.SourceItem = *Module\Sorted\Prototypes[Bucket]
       While *Item
         Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCase)
           Case #PB_String_Equal
@@ -3068,7 +3068,7 @@ Procedure.s ResolveStructureTypeFromSorted(*Parser.ParserData, Type$, List Modul
           Case #PB_String_Greater: *Item = *Item\NextSorted
           Default:                  Break
         EndSelect
-      Wend  
+      Wend
     
     EndIf
   
@@ -3123,22 +3123,22 @@ Procedure.s ResolveStructureType(*Parser.ParserData, *Item.SourceItem, Line, Typ
   ;
   If AutoCompleteProject And *ActiveSource\ProjectFile
     ; This could be called inside a function that has such a ForEach too!
-    Current = ListIndex(ProjectFiles())    
+    Current = ListIndex(ProjectFiles())
     Found = 0
     ForEach ProjectFiles()
       If ProjectFiles()\Source = 0 And @ProjectFiles()\Parser <> *Parser
-        Full$ = ResolveStructureTypeFromSorted(@ProjectFiles()\Parser, Type$, ModuleNames())       
+        Full$ = ResolveStructureTypeFromSorted(@ProjectFiles()\Parser, Type$, ModuleNames())
       ElseIf ProjectFiles()\Source And @ProjectFiles()\Source\Parser <> *Parser
-        Full$ = ResolveStructureTypeFromSorted(@ProjectFiles()\Source\Parser, Type$, ModuleNames())       
+        Full$ = ResolveStructureTypeFromSorted(@ProjectFiles()\Source\Parser, Type$, ModuleNames())
       EndIf
       
       If Full$
         SelectElement(ProjectFiles(), Current)
         ProcedureReturn Full$
-      EndIf  
+      EndIf
     Next ProjectFiles()
     SelectElement(ProjectFiles(), Current)
-  EndIf    
+  EndIf
 
   ; Check other open files
   ;
@@ -3148,16 +3148,16 @@ Procedure.s ResolveStructureType(*Parser.ParserData, *Item.SourceItem, Line, Typ
     ForEach FileList()
       If @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource And (AutoCompleteProject = 0 Or FileList()\ProjectFile = 0)
         If @FileList()\Parser <> *Parser
-          Full$ = ResolveStructureTypeFromSorted(@FileList()\Parser, Type$, ModuleNames())       
+          Full$ = ResolveStructureTypeFromSorted(@FileList()\Parser, Type$, ModuleNames())
           If Full$
             SelectElement(FileList(), Current) ; important!
             ProcedureReturn Full$
-          EndIf  
-        EndIf       
-      EndIf 
+          EndIf
+        EndIf
+      EndIf
     Next FileList()
     SelectElement(FileList(), Current) ; important!
-  EndIf 
+  EndIf
 
   ; return the original type in case it is a predefined resident type
   ProcedureReturn Type$
@@ -3173,104 +3173,104 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
   ; does nothing if already sorted
   SortParserData(*Parser, *Source)
   
-  Bucket = GetBucket(@*InputItem\Name$)  
+  Bucket = GetBucket(@*InputItem\Name$)
   
   ; look at each module name separately
   ForEach ModuleNames()
   
     *Module.SortedModule = FindMapElement(*Parser\Modules(), UCase(ModuleNames()))
-    If *Module 
+    If *Module
 
       ; Check the macros first for all item types
       ;
-      *Item.SourceItem = *Module\Sorted\Macros[Bucket]      
+      *Item.SourceItem = *Module\Sorted\Macros[Bucket]
       While *Item
         Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
           Case #PB_String_Equal
             ; Check if the macro is a function macro or not
             If (*InputItem\Type = #ITEM_Variable And *Item\Prototype$ <> "") Or (*InputItem\Type <> #ITEM_Variable And *Item\Prototype$ = "")
               Break
-            Else      
+            Else
               *OutType\i = #ITEM_Macro
-              ProcedureReturn *Item\Prototype$     
+              ProcedureReturn *Item\Prototype$
             EndIf
           Case #PB_String_Greater: *Item = *Item\NextSorted
           Default:                  Break
         EndSelect
-      Wend   
+      Wend
       
       If *InputItem\Type = #ITEM_UnknownBraced
         
         ; Check all the types that can be UnknownBraced items
         ;
-        *Item.SourceItem = *Module\Sorted\Procedures[Bucket]      
+        *Item.SourceItem = *Module\Sorted\Procedures[Bucket]
         While *Item
           Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
-            Case #PB_String_Equal         
+            Case #PB_String_Equal
               *OutType\i = *Item\Type
-              ProcedureReturn *Item\Prototype$     
+              ProcedureReturn *Item\Prototype$
             Case #PB_String_Greater: *Item = *Item\NextSorted
             Default:                  Break
           EndSelect
-        Wend        
+        Wend
         
-        *Item.SourceItem = *Module\Sorted\Declares[Bucket]      
+        *Item.SourceItem = *Module\Sorted\Declares[Bucket]
         While *Item
           Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
-            Case #PB_String_Equal         
+            Case #PB_String_Equal
               *OutType\i = *Item\Type
-              ProcedureReturn *Item\Prototype$     
+              ProcedureReturn *Item\Prototype$
             Case #PB_String_Greater: *Item = *Item\NextSorted
             Default:                  Break
           EndSelect
-        Wend 
+        Wend
         
-        *Item.SourceItem = *Module\Sorted\Arrays[Bucket]      
+        *Item.SourceItem = *Module\Sorted\Arrays[Bucket]
         While *Item
           Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
-            Case #PB_String_Equal       
+            Case #PB_String_Equal
               *OutType\i = *Item\Type
               Type$ = StringField(*Item\Type$, 1, Chr(10))
               ProcedureReturn ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
             Case #PB_String_Greater: *Item = *Item\NextSorted
             Default:                  Break
           EndSelect
-        Wend 
+        Wend
         
-        *Item.SourceItem = *Module\Sorted\LinkedLists[Bucket]      
+        *Item.SourceItem = *Module\Sorted\LinkedLists[Bucket]
         While *Item
           Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
-            Case #PB_String_Equal         
+            Case #PB_String_Equal
               *OutType\i = *Item\Type
               Type$ = StringField(*Item\Type$, 1, Chr(10))
-              ProcedureReturn ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)  
+              ProcedureReturn ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
             Case #PB_String_Greater: *Item = *Item\NextSorted
             Default:                  Break
           EndSelect
-        Wend   
+        Wend
         
-        *Item.SourceItem = *Module\Sorted\Maps[Bucket]      
+        *Item.SourceItem = *Module\Sorted\Maps[Bucket]
         While *Item
           Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
-            Case #PB_String_Equal         
+            Case #PB_String_Equal
               *OutType\i = *Item\Type
-              Type$ = StringField(*Item\Type$, 1, Chr(10))  
-              ProcedureReturn ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)    
+              Type$ = StringField(*Item\Type$, 1, Chr(10))
+              ProcedureReturn ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
             Case #PB_String_Greater: *Item = *Item\NextSorted
             Default:                  Break
           EndSelect
-        Wend     
+        Wend
         
         ; Variables can be #ITEM_UnknownBraced as well, if they are prototypes
-        ; If the given variable is no Prototype then there is no match, as a 
+        ; If the given variable is no Prototype then there is no match, as a
         ; List can not match a variable etc
         ;
-        *Item.SourceItem = *Module\Sorted\Variables[Bucket]      
+        *Item.SourceItem = *Module\Sorted\Variables[Bucket]
         While *Item
           Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
-            Case #PB_String_Equal    
-              Type$ = StringField(*Item\Type$, 1, Chr(10))  
-              Type$ = ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)      
+            Case #PB_String_Equal
+              Type$ = StringField(*Item\Type$, 1, Chr(10))
+              Type$ = ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
                
               If Type$ And FindPrototype(Type$)
                 *OutType\i = *Item\Type
@@ -3281,10 +3281,10 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
             Case #PB_String_Greater: *Item = *Item\NextSorted
             Default:                  Break
           EndSelect
-        Wend   
+        Wend
         
       ElseIf *InputItem\Type <= #ITEM_LastSorted
-        *Item.SourceItem = *Module\Indexed[*InputItem\Type]\Bucket[Bucket]      
+        *Item.SourceItem = *Module\Indexed[*InputItem\Type]\Bucket[Bucket]
         While *Item
           Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
             Case #PB_String_Equal
@@ -3314,7 +3314,7 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
   Protected NewList OpenModules.s()
 
   *Parser.ParserData = @*ActiveSource\Parser
-  *Item.SourceItem = *InputItem  
+  *Item.SourceItem = *InputItem
   Line  = InputLine
   
   *OutType\i = *InputItem\Type
@@ -3330,11 +3330,11 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
     If Type$ <> ""
       ProcedureReturn ResolveStructureType(@*ActiveSource\Parser, *InputItem, InputLine, Type$)
     EndIf
-  EndIf  
+  EndIf
   
   ; Find module start and open modules
-  ;  
-  InsideModule = FindModuleStart(*Parser, @ModuleStartLine, @*ModuleStart, OpenModules())  
+  ;
+  InsideModule = FindModuleStart(*Parser, @ModuleStartLine, @*ModuleStart, OpenModules())
   If InsideModule
     ModulePrefix$ = *ModuleStart\Name$ + "::"
   Else
@@ -3346,7 +3346,7 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
   ;
   If FindProcedureStart(*Parser, @Line, @*Item)
   
-    While *Item 
+    While *Item
       If *Item\ModulePrefix$ = "" ; only look at items not from other modules here
         Select *Item\Type
         
@@ -3356,7 +3356,7 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
           Case #ITEM_Macro
             While *Item And *Item\Type <> #ITEM_MacroEnd
               Parser_NextItem(*Parser, *Item, Line)
-            Wend    
+            Wend
             
             If *Item = 0 ; Important check, as Parser_NextItem() does not check it below
               Break
@@ -3373,7 +3373,7 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
             If SkipTo
               While *Item And (*Item\Type <> #ITEM_Keyword Or *Item\Keyword <> SkipTo)
                 Parser_NextItem(*Parser, *Item, Line)
-              Wend  
+              Wend
               
               If *Item = 0 ; Important check, as Parser_NextItem() does not check it below
                 Break
@@ -3391,14 +3391,14 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
             
             ; If we have a variable with a prototype, the input may be an UnknownBraced as we call the prototype,
             ; so check for this case
-            ;  
-            ElseIf *OutType\i = #ITEM_UnknownBraced And CompareMemoryString(@*Item\Name$, @*InputItem\Name$, #PB_String_NoCase) = #PB_String_Equal 
+            ;
+            ElseIf *OutType\i = #ITEM_UnknownBraced And CompareMemoryString(@*Item\Name$, @*InputItem\Name$, #PB_String_NoCase) = #PB_String_Equal
               Type$ = StringField(*Item\Type$, 1, Chr(10))
               Type$ = ResolveStructureType(@*ActiveSource\Parser, *Item, Line, Type$)
-              If Type$ And FindPrototype(Type$)              
+              If Type$ And FindPrototype(Type$)
                 *OutType\i = #ITEM_Variable
                 ProcedureReturn Type$
-              EndIf              
+              EndIf
                           
             EndIf
             
@@ -3411,13 +3411,13 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
               ElseIf Scope = #SCOPE_Unknown
                 Scope = *Item\Scope
               EndIf
-            EndIf            
+            EndIf
           
         EndSelect
       EndIf
     
       Parser_NextItem(*Parser, *Item, Line)
-    Wend  
+    Wend
   
     ; if its local or static and nothing was found then there is probably no type
     If Scope = #SCOPE_LOCAL Or Scope = #SCOPE_STATIC
@@ -3455,22 +3455,22 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
   ;
   If AutoCompleteProject And *ActiveSource\ProjectFile
     ; This could be called inside a function that has such a ForEach too!
-    Current = ListIndex(ProjectFiles())    
+    Current = ListIndex(ProjectFiles())
     Found = 0
     ForEach ProjectFiles()
       If ProjectFiles()\Source = 0
-        Type$ = ResolveItemTypeFromSorted(@ProjectFiles()\Parser, *InputItem, OpenModules(), *OutType)       
-      ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *Source 
-        Type$ = ResolveItemTypeFromSorted(@ProjectFiles()\Source\Parser, *InputItem, OpenModules(), *OutType, ProjectFiles()\Source)       
+        Type$ = ResolveItemTypeFromSorted(@ProjectFiles()\Parser, *InputItem, OpenModules(), *OutType)
+      ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *Source
+        Type$ = ResolveItemTypeFromSorted(@ProjectFiles()\Source\Parser, *InputItem, OpenModules(), *OutType, ProjectFiles()\Source)
       EndIf
       
       If Type$
         SelectElement(ProjectFiles(), Current)
         ProcedureReturn Type$
-      EndIf  
+      EndIf
     Next ProjectFiles()
     SelectElement(ProjectFiles(), Current)
-  EndIf    
+  EndIf
 
   ; Check other open files
   ;
@@ -3479,15 +3479,15 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
     Found = 0
     ForEach FileList()
       If @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource And (AutoCompleteProject = 0 Or FileList()\ProjectFile = 0)
-        Type$ = ResolveItemTypeFromSorted(@FileList()\Parser, *InputItem, OpenModules(), *OutType, @FileList())       
+        Type$ = ResolveItemTypeFromSorted(@FileList()\Parser, *InputItem, OpenModules(), *OutType, @FileList())
         If Type$
           SelectElement(FileList(), Current) ; important!
           ProcedureReturn Type$
-        EndIf         
-      EndIf 
+        EndIf
+      EndIf
     Next FileList()
     SelectElement(FileList(), Current) ; important!
-  EndIf 
+  EndIf
 
   ProcedureReturn ""
 EndProcedure
@@ -3507,7 +3507,7 @@ EndProcedure
 ;   *pItem\i - SourceItem pointer for base item
 ;   *pLine\i - line of base item
 ;   StructureStack() - filled with structure subitems leading up to the last \
-Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGER, List StructureStack.s())  
+Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGER, List StructureStack.s())
   IsStructure          = #False
   *BaseItem.SourceItem = 0
   BaseItemLine         = *pLine\i
@@ -3523,7 +3523,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
       *Forward\c = ' ': *Forward + #CharSize
       While *Forward\c And *Forward\c <> Stop
         *Forward\c = ' ': *Forward + #CharSize
-      Wend        
+      Wend
       If *Forward\c = Stop
         *Forward\c = ' ': *Forward + #CharSize
       EndIf
@@ -3532,14 +3532,14 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
       ; Escaped string
       *Forward\c = ' ': *Forward + #CharSize
       *Forward\c = ' ': *Forward + #CharSize
-      While *Forward\c And *Forward\c <> '"' 
+      While *Forward\c And *Forward\c <> '"'
         If *Forward\c = '\' And *Forward\c[1] <> 0
           *Forward\c = ' ': *Forward + #CharSize
           *Forward\c = ' ': *Forward + #CharSize
         Else
           *Forward\c = ' ': *Forward + #CharSize
         EndIf
-      Wend        
+      Wend
       If *Forward\c = '"'
         *Forward\c = ' ': *Forward + #CharSize
       EndIf
@@ -3547,7 +3547,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
     Else
       *Forward + #CharSize
     EndIf
-  Wend  
+  Wend
  
  ; Skip any whitespace
   *Buffer = @Line$
@@ -3558,7 +3558,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
   
   ; check if we have a structure here
   ; If yes, search for the SourceItem that is the structure base
-  If *Cursor >= *Buffer And *Cursor\c = '\'          
+  If *Cursor >= *Buffer And *Cursor\c = '\'
 
     While *Cursor >= *Buffer And *Cursor\c = '\'
       *SlashPosition = *Cursor
@@ -3571,7 +3571,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
       ; check for array in structure, or list, map in structure or base item
       ;
       If *Cursor >= *Buffer And (*Cursor\c = ']' Or *Cursor\c = ')')
-        ; skip any number of [], () 
+        ; skip any number of [], ()
         If *Cursor\c = ']'
           CharOpen = '['
           CharClose = ']'
@@ -3589,7 +3589,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
             Depth - 1
           EndIf
           *Cursor - SizeOf(Character)
-        Wend                        
+        Wend
         
       EndIf
       
@@ -3651,7 +3651,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
             While *Cursor >= *Buffer And (*Cursor\c = '*' Or ValidCharacters(*Cursor\c))
               *Cursor - SizeOf(Character)
             Wend
-            *StartPosition = *Cursor + SizeOf(Character)                                   
+            *StartPosition = *Cursor + SizeOf(Character)
           Else
             ; something is invalid here
             Break
@@ -3673,8 +3673,8 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
         Else
           ; It must be the base item, so try to identify it (the loop then terminates)
           *BaseItem = LocateSourceItem(@*ActiveSource\Parser, BaseItemLine, CharsToBytes(Line$, 0, *ActiveSource\Parser\Encoding, (*StartPosition-*Buffer)/SizeOf(Character)))
-          If *BaseItem                 
-            If *BaseItem\Type = #ITEM_Variable Or *BaseItem\Type = #ITEM_Array Or *BaseItem\Type = #ITEM_LinkedList Or *BaseItem\Type = #ITEM_Map Or *BaseItem\Type = #ITEM_UnknownBraced                
+          If *BaseItem
+            If *BaseItem\Type = #ITEM_Variable Or *BaseItem\Type = #ITEM_Array Or *BaseItem\Type = #ITEM_LinkedList Or *BaseItem\Type = #ITEM_Map Or *BaseItem\Type = #ITEM_UnknownBraced
               ; valid base item found (something that can have a structure)
               IsStructure = #True
             Else
@@ -3707,18 +3707,18 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
               ; Note that a #ITEM_FoldStart or #ITEM_FoldEnd could be between the Width and the real source item
               If *Item\Next And (*Item\Next\Type = #ITEM_FoldStart Or *Item\Next\Type = #ITEM_FoldEnd)
                 *Item = *Item\Next
-              EndIf              
+              EndIf
               If *Item\Next And (*Item\Next\Type = #ITEM_Variable Or *Item\Next\Type = #ITEM_Array Or *Item\Next\Type = #ITEM_LinkedList Or *Item\Next\Type = #ITEM_Map Or *Item\Next\Type = #ITEM_UnknownBraced)
-                *BaseItem = *Item\Next   
-                IsStructure = #True    
+                *BaseItem = *Item\Next
+                IsStructure = #True
                 
-                ; ok, so we have our base. now we must check if it is something like "Width x\y\z"                      
+                ; ok, so we have our base. now we must check if it is something like "Width x\y\z"
                 Line$ = GetLine(BaseItemLine, *ActiveSource)
                 If *BaseItem\Position >= 0 And *BaseItem\Position+*BaseItem\FullLength < Len(Line$)
                   *Cursor = @Line$ + BytesToChars(Line$, 0, *ActiveSource\Parser\Encoding, *BaseItem\Position + *BaseItem\Length) * #CharSize
                   
                   ; Reset the list and then do AddElement() as we are now scanning forward
-                  ResetList(StructureStack()) 
+                  ResetList(StructureStack())
                   
                   ; we start off right after the base item, so skip until after \ first
                   While *Cursor\c
@@ -3730,7 +3730,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
                       While *Cursor\c = ' ' Or *Cursor\c = 9: *Cursor + SizeOf(Character): Wend ; whitespace
                       While ValidCharacters(*Cursor\c) ; type name (no *, $, p-ascii etc allowed anyway)
                         *Cursor + SizeOf(Character)
-                      Wend 
+                      Wend
                       While *Cursor\c = ' ' Or *Cursor\c = 9: *Cursor + SizeOf(Character): Wend ; whitespace
                       
                       ; check for possible module prefix
@@ -3739,7 +3739,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
                         While *Cursor\c = ' ' Or *Cursor\c = 9: *Cursor + SizeOf(Character): Wend ; whitespace
                         While ValidCharacters(*Cursor\c) ; type name (no *, $, p-ascii etc allowed anyway)
                           *Cursor + SizeOf(Character)
-                        Wend 
+                        Wend
                         While *Cursor\c = ' ' Or *Cursor\c = 9: *Cursor + SizeOf(Character): Wend ; whitespace
                       EndIf
                     EndIf
@@ -3752,7 +3752,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
                       Else
                         CharOpen = '('
                         CharClose = ')'
-                      EndIf                      
+                      EndIf
                       
                       Depth = 1
                       *Cursor + SizeOf(Character)
@@ -3782,15 +3782,15 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
                           Wend
                         EndIf
                         *Cursor + SizeOf(Character)
-                      Wend       
+                      Wend
                       
-                      ; whitespace  
-                      While *Cursor\c = ' ' Or *Cursor\c = 9: *Cursor + SizeOf(Character): Wend ; whitespace                      
-                    EndIf                    
+                      ; whitespace
+                      While *Cursor\c = ' ' Or *Cursor\c = 9: *Cursor + SizeOf(Character): Wend ; whitespace
+                    EndIf
                     
                     If *Cursor\c = '\'
                       *Cursor + SizeOf(Character)
-                      While *Cursor\c = ' ' Or *Cursor\c = 9: *Cursor + SizeOf(Character): Wend 
+                      While *Cursor\c = ' ' Or *Cursor\c = 9: *Cursor + SizeOf(Character): Wend
                       
                       *Start = *Cursor
                       While ValidCharacters(*Cursor\c) ; skip item name (can have no $, *, etc here anyway)
@@ -3803,12 +3803,12 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
                       Else
                         ; something is invalid here
                         Break
-                      EndIf                            
+                      EndIf
                     Else
                       ; something is invalid here
                       Break
                     EndIf
-                  Wend                                                                                                    
+                  Wend
                 EndIf
                 
               EndIf
@@ -3831,14 +3831,14 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
             EndIf
             
           Case #ITEM_Macro ; inside a macro, we do not search further
-            Break             
+            Break
             
         EndSelect
         Parser_PreviousItem(*ActiveSource\Parser, *Item, BaseItemLine)
       Wend
     EndIf
                       
-  EndIf         
+  EndIf
 
   *pItem\i = *BaseItem
   *pLine\i = BaseItemLine
@@ -3854,7 +3854,7 @@ DataSection
   ; - The second column defines the keywords that MUST follow the first one
   ;   on the same nesting level. If there are multiple options, then there
   ;   are multiple pairs.
-  ;   (Example: Case must be followed by either Case, Default Or EndSelect)  
+  ;   (Example: Case must be followed by either Case, Default Or EndSelect)
   ;
   ; Note: Compiler Keywords are treated spechially, as they can be used
   ;   outside of the normal nesting rules.
@@ -3912,6 +3912,6 @@ DataSection
     CompilerEndIf
     Data.l #KEYWORD_While,           #KEYWORD_Wend
     Data.l #KEYWORD_With,            #KEYWORD_EndWith
-    Data.l 0, 0                 
+    Data.l 0, 0
 
 EndDataSection

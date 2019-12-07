@@ -17,10 +17,10 @@ Procedure UpdateProcedureList()
   If *ActiveSource = *ProjectInfo Or *ActiveSource\IsCode = 0
     ClearList(ProcedureList())
     ClearGadgetItems(#GADGET_ProcedureBrowser)
-    ProcedureReturn 
-  EndIf  
+    ProcedureReturn
+  EndIf
 
-  If ProcedureBrowserMode = 1  
+  If ProcedureBrowserMode = 1
   
     ; Create our procedurelist from the SourceItems of the current source
     ;
@@ -28,7 +28,7 @@ Procedure UpdateProcedureList()
     InsideMacro = 0
     ModulePrefix$ = ""
     
-    If *ActiveSource\Parser\SourceItemArray    
+    If *ActiveSource\Parser\SourceItemArray
       For i = 0 To *ActiveSource\Parser\SourceItemCount-1
         *Item.SourceItem = *ActiveSource\Parser\SourceItemArray\Line[i]\First
         While *Item
@@ -45,7 +45,7 @@ Procedure UpdateProcedureList()
                 AddElement(ProcedureList())
                 ProcedureList()\Name$ = ModulePrefix$ + *Item\Name$
                 ProcedureList()\Line  = i+1
-                ProcedureList()\Type  = 0                
+                ProcedureList()\Type  = 0
                 Procedurelist()\Prototype$ = *Item\Prototype$
                 
               Case #ITEM_Macro
@@ -53,10 +53,10 @@ Procedure UpdateProcedureList()
                 ProcedureList()\Name$ = ModulePrefix$ + *Item\Name$
                 ProcedureList()\Line  = i+1
                 ProcedureList()\Type  = 1
-                Procedurelist()\Prototype$ = *Item\Prototype$                
+                Procedurelist()\Prototype$ = *Item\Prototype$
             
             EndSelect
-          EndIf  
+          EndIf
           
           ; we recognize comment marks even inside macros, as they cannot screw anything,
           ; since they are comments
@@ -64,7 +64,7 @@ Procedure UpdateProcedureList()
             AddElement(ProcedureList())
             ProcedureList()\Name$ = *Item\Name$
             ProcedureList()\Line  = i+1
-            ProcedureList()\Type  = 2    
+            ProcedureList()\Type  = 2
             
           ElseIf *Item\Type = #ITEM_Issue
             If SelectElement(Issues(), *Item\Issue)
@@ -72,19 +72,19 @@ Procedure UpdateProcedureList()
                 AddElement(ProcedureList())
                 ProcedureList()\Name$ = *Item\Name$
                 ProcedureList()\Line  = i+1
-                ProcedureList()\Type  = 3    
+                ProcedureList()\Type  = 3
               EndIf
-            EndIf    
+            EndIf
           
           ElseIf *Item\Type = #ITEM_Macro
-            InsideMacro = 1                  
+            InsideMacro = 1
           ElseIf *Item\Type = #ITEM_MacroEnd
-            InsideMacro = 0  
-          EndIf                 
+            InsideMacro = 0
+          EndIf
           
           *Item = *Item\Next
         Wend
-      Next i    
+      Next i
     EndIf
     
     ; first sort the list
@@ -98,7 +98,7 @@ Procedure UpdateProcedureList()
         While NextElement(ProcedureList())
           Change = 0
 
-          If ProcedureBrowserSort = 0 
+          If ProcedureBrowserSort = 0
             If ProcedureList()\Line < *Previous\Line
               Change = 1
             EndIf
@@ -130,7 +130,7 @@ Procedure UpdateProcedureList()
 
           If Change
             SwapElements(ProcedureList(), *Previous, @ProcedureList())
-            Done = 0 
+            Done = 0
           EndIf
 
           *Previous = @ProcedureList()
@@ -146,7 +146,7 @@ Procedure UpdateProcedureList()
     NewIndex = -1
     If OldIndex <> -1
       OldText$ = GetGadgetItemText(#GADGET_ProcedureBrowser, OldIndex)
-    EndIf     
+    EndIf
 
     ; Lock the list update, as on GTK2 it's really slow
     ; Note: we may not call SetGadgetState() after this!
@@ -158,7 +158,7 @@ Procedure UpdateProcedureList()
         g_object_ref_(*tree_model) ; must be ref'ed or it is destroyed
         gtk_tree_view_set_model_(GadgetID(#GADGET_ProcedureBrowser), #Null) ; disconnect the model for a faster update
       CompilerEndIf
-    CompilerEndIf       
+    CompilerEndIf
 
     ClearGadgetItems(#GADGET_ProcedureBrowser)
     ForEach ProcedureList()
@@ -171,11 +171,11 @@ Procedure UpdateProcedureList()
         Text$ = "+ " + ProcedureList()\Name$
         If DisplayPrototype
           Text$ + ProcedureList()\Prototype$
-        EndIf      
+        EndIf
       ElseIf ProcedureList()\Type = 2
-        Text$ = "> " + ProcedureList()\Name$   
-      Else   
-        Text$ = ProcedureList()\Name$   
+        Text$ = "> " + ProcedureList()\Name$
+      Else
+        Text$ = ProcedureList()\Name$
       EndIf
       
       AddGadgetItem(#GADGET_ProcedureBrowser, -1, Text$)
@@ -184,7 +184,7 @@ Procedure UpdateProcedureList()
       If CompareMemoryString(@OldText$, @Text$, #PB_String_NoCase) = 0 And OldIndex <> -1
         NewIndex = CountGadgetItems(#GADGET_ProcedureBrowser)-1
       EndIf
-    Next ProcedureList()   
+    Next ProcedureList()
         
     CompilerIf #CompileLinux
       CompilerIf #GtkVersion = 1
@@ -215,7 +215,7 @@ Procedure FindProcedureFromSorted(*Parser.ParserData, *Name, Type, ModuleName$)
     Select CompareMemoryString(*Name, @*Item\Name$, #PB_String_NoCase)
       Case #PB_String_Equal
         ProcedureReturn *Item
-      Case #PB_String_Greater: 
+      Case #PB_String_Greater:
         *Item = *Item\NextSorted
       Default
         Break
@@ -226,7 +226,7 @@ Procedure FindProcedureFromSorted(*Parser.ParserData, *Name, Type, ModuleName$)
 EndProcedure
 
 Procedure JumpToProcedure() ; return 1 if a jump was done
-  Protected *Found.SourceItem  
+  Protected *Found.SourceItem
   
   If *ActiveSource\IsCode = 0
     ProcedureReturn
@@ -258,7 +258,7 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
   ElseIf FindModuleStart(@*ActiveSource\Parser, @ModuleStartLine, @*ModuleStart, OpenModules())
     ; we are inside this module, so directly make it a candidate for implementation search
     AddElement(CandidateModules())
-    CandidateModules() = "IMPL::" + *ModuleStart\Name$   
+    CandidateModules() = "IMPL::" + *ModuleStart\Name$
     
   Else
     ; directly make the main module a candidate
@@ -274,7 +274,7 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
   ForEach OpenModules()
   
     ; check active source first
-    If *ActiveSource <> *ProjectInfo 
+    If *ActiveSource <> *ProjectInfo
       If FindProcedureFromSorted(@*ActiveSource\Parser, @*StartItem\Name$, #ITEM_Declare, OpenModules())
         AddElement(CandidateModules())
         CandidateModules() = "IMPL::" + OpenModules()
@@ -285,11 +285,11 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
     ; check projects
     If AutoCompleteProject And *ActiveSource\ProjectFile
       ForEach ProjectFiles()
-        If ProjectFiles()\Source = 0 And ProjectFiles()\Parser\SortedValid 
-          *Found = FindProcedureFromSorted(@ProjectFiles()\Parser, @*StartItem\Name$, #ITEM_Declare, OpenModules())          
+        If ProjectFiles()\Source = 0 And ProjectFiles()\Parser\SortedValid
+          *Found = FindProcedureFromSorted(@ProjectFiles()\Parser, @*StartItem\Name$, #ITEM_Declare, OpenModules())
         ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource And ProjectFiles()\Source\Parser\SortedValid
-          *Found = FindProcedureFromSorted(@ProjectFiles()\Source\Parser, @*StartItem\Name$, #ITEM_Declare, OpenModules())    
-        Else 
+          *Found = FindProcedureFromSorted(@ProjectFiles()\Source\Parser, @*StartItem\Name$, #ITEM_Declare, OpenModules())
+        Else
           *Found = 0
         EndIf
         
@@ -297,9 +297,9 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
           AddElement(CandidateModules())
           CandidateModules() = "IMPL::" + OpenModules()
           Break
-        EndIf         
+        EndIf
       Next ProjectFiles()
-    EndIf    
+    EndIf
   
     ; check all other open sources now...
     ;
@@ -310,11 +310,11 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
             AddElement(CandidateModules())
             CandidateModules() = "IMPL::" + OpenModules()
             Break
-          EndIf       
-        EndIf 
+          EndIf
+        EndIf
       Next FileList()
       ChangeCurrentElement(FileList(), *ActiveSource) ; important!
-    EndIf  
+    EndIf
       
   Next OpenModules()
   
@@ -324,7 +324,7 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
   ForEach CandidateModules()
   
     ; check active source first
-    If *ActiveSource <> *ProjectInfo 
+    If *ActiveSource <> *ProjectInfo
       *Found = FindProcedureFromSorted(@*ActiveSource\Parser, @*StartItem\Name$, #ITEM_Procedure, CandidateModules())
       If *Found
         Line = *Found\SortedLine + 1
@@ -335,7 +335,7 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
           SendEditorMessage(#SCI_ENSUREVISIBLE, Line)
 
           ProcedureReturn 1
-        Else           
+        Else
           ProcedureReturn 0
         EndIf
       EndIf
@@ -344,10 +344,10 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
     ; check projects
     If AutoCompleteProject And *ActiveSource\ProjectFile
       ForEach ProjectFiles()
-        If ProjectFiles()\Source = 0 And ProjectFiles()\Parser\SortedValid 
-          *Found = FindProcedureFromSorted(@ProjectFiles()\Parser, @*StartItem\Name$, #ITEM_Procedure, CandidateModules())          
+        If ProjectFiles()\Source = 0 And ProjectFiles()\Parser\SortedValid
+          *Found = FindProcedureFromSorted(@ProjectFiles()\Parser, @*StartItem\Name$, #ITEM_Procedure, CandidateModules())
         ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource And ProjectFiles()\Source\Parser\SortedValid
-          *Found = FindProcedureFromSorted(@ProjectFiles()\Source\Parser, @*StartItem\Name$, #ITEM_Procedure, CandidateModules())    
+          *Found = FindProcedureFromSorted(@ProjectFiles()\Source\Parser, @*StartItem\Name$, #ITEM_Procedure, CandidateModules())
         Else
           *Found = 0
         EndIf
@@ -362,11 +362,11 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
             
             ProcedureReturn 1
           Else
-            ProcedureReturn 0         
-          EndIf 
-        EndIf         
+            ProcedureReturn 0
+          EndIf
+        EndIf
       Next ProjectFiles()
-    EndIf    
+    EndIf
   
     ; check all other open sources now...
     ;
@@ -375,19 +375,19 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
         If @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource And FileList()\Parser\SortedValid And (AutoCompleteProject = 0 Or FileList()\ProjectFile = 0)
           *Found = FindProcedureFromSorted(@FileList()\Parser, @*StartItem\Name$, #ITEM_Procedure, CandidateModules())
           If *Found
-            Line = *Found\SortedLine+1            
+            Line = *Found\SortedLine+1
             ChangeActiveSourcecode() ; changes *ActiveSource to the current FileList() element
             ChangeActiveLine(Line, -5)
             
             ; Unfold the procedure block if it was folded
             SendEditorMessage(#SCI_ENSUREVISIBLE, Line)
             
-            ProcedureReturn 1 
-          EndIf       
-        EndIf 
+            ProcedureReturn 1
+          EndIf
+        EndIf
       Next FileList()
       ChangeCurrentElement(FileList(), *ActiveSource) ; important!
-    EndIf  
+    EndIf
       
   Next CandidateModules()
 
@@ -398,7 +398,7 @@ EndProcedure
 ;- ToolsPanel plugin functions
 
 
-Procedure ProcedureBrowser_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)  
+Procedure ProcedureBrowser_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
 
   ListViewGadget(#GADGET_ProcedureBrowser, 0, 0, 0, 0)
 
@@ -410,7 +410,7 @@ Procedure ProcedureBrowser_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   
   If *ActiveSource
     UpdateProcedureList()
-  EndIf  
+  EndIf
 
 EndProcedure
 
@@ -422,22 +422,22 @@ Procedure ProcedureBrowser_DestroyFunction(*Entry.ToolsPanelEntry)
 EndProcedure
 
 
-Procedure ProcedureBrowser_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)   
+Procedure ProcedureBrowser_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
 
   If *Entry\IsSeparateWindow
     ResizeGadget(#GADGET_ProcedureBrowser, 5, 5, PanelWidth-10, PanelHeight-10)
   Else
     ResizeGadget(#GADGET_ProcedureBrowser, 0, 0, PanelWidth, PanelHeight)
-  EndIf  
+  EndIf
   
 EndProcedure
 
 
 
-Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)   
+Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
 
   If *ActiveSource <> *ProjectInfo And (*ActiveSource\IsForm = 0 Or (*ActiveSource\IsForm = 1 And FormWindows()\current_view = 0))
-    ; 
+    ;
     ; On OSX, for some reason we get events when you type in the Scintilla, so only react when the browser is focused
     ; as else the Caret jumps around to the selected procedure all the time
     ;
@@ -456,35 +456,35 @@ Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         
         CompilerIf #CompileMac
           ; remove selection so the we won't get more jumps to the procedure start! (OSX specific problem)
-          SetGadgetState(#GADGET_ProcedureBrowser, -1) 
+          SetGadgetState(#GADGET_ProcedureBrowser, -1)
         CompilerEndIf
-      EndIf  
+      EndIf
     EndIf
   EndIf
 
 EndProcedure
 
 
-Procedure ProcedureBrowser_PreferenceLoad(*Entry.ToolsPanelEntry)  
+Procedure ProcedureBrowser_PreferenceLoad(*Entry.ToolsPanelEntry)
 
-  PreferenceGroup("ProcedureBrowser")  
-    ProcedureBrowserSort = ReadPreferenceLong  ("Sort", 0) ; 0=by line, nogroup, 1=by line, group, 2=byname, nogroup  3 = byname, group 
+  PreferenceGroup("ProcedureBrowser")
+    ProcedureBrowserSort = ReadPreferenceLong  ("Sort", 0) ; 0=by line, nogroup, 1=by line, group, 2=byname, nogroup  3 = byname, group
     DisplayProtoType     = ReadPreferenceLong  ("Prototype", 0)
              
 EndProcedure
 
 
-Procedure ProcedureBrowser_PreferenceSave(*Entry.ToolsPanelEntry)      
+Procedure ProcedureBrowser_PreferenceSave(*Entry.ToolsPanelEntry)
 
   PreferenceComment("")
-  PreferenceGroup("ProcedureBrowser")  
+  PreferenceGroup("ProcedureBrowser")
     WritePreferenceLong("Sort", ProcedureBrowserSort)
     WritePreferenceLong("Prototype", DisplayProtoType)
 
 EndProcedure
 
 
-Procedure ProcedureBrowser_PreferenceStart(*Entry.ToolsPanelEntry) 
+Procedure ProcedureBrowser_PreferenceStart(*Entry.ToolsPanelEntry)
 
   Backup_ProcedureBrowserSort = ProcedureBrowserSort
   Backup_DisplayProtoType = DisplayProtoType
@@ -492,7 +492,7 @@ Procedure ProcedureBrowser_PreferenceStart(*Entry.ToolsPanelEntry)
 EndProcedure
 
 
-Procedure ProcedureBrowser_PreferenceApply(*Entry.ToolsPanelEntry) 
+Procedure ProcedureBrowser_PreferenceApply(*Entry.ToolsPanelEntry)
 
   ProcedureBrowserSort = Backup_ProcedureBrowserSort
   DisplayProtoType = Backup_DisplayProtoType
@@ -500,9 +500,9 @@ Procedure ProcedureBrowser_PreferenceApply(*Entry.ToolsPanelEntry)
 EndProcedure
 
 
-Procedure ProcedureBrowser_PreferenceCreate(*Entry.ToolsPanelEntry) 
+Procedure ProcedureBrowser_PreferenceCreate(*Entry.ToolsPanelEntry)
 
-  Top = 10                
+  Top = 10
   CheckBoxGadget(#GADGET_Preferences_ProcedureBrowserSort, 10, 10, 300, 25, Language("Preferences","ProcedureSort"))
   CheckBoxGadget(#GADGET_Preferences_ProcedureBrowserGroup, 10, 40, 300, 25, Language("Preferences","ProcedureGroup"))
   CheckBoxGadget(#GADGET_Preferences_ProcedureProtoType, 10, 70, 300, 25, Language("Preferences", "ProcedurePrototype"))
@@ -518,14 +518,14 @@ Procedure ProcedureBrowser_PreferenceCreate(*Entry.ToolsPanelEntry)
   If Backup_ProcedureBrowserSort >= 2
     SetGadgetState(#GADGET_Preferences_ProcedureBrowserSort, 1)
   EndIf
-  SetGadgetState(#GADGET_Preferences_ProcedureBrowserGroup, Backup_ProcedureBrowserSort % 2) 
+  SetGadgetState(#GADGET_Preferences_ProcedureBrowserGroup, Backup_ProcedureBrowserSort % 2)
   
   SetGadgetState(#GADGET_Preferences_ProcedureProtoType, Backup_DisplayProtoType)
 
 EndProcedure
 
 
-Procedure ProcedureBrowser_PreferenceDestroy(*Entry.ToolsPanelEntry) 
+Procedure ProcedureBrowser_PreferenceDestroy(*Entry.ToolsPanelEntry)
 
   Backup_ProcedureBrowserSort  = 2*GetGadgetState(#GADGET_Preferences_ProcedureBrowserSort)
   Backup_ProcedureBrowserSort  + GetGadgetState(#GADGET_PReferences_ProcedureBrowserGroup)
@@ -534,7 +534,7 @@ Procedure ProcedureBrowser_PreferenceDestroy(*Entry.ToolsPanelEntry)
 EndProcedure
 
 
-Procedure ProcedureBrowser_PreferenceEvents(*Entry.ToolsPanelEntry, EventGadgetID) 
+Procedure ProcedureBrowser_PreferenceEvents(*Entry.ToolsPanelEntry, EventGadgetID)
   ;
   ; nothing here
   ;
@@ -584,11 +584,11 @@ ProcedureBrowser_VT\PreferenceChanged   = @ProcedureBrowser_PreferenceChanged()
 AddElement(AvailablePanelTools())
 
 AvailablePanelTools()\FunctionsVT          = @ProcedureBrowser_VT
-AvailablePanelTools()\NeedPreferences      = 1 
+AvailablePanelTools()\NeedPreferences      = 1
 AvailablePanelTools()\NeedConfiguration    = 1
 AvailablePanelTools()\PreferencesWidth     = 320
 AvailablePanelTools()\PreferencesHeight    = 100
-AvailablePanelTools()\NeedDestroyFunction  = 1   
+AvailablePanelTools()\NeedDestroyFunction  = 1
 AvailablePanelTools()\ToolID$              = "ProcedureBrowser"
 AvailablePanelTools()\PanelTitle$          = "ProcedureBrowserShort"
 AvailablePanelTools()\ToolName$            = "ProcedureBrowserLong"

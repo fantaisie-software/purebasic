@@ -5,10 +5,10 @@
 ;
 ;
 ; This file is part of the PureBasic Software package. It may not
-; be distributed or published in source code or binary form without 
-; the expressed permission by Fantaisie Software. 
+; be distributed or published in source code or binary form without
+; the expressed permission by Fantaisie Software.
 ;
-; By contributing modifications or additions to this file, you grant 
+; By contributing modifications or additions to this file, you grant
 ; Fantaisie Software the rights to use, modify and distribute your
 ; work in the PureBasic package.
 ;

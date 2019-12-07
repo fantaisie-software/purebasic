@@ -107,15 +107,15 @@ Procedure DlgBinBase_GetOptions(*THIS.DlgBinBase, DefaultMargin=10)
     If FindString(Value$, "VERTICAL:", 1)
       *THIS\tMargin = GetSubStringValue(Value$, "VERTICAL:")
       *THIS\bMargin = *THIS\tMargin
-    EndIf 
+    EndIf
     If FindString(Value$, "HORIZONTAL:", 1)
       *THIS\lMargin = GetSubStringValue(Value$, "HORIZONTAL:")
       *THIS\rMargin = *THIS\lMargin
-    EndIf 
+    EndIf
     
-  EndIf 
+  EndIf
   
-  Value$ = UCase(DialogObjectKey(*THIS\StaticData, "EXPAND"))  
+  Value$ = UCase(DialogObjectKey(*THIS\StaticData, "EXPAND"))
   If Value$ = "VERTICAL"
     *THIS\vExpand = #True
   ElseIf Value$ = "HORIZONTAL"
@@ -123,7 +123,7 @@ Procedure DlgBinBase_GetOptions(*THIS.DlgBinBase, DefaultMargin=10)
   ElseIf Value$ <> "NO"
     *THIS\vExpand = #True
     *THIS\hExpand = #True
-  EndIf  
+  EndIf
   
   Value$ = DialogObjectKey(*THIS\StaticData, "EXPANDWIDTH")
   If Value$ <> ""
@@ -133,7 +133,7 @@ Procedure DlgBinBase_GetOptions(*THIS.DlgBinBase, DefaultMargin=10)
   Value$ = DialogObjectKey(*THIS\StaticData, "EXPANDHEIGHT")
   If Value$ <> ""
     *THIS\vExpandMax = Val(Value$)
-  EndIf  
+  EndIf
   
   Value$ = UCase(DialogObjectKey(*THIS\StaticData, "ALIGN"))
   If FindString(Value$, "TOP", 1)
@@ -176,13 +176,13 @@ Procedure DlgBinBase_CalculateChildSize(*THIS.DlgBinBase, *x.LONG, *y.LONG, *Wid
   *x\l + *THIS\lMargin
   *y\l + *THIS\tMargin
   *Width\l  - *THIS\lMargin - *THIS\rMargin
-  *Height\l - *THIS\tMargin - *THIS\bMargin 
+  *Height\l - *THIS\tMargin - *THIS\bMargin
   
   FullWidth  = *Width\l
   FullHeight = *Height\l
   
-  If FullWidth > *THIS\RequestedWidth 
-    If *THIS\hExpand = #False 
+  If FullWidth > *THIS\RequestedWidth
+    If *THIS\hExpand = #False
       *Width\l = *THIS\RequestedWidth
     ElseIf *THIS\hExpandMax > 0 And *THIS\hExpandMax < FullWidth
       *Width\l = Max(*THIS\RequestedWidth, *THIS\hExpandMax)
@@ -195,8 +195,8 @@ Procedure DlgBinBase_CalculateChildSize(*THIS.DlgBinBase, *x.LONG, *y.LONG, *Wid
     EndIf
   EndIf
   
-  If FullHeight > *THIS\RequestedHeight 
-    If *THIS\vExpand = #False            
+  If FullHeight > *THIS\RequestedHeight
+    If *THIS\vExpand = #False
       *Height\l = *THIS\RequestedHeight
     ElseIf *THIS\vExpandMax > 0 And *THIS\vExpandMax < FullHeight
       *Height\l = Max(*THIS\RequestedHeight, *THIS\vExpandMax)
@@ -212,10 +212,10 @@ Procedure DlgBinBase_CalculateChildSize(*THIS.DlgBinBase, *x.LONG, *y.LONG, *Wid
 EndProcedure
 
 Procedure DlgBinBase_AddChild(*THIS.DlgBinBase, Child.DialogObject)
-  CompilerIf #PB_Compiler_Debugger 
+  CompilerIf #PB_Compiler_Debugger
     If *THIS\Child
       MessageRequester("Dialog Manager", "Object can only hold one child !")
-    EndIf      
+    EndIf
   CompilerEndIf
   
   *THIS\Child = Child
@@ -231,7 +231,7 @@ Procedure DlgBinBase_FoldApply(*THIS.DlgBinBase, State)
     
     If *THIS\Child
       *THIS\Child\FoldApply(State)
-    EndIf  
+    EndIf
   EndIf
 EndProcedure
 
@@ -251,7 +251,7 @@ Procedure DlgBinBase_Find(*THIS.DlgBinBase, Name$)
     ProcedureReturn *THIS\Child\Find(Name$)
   Else
     ProcedureReturn 0
-  EndIf 
+  EndIf
 EndProcedure
 
 Procedure DlgBinBase_Update(*THIS.DlgBinBase)

@@ -12,7 +12,7 @@ XIncludeFile "Object_BinBase.pb"
 ;
 ; Accepted keys in the XML:
 ;
-;   All accepted by DlgBinBase 
+;   All accepted by DlgBinBase
 ;
 ; Note: The 'flags' Key is ignored here, as only the standard frame is supported (to calculate sized)
 ;       To get a single/double/flat frame, use a Container.
@@ -40,7 +40,7 @@ Procedure DlgFrame_New(*StaticData.DialogObjectData)
       *THIS\Gadget = *StaticData\Gadget
     EndIf
     
-    DlgBinBase_GetOptions(*THIS, 5) ; read all the margin etc options    
+    DlgBinBase_GetOptions(*THIS, 5) ; read all the margin etc options
   EndIf
   
   ProcedureReturn *THIS
@@ -54,19 +54,19 @@ Procedure DlgFrame_SizeRequest(*THIS.DlgFrame, *Width.LONG, *Height.LONG)
 
   If *THIS\Child
     *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
-  EndIf  
+  EndIf
   
   CompilerIf #CompileMacCocoa
 
     *This\BorderTop    = Frame3DTopOffset(*This\Gadget)
-    *THIS\BorderBottom = 8 
+    *THIS\BorderBottom = 8
     *THIS\BorderLeft   = 8
     *THIS\BorderRight  = 8
     
   CompilerElse
 
     *This\BorderTop    = Frame3DTopOffset(*This\Gadget)
-    *THIS\BorderBottom = 4 
+    *THIS\BorderBottom = 4
     *THIS\BorderLeft   = 4
     *THIS\BorderRight  = 4
 
@@ -85,11 +85,11 @@ Procedure DlgFrame_SizeApply(*THIS.DlgFrame, x, y, Width, Height)
     x + *THIS\BorderLeft
     y + *THIS\BorderTop
     Width  - (*THIS\BorderLeft + *THIS\BorderRight)
-    Height - (*THIS\BorderTop + *THIS\BorderBottom)       
-    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)    
+    Height - (*THIS\BorderTop + *THIS\BorderBottom)
+    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)
   
     *THIS\Child\SizeApply(x, y, Width, Height)
-  EndIf  
+  EndIf
   
 EndProcedure
 

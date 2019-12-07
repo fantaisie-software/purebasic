@@ -23,9 +23,9 @@ Procedure WatchList_AddItem(*Debugger.DebuggerData)
     EndIf
 
     Command.CommandInfo\Command = #COMMAND_GetWatchlist
-    SendDebuggerCommand(*Debugger, @Command)  
+    SendDebuggerCommand(*Debugger, @Command)
     
-    SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Variable], "")        
+    SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Variable], "")
   EndIf
   
 EndProcedure
@@ -54,30 +54,30 @@ Procedure WatchListWindowEvents(*Debugger.DebuggerData, EventID)
         If index <> -1
           Command.CommandInfo\Command = #COMMAND_WatchlistRemove
           Command\Value1 = index
-          SendDebuggerCommand(*Debugger, @Command)          
+          SendDebuggerCommand(*Debugger, @Command)
           
           Command.CommandInfo\Command = #COMMAND_GetWatchlist
           SendDebuggerCommand(*Debugger, @Command)
         EndIf
         
-      Case *Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Clear] 
+      Case *Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Clear]
         Command.CommandInfo\Command = #COMMAND_WatchlistRemove
         Command\Value1 = -1
-        SendDebuggerCommand(*Debugger, @Command)          
+        SendDebuggerCommand(*Debugger, @Command)
         
         Command.CommandInfo\Command = #COMMAND_GetWatchlist
-        SendDebuggerCommand(*Debugger, @Command)    
+        SendDebuggerCommand(*Debugger, @Command)
       
     EndSelect
   
   ElseIf EventID = #PB_Event_SizeWindow
     Width  = WindowWidth (*Debugger\Windows[#DEBUGGER_WINDOW_WatchList])
-    Height = WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_WatchList])       
+    Height = WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_WatchList])
     
     GetRequiredSize(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Add], @ButtonWidth, @ButtonHeight)
     ButtonWidth  = Max(ButtonWidth, 120)
-    ButtonWidth  = Max(ButtonWidth, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Remove])) 
-    ButtonWidth  = Max(ButtonWidth, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Clear]))    
+    ButtonWidth  = Max(ButtonWidth, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Remove]))
+    ButtonWidth  = Max(ButtonWidth, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Clear]))
     ComboHeight  = GetRequiredHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Procedure])
     StringHeight = GetRequiredHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Variable])
     TextWidth    = Max(80, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Text1]))
@@ -85,9 +85,9 @@ Procedure WatchListWindowEvents(*Debugger.DebuggerData, EventID)
     TopOffset    = Frame3DTopOffset(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Frame]) + 5
     
     BoxHeight    = Max(ButtonHeight*3+20, TopOffset+ComboHeight+StringHeight+20)
-    ButtonHeight = (BoxHeight-20) / 3 
+    ButtonHeight = (BoxHeight-20) / 3
 
-    ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List], 10, 10, Width-20, Height-30-BoxHeight) 
+    ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List], 10, 10, Width-20, Height-30-BoxHeight)
     
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Frame], 10, Height-10-BoxHeight, Width-30-ButtonWidth, BoxHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Text1], 25, Height-10-BoxHeight+TopOffset, TextWidth, ComboHeight)
@@ -108,7 +108,7 @@ Procedure WatchListWindowEvents(*Debugger.DebuggerData, EventID)
         WatchListWindowWidth  = WindowWidth (*Debugger\Windows[#DEBUGGER_WINDOW_WatchList])
         WatchListWindowHeight = WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_WatchList])
       EndIf
-    EndIf    
+    EndIf
     
     ; do not close window, only hide it
     ;
@@ -116,7 +116,7 @@ Procedure WatchListWindowEvents(*Debugger.DebuggerData, EventID)
     *Debugger\IsWatchListVisible = 0
     Debugger_CheckDestroy(*Debugger)
   
-  EndIf  
+  EndIf
   
 EndProcedure
 
@@ -134,7 +134,7 @@ Procedure UpdateWatchListWindowState(*Debugger.DebuggerData)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Remove], 0)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Clear], 0)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Procedure], 0)
-    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Variable], 0)  
+    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Variable], 0)
 
   EndIf
 
@@ -142,7 +142,7 @@ EndProcedure
 
 Procedure OpenWatchlistWindow(*Debugger.DebuggerData)
 
-  If *Debugger\IsWatchListVisible = 0    
+  If *Debugger\IsWatchListVisible = 0
     
     EnsureWindowOnDesktop(*Debugger\Windows[#DEBUGGER_WINDOW_WatchList])
     HideWindow(*Debugger\Windows[#DEBUGGER_WINDOW_WatchList], 0) ; show the window first.. otherwise sometimes the move/resize does not seem to work !?
@@ -153,22 +153,22 @@ Procedure OpenWatchlistWindow(*Debugger.DebuggerData)
       WatchListWindowX           = 50
       WatchListWindowY           = 50
       WatchListWindowWidth       = 700
-      WatchListWindowHeight      = 300     
+      WatchListWindowHeight      = 300
     EndIf
     
     ResizeWindow(*Debugger\Windows[#DEBUGGER_WINDOW_WatchList], WatchListWindowX, WatchListWindowY, WatchListWindowWidth, WatchListWindowHeight)
-    WatchListWindowEvents(*Debugger, #PB_Event_SizeWindow) 
+    WatchListWindowEvents(*Debugger, #PB_Event_SizeWindow)
     
     ; something for better optics (must be after the first resize)
     CompilerIf #CompileWindows
-      SendMessage_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List]), #LVM_SETCOLUMNWIDTH, 3, #LVSCW_AUTOSIZE_USEHEADER)      
+      SendMessage_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List]), #LVM_SETCOLUMNWIDTH, 3, #LVSCW_AUTOSIZE_USEHEADER)
     CompilerEndIf
 
-    ; the filename is set after creation, so update it here...    
+    ; the filename is set after creation, so update it here...
     SetWindowTitle(*Debugger\Windows[#DEBUGGER_WINDOW_WatchList], Language("Debugger","WatchListTitle") + " - " + DebuggerTitle(*Debugger\FileName$))
     
     *Debugger\IsWatchListVisible = 1
-  EndIf  
+  EndIf
   
   SetWindowForeground(*Debugger\Windows[#DEBUGGER_WINDOW_WatchList])
   WatchListWindowEvents(*Debugger, #PB_Event_SizeWindow)
@@ -182,7 +182,7 @@ Procedure CreateWatchlistWindow(*Debugger.DebuggerData)
   Flags = #PB_Window_SystemMenu|#PB_Window_MinimizeGadget|#PB_Window_SizeGadget|#PB_Window_Invisible|#PB_Window_MaximizeGadget
   If WatchListWindowMaximize
     Flags | #PB_Window_Maximize
-  EndIf  
+  EndIf
 
   Window = OpenWindow(#PB_Any, 0, 0, 0, 0, Language("Debugger","WatchListTitle") + " - " + GetFilePart(*Debugger\FileName$), Flags)
   If Window
@@ -203,10 +203,10 @@ Procedure CreateWatchlistWindow(*Debugger.DebuggerData)
     
     CompilerIf #DEFAULT_CanWindowStayOnTop
       SetWindowStayOnTop(Window, DebuggerOnTop)
-    CompilerEndIf  
+    CompilerEndIf
     
     AddKeyboardShortcut(Window, #PB_Shortcut_Return, #DEBUGGER_MENU_Return)
-    Debugger_AddShortcuts(Window)        
+    Debugger_AddShortcuts(Window)
   EndIf
   
 EndProcedure
@@ -244,14 +244,14 @@ Procedure WatchList_DebuggerEvent(*Debugger.DebuggerData)
         *Pointer + MemoryAsciiLength(*Pointer) + 1
         ModName$ = PeekAscii(*Pointer)
         *Pointer + MemoryAsciiLength(*Pointer) + 1
-        AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Procedure], -1, ModuleName(Name$, ModName$))        
+        AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Procedure], -1, ModuleName(Name$, ModName$))
       Next i
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Procedure], 0)
       
     Case #COMMAND_WatchlistError
       MessageRequester("PureBasic Debugger", Language("Debugger","VariableError")+#NewLine+PeekS(*Debugger\CommandData, *Debugger\Command\DataSize, #PB_Ascii), #FLAG_Warning)
       
-    Case #COMMAND_Watchlist 
+    Case #COMMAND_Watchlist
       VariableGadget_Lock(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List])
       VariableGadget_Allocate(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List], *Debugger\Command\Value1)
       VariableGadget_Use(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List])
@@ -280,19 +280,19 @@ Procedure WatchList_DebuggerEvent(*Debugger.DebuggerData)
           VariableGadget_Add(type, 0, 0, Extra$, name$, "", 0, *Debugger\Is64bit)
           VariableGadget_SetString(i-1, "---", #False)
         
-        Else        
+        Else
           VariableGadget_Add(type, 0, 0, Extra$, name$, "", *Pointer, *Debugger\Is64bit)
-          *Pointer + GetValueSize(type, *Pointer, *Debugger\Is64bit) 
+          *Pointer + GetValueSize(type, *Pointer, *Debugger\Is64bit)
                                                                  
-        EndIf 
+        EndIf
          
-      Next i   
+      Next i
       
       VariableGadget_SyncAll() ; sync all SetString() calls with the display
       VariableGadget_Sort(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List])
-      VariableGadget_Unlock(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List])   
+      VariableGadget_Unlock(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List])
       
-    Case #COMMAND_WatchlistEvent      
+    Case #COMMAND_WatchlistEvent
       VariableGadget_Use(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List])
       If *Debugger\Command\Value1 = -1
         VariableGadget_SetString(*Debugger\Command\Value2, "---", #True) ; sync directly with the display
@@ -300,7 +300,7 @@ Procedure WatchList_DebuggerEvent(*Debugger.DebuggerData)
         VariableGadget_Set(*Debugger\Command\Value1, @*Debugger\Command\Value2, *Debugger\Is64bit, #True)
       Else
         VariableGadget_Set(*Debugger\Command\Value1, *Debugger\CommandData, *Debugger\Is64bit, #True)
-      EndIf 
+      EndIf
       VariableGadget_Sort(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List])
 
   

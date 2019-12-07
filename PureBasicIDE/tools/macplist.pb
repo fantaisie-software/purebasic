@@ -10,7 +10,7 @@
 ;  For execution by the IDE makefile
 ;
 ;  Creates the 'Info.plist' for The PureBasic bundle.
-;  This is done manually as we can better customize the whole think than the compiler does. 
+;  This is done manually as we can better customize the whole think than the compiler does.
 ;  (the icon option from the compiler is Not needed when using this)
 ;
 ;  Customisations are:
@@ -37,7 +37,7 @@ FileSize = FileSize(Path$+"Contents/MacOS/PureBasic");
 If FileSize <=0 ; Try with SpiderBasic as well
   FileSize = FileSize(Path$+"Contents/MacOS/SpiderBasic")
   IsSpiderBasic = 1
-EndIf 
+EndIf
 
 If FileSize <= 0
   PrintN("Wrong commandline argument! Pass the IDE path (including the .app) as argument")

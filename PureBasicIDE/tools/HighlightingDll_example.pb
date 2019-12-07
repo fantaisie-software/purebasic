@@ -5,7 +5,7 @@
 ;--------------------------------------------------------------------------------------------
 ;
 ;
-; The SyntaxHilighting.dll provides the syntax parser of the 
+; The SyntaxHilighting.dll provides the syntax parser of the
 ; PureBasic IDE in form of a dll, so it can be easily reused
 ; to do other tasks as well.
 ;
@@ -33,7 +33,7 @@
 ;
 Enumeration
   #SYNTAX_Text
-  #SYNTAX_Keyword  
+  #SYNTAX_Keyword
   #SYNTAX_Comment
   #SYNTAX_Constant
   #SYNTAX_String
@@ -44,7 +44,7 @@ Enumeration
   #SYNTAX_Number
   #SYNTAX_Pointer
   #SYNTAX_Separator
-  #SYNTAX_Label  
+  #SYNTAX_Label
   #SYNTAX_Module
 EndEnumeration
 
@@ -52,7 +52,7 @@ EndEnumeration
 #Input  = 0
 #Output = 1
 
-; Callback that is called from the dll. 
+; Callback that is called from the dll.
 ;
 ; NOTE: For performance reasons, whitespace characters (space, tab, newline)
 ; are returned together with the tokens they surround to reduce the number
@@ -60,7 +60,7 @@ EndEnumeration
 ; here in the callback manually.
 ;
 ; The original buffer is not modified. The *Position parameter points to the
-; current position in the original buffer. 
+; current position in the original buffer.
 ;
 ;
 Procedure Callback(*Position, Length, Color)
@@ -78,12 +78,12 @@ Procedure Callback(*Position, Length, Color)
     Case #SYNTAX_Function
       WriteString(#Output, "<font color=#0000FF>")
       WriteData(#Output, *Position, Length)
-      WriteString(#Output, "</font>")    
+      WriteString(#Output, "</font>")
     
     Case #SYNTAX_Comment
       WriteString(#Output, "<font color=#808080>")
       WriteData(#Output, *Position, Length)
-      WriteString(#Output, "</font>")        
+      WriteString(#Output, "</font>")
     
     Default
       WriteData(#Output, *Position, Length)
@@ -95,7 +95,7 @@ EndProcedure
 ; Simple example code. It loads a PB file and outputs a HTML file withs some
 ; coloring for functions, keywords and comments
 ;
-If OpenLibrary(#Dll, "SyntaxHilighting.dll")  
+If OpenLibrary(#Dll, "SyntaxHilighting.dll")
 
   InputFile$ = OpenFileRequester("Select PB File", "*.pb", "PB Files|*.pb|All Files|*.*", 0)
   If InputFile$
@@ -108,16 +108,16 @@ If OpenLibrary(#Dll, "SyntaxHilighting.dll")
       If *Buffer
         ReadData(#Input, *Buffer, Length)
         
-        WriteStringN(#Output, "<html><body><pre>")        
-        CallFunction(#Dll, "SyntaxHighlight", *Buffer, Length, @Callback(), 0)              
+        WriteStringN(#Output, "<html><body><pre>")
+        CallFunction(#Dll, "SyntaxHighlight", *Buffer, Length, @Callback(), 0)
         WriteStringN(#Output, "</pre></html></body>")
-      EndIf    
+      EndIf
     
       CloseFile(#Input)
       CloseFile(#Output)
     EndIf
   
-  EndIf  
+  EndIf
   
   CloseLibrary(#Dll)
 EndIf

@@ -34,8 +34,8 @@ Procedure OSStartupCode()
 ;      EndIf
 ;    Else
 ;      PureBasicPath$ = "/usr/share/purebasic/"
-;    EndIf  
-;  
+;    EndIf
+;
 ;  EndIf
 
   Home$ = GetEnvironmentVariable("HOME")
@@ -84,7 +84,7 @@ Procedure OSStartupCode()
   
   If FindString(PureBasicPath$, "\ ", 1) = 0
     PureBasicPath$ = ReplaceString(PureBasicPath$, " ", "\ ") ; this is only needed here, to work on the commandline
-  EndIf  
+  EndIf
   
   TempPath$         = "/tmp/"
   
@@ -97,8 +97,8 @@ Procedure OSStartupCode()
   EndIf
   
   If TemplatesFile$ = "" ; Only change if not set by commandline
-    TemplatesFile$    = PureBasicConfigPath() + "templates.prefs"  
-  EndIf   
+    TemplatesFile$    = PureBasicConfigPath() + "templates.prefs"
+  EndIf
   
   If HistoryDatabaseFile$ = "" ; Only change if not set by commandline
     HistoryDatabaseFile$ = PureBasicConfigPath() + "history.db"
@@ -157,10 +157,10 @@ Procedure OSStartupCode()
   Else
     GUITerminalParameters$ = ""
     
-  EndIf  
+  EndIf
   
   ; read the which output, to get the full path (as the internal debugger doesn't search the PATH environment
-  ;  
+  ;
   If GUITerminalParameters$ <> ""
     If ReadFile(#FILE_CompilerInfo, TempPath$+"PB_TerminalTest.txt")
       DetectedGUITerminal$ = ReadString(#FILE_CompilerInfo)
@@ -168,7 +168,7 @@ Procedure OSStartupCode()
     Else
       DetectedGUITerminal$ = ""
     EndIf
-  EndIf  
+  EndIf
   
   DeleteFile(TempPath$+"PB_TerminalTest.txt")
 
@@ -195,7 +195,7 @@ Procedure GetWindowMetrics()
 
   StatusbarHeight = StatusBarHeight(#STATUSBAR)
 
-  ToolbarHeight = 35  
+  ToolbarHeight = 35
   ToolbarTopOffset = 0
   
   ; MenuHeight = MenuHeight() ; returns a fixed value!
@@ -204,12 +204,12 @@ Procedure GetWindowMetrics()
   gtk_widget_size_request_(MenuID(#MENU), @MenuSize)
   MenuHeight = MenuSize\height
   
-  ; Get the fixed widget instead of the window, as on GTK2 the motion notify event doesn't work on a window 
+  ; Get the fixed widget instead of the window, as on GTK2 the motion notify event doesn't work on a window
   ; (probably because the fixed has it's own window)
   ;
-  Window = g_object_get_data_(WindowID(#WINDOW_Main), "pb_gadgetlist")   
+  Window = g_object_get_data_(WindowID(#WINDOW_Main), "pb_gadgetlist")
     
-  ; Set up the callback for the RunOnce event 
+  ; Set up the callback for the RunOnce event
   ; (don't do this in OSStartupCode(), because at this point it is not determined if there is allready an editor Window)
   ;
   gdk_add_client_message_filter_(gdk_atom_intern_("PureBasic_RunOnceSignal", 0), @RunOnce_MessageFilter(), 0)
@@ -241,7 +241,7 @@ EndProcedure
 Procedure RunOnceSignalReceived()
   If ReadFile(#FILE_RunOnce, RunOnceFile$)
 
-    While Eof(#FILE_RunOnce) = 0   
+    While Eof(#FILE_RunOnce) = 0
       FileName$ = ReadString(#FILE_RunOnce)
                  
       ;If Left(FileName$, 7) = "--LINE "
@@ -249,9 +249,9 @@ Procedure RunOnceSignalReceived()
       ;  InitialSourceLine = Val(Right(FileName$, Len(FileName$)-7))
       ;  If InitialSourceLine > 0 And InitialSourceLine < GetLinesCount(*ActiveSource) ; apply the -l option
       ;    ChangeActiveLine(InitialSourceLine, -5)
-      ;  EndIf        
+      ;  EndIf
       ;ElseIf FileName$ <> ""
-      ;  LoadSourceFile(FileName$) 
+      ;  LoadSourceFile(FileName$)
       ;EndIf
       
       ; NOTE: Trying to open the files from here will cause the IDE to lock up on Linux x64,
@@ -265,9 +265,9 @@ Procedure RunOnceSignalReceived()
       OpenFilesCommandLine() = FileName$
     Wend
     CloseFile(#FILE_RunOnce)
-  EndIf  
+  EndIf
         
-  DeleteFile(RunOnceFile$) 
+  DeleteFile(RunOnceFile$)
   
   ; Still need the SetWindowForeground here, as apperently it has no effect if we delay it until after the X message
   SetWindowForeground(#WINDOW_Main)
@@ -279,7 +279,7 @@ ProcedureC RunOnce_MessageFilter(*XEvent.XClientMessageEvent, *Event._GdkEventCl
   
   If Editor_RunOnce
     If *XEvent\l[0] <> LastEventSender
-      RunOnceSignalReceived()     
+      RunOnceSignalReceived()
       LastEventSender = *XEvent\l[0]
     EndIf
     ProcedureReturn #GDK_FILTER_REMOVE ; there is only 1 instance, so no need to send this message further
@@ -294,24 +294,24 @@ Procedure IsRunningIDEInstance(PID)
   IsRunning = 0
 
   ; the other Instance isn't running (kill with '0' doesn't kill if it is still running, but returns > 0 if the PID is invalid)
-  If kill_(PID, 0) = 0  
+  If kill_(PID, 0) = 0
     ;
     ; if the IDE crashes, and then the PC is restarted, the PID in this file could be
-    ; in use by another process, which will stop the IDE from starting.      
+    ; in use by another process, which will stop the IDE from starting.
     ; /proc/PID/exe is a symbolic link, so simply check if that leads to the IDE exe
     ;
     ; This code is what ProgramFilename() does, so it can be compared
     ;
     Executable$ = ProgramFilename()
-    length      = Len(Executable$)      
-    File$       = "/proc/"+Str(PID)+"/exe"            
+    length      = Len(Executable$)
+    File$       = "/proc/"+Str(PID)+"/exe"
     *Buffer     = AllocateMemory(length+20) ; do not use the exe length alone, as else we cannot tell if the link name is longer than that
     
     If *Buffer
-      readlength = readlink_(ToAscii(File$), *Buffer, length+20)        
+      readlength = readlink_(ToAscii(File$), *Buffer, length+20)
       If readlength = length And PeekS(*Buffer, length, #PB_Ascii) = Executable$ ; *Buffer is not 0-terminated!
         IsRunning = 1
-      EndIf      
+      EndIf
       
       FreeMemory(*Buffer)
     EndIf
@@ -372,7 +372,7 @@ Procedure RunOnce_Startup(InitialSourceLine)
       EmitRunOnceSignal()
       Result = #True ; close IDE
     EndIf
-  EndIf  
+  EndIf
   
   ProcedureReturn Result
 EndProcedure
@@ -412,7 +412,7 @@ ProcedureC AutoComplete_FocusSignal(*Window, *Event, user_data)
 
   If AutoCompleteWindowOpen
     If user_data+500 < ElapsedMilliseconds()  ; to ignore the immediate lost focus that seems to be reportet on Mandrake
-      AutoComplete_Close() 
+      AutoComplete_Close()
     EndIf
   EndIf
 
@@ -422,7 +422,7 @@ EndProcedure
 
 ProcedureC AutoComplete_TabHandler(*Widget, *Event._GdkEventKey, user_data)
 
-  If AutoCompleteWindowOpen 
+  If AutoCompleteWindowOpen
     Accelerators = g_object_get_data_(gtk_widget_get_toplevel_(*Widget), "pb_accelerators")
     If Accelerators
     
@@ -449,10 +449,10 @@ ProcedureC AutoComplete_TabHandler(*Widget, *Event._GdkEventKey, user_data)
     
     ; close autocomplete on PGUP/DOWN, LEFT and RIGHT
     If *Event\keyval = #GDK_Prior Or *Event\keyval = #GDK_Next Or *Event\keyval = #GDK_Left Or *Event\keyval = #GDK_Right
-      AutoComplete_Close()           
+      AutoComplete_Close()
     
     ElseIf *Event\keyval <> $FF52  And *Event\keyval <> $FF54
-      gtk_widget_event_(GadgetID(*ActiveSource\EditorGadget), *Event)  ; pass on any events except for up/down to the editor  
+      gtk_widget_event_(GadgetID(*ActiveSource\EditorGadget), *Event)  ; pass on any events except for up/down to the editor
       ProcedureReturn 1
       
     EndIf
@@ -467,7 +467,7 @@ Procedure AutoComplete_SetFocusCallback()
   ; set the tab handler for the gadget
   ;
   GtkSignalConnect(GadgetID(#GADGET_AutoComplete_List), "key-press-event", @AutoComplete_TabHandler(), 0)
-  GtkSignalConnect(GadgetID(#GADGET_AutoComplete_List), "key-release-event", @AutoComplete_TabHandler(), 0)  
+  GtkSignalConnect(GadgetID(#GADGET_AutoComplete_List), "key-release-event", @AutoComplete_TabHandler(), 0)
 
   ; set up a callback to close the autocomplete window if the user selects some other window
   ;
@@ -499,10 +499,10 @@ Procedure ToolsPanel_ApplyColors(Gadget)
     EndIf
     
     If ToolsPanelFontID <> #PB_Default
-      SetGadgetFont(Gadget, ToolsPanelFontID)    
-    EndIf  
+      SetGadgetFont(Gadget, ToolsPanelFontID)
+    EndIf
   EndIf
 EndProcedure
 
 
-CompilerEndIf 
+CompilerEndIf

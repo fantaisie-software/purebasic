@@ -18,7 +18,7 @@ Structure Plugin_Xml
   XmlID.l
   
   ; Gadgets
-  Tree.l 
+  Tree.l
   Panel.l
   Splitter.l
   Info.l
@@ -47,15 +47,15 @@ Procedure Xml_RecursiveAdd(Node, Gadget, Sublevel)
     
     Case #PB_XML_CData
       AddGadgetItem(Gadget, NewIndex, "#cdata", 0, Sublevel)
-      SetGadgetItemData(Gadget, NewIndex, Node) ; store the node pointer here    
+      SetGadgetItemData(Gadget, NewIndex, Node) ; store the node pointer here
       
     Case #PB_XML_DTD
       AddGadgetItem(Gadget, NewIndex, "#dtd", 0, Sublevel)
-      SetGadgetItemData(Gadget, NewIndex, Node) ; store the node pointer here       
+      SetGadgetItemData(Gadget, NewIndex, Node) ; store the node pointer here
       
     Case #PB_XML_Instruction
       AddGadgetItem(Gadget, NewIndex, "#instruction: "+GetXMLNodeName(Node), 0, Sublevel)
-      SetGadgetItemData(Gadget, NewIndex, Node) ; store the node pointer here       
+      SetGadgetItemData(Gadget, NewIndex, Node) ; store the node pointer here
     
     Case #PB_XML_Normal
       Text$ = GetXMLNodeName(Node)
@@ -67,7 +67,7 @@ Procedure Xml_RecursiveAdd(Node, Gadget, Sublevel)
             Break
           EndIf
         Wend
-      EndIf      
+      EndIf
     
       AddGadgetItem(Gadget, NewIndex, Text$, 0, Sublevel)
       SetGadgetItemData(Gadget, NewIndex, Node) ; store the node pointer here
@@ -96,18 +96,18 @@ Procedure Plugin_Xml_DisplayObject(WindowID, *Buffer, Size)
       *Object\XmlID = XmlID
     
       ; no usegadgetlist, as we are within the normal program with an open gadgetlist
-      *Object\Tree = TreeGadget(#PB_Any, 0, 0, 0, 0, #PB_Tree_AlwaysShowSelection) 
+      *Object\Tree = TreeGadget(#PB_Any, 0, 0, 0, 0, #PB_Tree_AlwaysShowSelection)
       *Object\Panel = PanelGadget(#PB_Any, 0, 0, 0, 0)
         
       AddGadgetItem(*Object\Panel, -1, "Information")
-        *Object\Info = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly) 
+        *Object\Info = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
       
       AddGadgetItem(*Object\Panel, -1, "Attributes")
         *Object\Attributes = ListIconGadget(#PB_Any, 0, 0, 0, 0, "Attribute", 100, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect)
         AddGadgetColumn(*Object\Attributes, 1, "Value", 300)
       
       AddGadgetItem(*Object\Panel, -1, "Text")
-        *Object\Text = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly) 
+        *Object\Text = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
       
       CloseGadgetList()
       
@@ -123,7 +123,7 @@ Procedure Plugin_Xml_DisplayObject(WindowID, *Buffer, Size)
 
     Else
       FreeXML(XmlID)
-    EndIf    
+    EndIf
   EndIf
   
   ProcedureReturn *Object
@@ -140,10 +140,10 @@ EndProcedure
 
 
 Procedure Plugin_Xml_SetObjectSize(*Object.Plugin_Xml, Width, Height)
-  ResizeGadget(*Object\Splitter, 5, 5, Width-10, Height-10)  
+  ResizeGadget(*Object\Splitter, 5, 5, Width-10, Height-10)
   
   Width  = GetGadgetAttribute(*Object\Panel, #PB_Panel_ItemWidth)
-  Height = GetGadgetAttribute(*Object\Panel, #PB_Panel_ItemHeight)  
+  Height = GetGadgetAttribute(*Object\Panel, #PB_Panel_ItemHeight)
   
   ResizeGadget(*Object\Info, 0, 0, Width, Height)
   ResizeGadget(*Object\Attributes, 0, 0, Width, Height)
@@ -160,10 +160,10 @@ Procedure Plugin_Xml_ProcessEvents(*Object.Plugin_Xml, EventGadget.l, EventType.
   If EventGadget = *Object\Tree And EventType = #PB_EventType_Change
     ClearGadgetItems(*Object\Attributes)
          
-    index = GetGadgetState(*Object\Tree)    
+    index = GetGadgetState(*Object\Tree)
     If index = -1
-      SetGadgetText(*Object\Text, "") 
-      SetGadgetText(*Object\Info, "")      
+      SetGadgetText(*Object\Text, "")
+      SetGadgetText(*Object\Info, "")
           
     Else
       Node = GetGadgetItemData(*Object\Tree, index) ; stored the node there
@@ -175,23 +175,23 @@ Procedure Plugin_Xml_ProcessEvents(*Object.Plugin_Xml, EventGadget.l, EventType.
           While NextXMLAttribute(Node)
             AddGadgetItem(*Object\Attributes, -1, XMLAttributeName(Node)+Chr(10)+XMLAttributeValue(Node))
           Wend
-        EndIf               
+        EndIf
       EndIf
       
       ; build info text
       Select XMLNodeType(Node)
         Case #PB_XML_Comment
-          Info$ = "Node type: Comment"                    
+          Info$ = "Node type: Comment"
           
         Case #PB_XML_CData
           Info$ = "Node type: CData section"
           
         Case #PB_XML_DTD
-          Info$ = "Node type: DTD tag"          
+          Info$ = "Node type: DTD tag"
           
         Case #PB_XML_Instruction
-          Info$ = "Node type: Processing instruction" + #NewLine  
-          Info$ + "Node name: " + GetXMLNodeName(Node)      
+          Info$ = "Node type: Processing instruction" + #NewLine
+          Info$ + "Node name: " + GetXMLNodeName(Node)
         
         Case #PB_XML_Normal
           Info$ = "Node type: Normal node" + #NewLine + #NewLine
@@ -199,17 +199,17 @@ Procedure Plugin_Xml_ProcessEvents(*Object.Plugin_Xml, EventGadget.l, EventType.
           Info$ + "Offset in parent: " + Str(GetXMLNodeOffset(Node)) + #NewLine
           Info$ + "Attributes: " + Str(CountGadgetItems(*Object\Attributes)) + #NewLine
           Info$ + "Direct children: " + Str(XMLChildCount(Node)) + #NewLine
-          Info$ + "All children: " + Str(Xml_RecursiveCount(Node))          
+          Info$ + "All children: " + Str(Xml_RecursiveCount(Node))
         
       EndSelect
       
       SetGadgetText(*Object\Info, Info$)
           
-    EndIf     
+    EndIf
     
   ElseIf EventGadget = *Object\Splitter
     Width  = GetGadgetAttribute(*Object\Panel, #PB_Panel_ItemWidth)
-    Height = GetGadgetAttribute(*Object\Panel, #PB_Panel_ItemHeight)  
+    Height = GetGadgetAttribute(*Object\Panel, #PB_Panel_ItemHeight)
     
     ResizeGadget(*Object\Info, 0, 0, Width, Height)
     ResizeGadget(*Object\Attributes, 0, 0, Width, Height)
@@ -217,7 +217,7 @@ Procedure Plugin_Xml_ProcessEvents(*Object.Plugin_Xml, EventGadget.l, EventType.
     
     CompilerIf #CompileWindows
       SendMessage_(GadgetID(*Object\Attributes), #LVM_SETCOLUMNWIDTH, 1, #LVSCW_AUTOSIZE_USEHEADER)
-    CompilerEndIf    
+    CompilerEndIf
   EndIf
 EndProcedure
 

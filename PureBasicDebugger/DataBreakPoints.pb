@@ -33,7 +33,7 @@ Procedure DeleteDataBreakPoint(*Debugger.DebuggerData, *Point.DataBreakPoint)
   EndIf
   If *Point = *Debugger\FirstDataBreakPoint
     *Debugger\FirstDataBreakPoint = *Point\Next
-  EndIf  
+  EndIf
   
   CompilerIf #CompilePPC
     Debug "FIXME: ClearStructure() broken on PPC"
@@ -61,16 +61,16 @@ Procedure BreakPoint_AddItem(*Debugger.DebuggerData)
         *Point\ProcedureName$ = GetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Procedure], ProcedureIndex+2)
       EndIf
       
-      *Point\Condition$     = Condition$       
-      *Point\ID             = NextDataBreakPointID    
+      *Point\Condition$     = Condition$
+      *Point\ID             = NextDataBreakPointID
       NextDataBreakPointID + 1
       
       ; add to list
       *Point\Previous = 0
-      *Point\Next     = *Debugger\FirstDataBreakPoint      
+      *Point\Next     = *Debugger\FirstDataBreakPoint
       If *Debugger\FirstDataBreakPoint
         *Debugger\FirstDataBreakPoint\Previous = *Point
-      EndIf      
+      EndIf
       *Debugger\FirstDataBreakPoint = *Point
     
       Command.CommandInfo\Command = #COMMAND_BreakPoint
@@ -83,8 +83,8 @@ Procedure BreakPoint_AddItem(*Debugger.DebuggerData)
       FreeMemory(*Buffer)
       ; We add the Condition to the list when we get the reply with ok or failure
       
-      SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Condition], "")       
-    EndIf     
+      SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Condition], "")
+    EndIf
   EndIf
 
 EndProcedure
@@ -99,37 +99,37 @@ Procedure DataBreakpointWindowEvents(*Debugger.DebuggerData, EventID)
     EndIf
   
   ElseIf EventID = #PB_Event_Gadget
-    Select EventGadget()    
+    Select EventGadget()
       
-      Case *Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Add]  
+      Case *Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Add]
         BreakPoint_AddItem(*Debugger)
       
-      Case *Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Remove]  
+      Case *Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Remove]
         index = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List])
         If index <> -1
           Command.CommandInfo\Command = #COMMAND_BreakPoint
           Command\Value1 = 5 ; remove data breakpoint
           Command\Value2 = GetGadgetItemData(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], index) ; this is the ID
-          SendDebuggerCommand(*Debugger, @Command)              
+          SendDebuggerCommand(*Debugger, @Command)
           RemoveGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], index)
         EndIf
       
-      Case *Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Clear] 
+      Case *Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Clear]
         Command.CommandInfo\Command = #COMMAND_BreakPoint
         Command\Value1 = 6 ; clear data breakpoints
-        SendDebuggerCommand(*Debugger, @Command)  
+        SendDebuggerCommand(*Debugger, @Command)
         ClearGadgetItems(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List])
     
     EndSelect
   
   ElseIf EventID = #PB_Event_SizeWindow
     Width  = WindowWidth (*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakPoints])
-    Height = WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakPoints])       
+    Height = WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakPoints])
     
     GetRequiredSize(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Add], @ButtonWidth, @ButtonHeight)
     ButtonWidth  = Max(ButtonWidth, 120)
-    ButtonWidth  = Max(ButtonWidth, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Remove])) 
-    ButtonWidth  = Max(ButtonWidth, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Clear]))    
+    ButtonWidth  = Max(ButtonWidth, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Remove]))
+    ButtonWidth  = Max(ButtonWidth, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Clear]))
     ComboHeight  = GetRequiredHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Procedure])
     StringHeight = GetRequiredHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Condition])
     TextWidth    = Max(80, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Text1]))
@@ -139,7 +139,7 @@ Procedure DataBreakpointWindowEvents(*Debugger.DebuggerData, EventID)
     BoxHeight    = Max(ButtonHeight*3+20, TopOffset+ComboHeight+StringHeight+20)
     ButtonHeight = (BoxHeight-20) / 3
     
-    ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], 10, 10, Width-20, Height-30-BoxHeight) 
+    ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], 10, 10, Width-20, Height-30-BoxHeight)
     
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Frame], 10, Height-10-BoxHeight, Width-30-ButtonWidth, BoxHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Text1], 25, Height-10-BoxHeight+TopOffset, TextWidth, ComboHeight)
@@ -154,13 +154,13 @@ Procedure DataBreakpointWindowEvents(*Debugger.DebuggerData, EventID)
   ElseIf EventID = #PB_Event_CloseWindow
     If DebuggerMemorizeWindows And IsWindowMinimized(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakPoints]) = 0
       DataBreakpointWindowMaximize = IsWindowMaximized(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakPoints])
-      If DataBreakpointWindowMaximize = 0      
+      If DataBreakpointWindowMaximize = 0
         DataBreakpointWindowX = WindowX(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakPoints])
         DataBreakpointWindowY = WindowY(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakPoints])
         DataBreakpointWindowWidth  = WindowWidth (*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakPoints])
         DataBreakpointWindowHeight = WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakPoints])
       EndIf
-    EndIf    
+    EndIf
     
     ; do not close window, only hide it
     ;
@@ -168,7 +168,7 @@ Procedure DataBreakpointWindowEvents(*Debugger.DebuggerData, EventID)
     *Debugger\DataBreakpointsVisible = 0
     Debugger_CheckDestroy(*Debugger)
   
-  EndIf  
+  EndIf
   
 EndProcedure
 
@@ -190,7 +190,7 @@ Procedure UpdateDataBreakpointWindowState(*Debugger.DebuggerData)
     
     ; With the next update after the stop by the breakpoint, remove it
     ;
-    If *Debugger\ProgramState <> 9 And RemoveDataBreakpoints 
+    If *Debugger\ProgramState <> 9 And RemoveDataBreakpoints
       ; step backwards so indexes don't change by removals
       For i = CountGadgetItems(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List])-1 To 0 Step -1
         *Point.DataBreakPoint = GetGadgetItemData(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], i)
@@ -209,7 +209,7 @@ EndProcedure
 
 Procedure OpenDataBreakpointWindow(*Debugger.DebuggerData)
 
-  If *Debugger\DataBreakpointsVisible = 0    
+  If *Debugger\DataBreakpointsVisible = 0
     
     EnsureWindowOnDesktop(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakpoints])
     HideWindow(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakpoints], 0) ; show the window first.. otherwise sometimes the move/resize does not seem to work !?
@@ -218,17 +218,17 @@ Procedure OpenDataBreakpointWindow(*Debugger.DebuggerData)
       DataBreakpointWindowX           = 75
       DataBreakpointWindowY           = 75
       DataBreakpointWindowWidth       = 700
-      DataBreakpointWindowHeight      = 300          
+      DataBreakpointWindowHeight      = 300
     EndIf
     
     ResizeWindow(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakpoints], DataBreakpointWindowX, DataBreakpointWindowY, DataBreakpointWindowWidth, DataBreakpointWindowHeight)
-    DataBreakpointWindowEvents(*Debugger, #PB_Event_SizeWindow) 
+    DataBreakpointWindowEvents(*Debugger, #PB_Event_SizeWindow)
     
-    ; the filename is set after creation, so update it here...    
+    ; the filename is set after creation, so update it here...
     SetWindowTitle(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakpoints], Language("Debugger","DataBreakpoints") + " - " + DebuggerTitle(*Debugger\FileName$))
     
     *Debugger\DataBreakpointsVisible = 1
-  EndIf  
+  EndIf
   
   SetWindowForeground(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakpoints])
   DataBreakpointWindowEvents(*Debugger, #PB_Event_SizeWindow)
@@ -242,7 +242,7 @@ Procedure CreateDataBreakpointWindow(*Debugger.DebuggerData)
   Flags = #PB_Window_SystemMenu|#PB_Window_MinimizeGadget|#PB_Window_SizeGadget|#PB_Window_Invisible|#PB_Window_MaximizeGadget
   If DataBreakpointWindowMaximize
     Flags | #PB_Window_Maximize
-  EndIf  
+  EndIf
 
   Window = OpenWindow(#PB_Any, 0, 0, 0, 0, Language("Debugger","DataBreakpoints") + " - " + GetFilePart(*Debugger\FileName$), Flags)
   If Window
@@ -266,10 +266,10 @@ Procedure CreateDataBreakpointWindow(*Debugger.DebuggerData)
     
     CompilerIf #DEFAULT_CanWindowStayOnTop
       SetWindowStayOnTop(Window, DebuggerOnTop)
-    CompilerEndIf  
+    CompilerEndIf
     
     AddKeyboardShortcut(Window, #PB_Shortcut_Return, #DEBUGGER_MENU_Return)
-    Debugger_AddShortcuts(Window)        
+    Debugger_AddShortcuts(Window)
   EndIf
   
 EndProcedure
@@ -314,7 +314,7 @@ Procedure DataBreakpoint_DebuggerEvent(*Debugger.DebuggerData)
       Next i
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_Procedure], 0)
       
-    Case #COMMAND_DataBreakPoint    
+    Case #COMMAND_DataBreakPoint
       *Point.DataBreakPoint = FindDataBreakpoint(*Debugger, *Debugger\Command\Value2) ; find our structure
       If *Point
         ; find the entry in the gadget (if any)
@@ -349,16 +349,16 @@ Procedure DataBreakpoint_DebuggerEvent(*Debugger.DebuggerData)
             If index <> -1
               SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], index, "#False", 2)
               SetGadgetItemColor(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], index, #PB_Gadget_BackColor, -1, -1)
-            EndIf          
+            EndIf
           
           Case 5 ; true
             ; indicate that the breakpoint is true, but do not remove it
             ; will be removed in UpdateWaichListWindowState() when the program continues
             If index <> -1
-              SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], index, "#True", 2)                            
+              SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], index, "#True", 2)
               SetGadgetItemColor(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], index, #PB_Gadget_BackColor, $90FF90, -1)
-            EndIf                                  
-            *Point\ConditionTrue = #True            
+            EndIf
+            *Point\ConditionTrue = #True
             RemoveDataBreakpoints = #True
           
         EndSelect

@@ -11,7 +11,7 @@
 ; NOTE: set this to one ONLY for debugging purposes!
 ;
 ; The No-Thread communication is slow and unresponsive (ie, while the GUI debugger is
-; not reading data, the executable might lock), which is bad especially when multiple 
+; not reading data, the executable might lock), which is bad especially when multiple
 ; commands are being sent at once.
 ;
 #NOTHREAD = 0
@@ -93,7 +93,7 @@ EndStructure
 ; For a detailed description see ExternalCommands.h in the debugger code
 ; Always keep these lists in sync!
 ;
-Enumeration 
+Enumeration
   #COMMAND_Stop
   #COMMAND_Step
   #COMMAND_Run
@@ -141,7 +141,7 @@ EndEnumeration
 
 ;- Commands: Executable->Debugger
 ;
-Enumeration 
+Enumeration
   #COMMAND_Init
   #COMMAND_End
   #COMMAND_ExeMode
@@ -192,7 +192,7 @@ Enumeration
   #COMMAND_ControlCallstack
   #COMMAND_ControlAssemblyViewer
   #COMMAND_ControlPurifier
-  #COMMAND_Modules  
+  #COMMAND_Modules
   
   #COMMAND_LastIncomming
 EndEnumeration
@@ -232,14 +232,14 @@ CompilerIf #PRINT_DEBUGGER_COMMANDS | #LOG_DEBUGGER_COMMANDS
       Data$ "#COMMAND_GetLibraries"
       Data$ "#COMMAND_GetLibraryInfo"
       Data$ "#COMMAND_GetObjectText"
-      Data$ "#COMMAND_GetObjectData" 
-      Data$ "#COMMAND_StartProfiler" 
-      Data$ "#COMMAND_StopProfiler" 
-      Data$ "#COMMAND_ResetProfiler" 
-      Data$ "#COMMAND_GetProfilerOffsets" 
-      Data$ "#COMMAND_GetProfilerData" 
-      Data$ "#COMMAND_EvaluateExpression" 
-      Data$ "#COMMAND_EvaluateExpressionWithStruct" 
+      Data$ "#COMMAND_GetObjectData"
+      Data$ "#COMMAND_StartProfiler"
+      Data$ "#COMMAND_StopProfiler"
+      Data$ "#COMMAND_ResetProfiler"
+      Data$ "#COMMAND_GetProfilerOffsets"
+      Data$ "#COMMAND_GetProfilerData"
+      Data$ "#COMMAND_EvaluateExpression"
+      Data$ "#COMMAND_EvaluateExpressionWithStruct"
       Data$ "#COMMAND_SetVariable"
       Data$ "#COMMAND_WarningMode"
       Data$ "#COMMAND_Kill"
@@ -293,7 +293,7 @@ CompilerIf #PRINT_DEBUGGER_COMMANDS | #LOG_DEBUGGER_COMMANDS
       Data$ "#COMMAND_ControlDebugOutput"
       Data$ "#COMMAND_ControlProfiler"
       Data$ "#COMMAND_ControlMemoryViewer"
-      Data$ "#COMMAND_ControlLibraryViewer"      
+      Data$ "#COMMAND_ControlLibraryViewer"
       Data$ "#COMMAND_ControlWatchlist"
       Data$ "#COMMAND_ControlVariableViewer"
       Data$ "#COMMAND_ControlCallstack"
@@ -372,7 +372,7 @@ Macro IS_UNICODE(type)    : (((type) & #TYPEMASK) = #TYPE_UNICODE):     EndMacro
 ;
 #LIBRARYINFO_InfoOnly = $00000000 ;// only GetInfo() is implemented (GetInfo() must always be present!)
 #LIBRARYINFO_Objects  = $00000001 ;// ExamineObjects() And NextObject() is implemented
-#LIBRARYINFO_Text     = $00000002 ;// GetObjectText() is implemented 
+#LIBRARYINFO_Text     = $00000002 ;// GetObjectText() is implemented
 #LIBRARYINFO_Data     = $00000004 ;// GetObjectData() is implemented
 #LIBRARYINFO_SwapData = $00000008 ;// SwapObjectData() is implemented
 
@@ -416,7 +416,7 @@ Macro IS_UNICODE(type)    : (((type) & #TYPEMASK) = #TYPE_UNICODE):     EndMacro
 ;
 ; - The Send() command does not set a timestamp etc. that must be done before the call.
 ; - Close() must handle the case where Connect() was not yet called too (for cleanup)
-; 
+;
 Interface Communication
   GetInfo.s()  ; get info string for the debugger exe (pipe handles, etc)
   Connect()    ; connect to exe (returns #true or #false)
@@ -461,7 +461,7 @@ EndEnumeration
 
 #POPUPMENU_VariableViewer = 3  ; make sure this doesn't conflict with the IDE menus!
 #POPUPMENU_ArrayViewer = 4     ; make sure this doesn't conflict with the IDE menus!
-#POPUPMENU_Profiler = 7        
+#POPUPMENU_Profiler = 7
 
 ; windows
 ; NOTE: there are offsets into the DebuggerData array
@@ -475,7 +475,7 @@ Enumeration
   #DEBUGGER_WINDOW_History
   #DEBUGGER_WINDOW_WatchList
   #DEBUGGER_WINDOW_Library
-  #DEBUGGER_WINDOW_Profiler  
+  #DEBUGGER_WINDOW_Profiler
   #DEBUGGER_WINDOW_DataBreakPoints
   #DEBUGGER_WINDOW_Purifier
 
@@ -496,11 +496,11 @@ Enumeration
   #DEBUGGER_GADGET_Debug_Save
   #DEBUGGER_Gadget_Debug_Text
   #DEBUGGER_GADGET_Debug_Entry
-  #DEBUGGER_GADGET_Debug_Display  
+  #DEBUGGER_GADGET_Debug_Display
   
   #DEBUGGER_GADGET_Asm_Panel
   #DEBUGGER_GADGET_Asm_Stack
-  #DEBUGGER_GADGET_Asm_UpdateStack  
+  #DEBUGGER_GADGET_Asm_UpdateStack
   #DEBUGGER_GADGET_Asm_ScrollArea
   #DEBUGGER_GADGET_Asm_Message
   #DEBUGGER_GADGET_Asm_Text0
@@ -512,8 +512,8 @@ Enumeration
   #DEBUGGER_GADGET_Asm_TextValue0
   #DEBUGGER_GADGET_Asm_TextValueMax = #DEBUGGER_GADGET_Asm_TextValue0 + #MAX_REGISTERS
   
-  #DEBUGGER_GADGET_Memory_Text  
-  #DEBUGGER_GADGET_Memory_To  
+  #DEBUGGER_GADGET_Memory_Text
+  #DEBUGGER_GADGET_Memory_To
   #DEBUGGER_GADGET_Memory_Start
   #DEBUGGER_GADGET_Memory_End
   #DEBUGGER_GADGET_Memory_Display
@@ -539,22 +539,22 @@ Enumeration
   #DEBUGGER_GADGET_Variable_ArraySplitter
   
   #DEBUGGER_GADGET_Variable_ListInfo
-  #DEBUGGER_GADGET_Variable_LocalListInfo   
+  #DEBUGGER_GADGET_Variable_LocalListInfo
   #DEBUGGER_GADGET_Variable_UpdateList
-  #DEBUGGER_GADGET_Variable_ListSplitter 
+  #DEBUGGER_GADGET_Variable_ListSplitter
 
   #DEBUGGER_GADGET_Variable_MapInfo
-  #DEBUGGER_GADGET_Variable_LocalMapInfo   
+  #DEBUGGER_GADGET_Variable_LocalMapInfo
   #DEBUGGER_GADGET_Variable_UpdateMap
-  #DEBUGGER_GADGET_Variable_MapSplitter 
+  #DEBUGGER_GADGET_Variable_MapSplitter
   
   #DEBUGGER_GADGET_Variable_Viewer
   #DEBUGGER_GADGET_Variable_AllItems
   #DEBUGGER_GADGET_Variable_NonZeroItems
   #DEBUGGER_GADGET_Variable_ItemRange
   #DEBUGGER_GADGET_Variable_InputRange
-  #DEBUGGER_GADGET_Variable_InputName  
-  #DEBUGGER_GADGET_Variable_Container  
+  #DEBUGGER_GADGET_Variable_InputName
+  #DEBUGGER_GADGET_Variable_Container
   #DEBUGGER_GADGET_Variable_Text
   #DEBUGGER_GADGET_Variable_Display
   #DEBUGGER_GADGET_Variable_Copy
@@ -575,7 +575,7 @@ Enumeration
   #DEBUGGER_GADGET_History_ResetAll
   #DEBUGGER_GADGET_History_UpdateStats
   
-  #DEBUGGER_GADGET_WatchList_List  
+  #DEBUGGER_GADGET_WatchList_List
   #DEBUGGER_GADGET_WatchList_Add
   #DEBUGGER_GADGET_WatchList_Remove
   #DEBUGGER_GADGET_WatchList_Clear
@@ -583,7 +583,7 @@ Enumeration
   #DEBUGGER_GADGET_WatchList_Variable
   #DEBUGGER_GADGET_WatchList_Frame
   #DEBUGGER_GADGET_WatchList_Text1
-  #DEBUGGER_GADGET_WatchList_Text2    
+  #DEBUGGER_GADGET_WatchList_Text2
   
   #DEBUGGER_GADGET_Breakpoint_List
   #DEBUGGER_GADGET_Breakpoint_Add
@@ -593,18 +593,18 @@ Enumeration
   #DEBUGGER_GADGET_Breakpoint_Condition
   #DEBUGGER_GADGET_Breakpoint_Frame
   #DEBUGGER_GADGET_Breakpoint_Text1
-  #DEBUGGER_GADGET_Breakpoint_Text2  
+  #DEBUGGER_GADGET_Breakpoint_Text2
   
-  #DEBUGGER_GADGET_Library_Text1    
+  #DEBUGGER_GADGET_Library_Text1
   #DEBUGGER_GADGET_Library_LibraryList
   #DEBUGGER_GADGET_Library_ObjectList
   #DEBUGGER_GADGET_Library_ObjectText
   #DEBUGGER_GADGET_Library_ObjectData
   #DEBUGGER_GADGET_Library_ObjectData2
-  #DEBUGGER_GADGET_Library_Container  
-  #DEBUGGER_GADGET_Library_Update  
+  #DEBUGGER_GADGET_Library_Container
+  #DEBUGGER_GADGET_Library_Update
   #DEBUGGER_GADGET_Library_Splitter1
-  #DEBUGGER_GADGET_Library_Splitter2  
+  #DEBUGGER_GADGET_Library_Splitter2
   
   #DEBUGGER_GADGET_Profiler_Start
   #DEBUGGER_GADGET_Profiler_Stop
@@ -634,7 +634,7 @@ Enumeration
   #DEBUGGER_GADGET_Purifier_TextString
   #DEBUGGER_GADGET_Purifier_TrackbarString
   #DEBUGGER_GADGET_Purifier_LinesString
-  #DEBUGGER_GADGET_Purifier_TextDynamic  
+  #DEBUGGER_GADGET_Purifier_TextDynamic
   #DEBUGGER_GADGET_Purifier_TrackbarDynamic
   #DEBUGGER_GADGET_Purifier_LinesDynamic
   #DEBUGGER_GADGET_Purifier_Ok
@@ -646,7 +646,7 @@ EndEnumeration
 
 ; private drag value for profiler
 ;
-#DRAG_Profiler = 0 
+#DRAG_Profiler = 0
 
 ;- DebuggerData Structure
 
@@ -685,16 +685,16 @@ Structure DebuggerData
   ProcessObject.i    ; Process lib object for running exe (all OS now)
 
   CompilerIf #CompileWindows
-    TerminationMutex.i ; mutex used to terminate the debugged program    
+    TerminationMutex.i ; mutex used to terminate the debugged program
   CompilerEndIf
   
   IsUnicode.l   ; unicode mode of the executable
   IsThread.l    ; thread mode of the executable
-  Is64bit.l     ; is the executable a 64bit one ? 
-  IsPurifier.l  ; is the purifier enabled ? 
+  Is64bit.l     ; is the executable a 64bit one ?
+  IsPurifier.l  ; is the purifier enabled ?
   
   IsNetwork.l   ; true if the communication is network based
-  Communication.Communication ; communication interface 
+  Communication.Communication ; communication interface
   Command.CommandInfo ; last processed incomming command (for easy access)
   *CommandData       ; pointer to any additional command data (for last processed command)
 
@@ -709,10 +709,10 @@ Structure DebuggerData
   LastProgramState.l ; Programstate after the last received command (that altered ProgramState!)
   ProgramEnded.l     ; On linux, we get a pipe error directly after the end command, so use a flag to ignore it then
 
-  CanDestroy.l       ; the strcture is flagged for destructuion, only wait for all windows to be closed       
+  CanDestroy.l       ; the strcture is flagged for destructuion, only wait for all windows to be closed
   
   IsDebugOutputVisible.l ; special flag indicating if the debug output is visible or not
-  IsWatchlistVisible.l   ; special flag indicating the watchlist state (as the window is always open, but invisible)      
+  IsWatchlistVisible.l   ; special flag indicating the watchlist state (as the window is always open, but invisible)
   DataBreakpointsVisible.l ; spechial flag indicating the state (we do not close it so we do not have to keep the breakpoint list in a separate place)
   
   *FirstDataBreakPoint.DataBreakPoint
@@ -742,12 +742,12 @@ Structure DebuggerData
   *History           ; pointer to the procedure history data
   
   NbLibraries.l      ; number of libraries registered with LibraryDebugger
-  *LibraryList       ; pointer to list of registered libraries 
+  *LibraryList       ; pointer to list of registered libraries
   NbLibColumns.l     ; Number of columns currently in the ListIconGadget
   NbObjects.l        ; number of objects in the currently displayed library
   *ObjectList        ; pointer to array of object IDs LONG or QUAD, depending on exe mode!
   CurrentLibrary.l   ; Index of the currently displayed lib
-  CurrentObject.l    ; Index of the currently displayed object 
+  CurrentObject.l    ; Index of the currently displayed object
   CurrentObjectID.q  ; ObjectID of the currently displayed object
   CommandObjectID.q  ; ObjectID as sent by the COMMAND_ObjectID command
   *CurrentObjectData ; Currently displayed Object Data number (for the plugin)
@@ -755,9 +755,9 @@ Structure DebuggerData
   ProfilerRunning.l  ; state of the profiler
   *ProfilerFiles     ; Debugger_ProfilerList pointer with per-file info
   *ProfilerData      ; array of longs with counts for ALL includefiles
-  ProfilerImage.i    ; the image we draw the profiler view on  
-  ;ProfilerPreview.i ; preview image 
-  ProfilerNumberLength.l ; length of the linenumbers part of the display (in digits)  
+  ProfilerImage.i    ; the image we draw the profiler view on
+  ;ProfilerPreview.i ; preview image
+  ProfilerNumberLength.l ; length of the linenumbers part of the display (in digits)
   ProfilerRatioX.d   ; scale factor x
   ProfilerRatioY.d   ; scale factor y
   
@@ -783,29 +783,29 @@ Structure DebuggerData
   ;
   ; stuff only used by the IDE debugger
   ; ===================================================
-  ;   
+  ;
   SourceID.i         ; unique ID of the main source (if any)
   TriggerTargetID.i  ; unique ID of the target that triggered the compile (not neccesarily the main file!)
   
 ;   *SourceFile.l   ; pointer to associated sourcefile structure if any
 ;   *CompileSource.l; the source that triggered the compile (not nessecarily the main file!)
-;   
+;
 ;   CPUUsage.l     ; last polled cpu usage value (in %)
 ;   CPUOldUsage.l  ; previous polled cpu usage value
 ;   CPUDisplay.l   ; is displayed in graph?
-;   
+;
 ;   CPUTime.l      ; last polled cpu time value  (in jiffers!) on windows, only indicates if RealCPUTime is valid (-1 = invalid, 1=valid)
-;   
+;
 ;   CompilerIf #CompileWindows
 ;     RealCPUTime.LARGE_INTEGER ; real value for windows cpu monitor
-;   CompilerEndIf  
+;   CompilerEndIf
   ;
   ; ===================================================
   ;
     
   ;
   ; larger data arrays
-  ;  
+  ;
   Windows.i[#DEBUGGER_WINDOW_LAST]  ; associated windows
   Gadgets.i[#DEBUGGER_GADGET_LAST]  ; associated gadgets
 
@@ -952,7 +952,7 @@ Declare FlushEvents()
 
 ; this defines a callback that is called for each debugger window that is opened
 ; it allows IDE / standalone to add more shortcuts to each window (or do other tasks)
-Declare Debugger_AddShortcuts(Window)  
+Declare Debugger_AddShortcuts(Window)
 
 Declare SendDebuggerCommandWithData(*Debugger.DebuggerData, *Command.CommandInfo, *CommandData)
 Declare SendDebuggerCommand(*Debugger.DebuggerData, *Command.CommandInfo)

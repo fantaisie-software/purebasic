@@ -13,7 +13,7 @@ If OpenWindow(0, 0, 0, 800, 600, "LinuxHelp Viewer", #PB_Window_SystemMenu|#PB_W
   
   SendMessage_(*RichEdit, #EM_SETBKGNDCOLOR, 0, $DFFFFF)
 
-  Quit = 0  
+  Quit = 0
   Repeat
     Select WaitWindowEvent()
     
@@ -54,14 +54,14 @@ LoadHelpPage:
       *BufferEnd   = *Buffer + Length
       *StringStart = *Buffer
       
-      formatlink.CHARFORMAT\cbSize = SizeOf(CHARFORMAT) 
-      formatlink\dwMask            = #CFM_COLOR | #CFM_BOLD |  #CFM_FACE      
+      formatlink.CHARFORMAT\cbSize = SizeOf(CHARFORMAT)
+      formatlink\dwMask            = #CFM_COLOR | #CFM_BOLD |  #CFM_FACE
       formatlink\crTextColor       = $E00000
       formatlink\dwEffects         = 0
-      PeekS(@formatlink\szFaceName[0], "Times")      
+      PeekS(@formatlink\szFaceName[0], "Times")
       
-      format.CHARFORMAT\cbSize = SizeOf(CHARFORMAT) 
-      format\dwMask            = #CFM_COLOR | #CFM_BOLD |  #CFM_FACE      
+      format.CHARFORMAT\cbSize = SizeOf(CHARFORMAT)
+      format\dwMask            = #CFM_COLOR | #CFM_BOLD |  #CFM_FACE
       format\crTextColor       = $000000
       format\dwEffects         = 0
       PeekS(@format\szFaceName[0], "Times")
@@ -82,18 +82,18 @@ LoadHelpPage:
           EndIf
 
           If CompareMemory(*Cursor, @"{TITLE}", 7) = 1
-            *Cursor + 7            
+            *Cursor + 7
             *StringStart = *Cursor
             format\crTextColor = $000000
             format\dwEffects   = #CFE_BOLD
-            PeekS(@format\szFaceName[0], "Times")    
+            PeekS(@format\szFaceName[0], "Times")
                  
           ElseIf CompareMemory(*Cursor, @"{BOLD}", 6) = 1
             *Cursor + 6
             *StringStart = *Cursor
             format\crTextColor = $000000
             format\dwEffects   = #CFE_BOLD
-            PeekS(@format\szFaceName[0], "Times")   
+            PeekS(@format\szFaceName[0], "Times")
 
           ElseIf CompareMemory(*Cursor, @"{FUNCTION}", 10) = 1
             *Cursor + 10
@@ -107,14 +107,14 @@ LoadHelpPage:
             *StringStart = *Cursor
             format\crTextColor = $000000
             format\dwEffects   = 0
-            PeekS(@format\szFaceName[0], "Courier New")  
+            PeekS(@format\szFaceName[0], "Courier New")
 
           ElseIf CompareMemory(*Cursor, @"{TEXT}", 6) = 1
             *Cursor + 6
             *StringStart = *Cursor
             format\crTextColor = $000000
             format\dwEffects   = 0
-            PeekS(@format\szFaceName[0], "Times")  
+            PeekS(@format\szFaceName[0], "Times")
 
           ElseIf CompareMemory(*Cursor, @"{LINK:", 6) = 1
 
@@ -144,15 +144,15 @@ LoadHelpPage:
 
           EndIf
 
-        Else 
+        Else
           *Cursor + 1
         EndIf
-      Wend  
+      Wend
 
       If *StringStart < *Cursor
         SendMessage_(*RichEdit, #EM_SETCHARFORMAT, #SCF_SELECTION, @format)
         SendMessage_(*RichEdit, #EM_REPLACESEL, 0, PeekS(*StringStart, *Cursor - *StringStart))
-      EndIf            
+      EndIf
           
     EndIf
   

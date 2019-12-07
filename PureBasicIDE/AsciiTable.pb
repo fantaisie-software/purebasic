@@ -10,21 +10,21 @@ Structure AsciiTableStructure Extends ToolsPanelEntry
 EndStructure
 
 
-Procedure AsciiTable_CreateFunction(*Entry.AsciiTableStructure, PanelItemID)  
+Procedure AsciiTable_CreateFunction(*Entry.AsciiTableStructure, PanelItemID)
 
-  ListIconGadget(#GADGET_AsciiTable, 0, 0, 0, 0, "Char", 50, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)          
+  ListIconGadget(#GADGET_AsciiTable, 0, 0, 0, 0, "Char", 50, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
     AddGadgetColumn(#GADGET_AsciiTable, 1, "Ascii", 50)
     AddGadgetColumn(#GADGET_AsciiTable, 2, "Hex", 50)
     AddGadgetColumn(#GADGET_AsciiTable, 3, "Html", 80)
     
   If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
     ToolsPanel_ApplyColors(#GADGET_AsciiTable)
-  EndIf    
+  EndIf
   
   ButtonGadget(#GADGET_Ascii_InsertChar, 0, 0, 0, 0, "Char", #PB_Button_Toggle)
   ButtonGadget(#GADGET_Ascii_InsertAscii, 0, 0, 0, 0, "Ascii", #PB_Button_Toggle)
   ButtonGadget(#GADGET_Ascii_InsertHex, 0, 0, 0, 0, "Hex", #PB_Button_Toggle)
-  ButtonGadget(#GADGET_Ascii_InsertHtml, 0, 0, 0, 0, "Html", #PB_Button_Toggle)         
+  ButtonGadget(#GADGET_Ascii_InsertHtml, 0, 0, 0, 0, "Html", #PB_Button_Toggle)
   SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 1)
   
   Restore AsciiTable_SpecialChars
@@ -52,7 +52,7 @@ Procedure AsciiTable_CreateFunction(*Entry.AsciiTableStructure, PanelItemID)
   For i = 160 To 255
     Read.s Html$
     SetGadgetItemText(#GADGET_AsciiTable, i, Html$, 3)
-  Next i    
+  Next i
 
 EndProcedure
      
@@ -65,13 +65,13 @@ Procedure AsciiTable_ResizeHandler(*Entry.AsciiTableStructure, PanelWidth, Panel
     ResizeGadget(#GADGET_Ascii_InsertChar, 5, PanelHeight-5-Height, PanelWidth/4, Height)
     ResizeGadget(#GADGET_Ascii_InsertAscii, 5+PanelWidth/4, PanelHeight-5-Height, PanelWidth/4, Height)
     ResizeGadget(#GADGET_Ascii_InsertHex, 5+PanelWidth/2, PanelHeight-5-Height, PanelWidth/4, Height)
-    ResizeGadget(#GADGET_Ascii_InsertHtml, 5+PanelWidth/4*3, PanelHeight-5-Height, PanelWidth/4, Height)    
+    ResizeGadget(#GADGET_Ascii_InsertHtml, 5+PanelWidth/4*3, PanelHeight-5-Height, PanelWidth/4, Height)
   Else
     ResizeGadget(#GADGET_AsciiTable, 0, 0, PanelWidth, PanelHeight-5-Height)
     ResizeGadget(#GADGET_Ascii_InsertChar, 0, PanelHeight-Height, PanelWidth/4, Height)
     ResizeGadget(#GADGET_Ascii_InsertAscii, PanelWidth/4, PanelHeight-Height, PanelWidth/4, Height)
     ResizeGadget(#GADGET_Ascii_InsertHex, PanelWidth/2, PanelHeight-Height, PanelWidth/4, Height)
-    ResizeGadget(#GADGET_Ascii_InsertHtml, PanelWidth/4*3, PanelHeight-Height, PanelWidth/4, Height)  
+    ResizeGadget(#GADGET_Ascii_InsertHtml, PanelWidth/4*3, PanelHeight-Height, PanelWidth/4, Height)
   EndIf
   
 EndProcedure
@@ -86,15 +86,15 @@ Procedure AsciiTable_EventHandler(*Entry.AsciiTableStructure, EventGadgetID)
       If *Entry\AsciiTableMode = 0
         SetGadgetState(#GADGET_Ascii_InsertChar, 1)
       Else
-        SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 0)        
+        SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 0)
         *Entry\AsciiTableMode = 0
-      EndIf        
+      EndIf
     
     Case #GADGET_Ascii_InsertAscii
       If *Entry\AsciiTableMode = 1
         SetGadgetState(#GADGET_Ascii_InsertAscii, 1)
       Else
-        SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 0)        
+        SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 0)
         *Entry\AsciiTableMode = 1
       EndIf
             
@@ -102,21 +102,21 @@ Procedure AsciiTable_EventHandler(*Entry.AsciiTableStructure, EventGadgetID)
       If *Entry\AsciiTableMode = 2
         SetGadgetState(#GADGET_Ascii_InsertHex, 1)
       Else
-        SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 0)        
+        SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 0)
         *Entry\AsciiTableMode = 2
       EndIf
             
-    Case #GADGET_Ascii_InsertHtml        
+    Case #GADGET_Ascii_InsertHtml
       If *Entry\AsciiTableMode = 3
         SetGadgetState(#GADGET_Ascii_InsertHtml, 1)
       Else
-        SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 0)        
+        SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 0)
         *Entry\AsciiTableMode = 3
-      EndIf      
+      EndIf
       
     Case #GADGET_AsciiTable
       state = GetGadgetState(#GADGET_AsciiTable)
-      If state <> -1 
+      If state <> -1
         If EventType() = #PB_EventType_LeftDoubleClick
           If *ActiveSource <> *ProjectInfo
             InsertCodeString(GetGadgetItemText(#GADGET_AsciiTable, state, *Entry\AsciiTableMode))
@@ -164,9 +164,9 @@ AsciiTable_VT\PreferenceSave   = @AsciiTable_PreferenceSave()
 AddElement(AvailablePanelTools())
 
 AvailablePanelTools()\FunctionsVT          = @AsciiTable_VT
-AvailablePanelTools()\NeedPreferences      = 1 
+AvailablePanelTools()\NeedPreferences      = 1
 AvailablePanelTools()\NeedConfiguration    = 0
-AvailablePanelTools()\NeedDestroyFunction  = 0   
+AvailablePanelTools()\NeedDestroyFunction  = 0
 AvailablePanelTools()\ToolID$              = "AsciiTable"
 AvailablePanelTools()\PanelTitle$          = "AsciiTable"
 AvailablePanelTools()\ToolName$            = "AsciiTable"

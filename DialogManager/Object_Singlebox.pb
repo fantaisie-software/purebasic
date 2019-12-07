@@ -46,7 +46,7 @@ Procedure DlgSinglebox_SizeRequest(*THIS.DlgSinglebox, *Width.LONG, *Height.LONG
 
   If *THIS\Child
     *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
-  EndIf  
+  EndIf
   
   *Width\l  = Max(*THIS\RequestedWidth +*THIS\lMargin+*THIS\lMargin, *THIS\StaticData\MinWidth)
   *Height\l = Max(*THIS\RequestedHeight+*THIS\tMargin+*THIS\bMargin, *THIS\StaticData\MinHeight)
@@ -56,9 +56,9 @@ EndProcedure
 
 Procedure DlgSinglebox_SizeApply(*THIS.DlgSinglebox, x, y, Width, Height)
   If *THIS\Child
-    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)    
+    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)
     *THIS\Child\SizeApply(x, y, Width, Height)
-  EndIf    
+  EndIf
 EndProcedure
 
 

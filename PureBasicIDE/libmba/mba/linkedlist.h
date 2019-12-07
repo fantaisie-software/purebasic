@@ -27,20 +27,20 @@ extern "C" {
 #define CACHE_SIZE 2
 
 struct node {
-	struct node *ptr;
-	void *data;
+  struct node *ptr;
+  void *data;
 };
 struct cache_entry {
-	unsigned int idx;
-	struct node *ent;
+  unsigned int idx;
+  struct node *ent;
 };
 struct linkedlist {
-	unsigned int max_size;
-	unsigned int size;
-	struct node *first;
-	struct node *last;
-	struct cache_entry cache[CACHE_SIZE];
-	struct allocator *al;
+  unsigned int max_size;
+  unsigned int size;
+  struct node *first;
+  struct node *last;
+  struct cache_entry cache[CACHE_SIZE];
+  struct allocator *al;
 };
 
 LIBMBA_API int linkedlist_init(struct linkedlist *l, unsigned int max_size, struct allocator *al);
@@ -52,10 +52,10 @@ LIBMBA_API int linkedlist_clear(struct linkedlist *l, del_fn data_del, void *con
 LIBMBA_API int linkedlist_add(struct linkedlist *l, const void *data);
 LIBMBA_API int linkedlist_insert(struct linkedlist *l, unsigned int idx, const void *data);
 LIBMBA_API int linkedlist_insert_sorted(struct linkedlist *l,
-    	cmp_fn cmp,
-		void *context,
-		void **replaced,
-		const void *data);
+      cmp_fn cmp,
+    void *context,
+    void **replaced,
+    const void *data);
 LIBMBA_API int linkedlist_is_empty(const struct linkedlist *l);
 LIBMBA_API unsigned int linkedlist_size(const struct linkedlist *l);
 LIBMBA_API void *linkedlist_get(struct linkedlist *l, unsigned int idx);

@@ -19,7 +19,7 @@
 
 /*
  * Debugger headers for use inside the debugger only
- */ 
+ */
 #ifdef WINDOWS
   // VisualC++ 2005 and up time.h hack, to use 32 bits times
   //
@@ -98,23 +98,23 @@ struct CallStackStruct
 typedef struct ThreadDataStruct
 {
   struct ThreadDataStruct *Next; // single linked list to be able to enumerate all threads
-  
+
   int StepMode; // formerly global step stuff
   int StepCount;
   int StepDepth; // target callstackdepth for 'step out' and 'step over'
   int StepLine;  // line for 'step over' (this is the line to avoid)
-  
-  int CurrentLine; // currentline for this thread  
+
+  int CurrentLine; // currentline for this thread
   int LastExecutedLine; // last executed line (for breakpoints/profiling in threads)
   int LastProfiledLine; // different from last executed, as it is updated on PB_DEBUGGER_SetLine()
   int Control;     // runtime control value
-  
+
   int PurifierCounter; // counter for purifier checks
-  
+
   OS_THREADTYPE ThreadHandle; // to suspend/resume
-  
+
   int IsSuspended; // set to one if the thread suspended itself.
-  
+
   struct CallStackStruct *CallStack;
   int CallStackDepth;
   int CallStackSize; // size of the allocated callstack buffer
@@ -142,7 +142,7 @@ extern char  PB_DEBUGGER_SourcePath;
 extern char  PB_DEBUGGER_PureBasicPath;
 extern char  PB_DEBUGGER_Language;
 extern int   PB_DEBUGGER_VariableBank; // defined as int to directly read the number
-extern int   PB_DEBUGGER_ProcedureBank; 
+extern int   PB_DEBUGGER_ProcedureBank;
 extern int   PB_DEBUGGER_ArrayBank;
 extern int   PB_DEBUGGER_LinkedListBank;
 extern int   PB_DEBUGGER_MapBank;
@@ -189,10 +189,10 @@ extern int PB_DEBUGGER_ExecBreakPoints[];    // real executable line numbers
 extern int PB_DEBUGGER_UserBreakPoints[];    // line numbers as specified by the user
 extern int PB_DEBUGGER_NbBreakPoints;
 
-typedef struct 
+typedef struct
 {
   xchar *Condition;      // condition in original format (Ascii or external) (M_Alloc, null-terminated)
-  char  *ConditionUTF8;  // condition expression in UTF8 (M_Alloc, null-terminated)  
+  char  *ConditionUTF8;  // condition expression in UTF8 (M_Alloc, null-terminated)
   int    ProcedureID;    // ID in which to check for this condition (-1 for main program)
   int    BreakPointID;   // for external debugger
   char   LastError[400]; // error from last evaluation (same length as the error string buffer in ExpressionParser.c)
@@ -223,7 +223,7 @@ extern integer        PB_DEBUGGER_ThreadData;
 extern PB_ThreadData *PB_DEBUGGER_FirstThread;
 extern PB_ThreadData *PB_DEBUGGER_MainThread;
 extern int            PB_DEBUGGER_SuspensionFlag;
-extern PB_ThreadData *PB_DEBUGGER_SuspendingThread; 
+extern PB_ThreadData *PB_DEBUGGER_SuspendingThread;
 
 extern M_PBFUNCTION(void) PB_DEBUGGER_SuspendThreads();
 extern M_PBFUNCTION(void) PB_DEBUGGER_ResumeThreads();
@@ -250,7 +250,7 @@ extern M_PBFUNCTION(void) PB_DEBUGGER_EndThreads();
  * The functions starting with X_ indicate that they work depending on the executables unicode mode.
  * The functions starting with E_ indicate that they work in the mode of the external debugger (those should only be a few)
  */
- 
+
 // already defined in Examine/Examine.h
 //typedef char xchar;
 
@@ -366,19 +366,19 @@ typedef enum
   TXor,
   TMod,
   TNot,
-  
+
   TBoolAnd,
   TBoolOr,
   TBoolXor,
   TBoolNot,
-  
+
   TEqual,
   TNotEqual,
   TLess,
   TMore,
   TLessEqual,
   TMoreEqual,
-  
+
   TLParen,
   TRParen,
   TLBracket,
@@ -388,7 +388,7 @@ typedef enum
   TAt,
   TSharp,
   TQuestion,
-  
+
   TInt,
   TFloat,
   TString,
@@ -396,11 +396,11 @@ typedef enum
 } PB_TokenType;
 
 // information about a single token
-typedef struct 
+typedef struct
 {
   PB_TokenType Token;
-  
-  union {    
+
+  union {
     double    floatValue;  // TFloat
     quad      intValue;    // TInt
     xchar    *strValue;    // TString (M_Alloc'ed 0-terminated string in xchar format)
@@ -409,21 +409,21 @@ typedef struct
     //   Points into the input buffer, so no allocation and no 0-termination!
     //   The format of the string is UTF-8, though only Ascii characters are accepted
     //   as a Identifier anyway.
-    //    
+    //
     struct {
-      char *Name;  
+      char *Name;
       integer Length;
-    };   
+    };
   };
- 
+
   char IsLiteral;  // nonzero if the expression was a literal one (no variables, functions, etc)
   char IsBoolean;  // nonzero if the expression is a boolean result
-  
+
   // in case intValue represents a pointer to a PB variable / structure element etc,
   // this data will be valid. (if type == 0, data is invalid)
   char  Type;
   char  DynamicType; // real type in case Type==TYPE_ARRAY etc
-  char *Structuremap; 
+  char *Structuremap;
   int   Fixedlength;
 } PB_TokenInfo;
 
@@ -436,7 +436,7 @@ typedef struct
   #define quad_to_pointer(t, q) ((t)(q))
 #else
   // need to cast to int here first
-  #define pointer_to_quad(p)    ((quad)(int)(p))  
+  #define pointer_to_quad(p)    ((quad)(int)(p))
   #define quad_to_pointer(t, q) ((t)(int)(q))
 #endif
 

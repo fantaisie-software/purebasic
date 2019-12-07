@@ -39,15 +39,15 @@ extern const int table_sizes[];
 struct entry;
 
 struct hashmap {
-	int table_size_index;
-	ref_t hash;
-	ref_t cmp;
-	ref_t context;
-	unsigned int size;
-	unsigned int load_factor_high;
-	unsigned int load_factor_low;
-	ptrdiff_t al;
-	ref_t table;
+  int table_size_index;
+  ref_t hash;
+  ref_t cmp;
+  ref_t context;
+  unsigned int size;
+  unsigned int load_factor_high;
+  unsigned int load_factor_low;
+  ptrdiff_t al;
+  ref_t table;
 };
 
 LIBMBA_API unsigned long hash_str(const void *str, void *context);
@@ -56,11 +56,11 @@ LIBMBA_API int cmp_str(const void *object1, const void *object2, void *context);
 LIBMBA_API int cmp_wcs(const void *object1, const void *object2, void *context);
 
 LIBMBA_API int hashmap_init(struct hashmap *h,
-		unsigned int load_factor,
-		hash_fn hash,
-		cmp_fn cmp,
-		void *context,
-		struct allocator *al);
+    unsigned int load_factor,
+    hash_fn hash,
+    cmp_fn cmp,
+    void *context,
+    struct allocator *al);
 
 LIBMBA_API int hashmap_deinit(struct hashmap *h, del_fn key_del, del_fn data_del, void *context);
 LIBMBA_API struct hashmap *hashmap_new(hash_fn hash, cmp_fn cmp, void *context, struct allocator *al);

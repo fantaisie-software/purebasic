@@ -27,9 +27,9 @@ extern "C" {
 #include <mba/text.h>
 
 struct cfg {
-	struct linkedlist list;
-	struct allocator *al;
-	tchar buf[512];
+  struct linkedlist list;
+  struct allocator *al;
+  tchar buf[512];
 };
 
 LIBMBA_API int cfg_init(struct cfg *cfg, struct allocator *al);

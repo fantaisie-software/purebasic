@@ -169,7 +169,7 @@ EndProcedure
 
 ; Compare two directories like strings, but give the common sublevels priority
 ;
-Procedure CompareDirectories(Directory1$, Directory2$)  
+Procedure CompareDirectories(Directory1$, Directory2$)
   Item1$ = StringField(Directory1$, 1, #Separator)
   Item2$ = StringField(Directory2$, 1, #Separator)
   
@@ -191,12 +191,12 @@ Procedure CompareDirectories(Directory1$, Directory2$)
         ProcedureReturn #PB_String_Greater
       Else
         ProcedureReturn Result
-      EndIf        
+      EndIf
     Else
       Directory1$ = Right(Directory1$, Len(Directory1$)-Len(Item1$)-1)
       Directory2$ = Right(Directory2$, Len(Directory2$)-Len(Item2$)-1)
       ProcedureReturn CompareDirectories(Directory1$, Directory2$)
     EndIf
-  EndIf  
+  EndIf
 EndProcedure
 

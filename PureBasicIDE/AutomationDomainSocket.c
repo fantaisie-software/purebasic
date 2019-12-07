@@ -5,13 +5,13 @@
  *--------------------------------------------------------------------------------------------
  *
  * Functions for communication via Unix domain sockets
- * 
+ *
  * The socket API uses complex C macros, so it is just easier
  * to do this part in C and import it into PB.
  *
  * This is used on Linux and OSX for the automation support
  */
- 
+
 #include <PureLibrary.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -32,7 +32,7 @@ integer DomainSocket_Create(char *Path)
 {
   int Socket;
   struct sockaddr_un local;
-  
+
   if ((Socket = socket(AF_UNIX, SOCK_STREAM, 0)) >= 0)
   {
     local.sun_family = AF_UNIX;
@@ -49,7 +49,7 @@ integer DomainSocket_Create(char *Path)
       Socket = SOCKET_ERROR;
     }
   }
-  
+
   return Socket;
 }
 
@@ -64,13 +64,13 @@ integer DomainSocket_Accept(int Socket)
   struct timeval timeout = {0, 0};
   struct linger lingeropt = {1, 10};
   int NewSocket = SOCKET_ERROR;
-  
+
   FD_ZERO(&list);
   FD_SET(Socket, &list);
   nfds = Socket+1;
 
   result = select(nfds, &list, NULL, NULL, &timeout);
-  
+
   if (result > 0)
   {
     // accept should succeed now
@@ -80,7 +80,7 @@ integer DomainSocket_Accept(int Socket)
       setsockopt(Socket, SOL_SOCKET, SO_LINGER, (void *)&lingeropt, sizeof(lingeropt));
     }
   }
-    
+
   return NewSocket;
 }
 
@@ -91,7 +91,7 @@ integer DomainSocket_Connect(char *Path)
 {
   int Socket;
   struct sockaddr_un local;
-  
+
   if ((Socket = socket(AF_UNIX, SOCK_STREAM, 0)) >= 0)
   {
     local.sun_family = AF_UNIX;
@@ -104,7 +104,7 @@ integer DomainSocket_Connect(char *Path)
       Socket = SOCKET_ERROR;
     }
   }
-  
+
   return Socket;
 }
 
@@ -125,7 +125,7 @@ integer DomainSocket_Send(int Socket, char *Buffer)
   int Size = *(int *)Buffer;
   int Sent;
   int Result;
-  
+
   Sent = 0;
   while (Sent < Size)
   {
@@ -136,7 +136,7 @@ integer DomainSocket_Send(int Socket, char *Buffer)
     else
       Sent += Result;
   }
-  
+
   return 1;
 }
 
@@ -155,16 +155,16 @@ char *DomainSocket_Receive(int Socket)
   // Receive the size of the buffer (sent first)
   //
   Result = recv(Socket, (void *)&Size, 4, MSG_DONTWAIT | MSG_PEEK);
-  
+
   if (Result == 0)
     return (char *)(-1); // client shutdown
   else if (((Result == -1) && (errno == EAGAIN)) || ((Result > 0) && (Result < 4)))
     return NULL; // no data available (or not enough)
-  
+
   Buffer = PB_AllocateMemory(Size);
   if (Buffer == 0)
     return NULL;
-  
+
   // receive all data
   // this blocks until it is available, but can still return less than the total size
   // if a signal is caught!
@@ -172,7 +172,7 @@ char *DomainSocket_Receive(int Socket)
   while (Received < Size)
   {
     Result = recv(Socket, Buffer + Received, Size - Received, MSG_WAITALL);
-    
+
     if (Result == 0)
     {
       PB_FreeMemory(Buffer);
@@ -181,7 +181,7 @@ char *DomainSocket_Receive(int Socket)
     else
       Received += Result;
   }
-  
+
   return Buffer;
 }
 

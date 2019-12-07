@@ -26,24 +26,24 @@ extern "C" {
 typedef const void *(*idx_fn)(const void *s, int idx, void *context);
 
 typedef enum {
-	DIFF_MATCH = 1,
-	DIFF_DELETE,
-	DIFF_INSERT
+  DIFF_MATCH = 1,
+  DIFF_DELETE,
+  DIFF_INSERT
 } diff_op;
 
 struct diff_edit {
-	short op;
-	int off; /* off into s1 if MATCH or DELETE but s2 if INSERT */
-	int len;
+  short op;
+  int off; /* off into s1 if MATCH or DELETE but s2 if INSERT */
+  int len;
 };
 
 /* consider alternate behavior for each NULL parameter
  */
 LIBMBA_API int diff(const void *a, int aoff, int n,
-		const void *b, int boff, int m,
-		idx_fn idx, cmp_fn cmp, void *context, int dmax,
-		struct varray *ses, int *sn,
-		struct varray *buf);
+    const void *b, int boff, int m,
+    idx_fn idx, cmp_fn cmp, void *context, int dmax,
+    struct varray *ses, int *sn,
+    struct varray *buf);
 
 #ifdef __cplusplus
 }

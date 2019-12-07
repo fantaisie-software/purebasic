@@ -4,7 +4,7 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ;--------------------------------------------------------------------------------------------
 
-; this file should contain all OS X specific extension 
+; this file should contain all OS X specific extension
 ; functions that are "self contained" ie, do not need anything of the
 ; IDE, so they can be reused by the debugger and such
 ;
@@ -36,9 +36,9 @@ ImportC ""
 EndImport
 
 
-Procedure ShowWindowMaximized(Window)   
+Procedure ShowWindowMaximized(Window)
   SetWindowState(Window, #PB_Window_Maximize)
-  HideWindow(Window, 0) 
+  HideWindow(Window, 0)
 EndProcedure
 
 
@@ -199,11 +199,11 @@ Procedure ModifierKeyPressed(Key)
     ProcedureReturn #True
   Else
     ProcedureReturn #False
-  EndIf   
+  EndIf
 EndProcedure
 
 Procedure OpenWebBrowser(Url$)
-  RunProgram("open", Url$, "")   
+  RunProgram("open", Url$, "")
 EndProcedure
 
 CompilerEndIf

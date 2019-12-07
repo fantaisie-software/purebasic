@@ -102,7 +102,7 @@ Procedure CalculateHilightningColors()
   
   If Colors(#COLOR_CustomKeyword)\Enabled = 0
     Colors(#COLOR_CustomKeyword)\DisplayValue = Colors(#COLOR_BasicKeyword)\DisplayValue
-  EndIf  
+  EndIf
 
   If Colors(#COLOR_Comment)\Enabled = 0
     Colors(#COLOR_Comment)\DisplayValue = Colors(#COLOR_NormalText)\DisplayValue
@@ -213,7 +213,7 @@ Procedure CalculateHilightningColors()
   
   If Colors(#COLOR_SelectionRepeat)\Enabled = 0
     Colors(#COLOR_SelectionRepeat)\DisplayValue = Colors(#COLOR_Selection)\DisplayValue
-  EndIf  
+  EndIf
 
 EndProcedure
 
@@ -240,23 +240,23 @@ Procedure SetUpHilightningColors()
 
   ; Setup the coloring (do it here, so it affects hilightning changes)
   ;
-  If *ActiveSource ; only if a source is loaded 
+  If *ActiveSource ; only if a source is loaded
     SendEditorFontMessage(#STYLE_DEFAULT, EditorFontName$, EditorFontSize)
    
     If EditorFontStyle & #PB_Font_Bold
-      SendEditorMessage(#SCI_STYLESETBOLD, #STYLE_DEFAULT, 1)    
+      SendEditorMessage(#SCI_STYLESETBOLD, #STYLE_DEFAULT, 1)
     Else
       SendEditorMessage(#SCI_STYLESETBOLD, #STYLE_DEFAULT, 0)
     EndIf
     If EditorFontStyle & #PB_Font_Italic
-      SendEditorMessage(#SCI_STYLESETITALIC, #STYLE_DEFAULT, 1)    
-    Else 
-      SendEditorMessage(#SCI_STYLESETITALIC, #STYLE_DEFAULT, 0)    
-    EndIf    
+      SendEditorMessage(#SCI_STYLESETITALIC, #STYLE_DEFAULT, 1)
+    Else
+      SendEditorMessage(#SCI_STYLESETITALIC, #STYLE_DEFAULT, 0)
+    EndIf
 
     If EnableColoring
       SendEditorMessage(#SCI_STYLESETBACK, #STYLE_DEFAULT, Colors(#COLOR_GlobalBackground)\DisplayValue)
-      SendEditorMessage(#SCI_STYLECLEARALL, 0, 0) ; to make the background & font change effective! 
+      SendEditorMessage(#SCI_STYLECLEARALL, 0, 0) ; to make the background & font change effective!
     
       SendEditorMessage(#SCI_STYLESETFORE,  1, Colors(#COLOR_NormalText)\DisplayValue)
       SendEditorMessage(#SCI_STYLESETFORE,  2, Colors(#COLOR_BasicKeyword)\DisplayValue)
@@ -267,9 +267,9 @@ Procedure SetUpHilightningColors()
         SendEditorMessage(#SCI_STYLESETBOLD,  2, 1)             ; Bold (no effect on linux, but maybe on windows later)
         SendEditorMessage(#SCI_STYLESETBOLD,  14, 1)
         If EditorFontStyle & #PB_Font_Italic
-          SendEditorMessage(#SCI_STYLESETITALIC, 2, 1)    
-          SendEditorMessage(#SCI_STYLESETITALIC, 14, 1)    
-        EndIf          
+          SendEditorMessage(#SCI_STYLESETITALIC, 2, 1)
+          SendEditorMessage(#SCI_STYLESETITALIC, 14, 1)
+        EndIf
       EndIf
       
       SendEditorMessage(#SCI_STYLESETFORE,  3, Colors(#COLOR_Comment)\DisplayValue)
@@ -282,8 +282,8 @@ Procedure SetUpHilightningColors()
       SendEditorMessage(#SCI_STYLESETFORE, 10, Colors(#COLOR_Number)\DisplayValue)
       SendEditorMessage(#SCI_STYLESETFORE, 11, Colors(#COLOR_Pointer)\DisplayValue)
       SendEditorMessage(#SCI_STYLESETFORE, 12, Colors(#COLOR_Separator)\DisplayValue)
-      SendEditorMessage(#SCI_STYLESETFORE, 13, Colors(#COLOR_Label)\DisplayValue) 
-      SendEditorMessage(#SCI_STYLESETFORE, 14, Colors(#COLOR_CustomKeyword)\DisplayValue) 
+      SendEditorMessage(#SCI_STYLESETFORE, 13, Colors(#COLOR_Label)\DisplayValue)
+      SendEditorMessage(#SCI_STYLESETFORE, 14, Colors(#COLOR_CustomKeyword)\DisplayValue)
       SendEditorMessage(#SCI_STYLESETFORE, 15, Colors(#COLOR_Module)\DisplayValue)
       SendEditorMessage(#SCI_STYLESETFORE, 16, Colors(#COLOR_BadBrace)\DisplayValue)
       
@@ -291,8 +291,8 @@ Procedure SetUpHilightningColors()
       SendEditorMessage(#SCI_STYLESETBACK, #STYLE_BRACEBAD  , Colors(#COLOR_CurrentLine)\DisplayValue)
       SendEditorMessage(#SCI_STYLESETFORE, #STYLE_BRACELIGHT, Colors(#COLOR_GoodBrace)\DisplayValue)
       SendEditorMessage(#SCI_STYLESETFORE, #STYLE_BRACEBAD,   Colors(#COLOR_BadBrace)\DisplayValue)
-      SendEditorMessage(#SCI_STYLESETBOLD, #STYLE_BRACELIGHT, 1) 
-      SendEditorMessage(#SCI_STYLESETBOLD, #STYLE_BRACEBAD, 1)           
+      SendEditorMessage(#SCI_STYLESETBOLD, #STYLE_BRACELIGHT, 1)
+      SendEditorMessage(#SCI_STYLESETBOLD, #STYLE_BRACEBAD, 1)
 
       SendEditorMessage(#SCI_SETCARETLINEBACK, Colors(#COLOR_CurrentLine)\DisplayValue, 0)
       SendEditorMessage(#SCI_SETCARETFORE,     Colors(#COLOR_Cursor)\DisplayValue, 0)
@@ -302,20 +302,20 @@ Procedure SetUpHilightningColors()
       
       CompilerIf #CompileWindows
         If Colors(#COLOR_Selection)\DisplayValue = -1 ; special accessibility scheme
-          SendEditorMessage(#SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT)) 
+          SendEditorMessage(#SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
         Else
           SendEditorMessage(#SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
         EndIf
         
-        If Colors(#COLOR_SelectionFront)\DisplayValue = -1        
-          SendEditorMessage(#SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT)) 
+        If Colors(#COLOR_SelectionFront)\DisplayValue = -1
+          SendEditorMessage(#SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
         Else
           SendEditorMessage(#SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)
         EndIf
       CompilerElse
         SendEditorMessage(#SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
-        SendEditorMessage(#SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)      
-      CompilerEndIf      
+        SendEditorMessage(#SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)
+      CompilerEndIf
 
       SendEditorMessage(#SCI_INDICSETFORE, #INDICATOR_KeywordMatch,    Colors(#COLOR_GoodBrace)\DisplayValue)
       SendEditorMessage(#SCI_INDICSETFORE, #INDICATOR_KeywordMismatch, Colors(#COLOR_BadBrace)\DisplayValue)
@@ -323,11 +323,11 @@ Procedure SetUpHilightningColors()
 
       ; Set the line margin and symbol margin style
       ;
-      SendEditorMessage(#SCI_STYLESETBACK, #STYLE_LINENUMBER, Colors(#COLOR_LineNumberBack)\DisplayValue) 
-      SendEditorMessage(#SCI_STYLESETFORE, #STYLE_LINENUMBER, Colors(#COLOR_LineNumber)\DisplayValue) 
+      SendEditorMessage(#SCI_STYLESETBACK, #STYLE_LINENUMBER, Colors(#COLOR_LineNumberBack)\DisplayValue)
+      SendEditorMessage(#SCI_STYLESETFORE, #STYLE_LINENUMBER, Colors(#COLOR_LineNumber)\DisplayValue)
 
       SendEditorMessage(#SCI_SETFOLDMARGINCOLOUR, 1, Colors(#COLOR_LineNumberBack)\DisplayValue)
-      SendEditorMessage(#SCI_SETFOLDMARGINHICOLOUR, 1, Colors(#COLOR_LineNumberBack)\DisplayValue)    
+      SendEditorMessage(#SCI_SETFOLDMARGINHICOLOUR, 1, Colors(#COLOR_LineNumberBack)\DisplayValue)
     
       SendEditorMessage(#SCI_MARKERSETFORE, #MARKER_Marker,            $000000)
       SendEditorMessage(#SCI_MARKERSETFORE, #MARKER_CurrentLineSymbol, $000000)
@@ -335,16 +335,16 @@ Procedure SetUpHilightningColors()
       SendEditorMessage(#SCI_MARKERSETFORE, #MARKER_ErrorSymbol,       $000000)
       SendEditorMessage(#SCI_MARKERSETFORE, #MARKER_BreakpointSymbol,  $000000)
       
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Marker,            Colors(#COLOR_Marker)\DisplayValue)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_CurrentLine,       Colors(#COLOR_DebuggerLine)\DisplayValue)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_CurrentLineSymbol, Colors(#COLOR_DebuggerLineSymbol)\DisplayValue)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Warning,           Colors(#COLOR_DebuggerWarning)\DisplayValue)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_WarningSymbol,     Colors(#COLOR_DebuggerWarningSymbol)\DisplayValue)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Error,             Colors(#COLOR_DebuggerError)\DisplayValue)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_ErrorSymbol,       Colors(#COLOR_DebuggerErrorSymbol)\DisplayValue)        
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Breakpoint,        Colors(#COLOR_DebuggerBreakpoint)\DisplayValue)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_BreakpointSymbol,  Colors(#COLOR_DebuggerBreakpointSymbol)\DisplayValue)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_ProcedureBack,     Colors(#COLOR_ProcedureBack)\DisplayValue)    
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Marker,            Colors(#COLOR_Marker)\DisplayValue)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_CurrentLine,       Colors(#COLOR_DebuggerLine)\DisplayValue)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_CurrentLineSymbol, Colors(#COLOR_DebuggerLineSymbol)\DisplayValue)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Warning,           Colors(#COLOR_DebuggerWarning)\DisplayValue)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_WarningSymbol,     Colors(#COLOR_DebuggerWarningSymbol)\DisplayValue)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Error,             Colors(#COLOR_DebuggerError)\DisplayValue)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_ErrorSymbol,       Colors(#COLOR_DebuggerErrorSymbol)\DisplayValue)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Breakpoint,        Colors(#COLOR_DebuggerBreakpoint)\DisplayValue)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_BreakpointSymbol,  Colors(#COLOR_DebuggerBreakpointSymbol)\DisplayValue)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_ProcedureBack,     Colors(#COLOR_ProcedureBack)\DisplayValue)
       
       SendEditorMessage(#SCI_MARKERSETFORE, #SC_MARKNUM_FOLDEROPEN,    Colors(#COLOR_LineNumberBack)\DisplayValue)
       SendEditorMessage(#SCI_MARKERSETFORE, #SC_MARKNUM_FOLDER,        Colors(#COLOR_LineNumberBack)\DisplayValue)
@@ -353,7 +353,7 @@ Procedure SetUpHilightningColors()
             
       SendEditorMessage(#SCI_MARKERSETFORE, #MARKER_FoldVLine,         Colors(#COLOR_LineNumberBack)\DisplayValue)
       SendEditorMessage(#SCI_MARKERSETFORE, #MARKER_FoldVCorner,       Colors(#COLOR_LineNumberBack)\DisplayValue)
-      SendEditorMessage(#SCI_MARKERSETFORE, #MARKER_FoldTCorner,       Colors(#COLOR_LineNumberBack)\DisplayValue)     
+      SendEditorMessage(#SCI_MARKERSETFORE, #MARKER_FoldTCorner,       Colors(#COLOR_LineNumberBack)\DisplayValue)
      
       SendEditorMessage(#SCI_MARKERSETBACK, #SC_MARKNUM_FOLDEROPEN,    Colors(#COLOR_LineNumber)\DisplayValue)
       SendEditorMessage(#SCI_MARKERSETBACK, #SC_MARKNUM_FOLDER,        Colors(#COLOR_LineNumber)\DisplayValue)
@@ -362,13 +362,13 @@ Procedure SetUpHilightningColors()
             
       SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_FoldVLine,         Colors(#COLOR_LineNumber)\DisplayValue)
       SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_FoldVCorner,       Colors(#COLOR_LineNumber)\DisplayValue)
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_FoldTCorner,       Colors(#COLOR_LineNumber)\DisplayValue) 
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_FoldTCorner,       Colors(#COLOR_LineNumber)\DisplayValue)
       
       If Colors(#COLOR_ProcedureBack)\Enabled = 0 Or Colors(#COLOR_ProcedureBack)\DisplayValue = Colors(#COLOR_GlobalBackground)\DisplayValue
-        SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_ProcedureBack, #SC_MARK_EMPTY)        
+        SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_ProcedureBack, #SC_MARK_EMPTY)
       Else
-        SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_ProcedureBack, #SC_MARK_BACKGROUND)        
-      EndIf      
+        SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_ProcedureBack, #SC_MARK_BACKGROUND)
+      EndIf
       
       If Colors(#COLOR_CurrentLine)\Enabled = 0 Or Colors(#COLOR_CurrentLine)\DisplayValue = Colors(#COLOR_GlobalBackground)\DisplayValue
         SendEditorMessage(#SCI_SETCARETLINEVISIBLE, 0, 0) ; disable the different color for the current line
@@ -376,7 +376,7 @@ Procedure SetUpHilightningColors()
         SendEditorMessage(#SCI_SETCARETLINEVISIBLE, 1, 0) ; enable the different color for the current line
       EndIf
       
-      ; these are defined to "empty" when not used... 
+      ; these are defined to "empty" when not used...
       If Colors(#COLOR_DebuggerLine)\Enabled = 0 Or Colors(#COLOR_DebuggerLine)\DisplayValue = Colors(#COLOR_GlobalBackground)\DisplayValue
         SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_CurrentLine, #SC_MARK_EMPTY)
       Else
@@ -412,7 +412,7 @@ Procedure SetUpHilightningColors()
           SendEditorMessage(#SCI_MARKERDEFINE, Issues()\Marker, #SC_MARK_BACKGROUND)
           SendEditorMessage(#SCI_MARKERSETBACK, Issues()\Marker, Issues()\Color)
         EndIf
-      Next Issues()      
+      Next Issues()
 
       
     Else  ; Coloring Disabled
@@ -420,13 +420,13 @@ Procedure SetUpHilightningColors()
       SendEditorMessage(#SCI_STYLESETBACK, #STYLE_DEFAULT, $FFFFFF)
       SendEditorMessage(#SCI_STYLESETFORE, #STYLE_DEFAULT, $000000)
   
-      SendEditorMessage(#SCI_STYLESETBACK, #STYLE_LINENUMBER, $FFFFFF) 
-      SendEditorMessage(#SCI_STYLESETFORE, #STYLE_LINENUMBER, $000000) 
+      SendEditorMessage(#SCI_STYLESETBACK, #STYLE_LINENUMBER, $FFFFFF)
+      SendEditorMessage(#SCI_STYLESETFORE, #STYLE_LINENUMBER, $000000)
             
       SendEditorMessage(#SCI_SETWHITESPACEFORE, #True, $000000)
 
       SendEditorMessage(#SCI_SETFOLDMARGINCOLOUR, 1, $FFFFFF)
-      SendEditorMessage(#SCI_SETFOLDMARGINHICOLOUR, 1, $FFFFFF)    
+      SendEditorMessage(#SCI_SETFOLDMARGINHICOLOUR, 1, $FFFFFF)
       
       SendEditorMessage(#SCI_INDICSETFORE, #INDICATOR_KeywordMatch,    $000000)
       SendEditorMessage(#SCI_INDICSETFORE, #INDICATOR_KeywordMismatch, $FFFFFF)
@@ -438,15 +438,15 @@ Procedure SetUpHilightningColors()
       SendEditorMessage(#SCI_MARKERSETFORE, #MARKER_ErrorSymbol,       $000000)
       SendEditorMessage(#SCI_MARKERSETFORE, #MARKER_BreakpointSymbol,  $000000)
       
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Marker,            $FFFFFF)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_CurrentLine,       $FFFFFF)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_CurrentLineSymbol, $FFFFFF)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Error,             $FFFFFF) 
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_ErrorSymbol,       $FFFFFF)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Warning,           $FFFFFF) 
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_WarningSymbol,     $FFFFFF)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Breakpoint,        $FFFFFF)  
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_BreakpointSymbol,  $FFFFFF)  
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Marker,            $FFFFFF)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_CurrentLine,       $FFFFFF)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_CurrentLineSymbol, $FFFFFF)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Error,             $FFFFFF)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_ErrorSymbol,       $FFFFFF)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Warning,           $FFFFFF)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_WarningSymbol,     $FFFFFF)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_Breakpoint,        $FFFFFF)
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_BreakpointSymbol,  $FFFFFF)
       
       SendEditorMessage(#SCI_MARKERSETFORE, #SC_MARKNUM_FOLDEROPEN,    $FFFFFF)
       SendEditorMessage(#SCI_MARKERSETFORE, #SC_MARKNUM_FOLDER,        $FFFFFF)
@@ -466,9 +466,9 @@ Procedure SetUpHilightningColors()
       SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_FoldVCorner,       $000000)
       SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_FoldTCorner,       $000000)
        
-      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_ProcedureBack,     $FFFFFF) 
+      SendEditorMessage(#SCI_MARKERSETBACK, #MARKER_ProcedureBack,     $FFFFFF)
 
-      ; these are defined to "empty" when not used...      
+      ; these are defined to "empty" when not used...
       SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_CurrentLine, #SC_MARK_EMPTY)
       SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Error      , #SC_MARK_EMPTY)
       SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Warning    , #SC_MARK_EMPTY)
@@ -479,14 +479,14 @@ Procedure SetUpHilightningColors()
       SendEditorMessage(#SCI_SETCARETFORE,     $000000, 0)
       
       CompilerIf #CompileWindows
-        SendEditorMessage(#SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT)) 
-        SendEditorMessage(#SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT)) 
+        SendEditorMessage(#SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
+        SendEditorMessage(#SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
       CompilerElse
-        SendEditorMessage(#SCI_SETSELBACK,    1, $C0C0C0) 
-        SendEditorMessage(#SCI_SETSELFORE,    1, $000000)       
+        SendEditorMessage(#SCI_SETSELBACK,    1, $C0C0C0)
+        SendEditorMessage(#SCI_SETSELFORE,    1, $000000)
       CompilerEndIf
       
-      SendEditorMessage(#SCI_SETCARETLINEVISIBLE, 0, 0) ; disable the different color for the current line                
+      SendEditorMessage(#SCI_SETCARETLINEVISIBLE, 0, 0) ; disable the different color for the current line
       
       ; disable issue markers
       ; no need to do anything for the issue styles, as they will have the default colors
@@ -494,8 +494,8 @@ Procedure SetUpHilightningColors()
         If Issues()\Marker <> -1
           SendEditorMessage(#SCI_MARKERDEFINE, Issues()\Marker, #SC_MARK_EMPTY)
         EndIf
-      Next Issues()        
-    EndIf           
+      Next Issues()
+    EndIf
     
     If EnableLineNumbers
       HideLineNumbers(*ActiveSource, 0)
@@ -566,19 +566,19 @@ Procedure HilightCallback(*StringStart.Ascii, Length, *Color, IsBold, TextChange
     ChangeLength = Length
     While ChangeLength > 1 And ValidCharacters(PeekA(*StringStart+ChangeLength-1)) = 0
       ChangeLength-1
-    Wend     
+    Wend
     ;
     ; note that this change appears in the undo buffer, but this can't be changed, because if you
     ; disable the undo buffer, you also clear it !
     ;
     ScintillaSendMessage(HilightGadget, #SCI_SETTARGETSTART, *StringStart-*HilightBuffer+HilightOffset, 0)
     ScintillaSendMessage(HilightGadget, #SCI_SETTARGETEND, *StringStart-*HilightBuffer+HilightOffset+ChangeLength, 0)
-    ScintillaSendMessage(HilightGadget, #SCI_REPLACETARGET, ChangeLength, *StringStart)  
-  EndIf  
+    ScintillaSendMessage(HilightGadget, #SCI_REPLACETARGET, ChangeLength, *StringStart)
+  EndIf
     
 
   ; Only the good color style is used (faster according to the docs)
-  ;   
+  ;
   If EnableColoring
     ScintillaSendMessage(HilightGadget, #SCI_SETSTYLING, Length, *Color)
   EndIf
@@ -596,8 +596,8 @@ Procedure UpdateIsCodeStatus()
   
     ; re-scan everything
     FullSourceScan(*ActiveSource)                     ; re-scan autocomplete + procedurebrowser
-    SortParserData(*ActiveSource\Parser, *ActiveSource) ; update sorted data in case its not the active source       
-    UpdateFolding(*ActiveSource, 0, -1)               ; redo all folding    
+    SortParserData(*ActiveSource\Parser, *ActiveSource) ; update sorted data in case its not the active source
+    UpdateFolding(*ActiveSource, 0, -1)               ; redo all folding
   
   Else
     ; free any parser data
@@ -610,7 +610,7 @@ Procedure UpdateIsCodeStatus()
     Next i
     For i = 0 To highestline
       SendEditorMessage(#SCI_SETFOLDLEVEL, i, #SC_FOLDLEVELBASE)
-    Next i    
+    Next i
           
     ; clear code-related markers
     SendEditorMessage(#SCI_MARKERDELETEALL, #MARKER_CurrentLine)
@@ -641,7 +641,7 @@ Procedure UpdateIsCodeStatus()
     SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMatch)
     SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
     SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMismatch)
-    SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH)) 
+    SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
     
   EndIf
 
@@ -650,7 +650,7 @@ Procedure UpdateIsCodeStatus()
   UpdateProcedureList() ; update list for current source
   UpdateVariableViewer()
   UpdateMenuStates()
-  SetDebuggerMenuStates()      
+  SetDebuggerMenuStates()
 
 EndProcedure
 
@@ -676,10 +676,10 @@ Procedure UpdateHilightning()   ; hilight everything after a prefs update
         If IsFoldPoint(i)
           SetFoldState(i, 1)
         EndIf
-      Next i    
+      Next i
     
       anchorPos = SendEditorMessage(#SCI_GETANCHOR, 0, 0) ; save & restore the cursor pos
-      currentPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)  
+      currentPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
   
       InBufferLength = SendEditorMessage(#SCI_GETTEXTLENGTH, 0, 0)
   
@@ -698,7 +698,7 @@ Procedure UpdateHilightning()   ; hilight everything after a prefs update
       EndIf
   
       ; now call the hilightning engine
-      ;    
+      ;
       Modified = GetSourceModified()  ; because the case correction changes the modified state!
       HilightningEngine(*InBuffer, InBufferLength, SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0), @HilightCallback(), 1)
       SetSourceModified(Modified)
@@ -708,7 +708,7 @@ Procedure UpdateHilightning()   ; hilight everything after a prefs update
       SendEditorMessage(#SCI_SETUNDOCOLLECTION, #True, 0)
     
       SendEditorMessage(#SCI_SETANCHOR, anchorPos, 0)
-      SendEditorMessage(#SCI_SETCURRENTPOS, currentPos, 0)  
+      SendEditorMessage(#SCI_SETCURRENTPOS, currentPos, 0)
       
       ApplyFoldingInformation(FoldingInfo$)
     
@@ -746,7 +746,7 @@ Procedure UpdateFolding(*Source.SourceFile, firstline, lastline)
   highestline = ScintillaSendMessage(Gadget, #SCI_GETLINECOUNT) - 1
   If *Source\Parser\SourceItemCount < highestline+1
     highestline = *Source\Parser\SourceItemCount - 1
-  EndIf  
+  EndIf
   
   If firstline < 0 ; could happen when re-hilighting the first line
     firstline = 0
@@ -760,9 +760,9 @@ Procedure UpdateFolding(*Source.SourceFile, firstline, lastline)
   
     If firstline = 0
       FoldLevel = #SC_FOLDLEVELBASE
-    Else      
+    Else
       FoldLevel = ScintillaSendMessage(Gadget, #SCI_GETFOLDLEVEL, firstline, 0) & (~#SC_FOLDLEVELHEADERFLAG)
-    EndIf   
+    EndIf
     
     ; We need to find outwether line is inside a macro for proper handling
     ; of the foldpoints from here on
@@ -801,7 +801,7 @@ Procedure UpdateFolding(*Source.SourceFile, firstline, lastline)
         ElseIf ProcedureFound = 0 And InsideProcedure > 0 ; more 'Procedure' than 'EndProcedure'
           InsideProcedure = 1
           ProcedureFound  = 1 ; do not abort here as we must check for a macro as well
-        EndIf      
+        EndIf
       Next i
     EndIf
     
@@ -836,14 +836,14 @@ Procedure UpdateFolding(*Source.SourceFile, firstline, lastline)
             InsideProcedure = 0
             ; even when the procedure ends here, still mark the line
           
-          EndIf  
+          EndIf
         EndIf
               
         If *Item\Type = #ITEM_Macro
-          InsideMacro = 1                  
+          InsideMacro = 1
           
         ElseIf *Item\Type = #ITEM_MacroEnd
-          InsideMacro = 0  
+          InsideMacro = 0
           
           ; Special fix when "EndMacro" is a folding keyword. As the #ITEM_FoldEnd
           ; comes before the EndMacro, it is ignored. So use the EndMacro as the
@@ -853,14 +853,14 @@ Procedure UpdateFolding(*Source.SourceFile, firstline, lastline)
             FoldLevel - 1
             If FoldLevel < #SC_FOLDLEVELBASE
               FoldLevel = #SC_FOLDLEVELBASE
-            EndIf          
-          EndIf        
+            EndIf
+          EndIf
           
         ElseIf *Item\Type = #ITEM_Issue And SelectElement(Issues(), *Item\Issue)
-          If Issues()\Marker <> -1 
+          If Issues()\Marker <> -1
             If IssueMarker = -1 Or Issues()\Priority < IssuePriority
               ; if multiple markers, the first or the one with higher priority wins
-              IssueMarker   = Issues()\Marker 
+              IssueMarker   = Issues()\Marker
               IssuePriority = Issues()\Priority
             EndIf
           EndIf
@@ -868,7 +868,7 @@ Procedure UpdateFolding(*Source.SourceFile, firstline, lastline)
         EndIf
         
         *Item = *Item\Next
-      Wend    
+      Wend
       
       ; the fold level changes only affect the following lines, not the current one
       ScintillaSendMessage(Gadget, #SCI_SETFOLDLEVEL, line, CurrentLineLevel|FoldFlag)
@@ -879,7 +879,7 @@ Procedure UpdateFolding(*Source.SourceFile, firstline, lastline)
       
       ; Issue markers
       For i = #MARKER_FirstIssue To #MARKER_LastIssue
-        If i = IssueMarker 
+        If i = IssueMarker
           If Markers & (1<<i) = 0
             ScintillaSendMessage(Gadget, #SCI_MARKERADD, line, i)
             NeedRefresh = 1
@@ -891,7 +891,7 @@ Procedure UpdateFolding(*Source.SourceFile, firstline, lastline)
       Next i
 
       ; Procedure background marker
-      If MarkProcedureBackground And MarkProcedure 
+      If MarkProcedureBackground And MarkProcedure
         If Markers & (1<<#MARKER_ProcedureBack) = 0
           ScintillaSendMessage(Gadget, #SCI_MARKERADD, line, #MARKER_ProcedureBack)
           NeedRefresh = 1
@@ -926,7 +926,7 @@ Procedure UpdateFolding(*Source.SourceFile, firstline, lastline)
 
             If Markers & (1 << #MARKER_FoldVLine)       : ScintillaSendMessage(Gadget, #SCI_MARKERDELETE, line, #MARKER_FoldVLine)   : EndIf
             If Markers & (1 << #MARKER_FoldVCorner)     : ScintillaSendMessage(Gadget, #SCI_MARKERDELETE, line, #MARKER_FoldVCorner) : EndIf
-            If Markers & (1 << #MARKER_FoldTCorner) = 0 : ScintillaSendMessage(Gadget, #SCI_MARKERADD,    line, #MARKER_FoldTCorner) : EndIf 
+            If Markers & (1 << #MARKER_FoldTCorner) = 0 : ScintillaSendMessage(Gadget, #SCI_MARKERADD,    line, #MARKER_FoldTCorner) : EndIf
                   
           EndIf
   
@@ -957,22 +957,22 @@ Procedure UpdateFolding(*Source.SourceFile, firstline, lastline)
         ScintillaSendMessage(Gadget, #SCI_MARKERDELETE, line, #MARKER_FoldVCorner)
         ScintillaSendMessage(Gadget, #SCI_MARKERDELETE, line, #MARKER_FoldTCorner)
 
-      EndIf     
+      EndIf
       
       ; When removing a fold mark of a folded line, all sublines are no longer viewable.
       ; To prevent this on folding updates, this command checks the folding structure
-      ; and shows such lines.      
+      ; and shows such lines.
       ;
       ; only check if the line is currently hidden
-      If ScintillaSendMessage(Gadget, #SCI_GETLINEVISIBLE, line, 0) = 0      
+      If ScintillaSendMessage(Gadget, #SCI_GETLINEVISIBLE, line, 0) = 0
         ; If there is no parent, we must show the line
         ; If the parent is visible and unfolded, we must show it as well
         ;
         parentline = ScintillaSendMessage(Gadget, #SCI_GETFOLDPARENT, line, 0)
         If parentline = -1 Or (ScintillaSendMessage(Gadget, #SCI_GETLINEVISIBLE, parentline, 0) And ScintillaSendMessage(Gadget, #SCI_GETFOLDEXPANDED, parentline, 0))
           ScintillaSendMessage(Gadget, #SCI_SHOWLINES, line, line)
-        EndIf      
-      EndIf   
+        EndIf
+      EndIf
       
       ; If we passed the 'lastline', and the folding level does not change anymore,
       ; we can stop the update as the following lines should not change anymore as well
@@ -982,9 +982,9 @@ Procedure UpdateFolding(*Source.SourceFile, firstline, lastline)
       ; Note: just checking until we reach the base level is not enough, as there may be further change required
       If line > lastline+1 And ScintillaSendMessage(Gadget, #SCI_GETFOLDLEVEL, line+1, 0) & (~#SC_FOLDLEVELHEADERFLAG) = FoldLevel
         Break
-      EndIf   
+      EndIf
 
-    Next line 
+    Next line
     
     ; there seems to be a refresh bug here sometimes, so force it
     If NeedRefresh
@@ -1027,7 +1027,7 @@ Procedure ChangeActiveLine(Line, TopOffset)  ; Line is 1 based
   SendEditorMessage(#SCI_LINESCROLL, 0, Line+TopOffset)
   SendEditorMessage(#SCI_GOTOLINE, Line-1, 0)
   SetActiveGadget(*ActiveSource\EditorGadget)
-  SendEditorMessage(#SCI_GRABFOCUS, 0, 0)  
+  SendEditorMessage(#SCI_GRABFOCUS, 0, 0)
 EndProcedure
 
 
@@ -1037,7 +1037,7 @@ Procedure SetBackgroundColor(Gadget = -1)
   EndIf
 
   If EnableColoring
-    If ScintillaSendMessage(Gadget, #SCI_GETREADONLY, 0, 0)    
+    If ScintillaSendMessage(Gadget, #SCI_GETREADONLY, 0, 0)
       Color = Colors(#COLOR_DisabledBack)\DisplayValue
       If Colors(#COLOR_DisabledBack)\DisplayValue <> Colors(#COLOR_GlobalBackground)\DisplayValue
         ScintillaSendMessage(Gadget, #SCI_MARKERDEFINE, #MARKER_ProcedureBack, #SC_MARK_EMPTY) ; disable special procedure background color
@@ -1047,8 +1047,8 @@ Procedure SetBackgroundColor(Gadget = -1)
       Color = Colors(#COLOR_GlobalBackground)\DisplayValue
       
       If Colors(#COLOR_ProcedureBack)\Enabled <> 0 Or Colors(#COLOR_ProcedureBack)\DisplayValue <> Colors(#COLOR_GlobalBackground)\DisplayValue
-        ScintillaSendMessage(Gadget, #SCI_MARKERDEFINE, #MARKER_ProcedureBack, #SC_MARK_BACKGROUND)        
-      EndIf        
+        ScintillaSendMessage(Gadget, #SCI_MARKERDEFINE, #MARKER_ProcedureBack, #SC_MARK_BACKGROUND)
+      EndIf
       
     Else
       Color = Colors(#COLOR_PlainBackground)\DisplayValue
@@ -1056,7 +1056,7 @@ Procedure SetBackgroundColor(Gadget = -1)
     EndIf
   Else
     Color = $FFFFFF
-  EndIf  
+  EndIf
   
   ; Apply the change to all styles, for the background change to disabled mode
   ; (which does not setup all coloring again!)
@@ -1118,7 +1118,7 @@ Procedure GetCursorPosition()
   LineStart = SendEditorMessage(#SCI_POSITIONFROMLINE, *ActiveSource\CurrentLine-1, 0)
   *ActiveSource\CurrentColumnBytes = Position - LineStart + 1
   *ActiveSource\CurrentColumnChars = CountCharacters(*ActiveSource\EditorGadget, LineStart, Position) + 1
-  *ActiveSource\CurrentColumnDisplay = SendEditorMessage(#SCI_GETCOLUMN, Position, 0) + 1  
+  *ActiveSource\CurrentColumnDisplay = SendEditorMessage(#SCI_GETCOLUMN, Position, 0) + 1
 EndProcedure
 
 
@@ -1161,7 +1161,7 @@ Procedure SetSelection(LineStart, RowStart, LineEnd, RowEnd)
     EndIf
   Else
     EndPosition = SendEditorMessage(#SCI_POSITIONRELATIVE, EndPosition, RowEnd - 1)
-  EndIf  
+  EndIf
   
   SendEditorMessage(#SCI_SETSEL, StartPosition, EndPosition)
   
@@ -1197,7 +1197,7 @@ Procedure.s GetLine(Index, *Source.SourceFile = 0)
 EndProcedure
 
 ; return true if Index line ends with a continuation
-Procedure HasLineContinuation(Index, *Source.SourceFile = 0) 
+Procedure HasLineContinuation(Index, *Source.SourceFile = 0)
   If (*Source And *Source\IsCode = 0) Or (*Source = 0 And *ActiveSource\IsCode = 0)
     ProcedureReturn #False ; non-pb file
   EndIf
@@ -1266,7 +1266,7 @@ Procedure.s GetContinuationLine(Index, *Offset.INTEGER = 0, *Source.SourceFile =
 ;  Debug "[GetContinuationLine] " + Str(*Offset\i)
        
   ProcedureReturn Line$
-EndProcedure  
+EndProcedure
 
 Procedure SetLine(Index, NewLine$)
   
@@ -1422,17 +1422,17 @@ Procedure GetIndentBalance(*Cursor.Character, *Before.INTEGER, *After.INTEGER)
     
     Else
     
-      *Before\i + IndentKeywords(c)\Before      
+      *Before\i + IndentKeywords(c)\Before
       If *After\i And *Before\i  ; If this is not the first keyword on this line, any before 'indent' of this keyword cancels out a previous 'after'
         *After\i + *Before\i
         *Before\i = 0
-      EndIf            
-      *After\i  + IndentKeywords(c)\After      
+      EndIf
+      *After\i  + IndentKeywords(c)\After
       
       *Cursor   + IndentKeywords(c)\Length * SizeOf(Character)
       
     EndIf
-  Wend  
+  Wend
 
 EndProcedure
 
@@ -1457,7 +1457,7 @@ EndProcedure
 ; Note that the only line separation here is always a single chr(10) (unix style)
 ;
 ; Example:
-; a$ = foo(a, (b + 
+; a$ = foo(a, (b +
 ;              1),
 ;          c)
 ;
@@ -1512,7 +1512,7 @@ Procedure.s GetIndentContinuationPrefix(Previous$)
           If *Cursor\c = '"'
             *Cursor\c = 'a'
             *Cursor + #CharSize
-          EndIf          
+          EndIf
         Else
           *Cursor + #CharSize
         EndIf
@@ -1564,7 +1564,7 @@ Procedure.s GetIndentContinuationPrefix(Previous$)
   
   ; skip token
   If ValidCharacters(*Cursor\c)
-    ; a logical operator 
+    ; a logical operator
     While *Cursor > *Start And ValidCharacters(*Cursor\c)
       *Cursor - #CharSize
     Wend
@@ -1650,19 +1650,19 @@ Procedure.s GetIndentContinuationPrefix(Previous$)
           Wend
           
           If *Cursor\c <> '\' And *Cursor\c <> '.' And *Cursor\c <> '#' And *Cursor\c <> '*'
-            ; identify the keyword            
+            ; identify the keyword
             Word$ = PeekS(*WordStart, (*WordEnd - *WordStart) / #CharSize + 1)
             Keyword = IsBasicKeyword(Word$)
           
             ; check if it is a keyword that begins an expression that can have a line continuation
             Select Keyword
-              Case #KEYWORD_Align, 
-                  #KEYWORD_Break, 
+              Case #KEYWORD_Align,
+                  #KEYWORD_Break,
                   #KEYWORD_Debug,
                   #KEYWORD_Define,
                   #KEYWORD_Dim, ; in case of "Global Dim"
-                  #KEYWORD_Case, 
-                  #KEYWORD_CompilerCase, 
+                  #KEYWORD_Case,
+                  #KEYWORD_CompilerCase,
                   #KEYWORD_CompilerElseIf,
                   #KEYWORD_CompilerError,
                   #KEYWORD_CompilerIf,
@@ -1673,7 +1673,7 @@ Procedure.s GetIndentContinuationPrefix(Previous$)
                   #KEYWORD_End,
                   #KEYWORD_Enumeration,
                   #KEYWORD_EnumerationBinary,
-                  #KEYWORD_Global, 
+                  #KEYWORD_Global,
                   #KEYWORD_If,
                   #KEYWORD_Import,
                   #KEYWORD_ImportC,
@@ -1687,7 +1687,7 @@ Procedure.s GetIndentContinuationPrefix(Previous$)
                   #KEYWORD_Shared,
                   #KEYWORD_Static,
                   #KEYWORD_Step,
-                  #KEYWORD_Threaded,                  
+                  #KEYWORD_Threaded,
                   #KEYWORD_Until,
                   #KEYWORD_While,
                   #KEYWORD_XIncludeFile
@@ -1704,7 +1704,7 @@ Procedure.s GetIndentContinuationPrefix(Previous$)
                 ;             1
                 ;
                 ;   For i = 1 To 1 +
-                ;                1                
+                ;                1
                 ;
                 ; In one case we cant to ignore the "To" in the other case it is the stop keyword.
                 ; Fortunately, in one case, the token is "," and in the other it is "+" or "|" and there is
@@ -1727,16 +1727,16 @@ Procedure.s GetIndentContinuationPrefix(Previous$)
                   ; skip whitespace
                   While *ExpressionStart\c = ' ' Or *ExpressionStart\c = 9
                     *ExpressionStart + #CharSize
-                  Wend                  
+                  Wend
                   ; skip type
                   If *ExpressionStart\c = '.'
                     *ExpressionStart + #CharSize
                     While *ExpressionStart\c = ' ' Or *ExpressionStart\c = 9
                       *ExpressionStart + #CharSize
-                    Wend 
+                    Wend
                     While ValidCharacters(*ExpressionStart\c)
                       *ExpressionStart + #CharSize
-                    Wend                    
+                    Wend
                   EndIf
                 EndIf
                 Break
@@ -1807,7 +1807,7 @@ EndProcedure
 ; If the line has no comment sign, then the result is -1
 Procedure GetCommentPosition(Line$)
 
-  HasCode = 0  
+  HasCode = 0
   *Cursor.Character = @Line$
   
   Repeat
@@ -1824,7 +1824,7 @@ Procedure GetCommentPosition(Line$)
         If HasCode = 0
           ; it is an inline asm or JS line, so do not see ; as a comment anymore
           ProcedureReturn -1
-        Else  
+        Else
           *Cursor + #CharSize
         EndIf
 
@@ -1866,7 +1866,7 @@ Procedure GetCommentPosition(Line$)
         EndIf
       
       Case 9, ' '
-        *Cursor + #CharSize 
+        *Cursor + #CharSize
         
       Default
         HasCode = 1
@@ -1881,16 +1881,16 @@ EndProcedure
 Procedure IsWhitespaceOnly(Line$)
   
   ; cut comments
-  Comment = GetCommentPosition(Line$) 
+  Comment = GetCommentPosition(Line$)
   If Comment >= 0
     Line$ = Left(Line$, Comment)
   EndIf
   
   If RemoveString(RemoveString(Line$, " "), Chr(9)) = ""
     ProcedureReturn #True
-  Else  
+  Else
     ProcedureReturn #False
-  EndIf  
+  EndIf
 EndProcedure
 
 ; Count the columns that the string takes including real tab chars (starts at 0)
@@ -1915,10 +1915,10 @@ EndProcedure
 ; in Line$ with the one in Previous$. If not possible, return Line$ without modification
 Procedure.s AlignLineComments(Line$, Previous$)
 
-  PreviousComment = GetCommentPosition(Previous$)  
-  LineComment     = GetCommentPosition(Line$)  
+  PreviousComment = GetCommentPosition(Previous$)
+  LineComment     = GetCommentPosition(Line$)
   
-  If PreviousComment < 0 Or LineComment < 0 
+  If PreviousComment < 0 Or LineComment < 0
     ; one does not have a comment
     ProcedureReturn Line$
   EndIf
@@ -1969,7 +1969,7 @@ Procedure UpdateIndent(FirstLine, LastLine)
   Wend
   
   ; do not move lastline, even if it has continuations, as this is the
-  ; line that is being edited (in sensitive indentation mode), so moving the line below is wrong (next edited line)  
+  ; line that is being edited (in sensitive indentation mode), so moving the line below is wrong (next edited line)
 
   If FirstLine > 0
     ; Use the previous non-empty line as anchor for the balance and the prefix
@@ -1985,10 +1985,10 @@ Procedure UpdateIndent(FirstLine, LastLine)
       Line$ = GetContinuationLine(line) ; make sure we have a line with all continuations for the prefix and balance
     EndIf
   
-    Prefix$ = GetIndentPrefix(Line$)    
+    Prefix$ = GetIndentPrefix(Line$)
     GetIndentBalance(@Line$, @BalanceBefore, @BalanceAfter)
     CommentAnchor$ = GetLine(FirstLine - 1)
-  Else  
+  Else
     Prefix$ = ""
     CommentAnchor$ = ""
     BalanceBefore = 0
@@ -2018,7 +2018,7 @@ Procedure UpdateIndent(FirstLine, LastLine)
     ; Modify the Prefix$ according to the before balance for this line
     If Balance > 0
       If RealTab
-        Prefix$ + RSet("", Balance, Chr(9))        
+        Prefix$ + RSet("", Balance, Chr(9))
       Else
         Prefix$ + Space(Balance * TabLength)
       EndIf
@@ -2048,22 +2048,22 @@ Procedure UpdateIndent(FirstLine, LastLine)
     If *LineStart\c = 0
 
       ; Apply the line change (whitespace only line)
-      SetLine(Line, Prefix$) 
+      SetLine(Line, Prefix$)
       CommentAnchor$ = ""
     
     Else
 
       ; Apply the line change and adjust comment position (if needed)
       CommentAnchor$ = AlignLineComments(Prefix$ + PeekS(*LineStart), CommentAnchor$)
-      SetLine(Line, CommentAnchor$) 
+      SetLine(Line, CommentAnchor$)
     
-    EndIf        
+    EndIf
     
     ; now process any continuations of the line
     If Line < LastLine And IsContinuedLineStart(Line$)
       
       ; for a smart indentation, we must track all continued lines in this block
-      Previous$ = Prefix$ + PeekS(*LineStart)    
+      Previous$ = Prefix$ + PeekS(*LineStart)
       Repeat
         Line + 1
         
@@ -2103,7 +2103,7 @@ Procedure UpdateBraceHilight(Cursor, SecondTry=#False)
     
     If Cursor > LineStart ; we want to hilight the brace before, not after the cursor!
       Cursor-1
-    EndIf   
+    EndIf
     
     ;
     ; Note: the automatic SCI_BRACEMATCH does not handle '' or ; correctly, also
@@ -2161,12 +2161,12 @@ Procedure UpdateBraceHilight(Cursor, SecondTry=#False)
             BraceStack() = *Cursor\c
           
           ElseIf (*Cursor\c = ')' And BraceStack() = '(') Or (*Cursor\c = ']' And BraceStack() = '[') Or (*Cursor\c = '}' And BraceStack() = '{')
-            DeleteElement(BraceStack())          
+            DeleteElement(BraceStack())
             If ListSize(BraceStack()) = 0 ; we found the matching brace
               bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
               goodbrace = 1
               Break
-            EndIf            
+            EndIf
             
           ElseIf *Cursor\c = ')' Or *Cursor\c = ']' Or *Cursor\c = '}'
             ; we found a mismatch here, so hilight both with BRACEGOOD, but change the color to indicate a mismatch
@@ -2179,14 +2179,14 @@ Procedure UpdateBraceHilight(Cursor, SecondTry=#False)
           *Cursor + #CharSize
         Wend
             
-      Else ; backward search 
+      Else ; backward search
         *Cursor.Character = @Line$ + (CountCharacters(*ActiveSource\EditorGadget, LineStart, Cursor)-1) * #CharSize
       
         ; Note: Comments after a line continuation will mess up the backward search
         ; So first do a forward run to block out comments, strings and char constants
         *Forward.PTR = @Line$
         While *Forward < *Cursor
-          If *Forward\c = '"' 
+          If *Forward\c = '"'
             *Forward\c = ' ': *Forward +  #CharSize
             While *Forward\c And *Forward\c <> '"'
               *Forward\c = ' ': *Forward + #CharSize
@@ -2222,7 +2222,7 @@ Procedure UpdateBraceHilight(Cursor, SecondTry=#False)
           ElseIf *Forward\c = ';'
             While *Forward\c And *Forward\c <> 10 And *Forward\c <> 13
               *Forward\c = ' ': *Forward + #CharSize
-            Wend        
+            Wend
           
           Else
             *Forward + #CharSize
@@ -2237,7 +2237,7 @@ Procedure UpdateBraceHilight(Cursor, SecondTry=#False)
             BraceStack() = *Cursor\c
           
           ElseIf (*Cursor\c = '(' And BraceStack() = ')') Or (*Cursor\c = '[' And BraceStack() = ']') Or (*Cursor\c = '{' And BraceStack() = '}')
-            DeleteElement(BraceStack())          
+            DeleteElement(BraceStack())
             If ListSize(BraceStack()) = 0 ; we found the matching brace
               bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
               goodbrace = 1
@@ -2253,7 +2253,7 @@ Procedure UpdateBraceHilight(Cursor, SecondTry=#False)
           EndIf
                  
           *Cursor - #CharSize
-        Wend          
+        Wend
             
       EndIf
         
@@ -2266,13 +2266,13 @@ Procedure UpdateBraceHilight(Cursor, SecondTry=#False)
         SendEditorMessage(#SCI_STYLESETFORE, #STYLE_BRACELIGHT, Colors(#COLOR_GoodBrace)\DisplayValue)
         SendEditorMessage(#SCI_BRACEHIGHLIGHT, Cursor, bracepos)
       ElseIf goodbrace = -1
-        ; hilight 2 braces in bad color 
+        ; hilight 2 braces in bad color
         SendEditorMessage(#SCI_STYLESETFORE, #STYLE_BRACELIGHT, Colors(#COLOR_BadBrace)\DisplayValue)
-        SendEditorMessage(#SCI_BRACEHIGHLIGHT, Cursor, bracepos) 
+        SendEditorMessage(#SCI_BRACEHIGHLIGHT, Cursor, bracepos)
       Else
         ; hilight one brace as bad (no color change)
         SendEditorMessage(#SCI_BRACEBADLIGHT, bracepos, 0)
-      EndIf      
+      EndIf
       
     ElseIf SecondTry = #False And char <> 10 And char <> 13
       ; Try again with the character following the cursor if there was no brace before
@@ -2320,18 +2320,18 @@ Procedure UpdateKeywordHilight(selStart, SetHilight)
           
           ; Re-scan the current line to ensure all scanned tokens are up to date
           ; (also update procedure browser etc if needed, as any changes are missed there else)
-          If ScanLine(*ActiveSource, OriginalLine) 
+          If ScanLine(*ActiveSource, OriginalLine)
             UpdateFolding(*ActiveSource, OriginalLine, OriginalLine+2)
             
             ; defere other updates to a later time
-            *ActiveSource\ParserDataChanged = #True            
+            *ActiveSource\ParserDataChanged = #True
           EndIf
 
           ; find the SourceItem in that represents this keyword
           *OriginalItem.SourceItem = LocateSourceItem(@*ActiveSource\Parser, OriginalLine, CharsToBytes(Line$, 0, *ActiveSource\Parser\Encoding, StartIndex))
           If *OriginalItem And *OriginalItem\Type = #ITEM_Keyword
             IsMismatch = 0
-            IsMatch    = 0               
+            IsMatch    = 0
             
             *StartItem.SourceItem = *OriginalItem
             StartLine = OriginalLine
@@ -2344,7 +2344,7 @@ Procedure UpdateKeywordHilight(selStart, SetHilight)
                     Break
                   EndIf
                   Parser_PreviousItem(*ActiveSource\Parser, *StartItem, StartLine)
-                Wend              
+                Wend
               Else
                 *StartItem = 0
               EndIf
@@ -2354,7 +2354,7 @@ Procedure UpdateKeywordHilight(selStart, SetHilight)
                 If Colors(#COLOR_GoodBrace)\Enabled
                   SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMatch)
                   SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, StartLine)+*StartItem\Position, *StartItem\Length)
-                EndIf                           
+                EndIf
               Else
                 IsMismatch = 1
                 *StartItem = *OriginalItem ; reset to our original item (so we have no 0 pointer below)
@@ -2372,10 +2372,10 @@ Procedure UpdateKeywordHilight(selStart, SetHilight)
                 IsMismatch = 1
                 *StartItem = *OriginalItem ; reset to our original item (so we have no 0 pointer below)
                 StartLine  = OriginalLine
-              EndIf            
-            EndIf              
+              EndIf
+            EndIf
             
-            FirstMatchColumn = *StartItem\Position  
+            FirstMatchColumn = *StartItem\Position
             LastMatchColumn  = *StartItem\Position
             FirstMatchLine   = StartLine
               
@@ -2388,20 +2388,20 @@ Procedure UpdateKeywordHilight(selStart, SetHilight)
                   IsMatch = 1
                   If Colors(#COLOR_GoodBrace)\Enabled
                     SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMatch)
-                    SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, Line)+*Item\Position, *Item\Length)                    
+                    SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, Line)+*Item\Position, *Item\Length)
                   EndIf
                   FirstMatchColumn = *Item\Position
                   FirstMatchLine   = Line
                 Else
                   Break ; reached the end of the match chain
                 EndIf
-              Else                  
+              Else
                 If *Item And Colors(#COLOR_BadBrace)\Enabled
                   SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMismatch)
                   SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, Line)+*Item\Position, *Item\Length)
                 EndIf
 
-                IsMismatch = 1 ; always break here                
+                IsMismatch = 1 ; always break here
                 Break
               EndIf
             ForEver
@@ -2415,13 +2415,13 @@ Procedure UpdateKeywordHilight(selStart, SetHilight)
                   IsMatch = 1
                   If Colors(#COLOR_GoodBrace)\Enabled
                     SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMatch)
-                    SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, Line)+*Item\Position, *Item\Length)                    
+                    SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, Line)+*Item\Position, *Item\Length)
                   EndIf
                   LastMatchColumn = *Item\Position
                 Else
                   Break ; reached the end of the match chain
                 EndIf
-              Else                  
+              Else
                 If *Item And Colors(#COLOR_BadBrace)\Enabled
                   SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMismatch)
                   SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, Line)+*Item\Position, *Item\Length)
@@ -2430,11 +2430,11 @@ Procedure UpdateKeywordHilight(selStart, SetHilight)
                 IsMismatch = 1 ; always break here
                 Break
               EndIf
-            ForEver        
+            ForEver
             
-            ; Check for Break, Continue, ProcedureReturn keywords to mark   
+            ; Check for Break, Continue, ProcedureReturn keywords to mark
             ; We can pass anything here
-            If FindBreakKeywords(@*ActiveSource\Parser, *StartItem, StartLine, Items())    
+            If FindBreakKeywords(@*ActiveSource\Parser, *StartItem, StartLine, Items())
               If Colors(#COLOR_GoodBrace)\Enabled
                 ForEach Items()
                   If Items()\Item <> *OriginalItem
@@ -2466,7 +2466,7 @@ Procedure UpdateKeywordHilight(selStart, SetHilight)
             ElseIf IsMismatch
               If Colors(#COLOR_BadBrace)\Enabled
                 SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMismatch)
-                SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, OriginalLine)+StartIndex, EndIndex-StartIndex+1)            
+                SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, OriginalLine)+StartIndex, EndIndex-StartIndex+1)
               EndIf
             
             EndIf
@@ -2474,7 +2474,7 @@ Procedure UpdateKeywordHilight(selStart, SetHilight)
           EndIf
         EndIf
         
-      EndIf            
+      EndIf
     
     EndIf
   
@@ -2483,7 +2483,7 @@ Procedure UpdateKeywordHilight(selStart, SetHilight)
 EndProcedure
 
 Procedure UpdateSelectionRepeat(selStart=-1, selEnd=-1)
-  Static *LastActiveGadget, LastSelStart, LastSelEnd, LastHasMarks ; reduce number of updates  
+  Static *LastActiveGadget, LastSelStart, LastSelEnd, LastHasMarks ; reduce number of updates
   
   ; exit if nothing changed
   If selStart <> -1 And *LastActiveGadget = *ActiveGadget And LastSelStart = selStart And LastSelEnd = selEnd
@@ -2493,14 +2493,14 @@ Procedure UpdateSelectionRepeat(selStart=-1, selEnd=-1)
   ; get these values if not passed by the caller
   If selStart = -1
     selStart = SendEditorMessage(#SCI_GETSELECTIONSTART, 0, 0)
-    selEnd = SendEditorMessage(#SCI_GETSELECTIONEND  , 0, 0) 
+    selEnd = SendEditorMessage(#SCI_GETSELECTIONEND  , 0, 0)
   EndIf
   
   SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_SelectionRepeat)
   
   ; clear any old marks if needed (always clear when switching gadgets to be sure)
-  If *LastActiveGadget <> *ActiveGadget Or LastHasMarks    
-    SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))  
+  If *LastActiveGadget <> *ActiveGadget Or LastHasMarks
+    SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
   EndIf
   
   ; remember these for next time
@@ -2512,14 +2512,14 @@ Procedure UpdateSelectionRepeat(selStart=-1, selEnd=-1)
   ; only mark anything if a full word is selected, to avoid slow updates on large selections
   ; use the scintilla definition of a full word as the check
   ;
-  If Colors(#COLOR_SelectionRepeat)\Enabled And 
+  If Colors(#COLOR_SelectionRepeat)\Enabled And
        selStart <> selEnd And
        SendEditorMessage(#SCI_WORDSTARTPOSITION, selStart, #True) = selStart And
        SendEditorMessage(#SCI_WORDENDPOSITION, selStart, #True) = selEnd ; use 'selStart' here too to know if it is the same word!
 
     ; do the scan on the scintilla internal buffer to avoid copying the whole source
     ; note that this still has some cost, as Scintilla must close the editing gap within its buffer
-    *BufferStart = SendEditorMessage(#SCI_GETCHARACTERPOINTER, 0, 0)       
+    *BufferStart = SendEditorMessage(#SCI_GETCHARACTERPOINTER, 0, 0)
     *BufferEnd = *BufferStart + GetSourceLength() - (selEnd-selStart)
     *Pointer.Ascii = *BufferStart
     
@@ -2531,19 +2531,19 @@ Procedure UpdateSelectionRepeat(selStart=-1, selEnd=-1)
       If CompareMemoryString(*Pointer, *Selection, #PB_String_NoCase, SelectionLength, #PB_UTF8) = #PB_String_Equal
         Position = *Pointer-*BufferStart
         ; don't mark the selection itself and check that this is a whole word before marking it
-        If Position <> selStart And 
-              SendEditorMessage(#SCI_WORDSTARTPOSITION, Position, #True) = Position And 
+        If Position <> selStart And
+              SendEditorMessage(#SCI_WORDSTARTPOSITION, Position, #True) = Position And
               SendEditorMessage(#SCI_WORDENDPOSITION, Position, #True) = Position + SelectionLength
           SendEditorMessage(#SCI_INDICATORFILLRANGE, *Pointer-*BufferStart, SelectionLength)
           LastHasMarks = #True
         EndIf
         *Pointer + SelectionLength
-      Else 
+      Else
         *Pointer + 1
       EndIf
-    Wend 
+    Wend
            
-  EndIf  
+  EndIf
 EndProcedure
 
 
@@ -2565,7 +2565,7 @@ Procedure JumpToMatchingKeyword()
     Line$ = GetCurrentLine()
     
     If Line$
-      If GetWordBoundary(@Line$, Len(Line$), *ActiveSource\CurrentColumnChars-1, @StartIndex, @EndIndex, 0) And EndIndex-StartIndex+1 > 0 
+      If GetWordBoundary(@Line$, Len(Line$), *ActiveSource\CurrentColumnChars-1, @StartIndex, @EndIndex, 0) And EndIndex-StartIndex+1 > 0
         Word$   = PeekS(@Line$ + StartIndex * #CharSize, EndIndex - StartIndex + 1)
         Keyword = IsBasicKeyword(Word$)
   
@@ -2574,13 +2574,13 @@ Procedure JumpToMatchingKeyword()
         
           ; Re-scan the current line to ensure all scanned tokens are up to date
           ; (also update procedure browser etc if needed, as any changes are missed there else)
-          If ScanLine(*ActiveSource, OriginalLine) 
+          If ScanLine(*ActiveSource, OriginalLine)
             UpdateFolding(*ActiveSource, OriginalLine, *ActiveSource\CurrentLine+2)
-            UpdateProcedureList()      
-            UpdateVariableViewer() 
-            *ActiveSource\ModifiedSinceUpdate = 0    
-            *ActiveSource\ParserDataChanged = #False ; full update was done here          
-          EndIf            
+            UpdateProcedureList()
+            UpdateVariableViewer()
+            *ActiveSource\ModifiedSinceUpdate = 0
+            *ActiveSource\ParserDataChanged = #False ; full update was done here
+          EndIf
         
           ; find the SourceItem in that represents this keyword
           *OriginalItem.SourceItem = LocateSourceItem(@*ActiveSource\Parser, OriginalLine, CharsToBytes(Line$, 0, *ActiveSource\Parser\Encoding, StartIndex))
@@ -2595,7 +2595,7 @@ Procedure JumpToMatchingKeyword()
                 If FindBreakKeywords(@*ActiveSource\Parser, *OriginalItem, OriginalLine, Items())
                   If FirstElement(Items())
                     *Item = Items()\Item
-                    Line  = Items()\Line                    
+                    Line  = Items()\Line
                   EndIf
                 EndIf
             
@@ -2612,10 +2612,10 @@ Procedure JumpToMatchingKeyword()
                         Break
                       EndIf
                       Parser_PreviousItem(*ActiveSource\Parser, *Item, Line)
-                    Wend 
+                    Wend
                     If *Item = 0
                       Result = 0
-                    EndIf       
+                    EndIf
                   EndIf
                 Else
                   Result = FindLoopStart(@*ActiveSource\Parser, @Line, @*Item)
@@ -2624,7 +2624,7 @@ Procedure JumpToMatchingKeyword()
                 If Result
                   *OriginalItem = *Item ; this is now our reference item, if we find no more 'Break', look for the end keyword below (So Break->Until matches correctly)
                   OriginalLine = Line
-                  *Item = 0                  
+                  *Item = 0
                 
                   If FindBreakKeywords(@*ActiveSource\Parser, *OriginalItem, OriginalLine, Items())
                     ForEach Items()
@@ -2634,27 +2634,27 @@ Procedure JumpToMatchingKeyword()
                         Break
                       EndIf
                     Next Items()
-                  EndIf                  
+                  EndIf
                 Else
-                  *Item = 0                  
-                EndIf           
+                  *Item = 0
+                EndIf
             
              EndSelect
              
             ; default search
-            If *Item = 0              
+            If *Item = 0
               *Item = *OriginalItem
-              Line  = OriginalLine                
+              Line  = OriginalLine
               
-              ; search forward first  
-              If MatchKeywordForward(@*ActiveSource\Parser, @Line, @*Item) = #False Or *Item = 0            
-                ; In case of failure, search backward, but go as far as possible (so we jump to the beginning keyword always then)              
+              ; search forward first
+              If MatchKeywordForward(@*ActiveSource\Parser, @Line, @*Item) = #False Or *Item = 0
+                ; In case of failure, search backward, but go as far as possible (so we jump to the beginning keyword always then)
                 While MatchKeywordBackward(@*ActiveSource\Parser, @OriginalLine, @*OriginalItem) And *OriginalItem ; *Item is zero if no matches needed
                   *Item = *OriginalItem
-                  Line  = OriginalLine           
-                Wend               
-              EndIf  
-            EndIf          
+                  Line  = OriginalLine
+                Wend
+              EndIf
+            EndIf
             
             ; jump there
             If *Item
@@ -2678,8 +2678,8 @@ EndProcedure
 ProcedureDLL EmptyScintillaCallback(EditorGadget, *scinotify.SCNotification)
 ; CompilerElse
 ;   ProcedureCDLL EmptyScintillaCallback(EditorWindow.l, EditorGadget.l, *scinotify.SCNotification, lParam.l)
-; CompilerEndIf  
-  ; 
+; CompilerEndIf
+  ;
   ; Empty scintillacallback. Needed because the scintilla lib on windows can not do
   ; without one!
   ;
@@ -2688,7 +2688,7 @@ EndProcedure
 ; CompilerIf #CompileWindows | #CompileMac  ; this function must be stdcall on windows and cdecl on linux
 ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
 ; CompilerElse
-;   ProcedureCDLL ScintillaCallBack(EditorWindow.l, EditorGadget.l, *scinotify.SCNotification, lParam.l) 
+;   ProcedureCDLL ScintillaCallBack(EditorWindow.l, EditorGadget.l, *scinotify.SCNotification, lParam.l)
 ; CompilerEndIf
 
 
@@ -2698,7 +2698,7 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
   Select *scinotify\nmhdr\code
   
     Case #SCN_MODIFYATTEMPTRO
-      ChangeStatus(Language("Debugger","EditError"), -1)       
+      ChangeStatus(Language("Debugger","EditError"), -1)
       CompilerIf #CompileWindows
         MessageBeep_(#MB_OK)
       CompilerEndIf
@@ -2707,30 +2707,30 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
       UpdateSourceStatus(-1)
       
     Case #SCN_SAVEPOINTREACHED
-      UpdateSourceStatus(-1)       
+      UpdateSourceStatus(-1)
       
     
-    ; Note: This check is done in a separate event callback for linux, 
+    ; Note: This check is done in a separate event callback for linux,
     ;   as we have no way of knowing the modifier keys here in the
     ;   scintilla callback
-    ;   
+    ;
     CompilerIf #CompileLinux = 0
     
-    Case #SCN_DOUBLECLICK      
+    Case #SCN_DOUBLECLICK
       If *ActiveSource And EditorGadget = *ActiveSource\EditorGadget And *ActiveSource\IsCode
         AutoCompleteKeywordInserted = 0
         
         ; Note: there is a focus problem when switching the active source from here
         ;       (the new file never gets the editing focus (though it is in the foreground)
-        ;       To prevent this, defer the actual action to the main loop 
+        ;       To prevent this, defer the actual action to the main loop
         ;       See EventLoopCallback() in UserInterface.pb
-        CtrlDoubleClickHappened = #True      
+        CtrlDoubleClickHappened = #True
       EndIf
       
     CompilerEndIf
       
-    Case #SCN_UPDATEUI             
-      If *ActiveSource             
+    Case #SCN_UPDATEUI
+      If *ActiveSource
         selStart = SendEditorMessage(#SCI_GETSELECTIONSTART, 0, 0)
         selEnd = SendEditorMessage(#SCI_GETSELECTIONEND  , 0, 0)
         
@@ -2739,15 +2739,15 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
           Debug "---- BlockSelectionStack clear ------"
           ClearList(BlockSelectionStack())
         EndIf
-        ; reset the flag so the next selection change clears the block selection stack   
-        BlockSelectionUpdated = #False 
+        ; reset the flag so the next selection change clears the block selection stack
+        BlockSelectionUpdated = #False
 
         If IsWindow(#WINDOW_Find)
           If selStart = selEnd
             SetGadgetState(#GADGET_Find_SelectionOnly, 0)
-            DisableGadget(#GADGET_Find_SelectionOnly, 1)           
+            DisableGadget(#GADGET_Find_SelectionOnly, 1)
           Else
-            DisableGadget(#GADGET_Find_SelectionOnly, 0) 
+            DisableGadget(#GADGET_Find_SelectionOnly, 0)
           EndIf
         EndIf
         
@@ -2759,10 +2759,10 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
           
         ; add the old line to the lines history, if the jump since the last #SCN_UPDATEUI
         ; was more than 20 lines. (ie, not moved by keyboard, but by mouse or something else)
-        ;                 
+        ;
         If *ActiveSource\CurrentLine > *ActiveSource\LineHistory[0]+20 Or *ActiveSource\CurrentLine < *ActiveSource\LineHistory[0]-20
           ; move the buffer...
-          MoveMemory(@*ActiveSource\LineHistory[0], @*ActiveSource\LineHistory[1], (#MAX_LineHistory-1)*4)           
+          MoveMemory(@*ActiveSource\LineHistory[0], @*ActiveSource\LineHistory[1], (#MAX_LineHistory-1)*4)
         EndIf
         *ActiveSource\LineHistory[0] = *ActiveSource\CurrentLine ; the 0 index is always the last seen line
         
@@ -2770,16 +2770,16 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
         ; since we have this check, we can do an update even when the user is selecting stuff (as no typing happens between the selections)
         If *ActiveSource\ModifiedSinceUpdate = 1 And *ActiveSource\IsCode
                    
-          If *ActiveSource\CurrentLine <> *ActiveSource\CurrentLineOld And *ActiveSource\CurrentLineOld > 0                                 
-            foldlevel = ScintillaSendMessage(EditorGadget, #SCI_GETFOLDLEVEL, *ActiveSource\CurrentLineOld-1, 0)   
+          If *ActiveSource\CurrentLine <> *ActiveSource\CurrentLineOld And *ActiveSource\CurrentLineOld > 0
+            foldlevel = ScintillaSendMessage(EditorGadget, #SCI_GETFOLDLEVEL, *ActiveSource\CurrentLineOld-1, 0)
             OldLine$ = GetLine(*ActiveSource\CurrentLineOld-1) ; use the case corrected line!
 
             ; update hilightning of the old line, as now keywords are not hilighted with the cursor inside (so do it when the mouse is moved away)
-            ;             
+            ;
             If (EnableColoring Or EnableCaseCorrection) And OldLine$ <> ""
                HilightLine$ = OldLine$+#NewLine
                anchorPos = SendEditorMessage(#SCI_GETANCHOR, 0, 0) ; save & restore the cursor pos
-               currentPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)  
+               currentPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
                
                If *ActiveSource\Parser\Encoding = 1
                  *HilightBuffer = StringToUTF8(HilightLine$)
@@ -2793,40 +2793,40 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
                ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #False, 0)
                
                If EnableColoring
-                 SendEditorMessage(#SCI_STARTSTYLING, HilightOffset, $FFFFFF) 
+                 SendEditorMessage(#SCI_STARTSTYLING, HilightOffset, $FFFFFF)
                EndIf
            
                ; now call the hilightning engine
                ;
                Modified = GetSourceModified()  ; because the case correction changes the modified state!
                HilightningEngine(*HilightBuffer, MemoryAsciiLength(*HilightBuffer), -1, @HilightCallback(), 1)
-               SetSourceModified(Modified)   
+               SetSourceModified(Modified)
                
                FreeMemory(*HilightBuffer)
             
                ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #True, 0)
                SendEditorMessage(#SCI_SETANCHOR, anchorPos, 0)
-               SendEditorMessage(#SCI_SETCURRENTPOS, currentPos, 0)               
-            EndIf 
+               SendEditorMessage(#SCI_SETCURRENTPOS, currentPos, 0)
+            EndIf
             
             ; re-scanning one line is very fast now, so do it always
             If ScanLine(*ActiveSource, *ActiveSource\CurrentLineOld-1) ; returns true if line content changed, very cool
               UpdateFolding(*ActiveSource, *ActiveSource\CurrentLineOld-1, *ActiveSource\CurrentLineOld+2)
-              UpdateProcedureList()      
-              UpdateVariableViewer() 
-              *ActiveSource\ModifiedSinceUpdate = 0   
-              *ActiveSource\ParserDataChanged = #False ; full update done here           
+              UpdateProcedureList()
+              UpdateVariableViewer()
+              *ActiveSource\ModifiedSinceUpdate = 0
+              *ActiveSource\ParserDataChanged = #False ; full update done here
             EndIf
 
             ; If the parse data changed (because of autocomplete scan for example) do any
             ; needed update of parser data now
             If *ActiveSource\ParserDataChanged
-              UpdateProcedureList()      
-              UpdateVariableViewer() 
-              *ActiveSource\ParserDataChanged = #False 
+              UpdateProcedureList()
+              UpdateVariableViewer()
+              *ActiveSource\ParserDataChanged = #False
             EndIf
 
-          EndIf    
+          EndIf
         EndIf
         
         ; hilight matching braces
@@ -2850,11 +2850,11 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
       If *ActiveSource\IsCode
         *ActiveSource\ModifiedSinceUpdate = 1 ; the source has been modified
         If EnableLineNumbers And *scinotify\modificationType & (#SC_MOD_INSERTTEXT | #SC_MOD_DELETETEXT)
-          UpdateLineNumbers(*ActiveSource)         
-        EndIf     
+          UpdateLineNumbers(*ActiveSource)
+        EndIf
         
         ; Separate open/close handling to allo close+direct re-open (important in structure mode)
-        If AutoCompleteWindowOpen And *scinotify\modificationType & #SC_MOD_DELETETEXT And *scinotify\length = 1    
+        If AutoCompleteWindowOpen And *scinotify\modificationType & #SC_MOD_DELETETEXT And *scinotify\length = 1
           AutoComplete_WordUpdate()
         EndIf
         
@@ -2864,8 +2864,8 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
           position = CountCharacters(*ActiveSource\EditorGadget, SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0), position)
           If CheckSearchStringComment(line, position, 1)
             OpenAutoCompleteWindow()
-          EndIf       
-        EndIf    
+          EndIf
+        EndIf
         
         If *scinotify\modificationType & (#SC_MOD_INSERTTEXT | #SC_MOD_DELETETEXT) And NoUserChange = 0
           If *scinotify\linesAdded >= 1 Or *scinotify\linesAdded <= -1
@@ -2884,7 +2884,7 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
             EndIf
             
             UpdateProcedureList()
-            UpdateVariableViewer()           
+            UpdateVariableViewer()
           EndIf
                  
         EndIf
@@ -2895,20 +2895,20 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
       firstLine = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position, 0)
       lastLine = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position+*scinotify\length-1, 0)
       For line = firstLine To lastLine
-        ScintillaSendMessage(EditorGadget, #SCI_ENSUREVISIBLE, line, 0)     
+        ScintillaSendMessage(EditorGadget, #SCI_ENSUREVISIBLE, line, 0)
       Next line
       
       ; if the last line needed visible is a fold point we must expand that!
       ; -> fixes a problem when hitting enter on a folded procedure line
-      ; -> second probem: typing "Procedure" above a folded procedure expands that one too! 
-      ;    (so check If the cursor is actually on this last line (to check for the 1st condition))         
+      ; -> second probem: typing "Procedure" above a folded procedure expands that one too!
+      ;    (so check If the cursor is actually on this last line (to check for the 1st condition))
       ;
       If ScintillaSendMessage(EditorGadget, #SCI_GETFOLDLEVEL, lastLine, 0) & #SC_FOLDLEVELHEADERFLAG And ScintillaSendMessage(EditorGadget, #SCI_GETFOLDEXPANDED, lastLine, 0) = 0
-        cursorLine = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, ScintillaSendMessage(EditorGadget, #SCI_GETCURRENTPOS, 0, 0), 0)  
+        cursorLine = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, ScintillaSendMessage(EditorGadget, #SCI_GETCURRENTPOS, 0, 0), 0)
         If cursorLine = lastLine
           ScintillaSendMessage(EditorGadget, #SCI_TOGGLEFOLD, lastLine, 0)
         EndIf
-      EndIf    
+      EndIf
       
     Case #SCN_MARGINCLICK
       line = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position, 0)
@@ -2926,17 +2926,17 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
         If ScintillaSendMessage(EditorGadget, #SCI_GETFOLDLEVEL, line, 0) & #SC_FOLDLEVELHEADERFLAG
           ScintillaSendMessage(EditorGadget, #SCI_TOGGLEFOLD, line, 0)
         EndIf
-      EndIf      
+      EndIf
     
     Case #SCN_ZOOM
       UpdateLineNumbers(*ActiveSource)
 
-    Case #SCN_CHARADDED       
-      If *ActiveSource And EditorGadget = *ActiveSource\EditorGadget 
+    Case #SCN_CHARADDED
+      If *ActiveSource And EditorGadget = *ActiveSource\EditorGadget
         *ActiveSource\ModifiedSinceUpdate = 1 ; the source has been modified
         
         ; With structure autocomplete, while typing a \, we can have one autocomplete to close
-        ; and then directly re-open in structure mode for the structure, so handle this case 
+        ; and then directly re-open in structure mode for the structure, so handle this case
         If AutoCompleteWindowOpen
           If *scinotify\ch = '\' ; this always has to force a close! (AutoComplete_WordUpdate() cannot detect this in structure mode)
             AutoComplete_Close()
@@ -2945,14 +2945,14 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
           EndIf
         EndIf
         
-        If AutoCompleteWindowOpen = 0 And (*scinotify\ch = '\' Or *scinotify\ch = ':' Or ValidCharacters(*scinotify\ch & $FF)) And AutoComplete_CheckAutoPopup() 
+        If AutoCompleteWindowOpen = 0 And (*scinotify\ch = '\' Or *scinotify\ch = ':' Or ValidCharacters(*scinotify\ch & $FF)) And AutoComplete_CheckAutoPopup()
           position = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
           line = SendEditorMessage(#SCI_LINEFROMPOSITION, position, 0)
           position = CountCharacters(*ActiveSource\EditorGadget, SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0), position)
           If CheckSearchStringComment(line, position, 1)
             OpenAutoCompleteWindow()
           EndIf
-        EndIf  
+        EndIf
    
         
         ; We also get a #SCN_MODIFIED for newlines, so the source scanning
@@ -2960,7 +2960,7 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
         ;
         If *scinotify\ch = 10 And IndentMode <> #INDENT_None ; Check only for the '10' as on Windows, '13' and '10' are both sent ! '10' also works on Linux
           
-          line = SendEditorMessage(#SCI_LINEFROMPOSITION, SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0), 0)                      
+          line = SendEditorMessage(#SCI_LINEFROMPOSITION, SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0), 0)
           If IndentMode = #INDENT_Block Or (*ActiveSource\IsCode = 0) ; always fallback to block mode in non-pb files
           
             ; block mode, just get the previous indent
@@ -2993,7 +2993,7 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
             EndIf
           
           ElseIf *ActiveSource\IsCode ; only in pb-mode
-            ; sensitive mode 
+            ; sensitive mode
             ; update the previous and current line, then just set the cursor correctly
             ; do not propagate indent changes past the new line
             SendEditorMessage(#SCI_BEGINUNDOACTION)
@@ -3010,7 +3010,7 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
       AutoCompleteKeywordInserted = 0 ; in everycase, set ths variable to 0 now!
 
 
-    Case #SCN_STYLENEEDED         
+    Case #SCN_STYLENEEDED
       If EnableColoring Or EnableCaseCorrection
         If *ActiveSource\IsCode
           range.TextRange\chrg\cpMin  = ScintillaSendMessage(EditorGadget, #SCI_GETENDSTYLED, 0, 0)
@@ -3023,10 +3023,10 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
           *Buffer = AllocateMemory(range\chrg\cpMax - range\chrg\cpMin + 1)
           If *Buffer
             anchorPos = ScintillaSendMessage(EditorGadget, #SCI_GETANCHOR, 0, 0) ; save & restore the cursor pos
-            currentPos = ScintillaSendMessage(EditorGadget, #SCI_GETCURRENTPOS, 0, 0)         
+            currentPos = ScintillaSendMessage(EditorGadget, #SCI_GETCURRENTPOS, 0, 0)
             
             range\lpstrText = *Buffer
-            reallength = ScintillaSendMessage(EditorGadget, #SCI_GETTEXTRANGE, 0, @range)         
+            reallength = ScintillaSendMessage(EditorGadget, #SCI_GETTEXTRANGE, 0, @range)
             *HilightBuffer = *Buffer
             HilightOffset = range\chrg\cpMin
             HilightGadget = EditorGadget
@@ -3042,27 +3042,27 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
             EndIf
   
             Modified = GetSourceModified()
-            HilightningEngine(*Buffer, reallength, currentPos-range\chrg\cpMin , @HilightCallback(), 1)               
+            HilightningEngine(*Buffer, reallength, currentPos-range\chrg\cpMin , @HilightCallback(), 1)
             SetSourceModified(Modified)
             
             ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #True, 0)
           
-            FreeMemory(*Buffer)          
+            FreeMemory(*Buffer)
            
             ScintillaSendMessage(EditorGadget, #SCI_SETANCHOR, anchorPos, 0)
-            ScintillaSendMessage(EditorGadget, #SCI_SETCURRENTPOS, currentPos, 0)                  
-          EndIf  
+            ScintillaSendMessage(EditorGadget, #SCI_SETCURRENTPOS, currentPos, 0)
+          EndIf
           
         ElseIf EnableColoring
           ; non-pb files
           HilightOffset = ScintillaSendMessage(EditorGadget, #SCI_GETENDSTYLED, 0, 0)
           ScintillaSendMessage(EditorGadget, #SCI_STARTSTYLING, HilightOffset, $1F)
-          ScintillaSendMessage(EditorGadget, #SCI_SETSTYLING, *scinotify\position-HilightOffset, *NormalTextColor) 
-        EndIf    
+          ScintillaSendMessage(EditorGadget, #SCI_SETSTYLING, *scinotify\position-HilightOffset, *NormalTextColor)
+        EndIf
       EndIf
       
       ScintillaSendMessage(EditorGadget, #SCI_BEGINUNDOACTION, 0, 0)  ; will make any typed word undoable
-      ScintillaSendMessage(EditorGadget, #SCI_ENDUNDOACTION, 0, 0)                
+      ScintillaSendMessage(EditorGadget, #SCI_ENDUNDOACTION, 0, 0)
       
     Case #SCN_DWELLSTART
       ; warning: scintilla also fires this event when we dwell outside of the
@@ -3071,17 +3071,17 @@ ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
       ;
       If *scinotify\position > 0 And *ActiveSource And GetActiveGadget() = *ActiveSource\EditorGadget And *ActiveSource\IsCode
         IsMouseDwelling    = 1 ; to know if the mouse still dwells when the result is received
-        MouseDwellPosition = *scinotify\position      
+        MouseDwellPosition = *scinotify\position
         
         *Debugger.DebuggerData = 0
         If *ActiveSource <> *ProjectInfo
           *Debugger = GetDebuggerForFile(*ActiveSource)
         EndIf
         
-        If *Debugger        
+        If *Debugger
           Debugger_EvaluateAtCursor(*scinotify\position)  ; evaluate by debugger
         Else
-          ; Todo: find a less intrusive way to display this info          
+          ; Todo: find a less intrusive way to display this info
           ; DisplayItemAtCursor(*scinotify\position)  ; display type info by source parser
         EndIf
       EndIf
@@ -3100,15 +3100,15 @@ CompilerIf #CompileLinux
   ;
   ProcedureCDLL ScintillaShortcutHandler(*Widget, *Event._GdkEventKey, user_data)
     
-    If *Event\keyval = $FF09 Or *Event\keyval = $FF0D Or *Event\keyval = $FF8D ; handle the autocomplete events      
+    If *Event\keyval = $FF09 Or *Event\keyval = $FF0D Or *Event\keyval = $FF8D ; handle the autocomplete events
     
-      If AutoCompleteKeywordInserted And *Event\keyval = $FF09 And *Event\state & (1 << 2) = 0 And KeyboardShortcuts(#MENU_AutoComplete_OK) = #PB_Shortcut_Tab        
+      If AutoCompleteKeywordInserted And *Event\keyval = $FF09 And *Event\state & (1 << 2) = 0 And KeyboardShortcuts(#MENU_AutoComplete_OK) = #PB_Shortcut_Tab
         AutoComplete_InsertEndKEyword()
-        ProcedureReturn 1 ; drop this message      
+        ProcedureReturn 1 ; drop this message
         
       ElseIf AutoCompleteKeywordInserted And (*Event\keyval = $FF0D Or *Event\keyval = $FF8D) And *Event\state & (1 << 2) = 0 And KeyboardShortcuts(#MENU_AutoComplete_OK) = #PB_Shortcut_Return
         AutoComplete_InsertEndKEyword()
-        ProcedureReturn 1 ; drop this message              
+        ProcedureReturn 1 ; drop this message
           
       ElseIf *Event\keyval = $FF09 And *Event\state & (1 << 2) = 0 ; it was a tab
         GetSelection(@LineStart, 0, @LineEnd, 0)
@@ -3117,18 +3117,18 @@ CompilerIf #CompileLinux
             SendEditorMessage(#SCI_BACKTAB, 0, 0)
           Else
             SendEditorMessage(#SCI_TAB, 0, 0)
-          EndIf                  
+          EndIf
         Else
           If *Event\state & 1 ; shift key
             RemoveTab()
           Else
             InsertTab()
           EndIf
-        EndIf          
-        ProcedureReturn 1 
+        EndIf
+        ProcedureReturn 1
         
       ElseIf *Event\keyval = $FF09 And *Event\state & (1 << 2) ;  Ctrl+Tab... switch sources
-        If *Event\state & 1 
+        If *Event\state & 1
           If KeyboardShortcuts(#MENU_NextOpenedFile) = #PB_Shortcut_Control|#PB_Shortcut_Shift|#PB_Shortcut_Tab
             ChangeCurrentFile(0)
             ProcedureReturn 1
@@ -3151,31 +3151,31 @@ CompilerIf #CompileLinux
         SendEditorMessage(#SCI_NEWLINE, 0, 0)
         ProcedureReturn 1
        
-      EndIf    
+      EndIf
     
     ElseIf *Event\keyval = $FE20 ; #GDK_Multi_Key.. simulated through a shift+tab newer keyboards ?
       If *Event\state & (1 << 2) And KeyboardShortcuts(#MENU_NextOpenedFile) = #PB_Shortcut_Control|#PB_Shortcut_Shift|#PB_Shortcut_Tab
         ChangeCurrentFile(0)
       ElseIf *Event\state & (1 << 2) And KeyboardShortcuts(#MENU_PreviousOpenedFile) = #PB_Shortcut_Control|#PB_Shortcut_Shift|#PB_Shortcut_Tab
-        ChangeCurrentFile(1)        
+        ChangeCurrentFile(1)
       Else
         GetSelection(@LineStart, 0, @LineEnd, 0)
         If LineStart = LineEnd  ; normal tab
           SendEditorMessage(#SCI_TAB, 0, 0)
         Else
           RemoveTab()
-        EndIf     
+        EndIf
       EndIf
       ProcedureReturn 1
     
-    EndIf      
+    EndIf
 
     ; Get the accelerator table from the top window and try to fire the accelerator
     ; If it is in the table, it will return 1 (the event is stopped) and the accelerator
     ; will be fired -> the event will be generated.
     ;
     Accelerators = g_object_get_data_(gtk_widget_get_toplevel_(*Widget), "pb_accelerators")
-    If Accelerators          
+    If Accelerators
       
       ; gtk_accel_groups_activate_() works as well for our case, but it's not sure than the shortcut is
       ; really in our accelerator list, so check it. Note the '& $F' for the query, without which it fails
@@ -3183,7 +3183,7 @@ CompilerIf #CompileLinux
       If gtk_accel_group_query_(Accelerators, *Event\keyval, *Event\state & $F, @NbEntriesFound)
         ProcedureReturn gtk_accel_groups_activate_(gtk_widget_get_toplevel_(*Widget), Key, *Event\state)
       EndIf
-    EndIf    
+    EndIf
   
     ProcedureReturn 0
   EndProcedure
@@ -3193,13 +3193,13 @@ CompilerIf #CompileLinux
   ;
   ProcedureC ScintillaDoubleclickHandler(*Widget, *Event.GdkEventButton, user_data)
     
-    If *Event\type = #GDK_2BUTTON_PRESS And *Event\button = 1 
+    If *Event\type = #GDK_2BUTTON_PRESS And *Event\button = 1
   
       AutoCompleteKeywordInserted = 0
       If *ActiveSource
         Word$ = LCase(GetCurrentWord())
         If Word$ = "includefile" Or Word$ = "xincludefile" Or Word$ = "includebinary"
-          OpenIncludeOnDoubleClick()    
+          OpenIncludeOnDoubleClick()
              
         ElseIf *Event\state & #GDK_CONTROL_MASK
           JumpToProcedure()
@@ -3228,7 +3228,7 @@ Procedure CreateEditorGadget()
   ;   This is called later again anyway.
   ;
   ;ChangeActiveSourcecode()
-  *ActiveSource = @FileList()  
+  *ActiveSource = @FileList()
   
   ; use all bits for styling (in newer scintilla versions, indicators work differently anyway)
   ; this allows 255 style definitions (room for the dynamic issue styles)
@@ -3236,7 +3236,7 @@ Procedure CreateEditorGadget()
   
   ; remove the tab and enter shortcut to handle it ourselves (for the autocomplete)
   ;
-  SendEditorMessage(#SCI_CLEARCMDKEY, #SCK_TAB, 0)   
+  SendEditorMessage(#SCI_CLEARCMDKEY, #SCK_TAB, 0)
   SendEditorMessage(#SCI_CLEARCMDKEY, #SCK_TAB | (#SCMOD_SHIFT << 16), 0)
   SendEditorMessage(#SCI_CLEARCMDKEY, #SCK_RETURN, 0)
   
@@ -3256,16 +3256,16 @@ Procedure CreateEditorGadget()
 
   ; they somehow don't work with shift, so use ctrl
   SendEditorMessage(#SCI_ASSIGNCMDKEY, #SCK_ADD | (#SCMOD_CTRL << 16), #SCI_ZOOMIN)
-  SendEditorMessage(#SCI_ASSIGNCMDKEY, #SCK_SUBTRACT | (#SCMOD_CTRL << 16), #SCI_ZOOMOUT)  
+  SendEditorMessage(#SCI_ASSIGNCMDKEY, #SCK_SUBTRACT | (#SCMOD_CTRL << 16), #SCI_ZOOMOUT)
 
   ; workaround for the linux shortcut problem
   ;
   CompilerIf #CompileLinux
     GtkSignalConnect(GadgetID(*ActiveSource\EditorGadget), "key-press-event", @ScintillaShortcutHandler(), 0)
     GtkSignalConnect(GadgetID(*ActiveSource\EditorGadget), "button-press-event", @ScintillaDoubleClickHandler(), 0)
-  CompilerEndIf    
+  CompilerEndIf
   
-  ; We stay with WM_DROPFILES for Windows, as somehow PB's own D+D stuff is 
+  ; We stay with WM_DROPFILES for Windows, as somehow PB's own D+D stuff is
   ; not working right as Scintilla has its own D+D handling...
   ;
   CompilerIf #CompileWindows = 0
@@ -3281,7 +3281,7 @@ Procedure CreateEditorGadget()
   SendEditorMessage(#SCI_SETMARGINTYPEN, 1, #SC_MARGIN_SYMBOL)
   
   SendEditorMessage(#SCI_SETMARGINMASKN, 1, -1)
-  SendEditorMessage(#SCI_SETMARGINSENSITIVEN, 1, 1)  
+  SendEditorMessage(#SCI_SETMARGINSENSITIVEN, 1, 1)
   
   SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Marker           , #SC_MARK_SHORTARROW)  ; editor bookmark
   SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_CurrentLine      , #SC_MARK_BACKGROUND)  ; current line back
@@ -3289,7 +3289,7 @@ Procedure CreateEditorGadget()
   SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Error            , #SC_MARK_BACKGROUND)  ; error back
   SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_ErrorSymbol      , #SC_MARK_CIRCLE)      ; error symbol
   SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Warning          , #SC_MARK_BACKGROUND)  ; warning back
-  SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_WarningSymbol    , #SC_MARK_CHARACTER+'!')   ; warning symbol  
+  SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_WarningSymbol    , #SC_MARK_CHARACTER+'!')   ; warning symbol
   SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Breakpoint       , #SC_MARK_BACKGROUND)      ; breakpoint back
   SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_BreakpointSymbol , #SC_MARK_SMALLRECT)        ; breakpoint symbol
   
@@ -3300,11 +3300,11 @@ Procedure CreateEditorGadget()
     
   SendEditorMessage(#SCI_MARKERDEFINE, #SC_MARKNUM_FOLDERSUB,     #SC_MARK_EMPTY)
   SendEditorMessage(#SCI_MARKERDEFINE, #SC_MARKNUM_FOLDERTAIL,    #SC_MARK_EMPTY)
-  SendEditorMessage(#SCI_MARKERDEFINE, #SC_MARKNUM_FOLDERMIDTAIL, #SC_MARK_EMPTY)  
+  SendEditorMessage(#SCI_MARKERDEFINE, #SC_MARKNUM_FOLDERMIDTAIL, #SC_MARK_EMPTY)
   
   SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_FoldVLine,         #SC_MARK_VLINE)
   SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_FoldVCorner,       #SC_MARK_LCORNER)
-  SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_FoldTCorner,       #SC_MARK_TCORNER)  
+  SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_FoldTCorner,       #SC_MARK_TCORNER)
 
   SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_ProcedureStart,    #SC_MARK_EMPTY)      ; this is invisible to track procedure lines
   SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_ProcedureBack,     #SC_MARK_BACKGROUND) ; this is the actual visible mark
@@ -3316,12 +3316,12 @@ Procedure CreateEditorGadget()
   FreeMemory(*AsciiOne)
   
   SendEditorMessage(#SCI_INDICSETSTYLE, #INDICATOR_KeywordMatch, #INDIC_PLAIN)
-  SendEditorMessage(#SCI_INDICSETSTYLE, #INDICATOR_KeywordMismatch, #INDIC_PLAIN) 
+  SendEditorMessage(#SCI_INDICSETSTYLE, #INDICATOR_KeywordMismatch, #INDIC_PLAIN)
   
-  SendEditorMessage(#SCI_INDICSETSTYLE, #INDICATOR_SelectionRepeat, #INDIC_STRAIGHTBOX) 
-  SendEditorMessage(#SCI_INDICSETALPHA, #INDICATOR_SelectionRepeat, 255) 
-  SendEditorMessage(#SCI_INDICSETOUTLINEALPHA, #INDICATOR_SelectionRepeat, 255) 
-  SendEditorMessage(#SCI_INDICSETUNDER, #INDICATOR_SelectionRepeat, #True) 
+  SendEditorMessage(#SCI_INDICSETSTYLE, #INDICATOR_SelectionRepeat, #INDIC_STRAIGHTBOX)
+  SendEditorMessage(#SCI_INDICSETALPHA, #INDICATOR_SelectionRepeat, 255)
+  SendEditorMessage(#SCI_INDICSETOUTLINEALPHA, #INDICATOR_SelectionRepeat, 255)
+  SendEditorMessage(#SCI_INDICSETUNDER, #INDICATOR_SelectionRepeat, #True)
   
 
   ; add *@$# to the word characters, so they get included in the selection
@@ -3329,7 +3329,7 @@ Procedure CreateEditorGadget()
   
   WordChars$ = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$@#*"
   For k = 192 To 255
-    WordChars$+Chr(k) ; For ASCII mode, to have "é, à" etc. (http://www.purebasic.fr/english/viewtopic.php?f=4&t=57421)
+    WordChars$+Chr(k) ; For ASCII mode, to have "Ã©, Ã " etc. (http://www.purebasic.fr/english/viewtopic.php?f=4&t=57421)
   Next
   SendEditorMessage(#SCI_SETWORDCHARS, 0, ToAscii(WordChars$))
   
@@ -3340,10 +3340,10 @@ Procedure CreateEditorGadget()
   ;
   ; Note: with new scintilla on OS X, this is broken (the horizontal scroll doesn't adjust at all)
   ; Also on OS X 10.8+ the scrollbar is hidden by default (new OS X scroll, so it's not an issue anymore)
-  ; It fixes this issue: 
+  ; It fixes this issue:
   ;
   CompilerIf #CompileMacCocoa = 0
-    SendEditorMessage(#SCI_SETSCROLLWIDTH, 1) ; 10 pixels width at start, and will grow if necessary 
+    SendEditorMessage(#SCI_SETSCROLLWIDTH, 1) ; 10 pixels width at start, and will grow if necessary
     SendEditorMessage(#SCI_SETSCROLLWIDTHTRACKING, 1)
   CompilerEndIf
   
@@ -3366,7 +3366,7 @@ Procedure SetReadOnly(Gadget, State)
   Else
     ScintillaSendMessage(Gadget, #SCI_SETCARETLINEVISIBLE, #True)
     ;ScintillaSendMessage(Gadget, #SCI_SETCARETSTYLE, 1) ; Show the caret
-  EndIf 
+  EndIf
   
   SetBackgroundColor(Gadget) ; updates the 'disabled background color'
 EndProcedure
@@ -3381,7 +3381,7 @@ Procedure InsertCodeString(String$)
   
   Converted$ = Space(StringByteLength(String$, Format))
   PokeS(@Converted$, String$, -1, Format)
-  SendEditorMessage(#SCI_REPLACESEL, 0, @Converted$)  
+  SendEditorMessage(#SCI_REPLACESEL, 0, @Converted$)
 EndProcedure
 
 Procedure Undo()
@@ -3403,7 +3403,7 @@ EndProcedure
 Procedure Paste()
   ; update our foldmark fix as there are some problems
   ;lineOld = SendEditorMessage(#SCI_LINEFROMPOSITION, SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0), 0)
-  SendEditorMessage(#SCI_PASTE, 0, 0)  
+  SendEditorMessage(#SCI_PASTE, 0, 0)
   ;lineNew = SendEditorMessage(#SCI_LINEFROMPOSITION, SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0), 0)
   ;UpdateFoldingMarks(*ActiveSource\EditorGadget, lineOld, lineNew)
 EndProcedure
@@ -3454,10 +3454,10 @@ Procedure.s GetMarkerString()  ; get a list of all markers as a string
     ProcedureReturn string$
   Else
     ProcedureReturn ""
-  EndIf  
+  EndIf
 EndProcedure
 
-Procedure ApplyMarkerString(Markers$) ; apply a string of marker numbers to the file  
+Procedure ApplyMarkerString(Markers$) ; apply a string of marker numbers to the file
   SendEditorMessage(#SCI_MARKERDELETEALL, #MARKER_Marker, 0)
   index = 1
   Repeat
@@ -3490,7 +3490,7 @@ Procedure SetFoldState(Line, State)
     If ScintillaSendMessage(*ActiveSource\EditorGadget, #SCI_GETFOLDEXPANDED, Line, 0)
       ScintillaSendMessage(*ActiveSource\EditorGadget, #SCI_TOGGLEFOLD, Line, 0)
     EndIf
-  EndIf  
+  EndIf
 EndProcedure
 
 Procedure GetFoldState(Line)
@@ -3501,7 +3501,7 @@ EndProcedure
 Procedure HideLineNumbers(*Source.SourceFile, Hide)
 
   If Hide
-    ScintillaSendMessage(*Source\EditorGadget, #SCI_SETMARGINWIDTHN, 0, 0)  
+    ScintillaSendMessage(*Source\EditorGadget, #SCI_SETMARGINWIDTHN, 0, 0)
   Else
     UpdateLineNumbers(*Source)
   EndIf
@@ -3520,7 +3520,7 @@ Procedure UpdateLineNumbers(*Source.SourceFile)
   
     Lines$ = "_" + RSet("9", Len(Str(NbLines)), "9")
     ScintillaSendMessage(*Source\EditorGadget, #SCI_SETMARGINWIDTHN, 0, ScintillaSendMessage(*Source\EditorGadget, #SCI_TEXTWIDTH, #STYLE_LINENUMBER, ToAscii(Lines$)))
-  EndIf    
+  EndIf
     
 EndProcedure
 
@@ -3539,7 +3539,7 @@ Procedure AutoComplete_GetWordPosition(*X.INTEGER, *Y.INTEGER, *W.INTEGER, *H.IN
     If GetWordBoundary(@Line$, Len(Line$), *ActiveSource\CurrentColumnChars-1, @StartIndex, @EndIndex, 1)
       Position = SendEditorMessage(#SCI_POSITIONFROMLINE, -1, 0) + StartIndex
     EndIf
-  EndIf  
+  EndIf
   
   *X\i = SendEditorMessage(#SCI_POINTXFROMPOSITION, 0, Position) + DesktopScaledX(GadgetX(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate))
   *Y\i = SendEditorMessage(#SCI_POINTYFROMPOSITION, 0, Position) + DesktopScaledY(GadgetY(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate) + EditorFontSize)
@@ -3565,12 +3565,12 @@ Procedure AutoComplete_GetWordPosition(*X.INTEGER, *Y.INTEGER, *W.INTEGER, *H.IN
     *Y\i + 8
     
     If *X\i + *W\i > WindowX(#WINDOW_Main)+WindowWidth(#WINDOW_Main)
-      *X\i = WindowX(#WINDOW_Main)+WindowWidth(#WINDOW_Main)-*W\i - 5     
-    EndIf    
+      *X\i = WindowX(#WINDOW_Main)+WindowWidth(#WINDOW_Main)-*W\i - 5
+    EndIf
     
     If *Y\i + *H\i > WindowY(#WINDOW_Main)+WindowHeight(#WINDOW_Main)+16
       *H\i = (WindowY(#WINDOW_Main)+WindowHeight(#WINDOW_Main)+16)-*Y\i-5 ; cannot move the window up, so make it smaller
-    EndIf  
+    EndIf
   CompilerEndIf
    
   CompilerIf #CompileMac
@@ -3583,16 +3583,16 @@ Procedure AutoComplete_GetWordPosition(*X.INTEGER, *Y.INTEGER, *W.INTEGER, *H.IN
     CompilerIf #CompileMacCarbon
       If ShowMainToolbar ; Only add the toolbar height if the main toolbar is shown in the preferences
         *Y\i + 23
-      EndIf 
+      EndIf
     CompilerEndIf
     
     If *X\i + *W\i > WindowX(#WINDOW_Main)+WindowWidth(#WINDOW_Main)
-      *X\i = WindowX(#WINDOW_Main)+WindowWidth(#WINDOW_Main)-*W\i - 5     
-    EndIf    
+      *X\i = WindowX(#WINDOW_Main)+WindowWidth(#WINDOW_Main)-*W\i - 5
+    EndIf
     
     If *Y\i + *H\i > WindowY(#WINDOW_Main)+WindowHeight(#WINDOW_Main)+16
       *H\i = (WindowY(#WINDOW_Main)+WindowHeight(#WINDOW_Main)+16)-*Y\i-5 ; cannot move the window up, so make it smaller
-    EndIf    
+    EndIf
   CompilerEndIf
     
 EndProcedure
@@ -3617,13 +3617,13 @@ EndProcedure
 Procedure FindText(Mode, Reverse = #False) ; 1=find, 2=replace, 3=replace all
   Static LastSetSelection, LastSearchString$, SearchContinueMarker
   
-  MatchesFound = 0  
+  MatchesFound = 0
   ContinueQuestionAsked = 0
 
   If FindSearchString$ <> ""
     
     SelectionStart = SendEditorMessage(#SCI_GETSELECTIONSTART, 0, 0)
-    SelectionEnd   = SendEditorMessage(#SCI_GETSELECTIONEND  , 0, 0)      
+    SelectionEnd   = SendEditorMessage(#SCI_GETSELECTIONEND  , 0, 0)
 
     Find.SCI_TextToFind
     
@@ -3635,7 +3635,7 @@ Procedure FindText(Mode, Reverse = #False) ; 1=find, 2=replace, 3=replace all
       StringMode = #PB_Ascii
       Find\lpstrText = StringToAscii(FindSearchString$)
       *ReplaceString = StringToAscii(FindReplaceString$)
-    EndIf    
+    EndIf
 
     If FindSelectionOnly
       Find\chrg\cpMin = SelectionStart
@@ -3645,7 +3645,7 @@ Procedure FindText(Mode, Reverse = #False) ; 1=find, 2=replace, 3=replace all
       Find\chrg\cpMin = 0
       Find\chrg\cpMax = SendEditorMessage(#SCI_GETTEXTLENGTH, 0, 0)
 
-    Else      
+    Else
       If Reverse
         ; Reverse search: #SCI_FINDTEXT support it if 'max' is lower than 'min'
         ;
@@ -3668,15 +3668,15 @@ Procedure FindText(Mode, Reverse = #False) ; 1=find, 2=replace, 3=replace all
     EndIf
     
     If FindCaseSensitive: Flags | #SCFIND_MATCHCASE: EndIf
-    If FindWholeWord    : Flags | #SCFIND_WHOLEWORD: EndIf       
+    If FindWholeWord    : Flags | #SCFIND_WHOLEWORD: EndIf
 
     Repeat
       Result = SendEditorMessage(#SCI_FINDTEXT, Flags, @Find)
-      If Result <> -1               
+      If Result <> -1
         line = SendEditorMessage(#SCI_LINEFROMPOSITION, Find\chrgText\cpMin, 0)
         linestart = SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0)
         position = CountCharacters(*ActiveSource\EditorGadget, linestart, Find\chrgText\cpMin)
-        Success = CheckSearchStringComment(line, position, 0) 
+        Success = CheckSearchStringComment(line, position, 0)
       Else
         Success = 0
       EndIf
@@ -3691,40 +3691,40 @@ Procedure FindText(Mode, Reverse = #False) ; 1=find, 2=replace, 3=replace all
             SendEditorMessage(#SCI_ENSUREVISIBLE, line, 0)
             SendEditorMessage(#SCI_LINESCROLL, -99999, -99999)
             SendEditorMessage(#SCI_LINESCROLL, 0, Line-3)
-            SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)            
+            SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)
             LastSetSelection = Find\chrgText\cpMin
             SearchContinueMarker = Find\chrgText\cpMin + StringByteLength(FindSearchString$, StringMode) ; skip the found string on the next search
             Mode = 1 ; make sure the 'replace' mode is not done twice
 
-          Case 2 ; replace 
+          Case 2 ; replace
             ; do a replace only, if the result is what is marked before
             If Find\chrgText\cpMin = SelectionStart And Find\chrgText\cpMax = SelectionEnd
               SendEditorMessage(#SCI_ENSUREVISIBLE, line, 0)
               SendEditorMessage(#SCI_LINESCROLL, -99999, -99999)
               SendEditorMessage(#SCI_LINESCROLL, 0, Line-3)
               SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)
-              SendEditorMessage(#SCI_REPLACESEL, 0, *ReplaceString)                
+              SendEditorMessage(#SCI_REPLACESEL, 0, *ReplaceString)
               SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMin + StringByteLength(FindReplaceString$, StringMode))
               
-              ; scan changed line and do updates as needed              
+              ; scan changed line and do updates as needed
               If PartialSourceScan(*ActiveSource, line, line) ; returns true if changed
                 UpdateFolding(*ActiveSource, line, line+5)
-                UpdateProcedureList()      
-                UpdateVariableViewer()                
+                UpdateProcedureList()
+                UpdateVariableViewer()
               EndIf
                                           
               LastSetSelection = Find\chrgText\cpMin
               SearchContinueMarker = Find\chrgText\cpMin + StringByteLength(FindReplaceString$, StringMode) ; skip the replaced string on the next search
-              ; after this, a normal "find" is done              
+              ; after this, a normal "find" is done
               
               
             Else ; otherwise, act like "find"
               SendEditorMessage(#SCI_ENSUREVISIBLE, line, 0)
               SendEditorMessage(#SCI_LINESCROLL, -99999, -99999)
               SendEditorMessage(#SCI_LINESCROLL, 0, Line-3)
-              SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)            
-              LastSetSelection = Find\chrgText\cpMin 
-              SearchContinueMarker = Find\chrgText\cpMin ; so the next 'replace' will find this again       
+              SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)
+              LastSetSelection = Find\chrgText\cpMin
+              SearchContinueMarker = Find\chrgText\cpMin ; so the next 'replace' will find this again
               Mode = 1
             EndIf
 
@@ -3732,14 +3732,14 @@ Procedure FindText(Mode, Reverse = #False) ; 1=find, 2=replace, 3=replace all
 
             SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)
             SendEditorMessage(#SCI_REPLACESEL, 0, *ReplaceString)
-            LastSetSelection = -1 
-            SearchContinueMarker = 0        
+            LastSetSelection = -1
+            SearchContinueMarker = 0
 
         EndSelect
 
         Find\chrg\cpMin = Find\chrgText\cpMin + StringByteLength(FindReplaceString$, StringMode)
         SelectionEnd + StringByteLength(FindReplaceString$, StringMode) - StringByteLength(FindSearchString$, StringMode)
-        Find\chrg\cpMax + StringByteLength(FindReplaceString$, StringMode) - StringByteLength(FindSearchString$, StringMode)                
+        Find\chrg\cpMax + StringByteLength(FindReplaceString$, StringMode) - StringByteLength(FindSearchString$, StringMode)
         
       Else
       
@@ -3762,13 +3762,13 @@ Procedure FindText(Mode, Reverse = #False) ; 1=find, 2=replace, 3=replace all
             If MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+"."+#NewLine+Language("Find","ContinueSearchReverse"), #FLAG_Question|#PB_MessageRequester_OkCancel) = #PB_MessageRequester_ResultOk
               Find\chrg\cpMin = SendEditorMessage(#SCI_GETTEXTLENGTH, 0, 0)
               Find\chrg\cpMax = 0
-              Result = 0 ; do not end the loop yet!           
-            EndIf      
+              Result = 0 ; do not end the loop yet!
+            EndIf
           Else
             If MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+"."+#NewLine+Language("Find","ContinueSearch"), #FLAG_Question|#PB_MessageRequester_OkCancel) = #PB_MessageRequester_ResultOk
               Find\chrg\cpMin = 0
-              Result = 0 ; do not end the loop yet!           
-            EndIf      
+              Result = 0 ; do not end the loop yet!
+            EndIf
           EndIf
         Else
           MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+".", #FLAG_Info)
@@ -3803,7 +3803,7 @@ Procedure FindText(Mode, Reverse = #False) ; 1=find, 2=replace, 3=replace all
         MessageRequester(#ProductName$, Language("Find","SearchComplete")+"."+#NewLine+Str(MatchesFound)+" "+Language("Find","MatchesFound")+".", #FLAG_Info)
       EndIf
   
-      SetActiveGadget(*ActiveSource\EditorGadget) 
+      SetActiveGadget(*ActiveSource\EditorGadget)
     EndIf
   EndIf
 
@@ -3835,20 +3835,20 @@ EndProcedure
 
 Procedure ClearCurrentLine(*Source.SourceFile)  ; works on all sources
   ScintillaSendMessage(*Source\EditorGadget, #SCI_MARKERDELETEALL, #MARKER_CurrentLine, 0)
-  ScintillaSendMessage(*Source\EditorGadget, #SCI_MARKERDELETEALL, #MARKER_CurrentLineSymbol, 0)  
+  ScintillaSendMessage(*Source\EditorGadget, #SCI_MARKERDELETEALL, #MARKER_CurrentLineSymbol, 0)
   If *Source = *ActiveSource ; removing background markers sometimes is only done when redrawing.. really annoying!
     RedrawGadget(*Source\EditorGadget)
-  EndIf   
+  EndIf
 EndProcedure
 
 Procedure MarkErrorLine(LineNumber)  ; works on current source
   SendEditorMessage(#SCI_MARKERADD, LineNumber-1, #MARKER_Error)
-  SendEditorMessage(#SCI_MARKERADD, LineNumber-1, #MARKER_ErrorSymbol)  
+  SendEditorMessage(#SCI_MARKERADD, LineNumber-1, #MARKER_ErrorSymbol)
 EndProcedure
 
 Procedure MarkWarningLine(LineNumber)  ; works on current source
   SendEditorMessage(#SCI_MARKERADD, LineNumber-1, #MARKER_Warning)
-  SendEditorMessage(#SCI_MARKERADD, LineNumber-1, #MARKER_WarningSymbol)  
+  SendEditorMessage(#SCI_MARKERADD, LineNumber-1, #MARKER_WarningSymbol)
 EndProcedure
 
 Procedure ClearErrorLines(*Source.SourceFile)  ; works on all sources
@@ -3868,7 +3868,7 @@ EndProcedure
 Procedure ClearBreakPoint(LineNumber)
   SendEditorMessage(#SCI_MARKERDELETE, LineNumber, #MARKER_Breakpoint)
   SendEditorMessage(#SCI_MARKERDELETE, LineNumber, #MARKER_BreakpointSymbol)
-  RedrawGadget(*ActiveSource\EditorGadget)  
+  RedrawGadget(*ActiveSource\EditorGadget)
 EndProcedure
 
 Procedure MarkBreakPoint(LineNumber)
@@ -3878,10 +3878,10 @@ EndProcedure
 
 Procedure ClearAllBreakPoints(*Source.SourceFile)
   ScintillaSendMessage(*Source\EditorGadget, #SCI_MARKERDELETEALL, #MARKER_Breakpoint, 0)
-  ScintillaSendMessage(*Source\EditorGadget, #SCI_MARKERDELETEALL, #MARKER_BreakpointSymbol, 0)  
+  ScintillaSendMessage(*Source\EditorGadget, #SCI_MARKERDELETEALL, #MARKER_BreakpointSymbol, 0)
   If *Source = *ActiveSource ; removing background markers sometimes is only done when redrawing.. really annoying!
     RedrawGadget(*Source\EditorGadget)
-  EndIf  
+  EndIf
 EndProcedure
 
 CompilerEndIf

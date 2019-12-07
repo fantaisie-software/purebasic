@@ -23,7 +23,7 @@ XIncludeFile "Common.pb"
 ;
 ; invisible = yes/no (default) - only for real gadgets/windows
 ; disabled  = yes/no (default) - only for real gadgets/windows
-; 
+;
 ; folded = yes/no (default)
 ;          Every object can be folded (completly hidden and taking up no space)
 ;          It can be done with this tag or with the Window\Fold() command
@@ -43,11 +43,11 @@ XIncludeFile "Common.pb"
 Structure DlgBase
   *VTable
     
-  *StaticData.DialogObjectData  
+  *StaticData.DialogObjectData
   *Parent.DlgBase
   
   Gadget.i          ; for Gadgets
-  Folded.l          ; applyable to all object types                    
+  Folded.l          ; applyable to all object types
 EndStructure
 
 

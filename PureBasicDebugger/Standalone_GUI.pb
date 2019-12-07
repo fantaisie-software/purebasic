@@ -13,7 +13,7 @@ Procedure Standalone_AddLog(Message$, TimeStamp)
     Message$ = FormatDate("[%hh:%ii:%ss] ", TimeStamp) + Message$
   EndIf
   AddGadgetItem(#GADGET_Log, -1, Message$)
-  SetGadgetState(#GADGET_Log, CountGadgetItems(#GADGET_Log)-1)  
+  SetGadgetState(#GADGET_Log, CountGadgetItems(#GADGET_Log)-1)
 EndProcedure
 
 
@@ -23,8 +23,8 @@ Procedure Standalone_ResizeGUI()
   Height = WindowHeight(#WINDOW_Main) - StatusbarHeight
 
   CompilerIf #CompilePPC
-    NbGadgets = 8   
-  CompilerElse  
+    NbGadgets = 8
+  CompilerElse
     NbGadgets = 9
   CompilerEndIf
   
@@ -47,7 +47,7 @@ Procedure Standalone_ResizeGUI()
     Extra = (Width-Total) / NbGadgets
   
     Top = 10
-    Left = 10    
+    Left = 10
     ResizeGadget(#GADGET_Run,      Left, Top, ButtonWidth(1)+Extra, ButtonHeight): Left + ButtonWidth(1)+Extra + 10
     ResizeGadget(#GADGET_Stop,      Left, Top, ButtonWidth(2)+Extra, ButtonHeight): Left + ButtonWidth(2)+Extra + 10
     ResizeGadget(#GADGET_Step,      Left, Top, ButtonWidth(3)+Extra, ButtonHeight): Left + ButtonWidth(3)+Extra + 10
@@ -60,11 +60,11 @@ Procedure Standalone_ResizeGUI()
     SizeGadget = #GADGET_Maximize
   Else
   
-    Top = 10  
+    Top = 10
     GetRequiredSize(#GADGET_Run, @ColWidth1, @ButtonHeight)
     ColumnWidth1 = Max(ColumnWidth1, 70)
     ColumnWidth1 = Max(ColumnWidth1, GetRequiredWidth(#GADGET_Step))
-    ColumnWidth1 = Max(ColumnWidth1, GetRequiredWidth(#GADGET_StepOver))    
+    ColumnWidth1 = Max(ColumnWidth1, GetRequiredWidth(#GADGET_StepOver))
     ColumnWidth2 = Max(70, GetRequiredWidth(#GADGET_Stop))
     ColumnWidth2 = Max(ColumnWidth2, GetRequiredWidth(#GADGET_StepOut))
     
@@ -105,13 +105,13 @@ Procedure Standalone_ResizeGUI()
     ResizeGadget(SourceFiles(CurrentSource)\Gadget, 10, EditTop, Width-20, EditHeight)
   Else
     ResizeGadget(#GADGET_Waiting, 10, EditTop, Width-20, EditHeight)
-  EndIf    
+  EndIf
   
   Top = Height - 10 - ButtonHeight
   ButtonWidth(1) = GetRequiredWidth(#GADGET_Debug)
-  ButtonWidth(2) = GetRequiredWidth(#GADGET_Variables)  
+  ButtonWidth(2) = GetRequiredWidth(#GADGET_Variables)
   ButtonWidth(3) = GetRequiredWidth(#GADGET_Watchlist)
-  ButtonWidth(4) = GetRequiredWidth(#GADGET_Profiler)  
+  ButtonWidth(4) = GetRequiredWidth(#GADGET_Profiler)
   ButtonWidth(5) = GetRequiredWidth(#GADGET_History)
   ButtonWidth(6) = GetRequiredWidth(#GADGET_Memory)
   ButtonWidth(7) = GetRequiredWidth(#GADGET_Library)
@@ -128,9 +128,9 @@ Procedure Standalone_ResizeGUI()
   Next i
   Extra = (Width-Total) / NbGadgets
   
-  Left = 10    
+  Left = 10
   ResizeGadget(#GADGET_Debug,     Left, Top, ButtonWidth(1)+Extra, ButtonHeight): Left + ButtonWidth(1)+Extra + 5
-  ResizeGadget(#GADGET_Variables, Left, Top, ButtonWidth(2)+Extra, ButtonHeight): Left + ButtonWidth(2)+Extra + 5 
+  ResizeGadget(#GADGET_Variables, Left, Top, ButtonWidth(2)+Extra, ButtonHeight): Left + ButtonWidth(2)+Extra + 5
   ResizeGadget(#GADGET_Watchlist, Left, Top, ButtonWidth(3)+Extra, ButtonHeight): Left + ButtonWidth(3)+Extra + 5
   ResizeGadget(#GADGET_Profiler,  Left, Top, ButtonWidth(4)+Extra, ButtonHeight): Left + ButtonWidth(4)+Extra + 5
   ResizeGadget(#GADGET_History,   Left, Top, ButtonWidth(5)+Extra, ButtonHeight): Left + ButtonWidth(5)+Extra + 5
@@ -155,23 +155,23 @@ Procedure Standalone_CreateGUI()
   
     *Statusbar = CreateStatusBar(#STATUSBAR, WindowID(#WINDOW_Main))
     If *Statusbar
-      AddStatusBarField(#PB_Ignore)    
+      AddStatusBarField(#PB_Ignore)
       StatusbarHeight = StatusbarHeight(#STATUSBAR)
     EndIf
     
     ButtonGadget(#GADGET_Run,  0, 0, 0, 0, Language("StandaloneDebugger","Run"))
     ButtonGadget(#GADGET_Stop, 0, 0, 0, 0, Language("StandaloneDebugger","Stop"))
-    ButtonGadget(#GADGET_Step, 0, 0, 0, 0, Language("StandaloneDebugger","Step"))    
-    StringGadget(#GADGET_StepCount, 0, 0, 0, 0, "1", #PB_String_Numeric)      
+    ButtonGadget(#GADGET_Step, 0, 0, 0, 0, Language("StandaloneDebugger","Step"))
+    StringGadget(#GADGET_StepCount, 0, 0, 0, 0, "1", #PB_String_Numeric)
     ButtonGadget(#GADGET_StepOver, 0, 0, 0, 0, Language("StandaloneDebugger","StepOver"))
-    ButtonGadget(#GADGET_StepOut, 0, 0, 0, 0, Language("StandaloneDebugger","StepOut"))      
-    ButtonGadget(#GADGET_Quit, 0, 0, 0, 0, Language("StandaloneDebugger","Quit"))         
+    ButtonGadget(#GADGET_StepOut, 0, 0, 0, 0, Language("StandaloneDebugger","StepOut"))
+    ButtonGadget(#GADGET_Quit, 0, 0, 0, 0, Language("StandaloneDebugger","Quit"))
     
     ListViewGadget(#GADGET_Log, 0, 0, 0, 0)
 
-    ComboBoxGadget(#GADGET_SelectSource, 0, 0, 0, 300)          
-    ButtonGadget(#GADGET_BreakSet, 0, 0, 0, 0, Language("StandaloneDebugger","BreakSetRemove"))    
-    ButtonGadget(#GADGET_BreakClear, 0, 0, 0, 0, Language("StandaloneDebugger","BreakClear"))          
+    ComboBoxGadget(#GADGET_SelectSource, 0, 0, 0, 300)
+    ButtonGadget(#GADGET_BreakSet, 0, 0, 0, 0, Language("StandaloneDebugger","BreakSetRemove"))
+    ButtonGadget(#GADGET_BreakClear, 0, 0, 0, 0, Language("StandaloneDebugger","BreakClear"))
     ButtonGadget(#GADGET_DataBreak, 0, 0, 0, 0, Language("StandaloneDebugger","DataBreak"), #PB_Button_Toggle)
     
     ButtonGadget(#GADGET_Debug, 0, 0, 0, 0, Language("StandaloneDebugger", "DebugOutput"), #PB_Button_Toggle)
@@ -181,12 +181,12 @@ Procedure Standalone_CreateGUI()
     ButtonGadget(#GADGET_History, 0, 0, 0, 0, RemoveString(Language("MenuItem", "History"),"&"), #PB_Button_Toggle)
     ButtonGadget(#GADGET_Memory, 0, 0, 0, 0, Language("StandaloneDebugger", "Memory"), #PB_Button_Toggle)
     ButtonGadget(#GADGET_Library, 0, 0, 0, 0, Language("StandaloneDebugger", "Library"), #PB_Button_Toggle)
-    ButtonGadget(#GADGET_Assembly, 0, 0, 0, 0, RemoveString(Language("MenuItem", "DebugAsm"),"&"), #PB_Button_Toggle) 
+    ButtonGadget(#GADGET_Assembly, 0, 0, 0, 0, RemoveString(Language("MenuItem", "DebugAsm"),"&"), #PB_Button_Toggle)
     ButtonGadget(#GADGET_Purifier, 0, 0, 0, 0, Language("StandaloneDebugger", "Purifier"), #PB_Button_Toggle)
     
     CompilerIf #CompilePPC
       HideGadget(#GADGET_Assembly, 1)
-    CompilerEndIf     
+    CompilerEndIf
     
     ButtonImageGadget(#GADGET_Minimize, 0, 0, 0, 0, ImageID(Image_Minimize))
     ButtonImageGadget(#GADGET_Maximize, 0, 0, 0, 0, ImageID(Image_Maximize))
@@ -195,15 +195,15 @@ Procedure Standalone_CreateGUI()
       HideGadget(#GADGET_Log, 1)
     Else
       HideGadget(#GADGET_Maximize, 1)
-    EndIf      
+    EndIf
     
     TextGadget(#GADGET_Waiting, 0, 0, 0, 0, Language("Debugger","Waiting"), #PB_Text_Center|#PB_Text_Border)
     
     AddKeyboardShortcut(#WINDOW_Main, Shortcut_Run, #MENU_Run)
     AddKeyboardShortcut(#WINDOW_Main, Shortcut_Stop, #MENU_Stop)
-    AddKeyboardShortcut(#WINDOW_Main, Shortcut_Step, #MENU_Step)      
-    AddKeyboardShortcut(#WINDOW_Main, Shortcut_StepOver, #MENU_StepOver)      
-    AddKeyboardShortcut(#WINDOW_Main, Shortcut_StepOut, #MENU_StepOut)      
+    AddKeyboardShortcut(#WINDOW_Main, Shortcut_Step, #MENU_Step)
+    AddKeyboardShortcut(#WINDOW_Main, Shortcut_StepOver, #MENU_StepOver)
+    AddKeyboardShortcut(#WINDOW_Main, Shortcut_StepOut, #MENU_StepOut)
 
     Standalone_ResizeGUI()
     
@@ -222,20 +222,20 @@ EndProcedure
 Procedure UpdateGadgetStates()
 
   If *DebuggerData\ProgramState = -1  ; stuff that works only while the exe is loaded
-    DisableGadget(#GADGET_BreakSet, 1)    
-    DisableGadget(#GADGET_BreakClear, 1)    
+    DisableGadget(#GADGET_BreakSet, 1)
+    DisableGadget(#GADGET_BreakClear, 1)
     DisableGadget(#GADGET_DataBreak, 1)
   Else
     DisableGadget(#GADGET_BreakSet, 0)
-    DisableGadget(#GADGET_BreakClear, 0) 
-    DisableGadget(#GADGET_DataBreak, 0) 
-  EndIf 
+    DisableGadget(#GADGET_BreakClear, 0)
+    DisableGadget(#GADGET_DataBreak, 0)
+  EndIf
 
   If *DebuggerData\ProgramState = -1 ; not loaded
     DisableGadget(#GADGET_Run, 1)
     DisableGadget(#GADGET_Stop, 1)
     DisableGadget(#GADGET_Step, 1)
-    DisableGadget(#GADGET_StepCount, 1)     
+    DisableGadget(#GADGET_StepCount, 1)
     DisableGadget(#GADGET_StepOver, 1)
     DisableGadget(#GADGET_StepOut, 1)
   
@@ -243,7 +243,7 @@ Procedure UpdateGadgetStates()
     DisableGadget(#GADGET_Run, 1)
     DisableGadget(#GADGET_Stop, 0)
     DisableGadget(#GADGET_Step, 1)
-    DisableGadget(#GADGET_StepCount, 1)  
+    DisableGadget(#GADGET_StepCount, 1)
     DisableGadget(#GADGET_StepOver, 1)
     DisableGadget(#GADGET_StepOut, 1)
     
@@ -251,19 +251,19 @@ Procedure UpdateGadgetStates()
     DisableGadget(#GADGET_Run, 1)
     DisableGadget(#GADGET_Stop, 1)
     DisableGadget(#GADGET_Step, 1)
-    DisableGadget(#GADGET_StepCount, 1)  
+    DisableGadget(#GADGET_StepCount, 1)
     DisableGadget(#GADGET_StepOver, 1)
-    DisableGadget(#GADGET_StepOut, 1)      
+    DisableGadget(#GADGET_StepOut, 1)
       
   Else ; not running for some other reason
     DisableGadget(#GADGET_Run, 0)
     DisableGadget(#GADGET_Stop, 1)
     DisableGadget(#GADGET_Step, 0)
-    DisableGadget(#GADGET_StepCount, 0) 
+    DisableGadget(#GADGET_StepCount, 0)
     DisableGadget(#GADGET_StepOver, 0)
-    DisableGadget(#GADGET_StepOut, 0)      
+    DisableGadget(#GADGET_StepOut, 0)
     
-  EndIf   
+  EndIf
   
 EndProcedure
 
@@ -273,14 +273,14 @@ DataSection
   CompilerIf #CompileWindows
   
     MinimizeImageData:
-      IncludeBinary #BUILD_DIRECTORY + "TemplateUp.ico"    
+      IncludeBinary #BUILD_DIRECTORY + "TemplateUp.ico"
     MaximizeImageData:
-      IncludeBinary #BUILD_DIRECTORY + "TemplateDown.ico"  
+      IncludeBinary #BUILD_DIRECTORY + "TemplateDown.ico"
   
   CompilerElse
 
     MinimizeImageData:
-      IncludeBinary #BUILD_DIRECTORY + "TemplateUp.png"    
+      IncludeBinary #BUILD_DIRECTORY + "TemplateUp.png"
     MaximizeImageData:
       IncludeBinary #BUILD_DIRECTORY + "TemplateDown.png"
       

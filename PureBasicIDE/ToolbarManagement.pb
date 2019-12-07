@@ -58,12 +58,12 @@ EndProcedure
 Procedure ToolbarMenuImage(MenuItem)
   Image = 0
   
-  For i = 1 To #NB_ToolbarMenuItems  
+  For i = 1 To #NB_ToolbarMenuItems
     If MenuItem = ToolbarMenuID(i) And ToolbarMenuIcon(i)
       Image = ImageID(ToolbarMenuIcon(i))
       Break
-    EndIf     
-  Next i  
+    EndIf
+  Next i
 
   ProcedureReturn Image
 EndProcedure
@@ -112,7 +112,7 @@ Procedure CreateIDEToolBar()
         
         If Toolbar(i)\Action$ = "Menu:VisualDesigner" And VisualDesigner$ = ""
           MenuID = -1
-        ElseIf Toolbar(i)\Action$ = "Menu:Debugger"                       
+        ElseIf Toolbar(i)\Action$ = "Menu:Debugger"
           Flag = 1 ;#PB_Toolbar_Toggle
         EndIf
         
@@ -120,42 +120,42 @@ Procedure CreateIDEToolBar()
         
           If Left(Toolbar(i)\Name$, 8) = "External"
             Toolbar(i)\Image = LoadImage(#PB_Any, Right(Toolbar(i)\Name$, Len(Toolbar(i)\Name$)-9))
-            If Toolbar(i)\Image              
+            If Toolbar(i)\Image
               ToolBarImageButton(MenuID, ImageID(Toolbar(i)\Image), Flag)
               Found = 1
             Else
               MessageRequester(#ProductName$,Language("Misc","ToolbarError")+":"+#NewLine+Right(Toolbar(i)\Name$, Len(Toolbar(i)\Name$)-9), #FLAG_Error)
               Found = 0
-            EndIf          
+            EndIf
             
           Else
           
             ; check for standard button
             ;
-            Found = 0  
+            Found = 0
             For a = 1 To #NB_StandardButtons
               If Toolbar(i)\Name$ = StandardButtonName$(a)
-                ToolBarStandardButton(MenuID, StandardButton(a), Flag)       
-                Found = 1           
+                ToolBarStandardButton(MenuID, StandardButton(a), Flag)
+                Found = 1
                 Break
               EndIf
-            Next a       
+            Next a
             
             ; check for menu icon
             ;
-            If Found = 0     
+            If Found = 0
               For a = 1 To #NB_ToolbarMenuItems
                 If Toolbar(i)\Name$ = ToolbarMenuName$(a) And ToolbarMenuIcon(a)
                   ToolBarImageButton(MenuID, ImageID(ToolbarMenuIcon(a)), Flag)
-                  Found = 1              
+                  Found = 1
                   Break
                 EndIf
               Next a
-            EndIf          
+            EndIf
 
             If Found = 0
               ToolBarImageButton(MenuID, ImageID(#IMAGE_ToolBar_Missing), Flag)
-            EndIf  
+            EndIf
           
           EndIf
           
@@ -178,7 +178,7 @@ Procedure CreateIDEToolBar()
       DisableToolBarButton (#TOOLBAR, #MENU_SyntaxCheck, 1)
     EndIf
 
-    UpdateToolbarView()    
+    UpdateToolbarView()
   EndIf
   
   ProcedureReturn *MainToolbar
@@ -187,7 +187,7 @@ EndProcedure
 Procedure FreeIDEToolbar()
 
   If IsToolBar(#TOOLBAR)
-    FreeToolBar(#TOOLBAR) 
+    FreeToolBar(#TOOLBAR)
     
     For i = 1 To ToolbarItemCount
       If IsImage(Toolbar(i)\Image)
@@ -291,7 +291,7 @@ Procedure UpdatePrefsToolbarList()
       Text$ = Language("Preferences","ActionTool") + ": " + Right(PreferenceToolbar(i)\Action$, Len(PreferenceToolbar(i)\Action$)-5)
     
     Else
-      Text$ = ""    
+      Text$ = ""
     EndIf
 
     SetGadgetItemText(#GADGET_Preferences_ToolbarList, i-1, Text$, 1)
@@ -323,7 +323,7 @@ Procedure UpdatePrefsToolbarItem(FirstCall=#False)
           
         Case "Space"
           SetGadgetState(#GADGET_Preferences_ToolbarIconType, 1)
-          ToolbarPreferenceMode = 0          
+          ToolbarPreferenceMode = 0
           
         Case "Standard"
           SetGadgetState(#GADGET_Preferences_ToolbarIconType, 2)
@@ -334,7 +334,7 @@ Procedure UpdatePrefsToolbarItem(FirstCall=#False)
             AddGadgetItem(#GADGET_Preferences_ToolbarIconList, -1, Right(StandardButtonName$(i), Len(StandardButtonName$(i))-9))
             If PreferenceToolbar(SelectedItem+1)\Name$ = StandardButtonName$(i)
               index = i-1
-            EndIf 
+            EndIf
           Next i
           SetGadgetState(#GADGET_Preferences_ToolbarIconList, index)
           
@@ -349,15 +349,15 @@ Procedure UpdatePrefsToolbarItem(FirstCall=#False)
             AddGadgetItem(#GADGET_Preferences_ToolbarIconList, -1, StringField(ToolbarMenuName$(i), 2, ":"))
             If PreferenceToolbar(SelectedItem+1)\Name$ = ToolbarMenuName$(i)
               index = i-1
-            EndIf             
+            EndIf
           Next i
           SetGadgetState(#GADGET_Preferences_ToolbarIconList, index)
           
-          ToolbarPreferenceMode = 2        
+          ToolbarPreferenceMode = 2
 
         Case "External"
           SetGadgetState(#GADGET_Preferences_ToolbarIconType, 4)
-          SetGadgetText(#GADGET_Preferences_ToolbarIconName, Right(PreferenceToolbar(SelectedItem+1)\Name$, Len(PreferenceToolbar(SelectedItem+1)\Name$)-9))          
+          SetGadgetText(#GADGET_Preferences_ToolbarIconName, Right(PreferenceToolbar(SelectedItem+1)\Name$, Len(PreferenceToolbar(SelectedItem+1)\Name$)-9))
           ToolbarPreferenceMode = 3
           
       EndSelect
@@ -391,7 +391,7 @@ Procedure UpdatePrefsToolbarItem(FirstCall=#False)
           SetGadgetState(#GADGET_Preferences_ToolbarActionList, index)
           SetGadgetState(#GADGET_Preferences_ToolbarActionType, 1)
         
-          ToolbarPreferenceAction = 2 
+          ToolbarPreferenceAction = 2
         
       EndSelect
       
@@ -423,7 +423,7 @@ Procedure UpdatePrefsToolbarItem(FirstCall=#False)
       DisableGadget(#GADGET_Preferences_ToolbarActionType, 1)
       DisableGadget(#GADGET_Preferences_ToolbarActionList, 1)
       
-      ToolbarPreferenceMode = 0    
+      ToolbarPreferenceMode = 0
          
     Case 2 ; Standard
       If ToolbarPreferenceMode <> 1
@@ -442,7 +442,7 @@ Procedure UpdatePrefsToolbarItem(FirstCall=#False)
       
       DisableGadget(#GADGET_Preferences_ToolbarIconList, 0)
       DisableGadget(#GADGET_Preferences_ToolbarActionType, 0)
-      DisableGadget(#GADGET_Preferences_ToolbarActionList, 0)      
+      DisableGadget(#GADGET_Preferences_ToolbarActionList, 0)
                       
     Case 3 ; Internal
       If ToolbarPreferenceMode <> 2
@@ -461,19 +461,19 @@ Procedure UpdatePrefsToolbarItem(FirstCall=#False)
       
       DisableGadget(#GADGET_Preferences_ToolbarIconList, 0)
       DisableGadget(#GADGET_Preferences_ToolbarActionType, 0)
-      DisableGadget(#GADGET_Preferences_ToolbarActionList, 0)      
+      DisableGadget(#GADGET_Preferences_ToolbarActionList, 0)
                                   
-    Case 4 ; external    
+    Case 4 ; external
       HideGadget(#GADGET_Preferences_ToolbarIconList, 1)
       HideGadget(#GADGET_Preferences_ToolbarIconName, 0)
-      HideGadget(#GADGET_Preferences_ToolbarOpenIcon, 0) 
+      HideGadget(#GADGET_Preferences_ToolbarOpenIcon, 0)
       
       DisableGadget(#GADGET_Preferences_ToolbarIconName, 0)
       DisableGadget(#GADGET_Preferences_ToolbarOpenIcon, 0)
       DisableGadget(#GADGET_Preferences_ToolbarActionType, 0)
-      DisableGadget(#GADGET_Preferences_ToolbarActionList, 0) 
+      DisableGadget(#GADGET_Preferences_ToolbarActionList, 0)
       
-      ToolbarPreferenceMode = 3          
+      ToolbarPreferenceMode = 3
     
   
   EndSelect
@@ -499,23 +499,23 @@ Procedure UpdatePrefsToolbarItem(FirstCall=#False)
         SetGadgetState(#GADGET_Preferences_ToolbarActionList, 0)
       
         ToolbarPreferenceAction = 2
-      EndIf    
+      EndIf
     
   EndSelect
   
 EndProcedure
 
 
-DataSection  
+DataSection
 
-  ; this list specifies all menu items that can have a toolbar button and the name 
+  ; this list specifies all menu items that can have a toolbar button and the name
   ; for them in the Preferences. The preference name also references the
   ; images in the Theme.prefs (if they are present)
   ;
   ; Do not forget to update the count on top of this file when adding things!
   ;
   ;- ToolbarMenuItems
-  ToolbarMenuItems:     
+  ToolbarMenuItems:
     Data.l #MENU_New:                 Data$ "Menu:New"
     Data.l #MENU_Open:                Data$ "Menu:Open"
     Data.l #MENU_Save:                Data$ "Menu:Save"
@@ -542,7 +542,7 @@ DataSection
     Data.l #MENU_Paste:               Data$ "Menu:Paste"
     Data.l #MENU_CommentSelection:    Data$ "Menu:InsertComment"
     Data.l #MENU_UnCommentSelection:  Data$ "Menu:RemoveComment"
-    Data.l #MENU_AutoIndent:          Data$ "Menu:AutoIndent"    
+    Data.l #MENU_AutoIndent:          Data$ "Menu:AutoIndent"
     Data.l #MENU_SelectAll:           Data$ "Menu:SelectAll"
     Data.l #MENU_Goto:                Data$ "Menu:Goto"
     Data.l #MENU_JumpToKeyword:       Data$ "Menu:JumpToKeyword"
@@ -571,7 +571,7 @@ DataSection
     Data.l #MENU_NewForm:             Data$ "Menu:NewForm"
     Data.l #MENU_FormSwitch:          Data$ "Menu:FormSwitch"
     Data.l #MENU_Duplicate:           Data$ "Menu:FormDuplicate"
-    Data.l #MENU_FormImageManager:    Data$ "Menu:FormImageManager"  
+    Data.l #MENU_FormImageManager:    Data$ "Menu:FormImageManager"
 
     Data.l #MENU_CompileRun:          Data$ "Menu:Compile"
     Data.l #MENU_RunExe:              Data$ "Menu:RunExe"
@@ -600,16 +600,16 @@ DataSection
       Data.l #MENU_ShowLog:             Data$ "Menu:ShowLog"
       Data.l #MENU_ClearLog:            Data$ "Menu:ClearLog"
       Data.l #MENU_CopyLog:             Data$ "Menu:CopyLog"
-      Data.l #MENU_ClearErrorMarks:     Data$ "Menu:ClearErrorMarks"    
+      Data.l #MENU_ClearErrorMarks:     Data$ "Menu:ClearErrorMarks"
       Data.l #MENU_DebugOutput:         Data$ "Menu:DebugOutput"
       Data.l #MENU_Watchlist:           Data$ "Menu:WatchList"
       Data.l #MENU_VariableList:        Data$ "Menu:VariableList"
       Data.l #MENU_Profiler:            Data$ "Menu:Profiler"
       Data.l #MENU_History:             Data$ "Menu:History"
       Data.l #MENU_Memory:              Data$ "Menu:Memory"
-      Data.l #MENU_LibraryViewer:       Data$ "Menu:LibraryViewer"    
-      Data.l #MENU_DebugAsm:            Data$ "Menu:DebugAsm"     
-      Data.l #MENU_Purifier:            Data$ "Menu:Purifier" 
+      Data.l #MENU_LibraryViewer:       Data$ "Menu:LibraryViewer"
+      Data.l #MENU_DebugAsm:            Data$ "Menu:DebugAsm"
+      Data.l #MENU_Purifier:            Data$ "Menu:Purifier"
     CompilerEndIf
      
     Data.l #MENU_VisualDesigner:      Data$ "Menu:VisualDesigner"
@@ -666,7 +666,7 @@ DataSection
     Data$ "Menu:Undo",       "Menu:Undo"
     Data$ "Menu:Redo",       "Menu:Redo"
     Data$ "Separator",       ""
-    Data$ "Menu:Compile",    "Menu:Compile"    
+    Data$ "Menu:Compile",    "Menu:Compile"
     Data$ "Menu:CompilerOptions","Menu:CompilerOptions"
     Data$ "Separator",       ""
     Data$ "Menu:Debugger",   "Menu:Debugger"
@@ -675,7 +675,7 @@ DataSection
     Data$ "Menu:Run",       "Menu:Run"
     Data$ "Menu:Step",      "Menu:Step"
     Data$ "Menu:StepOver",  "Menu:StepOver"
-    Data$ "Menu:StepOut",   "Menu:StepOut"      
+    Data$ "Menu:StepOut",   "Menu:StepOut"
     Data$ "Menu:Kill",      "Menu:Kill"
     
   ;- StandardIconNames
@@ -693,7 +693,7 @@ DataSection
     Data$ "Standard:Redo":      Data.l #PB_ToolBarIcon_Redo
     Data$ "Standard:Delete":    Data.l #PB_ToolBarIcon_Delete
     Data$ "Standard:Properties":Data.l #PB_ToolBarIcon_Properties
-    Data$ "Standard:Help":      Data.l #PB_ToolBarIcon_Help    
+    Data$ "Standard:Help":      Data.l #PB_ToolBarIcon_Help
   
 
 EndDataSection
