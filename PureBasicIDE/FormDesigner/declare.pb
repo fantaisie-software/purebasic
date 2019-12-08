@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -24,7 +24,7 @@ CompilerSelect #PB_Compiler_OS
     Else
       P_FontGrid = "Segoe UI"
     EndIf
-      
+    
     #P_FontGridSize = 10
     #P_FontCode = "Courier New"
     #P_FontCodeSize = 11
@@ -288,7 +288,7 @@ EndStructure
 ; Help structures used when generating and parsing source code
 Structure two
   a.i : b.i
-EndStructure 
+EndStructure
 Structure twostring
   a.s
   b.s
@@ -419,7 +419,7 @@ Enumeration #PB_Compiler_EnumerationValue
   #Form_Menu15
   #Form_Menu16
   #Form_Menu17
-
+  
   #Form_Items
   #Form_Columns
   #Form_ImgList
@@ -943,8 +943,8 @@ Procedure FlagValue(flag.s)
     EndIf
   Next
 EndProcedure
-  
-  
+
+
 ;}
 
 
@@ -985,7 +985,7 @@ Procedure InitVars()
         
       EndIf
       
-      P_WinHeight = 29 
+      P_WinHeight = 29
       P_Status = 23
       P_Menu = 22
       P_FontSize = 9
@@ -1019,11 +1019,11 @@ Procedure InitVars()
   EndSelect
   
   CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
-      P_FontSize + 3
-      P_FontSizeL + 3
-      P_FontGadgetSize + 3
-      P_FontMenuSize + 3
-      P_FontColumnSize + 3
+    P_FontSize + 3
+    P_FontSizeL + 3
+    P_FontGadgetSize + 3
+    P_FontMenuSize + 3
+    P_FontColumnSize + 3
   CompilerEndIf
   
   

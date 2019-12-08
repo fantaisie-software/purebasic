@@ -38,25 +38,25 @@ typedef void *(*new_fn)(void *context, size_t size, int flags);
 typedef int (*del_fn)(void *context, void *object);
 
 struct allocator {
-	unsigned char magic[8];                /* suba header identifier */
-	ref_t tail;                 /* offset to first cell in free list */
-	size_t mincell;    /* min cell size must be at least sizeof cell */
-	size_t size;                        /* total size of memory area */
-	size_t alloc_total;  /* total bytes utilized from this allocator */
-	size_t free_total;   /* total bytes released from this allocator */
-	size_t size_total;  /* total bytes requested from this allocator */
-					/* utilization = size_total / alloc_total * 100
-					 * e.g. 50000.0 / 50911.0 * 100.0 = 98.2%
-					 */
-	size_t max_free;   /* for debugging - any cell larger throws err */
-	alloc_fn alloc;
-	realloc_fn realloc;
-	free_fn free;
-						/* for reaping memory from pool, varray, etc */
-	reclaim_fn reclaim;
-	void *reclaim_arg;
-	int reclaim_depth;
-	ref_t userref;
+  unsigned char magic[8];                /* suba header identifier */
+  ref_t tail;                 /* offset to first cell in free list */
+  size_t mincell;    /* min cell size must be at least sizeof cell */
+  size_t size;                        /* total size of memory area */
+  size_t alloc_total;  /* total bytes utilized from this allocator */
+  size_t free_total;   /* total bytes released from this allocator */
+  size_t size_total;  /* total bytes requested from this allocator */
+          /* utilization = size_total / alloc_total * 100
+           * e.g. 50000.0 / 50911.0 * 100.0 = 98.2%
+           */
+  size_t max_free;   /* for debugging - any cell larger throws err */
+  alloc_fn alloc;
+  realloc_fn realloc;
+  free_fn free;
+            /* for reaping memory from pool, varray, etc */
+  reclaim_fn reclaim;
+  void *reclaim_arg;
+  int reclaim_depth;
+  ref_t userref;
 };
 
 LIBMBA_API struct allocator *global_allocator;

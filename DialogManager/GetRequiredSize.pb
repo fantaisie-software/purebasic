@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -33,13 +33,13 @@ CompilerEndIf
 
 CompilerIf #PB_Compiler_OS = #PB_OS_Linux
   CompilerIf Defined(PB_Gadget, #PB_Structure) = 0
-  Structure PB_Gadget
-    *Gadget.GtkWidget
-    *Container.GtkWidget
-    *VT
-    UserData.i
-    GadgetData.i[4]
-  EndStructure
+    Structure PB_Gadget
+      *Gadget.GtkWidget
+      *Container.GtkWidget
+      *VT
+      UserData.i
+      GadgetData.i[4]
+    EndStructure
   CompilerEndIf
 CompilerEndIf
 
@@ -61,7 +61,7 @@ CompilerIf #CompileMacCocoa
 CompilerEndIf
 
 Procedure GetRequiredSize(Gadget, *Width.LONG, *Height.LONG, Flags = 0)
-
+  
   *Width\l  = GadgetWidth(Gadget, #PB_Gadget_RequiredSize)
   *Height\l = GadgetHeight(Gadget, #PB_Gadget_RequiredSize)
   
@@ -73,13 +73,13 @@ Procedure GetRequiredWidth(Gadget, Flags = 0)
   Protected Width.l, Height.l
   GetRequiredSize(Gadget, @Width, @Height, Flags)
   ProcedureReturn Width
-EndProcedure 
+EndProcedure
 
 Procedure GetRequiredHeight(Gadget, Flags = 0)
   Protected Width.l, Height.l
   GetRequiredSize(Gadget, @Width, @Height, Flags)
   ProcedureReturn Height
-EndProcedure 
+EndProcedure
 
 
 ; Calculate the top offset for a Frame3DGadget
@@ -90,13 +90,13 @@ Procedure Frame3DTopOffset(Gadget)
     oldFont = SelectObject_(DC, GetGadgetFont(Gadget)) ; important, as font size calculations are wrong else (especially for long strings)
     GetTextExtentPoint32_(DC, Text$, Len(Text$), @Size.SIZE)
     SelectObject_(DC, oldFont)
-    ReleaseDC_(GadgetID(Gadget), DC)    
+    ReleaseDC_(GadgetID(Gadget), DC)
     ProcedureReturn Max(Size\cy, 10)
   CompilerEndIf
   
   CompilerIf #CompileLinux
-    gtk_widget_size_request_(gtk_frame_get_label_widget_(GadgetID(Gadget)), @Size.GtkRequisition)    
-    ProcedureReturn Size\Height 
+    gtk_widget_size_request_(gtk_frame_get_label_widget_(GadgetID(Gadget)), @Size.GtkRequisition)
+    ProcedureReturn Size\Height
   CompilerEndIf
   
   CompilerIf #CompileMac

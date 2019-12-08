@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -6,30 +6,30 @@
 
 
 DataSection
-
+  
   ; Those items that can be displayed in the variable viewer
   ;
   #VariableViewer_NbOptions = 8
   
   VariableViewer_OptionMap:
-    Data.l #ITEM_Variable
-    Data.l #ITEM_Array
-    Data.l #ITEM_LinkedList
-    Data.l #ITEM_Map
-    Data.l #ITEM_Constant
-    Data.l #ITEM_Prototype
-    Data.l #ITEM_Structure
-    Data.l #ITEM_Interface  
-    
-
+  Data.l #ITEM_Variable
+  Data.l #ITEM_Array
+  Data.l #ITEM_LinkedList
+  Data.l #ITEM_Map
+  Data.l #ITEM_Constant
+  Data.l #ITEM_Prototype
+  Data.l #ITEM_Structure
+  Data.l #ITEM_Interface
+  
+  
 EndDataSection
 
 
 Structure VariableViewerData Extends ToolsPanelEntry
   IsEnabled.l
-  ShowAllFiles.l 
-  ShowProject.l  
- 
+  ShowAllFiles.l
+  ShowProject.l
+  
   Current.l ; current displayed option index
   Type.l    ; current displayed #ITEM_ type
   
@@ -44,33 +44,33 @@ Structure VariableViewerData Extends ToolsPanelEntry
   PrefsSourceOnly.i
   PrefsProjectOnly.i
   PrefsProjectAllFiles.i
-  PrefsAllFiles.i  
+  PrefsAllFiles.i
 EndStructure
 
 Global *VariableViewer.VariableViewerData
 Global *VariableViewerOptionMap.PTR = ?VariableViewer_OptionMap
 
-Global NewList VariableViewerItems.s() 
+Global NewList VariableViewerItems.s()
 
 Procedure.s VariableViewer_OptionName(index)
   Restore SourceItem_Names
   For i = 0 To *VariableViewerOptionMap\l[index]
     Read.s Result$
   Next i
-  ProcedureReturn Result$    
+  ProcedureReturn Result$
 EndProcedure
 
 
 Procedure UpdateVariableViewer()
-
-  If *VariableViewer\IsEnabled And *ActiveSource 
+  
+  If *VariableViewer\IsEnabled And *ActiveSource
     If *ActiveSource = *ProjectInfo Or *ActiveSource\IsCode = 0
       ClearGadgetItems(*VariableViewer\List)
-    
+      
     Else
-    
+      
       ;StartGadgetFlickerFix(*VariableViewer\List)
-    
+      
       Type = *VariableViewer\Type
       ClearList(VariableViewerItems())
       
@@ -88,10 +88,10 @@ Procedure UpdateVariableViewer()
               VariableViewerItems() = ModulePrefix(*Item\Name$, *ActiveSource\Parser\Modules()\Name$)
               *Item = *Item\NextSorted
             Wend
-          Next Bucket    
+          Next Bucket
         EndIf
       Next *ActiveSource\Parser\Modules()
-    
+      
       ; Add items from project sources
       If *VariableViewer\ShowProject And *ActiveSource\ProjectFile
         ForEach ProjectFiles()
@@ -100,7 +100,7 @@ Procedure UpdateVariableViewer()
               For Bucket = 0 To #PARSER_VTSize-1
                 If ProjectFiles()\Source = 0
                   *Item.SourceItem = ProjectFiles()\Parser\Modules()\Indexed[Type]\Bucket[Bucket]
-                ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource 
+                ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource
                   *Item.SourceItem = ProjectFiles()\Source\Parser\Modules()\Indexed[Type]\Bucket[Bucket]
                 EndIf
                 
@@ -113,8 +113,8 @@ Procedure UpdateVariableViewer()
             EndIf
           Next ProjectFiles()\Parser\Modules()
         Next ProjectFiles()
-      EndIf    
-    
+      EndIf
+      
       ; Add items from open files
       If *VariableViewer\ShowAllFiles
         ForEach FileList()
@@ -127,17 +127,17 @@ Procedure UpdateVariableViewer()
                     AddElement(VariableViewerItems())
                     VariableViewerItems() = ModulePrefix(*Item\Name$, FileList()\Parser\Modules()\Name$)
                     *Item = *Item\NextSorted
-                  Wend          
+                  Wend
                 Next Bucket
               EndIf
             Next FileList()\Parser\Modules()
-          EndIf 
+          EndIf
         Next FileList()
         ChangeCurrentElement(FileList(), *ActiveSource) ; important!
-      EndIf 
+      EndIf
       
       ; Sort the list
-      SortList(VariableViewerItems(), #PB_Sort_Ascending|#PB_Sort_NoCase)    
+      SortList(VariableViewerItems(), #PB_Sort_Ascending|#PB_Sort_NoCase)
       
       ; Update the gadget and eliminate doubles
       OldCount = CountGadgetItems(*VariableViewer\List)
@@ -154,7 +154,7 @@ Procedure UpdateVariableViewer()
           Else
             AddGadgetItem(*VariableViewer\List, index, VariableViewerItems())
           EndIf
-          index + 1        
+          index + 1
         EndIf
       Next VariableViewerItems()
       
@@ -169,7 +169,7 @@ Procedure UpdateVariableViewer()
       ;StopGadgetFlickerFix(*VariableViewer\List)
     EndIf
   EndIf
-
+  
 EndProcedure
 
 
@@ -181,119 +181,119 @@ Procedure VariableViewer_CreateFunction(*Entry.VariableViewerData, PanelItemID)
   Next i
   
   *Entry\List = ListViewGadget(#PB_Any, 0, 0, 0, 0)
-   
+  
   If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
     ToolsPanel_ApplyColors(*Entry\List)
-  EndIf  
+  EndIf
   
   If *Entry\Current < 0 Or *Entry\Current >= #VariableViewer_NbOptions
     *Entry\Current = 0
   EndIf
   
   SetGadgetState(*Entry\Combo, *Entry\Current)
-  *Entry\Type = *VariableViewerOptionMap\l[*Entry\Current] 
+  *Entry\Type = *VariableViewerOptionMap\l[*Entry\Current]
   *Entry\IsEnabled = 1
   
   UpdateVariableViewer()
 EndProcedure
 
 Procedure VariableViewer_DestroyFunction(*Entry.VariableViewerData)
-
+  
   FreeGadget(*Entry\Combo)
   FreeGadget(*Entry\List)
   
   *Entry\IsEnabled = 0
-
+  
 EndProcedure
-     
-Procedure VariableViewer_ResizeHandler(*Entry.VariableViewerData, PanelWidth, PanelHeight)
 
+Procedure VariableViewer_ResizeHandler(*Entry.VariableViewerData, PanelWidth, PanelHeight)
+  
   If *Entry\IsSeparateWindow
     Height = GetRequiredHeight(*Entry\Combo)
     ResizeGadget(*Entry\Combo, 5, 5, PanelWidth-10, Height)
-    ResizeGadget(*Entry\List, 5, 10+Height, PanelWidth-10, PanelHeight-15-Height)      
+    ResizeGadget(*Entry\List, 5, 10+Height, PanelWidth-10, PanelHeight-15-Height)
   Else
     Height = GetRequiredHeight(*Entry\Combo)
     ResizeGadget(*Entry\Combo, 0, 0, PanelWidth, Height)
-    ResizeGadget(*Entry\List, 0, Height+1, PanelWidth, PanelHeight-Height-1)   
-  EndIf  
-
+    ResizeGadget(*Entry\List, 0, Height+1, PanelWidth, PanelHeight-Height-1)
+  EndIf
+  
 EndProcedure
 
 
 Procedure VariableViewer_EventHandler(*Entry.VariableViewerData, EventGadgetID)
-
+  
   If EventGadgetID = *Entry\List
     If EventType() = #PB_EventType_LeftDoubleClick And GetGadgetState(*Entry\List) <> -1
       If *ActiveSource <> *ProjectInfo
-        InsertCodeString(GetGadgetItemText(*Entry\List, GetGadgetState(*Entry\List), 0)) 
+        InsertCodeString(GetGadgetItemText(*Entry\List, GetGadgetState(*Entry\List), 0))
       EndIf
     ElseIf EventType() = #PB_EventType_DragStart And GetGadgetState(*Entry\List) <> -1
-      DragText(GetGadgetItemText(*Entry\List, GetGadgetState(*Entry\List), 0), #PB_Drag_Copy)       
+      DragText(GetGadgetItemText(*Entry\List, GetGadgetState(*Entry\List), 0), #PB_Drag_Copy)
     EndIf
-  
+    
   ElseIf EventGadgetID = *Entry\Combo
     State = GetGadgetState(*Entry\Combo)
     If State <> -1 And State <> *Entry\Current
       *Entry\Current = State
       *Entry\Type    = *VariableViewerOptionMap\l[State]
       SetGadgetState(*Entry\List, -1) ; we change the content, do not preserve the state
-      UpdateVariableViewer()  
+      UpdateVariableViewer()
     EndIf
-  
+    
   EndIf
   
 EndProcedure
 
 
-Procedure VariableViewer_PreferenceLoad(*Entry.VariableViewerData) 
-
+Procedure VariableViewer_PreferenceLoad(*Entry.VariableViewerData)
+  
   PreferenceGroup("VariableViewer")
   *Entry\ShowAllFiles   = ReadPreferenceLong("ShowAllFiles", 0)
   *Entry\ShowProject    = ReadPreferenceLong("ShowProject", 1)
   
   Current$ = UCase(ReadPreferenceString("Current", "Variable"))
   *Entry\Current = 0
-
+  
   For i = 0 To #VariableViewer_NbOptions-1
     If Current$ = UCase(VariableViewer_OptionName(i))
       *Entry\Current = i
       Break
     EndIf
   Next i
-
+  
 EndProcedure
 
 
-Procedure VariableViewer_PreferenceSave(*Entry.VariableViewerData) 
-
+Procedure VariableViewer_PreferenceSave(*Entry.VariableViewerData)
+  
   PreferenceComment("")
   PreferenceGroup("VariableViewer")
   WritePreferenceLong("ShowAllFiles", *Entry\ShowAllFiles)
   WritePreferenceLong("ShowProject", *Entry\ShowProject)
   WritePreferenceString("Current", VariableViewer_OptionName(*Entry\Current))
- 
+  
 EndProcedure
 
 
 
-Procedure VariableViewer_PreferenceStart(*Entry.VariableViewerData) 
-
+Procedure VariableViewer_PreferenceStart(*Entry.VariableViewerData)
+  
   *Entry\Prefs_ShowAllFiles = *Entry\ShowAllFiles
   *Entry\Prefs_ShowProject  = *Entry\ShowProject
   
 EndProcedure
 
 
-Procedure VariableViewer_PreferenceApply(*Entry.VariableViewerData) 
-
+Procedure VariableViewer_PreferenceApply(*Entry.VariableViewerData)
+  
   *Entry\ShowAllFiles = *Entry\Prefs_ShowAllFiles
   *Entry\ShowProject  = *Entry\Prefs_ShowProject
-
+  
 EndProcedure
 
-Procedure VariableViewer_PreferenceCreate(*Entry.VariableViewerData) 
-
+Procedure VariableViewer_PreferenceCreate(*Entry.VariableViewerData)
+  
   PrefsText                   = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Preferences","AddFrom"))
   *Entry\PrefsSourceOnly      = OptionGadget(#PB_Any, 0, 0, 0, 0, Language("Preferences","SourceOnly"))
   *Entry\PrefsProjectOnly     = OptionGadget(#PB_Any, 0, 0, 0, 0, Language("Preferences","ProjectOnly"))
@@ -318,7 +318,7 @@ Procedure VariableViewer_PreferenceCreate(*Entry.VariableViewerData)
   
   *VariableViewer\PreferencesWidth  = Max(320, Width+20) ; update the values so the scrollarea is properly sized
   *VariableViewer\PreferencesHeight = Top+10
-
+  
   If *Entry\Prefs_ShowProject = 0 And *Entry\Prefs_ShowAllFiles = 0
     SetGadgetState(*Entry\PrefsSourceOnly, 1)
   ElseIf *Entry\Prefs_ShowProject And *Entry\Prefs_ShowAllFiles = 0
@@ -327,13 +327,13 @@ Procedure VariableViewer_PreferenceCreate(*Entry.VariableViewerData)
     SetGadgetState(*Entry\PrefsProjectAllFiles, 1)
   Else
     SetGadgetState(*Entry\PrefsAllFiles, 1)
-  EndIf  
-
+  EndIf
+  
 EndProcedure
 
 
 Procedure VariableViewer_PreferenceDestroy(*Entry.VariableViewerData)
-
+  
   If GetGadgetState(*Entry\PrefsSourceOnly)
     *Entry\Prefs_ShowProject  = 0
     *Entry\Prefs_ShowAllFiles = 0
@@ -351,7 +351,7 @@ Procedure VariableViewer_PreferenceDestroy(*Entry.VariableViewerData)
 EndProcedure
 
 
-Procedure VariableViewer_PreferenceEvents(*Entry.VariableViewerData, EventGadgetID) 
+Procedure VariableViewer_PreferenceEvents(*Entry.VariableViewerData, EventGadgetID)
   ;
   ; no events processed
   ;
@@ -359,25 +359,25 @@ EndProcedure
 
 
 Procedure VariableViewer_PreferenceChanged(*Entry.VariableViewerData, IsConfigOpen)
-
-  If IsConfigOpen 
+  
+  If IsConfigOpen
     If GetGadgetState(*Entry\PrefsSourceOnly)
       If *Entry\ShowProject Or *Entry\ShowAllFiles: ProcedureReturn 1: EndIf
     ElseIf GetGadgetState(*Entry\PrefsProjectOnly)
       If *Entry\ShowProject = 0 Or *Entry\ShowAllFiles: ProcedureReturn 1: EndIf
     ElseIf GetGadgetState(*Entry\PrefsProjectAllFiles)
-      If *Entry\ShowProject = 0 Or *Entry\ShowAllFiles = 0: ProcedureReturn 1: EndIf  
+      If *Entry\ShowProject = 0 Or *Entry\ShowAllFiles = 0: ProcedureReturn 1: EndIf
     Else
-      If *Entry\ShowProject Or *Entry\ShowAllFiles = 0: ProcedureReturn 1: EndIf  
-    EndIf    
-  
+      If *Entry\ShowProject Or *Entry\ShowAllFiles = 0: ProcedureReturn 1: EndIf
+    EndIf
+    
   Else
     If *Entry\ShowAllFiles <> *Entry\Prefs_ShowAllFiles Or *Entry\ShowProject <> *Entry\Prefs_ShowProject
       ProcedureReturn 1
     EndIf
-
+    
   EndIf
-
+  
   ProcedureReturn 0
 EndProcedure
 
@@ -403,11 +403,11 @@ VariableViewer_VT\PreferenceChanged   = @VariableViewer_PreferenceChanged()
 AddElement(AvailablePanelTools())
 
 AvailablePanelTools()\FunctionsVT          = @VariableViewer_VT
-AvailablePanelTools()\NeedPreferences      = 1 
+AvailablePanelTools()\NeedPreferences      = 1
 AvailablePanelTools()\NeedConfiguration    = 1
 AvailablePanelTools()\PreferencesWidth     = 320
 AvailablePanelTools()\PreferencesHeight    = 200
-AvailablePanelTools()\NeedDestroyFunction  = 1   
+AvailablePanelTools()\NeedDestroyFunction  = 1
 AvailablePanelTools()\ToolID$              = "VariableViewer"
 AvailablePanelTools()\PanelTitle$          = "VariableViewerShort"
 AvailablePanelTools()\ToolName$            = "VariableViewerLong"

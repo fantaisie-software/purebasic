@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -19,9 +19,9 @@ Global NewList QuickHelpStructureList.s()
 
 ; Regular expressions to match a single number
 ;
-CreateRegularExpression(#REGEX_HexNumber, "^[\+\-]?\$[0-9a-fA-F]+$") 
+CreateRegularExpression(#REGEX_HexNumber, "^[\+\-]?\$[0-9a-fA-F]+$")
 CreateRegularExpression(#REGEX_BinNumber, "^[\+\-]?\%[01]+$")
-CreateRegularExpression(#REGEX_DecNumber, "^[\+\-]?[0-9]+$")  
+CreateRegularExpression(#REGEX_DecNumber, "^[\+\-]?[0-9]+$")
 CreateRegularExpression(#REGEX_FloatNumber, "^[\+\-]?[0-9]+\.[0-9]*$")
 CreateRegularExpression(#REGEX_ScienceNumber, "^[\+\-]?[0-9]+\.?[0-9]*[eE][\+\-]?[0-9]+$")
 
@@ -34,16 +34,16 @@ CreateRegularExpression(#REGEX_ScienceNumber, "^[\+\-]?[0-9]+\.?[0-9]*[eE][\+\-]
 Procedure GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, *EndIndex.INTEGER, Mode)
   *WordStart.Character = *Buffer
   *WordEnd.Character   = *Buffer + BufferLength * #CharSize
-
+  
   If Position >= 0 And Position < BufferLength+#CharSize And (Mode = 1 Or Position < BufferLength)
     *Cursor.Character = *Buffer + Position*#CharSize
-  
+    
     If Mode = 1 ; Needed for Auto-complete
       *Cursor-#CharSize
     ElseIf ValidCharacters(*Cursor\c) = 0 ; Needed, so F1 help works nicely
       *Cursor-#CharSize
     EndIf
-  
+    
     While *Cursor >= *Buffer
       If ValidCharacters(*Cursor\c) = 0 And (Mode = 0 Or (*Cursor\c <> '#' And *Cursor\c <> '*'))
         *WordStart = *Cursor + #CharSize
@@ -52,7 +52,7 @@ Procedure GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, 
       *Cursor - #CharSize
       Found = 1
     Wend
-  
+    
     *Cursor.Character = *Buffer + Position*#CharSize
     While *Cursor\c
       If ValidCharacters(*Cursor\c) = 0 And *Cursor\c <> '$'
@@ -62,7 +62,7 @@ Procedure GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, 
       *Cursor + #CharSize
       Found = 1
     Wend
-  
+    
     ; Special case: "var1*var2" is detected as one word! (also handle 1*2*3*4*word correctly)
     If Found
       Repeat
@@ -83,20 +83,20 @@ Procedure GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, 
       EndIf
     EndIf
   EndIf
-
+  
   CompilerIf #PB_Compiler_Unicode
     *StartIndex\i = (*WordStart - *Buffer)/#CharSize
     *EndIndex\i   = (*WordEnd   - *Buffer)/#CharSize
   CompilerElse
     *StartIndex\i = *WordStart - *Buffer
-    *EndIndex\i   = *WordEnd   - *Buffer  
-  CompilerEndIf     
-
+    *EndIndex\i   = *WordEnd   - *Buffer
+  CompilerEndIf
+  
   ProcedureReturn Found
 EndProcedure
 
 Procedure.s GetWord(*Buffer, BufferLength, Position)
-
+  
   If GetWordBoundary(*Buffer, BufferLength, Position, @StartIndex, @EndIndex, 0)
     If EndIndex-StartIndex+1 > 0
       ProcedureReturn PeekS(*Buffer + StartIndex * #CharSize, EndIndex-StartIndex+1)
@@ -106,7 +106,7 @@ EndProcedure
 
 
 Procedure.s GetModulePrefix(*Buffer, BufferLength, Position)
-
+  
   If Position > 1 And Position <= BufferLength
     *Cursor.Character = *Buffer + (Position - 1) * #CharSize
     
@@ -131,7 +131,7 @@ Procedure.s GetModulePrefix(*Buffer, BufferLength, Position)
       Wend
       If *Cursor = *Buffer And ValidCharacters(*Cursor\c)
         *FirstChar = *Buffer
-      Else 
+      Else
         *FirstChar = *Cursor + #CharSize
       EndIf
       
@@ -142,41 +142,41 @@ Procedure.s GetModulePrefix(*Buffer, BufferLength, Position)
           ProcedureReturn PeekS(*FirstChar, *LastChar - *FirstChar + #CharSize)
         CompilerEndIf
       EndIf
-    
-    
+      
+      
     EndIf
   EndIf
-    
+  
   ProcedureReturn ""
 EndProcedure
 
 
 
 Procedure.s GetCurrentLine()
-
+  
   GetCursorPosition() ; Ensures than the fields are updated
   ProcedureReturn GetLine(*ActiveSource\CurrentLine-1)
   
 EndProcedure
 
 Procedure.s GetCurrentWord()
-
+  
   Line$ = GetCurrentLine()
-  If Line$    
+  If Line$
     CurrentWord$ = GetWord(@Line$, Len(Line$), *ActiveSource\CurrentColumnChars-1)
   EndIf
-
+  
   ProcedureReturn CurrentWord$
 EndProcedure
 
 ; Extract the number at the given position
-; Does not guarantee that the output is a correct number. 
+; Does not guarantee that the output is a correct number.
 ; The regular expressions at the top can be used to verify this easily
 Procedure.s GetNumber(Line$, Position) ; position is 0-based
-  If Position >= Len(Line$) ; 0-based
+  If Position >= Len(Line$)            ; 0-based
     ProcedureReturn ""
   EndIf
-
+  
   ; Note: The PB compiler accepts spaces between some number parts, but
   ;   for simplicity we only allow it without spaces (which should be the norm)
   ;   Who writes a number like "1e - 10" ?
@@ -190,14 +190,14 @@ Procedure.s GetNumber(Line$, Position) ; position is 0-based
   ; The further possible tokens depend on what token we start on
   ;
   Select *Pointer\c
-  
+      
     Case '%', '$'
       ; Hex and Bin numners, there can only be a +, - before this
       *Pointer - SizeOf(Character)
       If *Pointer >= *Buffer And (*Pointer\c = '+' Or *Pointer\c = '-')
         *Pointer - SizeOf(Character)
       EndIf
-   
+      
     Case '.'
       ; Before the dot can only be a decimal number and a sign
       ; The exponent part cannot contain a dot
@@ -228,7 +228,7 @@ Procedure.s GetNumber(Line$, Position) ; position is 0-based
           *Pointer - SizeOf(Character)
         EndIf
       EndIf
-   
+      
     Case 'E'
       ; before the exponent part can be a full decimal number (with dot and sign)
       ; NOTE: E can also be in a Hex number, so accept both!
@@ -248,8 +248,8 @@ Procedure.s GetNumber(Line$, Position) ; position is 0-based
       EndIf
       If *Pointer >= *Buffer And (*Pointer\c = '+' Or *Pointer\c = '-')
         *Pointer - SizeOf(Character)
-      EndIf   
-   
+      EndIf
+      
     Case 'A' To 'D', 'F'
       ; Can only be a hex number here
       While *Pointer >= *Buffer And ((*Pointer\c >= '0' And *Pointer\c <= '9') Or (*Pointer\c >= 'A' And *Pointer\c <= 'F'))
@@ -261,7 +261,7 @@ Procedure.s GetNumber(Line$, Position) ; position is 0-based
       If *Pointer >= *Buffer And (*Pointer\c = '+' Or *Pointer\c = '-')
         *Pointer - SizeOf(Character)
       EndIf
-   
+      
     Case '0' To '9'
       ; We can be in the part before, after the dot or after the E
       ; Or this could be a hex or bin number.
@@ -271,22 +271,22 @@ Procedure.s GetNumber(Line$, Position) ; position is 0-based
       Wend
       ; Possible sign for the exponent
       If *Pointer >= *Buffer And (*Pointer\c = '+' Or *Pointer\c = '-')
-        *Pointer - SizeOf(Character)              
-      EndIf            
-      If *Pointer >= *Buffer 
+        *Pointer - SizeOf(Character)
+      EndIf
+      If *Pointer >= *Buffer
         Select *Pointer\c
-        
+            
           Case '%', '$'
             ; Now we know its hex/bin
             *Pointer - SizeOf(Character)
-
+            
           Case '.'
             ; Its a normal float, or exponent without a sign
             *Pointer - SizeOf(Character)
             While *Pointer >= *Buffer And (*Pointer\c >= '0' And *Pointer\c <= '9')
               *Pointer - SizeOf(Character)
-            Wend  
-        
+            Wend
+            
           Case 'E'
             ; Now we know its an exponent number (as it must have been "E+" or "E-")
             *Pointer - SizeOf(Character)
@@ -294,19 +294,19 @@ Procedure.s GetNumber(Line$, Position) ; position is 0-based
               *Pointer - SizeOf(Character)
             Wend
             If *Pointer >= *Buffer And *Pointer\c = '.'
-              *Pointer - SizeOf(Character)     
+              *Pointer - SizeOf(Character)
               While *Pointer >= *Buffer And (*Pointer\c >= '0' And *Pointer\c <= '9')
                 *Pointer - SizeOf(Character)
               Wend
-            EndIf 
-        
+            EndIf
+            
         EndSelect
         
         If *Pointer >= *Buffer And (*Pointer\c = '+' Or *Pointer\c = '-')
-          *Pointer - SizeOf(Character)              
-        EndIf 
-      EndIf   
-
+          *Pointer - SizeOf(Character)
+        EndIf
+      EndIf
+      
   EndSelect
   
   ; *Pointer now points 1 char before the number start (or to *Buffer-1)
@@ -321,19 +321,19 @@ Procedure.s GetNumber(Line$, Position) ; position is 0-based
   If *Pointer\c = '+' Or *Pointer\c = '-'
     *Pointer + SizeOf(Character)
   EndIf
-    
+  
   If *Pointer\c = '$' ; Hex number
     *Pointer + SizeOf(Character)
     While (*Pointer\c >= '0' And *Pointer\c <= '9') Or (*Pointer\c >= 'A' And *Pointer\c <= 'F')
       *Pointer + SizeOf(Character)
     Wend
-  
+    
   ElseIf *Pointer\c = '%' ; Bin number
     *Pointer + SizeOf(Character)
     While *Pointer\c = '0' Or *Pointer\c = '1'
       *Pointer + SizeOf(Character)
-    Wend    
-  
+    Wend
+    
   Else ; dec number
     While *Pointer\c >= '0' And *Pointer\c <= '9'
       *Pointer + SizeOf(Character)
@@ -343,7 +343,7 @@ Procedure.s GetNumber(Line$, Position) ; position is 0-based
       *Pointer + SizeOf(Character)
       While *Pointer\c >= '0' And *Pointer\c <= '9'
         *Pointer + SizeOf(Character)
-      Wend            
+      Wend
     EndIf
     
     If *Pointer\c = 'E'
@@ -353,9 +353,9 @@ Procedure.s GetNumber(Line$, Position) ; position is 0-based
       EndIf
       While *Pointer\c >= '0' And *Pointer\c <= '9'
         *Pointer + SizeOf(Character)
-      Wend  
+      Wend
     EndIf
-  
+    
   EndIf
   
   ProcedureReturn PeekS(*Start, (*Pointer - *Start) / SizeOf(Character))
@@ -363,13 +363,13 @@ EndProcedure
 
 
 Procedure InsertComments()
-
+  
   If *ActiveSource\IsCode = 0
     ProcedureReturn
   EndIf
   
   GetSelection(@LineStart, 0, @LineEnd, @RowEnd)
-    
+  
   If RowEnd <= 1 And LineStart <> LineEnd ; when selecting a full line, it actually selects the newline too, this results in one extra line. Needs at least 2 lines to work: http://www.purebasic.fr/english/viewtopic.php?f=23&t=48512
     LineEnd - 1
   EndIf
@@ -380,10 +380,10 @@ Procedure InsertComments()
   Next index
   SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
   
-  If PartialSourceScan(*ActiveSource, LineStart-1, LineEnd-1)  
+  If PartialSourceScan(*ActiveSource, LineStart-1, LineEnd-1)
     UpdateFolding(*ActiveSource, LineStart-1, LineEnd-1)
-    UpdateProcedureList()      
-    UpdateVariableViewer()       
+    UpdateProcedureList()
+    UpdateVariableViewer()
   EndIf
   
   SetSelection(LineStart, 1, LineEnd, -1)
@@ -392,16 +392,16 @@ EndProcedure
 
 
 Procedure RemoveComments()
-
+  
   If *ActiveSource\IsCode = 0
     ProcedureReturn
   EndIf
-
+  
   GetSelection(@LineStart, 0, @LineEnd, @RowEnd)
   
   If RowEnd <= 1 ; when selecting a full line, it actually selects the newline too, this results in one extra line
     LineEnd - 1
-  EndIf  
+  EndIf
   
   SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
   For index = LineStart-1 To LineEnd-1
@@ -416,28 +416,28 @@ Procedure RemoveComments()
         SetLine(index, Left(Line$, position-1) + Right(Line$, Len(Line$)-(position+1))) ; remove the space as well
       Else
         SetLine(index, Left(Line$, position-1) + Right(Line$, Len(Line$)-position)) ; remove only the ;
-      EndIf      
-    EndIf    
+      EndIf
+    EndIf
   Next index
   SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
   
   If PartialSourceScan(*ActiveSource, LineStart-1, LineEnd-1)
     UpdateFolding(*ActiveSource, LineStart-1, LineEnd-1)
-    UpdateProcedureList()      
-    UpdateVariableViewer()  
-  EndIf  
+    UpdateProcedureList()
+    UpdateVariableViewer()
+  EndIf
   
   SetSelection(LineStart, 1, LineEnd, -1)
 EndProcedure
 
 Procedure InsertTab()
-
+  
   GetSelection(@LineStart, 0, @LineEnd, @RowEnd)
   
   
   If RowEnd <= 1 ; when selecting a full line, it actually selects the newline too, this results in one extra line
     LineEnd - 1
-  EndIf  
+  EndIf
   
   If RealTab
     Add$ = Chr(9)
@@ -455,26 +455,26 @@ Procedure InsertTab()
   ;
   If PartialSourceScan(*ActiveSource, LineStart-1, LineEnd-1)
     UpdateFolding(*ActiveSource, LineStart-1, LineEnd-1)
-    UpdateProcedureList()      
-    UpdateVariableViewer()  
-  EndIf  
-
+    UpdateProcedureList()
+    UpdateVariableViewer()
+  EndIf
+  
   
   FlushEvents(); some event generated by the SetLine causes the selection to be lost, so flush it here
-
+  
   SetSelection(LineStart, 1, LineEnd, -1)
   
-
+  
 EndProcedure
 
 Procedure RemoveTab()
-
+  
   GetSelection(@LineStart, 0, @LineEnd, @RowEnd)
   
   
   If RowEnd <= 1 ; when selecting a full line, it actually selects the newline too, this results in one extra line
     LineEnd - 1
-  EndIf  
+  EndIf
   
   SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
   For index = LineStart-1 To LineEnd-1
@@ -482,7 +482,7 @@ Procedure RemoveTab()
     
     If Left(Line$, 1) = Chr(9)
       Line$ = Right(Line$, Len(Line$)-1)
-    
+      
     Else
       cut = 0
       For i = 1 To TabLength
@@ -495,7 +495,7 @@ Procedure RemoveTab()
       Line$ = Right(Line$, Len(Line$)-cut)
     EndIf
     
-    SetLine(index, Line$)        
+    SetLine(index, Line$)
   Next index
   SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
   
@@ -503,28 +503,28 @@ Procedure RemoveTab()
   ;
   If PartialSourceScan(*ActiveSource, LineStart-1, LineEnd-1)
     UpdateFolding(*ActiveSource, LineStart-1, LineEnd-1)
-    UpdateProcedureList()      
-    UpdateVariableViewer()  
-  EndIf 
-
+    UpdateProcedureList()
+    UpdateVariableViewer()
+  EndIf
   
-  FlushEvents() ; some event generated by the SetLine causes the selection to be lost, so flush it here  
-    
+  
+  FlushEvents() ; some event generated by the SetLine causes the selection to be lost, so flush it here
+  
   SetSelection(LineStart, 1, LineEnd, -1)
   
 EndProcedure
 
 Procedure AutoIndent()
-
+  
   If *ActiveSource\IsCode = 0
     ProcedureReturn
   EndIf
-
+  
   GetSelection(@LineStart, 0, @LineEnd, @RowEnd)
   
   If RowEnd <= 1 ; when selecting a full line, it actually selects the newline too, this results in one extra line
     LineEnd - 1
-  EndIf  
+  EndIf
   
   SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
   UpdateIndent(LineStart-1, LineEnd-1)
@@ -534,31 +534,31 @@ Procedure AutoIndent()
   ;
   If PartialSourceScan(*ActiveSource, LineStart-1, LineEnd-1)
     UpdateFolding(*ActiveSource, LineStart-1, LineEnd-1)
-    UpdateProcedureList()      
-    UpdateVariableViewer()  
-  EndIf  
-
+    UpdateProcedureList()
+    UpdateVariableViewer()
+  EndIf
+  
   
   FlushEvents(); some event generated by the SetLine causes the selection to be lost, so flush it here
-
+  
   SetSelection(LineStart, 1, LineEnd, -1)
 EndProcedure
 
 Procedure ShiftComments(IsRight)
-
+  
   If *ActiveSource\IsCode = 0
     ProcedureReturn
   EndIf
-
+  
   GetSelection(@LineStart, 0, @LineEnd, @RowEnd)
   
   If RowEnd <= 1 ; when selecting a full line, it actually selects the newline too, this results in one extra line
     LineEnd - 1
-  EndIf  
+  EndIf
   
   If LineStart < LineEnd ; must be more than one line
-  
-    ; collect all lines and get info about min/max positions positions    
+    
+    ; collect all lines and get info about min/max positions positions
     Protected Dim Lines.s(LineEnd - LineStart)
     MinColumn = $7FFFFFFF ; large positive number
     MaxColumn = 0
@@ -577,19 +577,19 @@ Procedure ShiftComments(IsRight)
           Prefix$ = Left(Prefix$, Len(Prefix$)-1)
         Wend
         CodeColumn = CountColumns(Prefix$)
-               
+        
         MinColumn = Min(MinColumn, Column)
         If ((Column-1) - ((Column-1) % TabLength)) > CodeColumn
           MaxColumn = Max(MaxColumn, Column) ; ignore columns that cannot be moved left anymore
         EndIf
         MaxCodeColumn = Max(MaxCodeColumn, CodeColumn)
-
-      EndIf      
+        
+      EndIf
     Next i
     
-    If MinColumn < $7FFFFFFF ; check if there even are comments     
-      SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)          
-    
+    If MinColumn < $7FFFFFFF ; check if there even are comments
+      SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
+      
       If IsRight
         MinColumn = (MinColumn - (MinColumn % TabLength)) + TabLength
         
@@ -606,50 +606,50 @@ Procedure ShiftComments(IsRight)
                 SetLine(i, Prefix$ + Space(MinColumn-Column) + Comment$)
               EndIf
             EndIf
-          EndIf          
-        Next i          
+          EndIf
+        Next i
         
       Else
-      
+        
         MaxColumn - 1
         MaxColumn = (MaxColumn - (MaxColumn % TabLength))
         If MaxColumn < 0
           MaxColumn = 0
         EndIf
-      
+        
         For i = LineStart-1 To LineEnd-1
           Comment = GetCommentPosition(Lines(i-LineOffset))
           If Comment >= 0
             Prefix$  = Left(Lines(i-LineOffset), Comment)
-            Comment$ = Right(Lines(i-LineOffset), Len(Lines(i-LineOffset))-Comment)  
-            Column   = CountColumns(Prefix$)      
+            Comment$ = Right(Lines(i-LineOffset), Len(Lines(i-LineOffset))-Comment)
+            Column   = CountColumns(Prefix$)
             
             While Column > MaxColumn
-              If Right(Prefix$, 1) = " "                
+              If Right(Prefix$, 1) = " "
                 Prefix$ = Left(Prefix$, Len(Prefix$)-1)
                 Column - 1
               ElseIf Right(Prefix$, 1) = Chr(9)
                 Prefix$ = Left(Prefix$, Len(Prefix$)-1)
                 Column = CountColumns(Prefix$) ; need to re-calculate the new position
-              Else 
+              Else
                 Break
-              EndIf              
-            Wend   
+              EndIf
+            Wend
             
-            SetLine(i, Prefix$ + Comment$) 
-          EndIf          
-        Next i       
-      
+            SetLine(i, Prefix$ + Comment$)
+          EndIf
+        Next i
+        
       EndIf
-
+      
       SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
       
       FlushEvents(); some event generated by the SetLine causes the selection to be lost, so flush it here
       SetSelection(LineStart, 1, LineEnd, -1)
-
+      
     EndIf
   EndIf
-
+  
 EndProcedure
 
 ; Skip *Item, and then to the end of the line or to the next ':'
@@ -659,34 +659,34 @@ EndProcedure
 Procedure BlockSelect_SkipKeyword(*Item.SourceItem, *Line.INTEGER)
   
   Column = *Item\Position + *Item\Length
-      
+  
   LineCount = SendEditorMessage(#SCI_GETLINECOUNT, 0, 0)
   Line$ = GetContinuationLine(*Line\i, @Offset)
   *Pointer.PTR = @Line$ + Offset + Column
   
   ; scan forward
   While *Pointer\c
-  
+    
     If *Pointer\c = ':' And *Pointer\c[1] = ':'
       *Pointer + 2*#CharSize ; a :: module separator
       Column + 2
-    
+      
     ElseIf *Pointer\c = ':'
       Break ; found a command separator
       
-    ElseIf *Pointer\c = 13 
+    ElseIf *Pointer\c = 13
       *Line\i + 1
       Column = 0
       *Pointer + #CharSize
       If *Pointer\c = 10
         *Pointer + #CharSize
       EndIf
-    
+      
     ElseIf *Pointer\c = 10
       *Line\i + 1
       Column = 0
       *Pointer + #CharSize
-    
+      
     ElseIf *Pointer\c = '"'
       *Pointer + #CharSize: Column + 1
       While *Pointer\c And *Pointer\c <> '"' And *Pointer\c <> 13 And *Pointer\c <> 10
@@ -708,7 +708,7 @@ Procedure BlockSelect_SkipKeyword(*Item.SourceItem, *Line.INTEGER)
       If *Pointer\c = '"'
         *Pointer + #CharSize: Column + 1
       EndIf
-    
+      
     ElseIf *Pointer\c = 39 ; '
       *Pointer + #CharSize: Column + 1
       While *Pointer\c And *Pointer\c <> 39 And *Pointer\c <> 13 And *Pointer\c <> 10
@@ -717,17 +717,17 @@ Procedure BlockSelect_SkipKeyword(*Item.SourceItem, *Line.INTEGER)
       If *Pointer\c = 39
         *Pointer + #CharSize: Column + 1
       EndIf
-    
+      
     ElseIf *Pointer\c = ';'
       While *Pointer\c And *Pointer\c <> 13 And *Pointer\c <> 10
         *Pointer + #CharSize: Column + 1
       Wend
-    
+      
     Else
       *Pointer + #CharSize: Column + 1
       
     EndIf
-
+    
   Wend
   
   If *Pointer\c = 0 And *Line\i < LineCount - 1
@@ -741,19 +741,19 @@ Procedure BlockSelect_SkipKeyword(*Item.SourceItem, *Line.INTEGER)
     ProcedureReturn Column
     
   EndIf
- 
+  
 EndProcedure
 
 Procedure BlockSelect_AddBlock(*StartItem.SourceItem, StartLine, IncludeStart, *EndItem.SourceItem, EndLine, IncludeEnd)
-
+  
   Line$ = GetLine(StartLine)
   If IncludeStart
     ; If the stuff before the start item is only whitespace then select the entire line
-    ; The start is a block keyword, so there can be no line continuation here    
+    ; The start is a block keyword, so there can be no line continuation here
     StartColumn = BytesToChars(Line$, 0, Encoding, *StartItem\Position)
     If StartColumn > 0 And RemoveString(RemoveString(Left(Line$, StartColumn), Chr(9)), " ") = ""
       StartColumn = 0
-    EndIf    
+    EndIf
   Else
     ; Skip the keyword
     StartColumn = BytesToChars(Line$, 0, *ActiveSource\Parser\Encoding, BlockSelect_SkipKeyword(*StartItem, @StartLine))
@@ -762,7 +762,7 @@ Procedure BlockSelect_AddBlock(*StartItem.SourceItem, StartLine, IncludeStart, *
   Line$ = GetLine(EndLine)
   If IncludeEnd
     ; Skip the keyword
-    EndColumn = BytesToChars(Line$, 0, *ActiveSource\Parser\Encoding, BlockSelect_SkipKeyword(*EndItem, @EndLine))  
+    EndColumn = BytesToChars(Line$, 0, *ActiveSource\Parser\Encoding, BlockSelect_SkipKeyword(*EndItem, @EndLine))
   Else
     ; If the stuff before the end item is only whitespace then select only the previous line
     ; The start is a block keyword, so there can be no line continuation here
@@ -775,21 +775,21 @@ Procedure BlockSelect_AddBlock(*StartItem.SourceItem, StartLine, IncludeStart, *
   
   StartPosition = SendEditorMessage(#SCI_POSITIONFROMLINE, StartLine, 0) + StartColumn
   EndPosition   = SendEditorMessage(#SCI_POSITIONFROMLINE, EndLine, 0) + EndColumn
-
+  
   ; Only add a stack element if it is different from the previous one!
   ;
   If ListSize(BlockSelectionStack()) = 0 Or BlockSelectionStack()\StartPosition <> StartPosition Or BlockSelectionStack()\EndPosition <> EndPosition
     AddElement(BlockSelectionStack())
     BlockSelectionStack()\StartPosition = StartPosition
     BlockSelectionStack()\EndPosition = EndPosition
-  EndIf 
-   
+  EndIf
+  
 EndProcedure
 
 Procedure BlockSelect_BuildStack()
-    
+  
   StartPosition = SendEditorMessage(#SCI_GETSELECTIONSTART, 0, 0)
-  EndPosition   = SendEditorMessage(#SCI_GETSELECTIONEND, 0, 0) 
+  EndPosition   = SendEditorMessage(#SCI_GETSELECTIONEND, 0, 0)
   
   ; The lowest element is the current selection
   ClearList(BlockSelectionStack())
@@ -806,15 +806,15 @@ Procedure BlockSelect_BuildStack()
   IncludeSelf = #True
   
   While FindBlockStart(@*ActiveSource\Parser, @StartLine, @*StartItem, IncludeSelf)
-  
+    
     ; Look forward to the next match for this item
     NextLine = StartLine
-    *NextItem.SourceItem = *StartItem    
+    *NextItem.SourceItem = *StartItem
     If MatchKeywordForward(@*ActiveSource\Parser, @NextLine, @*NextItem) And *NextItem
-    
+      
       ; add a stack element for the 'inner' part of this block
       BlockSelect_AddBlock(*StartItem, StartLine, #False, *NextItem, NextLine, #False)
-
+      
       If BackwardMatches(*StartItem\Keyword, 0) > 0
         ; This must be a middle keyword like 'ElseIf'
         ; add a stack element for the block including the 'ElseIf' statement
@@ -825,10 +825,10 @@ Procedure BlockSelect_BuildStack()
           If MatchKeywordBackward(@*ActiveSource\Parser, @StartLine, @*StartItem) = #False Or *StartItem = 0
             ; something is messed up here
             ; Since we have no start item to work with anymore, we completely abort the whole thing
-            ProcedureReturn            
+            ProcedureReturn
           EndIf
-        Wend          
-      EndIf    
+        Wend
+      EndIf
       
       ; match forward to the end of the block
       While ForwardMatches(*NextItem\Keyword, 0) > 0
@@ -837,23 +837,23 @@ Procedure BlockSelect_BuildStack()
           *NextItem = 0
           Break
         EndIf
-      Wend  
+      Wend
       
       If *NextItem
         ; add a stack element for the whole IF/ElseIf/EndIf block (outer bounds)
         BlockSelect_AddBlock(*StartItem, StartLine, #True, *NextItem, NextLine, #True)
       EndIf
-        
+      
     EndIf
-
+    
     ; For the next lookup, do not include the *StartItem in the search anymore
     IncludeSelf = #False
   Wend
-      
+  
 EndProcedure
 
 Procedure SelectBlock()
-  If *ActiveSource And *ActiveSource <> *ProjectInfo And *ActiveSource\IsCode 
+  If *ActiveSource And *ActiveSource <> *ProjectInfo And *ActiveSource\IsCode
     
     ; We build the full stack of all possible block selections from the current location first
     ; and then just move up/down this stack later with SelectBlock()/DeselectBlock()
@@ -870,39 +870,39 @@ Procedure SelectBlock()
     ;
     If  NextElement(BlockSelectionStack())
       FlushEvents() ; some event causes this to not work! (dirty hack)
-
+      
       BlockSelectionUpdated = #True ; don't clear the stack in the scintilla callback
       
       ; Swap the two positions. This causes the SCI_SETSEL message to put the caret at the block
       ; start and scroll it into view. This is generally more helpful than seeing the block end
-      SendEditorMessage(#SCI_SETSEL, BlockSelectionStack()\EndPosition, BlockSelectionStack()\StartPosition)   
-      UpdateCursorPosition()    
+      SendEditorMessage(#SCI_SETSEL, BlockSelectionStack()\EndPosition, BlockSelectionStack()\StartPosition)
+      UpdateCursorPosition()
       
       ; scroll a bit if the selection start is now in the first line in view
       If SendEditorMessage(#SCI_DOCLINEFROMVISIBLE, SendEditorMessage(#SCI_GETFIRSTVISIBLELINE, 0, 0)) = SendEditorMessage(#SCI_LINEFROMPOSITION, BlockSelectionStack()\StartPosition)
         SendEditorMessage(#SCI_LINESCROLL, 0, -3)
       EndIf
     EndIf
-  
+    
   EndIf
 EndProcedure
 
 Procedure DeselectBlock()
   If *ActiveSource And *ActiveSource <> *ProjectInfo And *ActiveSource\IsCode
-  
+    
     ; Move down the stack (if possible). The lowest element is the original selection
     If PreviousElement(BlockSelectionStack())
       FlushEvents() ; some event causes this to not work! (dirty hack)
-
+      
       BlockSelectionUpdated = #True ; don't clear the stack in the scintilla callback
       If ListIndex(BlockSelectionStack()) = 0
         ; no swaping here. restore the original selection
-        SendEditorMessage(#SCI_SETSEL, BlockSelectionStack()\StartPosition, BlockSelectionStack()\EndPosition)   
-      Else  
+        SendEditorMessage(#SCI_SETSEL, BlockSelectionStack()\StartPosition, BlockSelectionStack()\EndPosition)
+      Else
         ; swap like in the SelectBlock() function
-        SendEditorMessage(#SCI_SETSEL, BlockSelectionStack()\EndPosition, BlockSelectionStack()\StartPosition) 
+        SendEditorMessage(#SCI_SETSEL, BlockSelectionStack()\EndPosition, BlockSelectionStack()\StartPosition)
       EndIf
-      UpdateCursorPosition()    
+      UpdateCursorPosition()
     EndIf
     
   EndIf
@@ -916,19 +916,19 @@ EndProcedure
 ;   3 = char const
 ;
 Procedure IsCommentOrString(Prefix$)
-
+  
   *Cursor.Character = @Prefix$
   
-  Repeat  
+  Repeat
     Select *Cursor\c
-    
+        
       Case 0
         ; not inside anything
-        ProcedureReturn 0 
+        ProcedureReturn 0
         
       Case ';'
         ; comment
-        ProcedureReturn 1      
+        ProcedureReturn 1
         
       Case '"'
         ; regular string
@@ -940,7 +940,7 @@ Procedure IsCommentOrString(Prefix$)
             *Cursor + #CharSize
           EndIf
         Wend
-        *Cursor + #CharSize 
+        *Cursor + #CharSize
         
       Case 39
         ; char constant
@@ -952,7 +952,7 @@ Procedure IsCommentOrString(Prefix$)
             *Cursor + #CharSize
           EndIf
         Wend
-        *Cursor + #CharSize 
+        *Cursor + #CharSize
         
       Case '~'
         *Cursor + #CharSize
@@ -963,7 +963,7 @@ Procedure IsCommentOrString(Prefix$)
             If *Cursor\c = 0
               ProcedureReturn 2
             ElseIf *Cursor\c = '\'
-              *Cursor + #CharSize              
+              *Cursor + #CharSize
               If *Cursor\c = 0
                 ProcedureReturn 2 ; check for prefix end right after the \
               EndIf
@@ -974,50 +974,50 @@ Procedure IsCommentOrString(Prefix$)
           Wend
           *Cursor\c + #CharSize
         EndIf
-      
+        
       Default
         ; any other char
         *Cursor + #CharSize
-    
-    EndSelect  
+        
+    EndSelect
   ForEver
 EndProcedure
 
 Procedure CheckSearchStringComment(line, column, IsAutoComplete) ; line & column are 0 based!
-
+  
   Result = IsCommentOrString(Left(GetLine(line), column))
-
+  
   If IsAutoComplete
-    If Result > 1 And AutoCompleteNoStrings  
+    If Result > 1 And AutoCompleteNoStrings
       ProcedureReturn 0
     ElseIf Result = 1 And AutoCompleteNoComments
       ProcedureReturn 0
     Else
       ProcedureReturn 1
     EndIf
-      
+    
   Else
-    If Result > 1 And FindNoStrings  
+    If Result > 1 And FindNoStrings
       ProcedureReturn 0
     ElseIf Result = 1 And FindNoComments
       ProcedureReturn 0
     Else
       ProcedureReturn 1
     EndIf
-
+    
   EndIf
-
+  
 EndProcedure
 
 
 ; Checks if given cursor pos is inside a string or comment
 ;
 Procedure CheckStringComment(Cursor)
-
+  
   line      = SendEditorMessage(#SCI_LINEFROMPOSITION, Cursor, 0)
   linestart = SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0)
   position  = CountCharacters(*ActiveSource\EditorGadget, linestart, Cursor)
-
+  
   Result = IsCommentOrString(Left(GetLine(line), position))
   
   If Result > 0
@@ -1028,12 +1028,12 @@ Procedure CheckStringComment(Cursor)
 EndProcedure
 
 Procedure FindQuickHelpFromSorted(*Parser.ParserData, *Word, Bucket, List ModuleNames.s())
-
-  ForEach ModuleNames()
   
+  ForEach ModuleNames()
+    
     *Module.SortedModule = *Parser\Modules(UCase(ModuleNames()))
     If *Module
-
+      
       ; macros go first
       *Item.SourceItem = *Module\Sorted\Macros[Bucket]
       While *Item
@@ -1041,26 +1041,26 @@ Procedure FindQuickHelpFromSorted(*Parser.ParserData, *Word, Bucket, List Module
           Case #PB_String_Equal  : ProcedureReturn *Item
           Case #PB_String_Greater: *Item = *Item\NextSorted
           Default                : Break
-        EndSelect      
-      Wend  
-    
+        EndSelect
+      Wend
+      
       *Item.SourceItem = *Module\Sorted\Procedures[Bucket]
       While *Item
         Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCase)
           Case #PB_String_Equal  : ProcedureReturn *Item
           Case #PB_String_Greater: *Item = *Item\NextSorted
           Default                : Break
-        EndSelect      
-      Wend   
-    
+        EndSelect
+      Wend
+      
       *Item.SourceItem = *Module\Sorted\Declares[Bucket]
       While *Item
         Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCase)
           Case #PB_String_Equal  : ProcedureReturn *Item
           Case #PB_String_Greater: *Item = *Item\NextSorted
           Default                : Break
-        EndSelect      
-      Wend   
+        EndSelect
+      Wend
       
       *Item.SourceItem = *Module\Sorted\Imports[Bucket]
       While *Item
@@ -1068,11 +1068,11 @@ Procedure FindQuickHelpFromSorted(*Parser.ParserData, *Word, Bucket, List Module
           Case #PB_String_Equal  : ProcedureReturn *Item
           Case #PB_String_Greater: *Item = *Item\NextSorted
           Default                : Break
-        EndSelect      
-      Wend   
-    
+        EndSelect
+      Wend
+      
     EndIf
-  
+    
   Next ModuleNames()
   
   ProcedureReturn 0
@@ -1098,9 +1098,9 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
   Else
     *LastActiveSource = *ActiveSource
     LastLine          = line
-    LastWord$         = Word$    
+    LastWord$         = Word$
   EndIf
-
+  
   If IsAPIFunction(ToAscii(Word$), Len(Word$)) <> -1
     index = IsAPIFunction(ToAscii(Word$), Len(Word$))
     Text$ = APIFunctions(index)\Name$+"_"
@@ -1109,7 +1109,7 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
     Else
       Text$ + "() - " + Language("Misc","NoQuickHelp")
     EndIf
-         
+    
   ElseIf IsBasicFunction(UCase(Word$)) <> -1
     index = IsBasicFunction(UCase(Word$))
     Text$ = BasicFunctions(index)\Name$
@@ -1120,7 +1120,7 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
     EndIf
     
   ElseIf Left(Word$, 1) <> "#" ; ignore constants here
-  
+    
     ; Generate the sorted index for the active source
     ; does nothing if the data is already indexed
     SortParserData(@*ActiveSource\Parser, *ActiveSource)
@@ -1137,17 +1137,17 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
       ModuleNames() = *ModuleStart\ModulePrefix$ ; only look at this one module
     ElseIf *ModuleStart And FindModuleStart(@*ActiveSource\Parser, @ModuleStartLine, @*ModuleStart, ModuleNames())
       AddElement(ModuleNames())
-      ModuleNames() = *ModuleStart\Name$      
+      ModuleNames() = *ModuleStart\Name$
       If *ModuleStart\Type = #ITEM_Module
         AddElement(ModuleNames())
-        ModuleNames() = "IMPL::" + *ModuleStart\Name$        
-      EndIf      
+        ModuleNames() = "IMPL::" + *ModuleStart\Name$
+      EndIf
     Else
       AddElement(ModuleNames())
       ModuleNames() = "" ; main module
     EndIf
     
-    ; check add ActiveSource items        
+    ; check add ActiveSource items
     *Item = FindQuickHelpFromSorted(@*ActiveSource\Parser, @Word$, Bucket, ModuleNames())
     
     ; check project sources
@@ -1155,54 +1155,54 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
       ForEach ProjectFiles()
         If ProjectFiles()\Source = 0
           *Item = FindQuickHelpFromSorted(@ProjectFiles()\Parser, @Word$, Bucket, ModuleNames())
-        ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource 
+        ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource
           *Item = FindQuickHelpFromSorted(@ProjectFiles()\Source\Parser, @Word$, Bucket, ModuleNames())
         EndIf
         
         If *Item
           Break
-        EndIf          
+        EndIf
       Next ProjectFiles()
-    EndIf    
+    EndIf
     
     ; check other open sources
     If *Item = 0
       ForEach FileList()
         If @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource And FileList()\ProjectFile = 0
-          *Item = FindQuickHelpFromSorted(@FileList()\Parser, @Word$, Bucket, ModuleNames())        
+          *Item = FindQuickHelpFromSorted(@FileList()\Parser, @Word$, Bucket, ModuleNames())
           If *Item
             Break
           EndIf
-        EndIf 
+        EndIf
       Next FileList()
       ChangeCurrentElement(FileList(), *ActiveSource) ; important!
-    EndIf     
+    EndIf
     
     If *Item
       If *Item\Type = #ITEM_Macro
         Text$ = *Item\Name$ + *Item\Prototype$
-      
+        
       ElseIf *Item\Type = #ITEM_Import
         Text$ = *Item\Name$ + StringField(*Item\Type$, 2, Chr(10))
-      
+        
       ElseIf *Item\Prototype$ = ""
         Text$ = *Item\Name$ + "()"
-      
+        
       ElseIf FindString(*Item\Type$, Chr(10), 1)
         ; this is for Imports that are marked #ITEM_UnknownBraced (its like this in loaded sources)
         Text$ = *Item\Name$ + StringField(*Item\Type$, 2, Chr(10))
         
       Else
         Text$ = *Item\Name$ + *Item\Prototype$
-
+        
       EndIf
-    EndIf    
-  
+    EndIf
+    
   EndIf
-    
-    
+  
+  
   LastText$ = Text$
-  ProcedureReturn Text$    
+  ProcedureReturn Text$
 EndProcedure
 
 ; Generate the quick help text for a structured item (prototype or interface)
@@ -1216,89 +1216,89 @@ Procedure.s GenerateQuickHelpFromStructure(Word$, *BaseItem.SourceItem, BaseItem
     ;
     Type$ = ResolveItemType(*BaseItem, BaseItemLine, @OutType.i)
     If Type$ And (OutType = #ITEM_Variable Or OutType = #ITEM_Array Or OutType = #ITEM_LinkedList Or OutType = #ITEM_Map)
-
+      
       ; walk the structure stack to resolve subitems (all must be resolvable)
       ;
       ForEach Stack()
         Subitem$ = Stack()
-        SubitemFound = 0        
-                     
+        SubitemFound = 0
+        
         ; Can only be a structure here, because Word$ is our final sublevel,
         ; and interfaces/prototypes have no further subitems
         ClearList(QuickHelpStructureList())
         If FindStructure(Type$, QuickHelpStructureList())
-        
+          
           ; process the items
-          ForEach QuickHelpStructureList()            
-            Entry$ = StructureFieldName(QuickHelpStructureList())                        
-            If Subitem$ And CompareMemoryString(@Subitem$, @Entry$, #PB_String_NoCase) = #PB_String_Equal              
+          ForEach QuickHelpStructureList()
+            Entry$ = StructureFieldName(QuickHelpStructureList())
+            If Subitem$ And CompareMemoryString(@Subitem$, @Entry$, #PB_String_NoCase) = #PB_String_Equal
               ; on to the next stack item
-              Type$ = StructureFieldType(QuickHelpStructureList()) 
+              Type$ = StructureFieldType(QuickHelpStructureList())
               SubitemFound = 1
               Break
             EndIf
-          Next QuickHelpStructureList() 
+          Next QuickHelpStructureList()
         EndIf
         
         ; There was a mismatch in the subitem chain. There is nothing to display then
         If SubitemFound = 0
           ProcedureReturn ""
-        EndIf      
+        EndIf
       Next Stack()
       
       ; Now we have the final type of the nested structure level, look for our word
       ;
       ClearList(QuickHelpStructureList())
       
-      If FindStructure(Type$, QuickHelpStructureList())        
-        ForEach QuickHelpStructureList()            
-          Entry$     = StructureFieldName(QuickHelpStructureList())   
-          EntryType$ = StructureFieldType(QuickHelpStructureList())                    
+      If FindStructure(Type$, QuickHelpStructureList())
+        ForEach QuickHelpStructureList()
+          Entry$     = StructureFieldName(QuickHelpStructureList())
+          EntryType$ = StructureFieldType(QuickHelpStructureList())
           If CompareMemoryString(@Word$, @Entry$, #PB_String_NoCase) = #PB_String_Equal
             ; Its a structure, so the item must have a prototype as type, else it cannot be with arguments
-            *ProtoItem.SourceItem = FindPrototype(EntryType$)   
+            *ProtoItem.SourceItem = FindPrototype(EntryType$)
             If *ProtoItem And *ProtoItem\Prototype$
               If FindString(EntryType$, "::")
                 EntryType$ = StringField(EntryType$, 2, "::") ; remove any module prefix from the type
               EndIf
               Message$ = EntryType$ + *ProtoItem\Prototype$ ; add the prototype name only if something was found!
-            EndIf 
-            Break        
+            EndIf
+            Break
           EndIf
-        Next QuickHelpStructureList() 
-      
+        Next QuickHelpStructureList()
+        
       ElseIf FindInterface(Type$, QuickHelpStructureList())
-        ForEach QuickHelpStructureList()  
+        ForEach QuickHelpStructureList()
           Entry$ = InterfaceFieldName(QuickHelpStructureList())
-          Proto$ = Trim(Right(QuickHelpStructureList(), Len(QuickHelpStructureList())-(FindString(QuickHelpStructureList(), "(", 1)-1)))          
-                    
-          If CompareMemoryString(@Word$, @Entry$, #PB_String_NoCase) = #PB_String_Equal                        
+          Proto$ = Trim(Right(QuickHelpStructureList(), Len(QuickHelpStructureList())-(FindString(QuickHelpStructureList(), "(", 1)-1)))
+          
+          If CompareMemoryString(@Word$, @Entry$, #PB_String_NoCase) = #PB_String_Equal
             Message$ = Entry$ + Proto$ ; use only Name+Prototype, no return type
             Break
           EndIf
-        Next QuickHelpStructureList()   
-      
+        Next QuickHelpStructureList()
+        
       EndIf
-
+      
     EndIf
   EndIf
-
+  
   ProcedureReturn Message$
 EndProcedure
 
 Procedure.s GenerateQuickHelpText(Line$, Word$, Line, Column)
-
+  
   ; For the structure and prototype check we must ensure that the line data is up to date
   ;
   If ScanLine(*ActiveSource, line)
-    UpdateFolding(*ActiveSource, line-1, line+2)         
+    UpdateFolding(*ActiveSource, line-1, line+2)
     *ActiveSource\ParserDataChanged = #True  ; defere any updating to when the current line changes
-  EndIf  
+  EndIf
   
   ; Check if it is a structured item first
   ;
   If Column > 0
-    BaseItemLine = line    
+    BaseItemLine = line
     If LocateStructureBaseItem(Line$, Column-1, @*BaseItem.SourceItem, @BaseItemLine, QuickHelpStructureStack())
       ProcedureReturn GenerateQuickHelpFromStructure(Word$, *BaseItem, BaseItemLine, QuickHelpStructureStack())
     EndIf
@@ -1309,22 +1309,22 @@ Procedure.s GenerateQuickHelpText(Line$, Word$, Line, Column)
   *Item.SourceItem = LocateSourceItem(@*ActiveSource\Parser, line, CharsToBytes(Line$, 0, *ActiveSource\Parser\Encoding, Column))
   If *Item
     ; Array, List, Map cannot hold Prototypes directly (only in structures)
-    Type$ = ResolveItemType(*Item, line, @OutType.i) 
+    Type$ = ResolveItemType(*Item, line, @OutType.i)
     If Type$ And OutType = #ITEM_Variable
-      *ProtoItem.SourceItem = FindPrototype(Type$)      
+      *ProtoItem.SourceItem = FindPrototype(Type$)
       If *ProtoItem And *ProtoItem\Prototype$
         ProcedureReturn *ProtoItem\Name$ + *ProtoItem\Prototype$
       EndIf
-    EndIf        
+    EndIf
   EndIf
   
   ; Use the old routine to check for PB functions and other stuff
   ;
-  ProcedureReturn GenerateQuickHelpFromWord(Line$, Word$, line, Column) 
+  ProcedureReturn GenerateQuickHelpFromWord(Line$, Word$, line, Column)
 EndProcedure
 
 Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
-  Shared StatusMessageTimeout.q ; shared for the special access in QuickHelpFromLine()
+  Shared StatusMessageTimeout.q                   ; shared for the special access in QuickHelpFromLine()
   
   If *ActiveSource\IsCode = 0
     ChangeStatus("", 0)
@@ -1342,13 +1342,13 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
   
   Stack = 0
   ClearStructure(@QuickHelpStack(0), QuickHelpStack)
-
+  
   *LineStart    = ToAscii(ScanLine$)
   *Pointer.Ascii = *LineStart
   FoundChar = #False
   
   While *Pointer\a
-  
+    
     ; detect inline ASM/JS lines
     If FoundChar = #False
       If *Pointer\a = '!'
@@ -1358,9 +1358,9 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
         ; non-whitespace means it cannot be inline code
         FoundChar = #True
       EndIf
-    EndIf  
+    EndIf
     
-    If *Pointer\a = ';'  
+    If *Pointer\a = ';'
       If Not IsLineContinuation(*LineStart, *Pointer) ; comment ends all this.
         ChangeStatus("", 0)
         ProcedureReturn
@@ -1369,15 +1369,15 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
       ; comment after continuation, so skip comment
       While *Pointer\a And *Pointer\a <> 13 And *Pointer\a <> 10
         *Pointer + 1
-      Wend  
-
+      Wend
+      
     ElseIf *Pointer\a = '"' ; ignore strings
       *Pointer + 1
       While *Pointer\a And *Pointer\a <> '"'
         *Pointer + 1
-      Wend      
+      Wend
       If *Pointer\a
-        *Pointer + 1         
+        *Pointer + 1
       EndIf
       
     ElseIf *Pointer\a = '~' And PeekA(*Pointer + 1) = '"' ; ignore escapedstrings
@@ -1388,39 +1388,39 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
         Else
           *Pointer + 1
         EndIf
-      Wend      
+      Wend
       If *Pointer\a
-        *Pointer + 1         
+        *Pointer + 1
       EndIf
       
     ElseIf *Pointer\a = 39 ; ignore char const
       *Pointer + 1
       While *Pointer\a And *Pointer\a <> 39
         *Pointer + 1
-      Wend      
+      Wend
       If *Pointer\a
-        *Pointer + 1         
+        *Pointer + 1
       EndIf
-            
+      
     ElseIf *Pointer\a = '('
       If Stack < 200
         Stack + 1
         ClearStructure(@QuickHelpStack(Stack), QuickHelpStack)
       EndIf
       *Pointer + 1
-        
+      
     ElseIf *Pointer\a = ')'
       If Stack > 0
         Stack - 1
         QuickHelpStack(Stack)\Word$ = ""
       EndIf
       *Pointer + 1
-    
+      
     ElseIf *Pointer\a = ','
       QuickHelpStack(Stack)\Word$ = ""
       QuickHelpStack(Stack)\Parameter + 1
       *Pointer + 1
-    
+      
     ElseIf ValidCharacters(*Pointer\a)
       *Start = *Pointer
       While ValidCharacters(*Pointer\a)
@@ -1428,24 +1428,24 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
       Wend
       QuickHelpStack(Stack)\Word$ = PeekAsciiLength(*Start, *Pointer-*Start)
       QuickHelpStack(Stack)\Position = *Start-*LineStart
-    
+      
     ElseIf *Pointer\a <> ' ' And *Pointer\a <> 9
       QuickHelpStack(Stack)\Word$ = ""
       *Pointer + 1
-    
+      
     Else
-      *Pointer + 1      
-    
+      *Pointer + 1
+      
     EndIf
-            
+    
   Wend
   
   Stack - 1 ; the last stack position is not valid
   
   ; update the quickhelp
   ;
-  While Stack > 0 And QuickHelpStack(Stack)\Word$ = ""  ; go back all empty spaces 
-    Stack - 1                                            ; Example: Function( ( ( ...
+  While Stack > 0 And QuickHelpStack(Stack)\Word$ = ""  ; go back all empty spaces
+    Stack - 1                                           ; Example: Function( ( ( ...
   Wend
   
   If Stack >= 0 And QuickHelpStack(Stack)\Word$ <> ""
@@ -1459,8 +1459,8 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
       
       ; we need to find the end of the function prototype.
       ; as both inside the prototype (for linkedlists) and in the comment, there can be '( )', a simple findstring does not work.
-      ;      
-      Test$ = Message$ ; make a copy, so we can block out strings for later FindString()      
+      ;
+      Test$ = Message$ ; make a copy, so we can block out strings for later FindString()
       position = FindString(Test$, "(", 1)
       length = Len(Message$)
       depth = 1
@@ -1471,10 +1471,10 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
         *Cursor + SizeOf(Character)
         
         Select *Cursor\c
-
+            
           Case '"' ; ignore strings
-            Repeat         
-              *Cursor\c = ' ' ; block out string content so "," get ignored in strings below   
+            Repeat
+              *Cursor\c = ' ' ; block out string content so "," get ignored in strings below
               position + 1
               *Cursor + SizeOf(Character)
             Until *Cursor\c = '"' Or *Cursor\c = 0 ; string end
@@ -1482,29 +1482,29 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
           Case '~' ; ignore escaped strings
             position + 1
             *Cursor + SizeOf(Character)
-            If *Cursor\c = '"'      
-              *Cursor\c = ' ' ; block out string content so "," get ignored in strings below   
+            If *Cursor\c = '"'
+              *Cursor\c = ' ' ; block out string content so "," get ignored in strings below
               position + 1
-              *Cursor + SizeOf(Character)           
+              *Cursor + SizeOf(Character)
               
               While *Cursor\c And *Cursor\c <> '"'
                 If *Cursor\c = '\' And PeekC(*Cursor + SizeOf(Character)) <> 0
-                  *Cursor\c = ' '                  
-                  *Cursor + SizeOf(Character)  
-                  *Cursor\c = ' '                  
-                  *Cursor + SizeOf(Character)  
+                  *Cursor\c = ' '
+                  *Cursor + SizeOf(Character)
+                  *Cursor\c = ' '
+                  *Cursor + SizeOf(Character)
                   position + 2
                 Else
                   *Cursor\c = ' '
                   position + 1
-                  *Cursor + SizeOf(Character)  
+                  *Cursor + SizeOf(Character)
                 EndIf
               Wend
               
               If *Cursor\c = '"'
                 *Cursor\c = ' '
                 position + 1
-                *Cursor + SizeOf(Character)  
+                *Cursor + SizeOf(Character)
               EndIf
             EndIf
             
@@ -1514,7 +1514,7 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
               position + 1
               *Cursor + SizeOf(Character)
             Until *Cursor\c = 39 Or *Cursor\c = 0
-    
+            
           Case '('
             depth + 1
             
@@ -1522,18 +1522,18 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
             depth - 1
             
         EndSelect
-      Wend    
-          
-      Test$ = Left(Test$, position-1) ; ignore the description part (Test$ now has all strings blocked out)          
+      Wend
       
-      Argument = QuickHelpStack(Stack+1)\Parameter ; the argument index is +1 in the stack (because they are inside the '(' )        
+      Test$ = Left(Test$, position-1) ; ignore the description part (Test$ now has all strings blocked out)
+      
+      Argument = QuickHelpStack(Stack+1)\Parameter ; the argument index is +1 in the stack (because they are inside the '(' )
       
       If Right(RTrim(Test$), 1) = "(" ; the function had no parameters '()'
         ChangeStatus(Message$, 0)
         
       Else
         
-        position = FindString(Test$, "(", 1)      
+        position = FindString(Test$, "(", 1)
         While Argument > 0 And position <> 0
           position = FindString(Test$, ",", position+1)
           Argument - 1
@@ -1551,32 +1551,32 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
           ; only make the word bold, not and "," or "[" for optional parameters
           While Mid(Message$, position+1, 1) = " " Or Mid(Message$, position+1, 1) = "," Or Mid(Message$, position+1, 1) = "[" Or Mid(Message$, position+1, 1) = "]"
             position + 1
-          Wend        
+          Wend
           While Mid(Message$, endposition-1, 1) = " " Or Mid(Message$, endposition-1, 1) = "," Or Mid(Message$, endposition-1, 1) = "[" Or Mid(Message$, endposition-1, 1) = "]"
             Endposition - 1
           Wend
           
           ; on windows, we make the thing ownerdrawn to draw the current argument in bold
           ;
-          CompilerIf #CompileWindows 
+          CompilerIf #CompileWindows
             Shared StatusBarOwnerDrawText$
             
             time.q = ElapsedMilliseconds()
-                        
+            
             If StatusMessageTimeout < time
               StatusMessageTimeout = 0
               StatusBarOwnerDrawText$ = Message$
               SendMessage_(*MainStatusBar, #SB_SETTEXT, 1|#SBT_NOBORDERS|#SBT_OWNERDRAW, position | Endposition<<16)
             EndIf
-          
-          CompilerElse        
-          
+            
+          CompilerElse
+            
             CompilerIf #CompileLinuxGtk2 ; only true when linux + gtk2
-  
+              
               ; On Gtk2, we can use Pango markup to put bold text in a GtkLabel.. quite cool :)
               ;
               time.q = ElapsedMilliseconds()
-                      
+              
               If StatusMessageTimeout < time
                 StatusMessageTimeout = 0
                 Message$ = Left(Message$, position) + "<b>" + Mid(Message$, position+1, Endposition-position-1) + "</b>" + Right(Message$, Len(Message$)-Endposition+1)
@@ -1593,17 +1593,17 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
                       If Label ; found it
                         gtk_label_set_markup_(Label, ToAscii(Message$))
                       EndIf
-                    
+                      
                       g_list_free_(LabelList)
                     EndIf
                   EndIf
                   g_list_free_(FrameList)
                 EndIf
-                                  
+                
               EndIf
-                               
-            CompilerElse          
-            
+              
+            CompilerElse
+              
               ; on the other systems we mark the current argument with text arrows
               Message$ = Left(Message$, position) + "   => " + Mid(Message$, position+1, Endposition-position-1) + " <=   " + Right(Message$, Len(Message$)-Endposition+1)
               ChangeStatus(Message$, 0)
@@ -1613,12 +1613,12 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
           CompilerEndIf
           
         EndIf
-      
+        
       EndIf
-                
-    EndIf  
-  Else      
-  
+      
+    EndIf
+  Else
+    
     Message$ = ""
     
     If GetWordBoundary(@Line$, Len(Line$), cursorposition, @StartIndex, @EndIndex, 0)
@@ -1626,10 +1626,10 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
         Word$ = PeekS(@Line$+StartIndex * #CharSize, EndIndex-StartIndex+1)
         Message$ = GenerateQuickHelpText(Line$, Word$, line, StartIndex)
       EndIf
-    EndIf    
+    EndIf
     
     ChangeStatus(Message$, 0)
-
+    
   EndIf
   
 EndProcedure
@@ -1640,11 +1640,11 @@ EndProcedure
 #EncodingChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890+-"
 
 Procedure.s CreateFoldingInformation()
-
+  
   If *ActiveSource\IsCode = 0
     ProcedureReturn ""
   EndIf
-
+  
   foldpoints = 0
   count = GetLinesCount(*ActiveSource)
   Output$ = ""
@@ -1654,7 +1654,7 @@ Procedure.s CreateFoldingInformation()
   For i = 0 To count-1
     If IsFoldPoint(i)
       foldpoints + 1
-    
+      
       If GetFoldState(i) = 0
         value & ~(1<<bit) ; clear the expanded state for this bit
       EndIf
@@ -1664,12 +1664,12 @@ Procedure.s CreateFoldingInformation()
         Output$ + Mid(#EncodingChars, value+1, 1)
         value = %111111
         bit = 0
-      EndIf          
+      EndIf
     EndIf
   Next i
   
-  Output$ + Mid(#EncodingChars, value+1, 1)  
-
+  Output$ + Mid(#EncodingChars, value+1, 1)
+  
   If foldpoints = 0
     ProcedureReturn "" ; else it returns a single "-" (from the default value) which we do not want to save
   Else
@@ -1687,11 +1687,11 @@ Procedure DecodeNextLineState(Input$)
         Buffer$ = RemoveString(Buffer$, Chr(i))
       EndIf
     Next i
-    bit = 6     
+    bit = 6
     
     ProcedureReturn 0
   Else
-
+    
     If bit >= 6
       If Len(Buffer$) = 0
         ProcedureReturn 1 ; expanded is the default state if the user has more foldpoints than were saved in the file
@@ -1710,20 +1710,20 @@ Procedure DecodeNextLineState(Input$)
     
     bit + 1
     ProcedureReturn result
-  EndIf        
+  EndIf
   
 EndProcedure
 
 Procedure ApplyFoldingInformation(Folding$)
-
+  
   If Folding$ <> "" And *ActiveSource\IsCode
-
+    
     count = GetLinesCount(*ActiveSource)
     DecodeNextLineState(Folding$) ; set the decode buffer
     
     openfolds = 0
     closefolds = 0
-
+    
     For i = 0 To count-1
       If IsFoldPoint(i)
         state = DecodeNextLineState("")
@@ -1734,7 +1734,7 @@ Procedure ApplyFoldingInformation(Folding$)
         EndIf
         SetFoldState(i, state)
       EndIf
-    Next i  
+    Next i
     
     If openfolds > closefolds
       *ActiveSource\ToggleFolds = 1
@@ -1743,13 +1743,7 @@ Procedure ApplyFoldingInformation(Folding$)
     EndIf
     
   EndIf
-
+  
 EndProcedure
 
 
-
-; IDE Options = PureBasic 5.30 (Windows - x86)
-; CursorPosition = 917
-; FirstLine = 913
-; Folding = ------
-; EnableXP

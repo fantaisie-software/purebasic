@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -6,9 +6,9 @@
 
 
 ; -----------------------------------------------------------------
-;  
+;
 ; Returns the Path where to store PureBasic specific config files
-;   On Windows  : %UsersDir%\ApplicationData\PureBasic 
+;   On Windows  : %UsersDir%\ApplicationData\PureBasic
 ;   On Linux/Mac: %home%\.purebasic\
 ;
 ; Also ensures that the returned path exists.
@@ -30,10 +30,10 @@ Procedure.s PureBasicConfigPath()
   If ConfigPath$ <> ""
     ProcedureReturn ConfigPath$
   EndIf
-
+  
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows
     Protected pidl, Index
-
+    
     #CSIDL_APPDATA = $001a
     ConfigPath$ = GetHomeDirectory() ; fallback option if the below fails (no IE4 present)
     
@@ -42,7 +42,7 @@ Procedure.s PureBasicConfigPath()
       If SHGetPathFromIDList_(pidl, @ConfigPath$) = 0
         ConfigPath$ = GetHomeDirectory()
       EndIf
-    EndIf  
+    EndIf
     
     CompilerIf #SpiderBasic
       If Right(ConfigPath$, 1) <> "\"
@@ -58,13 +58,13 @@ Procedure.s PureBasicConfigPath()
         ConfigPath$ + "PureBasic\"
       EndIf
     CompilerEndIf
-      
-    ; Ensure that the path exists 
+    
+    ; Ensure that the path exists
     ; Must check all parents too, as CreateDirectory() fails else
     ;
     If FileSize(ConfigPath$) <> -2
       Index = 3 ; the drive surely exists
-      While FindString(ConfigPath$, "\", Index+1) > 0      
+      While FindString(ConfigPath$, "\", Index+1) > 0
         Index = FindString(ConfigPath$, "\", Index+1)
         If FileSize(Left(ConfigPath$, Index)) <> -2
           If CreateDirectory(Left(ConfigPath$, Index)) = 0
@@ -73,12 +73,12 @@ Procedure.s PureBasicConfigPath()
         EndIf
       Wend
     EndIf
-  
+    
   CompilerElse
-  
+    
     CompilerIf #SpiderBasic
       ConfigPath$ = GetHomeDirectory() + ".spiderbasic/"
-    
+      
     CompilerElse
       ConfigPath$ = GetHomeDirectory() + ".purebasic/"
     CompilerEndIf
@@ -89,7 +89,7 @@ Procedure.s PureBasicConfigPath()
     If FileSize(ConfigPath$) <> -2
       CreateDirectory(ConfigPath$)
     EndIf
-  
+    
   CompilerEndIf
   
   ProcedureReturn ConfigPath$

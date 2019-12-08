@@ -1,4 +1,4 @@
-
+﻿
 ;
 ; PureBasic IDE - Dialog Manager file
 ;
@@ -7,29 +7,29 @@
 ;
 
 DataSection
-
-
+  
+  
   TestDialog:
-    Data.l #DIALOG_Window
-    Data.l #PB_Any, #PB_Window_SizeGadget, 660, 0, 0, 0
-    Data.s "", "Window", "", ""
-
-      Data.l #DIALOG_VBox
-      Data.l #PB_Any, 0, 0, 0, 0, 1
-      Data.s "", "", "", ""
-      Data.s "SPACING", "10"
-
-        Data.l #DIALOG_Checkbox
-        Data.l #PB_Any, 0, 0, 0, 0, 0
-        Data.s "", "Run only one Instance", "", ""
-        Data.l -1
-
-      Data.l -1
-
-    Data.l -1
-
-    Data.l -1
-
-
+  Data.l #DIALOG_Window
+  Data.l #PB_Any, #PB_Window_SizeGadget, 660, 0, 0, 0
+  Data.s "", "Window", "", ""
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Run only one Instance", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  
 EndDataSection
 

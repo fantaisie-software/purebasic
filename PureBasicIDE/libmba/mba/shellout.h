@@ -15,10 +15,10 @@ extern "C" {
 #define SHO_FLAGS_ISATTY   0x0100
 
 struct sho {
-	int flags;
-	pid_t pid;
-	int ptym;
-	struct termios t0;
+  int flags;
+  pid_t pid;
+  int ptym;
+  struct termios t0;
 };
 
 struct sho *sho_open(const unsigned char *shname, const unsigned char *ps1, int flags);

@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -79,7 +79,7 @@ CompilerEndIf
 
 ; return true if the key is present, and makes this key the current element, Key must be uppercase
 Procedure IsKey(List Args.ArgPair(), Key$)
-
+  
   ForEach Args()
     If Args()\Name$ = Key$
       ProcedureReturn #True ; found
@@ -92,7 +92,7 @@ EndProcedure
 Procedure Error(Message$)
   Shared Output$
   OpenConsole()
-  PrintN(Message$) 
+  PrintN(Message$)
   CloseConsole()
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows
     MessageRequester("DialogCompiler", Message$)
@@ -115,7 +115,7 @@ ProcedureC StartElementHandler(user_data, *name, *args.INTEGER)
   ;
   If Name$ = "DIALOGGROUP"
     ProcedureReturn
-  EndIf 
+  EndIf
   
   ; get the stuff in a PB format
   ;
@@ -131,23 +131,23 @@ ProcedureC StartElementHandler(user_data, *name, *args.INTEGER)
     PreviousIndent = Indent
     WriteStringN(1, "")
   EndIf
-
+  
   If Name$ = "COMPILER" ; compilerif statement...
     If IsKey(Args(), "IF")
       WriteStringN(1, Space(Indent) + "CompilerIf " + Args()\Value$)
     Else
-      Error("Syntax Error (Line " + Str(pb_XML_GetCurrentLineNumber_(parser)) + "): " + "Invalid compilerif statement!") 
+      Error("Syntax Error (Line " + Str(pb_XML_GetCurrentLineNumber_(parser)) + "): " + "Invalid compilerif statement!")
     EndIf
-  
+    
     PreviousIndent = Indent
     Indent + 2
-    ProcedureReturn 
+    ProcedureReturn
     
   ElseIf Name$ = "COMPILERELSE"
     WriteStringN(1, "")
     WriteStringN(1, Space(Indent-2) + "CompilerElse")
     WriteStringN(1, "")
-    ProcedureReturn 
+    ProcedureReturn
     
   ElseIf Name$ = "SHORTCUT"
     AddElement(Shortcuts())
@@ -159,31 +159,31 @@ ProcedureC StartElementHandler(user_data, *name, *args.INTEGER)
     EndIf
     ProcedureReturn ; abort here!
   EndIf
-
-  Select Name$
   
-    Case "WINDOW" ; special case, it must have a "label" attribute    
-      Type$ = "#DIALOG_Window"   
+  Select Name$
+      
+    Case "WINDOW" ; special case, it must have a "label" attribute
+      Type$ = "#DIALOG_Window"
       
       If Indent <> 4 ; if it is not that, there is something wrong
-        Error("Syntax Error (Line " + Str(pb_XML_GetCurrentLineNumber_(parser)) + "): " + "WINDOW object must be at the main level!") 
+        Error("Syntax Error (Line " + Str(pb_XML_GetCurrentLineNumber_(parser)) + "): " + "WINDOW object must be at the main level!")
       EndIf
-         
+      
       If IsKey(Args(), "LABEL")
         WriteStringN(1, "  " + Args()\Value$ + ":")
         DeleteElement(Args())
       Else
-        Error("Syntax Error (Line " + Str(pb_XML_GetCurrentLineNumber_(parser)) + "): " + "WINDOW object must have a LABEL attribute!") 
-      EndIf     
+        Error("Syntax Error (Line " + Str(pb_XML_GetCurrentLineNumber_(parser)) + "): " + "WINDOW object must have a LABEL attribute!")
+      EndIf
       
-    
-    Case "EMPTY":        Type$ = "#DIALOG_Empty"  
+      
+    Case "EMPTY":        Type$ = "#DIALOG_Empty"
     Case "VBOX":         Type$ = "#DIALOG_VBox"
     Case "HBOX":         Type$ = "#DIALOG_HBox"
     Case "MULTIBOX":     Type$ = "#DIALOG_Multibox"
     Case "SINGLEBOX":    Type$ = "#DIALOG_Singlebox"
-    Case "GRIDBOX":      Type$ = "#DIALOG_Gridbox"    
-                      
+    Case "GRIDBOX":      Type$ = "#DIALOG_Gridbox"
+      
     Case "BUTTON":       Type$ = "#DIALOG_Button"
     Case "CHECKBOX":     Type$ = "#DIALOG_Checkbox"
     Case "IMAGE":        Type$ = "#DIALOG_Image"
@@ -213,10 +213,10 @@ ProcedureC StartElementHandler(user_data, *name, *args.INTEGER)
     Case "BUTTONIMAGE":  Type$ = "#DIALOG_ButtonImage"
     Case "TRACKBAR":     Type$ = "#DIALOG_TrackBar"
     Case "HYPERLINK":    Type$ = "#DIALOG_HyperLink"
-
+      
     Default
-      Error("Syntax Error (Line " + Str(pb_XML_GetCurrentLineNumber_(parser)) + "): " + "Unknown Tag: " + PeekS(*name)) 
-    
+      Error("Syntax Error (Line " + Str(pb_XML_GetCurrentLineNumber_(parser)) + "): " + "Unknown Tag: " + PeekS(*name))
+      
   EndSelect
   
   WriteStringN(1, Space(Indent) + "Data.l " + Type$)
@@ -254,7 +254,7 @@ ProcedureC StartElementHandler(user_data, *name, *args.INTEGER)
       WriteString(1, ", -1")
     Else
       WriteString(1, ", " + Args()\Value$)
-    EndIf  
+    EndIf
     DeleteElement(Args())
   Else
     WriteString(1, ", 0")
@@ -279,7 +279,7 @@ ProcedureC StartElementHandler(user_data, *name, *args.INTEGER)
     DeleteElement(Args())
   EndIf
   
-  WriteStringN(1, ", " + Str(HasText) + ", " + Str(ListSize(Args())))       
+  WriteStringN(1, ", " + Str(HasText) + ", " + Str(ListSize(Args())))
   WriteStringN(1, Space(Indent) + "Data.s " + Chr(34)+ObjectName$+Chr(34) + ", " + Chr(34)+ReplaceString(LiteralText$, "%newline%", #NewLineSequence)+Chr(34)+", "+Chr(34)+LanguageGroup$+Chr(34)+", "+Chr(34)+LanguageKey$+Chr(34))
   
   ForEach Args()
@@ -292,9 +292,9 @@ ProcedureC StartElementHandler(user_data, *name, *args.INTEGER)
 EndProcedure
 
 ProcedureC EndElementHandler(user_data, *name)
-
+  
   Name$ = UCase(PeekS(*name, -1))
-
+  
   If Name$ = "DIALOGGROUP" Or Name$ = "COMPILERELSE" Or Name$ = "SHORTCUT"
     ProcedureReturn
   EndIf
@@ -307,18 +307,18 @@ ProcedureC EndElementHandler(user_data, *name)
   If Name$ = "COMPILER"
     WriteStringN(1, Space(Indent) + "CompilerEndIf")
   Else
-    WriteStringN(1, Space(Indent) + "Data.l -1")  
+    WriteStringN(1, Space(Indent) + "Data.l -1")
   EndIf
-
+  
   WriteStringN(1, "")
   
-  If Name$ = "WINDOW" ; when the window object is done, add all the shortcuts after    
+  If Name$ = "WINDOW" ; when the window object is done, add all the shortcuts after
     ForEach Shortcuts()
-      WriteStringN(1, Space(Indent) + "Data.l #DIALOG_Shortcut, " + Shortcuts()\Key$ + ", " + Shortcuts()\ID$) 
+      WriteStringN(1, Space(Indent) + "Data.l #DIALOG_Shortcut, " + Shortcuts()\Key$ + ", " + Shortcuts()\ID$)
     Next Shortcuts()
     
     ClearList(Shortcuts()) ; clear the list for the next window object
-    WriteStringN(1, Space(Indent) + "Data.l -1") 
+    WriteStringN(1, Space(Indent) + "Data.l -1")
     WriteStringN(1, "")
   EndIf
   
@@ -356,7 +356,7 @@ WriteStringN(1, "DataSection")
 WriteStringN(1, "")
 
 If pb_XML_Parse_(parser, buffer, length, #True) = #XML_STATUS_ERROR ; only output a message in case of error
-  Error("Parser Error (Line " + Str(pb_XML_GetCurrentLineNumber_(parser)) + "): " + PeekS(pb_XML_ErrorString_(pb_XML_GetErrorCode_(parser)))) 
+  Error("Parser Error (Line " + Str(pb_XML_GetCurrentLineNumber_(parser)) + "): " + PeekS(pb_XML_ErrorString_(pb_XML_GetErrorCode_(parser))))
 EndIf
 
 WriteStringN(1, "")

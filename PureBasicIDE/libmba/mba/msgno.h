@@ -47,8 +47,8 @@ extern "C" {
 #define NULL_POINTER_ERR msgno_builtin_codes[0].msgno
 
 struct msgno_entry {
-	int msgno;
-	const char *msg;
+  int msgno;
+  const char *msg;
 };
 
 LIBMBA_API struct msgno_entry msgno_builtin_codes[];

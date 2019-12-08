@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -25,10 +25,10 @@ EndStructure
 
 
 Procedure DlgBoxBase_AddChild(*THIS.DlgBoxBase, Child.DialogObject)
-  CompilerIf #PB_Compiler_Debugger 
+  CompilerIf #PB_Compiler_Debugger
     If *THIS\NbChilds >= #MAX_CHILDLIST
       MessageRequester("Dialog Manager", "Too many immediate child items (" + Str(#MAX_CHILDLIST) + ") !")
-    EndIf      
+    EndIf
   CompilerEndIf
   
   *THIS\Childs[*THIS\NbChilds] = Child
@@ -46,7 +46,7 @@ Procedure DlgBoxBase_FoldApply(*THIS.DlgBoxBase, State)
     
     For i = 0 To *THIS\NbChilds-1
       *THIS\Childs[i]\FoldApply(State)
-    Next i      
+    Next i
   EndIf
 EndProcedure
 
@@ -62,7 +62,7 @@ Procedure DlgBoxBase_Find(*THIS.DlgBoxBase, Name$)
     If Result <> 0
       ProcedureReturn Result
     EndIf
-  Next i  
+  Next i
 EndProcedure
 
 
@@ -70,7 +70,7 @@ Procedure DlgBoxBase_Update(*THIS.DlgBoxBase)
   If *THIS\Gadget And *THIS\StaticData\HasText
     SetGadgetText(*THIS\Gadget, DialogObjectText(*THIS\StaticData))
   EndIf
-
+  
   For i = 0 To *THIS\NbChilds-1
     *THIS\Childs[i]\Update()
   Next i
@@ -82,7 +82,7 @@ Procedure DlgBoxBase_Destroy(*THIS.DlgBoxBase)
   For i = 0 To *THIS\NbChilds-1
     *THIS\Childs[i]\Destroy()
   Next i
-
+  
   FreeMemory(*THIS)
 EndProcedure
 

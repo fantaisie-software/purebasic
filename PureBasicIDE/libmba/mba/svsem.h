@@ -17,17 +17,17 @@ extern "C" {
 #define O_UNDO 0x80000
 
 typedef struct {
-	int id;
-	int num;
-	int flags;
-	char name[17]; /* only svsem_create/destroy can access this member! */
+  int id;
+  int num;
+  int flags;
+  char name[17]; /* only svsem_create/destroy can access this member! */
 } svsem_t;
 
 struct _svs_data { /* context data for svsem pool */
-	int id;
-	int val;
-	struct varray sems;
-	char name[17];
+  int id;
+  int val;
+  struct varray sems;
+  char name[17];
 };
 
 int svsem_create(svsem_t *sem, int value, int undo);
@@ -36,9 +36,9 @@ int svsem_open(svsem_t *sem, const char *path, int oflag, ... /* mode_t mode, in
 int svsem_close(svsem_t *sem);
 int svsem_remove(svsem_t *sem);
 int svsem_pool_create(struct pool *p,
-		unsigned int max_size,
-		unsigned int value, int undo,
-		struct allocator *al);
+    unsigned int max_size,
+    unsigned int value, int undo,
+    struct allocator *al);
 int svsem_pool_destroy(struct pool *p);
 
 int svsem_wait(svsem_t *sem);

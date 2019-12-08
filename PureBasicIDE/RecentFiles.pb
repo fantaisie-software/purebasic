@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -6,7 +6,7 @@
 
 
 Procedure.s RecentFiles_EntryString(Index)
-
+  
   If Index > #MAX_RecentFiles ; its a project
     
     Name$ = ProjectName(RecentFiles(Index))
@@ -15,23 +15,23 @@ Procedure.s RecentFiles_EntryString(Index)
     EndIf
     
     ProcedureReturn RSet(Str(Index-#MAX_RecentFiles), Len(Str(FilesHistorySize))) + ")  " + GetFilePart(RecentFiles(Index)) + Name$
-  
+    
   Else ; its a source file
     
     ProcedureReturn RSet(Str(Index), Len(Str(FilesHistorySize))) + ")  " + RecentFiles(Index) ; Display full path here, to avoid issue if some files gets same name (ie: main.pb) http://www.purebasic.fr/english/viewtopic.php?f=3&t=60650
-
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure RecentFiles_AddMenuEntries(IsProject)
-
+  
   If IsProject = #False
     Offset = 0
   Else
     Offset = #MAX_RecentFiles
   EndIf
-
+  
   Count = 0
   For i = 1 To FilesHistorySize
     If RecentFiles(Offset+i)
@@ -50,12 +50,12 @@ EndProcedure
 
 
 Procedure RecentFiles_AddFile(FileName$, IsProject)
-
+  
   CompilerIf #CompileWindows
     ; Also notify the OS of the file usage
     ; This is useful for the 'recent file' list in the start menu and Windows7 Taskbar
     
-    CompilerIf #PB_Compiler_Unicode    
+    CompilerIf #PB_Compiler_Unicode
       #SHARD_PATH = $00000003
     CompilerElse
       #SHARD_PATH = $00000002
@@ -63,7 +63,7 @@ Procedure RecentFiles_AddFile(FileName$, IsProject)
     
     SHAddToRecentDocs_(#SHARD_PATH, @FileName$)
   CompilerEndIf
-
+  
   If IsProject = #False
     Offset   = 0
     OldCount = DisplayedRecentFiles
@@ -71,11 +71,11 @@ Procedure RecentFiles_AddFile(FileName$, IsProject)
     Offset   = #MAX_RecentFiles
     OldCount = DisplayedRecentProjects
   EndIf
-
+  
   If IsEqualFile(FileName$, RecentFiles(Offset+1))
     ProcedureReturn ; the file is allready at the top of the list, so there is nothing to do
   EndIf
-
+  
   ; search for the same filename in the list
   ;
   Found = 0
@@ -88,8 +88,8 @@ Procedure RecentFiles_AddFile(FileName$, IsProject)
   
   If Found = 0
     index = FilesHistorySize
-  EndIf  
-
+  EndIf
+  
   ; now move all other files one index down..
   ;
   For i = index-1 To 1 Step -1
@@ -108,35 +108,35 @@ Procedure RecentFiles_AddFile(FileName$, IsProject)
   
   If Count = OldCount And Count = FilesHistorySize
     ; rename the menu items for Recentfiles (no recreation of the whole menu)
-    For i = 1 To FilesHistorySize    
+    For i = 1 To FilesHistorySize
       SetMenuItemText(#MENU, #MENU_RecentFiles_Start+Offset+i-1, ReplaceString(RecentFiles_EntryString(Offset+i), "&", "&&"))
     Next i
   Else
     ; the count changed.. we must re-create the menu
-    StartFlickerFix(#WINDOW_Main)          
+    StartFlickerFix(#WINDOW_Main)
     CreateIDEMenu() ; update the menu
     StopFlickerFix(#WINDOW_Main, 1)
   EndIf
-
+  
 EndProcedure
 
 
 
 Procedure RecentFiles_Open(MenuItemID)
-
+  
   If MenuItemID >= #MENU_RecentFiles_Start And MenuItemID <= #MENU_RecentFiles_End
     If Trim(RecentFiles(MenuItemID - #MENU_RecentFiles_Start + 1)) <> ""
-    
-      If MenuItemID < #MENU_RecentFiles_Start+#MAX_RecentFiles ; RecentFiles range    
-        LoadSourceFile(RecentFiles(MenuItemID - #MENU_RecentFiles_Start + 1)) 
+      
+      If MenuItemID < #MENU_RecentFiles_Start+#MAX_RecentFiles ; RecentFiles range
+        LoadSourceFile(RecentFiles(MenuItemID - #MENU_RecentFiles_Start + 1))
       Else ; RecentProjects range
         LoadProject(RecentFiles(MenuItemID - #MENU_RecentFiles_Start + 1))
       EndIf
-       
+      
       ; do not add the filename to the beginning of the list, LoadSourceFile()/LoadProject() will do so
     EndIf
   EndIf
-
+  
 EndProcedure
 
 

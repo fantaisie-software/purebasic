@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -24,7 +24,7 @@ Procedure InitSplitterWin()
       i + 1
     EndIf
   Next
-
+  
 EndProcedure
 Procedure CloseSplitterWin()
   CloseWindow(#Form_SplitterWin)
@@ -38,7 +38,7 @@ Procedure EventSplitterWin(gadget, event_type)
         d_gadget1 = GetGadgetItemData(#Form_Splitter_1st,GetGadgetState(#Form_Splitter_1st))
       Else
         d_gadget1 = 0
-      EndIf 
+      EndIf
       
       If GetGadgetState(#Form_Splitter_2nd) > -1
         d_gadget2 = GetGadgetItemData(#Form_Splitter_2nd,GetGadgetState(#Form_Splitter_2nd))
@@ -66,7 +66,7 @@ Procedure EventSplitterWin(gadget, event_type)
     Case #Form_Splitter_Cancel
       CloseSplitterWin()
       form_gadget_type = #Form_Type_Button
-;       UpdateToggleButton(#Ribbon_Insert_Button)
+      ;       UpdateToggleButton(#Ribbon_Insert_Button)
       
       num = CountGadgetItems(gadgetlist) - 1
       For i = 0 To num

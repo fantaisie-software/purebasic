@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -8,7 +8,7 @@
 CompilerIf #PB_Compiler_Unicode = 0
   
   ; We could use PeekS(Memory, -1, #PB_Ascii) for both code, but it will have a performance hit
-  ; 
+  ;
   Macro PeekAscii(Memory)
     PeekS(Memory)
   EndMacro
@@ -19,11 +19,11 @@ CompilerIf #PB_Compiler_Unicode = 0
   
   Macro PeekAsciiLength(Memory, Length)
     PeekS(Memory, Length)
-  EndMacro  
+  EndMacro
   
   Macro PokeAscii(Memory, Text)
     PokeS(Memory, Text)
-  EndMacro    
+  EndMacro
   
   Macro PokeUnicode(Memory, Text)
     PokeS(Memory, Text, -1, #PB_Unicode)
@@ -31,18 +31,18 @@ CompilerIf #PB_Compiler_Unicode = 0
   
   Macro ReadAsciiString(File)
     ReadString(File)
-  EndMacro   
+  EndMacro
   
   Macro MemoryAsciiLength(Memory)
     MemoryStringLength(Memory)
-  EndMacro 
+  EndMacro
   
   Macro ToAscii(String)
     @String
   EndMacro
   
 CompilerElse
-
+  
   ; not really a macro, but this is a macro in non-unicode mode, thats why it is here
   Procedure ToAscii(String$)
     Static *Buffer
@@ -67,7 +67,7 @@ CompilerElse
     PokeS(*Buffer, String$, -1, #PB_UTF8)
     ProcedureReturn *Buffer
   EndProcedure
-
+  
   Macro PeekAscii(Memory)
     PeekS(Memory, -1, #PB_Ascii)
   EndMacro
@@ -78,11 +78,11 @@ CompilerElse
   
   Macro PeekAsciiLength(Memory, Length)
     PeekS(Memory, Length, #PB_Ascii)
-  EndMacro  
+  EndMacro
   
   Macro PokeAscii(Memory, Text)
     PokeS(Memory, Text, -1, #PB_Ascii)
-  EndMacro  
+  EndMacro
   
   Macro PokeUnicode(Memory, Text)
     PokeS(Memory, Text)
@@ -90,12 +90,12 @@ CompilerElse
   
   Macro ReadAsciiString(File)
     ReadString(File, #PB_Ascii)
-  EndMacro     
+  EndMacro
   
   Macro MemoryAsciiLength(Memory)
     MemoryStringLength(Memory, #PB_Ascii)
   EndMacro
-
+  
 CompilerEndIf
 
 ; this is the only way to have it work in all cases, including unicode on PPC (no quad!)

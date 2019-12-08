@@ -201,5 +201,5 @@ extern M_PBFUNCTION(int)     PB_DEBUGGER_IsZeroValue(char type, char *address, c
 // Context.c
 extern M_PBFUNCTION(void) PB_DEBUGGER_GetLineContext(int line, PB_LineContext *ctx);
 extern M_PBFUNCTION(PB_LineContext *) PB_DEBUGGER_CurrentContext();
-extern M_PBFUNCTION(int)  PB_DEBUGGER_IsItemVisible(PB_LineContext *ctx, char *ModulePrefix, char ItemIsPublic, char *ItemModule); 
-extern M_PBFUNCTION(int)  PB_DEBUGGER_IsLocalItemVisible(PB_LineContext *ctx, char *ModulePrefix); 
+extern M_PBFUNCTION(int)  PB_DEBUGGER_IsItemVisible(PB_LineContext *ctx, char *ModulePrefix, char ItemIsPublic, char *ItemModule);
+extern M_PBFUNCTION(int)  PB_DEBUGGER_IsLocalItemVisible(PB_LineContext *ctx, char *ModulePrefix);

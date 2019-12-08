@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -7,13 +7,13 @@
 
 ; Functions for Plugins
 ;
-Prototype PLUGIN_InitLibraryPlugin(*buffer) ; for DLL only: - Called when DLL is loaded. Must Fill buffer With LibraryID$ (max size:1000) And Return 0 Or 1 
-Prototype PLUGIN_EndViewer()                ; Called before unloading the dll (optional)  
-Prototype PLUGIN_DisplayObject(WindowID, *ObjectData, Size)  ; must create display gadgets on WindowID, and return *Object pointer to identify this later  
-Prototype PLUGIN_RemoveObject(*Object)      ; must free gadgets and clear up anything belonging to *Object
-Prototype PLUGIN_GetObjectWidth(*Object)    ; must return required with to display *Object
-Prototype PLUGIN_GetObjectHeight(*Object)   ; must return required height to display *Object
-Prototype PLUGIN_SetObjectSize(*Object, Width, Height) ; can be used as alternative to GetObjectWidth/Height for a dynamic resize
+Prototype PLUGIN_InitLibraryPlugin(*buffer) ; for DLL only: - Called when DLL is loaded. Must Fill buffer With LibraryID$ (max size:1000) And Return 0 Or 1
+Prototype PLUGIN_EndViewer()                ; Called before unloading the dll (optional)
+Prototype PLUGIN_DisplayObject(WindowID, *ObjectData, Size)  ; must create display gadgets on WindowID, and return *Object pointer to identify this later
+Prototype PLUGIN_RemoveObject(*Object)                       ; must free gadgets and clear up anything belonging to *Object
+Prototype PLUGIN_GetObjectWidth(*Object)                     ; must return required with to display *Object
+Prototype PLUGIN_GetObjectHeight(*Object)                    ; must return required height to display *Object
+Prototype PLUGIN_SetObjectSize(*Object, Width, Height)       ; can be used as alternative to GetObjectWidth/Height for a dynamic resize
 Prototype PLUGIN_ProcessEvents(*Object, EventGadgetID, EventType)   ; must handle events for *Object. NOTE: EventGadgetID might not belong to this object.. ignore it in that case!
 
 Structure LibraryViewerPLUGIN
@@ -21,7 +21,7 @@ Structure LibraryViewerPLUGIN
   ; Plugin Data
   ;
   LibraryID$        ; LibraryID for this Plugin
-  DllNumber.l       ; #Library ID of the loaded DLL (0 for internal plugins)  
+  DllNumber.l       ; #Library ID of the loaded DLL (0 for internal plugins)
   
   ; Function Pointers:
   ;
@@ -42,8 +42,8 @@ Global NewList LibraryPlugins.LibraryViewerPLUGIN()
 Procedure LibraryViewer_Init_Log(FileName$, Message$)
   Static LastFileName$
   
-  If LastFileName$ = ""  
-    Log = CreateFile(#PB_Any, PureBasicPath$+#DEFAILT_LibraryViewerPlugin+"LibraryViewer.log")        
+  If LastFileName$ = ""
+    Log = CreateFile(#PB_Any, PureBasicPath$+#DEFAILT_LibraryViewerPlugin+"LibraryViewer.log")
     If Log
       WriteStringN(Log, "PureBasicDebugger - LibraryViewerPlugin - Log")
       WriteStringN(Log, FormatDate("Date: %mm/%dd/%yyyy - %hh:%ii:%ss", Date()))
@@ -56,16 +56,16 @@ Procedure LibraryViewer_Init_Log(FileName$, Message$)
   EndIf
   
   If Log
-    If FileName$ <> LastFileName$      
+    If FileName$ <> LastFileName$
       WriteStringN(Log, "")
-      WriteStringN(Log, "====== FILE : "+FileName$+" =======")      
-      LastFileName$ = FileName$    
+      WriteStringN(Log, "====== FILE : "+FileName$+" =======")
+      LastFileName$ = FileName$
     EndIf
     WriteStringN(Log, Message$)
-  
+    
     CloseFile(Log)
   EndIf
-    
+  
 EndProcedure
 
 ; Load all the plugin dlls in the debugger directory
@@ -74,28 +74,28 @@ Procedure LibraryViewer_Init()
   Static IsInitialized
   
   If IsInitialized = 0
-  
-    If ExamineDirectory(0, PureBasicPath$+#DEFAILT_LibraryViewerPlugin, "*."+#DEFAULT_DLLExtension)    
+    
+    If ExamineDirectory(0, PureBasicPath$+#DEFAILT_LibraryViewerPlugin, "*."+#DEFAULT_DLLExtension)
       ; delete old log file)
       DeleteFile(PureBasicPath$+#DEFAILT_LibraryViewerPlugin+"LibraryViewer.log")
-    
+      
       While NextDirectoryEntry(0)
         entry = DirectoryEntryType(0)
         If entry = 1
-        
+          
           File$   = PureBasicPath$+#DEFAILT_LibraryViewerPlugin+DirectoryEntryName(0)
           Library = OpenLibrary(#PB_Any, File$)
           Success = 0
           
           If Library
-          
+            
             InitFunction.PLUGIN_InitLibraryPlugin = GetFunction(Library, "InitLibraryPlugin")
             If InitFunction
               LibraryID$ = Space(1000)
               If InitFunction(@LibraryID$)
                 LibraryID$ = PeekAscii(@LibraryID$) ; we expect an ascii string here
-                If Trim(LibraryID$) <> "" 
-                                
+                If Trim(LibraryID$) <> ""
+                  
                   ; Ok, seems to be a valid plugin dll...
                   ;
                   Success = 1 ; do not unload this dll again!
@@ -114,13 +114,13 @@ Procedure LibraryViewer_Init()
                   ; Check if the required functions are present
                   ;
                   If LibraryPlugins()\DisplayObject = 0
-                    LibraryViewer_Init_Log(File$, "Function: DisplayObject(WindowID, *data, size)")          
+                    LibraryViewer_Init_Log(File$, "Function: DisplayObject(WindowID, *data, size)")
                     LibraryViewer_Init_Log(File$, "  Required Function missing! Cannot use this plugin")
                     Success = 0
                   EndIf
                   
                   If LibraryPlugins()\RemoveObject = 0
-                    LibraryViewer_Init_Log(File$, "Function: RemoveObject(*Object)")          
+                    LibraryViewer_Init_Log(File$, "Function: RemoveObject(*Object)")
                     LibraryViewer_Init_Log(File$, "  Required Function missing! Cannot use this plugin")
                     Success = 0
                   EndIf
@@ -128,33 +128,33 @@ Procedure LibraryViewer_Init()
                   If LibraryPlugins()\SetObjectSize = 0
                     ; here we only put a warning as we have a working solution
                     If LibraryPlugins()\GetObjectWidth = 0
-                      LibraryViewer_Init_Log(File$, "Function: GetObjectWidth(*Object)")          
+                      LibraryViewer_Init_Log(File$, "Function: GetObjectWidth(*Object)")
                       LibraryViewer_Init_Log(File$, "  Required Function missing! Cannot use this plugin")
                       LibraryViewer_Init_Log(File$, "  Optionally, SetObjectSize() could be implemented instead.")
                       Success = 0
                     EndIf
                     
                     If LibraryPlugins()\GetObjectHeight = 0
-                      LibraryViewer_Init_Log(File$, "Function: GetObjectHeight(*Object)")                          
-                      LibraryViewer_Init_Log(File$, "  Required Function missing! Cannot use this plugin")    
+                      LibraryViewer_Init_Log(File$, "Function: GetObjectHeight(*Object)")
+                      LibraryViewer_Init_Log(File$, "  Required Function missing! Cannot use this plugin")
                       LibraryViewer_Init_Log(File$, "  Optionally, SetObjectSize() could be implemented instead.")
                       Success = 0
-                    EndIf  
-                  Else                    
+                    EndIf
+                  Else
                     If LibraryPlugins()\GetObjectWidth = 0
-                      LibraryViewer_Init_Log(File$, "Function: GetObjectWidth(*Object)")          
-                      LibraryViewer_Init_Log(File$, "  SetObjectSize() is allready implemented. This function is ignored.")                      
+                      LibraryViewer_Init_Log(File$, "Function: GetObjectWidth(*Object)")
+                      LibraryViewer_Init_Log(File$, "  SetObjectSize() is allready implemented. This function is ignored.")
                     EndIf
                     
                     If LibraryPlugins()\GetObjectHeight = 0
-                      LibraryViewer_Init_Log(File$, "Function: GetObjectHeight(*Object)")                          
+                      LibraryViewer_Init_Log(File$, "Function: GetObjectHeight(*Object)")
                       LibraryViewer_Init_Log(File$, "  SetObjectSize() is allready implemented. This function is ignored.")
-                    EndIf  
+                    EndIf
                   EndIf
                   
                   ; EndViewer and ProcessEvents are optional functions
                   
-                  If Success = 0  ; remove the plugin data if a function is missing                                      
+                  If Success = 0  ; remove the plugin data if a function is missing
                     If LibraryPlugins()\EndViewer
                       LibraryPlugins()\EndViewer()
                     EndIf
@@ -162,38 +162,38 @@ Procedure LibraryViewer_Init()
                   EndIf
                   
                 Else
-                  LibraryViewer_Init_Log(File$, "Function: InitLibraryPlugin(*IdBuffer)")          
-                  LibraryViewer_Init_Log(File$, "  *IdBuffer is empty. A Library ID String must be put there.")                
+                  LibraryViewer_Init_Log(File$, "Function: InitLibraryPlugin(*IdBuffer)")
+                  LibraryViewer_Init_Log(File$, "  *IdBuffer is empty. A Library ID String must be put there.")
                 EndIf
               Else
-                LibraryViewer_Init_Log(File$, "Function: InitLibraryPlugin(*IdBuffer)")          
-                LibraryViewer_Init_Log(File$, "  Returnvalue was 0! Plugin not correctly initialized.")                
-              EndIf              
+                LibraryViewer_Init_Log(File$, "Function: InitLibraryPlugin(*IdBuffer)")
+                LibraryViewer_Init_Log(File$, "  Returnvalue was 0! Plugin not correctly initialized.")
+              EndIf
             Else
-              LibraryViewer_Init_Log(File$, "Function: InitLibraryPlugin(*IdBuffer)")          
-              LibraryViewer_Init_Log(File$, "  Init function missing! Not a valid LibraryViewer Plugin DLL.")                        
+              LibraryViewer_Init_Log(File$, "Function: InitLibraryPlugin(*IdBuffer)")
+              LibraryViewer_Init_Log(File$, "  Init function missing! Not a valid LibraryViewer Plugin DLL.")
             EndIf
-          
+            
             If Success = 0  ; unload the dll if it is no valid plugin dll
               CloseLibrary(Library)
             EndIf
           Else
             LibraryViewer_Init_Log(File$, "Cannot load the DLL!")
           EndIf
-                  
+          
         EndIf
       Wend
       
       FinishDirectory(0)
     EndIf
-  
+    
     IsInitialized = 1
   EndIf
   
 EndProcedure
 
 Procedure LibraryViewer_End()
-
+  
   ForEach LibraryPlugins()
     
     ; call the Viewers end function
@@ -211,7 +211,7 @@ Procedure LibraryViewer_End()
   Next LibraryPlugins()
   
   ClearList(LibraryPlugins())
-
+  
 EndProcedure
 
 ; Get a pointer to a plugin structure matching the currently displayed lib (if any)
@@ -222,72 +222,72 @@ Procedure LibraryViewer_GetCurrentPlugin(*Debugger.DebuggerData)
     *libinfo.Debugger_LibraryData = *Debugger\LibraryList + *Debugger\CurrentLibrary * SizeOf(Debugger_LibraryData)
     
     If *libinfo\FunctionMask & #LIBRARYINFO_Data ; Does the library even support this ?
-    
+      
       ForEach LibraryPlugins()
         If LibraryPlugins()\LibraryID$ = *libinfo\LibraryID$
           *Plugin = @LibraryPlugins()
           Break
         EndIf
       Next LibraryPlugins()
-    
+      
     EndIf
     
   EndIf
-
+  
   ProcedureReturn *Plugin
 EndProcedure
 
 ; Free any displayed object data. (Works also if nothing is to be freed)
 Procedure LibraryViewer_FreeObject(*Debugger.DebuggerData)
-
-  If *Debugger\CurrentObjectData
   
+  If *Debugger\CurrentObjectData
+    
     *Plugin.LibraryViewerPLUGIN = LibraryViewer_GetCurrentPlugin(*Debugger)
     If *Plugin
       *Plugin\RemoveObject(*Debugger\CurrentObjectData)
     EndIf
     
-    FreeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container])  
+    FreeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container])
     *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container] = 0
     *Debugger\CurrentObjectData = 0
   EndIf
-
+  
 EndProcedure
 
 
 Procedure LibraryViewer_ClearDisplay(*Debugger.DebuggerData)
-
+  
   ; Empty all the gadgets...
-  ;     
-  ClearGadgetItems(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList])   
+  ;
+  ClearGadgetItems(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList])
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText], "")
   
   For i = *Debugger\NbLibColumns-1 To 0 Step -1
     RemoveGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], i)
   Next i
   *Debugger\NbLibColumns = 0
-
+  
   If *Debugger\ObjectList
     FreeMemory(*Debugger\ObjectList)
     *Debugger\ObjectList = 0
-  EndIf   
+  EndIf
   *Debugger\CurrentObject = -1
   *Debugger\CurrentObjectID = -1
   
-  LibraryViewer_FreeObject(*Debugger) 
+  LibraryViewer_FreeObject(*Debugger)
 EndProcedure
 
 Procedure LibraryViewer_DisplayLibrary(*Debugger.DebuggerData, index)
-
+  
   If *Debugger\LibraryList And index < *Debugger\NbLibraries
-
+    
     *libinfo.Debugger_LibraryData = *Debugger\LibraryList + index * SizeOf(Debugger_LibraryData)
-        
+    
     Count = 0
     Title$ = StringField(*libinfo\TitleString$, 1, Chr(9))
-    While Title$ <> ""              
+    While Title$ <> ""
       Size = Val(StringField(*libinfo\TitleString$, Count*2+2, Chr(9)))
-      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], Count, Title$, Size)              
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], Count, Title$, Size)
       Count + 1
       Title$ = StringField(*libinfo\TitleString$, Count*2+1, Chr(9))
     Wend
@@ -298,7 +298,7 @@ Procedure LibraryViewer_DisplayLibrary(*Debugger.DebuggerData, index)
     ;
     Command.CommandInfo\Command = #COMMAND_GetLibraryInfo
     Command\Value1 = index
-    SendDebuggerCommand(*Debugger, @Command)   
+    SendDebuggerCommand(*Debugger, @Command)
     
     *Debugger\CurrentLibrary = index
     *Debugger\CurrentObject = -1
@@ -314,72 +314,72 @@ Procedure LibraryViewer_DisplayObject(*Debugger.DebuggerData, index)
     *libinfo.Debugger_LibraryData = *Debugger\LibraryList + *Debugger\CurrentLibrary * SizeOf(Debugger_LibraryData)
     
     *Debugger\CurrentObject = index
-    If *Debugger\Is64bit          
+    If *Debugger\Is64bit
       *Debugger\CurrentObjectID = *idlist\q[index]
     Else
       *Debugger\CurrentObjectID = *idlist\l[index]
-    EndIf    
+    EndIf
     
     SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText], "")
-    LibraryViewer_FreeObject(*Debugger)          
-                         
+    LibraryViewer_FreeObject(*Debugger)
+    
     If *libinfo\FunctionMask & #LIBRARYINFO_Text
       Command.CommandInfo\Command = #COMMAND_GetObjectText
       Command\Value1 = *Debugger\CurrentLibrary
       
       If *Debugger\Is64bit
         Command\DataSize = 8
-        SendDebuggerCommandWithData(*Debugger, @Command, @*idlist\q[index])            
+        SendDebuggerCommandWithData(*Debugger, @Command, @*idlist\q[index])
       Else
         Command\DataSize = 4
-        SendDebuggerCommandWithData(*Debugger, @Command, @*idlist\l[index])         
+        SendDebuggerCommandWithData(*Debugger, @Command, @*idlist\l[index])
       EndIf
     EndIf
     
     If *libinfo\FunctionMask & #LIBRARYINFO_Data
       Command.CommandInfo\Command = #COMMAND_GetObjectData
       Command\Value1 = *Debugger\CurrentLibrary
-
+      
       If *Debugger\Is64bit
         Command\DataSize = 8
-        SendDebuggerCommandWithData(*Debugger, @Command, @*idlist\q[index])            
+        SendDebuggerCommandWithData(*Debugger, @Command, @*idlist\q[index])
       Else
         Command\DataSize = 4
-        SendDebuggerCommandWithData(*Debugger, @Command, @*idlist\l[index])          
-      EndIf            
+        SendDebuggerCommandWithData(*Debugger, @Command, @*idlist\l[index])
+      EndIf
     EndIf
-         
+    
   EndIf
 EndProcedure
 
 Procedure LibraryViewerEvents(*Debugger.DebuggerData, EventID)
-
+  
   If EventID = #PB_Event_Gadget
     Select EventGadget()
-    
-      Case *Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList]              
-        index = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList])        
-        If index <> *Debugger\CurrentLibrary                    
+        
+      Case *Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList]
+        index = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList])
+        If index <> *Debugger\CurrentLibrary
           LibraryViewer_ClearDisplay(*Debugger)
-
+          
           If index <> -1
             LibraryViewer_DisplayLibrary(*Debugger, index)
           EndIf
           
         EndIf
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Update]
-        If *Debugger\CurrentLibrary <> -1 
+        If *Debugger\CurrentLibrary <> -1
           Command.CommandInfo\Command = #COMMAND_GetLibraryInfo
           Command\Value1 = *Debugger\CurrentLibrary
           SendDebuggerCommand(*Debugger, @Command)
-        EndIf        
-      
-      
+        EndIf
+        
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList]
         index = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList])
-        If index <> *Debugger\CurrentObject 
-          LibraryViewer_DisplayObject(*Debugger, index)        
+        If index <> *Debugger\CurrentObject
+          LibraryViewer_DisplayObject(*Debugger, index)
         EndIf
         
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter1], *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2]
@@ -391,14 +391,14 @@ Procedure LibraryViewerEvents(*Debugger.DebuggerData, EventID)
             ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container], 0, 0, Width, Height)
             
             ; no longer needed since 4.60
-;             CompilerIf #CompileLinux
-;               Width - 4; due to the Gtk borders (on the inner container!)
-;               Height - 4
-;             CompilerEndIf            
+            ;             CompilerIf #CompileLinux
+            ;               Width - 4; due to the Gtk borders (on the inner container!)
+            ;               Height - 4
+            ;             CompilerEndIf
             
             *Plugin\SetObjectSize(*Debugger\CurrentObjectData, Width, Height)
           EndIf
-        EndIf      
+        EndIf
         
       Default
         If *Debugger\CurrentObjectData
@@ -408,7 +408,7 @@ Procedure LibraryViewerEvents(*Debugger.DebuggerData, EventID)
           EndIf
         EndIf
         
-    
+        
     EndSelect
     
   ElseIf EventID = #PB_Event_SizeWindow
@@ -424,12 +424,12 @@ Procedure LibraryViewerEvents(*Debugger.DebuggerData, EventID)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], 20+TextWidth, 10, Width-40-TextWidth-ButtonWidth, ButtonHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Update], Width-10-ButtonWidth, 10, ButtonWidth, ButtonHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter1], 10, 15+ButtonHeight, Width-20, Height-25-ButtonHeight)
-  
+    
   ElseIf EventID = #PB_Event_CloseWindow
-               
+    
     If DebuggerMemorizeWindows And IsWindowMinimized(*Debugger\Windows[#DEBUGGER_WINDOW_Library]) = 0
       LibraryViewerMaximize = IsWindowMaximized(*Debugger\Windows[#DEBUGGER_WINDOW_Library])
-      If LibraryViewerMaximize = 0    
+      If LibraryViewerMaximize = 0
         LibraryViewerX = WindowX(*Debugger\Windows[#DEBUGGER_WINDOW_Library])
         LibraryViewerY = WindowY(*Debugger\Windows[#DEBUGGER_WINDOW_Library])
         LibraryViewerWidth  = WindowWidth (*Debugger\Windows[#DEBUGGER_WINDOW_Library])
@@ -440,72 +440,72 @@ Procedure LibraryViewerEvents(*Debugger.DebuggerData, EventID)
     EndIf
     
     LibraryViewer_FreeObject(*Debugger)
-        
+    
     CloseWindow(*Debugger\Windows[#DEBUGGER_WINDOW_Library])
     *Debugger\Windows[#DEBUGGER_WINDOW_Library] = 0
     
     If *Debugger\ObjectList ; the current displayed object list is freed
       FreeMemory(*Debugger\ObjectList)
       *Debugger\ObjectList = 0
-    EndIf    
+    EndIf
     
-    Debugger_CheckDestroy(*Debugger)    
-  
+    Debugger_CheckDestroy(*Debugger)
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure UpdateLibraryViewerState(*Debugger.DebuggerData)
-
+  
   ; Execution stopped... update the list...
   ;
   If *Debugger\ProgramState = 3 Or *Debugger\ProgramState = 7 Or *Debugger\ProgramState = 8 Or *Debugger\ProgramState = 9
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], 0)
-    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], 0)  
+    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], 0)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Update], 1)
-        
+    
     ; Update the List:
-    If *Debugger\CurrentLibrary <> -1 
+    If *Debugger\CurrentLibrary <> -1
       Command.CommandInfo\Command = #COMMAND_GetLibraryInfo
       Command\Value1 = *Debugger\CurrentLibrary
       SendDebuggerCommand(*Debugger, @Command)
-    EndIf    
+    EndIf
     
-  ; Exe not loaded .. no access
-  ;
+    ; Exe not loaded .. no access
+    ;
   ElseIf *Debugger\ProgramState = -1
     ;LibraryViewer_ClearDisplay(*Debugger)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], 1)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], 1)
-    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Update], 1)    
-  
-  ; Other states.. access with 'update' button
-  ;
+    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Update], 1)
+    
+    ; Other states.. access with 'update' button
+    ;
   Else
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], 0)
-    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], 0)  
-    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Update], 0)  
-  
+    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], 0)
+    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Update], 0)
+    
   EndIf
-
-
+  
+  
 EndProcedure
 
 Procedure OpenLibraryViewerWindow(*Debugger.DebuggerData)
-
+  
   ;ProcedureReturn ; disabled for this Alpha version
-
+  
   ; Load the LibraryViewer plugin dlls
   ;
   LibraryViewer_Init()
-
+  
   If *Debugger\Windows[#DEBUGGER_WINDOW_Library]
     SetWindowForeground(*Debugger\Windows[#DEBUGGER_WINDOW_Library])
     
   Else
     Window = OpenWindow(#PB_Any, LibraryViewerX, LibraryViewerY, LibraryViewerWidth, LibraryViewerHeight, Language("Debugger","LibraryViewerTitle") + " - " + DebuggerTitle(*Debugger\FileName$), #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget|#PB_Window_Invisible|#PB_Window_MaximizeGadget)
     If Window
-      *Debugger\Windows[#DEBUGGER_WINDOW_Library] = Window  
+      *Debugger\Windows[#DEBUGGER_WINDOW_Library] = Window
       
       ; used to replace the ScrollArea when we are in dynamic resize mode.
       ;
@@ -518,24 +518,24 @@ Procedure OpenLibraryViewerWindow(*Debugger.DebuggerData)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Update]      = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
       *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList]  = ListIconGadget(#PB_Any, 0, 0, 0, 0, "", 20, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText]  = EditorGadget(#PB_Any, 0, 0, 0, 0)
-      *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData]  = ScrollAreaGadget(#PB_Any, 0, 0, 0, 0, 200, 200, 10); TODO: fix the center flag on linux and re-add this, #PB_ScrollArea_Center) 
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData]  = ScrollAreaGadget(#PB_Any, 0, 0, 0, 0, 200, 200, 10); TODO: fix the center flag on linux and re-add this, #PB_ScrollArea_Center)
       CloseGadgetList()
       *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2]   = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText], *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData], #PB_Splitter_Vertical|#PB_Splitter_FirstFixed)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter1]   = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2], #PB_Splitter_FirstFixed)
-
+      
       CompilerIf #CompileWindows
         SetCodePage(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText])
         
         hFont = GetStockObject_(#ANSI_FIXED_FONT)
         If hFont
           SetGadgetFont(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText], hFont)
-        EndIf        
-      CompilerEndIf   
+        EndIf
+      CompilerEndIf
       
-      SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText], #PB_Editor_ReadOnly, 1)    
+      SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText], #PB_Editor_ReadOnly, 1)
       RemoveGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], 0)
-
-      Debugger_AddShortcuts(Window) 
+      
+      Debugger_AddShortcuts(Window)
       
       EnsureWindowOnDesktop(Window)
       If LibraryViewerMaximize
@@ -543,19 +543,19 @@ Procedure OpenLibraryViewerWindow(*Debugger.DebuggerData)
       Else
         HideWindow(Window, 0)
       EndIf
-            
-      LibraryViewerEvents(*Debugger, #PB_Event_SizeWindow)      
+      
+      LibraryViewerEvents(*Debugger, #PB_Event_SizeWindow)
       
       If LibraryViewerSplitter1 < 20
         LibraryViewerSplitter1 = 80
       EndIf
       If LibraryViewerSplitter2 < 20
         LibraryViewerSplitter2 = 80
-      EndIf      
+      EndIf
       
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter1], LibraryViewerSplitter1)
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2], LibraryViewerSplitter2)
-            
+      
       SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter1], #PB_Splitter_FirstMinimumSize, 20)
       SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2], #PB_Splitter_FirstMinimumSize, 20)
       SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter1], #PB_Splitter_SecondMinimumSize, 20)
@@ -563,56 +563,56 @@ Procedure OpenLibraryViewerWindow(*Debugger.DebuggerData)
       
       *Debugger\CurrentLibrary = -1
       *Debugger\CurrentObject = -1
-      *Debugger\CurrentObjectID = -1      
+      *Debugger\CurrentObjectID = -1
       
-      UpdateLibraryViewerState(*Debugger)      
-      Debugger_ProcessEvents(Window, #PB_Event_ActivateWindow) ; makes all debugger windows go to the top  
+      UpdateLibraryViewerState(*Debugger)
+      Debugger_ProcessEvents(Window, #PB_Event_ActivateWindow) ; makes all debugger windows go to the top
       
       If *Debugger\LibraryList ; The library list was allready retrieved
         *libraries.Debugger_LibraryList = *Debugger\LibraryList
         For i = 0 To *Debugger\NbLibraries-1
           AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], -1, *libraries\library[i]\Name$)
-        Next i   
+        Next i
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], 0)
-        LibraryViewer_DisplayLibrary(*Debugger, 0) ; show the first lib        
+        LibraryViewer_DisplayLibrary(*Debugger, 0) ; show the first lib
       Else
         AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], -1, Language("Debugger","NoLibraryInfo"))
-        SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], 0)        
-            
+        SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], 0)
+        
         Command.CommandInfo\Command = #COMMAND_GetLibraries
-        SendDebuggerCommand(*Debugger, @Command)         
+        SendDebuggerCommand(*Debugger, @Command)
       EndIf
       
-      UpdateLibraryViewerState(*Debugger)      
+      UpdateLibraryViewerState(*Debugger)
       
       CompilerIf #DEFAULT_CanWindowStayOnTop
         SetWindowStayOnTop(Window, DebuggerOnTop)
-      CompilerEndIf       
+      CompilerEndIf
       
     EndIf
   EndIf
-
+  
 EndProcedure
 
 Procedure UpdateLibraryViewer(*Debugger.DebuggerData)
-
+  
   SetWindowTitle(*Debugger\Windows[#DEBUGGER_WINDOW_Library], Language("Debugger","LibraryViewerTitle") + " - " + GetFilePart(*Debugger\FileName$))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Text1], Language("Debugger","SelectLibrary")+":")
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Update], Language("Debugger","Update"))
   
   LibraryViewerEvents(*Debugger, #PB_Event_SizeWindow) ; Update gadget sizes
- 
+  
 EndProcedure
 
 Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
-
-  Select *Debugger\Command\Command
   
+  Select *Debugger\Command\Command
+      
     Case #COMMAND_ControlLibraryViewer
       OpenLibraryViewerWindow(*Debugger)
-    
+      
       If *Debugger\Command\Value2 <> -1 ; library to select
-        Library = *Debugger\Command\Value2 
+        Library = *Debugger\Command\Value2
       Else
         Library = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList])
       EndIf
@@ -629,7 +629,7 @@ Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
         Command\Value1 = *Debugger\CurrentLibrary
         SendDebuggerCommand(*Debugger, @Command)
       EndIf
-    
+      
       ; select the object to display
       If *Debugger\Command\Value1 = 2 And *Debugger\CommandData
         If *Debugger\Is64bit
@@ -639,9 +639,9 @@ Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
         EndIf
       Else
         *Debugger\CurrentObjectID = -1
-      EndIf    
-
-  
+      EndIf
+      
+      
     Case #COMMAND_Libraries
       
       ; Free any old library or object list
@@ -661,10 +661,10 @@ Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
       ;
       If *Debugger\Windows[#DEBUGGER_WINDOW_Library]
         LibraryViewer_ClearDisplay(*Debugger)
-        ClearGadgetItems(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList]) 
+        ClearGadgetItems(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList])
         *Debugger\CurrentLibrary = -1
       EndIf
-
+      
       ; Read the list of libraries
       ;
       *Debugger\NbLibraries = *Debugger\Command\Value1
@@ -680,39 +680,39 @@ Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
             *libraries\library[i]\TitleString$ = PeekAscii(*Pointer)
             *Pointer + MemoryAsciiLength(*Pointer) + 1
             *libraries\library[i]\FunctionMask = PeekL(*Pointer)
-            *Pointer + 4            
+            *Pointer + 4
             
             If *Debugger\Windows[#DEBUGGER_WINDOW_Library]
               AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], -1, *libraries\library[i]\Name$)
             EndIf
           Next i
           
-          *Debugger\LibraryList = *libraries  
+          *Debugger\LibraryList = *libraries
           
           If *Debugger\Windows[#DEBUGGER_WINDOW_Library]
             SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], 0)
-            LibraryViewer_DisplayLibrary(*Debugger, 0) ; show the first lib       
+            LibraryViewer_DisplayLibrary(*Debugger, 0) ; show the first lib
           EndIf
         EndIf
-            
+        
         
         If *Debugger\Windows[#DEBUGGER_WINDOW_Library]
           UpdateLibraryViewerState(*Debugger)
         EndIf
-
+        
       Else
         If *Debugger\Windows[#DEBUGGER_WINDOW_Library]
           AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], -1, Language("Debugger","NoLibraryInfo"))
-          SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], 0)       
+          SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], 0)
         EndIf
       EndIf
       
-    Case #COMMAND_LibraryInfo  
+    Case #COMMAND_LibraryInfo
       If *Debugger\Windows[#DEBUGGER_WINDOW_Library] And *Debugger\Command\Value1 = *Debugger\CurrentLibrary
         ClearGadgetItems(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList])
         SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText], "")
         LibraryViewer_FreeObject(*Debugger)
-         
+        
         *Debugger\NbObjects = *Debugger\Command\Value2
         *Pointer = *Debugger\CommandData
         
@@ -724,7 +724,7 @@ Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
           Else
             *Debugger\ObjectList = AllocateMemory(*Debugger\NbObjects * SizeOf(LONG))
           EndIf
-            
+          
           If *Debugger\ObjectList
             *id.Local_Array = *Debugger\ObjectList
             For i = 0 To *Debugger\NbObjects-1
@@ -735,7 +735,7 @@ Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
                 ; store the new index of the Object ID that was last displayed
                 If *id\q[i] = *Debugger\CurrentObjectID And *Debugger\CurrentObjectID <> -1
                   lastIDIndex = i
-                EndIf              
+                EndIf
               Else
                 *id\l[i] = PeekL(*Pointer)
                 *Pointer + 4
@@ -750,8 +750,8 @@ Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
               *Pointer + MemoryAsciiLength(*Pointer) + 1
               
               AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], -1, ReplaceString(String$, Chr(9), Chr(10)))
-            Next i            
-          Else            
+            Next i
+          Else
             ; skip the object data, as there is no available memory
             For i = 0 To *Debugger\NbObjects-1
               If *Debugger\Is64bit
@@ -760,31 +760,31 @@ Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
                 *Pointer + 4 ; skip ID
               EndIf
               *Pointer + MemoryAsciiLength(*Pointer) + 1 ; skip string
-            Next i          
+            Next i
             *Debugger\NbObjects = 0
           EndIf
         EndIf
         
-
+        
         ; set the gadget to the last Object if we are updating the list and
         ; update the current object too
         ;
         *Debugger\CurrentObject = lastIDIndex
-        If lastIDIndex = -1 
+        If lastIDIndex = -1
           *Debugger\CurrentObjectID = -1
         Else
-          SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], lastIDIndex)                                       
+          SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], lastIDIndex)
           CompilerIf #CompileWindows
             SendMessage_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList]), #LVM_ENSUREVISIBLE, lastIDIndex, 0)
           CompilerEndIf
-                                                   
-          LibraryViewer_DisplayObject(*Debugger, lastIDIndex)          
+          
+          LibraryViewer_DisplayObject(*Debugger, lastIDIndex)
         EndIf
       EndIf
-    
-    ; This is sent before #COMMAND_ObjectTExt/#COMMAND_ObjectData to tell the corresponding ID
-    ; (its separate, so we can send the full object data in one command without adding the id to the buffer)
-    ;
+      
+      ; This is sent before #COMMAND_ObjectTExt/#COMMAND_ObjectData to tell the corresponding ID
+      ; (its separate, so we can send the full object data in one command without adding the id to the buffer)
+      ;
     Case #COMMAND_ObjectID
       If *Debugger\Is64bit
         *Debugger\CommandObjectID = PeekQ(@*Debugger\Command\Value1)
@@ -792,7 +792,7 @@ Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
         *Debugger\CommandObjectID = PeekL(@*Debugger\Command\Value1)
       EndIf
       
-    
+      
     Case #COMMAND_ObjectText
       If *Debugger\Windows[#DEBUGGER_WINDOW_Library] And *Debugger\CommandObjectID = *Debugger\CurrentObjectID
         If *Debugger\Command\DataSize > 1
@@ -802,12 +802,12 @@ Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
           StopGadgetFlickerFix(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText])
         Else
           SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText], "")
-        EndIf  
+        EndIf
       EndIf
-         
-    
-    Case #COMMAND_ObjectData      
-      ; 
+      
+      
+    Case #COMMAND_ObjectData
+      ;
       ; Do NOT use LibraryViewer_FreeObject() here, as we destroy the old object
       ; after showing the new to reduce flickering
       ;
@@ -819,96 +819,96 @@ Procedure LibraryViewer_DebuggerEvent(*Debugger.DebuggerData)
         *Debugger\CurrentObjectData = 0
         *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container] = 0
         
-  ;      StartGadgetFlickerFix(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData])
+        ;      StartGadgetFlickerFix(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData])
         
         If *Debugger\Command\DataSize > 0 And *Debugger\CommandData
           *Plugin.LibraryViewerPLUGIN = LibraryViewer_GetCurrentPlugin(*Debugger)
-          If *Plugin 
-          
+          If *Plugin
+            
             ; open the right parent gadget
             If *Plugin\SetObjectSize
               OpenGadgetList(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData2])
             Else
               OpenGadgetList(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData])
-            EndIf        
+            EndIf
             
-            *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container] = ContainerGadget(#PB_Any, 0, 0, 0, 0)          
-            *Debugger\CurrentObjectData = *Plugin\DisplayObject(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container]), *Debugger\CommandData, *Debugger\Command\DataSize)                    
+            *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container] = ContainerGadget(#PB_Any, 0, 0, 0, 0)
+            *Debugger\CurrentObjectData = *Plugin\DisplayObject(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container]), *Debugger\CommandData, *Debugger\Command\DataSize)
             CloseGadgetList()
             CloseGadgetList()
-              
+            
             If *Debugger\CurrentObjectData
-            
+              
               If *Plugin\SetObjectSize
                 ; do the splitter-reparent if needed now.
                 ; must be before we measure the width/height!
                 ;
                 If GadgetType(GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2], #PB_Splitter_SecondGadget)) <> #PB_GadgetType_Container
-                  HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData2], 0)                                
+                  HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData2], 0)
                   SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2], #PB_Splitter_SecondGadget, *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData2])
                   HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData], 1)
-                EndIf           
-              
+                EndIf
+                
                 Width  = GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData2])   - 4
                 Height = GadgetHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData2]) - 4
                 ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container], 0, 0, Width, Height)
                 
                 ; no longer needed since 4.60
-;                 CompilerIf #CompileLinux
-;                   Width - 4; due to the Gtk borders
-;                   Height - 4
-;                 CompilerEndIf            
+                ;                 CompilerIf #CompileLinux
+                ;                   Width - 4; due to the Gtk borders
+                ;                   Height - 4
+                ;                 CompilerEndIf
                 
-                *Plugin\SetObjectSize(*Debugger\CurrentObjectData, Width, Height)            
+                *Plugin\SetObjectSize(*Debugger\CurrentObjectData, Width, Height)
               Else
-              
+                
                 ; do the splitter-reparent if needed now.
-                ;              
-                If GadgetType(GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2], #PB_Splitter_SecondGadget)) <> #PB_GadgetType_ScrollArea              
+                ;
+                If GadgetType(GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2], #PB_Splitter_SecondGadget)) <> #PB_GadgetType_ScrollArea
                   HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData], 0)
-                  SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2], #PB_Splitter_SecondGadget, *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData])                
-                  HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData2], 1)                
-                EndIf            
-              
+                  SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2], #PB_Splitter_SecondGadget, *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData])
+                  HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData2], 1)
+                EndIf
+                
                 Width  = *Plugin\GetObjectWidth(*Debugger\CurrentObjectData)
                 Height = *Plugin\GetObjectHeight(*Debugger\CurrentObjectData)
                 
                 ; no longer needed since 4.60
-;                 CompilerIf #CompileLinux
-;                   Width + 4; due to the Gtk borders
-;                   Height + 4
-;                 CompilerEndIf
+                ;                 CompilerIf #CompileLinux
+                ;                   Width + 4; due to the Gtk borders
+                ;                   Height + 4
+                ;                 CompilerEndIf
                 
                 ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container], 0, 0, Width, Height)
                 SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData], #PB_ScrollArea_InnerWidth, Width)
-                SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData], #PB_ScrollArea_InnerHeight, Height)             
+                SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData], #PB_ScrollArea_InnerHeight, Height)
               EndIf
-                                             
+              
             Else
               FreeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container])
-            EndIf                   
-                               
+            EndIf
+            
           EndIf
         EndIf
         
-  
-        If OldObjectData ; now free the old Object
         
+        If OldObjectData ; now free the old Object
+          
           *Plugin.LibraryViewerPLUGIN = LibraryViewer_GetCurrentPlugin(*Debugger)
           If *Plugin
             *Plugin\RemoveObject(OldObjectData)
-          EndIf 
+          EndIf
           
-          FreeGadget(OldContainer)          
+          FreeGadget(OldContainer)
         EndIf
-      
+        
       EndIf
       
-;      StopGadgetFlickerFix(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData])
-    
-  EndSelect 
-
-
+      ;      StopGadgetFlickerFix(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData])
+      
+  EndSelect
+  
+  
 EndProcedure
 
 

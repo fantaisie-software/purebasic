@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -10,7 +10,7 @@ XIncludeFile "ToolbarManagement.pb"
 ;- Structures and Globals
 
 Structure PrefsThemeList
-  Filename$      ; theme filename (no path), "" for builtin theme  
+  Filename$      ; theme filename (no path), "" for builtin theme
   Preview.i      ; preview image (#PB_Any)
   ImageGadget.i  ; gadgets (#PB_Any)
   OptionGadget.i
@@ -34,9 +34,9 @@ Global NewList ThemeEntries.ThemeEntry()
 Procedure Theme_Open(Filename$) ; pass "" to open internal theme
   ClearList(ThemeEntries())
   *ThemeFile      = 0
-  *LocalThemeFile = 0  
-
-  If Filename$ = ""  
+  *LocalThemeFile = 0
+  
+  If Filename$ = ""
     *LocalThemeFile = ?DefaultTheme
     ThemeFileSize   = ?EndDefaultTheme - ?DefaultTheme
   Else
@@ -48,20 +48,20 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
           If ReadData(#FILE_Theme, *LocalThemeFile, ThemeFileSize) <> ThemeFileSize
             FreeMemory(*ThemeFile)
             *LocalThemeFile = 0
-          EndIf   
+          EndIf
         EndIf
-      EndIf    
+      EndIf
       CloseFile(#FILE_Theme)
-    EndIf      
+    EndIf
   EndIf
   
   If *LocalThemeFile
     If ScanZip(*LocalThemeFile, ThemeFileSize, ThemeZipEntries()) > 0
-           
+      
       ; Locate the Theme.prefs file
       ForEach ThemeZipEntries()
         If LCase(GetFilePart(ThemeZipEntries()\Name$)) = "theme.prefs" ; all case insensitive here
-       
+          
           ; Read the Theme.prefs file
           *Buffer = ExtractZip(@ThemeZipEntries())
           If *Buffer
@@ -83,15 +83,15 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
               Wend
               Line$ = PeekS(*Start, *Cursor-*Start, Mode)
               
-              ; Advance cursor beyond newline 
+              ; Advance cursor beyond newline
               If *Cursor+1 < *BufferEnd And *Cursor\b = 13 And *Cursor\b[1] = 10
                 *Cursor + 2
               Else
                 *Cursor + 1
               EndIf
               
-              Line$  = Trim(RemoveString(Line$, Chr(9)))      
-
+              Line$  = Trim(RemoveString(Line$, Chr(9)))
+              
               If Left(Line$, 1) = "[" And Right(Line$, 1) = "]"
                 Group$ = LCase(Trim(Mid(Line$, 2, Len(Line$)-2)))
                 
@@ -107,35 +107,35 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
                       Case "info2": ThemeInfo2$ = Value$
                       Case "info3": ThemeInfo3$ = Value$
                     EndSelect
-                     
-                  ElseIf Group$ <> ""                                              
+                    
+                  ElseIf Group$ <> ""
                     If Value$ <> ""
-                      Value$ = LCase(Value$)              
+                      Value$ = LCase(Value$)
                       ForEach ThemeZipEntries()
                         If Value$ = LCase(ThemeZipEntries()\Name$)
                           AddElement(ThemeEntries())
                           ThemeEntries()\IconName$ = Group$+":"+LCase(Key$)
-                          ThemeEntries()\ZipEntry  = @ThemeZipEntries()                      
+                          ThemeEntries()\ZipEntry  = @ThemeZipEntries()
                           Break
                         EndIf
                       Next ThemeZipEntries()
                     EndIf
-                  
+                    
                   EndIf
                 EndIf
-              EndIf    
+              EndIf
             Wend
             
             FreeMemory(*Buffer)
-          EndIf        
-        
+          EndIf
+          
           Break
         EndIf
       Next ThemeZipEntries()
-    
+      
     EndIf
     
-    If ListSize(ThemeEntries()) = 0 
+    If ListSize(ThemeEntries()) = 0
       If Filename$ <> ""
         FreeMemory(*LocalThemeFile) ; dynamically allocated
       EndIf
@@ -144,9 +144,9 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
       If Filename$ <> ""
         *ThemeFile = *LocalThemeFile ; dynamically allocated (freed later)
       EndIf
-    EndIf        
-  EndIf    
-
+    EndIf
+  EndIf
+  
   ProcedureReturn ListSize(ThemeEntries())
 EndProcedure
 
@@ -171,11 +171,11 @@ Procedure Theme_LoadImage(Image, ImageName$)
         Result = CatchImage(Image, *Buffer, ThemeEntries()\ZipEntry\Uncompressed)
         FreeMemory(*Buffer)
       EndIf
-            
+      
       Break
     EndIf
   Next ThemeEntries()
-
+  
   ProcedureReturn Result
 EndProcedure
 
@@ -184,7 +184,7 @@ Procedure Theme_AddToPrefslist(Filename$)
     AddElement(PrefsThemeList())
     PrefsThemeList()\Filename$ = GetFilePart(Filename$)
     PrefsThemeList()\Preview   = CreateImage(#PB_Any, #MAX_ThemePreview*19+3, 22)
-
+    
     ; Load the icons for preview
     ; This must be done outside the StartDrawing() as it seems to mess up the StartDrawing() on OSX else
     ;
@@ -204,7 +204,7 @@ Procedure Theme_AddToPrefslist(Filename$)
       For i = 0 To count-1
         DrawAlphaImage(ImageID(#IMAGE_FirstThemePreview+i), i*19+3, 3)
       Next i
-  
+      
       StopDrawing()
     EndIf
     
@@ -214,7 +214,7 @@ Procedure Theme_AddToPrefslist(Filename$)
     Next i
     
     PrefsThemeList()\ImageGadget = ImageGadget(#PB_Any, 0, 0, 0, 0, ImageID(PrefsThemeList()\Preview))
-     
+    
     Text$ = ThemeInfo1$
     If ThemeInfo2$ <> "" Or ThemeInfo3$ <> ""
       Text$ + #NewLine + ThemeInfo2$
@@ -223,7 +223,7 @@ Procedure Theme_AddToPrefslist(Filename$)
       Text$ + #NewLine + ThemeInfo3$
     EndIf
     PrefsThemeList()\TextGadget = TextGadget(#PB_Any, 0, 0, 0, 0, Text$)
-
+    
     Theme_Close()
   EndIf
 EndProcedure
@@ -231,7 +231,7 @@ EndProcedure
 ;- Functions for external use
 ;
 Procedure CreatePrefsThemeList()
-
+  
   OpenGadgetList(#GADGET_Preferences_Themes)
   
   ; Add the default theme
@@ -241,48 +241,48 @@ Procedure CreatePrefsThemeList()
   If ExamineDirectory(0, PureBasicPath$+#DEFAULT_ThemePath, "*")
     While NextDirectoryEntry(0)
       If DirectoryEntryType(0) = #PB_DirectoryEntry_File
-        Theme_AddToPrefsList(PureBasicPath$+#DEFAULT_ThemePath+DirectoryEntryName(0))                
+        Theme_AddToPrefsList(PureBasicPath$+#DEFAULT_ThemePath+DirectoryEntryName(0))
       EndIf
     Wend
     FinishDirectory(0)
   EndIf
-      
+  
   ; Create all OptionGadgets here, to have them all in one group
   ForEach PrefsThemeList()
     PrefsThemeList()\OptionGadget = OptionGadget(#PB_Any, 0, 0, 0, 0, "")
   Next PrefsThemeList()
   
-  CloseGadgetList()  
+  CloseGadgetList()
   
-  If FirstElement(PrefsThemeList()) ; this is only 0 if even the internal images fail loading 
-  
+  If FirstElement(PrefsThemeList()) ; this is only 0 if even the internal images fail loading
+    
     GetRequiredSize(PrefsThemeList()\OptionGadget, @OptionWidth.l, @OptionHeight.l)
     OptionSize = Max(OptionWidth, Max(OptionHeight, 22))
     
     Width  = #MAX_ThemePreview*19+3
-    Top    = 15  
-  
+    Top    = 15
+    
     ForEach PrefsThemeList()
       GetRequiredSize(PrefsThemeList()\TextGadget, @TextWidth.l, @TextHeight.l)
-    
-      ResizeGadget(PrefsThemeList()\OptionGadget, 10, Top, OptionSize, OptionSize)      
+      
+      ResizeGadget(PrefsThemeList()\OptionGadget, 10, Top, OptionSize, OptionSize)
       ResizeGadget(PrefsThemeList()\ImageGadget, 10+OptionSize, Top, #MAX_ThemePreview*19+3, 22)
       ResizeGadget(PrefsThemeList()\TextGadget, 10+OptionSize, Top+27, TextWidth, TextHeight)
       
       ; The first check is needed if both are "" (default theme)
       If CurrentTheme$ = PrefsThemeList()\Filename$ Or IsEqualFile(CurrentTheme$, PrefsThemeList()\Filename$)
         SetGadgetState(PrefsThemeList()\OptionGadget, 1)
-      EndIf      
+      EndIf
       
-      Width = Max(Width, TextWidth)    
+      Width = Max(Width, TextWidth)
       Top + 42 + TextHeight
     Next PrefsThemeList()
     
     SetGadgetAttribute(#GADGET_Preferences_Themes, #PB_ScrollArea_InnerWidth, Width+20+OptionSize)
     SetGadgetAttribute(#GADGET_Preferences_Themes, #PB_ScrollArea_InnerHeight, Top)
-  
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure FreePrefsThemeList()
@@ -290,47 +290,47 @@ Procedure FreePrefsThemeList()
     FreeGadget(PrefsThemeList()\ImageGadget)
     FreeImage(PrefsThemeList()\Preview)
   Next PrefsThemeList()
-
+  
   ClearList(PrefsThemeList())
 EndProcedure
 
 Procedure PrefsThemeChanged()
-
-  ForEach PrefsThemeList()    
+  
+  ForEach PrefsThemeList()
     If GetGadgetState(PrefsThemeList()\OptionGadget)
       ; The first check is needed if both are "" (default theme)
       If CurrentTheme$ <> PrefsThemeList()\Filename$ And IsEqualFile(CurrentTheme$, PrefsThemeList()\Filename$) = 0
         ProcedureReturn 1
-      EndIf     
+      EndIf
     EndIf
   Next PrefsThemeList()
-
+  
   ProcedureReturn 0
 EndProcedure
 
 Procedure ApplyPrefsTheme()
   
-  ForEach PrefsThemeList()    
+  ForEach PrefsThemeList()
     If GetGadgetState(PrefsThemeList()\OptionGadget)
       ; Only reload theme if needed
       ; The first check is needed if both are "" (default theme)
       If CurrentTheme$ <> PrefsThemeList()\Filename$ And IsEqualFile(CurrentTheme$, PrefsThemeList()\Filename$) = 0
-      
+        
         ; Set theme and reload
         CurrentTheme$ = PrefsThemeList()\Filename$
         LoadTheme()
         ProcedureReturn
         
-      EndIf     
+      EndIf
     EndIf
-  Next PrefsThemeList()  
+  Next PrefsThemeList()
   
 EndProcedure
 
 Procedure LoadTheme()
-
-  If CurrentTheme$ <> "" ; means default theme
   
+  If CurrentTheme$ <> "" ; means default theme
+    
     ; For the templates and fileviewer image, we add a fallback (default icons), to never have an empty button
     ; (For the menu, we allow missing items to choose which menu items to put an icon to)
     ;
@@ -359,7 +359,7 @@ Procedure LoadTheme()
       Theme_LoadImage(#IMAGE_Help_Previous,       "Help:Previous")
       Theme_LoadImage(#IMAGE_Help_Next,           "Help:Next")
       Theme_LoadImage(#IMAGE_Help_OpenHelp,       "Help:OpenHelp")
-   
+      
       Theme_LoadImage(#IMAGE_Option_AddTarget,    "Compiler:AddTarget")
       Theme_LoadImage(#IMAGE_Option_EditTarget,   "Compiler:EditTarget")
       Theme_LoadImage(#IMAGE_Option_CopyTarget,   "Compiler:CopyTarget")
@@ -391,60 +391,60 @@ Procedure LoadTheme()
       Theme_LoadImage(#IMAGE_IssueSingleFile, "Issues:SingleFile")
       Theme_LoadImage(#IMAGE_IssueMultiFile,  "Issues:MultiFile")
       Theme_LoadImage(#IMAGE_IssueExport,     "Issues:Export")
-          
-      Theme_LoadImage(#IMAGE_FormIcons_Button,           "FormIcons:Button") 
-      Theme_LoadImage(#IMAGE_FormIcons_ButtonImage,      "FormIcons:ButtonImage") 
-      Theme_LoadImage(#IMAGE_FormIcons_Calendar,         "FormIcons:Calendar") 
-      Theme_LoadImage(#IMAGE_FormIcons_Canvas,           "FormIcons:Canvas") 
-      Theme_LoadImage(#IMAGE_FormIcons_CheckBox,         "FormIcons:CheckBox") 
-      Theme_LoadImage(#IMAGE_FormIcons_ComboBox,         "FormIcons:ComboBox") 
-      Theme_LoadImage(#IMAGE_FormIcons_Container,        "FormIcons:Container") 
-      Theme_LoadImage(#IMAGE_FormIcons_Date,             "FormIcons:Date") 
-      Theme_LoadImage(#IMAGE_FormIcons_Editor,           "FormIcons:Editor") 
-      Theme_LoadImage(#IMAGE_FormIcons_ExplorerCombo,    "FormIcons:ExplorerCombo") 
-      Theme_LoadImage(#IMAGE_FormIcons_ExplorerList,     "FormIcons:ExplorerList") 
-      Theme_LoadImage(#IMAGE_FormIcons_ExplorerTree,     "FormIcons:ExplorerTree") 
-      Theme_LoadImage(#IMAGE_FormIcons_Frame3D,          "FormIcons:Frame3D") 
-      Theme_LoadImage(#IMAGE_FormIcons_HyperLink,        "FormIcons:HyperLink") 
-      Theme_LoadImage(#IMAGE_FormIcons_Image,            "FormIcons:Image") 
-      Theme_LoadImage(#IMAGE_FormIcons_IPAddress,        "FormIcons:IPAddress") 
-      Theme_LoadImage(#IMAGE_FormIcons_ListIcon,         "FormIcons:ListIcon") 
-      Theme_LoadImage(#IMAGE_FormIcons_ListView,         "FormIcons:ListView") 
-      Theme_LoadImage(#IMAGE_FormIcons_Menu,             "FormIcons:Menu") 
-      Theme_LoadImage(#IMAGE_FormIcons_Option,           "FormIcons:Option") 
-      Theme_LoadImage(#IMAGE_FormIcons_Panel,            "FormIcons:Panel") 
-      Theme_LoadImage(#IMAGE_FormIcons_ProgressBar,      "FormIcons:ProgressBar") 
-      Theme_LoadImage(#IMAGE_FormIcons_ScrollArea,       "FormIcons:ScrollArea") 
-      Theme_LoadImage(#IMAGE_FormIcons_ScrollBar,        "FormIcons:ScrollBar") 
-      Theme_LoadImage(#IMAGE_FormIcons_Spin,             "FormIcons:Spin") 
-      Theme_LoadImage(#IMAGE_FormIcons_Splitter,         "FormIcons:Splitter") 
-      Theme_LoadImage(#IMAGE_FormIcons_Status,           "FormIcons:Status") 
-      Theme_LoadImage(#IMAGE_FormIcons_String,           "FormIcons:String") 
-      Theme_LoadImage(#IMAGE_FormIcons_Text,             "FormIcons:Text") 
-      Theme_LoadImage(#IMAGE_FormIcons_ToolBar,          "FormIcons:ToolBar") 
-      Theme_LoadImage(#IMAGE_FormIcons_TrackBar,         "FormIcons:TrackBar") 
-      Theme_LoadImage(#IMAGE_FormIcons_Tree,             "FormIcons:Tree") 
-      Theme_LoadImage(#IMAGE_FormIcons_Web,              "FormIcons:Web") 
-      Theme_LoadImage(#IMAGE_FormIcons_Cursor,           "FormIcons:Cursor") 
+      
+      Theme_LoadImage(#IMAGE_FormIcons_Button,           "FormIcons:Button")
+      Theme_LoadImage(#IMAGE_FormIcons_ButtonImage,      "FormIcons:ButtonImage")
+      Theme_LoadImage(#IMAGE_FormIcons_Calendar,         "FormIcons:Calendar")
+      Theme_LoadImage(#IMAGE_FormIcons_Canvas,           "FormIcons:Canvas")
+      Theme_LoadImage(#IMAGE_FormIcons_CheckBox,         "FormIcons:CheckBox")
+      Theme_LoadImage(#IMAGE_FormIcons_ComboBox,         "FormIcons:ComboBox")
+      Theme_LoadImage(#IMAGE_FormIcons_Container,        "FormIcons:Container")
+      Theme_LoadImage(#IMAGE_FormIcons_Date,             "FormIcons:Date")
+      Theme_LoadImage(#IMAGE_FormIcons_Editor,           "FormIcons:Editor")
+      Theme_LoadImage(#IMAGE_FormIcons_ExplorerCombo,    "FormIcons:ExplorerCombo")
+      Theme_LoadImage(#IMAGE_FormIcons_ExplorerList,     "FormIcons:ExplorerList")
+      Theme_LoadImage(#IMAGE_FormIcons_ExplorerTree,     "FormIcons:ExplorerTree")
+      Theme_LoadImage(#IMAGE_FormIcons_Frame3D,          "FormIcons:Frame3D")
+      Theme_LoadImage(#IMAGE_FormIcons_HyperLink,        "FormIcons:HyperLink")
+      Theme_LoadImage(#IMAGE_FormIcons_Image,            "FormIcons:Image")
+      Theme_LoadImage(#IMAGE_FormIcons_IPAddress,        "FormIcons:IPAddress")
+      Theme_LoadImage(#IMAGE_FormIcons_ListIcon,         "FormIcons:ListIcon")
+      Theme_LoadImage(#IMAGE_FormIcons_ListView,         "FormIcons:ListView")
+      Theme_LoadImage(#IMAGE_FormIcons_Menu,             "FormIcons:Menu")
+      Theme_LoadImage(#IMAGE_FormIcons_Option,           "FormIcons:Option")
+      Theme_LoadImage(#IMAGE_FormIcons_Panel,            "FormIcons:Panel")
+      Theme_LoadImage(#IMAGE_FormIcons_ProgressBar,      "FormIcons:ProgressBar")
+      Theme_LoadImage(#IMAGE_FormIcons_ScrollArea,       "FormIcons:ScrollArea")
+      Theme_LoadImage(#IMAGE_FormIcons_ScrollBar,        "FormIcons:ScrollBar")
+      Theme_LoadImage(#IMAGE_FormIcons_Spin,             "FormIcons:Spin")
+      Theme_LoadImage(#IMAGE_FormIcons_Splitter,         "FormIcons:Splitter")
+      Theme_LoadImage(#IMAGE_FormIcons_Status,           "FormIcons:Status")
+      Theme_LoadImage(#IMAGE_FormIcons_String,           "FormIcons:String")
+      Theme_LoadImage(#IMAGE_FormIcons_Text,             "FormIcons:Text")
+      Theme_LoadImage(#IMAGE_FormIcons_ToolBar,          "FormIcons:ToolBar")
+      Theme_LoadImage(#IMAGE_FormIcons_TrackBar,         "FormIcons:TrackBar")
+      Theme_LoadImage(#IMAGE_FormIcons_Tree,             "FormIcons:Tree")
+      Theme_LoadImage(#IMAGE_FormIcons_Web,              "FormIcons:Web")
+      Theme_LoadImage(#IMAGE_FormIcons_Cursor,           "FormIcons:Cursor")
       
       ; No fallback for the other entries in "Diff", as they can be empty
       
       ; No fallback for ProjectPanel icons, as they are not critical
       
       ; No fallback for history icons (optional)
-    
+      
       Theme_Close()
     EndIf
     
     If Theme_Open(PureBasicPath$ + #DEFAULT_ThemePath + CurrentTheme$) = 0
       CurrentTheme$ = "" ; theme not loadable, revert to default
     EndIf
-  EndIf 
+  EndIf
   
   If CurrentTheme$ = ""
-    Theme_Open("")  
+    Theme_Open("")
   EndIf
-
+  
   ; Load Menu icons
   ;
   For i = 1 To #NB_ToolbarMenuItems
@@ -454,7 +454,7 @@ Procedure LoadTheme()
     EndIf
     
     ToolbarMenuIcon(i) = Theme_LoadImage(#PB_Any, ToolbarMenuName$(i))
-  Next i    
+  Next i
   
   Theme_LoadImage(#IMAGE_FilePanel_New,      "Misc:FilePanelNew")
   
@@ -479,14 +479,14 @@ Procedure LoadTheme()
   Theme_LoadImage(#IMAGE_FileViewer_Close,   "FileViewer:Close")
   Theme_LoadImage(#IMAGE_FileViewer_Left,    "FileViewer:Left")
   Theme_LoadImage(#IMAGE_FileViewer_Right,   "FileViewer:Right")
-
+  
   Theme_LoadImage(#IMAGE_Help_Back,           "Help:Back")
   Theme_LoadImage(#IMAGE_Help_Forward,        "Help:Forward")
   Theme_LoadImage(#IMAGE_Help_Home,           "Help:Home")
   Theme_LoadImage(#IMAGE_Help_Previous,       "Help:Previous")
   Theme_LoadImage(#IMAGE_Help_Next,           "Help:Next")
   Theme_LoadImage(#IMAGE_Help_OpenHelp,       "Help:OpenHelp")
-
+  
   Theme_LoadImage(#IMAGE_Option_AddTarget,    "Compiler:AddTarget")
   Theme_LoadImage(#IMAGE_Option_EditTarget,   "Compiler:EditTarget")
   Theme_LoadImage(#IMAGE_Option_CopyTarget,   "Compiler:CopyTarget")
@@ -498,13 +498,13 @@ Procedure LoadTheme()
   Theme_LoadImage(#IMAGE_Option_DisabledTarget,"Compiler:DisabledTarget")
   Theme_LoadImage(#IMAGE_Build_TargetOK,      "Compiler:TargetOK")
   Theme_LoadImage(#IMAGE_Build_TargetError,   "Compiler:TargetError")
-  Theme_LoadImage(#IMAGE_Build_TargetWarning, "Compiler:TargetWarning") 
-  Theme_LoadImage(#IMAGE_Build_TargetNotDone, "Compiler:TargetNotDone") 
+  Theme_LoadImage(#IMAGE_Build_TargetWarning, "Compiler:TargetWarning")
+  Theme_LoadImage(#IMAGE_Build_TargetNotDone, "Compiler:TargetNotDone")
   
   Theme_LoadImage(#IMAGE_Explorer_AddFavorite,    "Explorer:AddFavorite")
   Theme_LoadImage(#IMAGE_Explorer_RemoveFavorite, "Explorer:RemoveFavorite")
-  Theme_LoadImage(#IMAGE_Explorer_Directory,      "Explorer:Directory") 
-  Theme_LoadImage(#IMAGE_Explorer_File,           "Explorer:File") 
+  Theme_LoadImage(#IMAGE_Explorer_Directory,      "Explorer:Directory")
+  Theme_LoadImage(#IMAGE_Explorer_File,           "Explorer:File")
   Theme_LoadImage(#IMAGE_Explorer_FilePB,         "Explorer:FilePB")
   
   ; Clear the optional diff Icons in case they are missing in this theme
@@ -513,7 +513,7 @@ Procedure LoadTheme()
     If IsImage(i)
       FreeImage(i)
     EndIf
-  Next i   
+  Next i
   
   Theme_LoadImage(#IMAGE_Diff_Open1,      "Diff:Open1")
   Theme_LoadImage(#IMAGE_Diff_Open2,      "Diff:Open2")
@@ -536,106 +536,106 @@ Procedure LoadTheme()
     If IsImage(i)
       FreeImage(i)
     EndIf
-  Next i    
-    
-  Theme_LoadImage(#IMAGE_ProjectPanel_InternalFiles, "ProjectPanel:InternalFiles") 
-  Theme_LoadImage(#IMAGE_ProjectPanel_ExternalFiles, "ProjectPanel:ExternalFiles") 
-  Theme_LoadImage(#IMAGE_ProjectPanel_Directory,     "ProjectPanel:Directory") 
-  Theme_LoadImage(#IMAGE_ProjectPanel_File,          "ProjectPanel:File") 
-  Theme_LoadImage(#IMAGE_ProjectPanel_FileScanned,   "ProjectPanel:FileScanned") 
-  Theme_LoadImage(#IMAGE_ProjectPanel_Open,          "ProjectPanel:Open") 
-  Theme_LoadImage(#IMAGE_ProjectPanel_AddFile,       "ProjectPanel:AddFile") 
-  Theme_LoadImage(#IMAGE_ProjectPanel_RemoveFile,    "ProjectPanel:RemoveFile") 
-  Theme_LoadImage(#IMAGE_ProjectPanel_RescanFile,    "ProjectPanel:RescanFile") 
+  Next i
+  
+  Theme_LoadImage(#IMAGE_ProjectPanel_InternalFiles, "ProjectPanel:InternalFiles")
+  Theme_LoadImage(#IMAGE_ProjectPanel_ExternalFiles, "ProjectPanel:ExternalFiles")
+  Theme_LoadImage(#IMAGE_ProjectPanel_Directory,     "ProjectPanel:Directory")
+  Theme_LoadImage(#IMAGE_ProjectPanel_File,          "ProjectPanel:File")
+  Theme_LoadImage(#IMAGE_ProjectPanel_FileScanned,   "ProjectPanel:FileScanned")
+  Theme_LoadImage(#IMAGE_ProjectPanel_Open,          "ProjectPanel:Open")
+  Theme_LoadImage(#IMAGE_ProjectPanel_AddFile,       "ProjectPanel:AddFile")
+  Theme_LoadImage(#IMAGE_ProjectPanel_RemoveFile,    "ProjectPanel:RemoveFile")
+  Theme_LoadImage(#IMAGE_ProjectPanel_RescanFile,    "ProjectPanel:RescanFile")
   
   
   ; Clear previous history icon in case it is empty in this theme
   If IsImage(#IMAGE_History_Session)
     FreeImage(#IMAGE_History_Session)
   EndIf
-  Theme_LoadImage(#IMAGE_History_Session, "History:Session") 
+  Theme_LoadImage(#IMAGE_History_Session, "History:Session")
   
   If IsImage(#IMAGE_History_File)
     FreeImage(#IMAGE_History_File)
   EndIf
-  Theme_LoadImage(#IMAGE_History_File, "History:File") 
+  Theme_LoadImage(#IMAGE_History_File, "History:File")
   
-  For i = #IMAGE_History_First To #IMAGE_History_Last  
+  For i = #IMAGE_History_First To #IMAGE_History_Last
     If IsImage(i)
       FreeImage(i)
-    EndIf        
-  Next i 
-  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Create, "History:EventCreate") 
-  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Open,   "History:EventOpen") 
-  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Close,  "History:EventClose") 
-  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Save,   "History:EventSave") 
-  Theme_LoadImage(#IMAGE_History_First + #HISTORY_SaveAs, "History:EventSaveAs") 
-  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Reload, "History:EventReload") 
-  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Edit,   "History:EventEdit") 
+    EndIf
+  Next i
+  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Create, "History:EventCreate")
+  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Open,   "History:EventOpen")
+  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Close,  "History:EventClose")
+  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Save,   "History:EventSave")
+  Theme_LoadImage(#IMAGE_History_First + #HISTORY_SaveAs, "History:EventSaveAs")
+  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Reload, "History:EventReload")
+  Theme_LoadImage(#IMAGE_History_First + #HISTORY_Edit,   "History:EventEdit")
   
   Theme_LoadImage(#IMAGE_IssueSingleFile, "Issues:SingleFile")
   Theme_LoadImage(#IMAGE_IssueMultiFile,  "Issues:MultiFile")
-  Theme_LoadImage(#IMAGE_IssueExport,     "Issues:Export")  
+  Theme_LoadImage(#IMAGE_IssueExport,     "Issues:Export")
   
   If IsImage(#IMAGE_AllIssues)
     FreeImage(#IMAGE_AllIssues) ; free old image as this is optional
   EndIf
-  Theme_LoadImage(#IMAGE_AllIssues,     "Issues:AllIssues")    
+  Theme_LoadImage(#IMAGE_AllIssues,     "Issues:AllIssues")
   
   For i = 0 To 4
     If IsImage(#IMAGE_Priority0 + i)
       FreeImage(#IMAGE_Priority0 + i) ; free old image as this is optional
     EndIf
-    Theme_LoadImage(#IMAGE_Priority0 + i, "Issues:Priority" + i)  
-  Next i    
+    Theme_LoadImage(#IMAGE_Priority0 + i, "Issues:Priority" + i)
+  Next i
   
-  Theme_LoadImage(#IMAGE_FormIcons_Button,    "ProjectPanel:RescanFile") 
+  Theme_LoadImage(#IMAGE_FormIcons_Button,    "ProjectPanel:RescanFile")
   
-  Theme_LoadImage(#IMAGE_FormIcons_Button,           "FormIcons:Button") 
-  Theme_LoadImage(#IMAGE_FormIcons_ButtonImage,      "FormIcons:ButtonImage") 
-  Theme_LoadImage(#IMAGE_FormIcons_Calendar,         "FormIcons:Calendar") 
-  Theme_LoadImage(#IMAGE_FormIcons_Canvas,           "FormIcons:Canvas") 
-  Theme_LoadImage(#IMAGE_FormIcons_CheckBox,         "FormIcons:CheckBox") 
-  Theme_LoadImage(#IMAGE_FormIcons_ComboBox,         "FormIcons:ComboBox") 
-  Theme_LoadImage(#IMAGE_FormIcons_Container,        "FormIcons:Container") 
-  Theme_LoadImage(#IMAGE_FormIcons_Date,             "FormIcons:Date") 
-  Theme_LoadImage(#IMAGE_FormIcons_Editor,           "FormIcons:Editor") 
-  Theme_LoadImage(#IMAGE_FormIcons_ExplorerCombo,    "FormIcons:ExplorerCombo") 
-  Theme_LoadImage(#IMAGE_FormIcons_ExplorerList,     "FormIcons:ExplorerList") 
-  Theme_LoadImage(#IMAGE_FormIcons_ExplorerTree,     "FormIcons:ExplorerTree") 
-  Theme_LoadImage(#IMAGE_FormIcons_Frame3D,          "FormIcons:Frame3D") 
-  Theme_LoadImage(#IMAGE_FormIcons_HyperLink,        "FormIcons:HyperLink") 
-  Theme_LoadImage(#IMAGE_FormIcons_Image,            "FormIcons:Image") 
-  Theme_LoadImage(#IMAGE_FormIcons_IPAddress,        "FormIcons:IPAddress") 
-  Theme_LoadImage(#IMAGE_FormIcons_ListIcon,         "FormIcons:ListIcon") 
-  Theme_LoadImage(#IMAGE_FormIcons_ListView,         "FormIcons:ListView") 
-  Theme_LoadImage(#IMAGE_FormIcons_Menu,             "FormIcons:Menu") 
-  Theme_LoadImage(#IMAGE_FormIcons_Option,           "FormIcons:Option") 
-  Theme_LoadImage(#IMAGE_FormIcons_Panel,            "FormIcons:Panel") 
-  Theme_LoadImage(#IMAGE_FormIcons_ProgressBar,      "FormIcons:ProgressBar") 
-  Theme_LoadImage(#IMAGE_FormIcons_ScrollArea,       "FormIcons:ScrollArea") 
-  Theme_LoadImage(#IMAGE_FormIcons_ScrollBar,        "FormIcons:ScrollBar") 
-  Theme_LoadImage(#IMAGE_FormIcons_Spin,             "FormIcons:Spin") 
-  Theme_LoadImage(#IMAGE_FormIcons_Splitter,         "FormIcons:Splitter") 
-  Theme_LoadImage(#IMAGE_FormIcons_Status,           "FormIcons:Status") 
-  Theme_LoadImage(#IMAGE_FormIcons_String,           "FormIcons:String") 
-  Theme_LoadImage(#IMAGE_FormIcons_Text,             "FormIcons:Text") 
-  Theme_LoadImage(#IMAGE_FormIcons_ToolBar,          "FormIcons:ToolBar") 
-  Theme_LoadImage(#IMAGE_FormIcons_TrackBar,         "FormIcons:TrackBar") 
-  Theme_LoadImage(#IMAGE_FormIcons_Tree,             "FormIcons:Tree") 
-  Theme_LoadImage(#IMAGE_FormIcons_Web,              "FormIcons:Web") 
-  Theme_LoadImage(#IMAGE_FormIcons_Cursor,           "FormIcons:Cursor") 
+  Theme_LoadImage(#IMAGE_FormIcons_Button,           "FormIcons:Button")
+  Theme_LoadImage(#IMAGE_FormIcons_ButtonImage,      "FormIcons:ButtonImage")
+  Theme_LoadImage(#IMAGE_FormIcons_Calendar,         "FormIcons:Calendar")
+  Theme_LoadImage(#IMAGE_FormIcons_Canvas,           "FormIcons:Canvas")
+  Theme_LoadImage(#IMAGE_FormIcons_CheckBox,         "FormIcons:CheckBox")
+  Theme_LoadImage(#IMAGE_FormIcons_ComboBox,         "FormIcons:ComboBox")
+  Theme_LoadImage(#IMAGE_FormIcons_Container,        "FormIcons:Container")
+  Theme_LoadImage(#IMAGE_FormIcons_Date,             "FormIcons:Date")
+  Theme_LoadImage(#IMAGE_FormIcons_Editor,           "FormIcons:Editor")
+  Theme_LoadImage(#IMAGE_FormIcons_ExplorerCombo,    "FormIcons:ExplorerCombo")
+  Theme_LoadImage(#IMAGE_FormIcons_ExplorerList,     "FormIcons:ExplorerList")
+  Theme_LoadImage(#IMAGE_FormIcons_ExplorerTree,     "FormIcons:ExplorerTree")
+  Theme_LoadImage(#IMAGE_FormIcons_Frame3D,          "FormIcons:Frame3D")
+  Theme_LoadImage(#IMAGE_FormIcons_HyperLink,        "FormIcons:HyperLink")
+  Theme_LoadImage(#IMAGE_FormIcons_Image,            "FormIcons:Image")
+  Theme_LoadImage(#IMAGE_FormIcons_IPAddress,        "FormIcons:IPAddress")
+  Theme_LoadImage(#IMAGE_FormIcons_ListIcon,         "FormIcons:ListIcon")
+  Theme_LoadImage(#IMAGE_FormIcons_ListView,         "FormIcons:ListView")
+  Theme_LoadImage(#IMAGE_FormIcons_Menu,             "FormIcons:Menu")
+  Theme_LoadImage(#IMAGE_FormIcons_Option,           "FormIcons:Option")
+  Theme_LoadImage(#IMAGE_FormIcons_Panel,            "FormIcons:Panel")
+  Theme_LoadImage(#IMAGE_FormIcons_ProgressBar,      "FormIcons:ProgressBar")
+  Theme_LoadImage(#IMAGE_FormIcons_ScrollArea,       "FormIcons:ScrollArea")
+  Theme_LoadImage(#IMAGE_FormIcons_ScrollBar,        "FormIcons:ScrollBar")
+  Theme_LoadImage(#IMAGE_FormIcons_Spin,             "FormIcons:Spin")
+  Theme_LoadImage(#IMAGE_FormIcons_Splitter,         "FormIcons:Splitter")
+  Theme_LoadImage(#IMAGE_FormIcons_Status,           "FormIcons:Status")
+  Theme_LoadImage(#IMAGE_FormIcons_String,           "FormIcons:String")
+  Theme_LoadImage(#IMAGE_FormIcons_Text,             "FormIcons:Text")
+  Theme_LoadImage(#IMAGE_FormIcons_ToolBar,          "FormIcons:ToolBar")
+  Theme_LoadImage(#IMAGE_FormIcons_TrackBar,         "FormIcons:TrackBar")
+  Theme_LoadImage(#IMAGE_FormIcons_Tree,             "FormIcons:Tree")
+  Theme_LoadImage(#IMAGE_FormIcons_Web,              "FormIcons:Web")
+  Theme_LoadImage(#IMAGE_FormIcons_Cursor,           "FormIcons:Cursor")
   Theme_Close()
   
 EndProcedure
 
 
 DataSection
-
+  
   DefaultTheme:
-    IncludeBinary #BUILD_DIRECTORY+"DefaultTheme.zip" 
+  IncludeBinary #BUILD_DIRECTORY+"DefaultTheme.zip"
   EndDefaultTheme:
-
+  
 EndDataSection
 
 

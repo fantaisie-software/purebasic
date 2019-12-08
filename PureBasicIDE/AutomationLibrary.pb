@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -31,7 +31,7 @@ CompilerIf #CompileWindows = 0
     #DEBUG = 1
     #BUILD_DIRECTORY = "/Users/freak/PureBuild/v4.60_X86/ide/"
   CompilerEndIf
-
+  
   ImportC #BUILD_DIRECTORY + "AutomationDomainSocket.o"
     DomainSocket_Create(path.p-ascii)
     DomainSocket_Accept(socket.l)
@@ -44,7 +44,7 @@ CompilerIf #CompileWindows = 0
   Global AutomationSocket = #SOCKET_ERROR
   
   Procedure SendRequest(*Call.RPC_Call)
-    Success = 0    
+    Success = 0
     
     CompilerIf #DEBUG
       RPC_DebugCall(*Call, "Sending request")
@@ -53,19 +53,19 @@ CompilerIf #CompileWindows = 0
     If AutomationSocket <> #SOCKET_ERROR And RPC_Encode(*Call)
       If DomainSocket_Send(AutomationSocket, *Call\Encoded)
         ; wait for response
-        Timeout.q = ElapsedMilliseconds()   
+        Timeout.q = ElapsedMilliseconds()
         Repeat
           *Buffer = DomainSocket_Receive(AutomationSocket)
           If *Buffer = 0
             Delay(10)
           EndIf
         Until *Buffer <> 0 Or ElapsedMilliseconds()-Timeout > 5000
-
+        
         If *Buffer = -1
           ; connection lost
           AutomationSocket = #SOCKET_ERROR
           RPC_InitResponse(*Call, 1, #True)
-          RPC_SetString(*Call, 0, "Connection lost") 
+          RPC_SetString(*Call, 0, "Connection lost")
           
         ElseIf *Buffer
           Size = PeekL(*Buffer)
@@ -74,7 +74,7 @@ CompilerIf #CompileWindows = 0
           Else
             FreeMemory(*Buffer) ; in case of error
             RPC_InitResponse(*Call, 1, #True)
-            RPC_SetString(*Call, 0, "Out of resources") 
+            RPC_SetString(*Call, 0, "Out of resources")
           EndIf
           
         Else
@@ -83,11 +83,11 @@ CompilerIf #CompileWindows = 0
         EndIf
       Else
         RPC_InitResponse(*Call, 1, #True)
-        RPC_SetString(*Call, 0, "Connection lost") 
+        RPC_SetString(*Call, 0, "Connection lost")
       EndIf
     Else
       RPC_InitResponse(*Call, 1, #True)
-      RPC_SetString(*Call, 0, "Out of resources") 
+      RPC_SetString(*Call, 0, "Out of resources")
     EndIf
     
     CompilerIf #DEBUG
@@ -127,28 +127,28 @@ CompilerIf #CompileWindows = 0
             RPC_InitCall(@Call.RPC_Call, "Identify", 0)
             If SendRequest(@Call)
               If RPC_GetLong(@Call, 0) = AsciiConst('A','U','T','1') ; check protocol version first
-
+                
                 If WindowID
                   If RPC_GetQuad(@Call, 3) = WindowID
                     Success = 1
                   EndIf
-                
+                  
                 ElseIf ProcessID
                   If RPC_GetLong(@Call, 2) = ProcessID
                     Success = 1
                   EndIf
-                
+                  
                 ElseIf Executable$
                   If IsEqualFile(Executable$, RPC_GetString(@Call, 1))
                     Success = 1
                   EndIf
-                
+                  
                 Else
                   ; connect to any, so we accept this connection
                   Success = 1
                   
                 EndIf
-              
+                
               EndIf
             EndIf
             
@@ -172,14 +172,14 @@ CompilerIf #CompileWindows = 0
       LastError$ = "Connection could not be established."
     EndIf
     
-    ProcedureReturn Success      
+    ProcedureReturn Success
   EndProcedure
   
   Procedure Disconnect()
     DomainSocket_Close(AutomationSocket)
     AutomationSocket = #SOCKET_ERROR
   EndProcedure
-
+  
 CompilerElse
   ;
   ;- Windows specific communication stuff (using WM_COPYDATA)
@@ -192,20 +192,20 @@ CompilerElse
   Procedure CommunicationCallback(Window, Message, wParam, lParam)
     Protected EventCall.RPC_Call
     Protected *StoredCall.RPC_Call
-  
+    
     If Window = CommunicationWindow And Message = #WM_COPYDATA And wParam = TargetWindow And *CurrentCall
       *copy.COPYDATASTRUCT = lParam
       
       If *copy And *copy\dwData = AsciiConst('A','U','T','1') And *copy\cbData > 20 And *copy\lpData
-      
+        
         ; check the actual size with the encoded data
         If PeekL(*copy\lpData) <= *copy\cbData
-        
+          
           ; check if this is an event call or a response
           ;
           If PeekL(*copy\lpData+4) = 0
             ; event call
-
+            
             If EventCallback And RPC_Decode(@EventCall, *copy\lpData, *copy\cbData)
               ; store the *CurrentCall pointer, so we can have nested calls from the event handler
               *StoredCall = *CurrentCall
@@ -214,68 +214,68 @@ CompilerElse
               
               ; restore the wait for the response
               *CurrentCall = *StoredCall
-              CallComplete = #False              
+              CallComplete = #False
             EndIf
             
           Else
-            ; response to call        
+            ; response to call
             ; check for a match in the responseID
             If PeekL(*copy\lpData+8) = *CurrentCall\ResponseID
-            
+              
               ; match, try to decode
               If RPC_Decode(*CurrentCall, *copy\lpData, *copy\cbData) = 0
                 RPC_InitResponse(*CurrentCall, 1, #True)
                 RPC_SetString(*CurrentCall, 0, "Invalid response")
-              EndIf              
+              EndIf
               
               CallComplete = #True
             EndIf
             
           EndIf
-        
+          
         EndIf
-      
+        
       EndIf
       
       ProcedureReturn #True
     EndIf
-  
+    
     ProcedureReturn DefWindowProc_(Window, Message, wParam, lParam)
   EndProcedure
   
   Procedure SendRequest(*Call.RPC_Call)
-    Success = 0    
+    Success = 0
     
     CompilerIf #DEBUG
       RPC_DebugCall(*Call, "Sending request")
     CompilerEndIf
-  
-    If CommunicationWindow And TargetWindow And RPC_Encode(*Call)    
+    
+    If CommunicationWindow And TargetWindow And RPC_Encode(*Call)
       ; prepare for receiving the response, as it can happen even while
       ; we are in the SendMessage_() below (makes sense, as the IDE sends the response right then)
       CallComplete = #False
       *CurrentCall = *Call
-    
+      
       ; Send the data
       ;
       request.COPYDATASTRUCT\dwData = AsciiConst('A','U','T','1')
       request\cbData = *Call\EncodedSize
       request\lpData = *Call\Encoded
-      SendMessage_(TargetWindow, #WM_COPYDATA, CommunicationWindow, @request)    
+      SendMessage_(TargetWindow, #WM_COPYDATA, CommunicationWindow, @request)
       
       ; The SendMessage_() does not return until the IDE has processed the call, and any responses
-      ; are already sent. So we need no message loop here to wait for a response  
+      ; are already sent. So we need no message loop here to wait for a response
       
       If CallComplete
         ; *Call is already decoded in the callback, so all is fine
-        Success = 1      
+        Success = 1
       Else
         RPC_InitResponse(*Call, 1, #True)
         RPC_SetString(*Call, 0, "Communication timeout")
-      EndIf      
+      EndIf
     Else
       RPC_InitResponse(*Call, 1, #True)
-      RPC_SetString(*Call, 0, "Out of resources")    
+      RPC_SetString(*Call, 0, "Out of resources")
     EndIf
     
     CompilerIf #DEBUG
@@ -290,21 +290,21 @@ CompilerElse
     ProcedureReturn Success
   EndProcedure
   
-  Procedure WaitEvents(Timeout)  
-    StartTime.q = ElapsedMilliseconds()    
- 
+  Procedure WaitEvents(Timeout)
+    StartTime.q = ElapsedMilliseconds()
+    
     ; This message loop will not interfere with PB WaitWindowEvent(), as events are now also
     ; stored by the PB event lib on Windows (so we do not miss any events here)
     ; also we only get events for our own communication window anyway
     ;
     If CommunicationWindow
       If Timeout <= 0
-          If PeekMessage_(@msg.MSG, CommunicationWindow, 0, 0, #PM_REMOVE)
-            TranslateMessage_(@msg)
-            DispatchMessage_(@msg)
-          EndIf
-      
-      Else    
+        If PeekMessage_(@msg.MSG, CommunicationWindow, 0, 0, #PM_REMOVE)
+          TranslateMessage_(@msg)
+          DispatchMessage_(@msg)
+        EndIf
+        
+      Else
         While ElapsedMilliseconds()-StartTime < Timeout
           If PeekMessage_(@msg.MSG, CommunicationWindow, 0, 0, #PM_REMOVE)
             TranslateMessage_(@msg)
@@ -312,26 +312,26 @@ CompilerElse
           Else
             Delay(50)
           EndIf
-        Wend  
+        Wend
         
       EndIf
-    EndIf  
+    EndIf
   EndProcedure
   
   Procedure Connect(WindowID, ProcessID, Executable$)
     Success = 0
-    TargetWindow = 0    
+    TargetWindow = 0
     
     If CommunicationWindow
-      ;    
+      ;
       ; Discover all IDE instances that support Automation
-      ;      
+      ;
       If WindowID
         ; post to this window only
         PostMessage_(WindowID, CommunicationMessage, AsciiConst('A','U','T','O'), CommunicationWindow)
       Else
         PostMessage_(#HWND_BROADCAST, CommunicationMessage, AsciiConst('A','U','T','O'), CommunicationWindow)
-      EndIf   
+      EndIf
       
       If Executable$
         ; make path absolute
@@ -351,9 +351,9 @@ CompilerElse
             CompilerIf #DEBUG
               Debug "[RunOnceMessage received] Code = '" + PeekS(@msg\wParam, 4, #PB_Ascii) + "', Window = " + Hex(msg\lParam)
             CompilerEndIf
-          
+            
             If msg\wParam = AsciiConst('A','U','T','1')
-              ; response from an IDE that supports this 
+              ; response from an IDE that supports this
               
               If WindowID
                 ; if a WindowID was given, we are done at this point
@@ -367,7 +367,7 @@ CompilerElse
                 If GetWindowThreadProcessId_(msg\lParam, @dwProcessID.l) And dwProcessID = ProcessID
                   TargetWindow = msg\lParam
                   Success = 1
-                EndIf                
+                EndIf
                 
               ElseIf Executable$
                 ; need to ask the IDE if the executable matches
@@ -376,10 +376,10 @@ CompilerElse
                 copy\lpData = AllocateMemory(copy\cbData)
                 If copy\lpData
                   PokeS(copy\lpData, Executable$, -1, #PB_UTF8)
-                  copy\dwData = AsciiConst('A','E','X','E') 
-                  SendMessage_(msg\lParam, #WM_COPYDATA, CommunicationWindow, @copy)                                      
+                  copy\dwData = AsciiConst('A','E','X','E')
+                  SendMessage_(msg\lParam, #WM_COPYDATA, CommunicationWindow, @copy)
                   FreeMemory(copy\lpData)
-                EndIf  
+                EndIf
                 
               Else
                 ; ConnectAny, accept the first response
@@ -392,22 +392,22 @@ CompilerElse
               ; response from an IDE with the correct Executable$
               TargetWindow = msg\lParam
               Success = 1
-            
+              
             EndIf
-          
+            
           EndIf
           
         Else
           Delay(50)
         EndIf
-      Until Success Or ElapsedMilliseconds()-Timeout > 5000      
+      Until Success Or ElapsedMilliseconds()-Timeout > 5000
     EndIf
     
     If Success = 0
       LastError$ = "Connection could not be established."
     EndIf
     
-    ProcedureReturn Success      
+    ProcedureReturn Success
   EndProcedure
   
   Procedure Disconnect()
@@ -430,13 +430,13 @@ CompilerElse
     
     If OSVersion() >= #PB_OS_Windows_2000
       ; create a message only window
-      ParentWindow = -3 ; HWND_MESSAGE      
+      ParentWindow = -3 ; HWND_MESSAGE
     Else
       ParentWindow = #Null
     EndIf
     
     CommunicationWindow = CreateWindowEx_(0, @"PB_AutomationClient", @"", 0, 0, 0, 0, 0, ParentWindow, 0, Instance, #Null)
-
+    
   EndProcedure
   
   ProcedureDLL DetachProcess(Instance)
@@ -446,7 +446,7 @@ CompilerElse
     CloseWindow_(CommunicationWindow)
     UnregisterClass_(@"PB_AutomationClient", Instance)
   EndProcedure
-
+  
 CompilerEndIf
 
 ;- Connecting/Disconnecting
@@ -597,21 +597,21 @@ ProcedureDLL AUTO_RPC_GetStringPtr(*Call.RPC_Call, Index)
     ProcedureReturn @""
   EndIf
 EndProcedure
-  
+
 ProcedureDLL AUTO_RPC_GetMemorySize(*Call.RPC_Call, Index)
-   If *Call
-     ProcedureReturn RPC_GetMemorySize(*Call, Index)
-   Else
-     ProcedureReturn 0
-   EndIf
+  If *Call
+    ProcedureReturn RPC_GetMemorySize(*Call, Index)
+  Else
+    ProcedureReturn 0
+  EndIf
 EndProcedure
 
 ProcedureDLL AUTO_RPC_GetMemory(*Call.RPC_Call, Index)
-   If *Call
-     ProcedureReturn RPC_GetMemory(*Call, Index)
-   Else
-     ProcedureReturn 0
-   EndIf
+  If *Call
+    ProcedureReturn RPC_GetMemory(*Call, Index)
+  Else
+    ProcedureReturn 0
+  EndIf
 EndProcedure
 
 ProcedureDLL AUTO_RPC_CountParameters(*Call.RPC_Call)

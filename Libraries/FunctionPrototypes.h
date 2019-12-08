@@ -29,7 +29,7 @@
 /* Drag & Drop */
 #define PB_DragText   M_UnicodeFunction(PB_DragText)
 #define PB_DragImage  M_UnicodeFunction(PB_DragImage)
-#define PB_DragFiles  M_UnicodeFunction(PB_DragFiles) 
+#define PB_DragFiles  M_UnicodeFunction(PB_DragFiles)
 #define PB_DragText2  M_UnicodeFunction(PB_DragText2)
 #define PB_DragImage2 M_UnicodeFunction(PB_DragImage2)
 #define PB_DragFiles2 M_UnicodeFunction(PB_DragFiles2)
@@ -89,13 +89,13 @@
   #define PB_AddGadgetItem        M_UnicodeFunction(PB_AddGadgetItem)
   #define PB_AddGadgetItem2       M_UnicodeFunction(PB_AddGadgetItem2)
   #define PB_AddGadgetItem3       M_UnicodeFunction(PB_AddGadgetItem3)
-  
+
   #define PB_SetGadgetItemText    M_UnicodeFunction(PB_SetGadgetItemText)
   #define PB_SetGadgetItemText2   M_UnicodeFunction(PB_SetGadgetItemText2)
-  
+
   #define PB_AddGadgetColumn      M_UnicodeFunction(PB_AddGadgetColumn)
-#endif  
-  
+#endif
+
 #define PB_GetGadgetItemText    M_UnicodeFunction(PB_GetGadgetItemText)
 #define PB_GetGadgetItemText2   M_UnicodeFunction(PB_GetGadgetItemText2)
 #define PB_GetGadgetText        M_UnicodeFunction(PB_GetGadgetText)

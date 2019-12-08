@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -12,7 +12,7 @@
 ;   but only as its structure fields
 ;
 ; Handles array, list, map etc
-; 
+;
 Procedure GetValueSize(type, *Pointer, Is64bit)
   If IS_POINTER(type) Or IS_INTEGER(type)
     If Is64bit
@@ -30,15 +30,15 @@ Procedure GetValueSize(type, *Pointer, Is64bit)
       Case #TYPE_CHARACTER: ProcedureReturn 4 ; its translated into a long actually
       Case #TYPE_DOUBLE:    ProcedureReturn 8
       Case #TYPE_QUAD:      ProcedureReturn 8
-            
-      ; strings are stored in the format of the external debugger
+        
+        ; strings are stored in the format of the external debugger
       Case #TYPE_FIXEDSTRING,  #TYPE_STRING
         ProcedureReturn MemoryStringLengthBytes(*Pointer) + #CharSize
-            
+        
       Case #TYPE_ARRAY
         ; string with dimensions (ascii)
-        ProcedureReturn MemoryAsciiLength(*Pointer) + 1 
-
+        ProcedureReturn MemoryAsciiLength(*Pointer) + 1
+        
       Case #TYPE_LINKEDLIST
         ; size, current element (both integer)
         If Is64bit
@@ -46,8 +46,8 @@ Procedure GetValueSize(type, *Pointer, Is64bit)
         Else
           ProcedureReturn 4*2
         EndIf
-      
-      Case #TYPE_MAP        
+        
+      Case #TYPE_MAP
         ; size (integer), iscurrent (byte), current element (external)
         If Is64bit
           Size = 8
@@ -89,10 +89,10 @@ Procedure.s ScopeName(scope, type = 0)
       
     Case #SCOPE_SHARED
       ProcedureReturn "Shared"
-    
+      
     Case #SCOPE_PARAMETER
       ProcedureReturn "ByRef"  ; for the WatchList only!
-    
+      
     Default
       ProcedureReturn ""
   EndSelect
@@ -108,25 +108,25 @@ Procedure.s ModuleName(Name$, ModuleName$)
 EndProcedure
 
 Procedure.s GetDebuggerFile(*Debugger.DebuggerData, LineNumber)
-
-  FileNumber = (LineNumber >> 24) & $FF 
+  
+  FileNumber = (LineNumber >> 24) & $FF
   If FileNumber > *Debugger\NbIncludedFiles
     ProcedureReturn ""
   ElseIf FileNumber = 0
-    ProcedureReturn *Debugger\FileName$    
-  Else    
-    *Pointer = *Debugger\IncludedFiles 
+    ProcedureReturn *Debugger\FileName$
+  Else
+    *Pointer = *Debugger\IncludedFiles
     For i = 0 To FileNumber ; count from 0 to skip the "sourcepath" at the start
       *Pointer + MemoryAsciiLength(*Pointer) + 1
     Next i
     
     FileName$ = PeekAscii(*Pointer)
-
-    ; NOTE: the FileName$ can contain "../", so we need to remove this
-    ; 
-    *Cursor.Character = @FileName$  
-    While *Cursor\c
     
+    ; NOTE: the FileName$ can contain "../", so we need to remove this
+    ;
+    *Cursor.Character = @FileName$
+    While *Cursor\c
+      
       If *Cursor\c = Asc(#Separator)
         If PeekS(*Cursor, 4) = #Separator + ".." + #Separator
           ; remove the previous directory name
@@ -149,31 +149,31 @@ Procedure.s GetDebuggerFile(*Debugger.DebuggerData, LineNumber)
           ; Make sure the cursor stays inside the string.
           ; Otherwise, if removing a large dir towards the string end, *Cursor might
           ; end up outside of the valid string and create an endless loop
-          *Cursor = *BackCursor           
-        
-        ElseIf PeekS(*Cursor, 3) = #Separator + "." + #Separator        
+          *Cursor = *BackCursor
+          
+        ElseIf PeekS(*Cursor, 3) = #Separator + "." + #Separator
           ; simply remove this refrence to the own directory
           PokeS(*Cursor, PeekS(*Cursor + 2*#CharSize))
-                  
+          
         Else
           *Cursor + #CharSize
-        EndIf 
+        EndIf
         
       Else
         *Cursor + #CharSize
-      EndIf           
+      EndIf
     Wend
-
-    ProcedureReturn FileName$    
+    
+    ProcedureReturn FileName$
     
   EndIf
-      
+  
 EndProcedure
 
 Procedure.s GetDebuggerRelativeFile(*Debugger.DebuggerData, LineNumber)
   FileName$ = GetDebuggerFile(*Debugger, LineNumber)
   
-  If *Debugger\IncludedFiles 
+  If *Debugger\IncludedFiles
     SourcePath$ = PeekAscii(*Debugger\IncludedFiles) ; first is the source path
     FileName$ = CreateRelativePath(SourcePath$, FileName$)
   EndIf
@@ -181,7 +181,7 @@ Procedure.s GetDebuggerRelativeFile(*Debugger.DebuggerData, LineNumber)
   If FileName$ = ""
     ProcedureReturn Language("FileStuff","NewSource")
   EndIf
-    
+  
   ProcedureReturn FileName$
 EndProcedure
 
@@ -194,7 +194,7 @@ EndProcedure
 ;         |  | | | | | | | | | | | | | | | '---  1
 ;         |  | | | | | | | | | | | | | | '---  PF Parity Flag
 ;         |  | | | | | | | | | | | | | '---  0
-;         |  | | | | | | | | | | | | '---  AF Auxiliary Flag 
+;         |  | | | | | | | | | | | | '---  AF Auxiliary Flag
 ;         |  | | | | | | | | | | | '---  0
 ;         |  | | | | | | | | | | '---  ZF Zero Flag
 ;         |  | | | | | | | | | '---  SF Sign Flag
@@ -211,7 +211,7 @@ EndProcedure
 ; */
 ; Procedure.s GetFlagsRegisterString(Flags.l)
 ;   Result$ = ""
-;   
+;
 ;   If Flags & 1<< 0: Result$ + "CF, ": EndIf
 ;   If Flags & 1<< 2: Result$ + "PF, ": EndIf
 ;   If Flags & 1<< 4: Result$ + "AF, ": EndIf
@@ -225,13 +225,13 @@ EndProcedure
 ;   If Flags & 1<<14: Result$ + "NT, ": EndIf
 ;   If Flags & 1<<16: Result$ + "RF, ": EndIf
 ;   If Flags & 1<<17: Result$ + "VM, ": EndIf
-;   
+;
 ;   If Result$ = ""
 ;     ProcedureReturn ""
 ;   Else
 ;     ProcedureReturn Left(Result$, Len(Result$)-2) ;  cut the last ", "
-;   EndIf   
-; 
+;   EndIf
+;
 ; EndProcedure
 
 ; Val for hex values
@@ -242,7 +242,7 @@ Procedure ValHex(String$)
   Result = 0
   
   While *Cursor\c
-    Result << 4  
+    Result << 4
     If *Cursor\c >= '0' And *Cursor\c <= '9'
       Result + *Cursor\c - '0'
     ElseIf *Cursor\c >= 'A' And *Cursor\c <= 'F'
@@ -257,11 +257,11 @@ Procedure ValHex(String$)
 EndProcedure
 
 ; replacements for the normal functions in Debug output/variable viewer and such
-; for now it just cuts any remaining 0's, but this can easily be extended 
+; for now it just cuts any remaining 0's, but this can easily be extended
 ; to allow other display of floats too (like 123e-5 or something)
 ;
 Procedure.s StrF_Debug(Value.f)
-  String$ = StrF(Value, 14) ; 14 digits should be ok for normal float  
+  String$ = StrF(Value, 14) ; 14 digits should be ok for normal float
   If FindString(String$, ".", 1) = 0
     ProcedureReturn String$
   Else
@@ -277,7 +277,7 @@ Procedure.s StrF_Debug(Value.f)
 EndProcedure
 
 Procedure.s StrD_Debug(Value.d, Digits = 25)
-  String$ = StrD(Value, Digits) 
+  String$ = StrD(Value, Digits)
   If FindString(String$, ".", 1) = 0
     ProcedureReturn String$
   Else
@@ -295,13 +295,13 @@ EndProcedure
 Procedure.s StrD_Science(Value.d)
   abs.d = Abs(Value)
   exp.i = 0
-
+  
   If Value = 0.0
     ProcedureReturn "0"
-  
+    
   ElseIf abs >= 1.0 And abs < 10.0
     ProcedureReturn StrD_Debug(Value)
-  
+    
   ElseIf abs < 1.0
     While abs < 1.0
       abs * 10.0
@@ -309,7 +309,7 @@ Procedure.s StrD_Science(Value.d)
       exp + 1
     Wend
     ProcedureReturn StrD_Debug(Value, 10) + "E-" + Str(exp)
-  
+    
   Else
     While abs >= 10.0
       abs / 10.0
@@ -319,7 +319,7 @@ Procedure.s StrD_Science(Value.d)
     ProcedureReturn StrD_Debug(Value, 10) + "E" + Str(exp)
     
   EndIf
-
+  
 EndProcedure
 
 Procedure.s DebuggerTitle(FileName$)

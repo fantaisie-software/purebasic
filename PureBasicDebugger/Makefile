@@ -4,55 +4,55 @@
 TARGET = $(PB_BUILDTARGET)/ide
 
 ifeq ($(PB_WINDOWS),1)
-  PBCOMPILER = $(PUREBASIC_HOME)/Compilers/PBCompiler /QUIET
-  GUIDEBUGGER = $(PUREBASIC_HOME)/Compilers/PBDebugger.exe
-  DEBUGGERFLAGS = /XP /USER /ICON ../PureBasicIDE/data/PBLogoSmall.ico
-  MAKEEXE = /EXE
-  ECHOQUOTE = 
-  CONSTANT = /CONSTANT
-  UNICODE = /UNICODE
-  DEBUGFLAG = /DEBUGGER
-  NETWORKSUPPORT = $(TARGET)/NetworkSupport.obj
-  PURIFIER = /PURIFIER
-  
-  ICONS = \
-    $(TARGET)/arrow.ico \
-    $(TARGET)/select.ico \
-    $(TARGET)/zoomin.ico \
-    $(TARGET)/zoomout.ico \
-    $(TARGET)/zoomall.ico \
-    $(TARGET)/cross.ico \
-    $(TARGET)/TemplateUp.ico \
-    $(TARGET)/TemplateDown.ico \
-  
-else
-  PBCOMPILER = $(PUREBASIC_HOME)/compilers/pbcompiler -q
-  CONSTANT = --constant
-  UNICODE = --unicode
-  DEBUGFLAG = -d
-  NETWORKSUPPORT = $(TARGET)/NetworkSupport.o
-  PURIFIER = --purifier
+	PBCOMPILER = $(PUREBASIC_HOME)/Compilers/PBCompiler /QUIET
+	GUIDEBUGGER = $(PUREBASIC_HOME)/Compilers/PBDebugger.exe
+	DEBUGGERFLAGS = /XP /USER /ICON ../PureBasicIDE/data/PBLogoSmall.ico
+	MAKEEXE = /EXE
+	ECHOQUOTE =
+	CONSTANT = /CONSTANT
+	UNICODE = /UNICODE
+	DEBUGFLAG = /DEBUGGER
+	NETWORKSUPPORT = $(TARGET)/NetworkSupport.obj
+	PURIFIER = /PURIFIER
 
-  ICONS = \
-    $(TARGET)/arrow.png \
-    $(TARGET)/select.png \
-    $(TARGET)/zoomin.png \
-    $(TARGET)/zoomout.png \
-    $(TARGET)/zoomall.png \
-    $(TARGET)/cross.png \
-    $(TARGET)/TemplateUp.png \
-    $(TARGET)/TemplateDown.png
+	ICONS = \
+		$(TARGET)/arrow.ico \
+		$(TARGET)/select.ico \
+		$(TARGET)/zoomin.ico \
+		$(TARGET)/zoomout.ico \
+		$(TARGET)/zoomall.ico \
+		$(TARGET)/cross.ico \
+		$(TARGET)/TemplateUp.ico \
+		$(TARGET)/TemplateDown.ico \
+
+else
+	PBCOMPILER = $(PUREBASIC_HOME)/compilers/pbcompiler -q
+	CONSTANT = --constant
+	UNICODE = --unicode
+	DEBUGFLAG = -d
+	NETWORKSUPPORT = $(TARGET)/NetworkSupport.o
+	PURIFIER = --purifier
+
+	ICONS = \
+		$(TARGET)/arrow.png \
+		$(TARGET)/select.png \
+		$(TARGET)/zoomin.png \
+		$(TARGET)/zoomout.png \
+		$(TARGET)/zoomall.png \
+		$(TARGET)/cross.png \
+		$(TARGET)/TemplateUp.png \
+		$(TARGET)/TemplateDown.png
 
 ifeq ($(PB_MACOS),1)
-  GUIDEBUGGER = $(PUREBASIC_HOME)/compilers/pbdebugger.app
-  DEBUGGERFLAGS = --front -n "../PureBasicIDE/data/logo/PB 3D Mac Icon.icns"
+	GUIDEBUGGER = $(PUREBASIC_HOME)/compilers/pbdebugger.app
+	DEBUGGERFLAGS = --front -n "../PureBasicIDE/data/logo/PB 3D Mac Icon.icns"
 else
-  GUIDEBUGGER = $(PUREBASIC_HOME)/compilers/pbdebugger
-  DEBUGGERFLAGS = --subsystem gtk2
-endif 
+	GUIDEBUGGER = $(PUREBASIC_HOME)/compilers/pbdebugger
+	DEBUGGERFLAGS = --subsystem gtk2
+endif
 
-  MAKEEXE = -e
-  ECHOQUOTE = "
+	MAKEEXE = -e
+	ECHOQUOTE = "
 endif
 
 GuiDebugger : *.pb Data/*.png $(ICONS) $(NETWORKSUPPORT)

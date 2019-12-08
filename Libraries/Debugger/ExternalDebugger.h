@@ -57,27 +57,27 @@
   _dbg_cmd.Command  = COMMAND_Debug; \
   _dbg_cmd.Value1   = 8; \
   _dbg_cmd.DataSize = sprintf(_dbg_buff, "[Line %i] %s", __LINE__, string)+1; \
-  ExternalDebugger_SendCommandWithData(&_dbg_cmd, _dbg_buff); }   
-  
+  ExternalDebugger_SendCommandWithData(&_dbg_cmd, _dbg_buff); }
+
 #define DebugNr(string, number) { \
   struct CommandInfo _dbg_cmd; \
   char _dbg_buff[600]; \
   _dbg_cmd.Command  = COMMAND_Debug; \
   _dbg_cmd.Value1   = 8; \
   _dbg_cmd.DataSize = sprintf(_dbg_buff, "[Line %i] %s %d", __LINE__, string, number)+1; \
-  ExternalDebugger_SendCommandWithData(&_dbg_cmd, _dbg_buff); }  
+  ExternalDebugger_SendCommandWithData(&_dbg_cmd, _dbg_buff); }
 
- /* Notes on the Endian issue:
-  *   The external debugger signals its endian-ness with the options and the debugger lib does
-  *   all the needed byte swapping with the below macros.
-  *
-  *   Since the swapping of the CommandInfo structure is the same for almost all commands it is
-  *   handled in PB_DEBUGGER_ByteSwapIncommingCommand() and PB_DEBUGGER_ByteSwapOutgoingCommand().
-  *   These functions are called by the communication plugins on sending and receiving.
-  *   (note: this means the CommandInfo data is swapped after a send and should be re-filled)
-  *
-  *   The CommandData must be fully swapped by the caller.
-  */
+/* Notes on the Endian issue:
+ *   The external debugger signals its endian-ness with the options and the debugger lib does
+ *   all the needed byte swapping with the below macros.
+ *
+ *   Since the swapping of the CommandInfo structure is the same for almost all commands it is
+ *   handled in PB_DEBUGGER_ByteSwapIncommingCommand() and PB_DEBUGGER_ByteSwapOutgoingCommand().
+ *   These functions are called by the communication plugins on sending and receiving.
+ *   (note: this means the CommandInfo data is swapped after a send and should be re-filled)
+ *
+ *   The CommandData must be fully swapped by the caller.
+ */
 extern int PB_DEBUGGER_ByteSwap;
 extern int PB_DEBUGGER_BigEndian;
 
@@ -85,7 +85,7 @@ extern int PB_DEBUGGER_BigEndian;
  *
  * Note: We do the swapping on the memory location, not when assigning the value.
  *   So you first assign the value normally and then call the swap macro for the swapping.
- *   The reason is that the special quad case below would not work if we do it with the 
+ *   The reason is that the special quad case below would not work if we do it with the
  *   direct assignment. Its also better for the (unicode)string conversion
  */
 #define SWAP_CHAR(a, b) {unsigned char t = a; a = b; b = t; }
@@ -115,11 +115,11 @@ M_INLINE(void) bswap_quad(unsigned char *p)
    *   in the debugger communication we always reserve 8 bytes for quads so in case of
    *   a quad, we have this on PPC: long(be) + 4byte garbage
    *
-   *   So in this case we just swap the first 4 bytes and put the rest to 0 (will be the higher 
-   *   bytes of the x86 quad type). This works in both ppc->x86 and x86->ppc directions, we just 
+   *   So in this case we just swap the first 4 bytes and put the rest to 0 (will be the higher
+   *   bytes of the x86 quad type). This works in both ppc->x86 and x86->ppc directions, we just
    *   get a truncation in the one direction which is unavoidable.
    *
-   *   Note that if somebody runs a PPC debugger with an x64 exe (if we do a network debugging) it 
+   *   Note that if somebody runs a PPC debugger with an x64 exe (if we do a network debugging) it
    *   will work just fine, but all pointers get truncated of course. But who would do that anyway?
    */
   bswap4(p);
@@ -169,7 +169,7 @@ M_INLINE(void) bswap_wstring(wchar_t *p)
 #else
   #define ByteSwapIntegerForce(p) bswap4((unsigned char *)(p))
 #endif
-    
+
 // Note: This structure remains the same for 32bits/64bits for compatibility.
 //   This means that a command can send at max 2GB of data, but i think that is ok for the moment.
 //   Structure size must be >= 16 for AES encryption
@@ -214,7 +214,7 @@ struct CommandStackStruct
 
 typedef struct
 {
-  int Command;  
+  int Command;
   void (*Handler)(struct CommandInfo *command, char *commanddata, integer *registers);
 } ExternalCommandHandler;
 
@@ -227,7 +227,7 @@ typedef struct WatchlistObject
 
   char *base;       // array/list/map base adderess (in local mode this is a relative offset, this has no meaning for variables
   char *address;    // address of the variable (for locals, this is relative to the variable bank) otherwise it is a direct address
-                    // for arrays/linkedlists/maps, this is relative to the elements base (not the array base!) 
+                    // for arrays/linkedlists/maps, this is relative to the elements base (not the array base!)
 
   int ProcedureID;    // for local stuff: quick access from Enter/LeaveProcedure
   int ProcedureIndex; // procedure index, to identify the procedure with the IDE

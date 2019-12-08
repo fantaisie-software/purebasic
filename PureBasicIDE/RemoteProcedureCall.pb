@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -21,8 +21,8 @@ Structure RPC_Parameter
     Quad.l
     Float.f
     Double.d
-   *Memory
-  EndStructureUnion  
+    *Memory
+  EndStructureUnion
 EndStructure
 
 Structure RPC_Call
@@ -32,7 +32,7 @@ Structure RPC_Call
   ErrorFlag.l
   NbParameters.l
   Array Parameter.RPC_Parameter(0)
- *Encoded
+  *Encoded
   EncodedSize.l
 EndStructure
 
@@ -48,12 +48,12 @@ Procedure RPC_ClearCall(*Call.RPC_Call)
   *Call\Encoded      = 0
   *Call\IsResponse   = 0
   
-   FreeArray(*Call\Parameter())
+  FreeArray(*Call\Parameter())
 EndProcedure
 
 Procedure RPC_InitCall(*Call.RPC_Call, Function$, NbParameters)
   Static LastResponseID = 0
-
+  
   ; clear old encoded data
   ;
   If *Call\Encoded
@@ -62,7 +62,7 @@ Procedure RPC_InitCall(*Call.RPC_Call, Function$, NbParameters)
   *Call\Encoded = 0
   
   LastResponseID + 1
-
+  
   *Call\Function$    = Function$
   *Call\ResponseID   = LastResponseID
   *Call\NbParameters = NbParameters
@@ -71,7 +71,7 @@ Procedure RPC_InitCall(*Call.RPC_Call, Function$, NbParameters)
   
   If NbParameters > 0
     Dim *Call\Parameter(NbParameters-1)
-  EndIf  
+  EndIf
 EndProcedure
 
 ; Re-initialize an existing Call with values for the response:
@@ -91,7 +91,7 @@ Procedure RPC_InitResponse(*Call.RPC_Call, NbParameters, ErrorFlag = 0)
   
   If NbParameters > 0
     Dim *Call\Parameter(NbParameters-1)
-  EndIf  
+  EndIf
 EndProcedure
 
 ; The format is:
@@ -109,13 +109,13 @@ EndProcedure
 ;
 Procedure RPC_Encode(*Call.RPC_Call)
   Success = 0
-
+  
   ; Calculate full size
   ;
   NameLength = StringByteLength(*Call\Function$, #PB_UTF8) + 1
   Size = 24 + NameLength
   For i = 0 To *Call\NbParameters-1
-    Size + 1 + *Call\Parameter(i)\Size    
+    Size + 1 + *Call\Parameter(i)\Size
     If *Call\Parameter(i)\Type = -1 Or *Call\Parameter(i)\Type = #PB_String
       Size + 4
     EndIf
@@ -137,7 +137,7 @@ Procedure RPC_Encode(*Call.RPC_Call)
     PokeL(*Call\Encoded+16, *Call\NbParameters)
     PokeL(*Call\Encoded+20, NameLength)
     PokeS(*Call\Encoded+24, *Call\Function$, -1, #PB_UTF8)
-        
+    
     *Pointer = *Call\Encoded + 24 + NameLength
     For i = 0 To *Call\NbParameters-1
       PokeB(*Pointer, *Call\Parameter(i)\Type)
@@ -159,13 +159,13 @@ Procedure RPC_Encode(*Call.RPC_Call)
         Case #PB_Double
           PokeD(*Pointer, *Call\Parameter(i)\Double)
           *Pointer + 8
-        
+          
         Case #PB_String
           PokeL(*Pointer, *Call\Parameter(i)\Size)
           *Pointer + 4
           PokeS(*Pointer, *Call\Parameter(i)\String$, -1, #PB_UTF8)
           *Pointer + *Call\Parameter(i)\Size
-
+          
         Case -1
           PokeL(*Pointer, *Call\Parameter(i)\Size)
           *Pointer + 4
@@ -178,7 +178,7 @@ Procedure RPC_Encode(*Call.RPC_Call)
     Next i
     
     Success = 1
-  EndIf  
+  EndIf
   
   ProcedureReturn Success
 EndProcedure
@@ -191,7 +191,7 @@ Procedure RPC_Decode(*Call.RPC_Call, *Encoded, Size, CopyBuffer = #True)
   Success = 0
   
   If *Encoded And Size And PeekL(*Encoded) <= Size ; make sure it is all complete
-  
+    
     If CopyBuffer
       *Call\Encoded = AllocateMemory(Size)
       If *Call\Encoded
@@ -205,7 +205,7 @@ Procedure RPC_Decode(*Call.RPC_Call, *Encoded, Size, CopyBuffer = #True)
       *Call\IsResponse   = PeekL(*Encoded+4)
       *Call\ResponseID   = PeekL(*Encoded+8)
       *Call\ErrorFlag    = PeekL(*Encoded+12)
-      *Call\NbParameters = PeekL(*Encoded+16)      
+      *Call\NbParameters = PeekL(*Encoded+16)
       *Call\Function$    = PeekS(*Encoded+24, -1, #PB_UTF8)
       *Pointer = *Encoded + 24 + PeekL(*Encoded+20)
       
@@ -213,7 +213,7 @@ Procedure RPC_Decode(*Call.RPC_Call, *Encoded, Size, CopyBuffer = #True)
         Dim *Call\Parameter(*Call\NbParameters-1)
         
         For i = 0 To *Call\NbParameters-1
-          *Call\Parameter(i)\Type = PeekB(*Pointer): 
+          *Call\Parameter(i)\Type = PeekB(*Pointer):
           *Pointer + 1
           
           Select *Call\Parameter(i)\Type
@@ -236,18 +236,18 @@ Procedure RPC_Decode(*Call.RPC_Call, *Encoded, Size, CopyBuffer = #True)
               *Call\Parameter(i)\Size = 8
               *Call\Parameter(i)\Double = PeekD(*Pointer)
               *Pointer + 8
-            
+              
             Case #PB_String
               *Call\Parameter(i)\Size = PeekL(*Pointer)
               *Pointer + 4
               *Call\Parameter(i)\String$ = PeekS(*Pointer, -1, #PB_UTF8)
-              *Pointer + *Call\Parameter(i)\Size       
-    
+              *Pointer + *Call\Parameter(i)\Size
+              
             Case -1
               *Call\Parameter(i)\Size = PeekL(*Pointer)
               *Pointer + 4
               *Call\Parameter(i)\Memory = *Pointer
-              *Pointer + *Call\Parameter(i)\Size         
+              *Pointer + *Call\Parameter(i)\Size
               
           EndSelect
         Next i
@@ -256,7 +256,7 @@ Procedure RPC_Decode(*Call.RPC_Call, *Encoded, Size, CopyBuffer = #True)
       Success = 1
     EndIf
   EndIf
-    
+  
   ProcedureReturn Success
 EndProcedure
 
@@ -306,7 +306,7 @@ Procedure RPC_SetMemory(*Call.RPC_Call, Index, *Buffer, Size)
   If *Buffer = 0
     Size = 0
   EndIf
-
+  
   If Index < *Call\NbParameters
     *Call\Parameter(Index)\Type   = -1
     *Call\Parameter(Index)\Size   = Size
@@ -374,10 +374,10 @@ EndProcedure
 
 
 CompilerIf #DEBUG
-
+  
   Procedure RPC_DebugCall(*Call.RPC_Call, Info$ = "")
     Prefix$ = "[RPC] "
-
+    
     Debug Prefix$ + "------------------------------------------------------"
     Debug Prefix$ + "RPC Call: " + Info$
     Debug Prefix$ + "------------------------------------------------------"
@@ -389,9 +389,9 @@ CompilerIf #DEBUG
     
     For i = 0 To *Call\NbParameters-1
       Line$ = Prefix$ + "Parameter("+Str(i)+") = "
-    
-      Select *Call\Parameter(i)\Type
       
+      Select *Call\Parameter(i)\Type
+          
         Case #PB_Long
           Line$ + Str(*Call\Parameter(i)\Long) + "  (Long)"
           
@@ -403,13 +403,13 @@ CompilerIf #DEBUG
           
         Case #PB_Double
           Line$ + StrD(*Call\Parameter(i)\Double) + "  (Double)"
-        
+          
         Case #PB_String
           Line$ + Chr(34) + *Call\Parameter(i)\String$ + Chr(34) + "  (String)"
-
+          
         Case -1
           Line$ + "<Buffer=" + Hex(*Call\Parameter(i)\Memory) + ", Size="+Str(*Call\Parameter(i)\Size)+">  (Memory)"
-
+          
       EndSelect
       
       Debug Line$
@@ -417,7 +417,7 @@ CompilerIf #DEBUG
     
     Debug Prefix$ + "------------------------------------------------------"
   EndProcedure
-
+  
 CompilerEndIf
 
 
@@ -431,4 +431,3 @@ CompilerEndIf
 
 
 
-  

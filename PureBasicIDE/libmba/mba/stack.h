@@ -2,7 +2,7 @@
 #define MBA_STACK_H
 
 /* stack - a dynamically resizing stack
- */ 
+ */
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,11 +24,11 @@ extern "C" {
 #include <mba/allocator.h>
 
 struct stack {
-	unsigned int max;
-	unsigned int sp;
-	unsigned int size;
-	void **array;
-	struct allocator *al;
+  unsigned int max;
+  unsigned int sp;
+  unsigned int size;
+  void **array;
+  struct allocator *al;
 };
 
 LIBMBA_API int stack_init(struct stack *s, unsigned int max_size, struct allocator *al);

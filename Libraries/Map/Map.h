@@ -72,9 +72,9 @@ typedef struct PB_Map
   int             NbElements;
   int             Flags;
   struct PB_Map  **Address;
-  
+
   PB_MapPosition *PositionStack;
-  
+
   // Every Map has its private allocator, so we can call ClearAll() for a fast ClearMap()
   // Also this way Lists in separate threads work without a lock for allocation
   PB_BlockAlloc *Allocator;
@@ -128,7 +128,7 @@ M_PBFUNCTION(PB_MapElement *) PB_Map_FindMapElement(PB_Map *Map, const TCHAR *Ke
 // Note: we don't use the generic 'M_AllocateElement' or it won't mix with LinkedList header
 //
 #define M_AllocateMapElement(Map)      PB_Object_BlockAlloc(((PB_Map *)Map)->Allocator)
-#define M_FreeMapElement(Map, Element) PB_Object_BlockFree(((PB_Map *)Map)->Allocator, (void *)(Element))  
+#define M_FreeMapElement(Map, Element) PB_Object_BlockFree(((PB_Map *)Map)->Allocator, (void *)(Element))
 
 // define this only if there is a faster free method than calling M_FreeElement() on all items separately
 #define M_FreeAllMapElements(Map)      PB_Object_BlockClearAll(((PB_Map *)Map)->Allocator)

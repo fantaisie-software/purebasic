@@ -5,35 +5,35 @@ TARGET = $(PB_BUILDTARGET)/ide/libmba
 DEPENDENCIES = $(TARGET)/dummy
 
 ifeq ($(PB_WINDOWS),1)
-  LIBRARYFILE = $(TARGET)/libmba.lib
+	LIBRARYFILE = $(TARGET)/libmba.lib
 else
-  LIBRARYFILE = $(TARGET)/libmba.a
+	LIBRARYFILE = $(TARGET)/libmba.a
 endif
 
 # cfg.c doesn't compile on OS X, so it is removed for now
 
 # The IDE does not need all of this. just the diff one and all its dependencies
 OBJECTS = $(TARGET)/allocator.$(PB_OBJ) \
-          $(TARGET)/bitset.$(PB_OBJ) \
-          $(TARGET)/csv.$(PB_OBJ) \
-          $(TARGET)/dbug.$(PB_OBJ) \
-          $(TARGET)/diff.$(PB_OBJ) \
-          $(TARGET)/eval.$(PB_OBJ) \
-          $(TARGET)/hashmap.$(PB_OBJ) \
-          $(TARGET)/hexdump.$(PB_OBJ) \
-          $(TARGET)/linkedlist.$(PB_OBJ) \
-          $(TARGET)/misc.$(PB_OBJ) \
-          $(TARGET)/msgno.$(PB_OBJ) \
-          $(TARGET)/path.$(PB_OBJ) \
-          $(TARGET)/pool.$(PB_OBJ) \
-          $(TARGET)/stack.$(PB_OBJ) \
-          $(TARGET)/suba.$(PB_OBJ) \
-          $(TARGET)/time.$(PB_OBJ) \
-          $(TARGET)/varray.$(PB_OBJ) 
+					$(TARGET)/bitset.$(PB_OBJ) \
+					$(TARGET)/csv.$(PB_OBJ) \
+					$(TARGET)/dbug.$(PB_OBJ) \
+					$(TARGET)/diff.$(PB_OBJ) \
+					$(TARGET)/eval.$(PB_OBJ) \
+					$(TARGET)/hashmap.$(PB_OBJ) \
+					$(TARGET)/hexdump.$(PB_OBJ) \
+					$(TARGET)/linkedlist.$(PB_OBJ) \
+					$(TARGET)/misc.$(PB_OBJ) \
+					$(TARGET)/msgno.$(PB_OBJ) \
+					$(TARGET)/path.$(PB_OBJ) \
+					$(TARGET)/pool.$(PB_OBJ) \
+					$(TARGET)/stack.$(PB_OBJ) \
+					$(TARGET)/suba.$(PB_OBJ) \
+					$(TARGET)/time.$(PB_OBJ) \
+					$(TARGET)/varray.$(PB_OBJ)
 
 # need to add one empty tab line after the target, otherwise it failes here!?
 $(LIBRARY): $(LIBRARYFILE)
-	
+
 
 ifeq ($(PB_WINDOWS),1)
 

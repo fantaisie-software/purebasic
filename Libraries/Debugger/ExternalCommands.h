@@ -24,42 +24,42 @@
  *
  *   Keep this file in sync with DebuggerCommon.pb in the external debugger source.
  */
- 
- 
+
+
 
 /* =======================================================================================
  *                             Commands sent from Debugger to Executable
  * =======================================================================================
  */
- 
- 
-enum 
+
+
+enum
 {
 
   /* Command: Stop the program execution
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
    */
   COMMAND_Stop,
-  
+
   /* Command: Step mode
    *
    *  Value1: Nb of steps to do (-1=step over, -2=step out)
    *  Value2:
    *    Data:
-   */ 
+   */
   COMMAND_Step,
-  
+
   /* Command: Continue program
    *
    *  Value1: if 1, there is a COMMAND_Continued sent in response, if 0, there isn't
    *  Value2:
    *    Data:
-   */ 
-  COMMAND_Run, 
-  
+   */
+  COMMAND_Run,
+
   /* Command: Manage breakpoints
    *
    *  Value1: action
@@ -69,269 +69,269 @@ enum
    *      4 = add data breakpoint     (Value2 = Procedure Index, -1=main code, -2=all code; DATA=Condition string, external format)
    *      5 = remove data breakpoint  (Value2 = BreakPointID)
    *      6 = clear data breakpoints
-   *  Value2: 
+   *  Value2:
    *    Data:
-   */ 
-  COMMAND_BreakPoint, 
-  
+   */
+  COMMAND_BreakPoint,
+
   /* Command: Request register names and alayout
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */ 
+   */
   COMMAND_GetRegisterLayout,
-  
+
   /* Command: Request register values
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */ 
+   */
   COMMAND_GetRegister,
-  
+
   /* Command: Set a register
    *
    *  Value1: register index
    *  Value2:
    *    Data: new value (32bit or 64bit)
-   */ 
+   */
   COMMAND_SetRegister,
-  
+
   /* Command: Request stack trace
    *
    *  Value1: IsHexDisplay
    *  Value2:
    *    Data:
-   */ 
+   */
   COMMAND_GetStack,
-  
+
   /* Command: Request memory dump
    *
    *  Value1: 1 if endaddress relative to startaddress, 0 else
    *  Value2:
    *    Data: STRING(startaddr) NULL String(endaddr) NULL  (external format)
-   */ 
+   */
   COMMAND_GetMemory,
-  
+
   /* Command: Request name list of global variables
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */ 
-  COMMAND_GetGlobalNames, 
-  
+   */
+  COMMAND_GetGlobalNames,
+
   /* Command: Request values of global variables
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */ 
+   */
   COMMAND_GetGlobals,
-  
+
   /* Command: Request local variable name/values
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */ 
-  COMMAND_GetLocals, 
-  
+   */
+  COMMAND_GetLocals,
+
   /* Command: Request list of Arrays
    *
    *  Value1: IsGlobal
    *  Value2:
    *    Data:
-   */ 
-  COMMAND_GetArrayInfo, 
-  
+   */
+  COMMAND_GetArrayInfo,
+
   /* Command: Request list of LinkedLists
    *
    *  Value1: IsGlobal
    *  Value2:
    *    Data:
-   */ 
-  COMMAND_GetListInfo, 
-  
+   */
+  COMMAND_GetListInfo,
+
   /* Command: Request list of Maps
    *
    *  Value1: IsGlobal
    *  Value2:
    *    Data:
-   */   
-  COMMAND_GetMapInfo, 
-  
+   */
+  COMMAND_GetMapInfo,
+
   /* Command: Request Array, List, Map data
    *
    *  Value1: Range (0=all, 1=non-zero only, 2=range)
    *  Value2: PrefereGlobal
-   *    Data: name+null (range+null if Value=2), external format 
+   *    Data: name+null (range+null if Value=2), external format
    *          - name MUST include "()" at the end!, name can be an expression, range has to be numbers
    *          - name MUST include a module prefix if the object is inside a module
-   */   
-  COMMAND_GetArrayListData, 
-  
+   */
+  COMMAND_GetArrayListData,
+
   /* Command: Request Procedure history
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */   
+   */
   COMMAND_GetHistory,
-  
+
   /* Command: Request local variables of the history
    *
    *  Value1: Callstack index
    *  Value2:
    *    Data:
-   */   
-  COMMAND_GetHistoryLocals, 
-  
+   */
+  COMMAND_GetHistoryLocals,
+
   /* Command: Request procedure list
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */   
-  COMMAND_GetProcedures, 
-  
+   */
+  COMMAND_GetProcedures,
+
   /* Command: Request procedure statistics
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */   
+   */
   COMMAND_GetProcedureStats,
-  
+
   /* Command: Reset procedure statistics
    *
    *  Value1: procedure index (-1 = all procedures)
    *  Value2:
    *    Data:
-   */   
+   */
   COMMAND_ResetProcedureStats,
-  
+
   /* Command: Add variable to watchlist
    *
    *  Value1: Procedure index (-1 = Global)
    *  Value2:
    *    Data: Variable name/constant expression (UTF8)
-   */   
-  COMMAND_WatchlistAdd, 
-  
+   */
+  COMMAND_WatchlistAdd,
+
   /* Command: Remove a variable from the watchlist
    *
    *  Value1: index (-1 = remove all)
    *  Value2:
    *    Data:
-   */   
-  COMMAND_WatchlistRemove, 
-  
+   */
+  COMMAND_WatchlistRemove,
+
   /* Command: Get the full watchlist content
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */   
-  COMMAND_GetWatchlist, 
-  
+   */
+  COMMAND_GetWatchlist,
+
   /* Command: Request list of registered libraries
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */   
-  COMMAND_GetLibraries, 
-  
+   */
+  COMMAND_GetLibraries,
+
   /* Command: Request the library object list
    *
    *  Value1: index in library table
    *  Value2:
    *    Data:
-   */   
-  COMMAND_GetLibraryInfo, 
-  
+   */
+  COMMAND_GetLibraryInfo,
+
   /* Command: Request text info about an object
    *
    *  Value1: library index
    *  Value2:
    *    Data: INTEGER: ObjectID
-   */   
+   */
   COMMAND_GetObjectText,
-  
+
   /* Command: Request data of an object
    *
    *  Value1: library index
    *  Value2:
    *    Data: INTEGER: ObjectID
-   */   
-  COMMAND_GetObjectData, 
-  
+   */
+  COMMAND_GetObjectData,
+
   /* Command: Start profiler counting
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */   
-  COMMAND_StartProfiler, 
-  
+   */
+  COMMAND_StartProfiler,
+
   /* Command: Stop profiler counting
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */   
-  COMMAND_StopProfiler, 
-  
+   */
+  COMMAND_StopProfiler,
+
   /* Command: Reset profiler counts
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */   
-  COMMAND_ResetProfiler, 
-  
+   */
+  COMMAND_ResetProfiler,
+
   /* Command: Request profiler line offset array (with start index of each source file)
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */   
-  COMMAND_GetProfilerOffsets, 
-  
+   */
+  COMMAND_GetProfilerOffsets,
+
   /* Command: Request line count data array
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */   
-  COMMAND_GetProfilerData, 
-  
+   */
+  COMMAND_GetProfilerData,
+
   /* Command: Evaluate expression (no structures are returned)
    *
    *  Value1: sender id (echoed back on response)
    *  Value2: line number for evaluation context (-1 for current line)
    *    Data: request string (external format)
-   */   
-  COMMAND_EvaluateExpression, 
-  
+   */
+  COMMAND_EvaluateExpression,
+
   /* Command: Evaluate expression (allows structures in the result)
    *
    *  Value1: sender id (echoed back on response)
    *  Value2: line number for evaluation context (-1 for current line)
    *    Data: request string (external format)
-   */   
-  COMMAND_EvaluateExpressionWithStruct, 
-  
+   */
+  COMMAND_EvaluateExpressionWithStruct,
+
   /* Command: Set a variable to a new value
    *
    *  Value1: sender id (echoed back)
    *  Value2: line number for evaluation context (-1 for current line)
    *    Data: STRING: lhs + NULL + rhs + NULL (external format, both can be expressions)
-   */   
-  COMMAND_SetVariable, 
-  
+   */
+  COMMAND_SetVariable,
+
   /* Command: Change the warning mode
    *
    *  Value1: mode
@@ -340,39 +340,39 @@ enum
    *     3 = treat as error
    *  Value2:
    *    Data:
-   */   
-  COMMAND_WarningMode, 
-  
+   */
+  COMMAND_WarningMode,
+
   /* Command: Instruct the executable to quit (Network mode only, done directly in pipe mode)
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */   
-  COMMAND_Kill, 
-  
+   */
+  COMMAND_Kill,
+
   /* Command: Request a file to be sent to the debugger (Network mode only)
    *
    *  Value1: file index
    *  Value2:
    *    Data:
-   */   
-  COMMAND_GetFile, 
-  
+   */
+  COMMAND_GetFile,
+
   /* Command: Set the purifier intervalls
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data: 4x LONG (Global, Local, String, Dynamic) A value of 0 means check never
    */
   COMMAND_SetPurifier,
-  
+
   /* Command: Get list of modules
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
-   *    Data: 
+   *    Data:
    */
-  COMMAND_GetModules,  
+  COMMAND_GetModules,
 };
 
 
@@ -381,9 +381,9 @@ enum
  *                             Commands sent from Executable to Debugger
  * =======================================================================================
  */
- 
- 
-enum 
+
+
+enum
 {
 
   /* Command: Indicate that exe is initialized
@@ -393,19 +393,19 @@ enum
    *    Data: sourcepath + mainfilename + all inc files (ascii)
    *
    * NOTE: you have to send a COMMAND_Run after that to make the executable even run!
-   */  
+   */
   COMMAND_Init,
-  
-  
+
+
   /* Command: Indicate that the program ended
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
-   */  
+   */
   COMMAND_End,
-    
-  
+
+
   /* Command: Indicete the mode of the executable
    *
    *  Value1: Bitfield
@@ -418,9 +418,9 @@ enum
    *   HiWord  = OS (1=Windows,2=Linux, 3=OSX)
    *    Data:
    */
-  COMMAND_ExeMode, 
-    
-  
+  COMMAND_ExeMode,
+
+
   /* Command: Indicate that the program stopped
    *
    *  Value1: LineNumber
@@ -428,17 +428,17 @@ enum
    *    Data:
    */
   COMMAND_Stopped,
-    
-  
+
+
   /* Command: Indicate that the code is running again
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
    */
   COMMAND_Continued,
-    
-  
+
+
   /* Command: Send a value to debug output
    *
    *  Value1: type (5=long,8=string,9=float)
@@ -446,26 +446,26 @@ enum
    *    Data: String Value if format=8 (external format)
    */
   COMMAND_Debug,
-    
-  
+
+
   /* Command: Debug a double value
    *
-   *  Value1: double value 
+   *  Value1: double value
    *  Value2: high bytes of double value
    *    Data:
    */
   COMMAND_DebugDouble,
-    
-  
+
+
   /* Command: Debug a quad value
    *
-   *  Value1: quad value 
+   *  Value1: quad value
    *  Value2: high bytes of quad value
    *    Data:
    */
   COMMAND_DebugQuad,
-    
-  
+
+
   /* Command: The program stopped because of an error
    *
    *  Value1: LineNumber
@@ -474,26 +474,26 @@ enum
    *
    * NOTE: this always stops the progam until a COMMAND_Run
    */
-  COMMAND_Error, 
-    
-  
+  COMMAND_Error,
+
+
   /* Command: Information about register names and layout of data in COMMAND_Register
    *
    *  Value1: count of registers
-   *  Value2: 
+   *  Value2:
    *    Data:
    *     Array of WORD
    *       for each display name below, the real index in the registers array
-   *       if high bit set (1<<15), then the register has a string representation (flags, condition, etc)       
+   *       if high bit set (1<<15), then the register has a string representation (flags, condition, etc)
    *     Array of STRING
    *       register display names
-   *  
+   *
    *     The order of registers in the display can differ from the order in the array,
    *     thats why the WORD array tells the real order
    */
-  COMMAND_RegisterLayout, 
-    
-  
+  COMMAND_RegisterLayout,
+
+
   /* Command: Send register values
    *
    *  Value1: are registers writable?
@@ -503,26 +503,26 @@ enum
    *     Array of STRING: for each register with string representation: its string
    */
   COMMAND_Register, // send registers. Value1=are registers writable? if DataSize=0, no register acces, otherwise DATA=array of register values.
-    
-  
+
+
   /* Command: Send a stack trace
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data: trace in text format, or message if stack is empty. No data if no access to registers
    */
-  COMMAND_Stack, 
-    
-  
+  COMMAND_Stack,
+
+
   /* Command: Send a memory dump
    *
    *  Value1: Start address as quad (0 on error)
    *  Value2: high bytes of start address
    *    Data: raw memory, or error message (ascii)
    */
-  COMMAND_Memory, 
-    
-  
+  COMMAND_Memory,
+
+
   /* Command: Send global variable names and types
    *
    *  Value1: NbVariables in the source
@@ -561,9 +561,9 @@ enum
    *    3, 0, 1, "Value3"
    *    8, 0, 0, "test$"
    */
-  COMMAND_GlobalNames, 
-    
-  
+  COMMAND_GlobalNames,
+
+
   /* Command: Send global variables content
    *
    *  Value1: number of global variables
@@ -582,8 +582,8 @@ enum
    *    for dynamic map: The value is INTEGER:BYTE (:STRING) (size, iscurrentkey, current key (if any, in external format))
    */
   COMMAND_Globals, // send global variables
-    
-  
+
+
   /* Command: Send local variable names + values
    *
    *  Value1: index of the Procedure in the procedure bank
@@ -599,9 +599,9 @@ enum
    *    <--- variable value --->
    *    if type = 7 (structure, no pointer) then there is no value
    */
-  COMMAND_Locals, 
-    
-  
+  COMMAND_Locals,
+
+
   /* Command: Send a list of arrays in the source
    *
    *  Value1: IsGlobal (Note: globals includes main and threaded!)
@@ -615,9 +615,9 @@ enum
    *      BYTE: type
    *      BYTE: scope
    */
-  COMMAND_ArrayInfo, 
-    
-  
+  COMMAND_ArrayInfo,
+
+
   /* Command: Send content of an array
    *
    *  Value1: array type
@@ -649,14 +649,14 @@ enum
    *      IF COMMAND_MapData
    *        STRING: current item key (external string format)
    *      EndIf
-   *      Entry data 
+   *      Entry data
    *      // NOTE: fixedlengt strings are passed normal as zero-terminated ones
    *      // NOTE: for a structured list/array/map, is the same as with global variables
    *    Next
    */
   COMMAND_ArrayData,
-    
-  
+
+
   /* Command: Send list of LinkedLists in the code
    *
    *  Value1: IsGlobal (Note: globals includes main and threaded!)
@@ -672,15 +672,15 @@ enum
    *      INTEGER: current (-1 = no current element)
    */
   COMMAND_ListInfo, // send list of linkedlists in the source
-    
-  
+
+
   /* Command: Send the content of a linked list
    *
    *  See COMMAND_ArrayData for command structure
    */
-  COMMAND_ListData, 
-    
-  
+  COMMAND_ListData,
+
+
   /* Command: Send list of Maps in the code
    *
    *  Value1: IsGlobal (Note: globals includes main and threaded!)
@@ -699,15 +699,15 @@ enum
    *      EndIf
    */
   COMMAND_MapInfo, // send list of linkedlists in the source
-    
-  
+
+
   /* Command: Send the content of a Map
    *
    *  See COMMAND_ArrayData for command structure
    */
-  COMMAND_MapData, 
-    
-  
+  COMMAND_MapData,
+
+
   /* Command: Send the current procedure history
    *
    *  Value1: number of procedures we are in
@@ -717,9 +717,9 @@ enum
    *      LONG: line where called from
    *      STRING: full procedure call
    */
-  COMMAND_History, 
-    
-  
+  COMMAND_History,
+
+
   /* Command: Send history local variables
    *
    *  Value1: CallStackIndex
@@ -727,38 +727,38 @@ enum
    *    Data: Same as COMMAND_Locals data
    */
   COMMAND_HistoryLocals,
-    
-  
+
+
   /* Command: Send list of Procedures in the source
    *
    *  Value1: NbProcedures
    *  Value2:
-   *    Data: 
+   *    Data:
    *      For each procedure:
    *        STRING: name without ()
    *        STRING: module name or empty string
    */
-  COMMAND_Procedures, 
-    
-  
+  COMMAND_Procedures,
+
+
   /* Command: Send procedure statistics
    *
    *  Value1: NbProcedures
    *  Value2:
    *    Data: List of LONG with call counts
    */
-  COMMAND_ProcedureStats, 
-    
-  
+  COMMAND_ProcedureStats,
+
+
   /* Command: Send error code if COMMAND_WatchlistAdd failed, if there is no error, this is not sent
    *
    *  Value1: item id
    *  Value2:
    *    Data: error message (ascii)
    */
-  COMMAND_WatchlistError, 
-    
-  
+  COMMAND_WatchlistError,
+
+
   /* Command: Send the full watchlist content (sorted by id)
    *
    *  Value1: number of items on the list
@@ -776,8 +776,8 @@ enum
    *      EndIf
    */
   COMMAND_Watchlist, // send the full watchlist content (sorted by id) see below for DATA structure
-    
-  
+
+
   /* Command: Indicate that a single variable changed
    *
    *  Value1: index (if index = -1, then variable out of scope => Value2 holds real index)
@@ -785,8 +785,8 @@ enum
    *    Data: new value (for string, quad, etc)
    */
   COMMAND_WatchlistEvent,
-    
-  
+
+
   /* Command: Send library list
    *
    *  Value1: Number of libs
@@ -799,45 +799,45 @@ enum
    *      STRING: TitleString (empty string if unsupported)
    *        LONG: LibraryInfo mask
    */
-  COMMAND_Libraries, 
-    
-  
+  COMMAND_Libraries,
+
+
   /* Command: Send object list of a library
    *
    *  Value1: Library index
    *  Value2: Nb of Objects (0 if no object display supported)
-   *    Data: for each object: (INTEGER: id, STRING:Info) 
+   *    Data: for each object: (INTEGER: id, STRING:Info)
    */
   COMMAND_LibraryInfo,
-    
-  
+
+
   /* Command: Identify the ObjectID for a following COMMAND_ObjectText or COMMAND_ObjectData
    *
    *  Value1: ObjectID (integer)
    *  Value2: high bytes of ObjectID
    *    Data:
    */
-  COMMAND_ObjectID, 
-    
-  
+  COMMAND_ObjectID,
+
+
   /* Command: Send text information for the COMMAND_ObjectID object
    *
    *  Value1: Library index
    *  Value2:
    *    Data: text data (ascii) + NULL
    */
-  COMMAND_ObjectText, 
-    
-  
+  COMMAND_ObjectText,
+
+
   /* Command: Send data of the COMMAND_ObjectID object
    *
    *  Value1: Library index
-   *  Value2: 
+   *  Value2:
    *    Data: raw object data
    */
-  COMMAND_ObjectData, 
-    
-  
+  COMMAND_ObjectData,
+
+
   /* Command: Send a list of offsets for each source file in the profiler table
    *
    *  Value1: NbSourceFiles
@@ -845,17 +845,17 @@ enum
    *    Data: Array of longs (indexes into the ProfilerData array for each file)
    */
   COMMAND_ProfilerOffsets,
-    
-  
+
+
   /* Command: Send Profiler Table
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data: array of longs with line counts for ALL files (indexes into large array are found with COMMAND_ProfilerOffsets)
    */
-  COMMAND_ProfilerData, 
-    
-  
+  COMMAND_ProfilerData,
+
+
   /* Command: Send the result of an evaluated expression
    *
    *  Value1: sender id
@@ -874,21 +874,21 @@ enum
    *          BYTE: dynamictype (for array, list, map)
    *          LONG: sublevel
    *          STRING: name
-   *          <--- entry value --> (if type = 7 (structure, no pointer) then there is no value ) 
+   *          <--- entry value --> (if type = 7 (structure, no pointer) then there is no value )
    *        ForEach
    *      EndIf
    *      STRING: the sent request string
    */
-  COMMAND_Expression, // result of expression evaluation  
-    
-  
+  COMMAND_Expression, // result of expression evaluation
+
+
   /* Command: Send the result of setting a variable
    *
    *  Same command data as COMMAND_Expression
    */
-  COMMAND_SetVariableResult, 
-    
-  
+  COMMAND_SetVariableResult,
+
+
   /* Command: Indicate that there was a warning in the code
    *
    *  Value1: LineNumber
@@ -898,8 +898,8 @@ enum
    *  Note: This is only sent if warningmode=1, else COMMAND_Error or nothing is sent
    */
   COMMAND_Warning,
-    
-  
+
+
   /* Command: Data Breakpoint status message
    *
    *  Value1: status
@@ -912,8 +912,8 @@ enum
    *    Data:
    */
   COMMAND_DataBreakPoint,
-    
-  
+
+
   /* Command: Send the content of a source file
    *
    *  Value1: file index
@@ -921,8 +921,8 @@ enum
    *    Data: file content
    */
   COMMAND_File,
-    
-  
+
+
   /* Command: Control the Debug output window
    *
    *  Value1: command
@@ -933,76 +933,76 @@ enum
    *  Value2:
    *    Data: filename (external format) if Value1=3
    */
-  COMMAND_ControlDebugOutput, 
-    
-  
+  COMMAND_ControlDebugOutput,
+
+
   /* Command: Control the Profiler window
    *
-   *  Value1: 
+   *  Value1:
    *    1 = show
    *    2 = update state
    *  Value2: IsProfilerRunning
    *    Data:
    */
-  COMMAND_ControlProfiler, 
-    
-  
+  COMMAND_ControlProfiler,
+
+
   /* Command: Control the Memory Viewer
    *
-   *  Value1: 
+   *  Value1:
    *     1 = show
    *     2 = show with data range (COMMAND_Memory must follow with data)
    *  Value2:
    *    Data: INTEGER, INTEGER (start address, length) for the range field
    */
   COMMAND_ControlMemoryViewer,
-    
-  
+
+
   /* Command: Control the Library Viewer
    *
-   *  Value1: 
+   *  Value1:
    *     1 = show (with optional library)
    *     2 = show with library and specific object
    *  Value2: Library Index (-1 if not specified)
    *    Data: INTEGER: ObjectID
    */
-  COMMAND_ControlLibraryViewer, 
-    
-  
+  COMMAND_ControlLibraryViewer,
+
+
   /* Command: Control the Waictlist (currently just shows the window)
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
    */
-  COMMAND_ControlWatchlist, 
-    
-  
+  COMMAND_ControlWatchlist,
+
+
   /* Command: Control the Variable Viewer (currently just shows the window)
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
    */
-  COMMAND_ControlVariableViewer, 
-    
-  
+  COMMAND_ControlVariableViewer,
+
+
   /* Command: Control the Callstack (currently just shows the window)
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
    */
-  COMMAND_ControlCallstack, 
-    
-  
+  COMMAND_ControlCallstack,
+
+
   /* Command: Control the Assembly Viewer (currently just shows the window)
    *
-   *  Value1: 
+   *  Value1:
    *  Value2:
    *    Data:
    */
-  COMMAND_ControlAssemblyViewer, 
+  COMMAND_ControlAssemblyViewer,
 
 
   /* Command: Set new purifier granularities
@@ -1011,16 +1011,16 @@ enum
    *  Value2:
    *    Data: 4x long (Purifier granularities)
    */
-  COMMAND_ControlPurifier, 
-  
-  
+  COMMAND_ControlPurifier,
+
+
   /* Command: Send list of modules
    *
    *  Value1: Nb of Modules
    *  Value2:
    *    Data: Module names (0-terminated, ascii)
    */
-  COMMAND_Modules,  
+  COMMAND_Modules,
 };
 
 

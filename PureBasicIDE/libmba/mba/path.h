@@ -21,8 +21,8 @@ extern "C" {
 #endif /* LIBMBA_API */
 
 LIBMBA_API int path_canon(const unsigned char *src, const unsigned char *slim,
-		unsigned char *dst, unsigned char *dlim,
-		int srcsep, int dstsep);
+    unsigned char *dst, unsigned char *dlim,
+    int srcsep, int dstsep);
 LIBMBA_API unsigned char *path_name(unsigned char *path, unsigned char *plim, int sep);
 
 #ifdef __cplusplus

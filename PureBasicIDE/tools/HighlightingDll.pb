@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -14,7 +14,7 @@ Global    DummySource.SourceFile
 
 Enumeration
   #SYNTAX_Text
-  #SYNTAX_Keyword  
+  #SYNTAX_Keyword
   #SYNTAX_Comment
   #SYNTAX_Constant
   #SYNTAX_String
@@ -25,7 +25,7 @@ Enumeration
   #SYNTAX_Number
   #SYNTAX_Pointer
   #SYNTAX_Separator
-  #SYNTAX_Label  
+  #SYNTAX_Label
   #SYNTAX_Module
 EndEnumeration
 
@@ -34,7 +34,7 @@ Procedure DllCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
 EndProcedure
 
 ProcedureDLL AttachProcess(Instance)
-
+  
   ; Set up the global stuff here
   ;
   *NormalTextColor    = #SYNTAX_Text
@@ -49,16 +49,16 @@ ProcedureDLL AttachProcess(Instance)
   *NumberColor        = #SYNTAX_Number
   *PointerColor       = #SYNTAX_Pointer
   *SeparatorColor     = #SYNTAX_Separator
-  *LabelColor         = #SYNTAX_Label  
+  *LabelColor         = #SYNTAX_Label
   *ModuleColor        = #SYNTAX_Module
   *BadEscapeColor     = #SYNTAX_String
   
   ; We do no case corrections from the dll
   ;
-  EnableColoring = 1      
+  EnableColoring = 1
   EnableCaseCorrection = 0
   EnableKeywordBolding = 0
-  LoadHilightningFiles = 0 
+  LoadHilightningFiles = 0
   
   ; This is to enable InlineAsm parsing
   ;
@@ -68,14 +68,14 @@ ProcedureDLL AttachProcess(Instance)
   ; Call the init functions
   ;
   InitSyntaxCheckArrays()
-  InitSyntaxHilightning()  
-
+  InitSyntaxHilightning()
+  
 EndProcedure
 
 ProcedureDLL SyntaxHighlight(*Buffer, Length, Callback.UserCallback, EnableASM)
   If *Buffer And Length > 0 And Callback
     UserCallback = Callback
-
+    
     ; If EnableAsm is set, it will treat it as a source file, and use the
     ; setting from DummySource, so InlineASM will be detected
     ;

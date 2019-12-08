@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -36,7 +36,7 @@ Procedure.i EqualPathLen (s1$, s2$)
     equal + 1
     If *p1\c = #Slash
       ret = equal
-    EndIf   
+    EndIf
     *p1 + SizeOf(character)
     *p2 + SizeOf(character)
   Wend
@@ -64,16 +64,16 @@ Procedure.s RelativePath (baseDir$, absPath$)
   parent$ = ".." + Chr(#Slash)
   For i = 1 To s
     ret$ + parent$
-  Next   
+  Next
   
   ProcedureReturn ret$ + Mid(absPath$, equal+1)
 EndProcedure
 Procedure OpenDoc(doc.s)
-CompilerIf #PB_Compiler_OS=#PB_OS_MacOS
-  RunProgram("open",doc,"",#PB_Program_Open)
-CompilerElse
-  RunProgram(doc)
-CompilerEndIf  
+  CompilerIf #PB_Compiler_OS=#PB_OS_MacOS
+    RunProgram("open",doc,"",#PB_Program_Open)
+  CompilerElse
+    RunProgram(doc)
+  CompilerEndIf
 EndProcedure
 
 ; Drawing functions for special cells in grid gadget
@@ -90,7 +90,7 @@ Procedure DrawFileRequester(x,y,width,height,col,row)
     text.s = PeekS(grid_GetCellData(propgrid,col,row))
     DrawText(x,y,text, ToolsPanelFrontColor)
   EndIf
-
+  
   x1 = x + TextWidth(text) + 3
   y1 = y
   width = width + x - x1
@@ -122,7 +122,7 @@ Procedure DrawFontPicker(x,y,width,height,col,row)
     text.s = PeekS(grid_GetCellData(propgrid,col,row))
     DrawText(x,y,text, ToolsPanelFrontColor)
   EndIf
-
+  
   x1 = x + TextWidth(text) + 3
   y1 = y
   width = width + x - x1

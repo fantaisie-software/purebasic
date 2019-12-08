@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -17,7 +17,7 @@ CompilerIf Defined(CompileWindows, #PB_Constant) = 0
       #CompileMac       = 0
       #CompileMacCarbon = 0
       #CompileMacCocoa  = 0
-  
+      
     CompilerCase #PB_OS_Linux
       #CompileWindows   = 0
       #CompileLinux     = 1
@@ -28,10 +28,10 @@ CompilerIf Defined(CompileWindows, #PB_Constant) = 0
         #CompileLinuxGtk1 = 0
         #CompileLinuxGtk2 = 1
       CompilerEndIf
-      #CompileMac       = 0      
+      #CompileMac       = 0
       #CompileMacCarbon = 0
       #CompileMacCocoa  = 0
-        
+      
     CompilerCase #PB_OS_MacOS
       #CompileWindows   = 0
       #CompileLinux     = 0
@@ -45,7 +45,7 @@ CompilerIf Defined(CompileWindows, #PB_Constant) = 0
         #CompileMacCocoa  = 1
         #CompileMacCarbon = 0
       CompilerEndIf
-    
+      
   CompilerEndSelect
 CompilerEndIf
 
@@ -70,9 +70,9 @@ Enumeration 1
   #DIALOG_Text
   #DIALOG_String
   #DIALOG_Panel
-  #DIALOG_Tab  
+  #DIALOG_Tab
   #DIALOG_Scroll
-  #DIALOG_Frame  
+  #DIALOG_Frame
   #DIALOG_Item
   #DIALOG_Column
   #DIALOG_Editor
@@ -94,7 +94,7 @@ Enumeration 1
   #DIALOG_Multibox
   #DIALOG_Singlebox
   #DIALOG_Gridbox
-  #DIALOG_Empty  
+  #DIALOG_Empty
 EndEnumeration
 
 ; Alignment Properties
@@ -107,7 +107,7 @@ EndEnumeration
 
 ; Expansion Properties
 ;
-Enumeration 
+Enumeration
   #Dlg_Expand_Yes = 1
   #Dlg_Expand_No
   #Dlg_Expand_Equal
@@ -121,7 +121,7 @@ Structure DialogPosition
   y.l
   Width.l
   Height.l
-  IsMaximized.l  
+  IsMaximized.l
 EndStructure
 
 
@@ -148,7 +148,7 @@ EndStructure
 
 ; Functions implemented for each dialog object
 ;
-; Note: 
+; Note:
 ;   SizeRequestReal() should be the real function.
 ;   SizeRequest() should always be the DlgBase_SizeRequestWrapper()
 ;   function for all Objects. This wrapper properly checks for the
@@ -165,21 +165,21 @@ Interface DialogObject
   AddChild(Child.DialogObject)
   FoldApply(State)
   Find(Name$)
-  Finish()  
-  Update()  
-  Destroy()  
+  Finish()
+  Update()
+  Destroy()
 EndInterface
 
 
-; The Window object (the main object of a dialog) implements more methods for public access 
+; The Window object (the main object of a dialog) implements more methods for public access
 ; by the user. Note that the DialogObject functions are designed to be called inside the
 ; Dialog files only.
 ;
 Interface DialogWindow Extends DialogObject
   Window()          ; Get the #Window number of the dialog window
   Gadget(Name$)     ; Get the #Gadget number of the gadget where the 'name' tag is set to Name$ (case insensitive)
-  Fold(Name$, State); Fold/Unfold an object based on its 'name' tag   
-  LanguageUpdate()  ; Update all language strings 
+  Fold(Name$, State); Fold/Unfold an object based on its 'name' tag
+  LanguageUpdate()  ; Update all language strings
   GuiUpdate()       ; Re-calculate and resize gui (call this when for example font sizes have changed, or after language updates)
   SizeUpdate()      ; call this after a #PB_Event_SizeWindow for a resizable dialog. (updates all sizes to fit the current window size)
   Close(*Sizing.DialogPosition = 0) ; close the window and free all data. fill the *Sizing structrue with data if present

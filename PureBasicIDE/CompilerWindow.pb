@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -24,11 +24,11 @@ Procedure GetActiveCompileTarget()
       ProcedureReturn *ActiveSource ; the SourceFile structure extends the CompileTarget one
     Else
       ProcedureReturn 0 ; active source is a non-pb file
-    EndIf  
+    EndIf
   ElseIf IsProject
     ProcedureReturn *DefaultTarget
   Else
-    ProcedureReturn 0 
+    ProcedureReturn 0
   EndIf
 EndProcedure
 
@@ -38,17 +38,17 @@ Procedure FindTargetFromID(ID)
   *Target.CompileTarget = 0
   
   If ID ; 0 is considered invalid, so do no search
-    ; Note: This function can be called inside another that loops on FileList(),
-    ;   so do not use *ActiveSource to restore the position!
+        ; Note: This function can be called inside another that loops on FileList(),
+        ;   so do not use *ActiveSource to restore the position!
     Current = ListIndex(FileList())
     ForEach FileList()
       If @FileList() <> *ProjectInfo And FileList()\ID = ID
         *Target = @FileList()
         Break
       EndIf
-    Next FileList()        
+    Next FileList()
     SelectElement(FileList(), Current)
-
+    
     If *Target = 0
       Current = ListIndex(ProjectTargets())
       ForEach ProjectTargets()
@@ -65,7 +65,7 @@ Procedure FindTargetFromID(ID)
 EndProcedure
 
 Procedure SetCompileTargetDefaults(*Target.CompileTarget)
-  *Target\Debugger         = OptionDebugger 
+  *Target\Debugger         = OptionDebugger
   *Target\EnableASM        = OptionInlineASM
   *Target\EnableThread     = OptionThread
   *Target\EnableXP         = OptionXPSkin
@@ -74,13 +74,13 @@ Procedure SetCompileTargetDefaults(*Target.CompileTarget)
   *Target\DPIAware         = OptionDPIAware
   *Target\EnableOnError    = OptionOnError
   *Target\ExecutableFormat = OptionExeFormat
-  *Target\CPU              = OptionCPU    
+  *Target\CPU              = OptionCPU
   *Target\SubSystem$       = OptionSubSystem$
-  *Target\UseCompileCount  = OptionUseCompileCount  
-  *Target\UseBuildCount    = OptionUseBuildCount  
-  *Target\UseCreateExe     = OptionUseCreateExe  
-  *Target\TemporaryExePlace= OptionTemporaryExe  
-  *Target\CurrentDirectory$= ""    
+  *Target\UseCompileCount  = OptionUseCompileCount
+  *Target\UseBuildCount    = OptionUseBuildCount
+  *Target\UseCreateExe     = OptionUseCreateExe
+  *Target\TemporaryExePlace= OptionTemporaryExe
+  *Target\CurrentDirectory$= ""
   *Target\EnablePurifier   = OptionPurifier
   *Target\PurifierGranularity$ = ""
 EndProcedure
@@ -92,44 +92,44 @@ Procedure CompilerReady()
   DisableMenuAndToolbarItem(#MENU_SyntaxCheck, 0)
   
   CompilerReady = 1
-
+  
   If *CurrentCompiler = @DefaultCompiler
     HistoryCompilerLoaded()
     
-    InitSyntaxHilightning() 
-
+    InitSyntaxHilightning()
+    
     ; Set up the os specific color values
     ;
     SetUpHilightningColors()
-  
+    
     ; do this before scanning, as it affects saved data (known constants etc)
     InitStructureViewer()
   EndIf
-
+  
   ; Ok, everything is loaded, now hilight any allready open files.
   ;
   If EnableColoring
     If ListSize(FileList()) > 0     ; on Linux, this happens before any source is open
       *CurrentFile = *ActiveSource
-  
+      
       ForEach FileList()
         If @FileList() <> *ProjectInfo
           *ActiveSource = @FileList()
-                 
+          
           FullSourceScan(@FileList())                     ; re-scan autocomplete + procedurebrowser
-          SortParserData(@FileList()\Parser, @FileList()) ; update sorted data in case its not the active source       
-          UpdateFolding(@FileList(), 0, -1)               ; redo all folding        
+          SortParserData(@FileList()\Parser, @FileList()) ; update sorted data in case its not the active source
+          UpdateFolding(@FileList(), 0, -1)               ; redo all folding
           
           SetBackgroundColor()
           UpdateHilightning()
         EndIf
       Next FileList()
-
+      
       ChangeCurrentElement(FileList(), *CurrentFile)
       *ActiveSource = *CurrentFile
     EndIf
-  EndIf    
-   
+  EndIf
+  
   ; Re-scan all non-loaded project files for changed options
   ;
   If IsProject
@@ -139,35 +139,35 @@ Procedure CompilerReady()
       EndIf
     Next ProjectFiles()
   EndIf
-
-  If IsWindow(#WINDOW_StructureViewer)      
+  
+  If IsWindow(#WINDOW_StructureViewer)
     DisplayStructureRootList()
   EndIf
-
-  ; reflect any source scan changes  
-  UpdateProcedureList()      
-  UpdateVariableViewer() 
-    
+  
+  ; reflect any source scan changes
+  UpdateProcedureList()
+  UpdateVariableViewer()
+  
 EndProcedure
 
 
 Global CompilerWindowSmall, CompilerWindowBig
 
 Procedure DisplayCompilerWindow()
-
+  
   ; hide the warning window (if any), and clear the warning list (important)
   HideCompilerWarnings()
-
+  
   If IsWindow(#WINDOW_MacroError)
     MacroErrorWindowEvents(#PB_Event_CloseWindow)
   EndIf
-
-  If OpenWindow(#WINDOW_Compiler, 0, 0, 200, 50, #ProductName$, #PB_Window_ScreenCentered | #PB_Window_TitleBar | #PB_Window_Invisible, WindowID(#WINDOW_Main))
   
-    Container = ContainerGadget(#PB_Any, 5, 5, 190, 40, #PB_Container_Single)    
-      ; add a dummy text for size calculation
-      TextGadget(#GADGET_Compiler_Text, 15, 15, 120, 20, Language("Compiler","Compiling") + "  (999999 "+Language("Compiler","Lines")+")")
-      ButtonGadget(#GADGET_Compiler_Details, 240, 15, 50, 20, Language("Compiler", "Details"), #PB_Button_Toggle)    
+  If OpenWindow(#WINDOW_Compiler, 0, 0, 200, 50, #ProductName$, #PB_Window_ScreenCentered | #PB_Window_TitleBar | #PB_Window_Invisible, WindowID(#WINDOW_Main))
+    
+    Container = ContainerGadget(#PB_Any, 5, 5, 190, 40, #PB_Container_Single)
+    ; add a dummy text for size calculation
+    TextGadget(#GADGET_Compiler_Text, 15, 15, 120, 20, Language("Compiler","Compiling") + "  (999999 "+Language("Compiler","Lines")+")")
+    ButtonGadget(#GADGET_Compiler_Details, 240, 15, 50, 20, Language("Compiler", "Details"), #PB_Button_Toggle)
     CloseGadgetList()
     
     ListViewGadget(#GADGET_Compiler_List, 5, 55, 190, 100)
@@ -176,8 +176,8 @@ Procedure DisplayCompilerWindow()
     
     ; calculate needed sizes
     GetRequiredSize(#GADGET_Compiler_Text,    @TextWidth,   @TextHeight)
-    GetRequiredSize(#GADGET_Compiler_Details, @ButtonWidth, @ButtonHeight) 
-    GetRequiredSize(#GADGET_Compiler_Abort,   @AbortWidth,  @ButtonHeight) 
+    GetRequiredSize(#GADGET_Compiler_Details, @ButtonWidth, @ButtonHeight)
+    GetRequiredSize(#GADGET_Compiler_Abort,   @AbortWidth,  @ButtonHeight)
     
     ; special handling is needed for OSX Cocoa
     CompilerIf #CompileMacCocoa
@@ -196,14 +196,14 @@ Procedure DisplayCompilerWindow()
       MinButtonHeight = 20
     CompilerEndIf
     
-    ButtonWidth = Max(ButtonWidth, 60)   
+    ButtonWidth = Max(ButtonWidth, 60)
     AbortWidth  = Max(AbortWidth, 60)
     ButtonHeight= Max(ButtonHeight, MinButtonHeight)
     Width       = Max(20+ContainerBorderWidth+TextWidth+ButtonWidth, 200)
     Height      = 10+ContainerBorderHeight+Max(TextHeight, ButtonHeight)
     
-    ; for later resizing    
-    CompilerWindowSmall = Height    
+    ; for later resizing
+    CompilerWindowSmall = Height
     CompilerWindowBig   = Height + 15 + ButtonHeight + #CompilerWindow_ListHeight
     
     ResizeGadget(Container, 5, 5, Width-10, Height-10)
@@ -222,7 +222,7 @@ Procedure DisplayCompilerWindow()
     EndIf
     
     ResizeWindow(#WINDOW_Compiler, WindowX(#WINDOW_Compiler)-(Width-200)/2, WindowY(#WINDOW_Compiler)-(NewHeight-50)/2, Width, NewHeight)
-
+    
     ; set the real text to the textgadget
     SetGadgetText(#GADGET_Compiler_Text, Language("Compiler","Compiling"))
     AddGadgetItem(#GADGET_Compiler_List, 0, Language("Compiler","Compiling"))
@@ -233,11 +233,11 @@ Procedure DisplayCompilerWindow()
   EndIf
   
   DisableMenuItem(#MENU, #MENU_CreateExecutable, 1)
-  DisableMenuAndToolbarItem(#MENU_CompileRun, 1)  
-  DisableMenuAndToolbarItem(#MENU_SyntaxCheck, 1)  
+  DisableMenuAndToolbarItem(#MENU_CompileRun, 1)
+  DisableMenuAndToolbarItem(#MENU_SyntaxCheck, 1)
   
   ; important so the active source cannot be closed/switched during compiling
-  DisableWindow(#WINDOW_Main, 1) 
+  DisableWindow(#WINDOW_Main, 1)
   
   FlushEvents() ; allow the window to be drawn for linux compiling
   
@@ -245,7 +245,7 @@ Procedure DisplayCompilerWindow()
 EndProcedure
 
 Procedure HideCompilerWindow()
-
+  
   ; In build window mode, ignore the hide call on errors
   If UseProjectBuildWindow = 0
     If IsWindow(#WINDOW_Compiler)
@@ -255,9 +255,9 @@ Procedure HideCompilerWindow()
       DisableMenuAndToolbarItem(#MENU_CompileRun, 0)
       DisableMenuAndToolbarItem(#MENU_SyntaxCheck, 0)
     EndIf
-      
+    
     ; re-enable the main window
-    DisableWindow(#WINDOW_Main, 0)     
+    DisableWindow(#WINDOW_Main, 0)
     FlushEvents()
   EndIf
   
@@ -267,11 +267,11 @@ EndProcedure
 
 Procedure CompilerWindowEvents(EventID)
   
-  If EventID = #PB_Event_Gadget 
-  
+  If EventID = #PB_Event_Gadget
+    
     If EventGadget() = #GADGET_Compiler_Details
       ShowCompilerProgress = GetGadgetState(#GADGET_Compiler_Details)
-    
+      
       If ShowCompilerProgress
         ResizeWindow(#WINDOW_Compiler, #PB_Ignore, #PB_Ignore, #PB_Ignore, CompilerWindowBig)
       Else
@@ -289,7 +289,7 @@ EndProcedure
 ;- ------------------------------------------------
 
 Procedure BuildLogEntry(Message$, InfoIndex = -1)
-  If UseProjectBuildWindow And BuildWindowDialog  
+  If UseProjectBuildWindow And BuildWindowDialog
     Index = CountGadgetItems(#GADGET_Build_Log)
     
     AddGadgetItem(#GADGET_Build_Log, Index, Message$)
@@ -304,7 +304,7 @@ EndProcedure
 ;
 ; Returns: success/failure
 ;
- Procedure.s BuildProjectTarget(*Target.CompileTarget, Mode, CreateExe, CheckSyntax)
+Procedure.s BuildProjectTarget(*Target.CompileTarget, Mode, CreateExe, CheckSyntax)
   Protected OutputFile$
   Protected Success = #False
   
@@ -317,18 +317,18 @@ EndProcedure
     Else
       MessageRequester(#ProductName$, LanguagePattern("Compiler", "NoInputFile", "%target%", *Target\Name$), #FLAG_Error)
     EndIf
-    ProcedureReturn ""   
+    ProcedureReturn ""
   EndIf
   *Target\FileName$ = ResolveRelativePath(GetPathPart(ProjectFile$), *Target\MainFile$)
-
+  
   If AutoSave And CommandlineBuild = 0
     AutoSave()
-  EndIf  
+  EndIf
   
   CompilerIf #SpiderBasic
     If Mode = 1 : Mode = 0 : EndIf ; Mode 1 doesn't exists in SpiderBasic
   CompilerEndIf
-
+  
   If Mode = 0 ; use fixed file
     CompilerIf #SpiderBasic
       If *Target\AppFormat =  #AppFormatiOS
@@ -347,29 +347,29 @@ EndProcedure
         PrintN(LanguagePattern("Compiler", "NoOutputFile", "%target%", *Target\Name$))
       ElseIf UseProjectBuildWindow
         BuildLogEntry(LanguagePattern("Compiler", "NoOutputFile", "%target%", *Target\Name$))
-      Else    
+      Else
         MessageRequester(#ProductName$, LanguagePattern("Compiler", "NoOutputFile", "%target%", *Target\Name$), #FLAG_Error)
       EndIf
       ProcedureReturn ""
     Else
       OutputFile$ = ResolveRelativePath(GetPathPart(ProjectFile$), TargetOutputFile$) ; this is relative
-    EndIf     
+    EndIf
     
     ; set this for later use and tools
     *Target\ExecutableName$ = OutputFile$
-  
+    
   ElseIf Mode = 1 ; ask for file
     If *Target\OutputFile$
       Path$ = ResolveRelativePath(GetPathPart(ProjectFile$), *Target\OutputFile$) ; this is relative
-    ElseIf *Target\ExecutableName$ ; last compiled exe
-      Path$ = *Target\ExecutableName$ ; this is full path
+    ElseIf *Target\ExecutableName$                                                ; last compiled exe
+      Path$ = *Target\ExecutableName$                                             ; this is full path
     Else
       Path$ = GetPathPart(ProjectFile$)
-    EndIf 
+    EndIf
     
     If *Target\ExecutableFormat = 2 ; shared dll
       CompilerIf #CompileWindows
-        Pattern$     = Language("Compiler","DllPattern") 
+        Pattern$     = Language("Compiler","DllPattern")
         Extension$   = ".dll"
       CompilerElseIf #CompileMac
         Pattern$   = "Shared Library (*.dylib)|*.dylib|All Files (*.*)|*.*"
@@ -377,7 +377,7 @@ EndProcedure
       CompilerElse ; Linux
         Pattern$   = "Shared Library (*.so)|*.so|All Files (*.*)|*.*"
         Extension$ = ".so"
-      CompilerEndIf        
+      CompilerEndIf
     Else
       CompilerIf #CompileWindows
         Pattern$   = Language("Compiler","ExePattern")
@@ -406,10 +406,10 @@ EndProcedure
     
     ; set this for later use and tools
     *Target\ExecutableName$ = OutputFile$
-  
+    
   Else ; use temp file
     OutputFile$ = Compiler_TemporaryFilename(*Target)
-  
+    
   EndIf
   
   CompilerIf #Demo
@@ -417,115 +417,115 @@ EndProcedure
       CompilerIf #CompileWindows
         Message$ = "DLL creation is not available in the demo version."
       CompilerElse
-        Message$ = "SO Library creation is not available in the demo version."        
+        Message$ = "SO Library creation is not available in the demo version."
       CompilerEndIf
-
+      
       If CommandlineBuild
         PrintN(Message$)
       ElseIf UseProjectBuildWindow
         BuildLogEntry(Message$)
-      Else        
+      Else
         MessageRequester("Information", Message$, #FLAG_Info)
       EndIf
     Else
-  CompilerEndIf  
-  
-  ; for the addtools, we need a temporary file, so they can modify it...
-  If CopyFile(*Target\FileName$, TempPath$ + "PB_EditorOutput.pb")
-    CompilerIf #CompileWindows
-      ; If the source file was readonly, so will be the temp file, so remove that!
-      SetFileAttributes(TempPath$ + "PB_EditorOutput.pb", GetFileAttributes(TempPath$ + "PB_EditorOutput.pb") & ~#PB_FileSystem_ReadOnly)
     CompilerEndIf
-  
-    ; append the procects settings for the tools if needed
-    If SaveProjectSettings <> 0 And OpenFile(#FILE_SaveSource, TempPath$+"PB_EditorOutput.pb")
-      FileSeek(#FILE_SaveSource, Lof(#FILE_SaveSource)) ; to to the end of the file
-      SaveProjectSettings(*Target, #True, 1, 0)
-      CloseFile(#FILE_SaveSource)
-    EndIf
-  
-    AddTools_CompiledFile$ = TempPath$ + "PB_EditorOutput.pb"; save for AddTools
-    If CreateExe
-      AddTools_Execute(#TRIGGER_BeforeCreateExe, *Target)
+    
+    ; for the addtools, we need a temporary file, so they can modify it...
+    If CopyFile(*Target\FileName$, TempPath$ + "PB_EditorOutput.pb")
+      CompilerIf #CompileWindows
+        ; If the source file was readonly, so will be the temp file, so remove that!
+        SetFileAttributes(TempPath$ + "PB_EditorOutput.pb", GetFileAttributes(TempPath$ + "PB_EditorOutput.pb") & ~#PB_FileSystem_ReadOnly)
+      CompilerEndIf
+      
+      ; append the procects settings for the tools if needed
+      If SaveProjectSettings <> 0 And OpenFile(#FILE_SaveSource, TempPath$+"PB_EditorOutput.pb")
+        FileSeek(#FILE_SaveSource, Lof(#FILE_SaveSource)) ; to to the end of the file
+        SaveProjectSettings(*Target, #True, 1, 0)
+        CloseFile(#FILE_SaveSource)
+      EndIf
+      
+      AddTools_CompiledFile$ = TempPath$ + "PB_EditorOutput.pb"; save for AddTools
+      If CreateExe
+        AddTools_Execute(#TRIGGER_BeforeCreateExe, *Target)
+      Else
+        AddTools_Execute(#TRIGGER_BeforeCompile, *Target)
+      EndIf
+      
+      If UseProjectBuildWindow = 0 And CommandlineBuild = 0
+        DisplayCompilerWindow() ; hiding this window is done by the compiler functions if there is no error
+      EndIf
+      
+      Success = Compiler_BuildTarget(TempPath$ + "PB_EditorOutput.pb", OutputFile$, *Target, CreateExe, CheckSyntax)
+      
     Else
-      AddTools_Execute(#TRIGGER_BeforeCompile, *Target)
-    EndIf
-
-    If UseProjectBuildWindow = 0 And CommandlineBuild = 0
-      DisplayCompilerWindow() ; hiding this window is done by the compiler functions if there is no error                              
+      
+      ; copy failed, just fallback and use the original file
+      ; the most probable cause for this is that the source did not exist. this will raise a compiler error later
+      ;
+      AddTools_CompiledFile$ = ""; no temporary file available
+      If CreateExe
+        AddTools_Execute(#TRIGGER_BeforeCreateExe, *Target)
+      Else
+        AddTools_Execute(#TRIGGER_BeforeCompile, *Target)
+      EndIf
+      
+      If UseProjectBuildWindow = 0 And CommandlineBuild = 0
+        DisplayCompilerWindow() ; hiding this window is done by the compiler functions if there is no error
+      EndIf
+      
+      Success = Compiler_BuildTarget(*Target\Filename$, OutputFile$, *Target, CreateExe, CheckSyntax)
+      
     EndIf
     
-    Success = Compiler_BuildTarget(TempPath$ + "PB_EditorOutput.pb", OutputFile$, *Target, CreateExe, CheckSyntax)      
-  
-  Else
-  
-    ; copy failed, just fallback and use the original file
-    ; the most probable cause for this is that the source did not exist. this will raise a compiler error later
-    ;
-    AddTools_CompiledFile$ = ""; no temporary file available
-    If CreateExe
-      AddTools_Execute(#TRIGGER_BeforeCreateExe, *Target)
-    Else
-      AddTools_Execute(#TRIGGER_BeforeCompile, *Target)
-    EndIf
-  
-    If UseProjectBuildWindow = 0 And CommandlineBuild = 0
-      DisplayCompilerWindow() ; hiding this window is done by the compiler functions if there is no error                  
-    EndIf
-    
-    Success = Compiler_BuildTarget(*Target\Filename$, OutputFile$, *Target, CreateExe, CheckSyntax)      
-  
-  EndIf
-  
   CompilerIf #Demo : EndIf : CompilerEndIf
-          
+  
   If Success
-    ProcedureReturn OutputFile$      
+    ProcedureReturn OutputFile$
   Else
     ProcedureReturn ""
   EndIf
-EndProcedure 
+EndProcedure
 
 Procedure BuildWindowEvents(EventID)
   Quit = 0
-
+  
   If EventID = #PB_Event_Gadget
     Select EventGadget()
       Case #GADGET_Build_Targets
-      
+        
       Case #GADGET_Build_Log
         If EventType() = #PB_EventType_LeftDoubleClick
           Index = GetGadgetState(#GADGET_Build_Log)
           If Index <> -1
             InfoIndex = GetGadgetItemData(#GADGET_Build_Log, Index)
             If InfoIndex <> -1 And SelectElement(BuildInfo(), InfoIndex)
-               
+              
               ; will simply switch if the file is open already
               If LoadSourceFile(BuildInfo()\File$)
                 ChangeActiveLine(BuildInfo()\Line, -5)
-                SetSelection(BuildInfo()\Line, 1, BuildInfo()\Line, -1)                  
-              EndIf              
+                SetSelection(BuildInfo()\Line, 1, BuildInfo()\Line, -1)
+              EndIf
               
             EndIf
           EndIf
-        EndIf      
-      
+        EndIf
+        
       Case #GADGET_Build_Abort
-        ; set the flag, the rest is done from the Compiler_HandleCompilerResponse() 
-        CompilationAborted = #True      
-      
+        ; set the flag, the rest is done from the Compiler_HandleCompilerResponse()
+        CompilationAborted = #True
+        
       Case #GADGET_Build_Copy
         Content$ = ""
-        Count = CountGadgetItems(#GADGET_Build_Log)        
+        Count = CountGadgetItems(#GADGET_Build_Log)
         For i = 0 To Count-1
           Content$ + GetGadgetItemText(#GADGET_Build_Log, i, 0) + #NewLine
         Next i
         SetClipboardText(Content$)
-      
+        
       Case #GADGET_Build_Save
-        FileName$ = GetPathPart(ProjectFile$)  
+        FileName$ = GetPathPart(ProjectFile$)
         Pattern   = 0
-        Repeat  
+        Repeat
           FileName$ = SaveFileRequester(Language("Debugger","SaveFileTitle"), FileName$, Language("Debugger","SaveFilePattern"), Pattern)
           Pattern   = SelectedFilePattern()
           If FileName$ = ""
@@ -537,15 +537,15 @@ Procedure BuildWindowEvents(EventID)
           If FileSize(FileName$) <> -1
             result = MessageRequester(#ProductName$,Language("FileStuff","FileExists")+#NewLine+Language("FileStuff","OverWrite"), #FLAG_Warning|#PB_MessageRequester_YesNoCancel)
             If result = #PB_MessageRequester_Cancel
-              Break ; abort              
+              Break ; abort
             ElseIf result = #PB_MessageRequester_No
-              Continue ; ask again              
+              Continue ; ask again
             EndIf
           EndIf
           
-          File = CreateFile(#PB_Any, FileName$)            
+          File = CreateFile(#PB_Any, FileName$)
           If File
-            Count = CountGadgetItems(#GADGET_Build_Log)        
+            Count = CountGadgetItems(#GADGET_Build_Log)
             For i = 0 To Count-1
               WriteStringN(File, GetGadgetItemText(#GADGET_Build_Log, i, 0))
             Next i
@@ -555,20 +555,20 @@ Procedure BuildWindowEvents(EventID)
           EndIf
           
           Break ; if we got here, then do not try again
-        ForEver 
-      
-      Case #GADGET_Build_Close    
+        ForEver
+        
+      Case #GADGET_Build_Close
         Quit = 1
         
     EndSelect
-  
+    
   ElseIf EventID = #PB_Event_SizeWindow
     BuildWindowDialog\SizeUpdate()
-  
-  ElseIf EventID = #PB_Event_CloseWindow 
+    
+  ElseIf EventID = #PB_Event_CloseWindow
     ; we have no systemmenu, but this can be sent by code to close the window
     Quit = 1
-       
+    
   EndIf
   
   If Quit
@@ -578,10 +578,10 @@ Procedure BuildWindowEvents(EventID)
       BuildWindowDialog\Close(@BuildWindowPosition)
     Else
       BuildWindowDialog\Close()
-    EndIf    
-    BuildWindowDialog = 0    
+    EndIf
+    BuildWindowDialog = 0
   EndIf
-
+  
 EndProcedure
 
 Procedure UpdateBuildWindow()
@@ -595,17 +595,17 @@ Procedure UpdateBuildWindow()
       Case 3: SetGadgetItemImage(#GADGET_Build_Targets, i, ImageID(#IMAGE_Build_TargetOK))
     EndSelect
   Next i
-
+  
   BuildWindowDialog\LanguageUpdate()
   BuildWindowDialog\GuiUpdate()
 EndProcedure
 
 Procedure OpenBuildWindow(List *Targets.CompileTarget())
-
+  
   ; hide the windows from the normal mode compiling
   ;
   HideCompilerWarnings()
-
+  
   If IsWindow(#WINDOW_MacroError)
     MacroErrorWindowEvents(#PB_Event_CloseWindow)
   EndIf
@@ -613,7 +613,7 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
   If IsWindow(#WINDOW_Option)
     OptionWindowEvents(#PB_Event_CloseWindow)
   EndIf
-
+  
   If IsWindow(#WINDOW_Build) = 0
     BuildWindowDialog = OpenDialog(?Dialog_Build, WindowID(#WINDOW_Main), @BuildWindowPosition)
     
@@ -626,21 +626,21 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
     
   Else
     ClearGadgetItems(#GADGET_Build_Targets)
-    ClearGadgetItems(#GADGET_Build_Log)    
+    ClearGadgetItems(#GADGET_Build_Log)
     HideGadget(#GADGET_Build_DoneContainer, 1)
     HideGadget(#GADGET_Build_WorkContainer, 0)
     SetWindowForeground(#WINDOW_Build)
-  EndIf 
+  EndIf
   
   EnsureWindowOnDesktop(#WINDOW_Build)
   
- 
+  
   ForEach *Targets()
     AddGadgetItem(#GADGET_Build_Targets, -1, *Targets()\Name$+Chr(10)+"-", ImageID(#IMAGE_Build_TargetNotDone))
   Next *Targets()
   
   ; During the build process, disable the main window so the user cannot initiate another compile etc
-  ;  
+  ;
   DisableWindow(#WINDOW_Main, #True)
   
   ; This causes the compile functions to output to our build window
@@ -658,7 +658,7 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
     BuildLogEntry("  " + LanguagePattern("Compiler","BuildStart", "%target%", *Targets()\Name$))
     BuildLogEntry(RSet("", 80, "-"))
     SetGadgetState(#GADGET_Build_Targets, ListIndex(*Targets()))
-  
+    
     Result$ = BuildProjectTarget(*Targets(), 0, #True, #False)
     
     ; count the emited warnings during this compile
@@ -671,9 +671,9 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
     
     If Result$ <> "" And WarningCount = OldWarningCount
       ; Failures are loged as errors and warnings give a "success with warnings" line, so add a line for success here too
-      ; do this before executing the tools for a consistent log output     
+      ; do this before executing the tools for a consistent log output
       BuildLogEntry(Language("Compiler","BuildSuccess"))
-    EndIf   
+    EndIf
     
     ; Update the target's build counts and execute any tools
     If Result$ <> ""
@@ -683,11 +683,11 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
       
       If *Targets()\UseBuildCount
         *Targets()\BuildCount + 1
-      EndIf    
+      EndIf
       
       AddTools_ExecutableName$ = Result$
-      AddTools_Execute(#TRIGGER_AfterCreateExe, *Targets()) 
-    EndIf    
+      AddTools_Execute(#TRIGGER_AfterCreateExe, *Targets())
+    EndIf
     
     Index = ListIndex(*Targets())
     
@@ -704,8 +704,8 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
       SuccessCount + 1 ; this is a success too
       
     Else
-      SetGadgetItemText(#GADGET_Build_Targets, Index, Language("Compiler","StatusOk"), 1) 
-      SetGadgetItemImage(#GADGET_Build_Targets, Index, ImageID(#IMAGE_Build_TargetOK))     
+      SetGadgetItemText(#GADGET_Build_Targets, Index, Language("Compiler","StatusOk"), 1)
+      SetGadgetItemImage(#GADGET_Build_Targets, Index, ImageID(#IMAGE_Build_TargetOK))
       SetGadgetItemData(#GADGET_Build_Targets, Index, 3)
       SuccessCount + 1
       
@@ -714,7 +714,7 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
     OldWarningCount = WarningCount
     BuildLogEntry("")
     
-    If CompilationAborted      
+    If CompilationAborted
       Break
     EndIf
   Next *Targets()
@@ -732,7 +732,7 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
   EndIf
   If WarningCount > 0
     BuildLogEntry("  " + LanguagePattern("Compiler", "BuildStatsWarning", "%count%", Str(WarningCount)))
-  EndIf    
+  EndIf
   If CompilationAborted
     BuildLogEntry("  " + Language("Compiler","BuildStatsAborted"))
   EndIf
@@ -746,7 +746,7 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
   UseProjectBuildWindow = #False
   
   UpdateProjectInfo() ; reflect build count change in project info
-    
+  
   If GetGadgetState(#GADGET_Build_CloseWhenDone) And FailCount = 0
     BuildWindowEvents(#PB_Event_CloseWindow)
     
@@ -755,44 +755,44 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
     HideGadget(#GADGET_Build_WorkContainer, 1)
     HideGadget(#GADGET_Build_DoneContainer, 0)
     
-    SetGadgetState(#GADGET_Build_Targets, -1)    
-    SetGadgetState(#GADGET_Build_Log, -1)    
+    SetGadgetState(#GADGET_Build_Targets, -1)
+    SetGadgetState(#GADGET_Build_Log, -1)
   EndIf
-      
+  
 EndProcedure
 
 ;- ------------------------------------------------
 
-Procedure CompileRun(CheckSyntax)     
+Procedure CompileRun(CheckSyntax)
   UseProjectBuildWindow = #False
   
   If *ActiveSource\IsCode = 0
     ProcedureReturn
-  EndIf  
-
-  If CompilerReady And CompilerBusy = 0
+  EndIf
   
+  If CompilerReady And CompilerBusy = 0
+    
     If AutoClearLog
       ClearGadgetItems(#GADGET_ErrorLog)
       *ActiveSource\LogSize = 0
       SetDebuggerMenuStates()
-    EndIf  
+    EndIf
     
-    ClearList(CompileSource\UnknownIDEOptionsList$())         
+    ClearList(CompileSource\UnknownIDEOptionsList$())
     
     If AutoSave
-      AutoSave() ; do the autosave stuff  
-    EndIf    
+      AutoSave() ; do the autosave stuff
+    EndIf
     
-    If *ActiveSource\UseMainFile    
-    
+    If *ActiveSource\UseMainFile
+      
       ; make sure the compile source is clean and does not have settings from a previous compile
       ClearStructure(@CompileSource, SourceFile)
       InitializeStructure (@CompileSource, SourceFile) ; We use complex type in this structure like 'List' so we need to reinit again
-    
+      
       ; create a new SourceFile structure to represent the MainFile settings
       ; the CompileSource structure is global for the Windows compiler to access it too
-      ;      
+      ;
       CompileSource\FileName$ = ResolveRelativePath(GetPathPart(*ActiveSource\FileName$), *ActiveSource\MainFile$)
       
       If ReadFile(#FILE_Compile, CompileSource\FileName$)
@@ -802,17 +802,17 @@ Procedure CompileRun(CheckSyntax)
           Length = 5000
           FileSeek(#FILE_Compile, Lof(#FILE_Compile)-5000)
         EndIf
-      
+        
         *Buffer = AllocateMemory(Length+10) ; we only need the project settings.. (+10 to avoid error on empty files for 0-size alloc!)
         If *Buffer
           ReadData(#FILE_Compile, *Buffer, Length)
-          CloseFile(#FILE_Compile)     
-             
-          AnalyzeProjectSettings(@CompileSource, *Buffer, Length, 0)  
+          CloseFile(#FILE_Compile)
+          
+          AnalyzeProjectSettings(@CompileSource, *Buffer, Length, 0)
           FreeMemory(*Buffer)
           
           CompileSource\Debugger     = *ActiveSource\Debugger ; these are set by the current file
-          CompileSource\CommandLine$ = *ActiveSource\CommandLine$          
+          CompileSource\CommandLine$ = *ActiveSource\CommandLine$
           CompileSource\FileName$    = ResolveRelativePath(GetPathPart(*ActiveSource\FileName$), *ActiveSource\MainFile$) ; this is important to compile from the right directory
           
           Success = #False
@@ -823,39 +823,39 @@ Procedure CompileRun(CheckSyntax)
               ; If the source file was readonly, so will be the temp file, so remove that!
               SetFileAttributes(TempPath$ + "PB_EditorOutput.pb", GetFileAttributes(TempPath$ + "PB_EditorOutput.pb") & ~#PB_FileSystem_ReadOnly)
             CompilerEndIf
-          
+            
             ; append the procects settings for the tools if needed
             If SaveProjectSettings <> 0 And OpenFile(#FILE_SaveSource, TempPath$+"PB_EditorOutput.pb")
               FileSeek(#FILE_SaveSource, Lof(#FILE_SaveSource)) ; to to the end of the file
               SaveProjectSettings(@CompileSource, #True, 1, 0)
               CloseFile(#FILE_SaveSource)
             EndIf
-          
-            ; call the compiler function with this new structure and main source name
-            AddTools_CompiledFile$ = TempPath$ + "PB_EditorOutput.pb"; save for AddTools            
-            AddTools_Execute(#TRIGGER_BeforeCompile, *ActiveSource)
-          
-            DisplayCompilerWindow() ; hiding this window is done by the compiler functions if there is no error                              
             
-            Success = Compiler_CompileRun(TempPath$ + "PB_EditorOutput.pb", @CompileSource, CheckSyntax)      
-          
+            ; call the compiler function with this new structure and main source name
+            AddTools_CompiledFile$ = TempPath$ + "PB_EditorOutput.pb"; save for AddTools
+            AddTools_Execute(#TRIGGER_BeforeCompile, *ActiveSource)
+            
+            DisplayCompilerWindow() ; hiding this window is done by the compiler functions if there is no error
+            
+            Success = Compiler_CompileRun(TempPath$ + "PB_EditorOutput.pb", @CompileSource, CheckSyntax)
+            
           Else
-          
+            
             ; call the compiler function with this new structure and main source name
             AddTools_CompiledFile$ = ""; no temporary file available
             AddTools_Execute(#TRIGGER_BeforeCompile, *ActiveSource)
-          
-            DisplayCompilerWindow() ; hiding this window is done by the compiler functions if there is no error                  
             
-            Success = Compiler_CompileRun(CompileSource\FileName$, @CompileSource, CheckSyntax)      
-          
+            DisplayCompilerWindow() ; hiding this window is done by the compiler functions if there is no error
+            
+            Success = Compiler_CompileRun(CompileSource\FileName$, @CompileSource, CheckSyntax)
+            
           EndIf
           
           ; update the build counter for this main file.
           ; This can be tricky as the file may not be loaded in the IDE at this time.
           ;
           If Success And CompileSource\UseCompileCount And CheckSyntax = #False
-          
+            
             ; first check if this source is loaded in the IDE
             IsLoaded = 0
             *RealActiveSource = *ActiveSource ; *ActiveSource is modified below as well!
@@ -871,17 +871,17 @@ Procedure CompileRun(CheckSyntax)
                   HistoryEvent(*ActiveSource, #HISTORY_Save)
                 Else
                   ; mark as modified (do manually as the function is only for *ActiveSource
-                  FileList()\ScintillaModified = 1 
+                  FileList()\ScintillaModified = 1
                   FileList()\DisplayModified = 1
                   SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), GetFilePart(CompileSource\FileName$)+"*")
-                EndIf                
-
+                EndIf
+                
                 Break
               EndIf
-            Next FileList()            
+            Next FileList()
             ChangeCurrentElement(FileList(), *RealActiveSource)
             *ActiveSource = *RealActiveSource
-          
+            
             ; ok, we have to update the file on disk
             ; Note: SaveProjectSettings() actually works if we do not append the options to the source,
             ;       but some settings are lost (folding, currentline etc) as the source is not shown,
@@ -913,7 +913,7 @@ Procedure CompileRun(CheckSyntax)
                     EndSelect
                     
                     *Cursor.BYTE = *Buffer
-                    IsCorrectSection = 0                    
+                    IsCorrectSection = 0
                     Lookup$ = NewLine$ + "; IDE Options"
                     LookupLength = Len(Lookup$)
                     
@@ -927,32 +927,32 @@ Procedure CompileRun(CheckSyntax)
                         Wend
                         
                         ; now we can directly write the new file
-                        If CreateFile(#FILE_SaveConfig, CompileSource\FileName$) 
+                        If CreateFile(#FILE_SaveConfig, CompileSource\FileName$)
                           WriteData(#FILE_SaveConfig, *Buffer, *Start-*Buffer)
                           WriteString(#FILE_SaveConfig, "EnableCompileCount = " + Str(NewCount)); no newline as we write it with the last block!
                           WriteData(#FILE_SaveConfig, *Cursor, Length - (*Cursor-*Buffer))
-                        
+                          
                           CloseFile(#FILE_SaveConfig)
                         EndIf
                         
                       EndIf
                       *Cursor + 1
                     Wend
-                  
+                    
                     FreeMemory(*Buffer)
                   EndIf
-              
-                
-                Case 1 ; filename.pb.cfg                
+                  
+                  
+                Case 1 ; filename.pb.cfg
                   Success = 0
                   If ReadFile(#FILE_ReadConfig, CompileSource\FileName$+".cfg")
-                    If CreateFile(#FILE_SaveConfig, CompileSource\FileName$+".cfg.new")                                        
+                    If CreateFile(#FILE_SaveConfig, CompileSource\FileName$+".cfg.new")
                       While Not Eof(#FILE_ReadConfig)
                         Line$ = ReadString(#FILE_ReadConfig)
                         
-                        If FindString(UCase(Line$), "ENABLECOMPILECOUNT", 1) <> 0 
+                        If FindString(UCase(Line$), "ENABLECOMPILECOUNT", 1) <> 0
                           Line$ = "EnableCompileCount = " + Str(NewCount)
-                          Success = 1                          
+                          Success = 1
                         EndIf
                         
                         If Eof(#FILE_ReadConfig)
@@ -960,10 +960,10 @@ Procedure CompileRun(CheckSyntax)
                         Else
                           WriteStringN(#FILE_SaveConfig, Line$)
                         EndIf
-                      Wend                      
+                      Wend
                       CloseFile(#FILE_SaveConfig)
                     EndIf
-                    CloseFile(#FILE_ReadConfig)                
+                    CloseFile(#FILE_ReadConfig)
                   EndIf
                   
                   If Success And DeleteFile(CompileSource\FileName$+".cfg")
@@ -971,7 +971,7 @@ Procedure CompileRun(CheckSyntax)
                   Else
                     DeleteFile(CompileSource\FileName$+".cfg.new")
                   EndIf
-                                  
+                  
                 Case 2 ; project.cfg
                   Success = 0
                   IsCorrectSection = 0
@@ -984,9 +984,9 @@ Procedure CompileRun(CheckSyntax)
                           IsCorrectSection = 1
                         ElseIf Left(Trim(Line$), 1) = "["
                           IsCorrectSection = 0
-                        ElseIf IsCorrectSection And FindString(UCase(Line$), "ENABLECOMPILECOUNT", 1) <> 0 
+                        ElseIf IsCorrectSection And FindString(UCase(Line$), "ENABLECOMPILECOUNT", 1) <> 0
                           Line$ = "  EnableCompileCount = " + Str(NewCount)
-                          Success = 1                          
+                          Success = 1
                         EndIf
                         
                         If Eof(#FILE_ReadConfig)
@@ -994,99 +994,99 @@ Procedure CompileRun(CheckSyntax)
                         Else
                           WriteStringN(#FILE_SaveConfig, Line$)
                         EndIf
-                      Wend                      
+                      Wend
                       CloseFile(#FILE_SaveConfig)
                     EndIf
-                    CloseFile(#FILE_ReadConfig)                
+                    CloseFile(#FILE_ReadConfig)
                   EndIf
                   
                   If Success And DeleteFile(GetPathPart(CompileSource\FileName$)+"project.cfg")
                     RenameFile(GetPathPart(CompileSource\FileName$)+"project.cfg.new", GetPathPart(CompileSource\FileName$)+"project.cfg")
                   Else
                     DeleteFile(GetPathPart(CompileSource\FileName$)+"project.cfg.new")
-                  EndIf                
-                
-                ; case 3 - no saving
+                  EndIf
+                  
+                  ; case 3 - no saving
               EndSelect
             EndIf
-          
+            
           EndIf
-        
+          
         Else
-          MessageRequester(#ProductName$, "Critical Error! Out of Memory!", #FLAG_ERROR)      
+          MessageRequester(#ProductName$, "Critical Error! Out of Memory!", #FLAG_ERROR)
           ActivateMainWindow()
-        EndIf    
-                
-      
+        EndIf
+        
+        
       Else
         MessageRequester(#ProductName$, Language("Compiler", "ReadMainError")+#NewLine+*ActiveSource\MainFile$, #FLAG_ERROR)
         ActivateMainWindow()
-      EndIf 
-                            
-    
+      EndIf
+      
+      
     Else ; No MainFile option... way simpler :)
-    
+      
       ; the source must be saved to the temp path
       ;
       If SaveTempFile(TempPath$ + "PB_EditorOutput.pb")
         
         
-        AddTools_CompiledFile$ = TempPath$ + "PB_EditorOutput.pb" ; save for AddTools        
+        AddTools_CompiledFile$ = TempPath$ + "PB_EditorOutput.pb" ; save for AddTools
         AddTools_Execute(#TRIGGER_BeforeCompile, *ActiveSource)
         
-        DisplayCompilerWindow() ; hiding this window is done by the compiler functions if there is no error        
+        DisplayCompilerWindow() ; hiding this window is done by the compiler functions if there is no error
         
         ; call the os compiler function, with the current source settings
         If Compiler_CompileRun(TempPath$ + "PB_EditorOutput.pb", *ActiveSource, CheckSyntax)
-        
+          
           ; update the compile count
           If *ActiveSource\UseCompileCount And CheckSyntax = #False
             *ActiveSource\CompileCount + 1
             
             If AutoSave And *ActiveSource\FileName$ <> "" ; no autosave if file was never saved yet!
-              ; with autosave, save directly so the * does not appear
+                                                          ; with autosave, save directly so the * does not appear
               SaveSourceFile(*ActiveSource\FileName$)
               HistoryEvent(*ActiveSource, #HISTORY_Save)
             Else
               ; mark the source as changed so this is saved when the source is actually closed!
-              UpdateSourceStatus(1) 
+              UpdateSourceStatus(1)
             EndIf
-          EndIf        
-        
+          EndIf
+          
         EndIf
-      
+        
       Else
         MessageRequester(#ProductName$, Language("Compiler","SaveTempError")+#NewLine+TempPath$+"PB_EditorOutput.pb", #FLAG_ERROR)
         HideCompilerWindow()
-      EndIf    
+      EndIf
     EndIf
     
   Else
     MessageRequester(#ProductName$, Language("Compiler","NotReady"))
     ActivateMainWindow()
   EndIf
-
+  
   
 EndProcedure
 
 
 Procedure StartInternalBuild(SourceFile$, File$)
   AddTools_CompiledFile$ = SourceFile$
-  AddTools_Execute(#TRIGGER_BeforeCreateExe, *ActiveSource)        
+  AddTools_Execute(#TRIGGER_BeforeCreateExe, *ActiveSource)
   
   DisplayCompilerWindow() ; hiding this window is done by the compiler functions if there is no error
   
   If Compiler_BuildTarget(SourceFile$, File$, *ActiveSource, #True, #False)
     
     ; do the compilation counts (both, as the CompileCount includes the BuildCount)
-    If *ActiveSource\UseCompileCount Or *ActiveSource\UseBuildCount          
+    If *ActiveSource\UseCompileCount Or *ActiveSource\UseBuildCount
       If *ActiveSource\UseCompileCount
         *ActiveSource\CompileCount + 1
       EndIf
       
       If *ActiveSource\UseBuildCount
         *ActiveSource\BuildCount + 1
-      EndIf               
+      EndIf
       
       If AutoSave
         ; with AutoSave, we directly save again, as else the * reappears which is weird
@@ -1094,11 +1094,11 @@ Procedure StartInternalBuild(SourceFile$, File$)
         HistoryEvent(*ActiveSource, #HISTORY_Save)
       Else
         ; mark the source as changed so this is saved when the source is actually closed!
-        UpdateSourceStatus(1) 
+        UpdateSourceStatus(1)
       EndIf
     EndIf
     
-    ProcedureReturn #True ; Success  
+    ProcedureReturn #True ; Success
   EndIf
   
   ProcedureReturn #False
@@ -1113,7 +1113,7 @@ Procedure CreateExecutable()
   EndIf
   
   UseProjectBuildWindow = #False
-
+  
   If CompilerReady And CompilerBusy = 0
     
     *InitialActiveSource = *ActiveSource
@@ -1155,9 +1155,9 @@ Procedure CreateExecutable()
       OpenCreateAppWindow(*ActiveSource, #False)
       
       *ActiveSource = *InitialActiveSource ; Restore the active source
-        
+      
     CompilerElse
-    
+      
       If *ActiveSource\ExecutableName$
         Path$ = *ActiveSource\ExecutableName$
       Else
@@ -1170,7 +1170,7 @@ Procedure CreateExecutable()
       If SaveTempFile(TempPath$ + "PB_EditorOutput.pb") = 0
         MessageRequester(#ProductName$, Language("Compiler","SaveTempError")+#NewLine+TempPath$+"PB_EditorOutput.pb", #FLAG_ERROR)
         *InitialActiveSource = *ActiveSource
-        ProcedureReturn 
+        ProcedureReturn
       EndIf
       
       CompilerIf #Demo
@@ -1181,70 +1181,70 @@ Procedure CreateExecutable()
             MessageRequester("Information", "SO Library creation is not available in the demo version.")
           CompilerEndIf
         Else
-      CompilerEndIf    
-      
-      If *ActiveSource\ExecutableFormat = 2 ; shared dll
-        CompilerIf #CompileWindows
-          Pattern$     = Language("Compiler","DllPattern") 
-          Extension$   = ".dll"
-        CompilerElseIf #CompileMac
-          Pattern$   = "Shared Library (*.dylib)|*.dylib|All Files (*.*)|*.*"
-          Extension$ = ".dylib"
-        CompilerElse ; Linux
-          Pattern$   = "Shared Library (*.so)|*.so|All Files (*.*)|*.*"
-          Extension$ = ".so"
-        CompilerEndIf        
-      Else
-        CompilerIf #CompileWindows
-          Pattern$   = Language("Compiler","ExePattern")
-          Extension$ = ".exe"
-        CompilerElseIf #CompileMac
-          Pattern$   = ""
-          If *ActiveSource\ExecutableFormat = 1 
-            Extension$ = "" ; console, do not append .app automatically here
-          Else 
-            Extension$ = ".app"  ; autmatically append ".app" for gui programs
-          EndIf
-        CompilerElse ; Linux
-          Pattern$   = ""
-          Extension$ = ""
         CompilerEndIf
-      EndIf
-      
-      File$ = SaveFileRequester(Language("Compiler","CreateExe"), Path$, Pattern$, 0)
-      If File$
-        If LCase(Right(File$, Len(Extension$))) <> Extension$ And SelectedFilePattern() <> 1
-          File$+Extension$
+        
+        If *ActiveSource\ExecutableFormat = 2 ; shared dll
+          CompilerIf #CompileWindows
+            Pattern$     = Language("Compiler","DllPattern")
+            Extension$   = ".dll"
+          CompilerElseIf #CompileMac
+            Pattern$   = "Shared Library (*.dylib)|*.dylib|All Files (*.*)|*.*"
+            Extension$ = ".dylib"
+          CompilerElse ; Linux
+            Pattern$   = "Shared Library (*.so)|*.so|All Files (*.*)|*.*"
+            Extension$ = ".so"
+          CompilerEndIf
+        Else
+          CompilerIf #CompileWindows
+            Pattern$   = Language("Compiler","ExePattern")
+            Extension$ = ".exe"
+          CompilerElseIf #CompileMac
+            Pattern$   = ""
+            If *ActiveSource\ExecutableFormat = 1
+              Extension$ = "" ; console, do not append .app automatically here
+            Else
+              Extension$ = ".app"  ; autmatically append ".app" for gui programs
+            EndIf
+          CompilerElse ; Linux
+            Pattern$   = ""
+            Extension$ = ""
+          CompilerEndIf
         EndIf
         
-        ; If the name of the exe has changed, we need to re-save the file (http://www.purebasic.fr/english/viewtopic.php?f=4&t=59806)
-        ;
-        If *ActiveSource\ExecutableName$ <> File$
-          *ActiveSource\ExecutableName$ = File$
-          If AutoSave
-            SaveSourceFile(*ActiveSource\FileName$)
-          Else
-            UpdateSourceStatus(1) ; mark the source as changed so this is saved when the source is actually closed!
-          EndIf        
+        File$ = SaveFileRequester(Language("Compiler","CreateExe"), Path$, Pattern$, 0)
+        If File$
+          If LCase(Right(File$, Len(Extension$))) <> Extension$ And SelectedFilePattern() <> 1
+            File$+Extension$
+          EndIf
+          
+          ; If the name of the exe has changed, we need to re-save the file (http://www.purebasic.fr/english/viewtopic.php?f=4&t=59806)
+          ;
+          If *ActiveSource\ExecutableName$ <> File$
+            *ActiveSource\ExecutableName$ = File$
+            If AutoSave
+              SaveSourceFile(*ActiveSource\FileName$)
+            Else
+              UpdateSourceStatus(1) ; mark the source as changed so this is saved when the source is actually closed!
+            EndIf
+          EndIf
+          
+          If StartInternalBuild(TempPath$ + "PB_EditorOutput.pb", File$)
+            *ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeded
+          EndIf
+          
+        Else
+          *ActiveSource = *InitialActiveSource ; Restore the active source as the CreateExecutable has been aborted
+          HideCompilerWindow()
         EndIf
         
-        If StartInternalBuild(TempPath$ + "PB_EditorOutput.pb", File$)
-          *ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeded
-        EndIf
-
-      Else
-        *ActiveSource = *InitialActiveSource ; Restore the active source as the CreateExecutable has been aborted
-        HideCompilerWindow()
-      EndIf                  
-  
       CompilerIf #Demo : EndIf : CompilerEndIf
       
     CompilerEndIf
-      
+    
   Else
     MessageRequester(#ProductName$, Language("Compiler","NotReady"))
-  EndIf  
-
+  EndIf
+  
 EndProcedure
 
 Procedure Run()
@@ -1253,14 +1253,14 @@ Procedure Run()
   If *ActiveSource\IsCode = 0
     ProcedureReturn
   EndIf
-
+  
   If CompilerReady And CompilerBusy = 0
     If AutoClearLog
       ClearGadgetItems(#GADGET_ErrorLog)
       *ActiveSource\LogSize = 0
       SetDebuggerMenuStates()
-    EndIf   
-  
+    EndIf
+    
     AddTools_Execute(#TRIGGER_ProgramRun, *ActiveSource)
     Compiler_Run(*ActiveSource, #False)  ; not the first time this is run
   Else
@@ -1275,14 +1275,14 @@ EndProcedure
 Procedure CompileRunProject(CheckSyntax)
   ; Use the normal CompilerWindow for this
   UseProjectBuildWindow = #False
-
+  
   If CompilerReady And CompilerBusy = 0
-    If AutoClearLog  
+    If AutoClearLog
       ClearList(ProjectLog())
       ErrorLog_Refresh()
       SetDebuggerMenuStates()
     EndIf
-  
+    
     If AutoSave
       AutoSave()
     EndIf
@@ -1306,25 +1306,25 @@ Procedure CompileRunProject(CheckSyntax)
       ; of the exe still runs (and cannot be deleted)
       ;
       RegisterDeleteFile(OutputFile$)
-    
+      
       If *DefaultTarget\UseCompileCount And CheckSyntax = #False ; only increase the build count here
         *DefaultTarget\CompileCount + 1
         UpdateProjectInfo()                  ; reflect count change in project info
-      EndIf  
-  
+      EndIf
+      
       ; set the run information, then simply call the run command from here to reduce code
       *DefaultTarget\RunExecutable$     = OutputFile$
       *DefaultTarget\RunExeFormat       = *DefaultTarget\ExecutableFormat
       *DefaultTarget\RunDebuggerMode    = (*DefaultTarget\Debugger|ForceDebugger)&~ForceNoDebugger
-      *DefaultTarget\RunEnableAdmin     = *DefaultTarget\EnableAdmin    
+      *DefaultTarget\RunEnableAdmin     = *DefaultTarget\EnableAdmin
       *DefaultTarget\RunSourceFileName$ = *DefaultTarget\FileName$ ; updated before compiling, so this is the full file
-      *DefaultTarget\RunMainFileUsed    = 0 ; no mainfile option here
-      *DefaultTarget\RunCompilerPath$   = GetPathPart(*CurrentCompiler\Executable$)    
-      *DefaultTarget\RunCompilerVersion = *CurrentCompiler\VersionNumber 
-
+      *DefaultTarget\RunMainFileUsed    = 0                        ; no mainfile option here
+      *DefaultTarget\RunCompilerPath$   = GetPathPart(*CurrentCompiler\Executable$)
+      *DefaultTarget\RunCompilerVersion = *CurrentCompiler\VersionNumber
+      
       ; execute any external tools
       AddTools_ExecutableName$ = OutputFile$
-      AddTools_Execute(#TRIGGER_AfterCompile, *DefaultTarget) 
+      AddTools_Execute(#TRIGGER_AfterCompile, *DefaultTarget)
       
       If CheckSyntax = #False
         AddTools_Execute(#TRIGGER_ProgramRun, *DefaultTarget)
@@ -1335,16 +1335,16 @@ Procedure CompileRunProject(CheckSyntax)
   Else
     MessageRequester(#ProductName$, Language("Compiler","NotReady"))
     ActivateMainWindow()
-  EndIf    
-    
+  EndIf
+  
 EndProcedure
 
 Procedure RunProject()
   ; Use the normal CompilerWindow for this
   UseProjectBuildWindow = #False
-
+  
   If CompilerReady And CompilerBusy = 0
-    If AutoClearLog  
+    If AutoClearLog
       ClearList(ProjectLog())
       ErrorLog_Refresh()
       SetDebuggerMenuStates()
@@ -1352,12 +1352,12 @@ Procedure RunProject()
     
     AddTools_ExecutableName$ = *DefaultTarget\RunExecutable$
     AddTools_Execute(#TRIGGER_ProgramRun, *DefaultTarget)
-
+    
     Compiler_Run(*DefaultTarget, #False) ; run (not for the first time)
   Else
     MessageRequester(#ProductName$, Language("Compiler","NotReady"))
   EndIf
-
+  
 EndProcedure
 
 Procedure CreateExecutableProject()
@@ -1365,23 +1365,23 @@ Procedure CreateExecutableProject()
   UseProjectBuildWindow = #False
   
   If CompilerReady And CompilerBusy = 0
-  
-    OutputFile$ = BuildProjectTarget(*DefaultTarget, 1, #True, #False) ; ask for output file 
-    If OutputFile$ <> ""       
+    
+    OutputFile$ = BuildProjectTarget(*DefaultTarget, 1, #True, #False) ; ask for output file
+    If OutputFile$ <> ""
       If *DefaultTarget\UseCompileCount      ; this increases both compile+build count
         *DefaultTarget\CompileCount + 1
       EndIf
       
       If *DefaultTarget\UseBuildCount
         *DefaultTarget\BuildCount + 1
-      EndIf    
+      EndIf
       
       If *DefaultTarget\UseCompileCount Or *DefaultTarget\UseBuildCount
         UpdateProjectInfo() ; reflect count change in project info
       EndIf
       
       AddTools_ExecutableName$ = OutputFile$
-      AddTools_Execute(#TRIGGER_AfterCreateExe, *DefaultTarget) 
+      AddTools_Execute(#TRIGGER_AfterCreateExe, *DefaultTarget)
       
       ProcedureReturn 1
     EndIf
@@ -1389,7 +1389,7 @@ Procedure CreateExecutableProject()
   Else
     MessageRequester(#ProductName$, Language("Compiler","NotReady"))
   EndIf
-    
+  
 EndProcedure
 
 Procedure BuildTarget(*Target.CompileTarget)
@@ -1399,19 +1399,19 @@ Procedure BuildTarget(*Target.CompileTarget)
   ;
   AddElement(*Targets())
   *Targets() = *Target
-
-  If CompilerReady And CompilerBusy = 0  
-    OpenBuildWindow(*Targets())   
+  
+  If CompilerReady And CompilerBusy = 0
+    OpenBuildWindow(*Targets())
   Else
     MessageRequester(#ProductName$, Language("Compiler","NotReady"))
-  EndIf   
+  EndIf
 EndProcedure
 
 Procedure BuildAll()
   Protected NewList *Targets.CompileTarget()
   
   If CompilerReady And CompilerBusy = 0
-  
+    
     ; Add all targets that are set for "build all" to our list
     ; in the same order as they appear in compiler options (no dependency resolving yet)
     ;
@@ -1427,206 +1427,206 @@ Procedure BuildAll()
     Else
       MessageRequester(#ProductName$, Language("Compiler","NoBuildTargets"))
     EndIf
-  
+    
   Else
     MessageRequester(#ProductName$, Language("Compiler","NotReady"))
-  EndIf  
+  EndIf
 EndProcedure
 
 
 
 CompilerIf #CompileWindows
-
-  DataSection
   
-    Resource_Strings:
-      Data.l 6 ; count  
-      Data$ "VOS_UNKNOWN"
-      Data$ "VOS_DOS"
-      Data$ "VOS_DOS_WINDOWS16"
-      Data$ "VOS_DOS_WINDOWS32"
-      Data$ "VOS_NT_WINDOWS32"
-      Data$ "VOS_NT"
-      
-      Data.l 7 ; count      
-      Data$ "VFT_UNKNOWN"
-      Data$ "VFT_APP"
-      Data$ "VFT_DLL"
-      Data$ "VFT_DRV"
-      Data$ "VFT_FONT"
-      Data$ "VFT_VXD"
-      Data$ "VFT_STATIC_LIB"
+  DataSection
     
-      Data.l 168
-      Data$ "0000 Language Neutral"
-      Data$ "007f Invariant locale"
-      Data$ "0400 Process Or User Default Language"
-      Data$ "0800 System Default Language"
-      Data$ "0436 Afrikaans"
-      Data$ "041c Albanian"
-      Data$ "0401 Arabic (Saudi Arabia)"
-      Data$ "0801 Arabic (Iraq)"
-      Data$ "0c01 Arabic (Egypt)"
-      Data$ "1001 Arabic (Libya)" 
-      Data$ "1401 Arabic (Algeria)" 
-      Data$ "1801 Arabic (Morocco)" 
-      Data$ "1c01 Arabic (Tunisia)" 
-      Data$ "2001 Arabic (Oman)" 
-      Data$ "2401 Arabic (Yemen)" 
-      Data$ "2801 Arabic (Syria)" 
-      Data$ "2c01 Arabic (Jordan)" 
-      Data$ "3001 Arabic (Lebanon)" 
-      Data$ "3401 Arabic (Kuwait)" 
-      Data$ "3801 Arabic (U.A.E.)" 
-      Data$ "3c01 Arabic (Bahrain)" 
-      Data$ "4001 Arabic (Qatar)" 
-      Data$ "042b Armenian"
-      Data$ "042c Azeri (Latin)" 
-      Data$ "082c Azeri (Cyrillic)" 
-      Data$ "042d Basque" 
-      Data$ "0423 Belarusian" 
-      Data$ "0445 Bengali (India)" 
-      Data$ "141a Bosnian (Bosnia And Herzegovina)"
-      Data$ "0402 Bulgarian" 
-      Data$ "0455 Burmese" 
-      Data$ "0403 Catalan" 
-      Data$ "0404 Chinese (Taiwan)" 
-      Data$ "0804 Chinese (PRC)" 
-      Data$ "0c04 Chinese (Hong Kong SAR, PRC)" 
-      Data$ "1004 Chinese (Singapore)" 
-      Data$ "1404 Chinese (Macao SAR)" 
-      Data$ "041a Croatian" 
-      Data$ "101a Croatian (Bosnia And Herzegovina)"
-      Data$ "0405 Czech"
-      Data$ "0406 Danish" 
-      Data$ "0465 Divehi"
-      Data$ "0413 Dutch (Netherlands)" 
-      Data$ "0813 Dutch (Belgium)" 
-      Data$ "0409 English (United States)" 
-      Data$ "0809 English (United Kingdom)" 
-      Data$ "0c09 English (Australian)" 
-      Data$ "1009 English (Canadian)" 
-      Data$ "1409 English (New Zealand)" 
-      Data$ "1809 English (Ireland)" 
-      Data$ "1c09 English (South Africa)" 
-      Data$ "2009 English (Jamaica)" 
-      Data$ "2409 English (Caribbean)" 
-      Data$ "2809 English (Belize)" 
-      Data$ "2c09 English (Trinidad)" 
-      Data$ "3009 English (Zimbabwe)" 
-      Data$ "3409 English (Philippines)" 
-      Data$ "0425 Estonian" 
-      Data$ "0438 Faeroese" 
-      Data$ "0429 Farsi" 
-      Data$ "040b Finnish" 
-      Data$ "040c French (Standard)" 
-      Data$ "080c French (Belgian)" 
-      Data$ "0c0c French (Canadian)" 
-      Data$ "100c French (Switzerland)" 
-      Data$ "140c French (Luxembourg)" 
-      Data$ "180c French (Monaco)" 
-      Data$ "0456 Galician" 
-      Data$ "0437 Georgian"
-      Data$ "0407 German (Standard)" 
-      Data$ "0807 German (Switzerland)" 
-      Data$ "0c07 German (Austria)" 
-      Data$ "1007 German (Luxembourg)" 
-      Data$ "1407 German (Liechtenstein)" 
-      Data$ "0408 Greek" 
-      Data$ "0447 Gujarati"
-      Data$ "040d Hebrew" 
-      Data$ "0439 Hindi"
-      Data$ "040e Hungarian" 
-      Data$ "040f Icelandic" 
-      Data$ "0421 Indonesian" 
-      Data$ "0434 isiXhosa/Xhosa (South Africa)" 
-      Data$ "0435 isiZulu/Zulu (South Africa)" 
-      Data$ "0410 Italian (Standard)" 
-      Data$ "0810 Italian (Switzerland)" 
-      Data$ "0411 Japanese" 
-      Data$ "044b Kannada"
-      Data$ "0457 Konkani"
-      Data$ "0412 Korean" 
-      Data$ "0812 Korean (Johab)" 
-      Data$ "0440 Kyrgyz"
-      Data$ "0426 Latvian" 
-      Data$ "0427 Lithuanian" 
-      Data$ "0827 Lithuanian (Classic)" 
-      Data$ "042f Macedonian (FYROM)" 
-      Data$ "043e Malay (Malaysian)" 
-      Data$ "083e Malay (Brunei Darussalam)" 
-      Data$ "044c Malayalam (India)" 
-      Data$ "0481 Maori (New Zealand)" 
-      Data$ "043a Maltese (Malta)" 
-      Data$ "044e Marathi"
-      Data$ "0450 Mongolian" 
-      Data$ "0414 Norwegian (Bokmal)" 
-      Data$ "0814 Norwegian (Nynorsk)" 
-      Data$ "0415 Polish" 
-      Data$ "0416 Portuguese (Brazil)" 
-      Data$ "0816 Portuguese (Portugal)" 
-      Data$ "0446 Punjabi"
-      Data$ "046b Quechua (Bolivia)" 
-      Data$ "086b Quechua (Ecuador)" 
-      Data$ "0c6b Quechua (Peru)" 
-      Data$ "0418 Romanian" 
-      Data$ "0419 Russian" 
-      Data$ "044f Sanskrit"
-      Data$ "043b Sami, Northern (Norway)" 
-      Data$ "083b Sami, Northern (Sweden)" 
-      Data$ "0c3b Sami, Northern (Finland)" 
-      Data$ "103b Sami, Lule (Norway)" 
-      Data$ "143b Sami, Lule (Sweden)" 
-      Data$ "183b Sami, Southern (Norway)" 
-      Data$ "1c3b Sami, Southern (Sweden)" 
-      Data$ "203b Sami, Skolt (Finland)" 
-      Data$ "243b Sami, Inari (Finland)" 
-      Data$ "0c1a Serbian (Cyrillic)" 
-      Data$ "1c1a Serbian (Cyrillic, Bosnia, And Herzegovina)" 
-      Data$ "081a Serbian (Latin)" 
-      Data$ "181a Serbian (Latin, Bosnia, And Herzegovina)" 
-      Data$ "046c Sesotho sa Leboa/Northern Sotho (South Africa)" 
-      Data$ "0432 Setswana/Tswana (South Africa)" 
-      Data$ "041b Slovak" 
-      Data$ "0424 Slovenian" 
-      Data$ "040a Spanish (Spain, Traditional Sort)" 
-      Data$ "080a Spanish (Mexican)" 
-      Data$ "0c0a Spanish (Spain, Modern Sort)" 
-      Data$ "100a Spanish (Guatemala)" 
-      Data$ "140a Spanish (Costa Rica)" 
-      Data$ "180a Spanish (Panama)" 
-      Data$ "1c0a Spanish (Dominican Republic)" 
-      Data$ "200a Spanish (Venezuela)" 
-      Data$ "240a Spanish (Colombia)" 
-      Data$ "280a Spanish (Peru)" 
-      Data$ "2c0a Spanish (Argentina)" 
-      Data$ "300a Spanish (Ecuador)" 
-      Data$ "340a Spanish (Chile)" 
-      Data$ "380a Spanish (Uruguay)" 
-      Data$ "3c0a Spanish (Paraguay)" 
-      Data$ "400a Spanish (Bolivia)" 
-      Data$ "440a Spanish (El Salvador)" 
-      Data$ "480a Spanish (Honduras)" 
-      Data$ "4c0a Spanish (Nicaragua)" 
-      Data$ "500a Spanish (Puerto Rico)" 
-      Data$ "0430 Sutu" 
-      Data$ "0441 Swahili (Kenya)" 
-      Data$ "041d Swedish" 
-      Data$ "081d Swedish (Finland)" 
-      Data$ "045a Syriac"
-      Data$ "0449 Tamil"
-      Data$ "0444 Tatar (Tatarstan)" 
-      Data$ "044a Telugu"
-      Data$ "041e Thai" 
-      Data$ "041f Turkish" 
-      Data$ "0422 Ukrainian" 
-      Data$ "0420 Urdu (Pakistan)" 
-      Data$ "0820 Urdu (India)" 
-      Data$ "0443 Uzbek (Latin)" 
-      Data$ "0843 Uzbek (Cyrillic)" 
-      Data$ "042a Vietnamese" 
-      Data$ "0452 Welsh (United Kingdom)" 
-
-  EndDataSection  
-
+    Resource_Strings:
+    Data.l 6 ; count
+    Data$ "VOS_UNKNOWN"
+    Data$ "VOS_DOS"
+    Data$ "VOS_DOS_WINDOWS16"
+    Data$ "VOS_DOS_WINDOWS32"
+    Data$ "VOS_NT_WINDOWS32"
+    Data$ "VOS_NT"
+    
+    Data.l 7 ; count
+    Data$ "VFT_UNKNOWN"
+    Data$ "VFT_APP"
+    Data$ "VFT_DLL"
+    Data$ "VFT_DRV"
+    Data$ "VFT_FONT"
+    Data$ "VFT_VXD"
+    Data$ "VFT_STATIC_LIB"
+    
+    Data.l 168
+    Data$ "0000 Language Neutral"
+    Data$ "007f Invariant locale"
+    Data$ "0400 Process Or User Default Language"
+    Data$ "0800 System Default Language"
+    Data$ "0436 Afrikaans"
+    Data$ "041c Albanian"
+    Data$ "0401 Arabic (Saudi Arabia)"
+    Data$ "0801 Arabic (Iraq)"
+    Data$ "0c01 Arabic (Egypt)"
+    Data$ "1001 Arabic (Libya)"
+    Data$ "1401 Arabic (Algeria)"
+    Data$ "1801 Arabic (Morocco)"
+    Data$ "1c01 Arabic (Tunisia)"
+    Data$ "2001 Arabic (Oman)"
+    Data$ "2401 Arabic (Yemen)"
+    Data$ "2801 Arabic (Syria)"
+    Data$ "2c01 Arabic (Jordan)"
+    Data$ "3001 Arabic (Lebanon)"
+    Data$ "3401 Arabic (Kuwait)"
+    Data$ "3801 Arabic (U.A.E.)"
+    Data$ "3c01 Arabic (Bahrain)"
+    Data$ "4001 Arabic (Qatar)"
+    Data$ "042b Armenian"
+    Data$ "042c Azeri (Latin)"
+    Data$ "082c Azeri (Cyrillic)"
+    Data$ "042d Basque"
+    Data$ "0423 Belarusian"
+    Data$ "0445 Bengali (India)"
+    Data$ "141a Bosnian (Bosnia And Herzegovina)"
+    Data$ "0402 Bulgarian"
+    Data$ "0455 Burmese"
+    Data$ "0403 Catalan"
+    Data$ "0404 Chinese (Taiwan)"
+    Data$ "0804 Chinese (PRC)"
+    Data$ "0c04 Chinese (Hong Kong SAR, PRC)"
+    Data$ "1004 Chinese (Singapore)"
+    Data$ "1404 Chinese (Macao SAR)"
+    Data$ "041a Croatian"
+    Data$ "101a Croatian (Bosnia And Herzegovina)"
+    Data$ "0405 Czech"
+    Data$ "0406 Danish"
+    Data$ "0465 Divehi"
+    Data$ "0413 Dutch (Netherlands)"
+    Data$ "0813 Dutch (Belgium)"
+    Data$ "0409 English (United States)"
+    Data$ "0809 English (United Kingdom)"
+    Data$ "0c09 English (Australian)"
+    Data$ "1009 English (Canadian)"
+    Data$ "1409 English (New Zealand)"
+    Data$ "1809 English (Ireland)"
+    Data$ "1c09 English (South Africa)"
+    Data$ "2009 English (Jamaica)"
+    Data$ "2409 English (Caribbean)"
+    Data$ "2809 English (Belize)"
+    Data$ "2c09 English (Trinidad)"
+    Data$ "3009 English (Zimbabwe)"
+    Data$ "3409 English (Philippines)"
+    Data$ "0425 Estonian"
+    Data$ "0438 Faeroese"
+    Data$ "0429 Farsi"
+    Data$ "040b Finnish"
+    Data$ "040c French (Standard)"
+    Data$ "080c French (Belgian)"
+    Data$ "0c0c French (Canadian)"
+    Data$ "100c French (Switzerland)"
+    Data$ "140c French (Luxembourg)"
+    Data$ "180c French (Monaco)"
+    Data$ "0456 Galician"
+    Data$ "0437 Georgian"
+    Data$ "0407 German (Standard)"
+    Data$ "0807 German (Switzerland)"
+    Data$ "0c07 German (Austria)"
+    Data$ "1007 German (Luxembourg)"
+    Data$ "1407 German (Liechtenstein)"
+    Data$ "0408 Greek"
+    Data$ "0447 Gujarati"
+    Data$ "040d Hebrew"
+    Data$ "0439 Hindi"
+    Data$ "040e Hungarian"
+    Data$ "040f Icelandic"
+    Data$ "0421 Indonesian"
+    Data$ "0434 isiXhosa/Xhosa (South Africa)"
+    Data$ "0435 isiZulu/Zulu (South Africa)"
+    Data$ "0410 Italian (Standard)"
+    Data$ "0810 Italian (Switzerland)"
+    Data$ "0411 Japanese"
+    Data$ "044b Kannada"
+    Data$ "0457 Konkani"
+    Data$ "0412 Korean"
+    Data$ "0812 Korean (Johab)"
+    Data$ "0440 Kyrgyz"
+    Data$ "0426 Latvian"
+    Data$ "0427 Lithuanian"
+    Data$ "0827 Lithuanian (Classic)"
+    Data$ "042f Macedonian (FYROM)"
+    Data$ "043e Malay (Malaysian)"
+    Data$ "083e Malay (Brunei Darussalam)"
+    Data$ "044c Malayalam (India)"
+    Data$ "0481 Maori (New Zealand)"
+    Data$ "043a Maltese (Malta)"
+    Data$ "044e Marathi"
+    Data$ "0450 Mongolian"
+    Data$ "0414 Norwegian (Bokmal)"
+    Data$ "0814 Norwegian (Nynorsk)"
+    Data$ "0415 Polish"
+    Data$ "0416 Portuguese (Brazil)"
+    Data$ "0816 Portuguese (Portugal)"
+    Data$ "0446 Punjabi"
+    Data$ "046b Quechua (Bolivia)"
+    Data$ "086b Quechua (Ecuador)"
+    Data$ "0c6b Quechua (Peru)"
+    Data$ "0418 Romanian"
+    Data$ "0419 Russian"
+    Data$ "044f Sanskrit"
+    Data$ "043b Sami, Northern (Norway)"
+    Data$ "083b Sami, Northern (Sweden)"
+    Data$ "0c3b Sami, Northern (Finland)"
+    Data$ "103b Sami, Lule (Norway)"
+    Data$ "143b Sami, Lule (Sweden)"
+    Data$ "183b Sami, Southern (Norway)"
+    Data$ "1c3b Sami, Southern (Sweden)"
+    Data$ "203b Sami, Skolt (Finland)"
+    Data$ "243b Sami, Inari (Finland)"
+    Data$ "0c1a Serbian (Cyrillic)"
+    Data$ "1c1a Serbian (Cyrillic, Bosnia, And Herzegovina)"
+    Data$ "081a Serbian (Latin)"
+    Data$ "181a Serbian (Latin, Bosnia, And Herzegovina)"
+    Data$ "046c Sesotho sa Leboa/Northern Sotho (South Africa)"
+    Data$ "0432 Setswana/Tswana (South Africa)"
+    Data$ "041b Slovak"
+    Data$ "0424 Slovenian"
+    Data$ "040a Spanish (Spain, Traditional Sort)"
+    Data$ "080a Spanish (Mexican)"
+    Data$ "0c0a Spanish (Spain, Modern Sort)"
+    Data$ "100a Spanish (Guatemala)"
+    Data$ "140a Spanish (Costa Rica)"
+    Data$ "180a Spanish (Panama)"
+    Data$ "1c0a Spanish (Dominican Republic)"
+    Data$ "200a Spanish (Venezuela)"
+    Data$ "240a Spanish (Colombia)"
+    Data$ "280a Spanish (Peru)"
+    Data$ "2c0a Spanish (Argentina)"
+    Data$ "300a Spanish (Ecuador)"
+    Data$ "340a Spanish (Chile)"
+    Data$ "380a Spanish (Uruguay)"
+    Data$ "3c0a Spanish (Paraguay)"
+    Data$ "400a Spanish (Bolivia)"
+    Data$ "440a Spanish (El Salvador)"
+    Data$ "480a Spanish (Honduras)"
+    Data$ "4c0a Spanish (Nicaragua)"
+    Data$ "500a Spanish (Puerto Rico)"
+    Data$ "0430 Sutu"
+    Data$ "0441 Swahili (Kenya)"
+    Data$ "041d Swedish"
+    Data$ "081d Swedish (Finland)"
+    Data$ "045a Syriac"
+    Data$ "0449 Tamil"
+    Data$ "0444 Tatar (Tatarstan)"
+    Data$ "044a Telugu"
+    Data$ "041e Thai"
+    Data$ "041f Turkish"
+    Data$ "0422 Ukrainian"
+    Data$ "0420 Urdu (Pakistan)"
+    Data$ "0820 Urdu (India)"
+    Data$ "0443 Uzbek (Latin)"
+    Data$ "0843 Uzbek (Cyrillic)"
+    Data$ "042a Vietnamese"
+    Data$ "0452 Welsh (United Kingdom)"
+    
+  EndDataSection
+  
 CompilerEndIf

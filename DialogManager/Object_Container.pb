@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -12,7 +12,7 @@ XIncludeFile "Object_BinBase.pb"
 ;
 ; Accepted keys in the XML:
 ;
-;   All accepted by DlgBinBase 
+;   All accepted by DlgBinBase
 ;
 
 Structure DlgContainer Extends DlgBinBase
@@ -31,12 +31,12 @@ Procedure DlgContainer_New(*StaticData.DialogObjectData)
     *THIS\HasTitle   = #False ; for DlgBinBase_Update()
     
     *THIS\Gadget = ContainerGadget(*StaticData\Gadget, 0, 0, 0, 0, *StaticData\Flags)
-
+    
     If *StaticData\Gadget <> -1
       *THIS\Gadget = *StaticData\Gadget
     EndIf
     
-    DlgBinBase_GetOptions(*THIS) ; read all the margin etc options    
+    DlgBinBase_GetOptions(*THIS) ; read all the margin etc options
   EndIf
   
   ProcedureReturn *THIS
@@ -47,10 +47,10 @@ EndProcedure
 Procedure DlgContainer_SizeRequest(*THIS.DlgContainer, *Width.LONG, *Height.LONG)
   *THIS\RequestedWidth  = 0
   *THIS\RequestedHeight = 0
-
+  
   If *THIS\Child
     *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
-  EndIf  
+  EndIf
   
   CompilerIf #CompileWindows
     If *THIS\StaticData\Flags & #PB_Container_Flat
@@ -84,13 +84,13 @@ Procedure DlgContainer_SizeRequest(*THIS.DlgContainer, *Width.LONG, *Height.LONG
     ;
     If *THIS\StaticData\Flags & (#PB_Container_Flat|#PB_Container_Single)
       *THIS\BorderWidth  = 2 ; represents 2x the border size
-      *THIS\BorderHeight = 2    
+      *THIS\BorderHeight = 2
     ElseIf *THIS\StaticData\Flags =  #PB_Container_BorderLess
       *THIS\BorderWidth  = 0
       *THIS\BorderHeight = 0
     Else
       *THIS\BorderWidth  = 4
-      *THIS\BorderHeight = 4    
+      *THIS\BorderHeight = 4
     EndIf
     *THIS\BorderInClient = #True
   CompilerEndIf
@@ -103,7 +103,7 @@ Procedure DlgContainer_SizeRequest(*THIS.DlgContainer, *Width.LONG, *Height.LONG
       *THIS\BorderHeight = 0
     Else
       *THIS\BorderWidth  = 16 ; 8px border on all types except borderless
-      *THIS\BorderHeight = 16    
+      *THIS\BorderHeight = 16
     EndIf
     *THIS\BorderInClient = #False
   CompilerEndIf
@@ -116,8 +116,8 @@ EndProcedure
 
 Procedure DlgContainer_SizeApply(*THIS.DlgContainer, x, y, Width, Height)
   ResizeGadget(*THIS\Gadget, x, y, Width, Height)
-
-  If *THIS\Child    
+  
+  If *THIS\Child
     If *THIS\BorderInClient
       x = *THIS\BorderWidth / 2 ; need to add an offset from the border
       y = *THIS\BorderHeight / 2
@@ -125,29 +125,29 @@ Procedure DlgContainer_SizeApply(*THIS.DlgContainer, x, y, Width, Height)
       x = 0
       y = 0
     EndIf
-  
+    
     Width  - *THIS\BorderWidth
-    Height - *THIS\BorderHeight       
-    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)    
-  
+    Height - *THIS\BorderHeight
+    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)
+    
     *THIS\Child\SizeApply(x, y, Width, Height)
-  EndIf  
+  EndIf
   
 EndProcedure
 
 
 
 DataSection
-
+  
   DlgContainer_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgContainer_SizeRequest()
-    Data.i @DlgContainer_SizeApply()
-    Data.i @DlgBinBase_AddChild()
-    Data.i @DlgBinBase_FoldApply()
-    Data.i @DlgBinBase_Find()
-    Data.i @DlgBinBase_Finish()
-    Data.i @DlgBinBase_Update()
-    Data.i @DlgBinBase_Destroy()
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgContainer_SizeRequest()
+  Data.i @DlgContainer_SizeApply()
+  Data.i @DlgBinBase_AddChild()
+  Data.i @DlgBinBase_FoldApply()
+  Data.i @DlgBinBase_Find()
+  Data.i @DlgBinBase_Finish()
+  Data.i @DlgBinBase_Update()
+  Data.i @DlgBinBase_Destroy()
+  
 EndDataSection

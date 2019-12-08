@@ -111,24 +111,24 @@ extern FreeMapProc   SYS_DynamicFreeMap;
 
 // Structure info & Examine state for runtime structures
 // Note that all strings are in Ascii always!
-typedef struct 
+typedef struct
 {
   char *StructureName;  // Name of the base structure
   char *ModuleName;     // Name of module containing the structure
   integer *DynamicMap;  // Pointer to 'Dynamic' structure map (or 0 if no dynamic elements in this struct)
-  
+
   char *Name;           // Name of current element
   char  Kind;           // PB_Element_...
   char  Type;           // PB_Byte, PB_Long, ...
   char  Pointer;        // true for pointers
   int   Offset;         // Offset within structure
   void *Data;           // pointer to element data within the structure (for arrays this points to element 0)
-  
+
   int   ArraySize;      // Static array: number of elements
   int   ElementSize;    // Static array: size of one element
   int   FixedLength;    // Fixed string: string size (in bytes!)
   void *StructureMap;   // Structure: structure map
-  
+
   char *BaseData;       // Examine state: pointer to start of structure data
   char *Position;       // Examine state: current position within structure map
 } PB_RuntimeStructure;

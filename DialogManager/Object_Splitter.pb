@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -18,7 +18,7 @@ XIncludeFile "GetRequiredSize.pb"
 ;
 ; If firstmin or secondmin is set, they will be set for the gadget, if they are not set
 ; (or to "request"), the minimum will be the size request of the child.
-; 
+;
 ; Note: The vertical mode is determined by the flags parameter
 ;
 
@@ -26,17 +26,17 @@ XIncludeFile "GetRequiredSize.pb"
 Structure DlgSplitter Extends DlgBase
   IsVertical.l
   NbChilds.l  ; max 2
-
+  
   Minimum.l[2]
   RequestedWidth.l[2]
   RequestedHeight.l[2]
   
-  ChildGadget.i[2] ; initialized to two container gadgets, later changed if possible  
+  ChildGadget.i[2] ; initialized to two container gadgets, later changed if possible
   
   StructureUnion
     Child.DialogObject[2]
     *ChildData.DlgBase[2]
-  EndStructureUnion  
+  EndStructureUnion
   
   CompilerIf #CompileWindows
     OldCallback.i ; to monitor gadget resizing events
@@ -53,38 +53,38 @@ Procedure DlgSplitter_ResizeChildren(*THIS.DlgSplitter)
       Height = GadgetHeight(*THIS\ChildGadget[i])
       
       ; no longer needed since 4.60
-;       CompilerIf #CompileLinux
-;         ; Even a borderless container adds a pixel offset on linux!
-;         Width  - 8
-;         Height - 8
-;       CompilerEndIf     
+      ;       CompilerIf #CompileLinux
+      ;         ; Even a borderless container adds a pixel offset on linux!
+      ;         Width  - 8
+      ;         Height - 8
+      ;       CompilerEndIf
       
       *THIS\Child[i]\SizeApply(0, 0, Width, Height)
     EndIf
-  Next i 
+  Next i
 EndProcedure
 
 CompilerIf #CompileWindows
-
+  
   Procedure DlgSplitter_ResizeCallback(Window, Message, wParam, lParam)
     *THIS.DlgSplitter = GetWindowLongPtr_(Window, #GWL_USERDATA)
-  
+    
     If Message = #WM_SIZE
       DlgSplitter_ResizeChildren(*THIS)
     EndIf
-  
+    
     ProcedureReturn CallWindowProc_(*THIS\OldCallback, Window, Message, wParam, lParam)
   EndProcedure
-
+  
 CompilerEndIf
 
 
 Procedure DlgSplitter_New(*StaticData.DialogObjectData)
   *THIS.DlgSplitter = AllocateMemory(SizeOf(DlgSplitter))
-
-  If *THIS  
+  
+  If *THIS
     *THIS\VTable     = ?DlgSplitter_VTable
-    *THIS\StaticData = *StaticData  
+    *THIS\StaticData = *StaticData
     
     ; Create 2 containers to put the childs in
     ;
@@ -94,12 +94,12 @@ Procedure DlgSplitter_New(*StaticData.DialogObjectData)
     *THIS\ChildGadget[1] = ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_BorderLess)
     CloseGadgetList()
     
-    *THIS\Gadget = SplitterGadget(*StaticData\Gadget, 0, 0, 0, 0, *THIS\ChildGadget[0], *THIS\ChildGadget[1], *StaticData\Flags)        
-
+    *THIS\Gadget = SplitterGadget(*StaticData\Gadget, 0, 0, 0, 0, *THIS\ChildGadget[0], *THIS\ChildGadget[1], *StaticData\Flags)
+    
     If *StaticData\Gadget <> #PB_Any
       *THIS\Gadget = *StaticData\Gadget
     EndIf
-        
+    
     Value$ = DialogObjectKey(*StaticData, "FIRSTMIN")
     If Value$ = "" Or UCase(Value$) = "REQUEST"
       *THIS\Minimum[0] = -1
@@ -118,7 +118,7 @@ Procedure DlgSplitter_New(*StaticData.DialogObjectData)
     
     If *StaticData\Flags & #PB_Splitter_Vertical
       *THIS\IsVertical = #True
-    EndIf    
+    EndIf
     
     CompilerIf #CompileWindows
       ;
@@ -126,7 +126,7 @@ Procedure DlgSplitter_New(*StaticData.DialogObjectData)
       ;
       SetWindowLongPtr_(GadgetID(*THIS\ChildGadget[0]), #GWL_USERDATA, *THIS) ; this field is not used by the lib
       *THIS\OldCallback = SetWindowLongPtr_(GadgetID(*THIS\ChildGadget[0]), #GWL_WNDPROC, @DlgSplitter_ResizeCallback())
-    CompilerEndIf    
+    CompilerEndIf
     
     ; Add any new gadgets inside the first child
     ;
@@ -148,11 +148,11 @@ Procedure DlgSplitter_SizeRequest(*THIS.DlgSplitter, *Width.LONG, *Height.LONG)
     EndIf
     
     ; no longer needed since 4.60
-;     CompilerIf #CompileLinux
-;       ; Even a borderless container adds a pixel offset on linux!
-;       *THIS\RequestedWidth[i]  + 8
-;       *THIS\RequestedHeight[i] + 8
-;     CompilerEndIf    
+    ;     CompilerIf #CompileLinux
+    ;       ; Even a borderless container adds a pixel offset on linux!
+    ;       *THIS\RequestedWidth[i]  + 8
+    ;       *THIS\RequestedHeight[i] + 8
+    ;     CompilerEndIf
     
     If *THIS\Minimum[i] = -1
       If *THIS\IsVertical
@@ -187,7 +187,7 @@ Procedure DlgSplitter_SizeRequest(*THIS.DlgSplitter, *Width.LONG, *Height.LONG)
     *Width\l  = Max(*THIS\RequestedWidth[0], *THIS\RequestedWidth[0])
     *Height\l = *THIS\RequestedHeight[0] + *THIS\RequestedHeight[1] + SplitterWidth
   EndIf
- 
+  
   *Width\l  = Max(*Width\l,  *THIS\StaticData\MinWidth)
   *Height\l = Max(*Height\l, *THIS\StaticData\MinHeight)
 EndProcedure
@@ -199,12 +199,12 @@ EndProcedure
 
 Procedure DlgSplitter_AddChild(*THIS.DlgSplitter, Child.DialogObject)
   If *THIS\NbChilds >= 2
-    CompilerIf #PB_Compiler_Debugger     
-      MessageRequester("Dialog Manager", "Object can only hold two childs !")    
+    CompilerIf #PB_Compiler_Debugger
+      MessageRequester("Dialog Manager", "Object can only hold two childs !")
     CompilerEndIf
     
     ProcedureReturn
-  EndIf      
+  EndIf
   
   index = *THIS\NbChilds
   *THIS\NbChilds + 1
@@ -213,7 +213,7 @@ Procedure DlgSplitter_AddChild(*THIS.DlgSplitter, Child.DialogObject)
   ;   first OpenGadgetList() is in DlgSplitter_New() and we do the close here
   ;
   ; close the gadgetlist of the current child
-  CloseGadgetList()   
+  CloseGadgetList()
   
   ; open the gadgetlist of the next child (if any)
   If *THIS\NbChilds < 2
@@ -221,7 +221,7 @@ Procedure DlgSplitter_AddChild(*THIS.DlgSplitter, Child.DialogObject)
   EndIf
   
   *THIS\Child[index] = Child
-  *THIS\ChildData[index]\Parent = *THIS 
+  *THIS\ChildData[index]\Parent = *THIS
 EndProcedure
 
 Procedure DlgSplitter_Find(*THIS.DlgSplitter, Name$)
@@ -234,7 +234,7 @@ Procedure DlgSplitter_Find(*THIS.DlgSplitter, Name$)
     If Result <> 0
       ProcedureReturn Result
     EndIf
-  Next i  
+  Next i
 EndProcedure
 
 
@@ -250,24 +250,24 @@ Procedure DlgSplitter_Destroy(*THIS.DlgSplitter)
   For i = 0 To *THIS\NbChilds-1
     *THIS\Child[i]\Destroy()
   Next i
-
+  
   FreeMemory(*THIS)
 EndProcedure
 
 DataSection
-
+  
   DlgSplitter_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgSplitter_SizeRequest()
-    Data.i @DlgSplitter_SizeApply()
-    Data.i @DlgSplitter_AddChild()
-    Data.i @DlgBase_FoldApply()
-    Data.i @DlgSplitter_Find()
-    Data.i @DlgBase_Finish()
-    Data.i @DlgSplitter_Update()
-    Data.i @DlgSplitter_Destroy()
-
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgSplitter_SizeRequest()
+  Data.i @DlgSplitter_SizeApply()
+  Data.i @DlgSplitter_AddChild()
+  Data.i @DlgBase_FoldApply()
+  Data.i @DlgSplitter_Find()
+  Data.i @DlgBase_Finish()
+  Data.i @DlgSplitter_Update()
+  Data.i @DlgSplitter_Destroy()
+  
+  
 EndDataSection
 
 

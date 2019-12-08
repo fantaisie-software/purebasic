@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -12,7 +12,7 @@ XIncludeFile "Object_BinBase.pb"
 ;
 ; Accepted keys in the XML:
 ;
-;   All accepted by DlgBinBase 
+;   All accepted by DlgBinBase
 ;
 ;   The Childs will always get the size they ask for, exept if scrolling is set to one
 ;   direction only and the gadget cannot grow.
@@ -45,9 +45,9 @@ Procedure DlgScroll_New(*StaticData.DialogObjectData)
   If *THIS
     *THIS\VTable      = ?DlgScroll_VTable
     *THIS\StaticData  = *StaticData
-    *THIS\HasTitle    = #False ; for DlgBinBase_Update()    
+    *THIS\HasTitle    = #False ; for DlgBinBase_Update()
     *THIS\InnerWidth  = Val(DialogObjectKey(*StaticData, "INNERWIDTH"))
-    *THIS\InnerHeight = Val(DialogObjectKey(*StaticData, "INNERHEIGHT"))   
+    *THIS\InnerHeight = Val(DialogObjectKey(*StaticData, "INNERHEIGHT"))
     
     Value$ = DialogObjectKey(*StaticData, "STEP")
     If Value$
@@ -66,14 +66,14 @@ Procedure DlgScroll_New(*StaticData.DialogObjectData)
     EndIf
     
     DisableDebugger
-      *THIS\Gadget = ScrollAreaGadget(*StaticData\Gadget, 0, 0, 0, 0, *THIS\InnerWidth, *THIS\InnerHeight, ScrollStep, *StaticData\Flags)
+    *THIS\Gadget = ScrollAreaGadget(*StaticData\Gadget, 0, 0, 0, 0, *THIS\InnerWidth, *THIS\InnerHeight, ScrollStep, *StaticData\Flags)
     EnableDebugger
-
+    
     If *StaticData\Gadget <> -1
       *THIS\Gadget = *StaticData\Gadget
     EndIf
     
-    DlgBinBase_GetOptions(*THIS) ; read all the margin etc options    
+    DlgBinBase_GetOptions(*THIS) ; read all the margin etc options
   EndIf
   
   ProcedureReturn *THIS
@@ -84,10 +84,10 @@ EndProcedure
 Procedure DlgScroll_SizeRequest(*THIS.DlgScroll, *Width.LONG, *Height.LONG)
   *THIS\RequestedWidth  = 0
   *THIS\RequestedHeight = 0
-
+  
   If *THIS\Child
-    *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)    
-  EndIf  
+    *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
+  EndIf
   
   ; TODO: maybe measure the real sizes of the scrollbars
   If *THIS\Scrolling = #DlgScroll_Vertical
@@ -123,31 +123,31 @@ Procedure DlgScroll_SizeApply(*THIS.DlgScroll, x, y, Width, Height)
   If *THIS\InnerHeight <> -1
     SetGadgetAttribute(*THIS\Gadget, #PB_ScrollArea_InnerHeight, AreaHeight)
   EndIf
-
-  If *THIS\Child      
+  
+  If *THIS\Child
     x = 0
     y = 0
     Width  = AreaWidth
-    Height = AreaHeight      
-    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)      
+    Height = AreaHeight
+    DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)
     *THIS\Child\SizeApply(x, y, Width, Height)
-  EndIf  
+  EndIf
   
 EndProcedure
 
 
 
 DataSection
-
+  
   DlgScroll_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgScroll_SizeRequest()
-    Data.i @DlgScroll_SizeApply()
-    Data.i @DlgBinBase_AddChild()
-    Data.i @DlgBinBase_FoldApply()
-    Data.i @DlgBinBase_Find()
-    Data.i @DlgBinBase_Finish()
-    Data.i @DlgBinBase_Update()
-    Data.i @DlgBinBase_Destroy()
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgScroll_SizeRequest()
+  Data.i @DlgScroll_SizeApply()
+  Data.i @DlgBinBase_AddChild()
+  Data.i @DlgBinBase_FoldApply()
+  Data.i @DlgBinBase_Find()
+  Data.i @DlgBinBase_Finish()
+  Data.i @DlgBinBase_Update()
+  Data.i @DlgBinBase_Destroy()
+  
 EndDataSection

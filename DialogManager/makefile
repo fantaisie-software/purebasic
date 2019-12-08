@@ -5,13 +5,13 @@
 TARGET = $(PB_BUILDTARGET)/dialogcompiler
 
 ifeq ($(PB_WINDOWS),1)
-  PBCOMPILER = $(PUREBASIC_HOME)/Compilers/PBCompiler /QUIET
-  MAKEEXE = /EXE
-  DIALOGCOMPILER = $(TARGET)/DialogCompiler.exe
+	PBCOMPILER = $(PUREBASIC_HOME)/Compilers/PBCompiler /QUIET
+	MAKEEXE = /EXE
+	DIALOGCOMPILER = $(TARGET)/DialogCompiler.exe
 else
-  PBCOMPILER = $(PUREBASIC_HOME)/compilers/pbcompiler -q
-  MAKEEXE = -e
-  DIALOGCOMPILER = $(TARGET)/dialogcompiler
+	PBCOMPILER = $(PUREBASIC_HOME)/compilers/pbcompiler -q
+	MAKEEXE = -e
+	DIALOGCOMPILER = $(TARGET)/dialogcompiler
 endif
 
 

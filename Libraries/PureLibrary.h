@@ -65,9 +65,9 @@
 #ifdef __cplusplus
   #define M_C_LINKAGE extern "C"
 #else
-  #define M_C_LINKAGE 
+  #define M_C_LINKAGE
 #endif
-    
+
 // A small helper to simplify sharing headers between C/C++
 // Replaces a C++ type with "void" if compiled with C. Only useful with pointer types.
 //
@@ -76,16 +76,16 @@
 #else
   #define M_CPP(type) void
 #endif
-  
+
 #ifdef WINDOWS
 
   // Warning, need to fix the float.h header for _longDouble (move the _longDouble on the 'struct' line)
-	//
+  //
   #undef __STRLEN  // To disable the nasty LCC StrLen optim
 
-	#ifndef WINVER
-	  #define WINVER 0x0400 // Use the headers for WIN95 and up (important for NT4.0 compatibility and the Menu lib for example)
-	#endif
+  #ifndef WINVER
+    #define WINVER 0x0400 // Use the headers for WIN95 and up (important for NT4.0 compatibility and the Menu lib for example)
+  #endif
 
   #include <stdio.h>
   #include <windows.h>
@@ -106,7 +106,7 @@
 
   // Special macro to define a static GUID
   #define DEFINE_GUID_PB(name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8) static GUID name = { l,w1,w2,{ b1,b2,b3,b4,b5,b6,b7,b8}}
-    
+
   #define PB_LITTLE_ENDIAN
 
   // mutex stuff
@@ -134,19 +134,19 @@
   #define M_INSTANCE HINSTANCE
   #define M_INLINE(type) static __inline type
   #ifdef X86
-	  #define M_PBFUNCTION(type) M_C_LINKAGE type _stdcall
-		#define M_PBVIRTUAL _stdcall
-		#define M_SYSFUNCTION(type) M_C_LINKAGE type _stdcall
+    #define M_PBFUNCTION(type) M_C_LINKAGE type _stdcall
+    #define M_PBVIRTUAL _stdcall
+    #define M_SYSFUNCTION(type) M_C_LINKAGE type _stdcall
     #define M_SYSVIRTUAL _stdcall
-		#define M_CALLBACK M_C_LINKAGE int _stdcall
-	#else // X64 doesn't have several calling convetion
-	  #define M_PBFUNCTION(type) M_C_LINKAGE type
-		#define M_PBVIRTUAL
-		#define M_SYSFUNCTION(type) M_C_LINKAGE type
+    #define M_CALLBACK M_C_LINKAGE int _stdcall
+  #else // X64 doesn't have several calling convetion
+    #define M_PBFUNCTION(type) M_C_LINKAGE type
+    #define M_PBVIRTUAL
+    #define M_SYSFUNCTION(type) M_C_LINKAGE type
     #define M_SYSVIRTUAL
-		#define M_CALLBACK M_C_LINKAGE int
-	#endif
- // removed the extern
+    #define M_CALLBACK M_C_LINKAGE int
+  #endif
+  // removed the extern
   #define M_FILE_ERROR (HANDLE)INVALID_HANDLE_VALUE
 
   // defines the extra Options for Gadget virtual functions. (to make changes easier in the future)
@@ -160,10 +160,10 @@
   #define M_OpenFileSequential(filename) (HANDLE)CreateFile(filename, GENERIC_READ, FILE_SHARE_WRITE | FILE_SHARE_READ | FILE_SHARE_DELETE, 0, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, 0)
   #define M_CreateFile(filename)         (HANDLE)CreateFile(filename, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0)
   #define M_Lof(result, file)            result = GetFileSize(file, 0)
-	#define M_Seek(File, Position)         SetFilePointer(File, Position, 0, FILE_BEGIN);
+  #define M_Seek(File, Position)         SetFilePointer(File, Position, 0, FILE_BEGIN);
   #define M_SeekQuad(File, Position)     SetFilePointer(File, ((int *)&Position)[0], ((int *)&Position)+1, FILE_BEGIN);
- 	#define M_RelativeSeek(File, Position) { LARGE_INTEGER __LargeInteger; __LargeInteger.QuadPart = Position; SetFilePointer(File, __LargeInteger.LowPart, &__LargeInteger.HighPart, FILE_CURRENT); } // If we don't specify the HighPosition, it fails to seek relative on > 4GB files !
- 	
+  #define M_RelativeSeek(File, Position) { LARGE_INTEGER __LargeInteger; __LargeInteger.QuadPart = Position; SetFilePointer(File, __LargeInteger.LowPart, &__LargeInteger.HighPart, FILE_CURRENT); } // If we don't specify the HighPosition, it fails to seek relative on > 4GB files !
+
   #define M_SetCurrentDirectory(path)    SetCurrentDirectory(path)
   #define M_CloseFile(file)              CloseHandle(file)
   #define M_DeleteFile(filename)         DeleteFile((TCHAR *)filename)
@@ -182,7 +182,7 @@
   #define M_CopyMemory(destination, source, size) CopyMemory(destination, source, size);
   #define M_MoveMemory(destination, source, size) memmove(destination, source, size);
 
-	// Unused on Windows as the API is unicode compliant
+  // Unused on Windows as the API is unicode compliant
   #define StringToFilename(a)
   #define FreeFilename(a)
 
@@ -191,11 +191,11 @@
   #define M_CreateThread(Result, StackSize, ThreadRoutine, UserData) { \
         HANDLE Handle; \
         DWORD ThreadID; \
-      	if (Handle = CreateThread(0, StackSize, ThreadRoutine, UserData, 0, &ThreadID)) \
-      	{ \
-      	  CloseHandle(Handle); \
-      	  Result = 1; \
-      	} \
+        if (Handle = CreateThread(0, StackSize, ThreadRoutine, UserData, 0, &ThreadID)) \
+        { \
+          CloseHandle(Handle); \
+          Result = 1; \
+        } \
       }
 
   #ifdef X64
@@ -206,7 +206,7 @@
   // define this also in non-unicode mode, as it is needed in some places
   #define CP_UTF8 65001
 
-	#ifdef UNICODE
+  #ifdef UNICODE
     #ifndef NO_UNICODE_ALIASES
       #undef strlen
       #define strlen wcslen
@@ -217,11 +217,11 @@
       #undef strcmp
       #define strcmp wcscmp
 
-    	// Once more LCC redefine the _wcsicmp so we have to workaround it..
+      // Once more LCC redefine the _wcsicmp so we have to workaround it..
 
       #if !defined(PELLES) && !defined(VISUALC)
         #undef _wcsicmp
-      	int  _wcsicmp(const wchar_t *, const wchar_t *);
+        int  _wcsicmp(const wchar_t *, const wchar_t *);
       #endif
 
       #undef stricmp
@@ -238,13 +238,13 @@
 
       #undef strncpy
       #define strncpy wcsncpy
-      
+
       #undef strdup
       #define strdup _wcsdup
 
       #undef strchr
       #define strchr wcschr
-      
+
       #undef strstr
       #define strstr wcsstr
 
@@ -288,7 +288,7 @@
       #define strdup _strdup
       #define snprintf _snprintf
     #endif
-    
+
     // used in some libs (Mail) directly
     #define wcsicmp _wcsicmp
     #define swprintf pb_swprintf
@@ -359,7 +359,7 @@
   #ifndef NO_WCHAR_T_ALIAS
     #define wchar_t pb_wchar_t
     #define rune_t pb_rune_t
-      
+
     #define wcscat   pb_wcscat
     #define wcschr   pb_wcschr
     #define wcscmp   pb_wcscmp
@@ -548,7 +548,7 @@
       #define M_AllocateCFString(Text)               CFStringCreateWithCString(0, Text, kCFStringEncodingISOLatin1)
       #define M_AllocateCFStringLength(Text, Length) CFStringCreateWithBytes(kCFAllocatorDefault, (const UInt8 *)Text, Length, kCFStringEncodingISOLatin1, false)
     #endif
-    
+
     // Can't be put in PureLibrary.h as it needs to be after the Carbon includes
     #ifndef CGFLOAT_DEFINED
       #if defined(__LP64__) && __LP64__
@@ -564,7 +564,7 @@
       #endif    /* !defined(__LP64__) || !__LP64__ */
       #define CGFLOAT_DEFINED 1
     #endif
-    
+
   #endif
 
   // mutex stuff
@@ -612,9 +612,9 @@
   #define M_CreateFile(filename) fopen((char *)filename, "w+")
   #define M_Lof(result, file) { struct stat StatBuffer; fflush(file); fstat(fileno(file), &StatBuffer); result = StatBuffer.st_size; }
   // Note: ftell & fseek do not properly map to 64bit types on x86, so use ftello & fseeko instead
- 	#define M_Seek(File, Position) fseeko(File, Position, SEEK_SET);
- 	#define M_SeekQuad(File, Position) fseeko(File, Position, SEEK_SET);
-	#define M_RelativeSeek(File, Position) fseeko(File, Position, SEEK_CUR);
+  #define M_Seek(File, Position) fseeko(File, Position, SEEK_SET);
+  #define M_SeekQuad(File, Position) fseeko(File, Position, SEEK_SET);
+  #define M_RelativeSeek(File, Position) fseeko(File, Position, SEEK_CUR);
 
   #define M_SetCurrentDirectory(path)
   #define M_CloseFile(file)      fclose(file)
@@ -671,15 +671,15 @@
 #include <wctype.h>
 
 #ifdef PB_MACOS
-	// MacOS weirdness (10.3 mostly):
-	// It redefines these to __towupper() after defining them normally,
-	// which totally messes up, probably due to an optimisation. so undef them as a fix.
-	//
-	// doesn't OSX just suck sometimes ? So much for the nice comment :p
+  // MacOS weirdness (10.3 mostly):
+  // It redefines these to __towupper() after defining them normally,
+  // which totally messes up, probably due to an optimisation. so undef them as a fix.
+  //
+  // doesn't OSX just suck sometimes ? So much for the nice comment :p
   #undef towupper
-	#undef towlower
-	#undef toupper
-	#undef tolower
+  #undef towlower
+  #undef toupper
+  #undef tolower
 #endif
 
 // Define the StringBase.h functions
@@ -789,7 +789,7 @@ int   PB_SimpleList_Count   (void *FirstElement);
 void  PB_SimpleList_Clear   (void *FirstElement);
 
 #ifdef LINUX
-	typedef integer (*FARPROC)();  // To have a function pointer as under Windows
+  typedef integer (*FARPROC)();  // To have a function pointer as under Windows
 #endif
 
 extern M_INSTANCE PB_Instance;
@@ -799,12 +799,12 @@ extern int  *PB_MemoryBase;
  * PowerPC = big endian
  * x86     = little endian
  */
- 
+
 // Force a swap
 #define M_SwapShort(Number) ((((Number) << 8) & 0xFF00) | ((Number) >> 8))
 #define M_SwapInt(Number)   (((Number) << 24) | (((Number) << 8) & 0x00FF0000) | (((Number) >> 8) & 0x0000FF00) | (((Number) >> 24) & 0x000000FF))
 
-// Swap only if big endian 
+// Swap only if big endian
 #ifdef PB_LITTLE_ENDIAN
   #define M_Short(Number) Number
   #define M_Int(Number)   Number

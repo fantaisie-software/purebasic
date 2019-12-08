@@ -24,16 +24,16 @@
  * - Independent from the Debugger, can be used anywhere
  */
 
-typedef struct 
+typedef struct
 {
   const char *Key;
   const char *Value;
 } PB_LangageItem;
 
-// Set the default language values. 
+// Set the default language values.
 //
 // Table is a string table, in pairs "key", "value", must be a static buffer (will not be copied)
-// Spechial keys: 
+// Spechial keys:
 //    "_GROUP_" to start a new group
 //    "_END_"   to end the language table
 //

@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -35,7 +35,7 @@ CompilerIf #CompileWindows = 0
   EndImport
   
   Global AutomationSocket = #SOCKET_ERROR
-  Global AutomationSocketFile$     
+  Global AutomationSocketFile$
   Global NewList AutomationClient()
 CompilerEndIf
 
@@ -71,18 +71,18 @@ EndProcedure
 ; Received an (already decoded) RPC_Call and must fill it with response data
 ;
 Procedure AutomationRequest(*Call.RPC_Call, ClientID)
-
+  
   CompilerIf #DEBUG
     RPC_DebugCall(*Call, "Automation Request")
   CompilerEndIf
-
-  Select *Call\Function$ ; name is case sensitive
   
-    ; On Linux/OSX, the client just connects to all available IDE instances
-    ; and uses the following command to identify the correct one
-    ;
-    CompilerIf #CompileWindows = 0
-    
+  Select *Call\Function$ ; name is case sensitive
+      
+      ; On Linux/OSX, the client just connects to all available IDE instances
+      ; and uses the following command to identify the correct one
+      ;
+      CompilerIf #CompileWindows = 0
+        
       Case "Identify"
         RPC_InitResponse(*Call, 4, #False)
         RPC_SetLong(*Call, 0, AsciiConst('A', 'U', 'T', '1')) ; identify "protocol" version
@@ -90,14 +90,14 @@ Procedure AutomationRequest(*Call.RPC_Call, ClientID)
         RPC_SetLong(*Call, 2, getpid_())
         RPC_SetQuad(*Call, 3, WindowID(#WINDOW_Main)) ; for x64 compatibility
         
-    CompilerEndIf  
-  
+      CompilerEndIf
+      
     Case "RegisterEvent"
       Event$ = RPC_GetString(*Call, 0)
       AddElement(AutomationEvent(Event$)\Client())
       AutomationEvent(Event$)\Client() = ClientID
       AutomationVoid(*Call)
-    
+      
     Case "UnregisterEvent"
       Event$ = RPC_GetString(*Call, 0)
       If FindMapElement(AutomationEvent(), Event$)
@@ -109,7 +109,7 @@ Procedure AutomationRequest(*Call.RPC_Call, ClientID)
         Next AutomationEvent()\Client()
       EndIf
       AutomationVoid(*Call)
-;   
+      ;
     Case "MenuCommand"
       Command$ = UCase(RPC_GetString(*Call, 0))
       MenuItem = -1
@@ -142,64 +142,64 @@ Procedure AutomationRequest(*Call.RPC_Call, ClientID)
         AutomationVoid(*Call)
       EndIf
       
-    
       
       
-  
-    ; this is for simple debugging only
-;     Case "SayHello"
-;       Name$ = RPC_GetString(*Call, 0)
-;       RPC_InitResponse(*Call, 1)
-;       RPC_SetString(*Call, 0, "Hello '"+Name$+"' !")
-  
+      
+      
+      ; this is for simple debugging only
+      ;     Case "SayHello"
+      ;       Name$ = RPC_GetString(*Call, 0)
+      ;       RPC_InitResponse(*Call, 1)
+      ;       RPC_SetString(*Call, 0, "Hello '"+Name$+"' !")
+      
     Default
       AutomationError(*Call, "Invalid request.")
-  
+      
   EndSelect
   
   CompilerIf #DEBUG
     RPC_DebugCall(*Call, "Automation Response")
   CompilerEndIf
-
+  
 EndProcedure
 
 ; Currently nothing to do here on Windows
 Procedure InitAutomation()
-;   CompilerIf #CompileWindows = 0
-;     ; Unix domain sockets operate on a pseudofile, and since we can have multiple
-;     ; IDE instances running, try multiple times with different names
-;     ;
-;     For i = 0 To 20
-;       AutomationSocketFile$ = "/tmp/.pb-automation-" + Str(Random(10000))
-;       AutomationSocket = DomainSocket_Create(AutomationSocketFile$)
-;       If AutomationSocket <> #SOCKET_ERROR
-;         ; success
-;         Break
-;       EndIf
-;     Next i
-;     
-;   CompilerEndIf
+  ;   CompilerIf #CompileWindows = 0
+  ;     ; Unix domain sockets operate on a pseudofile, and since we can have multiple
+  ;     ; IDE instances running, try multiple times with different names
+  ;     ;
+  ;     For i = 0 To 20
+  ;       AutomationSocketFile$ = "/tmp/.pb-automation-" + Str(Random(10000))
+  ;       AutomationSocket = DomainSocket_Create(AutomationSocketFile$)
+  ;       If AutomationSocket <> #SOCKET_ERROR
+  ;         ; success
+  ;         Break
+  ;       EndIf
+  ;     Next i
+  ;
+  ;   CompilerEndIf
 EndProcedure
 
 Procedure ShutdownAutomation()
-;   CompilerIf #CompileWindows = 0
-;     If AutomationSocket <> #SOCKET_ERROR
-;       ForEach AutomationClient()
-;         DomainSocket_Close(AutomationClient())
-;       Next AutomationClient()
-;       ClearList(AutomationClient())
-;     
-;       DomainSocket_Close(AutomationSocket)
-;       DeleteFile(AutomationSocketFile$)
-;       AutomationSocket = #SOCKET_ERROR
-;     EndIf
-;   CompilerEndIf
+  ;   CompilerIf #CompileWindows = 0
+  ;     If AutomationSocket <> #SOCKET_ERROR
+  ;       ForEach AutomationClient()
+  ;         DomainSocket_Close(AutomationClient())
+  ;       Next AutomationClient()
+  ;       ClearList(AutomationClient())
+  ;
+  ;       DomainSocket_Close(AutomationSocket)
+  ;       DeleteFile(AutomationSocketFile$)
+  ;       AutomationSocket = #SOCKET_ERROR
+  ;     EndIf
+  ;   CompilerEndIf
 EndProcedure
 
 
 
 CompilerIf #CompileWindows = 0
-
+  
   ; Communication via unix domain sockets
   ;
   Procedure ProcessAutomationRequest()
@@ -208,9 +208,9 @@ CompilerIf #CompileWindows = 0
     
     ; not used yet
     ProcedureReturn 0
-  
-    If AutomationSocket <> #SOCKET_ERROR
     
+    If AutomationSocket <> #SOCKET_ERROR
+      
       ; Check for new connections
       ;
       Repeat
@@ -239,7 +239,7 @@ CompilerIf #CompileWindows = 0
             
             Size = PeekL(*Buffer)
             If RPC_Decode(@Call, *Buffer, Size, #False) ; do not copy, Call takes ownership of the buffer
-              ; process the decoded request   
+                                                        ; process the decoded request
               AutomationRequest(@Call, AutomationClient())
               
               ; encode the response
@@ -261,62 +261,62 @@ CompilerIf #CompileWindows = 0
           Break
         EndIf
       Next AutomationClient()
-    
+      
     EndIf
-  
+    
   EndProcedure
-
+  
 CompilerElse
-
+  
   Global *CurrentAutomationCall.RPC_Call
   Global AutomationCallComplete
   
-
+  
   ; The communication is done via WM_COPYDATA messages on Windows, which
   ; is quite simple on the IDE side
   ;
   Procedure ProcessAutomationRequest(WindowID, *copy.COPYDATASTRUCT)
-;     Protected Call.RPC_Call
-;     Protected *WaitingCall.RPC_Call
-;   
-;     If *copy\dwData = 'AUT1' And RPC_Decode(@Call, *copy\lpData, *copy\cbData)
-;     
-;       If Call\IsResponse
-;         ; response to an event
-;         ;
-;         CopyStructure(*CurrentAutomationCall, @Call, RPC_Call)
-;         AutomationCallComplete = #True
-;         
-;       Else
-;         ; request from client
-;         *WaitingCall = *CurrentAutomationCall ; store this locally, to allow nested events/calls
-;     
-;         ; process the decoded request   
-;         AutomationRequest(@Call, WindowID)
-;         
-;         ; encode the response
-;         If RPC_Encode(@Call)
-;           ; send result
-;           response.COPYDATASTRUCT\dwData = 'AUT1'
-;           response\cbData = Call\EncodedSize
-;           response\lpData = Call\Encoded      
-;           
-;           ; Use a timeout to he protected from hung client programs
-;           ;          
-;           If SendMessageTimeout_(WindowID, #WM_COPYDATA, WindowID(#WINDOW_Main), @response, #SMTO_ABORTIFHUNG|#SMTO_NORMAL, 5000, @MessageResult) = 0
-;             MessageRequester(#ProductName$,Language("Misc","AutomationTimeout"), #FLAG_Error)
-;           EndIf
-;         EndIf        
-;         RPC_ClearCall(@Call)
-;         
-;         *CurrentAutomationCall = *WaitingCall
-;         AutomationCallComplete = #False
-;         
-;       EndIf
-;             
-;     EndIf
+    ;     Protected Call.RPC_Call
+    ;     Protected *WaitingCall.RPC_Call
+    ;
+    ;     If *copy\dwData = 'AUT1' And RPC_Decode(@Call, *copy\lpData, *copy\cbData)
+    ;
+    ;       If Call\IsResponse
+    ;         ; response to an event
+    ;         ;
+    ;         CopyStructure(*CurrentAutomationCall, @Call, RPC_Call)
+    ;         AutomationCallComplete = #True
+    ;
+    ;       Else
+    ;         ; request from client
+    ;         *WaitingCall = *CurrentAutomationCall ; store this locally, to allow nested events/calls
+    ;
+    ;         ; process the decoded request
+    ;         AutomationRequest(@Call, WindowID)
+    ;
+    ;         ; encode the response
+    ;         If RPC_Encode(@Call)
+    ;           ; send result
+    ;           response.COPYDATASTRUCT\dwData = 'AUT1'
+    ;           response\cbData = Call\EncodedSize
+    ;           response\lpData = Call\Encoded
+    ;
+    ;           ; Use a timeout to he protected from hung client programs
+    ;           ;
+    ;           If SendMessageTimeout_(WindowID, #WM_COPYDATA, WindowID(#WINDOW_Main), @response, #SMTO_ABORTIFHUNG|#SMTO_NORMAL, 5000, @MessageResult) = 0
+    ;             MessageRequester(#ProductName$,Language("Misc","AutomationTimeout"), #FLAG_Error)
+    ;           EndIf
+    ;         EndIf
+    ;         RPC_ClearCall(@Call)
+    ;
+    ;         *CurrentAutomationCall = *WaitingCall
+    ;         AutomationCallComplete = #False
+    ;
+    ;       EndIf
+    ;
+    ;     EndIf
   EndProcedure
-
+  
   
   Procedure SendAutomationEvent(*Call.RPC_Call, ChainClients = #False)
     Success = 0
@@ -324,20 +324,20 @@ CompilerElse
     If FindMapElement(AutomationEvent(), *Call\Function$)
       CompilerIf #DEBUG
         RPC_DebugCall(*Call, "Automation Event")
-      CompilerEndIf       
-    
-      ForEach AutomationEvent()\Client()
-     
+      CompilerEndIf
       
+      ForEach AutomationEvent()\Client()
+        
+        
         If RPC_Encode(*Call)
           request.COPYDATASTRUCT\dwData = AsciiConst('A', 'U', 'T', '1')
           request\cbData = *Call\EncodedSize
-          request\lpData = *Call\Encoded            
-        
+          request\lpData = *Call\Encoded
+          
           *CurrentAutomationCall = *Call
           AutomationCallComplete = #False
           
-          If SendMessageTimeout_(AutomationEvent()\Client(), #WM_COPYDATA, WindowID(#WINDOW_Main), @request, #SMTO_ABORTIFHUNG|#SMTO_NORMAL, 5000, @MessageResult) = 0             
+          If SendMessageTimeout_(AutomationEvent()\Client(), #WM_COPYDATA, WindowID(#WINDOW_Main), @request, #SMTO_ABORTIFHUNG|#SMTO_NORMAL, 5000, @MessageResult) = 0
             MessageRequester(#ProductName$,Language("Misc","AutomationTimeout"), #FLAG_Error)
             Success = #False
             Break
@@ -347,7 +347,7 @@ CompilerElse
             Break
             
           Else
-            Success = #True              
+            Success = #True
             
             ; If ChainClients is set, the response from the first client is sent to further clients
             ; (so Call & Response must have the same signature
@@ -355,19 +355,19 @@ CompilerElse
               Break
             EndIf
             
-          EndIf    
-        EndIf      
-                  
+          EndIf
+        EndIf
+        
       Next AutomationEvent()\Client()
       
       CompilerIf #DEBUG
         RPC_DebugCall(*Call, "Automation Event (Response)")
-      CompilerEndIf 
+      CompilerEndIf
     EndIf
-           
+    
     ProcedureReturn Success
   EndProcedure
-
+  
 CompilerEndIf
 
 
@@ -375,21 +375,21 @@ CompilerEndIf
 ;
 
 Procedure AutomationEvent_AutoComplete(List Elements.s())
-;   Protected Call.RPC_Call
-;   If IsAutomationEventClient("AutoComplete")  
-;     RPC_InitCall(@Call, "AutoComplete", ListSize(Elements()))
-;     ForEach Elements()
-;       RPC_SetString(@Call, ListIndex(Elements()), Elements())
-;     Next Elements()
-;     
-;     If SendAutomationEvent(@Call, #True)
-;       ClearList(Elements())
-;       For i = 0 To Call\NbParameters-1
-;         AddElement(Elements())
-;         Elements() = RPC_GetString(@Call, i)
-;       Next i
-;     EndIf
-;     RPC_ClearCall(@Call)
-;   EndIf
+  ;   Protected Call.RPC_Call
+  ;   If IsAutomationEventClient("AutoComplete")
+  ;     RPC_InitCall(@Call, "AutoComplete", ListSize(Elements()))
+  ;     ForEach Elements()
+  ;       RPC_SetString(@Call, ListIndex(Elements()), Elements())
+  ;     Next Elements()
+  ;
+  ;     If SendAutomationEvent(@Call, #True)
+  ;       ClearList(Elements())
+  ;       For i = 0 To Call\NbParameters-1
+  ;         AddElement(Elements())
+  ;         Elements() = RPC_GetString(@Call, i)
+  ;       Next i
+  ;     EndIf
+  ;     RPC_ClearCall(@Call)
+  ;   EndIf
 EndProcedure
 

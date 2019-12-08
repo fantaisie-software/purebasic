@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -23,7 +23,7 @@ XIncludeFile "Common.pb"
 ;
 ; invisible = yes/no (default) - only for real gadgets/windows
 ; disabled  = yes/no (default) - only for real gadgets/windows
-; 
+;
 ; folded = yes/no (default)
 ;          Every object can be folded (completly hidden and taking up no space)
 ;          It can be done with this tag or with the Window\Fold() command
@@ -42,12 +42,12 @@ XIncludeFile "Common.pb"
 ;
 Structure DlgBase
   *VTable
-    
-  *StaticData.DialogObjectData  
+  
+  *StaticData.DialogObjectData
   *Parent.DlgBase
   
   Gadget.i          ; for Gadgets
-  Folded.l          ; applyable to all object types                    
+  Folded.l          ; applyable to all object types
 EndStructure
 
 
@@ -64,13 +64,13 @@ Procedure.s DialogObjectText(*StaticData.DialogObjectData)
   *Pointer = *StaticData + SizeOf(DialogObjectData)
   *Pointer + (MemoryStringLength(*Pointer) + 1) * SizeOf(Character) ; Skip Object Name field
   Literal$ = PeekS(*Pointer): *Pointer + (Len(Literal$) + 1)  * SizeOf(Character)
-
+  
   ; Saveguard, so it can also be used in programs with no language support
   ;
   CompilerIf Defined(Language, #PB_Procedure)
     Group$ = PeekS(*Pointer): *Pointer + (Len(Group$) + 1) * SizeOf(Character)
     Key$   = PeekS(*Pointer)
-
+    
     If Key$ <> "" And Group$ <> ""
       ProcedureReturn Language(Group$, Key$) + Literal$
     EndIf
@@ -93,13 +93,13 @@ Procedure.s DialogObjectKey(*StaticData.DialogObjectData, Key$)
     For i = 1 To *StaticData\KeyCount
       If CompareMemoryString(@Key$, *Pointer, 1) = 0
         *Pointer + (MemoryStringLength(*Pointer) + 1) * SizeOf(Character) ; skip name
-        ProcedureReturn PeekS(*Pointer) ; return found value
+        ProcedureReturn PeekS(*Pointer)                                   ; return found value
       Else
         *Pointer + (MemoryStringLength(*Pointer) + 1) * SizeOf(Character) ; skip this pair
         *Pointer + (MemoryStringLength(*Pointer) + 1) * SizeOf(Character)
       EndIf
     Next i
-        
+    
   EndIf
   
   ProcedureReturn ""
@@ -148,7 +148,7 @@ Procedure DlgBase_SizeRequestWrapper(*THIS.DlgBase, *Width.LONG, *Height.LONG)
     If *THIS\StaticData\MinHeight = -1
       *Height\l = 0
     EndIf
-
+    
   EndIf
 EndProcedure
 
@@ -221,17 +221,17 @@ EndProcedure
 
 
 DataSection
-
+  
   DlgEmpty_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgBase_SizeRequest()
-    Data.i @DlgBase_SizeApply()
-    Data.i @DlgBase_AddChild()
-    Data.i @DlgBase_FoldApply()
-    Data.i @DlgBase_Find()
-    Data.i @DlgBase_Finish()
-    Data.i @DlgBase_Update()
-    Data.i @DlgBase_Destroy()
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgBase_SizeRequest()
+  Data.i @DlgBase_SizeApply()
+  Data.i @DlgBase_AddChild()
+  Data.i @DlgBase_FoldApply()
+  Data.i @DlgBase_Find()
+  Data.i @DlgBase_Finish()
+  Data.i @DlgBase_Update()
+  Data.i @DlgBase_Destroy()
+  
 EndDataSection
 

@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -7,7 +7,7 @@
 Global IsNewTool
 
 Procedure AddTools_AddMenuEntries()
-
+  
   ; do y count of the menu items to add:
   count = 0
   ForEach ToolsList()
@@ -17,12 +17,12 @@ Procedure AddTools_AddMenuEntries()
       EndIf
     EndIf
   Next ToolsList()
-
+  
   If count > 0
     MenuBar()
-
+    
     ForEach ToolsList()
-
+      
       If ToolsList()\DeactivateTool = 0
         If ToolsList()\Shortcut <> 0 And ToolsList()\Shortcut <> -1
           AddKeyboardShortcut(#WINDOW_Main, ToolsList()\Shortcut, #MENU_AddTools_Start+ListIndex(ToolsList()))
@@ -35,11 +35,11 @@ Procedure AddTools_AddMenuEntries()
           EndIf
         EndIf
       EndIf
-
+      
     Next ToolsList()
-
+    
   EndIf
-
+  
 EndProcedure
 
 
@@ -51,7 +51,7 @@ Procedure AddTools_SetEnvVar(List EnvVars.s(), Name$, Value$)
 EndProcedure
 
 Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
-
+  
   ; If it is not a project target, the *Target is extended by the SourceFile struct
   If CommandlineBuild = 0 And *Target And *Target\IsProject = 0 And *Target <> *ProjectInfo
     *Source.SourceFile = *Target
@@ -60,7 +60,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
   EndIf
   
   If Trim(ToolsList()\CommandLine$) <> ""
-  
+    
     ; for source specific tools we must check if the given source allows this tool
     ;
     If ToolsList()\SourceSpecific
@@ -77,18 +77,18 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
         ProcedureReturn
       EndIf
     EndIf
-
+    
     ToolArguments$ = ToolsList()\Arguments$
     If ToolArguments$ = ""
       If Trigger = #TRIGGER_FileViewer_All Or Trigger = #TRIGGER_FileViewer_Unknown Or Trigger = #TRIGGER_FileViewer_Special
         ToolArguments$ = Chr(34)+AddTools_File$+Chr(34)
       EndIf
-    
+      
     Else
-
+      
       Test$      = UCase(ToolsList()\Arguments$)
       File$      = ""
-
+      
       If FindString(Test$, "%FILE", 1)
         If Trigger = #TRIGGER_FileViewer_All Or Trigger = #TRIGGER_FileViewer_Unknown Or Trigger = #TRIGGER_FileViewer_Special
           ToolArguments$ = ReplaceString(ToolArguments$, "%FILE", AddTools_File$, 1)
@@ -96,15 +96,15 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
         ElseIf *Target = 0 Or *Target = *ProjectInfo Or *Target\FileName$ = ""
           ToolArguments$ = ReplaceString(ToolArguments$, "%FILE", "", 1)
           
-        ; do not extra save the source in these cases!
+          ; do not extra save the source in these cases!
         ElseIf Trigger = #TRIGGER_SourceSave Or Trigger = #TRIGGER_SourceLoad Or Trigger = #TRIGGER_SourceClose ; no current source, or not saved. for SaveSource, we cannot save again as it will be an endless loop!
-          ToolArguments$ = ReplaceString(ToolArguments$, "%FILE", *Target\FileName$, 1)          
-
+          ToolArguments$ = ReplaceString(ToolArguments$, "%FILE", *Target\FileName$, 1)
+          
         ElseIf CommandlineBuild = 0 And *Target = *ActiveSource
           File$ = *Target\FileName$
           
           *CurrentElement = ToolsList()
-          SaveSourceFile(File$) ; This can trigger other tool so we need to preserve our element 
+          SaveSourceFile(File$) ; This can trigger other tool so we need to preserve our element
           HistoryEvent(*ActiveSource, #HISTORY_Save)
           ChangeCurrentElement(ToolsList(), *CurrentElement)
           
@@ -115,14 +115,14 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
           
         EndIf
       EndIf
-
+      
       If FindString(Test$, "%TEMPFILE", 1)
         If Trigger = #TRIGGER_FileViewer_All Or Trigger = #TRIGGER_FileViewer_Unknown Or Trigger = #TRIGGER_FileViewer_Special
           ToolArguments$ = ReplaceString(ToolArguments$, "%TEMPFILE", "", 1)
-
+          
         ElseIf *Source = 0 Or *Source <> *ActiveSource ; no current source (ide start/end)
           ToolArguments$ = ReplaceString(ToolArguments$, "%TEMPFILE", "", 1)
-
+          
         Else
           File$ = TempPath$ + "TempFile" + #SourceFileExtension ; fallback
           For i = 0 To 10000
@@ -131,7 +131,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
               Break
             EndIf
           Next i
-
+          
           If SaveTempFile(File$)
             RegisterDeleteFile(File$) ; register for deletion at IDE end
             ToolArguments$ = ReplaceString(ToolArguments$, "%TEMPFILE", File$, 1)
@@ -140,7 +140,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
           EndIf
         EndIf
       EndIf
-
+      
       If FindString(Test$, "%COMPILEFILE", 1)
         If Trigger = #TRIGGER_BeforeCompile Or Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_BeforeCreateExe Or Trigger = #TRIGGER_AfterCreateExe
           ToolArguments$ = ReplaceString(ToolArguments$, "%COMPILEFILE", AddTools_CompiledFile$, 1)
@@ -148,9 +148,9 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
           ToolArguments$ = ReplaceString(ToolArguments$, "%COMPILEFILE", "", 1)
         EndIf
       EndIf
-
+      
       If FindString(Test$, "%EXECUTABLE", 1)
-        If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_AfterCreateExe Or Trigger = #TRIGGER_ProgramRun        
+        If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_AfterCreateExe Or Trigger = #TRIGGER_ProgramRun
           ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", AddTools_ExecutableName$, 1)
         ElseIf *Target = 0
           ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", "", 1)
@@ -158,18 +158,18 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
           ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", *Target\ExecutableName$, 1)
         EndIf
       EndIf
-
+      
       If FindString(Test$, "%PATH", 1)
         If Trigger = #TRIGGER_FileViewer_All Or Trigger = #TRIGGER_FileViewer_Unknown Or Trigger = #TRIGGER_FileViewer_Special
           ToolArguments$ = ReplaceString(ToolArguments$, "%PATH", GetPathPart(AddTools_File$), 1)
-
+          
         ElseIf *Target = 0 Or *Target\FileName$ = ""
           ToolArguments$ = ReplaceString(ToolArguments$, "%PATH", "", 1)
         Else
           ToolArguments$ = ReplaceString(ToolArguments$, "%PATH", GetPathPart(*Target\FileName$), 1)
         EndIf
       EndIf
-
+      
       If FindString(Test$, "%CURSOR", 1)
         If *Source = 0
           ToolArguments$ = ReplaceString(ToolArguments$, "%CURSOR", "", 1)
@@ -178,7 +178,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
           ToolArguments$ = ReplaceString(ToolArguments$, "%CURSOR", Str(*Source\CurrentLine)+"x"+Str(*Source\CurrentColumnChars), 1)
         EndIf
       EndIf
-
+      
       If FindString(Test$, "%SELECTION", 1)
         If *Source = 0
           ToolArguments$ = ReplaceString(ToolArguments$, "%SELECTION", "", 1)
@@ -187,7 +187,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
           ToolArguments$ = ReplaceString(ToolArguments$, "%SELECTION", Str(LineStart)+"x"+Str(RowStart)+"x"+Str(LineEnd)+"x"+Str(RowEnd), 1)
         EndIf
       EndIf
-
+      
       If FindString(Test$, "%WORD", 1)
         If *Source = 0
           ToolArguments$ = ReplaceString(ToolArguments$, "%WORD", "", 1)
@@ -202,12 +202,12 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
         Else
           ToolArguments$ = ReplaceString(ToolArguments$, "%PROJECT", "", 1)
         EndIf
-      EndIf  
-        
+      EndIf
+      
       If FindString(Test$, "%HOME", 1)
         ToolArguments$ = ReplaceString(ToolArguments$, "%HOME", PureBasicPath$, 1)
-      EndIf  
-
+      EndIf
+      
     EndIf
     
     ; Display the run tool in the BuildLog (the function has a check to know if the buildlog is present)
@@ -224,7 +224,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
     ;
     Protected NewList EnvVars.s()
     
-    AddTools_SetEnvVar(EnvVars(), "IDE", ProgramFilename())    
+    AddTools_SetEnvVar(EnvVars(), "IDE", ProgramFilename())
     AddTools_SetEnvVar(EnvVars(), "Compiler", *CurrentCompiler\Executable$) ; use *CurrentCompiler to have the real compiler path if multiple compiler are available
     
     AddTools_SetEnvVar(EnvVars(), "Preferences", PreferencesFile$)
@@ -240,16 +240,16 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       AddTools_SetEnvVar(EnvVars(), "Thread", Str(*Target\EnableThread))
       CompilerIf #CompileWindows
         AddTools_SetEnvVar(EnvVars(), "XPSkin", Str(*Target\EnableXP))
-        AddTools_SetEnvVar(EnvVars(), "OnError", Str(*Target\EnableOnError))      
+        AddTools_SetEnvVar(EnvVars(), "OnError", Str(*Target\EnableOnError))
       CompilerEndIf
       AddTools_SetEnvVar(EnvVars(), "Debugger", Str(*Target\Debugger))
       AddTools_SetEnvVar(EnvVars(), "SubSystem", *Target\SubSystem$)
       
-      If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_ProgramRun 
-        AddTools_SetEnvVar(EnvVars(), "Executable", AddTools_ExecutableName$)       
+      If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_ProgramRun
+        AddTools_SetEnvVar(EnvVars(), "Executable", AddTools_ExecutableName$)
       Else ; return the last created executable name for all other triggers
-        AddTools_SetEnvVar(EnvVars(), "Executable", *Target\ExecutableName$)    
-      EndIf    
+        AddTools_SetEnvVar(EnvVars(), "Executable", *Target\ExecutableName$)
+      EndIf
       
     EndIf
     
@@ -257,11 +257,11 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       AddTools_SetEnvVar(EnvVars(), "Scintilla", Str(GadgetID(*Source\EditorGadget)))
       
       UpdateCursorPosition()
-      GetSelection(@LineStart, @RowStart, @LineEnd, @RowEnd)      
-            
-      AddTools_SetEnvVar(EnvVars(), "Cursor", Str(*Source\CurrentLine)+"x"+Str(*Source\CurrentColumnChars))      
+      GetSelection(@LineStart, @RowStart, @LineEnd, @RowEnd)
+      
+      AddTools_SetEnvVar(EnvVars(), "Cursor", Str(*Source\CurrentLine)+"x"+Str(*Source\CurrentColumnChars))
       AddTools_SetEnvVar(EnvVars(), "Selection", Str(LineStart)+"x"+Str(RowStart)+"x"+Str(LineEnd)+"x"+Str(RowEnd))
-      AddTools_SetEnvVar(EnvVars(), "Word", GetCurrentWord())     
+      AddTools_SetEnvVar(EnvVars(), "Word", GetCurrentWord())
     EndIf
     
     AddTools_SetEnvVar(EnvVars(), "Language", CurrentLanguage$)
@@ -281,8 +281,8 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       FileList$ = Left(FileList$, Len(FileList$)-1)
     EndIf
     AddTools_SetEnvVar(EnvVars(), "FileList", FileList$)
-
-           
+    
+    
     
     If Trim(ToolsList()\WorkingDir$) = "" ; no working dir set, lets use the current source path
       If *Target = 0
@@ -299,33 +299,33 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
     Else
       Flags = 0
     EndIf
-
+    
     If ToolsList()\Flags & 1  ; wait until tool quits
-      Flags | #PB_Program_Open ; no wait flag, as we do this with ProgramRunning()    
+      Flags | #PB_Program_Open; no wait flag, as we do this with ProgramRunning()
       
       If CommandlineBuild = 0
         If ToolsList()\HideEditor
           IsMaximized = IsWindowMaximized(#WINDOW_Main)
           HideWindow(#WINDOW_Main, 1)
         Else
-          DisableWindow(#WINDOW_Main, 1)        
-        EndIf    
-      EndIf  
+          DisableWindow(#WINDOW_Main, 1)
+        EndIf
+      EndIf
       
-      Program = RunProgram(ToolsList()\CommandLine$, ToolArguments$, ToolWorkingDir$, Flags)      
-
+      Program = RunProgram(ToolsList()\CommandLine$, ToolArguments$, ToolWorkingDir$, Flags)
+      
       If Program
         If CommandlineBuild = 0
           While WaitProgram(Program, 10) = 0
-            FlushEvents()        
+            FlushEvents()
           Wend
         Else
           WaitProgram(Program)
         EndIf
-      
+        
         CloseProgram(Program)
       EndIf
-
+      
       If CommandlineBuild = 0
         If ToolsList()\HideEditor
           If IsMaximized
@@ -337,13 +337,13 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
           DisableWindow(#WINDOW_Main, 0)
         EndIf
       EndIf
-
-      If File$ <> ""        
+      
+      If File$ <> ""
         If CommandlineBuild = 0 And ToolsList()\ReloadSource <> 0
           If ToolsList()\ReloadSource = 1
             NewSource("", #False)
           EndIf
-
+          
           LoadTempFile(File$)
           UpdateSourceStatus(1)
           HistoryEvent(*ActiveSource, #HISTORY_Create)
@@ -355,24 +355,24 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
             *ActiveSource\DiskFileSize  = FileSize(File$)
             *ActiveSource\DiskChecksum  = FileFingerprint(File$, #PB_Cipher_MD5)
           EndIf
-
+          
         EndIf
-
+        
         If IsTempFile = 1
           DeleteFile(File$)
         EndIf
       EndIf
-
+      
     Else
-
+      
       RunProgram(ToolsList()\CommandLine$, ToolArguments$, ToolWorkingDir$, Flags)
-
+      
     EndIf
     
     ; clear all the set up environment variables
     ForEach EnvVars()
       RemoveEnvironmentVariable(EnvVars())
-    Next EnvVars()    
+    Next EnvVars()
     
     If CommandlineBuild = 0
       CompilerIf #CompileWindows
@@ -380,148 +380,148 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
         ; foreground app (the tool) ends while the IDE is still disabled, so it does not
         ; get the focus anymore. There is no other way around than to grab the focus
         ; back afterwards.
-        ;    
+        ;
         SetWindowForeground_Real(#WINDOW_Main)
       CompilerEndIf
-  
+      
       SetWindowForeground(#WINDOW_Main)
       If *Source
         SetActiveGadget(*Source\EditorGadget)
       EndIf
     EndIf
-
+    
   EndIf
-
+  
 EndProcedure
 
 
-Procedure AddTools_Execute(Trigger, *Target.CompileTarget)  
-
+Procedure AddTools_Execute(Trigger, *Target.CompileTarget)
+  
   If Trigger = #TRIGGER_Menu
-
+    
     ; select the menuitem and execute it
     ;
     MenuID = *Target
     If MenuID >= #MENU_AddTools_Start And MenuID - #MENU_AddTools_Start < ListSize(ToolsList())
       SelectElement(ToolsList(), MenuID - #MENU_AddTools_Start)
-      If ToolsList()\DeactivateTool = 0        
+      If ToolsList()\DeactivateTool = 0
         AddTools_ExecuteCurrent(#TRIGGER_Menu, *ActiveSource)
       EndIf
     EndIf
-
+    
   ElseIf Trigger = #TRIGGER_FileViewer_Special
-
+    
     ; check if there is a tool that supports the filetype
     ;
     ext$ = LCase(GetExtensionPart(AddTools_File$))
-
+    
     ForEach ToolsList()
       If ToolsList()\Trigger = #TRIGGER_FileViewer_Special And ToolsList()\DeactivateTool = 0
-
+        
         i = 1
         While StringField(ToolsList()\ConfigLine$, i, ",") <> ""
           If Trim(LCase(StringField(ToolsList()\ConfigLine$, i, ","))) = ext$
             AddTools_ExecuteCurrent(Trigger, *Target)
             AddTools_RunFileViewer = 0 ; indicate that a tool has been executed
-            Break ; only run one tool per file!
+            Break                      ; only run one tool per file!
           EndIf
           i + 1
         Wend
-
+        
       EndIf
     Next ToolsList()
-
+    
   Else
-
+    
     ; find all tools that have the current Trigger set and execute them
     ;
     ForEach ToolsList()
       If ToolsList()\Trigger = Trigger And ToolsList()\DeactivateTool = 0
         AddTools_ExecuteCurrent(Trigger, *Target)
-
+        
         If Trigger = #TRIGGER_FileViewer_All Or Trigger = #TRIGGER_FileViewer_Unknown
           AddTools_RunFileViewer = 0 ; indicate that a tool has been executed
-          Break ; do not run more than one tool!
+          Break                      ; do not run more than one tool!
         EndIf
       EndIf
     Next ToolsList()
-
+    
   EndIf
-
+  
 EndProcedure
 
 
 
 Procedure AddTools_Init()
-
+  
   AddTools_PatternStrings$ = ""
-
+  
   OpenPreferences(AddToolsFile$)
-
-    ClearList(ToolsList())
-
-    PreferenceGroup("ToolsInfo")
-      Count = ReadPreferenceLong("ToolCount", 0)
-
-    For i = 0 To Count-1
-      AddElement(ToolsList())
-      PreferenceGroup("Tool_"+Str(i))
-
-      ToolsList()\CommandLine$  = ReadPreferenceString("Command",      "")
-      ToolsList()\Arguments$    = ReadPreferenceString("Arguments",    "")
-      ToolsList()\WorkingDir$   = ReadPreferenceString("WorkingDir",   "")
-      ToolsList()\MenuItemName$ = ReadPreferenceString("MenuItemName", "")
-      ToolsList()\Shortcut      = ReadPreferenceLong  ("Shortcut",      0)
-      ToolsList()\ConfigLine$   = ReadPreferenceString("ConfigLine",   "")
-      ToolsList()\Trigger       = ReadPreferenceLong  ("Trigger",       0)
-      ToolsList()\Flags         = ReadPreferenceLong  ("Flags",         0)
-      ToolsList()\ReloadSource  = ReadPreferenceLong  ("ReloadSource",  0)
-      ToolsList()\HideEditor    = ReadPreferenceLong  ("HideEditor",    0)
-      ToolsList()\HideFromMenu  = ReadPreferenceLong  ("HideFromMenu",  0)
-      ToolsList()\SourceSpecific= ReadPreferenceLong  ("SourceSpecific",0)
-      ToolsList()\DeactivateTool= ReadPreferenceLong  ("Deactivate",    0)
-
-      If ToolsList()\Trigger = #TRIGGER_FileViewer_Special
-        Pattern$ = RemoveString(ToolsList()\ConfigLine$, " ")
-        If Right(Pattern$, 1) = ","
-          Pattern$ = Left(Pattern$, Len(Pattern$)-1)
-        EndIf
-        AddTools_PatternStrings$ +ToolsList()\MenuItemName$ + " (*."+ReplaceString(Pattern$, ",", ",*.") + ")|*."+ReplaceString(Pattern$, ",", ";*.") + "|"
+  
+  ClearList(ToolsList())
+  
+  PreferenceGroup("ToolsInfo")
+  Count = ReadPreferenceLong("ToolCount", 0)
+  
+  For i = 0 To Count-1
+    AddElement(ToolsList())
+    PreferenceGroup("Tool_"+Str(i))
+    
+    ToolsList()\CommandLine$  = ReadPreferenceString("Command",      "")
+    ToolsList()\Arguments$    = ReadPreferenceString("Arguments",    "")
+    ToolsList()\WorkingDir$   = ReadPreferenceString("WorkingDir",   "")
+    ToolsList()\MenuItemName$ = ReadPreferenceString("MenuItemName", "")
+    ToolsList()\Shortcut      = ReadPreferenceLong  ("Shortcut",      0)
+    ToolsList()\ConfigLine$   = ReadPreferenceString("ConfigLine",   "")
+    ToolsList()\Trigger       = ReadPreferenceLong  ("Trigger",       0)
+    ToolsList()\Flags         = ReadPreferenceLong  ("Flags",         0)
+    ToolsList()\ReloadSource  = ReadPreferenceLong  ("ReloadSource",  0)
+    ToolsList()\HideEditor    = ReadPreferenceLong  ("HideEditor",    0)
+    ToolsList()\HideFromMenu  = ReadPreferenceLong  ("HideFromMenu",  0)
+    ToolsList()\SourceSpecific= ReadPreferenceLong  ("SourceSpecific",0)
+    ToolsList()\DeactivateTool= ReadPreferenceLong  ("Deactivate",    0)
+    
+    If ToolsList()\Trigger = #TRIGGER_FileViewer_Special
+      Pattern$ = RemoveString(ToolsList()\ConfigLine$, " ")
+      If Right(Pattern$, 1) = ","
+        Pattern$ = Left(Pattern$, Len(Pattern$)-1)
       EndIf
-    Next i
-
+      AddTools_PatternStrings$ +ToolsList()\MenuItemName$ + " (*."+ReplaceString(Pattern$, ",", ",*.") + ")|*."+ReplaceString(Pattern$, ",", ";*.") + "|"
+    EndIf
+  Next i
+  
   ClosePreferences()
-
+  
 EndProcedure
 
 
 Procedure AddTools_UpdateListItem(index)
-
+  
   SelectElement(ToolsList_Edit(), index)
   SetGadgetItemText(#GADGET_AddTools_List, index, ToolsList_Edit()\MenuItemName$, 0)
-
+  
   If ToolsList_Edit()\Trigger = 0 And ToolsList_Edit()\Shortcut <> 0 And ToolsList_Edit()\Shortcut <> -1
     SetGadgetItemText(#GADGET_AddTools_List, index, GetShortcutText(ToolsList_Edit()\Shortcut), 1)
   Else
     SetGadgetItemText(#GADGET_AddTools_List, index, Language("AddTools","Trigger"+Str(ToolsList_Edit()\Trigger)), 1)
   EndIf
-
-  SetGadgetItemText(#GADGET_AddTools_List, index, ToolsList_Edit()\CommandLine$, 2)  
-
+  
+  SetGadgetItemText(#GADGET_AddTools_List, index, ToolsList_Edit()\CommandLine$, 2)
+  
 EndProcedure
 
 
 Procedure AddTools_SwitchElements(FirstElement, SecondElement)
-
+  
   SelectElement(ToolsList_Edit(), FirstElement)
   *FirstElement.ToolsData = @ToolsList_Edit()
   FirstState = GetGadgetItemState(#GADGET_AddTools_List, FirstElement)
-
+  
   SelectElement(ToolsList_Edit(), SecondElement)
   SecondState = GetGadgetItemState(#GADGET_AddTools_List, SecondElement)
-
+  
   SwapElements(ToolsList_Edit(), *FirstElement, @ToolsList_Edit())
-
+  
   AddTools_UpdateListItem(FirstElement)
   AddTools_UpdateListItem(SecondElement)
   
@@ -529,7 +529,7 @@ Procedure AddTools_SwitchElements(FirstElement, SecondElement)
   SetGadgetItemState(#GADGET_AddTools_List, FirstElement, SecondState)
   SetGadgetItemState(#GADGET_AddTools_List, SecondElement, FirstState)
   
-
+  
 EndProcedure
 
 Procedure AddTools_DisableAndStateGadget(GadgetID, DisableState)
@@ -541,43 +541,43 @@ EndProcedure
 
 
 Procedure AddTools_UpdateDisabledState()
-
+  
   Trigger    = GetGadgetState(#GADGET_EditTools_Trigger)
   Arguments$ = GetGadgetText(#GADGET_EditTools_Arguments)
-
+  
   If Trigger <> #TRIGGER_Menu
-;     DisableShortcutControl = 1
-;     DisableShortcutAlt = 1
-;     DisableShortcutShift = 1
-;     DisableShortcutCommand = 1
-;     DisableShortcutKey = 1
+    ;     DisableShortcutControl = 1
+    ;     DisableShortcutAlt = 1
+    ;     DisableShortcutShift = 1
+    ;     DisableShortcutCommand = 1
+    ;     DisableShortcutKey = 1
     DisableShortcut = 1
   EndIf
   
   If Trigger = #TRIGGER_BeforeCompile Or Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_ProgramRun Or Trigger = #TRIGGER_BeforeCreateExe Or Trigger = #TRIGGER_AfterCreateExe Or Trigger = #TRIGGER_SourceLoad Or Trigger = #TRIGGER_SourceSave Or Trigger = #TRIGGER_SourceClose
     DisableSourceSpecific = 0
-  Else  
+  Else
     DisableSourceSpecific = 1
-  EndIf      
-
+  EndIf
+  
   If GetGadgetState(#GADGET_EditTools_WaitForQuit) = 0
     DisableHideEditor = 1
     DisableReload     = 1
   Else
     If Trigger = #TRIGGER_EditorStart Or Trigger = #TRIGGER_EditorEnd Or Trigger = #TRIGGER_BeforeCompile Or Trigger = #TRIGGER_AfterCompile
       DisableReload = 1
-  
+      
     ElseIf FindString(Arguments$, "%TEMPFILE", 1) = 0 And FindString(Arguments$, "%FILE", 1) = 0
       DisableReload = 1
-  
+      
     EndIf
-
+    
   EndIf
-
+  
   If Trigger = #TRIGGER_FileViewer_All Or Trigger = #TRIGGER_FileViewer_Unknown
     DisableConfigLine = 1
     DisableReload = 1
-
+    
   ElseIf Trigger = #TRIGGER_FileViewer_Special
     DisableReload = 1
   Else
@@ -591,101 +591,101 @@ Procedure AddTools_UpdateDisabledState()
   
   CompilerIf #CompileMac = 0
     DisableShortcutCommand = 1
-  CompilerEndIf  
-
+  CompilerEndIf
+  
   ; Update all disable states at once
   ;
-;   AddTools_DisableAndStateGadget(#GADGET_EditTools_ShortcutControl, DisableShortcutControl)
-;   AddTools_DisableAndStateGadget(#GADGET_EditTools_ShortcutAlt,     DisableShortcutAlt)
-;   AddTools_DisableAndStateGadget(#GADGET_EditTools_ShortcutShift,   DisableShortcutShift)
-;   AddTools_DisableAndStateGadget(#GADGET_EditTools_ShortcutCommand, DisableShortcutCommand)
-;   AddTools_DisableAndStateGadget(#GADGET_EditTools_ShortcutKey,     DisableShortcutKey)
+  ;   AddTools_DisableAndStateGadget(#GADGET_EditTools_ShortcutControl, DisableShortcutControl)
+  ;   AddTools_DisableAndStateGadget(#GADGET_EditTools_ShortcutAlt,     DisableShortcutAlt)
+  ;   AddTools_DisableAndStateGadget(#GADGET_EditTools_ShortcutShift,   DisableShortcutShift)
+  ;   AddTools_DisableAndStateGadget(#GADGET_EditTools_ShortcutCommand, DisableShortcutCommand)
+  ;   AddTools_DisableAndStateGadget(#GADGET_EditTools_ShortcutKey,     DisableShortcutKey)
   AddTools_DisableAndStateGadget(#GADGET_EditTools_Shortcut,   DisableShortcut)
   AddTools_DisableAndStateGadget(#GADGET_EditTools_HideEditor, DisableHideEditor)
   AddTools_DisableAndStateGadget(#GADGET_EditTools_Reload, DisableReload)
   AddTools_DisableAndStateGadget(#GADGET_EditTools_SourceSpecific, DisableSourceSpecific)
-
+  
   DisableGadget(#GADGET_EditTools_ReloadNew , DisableReloadNew)
   DisableGadget(#GADGET_EditTools_ReloadOld , DisableReloadOld)
   DisableGadget(#GADGET_EditTools_ConfigLine, DisableConfigLine)
-
+  
 EndProcedure
 
 
 Procedure AddTools_OpenEditWindow()
-
+  
   ; this window can't be allready open, because the open buttons are disabled when it is, so no check here
   ;
   EditToolsWindowDialog = OpenDialog(?Dialog_EditTools, WindowID(#WINDOW_AddTools), @EditToolsWindowPositon)
   If EditToolsWindowDialog
     EnsureWindowOnDesktop(#WINDOW_EditTools)
-  
+    
     EnableGadgetDrop(#GADGET_EditTools_CommandLine, #PB_Drop_Files, #PB_Drag_Copy)
     EnableGadgetDrop(#GADGET_EditTools_WorkingDir,  #PB_Drop_Files, #PB_Drag_Copy)
-  
+    
     ; Shortcut names
-;     For i = 0 To #NbShortcutKeys-1
-;       AddGadgetItem(#GADGET_EditTools_ShortcutKey, -1, ShortcutNames(i))
-;     Next i
-
+    ;     For i = 0 To #NbShortcutKeys-1
+    ;       AddGadgetItem(#GADGET_EditTools_ShortcutKey, -1, ShortcutNames(i))
+    ;     Next i
+    
     ; disable the addtools window
     For i = #GADGET_AddTools_List To #GADGET_AddTools_OK
       DisableGadget(i, 1)
     Next i
-
+    
     ; load the settings to edit, if this isn't a new one
     If IsNewTool
       SetGadgetState(#GADGET_EditTools_ReloadNew, 1) ; default
       SetGadgetState(#GADGET_EditTools_Trigger, 0)
       
-;       SetGadgetState(#GADGET_EditTools_ShortcutControl, 0)
-;       SetGadgetState(#GADGET_EditTools_ShortcutAlt,     0)
-;       SetGadgetState(#GADGET_EditTools_ShortcutShift,   0)          
-;       SetGadgetState(#GADGET_EditTools_ShortcutCommand, 0)
-;       SetGadgetState(#GADGET_EditTools_ShortcutKey, 0)
+      ;       SetGadgetState(#GADGET_EditTools_ShortcutControl, 0)
+      ;       SetGadgetState(#GADGET_EditTools_ShortcutAlt,     0)
+      ;       SetGadgetState(#GADGET_EditTools_ShortcutShift,   0)
+      ;       SetGadgetState(#GADGET_EditTools_ShortcutCommand, 0)
+      ;       SetGadgetState(#GADGET_EditTools_ShortcutKey, 0)
       SetGadgetState(#GADGET_EditTools_Shortcut, 0)
-
+      
     Else ; load settings
       SetGadgetText(#GADGET_EditTools_CommandLine, ToolsList_Edit()\CommandLine$)
       SetGadgetText(#GADGET_EditTools_Arguments,   ToolsList_Edit()\Arguments$)
       SetGadgetText(#GADGET_EditTools_WorkingDir,  ToolsList_Edit()\WorkingDir$)
       SetGadgetText(#GADGET_EditTools_MenuEntry,   ToolsList_Edit()\MenuItemName$)
       SetGadgetText(#GADGET_EditTools_ConfigLine,  ToolsList_Edit()\ConfigLine$)
-
-;       If ToolsList_Edit()\Shortcut & #PB_Shortcut_Control ; win 98 problem!
-;         SetGadgetState(#GADGET_EditTools_ShortcutControl, 1)          
-;       Else
-;         SetGadgetState(#GADGET_EditTools_ShortcutControl, 0)
-;       EndIf
-;       
-;       If ToolsList_Edit()\Shortcut & #PB_Shortcut_Alt        
-;         SetGadgetState(#GADGET_EditTools_ShortcutAlt,     1)
-;       Else
-;         SetGadgetState(#GADGET_EditTools_ShortcutAlt,     0)          
-;       EndIf               
-;       
-;       If ToolsList_Edit()\Shortcut & #PB_Shortcut_Shift
-;         SetGadgetState(#GADGET_EditTools_ShortcutShift,   1) 
-;       Else
-;         SetGadgetState(#GADGET_EditTools_ShortcutShift,   0) 
-;       EndIf
-;       
-;       CompilerIf #CompileMac
-;         SetGadgetState(#GADGET_EditTools_ShortcutCommand, ToolsList_Edit()\Shortcut & #PB_Shortcut_Command)
-;       CompilerEndIf
-;       SetGadgetState(#GADGET_EditTools_ShortcutKey, GetBaseKeyIndex(ToolsList_Edit()\Shortcut))
+      
+      ;       If ToolsList_Edit()\Shortcut & #PB_Shortcut_Control ; win 98 problem!
+      ;         SetGadgetState(#GADGET_EditTools_ShortcutControl, 1)
+      ;       Else
+      ;         SetGadgetState(#GADGET_EditTools_ShortcutControl, 0)
+      ;       EndIf
+      ;
+      ;       If ToolsList_Edit()\Shortcut & #PB_Shortcut_Alt
+      ;         SetGadgetState(#GADGET_EditTools_ShortcutAlt,     1)
+      ;       Else
+      ;         SetGadgetState(#GADGET_EditTools_ShortcutAlt,     0)
+      ;       EndIf
+      ;
+      ;       If ToolsList_Edit()\Shortcut & #PB_Shortcut_Shift
+      ;         SetGadgetState(#GADGET_EditTools_ShortcutShift,   1)
+      ;       Else
+      ;         SetGadgetState(#GADGET_EditTools_ShortcutShift,   0)
+      ;       EndIf
+      ;
+      ;       CompilerIf #CompileMac
+      ;         SetGadgetState(#GADGET_EditTools_ShortcutCommand, ToolsList_Edit()\Shortcut & #PB_Shortcut_Command)
+      ;       CompilerEndIf
+      ;       SetGadgetState(#GADGET_EditTools_ShortcutKey, GetBaseKeyIndex(ToolsList_Edit()\Shortcut))
       SetGadgetState(#GADGET_EditTools_Shortcut, ToolsList_Edit()\Shortcut)
-
+      
       SetGadgetState(#GADGET_EditTools_Trigger,    ToolsList_Edit()\Trigger)
       SetGadgetState(#GADGET_EditTools_HideEditor, ToolsList_Edit()\HideEditor)
       SetGadgetState(#GADGET_EditTools_WaitForQuit,ToolsList_Edit()\Flags & 1)
       SetGadgetState(#GADGET_EditTools_RunHidden,  ToolsList_Edit()\Flags & 2)
       SetGadgetState(#GADGET_EditTools_HideFromMenu,ToolsList_Edit()\HideFromMenu)
       SetGadgetState(#GADGET_EditTools_SourceSpecific,ToolsList_Edit()\SourceSpecific)
-
+      
       If ToolsList_Edit()\ReloadSource <> 0
         SetGadgetState(#GADGET_EditTools_Reload, 1)
-
+        
         If ToolsList_Edit()\ReloadSource = 1
           SetGadgetState(#GADGET_EditTools_ReloadNew, 1)
         Else
@@ -695,30 +695,30 @@ Procedure AddTools_OpenEditWindow()
         SetGadgetState(#GADGET_EditTools_ReloadNew, 1)
       EndIf
     EndIf
-
+    
     AddTools_UpdateDisabledState() ; make sure the right choises are enabled
-
+    
     SetActiveGadget(#GADGET_EditTools_CommandLine)
   EndIf
-
+  
 EndProcedure
 
 
 Procedure UpdateEditToolsWindow()
-
+  
   EditToolsWindowDialog\LanguageUpdate()
-
-;   For i = 0 To #NbShortcutKeys-1
-;     SetGadgetItemText(#GADGET_EditTools_ShortcutKey, i, ShortcutNames(i), 0)
-;   Next i
+  
+  ;   For i = 0 To #NbShortcutKeys-1
+  ;     SetGadgetItemText(#GADGET_EditTools_ShortcutKey, i, ShortcutNames(i), 0)
+  ;   Next i
   
   EditToolsWindowDialog\GuiUpdate()
-
+  
 EndProcedure
 
 
 Procedure AddTools_EditWindowEvents(EventID)
-
+  
   If EventID = #PB_Event_Menu     ; Little wrapper to map the shortcut events (identified as menu)
     If GetActiveGadget() = #GADGET_EditTools_Shortcut
       ; Window shortcuts supersede the ShortcutGadget(), so in order to select "Return" as a shortcut
@@ -737,10 +737,10 @@ Procedure AddTools_EditWindowEvents(EventID)
   Else
     EventGadgetID = EventGadget()
   EndIf
-
+  
   If EventID = #PB_Event_GadgetDrop
     Select EventGadgetID
-
+        
       Case #GADGET_EditTools_CommandLine
         File$ = StringField(EventDropFiles(), 1, Chr(10))
         SetGadgetText(#GADGET_EditTools_CommandLine, File$)
@@ -751,12 +751,12 @@ Procedure AddTools_EditWindowEvents(EventID)
           Path$ = GetPathPart(Path$)
         EndIf
         SetGadgetText(#GADGET_EditTools_WorkingDir, Path$)
-            
+        
     EndSelect
-
+    
   ElseIf EventID = #PB_Event_Gadget
     Select EventGadgetID
-
+        
       Case #GADGET_EditTools_ChooseCommandLine
         CompilerIf #CompileWindows
           Pattern$ = Language("Compiler","ExePattern")
@@ -767,53 +767,53 @@ Procedure AddTools_EditWindowEvents(EventID)
         If File$ <> ""
           SetGadgetText(#GADGET_EditTools_CommandLine, File$)
         EndIf
-
+        
       Case #GADGET_EditTools_ArgumentsInfo
         Info$ = ""
         For i = 1 To 10
           Info$ + Language("AddTools","Argument"+Str(i)) + #NewLine
         Next i
         MessageRequester(Language("AddTools","Info"), Info$, #FLAG_Info)
-
-
+        
+        
       Case #GADGET_EditTools_ChooseWorkingDir
         Directory$ = PathRequester(Language("AddTools","ChooseDir"), GetGadgetText(#GADGET_EditTools_WorkingDir))
         If Directory$ <> ""
           SetGadgetText(#GADGET_EditTools_WorkingDir, Directory$)
         EndIf
-
+        
       Case #GADGET_EditTools_Ok
-
+        
         ; first check if all the contents are ok
         ;
         If Trim(GetGadgetText(#GADGET_EditTools_CommandLine)) = ""
           MessageRequester(#ProductName$, Language("AddTools","NoCommandLine"), #FLAG_Info)
-
+          
         ElseIf Trim(GetGadgetText(#GADGET_EditTools_MenuEntry)) = ""
           MessageRequester(#ProductName$, Language("AddTools","NoName"), #FLAG_Info)
-
+          
         Else
-          index = ListIndex(ToolsList_Edit())         
+          index = ListIndex(ToolsList_Edit())
           
           Name$ = LCase(Trim(GetGadgetText(#GADGET_EditTools_MenuEntry)))
           
-;           If GetGadgetState(#GADGET_EditTools_ShortcutKey) = -1
-;             Shortcut = -1
-;           Else
-;             Shortcut = ShortcutValues(GetGadgetState(#GADGET_EditTools_ShortcutKey))
-;           EndIf
-;           If GetGadgetState(#GADGET_EditTools_ShortcutControl)
-;             Shortcut | #PB_Shortcut_Control
-;           EndIf
-;           If GetGadgetState(#GADGET_EditTools_ShortcutAlt)
-;             Shortcut | #PB_Shortcut_Alt
-;           EndIf
-;           If GetGadgetState(#GADGET_EditTools_ShortcutShift)
-;             Shortcut | #PB_Shortcut_Shift
-;           EndIf
-;           If GetGadgetState(#GADGET_EditTools_ShortcutCommand)
-;             Shortcut | #PB_Shortcut_Command
-;           EndIf
+          ;           If GetGadgetState(#GADGET_EditTools_ShortcutKey) = -1
+          ;             Shortcut = -1
+          ;           Else
+          ;             Shortcut = ShortcutValues(GetGadgetState(#GADGET_EditTools_ShortcutKey))
+          ;           EndIf
+          ;           If GetGadgetState(#GADGET_EditTools_ShortcutControl)
+          ;             Shortcut | #PB_Shortcut_Control
+          ;           EndIf
+          ;           If GetGadgetState(#GADGET_EditTools_ShortcutAlt)
+          ;             Shortcut | #PB_Shortcut_Alt
+          ;           EndIf
+          ;           If GetGadgetState(#GADGET_EditTools_ShortcutShift)
+          ;             Shortcut | #PB_Shortcut_Shift
+          ;           EndIf
+          ;           If GetGadgetState(#GADGET_EditTools_ShortcutCommand)
+          ;             Shortcut | #PB_Shortcut_Command
+          ;           EndIf
           Shortcut = GetGadgetState(#GADGET_EditTools_Shortcut)
           
           If IsNewTool
@@ -821,14 +821,14 @@ Procedure AddTools_EditWindowEvents(EventID)
           Else
             *CurrentTool = @ToolsList_Edit()
           EndIf
-
+          
           If IsShortcutUsed(Shortcut, -1, *CurrentTool)
             MessageRequester(#ProductName$, Language("Shortcuts","AllreadyUsed")+#NewLine+Chr(34)+GetShortcutOwner(Shortcut)+Chr(34), #FLAG_Info)
             error = 1
           Else
             error = 0
           EndIf
-
+          
           ForEach ToolsList_Edit()
             If IsNewTool = 0 And ListIndex(ToolsList_Edit()) = index
               ; no checks in this case
@@ -836,18 +836,18 @@ Procedure AddTools_EditWindowEvents(EventID)
               MessageRequester(#ProductName$, Language("AddTools","NameExists"), #FLAG_Info)
               error = 1
               Break
-
+              
             EndIf
           Next ToolsList_Edit()
-
+          
           If index <> -1
             SelectElement(ToolsList_Edit(), index)
           EndIf
-
+          
           ; now save the settings to the list
           ;
           If error = 0
-
+            
             If IsNewTool  ; add the entry if it wasn't there
               If index = -1
                 LastElement(ToolsList_Edit())
@@ -860,7 +860,7 @@ Procedure AddTools_EditWindowEvents(EventID)
               SetGadgetItemState(#GADGET_AddTools_List, index, #PB_ListIcon_Checked)
               SetGadgetState(#GADGET_AddTools_List, index)
             EndIf
-
+            
             ToolsList_Edit()\CommandLine$   = GetGadgetText(#GADGET_EditTools_CommandLine)
             ToolsList_Edit()\Arguments$     = GetGadgetText(#GADGET_EditTools_Arguments)
             ToolsList_Edit()\WorkingDir$    = GetGadgetText(#GADGET_EditTools_WorkingDir)
@@ -869,7 +869,7 @@ Procedure AddTools_EditWindowEvents(EventID)
             ToolsList_Edit()\ConfigLine$    = GetGadgetText(#GADGET_EditTools_Configline)
             ToolsList_Edit()\Trigger        = GetGadgetState(#GADGET_EditTools_Trigger)
             ToolsList_Edit()\Flags          = GetGadgetState(#GADGET_EditTools_WaitForQuit) | GetGadgetState(#GADGET_EditTools_RunHidden) << 1
-
+            
             If GetGadgetState(#GADGET_EditTools_Reload) = 0
               ToolsList_Edit()\ReloadSource = 0
             ElseIf GetGadgetState(#GADGET_EditTools_ReloadNew) <> 0
@@ -877,41 +877,41 @@ Procedure AddTools_EditWindowEvents(EventID)
             Else
               ToolsList_Edit()\ReloadSource = 2
             EndIf
-
+            
             ToolsList_Edit()\HideEditor     = GetGadgetState(#GADGET_EditTools_HideEditor)
             ToolsList_Edit()\HideFromMenu   = GetGadgetState(#GADGET_EditTools_HideFromMenu)
             ToolsList_Edit()\SourceSpecific = GetGadgetState(#GADGET_EditTools_SourceSpecific)
-
+            
             AddTools_UpdateListItem(index)
-
+            
             Quit = 1
           EndIf
         EndIf
-
-
+        
+        
       Case #GADGET_EditTools_Cancel
         Quit = 1
-
+        
       Default ; one of the options has changed
         If IsWindow(#WINDOW_EditTools)
           AddTools_UpdateDisabledState()
         EndIf
-
+        
     EndSelect
-
-
-  ElseIf EventID = #PB_Event_CloseWindow  
+    
+    
+  ElseIf EventID = #PB_Event_CloseWindow
     Quit = 1
-
+    
   EndIf
-
+  
   If Quit
     If MemorizeWindow
       EditToolsWindowDialog\Close(@EditToolsWindowPositon)
     Else
       EditToolsWindowDialog\Close()
     EndIf
-
+    
     ; enable the addtools window
     For i = #GADGET_AddTools_List To #GADGET_AddTools_OK
       DisableGadget(i, 0)
@@ -919,26 +919,26 @@ Procedure AddTools_EditWindowEvents(EventID)
     
     SetActiveWindow(#WINDOW_AddTools)
   EndIf
-
+  
 EndProcedure
 
 
 Procedure AddTools_OpenWindow()
-
-  If IsWindow(#WINDOW_AddTools) = 0
   
+  If IsWindow(#WINDOW_AddTools) = 0
+    
     AddToolsWindowDialog = OpenDialog(?Dialog_AddTools, WindowID(#WINDOW_Main), @AddToolsWindowPositon)
     If AddToolsWindowDialog
       EnsureWindowOnDesktop(#WINDOW_AddTools)
-    
+      
       EnableGadgetDrop(#GADGET_AddTools_List, #PB_Drop_Private, #PB_Drag_Move, #DRAG_AddTools)
-    
+      
       ; adjust column width
       ColumnWidth = (GadgetWidth(#GADGET_AddTools_List) - 20) / 6
       SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, ColumnWidth*2, 0)
       SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, ColumnWidth, 1)
       SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, ColumnWidth*3, 2)
-
+      
       ; dublicate the tools list to work on it, and fill the gadget
       ;
       ClearList(ToolsList_Edit())
@@ -957,8 +957,8 @@ Procedure AddTools_OpenWindow()
         ToolsList_Edit()\HideFromMenu   = ToolsList()\HideFromMenu
         ToolsList_Edit()\SourceSpecific = ToolsList()\SourceSpecific
         ToolsList_Edit()\DeactivateTool = ToolsList()\DeactivateTool
-  
-  
+        
+        
         item = ListIndex(ToolsList_Edit())
         AddGadgetItem(#GADGET_AddTools_List, item, ToolsList_Edit()\MenuItemName$)
         If ToolsList_Edit()\Trigger = 0 And ToolsList_Edit()\Shortcut <> 0 And ToolsList_Edit()\Shortcut <> -1
@@ -972,22 +972,22 @@ Procedure AddTools_OpenWindow()
           SetGadgetItemState(#GADGET_AddTools_List, item, #PB_ListIcon_Checked)
         EndIf
       Next ToolsList()
-    
+      
     EndIf
-
+    
   Else
     SetWindowforeground(#WINDOW_AddTools)
   EndIf
   
   SetActiveGadget(#GADGET_AddTools_List)
-
+  
 EndProcedure
 
 
 
 Procedure AddTools_WindowEvents(EventID)
   Static DragItem ; selected item during a d+d
-
+  
   If EventID = #PB_Event_Menu     ; Little wrapper to map the shortcut events (identified as menu)
     EventID  = #PB_Event_Gadget   ; to normal gadget events...
     EventGadgetID = EventMenu()
@@ -1002,32 +1002,32 @@ Procedure AddTools_WindowEvents(EventID)
       If Target = -1
         Target = CountGadgetItems(#GADGET_AddTools_List)-1
       EndIf
-             
+      
       If Target > DragItem
         For i = DragItem To Target-1
           AddTools_SwitchElements(i, i+1)
         Next i
-      
+        
       ElseIf Target < DragItem ; if Target=DragItem we do nothing
         For i = DragItem To Target+1 Step -1
           AddTools_SwitchElements(i, i-1)
-        Next i             
-      
+        Next i
+        
       EndIf
       SetGadgetState(#GADGET_AddTools_List, Target)
-    
+      
     EndIf
-
-  ElseIf EventID = #PB_Event_Gadget
-    Select EventGadgetID  
     
+  ElseIf EventID = #PB_Event_Gadget
+    Select EventGadgetID
+        
       Case #GADGET_AddTools_List
         If EventType() = #PB_EventType_DragStart
           DragItem = GetGadgetState(#GADGET_AddTools_List)
           If DragItem <> -1
             DragPrivate(#DRAG_AddTools, #PB_Drag_Move)
           EndIf
-        
+          
         ElseIf EventType() = #PB_EventType_LeftDoubleClick ; allows to edit a tool
           index = GetGadgetState(#GADGET_AddTools_List)
           If index <> -1
@@ -1035,14 +1035,14 @@ Procedure AddTools_WindowEvents(EventID)
             SelectElement(ToolsList_Edit(), index)
             AddTools_OpenEditWindow()
           EndIf
-        EndIf  
-
+        EndIf
+        
       Case #GADGET_AddTools_New
         If ListSize(ToolsList_Edit()) < #MAX_AddTools
           IsNewTool = 1
           AddTools_OpenEditWindow()
         EndIf
-
+        
       Case #GADGET_AddTools_Edit
         index = GetGadgetState(#GADGET_AddTools_List)
         If index <> -1
@@ -1050,33 +1050,33 @@ Procedure AddTools_WindowEvents(EventID)
           SelectElement(ToolsList_Edit(), index)
           AddTools_OpenEditWindow()
         EndIf
-
+        
       Case #GADGET_AddTools_Delete
-        index = GetGadgetState(#GADGET_AddTools_List)  
+        index = GetGadgetState(#GADGET_AddTools_List)
         
         If index <> -1
           RemoveGadgetItem(#GADGET_AddTools_List, index)
           SelectElement(ToolsList_Edit(), index)
           DeleteElement(ToolsList_Edit())
         EndIf
-
+        
       Case #GADGET_AddTools_Up
         index = GetGadgetState(#GADGET_AddTools_List)
         If index > 0
           AddTools_SwitchElements(index, index-1)
           SetGadgetState(#GADGET_AddTools_List, index-1)
         EndIf
-
+        
       Case #GADGET_AddTools_Down
         index = GetGadgetState(#GADGET_AddTools_List)
         If index <> -1 And index < CountGadgetItems(#GADGET_AddTools_List)-1
           AddTools_SwitchElements(index, index+1)
           SetGadgetState(#GADGET_AddTools_List, index+1)
         EndIf
-
+        
       Case #GADGET_AddTools_Ok
         If IsWindow(#WINDOW_EditTools) = 0 ; even when the ok butten is disabled, teh shortcut works, so check this!
-
+          
           ; copy the list over the old one, and save the prefs
           ;
           If CreatePreferences(AddToolsFile$)
@@ -1089,9 +1089,9 @@ Procedure AddTools_WindowEvents(EventID)
             SavePrefs = 0
             MessageRequester(#ProductName$, LanguagePattern("Misc","PreferenceError", "%filename%", AddToolsFile$), #FLAG_Error)
           EndIf
-
+          
           AddTools_PatternStrings$ = ""
-
+          
           ClearList(ToolsList())
           ForEach ToolsList_Edit()
             AddElement(ToolsList())
@@ -1121,12 +1121,12 @@ Procedure AddTools_WindowEvents(EventID)
               EndIf
               AddTools_PatternStrings$ +ToolsList()\MenuItemName$ + " (*."+ReplaceString(Pattern$, ",", ",*.") + ")|*."+ReplaceString(Pattern$, ",", ";*.") + "|"
             EndIf
-
+            
             If SavePrefs
               PreferenceComment("")
               PreferenceComment("")
               PreferenceGroup("Tool_"+Str(ListIndex(ToolsList())))
-
+              
               WritePreferenceString("Command"     , ToolsList()\CommandLine$ )
               WritePreferenceString("Arguments"   , ToolsList()\Arguments$   )
               WritePreferenceString("WorkingDir"  , ToolsList()\WorkingDir$  )
@@ -1141,24 +1141,24 @@ Procedure AddTools_WindowEvents(EventID)
               WritePreferenceLong  ("SourceSpecific", ToolsList()\SourceSpecific)
               WritePreferenceLong  ("Deactivate"  , ToolsList()\DeactivateTool)
             EndIf
-
+            
           Next ToolsList_Edit()
-
+          
           ClearList(ToolsList_Edit())
-
+          
           If SavePrefs
             ClosePreferences()
           EndIf
-
+          
           RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_All)
           
           CompilerIf #CompileWindows | #CompileMac ; re-add the shortcuts for tab/enter
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
-            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab) 
-            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)        
-          CompilerEndIf          
+            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
+            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
+          CompilerEndIf
           
-          StartFlickerFix(#WINDOW_Main)          
+          StartFlickerFix(#WINDOW_Main)
           CreateIDEMenu() ; update the menu
           StopFlickerFix(#WINDOW_Main, 1)
           
@@ -1166,26 +1166,26 @@ Procedure AddTools_WindowEvents(EventID)
           UpdateExplorerPatterns()
           Quit = 1
         EndIf
-
+        
       Case #GADGET_AddTools_Cancel ; cancel can also be pressed when the edit window is open.
         If IsWindow(#WINDOW_EditTools)
           AddTools_EditWindowEvents(#PB_Event_CloseWindow)
         EndIf
         Quit = 1
-
+        
     EndSelect
-
+    
   ElseIf EventID = #PB_Event_SizeWindow
     AddToolsWindowDialog\SizeUpdate()
-
-  ElseIf EventID = #PB_Event_CloseWindow  
+    
+  ElseIf EventID = #PB_Event_CloseWindow
     If IsWindow(#WINDOW_EditTools)
       AddTools_EditWindowEvents(#PB_Event_CloseWindow)
     EndIf
     Quit = 1
-
+    
   EndIf
-
+  
   If Quit
     If MemorizeWindow
       AddToolsWindowDialog\Close(@AddToolsWindowPositon)
@@ -1195,5 +1195,5 @@ Procedure AddTools_WindowEvents(EventID)
     
     AddToolsWindowDialog = 0
   EndIf
-
+  
 EndProcedure

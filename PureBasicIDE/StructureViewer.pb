@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -47,7 +47,7 @@ Procedure LoadConstantList()
       TempList() = "#" + StringField(Response$, 2, #TAB$) + "=" + StringField(Response$, 3, #TAB$)
     EndIf
   ForEver
-
+  
   ConstantListSize = ListSize(TempList())
   Dim ConstantList.s(ConstantListSize)
   Dim ConstantValueList.s(ConstantListSize)
@@ -56,25 +56,25 @@ Procedure LoadConstantList()
   For i = 0 To 27
     ConstantHT(i, 1) = -1
   Next i
-
+  
   index = 0
   ForEach TempList()
     separator = FindString(TempList(), "=", 1)
-  
+    
     ; invalid entries
     If separator = 0 Or Left(TempList(), separator-1) = "#"
       ConstantListSize - 1
-    
-    ; Note: In the constant list, there is "#CR" and "#CR$". The $ is sorted wrong, because
-    ;  we append <name>=<value> for easy sorting, and "=" > "$" in lexical order, 
-    ;  so the $-name sorts before the non-$ one, which is wrong (And causes problems With later item comparrison)
-    ;
-    ; Solution: Detect the $, replace it with a char that is > "=", but < all alpha chars,
-    ;  so the sorting is correct. later undo this replace below.
-    ;  
+      
+      ; Note: In the constant list, there is "#CR" and "#CR$". The $ is sorted wrong, because
+      ;  we append <name>=<value> for easy sorting, and "=" > "$" in lexical order,
+      ;  so the $-name sorts before the non-$ one, which is wrong (And causes problems With later item comparrison)
+      ;
+      ; Solution: Detect the $, replace it with a char that is > "=", but < all alpha chars,
+      ;  so the sorting is correct. later undo this replace below.
+      ;
     ElseIf Mid(TempList(), separator-1, 1) = "$"
       ConstantList(index) = Left(TempList(), separator-2) + "?" + Right(TempList(), Len(TempList())-(separator-1))
-      index + 1      
+      index + 1
       
     Else
       ConstantList(index) = TempList()
@@ -86,7 +86,7 @@ Procedure LoadConstantList()
   
   ; split the values from the full line and build ht
   k = 0
-  For i = 0 To ConstantListSize - 1  
+  For i = 0 To ConstantListSize - 1
     ConstantValueList(i) = Right(ConstantList(i), Len(ConstantList(i))-FindString(ConstantList(i), "=", 1))
     ConstantList(i)      = Left (ConstantList(i), FindString(ConstantList(i), "=", 1)-1)
     
@@ -104,7 +104,7 @@ Procedure LoadConstantList()
     EndIf
     
     If k <> c
-      ConstantHT(c, 0) = i          
+      ConstantHT(c, 0) = i
       ConstantHT(k, 1) = i-1
       k = c
     EndIf
@@ -113,9 +113,9 @@ Procedure LoadConstantList()
   
   ConstantHT(0, 0) = 0  ; this is for the full list
   ConstantHT(0, 1) = ConstantListSize - 1
-
+  
   ClearList(TempList())
-
+  
 EndProcedure
 
 
@@ -125,17 +125,17 @@ Procedure InitStructureViewer()
   ; This function is called from CompilerReady(), so the compiler is always ready here
   ;
   LoadConstantList()
-    
+  
   CompilerWrite("STRUCTURELIST")
   Response$ = CompilerRead()
-
+  
   StructureListSize = Val(Response$)
   Dim StructureList.s(StructureListSize) ; no -1 here in case StructureListSize = 0
   
   ; We read until OUTPUT<T>COMPLETE. Even if we read all entries yet.
-  ; If this is not done, the OUTPUT<T>COMPLETE will remain in the buffer! 
+  ; If this is not done, the OUTPUT<T>COMPLETE will remain in the buffer!
   index = 0
-  Repeat 
+  Repeat
     Response$ = CompilerRead_NoDebug()
     
     If Response$ = "OUTPUT"+Chr(9)+"COMPLETE"
@@ -151,11 +151,11 @@ Procedure InitStructureViewer()
   ; make all HT entries invalid
   For i = 0 To 27
     StructureHT(i, 1) = -1
-  Next i  
+  Next i
   
   ; build ht
   k = 0
-  For i = 0 To StructureListSize - 1  
+  For i = 0 To StructureListSize - 1
     c = Asc(UCase(Left(StructureList(i), 1)))
     If c = '_'
       c = 27
@@ -164,7 +164,7 @@ Procedure InitStructureViewer()
     EndIf
     
     If k <> c
-      StructureHT(c, 0) = i          
+      StructureHT(c, 0) = i
       StructureHT(k, 1) = i-1
       k = c
     EndIf
@@ -174,18 +174,18 @@ Procedure InitStructureViewer()
   StructureHT(0, 0) = 0  ; this is for the full list
   StructureHT(0, 1) = StructureListSize - 1
   
-
+  
   CompilerWrite("INTERFACELIST")
   Response$ = CompilerRead()
-
+  
   InterfaceListSize = Val(Response$)
   Dim InterfaceList.s(InterfaceListSize) ; no -1 here in case InterfaceListSize = 0
-
-    
+  
+  
   ; We read until OUTPUT<T>COMPLETE. Even if we read all entries yet.
-  ; If this is not done, the OUTPUT<T>COMPLETE will remain in the buffer! 
+  ; If this is not done, the OUTPUT<T>COMPLETE will remain in the buffer!
   index = 0
-  Repeat 
+  Repeat
     Response$ = CompilerRead_NoDebug()
     
     If Response$ = "OUTPUT"+Chr(9)+"COMPLETE"
@@ -201,11 +201,11 @@ Procedure InitStructureViewer()
   ; make all HT entries invalid
   For i = 0 To 27
     InterfaceHT(i, 1) = -1
-  Next i  
+  Next i
   
   ; build ht
   k = 0
-  For i = 0 To InterfaceListSize - 1  
+  For i = 0 To InterfaceListSize - 1
     c = Asc(UCase(Left(InterfaceList(i), 1)))
     If c = '_'
       c = 27
@@ -214,7 +214,7 @@ Procedure InitStructureViewer()
     EndIf
     
     If k <> c
-      InterfaceHT(c, 0) = i          
+      InterfaceHT(c, 0) = i
       InterfaceHT(k, 1) = i-1
       k = c
     EndIf
@@ -222,13 +222,13 @@ Procedure InitStructureViewer()
   InterfaceHT(k, 1) = InterfaceListSize - 1
   
   InterfaceHT(0, 0) = 0  ; this is for the full list
-  InterfaceHT(0, 1) = InterfaceListSize - 1  
-
+  InterfaceHT(0, 1) = InterfaceListSize - 1
+  
 EndProcedure
 
 
 Procedure DisplayStructureRootList()
-
+  
   CompilerIf #CompileLinux
     CompilerIf #GtkVersion = 1
       gtk_clist_freeze_(GadgetID(#GADGET_StructureViewer_List)) ; on gtk1, its a clist
@@ -238,73 +238,73 @@ Procedure DisplayStructureRootList()
       gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), #Null) ; disconnect the model for a faster update
     CompilerEndIf
   CompilerEndIf
-    
+  
   ClearGadgetItems(#GADGET_StructureViewer_List)
-
+  
   SetGadgetText(#GADGET_StructureViewer_Name, "")
   SetWindowTitle(#WINDOW_StructureViewer, Language("StructureViewer","Title"))
-
+  
   DisableGadget(#GADGET_StructureViewer_Parent, 1)
   DisableGadget(#GADGET_StructureViewer_InsertName, 1)
   DisableGadget(#GADGET_StructureViewer_InsertStruct, 1)
   DisableGadget(#GADGET_StructureViewer_InsertCopy, 1)
   For i = 0 To 27
     If i = CurrentDisplayChar
-      SetGadgetState(#GADGET_StructureViewer_Char0+i, 1)    
+      SetGadgetState(#GADGET_StructureViewer_Char0+i, 1)
     Else
       SetGadgetState(#GADGET_StructureViewer_Char0+i, 0)
     EndIf
-  Next i  
-
-
+  Next i
+  
+  
   If StructureViewerMode = 0
     For i = 0 To 27
       If StructureHT(i, 1) = -1
         DisableGadget(#GADGET_StructureViewer_Char0+i, 1)
       Else
-        DisableGadget(#GADGET_StructureViewer_Char0+i, 0)      
+        DisableGadget(#GADGET_StructureViewer_Char0+i, 0)
       EndIf
     Next i
     For i = StructureHT(CurrentDisplayChar, 0) To StructureHT(CurrentDisplayChar, 1)
       AddGadgetItem(#GADGET_StructureViewer_List, -1, StructureList(i))
     Next i
-
-  ElseIf StructureViewerMode = 1 
+    
+  ElseIf StructureViewerMode = 1
     For i = 0 To 27
       If InterfaceHT(i, 1) = -1
         DisableGadget(#GADGET_StructureViewer_Char0+i, 1)
       Else
-        DisableGadget(#GADGET_StructureViewer_Char0+i, 0)      
+        DisableGadget(#GADGET_StructureViewer_Char0+i, 0)
       EndIf
-    Next i  
+    Next i
     For i = InterfaceHT(CurrentDisplayChar, 0) To InterfaceHT(CurrentDisplayChar, 1)
       AddGadgetItem(#GADGET_StructureViewer_List, -1, InterfaceList(i))
     Next i
-
-  Else     
+    
+  Else
     For i = 0 To 27
       If ConstantHT(i, 1) = -1
         DisableGadget(#GADGET_StructureViewer_Char0+i, 1)
       Else
-        DisableGadget(#GADGET_StructureViewer_Char0+i, 0)      
+        DisableGadget(#GADGET_StructureViewer_Char0+i, 0)
       EndIf
-    Next i  
+    Next i
     For i = ConstantHT(CurrentDisplayChar, 0) To ConstantHT(CurrentDisplayChar, 1)
       AddGadgetItem(#GADGET_StructureViewer_List, -1, ConstantList(i)+" = "+ConstantValueList(i))
     Next i
-
+    
   EndIf
-
+  
   ; NOTE! must be done before the SetGadgetState, as it accesses the tree model which we removed!
   CompilerIf #CompileLinux
     CompilerIf #GtkVersion = 1
       gtk_clist_thaw_(GadgetID(#GADGET_StructureViewer_List))
     CompilerElse
       gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), *tree_model) ; reconnect the model
-      g_object_unref_(*tree_model) ; release reference
+      g_object_unref_(*tree_model)                                                  ; release reference
     CompilerEndIf
   CompilerEndIf
-
+  
   If ListSize(StructureHistory()) = 1
     If IsRootDisplay
       If StructureViewerMode = 0
@@ -322,10 +322,10 @@ Procedure DisplayStructureRootList()
       SetGadgetState(#GADGET_StructureViewer_List, index)
     EndIf
   EndIf
-  ClearList(StructureHistory())  
-
+  ClearList(StructureHistory())
+  
   IsRootDisplay = 1
-
+  
 EndProcedure
 
 Procedure DisplayStructure(Name$)
@@ -337,18 +337,18 @@ Procedure DisplayStructure(Name$)
   
   For i = 0 To 27
     DisableGadget(#GADGET_StructureViewer_Char0+i, 1)
-  Next i   
-
+  Next i
+  
   SetWindowTitle(#WINDOW_StructureViewer, Language("StructureViewer","Title") + " - " + Name$)
   ClearGadgetItems(#GADGET_StructureViewer_List)
-
+  
   SetGadgetText(#GADGET_StructureViewer_Name, "")
   
   ; A Compiler newstart could have happened, so check this!
   ;
   If CompilerReady
     AddGadgetItem(#GADGET_StructureViewer_List, -1, "Structure " + Name$)
-  
+    
     ForceDefaultCompiler()
     CompilerWrite("STRUCTURE"+Chr(9)+Trim(Name$))
     
@@ -364,7 +364,7 @@ Procedure DisplayStructure(Name$)
     
     AddGadgetItem(#GADGET_StructureViewer_List, -1, "EndStructure")
   EndIf
-
+  
 EndProcedure
 
 Procedure DisplayInterface(Name$)
@@ -375,18 +375,18 @@ Procedure DisplayInterface(Name$)
   
   For i = 0 To 27
     DisableGadget(#GADGET_StructureViewer_Char0+i, 1)
-  Next i   
-
+  Next i
+  
   SetWindowTitle(#WINDOW_StructureViewer, Language("StructureViewer","Title") + " - " + Name$)
   ClearGadgetItems(#GADGET_StructureViewer_List)
-
+  
   SetGadgetText(#GADGET_StructureViewer_Name, "")
   
   ; A Compiler newstart could have happened, so check this!
   ;
   If CompilerReady
     AddGadgetItem(#GADGET_StructureViewer_List, -1, "Interface " + Name$)
-  
+    
     ForceDefaultCompiler()
     CompilerWrite("INTERFACE"+Chr(9)+Trim(Name$))
     
@@ -402,14 +402,14 @@ Procedure DisplayInterface(Name$)
     
     AddGadgetItem(#GADGET_StructureViewer_List, -1, "EndInterface")
   EndIf
-
+  
 EndProcedure
 
 
 Procedure OpenStructureViewerWindow()
-
-  If IsWindow(#WINDOW_StructureViewer) = 0
   
+  If IsWindow(#WINDOW_StructureViewer) = 0
+    
     StructureViewerDialog = OpenDialog(?Dialog_StructureViewer, 0, @StructureViewerPosition)
     If StructureViewerDialog
       EnsureWindowOnDesktop(#WINDOW_StructureViewer)
@@ -424,9 +424,9 @@ Procedure OpenStructureViewerWindow()
       CurrentDisplayChar = 0
       SetWindowStayOnTop(#WINDOW_StructureViewer, StructureViewerStayOnTop)
       SetGadgetState(#GADGET_StructureViewer_OnTop, StructureViewerStayOnTop)
-
+      
       Word$ = LCase(GetCurrentWord())
-
+      
       If Word$ <> ""
         Found = 0
         For index = 0 To StructureListSize-1
@@ -435,7 +435,7 @@ Procedure OpenStructureViewerWindow()
             Break
           EndIf
         Next index
-
+        
         If Found
           StructureViewerMode = 0
         Else
@@ -445,7 +445,7 @@ Procedure OpenStructureViewerWindow()
               Break
             EndIf
           Next index
-
+          
           If Found
             StructureViewerMode = 1
           Else
@@ -456,9 +456,9 @@ Procedure OpenStructureViewerWindow()
                 Break
               EndIf
             Next index
-
+            
             If Found
-              StructureViewerMode = 2        
+              StructureViewerMode = 2
             Else
               StructureViewerMode = 0
               index = -1
@@ -469,68 +469,68 @@ Procedure OpenStructureViewerWindow()
         StructureViewerMode = 0
         index = -1
       EndIf
-
+      
       SetGadgetState(#GADGET_StructureViewer_Panel, StructureViewerMode)
       DisplayStructureRootList()
       HideWindow(#WINDOW_StructureViewer, 0) ; DisplayStructureRootList() does the resize too, so show the window only when its done.
       SetGadgetState(#GADGET_StructureViewer_List, index)
       
       EnableGadgetDrop(#GADGET_StructureViewer_List, #PB_Drop_Text, #PB_Drag_Copy)
-
+      
     EndIf
-
+    
   Else
     SetWindowForeground(#WINDOW_StructureViewer)
   EndIf
   
   SetActiveGadget(#GADGET_StructureViewer_List)
-
+  
 EndProcedure
 
 
 Procedure StructureViewerWindowEvents(EventID)
-
+  
   If EventID = #PB_Event_Menu
     EventID = #PB_Event_Gadget
     EventGadgetID = EventMenu()
   ElseIf EventID = #PB_Event_Gadget
     EventGadgetID = EventGadget()
   EndIf
-
+  
   Select EventID
-
-    Case #PB_Event_CloseWindow  
+      
+    Case #PB_Event_CloseWindow
       If MemorizeWindow
         StructureViewerDialog\Close(@StructureViewerPosition)
       Else
         StructureViewerDialog\Close()
       EndIf
       StructureViewerDialog = 0
-
+      
     Case #PB_Event_SizeWindow
       StructureViewerDialog\SizeUpdate()
       
     Case #PB_Event_GadgetDrop
       Text$ = RemoveString(RemoveString(EventDropText(), Chr(9)), " ")
       
-      ; try to locate the struct/interface      
+      ; try to locate the struct/interface
       If Text$ <> "" And Text$ <> "#" ; a single "#" will be problematic below
-      
+        
         ascii = Asc(UCase(Left(RemoveString(Text$, "#"), 1)))
         If ascii = '_'
           char = 27
-        ElseIf ascii >= 'A' And ascii <= 'Z' 
+        ElseIf ascii >= 'A' And ascii <= 'Z'
           char = ascii - 'A' + 1
         Else
           char = 0 ; the HT at index 0 spans the whole list
-        EndIf 
+        EndIf
         
         IsStructure = -1
         IsInterface = -1
         IsConstant  = -1
-      
-        If Left(Text$, 1) = "#" ; must be a constant 
-          For i = ConstantHT(char, 0) To ConstantHT(char, 1)     
+        
+        If Left(Text$, 1) = "#" ; must be a constant
+          For i = ConstantHT(char, 0) To ConstantHT(char, 1)
             If CompareMemoryString(@Text$, @ConstantList(i), #PB_String_NoCase) = 0
               IsConstant = i
               Break
@@ -538,22 +538,22 @@ Procedure StructureViewerWindowEvents(EventID)
           Next i
           
         Else ; can be anything...
-          For i = StructureHT(char, 0) To StructureHT(char, 1)     
+          For i = StructureHT(char, 0) To StructureHT(char, 1)
             If CompareMemoryString(@Text$, @StructureList(i), #PB_String_NoCase) = 0
               IsStructure = i
               Break
             EndIf
           Next i
           
-          For i = InterfaceHT(char, 0) To InterfaceHT(char, 1)     
+          For i = InterfaceHT(char, 0) To InterfaceHT(char, 1)
             If CompareMemoryString(@Text$, @InterfaceList(i), #PB_String_NoCase) = 0
               IsInterface = i
               Break
             EndIf
           Next i
-        
+          
           Text$ = "#" + Text$ ; try also constants here
-          For i = ConstantHT(char, 0) To ConstantHT(char, 1)     
+          For i = ConstantHT(char, 0) To ConstantHT(char, 1)
             If CompareMemoryString(@Text$, @ConstantList(i), #PB_String_NoCase) = 0
               IsConstant = i
               Break
@@ -567,15 +567,15 @@ Procedure StructureViewerWindowEvents(EventID)
         If StructureViewerMode = 0 And IsStructure <> -1
           AddElement(StructureHistory())
           StructureHistory()\Name$ = StructureList(IsStructure)
-          StructureHistory()\Line  = GetGadgetState(#GADGET_StructureViewer_List)      
+          StructureHistory()\Line  = GetGadgetState(#GADGET_StructureViewer_List)
           DisplayStructure(StructureList(IsStructure))
-        
+          
         ElseIf StructureViewerMode = 1 And IsInterface <> -1
           AddElement(StructureHistory())
           StructureHistory()\Name$ = InterfaceList(IsInterface)
-          StructureHistory()\Line  = GetGadgetState(#GADGET_StructureViewer_List)        
+          StructureHistory()\Line  = GetGadgetState(#GADGET_StructureViewer_List)
           DisplayInterface(InterfaceList(IsInterface))
-        
+          
         ElseIf StructureViewerMode = 2 And IsConstant <> -1
           ClearList(StructureHistory())
           If CurrentDisplayChar <> 0 And CurrentDisplayChar <> char
@@ -584,43 +584,43 @@ Procedure StructureViewerWindowEvents(EventID)
           EndIf
           SetGadgetState(#GADGET_StructureViewer_List, IsConstant - ConstantHT(CurrentDisplayChar, 0))
           DisableGadget(#GADGET_StructureViewer_InsertName, 0)
-          DisableGadget(#GADGET_StructureViewer_InsertCopy, 0)        
-        
+          DisableGadget(#GADGET_StructureViewer_InsertCopy, 0)
+          
         ElseIf IsStructure <> -1
           StructureViewerMode = 0
           SetGadgetState(#GADGET_StructureViewer_Panel, 0)
           ClearList(StructureHistory())
           AddElement(StructureHistory())
           StructureHistory()\Name$ = StructureList(IsStructure)
-          StructureHistory()\Line  = -1          
+          StructureHistory()\Line  = -1
           DisplayStructure(StructureList(IsStructure))
           
         ElseIf IsInterface <> -1
           StructureViewerMode = 1
-          SetGadgetState(#GADGET_StructureViewer_Panel, 1)  
+          SetGadgetState(#GADGET_StructureViewer_Panel, 1)
           ClearList(StructureHistory())
           AddElement(StructureHistory())
           StructureHistory()\Name$ = InterfaceList(IsInterface)
-          StructureHistory()\Line  = -1      
+          StructureHistory()\Line  = -1
           DisplayInterface(InterfaceList(IsInterface))
           
         ElseIf IsConstant <> -1
           ClearList(StructureHistory())
           StructureViewerMode = 2
           CurrentDisplayChar = 0
-          SetGadgetState(#GADGET_StructureViewer_Panel, 2) 
-          DisplayStructureRootList() 
+          SetGadgetState(#GADGET_StructureViewer_Panel, 2)
+          DisplayStructureRootList()
           SetGadgetState(#GADGET_StructureViewer_List, IsConstant - ConstantHT(CurrentDisplayChar, 0))
           DisableGadget(#GADGET_StructureViewer_InsertName, 0)
-          DisableGadget(#GADGET_StructureViewer_InsertCopy, 0)  
-                  
+          DisableGadget(#GADGET_StructureViewer_InsertCopy, 0)
+          
         EndIf
-      
+        
       EndIf
-
+      
     Case #PB_Event_Gadget
       Select EventGadgetID
-
+          
         Case #GADGET_StructureViewer_Panel
           If StructureViewerMode <> GetGadgetState(#GADGET_StructureViewer_Panel)
             StructureViewerMode = GetGadgetState(#GADGET_StructureViewer_Panel)
@@ -628,48 +628,48 @@ Procedure StructureViewerWindowEvents(EventID)
             ClearList(StructureHistory())
             DisplayStructureRootList()
           EndIf
-
+          
         Case #GADGET_StructureViewer_List
           If EventType() = #PB_EventType_DragStart
             index = GetGadgetState(#GADGET_StructureViewer_List)
             If index <> -1
               DragText(Trim(GetGadgetItemText(#GADGET_StructureViewer_List, index)))
-            EndIf          
-        
-          ElseIf EventType() = #PB_EventType_LeftDoubleClick     
+            EndIf
+            
+          ElseIf EventType() = #PB_EventType_LeftDoubleClick
             index = GetGadgetState(#GADGET_StructureViewer_List)
             If index <> -1
               If StructureViewerMode = 0
-
+                
                 If IsRootDisplay
                   index + StructureHT(CurrentDisplayChar, 0)
                   AddElement(StructureHistory())
                   StructureHistory()\Name$ = StructureList(index)
                   StructureHistory()\Line  = index
                   DisplayStructure(StructureList(index))
-
+                  
                 Else
                   Name$ = GetGadgetItemText(#GADGET_StructureViewer_List, index, 0)
                   position = FindString(Name$, ".", 1)
                   If position <> 0
                     Name$ = Right(Name$, Len(Name$)-position)
-
+                    
                     position = FindString(Name$, "[", 1)
                     If position <> 0
                       Name$ = Left(Name$, position-1)
                     EndIf
-
+                    
                     If Len(Name$) > 1 Or FindString("bwlfs", LCase(Name$), 1) = 0
-
+                      
                       AddElement(StructureHistory())
                       StructureHistory()\Name$ = Name$
                       StructureHistory()\Line = index
                       DisplayStructure(Name$)
-
+                      
                     EndIf
                   EndIf
                 EndIf
-
+                
               ElseIf StructureViewerMode = 1
                 If IsRootDisplay
                   index + InterfaceHT(CurrentDisplayChar, 0)
@@ -678,11 +678,11 @@ Procedure StructureViewerWindowEvents(EventID)
                   StructureHistory()\Name$ = InterfaceList(index)
                   DisplayInterface(InterfaceList(index))
                 EndIf
-
-              ; do noting for mode 3 (Constant display)
+                
+                ; do noting for mode 3 (Constant display)
               EndIf
             EndIf
-
+            
           ElseIf EventType() = #PB_EventType_LeftClick
             If IsRootDisplay
               index = GetGadgetState(#GADGET_StructureViewer_List)
@@ -704,9 +704,9 @@ Procedure StructureViewerWindowEvents(EventID)
                 EndIf
               EndIf
             EndIf
-
+            
           EndIf
-
+          
         Case #GADGET_StructureViewer_Parent
           If IsRootDiaplay = 0 And StructureViewerMode <> 2
             If ListSize(StructureHistory()) = 1
@@ -722,7 +722,7 @@ Procedure StructureViewerWindowEvents(EventID)
               SetGadgetState(#GADGET_StructureViewer_List, Line)
             EndIf
           EndIf
-
+          
         Case #GADGET_StructureViewer_Name
           If EventType() = #PB_EventType_Change
             If IsRootDisplay
@@ -738,7 +738,7 @@ Procedure StructureViewerWindowEvents(EventID)
                     If CompareMemoryString(@Text$, @StructureList(index), 1, Length) < 0
                       index - 1
                     EndIf
-                    index - StructureHT(CurrentDisplayChar, 0)                  
+                    index - StructureHT(CurrentDisplayChar, 0)
                   EndIf
                 ElseIf StructureViewerMode = 1
                   If InterfaceListSize > 0
@@ -748,7 +748,7 @@ Procedure StructureViewerWindowEvents(EventID)
                     If CompareMemoryString(@Text$, @InterfaceList(index), #PB_String_NoCase, Length) < 0
                       index - 1
                     EndIf
-                    index - InterfaceHT(CurrentDisplayChar, 0)                  
+                    index - InterfaceHT(CurrentDisplayChar, 0)
                   EndIf
                 Else
                   If ConstantListSize > 0
@@ -765,21 +765,21 @@ Procedure StructureViewerWindowEvents(EventID)
                 EndIf
                 
                 If index < 0
-                  SetGadgetState(#GADGET_StructureViewer_List, -1)              
+                  SetGadgetState(#GADGET_StructureViewer_List, -1)
                   DisableGadget(#GADGET_StructureViewer_InsertName, 1)
-                  DisableGadget(#GADGET_StructureViewer_InsertCopy, 1)                  
+                  DisableGadget(#GADGET_StructureViewer_InsertCopy, 1)
                 Else
-                  SetGadgetState(#GADGET_StructureViewer_List, index)                                  
+                  SetGadgetState(#GADGET_StructureViewer_List, index)
                   DisableGadget(#GADGET_StructureViewer_InsertName, 0)
                   If StructureViewerMode = 2
-                    DisableGadget(#GADGET_StructureViewer_InsertCopy, 0)                  
+                    DisableGadget(#GADGET_StructureViewer_InsertCopy, 0)
                   EndIf
                 EndIf
               EndIf
             EndIf
           EndIf
-
-
+          
+          
         Case #GADGET_StructureViewer_Ok
           If StructureViewerMode <> 2  ; no action if constants are displayed!
             Name$ = GetGadgetText(#GADGET_StructureViewer_Name)
@@ -789,8 +789,8 @@ Procedure StructureViewerWindowEvents(EventID)
                   If CompareMemoryString(@Name$, @StructureList(i), #PB_String_NoCase) = 0
                     AddElement(StructureHistory())
                     StructureHistory()\Name$ = Name$
-                    StructureHistory()\Line  = index              
-                    DisplayStructure(Name$)                  
+                    StructureHistory()\Line  = index
+                    DisplayStructure(Name$)
                     Break
                   EndIf
                 Next i
@@ -799,16 +799,16 @@ Procedure StructureViewerWindowEvents(EventID)
                   If CompareMemoryString(@Name$, @InterfaceList(i), #PB_String_NoCase) = 0
                     AddElement(StructureHistory())
                     StructureHistory()\Name$ = Name$
-                    StructureHistory()\Line  = index              
-                    DisplayInterface(Name$)                  
+                    StructureHistory()\Line  = index
+                    DisplayInterface(Name$)
                     Break
                   EndIf
-                Next i              
+                Next i
               EndIf
             EndIf
           EndIf
-
-
+          
+          
         Case #GADGET_StructureViewer_Cancel
           If MemorizeWindow
             StructureViewerX      = WindowX(#WINDOW_StructureViewer)
@@ -817,19 +817,19 @@ Procedure StructureViewerWindowEvents(EventID)
             StructureViewerHeight = WindowHeight(#WINDOW_StructureViewer)
           EndIf
           CloseWindow(#WINDOW_StructureViewer)
-
-
+          
+          
         Case #GADGET_StructureViewer_OnTop
           StructureViewerStayOnTop = GetGadgetState(#GADGET_StructureViewer_OnTop)
           SetWindowStayOnTop(#WINDOW_StructureViewer, StructureViewerStayOnTop)
-
-
+          
+          
         Case #GADGET_StructureViewer_InsertName
           If *ActiveSource <> *ProjectInfo
             index = GetGadgetState(#GADGET_StructureViewer_List)
-            If index <> -1        
+            If index <> -1
               If StructureViewerMode = 2
-                InsertCodeString(ConstantList(index + ConstantHT(CurrentDisplayChar, 0)))            
+                InsertCodeString(ConstantList(index + ConstantHT(CurrentDisplayChar, 0)))
               Else
                 If IsRootDisplay
                   InsertCodeString("." + GetGadgetItemText(#GADGET_StructureViewer_List, index, 0))
@@ -839,11 +839,11 @@ Procedure StructureViewerWindowEvents(EventID)
               EndIf
             EndIf
           EndIf
-
-
+          
+          
         Case #GADGET_StructureViewer_InsertCopy
           If *ActiveSource <> *ProjectInfo
-            index = GetGadgetState(#GADGET_StructureViewer_List)          
+            index = GetGadgetState(#GADGET_StructureViewer_List)
             If StructureViewerMode = 2
               If index <> -1
                 InsertCodeString(GetGadgetItemText(#GADGET_StructureViewer_List, index, 0))
@@ -883,8 +883,8 @@ Procedure StructureViewerWindowEvents(EventID)
               InsertCodeString(Intend$ + GetGadgetItemText(#GADGET_StructureViewer_List, CountGadgetItems(#GADGET_StructureViewer_List)-1, 0)+#NewLine)
             EndIf
           EndIf
-
-
+          
+          
         Case #GADGET_StructureViewer_InsertStruct
           If *ActiveSource <> *ProjectInfo
             If StructureViewerMode = 0
@@ -909,10 +909,10 @@ Procedure StructureViewerWindowEvents(EventID)
                   Else
                     Intend$ + Space(intend)
                   EndIf
-                EndIf                         
+                EndIf
                 
                 InsertCodeString(Var$ + "." + StructureHistory()\Name$+#NewLine)
-  
+                
                 ; find longest line
                 length = 0
                 For i = 1 To CountGadgetItems(#GADGET_StructureViewer_List)-2
@@ -926,19 +926,19 @@ Procedure StructureViewerWindowEvents(EventID)
                     length = newlength
                   EndIf
                 Next i
-  
+                
                 ; output the lines
                 For i = 1 To CountGadgetItems(#GADGET_StructureViewer_List)-2
                   Line$ = LTrim(Trim(GetGadgetItemText(#GADGET_StructureViewer_List, i, 0)), "*") ; We need to remove the '*' when inserting the item.
                   Field$ = Left(Line$, FindString(Line$, ".", 1)-1)
-  
+                  
                   If FindString(Line$, "[", 1) <> 0
                     Field$ + "[" + RSet("0", Len(Line$) - FindString(Line$, "[", 1) - 1) + "]"
                   EndIf
-  
+                  
                   InsertCodeString(Intend$ + Var$ + "\" + LSet(Field$, length) + " = " + #NewLine)
                 Next i
-  
+                
               EndIf
             EndIf
           EndIf
@@ -949,12 +949,12 @@ Procedure StructureViewerWindowEvents(EventID)
               SetGadgetState(EventGadgetID, 1)
             Else
               CurrentDisplayChar = EventGadgetID - #GADGET_StructureViewer_Char0
-              DisplayStructureRootList()              
+              DisplayStructureRootList()
             EndIf
           EndIf
-
+          
       EndSelect
-
+      
   EndSelect
-
+  
 EndProcedure
