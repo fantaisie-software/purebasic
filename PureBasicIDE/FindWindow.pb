@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -6,15 +6,15 @@
 
 
 Procedure OpenFindWindow()
-    
+  
   If IsWindow(#WINDOW_Find) = 0
-   
+    
     If *ActiveSource <> *ProjectInfo
- 
+      
       FindWindowDialog = OpenDialog(?Dialog_Find, WindowID(#WINDOW_Main), @FindWindowPosition)
       If FindWindowDialog
         EnsureWindowOnDesktop(#WINDOW_Find)
-      
+        
         For i = 1 To FindHistorySize
           If FindSearchHistory(i) <> ""
             AddGadgetItem(#GADGET_Find_FindWord, -1, FindSearchHistory(i))
@@ -44,7 +44,7 @@ Procedure OpenFindWindow()
           If RowStart = RowEnd
             SetGadgetState(#GADGET_Find_SelectionOnly, 0)
             DisableGadget(#GADGET_Find_SelectionOnly, 1)
-          
+            
           Else
             ; display the default selection in the box
             Line$ = Mid(GetLine(LineStart-1), RowStart, RowEnd-RowStart)
@@ -52,20 +52,20 @@ Procedure OpenFindWindow()
           EndIf
         EndIf
       EndIf
-    
+      
     EndIf
-
+    
   Else
     SetWindowForeground(#WINDOW_Find)
   EndIf
   
   SelectComboBoxText(#GADGET_Find_FindWord)
   SetActiveGadget(#GADGET_Find_FindWord)
-
+  
 EndProcedure
 
 Procedure UpdateFindWindow()
-
+  
   FindWindowDialog\LanguageUpdate()
   
   While FindHistorySize < CountGadgetItems(#GADGET_Find_FindWord)
@@ -75,29 +75,29 @@ Procedure UpdateFindWindow()
   While FindHistorySize < CountGadgetItems(#GADGET_Find_ReplaceWord)
     RemoveGadgetItem(#GADGET_Find_ReplaceWord, CountGadgetItems(#GADGET_Find_ReplaceWord)-1)
   Wend
-
+  
   FindWindowDialog\GuiUpdate()
-
+  
 EndProcedure
 
 
 
 Procedure FindWindowEvents(EventID)
-
+  
   If EventID = #PB_Event_Menu     ; Little wrapper to map the shortcut events (identified as menu)
     EventID  = #PB_Event_Gadget   ; to normal gadget events...
     GadgetID = EventMenu()
   Else
     GadgetID = EventGadget()
   EndIf
-
+  
   Select EventID
     Case #PB_Event_CloseWindow
       Quit = 1
-  
+      
     Case #PB_Event_Gadget
       Select GadgetID
-      
+          
         Case #GADGET_Find_DoReplace
           If GetGadgetState(#GADGET_Find_DoReplace)
             DisableGadget(#GADGET_Find_ReplaceWord, 0)
@@ -108,7 +108,7 @@ Procedure FindWindowEvents(EventID)
             DisableGadget(#GADGET_Find_Replace, 1)
             DisableGadget( #GADGET_Find_Replaceall, 1)
           EndIf
-      
+          
         Case #GADGET_Find_FindNext,
              #GADGET_Find_FindPrevious
           If *ActiveSource <> *ProjectInfo
@@ -133,7 +133,7 @@ Procedure FindWindowEvents(EventID)
               SetWindowForeground(#WINDOW_Find)
             EndIf
           EndIf
-        
+          
         Case #GADGET_Find_Replace
           If *ActiveSource <> *ProjectInfo
             *Debugger.DebuggerData = IsDebuggedFile(*ActiveSource)
@@ -154,7 +154,7 @@ Procedure FindWindowEvents(EventID)
             EndIf
             SetWindowForeground(#WINDOW_Find)
           EndIf
-        
+          
         Case #GADGET_Find_Replaceall
           If *ActiveSource <> *ProjectInfo
             *Debugger.DebuggerData = IsDebuggedFile(*ActiveSource)
@@ -175,12 +175,12 @@ Procedure FindWindowEvents(EventID)
             EndIf
             SetWindowForeground(#WINDOW_Find)
           EndIf
-                    
+          
         Case #GADGET_Find_Close
           Quit = 1
-      
-      EndSelect
           
+      EndSelect
+      
   EndSelect
   
   If Quit
@@ -191,7 +191,7 @@ Procedure FindWindowEvents(EventID)
     FindNoStrings     = GetGadgetState(#GADGET_Find_NoStrings)
     FindSelectionOnly = GetGadgetState(#GADGET_Find_SelectionOnly)
     FindDoReplace     = GetGadgetState(#GADGET_Find_DoReplace)
-            
+    
     ; save search strings
     For i = 1 To FindHistorySize
       If CountGadgetItems(#GADGET_Find_FindWord) >= i

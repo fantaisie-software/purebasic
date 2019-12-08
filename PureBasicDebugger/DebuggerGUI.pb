@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -9,14 +9,14 @@
 ; all windows of this debugger according to the ProgramState value
 ;
 Procedure Debugger_UpdateWindowStates(*Debugger.DebuggerData)
-
+  
   For i = 0 To #DEBUGGER_WINDOW_LAST-1
     If *Debugger\Windows[i]
-          
+      
       Select i
-      
-        ; debug output window doesn't need updating when program states change.
-      
+          
+          ; debug output window doesn't need updating when program states change.
+          
         Case #DEBUGGER_WINDOW_Asm
           UpdateAsmWindowState(*Debugger)
           
@@ -34,33 +34,33 @@ Procedure Debugger_UpdateWindowStates(*Debugger.DebuggerData)
           
         Case #DEBUGGER_WINDOW_Library
           UpdateLibraryViewerState(*Debugger)
-        
+          
         Case #DEBUGGER_WINDOW_Profiler
           UpdateProfilerWindowState(*Debugger)
-
+          
         Case #DEBUGGER_WINDOW_DataBreakpoints
           UpdateDataBreakpointWindowState(*Debugger)
           
         Case #DEBUGGER_WINDOW_Purifier
           UpdatePurifierWindowState(*Debugger)
-
+          
       EndSelect
-    
+      
     EndIf
   Next i
-
+  
 EndProcedure
 
 ; update the language for all open debugger windows
 ;
 Procedure Debugger_UpdateWindowPreferences()
-
-  ForEach RunningDebuggers()
   
+  ForEach RunningDebuggers()
+    
     If RunningDebuggers()\Windows[#DEBUGGER_WINDOW_Debug]
       UpdateDebugWindow(@RunningDebuggers())
     EndIf
-
+    
     If RunningDebuggers()\Windows[#DEBUGGER_WINDOW_Asm]
       UpdateAsmWindow(@RunningDebuggers())
     EndIf
@@ -103,7 +103,7 @@ Procedure Debugger_UpdateWindowPreferences()
     CompilerEndIf
     
   Next RunningDebuggers()
-
+  
 EndProcedure
 
 ; checks if an event is comming from a debugger window and dispactes it
@@ -117,17 +117,17 @@ Procedure Debugger_ProcessEvents(EventWindowID, EventID)
   ; a "ForEach RunningDebuggers()" itself!
   ;
   Index = ListIndex(RunningDebuggers())
-
+  
   ForEach RunningDebuggers()
-
+    
     For i = 0 To #DEBUGGER_WINDOW_LAST-1
       If RunningDebuggers()\Windows[i] = EventWindowID
         Processed = 1
         
         If EventID = #PB_Event_ActivateWindow ; process this for all windows
-         ; Debug "activated!"
+                                              ; Debug "activated!"
           If DebuggerBringToTop And DebuggerOnTop = 0
-   
+            
             ; bring all windows of this debugger to the top
             
             If DebuggerMainWindow ; start with the main window (if there is one)
@@ -145,14 +145,14 @@ Procedure Debugger_ProcessEvents(EventWindowID, EventID)
             
             ; make sure this one stays on the front
             SetWindowForeground_NoActivate(RunningDebuggers()\Windows[i])
-                        
+            
           EndIf
         EndIf
-      
+        
         ; dispatch the event to the right procedure
         ;
         Select i
-        
+            
           Case #DEBUGGER_WINDOW_Debug
             DebugWindowEvents(@RunningDebuggers(), EventID)
             
@@ -176,22 +176,22 @@ Procedure Debugger_ProcessEvents(EventWindowID, EventID)
             
           Case #DEBUGGER_WINDOW_Profiler
             ProfilerWindowEvents(@RunningDebuggers(), EventID)
-
+            
           Case #DEBUGGER_WINDOW_DataBreakpoints
             DataBreakpointWindowEvents(@RunningDebuggers(), EventID)
-             
+            
           Case #DEBUGGER_WINDOW_Purifier
             PurifierWindowEvents(@RunningDebuggers(), EventID)
-             
+            
           Default ; unknown !?
             Processed = 0
-        
+            
         EndSelect
-      
+        
         Break 2
       EndIf
     Next i
-  
+    
   Next RunningDebuggers()
   
   If Index = -1
@@ -199,6 +199,6 @@ Procedure Debugger_ProcessEvents(EventWindowID, EventID)
   Else
     SelectElement(RunningDebuggers(), Index)
   EndIf
-
+  
   ProcedureReturn Processed
 EndProcedure

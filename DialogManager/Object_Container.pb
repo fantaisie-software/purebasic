@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -31,7 +31,7 @@ Procedure DlgContainer_New(*StaticData.DialogObjectData)
     *THIS\HasTitle   = #False ; for DlgBinBase_Update()
     
     *THIS\Gadget = ContainerGadget(*StaticData\Gadget, 0, 0, 0, 0, *StaticData\Flags)
-
+    
     If *StaticData\Gadget <> -1
       *THIS\Gadget = *StaticData\Gadget
     EndIf
@@ -47,7 +47,7 @@ EndProcedure
 Procedure DlgContainer_SizeRequest(*THIS.DlgContainer, *Width.LONG, *Height.LONG)
   *THIS\RequestedWidth  = 0
   *THIS\RequestedHeight = 0
-
+  
   If *THIS\Child
     *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
   EndIf
@@ -116,7 +116,7 @@ EndProcedure
 
 Procedure DlgContainer_SizeApply(*THIS.DlgContainer, x, y, Width, Height)
   ResizeGadget(*THIS\Gadget, x, y, Width, Height)
-
+  
   If *THIS\Child
     If *THIS\BorderInClient
       x = *THIS\BorderWidth / 2 ; need to add an offset from the border
@@ -125,11 +125,11 @@ Procedure DlgContainer_SizeApply(*THIS.DlgContainer, x, y, Width, Height)
       x = 0
       y = 0
     EndIf
-  
+    
     Width  - *THIS\BorderWidth
     Height - *THIS\BorderHeight
     DlgBinBase_CalculateChildSize(*THIS, @x, @y, @Width, @Height)
-  
+    
     *THIS\Child\SizeApply(x, y, Width, Height)
   EndIf
   
@@ -138,16 +138,16 @@ EndProcedure
 
 
 DataSection
-
+  
   DlgContainer_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgContainer_SizeRequest()
-    Data.i @DlgContainer_SizeApply()
-    Data.i @DlgBinBase_AddChild()
-    Data.i @DlgBinBase_FoldApply()
-    Data.i @DlgBinBase_Find()
-    Data.i @DlgBinBase_Finish()
-    Data.i @DlgBinBase_Update()
-    Data.i @DlgBinBase_Destroy()
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgContainer_SizeRequest()
+  Data.i @DlgContainer_SizeApply()
+  Data.i @DlgBinBase_AddChild()
+  Data.i @DlgBinBase_FoldApply()
+  Data.i @DlgBinBase_Find()
+  Data.i @DlgBinBase_Finish()
+  Data.i @DlgBinBase_Update()
+  Data.i @DlgBinBase_Destroy()
+  
 EndDataSection

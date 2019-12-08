@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -33,12 +33,12 @@ Procedure PreferenceModify_Load(FileName$)
     
     While Eof(File) = 0
       Line$ = RTrim(ReadString(File))
-            
-      If Left(Line$, 1) = ";" Or Line$ = "" ; comments, do nothing
       
+      If Left(Line$, 1) = ";" Or Line$ = "" ; comments, do nothing
+        
       ElseIf Left(Line$, 1) = "[" And FindString(Line$, "]", 1) <> 0 ; group name
         Group$ = Mid(Line$, 2, FindString(Line$, "]", 1)-2)
-              
+        
       ElseIf FindString(Line$, "=", 1) <> 0 ; key, otherwise invalid entry
         pos = FindString(Line$, "=", 1)
         AddElement(PreferenceModify_List())
@@ -51,10 +51,10 @@ Procedure PreferenceModify_Load(FileName$)
         EndIf
       EndIf
     Wend
-  
+    
     PreferenceModify_Group$ = ""
     CloseFile(File)
-  
+    
     ProcedureReturn 1
   Else
     ProcedureReturn 0
@@ -65,7 +65,7 @@ EndProcedure
 ;
 Procedure PreferenceModify_Save(FileName$)
   If CreatePreferences(FileName$)
-  
+    
     ; first we must output all with an empty group!
     ; also set the IsSaved flag correctly
     ;
@@ -82,9 +82,9 @@ Procedure PreferenceModify_Save(FileName$)
     ;
     ForEach PreferenceModify_List()
       If PreferenceModify_List()\IsSaved = 0 ; only process unsaved entries
-        ; start a new group
+                                             ; start a new group
         Group$ = PreferenceModify_List()\Group$
-      
+        
         PreferenceComment("") ; do an empty line before a new group
         PreferenceGroup(Group$)
         WritePreferenceString(PreferenceModify_List()\Key$, PreferenceModify_List()\Value$)
@@ -98,12 +98,12 @@ Procedure PreferenceModify_Save(FileName$)
             PreferenceModify_List()\IsSaved = 1
           EndIf
         Wend
-           
+        
         ; continue searching for the next unsaved group
         ChangeCurrentElement(PreferenceModify_List(), *Current)
       EndIf
     Next PreferenceModify_List()
-  
+    
     ClosePreferences()
     
     ProcedureReturn 1

@@ -1,4 +1,4 @@
-;|-------------------------------------------------------------------------------------------------
+﻿;|-------------------------------------------------------------------------------------------------
 ;|
 ;|  Title            : TabBarGadget
 ;|  Version          : 1.5 Beta 2 (2014-08-05)
@@ -927,8 +927,8 @@ Procedure TabBarGadget_ReplaceImage(*TabBarGadget.TabBarGadget, *Item.TabBarGadg
       *Item\Image = CreateImage(#PB_Any, TabBarGadgetInclude\ImageSize, TabBarGadgetInclude\ImageSize, 32|#PB_Image_Transparent)
     CompilerEndIf
     StartDrawing(ImageOutput(*Item\Image))
-      DrawingMode(#PB_2DDrawing_AlphaBlend)
-      DrawImage(NewImageID, 0, 0, TabBarGadgetInclude\ImageSize, TabBarGadgetInclude\ImageSize)
+    DrawingMode(#PB_2DDrawing_AlphaBlend)
+    DrawImage(NewImageID, 0, 0, TabBarGadgetInclude\ImageSize, TabBarGadgetInclude\ImageSize)
     StopDrawing()
     TabBarGadget_RotateImage(*TabBarGadget, *Item)
   EndIf
@@ -1531,11 +1531,11 @@ Procedure TabBarGadget_Examine_Editor(*TabBarGadget.TabBarGadget)
           EndSelect
           \Editor\Item\ShortText = \Editor\Item\Text
         Case #PB_EventType_LostFocus
-        If \Editor\OldText <> \Editor\Item\Text
-          ChangeCurrentElement(\Item(), \Editor\Item)
-          PostEvent(#PB_Event_Gadget, \Window, \Number, #TabBarGadget_EventType_EditItem, ListIndex(\Item()))
-        EndIf
-        \Editor\Item = #Null
+          If \Editor\OldText <> \Editor\Item\Text
+            ChangeCurrentElement(\Item(), \Editor\Item)
+            PostEvent(#PB_Event_Gadget, \Window, \Number, #TabBarGadget_EventType_EditItem, ListIndex(\Item()))
+          EndIf
+          \Editor\Item = #Null
       EndSelect
       
     Else
@@ -1990,7 +1990,7 @@ Procedure TabBarGadget_Update(*TabBarGadget.TabBarGadget)
         \NewTabItem\Position = TabBarGadgetInclude\Margin+Row(\NewTabItem\Row)\Length - 1
       EndIf
       
-    ; Einzeilige Registerkartenleiste
+      ; Einzeilige Registerkartenleiste
     Else
       
       \MaxLength = TabBarGadget_MaxLength(*TabBarGadget)
@@ -2148,7 +2148,7 @@ Procedure TabBarGadget_Update(*TabBarGadget.TabBarGadget)
       \Resized = #True
       \Rows = Rows
     EndIf
-
+    
     ; Animation der bewegten Registerkarte
     If \MoveItem
       If \Attributes & #TabBarGadget_Vertical
@@ -2690,7 +2690,7 @@ Procedure SetTabBarGadgetAttribute(Gadget.i, Attribute.i, Value.i, Overwrite.i=#
   
   Select Attribute
     Case #TabBarGadget_CloseButton, #TabBarGadget_SelectedCloseButton, #TabBarGadget_NewTab, #TabBarGadget_NoTabMoving, #TabBarGadget_BottomLine,
-          #TabBarGadget_MultiLine, #TabBarGadget_PopupButton, #TabBarGadget_Editable, #TabBarGadget_CheckBox, #TabBarGadget_ReverseOrdering
+         #TabBarGadget_MultiLine, #TabBarGadget_PopupButton, #TabBarGadget_Editable, #TabBarGadget_CheckBox, #TabBarGadget_ReverseOrdering
       If Value
         *TabBarGadget\Attributes | Attribute
         If Overwrite

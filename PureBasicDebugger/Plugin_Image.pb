@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -27,7 +27,7 @@ Procedure Plugin_Image_DisplayObject(WindowID, *Buffer, Size)
       OutputPitch   = DrawingBufferPitch()
       
       If *OutputBuffer
-      
+        
         ; little trick: make Pitch negative and start at the last row if Y is reversed
         If OutputFormat & #PB_PixelFormat_ReversedY
           *OutputBuffer + (*Header\Height-1) * OutputPitch
@@ -36,7 +36,7 @@ Procedure Plugin_Image_DisplayObject(WindowID, *Buffer, Size)
         EndIf
         
         *InputBuffer = *Buffer + SizeOf(PB_LibraryViewer_Image)
-
+        
         ; If the formats match we just make a fast line copy
         ; Otherwise the Input and Output have the same BPP as we created them
         ; that way so we only need To Map BGR->RGB And RGB->BGR which is rather simple
@@ -47,9 +47,9 @@ Procedure Plugin_Image_DisplayObject(WindowID, *Buffer, Size)
           
           If OutputFormat = *Header\Format
             CopyMemory(*Input, *Output, *Header\Width * *Header\BytesPerPixel)
-          
+            
           ElseIf *Header\BytesPerPixel = 3 ; no alpha
-          
+            
             CompilerIf #CompileMac
               ; OSX is a special case here as it does not have 24bit images, so we need
               ; to convert 24bit to 32bit here for crossplatform compatibility
@@ -60,7 +60,7 @@ Procedure Plugin_Image_DisplayObject(WindowID, *Buffer, Size)
                   *Output\b[1] = *Input\b[1]
                   *Output\b[2] = *Input\b[0]
                   *Output\b[3] = $FF
-                                 
+                  
                   *Input + 3
                   *Output + 4
                 Next x
@@ -70,38 +70,38 @@ Procedure Plugin_Image_DisplayObject(WindowID, *Buffer, Size)
                   *Output\b[1] = *Input\b[1]
                   *Output\b[2] = *Input\b[2]
                   *Output\b[3] = $FF
-                                 
+                  
                   *Input + 3
                   *Output + 4
                 Next x
               EndIf
-
+              
             CompilerElse
               For x = 1 To *Header\Width
                 *Output\b[0] = *Input\b[2]
                 *Output\b[1] = *Input\b[1]
                 *Output\b[2] = *Input\b[0]
-                               
+                
                 *Input + 3
                 *Output + 3
               Next x
               
             CompilerEndIf
-          
+            
           Else
             For x = 1 To *Header\Width
               *Output\b[0] = *Input\b[2]
               *Output\b[1] = *Input\b[1]
               *Output\b[2] = *Input\b[0]
               *Output\b[3] = *Input\b[3] ; alpha is always at the end
-            
+              
               *Input + 4
               *Output + 4
             Next x
-          
+            
           EndIf
         Next y
-      
+        
         Success = 1
       EndIf
       StopDrawing()

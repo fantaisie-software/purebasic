@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -35,7 +35,7 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
   ClearList(ThemeEntries())
   *ThemeFile      = 0
   *LocalThemeFile = 0
-
+  
   If Filename$ = ""
     *LocalThemeFile = ?DefaultTheme
     ThemeFileSize   = ?EndDefaultTheme - ?DefaultTheme
@@ -57,11 +57,11 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
   
   If *LocalThemeFile
     If ScanZip(*LocalThemeFile, ThemeFileSize, ThemeZipEntries()) > 0
-           
+      
       ; Locate the Theme.prefs file
       ForEach ThemeZipEntries()
         If LCase(GetFilePart(ThemeZipEntries()\Name$)) = "theme.prefs" ; all case insensitive here
-       
+          
           ; Read the Theme.prefs file
           *Buffer = ExtractZip(@ThemeZipEntries())
           If *Buffer
@@ -91,7 +91,7 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
               EndIf
               
               Line$  = Trim(RemoveString(Line$, Chr(9)))
-
+              
               If Left(Line$, 1) = "[" And Right(Line$, 1) = "]"
                 Group$ = LCase(Trim(Mid(Line$, 2, Len(Line$)-2)))
                 
@@ -107,7 +107,7 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
                       Case "info2": ThemeInfo2$ = Value$
                       Case "info3": ThemeInfo3$ = Value$
                     EndSelect
-                     
+                    
                   ElseIf Group$ <> ""
                     If Value$ <> ""
                       Value$ = LCase(Value$)
@@ -120,7 +120,7 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
                         EndIf
                       Next ThemeZipEntries()
                     EndIf
-                  
+                    
                   EndIf
                 EndIf
               EndIf
@@ -128,11 +128,11 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
             
             FreeMemory(*Buffer)
           EndIf
-        
+          
           Break
         EndIf
       Next ThemeZipEntries()
-    
+      
     EndIf
     
     If ListSize(ThemeEntries()) = 0
@@ -146,7 +146,7 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
       EndIf
     EndIf
   EndIf
-
+  
   ProcedureReturn ListSize(ThemeEntries())
 EndProcedure
 
@@ -171,11 +171,11 @@ Procedure Theme_LoadImage(Image, ImageName$)
         Result = CatchImage(Image, *Buffer, ThemeEntries()\ZipEntry\Uncompressed)
         FreeMemory(*Buffer)
       EndIf
-            
+      
       Break
     EndIf
   Next ThemeEntries()
-
+  
   ProcedureReturn Result
 EndProcedure
 
@@ -184,7 +184,7 @@ Procedure Theme_AddToPrefslist(Filename$)
     AddElement(PrefsThemeList())
     PrefsThemeList()\Filename$ = GetFilePart(Filename$)
     PrefsThemeList()\Preview   = CreateImage(#PB_Any, #MAX_ThemePreview*19+3, 22)
-
+    
     ; Load the icons for preview
     ; This must be done outside the StartDrawing() as it seems to mess up the StartDrawing() on OSX else
     ;
@@ -204,7 +204,7 @@ Procedure Theme_AddToPrefslist(Filename$)
       For i = 0 To count-1
         DrawAlphaImage(ImageID(#IMAGE_FirstThemePreview+i), i*19+3, 3)
       Next i
-  
+      
       StopDrawing()
     EndIf
     
@@ -214,7 +214,7 @@ Procedure Theme_AddToPrefslist(Filename$)
     Next i
     
     PrefsThemeList()\ImageGadget = ImageGadget(#PB_Any, 0, 0, 0, 0, ImageID(PrefsThemeList()\Preview))
-     
+    
     Text$ = ThemeInfo1$
     If ThemeInfo2$ <> "" Or ThemeInfo3$ <> ""
       Text$ + #NewLine + ThemeInfo2$
@@ -223,7 +223,7 @@ Procedure Theme_AddToPrefslist(Filename$)
       Text$ + #NewLine + ThemeInfo3$
     EndIf
     PrefsThemeList()\TextGadget = TextGadget(#PB_Any, 0, 0, 0, 0, Text$)
-
+    
     Theme_Close()
   EndIf
 EndProcedure
@@ -231,7 +231,7 @@ EndProcedure
 ;- Functions for external use
 ;
 Procedure CreatePrefsThemeList()
-
+  
   OpenGadgetList(#GADGET_Preferences_Themes)
   
   ; Add the default theme
@@ -246,7 +246,7 @@ Procedure CreatePrefsThemeList()
     Wend
     FinishDirectory(0)
   EndIf
-      
+  
   ; Create all OptionGadgets here, to have them all in one group
   ForEach PrefsThemeList()
     PrefsThemeList()\OptionGadget = OptionGadget(#PB_Any, 0, 0, 0, 0, "")
@@ -255,16 +255,16 @@ Procedure CreatePrefsThemeList()
   CloseGadgetList()
   
   If FirstElement(PrefsThemeList()) ; this is only 0 if even the internal images fail loading
-  
+    
     GetRequiredSize(PrefsThemeList()\OptionGadget, @OptionWidth.l, @OptionHeight.l)
     OptionSize = Max(OptionWidth, Max(OptionHeight, 22))
     
     Width  = #MAX_ThemePreview*19+3
     Top    = 15
-  
+    
     ForEach PrefsThemeList()
       GetRequiredSize(PrefsThemeList()\TextGadget, @TextWidth.l, @TextHeight.l)
-    
+      
       ResizeGadget(PrefsThemeList()\OptionGadget, 10, Top, OptionSize, OptionSize)
       ResizeGadget(PrefsThemeList()\ImageGadget, 10+OptionSize, Top, #MAX_ThemePreview*19+3, 22)
       ResizeGadget(PrefsThemeList()\TextGadget, 10+OptionSize, Top+27, TextWidth, TextHeight)
@@ -280,9 +280,9 @@ Procedure CreatePrefsThemeList()
     
     SetGadgetAttribute(#GADGET_Preferences_Themes, #PB_ScrollArea_InnerWidth, Width+20+OptionSize)
     SetGadgetAttribute(#GADGET_Preferences_Themes, #PB_ScrollArea_InnerHeight, Top)
-  
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure FreePrefsThemeList()
@@ -290,12 +290,12 @@ Procedure FreePrefsThemeList()
     FreeGadget(PrefsThemeList()\ImageGadget)
     FreeImage(PrefsThemeList()\Preview)
   Next PrefsThemeList()
-
+  
   ClearList(PrefsThemeList())
 EndProcedure
 
 Procedure PrefsThemeChanged()
-
+  
   ForEach PrefsThemeList()
     If GetGadgetState(PrefsThemeList()\OptionGadget)
       ; The first check is needed if both are "" (default theme)
@@ -304,7 +304,7 @@ Procedure PrefsThemeChanged()
       EndIf
     EndIf
   Next PrefsThemeList()
-
+  
   ProcedureReturn 0
 EndProcedure
 
@@ -315,7 +315,7 @@ Procedure ApplyPrefsTheme()
       ; Only reload theme if needed
       ; The first check is needed if both are "" (default theme)
       If CurrentTheme$ <> PrefsThemeList()\Filename$ And IsEqualFile(CurrentTheme$, PrefsThemeList()\Filename$) = 0
-      
+        
         ; Set theme and reload
         CurrentTheme$ = PrefsThemeList()\Filename$
         LoadTheme()
@@ -328,9 +328,9 @@ Procedure ApplyPrefsTheme()
 EndProcedure
 
 Procedure LoadTheme()
-
-  If CurrentTheme$ <> "" ; means default theme
   
+  If CurrentTheme$ <> "" ; means default theme
+    
     ; For the templates and fileviewer image, we add a fallback (default icons), to never have an empty button
     ; (For the menu, we allow missing items to choose which menu items to put an icon to)
     ;
@@ -359,7 +359,7 @@ Procedure LoadTheme()
       Theme_LoadImage(#IMAGE_Help_Previous,       "Help:Previous")
       Theme_LoadImage(#IMAGE_Help_Next,           "Help:Next")
       Theme_LoadImage(#IMAGE_Help_OpenHelp,       "Help:OpenHelp")
-   
+      
       Theme_LoadImage(#IMAGE_Option_AddTarget,    "Compiler:AddTarget")
       Theme_LoadImage(#IMAGE_Option_EditTarget,   "Compiler:EditTarget")
       Theme_LoadImage(#IMAGE_Option_CopyTarget,   "Compiler:CopyTarget")
@@ -391,7 +391,7 @@ Procedure LoadTheme()
       Theme_LoadImage(#IMAGE_IssueSingleFile, "Issues:SingleFile")
       Theme_LoadImage(#IMAGE_IssueMultiFile,  "Issues:MultiFile")
       Theme_LoadImage(#IMAGE_IssueExport,     "Issues:Export")
-          
+      
       Theme_LoadImage(#IMAGE_FormIcons_Button,           "FormIcons:Button")
       Theme_LoadImage(#IMAGE_FormIcons_ButtonImage,      "FormIcons:ButtonImage")
       Theme_LoadImage(#IMAGE_FormIcons_Calendar,         "FormIcons:Calendar")
@@ -432,7 +432,7 @@ Procedure LoadTheme()
       ; No fallback for ProjectPanel icons, as they are not critical
       
       ; No fallback for history icons (optional)
-    
+      
       Theme_Close()
     EndIf
     
@@ -444,7 +444,7 @@ Procedure LoadTheme()
   If CurrentTheme$ = ""
     Theme_Open("")
   EndIf
-
+  
   ; Load Menu icons
   ;
   For i = 1 To #NB_ToolbarMenuItems
@@ -479,14 +479,14 @@ Procedure LoadTheme()
   Theme_LoadImage(#IMAGE_FileViewer_Close,   "FileViewer:Close")
   Theme_LoadImage(#IMAGE_FileViewer_Left,    "FileViewer:Left")
   Theme_LoadImage(#IMAGE_FileViewer_Right,   "FileViewer:Right")
-
+  
   Theme_LoadImage(#IMAGE_Help_Back,           "Help:Back")
   Theme_LoadImage(#IMAGE_Help_Forward,        "Help:Forward")
   Theme_LoadImage(#IMAGE_Help_Home,           "Help:Home")
   Theme_LoadImage(#IMAGE_Help_Previous,       "Help:Previous")
   Theme_LoadImage(#IMAGE_Help_Next,           "Help:Next")
   Theme_LoadImage(#IMAGE_Help_OpenHelp,       "Help:OpenHelp")
-
+  
   Theme_LoadImage(#IMAGE_Option_AddTarget,    "Compiler:AddTarget")
   Theme_LoadImage(#IMAGE_Option_EditTarget,   "Compiler:EditTarget")
   Theme_LoadImage(#IMAGE_Option_CopyTarget,   "Compiler:CopyTarget")
@@ -537,7 +537,7 @@ Procedure LoadTheme()
       FreeImage(i)
     EndIf
   Next i
-    
+  
   Theme_LoadImage(#IMAGE_ProjectPanel_InternalFiles, "ProjectPanel:InternalFiles")
   Theme_LoadImage(#IMAGE_ProjectPanel_ExternalFiles, "ProjectPanel:ExternalFiles")
   Theme_LoadImage(#IMAGE_ProjectPanel_Directory,     "ProjectPanel:Directory")
@@ -631,11 +631,11 @@ EndProcedure
 
 
 DataSection
-
+  
   DefaultTheme:
-    IncludeBinary #BUILD_DIRECTORY+"DefaultTheme.zip"
+  IncludeBinary #BUILD_DIRECTORY+"DefaultTheme.zip"
   EndDefaultTheme:
-
+  
 EndDataSection
 
 

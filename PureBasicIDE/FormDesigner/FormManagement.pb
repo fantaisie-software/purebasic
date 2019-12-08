@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -7,7 +7,7 @@ Procedure AddFormInfo(FileName$ = "")
   
   LastElement(FileList())
   *OldSource = *ActiveSource
-
+  
   If *FormInfo = 0
     InitVars()
     FD_Init()
@@ -18,17 +18,17 @@ Procedure AddFormInfo(FileName$ = "")
     ; Create the Form gadgets
     ;
     ContainerGadget(#GADGET_Form, 0, 0, 0, 0)
-      CompilerIf #CompileWindows
-        SetWindowLongPtr_(GadgetID(#GADGET_Form), #GWL_STYLE, GetWindowLongPtr_(GadgetID(#GADGET_Form), #GWL_STYLE) | #WS_CLIPCHILDREN)
-      CompilerEndIf
+    CompilerIf #CompileWindows
+      SetWindowLongPtr_(GadgetID(#GADGET_Form), #GWL_STYLE, GetWindowLongPtr_(GadgetID(#GADGET_Form), #GWL_STYLE) | #WS_CLIPCHILDREN)
+    CompilerEndIf
     
-      CanvasGadget(#GADGET_Form_Canvas, 0, 0, 50 - 20, 50 - 20, #PB_Canvas_Keyboard)
-      EnableGadgetDrop(#GADGET_Form_Canvas, #PB_Drop_Private, #PB_Drag_Copy, 50)
-
-      ScrollBarGadget(#GADGET_Form_ScrollH, 0, 0, 50, 20, 0, 600, 600)
-      BindGadgetEvent(#GADGET_Form_ScrollH, @Form_Scrollbars())
-      ScrollBarGadget(#GADGET_Form_ScrollV, 0, 0, 20, 50, 0, 400, 400, #PB_ScrollBar_Vertical)
-      BindGadgetEvent(#GADGET_Form_ScrollV, @Form_Scrollbars())
+    CanvasGadget(#GADGET_Form_Canvas, 0, 0, 50 - 20, 50 - 20, #PB_Canvas_Keyboard)
+    EnableGadgetDrop(#GADGET_Form_Canvas, #PB_Drop_Private, #PB_Drag_Copy, 50)
+    
+    ScrollBarGadget(#GADGET_Form_ScrollH, 0, 0, 50, 20, 0, 600, 600)
+    BindGadgetEvent(#GADGET_Form_ScrollH, @Form_Scrollbars())
+    ScrollBarGadget(#GADGET_Form_ScrollV, 0, 0, 20, 50, 0, 400, 400, #PB_ScrollBar_Vertical)
+    BindGadgetEvent(#GADGET_Form_ScrollV, @Form_Scrollbars())
     
     CloseGadgetList()
     HideGadget(#GADGET_Form, #True)
@@ -45,7 +45,7 @@ Procedure AddFormInfo(FileName$ = "")
     *FormInfo = AddElement(FileList())
     
     OpenGadgetList(#GADGET_SourceContainer)
-      CreateEditorGadget()
+    CreateEditorGadget()
     CloseGadgetList()
   EndIf
   
@@ -90,7 +90,7 @@ Procedure AddFormInfo(FileName$ = "")
   Else
     ScintillaSendMessage(FileList()\EditorGadget, #SCI_SETCODEPAGE, #SC_CP_UTF8, 0)
   EndIf
-
+  
   If EnableColoring
     SetBackgroundColor(FileList()\EditorGadget)
   EndIf
@@ -171,113 +171,113 @@ Procedure FD_PrepareTestCode(compile = 1)
     UpdateProcedureList()
     UpdateVariableViewer()
   EndIf
-
+  
 EndProcedure
 
 
 ;- FormPanel plugin functions
 
 Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
-
+  
   PanelGadget(#Form_Prop, 0, 0, 50, 50)
   AddGadgetItem(#Form_Prop, 0, Language("Form", "Toolbox"))
   
-    gadgetlist = TreeGadget(#PB_Any, 0, 0, GetGadgetAttribute(#Form_Prop, #PB_Panel_ItemWidth), GetGadgetAttribute(#Form_Prop, #PB_Panel_ItemHeight), #PB_Tree_NoLines | #PB_Tree_AlwaysShowSelection)
-
-    i = 0
-    AddGadgetItem(gadgetlist, i, Language("Form", "AllForms"), 0, 0) : i + 1
-    SetGadgetItemData(gadgetlist, i - 1, -1)
-    AddGadgetItem(gadgetlist, i, Language("Form", "Cursor"), ImageID(#IMAGE_FormIcons_Cursor), 1) : i + 1
-    SetGadgetItemData(gadgetlist, i - 1, -1)
-    
-    ForEach Gadgets()
-      If Gadgets()\type <> #Form_Type_Window
-        AddGadgetItem(gadgetlist, i, Gadgets()\name, ImageID(Gadgets()\icon), 1)
-        SetGadgetItemData(gadgetlist, i, Gadgets()\type)
-        i + 1
+  gadgetlist = TreeGadget(#PB_Any, 0, 0, GetGadgetAttribute(#Form_Prop, #PB_Panel_ItemWidth), GetGadgetAttribute(#Form_Prop, #PB_Panel_ItemHeight), #PB_Tree_NoLines | #PB_Tree_AlwaysShowSelection)
+  
+  i = 0
+  AddGadgetItem(gadgetlist, i, Language("Form", "AllForms"), 0, 0) : i + 1
+  SetGadgetItemData(gadgetlist, i - 1, -1)
+  AddGadgetItem(gadgetlist, i, Language("Form", "Cursor"), ImageID(#IMAGE_FormIcons_Cursor), 1) : i + 1
+  SetGadgetItemData(gadgetlist, i - 1, -1)
+  
+  ForEach Gadgets()
+    If Gadgets()\type <> #Form_Type_Window
+      AddGadgetItem(gadgetlist, i, Gadgets()\name, ImageID(Gadgets()\icon), 1)
+      SetGadgetItemData(gadgetlist, i, Gadgets()\type)
+      i + 1
+    EndIf
+  Next
+  
+  node1 = i
+  AddGadgetItem(gadgetlist, i, Language("Form", "CommonControls"), 0, 0) : i + 1
+  SetGadgetItemData(gadgetlist,i - 1,-1)
+  AddGadgetItem(gadgetlist, i, Language("Form", "Cursor"), ImageID(#IMAGE_FormIcons_Cursor), 1) : i + 1
+  SetGadgetItemData(gadgetlist, i - 1, -1)
+  
+  ForEach Gadgets()
+    If Gadgets()\node = 1
+      AddGadgetItem(gadgetlist, i, Gadgets()\name, ImageID(Gadgets()\icon), 1)
+      SetGadgetItemData(gadgetlist, i, Gadgets()\type)
+      If Gadgets()\type = #Form_Type_Button
+        nodesel = i
       EndIf
-    Next
-    
-    node1 = i
-    AddGadgetItem(gadgetlist, i, Language("Form", "CommonControls"), 0, 0) : i + 1
-    SetGadgetItemData(gadgetlist,i - 1,-1)
-    AddGadgetItem(gadgetlist, i, Language("Form", "Cursor"), ImageID(#IMAGE_FormIcons_Cursor), 1) : i + 1
-    SetGadgetItemData(gadgetlist, i - 1, -1)
-    
-    ForEach Gadgets()
-      If Gadgets()\node = 1
-        AddGadgetItem(gadgetlist, i, Gadgets()\name, ImageID(Gadgets()\icon), 1)
-        SetGadgetItemData(gadgetlist, i, Gadgets()\type)
-        If Gadgets()\type = #Form_Type_Button
-          nodesel = i
-        EndIf
-        i + 1
-      EndIf
-    Next
-    
-    node2 = i
-    AddGadgetItem(gadgetlist, i, Language("Form", "Containers"), 0, 0) : i + 1
-    SetGadgetItemData(gadgetlist, i - 1, -1)
-    AddGadgetItem(gadgetlist, i, Language("Form", "Cursor"), ImageID(#IMAGE_FormIcons_Cursor), 1) : i + 1
-    SetGadgetItemData(gadgetlist, i - 1, -1)
-    
-    ForEach Gadgets()
-      If Gadgets()\node = 2
-        AddGadgetItem(gadgetlist, i, Gadgets()\name, ImageID(Gadgets()\icon), 1)
-        SetGadgetItemData(gadgetlist, i, Gadgets()\type)
-        i + 1
-      EndIf
-    Next
-    
-    node3 = i
-    AddGadgetItem(gadgetlist, i, Language("Form", "MenusToolbars"), 0, 0) : i + 1
-    SetGadgetItemData(gadgetlist, i - 1, -1)
-    AddGadgetItem(gadgetlist, i, Language("Form", "Cursor"), ImageID(#IMAGE_FormIcons_Cursor), 1) : i + 1
-    SetGadgetItemData(gadgetlist, i - 1, -1)
-    
-    ForEach Gadgets()
-      If Gadgets()\node = 3
-        AddGadgetItem(gadgetlist, i, Gadgets()\name, ImageID(Gadgets()\icon), 1)
-        SetGadgetItemData(gadgetlist, i, Gadgets()\type)
-        i + 1
-      EndIf
-    Next
-    
-    SetGadgetItemState(gadgetlist, 0, #PB_Tree_Collapsed)
-    SetGadgetItemState(gadgetlist, node1, #PB_Tree_Expanded)
-    SetGadgetItemState(gadgetlist, node2, #PB_Tree_Expanded)
-    SetGadgetItemState(gadgetlist, node3, #PB_Tree_Expanded)
-    SetGadgetState(gadgetlist, nodesel)
-    
-    form_gadget_type = #Form_Type_Button
+      i + 1
+    EndIf
+  Next
+  
+  node2 = i
+  AddGadgetItem(gadgetlist, i, Language("Form", "Containers"), 0, 0) : i + 1
+  SetGadgetItemData(gadgetlist, i - 1, -1)
+  AddGadgetItem(gadgetlist, i, Language("Form", "Cursor"), ImageID(#IMAGE_FormIcons_Cursor), 1) : i + 1
+  SetGadgetItemData(gadgetlist, i - 1, -1)
+  
+  ForEach Gadgets()
+    If Gadgets()\node = 2
+      AddGadgetItem(gadgetlist, i, Gadgets()\name, ImageID(Gadgets()\icon), 1)
+      SetGadgetItemData(gadgetlist, i, Gadgets()\type)
+      i + 1
+    EndIf
+  Next
+  
+  node3 = i
+  AddGadgetItem(gadgetlist, i, Language("Form", "MenusToolbars"), 0, 0) : i + 1
+  SetGadgetItemData(gadgetlist, i - 1, -1)
+  AddGadgetItem(gadgetlist, i, Language("Form", "Cursor"), ImageID(#IMAGE_FormIcons_Cursor), 1) : i + 1
+  SetGadgetItemData(gadgetlist, i - 1, -1)
+  
+  ForEach Gadgets()
+    If Gadgets()\node = 3
+      AddGadgetItem(gadgetlist, i, Gadgets()\name, ImageID(Gadgets()\icon), 1)
+      SetGadgetItemData(gadgetlist, i, Gadgets()\type)
+      i + 1
+    EndIf
+  Next
+  
+  SetGadgetItemState(gadgetlist, 0, #PB_Tree_Collapsed)
+  SetGadgetItemState(gadgetlist, node1, #PB_Tree_Expanded)
+  SetGadgetItemState(gadgetlist, node2, #PB_Tree_Expanded)
+  SetGadgetItemState(gadgetlist, node3, #PB_Tree_Expanded)
+  SetGadgetState(gadgetlist, nodesel)
+  
+  form_gadget_type = #Form_Type_Button
   
   AddGadgetItem(#Form_Prop, 1, Language("Form", "Objects"))
-    TreeGadget(#Form_PropObjList, 0, 0, GetGadgetAttribute(#Form_Prop, #PB_Panel_ItemWidth), GetGadgetAttribute(#Form_Prop, #PB_Panel_ItemHeight), #PB_Tree_AlwaysShowSelection)
-    EnableGadgetDrop(#Form_PropObjList, #PB_Drop_Private, #PB_Drag_Move, #Form_PropObjList)
-    
+  TreeGadget(#Form_PropObjList, 0, 0, GetGadgetAttribute(#Form_Prop, #PB_Panel_ItemWidth), GetGadgetAttribute(#Form_Prop, #PB_Panel_ItemHeight), #PB_Tree_AlwaysShowSelection)
+  EnableGadgetDrop(#Form_PropObjList, #PB_Drop_Private, #PB_Drag_Move, #Form_PropObjList)
+  
   CloseGadgetList() ; Close the panel
-    
+  
   ContainerGadget(#Form_GridContainer,0,0,100,100)
   
-    If *Entry\IsSeparateWindow
-      CurrentParentWindow = *Entry\ToolWindowID
-    Else
-      CurrentParentWindow = #WINDOW_Main
-    EndIf
-      
-    propgrid = GridGadget(0, 0, GadgetWidth(#Form_GridContainer), GadgetHeight(#Form_GridContainer), CurrentParentWindow, 3, 0, 20, 100, P_FontGrid, #P_FontGridSize, 0, #Form_GridContainer)
-    grid_SetGadgetAttribute(propgrid, #Grid_Scrolling_Horizontal_Disabled, 1)
-    grid_SetGadgetAttribute(propgrid, #Grid_Caption_Row, 1)
-    grid_SetGadgetAttribute(propgrid, #Grid_Caption_Col, 1)
-    grid_SetGadgetAttribute(propgrid, #Grid_Disable_Delete, 1)
-    grid_SetGadgetColor(propgrid, #Grid_Color_LineLight, RGB(238, 238, 238))
-    
-    propgrid_combo = grid_CreateComboBox(propgrid)
-    propgrid_proccombo = grid_CreateComboBox(propgrid)
-        
-    grid_SetColumnWidth(propgrid, 0, 20)
-    grid_SetColumnWidth(propgrid, 1)
-    grid_SetColumnWidth(propgrid, 2, grid_GadgetWidth(propgrid) - grid_GetColumnWidth(propgrid, 0) - grid_GetColumnWidth(propgrid, 1))
+  If *Entry\IsSeparateWindow
+    CurrentParentWindow = *Entry\ToolWindowID
+  Else
+    CurrentParentWindow = #WINDOW_Main
+  EndIf
+  
+  propgrid = GridGadget(0, 0, GadgetWidth(#Form_GridContainer), GadgetHeight(#Form_GridContainer), CurrentParentWindow, 3, 0, 20, 100, P_FontGrid, #P_FontGridSize, 0, #Form_GridContainer)
+  grid_SetGadgetAttribute(propgrid, #Grid_Scrolling_Horizontal_Disabled, 1)
+  grid_SetGadgetAttribute(propgrid, #Grid_Caption_Row, 1)
+  grid_SetGadgetAttribute(propgrid, #Grid_Caption_Col, 1)
+  grid_SetGadgetAttribute(propgrid, #Grid_Disable_Delete, 1)
+  grid_SetGadgetColor(propgrid, #Grid_Color_LineLight, RGB(238, 238, 238))
+  
+  propgrid_combo = grid_CreateComboBox(propgrid)
+  propgrid_proccombo = grid_CreateComboBox(propgrid)
+  
+  grid_SetColumnWidth(propgrid, 0, 20)
+  grid_SetColumnWidth(propgrid, 1)
+  grid_SetColumnWidth(propgrid, 2, grid_GadgetWidth(propgrid) - grid_GetColumnWidth(propgrid, 0) - grid_GetColumnWidth(propgrid, 1))
   CloseGadgetList() ; Close the container
   
   SplitterGadget(#Form_SplitterInt, 0, 0, 100, 200, #Form_Prop, #Form_GridContainer, #PB_Splitter_FirstFixed)
@@ -304,7 +304,7 @@ Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
 EndProcedure
 
 Procedure FormPanel_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
-
+  
   If *Entry\IsSeparateWindow
     ResizeGadget(#Form_SplitterInt, 5, 5, PanelWidth-10, PanelHeight-10)
   Else
@@ -317,14 +317,14 @@ Procedure FormPanel_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeigh
   grid_ResizeGadget(propgrid, 0, 0, GadgetWidth(#Form_GridContainer), GadgetHeight(#Form_GridContainer))
   
   grid_SetColumnWidth(propgrid, 0, 20)
-
+  
   grid_SetColumnWidth(propgrid,1)
   width = grid_GadgetInnerWidth(propgrid) - grid_GetColumnWidth(propgrid, 0) - grid_GetColumnWidth(propgrid, 1)
   If width < 40
     width = 40
   EndIf
   grid_SetColumnWidth(propgrid, 2, width)
-
+  
 EndProcedure
 
 Procedure FormPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
@@ -369,7 +369,7 @@ Procedure FormPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
               EndIf
               
             EndIf
-
+            
           Case #PB_EventType_LeftDoubleClick
             Select form_gadget_type
               Case #Form_Type_Splitter
@@ -584,11 +584,11 @@ Procedure FormPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
               redraw = 1
             EndIf
         EndSelect
-
+        
     EndSelect
-
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure FormPanel_DestroyFunction(*Entry.ToolsPanelEntry)
@@ -599,21 +599,21 @@ Procedure FormPanel_DestroyFunction(*Entry.ToolsPanelEntry)
 EndProcedure
 
 Procedure FormPanel_PreferenceLoad(*Entry.ToolsPanelEntry)
-
+  
   PreferenceGroup("FormPanel")
   form_splitter_pos = ReadPreferenceLong("SplitterPos", 230)
   
   If IsGadget(#Form_SplitterInt)
     SetGadgetState(#Form_SplitterInt, form_splitter_pos)
   EndIf
-
+  
 EndProcedure
 
 Procedure FormPanel_PreferenceSave(*Entry.ToolsPanelEntry)
-      
+  
   PreferenceComment("")
   PreferenceGroup("FormPanel")
-    WritePreferenceLong("SplitterPos", form_splitter_pos)
+  WritePreferenceLong("SplitterPos", form_splitter_pos)
 EndProcedure
 
 ;- Initialisation code

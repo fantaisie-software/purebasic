@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -11,12 +11,12 @@ EndStructure
 
 
 Procedure AsciiTable_CreateFunction(*Entry.AsciiTableStructure, PanelItemID)
-
+  
   ListIconGadget(#GADGET_AsciiTable, 0, 0, 0, 0, "Char", 50, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
-    AddGadgetColumn(#GADGET_AsciiTable, 1, "Ascii", 50)
-    AddGadgetColumn(#GADGET_AsciiTable, 2, "Hex", 50)
-    AddGadgetColumn(#GADGET_AsciiTable, 3, "Html", 80)
-    
+  AddGadgetColumn(#GADGET_AsciiTable, 1, "Ascii", 50)
+  AddGadgetColumn(#GADGET_AsciiTable, 2, "Hex", 50)
+  AddGadgetColumn(#GADGET_AsciiTable, 3, "Html", 80)
+  
   If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
     ToolsPanel_ApplyColors(#GADGET_AsciiTable)
   EndIf
@@ -53,11 +53,11 @@ Procedure AsciiTable_CreateFunction(*Entry.AsciiTableStructure, PanelItemID)
     Read.s Html$
     SetGadgetItemText(#GADGET_AsciiTable, i, Html$, 3)
   Next i
-
+  
 EndProcedure
-     
-Procedure AsciiTable_ResizeHandler(*Entry.AsciiTableStructure, PanelWidth, PanelHeight)
 
+Procedure AsciiTable_ResizeHandler(*Entry.AsciiTableStructure, PanelWidth, PanelHeight)
+  
   Height = GetRequiredHeight(#GADGET_Ascii_InsertChar)
   If *Entry\IsSeparateWindow
     PanelWidth-10
@@ -79,9 +79,9 @@ EndProcedure
 
 
 Procedure AsciiTable_EventHandler(*Entry.AsciiTableStructure, EventGadgetID)
-
+  
   Select EventGadgetID
-
+      
     Case #GADGET_Ascii_InsertChar
       If *Entry\AsciiTableMode = 0
         SetGadgetState(#GADGET_Ascii_InsertChar, 1)
@@ -89,7 +89,7 @@ Procedure AsciiTable_EventHandler(*Entry.AsciiTableStructure, EventGadgetID)
         SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 0)
         *Entry\AsciiTableMode = 0
       EndIf
-    
+      
     Case #GADGET_Ascii_InsertAscii
       If *Entry\AsciiTableMode = 1
         SetGadgetState(#GADGET_Ascii_InsertAscii, 1)
@@ -97,7 +97,7 @@ Procedure AsciiTable_EventHandler(*Entry.AsciiTableStructure, EventGadgetID)
         SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 0)
         *Entry\AsciiTableMode = 1
       EndIf
-            
+      
     Case #GADGET_Ascii_InsertHex
       If *Entry\AsciiTableMode = 2
         SetGadgetState(#GADGET_Ascii_InsertHex, 1)
@@ -105,7 +105,7 @@ Procedure AsciiTable_EventHandler(*Entry.AsciiTableStructure, EventGadgetID)
         SetGadgetState(#GADGET_Ascii_InsertChar+*Entry\AsciiTableMode, 0)
         *Entry\AsciiTableMode = 2
       EndIf
-            
+      
     Case #GADGET_Ascii_InsertHtml
       If *Entry\AsciiTableMode = 3
         SetGadgetState(#GADGET_Ascii_InsertHtml, 1)
@@ -124,7 +124,7 @@ Procedure AsciiTable_EventHandler(*Entry.AsciiTableStructure, EventGadgetID)
           
         ElseIf EventType() = #PB_EventType_DragStart
           DragText(GetGadgetItemText(#GADGET_AsciiTable, state, *Entry\AsciiTableMode), #PB_Drag_Copy)
-                  
+          
         EndIf
       EndIf
       
@@ -134,19 +134,19 @@ EndProcedure
 
 
 Procedure AsciiTable_PreferenceLoad(*Entry.AsciiTableStructure)
-
+  
   PreferenceGroup("AsciiTable")
   *Entry\AsciiTableMode = ReadPreferenceLong("Mode", 0)
-
+  
 EndProcedure
 
 
 Procedure AsciiTable_PreferenceSave(*Entry.AsciiTableStructure)
-
+  
   PreferenceComment("")
   PreferenceGroup("AsciiTable")
   WritePreferenceLong("Mode", *Entry\AsciiTableMode)
-
+  
 EndProcedure
 
 
@@ -154,7 +154,7 @@ EndProcedure
 ; This will make this Tool available to the editor
 ;
 AsciiTable_VT.ToolsPanelFunctions
-  
+
 AsciiTable_VT\CreateFunction   = @AsciiTable_CreateFunction()
 AsciiTable_VT\ResizeHandler    = @AsciiTable_ResizeHandler()
 AsciiTable_VT\EventHandler     = @AsciiTable_EventHandler()
@@ -174,22 +174,22 @@ AvailablePanelTools()\ToolName$            = "AsciiTable"
 
 
 DataSection
-
+  
   AsciiTable_SpecialChars:  ; char 0 - 32
-    Data$ "NUL", "SOH", "STX", "ETX", "EOT", "ENQ", "ACK", "BEL"
-    Data$ "BS" , "TAB", "LF" , "VT" , "FF" , "CR" , "SO" , "SI"
-    Data$ "DLE", "DC1", "DC2", "DC3", "DC4", "NAK", "SYN", "ETB"
-    Data$ "CAN", "EM" , "SUB", "ESC", "FS" , "GS" , "RS" , "US"
-    Data$ "Space"
-    
+  Data$ "NUL", "SOH", "STX", "ETX", "EOT", "ENQ", "ACK", "BEL"
+  Data$ "BS" , "TAB", "LF" , "VT" , "FF" , "CR" , "SO" , "SI"
+  Data$ "DLE", "DC1", "DC2", "DC3", "DC4", "NAK", "SYN", "ETB"
+  Data$ "CAN", "EM" , "SUB", "ESC", "FS" , "GS" , "RS" , "US"
+  Data$ "Space"
+  
   AsciiTable_Html: ; chars 32-63 and 160-255
-    Data$ "", "", "&quot;", "", "", "", "&amp;", "", "", "", "", "", "", "", "", ""
-    Data$ "", "", "", "", "", "", "", "", "", "", "", "", "&lt;", "", "&gt;", ""
-    Data$ "&nbsp;", "&iexcl;", "&cent;", "&pound;", "&curren;", "&yen;", "&brvbar;", "&sect;", "&uml;", "&copy;", "&ordf;", "&laquo;", "&not;", "&shy;", "&reg;", "&macr;"
-    Data$ "&deg;", "&plusmn;", "&sup2;", "&sup3;", "&acute;", "&micro;", "&para;", "&middot;", "&cedil;", "&sup1;", "&ordm;", "&raquo;", "&frac14;", "&frac12;", "&frac34;", "&iquest;"
-    Data$ "&Agrave;", "&Aacute;", "&Acirc;", "&Atilde;", "&Auml;", "&Aring;", "&AElig;", "&Ccedil;", "&Egrave;", "&Eacute;", "&Ecirc;", "&Euml;", "&Igrave;", "&Iacute;", "&Icirc;", "&Iuml;"
-    Data$ "&ETH;", "&Ntilde;", "&Ograve;", "&Oacute;", "&Ocirc;", "&Otilde;", "&Ouml;", "&times;", "&Oslash;", "&Ugrave;", "&Uacute;", "&Ucirc;", "&Uuml;", "&Yacute;", "&THORN;", "&szlig;"
-    Data$ "&agrave;", "&aacute;", "&acirc;", "&atilde;", "&auml;", "&aring;", "&aelig;", "&ccedil;", "&egrave;", "&eacute;", "&ecirc;", "&euml;", "&igrave;", "&iacute;", "&icirc;", "&iuml"
-    Data$ "&eth;", "&ntilde;", "&ograve;", "&oacute;", "&ocirc;", "&otilde;", "&ouml;", "&divide;", "&oslash;", "&ugrave;", "&uacute;", "&ucirc;", "&uuml;", "&yacute;", "&thorn;", "&yuml;"
-
+  Data$ "", "", "&quot;", "", "", "", "&amp;", "", "", "", "", "", "", "", "", ""
+  Data$ "", "", "", "", "", "", "", "", "", "", "", "", "&lt;", "", "&gt;", ""
+  Data$ "&nbsp;", "&iexcl;", "&cent;", "&pound;", "&curren;", "&yen;", "&brvbar;", "&sect;", "&uml;", "&copy;", "&ordf;", "&laquo;", "&not;", "&shy;", "&reg;", "&macr;"
+  Data$ "&deg;", "&plusmn;", "&sup2;", "&sup3;", "&acute;", "&micro;", "&para;", "&middot;", "&cedil;", "&sup1;", "&ordm;", "&raquo;", "&frac14;", "&frac12;", "&frac34;", "&iquest;"
+  Data$ "&Agrave;", "&Aacute;", "&Acirc;", "&Atilde;", "&Auml;", "&Aring;", "&AElig;", "&Ccedil;", "&Egrave;", "&Eacute;", "&Ecirc;", "&Euml;", "&Igrave;", "&Iacute;", "&Icirc;", "&Iuml;"
+  Data$ "&ETH;", "&Ntilde;", "&Ograve;", "&Oacute;", "&Ocirc;", "&Otilde;", "&Ouml;", "&times;", "&Oslash;", "&Ugrave;", "&Uacute;", "&Ucirc;", "&Uuml;", "&Yacute;", "&THORN;", "&szlig;"
+  Data$ "&agrave;", "&aacute;", "&acirc;", "&atilde;", "&auml;", "&aring;", "&aelig;", "&ccedil;", "&egrave;", "&eacute;", "&ecirc;", "&euml;", "&igrave;", "&iacute;", "&icirc;", "&iuml"
+  Data$ "&eth;", "&ntilde;", "&ograve;", "&oacute;", "&ocirc;", "&otilde;", "&ouml;", "&divide;", "&oslash;", "&ugrave;", "&uacute;", "&ucirc;", "&uuml;", "&yacute;", "&thorn;", "&yuml;"
+  
 EndDataSection

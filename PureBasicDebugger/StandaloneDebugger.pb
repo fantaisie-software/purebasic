@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -89,11 +89,11 @@ EndProcedure
 CompilerSelect #PB_Compiler_OS
     
   CompilerCase #PB_OS_Windows
-       
+    
     ; Mutex so the setup knows a PB program is running
     ; There is no CloseHandle_(), so the mutex stays open until the program ends
     CreateMutex_(#Null, #False, "PureBasic_Running")
-  
+    
     PureBasicPath$ = Space(#MAX_PATH)
     GetModuleFileName_(GetModuleHandle_(#Null$), @PureBasicPath$, #MAX_PATH)
     PureBasicPath$ = GetPathPart(PureBasicPath$)
@@ -112,20 +112,20 @@ CompilerSelect #PB_Compiler_OS
     
     ; initialize the scintilla dll
     InitScintilla(PureBasicPath$+"Compilers\Scintilla.dll")
-
+    
   CompilerDefault
     PureBasicPath$ = GetEnvironmentVariable("PUREBASIC_HOME")
     
     If PureBasicPath$ = ""
       PureBasicPath$ = GetPathPart(ProgramFilename())
-  
+      
       ; cut the compilers dir part
       If Right(PureBasicPath$, 10) = "compilers/"
         PureBasicPath$ = Left(PureBasicPath$, Len(PureBasicPath$)-10)
       ElseIf Right(PureBasicPath$, 9) = "compilers"
         PureBasicPath$ = Left(PureBasicPath$, Len(PureBasicPath$)-9)
       EndIf
-  
+      
       ; check if what we have here is a valid path. (if /proc is not mounted, ProgramFileName() may return a relative path
       If FileSize(PureBasicPath$) <> -2
         PureBasicPath$ = "/usr/share/purebasic/" ; absolute fallback
@@ -281,7 +281,7 @@ ElseIf ExeNameU$ = "/LISTEN" Or ExeNameU$ = "--LISTEN" Or Left(ExeNameU$, 8) = "
   OptionSep = FindString(ExeName$, "=", 1)
   If OptionSep
     Option$ = Right(ExeName$, Len(ExeName$)-OptionSep)
-  
+    
     PortSep = FindString(Option$, ":", 1)
     
     If PortSep
@@ -303,7 +303,7 @@ ElseIf ExeNameU$ = "/LISTEN" Or ExeNameU$ = "--LISTEN" Or Left(ExeNameU$, 8) = "
       Else
         NetworkHost$ = Option$
       EndIf
-          
+      
     EndIf
     
   EndIf
@@ -313,7 +313,7 @@ ElseIf ExeNameU$ = "/LISTEN" Or ExeNameU$ = "--LISTEN" Or Left(ExeNameU$, 8) = "
   If UCase(Left(Pass$, 10)) = "/PASSWORD=" Or UCase(Left(Pass$, 11)) = "--PASSWORD="
     NetworkPass$ = Right(Pass$, Len(Pass$)-FindString(Pass$, "=", 1))
   EndIf
-
+  
 ElseIf ExenameU$ = "-O"  ; Check for the Parameter of the Option file
   OptionsFile$ = ProgramParameter()
   ExeName$ = ProgramParameter()
@@ -360,7 +360,7 @@ CustomWarningMode = -1
 
 If OptionsFile$ <> ""
   If ReadFile(0, OptionsFile$)
-  
+    
     While Eof(0) = 0
       Line$ = ReadString(0, #PB_UTF8)
       Option$ = UCase(StringField(Line$, 1, " "))
@@ -371,39 +371,39 @@ If OptionsFile$ <> ""
         Case "COMMANDLINE": Commandline$ = Value$
         Case "SOURCEFILE" : MainFileName$ = Value$
         Case "PREFERENCES": PreferenceFile$ = Value$
-        
+          
         Case "PURIFIER": PurifierSettings$ = Value$
-        
+          
         Case "NETWORK"
           If UCase(Value$) = "CLIENT"
             NetworkMode = 1
           ElseIf UCase(Value$) = "SERVER"
             NetworkMode = 2
           EndIf
-        
+          
         Case "HOST":     NetworkHost$ = Value$ ; no port allowed here
         Case "PORT":     NetworkPort  = Val(Value$)
         Case "PASSWORD": NetworkPass$ = Value$
-        
-        ; if this option is not set, we use the preferences default
+          
+          ; if this option is not set, we use the preferences default
         Case "WARNINGS"
           Select UCase(Value$)
             Case "IGNORE" : CustomWarningMode = 0
             Case "DISPLAY": CustomWarningMode = 1
             Case "ERROR"  : CustomWarningMode = 2
           EndSelect
-        
-        CompilerIf #CompileMac = 0 ; Recalling the watchlist and breakpoint makes the debugger crash :(. There is still something wierd here
+          
+          CompilerIf #CompileMac = 0 ; Recalling the watchlist and breakpoint makes the debugger crash :(. There is still something wierd here
           Case "WATCH"
             AddElement(Watchlist())
             Watchlist() = Value$
           Case "BREAK"
             AddElement(BreakpointStrings())
             BreakpointStrings() = Value$
-        CompilerEndIf
+          CompilerEndIf
       EndSelect
     Wend
-  
+    
     CloseFile(0)
   Else
     MessageRequester("PureBasic Debugger",Language("StandaloneDebugger","Commandline"), #FLAG_Warning)
@@ -493,17 +493,17 @@ EndIf
 ;- Event processing
 
 Procedure ProcessEvent(EventID)
-
+  
   ; process the all-window shortcuts
   If EventID = #PB_Event_Menu
     Select EventMenu()
         
-      ; Handle the "Quit" menu on OS X
-      ;
-      CompilerIf #CompileMac
+        ; Handle the "Quit" menu on OS X
+        ;
+        CompilerIf #CompileMac
         Case #PB_Menu_Quit
           Standalone_Quit = 1
-      CompilerEndIf
+        CompilerEndIf
         
       Case #MENU_Stop
         Command.CommandInfo\Command = #COMMAND_Stop
@@ -530,18 +530,18 @@ Procedure ProcessEvent(EventID)
         SendDebuggerCommand(*DebuggerData, @Command)
         *DebuggerData\ProgramState = -2; step mode
         UpdateGadgetStates()
-      
+        
       Case #MENU_Run
         Command.CommandInfo\Command = #COMMAND_Run
         Command\Value1 = 1 ; asks the debugger to respond to with the "comtinued" message
         SendDebuggerCommand(*DebuggerData, @Command)
         ; program state will be updated once the executable responds
-      
+        
     EndSelect
   EndIf
-
-  If EventWindow() = #WINDOW_Main
   
+  If EventWindow() = #WINDOW_Main
+    
     If EventID = #PB_Event_CloseWindow
       If *DebuggerData\IsPurifier
         PurifierSettings$ =  GetPurifierOptions(*DebuggerData)
@@ -554,14 +554,14 @@ Procedure ProcessEvent(EventID)
       
     ElseIf EventID = #PB_Event_Gadget
       Select EventGadget()
-      
+          
         Case #GADGET_Minimize
           IsMiniDebugger = 1
           HideGadget(#GADGET_Minimize, 1)
           HideGadget(#GADGET_Log, 1)
           HideGadget(#GADGET_Maximize, 0)
           Standalone_ResizeGUI()
-        
+          
         Case #GADGET_Maximize
           IsMiniDebugger = 0
           HideGadget(#GADGET_Minimize, 0)
@@ -571,26 +571,26 @@ Procedure ProcessEvent(EventID)
             ResizeWindow(#WINDOW_Main, #PB_Ignore, #PB_Ignore, WindowWidth(#WINDOW_Main), 260)
           EndIf
           Standalone_ResizeGUI()
-      
+          
         Case #GADGET_Stop
           Command.CommandInfo\Command = #COMMAND_Stop
           SendDebuggerCommand(*DebuggerData, @Command)
           ; program state will be updated once the executable responds
-        
+          
         Case #GADGET_Run
           Command.CommandInfo\Command = #COMMAND_Run
           Command\Value1 = 1 ; asks the debugger to respond to with the "comtinued" message
           SendDebuggerCommand(*DebuggerData, @Command)
           ; program state will be updated once the executable responds
-  
-        
+          
+          
         Case #GADGET_Step
           Command.CommandInfo\Command = #COMMAND_Step
           Command\Value1 = Val(GetGadgetText(#GADGET_StepCount))
           SendDebuggerCommand(*DebuggerData, @Command)
           *DebuggerData\ProgramState = -2; step mode
           UpdateGadgetStates()
-
+          
         Case #GADGET_StepOver
           Command.CommandInfo\Command = #COMMAND_Step
           Command\Value1 = -1
@@ -604,7 +604,7 @@ Procedure ProcessEvent(EventID)
           SendDebuggerCommand(*DebuggerData, @Command)
           *DebuggerData\ProgramState = -2; step mode
           UpdateGadgetStates()
-                       
+          
         Case #GADGET_Quit
           If *DebuggerData\IsPurifier
             PurifierSettings$ =  GetPurifierOptions(*DebuggerData)
@@ -622,7 +622,7 @@ Procedure ProcessEvent(EventID)
               SendDebuggerCommand(*DebuggerData, @Command)
               DeleteElement(Breakpoints())
             EndIf
-          
+            
           Else
             Line = MarkBreakPoint() ; marks the point and returns the line number
             If Line <> -1 And FindBreakpoint(Line) = 0
@@ -651,7 +651,7 @@ Procedure ProcessEvent(EventID)
               EndIf
             EndIf
           Next Breakpoints()
-        
+          
         Case #GADGET_SelectSource
           If GetGadgetState(#GADGET_SelectSource) <> CurrentSource
             If SourceFiles(CurrentSource)\IsLoaded
@@ -703,7 +703,7 @@ Procedure ProcessEvent(EventID)
           Else
             Debugger_ProcessEvents(*DebuggerData\Windows[#DEBUGGER_WINDOW_Watchlist], #PB_Event_CloseWindow)
           EndIf
-                
+          
         Case #GADGET_Variables
           If GetGadgetState(#GADGET_Variables)
             OpenVariableWindow(*DebuggerData)
@@ -717,48 +717,48 @@ Procedure ProcessEvent(EventID)
           Else
             Debugger_ProcessEvents(*DebuggerData\Windows[#DEBUGGER_WINDOW_Profiler], #PB_Event_CloseWindow)
           EndIf
-        
+          
         Case #GADGET_History
           If GetGadgetState(#GADGET_History)
             OpenHistoryWindow(*DebuggerData)
           Else
             Debugger_ProcessEvents(*DebuggerData\Windows[#DEBUGGER_WINDOW_History], #PB_Event_CloseWindow)
           EndIf
-        
+          
         Case #GADGET_Memory
           If GetGadgetState(#GADGET_Memory)
             OpenMemoryViewerWindow(*DebuggerData)
           Else
             Debugger_ProcessEvents(*DebuggerData\Windows[#DEBUGGER_WINDOW_Memory], #PB_Event_CloseWindow)
           EndIf
-
+          
         Case #GADGET_Library
           If GetGadgetState(#GADGET_Library)
             OpenLibraryViewerWindow(*DebuggerData)
           Else
             Debugger_ProcessEvents(*DebuggerData\Windows[#DEBUGGER_WINDOW_Library], #PB_Event_CloseWindow)
           EndIf
-        
+          
         Case #GADGET_Assembly
           If GetGadgetState(#GADGET_Assembly)
             OpenAsmWindow(*DebuggerData)
           Else
             Debugger_ProcessEvents(*DebuggerData\Windows[#DEBUGGER_WINDOW_Asm], #PB_Event_CloseWindow)
           EndIf
-       
+          
         Case #GADGET_Purifier
           If GetGadgetState(#GADGET_Purifier)
             OpenPurifierWindow(*DebuggerData)
           Else
             Debugger_ProcessEvents(*DebuggerData\Windows[#DEBUGGER_WINDOW_Purifier], #PB_Event_CloseWindow)
           EndIf
-            
+          
       EndSelect
       
     EndIf
     
   Else
- 
+    
     ; dispatch the event to the right procedure
     Debugger_ProcessEvents(EventWindow(), EventID)
     
@@ -783,7 +783,7 @@ Procedure ProcessEvent(EventID)
     EndIf
     
   EndIf
-
+  
   ProcedureReturn EventID
 EndProcedure
 
@@ -799,7 +799,7 @@ Repeat
   
   If EventID = 0
     If Debugger_ProcessIncommingCommands() = 0 ; process debugger commands
-      Delay(1) ; delay only when no commands were incomming
+      Delay(1)                                 ; delay only when no commands were incomming
     EndIf
   Else
     ProcessEvent(EventID)
@@ -828,23 +828,23 @@ If OptionsFile$ <> ""
   If CreateFile(0, OptionsFile$)
     
     CompilerIf #CompileMac = 0
-    ForEach Watchlist()
-      WriteStringN(0, "WATCH "+Watchlist())
-    Next Watchlist()
-    
-    ForEach Breakpoints()
-      If (Breakpoints() >> 24) & $FF = 0
-        WriteStringN(0, "BREAK "+Str((Breakpoints() & $FFFFFF) + 1))
-      Else
-        WriteStringN(0, "BREAK "+Str((Breakpoints() & $FFFFFF) + 1) + ", " + SourceFiles((Breakpoints()>>24) & $FF)\FileName$)
+      ForEach Watchlist()
+        WriteStringN(0, "WATCH "+Watchlist())
+      Next Watchlist()
+      
+      ForEach Breakpoints()
+        If (Breakpoints() >> 24) & $FF = 0
+          WriteStringN(0, "BREAK "+Str((Breakpoints() & $FFFFFF) + 1))
+        Else
+          WriteStringN(0, "BREAK "+Str((Breakpoints() & $FFFFFF) + 1) + ", " + SourceFiles((Breakpoints()>>24) & $FF)\FileName$)
+        EndIf
+      Next Breakpoints()
+      
+      If PurifierSettings$
+        WriteStringN(0, "PURIFIER " + PurifierSettings$)
       EndIf
-    Next Breakpoints()
-    
-    If PurifierSettings$
-      WriteStringN(0, "PURIFIER " + PurifierSettings$)
-    EndIf
     CompilerEndIf
-
+    
     CloseFile(0)
   EndIf
 EndIf
@@ -855,9 +855,9 @@ End
 ; main debugger command callback
 ;
 Procedure DebuggerCallback(*Debugger.DebuggerData)
-
-  Select *Debugger\Command\Command
   
+  Select *Debugger\Command\Command
+      
     Case #COMMAND_FatalError  ; fatal communication error
       Select *Debugger\Command\Value1
         Case #ERROR_Memory
@@ -891,15 +891,15 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       DisableGadget(#GADGET_Library, 1)
       DisableGadget(#GADGET_Assembly, 1)
       DisableGadget(#GADGET_DataBreak, 1)
-
-  
+      
+      
     Case #COMMAND_Init
       If *Debugger\IncludedFiles ; use the filename as stored in the exe
         SourcePath$   = PeekAscii(*Debugger\IncludedFiles)
         RealFileName$ = PeekAscii(*Debugger\IncludedFiles + MemoryAsciiLength(*Debugger\IncludedFiles) + 1)
         RealFileName$ = ResolveRelativePath(SourcePath$, RealFileName$) ; the stored main file is relative to the source path
       EndIf
-                
+      
       ; if real filename was passed, use this for displaying
       If MainFileName$ <> ""
         If *Debugger\IncludedFiles
@@ -916,11 +916,11 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       ; Do this to update the Filename for all "automatic open" windows (else it remains empty!)
       Debugger_UpdateWindowPreferences()
-               
+      
       NbSourceFiles = *Debugger\NbIncludedFiles
       CurrentSource = 0
       Global Dim SourceFiles.DisplayedSource(NbSourceFiles)
-                  
+      
       ; add all file to the list
       For i = 0 To NbSourceFiles
         SourceFiles(i)\FileName$ = GetDebuggerFile(*Debugger, i<<24)
@@ -934,7 +934,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         If FindString(BreakpointStrings(), ",", 1) <> 0
           x = FindString(BreakpointStrings(), ",", 1)
           FileName$ = Trim(Right(BreakpointStrings(), Len(BreakpointStrings())-x))
-                            
+          
           ; For projects, even the main file could be given as "BREAK line, filename" because we do not
           ; check which file is the current target's main file. So we must check the "real file name" as well here
           ;
@@ -960,7 +960,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       ; set this so it is visible in case the files are not loadable (when network debugging for example)
       SetGadgetText(#GADGET_Waiting, Language("StandaloneDebugger","NoFile"))
-
+      
       SourceFiles(0)\Gadget = LoadSource(RealFileName$) ; the main source is loaded by its real name, not the displayed one
       If SourceFiles(0)\Gadget
         SourceFiles(0)\IsLoaded = 1
@@ -1020,7 +1020,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           SourceFiles(Index)\Gadget = LoadSourceBuffer(*Debugger\CommandData, *Debugger\Command\DataSize, Format)
           If SourceFiles(Index)\Gadget
             SourceFiles(Index)\IsLoaded = 1
-
+            
             If Index <> CurrentSource
               HideGadget(SourceFiles(Index)\Gadget, 1)
             Else
@@ -1099,7 +1099,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       Standalone_AddLog(Language("Debugger","ExeStarted"), *Debugger\Command\TimeStamp)
       StatusBarText(#STATUSBAR, 0, Language("Debugger","ExeStarted"))
       UpdateGadgetStates()
-        
+      
       
     Case #COMMAND_End
       Standalone_AddLog(Language("Debugger","ExeEnded"), *Debugger\Command\TimeStamp)
@@ -1152,7 +1152,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       If *Debugger\IsThread : Text$ + ", Thread" : EndIf
       If *Debugger\IsPurifier: Text$ + ", Purifier": EndIf
       Text$ + ")"
- 
+      
       Standalone_AddLog(Text$, *Debugger\Command\TimeStamp)
       
       
@@ -1174,8 +1174,8 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       ; just mark, do not change current line or stop program
       MarkWarning(*Debugger\Command\Value1)
-
-
+      
+      
     Case #COMMAND_Stopped
       Text$ = Language("Debugger","Stopped")
       
@@ -1184,7 +1184,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         Case 5: Text$ + " ("+Language("Debugger","BeforeEnd")+")"
         Case 7: Text$ + " ("+Language("Debugger","BreakPoint")+")"
         Case 8: Text$ + " ("+Language("Debugger","UserRequest")+")"
-        
+          
         Case 9
           ; The WatchList functions have processed the eariler #COMMAND_DataBreakPoint,
           ; so the matching Condition is marked in the breakpoint list
@@ -1203,7 +1203,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           If *Debugger\DataBreakpointsVisible
             SetWindowForeGround(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakpoints])
           EndIf
-        
+          
       EndSelect
       
       If *Debugger\LastProgramState <> -2  ; don't log a stop after a Step command
@@ -1215,19 +1215,19 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       If *Debugger\Command\Value1 <> -1 ; try not to load a file when the line is invalid!
         SetCurrentLine(*Debugger\Command\Value1)
       EndIf
-
+      
     Case #COMMAND_Continued
       Standalone_AddLog(Language("Debugger","Continued"), *Debugger\Command\TimeStamp)
       StatusBarText(#STATUSBAR, 0, Language("Debugger","Continued"))
       UpdateGadgetStates()
       SetCurrentLine(-1) ; remove the mark
       
-    ; we look for the watchlist full update event and update our own
-    ; watctlist LinkedList from it, so it stays always up to date
-    ;
+      ; we look for the watchlist full update event and update our own
+      ; watctlist LinkedList from it, so it stays always up to date
+      ;
     Case #COMMAND_Watchlist
       ClearList(Watchlist())
-
+      
       *Pointer = *Debugger\CommandData
       For i = 1 To *Debugger\Command\Value1
         type = PeekB(*Pointer)& ~(1<<6): *Pointer + 2 ; skip type and scope
@@ -1236,7 +1236,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         *Pointer + 4
         name$ = PeekS(*Pointer, -1, #PB_UTF8)
         *Pointer + MemoryUTF8LengthBytes(*Pointer) + 1
-             
+        
         AddElement(Watchlist()) ; add to our watchlist
         If ProcedureIndex = -1
           Watchlist() = name$
@@ -1262,7 +1262,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             *Pointer + 8
           EndIf
         EndIf
-         
+        
       Next i
       
       
@@ -1320,14 +1320,14 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       EndIf
       
     Case #COMMAND_Expression
-
+      
       ; expresion evaluation for tooltips
       ; check if this message is for us (the debug output uses this message too)
       ;
       If *Debugger\Command\Value1 = AsciiConst('S','C','I','N') And *Debugger\CommandData And IsMouseDwelling = 1
         
         Select *Debugger\Command\Value2 ; result code
-        
+            
           Case 0 ; error
             Message$ = "Debugger: " + PeekAscii(*Debugger\CommandData)
             
@@ -1337,21 +1337,21 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
               ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, 9)
             EndIf
-          
+            
           Case 1 ; empty, do nothing
-          
+            
           Case 2 ; quad
             Name$    = PeekS(*Debugger\CommandData+8, (*Debugger\Command\DataSize-8) / SizeOf(Character))
             Message$ = Name$ + " = " + Str(PeekQ(*Debugger\CommandData))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
-          
+            
           Case 3 ; double
             Name$    = PeekS(*Debugger\CommandData+8, (*Debugger\Command\DataSize-8) / SizeOf(Character))
             Message$ = Name$ + " = " + StrD_Debug(PeekD(*Debugger\CommandData))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
-          
+            
           Case 4 ; string
             Message$ = PeekS(*Debugger\CommandData, (*Debugger\Command\DataSize) / SizeOf(Character))
             Name$    = PeekS(*Debugger\CommandData + (Len(Message$) + 1) * SizeOf(Character), (*Debugger\Command\DataSize) / SizeOf(Character) - Len(Message$) - 1)
@@ -1369,7 +1369,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, CodePageLength(CodePage, Name$))
               FreeMemory(*Buffer)
             EndIf
-          
+            
           Case 5 ; structure
             *Pointer = *Debugger\CommandData
             Message$ = ""
@@ -1386,13 +1386,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               
               If IS_ARRAY(type)
                 Line$ + "(" + PeekAscii(*Pointer) + ")" ; dimensions
-              
+                
               ElseIf IS_LINKEDLIST(type)
                 Line$ + "()" ; ignore the current and size for now (looks better)
-
+                
               ElseIf IS_MAP(type)
                 Line$ + "()"
-                         
+                
               ElseIf IS_POINTER(type) ; pointer
                 If *Debugger\Is64bit
                   Line$ + " = " + Str(PeekQ(*Pointer))
@@ -1411,14 +1411,14 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
                   Case #TYPE_DOUBLE:    Line$ + " = " + StrD_Debug(PeekD(*Pointer))
                   Case #TYPE_QUAD:      Line$ + " = " + Str(PeekQ(*Pointer))
                   Case #TYPE_CHARACTER: Line$ + " = " + Str(PeekL(*Pointer)) ; allready transformed to int here
-                  
+                    
                   Case #TYPE_INTEGER
                     If *Debugger\Is64bit
                       Line$ + " = " + Str(PeekQ(*Pointer))
                     Else
                       Line$ + " = " + Str(PeekL(*Pointer))
                     EndIf
-                  
+                    
                   Case #TYPE_STRING, #TYPE_FIXEDSTRING
                     String$ = PeekS(*Pointer)
                     Line$ + " = " + Chr(34) + String$ + Chr(34)
@@ -1432,7 +1432,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
                 If Len(Line$) > 100
                   Line$ = Left(Line$, 96) + " ..."
                 EndIf
-                  
+                
                 Message$ + Line$
               EndIf
             Next i
@@ -1453,32 +1453,32 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, CodePageLength(CodePage, Name$) + 11)
               FreeMemory(*Buffer)
             EndIf
-
+            
           Case 6 ; long (ppc only)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / SizeOf(Character))
             Message$ = Name$ + " = " + Str(PeekL(*Debugger\CommandData))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
-          
+            
           Case 7 ; float (ppc only)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / SizeOf(Character))
             Message$ = Name$ + " = " + StrF_Debug(PeekF(*Debugger\CommandData))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
-
+            
         EndSelect
         
       EndIf
-  
+      
   EndSelect
   
-
+  
 EndProcedure
 
 Procedure Debugger_AddShortcuts(Window)
-
+  
   AddKeyboardShortcut(Window, Shortcut_Run, #MENU_Run)
   AddKeyboardShortcut(Window, Shortcut_Stop, #MENU_Stop)
   AddKeyboardShortcut(Window, Shortcut_Step, #MENU_Step)
-
+  
 EndProcedure

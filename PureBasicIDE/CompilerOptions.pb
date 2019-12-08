@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -6,7 +6,7 @@
 
 
 Procedure DisableOptionGadgets()
-
+  
   If Options_IsProjectMode
     UseMainFile = #False ; do disable any of these options
   Else
@@ -32,7 +32,7 @@ Procedure DisableOptionGadgets()
   EndIf
   
   CompilerIf Not #SpiderBasic
-  
+    
     CustomDebugger = GetGadgetState(#GADGET_Option_SelectDebugger)
     DisableGadget(#GADGET_Option_DebuggerMode, 1-CustomDebugger)
     
@@ -49,7 +49,7 @@ Procedure DisableOptionGadgets()
   ; disable / enable the resource options
   CompilerIf #CompileWindows And Not #SpiderBasic
     DisableGadget(#GADGET_Option_IncludeVersion, UseMainFile)
-         
+    
     UseVersion = GetGadgetState(#GADGET_Option_IncludeVersion)
     For i = 0 To 23
       DisableGadget(#GADGET_Option_VersionValue0+i, (1-UseVersion)|UseMainFile)
@@ -61,7 +61,7 @@ Procedure DisableOptionGadgets()
     DisableGadget(#GADGET_Option_ResourceClear, UseMainFile)
     DisableGadget(#GADGET_Option_ResourceFile, UseMainFile)
     DisableGadget(#GADGET_Option_ResourceSelectFile, UseMainFile)
-  
+    
   CompilerEndIf
   
   ; always disable unsupported options on linux / mac
@@ -71,14 +71,14 @@ Procedure DisableOptionGadgets()
     DisableGadget(#GADGET_Option_IconName, 1)
     DisableGadget(#GADGET_Option_SelectIcon, 1)
   CompilerEndIf
-
+  
   CompilerIf #CompileLinux | #CompileMac And Not #SpiderBasic; this stuff is windows only
     DisableGadget(#GADGET_Option_EnableXP, 1)
     DisableGadget(#GADGET_Option_EnableAdmin, 1)
     DisableGadget(#GADGET_Option_EnableUser, 1)
     DisableGadget(#GADGET_Option_DPIAware, 1)
   CompilerEndIf
- 
+  
 EndProcedure
 
 ; get the list of enabled tools as it is stored in the structure/ide options
@@ -86,7 +86,7 @@ EndProcedure
 ;
 Procedure.s CompilerWindow_EnabledToolsList()
   Result$ = ""
-
+  
   For i = 0 To CountGadgetItems(#GADGET_Option_ToolsList)-1
     If GetGadgetItemState(#GADGET_Option_ToolsList, i) & #PB_ListIcon_Checked
       Result$ + ReplaceString(UCase(Trim(GetGadgetItemText(#GADGET_Option_ToolsList, i, 0))), " ", "_") + ","
@@ -133,7 +133,7 @@ Procedure SetTargetOptions(*Target.CompileTarget)
       Next index
     EndIf
   EndIf
-
+  
   SetGadgetText(#GADGET_Option_SubSystem,   *Target\SubSystem$)
   
   SetGadgetState(#GADGET_Option_Debugger     , *Target\Debugger)
@@ -160,14 +160,14 @@ Procedure SetTargetOptions(*Target.CompileTarget)
     SetGadgetState(#GADGET_Option_EnableUser   , *Target\EnableUser)
     SetGadgetState(#GADGET_Option_DPIAware     , *Target\DPIAware)
     SetGadgetState(#GADGET_Option_EnableOnError, *Target\EnableOnError)
-  
+    
     SetGadgetState(#GADGET_Option_SelectDebugger, *Target\CustomDebugger)
     If *Target\DebuggerType > 0 And *Target\DebuggerType < 4
       SetGadgetState(#GADGET_Option_DebuggerMode, *Target\DebuggerType-1)
     Else
       SetGadgetState(#GADGET_Option_DebuggerMode, 0)
     EndIf
-  
+    
     SetGadgetState(#GADGET_Option_SelectWarning, *Target\CustomWarning)
     If *Target\WarningMode >= 0 And *Target\WarningMode < 3
       SetGadgetState(#GADGET_Option_WarningMode, *Target\WarningMode)
@@ -217,17 +217,17 @@ Procedure SetTargetOptions(*Target.CompileTarget)
       
     EndIf
   Next ToolsList()
-
+  
   CompilerIf #CompileWindows And Not #SpiderBasic
     For i = 0 To 23
       If i >= 15 And i <= 17 And *Target\VersionField$[i] = "" ; comboboxes
-        SetGadgetState(#GADGET_Option_VersionValue0+i, 0) ; set comboboxes to default
+        SetGadgetState(#GADGET_Option_VersionValue0+i, 0)      ; set comboboxes to default
       Else
         SetGadgetText(#GADGET_Option_VersionValue0+i, *Target\VersionField$[i])
       EndIf
     Next i
     SetGadgetState(#GADGET_Option_IncludeVersion, *Target\VersionInfo)
-
+    
     ClearGadgetItems(#GADGET_Option_ResourceList)
     SetGadgetText(#GADGET_Option_ResourceFile, "")
     For i = 0 To *Target\NbResourceFiles-1
@@ -291,7 +291,7 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
   If *Target\UseBuildCount     <> GetGadgetState(#GADGET_Option_UseBuildCount): Changed = 1: EndIf
   If *Target\UseCreateExe      <> GetGadgetState(#GADGET_Option_UseCreateExe): Changed = 1: EndIf
   If *Target\EnabledTools$     <> CompilerWindow_EnabledToolsList(): Changed = 1: EndIf
-
+  
   Count = CountGadgetItems(#GADGET_Option_ConstantList)
   If *Target\NbConstants <> Count
     Changed = 1
@@ -310,7 +310,7 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
   EndIf
   
   CompilerIf #CompileWindows And Not #SpiderBasic
-  
+    
     If *Target\VersionInfo <> GetGadgetState(#GADGET_Option_IncludeVersion): Changed = 1: EndIf
     For i = 0 To 14
       If *Target\VersionField$[i] <> GetGadgetText(#GADGET_Option_VersionValue0+i): Changed = 1: EndIf
@@ -322,11 +322,11 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
         If *Target\VersionField$[i] <> GetGadgetText(#GADGET_Option_VersionValue0+i): Changed = 1: EndIf
       EndIf
     Next i
-                             
+    
     For i = 18 To 23
       If *Target\VersionField$[i] <> GetGadgetText(#GADGET_Option_VersionValue0+i): Changed = 1: EndIf
     Next i
-
+    
     If *Target\NbResourceFiles <> CountGadgetItems(#GADGET_Option_ResourceList): Changed = 1: EndIf
     
     If *Target\NbResourceFiles > 0
@@ -337,7 +337,7 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
         EndIf
       Next i
     EndIf
-                                                       
+    
   CompilerEndIf
   
   ProcedureReturn Changed
@@ -345,7 +345,7 @@ EndProcedure
 
 
 Procedure GetTargetOptions(*Target.CompileTarget)
-
+  
   If Options_IsProjectMode = 0
     *Target\UseMainFile = GetGadgetState(#GADGET_Option_UseMainFile)
   EndIf
@@ -354,7 +354,7 @@ Procedure GetTargetOptions(*Target.CompileTarget)
   If *Target\CustomCompiler
     *Target\CompilerVersion$ = GetGadgetText(#GADGET_Option_SelectCompiler)
   EndIf
-     
+  
   *Target\Debugger         = GetGadgetState(#GADGET_Option_Debugger)
   CompilerIf #SpiderBasic
     *Target\OptimizeJS      = GetGadgetState(#GADGET_Option_OptimizeJS)
@@ -393,7 +393,7 @@ Procedure GetTargetOptions(*Target.CompileTarget)
   ElseIf *Target\UseMainFile
     *Target\MainFile$ = Trim(GetGadgetText(#GADGET_Option_MainFile))
   EndIf
-
+  
   CompilerIf Not #SpiderBasic
     *Target\ExecutableFormat  = GetGadgetState(#GADGET_Option_ExecutableFormat)
     *Target\CommandLine$      = GetGadgetText(#GADGET_Option_CommandLine)
@@ -418,9 +418,9 @@ Procedure GetTargetOptions(*Target.CompileTarget)
       *Target\ConstantEnabled[i] = #False
     EndIf
   Next i
-
-  CompilerIf #CompileWindows And Not #SpiderBasic
   
+  CompilerIf #CompileWindows And Not #SpiderBasic
+    
     *Target\VersionInfo = GetGadgetState(#GADGET_Option_IncludeVersion)
     For i = 0 To 23
       *Target\VersionField$[i] = GetGadgetText(#GADGET_Option_VersionValue0+i)
@@ -436,7 +436,7 @@ Procedure GetTargetOptions(*Target.CompileTarget)
     If GetGadgetState(#GADGET_Option_VersionValue0+17) = 0
       *Target\VersionField$[17] = ""
     EndIf
-                            
+    
     *Target\NbResourceFiles = CountGadgetItems(#GADGET_Option_ResourceList)
     If *Target\NbResourceFiles > #MAX_ResourceFiles
       *Target\NbResourceFiles = #MAX_ResourceFiles
@@ -446,7 +446,7 @@ Procedure GetTargetOptions(*Target.CompileTarget)
       *Target\ResourceFiles$[i] = Trim(GetGadgetItemText(#GADGET_Option_ResourceList, i, 0))
     Next i
   CompilerEndIf
-                                 
+  
   ProcedureReturn Changed
 EndProcedure
 
@@ -519,10 +519,10 @@ Procedure UpdateTargetGadgets()
       DisableGadget(#GADGET_Option_TargetDown, 0)
       DisableMenuItem(#POPUPMENU_Options, #GADGET_Option_TargetDown, 0)
     EndIf
-        
+    
     DisableGadget(#GADGET_Option_TargetEnabled, 0)
     DisableMenuItem(#POPUPMENU_Options, #GADGET_Option_TargetEnabledMenu, 0)
-
+    
     If ProjectOptionTargets()\IsEnabled
       SetGadgetState(#GADGET_Option_TargetEnabled, 1)
       SetMenuItemState(#POPUPMENU_Options, #GADGET_Option_TargetEnabledMenu, 1)
@@ -545,7 +545,7 @@ Procedure ProjectTargetImage(*Target.CompileTarget)
 EndProcedure
 
 Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0)
-
+  
   If IsWindow(#WINDOW_Option) = 0
     
     ; Use a slightly different dialog for project options
@@ -560,11 +560,11 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
     
     If OptionWindowDialog
       EnsureWindowOnDesktop(#WINDOW_Option)
-    
+      
       EnableGadgetDrop(#GADGET_Option_MainFile,   #PB_Drop_Files, #PB_Drag_Copy)
       
       CompilerIf #SpiderBasic
-            
+        
         If Options_IsProjectMode
           HideGadget(#GADGET_Option_OutputFileLabel, #True)
           HideGadget(#GADGET_Option_OutputFile, #True)
@@ -604,7 +604,7 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
           SetGadgetItemData(#GADGET_Option_SelectCompiler, CountGadgetItems(#GADGET_Option_SelectCompiler)-1, @Compilers())
         EndIf
       Next Compilers()
-
+      
       CompilerIf #CompileWindows And Not #SpiderBasic
         Restore Resource_Strings
         For i = 15 To 17
@@ -614,34 +614,34 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
             AddGadgetItem(#GADGET_Option_VersionValue0+i, -1, Value$)
           Next s
         Next i
-
+        
         EnableGadgetDrop(#GADGET_Option_ResourceList, #PB_Drop_Files, #PB_Drag_Copy)
         EnableGadgetDrop(#GADGET_Option_ResourceFile, #PB_Drop_Files, #PB_Drag_Copy)
       CompilerEndIf
-
-
+      
+      
       If Options_IsProjectMode
         Options_CurrentBasePath$ = GetPathPart(ProjectFile$)
-      
+        
         EnableGadgetDrop(#GADGET_Option_OutputFile, #PB_Drop_Files, #PB_Drag_Copy)
-      
+        
         SetGadgetAttribute(#GADGET_Option_AddTarget,    #PB_Button_Image, ImageID(#IMAGE_Option_AddTarget))
         SetGadgetAttribute(#GADGET_Option_EditTarget,   #PB_Button_Image, ImageID(#IMAGE_Option_EditTarget))
         SetGadgetAttribute(#GADGET_Option_CopyTarget,   #PB_Button_Image, ImageID(#IMAGE_Option_CopyTarget))
         SetGadgetAttribute(#GADGET_Option_RemoveTarget, #PB_Button_Image, ImageID(#IMAGE_Option_RemoveTarget))
         SetGadgetAttribute(#GADGET_Option_TargetUp,     #PB_Button_Image, ImageID(#IMAGE_Option_TargetUp))
         SetGadgetAttribute(#GADGET_Option_TargetDown,   #PB_Button_Image, ImageID(#IMAGE_Option_TargetDown))
-  
+        
         GadgetToolTip(#GADGET_Option_AddTarget,    Language("Compiler","AddTarget"))
         GadgetToolTip(#GADGET_Option_EditTarget,   Language("Compiler","RenameTarget"))
         GadgetToolTip(#GADGET_Option_CopyTarget,   Language("Compiler","CopyTarget"))
         GadgetToolTip(#GADGET_Option_RemoveTarget, Language("Compiler","RemoveTarget"))
         GadgetToolTip(#GADGET_Option_TargetUp,     Language("Compiler","TargetUp"))
         GadgetToolTip(#GADGET_Option_TargetDown,   Language("Compiler","TargetDown"))
-      
+        
         ; resize with the actual button images and fold state
         OptionWindowDialog\GuiUpdate()
-
+        
         ; Create the popupmenu
         ;
         If EnableMenuIcons
@@ -664,7 +664,7 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
           MenuItem(#GADGET_Option_DefaultTargetMenu, Language("Compiler","DefaultTarget"))
           MenuItem(#GADGET_Option_TargetEnabledMenu, Language("Compiler","EnableTarget"))
         EndIf
-      
+        
         ClearList(ProjectOptionTargets())
         CurrentIndex = -1
         *Options_CurrentTarget = 0
@@ -707,7 +707,7 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
         ; just set the active source options
         SetTargetOptions(*ActiveSource)
       EndIf
-
+      
       CompilerIf #CompileWindows
         SendMessage_(GadgetID(#GADGET_Option_ConstantList), #LVM_SETCOLUMNWIDTH, 0, #LVSCW_AUTOSIZE_USEHEADER)
         
@@ -721,47 +721,47 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
       
       HideWindow(#WINDOW_Option, 0)
     EndIf
-
+    
   Else
     SetWindowForeground(#WINDOW_Option)
   EndIf
   
-
+  
 EndProcedure
 
 
 Procedure OptionWindowEvents(EventID)
-
+  
   If EventID = #PB_Event_Menu     ; Little wrapper to map the shortcut events (identified as menu)
     EventID  = #PB_Event_Gadget   ; to normal gadget events...
     GadgetID = EventMenu()
   Else
     GadgetID = EventGadget()
   EndIf
-
-  Select EventID
   
+  Select EventID
+      
     Case #PB_Event_CloseWindow
       Quit = 1
       
     Case #PB_Event_GadgetDrop
-
-      Select GadgetID
       
+      Select GadgetID
+          
         Case #GADGET_Option_MainFile
           File$ = StringField(EventDropFiles(), 1, Chr(10)) ; ignore all but the first entry
           SetGadgetText(#GADGET_Option_MainFile, CreateRelativePath(Options_CurrentBasePath$, File$))
-        
+          
         Case #GADGET_Option_OutputFile
           File$ = StringField(EventDropFiles(), 1, Chr(10)) ; ignore all but the first entry
           SetGadgetText(#GADGET_Option_MainFile, CreateRelativePath(Options_CurrentBasePath$, File$))
-        
           
-        CompilerIf Not #SpiderBasic
+          
+          CompilerIf Not #SpiderBasic
           Case #GADGET_Option_IconName
             File$ = StringField(EventDropFiles(), 1, Chr(10))
             SetGadgetText(#GADGET_Option_IconName, CreateRelativePath(Options_CurrentBasePath$, File$))
-          
+            
           Case #GADGET_Option_Linker
             File$ = StringField(EventDropFiles(), 1, Chr(10))
             SetGadgetText(#GADGET_Option_Linker, CreateRelativePath(Options_CurrentBasePath$, File$))
@@ -772,9 +772,9 @@ Procedure OptionWindowEvents(EventID)
               Path$ = GetPathPart(Path$)
             EndIf
             SetGadgetText(#GADGET_Option_CurrentDir, CreateRelativePath(Options_CurrentBasePath$, Path$))
-          
-          CompilerIf #CompileWindows
-          
+            
+            CompilerIf #CompileWindows
+              
             Case #GADGET_Option_ResourceList
               Files$ = EventDropFiles() ; look at all files here...
               Count  = CountString(Files$, Chr(10))+1
@@ -784,25 +784,25 @@ Procedure OptionWindowEvents(EventID)
                   AddGadgetItem(#GADGET_Option_ResourceList, -1, CreateRelativePath(Options_CurrentBasePath$, File$))
                 EndIf
               Next i
-            
+              
             Case #GADGET_Option_ResourceFile
               File$ = StringField(EventDropFiles(), 1, Chr(10))
               SetGadgetText(#GADGET_Option_ResourceFile, CreateRelativePath(Options_CurrentBasePath$, File$))
+              
+            CompilerEndIf
             
           CompilerEndIf
           
-        CompilerEndIf
-        
       EndSelect
-   
+      
     Case #PB_Event_Gadget
-    
+      
       Select GadgetID
- 
-        Case #GADGET_Option_Ok
-         
-          If Options_IsProjectMode = 0
           
+        Case #GADGET_Option_Ok
+          
+          If Options_IsProjectMode = 0
+            
             ; Make sure the modified flag is set if any changes were done.
             ;
             If TargetOptionsChanged(*ActiveSource)
@@ -837,14 +837,14 @@ Procedure OptionWindowEvents(EventID)
                 SetTargetOptions(*Options_CurrentTarget)
                 SetGadgetState(#GADGET_Option_TargetList, ListIndex(ProjectOptionTargets()))
                 UpdateTargetGadgets()
-              
+                
                 If MessageRequester(Language("Compiler","OptionsTitle"), LanguagePattern("Compiler","NoInputFile", "%target%", ProjectOptionTargets()\Name$)+#NewLine+Language("Compiler","SaveAnyway"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_No
                   Quit = 0
                   Break
                 EndIf
               EndIf
             Next ProjectOptionTargets()
-     
+            
             ; copy the changes back to the real project list
             If Quit
               ClearList(ProjectTargets())
@@ -863,42 +863,42 @@ Procedure OptionWindowEvents(EventID)
               StopFlickerFix(#WINDOW_Main, 1)
             EndIf
           EndIf
-         
-           
+          
+          
         Case #GADGET_Option_Cancel
           ClearList(ProjectOptionTargets()) ; do not apply these changes
           Quit = 1
-
+          
         Case #GADGET_Option_UseMainFile
           DisableOptionGadgets()
           
-        
+          
         Case #GADGET_Option_Debugger
           ; No action here anymore, as the menu item is disabled anyway for consistency
-
-
+          
+          
         Case #GADGET_Option_SelectMainFile
           File$ = ResolveRelativePath(Options_CurrentBasePath$, GetGadgetText(#GADGET_Option_MainFile))
           If Trim(File$) = ""
             File$ = Options_CurrentBasePath$
           EndIf
-        
+          
           File$ = OpenFileRequester(Language("Compiler","OpenMainFile"), File$, Language("Compiler","SourcePattern"), 0)
           If File$
             SetGadgetText(#GADGET_Option_MainFile, CreateRelativePath(Options_CurrentBasePath$, File$))
           EndIf
-
+          
         Case #GADGET_Option_UseCompiler
           DisableGadget(#GADGET_Option_SelectCompiler, 1-GetGadgetState(#GADGET_Option_UseCompiler))
           
-        CompilerIf Not #SpiderBasic
+          CompilerIf Not #SpiderBasic
             
           Case #GADGET_Option_SelectOutputFile
             File$ = ResolveRelativePath(Options_CurrentBasePath$, GetGadgetText(#GADGET_Option_OutputFile))
             If Trim(File$) = ""
               File$ = Options_CurrentBasePath$
             EndIf
-                      
+            
             If GetGadgetState(#GADGET_Option_ExecutableFormat) = 2 ; shared dll
               CompilerIf #CompileWindows
                 Pattern$     = Language("Compiler","DllPattern")
@@ -917,7 +917,7 @@ Procedure OptionWindowEvents(EventID)
               CompilerElseIf #CompileMac
                 Pattern$   = ""
                 If GetGadgetState(#GADGET_Option_ExecutableFormat) = 1 ; console
-                  Extension$ = "" ; console, do not append .app automatically here
+                  Extension$ = ""                                      ; console, do not append .app automatically here
                 Else
                   Extension$ = ".app"  ; autmatically append ".app" for gui programs
                 EndIf
@@ -932,10 +932,10 @@ Procedure OptionWindowEvents(EventID)
               If LCase(Right(File$, Len(Extension$))) <> Extension$ And SelectedFilePattern() <> 1
                 File$+Extension$
               EndIf
-                    
+              
               SetGadgetText(#GADGET_Option_OutputFile, CreateRelativePath(Options_CurrentBasePath$, File$))
             EndIf
-
+            
           Case #GADGET_Option_SelectIcon
             File$ = ResolveRelativePath(Options_CurrentBasePath$, GetGadgetText(#GADGET_Option_IconName))
             If Trim(File$) = ""
@@ -947,7 +947,7 @@ Procedure OptionWindowEvents(EventID)
               ; change .ico to .icns
               Pattern$ = ReplaceString(Pattern$, "ico", "icns")
             CompilerEndIf
-          
+            
             File$ = OpenFileRequester(Language("Compiler","OpenIcon"), File$, Pattern$, 0)
             If File$
               
@@ -959,7 +959,7 @@ Procedure OptionWindowEvents(EventID)
                 CompilerEndIf
                 File$ + "." + Ext$
               EndIf
-            
+              
               SetGadgetText(#GADGET_Option_IconName, CreateRelativePath(Options_CurrentBasePath$, File$))
             EndIf
             
@@ -967,13 +967,13 @@ Procedure OptionWindowEvents(EventID)
             Result = GetGadgetState(#GADGET_Option_UseIcon)
             DisableGadget(#GADGET_Option_IconName  , 1-Result)
             DisableGadget(#GADGET_Option_SelectIcon, 1-Result)
-          
+            
           Case #GADGET_Option_GetLinker
             File$ = ResolveRelativePath(Options_CurrentBasePath$, GetGadgetText(#GADGET_Option_Linker))
             If Trim(File$) = ""
               File$ = Options_CurrentBasePath$
             EndIf
-          
+            
             File$ = OpenFileRequester(Language("Compiler","OpenLinkerFile"), File$, Language("Compiler","AllFilesPattern"), 0)
             If File$
               SetGadgetText(#GADGET_Option_Linker, CreateRelativePath(Options_CurrentBasePath$, File$))
@@ -985,30 +985,30 @@ Procedure OptionWindowEvents(EventID)
             
           Case #GADGET_Option_DebuggerMode
             DisableOptionGadgets()
-  
+            
           Case #GADGET_Option_SelectWarning
             DisableOptionGadgets()
-          
+            
           Case #GADGET_Option_SelectCurrentDir
             If Trim(GetGadgetText(#GADGET_Option_CurrentDir)) = ""
               Path$ = Options_CurrentBasePath$
             Else
               Path$ = ResolveRelativePath(Options_CurrentBasePath$, GetGadgetText(#GADGET_Option_CurrentDir))
             EndIf
-          
+            
             Path$ = PathRequester("", Path$)
             If Path$
               SetGadgetText(#GADGET_Option_CurrentDir, CreateRelativePath(Options_CurrentBasePath$, Path$))
             EndIf
+            
+          CompilerEndIf
           
-        CompilerEndIf
-        
         Case #GADGET_Option_UseCompileCount
           DisableOptionGadgets()
-        
+          
         Case #GADGET_Option_UseBuildCount
           DisableOptionGadgets()
-
+          
         Case #GADGET_Option_ConstantList
           index = GetGadgetState(#GADGET_Option_ConstantList)
           If index = -1
@@ -1016,7 +1016,7 @@ Procedure OptionWindowEvents(EventID)
           Else
             SetGadgetText(#GADGET_Option_ConstantLine, GetGadgetItemText(#GADGET_Option_ConstantList, index, 0))
           EndIf
-        
+          
         Case #GADGET_Option_ConstantAdd
           Text$ = GetGadgetText(#GADGET_Option_ConstantLine)
           index = CountGadgetItems(#GADGET_Option_ConstantList)
@@ -1025,25 +1025,25 @@ Procedure OptionWindowEvents(EventID)
             SetGadgetItemState(#GADGET_Option_ConstantList, index, #PB_ListIcon_Checked)
             SetGadgetState(#GADGET_Option_ConstantList, index)
           EndIf
-        
+          
         Case #GADGET_Option_ConstantSet
           Text$ = GetGadgetText(#GADGET_Option_ConstantLine)
           index = GetGadgetState(#GADGET_Option_ConstantList)
           If Text$ <> "" And index <> -1
             SetGadgetItemText(#GADGET_Option_ConstantList, index, Text$, 0)
           EndIf
-        
+          
         Case #GADGET_Option_ConstantRemove
           index = GetGadgetState(#GADGET_Option_ConstantList)
           If index <> -1
             RemoveGadgetItem(#GADGET_Option_ConstantList, index)
             SetGadgetText(#GADGET_Option_ConstantLine, "")
           EndIf
-        
+          
         Case #GADGET_Option_ConstantClear
           ClearGadgetItems(#GADGET_Option_ConstantList)
           SetGadgetText(#GADGET_Option_ConstantLine, "")
-        
+          
         Case #GADGET_Option_TargetList
           State = GetGadgetState(#GADGET_Option_TargetList)
           If State = -1
@@ -1059,7 +1059,7 @@ Procedure OptionWindowEvents(EventID)
             
             SetGadgetState(#GADGET_Option_TargetList, State)
           EndIf
-        
+          
           SelectElement(ProjectOptionTargets(), State)
           
           ; don't need to do anything when the selection did not change
@@ -1156,7 +1156,7 @@ Procedure OptionWindowEvents(EventID)
               EndIf
             EndIf
           EndIf
-        
+          
         Case #GADGET_Option_EditTarget
           State = GetGadgetState(#GADGET_Option_TargetList)
           If State <> -1
@@ -1179,7 +1179,7 @@ Procedure OptionWindowEvents(EventID)
               EndIf
             EndIf
           EndIf
-
+          
         Case #GADGET_Option_RemoveTarget
           State = GetGadgetState(#GADGET_Option_TargetList)
           ; cannot delete the last target
@@ -1189,7 +1189,7 @@ Procedure OptionWindowEvents(EventID)
             Else
               NewState = 0
             EndIf
-          
+            
             SelectElement(ProjectOptionTargets(), State)
             IsDefault = ProjectOptionTargets()\IsDefault
             
@@ -1211,7 +1211,7 @@ Procedure OptionWindowEvents(EventID)
             SetTargetOptions(*Options_CurrentTarget)
             UpdateTargetGadgets()
           EndIf
-        
+          
         Case #GADGET_Option_TargetUp
           State = GetGadgetState(#GADGET_Option_TargetList)
           If State > 0
@@ -1233,7 +1233,7 @@ Procedure OptionWindowEvents(EventID)
               UpdateTargetGadgets()
             EndIf
           EndIf
-        
+          
         Case #GADGET_Option_TargetDown
           State = GetGadgetState(#GADGET_Option_TargetList)
           If State <> -1 And State < ListSize(ProjectOptionTargets())-1
@@ -1255,7 +1255,7 @@ Procedure OptionWindowEvents(EventID)
               UpdateTargetGadgets()
             EndIf
           EndIf
-        
+          
         Case #GADGET_Option_DefaultTarget, #GADGET_Option_DefaultTargetMenu
           State = GetGadgetState(#GADGET_Option_TargetList)
           If State <> -1
@@ -1284,7 +1284,7 @@ Procedure OptionWindowEvents(EventID)
               Else
                 ProjectOptionTargets()\IsDefault = #False
                 SetGadgetItemImage(#GADGET_Option_TargetList, ListIndex(ProjectOptionTargets()), ProjectTargetImage(@ProjectOptionTargets()))
-              
+                
                 ; select a different target as default, as there must always be one
                 If State = 0
                   NextElement(ProjectOptionTargets())
@@ -1294,12 +1294,12 @@ Procedure OptionWindowEvents(EventID)
                 ProjectOptionTargets()\IsDefault = #True
                 SetGadgetItemImage(#GADGET_Option_TargetList, ListIndex(ProjectOptionTargets()), ProjectTargetImage(@ProjectOptionTargets()))
               EndIf
-            
+              
             EndIf
           EndIf
           
           UpdateTargetGadgets() ; sync the menu states
-        
+          
         Case #GADGET_Option_TargetEnabled, #GADGET_Option_TargetEnabledMenu
           State = GetGadgetState(#GADGET_Option_TargetList)
           If State <> -1
@@ -1319,8 +1319,8 @@ Procedure OptionWindowEvents(EventID)
         Case #GADGET_Option_OpenProject
           OpenProjectOptions(#False) ; no new project
           
-        CompilerIf #CompileWindows And Not #SpiderBasic
-         
+          CompilerIf #CompileWindows And Not #SpiderBasic
+            
           Case #GADGET_Option_EnableAdmin
             If GetGadgetState(#GADGET_Option_EnableAdmin)
               SetGadgetState(#GADGET_Option_EnableUser, 0) ; both cannot be set at once
@@ -1333,7 +1333,7 @@ Procedure OptionWindowEvents(EventID)
             
           Case #GADGET_Option_IncludeVersion
             DisableOptionGadgets()
-                               
+            
           Case #GADGET_Option_ResourceAdd
             File$ = GetGadgetText(#GADGET_Option_ResourceFile)
             If File$ <> ""
@@ -1341,16 +1341,16 @@ Procedure OptionWindowEvents(EventID)
               SetGadgetState(#GADGET_Option_ResourceList, CountGadgetItems(#GADGET_Option_ResourceList)-1)
               SetGadgetText(#GADGET_Option_ResourceFile, "")
             EndIf
-                          
+            
           Case #GADGET_Option_ResourceRemove
             index = GetGadgetState(#GADGET_Option_ResourceList)
             If index <> -1
               RemoveGadgetItem(#GADGET_Option_ResourceList, index)
             EndIf
-                          
+            
           Case #GADGET_Option_ResourceClear
             ClearGadgetItems(#GADGET_Option_ResourceList)
-                          
+            
           Case #GADGET_Option_ResourceSelectFile
             File$ = ResolveRelativePath(Options_CurrentBasePath$, GetGadgetText(#GADGET_Option_ResourceFile))
             If File$ = ""
@@ -1369,8 +1369,8 @@ Procedure OptionWindowEvents(EventID)
             Next i
             Text$ + Language("Resources","DateTokens")
             MessageRequester(Language("Resources","Tokens"), Text$, #FLAG_Info)
-           
-        CompilerEndIf
+            
+          CompilerEndIf
           
       EndSelect
   EndSelect
@@ -1394,7 +1394,7 @@ Procedure OptionWindowEvents(EventID)
 EndProcedure
 
 Procedure UpdateOptionWindow()
-
+  
   ; Update the compiler list
   ;
   If GetGadgetState(#GADGET_Option_UseCompiler)
@@ -1433,7 +1433,7 @@ Procedure UpdateOptionWindow()
     SetGadgetState(#GADGET_Option_SelectCompiler, 0)
   EndIf
   
-
+  
   If Options_IsProjectMode
     ; Re-apply the images for theme changes
     ;
@@ -1443,14 +1443,14 @@ Procedure UpdateOptionWindow()
     SetGadgetAttribute(#GADGET_Option_RemoveTarget, #PB_Button_Image, ImageID(#IMAGE_Option_RemoveTarget))
     SetGadgetAttribute(#GADGET_Option_TargetUp,     #PB_Button_Image, ImageID(#IMAGE_Option_TargetUp))
     SetGadgetAttribute(#GADGET_Option_TargetDown,   #PB_Button_Image, ImageID(#IMAGE_Option_TargetDown))
-  
+    
     GadgetToolTip(#GADGET_Option_AddTarget,    Language("Compiler","AddTarget"))
     GadgetToolTip(#GADGET_Option_EditTarget,   Language("Compiler","RenameTarget"))
     GadgetToolTip(#GADGET_Option_CopyTarget,   Language("Compiler","CopyTarget"))
     GadgetToolTip(#GADGET_Option_RemoveTarget, Language("Compiler","RemoveTarget"))
     GadgetToolTip(#GADGET_Option_TargetUp,     Language("Compiler","TargetUp"))
     GadgetToolTip(#GADGET_Option_TargetDown,   Language("Compiler","TargetDown"))
-
+    
     ; Re-create the popup menu with new images/text
     ;
     If EnableMenuIcons
@@ -1482,7 +1482,7 @@ Procedure UpdateOptionWindow()
       SetGadgetItemImage(#GADGET_Option_TargetList, ListIndex(ProjectOptionTargets()), ProjectTargetImage(@ProjectOptionTargets()))
     Next ProjectOptionTargets()
   EndIf
-            
+  
   OptionWindowDialog\LanguageUpdate()
   OptionWindowDialog\GuiUpdate()
 EndProcedure

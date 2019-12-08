@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -49,9 +49,9 @@ CompilerIf #CompileWindows
         ForEach RunningDebuggers()
           If RunningDebuggers()\Windows[#DEBUGGER_WINDOW_Variable] <> 0
             *Debugger.DebuggerData = @RunningDebuggers()
-      
+            
             Select *nmv\hdr\hwndFrom
-              
+                
               Case GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo])
                 If *Debugger\ArraySortColumn = Column
                   *Debugger\ArraySortDirection * -1
@@ -61,7 +61,7 @@ CompilerIf #CompileWindows
                 EndIf
                 VariableWindowSort(*Debugger, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo])
                 Break
-              
+                
               Case GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalArrayInfo])
                 If *Debugger\LocalArraySortColumn = Column
                   *Debugger\LocalArraySortDirection * -1
@@ -71,7 +71,7 @@ CompilerIf #CompileWindows
                 EndIf
                 VariableWindowSort(*Debugger, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalArrayInfo])
                 Break
-              
+                
               Case GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo])
                 If *Debugger\ListSortColumn = Column
                   *Debugger\ListSortDirection * -1
@@ -81,7 +81,7 @@ CompilerIf #CompileWindows
                 EndIf
                 VariableWindowSort(*Debugger, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo])
                 Break
-                              
+                
               Case GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo])
                 If *Debugger\LocalListSortColumn = Column
                   *Debugger\LocalListSortDirection * -1
@@ -101,7 +101,7 @@ CompilerIf #CompileWindows
                 EndIf
                 VariableWindowSort(*Debugger, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo])
                 Break
-                              
+                
               Case GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo])
                 If *Debugger\LocalMapSortColumn = Column
                   *Debugger\LocalMapSortDirection * -1
@@ -111,16 +111,16 @@ CompilerIf #CompileWindows
                 EndIf
                 VariableWindowSort(*Debugger, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo])
                 Break
-              
+                
             EndSelect
           EndIf
         Next RunningDebuggers()
       EndIf
     EndIf
-
+    
     ProcedureReturn Result
   EndProcedure
-
+  
 CompilerEndIf
 
 ; Sort one of the 4 Array/List info gadgets
@@ -131,12 +131,12 @@ Procedure VariableWindowSort(*Debugger.DebuggerData, Gadget)
       Column    = *Debugger\ArraySortColumn
       Direction = *Debugger\ArraySortDirection
       Type      = 0 ; string
-    
+      
     Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalArrayInfo]
       Column    = *Debugger\LocalArraySortColumn
       Direction = *Debugger\LocalArraySortDirection
       Type      = 0 ; string
-    
+      
     Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo]
       Column    = *Debugger\ListSortColumn
       Direction = *Debugger\ListSortDirection
@@ -145,7 +145,7 @@ Procedure VariableWindowSort(*Debugger.DebuggerData, Gadget)
       Else
         Type    = 0 ; string
       EndIf
-    
+      
     Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo]
       Column    = *Debugger\LocalListSortColumn
       Direction = *Debugger\LocalListSortDirection
@@ -163,7 +163,7 @@ Procedure VariableWindowSort(*Debugger.DebuggerData, Gadget)
       Else
         Type    = 0 ; string
       EndIf
-    
+      
     Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo]
       Column    = *Debugger\LocalMapSortColumn
       Direction = *Debugger\LocalMapSortDirection
@@ -172,10 +172,10 @@ Procedure VariableWindowSort(*Debugger.DebuggerData, Gadget)
       Else
         Type    = 0 ; string
       EndIf
-    
+      
     Default
       ProcedureReturn
-          
+      
   EndSelect
   
   Count = CountGadgetItems(Gadget)
@@ -191,7 +191,7 @@ Procedure VariableWindowSort(*Debugger.DebuggerData, Gadget)
   SortData.Variable_SortData
   SortData\Type = Type
   SortData\Direction = Direction
-   
+  
   If Type = 0 ; string
     Protected Dim StringSort$(Count)
     
@@ -205,10 +205,10 @@ Procedure VariableWindowSort(*Debugger.DebuggerData, Gadget)
     Next i
     
     SortData\Values = @StringSort$()
-
+    
   Else ; integer
     Protected Dim IntegerSort.q(Count)
-
+    
     For i = 0 To Count-1
       String$ = GetGadgetItemText(Gadget, i, Column)
       If String$ = "-"
@@ -217,7 +217,7 @@ Procedure VariableWindowSort(*Debugger.DebuggerData, Gadget)
         IntegerSort(GetGadgetItemData(Gadget, i)) = Val(String$)
       EndIf
     Next i
-      
+    
     SortData\Values = @IntegerSort()
     
   EndIf
@@ -226,19 +226,19 @@ Procedure VariableWindowSort(*Debugger.DebuggerData, Gadget)
     SendMessage_(GadgetID(Gadget), #LVM_SORTITEMS, @SortData, @Variable_SortProc())
     SetSortArrow(Gadget, Column, Direction)
   CompilerEndIf
-
+  
 EndProcedure
 
 Procedure.s VariableListElement(*Debugger.DebuggerData, Gadget, index)
   Shared *VariableGadget_Used.VariableGadget ; to access the variable gadget data structure
-
+  
   If Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global] Or Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local] Or Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer]
     ; These are VariableGadget gadgets, so structures are possible
     ;
     index = VariableGadget_GadgetIndexToReal(Gadget, index)
     VariableGadget_Use(Gadget)
     *items.VariableGadget_ItemList = *VariableGadget_Used\Items
-            
+    
     If *items\item[index]\Sublevel > 0 ; its a structure element
       Subitem$ = "\" + StringField(Trim(*items\item[index]\Name$), 1, ".") ; cut structure name
       
@@ -247,7 +247,7 @@ Procedure.s VariableListElement(*Debugger.DebuggerData, Gadget, index)
         ; recurse into them on structure display, none of its parents can be one
         Subitem$ + "()" ; for resolving in the debugger
       EndIf
-   
+      
       x = index
       While *items\item[x]\Sublevel > 0 And x >= 0
         ; skip to the parent element
@@ -274,7 +274,7 @@ Procedure.s VariableListElement(*Debugger.DebuggerData, Gadget, index)
     
     Debug "Resolved element name: " + BaseItem$ + SubItem$
     ProcedureReturn BaseItem$ + SubItem$
-
+    
   Else
     ; These are just the Array, Map, List info gadgets, Only single names are possible
     ;
@@ -287,22 +287,22 @@ Procedure.s VariableListElement(*Debugger.DebuggerData, Gadget, index)
     
     ProcedureReturn Name$
   EndIf
-
+  
 EndProcedure
 
 Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
   Static PopupVariableGadget
   Shared *VariableGadget_Used.VariableGadget ; to access the variable gadget data structure
-
+  
   If EventID = #PB_Event_Menu
     Select EventMenu()
-      
+        
       Case #DEBUGGER_MENU_WatchlistAdd
         If IsGadget(PopupVariableGadget)
           index = GetGadgetState(PopupVariableGadget)
           If index <> -1
             Variable$ = VariableListElement(*Debugger, PopupVariableGadget, index)
-             
+            
             If Variable$ <> ""
               Command.CommandInfo\Command = #COMMAND_WatchlistAdd
               
@@ -314,10 +314,10 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
               Else
                 Command\Value1 = -1
               EndIf
-                       
+              
               Command\Value2 = 1 ; report error messages
               Command\DataSize = StringByteLength(Variable$, #PB_UTF8)+1
-        
+              
               *Buffer = AllocateMemory(Command\DataSize)
               If *Buffer
                 PokeS(*Buffer, Variable$, -1, #PB_UTF8)
@@ -330,18 +330,18 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
             EndIf
           EndIf
         EndIf
-      
+        
       Case #DEBUGGER_MENU_CopyVariable
         If IsGadget(PopupVariableGadget)
           index = GetGadgetState(PopupVariableGadget)
           If index <> -1
             Variable$ = VariableListElement(*Debugger, PopupVariableGadget, index)
-          
+            
             If Variable$
               VariableGadget_Use(PopupVariableGadget)
               index = VariableGadget_GadgetIndexToReal(PopupVariableGadget, index)
               *items.VariableGadget_ItemList = *VariableGadget_Used\Items
-                          
+              
               If *items\item[index]\Value$ <> ""
                 Variable$ + " = " + *items\item[index]\Value$
               EndIf
@@ -349,20 +349,20 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
             EndIf
           EndIf
         EndIf
-          
+        
       Case #DEBUGGER_MENU_ViewAll
         If IsGadget(PopupVariableGadget)
           item = GetGadgetState(PopupVariableGadget)
           If item <> -1
             Command.CommandInfo\Command = #COMMAND_GetArrayListData
             Command\Value1 = 0
-          
+            
             If PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo] Or PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo] Or PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo] Or PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global]
               Command\Value2 = 1 ; we explicitly ask to give global names the priority when searching.
             Else
               Command\Value2 = 0
             EndIf
-                     
+            
             Name$ = VariableListElement(*Debugger, PopupVariableGadget, item)
             Command\DataSize = StringByteLength(Name$)+#CharSize
             SendDebuggerCommandWithData(*Debugger, @Command, @Name$)
@@ -380,13 +380,13 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
           If item <> -1
             Command.CommandInfo\Command = #COMMAND_GetArrayListData
             Command\Value1 = 1
-          
+            
             If PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo] Or PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo] Or PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo] Or PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global]
               Command\Value2 = 1 ; we explicitly ask to give global names the priority when searching.
             Else
               Command\Value2 = 0
             EndIf
-                     
+            
             Name$ = VariableListElement(*Debugger, PopupVariableGadget, item)
             Command\DataSize = StringByteLength(Name$)+#CharSize
             SendDebuggerCommandWithData(*Debugger, @Command, @Name$)
@@ -404,13 +404,13 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
           If item <> -1
             Command.CommandInfo\Command = #COMMAND_GetArrayListData
             Command\Value1 = 2
-          
+            
             If PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo] Or PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo] Or PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo] Or PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global]
               Command\Value2 = 1 ; we explicitly ask to give global names the priority when searching.
             Else
               Command\Value2 = 0
             EndIf
-                     
+            
             Name$ = VariableListElement(*Debugger, PopupVariableGadget, item)
             Range$ = InputRequester(Language("Debugger","ViewArrayList"), Language("Debugger","EnterRange")+":", "")
             
@@ -434,12 +434,12 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
             EndIf
           EndIf
         EndIf
-      
+        
     EndSelect
-
+    
   ElseIf EventID = #PB_Event_Gadget
     Select EventGadget()
-    
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Splitter]
         If GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Splitter], #PB_Splitter_FirstGadget) = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer] Or GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Splitter], #PB_Splitter_SecondGadget) = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer]
           ContainerWidth = GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer])
@@ -450,7 +450,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
             ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Progress], 10, (ContainerHeight-20)/2, ContainerWidth-20, 20)
           EndIf
         EndIf
-          
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global]
         VariableGadget_Event(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
         If EventType() = #PB_EventType_RightClick
@@ -467,7 +467,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
             EndIf
           EndIf
         EndIf
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local]
         VariableGadget_Event(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local])
         If EventType() = #PB_EventType_RightClick
@@ -507,7 +507,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
             PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo]
           EndIf
         EndIf
-          
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalArrayInfo]
         If EventType() = #PB_EventType_RightClick
           If GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalArrayInfo]) <> -1
@@ -531,7 +531,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
             PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo]
           EndIf
         EndIf
-          
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo]
         If EventType() = #PB_EventType_RightClick
           If GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo]) <> -1
@@ -547,7 +547,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
             PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo]
           EndIf
         EndIf
-            
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Update]
         If *Debugger\ProgramState <> -1
           ; send the update command
@@ -558,7 +558,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
           Command.CommandInfo\Command = #COMMAND_GetLocals
           SendDebuggerCommand(*Debugger, @Command)
         EndIf
-
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateArray]
         If *Debugger\ProgramState <> -1
           Command.CommandInfo\Command = #COMMAND_GetArrayInfo
@@ -569,7 +569,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
           Command\Value1 = #False
           SendDebuggerCommand(*Debugger, @Command)
         EndIf
-              
+        
         
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateList]
         If *Debugger\ProgramState <> -1
@@ -599,7 +599,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
         Else
           DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputRange], 1)
         EndIf
-
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Display]
         Name$ = Trim(GetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputName]))
         Command.CommandInfo\Command = #COMMAND_GetArrayListData
@@ -622,7 +622,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
           Command\Value1 = 1
           Command\DataSize = StringByteLength(Name$)+#CharSize
           SendDebuggerCommandWithData(*Debugger, @Command, @Name$)
-                
+          
         Else
           Range$ = Trim(GetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputRange]))
           
@@ -638,16 +638,16 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
             FreeMemory(*Buffer)
           EndIf
         EndIf
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Copy]
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Save]
         
-      
+        
     EndSelect
-  
+    
   ElseIf EventID = #PB_Event_SizeWindow
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 10, 10, WindowWidth(*Debugger\Windows[#DEBUGGER_WINDOW_Variable])-20, WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_Variable])-20)
-        
+    
     CompilerIf #CompileLinux
       ; the resize fails on Linux else when opening the window
       FlushEvents()
@@ -663,7 +663,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
     ; Variable view
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Splitter], 10, 10, Width-20, Height-30-ButtonHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Update], Width-10-ButtonWidth, Height-35, ButtonWidth, ButtonHeight)
-
+    
     If GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Splitter], #PB_Splitter_FirstGadget) = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer] Or GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Splitter], #PB_Splitter_SecondGadget) = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer]
       ContainerWidth = GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer])
       ContainerHeight = GadgetHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer])
@@ -677,11 +677,11 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
     ; Array view
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArraySplitter], 10, 10, Width-20, Height-30-ButtonHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateArray], Width-10-ButtonWidth, Height-35, ButtonWidth, ButtonHeight)
-        
+    
     ; LinkedList view
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListSplitter], 10, 10, Width-20, Height-30-ButtonHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateList], Width-10-ButtonWidth, Height-35, ButtonWidth, ButtonHeight)
-
+    
     ; Map view
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapSplitter], 10, 10, Width-20, Height-30-ButtonHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateMap], Width-10-ButtonWidth, Height-35, ButtonWidth, ButtonHeight)
@@ -711,7 +711,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
     Else
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerProgress], 10, (Height-25-BoxHeight-20)/2, Width-40, 20)
     EndIf
-
+    
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Text], Offset, 15, TextWidth, ButtonHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputName], Offset+5+TextWidth, 15, OptionWidth+10, ButtonHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_AllItems], Offset+15+TextWidth, 20+ButtonHeight, OptionWidth, OptionHeight)
@@ -719,9 +719,9 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ItemRange], Offset+15+TextWidth, 30+ButtonHeight+OptionHeight*2, OptionWidth, OptionHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputRange], Offset+35+TextWidth, 35+ButtonHeight+OptionHeight*3, OptionWidth-20, ButtonHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Display], Offset+35+TextWidth+OptionWidth, 15, ButtonWidth, ButtonHeight)
-   ; ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Copy], Offset+35+TextWidth+OptionWidth, 20+ButtonHeight, ButtonWidth, ButtonHeight)
-   ; ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Save], Offset+35+TextWidth+OptionWidth, 25+ButtonHeight*2, ButtonWidth, ButtonHeight)
-  
+    ; ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Copy], Offset+35+TextWidth+OptionWidth, 20+ButtonHeight, ButtonWidth, ButtonHeight)
+    ; ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Save], Offset+35+TextWidth+OptionWidth, 25+ButtonHeight*2, ButtonWidth, ButtonHeight)
+    
   ElseIf EventID = #PB_Event_CloseWindow
     If DebuggerMemorizeWindows And IsWindowMinimized(*Debugger\Windows[#DEBUGGER_WINDOW_Variable]) = 0
       VariableViewerMaximize = IsWindowMaximized(*Debugger\Windows[#DEBUGGER_WINDOW_Variable])
@@ -741,13 +741,13 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
     
     *Debugger\Windows[#DEBUGGER_WINDOW_Variable] = 0
     Debugger_CheckDestroy(*Debugger)
-  
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure UpdateVariableWindowState(*Debugger.DebuggerData)
-
+  
   If *Debugger\ProgramState = -1
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Update], 1)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateArray], 1)
@@ -759,7 +759,7 @@ Procedure UpdateVariableWindowState(*Debugger.DebuggerData)
     DisableMenuItem(#POPUPMENU_ArrayViewer, #DEBUGGER_MENU_ViewAll, 1)
     DisableMenuItem(#POPUPMENU_ArrayViewer, #DEBUGGER_MENU_ViewNonZero, 1)
     DisableMenuItem(#POPUPMENU_ArrayViewer, #DEBUGGER_MENU_ViewRange, 1)
-  
+    
   Else
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Update], 0)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateArray], 0)
@@ -771,14 +771,14 @@ Procedure UpdateVariableWindowState(*Debugger.DebuggerData)
     DisableMenuItem(#POPUPMENU_ArrayViewer, #DEBUGGER_MENU_ViewAll, 0)
     DisableMenuItem(#POPUPMENU_ArrayViewer, #DEBUGGER_MENU_ViewNonZero, 0)
     DisableMenuItem(#POPUPMENU_ArrayViewer, #DEBUGGER_MENU_ViewRange, 0)
-            
+    
     
     If *Debugger\ProgramState <> 0 And *Debugger\ProgramState <> -2
       DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Update], 1)
       DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateArray], 1)
       DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateList], 1)
       DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateMap], 1)
-    
+      
       ; send the update command
       ;
       Command.CommandInfo\Command = #COMMAND_GetGlobals
@@ -790,7 +790,7 @@ Procedure UpdateVariableWindowState(*Debugger.DebuggerData)
       Command.CommandInfo\Command = #COMMAND_GetArrayInfo
       Command\Value1 = #True
       SendDebuggerCommand(*Debugger, @Command)
-
+      
       Command.CommandInfo\Command = #COMMAND_GetArrayInfo
       Command\Value1 = #False
       SendDebuggerCommand(*Debugger, @Command)
@@ -811,14 +811,14 @@ Procedure UpdateVariableWindowState(*Debugger.DebuggerData)
       Command\Value1 = #False
       SendDebuggerCommand(*Debugger, @Command)
     EndIf
-  
+    
   EndIf
-
+  
 EndProcedure
 
 
 Procedure OpenVariableWindow(*Debugger.DebuggerData)
-
+  
   If *Debugger\Windows[#DEBUGGER_WINDOW_Variable]
     SetWindowForeground(*Debugger\Windows[#DEBUGGER_WINDOW_Variable])
     
@@ -830,86 +830,86 @@ Procedure OpenVariableWindow(*Debugger.DebuggerData)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel] = PanelGadget(#PB_Any, 0, 0, 0, 0)
       
       AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], -1, Language("Debugger","Variables"))
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global] = VariableGadget_Create(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), #True, #False)
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local]  = VariableGadget_Create(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), #True, #False)
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Splitter] = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global], *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local])
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Update] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
-        
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer] = ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_Single)
-          *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Progress] = ProgressBarGadget(#PB_Any, 0, 0, 0, 0, 0, 100)
-        CloseGadgetList()
-        HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer], 1)
-        
-      AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], -1, Language("Debugger","Arrays"))
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
-        AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo], 1, Language("Debugger","Name"), 430)
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalArrayInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalArrayInfo], 1, Language("Debugger","Name"), 430)
-                  
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateArray] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArraySplitter] = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo], *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalArrayInfo])
-        
-        DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateArray], 1)
-        
-      AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], -1, Language("Debugger","LinkedLists"))
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo], 1, Language("Debugger","Name"), VariableWindowWidth-300)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo], 2, Language("Debugger","Size"), 70)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo], 3, Language("Debugger","Current"), 70)
-          
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo], 1, Language("Debugger","Name"), VariableWindowWidth-300)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo], 2, Language("Debugger","Size"), 70)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo], 3, Language("Debugger","Current"), 70)
-                  
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateList] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListSplitter] = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo], *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo])
-        
-        DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateList], 1)
-        
-      AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], -1, Language("Debugger","Maps"))
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo], 1, Language("Debugger","Name"), VariableWindowWidth-350)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo], 2, Language("Debugger","Size"), 70)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo], 3, Language("Debugger","Current"), 120)
-          
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo], 1, Language("Debugger","Name"), VariableWindowWidth-350)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo], 2, Language("Debugger","Size"), 70)
-          AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo], 3, Language("Debugger","Current"), 120)
-                  
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateMap] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapSplitter] = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo], *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo])
-        
-        DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateMap], 1)
-                
-        
-      AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], -1, Language("Debugger","ViewArrayList"))
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer] = VariableGadget_Create(#PB_Any, 0, 0, 0, 0, "", #False, #True)
-        
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerContainer] = ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_Single)
-          *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerProgress] = ProgressBarGadget(#PB_Any, 0, 0, 0, 0, 0, 100)
-        CloseGadgetList()
-        HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerContainer], 1)
-        
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Container] = ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_Single)
-          *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Text]         = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","ArrayListName")+":", #PB_Text_Right)
-          *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputName]    = StringGadget(#PB_Any, 0, 0, 0, 0, "")
-          *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_AllItems]     = OptionGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","AllItems"))
-          *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_NonZeroItems] = OptionGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","NonZeroItems"))
-          *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ItemRange]    = OptionGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","ItemRange")+":")
-          *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputRange]   = StringGadget(#PB_Any, 0, 0, 0, 0, "")
-          *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Display]      = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Display"))
-          ; TODO: not yet implemented
-          ;*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Copy]         = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Copy"))
-          ;*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Save]         = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Save"))
-        CloseGadgetList()
-        
-        SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_AllItems], 1)
-        DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputRange], 1)
-        DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Display], 1)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global] = VariableGadget_Create(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), #True, #False)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local]  = VariableGadget_Create(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), #True, #False)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Splitter] = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global], *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local])
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Update] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
       
-        
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer] = ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_Single)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Progress] = ProgressBarGadget(#PB_Any, 0, 0, 0, 0, 0, 100)
+      CloseGadgetList()
+      HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer], 1)
+      
+      AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], -1, Language("Debugger","Arrays"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo], 1, Language("Debugger","Name"), 430)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalArrayInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalArrayInfo], 1, Language("Debugger","Name"), 430)
+      
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateArray] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArraySplitter] = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArrayInfo], *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalArrayInfo])
+      
+      DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateArray], 1)
+      
+      AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], -1, Language("Debugger","LinkedLists"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo], 1, Language("Debugger","Name"), VariableWindowWidth-300)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo], 2, Language("Debugger","Size"), 70)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo], 3, Language("Debugger","Current"), 70)
+      
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo], 1, Language("Debugger","Name"), VariableWindowWidth-300)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo], 2, Language("Debugger","Size"), 70)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo], 3, Language("Debugger","Current"), 70)
+      
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateList] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListSplitter] = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ListInfo], *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo])
+      
+      DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateList], 1)
+      
+      AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], -1, Language("Debugger","Maps"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo], 1, Language("Debugger","Name"), VariableWindowWidth-350)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo], 2, Language("Debugger","Size"), 70)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo], 3, Language("Debugger","Current"), 120)
+      
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Scope"), 70, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection|#PB_ListIcon_GridLines)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo], 1, Language("Debugger","Name"), VariableWindowWidth-350)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo], 2, Language("Debugger","Size"), 70)
+      AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo], 3, Language("Debugger","Current"), 120)
+      
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateMap] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapSplitter] = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapInfo], *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo])
+      
+      DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateMap], 1)
+      
+      
+      AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], -1, Language("Debugger","ViewArrayList"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer] = VariableGadget_Create(#PB_Any, 0, 0, 0, 0, "", #False, #True)
+      
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerContainer] = ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_Single)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerProgress] = ProgressBarGadget(#PB_Any, 0, 0, 0, 0, 0, 100)
+      CloseGadgetList()
+      HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerContainer], 1)
+      
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Container] = ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_Single)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Text]         = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","ArrayListName")+":", #PB_Text_Right)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputName]    = StringGadget(#PB_Any, 0, 0, 0, 0, "")
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_AllItems]     = OptionGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","AllItems"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_NonZeroItems] = OptionGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","NonZeroItems"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ItemRange]    = OptionGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","ItemRange")+":")
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputRange]   = StringGadget(#PB_Any, 0, 0, 0, 0, "")
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Display]      = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Display"))
+      ; TODO: not yet implemented
+      ;*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Copy]         = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Copy"))
+      ;*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Save]         = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Save"))
+      CloseGadgetList()
+      
+      SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_AllItems], 1)
+      DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputRange], 1)
+      DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Display], 1)
+      
+      
       CompilerIf #DEFAULT_CanWindowStayOnTop
         SetWindowStayOnTop(Window, DebuggerOnTop)
       CompilerEndIf
@@ -950,7 +950,7 @@ Procedure OpenVariableWindow(*Debugger.DebuggerData)
         Command.CommandInfo\Command = #COMMAND_GetGlobalNames
         SendDebuggerCommand(*Debugger, @Command)
       EndIf
-  
+      
       EnsureWindowOnDesktop(Window)
       If VariableViewerMaximize  ; must be before the resize so panel size is calculated correctly!
         ShowWindowMaximized(Window)
@@ -962,7 +962,7 @@ Procedure OpenVariableWindow(*Debugger.DebuggerData)
       CompilerIf #CompileLinux
         FlushEvents() ; Flush the events to finish window creation/resize or SetGadgetState() could fail on linux: http://www.purebasic.fr/english/viewtopic.php?f=23&t=48589
       CompilerEndIf
-
+      
       Height = GetPanelHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel])
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Splitter], (Height-55)/2)
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ArraySplitter], (Height-55)/2)
@@ -998,7 +998,7 @@ Procedure OpenVariableWindow(*Debugger.DebuggerData)
         Command.CommandInfo\Command = #COMMAND_GetArrayInfo
         Command\Value1 = #True
         SendDebuggerCommand(*Debugger, @Command)
-  
+        
         Command.CommandInfo\Command = #COMMAND_GetArrayInfo
         Command\Value1 = #False
         SendDebuggerCommand(*Debugger, @Command)
@@ -1028,7 +1028,7 @@ EndProcedure
 
 
 Procedure UpdateVariableWindow(*Debugger.DebuggerData)
-
+  
   SetWindowTitle(*Debugger\Windows[#DEBUGGER_WINDOW_Variable], Language("Debugger","VariableWindowTitle") + " - " + GetFilePart(*Debugger\FileName$))
   
   SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 0, Language("Debugger","Variables"), 0)
@@ -1036,7 +1036,7 @@ Procedure UpdateVariableWindow(*Debugger.DebuggerData)
   SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 2, Language("Debugger","LinkedLists"), 0)
   SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 3, Language("Debugger","Maps"), 0)
   SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 4, Language("Debugger","ViewArrayList"), 0)
-    
+  
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Update], Language("Debugger","Update"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateArray], Language("Debugger","Update"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateList], Language("Debugger","Update"))
@@ -1057,26 +1057,26 @@ EndProcedure
 
 Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
   Shared *VariableGadget_Used.VariableGadget ; to access the variable gadget data structure
-
+  
   If *Debugger\Command\Command = #COMMAND_ControlVariableViewer
     OpenVariableWindow(*Debugger)
     ProcedureReturn     ; do not run the rest of this code
   EndIf
-
+  
   ; ignore these messages when the window is closed
   ;
   If *Debugger\Windows[#DEBUGGER_WINDOW_Variable] = 0
     ProcedureReturn
   EndIf
-
+  
   Select *Debugger\Command\Command
-    
-    ;- #COMMAND_GlobalNames
+      
+      ;- #COMMAND_GlobalNames
     Case #COMMAND_GlobalNames
       VariableGadget_Allocate(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global], *Debugger\Command\Value2)
       VariableGadget_Lock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
       VariableGadget_Use(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
-    
+      
       *Pointer = *Debugger\CommandData
       For i = 1 To *Debugger\Command\Value2
         type = PeekB(*Pointer)
@@ -1098,12 +1098,12 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
       
       VariableGadget_Unlock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
       VariableGadget_Sort(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
-    
-    ;- #COMMAND_Globals
+      
+      ;- #COMMAND_Globals
     Case #COMMAND_Globals
       VariableGadget_Lock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
       VariableGadget_Use(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
-    
+      
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Progress], 0)
       UpdateStep = *Debugger\Command\Value2 / 100
       NextUpdate = UpdateStep
@@ -1117,7 +1117,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         
         VariableGadget_Set(i-1, *Pointer, *Debugger\Is64bit, #False)
         *Pointer + GetValueSize(type, *Pointer, *Debugger\Is64bit)
-
+        
         If i > NextUpdate And (ProgressVisible Or Timeout < ElapsedMilliseconds())
           If ProgressVisible = 0 And i < *Debugger\Command\Value2 / 2  ; do not show if almost finished
             SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Progress], #PB_ProgressBar_Maximum, *Debugger\Command\Value2)
@@ -1135,7 +1135,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
             
             ProgressVisible = 1
           EndIf
-                
+          
           NextUpdate + UpdateStep
           SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Progress], i)
           
@@ -1157,7 +1157,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
       
       VariableGadget_SyncAll() ; update the displayed content
       VariableGadget_Sort(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
-
+      
       If ProgressVisible
         HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ProgressContainer], 1)
         SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Splitter], #PB_Splitter_FirstGadget, *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
@@ -1165,14 +1165,14 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
       EndIf
       
       VariableGadget_Unlock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
-
-    ;- #COMMAND_Locals
+      
+      ;- #COMMAND_Locals
     Case #COMMAND_Locals
       VariableGadget_Allocate(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local], *Debugger\Command\Value2)
       VariableGadget_Lock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local])
       VariableGadget_Use(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local])
       *VariableGadget_Used\CustomData = *Debugger\Command\Value1
-
+      
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Progress], 0)
       UpdateStep = *Debugger\Command\Value2 / 100
       NextUpdate = UpdateStep
@@ -1213,7 +1213,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
             
             ProgressVisible = 1
           EndIf
-        
+          
           NextUpdate + UpdateStep
           SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Progress], i)
           
@@ -1233,9 +1233,9 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
       EndIf
       
       VariableGadget_Unlock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local])
-            
       
-    ;- #COMMAND_ArrayInfo
+      
+      ;- #COMMAND_ArrayInfo
     Case #COMMAND_ArrayInfo
       *Pointer = *Debugger\CommandData
       
@@ -1258,7 +1258,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         ClearGadgetItems(Gadget)
         AddNew = 1
       EndIf
-              
+      
       For i = 0 To *Debugger\Command\Value2-1
         Name$ = PeekAscii(*Pointer)
         *Pointer + MemoryAsciiLength(*Pointer) + 1
@@ -1268,7 +1268,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         
         Dimensions$ = PeekAscii(*Pointer)
         *Pointer + MemoryAsciiLength(*Pointer) + 1
-      
+        
         type = PeekB(*Pointer)
         *Pointer + 1
         
@@ -1280,7 +1280,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         If IS_POINTER(type)
           Name$ = "*" + Name$
         EndIf
-
+        
         If *Debugger\Command\Value1 = 0 ; local, always re-adding
           AddGadgetItem(Gadget, i, ScopeName$+Chr(10)+ModuleName(Name$, ModName$)+Dimensions$, ImageID(VariableGadget_Icons(type & #TYPEMASK)))
           SetGadgetItemData(Gadget, i, i) ; associate the item with its index so we have it after sorting
@@ -1303,15 +1303,15 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
           SetGadgetItemText(Gadget, i, InfoStrings$(GetGadgetItemData(Gadget, i)), 1)
         Next i
       EndIf
-
+      
       If OldState <> -1
         SetGadgetState(Gadget, OldState)
       EndIf
       
       VariableWindowSort(*Debugger, Gadget)
-
-
-    ;- #COMMAND_ListInfo
+      
+      
+      ;- #COMMAND_ListInfo
     Case #COMMAND_ListInfo
       *Pointer = *Debugger\CommandData
       
@@ -1334,14 +1334,14 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         ClearGadgetItems(Gadget)
         AddNew = 1
       EndIf
-           
+      
       For i = 0 To *Debugger\Command\Value2-1
         Name$ = PeekAscii(*Pointer)
         *Pointer + MemoryAsciiLength(*Pointer) + 1
         
         ModName$ = PeekAscii(*Pointer)
         *Pointer + MemoryAsciiLength(*Pointer) + 1
-      
+        
         type = PeekB(*Pointer)
         *Pointer + 1
         
@@ -1409,14 +1409,14 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
           SetGadgetItemText(Gadget, i, StringField(InfoStrings$(index), 2, Chr(10)), 3)
         Next i
       EndIf
-
+      
       If OldState <> -1
         SetGadgetState(Gadget, OldState)
       EndIf
       
       VariableWindowSort(*Debugger, Gadget)
-    
-    ;- #COMMAND_MapInfo
+      
+      ;- #COMMAND_MapInfo
     Case #COMMAND_MapInfo
       *Pointer = *Debugger\CommandData
       
@@ -1439,14 +1439,14 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         ClearGadgetItems(Gadget)
         AddNew = 1
       EndIf
-           
+      
       For i = 0 To *Debugger\Command\Value2-1
         Name$ = PeekAscii(*Pointer)
         *Pointer + MemoryAsciiLength(*Pointer) + 1
         
         ModName$ = PeekAscii(*Pointer)
         *Pointer + MemoryAsciiLength(*Pointer) + 1
-      
+        
         type = PeekB(*Pointer)
         *Pointer + 1
         
@@ -1510,21 +1510,21 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
           SetGadgetItemText(Gadget, i, StringField(InfoStrings$(index), 2, Chr(10)), 3)
         Next i
       EndIf
-
+      
       If OldState <> -1
         SetGadgetState(Gadget, OldState)
       EndIf
       
       VariableWindowSort(*Debugger, Gadget)
-
-    ;- #COMMAND_ListData
+      
+      ;- #COMMAND_ListData
     Case #COMMAND_ListData
       If *Debugger\Command\Value1 = 0 ; indicates an error
         MessageRequester(Language("Debugger", "ViewArrayList"), PeekAsciiLength(*Debugger\CommandData, *Debugger\Command\DataSize))
-       
+        
       Else ; no error
-        ; switch to the correct tab in case the display was started by contextmenu fro
-        ; another tab
+           ; switch to the correct tab in case the display was started by contextmenu fro
+           ; another tab
         If GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel]) <> 4
           SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 4)
           
@@ -1533,13 +1533,13 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
             ProcedureReturn
           EndIf
         EndIf
-
+        
         VariableGadget_Allocate(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer], *Debugger\Command\Value2)
         VariableGadget_Lock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
         VariableGadget_Use(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
         type = *Debugger\Command\Value1
         *pointer = *Debugger\CommandData
-               
+        
         RealName$ = PeekS(*pointer)
         *pointer + MemoryStringLengthBytes(*pointer) + #CharSize
         SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputName], RealName$)
@@ -1566,7 +1566,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         NextUpdate = UpdateStep
         Timeout.q  = ElapsedMilliseconds() + 750
         ProgressVisible = 0
-      
+        
         LinesAdded = 0
         While *pointer < *Debugger\CommandData + *Debugger\Command\DataSize
           If *Debugger\Is64bit
@@ -1576,11 +1576,11 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
             index$ = Str(PeekL(*pointer))
             *pointer + 4
           EndIf
-         
+          
           If IS_STRUCTURE(type) And Not IS_POINTER(type)
             VariableGadget_Add(7, 0, 0, "", RealName$ + "(:" + index$ + ":)", "", *Pointer, *Debugger\Is64bit)
             LinesAdded + 1
-          
+            
             *mappointer = *map
             While PeekB(*mappointer) <> -1
               structtype = PeekB(*mappointer)
@@ -1610,7 +1610,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
               HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer], 1)
               ProgressVisible = 1
             EndIf
-          
+            
             NextUpdate + UpdateStep
             SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerProgress], LinesAdded)
             
@@ -1623,13 +1623,13 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         
         If ProgressVisible
           SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerProgress], *Debugger\Command\Value2)
-
+          
           FlushEvents() ; Note: The FlushEvents() could contain a close event!
           If *Debugger\Windows[#DEBUGGER_WINDOW_Variable] = 0
             ProcedureReturn
           EndIf
         EndIf
-
+        
         If IS_STRUCTURE(type) And Not IS_POINTER(type)
           VariableGadget_Expand(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
         EndIf
@@ -1644,25 +1644,25 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         VariableGadget_Unlock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
         
       EndIf
-     
-    
-    ;- #COMMAND_ArrayData
+      
+      
+      ;- #COMMAND_ArrayData
     Case #COMMAND_ArrayData
       If *Debugger\Command\Value1 = 0 ; indicates an error
         MessageRequester(Language("Debugger", "ViewArrayList"), PeekAsciiLength(*Debugger\CommandData, *Debugger\Command\DataSize))
-       
+        
       Else ; no error
-        ; switch to the correct tab in case the display was started by contextmenu fro
-        ; another tab
+           ; switch to the correct tab in case the display was started by contextmenu fro
+           ; another tab
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 4)
         
-
+        
         VariableGadget_Allocate(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer], *Debugger\Command\Value2)
         VariableGadget_Lock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
         VariableGadget_Use(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
         type = *Debugger\Command\Value1
         *pointer = *Debugger\CommandData
-               
+        
         RealName$ = PeekS(*pointer)
         *pointer + MemoryStringLengthBytes(*pointer) + #CharSize
         SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputName], RealName$)
@@ -1699,11 +1699,11 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         While *pointer < *Debugger\CommandData + *Debugger\Command\DataSize
           Indizes$ = PeekAscii(*pointer)
           *pointer + MemoryAsciiLength(*pointer) + 1
-         
+          
           If IS_STRUCTURE(type) And Not IS_POINTER(type)
             VariableGadget_Add(7, 0, 0, "", RealName$ + "("+Indizes$+")", "", *Pointer, *Debugger\Is64bit)
             LinesAdded + 1
-          
+            
             *mappointer = *map
             While PeekB(*mappointer) <> -1
               structtype = PeekB(*mappointer)
@@ -1733,7 +1733,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
               HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer], 1)
               ProgressVisible = 1
             EndIf
-          
+            
             NextUpdate + UpdateStep
             SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerProgress], LinesAdded)
             
@@ -1746,13 +1746,13 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         
         If ProgressVisible
           SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerProgress], *Debugger\Command\Value2)
-
+          
           FlushEvents() ; Note: The FlushEvents() could contain a close event!
           If *Debugger\Windows[#DEBUGGER_WINDOW_Variable] = 0
             ProcedureReturn
           EndIf
         EndIf
-
+        
         If IS_STRUCTURE(type) And Not IS_POINTER(type)
           VariableGadget_Expand(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
         EndIf
@@ -1765,24 +1765,24 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         EndIf
         
         VariableGadget_Unlock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
-             
+        
       EndIf
       
-    ;- #COMMAND_MapData
+      ;- #COMMAND_MapData
     Case #COMMAND_MapData
       If *Debugger\Command\Value1 = 0 ; indicates an error
         MessageRequester(Language("Debugger", "ViewArrayList"), PeekAsciiLength(*Debugger\CommandData, *Debugger\Command\DataSize))
-       
+        
       Else ; no error
-        ; switch to the correct tab in case the display was started by contextmenu from another tab
+           ; switch to the correct tab in case the display was started by contextmenu from another tab
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 4)
-
+        
         VariableGadget_Allocate(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer], *Debugger\Command\Value2)
         VariableGadget_Lock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
         VariableGadget_Use(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
         type = *Debugger\Command\Value1
         *pointer = *Debugger\CommandData
-               
+        
         RealName$ = PeekS(*pointer)
         *pointer + MemoryStringLengthBytes(*pointer) + #CharSize
         SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_InputName], RealName$)
@@ -1819,11 +1819,11 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         While *pointer < *Debugger\CommandData + *Debugger\Command\DataSize
           Key$ = Chr(34)+PeekS(*pointer)+Chr(34) ; in external format
           *pointer + (MemoryStringLength(*pointer) + 1) * #CharSize
-         
+          
           If IS_STRUCTURE(type) And Not IS_POINTER(type)
             VariableGadget_Add(7, 0, 0, "", RealName$ + "("+Key$+")", "", *Pointer, *Debugger\Is64bit)
             LinesAdded + 1
-          
+            
             *mappointer = *map
             While PeekB(*mappointer) <> -1
               structtype = PeekB(*mappointer)
@@ -1853,7 +1853,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
               HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer], 1)
               ProgressVisible = 1
             EndIf
-          
+            
             NextUpdate + UpdateStep
             SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerProgress], LinesAdded)
             
@@ -1866,13 +1866,13 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         
         If ProgressVisible
           SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ViewerProgress], *Debugger\Command\Value2)
-
+          
           FlushEvents() ; Note: The FlushEvents() could contain a close event!
           If *Debugger\Windows[#DEBUGGER_WINDOW_Variable] = 0
             ProcedureReturn
           EndIf
         EndIf
-
+        
         If IS_STRUCTURE(type) And Not IS_POINTER(type)
           VariableGadget_Expand(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
         EndIf
@@ -1885,11 +1885,11 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         EndIf
         
         VariableGadget_Unlock(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
-             
+        
       EndIf
-  
+      
   EndSelect
-
+  
 EndProcedure
 
 

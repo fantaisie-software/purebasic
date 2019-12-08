@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -11,9 +11,9 @@
 ; it from the normal resize code
 ;
 Procedure ResizeRegisterDisplay(*Debugger.DebuggerData)
-
+  
   If *Debugger\RegisterCount > 0 ; we need to have the register layout here!
-
+    
     ; All buttons have the same text. Also buttons are always higher than string/text gadgets
     ; so the height can be used for all
     GetRequiredSize(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Set0], @ButtonWidth, @ButtonHeight)
@@ -42,9 +42,9 @@ Procedure ResizeRegisterDisplay(*Debugger.DebuggerData)
     ; resize
     SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_ScrollArea], #PB_ScrollArea_InnerWidth, TextWidth + ButtonWidth + 30 + BoxWidth)
     SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_ScrollArea], #PB_ScrollArea_InnerHeight, *Debugger\RegisterCount * (ButtonHeight+10) + 10 + (RegisterTextHeight + 5) * RegistersWithText)
-  
+    
     Y = 10
-  
+    
     For i = 0 To *Debugger\RegisterCount-1
       CompilerIf #CompileWindows
         ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Text0+i], 10, Y+2, TextWidth, ButtonHeight)
@@ -61,18 +61,18 @@ Procedure ResizeRegisterDisplay(*Debugger.DebuggerData)
         Y + ButtonHeight+10
       EndIf
     Next i
-
+    
   EndIf
-
+  
 EndProcedure
 
 
 ; Called as soon as the Register layout is known
 ;
 Procedure CreateRegisterGadgets(*Debugger.DebuggerData)
-
+  
   OpenGadgetList(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_ScrollArea])
-
+  
   For i = 0 To *Debugger\RegisterCount-1
     *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Text0+i]  = TextGadget(#PB_Any, 0, 0, 0, 0, *Debugger\RegisterName$[i]+" : ", #PB_Text_Right)
     *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Value0+i] = StringGadget(#PB_Any, 0, 0, 0, 0, "")
@@ -84,28 +84,28 @@ Procedure CreateRegisterGadgets(*Debugger.DebuggerData)
   Next i
   
   CloseGadgetList()
-
+  
   ResizeRegisterDisplay(*Debugger)
-
+  
 EndProcedure
 
 
 
 Procedure AsmWindowEvents(*Debugger.DebuggerData, EventID)
-
+  
   If EventID = #PB_Event_Gadget
     EventGadgetID = EventGadget()
     If EventGadgetID = *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_UpdateStack]
-    
+      
       Command.CommandInfo\Command = #COMMAND_GetStack
       Command\Value1 = StackIsHex
       Command\DataSize = 0
       SendDebuggerCommand(*Debugger, @Command)
-    
+      
     Else
       For i = 0 To *Debugger\RegisterCount-1
         If EventGadgetID = *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Set0+i]
-        
+          
           Command.CommandInfo\Command = #COMMAND_SetRegister
           Command\Value1 = *Debugger\RegisterIndex[i] & ~#RegisterHasString
           
@@ -126,12 +126,12 @@ Procedure AsmWindowEvents(*Debugger.DebuggerData, EventID)
           Command.CommandInfo\Command = #COMMAND_GetRegister
           Command\DataSize = 0
           SendDebuggerCommand(*Debugger, @Command)
-        
+          
           Break
         EndIf
       Next i
     EndIf
-  
+    
   ElseIf EventID = #PB_Event_SizeWindow
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Panel], 10, 10, WindowWidth(*Debugger\Windows[#DEBUGGER_WINDOW_Asm])-20, WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_Asm])-20)
     
@@ -156,7 +156,7 @@ Procedure AsmWindowEvents(*Debugger.DebuggerData, EventID)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack], 10, 10, Width-20, Height-30-ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_UpdateStack], Width-10-ButtonWidth, Height-10-ButtonHeight, ButtonWidth, ButtonHeight)
     EndIf
-      
+    
   ElseIf EventID = #PB_Event_CloseWindow
     If DebuggerMemorizeWindows And IsWindowMinimized(*Debugger\Windows[#DEBUGGER_WINDOW_Asm]) = 0
       AsmWindowMaximize = IsWindowMaximized(*Debugger\Windows[#DEBUGGER_WINDOW_Asm])
@@ -171,13 +171,13 @@ Procedure AsmWindowEvents(*Debugger.DebuggerData, EventID)
     CloseWindow(*Debugger\Windows[#DEBUGGER_WINDOW_Asm])
     *Debugger\Windows[#DEBUGGER_WINDOW_Asm] = 0
     Debugger_CheckDestroy(*Debugger)
-  
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure UpdateAsmWindowState(*Debugger.DebuggerData)
-
+  
   If *Debugger\ProgramState = 3 Or *Debugger\ProgramState = 7 Or *Debugger\ProgramState = 8 Or *Debugger\ProgramState = 9
     ;
     ; the data can be accessed
@@ -204,7 +204,7 @@ Procedure UpdateAsmWindowState(*Debugger.DebuggerData)
       Command\DataSize = 0
       SendDebuggerCommand(*Debugger, @Command)
     EndIf
-  
+    
   Else
     ;
     ; the data is not available
@@ -212,54 +212,54 @@ Procedure UpdateAsmWindowState(*Debugger.DebuggerData)
     HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Message], 0)
     HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_ScrollArea], 1)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_UpdateStack], 1)
-  
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure OpenAsmWindow(*Debugger.DebuggerData)
-
+  
   CompilerIf #CompilePPC
     ProcedureReturn
   CompilerEndIf
-
+  
   If *Debugger\Windows[#DEBUGGER_WINDOW_Asm]
     SetWindowforeGround(*Debugger\Windows[#DEBUGGER_WINDOW_Asm])
-  
+    
   Else
-  
+    
     Window = OpenWindow(#PB_Any, AsmWindowX, AsmWindowY, AsmWindowWidth, AsmWindowHeight, Language("Debugger","AsmWindowTitle") + " - " + DebuggerTitle(*Debugger\FileName$), #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget|#PB_Window_Invisible|#PB_Window_MaximizeGadget)
     If Window
       *Debugger\Windows[#DEBUGGER_WINDOW_Asm] = Window
       
       *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Panel] = PanelGadget(#PB_Any, 0, 0, 0, 0)
       AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Panel], -1, Language("Debugger","Registers"))
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Message] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","NoData"), #PB_Text_Center)
-        
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_ScrollArea] = ScrollAreaGadget(#PB_Any, 0, 0, 0, 0, 100, 100, 5)
-          ; The gadgets are only added after #COMMAND_RegisterLayout is received
-        CloseGadgetList()
-        
-        ; register layout already known
-        If *Debugger\RegisterCount
-          CreateRegisterGadgets(*Debugger)
-        EndIf
-        
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Message] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","NoData"), #PB_Text_Center)
+      
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_ScrollArea] = ScrollAreaGadget(#PB_Any, 0, 0, 0, 0, 100, 100, 5)
+      ; The gadgets are only added after #COMMAND_RegisterLayout is received
+      CloseGadgetList()
+      
+      ; register layout already known
+      If *Debugger\RegisterCount
+        CreateRegisterGadgets(*Debugger)
+      EndIf
+      
       AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Panel], -1, Language("Debugger","Stack"))
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack] = EditorGadget(#PB_Any, 0, 0, 0, 0)
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_UpdateStack] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
-        
-        Debugger_AddShortcuts(Window)
-        
-        If EditorFontID
-          SetGadgetFont(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack], EditorFontID)
-        EndIf
-        
-        CompilerIf #CompileWindows
-          SetCodePage(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack])
-        CompilerEndIf
-        SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack], #PB_Editor_ReadOnly, 1)
-            
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack] = EditorGadget(#PB_Any, 0, 0, 0, 0)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Asm_UpdateStack] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
+      
+      Debugger_AddShortcuts(Window)
+      
+      If EditorFontID
+        SetGadgetFont(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack], EditorFontID)
+      EndIf
+      
+      CompilerIf #CompileWindows
+        SetCodePage(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack])
+      CompilerEndIf
+      SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack], #PB_Editor_ReadOnly, 1)
+      
       CloseGadgetList()
       
       HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_ScrollArea], 1)
@@ -277,22 +277,22 @@ Procedure OpenAsmWindow(*Debugger.DebuggerData)
       Else
         HideWindow(Window, 0)
       EndIf
-     
+      
       AsmWindowEvents(*Debugger, #PB_Event_SizeWindow)
       
       Debugger_ProcessEvents(Window, #PB_Event_ActivateWindow) ; makes all debugger windows go to the top
     EndIf
-  
+    
   EndIf
   
   
   If *Debugger\Windows[#DEBUGGER_WINDOW_Asm]
-  
+    
     ; send the proper commands to get the data
     ;
     If *Debugger\ProgramState <> 0 Or *Debugger\ProgramState <> -1
       ; stopped but loaded, lets give it a try
-
+      
       ; send this command first, if not done yet
       If *Debugger\RegisterCount = 0
         Command.CommandInfo\Command = #COMMAND_GetRegisterLayout ; request the layout first
@@ -309,13 +309,13 @@ Procedure OpenAsmWindow(*Debugger.DebuggerData)
       Command\DataSize = 0
       SendDebuggerCommand(*Debugger, @Command)
     EndIf
-  
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure UpdateAsmWindow(*Debugger.DebuggerData)
-
+  
   SetWindowTitle(*Debugger\Windows[#DEBUGGER_WINDOW_Asm], Language("Debugger","AsmWindowTitle") + " - " + GetFilePart(*Debugger\FileName$))
   
   SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Panel], 0, Language("Debugger","Registers"), 0)
@@ -334,16 +334,16 @@ Procedure UpdateAsmWindow(*Debugger.DebuggerData)
   
   ResizeRegisterDisplay(*Debugger) ; resize the register display if needed
   AsmWindowEvents(*Debugger, #PB_Event_SizeWindow)
-
+  
 EndProcedure
 
 Procedure AsmDebug_DebuggerEvent(*Debugger.DebuggerData)
-
+  
   If *Debugger\Command\Command = #COMMAND_ControlAssemblyViewer
     OpenAsmWindow(*Debugger)
     ProcedureReturn     ; do not run the rest of this code
   EndIf
-
+  
   ; ignore these messages when the window is closed
   ;
   If *Debugger\Windows[#DEBUGGER_WINDOW_Asm] = 0
@@ -365,7 +365,7 @@ Procedure AsmDebug_DebuggerEvent(*Debugger.DebuggerData)
     Next i
     
     CreateRegisterGadgets(*Debugger)
-
+    
   ElseIf *Debugger\Command\Command = #COMMAND_Register
     If *Debugger\Command\DataSize = 0 Or *Debugger\CommandData = 0  ; data not available
       HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Message], 0)
@@ -384,7 +384,7 @@ Procedure AsmDebug_DebuggerEvent(*Debugger.DebuggerData)
         index = *Debugger\RegisterIndex[i] & ~#RegisterHasString
         Debug "index: " + Str(index)
         
-      
+        
         If RegisterIsHex And *Debugger\Is64bit
           SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Value0+i], "$"+RSet(Hex(PeekQ(*Debugger\CommandData+index*8), #PB_Quad), 16, "0"))
         ElseIf *Debugger\Is64bit
@@ -401,14 +401,14 @@ Procedure AsmDebug_DebuggerEvent(*Debugger.DebuggerData)
         EndIf
       Next i
     EndIf
-  
+    
   ElseIf *Debugger\Command\Command = #COMMAND_Stack
     If *Debugger\Command\DataSize = 0  ; data not available
       SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack], Language("Debugger","NoData"))
     Else
       SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack], PeekAscii(*Debugger\CommandData))
     EndIf
-  
+    
   EndIf
-
+  
 EndProcedure

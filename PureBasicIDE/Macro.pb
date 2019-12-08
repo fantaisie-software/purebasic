@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -42,7 +42,7 @@ CompilerIf #PB_Compiler_Unicode = 0
   EndMacro
   
 CompilerElse
-
+  
   ; not really a macro, but this is a macro in non-unicode mode, thats why it is here
   Procedure ToAscii(String$)
     Static *Buffer
@@ -67,7 +67,7 @@ CompilerElse
     PokeS(*Buffer, String$, -1, #PB_UTF8)
     ProcedureReturn *Buffer
   EndProcedure
-
+  
   Macro PeekAscii(Memory)
     PeekS(Memory, -1, #PB_Ascii)
   EndMacro
@@ -95,7 +95,7 @@ CompilerElse
   Macro MemoryAsciiLength(Memory)
     MemoryStringLength(Memory, #PB_Ascii)
   EndMacro
-
+  
 CompilerEndIf
 
 ; this is the only way to have it work in all cases, including unicode on PPC (no quad!)

@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -80,7 +80,7 @@ Structure DisplayedSource
   FileName$
   IsLoaded.l
   IsRequested.l ; network mode
-  Gadget.i ; #PB_Any
+  Gadget.i      ; #PB_Any
 EndStructure
 
 Global NbSourceFiles, CurrentSource
@@ -106,7 +106,7 @@ Global *DebuggerData.DebuggerData
 ; preferences, additional to the ones declared in DebuggerCommon.pb
 Global CurrentLanguage$
 Global EnableKeywordBolding, TabLength, WarningMode
-      
+
 Global ASMKeywordColor, BackgroundColor, BasicKeywordColor, CommentColor
 Global ConstantColor, LabelColor, NormalTextColor, NumberColor, OperatorColor
 Global PointerColor, PureKeywordColor, SeparatorColor, StringColor, StructureColor

@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -17,10 +17,10 @@ Procedure EnsureWindowOnDesktop(Window)
   If GetWindowState(Window) <> #PB_Window_Normal
     ProcedureReturn
   EndIf
-
+  
   Debug "EnsureWindowOnDesktop()"
   Debug "before: "+Str(WindowX(Window))+", "+Str(WindowY(Window))+", "+Str(WindowWidth(Window))+", "+Str(WindowHeight(Window))
-
+  
   ; get Window position
   l = WindowX(Window)
   t = WindowY(Window)
@@ -30,7 +30,7 @@ Procedure EnsureWindowOnDesktop(Window)
   ; monitor with which the window has atleast some pixels in common
   monitor = -1
   mode    = 0
-    
+  
   Count = ExamineDesktops()
   
   For i = 0 To Count-1
@@ -44,9 +44,9 @@ Procedure EnsureWindowOnDesktop(Window)
     If r > dl+#DesktopMargin And l < dr-#DesktopMargin And b > dt+#DesktopMargin And t < db-#DesktopMargin
       Debug "--> on desktop: " + Str(i)
       ProcedureReturn
-    
-    ; else check if any of the window corners is on this desktop
-    ;
+      
+      ; else check if any of the window corners is on this desktop
+      ;
     ElseIf l < dr And l > dl
       If t < db And t > dt ; top/left corner on screen
         monitor = i
@@ -64,7 +64,7 @@ Procedure EnsureWindowOnDesktop(Window)
         monitor = i
         mode    = 4
       EndIf
-    
+      
     EndIf
     
   Next i
@@ -74,7 +74,7 @@ Procedure EnsureWindowOnDesktop(Window)
   If monitor = -1 ; no coordinates matched, move to main screen
     Debug "--> totally off!"
     ResizeWindow(Window, 100, 100, #PB_Ignore, #PB_Ignore)
-  
+    
   Else
     dl = DesktopX(monitor)
     dt = DesktopY(monitor)
@@ -84,12 +84,12 @@ Procedure EnsureWindowOnDesktop(Window)
     If mode = 1 ; top/left corner
       If t > db-#DesktopMargin: t = db-#DesktopMargin: EndIf
       If l > dr-#DesktopMargin: l = dr-#DesktopMargin: EndIf
-    
+      
     ElseIf mode = 2 ; bottom/left corner
       If b < dt+#DesktopMargin: b = dt+#DesktopMargin: EndIf
       If l > dr-#DesktopMargin: l = dr-#DesktopMargin: EndIf
       t = b - #DesktopMargin
-    
+      
     ElseIf mode = 3 ; top/right corner
       If t > db-#DesktopMargin: t = db-#DesktopMargin: EndIf
       If r < dl+#DesktopMargin: r = dl+#DesktopMargin: EndIf
@@ -100,14 +100,14 @@ Procedure EnsureWindowOnDesktop(Window)
       If r < dl+#DesktopMargin: r = dl+#DesktopMargin: EndIf
       t = b - #DesktopMargin
       l = r - WindowWidth(Window)
-    
+      
     EndIf
-  
+    
     ResizeWindow(Window, l, t, #PB_Ignore, #PB_Ignore)
   EndIf
   
   Debug "after : "+Str(WindowX(Window))+", "+Str(WindowY(Window))+", "+Str(WindowWidth(Window))+", "+Str(WindowHeight(Window))
-
+  
 EndProcedure
 
 ; Generate a unique id by an ever increasing counter (should wrap to 0 if it flows over)
@@ -115,7 +115,7 @@ EndProcedure
 ;
 Procedure GetUniqueID()
   Static UniqueID
- 
+  
   UniqueID + 1
   
   ; Consider 0 an "invalid ID"
@@ -128,14 +128,14 @@ EndProcedure
 
 
 Procedure GetFocusGadgetID(Window)
-
+  
   Gadget = GetActiveGadget()
   If Gadget = -1
     ProcedureReturn 0
   Else
     ProcedureReturn GadgetID(Gadget)
   EndIf
-
+  
 EndProcedure
 
 
@@ -180,12 +180,12 @@ EndProcedure
 ; returns the number of found tokens
 ;
 Global Dim *ParseString_Tokens(300) ; max number of tokens
-;
+                                    ;
 Procedure ParseString(String$)
   Shared ParseString_NbTokens
   Static *Buffer
   Protected *Pointer.Character
-
+  
   ParseString_NbTokens = 0
   
   If Len(String$) > 0
@@ -220,12 +220,12 @@ Procedure ParseString(String$)
           *Pointer\c = 0
           *Pointer + #CharSize
         EndIf
-      
+        
       Wend
-    
+      
     EndIf
   EndIf
-
+  
   ProcedureReturn ParseString_NbTokens
 EndProcedure
 
@@ -244,21 +244,21 @@ Procedure.s GetStringToken(Index)
 EndProcedure
 
 Procedure.s StrByteSize(Size.q)
-
+  
   If Size < 1024
     ProcedureReturn Str(Size) + " Byte"
-  
+    
   ElseIf Size < 1024 * 1024
     ProcedureReturn StrF(Size / 1024, 2) + " Kb"
-  
+    
   ElseIf Size < 1024 * 1024 * 1024
     ProcedureReturn StrF(Size / (1024 * 1024), 2) + " Mb"
-  
+    
   Else
     ProcedureReturn StrF(Size / (1024 * 1024 * 1024), 2) + " Gb"
-  
+    
   EndIf
-
+  
 EndProcedure
 
 ; check if a string is a valid number (integer) and return it in *Output if so
@@ -322,7 +322,7 @@ Procedure CatchPackedImage(Image, *Address.LONG, Index)
   For i = 1 To Index ; skip the images before the wanted one
     *Address + *Address\l + 8 ; skip length of data + 2x long
   Next i
-    
+  
   Compressed = *Address\l
   *Address + 4 ; skip the compressed size
   
@@ -359,7 +359,7 @@ EndProcedure
 ; The buffer that is returned must be freed!
 ;
 Procedure StringToUTF8(String$)
-
+  
   *Buffer = AllocateMemory(StringByteLength(String$, #PB_UTF8) + 1)
   If *Buffer
     PokeS(*Buffer, String$, -1, #PB_UTF8)
@@ -370,7 +370,7 @@ EndProcedure
 
 
 Procedure StringToAscii(String$)
-
+  
   *Buffer = AllocateMemory(StringByteLength(String$, #PB_Ascii) + 1)
   If *Buffer
     PokeS(*Buffer, String$, -1, #PB_Ascii)
@@ -397,7 +397,7 @@ Procedure StringToCodePage(CodePage, String$)
   Else
     Format = #PB_Ascii
   EndIf
-
+  
   *Buffer = AllocateMemory(StringByteLength(String$, Format) + 1)
   If *Buffer
     PokeS(*Buffer, String$, -1, Format)

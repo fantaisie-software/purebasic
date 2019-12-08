@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -44,7 +44,7 @@ Procedure InitIssueList()
         Issues()\Marker = Marker
         Marker + 1
       EndIf
-
+      
     EndIf
   Next Issues()
 EndProcedure
@@ -61,7 +61,7 @@ EndProcedure
 ; If IsHighlight is #true, returns issues in position order and without any overlap (and only Issues with Style<>-1)
 ; If IsHighlight is #false, returns issues in any order and with possible overlap
 Procedure ScanCommentIssues(Comment$, List Found.FoundIssue(), IsHighlight)
- 
+  
   ClearList(Found())
   
   ForEach Issues()
@@ -102,23 +102,23 @@ Procedure ScanCommentIssues(Comment$, List Found.FoundIssue(), IsHighlight)
   ForEach Found()
     *Current.FoundIssue = @Found()
     PushListPosition(Found())
-      ; look further ahead
-      While NextElement(Found())
-        If Not (Found()\Position >= *Current\Position + *Current\Length Or
-                 Found()\Position + Found()\Length <= *Current\Position)
-          DeleteElement(Found()) ; conflict
-        EndIf
-      Wend
+    ; look further ahead
+    While NextElement(Found())
+      If Not (Found()\Position >= *Current\Position + *Current\Length Or
+              Found()\Position + Found()\Length <= *Current\Position)
+        DeleteElement(Found()) ; conflict
+      EndIf
+    Wend
     PopListPosition(Found())
   Next Found()
   
   ; now order by position
   SortStructuredList(Found(), #PB_Sort_Ascending, OffsetOf(FoundIssue\Position), #PB_Long)
-
+  
 EndProcedure
 
 Procedure AddIssuesFromParser(File$, *Parser.ParserData, *Source.SourceFile)
-
+  
   ; find out what to filter by
   If SelectedIssue <= 1 Or SelectedIssue = 7
     PriorityFilter = -1
@@ -132,17 +132,17 @@ Procedure AddIssuesFromParser(File$, *Parser.ParserData, *Source.SourceFile)
     PriorityFilter = -1
     IssueFilter    = SelectedIssue-8
   EndIf
-
+  
   ; ensure it is sorted (does nothing if already sorted)
   SortParserData(*Parser, *Source)
   
   ; walk the sorted issue list for fast access
   *Item.SourceItem = *Parser\SortedIssues
   While *Item
-  
+    
     If (IssueFilter = -1 Or IssueFilter = *Item\Issue) And SelectElement(Issues(), *Item\Issue)
       If (PriorityFilter = -1 Or Issues()\Priority = PriorityFilter) And Issues()\InTool
-    
+        
         ; add to the list
         AddElement(DisplayedIssues())
         DisplayedIssues()\Name$    = Issues()\Name$
@@ -150,18 +150,18 @@ Procedure AddIssuesFromParser(File$, *Parser.ParserData, *Source.SourceFile)
         DisplayedIssues()\File$    = File$
         DisplayedIssues()\Line     = *Item\SortedLine + 1 ; the parser data has 0-based lines
         DisplayedIssues()\Priority = Issues()\Priority
-    
+        
       EndIf
     EndIf
-  
+    
     *Item = *Item\NextSorted
   Wend
-
+  
 EndProcedure
 
 Procedure UpdateIssueList()
   If IssueToolOpen And *ActiveSource
-  
+    
     ; remember old selection
     OldIndex = GetGadgetState(#GADGET_Issues_List)
     If OldIndex <> -1 And SelectElement(DisplayedIssues(), OldIndex)
@@ -178,7 +178,7 @@ Procedure UpdateIssueList()
       
       
     ElseIf IssueMultiFile And (*ActiveSource = *ProjectInfo Or *ActiveSource\ProjectFile)
-    
+      
       ; scan all project files (open and closed)
       ForEach ProjectFiles()
         If ProjectFiles()\Source
@@ -190,7 +190,7 @@ Procedure UpdateIssueList()
       IsProjectDisplay = 1
       
     ElseIf IssueMultiFile
-    
+      
       ; scan all non-project files that are currently open
       ForEach FileList()
         If @FileList() <> *ProjectInfo And FileList()\ProjectFile = 0 And FileList()\IsCode
@@ -220,7 +220,7 @@ Procedure UpdateIssueList()
       SortStructuredList(DisplayedIssues(), #PB_Sort_Ascending, OffsetOf(DisplayIssue\Line), #PB_Long)
       SortStructuredList(DisplayedIssues(), #PB_Sort_Ascending, OffsetOf(DisplayIssue\Priority), #PB_Long)
     EndIf
-
+    
     ; update the list
     NewIndex = -1
     
@@ -234,7 +234,7 @@ Procedure UpdateIssueList()
     
     ClearGadgetItems(#GADGET_Issues_List)
     ForEach DisplayedIssues()
-    
+      
       ; get the file name to display
       If IsProjectDisplay
         File$ = CreateRelativePath(GetPathPart(ProjectFile$), DisplayedIssues()\File$)
@@ -243,22 +243,22 @@ Procedure UpdateIssueList()
       Else
         File$ = GetFilePart(DisplayedIssues()\File$) ; just use the name as it is in the open file list
       EndIf
-       
+      
       ; add the item
       Text$ = DisplayedIssues()\Name$ + Chr(10) +
               DisplayedIssues()\Text$ + Chr(10) +
               Str(DisplayedIssues()\Line) + Chr(10) +
               File$ + Chr(10) +
               Language("ToolsPanel", "Prio" + DisplayedIssues()\Priority)
-              
+      
       AddGadgetItem(#GADGET_Issues_List, -1, Text$, OptionalImageID(#IMAGE_Priority0 + DisplayedIssues()\Priority))
-    
+      
       ; check if this was our last selection
       If NewIndex = -1 And OldIndex <> -1 And
-        DisplayedIssues()\Name$ = OldIssue\Name$ And
-        DisplayedIssues()\Text$ = OldIssue\Text$ And
-        DisplayedIssues()\File$ = OldIssue\File$ And
-        DisplayedIssues()\Line  = OldIssue\Line
+         DisplayedIssues()\Name$ = OldIssue\Name$ And
+         DisplayedIssues()\Text$ = OldIssue\Text$ And
+         DisplayedIssues()\File$ = OldIssue\File$ And
+         DisplayedIssues()\Line  = OldIssue\Line
         
         NewIndex = ListIndex(DisplayedIssues())
       EndIf
@@ -267,16 +267,16 @@ Procedure UpdateIssueList()
     
     CompilerIf #CompileLinux
       gtk_tree_view_set_model_(GadgetID(#GADGET_Issues_List), *tree_model) ; reconnect the model
-      g_object_unref_(*tree_model) ; release reference
+      g_object_unref_(*tree_model)                                         ; release reference
     CompilerEndIf
-  
+    
     ; restore selection
     If NewIndex <> -1
       SetGadgetState(#GADGET_Issues_List, NewIndex)
     EndIf
     
     DisableGadget(#GADGET_Issues_Export, 0)
-  
+    
   EndIf
 EndProcedure
 
@@ -289,7 +289,7 @@ Procedure.s CsvEncode(String$)
 EndProcedure
 
 Procedure ExportIssueList()
-
+  
   If LastIssueExport$ <> ""
     Path$ = LastIssueExport$
   ElseIf *ActiveSource = *ProjectInfo Or *ActiveSource\ProjectFile
@@ -300,11 +300,11 @@ Procedure ExportIssueList()
   
   FileName$ = SaveFileRequester(Language("FileStuff","ExportIssueTitle"), Path$, Language("FileStuff","ExportIssuePattern"), 0)
   If FileName$ <> ""
-  
+    
     If GetExtensionPart(GetFilePart(FileName$)) = "" And SelectedFilePattern() = 0
       FileName$ + ".csv"
     EndIf
-
+    
     If FileSize(FileName$) > -1  ; file exist check
       If MessageRequester(#ProductName$, Language("FileStuff","FileExists")+#NewLine+Language("FileStuff","OverWrite"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_No
         ProcedureReturn ; abort
@@ -322,7 +322,7 @@ Procedure ExportIssueList()
     SortStructuredList(ExportIssues(), #PB_Sort_Ascending, OffsetOf(DisplayIssue\File$), #PB_String)
     
     If CreateFile(#FILE_ExportIssues, FileName$)
-    
+      
       ; write header
       WriteStringN(#FILE_ExportIssues,
                    CsvEncode(Language("Misc", "File")) + "," +
@@ -330,7 +330,7 @@ Procedure ExportIssueList()
                    CsvEncode(Language("ToolsPanel", "IssueName")) + "," +
                    CsvEncode(Language("ToolsPanel", "IssueText")) + "," +
                    CsvEncode(Language("ToolsPanel", "Priority")))
-
+      
       ; write content
       ForEach ExportIssues()
         WriteStringN(#FILE_ExportIssues,
@@ -340,19 +340,19 @@ Procedure ExportIssueList()
                      CsvEncode(ExportIssues()\Text$) + "," +
                      CsvEncode(Language("ToolsPanel", "Prio" + ExportIssues()\Priority)))
       Next ExportIssues()
-    
+      
       CloseFile(#FILE_ExportIssues)
     Else
       MessageRequester(#ProductName$, Language("FileStuff","CreateError"), #FLAG_Error)
     EndIf
   EndIf
-
-
+  
+  
 EndProcedure
 
 
 Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
-
+  
   ComboBoxGadget(#GADGET_Issues_Filter, 0, 0, 0, 0, #PB_ComboBox_Image)
   AddGadgetItem(#GADGET_Issues_Filter, -1, Language("ToolsPanel", "AllIssues"), OptionalImageID(#IMAGE_AllIssues))
   AddGadgetItem(#GADGET_Issues_Filter, -1, "")
@@ -397,28 +397,28 @@ Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   
   IssueToolOpen = 1
   UpdateIssueList()
-
+  
 EndProcedure
 
 
 Procedure Issues_DestroyFunction(*Entry.ToolsPanelEntry)
-
+  
   ; store column sizes for preferences
   IssuesCol1 = GetGadgetItemAttribute(#GADGET_Issues_List, -1, #PB_ListIcon_ColumnWidth, 0)
   IssuesCol2 = GetGadgetItemAttribute(#GADGET_Issues_List, -1, #PB_ListIcon_ColumnWidth, 1)
   IssuesCol3 = GetGadgetItemAttribute(#GADGET_Issues_List, -1, #PB_ListIcon_ColumnWidth, 2)
   IssuesCol4 = GetGadgetItemAttribute(#GADGET_Issues_List, -1, #PB_ListIcon_ColumnWidth, 3)
   IssuesCol5 = GetGadgetItemAttribute(#GADGET_Issues_List, -1, #PB_ListIcon_ColumnWidth, 4)
-
+  
   IssueToolOpen = 0
-
+  
 EndProcedure
-     
-Procedure Issues_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
 
+Procedure Issues_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
+  
   GetRequiredSize(#GADGET_Issues_SingleFile, @Width.l, @Height.l)
   FilterHeight = GetRequiredHeight(#GADGET_Issues_Filter)
-
+  
   CompilerIf #CompileWindows
     Space = 3
   CompilerElse
@@ -434,7 +434,7 @@ Procedure Issues_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
         ResizeGadget(*Entry\ToolStayOnTop, #PB_Ignore, PanelHeight-5-Height+(Height-StayOnTopHeight)/2, StayOnTopWidth, #PB_Ignore)
       EndIf
     EndIf
-  
+    
     ResizeGadget(#GADGET_Issues_Filter, 5, 5, PanelWidth-10, FilterHeight)
     ResizeGadget(#GADGET_Issues_List, 5, 10+FilterHeight, PanelWidth-10, PanelHeight-20-FilterHeight-Height)
     
@@ -444,7 +444,7 @@ Procedure Issues_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
   Else
     ResizeGadget(#GADGET_Issues_Filter, 0, 0, PanelWidth, FilterHeight)
     ResizeGadget(#GADGET_Issues_List, 0, FilterHeight+1, PanelWidth, PanelHeight-FilterHeight-7-Height)
-  
+    
     ResizeGadget(#GADGET_Issues_SingleFile, PanelWidth-3*Width-2*Space, PanelHeight-Height-2, Width, Height)
     ResizeGadget(#GADGET_Issues_MultiFile, PanelWidth-2*Width-Space, PanelHeight-Height-2, Width, Height)
     ResizeGadget(#GADGET_Issues_Export, PanelWidth-Width, PanelHeight-Height-2, Width, Height)
@@ -454,9 +454,9 @@ EndProcedure
 
 
 Procedure Issues_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
-
+  
   Select EventGadgetID
-
+      
     Case #GADGET_Issues_Filter
       NewIssue = GetGadgetState(#GADGET_Issues_Filter)
       If NewIssue < 0 Or NewIssue = 1 Or NewIssue = 7
@@ -468,7 +468,7 @@ Procedure Issues_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         SelectedIssue = NewIssue
         UpdateIssueList()
       EndIf
-
+      
     Case #GADGET_Issues_List
       If EventType() = #PB_EventType_LeftDoubleClick
         Index = GetGadgetState(#GADGET_Issues_List)
@@ -482,7 +482,7 @@ Procedure Issues_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
           EndIf
         EndIf
       EndIf
-    
+      
     Case #GADGET_Issues_SingleFile
       If IssueMultiFile
         SetGadgetState(#GADGET_Issues_MultiFile, 0)
@@ -493,7 +493,7 @@ Procedure Issues_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         ; we want to act the two buttons to act like an option group, so override this change
         SetGadgetState(#GADGET_Issues_SingleFile, 1)
       EndIf
-    
+      
     Case #GADGET_Issues_MultiFile
       If IssueMultiFile = 0
         SetGadgetState(#GADGET_Issues_MultiFile, 1)
@@ -504,12 +504,12 @@ Procedure Issues_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         ; we want to act the two buttons to act like an option group, so override this change
         SetGadgetState(#GADGET_Issues_MultiFile, 1)
       EndIf
-    
+      
     Case #GADGET_Issues_Export
       ExportIssueList()
-  
+      
   EndSelect
-
+  
 EndProcedure
 
 

@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -70,7 +70,7 @@ Procedure DlgBoxBase_Update(*THIS.DlgBoxBase)
   If *THIS\Gadget And *THIS\StaticData\HasText
     SetGadgetText(*THIS\Gadget, DialogObjectText(*THIS\StaticData))
   EndIf
-
+  
   For i = 0 To *THIS\NbChilds-1
     *THIS\Childs[i]\Update()
   Next i
@@ -82,7 +82,7 @@ Procedure DlgBoxBase_Destroy(*THIS.DlgBoxBase)
   For i = 0 To *THIS\NbChilds-1
     *THIS\Childs[i]\Destroy()
   Next i
-
+  
   FreeMemory(*THIS)
 EndProcedure
 

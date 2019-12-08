@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -15,21 +15,21 @@
 OpenConsole()
 
 Procedure.s GetCompilerVersion(Compiler$)
-
+  
   securityattrib.SECURITY_ATTRIBUTES\nLength = SizeOf(SECURITY_ATTRIBUTES)
   securityattrib\bInheritHandle = 1
   securityattrib\lpSecurityDescriptor = 0
-
+  
   *Buffer = AllocateMemory(500)
-
+  
   If *Buffer And CreatePipe_(@hReadPipe, @hWritePipe, @securityattrib, 0)
     info.STARTUPINFO\cb = SizeOf(STARTUPINFO)
     info\dwFlags = #STARTF_USESHOWWINDOW | #STARTF_USESTDHANDLES
     info\hStdOutput = hWritePipe
-   
+    
     If CreateProcess_(0, Chr(34)+Compiler$+Chr(34)+" /VERSION", @securityattrib, @securityattrib, 1, #NORMAL_PRIORITY_CLASS, 0, 0, @info, @process.PROCESS_INFORMATION)
       CloseHandle_(hWritePipe)
-     
+      
       Repeat
         ; we must read as long as there is data, even when we need only the first line
         result = ReadFile_(hReadPipe, *Buffer, 500, @bytesread, 0)
@@ -37,22 +37,22 @@ Procedure.s GetCompilerVersion(Compiler$)
           Version$ = StringField(PeekS(*Buffer, bytesread, #PB_Ascii), 1, Chr(13))
         EndIf
       Until result = 0
-     
+      
       CloseHandle_(process\hProcess)
       CloseHandle_(process\hThread)
       CloseHandle_(hReadPipe)
-     
+      
     EndIf
-
+    
     FreeMemory(*Buffer)
   EndIf
-
+  
   ProcedureReturn Version$
 EndProcedure
 
 Procedure.s GetSvnRevision()
   Revision$ = ""
-
+  
   svn = RunProgram("svn.exe", "info . --xml", GetCurrentDirectory(), #PB_Program_Open|#PB_Program_Read|#PB_Program_Hide)
   If svn
     Info$ = ""
@@ -117,7 +117,7 @@ If BuildType$ And FileName$
   VersionNumber$ = MakeVersionNumber(Version$, Revision$)
   
   If CreateFile(0, FileName$)
-  
+    
     ; This icon is added after the one done by the PB compiler
     ; It is used as the icon for PB sourcefiles
     ; (as windows no longer does this automatically because we changed
@@ -127,7 +127,7 @@ If BuildType$ And FileName$
     ;Icon$ = GetPathPart(GetCurrentDirectory() + FileName$) + "PBSourceFile.ico"
     IconFile$ = ReplaceString(IconFile$, "/", "\")
     IconFile$ = ReplaceString(IconFile$, "\", "\\")
-
+    
     ; a small fix if cygwin is used for the build tools on Windows
     If LCase(Left(IconFile$, 12)) = "\\cygdrive\\"
       IconFile$ = Mid(IconFile$, 13, 1) + ":" + Mid(IconFile$, 14)
@@ -179,12 +179,12 @@ If BuildType$ And FileName$
     WriteStringN(0, "    VALUE "+#Q+"Translation"+#Q+", 0x0000, 0x4b0")
     WriteStringN(0, "  }")
     WriteStringN(0, "}")
-  
+    
     CloseFile(0)
     
     ReturnValue = 0 ; return success
   EndIf
-
+  
 EndIf
 
 End ReturnValue

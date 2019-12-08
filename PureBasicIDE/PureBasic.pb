@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -21,7 +21,7 @@ CompilerIf Defined(FredLocalCompile, #PB_Constant) And Not Defined(BUILD_DIRECTO
   CompilerElse
     #FredProcessorPath = "x86"
   CompilerEndIf
-    
+  
   CompilerIf #PB_Compiler_OS = #PB_OS_Linux
     #BUILD_DIRECTORY = "/home/fred/svn/"+#SVNVersion+"/Build/"+#FredProcessorPath+"/ide/"
   CompilerElseIf #PB_Compiler_OS = #PB_OS_MacOS
@@ -34,8 +34,8 @@ CompilerEndIf
 
 XIncludeFile #BUILD_DIRECTORY + "BuildInfo.pb"
 XIncludeFile ".." + #Separator + "DialogManager" + #Separator + "Common.pb" ; must be before Common.pb
-XIncludeFile "Common.pb" ; must be before DebuggerCommon.pb
-XIncludeFile #DEFAULT_DebuggerSource + "DebuggerCommon.pb"  ; must be before Declarations.pb
+XIncludeFile "Common.pb"                                                    ; must be before DebuggerCommon.pb
+XIncludeFile #DEFAULT_DebuggerSource + "DebuggerCommon.pb"                  ; must be before Declarations.pb
 XIncludeFile "Declarations.pb"
 XIncludeFile "Macro.pb"
 XIncludeFile ".." + #Separator + "PureBasicConfigPath.pb" ; for the config directory
@@ -282,12 +282,12 @@ EndProcedure
 
 
 If CommandlineBuild = 0 And NoSplashScreen = 0
-
+  
   ; display the startup logo, as loading could take a little on slower systems..
   ; especially when lots of sources are reloaded.
   If OpenWindow(#WINDOW_Startup, 0, 0, DesktopUnscaledX(500), DesktopUnscaledY(200), #ProductName$ + " loading...", #PB_Window_ScreenCentered|#PB_Window_BorderLess|#PB_Window_Invisible)
     If CatchPackedImage(#IMAGE_Startup, ?General_Images, 0)
-    
+      
       If StartDrawing(ImageOutput(#IMAGE_Startup))
         DrawingMode(1)
         FrontColor($FFFFFF)
@@ -295,7 +295,7 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
         CompilerIf #CompileWindows
           DrawingFont(GetGadgetFont(#PB_Default)) ; The default GFX font on Windows is a bit ugly, so use the gadget one
         CompilerEndIf
-                
+        
         ; on linux, this string is too long, so move the copyright to a second line
         Version$ = DefaultCompiler\VersionString$
         If TextWidth(Version$) > 480 And FindString(Version$, "- (c)", 1) <> 0
@@ -307,7 +307,7 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
           DrawText((500-TextWidth(Version$)) / 2, 145, Version$)
           DrawText((500-TextWidth("00/00/0000")) / 2, 145 + TextHeight(Version$) + 1, FormatDate("%mm/%dd/%yyyy", #PB_Compiler_Date))
         EndIf
-      
+        
         StopDrawing()
       EndIf
       
@@ -318,7 +318,7 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
       FlushEvents()
     EndIf
   EndIf
-
+  
 EndIf
 
 If CommandlineBuild = 0
@@ -447,7 +447,7 @@ If IsProject = 0
       DefaultProjectFile$ = "" ; do not try again next time
     EndIf
   EndIf
-
+  
   ; switch back to the last commandline source, if the -l option was present
   If *LastLoadedSource And *LastLoadedSource <> *ActiveSource
     ChangeCurrentElement(FileList(), *LastLoadedSource)
@@ -653,10 +653,10 @@ Procedure ShutdownIDE()
   If IsWindow(#WINDOW_AddTools)
     AddTools_WindowEvents(#PB_Event_CloseWindow)
   EndIf
-;
-;   If IsWindow(#WINDOW_CPUMonitor)
-;     CPUMonitorWindowEvents(#PB_Event_CloseWindow)
-;   EndIf
+  ;
+  ;   If IsWindow(#WINDOW_CPUMonitor)
+  ;     CPUMonitorWindowEvents(#PB_Event_CloseWindow)
+  ;   EndIf
   
   If IsWindow(#WINDOW_Template)
     TemplateWindowEvents(#PB_Event_CloseWindow)
@@ -758,7 +758,7 @@ Procedure ShutdownIDE()
   
   ; Close main window
   CloseWindow(#WINDOW_Main)
-      
+  
   ; end history session. this could take a bit if many files were open (will display a small wait screen if so)
   EndHistorySession()
   
@@ -766,20 +766,20 @@ Procedure ShutdownIDE()
   
   Debugger_Quit()     ; kills all running debugger programs (should be before SavePreferences())
   LibraryViewer_End() ; unload all libraryviewer plugin dlls
-                        
+  
   SavePreferences()
   KillCompiler()
   
   DeleteRegisteredFiles()
   CompilerCleanup()
   OSEndCode()
-
+  
 EndProcedure
 
 
 DataSection
   
   General_Images:
-    IncludeBinary #BUILD_DIRECTORY + "images.pak"
-    
+  IncludeBinary #BUILD_DIRECTORY + "images.pak"
+  
 EndDataSection

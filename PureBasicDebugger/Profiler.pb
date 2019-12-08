@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -38,7 +38,7 @@ Global Profiler_CurrentLine ; holds the line under cursor when the popup menu is
 Procedure Profiler_CalculateViewport(*Debugger.DebuggerData, *Area.ProfilerDrawing)
   w = DesktopScaledX(GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]))
   h = DesktopScaledY(GadgetHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]))
-
+  
   *Area\x = 16+*Debugger\ProfilerNumberLength*7
   *Area\y = 11
   *Area\w = w-27-*Debugger\ProfilerNumberLength*7
@@ -55,7 +55,7 @@ Procedure Profiler_ClipToViewport(*x.INTEGER, *y.INTEGER, *Area.ProfilerDrawing)
   ElseIf *x\i >= *Area\x + *Area\w
     *x\i = *Area\x + *Area\w - 1
   EndIf
-
+  
   If *y\i < *Area\y
     *y\i = *Area\y
   ElseIf *y\i >= *Area\y + *Area\h
@@ -133,29 +133,29 @@ EndProcedure
 
 
 Procedure Profiler_DrawFile(*Debugger.DebuggerData, *Area.ProfilerDrawing, index, color)
-
+  
   *files.Debugger_ProfilerList = *Debugger\ProfilerFiles
   maxlines = *files\file[index]\Size
-    
+  
   *lines.Local_Array = *Debugger\ProfilerData + *files\file[index]\Offset * SizeOf(LONG)
   line               = *Area\lineStart
   
   If *Area\h >= *Area\lines ; lines must be drawn thicker than one pixel
-      
+    
     height = Round(*Debugger\ProfilerRatioY, 1)
     While line < *Area\lineStart + *Area\lines - 1 And line < maxlines
       length = (*lines\l[line] - *Area\countStart) * *Debugger\ProfilerRatioX
       
       If length > 0 ; if length < 0, the count is outside the viewport
         If length > *Area\w: length = *Area\w: EndIf
-     
+        
         Box(*Area\x, *Area\y + (line-*Area\lineStart)* *Debugger\ProfilerRatioY, length, height, color)
         If *Debugger\ProfilerRatioY >= 3
           ; separate 2 line entries if there is enough space for this (looks better)
           Line(*Area\x, *Area\y + (line-*Area\lineStart)* *Debugger\ProfilerRatioY, *Area\w, 1, $FFFFFF)
         EndIf
       EndIf
-    
+      
       line + 1
     Wend
     
@@ -169,7 +169,7 @@ Procedure Profiler_DrawFile(*Debugger.DebuggerData, *Area.ProfilerDrawing, index
         If (line-*Area\lineStart)* *Debugger\ProfilerRatioY + height > *Area\h
           height = *Area\h - (line-*Area\lineStart)* *Debugger\ProfilerRatioY
         EndIf
-
+        
         Box(*Area\x, *Area\y + (line-*Area\lineStart)* *Debugger\ProfilerRatioY, length, height, color)
         If *Debugger\ProfilerRatioY >= 3
           ; separate 2 line entries if there is enough space for this (looks better)
@@ -177,12 +177,12 @@ Procedure Profiler_DrawFile(*Debugger.DebuggerData, *Area.ProfilerDrawing, index
         EndIf
       EndIf
     EndIf
-  
+    
   Else ; multiple lines are combined on one pixel
     thick.d  = 0
     lineDraw = 0
     max      = 0
-  
+    
     While line < *Area\lineStart + *Area\lines And line < maxlines
       thick + *Debugger\ProfilerRatioY
       max = Max(max, *lines\l[line])
@@ -194,7 +194,7 @@ Procedure Profiler_DrawFile(*Debugger.DebuggerData, *Area.ProfilerDrawing, index
           If length > *Area\w: length = *Area\w: EndIf
           Line(*Area\x, *Area\y + lineDraw, length, 1, color)
         EndIf
-      
+        
         max   = 0
         thick    - 1
         lineDraw + 1
@@ -212,25 +212,25 @@ Procedure Profiler_DrawFile(*Debugger.DebuggerData, *Area.ProfilerDrawing, index
         Line(*Area\x, *Area\y + lineDraw, length, 1, color)
       EndIf
     EndIf
-  
+    
   EndIf
   
   ; DEBUGGING
-;   h = TextHeight("Gg")
-;   DrawText(*Area\x, *Area\y,     "Range: "+Str(*Area\x)+", "+Str(*Area\y)+", "+Str(*Area\w)+", "+Str(*Area\h), 0, $FFFFFF)
-;   DrawText(*Area\x, *Area\y+h,   "Lines: "+Str(*Area\lineStart)+", "+Str(*Area\lines), 0, $FFFFFF)
-;   DrawText(*Area\x, *Area\y+h*2, "Counts: "+Str(*Area\countStart)+", "+Str(*Area\counts), 0, $FFFFFF)
-;   DrawText(*Area\x, *Area\y+h*3, "RatioX: "+StrF(*Debugger\ProfilerRatioX), 0, $FFFFFF)
-;   DrawText(*Area\x, *Area\y+h*4, "RatioY: "+StrF(*Debugger\ProfilerRatioY), 0, $FFFFFF)
-
+  ;   h = TextHeight("Gg")
+  ;   DrawText(*Area\x, *Area\y,     "Range: "+Str(*Area\x)+", "+Str(*Area\y)+", "+Str(*Area\w)+", "+Str(*Area\h), 0, $FFFFFF)
+  ;   DrawText(*Area\x, *Area\y+h,   "Lines: "+Str(*Area\lineStart)+", "+Str(*Area\lines), 0, $FFFFFF)
+  ;   DrawText(*Area\x, *Area\y+h*2, "Counts: "+Str(*Area\countStart)+", "+Str(*Area\counts), 0, $FFFFFF)
+  ;   DrawText(*Area\x, *Area\y+h*3, "RatioX: "+StrF(*Debugger\ProfilerRatioX), 0, $FFFFFF)
+  ;   DrawText(*Area\x, *Area\y+h*4, "RatioY: "+StrF(*Debugger\ProfilerRatioY), 0, $FFFFFF)
+  
 EndProcedure
 
 
 Procedure Profiler_DrawAll(*Debugger.DebuggerData)
-
+  
   w = DesktopScaledX(GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]))
   h = DesktopScaledY(GadgetHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]))
-
+  
   ; We re-create the image if the size changed (quicker than a resize, which does the same but additional blitting)
   ;
   If *Debugger\ProfilerImage
@@ -250,7 +250,7 @@ Procedure Profiler_DrawAll(*Debugger.DebuggerData)
       
       If *Debugger\ProfilerFiles And *Debugger\ProfilerData
         *files.Debugger_ProfilerList = *Debugger\ProfilerFiles
-
+        
         Profiler_CalculateViewport(*Debugger, @Area.ProfilerDrawing)
         DrawingMode(#PB_2DDrawing_Outlined)
         Box(Area\x-1, Area\y-1, Area\w+2, Area\h+2, $000000)
@@ -259,17 +259,17 @@ Procedure Profiler_DrawAll(*Debugger.DebuggerData)
         Area\countStart = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX])
         Area\lines      = Area\h / *Debugger\ProfilerRatioY
         Area\counts     = Area\w / *Debugger\ProfilerRatioX
-      
+        
         DrawingMode(#PB_2DDrawing_Default)
         
         ; draw the data
         ;
         If *Debugger\NbIncludedFiles = 0
           Profiler_DrawFile(*Debugger, @Area, 0, $FF0000)
-        
+          
         Else
           Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files]
-        
+          
           ; go backwards, so the top file entry draws on top as well
           For i = *Debugger\NbIncludedFiles To 0 Step -1
             If GetGadgetItemState(Gadget, i) & (#PB_ListIcon_Checked|#PB_ListIcon_Selected)
@@ -277,7 +277,7 @@ Procedure Profiler_DrawAll(*Debugger.DebuggerData)
               Profiler_DrawFile(*Debugger, @Area, index, *files\file[index]\Color)
             EndIf
           Next i
-        
+          
         EndIf
         
         ; draw line numbers
@@ -298,12 +298,12 @@ Procedure Profiler_DrawAll(*Debugger.DebuggerData)
           EndIf
           i + 1
         Wend
-                        
+        
         ; draw count numbers
         ;
         maxcount  = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_Maximum)
         stepvalue = Profiler_StepValue((Len(Str(maxcount))*7+10) / *Debugger\ProfilerRatioX) ; min difference between 2 labels
-                
+        
         If Area\countStart = 0
           first = 0
         Else
@@ -324,19 +324,19 @@ Procedure Profiler_DrawAll(*Debugger.DebuggerData)
           EndIf
           i + 1
         Wend
-
+        
       Else
         DrawText(10, 10, Language("Debugger","ProfilerNoData"), $000000, $FFFFFF)
       EndIf
-    
+      
       StopDrawing()
     EndIf
-  
+    
     SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], ImageID(*Debugger\ProfilerImage))
   Else
     SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], 0)
   EndIf
-
+  
 EndProcedure
 
 
@@ -468,12 +468,12 @@ EndProcedure
 ; ratio and size
 ;
 Procedure Profiler_UpdatePageLength(*Debugger.DebuggerData)
-
+  
   Profiler_CalculateViewport(*Debugger, @Area.ProfilerDrawing)
-
+  
   MaxCount = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_Maximum)
   MaxLine  = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_Maximum)
-
+  
   SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_PageLength, Area\w / *Debugger\ProfilerRatioX)
   SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_PageLength, Area\h / *Debugger\ProfilerRatioY)
   
@@ -488,7 +488,7 @@ Procedure Profiler_UpdatePageLength(*Debugger.DebuggerData)
   Else
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], 0)
   EndIf
- 
+  
   If LinePage > MaxLine
     SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_PageLength, MaxLine)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], 1)
@@ -497,7 +497,7 @@ Procedure Profiler_UpdatePageLength(*Debugger.DebuggerData)
   Else
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], 0)
   EndIf
-
+  
 EndProcedure
 
 
@@ -505,7 +505,7 @@ EndProcedure
 ; xor function, so 2x the same args erases it
 ;
 Procedure Profiler_DrawSelect(*Debugger.DebuggerData, x1, y1, x2, y2)
-
+  
   Profiler_CalculateViewport(*Debugger, @Area.ProfilerDrawing)
   Profiler_ClipToViewport(@x1, @y1, @Area)
   Profiler_ClipToViewport(@x2, @y2, @Area)
@@ -513,7 +513,7 @@ Procedure Profiler_DrawSelect(*Debugger.DebuggerData, x1, y1, x2, y2)
   If x1 > x2
     Swap x1, x2
   EndIf
-
+  
   If y1 > y2
     Swap y1, y2
   EndIf
@@ -538,19 +538,19 @@ Procedure Profiler_DrawSelect(*Debugger.DebuggerData, x1, y1, x2, y2)
     
     StopDrawing()
   EndIf
-
+  
 EndProcedure
 
 ; xor drawing
 ;
 Procedure Profiler_DrawCross(*Debugger.DebuggerData, x, y)
-
+  
   Profiler_CalculateViewport(*Debugger, @Area.ProfilerDrawing)
   
   ; we only draw when we are inside the viewport
   ;
   If x >= Area\x And x < Area\x+Area\w And y >= Area\y And y < Area\y+Area\h
-  
+    
     If StartDrawing(ImageOutput(*Debugger\ProfilerImage))
       DrawingMode(#PB_2DDrawing_XOr | #PB_2DDrawing_Transparent)
       
@@ -587,7 +587,7 @@ Procedure Profiler_DrawCross(*Debugger.DebuggerData, x, y)
       ;
       count = 1+GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX]) + Int(Round((x - Area\x) / *Debugger\ProfilerRatioX, 0))
       line  = 1+GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY]) + Int(Round((y - Area\y) / *Debugger\ProfilerRatioY, 0))
-            
+      
       Profiler_DrawNumber(Area\x+Area\w-2-Len(Str(line))*7, y-12, line, $FFFFFF)
       Profiler_DrawNumber(x-2-Len(Str(count))*7, Area\y+3, count, $FFFFFF)
       
@@ -595,16 +595,16 @@ Procedure Profiler_DrawCross(*Debugger.DebuggerData, x, y)
     EndIf
     
   EndIf
-
+  
 EndProcedure
 
 CompilerIf #CompileWindows
-
+  
   ; To handle scrolling events in realtime one Windows. Not needed on Linux
   ;
   Procedure Profiler_ScrollbarCallback(Window, Message, wParam, lParam)
     Result = 0
-  
+    
     *Debugger.DebuggerData = GetWindowLongPtr_(Window, #GWL_USERDATA)
     If *Debugger
       ;
@@ -620,10 +620,10 @@ CompilerIf #CompileWindows
     Else
       Result = DefWindowProc_(Window, Message, wParam, lParam)
     EndIf
-
+    
     ProcedureReturn Result
   EndProcedure
-
+  
 CompilerEndIf
 
 ;
@@ -653,12 +653,12 @@ Procedure Profiler_LButtonDown(*Debugger.DebuggerData, x, y, *GrabWindow)
   Else
     Profiler_GrabMouse(*GrabWindow)
   EndIf
-
+  
   Profiler_DownX = x
   Profiler_DownY = y
   Profiler_OldX  = Profiler_DownX
   Profiler_OldY  = Profiler_DownY
-
+  
   If GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Select]) = 0
     Profiler_CaptureMode = 1
   Else
@@ -680,7 +680,7 @@ Procedure Profiler_LButtonUp(*Debugger.DebuggerData)
       If Profiler_DownX > Profiler_OldX
         Swap Profiler_DownX, Profiler_OldX
       EndIf
-    
+      
       If Profiler_DownY > Profiler_OldY
         Swap Profiler_DownY, Profiler_OldY
       EndIf
@@ -689,7 +689,7 @@ Procedure Profiler_LButtonUp(*Debugger.DebuggerData)
       ;
       countStart = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX]) + (Profiler_DownX - Area\x) / *Debugger\ProfilerRatioX
       lineStart  = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY]) + (Profiler_DownY - Area\y) / *Debugger\ProfilerRatioY
-  
+      
       ; zoom (must be before the move for the pagelength to be correct)
       ;
       If Profiler_OldX > Profiler_DownX+1 And Profiler_OldY > Profiler_DownY+1
@@ -710,10 +710,10 @@ Procedure Profiler_LButtonUp(*Debugger.DebuggerData)
         ElseIf countStart > maxStart
           countStart = maxStart
         EndIf
-  
+        
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], countStart)
       EndIf
-                
+      
       maxStart = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_Maximum) - GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_PageLength)
       If maxStart > 0
         If lineStart < 0
@@ -721,7 +721,7 @@ Procedure Profiler_LButtonUp(*Debugger.DebuggerData)
         ElseIf lineStart > maxStart
           lineStart = maxStart
         EndIf
-  
+        
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], lineStart)
       EndIf
       
@@ -756,36 +756,36 @@ Procedure Profiler_MouseMove(*Debugger.DebuggerData, x, y, *GrabWindow)
       Profiler_CaptureMode = 0
     EndIf
     SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], ImageID(*Debugger\ProfilerImage))
-  
+    
   ElseIf Profiler_CaptureMode = 1 ; drag
     countStart = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX]) - (x - Profiler_OldX) / *Debugger\ProfilerRatioX
     maxStart   = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_Maximum) - GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_PageLength)
-
+    
     If maxStart > 0
       If countStart < 0
         countStart = 0
       ElseIf countStart > maxStart
         countStart = maxStart
       EndIf
-
+      
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], countStart)
     EndIf
-              
+    
     lineStart  = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY]) - (y - Profiler_OldY) / *Debugger\ProfilerRatioY
     maxStart   = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_Maximum) - GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_PageLength)
-
+    
     If maxStart > 0
       If lineStart < 0
         lineStart = 0
       ElseIf lineStart > maxStart
         lineStart = maxStart
       EndIf
-
+      
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], lineStart)
     EndIf
-
+    
     Profiler_DrawAll(*Debugger)
-
+    
   ElseIf Profiler_CaptureMode = 2 ; select
     If Profiler_OldX <> x Or Profiler_OldY <> y
       Profiler_DrawSelect(*Debugger, Profiler_DownX, Profiler_DownY, Profiler_OldX, Profiler_OldY) ; erase with xor
@@ -848,45 +848,45 @@ EndProcedure
 ; Windows specific event handler
 ;
 CompilerIf #CompileWindows
-
+  
   Procedure Profiler_WindowsMouseHandler(Window, Message, wParam, lParam)
     Result = 0
-  
+    
     *Debugger.DebuggerData = GetWindowLongPtr_(Window, #GWL_USERDATA)
     If *Debugger
-    
-      If *Debugger\ProfilerFiles And *Debugger\ProfilerData And *Debugger\ProfilerImage
       
+      If *Debugger\ProfilerFiles And *Debugger\ProfilerData And *Debugger\ProfilerImage
+        
         If Message = #WM_LBUTTONDOWN
           ; use PeekW to correctly preserves signed values
           Profiler_LButtonDown(*Debugger, PeekW(@lParam), PeekW(@lParam+2), Window)
-        
+          
         ElseIf Message = #WM_LBUTTONUP
           Profiler_LButtonUp(*Debugger)
-        
+          
         ElseIf Message = #WM_MOUSEMOVE
           Profiler_MouseMove(*Debugger, PeekW(@lParam), PeekW(@lParam+2), Window)
           
         ElseIf Message = #WM_RBUTTONDOWN
           Profiler_RButtonDown(*Debugger, PeekW(@lParam), PeekW(@lParam+2), Window)
-        
+          
         Else
           Result = CallWindowProc_(*Debugger\ProfilerImageCallback, Window, Message, wParam, lParam)
-        
+          
         EndIf
-      
+        
       Else
         Result = CallWindowProc_(*Debugger\ProfilerImageCallback, Window, Message, wParam, lParam)
-      
-      EndIf
         
+      EndIf
+      
     Else
       Result = DefWindowProc_(Window, Message, wParam, lParam)
     EndIf
-
+    
     ProcedureReturn Result
   EndProcedure
-
+  
 CompilerEndIf
 
 ; Linux specific event handler
@@ -897,11 +897,11 @@ CompilerIf #CompileLinux
       If *event\type = #GDK_BUTTON_PRESS And *event\button = 1
         Profiler_LButtonDown(*Debugger, *event\x, *event\y, *widget\window)
         ProcedureReturn #True  ; call no other handlers
-      
+        
       ElseIf *event\type = #GDK_BUTTON_PRESS And *event\button = 3
         Profiler_RButtonDown(*Debugger, *event\x, *event\y, *widget\window)
         ProcedureReturn #True
-      
+        
       ElseIf *event\type = #GDK_BUTTON_RELEASE And *event\button = 1
         Profiler_LButtonUp(*Debugger)
         ProcedureReturn #True
@@ -938,17 +938,17 @@ CompilerIf #CompileMacCarbon
   
   #kEventParamMouseButton = AsciiConst('m','b','t','n')
   #typeMouseButton = AsciiConst('m','b','t','n')
-
+  
   #kEventMouseButtonPrimary = 1
   #kEventMouseButtonSecondary = 2
   #kEventMouseButtonTertiary = 3
   
   #kEventParamKeyModifiers = AsciiConst('k','m','o','d')
   #typeUInt32 = AsciiConst('m','a','g','n')
-
+  
   #controlKeyBit = 12
   #controlKey = 1 << #controlKeyBit
-
+  
   #noErr = 0
   #eventNotHandledErr = -9874
   
@@ -956,14 +956,14 @@ CompilerIf #CompileMacCarbon
   DataSection
     ; EventTypeSpec structure is two longs: class, kind
     Profiler_MacEvents:
-      Data.l #kEventClassMouse, #kEventMouseDown
-      Data.l #kEventClassMouse, #kEventMouseUp
-      Data.l #kEventClassMouse, #kEventMouseMoved
-      Data.l #kEventClassMouse, #kEventMouseDragged ; moved with mouse down
-
+    Data.l #kEventClassMouse, #kEventMouseDown
+    Data.l #kEventClassMouse, #kEventMouseUp
+    Data.l #kEventClassMouse, #kEventMouseMoved
+    Data.l #kEventClassMouse, #kEventMouseDragged ; moved with mouse down
+    
   EndDataSection
   
-
+  
   ProcedureDLL Profiler_MacEvents(*NextHandler, *Event, *Debugger.DebuggerData)
     Window = *Debugger\Windows[#DEBUGGER_WINDOW_Profiler]
     x = WindowMouseX(Window)
@@ -974,7 +974,7 @@ CompilerIf #CompileMacCarbon
       GetControlBounds_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]), @Rect.Rect)
       x - Rect\left
       y - Rect\top
-
+      
       If x >= 0 And x < (Rect\right-Rect\Left) And y >= 0 And y < (Rect\bottom-Rect\top)
         kind = GetEventKind_(*Event)
         
@@ -988,9 +988,9 @@ CompilerIf #CompileMacCarbon
             button = #kEventMouseButtonSecondary  ; Ctrl+Click is a rightclick on one button mouse
           EndIf
         EndIf
-             
-        Select kind
         
+        Select kind
+            
           Case #kEventMouseDown
             If button = #kEventMouseButtonPrimary
               Profiler_LButtonDown(*Debugger, x, y, Window)
@@ -1021,36 +1021,36 @@ CompilerIf #CompileMacCarbon
           ProcedureReturn #noErr
         EndIf
       EndIf
-    
+      
     EndIf
-
+    
     ProcedureReturn CallNextEventHandler_(*NextHandler, *Event) ; important for gadget events and window activation!!
   EndProcedure
-
+  
   Procedure Profiler_SetupMacEvents(*Debugger.DebuggerData)
     Static *EventsUPP = 0
     
     If *EventsUPP = 0
       *EventsUPP = NewEventHandlerUPP_(@Profiler_MacEvents())
     EndIf
-
+    
     ; mouse events only go to the window!
     InstallEventHandler_(GetWindowEventTarget_(WindowID(*Debugger\Windows[#DEBUGGER_WINDOW_Profiler])), *EventsUPP, #Profiler_MacEventsCount, ?Profiler_MacEvents, *Debugger, 0)
     ;InstallEventHandler_(GetApplicationEventTarget_(), *EventsUPP, #Profiler_MacEventsCount, ?Profiler_MacEvents, *Debugger, 0)
-   
+    
   EndProcedure
-
+  
 CompilerEndIf
 
 ; Update bounds for the displayed files and adjust scrollbars as needed
 ;
 Procedure Profiler_UpdateBounds(*Debugger.DebuggerData)
-
+  
   If *Debugger\ProfilerFiles And *Debugger\ProfilerData
     *files.Debugger_ProfilerList = *Debugger\ProfilerFiles
-
-    If *Debugger\NbIncludedFiles = 0 ; single file mode
     
+    If *Debugger\NbIncludedFiles = 0 ; single file mode
+      
       MaxLine  = *files\file[0]\Size
       MaxCount = 1
       
@@ -1058,13 +1058,13 @@ Procedure Profiler_UpdateBounds(*Debugger.DebuggerData)
       For i = 0 To MaxLine-1
         MaxCount = Max(*lines\l[i], MaxCount)
       Next i
-    
+      
     Else ; multifile mode
-    
+      
       MaxLine  = 1
       MaxCount = 1
       Gadget   = *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files]
-
+      
       For file = 0 To *Debugger\NbIncludedFiles
         If GetGadgetItemState(Gadget, file) & (#PB_ListIcon_Checked|#PB_ListIcon_Selected)
           index = GetGadgetItemData(Gadget, file) ; get the real index
@@ -1085,15 +1085,15 @@ Procedure Profiler_UpdateBounds(*Debugger.DebuggerData)
     *Debugger\ProfilerRatioX = (Area\w / MaxCount) * 0.995
     *Debugger\ProfilerRatioY = (Area\h / MaxLine) * 0.995
     
-;     If MaxLine < 500
-;       *Debugger\ProfilerRatioY = (Area\h / MaxLine) * 0.995
-;     ElseIf MaxLine < 1000
-;       *Debugger\ProfilerRatioY = (Area\h / MaxLine) * 2
-;     ElseIf MaxLine < 3000
-;       *Debugger\ProfilerRatioY = (Area\h / MaxLine) * 4
-;     Else
-;       *Debugger\ProfilerRatioY = (Area\h / MaxLine) * 10
-;     EndIf
+    ;     If MaxLine < 500
+    ;       *Debugger\ProfilerRatioY = (Area\h / MaxLine) * 0.995
+    ;     ElseIf MaxLine < 1000
+    ;       *Debugger\ProfilerRatioY = (Area\h / MaxLine) * 2
+    ;     ElseIf MaxLine < 3000
+    ;       *Debugger\ProfilerRatioY = (Area\h / MaxLine) * 4
+    ;     Else
+    ;       *Debugger\ProfilerRatioY = (Area\h / MaxLine) * 10
+    ;     EndIf
     
     If *Debugger\ProfilerRatioX > 30.0: *Debugger\ProfilerRatioX = 30.0: EndIf
     If *Debugger\ProfilerRatioY > 30.0: *Debugger\ProfilerRatioY = 30.0: EndIf
@@ -1103,21 +1103,21 @@ Procedure Profiler_UpdateBounds(*Debugger.DebuggerData)
     SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_Maximum, MaxCount)
     SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_Maximum, MaxLine)
     Profiler_UpdatePageLength(*Debugger)
-  
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure Profiler_UpdateStats(*Debugger.DebuggerData)
-
+  
   If *Debugger\NbIncludedFiles > 0 And *Debugger\ProfilerFiles And *Debugger\ProfilerData
     *files.Debugger_ProfilerList = *Debugger\ProfilerFiles
     Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files]
-
+    
     totalcount = 0 ; grrr, quad bugs. lets stay with long
     For file = 0 To *Debugger\NbIncludedFiles
       index = GetGadgetItemData(Gadget, file) ; get the real index
-        
+      
       linecount = *files\file[index ]\Size
       count   = 0
       *lines.Local_Array = *Debugger\ProfilerData + *files\file[index]\Offset * SizeOf(LONG)
@@ -1132,17 +1132,17 @@ Procedure Profiler_UpdateStats(*Debugger.DebuggerData)
       SetGadgetItemText(Gadget, file, StrD(count / linecount, 1), 2)
     Next file
   EndIf
-
+  
 EndProcedure
 
 Procedure UpdateProfilerWindowState(*Debugger.DebuggerData)
-
+  
   If *Debugger\ProgramState = -1
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Start], 1)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Stop], 1)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Reset], 1)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Update], 1)
-
+    
   Else
     
     If *Debugger\ProfilerRunning
@@ -1154,10 +1154,10 @@ Procedure UpdateProfilerWindowState(*Debugger.DebuggerData)
     EndIf
     
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Reset], 0)
-  
+    
     If *Debugger\ProgramState <> 0 And *Debugger\ProgramState <> -2
       DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Update], 1)
-    
+      
       ; send the update command
       ;
       Command.CommandInfo\Command = #COMMAND_GetProfilerData ; do an update as well...
@@ -1165,18 +1165,18 @@ Procedure UpdateProfilerWindowState(*Debugger.DebuggerData)
     Else
       DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Update], 0)
     EndIf
-  
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
   Static DragItem
-
+  
   If EventID = #PB_Event_GadgetDrop ; can only be the files gadget
     If *Debugger\ProfilerFiles
       *files.Debugger_ProfilerList = *Debugger\ProfilerFiles
-  
+      
       Target = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files])
       If Target = -1
         Target = CountGadgetItems(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files])
@@ -1190,7 +1190,7 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
       If DragItem < Target
         Target - 1
       EndIf
-                    
+      
       AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], Target, Text$, ImageID(*files\file[index]\ColorImage))
       SetGadgetItemData(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], Target, index) ; preserve the index
       If state & #PB_ListIcon_Checked
@@ -1200,12 +1200,12 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], Target)
       
       Profiler_DrawAll(*Debugger)    ; redraw with the new order
-      ;Profiler_DrawPreview(*Debugger)
+                                     ;Profiler_DrawPreview(*Debugger)
     EndIf
     
   ElseIf EventID = #PB_Event_Menu
     Select EventMenu()
-    
+        
       Case #DEBUGGER_MENU_Zoomin
         *Debugger\ProfilerRatioX * 1.15
         *Debugger\ProfilerRatioY * 1.15
@@ -1213,7 +1213,7 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
         If *Debugger\ProfilerRatioY > 30.0: *Debugger\ProfilerRatioY = 30.0: EndIf
         Profiler_UpdatePageLength(*Debugger)
         Profiler_DrawAll(*Debugger)
-      
+        
       Case #DEBUGGER_MENU_Zoomout
         *Debugger\ProfilerRatioX * 0.85
         *Debugger\ProfilerRatioY * 0.85
@@ -1221,45 +1221,45 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
         If *Debugger\ProfilerRatioY < 1e-2: *Debugger\ProfilerRatioY = 1e-2: EndIf
         Profiler_UpdatePageLength(*Debugger)
         Profiler_DrawAll(*Debugger)
-          
+        
       Case #DEBUGGER_MENU_File0 To #DEBUGGER_MENU_File255
         Line = ((EventMenu() - #DEBUGGER_MENU_File0) << 24) | Profiler_CurrentLine
         Debugger_ShowLine(*Debugger, Line)
-
+        
     EndSelect
     
-
+    
   ElseIf EventID = #PB_Event_Gadget
     Select EventGadget()
-    
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Start]
         Command.CommandInfo\Command = #COMMAND_StartProfiler
         SendDebuggerCommand(*Debugger, @Command)
         *Debugger\ProfilerRunning = 1
         UpdateProfilerWindowState(*Debugger)
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Stop]
         Command.CommandInfo\Command = #COMMAND_StopProfiler
         SendDebuggerCommand(*Debugger, @Command)
-             
+        
         Command.CommandInfo\Command = #COMMAND_GetProfilerData ; do an update as well...
         SendDebuggerCommand(*Debugger, @Command)
         
         *Debugger\ProfilerRunning = 0
         UpdateProfilerWindowState(*Debugger)
-                
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Reset]
         Command.CommandInfo\Command = #COMMAND_ResetProfiler
         SendDebuggerCommand(*Debugger, @Command)
         
         Command.CommandInfo\Command = #COMMAND_GetProfilerData ; do an update as well...
         SendDebuggerCommand(*Debugger, @Command)
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Update]
         Command.CommandInfo\Command = #COMMAND_GetProfilerData
         SendDebuggerCommand(*Debugger, @Command)
         
-
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Splitter]
         Width  = GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Container])-#ContainerBorder
         Height = GadgetHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Container])-#ContainerBorder
@@ -1267,8 +1267,8 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
         ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], 0, Height-15, Width-15, 15)
         ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], Width-15, 0, 15, Height-15)
         Profiler_UpdatePageLength(*Debugger) ; adjust the scrollbars
-        Profiler_DrawAll(*Debugger) ; redraw after every resize
-      
+        Profiler_DrawAll(*Debugger)          ; redraw after every resize
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files]
         If EventType() = #PB_EventType_RightClick
           index = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files])
@@ -1279,7 +1279,7 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
             
             If newColor <> -1
               *files\file[file]\Color = newColor
-
+              
               newImage = CreateImage(#PB_Any, #DEFAULT_ListIconImageSize, #DEFAULT_ListIconImageSize)
               If newImage And StartDrawing(ImageOutput(newImage))
                 Box(0, 0, #DEFAULT_ListIconImageSize, #DEFAULT_ListIconImageSize, $FFFFFF)
@@ -1319,12 +1319,12 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
           Profiler_UpdateBounds(*Debugger)
           Profiler_DrawAll(*Debugger)
         EndIf
-
-      
+        
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Select]
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Select], 1)
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Drag], 0)
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Drag]
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Select], 0)
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Drag], 1)
@@ -1336,7 +1336,7 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
         If *Debugger\ProfilerRatioY > 30.0: *Debugger\ProfilerRatioY = 30.0: EndIf
         Profiler_UpdatePageLength(*Debugger)
         Profiler_DrawAll(*Debugger)
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Zoomout]
         *Debugger\ProfilerRatioX * 0.85
         *Debugger\ProfilerRatioY * 0.85
@@ -1349,34 +1349,34 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
         MaxCount = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_Maximum)
         MaxLine  = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_Maximum)
         Profiler_CalculateViewport(*Debugger, @Area.ProfilerDrawing)
-    
+        
         *Debugger\ProfilerRatioX = (Area\w / MaxCount) * 0.995
         *Debugger\ProfilerRatioY = (Area\h / MaxLine)  * 0.995
         
         If *Debugger\ProfilerRatioX > 30.0: *Debugger\ProfilerRatioX = 30.0: EndIf
         If *Debugger\ProfilerRatioY > 30.0: *Debugger\ProfilerRatioY = 30.0: EndIf
-    
+        
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], 0)
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], 0)
         Profiler_UpdatePageLength(*Debugger)
         Profiler_DrawAll(*Debugger)
-
         
-      CompilerIf #CompileWindows = 0
-
-        ; On Windows, the redrawing is triggered in ScrollbarCallback() for realtime
-        ; scrolling, so this must be ignored then!
-        ;
-        ; On Linux, we do not need a spechial solution, so use the normal event system
-        ;
+        
+        CompilerIf #CompileWindows = 0
+          
+          ; On Windows, the redrawing is triggered in ScrollbarCallback() for realtime
+          ; scrolling, so this must be ignored then!
+          ;
+          ; On Linux, we do not need a spechial solution, so use the normal event system
+          ;
         Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX]
           Profiler_DrawAll(*Debugger)
-        
+          
         Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY]
           Profiler_DrawAll(*Debugger)
+          
+        CompilerEndIf
         
-      CompilerEndIf
-
     EndSelect
     
   ElseIf EventID = #PB_Event_SizeWindow
@@ -1406,8 +1406,8 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Zoomall], ButtonWidth-20, 85+ButtonHeight*4, 30, 30)
     
     ;ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Preview], 10, 130+ButtonHeight*4, ButtonWidth, Height-140-ButtonHeight*4)
-
-  
+    
+    
     If *Debugger\NbIncludedFiles > 0
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Splitter], 20+ButtonWidth, 10, Width-30-ButtonWidth, Height-20)
       Width  = GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Container])-#ContainerBorder
@@ -1417,17 +1417,17 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
       Width  = Width-30-ButtonWidth - #ContainerBorder
       Height = Height-20 - #ContainerBorder
     EndIf
-        
+    
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], 0, 0, Width-#Profiler_ScrollbarWidth, Height-#Profiler_ScrollbarWidth)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], 0, Height-#Profiler_ScrollbarWidth, Width-#Profiler_ScrollbarWidth, #Profiler_ScrollbarWidth)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], Width-#Profiler_ScrollbarWidth, 0, #Profiler_ScrollbarWidth, Height-#Profiler_ScrollbarWidth)
     
     Profiler_UpdatePageLength(*Debugger) ; adjust the scrollbars
-    Profiler_DrawAll(*Debugger) ; redraw after every resize
-    ;Profiler_DrawPreview(*Debugger)
+    Profiler_DrawAll(*Debugger)          ; redraw after every resize
+                                         ;Profiler_DrawPreview(*Debugger)
     
   ElseIf EventID = #PB_Event_CloseWindow
-  
+    
     If DebuggerMemorizeWindows And IsWindowMinimized(*Debugger\Windows[#DEBUGGER_WINDOW_Profiler]) = 0
       ProfilerMaximize = IsWindowMaximized(*Debugger\Windows[#DEBUGGER_WINDOW_Profiler])
       If ProfilerMaximize = 0
@@ -1441,34 +1441,34 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
     If *Debugger\NbIncludedFiles > 0
       ProfilerSplitter  = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Splitter])
     EndIf
-
+    
     ; free profiler array
     ; keep the file table in case the window is reopened (is freed in CheckDestroy)
     If *Debugger\ProfilerData
       FreeMemory(*Debugger\ProfilerData)
       *Debugger\ProfilerData = 0
     EndIf
-
+    
     CloseWindow(*Debugger\Windows[#DEBUGGER_WINDOW_Profiler])
-        
+    
     If *Debugger\ProfilerImage ; free the displayed image
       FreeImage(*Debugger\ProfilerImage)
       *Debugger\ProfilerImage = 0
     EndIf
     
-;     If *Debugger\ProfilerPreview
-;       FreeImage(*Debugger\ProfilerPreview)
-;       *Debugger\ProfilerPreview = 0
-;     EndIf
+    ;     If *Debugger\ProfilerPreview
+    ;       FreeImage(*Debugger\ProfilerPreview)
+    ;       *Debugger\ProfilerPreview = 0
+    ;     EndIf
     
     *Debugger\Windows[#DEBUGGER_WINDOW_Profiler] = 0
     Debugger_CheckDestroy(*Debugger)
-
+    
   EndIf
 EndProcedure
 
 Procedure OpenProfilerWindow(*Debugger.DebuggerData)
-
+  
   If Profiler_Arrow = 0
     Profiler_Arrow   = CatchImage(#PB_Any, ?Profiler_Arrow)
     Profiler_Select  = CatchImage(#PB_Any, ?Profiler_Select)
@@ -1477,7 +1477,7 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
     Profiler_Zoomout = CatchImage(#PB_Any, ?Profiler_Zoomout)
     Profiler_Zoomall = CatchImage(#PB_Any, ?Profiler_Zoomall)
   EndIf
-
+  
   If *Debugger\Windows[#DEBUGGER_WINDOW_Profiler]
     SetWindowForeground(*Debugger\Windows[#DEBUGGER_WINDOW_Profiler])
     
@@ -1497,7 +1497,7 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
       EndIf
       
       ;*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Preview]   = ImageGadget(#PB_Any, 0, 0, 0, 0, 0)
- 
+      
       *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Zoomin]    = ButtonImageGadget(#PB_Any, 0, 0, 0, 0, ImageID(Profiler_Zoomin))
       *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Zoomout]   = ButtonImageGadget(#PB_Any, 0, 0, 0, 0, ImageID(Profiler_Zoomout))
       *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Zoomall]   = ButtonImageGadget(#PB_Any, 0, 0, 0, 0, ImageID(Profiler_Zoomall))
@@ -1511,21 +1511,21 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX]   = ScrollBarGadget(#PB_Any, 0, 0, 100, 15, 0, 1, 10000) ; max will automatically be changed when data arrives
       *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY]   = ScrollBarGadget(#PB_Any, 0, 0, 15, 100, 0, 1, 1000, #PB_ScrollBar_Vertical)
       CloseGadgetList()
-                  
+      
       If *Debugger\NbIncludedFiles > 0 ; this is valid here. we only need a filelist if there is more than 1 file!
         *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files] = ListIconGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","File"), 260, #PB_ListIcon_MultiSelect|#PB_ListIcon_CheckBoxes|#PB_ListIcon_AlwaysShowSelection)  ; no fullrowselect so we can select multiple entries without starting a drag
         AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], 1, Language("Debugger","CalledLines"), 120)
         AddGadgetColumn(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], 2, Language("Debugger","CallsPerLine"), 120)
-
+        
         *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Splitter] = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Container], *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], #PB_Splitter_SecondFixed)
         SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Splitter], #PB_Splitter_FirstMinimumSize, 100)
         SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Splitter], #PB_Splitter_SecondMinimumSize, 100)
-                
+        
         EnableGadgetDrop(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], #PB_Drop_Private, #PB_Drag_Move, #DRAG_Profiler)
-                
+        
         If *Debugger\ProfilerFiles
           *files.Debugger_ProfilerList = *Debugger\ProfilerFiles
-        
+          
           For file = 0 To *Debugger\NbIncludedFiles
             ; we store the index in the data field so we can reorder the entries...
             AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], file, GetDebuggerRelativeFile(*Debugger, file << 24), ImageID(*files\file[file]\ColorImage))
@@ -1546,7 +1546,7 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
         SetWindowLongPtr_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]), #GWL_USERDATA, *Debugger)
         *Debugger\ProfilerImageCallback = SetWindowLongPtr_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]), #GWL_WNDPROC, @Profiler_WindowsMouseHandler())
       CompilerEndIf
-
+      
       CompilerIf #CompileLinux
         Container = GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Container])
         gtk_widget_add_events_(Container, #GDK_POINTER_MOTION_MASK | #GDK_POINTER_MOTION_HINT_MASK | #GDK_BUTTON_RELEASE_MASK | #GDK_BUTTON_PRESS_MASK)
@@ -1581,14 +1581,14 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
           SetGadgetItemAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], 0, #PB_ListIcon_ColumnWidth, 120, 2)
         EndIf
       EndIf
- 
+      
       EnsureWindowOnDesktop(Window)
       If ProfilerMaximize
         ShowWindowMaximized(Window)
       Else
         HideWindow(Window, 0)
       EndIf
-     
+      
       UpdateProfilerWindowState(*Debugger)  ; also updates the "profiler running state"
       
       Debugger_ProcessEvents(Window, #PB_Event_ActivateWindow) ; makes all debugger windows go to the top
@@ -1607,7 +1607,7 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
         Profiler_DrawAll(*Debugger)
         Profiler_UpdateStats(*Debugger)
         UpdateProfilerWindowState(*Debugger)
-      
+        
       Else
         ; request an update
         ;
@@ -1616,11 +1616,11 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
       EndIf
     EndIf
   EndIf
-
+  
 EndProcedure
 
 Procedure UpdateProfilerWindow(*Debugger.DebuggerData)
-
+  
   SetWindowTitle(*Debugger\Windows[#DEBUGGER_WINDOW_Profiler], Language("Debugger","ProfilerTitle") + " - " + DebuggerTitle(*Debugger\FileName$))
   
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Start],  Language("Misc","Start"))
@@ -1633,16 +1633,16 @@ Procedure UpdateProfilerWindow(*Debugger.DebuggerData)
     SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], -1, Language("Debugger","CalledLines"), 1)
     SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], -1, Language("Debugger","CallsPerLine"), 2)
   EndIf
-
+  
   ProfilerWindowEvents(*Debugger, #PB_Event_SizeWindow) ; to update any gadget size requirements
-
+  
 EndProcedure
 
 
 Procedure Profiler_DebuggerEvent(*Debugger.DebuggerData)
-
+  
   If *Debugger\Command\Command = #COMMAND_ControlProfiler
-
+    
     If *Debugger\Command\Value1 = 1 ; show
       OpenProfilerWindow(*Debugger)
     EndIf
@@ -1659,7 +1659,7 @@ Procedure Profiler_DebuggerEvent(*Debugger.DebuggerData)
         DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Stop], 0)
       EndIf
     EndIf
-
+    
   ElseIf *Debugger\Command\Command = #COMMAND_ProfilerOffsets And *Debugger\CommandData And *Debugger\ProfilerFiles = 0
     ; this is done only once, so no freeing of old data
     ;
@@ -1668,12 +1668,12 @@ Procedure Profiler_DebuggerEvent(*Debugger.DebuggerData)
     *Debugger\ProfilerFiles = AllocateMemory(count * SizeOf(Debugger_ProfilerData))
     If *Debugger\ProfilerFiles
       *files.Debugger_ProfilerList = *Debugger\ProfilerFiles
-    
+      
       ; calc the max line value of all files
       max = 0
       For i = 0 To count-1
         *files\file[i]\Offset = PeekL(*Debugger\CommandData + i*SizeOf(LONG))
-
+        
         ; calculate the length of this file
         If i < count-1
           *files\file[i]\Size = PeekL(*Debugger\CommandData + (i+1)*SizeOf(LONG)) - *files\file[i]\Offset
@@ -1706,7 +1706,7 @@ Procedure Profiler_DebuggerEvent(*Debugger.DebuggerData)
       If *Debugger\NbIncludedFiles > 0 And *Debugger\Windows[#DEBUGGER_WINDOW_Profiler]
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], 0) ; select the first file for display
       EndIf
-
+      
       *Debugger\ProfilerNumberLength = Len(Str(max))
     EndIf
     
@@ -1715,9 +1715,9 @@ Procedure Profiler_DebuggerEvent(*Debugger.DebuggerData)
       FreeMemory(*Debugger\ProfilerData)
       *Debugger\ProfilerData = 0
     EndIf
-  
-    If *Debugger\Windows[#DEBUGGER_WINDOW_Profiler] <> 0 ; only draw if there is a window!
     
+    If *Debugger\Windows[#DEBUGGER_WINDOW_Profiler] <> 0 ; only draw if there is a window!
+      
       ; Only set ProfilerData if we have a window, else when we open a window we get an
       ; error because Profiler_UpdateBounds() was not called yet!
       ;
@@ -1726,15 +1726,15 @@ Procedure Profiler_DebuggerEvent(*Debugger.DebuggerData)
       ;
       *Debugger\ProfilerData = *Debugger\CommandData
       *Debugger\CommandData  = 0
-    
+      
       Profiler_UpdateBounds(*Debugger)
       Profiler_DrawAll(*Debugger) ; redraw the display
       Profiler_UpdateStats(*Debugger)
       ;Profiler_DrawPreview(*Debugger)
     EndIf
-  
+    
   EndIf
-
+  
 EndProcedure
 
 
@@ -1742,7 +1742,7 @@ EndProcedure
 
 
 DataSection
-
+  
   CompilerIf #CompileWindows
     Profiler_Arrow:   : IncludeBinary #BUILD_DIRECTORY + "arrow.ico"
     Profiler_Select:  : IncludeBinary #BUILD_DIRECTORY + "select.ico"
@@ -1758,128 +1758,128 @@ DataSection
     Profiler_Zoomout: : IncludeBinary #BUILD_DIRECTORY + "zoomout.png"
     Profiler_Zoomall: : IncludeBinary #BUILD_DIRECTORY + "zoomall.png"
   CompilerEndIf
-
-
+  
+  
   Profiler_Colors:
-    Data.l $FF0000
-    Data.l $0000FF
-    Data.l $008000
-    Data.l $0080FF
-    Data.l $00FFFF
-    Data.l $800080
-    Data.l $808000
-    Data.l $8000FF
-    Data.l $FF8000
-    Data.l $004000
-    Data.l $808080
-    Data.l $400080
-    Data.l $800000
-    Data.l $FF00FF
-    Data.l $FF8080
-    Data.l $00FF00
-    Data.l $000080
-    Data.l $008080
-
-
+  Data.l $FF0000
+  Data.l $0000FF
+  Data.l $008000
+  Data.l $0080FF
+  Data.l $00FFFF
+  Data.l $800080
+  Data.l $808000
+  Data.l $8000FF
+  Data.l $FF8000
+  Data.l $004000
+  Data.l $808080
+  Data.l $400080
+  Data.l $800000
+  Data.l $FF00FF
+  Data.l $FF8080
+  Data.l $00FF00
+  Data.l $000080
+  Data.l $008080
+  
+  
   Profiler_Numbers:
-    Data.b %0111000
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %0111000
-
-    Data.b %0001000
-    Data.b %0011000
-    Data.b %0101000
-    Data.b %0001000
-    Data.b %0001000
-    Data.b %0001000
-    Data.b %0001000
-    Data.b %0001000
-    Data.b %0011100
-
-    Data.b %0111000
-    Data.b %1000100
-    Data.b %0000100
-    Data.b %0000100
-    Data.b %0001000
-    Data.b %0010000
-    Data.b %0100000
-    Data.b %1000000
-    Data.b %1111100
-
-    Data.b %0111000
-    Data.b %1000100
-    Data.b %0000100
-    Data.b %0000100
-    Data.b %0011000
-    Data.b %0000100
-    Data.b %0000100
-    Data.b %1000100
-    Data.b %0111000
-
-    Data.b %0000100
-    Data.b %0001100
-    Data.b %0010100
-    Data.b %0100100
-    Data.b %1000100
-    Data.b %1111100
-    Data.b %0000100
-    Data.b %0000100
-    Data.b %0000100
-
-    Data.b %1111100
-    Data.b %1000000
-    Data.b %1000000
-    Data.b %1000000
-    Data.b %1111000
-    Data.b %0000100
-    Data.b %0000100
-    Data.b %1000100
-    Data.b %0111000
-
-    Data.b %0111000
-    Data.b %1000100
-    Data.b %1000000
-    Data.b %1000000
-    Data.b %1111000
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %0111000
-
-    Data.b %1111100
-    Data.b %0000100
-    Data.b %0000100
-    Data.b %0001000
-    Data.b %0001000
-    Data.b %0010000
-    Data.b %0010000
-    Data.b %0100000
-    Data.b %0100000
-
-    Data.b %0111000
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %0111000
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %0111000
-
-    Data.b %0111000
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %1000100
-    Data.b %0111100
-    Data.b %0000100
-    Data.b %0000100
-    Data.b %1000100
-    Data.b %0111000
-
+  Data.b %0111000
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %0111000
+  
+  Data.b %0001000
+  Data.b %0011000
+  Data.b %0101000
+  Data.b %0001000
+  Data.b %0001000
+  Data.b %0001000
+  Data.b %0001000
+  Data.b %0001000
+  Data.b %0011100
+  
+  Data.b %0111000
+  Data.b %1000100
+  Data.b %0000100
+  Data.b %0000100
+  Data.b %0001000
+  Data.b %0010000
+  Data.b %0100000
+  Data.b %1000000
+  Data.b %1111100
+  
+  Data.b %0111000
+  Data.b %1000100
+  Data.b %0000100
+  Data.b %0000100
+  Data.b %0011000
+  Data.b %0000100
+  Data.b %0000100
+  Data.b %1000100
+  Data.b %0111000
+  
+  Data.b %0000100
+  Data.b %0001100
+  Data.b %0010100
+  Data.b %0100100
+  Data.b %1000100
+  Data.b %1111100
+  Data.b %0000100
+  Data.b %0000100
+  Data.b %0000100
+  
+  Data.b %1111100
+  Data.b %1000000
+  Data.b %1000000
+  Data.b %1000000
+  Data.b %1111000
+  Data.b %0000100
+  Data.b %0000100
+  Data.b %1000100
+  Data.b %0111000
+  
+  Data.b %0111000
+  Data.b %1000100
+  Data.b %1000000
+  Data.b %1000000
+  Data.b %1111000
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %0111000
+  
+  Data.b %1111100
+  Data.b %0000100
+  Data.b %0000100
+  Data.b %0001000
+  Data.b %0001000
+  Data.b %0010000
+  Data.b %0010000
+  Data.b %0100000
+  Data.b %0100000
+  
+  Data.b %0111000
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %0111000
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %0111000
+  
+  Data.b %0111000
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %1000100
+  Data.b %0111100
+  Data.b %0000100
+  Data.b %0000100
+  Data.b %1000100
+  Data.b %0111000
+  
 EndDataSection

@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -61,7 +61,7 @@ Global UpdateCheck_DownloadResult
 Global UpdateCheck_ShowNoUpdates
 
 Procedure VisitDownloadSite()
-
+  
   CompilerIf #DEMO = 0
     
     ; For registered users, directly open the secure download page
@@ -70,51 +70,51 @@ Procedure VisitDownloadSite()
       Case "FRANCAIS": Url$ = #ProductWebSite$ + "/securedownload/Login.php?language=FR"
       Default:         Url$ = #ProductWebSite$ + "/securedownload/Login.php?language="
     EndSelect
-  
+    
   CompilerElse
-  
+    
     ; For demo users, show the main download page
     Select UCase(CurrentLanguage$)
       Case "DEUTSCH":  Url$ = #ProductWebSite$ + "/german/download.php"
       Case "FRANCAIS": Url$ = #ProductWebSite$ + "/french/download.php"
       Default:         Url$ = #ProductWebSite$ + "/download.php"
     EndSelect
-  
+    
   CompilerEndIf
   
   OpenWebBrowser(Url$)
-
+  
 EndProcedure
 
 Procedure UpdateWindowEvents(EventID)
-
+  
   If EventID = #PB_Event_Menu     ; Little wrapper to map the shortcut events (identified as menu)
     EventID  = #PB_Event_Gadget   ; to normal gadget events...
     GadgetID = EventMenu()
   Else
     GadgetID = EventGadget()
   EndIf
-
+  
   Select EventID
     Case #PB_Event_CloseWindow
-        Quit = 1
-  
+      Quit = 1
+      
     Case #PB_Event_Gadget
       Select GadgetID
-      
+          
         Case #GADGET_Updates_Website
           VisitDownloadSite()
           Quit = 1
-        
+          
         Case #GADGET_Updates_Settings
           OpenPreferencesWindow()
           Quit = 1
-        
+          
         Case #GADGET_Updates_Ok
           Quit = 1
           
       EndSelect
-
+      
   EndSelect
   
   If Quit
@@ -124,13 +124,13 @@ Procedure UpdateWindowEvents(EventID)
       UpdateWindowDialog\Close()
     EndIf
   EndIf
-
+  
 EndProcedure
 
 Procedure ReadVersionFile(FileName$, List Releases.Release())
   ClearList(Releases())
   Result = #False
-
+  
   If LoadXML(#XML_UpdateCheck, FileName$)
     If XMLStatus(#XML_UpdateCheck) = #PB_XML_Success And MainXMLNode(#XML_UpdateCheck)
       ; check the namespace
@@ -141,7 +141,7 @@ Procedure ReadVersionFile(FileName$, List Releases.Release())
         *Version = ChildXMLNode(*AllVersions)
         While *Version
           If XMLNodeType(*Version) = #PB_XML_Normal And GetXMLNodeName(*Version) = "version"
-
+            
             Select GetXMLAttribute(*Version, "category")
               Case "final":  Category = #CATEGORY_Final
               Case "bugfix": Category = #CATEGORY_Bugfix
@@ -150,7 +150,7 @@ Procedure ReadVersionFile(FileName$, List Releases.Release())
             EndSelect
             
             If Category <> -1 ; filter unknown categories (for future expandability)
-          
+              
               AddElement(Releases())
               Releases()\Name$    = GetXMLAttribute(*Version, "name")
               Releases()\Category = Category
@@ -160,7 +160,7 @@ Procedure ReadVersionFile(FileName$, List Releases.Release())
               If LTS$
                 Releases()\LTS = Val(LTS$)
               EndIf
-                            
+              
               Beta$ = GetXMLAttribute(*Version, "beta")
               If Beta$ <> ""
                 Releases()\Beta = Val(Beta$)
@@ -188,7 +188,7 @@ Procedure ReadVersionFile(FileName$, List Releases.Release())
 EndProcedure
 
 Procedure UpdateCheckTimer()
-
+  
   ; test if the download is complete
   If Not UpdateCheck_DownloadComplete
     ProcedureReturn
@@ -248,7 +248,7 @@ Procedure UpdateCheckTimer()
   ;
   ForEach AvailableReleases()
     Filter = #False
-  
+    
     ; check against current version
     If AvailableReleases()\Number < CurrentNumber
       Filter = #True
@@ -264,15 +264,15 @@ Procedure UpdateCheckTimer()
     ElseIf UpdateCheckVersions = #UPDATE_Version_Final And AvailableReleases()\Category = #CATEGORY_Beta
       Filter = #True
     EndIf
-
+    
     ; check against previously seen versions
     ForEach CheckedReleases()
       If CheckedReleases()\Category = AvailableReleases()\Category And
-            CheckedReleases()\Number = AvailableReleases()\Number And
-            CheckedReleases()\Beta = AvailableReleases()\Beta And
-            CheckedReleases()\LTS = AvailableReleases()\LTS And
-            CheckedReleases()\Name$ = AvailableReleases()\Name$
-            
+         CheckedReleases()\Number = AvailableReleases()\Number And
+         CheckedReleases()\Beta = AvailableReleases()\Beta And
+         CheckedReleases()\LTS = AvailableReleases()\LTS And
+         CheckedReleases()\Name$ = AvailableReleases()\Name$
+        
         Filter = #True
         Break
       EndIf
@@ -287,7 +287,7 @@ Procedure UpdateCheckTimer()
   ; open the dialog only if one or more releases remain!
   ;
   If ListSize(AvailableReleases()) > 0
-      
+    
     UpdateWindowDialog = OpenDialog(?Dialog_Updates, WindowID(#WINDOW_Main), @UpdateWindowPositon)
     If UpdateWindowDialog
       EnsureWindowOnDesktop(#WINDOW_Updates)
@@ -306,11 +306,11 @@ Procedure UpdateCheckTimer()
       ForEach AvailableReleases()
         Text$ + AvailableReleases()\Name$ + #NewLine
       Next AvailableReleases()
-
+      
       SetGadgetText(#GADGET_Updates_Message, Text$)
       SetGadgetColor(#GADGET_Updates_Website, #PB_Gadget_FrontColor, $F00000)
       SetGadgetColor(#GADGET_Updates_Settings, #PB_Gadget_FrontColor, $F00000)
-  
+      
       UpdateWindowDialog\GuiUpdate() ; needed in case the text is very big
       HideWindow(#WINDOW_Updates, #False)
       
@@ -336,7 +336,7 @@ Procedure UpdateCheckTimer()
     
     MessageRequester(Language("Updates","Title"), NoUpdate$, #FLAG_Info)
   EndIf
-
+  
   ; update the "last check" time
   LastUpdateCheck = Date()
 EndProcedure
@@ -353,15 +353,15 @@ Procedure UpdateCheck_Download(Dummy)
   
   UpdateCheck_DownloadResult = ReceiveHTTPFile(#UPDATE_CHECK_URL, UpdateCheckFile$ + "_new")
   UpdateCheck_DownloadComplete = #True
-
+  
 EndProcedure
 
 Procedure UpdateCheck_Start()
-
+  
   If Not InitNetwork()
     ProcedureReturn
   EndIf
-
+  
   ; close any existing window
   If IsWindow(#WINDOW_Updates)
     UpdateWindowEvents(#PB_Event_CloseWindow)
@@ -373,11 +373,11 @@ Procedure UpdateCheck_Start()
   
   ; set a timer to read the result when download is complete
   AddWindowTimer(#WINDOW_Main, #TIMER_UpdateCheck, 500)
-
+  
 EndProcedure
 
 Procedure CheckForUpdatesManual()
-
+  
   ; show a requester if no updates are found
   UpdateCheck_ShowNoUpdates = #True
   
@@ -386,40 +386,40 @@ Procedure CheckForUpdatesManual()
   DeleteFile(UpdateCheckFile$)
   
   UpdateCheck_Start()
-
+  
 EndProcedure
 
 
 Procedure CheckForUpdatesSchedule()
-
+  
   ; When doing this check, do not show the requester if there
   ; are no updates
   UpdateCheck_ShowNoUpdates = #False
-
+  
   ; Do the check only if the configured interval elapsed
   ;
   Select UpdateCheckInterval
-  
+      
     Case #UPDATE_Interval_Start
       UpdateCheck_Start()
-        
+      
     Case #UPDATE_Interval_Weekly
       If Date() > LastUpdateCheck + (7 * 24 * 60 * 60 * 60)
         UpdateCheck_Start()
       EndIf
-    
+      
     Case #UPDATE_Interval_Monthly
       Now = Date()
       If Year(Now) > Year(LastUpdateCheck) Or Month(Now) > Month(LastUpdateCheck)
         UpdateCheck_Start()
       EndIf
-    
+      
     Case #UPDATE_Interval_Never
       ; don't check
-    
+      
   EndSelect
   
-
+  
 EndProcedure
 
 

@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -26,7 +26,7 @@ XIncludeFile "GetRequiredSize.pb"
 Structure DlgSplitter Extends DlgBase
   IsVertical.l
   NbChilds.l  ; max 2
-
+  
   Minimum.l[2]
   RequestedWidth.l[2]
   RequestedHeight.l[2]
@@ -53,11 +53,11 @@ Procedure DlgSplitter_ResizeChildren(*THIS.DlgSplitter)
       Height = GadgetHeight(*THIS\ChildGadget[i])
       
       ; no longer needed since 4.60
-;       CompilerIf #CompileLinux
-;         ; Even a borderless container adds a pixel offset on linux!
-;         Width  - 8
-;         Height - 8
-;       CompilerEndIf
+      ;       CompilerIf #CompileLinux
+      ;         ; Even a borderless container adds a pixel offset on linux!
+      ;         Width  - 8
+      ;         Height - 8
+      ;       CompilerEndIf
       
       *THIS\Child[i]\SizeApply(0, 0, Width, Height)
     EndIf
@@ -65,23 +65,23 @@ Procedure DlgSplitter_ResizeChildren(*THIS.DlgSplitter)
 EndProcedure
 
 CompilerIf #CompileWindows
-
+  
   Procedure DlgSplitter_ResizeCallback(Window, Message, wParam, lParam)
     *THIS.DlgSplitter = GetWindowLongPtr_(Window, #GWL_USERDATA)
-  
+    
     If Message = #WM_SIZE
       DlgSplitter_ResizeChildren(*THIS)
     EndIf
-  
+    
     ProcedureReturn CallWindowProc_(*THIS\OldCallback, Window, Message, wParam, lParam)
   EndProcedure
-
+  
 CompilerEndIf
 
 
 Procedure DlgSplitter_New(*StaticData.DialogObjectData)
   *THIS.DlgSplitter = AllocateMemory(SizeOf(DlgSplitter))
-
+  
   If *THIS
     *THIS\VTable     = ?DlgSplitter_VTable
     *THIS\StaticData = *StaticData
@@ -95,11 +95,11 @@ Procedure DlgSplitter_New(*StaticData.DialogObjectData)
     CloseGadgetList()
     
     *THIS\Gadget = SplitterGadget(*StaticData\Gadget, 0, 0, 0, 0, *THIS\ChildGadget[0], *THIS\ChildGadget[1], *StaticData\Flags)
-
+    
     If *StaticData\Gadget <> #PB_Any
       *THIS\Gadget = *StaticData\Gadget
     EndIf
-        
+    
     Value$ = DialogObjectKey(*StaticData, "FIRSTMIN")
     If Value$ = "" Or UCase(Value$) = "REQUEST"
       *THIS\Minimum[0] = -1
@@ -148,11 +148,11 @@ Procedure DlgSplitter_SizeRequest(*THIS.DlgSplitter, *Width.LONG, *Height.LONG)
     EndIf
     
     ; no longer needed since 4.60
-;     CompilerIf #CompileLinux
-;       ; Even a borderless container adds a pixel offset on linux!
-;       *THIS\RequestedWidth[i]  + 8
-;       *THIS\RequestedHeight[i] + 8
-;     CompilerEndIf
+    ;     CompilerIf #CompileLinux
+    ;       ; Even a borderless container adds a pixel offset on linux!
+    ;       *THIS\RequestedWidth[i]  + 8
+    ;       *THIS\RequestedHeight[i] + 8
+    ;     CompilerEndIf
     
     If *THIS\Minimum[i] = -1
       If *THIS\IsVertical
@@ -187,7 +187,7 @@ Procedure DlgSplitter_SizeRequest(*THIS.DlgSplitter, *Width.LONG, *Height.LONG)
     *Width\l  = Max(*THIS\RequestedWidth[0], *THIS\RequestedWidth[0])
     *Height\l = *THIS\RequestedHeight[0] + *THIS\RequestedHeight[1] + SplitterWidth
   EndIf
- 
+  
   *Width\l  = Max(*Width\l,  *THIS\StaticData\MinWidth)
   *Height\l = Max(*Height\l, *THIS\StaticData\MinHeight)
 EndProcedure
@@ -250,24 +250,24 @@ Procedure DlgSplitter_Destroy(*THIS.DlgSplitter)
   For i = 0 To *THIS\NbChilds-1
     *THIS\Child[i]\Destroy()
   Next i
-
+  
   FreeMemory(*THIS)
 EndProcedure
 
 DataSection
-
+  
   DlgSplitter_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgSplitter_SizeRequest()
-    Data.i @DlgSplitter_SizeApply()
-    Data.i @DlgSplitter_AddChild()
-    Data.i @DlgBase_FoldApply()
-    Data.i @DlgSplitter_Find()
-    Data.i @DlgBase_Finish()
-    Data.i @DlgSplitter_Update()
-    Data.i @DlgSplitter_Destroy()
-
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgSplitter_SizeRequest()
+  Data.i @DlgSplitter_SizeApply()
+  Data.i @DlgSplitter_AddChild()
+  Data.i @DlgBase_FoldApply()
+  Data.i @DlgSplitter_Find()
+  Data.i @DlgBase_Finish()
+  Data.i @DlgSplitter_Update()
+  Data.i @DlgSplitter_Destroy()
+  
+  
 EndDataSection
 
 

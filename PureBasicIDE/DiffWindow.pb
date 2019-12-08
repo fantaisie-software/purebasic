@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -71,10 +71,10 @@ EndStructure
 ; information about the two files to diff
 ;
 Global Dim DiffA.DiffLine(0), Dim DiffB.DiffLine(0) ; content (freed after diff creation)
-Global DiffA_Lines, DiffB_Lines     ; # of lines
-Global DiffA_Utf8, DiffB_Utf8       ; is utf8 bom present
-Global *DiffA_Buffer, *DiffB_Buffer ; memory buffer containing original files (stays allocated until diff is closed)
-Global NewList StyleA.DiffStyleBlock() ; resulting diff blocks (stays allocated until diff is closed)
+Global DiffA_Lines, DiffB_Lines                     ; # of lines
+Global DiffA_Utf8, DiffB_Utf8                       ; is utf8 bom present
+Global *DiffA_Buffer, *DiffB_Buffer                 ; memory buffer containing original files (stays allocated until diff is closed)
+Global NewList StyleA.DiffStyleBlock()              ; resulting diff blocks (stays allocated until diff is closed)
 Global NewList StyleB.DiffStyleBlock()
 Global DiffA_Title$, DiffB_Title$
 Global DiffA_File$, DiffB_File$
@@ -112,7 +112,7 @@ Procedure ShowDiffProgress(ShowProgress)
   
   If DiffDirectoryMode = 0
     HideGadget(#GADGET_Diff_Splitter, 1-State)
-  
+    
   Else
     HideGadget(#GADGET_Diff_FileTitle, 1-State)
     If DiffDirectoryMode = 1
@@ -140,7 +140,7 @@ EndProcedure
 
 Procedure UpdateDiffToolbar()
   ; open tool, swap, refresh, up/down is always on
-
+  
   If DiffDirectoryMode < 2 ; files visible
     FileState = 0
   Else
@@ -164,19 +164,19 @@ Procedure UpdateDiffToolbar()
 EndProcedure
 
 Procedure SwitchDirectoryMode(TargetMode)
-
+  
   ; adjust the splitters as needed
   ;
   If DiffDirectoryMode <> TargetMode
-
+    
     ; required for the creation of the temp gadgets (when switching splitter content)
     UseGadgetList(WindowID(#WINDOW_Diff))
-
-    Select DiffDirectoryMode
     
+    Select DiffDirectoryMode
+        
       Case 0 ; files only
-        ; need to create the required gadgets now
-        ;
+             ; need to create the required gadgets now
+             ;
         CompilerIf #CompileWindows
           TextGadget(#GADGET_Diff_FileTitle, 0, 0, 0, 0, "")
         CompilerElse
@@ -186,7 +186,7 @@ Procedure SwitchDirectoryMode(TargetMode)
         AddGadgetColumn(#GADGET_Diff_Files, 1, Language("Diff","State"), 100)
         AddGadgetColumn(#GADGET_Diff_Files, 2, Language("Diff","Date1"), 130)
         AddGadgetColumn(#GADGET_Diff_Files, 3, Language("Diff","Date2"), 130)
-                
+        
         If TargetMode = 1
           SplitterGadget(#GADGET_Diff_Splitter2, 0, 0, 0, 0, #GADGET_Diff_Files, #GADGET_Diff_Splitter)
           SetGadgetAttribute(#GADGET_Diff_Splitter2, #PB_Splitter_FirstMinimumSize, 80)
@@ -194,11 +194,11 @@ Procedure SwitchDirectoryMode(TargetMode)
         Else
           HideGadget(#GADGET_Diff_Splitter, 1)
         EndIf
-       
-            
+        
+        
       Case 1 ; files and directory
-        ; need to put dummy gadgets in the splitter so it can then be freed without freeing the old content
-        ;
+             ; need to put dummy gadgets in the splitter so it can then be freed without freeing the old content
+             ;
         If TargetMode = 0
           SetGadgetAttribute(#GADGET_Diff_Splitter2, #PB_Splitter_SecondGadget, TextGadget(#PB_Any,0,0,0,0,""))
           FreeGadget(#GADGET_Diff_Splitter2) ; frees the splitter and the listicon
@@ -209,8 +209,8 @@ Procedure SwitchDirectoryMode(TargetMode)
           FreeGadget(#GADGET_Diff_Splitter2) ; frees only the splitter
           HideGadget(#GADGET_Diff_Splitter, 1)  ; this one is just hidden, never freed
         EndIf
-          
-      
+        
+        
       Case 2 ; directory only
         HideGadget(#GADGET_Diff_Splitter, 0)
         
@@ -223,14 +223,14 @@ Procedure SwitchDirectoryMode(TargetMode)
           SetGadgetAttribute(#GADGET_Diff_Splitter2, #PB_Splitter_FirstMinimumSize, 80)
           SetGadgetAttribute(#GADGET_Diff_Splitter2, #PB_Splitter_SecondMinimumSize, 80)
         EndIf
-    
+        
     EndSelect
-
-
+    
+    
   EndIf
   
   DiffDirectoryMode = TargetMode
-
+  
   ; Update toolbar accordingly
   UpdateDiffToolbar()
   
@@ -240,9 +240,9 @@ Procedure SwitchDirectoryMode(TargetMode)
 EndProcedure
 
 Procedure ShowNextDifference(Gadget, Forward, IsFirst)
-
+  
   If Gadget = #GADGET_Diff_Files Or DiffDirectoryMode = 2 ; use it if only directories are visible too
-    ; directory mode
+                                                          ; directory mode
     index = GetGadgetState(#GADGET_Diff_Files)
     If index = -1 Or IsFirst
       index = 0
@@ -265,7 +265,7 @@ Procedure ShowNextDifference(Gadget, Forward, IsFirst)
       Until Result = 0
     EndIf
     SetActiveGadget(#GADGET_Diff_Files)
-  
+    
   Else
     ; always fallback to File1 if none of the files is selected
     If Gadget <> #GADGET_Diff_File2
@@ -285,7 +285,7 @@ Procedure ShowNextDifference(Gadget, Forward, IsFirst)
         line = ScintillaSendMessage(Gadget, #SCI_MARKERPREVIOUS, line-1, 1 << #DIFF_ChangeMarker)
       EndIf
     EndIf
-      
+    
     If line <> -1
       ScintillaSendMessage(Gadget, #SCI_LINESCROLL, -99999, -99999)
       ScintillaSendMessage(Gadget, #SCI_LINESCROLL, 0, line-3)
@@ -298,16 +298,16 @@ Procedure ShowNextDifference(Gadget, Forward, IsFirst)
     EndIf
     
     SetActiveGadget(Gadget)
-      
+    
   EndIf
   
 EndProcedure
 
 Procedure DiffWindowEvents(EventID)
-
+  
   If EventID = #PB_Event_Gadget
     Select EventGadget()
-    
+        
       Case #GADGET_Diff_Splitter, #GADGET_Diff_Splitter
         ResizeDiffSplitterContent()
         
@@ -322,13 +322,13 @@ Procedure DiffWindowEvents(EventID)
         Else
           UpdateDiffToolbar() ; update on selection changes
         EndIf
-            
+        
     EndSelect
     
   ElseIf EventID = #PB_Event_Menu
     EventMenu = EventMenu()
     Select EventMenu
-    
+        
       Case #MENU_Diff_Open1, #MENU_Diff_Open2
         If EventMenu = #MENU_Diff_Open1
           If DiffSwapped = 0
@@ -351,7 +351,7 @@ Procedure DiffWindowEvents(EventID)
             Else
               LoadSourceFile(DiffB_File$)
             EndIf
-          
+            
           Case #DIFF_SourceToFile ; A is a *Source, B is a file
             If First
               ChangeCurrentElement(FileList(), *DiffSource)
@@ -359,9 +359,9 @@ Procedure DiffWindowEvents(EventID)
             Else
               LoadSourceFile(DiffB_File$)
             EndIf
-          
+            
         EndSelect
-      
+        
       Case #MENU_Diff_Refresh
         If DiffDirectoryMode > 0
           DiffDirectories(DiffA_Base$, DiffB_Base$, DiffPattern$, DiffSwapped, DiffDirectoryMode)
@@ -371,14 +371,14 @@ Procedure DiffWindowEvents(EventID)
           Select DiffMode
             Case #DIFF_FileToFile
               DiffFileToFile(DiffA_File$, DiffB_File$, DiffSwapped, DiffDirectoryMode)
-            
+              
             Case #DIFF_SourceToFile
               DiffSourceToFile(*DiffSource, DiffB_File$, DiffSwapped)
               
           EndSelect
         EndIf
         
-                
+        
       Case #MENU_Diff_Colors
         If DiffDirectoryMode < 2
           If DiffShowColors
@@ -392,7 +392,7 @@ Procedure DiffWindowEvents(EventID)
           UpdateDiffGadget(#False, StyleB(), #False)
         EndIf
         
-                 
+        
       Case #MENU_Diff_Swap
         If DiffSwapped = 0
           DiffSwapped = 1
@@ -405,7 +405,7 @@ Procedure DiffWindowEvents(EventID)
           ; just update the view
           UpdateDiffFileList()
         EndIf
-      
+        
         If DiffDirectoryMode < 2
           ; swapping the files produces the identical diff output, just
           ; with inserts and deletes reversed, so no need to recalculate it all
@@ -424,7 +424,7 @@ Procedure DiffWindowEvents(EventID)
           ; mark the first difference again
           ShowNextDifference(#GADGET_Diff_File1, #True, #True)
         EndIf
-      
+        
       Case #MENU_Diff_Vertical
         If DiffDirectoryMode < 2
           If DiffVertical
@@ -432,7 +432,7 @@ Procedure DiffWindowEvents(EventID)
           Else
             DiffVertical = 1
           EndIf
-        
+          
           Width  = WindowWidth(#WINDOW_Diff)
           Height = WindowHeight(#WINDOW_Diff)
           
@@ -444,13 +444,13 @@ Procedure DiffWindowEvents(EventID)
             dummy = TextGadget(#PB_Any, 0, 0, 0, 0, "")
             SetGadgetAttribute(#GADGET_Diff_Splitter2, #PB_Splitter_SecondGadget, dummy)
           EndIf
-        
+          
           ; remove the old splitter from the window, replace the content first with dummy gadgets
           SetGadgetAttribute(#GADGET_Diff_Splitter, #PB_Splitter_FirstGadget, TextGadget(#PB_Any, 0, 0, 0, 0, ""))
           SetGadgetAttribute(#GADGET_Diff_Splitter, #PB_Splitter_SecondGadget, TextGadget(#PB_Any, 0, 0, 0, 0, ""))
           FreeGadget(#GADGET_Diff_Splitter)
           UseGadgetList(WindowID(#WINDOW_Diff))
-        
+          
           If DiffVertical
             SplitterGadget(#GADGET_Diff_Splitter, 5, 5+ToolbarTopOffset, Width-10, Height-10-ToolbarHeight, #GADGET_Diff_Container1, #GADGET_Diff_Container2)
           Else
@@ -462,11 +462,11 @@ Procedure DiffWindowEvents(EventID)
             SetGadgetAttribute(#GADGET_Diff_Splitter2, #PB_Splitter_SecondGadget, #GADGET_Diff_Splitter)
             FreeGadget(dummy)
           EndIf
-         
+          
           SetToolBarButtonState(#TOOLBAR_Diff, #MENU_Diff_Vertical, DiffVertical)
           ResizeDiffSplitterContent()
         EndIf
-
+        
       Case #MENU_Diff_ShowTool
         OpenDiffDialogWindow()
         
@@ -490,12 +490,12 @@ Procedure DiffWindowEvents(EventID)
         
       Case #MENU_Diff_Up
         ShowNextDifference(GetActiveGadget(), #False, #False)
-      
+        
       Case #MENU_Diff_Down
         ShowNextDifference(GetActiveGadget(), #True, #False)
-
+        
     EndSelect
-  
+    
   ElseIf EventID = #PB_Event_SizeWindow
     Width  = WindowWidth(#WINDOW_Diff)
     Height = WindowHeight(#WINDOW_Diff)
@@ -513,10 +513,10 @@ Procedure DiffWindowEvents(EventID)
         ResizeGadget(#GADGET_Diff_Files, 5, 7+ToolbarTopOffset+h, Width-10, Height-12-ToolbarHeight-h)
       EndIf
     EndIf
-
+    
     GetRequiredSize(#GADGET_Diff_Busy, @BusyW, @BusyH)
     ResizeGadget(#GADGET_Diff_Busy, (Width-BusyW)/2, ToolbarTopOffset + (Height-ToolBarHeight-BusyH) / 2, BusyW, BusyH)
-  
+    
   ElseIf EventID = #PB_Event_CloseWindow
     If MemorizeWindow And IsWindowMinimized(#WINDOW_Diff) = 0
       DiffWindowPosition\IsMaximized = IsWindowMaximized(#WINDOW_Diff)
@@ -529,7 +529,7 @@ Procedure DiffWindowEvents(EventID)
     EndIf
     CloseWindow(#WINDOW_Diff)
     
-
+    
     ; free the no longer needed data
     ;
     If *DiffA_Buffer
@@ -543,50 +543,50 @@ Procedure DiffWindowEvents(EventID)
     *DiffB_Buffer = 0
     ClearList(StyleA())
     ClearList(StyleB())
-  
+    
   EndIf
-
+  
 EndProcedure
 
 
 ProcedureDLL DiffScintillaCallback(Gadget, *scinotify.SCNotification)
-
-  Select *scinotify\nmhdr\code
   
-     ; There is no separate (cross-platform) notification on scrolling events,
-     ; so use the paint message and check the scrolling position to update the
-     ; second gadget
-     ;
-     Case #SCN_PAINTED
-       If Gadget = #GADGET_Diff_File1
-         OtherGadget = #GADGET_Diff_File2
-       Else
-         OtherGadget = #GADGET_Diff_File1
-       EndIf
-     
-       Zoom = ScintillaSendMessage(Gadget, #SCI_GETZOOM)
-       If Zoom <> DiffZoom
-         DiffZoom = Zoom
-         ScintillaSendMessage(OtherGadget, #SCI_SETZOOM, DiffZoom)
-       EndIf
-                                       
-       X = ScintillaSendMessage(Gadget, #SCI_GETXOFFSET)
-       If X <> DiffScrollX
-         DiffScrollX = X
-         ScintillaSendMessage(OtherGadget, #SCI_SETXOFFSET, DiffScrollX)
-       EndIf
-       
-       ; Note: this counts visible lines, not document lines
-       ;   this needs to be adjusted if some kind of folding is allowed
-       Y = ScintillaSendMessage(Gadget, #SCI_GETFIRSTVISIBLELINE)
-       If Y <> DiffScrollY
-         DiffScrollY = Y
-         ; #SCI_SETFIRSTVISIBLELINE is not supported in our scintilla version, so emulate it
-         ScintillaSendMessage(OtherGadget, #SCI_LINESCROLL, 0, DiffScrollY - ScintillaSendMessage(OtherGadget, #SCI_GETFIRSTVISIBLELINE))
-       EndIf
-
+  Select *scinotify\nmhdr\code
+      
+      ; There is no separate (cross-platform) notification on scrolling events,
+      ; so use the paint message and check the scrolling position to update the
+      ; second gadget
+      ;
+    Case #SCN_PAINTED
+      If Gadget = #GADGET_Diff_File1
+        OtherGadget = #GADGET_Diff_File2
+      Else
+        OtherGadget = #GADGET_Diff_File1
+      EndIf
+      
+      Zoom = ScintillaSendMessage(Gadget, #SCI_GETZOOM)
+      If Zoom <> DiffZoom
+        DiffZoom = Zoom
+        ScintillaSendMessage(OtherGadget, #SCI_SETZOOM, DiffZoom)
+      EndIf
+      
+      X = ScintillaSendMessage(Gadget, #SCI_GETXOFFSET)
+      If X <> DiffScrollX
+        DiffScrollX = X
+        ScintillaSendMessage(OtherGadget, #SCI_SETXOFFSET, DiffScrollX)
+      EndIf
+      
+      ; Note: this counts visible lines, not document lines
+      ;   this needs to be adjusted if some kind of folding is allowed
+      Y = ScintillaSendMessage(Gadget, #SCI_GETFIRSTVISIBLELINE)
+      If Y <> DiffScrollY
+        DiffScrollY = Y
+        ; #SCI_SETFIRSTVISIBLELINE is not supported in our scintilla version, so emulate it
+        ScintillaSendMessage(OtherGadget, #SCI_LINESCROLL, 0, DiffScrollY - ScintillaSendMessage(OtherGadget, #SCI_GETFIRSTVISIBLELINE))
+      EndIf
+      
   EndSelect
-
+  
 EndProcedure
 
 
@@ -604,7 +604,7 @@ Procedure OpenDiffWindow()
     
     If OpenWindow(#WINDOW_Diff, DiffWindowPosition\x, DiffWindowPosition\y, DiffWindowPosition\Width, DiffWindowPosition\Height, Language("Diff", "Title"), Flags, WindowID(#WINDOW_Main))
       WindowBounds(#WINDOW_Diff, 200, 200, #PB_Ignore, #PB_Ignore)
-
+      
       If CreateToolBar(#TOOLBAR_Diff, WindowID(#WINDOW_Diff))
         ToolBarImageButton(#MENU_Diff_ShowTool, ImageID(#IMAGE_Diff_ShowTool))
         ToolBarImageButton(#MENU_Diff_Open1, ImageID(#IMAGE_Diff_Open1))
@@ -619,7 +619,7 @@ Procedure OpenDiffWindow()
         ToolBarSeparator()
         ToolBarImageButton(#MENU_Diff_Up, ImageID(#IMAGE_Diff_Up))
         ToolBarImageButton(#MENU_Diff_Down, ImageID(#IMAGE_Diff_Down))
-                    
+        
         ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_Open1,   Language("Diff","Open1"))
         ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_Open2,   Language("Diff","Open2"))
         ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_Refresh, Language("Diff","Refresh"))
@@ -630,40 +630,40 @@ Procedure OpenDiffWindow()
         ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_HideFiles, Language("Diff","HideFiles"))
         ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_Up, Language("Diff","Up"))
         ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_Down, Language("Diff","Down"))
-      
+        
         SetToolBarButtonState(#TOOLBAR_Diff, #MENU_Diff_Colors, DiffShowColors)
         SetToolBarButtonState(#TOOLBAR_Diff, #MENU_Diff_Vertical, DiffVertical)
       EndIf
       
       ; this one has no icon, only a shortcut (enter)
       AddKeyboardShortcut(#WINDOW_Diff, #PB_Shortcut_Return, #MENU_Diff_ShowFiles)
-
+      
       TextGadget(#GADGET_Diff_Busy, 0, 0, 0, 0, Language("Diff","Busy"))
       HideGadget(#GADGET_Diff_Busy, 1)
       
       ; the default state is the File only mode, where there is no gadget for filename and files
       DiffDirectoryMode = 0
       UpdateDiffToolbar()
-                
+      
       ; Note: The TextGadget with border looks quite ugly in this context on modern Windows version as it has
       ;   the old style "client edge" border. It looks better without any borders at all here
       ;
       ContainerGadget(#GADGET_Diff_Container1, 0, 0, 0, 0, #PB_Container_BorderLess)
-        CompilerIf #CompileWindows
-          TextGadget(#GADGET_Diff_Title1, 0, 0, 0, 0, "")
-        CompilerElse
-          TextGadget(#GADGET_Diff_Title1, 0, 0, 0, 0, "", #PB_Text_Border)
-        CompilerEndIf
-        ScintillaGadget(#GADGET_Diff_File1, 0, 0, 0, 0, @DiffScintillaCallback())
+      CompilerIf #CompileWindows
+        TextGadget(#GADGET_Diff_Title1, 0, 0, 0, 0, "")
+      CompilerElse
+        TextGadget(#GADGET_Diff_Title1, 0, 0, 0, 0, "", #PB_Text_Border)
+      CompilerEndIf
+      ScintillaGadget(#GADGET_Diff_File1, 0, 0, 0, 0, @DiffScintillaCallback())
       CloseGadgetList()
       
       ContainerGadget(#GADGET_Diff_Container2, 0, 0, 0, 0, #PB_Container_BorderLess)
-        CompilerIf #CompileWindows
-          TextGadget(#GADGET_Diff_Title2, 0, 0, 0, 0, "")
-        CompilerElse
-          TextGadget(#GADGET_Diff_Title2, 0, 0, 0, 0, "", #PB_Text_Border)
-        CompilerEndIf
-        ScintillaGadget(#GADGET_Diff_File2, 0, 0, 0, 0, @DiffScintillaCallback())
+      CompilerIf #CompileWindows
+        TextGadget(#GADGET_Diff_Title2, 0, 0, 0, 0, "")
+      CompilerElse
+        TextGadget(#GADGET_Diff_Title2, 0, 0, 0, 0, "", #PB_Text_Border)
+      CompilerEndIf
+      ScintillaGadget(#GADGET_Diff_File2, 0, 0, 0, 0, @DiffScintillaCallback())
       CloseGadgetList()
       
       ; this variable is reversed from the splitter flag: vertical splitter = horizontal tiling
@@ -724,7 +724,7 @@ Procedure OpenDiffWindow()
     
   Else
     SetWindowForeground(#WINDOW_Diff)
-        
+    
   EndIf
   
 EndProcedure
@@ -736,7 +736,7 @@ EndProcedure
 ; Update the coloring in the gadget and optionally set the text
 ;
 Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
-
+  
   If IsLeft
     If DiffSwapped = 0
       Gadget = #GADGET_Diff_File1
@@ -750,7 +750,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
       Gadget = #GADGET_Diff_File1
     EndIf
   EndIf
-
+  
   ; Gtk2 'Pango' need an "!" before the font name (else it will use GDK font)
   ;
   ScintillaSendMessage(Gadget, #SCI_STYLERESETDEFAULT, 0, 0)
@@ -762,7 +762,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
   CompilerEndIf
   
   ScintillaSendMessage(Gadget, #SCI_STYLESETSIZE, #STYLE_DEFAULT,  EditorFontSize)
- 
+  
   If EditorFontStyle & #PB_Font_Bold
     ScintillaSendMessage(Gadget, #SCI_STYLESETBOLD, #STYLE_DEFAULT, 1)
   Else
@@ -805,7 +805,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
         ScintillaSendMessage(Gadget, #SCI_STYLESETFONT,  2, ToAscii(EditorBoldFontName$))
         ScintillaSendMessage(Gadget, #SCI_STYLESETFONT, 14, ToAscii(EditorBoldFontName$))
       CompilerEndIf
-    
+      
       ScintillaSendMessage(Gadget, #SCI_STYLESETSIZE, #STYLE_DEFAULT, EditorFontSize)
       ScintillaSendMessage(Gadget, #SCI_STYLESETBOLD,  2, 1)             ; Bold (no effect on linux, but maybe on windows later)
       ScintillaSendMessage(Gadget, #SCI_STYLESETBOLD,  14, 1)
@@ -814,7 +814,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
         ScintillaSendMessage(Gadget, #SCI_STYLESETITALIC, 14, 1)
       EndIf
     EndIf
-
+    
     For i = 0 To #DIFF_StateCount-1
       ScintillaSendMessage(Gadget, #SCI_MARKERSETFORE, #DIFF_StateCount+i, Colors(#COLOR_NormalText)\DisplayValue)
     Next i
@@ -822,7 +822,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
     ; applies to all margins
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, #STYLE_LINENUMBER, Colors(#COLOR_LineNumber)\DisplayValue)
     ScintillaSendMessage(Gadget, #SCI_STYLESETBACK, #STYLE_LINENUMBER, Colors(#COLOR_LineNumberBack)\DisplayValue)
-      
+    
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE,  1, Colors(#COLOR_NormalText)\DisplayValue)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE,  2, Colors(#COLOR_BasicKeyword)\DisplayValue)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE,  3, Colors(#COLOR_Comment)\DisplayValue)
@@ -837,7 +837,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, 12, Colors(#COLOR_Separator)\DisplayValue)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, 13, Colors(#COLOR_Label)\DisplayValue)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, 14, Colors(#COLOR_CustomKeyword)\DisplayValue)
-  
+    
     CompilerIf #CompileWindows
       If Colors(#COLOR_Selection)\DisplayValue = -1 ; special accessibility scheme
         ScintillaSendMessage(Gadget, #SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
@@ -856,7 +856,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
     CompilerEndIf
     
     ScintillaSendMessage(Gadget, #SCI_SETCARETFORE,     Colors(#COLOR_Cursor)\DisplayValue, 0)
-  
+    
   Else
     ScintillaSendMessage(Gadget, #SCI_STYLESETBACK, #STYLE_DEFAULT, $FFFFFF)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, #STYLE_DEFAULT, $000000)
@@ -868,7 +868,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
     
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, #STYLE_LINENUMBER, $000000)
     ScintillaSendMessage(Gadget, #SCI_STYLESETBACK, #STYLE_LINENUMBER, $FFFFFF)
- 
+    
     CompilerIf #CompileWindows
       ScintillaSendMessage(Gadget, #SCI_SETSELBACK, 1, GetSysColor_(#COLOR_HIGHLIGHT))
       ScintillaSendMessage(Gadget, #SCI_SETSELFORE, 1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
@@ -879,7 +879,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
     
     ScintillaSendMessage(Gadget, #SCI_SETCARETFORE,  $000000)
   EndIf
-
+  
   ScintillaSendMessage(Gadget, #SCI_SETTABWIDTH, TabLength)
   ScintillaSendMessage(Gadget, #SCI_SETUSETABS, RealTab)
   
@@ -893,7 +893,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
     ; hide this margin
     ScintillaSendMessage(Gadget, #SCI_SETMARGINWIDTHN, 1, 0)
   CompilerEndIf
-
+  
   ; We need to build the full buffer for the coloring update and to set the text
   ;
   Length = 1 ; for null byte
@@ -904,10 +904,10 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
   If SetText
     ScintillaSendMessage(Gadget, #SCI_SETREADONLY, 0) ; so it can be modified now
   EndIf
-
+  
   *Buffer = AllocateMemory(Length)
   If *Buffer
-  
+    
     *Pointer = *Buffer
     ForEach Style()
       If Style()\Start = #Null ; indicates that we need to add empty lines
@@ -935,7 +935,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
       Else
         ScintillaSendMessage(Gadget, #SCI_SETCODEPAGE, 0)
       EndIf
-
+      
       ; set the new text
       ScintillaSendMessage(Gadget, #SCI_SETTEXT, 0, *Buffer)
       
@@ -967,11 +967,11 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
         Else
           Style = Style()\Style
         EndIf
-      
+        
         For i = 1 To Style()\Lines
           If Style <> #DIFF_Equal ; keep normal background for equal parts
-            ; the swapped display is exactly the same as the normal one, only
-            ; insers and deletes are reversed, so we can do a swap without changing the underlying data
+                                  ; the swapped display is exactly the same as the normal one, only
+                                  ; insers and deletes are reversed, so we can do a swap without changing the underlying data
             ScintillaSendMessage(Gadget, #SCI_MARKERADD, Line, Style) ; background
             ScintillaSendMessage(Gadget, #SCI_MARKERADD, Line, #DIFF_StateCount+Style) ; symbol
           EndIf
@@ -1002,8 +1002,8 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
       ; no hilighting engine used here. just set the text color for everything
       ScintillaSendMessage(Gadget, #SCI_SETSTYLING, Length-1, 1)
     EndIf
-     
-  
+    
+    
     FreeMemory(*Buffer)
   EndIf
   
@@ -1017,7 +1017,7 @@ Procedure UpdateDiffWindow()
   
   SetWindowTitle(#WINDOW_Diff, Language("Diff", "Title"))
   SetGadgetText(#GADGET_Diff_Busy, Language("Diff", "Busy"))
-
+  
   ; Update the coloring in the gadgets
   If DiffDirectoryMode < 2
     UpdateDiffGadget(#True, StyleA(), #False)
@@ -1026,7 +1026,7 @@ Procedure UpdateDiffWindow()
   
   ; re-create the toolbar to apply theme changes
   FreeToolBar(#TOOLBAR_Diff)
- 
+  
   If CreateToolBar(#TOOLBAR_Diff, WindowID(#WINDOW_Diff))
     ToolBarImageButton(#MENU_Diff_ShowTool, ImageID(#IMAGE_Diff_ShowTool))
     ToolBarImageButton(#MENU_Diff_Open1, ImageID(#IMAGE_Diff_Open1))
@@ -1041,7 +1041,7 @@ Procedure UpdateDiffWindow()
     ToolBarSeparator()
     ToolBarImageButton(#MENU_Diff_Up, ImageID(#IMAGE_Diff_Up))
     ToolBarImageButton(#MENU_Diff_Down, ImageID(#IMAGE_Diff_Down))
-                
+    
     ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_Open1,   Language("Diff","Open1"))
     ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_Open2,   Language("Diff","Open2"))
     ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_Refresh, Language("Diff","Refresh"))
@@ -1052,7 +1052,7 @@ Procedure UpdateDiffWindow()
     ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_HideFiles, Language("Diff","HideFiles"))
     ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_Up, Language("Diff","Up"))
     ToolBarToolTip(#TOOLBAR_Diff, #MENU_Diff_Down, Language("Diff","Down"))
-  
+    
     SetToolBarButtonState(#TOOLBAR_Diff, #MENU_Diff_Colors, DiffShowColors)
     SetToolBarButtonState(#TOOLBAR_Diff, #MENU_Diff_Vertical, DiffVertical)
   EndIf
@@ -1087,7 +1087,7 @@ EndProcedure
 ; When I have the time i will try to implement one of these instead of this simple one.
 ;
 Procedure LCS_Simple(List Blocks.DiffBlock())
-
+  
   ; trim off unchanged areas at the beginning
   ;
   Start = 0
@@ -1109,7 +1109,7 @@ Procedure LCS_Simple(List Blocks.DiffBlock())
   ; if these are equal then the files are the same
   ;
   If End1 <> Start Or End2 <> Start
-  
+    
     ; build the table
     Dim Length.l(End1-Start+1, End2-Start+1)
     Offset = Start-1
@@ -1207,23 +1207,23 @@ Procedure PerformDiff(Flags = 0)
   If DiffA_Lines = 0 And DiffB_Lines = 0
     AddEmptyStyleBlock(StyleA(), 1)
     AddEmptyStyleBlock(StyleB(), 1)
-  
+    
   ElseIf DiffA_Lines = 0
     AddEmptyStyleBlock(StyleA(), DiffB_Lines)
     AddStyleBlock(StyleB(), DiffB(), 0, DiffB_Lines, #DIFF_Added)
-  
+    
   ElseIf DiffB_Lines = 0
     AddStyleBlock(StyleA(), DiffA(), 0, DiffA_Lines, #DIFF_Removed)
     AddEmptyStyleBlock(StyleB(), DiffA_Lines)
-       
+    
   Else
-  
+    
     ; This does the heavy work using the DiffX() arrays as a basis to calculate
     ; the longest common subsequence of both files
     ;
     LCS_Simple(Blocks())
     
- 
+    
     ; Now we have a (sorted) list of all common blocks between the files
     ; Mark the lines in the files accordingly
     ; this is fast, no abort check needed in the loop
@@ -1244,7 +1244,7 @@ Procedure PerformDiff(Flags = 0)
         AddEmptyStyleBlock(StyleA(), Blocks()\StartFileB-CurrentB)
         AddStyleBlock(StyleB(), DiffB(), CurrentB, Blocks()\StartFileB-CurrentB, #DIFF_Added)
         DiffTotalLines + Blocks()\StartFileB-CurrentB
-      
+        
       ElseIf CurrentA < Blocks()\StartFileA And CurrentB < Blocks()\StartFileB
         ; change between the files
         LinesA = Blocks()\StartFileA-CurrentA
@@ -1285,7 +1285,7 @@ Procedure PerformDiff(Flags = 0)
       AddEmptyStyleBlock(StyleA(), LastB-CurrentB)
       AddStyleBlock(StyleB(), DiffB(), CurrentB, LastB-CurrentB, #DIFF_Added)
       DiffTotalLines + LastB-CurrentB
-    
+      
     ElseIf CurrentA < LastA And CurrentB < LastB
       ; change
       LinesA = LastA-CurrentA
@@ -1299,9 +1299,9 @@ Procedure PerformDiff(Flags = 0)
         AddEmptyStyleBlock(StyleB(), LinesA-LinesB)
         DiffTotalLines + LinesA
       EndIf
-    
+      
     EndIf ; else, the files end in a common block
-  
+    
   EndIf
   
   ; Free the no longer needed diff data (DiffX_Lines is still needed)
@@ -1319,13 +1319,13 @@ Procedure PerformDiff(Flags = 0)
   
   UpdateDiffGadget(#True, StyleA(), #True) ; set the text as well
   UpdateDiffGadget(#False, StyleB(), #True)
-    
+  
   ShowDiffProgress(#False)
   UpdateDiffToolbar()
-
+  
   ; mark first difference
   ShowNextDifference(#GADGET_Diff_File1, #True, #True)
-
+  
 EndProcedure
 
 
@@ -1334,7 +1334,7 @@ Procedure ScanDiffLines(Array Diff.DiffLine(1), *Buffer, Length)
   Protected Lines = 0, Line
   Protected *Pointer.Ascii, *Start
   Protected *BufferEnd = *Buffer + Length
-
+  
   ; do a scan to count the lines
   If *Buffer And Length > 0
     Lines = 1 ; its atleast one line then
@@ -1405,7 +1405,7 @@ Procedure ScanDiffLines(Array Diff.DiffLine(1), *Buffer, Length)
           While FindString(Line$, "  ", 1)
             Line$ = ReplaceString(Line$, "  ", " ")
           Wend
-                  
+          
         Else
           If DiffIgnoreSpaceLeft
             While Left(Line$, 1) = " " Or Left(Line$, 1) = Chr(9) ; simple trim is not enough here
@@ -1440,7 +1440,7 @@ EndProcedure
 ;  *Buffer can be 0 if Length is 0
 ;
 Procedure SetDiffBuffer(IsLeft, *Buffer, Length, Title$, IsUTF8)
-
+  
   ; null buffer and length are accepted here
   If *Buffer = 0
     Length = 0
@@ -1463,7 +1463,7 @@ Procedure SetDiffBuffer(IsLeft, *Buffer, Length, Title$, IsUTF8)
     EndIf
     DiffA_Utf8   = IsUTF8
     DiffA_Lines  = ScanDiffLines(DiffA(), *Buffer, Length)
-   *DiffA_Buffer = *BufferCopy
+    *DiffA_Buffer = *BufferCopy
     DiffA_Title$ = Title$
   Else
     If *DiffB_Buffer
@@ -1471,7 +1471,7 @@ Procedure SetDiffBuffer(IsLeft, *Buffer, Length, Title$, IsUTF8)
     EndIf
     DiffB_Utf8   = IsUTF8
     DiffB_Lines  = ScanDiffLines(DiffB(), *Buffer, Length)
-   *DiffB_Buffer = *BufferCopy
+    *DiffB_Buffer = *BufferCopy
     DiffB_Title$ = Title$
   EndIf
   
@@ -1494,7 +1494,7 @@ Procedure DiffFileToFile(File1$, File2$, SwapOutput = #False, DirectoryMode = 0)
       ProcedureReturn #False
     EndIf
   EndIf
-
+  
   ; ask for the second file only if we did not ask for the first one.
   ; we assume that if the user loads one big file, that the other is big as well (as it is compared to the big one)
   ; no need to be bothered with 2 questions
@@ -1506,7 +1506,7 @@ Procedure DiffFileToFile(File1$, File2$, SwapOutput = #False, DirectoryMode = 0)
       EndIf
     EndIf
   EndIf
-
+  
   If ReadFile(#FILE_Diff, File1$)
     Length1 = Lof(#FILE_Diff)
     If Length1 = 0
@@ -1522,12 +1522,12 @@ Procedure DiffFileToFile(File1$, File2$, SwapOutput = #False, DirectoryMode = 0)
     MessageRequester(#ProductName$, LanguagePattern("Diff","FileError", "%file%", File1$))
     Abort = #True
   EndIf
-
+  
   If *Buffer1 And IsBinaryFile(*Buffer1, Length1)
     MessageRequester(#ProductName$, LanguagePattern("Diff","FileBinary", "%file%", File1$))
     Abort = #True
   EndIf
-
+  
   If Abort = #False ; only read the second file if the first is ok
     If ReadFile(#FILE_Diff, File2$)
       Length2 = Lof(#FILE_Diff)
@@ -1556,7 +1556,7 @@ Procedure DiffFileToFile(File1$, File2$, SwapOutput = #False, DirectoryMode = 0)
     If *Buffer1: FreeMemory(*Buffer1): EndIf
     If *Buffer2: FreeMemory(*Buffer2): EndIf
     ProcedureReturn #False
-  
+    
   Else
     ; reset the options
     DiffSwapped = SwapOutput
@@ -1576,7 +1576,7 @@ Procedure DiffFileToFile(File1$, File2$, SwapOutput = #False, DirectoryMode = 0)
 EndProcedure
 
 Procedure DiffSourceToFile(*Source.SourceFile, Filename$, SwapOutput = #False)
-
+  
   ; Sanity check for file size
   ;
   SizeMB.f = FileSize(Filename$)/(1024*1024)
@@ -1614,7 +1614,7 @@ Procedure DiffSourceToFile(*Source.SourceFile, Filename$, SwapOutput = #False)
   ; If there is an error here, we have a serious memory problem anyway.
   ;
   IsUTF8 = #False
-    
+  
   If *Source And *Source\IsProject = 0 And *Source\EditorGadget
     If *Source\Parser\Encoding <> 0
       IsUTF8 = #True
@@ -1636,7 +1636,7 @@ Procedure DiffSourceToFile(*Source.SourceFile, Filename$, SwapOutput = #False)
     *Buffer1 = #Null
     Title$ = ""
   EndIf
-
+  
   DiffSwapped = SwapOutput
   DiffMode = #DIFF_SourceToFile
   *DiffSource = *Source
@@ -1660,7 +1660,7 @@ Procedure CheckDiffFileClose(*Source.SourceFile)
 EndProcedure
 
 Procedure ExamineDiffDirectory(Base$, Subdirectory$, List Output.s())
-
+  
   ; first, scan subdirectories if needed
   ;
   If DiffRecurse
@@ -1720,23 +1720,23 @@ Procedure UpdateDiffFileList()
       DateA = DiffFiles()\DateA
       DateB = DiffFiles()\DateB
     EndIf
-  
+    
     Select Style
       Case #DIFF_Equal
         State$ = Language("Diff","FileEqual")
         Image  = #IMAGE_Diff_Equal
         Color  = -1
-      
+        
       Case #DIFF_Added
         State$ = Language("Diff","FileAdd")
         Image  = #IMAGE_Diff_Add
         Color  = $90EE90
-      
+        
       Case #DIFF_Removed
         State$ = Language("Diff","FileDelete")
         Image  = #IMAGE_Diff_Delete
         Color  = $507FFF
-      
+        
       Case #DIFF_Changed
         State$ = Language("Diff","FileModify")
         Image  = #IMAGE_Diff_Modify
@@ -1807,7 +1807,7 @@ Procedure DiffDirectories(Directory1$, Directory2$, Pattern$, SwapOutput = #Fals
   ; first, examine the two directories to get a list of files
   ExamineDiffDirectory(DiffA_Base$, "", FilesA())
   ExamineDiffDirectory(DiffB_Base$, "", FilesB())
-
+  
   ; eliminate duplicates in each list
   SortList(FilesA(), #PB_Sort_Ascending)
   Last$ = ""
@@ -1842,7 +1842,7 @@ Procedure DiffDirectories(Directory1$, Directory2$, Pattern$, SwapOutput = #Fals
     AddElement(DiffFiles())
     DiffFiles()\Name$ = FilesA()
     DiffFiles()\DateA = GetFileDate(DiffA_Base$+FilesA(), #PB_Date_Modified)
-  
+    
     found = 0
     ForEach FilesB()
       If IsEqualFile(FilesA(), FilesB()) ; here we need a full check, as case may differ
@@ -1855,11 +1855,11 @@ Procedure DiffDirectories(Directory1$, Directory2$, Pattern$, SwapOutput = #Fals
       ; file is only in A
       DiffFiles()\DateB  = 0
       DiffFiles()\Style  = #DIFF_Removed
-        
+      
     Else
       ; file found in both, need to compare
       DiffFiles()\DateB  = GetFileDate(DiffB_Base$+FilesB(), #PB_Date_Modified)
-
+      
       ; check the size first before doing the fingerprinting
       If FileSize(DiffA_Base$+FilesA()) <> FileSize(DiffB_Base$+FilesB())
         DiffFiles()\Style = #DIFF_Changed
@@ -1919,23 +1919,23 @@ EndProcedure
 ;- Diff dialog
 
 Procedure DiffDialogWindowEvents(EventID)
-
+  
   If EventID = #PB_Event_Menu     ; Little wrapper to map the shortcut events (identified as menu)
     EventID  = #PB_Event_Gadget   ; to normal gadget events...
     GadgetID = EventMenu()
   Else
     GadgetID = EventGadget()
   EndIf
-
-  Select EventID
   
+  Select EventID
+      
     Case #PB_Event_CloseWindow
       Quit = 1
       
     Case #PB_Event_GadgetDrop
       If GadgetID = #GADGET_DiffDialog_File1 Or GadgetID = #GADGET_DiffDialog_File2
         SetGadgetText(#GADGET_Grep_Directory, StringField(EventDropFiles(), 1, Chr(10)))
-      
+        
       ElseIf GadgetID = #GADGET_DiffDialog_Directory1 Or GadgetID = #GADGET_DiffDialog_Directory2
         Path$ = StringField(EventDropFiles(), 1, Chr(10))
         If FileSize(Path$) <> -2 ; probably a file then
@@ -1944,36 +1944,36 @@ Procedure DiffDialogWindowEvents(EventID)
         SetGadgetText(#GADGET_Grep_Directory, Path$)
         
       EndIf
-
+      
     Case #PB_Event_Gadget
       Select GadgetID
-      
+          
         Case #GADGET_DiffDialog_ChooseFile1, #GADGET_DiffDialog_ChooseFile2
           If GadgetID = #GADGET_DiffDialog_ChooseFile1
             Gadget = #GADGET_DiffDialog_File1
           Else
             Gadget = #GADGET_DiffDialog_File2
           EndIf
-        
+          
           Filename$ = OpenFileRequester(Language("FileStuff","OpenFileTitle"), GetGadgetText(Gadget), Language("FileStuff","Pattern"), DiffOpenPattern)
           If Filename$
             DiffOpenPattern = SelectedFilePattern()
             SetGadgetText(Gadget, Filename$)
           EndIf
-        
+          
         Case #GADGET_DiffDialog_ChooseDirectory1, #GADGET_DiffDialog_ChooseDirectory2
           If GadgetID = #GADGET_DiffDialog_ChooseDirectory1
             Gadget = #GADGET_DiffDialog_Directory1
           Else
             Gadget = #GADGET_DiffDialog_Directory2
           EndIf
-                      
+          
           Directory$ = PathRequester("", GetGadgetText(Gadget))
           If Directory$
             SetGadgetText(Gadget, Directory$)
           EndIf
-       
-        
+          
+          
         Case #GADGET_DiffDialog_CurrentDirectory1, #GADGET_DiffDialog_CurrentDirectory2
           If GadgetID = #GADGET_DiffDialog_CurrentDirectory1
             Gadget = #GADGET_DiffDialog_Directory1
@@ -1989,8 +1989,8 @@ Procedure DiffDialogWindowEvents(EventID)
             Directory$ = GetCurrentDirectory()
           EndIf
           SetGadgetText(Gadget, Directory$)
-
-        
+          
+          
         Case #GADGET_DiffDialog_IgnoreSpaceAll
           If GetGadgetState(#GADGET_DiffDialog_IgnoreSpaceAll)
             DisableGadget(#GADGET_DiffDialog_IgnoreSpaceLeft, 1)
@@ -1999,8 +1999,8 @@ Procedure DiffDialogWindowEvents(EventID)
             DisableGadget(#GADGET_DiffDialog_IgnoreSpaceLeft, 0)
             DisableGadget(#GADGET_DiffDialog_IgnoreSpaceRight, 0)
           EndIf
-        
-        
+          
+          
         Case #GADGET_DiffDialog_CompareFiles, #GADGET_DiffDialog_CompareDirectories
           ; update the comboboxes
           For j = #GADGET_DiffDialog_File1 To #GADGET_DiffDialog_Pattern
@@ -2023,7 +2023,7 @@ Procedure DiffDialogWindowEvents(EventID)
             ElseIf DiffFileToFile(File1$, File2$)
               Quit = 1
             EndIf
-          
+            
           Else
             ; compare directories
             Directory1$ = GetGadgetText(#GADGET_DiffDialog_Directory1)
@@ -2031,7 +2031,7 @@ Procedure DiffDialogWindowEvents(EventID)
             
             If Directory1$ = "" Or Directory2$ = ""
               MessageRequester(#ProductName$, Language("Diff", "EmptyField"))
-            
+              
             Else
               If Right(Directory1$, 1) <> #Separator
                 Directory1$ + #Separator
@@ -2045,18 +2045,18 @@ Procedure DiffDialogWindowEvents(EventID)
               EndIf
             EndIf
           EndIf
-        
+          
         Case #GADGET_DiffDialog_Cancel
           Quit = 1
-
+          
       EndSelect
-
+      
   EndSelect
-
+  
   If Quit And IsWindow(#WINDOW_DiffDialog) ; could be closed while processing the directory diff
-    ; abort any ongoing search
-    ;GrepAbort = 1
-
+                                           ; abort any ongoing search
+                                           ;GrepAbort = 1
+    
     ; get the checkboxes
     DiffRecurse          = GetGadgetState(#GADGET_DiffDialog_Recurse)
     DiffIgnoreCase       = GetGadgetState(#GADGET_DiffDialog_IgnoreCase)
@@ -2077,7 +2077,7 @@ Procedure DiffDialogWindowEvents(EventID)
         EndIf
       Next i
     Next j
-
+    
     If MemorizeWindow
       DiffDialogWindowDialog\Close(@DiffDialogWindowPosition)
     Else
@@ -2088,20 +2088,20 @@ Procedure DiffDialogWindowEvents(EventID)
 EndProcedure
 
 Procedure OpenDiffDialogWindow()
-
-  If IsWindow(#WINDOW_DiffDialog) = 0
   
+  If IsWindow(#WINDOW_DiffDialog) = 0
+    
     DiffDialogWindowDialog = OpenDialog(?Dialog_DiffDialog, WindowID(#WINDOW_Main), @DiffDialogWindowPosition)
     If DiffDialogWindowDialog
       EnsureWindowOnDesktop(#WINDOW_DiffDialog)
-    
+      
       AddKeyboardShortcut(#WINDOW_DiffDialog, #PB_Shortcut_Escape, #GADGET_DiffDialog_Cancel)
       
       EnableGadgetDrop(#GADGET_DiffDialog_File1, #PB_Drop_Files, #PB_Drag_Copy)
       EnableGadgetDrop(#GADGET_DiffDialog_File2, #PB_Drop_Files, #PB_Drag_Copy)
       EnableGadgetDrop(#GADGET_DiffDialog_Directory1, #PB_Drop_Files, #PB_Drag_Copy)
       EnableGadgetDrop(#GADGET_DiffDialog_Directory2, #PB_Drop_Files, #PB_Drag_Copy)
-  
+      
       For j = 0 To 4
         For i = 1 To FindHistorySize
           If DiffDialogHistory(j, i) <> ""
@@ -2128,7 +2128,7 @@ Procedure OpenDiffDialogWindow()
         DisableGadget(#GADGET_DiffDialog_IgnoreSpaceLeft, 1)
         DisableGadget(#GADGET_DiffDialog_IgnoreSpaceRight, 1)
       EndIf
-
+      
       HideWindow(#WINDOW_DiffDialog, 0)
       
       ; fix required for the centereing of non-resizable windows in the dialog manager
@@ -2140,20 +2140,20 @@ Procedure OpenDiffDialogWindow()
         EndIf
       CompilerEndIf
     EndIf
-
+    
   Else
     SetWindowForeground(#WINDOW_DiffDialog)
   EndIf
-
+  
   SelectComboBoxText(#GADGET_DiffDialog_File1)
   SetActiveGadget(#GADGET_DiffDialog_File1)
-
+  
 EndProcedure
 
 Procedure UpdateDiffDialogWindow()
-
+  
   DiffDialogWindowDialog\LanguageUpdate()
-
+  
   For j = 0 To 4
     Gadget = #GADGET_DiffDialog_File1 + j
     While FindHistorySize < CountGadgetItems(Gadget)
@@ -2162,6 +2162,6 @@ Procedure UpdateDiffDialogWindow()
   Next j
   
   DiffDialogWindowDialog\GuiUpdate()
-
+  
 EndProcedure
 

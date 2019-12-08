@@ -1,4 +1,4 @@
-;
+﻿;
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - IDE Automation library - example
@@ -21,10 +21,10 @@ XIncludeFile "Automation.pb"
 
 If Automation_Initialize()
   Debug "Library initialized"
-
+  
   If Automation_ConnectToProgram(#PB_Compiler_Home + "PureBasic.exe")
     Debug "Connected to the IDE"
-  
+    
     ; Open the preferences window
     ;
     If Automation_MenuCommand("Preferences")
@@ -32,12 +32,12 @@ If Automation_Initialize()
     Else
       Debug "Error: " + Automation_ErrorMessage()
     EndIf
-  
+    
     Automation_Disconnect()
   Else
     Debug "Error: " + Automation_ErrorMessage()
   EndIf
-
+  
   Automation_Shutdown()
 Else
   Debug "Could not load Automation library"

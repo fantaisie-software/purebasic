@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -64,12 +64,12 @@ EndEnumeration
 ;
 ;
 Procedure Callback(*Position, Length, Color)
-
+  
   ; In this example, we simply write the data as it is to the output
   ; buffer, and just apply bold to keywords, and colors to functions and comments.
   ;
   Select Color
-  
+      
     Case #SYNTAX_Keyword
       WriteString(#Output, "<b>")
       WriteData(#Output, *Position, Length)
@@ -79,24 +79,24 @@ Procedure Callback(*Position, Length, Color)
       WriteString(#Output, "<font color=#0000FF>")
       WriteData(#Output, *Position, Length)
       WriteString(#Output, "</font>")
-    
+      
     Case #SYNTAX_Comment
       WriteString(#Output, "<font color=#808080>")
       WriteData(#Output, *Position, Length)
       WriteString(#Output, "</font>")
-    
+      
     Default
       WriteData(#Output, *Position, Length)
-  
+      
   EndSelect
-
+  
 EndProcedure
 
 ; Simple example code. It loads a PB file and outputs a HTML file withs some
 ; coloring for functions, keywords and comments
 ;
 If OpenLibrary(#Dll, "SyntaxHilighting.dll")
-
+  
   InputFile$ = OpenFileRequester("Select PB File", "*.pb", "PB Files|*.pb|All Files|*.*", 0)
   If InputFile$
     OutputFile$ = SaveFileRequester("Select Target file", InputFile$+".html", "Html Files|*.html|All Files|*.*", 0)
@@ -112,16 +112,12 @@ If OpenLibrary(#Dll, "SyntaxHilighting.dll")
         CallFunction(#Dll, "SyntaxHighlight", *Buffer, Length, @Callback(), 0)
         WriteStringN(#Output, "</pre></html></body>")
       EndIf
-    
+      
       CloseFile(#Input)
       CloseFile(#Output)
     EndIf
-  
+    
   EndIf
   
   CloseLibrary(#Dll)
 EndIf
-; IDE Options = PureBasic 5.20 beta 2 (Windows - x64)
-; CursorPosition = 49
-; Folding = -
-; EnableXP

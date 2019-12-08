@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -27,7 +27,7 @@ OpenConsole()
 
 Procedure.s GetCompilerVersion()
   Version$ = ""
-
+  
   Compiler$ = GetEnvironmentVariable("PUREBASIC_HOME")
   If Right(Compiler$, 1) <> "/"
     Compiler$ + "/"
@@ -47,7 +47,7 @@ Procedure.s GetCompilerVersion()
   
   ; Cut the copyright notice
   Version$ = StringField(Version$, 1, ")") + ")"
-
+  
   ProcedureReturn Version$
 EndProcedure
 

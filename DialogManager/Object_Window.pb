@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -58,16 +58,16 @@ Procedure DlgWindow_New(*StaticData.DialogObjectData, ParentID)
   If *THIS
     *THIS\VTable     = ?DlgWindow_VTable
     *THIS\StaticData = *StaticData
-            
+    
     If UCase(DialogObjectKey(*THIS\StaticData, "CLOSEBUTTON")) = "NO"
       Flags = #PB_Window_Invisible | *StaticData\Flags
     Else
       ; default
       Flags = #PB_Window_SystemMenu | #PB_Window_Invisible | *StaticData\Flags
     EndIf
-     
+    
     *THIS\Window = OpenWindow(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), Flags, ParentID)
-
+    
     If *StaticData\Gadget <> -1
       *THIS\Window = *StaticData\Gadget
     EndIf
@@ -86,7 +86,7 @@ EndProcedure
 Procedure DlgWindow_SizeRequest(*THIS.DlgWindow, *Width.LONG, *Height.LONG)
   *THIS\RequestedWidth  = 0
   *THIS\RequestedHeight = 0
-
+  
   If *THIS\Child
     *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
   EndIf
@@ -106,7 +106,7 @@ Procedure DlgWindow_SizeApply(*THIS.DlgWindow, x, y, Width, Height)
   ; No resizing of the main window is done here, it must be done explicitly,
   ; this is better, as often we just want to resize all gadgets after a resize event
   ; the public functions below do the resizewindow when needed
-
+  
   If *THIS\Child
     x = 0
     y = 0
@@ -250,27 +250,27 @@ EndProcedure
 
 
 DataSection
-
+  
   DlgWindow_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgWindow_SizeRequest()
-    Data.i @DlgWindow_SizeApply()
-    Data.i @DlgBinBase_AddChild()
-    Data.i @DlgBinBase_FoldApply()
-    Data.i @DlgBinBase_Find()
-    Data.i @DlgBase_Finish()
-    Data.i @DlgBinBase_Update()
-    Data.i @DlgBinBase_Destroy()
-    
-    ; extended functions in DialogWindow
-    Data.i @DialogWindow_Window()
-    Data.i @DialogWindow_Gadget()
-    Data.i @DialogWindow_Fold()
-    Data.i @DialogWindow_LanguageUpdate()
-    Data.i @DialogWindow_GuiUpdate()
-    Data.i @DialogWindow_SizeUpdate()
-    Data.i @DialogWindow_Close()
-    
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgWindow_SizeRequest()
+  Data.i @DlgWindow_SizeApply()
+  Data.i @DlgBinBase_AddChild()
+  Data.i @DlgBinBase_FoldApply()
+  Data.i @DlgBinBase_Find()
+  Data.i @DlgBase_Finish()
+  Data.i @DlgBinBase_Update()
+  Data.i @DlgBinBase_Destroy()
+  
+  ; extended functions in DialogWindow
+  Data.i @DialogWindow_Window()
+  Data.i @DialogWindow_Gadget()
+  Data.i @DialogWindow_Fold()
+  Data.i @DialogWindow_LanguageUpdate()
+  Data.i @DialogWindow_GuiUpdate()
+  Data.i @DialogWindow_SizeUpdate()
+  Data.i @DialogWindow_Close()
+  
+  
 EndDataSection
 

@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -53,7 +53,7 @@ Procedure ProjectPanel_RemoveFile(Index)
       Next ParentIndex
     EndIf
   EndIf
-    
+  
 EndProcedure
 
 ; Add all directories for a file, and the file entry itself (recursive)
@@ -77,15 +77,15 @@ Procedure ProjectPanel_AddFile(Filename$, ParentIndex, *File.ProjectFile)
         ; directories come before files
         InsertIndex = Index
         Break
-      
+        
       ElseIf Separator = 0 And *NewFile = #ProjectPanel_Directory
         ; files come after directories
         Continue
-      
+        
       Else
         Item$ = GetGadgetItemText(#GADGET_ProjectPanel, Index)
         Select CompareMemoryString(@NewItem$, @Item$, #PATH_CaseInsensitive)
-        
+            
           Case #PB_String_Lower
             InsertIndex = Index
             Break
@@ -93,7 +93,7 @@ Procedure ProjectPanel_AddFile(Filename$, ParentIndex, *File.ProjectFile)
           Case #PB_String_Equal
             FoundIndex = Index
             Break
-          
+            
         EndSelect
       EndIf
       
@@ -107,7 +107,7 @@ Procedure ProjectPanel_AddFile(Filename$, ParentIndex, *File.ProjectFile)
   If FoundIndex = -1 And InsertIndex = -1
     InsertIndex = Count
   EndIf
-    
+  
   If Separator
     ; Its a directory
     ;
@@ -133,7 +133,7 @@ Procedure ProjectPanel_AddFile(Filename$, ParentIndex, *File.ProjectFile)
         SetGadgetItemState(#GADGET_ProjectPanel, InsertIndex, #PB_Tree_Expanded)
       EndIf
     EndIf
-  
+    
   Else
     ; Its a file
     ;
@@ -146,7 +146,7 @@ Procedure ProjectPanel_AddFile(Filename$, ParentIndex, *File.ProjectFile)
       AddGadgetItem(#GADGET_ProjectPanel, InsertIndex, Filename$, ImageID, NewLevel)
       SetGadgetItemData(#GADGET_ProjectPanel, InsertIndex, *File)
     EndIf
-  
+    
   EndIf
   
 EndProcedure
@@ -166,10 +166,10 @@ Procedure.s ProjectPanel_FullPath(Index)
       
     Case #ProjectPanel_InternalBase
       ProcedureReturn GetPathPart(ProjectFile$)
-    
+      
     Case #ProjectPanel_ExternalBase
       ProcedureReturn ""
-    
+      
     Default ; its a ProjectFile structure
       ProcedureReturn *File\Filename$
       
@@ -194,12 +194,12 @@ Procedure ProjectPanel_IsFile(*File.ProjectFile)
 EndProcedure
 
 Procedure StoreProjectPanelStates()
-
+  
   If ProjectPanelVisible
     
     ; This is needed to ensures consistency (project files could have been removed) as we used raw pointers in list item user data.
     UpdateProjectPanel()
-
+    
     ;
     ; Each file stores the states expanded states of all its parent directories
     ; This stores some redundant information (common directories are stored with multiple files), but
@@ -224,7 +224,7 @@ Procedure StoreProjectPanelStates()
         State$ = Left(State$, NewLevel)
       EndIf
       Level = NewLevel
-    
+      
       *File.ProjectFile = GetGadgetItemData(#GADGET_ProjectPanel, i)
       If ProjectPanel_IsFile(*File)
         *File\PanelState$ = State$
@@ -232,17 +232,17 @@ Procedure StoreProjectPanelStates()
     Next i
     
   EndIf
-
+  
 EndProcedure
 
 Procedure UpdateProjectPanel()
-
+  
   If ProjectPanelVisible
-
+    
     If IsProject
       Base$ = GetPathPart(ProjectFile$)
       BaseLength = Len(Base$)
-
+      
       ; Find the "internal" base item
       ;
       BaseIndex = -1
@@ -254,7 +254,7 @@ Procedure UpdateProjectPanel()
           Break
         EndIf
       Next i
-
+      
       ; Add any "internal" files that are not displayed yet
       ;
       ForEach ProjectFiles()
@@ -263,7 +263,7 @@ Procedure UpdateProjectPanel()
           last = CountGadgetItems(#GADGET_ProjectPanel)-1
           For i = 0 To last
             If GetGadgetItemData(#GADGET_ProjectPanel, i) = @ProjectFiles()
-            
+              
               ; update the image in case the AutoScan setting was changed
               If ProjectFiles()\AutoScan
                 If IsImage(#IMAGE_ProjectPanel_FileScanned)
@@ -274,7 +274,7 @@ Procedure UpdateProjectPanel()
                   SetGadgetItemImage(#GADGET_ProjectPanel, i, ImageID(#IMAGE_ProjectPanel_File))
                 EndIf
               EndIf
-            
+              
               found = 1
               Break
             EndIf
@@ -299,7 +299,7 @@ Procedure UpdateProjectPanel()
       If BaseNew And BaseState$ <> "-" ; expanded is the default if no state info available
         SetGadgetItemState(#GADGET_ProjectPanel, BaseIndex, #PB_Tree_Expanded)
       EndIf
-        
+      
       ; Find the "external" base item
       ;
       BaseIndex = -1
@@ -320,7 +320,7 @@ Procedure UpdateProjectPanel()
           last = CountGadgetItems(#GADGET_ProjectPanel)-1
           For i = 0 To last
             If GetGadgetItemData(#GADGET_ProjectPanel, i) = @ProjectFiles()
-            
+              
               ; update the image in case the AutoScan setting was changed
               If ProjectFiles()\AutoScan
                 If IsImage(#IMAGE_ProjectPanel_FileScanned)
@@ -331,7 +331,7 @@ Procedure UpdateProjectPanel()
                   SetGadgetItemImage(#GADGET_ProjectPanel, i, ImageID(#IMAGE_ProjectPanel_File))
                 EndIf
               EndIf
-                              
+              
               found = 1
               Break
             EndIf
@@ -347,7 +347,7 @@ Procedure UpdateProjectPanel()
               BaseNew = 1
               BaseState$ = Left(ProjectFiles()\PanelState$, 1)
             EndIf
-          
+            
             ; Now, make sure the directory is present (as one node)
             ;
             Directory$ = GetPathPart(ProjectFiles()\FileName$)
@@ -381,7 +381,7 @@ Procedure UpdateProjectPanel()
               FoundIndex = InsertIndex
               AddGadgetItem(#GADGET_ProjectPanel, FoundIndex, Directory$, OptionalImageID(#IMAGE_ProjectPanel_Directory), 1) ; always level 1
               SetGadgetItemData(#GADGET_ProjectPanel, FoundIndex, #ProjectPanel_Directory)
-
+              
               ; add the file
               ProjectPanel_AddFile(GetFilePart(ProjectFiles()\FileName$), FoundIndex, @ProjectFiles())
               
@@ -416,7 +416,7 @@ Procedure UpdateProjectPanel()
               Break
             EndIf
           Next ProjectFiles()
-                   
+          
           If found = 0
             ProjectPanel_RemoveFile(i)
             
@@ -428,19 +428,19 @@ Procedure UpdateProjectPanel()
           EndIf
         EndIf
       Next i
-
+      
     Else
       ; project was closed
       ClearGadgetItems(#GADGET_ProjectPanel)
-
+      
     EndIf
   EndIf
-
+  
 EndProcedure
 
 
 Procedure ProjectPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
-
+  
   ; Note: The ProjectPanel menu is created in CreateIDEPopupMenu() as the ProjectInfo uses it too
   ;
   TreeGadget(#GADGET_ProjectPanel, 0, 0, 0, 0)
@@ -451,20 +451,20 @@ Procedure ProjectPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   EndIf
   
   UpdateProjectPanel()
-
+  
 EndProcedure
 
 Procedure ProjectPanel_DestroyFunction(*Entry.ToolsPanelEntry)
-
+  
   StoreProjectPanelStates() ; store expanded states
-
+  
   FreeGadget(#GADGET_ProjectPanel)
   ProjectPanelVisible = #False
-
+  
 EndProcedure
 
 Procedure ProjectPanel_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
-
+  
   If *Entry\IsSeparateWindow
     ResizeGadget(#GADGET_ProjectPanel, 5, 5, PanelWidth-10, PanelHeight-10)
   Else
@@ -479,7 +479,7 @@ EndProcedure
 Procedure DisplayProjectPanelMenu(*Entry.ToolsPanelEntry, SourceGadget)
   ProjectPanelMenuGadget = SourceGadget
   Index = GetGadgetState(SourceGadget)
-
+  
   ; The Add entry is always on
   If Index = -1
     DisableMenuItem(#POPUPMENU_ProjectPanel, #MENU_ProjectPanel_Open, #True)
@@ -542,7 +542,7 @@ Procedure ProjectPanelMenuEvent(MenuItemID)
         SelectedFolder$ = GetPathPart(*File\FileName$)
       Else
         SelectedFolder$ = ProjectPanel_FullPath(Index)
-            
+        
         Sublevel = GetGadgetItemAttribute(ProjectPanelMenuGadget, Index, #PB_Tree_SubLevel)
         Count    = CountGadgetItems(ProjectPanelMenuGadget)
         Index    + 1
@@ -555,7 +555,7 @@ Procedure ProjectPanelMenuEvent(MenuItemID)
           Index + 1
         Wend
       EndIf
-    
+      
     Else
       ; ProjectInfo mode (its a multiselect ListIcon)
       Last = CountGadgetItems(ProjectPanelMenuGadget) - 1
@@ -573,14 +573,14 @@ Procedure ProjectPanelMenuEvent(MenuItemID)
     EndIf
     
   EndIf
-
-  Select MenuItemID
   
+  Select MenuItemID
+      
     Case #MENU_ProjectPanel_Open
       ForEach *Files()
         LoadSourceFile(*Files()\FileName$)
       Next *Files()
-    
+      
     Case #MENU_ProjectPanel_OpenViewer
       ForEach *Files()
         FileViewer_OpenFile(*Files()\FileName$)
@@ -590,19 +590,19 @@ Procedure ProjectPanelMenuEvent(MenuItemID)
       If SelectedFolder$
         ShowExplorerDirectory(SelectedFolder$)
       EndIf
-    
+      
     Case #MENU_ProjectPanel_Rescan
       ForEach *Files()
         If *Files()\AutoScan And *Files()\Source = 0 ; no need to re-scan if currently open
           ScanFile(*Files()\Filename$, @*Files()\Parser)
         EndIf
       Next *Files()
-    
+      
     Case #MENU_ProjectPanel_Add
       FileName$ = OpenFileRequester(Language("FileStuff","OpenFileTitle"), GetPathPart(ProjectFile$), Language("FileStuff","Pattern"), SelectedFilePattern, #PB_Requester_MultiSelection)
       If FileName$ <> ""
         SelectedFilePattern = SelectedFilePattern()
-   
+        
         While FileName$ <> ""
           found = 0
           ForEach ProjectFiles()
@@ -638,15 +638,15 @@ Procedure ProjectPanelMenuEvent(MenuItemID)
             ProjectFiles()\ShowWarning = 1
             UpdateProjectFile(@ProjectFiles())
           EndIf
-
+          
           FileName$ = NextSelectedFileName()
         Wend
-          
+        
         UpdateMenuStates()
         UpdateProjectInfo()
         UpdateProjectPanel()
       EndIf
-    
+      
     Case #MENU_ProjectPanel_Remove
       If ListSize(*Files()) <= 1 Or MessageRequester(#ProductName$, LanguagePattern("Project","RemoveMany", "%count%", Str(ListSize(*Files()))), #PB_MessageRequester_YesNo|#FLAG_Question) = #PB_MessageRequester_Yes
         ForEach *Files()
@@ -663,21 +663,21 @@ Procedure ProjectPanelMenuEvent(MenuItemID)
         UpdateProjectInfo()
         UpdateProjectPanel()
       EndIf
-    
+      
   EndSelect
-
+  
 EndProcedure
-     
+
 
 
 
 Procedure ProjectPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
-
+  
   If EventGadgetID = #GADGET_ProjectPanel
     Index = GetGadgetState(#GADGET_ProjectPanel)
-
-    Select EventType()
     
+    Select EventType()
+        
       Case #PB_EventType_DragStart
         If Index <> -1
           *File.ProjectFile = GetGadgetItemData(#GADGET_ProjectPanel, Index)
@@ -701,10 +701,10 @@ Procedure ProjectPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
             If Files$ <> ""
               DragFiles(Left(Files$, Len(Files$)-1)) ; cut the last Chr(10)
             EndIf
-
+            
           EndIf
         EndIf
-                         
+        
       Case #PB_EventType_LeftDoubleClick
         If Index <> -1
           *File.ProjectFile = GetGadgetItemData(#GADGET_ProjectPanel, Index)
@@ -712,12 +712,12 @@ Procedure ProjectPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
             LoadSourceFile(*File\FileName$) ; will just switch if open
           EndIf
         EndIf
-      
+        
       Case #PB_EventType_RightClick
         DisplayProjectPanelMenu(*Entry, #GADGET_ProjectPanel)
         
     EndSelect
-
+    
   EndIf
   
 EndProcedure
@@ -730,7 +730,7 @@ EndProcedure
 ; This will make this Tool available to the editor
 ;
 ProjectPanel_VT.ToolsPanelFunctions
-  
+
 ProjectPanel_VT\CreateFunction   = @ProjectPanel_CreateFunction()
 ProjectPanel_VT\DestroyFunction  = @ProjectPanel_DestroyFunction()
 ProjectPanel_VT\ResizeHandler    = @ProjectPanel_ResizeHandler()

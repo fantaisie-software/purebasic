@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -82,7 +82,7 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
       SetGadgetState(#GADGET_iOSApp_AutoUpload    , *Target\iOSAppAutoUpload)
       SetGadgetState(#GADGET_iOSApp_EnableResourceDirectory, *Target\iOSAppEnableResourceDirectory)
       SetGadgetState(#GADGET_iOSApp_EnableDebugger, *Target\iOSAppEnableDebugger)
-    
+      
       SetGadgetText(#GADGET_AndroidApp_Name           , *Target\AndroidAppName$)
       SetGadgetText(#GADGET_AndroidApp_Icon           , *Target\AndroidAppIcon$)
       SetGadgetText(#GADGET_AndroidApp_Version        , *Target\AndroidAppVersion$)
@@ -104,12 +104,12 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
       
       HideWindow(#WINDOW_CreateApp, #False)
     EndIf
-
+    
   Else
     SetWindowForeground(#WINDOW_CreateApp)
   EndIf
   
-
+  
 EndProcedure
 
 
@@ -126,7 +126,7 @@ Procedure AppWindowChanged()
   Changed | Bool(*CurrentAppTarget\EnableResourceDirectory<> GetGadgetState(#GADGET_WebApp_EnableResourceDirectory))
   Changed | Bool(*CurrentAppTarget\ResourceDirectory$     <> GetGadgetText(#GADGET_WebApp_ResourceDirectory))
   Changed | Bool(*CurrentAppTarget\WebAppEnableDebugger   <> GetGadgetState(#GADGET_WebApp_EnableDebugger))
-          
+  
   Changed | Bool(*CurrentAppTarget\iOSAppName$         <> GetGadgetText(#GADGET_iOSApp_Name))
   Changed | Bool(*CurrentAppTarget\iOSAppIcon$         <> GetGadgetText(#GADGET_iOSApp_Icon))
   Changed | Bool(*CurrentAppTarget\iOSAppVersion$      <> GetGadgetText(#GADGET_iOSApp_Version))
@@ -140,7 +140,7 @@ Procedure AppWindowChanged()
   Changed | Bool(*CurrentAppTarget\iOSAppEnableResourceDirectory<> GetGadgetState(#GADGET_iOSApp_EnableResourceDirectory))
   Changed | Bool(*CurrentAppTarget\iOSAppResourceDirectory$     <> GetGadgetText(#GADGET_iOSApp_ResourceDirectory))
   Changed | Bool(*CurrentAppTarget\WebAppEnableDebugger <> GetGadgetState(#GADGET_iOSApp_EnableDebugger))
-          
+  
   Changed | Bool(*CurrentAppTarget\AndroidAppName$         <> GetGadgetText(#GADGET_AndroidApp_Name))
   Changed | Bool(*CurrentAppTarget\AndroidAppIcon$         <> GetGadgetText(#GADGET_AndroidApp_Icon))
   Changed | Bool(*CurrentAppTarget\AndroidAppVersion$      <> GetGadgetText(#GADGET_AndroidApp_Version))
@@ -261,7 +261,7 @@ Procedure CheckAndroidPackageID(ID$)
         Field$ = StringField(ID$, k, ".")
         
         If Asc(Field$) < 'a' Or Asc(Field$) > 'z' ; a field has to start with a lowercase ASCII char
-          ProcedureReturn 0 ; Fail
+          ProcedureReturn 0                       ; Fail
         EndIf
         
         ; now check it's only ascii chars for the whole field
@@ -295,25 +295,25 @@ EndProcedure
 
 
 Procedure CreateAppWindowEvents(EventID)
-
+  
   If EventID = #PB_Event_Menu     ; Little wrapper to map the shortcut events (identified as menu)
     EventID  = #PB_Event_Gadget   ; to normal gadget events...
     GadgetID = EventMenu()
   Else
     GadgetID = EventGadget()
   EndIf
-
-  Select EventID
   
+  Select EventID
+      
     Case #PB_Event_CloseWindow
       CloseCreateAppWindow()
       
     Case #PB_Event_Gadget
-    
+      
       Select GadgetID
           
-        ; Web
-        ;
+          ; Web
+          ;
         Case #GADGET_WebApp_SelectIcon
           RelativeFilenameRequester(#GADGET_WebApp_Icon, Language("App", "SelectIcon"), "PNG images|*.png")
           
@@ -323,8 +323,8 @@ Procedure CreateAppWindowEvents(EventID)
         Case #GADGET_WebApp_SelectResourceDirectory
           RelativePathRequester(#GADGET_WebApp_ResourceDirectory, Language("App", "SelectResourceDirectory"))
           
-        ; iOS
-        ;
+          ; iOS
+          ;
         Case #GADGET_iOSApp_SelectIcon
           RelativeFilenameRequester(#GADGET_iOSApp_Icon, Language("App","SelectIcon"), "PNG images|*.png")
           
@@ -337,8 +337,8 @@ Procedure CreateAppWindowEvents(EventID)
         Case #GADGET_iOSApp_SelectResourceDirectory
           RelativePathRequester(#GADGET_iOSApp_ResourceDirectory, Language("App", "SelectResourceDirectory"))
           
-        ; Android
-        ;
+          ; Android
+          ;
         Case #GADGET_AndroidApp_SelectIcon
           RelativeFilenameRequester(#GADGET_AndroidApp_Icon, Language("App","SelectIcon"), "PNG images|*.png")
           
@@ -369,7 +369,7 @@ Procedure CreateAppWindowEvents(EventID)
         Case #GADGET_App_Create
           
           UpdateCreateAppSettings()
-            
+          
           Select GetGadgetState(#GADGET_App_Panel)
             Case 0 ; Web App
               
@@ -401,13 +401,13 @@ Procedure CreateAppWindowEvents(EventID)
               
               CompilerIf #CompileMac
                 *CurrentAppTarget\AppFormat = #AppFormatiOS
-              
+                
                 If *CurrentAppTarget\iOSAppOutput$ = ""
                   MessageRequester(#ProductName$, Language("App","NoAppOutput"), #FLAG_ERROR)
                   
                 ElseIf UCase(GetExtensionPart(*CurrentAppTarget\iOSAppOutput$)) <> "IPA"
                   MessageRequester(#ProductName$, Language("iOSApp","WrongOutputExtension"), #FLAG_ERROR)
-                   
+                  
                 ElseIf OptionAppleTeamID$ = ""
                   MessageRequester(#ProductName$, Language("iOSApp","NoAppleTeamID"), #FLAG_ERROR)
                   
@@ -455,14 +455,14 @@ Procedure CreateAppWindowEvents(EventID)
                   
                 Else
                   CloseCreateAppWindow()
-               
+                  
                   If LauchAppBuild(*CurrentAppTarget\AndroidAppOutput$)
                     ;*ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeded
                     
                     Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", *CurrentAppTarget\AndroidAppOutput$), Date())
                   EndIf
                 EndIf
-                               
+                
               CompilerElse
                 MessageRequester(#ProductName$, Language("App","AndroidWindowsOnly"), #FLAG_ERROR)
                 

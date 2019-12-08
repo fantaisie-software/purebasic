@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -168,7 +168,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_ProcedureBrowser
   
   #GADGET_ProjectPanel
-
+  
   #GADGET_Explorer
   #GADGET_Explorer_Pattern
   #GADGET_Explorer_Favorites
@@ -296,7 +296,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_FindHistorySize
   #GADGET_Preferences_AutoReload
   #GADGET_Preferences_AutoSave
-;  #GADGET_Preferences_AutoSaveExe
+  ;  #GADGET_Preferences_AutoSaveExe
   #GADGET_Preferences_AutoSaveAll
   #GADGET_Preferences_TabLength
   #GADGET_Preferences_RealTab
@@ -339,14 +339,14 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_ProcedureBrowserSort
   #GADGET_Preferences_ProcedureBrowserGroup
   #GADGET_Preferences_ProcedureProtoType
-;  #GADGET_Preferences_ColorPickerHistory
+  ;  #GADGET_Preferences_ColorPickerHistory
   #GADGET_Preferences_Languages
   #GADGET_Preferences_LanguageInfo
-;  #GADGET_Preferences_EnableColoring
+  ;  #GADGET_Preferences_EnableColoring
   #GADGET_Preferences_EnableBolding
   #GADGET_Preferences_EnableCaseCorrection
   #GADGET_Preferences_EnableLineNumbers
-;  #GADGET_Preferences_EnableMarkers
+  ;  #GADGET_Preferences_EnableMarkers
   #GADGET_Preferences_ShowWhiteSpace
   #GADGET_Preferences_ShowIndentGuides
   #GADGET_Preferences_EnableBraceMatch
@@ -362,8 +362,8 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_AddBrackets
   #GADGET_Preferences_AddSpaces
   #GADGET_Preferences_AddEndKeywords
-;  #GADGET_Preferences_NoComments
-;  #GADGET_Preferences_NoStrings
+  ;  #GADGET_Preferences_NoComments
+  ;  #GADGET_Preferences_NoStrings
   #GADGET_Preferences_AutoPopupLength
   #GADGET_Preferences_StructureItems
   #GADGET_Preferences_ModulePrefix
@@ -480,7 +480,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_FileMonitor_Reload
   #GADGET_FileMonitor_Cancel
   #GADGET_FileMonitor_ViewDiff
-
+  
   #GADGET_Goto_Line
   #GADGET_Goto_Cancel
   #GADGET_Goto_Ok
@@ -498,7 +498,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Find_Replace
   #GADGET_Find_ReplaceAll
   #GADGET_Find_Close
- 
+  
   #GADGET_StructureViewer_Panel
   #GADGET_StructureViewer_List
   #GADGET_StructureViewer_Parent
@@ -511,7 +511,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_StructureViewer_InsertCopy
   #GADGET_StructureViewer_Char0
   #GADGET_StructureViewer_Char27 = #GADGET_StructureViewer_Char0 + 27
-
+  
   #GADGET_Grep_FindWord
   #GADGET_Grep_Directory
   #GADGET_Grep_SelectDirectory
@@ -525,7 +525,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Grep_Cancel
   #GADGET_Grep_Stop
   #GADGET_Grep_Find
- 
+  
   #GADGET_GrepOutput_List
   #GADGET_GrepOutput_Close
   #GADGET_GrepOutput_Clear
@@ -536,7 +536,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Compiler_List
   #GADGET_Compiler_Progress
   #GADGET_Compiler_Abort
-
+  
   #GADGET_Option_UseMainFile
   #GADGET_Option_MainFile         ; also for inputfile in project mode
   #GADGET_Option_SelectMainFile
@@ -549,7 +549,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Option_DebuggerMode
   #GADGET_Option_SelectWarning
   #GADGET_Option_WarningMode
-         
+  
   #GADGET_Option_UseCompiler  ; First to be disabled/enabled in "Main file" loop
   #GADGET_Option_SelectCompiler
   CompilerIf #SpiderBasic
@@ -620,7 +620,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Option_DefaultTargetMenu ; not real gadgets, but needed to know the difference between gadget and popupmenu action
   #GADGET_Option_TargetEnabledMenu
   #GADGET_Option_OpenProject
-   
+  
   #GADGET_AddTools_List ; must be the first (for loop processing)
   #GADGET_AddTools_New
   #GADGET_AddTools_Edit
@@ -641,11 +641,11 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_EditTools_Ok
   #GADGET_EditTools_Cancel
   #GADGET_EditTools_RunHidden  ; first for loop processing
-;   #GADGET_EditTools_ShortcutControl
-;   #GADGET_EditTools_ShortcutAlt
-;   #GADGET_EditTools_ShortcutShift
-;   #GADGET_EditTools_ShortcutCommand
-;   #GADGET_EditTools_ShortcutKey
+                               ;   #GADGET_EditTools_ShortcutControl
+                               ;   #GADGET_EditTools_ShortcutAlt
+                               ;   #GADGET_EditTools_ShortcutShift
+                               ;   #GADGET_EditTools_ShortcutCommand
+                               ;   #GADGET_EditTools_ShortcutKey
   #GADGET_EditTools_Shortcut
   #GADGET_EditTools_HideEditor
   #GADGET_EditTools_Reload
@@ -655,32 +655,32 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_EditTools_ConfigLine
   #GADGET_EditTools_SourceSpecific
   #GADGET_EditTools_HideFromMenu ; last for loop processing
-
-
   
-;   #GADGET_SortSources_List
-;   #GADGET_SortSources_MoveUp
-;   #GADGET_SortSources_MoveDown
-;   #GADGET_SortSources_OK
-;   #GADGET_SortSources_Cancel
-
+  
+  
+  ;   #GADGET_SortSources_List
+  ;   #GADGET_SortSources_MoveUp
+  ;   #GADGET_SortSources_MoveDown
+  ;   #GADGET_SortSources_OK
+  ;   #GADGET_SortSources_Cancel
+  
   #GADGET_FileViewer_Panel
   #GADGET_Startup_Image
   
   #GADGET_About_Ok
   #GADGET_About_Image
   #GADGET_About_Editor
-
+  
   #GADGET_AutoComplete_List
   #GADGET_AutoComplete_Abort
   #GADGET_AutoComplete_Ok
   
-;   #GADGET_CPU_Graph
-;   #GADGET_CPU_List
-;   #GADGET_CPU_OnTop
-;   #GADGET_CPU_Text
-;   #GADGET_CPU_Intervall
-;   #GADGET_CPU_Set
+  ;   #GADGET_CPU_Graph
+  ;   #GADGET_CPU_List
+  ;   #GADGET_CPU_OnTop
+  ;   #GADGET_CPU_Text
+  ;   #GADGET_CPU_Intervall
+  ;   #GADGET_CPU_Set
   
   #GADGET_Template_Add     ; first to auto-disable
   #GADGET_Template_Edit
@@ -768,10 +768,10 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Project_Ok
   #GADGET_Project_Cancel
   #GADGET_Project_OpenOptions
- 
+  
   #GADGET_MacroError_Scintilla
   #GADGET_MacroError_Close
-
+  
   #GADGET_Warnings_List
   #GADGET_Warnings_Close
   
@@ -806,7 +806,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_DiffDialog_IgnoreSpaceLeft
   #GADGET_DiffDialog_IgnoreSpaceRight
   #GADGET_DiffDialog_Cancel
- 
+  
   #GADGET_History_Panel
   #GADGET_History_Source
   #GADGET_History_Splitter
@@ -826,7 +826,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Issues_SingleFile
   #GADGET_Issues_MultiFile
   #GADGET_Issues_Export
-
+  
   ; Help viewer for Linux and OSX
   #GADGET_Help_Panel
   #GADGET_Help_Tree
@@ -863,7 +863,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_WebApp_SelectResourceDirectory
     #GADGET_WebApp_ExportCommandLine
     #GADGET_WebApp_ExportArguments
-
+    
     #GADGET_AndroidApp_Name
     #GADGET_AndroidApp_Icon
     #GADGET_AndroidApp_SelectIcon
@@ -901,13 +901,13 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_iOSApp_SelectResourceDirectory
     #GADGET_iOSApp_EnableDebugger
     #GADGET_iOSApp_CheckInstall
-
+    
     #GADGET_App_Panel
     #GADGET_App_OK
     #GADGET_App_Create
     #GADGET_App_Cancel
   CompilerEndIf
-    
+  
 EndEnumeration
 
 ;- Menu
@@ -938,7 +938,7 @@ Enumeration 0
     #MENU_EditHistory
     #MENU_Exit
   CompilerEndIf
-
+  
   #MENU_Undo                 ; first to AutoDisable (UpdateMenuStates())
   #MENU_Redo
   #MENU_Cut
@@ -974,7 +974,7 @@ Enumeration 0
   #MENU_FormSwitch
   #MENU_Duplicate
   #MENU_FormImageManager
-
+  
   #MENU_CompileRun
   #MENU_RunExe
   #MENU_SyntaxCheck
@@ -1010,7 +1010,7 @@ Enumeration 0
   #MENU_DebugAsm
   #MENU_Purifier
   ;#MENU_CPUMonitor
-     
+  
   #MENU_VisualDesigner
   #MENU_StructureViewer
   #MENU_FileViewer
@@ -1024,7 +1024,7 @@ Enumeration 0
   #MENU_Templates
   #MENU_Diff
   #MENU_AddTools
-                             
+  
   #MENU_Help
   #MENU_UpdateCheck
   
@@ -1033,7 +1033,7 @@ Enumeration 0
   CompilerElse
     #MENU_About
   CompilerEndIf
-                               
+  
   #MENU_NextOpenedFile
   #MENU_PreviousOpenedFile
   
@@ -1042,7 +1042,7 @@ Enumeration 0
   
   #MENU_SelectBlock
   #MENU_DeselectBlock
-
+  
   #MENU_AutoComplete
   #MENU_AutoComplete_OK ; can now have a custom shortcut too
   #MENU_AutoComplete_Abort
@@ -1110,10 +1110,10 @@ Enumeration 0
   
   #MENU_BuildTarget_Start
   #MENU_BuildTarget_End    = #MENU_BuildTarget_Start + #MAX_MenuTargets
-
- 
+  
+  
   #MENU_Help_Enter
-
+  
   CompilerIf #CompileWindows | #CompileMac; to handle autocomplete in scintilla
     #MENU_Scintilla_Enter
     #MENU_Scintilla_Tab
@@ -1141,10 +1141,10 @@ Enumeration 0
   #MENU_ProjectInfo_DefaultTarget
   #MENU_ProjectInfo_EnableTarget
   
-;   #MENU_TemplateEdit_Cut
-;   #MENU_TemplateEdit_Copy
-;   #MENU_TemplateEdit_Paste
-;   #MENU_TemplateEdit_SelectAll
+  ;   #MENU_TemplateEdit_Cut
+  ;   #MENU_TemplateEdit_Copy
+  ;   #MENU_TemplateEdit_Paste
+  ;   #MENU_TemplateEdit_SelectAll
   
   #MENU_MacroError_Close
   #MENU_Warnings_Close
@@ -1158,7 +1158,7 @@ Enumeration 0
     #MENU_AutocompleteDown
     #MENU_AutocompleteEscape
   CompilerEndIf
-      
+  
   ; For the "Space" option in the Toolbar, we add an empty icon.
   ; however, for the DisableToolBarButton() to work, each "space button" requires its own
   ; unique ID. So the IDs after this one are used for that.
@@ -1177,7 +1177,7 @@ CompilerIf #CompileMac
   #MENU_Exit  = #PB_Menu_Quit
   #MENU_About = #PB_Menu_About
 CompilerEndIf
-  
+
 
 ;- Files
 ;
@@ -1270,7 +1270,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_FileViewer_Close
   #IMAGE_FileViewer_Left
   #IMAGE_FileViewer_Right
-
+  
   #IMAGE_Preferences_FirstColor
   #IMAGE_Preferences_LastColor = #IMAGE_Preferences_FirstColor + #COLOR_Last
   
@@ -1278,7 +1278,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Preferences_ToolsPanelBackColor
   
   #IMAGE_Preferences_IssueColor
-
+  
   #IMAGE_FilePanel_New
   #IMAGE_FilePanel_Project
   
@@ -1286,8 +1286,8 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
     #IMAGE_LinuxWindowIcon
   CompilerEndIf
   
-;   #IMAGE_CPU_Real
-;   #IMAGE_CPU_Temp
+  ;   #IMAGE_CPU_Real
+  ;   #IMAGE_CPU_Temp
   
   #IMAGE_Template_Add
   #IMAGE_Template_Edit
@@ -1298,7 +1298,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Template_Dir
   #IMAGE_Template_Up
   #IMAGE_Template_Down
-
+  
   #IMAGE_Option_AddTarget
   #IMAGE_Option_EditTarget
   #IMAGE_Option_CopyTarget
@@ -1398,7 +1398,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #Img_Win7OptionSel
   #Img_Win7Trackbar
   #Img_Win7TrackbarV
-
+  
   #Img_Win8Close
   #Img_Win8Min
   #Img_Win8Max
@@ -1433,7 +1433,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Build_TargetOK
   #IMAGE_Build_TargetError
   #IMAGE_Build_TargetWarning
-
+  
   #IMAGE_ToolBar_Space
   #IMAGE_ToolBar_Missing
   
@@ -1631,13 +1631,13 @@ Enumeration 0
   #ITEM_EndModule
   #ITEM_UseModule
   #ITEM_UnuseModule
-
+  
   #ITEM_Last
 EndEnumeration
 
 #ITEM_LastSorted  = #ITEM_Declare ; last item in "sorted source data"
 #ITEM_LastOption  = #ITEM_Label   ; last item in prefs options
-#ITEM_Unknown     = -1 ; possible result of ResolveItemType()
+#ITEM_Unknown     = -1            ; possible result of ResolveItemType()
 
 ; Settings for the AutocompletePBOptions() array
 ;
@@ -1659,55 +1659,55 @@ EndEnumeration
 ; Must be in sync with the #ITEM and #PBITEM enums of course
 ;
 DataSection
-
+  
   SourceItem_Names:
-    Data$ "Variable"
-    Data$ "Array"
-    Data$ "List"
-    Data$ "Map"
-    Data$ "Procedure"
-    Data$ "Macro"
-    Data$ "Import"
-    Data$ "Constant"
-    Data$ "Module"
-    Data$ "Prototype"
-    Data$ "Structure"
-    Data$ "Interface"
-    Data$ "Label"
-    
+  Data$ "Variable"
+  Data$ "Array"
+  Data$ "List"
+  Data$ "Map"
+  Data$ "Procedure"
+  Data$ "Macro"
+  Data$ "Import"
+  Data$ "Constant"
+  Data$ "Module"
+  Data$ "Prototype"
+  Data$ "Structure"
+  Data$ "Interface"
+  Data$ "Label"
+  
   SourceItem_Defaults:
-    Data.l #True
-    Data.l #True
-    Data.l #True
-    Data.l #True
-    Data.l #True
-    Data.l #True
-    Data.l #True
-    Data.l #True
-    Data.l #True
-    Data.l #False
-    Data.l #False
-    Data.l #False
-    Data.l #False
-    
-    
+  Data.l #True
+  Data.l #True
+  Data.l #True
+  Data.l #True
+  Data.l #True
+  Data.l #True
+  Data.l #True
+  Data.l #True
+  Data.l #True
+  Data.l #False
+  Data.l #False
+  Data.l #False
+  Data.l #False
+  
+  
   PBItem_Names:
-    Data$ "PBKeywords"
-    Data$ "ASMKeywords"
-    Data$ "PBFunctions"
-    Data$ "APIFunctions"
-    Data$ "PBConstants"
-    Data$ "PBStructures"
-    Data$ "PBInterfaces"
-    
+  Data$ "PBKeywords"
+  Data$ "ASMKeywords"
+  Data$ "PBFunctions"
+  Data$ "APIFunctions"
+  Data$ "PBConstants"
+  Data$ "PBStructures"
+  Data$ "PBInterfaces"
+  
   PBItem_Defaults:
-    Data.l #True
-    Data.l #False
-    Data.l #True
-    Data.l #False
-    Data.l #True
-    Data.l #False
-    Data.l #False
+  Data.l #True
+  Data.l #False
+  Data.l #True
+  Data.l #False
+  Data.l #True
+  Data.l #False
+  Data.l #False
   
 EndDataSection
 
@@ -1716,20 +1716,20 @@ EndDataSection
 ; (used by SourceFile and ProjectFile structures)
 ;
 Structure SourceItem
- *Next.SourceItem       ; Linked list per Source Line
- *Previous.SourceItem
- 
- *NextSorted.SourceItem ; (single) Linked list per sorted code data
-  SortedLine.l          ; line number (only valid for sorted code items!)
-
+  *Next.SourceItem       ; Linked list per Source Line
+  *Previous.SourceItem
+  
+  *NextSorted.SourceItem ; (single) Linked list per sorted code data
+  SortedLine.l           ; line number (only valid for sorted code items!)
+  
   Type.w
   Position.w   ; Character position in source line (only for code items, -1 if unused)
   Length.w     ; Character length (only for code items)
   FullLength.w ; length including the call prototype (for #ITEM_UnknownBraced + Import detection + structure+extends combinations)
-
+  
   Name$
   ModulePrefix$; the module prefix (if any)
-
+  
   ; Item specific String data
   StructureUnion
     StringData$ ; generic name (for item comparing)
@@ -1737,7 +1737,7 @@ Structure SourceItem
     Type$       ; Variable, Array, Linkedlist. Can be separated: <parsed type><chr(10)><guessed type>, so always use StringField here
     Content$    ; Structure, Interface: extended interface/structure +  Chr(10) separated list of entries stored only for Project files, parsed directly when needed else
   EndStructureUnion
-
+  
   ; Item specific numeric data
   StructureUnion
     NumericData.i  ; generic name (for item comparing)
@@ -1809,9 +1809,9 @@ EndStructure
 Structure ParserData
   ; Per-line scanned data
   ;
- *SourceItemArray.ParsedLines ; new list for procedure/autocomplete stuff
-  SourceItemCount.l           ; currently used array entries (= LineNumber count)
-  SourceItemSize.l            ; allocated size of the array
+  *SourceItemArray.ParsedLines ; new list for procedure/autocomplete stuff
+  SourceItemCount.l            ; currently used array entries (= LineNumber count)
+  SourceItemSize.l             ; allocated size of the array
   
   Encoding.l      ; 0 = ascii, 1 = utf-8
   
@@ -1825,11 +1825,11 @@ Structure ParserData
   ;
   SortedValid.l
   Map Modules.SortedModule()
- *MainModule.SortedModule ; points inside the Modules() map
- 
+  *MainModule.SortedModule ; points inside the Modules() map
+  
   ; The Issues are not sorted by name, but simply by line for fast access
   ; Note that we still use the *NextSorted and SortedLine fields for this list
- *SortedIssues.SourceItem
+  *SortedIssues.SourceItem
 EndStructure
 
 
@@ -1884,7 +1884,7 @@ Enumeration
   #UPDATE_Interval_Monthly
   #UPDATE_Interval_Never
 EndEnumeration
-  
+
 Enumeration
   #UPDATE_Version_All
   #UPDATE_Version_Final
@@ -1943,7 +1943,7 @@ Structure PTR
     q.q[0]
     d.d[0]
     i.i[0]
-   *p.PTR[0]
+    *p.PTR[0]
   EndStructureUnion
 EndStructure
 
@@ -1962,10 +1962,10 @@ Structure CompileTarget
   ;
   IsEnabled.l
   IsDefault.l
-
+  
   Name$          ; target name
   OutputFile$    ; target filename
-
+  
   ; Use of the "filename" related fields
   ;
   ; Project:
@@ -2060,7 +2060,7 @@ Structure CompileTarget
   
   CustomCompiler.l    ; true or false
   CompilerVersion$    ; version string (without copyright notice)
-
+  
   CustomDebugger.l
   DebuggerType.l
   CustomWarning.l
@@ -2078,7 +2078,7 @@ Structure CompileTarget
   
   EnablePurifier.l
   PurifierGranularity$      ; granularity options "Local, Global, String, dynamic"
-
+  
   VersionInfo.l
   VersionField$[24]
   NbResourceFiles.l
@@ -2087,7 +2087,7 @@ Structure CompileTarget
   NbConstants.l
   Constant$[#MAX_Constants]
   ConstantEnabled.b[#MAX_Constants]
-
+  
   ; Information for the "Run" command
   RunExecutable$      ; name of the compiled exe
   RunExeFormat.l      ; executable format of exe (needed for linux/osx)
@@ -2097,16 +2097,16 @@ Structure CompileTarget
   RunSourceFileName$  ; name of the source file which was compiled
   RunCompilerPath$    ; path of the compiler used
   RunCompilerVersion.l; numeric version of the compiler used
-
+  
   LastCompiledLines.l ; total number of last compiled lines for estimation
-
+  
   ; Debugger specific
   ;
   Watchlist$      ; variables to add to the watchlist. (ProcedureName()>VariableName,...)
   
   ExpressionHistorySize.l
   ExpressionHistory$[#MAX_EpressionHistory]
-
+  
 EndStructure
 
 
@@ -2119,12 +2119,12 @@ Structure SourceFile Extends CompileTarget
   LastWriteDate.l  ; last modified date for changes monitor
   DiskFileSize.l   ; do we need .q to store the size of a source code?? :p
   DiskChecksum.s   ; MD5 sum of the file on disk
-
+  
   EditorGadget.i         ; depending on edit control used, usually #PB_Any value
   LineNumbers.i          ; depending on edit control
   LineNumbersWidth.l     ; depending on edit control
   LineNumbersCount.l     ; depending on edit control
-
+  
   CurrentLine.l
   CurrentLineOld.l
   ParserDataChanged.l    ; set to true if an update of ProcedureBrowser etc is needed
@@ -2153,7 +2153,7 @@ Structure SourceFile Extends CompileTarget
   ModifiedSinceUpdate.l
   
   ToggleFolds.l ; last state of the "toggle folds" menu command
-
+  
   LineHistory.l[#MAX_LineHistory] ; history of recently edited lines
   
   ; debugger specific stuff
@@ -2161,13 +2161,13 @@ Structure SourceFile Extends CompileTarget
   ErrorLog.l     ; debugger log used?
   LogSize.l
   LogLines$[#MAX_ErrorLog]
-
+  
   DebuggerID.i    ; unique ID of the debugger launched from this source (0 if none)
-  ;DebuggerData.i ; pointer to a DebuggerData Structure (0 if not connected)
+                  ;DebuggerData.i ; pointer to a DebuggerData Structure (0 if not connected)
   
   ProjectFile.i   ; pointer to a ProjectFile Structure (0 if not part of the open project)
   FormFile.i
-    
+  
   ; history information
   HistoryName.s       ; either the filename or a unique id string for unsaved files
   ExcludeFromHistory.l; exclude from history (too large size)
@@ -2198,7 +2198,7 @@ Structure ProjectFile Extends ProjectFileConfig
   Parser.ParserData    ; parsed source data
   
   LastOpen.l     ; valid while saving/closing a project
-  Md5$             ; the md5 associated to the file when it was last saved
+  Md5$           ; the md5 associated to the file when it was last saved
 EndStructure
 
 Structure Compiler
@@ -2307,7 +2307,7 @@ EndStructure
 Interface ToolsPanelInterface
   CreateFunction(PanelItemID)    ; called when the panelitem was created (external Tools should call UseGadgetList(PanelItemID) before adding gadgets)
   DestroyFunction()              ; called when the item is destroyed
-     
+  
   ResizeHandler(PanelWidth, PanelHeight)   ; called after the panel is resized
   EventHandler(EventGadgetID)              ; called for unhandled events in the main window (isn't neccesarily an event for this item, so always check)
   
@@ -2325,7 +2325,7 @@ EndInterface
 Structure ToolsPanelFunctions
   CreateFunction.i
   DestroyFunction.i
-    
+  
   ResizeHandler.i
   EventHandler.i
   
@@ -2364,7 +2364,7 @@ Structure ToolsPanelEntry
   NeedConfiguration.l    ; set to 1 if the tool has any options in the Preferences Window (PreferenceCreate, PReferenceDestroy, Preferenceevents functions)
   NeedDestroyFunction.l  ; set to 1 if the DestroyFunction() function is implemented
                          ; all other functions MUST be implemented for each tool!
-                         
+  
   PreferencesWidth.l  ; required with to put the preferences gadgets
   PreferencesHeight.l ; required height to put the preferences gadgets
   ToolID$             ; a string that identifies the tool (must be unique! (case doesn't matter))
@@ -2553,8 +2553,8 @@ Global HistoryMaxFileSize
 Global ErrorLogHeight, SplitterCursor2
 Global DebuggerMode ; 1=internal, 2=external, 3=console
 Global WarningMode  ; 0=ignore, 1=display, 2=error
-; Global DebuggerLineColor, DebuggerErrorColor, DebuggerBreakPointColor
-; Global DebuggerLineSymbolColor, DebuggerErrorSymbolColor, DebuggerBreakpointSymbolColor
+                    ; Global DebuggerLineColor, DebuggerErrorColor, DebuggerBreakPointColor
+                    ; Global DebuggerLineSymbolColor, DebuggerErrorSymbolColor, DebuggerBreakpointSymbolColor
 Global DebuggerKillOnError, DebuggerKeepErrorMarks
 Global DebugOutUseFont, DebugOutFont$, DebugOutFontSize, DebugOutFontStyle, DebugOutFontID
 Global IsDebuggerTimer
@@ -2594,7 +2594,7 @@ Global ProjectOpenMode.l, ProjectShowLog.l, AutoCloseBuildWindow.l
 Global ProjectLastOpenDate, ProjectLastOpenHost$, ProjectLastOpenUser$, ProjectLastOpenEditor$
 Global *DefaultTarget.CompileTarget
 Global *ProjectInfo.SourceFile ; the fake sourcefile in the File tab
-Global ProjectDebuggerID ; unique ID of the current debugger for the project
+Global ProjectDebuggerID       ; unique ID of the current debugger for the project
 Global UseProjectBuildWindow
 Global CommandlineBuild, QuietBuild, CommandlineBuildSuccess
 
@@ -2608,9 +2608,9 @@ Global NewList ProjectLog.s()                       ; project specific error log
 ;- Form Designer related data
 ;
 Global *FormInfo.SourceFile ; the fake sourcefile in the File tab
-;
-;- Arrays And Lists
-;
+                            ;
+                            ;- Arrays And Lists
+                            ;
 
 ; this is as large as there are #ITEM_x, so we can just stick any item type in it and not get an error
 Global Dim AutocompleteOptions.l(#ITEM_Last)

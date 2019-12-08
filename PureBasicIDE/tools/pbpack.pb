@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -28,36 +28,36 @@
 UseBriefLZPacker()
 
 CompilerIf #PB_Compiler_OS = #PB_OS_Windows
-CompilerIf #PB_Compiler_Processor = #PB_Processor_x86
-
-  Goto ErrorHandler_End
-
-  ErrorHandler:
-
+  CompilerIf #PB_Compiler_Processor = #PB_Processor_x86
+    
+    Goto ErrorHandler_End
+    
+    ErrorHandler:
+    
     Message$ = "Error: " + ErrorMessage() + #CRLF$
     Message$ + "File : " + ErrorFile() + #CRLF$
     Message$ + "Line : " + Str(ErrorLine())
-  
+    
     MessageRequester("Error", Message$, 0)
     End
-
-  ErrorHandler_End:
-
-  OnErrorGoto(?ErrorHandler)
-  
-CompilerEndIf
+    
+    ErrorHandler_End:
+    
+    OnErrorGoto(?ErrorHandler)
+    
+  CompilerEndIf
 CompilerEndIf
 
 Global FileSize, DisplayedChars
 
 Procedure Callback(SourcePosition, TargetPosition)
-
+  
   status = (SourcePosition*76)/FileSize
-
+  
   Print(RSet("", status-DisplayedChars, "#"))
   
   DisplayedChars = status
-
+  
   ProcedureReturn 1
 EndProcedure
 
@@ -71,7 +71,7 @@ Else
 EndIf
 
 If UCase(Left(OutFile$, 2)) = "-L" ; pack level specified
-
+  
   PackLevel = Val(Right(OutFile$, Len(OutFile$)-2))
   If PackLevel < 0 Or PackLevel > 9
     PackLevel = #PackLevel
@@ -80,7 +80,7 @@ If UCase(Left(OutFile$, 2)) = "-L" ; pack level specified
   OutFile$ = ProgramParameter()
   
 Else
-
+  
   PackLevel = #PackLevel
   
 EndIf
@@ -110,12 +110,12 @@ EndIf
 NbFiles = 0
 
 While InFile$ <> ""
-
+  
   FileSize = FileSize(InFile$)
   If verbose
     PrintN("Compressing file: "+GetFilePart(InFile$)+" ("+Str(FileSize)+" Bytes)")
   EndIf
-
+  
   If ReadFile(1, InFile$) = 0
     PrintN("  Error: Compression of the file failed!")
     PrintN("")
@@ -130,7 +130,7 @@ While InFile$ <> ""
     DeleteFile(OutFile$)
     End 1
   Else
-  
+    
     NbFiles + 1
     If verbose
       Print("  ")
@@ -170,7 +170,7 @@ While InFile$ <> ""
     
     FreeMemory(*InBuffer)
     FreeMemory(*Outbuffer)
-
+    
   EndIf
   InFile$ = ProgramParameter()
 Wend
@@ -184,4 +184,4 @@ EndIf
 
 End 0
 
-  
+

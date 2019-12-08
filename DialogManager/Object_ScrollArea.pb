@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -66,9 +66,9 @@ Procedure DlgScroll_New(*StaticData.DialogObjectData)
     EndIf
     
     DisableDebugger
-      *THIS\Gadget = ScrollAreaGadget(*StaticData\Gadget, 0, 0, 0, 0, *THIS\InnerWidth, *THIS\InnerHeight, ScrollStep, *StaticData\Flags)
+    *THIS\Gadget = ScrollAreaGadget(*StaticData\Gadget, 0, 0, 0, 0, *THIS\InnerWidth, *THIS\InnerHeight, ScrollStep, *StaticData\Flags)
     EnableDebugger
-
+    
     If *StaticData\Gadget <> -1
       *THIS\Gadget = *StaticData\Gadget
     EndIf
@@ -84,7 +84,7 @@ EndProcedure
 Procedure DlgScroll_SizeRequest(*THIS.DlgScroll, *Width.LONG, *Height.LONG)
   *THIS\RequestedWidth  = 0
   *THIS\RequestedHeight = 0
-
+  
   If *THIS\Child
     *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
   EndIf
@@ -123,7 +123,7 @@ Procedure DlgScroll_SizeApply(*THIS.DlgScroll, x, y, Width, Height)
   If *THIS\InnerHeight <> -1
     SetGadgetAttribute(*THIS\Gadget, #PB_ScrollArea_InnerHeight, AreaHeight)
   EndIf
-
+  
   If *THIS\Child
     x = 0
     y = 0
@@ -138,16 +138,16 @@ EndProcedure
 
 
 DataSection
-
+  
   DlgScroll_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgScroll_SizeRequest()
-    Data.i @DlgScroll_SizeApply()
-    Data.i @DlgBinBase_AddChild()
-    Data.i @DlgBinBase_FoldApply()
-    Data.i @DlgBinBase_Find()
-    Data.i @DlgBinBase_Finish()
-    Data.i @DlgBinBase_Update()
-    Data.i @DlgBinBase_Destroy()
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgScroll_SizeRequest()
+  Data.i @DlgScroll_SizeApply()
+  Data.i @DlgBinBase_AddChild()
+  Data.i @DlgBinBase_FoldApply()
+  Data.i @DlgBinBase_Find()
+  Data.i @DlgBinBase_Finish()
+  Data.i @DlgBinBase_Update()
+  Data.i @DlgBinBase_Destroy()
+  
 EndDataSection

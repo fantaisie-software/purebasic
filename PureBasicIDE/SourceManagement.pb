@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -31,21 +31,21 @@ Procedure UpdateCursorPosition()
     
   Else
     Text$ = Language("Misc","Line")+": "+Str(*ActiveSource\CurrentLine)+"   "+Language("Misc","Column")+": "+Str(*ActiveSource\CurrentColumnDisplay) + " - ["+Str(CountCharacters(*ActiveSource\EditorGadget, StartPosition, EndPosition))+"]" ; Use a short 'selection'  marker, or the text line+column+selection will be too big for the statusbar field (need #SCI_COUNTCHARACTERS to handle UTF8 properly)
- 
+    
   EndIf
-
+  
   StatusBarText(#STATUSBAR, 0, Text$, #PB_StatusBar_Center)
 EndProcedure
 
 Procedure RefreshSourceTitle(*Source.SourceFile)
-
+  
   PushListPosition(FileList())
-    ChangeCurrentElement(FileList(), *Source)
-    Index = ListIndex(FileList())
+  ChangeCurrentElement(FileList(), *Source)
+  Index = ListIndex(FileList())
   PopListPosition(FileList())
   
   SetTabBarGadgetItemText(#GADGET_FilesPanel, Index, GetSourceTitle(*Source))
-
+  
   If *Source = *ProjectInfo
     SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
     SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_ProjectInfo)
@@ -66,11 +66,11 @@ EndProcedure
 
 ; get the title string for the current element in FileList()
 Procedure.s GetSourceTitle(*Source.SourceFile)
-
+  
   If *Source = *ProjectInfo
     ;Title$ = "> " + Language("Project","TabTitle")
     Title$ = Language("Project","TabTitle")
-
+    
   Else
     
     Modified = GetSourceModified(*Source)
@@ -82,29 +82,29 @@ Procedure.s GetSourceTitle(*Source.SourceFile)
     Else
       Title$ = GetFilePart(*Source\FileName$)
     EndIf
-  
+    
     If Modified
       Title$ + "*"
     EndIf
     
-;     If *Source\ProjectFile
-;       Title$ = "> " + Title$
-;     EndIf
-
+    ;     If *Source\ProjectFile
+    ;       Title$ = "> " + Title$
+    ;     EndIf
+    
   EndIf
   
   ProcedureReturn Title$
-
+  
 EndProcedure
 
 Procedure UpdateSourceStatus(Modified)
-
+  
   If Modified = -1
     Modified = GetSourceModified()
-
+    
   ElseIf Modified <> GetSourceModified()
     SetSourceModified(Modified)
-
+    
   EndIf
   
   ; only do an actual refresh if needed.
@@ -112,27 +112,27 @@ Procedure UpdateSourceStatus(Modified)
   ; so limit the number of updates if nothing changed
   If Modified <> *ActiveSource\DisplayModified
     *ActiveSource\DisplayModified = Modified
-  
+    
     RefreshSourceTitle(*ActiveSource)
     UpdateMenuStates()
   EndIf
-
+  
 EndProcedure
 
 Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
-
+  
   If *OldSource = 0
     *OldSource = *ActiveSource
   EndIf
-
+  
   ; Make sure the sorted data for the old source is up to date to ensure
   ; a quick access. Does nothing if the data is up to date
   If *OldSource And *OldSource <> *ProjectInfo And *OldSource\IsForm = 0
     SortParserData(*OldSource\Parser, *OldSource)
   EndIf
-
+  
   AutoComplete_Close()
-
+  
   If *ActiveSource And IsWindow(#WINDOW_Option)  ; make sure the options are closed
     If (*ActiveSource <> *ProjectInfo And *ActiveSource\ProjectFile = 0) Or (@FileList() <> *ProjectInfo And FileList()\ProjectFile = 0)
       ; close only if either the old or the new code do not belong to the project
@@ -148,26 +148,26 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
       EndIf
     EndIf
   CompilerEndIf
-
+  
   *ActiveSource = @FileList()
-
+  
   SetTabBarGadgetState(#GADGET_FilesPanel, ListIndex(FileList()))
-
+  
   HideLineNumbers(*ActiveSource, 1-EnableLineNumbers)
-
+  
   UpdateMainWindowTitle()
   
   ClearList(BlockSelectionStack())
   BlockSelectionUpdated = #False
-
+  
   ErrorLog_Refresh()   ; always update, even if hidden
   ErrorLog_SyncState(#False) ; update the display state
-
+  
   ResizeMainWindow()  ; make sure the EditorGadget is correctly sized
   
   If *ActiveSource = *ProjectInfo
     HideGadget(#GADGET_ProjectInfo, 0)
-  
+    
   Else
     If *ProjectInfo
       HideGadget(#GADGET_ProjectInfo, 1)
@@ -263,7 +263,7 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
     FlushEvents() ; this still dispatches all events, so its not problematic
     ResizeMainWindow()
   CompilerEndIf
-
+  
   UpdateCursorPosition()
   
   ; enabled the folding update again, as strangely the fold mark in first line disappears otherwise !?
@@ -274,7 +274,7 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   
   UpdateProcedureList()
   UpdateVariableViewer()
-
+  
   UpdateMenuStates()
   SetDebuggerMenuStates()
   
@@ -293,27 +293,27 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   EndIf
   
   UpdateSelectionRepeat()
-
+  
 EndProcedure
 
 Procedure NewSource(FileName$, ExecuteTool)
   *OldSource = *ActiveSource
-
+  
   LastElement(FileList())
   AddElement(FileList())
   
   ; Generate a unique ID for the target in this structure
   ;
   FileList()\ID = GetUniqueID()
-
+  
   If FileName$ = ""
     Title$ =  Language("FileStuff","NewSource")
   Else
     Title$ = GetFilePart(FileName$)
   EndIf
-
+  
   OpenGadgetList(#GADGET_SourceContainer)
-    CreateEditorGadget()
+  CreateEditorGadget()
   CloseGadgetList()
   
   If FileName$ = ""
@@ -347,7 +347,7 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\CustomCompiler   = 0
   FileList()\PurifierGranularity$ = ""
   FileList()\ExistsOnDisk     = #False
-
+  
   If OptionEncoding = 0
     ScintillaSendMessage(FileList()\EditorGadget, #SCI_SETCODEPAGE, 0, 0)
   Else
@@ -364,7 +364,7 @@ Procedure NewSource(FileName$, ExecuteTool)
   If EnableColoring
     SetBackgroundColor()
   EndIf
-
+  
   SetTabBarGadgetState(#GADGET_FilesPanel, CountTabBarGadgetItems(#GADGET_FilesPanel)-1)
   UpdateSourceStatus(0)
   ResizeMainWindow()
@@ -386,13 +386,13 @@ EndProcedure
 
 
 Procedure DetectNewLineType(*Buffer, BufferSize)
-
+  
   *Pointer.HilightPTR = *Buffer
   *BufferEnd = *Buffer + BufferSize
   DetectedType = -1
-
+  
   While *Pointer < *BufferEnd
-
+    
     If *Pointer\b = 13 And *Pointer\a[1] = 10
       ; windows newline
       If DetectedType <> 0 And DetectedType <> -1 ; oops, a mixed up file, use os standard
@@ -400,49 +400,49 @@ Procedure DetectNewLineType(*Buffer, BufferSize)
       EndIf
       DetectedType = 0
       *Pointer + 1
-
+      
     ElseIf *Pointer\b = 10 And *Pointer\a[1] = 13
       ; unknown type, use os standard
       ProcedureReturn #DEFAULT_NewLineType
-
+      
     ElseIf *Pointer\b = 10
       ; linux newline
       If DetectedType <> 1 And DetectedType <> -1 ; oops, a mixed up file, use os standard
         ProcedureReturn #DEFAULT_NewLineType
       EndIf
       DetectedType = 1
-
+      
     ElseIf *Pointer\b = 13
       ; mac newline
       If DetectedType <> 2 And DetectedType <> -1 ; oops, a mixed up file, use os standard
         ProcedureReturn #DEFAULT_NewLineType
       EndIf
       DetectedType = 2
-
+      
     EndIf
-
+    
     *Pointer + 1
   Wend
-
+  
   If DetectedType = -1
     DetectedType = #DEFAULT_NewLineType
   EndIf
-
+  
   ProcedureReturn DetectedType
 EndProcedure
 
 
 Procedure ChangeNewLineType(*ptrBuffer.INTEGER, *ptrBufferSize.INTEGER, NewLineType)
-
+  
   *NewBuffer = AllocateMemory(*ptrBufferSize\i + 1000000)
   *BufferEnd = *ptrBuffer\i + *ptrBufferSize\i
   *ReadCursor.HilightPTR = *ptrBuffer\i
   *WriteCursor.HilightPTR = *NewBuffer
-
+  
   CopyMemoryString("", @*WriteCursor)
-
+  
   If *NewBuffer
-
+    
     While *ReadCursor < *BufferEnd
       If (*ReadCursor\b = 13 And *ReadCursor\a[1] = 10) Or (*ReadCursor\b = 10 And *ReadCursor\a[1] = 13)
         If NewLineType = 0 ; to crlf
@@ -450,7 +450,7 @@ Procedure ChangeNewLineType(*ptrBuffer.INTEGER, *ptrBufferSize.INTEGER, NewLineT
           *WriteCursor\a[1] = 10
           *ReadCursor + 1
           *WriteCursor + 1
-
+          
         ElseIf NewLineType = 1 ; to lf
           *WriteCursor\b = 10
           *ReadCursor + 1
@@ -458,38 +458,38 @@ Procedure ChangeNewLineType(*ptrBuffer.INTEGER, *ptrBufferSize.INTEGER, NewLineT
         Else  ; to cr
           *WriteCursor\b = 13
           *ReadCursor + 1
-
+          
         EndIf
-
+        
       ElseIf *ReadCursor\b = 13 Or *ReadCursor\b = 10
         If NewLineType = 0 ; crlf
           *WriteCursor\b = 13
           *WriteCursor\a[1] = 10
           *WriteCursor + 1
-
+          
         ElseIf NewLineType = 1 ; to lf
           *WriteCursor\b = 10
           
         Else ; to cr
           *WriteCursor\b = 13
-
+          
         EndIf
-
+        
       Else
         *WriteCursor\b = *ReadCursor\b
-
+        
       EndIf
-
+      
       *ReadCursor + 1
       *WriteCursor + 1
     Wend
-
+    
     FreeMemory(*ptrBuffer\i) ; free the old buffer
     *ptrBuffer\i     = *NewBuffer
     *ptrBufferSize\i = *WriteCursor - *NewBuffer
-
+    
   EndIf
-
+  
 EndProcedure
 
 
@@ -514,7 +514,7 @@ Procedure AsciiToUTF8(*out.ASCII, *outlen.LONG, *in.ASCII, *inlen.LONG)
     If *in\a < $80
       *out\a = *in\a
       *out + 1
-    
+      
     ElseIf *in\a = $91     ; `-char. Turn this into U+2018
       *out\a = $E2
       *out + 1
@@ -522,7 +522,7 @@ Procedure AsciiToUTF8(*out.ASCII, *outlen.LONG, *in.ASCII, *inlen.LONG)
       *out + 1
       *out\a = $98
       *out + 1
-       
+      
     ElseIf *in\a = $92     ; �-char. Turn this into U+2019
       *out\a = $E2
       *out + 1
@@ -530,13 +530,13 @@ Procedure AsciiToUTF8(*out.ASCII, *outlen.LONG, *in.ASCII, *inlen.LONG)
       *out + 1
       *out\a = $99
       *out + 1
-    
+      
     Else                   ; turn it into a 2byte sequence
       *out\a = ((*in\a >> 6) & %00011111) | %11000000
       *out + 1
       *out\a = (*in\a & %00111111) | %10000000
       *out + 1
-    
+      
     EndIf
     
     *in + 1
@@ -556,7 +556,7 @@ Procedure UTF8ToAscii(*out.ASCII, *outlen.LONG, *in.ASCII, *inlen.LONG)
       *out\a = c
       *out + 1
       *in + 1
-    
+      
     ElseIf c & %11100000 = %11000000 And *in+1 < *in_end ; 2-byte char
       *in + 1
       If *in\a & %11000000 = %10000000 ; check if the next is a followup byte
@@ -572,23 +572,23 @@ Procedure UTF8ToAscii(*out.ASCII, *outlen.LONG, *in.ASCII, *inlen.LONG)
         *out\a = '?' ; invalid utf8
         *out + 1
       EndIf
-    
+      
     ElseIf c & %11110000 = %11100000 And *in+2 < *in_end ; 3-byte char, not representable in ascii
       
       If c = $E2 And PeekC(*in+1) = $80 And PeekC(*in+2) = $98
         *out\a = $91
         *out + 1
         *in + 3
-      
+        
       ElseIf c = $E2 And PeekC(*in+1) = $80 And PeekC(*in+2) = $99
         *out\a = $92
         *out + 1
         *in + 3
-      
+        
       Else
         *out\a = '?'
         *out + 1
-      
+        
         ; skip the next two bytes only if they are correct followup bytes
         If PeekC(*in+1) & %11000000 = %10000000 And PeekC(*in+2) & %11000000 = %10000000
           *in + 3
@@ -598,11 +598,11 @@ Procedure UTF8ToAscii(*out.ASCII, *outlen.LONG, *in.ASCII, *inlen.LONG)
           *in + 1 ; only start byte of sequence
         EndIf
       EndIf
-  
+      
     ElseIf c & %11111000 = %11110000 And *in+3 < *in_end ; 4-byte char, not representable in ascii
       *out\a = '?'
       *out + 1
-
+      
       ; skip the next three bytes only if they are correct followup bytes
       If PeekC(*in+1) & %11000000 = %10000000 And PeekC(*in+2) & %11000000 = %10000000 And PeekC(*in+3) & %11000000 = %10000000
         *in + 4
@@ -613,7 +613,7 @@ Procedure UTF8ToAscii(*out.ASCII, *outlen.LONG, *in.ASCII, *inlen.LONG)
       Else
         *in + 1 ; only start byte of sequence
       EndIf
-    
+      
     Else
       *in + 1 ; invalid UTF-8, just skip it
       
@@ -624,16 +624,16 @@ Procedure UTF8ToAscii(*out.ASCII, *outlen.LONG, *in.ASCII, *inlen.LONG)
 EndProcedure
 
 Procedure ChangeTextEncoding(*Source.SourceFile, NewEncoding)
-
+  
   If NewEncoding <> *Source\Parser\Encoding
-
+    
     ; Its .l as the SYS function takes an int *
     OldLength.l = ScintillaSendMessage(*Source\EditorGadget, #SCI_GETLENGTH, 0, 0)
     *OldBuffer  = AllocateMemory(OldLength+1)
     
     If *OldBuffer
       ScintillaSendMessage(*Source\EditorGadget, #SCI_GETTEXT, OldLength+1, *OldBuffer) ; #SCI_GETTEXT returns length-1 bytes... very inconsistent of scintilla
-    
+      
       If NewEncoding = 1
         NewLength.l = OldLength*4  ; Utf8 can only be 4x as big as Ascii
       Else
@@ -661,13 +661,13 @@ Procedure ChangeTextEncoding(*Source.SourceFile, NewEncoding)
         ScintillaSendMessage(*Source\EditorGadget, #SCI_SETTEXT, 0, *NewBuffer)
         
         *Source\Parser\Encoding = NewEncoding ; finally update the flag in the structure
-              
+        
         FreeMemory(*NewBuffer)
       EndIf
-    
+      
       FreeMemory(*OldBuffer)
     EndIf
-       
+    
   EndIf
   
 EndProcedure
@@ -692,7 +692,7 @@ EndMacro
 ; Also used to append Project settings to a temp file, so it must handle a CompileTarget input
 ;
 Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, ReportErrors)
-
+  
   If SaveProjectSettings = 3 And IsTempFile = 0 ; don't save anything
     ProcedureReturn
   EndIf
@@ -741,7 +741,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
       CompilerEndIf
     EndIf ; no need to write it when it's 0.. it will default to that anyway
   EndIf
-
+  
   If (MemorizeCursor Or IsTempFile) And *Source
     If *Source\CurrentLine > 1
       NbLines + 1
@@ -832,10 +832,10 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddFlagConfigLine("AndroidAppFullScreen"    , *Target\AndroidAppFullScreen)
     AddFlagConfigLine("AndroidAppAutoUpload"    , *Target\AndroidAppAutoUpload)
     AddFlagConfigLine("AndroidAppEnableDebugger", *Target\AndroidAppEnableDebugger)
-
+    
   CompilerEndIf
   
-
+  
   If *Target\EnableASM And IsCodeFile
     NbLines + 1
     ConfigLines$(NbLines) = "EnableAsm"
@@ -920,16 +920,16 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
   EndIf
   
   If *Target\CustomDebugger And IsCodeFile; do not save any of this if disabled
-;     CompilerIf #CompileMac ; not supported on OSX yet OSX-debug
-;       If *Source\DebuggerType = 1 Or *Source\DebuggerType = 2
-;         Type = *Source\DebuggerType + 1
-;       Else
-;         Type = 0
-;       EndIf
-;     CompilerElse
-      Type = *Target\DebuggerType
-;     CompilerEndIf
-        
+                                          ;     CompilerIf #CompileMac ; not supported on OSX yet OSX-debug
+                                          ;       If *Source\DebuggerType = 1 Or *Source\DebuggerType = 2
+                                          ;         Type = *Source\DebuggerType + 1
+                                          ;       Else
+                                          ;         Type = 0
+                                          ;       EndIf
+                                          ;     CompilerElse
+    Type = *Target\DebuggerType
+    ;     CompilerEndIf
+    
     If Type = 1
       NbLines + 1
       ConfigLines$(NbLines) = "Debugger = IDE"
@@ -986,7 +986,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     NbLines + 1
     ConfigLines$(NbLines) = "EnableExeConstant"
   EndIf
-
+  
   If *Target\NbConstants > 0 And IsCodeFile
     For i = 0 To *Target\NbConstants-1
       NbLines + 1
@@ -1026,14 +1026,14 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
         NbLines + 1
         ConfigLines$(NbLines) = "Watchlist = "
       EndIf
-    
+      
       ConfigLines$(NbLines) + StringField(*Target\Watchlist$, index, ";") + ";"
       index + 1
     Wend
     
     ConfigLines$(NbLines) = Left(ConfigLines$(NbLines), Len(ConfigLines$(NbLines))-1) ; cut the last ";"
   EndIf
-
+  
   If *Target\NbResourceFiles > 0 And IsCodeFile
     For i = 0 To *Target\NbResourceFiles-1
       If NbLines < #MAX_ConfigLines
@@ -1042,7 +1042,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
       EndIf
     Next i
   EndIf
-      
+  
   If IsTempFile = 0 And *Source
     ForEach *Source\UnknownIDEOptionsList$()
       If NbLines < #MAX_ConfigLines
@@ -1051,12 +1051,12 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
       EndIf
     Next
   EndIf
- 
- 
+  
+  
   ; save the config lines now
   ;
   If SaveProjectSettings = 0 Or IsTempFile ; in source file
-  
+    
     If *Source
       If *Source\NewLineType = 0
         NewLine$ = Chr(13) + Chr(10)
@@ -1076,7 +1076,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
         WriteString(#FILE_SaveSource, NewLine$ + "; " + ConfigLines$(i), #PB_UTF8)
       EndIf
     Next i
-     
+    
   ElseIf *Source And SaveProjectSettings = 1 ; save in "filename.pb.cfg"
     If CreateFile(#FILE_SaveConfig, *Source\FileName$+".cfg")
       For i = 1 To NbLines
@@ -1086,7 +1086,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     ElseIf ReportErrors
       MessageRequester(#ProductName$, Language("FileStuff","SaveConfigError")+":"+#NewLine+*Source\FileName$+".cfg", #FLAG_Error)
     EndIf
-  
+    
   ElseIf *Source And  SaveProjectSettings = 2 ; save in "project.cfg"
     If CreateFile(#FILE_SaveConfig, GetPathPart(*Source\FileName$)+"project.cfg.new")
       If ReadFile(#FILE_ReadConfig, GetPathPart(*Source\FileName$)+"project.cfg")
@@ -1108,16 +1108,16 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
         Wend
         CloseFile(#FILE_ReadConfig)
       EndIf
-
+      
       WriteStringN(#FILE_SaveConfig, "[" + GetFilePart(*Source\FileName$) + "]")
       For i = 1 To NbLines-1
         Debug ConfigLines$(i)
         WriteStringN(#FILE_SaveConfig, "  "+ConfigLines$(i))
       Next i
       WriteString(#FILE_SaveConfig, "  "+ConfigLines$(NbLines))  ; no newline at the end of the file
-    
+      
       CloseFile(#FILE_SaveConfig)
-
+      
       DeleteFile(GetPathPart(*Source\FileName$)+"project.cfg")
       If FileSize(GetPathPart(*Source\FileName$)+"project.cfg") >= 0
         If ReportErrors
@@ -1133,7 +1133,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     EndIf
     
   EndIf
-
+  
 EndProcedure
 
 ; Handles source files with *old* settings format
@@ -1143,19 +1143,19 @@ Procedure AnalyzeSettings_Old(*Source.SourceFile, *Buffer, Length)
   
   *Cursor.Ascii = *Buffer+Length
   Found        = 0
-
+  
   If Length > 0
     While *Cursor >= *Buffer
-
+      
       *LastPointer = *Cursor
-
+      
       While *Cursor >= *Buffer And *Cursor\a <> 10
         *Cursor-1
       Wend
-
+      
       If *Cursor >= *Buffer
         Line$ = PeekS(*Cursor+1, *LastPointer - *Cursor, #PB_Ascii)
-
+        
         If Line$ = "; EOF" : Found = 1
         ElseIf Line$ =          "; EnableAsm"         : Found = 1 : *Source\EnableASM = 1
         ElseIf Line$ =          "; EnableXP"          : Found = 1 : *Source\EnableXP  = 1
@@ -1173,7 +1173,7 @@ Procedure AnalyzeSettings_Old(*Source.SourceFile, *Buffer, Length)
         ElseIf Left(line$,10) = "; Folding="          : Found = 1 : Loading_FoldingState$             = Right(Line$, Len(Line$)-10)
         Else: Break
         EndIf
-
+        
         *Cursor - 1
         If *Cursor >= *Buffer And *Cursor\a = 13
           *Cursor - 1
@@ -1181,7 +1181,7 @@ Procedure AnalyzeSettings_Old(*Source.SourceFile, *Buffer, Length)
       EndIf
     Wend
   EndIf
-
+  
   Select ExecutableFormat$
     Case "Windows"   : *Source\ExecutableFormat = 0
     Case "Linux"     : *Source\ExecutableFormat = 0
@@ -1189,15 +1189,15 @@ Procedure AnalyzeSettings_Old(*Source.SourceFile, *Buffer, Length)
     Case "Console"   : *Source\ExecutableFormat = 1
     Case "Shared Dll": *Source\ExecutableFormat = 2
   EndSelect
-
+  
   If Found
     IsIDEConfigPresent = 1 ; we found settings (but from the old IDE), so use the standards for the options that are new
     *Source\SubSystem$       = OptionSubSystem$
     *Source\ErrorLog         = OptionErrorLog
-  
+    
     PokeB(*LastPointer+1, 0) ; 0-terminate the buffer
     ProcedureReturn *LastPointer - *Buffer + 1; cut the settings, return new length
-
+    
   Else
     ProcedureReturn Length ; return full buffer length, nothing should be cut
   EndIf
@@ -1235,7 +1235,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analize the Con
         ; ok, by this string we know that the options come from the IDE
         IsIDEConfigPresent = 1
         
-      CompilerIf #SpiderBasic
+        CompilerIf #SpiderBasic
         Case "OPTIMIZEJS"           : *Source\OptimizeJS = 1
         Case "WEBSERVERADDRESS"     : *Source\WebServerAddress$ = Value$
         Case "WINDOWTHEME"          : *Source\WindowTheme$ = Value$
@@ -1281,8 +1281,8 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analize the Con
         Case "ANDROIDAPPRESOURCEDIRECTORY"      : *Source\AndroidAppResourceDirectory$ = Value$
         Case "ANDROIDAPPENABLERESOURCEDIRECTORY": *Source\AndroidAppEnableResourceDirectory = 1
         Case "ANDROIDAPPENABLEDEBUGGER" : *Source\AndroidAppEnableDebugger = 1
-        
-      CompilerEndIf
+          
+        CompilerEndIf
         
       Case "ENABLEASM":        *Source\EnableASM = 1
       Case "ENABLEXP":         *Source\EnableXP = 1
@@ -1311,11 +1311,11 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analize the Con
       Case "COMPILESOURCEDIRECTORY": *Source\TemporaryExePlace = 1
       Case "ENABLEDTOOLS":     *Source\EnabledTools$ = UCase(RemoveString(Value$, " ")) ; enforce our format for better searches later
       Case "ENABLEEXECONSTANT":*Source\UseCreateExe = 1
-     
+        
       Case "COMPILER"
         *Source\CustomCompiler   = #True
         *Source\CompilerVersion$ = Value$
-
+        
       Case "ENABLECOMPILECOUNT"
         *Source\UseCompileCount = 1
         *Source\CompileCount = Val(Value$)
@@ -1341,12 +1341,12 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analize the Con
           Default          : *Source\DebuggerType = 1
         EndSelect
         
-;           CompilerIf #CompileMac ; OSX-debug
-;             If *Source\DebuggerType > 1
-;               *Source\DebuggerType - 1
-;             EndIf
-;           CompilerEndIf
-
+        ;           CompilerIf #CompileMac ; OSX-debug
+        ;             If *Source\DebuggerType > 1
+        ;               *Source\DebuggerType - 1
+        ;             EndIf
+        ;           CompilerEndIf
+        
       Case "WARNINGS"
         *Source\CustomWarning = 1
         Select UCase(Value$)
@@ -1356,14 +1356,14 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analize the Con
           Default       : *Source\WarningMode = 1
         EndSelect
         
-     Case "ENABLEPURIFIER"
-       *Source\EnablePurifier = 1
-       *Source\PurifierGranularity$ = Value$
-     
-     Case "DISABLEPURIFIER"
-       *Source\EnablePurifier = 0
-       *Source\PurifierGranularity$ = Value$
-                                
+      Case "ENABLEPURIFIER"
+        *Source\EnablePurifier = 1
+        *Source\PurifierGranularity$ = Value$
+        
+      Case "DISABLEPURIFIER"
+        *Source\EnablePurifier = 0
+        *Source\PurifierGranularity$ = Value$
+        
       Case "CONSTANT"
         *Source\Constant$[*Source\NbConstants] = Value$
         *Source\ConstantEnabled[*Source\NbConstants] = #True
@@ -1373,25 +1373,25 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analize the Con
         *Source\Constant$[*Source\NbConstants] = Value$
         *Source\ConstantEnabled[*Source\NbConstants] = #False
         *Source\NbConstants + 1
-              
+        
       Case "ADDRESOURCE"
         If *Source\NbResourceFiles < #MAX_ResourceFiles
           *Source\ResourceFiles$[*Source\NbResourceFiles] = Value$
           *Source\NbResourceFiles + 1
         EndIf
-
+        
       Case "WATCHLIST": ; this can appear multiple time (to not have too long source lines)
         If *Source\Watchlist$ <> ""
           *Source\Watchlist$ + ";" ; add a separator between the lines
         EndIf
         *Source\Watchlist$ + RemoveString(Value$, " ") ; remove any spaces
-    
+        
       Case "" ; Ignore empty lines
-    
+        
       Case "FOLDLINES"
         ; from jaPBe.. must be deleted, because jaPBe will get in trouble
         ; if the source is modified without properly updating these!
-    
+        
       Default
         If Left(Name$, 12) = "VERSIONFIELD"
           fieldnr = Val(Right(Name$, Len(Name$)-12))
@@ -1427,11 +1427,11 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analize the Con
     Default
       *Source\ExecutableFormat = 0 ; Default to executable
   EndSelect
-
+  
 EndProcedure
 
 Procedure AnalyzeSettings_SourceFile(*Source.SourceFile, *Buffer, Length)
-
+  
   *Cursor.Ascii = *Buffer+Length
   NbLines = 0
   
@@ -1439,13 +1439,13 @@ Procedure AnalyzeSettings_SourceFile(*Source.SourceFile, *Buffer, Length)
   
   If Length > 0
     While *Cursor >= *Buffer
-
+      
       *LastPointer = *Cursor
-
+      
       While *Cursor >= *Buffer And (*Cursor\a <> 10 And *Cursor\a <> 13)
         *Cursor-1
       Wend
-
+      
       If *Cursor >= *Buffer
         If *Source\Parser\Encoding = 1 ; UTF8
           Line$ = LTrim(PeekS(*Cursor+1, *LastPointer-*Cursor, #PB_UTF8 | #PB_ByteLength))
@@ -1466,7 +1466,7 @@ Procedure AnalyzeSettings_SourceFile(*Source.SourceFile, *Buffer, Length)
           ConfigLines$(NbLines) = Right(Line$, Len(Line$)-1)
           
           OptionsFound = 1 ; only cut the options of this is found!
-             
+          
           Break
         ElseIf Left(Line$, 1) = ";" And NbLines < #MAX_ConfigLines
           NbLines + 1
@@ -1474,7 +1474,7 @@ Procedure AnalyzeSettings_SourceFile(*Source.SourceFile, *Buffer, Length)
         Else
           Break
         EndIf
-
+        
         *Cursor - 1
         If *Cursor >= *Buffer And (*Cursor\a = 13 Or *Cursor\a = 10)
           *Cursor - 1
@@ -1493,7 +1493,7 @@ Procedure AnalyzeSettings_SourceFile(*Source.SourceFile, *Buffer, Length)
 EndProcedure
 
 Procedure AnalyzeSettings_ConfigFile(*Source.SourceFile)
-
+  
   If ReadFile(#FILE_ReadConfig, *Source\FileName$ + ".cfg")
     NbLines = 0
     While Eof(#FILE_ReadConfig) = 0 And NbLines < #MAX_ConfigLines
@@ -1511,16 +1511,16 @@ Procedure AnalyzeSettings_ConfigFile(*Source.SourceFile)
   Else
     ProcedureReturn 0
   EndIf
-
+  
 EndProcedure
 
 Procedure AnalyzeSettings_ProjectFile(*Source.SourceFile)
-
+  
   If ReadFile(#FILE_ReadConfig, GetPathPart(*Source\FileName$) + "project.cfg")
     NbLines = 0
     While Eof(#FILE_ReadConfig) = 0
       Line$ = ReadString(#FILE_ReadConfig)
-
+      
       If UCase(Trim(Line$)) = "[" + UCase(GetFilePart(*Source\FileName$)) + "]"  ; found the config
         While Eof(#FILE_ReadConfig) = 0
           Line$ = ReadString(#FILE_ReadConfig)
@@ -1551,16 +1551,16 @@ Procedure AnalyzeSettings_ProjectFile(*Source.SourceFile)
   Else
     ProcedureReturn 0
   EndIf
-
+  
 EndProcedure
 
 Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile)
   
-
+  
   If SaveProjectSettings = 3 ; don't save anything
     ProcedureReturn Length
   EndIf
-
+  
   If IsTempFile = 0
     *Source\Debugger      = 1          ; default if the option isn't found
     *Source\ErrorLog      = 1
@@ -1583,7 +1583,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     *Source\EnablePurifier = 0
     *Source\PurifierGranularity$ = ""
   EndIf
-
+  
   Loading_FirstVisibleLine = 0
   Loading_CurrentLine      = 0
   Loading_CurrentColumn    = 0
@@ -1591,7 +1591,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
   
   IsIDEConfigPresent = 0
   ReturnValue = Length
-      
+  
   ; old type source file
   ;
   If Length > 20 And FindMemoryString(*Buffer+Length-20, 20, "; EOF", 1)
@@ -1600,7 +1600,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     
     If IsTempFile ; for temp file, it is only inside the current source.
       ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
-  
+      
     ElseIf SaveProjectSettings = 0
       Result = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
       If Result < Length ; settings were found
@@ -1611,7 +1611,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
         AnalyzeSettings_ProjectFile(*Source)  ; check common config file
         ReturnValue = Length
       EndIf
-    
+      
     ElseIf SaveProjectSettings = 1
       If AnalyzeSettings_ConfigFile(*Source)
         ReturnValue = Length
@@ -1629,9 +1629,9 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
       Else
         ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
       EndIf
-  
+      
     EndIf
-  
+    
   EndIf
   
   ; if no config options are found, then use the defaults
@@ -1639,7 +1639,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     SetCompileTargetDefaults(*Source) ; set the default values
     *Source\ErrorLog = OptionErrorLog
   EndIf
-
+  
   ProcedureReturn ReturnValue
   
 EndProcedure
@@ -1657,14 +1657,14 @@ EndProcedure
 
 Procedure LoadSourceFile(FileName$, Activate = 1)
   success = 0
-
+  
   ; Check if this is a project file
   ;
   If IsProjectFile(FileName$)
     LoadProject(FileName$)
     ProcedureReturn 0
   EndIf
-
+  
   ; check if the source is already opened...
   ;
   If FindSourceFile(FileName$)
@@ -1688,9 +1688,9 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
   If *ActiveSource
     ChangeCurrentElement(FileList(), *ActiveSource)
   EndIf
-
+  
   ChangeStatus(Language("FileStuff","StatusLoading"), -1)
-
+  
   If ReadFile(#FILE_LoadSource, FileName$)
     ; try to detect the encoding first
     Format = ReadStringFormat(#FILE_LoadSource)
@@ -1699,13 +1699,13 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
     If *ActiveSource And *ActiveSource\FileName$ = "" And GetSourceModified() = 0 And (ListSize(FileList()) = 1 Or (IsProject And ListSize(FileList()) = 2))
       *EmptySource = *ActiveSource
     EndIf
-
+    
     If FileLength > 0
       *Buffer = AllocateMemory(FileLength+1)
     Else
       NewSource(FileName$, #False) ; absolutely empty file
     EndIf
-
+    
     If *Buffer
       ReadData(#FILE_LoadSource, *Buffer, FileLength)
       
@@ -1718,7 +1718,7 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
         FileViewer_OpenFile(Filename$)
         ProcedureReturn 1
       EndIf
-   
+      
       NewSource(FileName$, #False)
       
       If Format = #PB_Ascii
@@ -1728,19 +1728,19 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
         *ActiveSource\Parser\Encoding = 1
         SendEditorMessage(#SCI_SETCODEPAGE, #SC_CP_UTF8, 0)
       EndIf
-
+      
       ; always call ChangeNewLineType(), even if the detected one is the os one,
       ; because if the type can't be detected, the os standard is returned!
       ;
       *ActiveSource\NewLineType = DetectNewLineType(*Buffer, FileLength)
       ChangeNewLineType(@*Buffer, @FileLength, #DEFAULT_NewLineType)
-
+      
       FileLength = AnalyzeProjectSettings(*ActiveSource, *Buffer, FileLength, 0); get the settings and cut them off
-
+      
       StreamTextIn(*Buffer, FileLength)
       FreeMemory(*Buffer)
     EndIf
-
+    
     If *Buffer Or FileLength = 0
       ; update the file monitor info
       ; Note that there could be a slight race condition here if the file is modified between loading
@@ -1755,7 +1755,7 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
       FullSourceScan(*ActiveSource)
       UpdateFolding(*ActiveSource, 0, -1)
       UpdateSelectionRepeat()
-
+      
       ; check if the first source was an empty new file and remove that..
       ;
       If *EmptySource
@@ -1770,34 +1770,34 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
         If Loading_FirstVisibleLine > Loading_CurrentLine
           Loading_CurrentLine = Loading_FirstVisibleLine
         EndIf
-      
+        
         If Loading_CurrentLine > 0 ; change the line, if it was written in the settings part of the file
           ChangeActiveLine(Loading_CurrentLine+1, Loading_FirstVisibleLine-Loading_CurrentLine-1) ;in the file, line is 0 based! (to support old behaviour)
         EndIf
-       
+        
       Else
         ChangeActiveLine(1, 0)
         UpdateCursorPosition()
-
+        
       EndIf
-
+      
       If MemorizeMarkers And MarkerLines$ <> ""
         ApplyMarkerString(MarkerLines$)
       EndIf
-
+      
       ChangeStatus(Language("FileStuff","StatusLoaded"), 1000)
       UpdateSourceStatus(0)
       success = 1
-            
+      
       *Debugger.DebuggerData = IsDebuggedFile(*ActiveSource) ; check if this is loaded for the debugger
-      If *Debugger And *Debugger\ProgramState <> -1 ; must be a loaded exe!
+      If *Debugger And *Debugger\ProgramState <> -1          ; must be a loaded exe!
         SetReadOnly(*ActiveSource\EditorGadget, 1)
         
         ; copy the error log from the file that created the debugger
         ; for project related files, the log is always shared
         ;
         If *ActiveSource\ProjectFile = 0
-        
+          
           *Source.SourceFile = FindTargetFromID(*Debugger\SourceID)
           If *Source = 0
             *Source = FindTargetFromID(*Debugger\TriggerTargetID)
@@ -1809,11 +1809,11 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
               *ActiveSource\LogLines$[i] = *Source\LogLines$[i]
             Next i
           EndIf
-        
+          
         EndIf
-                
+        
       EndIf
-
+      
       ; call this again to update the ErrorLog, ProcedureBrowser etc (and project stuff)
       ChangeActiveSourcecode()
       HistoryEvent(*ActiveSource, #HISTORY_Open)
@@ -1822,29 +1822,29 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
       MessageRequester(#ProductName$, Language("FileStuff","LoadError")+#NewLine+FileName$, #FLAG_Error)
       ChangeStatus(Language("FileStuff","LoadError"), 3000)
     EndIf
-
+    
     CloseFile(#FILE_LoadSource)
   Else
     MessageRequester(#ProductName$, Language("FileStuff","LoadError")+#NewLine+FileName$, #FLAG_Error)
     ChangeStatus(Language("FileStuff","LoadError"), 3000)
   EndIf
-
+  
   ; If the first file can't be opened for any reasons, this pointer will be null
   ;
   If *ActiveSource
     SetActiveGadget(*ActiveSource\EditorGadget)
   EndIf
-
+  
   ProcedureReturn success
 EndProcedure
 
 
 Procedure SaveSourceFile(FileName$)
-
+  
   If *ActiveSource = *ProjectInfo
     ProcedureReturn 0
   EndIf
-
+  
   If *ActiveSource\ProjectFile = 0 And IsWindow(#WINDOW_Option)  ; make sure the options are closed (for non-project files)
     OptionWindowEvents(#PB_Event_CloseWindow)
   EndIf
@@ -1859,34 +1859,34 @@ Procedure SaveSourceFile(FileName$)
   EndIf
   
   ChangeStatus(Language("FileStuff","StatusSaving"), -1)
-
+  
   If CreateFile(#FILE_SaveSource, FileName$)
     If *ActiveSource\Parser\Encoding = 0
       WriteStringFormat(#FILE_SaveSource, #PB_Ascii)
     Else
       WriteStringFormat(#FILE_SaveSource, #PB_UTF8)
     EndIf
-  
+    
     FileLength = GetSourceLength()
-
+    
     If FileLength > 0
       *Buffer = AllocateMemory(FileLength+1)
     EndIf
-
+    
     If *Buffer
       StreamTextOut(*Buffer, FileLength)
       
       ; set the newline back to what it was before in the file
       ChangeNewLineType(@*Buffer, @FileLength, *ActiveSource\NewLineType)
-
+      
       WriteData(#FILE_SaveSource, *Buffer, FileLength)
       FreeMemory(*Buffer)
     EndIf
-
+    
     If *Buffer Or FileLength = 0
       *ActiveSource\FileName$ = FileName$ ; SaveProjectSettings() needs an updated FileName$ (http://www.purebasic.fr/english/viewtopic.php?f=4&t=59566)
       *ActiveSource\IsCode = IsCodeFile(FileName$)
-
+      
       SaveProjectSettings(*ActiveSource, *ActiveSource\IsCode, 0, 1)
       CloseFile(#FILE_SaveSource)
       
@@ -1895,16 +1895,16 @@ Procedure SaveSourceFile(FileName$)
       *ActiveSource\LastWriteDate = GetFileDate(Filename$, #PB_Date_Modified)
       *ActiveSource\DiskFileSize  = FileSize(Filename$)
       *ActiveSource\DiskChecksum  = FileFingerprint(Filename$, #PB_Cipher_MD5)
-
+      
       ChangeStatus(Language("FileStuff","StatusSaved"), 1000)
       Result = 1
-
+      
       UpdateSourceStatus(0)
-
+      
       RecentFiles_AddFile(FileName$, #False)
       
       AddTools_Execute(#TRIGGER_SourceSave, *ActiveSource)
-   
+      
     Else
       CloseFile(#FILE_SaveSource)
       DeleteFile(FileName$)
@@ -1920,24 +1920,24 @@ Procedure SaveSourceFile(FileName$)
   
   SetActiveGadget(*ActiveSource\EditorGadget)
   UpdateMenuStates() ; to notice the change from new file to unsaved file (#MENU_DiffCurrent)
-
+  
   ProcedureReturn Result
-
+  
 EndProcedure
 
 
 Procedure LoadTempFile(FileName$)  ; load the specified file over the current opened source
-
+  
   If *ActiveSource = *ProjectInfo
     ProcedureReturn 0
   EndIf
   
   Success = 0
-
+  
   If ReadFile(#FILE_LoadSource, FileName$)
     Format = ReadStringFormat(#FILE_LoadSource)
     FileLength = Lof(#FILE_LoadSource)-Loc(#FILE_LoadSource) ; substract the BOM size!
-  
+    
     If Format = #PB_Ascii
       *ActiveSource\Parser\Encoding = 0
       SendEditorMessage(#SCI_SETCODEPAGE, 0, 0)
@@ -1945,32 +1945,32 @@ Procedure LoadTempFile(FileName$)  ; load the specified file over the current op
       *ActiveSource\Parser\Encoding = 1
       SendEditorMessage(#SCI_SETCODEPAGE, #SC_CP_UTF8, 0)
     EndIf
-  
+    
     If FileLength > 0
       *Buffer = AllocateMemory(FileLength+1)
     EndIf
-
+    
     If *Buffer
       ReadData(#FILE_LoadSource, *Buffer, FileLength)
-
+      
       ; always call ChangeNewLineType(), even if the detected one is the os one,
       ; because if the type can't be detected, the os standard is returned!
       ;
       ChangeNewLineType(@*Buffer, @FileLength, #DEFAULT_NewLineType)
-
+      
       FileLength = AnalyzeProjectSettings(*ActiveSource, *Buffer, FileLength, 1); get the settings and cut them off
-
+      
       StreamTextIn(*Buffer, FileLength)
       FreeMemory(*Buffer)
     EndIf
-
+    
     If *Buffer Or FileLength = 0
       Success = 1
-;      HilightArea(0, -1)
+      ;      HilightArea(0, -1)
       FullSourceScan(*ActiveSource)
       UpdateFolding(*ActiveSource, 0, -1)
       UpdateSelectionRepeat()
-
+      
       If EnableFolding
         ApplyFoldingInformation(Loading_FoldingState$)
       EndIf
@@ -1978,7 +1978,7 @@ Procedure LoadTempFile(FileName$)  ; load the specified file over the current op
       If Loading_FirstVisibleLine > Loading_CurrentLine
         Loading_CurrentLine = Loading_FirstVisibleLine
       EndIf
-    
+      
       If Loading_CurrentLine > 0 ; change the line, if it was written in the settings part of the file
         ChangeActiveLine(Loading_CurrentLine+1, Loading_FirstVisibleLine-Loading_CurrentLine-1) ;in the file, line is 0 based! (to support old behaviour)
       EndIf
@@ -1989,16 +1989,16 @@ Procedure LoadTempFile(FileName$)  ; load the specified file over the current op
         UpdateCursorPosition()
       EndIf
       
-     
+      
       *Debugger.DebuggerData = IsDebuggedFile(*ActiveSource) ; check if this is loaded for the debugger
-      If *Debugger And *Debugger\ProgramState <> -1 ; must be a loaded exe!
+      If *Debugger And *Debugger\ProgramState <> -1          ; must be a loaded exe!
         SetReadOnly(*ActiveSource\EditorGadget, 1)
         
         ; copy the error log from the file that created the debugger
         ; for project related files, the log is always shared
         ;
         If *ActiveSource\ProjectFile = 0
-        
+          
           *Source.SourceFile = FindTargetFromID(*Debugger\SourceID)
           If *Source = 0
             *Source = FindTargetFromID(*Debugger\TriggerTargetID)
@@ -2010,9 +2010,9 @@ Procedure LoadTempFile(FileName$)  ; load the specified file over the current op
               *ActiveSource\LogLines$[i] = *Source\LogLines$[i]
             Next i
           EndIf
-        
+          
         EndIf
-                
+        
       EndIf
       
       
@@ -2024,55 +2024,55 @@ Procedure LoadTempFile(FileName$)  ; load the specified file over the current op
       ChangeActiveSourcecode()
       
     EndIf
-
+    
     CloseFile(#FILE_LoadSource)
   EndIf
   
   SetActiveGadget(*ActiveSource\EditorGadget)
   
-;   CompilerIf #CompileWindows
-;     InvalidateRect_(WindowID(#WINDOW_Main), 0, 0)
-;   CompilerEndIf
-
+  ;   CompilerIf #CompileWindows
+  ;     InvalidateRect_(WindowID(#WINDOW_Main), 0, 0)
+  ;   CompilerEndIf
+  
   ProcedureReturn Success
 EndProcedure
 
 Procedure SaveTempFile(FileName$)
-
+  
   If *ActiveSource = *ProjectInfo
     ProcedureReturn 0
   EndIf
-
+  
   If CreateFile(#FILE_SaveSource, FileName$)
     If *ActiveSource\Parser\Encoding = 0
       WriteStringFormat(#FILE_SaveSource, #PB_Ascii)
     Else
       WriteStringFormat(#FILE_SaveSource, #PB_UTF8)
     EndIf
-  
+    
     FileLength = GetSourceLength()
-
+    
     If FileLength > 0
       *Buffer = AllocateMemory(FileLength+1)
     EndIf
-
+    
     If *Buffer
       StreamTextOut(*Buffer, FileLength)
-
+      
       ; temp files are always in the OS newline format
       ChangeNewLineType(@*Buffer, @FileLength, #DEFAULT_NewLineType)
-
+      
       WriteData(#FILE_SaveSource, *Buffer, FileLength)
       FreeMemory(*Buffer)
     EndIf
-
-    If *Buffer Or FileLength = 0
     
+    If *Buffer Or FileLength = 0
+      
       SaveProjectSettings(*ActiveSource, *ActiveSource\IsCode, 1, 0)
       CloseFile(#FILE_SaveSource)
-
+      
       Result = 1
-
+      
     Else
       CloseFile(#FILE_SaveSource)
       DeleteFile(FileName$)
@@ -2083,14 +2083,14 @@ Procedure SaveTempFile(FileName$)
   EndIf
   
   SetActiveGadget(*ActiveSource\EditorGadget)
-
+  
   ProcedureReturn Result
-
+  
 EndProcedure
 
 
 Procedure LoadSource()
-
+  
   If *ActiveSource = *ProjectInfo And IsProject
     Path$ = GetPathPart(ProjectFile$)
   ElseIf *ActiveSource\FileName$
@@ -2098,14 +2098,14 @@ Procedure LoadSource()
   Else
     Path$ = SourcePath$
   EndIf
-
+  
   FileName$ = OpenFileRequester(Language("FileStuff","OpenFileTitle"), Path$, Language("FileStuff","Pattern"), SelectedFilePattern, #PB_Requester_MultiSelection)
   If FileName$ <> ""
-
+    
     While WindowEvent() : Wend
-  
+    
     SelectedFilePattern = SelectedFilePattern()
-
+    
     While FileName$ <> ""
       LoadSourceFile(FileName$)
       
@@ -2118,9 +2118,9 @@ Procedure LoadSource()
       
       FileName$ = NextSelectedFileName()
     Wend
-
+    
   EndIf
-
+  
 EndProcedure
 
 
@@ -2128,39 +2128,39 @@ Procedure OpenIncludeOnDoubleClick()
   UpdateCursorPosition()
   CurrentWord$ = LCase(GetCurrentWord())
   Line$ = GetCurrentLine()
-
+  
   NameStart = *ActiveSource\CurrentColumnChars
   While ValidCharacters(Asc(Mid(Line$, NameStart, 1))) = 1  ; skip the rest of 'IncludeFile'
     NameStart + 1
   Wend
-
+  
   While Mid(Line$, NameStart, 1) = " " ; skip spaces
     NameStart + 1
   Wend
-
+  
   If Mid(Line$, NameStart, 1) = Chr(34) ; only if it is a literal string.. constants don't work
     NameStart + 1
     NameEnd = NameStart
-
+    
     While Mid(Line$, NameEnd, 1) <> Chr(34) And NameEnd < Len(Line$)
       NameEnd + 1
     Wend
-
+    
     FileName$ = Mid(Line$, NameStart, NameEnd - NameStart)
     FileName$ = ResolveRelativePath(GetPathPart(*ActiveSource\FileName$), FileName$)
-
+    
     If FileSize(FileName$) > -1  ; check if the result is valid..
-
+      
       If CurrentWord$ = "includebinary"
         FileViewer_OpenFile(FileName$)
       Else
         LoadSourceFile(FileName$)
       EndIf
-
+      
     EndIf
-
+    
   EndIf
-
+  
 EndProcedure
 
 
@@ -2170,7 +2170,7 @@ Procedure SaveSourceAs()
   If *ActiveSource = *ProjectInfo
     ProcedureReturn 0
   EndIf
-
+  
   If *ActiveSource\FileName$
     
     ; Uses the full filename as input like other software
@@ -2186,12 +2186,12 @@ Procedure SaveSourceAs()
   Else
     NewSourcePath$ = GetPathPart(NewSourcePath$) ; New file to save, don't specify a filename
   EndIf
-
+  
   FileName$ = SaveFileRequester(Language("FileStuff","SaveFileTitle"), NewSourcePath$, Language("FileStuff","Pattern"), SelectedFilePattern)
   If FileName$ <> ""
     SelectedFilePattern = SelectedFilePattern()
     NewSourcePath$ = GetPathPart(FileName$)
-
+    
     If GetExtensionPart(GetFilePart(FileName$)) = ""
       If SelectedFilePattern <= 1  ; (=all pb files or pb sources only)
         If *ActiveSource\IsForm
@@ -2208,7 +2208,7 @@ Procedure SaveSourceAs()
         ForceFileCheck = 1
       EndIf
     EndIf
-
+    
     ; On Cocoa the file exists dialog is already in the SavePanel, so only popup if we added an extension
     ;
     If ForceFileCheck Or #CompileMacCocoa = 0
@@ -2218,7 +2218,7 @@ Procedure SaveSourceAs()
         EndIf
       EndIf
     EndIf
-
+    
     Result = SaveSourceFile(FileName$)
     
     If Result
@@ -2228,16 +2228,16 @@ Procedure SaveSourceAs()
       HistoryEvent(*ActiveSource, #HISTORY_SaveAs)
       UpdateIsCodeStatus() ; re-scan/re-highlight in case the IsCode value has changed
     EndIf
-
+    
     ProcedureReturn Result
   Else
     ProcedureReturn -1 ; indicate user abort (needed when called by CheckSourceSaved())
   EndIf
-
+  
 EndProcedure
 
 Procedure SaveSource()
-
+  
   If *ActiveSource\FileName$ = ""
     ProcedureReturn SaveSourceAs()
   Else
@@ -2247,16 +2247,16 @@ Procedure SaveSource()
     EndIf
     ProcedureReturn Result
   EndIf
-
+  
 EndProcedure
 
 
 Procedure RemoveSource(*Source.SourceFile = 0)
-
+  
   If *Source = 0
     *Source = *ActiveSource
   EndIf
-
+  
   If *Source = *ProjectInfo
     ProcedureReturn
   EndIf
@@ -2276,24 +2276,24 @@ Procedure RemoveSource(*Source.SourceFile = 0)
   If IsWindow(#WINDOW_Diff)
     CheckDiffFileClose(*Source)
   EndIf
-
+  
   If DeleteCurrent And *Source\ProjectFile = 0 And IsWindow(#WINDOW_Option)  ; make sure the options are closed (for non-project files)
     OptionWindowEvents(#PB_Event_CloseWindow)
   EndIf
   
   ; disconnect source from the project (if any)
   UnlinkSourceFromProject(*Source, #True)
-    
+  
   ; is this the mainfile for a debugger?
   *Debugger = FindDebuggerFromID(*Source\DebuggerID)
   If *Debugger
     Debugger_Kill(*Debugger)
   EndIf
-    
+  
   If *Source = *WarningWindowSource   ; Is this the source that caused the Warning window to open ?
     WarningWindowEvents(#PB_Event_CloseWindow) ; will set *WarningWindowSource to 0
   EndIf
-
+  
   Gadget = *Source\EditorGadget
   
   FreeSourceItemArray(@*Source\Parser)
@@ -2323,7 +2323,7 @@ Procedure RemoveSource(*Source.SourceFile = 0)
     propgrid_toolbar = 0
     propgrid_statusbar = 0
   EndIf
-
+  
   
   If DeleteCurrent
     Index = ListIndex(FileList())
@@ -2336,9 +2336,9 @@ Procedure RemoveSource(*Source.SourceFile = 0)
     *ActiveSource = 0
   Else
     PushListPosition(FileList())
-      ChangeCurrentElement(FileList(), *Source)
-      Index = ListIndex(FileList())
-      DeleteElement(FileList())
+    ChangeCurrentElement(FileList(), *Source)
+    Index = ListIndex(FileList())
+    DeleteElement(FileList())
     PopListPosition(FileList())
   EndIf
   
@@ -2370,36 +2370,36 @@ Procedure RemoveSource(*Source.SourceFile = 0)
   ; progress, instead of just an unresponsive window for quite a while.
   ; There is almost no flicker anymore, so it actually looks quite good.
   FlushEvents()
-   
+  
 EndProcedure
 
 Procedure CheckSourceSaved(*Source.SourceFile = 0)
-
+  
   If *Source = 0
     *Source = *ActiveSource
   EndIf
-
+  
   If *Source = *ProjectInfo
     ProcedureReturn 1
   EndIf
-
-  If GetSourceModified(*Source)
   
+  If GetSourceModified(*Source)
+    
     ; need to make it current for display of the question
     If *Source <> *ActiveSource
       ChangeCurrentElement(FileList(), *Source)
       ChangeActiveSourcecode(*ActiveSource)
       FlushEvents()
     EndIf
-
+    
     If *ActiveSource\FileName$ = ""
       Text$ = Language("FileStuff","ModifiedNew")
     Else
       Text$ = LanguagePattern("FileStuff","Modified", "%filename%", GetFilePart(*ActiveSource\FileName$))
     EndIf
-
+    
     Result = MessageRequester(#ProductName$, Text$, #PB_MessageRequester_YesNoCancel|#FLAG_Question)
-
+    
     If Result = #PB_MessageRequester_Yes
       Status = SaveSource()
       If Status = 0 And *ActiveSource\FileName$ <> "" And (SaveProjectSettings = 1 Or SaveProjectSettings = 2 )
@@ -2409,7 +2409,7 @@ Procedure CheckSourceSaved(*Source.SourceFile = 0)
         SaveProjectSettings(*ActiveSource, *ActiveSource\IsCode, 0, 0)
       EndIf
       ProcedureReturn Status
-
+      
     ElseIf Result = #PB_MessageRequester_No
       If *ActiveSource\FileName$ <> "" And (SaveProjectSettings = 1 Or SaveProjectSettings = 2 )
         ; if the compiler options are not stored at the end of the sourcefile,
@@ -2418,12 +2418,12 @@ Procedure CheckSourceSaved(*Source.SourceFile = 0)
         SaveProjectSettings(*ActiveSource, *ActiveSource\IsCode, 0, 0)
       EndIf
       ProcedureReturn 1
-
+      
     ElseIf Result = #PB_MessageRequester_Cancel
       ProcedureReturn -1
-
+      
     EndIf
-
+    
   Else
     
     ; Why should we save the setting even if a source a not modified ?
@@ -2434,14 +2434,14 @@ Procedure CheckSourceSaved(*Source.SourceFile = 0)
       ; Do not report an error though (for example if the source was loaded from CD)
       SaveProjectSettings(*Source, *Source\IsCode,  0, 0)
     EndIf
-  
+    
     ProcedureReturn 1
   EndIf
-
+  
 EndProcedure
 
 Procedure SaveAll()  ; saves all sources, but does not close them!
-
+  
   *CurrentSource   = *ActiveSource ; to restore at the end
   *DisplayedSource = *ActiveSource ; for switching to "Save as..." source
   
@@ -2449,21 +2449,21 @@ Procedure SaveAll()  ; saves all sources, but does not close them!
     If @FileList() <> *ProjectInfo
       *ActiveSource = @FileList()
       If GetSourceModified()
-      
-        If *ActiveSource\FileName$ = ""
         
+        If *ActiveSource\FileName$ = ""
+          
           ; display the source we are about to save
           *ActiveSource = *DisplayedSource ; needed for the correct source switch
           ChangeActiveSourcecode()         ; *Activesource is correct again now
           *DisplayedSource = *ActiveSource
           
           FlushEvents() ; update the display
-          SaveSourceAs() ; save the source
+          SaveSourceAs(); save the source
         Else
           SaveSourceFile(*ActiveSource\FileName$)
           HistoryEvent(*ActiveSource, #HISTORY_Save)
         EndIf
-      
+        
       EndIf
     EndIf
   Next FileList()
@@ -2472,7 +2472,7 @@ Procedure SaveAll()  ; saves all sources, but does not close them!
   *ActiveSource = *DisplayedSource
   ChangeCurrentElement(FileList(), *CurrentSource)
   ChangeActiveSourceCode()
-
+  
 EndProcedure
 
 
@@ -2480,7 +2480,7 @@ EndProcedure
 ; this function is called when exiting the editor
 ; Note: now does not remove the source!
 Procedure CheckAllSourcesSaved()
-
+  
   ; to avoid flicker, we only switch sources for real if there
   ; is some user interaction needed (ie a "do you want to save" dialog)
   ;
@@ -2493,7 +2493,7 @@ Procedure CheckAllSourcesSaved()
   
   ClearList(OpenFiles())
   LastElement(FileList())
-
+  
   For i = 1 To NbFiles
     If @FileList() = *ProjectInfo
       PreviousElement(FileList())
@@ -2506,40 +2506,40 @@ Procedure CheckAllSourcesSaved()
         ChangeActiveSourcecode()
         *Displayed = *ActiveSource
       EndIf
-
+      
       ; call this even if GetSourceModified() is false, so
       ; we update the settings file
       ;
       Result = CheckSourceSaved()
-  
+      
       If Result = 1
         If *ActiveSource\FileName$ <> "" And AutoReload And *ActiveSource\ProjectFile = 0 ; only save the filenames if autoreload is on (and not part of a project as a project will reopen itself its previously opened files)
           AddElement(OpenFiles())
           OpenFiles() = *ActiveSource\FileName$
         EndIf
-  
+        
         PreviousElement(FileList())
       Else
-      
+        
         *ActiveSource = *Displayed ; reset the active source
         ChangeActiveSourcecode()
         ProcedureReturn 0
       EndIf
     EndIf
-
+    
   Next i
-
+  
   *ActiveSource = *Displayed ; reset the active source
   ChangeActiveSourcecode()
-
+  
   ProcedureReturn 1
 EndProcedure
 
 
 Procedure AutoSave()  ; called before compiling / creating executable to do the autosaveProcedure AutoSave()  ; called before compiling / creating executable to do the autosave
-
-  If AutoSaveAll ; save all sources
   
+  If AutoSaveAll ; save all sources
+    
     *RealActiveSource = *ActiveSource ; have to change the *ActiveSource for the GetSourceModified()
     
     ForEach FileList()
@@ -2554,18 +2554,18 @@ Procedure AutoSave()  ; called before compiling / creating executable to do the 
     
     *ActiveSource = *RealActiveSource
     ChangeCurrentElement(FileList(), *ActiveSource)
-  
+    
   Else ; save the current source only
-  
+    
     If *ActiveSource <> *ProjectInfo
       If *ActiveSource\FileName$ <> "" And GetSourceModified() ; don't save <new> files
         SaveSourceFile(*ActiveSource\FileName$)
         HistoryEvent(*ActiveSource, #HISTORY_Save)
       EndIf
     EndIf
-  
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure ReloadSource()
@@ -2578,7 +2578,7 @@ Procedure ReloadSource()
           OptionWindowEvents(#PB_Event_CloseWindow)
         EndIf
       EndIf
-    
+      
       ; Simply reload the file over the current source
       ;
       If LoadTempFile(*ActiveSource\FileName$)
@@ -2622,17 +2622,17 @@ EndProcedure
 Global FileMonitorWindowOpen
 
 Procedure FileMonitorWindowEvents(EventID)
-
+  
   If EventID = #PB_Event_Menu     ; Little wrapper to map the shortcut events (identified as menu)
     EventID  = #PB_Event_Gadget   ; to normal gadget events...
     GadgetID = EventMenu()
   Else
     GadgetID = EventGadget()
   EndIf
-
+  
   If EventID = #PB_Event_Gadget
     Select GadgetID
-    
+        
       Case #GADGET_FileMonitor_Reload
         ; make sure the compiler options are closed if its not a project (as they get reloaded from file too)
         ;
@@ -2641,7 +2641,7 @@ Procedure FileMonitorWindowEvents(EventID)
             OptionWindowEvents(#PB_Event_CloseWindow)
           EndIf
         EndIf
-      
+        
         ; Simply reload the file over the current source
         ;
         If LoadTempFile(*ActiveSource\FileName$)
@@ -2657,7 +2657,7 @@ Procedure FileMonitorWindowEvents(EventID)
         *ActiveSource\DiskChecksum  = FileFingerprint(*ActiveSource\Filename$, #PB_Cipher_MD5)
         
         Quit = #True
-                      
+        
       Case #GADGET_FileMonitor_Cancel
         ; mark the file as modified, as it is now different from disk
         UpdateSourceStatus(#True)
@@ -2668,19 +2668,19 @@ Procedure FileMonitorWindowEvents(EventID)
         *ActiveSource\DiskChecksum  = FileFingerprint(*ActiveSource\Filename$, #PB_Cipher_MD5)
         
         Quit = #True
-              
+        
       Case #GADGET_FileMonitor_ViewDiff
         ; diff the current source to disk. do not swap, so it is Source -> Disk
         ; do not close the requester just yet
         DiffSourceToFile(*ActiveSource, *ActiveSource\Filename$, #False)
-      
+        
     EndSelect
-  
+    
   ElseIf EventID = #PB_Event_CloseWindow
     ; this window has no close button, but this gets called
     ; when the window should be closed because of a prefs update or IDE shutdown
     Quit = #True
-  
+    
   EndIf
   
   If Quit
@@ -2698,7 +2698,7 @@ Procedure FileMonitorEvent()
     
     ForEach FileList()
       If @FileList() <> *ProjectInfo And FileList()\ExistsOnDisk And FileList()\FileName$ And FileList()\IsForm = #False ; only check saved files (ignore form files as they don't use the same save routines)
-        Size = FileSize(FileList()\FileName$) ; check size first to know if it still exists
+        Size = FileSize(FileList()\FileName$)                                                                            ; check size first to know if it still exists
         If Size < 0
           ; file deleted on disk
           FileList()\ExistsOnDisk = #False ; fire no more monitor events from now on (until it is saved again)
@@ -2738,7 +2738,7 @@ Procedure FileMonitorEvent()
           If FileMonitorWindowDialog
             SetGadgetText(#GADGET_FileMonitor_Text, Message$)
             FileMonitorWindowDialog\GuiUpdate()
-          
+            
             StickyWindow(#WINDOW_FileMonitor, 1)
             DisableWindow(#WINDOW_Main, 1)
             FileMonitorWindowOpen = 1

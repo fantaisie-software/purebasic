@@ -1,4 +1,4 @@
-;-----------------------------------------------------
+﻿;-----------------------------------------------------
 ;    Grid Gadget for Purebasic
 ;    This source is proprietary - please do not redistribute
 ;    The license below doesn't apply to this file for gdpcomputing's individual license holders.
@@ -48,8 +48,8 @@ Enumeration
   #Grid_Cell_Custom = 4
   #Grid_Cell_Text = 5
   #Grid_Cell_SpinGadget = 6
-
-
+  
+  
   #Grid_Scrolling_Column = 1
   #Grid_Scrolling_Row
   #Grid_Scrolling_Enabled
@@ -277,7 +277,7 @@ Structure Grid_Struct
   *edit_dc
   *select_dc
   *tempimg
-
+  
   ; Default style
   dfont.s
   dfontsize.w
@@ -455,7 +455,7 @@ Procedure grid_BuildScrollbarSize(*grid.Grid_Struct)
         
         *grid\hscroll = ScrollBarGadget(#PB_Any,*grid\x,*grid\y+*grid\height-Grid_Scrollbar_Width,*grid\width-Grid_Scrollbar_Width,Grid_Scrollbar_Width,0,1,1)
         BindGadgetEvent(*grid\hscroll, @grid_ScrollEvent())
-
+        
         If *grid\gadgetlist > -1
           CloseGadgetList()
           UseGadgetList(oldglist);
@@ -468,7 +468,7 @@ Procedure grid_BuildScrollbarSize(*grid.Grid_Struct)
       SetGadgetAttribute(*grid\hscroll,#PB_ScrollBar_PageLength, 10)
     EndIf
   EndIf
-
+  
   ; Vertical scrollbar
   drawing_y = 0
   
@@ -507,7 +507,7 @@ Procedure grid_BuildScrollbarSize(*grid.Grid_Struct)
       *grid\vscroll = 0
       grid_ResizeGadget(*grid, *grid\x,*grid\y,*grid\width,*grid\height)
     EndIf
-
+    
   Else ; build scrollbar size
     If Not *grid\yscroll_disabled
       If Not *grid\vscroll
@@ -523,10 +523,10 @@ Procedure grid_BuildScrollbarSize(*grid.Grid_Struct)
         Else
           oldglist = UseGadgetList(WindowID(*grid\hwnd))
         EndIf
-                
+        
         *grid\vscroll = ScrollBarGadget(#PB_Any,*grid\x+*grid\width-Grid_Scrollbar_Width,*grid\y,Grid_Scrollbar_Width,*grid\innerheight,0,1,1,#PB_ScrollBar_Vertical)
         BindGadgetEvent(*grid\vscroll, @grid_ScrollEvent())
-
+        
         If *grid\gadgetlist > -1
           CloseGadgetList()
           UseGadgetList(oldglist)
@@ -576,7 +576,7 @@ ProcedureDLL GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 10
   
   *grid\keep_pos_col = - 1
   *grid\keep_pos_row = -1
-
+  
   *grid\canvas = CanvasGadget(#PB_Any,x,y,width-Grid_Scrollbar_Width,height-Grid_Scrollbar_Width, #PB_Canvas_Keyboard)
   
   *grid\hwnd = hwnd
@@ -627,13 +627,13 @@ ProcedureDLL GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 10
   CompilerEndIf
   
   *grid\vscroll = ScrollBarGadget(#PB_Any,x+width-Grid_Scrollbar_Width,y,Grid_Scrollbar_Width,height-Grid_Scrollbar_Width,0,1,1,#PB_ScrollBar_Vertical)
-
+  
   CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
     *grid\font = LoadFont(#PB_Any,"Lucida Grande",12,#PB_Font_Bold)
   CompilerElse
     *grid\font = LoadFont(#PB_Any,"Segoe UI",9)
   CompilerEndIf
-
+  
   If Not FindMapElement(grids_fonts(),dfont+Str(dfontsize))
     AddMapElement(grids_fonts(),dfont+Str(dfontsize))
     grids_fonts()\fontname = dfont
@@ -667,17 +667,17 @@ ProcedureDLL GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 10
   
   *grid\edit_col = - 1
   *grid\edit_row = - 1
-
+  
   DisableDebugger
-    For i = 0 To maxcols
-      *grid\col(i) = i
-    Next
-    
-    For i = 0 To maxrows
-      *grid\row(i) = i
-    Next
-    *grid\col_index = grid_maxcols
-    *grid\row_index = grid_maxrows
+  For i = 0 To maxcols
+    *grid\col(i) = i
+  Next
+  
+  For i = 0 To maxrows
+    *grid\row(i) = i
+  Next
+  *grid\col_index = grid_maxcols
+  *grid\row_index = grid_maxrows
   EnableDebugger
   
   *grid\maxnumcols = maxcols
@@ -783,7 +783,7 @@ ProcedureDLL grid_SetGadgetAttribute(*grid.Grid_Struct, attribute, value)
       *grid\sel()\sel_col = value
       *grid\sel()\sel_col_end = value
       *grid\redraw = #True
-        
+      
     Case #Grid_Attribute_SelectedRow
       LastElement(*grid\sel())
       *grid\sel()\sel_row = value
@@ -874,12 +874,12 @@ ProcedureDLL grid_SetGadgetAttribute(*grid.Grid_Struct, attribute, value)
         CloseGadgetList()
         UseGadgetList(oldglist)
       EndIf
-
+      
     Case #Grid_Scrolling_Column
       If Not *grid\scroll_enabled Or *grid\xscroll_disabled Or Not *grid\hscroll
         ProcedureReturn
       EndIf
-
+      
       max = GetGadgetAttribute(*grid\hscroll,#PB_ScrollBar_Maximum) - GetGadgetAttribute(*grid\hscroll,#PB_ScrollBar_PageLength)
       If value > max
         value = max
@@ -888,7 +888,7 @@ ProcedureDLL grid_SetGadgetAttribute(*grid.Grid_Struct, attribute, value)
       If value < 0
         value = 0
       EndIf
-            
+      
       If *grid\xscroll <> value
         *grid\xscroll = value
         SetGadgetState(*grid\hscroll,*grid\xscroll)
@@ -900,12 +900,12 @@ ProcedureDLL grid_SetGadgetAttribute(*grid.Grid_Struct, attribute, value)
       If Not *grid\scroll_enabled Or *grid\yscroll_disabled Or Not *grid\vscroll
         ProcedureReturn
       EndIf
-
+      
       max = GetGadgetAttribute(*grid\vscroll,#PB_ScrollBar_Maximum) - GetGadgetAttribute(*grid\vscroll,#PB_ScrollBar_PageLength)
       If value > max
         value = max
       EndIf
-
+      
       If value < 0
         value = 0
       EndIf
@@ -940,7 +940,7 @@ ProcedureDLL.i grid_GetGadgetAttribute(*grid.Grid_Struct, attribute)
       EndIf
       
       current_column = *grid\xscroll
-  
+      
       While drawing_x < *grid\innerwidth
         If current_column < *grid\maxnumcols
           indexed_current_column = *grid\col(current_column)
@@ -1003,51 +1003,51 @@ ProcedureDLL grid_IsActiveGadget(*grid.Grid_Struct)
 EndProcedure
 
 ProcedureDLL grid_ResizeGadget(*grid.Grid_Struct, x, y, width, height)
- Protected maxscroll, more
-
- If x <> #PB_Ignore
-   *grid\x = x
- EndIf
- 
- If y <> #PB_Ignore
-   *grid\y = y
- EndIf
- 
- If width <> #PB_Ignore
-   *grid\width = width
-
-   If *grid\yscroll_disabled Or *grid\vscroll = 0
-     *grid\innerwidth = width
-   Else
-     *grid\innerwidth = width - Grid_Scrollbar_Width
-   EndIf
-
- EndIf
- 
- If height <> #PB_Ignore
-   *grid\height = height
-
-   If *grid\xscroll_disabled Or *grid\hscroll = 0
-     *grid\innerheight = height
-   Else
-     *grid\innerheight = height - Grid_Scrollbar_Width
-   EndIf
- EndIf
- 
- ResizeGadget(*grid\canvas, *grid\x,*grid\y,*grid\innerwidth,*grid\innerheight)
-
- If Not *grid\xscroll_disabled And *grid\hscroll
-   ResizeGadget(*grid\hscroll,x,*grid\y + *grid\innerheight,*grid\innerwidth,Grid_Scrollbar_Width)
- EndIf
-
- If Not *grid\yscroll_disabled And *grid\vscroll
-   ResizeGadget(*grid\vscroll,*grid\x + *grid\innerwidth,y,Grid_Scrollbar_Width,*grid\innerheight)
- EndIf
-
- ; build scrollbar size
- grid_BuildScrollbarSize(*grid)
-
- *grid\redraw = #True
+  Protected maxscroll, more
+  
+  If x <> #PB_Ignore
+    *grid\x = x
+  EndIf
+  
+  If y <> #PB_Ignore
+    *grid\y = y
+  EndIf
+  
+  If width <> #PB_Ignore
+    *grid\width = width
+    
+    If *grid\yscroll_disabled Or *grid\vscroll = 0
+      *grid\innerwidth = width
+    Else
+      *grid\innerwidth = width - Grid_Scrollbar_Width
+    EndIf
+    
+  EndIf
+  
+  If height <> #PB_Ignore
+    *grid\height = height
+    
+    If *grid\xscroll_disabled Or *grid\hscroll = 0
+      *grid\innerheight = height
+    Else
+      *grid\innerheight = height - Grid_Scrollbar_Width
+    EndIf
+  EndIf
+  
+  ResizeGadget(*grid\canvas, *grid\x,*grid\y,*grid\innerwidth,*grid\innerheight)
+  
+  If Not *grid\xscroll_disabled And *grid\hscroll
+    ResizeGadget(*grid\hscroll,x,*grid\y + *grid\innerheight,*grid\innerwidth,Grid_Scrollbar_Width)
+  EndIf
+  
+  If Not *grid\yscroll_disabled And *grid\vscroll
+    ResizeGadget(*grid\vscroll,*grid\x + *grid\innerwidth,y,Grid_Scrollbar_Width,*grid\innerheight)
+  EndIf
+  
+  ; build scrollbar size
+  grid_BuildScrollbarSize(*grid)
+  
+  *grid\redraw = #True
 EndProcedure
 
 ProcedureDLL grid_GadgetX(*grid.Grid_Struct)
@@ -1144,7 +1144,7 @@ ProcedureDLL grid_SetColumnButton(*grid.Grid_Struct, index, *imageID)
   If Not FindMapElement(*grid\cols(),col)
     AddMapElement(*grid\cols(),col)
   EndIf
-    
+  
   *grid\cols()\buttonid = *imageID
   *grid\redraw = 1
   
@@ -1159,7 +1159,7 @@ ProcedureDLL grid_SetColumnCaption(*grid.Grid_Struct, index, caption.s)
   If Not FindMapElement(*grid\cols(),col)
     AddMapElement(*grid\cols(),col)
   EndIf
-    
+  
   *grid\cols()\caption = caption
   
   StartDrawing(ImageOutput(*grid\tempimg))
@@ -1168,7 +1168,7 @@ ProcedureDLL grid_SetColumnCaption(*grid.Grid_Struct, index, caption.s)
   
   *grid\cols()\wtext = TextWidth(caption)
   StopDrawing()
-
+  
   If *grid\cols()\wh = 0
     *grid\cols()\wh = *grid\default_col_width
   EndIf
@@ -1182,9 +1182,9 @@ ProcedureDLL grid_SetColumnData(*grid.Grid_Struct, index, g_data.i)
   If Not FindMapElement(*grid\cols(),col)
     AddMapElement(*grid\cols(),col)
   EndIf
-    
+  
   *grid\cols()\g_data = g_data
-
+  
   If *grid\cols()\wh = 0
     *grid\cols()\wh = *grid\default_col_width
   EndIf
@@ -1239,7 +1239,7 @@ ProcedureDLL grid_SetColumnWidth(*grid.Grid_Struct, index, width = -1, padding =
     
     For i = 0 To *grid\maxnumrows - 1
       cell_width = grid_GetCellTextWidth(*grid.Grid_Struct, index, i)
-
+      
       If FindMapElement(*grid\cells(),Str(*grid\col(index))+"x"+Str(*grid\row(i)))
         If *grid\cells()\type = #Grid_Cell_Combobox Or *grid\cells()\type = #Grid_Cell_Combobox_Editable Or *grid\cells()\type = #Grid_Cell_SpinGadget
           cell_width + 22
@@ -1284,7 +1284,7 @@ ProcedureDLL grid_SetRowCaption(*grid.Grid_Struct, index, caption.s)
   If Not FindMapElement(*grid\rows(),row)
     AddMapElement(*grid\rows(),row)
   EndIf
-    
+  
   *grid\rows()\caption = caption
   
   StartDrawing(ImageOutput(*grid\tempimg))
@@ -1307,13 +1307,13 @@ ProcedureDLL grid_SetRowData(*grid.Grid_Struct, index, g_data)
   If Not FindMapElement(*grid\rows(),row)
     AddMapElement(*grid\rows(),row)
   EndIf
-    
+  
   *grid\rows()\g_data = g_data
   
   If *grid\rows()\wh = 0
     *grid\rows()\wh = *grid\default_row_height
   EndIf
-
+  
 EndProcedure
 ProcedureDLL grid_GetRowData(*grid.Grid_Struct, index)
   Protected caption.s, g_data
@@ -1369,7 +1369,7 @@ ProcedureDLL grid_HideRow(*grid.Grid_Struct, index, hide.b)
   If Not FindMapElement(*grid\rows(),row)
     AddMapElement(*grid\rows(),row)
   EndIf
-    
+  
   *grid\rows()\visible = hide
   
   If *grid\rows()\wh = 0
@@ -1378,7 +1378,7 @@ ProcedureDLL grid_HideRow(*grid.Grid_Struct, index, hide.b)
   
   *grid\redraw = #True
   grid_BuildScrollbarSize(*grid)
-
+  
 EndProcedure
 
 
@@ -1391,7 +1391,7 @@ ProcedureDLL grid_SetCellData(*grid.Grid_Struct, col_index, row_index, value)
   If Not FindMapElement(*grid\cells(),cell)
     AddMapElement(*grid\cells(),cell)
     *grid\cells()\backColor = *grid\color_background
-  
+    
     ClearList(*grid\cells()\style())
     AddElement(*grid\cells()\style())
     *grid\cells()\style()\color = *grid\dfontcolor
@@ -1399,7 +1399,7 @@ ProcedureDLL grid_SetCellData(*grid.Grid_Struct, col_index, row_index, value)
     *grid\cells()\style()\fontsize = *grid\dfontsize
     *grid\cells()\style()\style_end = 0
   EndIf
-    
+  
   *grid\cells()\c_data = value
   
   If col_index >= *grid\numcols
@@ -1440,7 +1440,7 @@ ProcedureDLL grid_SetCellString(*grid.Grid_Struct, col_index, row_index, value.s
   *grid\cells()\style()\fontsize = *grid\dfontsize
   *grid\cells()\style()\style_end = Len(value)
   
-    *grid\cells()\content = value
+  *grid\cells()\content = value
   
   If col_index >= *grid\numcols
     *grid\numcols = col_index + 1
@@ -1568,7 +1568,7 @@ ProcedureDLL grid_SetCellType(*grid.Grid_Struct, col_index, row_index, type)
   *grid\cells()\type = type
   *grid\cells()\state = 0
   *grid\cells()\content = ""
-
+  
   If col_index >= *grid\numcols
     *grid\numcols = col_index + 1
   EndIf
@@ -1592,7 +1592,7 @@ ProcedureDLL grid_SetCellState(*grid.Grid_Struct, col_index, row_index, state.i)
   
   *grid\cells()\state = state
   *grid\redraw = #True
-
+  
 EndProcedure
 
 ProcedureDLL grid_GetCellType(*grid.Grid_Struct, col_index, row_index)
@@ -1730,7 +1730,7 @@ ProcedureDLL.s grid_GetCellCursorSelection(*grid.Grid_Struct)
   Protected text.s, sel_start, sel_end
   
   text.s = ""
-
+  
   If *grid\edit_row > -1 And *grid\edit_col > -1
     If FindMapElement(*grid\cells(), Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
       sel_start = grid_Min(*grid\edit_sel_start, *grid\edit_sel_end)
@@ -1747,7 +1747,7 @@ ProcedureDLL grid_CopyCellCursorSelection(*grid.Grid_Struct)
   Protected text.s, sel_start, sel_end
   
   text.s = ""
-
+  
   If *grid\edit_row > -1 And *grid\edit_col > -1
     If FindMapElement(*grid\cells(), Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
       sel_start = grid_Min(*grid\edit_sel_start, *grid\edit_sel_end)
@@ -1867,7 +1867,7 @@ ProcedureDLL grid_PasteCellCursorSelection(*grid.Grid_Struct)
       *grid\edit_pos + Len(text)
       *grid\cells()\backColor = *grid\color_background
       *grid\redraw = #True
-    
+      
       ClearList(*grid\cells()\style())
       AddElement(*grid\cells()\style())
       *grid\cells()\style()\color = *grid\dfontcolor
@@ -1875,7 +1875,7 @@ ProcedureDLL grid_PasteCellCursorSelection(*grid.Grid_Struct)
       *grid\cells()\style()\fontsize = *grid\dfontsize
       *grid\cells()\style()\style_end = *grid\edit_pos
     EndIf
-      
+    
   EndIf
 EndProcedure
 
@@ -1895,7 +1895,7 @@ ProcedureDLL grid_CopySelection(*grid.Grid_Struct)
   For i = row_start To row_end
     For j = col_start To col_end
       cell.s = Str(*grid\col(j))+"x"+Str(*grid\row(i))
-
+      
       If FindMapElement(*grid\cells(),cell)
         clipboard + *grid\cells()\content
       EndIf
@@ -1986,7 +1986,7 @@ ProcedureDLL grid_GetCursorStyleFontSize(*grid.Grid_Struct, cursor = -1, col_ind
   If cursor = -1
     cursor = *grid\edit_pos
   EndIf
-
+  
   If FindMapElement(*grid\cells(), cell)
     pos = 0
     ForEach *grid\cells()\style()
@@ -2011,7 +2011,7 @@ ProcedureDLL grid_GetCursorStyleColor(*grid.Grid_Struct, cursor = -1, col_index 
   If cursor = -1
     cursor = *grid\edit_pos
   EndIf
-
+  
   If FindMapElement(*grid\cells(), cell)
     pos = 0
     ForEach *grid\cells()\style()
@@ -2037,7 +2037,7 @@ ProcedureDLL grid_GetCursorStyleFontFlags(*grid.Grid_Struct, cursor = -1, col_in
   If cursor = -1
     cursor = *grid\edit_pos
   EndIf
-
+  
   If FindMapElement(*grid\cells(), cell)
     pos = 0
     ForEach *grid\cells()\style()
@@ -2207,59 +2207,59 @@ ProcedureDLL grid_SetSelectionStyle(*grid.Grid_Struct,col_index ,row_index ,font
           
         EndIf
       Next
-    
-    SortStructuredList(*grid\cells()\style(),#PB_Sort_Ascending,OffsetOf(GridCellStyle\style_end),#PB_Long)
-    
-    
-  Else
-    ; we add a temp style, which will be deleted on an cursor position change
-    If *grid\tstyle = #False
-      ; let's retrieve the previous style
       
-      *grid\tfont = grid_GetCursorStyleFontName(*grid, -1, col_index, row_index)
-      *grid\tfontsize = grid_GetCursorStyleFontSize(*grid, col_index, row_index)
-      *grid\tfontflags = grid_GetCursorStyleFontFlags(*grid, col_index, row_index)
-      *grid\tfontcolor = grid_GetCursorStyleColor(*grid, col_index, row_index)
+      SortStructuredList(*grid\cells()\style(),#PB_Sort_Ascending,OffsetOf(GridCellStyle\style_end),#PB_Long)
+      
+      
+    Else
+      ; we add a temp style, which will be deleted on an cursor position change
+      If *grid\tstyle = #False
+        ; let's retrieve the previous style
+        
+        *grid\tfont = grid_GetCursorStyleFontName(*grid, -1, col_index, row_index)
+        *grid\tfontsize = grid_GetCursorStyleFontSize(*grid, col_index, row_index)
+        *grid\tfontflags = grid_GetCursorStyleFontFlags(*grid, col_index, row_index)
+        *grid\tfontcolor = grid_GetCursorStyleColor(*grid, col_index, row_index)
+      EndIf
+      
+      *grid\tstyle = #True
+      
+      If color <> -1
+        *grid\tfontcolor = color
+      EndIf
+      
+      If fontname <> ""
+        *grid\tfont = fontname
+      EndIf
+      
+      If fontsize <> - 1
+        *grid\tfontsize = fontsize
+      EndIf
+      
+      If bold = 1 And Not *grid\tfontflags & #PB_Font_Bold
+        *grid\tfontflags | #PB_Font_Bold
+      ElseIf bold = 0 And *grid\tfontflags & #PB_Font_Bold
+        *grid\tfontflags - #PB_Font_Bold
+      EndIf
+      
+      If italic = 1 And Not *grid\tfontflags & #PB_Font_Italic
+        *grid\tfontflags | #PB_Font_Italic
+      ElseIf italic = 0 And *grid\tfontflags & #PB_Font_Italic
+        *grid\tfontflags - #PB_Font_Italic
+      EndIf
+      
+      If underline = 1 And Not *grid\tfontflags & #PB_Font_Underline
+        *grid\tfontflags | #PB_Font_Underline
+      ElseIf underline = 0 And *grid\tfontflags & #PB_Font_Underline
+        *grid\tfontflags - #PB_Font_Underline
+      EndIf
+      
+      If strikethrough = 1 And Not *grid\tfontflags & #Grid_TextEdit_Font_Strikethrough
+        *grid\tfontflags | #Grid_TextEdit_Font_Strikethrough
+      ElseIf strikethrough = 0 And *grid\tfontflags & #Grid_TextEdit_Font_Strikethrough
+        *grid\tfontflags - #Grid_TextEdit_Font_Strikethrough
+      EndIf
     EndIf
-    
-    *grid\tstyle = #True
-    
-    If color <> -1
-      *grid\tfontcolor = color
-    EndIf
-    
-    If fontname <> ""
-      *grid\tfont = fontname
-    EndIf
-    
-    If fontsize <> - 1
-      *grid\tfontsize = fontsize
-    EndIf
-    
-    If bold = 1 And Not *grid\tfontflags & #PB_Font_Bold
-      *grid\tfontflags | #PB_Font_Bold
-    ElseIf bold = 0 And *grid\tfontflags & #PB_Font_Bold
-      *grid\tfontflags - #PB_Font_Bold
-    EndIf
-    
-    If italic = 1 And Not *grid\tfontflags & #PB_Font_Italic
-      *grid\tfontflags | #PB_Font_Italic
-    ElseIf italic = 0 And *grid\tfontflags & #PB_Font_Italic
-      *grid\tfontflags - #PB_Font_Italic
-    EndIf
-    
-    If underline = 1 And Not *grid\tfontflags & #PB_Font_Underline
-      *grid\tfontflags | #PB_Font_Underline
-    ElseIf underline = 0 And *grid\tfontflags & #PB_Font_Underline
-      *grid\tfontflags - #PB_Font_Underline
-    EndIf
-    
-    If strikethrough = 1 And Not *grid\tfontflags & #Grid_TextEdit_Font_Strikethrough
-      *grid\tfontflags | #Grid_TextEdit_Font_Strikethrough
-    ElseIf strikethrough = 0 And *grid\tfontflags & #Grid_TextEdit_Font_Strikethrough
-      *grid\tfontflags - #Grid_TextEdit_Font_Strikethrough
-    EndIf
-  EndIf
   EndIf
   
   *grid\redraw = #True
@@ -2284,7 +2284,7 @@ ProcedureDLL grid_InsertRow(*grid.Grid_Struct,index)
   *grid\row(index) = *grid\row_index
   EnableDebugger
   
-    
+  
   For i = 0 To *grid\maxnumcols
     col.s = Str(*grid\col(i))
     If FindMapElement(*grid\cols(),col)
@@ -2295,7 +2295,7 @@ ProcedureDLL grid_InsertRow(*grid.Grid_Struct,index)
     EndIf
     
   Next
-
+  
   
   *grid\ numrows + 1
   *grid\redraw = #True
@@ -2361,9 +2361,9 @@ ProcedureDLL grid_DeleteColumn(*grid.Grid_Struct,index)
   For i = index To endloop
     *grid\col(i) = *grid\col(i + 1)
   Next
-
+  
   If maxcolminus
-  *grid\ numcols - 1
+    *grid\ numcols - 1
   EndIf
   
   *grid\maxnumcols - 1
@@ -2391,7 +2391,7 @@ ProcedureDLL grid_DeleteRow(*grid.Grid_Struct,index)
       DeleteMapElement(*grid\cells())
     EndIf
   Next
-    
+  
   ; delete the row attributes
   col.s = Str(*grid\row(index))
   If FindMapElement(*grid\rows(),col)
@@ -2403,9 +2403,9 @@ ProcedureDLL grid_DeleteRow(*grid.Grid_Struct,index)
   For i = index To endloop
     *grid\row(i) = *grid\row(i + 1)
   Next
-
+  
   If maxcolminus
-  *grid\ numrows - 1
+    *grid\ numrows - 1
   EndIf
   
   *grid\maxnumrows - 1
@@ -2436,7 +2436,7 @@ ProcedureDLL grid_DeleteAllColumns(*grid.Grid_Struct)
   *grid\numcols = 0
   *grid\maxnumcols = 0
   *grid\xscroll = 0
-
+  
   ; Reset selection
   ClearList(*grid\sel())
   AddElement(*grid\sel())
@@ -2464,7 +2464,7 @@ ProcedureDLL grid_DeleteAllRows(*grid.Grid_Struct)
   For i = 0 To endloop
     *grid\row(i) = i
   Next
-
+  
   *grid\numrows = 0
   *grid\maxnumrows = 0
   *grid\yscroll = 0
@@ -2495,74 +2495,74 @@ Procedure.s grid_GetCurrentCellCombo(*grid.Grid_Struct,x,y)
   drawing_y = 0
   While drawing_y < *grid\innerheight
     If current_row < *grid\maxnumrows
-
-    indexed_current_row = *grid\row(current_row)
-    
-    ; Draw the rows captions
-    current_row_map.s = Str(indexed_current_row)
-    If drawing_y < *grid\header_col_height+1 And Not *grid\header_col_hidden
-      drawing_y2 = *grid\header_col_height+1
-    Else
-      If FindMapElement(*grid\rows(), current_row_map)
+      
+      indexed_current_row = *grid\row(current_row)
+      
+      ; Draw the rows captions
+      current_row_map.s = Str(indexed_current_row)
+      If drawing_y < *grid\header_col_height+1 And Not *grid\header_col_hidden
+        drawing_y2 = *grid\header_col_height+1
+      Else
+        If FindMapElement(*grid\rows(), current_row_map)
           If *grid\rows()\visible ; don't draw
             current_row + 1
             Continue
           EndIf
-       drawing_y2 = drawing_y + *grid\rows()\wh + 1
-      Else
-        drawing_y2 = drawing_y + *grid\default_row_height + 1
-      EndIf
-    EndIf
-    
-    ; Draw the cells
-    drawing_x = 0
-    current_column = *grid\xscroll
-    
-    If x <= (*grid\header_row_width + 1) And y >= drawing_y And y <= drawing_y2
-      ProcedureReturn "-1x-1"
-    EndIf
-    
-    drawing_x = *grid\header_row_width + 1
-    While drawing_x < *grid\innerwidth
-      If current_column < *grid\maxnumcols
-
-      indexed_current_column = *grid\col(current_column)
-      current_column_map.s = Str(indexed_current_column)+"x"+Str(indexed_current_row)
-    
-      If FindMapElement(*grid\cols(), Str(indexed_current_column))
-        drawing_x2 = drawing_x + *grid\cols()\wh + 1
-      Else
-        drawing_x2 = drawing_x + *grid\default_col_width + 1
-      EndIf
-    
-      If y <= (*grid\header_col_height + 1) And Not *grid\header_col_hidden
-        If x >= drawing_x And x =< drawing_x2
-          ProcedureReturn "-1x-1"
-        EndIf
-      Else
-        If x >= (drawing_x2 - 23) And x =< drawing_x2 And y >= drawing_y And y <= drawing_y2
-          ProcedureReturn Str(current_column)+ "x"+Str(current_row)+ "x" + Str(drawing_x) + "x" + Str(drawing_y2) + "x" + Str(drawing_x2) + "x" + Str(drawing_y)
+          drawing_y2 = drawing_y + *grid\rows()\wh + 1
+        Else
+          drawing_y2 = drawing_y + *grid\default_row_height + 1
         EndIf
       EndIf
       
+      ; Draw the cells
+      drawing_x = 0
+      current_column = *grid\xscroll
       
-      current_column + 1
-      drawing_x = drawing_x2
+      If x <= (*grid\header_row_width + 1) And y >= drawing_y And y <= drawing_y2
+        ProcedureReturn "-1x-1"
+      EndIf
+      
+      drawing_x = *grid\header_row_width + 1
+      While drawing_x < *grid\innerwidth
+        If current_column < *grid\maxnumcols
+          
+          indexed_current_column = *grid\col(current_column)
+          current_column_map.s = Str(indexed_current_column)+"x"+Str(indexed_current_row)
+          
+          If FindMapElement(*grid\cols(), Str(indexed_current_column))
+            drawing_x2 = drawing_x + *grid\cols()\wh + 1
+          Else
+            drawing_x2 = drawing_x + *grid\default_col_width + 1
+          EndIf
+          
+          If y <= (*grid\header_col_height + 1) And Not *grid\header_col_hidden
+            If x >= drawing_x And x =< drawing_x2
+              ProcedureReturn "-1x-1"
+            EndIf
+          Else
+            If x >= (drawing_x2 - 23) And x =< drawing_x2 And y >= drawing_y And y <= drawing_y2
+              ProcedureReturn Str(current_column)+ "x"+Str(current_row)+ "x" + Str(drawing_x) + "x" + Str(drawing_y2) + "x" + Str(drawing_x2) + "x" + Str(drawing_y)
+            EndIf
+          EndIf
+          
+          
+          current_column + 1
+          drawing_x = drawing_x2
+        Else
+          Break
+        EndIf
+        
+      Wend
+      
+      If drawing_y <> 0 Or *grid\header_col_hidden > 0
+        current_row + 1
+      EndIf
+      
+      drawing_y = drawing_y2
     Else
       Break
     EndIf
     
-    Wend
-    
-    If drawing_y <> 0 Or *grid\header_col_hidden > 0
-      current_row + 1
-    EndIf
-    
-    drawing_y = drawing_y2
-  Else
-    Break
-  EndIf
-  
   Wend
   
   ProcedureReturn "-2x-2"
@@ -2581,74 +2581,74 @@ Procedure.s grid_GetCurrentCell(*grid.Grid_Struct,x,y)
   drawing_y = 0
   While drawing_y < *grid\innerheight
     If current_row < *grid\maxnumrows
-
-    indexed_current_row = *grid\row(current_row)
-    
-    ; Draw the rows captions
-    current_row_map.s = Str(indexed_current_row)
-    If drawing_y < *grid\header_col_height+1 And Not *grid\header_col_hidden
-      drawing_y2 = *grid\header_col_height+1
-    Else
-      If FindMapElement(*grid\rows(), current_row_map)
-        If *grid\rows()\visible ; don't draw
-          current_row + 1
-          Continue
-        EndIf
-
-        drawing_y2 = drawing_y + *grid\rows()\wh + 1
+      
+      indexed_current_row = *grid\row(current_row)
+      
+      ; Draw the rows captions
+      current_row_map.s = Str(indexed_current_row)
+      If drawing_y < *grid\header_col_height+1 And Not *grid\header_col_hidden
+        drawing_y2 = *grid\header_col_height+1
       Else
-        drawing_y2 = drawing_y + *grid\default_row_height + 1
-      EndIf
-    EndIf
-    
-    ; Draw the cells
-    drawing_x = 0
-    current_column = *grid\xscroll
-    
-    If x <= (*grid\header_row_width + 1) And y >= drawing_y And y <= drawing_y2
-      ProcedureReturn "-1x"+Str(current_row)+ "x"+Str(drawing_x)+ "x"+Str(drawing_y)
-    EndIf
-    
-    drawing_x = *grid\header_row_width + 1
-    While drawing_x < *grid\innerwidth
-      If current_column < *grid\maxnumcols
-        
-        indexed_current_column = *grid\col(current_column)
-        current_column_map.s = Str(indexed_current_column)+"x"+Str(indexed_current_row)
-        
-        If FindMapElement(*grid\cols(), Str(indexed_current_column))
-          drawing_x2 = drawing_x + *grid\cols()\wh + 1
-        Else
-          drawing_x2 = drawing_x + *grid\default_col_width + 1
-        EndIf
-        
-        If y <= (*grid\header_col_height + 1) And Not *grid\header_col_hidden
-          If x >= drawing_x And x =< drawing_x2
-            ProcedureReturn Str(current_column)+ "x-1"+ "x"+Str(drawing_x)+ "x"+Str(drawing_y)
+        If FindMapElement(*grid\rows(), current_row_map)
+          If *grid\rows()\visible ; don't draw
+            current_row + 1
+            Continue
           EndIf
+          
+          drawing_y2 = drawing_y + *grid\rows()\wh + 1
         Else
-          If x >= drawing_x And x =< drawing_x2 And y >= drawing_y And y <= drawing_y2
-            ProcedureReturn Str(current_column)+ "x"+Str(current_row)+ "x"+Str(drawing_x)+ "x"+Str(drawing_y)
-          EndIf
+          drawing_y2 = drawing_y + *grid\default_row_height + 1
         EndIf
-        
-        current_column + 1
-        drawing_x = drawing_x2
-      Else
-        Break
       EndIf
       
-    Wend
-    
-    If drawing_y <> 0 Or *grid\header_col_hidden > 0
-      current_row + 1
+      ; Draw the cells
+      drawing_x = 0
+      current_column = *grid\xscroll
+      
+      If x <= (*grid\header_row_width + 1) And y >= drawing_y And y <= drawing_y2
+        ProcedureReturn "-1x"+Str(current_row)+ "x"+Str(drawing_x)+ "x"+Str(drawing_y)
+      EndIf
+      
+      drawing_x = *grid\header_row_width + 1
+      While drawing_x < *grid\innerwidth
+        If current_column < *grid\maxnumcols
+          
+          indexed_current_column = *grid\col(current_column)
+          current_column_map.s = Str(indexed_current_column)+"x"+Str(indexed_current_row)
+          
+          If FindMapElement(*grid\cols(), Str(indexed_current_column))
+            drawing_x2 = drawing_x + *grid\cols()\wh + 1
+          Else
+            drawing_x2 = drawing_x + *grid\default_col_width + 1
+          EndIf
+          
+          If y <= (*grid\header_col_height + 1) And Not *grid\header_col_hidden
+            If x >= drawing_x And x =< drawing_x2
+              ProcedureReturn Str(current_column)+ "x-1"+ "x"+Str(drawing_x)+ "x"+Str(drawing_y)
+            EndIf
+          Else
+            If x >= drawing_x And x =< drawing_x2 And y >= drawing_y And y <= drawing_y2
+              ProcedureReturn Str(current_column)+ "x"+Str(current_row)+ "x"+Str(drawing_x)+ "x"+Str(drawing_y)
+            EndIf
+          EndIf
+          
+          current_column + 1
+          drawing_x = drawing_x2
+        Else
+          Break
+        EndIf
+        
+      Wend
+      
+      If drawing_y <> 0 Or *grid\header_col_hidden > 0
+        current_row + 1
+      EndIf
+      
+      drawing_y = drawing_y2
+    Else
+      Break
     EndIf
     
-    drawing_y = drawing_y2
-  Else
-    Break
-  EndIf
-  
   Wend
   
   ProcedureReturn "-2x-2"+ "x"+Str(drawing_x)+ "x"+Str(drawing_y)
@@ -2671,20 +2671,20 @@ Procedure.b grid_IsCellSelected(*grid.Grid_Struct, current_column, current_row)
       selected = #True
       Break
     EndIf
-      
+    
     If (current_column >= grid_Min(*grid\sel()\sel_col,*grid\sel()\sel_col_end) And current_column <= grid_Max(*grid\sel()\sel_col,*grid\sel()\sel_col_end) And *grid\sel()\sel_row = -1)
       ; the whole column is selected
       selected = #True
       Break
     EndIf
-      
+    
     If current_column >= grid_Min(*grid\sel()\sel_col,*grid\sel()\sel_col_end) And current_column <= grid_Max(*grid\sel()\sel_col,*grid\sel()\sel_col_end) And current_row >= grid_Min(*grid\sel()\sel_row,*grid\sel()\sel_row_end) And current_row <= grid_Max(*grid\sel()\sel_row,*grid\sel()\sel_row_end)
       ; this cell is part of the selection
       selected = #True
       Break
     EndIf
   Next
-
+  
   ProcedureReturn selected
 EndProcedure
 
@@ -2710,7 +2710,7 @@ Procedure.b grid_IsColumnInSelection(*grid.Grid_Struct, current_column)
       Break
     EndIf
   Next
-
+  
   ProcedureReturn selected
 EndProcedure
 
@@ -2736,7 +2736,7 @@ Procedure.b grid_IsRowInSelection(*grid.Grid_Struct, current_row)
       Break
     EndIf
   Next
-
+  
   ProcedureReturn selected
 EndProcedure
 
@@ -2769,7 +2769,7 @@ Procedure grid_GetLastCellSelected(*grid.Grid_Struct, *row, *column)
     PokeL(*column,*grid\sel()\sel_col)
     
   Else
-  
+    
     PokeL(*row,*grid\sel()\sel_row)
     PokeL(*column,*grid\sel()\sel_col)
     
@@ -2780,14 +2780,14 @@ Procedure grid_GetEditPosFromMouse(*grid.Grid_Struct, current_column, current_ro
   Protected xmouse, xpos1, xpos2, cell.s, textwidth, leftpadding, textx, textstart, fontkey.s, textend, i, pos
   
   xmouse = mouse_x - *grid\edit_x + 3
-
+  
   xpos1 = 0
   xpos2 = 0
   StartDrawing(ImageOutput(*grid\tempimg))
   DrawingMode(#PB_2DDrawing_Transparent)
   
   cell.s = Str(*grid\col(current_column))+"x"+Str(*grid\row(current_row))
-
+  
   If FindMapElement(*grid\cells(),cell)
     If *grid\cells()\halign = #Grid_Align_Center
       textwidth = grid_GetCellTextWidth( *grid,  current_column, current_row)
@@ -2808,7 +2808,7 @@ Procedure grid_GetEditPosFromMouse(*grid.Grid_Struct, current_column, current_ro
     If *grid\cells()\type = #Grid_Cell_Combobox_Editable Or *grid\cells()\type = #Grid_Cell_SpinGadget Or *grid\cells()\type = #Grid_Cell_TextWrap; if the cell is a combo box, wrap text and start at the position
       textstart = 1 + *grid\edit_combo_pos
     EndIf
-
+    
     
     ForEach *grid\cells()\style()
       fontkey.s = *grid\cells()\style()\fontname+Str(*grid\cells()\style()\fontsize)
@@ -2848,7 +2848,7 @@ Procedure grid_GetEditPosFromMouse(*grid.Grid_Struct, current_column, current_ro
   
   DrawingFont(FontID(*grid\font))
   StopDrawing()
-
+  
   ProcedureReturn pos
 EndProcedure
 Procedure grid_GetCellTextWidth(*grid.Grid_Struct, col_index, row_index)
@@ -2857,7 +2857,7 @@ Procedure grid_GetCellTextWidth(*grid.Grid_Struct, col_index, row_index)
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
   
   DrawingFont(FontID(*grid\font))
-
+  
   If FindMapElement(*grid\cells(),cell)
     width = 0
     textstart = 1
@@ -2892,7 +2892,7 @@ Procedure grid_GetCellTextHeight2(*grid.Grid_Struct, col_index, row_index)
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
   
   DrawingFont(FontID(*grid\font))
-
+  
   If FindMapElement(*grid\cells(),cell)
     height = 0
     textstart = 1
@@ -2931,7 +2931,7 @@ Procedure grid_GetCellTextHeight(*grid.Grid_Struct, col_index, row_index)
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
   
   DrawingFont(FontID(*grid\font))
-
+  
   If FindMapElement(*grid\cells(),cell)
     height = 0
     textstart = 1
@@ -2944,7 +2944,7 @@ Procedure grid_GetCellTextHeight(*grid.Grid_Struct, col_index, row_index)
       If *grid\cells()\style()\fontflags & #PB_Font_Italic
         fontkey + "I"
       EndIf
-
+      
       
       If FindMapElement(grids_fonts(),fontkey)
         DrawingFont(FontID(grids_fonts()\hfont))
@@ -2975,7 +2975,7 @@ Procedure grid_GetWidthFromPos(*grid.Grid_Struct, current_column, current_row, p
   xpos2 = 0
   
   cell.s = Str(*grid\col(current_column))+"x"+Str(*grid\row(current_row))
-
+  
   If FindMapElement(*grid\cells(),cell)
     textx = 0
     textstart = 1
@@ -3023,77 +3023,77 @@ Procedure grid_BeginEditing(*grid.Grid_Struct, col, row)
   mousey = grid_NewWindowMouseY(*grid\hwnd) - *grid\y - grid_deltagadgetposy
   
   If *grid\edit_col = -1 And *grid\edit_row = -1
-  If col >= 0 And row >= 0 And Not grid_GetCellLockState(*grid,col,row)
-    ok = #True
-    If FindMapElement(*grid\cells(),Str(*grid\col(col))+"x"+Str(*grid\row(row)))
-      Select *grid\cells()\type
-        Case #Grid_Cell_Checkbox, #Grid_Cell_Combobox, #Grid_Cell_Custom, #Grid_Cell_SpinGadget
-          ok = #False
-      EndSelect
-    EndIf
-    
-    If ok
-      *grid\edit_col = col
-      *grid\edit_row = row
-      
-      If *grid\numcols < *grid\edit_col
-        *grid\numcols = *grid\edit_col
-      EndIf
-      If *grid\numrows < *grid\edit_row
-        *grid\numrows = *grid\edit_row
+    If col >= 0 And row >= 0 And Not grid_GetCellLockState(*grid,col,row)
+      ok = #True
+      If FindMapElement(*grid\cells(),Str(*grid\col(col))+"x"+Str(*grid\row(row)))
+        Select *grid\cells()\type
+          Case #Grid_Cell_Checkbox, #Grid_Cell_Combobox, #Grid_Cell_Custom, #Grid_Cell_SpinGadget
+            ok = #False
+        EndSelect
       EndIf
       
-      ; scroll if the cell is not entirely visible
-      If *grid\edit_col > *grid\xscroll_end And *grid\edit_col < (*grid\maxnumcols - 1)
-        grid_SetGadgetAttribute( *grid, #Grid_Scrolling_Column,*grid\xscroll + 1)
-        grid_DoRedraw(*grid)
-      EndIf
-      If *grid\edit_row >= *grid\yscroll_end And *grid\edit_row < (*grid\maxnumrows - 1)
-        grid_SetGadgetAttribute( *grid, #Grid_Scrolling_Row,*grid\yscroll + 1)
-        grid_DoRedraw(*grid)
-      EndIf
-      
-      content.s = grid_GetCellString( *grid, *grid\edit_col,*grid\edit_row)
-      
-      If FindMapElement(*grid\cells(),Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
-        CopyList(*grid\cells()\style(),*grid\edit_old_style())
-      EndIf
-      
-      If content = ""
-        If Not FindMapElement(*grid\cells(),Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
-          AddMapElement(*grid\cells(),Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
-          *grid\cells()\backColor = *grid\color_background
+      If ok
+        *grid\edit_col = col
+        *grid\edit_row = row
+        
+        If *grid\numcols < *grid\edit_col
+          *grid\numcols = *grid\edit_col
+        EndIf
+        If *grid\numrows < *grid\edit_row
+          *grid\numrows = *grid\edit_row
         EndIf
         
-        If ListSize(*grid\cells()\style()) <> 1
-          ClearList(*grid\cells()\style())
-          AddElement(*grid\cells()\style())
-          *grid\cells()\style()\color = *grid\dfontcolor
-          *grid\cells()\style()\fontname = *grid\dfont
-          *grid\cells()\style()\fontsize = *grid\dfontsize
-          *grid\cells()\style()\style_end = 0
-        Else
-          LastElement(*grid\cells()\style())
-          *grid\cells()\style()\style_end = 0
+        ; scroll if the cell is not entirely visible
+        If *grid\edit_col > *grid\xscroll_end And *grid\edit_col < (*grid\maxnumcols - 1)
+          grid_SetGadgetAttribute( *grid, #Grid_Scrolling_Column,*grid\xscroll + 1)
+          grid_DoRedraw(*grid)
+        EndIf
+        If *grid\edit_row >= *grid\yscroll_end And *grid\edit_row < (*grid\maxnumrows - 1)
+          grid_SetGadgetAttribute( *grid, #Grid_Scrolling_Row,*grid\yscroll + 1)
+          grid_DoRedraw(*grid)
         EndIf
         
+        content.s = grid_GetCellString( *grid, *grid\edit_col,*grid\edit_row)
+        
+        If FindMapElement(*grid\cells(),Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
+          CopyList(*grid\cells()\style(),*grid\edit_old_style())
+        EndIf
+        
+        If content = ""
+          If Not FindMapElement(*grid\cells(),Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
+            AddMapElement(*grid\cells(),Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
+            *grid\cells()\backColor = *grid\color_background
+          EndIf
+          
+          If ListSize(*grid\cells()\style()) <> 1
+            ClearList(*grid\cells()\style())
+            AddElement(*grid\cells()\style())
+            *grid\cells()\style()\color = *grid\dfontcolor
+            *grid\cells()\style()\fontname = *grid\dfont
+            *grid\cells()\style()\fontsize = *grid\dfontsize
+            *grid\cells()\style()\style_end = 0
+          Else
+            LastElement(*grid\cells()\style())
+            *grid\cells()\style()\style_end = 0
+          EndIf
+          
+        EndIf
+        grid_DoRedraw( *grid )
+        
+        *grid\edit_pos = grid_GetEditPosFromMouse( *grid,  *grid\edit_col, *grid\edit_row, mousex, mousey)
+        *grid\edit_sel_end = 0
+        *grid\edit_sel_start = 0
+        *grid\edit_combo_pos = 0
+        
+        *grid\edit_old_content = grid_GetCellString( *grid, *grid\edit_col,*grid\edit_row)
+        AddElement(*grid\events())
+        *grid\events()\event = #Grid_Event_Cursor
+        *grid\tstyle = #False
+        
+        *grid\redraw = #True
+        *grid\redraw_ignore_grid = #True
       EndIf
-      grid_DoRedraw( *grid )
-      
-      *grid\edit_pos = grid_GetEditPosFromMouse( *grid,  *grid\edit_col, *grid\edit_row, mousex, mousey)
-      *grid\edit_sel_end = 0
-      *grid\edit_sel_start = 0
-      *grid\edit_combo_pos = 0
-      
-      *grid\edit_old_content = grid_GetCellString( *grid, *grid\edit_col,*grid\edit_row)
-      AddElement(*grid\events())
-      *grid\events()\event = #Grid_Event_Cursor
-      *grid\tstyle = #False
-      
-      *grid\redraw = #True
-      *grid\redraw_ignore_grid = #True
     EndIf
-  EndIf
   EndIf
 EndProcedure
 
@@ -3107,18 +3107,18 @@ Procedure grid_StopEditing(*grid.Grid_Struct)
   Else
     If *grid\edit_col > -1 And *grid\edit_row > -1
       If *grid\edit_old_content <> grid_GetCellString(*grid,*grid\edit_col,*grid\edit_row)
-      AddElement(*grid\events())
-      *grid\events()\event = #Grid_Event_Cell
-      *grid\events()\event_column = *grid\sel()\sel_col
-      *grid\events()\event_row = *grid\sel()\sel_row
-      *grid\events()\event_cell = #Grid_Event_Cell_ContentChange
+        AddElement(*grid\events())
+        *grid\events()\event = #Grid_Event_Cell
+        *grid\events()\event_column = *grid\sel()\sel_col
+        *grid\events()\event_row = *grid\sel()\sel_row
+        *grid\events()\event_cell = #Grid_Event_Cell_ContentChange
       EndIf
     EndIf
     
     *grid\edit_col = -1
     *grid\edit_row = -1
     *grid\edit_combo_pos = 0
-
+    
     *grid\edit_selecting = #False
     *grid\redraw = #True
     *grid\tstyle = #False
@@ -3347,7 +3347,7 @@ Procedure grid_DoHoverEvent(*grid.Grid_Struct,x, y)
         EndIf
         ProcedureReturn
       EndIf
-
+      
       If drawing_y <> 0
         current_row + 1
       EndIf
@@ -3363,7 +3363,7 @@ Procedure grid_DoHoverEvent(*grid.Grid_Struct,x, y)
     drawing_x = *grid\header_row_width + 1
     While drawing_x < *grid\innerwidth
       indexed_current_column = *grid\col(current_column)
-    
+      
       If FindMapElement(*grid\cols(), Str(indexed_current_column))
         drawing_x2 = drawing_x + *grid\cols()\wh + 1
       Else
@@ -3375,7 +3375,7 @@ Procedure grid_DoHoverEvent(*grid.Grid_Struct,x, y)
           *grid\resize_col = current_column
           *grid\resize_posx = drawing_x
           *grid\resize_posy = drawing_x2
-      
+          
           If *grid\cursor <> #PB_Cursor_LeftRight
             SetGadgetAttribute(*grid\canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftRight)
             *grid\cursor = #PB_Cursor_LeftRight
@@ -3394,7 +3394,7 @@ Procedure grid_DoHoverEvent(*grid.Grid_Struct,x, y)
       
       drawing_x = drawing_x2
     Wend
-
+    
     
   EndIf
   
@@ -3402,7 +3402,7 @@ Procedure grid_DoHoverEvent(*grid.Grid_Struct,x, y)
     *grid\cursor = #PB_Cursor_Default
     *grid\resize_col = - 1
     *grid\resize_row = - 1
-
+    
     SetGadgetAttribute(*grid\canvas,#PB_Canvas_Cursor,#PB_Cursor_Default)
   EndIf
 EndProcedure
@@ -3444,7 +3444,7 @@ Procedure grid_DrawSpin(drawing_x, drawing_x2, drawing_y,drawing_y2, *grid)
   Line(drawing_x2 - 1 - 21 + 7,drawing_y + (boxheight - 5) / 2 + 2, 5, 1,RGB(40,40,40))
   Line(drawing_x2 - 1 - 21 + 6,drawing_y + (boxheight - 5) / 2 + 3, 7, 1,RGB(40,40,40))
   Line(drawing_x2 - 1 - 21 + 5,drawing_y + (boxheight - 5) / 2 + 4, 9, 1,RGB(40,40,40))
-
+  
   ; down
   Line(drawing_x2 - 1 - 21 + 5,drawing_y + boxheight + (boxheight - 5) / 2, 9, 1,RGB(40,40,40))
   Line(drawing_x2 - 1 - 21 + 6,drawing_y + boxheight + (boxheight - 5) / 2 + 1, 7, 1,RGB(40,40,40))
@@ -3465,156 +3465,501 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
   
   If Not *grid\hidden
     
-  StartDrawing(CanvasOutput(*grid\canvas))
-  DrawingMode(#PB_2DDrawing_Transparent)
-  DrawingFont(FontID(*grid\font))
-  
-  Define w = OutputWidth()
-  Define h = OutputHeight()
-  
-  If redraw_grid
-    Box(0,0,w,h,RGB(255,255,255))
-  EndIf
-  
-  ; Calculate Row Caption Width
-  current_row = *grid\yscroll
-  
-  While  drawing_y < h
-    If current_row < *grid\maxnumrows
-      indexed_current_row = *grid\row(current_row)
-      
-      If FindMapElement(*grid\rows(), Str(indexed_current_row))
-        width = *grid\rows()\wtext + #Grid_Padding * 2
-        
-        If width > rowCaptionWidth
-          rowCaptionWidth = width
-        EndIf
-        
-        drawing_y + *grid\rows()\wh + 1
-      Else
-        width = TextWidth(Str(current_row)) + #Grid_Padding * 2
-        
-        If width > rowCaptionWidth
-          rowCaptionWidth = width
-        EndIf
-        
-        drawing_y + *grid\default_row_height + 1
-      EndIf
-      current_row + 1
-    Else
-      current_row + 1
-      Break
+    StartDrawing(CanvasOutput(*grid\canvas))
+    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingFont(FontID(*grid\font))
+    
+    Define w = OutputWidth()
+    Define h = OutputHeight()
+    
+    If redraw_grid
+      Box(0,0,w,h,RGB(255,255,255))
     EndIf
-  Wend
-  
-  If rowCaptionWidth = 0 And *grid\maxnumcols > 0
-    rowCaptionWidth = 15
-  EndIf
     
-  *grid\yscroll_end = current_row - 2
-  
-  If *grid\header_row_hidden = 1
-    *grid\header_row_width = 0
-  Else
-    *grid\header_row_width = rowCaptionWidth
-  EndIf
-  
-  ; Draw the "select all cells" button
-  If redraw_grid And Not *grid\header_row_hidden And rowCaptionWidth > 0 And Not *grid\header_col_hidden
-    FrontColor(*grid\color_header)
-    Box(0,0,rowCaptionWidth,*grid\header_col_height)
+    ; Calculate Row Caption Width
+    current_row = *grid\yscroll
     
-    LineXY(rowCaptionWidth - 11 - 4, *grid\header_col_height - 3, rowCaptionWidth - 4, *grid\header_col_height - 3 - 11, *grid\color_selectall)
-    LineXY(rowCaptionWidth - 4, *grid\header_col_height - 3 - 11, rowCaptionWidth - 4, *grid\header_col_height - 3, *grid\color_selectall)
-    LineXY(rowCaptionWidth - 15, *grid\header_col_height - 3, rowCaptionWidth - 4, *grid\header_col_height - 3, *grid\color_selectall)
-    FillArea(rowCaptionWidth - 5, *grid\header_col_height - 4, *grid\color_selectall, *grid\color_selectall)
-  EndIf
-  
-  current_column = *grid\xscroll
-  
-  If Not *grid\header_row_hidden
-    drawing_x = *grid\header_row_width + 1
-  Else
-    drawing_x = 0
-  EndIf
-
-  grid_GetLastCellSelected(*grid.Grid_Struct, @firstcell_row, @firstcell_coll)
-  
-  While drawing_x < w
-    If current_column < *grid\maxnumcols
-
-      ;{- draw column caption and vertical lines
-      DrawingFont(FontID(*grid\font))
+    While  drawing_y < h
+      If current_row < *grid\maxnumrows
+        indexed_current_row = *grid\row(current_row)
         
-      indexed_current_column = *grid\col(current_column)
-      column_selected.b = grid_IsColumnInSelection( *grid,  current_column)
-
-      If redraw_grid
-        If Not *grid\header_col_hidden
-        If FindMapElement(*grid\cols(), Str(indexed_current_column))
-          If column_selected
-            FrontColor(*grid\color_header_sel)
-          Else
-            FrontColor(*grid\color_header)
+        If FindMapElement(*grid\rows(), Str(indexed_current_row))
+          width = *grid\rows()\wtext + #Grid_Padding * 2
+          
+          If width > rowCaptionWidth
+            rowCaptionWidth = width
           EndIf
           
-          Box(drawing_x,0,*grid\cols()\wh, *grid\header_col_height)
-          
-          If *grid\cols()\caption <> ""
-            caption.s = *grid\cols()\caption
-          Else
-            caption.s = grid_NumberToLetter(current_column)
-          EndIf
-          
-          If column_selected
-            FrontColor(*grid\color_header_text_sel)
-          Else
-            FrontColor(*grid\color_header_text)
-          EndIf
-          
-          DrawText(drawing_x + (*grid\cols()\wh - *grid\cols()\wtext) / 2 ,4,caption)
-          
-          If *grid\cols()\buttonid
-            DrawAlphaImage(*grid\cols()\buttonid,drawing_x + *grid\cols()\wh - 17,(*grid\header_col_height - 16)/2)
-          EndIf
-          
-          LineXY(drawing_x + *grid\cols()\wh,0,drawing_x + *grid\cols()\wh, *grid\header_col_height,*grid\color_linedark)
+          drawing_y + *grid\rows()\wh + 1
         Else
-          If column_selected
-            FrontColor(*grid\color_header_sel)
-          Else
-            FrontColor(*grid\color_header)
+          width = TextWidth(Str(current_row)) + #Grid_Padding * 2
+          
+          If width > rowCaptionWidth
+            rowCaptionWidth = width
           EndIf
           
-          Box(drawing_x,0,*grid\default_col_width, *grid\header_col_height)
-          
-          If column_selected
-            FrontColor(*grid\color_header_text_sel)
-          Else
-            FrontColor(*grid\color_header_text)
-          EndIf
-          
-          DrawText(drawing_x + *grid\default_col_width / 2 ,4, grid_NumberToLetter(current_column))
-          
-          LineXY(drawing_x + *grid\default_col_width,0,drawing_x + *grid\default_col_width, *grid\header_col_height, *grid\color_linedark)
+          drawing_y + *grid\default_row_height + 1
         EndIf
-      EndIf
-      EndIf
-    
-      If FindMapElement(*grid\cols(), Str(indexed_current_column))
-        drawing_x2 = drawing_x + *grid\cols()\wh + 1
+        current_row + 1
       Else
-        drawing_x2 = drawing_x + *grid\default_col_width + 1
+        current_row + 1
+        Break
+      EndIf
+    Wend
+    
+    If rowCaptionWidth = 0 And *grid\maxnumcols > 0
+      rowCaptionWidth = 15
+    EndIf
+    
+    *grid\yscroll_end = current_row - 2
+    
+    If *grid\header_row_hidden = 1
+      *grid\header_row_width = 0
+    Else
+      *grid\header_row_width = rowCaptionWidth
+    EndIf
+    
+    ; Draw the "select all cells" button
+    If redraw_grid And Not *grid\header_row_hidden And rowCaptionWidth > 0 And Not *grid\header_col_hidden
+      FrontColor(*grid\color_header)
+      Box(0,0,rowCaptionWidth,*grid\header_col_height)
+      
+      LineXY(rowCaptionWidth - 11 - 4, *grid\header_col_height - 3, rowCaptionWidth - 4, *grid\header_col_height - 3 - 11, *grid\color_selectall)
+      LineXY(rowCaptionWidth - 4, *grid\header_col_height - 3 - 11, rowCaptionWidth - 4, *grid\header_col_height - 3, *grid\color_selectall)
+      LineXY(rowCaptionWidth - 15, *grid\header_col_height - 3, rowCaptionWidth - 4, *grid\header_col_height - 3, *grid\color_selectall)
+      FillArea(rowCaptionWidth - 5, *grid\header_col_height - 4, *grid\color_selectall, *grid\color_selectall)
+    EndIf
+    
+    current_column = *grid\xscroll
+    
+    If Not *grid\header_row_hidden
+      drawing_x = *grid\header_row_width + 1
+    Else
+      drawing_x = 0
+    EndIf
+    
+    grid_GetLastCellSelected(*grid.Grid_Struct, @firstcell_row, @firstcell_coll)
+    
+    While drawing_x < w
+      If current_column < *grid\maxnumcols
+        
+        ;{- draw column caption and vertical lines
+        DrawingFont(FontID(*grid\font))
+        
+        indexed_current_column = *grid\col(current_column)
+        column_selected.b = grid_IsColumnInSelection( *grid,  current_column)
+        
+        If redraw_grid
+          If Not *grid\header_col_hidden
+            If FindMapElement(*grid\cols(), Str(indexed_current_column))
+              If column_selected
+                FrontColor(*grid\color_header_sel)
+              Else
+                FrontColor(*grid\color_header)
+              EndIf
+              
+              Box(drawing_x,0,*grid\cols()\wh, *grid\header_col_height)
+              
+              If *grid\cols()\caption <> ""
+                caption.s = *grid\cols()\caption
+              Else
+                caption.s = grid_NumberToLetter(current_column)
+              EndIf
+              
+              If column_selected
+                FrontColor(*grid\color_header_text_sel)
+              Else
+                FrontColor(*grid\color_header_text)
+              EndIf
+              
+              DrawText(drawing_x + (*grid\cols()\wh - *grid\cols()\wtext) / 2 ,4,caption)
+              
+              If *grid\cols()\buttonid
+                DrawAlphaImage(*grid\cols()\buttonid,drawing_x + *grid\cols()\wh - 17,(*grid\header_col_height - 16)/2)
+              EndIf
+              
+              LineXY(drawing_x + *grid\cols()\wh,0,drawing_x + *grid\cols()\wh, *grid\header_col_height,*grid\color_linedark)
+            Else
+              If column_selected
+                FrontColor(*grid\color_header_sel)
+              Else
+                FrontColor(*grid\color_header)
+              EndIf
+              
+              Box(drawing_x,0,*grid\default_col_width, *grid\header_col_height)
+              
+              If column_selected
+                FrontColor(*grid\color_header_text_sel)
+              Else
+                FrontColor(*grid\color_header_text)
+              EndIf
+              
+              DrawText(drawing_x + *grid\default_col_width / 2 ,4, grid_NumberToLetter(current_column))
+              
+              LineXY(drawing_x + *grid\default_col_width,0,drawing_x + *grid\default_col_width, *grid\header_col_height, *grid\color_linedark)
+            EndIf
+          EndIf
+        EndIf
+        
+        If FindMapElement(*grid\cols(), Str(indexed_current_column))
+          drawing_x2 = drawing_x + *grid\cols()\wh + 1
+        Else
+          drawing_x2 = drawing_x + *grid\default_col_width + 1
+        EndIf
+        
+        If redraw_grid
+          If Not *grid\vline
+            If *grid\header_col_hidden
+              LineXY(drawing_x2 - 1, 0, drawing_x2 - 1, h,*grid\color_linelight)
+            Else
+              LineXY(drawing_x2 - 1, *grid\header_col_height, drawing_x2 - 1,h,*grid\color_linelight)
+            EndIf
+          EndIf
+        EndIf
+        
+        If *grid\header_col_hidden
+          drawing_y = 0
+        Else
+          drawing_y = *grid\header_col_height + 1
+        EndIf
+        ;}
+        
+        current_row = *grid\yscroll
+        
+        While drawing_y < h
+          If current_row < *grid\maxnumrows
+            ; Draw the cells
+            indexed_current_row = *grid\row(current_row)
+            
+            If FindMapElement(*grid\rows(), Str(indexed_current_row))
+              If *grid\rows()\visible ; don't draw
+                current_row + 1
+                drawing_y2 = drawing_y
+                Continue
+              EndIf
+              
+              
+              drawing_y2 = drawing_y + *grid\rows()\wh + 1
+            Else
+              drawing_y2 = drawing_y + *grid\default_row_height + 1
+            EndIf
+            
+            ; draw back color
+            cell.s = Str(indexed_current_column)+"x"+Str(indexed_current_row)
+            
+            If redraw_grid
+              
+              If FindMapElement(*grid\cells(),cell)
+                Box(drawing_x, drawing_y, drawing_x2 - drawing_x - 1, drawing_y2 - drawing_y,grid_GetCellBackColor( *grid, current_column, current_row))
+              Else
+                Box(drawing_x, drawing_y, drawing_x2 - drawing_x - 1, drawing_y2 - drawing_y, *grid\color_background)
+              EndIf
+              
+              
+              If grid_IsCellSelected( *grid,  current_column, current_row)
+                ; get width
+                If FindMapElement(*grid\cols(), Str(indexed_current_column))
+                  width = *grid\cols()\wh
+                Else
+                  width = *grid\default_col_width
+                EndIf
+                
+                ;get height
+                If FindMapElement(*grid\rows(), Str(indexed_current_row))
+                  height = *grid\rows()\wh
+                Else
+                  height = *grid\default_row_height
+                EndIf
+                
+                DrawingMode(#PB_2DDrawing_AlphaBlend)
+                
+                If current_row = firstcell_row And current_column = firstcell_coll
+                  Box(drawing_x,drawing_y,width + *grid\vline,height + *grid\hline,RGBA(215,235,255,200))
+                Else
+                  Box(drawing_x,drawing_y,width + *grid\vline,height + *grid\hline,RGBA(180,220,255,200))
+                EndIf
+                
+                DrawingMode(#PB_2DDrawing_Transparent)
+              EndIf
+            EndIf
+            
+            ; if this cell is in edit mode, calculate the cells width (> to the text width)
+            If grid_IsCellEditing( *grid,  current_column, current_row) ;{-
+              *grid\edit_x = drawing_x
+              *grid\edit_x2 = drawing_x2
+              *grid\edit_y2 = drawing_y2
+              *grid\edit_y = drawing_y
+              textwidth = grid_GetCellTextWidth( *grid,  current_column, current_row)
+              edit_col = current_column
+              
+              
+              If FindMapElement(*grid\cells(), cell)
+                Select *grid\cells()\type
+                  Case #Grid_Cell_Combobox_Editable, #Grid_Cell_SpinGadget ; Make the edit field 22px smaller to leave space for the combo box button
+                    *grid\edit_x2 - 22
+                  Case #Grid_Cell_Text ; Extend the edit field width according to the cell content if the cell is in text mode.
+                    If *grid\cells()\halign = #Grid_Align_Right
+                      While textwidth > (*grid\edit_x2 - *grid\edit_x)
+                        edit_col - 1
+                        
+                        If edit_col < 0
+                          *grid\edit_x = *grid\header_row_width
+                          Break
+                        EndIf
+                        
+                        *grid\edit_x - grid_GetColumnWidth( *grid, edit_col)
+                      Wend
+                    Else
+                      While textwidth > (*grid\edit_x2 - *grid\edit_x)
+                        edit_col + 1
+                        *grid\edit_x2 + grid_GetColumnWidth( *grid, edit_col) + 1
+                      Wend
+                    EndIf
+                EndSelect
+              EndIf
+              ;}
+            Else ;{- Not in edit mode, draw the cell according to its cell type.
+              If redraw_grid
+                If FindMapElement(*grid\cells(), Str(indexed_current_column)+"x"+Str(indexed_current_row))
+                  Select *grid\cells()\type
+                    Case #Grid_Cell_Custom ;{- Draw custom cell
+                      If *grid\cells()\state
+                        CallFunctionFast(*grid\cells()\state,drawing_x, drawing_y, drawing_x2 - drawing_x, drawing_y2 - drawing_y, current_column, current_row)
+                      EndIf
+                      ;}
+                      
+                    Case #Grid_Cell_Checkbox ;{- Draw check box
+                      If *grid\cells()\state = 0
+                        DrawImage(ImageID(*grid\checkboximgno), drawing_x + (drawing_x2 - drawing_x - 16) / 2, drawing_y + (drawing_y2 - drawing_y - 16) / 2)
+                      Else
+                        DrawImage(ImageID(*grid\checkboximgyes), drawing_x + (drawing_x2 - drawing_x - 16) / 2, drawing_y + (drawing_y2 - drawing_y - 16) / 2)
+                      EndIf
+                      ;}
+                      
+                    Case #Grid_Cell_Combobox, #Grid_Cell_SpinGadget, #Grid_Cell_Combobox_Editable ;{- Draw combo box and text
+                      height2 = grid_GetCellTextHeight2( *grid,  current_column, current_row)
+                      height = grid_GetCellTextHeight( *grid,  current_column, current_row)
+                      textwidth = grid_GetCellTextWidth( *grid,  current_column, current_row)
+                      
+                      If *grid\cells()\type = #Grid_Cell_Combobox Or *grid\cells()\type = #Grid_Cell_Combobox_Editable
+                        grid_DrawCombo(drawing_x, drawing_x2, drawing_y, drawing_y2, *grid)
+                      ElseIf *grid\cells()\type = #Grid_Cell_SpinGadget
+                        grid_DrawSpin(drawing_x, drawing_x2, drawing_y, drawing_y2, *grid)
+                      EndIf
+                      
+                      width = drawing_x2 - drawing_x - 22 ; removes 22 as this is the size of the dropdown button
+                      
+                      ;{- Compute padding
+                      If *grid\cells()\halign = #Grid_Align_Center
+                        leftpadding = (drawing_x2 - drawing_x - textwidth) / 2 ; (cell width - text width) / 2
+                        
+                      ElseIf *grid\cells()\halign = #Grid_Align_Right
+                        leftpadding = drawing_x2 - drawing_x - textwidth - *grid\cells()\ident; (cell width - text width)
+                        
+                      Else
+                        leftpadding = *grid\cells()\ident
+                      EndIf
+                      
+                      
+                      If *grid\cells()\valign = #Grid_Align_Top
+                        toppadding = 0
+                      ElseIf *grid\cells()\valign = #Grid_Align_Middle
+                        toppadding = (drawing_y2 - drawing_y - height) / 2
+                      Else
+                        toppadding = drawing_y2 - drawing_y - height
+                      EndIf
+                      
+                      If toppadding < 0
+                        toppadding = 0
+                      EndIf
+                      
+                      If leftpadding < 0
+                        leftpadding = 0
+                      EndIf
+                      ;}
+                      ;{- Wrap text to fit in cell
+                      If textwidth > width
+                        ; wrap text
+                        content.s = *grid\cells()\content
+                        tempwidth = textwidth
+                        tempcontent.s = content
+                        
+                        While tempwidth > width
+                          *grid\cells()\content = Left(tempcontent,Len(tempcontent)-1)
+                          tempcontent = *grid\cells()\content
+                          tempwidth = grid_GetCellTextWidth( *grid,  current_column, current_row)
+                        Wend
+                        
+                        *grid\cells()\content = content
+                        content = tempcontent
+                      Else
+                        content.s = *grid\cells()\content
+                      EndIf
+                      ;}
+                      
+                      textx = drawing_x + leftpadding
+                      textstart = 1
+                      ForEach *grid\cells()\style()
+                        fontkey.s = *grid\cells()\style()\fontname+Str(*grid\cells()\style()\fontsize)
+                        
+                        If *grid\cells()\style()\fontflags & #PB_Font_Bold
+                          fontkey + "B"
+                        EndIf
+                        If *grid\cells()\style()\fontflags & #PB_Font_Italic
+                          fontkey + "I"
+                        EndIf
+                        
+                        If FindMapElement(grids_fonts(),fontkey)
+                          DrawingFont(FontID(grids_fonts()\hfont))
+                        EndIf
+                        
+                        text.s = Mid(content,textstart, *grid\cells()\style()\style_end - textstart + 1)
+                        newtextx = DrawText(textx,drawing_y + height2 - *grid\cells()\style()\fontsize/0.82 + toppadding, text,*grid\cells()\style()\color)
+                        
+                        ; draw the underline
+                        If *grid\cells()\style()\fontflags & #PB_Font_Underline
+                          Line(textx,drawing_y + toppadding + height - 2, newtextx - textx, 1, *grid\cells()\style()\color)
+                        EndIf
+                        
+                        ; draw the strike through
+                        If *grid\cells()\style()\fontflags & #Grid_TextEdit_Font_Strikethrough
+                          Line(textx,drawing_y + toppadding + height / 2, newtextx - textx, 1, *grid\cells()\style()\color)
+                        EndIf
+                        
+                        textx = newtextx
+                        
+                        textstart = *grid\cells()\style()\style_end + 1
+                      Next
+                      ;}
+                      
+                    Case #Grid_Cell_Text, #Grid_Cell_TextWrap ;{- Draw normal text cell
+                      height2 = grid_GetCellTextHeight2( *grid,  current_column, current_row)
+                      height = grid_GetCellTextHeight( *grid,  current_column, current_row)
+                      textwidth = grid_GetCellTextWidth( *grid,  current_column, current_row)
+                      width = drawing_x2 - drawing_x
+                      
+                      If grid_IsCellSelected( *grid,  current_column, current_row)
+                        selected_cell = RGBA(215,235,255,200)
+                      Else
+                        selected_cell = 0
+                      EndIf
+                      
+                      ;{- Compute padding
+                      If *grid\cells()\halign = #Grid_Align_Center
+                        leftpadding = (drawing_x2 - drawing_x - textwidth) / 2 ; (cell width - text width) / 2
+                        
+                      ElseIf *grid\cells()\halign = #Grid_Align_Right
+                        leftpadding = drawing_x2 - drawing_x - textwidth - *grid\cells()\ident; (cell width - text width)
+                        
+                      Else
+                        leftpadding = *grid\cells()\ident
+                      EndIf
+                      
+                      
+                      If *grid\cells()\valign = #Grid_Align_Top
+                        toppadding = 0
+                      ElseIf *grid\cells()\valign = #Grid_Align_Middle
+                        toppadding = (drawing_y2 - drawing_y - height) / 2
+                      Else
+                        toppadding = drawing_y2 - drawing_y - height
+                      EndIf
+                      
+                      If toppadding < 0
+                        toppadding = 0
+                      EndIf
+                      
+                      If leftpadding < 0
+                        leftpadding = 0
+                      EndIf
+                      ;}
+                      ;{- Wrap text to fit in cell
+                      If textwidth > width
+                        ; wrap text
+                        content.s = *grid\cells()\content
+                        tempwidth = textwidth
+                        tempcontent.s = content
+                        
+                        While tempwidth > width
+                          *grid\cells()\content = Left(tempcontent,Len(tempcontent)-1)
+                          tempcontent = *grid\cells()\content
+                          tempwidth = grid_GetCellTextWidth( *grid,  current_column, current_row)
+                        Wend
+                        
+                        *grid\cells()\content = content
+                        content = tempcontent
+                      Else
+                        content.s = *grid\cells()\content
+                      EndIf
+                      ;}
+                      
+                      textx = drawing_x + leftpadding
+                      textstart = 1
+                      ForEach *grid\cells()\style()
+                        fontkey.s = *grid\cells()\style()\fontname+Str(*grid\cells()\style()\fontsize)
+                        
+                        If *grid\cells()\style()\fontflags & #PB_Font_Bold
+                          fontkey + "B"
+                        EndIf
+                        If *grid\cells()\style()\fontflags & #PB_Font_Italic
+                          fontkey + "I"
+                        EndIf
+                        
+                        If FindMapElement(grids_fonts(),fontkey)
+                          DrawingFont(FontID(grids_fonts()\hfont))
+                        EndIf
+                        
+                        If selected_cell <> 0
+                          cellcolor = RGBA(215,235,255,200) ! $FFFFFFFF
+                          
+                        Else
+                          cellcolor = *grid\cells()\style()\color
+                        EndIf
+                        
+                        
+                        text.s = Mid(content,textstart, *grid\cells()\style()\style_end - textstart + 1)
+                        newtextx = DrawText(textx,drawing_y + height2 - *grid\cells()\style()\fontsize/0.82 + toppadding, text, cellcolor)
+                        
+                        ; draw the underline
+                        If *grid\cells()\style()\fontflags & #PB_Font_Underline
+                          Line(textx,drawing_y + toppadding + height - 2, newtextx - textx, 1, *grid\cells()\style()\color)
+                        EndIf
+                        
+                        ; draw the strike through
+                        If *grid\cells()\style()\fontflags & #Grid_TextEdit_Font_Strikethrough
+                          Line(textx,drawing_y + toppadding + height / 2, newtextx - textx, 1, *grid\cells()\style()\color)
+                        EndIf
+                        
+                        textx = newtextx
+                        
+                        textstart = *grid\cells()\style()\style_end + 1
+                      Next
+                      ;}
+                  EndSelect
+                EndIf
+              EndIf ;}
+            EndIf
+            
+            current_row + 1
+          Else
+            Break
+          EndIf
+          
+          drawing_y = drawing_y2
+        Wend
+        
+        drawing_x = drawing_x2
+        current_column + 1
+      Else
+        current_column + 1
+        Break
       EndIf
       
-      If redraw_grid
-        If Not *grid\vline
-          If *grid\header_col_hidden
-            LineXY(drawing_x2 - 1, 0, drawing_x2 - 1, h,*grid\color_linelight)
-          Else
-            LineXY(drawing_x2 - 1, *grid\header_col_height, drawing_x2 - 1,h,*grid\color_linelight)
-          EndIf
-        EndIf
+    Wend
+    *grid\xscroll_end = current_column - 1
+    
+    If redraw_grid
+      If *grid\maxnumcols > 0 And Not *grid\header_col_hidden
+        LineXY(0,21,w,21,*grid\color_linedark)
       EndIf
       
       If *grid\header_col_hidden
@@ -3622,14 +3967,24 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
       Else
         drawing_y = *grid\header_col_height + 1
       EndIf
-      ;}
-      
       current_row = *grid\yscroll
       
+      ;{- Draw the rows captions + horizontal lines
       While drawing_y < h
         If current_row < *grid\maxnumrows
-          ; Draw the cells
+          
+          drawing_x = rowCaptionWidth + 1
+          current_column = *grid\xscroll
           indexed_current_row = *grid\row(current_row)
+          
+          If FindMapElement(*grid\rows(), Str(indexed_current_row))
+            drawing_y2 = drawing_y + *grid\rows()\wh + 1
+          Else
+            drawing_y2 = drawing_y + *grid\default_row_height + 1
+          EndIf
+          
+          row_selected.b = grid_IsRowInSelection( *grid, current_row)
+          DrawingFont(FontID(*grid\font))
           
           If FindMapElement(*grid\rows(), Str(indexed_current_row))
             If *grid\rows()\visible ; don't draw
@@ -3637,655 +3992,300 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
               drawing_y2 = drawing_y
               Continue
             EndIf
-
             
-            drawing_y2 = drawing_y + *grid\rows()\wh + 1
+            If Not *grid\header_row_hidden
+              If row_selected
+                FrontColor(*grid\color_header_sel)
+              Else
+                FrontColor(*grid\color_header)
+              EndIf
+              
+              Box(0,drawing_y,rowCaptionWidth,*grid\rows()\wh)
+              
+              If row_selected
+                FrontColor(*grid\color_header_text_sel)
+              Else
+                FrontColor(*grid\color_header_text)
+              EndIf
+              
+              If *grid\rows()\caption <> ""
+                caption.s = *grid\rows()\caption
+                wtext = *grid\rows()\wtext
+              Else
+                caption.s = Str(current_row + 1)
+                wtext = TextWidth(caption)
+              EndIf
+              
+              DrawText((rowCaptionWidth - wtext) / 2,drawing_y + (*grid\rows()\wh - 12) / 2, caption)
+              
+              LineXY(0,drawing_y + *grid\rows()\wh,rowCaptionWidth,drawing_y + *grid\rows()\wh,*grid\color_linedark)
+            EndIf
+            drawing_y + *grid\rows()\wh + 1
           Else
-            drawing_y2 = drawing_y + *grid\default_row_height + 1
+            If Not *grid\header_row_hidden
+              If row_selected
+                FrontColor(*grid\color_header_sel)
+              Else
+                FrontColor(*grid\color_header)
+              EndIf
+              
+              Box(0,drawing_y,rowCaptionWidth,*grid\default_row_height)
+              
+              caption.s = Str(current_row + 1)
+              
+              If row_selected
+                FrontColor(*grid\color_header_text_sel)
+              Else
+                FrontColor(*grid\color_header_text)
+              EndIf
+              
+              DrawText((rowCaptionWidth - TextWidth(caption)) / 2,drawing_y + (*grid\default_row_height - 12) / 2, caption)
+              
+              LineXY(0,drawing_y + *grid\default_row_height,rowCaptionWidth,drawing_y + *grid\default_row_height,*grid\color_linedark)
+            EndIf
+            drawing_y + *grid\default_row_height + 1
           EndIf
           
-          ; draw back color
-          cell.s = Str(indexed_current_column)+"x"+Str(indexed_current_row)
-          
-          If redraw_grid
-            
-            If FindMapElement(*grid\cells(),cell)
-              Box(drawing_x, drawing_y, drawing_x2 - drawing_x - 1, drawing_y2 - drawing_y,grid_GetCellBackColor( *grid, current_column, current_row))
-            Else
-              Box(drawing_x, drawing_y, drawing_x2 - drawing_x - 1, drawing_y2 - drawing_y, *grid\color_background)
-            EndIf
-            
-            
-            If grid_IsCellSelected( *grid,  current_column, current_row)
-              ; get width
-              If FindMapElement(*grid\cols(), Str(indexed_current_column))
-                width = *grid\cols()\wh
-              Else
-                width = *grid\default_col_width
-              EndIf
-              
-              ;get height
-              If FindMapElement(*grid\rows(), Str(indexed_current_row))
-                height = *grid\rows()\wh
-              Else
-                height = *grid\default_row_height
-              EndIf
-              
-              DrawingMode(#PB_2DDrawing_AlphaBlend)
-              
-              If current_row = firstcell_row And current_column = firstcell_coll
-                Box(drawing_x,drawing_y,width + *grid\vline,height + *grid\hline,RGBA(215,235,255,200))
-              Else
-                Box(drawing_x,drawing_y,width + *grid\vline,height + *grid\hline,RGBA(180,220,255,200))
-              EndIf
-              
-              DrawingMode(#PB_2DDrawing_Transparent)
-            EndIf
+          If Not *grid\hline
+            LineXY(*grid\header_row_width,drawing_y - 1,w,drawing_y - 1,*grid\color_linelight)
           EndIf
-          
-          ; if this cell is in edit mode, calculate the cells width (> to the text width)
-          If grid_IsCellEditing( *grid,  current_column, current_row) ;{-
-            *grid\edit_x = drawing_x
-            *grid\edit_x2 = drawing_x2
-            *grid\edit_y2 = drawing_y2
-            *grid\edit_y = drawing_y
-            textwidth = grid_GetCellTextWidth( *grid,  current_column, current_row)
-            edit_col = current_column
-            
-            
-            If FindMapElement(*grid\cells(), cell)
-            Select *grid\cells()\type
-              Case #Grid_Cell_Combobox_Editable, #Grid_Cell_SpinGadget ; Make the edit field 22px smaller to leave space for the combo box button
-                *grid\edit_x2 - 22
-              Case #Grid_Cell_Text ; Extend the edit field width according to the cell content if the cell is in text mode.
-                If *grid\cells()\halign = #Grid_Align_Right
-                  While textwidth > (*grid\edit_x2 - *grid\edit_x)
-                    edit_col - 1
-                    
-                    If edit_col < 0
-                      *grid\edit_x = *grid\header_row_width
-                      Break
-                    EndIf
-                    
-                    *grid\edit_x - grid_GetColumnWidth( *grid, edit_col)
-                  Wend
-                Else
-                  While textwidth > (*grid\edit_x2 - *grid\edit_x)
-                    edit_col + 1
-                    *grid\edit_x2 + grid_GetColumnWidth( *grid, edit_col) + 1
-                  Wend
-                EndIf
-            EndSelect
-            EndIf
-            ;}
-          Else ;{- Not in edit mode, draw the cell according to its cell type.
-            If redraw_grid
-              If FindMapElement(*grid\cells(), Str(indexed_current_column)+"x"+Str(indexed_current_row))
-                Select *grid\cells()\type
-                  Case #Grid_Cell_Custom ;{- Draw custom cell
-                    If *grid\cells()\state
-                      CallFunctionFast(*grid\cells()\state,drawing_x, drawing_y, drawing_x2 - drawing_x, drawing_y2 - drawing_y, current_column, current_row)
-                    EndIf
-                    ;}
-                    
-                  Case #Grid_Cell_Checkbox ;{- Draw check box
-                    If *grid\cells()\state = 0
-                      DrawImage(ImageID(*grid\checkboximgno), drawing_x + (drawing_x2 - drawing_x - 16) / 2, drawing_y + (drawing_y2 - drawing_y - 16) / 2)
-                    Else
-                      DrawImage(ImageID(*grid\checkboximgyes), drawing_x + (drawing_x2 - drawing_x - 16) / 2, drawing_y + (drawing_y2 - drawing_y - 16) / 2)
-                    EndIf
-                    ;}
-                    
-                  Case #Grid_Cell_Combobox, #Grid_Cell_SpinGadget, #Grid_Cell_Combobox_Editable ;{- Draw combo box and text
-                    height2 = grid_GetCellTextHeight2( *grid,  current_column, current_row)
-                    height = grid_GetCellTextHeight( *grid,  current_column, current_row)
-                    textwidth = grid_GetCellTextWidth( *grid,  current_column, current_row)
-                    
-                    If *grid\cells()\type = #Grid_Cell_Combobox Or *grid\cells()\type = #Grid_Cell_Combobox_Editable
-                      grid_DrawCombo(drawing_x, drawing_x2, drawing_y, drawing_y2, *grid)
-                    ElseIf *grid\cells()\type = #Grid_Cell_SpinGadget
-                      grid_DrawSpin(drawing_x, drawing_x2, drawing_y, drawing_y2, *grid)
-                    EndIf
-                    
-                    width = drawing_x2 - drawing_x - 22 ; removes 22 as this is the size of the dropdown button
-                    
-                    ;{- Compute padding
-                    If *grid\cells()\halign = #Grid_Align_Center
-                      leftpadding = (drawing_x2 - drawing_x - textwidth) / 2 ; (cell width - text width) / 2
-                      
-                    ElseIf *grid\cells()\halign = #Grid_Align_Right
-                      leftpadding = drawing_x2 - drawing_x - textwidth - *grid\cells()\ident; (cell width - text width)
-                      
-                    Else
-                      leftpadding = *grid\cells()\ident
-                    EndIf
-                    
-                    
-                    If *grid\cells()\valign = #Grid_Align_Top
-                      toppadding = 0
-                    ElseIf *grid\cells()\valign = #Grid_Align_Middle
-                      toppadding = (drawing_y2 - drawing_y - height) / 2
-                    Else
-                      toppadding = drawing_y2 - drawing_y - height
-                    EndIf
-                    
-                    If toppadding < 0
-                      toppadding = 0
-                    EndIf
-                    
-                    If leftpadding < 0
-                      leftpadding = 0
-                    EndIf
-                    ;}
-                    ;{- Wrap text to fit in cell
-                    If textwidth > width
-                      ; wrap text
-                      content.s = *grid\cells()\content
-                      tempwidth = textwidth
-                      tempcontent.s = content
-                      
-                      While tempwidth > width
-                        *grid\cells()\content = Left(tempcontent,Len(tempcontent)-1)
-                        tempcontent = *grid\cells()\content
-                        tempwidth = grid_GetCellTextWidth( *grid,  current_column, current_row)
-                      Wend
-                      
-                      *grid\cells()\content = content
-                      content = tempcontent
-                    Else
-                      content.s = *grid\cells()\content
-                    EndIf
-                    ;}
-                    
-                    textx = drawing_x + leftpadding
-                    textstart = 1
-                    ForEach *grid\cells()\style()
-                      fontkey.s = *grid\cells()\style()\fontname+Str(*grid\cells()\style()\fontsize)
-                      
-                      If *grid\cells()\style()\fontflags & #PB_Font_Bold
-                        fontkey + "B"
-                      EndIf
-                      If *grid\cells()\style()\fontflags & #PB_Font_Italic
-                        fontkey + "I"
-                      EndIf
-                      
-                      If FindMapElement(grids_fonts(),fontkey)
-                        DrawingFont(FontID(grids_fonts()\hfont))
-                      EndIf
-                      
-                      text.s = Mid(content,textstart, *grid\cells()\style()\style_end - textstart + 1)
-                      newtextx = DrawText(textx,drawing_y + height2 - *grid\cells()\style()\fontsize/0.82 + toppadding, text,*grid\cells()\style()\color)
-                      
-                      ; draw the underline
-                      If *grid\cells()\style()\fontflags & #PB_Font_Underline
-                        Line(textx,drawing_y + toppadding + height - 2, newtextx - textx, 1, *grid\cells()\style()\color)
-                      EndIf
-                      
-                      ; draw the strike through
-                      If *grid\cells()\style()\fontflags & #Grid_TextEdit_Font_Strikethrough
-                        Line(textx,drawing_y + toppadding + height / 2, newtextx - textx, 1, *grid\cells()\style()\color)
-                      EndIf
-                      
-                      textx = newtextx
-                      
-                      textstart = *grid\cells()\style()\style_end + 1
-                    Next
-                    ;}
-                    
-                  Case #Grid_Cell_Text, #Grid_Cell_TextWrap ;{- Draw normal text cell
-                    height2 = grid_GetCellTextHeight2( *grid,  current_column, current_row)
-                    height = grid_GetCellTextHeight( *grid,  current_column, current_row)
-                    textwidth = grid_GetCellTextWidth( *grid,  current_column, current_row)
-                    width = drawing_x2 - drawing_x
-                    
-                    If grid_IsCellSelected( *grid,  current_column, current_row)
-                      selected_cell = RGBA(215,235,255,200)
-                    Else
-                      selected_cell = 0
-                    EndIf
-                    
-                    ;{- Compute padding
-                    If *grid\cells()\halign = #Grid_Align_Center
-                      leftpadding = (drawing_x2 - drawing_x - textwidth) / 2 ; (cell width - text width) / 2
-                      
-                    ElseIf *grid\cells()\halign = #Grid_Align_Right
-                      leftpadding = drawing_x2 - drawing_x - textwidth - *grid\cells()\ident; (cell width - text width)
-                      
-                    Else
-                      leftpadding = *grid\cells()\ident
-                    EndIf
-                    
-                    
-                    If *grid\cells()\valign = #Grid_Align_Top
-                      toppadding = 0
-                    ElseIf *grid\cells()\valign = #Grid_Align_Middle
-                      toppadding = (drawing_y2 - drawing_y - height) / 2
-                    Else
-                      toppadding = drawing_y2 - drawing_y - height
-                    EndIf
-                    
-                    If toppadding < 0
-                      toppadding = 0
-                    EndIf
-                    
-                    If leftpadding < 0
-                      leftpadding = 0
-                    EndIf
-                    ;}
-                    ;{- Wrap text to fit in cell
-                    If textwidth > width
-                      ; wrap text
-                      content.s = *grid\cells()\content
-                      tempwidth = textwidth
-                      tempcontent.s = content
-                      
-                      While tempwidth > width
-                        *grid\cells()\content = Left(tempcontent,Len(tempcontent)-1)
-                        tempcontent = *grid\cells()\content
-                        tempwidth = grid_GetCellTextWidth( *grid,  current_column, current_row)
-                      Wend
-                      
-                      *grid\cells()\content = content
-                      content = tempcontent
-                    Else
-                      content.s = *grid\cells()\content
-                    EndIf
-                    ;}
-                    
-                    textx = drawing_x + leftpadding
-                    textstart = 1
-                    ForEach *grid\cells()\style()
-                      fontkey.s = *grid\cells()\style()\fontname+Str(*grid\cells()\style()\fontsize)
-                      
-                      If *grid\cells()\style()\fontflags & #PB_Font_Bold
-                        fontkey + "B"
-                      EndIf
-                      If *grid\cells()\style()\fontflags & #PB_Font_Italic
-                        fontkey + "I"
-                      EndIf
-                      
-                      If FindMapElement(grids_fonts(),fontkey)
-                        DrawingFont(FontID(grids_fonts()\hfont))
-                      EndIf
-                      
-                      If selected_cell <> 0
-                        cellcolor = RGBA(215,235,255,200) ! $FFFFFFFF
-                        
-                      Else
-                        cellcolor = *grid\cells()\style()\color
-                      EndIf
-                      
-                      
-                      text.s = Mid(content,textstart, *grid\cells()\style()\style_end - textstart + 1)
-                      newtextx = DrawText(textx,drawing_y + height2 - *grid\cells()\style()\fontsize/0.82 + toppadding, text, cellcolor)
-                      
-                      ; draw the underline
-                      If *grid\cells()\style()\fontflags & #PB_Font_Underline
-                        Line(textx,drawing_y + toppadding + height - 2, newtextx - textx, 1, *grid\cells()\style()\color)
-                      EndIf
-                      
-                      ; draw the strike through
-                      If *grid\cells()\style()\fontflags & #Grid_TextEdit_Font_Strikethrough
-                        Line(textx,drawing_y + toppadding + height / 2, newtextx - textx, 1, *grid\cells()\style()\color)
-                      EndIf
-                      
-                      textx = newtextx
-                      
-                      textstart = *grid\cells()\style()\style_end + 1
-                    Next
-                    ;}
-                EndSelect
-              EndIf
-            EndIf ;}
-          EndIf
-          
           current_row + 1
         Else
           Break
         EndIf
         
-        drawing_y = drawing_y2
-      Wend
+      Wend ;}
       
-      drawing_x = drawing_x2
-      current_column + 1
-    Else
-      current_column + 1
-      Break
+      If Not *grid\header_row_hidden And *grid\maxnumcols > 0
+        LineXY(rowCaptionWidth,0,rowCaptionWidth,h,*grid\color_linedark)
+      EndIf
+      
+      ; Draw background if we've reached the end of the grid size.
+      If drawing_x2 < w
+        If drawing_x2 = 0 And Not *grid\header_row_hidden
+          drawing_x2 = drawing_x
+        EndIf
+        
+        Box(drawing_x2,0, w - drawing_x2, h, *grid\color_background)
+      EndIf
+      
+      If drawing_y2 < h
+        If drawing_y2 = 0
+          drawing_y2 = drawing_y
+        EndIf
+        
+        Box(0, drawing_y2, w, h - drawing_y2, *grid\color_background)
+      EndIf
     EndIf
     
-  Wend
-  *grid\xscroll_end = current_column - 1
-  
-  If redraw_grid
-    If *grid\maxnumcols > 0 And Not *grid\header_col_hidden
-      LineXY(0,21,w,21,*grid\color_linedark)
+    ; Draw combo box button if needed
+    If (*grid\edit_col > -1 Or *grid\edit_row > -1) And *grid\edit_col >= *grid\xscroll And *grid\edit_col <= *grid\xscroll_end And *grid\edit_row >= *grid\yscroll And *grid\edit_row <= *grid\yscroll_end
+      If FindMapElement(*grid\cells(), Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
+        If *grid\cells()\type = #Grid_Cell_Combobox_Editable
+          grid_DrawCombo(*grid\edit_x, *grid\edit_x2 + 22, *grid\edit_y, *grid\edit_y2, *grid)
+        EndIf
+        If *grid\cells()\type = #Grid_Cell_SpinGadget
+          grid_DrawSpin(*grid\edit_x, *grid\edit_x2 + 22, *grid\edit_y, *grid\edit_y2, *grid)
+        EndIf
+        
+      EndIf
     EndIf
     
-    If *grid\header_col_hidden
-      drawing_y = 0
-    Else
-      drawing_y = *grid\header_col_height + 1
-    EndIf
-    current_row = *grid\yscroll
-    
-    ;{- Draw the rows captions + horizontal lines
-    While drawing_y < h
-      If current_row < *grid\maxnumrows
-        
-        drawing_x = rowCaptionWidth + 1
-        current_column = *grid\xscroll
-        indexed_current_row = *grid\row(current_row)
-        
-        If FindMapElement(*grid\rows(), Str(indexed_current_row))
-          drawing_y2 = drawing_y + *grid\rows()\wh + 1
-        Else
-          drawing_y2 = drawing_y + *grid\default_row_height + 1
-        EndIf
-        
-        row_selected.b = grid_IsRowInSelection( *grid, current_row)
-        DrawingFont(FontID(*grid\font))
-        
-        If FindMapElement(*grid\rows(), Str(indexed_current_row))
-          If *grid\rows()\visible ; don't draw
-            current_row + 1
-            drawing_y2 = drawing_y
-            Continue
-          EndIf
-          
-          If Not *grid\header_row_hidden
-            If row_selected
-              FrontColor(*grid\color_header_sel)
-            Else
-              FrontColor(*grid\color_header)
-            EndIf
-            
-            Box(0,drawing_y,rowCaptionWidth,*grid\rows()\wh)
-            
-            If row_selected
-              FrontColor(*grid\color_header_text_sel)
-            Else
-              FrontColor(*grid\color_header_text)
-            EndIf
-            
-            If *grid\rows()\caption <> ""
-              caption.s = *grid\rows()\caption
-              wtext = *grid\rows()\wtext
-            Else
-              caption.s = Str(current_row + 1)
-              wtext = TextWidth(caption)
-            EndIf
-            
-            DrawText((rowCaptionWidth - wtext) / 2,drawing_y + (*grid\rows()\wh - 12) / 2, caption)
-            
-            LineXY(0,drawing_y + *grid\rows()\wh,rowCaptionWidth,drawing_y + *grid\rows()\wh,*grid\color_linedark)
-          EndIf
-          drawing_y + *grid\rows()\wh + 1
-        Else
-          If Not *grid\header_row_hidden
-            If row_selected
-              FrontColor(*grid\color_header_sel)
-            Else
-              FrontColor(*grid\color_header)
-            EndIf
-            
-            Box(0,drawing_y,rowCaptionWidth,*grid\default_row_height)
-            
-            caption.s = Str(current_row + 1)
-            
-            If row_selected
-              FrontColor(*grid\color_header_text_sel)
-            Else
-              FrontColor(*grid\color_header_text)
-            EndIf
-            
-            DrawText((rowCaptionWidth - TextWidth(caption)) / 2,drawing_y + (*grid\default_row_height - 12) / 2, caption)
-            
-            LineXY(0,drawing_y + *grid\default_row_height,rowCaptionWidth,drawing_y + *grid\default_row_height,*grid\color_linedark)
-          EndIf
-          drawing_y + *grid\default_row_height + 1
-        EndIf
-        
-        If Not *grid\hline
-          LineXY(*grid\header_row_width,drawing_y - 1,w,drawing_y - 1,*grid\color_linelight)
-        EndIf
-        current_row + 1
-      Else
-        Break
-      EndIf
-      
-    Wend ;}
-    
-    If Not *grid\header_row_hidden And *grid\maxnumcols > 0
-      LineXY(rowCaptionWidth,0,rowCaptionWidth,h,*grid\color_linedark)
-    EndIf
-    
-    ; Draw background if we've reached the end of the grid size.
-    If drawing_x2 < w
-      If drawing_x2 = 0 And Not *grid\header_row_hidden
-        drawing_x2 = drawing_x
-      EndIf
-      
-      Box(drawing_x2,0, w - drawing_x2, h, *grid\color_background)
-    EndIf
-    
-    If drawing_y2 < h
-      If drawing_y2 = 0
-        drawing_y2 = drawing_y
-      EndIf
-      
-      Box(0, drawing_y2, w, h - drawing_y2, *grid\color_background)
-    EndIf
-  EndIf
-  
-  ; Draw combo box button if needed
-  If (*grid\edit_col > -1 Or *grid\edit_row > -1) And *grid\edit_col >= *grid\xscroll And *grid\edit_col <= *grid\xscroll_end And *grid\edit_row >= *grid\yscroll And *grid\edit_row <= *grid\yscroll_end
-    If FindMapElement(*grid\cells(), Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
-      If *grid\cells()\type = #Grid_Cell_Combobox_Editable
-        grid_DrawCombo(*grid\edit_x, *grid\edit_x2 + 22, *grid\edit_y, *grid\edit_y2, *grid)
-      EndIf
-      If *grid\cells()\type = #Grid_Cell_SpinGadget
-        grid_DrawSpin(*grid\edit_x, *grid\edit_x2 + 22, *grid\edit_y, *grid\edit_y2, *grid)
-      EndIf
-      
-    EndIf
-  EndIf
-
-  StopDrawing()
-  
-  ;{- Edit Field
-  If (*grid\edit_col > -1 Or *grid\edit_row > -1) And *grid\edit_col >= *grid\xscroll And *grid\edit_col <= *grid\xscroll_end And *grid\edit_row >= *grid\yscroll And *grid\edit_row <= *grid\yscroll_end
-    
-    If *grid\edit_dc = 0
-      *grid\edit_dc = CreateImage(#PB_Any,*grid\edit_x2 - *grid\edit_x - 1, *grid\edit_y2 - *grid\edit_y - 1)
-    Else
-      If ImageWidth(*grid\edit_dc) <> (*grid\edit_x2 - *grid\edit_x - 1)  Or ImageHeight(*grid\edit_dc) <> (*grid\edit_y2 - *grid\edit_y  - 1)
-        ResizeImage(*grid\edit_dc,*grid\edit_x2 - *grid\edit_x - 1, *grid\edit_y2 - *grid\edit_y - 1)
-        grid_DoRedraw(*grid,1)
-        ProcedureReturn
-      EndIf
-    EndIf
-    StartDrawing(ImageOutput(*grid\edit_dc))
-    DrawingMode(#PB_2DDrawing_Transparent)
-    
-    Box(0,0, *grid\edit_x2 - *grid\edit_x - 1, *grid\edit_y2 - *grid\edit_y - 1,grid_GetCellBackColor( *grid, *grid\edit_col, *grid\edit_row))
-    
-    indexed_current_row = *grid\row(*grid\edit_row)
-    indexed_current_column = *grid\col(*grid\edit_col)
-    
-    If FindMapElement(*grid\cells(), Str(indexed_current_column)+"x"+Str(indexed_current_row))
-      If *grid\cells()\halign = #Grid_Align_Center
-        textwidth = grid_GetCellTextWidth( *grid,  *grid\edit_col, *grid\edit_row)
-        leftpadding = (*grid\edit_x2 - *grid\edit_x - textwidth) / 2 ; (cell width - text width) / 2
-        
-      ElseIf *grid\cells()\halign = #Grid_Align_Right
-        textwidth = grid_GetCellTextWidth( *grid,  *grid\edit_col, *grid\edit_row)
-        leftpadding = *grid\edit_x2 - *grid\edit_x - textwidth - *grid\cells()\ident ; (cell width - text width)
-        
-      Else
-        leftpadding = *grid\cells()\ident
-      EndIf
-      
-      xcursor = leftpadding + grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,*grid\edit_pos)
-      
-      ; If cell is a combo box, remove the scroll width to the x cursor pos.
-      If *grid\cells()\type = #Grid_Cell_Combobox_Editable Or *grid\cells()\type = #Grid_Cell_SpinGadget Or *grid\cells()\type = #Grid_Cell_TextWrap
-        xcursor - grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,*grid\edit_combo_pos)
-      EndIf
-      
-      height2 = grid_GetCellTextHeight2( *grid,  *grid\edit_col,*grid\edit_row)
-      height = grid_GetCellTextHeight( *grid,  *grid\edit_col,*grid\edit_row)
-      
-      If height = 0
-        height = 16 ;Int(12.0 / 0.75)
-      EndIf
-      
-      If *grid\cells()\valign = #Grid_Align_Top
-        toppadding = 0
-      ElseIf *grid\cells()\valign = #Grid_Align_Middle
-        toppadding = (*grid\edit_y2 - *grid\edit_y - height) / 2
-      Else
-        toppadding = *grid\edit_y2 - *grid\edit_y - height
-      EndIf
-      
-      
-      ; draw selection background
-      If *grid\edit_selecting
-        sel_start = grid_Min(*grid\edit_sel_start, *grid\edit_sel_end)
-        sel_end = grid_Max(*grid\edit_sel_start, *grid\edit_sel_end)
-        
-        selstart = leftpadding + grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,sel_start)
-        selend = leftpadding + grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,sel_end)
-        
-        ; If cell is a combo box, remove the scroll width to the selection box.
-        If *grid\cells()\type = #Grid_Cell_Combobox_Editable Or *grid\cells()\type = #Grid_Cell_TextWrap Or *grid\cells()\type = #Grid_Cell_SpinGadget
-          selstart - grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,*grid\edit_combo_pos)
-          selend - grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,*grid\edit_combo_pos)
-        EndIf
-        
-        DrawingMode(#PB_2DDrawing_AlphaBlend)
-        
-        ; Need to use the inverted color using formula below, but then change text color!
-        Box(selstart, toppadding,selend - selstart,height, *grid\cells()\backColor ! $FFFFFFFF) ;RGBA(180,215,255,255))
-        DrawingMode(#PB_2DDrawing_Transparent)
-        
-        sel_start + 1
-        sel_end + 1
-      EndIf
-      
-      ; Draw content
-      textx = leftpadding
-      textstart = 1
-      
-      If *grid\cells()\type = #Grid_Cell_Combobox_Editable Or *grid\cells()\type = #Grid_Cell_SpinGadget Or *grid\cells()\type = #Grid_Cell_TextWrap ; if the cell is a combo box, wrap text and start at the position
-        textstart = 1 + *grid\edit_combo_pos
-      EndIf
-      
-      
-      ForEach *grid\cells()\style()
-        fontkey.s = *grid\cells()\style()\fontname+Str(*grid\cells()\style()\fontsize)
-        
-        If *grid\cells()\style()\fontflags & #PB_Font_Bold
-          fontkey + "B"
-        EndIf
-        If *grid\cells()\style()\fontflags & #PB_Font_Italic
-          fontkey + "I"
-        EndIf
-        
-        If FindMapElement(grids_fonts(),fontkey)
-          DrawingFont(FontID(grids_fonts()\hfont))
-        EndIf
-        
-        If *grid\edit_selecting And sel_start <= (*grid\cells()\style()\style_end + 1)
-          ; whole style is selected
-          If sel_start < textstart And sel_end > (*grid\cells()\style()\style_end + 1)
-            text.s = Mid(*grid\cells()\content,textstart, *grid\cells()\style()\style_end - textstart + 1)
-            newtextx = DrawText(textx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\backColor)
-            
-          EndIf
-          
-          ;selection starts and ends in the style
-          If sel_start > textstart And sel_end <= (*grid\cells()\style()\style_end + 1)
-            ; non selected text
-            text.s = Mid(*grid\cells()\content,textstart, sel_start - textstart)
-            newtextx = DrawText(textx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\style()\color)
-            
-            ; selected text
-            text.s = Mid(*grid\cells()\content,sel_start, sel_end - sel_start)
-            newtextx = DrawText(newtextx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\backColor)
-            
-            ; non selected text
-            text.s = Mid(*grid\cells()\content,sel_end, *grid\cells()\style()\style_end  - sel_end + 1)
-            newtextx = DrawText(newtextx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\style()\color)
-            
-          EndIf
-          
-          ; selection starts in the style and ends after
-          If sel_start >= textstart And sel_end > (*grid\cells()\style()\style_end + 1)
-            ; non selected text
-            text.s = Mid(*grid\cells()\content,textstart, sel_start - textstart)
-            newtextx = DrawText(textx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\style()\color)
-            
-            ; selected text
-            text.s = Mid(*grid\cells()\content,sel_start, *grid\cells()\style()\style_end - sel_start + 1)
-            newtextx = DrawText(newtextx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\backColor)
-            
-          EndIf
-          
-          ; selection starts before the style and ends in the style
-          If sel_start <= textstart And sel_end <= (*grid\cells()\style()\style_end + 1)
-            ; selected text
-            text.s = Mid(*grid\cells()\content,textstart, sel_end - textstart)
-            newtextx = DrawText(textx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\backColor)
-            
-            ; non selected text
-            text.s = Mid(*grid\cells()\content,sel_end, *grid\cells()\style()\style_end - sel_end + 1)
-            newtextx = DrawText(newtextx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\style()\color)
-          EndIf
-          
-        Else
-          text.s = Mid(*grid\cells()\content,textstart, *grid\cells()\style()\style_end - textstart + 1)
-          newtextx = DrawText(textx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\style()\color)
-        EndIf
-      
-        ; draw the underline
-        If *grid\cells()\style()\fontflags & #PB_Font_Underline
-          Line(textx,toppadding + height - 2, newtextx - textx, 1, *grid\cells()\style()\color)
-        EndIf
-        
-        ; draw the strike through
-        If *grid\cells()\style()\fontflags & #Grid_TextEdit_Font_Strikethrough
-          Line(textx,toppadding + height / 2, newtextx - textx, 1, *grid\cells()\style()\color)
-        EndIf
-        
-        textx = newtextx
-        textstart = *grid\cells()\style()\style_end + 1
-        DrawingFont(FontID(*grid\font))
-      Next
-
-      ; Draw Cursor
-      If *grid\timer_edit2
-        Line(xcursor, toppadding,1,height,*grid\cells()\backColor ! $FFFFFFFF)
-      EndIf
-    Else
-      xcursor = 0
-      height = Int(12.0 / 0.75) ;TODO: put the max font size of the line instead of 12
-      
-      ; Draw Cursor
-      If *grid\timer_edit2
-        Line(xcursor, 0,1,height,RGB(0,0,0))
-      EndIf
-    EndIf
     StopDrawing()
     
-  EndIf ;}
-  
-  StartDrawing(CanvasOutput(*grid\canvas))
+    ;{- Edit Field
+    If (*grid\edit_col > -1 Or *grid\edit_row > -1) And *grid\edit_col >= *grid\xscroll And *grid\edit_col <= *grid\xscroll_end And *grid\edit_row >= *grid\yscroll And *grid\edit_row <= *grid\yscroll_end
+      
+      If *grid\edit_dc = 0
+        *grid\edit_dc = CreateImage(#PB_Any,*grid\edit_x2 - *grid\edit_x - 1, *grid\edit_y2 - *grid\edit_y - 1)
+      Else
+        If ImageWidth(*grid\edit_dc) <> (*grid\edit_x2 - *grid\edit_x - 1)  Or ImageHeight(*grid\edit_dc) <> (*grid\edit_y2 - *grid\edit_y  - 1)
+          ResizeImage(*grid\edit_dc,*grid\edit_x2 - *grid\edit_x - 1, *grid\edit_y2 - *grid\edit_y - 1)
+          grid_DoRedraw(*grid,1)
+          ProcedureReturn
+        EndIf
+      EndIf
+      StartDrawing(ImageOutput(*grid\edit_dc))
+      DrawingMode(#PB_2DDrawing_Transparent)
+      
+      Box(0,0, *grid\edit_x2 - *grid\edit_x - 1, *grid\edit_y2 - *grid\edit_y - 1,grid_GetCellBackColor( *grid, *grid\edit_col, *grid\edit_row))
+      
+      indexed_current_row = *grid\row(*grid\edit_row)
+      indexed_current_column = *grid\col(*grid\edit_col)
+      
+      If FindMapElement(*grid\cells(), Str(indexed_current_column)+"x"+Str(indexed_current_row))
+        If *grid\cells()\halign = #Grid_Align_Center
+          textwidth = grid_GetCellTextWidth( *grid,  *grid\edit_col, *grid\edit_row)
+          leftpadding = (*grid\edit_x2 - *grid\edit_x - textwidth) / 2 ; (cell width - text width) / 2
+          
+        ElseIf *grid\cells()\halign = #Grid_Align_Right
+          textwidth = grid_GetCellTextWidth( *grid,  *grid\edit_col, *grid\edit_row)
+          leftpadding = *grid\edit_x2 - *grid\edit_x - textwidth - *grid\cells()\ident ; (cell width - text width)
+          
+        Else
+          leftpadding = *grid\cells()\ident
+        EndIf
+        
+        xcursor = leftpadding + grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,*grid\edit_pos)
+        
+        ; If cell is a combo box, remove the scroll width to the x cursor pos.
+        If *grid\cells()\type = #Grid_Cell_Combobox_Editable Or *grid\cells()\type = #Grid_Cell_SpinGadget Or *grid\cells()\type = #Grid_Cell_TextWrap
+          xcursor - grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,*grid\edit_combo_pos)
+        EndIf
+        
+        height2 = grid_GetCellTextHeight2( *grid,  *grid\edit_col,*grid\edit_row)
+        height = grid_GetCellTextHeight( *grid,  *grid\edit_col,*grid\edit_row)
+        
+        If height = 0
+          height = 16 ;Int(12.0 / 0.75)
+        EndIf
+        
+        If *grid\cells()\valign = #Grid_Align_Top
+          toppadding = 0
+        ElseIf *grid\cells()\valign = #Grid_Align_Middle
+          toppadding = (*grid\edit_y2 - *grid\edit_y - height) / 2
+        Else
+          toppadding = *grid\edit_y2 - *grid\edit_y - height
+        EndIf
+        
+        
+        ; draw selection background
+        If *grid\edit_selecting
+          sel_start = grid_Min(*grid\edit_sel_start, *grid\edit_sel_end)
+          sel_end = grid_Max(*grid\edit_sel_start, *grid\edit_sel_end)
+          
+          selstart = leftpadding + grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,sel_start)
+          selend = leftpadding + grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,sel_end)
+          
+          ; If cell is a combo box, remove the scroll width to the selection box.
+          If *grid\cells()\type = #Grid_Cell_Combobox_Editable Or *grid\cells()\type = #Grid_Cell_TextWrap Or *grid\cells()\type = #Grid_Cell_SpinGadget
+            selstart - grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,*grid\edit_combo_pos)
+            selend - grid_GetWidthFromPos( *grid, *grid\edit_col,*grid\edit_row,*grid\edit_combo_pos)
+          EndIf
+          
+          DrawingMode(#PB_2DDrawing_AlphaBlend)
+          
+          ; Need to use the inverted color using formula below, but then change text color!
+          Box(selstart, toppadding,selend - selstart,height, *grid\cells()\backColor ! $FFFFFFFF) ;RGBA(180,215,255,255))
+          DrawingMode(#PB_2DDrawing_Transparent)
+          
+          sel_start + 1
+          sel_end + 1
+        EndIf
+        
+        ; Draw content
+        textx = leftpadding
+        textstart = 1
+        
+        If *grid\cells()\type = #Grid_Cell_Combobox_Editable Or *grid\cells()\type = #Grid_Cell_SpinGadget Or *grid\cells()\type = #Grid_Cell_TextWrap ; if the cell is a combo box, wrap text and start at the position
+          textstart = 1 + *grid\edit_combo_pos
+        EndIf
+        
+        
+        ForEach *grid\cells()\style()
+          fontkey.s = *grid\cells()\style()\fontname+Str(*grid\cells()\style()\fontsize)
+          
+          If *grid\cells()\style()\fontflags & #PB_Font_Bold
+            fontkey + "B"
+          EndIf
+          If *grid\cells()\style()\fontflags & #PB_Font_Italic
+            fontkey + "I"
+          EndIf
+          
+          If FindMapElement(grids_fonts(),fontkey)
+            DrawingFont(FontID(grids_fonts()\hfont))
+          EndIf
+          
+          If *grid\edit_selecting And sel_start <= (*grid\cells()\style()\style_end + 1)
+            ; whole style is selected
+            If sel_start < textstart And sel_end > (*grid\cells()\style()\style_end + 1)
+              text.s = Mid(*grid\cells()\content,textstart, *grid\cells()\style()\style_end - textstart + 1)
+              newtextx = DrawText(textx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\backColor)
+              
+            EndIf
+            
+            ;selection starts and ends in the style
+            If sel_start > textstart And sel_end <= (*grid\cells()\style()\style_end + 1)
+              ; non selected text
+              text.s = Mid(*grid\cells()\content,textstart, sel_start - textstart)
+              newtextx = DrawText(textx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\style()\color)
+              
+              ; selected text
+              text.s = Mid(*grid\cells()\content,sel_start, sel_end - sel_start)
+              newtextx = DrawText(newtextx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\backColor)
+              
+              ; non selected text
+              text.s = Mid(*grid\cells()\content,sel_end, *grid\cells()\style()\style_end  - sel_end + 1)
+              newtextx = DrawText(newtextx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\style()\color)
+              
+            EndIf
+            
+            ; selection starts in the style and ends after
+            If sel_start >= textstart And sel_end > (*grid\cells()\style()\style_end + 1)
+              ; non selected text
+              text.s = Mid(*grid\cells()\content,textstart, sel_start - textstart)
+              newtextx = DrawText(textx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\style()\color)
+              
+              ; selected text
+              text.s = Mid(*grid\cells()\content,sel_start, *grid\cells()\style()\style_end - sel_start + 1)
+              newtextx = DrawText(newtextx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\backColor)
+              
+            EndIf
+            
+            ; selection starts before the style and ends in the style
+            If sel_start <= textstart And sel_end <= (*grid\cells()\style()\style_end + 1)
+              ; selected text
+              text.s = Mid(*grid\cells()\content,textstart, sel_end - textstart)
+              newtextx = DrawText(textx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\backColor)
+              
+              ; non selected text
+              text.s = Mid(*grid\cells()\content,sel_end, *grid\cells()\style()\style_end - sel_end + 1)
+              newtextx = DrawText(newtextx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\style()\color)
+            EndIf
+            
+          Else
+            text.s = Mid(*grid\cells()\content,textstart, *grid\cells()\style()\style_end - textstart + 1)
+            newtextx = DrawText(textx, toppadding + height2 - *grid\cells()\style()\fontsize / 0.82, text,*grid\cells()\style()\color)
+          EndIf
+          
+          ; draw the underline
+          If *grid\cells()\style()\fontflags & #PB_Font_Underline
+            Line(textx,toppadding + height - 2, newtextx - textx, 1, *grid\cells()\style()\color)
+          EndIf
+          
+          ; draw the strike through
+          If *grid\cells()\style()\fontflags & #Grid_TextEdit_Font_Strikethrough
+            Line(textx,toppadding + height / 2, newtextx - textx, 1, *grid\cells()\style()\color)
+          EndIf
+          
+          textx = newtextx
+          textstart = *grid\cells()\style()\style_end + 1
+          DrawingFont(FontID(*grid\font))
+        Next
+        
+        ; Draw Cursor
+        If *grid\timer_edit2
+          Line(xcursor, toppadding,1,height,*grid\cells()\backColor ! $FFFFFFFF)
+        EndIf
+      Else
+        xcursor = 0
+        height = Int(12.0 / 0.75) ;TODO: put the max font size of the line instead of 12
+        
+        ; Draw Cursor
+        If *grid\timer_edit2
+          Line(xcursor, 0,1,height,RGB(0,0,0))
+        EndIf
+      EndIf
+      StopDrawing()
+      
+    EndIf ;}
+    
+    StartDrawing(CanvasOutput(*grid\canvas))
     If (*grid\edit_col > -1 Or *grid\edit_row > -1) And *grid\edit_col >= *grid\xscroll And *grid\edit_col <= *grid\xscroll_end And *grid\edit_row >= *grid\yscroll And *grid\edit_row <= *grid\yscroll_end
       DrawImage(ImageID(*grid\edit_dc),*grid\edit_x,*grid\edit_y)
     EndIf
-  StopDrawing()
-  
+    StopDrawing()
+    
   EndIf
 EndProcedure
 
@@ -4361,7 +4361,7 @@ Procedure grid_RedrawComboList(*grid.Grid_Struct)
     DrawingMode(#PB_2DDrawing_Outlined)
     Box(0,0,OutputWidth(),OutputHeight(),RGB(100,100,100))
     DrawingMode(#PB_2DDrawing_Transparent)
-  
+    
     StopDrawing()
   EndIf
 EndProcedure
@@ -4527,13 +4527,13 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
       If *grid\sel()\sel_row_end < *grid\sel()\sel_row
         *grid\sel()\sel_row_end = *grid\sel()\sel_row
       EndIf
-;       If *grid\sel()\sel_row > *grid\sel()\sel_row_end
-;         *grid\sel()\sel_row = *grid\sel()\sel_row_end
-;       EndIf
+      ;       If *grid\sel()\sel_row > *grid\sel()\sel_row_end
+      ;         *grid\sel()\sel_row = *grid\sel()\sel_row_end
+      ;       EndIf
       ; end check if row not hidden
       
       *grid\redraw = #True
-    ;}
+      ;}
     ElseIf key = #PB_Shortcut_Delete Or key = #PB_Shortcut_Back ;{-
       If *grid\disable_delete = 0
         AddElement(*grid\events())
@@ -4576,19 +4576,19 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
           Next
         Next
       EndIf
-    ;}
+      ;}
     EndIf
   Else ; edit mode is on
-    ; if quit edit mode
+       ; if quit edit mode
     If key = #PB_Shortcut_Tab And modifier = #PB_Canvas_Shift ;{-
       ClearList(*grid\sel())
       AddElement(*grid\sel())
-    
+      
       If *grid\keep_pos_col = - 1 And *grid\keep_pos_row = -1
         *grid\keep_pos_col = *grid\edit_col
         *grid\keep_pos_row = *grid\edit_row
       EndIf
-        
+      
       If *grid\edit_col > -1 And *grid\edit_row > -1
         If *grid\edit_old_content <> grid_GetCellString(*grid,*grid\edit_col,*grid\edit_row)
           AddElement(*grid\events())
@@ -4630,7 +4630,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
         *grid\keep_pos_col = *grid\edit_col
         *grid\keep_pos_row = *grid\edit_row
       EndIf
-        
+      
       If *grid\edit_col > -1 And *grid\edit_row > -1
         If *grid\edit_old_content <> grid_GetCellString(*grid,*grid\edit_col,*grid\edit_row)
           AddElement(*grid\events())
@@ -4691,7 +4691,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
           *grid\sel()\sel_row = *grid\keep_pos_row
           *grid\sel()\sel_row_end = *grid\keep_pos_row
         EndIf
-      
+        
         *grid\keep_pos_col = -1
         *grid\keep_pos_row = -1
       Else
@@ -4734,7 +4734,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
       *grid\edit_col = -1
       *grid\edit_row = -1
       *grid\edit_combo_pos = 0
-
+      
       AddElement(*grid\events())
       *grid\events()\event = #Grid_Event_Selection
       
@@ -4800,7 +4800,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
           StopDrawing()
         EndIf
       EndIf
-
+      
       *grid\redraw = #True
       *grid\redraw_ignore_grid = #True
       
@@ -4851,7 +4851,7 @@ Procedure grid_DoKeyDownEvent(*grid.Grid_Struct, key, modifier)
       *grid\edit_pos = Len(content)
       *grid\redraw = #True
       *grid\redraw_ignore_grid = #True
-
+      
       ;}
     Else
       *grid\keep_pos_col = -1
@@ -5168,7 +5168,7 @@ Procedure grid_DoLeftButtonDownEvent(*grid.Grid_Struct, mousex, mousey, rightbut
   
   *grid\keep_pos_col = -1
   *grid\keep_pos_row = -1
-          
+  
   If Not rightbutton
     *grid\lbuttondown = 1
     grids_dblclick2.q = ElapsedMilliseconds()
@@ -5186,28 +5186,28 @@ Procedure grid_DoLeftButtonDownEvent(*grid.Grid_Struct, mousex, mousey, rightbut
     *grid\redraw = #True
     *grid\redraw_ignore_grid = #True
     *grid\tstyle = #False
-       
+    
     AddElement(*grid\events())
     *grid\events()\event = #Grid_Event_Cursor
   Else
     If *grid\edit_col > -1 And *grid\edit_row > -1
       If *grid\edit_old_content <> grid_GetCellString(*grid,*grid\edit_col,*grid\edit_row)
-      AddElement(*grid\events())
-      *grid\events()\event = #Grid_Event_Cell
-      *grid\events()\event_column = *grid\sel()\sel_col
-      *grid\events()\event_row = *grid\sel()\sel_row
-      *grid\events()\event_cell = #Grid_Event_Cell_ContentChange
+        AddElement(*grid\events())
+        *grid\events()\event = #Grid_Event_Cell
+        *grid\events()\event_column = *grid\sel()\sel_col
+        *grid\events()\event_row = *grid\sel()\sel_row
+        *grid\events()\event_cell = #Grid_Event_Cell_ContentChange
       EndIf
     EndIf
     
     *grid\edit_col = -1
     *grid\edit_row = -1
     *grid\edit_combo_pos = 0
-
+    
     *grid\edit_selecting = #False
     *grid\redraw = #True
     *grid\tstyle = #False
-       
+    
     AddElement(*grid\events())
     *grid\events()\event = #Grid_Event_Selection
   EndIf
@@ -5249,23 +5249,23 @@ Procedure grid_DoLeftButtonDownEvent(*grid.Grid_Struct, mousex, mousey, rightbut
     EndIf
     
     
-  cellcombo.s = grid_GetCurrentCellCombo(*grid,GetGadgetAttribute(*grid\canvas,#PB_Canvas_MouseX),GetGadgetAttribute(*grid\canvas,#PB_Canvas_MouseY))
-  col = Val(StringField(cellcombo, 1, "x"))
-  row = Val(StringField(cellcombo, 2, "x"))
-  If col > -1 And row > -1
-    If FindMapElement(*grid\cells(),Str(*grid\col(col))+"x"+Str(*grid\row(row)))
-      If *grid\cells()\type = #Grid_Cell_SpinGadget
-        combo_y = Val(StringField(cellcombo, 6, "x"))
-        combo_x = Val(StringField(cellcombo, 4, "x"))
-        If mousey < (combo_y + (combo_x - combo_y) / 2)
-          grid_SetCellString(*grid, col, row, Str(Val(grid_GetCellString(*grid, col, row)) + 1))
-        Else
-          grid_SetCellString(*grid, col, row, Str(Val(grid_GetCellString(*grid, col, row)) - 1))
+    cellcombo.s = grid_GetCurrentCellCombo(*grid,GetGadgetAttribute(*grid\canvas,#PB_Canvas_MouseX),GetGadgetAttribute(*grid\canvas,#PB_Canvas_MouseY))
+    col = Val(StringField(cellcombo, 1, "x"))
+    row = Val(StringField(cellcombo, 2, "x"))
+    If col > -1 And row > -1
+      If FindMapElement(*grid\cells(),Str(*grid\col(col))+"x"+Str(*grid\row(row)))
+        If *grid\cells()\type = #Grid_Cell_SpinGadget
+          combo_y = Val(StringField(cellcombo, 6, "x"))
+          combo_x = Val(StringField(cellcombo, 4, "x"))
+          If mousey < (combo_y + (combo_x - combo_y) / 2)
+            grid_SetCellString(*grid, col, row, Str(Val(grid_GetCellString(*grid, col, row)) + 1))
+          Else
+            grid_SetCellString(*grid, col, row, Str(Val(grid_GetCellString(*grid, col, row)) - 1))
+          EndIf
         EndIf
       EndIf
     EndIf
-  EndIf
-  
+    
   EndIf
   
   If grids_dblclick2 - grids_dblclick < DoubleClickTime() And mousex = *grid\oldmousex And mousey = *grid\oldmousey
@@ -5283,9 +5283,9 @@ Procedure grid_DoLeftButtonDownEvent(*grid.Grid_Struct, mousex, mousey, rightbut
       *grid\cell_selected = ""
       *grid\cell_selected_move = ""
     EndIf
-
+    
     If *grid\edit_col > -1 And *grid\edit_row > -1 ; is editing?
-      ; select the word under the mouse
+                                                   ; select the word under the mouse
       content.s = grid_GetCellString( *grid, *grid\edit_col,*grid\edit_row)
       pos = grid_GetEditPosFromMouse( *grid,  *grid\edit_col, *grid\edit_row, mousex, mousey)
       
@@ -5315,7 +5315,7 @@ Procedure grid_DoLeftButtonDownEvent(*grid.Grid_Struct, mousex, mousey, rightbut
       *grid\events()\event = #Grid_Event_Cursor
       
       *grid\tstyle = #False
-       
+      
       *grid\redraw = #True
       *grid\redraw_ignore_grid = #True
       
@@ -5364,7 +5364,7 @@ Procedure grid_DoLeftButtonDownEvent(*grid.Grid_Struct, mousex, mousey, rightbut
                   grid_SetGadgetAttribute( *grid, #Grid_Scrolling_Row,*grid\yscroll + 1)
                   grid_DoRedraw(*grid)
                 EndIf
-      
+                
                 content.s = grid_GetCellString( *grid, *grid\edit_col,*grid\edit_row)
                 
                 If FindMapElement(*grid\cells(),Str(*grid\col(*grid\edit_col))+"x"+Str(*grid\row(*grid\edit_row)))
@@ -5560,7 +5560,7 @@ Procedure grid_DoLeftButtonUpEvent(*grid.Grid_Struct, mousex, mousey)
   EndIf
   
   cell.s = grid_GetCurrentCell(*grid,GetGadgetAttribute(*grid\canvas,#PB_Canvas_MouseX),GetGadgetAttribute(*grid\canvas,#PB_Canvas_MouseY))
-
+  
   If *grid\cell_selected_move = ""
     *grid\cell_selected_move = cell
   EndIf
@@ -5598,7 +5598,7 @@ Procedure grid_DoLeftButtonUpEvent(*grid.Grid_Struct, mousex, mousey)
         
         ResizeWindow(*grid\ac_window, combo_x,combo_y,combo_w,200)
         ResizeGadget(*grid\ac_list, 0,0,combo_w,200)
-
+        
         ; do not display combobox as the click happened on a combobox already opened.
         If *grid\ac_row = row And *grid\ac_col = col And *grid\ac_row <> -1 And *grid\ac_col <> -1
           *grid\ac_row = -1
@@ -5726,7 +5726,7 @@ ProcedureDLL grid_SetCellSelection(*grid.Grid_Struct, col, col_end, row, row_end
   *grid\sel()\sel_row = row
   *grid\sel()\sel_row_end = row_end
   *grid\redraw = #True
-
+  
 EndProcedure
 ProcedureDLL grid_AddCellSelection(*grid.Grid_Struct, col, col_end, row, row_end)
   AddElement(*grid\sel())
@@ -5735,7 +5735,7 @@ ProcedureDLL grid_AddCellSelection(*grid.Grid_Struct, col, col_end, row, row_end
   *grid\sel()\sel_row = row
   *grid\sel()\sel_row_end = row_end
   *grid\redraw = #True
-
+  
 EndProcedure
 
 ProcedureDLL grid_EventEditingRow(*grid.Grid_Struct)
@@ -6059,7 +6059,7 @@ EndProcedure
 
 ProcedureDLL grid_TimerEvent()
   Protected scrollx, scrolly, mousex, mousey
-
+  
   ForEach grid_grids()
     Select EventTimer()
       Case 145875
@@ -6188,7 +6188,7 @@ ProcedureDLL grid_TimerEvent()
       Else
         grid_DoRedraw(grid_grids())
       EndIf
-
+      
       grid_grids()\redraw_ignore_grid = #False
       grid_grids()\redraw = #False
     EndIf
@@ -6215,7 +6215,7 @@ ProcedureDLL grid_Event(*grid.Grid_Struct)
     *grid\c_event_index_cells = -1
     DeleteElement(*grid\events())
   EndIf
-
+  
   ProcedureReturn event
 EndProcedure
 

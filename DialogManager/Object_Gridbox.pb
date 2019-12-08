@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -52,7 +52,7 @@ Structure DlgGridBox Extends DlgBase
   NextChild.l
   
   Rows.DlgGridBoxRow[#MAX_ROWS] ; here the childs are stored
-
+  
   colSpacing.l
   rowSpacing.l
   colExpand.l
@@ -80,7 +80,7 @@ Procedure DlgGridBox_New(*StaticData.DialogObjectData)
     Else
       *THIS\NbColumns = 2 ; default value
     EndIf
-        
+    
     Value$ = DialogObjectKey(*StaticData, "COLSPACING")
     If Value$
       *THIS\colSpacing = Val(Value$)
@@ -131,11 +131,11 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
   *Height\l = 0
   
   If *THIS\NbRows > 0
-  
+    
     For row = 0 To *THIS\NbRows-1
       For col = 0 To *THIS\NbColumns-1
         Child.DialogObject = *THIS\Rows[row]\Cols[col]\Child
-      
+        
         If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
           Width = 0
           Height = 0
@@ -147,12 +147,12 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
           If *THIS\Rows[row]\Cols[col]\Colspan = 1
             *THIS\colSize[col] = Max(*THIS\colSize[col], Width)
           EndIf
-                
+          
           If *THIS\Rows[row]\Cols[col]\Rowspan = 1
             *THIS\rowSize[row] = Max(*THIS\rowSize[row], Height)
           EndIf
         EndIf
-      
+        
       Next col
     Next row
     
@@ -160,13 +160,13 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
     ;
     For row = 0 To *THIS\NbRows-1
       For col = 0 To *THIS\NbColumns-1
-      
+        
         If *THIS\Rows[row]\Cols[col]\Colspan > 1 Or *THIS\Rows[row]\Cols[col]\Rowspan > 1
           colspan = *THIS\Rows[row]\Cols[col]\Colspan
           rowspan = *THIS\Rows[row]\Cols[col]\Rowspan
-        
+          
           Child.DialogObject = *THIS\Rows[row]\Cols[col]\Child
-        
+          
           If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
             Width = 0
             Height = 0
@@ -183,7 +183,7 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
               
               ; action is only needed if this is not enough. What to do depends on the expansion mode
               If Size < Width
-              
+                
                 If *THIS\colExpand = #Dlg_Expand_Equal ; size the columns equally
                   Size = (Width - (colspan-1) * *THIS\colSpacing) / colspan
                   For i = 0 To colspan-1
@@ -197,16 +197,16 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
                   For i = 0 To colspan-1
                     *THIS\colSize[col+i] + Size
                   Next i
-
-                ; expand one item only (see if it is in our span)
+                  
+                  ; expand one item only (see if it is in our span)
                 ElseIf *THIS\colExpand = #Dlg_Expand_Item And (*THIS\colExpandItem >= col And *THIS\colExpandItem < col + colspan)
                   *THIS\colSize[*THIS\colExpandItem] + (Width - Size)
                   
                 Else ; no expanding, or above case failed. add the space to the last column
                   *THIS\colSize[col+colspan-1] + (Width - Size)
-                
-                EndIf
                   
+                EndIf
+                
               EndIf
             EndIf
             
@@ -222,7 +222,7 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
               
               ; action is only needed if this is not enough. What to do depends on the expansion mode
               If Size < Height
-              
+                
                 If *THIS\rowExpand = #Dlg_Expand_Equal ; size the columns equally
                   Size = (Height - (rowspan-1) * *THIS\rowSpacing) / rowspan
                   For i = 0 To rowspan-1
@@ -236,30 +236,30 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
                   For i = 0 To rowspan-1
                     *THIS\rowSize[row+i] + Size
                   Next i
-
-                ; expand one item only (see if it is in our span)
+                  
+                  ; expand one item only (see if it is in our span)
                 ElseIf *THIS\rowExpand = #Dlg_Expand_Item And (*THIS\rowExpandItem >= row And *THIS\rowExpandItem < row + rowspan)
                   *THIS\rowSize[*THIS\rowExpandItem] + (Height - Size)
                   
                 Else ; no expanding, or above case failed. add the space to the last column
                   *THIS\rowSize[row+rowspan-1] + (Height - Size)
-                
-                EndIf
                   
+                EndIf
+                
               EndIf
             EndIf
             
             
           EndIf
         EndIf
-      
+        
       Next col
     Next row
     
     
     *Width\l  = (*THIS\NbColumns - 1) * *THIS\colSpacing
     *Height\l = (*THIS\NbRows - 1) * *THIS\rowSpacing
-
+    
     For i = 0 To *THIS\NbColumns-1
       *Width\l + *THIS\colSize[i]
     Next i
@@ -267,12 +267,12 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
     For i = 0 To *THIS\NbRows-1
       *Height\l + *THIS\rowSize[i]
     Next i
-        
+    
     *THIS\RequestedWidth  = *Width\l
     *THIS\RequestedHeight = *Height\l
-
+    
   EndIf
-
+  
   *Width\l  = Max(*Width\l,  *THIS\StaticData\MinWidth)
   *Height\l = Max(*Height\l, *THIS\StaticData\MinHeight)
 EndProcedure
@@ -280,12 +280,12 @@ EndProcedure
 
 
 Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
-
-  If *THIS\NbRows > 0
   
+  If *THIS\NbRows > 0
+    
     Dim RowSize.l(*THIS\NbRows)
     Dim ColSize.l(*THIS\NbColumns)
-
+    
     ;
     ; Calculate column widths
     ;
@@ -308,20 +308,20 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
         Next i
       EndIf
       
-    ; not enough space anyway
+      ; not enough space anyway
     ElseIf Width < *THIS\RequestedWidth And Width > 0
       For i = 0 To *THIS\NbColumns-1
         ColSize(i) = (*THIS\colSize[i] * Width) / *THIS\RequestedWidth
       Next i
-    
-    ; normal expanding
+      
+      ; normal expanding
     ElseIf *THIS\colExpand = #Dlg_Expand_Yes
       Extra = (Width - *THIS\RequestedWidth) / *THIS\NbColumns
       For i = 0 To *THIS\NbColumns-1
         ColSize(i) = *THIS\colSize[i] + Extra
       Next i
-    
-    ; expand one item only, or no expanding
+      
+      ; expand one item only, or no expanding
     Else
       If *THIS\colExpand = #Dlg_Expand_Item
         Extra = Width - *THIS\RequestedWidth
@@ -336,7 +336,7 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
           ColSize(i) = *THIS\colSize[i]
         EndIf
       Next i
-
+      
     EndIf
     
     ;
@@ -350,20 +350,20 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
         RowSize(i) = Size
       Next i
       
-    ; not enough space anyway
+      ; not enough space anyway
     ElseIf Height < *THIS\RequestedHeight And Height > 0
       For i = 0 To *THIS\NbRows-1
         RowSize(i) = (*THIS\rowSize[i] * Height) / *THIS\RequestedHeight
       Next i
-    
-    ; normal expanding
+      
+      ; normal expanding
     ElseIf *THIS\rowExpand = #Dlg_Expand_Yes
       Extra = (Height - *THIS\RequestedHeight) / *THIS\NbRows
       For i = 0 To *THIS\NbRows-1
         RowSize(i) = *THIS\rowSize[i] + Extra
       Next i
-    
-    ; expand one item only, or no expanding
+      
+      ; expand one item only, or no expanding
     Else
       If *THIS\rowExpand = #Dlg_Expand_Item
         Extra = Height - *THIS\RequestedHeight
@@ -380,7 +380,7 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
       Next i
       
     EndIf
-  
+    
     ;
     ; Actual Child resizing...
     ;
@@ -389,7 +389,7 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
       For col = 0 To *THIS\NbColumns-1
         Child.DialogObject = *THIS\Rows[row]\Cols[col]\Child
         If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
-        
+          
           posx = x + col * *THIS\colSpacing
           posy = y + row * *THIS\rowSpacing
           For j = 0 To col-1: posx + ColSize(j): Next j
@@ -406,15 +406,15 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
         EndIf
       Next col
     Next row
-
+    
   EndIf
-      
+  
 EndProcedure
 
 
 
 Procedure DlgGridBox_AddChild(*THIS.DlgGridBox, Child.DialogObject)
-
+  
   ; we must first find a free spot that is not filled with a span dummy
   ;
   row = *THIS\NextChild / *THIS\NbColumns
@@ -425,7 +425,7 @@ Procedure DlgGridBox_AddChild(*THIS.DlgGridBox, Child.DialogObject)
     row = *THIS\NextChild / *THIS\NbColumns
     col = *THIS\NextChild % *THIS\NbColumns
   Wend
-   
+  
   ; Add dummy span objects if needed (check the child for that)
   ;
   *ChildData.DlgBase = Child
@@ -458,11 +458,11 @@ EndProcedure
 Procedure DlgGridBox_FoldApply(*THIS.DlgGridBox, State)
   ; hiding is always done, showing only if there is no "fold" tag set on this object too
   If State Or *THIS\Folded = 0
-  
+    
     For row = 0 To *THIS\NbRows-1
       For col = 0 To *THIS\NbColumns-1
         Child.DialogObject = *THIS\Rows[row]\Cols[col]\Child
-      
+        
         If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
           Child\FoldApply(State) ; calling the interface in the structure directly gives an invalid memory access.. bug maybe?
         EndIf
@@ -474,7 +474,7 @@ EndProcedure
 
 
 Procedure DlgGridBox_Finish(*THIS.DlgGridBox)
-
+  
   ; when all childs are added, we calculate the number of rows
   ; for easier access later. Note: the last added child can span several rows,
   ; so we cannot simply calculate the value from the NextChild one.
@@ -497,7 +497,7 @@ Procedure DlgGridBox_Finish(*THIS.DlgGridBox)
   Next row
   
   *THIS\NbRows = row
-      
+  
 EndProcedure
 
 
@@ -506,11 +506,11 @@ Procedure DlgGridBox_Find(*THIS.DlgGridBox, Name$)
   If DialogObjectName(*THIS\StaticData) = Name$
     ProcedureReturn *THIS ; now returns the object!
   EndIf
-
+  
   For row = 0 To *THIS\NbRows-1
     For col = 0 To *THIS\NbColumns-1
       Child.DialogObject = *THIS\Rows[row]\Cols[col]\Child
-    
+      
       If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
         result = Child\Find(Name$) ; calling the interface in the structure directly gives an invalid memory access.. bug maybe?
         
@@ -518,10 +518,10 @@ Procedure DlgGridBox_Find(*THIS.DlgGridBox, Name$)
           ProcedureReturn result
         EndIf
       EndIf
-    
+      
     Next col
   Next row
-
+  
 EndProcedure
 
 
@@ -530,9 +530,9 @@ Procedure DlgGridBox_Update(*THIS.DlgGridBox)
     For col = 0 To *THIS\NbColumns-1
       Child.DialogObject = *THIS\Rows[row]\Cols[col]\Child
       If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
-      
+        
         Child\Update()
-
+        
       EndIf
     Next col
   Next row
@@ -545,13 +545,13 @@ Procedure DlgGridBox_Destroy(*THIS.DlgGridBox)
     For col = 0 To *THIS\NbColumns-1
       Child.DialogObject = *THIS\Rows[row]\Cols[col]\Child
       If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
-      
+        
         Child\Destroy()
-
+        
       EndIf
     Next col
   Next row
-
+  
   FreeMemory(*THIS)
 EndProcedure
 
@@ -559,16 +559,16 @@ EndProcedure
 
 
 DataSection
-
+  
   DlgGridBox_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgGridBox_SizeRequest()
-    Data.i @DlgGridBox_SizeApply()
-    Data.i @DlgGridBox_AddChild()
-    Data.i @DlgGridBox_FoldApply()
-    Data.i @DlgGridBox_Find()
-    Data.i @DlgGridBox_Finish()
-    Data.i @DlgGridBox_Update()
-    Data.i @DlgGridBox_Destroy()
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgGridBox_SizeRequest()
+  Data.i @DlgGridBox_SizeApply()
+  Data.i @DlgGridBox_AddChild()
+  Data.i @DlgGridBox_FoldApply()
+  Data.i @DlgGridBox_Find()
+  Data.i @DlgGridBox_Finish()
+  Data.i @DlgGridBox_Update()
+  Data.i @DlgGridBox_Destroy()
+  
 EndDataSection

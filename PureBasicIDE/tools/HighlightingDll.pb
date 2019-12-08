@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -34,7 +34,7 @@ Procedure DllCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
 EndProcedure
 
 ProcedureDLL AttachProcess(Instance)
-
+  
   ; Set up the global stuff here
   ;
   *NormalTextColor    = #SYNTAX_Text
@@ -69,13 +69,13 @@ ProcedureDLL AttachProcess(Instance)
   ;
   InitSyntaxCheckArrays()
   InitSyntaxHilightning()
-
+  
 EndProcedure
 
 ProcedureDLL SyntaxHighlight(*Buffer, Length, Callback.UserCallback, EnableASM)
   If *Buffer And Length > 0 And Callback
     UserCallback = Callback
-
+    
     ; If EnableAsm is set, it will treat it as a source file, and use the
     ; setting from DummySource, so InlineASM will be detected
     ;

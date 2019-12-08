@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -13,11 +13,11 @@ CompilerEndIf
 Declare Debugger_ForceDestroy(*Debugger.DebuggerData)
 
 Procedure Debugger_Quit()
-
+  
   While FirstElement(RunningDebuggers())
     Debugger_ForceDestroy(@RunningDebuggers())
   Wend
-
+  
 EndProcedure
 
 
@@ -40,7 +40,7 @@ Procedure IsDebuggerValid(*Debugger)
   
   ProcedureReturn Found
 EndProcedure
- 
+
 
 ; The debugger structure is destroyed when the exe is unloaded, AND all the
 ; debugger windows have been closed by the user
@@ -48,13 +48,13 @@ EndProcedure
 ; if needed
 ;
 Procedure Debugger_CheckDestroy(*Debugger.DebuggerData)
-
+  
   ; is the debugger structure even valid any more?
   ;
   If IsDebuggerValid(*Debugger) = 0
     ProcedureReturn
   EndIf
-
+  
   ; check if exe is running
   ;
   If *Debugger\CanDestroy = 0
@@ -73,7 +73,7 @@ Procedure Debugger_CheckDestroy(*Debugger.DebuggerData)
       If *Debugger\IsWatchListVisible
         ProcedureReturn
       EndIf
-
+      
     ElseIf i = #DEBUGGER_WINDOW_DataBreakpoints
       If *Debugger\DataBreakpointsVisible
         ProcedureReturn
@@ -83,7 +83,7 @@ Procedure Debugger_CheckDestroy(*Debugger.DebuggerData)
       ProcedureReturn
     EndIf
   Next i
-
+  
   
   ; this is a special case!
   ;
@@ -99,7 +99,7 @@ Procedure Debugger_CheckDestroy(*Debugger.DebuggerData)
   If IsWindow(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakpoints])
     CloseWindow(*Debugger\Windows[#DEBUGGER_WINDOW_DataBreakpoints])
   EndIf
-    
+  
   ; free any memory blocks referenced from this structure
   ;
   If *Debugger\IncludedFiles
@@ -109,11 +109,11 @@ Procedure Debugger_CheckDestroy(*Debugger.DebuggerData)
   If *Debugger\Procedures
     FreeMemory(*Debugger\Procedures)
   EndIf
-   
+  
   If *Debugger\MemoryDump
     FreeMemory(*Debugger\MemoryDump)
   EndIf
-
+  
   ; the data array is freed automatically when the window closes
   ;
   If *Debugger\ProfilerFiles
@@ -178,22 +178,22 @@ Procedure Debugger_CheckDestroy(*Debugger.DebuggerData)
       *Debugger\TerminationMutex = 0
     EndIf
   CompilerEndIf
-
+  
   ; remove the structure
   ;
   ChangeCurrentElement(RunningDebuggers(), *Debugger)
   DeleteElement(RunningDebuggers())
-
+  
 EndProcedure
 
 Procedure Debugger_ForceDestroy(*Debugger.DebuggerData)
-
+  
   ; is the debugger structure even valid any more?
   ;
   If IsDebuggerValid(*Debugger) = 0
     ProcedureReturn
   EndIf
-
+  
   ; flag structure for destruction
   ;
   *Debugger\CanDestroy = 1
@@ -207,7 +207,7 @@ Procedure Debugger_ForceDestroy(*Debugger.DebuggerData)
       Command.CommandInfo\Command = #COMMAND_Kill
       SendDebuggerCommand(*Debugger, @Command)
     EndIf
-  
+    
     *Debugger\Communication\Disconnect()
   EndIf
   
@@ -215,7 +215,7 @@ Procedure Debugger_ForceDestroy(*Debugger.DebuggerData)
   ;
   If *Debugger\ProcessObject
     If WaitProgram(*Debugger\ProcessObject, 0) = #False ; still running
-    
+      
       ; Try to quit the Exe without a forced kill
       ;
       CompilerIf #CompileWindows
@@ -223,11 +223,11 @@ Procedure Debugger_ForceDestroy(*Debugger.DebuggerData)
           ; releasing this mutex should cause the process to quit itself (cleaner then TerminatProcess)
           ReleaseMutex_(*Debugger\TerminationMutex)
         EndIf
-      
+        
       CompilerElse
         ; "ask" the program to quit (with calling the EndFunctions)
         kill_(ProgramID(*Debugger\ProcessObject), #SIGTERM) ; ProgramID() returns the pid on unix
-      
+        
       CompilerEndIf
       
       ; Wait a bit and kill if it did not work
@@ -236,7 +236,7 @@ Procedure Debugger_ForceDestroy(*Debugger.DebuggerData)
         KillProgram(*Debugger\ProcessObject)
       EndIf
     EndIf
-  
+    
     CloseProgram(*Debugger\ProcessObject)
     *Debugger\ProcessObject = 0
   EndIf
@@ -254,8 +254,8 @@ Procedure Debugger_ForceDestroy(*Debugger.DebuggerData)
       *Debugger\TerminationMutex = 0
     EndIf
   CompilerEndIf
- 
-
+  
+  
   ; close all associated windows
   ; will also call the Debugger_CheckDestroy() function after the windows are removed
   ;
@@ -264,7 +264,7 @@ Procedure Debugger_ForceDestroy(*Debugger.DebuggerData)
       ; send it a window close event:
       ;
       Debugger_ProcessEvents(*Debugger\Windows[i], #PB_Event_CloseWindow)
-
+      
       ; each closing of a debugger window can destroy the structure allready,
       ; as they all call Debugger_CheckDestroy(), so we must check for that!
       ;
@@ -280,7 +280,7 @@ Procedure Debugger_ForceDestroy(*Debugger.DebuggerData)
       EndIf
     EndIf
   Next i
-
+  
   
   ; make sure the thing is really removed from the Debuggers list!
   ; even if some other procedure didn't clean up right!
@@ -294,16 +294,16 @@ Procedure Debugger_ForceDestroy(*Debugger.DebuggerData)
       DeleteElement(RunningDebuggers())
     EndIf
   EndIf
-
+  
 EndProcedure
 
 ;
 ; Debugging only. To log all communication to a file
 ;
 CompilerIf #LOG_DEBUGGER_COMMANDS
-
-  Procedure LogDebuggerCommand(Direction, *Command.CommandInfo, *CommandData)
   
+  Procedure LogDebuggerCommand(Direction, *Command.CommandInfo, *CommandData)
+    
     If Direction
       If *Command
         Restore DebuggerCommands_Outgoing
@@ -311,7 +311,7 @@ CompilerIf #LOG_DEBUGGER_COMMANDS
           Read.s ConstantName$
         Next i
       EndIf
-
+      
       Direction$ = "Debugger -> Executable"
     Else
       If *Command
@@ -324,10 +324,10 @@ CompilerIf #LOG_DEBUGGER_COMMANDS
           Next i
         EndIf
       EndIf
-    
+      
       Direction$ = "Executable -> Debugger"
     EndIf
-  
+    
     Log = OpenFile(#PB_Any, #LOG_DEBUGGER_FILE)
     If Log
       FileSeek(Log, Lof(Log))
@@ -345,9 +345,9 @@ CompilerIf #LOG_DEBUGGER_COMMANDS
         WriteStringN(Log, FormatDate("[%hh:%ii:%ss] ", Date()) + Direction$)
         WriteStringN(Log, "  --- ERROR: Invalid command (*Command = 0) ---")
       EndIf
-
+      
       WriteStringN(Log, "--------------------------------------------------------------------------------")
-
+      
       If *Command And *Command\DataSize > 0
         If *CommandData = 0
           WriteStringN(Log, "  --- ERROR: Expected CommandData not availeble! ---")
@@ -377,16 +377,16 @@ CompilerIf #LOG_DEBUGGER_COMMANDS
             *Base + 16
             WriteStringN(Log, Offset$+Hex$+String$)
           Wend
-        
+          
         EndIf
         WriteStringN(Log, "--------------------------------------------------------------------------------")
       EndIf
-            
+      
       WriteStringN(Log, "")
       
       CloseFile(Log)
     EndIf
-  
+    
   EndProcedure
   
   Procedure LogProgramCreation(Executable$, Parameters$, Directory$)
@@ -435,7 +435,7 @@ CompilerIf #LOG_DEBUGGER_COMMANDS
       WriteStringN(Log, "")
       WriteStringN(Log, "--------------------------------------------------------------------------------")
       WriteStringN(Log, "")
-    
+      
       CloseFile(Log)
     EndIf
   EndProcedure
@@ -486,12 +486,12 @@ EndProcedure
 ; Function shared with the standalone debugger loop
 ;
 Procedure Debugger_End(*Debugger.DebuggerData)
-
+  
   UpdateDebugOutputWindow(*Debugger)
-
+  
   *Debugger\CanDestroy = 1
   Debugger_CheckDestroy(*Debugger) ; make an attempt to remove the structure (if all windows are closed)
-
+  
 EndProcedure
 
 
@@ -505,27 +505,27 @@ EndProcedure
 Procedure Debugger_ProcessIncommingCommands()
   result = 0
   
-;   CompilerIf #CompileWindows
-;     ProcessDebugEvents()  ; Win32 debug API events
-;   CompilerEndIf
-
+  ;   CompilerIf #CompileWindows
+  ;     ProcessDebugEvents()  ; Win32 debug API events
+  ;   CompilerEndIf
+  
   ForEach RunningDebuggers()
     *Debugger.DebuggerData = @RunningDebuggers()
     
     Repeat
-    
+      
       If *Debugger\Communication = 0
         Break
- 
+        
       ElseIf *Debugger\Communication\Receive(@*Debugger\Command, @*Debugger\CommandData) = #False
         If *Debugger\Communication\CheckErrors(@*Debugger\Command, *Debugger\ProcessObject) = #False
           Break
         EndIf
         *Debugger\CommandData = 0
       EndIf
-    
+      
       result + 1  ; a command is being processed
-
+      
       ; debugging...
       CompilerIf #PRINT_DEBUGGER_COMMANDS
         If *Debugger\Command\Command = #COMMAND_FatalError
@@ -543,18 +543,18 @@ Procedure Debugger_ProcessIncommingCommands()
         LogDebuggerCommand(0, *Debugger\Command, *Debugger\CommandData)
       CompilerEndIf
       
-;      If *Debugger\Windows[#DEBUGGER_WINDOW_Debug] = 0
-;        OpenDebugWindow(*Debugger, #False)
-;      EndIf
-;      Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]
-;      AddGadgetItem(Gadget, -1, "IDE::RECEIVE->"+Str(*Debugger\Command\Command))
-;      SetGadgetState(Gadget, CountGadgetItems(Gadget)-1)
-        
+      ;      If *Debugger\Windows[#DEBUGGER_WINDOW_Debug] = 0
+      ;        OpenDebugWindow(*Debugger, #False)
+      ;      EndIf
+      ;      Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]
+      ;      AddGadgetItem(Gadget, -1, "IDE::RECEIVE->"+Str(*Debugger\Command\Command))
+      ;      SetGadgetState(Gadget, CountGadgetItems(Gadget)-1)
+      
       ; we are outside the locked area and outside the thread,
       ; so we can do pretty much what we want here (except accessing the command stack)
       ;
       Select *Debugger\Command\Command  ; handle stuff that is the same for ide and debugger
-      
+          
         Case #COMMAND_FatalError  ; indicates fatal communication error of debugger
           Select *Debugger\Command\Value1
             Case #ERROR_Memory
@@ -573,7 +573,7 @@ Procedure Debugger_ProcessIncommingCommands()
             Case #ERROR_NetworkFail
               Message$ = Language("Debugger", "NetworkError")
           EndSelect
-            
+          
           CompilerIf #CompileWindows
             ; Very weird Vista related problem:
             ;
@@ -598,16 +598,16 @@ Procedure Debugger_ProcessIncommingCommands()
           
           ; pass this on to the calllback
           RealProgramState = *Debugger\ProgramState ; save for later restoring (so ForceDestroy() correctly ends the program)
-          *Debugger\ProgramState = -1     ; tell that the exe is not loaded not loaded
-          *Debugger\LastProgramState = -1 ; last state no longer matters
+          *Debugger\ProgramState = -1               ; tell that the exe is not loaded not loaded
+          *Debugger\LastProgramState = -1           ; last state no longer matters
           Debugger_UpdateWindowStates(*Debugger)
           DebuggerCallback(*Debugger)
           
           *Debugger\ProgramState = RealProgramState
           Debugger_ForceDestroy(*Debugger) ; force the removal of this debugger!
-          Break 2; important, because the *Debugger is now invalid!
+          Break 2                          ; important, because the *Debugger is now invalid!
           
-      
+          
         Case #COMMAND_Init
           If *Debugger\Command\Value2 = #DEBUGGER_Version
             *Debugger\NbIncludedFiles = *Debugger\Command\Value1  ; save the included files
@@ -634,7 +634,7 @@ Procedure Debugger_ProcessIncommingCommands()
             If ProfilerRunAtStart
               Command.CommandInfo\Command = #COMMAND_StartProfiler
               SendDebuggerCommand(*Debugger, @Command)
-
+              
               ; request the profiler offsets right away, so they are available
               ; even if the user only opens the profiler after the program quit.
               Command.CommandInfo\Command = #COMMAND_GetProfilerOffsets
@@ -692,16 +692,16 @@ Procedure Debugger_ProcessIncommingCommands()
             ; pass this on to the calllback
             *Debugger\Command\Command = #COMMAND_FatalError
             *Debugger\Command\Value1  = #ERROR_Version
-                     
+            
             RealProgramState = *Debugger\ProgramState ; save for later restoring (so ForceDestroy() correctly ends the program)
-            *Debugger\ProgramState = -1     ; tell that the exe is not loaded not loaded
-            *Debugger\LastProgramState = -1 ; last state no longer matters
+            *Debugger\ProgramState = -1               ; tell that the exe is not loaded not loaded
+            *Debugger\LastProgramState = -1           ; last state no longer matters
             Debugger_UpdateWindowStates(*Debugger)
             DebuggerCallback(*Debugger)
-
+            
             *Debugger\ProgramState = RealProgramState
             Debugger_ForceDestroy(*Debugger) ; force the removal of this debugger!
-            Break 2; important, because the *Debugger is now invalid!
+            Break 2                          ; important, because the *Debugger is now invalid!
           EndIf
           
         Case #COMMAND_ExeMode
@@ -726,7 +726,7 @@ Procedure Debugger_ProcessIncommingCommands()
         Case #COMMAND_End
           *Debugger\ProgramState = -1 ; not loaded
           *Debugger\LastProgramState = -1 ; last state no longer matters
-          *Debugger\ProgramEnded = 1 ; for ignoring any following pipe errors (happens on linux in console mode)
+          *Debugger\ProgramEnded = 1      ; for ignoring any following pipe errors (happens on linux in console mode)
           Debugger_UpdateWindowStates(*Debugger)
           
         Case #COMMAND_Error
@@ -734,10 +734,10 @@ Procedure Debugger_ProcessIncommingCommands()
           *Debugger\ProgramState = *Debugger\Command\Value2
           Debugger_UpdateWindowStates(*Debugger)
           
-        ; No generic action to take here, as the program state is not modified
-        ; (only display needs to be done by the callback)
-        ; Case #COMMAND_Warning
-        
+          ; No generic action to take here, as the program state is not modified
+          ; (only display needs to be done by the callback)
+          ; Case #COMMAND_Warning
+          
         Case #COMMAND_Stopped
           *Debugger\LastProgramState = *Debugger\ProgramState
           *Debugger\ProgramState = *Debugger\Command\Value2
@@ -750,16 +750,16 @@ Procedure Debugger_ProcessIncommingCommands()
           
         Case #COMMAND_Debug, #COMMAND_DebugDouble, #COMMAND_DebugQuad, #COMMAND_Expression, #COMMAND_SetVariableResult, #COMMAND_ControlDebugOutput
           DebugOutput_DebuggerEvent(*Debugger)
- 
+          
         Case #COMMAND_RegisterLayout, #COMMAND_Register, #COMMAND_Stack, #COMMAND_ControlAssemblyViewer
           AsmDebug_DebuggerEvent(*Debugger)
-        
+          
         Case #COMMAND_Memory, #COMMAND_ControlMemoryViewer
           MemoryViewer_DebuggerEvent(*Debugger)
           
         Case #COMMAND_GlobalNames, #COMMAND_Globals, #COMMAND_Locals, #COMMAND_ArrayInfo, #COMMAND_ArrayData, #COMMAND_ListData, #COMMAND_ListInfo, #COMMAND_MapData, #COMMAND_MapInfo, #COMMAND_ControlVariableViewer
           VariableDebug_DebuggerEvent(*Debugger)
-         
+          
         Case #COMMAND_History, #COMMAND_HistoryLocals, #COMMAND_ControlCallstack
           History_DebuggerEvent(*Debugger)
           
@@ -774,15 +774,15 @@ Procedure Debugger_ProcessIncommingCommands()
           ; the watchlist requires this event too! (to fill the procedure list)
           WatchList_DebuggerEvent(*Debugger)
           DataBreakpoint_DebuggerEvent(*Debugger)
-        
+          
         Case #COMMAND_ProcedureStats
           History_DebuggerEvent(*Debugger)
-                                  
+          
         Case #COMMAND_Watchlist, #COMMAND_WatchlistEvent, #COMMAND_WatchlistError, #COMMAND_ControlWatchlist
           WatchList_DebuggerEvent(*Debugger)
           
         Case #COMMAND_DataBreakPoint
-         DataBreakpoint_DebuggerEvent(*Debugger)
+          DataBreakpoint_DebuggerEvent(*Debugger)
           
         Case #COMMAND_Libraries, #COMMAND_LibraryInfo, #COMMAND_ObjectID, #COMMAND_ObjectText, #COMMAND_ObjectData, #COMMAND_ControlLibraryViewer
           LibraryViewer_DebuggerEvent(*Debugger)
@@ -797,14 +797,14 @@ Procedure Debugger_ProcessIncommingCommands()
           *Debugger\NbModules = *Debugger\Command\Value1
           If *Debugger\CommandData And *Debugger\NbModules > 0
             ReDim *Debugger\ModuleNames(*Debugger\NbModules-1)
-
+            
             *Pointer = *Debugger\CommandData
             For i = 0 To *Debugger\NbModules - 1
               *Debugger\ModuleNames(i) = PeekS(*Pointer, -1, #PB_Ascii)
               *Pointer + MemoryStringLength(*Pointer, #PB_Ascii) + 1
             Next i
           EndIf
-
+          
       EndSelect
       
       DebuggerCallback(*Debugger) ; call the declared callback
@@ -818,7 +818,7 @@ Procedure Debugger_ProcessIncommingCommands()
       ;
       If *Debugger\Command\Command = #COMMAND_End
         Debugger_End(*Debugger) ; Function shared with the Standalone debugger callback
-        Break 2; important, because the *Debugger is now invalid!
+        Break 2                 ; important, because the *Debugger is now invalid!
       EndIf
       
       ; free any associated command data
@@ -827,28 +827,28 @@ Procedure Debugger_ProcessIncommingCommands()
         FreeMemory(*Debugger\CommandData)
         *Debugger\CommandData = 0
       EndIf
-        
+      
     Until result > 100 ; only process 100 commands at a time to allow GUI updates to take place!
     
     If IsDebuggerValid(*Debugger)
       UpdateDebugOutputWindow(*Debugger) ; Will check if the debugger output needs to be updated (some debug message in queue)
     EndIf
-
+    
   Next RunningDebuggers()
-
+  
   ProcedureReturn result
 EndProcedure
 
 ; executes the given program and returns a debugger structure for it
 ;
 Procedure Debugger_ExecuteProgram(FileName$, CommandLine$, Directory$)
-
+  
   Debug "Debugger_ExecuteProgram():"
   Debug FileName$
   Debug CommandLine$
   Debug Directory$
   Debug DebuggerIseFIFO
-
+  
   ; add a new debugger structure
   ;
   LastElement(RunningDebuggers())
@@ -860,56 +860,56 @@ Procedure Debugger_ExecuteProgram(FileName$, CommandLine$, Directory$)
   ; generate a unique ID to represent this structure
   ;
   RunningDebuggers()\ID = GetUniqueID()
-
+  
   ; this is to fix an issue in the CPU monitor of the ide
   ; RunningDebuggers()\CPUTime = -1
-
+  
   ; create the communication object and
   ; setup the environment variables or file to pass on to the new process
   ;
-;   CompilerIf #CompileMac ; OSX-debug
-;     DebuggerUseFIFO = 1 ; always used
-;   CompilerEndIf
+  ;   CompilerIf #CompileMac ; OSX-debug
+  ;     DebuggerUseFIFO = 1 ; always used
+  ;   CompilerEndIf
   
   CompilerIf #CompileWindows = 0
-  If DebuggerUseFIFO
-  
-    RunningDebuggers()\Communication = CreateFifoCommunication()
-    If RunningDebuggers()\Communication = 0
-      DeleteElement(RunningDebuggers())
-      Debug " -- Debugger_ExecuteProgram() failed: CreateFifoCommunication()"
-      ProcedureReturn 0
-    EndIf
-  
-    File = CreateFile(#PB_Any, "/tmp/.pbdebugger.out")
-    If File
-      WriteStringN(File, "PB_DEBUGGER_Communication") ; identifyer string
-      WriteStringN(File, Str(Date())) ; use a timestamp to ignore an old .purebasic.out from a crash (else the console debugger never starts!)
-      WriteStringN(File, RunningDebuggers()\Communication\GetInfo())
-      WriteStringN(File, Str(#PB_Compiler_Unicode)+";"+Str(CallDebuggerOnStart)+";"+Str(CallDebuggerOnEnd)+";"+Str(#DEBUGGER_BigEndian)) ; options (UnicodeMode;CallOnStart;CallOnEnd;IsBigEndian)
-      CloseFile(File)
+    If DebuggerUseFIFO
+      
+      RunningDebuggers()\Communication = CreateFifoCommunication()
+      If RunningDebuggers()\Communication = 0
+        DeleteElement(RunningDebuggers())
+        Debug " -- Debugger_ExecuteProgram() failed: CreateFifoCommunication()"
+        ProcedureReturn 0
+      EndIf
+      
+      File = CreateFile(#PB_Any, "/tmp/.pbdebugger.out")
+      If File
+        WriteStringN(File, "PB_DEBUGGER_Communication") ; identifyer string
+        WriteStringN(File, Str(Date()))                 ; use a timestamp to ignore an old .purebasic.out from a crash (else the console debugger never starts!)
+        WriteStringN(File, RunningDebuggers()\Communication\GetInfo())
+        WriteStringN(File, Str(#PB_Compiler_Unicode)+";"+Str(CallDebuggerOnStart)+";"+Str(CallDebuggerOnEnd)+";"+Str(#DEBUGGER_BigEndian)) ; options (UnicodeMode;CallOnStart;CallOnEnd;IsBigEndian)
+        CloseFile(File)
+      Else
+        RunningDebuggers()\Communication\Close()
+        DeleteElement(RunningDebuggers())
+        Debug " -- Debugger_ExecuteProgram() failed: CreateFile(/tmp/.pbdebugger.out)"
+        ProcedureReturn 0
+      EndIf
+      
     Else
-      RunningDebuggers()\Communication\Close()
-      DeleteElement(RunningDebuggers())
-      Debug " -- Debugger_ExecuteProgram() failed: CreateFile(/tmp/.pbdebugger.out)"
-      ProcedureReturn 0
-    EndIf
+    CompilerEndIf
     
-  Else
-  CompilerEndIf
-  
     RunningDebuggers()\Communication = CreatePipeCommunication()
     If RunningDebuggers()\Communication = 0
       DeleteElement(RunningDebuggers())
       Debug " -- Debugger_ExecuteProgram() failed: CreatePipeCommunication()"
       ProcedureReturn 0
     EndIf
-  
+    
     SetEnvironmentVariable("PB_DEBUGGER_Communication", RunningDebuggers()\Communication\GetInfo())
     SetEnvironmentVariable("PB_DEBUGGER_Options", Str(#PB_Compiler_Unicode)+";"+Str(CallDebuggerOnStart)+";"+Str(CallDebuggerOnEnd)+";"+Str(#DEBUGGER_BigEndian))
-  
-  CompilerIf #CompileWindows = 0
-  EndIf
+    
+    CompilerIf #CompileWindows = 0
+    EndIf
   CompilerEndIf
   
   RunningDebuggers()\IsNetwork = #False
@@ -922,7 +922,7 @@ Procedure Debugger_ExecuteProgram(FileName$, CommandLine$, Directory$)
     ; Note: We now use RunProgram() on Windows, so no handle inheriting.
     ;   Use a named mutex then.
     MutexName$ = "PureBasic_DebuggerMutex_" + Hex(Random($7FFFFFFF))
-
+    
     RunningDebuggers()\TerminationMutex = CreateMutex_(#Null, 1, MutexName$)
     If RunningDebuggers()\TerminationMutex = 0 Or GetLastError_() = #ERROR_ALREADY_EXISTS
       RunningDebuggers()\Communication\Close()
@@ -948,24 +948,24 @@ Procedure Debugger_ExecuteProgram(FileName$, CommandLine$, Directory$)
     Debug " -- Debugger_ExecuteProgram() failed: RunProgram()"
     ProcedureReturn 0
   EndIf
-
+  
   ; remove the environment variables again
   ;
   CompilerIf #CompileWindows = 0
     If DebuggerUseFIFO = 0
-  CompilerEndIf
-  
-  RemoveEnvironmentVariable("PB_DEBUGGER_Communication")
-  RemoveEnvironmentVariable("PB_DEBUGGER_Options")
-  
-  CompilerIf #CompileWindows = 0
+    CompilerEndIf
+    
+    RemoveEnvironmentVariable("PB_DEBUGGER_Communication")
+    RemoveEnvironmentVariable("PB_DEBUGGER_Options")
+    
+    CompilerIf #CompileWindows = 0
     EndIf
   CompilerEndIf
   
   CompilerIf #CompileWindows
     RemoveEnvironmentVariable("PB_DEBUGGER_KillMutex")
   CompilerEndIf
-
+  
   ; Try to connect the communication
   ;
   If RunningDebuggers()\Communication\Connect() = 0
@@ -991,10 +991,10 @@ Procedure Debugger_ExecuteProgram(FileName$, CommandLine$, Directory$)
     Debug " -- Debugger_ExecuteProgram() failed: Communication\Connect()"
     ProcedureReturn 0
   EndIf
-
+  
   RunningDebuggers()\ProgramState = -1 ; indicate that exe is not loaded yet. (or has not called PB_DEBUGGER_Start())
   RunningDebuggers()\LastProgramState = -1
-
+  
   
   ; the watchlist window is always open, but invisible, same for the debug one
   ;
@@ -1022,19 +1022,19 @@ Procedure Debugger_ExecuteProgram(FileName$, CommandLine$, Directory$)
 EndProcedure
 
 Procedure Debugger_NetworkConnect(Mode, Host$, Port, Password$)
-
+  
   ;
   ; Errors are displayed to the user inside Communication\Connect()
   ; and CreateNetworkClientCommunication() because there we only know
   ; what the errors are
   ;
-
+  
   Debug "Debugger_NetworkConnect():"
   Debug Mode
   Debug Host$
   Debug Port
   Debug Password$
-
+  
   ; add a new debugger structure
   ;
   LastElement(RunningDebuggers())
@@ -1060,7 +1060,7 @@ Procedure Debugger_NetworkConnect(Mode, Host$, Port, Password$)
   ;
   RunningDebuggers()\ProgramState = -1 ; indicate that exe is not loaded yet. (or has not called PB_DEBUGGER_Start())
   RunningDebuggers()\LastProgramState = -1
-    
+  
   ; the watchlist window is always open, but invisible, same for the debug one
   ;
   CreateWatchlistWindow(@RunningDebuggers())

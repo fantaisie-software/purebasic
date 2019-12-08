@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -222,7 +222,7 @@ Procedure FD_CopyEvent()
     EndIf
   EndIf
   If currentview = 1
-;     FD_CopyCode()
+    ;     FD_CopyCode()
   ElseIf Not temp_clipboard
     FD_Copy()
   EndIf

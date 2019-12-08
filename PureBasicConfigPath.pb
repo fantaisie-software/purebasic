@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -30,10 +30,10 @@ Procedure.s PureBasicConfigPath()
   If ConfigPath$ <> ""
     ProcedureReturn ConfigPath$
   EndIf
-
+  
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows
     Protected pidl, Index
-
+    
     #CSIDL_APPDATA = $001a
     ConfigPath$ = GetHomeDirectory() ; fallback option if the below fails (no IE4 present)
     
@@ -58,7 +58,7 @@ Procedure.s PureBasicConfigPath()
         ConfigPath$ + "PureBasic\"
       EndIf
     CompilerEndIf
-      
+    
     ; Ensure that the path exists
     ; Must check all parents too, as CreateDirectory() fails else
     ;
@@ -73,12 +73,12 @@ Procedure.s PureBasicConfigPath()
         EndIf
       Wend
     EndIf
-  
+    
   CompilerElse
-  
+    
     CompilerIf #SpiderBasic
       ConfigPath$ = GetHomeDirectory() + ".spiderbasic/"
-    
+      
     CompilerElse
       ConfigPath$ = GetHomeDirectory() + ".purebasic/"
     CompilerEndIf
@@ -89,7 +89,7 @@ Procedure.s PureBasicConfigPath()
     If FileSize(ConfigPath$) <> -2
       CreateDirectory(ConfigPath$)
     EndIf
-  
+    
   CompilerEndIf
   
   ProcedureReturn ConfigPath$

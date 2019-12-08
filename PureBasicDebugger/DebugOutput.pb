@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -8,7 +8,7 @@
 Procedure.s DebugOutput_Selection(*Debugger.DebuggerData)
   Gadget  = *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]
   Buffer$ = ""
-    
+  
   max     = CountGadgetItems(Gadget)-1
   State   = GetGadgetState(Gadget)
   multiselect = 0
@@ -35,25 +35,25 @@ Procedure.s DebugOutput_Selection(*Debugger.DebuggerData)
     Next i
     
   EndIf
-    
+  
   ProcedureReturn Buffer$
 EndProcedure
 
 Procedure DebugOutput_EvaluateExpression(*Debugger.DebuggerData)
-
+  
   If *Debugger\ProgramState = -1
-  
+    
     StatusBarText(*Debugger\OutputStatusbar, 0, Language("Debugger", "ExeEnded"))
-  
+    
   Else
-  
+    
     StatusBarText(*Debugger\OutputStatusbar, 0, "...")
-
+    
     Expr$ = Trim(GetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]))
     Test$ = UCase(Left(Expr$, 4))
     
     If (Test$ = "SET " Or Test$ = "SET" + Chr(9)) And FindString(Expr$, "=", 1) <> 0
-    
+      
       ; its the new "set" command
       ;
       Expr$  = Trim(Right(Expr$, Len(Expr$)-4))
@@ -64,62 +64,62 @@ Procedure DebugOutput_EvaluateExpression(*Debugger.DebuggerData)
       
       Command.CommandInfo\Command = #COMMAND_SetVariable
       Command\Value1 = AsciiConst('D','E','B','G') ; to identify the sender
-      Command\Value2 = 0 ; reserved for now
+      Command\Value2 = 0                           ; reserved for now
       Command\DataSize = length
       SendDebuggerCommandWithData(*Debugger, @Command, @Expr$)
       
     Else
-    
+      
       ; normal expression evaluation
       ;
       Command.CommandInfo\Command = #COMMAND_EvaluateExpression
       Command\Value1 = AsciiConst('D','E','B','G') ; to identify the sender
-      Command\Value2 = -1 ; use current line as context
+      Command\Value2 = -1                          ; use current line as context
       Command\DataSize = (Len(Expr$)+1) * SizeOf(Character)
       SendDebuggerCommandWithData(*Debugger, @Command, @Expr$)
-    
+      
     EndIf
     
     ; the gadget content is changed when the response is received
     ; (to act different on errors)
-  
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure DebugWindowEvents(*Debugger.DebuggerData, EventID)
-
+  
   If EventID = #PB_Event_ActivateWindow
     CompilerIf #CompileWindows
       ; to 'fix' a weird bug: http://www.purebasic.fr/english/viewtopic.php?f=4&t=66634
       ; NOTE: doesn't work as it breaks the IDE: http://www.purebasic.fr/english/viewtopic.php?f=4&t=69031
       ; SetActiveGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List])
     CompilerEndIf
-
+    
   ElseIf EventID = #PB_Event_Menu   ; for the Enter shortcut
     If EventMenu() = #DEBUGGER_MENU_Return
       If GetActiveGadget() = *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]
         DebugOutput_EvaluateExpression(*Debugger)
       EndIf
     EndIf
-
+    
   ElseIf EventID = #PB_Event_Gadget
     Select EventGadget()
-    
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Display]
         DebugOutput_EvaluateExpression(*Debugger)
-    
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]
         If EventType() = #PB_EventType_DragStart
           DragText(DebugOutput_Selection(*Debugger), #PB_Drag_Copy)
         EndIf
-    
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Copy] ; Note: it's now a 'copy-all' button
         SetClipboardText(GetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List])) ; Get the whole text at once
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Clear]
         ClearGadgetItems(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List])
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Save] ; we always save the whole list, not just the selection
         FileName$ = DebuggerOutputFile$
         Repeat
@@ -156,7 +156,7 @@ Procedure DebugWindowEvents(*Debugger.DebuggerData, EventID)
           
           Break ; if we got here, then do not try again
         ForEver
-    
+        
     EndSelect
     
   ElseIf EventID = #PB_Event_SizeWindow
@@ -196,13 +196,13 @@ Procedure DebugWindowEvents(*Debugger.DebuggerData, EventID)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Copy], Width-30-ClearWidth-SaveWidth-CopyWidth, Y, CopyWidth, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Save], Width-20-ClearWidth-SaveWidth, Y, SaveWidth, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Clear],Width-10-ClearWidth, Y, ClearWidth, ButtonHeight)
-;       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Copy], 10, Y, CopyWidth, ButtonHeight)
-;       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Save], 20+CopyWidth, Y, SaveWidth, ButtonHeight)
-;       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Clear],30+CopyWidth+SaveWidth, Y, ClearWidth, ButtonHeight)
+      ;       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Copy], 10, Y, CopyWidth, ButtonHeight)
+      ;       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Save], 20+CopyWidth, Y, SaveWidth, ButtonHeight)
+      ;       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Clear],30+CopyWidth+SaveWidth, Y, ClearWidth, ButtonHeight)
     EndIf
     
   ElseIf EventID = #PB_Event_CloseWindow
-  
+    
     If DebuggerMemorizeWindows And IsWindowMinimized(*Debugger\Windows[#DEBUGGER_WINDOW_Debug]) = 0
       DebugWindowMaximize = IsWindowMaximized(*Debugger\Windows[#DEBUGGER_WINDOW_Debug])
       If DebugWindowMaximize = 0
@@ -212,27 +212,27 @@ Procedure DebugWindowEvents(*Debugger.DebuggerData, EventID)
         DebugWindowHeight = WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_Debug])
       EndIf
     EndIf
-
+    
     *Debugger\IsDebugOutputVisible = 0  ; special case: only hide the window so it can still receive debug data
     HideWindow(*Debugger\Windows[#DEBUGGER_WINDOW_Debug], 1)
     Debugger_CheckDestroy(*Debugger) ; see if all debugger stuff is closed
   EndIf
-
+  
 EndProcedure
 
 ; this window is always open and only shown when needed
 ;
 Procedure CreateDebugWindow(*Debugger.DebuggerData)
-
+  
   Flags = #PB_Window_SystemMenu|#PB_Window_MinimizeGadget|#PB_Window_SizeGadget|#PB_Window_Invisible|#PB_Window_MaximizeGadget
   If DebugWindowMaximize
     Flags | #PB_Window_Maximize
   EndIf
-
+  
   Window = OpenWindow(#PB_Any, DebugWindowX, DebugWindowY, DebugWindowWidth, DebugWindowHeight, Language("Debugger","DebugWindowTitle") + " - " + DebuggerTitle(*Debugger\FileName$), Flags)
   If Window
     *Debugger\Windows[#DEBUGGER_WINDOW_Debug] = Window
-  
+    
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]    = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]   = ComboBoxGadget(#PB_Any, 0, 0, 0, 0, #PB_ComboBox_Editable)
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Display] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Display"))
@@ -248,7 +248,7 @@ Procedure CreateDebugWindow(*Debugger.DebuggerData)
     If DebugOutFontID <> #PB_Default
       SetGadgetFont(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List], DebugOutFontID)
     EndIf
-
+    
     DebugWindowEvents(*Debugger, #PB_Event_SizeWindow)
     
     CompilerIf #DEFAULT_CanWindowStayOnTop
@@ -261,12 +261,12 @@ Procedure CreateDebugWindow(*Debugger.DebuggerData)
     *Debugger\OutputFirstVisible   = 1; mark as not yet visible
     *Debugger\IsDebugOutputVisible = 0
   EndIf
-
-
+  
+  
 EndProcedure
 
 Procedure OpenDebugWindow(*Debugger.DebuggerData, ActivateWindow)
-
+  
   HideWindow(*Debugger\Windows[#DEBUGGER_WINDOW_Debug], 0, #PB_Window_NoActivate)  ; Don't steal the focus from the main app
   EnsureWindowOnDesktop(*Debugger\Windows[#DEBUGGER_WINDOW_Debug])
   
@@ -295,7 +295,7 @@ EndProcedure
 
 
 Procedure UpdateDebugWindow(*Debugger.DebuggerData)
-
+  
   SetWindowTitle(*Debugger\Windows[#DEBUGGER_WINDOW_Debug], Language("Debugger","DebugWindowTitle") + " - " + DebuggerTitle(*Debugger\FileName$))
   
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Copy], Language("Debugger","Copy"))
@@ -303,37 +303,37 @@ Procedure UpdateDebugWindow(*Debugger.DebuggerData)
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Clear], Language("Debugger","Clear"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Display], Language("Debugger","Display"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_Gadget_Debug_Text], Language("Debugger","Debug")+":")
-
+  
   
   ; update the font setting
   SetGadgetFont(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List], DebugOutFontID)
-
+  
   DebugWindowEvents(*Debugger, #PB_Event_SizeWindow) ; to update any gadget size requirements
 EndProcedure
 
 
 Procedure UpdateDebugOutputWindow(*Debugger.DebuggerData)
-
-  If *Debugger\IsDebugMessage ; We can use DebugMessage$ as we could want to have Debug ""
   
+  If *Debugger\IsDebugMessage ; We can use DebugMessage$ as we could want to have Debug ""
+    
     Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]
     
     AddGadgetItem(Gadget, -1, *Debugger\DebugMessage$)
     
     CompilerIf #CompileLinux
       Static *Mark
-
+      
       If *Mark = 0
         *Mark = gtk_text_mark_new_("EndDocumentMark", #True);
       EndIf
-
+      
       *Buffer = gtk_text_view_get_buffer_(GadgetID(Gadget))
       gtk_text_buffer_get_end_iter_(*Buffer, @iter.GtkTextIter)
       gtk_text_buffer_add_mark_(*Buffer, *Mark , @iter)
       gtk_text_view_scroll_to_mark_(GadgetID(Gadget), *Mark , 0.0, #True, 0.0, 0.17) ; gtk_text_view_scroll_to_iter_() is broken, so use the mark system
       gtk_text_buffer_delete_mark_(*Buffer, *Mark)
     CompilerEndIf
-           
+    
     CompilerIf #CompileWindows
       SendMessage_(GadgetID(Gadget), #WM_VSCROLL, #SB_BOTTOM, #Null)
     CompilerEndIf
@@ -358,24 +358,24 @@ EndProcedure
 ; the command field contains the needed data
 ;
 Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
-
+  
   ; This command does not mean that the Window should be shown
   ; automatically, so handle it first
   ;
   If *Debugger\Command\Command = #COMMAND_ControlDebugOutput
     Select *Debugger\Command\Value1
-    
+        
       Case 1 ; show
         OpenDebugWindow(*Debugger, #True)
-      
+        
       Case 2 ; clear
         UpdateDebugOutputWindow(*Debugger) ; Ensure we are flushing the remaining cached text
         ClearGadgetItems(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List])
-      
+        
       Case 3 ; save
         If *Debugger\CommandData And *Debugger\Command\DataSize > 0
           FileName$ = PeekS(*Debugger\CommandData, *Debugger\Command\DataSize)
-
+          
           UpdateDebugOutputWindow(*Debugger) ; Ensure we are flushing the remaining cached text
           File = CreateFile(#PB_Any, FileName$)
           If File
@@ -385,7 +385,7 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
             MessageRequester("PureBasic Debugger",ReplaceString(Language("Debugger","SaveError"), "%filename%", FileName$, 1), #FLAG_Error)
           EndIf
         EndIf
-    
+        
       Case 4 ; copy to clipboard
         UpdateDebugOutputWindow(*Debugger) ; Ensure we are flushing the remaining cached text
         SetClipboardText(GetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List])) ; We now use an EditorGadget() so we can get the text in one call
@@ -394,19 +394,19 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
         CloseDebugWindow(*Debugger)
         
     EndSelect
-  
+    
     ; Do not execute the code below
     ProcedureReturn
   EndIf
-
+  
   ; filter expression messages that are not for this window
   ;
   If (*Debugger\Command\Command = #COMMAND_Expression Or *Debugger\Command\Command = #COMMAND_SetVariableResult) And *Debugger\Command\Value1 <> AsciiConst('D','E','B','G')
     ProcedureReturn
   EndIf
-
-  If DebugOutputToErrorLog = 0 Or *Debugger\Command\Command = #COMMAND_Expression Or *Debugger\Command\Command = #COMMAND_SetVariableResult
   
+  If DebugOutputToErrorLog = 0 Or *Debugger\Command\Command = #COMMAND_Expression Or *Debugger\Command\Command = #COMMAND_SetVariableResult
+    
     ; automatically show the window if it was never visible
     ; do not activate though, to not steal the focus
     ;
@@ -423,7 +423,7 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
     Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]
     
     StatusBarText(*Debugger\OutputStatusbar, 0, "")
-      
+    
     If *Debugger\Command\Command = #COMMAND_Debug
       If *Debugger\Command\Value1 = 5 ; long
         If DebugIsHex
@@ -431,14 +431,14 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
         Else
           Message$ + Str(*Debugger\Command\Value2)
         EndIf
-      
+        
       ElseIf *Debugger\Command\Value1 = 8 ; string
         Message$ + PeekS(*Debugger\CommandData, *Debugger\Command\DataSize)
-      
+        
       ElseIf *Debugger\Command\Value1 = 9 ; float
         Message$ + StrF_Debug(PeekF(@*Debugger\Command\Value2))
       EndIf
-           
+      
     ElseIf *Debugger\Command\Command = #COMMAND_DebugDouble ; double
       Message$ + StrD_Debug(PeekD(@*Debugger\Command\Value1))
       
@@ -449,14 +449,14 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
         Message$ + Str(PeekQ(@*Debugger\Command\Value1))
       EndIf
       
-    
+      
     ElseIf (*Debugger\Command\Command = #COMMAND_Expression Or *Debugger\Command\Command = #COMMAND_SetVariableResult) And *Debugger\Command\Value1 = AsciiConst('D','E','B','G')
       If *Debugger\CommandData = 0
         ProcedureReturn
       EndIf
       
       Select *Debugger\Command\Value2 ; result code
-      
+          
         Case 0 ; error
           StatusBarText(*Debugger\OutputStatusbar, 0, "Error: "+PeekAscii(*Debugger\CommandData))
           
@@ -466,10 +466,10 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
             SetActiveGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry])
           EndIf
           ProcedureReturn ; add no output here
-        
+          
         Case 1 ; empty, we add an empty line still
           Expr$ = PeekS(*Debugger\CommandData)
-        
+          
         Case 2 ; quad
           If DebugIsHex
             Message$ + Hex(PeekQ(*Debugger\CommandData), #PB_Quad)
@@ -477,11 +477,11 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
             Message$ + Str(PeekQ(*Debugger\CommandData))
           EndIf
           Expr$ = PeekS(*Debugger\CommandData + 8)
-        
+          
         Case 3 ; double
           Message$ + StrD_Debug(PeekD(*Debugger\CommandData))
           Expr$ = PeekS(*Debugger\CommandData + 8)
-        
+          
         Case 4 ; string
           Message$ + PeekS(*Debugger\CommandData)
           Expr$ = PeekS(*Debugger\CommandData + Len(Message$) + 1)
@@ -489,12 +489,12 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
           If *Debugger\Command\Command = #COMMAND_SetVariableResult
             Message$ = Chr(34)+Message$+Chr(34)
           EndIf
-        
+          
         Case 5 ; structure
-          ; Not implemented for the moment. Dunno if it is needed.
-          ; (We request no structuremap for now, so structures are returned
-          ;  as their pointers)
-        
+               ; Not implemented for the moment. Dunno if it is needed.
+               ; (We request no structuremap for now, so structures are returned
+               ;  as their pointers)
+          
         Case 6  ; long (osx only, enable for crossplatform debugging)
           If DebugIsHex
             Message$ + Hex(PeekL(*Debugger\CommandData), #PB_Long)
@@ -502,14 +502,14 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
             Message$ + Str(PeekL(*Debugger\CommandData))
           EndIf
           Expr$ = PeekS(*Debugger\CommandData + 4)
-    
+          
         Case 7 ; float (osx only)
           Message$ + StrF_Debug(PeekF(*Debugger\CommandData))
           Expr$ = PeekS(*Debugger\CommandData + 4)
-            
-
+          
+          
       EndSelect
-            
+      
       ; only clear gadget on success, so we can still see
       ; the faulty input if there is an error.
       ;
@@ -543,7 +543,7 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
         StatusBarText(*Debugger\OutputStatusbar, 0, "Variable set to: "+Message$)
         ProcedureReturn ; no output in gadget here!
       EndIf
-  
+      
     EndIf
     
     ; Truncate the Message to avoid display problems on Windows, and because debugging
@@ -554,7 +554,7 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
     ;If Len(Message$) > 4096
     ;  Message$ = Left(Message$, 4096) + " [...]"
     ;EndIf
-        
+    
     If *Debugger\IsDebugMessage
       Message$ = #LF$ + Message$
     EndIf

@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -38,10 +38,10 @@ Procedure CreateAutoCompleteWindow()
   ; Note: I tried to remove the taskbar icon for linux, but the GTK_WINDOW_POPUP hack
   ;       (which does that well) has other trouble. (for example the window focus is not
   ;       properly managed) So we do not use this.
-
+  
   If OpenWindow(#WINDOW_AutoComplete, 0, 0, 0, 0, "", #PB_Window_Invisible | #PB_Window_BorderLess, WindowID(#WINDOW_Main))
     ListViewGadget(#GADGET_AutoComplete_List, 0, 0, 0, 0)
-
+    
     CompilerIf #CompileLinuxGtk2
       ; remove window taskbar icon
       ; Note: this marks the window as a "menu", so the WM does not add the taskbar icon,
@@ -61,7 +61,7 @@ Procedure CreateAutoCompleteWindow()
       *Widget.GtkWidget = WindowID(#WINDOW_AutoComplete)
       gtk_window_set_skip_taskbar_hint_(*Widget, #True)
       gtk_window_set_skip_pager_hint_(*Widget, #True)
-    
+      
       ; disable the automatic search feature of the TreeView
       gtk_tree_view_set_enable_search_(GadgetID(#GADGET_AutoComplete_List), #False)
     CompilerEndIf
@@ -71,10 +71,10 @@ Procedure CreateAutoCompleteWindow()
       AutoComplete_SetupRawKeyHandler()
     CompilerEndIf
     
-; These shortcuts are now in the Preferences shortcut list, so they get added automatically below.
-;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Escape, #MENU_AutoComplete_Abort)
-;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Return, #MENU_AutoComplete_Ok)
-;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Tab, #MENU_AutoComplete_Ok)
+    ; These shortcuts are now in the Preferences shortcut list, so they get added automatically below.
+    ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Escape, #MENU_AutoComplete_Abort)
+    ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Return, #MENU_AutoComplete_Ok)
+    ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Tab, #MENU_AutoComplete_Ok)
     
     ; put all main window shortcuts here too.
     CreateKeyboardShortcuts(#WINDOW_AutoComplete)
@@ -82,7 +82,7 @@ Procedure CreateAutoCompleteWindow()
     AutoComplete_SetFocusCallback()
     AutoCompleteWindowReady = 1
   EndIf
- 
+  
 EndProcedure
 
 
@@ -98,7 +98,7 @@ Procedure AutoComplete_AddItem(*Item.SourceItem)
         Else
           AutoCompleteList() + "("
         EndIf
-      
+        
       Case #ITEM_Macro
         If RemoveString(RemoveString(*Item\Prototype$, " "), Chr(9)) = "()"
           AutoCompleteList() + "()"
@@ -112,7 +112,7 @@ Procedure AutoComplete_AddItem(*Item.SourceItem)
         Else
           AutoCompleteList() + "("
         EndIf
-      
+        
       Case #ITEM_Array, #ITEM_Map, #ITEM_UnknownBraced
         AutoCompleteList() + "("
         
@@ -130,7 +130,7 @@ EndProcedure
 ; This way we only have to lookup one kind of item for this
 ;
 Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceItem)
-
+  
   If *Parser\SortedValid
     If Bucket < 0
       ; display full list, so we have to add from all buckets
@@ -147,7 +147,7 @@ Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Bucket, *Ignor
           Wend
         Next Bucket
       Next AutoCompleteModules()
-    
+      
     Else
       ; We now add all items that match the first char, even when
       ; the exact match option is on, so we just have to lookup the one bucket
@@ -163,21 +163,21 @@ Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Bucket, *Ignor
           *Item = *Item\NextSorted
         Wend
       Next AutoCompleteModules()
-
+      
     EndIf
   EndIf
-
+  
 EndProcedure
 
 Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceItem, SingeModuleOnly)
-
+  
   If *Parser\SortedValid
     If Bucket < 0
       ; display full list, so we have to add from all buckets
       ;
       For Type = 0 To #ITEM_LastSorted
         If AutocompleteOptions(Type) And Type <> #ITEM_Constant  ; constants are separate
-        
+          
           If Type = #ITEM_DeclareModule
             ; module names are indexed in the main module
             ; do not show modules if a prefix:: is provided before the word
@@ -210,7 +210,7 @@ Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceI
           EndIf
         EndIf
       Next Type
-    
+      
     Else
       ; We now add all items that match the first char, even when
       ; the exact match option is on, so we just have to lookup the one bucket
@@ -218,7 +218,7 @@ Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceI
       ;
       For Type = 0 To #ITEM_LastSorted
         If AutocompleteOptions(Type) And Type <> #ITEM_Constant ; constants are separate
-        
+          
           If Type = #ITEM_DeclareModule
             ; module names are indexed in the main module
             ; do not show modules if a prefix:: is provided before the word
@@ -231,7 +231,7 @@ Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceI
                 *Item = *Item\NextSorted
               Wend
             EndIf
-        
+            
           Else
             ; other stuff
             ForEach AutoCompleteModules()
@@ -247,10 +247,10 @@ Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceI
           EndIf
         EndIf
       Next Type
-
+      
     EndIf
   EndIf
-
+  
 EndProcedure
 
 Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
@@ -318,7 +318,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
   ; fill the list:
   ;
   If FirstChar$ = "#" Or WordStart$ = ""  ; constants
-  
+    
     ; add PB constants
     If AutocompletePBOptions(#PBITEM_Constant) And SingleModuleOnly = #False
       For i = 0 To ConstantListSize-1
@@ -328,9 +328,9 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
         EndIf
       Next i
     EndIf
-            
-    If AutoCompleteOptions(#ITEM_Constant)
     
+    If AutoCompleteOptions(#ITEM_Constant)
+      
       ; Add the constants from this source
       AutoComplete_AddConstantsFromSorted(@*ActiveSource\Parser, Bucket, *CurrentItem)
       
@@ -344,7 +344,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
           EndIf
         Next ProjectFiles()
       EndIf
-    
+      
       ; Add constants from open files
       If AutoCompleteAllFiles
         ForEach FileList()
@@ -354,13 +354,13 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
         Next FileList()
         ChangeCurrentElement(FileList(), *ActiveSource) ; important!
       EndIf
-    
+      
     EndIf
     
   EndIf
-
-  If FirstChar$ <> "#"  ; functions or anything else
   
+  If FirstChar$ <> "#"  ; functions or anything else
+    
     ; add PB items
     If AutocompletePBOptions(#PBITEM_Keyword) And SingleModuleOnly = #False
       For i = 1 To #NbBasicKeywords
@@ -462,7 +462,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
           *Item = *ActiveSource\Parser\SourceItemArray\Line[Line]\Last
         Wend
       EndIf
-
+      
       If FindProcedureStart(@*ActiveSource\Parser, @Line, @*Item)
         ; we are inside a procedure, so add all local stuff
         ; (if it is also global, no problem as it is already in the list then)
@@ -470,7 +470,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
         
         While *Item
           Select *Item\Type
-          
+              
             Case #ITEM_ProcedureEnd
               Break
               
@@ -506,19 +506,19 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
                 ; add shared too, as it can be an implicit declaration
                 AutoComplete_AddItem(*Item)
               EndIf
-            
+              
             Case #ITEM_Array, #ITEM_LinkedList, #ITEM_Map
               If *Item <> *CurrentItem And AutocompleteOptions(*Item\Type) And *Item\Scope <> #SCOPE_GLOBAL And *Item\Scope <> #SCOPE_THREADED
                 AutoComplete_AddItem(*Item)
               EndIf
-            
+              
             Case #ITEM_UnknownBraced
               If *Item <> *CurrentItem And *Item\Scope = #SCOPE_Shared
                 ; its a shared array, list or map. need to resolve it to find out which
               EndIf
-          
+              
           EndSelect
-        
+          
           Parser_NextItem(*ActiveSource\Parser, *Item, Line)
         Wend
       EndIf
@@ -534,7 +534,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
         EndIf
       Next ProjectFiles()
     EndIf
-  
+    
     ; Add items from open files
     If AutoCompleteAllFiles
       ForEach FileList()
@@ -544,7 +544,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
       Next FileList()
       ChangeCurrentElement(FileList(), *ActiveSource) ; important!
     EndIf
-                
+    
   EndIf
 EndProcedure
 
@@ -552,12 +552,12 @@ EndProcedure
 ; AutoCompleteStack() contains any sub-structures that we are in
 ;
 Procedure AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem.SourceItem, BaseItemLine)
-
+  
   If *BaseItem And StructName$ = ""  ; normal structure mode
-    ; Only accept BaseItems that can be a structure
-    ;
+                                     ; Only accept BaseItems that can be a structure
+                                     ;
     If *BaseItem\Type = #ITEM_Variable Or *BaseItem\Type = #ITEM_Array Or *BaseItem\Type = #ITEM_LinkedList Or *BaseItem\Type = #ITEM_Map Or *BaseItem\Type = #ITEM_UnknownBraced
-    
+      
       ; resolve the type to know the structure
       ;
       Type$ = ResolveItemType(*BaseItem, BaseItemLine, @OutType.i)
@@ -569,14 +569,14 @@ Procedure AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem.SourceI
       ProcedureReturn
     EndIf
     IsOffsetOf = 0
-  
+    
   ElseIf StructName$ <> "" ; OffsetOf mode
     Type$ = StructName$
     IsOffsetOf = 1
-  
+    
   Else
     ProcedureReturn
-  
+    
   EndIf
   
   ; walk the AutoCompleteStack() to resolve sub-structures
@@ -592,11 +592,11 @@ Procedure AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem.SourceI
       Subitem$ = ""
     EndIf
     SubItemFound = 0
-  
-    ClearList(AutoCompleteList())
-  
-    If FindStructure(Type$, AutoCompleteList())
     
+    ClearList(AutoCompleteList())
+    
+    If FindStructure(Type$, AutoCompleteList())
+      
       ; process the items
       ForEach AutoCompleteList()
         Select StructureFieldKind(AutoCompleteList())
@@ -610,7 +610,7 @@ Procedure AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem.SourceI
               Bracket$ = ""
             EndIf
         EndSelect
-
+        
         Entry$     = StructureFieldName(AutoCompleteList()) ; this cuts any "List " prefix
         EntryType$ = StructureFieldType(AutoCompleteList())
         
@@ -660,7 +660,7 @@ Procedure AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem.SourceI
         ClearList(AutoCompleteList())
         ProcedureReturn
       EndIf
-    
+      
     ElseIf FindInterface(Type$, AutoCompleteList())
       If Subitem$
         ; Interfaces can have no further nesting
@@ -683,13 +683,13 @@ Procedure AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem.SourceI
           EndIf
         Next AutoCompleteList()
       EndIf
-    
+      
     Else
       ; error, structure type not found
       ProcedureReturn
     EndIf
   Until Subitem$ = ""
-         
+  
 EndProcedure
 
 ; checks for the case of "OffsetOf(StructName\" in AutoComplete.
@@ -697,7 +697,7 @@ EndProcedure
 ; Returns "StructName" if true or empty string otherwise
 ;
 Procedure.s AutoComplete_IsOffsetOf(Line$, Column)
-
+  
   ; search the line backwards
   *Buffer = @Line$
   *Cursor.Character = *Buffer + Column * #CharSize
@@ -715,7 +715,7 @@ Procedure.s AutoComplete_IsOffsetOf(Line$, Column)
     While *Cursor >= *Buffer And (*Cursor\c = ' ' Or *Cursor\c = 9)
       *Cursor - #CharSize
     Wend
-
+    
     ; need the struct name now
     *NameEnd = *Cursor
     
@@ -748,7 +748,7 @@ Procedure.s AutoComplete_IsOffsetOf(Line$, Column)
           *Cursor - #CharSize
         Wend
         Name$ = PeekS(*Cursor + #CharSize, (*NameEnd - *Cursor) / #CharSize) + "::" + Name$
-                
+        
         ; whitespace
         While *Cursor >= *Buffer And (*Cursor\c = ' ' Or *Cursor\c = 9)
           *Cursor - #CharSize
@@ -766,32 +766,32 @@ Procedure.s AutoComplete_IsOffsetOf(Line$, Column)
         
         ; need "OffsetOf" now (we must be on the 'F' now then)
         If *Cursor >= *Buffer + 7*#CharSize And CompareMemoryString(*Cursor-7*#CharSize, @"OffsetOf", #PB_String_NoCase, 8) = #PB_String_Equal
-        
+          
           ; check what preceeds the "OffsetOf"
           If *Cursor = *Buffer + 7*#CharSize Or ValidCharacters(PeekC(*Cursor - 8*#CharSize)) = 0
             ; success
             ProcedureReturn Name$
           EndIf
           
-        ; same for TypeOf or SizeOf
+          ; same for TypeOf or SizeOf
         ElseIf *Cursor >= *Buffer + 5*#CharSize And CompareMemoryString(*Cursor-5*#CharSize, @"SizeOf", #PB_String_NoCase, 6) = #PB_String_Equal
           If *Cursor = *Buffer + 5*#CharSize Or ValidCharacters(PeekC(*Cursor - 6*#CharSize)) = 0
             ; success
             ProcedureReturn Name$
           EndIf
-
+          
         ElseIf *Cursor >= *Buffer + 5*#CharSize And CompareMemoryString(*Cursor-5*#CharSize, @"TypeOf", #PB_String_NoCase, 6) = #PB_String_Equal
           If *Cursor = *Buffer + 5*#CharSize Or ValidCharacters(PeekC(*Cursor - 6*#CharSize)) = 0
             ; success
             ProcedureReturn Name$
           EndIf
-
-        
+          
+          
         EndIf
       EndIf
     EndIf
   EndIf
-
+  
   ProcedureReturn ""
 EndProcedure
 
@@ -806,7 +806,7 @@ Procedure OpenAutoCompleteWindow()
   ;   and then only show/hide it, which will involve no FlushEvents() and thus should work savely
   ;
   If AutoCompleteWindowReady And *ActiveSource And *ActiveSource\IsCode
-  
+    
     ; First get the current word or check for Structured Autocomplete
     ;
     AutoComplete_IsStructure = #False
@@ -820,17 +820,17 @@ Procedure OpenAutoCompleteWindow()
     Line$ = GetCurrentLine()
     If ScanLine(*ActiveSource, *ActiveSource\CurrentLine-1) ; make sure the current line is up to date!
       UpdateFolding(*ActiveSource, *ActiveSource\CurrentLine-1, *ActiveSource\CurrentLine+2)
-    
+      
       ; Note: A full update of procedure browser etc at this point would be too costly,
       ;   as it would mean a re-update with every typed char if autocomplete is set to auto popup.
       ;   So we set a flag and defere the update until the active line is changed
       ;
       *ActiveSource\ParserDataChanged = #True
     EndIf
-
+    
     If Line$
       SortParserData(@*ActiveSource\Parser, *ActiveSource)
-    
+      
       Column = *ActiveSource\CurrentColumnChars-1
       found = GetWordBoundary(@Line$, Len(Line$), Column, @StartIndex, @EndIndex, 1)
       
@@ -858,14 +858,14 @@ Procedure OpenAutoCompleteWindow()
         If *BaseItem
           StructName$ = ResolveStructureType(@*ActiveSource\Parser, *BaseItem, BaseItemLine, StructName$)
         EndIf
-      
+        
         If StructName$
           *BaseItem = 0
           AutoComplete_IsStructure = 1
           ClearList(AutoCompleteStack()) ; only OffsetOf(Struct\Field) is allowed
         EndIf
       EndIf
-          
+      
       
       If AutoComplete_IsStructure = 0
         ; Shared function to detect if this is a structure and get its base item
@@ -873,7 +873,7 @@ Procedure OpenAutoCompleteWindow()
         BaseItemLine = *ActiveSource\CurrentLine-1
         AutoComplete_IsStructure = LocateStructureBaseItem(Line$, Column, @*BaseItem.SourceItem, @BaseItemLine, AutoCompleteStack())
       EndIf
-    
+      
       
       If AutoComplete_IsStructure
         ; need to find the location of the '\' to know when to close the window on backspaces
@@ -888,7 +888,7 @@ Procedure OpenAutoCompleteWindow()
         EndIf
         
       ElseIf ModulePrefix$ <> ""
-      
+        
         ; need to find the location of the :: to know when the window should be closed (like with structures)
         AutoComplete_IsModule = #True
         AutoComplete_CurrentModule$ = ModulePrefix$
@@ -904,9 +904,9 @@ Procedure OpenAutoCompleteWindow()
         EndIf
         
       EndIf
-         
+      
     EndIf
-
+    
     CompilerIf #PB_Compiler_Debugger
       Debug "--------- Autocomplete ---------------"
       Debug "Current line: " + Line$
@@ -921,9 +921,9 @@ Procedure OpenAutoCompleteWindow()
         Debug "Structure item output token: " + Str(OutType)
       EndIf
       Debug "Structure Stack"
-        ForEach AutocompleteStack()
-          Debug "  " + AutoCompleteStack()
-        Next
+      ForEach AutocompleteStack()
+        Debug "  " + AutoCompleteStack()
+      Next
       Debug "------------Structure query-----------"
       Protected NewList _test.s()
       Debug "Result = " + Str(FindStructure(WordStart$, _test()))
@@ -938,7 +938,7 @@ Procedure OpenAutoCompleteWindow()
       Next
       Debug "--------------------------------------"
     CompilerEndIf
-   
+    
     ClearList(AutoCompleteList())
     AutoComplete_Start = 0
     AutoComplete_End = -1
@@ -947,13 +947,13 @@ Procedure OpenAutoCompleteWindow()
       AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem, BaseItemLine)
     ElseIf WordStart$ <> "" Or AutoComplete_IsModule
       AutoComplete_FillNormal(WordStart$, ModulePrefix$)
-;      AutomationEvent_AutoComplete(AutoCompleteList()) ; send the event only for normal autocomplete, not for structured (as there modification makes no sense anyway)
+      ;      AutomationEvent_AutoComplete(AutoCompleteList()) ; send the event only for normal autocomplete, not for structured (as there modification makes no sense anyway)
     EndIf
-
+    
     If AutoComplete_IsStructure Or AutoComplete_IsModule Or WordStart$ <> ""
       
       If ListSize(AutoCompleteList()) > 0
-            
+        
         ; NOW we do the sorting ...
         SortList(AutoCompleteList(), 2)
         
@@ -993,13 +993,13 @@ Procedure OpenAutoCompleteWindow()
               EndIf
             Until Not PreviousElement(AutoCompleteList())
           EndIf
-                  
+          
         ElseIf AutoCompleteCharMatchOnly <> 2
           AutoComplete_Start = 0
           AutoComplete_End = ListSize(AutoCompleteList())-1
-  
+          
         ElseIf ListSize(AutoCompleteList()) > 0
-    
+          
           ; find new start and end
           length = Len(WordStart$)
           
@@ -1021,7 +1021,7 @@ Procedure OpenAutoCompleteWindow()
               EndIf
             Until Not PreviousElement(AutoCompleteList())
           EndIf
-  
+          
         EndIf
         
         ; If there is only one single possible match, and this matches exactly,
@@ -1033,12 +1033,12 @@ Procedure OpenAutoCompleteWindow()
             AutoComplete_Start = -1
           EndIf
         EndIf
-  
+        
         If AutoComplete_Start > AutoComplete_End Or AutoComplete_Start < 0  ; if the options are set that nothing was added, do not open the window
           AutoCompleteWindowOpen = 0
           
         Else
-        
+          
           CompilerIf #CompileMac
             ; Note: On OSX we have to re-create the Window every time, as otherwise the key forwarding to the Scintilla stops working.
             ;   To be further investigated if this causes any further trouble
@@ -1059,19 +1059,19 @@ Procedure OpenAutoCompleteWindow()
             ; (as we never close the window, a horizontal scroll could remain from the last autocomplete)
             gtk_tree_view_scroll_to_point_(GadgetID(#GADGET_AutoComplete_List), 0, -1) ; scroll x=0 and ignore y
           CompilerEndIf
-        
+          
           Width = AutoCompleteWindowWidth
           Height = AutoCompleteWindowHeight
           AutoComplete_GetWordPosition(@X, @Y, @Width, @Height)
           
           AutoComplete_CurrentMaxWidth  = Width
           AutoComplete_CurrentMaxHeight = Height
-        
+          
           ResizeWindow(#WINDOW_AutoComplete, X, Y, Width, Height)
           ResizeGadget(#GADGET_AutoComplete_List, 0, 0, Width, Height)
           
           AutoComplete_AdjustWindowSize(Width, Height)
-                              
+          
           CompilerIf #CompileMacCocoa
             HideWindow(#WINDOW_AutoComplete, 0, #PB_Window_NoActivate)
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Up,     #MENU_AutocompleteUp)
@@ -1092,9 +1092,9 @@ Procedure OpenAutoCompleteWindow()
           AutoComplete_WordUpdate(#True)
           
           AutoCompleteWindowOpen = 1
-         
+          
         EndIf
-    
+        
       EndIf
     EndIf
   EndIf
@@ -1104,13 +1104,13 @@ EndProcedure
 
 Procedure AutoComplete_Close()
   If AutoCompleteWindowOpen
-  
+    
     CompilerIf #CompileMacCocoa
       RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Up)
       RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Down)
       RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Escape)
     CompilerEndIf
-  
+    
     HideWindow(#WINDOW_AutoComplete, 1)
     ActivateMainWindow()
     AutoCompleteWindowOpen = 0
@@ -1135,7 +1135,7 @@ Procedure AutoComplete_Insert()
   If AutoCompleteWindowOpen
     index = GetGadgetState(#GADGET_AutoComplete_List)
     If index <> -1
-    
+      
       AutoComplete_SelectWord()
       String$ = GetGadgetItemText(#GADGET_AutoComplete_List, index, 0)
       InsertCodeString(String$)
@@ -1168,7 +1168,7 @@ Procedure AutoComplete_Insert()
       ElseIf Right(String$, 2) = "::" And AutoComplete_CheckAutoPopup()
         ; same thing for module prefixes
         OpenAutoCompleteWindow()
-      
+        
       EndIf
       
     EndIf
@@ -1185,12 +1185,12 @@ Procedure AutoComplete_InsertEndKeyword()
 EndProcedure
 
 Procedure AutoCompleteWindowEvents(EventID)
-
+  
   If AutoCompleteWindowOpen
-
+    
     If EventID = #PB_Event_Menu
       MenuID = EventMenu()
-  
+      
       If MenuID = #MENU_AutoComplete_OK
         EventID = #PB_Event_Gadget
         EventGadgetID = #GADGET_AutoComplete_Ok
@@ -1203,50 +1203,50 @@ Procedure AutoCompleteWindowEvents(EventID)
         
         ; main window menu events, close the autocomplete window and pass the event on
         MainWindowEvents(EventID)
-  
+        
         ; close the window after the main window processed the event (otherwise EventWindow() does a different output!?)
         ; note that the main window event could have allready closed the window!!
         AutoComplete_Close()
         
         ProcedureReturn
-      
+        
       EndIf
     Else
       EventGadgetID = EventGadget()
     EndIf
     
     If EventID = #PB_Event_Gadget
-    
+      
       Select EventGadgetID
-  
+          
         Case #GADGET_AutoComplete_List
           If EventType() = #PB_EventType_LeftDoubleClick
             AutoComplete_Insert()
           EndIf
-        
+          
         Case #GADGET_AutoComplete_Abort
           AutoComplete_Close()
           
-        
+          
         Case #GADGET_AutoComplete_Ok
           AutoComplete_Insert()
           
-      
+          
       EndSelect
-    
+      
     EndIf
-  
+    
   EndIf
-
+  
 EndProcedure
 
 
 
 
 Procedure AutoComplete_CheckAutoPopup()
-
+  
   If AutoPopupNormal Or AutoPopupStructures Or AutoPopupModules
-      
+    
     Line$ = GetCurrentLine()
     
     ; Debug "Check autopopup: " + Line$
@@ -1285,7 +1285,7 @@ Procedure AutoComplete_CheckAutoPopup()
       EndIf
       
     EndIf
-  
+    
   EndIf
   
   ProcedureReturn #False
@@ -1293,16 +1293,16 @@ EndProcedure
 
 
 Procedure AutoComplete_WordUpdate(IsInitial=#False)
-
+  
   Word$ = ""
   LastChar = 0
-
+  
   Line$ = GetCurrentLine()
   If Line$
     GetCursorPosition() ; Ensures than the fields are updated
     
     ;Debug "Line: "+Line$
-
+    
     Column = *ActiveSource\CurrentColumnChars-1
     found = GetWordBoundary(@Line$, Len(Line$), Column, @StartIndex, @EndIndex, 1)
     
@@ -1331,14 +1331,14 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
       EndIf
     EndIf
   EndIf
-
-
+  
+  
   If AutoComplete_IsStructure And (*ActiveSource\CurrentColumnChars <= AutoComplete_StructureStart Or (Word$ = "" And LastChar <> '\'))
     AutoComplete_Close()
-        
+    
   ElseIf AutoComplete_IsModule And (*ActiveSource\CurrentColumnChars <= AutoComplete_ModuleStart Or (Word$ = "" And (Not (LastChar = ':' And BeforeLastChar = ':'))))
     AutoComplete_Close()
-  
+    
   ElseIf AutoComplete_IsStructure = 0 And AutoComplete_IsModule = 0 And (Word$ = "" Or Word$ = "*" Or Word$ = "#" Or (AutoPopupNormal And Len(Word$) < AutoCompletePopupLength))
     AutoComplete_Close()
     
@@ -1363,7 +1363,7 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
         Break
       EndIf
     Next AutoCompleteList()
-        
+    
     If found = 0
       AutoComplete_Close()
     EndIf
@@ -1386,7 +1386,7 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
       Else
         Length = Len(Word$)
       EndIf
-    
+      
       ; find new start and end
       AutoComplete_Start = -1
       ResetList(AutoCompleteList())
@@ -1422,12 +1422,12 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
         AutoComplete_Start = -1
       EndIf
     EndIf
-        
+    
     If AutoComplete_Start > AutoComplete_End Or AutoComplete_Start = -1
       ; no more items to display
       AutoComplete_Close()
     Else
-    
+      
       ; add/remove gadget items as needed
       If OldStart < AutoComplete_Start
         For i = OldStart+1 To AutoComplete_Start
@@ -1459,7 +1459,7 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
       
       ; now find the right item to select
       If IsInitial And Word$ = "" And (AutoComplete_IsStructure Or AutoComplete_IsModule)
-      
+        
         ; select previous insertion (if possible)
         If AutoComplete_IsStructure
           Previous$ = AutoComplete_LastStructureItem(LCase(AutoComplete_CurrentStructure$))
@@ -1477,14 +1477,14 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
             EndIf
           Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
         EndIf
-      
+        
         If found = 0
           ; previous selection is no longer available. select the first entry
           SetGadgetState(#GADGET_AutoComplete_List, 0)
         EndIf
-
+        
       Else
-
+        
         ; select best match
         SelectElement(AutoCompleteList(), AutoComplete_Start)
         found = 0
@@ -1504,16 +1504,16 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
             Break
           EndIf
         Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
-            
+        
         If found=0
           AutoComplete_Close()
         EndIf
-
+        
       EndIf
-     
-
+      
+      
     EndIf
-
+    
   EndIf
-
+  
 EndProcedure

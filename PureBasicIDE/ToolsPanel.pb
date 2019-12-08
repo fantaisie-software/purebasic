@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -7,7 +7,7 @@
 
 Procedure ActivateTool(Name$)
   Opened = 0
-
+  
   If ToolsPanelMode
     ; try the tools in the panel first
     ;
@@ -33,7 +33,7 @@ Procedure ActivateTool(Name$)
   EndIf
   
   If Opened = 0
-
+    
     ; now try the rest and open in external window
     ;
     ForEach AvailablePanelTools()
@@ -42,7 +42,7 @@ Procedure ActivateTool(Name$)
           SetWindowForeground(AvailablePanelTools()\ToolWindowID)
           SetActiveWindow(AvailablePanelTools()\ToolWindowID)
         Else
-                    
+          
           Flags = #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget
           If AvailablePanelTools()\ToolWindowX = 0
             Flags | #PB_Window_ScreenCentered
@@ -53,33 +53,33 @@ Procedure ActivateTool(Name$)
           Else
             Title$ = Language("ToolsPanel", AvailablePanelTools()\PanelTitle$)
           EndIf
-
+          
           WindowWidth = AvailablePanelTools()\ToolWindowWidth
           If WindowWidth < AvailablePanelTools()\ToolMinWindowWidth
             WindowWidth = AvailablePanelTools()\ToolMinWindowWidth
           EndIf
-      
+          
           WindowHeight = AvailablePanelTools()\ToolWindowHeight
           If WindowHeight < AvailablePanelTools()\ToolMinWindowHeight
             WindowHeight = AvailablePanelTools()\ToolMinWindowHeight
           EndIf
-      
+          
           Window = OpenWindow(#PB_Any, AvailablePanelTools()\ToolWindowX, AvailablePanelTools()\ToolWindowY, WindowWidth, WindowHeight, Title$, Flags)
           If Window
             EnsureWindowOnDesktop(Window)
             WindowBounds(Window, AvailablePanelTools()\ToolMinWindowWidth, AvailablePanelTools()\ToolMinWindowHeight, #PB_Ignore, #PB_Ignore)
-                      
+            
             AvailablePanelTools()\IsSeparateWindow = 1
             AvailablePanelTools()\ToolWindowID = Window
             Tool.ToolsPanelInterface = @AvailablePanelTools()
             Tool\CreateFunction(WindowID(Window))
             
             If #DEFAULT_CanWindowStayOnTop
-;               CompilerIf #CompileWindows
-;                 AvailablePanelTools()\ToolStayOnTop = CheckBoxGadget(#PB_Any, 5, WindowHeight(Window)-23, WindowWidth(Window)-10, 23, Language("Misc","StayOnTop"))
-;               CompilerElse
-;                 AvailablePanelTools()\ToolStayOnTop = CheckBoxGadget(#PB_Any, 5, WindowHeight(Window)-25, WindowWidth(Window)-10, 25, Language("Misc","StayOnTop"))
-;               CompilerEndIf
+              ;               CompilerIf #CompileWindows
+              ;                 AvailablePanelTools()\ToolStayOnTop = CheckBoxGadget(#PB_Any, 5, WindowHeight(Window)-23, WindowWidth(Window)-10, 23, Language("Misc","StayOnTop"))
+              ;               CompilerElse
+              ;                 AvailablePanelTools()\ToolStayOnTop = CheckBoxGadget(#PB_Any, 5, WindowHeight(Window)-25, WindowWidth(Window)-10, 25, Language("Misc","StayOnTop"))
+              ;               CompilerEndIf
               AvailablePanelTools()\ToolStayOnTop = CheckBoxGadget(#PB_Any, 5, WindowHeight(Window)-25, WindowWidth(Window)-10, 25, Language("Misc","StayOnTop"))
               Height = GetRequiredHeight(AvailablePanelTools()\ToolStayOnTop)
               ResizeGadget(AvailablePanelTools()\ToolStayOnTop, 5, WindowHeight(Window)-Height-5, WindowWidth(Window)-10, Height)
@@ -95,7 +95,7 @@ Procedure ActivateTool(Name$)
         Break
       EndIf
     Next AvailablePanelTools()
-
+    
   EndIf
   
 EndProcedure
@@ -103,7 +103,7 @@ EndProcedure
 ; Creates the "hidden panel" image. This procedure is used on OSX, and as fallback for the other os
 ;
 Procedure ToolsPanel_CreateFake_Default()
-
+  
   CatchPackedImage(#IMAGE_ToolsPanelRight, ?General_Images, 2)
   CatchPackedImage(#IMAGE_ToolsPanelLeft, ?General_Images, 3)
   
@@ -113,7 +113,7 @@ Procedure ToolsPanel_CreateFake_Default()
     ImageGadget(#GADGET_ToolsPanelFake, 0, 0, 0, 0, ImageID(#IMAGE_ToolsPanelLeft))
   EndIf
   ToolsPanelHiddenWidth = 16
-
+  
 EndProcedure
 
 
@@ -122,37 +122,37 @@ EndProcedure
 ;
 CompilerIf #CompileWindows
   Procedure ToolsPanel_CreateFake_Windows()
-  
+    
     #TCS_VERTICAL = $80
     #TCS_RIGHT = $2
-  
+    
     ; on windows we have a special replacement for the hidden panel (= vertical tab)
     ; which does not work on XP.
     ; Intrestingly, this works ok on vista (though the gadget is displayed without skins there)
     If OSVersion() <> #PB_OS_Windows_XP
-    
+      
       ; this frees the old fake panel created below as well, as it is its child.
       ;
       ContainerGadget(#GADGET_ToolsPanelFake, 0, 0, 0, 0)
       CloseGadgetList()
-    
+      
       If ToolsPanelSide = 0
         style = #TCS_RIGHT
       Else
         style = 0
       EndIf
       
-    
+      
       FakeToolsPanelID = CreateWindowEx_(0, "SysTabControl32", "", #WS_VISIBLE|#WS_OVERLAPPED|#WS_CHILD|#WS_CLIPSIBLINGS|#TCS_MULTILINE|#TCS_VERTICAL|style, 0, 0, 0, 0, GadgetID(#GADGET_ToolsPanelFake), 0, GetModuleHandle_(#Null$) , 0)
       If FakeToolsPanelID
-      
+        
         ; we use MS Sans serif for the vertical panel, as any other try to modify the
         ; system default font looks ugly.
         ; all this will not be done on XP anyway (were there is another default font)
         ;
         FontID = FontID(LoadFont(#PB_Any, "MS Sans Serif", 10, #PB_Font_HighQuality))
         SendMessage_(FakeToolsPanelID, #WM_SETFONT, FontID, 0)
-            
+        
         ForEach UsedPanelTools()
           *ToolData.ToolsPanelEntry = UsedPanelTools()
           If *ToolData\ExternalPlugin
@@ -168,14 +168,14 @@ CompilerIf #CompileWindows
         Next UsedPanelTools()
         
       EndIf
-    
+      
       ToolsPanelHiddenWidth = 25 ; width of the vertical panel
     Else
       ; use the fallback procedure on XP
       ToolsPanel_CreateFake_Default()
       
     EndIf
-  
+    
   EndProcedure
 CompilerEndIf
 
@@ -184,9 +184,9 @@ CompilerEndIf
 ;
 CompilerIf #CompileLinux
   PrototypeC gtk_label_set_angle(*Label.GtkWidget, angle.d)
-
+  
   Procedure ToolsPanel_CreateFake_Linux(IsUpdate)
-   
+    
     ; Changing the angle of a GtkLabel text (which is needed here) only
     ; works since gtk2.6, so manually load the function for a test.
     ;
@@ -195,7 +195,7 @@ CompilerIf #CompileLinux
       gtk_label_set_angle.gtk_label_set_angle = GetFunction(GtkLib, "gtk_label_set_angle")
       
       If gtk_label_set_angle ; this is the important check
-            
+        
         PanelGadget(#GADGET_ToolsPanelFake, 0, 0, 0, 0)
         
         ; If the gadget is visible (toolspanel update), then we get the same warning as mentioned below
@@ -204,30 +204,30 @@ CompilerIf #CompileLinux
           HideGadget(#GADGET_ToolsPanelFake, 1)
         EndIf
         
-          ForEach UsedPanelTools()
-            *ToolData.ToolsPanelEntry = UsedPanelTools()
-            If *ToolData\ExternalPlugin
-              AddGadgetItem(#GADGET_ToolsPanelFake, -1, *ToolData\PanelTitle$)
-            Else
-              AddGadgetItem(#GADGET_ToolsPanelFake, -1, Language("ToolsPanel", *ToolData\PanelTitle$))
-            EndIf
-            
-            ; set the needed orientation for the tab label
-            ; Note that the actual label is now inside a container (because of image support)
-            ;
-            *LabelContainer.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(#GADGET_ToolsPanelFake), gtk_notebook_get_nth_page_(GadgetID(#GADGET_ToolsPanelFake), ListIndex(UsedPanelTools())))
-            *Children = gtk_container_get_children_(*LabelContainer)
-            *Label.GtkWidget = g_list_nth_data_(*Children, 1) ; label is the second child (image slot is always present)
-            g_list_free_(*Children) ; free this list
-
-            If ToolsPanelSide = 0
-              gtk_label_set_angle(*Label, 270)
-            Else
-              gtk_label_set_angle(*Label, 90)
-            EndIf
-            
-          Next UsedPanelTools()
+        ForEach UsedPanelTools()
+          *ToolData.ToolsPanelEntry = UsedPanelTools()
+          If *ToolData\ExternalPlugin
+            AddGadgetItem(#GADGET_ToolsPanelFake, -1, *ToolData\PanelTitle$)
+          Else
+            AddGadgetItem(#GADGET_ToolsPanelFake, -1, Language("ToolsPanel", *ToolData\PanelTitle$))
+          EndIf
           
+          ; set the needed orientation for the tab label
+          ; Note that the actual label is now inside a container (because of image support)
+          ;
+          *LabelContainer.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(#GADGET_ToolsPanelFake), gtk_notebook_get_nth_page_(GadgetID(#GADGET_ToolsPanelFake), ListIndex(UsedPanelTools())))
+          *Children = gtk_container_get_children_(*LabelContainer)
+          *Label.GtkWidget = g_list_nth_data_(*Children, 1) ; label is the second child (image slot is always present)
+          g_list_free_(*Children)                           ; free this list
+          
+          If ToolsPanelSide = 0
+            gtk_label_set_angle(*Label, 270)
+          Else
+            gtk_label_set_angle(*Label, 90)
+          EndIf
+          
+        Next UsedPanelTools()
+        
         CloseGadgetList()
         
         ; make it vertical
@@ -252,7 +252,7 @@ CompilerIf #CompileLinux
         
       Else
         ToolsPanel_CreateFake_Default() ; use fallback
-      
+        
       EndIf
       
       CloseLibrary(GtkLib)
@@ -260,13 +260,13 @@ CompilerIf #CompileLinux
       ToolsPanel_CreateFake_Default() ; use fallback
       
     EndIf
-
+    
   EndProcedure
 CompilerEndIf
 
 
 Procedure ToolsPanel_Create(IsUpdate)
-
+  
   UseGadgetList(WindowID(#WINDOW_Main))
   
   ; create the gadget that represents the "hidden" panel
@@ -276,51 +276,51 @@ Procedure ToolsPanel_Create(IsUpdate)
     CompilerCase #PB_OS_Linux:   ToolsPanel_CreateFake_Linux(IsUpdate)
     CompilerCase #PB_OS_MacOS:   ToolsPanel_CreateFake_Default() ; use same as windows fallback
   CompilerEndSelect
-
-  HideGadget(#GADGET_ToolsPanelFake, 1)
-
-  If ToolsPanelMode
   
+  HideGadget(#GADGET_ToolsPanelFake, 1)
+  
+  If ToolsPanelMode
+    
     If IsGadget(#GADGET_ToolsPanel) ; we do not destroy the gadget anymore
       OpenGadgetList(#GADGET_ToolsPanel)
     Else
       PanelGadget(#GADGET_ToolsPanel, 0, 0, 0, 0)
     EndIf
-
-      ForEach UsedPanelTools()
-        *ToolData.ToolsPanelEntry = UsedPanelTools()
-
-        If *ToolData\ExternalPlugin
-          AddGadgetItem(#GADGET_ToolsPanel, -1, *ToolData\PanelTitle$)
-        Else
-          AddGadgetItem(#GADGET_ToolsPanel, -1, Language("ToolsPanel", *ToolData\PanelTitle$))
-        EndIf
-        PanelTool.ToolsPanelInterface = UsedPanelTools()
-        PanelTool\CreateFunction(GetPanelItemID(#GADGET_ToolsPanel, CountGadgetItems(#GADGET_ToolsPanel)-1))
-      Next UsedPanelTools()
-
-      FirstElement(UsedPanelTools())  ; set the current tool.. very important!
-      CurrentTool = UsedPanelTools()
-
+    
+    ForEach UsedPanelTools()
+      *ToolData.ToolsPanelEntry = UsedPanelTools()
+      
+      If *ToolData\ExternalPlugin
+        AddGadgetItem(#GADGET_ToolsPanel, -1, *ToolData\PanelTitle$)
+      Else
+        AddGadgetItem(#GADGET_ToolsPanel, -1, Language("ToolsPanel", *ToolData\PanelTitle$))
+      EndIf
+      PanelTool.ToolsPanelInterface = UsedPanelTools()
+      PanelTool\CreateFunction(GetPanelItemID(#GADGET_ToolsPanel, CountGadgetItems(#GADGET_ToolsPanel)-1))
+    Next UsedPanelTools()
+    
+    FirstElement(UsedPanelTools())  ; set the current tool.. very important!
+    CurrentTool = UsedPanelTools()
+    
     CloseGadgetList()
-
+    
     CompilerIf #CompileWindows
       SetWindowLongPtr_(GadgetID(#GADGET_ToolsPanel), #GWL_STYLE, GetWindowLongPtr_(GadgetID(#GADGET_ToolsPanel), #GWL_STYLE) | #TCS_MULTILINE)
     CompilerEndIf
-        
+    
   Else
     If IsGadget(#GADGET_ToolsPanel) = 0
       PanelGadget(#GADGET_ToolsPanel, 0, 0, 0, 0) ; still create the gadget if we do not need a panel
       CloseGadgetList()
     EndIf
     HideGadget(#GADGET_ToolsPanel, 1)
-   
+    
   EndIf
   
 EndProcedure
 
 Procedure ToolsPanel_Update()
-
+  
   ; because you can also change the order of items in the ToolsPanel compleetly,
   ; we destroy the whole ToolsPanel and recreate it.
   ;
@@ -331,13 +331,13 @@ Procedure ToolsPanel_Update()
       PanelTool\DestroyFunction()
     EndIf
   Next UsedPanelTools()
-
+  
   ClearList(UsedPanelTools())
-
+  
   If IsGadget(#GADGET_ToolsPanel)
     ClearGadgetItems(#GADGET_ToolsPanel) ; no more freegadget
   EndIf
-
+  
   If ListSize(NewUsedPanelTools()) > 0
     ToolsPanelMode = 1
   Else
@@ -352,7 +352,7 @@ Procedure ToolsPanel_Update()
         Tool.ToolsPanelInterface = @AvailablePanelTools()
         Tool\DestroyFunction()
       EndIf
-    
+      
       If MemorizeWindow
         Window = AvailablePanelTools()\ToolWindowID
         AvailablePanelTools()\ToolWindowX      = WindowX(Window)
@@ -432,7 +432,7 @@ Procedure ToolsPanel_CheckAutoHide()
     MouseX = WindowMouseX(#WINDOW_Main)
     
     If MouseX <> -1 And WindowMouseY(#WINDOW_Main) <> -1 ; do nothing if mouse is outside of the window
-    
+      
       If ToolsPanelSide = 0 ; right side
         Offset = EditorWindowWidth - MouseX
         ToolsPanelWidth = GadgetWidth(#GADGET_ToolsSplitter) - GetGadgetState(#GADGET_ToolsSplitter)
@@ -442,7 +442,7 @@ Procedure ToolsPanel_CheckAutoHide()
       EndIf
       
       ;Debug "Width: " + Str(ToolsPanelWidth) + ", X: "+Str(Offset)
-              
+      
       If ToolsPanelVisible And Offset > ToolsPanelWidth + 40
         If ToolsPanelHideTime = 0 ; first time the panel was left
           ToolsPanelHideTime.q = ElapsedMilliseconds() + ToolsPanelHideDelay
@@ -450,20 +450,20 @@ Procedure ToolsPanel_CheckAutoHide()
           ToolsPanel_Hide()
           ToolsPanelHideTime = 0
         EndIf
-      
+        
       ElseIf ToolsPanelVisible = 0 And Offset < ToolsPanelHiddenWidth
         ToolsPanel_Show()
         ToolsPanelHideTime = 0
-      
+        
       EndIf
       
     EndIf
-
+    
   EndIf
 EndProcedure
 
 Procedure ToolsPanel_Hide()
-
+  
   CompilerIf #CompileWindows
     If FakeToolsPanelID
       SendMessage_(FakeToolsPanelID, #TCM_SETCURSEL, GetGadgetState(#GADGET_ToolsPanel), 0)
@@ -475,7 +475,7 @@ Procedure ToolsPanel_Hide()
       SetGadgetState(#GADGET_ToolsPanelFake, GetGadgetState(#GADGET_ToolsPanel))
     EndIf
   CompilerEndIf
-
+  
   If ToolsPanelVisible ; no check for ToolsPanelMode here, as we call this to hide the panel when ToolsPanelMode = 0
     If ErrorLogVisible
       State = GetGadgetState(#GADGET_LogSplitter) ; somehow the reparenting makes the slider jump in the second splitter on linux, so only reset it after ResizeWindow()
@@ -498,7 +498,7 @@ Procedure ToolsPanel_Hide()
       SetGadgetState(#GADGET_LogSplitter, State)
     EndIf
   EndIf
- 
+  
 EndProcedure
 
 Procedure ToolsPanel_Show()
@@ -511,13 +511,13 @@ Procedure ToolsPanel_Show()
     EndIf
     
     HideGadget(#GADGET_ToolsSplitter, 0)
-  
+    
     If ToolsPanelSide = 0
       SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget, OldGadget)
     Else
       SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_SecondGadget, OldGadget)
     EndIf
-        
+    
     ToolsPanelVisible = 1
     HideGadget(#GADGET_ToolsPanelFake, 1)
     ResizeMainWindow()
@@ -533,6 +533,6 @@ Procedure ToolsPanel_Show()
       SetGadgetState(#GADGET_LogSplitter, State)
     EndIf
   EndIf
-    
+  
 EndProcedure
 

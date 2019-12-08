@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -7,11 +7,11 @@
 
 Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
   If Not contentonly
-;     HideGadget(#Form_ContDraw,1)
-;     DisableGadget(#Form_ContDraw,1)
-;     HideGadget(#Form_ContCode,0)
-;     DisableGadget(#Form_ContCode,0)
-;     TE_ClearGadgetItems(code_gadget)
+    ;     HideGadget(#Form_ContDraw,1)
+    ;     DisableGadget(#Form_ContDraw,1)
+    ;     HideGadget(#Form_ContCode,0)
+    ;     DisableGadget(#Form_ContCode,0)
+    ;     TE_ClearGadgetItems(code_gadget)
   EndIf
   
   CleanImageList()
@@ -91,7 +91,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
       EndIf
     EndIf
   Next
-    
+  
   ForEach FormWindows()\FormToolbars()
     If FormWindows()\FormToolbars()\id <> ""
       searchduplicate = 0
@@ -151,7 +151,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
               "; Manual modification is possible to adjust existing commands, but anything else will be dropped when the code is compiled." + #Endline +
               "; Event procedures needs to be put in another source file." + #Endline +
               ";" + #Endline + #Endline
-    
+  
   If scintilla
     content + "InitScintilla()" + #Endline
     content + "" + #Endline
@@ -305,9 +305,9 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
         EndIf
         flags + "#PB_Font_Underline"
       EndIf
-        If flags <> ""
-          flags = ", " + flags
-        EndIf
+      If flags <> ""
+        flags = ", " + flags
+      EndIf
       
       content + "LoadFont("+Fonts()\id+","+Chr(34)+Fonts()\name+Chr(34)+", "+Str(Fonts()\size)+flags+")" + #Endline
     Next
@@ -357,7 +357,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
   Next
   ClearMap(FormProcedures())
   
-    
+  
   ; Gadgets
   ForEach FormWindows()\FormGadgets()
     If FormWindows()\FormGadgets()\event_proc
@@ -383,13 +383,13 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
   ClearMap(FormProcedures())
   
   content + #Endline
-    
+  
   If FormWindows()\pbany
     winid.s = FormWindows()\variable
   Else
     winid.s = "#"+FormWindows()\variable
   EndIf
-
+  
   
   ForEach ObjList()
     If ObjList()\window = @FormWindows()
@@ -424,9 +424,9 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
           If codepaddingy <> ""
             codepaddingy + " + "
           EndIf
-        
-        EndIf
           
+        EndIf
+        
         ChangeCurrentElement(FormWindows()\FormGadgets(),ObjList()\gadget)
         
         If FormWindows()\FormGadgets()\type = #Form_Type_Custom
@@ -626,7 +626,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                 Else
                   linevars + codepaddingy + "GadgetHeight("+gadgetvar+") - "
                 EndIf
-                                
+                
                 tempvalue = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1
                 
                 If FormWindows()\FormGadgets()\type = #Form_Type_Panel
@@ -766,12 +766,12 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
             
             ; additionnal parameters (min, max...)
             Select FormWindows()\FormGadgets()\type ;{
-              Case #Form_Type_Date ;{
+              Case #Form_Type_Date                  ;{
                 If flags <> ""
                   line + ", 0"
                 EndIf
                 ;}
-  
+                
               Case #Form_Type_ButtonImg ;{
                 img_id.s = ""
                 If FormWindows()\FormGadgets()\image
@@ -875,64 +875,64 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
             
             line + flags + ")"
             content + "  "+line + #Endline
-          
-          If FormWindows()\FormGadgets()\pbany
-            variable.s = FormWindows()\FormGadgets()\variable
-          Else
-            variable.s = "#" + FormWindows()\FormGadgets()\variable
-          EndIf
-          
-          If FormWindows()\FormGadgets()\hidden
-            content + "  HideGadget("+variable+", 1)" + #Endline
-          EndIf
-          
-          If FormWindows()\FormGadgets()\tooltip <> ""
-            If FormWindows()\FormGadgets()\tooltipvariable
-              tooltip.s = FormWindows()\FormGadgets()\tooltip
+            
+            If FormWindows()\FormGadgets()\pbany
+              variable.s = FormWindows()\FormGadgets()\variable
             Else
-              tooltip.s = Chr(34) + FormWindows()\FormGadgets()\tooltip + Chr(34)
+              variable.s = "#" + FormWindows()\FormGadgets()\variable
             EndIf
             
-            content + "  GadgetToolTip(" + variable + ", " + tooltip + ")" + #Endline
-          EndIf
-          
-          ForEach FormWindows()\FormGadgets()\Columns()
-            If ListIndex(FormWindows()\FormGadgets()\Columns()) = 0
-              Continue
+            If FormWindows()\FormGadgets()\hidden
+              content + "  HideGadget("+variable+", 1)" + #Endline
             EndIf
-            content + "  AddGadgetColumn(" + variable + ", " + Str(ListIndex(FormWindows()\FormGadgets()\Columns())) + ", " + Chr(34) + FormWindows()\FormGadgets()\Columns()\name + Chr(34) + ", " + Str(FormWindows()\FormGadgets()\Columns()\width) + ")" + #Endline
-          Next
-          
-          If FormWindows()\FormGadgets()\state
-            Select FormWindows()\FormGadgets()\type
-              Case #Form_Type_Checkbox
-                content + "  SetGadgetState("+variable+", #PB_Checkbox_Checked)" + #Endline
-              Case #Form_Type_Option
-                content + "  SetGadgetState("+variable+", 1)" + #Endline
-              Case #Form_Type_Splitter
-                content + "  SetGadgetState("+variable+", "+Str(FormWindows()\FormGadgets()\state)+")" + #Endline
-            EndSelect
-          EndIf
-          
-          If FormWindows()\FormGadgets()\frontcolor > -1
-            content + "  SetGadgetColor("+variable+", #PB_Gadget_FrontColor,RGB("+Str(Red(FormWindows()\FormGadgets()\frontcolor))+","+Str(Green(FormWindows()\FormGadgets()\frontcolor))+","+Str(Blue(FormWindows()\FormGadgets()\frontcolor))+"))" + #Endline
-          EndIf
-          If FormWindows()\FormGadgets()\backcolor > -1
-            content + "  SetGadgetColor("+variable+", #PB_Gadget_BackColor,RGB("+Str(Red(FormWindows()\FormGadgets()\backcolor))+","+Str(Green(FormWindows()\FormGadgets()\backcolor))+","+Str(Blue(FormWindows()\FormGadgets()\backcolor))+"))" + #Endline
-          EndIf
-          If FormWindows()\FormGadgets()\gadgetfont <> ""
-            ForEach Fonts()
-              If Fonts()\flags = FormWindows()\FormGadgets()\gadgetfontflags And Fonts()\name = FormWindows()\FormGadgets()\gadgetfont And Fonts()\size = FormWindows()\FormGadgets()\gadgetfontsize
-                Break
+            
+            If FormWindows()\FormGadgets()\tooltip <> ""
+              If FormWindows()\FormGadgets()\tooltipvariable
+                tooltip.s = FormWindows()\FormGadgets()\tooltip
+              Else
+                tooltip.s = Chr(34) + FormWindows()\FormGadgets()\tooltip + Chr(34)
               EndIf
+              
+              content + "  GadgetToolTip(" + variable + ", " + tooltip + ")" + #Endline
+            EndIf
+            
+            ForEach FormWindows()\FormGadgets()\Columns()
+              If ListIndex(FormWindows()\FormGadgets()\Columns()) = 0
+                Continue
+              EndIf
+              content + "  AddGadgetColumn(" + variable + ", " + Str(ListIndex(FormWindows()\FormGadgets()\Columns())) + ", " + Chr(34) + FormWindows()\FormGadgets()\Columns()\name + Chr(34) + ", " + Str(FormWindows()\FormGadgets()\Columns()\width) + ")" + #Endline
             Next
-            content + "  SetGadgetFont("+variable+", FontID("+Fonts()\id+"))" + #Endline
-          EndIf
-          
-          
-          If FormWindows()\FormGadgets()\disabled
-            content + "  DisableGadget("+variable+", 1)" + #Endline
-          EndIf
+            
+            If FormWindows()\FormGadgets()\state
+              Select FormWindows()\FormGadgets()\type
+                Case #Form_Type_Checkbox
+                  content + "  SetGadgetState("+variable+", #PB_Checkbox_Checked)" + #Endline
+                Case #Form_Type_Option
+                  content + "  SetGadgetState("+variable+", 1)" + #Endline
+                Case #Form_Type_Splitter
+                  content + "  SetGadgetState("+variable+", "+Str(FormWindows()\FormGadgets()\state)+")" + #Endline
+              EndSelect
+            EndIf
+            
+            If FormWindows()\FormGadgets()\frontcolor > -1
+              content + "  SetGadgetColor("+variable+", #PB_Gadget_FrontColor,RGB("+Str(Red(FormWindows()\FormGadgets()\frontcolor))+","+Str(Green(FormWindows()\FormGadgets()\frontcolor))+","+Str(Blue(FormWindows()\FormGadgets()\frontcolor))+"))" + #Endline
+            EndIf
+            If FormWindows()\FormGadgets()\backcolor > -1
+              content + "  SetGadgetColor("+variable+", #PB_Gadget_BackColor,RGB("+Str(Red(FormWindows()\FormGadgets()\backcolor))+","+Str(Green(FormWindows()\FormGadgets()\backcolor))+","+Str(Blue(FormWindows()\FormGadgets()\backcolor))+"))" + #Endline
+            EndIf
+            If FormWindows()\FormGadgets()\gadgetfont <> ""
+              ForEach Fonts()
+                If Fonts()\flags = FormWindows()\FormGadgets()\gadgetfontflags And Fonts()\name = FormWindows()\FormGadgets()\gadgetfont And Fonts()\size = FormWindows()\FormGadgets()\gadgetfontsize
+                  Break
+                EndIf
+              Next
+              content + "  SetGadgetFont("+variable+", FontID("+Fonts()\id+"))" + #Endline
+            EndIf
+            
+            
+            If FormWindows()\FormGadgets()\disabled
+              content + "  DisableGadget("+variable+", 1)" + #Endline
+            EndIf
           EndIf
         EndIf
       Else
@@ -977,7 +977,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
         If flags
           flags = ", "+flags
         EndIf
-
+        
         
         If FormWindows()\pbany
           variable.s = FormWindows()\variable
@@ -993,7 +993,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
           Else
             line + Chr(34)+FormWindows()\caption+Chr(34)
           EndIf
-
+          
         Else
           variable.s = "#"+FormWindows()\variable
           line.s = "  OpenWindow("+variable+", x, y, width, height, "
@@ -1034,7 +1034,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
           content + "  SetWindowColor("+variable+", RGB("+Str(Red(FormWindows()\color))+","+Str(Green(FormWindows()\color))+","+Str(Blue(FormWindows()\color))+"))" + #Endline
         EndIf
         
-  
+        
         addemptyline = 0
         ForEach FormWindows()\FormMenus()
           If FormWindows()\FormMenus()\shortcut <> ""
@@ -1185,7 +1185,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                   
                   content + "  MenuTitle("+Chr(34)+FormWindows()\FormMenus()\item+Chr(34)+")" + #Endline
                   level = FormWindows()\FormMenus()\level
-
+                  
                 Default
                   thislevel = FormWindows()\FormMenus()\level
                   PushListPosition(FormWindows()\FormMenus())
@@ -1285,7 +1285,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
       content + "        Case " + MenuVars()\a + #Endline
       
       If MenuVars()\b <> ""
-      content + "          " + MenuVars()\b + "(EventMenu())" + #Endline
+        content + "          " + MenuVars()\b + "(EventMenu())" + #Endline
       EndIf
       
     Next
@@ -1330,14 +1330,14 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
   If testcode
     
     ; Declare all event procedures
-  ;
+    ;
     ; Menus
     ForEach MenuVars()
       If MenuVars()\b <> ""
         content + "Procedure " + MenuVars()\b + "(Event) : EndProcedure" + #Endline
       EndIf
     Next
-      
+    
     ; Gadgets
     ForEach FormWindows()\FormGadgets()
       If FormWindows()\FormGadgets()\event_proc
@@ -1349,7 +1349,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
     If FormWindows()\event_proc
       content +"Procedure " + FormWindows()\event_proc + "(Event, Window) : EndProcedure" + #Endline
     EndIf
-
+    
   EndIf
   
   
@@ -1391,8 +1391,8 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
       ;TE_AddGadgetItem(code_gadget,-1,StringField(content,i,#Endline))
     Next
     
-;     TE_RemoveGadgetItem(code_gadget,0)
-;     num = TE_CountGadgetItems(code_gadget) - 1
+    ;     TE_RemoveGadgetItem(code_gadget,0)
+    ;     num = TE_CountGadgetItems(code_gadget) - 1
     
   EndIf
   

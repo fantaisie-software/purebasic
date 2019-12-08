@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -41,7 +41,7 @@ Structure DlgBinBase Extends DlgBase
     Child.DialogObject
     *ChildData.DlgBase ; note: only the dlgbase data (mainly the static data) are always present!
   EndStructureUnion
-
+  
   tMargin.l ; user settings
   bMargin.l
   lMargin.l
@@ -85,7 +85,7 @@ EndProcedure
 ; Read the common options (margin, expand, align)
 ;
 Procedure DlgBinBase_GetOptions(*THIS.DlgBinBase, DefaultMargin=10)
-
+  
   *THIS\tMargin = DefaultMargin ; defaults
   *THIS\bMargin = DefaultMargin
   *THIS\rMargin = DefaultMargin
@@ -98,7 +98,7 @@ Procedure DlgBinBase_GetOptions(*THIS.DlgBinBase, DefaultMargin=10)
     *THIS\rMargin = *THIS\tMargin
     *THIS\lMargin = *THIS\tMargin
   ElseIf Value$ <> ""
-  
+    
     *THIS\tMargin = GetSubStringValue(Value$, "TOP:")
     *THIS\bMargin = GetSubStringValue(Value$, "BOTTOM:")
     *THIS\lMargin = GetSubStringValue(Value$, "LEFT:")
@@ -129,7 +129,7 @@ Procedure DlgBinBase_GetOptions(*THIS.DlgBinBase, DefaultMargin=10)
   If Value$ <> ""
     *THIS\hExpandMax = Val(Value$)
   EndIf
-
+  
   Value$ = DialogObjectKey(*THIS\StaticData, "EXPANDHEIGHT")
   If Value$ <> ""
     *THIS\vExpandMax = Val(Value$)
@@ -165,14 +165,14 @@ Procedure DlgBinBase_GetOptions(*THIS.DlgBinBase, DefaultMargin=10)
     EndIf
   EndIf
   
-
+  
 EndProcedure
 
 ; Note: x/y must be initialized to any needed border offset
 ;       width/height must be initialized to the available client size in the parent
 ;
 Procedure DlgBinBase_CalculateChildSize(*THIS.DlgBinBase, *x.LONG, *y.LONG, *Width.LONG, *Height.LONG)
-
+  
   *x\l + *THIS\lMargin
   *y\l + *THIS\tMargin
   *Width\l  - *THIS\lMargin - *THIS\rMargin
@@ -187,7 +187,7 @@ Procedure DlgBinBase_CalculateChildSize(*THIS.DlgBinBase, *x.LONG, *y.LONG, *Wid
     ElseIf *THIS\hExpandMax > 0 And *THIS\hExpandMax < FullWidth
       *Width\l = Max(*THIS\RequestedWidth, *THIS\hExpandMax)
     EndIf
-           
+    
     If *THIS\hAlign = #Dlg_Align_Center
       *x\l + (FullWidth - *Width\l) / 2
     ElseIf *THIS\hAlign = #Dlg_Align_Bottom
@@ -201,14 +201,14 @@ Procedure DlgBinBase_CalculateChildSize(*THIS.DlgBinBase, *x.LONG, *y.LONG, *Wid
     ElseIf *THIS\vExpandMax > 0 And *THIS\vExpandMax < FullHeight
       *Height\l = Max(*THIS\RequestedHeight, *THIS\vExpandMax)
     EndIf
-        
+    
     If *THIS\vAlign = #Dlg_Align_Center
       *y\l + (FullHeight - *Height\l) / 2
     ElseIf *THIS\vAlign = #Dlg_Align_Bottom
       *y\l + FullHeight - *Height\l
     EndIf
   EndIf
-    
+  
 EndProcedure
 
 Procedure DlgBinBase_AddChild(*THIS.DlgBinBase, Child.DialogObject)
@@ -258,7 +258,7 @@ Procedure DlgBinBase_Update(*THIS.DlgBinBase)
   If *THIS\HasTitle And *THIS\StaticData\HasText
     SetGadgetText(*THIS\Gadget, DialogObjectText(*THIS\StaticData))
   EndIf
-
+  
   If *THIS\Child
     *THIS\Child\Update()
   EndIf
@@ -270,6 +270,6 @@ Procedure DlgBinBase_Destroy(*THIS.DlgBinBase)
   If *THIS\Child
     *THIS\Child\Destroy()
   EndIf
-
+  
   FreeMemory(*THIS)
 EndProcedure

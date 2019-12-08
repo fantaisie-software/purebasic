@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -33,13 +33,13 @@ CompilerEndIf
 
 CompilerIf #PB_Compiler_OS = #PB_OS_Linux
   CompilerIf Defined(PB_Gadget, #PB_Structure) = 0
-  Structure PB_Gadget
-    *Gadget.GtkWidget
-    *Container.GtkWidget
-    *VT
-    UserData.i
-    GadgetData.i[4]
-  EndStructure
+    Structure PB_Gadget
+      *Gadget.GtkWidget
+      *Container.GtkWidget
+      *VT
+      UserData.i
+      GadgetData.i[4]
+    EndStructure
   CompilerEndIf
 CompilerEndIf
 
@@ -61,7 +61,7 @@ CompilerIf #CompileMacCocoa
 CompilerEndIf
 
 Procedure GetRequiredSize(Gadget, *Width.LONG, *Height.LONG, Flags = 0)
-
+  
   *Width\l  = GadgetWidth(Gadget, #PB_Gadget_RequiredSize)
   *Height\l = GadgetHeight(Gadget, #PB_Gadget_RequiredSize)
   

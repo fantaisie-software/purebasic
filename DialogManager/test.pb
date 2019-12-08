@@ -1,4 +1,4 @@
-
+﻿
 ;
 ; PureBasic IDE - Dialog Manager file
 ;
@@ -7,3173 +7,3173 @@
 ;
 
 DataSection
-
-
+  
+  
   TestDialog:
-    Data.l #DIALOG_Window
-    Data.l #PB_Any, #PB_Window_SizeGadget, 660, 0, 0, 0
-    Data.s "", "Preferences", "", ""
-
-      Data.l #DIALOG_VBox
-      Data.l #PB_Any, 0, 0, 0, 0, 1
-      Data.s "", "", "", ""
-      Data.s "SPACING", "10"
-
-        Data.l #DIALOG_HBox
-        Data.l #PB_Any, 0, 0, 0, 0, 1
-        Data.s "", "", "", ""
-        Data.s "SPACING", "10"
-
-          Data.l #DIALOG_Tree
-          Data.l #PB_Any, 0, 190, 0, 1, 0
-          Data.s "TREE", "", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Multibox
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "", "", ""
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 2
-            Data.s "CONTAINER0", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "EXPAND", "horizontal"
-
-              Data.l #DIALOG_Frame
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "General", "", ""
-              Data.s "MARGIN", "5"
-
-                Data.l #DIALOG_VBox
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "", "", ""
-                Data.s "SPACING", "20"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Run only one Instance", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Disable Splash Screen", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Memorize Window positions", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Show main Toolbar", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "Show window contents while moving the Splitter", "", ""
-                    Data.s "DISABLED", "yes"
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Auto-reload last open sources", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Switch to correct sourcefile on Error", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display full Source path in Titlebar", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display Icons in the Menu", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_Gridbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 2
-                  Data.s "", "", "", ""
-                  Data.s "COLSPACING", "10"
-                  Data.s "COLEXPAND", "item:2"
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "RecentFiles list size: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Singlebox
-                    Data.l #PB_Any, 0, 0, 0, 0, 2
-                    Data.s "", "", "", ""
-                    Data.s "EXPAND", "no"
-                    Data.s "MARGIN", "0"
-
-                      Data.l #DIALOG_String
-                      Data.l #PB_Any, 0, 80, 0, 0, 0
-                      Data.s "", "10", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Search History size: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Singlebox
-                    Data.l #PB_Any, 0, 0, 0, 0, 2
-                    Data.s "", "", "", ""
-                    Data.s "EXPAND", "no"
-                    Data.s "MARGIN", "0"
-
-                      Data.l #DIALOG_String
-                      Data.l #PB_Any, 0, 80, 0, 0, 0
-                      Data.s "", "10", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "VisualDesigner: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_HBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "EXPAND", "item:1"
-
-                      Data.l #DIALOG_String
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 30, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 3
-            Data.s "CONTAINER1", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "EXPAND", "horizontal"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_Frame
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Language", "", ""
-              Data.s "MARGIN", "5"
-
-                Data.l #DIALOG_VBox
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "", "", ""
-                Data.s "SPACING", "10"
-
-                  Data.l #DIALOG_ComboBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Text
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Language Information:\n\nLast Updated:    08/11/2006\nCreator:    PureBasic Team\nEmail:    support@purebasic.com", "", ""
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 2
-            Data.s "CONTAINER2", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_Frame
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Shortcuts", "", ""
-              Data.s "MARGIN", "5"
-
-                Data.l #DIALOG_VBox
-                Data.l #PB_Any, 0, 0, 0, 0, 2
-                Data.s "", "", "", ""
-                Data.s "EXPAND", "item:1"
-                Data.s "SPACING", "10"
-
-                  Data.l #DIALOG_ListIcon
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_HBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 2
-                  Data.s "", "", "", ""
-                  Data.s "EXPAND", "item:5"
-                  Data.s "SPACING", "10"
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Ctrl", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Alt", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Shift", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "Cmd", "", ""
-                    Data.s "DISABLED", "yes"
-                    Data.l -1
-
-                    Data.l #DIALOG_ComboBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Button
-                    Data.l #PB_Any, 0, 50, 0, 0, 0
-                    Data.s "", "Set", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 2
-            Data.s "CONTAINER3", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_VBox
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "", "", ""
-              Data.s "EXPAND", "item:1"
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Toolbar Layout", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_ListIcon
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-                  Data.l -1
-
-                Data.l -1
-
-                Data.l #DIALOG_HBox
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "", "", ""
-                Data.s "EXPAND", "item:1"
-
-                  Data.l #DIALOG_Frame
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "Item Settings", "", ""
-                  Data.s "MARGIN", "5"
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "10"
-
-                      Data.l #DIALOG_Gridbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 2
-                      Data.s "", "", "", ""
-                      Data.s "COLUMNS", "3"
-                      Data.s "ROWSPACING", "2"
-
-                        Data.l #DIALOG_ComboBox
-                        Data.l #PB_Any, 0, 120, 0, 0, 0
-                        Data.s "", "", "", ""
-                        Data.l -1
-
-                        Data.l #DIALOG_Text
-                        Data.l #PB_Any, 0, 0, 0, 0, 0
-                        Data.s "", "->", "", ""
-                        Data.l -1
-
-                        Data.l #DIALOG_ComboBox
-                        Data.l #PB_Any, 0, 120, 0, 0, 0
-                        Data.s "", "", "", ""
-                        Data.l -1
-
-                        Data.l #DIALOG_ComboBox
-                        Data.l #PB_Any, 0, 0, 0, 0, 0
-                        Data.s "", "", "", ""
-                        Data.l -1
-
-                        Data.l #DIALOG_Text
-                        Data.l #PB_Any, 0, 0, 0, 0, 0
-                        Data.s "", "->", "", ""
-                        Data.l -1
-
-                        Data.l #DIALOG_ComboBox
-                        Data.l #PB_Any, 0, 0, 0, 0, 0
-                        Data.s "", "", "", ""
-                        Data.l -1
-
-                      Data.l -1
-
-                      Data.l #DIALOG_HBox
-                      Data.l #PB_Any, 0, 0, 0, 0, 1
-                      Data.s "", "", "", ""
-                      Data.s "EXPAND", "equal"
-
-                        Data.l #DIALOG_Singlebox
-                        Data.l #PB_Any, 0, 0, 0, 0, 3
-                        Data.s "", "", "", ""
-                        Data.s "MARGIN", "0"
-                        Data.s "EXPAND", "no"
-                        Data.s "ALIGN", "center"
-
-                          Data.l #DIALOG_Button
-                          Data.l #PB_Any, 0, 90, 0, 0, 0
-                          Data.s "", "Add", "", ""
-                          Data.l -1
-
-                        Data.l -1
-
-                        Data.l #DIALOG_Singlebox
-                        Data.l #PB_Any, 0, 0, 0, 0, 3
-                        Data.s "", "", "", ""
-                        Data.s "MARGIN", "0"
-                        Data.s "EXPAND", "no"
-                        Data.s "ALIGN", "center"
-
-                          Data.l #DIALOG_Button
-                          Data.l #PB_Any, 0, 90, 0, 0, 0
-                          Data.s "", "Set", "", ""
-                          Data.l -1
-
-                        Data.l -1
-
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_Frame
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "Position", "", ""
-                  Data.s "MARGIN", "5"
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 80, 0, 0, 0
-                      Data.s "", "Up", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Down", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Remove", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 3
-                Data.s "", "Default Sets", "", ""
-                Data.s "EXPAND", "no"
-                Data.s "ALIGN", "center"
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_HBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "SPACING", "10"
-
-                    Data.l #DIALOG_Button
-                    Data.l #PB_Any, 0, 150, 0, 0, 0
-                    Data.s "", "Default Toolbar", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Button
-                    Data.l #PB_Any, 0, 150, 0, 0, 0
-                    Data.s "", "Classic Toolbar", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 3
-            Data.s "CONTAINER4", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "EXPAND", "horizontal"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_Frame
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Editor", "", ""
-              Data.s "MARGIN", "5"
-
-                Data.l #DIALOG_VBox
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "", "", ""
-                Data.s "SPACING", "10"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Auto-save before 'Compile/Run'", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Auto-save before 'Create Executable'", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Save all sources with Auto-save", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Memorize Cursor positions", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Memorize Marker positions", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Always hide the error log (ignore the per-source setting)", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_Gridbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 2
-                  Data.s "", "", "", ""
-                  Data.s "COLSPACING", "10"
-                  Data.s "COLEXPAND", "item:2"
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Save Settings to: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_ComboBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Tab Length: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_HBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 2
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "10"
-                    Data.s "EXPAND", "item:2"
-
-                      Data.l #DIALOG_String
-                      Data.l #PB_Any, 0, 80, 0, 0, 0
-                      Data.s "", "2", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Use real Tab (ASCII 9)", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Source Directory: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_HBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "EXPAND", "item:1"
-
-                      Data.l #DIALOG_String
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 3
-            Data.s "CONTAINER5", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "EXPAND", "horizontal"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_Frame
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Default Settings for new Files", "", ""
-              Data.s "MARGIN", "5"
-
-                Data.l #DIALOG_VBox
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "", "", ""
-                Data.s "SPACING", "10"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Show Error Log", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Enable Debugger", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Enable inline ASM support", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Create unicode executable", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Create threadsafe executable", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "Enable XP skin support", "", ""
-                    Data.s "DISABLED", "yes"
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "Enable OnError lines support", "", ""
-                    Data.s "DISABLED", "yes"
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_Gridbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 2
-                  Data.s "", "", "", ""
-                  Data.s "COLSPACING", "10"
-                  Data.s "COLEXPAND", "item:2"
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Library Subsystem: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_String
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Executable Format: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_ComboBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "CPU Optimisation: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_ComboBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Sourcefile Text encoding: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_ComboBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Sourcefile Newline format: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_ComboBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 3
-            Data.s "CONTAINER6", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "EXPAND", "horizontal"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_Frame
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Fonts/Margins", "", ""
-              Data.s "MARGIN", "5"
-
-                Data.l #DIALOG_VBox
-                Data.l #PB_Any, 0, 0, 0, 0, 0
-                Data.s "", "", "", ""
-
-                  Data.l #DIALOG_HBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 2
-                  Data.s "", "", "", ""
-                  Data.s "SPACING", "10"
-                  Data.s "EXPAND", "item:2"
-
-                    Data.l #DIALOG_Button
-                    Data.l #PB_Any, 0, 120, 0, 0, 0
-                    Data.s "", "Select Font", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, #PB_Text_Center|#PB_Text_Border, 0, 0, 0, 0
-                    Data.s "", "AaBbCc 01234 +-*/()", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_Empty
-                  Data.l #PB_Any, 0, 0, 5, 0, 0
-                  Data.s "", "", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Enable Syntax coloring", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Singlebox
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "MARGIN", "left:30"
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Enable bolding of Keywords", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Enable Case correction", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_Empty
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Display Line numbers", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Enable Line Markers", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Enable Source Line folding", "", ""
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 2
-            Data.s "CONTAINER7", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_Frame
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Colors", "", ""
-              Data.s "MARGIN", "5"
-
-                Data.l #DIALOG_VBox
-                Data.l #PB_Any, 0, 0, 0, 0, 2
-                Data.s "", "", "", ""
-                Data.s "EXPAND", "item:1"
-                Data.s "SPACING", "10"
-
-                  Data.l #DIALOG_Scroll
-                  Data.l #PB_Any, #PB_ScrollArea_Single, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "SCROLLING", "vertical"
-
-                    Data.l #DIALOG_Gridbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 3
-                    Data.s "", "", "", ""
-                    Data.s "COLUMNS", "3"
-                    Data.s "COLEXPAND", "item:1"
-                    Data.s "COLSPACING", "10"
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "ASM Keywords: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Background: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Basic Keywords: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Comments: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Constants: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Labels: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Normal Text: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Numbers: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Operators (*/+-): ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Pointers: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Functions: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Separators (;,[]): ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Strings: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Structures: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "LineNumbers: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "LineNumbers Background: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Line Markers: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Currentline Background: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Selection Background: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Selection Text: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Cursor: ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Current Line Background (Debugger): ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Current Line Symbol (Debugger): ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Error Background (Debugger): ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Error Symbol (Debugger): ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Breakpoint Background (Debugger): ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Breakpoint Symbol (Debugger): ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Text
-                      Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                      Data.s "", "Background for non-editable files (Debugger): ", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Image
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 40, 0, 0, 0
-                      Data.s "", "...", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_HBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "EXPAND", "item:2"
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Default Color Schemes: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_ComboBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Button
-                    Data.l #PB_Any, 0, 60, 0, 0, 0
-                    Data.s "", "Set", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 2
-            Data.s "CONTAINER8", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_VBox
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "", "", ""
-              Data.s "EXPAND", "equal"
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Folding start Keywords", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 2
-                  Data.s "", "", "", ""
-                  Data.s "EXPAND", "item:1"
-                  Data.s "SPACING", "10"
-
-                    Data.l #DIALOG_ListView
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_HBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "EXPAND", "item:1"
-
-                      Data.l #DIALOG_String
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 80, 0, 0, 0
-                      Data.s "", "Add", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 80, 0, 0, 0
-                      Data.s "", "Remove", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Folding end Keywords", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 2
-                  Data.s "", "", "", ""
-                  Data.s "EXPAND", "item:1"
-                  Data.s "SPACING", "10"
-
-                    Data.l #DIALOG_ListView
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_HBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "EXPAND", "item:1"
-
-                      Data.l #DIALOG_String
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 80, 0, 0, 0
-                      Data.s "", "Add", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 80, 0, 0, 0
-                      Data.s "", "Remove", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 3
-            Data.s "CONTAINER9", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "EXPAND", "horizontal"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_Frame
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Settings", "", ""
-              Data.s "MARGIN", "5"
-
-                Data.l #DIALOG_VBox
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "", "", ""
-                Data.s "SPACING", "10"
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Enable the AutoComplete feature", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "SPACING", "0"
-
-                    Data.l #DIALOG_Option
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display the full AutoComplete list", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Option
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display all words that match the first character", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Option
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display only workds that begin with the typed word", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_Gridbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "COLEXPAND", "item:2"
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Box width: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Singlebox
-                    Data.l #PB_Any, 0, 0, 0, 0, 2
-                    Data.s "", "", "", ""
-                    Data.s "EXPAND", "no"
-                    Data.s "MARGIN", "0"
-
-                      Data.l #DIALOG_String
-                      Data.l #PB_Any, 0, 100, 0, 0, 0
-                      Data.s "", "400", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Box height: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Singlebox
-                    Data.l #PB_Any, 0, 0, 0, 0, 2
-                    Data.s "", "", "", ""
-                    Data.s "EXPAND", "no"
-                    Data.s "MARGIN", "0"
-
-                      Data.l #DIALOG_String
-                      Data.l #PB_Any, 0, 100, 0, 0, 0
-                      Data.s "", "200", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "SPACING", "0"
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Add opening Brackets to Functions/Arrays/Lists", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Add a Space after PB Keywords followed by an expression", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Add matching 'End' keyword if Tab/Enter is pressed twice", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Automatically Popup the AutoComplete Window", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_Singlebox
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "MARGIN", "left:30"
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "0"
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 1
-                      Data.s "", "Disable automatic Popup inside Comments", "", ""
-                      Data.s "DISABLED", "yes"
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 1
-                      Data.s "", "Disable automatic Popup inside Strings", "", ""
-                      Data.s "DISABLED", "yes"
-                      Data.l -1
-
-                      Data.l #DIALOG_HBox
-                      Data.l #PB_Any, 0, 0, 0, 0, 1
-                      Data.s "", "", "", ""
-                      Data.s "EXPAND", "item:2"
-
-                        Data.l #DIALOG_String
-                        Data.l #PB_Any, 0, 60, 0, 0, 1
-                        Data.s "", "3", "", ""
-                        Data.s "DISABLED", "yes"
-                        Data.l -1
-
-                        Data.l #DIALOG_Text
-                        Data.l #PB_Any, 0, 0, 0, 0, 1
-                        Data.s "", "Characters needed before opening the list", "", ""
-                        Data.s "DISABLED", "yes"
-                        Data.l -1
-
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 2
-            Data.s "CONTAINER10", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_Frame
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Items to display in the AutoComplete List", "", ""
-              Data.s "MARGIN", "5"
-
-                Data.l #DIALOG_Scroll
-                Data.l #PB_Any, #PB_ScrollArea_Single, 0, 0, 0, 1
-                Data.s "", "", "", ""
-                Data.s "SCROLLING", "vertical"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "SPACING", "10"
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "0"
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "PureBasic Keywords", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Assembly Keywords", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "PureBasic Functions", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "API Functions", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "0"
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Procedures of the current Source", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Procedures of all open Sources", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "0"
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Predefined Structures", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Structures of the current Source", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Structures of all open Sources", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "0"
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Predefined Interfaces", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Interfaces of the current Source", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Interfaces of all open Sources", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "0"
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Predefined Constants", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Constants of the current Source", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Constants of all open Sources", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "0"
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Variables of the current Source", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Variables of all open Sources", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "0"
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Arrays of the current Source", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Arrays of all open Sources", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "0"
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "LinkedLists of the current Source", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "LinkedLists of all open Sources", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "0"
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Macros of the current Source", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Macros of all open Sources", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 1
-                    Data.s "", "", "", ""
-                    Data.s "SPACING", "0"
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Imported Functions of the current Source", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Imported Functions of all open Sources", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 3
-            Data.s "CONTAINER11", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "EXPAND", "horizontal"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_VBox
-              Data.l #PB_Any, 0, 0, 0, 0, 0
-              Data.s "", "", "", ""
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Choose Debugger Type", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_ComboBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-                  Data.l -1
-
-                Data.l -1
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "General Options", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "SPACING", "5"
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Memorize debugger window positions", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Keep all debugger windows on top", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Bring debugger windows to front when one is focused", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Empty
-                    Data.l #PB_Any, 0, 0, 5, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display Timestamp in Error log", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Stop execution at program start", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Stop execution before program end", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Empty
-                    Data.l #PB_Any, 0, 0, 5, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Kill Program after an Error", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Keep Error marks after program end", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Clear Error log on each run", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 3
-            Data.s "CONTAINER12", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "EXPAND", "horizontal"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_VBox
-              Data.l #PB_Any, 0, 0, 0, 0, 0
-              Data.s "", "", "", ""
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Debug Output", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display Hex values", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Add Timestamp", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display debug output in the error log", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Asm Debugger", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display Registers as hex", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display Stack as hex", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Update Stack trace automatically", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Memory Viewer", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display Hex values", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Array view in one column only", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Variable Viewer", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Display Hex values", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 3
-            Data.s "CONTAINER13", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "EXPAND", "horizontal"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_Frame
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Open Windows on debugger start", "", ""
-              Data.s "MARGIN", "5"
-
-                Data.l #DIALOG_VBox
-                Data.l #PB_Any, 0, 0, 0, 0, 0
-                Data.s "", "", "", ""
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Debug Output", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Asm Debugger", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Memory Viewer", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Variable Viewer", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Procedure Callstack", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Library Viewer", "", ""
-                  Data.l -1
-
-                  Data.l #DIALOG_Checkbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "Watchlist", "", ""
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 2
-            Data.s "CONTAINER14", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_VBox
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "", "", ""
-              Data.s "EXPAND", "item:2"
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Tools in the ToolsPanel", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_Gridbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 3
-                  Data.s "", "", "", ""
-                  Data.s "COLUMNS", "3"
-                  Data.s "COLSPACING", "10"
-                  Data.s "ROWSPACING", "0"
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Available Tools:", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Empty
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Displayed Tools:", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_ListView
-                    Data.l #PB_Any, 0, 130, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Add", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Remove", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Up", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Down", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_ListView
-                    Data.l #PB_Any, 0, 130, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Configuration", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_Container
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 3
-            Data.s "CONTAINER15", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "EXPAND", "horizontal"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_Frame
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "ToolsPanel Options", "", ""
-              Data.s "MARGIN", "5"
-
-                Data.l #DIALOG_VBox
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "", "", ""
-                Data.s "SPACING", "15"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-
-                    Data.l #DIALOG_ComboBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Button
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Select Font", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_Gridbox
-                  Data.l #PB_Any, 0, 0, 0, 0, 2
-                  Data.s "", "", "", ""
-                  Data.s "COLUMNS", "3"
-                  Data.s "COLEXPAND", "item:1"
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                    Data.s "", "Front Color: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Image
-                    Data.l #PB_Any, 0, 40, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Button
-                    Data.l #PB_Any, 0, 50, 0, 0, 0
-                    Data.s "", "...", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Text
-                    Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-                    Data.s "", "Background Color: ", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Image
-                    Data.l #PB_Any, 0, 40, 0, 0, 0
-                    Data.s "", "", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Button
-                    Data.l #PB_Any, 0, 50, 0, 0, 0
-                    Data.s "", "...", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 0
-                  Data.s "", "", "", ""
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Do not use colors/fonts for tools in external windows", "", ""
-                    Data.l -1
-
-                    Data.l #DIALOG_Checkbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "Automatically hide the Panel", "", ""
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-            Data.l #DIALOG_Container
-            Data.l #PB_Any, 0, 0, 0, 1, 2
-            Data.s "CONTAINER16", "", "", ""
-            Data.s "MARGIN", "0"
-            Data.s "INVISIBLE", "yes"
-
-              Data.l #DIALOG_VBox
-              Data.l #PB_Any, 0, 0, 0, 0, 0
-              Data.s "", "", "", ""
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Export Settings", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "SPACING", "10"
-
-                    Data.l #DIALOG_Gridbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Include Shortcut settings", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Include Color settings", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Include Toolbar layout", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Include Folding keywords", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-
-                      Data.l #DIALOG_HBox
-                      Data.l #PB_Any, 0, 0, 0, 0, 2
-                      Data.s "", "", "", ""
-                      Data.s "EXPAND", "item:2"
-                      Data.s "SPACING", "10"
-
-                        Data.l #DIALOG_Text
-                        Data.l #PB_Any, 0, 80, 0, 0, 0
-                        Data.s "", "Save to:", "", ""
-                        Data.l -1
-
-                        Data.l #DIALOG_String
-                        Data.l #PB_Any, 0, 0, 0, 0, 0
-                        Data.s "", "", "", ""
-                        Data.l -1
-
-                        Data.l #DIALOG_Button
-                        Data.l #PB_Any, 0, 50, 0, 0, 0
-                        Data.s "", "...", "", ""
-                        Data.l -1
-
-                      Data.l -1
-
-                      Data.l #DIALOG_Singlebox
-                      Data.l #PB_Any, 0, 0, 0, 0, 3
-                      Data.s "", "", "", ""
-                      Data.s "MARGIN", "0"
-                      Data.s "EXPAND", "no"
-                      Data.s "ALIGN", "center"
-
-                        Data.l #DIALOG_Button
-                        Data.l #PB_Any, 0, 130, 0, 0, 0
-                        Data.s "", "Save", "", ""
-                        Data.l -1
-
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-                Data.l #DIALOG_Frame
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "Import Settings", "", ""
-                Data.s "MARGIN", "5"
-
-                  Data.l #DIALOG_VBox
-                  Data.l #PB_Any, 0, 0, 0, 0, 1
-                  Data.s "", "", "", ""
-                  Data.s "SPACING", "10"
-
-                    Data.l #DIALOG_VBox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-
-                      Data.l #DIALOG_HBox
-                      Data.l #PB_Any, 0, 0, 0, 0, 2
-                      Data.s "", "", "", ""
-                      Data.s "EXPAND", "item:2"
-                      Data.s "SPACING", "10"
-
-                        Data.l #DIALOG_Text
-                        Data.l #PB_Any, 0, 80, 0, 0, 0
-                        Data.s "", "Load from:", "", ""
-                        Data.l -1
-
-                        Data.l #DIALOG_String
-                        Data.l #PB_Any, 0, 0, 0, 0, 0
-                        Data.s "", "", "", ""
-                        Data.l -1
-
-                        Data.l #DIALOG_Button
-                        Data.l #PB_Any, 0, 50, 0, 0, 0
-                        Data.s "", "...", "", ""
-                        Data.l -1
-
-                      Data.l -1
-
-                      Data.l #DIALOG_Singlebox
-                      Data.l #PB_Any, 0, 0, 0, 0, 3
-                      Data.s "", "", "", ""
-                      Data.s "MARGIN", "0"
-                      Data.s "EXPAND", "no"
-                      Data.s "ALIGN", "center"
-
-                        Data.l #DIALOG_Button
-                        Data.l #PB_Any, 0, 130, 0, 0, 0
-                        Data.s "", "Open", "", ""
-                        Data.l -1
-
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_Gridbox
-                    Data.l #PB_Any, 0, 0, 0, 0, 0
-                    Data.s "", "", "", ""
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Include Shortcut settings", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Include Color settings", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Include Toolbar layout", "", ""
-                      Data.l -1
-
-                      Data.l #DIALOG_Checkbox
-                      Data.l #PB_Any, 0, 0, 0, 0, 0
-                      Data.s "", "Include Folding keywords", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                    Data.l #DIALOG_Singlebox
-                    Data.l #PB_Any, 0, 0, 0, 0, 3
-                    Data.s "", "", "", ""
-                    Data.s "MARGIN", "0"
-                    Data.s "EXPAND", "no"
-                    Data.s "ALIGN", "center"
-
-                      Data.l #DIALOG_Button
-                      Data.l #PB_Any, 0, 130, 0, 0, 0
-                      Data.s "", "Import", "", ""
-                      Data.l -1
-
-                    Data.l -1
-
-                  Data.l -1
-
-                Data.l -1
-
-              Data.l -1
-
-            Data.l -1
-
-          Data.l -1
-
-        Data.l -1
-
-        Data.l #DIALOG_HBox
-        Data.l #PB_Any, 0, 0, 0, 0, 3
-        Data.s "", "", "", ""
-        Data.s "SPACING", "10"
-        Data.s "EXPAND", "no"
-        Data.s "ALIGN", "right"
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 90, 0, 0, 0
-          Data.s "", "Ok", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 90, 0, 0, 0
-          Data.s "", "Cancel", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 90, 0, 0, 1
-          Data.s "", "Apply", "", ""
-          Data.s "DISABLED", "yes"
-          Data.l -1
-
-        Data.l -1
-
-      Data.l -1
-
-    Data.l -1
-
-    Data.l -1
-
+  Data.l #DIALOG_Window
+  Data.l #PB_Any, #PB_Window_SizeGadget, 660, 0, 0, 0
+  Data.s "", "Preferences", "", ""
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Tree
+  Data.l #PB_Any, 0, 190, 0, 1, 0
+  Data.s "TREE", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Multibox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 2
+  Data.s "CONTAINER0", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "horizontal"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "General", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "20"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Run only one Instance", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Disable Splash Screen", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Memorize Window positions", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Show main Toolbar", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Show window contents while moving the Splitter", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Auto-reload last open sources", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Switch to correct sourcefile on Error", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display full Source path in Titlebar", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display Icons in the Menu", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "COLSPACING", "10"
+  Data.s "COLEXPAND", "item:2"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "RecentFiles list size: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "no"
+  Data.s "MARGIN", "0"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 80, 0, 0, 0
+  Data.s "", "10", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Search History size: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "no"
+  Data.s "MARGIN", "0"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 80, 0, 0, 0
+  Data.s "", "10", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "VisualDesigner: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 30, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 3
+  Data.s "CONTAINER1", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "horizontal"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Language", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Language Information:\n\nLast Updated:    08/11/2006\nCreator:    PureBasic Team\nEmail:    support@purebasic.com", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 2
+  Data.s "CONTAINER2", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Shortcuts", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_ListIcon
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:5"
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Ctrl", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Alt", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Shift", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Cmd", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 50, 0, 0, 0
+  Data.s "", "Set", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 2
+  Data.s "CONTAINER3", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Toolbar Layout", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_ListIcon
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Item Settings", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "COLUMNS", "3"
+  Data.s "ROWSPACING", "2"
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 120, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "->", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 120, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "->", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "equal"
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 3
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "no"
+  Data.s "ALIGN", "center"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 90, 0, 0, 0
+  Data.s "", "Add", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 3
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "no"
+  Data.s "ALIGN", "center"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 90, 0, 0, 0
+  Data.s "", "Set", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Position", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 80, 0, 0, 0
+  Data.s "", "Up", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Down", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Remove", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 3
+  Data.s "", "Default Sets", "", ""
+  Data.s "EXPAND", "no"
+  Data.s "ALIGN", "center"
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 150, 0, 0, 0
+  Data.s "", "Default Toolbar", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 150, 0, 0, 0
+  Data.s "", "Classic Toolbar", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 3
+  Data.s "CONTAINER4", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "horizontal"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Editor", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Auto-save before 'Compile/Run'", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Auto-save before 'Create Executable'", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Save all sources with Auto-save", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Memorize Cursor positions", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Memorize Marker positions", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Always hide the error log (ignore the per-source setting)", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "COLSPACING", "10"
+  Data.s "COLEXPAND", "item:2"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Save Settings to: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Tab Length: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  Data.s "EXPAND", "item:2"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 80, 0, 0, 0
+  Data.s "", "2", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Use real Tab (ASCII 9)", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Source Directory: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 3
+  Data.s "CONTAINER5", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "horizontal"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Default Settings for new Files", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Show Error Log", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Enable Debugger", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Enable inline ASM support", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Create unicode executable", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Create threadsafe executable", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Enable XP skin support", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Enable OnError lines support", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "COLSPACING", "10"
+  Data.s "COLEXPAND", "item:2"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Library Subsystem: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Executable Format: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "CPU Optimisation: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Sourcefile Text encoding: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Sourcefile Newline format: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 3
+  Data.s "CONTAINER6", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "horizontal"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Fonts/Margins", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  Data.s "EXPAND", "item:2"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 120, 0, 0, 0
+  Data.s "", "Select Font", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Center|#PB_Text_Border, 0, 0, 0, 0
+  Data.s "", "AaBbCc 01234 +-*/()", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Empty
+  Data.l #PB_Any, 0, 0, 5, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Enable Syntax coloring", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "left:30"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Enable bolding of Keywords", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Enable Case correction", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Empty
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display Line numbers", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Enable Line Markers", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Enable Source Line folding", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 2
+  Data.s "CONTAINER7", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Colors", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Scroll
+  Data.l #PB_Any, #PB_ScrollArea_Single, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SCROLLING", "vertical"
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 3
+  Data.s "", "", "", ""
+  Data.s "COLUMNS", "3"
+  Data.s "COLEXPAND", "item:1"
+  Data.s "COLSPACING", "10"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "ASM Keywords: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Background: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Basic Keywords: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Comments: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Constants: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Labels: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Normal Text: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Numbers: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Operators (*/+-): ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Pointers: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Functions: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Separators (;,[]): ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Strings: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Structures: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "LineNumbers: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "LineNumbers Background: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Line Markers: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Currentline Background: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Selection Background: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Selection Text: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Cursor: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Current Line Background (Debugger): ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Current Line Symbol (Debugger): ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Error Background (Debugger): ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Error Symbol (Debugger): ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Breakpoint Background (Debugger): ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Breakpoint Symbol (Debugger): ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Background for non-editable files (Debugger): ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:2"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Default Color Schemes: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 60, 0, 0, 0
+  Data.s "", "Set", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 2
+  Data.s "CONTAINER8", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "equal"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Folding start Keywords", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_ListView
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 80, 0, 0, 0
+  Data.s "", "Add", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 80, 0, 0, 0
+  Data.s "", "Remove", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Folding end Keywords", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_ListView
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 80, 0, 0, 0
+  Data.s "", "Add", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 80, 0, 0, 0
+  Data.s "", "Remove", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 3
+  Data.s "CONTAINER9", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "horizontal"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Settings", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Enable the AutoComplete feature", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Option
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display the full AutoComplete list", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Option
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display all words that match the first character", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Option
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display only workds that begin with the typed word", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "COLEXPAND", "item:2"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Box width: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "no"
+  Data.s "MARGIN", "0"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 100, 0, 0, 0
+  Data.s "", "400", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Box height: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "no"
+  Data.s "MARGIN", "0"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 100, 0, 0, 0
+  Data.s "", "200", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Add opening Brackets to Functions/Arrays/Lists", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Add a Space after PB Keywords followed by an expression", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Add matching 'End' keyword if Tab/Enter is pressed twice", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Automatically Popup the AutoComplete Window", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "left:30"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Disable automatic Popup inside Comments", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Disable automatic Popup inside Strings", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:2"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 60, 0, 0, 1
+  Data.s "", "3", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Characters needed before opening the list", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 2
+  Data.s "CONTAINER10", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Items to display in the AutoComplete List", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_Scroll
+  Data.l #PB_Any, #PB_ScrollArea_Single, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SCROLLING", "vertical"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "PureBasic Keywords", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Assembly Keywords", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "PureBasic Functions", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "API Functions", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Procedures of the current Source", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Procedures of all open Sources", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Predefined Structures", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Structures of the current Source", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Structures of all open Sources", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Predefined Interfaces", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Interfaces of the current Source", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Interfaces of all open Sources", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Predefined Constants", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Constants of the current Source", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Constants of all open Sources", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Variables of the current Source", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Variables of all open Sources", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Arrays of the current Source", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Arrays of all open Sources", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "LinkedLists of the current Source", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "LinkedLists of all open Sources", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Macros of the current Source", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Macros of all open Sources", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Imported Functions of the current Source", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Imported Functions of all open Sources", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 3
+  Data.s "CONTAINER11", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "horizontal"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Choose Debugger Type", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "General Options", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "5"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Memorize debugger window positions", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Keep all debugger windows on top", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Bring debugger windows to front when one is focused", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Empty
+  Data.l #PB_Any, 0, 0, 5, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display Timestamp in Error log", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Stop execution at program start", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Stop execution before program end", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Empty
+  Data.l #PB_Any, 0, 0, 5, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Kill Program after an Error", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Keep Error marks after program end", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Clear Error log on each run", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 3
+  Data.s "CONTAINER12", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "horizontal"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Debug Output", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display Hex values", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Add Timestamp", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display debug output in the error log", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Asm Debugger", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display Registers as hex", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display Stack as hex", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Update Stack trace automatically", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Memory Viewer", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display Hex values", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Array view in one column only", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Variable Viewer", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Display Hex values", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 3
+  Data.s "CONTAINER13", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "horizontal"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Open Windows on debugger start", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Debug Output", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Asm Debugger", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Memory Viewer", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Variable Viewer", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Procedure Callstack", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Library Viewer", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Watchlist", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 2
+  Data.s "CONTAINER14", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:2"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Tools in the ToolsPanel", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 3
+  Data.s "", "", "", ""
+  Data.s "COLUMNS", "3"
+  Data.s "COLSPACING", "10"
+  Data.s "ROWSPACING", "0"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Available Tools:", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Empty
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Displayed Tools:", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ListView
+  Data.l #PB_Any, 0, 130, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Add", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Remove", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Up", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Down", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_ListView
+  Data.l #PB_Any, 0, 130, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Configuration", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 3
+  Data.s "CONTAINER15", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "horizontal"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "ToolsPanel Options", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "15"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Select Font", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "COLUMNS", "3"
+  Data.s "COLEXPAND", "item:1"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Front Color: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 50, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Background Color: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Image
+  Data.l #PB_Any, 0, 40, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 50, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Do not use colors/fonts for tools in external windows", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Automatically hide the Panel", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, 0, 0, 0, 1, 2
+  Data.s "CONTAINER16", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "INVISIBLE", "yes"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Export Settings", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Include Shortcut settings", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Include Color settings", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Include Toolbar layout", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Include Folding keywords", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:2"
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 80, 0, 0, 0
+  Data.s "", "Save to:", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 50, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 3
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "no"
+  Data.s "ALIGN", "center"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 130, 0, 0, 0
+  Data.s "", "Save", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Frame
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Import Settings", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:2"
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 80, 0, 0, 0
+  Data.s "", "Load from:", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 50, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 3
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "no"
+  Data.s "ALIGN", "center"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 130, 0, 0, 0
+  Data.s "", "Open", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Include Shortcut settings", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Include Color settings", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Include Toolbar layout", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Include Folding keywords", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 3
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "no"
+  Data.s "ALIGN", "center"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 130, 0, 0, 0
+  Data.s "", "Import", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 3
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  Data.s "EXPAND", "no"
+  Data.s "ALIGN", "right"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 90, 0, 0, 0
+  Data.s "", "Ok", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 90, 0, 0, 0
+  Data.s "", "Cancel", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 90, 0, 0, 1
+  Data.s "", "Apply", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
   TestDialog2323:
-    Data.l #DIALOG_Window
-    Data.l #PB_Any, #PB_Window_SizeGadget, 425, 0, 0, 0
-    Data.s "", "Compiler Options", "", ""
-
-      Data.l #DIALOG_VBox
-      Data.l #PB_Any, 0, 0, 0, 0, 2
-      Data.s "", "", "", ""
-      Data.s "SPACING", "15"
-      Data.s "EXPAND", "item:1"
-
-        Data.l #DIALOG_Panel
-        Data.l #PB_Any, 0, 0, 0, 0, 0
-        Data.s "", "", "", ""
-
-          Data.l #DIALOG_Tab
-          Data.l #PB_Any, 0, 0, 0, 0, 1
-          Data.s "", "Compiler Options", "", ""
-          Data.s "EXPAND", "horizontal"
-
-            Data.l #DIALOG_Gridbox
-            Data.l #PB_Any, 0, 0, 0, 0, 2
-            Data.s "", "", "", ""
-            Data.s "COLEXPAND", "item:2"
-            Data.s "COLSPACING", "10"
-
-              Data.l #DIALOG_Checkbox
-              Data.l #PB_Any, 0, 0, 0, 0, 0
-              Data.s "", "Main source file: ", "", ""
-              Data.l -1
-
-              Data.l #DIALOG_HBox
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "", "", ""
-              Data.s "EXPAND", "item:1"
-
-                Data.l #DIALOG_String
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "", "", ""
-                Data.s "DISABLED", "yes"
-                Data.l -1
-
-                Data.l #DIALOG_Button
-                Data.l #PB_Any, 0, 30, 0, 0, 1
-                Data.s "", "...", "", ""
-                Data.s "DISABLED", "yes"
-                Data.l -1
-
-              Data.l -1
-
-              Data.l #DIALOG_Checkbox
-              Data.l #PB_Any, 0, 0, 0, 0, 0
-              Data.s "", "Use Icon: ", "", ""
-              Data.l -1
-
-              Data.l #DIALOG_HBox
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "", "", ""
-              Data.s "EXPAND", "item:1"
-
-                Data.l #DIALOG_String
-                Data.l #PB_Any, 0, 0, 0, 0, 1
-                Data.s "", "", "", ""
-                Data.s "DISABLED", "yes"
-                Data.l -1
-
-                Data.l #DIALOG_Button
-                Data.l #PB_Any, 0, 30, 0, 0, 1
-                Data.s "", "...", "", ""
-                Data.s "DISABLED", "yes"
-                Data.l -1
-
-              Data.l -1
-
-              Data.l #DIALOG_Empty
-              Data.l #PB_Any, 0, 0, 5, 0, 1
-              Data.s "", "", "", ""
-              Data.s "COLSPAN", "2"
-              Data.l -1
-
-              Data.l #DIALOG_Checkbox
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Enable Debugger", "", ""
-              Data.s "COLSPAN", "2"
-              Data.l -1
-
-              Data.l #DIALOG_Checkbox
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Enable inline ASM support", "", ""
-              Data.s "COLSPAN", "2"
-              Data.l -1
-
-              Data.l #DIALOG_Checkbox
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Create unicode executable", "", ""
-              Data.s "COLSPAN", "2"
-              Data.l -1
-
-              Data.l #DIALOG_Checkbox
-              Data.l #PB_Any, 0, 0, 0, 0, 1
-              Data.s "", "Create threafdafe executable", "", ""
-              Data.s "COLSPAN", "2"
-              Data.l -1
-
-              Data.l #DIALOG_Checkbox
-              Data.l #PB_Any, 0, 0, 0, 0, 2
-              Data.s "", "Enable XP skin support", "", ""
-              Data.s "DISABLED", "yes"
-              Data.s "COLSPAN", "2"
-              Data.l -1
-
-              Data.l #DIALOG_Checkbox
-              Data.l #PB_Any, 0, 0, 0, 0, 2
-              Data.s "", "Enable OnError lines support", "", ""
-              Data.s "DISABLED", "yes"
-              Data.s "COLSPAN", "2"
-              Data.l -1
-
-              Data.l #DIALOG_Empty
-              Data.l #PB_Any, 0, 0, 5, 0, 1
-              Data.s "", "", "", ""
-              Data.s "COLSPAN", "2"
-              Data.l -1
-
-              Data.l #DIALOG_Text
-              Data.l #PB_Any, 0, 0, 0, 0, 0
-              Data.s "", "Library Subsystem: ", "", ""
-              Data.l -1
-
-              Data.l #DIALOG_String
-              Data.l #PB_Any, 0, 0, 0, 0, 0
-              Data.s "", "", "", ""
-              Data.l -1
-
-              Data.l #DIALOG_Text
-              Data.l #PB_Any, 0, 0, 0, 0, 0
-              Data.s "", "Executable Format: ", "", ""
-              Data.l -1
-
-              Data.l #DIALOG_HBox
-              Data.l #PB_Any, 0, 0, 0, 0, 0
-              Data.s "", "", "", ""
-
-                Data.l #DIALOG_ComboBox
-                Data.l #PB_Any, 0, 0, 0, 0, 0
-                Data.s "", "", "", ""
-                Data.l -1
-
-                Data.l #DIALOG_ComboBox
-                Data.l #PB_Any, 0, 0, 0, 0, 0
-                Data.s "", "", "", ""
-                Data.l -1
-
-              Data.l -1
-
-              Data.l #DIALOG_Text
-              Data.l #PB_Any, 0, 0, 0, 0, 0
-              Data.s "", "Executable Commandline: ", "", ""
-              Data.l -1
-
-              Data.l #DIALOG_String
-              Data.l #PB_Any, 0, 0, 0, 0, 0
-              Data.s "", "", "", ""
-              Data.l -1
-
-            Data.l -1
-
-          Data.l -1
-
-        Data.l -1
-
-        Data.l #DIALOG_Gridbox
-        Data.l #PB_Any, 0, 0, 0, 0, 1
-        Data.s "", "", "", ""
-        Data.s "COLEXPAND", "item:2"
-
-          Data.l #DIALOG_Text
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Sourcefile Text encoding: ", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_ComboBox
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Text
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Sourcefile Newline format: ", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_ComboBox
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "", "", ""
-          Data.l -1
-
-        Data.l -1
-
-        Data.l #DIALOG_Singlebox
-        Data.l #PB_Any, 0, 0, 0, 0, 1
-        Data.s "", "", "", ""
-        Data.s "MARGIN", "5"
-
-          Data.l #DIALOG_HBox
-          Data.l #PB_Any, 0, 0, 0, 0, 2
-          Data.s "", "", "", ""
-          Data.s "SPACING", "20"
-          Data.s "EXPAND", "equal"
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Ok", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Cancel", "", ""
-            Data.l -1
-
-          Data.l -1
-
-        Data.l -1
-
-      Data.l -1
-
-    Data.l -1
-
-    Data.l -1
-
+  Data.l #DIALOG_Window
+  Data.l #PB_Any, #PB_Window_SizeGadget, 425, 0, 0, 0
+  Data.s "", "Compiler Options", "", ""
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "SPACING", "15"
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_Panel
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Tab
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Compiler Options", "", ""
+  Data.s "EXPAND", "horizontal"
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "COLEXPAND", "item:2"
+  Data.s "COLSPACING", "10"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Main source file: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 30, 0, 0, 1
+  Data.s "", "...", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Use Icon: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 30, 0, 0, 1
+  Data.s "", "...", "", ""
+  Data.s "DISABLED", "yes"
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Empty
+  Data.l #PB_Any, 0, 0, 5, 0, 1
+  Data.s "", "", "", ""
+  Data.s "COLSPAN", "2"
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Enable Debugger", "", ""
+  Data.s "COLSPAN", "2"
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Enable inline ASM support", "", ""
+  Data.s "COLSPAN", "2"
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Create unicode executable", "", ""
+  Data.s "COLSPAN", "2"
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "Create threafdafe executable", "", ""
+  Data.s "COLSPAN", "2"
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "Enable XP skin support", "", ""
+  Data.s "DISABLED", "yes"
+  Data.s "COLSPAN", "2"
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "Enable OnError lines support", "", ""
+  Data.s "DISABLED", "yes"
+  Data.s "COLSPAN", "2"
+  Data.l -1
+  
+  Data.l #DIALOG_Empty
+  Data.l #PB_Any, 0, 0, 5, 0, 1
+  Data.s "", "", "", ""
+  Data.s "COLSPAN", "2"
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Library Subsystem: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Executable Format: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Executable Commandline: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "COLEXPAND", "item:2"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Sourcefile Text encoding: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Sourcefile Newline format: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "5"
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "SPACING", "20"
+  Data.s "EXPAND", "equal"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Ok", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Cancel", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
   TestDialog8:
-    Data.l #DIALOG_Window
-    Data.l #PB_Any, 0, 230, 0, 0, 0
-    Data.s "", "Goto...", "", ""
-
-      Data.l #DIALOG_VBox
-      Data.l #PB_Any, 0, 0, 0, 0, 1
-      Data.s "", "", "", ""
-      Data.s "SPACING", "10"
-
-        Data.l #DIALOG_String
-        Data.l #PB_Any, 0, 0, 0, 0, 0
-        Data.s "", "", "", ""
-        Data.l -1
-
-        Data.l #DIALOG_HBox
-        Data.l #PB_Any, 0, 0, 0, 0, 2
-        Data.s "", "", "", ""
-        Data.s "SPACING", "10"
-        Data.s "EXPAND", "equal"
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Ok", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Cancel", "", ""
-          Data.l -1
-
-        Data.l -1
-
-      Data.l -1
-
-    Data.l -1
-
-    Data.l -1
-
+  Data.l #DIALOG_Window
+  Data.l #PB_Any, 0, 230, 0, 0, 0
+  Data.s "", "Goto...", "", ""
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_String
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  Data.s "EXPAND", "equal"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Ok", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Cancel", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
   TestDialog7:
-    Data.l #DIALOG_Window
-    Data.l 1, #PB_Window_SizeGadget, 480, 0, 0, 0
-    Data.s "", "Find/Replace", "", ""
-
-      Data.l #DIALOG_VBox
-      Data.l #PB_Any, 0, 0, 0, 0, 1
-      Data.s "", "", "", ""
-      Data.s "EXPAND", "item:1"
-
-        Data.l #DIALOG_ListView
-        Data.l #PB_Any, 0, 300, 300, 0, 0
-        Data.s "", "", "", ""
-        Data.l -1
-
-        Data.l #DIALOG_HBox
-        Data.l #PB_Any, 0, 0, 0, 0, 1
-        Data.s "", "", "", ""
-        Data.s "EXPAND", "item:1"
-
-          Data.l #DIALOG_Text
-          Data.l #PB_Any, #PB_Text_Border, 0, 0, 0, 0
-          Data.s "", "", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 80, 0, 0, 0
-          Data.s "", "Clear", "", ""
-          Data.l -1
-
-        Data.l -1
-
-      Data.l -1
-
-    Data.l -1
-
-    Data.l -1
-
+  Data.l #DIALOG_Window
+  Data.l 1, #PB_Window_SizeGadget, 480, 0, 0, 0
+  Data.s "", "Find/Replace", "", ""
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_ListView
+  Data.l #PB_Any, 0, 300, 300, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Border, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 80, 0, 0, 0
+  Data.s "", "Clear", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
   TestDialog2:
-    Data.l #DIALOG_Window
-    Data.l 1, 0, 480, 0, 0, 0
-    Data.s "", "Find in files", "", ""
-
-      Data.l #DIALOG_VBox
-      Data.l #PB_Any, 0, 0, 0, 0, 2
-      Data.s "", "", "", ""
-      Data.s "SPACING", "10"
-      Data.s "EXPAND", "item:2"
-
-        Data.l #DIALOG_Gridbox
-        Data.l #PB_Any, 0, 0, 0, 0, 1
-        Data.s "", "", "", ""
-        Data.s "COLEXPAND", "item:2"
-
-          Data.l #DIALOG_Text
-          Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-          Data.s "", "Search for: ", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_ComboBox
-          Data.l #PB_Any, #PB_ComboBox_Editable, 0, 0, 0, 1
-          Data.s "", "", "", ""
-          Data.s "BOXHEIGHT", "150"
-          Data.l -1
-
-          Data.l #DIALOG_Text
-          Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-          Data.s "", "Root directory: ", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_HBox
-          Data.l #PB_Any, 0, 0, 0, 0, 1
-          Data.s "", "", "", ""
-          Data.s "EXPAND", "item:1"
-
-            Data.l #DIALOG_ComboBox
-            Data.l #PB_Any, #PB_ComboBox_Editable, 0, 0, 0, 1
-            Data.s "", "", "", ""
-            Data.s "BOXHEIGHT", "150"
-            Data.l -1
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 30, 0, 0, 0
-            Data.s "", "...", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 20, 0, 0, 0
-            Data.s "", ".", "", ""
-            Data.l -1
-
-          Data.l -1
-
-          Data.l #DIALOG_Text
-          Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-          Data.s "", "Extension filter: ", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_ComboBox
-          Data.l #PB_Any, #PB_ComboBox_Editable, 0, 0, 0, 1
-          Data.s "", "", "", ""
-          Data.s "BOXHEIGHT", "150"
-          Data.l -1
-
-        Data.l -1
-
-        Data.l #DIALOG_Container
-        Data.l #PB_Any, #PB_Container_Single, 0, 0, 0, 1
-        Data.s "", "", "", ""
-        Data.s "MARGIN", "vertical:10,horizontal:15"
-
-          Data.l #DIALOG_Gridbox
-          Data.l #PB_Any, 0, 0, 0, 0, 1
-          Data.s "", "", "", ""
-          Data.s "ROWSPACING", "0"
-
-            Data.l #DIALOG_Checkbox
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Case Sensitive", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Checkbox
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Don't search in Comments", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Checkbox
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Whole Words only", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Checkbox
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Don't search in Strings", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Checkbox
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Search inside Selection only", "", ""
-            Data.l -1
-
-          Data.l -1
-
-        Data.l -1
-
-        Data.l #DIALOG_HBox
-        Data.l #PB_Any, 0, 0, 0, 0, 1
-        Data.s "", "", "", ""
-        Data.s "SPACING", "10"
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Start", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Stop", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Cancel", "", ""
-          Data.l -1
-
-        Data.l -1
-
-      Data.l -1
-
-    Data.l -1
-
-    Data.l -1
-
+  Data.l #DIALOG_Window
+  Data.l 1, 0, 480, 0, 0, 0
+  Data.s "", "Find in files", "", ""
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  Data.s "EXPAND", "item:2"
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "COLEXPAND", "item:2"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Search for: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, #PB_ComboBox_Editable, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "BOXHEIGHT", "150"
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Root directory: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:1"
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, #PB_ComboBox_Editable, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "BOXHEIGHT", "150"
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 30, 0, 0, 0
+  Data.s "", "...", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 20, 0, 0, 0
+  Data.s "", ".", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Extension filter: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, #PB_ComboBox_Editable, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "BOXHEIGHT", "150"
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, #PB_Container_Single, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "vertical:10,horizontal:15"
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "ROWSPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Case Sensitive", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Don't search in Comments", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Whole Words only", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Don't search in Strings", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Search inside Selection only", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Start", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Stop", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Cancel", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
   TestDialog3:
-    Data.l #DIALOG_Window
-    Data.l 1, 0, 450, 0, 0, 0
-    Data.s "", "Find/Replace", "", ""
-
-      Data.l #DIALOG_VBox
-      Data.l #PB_Any, 0, 0, 0, 0, 2
-      Data.s "", "", "", ""
-      Data.s "SPACING", "10"
-      Data.s "EXPAND", "item:2"
-
-        Data.l #DIALOG_Gridbox
-        Data.l #PB_Any, 0, 0, 0, 0, 1
-        Data.s "", "", "", ""
-        Data.s "COLEXPAND", "item:2"
-
-          Data.l #DIALOG_Text
-          Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
-          Data.s "", "Search for: ", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_ComboBox
-          Data.l #PB_Any, #PB_ComboBox_Editable, 0, 0, 0, 1
-          Data.s "", "", "", ""
-          Data.s "BOXHEIGHT", "150"
-          Data.l -1
-
-          Data.l #DIALOG_Checkbox
-          Data.l #PB_Any, #PB_Checkbox_Right, 0, 0, 0, 0
-          Data.s "", "Replace with: ", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_ComboBox
-          Data.l #PB_Any, #PB_ComboBox_Editable, 0, 0, 0, 1
-          Data.s "", "", "", ""
-          Data.s "BOXHEIGHT", "150"
-          Data.l -1
-
-        Data.l -1
-
-        Data.l #DIALOG_Container
-        Data.l #PB_Any, #PB_Container_Single, 0, 0, 0, 1
-        Data.s "", "", "", ""
-        Data.s "MARGIN", "vertical:10,horizontal:15"
-
-          Data.l #DIALOG_Gridbox
-          Data.l #PB_Any, 0, 0, 0, 0, 1
-          Data.s "", "", "", ""
-          Data.s "ROWSPACING", "0"
-
-            Data.l #DIALOG_Checkbox
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Case Sensitive", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Checkbox
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Don't search in Comments", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Checkbox
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Whole Words only", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Checkbox
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Don't search in Strings", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Checkbox
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "Search inside Selection only", "", ""
-            Data.l -1
-
-          Data.l -1
-
-        Data.l -1
-
-        Data.l #DIALOG_HBox
-        Data.l #PB_Any, 0, 0, 0, 0, 1
-        Data.s "", "", "", ""
-        Data.s "SPACING", "10"
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Find Next", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Replace", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Replace All", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Close", "", ""
-          Data.l -1
-
-        Data.l -1
-
-      Data.l -1
-
-    Data.l -1
-
-    Data.l -1
-
+  Data.l #DIALOG_Window
+  Data.l 1, 0, 450, 0, 0, 0
+  Data.s "", "Find/Replace", "", ""
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  Data.s "EXPAND", "item:2"
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "COLEXPAND", "item:2"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, #PB_Text_Right, 0, 0, 0, 0
+  Data.s "", "Search for: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, #PB_ComboBox_Editable, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "BOXHEIGHT", "150"
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, #PB_CheckBox_Right, 0, 0, 0, 0
+  Data.s "", "Replace with: ", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_ComboBox
+  Data.l #PB_Any, #PB_ComboBox_Editable, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "BOXHEIGHT", "150"
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Container
+  Data.l #PB_Any, #PB_Container_Single, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "vertical:10,horizontal:15"
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "ROWSPACING", "0"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Case Sensitive", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Don't search in Comments", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Whole Words only", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Don't search in Strings", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Search inside Selection only", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Find Next", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Replace", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Replace All", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Close", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
   TestDialog4:
-    Data.l #DIALOG_Window
-    Data.l #PB_Any, 0, 0, 0, 0, 0
-    Data.s "", "Sort Sources...", "", ""
-
-      Data.l #DIALOG_HBox
-      Data.l #PB_Any, 0, 0, 0, 0, 1
-      Data.s "", "", "", ""
-      Data.s "SPACING", "10"
-
-        Data.l #DIALOG_ListView
-        Data.l #PB_Any, 0, 200, 230, 0, 0
-        Data.s "", "", "", ""
-        Data.l -1
-
-        Data.l #DIALOG_VBox
-        Data.l #PB_Any, 0, 80, 0, 0, 1
-        Data.s "", "", "", ""
-        Data.s "EXPAND", "item:3"
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Up", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Down", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Empty
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Ok", "", ""
-          Data.l -1
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Cancel", "", ""
-          Data.l -1
-
-        Data.l -1
-
-      Data.l -1
-
-    Data.l -1
-
-    Data.l -1
-
+  Data.l #DIALOG_Window
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Sort Sources...", "", ""
+  
+  Data.l #DIALOG_HBox
+  Data.l #PB_Any, 0, 0, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "SPACING", "10"
+  
+  Data.l #DIALOG_ListView
+  Data.l #PB_Any, 0, 200, 230, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 80, 0, 0, 1
+  Data.s "", "", "", ""
+  Data.s "EXPAND", "item:3"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Up", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Down", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Empty
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Ok", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Cancel", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
   TestDialog999:
-    Data.l #DIALOG_Window
-    Data.l #PB_Any, 0, 500, 300, 0, 1
-    Data.s "", "Hello", "", ""
-    Data.s "MARGIN", "10"
-
-      Data.l #DIALOG_Panel
-      Data.l #PB_Any, 0, 0, 0, 0, 0
-      Data.s "", "", "", ""
-
-        Data.l #DIALOG_Tab
-        Data.l #PB_Any, 0, 0, 0, 0, 0
-        Data.s "", "Ello!", "", ""
-
-          Data.l #DIALOG_Gridbox
-          Data.l #PB_Any, 0, 0, 0, 0, 4
-          Data.s "", "", "", ""
-          Data.s "COLUMNS", "3"
-          Data.s "COLSPACING", "15"
-          Data.s "ROWSPACING", "5"
-          Data.s "ROWEXPAND", "no"
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "aaaaaaaaaaabbbbb", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "c", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "cdef", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "a", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Empty
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "b", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "aaaaaaaaaaabbbbb", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "c", "", ""
-            Data.l -1
-
-            Data.l #DIALOG_Button
-            Data.l #PB_Any, 0, 0, 0, 0, 0
-            Data.s "", "cdef", "", ""
-            Data.l -1
-
-          Data.l -1
-
-        Data.l -1
-
-      Data.l -1
-
-    Data.l -1
-
-    Data.l -1
-
+  Data.l #DIALOG_Window
+  Data.l #PB_Any, 0, 500, 300, 0, 1
+  Data.s "", "Hello", "", ""
+  Data.s "MARGIN", "10"
+  
+  Data.l #DIALOG_Panel
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Tab
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Ello!", "", ""
+  
+  Data.l #DIALOG_Gridbox
+  Data.l #PB_Any, 0, 0, 0, 0, 4
+  Data.s "", "", "", ""
+  Data.s "COLUMNS", "3"
+  Data.s "COLSPACING", "15"
+  Data.s "ROWSPACING", "5"
+  Data.s "ROWEXPAND", "no"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "aaaaaaaaaaabbbbb", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "c", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "cdef", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "a", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Empty
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "b", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "aaaaaaaaaaabbbbb", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "c", "", ""
+  Data.l -1
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "cdef", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
   TestDialogddddddd:
-    Data.l #DIALOG_Window
-    Data.l 0, 0, 0, 0, 0, 0
-    Data.s "", "Compiler Options", "", ""
-
-      Data.l #DIALOG_VBox
-      Data.l #PB_Any, 0, 0, 0, 0, 0
-      Data.s "", "", "", ""
-
-        Data.l #DIALOG_Singlebox
-        Data.l #PB_Any, 0, 0, 0, 0, 2
-        Data.s "", "", "", ""
-        Data.s "MARGIN", "0"
-        Data.s "EXPAND", "no"
-
-          Data.l #DIALOG_Button
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Hello, this is a very long checkbox text which will result in a wrong calculation for the size!", "", ""
-          Data.l -1
-
-        Data.l -1
-
-        Data.l #DIALOG_Singlebox
-        Data.l #PB_Any, 0, 0, 0, 0, 2
-        Data.s "", "", "", ""
-        Data.s "MARGIN", "0"
-        Data.s "EXPAND", "no"
-
-          Data.l #DIALOG_Text
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Hello, this is a very long checkbox text which will result in a wrong calculation for the size!", "", ""
-          Data.l -1
-
-        Data.l -1
-
-        Data.l #DIALOG_Singlebox
-        Data.l #PB_Any, 0, 0, 0, 0, 2
-        Data.s "", "", "", ""
-        Data.s "MARGIN", "0"
-        Data.s "EXPAND", "no"
-
-          Data.l #DIALOG_Checkbox
-          Data.l #PB_Any, 0, 0, 0, 0, 0
-          Data.s "", "Hello, this is a very long checkbox text which will result in a wrong calculation for the size!", "", ""
-          Data.l -1
-
-        Data.l -1
-
-      Data.l -1
-
-    Data.l -1
-
-    Data.l -1
-
-
+  Data.l #DIALOG_Window
+  Data.l 0, 0, 0, 0, 0, 0
+  Data.s "", "Compiler Options", "", ""
+  
+  Data.l #DIALOG_VBox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "", "", ""
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "no"
+  
+  Data.l #DIALOG_Button
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Hello, this is a very long checkbox text which will result in a wrong calculation for the size!", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "no"
+  
+  Data.l #DIALOG_Text
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Hello, this is a very long checkbox text which will result in a wrong calculation for the size!", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l #DIALOG_Singlebox
+  Data.l #PB_Any, 0, 0, 0, 0, 2
+  Data.s "", "", "", ""
+  Data.s "MARGIN", "0"
+  Data.s "EXPAND", "no"
+  
+  Data.l #DIALOG_Checkbox
+  Data.l #PB_Any, 0, 0, 0, 0, 0
+  Data.s "", "Hello, this is a very long checkbox text which will result in a wrong calculation for the size!", "", ""
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  Data.l -1
+  
+  
 EndDataSection
 

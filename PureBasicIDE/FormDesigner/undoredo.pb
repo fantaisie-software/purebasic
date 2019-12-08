@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -228,7 +228,7 @@ Procedure FormRedo()
               EndIf
             Next
           EndIf
-        
+          
           CopyList(FormWindows()\UndoActions()\ActionGadget()\Items(),FormWindows()\FormGadgets()\Items())
           CopyList(FormWindows()\UndoActions()\ActionGadget()\Columns(),FormWindows()\FormGadgets()\Columns())
           
@@ -366,7 +366,7 @@ Procedure FormAddUndoAction(addaction, window, gadget = -1, type = 0, pos = 0, t
       EndIf
     Next
   EndIf
-
+  
   max = ListSize(FormWindows()\UndoActions())
   
   If max > maxundolevel

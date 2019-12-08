@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -31,7 +31,7 @@ EndProcedure
 
 Procedure UpdatePurifierLines(*Debugger.DebuggerData)
   Modified = 0
-
+  
   State = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarGlobal])
   Select State
     Case 0
@@ -45,7 +45,7 @@ Procedure UpdatePurifierLines(*Debugger.DebuggerData)
   If GranularityFromState(State) <> *Debugger\PurifierGlobal
     Modified = 1
   EndIf
-
+  
   State = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarLocal])
   Select State
     Case 0
@@ -59,7 +59,7 @@ Procedure UpdatePurifierLines(*Debugger.DebuggerData)
   If GranularityFromState(State) <> *Debugger\PurifierLocal
     Modified = 1
   EndIf
-
+  
   State = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarString])
   Select State
     Case 0
@@ -73,7 +73,7 @@ Procedure UpdatePurifierLines(*Debugger.DebuggerData)
   If GranularityFromState(State) <> *Debugger\PurifierString
     Modified = 1
   EndIf
-
+  
   State = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarDynamic])
   Select State
     Case 0
@@ -150,7 +150,7 @@ Procedure ApplyPurifierOptions(*Debugger.DebuggerData)
   *Debugger\PurifierLocal   = GranularityFromState(GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarLocal]))
   *Debugger\PurifierString  = GranularityFromState(GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarString]))
   *Debugger\PurifierDynamic = GranularityFromState(GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarDynamic]))
- 
+  
   Protected Dim State.l(3)
   State(0) = *Debugger\PurifierGlobal
   State(1) = *Debugger\PurifierLocal
@@ -165,7 +165,7 @@ Procedure ApplyPurifierOptions(*Debugger.DebuggerData)
 EndProcedure
 
 CompilerIf #CompileWindows
-
+  
   Procedure PurifierWindowCallback(Window, Message, wParam, lParam)
     
     If Message = #WM_HSCROLL
@@ -176,10 +176,10 @@ CompilerIf #CompileWindows
         EndIf
       EndIf
     EndIf
-  
+    
     ProcedureReturn #PB_ProcessPureBasicEvents
   EndProcedure
-
+  
 CompilerEndIf
 
 Procedure PurifierWindowEvents(*Debugger.DebuggerData, EventID)
@@ -187,46 +187,46 @@ Procedure PurifierWindowEvents(*Debugger.DebuggerData, EventID)
   
   If EventID = #PB_Event_Menu
     Select EventMenu()
-    
+        
       Case #DEBUGGER_MENU_Return
         ApplyPurifierOptions(*Debugger)
         Quit = 1
-      
+        
       Case #DEBUGGER_MENU_Escape
         Quit = 1
-      
+        
     EndSelect
     
   ElseIf EventID = #PB_Event_Gadget
     Select EventGadget()
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarGlobal]
         UpdatePurifierLines(*Debugger)
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarLocal]
         UpdatePurifierLines(*Debugger)
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarString]
         UpdatePurifierLines(*Debugger)
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarDynamic]
         UpdatePurifierLines(*Debugger)
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Ok]
         ApplyPurifierOptions(*Debugger)
         Quit = 1
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Cancel]
         Quit = 1
-      
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Apply]
         ApplyPurifierOptions(*Debugger)
-    
+        
     EndSelect
-  
+    
   ElseIf EventID = #PB_Event_CloseWindow
     Quit = 1
-
+    
   EndIf
   
   If Quit
@@ -243,7 +243,7 @@ Procedure PurifierWindowEvents(*Debugger.DebuggerData, EventID)
 EndProcedure
 
 Procedure UpdatePurifierWindowState(*Debugger.DebuggerData)
-
+  
   If *Debugger\ProgramState = -1
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarGlobal], 1)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarLocal], 1)
@@ -251,7 +251,7 @@ Procedure UpdatePurifierWindowState(*Debugger.DebuggerData)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarDynamic], 1)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Ok], 1)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Apply], 1)
-        
+    
   Else
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarGlobal], 0)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarLocal], 0)
@@ -259,10 +259,10 @@ Procedure UpdatePurifierWindowState(*Debugger.DebuggerData)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarDynamic], 0)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Ok], 0)
     UpdatePurifierLines(*Debugger) ; updates the "Apply" button state
-
+    
   EndIf
   
-
+  
 EndProcedure
 
 Procedure ResizePurifierWindow(*Debugger.DebuggerData)
@@ -306,14 +306,14 @@ Procedure ResizePurifierWindow(*Debugger.DebuggerData)
   ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextDynamic], 20, Top, Width-40, TextHeight)
   ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarDynamic], 20, Top+TextHeight+5, Width-45-LinesWidth, TrackbarHeight)
   ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_LinesDynamic], Width-20-LinesWidth, Top+TextHeight+5, LinesWidth, TrackbarHeight)
-
+  
   ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Ok], Width-20-ButtonWidth*3, Height-15-ButtonHeight, ButtonWidth, ButtonHeight)
   ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Cancel], Width-15-ButtonWidth*2, Height-15-ButtonHeight, ButtonWidth, ButtonHeight)
   ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Apply], Width-10-ButtonWidth, Height-15-ButtonHeight, ButtonWidth, ButtonHeight)
 EndProcedure
 
 Procedure OpenPurifierWindow(*Debugger.DebuggerData)
-
+  
   If *Debugger\Windows[#DEBUGGER_WINDOW_Purifier]
     SetWindowForeground(*Debugger\Windows[#DEBUGGER_WINDOW_Purifier])
     
@@ -363,10 +363,10 @@ Procedure OpenPurifierWindow(*Debugger.DebuggerData)
       
       AddKeyboardShortcut(Window, #PB_Shortcut_Return, #DEBUGGER_MENU_Return)
       AddKeyboardShortcut(Window, #PB_Shortcut_Escape, #DEBUGGER_MENU_Escape)
-
+      
       Debugger_AddShortcuts(Window)
       EnsureWindowOnDesktop(Window)
-                 
+      
       HideWindow(Window, 0)
       UpdatePurifierWindowState(*Debugger)
       
@@ -378,9 +378,9 @@ EndProcedure
 
 
 Procedure UpdatePurifierWindow(*Debugger.DebuggerData)
-
+  
   SetWindowTitle(*Debugger\Windows[#DEBUGGER_WINDOW_Purifier], Language("Debugger","PurifierTitle") + " - " + DebuggerTitle(*Debugger\FileName$))
-
+  
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Frame], Language("Debugger","PurifierIntervall"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextGlobal], Language("Debugger","GlobalIntervall"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextLocal], Language("Debugger","LocalIntervall"))
@@ -393,18 +393,18 @@ Procedure UpdatePurifierWindow(*Debugger.DebuggerData)
   
   UpdatePurifierLines(*Debugger)
   ResizePurifierWindow(*Debugger)
-
+  
 EndProcedure
 
 ; ---------------------------------------------------------
 
 Procedure Purifier_DebuggerEvent(*Debugger.DebuggerData)
-
-  Select *Debugger\Command\Command
   
+  Select *Debugger\Command\Command
+      
     Case #COMMAND_ControlPurifier
       If *Debugger\Command\Value1 = 1 And *Debugger\CommandData And *Debugger\Command\Datasize >= 4*SizeOf(Long)
-      
+        
         ; sanitize the input through the state function
         *Debugger\PurifierGlobal  = GranularityFromState(StateFromGranularity(PeekL(*Debugger\CommandData)))
         *Debugger\PurifierLocal   = GranularityFromState(StateFromGranularity(PeekL(*Debugger\CommandData + SizeOf(Long))))
@@ -433,8 +433,8 @@ Procedure Purifier_DebuggerEvent(*Debugger.DebuggerData)
         Command\DataSize = 4 * SizeOf(LONG)
         SendDebuggerCommandWithData(*Debugger, @Command, @State(0))
       EndIf
-  
+      
   EndSelect
-
+  
 EndProcedure
 

@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -52,7 +52,7 @@ EndStructure
 ;       to indicate wether or not it should be used.
 ;
 CompilerIf Defined(DIALOG_USE_SCINTILLA, #PB_Constant)
-
+  
   ProcedureDLL Dialog_ScintillaCallback(EditorGadget.l, *scinotify.SCNotification)
   EndProcedure
   
@@ -79,16 +79,16 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
     
     
     Select *StaticData\Type
-    
+        
       Case #DIALOG_Text
         *THIS\Gadget = TextGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)
-    
+        
       Case #DIALOG_String
         *THIS\Gadget = StringGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)
-
+        
       Case #DIALOG_ShortcutGadget
         *THIS\Gadget = ShortcutGadget(*StaticData\Gadget, 0, 0, 0, 0, 0)
-    
+        
       Case #DIALOG_Button
         *THIS\Gadget = ButtonGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)
         
@@ -120,13 +120,13 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
         *THIS\VTable   = ?DlgFixedGadget_VTable
         *THIS\Gadget   = TreeGadget(*StaticData\Gadget, 0, 0, 0, 0, *StaticData\Flags)
         *THIS\HasTitle = #False
-
+        
       Case #DIALOG_ComboBox
         *THIS\Gadget = ComboBoxGadget(*StaticData\Gadget, 0, 0, 0, 0, *StaticData\Flags)
         *THIS\HasTitle = #False
         
-      CompilerIf Defined(DIALOG_USE_EXPLORER, #PB_Constant)
-        
+        CompilerIf Defined(DIALOG_USE_EXPLORER, #PB_Constant)
+          
         Case #DIALOG_ExplorerList
           *THIS\VTable   = ?DlgFixedGadget_VTable
           *THIS\Gadget   = ExplorerListGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)
@@ -136,13 +136,13 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
           *THIS\VTable   = ?DlgFixedGadget_VTable
           *THIS\Gadget   = ExplorerTreeGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)
           *THIS\HasTitle = #True
-  
+          
         Case #DIALOG_ExplorerCombo
           *THIS\Gadget   = ExplorerComboGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), *StaticData\Flags)
           *THIS\HasTitle = #True
+          
+        CompilerEndIf
         
-      CompilerEndIf
-           
       Case #DIALOG_Editor
         *THIS\VTable   = ?DlgFixedGadget_VTable
         *THIS\Gadget   = EditorGadget(*StaticData\Gadget, 0, 0, 0, 0, *StaticData\Flags)
@@ -153,15 +153,15 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
             SetGadgetText(*StaticData\Gadget, DialogObjectText(*StaticData))
           EndIf
         EndIf
-      
-      CompilerIf Defined(DIALOG_USE_SCINTILLA, #PB_Constant)
-      
+        
+        CompilerIf Defined(DIALOG_USE_SCINTILLA, #PB_Constant)
+          
         Case #DIALOG_Scintilla
           *THIS\VTable   = ?DlgFixedGadget_VTable
           *THIS\Gadget   = ScintillaGadget(*StaticData\Gadget, 0, 0, 0, 0, @Dialog_ScintillaCallback())
-      
-      CompilerEndIf
-
+          
+        CompilerEndIf
+        
       Case #DIALOG_ScrollBar
         Value$ = DialogObjectKey(*StaticData, "MIN")
         If Value$
@@ -183,10 +183,10 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
         Else
           Page = 10
         EndIf
-      
+        
         *THIS\VTable   = ?DlgFixedGadget_VTable
         *THIS\Gadget   = ScrollBarGadget(*StaticData\Gadget, 0, 0, 0, 0, Min, Max, Page, *StaticData\Flags)
-
+        
       Case #DIALOG_ProgressBar
         Value$ = DialogObjectKey(*StaticData, "MIN")
         If Value$
@@ -223,7 +223,7 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
         
         *THIS\VTable   = ?DlgFixedGadget_VTable
         *THIS\Gadget   = TrackBarGadget(*StaticData\Gadget, 0, 0, 0, 0, Min, Max, *StaticData\Flags)
-       
+        
       Case #DIALOG_HyperLink
         Value$ = DialogObjectKey(*StaticData, "COLOR")
         If Value$
@@ -232,8 +232,8 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
           Color = 0
         EndIf
         *THIS\Gadget = HyperLinkGadget(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), Color, *StaticData\Flags)
-           
-       
+        
+        
     EndSelect
     
     
@@ -253,12 +253,12 @@ Procedure DlgGadget_AddItem(*Gadget.DlgItemGadget, *StaticData.DialogObjectData)
     If *Gadget\ColumnAdded = 0
       ; no columns were added yet, so we first must remove the default columns
       *Gadget\ColumnAdded = 1
-                  
+      
       If GadgetType(*Gadget\Gadget) = #PB_GadgetType_ListIcon
         RemoveGadgetColumn(*Gadget\Gadget, 0)
       Else
         CompilerIf #CompileMac = 0 ; no columns support on OSX for explorerlist
-          For i = 1 To 4 ; 4 default columns
+          For i = 1 To 4           ; 4 default columns
             RemoveGadgetColumn(*Gadget\Gadget, 0)
           Next i
         CompilerEndIf
@@ -299,12 +299,12 @@ Procedure DlgGadget_Update(*THIS.DlgGadget)
     For i = 0 To *List\NbItems -1
       SetGadgetItemText(*THIS\Gadget, -1, DialogObjectText(*List\Items[i]), i) ; change column title
     Next i
-  
+    
   EndIf
 EndProcedure
 
 Procedure DlgGadget_SizeApply(*THIS.DlgGadget, x.l, y.l, Width.l, Height.l)
-
+  
   ; On windows, when resizing a text, checkbox, option highter than it needs to be, its
   ; text is not put in the center (vertically) as it is on linux, so this looks bad when
   ; a text/checkbox is put next to a String/Combobox for example.
@@ -317,13 +317,13 @@ Procedure DlgGadget_SizeApply(*THIS.DlgGadget, x.l, y.l, Width.l, Height.l)
   ;       so I enable this for all OS (needs to be checked on other Linux distros)
   ;
   ;CompilerIf #CompileWindows Or #CompileMacCocoa
-    If *THIS\StaticData\Type = #DIALOG_Text And *THIS\StaticData\Flags & #PB_Text_Border = 0
-      NeededHeight = Max(*THIS\StaticData\MinHeight, GetRequiredHeight(*THIS\Gadget, *THIS\StaticData\Flags))
-      If NeededHeight <= Height-2
-        ResizeGadget(*THIS\Gadget, x, y+2, Width, Height-2)
-        ProcedureReturn
-      EndIf
+  If *THIS\StaticData\Type = #DIALOG_Text And *THIS\StaticData\Flags & #PB_Text_Border = 0
+    NeededHeight = Max(*THIS\StaticData\MinHeight, GetRequiredHeight(*THIS\Gadget, *THIS\StaticData\Flags))
+    If NeededHeight <= Height-2
+      ResizeGadget(*THIS\Gadget, x, y+2, Width, Height-2)
+      ProcedureReturn
     EndIf
+  EndIf
   ;CompilerEndIf
   
   ResizeGadget(*THIS\Gadget, x, y, Width, Height)
@@ -354,47 +354,47 @@ Procedure DlgListView_SizeRequest(*THIS.DlgGadget, *Width.LONG, *Height.LONG)
 EndProcedure
 
 DataSection
-
+  
   DlgGadget_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgGadget_SizeRequest()
-    Data.i @DlgGadget_SizeApply()
-    Data.i @DlgBase_AddChild()
-    Data.i @DlgBase_FoldApply()
-    Data.i @DlgBase_Find()
-    Data.i @DlgBase_Finish()
-    Data.i @DlgGadget_Update()
-    Data.i @DlgBase_Destroy()
-    
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgGadget_SizeRequest()
+  Data.i @DlgGadget_SizeApply()
+  Data.i @DlgBase_AddChild()
+  Data.i @DlgBase_FoldApply()
+  Data.i @DlgBase_Find()
+  Data.i @DlgBase_Finish()
+  Data.i @DlgGadget_Update()
+  Data.i @DlgBase_Destroy()
+  
   ; Special VTable for Gadgets with fixed minimal size (Tree, List, etc)
   ;
   DlgFixedGadget_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgBase_SizeRequest()
-    Data.i @DlgBase_SizeApply()
-    Data.i @DlgBase_AddChild()
-    Data.i @DlgBase_FoldApply()
-    Data.i @DlgBase_Find()
-    Data.i @DlgBase_Finish()
-    Data.i @DlgGadget_Update()
-    Data.i @DlgBase_Destroy()
-    
-    
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgBase_SizeRequest()
+  Data.i @DlgBase_SizeApply()
+  Data.i @DlgBase_AddChild()
+  Data.i @DlgBase_FoldApply()
+  Data.i @DlgBase_Find()
+  Data.i @DlgBase_Finish()
+  Data.i @DlgGadget_Update()
+  Data.i @DlgBase_Destroy()
+  
+  
   ; Special VTable for ListView on windows
   ; As we use a special way for height request
   ;
   DlgListView_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgListView_SizeRequest()
-    Data.i @DlgBase_SizeApply()
-    Data.i @DlgBase_AddChild()
-    Data.i @DlgBase_FoldApply()
-    Data.i @DlgBase_Find()
-    Data.i @DlgBase_Finish()
-    Data.i @DlgGadget_Update()
-    Data.i @DlgBase_Destroy()
-
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgListView_SizeRequest()
+  Data.i @DlgBase_SizeApply()
+  Data.i @DlgBase_AddChild()
+  Data.i @DlgBase_FoldApply()
+  Data.i @DlgBase_Find()
+  Data.i @DlgBase_Finish()
+  Data.i @DlgGadget_Update()
+  Data.i @DlgBase_Destroy()
+  
+  
 EndDataSection
 
 

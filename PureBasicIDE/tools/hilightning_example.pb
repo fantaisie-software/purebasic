@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -39,7 +39,7 @@ XIncludeFile "..\HilightningEngine.pb"
 ; ==================================================
 
 Procedure HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
-
+  
   If IsBold
     WriteString("<B>")
   EndIf
@@ -50,8 +50,8 @@ Procedure HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged
   
   
   WriteString(PeekS(*StringStart, Length))
-    
-
+  
+  
   If *Color <> 0
     WriteString("</FONT>")
   EndIf
@@ -59,7 +59,7 @@ Procedure HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged
   If IsBold
     WriteString("</B>")
   EndIf
-
+  
 EndProcedure
 
 ; The color values are represented by pointers, because on linux they
@@ -103,7 +103,7 @@ If ReadFile(0, File$)
     
     If CreateFile(1, File$+".html")
       WriteString("<html><body bgcolor=#FFFFDF><pre>")
-    
+      
       HilightningEngine(*Buffer, Size, 0, @HilightCallback(), 0) ; 3rd and 5th parameter MUST be 0 if not called from IDE
       
       WriteString("</pre></body></html>")
@@ -118,9 +118,3 @@ If ReadFile(0, File$)
 EndIf
 
 
-
-; IDE Options = PureBasic 5.20 beta 2 (Windows - x64)
-; CursorPosition = 96
-; FirstLine = 78
-; Folding = -
-; EnableXP

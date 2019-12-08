@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -30,15 +30,15 @@ Procedure GetValueSize(type, *Pointer, Is64bit)
       Case #TYPE_CHARACTER: ProcedureReturn 4 ; its translated into a long actually
       Case #TYPE_DOUBLE:    ProcedureReturn 8
       Case #TYPE_QUAD:      ProcedureReturn 8
-            
-      ; strings are stored in the format of the external debugger
+        
+        ; strings are stored in the format of the external debugger
       Case #TYPE_FIXEDSTRING,  #TYPE_STRING
         ProcedureReturn MemoryStringLengthBytes(*Pointer) + #CharSize
-            
+        
       Case #TYPE_ARRAY
         ; string with dimensions (ascii)
         ProcedureReturn MemoryAsciiLength(*Pointer) + 1
-
+        
       Case #TYPE_LINKEDLIST
         ; size, current element (both integer)
         If Is64bit
@@ -46,7 +46,7 @@ Procedure GetValueSize(type, *Pointer, Is64bit)
         Else
           ProcedureReturn 4*2
         EndIf
-      
+        
       Case #TYPE_MAP
         ; size (integer), iscurrent (byte), current element (external)
         If Is64bit
@@ -89,10 +89,10 @@ Procedure.s ScopeName(scope, type = 0)
       
     Case #SCOPE_SHARED
       ProcedureReturn "Shared"
-    
+      
     Case #SCOPE_PARAMETER
       ProcedureReturn "ByRef"  ; for the WatchList only!
-    
+      
     Default
       ProcedureReturn ""
   EndSelect
@@ -108,7 +108,7 @@ Procedure.s ModuleName(Name$, ModuleName$)
 EndProcedure
 
 Procedure.s GetDebuggerFile(*Debugger.DebuggerData, LineNumber)
-
+  
   FileNumber = (LineNumber >> 24) & $FF
   If FileNumber > *Debugger\NbIncludedFiles
     ProcedureReturn ""
@@ -121,12 +121,12 @@ Procedure.s GetDebuggerFile(*Debugger.DebuggerData, LineNumber)
     Next i
     
     FileName$ = PeekAscii(*Pointer)
-
+    
     ; NOTE: the FileName$ can contain "../", so we need to remove this
     ;
     *Cursor.Character = @FileName$
     While *Cursor\c
-    
+      
       If *Cursor\c = Asc(#Separator)
         If PeekS(*Cursor, 4) = #Separator + ".." + #Separator
           ; remove the previous directory name
@@ -150,11 +150,11 @@ Procedure.s GetDebuggerFile(*Debugger.DebuggerData, LineNumber)
           ; Otherwise, if removing a large dir towards the string end, *Cursor might
           ; end up outside of the valid string and create an endless loop
           *Cursor = *BackCursor
-        
+          
         ElseIf PeekS(*Cursor, 3) = #Separator + "." + #Separator
           ; simply remove this refrence to the own directory
           PokeS(*Cursor, PeekS(*Cursor + 2*#CharSize))
-                  
+          
         Else
           *Cursor + #CharSize
         EndIf
@@ -163,11 +163,11 @@ Procedure.s GetDebuggerFile(*Debugger.DebuggerData, LineNumber)
         *Cursor + #CharSize
       EndIf
     Wend
-
+    
     ProcedureReturn FileName$
     
   EndIf
-      
+  
 EndProcedure
 
 Procedure.s GetDebuggerRelativeFile(*Debugger.DebuggerData, LineNumber)
@@ -181,7 +181,7 @@ Procedure.s GetDebuggerRelativeFile(*Debugger.DebuggerData, LineNumber)
   If FileName$ = ""
     ProcedureReturn Language("FileStuff","NewSource")
   EndIf
-    
+  
   ProcedureReturn FileName$
 EndProcedure
 
@@ -295,13 +295,13 @@ EndProcedure
 Procedure.s StrD_Science(Value.d)
   abs.d = Abs(Value)
   exp.i = 0
-
+  
   If Value = 0.0
     ProcedureReturn "0"
-  
+    
   ElseIf abs >= 1.0 And abs < 10.0
     ProcedureReturn StrD_Debug(Value)
-  
+    
   ElseIf abs < 1.0
     While abs < 1.0
       abs * 10.0
@@ -309,7 +309,7 @@ Procedure.s StrD_Science(Value.d)
       exp + 1
     Wend
     ProcedureReturn StrD_Debug(Value, 10) + "E-" + Str(exp)
-  
+    
   Else
     While abs >= 10.0
       abs / 10.0
@@ -319,7 +319,7 @@ Procedure.s StrD_Science(Value.d)
     ProcedureReturn StrD_Debug(Value, 10) + "E" + Str(exp)
     
   EndIf
-
+  
 EndProcedure
 
 Procedure.s DebuggerTitle(FileName$)

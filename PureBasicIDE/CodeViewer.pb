@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -16,9 +16,9 @@ Procedure CodeViewer_HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, 
 EndProcedure
 
 Procedure CodeViewer_UpdateHilight(Gadget)
-
+  
   HighlightCodeViewer = Gadget
-
+  
   ; re-hilight the text
   Size = ScintillaSendMessage(Gadget, #SCI_GETTEXTLENGTH)
   *Buffer = AllocateMemory(Size+1)
@@ -36,7 +36,7 @@ Procedure CodeViewer_UpdateHilight(Gadget)
     If NbLines < 10 ; 2 digits minimum, as with the main code area
       NbLines = 10
     EndIf
-  
+    
     Lines$ = "_" + RSet("9", Len(Str(NbLines)), "9")
     ScintillaSendMessage(Gadget, #SCI_SETMARGINWIDTHN, 0, ScintillaSendMessage(Gadget, #SCI_TEXTWIDTH, #STYLE_LINENUMBER, ToAscii(Lines$)))
   EndIf
@@ -46,13 +46,13 @@ EndProcedure
 
 
 Procedure UpdateCodeViewer(Gadget)
-
+  
   If ScintillaSendMessage(Gadget, #SCI_GETMARGINWIDTHN, 0) > 0
     LineNumbers = #True
   Else
     LineNumbers = #False
   EndIf
-
+  
   ; Gtk2 'Pango' need an "!" before the font name (else it will use GDK font)
   ;
   CompilerIf #CompileLinuxGtk2
@@ -63,7 +63,7 @@ Procedure UpdateCodeViewer(Gadget)
   CompilerEndIf
   
   ScintillaSendMessage(Gadget, #SCI_STYLESETSIZE, #STYLE_DEFAULT,  EditorFontSize)
- 
+  
   If EditorFontStyle & #PB_Font_Bold
     ScintillaSendMessage(Gadget, #SCI_STYLESETBOLD, #STYLE_DEFAULT, 1)
   Else
@@ -74,14 +74,14 @@ Procedure UpdateCodeViewer(Gadget)
   Else
     ScintillaSendMessage(Gadget, #SCI_STYLESETITALIC, #STYLE_DEFAULT, 0)
   EndIf
-
+  
   If EnableColoring
     ScintillaSendMessage(Gadget, #SCI_STYLESETBACK, #STYLE_DEFAULT, Colors(#COLOR_GlobalBackground)\DisplayValue)
     ScintillaSendMessage(Gadget, #SCI_STYLECLEARALL, 0, 0) ; to make the background & font change effective!
-  
+    
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE,  1, Colors(#COLOR_NormalText)\DisplayValue)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE,  2, Colors(#COLOR_BasicKeyword)\DisplayValue)
-  
+    
     If EnableKeywordBolding
       ; Gtk2 'Pango' need an "!" before the font name (else it will use GDK font)
       ;
@@ -93,7 +93,7 @@ Procedure UpdateCodeViewer(Gadget)
         ScintillaSendMessage(Gadget, #SCI_STYLESETFONT,  2, ToAscii(EditorBoldFontName$))
         ScintillaSendMessage(Gadget, #SCI_STYLESETFONT, 14, ToAscii(EditorBoldFontName$))
       CompilerEndIf
-    
+      
       ScintillaSendMessage(Gadget, #SCI_STYLESETSIZE, #STYLE_DEFAULT, EditorFontSize)
       ScintillaSendMessage(Gadget, #SCI_STYLESETBOLD,  2, 1)             ; Bold (no effect on linux, but maybe on windows later)
       ScintillaSendMessage(Gadget, #SCI_STYLESETBOLD,  14, 1)
@@ -107,7 +107,7 @@ Procedure UpdateCodeViewer(Gadget)
       ScintillaSendMessage(Gadget, #SCI_STYLESETBACK, #STYLE_LINENUMBER, Colors(#COLOR_LineNumberBack)\DisplayValue)
       ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, #STYLE_LINENUMBER, Colors(#COLOR_LineNumber)\DisplayValue)
     EndIf
-  
+    
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE,  3, Colors(#COLOR_Comment)\DisplayValue)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE,  4, Colors(#COLOR_Constant)\DisplayValue)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE,  5, Colors(#COLOR_String)\DisplayValue)
@@ -122,7 +122,7 @@ Procedure UpdateCodeViewer(Gadget)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, 14, Colors(#COLOR_CustomKeyword)\DisplayValue)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, 15, Colors(#COLOR_Module)\DisplayValue)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, 16, Colors(#COLOR_BadBrace)\DisplayValue)
-  
+    
     CompilerIf #CompileWindows
       If Colors(#COLOR_Selection)\DisplayValue = -1 ; special accessibility scheme
         ScintillaSendMessage(Gadget, #SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
@@ -148,16 +148,16 @@ Procedure UpdateCodeViewer(Gadget)
     Else
       ScintillaSendMessage(Gadget, #SCI_SETCARETLINEVISIBLE, 1, 0) ; enable the different color for the current line
     EndIf
-
+    
   Else  ; Coloring Disabled
     ScintillaSendMessage(Gadget, #SCI_STYLERESETDEFAULT, 0, 0)
     ScintillaSendMessage(Gadget, #SCI_STYLESETBACK, #STYLE_DEFAULT, $FFFFFF)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, #STYLE_DEFAULT, $000000)
     ScintillaSendMessage(Gadget, #SCI_STYLECLEARALL, 0, 0) ; to make the background & font change effective!
- 
+    
     ScintillaSendMessage(Gadget, #SCI_SETCARETLINEBACK, $FFFFFF, 0)
     ScintillaSendMessage(Gadget, #SCI_SETCARETFORE,     $000000, 0)
-
+    
     CompilerIf #CompileWindows
       ScintillaSendMessage(Gadget, #SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
       ScintillaSendMessage(Gadget, #SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
@@ -173,19 +173,19 @@ Procedure UpdateCodeViewer(Gadget)
     
     ScintillaSendMessage(Gadget, #SCI_SETCARETLINEVISIBLE, 0, 0) ; disable the different color for the current line
   EndIf
-
+  
   ScintillaSendMessage(Gadget, #SCI_SETTABWIDTH, TabLength)
   ScintillaSendMessage(Gadget, #SCI_SETUSETABS, RealTab)
-
+  
   CodeViewer_UpdateHilight(Gadget)
-
+  
 EndProcedure
 
 ; Note: *Buffer must be null-terminated!
 Procedure SetCodeViewer(Gadget, *Buffer, Encoding)
   ; set writable for the update
   ScintillaSendMessage(Gadget, #SCI_SETREADONLY, 0)
-
+  
   If Encoding <> 0
     ScintillaSendMessage(Gadget, #SCI_SETCODEPAGE, #SC_CP_UTF8)
   Else
@@ -230,9 +230,3 @@ EndProcedure
 
 
 
-
-; IDE Options = PureBasic 5.20 beta 2 (Windows - x64)
-; CursorPosition = 224
-; FirstLine = 19
-; Folding = --
-; EnableXP

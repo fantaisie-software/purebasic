@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -24,10 +24,10 @@ Global NewList Standalone_Debuggers.Standalone_Debuggers()
 
 DisableDebugger
 ProcedureDLL StandaloneDebuggers_WaitThread(*Info.Standalone_Debuggers) ; DLL is important in MacOS X
- 
-   RunProgram(*Info\CommandLine$, *Info\Parameters$, *Info\Directory$, #PB_Program_Wait)
+  
+  RunProgram(*Info\CommandLine$, *Info\Parameters$, *Info\Directory$, #PB_Program_Wait)
   *Info\WaitStatus = 1
-
+  
 EndProcedure
 
 ; Special one to execute the debugger in elevated mode on vista when
@@ -35,7 +35,7 @@ EndProcedure
 ;
 CompilerIf #CompileWindows
   Procedure StandaloneDebuggers_WaitThread_VistaAdmin(*Info.Standalone_Debuggers)
-  
+    
     info.SHELLEXECUTEINFO
     info\cbSize       = SizeOf(SHELLEXECUTEINFO)
     info\fMask        = #SEE_MASK_NOCLOSEPROCESS
@@ -52,7 +52,7 @@ CompilerIf #CompileWindows
       CloseHandle_(info\hProcess)
     EndIf
     *Info\WaitStatus = 1
-  
+    
   EndProcedure
 CompilerEndIf
 
@@ -72,7 +72,7 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
   CompilerElse
     CommFile$ = TempPath$ + ".pb-DEBUGGER-" + Str(Random($FFFF)) + ".txt"
   CompilerEndIf
- 
+  
   ; The OSX "open" command cuts the commandline parameters, so we
   ; use a fixed filename for this case. Ugly, but works
   ;
@@ -90,13 +90,13 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
   ;  as the terminal starter seems to quit before the exe is loaded!)
   ;
   RegisterDeleteFile(CommFile$)
- 
-  If CreateFile(#FILE_StandaloneDebugger, CommFile$)
   
+  If CreateFile(#FILE_StandaloneDebugger, CommFile$)
+    
     ;
     ; Important: the command file is utf-8!
     ;
-  
+    
     ; write the general stuff
     ;
     WriteStringN(#FILE_StandaloneDebugger, "EXEFILE "+Executable$, #PB_UTF8)
@@ -123,10 +123,10 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
     
     ; we no longer get the CompileFile passed here!
     If *Target\UseMainFile
-       WriteStringN(#FILE_StandaloneDebugger, "SOURCEFILE "+ResolveRelativePath(GetPathPart(*Target\FileName$), *Target\MainFile$), #PB_UTF8)
-    
+      WriteStringN(#FILE_StandaloneDebugger, "SOURCEFILE "+ResolveRelativePath(GetPathPart(*Target\FileName$), *Target\MainFile$), #PB_UTF8)
+      
     Else
-    
+      
       If *Target\FileName$ <> ""
         WriteStringN(#FILE_StandaloneDebugger, "SOURCEFILE "+*Target\FileName$, #PB_UTF8)
       Else
@@ -136,7 +136,7 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
           WriteStringN(#FILE_StandaloneDebugger, "SOURCEFILE "+Language("FileStuff", "NewSource"), #PB_UTF8)
         CompilerEndIf
       EndIf
-    
+      
     EndIf
     
     ; write the watchlist
@@ -169,7 +169,7 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
       EndIf
     Next FileList()
     ChangeCurrentElement(FileList(), *ActiveSource)
-  
+    
     CloseFile(#FILE_StandaloneDebugger)
     
     AddElement(Standalone_Debuggers())
@@ -198,7 +198,7 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
     
     CreateThread(@StandaloneDebuggers_WaitThread(), @Standalone_Debuggers())
   Else
-
+    
     ; could not create the file
     ; Note: on linux, with the GUITerminal, this will not work, but this condition should not happen anyway
     RunProgram(DebuggerCMD$, Parameters$ + " " + Executable$ + " " + *Target\CommandLine$, Directory$)
@@ -210,7 +210,7 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
     AddWindowTimer(#WINDOW_Main, #TIMER_DebuggerProcessing, 20) ; check every 20 ms
     IsDebuggerTimer = 1
   EndIf
-    
+  
 EndProcedure
 
 
@@ -218,11 +218,11 @@ EndProcedure
 ; the watchlist that was passed back by it
 ;
 Procedure StandaloneDebuggers_CheckExits()
-
-  ForEach Standalone_Debuggers()
   
+  ForEach Standalone_Debuggers()
+    
     If Standalone_Debuggers()\WaitStatus ; the debugger has quit!
-
+      
       If Standalone_Debuggers()\CommFile$
         
         ; we only need the watchlist and purifier, but first we must check if the
@@ -232,11 +232,11 @@ Procedure StandaloneDebuggers_CheckExits()
         ; if they are altered after you quit the debugger
         ;
         *Target.CompileTarget = FindTargetFromID(Standalone_Debuggers()\CompileTargetID)
-
+        
         If *Target
           If ReadFile(#FILE_StandaloneDebugger, Standalone_Debuggers()\CommFile$)
             *Target\Watchlist$ = ""
-        
+            
             While Eof(#FILE_StandaloneDebugger) = 0
               Line$ = ReadString(#FILE_StandaloneDebugger)
               If Left(Line$, 6) = "WATCH "
@@ -245,7 +245,7 @@ Procedure StandaloneDebuggers_CheckExits()
                 *Target\PurifierGranularity$ = Right(Line$, Len(Line$)-9)
               EndIf
             Wend
-        
+            
             If *Target\Watchlist$ <> ""
               *Target\Watchlist$ = Left(*Target\Watchlist$, Len(*Target\Watchlist$)-1) ; cut the last ";"
             EndIf
@@ -258,13 +258,13 @@ Procedure StandaloneDebuggers_CheckExits()
         ; (these files are deleted on IDE end)
         ; DeleteFile(Standalone_Debuggers()\CommFile$)
       EndIf
-  
+      
       DeleteElement(Standalone_Debuggers())
       Break
     EndIf
-  
+    
   Next Standalone_Debuggers()
-
+  
 EndProcedure
 
 Procedure StandaloneDebuggers_IsRunning()

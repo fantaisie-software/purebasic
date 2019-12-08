@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -30,7 +30,7 @@ Next i
 
 Procedure MacroErrorWindowEvents(EventID)
   Protected Close = 0
-
+  
   If EventID = #PB_Event_SizeWindow
     GetRequiredSize(#GADGET_MacroError_Close, @ButtonWidth, @ButtonHeight)
     ButtonWidth = Max(ButtonWidth, 80)
@@ -39,13 +39,13 @@ Procedure MacroErrorWindowEvents(EventID)
     
   ElseIf EventID = #PB_Event_Gadget And EventGadget() = #GADGET_MacroError_Close
     Close = 1
-  
+    
   ElseIf EventID = #PB_Event_Menu And EventMenu() = #MENU_MacroError_Close
     Close = 1
-  
+    
   ElseIf EventID = #PB_Event_CloseWindow
     Close = 1
-
+    
   EndIf
   
   If Close
@@ -53,15 +53,15 @@ Procedure MacroErrorWindowEvents(EventID)
       MacroErrorWindowWidth  = WindowWidth(#WINDOW_MacroError)
       MacroErrorWindowHeight = WindowHeight(#WINDOW_MacroError)
     EndIf
-  
+    
     CloseWindow(#WINDOW_MacroError)
   EndIf
-
+  
 EndProcedure
 
 
 Procedure DisplayMacroError(MacroErrorLine, List MacroLines.s())
-
+  
   If IsWindow(#WINDOW_MacroError)
     CloseWindow(#WINDOW_MacroError)
   EndIf
@@ -82,7 +82,7 @@ Procedure DisplayMacroError(MacroErrorLine, List MacroLines.s())
       Lines(index) = MacroLines()
       index + 1
     Next MacroLines()
-
+    
     ; format the lines
     Protected NewList Stack()
     Protected Dim AddLines(Count) ; nonzero for each line where an empty line is before
@@ -91,7 +91,7 @@ Procedure DisplayMacroError(MacroErrorLine, List MacroLines.s())
     For index = 0 To Count-1
       If Trim(Lines(index)) <> ""
         ClearList(Stack())
-
+        
         *Cursor.Character = @Lines(index)
         While *Cursor\c
           If *Cursor\c = '"' Or *Cursor\c = 39 ; '-char. no need to check comments as the macro parser cuts them
@@ -135,7 +135,7 @@ Procedure DisplayMacroError(MacroErrorLine, List MacroLines.s())
             
             For i = 1 To #NbIntendKeywords
               If IntendKeywords(i)\Keyword$ = Word$ ; Note: CompareStringMemory() won't work here, as "For" and "ForEach" will be found as the same name (and indented 2 times)
-                found = 0 ; look for another keyword that neutralizes this one
+                found = 0                           ; look for another keyword that neutralizes this one
                 field = 1
                 Repeat
                   keyword$ = StringField(IntendKeywords(i)\NeutralizeKeyword$, field, ",")
@@ -159,11 +159,11 @@ Procedure DisplayMacroError(MacroErrorLine, List MacroLines.s())
                 Break
               EndIf
             Next i
-          
+            
           Else
             *Cursor + #CharSize
           EndIf
-                
+          
         Wend
         
         ; calculate intend for this line
@@ -228,17 +228,17 @@ Procedure DisplayMacroError(MacroErrorLine, List MacroLines.s())
     SetActiveWindow(#WINDOW_MacroError)
     SetActiveGadget(#GADGET_MacroError_Close)
   EndIf
-    
-
+  
+  
 EndProcedure
 
 
 Procedure UpdateMacroErrorWindow()
-
+  
   SetWindowTitle(#WINDOW_MacroError, Language("Misc", "MacroErrortitle"))
   SetGadgetText(#GADGET_MacroError_Close, Language("Misc", "Close"))
   UpdateCodeViewer(#GADGET_MacroError_Scintilla) ; update the coloring
-
+  
 EndProcedure
 
 
@@ -254,53 +254,53 @@ DataSection
   ; then wether the command should be followed by an empty line
   ;
   IntendKeywords:
-    Data$ "If", "EnfIf"                   : Data.l  0, 1, 0, 0
-    Data$ "Else", ""                      : Data.l -1, 1, 0, 0
-    Data$ "ElseIf", ""                    : Data.l -1, 1, 0, 0
-    Data$ "EndIf", "If"                   : Data.l -1, 0, 0, 0
-    Data$ "Select", "EndSelect"           : Data.l  0, 2, 0, 0
-    Data$ "Case", ""                      : Data.l -1, 1, 0, 0
-    Data$ "Default", ""                   : Data.l -1, 1, 0, 0
-    Data$ "EndSelect", "Select"           : Data.l -2, 0, 0, 0
-    Data$ "CompilerIf", "CompilerEndIF"   : Data.l  0, 1, 0, 0
-    Data$ "CompilerElse", ""              : Data.l -1, 1, 0, 0
-    Data$ "CompilerElseIf", ""            : Data.l -1, 1, 0, 0
-    Data$ "CompilerEndIf", "CompilerIf"   : Data.l -1, 0, 0, 0
-    Data$ "CompilerSelect", "CompilerEndSelect": Data.l  0, 2, 0, 0
-    Data$ "CompilerCase", ""              : Data.l -1, 1, 0, 0
-    Data$ "CompilerDefault", ""           : Data.l -1, 1, 0, 0
-    Data$ "CompilerEndSelect", "CompilerSelect": Data.l -2, 0, 0, 0
-    Data$ "Macro", "EndMacro"             : Data.l  0, 1, 1, 0
-    Data$ "EndMacro", "Macro"             : Data.l -1, 0, 0, 1
-    Data$ "With", "EndWith"               : Data.l  0, 1, 0, 0
-    Data$ "EndWith", "With"               : Data.l -1, 0, 0, 0
-    Data$ "Import", "EndImport"           : Data.l  0, 1, 1, 0
-    Data$ "ImportC", "EndImport"          : Data.l  0, 1, 1, 0
-    Data$ "EndImport", "Import,ImportC"   : Data.l -1, 0, 0, 1
-    Data$ "Interface", "EndInterface"     : Data.l  0, 1, 1, 0
-    Data$ "EndInterface", "Interface"     : Data.l -1, 0, 0, 1
-    Data$ "Structure", "EndStructure"     : Data.l  0, 1, 1, 0
-    Data$ "EndStructure", "Structure"     : Data.l -1, 0, 0, 1
-    Data$ "Enumeration", "EndEnumeration" : Data.l  0, 1, 1, 0
-    Data$ "EnumerationBinary", "EndEnumeration" : Data.l  0, 1, 1, 0
-    Data$ "EndEnumeration", "Enumeration" : Data.l -1, 0, 0, 1
-    Data$ "StructureUnion", "EndStructureUnion": Data.l  0, 1, 0, 0
-    Data$ "EndStructureUnion", "StructureUnion": Data.l -1, 0 , 0, 0
-    Data$ "DataSection", "EndDataSection" : Data.l  0, 1, 1, 0
-    Data$ "EndDataSection", "DataSection" : Data.l -1, 0, 0, 1
-    Data$ "For", "Next"                   : Data.l  0, 1, 0, 0
-    Data$ "ForEach", "Next"               : Data.l  0, 1, 0, 0
-    Data$ "Next", "For,ForEach"           : Data.l -1, 0, 0, 0
-    Data$ "Repeat", "Until,ForEver"       : Data.l  0, 1, 0, 0
-    Data$ "Until", "Repeat"               : Data.l -1, 0, 0, 0
-    Data$ "ForEver", "Repeat"             : Data.l -1, 0, 0, 0
-    Data$ "While", "Wend"                 : Data.l  0, 1, 0, 0
-    Data$ "Wend", "While"                 : Data.l -1, 0, 0, 0
-    Data$ "Procedure", "EndProcedure"     : Data.l  0, 1, 1, 0
-    Data$ "ProcedureC", "EndProcedure"    : Data.l  0, 1, 1, 0
-    Data$ "ProcedureCDLL", "EndProcedure" : Data.l  0, 1, 1, 0
-    Data$ "ProcedureDLL", "EndProcedure"  : Data.l  0, 1, 1, 0
-    Data$ "EndProcedure", "Procedure,ProcedureC,ProcedureDLL,ProcedureCDLL": Data.l -1, 0, 0, 1
-
+  Data$ "If", "EnfIf"                   : Data.l  0, 1, 0, 0
+  Data$ "Else", ""                      : Data.l -1, 1, 0, 0
+  Data$ "ElseIf", ""                    : Data.l -1, 1, 0, 0
+  Data$ "EndIf", "If"                   : Data.l -1, 0, 0, 0
+  Data$ "Select", "EndSelect"           : Data.l  0, 2, 0, 0
+  Data$ "Case", ""                      : Data.l -1, 1, 0, 0
+  Data$ "Default", ""                   : Data.l -1, 1, 0, 0
+  Data$ "EndSelect", "Select"           : Data.l -2, 0, 0, 0
+  Data$ "CompilerIf", "CompilerEndIF"   : Data.l  0, 1, 0, 0
+  Data$ "CompilerElse", ""              : Data.l -1, 1, 0, 0
+  Data$ "CompilerElseIf", ""            : Data.l -1, 1, 0, 0
+  Data$ "CompilerEndIf", "CompilerIf"   : Data.l -1, 0, 0, 0
+  Data$ "CompilerSelect", "CompilerEndSelect": Data.l  0, 2, 0, 0
+  Data$ "CompilerCase", ""              : Data.l -1, 1, 0, 0
+  Data$ "CompilerDefault", ""           : Data.l -1, 1, 0, 0
+  Data$ "CompilerEndSelect", "CompilerSelect": Data.l -2, 0, 0, 0
+  Data$ "Macro", "EndMacro"             : Data.l  0, 1, 1, 0
+  Data$ "EndMacro", "Macro"             : Data.l -1, 0, 0, 1
+  Data$ "With", "EndWith"               : Data.l  0, 1, 0, 0
+  Data$ "EndWith", "With"               : Data.l -1, 0, 0, 0
+  Data$ "Import", "EndImport"           : Data.l  0, 1, 1, 0
+  Data$ "ImportC", "EndImport"          : Data.l  0, 1, 1, 0
+  Data$ "EndImport", "Import,ImportC"   : Data.l -1, 0, 0, 1
+  Data$ "Interface", "EndInterface"     : Data.l  0, 1, 1, 0
+  Data$ "EndInterface", "Interface"     : Data.l -1, 0, 0, 1
+  Data$ "Structure", "EndStructure"     : Data.l  0, 1, 1, 0
+  Data$ "EndStructure", "Structure"     : Data.l -1, 0, 0, 1
+  Data$ "Enumeration", "EndEnumeration" : Data.l  0, 1, 1, 0
+  Data$ "EnumerationBinary", "EndEnumeration" : Data.l  0, 1, 1, 0
+  Data$ "EndEnumeration", "Enumeration" : Data.l -1, 0, 0, 1
+  Data$ "StructureUnion", "EndStructureUnion": Data.l  0, 1, 0, 0
+  Data$ "EndStructureUnion", "StructureUnion": Data.l -1, 0 , 0, 0
+  Data$ "DataSection", "EndDataSection" : Data.l  0, 1, 1, 0
+  Data$ "EndDataSection", "DataSection" : Data.l -1, 0, 0, 1
+  Data$ "For", "Next"                   : Data.l  0, 1, 0, 0
+  Data$ "ForEach", "Next"               : Data.l  0, 1, 0, 0
+  Data$ "Next", "For,ForEach"           : Data.l -1, 0, 0, 0
+  Data$ "Repeat", "Until,ForEver"       : Data.l  0, 1, 0, 0
+  Data$ "Until", "Repeat"               : Data.l -1, 0, 0, 0
+  Data$ "ForEver", "Repeat"             : Data.l -1, 0, 0, 0
+  Data$ "While", "Wend"                 : Data.l  0, 1, 0, 0
+  Data$ "Wend", "While"                 : Data.l -1, 0, 0, 0
+  Data$ "Procedure", "EndProcedure"     : Data.l  0, 1, 1, 0
+  Data$ "ProcedureC", "EndProcedure"    : Data.l  0, 1, 1, 0
+  Data$ "ProcedureCDLL", "EndProcedure" : Data.l  0, 1, 1, 0
+  Data$ "ProcedureDLL", "EndProcedure"  : Data.l  0, 1, 1, 0
+  Data$ "EndProcedure", "Procedure,ProcedureC,ProcedureDLL,ProcedureCDLL": Data.l -1, 0, 0, 1
+  
 EndDataSection
 

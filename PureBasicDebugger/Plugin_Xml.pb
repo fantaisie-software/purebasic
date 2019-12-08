@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -39,12 +39,12 @@ EndProcedure
 
 Procedure Xml_RecursiveAdd(Node, Gadget, Sublevel)
   NewIndex = CountGadgetItems(Gadget)
-
+  
   Select XMLNodeType(Node)
     Case #PB_XML_Comment
       AddGadgetItem(Gadget, NewIndex, "#comment", 0, Sublevel)
       SetGadgetItemData(Gadget, NewIndex, Node) ; store the node pointer here
-    
+      
     Case #PB_XML_CData
       AddGadgetItem(Gadget, NewIndex, "#cdata", 0, Sublevel)
       SetGadgetItemData(Gadget, NewIndex, Node) ; store the node pointer here
@@ -56,7 +56,7 @@ Procedure Xml_RecursiveAdd(Node, Gadget, Sublevel)
     Case #PB_XML_Instruction
       AddGadgetItem(Gadget, NewIndex, "#instruction: "+GetXMLNodeName(Node), 0, Sublevel)
       SetGadgetItemData(Gadget, NewIndex, Node) ; store the node pointer here
-    
+      
     Case #PB_XML_Normal
       Text$ = GetXMLNodeName(Node)
       
@@ -68,7 +68,7 @@ Procedure Xml_RecursiveAdd(Node, Gadget, Sublevel)
           EndIf
         Wend
       EndIf
-    
+      
       AddGadgetItem(Gadget, NewIndex, Text$, 0, Sublevel)
       SetGadgetItemData(Gadget, NewIndex, Node) ; store the node pointer here
       
@@ -80,34 +80,34 @@ Procedure Xml_RecursiveAdd(Node, Gadget, Sublevel)
       
       ; do after adding the childs
       SetGadgetItemState(Gadget, NewIndex, #PB_Tree_Expanded)
-    
+      
   EndSelect
-
+  
 EndProcedure
 
 
 Procedure Plugin_Xml_DisplayObject(WindowID, *Buffer, Size)
   *Object.Plugin_Xml = 0
-
+  
   XmlID = CatchXML(#PB_Any, *Buffer, Size)
   If XmlID
     *Object = AllocateMemory(SizeOf(Plugin_Xml))
     If *Object
       *Object\XmlID = XmlID
-    
+      
       ; no usegadgetlist, as we are within the normal program with an open gadgetlist
       *Object\Tree = TreeGadget(#PB_Any, 0, 0, 0, 0, #PB_Tree_AlwaysShowSelection)
       *Object\Panel = PanelGadget(#PB_Any, 0, 0, 0, 0)
-        
+      
       AddGadgetItem(*Object\Panel, -1, "Information")
-        *Object\Info = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
+      *Object\Info = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
       
       AddGadgetItem(*Object\Panel, -1, "Attributes")
-        *Object\Attributes = ListIconGadget(#PB_Any, 0, 0, 0, 0, "Attribute", 100, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect)
-        AddGadgetColumn(*Object\Attributes, 1, "Value", 300)
+      *Object\Attributes = ListIconGadget(#PB_Any, 0, 0, 0, 0, "Attribute", 100, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect)
+      AddGadgetColumn(*Object\Attributes, 1, "Value", 300)
       
       AddGadgetItem(*Object\Panel, -1, "Text")
-        *Object\Text = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
+      *Object\Text = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
       
       CloseGadgetList()
       
@@ -120,7 +120,7 @@ Procedure Plugin_Xml_DisplayObject(WindowID, *Buffer, Size)
         Xml_RecursiveAdd(Node, *Object\Tree, 0)
         Node = NextXMLNode(Node)
       Wend
-
+      
     Else
       FreeXML(XmlID)
     EndIf
@@ -159,12 +159,12 @@ EndProcedure
 Procedure Plugin_Xml_ProcessEvents(*Object.Plugin_Xml, EventGadget.l, EventType.l)
   If EventGadget = *Object\Tree And EventType = #PB_EventType_Change
     ClearGadgetItems(*Object\Attributes)
-         
+    
     index = GetGadgetState(*Object\Tree)
     If index = -1
       SetGadgetText(*Object\Text, "")
       SetGadgetText(*Object\Info, "")
-          
+      
     Else
       Node = GetGadgetItemData(*Object\Tree, index) ; stored the node there
       SetGadgetText(*Object\Text, GetXMLNodeText(Node))
@@ -192,7 +192,7 @@ Procedure Plugin_Xml_ProcessEvents(*Object.Plugin_Xml, EventGadget.l, EventType.
         Case #PB_XML_Instruction
           Info$ = "Node type: Processing instruction" + #NewLine
           Info$ + "Node name: " + GetXMLNodeName(Node)
-        
+          
         Case #PB_XML_Normal
           Info$ = "Node type: Normal node" + #NewLine + #NewLine
           Info$ + "Node name: " + GetXMLNodeName(Node)+ #NewLine
@@ -200,11 +200,11 @@ Procedure Plugin_Xml_ProcessEvents(*Object.Plugin_Xml, EventGadget.l, EventType.
           Info$ + "Attributes: " + Str(CountGadgetItems(*Object\Attributes)) + #NewLine
           Info$ + "Direct children: " + Str(XMLChildCount(Node)) + #NewLine
           Info$ + "All children: " + Str(Xml_RecursiveCount(Node))
-        
+          
       EndSelect
       
       SetGadgetText(*Object\Info, Info$)
-          
+      
     EndIf
     
   ElseIf EventGadget = *Object\Splitter

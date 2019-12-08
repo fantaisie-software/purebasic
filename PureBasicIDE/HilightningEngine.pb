@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -22,7 +22,7 @@ CompilerEndIf
 
 CompilerIf Not Defined(StringToAscii, #PB_Procedure)
   Procedure StringToAscii(String$)
-  
+    
     *Buffer = AllocateMemory(StringByteLength(String$, #PB_Ascii) + 1)
     If *Buffer
       PokeS(*Buffer, String$, -1, #PB_Ascii)
@@ -31,7 +31,7 @@ CompilerIf Not Defined(StringToAscii, #PB_Procedure)
     ProcedureReturn *Buffer
   EndProcedure
 CompilerEndIf
-  
+
 
 
 ; the following are repeated declarations, for the case
@@ -75,13 +75,13 @@ CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) = 0
     Macro MemoryAsciiLength(Memory)
       MemoryStringLength(Memory)
     EndMacro
-  
+    
     Macro ToAscii(String)
       @String
     EndMacro
-  
+    
   CompilerElse
-
+    
     ; not really a macro, but this is a macro in non-unicode mode, thats why it is here
     Procedure ToAscii(String$)
       Static *Buffer, BufferLength
@@ -107,7 +107,7 @@ CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) = 0
       PokeS(*Buffer, String$, -1, #PB_Ascii)
       ProcedureReturn *Buffer
     EndProcedure
-  
+    
     Macro PeekAscii(Memory)
       PeekS(Memory, -1, #PB_Ascii)
     EndMacro
@@ -119,9 +119,9 @@ CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) = 0
     Macro MemoryAsciiLength(Memory)
       MemoryStringLength(Memory, #PB_Ascii)
     EndMacro
-  
+    
   CompilerEndIf
-
+  
 CompilerEndIf
 
 
@@ -202,7 +202,7 @@ Enumeration 1
   #KEYWORD_CompilerSelect
   #KEYWORD_CompilerWarning
   #KEYWORD_Continue
-
+  
   #KEYWORD_Data
   #KEYWORD_DataSection
   #KEYWORD_Debug
@@ -395,12 +395,12 @@ EndStructure
 ;- Issue scan support for the IDE
 ;
 CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
-
+  
   ; Skip 'Count' characters (not bytes) in Ascii/UTF8 from *Pointer
   ;
   Procedure SkipCharacters(*Pointer.Ascii, Count, StringFormat)
     If StringFormat = #PB_Ascii
-    
+      
       ; simple
       ProcedureReturn *Pointer + Count
       
@@ -408,7 +408,7 @@ CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
       
       ; must look for utf8 sequences
       For i = 1 To Count
-      
+        
         If *Pointer\a = 0
           ProcedureReturn *Pointer
           
@@ -418,18 +418,18 @@ CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
         ElseIf *Pointer\a & %11100000 = %11000000 ; 2 byte
           *Pointer + 1
           If *Pointer\a & %11000000 = %10000000: *Pointer + 1: EndIf ; follow byte
-        
+          
         ElseIf *Pointer\a & %11110000 = %11100000 ; 3 byte
           *Pointer + 1
           If *Pointer\a & %11000000 = %10000000: *Pointer + 1: EndIf ; follow byte
           If *Pointer\a & %11000000 = %10000000: *Pointer + 1: EndIf ; follow byte
-        
+          
         ElseIf *Pointer\a & %11111000 = %11110000 ; 4 byte
           *Pointer + 1
           If *Pointer\a & %11000000 = %10000000: *Pointer + 1: EndIf ; follow byte
           If *Pointer\a & %11000000 = %10000000: *Pointer + 1: EndIf ; follow byte
           If *Pointer\a & %11000000 = %10000000: *Pointer + 1: EndIf ; follow byte
-        
+          
         Else ; invalid
           *Pointer + 1
           
@@ -439,10 +439,10 @@ CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
       ProcedureReturn *Pointer
     EndIf
   EndProcedure
-
+  
   Procedure HighlightCommentIssues(*StringStart, *LineEnd, *StringEnd, StringFormat, Callback.HilightCallback)
     Static NewList Found.FoundIssue() ; static to avoid constant alloc/free
-
+    
     ; scan for issues
     ; remove the ';' from the scanned string
     Comment$ = PeekS(*StringStart+1, *LineEnd - *StringStart, SourceStringFormat)
@@ -485,7 +485,7 @@ CompilerEndIf
 ; If *Source and *Target have same content: returns #False
 ; Otherwise, copy the memory and return #True
 Procedure CopyMemoryCheck(*Source.HilightPTR, *Target.HilightPTR, Length)
-
+  
   ; for a fast equal check, do it in integer blocks
   While Length >= SizeOf(Integer)
     If *Source\i <> *Target\i
@@ -509,7 +509,7 @@ Procedure CopyMemoryCheck(*Source.HilightPTR, *Target.HilightPTR, Length)
       Length - 1
     EndIf
   Wend
-
+  
   ; no check found a difference
   ProcedureReturn #False
 EndProcedure
@@ -524,22 +524,22 @@ EndProcedure
 
 
 Procedure InitSyntaxCheckArrays()
-
+  
   ; Build the ValidCharacter table to have have a faster routine to detect
   ; if the char is a considered as a string or not. Nice improvement :)
   ;
   For k='0' To '9'            ; Tell that the ASCII from 0 to 9 are valid
     ValidCharacters(k) = 1
   Next
-
+  
   For k='A' To 'Z'            ; Tell that the ASCII from A to Z are valid
     ValidCharacters(k) = 1
   Next
-
+  
   For k='a' To 'z'            ; Tell that the ASCII from a to z are valid
     ValidCharacters(k) = 1
   Next
-
+  
   ValidCharacters('_') = 1
   
   
@@ -567,7 +567,7 @@ Procedure InitSyntaxCheckArrays()
   For Char = 'A' To 'Z'
     BasicKeywordsHT(Char) = BasicKeywordsHT(Char+('a'-'A'))
   Next Char
-
+  
   ; And next, init the ASM keywords
   ;
   CurrentChar = 0
@@ -586,25 +586,25 @@ Procedure InitSyntaxCheckArrays()
       CurrentChar = Char
     EndIf
   Next
-
+  
   ; ASM keywords are all uppercase, so set the lowercase index here
   For Char = 'A' To 'Z'
     ASMKeywordsHT(Char+('a'-'A')) = ASMKeywordsHT(Char)
   Next Char
-
+  
 EndProcedure
-    
+
 
 Procedure InitSyntaxHilightning()
   Static APIFunctionsRead
-
+  
   NbBasicFunctions = 0
   Global Dim BasicFunctions.FunctionEntry(0)
-
+  
   ; Only load these files when we are inside the IDE or debugger
   ;
   CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
-  
+    
     If CompilerReady ; only if the compiler is loaded!
       CompilerWrite("FUNCTIONLIST")
       Response$ = CompilerRead()
@@ -630,7 +630,7 @@ Procedure InitSyntaxHilightning()
               BasicFunctions(CurrentFunction)\Name$  = Response$
               BasicFunctions(CurrentFunction)\Proto$ = ""
             EndIf
-
+            
             CurrentFunction + 1
           EndIf
         ForEver
@@ -647,47 +647,47 @@ Procedure InitSyntaxHilightning()
         Next i
         
       EndIf
-    
+      
     EndIf
     
   CompilerEndIf
-
-
+  
+  
   ; PureBasic function Hash Table
   ;
   For k=1 To NbBasicFunctions
     BasicFunctionMap(UCase(BasicFunctions(k-1)\Name$)) = k
   Next
-
+  
   ; Read the API Functions file
   ;
   
   If APIFunctionsRead = 0  ; only needed once, not on compiler restart
     APIFunctionsRead = 1
-
+    
     NbAPIFunctions = 0
     Global Dim APIFunctions.FunctionEntry(0)
-      
+    
     ; Only load these files when we are inside the IDE or debugger
     ;
     CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant)
-
+      
       If ReadFile(#FILE_LoadAPI, PureBasicPath$ + #DEFAULT_ApiFile)
-  
+        
         NbAPIFunctions = Val(ReadString(#FILE_LoadAPI, #PB_Ascii))
-  
+        
         *Cursor.Byte = AllocateMemory(Lof(#FILE_LoadAPI)+2) ; this one never changes, because the API list isn't compiler generated
         *APIFunctionsBuffer = *Cursor
         If *Cursor
           ReadData(#FILE_LoadAPI, *Cursor, Lof(#FILE_LoadAPI))
-    
+          
           Dim APIFunctions.FunctionEntry(NbAPIFunctions)
           CurrentFunction = 0
-  
+          
           Repeat
             
             *NameStart = *Cursor     ; FunctionName
-        
+            
             While *Cursor\b <> ' ' And *Cursor\b <> 13 And *Cursor\b <> 10
               *Cursor+1
             Wend
@@ -701,25 +701,25 @@ Procedure InitSyntaxHilightning()
             Else
               *Cursor\b = 0
               *Cursor+1
-
+              
               APIFunctions(CurrentFunction)\Name$ = PeekS(*NameStart, -1, #PB_Ascii)
               
               *NameStart = *Cursor ; QuickHelo
-          
+              
               While *Cursor\b <> 13  And *Cursor\b <> 10 And *Cursor\b ; Skip the end of line
                 *Cursor+1
               Wend
-             
+              
               *Cursor\b = 0
               *Cursor+1
-
+              
               APIFunctions(CurrentFunction)\Proto$ = PeekS(*NameStart, -1, #PB_Ascii)
             EndIf
-          
+            
             If (*Cursor\b = 10)
               *Cursor+1
             EndIf
-          
+            
             CurrentFunction+1
           Until *Cursor\b = 0 Or CurrentFunction > NbAPIFunctions
           
@@ -739,7 +739,7 @@ Procedure InitSyntaxHilightning()
       EndIf
       
     CompilerEndIf
-              
+    
     ; API function Hash Table
     ;
     CurrentChar = 0
@@ -752,9 +752,9 @@ Procedure InitSyntaxHilightning()
         EndIf
       EndIf
     Next
-
+    
   EndIf
-
+  
   ; Indicate that hilightning is ready now:
   ;
   IsHilightningReady = 1
@@ -762,7 +762,7 @@ Procedure InitSyntaxHilightning()
 EndProcedure
 
 CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) ; only in IDE and debugger
-
+  
   Procedure BuildCustomKeywordTable()
     Protected NewList TempList.s() ; to collect all words first (from file and list)
     
@@ -782,7 +782,7 @@ CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) ; only in IDE and debugger
         EndIf
         *Cursor + SizeOf(Character)
       Wend
-    
+      
       If Word$ <> ""
         AddElement(TempList())
         TempList() = Word$
@@ -795,7 +795,7 @@ CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) ; only in IDE and debugger
       If ReadFile(#FILE_LoadFunctions, CustomKeywordFile$)
         While Not Eof(#FILE_LoadFunctions)
           Word$ = Trim(RemoveString(ReadString(#FILE_LoadFunctions), Chr(9)))
-  
+          
           *Cursor.Character = @Word$
           While *Cursor\c
             If ValidCharacters(*Cursor\c) = 0 And *Cursor\c <> '_' And *Cursor\c <> '*' And *Cursor\c <> '$'
@@ -804,7 +804,7 @@ CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) ; only in IDE and debugger
             EndIf
             *Cursor + SizeOf(Character)
           Wend
-        
+          
           If Word$ <> ""
             AddElement(TempList())
             TempList() = Word$
@@ -816,10 +816,10 @@ CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) ; only in IDE and debugger
     
     ; sort the list and fill the hilighter arrays
     SortList(TempList(), #PB_Sort_Ascending|#PB_Sort_NoCase)
-      
+    
     NbCustomKeywords = ListSize(TempList())
     Global Dim CustomKeywords.s(NbCustomKeywords)
- 
+    
     For i = 0 To 255
       CustomKeywordsHT(i) = 0 ; clear the HT
     Next i
@@ -837,7 +837,7 @@ CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) ; only in IDE and debugger
     Next TempList()
     
   EndProcedure
-
+  
 CompilerEndIf
 
 
@@ -845,10 +845,10 @@ CompilerEndIf
 ;
 Procedure IsAPIFunction(*Word, length)
   Result = -1
-    
+  
   If length > 2 And PeekB(*Word+length-1) = '_'
     length - 1
-  
+    
     k = APIFunctionsHT(ByteUcase(PeekB(*Word)))  ; We use an HashTable to get access to the index very quickly
     If k
       k-1
@@ -857,7 +857,7 @@ Procedure IsAPIFunction(*Word, length)
           Quit = 1
         Else
           Compare = CompareMemoryString(APIFunctions(k)\Ascii, *Word, 1, length, #PB_Ascii)  ; Case insensitive compare
-        
+          
           If Compare <= 0
             If Compare = 0 And length = MemoryAsciiLength(APIFunctions(k)\Ascii) ; important to check the length!
               Result = k
@@ -871,9 +871,9 @@ Procedure IsAPIFunction(*Word, length)
         k+1
       Wend
     EndIf
-  
-  EndIf
     
+  EndIf
+  
   ProcedureReturn Result
 EndProcedure
 
@@ -884,7 +884,7 @@ EndProcedure
 
 
 Procedure IsASMKeyword(Word$)
-
+  
   Word$ = UCase(Word$)
   k = ASMKeywordsHT(Asc(Word$))  ; We use an HashTable to get access to the index very quickly
   If k
@@ -899,20 +899,20 @@ Procedure IsASMKeyword(Word$)
       Else
         Quit = 1
       EndIf
-
+      
       k+1
     Wend
   EndIf
-
+  
   ProcedureReturn Result
 EndProcedure
 
 Procedure IsCustomKeyword(Word$)
-
+  
   k = CustomKeywordsHT(Asc(UCase(Word$)))  ; We use an HashTable to get access to the index very quickly
   If k
     While Quit = 0 And k <= NbCustomKeywords
-    
+      
       Compare = CompareMemoryString(@CustomKeywords(k), @Word$, #PB_String_NoCase)  ; Case insensitive compare
       
       If Compare <= 0
@@ -924,11 +924,11 @@ Procedure IsCustomKeyword(Word$)
       Else
         Quit = 1
       EndIf
-
+      
       k+1
     Wend
   EndIf
-
+  
   ProcedureReturn Result
 EndProcedure
 
@@ -942,14 +942,14 @@ Procedure IsKnownConstant(Word$)
   Else
     ProcedureReturn 0
   EndIf
-    
+  
   For i = ConstantHT(char, 0) To ConstantHT(char, 1)
     If CompareMemoryString(@Word$, @ConstantList(i), #PB_String_NoCase) = 0
       KnownConstant$ = ConstantList(i)
-    ProcedureReturn 1
-  EndIf
+      ProcedureReturn 1
+    EndIf
   Next i
-
+  
 EndProcedure
 
 ; for detection. use global so it does not need to be done all the time
@@ -961,7 +961,7 @@ Global *KeywordExtends   = StringToAscii("Extends")
 ; a structure or interface keyword
 ;
 Procedure IsAfterStructure(Keyword, *LineStart, *Cursor.HilightPTR)
-
+  
   ; move away from word start char
   *Cursor - 1
   
@@ -1010,7 +1010,7 @@ EndProcedure
 ; Supply *LineStart and *WordStart to check 'Align' and 'Extends' after structures
 ;
 Procedure IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
-
+  
   If Right(Word$, 1) = "$"
     Word$ = Left(Word$, Len(Word$)-1)
     AddDollar = 1
@@ -1030,7 +1030,7 @@ Procedure IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
       Else
         Quit = 1
       EndIf
-
+      
       k+1
     Wend
   EndIf
@@ -1054,7 +1054,7 @@ Procedure IsDecNumber(*string.BYTE, length)
   If length < 0 Or ByteUcase(*string\b) = 'E' ; prevent variablenames like e1, e, e1225 from hilighting as numbers
     ProcedureReturn 0
   EndIf
-
+  
   *bufferend = *string + length
   While *string < *bufferend
     If (*string\b < 48 Or *string\b > 57) And *string\b <> 'e' And *string\b <> 'E' And *string\b <> '-' And *string\b <> '+' ; include the 123e-10 stuff too
@@ -1107,7 +1107,7 @@ EndProcedure
 #ModuleSeparator = -2
 
 Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.HilightCallback, IsSourceCode)
-
+  
   *Cursor.HilightPTR = *InBuffer
   *InBufferEnd = *InBuffer + InBufferLength
   *LineStart   = *InBuffer ; Scintilla never requests the hilight of less than complete lines, so this is ok
@@ -1123,32 +1123,32 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
   Else
     SourceStringFormat = #PB_Ascii
   EndIf
-
+  
   SeperatorChar = 0
   OldSeparatorChar = 0   ; the previous separator char
   OlderSeparatorChar = 0 ; the separator char before the previous one
-
+  
   While *Cursor < *InBufferEnd
-
+    
     *StringStart = *Cursor
-
+    
     ; first, skip all tabs and spaces
     While *Cursor < *InBufferEnd And (*Cursor\b = ' ' Or *Cursor\b = 9)
       *Cursor + 1
     Wend
-
+    
     ; Now, isolate the word..
-
+    
     *WordStart = *Cursor
-
+    
     While *Cursor < *InBufferEnd And ValidCharacters(*Cursor\a)
       *Cursor + 1
     Wend
-
+    
     *WordEnd.BYTE = *Cursor
-
+    
     ; Skip all the spaces after the word..
-
+    
     AfterSpaces = 0
     While *Cursor < *InBufferEnd And (*Cursor\b = ' ' Or *Cursor\b = 9)
       AfterSpaces+1
@@ -1170,30 +1170,30 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
     
     WordLength = *WordEnd - *WordStart
     WordStart$ = PeekAsciiLength(*WordStart, WordLength)
-
+    
     SeparatorUsed = 0
     IgnoreSeparator = 0
-
+    
     ; Here we got our separator: (, ', ;....). If it's a valid character, then the separator was spaces..
     
     If *Cursor > *InBufferEnd
       SeparatorChar = #EndSeparator ; indicate end of the loop!
       
     Else
-
+      
       NewLine = 0
       If ValidCharacters(*Cursor\a)
         SeparatorChar = 0
-
+        
       ElseIf *Cursor\b = 13 Or *Cursor\b = 10
         NewLine = 1
-
+        
         If *Cursor+1 < *InBufferEnd And (*Cursor\a[1] = 13 Or *Cursor\a[1] = 10)  ; output the newline directly with the word
           *Cursor + 2
         Else
           *Cursor + 1
         EndIf
-
+        
         SeparatorChar = #SkipSeparator
         
       ElseIf *Cursor\b = 0
@@ -1206,7 +1206,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
     
     ; Custom keywords get priority even over PB ones so you can re-color some of them if you want
     If IsCustomKeyword(WordStart$) And OldSeparatorChar <> '\'
-    
+      
       ; -------------------- Custom Keyword -------------------------
       If EnableCaseCorrection And (CursorPosition = 0 Or CursorPosition < *WordStart-*InBuffer Or CursorPosition > *WordEnd-*InBuffer)
         TextChanged = CopyMemoryCheck(ToAscii(CustomKeyword$), *WordStart, Len(CustomKeyword$)) ; no PokeS() as it will write a 0!
@@ -1221,27 +1221,27 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
       Else
         Callback(*StringStart, *Cursor - *StringStart, *CustomKeywordColor, 0, TextChanged)
       EndIf
-
+      
       CompilerIf Defined(IDE_SYNTAXCHECK, #PB_Constant)
         CompilerError "Note: when adding this, add code for all possible syntax tokens here"
       CompilerEndIf
       
-        
-    ; do not hilight as keyword if the last separator was \ (then its a structure member)
-    ; also not when its the first thing in a command, and a Asm keyword (and asm turned on)
-    ; as And, Or, Xor and such only happen as keywords after something else, this will work
-    ;
+      
+      ; do not hilight as keyword if the last separator was \ (then its a structure member)
+      ; also not when its the first thing in a command, and a Asm keyword (and asm turned on)
+      ; as And, Or, Xor and such only happen as keywords after something else, this will work
+      ;
     ElseIf IsBasicKeyword(WordStart$, *LineStart, *WordStart) And OldSeparatorChar <> '\' And (ASMEnabled = 0 Or IsASMKeyword(WordStart$) = 0 Or IsCommandStart(*LineStart, *WordStart) = 0)
-
+      
       ; -------------------- Basic Keywords -------------------------
-
+      
       ; do not correct the word the user is currently typing, because it will change the case of any word that starts with a PB keyword, which is not good
       If EnableCaseCorrection And (CursorPosition = 0 Or CursorPosition < *WordStart-*InBuffer Or CursorPosition > *WordEnd-*InBuffer)
         TextChanged = CopyMemoryCheck(ToAscii(BasicKeyword$), *WordStart, Len(BasicKeyword$)) ; no PokeS() as it will write a 0!
       Else
         TextChanged = 0
       EndIf
-            
+      
       If EnableKeywordBolding ; special fix for the alignment issues. for bolded keywords, we output all whitespace as "normal text"
         Callback(*StringStart, *WordStart- *StringStart, *NormalTextColor, 0, 0)
         Callback(*WordStart  , *WordEnd  - *WordStart  , *BasicKeywordColor, 1, TextChanged)
@@ -1251,7 +1251,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
       EndIf
       
     ElseIf SeparatorChar = ':' And *Cursor\a[1] = ':'
-    
+      
       ; --------------------- Module Prefix ------------------------
       
       Callback(*StringStart, *Cursor-*StringStart, *ModuleColor, 0, 0)
@@ -1262,21 +1262,21 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
       SeparatorUsed = 1
       *Cursor + 2 ; skip both ::
       
-
+      
     ElseIf SeparatorChar = ':' And IsLineStart(*LineStart, *WordStart) And WordLength > 0
-
+      
       ; --------------------- Labels -------------------------------
       
       Callback(*StringStart, *Cursor-*StringStart+1, *LabelColor, 0, 0) ; include the : !
       SeparatorUsed = 1
       
-
-
+      
+      
     ElseIf SeparatorChar = '(' And WordLength > 0
-
+      
       ; --------------------- Procedures / Functions --------------------
       TextChanged = 0
-
+      
       FunctionPosition = IsAPIFunction(*WordStart, WordLength)
       If FunctionPosition > -1
         
@@ -1287,15 +1287,15 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
       Else
         FunctionPosition = IsBasicFunction(UCase(WordStart$))
         If FunctionPosition > -1
-
+          
           If EnableCaseCorrection And OldSeparatorChar <> '.' ; do not correct structure names
             TextChanged = CopyMemoryCheck(BasicFunctions(FunctionPosition)\Ascii, *WordStart, WordLength)
           EndIf
           
         EndIf
-
+        
       EndIf
-
+      
       If OldSeparatorChar = '.'
         WordStart$ = UCase(WordStart$)
         If Len(WordStart$) = 1 And FindString(#BasicTypeChars, WordStart$, 1) ; check for the basic types
@@ -1309,22 +1309,22 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
       Else
         Callback(*StringStart, *Cursor-*StringStart, *PureKeywordColor, 0, TextChanged)
       EndIf
-
+      
     ElseIf IsDecNumber(*WordStart, WordLength) Or (OldSeparatorChar = '.' And ByteUcase(PeekB(*WordStart)) = 'E' And IsDecNumber(*WordStart+1, WordLength-1)) ; allow 1.e10 by skipping the 'E' in the test
-
+      
       ; ---------------------- Decimal Numbers -----------------------
-
+      
       If SeparatorChar = '.'
         Callback(*StringStart, *Cursor-*StringStart+1, *NumberColor, 0, 0) ; include the .
         SeparatorUsed = 1
       Else
         Callback(*StringStart, *Cursor-*StringStart, *NumberColor, 0, 0)
       EndIf
-
+      
     ElseIf ASMEnabled And IsASMKeyword(WordStart$)
-     
+      
       ; -------------------- ASM Keywords ---------------------------
-
+      
       ; do not correct the word the user is currently typing, because it will change the case of any word that starts with a PB keyword, which is not good
       If EnableCaseCorrection And (CursorPosition = 0 Or CursorPosition < *WordStart-*InBuffer Or CursorPosition > *WordEnd-*InBuffer)
         TextChanged = CopyMemoryCheck(ToAscii(ASMKeyword$), *WordStart, WordLength) ; no PokeS() as it will write a 0!
@@ -1332,17 +1332,17 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
       Else
         Callback(*StringStart, *Cursor-*StringStart, *ASMKeywordColor, 0, 0)
       EndIf
-
+      
     ElseIf OldSeparatorChar = '\' Or SeparatorChar = '\'
-
+      
       ; ---------------------- Structures --------------------------
       Callback(*StringStart, *Cursor-*StringStart, *StructureColor, 0, 0)
-
-
+      
+      
     ElseIf SeparatorChar = '.' Or OldSeparatorChar = '.' Or (OldSeparatorChar = #ModuleSeparator And OlderSeparatorChar = '.')
-
+      
       ; ---------------------- Structures Or PB Types -----------------
-
+      
       If OldSeparatorChar = '.'
         WordStart$ = UCase(WordStart$)
         If Len(WordStart$) = 1 And FindString(#BasicTypeChars, WordStart$, 1) ; check for the basic types
@@ -1350,7 +1350,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         Else
           Callback(*StringStart, *Cursor-*StringStart, *StructureColor, 0, 0)
         EndIf
-
+        
       Else
         *ForwardCursor.HilightPTR = *Cursor+1
         While *ForwardCursor.HilightPTR < *InBufferEnd And ValidCharacters(*ForwardCursor\a)
@@ -1371,29 +1371,29 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         Else
           IsModulePrefix = 0
         EndIf
-
+        
         If *ForwardCursor\b = '('  ; Dim whatever.xy() or NewList...
           Callback(*StringStart, *Cursor-*StringStart, *PureKeywordColor, 0, 0)
-
+          
         ElseIf IsModulePrefix = 0 And Len(NextWord$) = 1 And FindString(#BasicTypeChars, NextWord$, 1) ; check for the basic types
           Callback(*StringStart, *Cursor-*StringStart, *NormalTextColor, 0, 0)
           
-        ; special cases for p-ascii, p-unicode, p-bstr
-        ;
+          ; special cases for p-ascii, p-unicode, p-bstr
+          ;
         ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-8 And CompareMemoryString(*Cursor, ToAscii(".p-ascii"), #PB_String_NoCase, 8, #PB_Ascii) = 0
           Callback(*StringStart, *Cursor-*StringStart, *NormalTextColor, 0, 0)
           Callback(*Cursor, 1, *SeparatorColor, 0, 0)
           Callback(*Cursor+1, 7, *NormalTextColor, 0, 0)
           *Cursor + 8
           SeparatorChar = #SkipSeparator
-        
+          
         ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-10 And CompareMemoryString(*Cursor, ToAscii(".p-unicode"), #PB_String_NoCase, 10, #PB_Ascii) = 0
           Callback(*StringStart, *Cursor-*StringStart, *NormalTextColor, 0, 0)
           Callback(*Cursor, 1, *SeparatorColor, 0, 0)
           Callback(*Cursor+1, 9, *NormalTextColor, 0, 0)
           *Cursor + 10
           SeparatorChar = #SkipSeparator
-        
+          
         ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-7 And CompareMemoryString(*Cursor, ToAscii(".p-bstr"), #PB_String_NoCase, 7, #PB_Ascii) = 0
           Callback(*StringStart, *Cursor-*StringStart, *NormalTextColor, 0, 0)
           Callback(*Cursor, 1, *SeparatorColor, 0, 0)
@@ -1414,31 +1414,31 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
           Callback(*Cursor+1, 6, *NormalTextColor, 0, 0)
           *Cursor + 7
           SeparatorChar = #SkipSeparator
-
-
+          
+          
         Else
           Callback(*StringStart, *Cursor-*StringStart, *StructureColor, 0, 0)
-
+          
         EndIf
       EndIf
-
-
+      
+      
     ElseIf *Cursor-*StringStart > 0
-
+      
       ; ---------------------- Normal Text -------------------------
       Callback(*StringStart, *Cursor-*StringStart, *NormalTextColor, 0, 0)
-
+      
     EndIf
-
+    
     ; Everything that has a Word before a separator has been processed and outputed now.
     ; Only separators remain
-
+    
     If SeparatorUsed = 0 And SeparatorChar <> #SkipSeparator
-
+      
       If SeparatorChar = '!' And IsLineStart(*LineStart, *Cursor)
-
+        
         ; --------------------- ASM Line with "!" ---------------------
- 
+        
         *StringStart = *Cursor ; hilight to lineend or comment
         While *Cursor < *InBufferEnd And *Cursor\b <> ';' And *Cursor\b <> 10 And *Cursor\b <> 13 And *Cursor\b
           *Cursor + 1
@@ -1446,7 +1446,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         
         If *Cursor\b <> ';'
           NewLine = 1
-  
+          
           If *Cursor+1 < *InBufferEnd And (*Cursor\a[1] = 10 Or *Cursor\a[1] = 13)
             *Cursor + 1
           EndIf
@@ -1455,22 +1455,22 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
             *Cursor + 1
           EndIf
         EndIf
-
+        
         Callback(*StringStart, *Cursor-*StringStart, *ASMKeywordColor, 0, 0)
         SeparatorChar = #SkipSeparator
-
-
-
+        
+        
+        
       ElseIf SeparatorChar = '"'
-    
+        
         ; --------------------- Strings ----------------------------
-
+        
         *StringStart = *Cursor ; the position of the Separator
         *Cursor + 1
         While *Cursor < *InBufferEnd And (*Cursor\b <> '"' And *Cursor\b <> 10 And *Cursor\b <> 13 And *Cursor\b)
           *Cursor + 1
         Wend
-
+        
         If *Cursor\b = 10 Or *Cursor\b = 13
           NewLine = 1
           
@@ -1482,38 +1482,38 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         If *Cursor < *InBufferEnd ; include the newline or second "
           *Cursor + 1
         EndIf
-
+        
         Callback(*StringStart, *Cursor-*StringStart, *StringColor, 0, 0) ; include the second " !
         SeparatorChar = #SkipSeparator
         
       ElseIf SeparatorChar = '~' And *Cursor\a[1] = '"'
-      
+        
         ; --------------------- Strings with escape sequences ----------------------------
-
+        
         *StringStart = *Cursor ; the position of the ~
         *Cursor + 2
-
+        
         While *Cursor < *InBufferEnd
           Select *Cursor\b
-          
+              
             Case 0         ; end of input
               Break
-            
+              
             Case 13, 10    ; newline
               NewLine = 1
               If *Cursor+1 < *InBufferEnd And (*Cursor\a[1] = 10 Or *Cursor\a[1] = 13)
                 *Cursor + 1
               EndIf
               Break
-            
+              
             Case '"'       ; end of string
               *Cursor + 1
               Break
-            
+              
             Case '\'       ; escape sequence
               If *Cursor+1 < *InBufferEnd
                 Select *Cursor\a[1]
-                
+                    
                   Case 'a', 'b', 'f', 'n', 'r', 't', 'v', '"', '\'
                     ; correct sequence
                     *Cursor + 2
@@ -1532,10 +1532,10 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
                 *Cursor + 1
                 Break
               EndIf
-            
+              
             Default        ; other char
               *Cursor + 1
-          
+              
           EndSelect
         Wend
         
@@ -1543,13 +1543,13 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
           Callback(*StringStart, *Cursor-*StringStart, *StringColor, 0, 0)
         EndIf
         SeparatorChar = #SkipSeparator
-
+        
       ElseIf SeparatorChar = ';'
-
-
-
+        
+        
+        
         ; ------------------- Comments -------------------------
-
+        
         *StringStart = *Cursor
         WhiteOnly = #True
         While *Cursor < *InBufferEnd And (*Cursor\b <> 10 And *Cursor\b <> 13 And *Cursor\b)
@@ -1560,7 +1560,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         Wend
         NewLine = 1
         *LineEnd = *Cursor
-
+        
         If *Cursor+1 < *InBufferEnd And (*Cursor\a[1] = 10 Or *Cursor\a[1] = 13)
           *Cursor + 1
         EndIf
@@ -1572,7 +1572,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         SeparatorChar = #SkipSeparator
         
         CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
-        
+          
           If WhiteOnly Or PeekA(*StringStart + 1) = '-'
             ; no issue scanning in empty comments or marker lines
             Callback(*StringStart, *Cursor-*StringStart, *CommentColor, 0, 0)
@@ -1580,18 +1580,18 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
             ; scan/hilight issues
             HighlightCommentIssues(*StringStart, *LineEnd, *Cursor, SourceStringFormat, Callback)
           EndIf
-        
+          
         CompilerElse
-        
+          
           ; no issues support
           Callback(*StringStart, *Cursor-*StringStart, *CommentColor, 0, 0)
           
         CompilerEndIf
-
+        
       ElseIf SeparatorChar = '#'
-
+        
         ; ---------------------- Constants --------------------
-
+        
         *StringStart = *Cursor
         *Cursor + 1
         While *Cursor < *InBufferEnd And ValidCharacters(*Cursor\a)
@@ -1601,7 +1601,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         If *Cursor < *InBufferEnd And *Cursor\b = '$' ; string constant
           *Cursor + 1
         EndIf
-
+        
         ; also do not correct case here if the cursor is over the word
         If EnableCaseCorrection And ConstantListSize > 0 And *Cursor > *StringStart + 1 And IsKnownConstant(PeekAsciiLength(*StringStart, *Cursor-*StringStart)) And (CursorPosition = 0 Or CursorPosition < *StringStart-*InBuffer Or CursorPosition > *Cursor-*InBuffer)
           TextChanged = CopyMemoryCheck(ToAscii(KnownConstant$), *StringStart, Len(KnownConstant$))
@@ -1611,9 +1611,9 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         EndIf
         
         SeparatorChar = #SkipSeparator ; don't move the cursor at the loop end
-
+        
       ElseIf SeparatorChar = 39 ; '
-      
+        
         ; --------------------- Numeric Constants -----------------------
         
         *StringStart = *Cursor ; the position of the Separator
@@ -1621,7 +1621,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         While *Cursor < *InBufferEnd And (*Cursor\b <> 39 And *Cursor\b <> 10 And *Cursor\b <> 13 And *Cursor\b)
           *Cursor + 1
         Wend
-
+        
         If *Cursor < *InBufferEnd And (*Cursor\b = 10 Or *Cursor\b = 13)
           NewLine = 1
           
@@ -1629,52 +1629,52 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
             *Cursor + 1
           EndIf
         EndIf
-
+        
         Callback(*StringStart, *Cursor-*StringStart+1, *ConstantColor, 0, 0) ; include the second ' !
         *Cursor + 1
         SeparatorChar = #SkipSeparator
-
-
-
+        
+        
+        
       ElseIf SeparatorChar = '$'
-
+        
         ; -------------------------- HEX Values ----------------------------
-
+        
         *StringStart = *Cursor
         *Cursor + 1
         While *Cursor < *InBufferEnd And ((*Cursor\b >= '0' And *Cursor\b <= '9') Or (*Cursor\b >= 'A' And *Cursor\b <= 'F') Or (*Cursor\b >= 'a' And *Cursor\b <= 'f'))
           *Cursor + 1
         Wend
-
+        
         Callback(*StringStart, *Cursor-*StringStart, *NumberColor, 0, 0) ; don't include the current char
         SeparatorChar = #SkipSeparator
-
-      
+        
+        
       ElseIf SeparatorChar = '%'
-
+        
         ; ---------------------------- % - binary or mod ------------------------
-
+        
         *StringStart = *Cursor
         *Cursor + 1
-
+        
         While *Cursor < *InBufferEnd And (*Cursor\b = '1' Or *Cursor\b = '0')
           *Cursor + 1
         Wend
-
+        
         If *Cursor = *StringStart + 1   ; no numbers found, so not binary
           Callback(*StringStart, 1, *OperatorColor, 0, 0)
-
+          
         Else  ; binary
           Callback(*StringStart, *Cursor-*StringStart, *NumberColor, 0, 0)
-
+          
         EndIf
         SeparatorChar = #SkipSeparator
-
-
+        
+        
       ElseIf SeparatorChar = '@' Or SeparatorChar = '?'
-
+        
         ; ------------------------------ Pointer @ or ? --------------------
-
+        
         IsNumber = 0
         *StringStart = *Cursor
         *Cursor + 1
@@ -1682,21 +1682,21 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         While *Cursor < *InBufferEnd And (ValidCharacters(*Cursor\a) Or *Cursor\b = '$')
           *Cursor + 1
         Wend
-
+        
         Callback(*StringStart, *Cursor-*StringStart, *PointerColor, 0, 0) ; don't include the current char!
-        SeparatorChar = #SkipSeparator ; don't move the cursor at the loop end
-
-
-
+        SeparatorChar = #SkipSeparator                                    ; don't move the cursor at the loop end
+        
+        
+        
       ElseIf SeparatorChar = '*'
-
+        
         ; ---------------------- * - Pointer or Operator -----------------------------
-
+        
         If ValidCharacters(*Cursor\a[1]) = 0 ; surely an operator
           Callback(*Cursor, 1, *OperatorColor, 0, 0)
-           
+          
         Else ; since 5*a is not a pointer, we need to further check..
-
+          
           *BackCursor.HilightPTR = *Cursor-1
           IsPointer = 1
           While *BackCursor >= *InBuffer And *BackCursor\b <> 10 And *BackCursor\b <> 13
@@ -1710,7 +1710,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
             EndIf
             *BackCursor - 1
           Wend
-
+          
           If ValidCharacters(*BackCursor\a)  ; in this case, check if this was a PB Keyword
             *CheckEnd = *BackCursor
             While *BackCursor >= *InBuffer And ValidCharacters(*BackCursor\a)
@@ -1727,56 +1727,56 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
               IsPointer = IsBasicKeyword(PeekAsciiLength(*BackCursor+1, *CheckEnd-*BackCursor))
             EndIf
           EndIf
-
+          
           If IsPointer = 0
             Callback(*Cursor, 1, *OperatorColor, 0, 0)
-
+            
           Else
             *StringStart = *Cursor
             *Cursor + 1
             While *Cursor < *InBufferEnd And (ValidCharacters(*Cursor\a) Or *Cursor\b = '$')
               *Cursor + 1
             Wend
-
+            
             Callback(*StringStart, *Cursor-*StringStart, *PointerColor, 0, 0)
             SeparatorChar = #SkipSeparator ; don't move the cursor at the loop end
-
+            
           EndIf
-
+          
         EndIf
-
-
-     
-
+        
+        
+        
+        
       ElseIf SeparatorChar = '=' Or SeparatorChar = '+' Or SeparatorChar = '-' Or SeparatorChar = '/' Or SeparatorChar = '&' Or SeparatorChar = '|' Or SeparatorChar = '!' Or SeparatorChar = '~' Or SeparatorChar = '<' Or SeparatorChar = '>'
-
+        
         ; ------------------------- Operators --------------------------------
         ; = + - / & | ! ~ < >
-
+        
         Callback(*Cursor, 1, *OperatorColor, 0, 0)
-
-
-
+        
+        
+        
       ElseIf SeparatorChar = '(' Or SeparatorChar = ')' Or SeparatorChar = '[' Or SeparatorChar = ']' Or SeparatorChar = '.' Or SeparatorChar = ',' Or SeparatorChar = ':' Or SeparatorChar = '\'
-
+        
         ; ------------------------- Separators -------------------------------
         ; ( ) [ ] . , : \
-
+        
         Callback(*Cursor, 1, *SeparatorColor, 0, 0)
-       
- 
+        
+        
       ElseIf SeparatorChar > 0
-
+        
         ; ----------------------- Normal Text Separator --------------
-
+        
         Callback(*Cursor, 1, *NormalTextColor, 0, 0)
       EndIf
     EndIf
-
+    
     If SeparatorChar > 0  ; #SkipSeparator is -2
-      *Cursor + 1 ; move away from the separator char
+      *Cursor + 1         ; move away from the separator char
     EndIf
-
+    
     OlderSeparatorChar = OldSeparatorChar
     OldSeparatorChar = SeparatorChar
     
@@ -1791,13 +1791,13 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
     EndIf
   Wend
   
-
+  
 EndProcedure
 
 DataSection
-
+  
   ;- Keywords - BASIC
-      
+  
   ; Note: First is the Keyword in real Case, then
   ; the corresponding end keyword (for autocomplete), then wether the tag should include a
   ; trailing space in autocomplete (if enabled)
@@ -1806,172 +1806,172 @@ DataSection
   ; Note: Keep this in sync with the above constants
   
   BasicKeywords:
-    Data$ "Align", "", " "
-    Data$ "And", "", " "
-    Data$ "Array", "", " "
-    Data$ "As", "", " "
-
-    Data$ "Break", "", ""
-
-    Data$ "CallDebugger"     , "", ""
-    Data$ "Case"             , "", " "
-    Data$ "CompilerCase"     , "", " "
-    Data$ "CompilerDefault"  , "", ""
-    Data$ "CompilerElse"     , "", ""
-    Data$ "CompilerElseIf"   , "", " "
-    Data$ "CompilerEndIf"    , "", ""
-    Data$ "CompilerEndSelect", "", ""
-    Data$ "CompilerError"    , "", " "
-    Data$ "CompilerIf"       , "CompilerEndIf"    , " "
-    Data$ "CompilerSelect"   , "CompilerEndSelect", " "
-    Data$ "CompilerWarning"  , "", " "
-    Data$ "Continue"         , "", ""
-
-    Data$ "Data"           , "", " "
-    Data$ "DataSection"    , "EndDataSection", ""
-    Data$ "Debug"          , "", " "
-    Data$ "DebugLevel"     , "", " "
-    Data$ "Declare"        , "", ""
-    CompilerIf Not #SpiderBasic
-      Data$ "DeclareC"       , "", ""
-      Data$ "DeclareCDLL"    , "", ""
-      Data$ "DeclareDLL"     , "", ""
-    CompilerEndIf
-    Data$ "DeclareModule"  , "EndDeclareModule", " "
-    Data$ "Default"        , "", ""
-    Data$ "Define"         , "", " "
-    Data$ "Dim"            , "", " "
-    CompilerIf Not #SpiderBasic
-      Data$ "DisableASM"     , "", ""
-    CompilerEndIf
-    Data$ "DisableDebugger", "", ""
-    Data$ "DisableExplicit", "", ""
-    CompilerIf #SpiderBasic
-      Data$ "DisableJS"     , "", ""
-    CompilerEndIf
+  Data$ "Align", "", " "
+  Data$ "And", "", " "
+  Data$ "Array", "", " "
+  Data$ "As", "", " "
   
-    Data$ "Else"              , "", ""
-    Data$ "ElseIf"            , "", " "
-    CompilerIf Not #SpiderBasic
-      Data$ "EnableASM"         , "", ""
-    CompilerEndIf
-    Data$ "EnableDebugger"    , "", ""
-    Data$ "EnableExplicit"    , "", ""
-    CompilerIf #SpiderBasic
-      Data$ "EnableJS"        , "", ""
-    CompilerEndIf
-    Data$ "End"               , "", ""
-    Data$ "EndDataSection"    , "", ""
-    Data$ "EndDeclareModule"  , "", ""
-    Data$ "EndEnumeration"    , "", ""
-    Data$ "EndIf"             , "", ""
-    Data$ "EndImport"         , "", ""
-    Data$ "EndInterface"      , "", ""
-    Data$ "EndMacro"          , "", ""
-    Data$ "EndModule"         , "", ""
-    Data$ "EndProcedure"      , "", ""
-    Data$ "EndSelect"         , "", ""
-    Data$ "EndStructure"      , "", ""
-    CompilerIf Not #SpiderBasic
-      Data$ "EndStructureUnion" , "", ""
-    CompilerEndIf
-    Data$ "EndWith"           , "", ""
-    Data$ "Enumeration"       , "EndEnumeration", " "
-    Data$ "EnumerationBinary" , "EndEnumeration", " "
-    Data$ "Extends"           , "", " "
-
-    CompilerIf Not #SpiderBasic
-      Data$ "FakeReturn"   , "", ""
-    CompilerEndIf
-    Data$ "For"          , "Next", " "
-    Data$ "ForEach"      , "Next", " "
-    Data$ "ForEver"      , "", ""
-
-    Data$ "Global", "", " "
-    CompilerIf Not #SpiderBasic
-      Data$ "Gosub" , "", " "
-      Data$ "Goto"  , "", " "
-    CompilerEndIf
-
-    Data$ "If"            , "EndIf", " "
-    Data$ "Import"        , "EndImport", " "
-    CompilerIf Not #SpiderBasic
-      Data$ "ImportC"       , "EndImport", " "
-    CompilerEndIf
-    CompilerIf Not #SpiderBasic
-      Data$ "IncludeBinary" , "", " "
-    CompilerEndIf
-    Data$ "IncludeFile"   , "", " "
-    Data$ "IncludePath"   , "", " "
-    Data$ "Interface"     , "EndInterface", " "
-    
-    Data$ "List", "", " "
-
-    Data$ "Macro", "EndMacro", " "
-    Data$ "MacroExpandedCount", "", ""
-    Data$ "Map", "", " "
-    Data$ "Module"  , "EndModule", " "
-    
-    Data$ "NewList", "", " "
-    Data$ "NewMap",  "", " "
-    Data$ "Next"   , "", ""
-    Data$ "Not"    , "", " "
-
-    Data$ "Or", "", " "
-
-    ;Data$ "Parallel"       , "", " "
-    Data$ "Procedure"      , "EndProcedure", " "
-    CompilerIf Not #SpiderBasic
-      Data$ "ProcedureC"     , "EndProcedure", " "
-      Data$ "ProcedureCDLL"  , "EndProcedure", " "
-      Data$ "ProcedureDLL"   , "EndProcedure", " "
-    CompilerEndIf
-    Data$ "ProcedureReturn", "", " "
-    Data$ "Protected"      , "", " "
-    Data$ "Prototype"      , "", " "
-    CompilerIf Not #SpiderBasic
-      Data$ "PrototypeC"     , "", " "
-    CompilerEndIf
-
-    Data$ "Read"   , "", " "
-    Data$ "ReDim"  , "", " "
-    Data$ "Repeat" , "Until ", ""
-    Data$ "Restore", "", " "
-    CompilerIf Not #SpiderBasic
-      Data$ "Return" , "", ""
-    CompilerEndIf
-    Data$ "Runtime" , "", ""
-
-    Data$ "Select"        , "EndSelect", " "
-    Data$ "Shared"        , "", " "
-    Data$ "Static"        , "", " "
-    Data$ "Step"          , "", " "
-    Data$ "Structure"     , "EndStructure", " "
-    CompilerIf Not #SpiderBasic
-      Data$ "StructureUnion", "EndStructureUnion", ""
-    CompilerEndIf
-    Data$ "Swap"          , "", " "
-    
-    CompilerIf Not #SpiderBasic
-      Data$ "Threaded", "", " "
-    CompilerEndIf
-    Data$ "To", "", " "
-
-    Data$ "UndefineMacro", "", " "
-    Data$ "Until", "", " "
-    Data$ "UnuseModule", "", " "
-    Data$ "UseModule", "", " "
-
-    Data$ "Wend" , "", ""
-    Data$ "While", "Wend", " "
-    Data$ "With" , "EndWith", " "
-
-    Data$ "XIncludeFile", "", " "
-    Data$ "XOr"         , "", " "
-
-
+  Data$ "Break", "", ""
+  
+  Data$ "CallDebugger"     , "", ""
+  Data$ "Case"             , "", " "
+  Data$ "CompilerCase"     , "", " "
+  Data$ "CompilerDefault"  , "", ""
+  Data$ "CompilerElse"     , "", ""
+  Data$ "CompilerElseIf"   , "", " "
+  Data$ "CompilerEndIf"    , "", ""
+  Data$ "CompilerEndSelect", "", ""
+  Data$ "CompilerError"    , "", " "
+  Data$ "CompilerIf"       , "CompilerEndIf"    , " "
+  Data$ "CompilerSelect"   , "CompilerEndSelect", " "
+  Data$ "CompilerWarning"  , "", " "
+  Data$ "Continue"         , "", ""
+  
+  Data$ "Data"           , "", " "
+  Data$ "DataSection"    , "EndDataSection", ""
+  Data$ "Debug"          , "", " "
+  Data$ "DebugLevel"     , "", " "
+  Data$ "Declare"        , "", ""
+  CompilerIf Not #SpiderBasic
+    Data$ "DeclareC"       , "", ""
+    Data$ "DeclareCDLL"    , "", ""
+    Data$ "DeclareDLL"     , "", ""
+  CompilerEndIf
+  Data$ "DeclareModule"  , "EndDeclareModule", " "
+  Data$ "Default"        , "", ""
+  Data$ "Define"         , "", " "
+  Data$ "Dim"            , "", " "
+  CompilerIf Not #SpiderBasic
+    Data$ "DisableASM"     , "", ""
+  CompilerEndIf
+  Data$ "DisableDebugger", "", ""
+  Data$ "DisableExplicit", "", ""
+  CompilerIf #SpiderBasic
+    Data$ "DisableJS"     , "", ""
+  CompilerEndIf
+  
+  Data$ "Else"              , "", ""
+  Data$ "ElseIf"            , "", " "
+  CompilerIf Not #SpiderBasic
+    Data$ "EnableASM"         , "", ""
+  CompilerEndIf
+  Data$ "EnableDebugger"    , "", ""
+  Data$ "EnableExplicit"    , "", ""
+  CompilerIf #SpiderBasic
+    Data$ "EnableJS"        , "", ""
+  CompilerEndIf
+  Data$ "End"               , "", ""
+  Data$ "EndDataSection"    , "", ""
+  Data$ "EndDeclareModule"  , "", ""
+  Data$ "EndEnumeration"    , "", ""
+  Data$ "EndIf"             , "", ""
+  Data$ "EndImport"         , "", ""
+  Data$ "EndInterface"      , "", ""
+  Data$ "EndMacro"          , "", ""
+  Data$ "EndModule"         , "", ""
+  Data$ "EndProcedure"      , "", ""
+  Data$ "EndSelect"         , "", ""
+  Data$ "EndStructure"      , "", ""
+  CompilerIf Not #SpiderBasic
+    Data$ "EndStructureUnion" , "", ""
+  CompilerEndIf
+  Data$ "EndWith"           , "", ""
+  Data$ "Enumeration"       , "EndEnumeration", " "
+  Data$ "EnumerationBinary" , "EndEnumeration", " "
+  Data$ "Extends"           , "", " "
+  
+  CompilerIf Not #SpiderBasic
+    Data$ "FakeReturn"   , "", ""
+  CompilerEndIf
+  Data$ "For"          , "Next", " "
+  Data$ "ForEach"      , "Next", " "
+  Data$ "ForEver"      , "", ""
+  
+  Data$ "Global", "", " "
+  CompilerIf Not #SpiderBasic
+    Data$ "Gosub" , "", " "
+    Data$ "Goto"  , "", " "
+  CompilerEndIf
+  
+  Data$ "If"            , "EndIf", " "
+  Data$ "Import"        , "EndImport", " "
+  CompilerIf Not #SpiderBasic
+    Data$ "ImportC"       , "EndImport", " "
+  CompilerEndIf
+  CompilerIf Not #SpiderBasic
+    Data$ "IncludeBinary" , "", " "
+  CompilerEndIf
+  Data$ "IncludeFile"   , "", " "
+  Data$ "IncludePath"   , "", " "
+  Data$ "Interface"     , "EndInterface", " "
+  
+  Data$ "List", "", " "
+  
+  Data$ "Macro", "EndMacro", " "
+  Data$ "MacroExpandedCount", "", ""
+  Data$ "Map", "", " "
+  Data$ "Module"  , "EndModule", " "
+  
+  Data$ "NewList", "", " "
+  Data$ "NewMap",  "", " "
+  Data$ "Next"   , "", ""
+  Data$ "Not"    , "", " "
+  
+  Data$ "Or", "", " "
+  
+  ;Data$ "Parallel"       , "", " "
+  Data$ "Procedure"      , "EndProcedure", " "
+  CompilerIf Not #SpiderBasic
+    Data$ "ProcedureC"     , "EndProcedure", " "
+    Data$ "ProcedureCDLL"  , "EndProcedure", " "
+    Data$ "ProcedureDLL"   , "EndProcedure", " "
+  CompilerEndIf
+  Data$ "ProcedureReturn", "", " "
+  Data$ "Protected"      , "", " "
+  Data$ "Prototype"      , "", " "
+  CompilerIf Not #SpiderBasic
+    Data$ "PrototypeC"     , "", " "
+  CompilerEndIf
+  
+  Data$ "Read"   , "", " "
+  Data$ "ReDim"  , "", " "
+  Data$ "Repeat" , "Until ", ""
+  Data$ "Restore", "", " "
+  CompilerIf Not #SpiderBasic
+    Data$ "Return" , "", ""
+  CompilerEndIf
+  Data$ "Runtime" , "", ""
+  
+  Data$ "Select"        , "EndSelect", " "
+  Data$ "Shared"        , "", " "
+  Data$ "Static"        , "", " "
+  Data$ "Step"          , "", " "
+  Data$ "Structure"     , "EndStructure", " "
+  CompilerIf Not #SpiderBasic
+    Data$ "StructureUnion", "EndStructureUnion", ""
+  CompilerEndIf
+  Data$ "Swap"          , "", " "
+  
+  CompilerIf Not #SpiderBasic
+    Data$ "Threaded", "", " "
+  CompilerEndIf
+  Data$ "To", "", " "
+  
+  Data$ "UndefineMacro", "", " "
+  Data$ "Until", "", " "
+  Data$ "UnuseModule", "", " "
+  Data$ "UseModule", "", " "
+  
+  Data$ "Wend" , "", ""
+  Data$ "While", "Wend", " "
+  Data$ "With" , "EndWith", " "
+  
+  Data$ "XIncludeFile", "", " "
+  Data$ "XOr"         , "", " "
+  
+  
   ;- Keywords - ASM
   ASMKeywords:
-    IncludeFile #PB_Compiler_FilePath+"AssemblyOperandsX86.pb" ; Needs the put the absolute path as it's used by the DocMaker and SyntaxHighlightning DLL
-
+  IncludeFile #PB_Compiler_FilePath+"AssemblyOperandsX86.pb" ; Needs the put the absolute path as it's used by the DocMaker and SyntaxHighlightning DLL
+  
 EndDataSection

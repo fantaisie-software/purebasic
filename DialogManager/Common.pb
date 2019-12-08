@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -17,7 +17,7 @@ CompilerIf Defined(CompileWindows, #PB_Constant) = 0
       #CompileMac       = 0
       #CompileMacCarbon = 0
       #CompileMacCocoa  = 0
-  
+      
     CompilerCase #PB_OS_Linux
       #CompileWindows   = 0
       #CompileLinux     = 1
@@ -31,7 +31,7 @@ CompilerIf Defined(CompileWindows, #PB_Constant) = 0
       #CompileMac       = 0
       #CompileMacCarbon = 0
       #CompileMacCocoa  = 0
-        
+      
     CompilerCase #PB_OS_MacOS
       #CompileWindows   = 0
       #CompileLinux     = 0
@@ -45,7 +45,7 @@ CompilerIf Defined(CompileWindows, #PB_Constant) = 0
         #CompileMacCocoa  = 1
         #CompileMacCarbon = 0
       CompilerEndIf
-    
+      
   CompilerEndSelect
 CompilerEndIf
 

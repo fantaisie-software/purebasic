@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -21,7 +21,7 @@ UseTGAImageDecoder()
 Global FileViewerOpen
 
 Procedure FileViewer_UpdateButtonStates()
-
+  
   count = ListSize(FileViewer())
   If count = 0
     DisableToolBarButton(#TOOLBAR_FileViewer, #MENU_FileViewer_Close, 1)
@@ -39,22 +39,22 @@ Procedure FileViewer_UpdateButtonStates()
     ElseIf index = 0
       DisableToolBarButton(#TOOLBAR_FileViewer, #MENU_FileViewer_Previous, 1)
       DisableToolBarButton(#TOOLBAR_FileViewer, #MENU_FileViewer_Next, 0)
-    
+      
     ElseIf index = count-1
       DisableToolBarButton(#TOOLBAR_FileViewer, #MENU_FileViewer_Previous, 0)
       DisableToolBarButton(#TOOLBAR_FileViewer, #MENU_FileViewer_Next, 1)
-    
+      
     Else
       DisableToolBarButton(#TOOLBAR_FileViewer, #MENU_FileViewer_Previous, 0)
       DisableToolBarButton(#TOOLBAR_FileViewer, #MENU_FileViewer_Next, 0)
-    
+      
     EndIf
   EndIf
-
+  
 EndProcedure
 
 Procedure ResizeFileViewer()
-
+  
   ResizeGadget(#GADGET_FileViewer_Panel, 0, ToolbarTopOffset, WindowWidth(#WINDOW_FileViewer), WindowHeight(#WINDOW_FileViewer)-ToolbarHeight-StatusBarHeight)
   
   PanelWidth = GetPanelWidth(#GADGET_FileViewer_Panel)
@@ -70,26 +70,26 @@ Procedure ResizeFileViewer()
 EndProcedure
 
 Procedure OpenFileViewerWindow()
-
+  
   If IsWindow(#WINDOW_FileViewer) = 0
-
+    
     ; TODO: Something is wrong here with the PB_OpenWindow3_DEBUG call because it
     ;   complains about the ParentID not being valid when it clearly is.
     ;   This happend only with AllocationPreference set to high addresses first (Windows x64)
     ;
     DisableDebugger
     If OpenWindow(#WINDOW_FileViewer, FileViewerX, FileViewerY, FileViewerWidth, FileViewerHeight, Language("FileViewer","Title"), #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget|#PB_Window_MaximizeGadget|#PB_Window_Invisible, WindowID(#WINDOW_Main))
-    EnableDebugger
-
-     SmartWindowRefresh(#WINDOW_FileViewer, 1)
-
-     If CreateToolBar(#TOOLBAR_FileViewer, WindowID(#WINDOW_FileViewer))
+      EnableDebugger
+      
+      SmartWindowRefresh(#WINDOW_FileViewer, 1)
+      
+      If CreateToolBar(#TOOLBAR_FileViewer, WindowID(#WINDOW_FileViewer))
         ToolBarImageButton(#MENU_FileViewer_Open, ImageID(#IMAGE_FileViewer_Open))
         ToolBarImageButton(#MENU_FileViewer_Close, ImageID(#IMAGE_FileViewer_Close))
         ToolBarSeparator()
         ToolBarImageButton(#MENU_FileViewer_Previous, ImageID(#IMAGE_FileViewer_Left))
         ToolBarImageButton(#MENU_FileViewer_Next, ImageID(#IMAGE_FileViewer_Right))
-  
+        
         ToolBarToolTip(#TOOLBAR_FileViewer, #MENU_FileViewer_Open, Language("FileViewer","Open"))
         ToolBarToolTip(#TOOLBAR_FileViewer, #MENU_FileViewer_Close, Language("FileViewer","Close"))
         ToolBarToolTip(#TOOLBAR_FileViewer, #MENU_FileViewer_Previous, Language("FileViewer","Previous"))
@@ -99,14 +99,14 @@ Procedure OpenFileViewerWindow()
       If CreateStatusBar(#STATUSBAR_FileViewer, WindowID(#WINDOW_FileViewer))
         AddStatusBarField(#PB_Ignore)
       EndIf
-
+      
       PanelGadget(#GADGET_FileViewer_Panel, 0, ToolbarTopOffset, FileViewerWidth, FileViewerHeight-ToolbarHeight-StatusBarHeight)
       CloseGadgetList()
       
       EnableGadgetDrop(#GADGET_FileViewer_Panel, #PB_Drop_Files, #PB_Drag_Copy)
       EnableWindowDrop(#WINDOW_FileViewer, #PB_Drop_Files, #PB_Drag_Copy)
-
-   
+      
+      
       EnsureWindowOnDesktop(#WINDOW_FileViewer)
       If FileViewerMaximize
         ShowWindowMaximized(#WINDOW_FileViewer)
@@ -121,7 +121,7 @@ Procedure OpenFileViewerWindow()
   Else
     SetWindowForeground(#WINDOW_FileViewer)
   EndIf
-
+  
 EndProcedure
 
 Procedure IsBinaryFile(*Buffer, Length)
@@ -147,7 +147,7 @@ Procedure IsBinaryFile(*Buffer, Length)
 EndProcedure
 
 Procedure FileViewer_OpenFile(Filename$)
-
+  
   AddTools_RunFileViewer = 1 ; to tell if some tool has been executed
   AddTools_File$ = FileName$
   Ext$ = LCase(GetExtensionPart(FileName$))
@@ -167,7 +167,7 @@ Procedure FileViewer_OpenFile(Filename$)
   If AddTools_RunFileViewer = 0  ; stop if a tool has been run
     ProcedureReturn
   EndIf
-
+  
   SizeMB.f = FileSize(FileName$)/(1024*1024)
   If SizeMB > 10 ; = 10 mb is the max size handled by file viewer, or it will take forever to display in our EditorGadget() based hex viewer
     MessageRequester(#ProductName$, Language("FileViewer","SizeError"), #FLAG_Error|#PB_MessageRequester_Ok)
@@ -177,7 +177,7 @@ Procedure FileViewer_OpenFile(Filename$)
       ProcedureReturn
     EndIf
   EndIf
-    
+  
   ; check if window is open
   ;
   If IsWindow(#WINDOW_FileViewer) = 0
@@ -199,12 +199,12 @@ Procedure FileViewer_OpenFile(Filename$)
   If Found = 1
     SetGadgetState(#GADGET_FileViewer_Panel, ListIndex(FileViewer()))
     StatusBarText(#STATUSBAR_FileViewer, 0, FileName$)
-  
+    
   Else
     
     ; find out if it is an image file..
     If Ext$ = "bmp" Or Ext$ = "png" Or Ext$ = "jpg" Or Ext$ = "jpeg" Or Ext$ = "tga" Or Ext$ = "ico"
-     
+      
       Image = LoadImage(#PB_Any, FileName$)
       If Image
         LastElement(FileViewer())
@@ -212,44 +212,44 @@ Procedure FileViewer_OpenFile(Filename$)
         FileViewer()\FileName$ = FileName$
         
         FileViewer()\Image = Image
-      
+        
         OpenGadgetList(#GADGET_FileViewer_Panel)
-          AddGadgetItem(#GADGET_FileViewer_Panel, -1, GetFilePart(FileName$))
-            FileViewer()\Gadget = ScrollAreaGadget(#PB_Any, 0, 0, GetPanelWidth(#GADGET_FileViewer_Panel), GetPanelHeight(#GADGET_FileViewer_Panel), ImageWidth(Image), ImageHeight(Image), 10, #PB_ScrollArea_Center)
-              ImageGadget = ImageGadget(#PB_Any, 0, 0, ImageWidth(Image), ImageHeight(Image), ImageID(Image))
-            
-              EnableGadgetDrop(ImageGadget, #PB_Drop_Files, #PB_Drag_Copy)
-            CloseGadgetList()
+        AddGadgetItem(#GADGET_FileViewer_Panel, -1, GetFilePart(FileName$))
+        FileViewer()\Gadget = ScrollAreaGadget(#PB_Any, 0, 0, GetPanelWidth(#GADGET_FileViewer_Panel), GetPanelHeight(#GADGET_FileViewer_Panel), ImageWidth(Image), ImageHeight(Image), 10, #PB_ScrollArea_Center)
+        ImageGadget = ImageGadget(#PB_Any, 0, 0, ImageWidth(Image), ImageHeight(Image), ImageID(Image))
+        
+        EnableGadgetDrop(ImageGadget, #PB_Drop_Files, #PB_Drag_Copy)
+        CloseGadgetList()
         CloseGadgetList()
       Else
         MessageRequester(#ProductName$, Language("FileStuff","MiscLoadError"), #FLAG_Error)
       EndIf
       
-    CompilerIf #CompileWindows ; the gtk2 is not working well enough on all machines
-      
+      CompilerIf #CompileWindows ; the gtk2 is not working well enough on all machines
+        
       ElseIf Ext$ = "html" Or Ext$ = "htm"
-      
+        
         LastElement(FileViewer())
         AddElement(FileViewer())
         FileViewer()\FileName$ = FileName$
-      
-        OpenGadgetList(#GADGET_FileViewer_Panel)
-          AddGadgetItem(#GADGET_FileViewer_Panel, -1, GetFilePart(FileName$))
-          FileViewer()\Gadget = WebGadget(#PB_Any, 0, 0, GetPanelWidth(#GADGET_FileViewer_Panel), GetPanelHeight(#GADGET_FileViewer_Panel), "file://" + FileName$)
-        CloseGadgetList()
-
-    CompilerEndIf
         
+        OpenGadgetList(#GADGET_FileViewer_Panel)
+        AddGadgetItem(#GADGET_FileViewer_Panel, -1, GetFilePart(FileName$))
+        FileViewer()\Gadget = WebGadget(#PB_Any, 0, 0, GetPanelWidth(#GADGET_FileViewer_Panel), GetPanelHeight(#GADGET_FileViewer_Panel), "file://" + FileName$)
+        CloseGadgetList()
+        
+      CompilerEndIf
+      
     Else
       
       If ReadFile(#FILE_FileViewer, FileName$)
-      
+        
         Length = Lof(#FILE_FileViewer)
-       
+        
         If Length > 0
           *Buffer = AllocateMemory(Length)
         EndIf
-          
+        
         If *Buffer Or Length = 0
           
           ; add the editorgadget and prepare it
@@ -259,8 +259,8 @@ Procedure FileViewer_OpenFile(Filename$)
           FileViewer()\FileName$ = FileName$
           
           OpenGadgetList(#GADGET_FileViewer_Panel)
-            AddGadgetItem(#GADGET_FileViewer_Panel, -1, GetFilePart(FileName$))
-            FileViewer()\Gadget = ScintillaGadget(#PB_Any, 0, 0, GetPanelWidth(#GADGET_FileViewer_Panel), GetPanelHeight(#GADGET_FileViewer_Panel), #Null)
+          AddGadgetItem(#GADGET_FileViewer_Panel, -1, GetFilePart(FileName$))
+          FileViewer()\Gadget = ScintillaGadget(#PB_Any, 0, 0, GetPanelWidth(#GADGET_FileViewer_Panel), GetPanelHeight(#GADGET_FileViewer_Panel), #Null)
           CloseGadgetList()
           
           ScintillaSendMessage(FileViewer()\Gadget, #SCI_USEPOPUP, 1, 0) ; use the scintilla popup
@@ -274,11 +274,11 @@ Procedure FileViewer_OpenFile(Filename$)
           EnableGadgetDrop(FileViewer()\Gadget, #PB_Drop_Files, #PB_Drag_Copy)
           
           If Length > 0
-          
+            
             ; ok, now read the file
             ;
             ReadData(#FILE_FileViewer, *Buffer, Length)
-                                    
+            
             If IsBinaryFile(*Buffer, Length) = #False
               ChangeNewLineType(@*Buffer, @Length, #DEFAULT_NewLineType)
               
@@ -288,7 +288,7 @@ Procedure FileViewer_OpenFile(Filename$)
               *Buffer2 = AllocateMemory(((Length + 16) * 78) / 8) ; Add 16 as the last 16 char block line can be only one character length
               *Pointer2 = *Buffer2
               CopyMemoryString(@"", @*Pointer2)
-            
+              
               ; display a nice hex view
               ;
               *Pointer.Ascii = *Buffer
@@ -309,7 +309,7 @@ Procedure FileViewer_OpenFile(Filename$)
                   Else
                     String$ + Chr(*Pointer\a)
                   EndIf
-                
+                  
                   *Pointer + 1
                 Next i
                 
@@ -322,18 +322,18 @@ Procedure FileViewer_OpenFile(Filename$)
               ScintillaSendMessage(FileViewer()\Gadget, #SCI_SETTEXT, 0, ToAscii(Text$))
               
               FreeMemory(*Buffer2)
-            
+              
             EndIf
             
             FreeMemory(*Buffer)
-          
+            
           EndIf
           
           SetGadgetAttribute(FileViewer()\Gadget, #PB_Editor_ReadOnly, 1)
         Else
           MessageRequester(#ProductName$, Language("FileStuff","MiscLoadError"), #FLAG_Error)
         EndIf
-      
+        
         CloseFile(#FILE_FileViewer)
       Else
         MessageRequester(#ProductName$, Language("FileStuff","MiscLoadError"), #FLAG_Error)
@@ -346,7 +346,7 @@ Procedure FileViewer_OpenFile(Filename$)
       StatusBarText(#STATUSBAR_FileViewer, 0, FileViewer()\FileName$)
     EndIf
   EndIf
- 
+  
   ResizeFileViewer()
   FileViewer_UpdateButtonStates()
 EndProcedure
@@ -364,11 +364,11 @@ Procedure FileViewerWindowEvents(EventID)
       EndIf
     Next i
     
-  
+    
   ElseIf EventID = #PB_Event_Menu
     Select EventMenu()
       Case #MENU_FileViewer_Open
-      
+        
         Pattern$ = Language("FileViewer","Pattern")
         CompilerIf #CompileWindows = 0
           ; have to remove the .ico pattern...
@@ -376,7 +376,7 @@ Procedure FileViewerWindowEvents(EventID)
           Pattern$ = RemoveString(Pattern$, ",*.ico")
           Pattern$ = RemoveString(Pattern$, ";*.ico")
         CompilerEndIf
-      
+        
         FileName$ = OpenFileRequester(Language("FileStuff","OpenFileTitle"), FileViewerPath$, AddTools_PatternStrings$ + Pattern$, FileViewerPattern, #PB_Requester_MultiSelection)
         If FileName$
           FileViewerPattern = SelectedFilePattern()
@@ -386,9 +386,9 @@ Procedure FileViewerWindowEvents(EventID)
             FileViewer_OpenFile(FileName$)
             FileName$ = NextSelectedFileName()
           Wend
-        
+          
         EndIf
-      
+        
       Case #MENU_FileViewer_Close
         If CountGadgetItems(#GADGET_FileViewer_Panel) > 0
           SelectElement(FileViewer(), GetGadgetState(#GADGET_FileViewer_Panel))
@@ -405,7 +405,7 @@ Procedure FileViewerWindowEvents(EventID)
           EndIf
           
           RemoveGadgetItem(#GADGET_FileViewer_Panel, GetGadgetState(#GADGET_FileViewer_Panel))
-
+          
           If ListSize(FileViewer()) > 0
             StatusBarText(#STATUSBAR_FileViewer, 0, FileViewer()\FileName$)
           Else
@@ -413,7 +413,7 @@ Procedure FileViewerWindowEvents(EventID)
           EndIf
         EndIf
         FileViewer_UpdateButtonStates()
-      
+        
       Case #MENU_FileViewer_Previous
         If ListSize(FileViewer()) > 0
           index = GetGadgetState(#GADGET_FileViewer_Panel)
@@ -427,7 +427,7 @@ Procedure FileViewerWindowEvents(EventID)
           StatusBarText(#STATUSBAR_FileViewer, 0, FileViewer()\FileName$)
         EndIf
         FileViewer_UpdateButtonStates()
-      
+        
       Case #MENU_FileViewer_Next
         If ListSize(FileViewer()) > 0
           index = GetGadgetState(#GADGET_FileViewer_Panel)
@@ -454,9 +454,9 @@ Procedure FileViewerWindowEvents(EventID)
     
   ElseIf EventID = #PB_Event_SizeWindow
     ResizeFileViewer()
-  
+    
   ElseIf EventID = #PB_Event_CloseWindow
-  
+    
     If MemorizeWindow And IsWindowMinimized(#WINDOW_FileViewer) = 0
       FileViewerMaximize = IsWindowMaximized(#WINDOW_FileViewer)
       If FileViewerMaximize = 0
@@ -468,22 +468,22 @@ Procedure FileViewerWindowEvents(EventID)
     EndIf
     
     ForEach FileViewer()
-          
+      
       If FileViewer()\Image
         FreeImage(FileViewer()\Image)
       EndIf
-    
+      
     Next FileViewer()
     
     ClearList(FileViewer())
     CloseWindow(#WINDOW_FileViewer)
-        
+    
   EndIf
-
+  
 EndProcedure
 
 Procedure UpdateFileViewerWindow()
-
+  
   SetWindowTitle(#WINDOW_FileViewer, Language("FileViewer","Title"))
   
   ; re-create the toolbar to apply theme changes
@@ -495,7 +495,7 @@ Procedure UpdateFileViewerWindow()
     ToolBarSeparator()
     ToolBarImageButton(#MENU_FileViewer_Previous, ImageID(#IMAGE_FileViewer_Left))
     ToolBarImageButton(#MENU_FileViewer_Next, ImageID(#IMAGE_FileViewer_Right))
-  
+    
     ToolBarToolTip(#TOOLBAR_FileViewer, #MENU_FileViewer_Open, Language("FileViewer","Open"))
     ToolBarToolTip(#TOOLBAR_FileViewer, #MENU_FileViewer_Close, Language("FileViewer","Close"))
     ToolBarToolTip(#TOOLBAR_FileViewer, #MENU_FileViewer_Previous, Language("FileViewer","Previous"))

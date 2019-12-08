@@ -1,4 +1,4 @@
-; === Copyright Notice ===
+﻿; === Copyright Notice ===
 ;
 ;
 ;                   PureBasic source code file

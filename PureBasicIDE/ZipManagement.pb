@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -122,7 +122,7 @@ Procedure ScanZip(*Buffer, Size, List Files.ZipEntry())
   ClearList(Files())
   
   If LONG_LE(PeekL(*Buffer)) = #SIGNATURE_LocalFileHeader ; must be at the beginning
-    ; find end of central directory
+                                                          ; find end of central directory
     *DirectoryEnd.EndOfDirectory = *Buffer + Size - SizeOf(EndOfDirectory)
     While *DirectoryEnd > *Buffer And LONG_LE(*DirectoryEnd\Signature) <> #SIGNATURE_EndOfDirectory
       *DirectoryEnd - 1
@@ -131,15 +131,15 @@ Procedure ScanZip(*Buffer, Size, List Files.ZipEntry())
     If *DirectoryEnd > *Buffer
       If WORD_LE(*DirectoryEnd\TotalFiles) > 0 And WORD_LE(*DirectoryEnd\DiskNumber) = WORD_LE(*DirectoryEnd\DiskWithDirectoryStart)
         If LONG_LE(*DirectoryEnd\DirectoryStart) > 0 And LONG_LE(*DirectoryEnd\DirectoryStart) < Size And LONG_LE(*DirectoryEnd\DirectorySize) > 0 And LONG_LE(*DirectoryEnd\DirectorySize) < Size
-        
+          
           *Entry.CentralFileHeader = *Buffer + LONG_LE(*DirectoryEnd\DirectoryStart)
           While *Entry < *DirectoryEnd And LONG_LE(*Entry\Signature) = #SIGNATURE_CentralFileHeader
-
+            
             If WORD_LE(*Entry\VersionNeeded) <= #SupportedVersion And (WORD_LE(*Entry\Compression) = #COMPRESSION_Store Or WORD_LE(*Entry\Compression) = #COMPRESSION_Deflate)
               If LONG_LE(*Entry\CompressedSize) > 0 And LONG_LE(*Entry\CompressedSize) < Size And LONG_LE(*Entry\UncompressedSize) > 0 And LONG_LE(*Entry\UncompressedSize) < 1024*1024*3 ; only interested in small files with this code
                 If WORD_LE(*Entry\FileNameLength) > 0
                   If LONG_LE(*Entry\LocalHeaderOffset) >= 0 And LONG_LE(*Entry\LocalHeaderOffset) < Size - LONG_LE(*Entry\CompressedSize) - SizeOf(LocalFileHeader)
-                  
+                    
                     *Header.LocalFileHeader = *Buffer + LONG_LE(*Entry\LocalHeaderOffset)
                     *Content = *Header + SizeOf(LocalFileHeader) + WORD_LE(*Header\FileNameLength) + WORD_LE(*Header\ExtraFieldLength)
                     If *Content > *Buffer And *Content < *Buffer + Size - LONG_LE(*Entry\CompressedSize)
@@ -151,23 +151,23 @@ Procedure ScanZip(*Buffer, Size, List Files.ZipEntry())
                       Files()\Compressed   = LONG_LE(*Entry\CompressedSize)
                       Files()\Uncompressed = LONG_LE(*Entry\UncompressedSize)
                     EndIf
-                  
+                    
                   EndIf
                 EndIf
               EndIf
             EndIf
-
+            
             *Entry + SizeOf(CentralFileHeader) + WORD_LE(*Entry\FileNameLength) + WORD_LE(*Entry\ExtraFieldLength) + WORD_LE(*Entry\FileCommentLength)
           Wend
-        
+          
         EndIf
       EndIf
     EndIf
   EndIf
-
+  
   ProcedureReturn ListSize(Files())
 EndProcedure
-  
+
 
 ; Returns a buffer of uncompressed size.
 ; Must be freed by the caller
@@ -175,7 +175,7 @@ EndProcedure
 Procedure ExtractZip(*Entry.ZipEntry)
   *Buffer = AllocateMemory(*Entry\Uncompressed)
   Success = 0
-
+  
   If *Buffer
     If *Entry\Compression = #COMPRESSION_Store
       CopyMemory(*Entry\Content, *Buffer, *Entry\Uncompressed)

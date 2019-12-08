@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -53,7 +53,7 @@ DiffFile$ = SaveFileRequester("Save diff file to...","LanguageUpdate.txt","Text 
 
 
 If FileName$ <> "" And DiffFile$ <> ""
-
+  
   If OpenPreferences(FileName$)
     
     If CreateFile(0, DiffFile$)
@@ -80,12 +80,12 @@ If FileName$ <> "" And DiffFile$ <> ""
           
           If Old$ = "<---not-found--->"
             WriteStringN(0, "ADDED: " + Name$ + " = " + String$)
-          
+            
           ElseIf Old$ <> String$
             WriteStringN(0, "CHANGED: "+Name$)
             WriteStringN(0, "FROM: "+Old$)
             WriteStringN(0, "  TO: "+String$)
-          
+            
           EndIf
         EndIf
         
@@ -94,9 +94,9 @@ If FileName$ <> "" And DiffFile$ <> ""
       CloseFile(0)
     Else
       MessageRequester("Error","Cannot create output file")
-    
+      
     EndIf
-  
+    
     ClosePreferences()
   Else
     MessageRequester("Error","Cannot open english.catalog")

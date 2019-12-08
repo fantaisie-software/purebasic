@@ -1,4 +1,4 @@
-;
+﻿;
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - IDE Automation library
@@ -98,9 +98,9 @@ Procedure AUTO_EventCallback(*Call)
   Debug AUTO_RPC_GetFunction(*Call)
   
   Select AUTO_RPC_GetFunction(*Call)
-  
+      
     Case "AutoComplete"
-    CallDebugger
+      CallDebugger
       Protected NewList Entries.s()
       Protected AutoCompleteEvent.AUTO_Event_AutoComplete = AUTO_EventCallbacks("AutoComplete")
       
@@ -120,10 +120,10 @@ Procedure AUTO_EventCallback(*Call)
       Else
         AUTO_RPC_CallError(*Call, "Event not registered")
       EndIf
-        
-              
+      
+      
   EndSelect
-
+  
 EndProcedure
 
 Procedure AUTO_Initialize(Library$ = "")
@@ -138,7 +138,7 @@ Procedure AUTO_Initialize(Library$ = "")
       CompilerError "todo"
     CompilerEndIf
   EndIf
-
+  
   AUTO_Library = OpenLibrary(#PB_Any, Library$)
   If AUTO_Library
     AUTO_ConnectToWindow    = GetFunction(AUTO_Library, "AUTO_ConnectToWindow")
@@ -169,7 +169,7 @@ Procedure AUTO_Initialize(Library$ = "")
     
     AUTO_RPC_SetCallback(@AUTO_EventCallback())
   EndIf
-
+  
   ProcedureReturn AUTO_Library
 EndProcedure
 
@@ -229,11 +229,11 @@ CompilerIf #PB_Compiler_Debugger
     Next
   EndProcedure
   
-
+  
   If AUTO_Initialize("C:\PureBasic\v4.60\SDK\Automation\Automation.dll")
     If AUTO_ConnectToAny()
       AUTO_RegisterEvent("AutoComplete", @AutoCompleteCallback())
-    
+      
       Debug AUTO_MenuCommand("Preferences")
       
       AUTO_ProcessEvents(100000)
@@ -241,8 +241,8 @@ CompilerIf #PB_Compiler_Debugger
     Else
       Debug AUTO_LastError()
     EndIf
-  
+    
     AUTO_Shutdown()
   EndIf
-
+  
 CompilerEndIf

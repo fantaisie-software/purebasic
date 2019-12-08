@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -21,7 +21,7 @@ EndProcedure
 Procedure Standalone_ResizeGUI()
   Width = WindowWidth(#WINDOW_Main)
   Height = WindowHeight(#WINDOW_Main) - StatusbarHeight
-
+  
   CompilerIf #CompilePPC
     NbGadgets = 8
   CompilerElse
@@ -31,7 +31,7 @@ Procedure Standalone_ResizeGUI()
   Dim ButtonWidth.l(NbGadgets) ; also needed for mini mode
   
   If IsMiniDebugger
-  
+    
     GetRequiredSize(#GADGET_Run, @ButtonWidth(1), @ButtonHeight)
     ButtonWidth(2) = GetRequiredWidth(#GADGET_Stop)
     ButtonWidth(3) = GetRequiredWidth(#GADGET_Step)
@@ -39,13 +39,13 @@ Procedure Standalone_ResizeGUI()
     ButtonWidth(5) = GetRequiredWidth(#GADGET_StepOut)
     ButtonWidth(6) = 70
     ButtonWidth(7) = GetRequiredWidth(#GADGET_Quit)
-
+    
     Total = 80
     For i = 1 To 7
       Total + ButtonWidth(i)
     Next i
     Extra = (Width-Total) / NbGadgets
-  
+    
     Top = 10
     Left = 10
     ResizeGadget(#GADGET_Run,      Left, Top, ButtonWidth(1)+Extra, ButtonHeight): Left + ButtonWidth(1)+Extra + 10
@@ -55,11 +55,11 @@ Procedure Standalone_ResizeGUI()
     ResizeGadget(#GADGET_StepOut,   Left, Top, ButtonWidth(5)+Extra, ButtonHeight): Left + ButtonWidth(5)+Extra + 10
     ResizeGadget(#GADGET_StepCount, Left, Top, ((ButtonWidth(6)+Extra)*2)/3, ButtonHeight)
     ResizeGadget(#GADGET_Quit,      Width-10-ButtonWidth(7)-Extra, Top, ButtonWidth(7)+Extra, ButtonHeight)
-        
+    
     Top + ButtonHeight + 10
     SizeGadget = #GADGET_Maximize
   Else
-  
+    
     Top = 10
     GetRequiredSize(#GADGET_Run, @ColWidth1, @ButtonHeight)
     ColumnWidth1 = Max(ColumnWidth1, 70)
@@ -100,7 +100,7 @@ Procedure Standalone_ResizeGUI()
   Else
     EditTop    = Top
   EndIf
-     
+  
   If SourceFiles(CurrentSource)\IsLoaded
     ResizeGadget(SourceFiles(CurrentSource)\Gadget, 10, EditTop, Width-20, EditHeight)
   Else
@@ -121,7 +121,7 @@ Procedure Standalone_ResizeGUI()
   CompilerElse
     ButtonWidth(8) = GetRequiredWidth(#GADGET_Purifier)
   CompilerEndIf
-
+  
   Total = 10+5*(NbGadgets-1)
   For i = 1 To NbGadgets
     Total + ButtonWidth(i)
@@ -142,21 +142,21 @@ Procedure Standalone_ResizeGUI()
   CompilerElse
     ResizeGadget(#GADGET_Purifier, Left, Top, ButtonWidth(8)+Extra, ButtonHeight)
   CompilerEndIf
-
+  
 EndProcedure
 
 
 Procedure Standalone_CreateGUI()
- 
+  
   Image_Minimize = CatchImage(#PB_Any, ?MinimizeImageData)
   Image_Maximize = CatchImage(#PB_Any, ?MaximizeImageData)
-
-  If OpenWindow(#WINDOW_Main, DebuggerMainWindowX, DebuggerMainWindowY, DebuggerMainWindowWidth, DebuggerMainWindowHeight, "PureBasic Debugger", #PB_Window_Invisible|#PB_Window_SystemMenu|#PB_Window_MinimizeGadget|#PB_Window_MaximizeGadget|#PB_Window_SizeGadget)
   
+  If OpenWindow(#WINDOW_Main, DebuggerMainWindowX, DebuggerMainWindowY, DebuggerMainWindowWidth, DebuggerMainWindowHeight, "PureBasic Debugger", #PB_Window_Invisible|#PB_Window_SystemMenu|#PB_Window_MinimizeGadget|#PB_Window_MaximizeGadget|#PB_Window_SizeGadget)
+    
     *Statusbar = CreateStatusBar(#STATUSBAR, WindowID(#WINDOW_Main))
     If *Statusbar
       AddStatusBarField(#PB_Ignore)
-      StatusbarHeight = StatusbarHeight(#STATUSBAR)
+      StatusbarHeight = StatusBarHeight(#STATUSBAR)
     EndIf
     
     ButtonGadget(#GADGET_Run,  0, 0, 0, 0, Language("StandaloneDebugger","Run"))
@@ -168,7 +168,7 @@ Procedure Standalone_CreateGUI()
     ButtonGadget(#GADGET_Quit, 0, 0, 0, 0, Language("StandaloneDebugger","Quit"))
     
     ListViewGadget(#GADGET_Log, 0, 0, 0, 0)
-
+    
     ComboBoxGadget(#GADGET_SelectSource, 0, 0, 0, 300)
     ButtonGadget(#GADGET_BreakSet, 0, 0, 0, 0, Language("StandaloneDebugger","BreakSetRemove"))
     ButtonGadget(#GADGET_BreakClear, 0, 0, 0, 0, Language("StandaloneDebugger","BreakClear"))
@@ -204,23 +204,23 @@ Procedure Standalone_CreateGUI()
     AddKeyboardShortcut(#WINDOW_Main, Shortcut_Step, #MENU_Step)
     AddKeyboardShortcut(#WINDOW_Main, Shortcut_StepOver, #MENU_StepOver)
     AddKeyboardShortcut(#WINDOW_Main, Shortcut_StepOut, #MENU_StepOut)
-
+    
     Standalone_ResizeGUI()
     
     CompilerIf #DEFAULT_CanWindowStayOnTop
       SetWindowStayOnTop(#WINDOW_Main, DebuggerOnTop)
     CompilerEndIf
-  
+    
     success = 1
   EndIf
   
   DebuggerMainWindow = #WINDOW_Main ; this makes sure that the "bring to top" option works on this too
-
+  
   ProcedureReturn success
 EndProcedure
 
 Procedure UpdateGadgetStates()
-
+  
   If *DebuggerData\ProgramState = -1  ; stuff that works only while the exe is loaded
     DisableGadget(#GADGET_BreakSet, 1)
     DisableGadget(#GADGET_BreakClear, 1)
@@ -230,7 +230,7 @@ Procedure UpdateGadgetStates()
     DisableGadget(#GADGET_BreakClear, 0)
     DisableGadget(#GADGET_DataBreak, 0)
   EndIf
-
+  
   If *DebuggerData\ProgramState = -1 ; not loaded
     DisableGadget(#GADGET_Run, 1)
     DisableGadget(#GADGET_Stop, 1)
@@ -238,7 +238,7 @@ Procedure UpdateGadgetStates()
     DisableGadget(#GADGET_StepCount, 1)
     DisableGadget(#GADGET_StepOver, 1)
     DisableGadget(#GADGET_StepOut, 1)
-  
+    
   ElseIf *DebuggerData\ProgramState = 0 ; running
     DisableGadget(#GADGET_Run, 1)
     DisableGadget(#GADGET_Stop, 0)
@@ -254,7 +254,7 @@ Procedure UpdateGadgetStates()
     DisableGadget(#GADGET_StepCount, 1)
     DisableGadget(#GADGET_StepOver, 1)
     DisableGadget(#GADGET_StepOut, 1)
-      
+    
   Else ; not running for some other reason
     DisableGadget(#GADGET_Run, 0)
     DisableGadget(#GADGET_Stop, 1)
@@ -269,21 +269,21 @@ EndProcedure
 
 
 DataSection
-
+  
   CompilerIf #CompileWindows
-  
+    
     MinimizeImageData:
-      IncludeBinary #BUILD_DIRECTORY + "TemplateUp.ico"
+    IncludeBinary #BUILD_DIRECTORY + "TemplateUp.ico"
     MaximizeImageData:
-      IncludeBinary #BUILD_DIRECTORY + "TemplateDown.ico"
-  
+    IncludeBinary #BUILD_DIRECTORY + "TemplateDown.ico"
+    
   CompilerElse
-
+    
     MinimizeImageData:
-      IncludeBinary #BUILD_DIRECTORY + "TemplateUp.png"
+    IncludeBinary #BUILD_DIRECTORY + "TemplateUp.png"
     MaximizeImageData:
-      IncludeBinary #BUILD_DIRECTORY + "TemplateDown.png"
-      
-   CompilerEndIf
+    IncludeBinary #BUILD_DIRECTORY + "TemplateDown.png"
+    
+  CompilerEndIf
   
 EndDataSection

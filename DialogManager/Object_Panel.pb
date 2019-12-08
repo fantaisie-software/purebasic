@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaise Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -38,9 +38,9 @@ Global NewList DlgPanel_Stack.PanelGadgetStack()
 
 
 Structure DlgPanel Extends DlgBoxBase
-;   CompilerIf #CompileWindows
-;     Multiline.l ; windows only
-;   CompilerEndIf
+  ;   CompilerIf #CompileWindows
+  ;     Multiline.l ; windows only
+  ;   CompilerEndIf
   
 EndStructure
 
@@ -53,7 +53,7 @@ Procedure DlgPanel_New(*StaticData.DialogObjectData)
     *THIS\StaticData = *StaticData
     
     *THIS\Gadget = PanelGadget(*StaticData\Gadget, 0, 0, 0, 0)
-
+    
     If *StaticData\Gadget <> -1
       *THIS\Gadget = *StaticData\Gadget
     EndIf
@@ -63,11 +63,11 @@ Procedure DlgPanel_New(*StaticData.DialogObjectData)
     ; NOTE: The multiline flag cannot be supported, as it messes up the size calculation
     ;       as the PanelTabHeight is not constant anymore
     ;
-;     CompilerIf #CompileWindows
-;       If UCase(DialogObjectKey(*StaticData, "MULTILINE")) = "YES"
-;         *THIS\Multiline = 1 ; is applied when all childs are added.
-;       EndIf
-;     CompilerEndIf
+    ;     CompilerIf #CompileWindows
+    ;       If UCase(DialogObjectKey(*StaticData, "MULTILINE")) = "YES"
+    ;         *THIS\Multiline = 1 ; is applied when all childs are added.
+    ;       EndIf
+    ;     CompilerEndIf
     
     ; Push the Gadget info on our stack
     ;
@@ -85,7 +85,7 @@ EndProcedure
 Procedure DlgPanel_SizeRequest(*THIS.DlgPanel, *Width.LONG, *Height.LONG)
   *Width\l  = 0
   *Height\l = 0
-
+  
   For i = 0 To *THIS\NbChilds-1
     Height = 0
     Width  = 0
@@ -95,7 +95,7 @@ Procedure DlgPanel_SizeRequest(*THIS.DlgPanel, *Width.LONG, *Height.LONG)
     *Width\l  = Max(*Width\l,  Width)
     *Height\l = Max(*Height\l, Height)
   Next i
-
+  
   CompilerIf #CompileWindows
     *Width\l  + 4
     *Height\l + GetGadgetAttribute(*THIS\Gadget, #PB_Panel_TabHeight) + 2
@@ -105,18 +105,18 @@ Procedure DlgPanel_SizeRequest(*THIS.DlgPanel, *Width.LONG, *Height.LONG)
     *Width\l  + 8
     *Height\l + GetGadgetAttribute(*THIS\Gadget, #PB_Panel_TabHeight) + 4
   CompilerEndIf
-
+  
   CompilerIf #CompileLinux
     If *THIS\NbChilds > 0
       ; works in most places.. still a bit a hack though
       *Label.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(*THIS\Gadget), gtk_notebook_get_nth_page_(GadgetID(*THIS\Gadget), 0))
       gtk_widget_size_request_(*Label, @Size.GtkRequisition)     ; get the min required size
-        
+      
       *Height\l + Size\height + 14
       *Width\l  + 4
     EndIf
   CompilerEndIf
-
+  
   *Width\l  = Max(*Width\l,  *THIS\StaticData\MinWidth)
   *Height\l = Max(*Height\l, *THIS\StaticData\MinHeight)
 EndProcedure
@@ -125,7 +125,7 @@ EndProcedure
 
 Procedure DlgPanel_SizeApply(*THIS.DlgPanel, x, y, Width, Height)
   ResizeGadget(*THIS\Gadget, x, y, Width, Height)
-
+  
   CompilerIf #CompileWindows | #CompileMac
     Width  = GetGadgetAttribute(*THIS\Gadget, #PB_Panel_ItemWidth)
     Height = GetGadgetAttribute(*THIS\Gadget, #PB_Panel_ItemHeight)
@@ -136,12 +136,12 @@ Procedure DlgPanel_SizeApply(*THIS.DlgPanel, x, y, Width, Height)
       ; works in most places.. still a bit a hack though
       *Label.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(*THIS\Gadget), gtk_notebook_get_nth_page_(GadgetID(*THIS\Gadget), 0))
       gtk_widget_size_request_(*Label, @Size.GtkRequisition)     ; get the min required size
-        
+      
       Height - Size\height - 14
       Width  - 4
     EndIf
   CompilerEndIf
-
+  
   For i = 0 To *THIS\NbChilds-1
     *THIS\Childs[i]\SizeApply(0, 0, Width, Height)
   Next i
@@ -152,12 +152,12 @@ Procedure DlgPanel_Finish(*THIS.DlgPanel)
   CloseGadgetList()
   
   ; Multiline flag (windows, must be after CloseGadgetList())
-;   CompilerIf #CompileWindows
-;     If *THIS\Multiline
-;       SetWindowLongPtr_(GadgetID(*THIS\Gadget), #GWL_STYLE, GetWindowLongPtr_(GadgetID(*THIS\Gadget), #GWL_STYLE) | #TCS_MULTILINE)
-;     EndIf
-;   CompilerEndIf
-;
+  ;   CompilerIf #CompileWindows
+  ;     If *THIS\Multiline
+  ;       SetWindowLongPtr_(GadgetID(*THIS\Gadget), #GWL_STYLE, GetWindowLongPtr_(GadgetID(*THIS\Gadget), #GWL_STYLE) | #TCS_MULTILINE)
+  ;     EndIf
+  ;   CompilerEndIf
+  ;
   ; Pop our Panel stack
   ;
   If LastElement(DlgPanel_Stack())
@@ -167,18 +167,18 @@ EndProcedure
 
 
 DataSection
-
+  
   DlgPanel_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgPanel_SizeRequest()
-    Data.i @DlgPanel_SizeApply()
-    Data.i @DlgBoxBase_AddChild()
-    Data.i @DlgBoxBase_FoldApply()
-    Data.i @DlgBase_Find()
-    Data.i @DlgPanel_Finish()
-    Data.i @DlgBoxBase_Update()
-    Data.i @DlgBoxBase_Destroy()
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgPanel_SizeRequest()
+  Data.i @DlgPanel_SizeApply()
+  Data.i @DlgBoxBase_AddChild()
+  Data.i @DlgBoxBase_FoldApply()
+  Data.i @DlgBase_Find()
+  Data.i @DlgPanel_Finish()
+  Data.i @DlgBoxBase_Update()
+  Data.i @DlgBoxBase_Destroy()
+  
 EndDataSection
 
 
@@ -216,7 +216,7 @@ EndProcedure
 Procedure DlgTab_SizeRequest(*THIS.DlgTab, *Width.LONG, *Height.LONG)
   *THIS\RequestedWidth  = 0
   *THIS\RequestedHeight = 0
-
+  
   If *THIS\Child
     *THIS\Child\SizeRequest(@*THIS\RequestedWidth, @*THIS\RequestedHeight)
   EndIf
@@ -228,7 +228,7 @@ EndProcedure
 
 
 Procedure DlgTab_SizeApply(*THIS.DlgTab, x, y, Width, Height)
-
+  
   If *THIS\Child
     x = 0
     y = 0
@@ -242,7 +242,7 @@ Procedure DlgTab_Update(*THIS.DlgTab)
   If *THIS\StaticData\HasText
     SetGadgetItemText(*THIS\ParentGadget, *THIS\ItemIndex, DialogObjectText(*THIS\StaticData), 0)
   EndIf
-
+  
   If *THIS\Child
     *THIS\Child\Update()
   EndIf
@@ -252,16 +252,16 @@ EndProcedure
 
 
 DataSection
-
+  
   DlgTab_VTable:
-    Data.i @DlgBase_SizeRequestWrapper()
-    Data.i @DlgTab_SizeRequest()
-    Data.i @DlgTab_SizeApply()
-    Data.i @DlgBinBase_AddChild()
-    Data.i @DlgBinBase_FoldApply()
-    Data.i @DlgBase_Find()
-    Data.i @DlgBase_Finish()
-    Data.i @DlgTab_Update()
-    Data.i @DlgBinBase_Destroy()
-
+  Data.i @DlgBase_SizeRequestWrapper()
+  Data.i @DlgTab_SizeRequest()
+  Data.i @DlgTab_SizeApply()
+  Data.i @DlgBinBase_AddChild()
+  Data.i @DlgBinBase_FoldApply()
+  Data.i @DlgBase_Find()
+  Data.i @DlgBase_Finish()
+  Data.i @DlgTab_Update()
+  Data.i @DlgBinBase_Destroy()
+  
 EndDataSection
