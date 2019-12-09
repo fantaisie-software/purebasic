@@ -157,7 +157,7 @@ Procedure IsProjectFile(FileName$)
     ;
     If LoadXML(#XML_CheckProject, FileName$)
       If XMLStatus(#XML_CheckProject) = #PB_XML_Success And MainXMLNode(#XML_CheckProject)
-        If ResolveXMLNodeName(MainXMLNode(#XML_CheckProject), "/") = "http://www.purebasic.com/namespace/project"
+        If ResolveXMLNodeName(MainXMLNode(#XML_CheckProject), "/") = "https://www.purebasic.com/namespace/project"
           Result = #True
         EndIf
       EndIf
@@ -175,7 +175,7 @@ Procedure.s ProjectName(FileName$) ; Get the project name from a project file
   
   If LoadXML(#XML_CheckProject, FileName$)
     If XMLStatus(#XML_CheckProject) = #PB_XML_Success And MainXMLNode(#XML_CheckProject)
-      If ResolveXMLNodeName(MainXMLNode(#XML_CheckProject), "/") = "http://www.purebasic.com/namespace/project"
+      If ResolveXMLNodeName(MainXMLNode(#XML_CheckProject), "/") = "https://www.purebasic.com/namespace/project"
         *Config = GetSection(MainXMLNode(#XML_CheckProject), "config")
         If *Config
           *Options = XMLNodeFromPath(*Config, "options")
@@ -825,7 +825,7 @@ Procedure IsPureBasicFile(FileName$)
     IsLoaded = 0
     If LoadXML(#XML_LoadProject, FileName$)
       If XMLStatus(#XML_LoadProject) = #PB_XML_Success And MainXMLNode(#XML_LoadProject)
-        If ResolveXMLNodeName(MainXMLNode(#XML_LoadProject), "/") = "http://www.purebasic.com/namespace/project"
+        If ResolveXMLNodeName(MainXMLNode(#XML_LoadProject), "/") = "https://www.purebasic.com/namespace/project"
           IsLoaded = 1
         EndIf
       EndIf
@@ -1299,7 +1299,7 @@ Procedure IsPureBasicFile(FileName$)
     ; The main layout of the project files is as follows:
     ;
     ; root: "project"
-    ;  - xmlns     (required): "http://www.purebasic.com/namespace" (important as this is checked!)
+    ;  - xmlns     (required): "https://www.purebasic.com/namespace" (important as this is checked!)
     ;  - version   (required): project file version (starts with 1.0)
     ;  - minversion(optional): minimum compatible file version (some sections may be unreadable)
     ;  - creator   (required): full PB version string of the file creator
@@ -1322,7 +1322,7 @@ Procedure IsPureBasicFile(FileName$)
       ; Generate main node
       ;
       *Main = CreateXMLNode(RootXMLNode(#XML_SaveProject), "project")
-      SetXMLAttribute(*Main, "xmlns",   "http://www.purebasic.com/namespace")
+      SetXMLAttribute(*Main, "xmlns",   "https://www.purebasic.com/namespace")
       SetXMLAttribute(*Main, "version", #Project_VersionString)
       SetXMLAttribute(*Main, "creator", DefaultCompiler\VersionString$)
       

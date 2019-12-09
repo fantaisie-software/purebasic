@@ -752,7 +752,7 @@ PureBasicStart:
 ; 
 ; CompilerIf #SpiderBasic
 ; #ProductName$ = "PureBasic"
-; #ProductWebSite$ = "http://www.purebasic.com"
+; #ProductWebSite$ = "https://www.purebasic.com"
 ; 
 ; #SourceFileExtension  = ".pb"
 ; #IncludeFileExtension = ".pbi"

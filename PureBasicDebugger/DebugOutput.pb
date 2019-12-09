@@ -91,8 +91,8 @@ Procedure DebugWindowEvents(*Debugger.DebuggerData, EventID)
   
   If EventID = #PB_Event_ActivateWindow
     CompilerIf #CompileWindows
-      ; to 'fix' a weird bug: http://www.purebasic.fr/english/viewtopic.php?f=4&t=66634
-      ; NOTE: doesn't work as it breaks the IDE: http://www.purebasic.fr/english/viewtopic.php?f=4&t=69031
+      ; to 'fix' a weird bug: https://www.purebasic.fr/english/viewtopic.php?f=4&t=66634
+      ; NOTE: doesn't work as it breaks the IDE: https://www.purebasic.fr/english/viewtopic.php?f=4&t=69031
       ; SetActiveGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List])
     CompilerEndIf
     
@@ -340,7 +340,7 @@ Procedure UpdateDebugOutputWindow(*Debugger.DebuggerData)
     
     CompilerIf #CompileMac
       ; Scroll the editor gadget to the bottom
-      ; This function is very very slow, that's why we defer it (http://www.purebasic.fr/english/viewtopic.php?f=24&t=55924)
+      ; This function is very very slow, that's why we defer it (https://www.purebasic.fr/english/viewtopic.php?f=24&t=55924)
       Range.NSRange\location = CocoaMessage(0, CocoaMessage(0, GadgetID(Gadget), "string"), "length") - 1
       Range\length = 1
       CocoaMessage(0, GadgetID(Gadget), "scrollRangeToVisible:@", @Range);

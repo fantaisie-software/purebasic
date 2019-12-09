@@ -1607,7 +1607,7 @@ Procedure CompilerCleanup()
       EndIf
     CompilerEndIf
     
-    ; Do custom constants. All constants are written in UTF-8 format to preserve complex string value (http://www.purebasic.fr/english/viewtopic.php?f=4&t=63159&sid=0f541e4670f96083c28f005df6f8d2b7)
+    ; Do custom constants. All constants are written in UTF-8 format to preserve complex string value (https://www.purebasic.fr/english/viewtopic.php?f=4&t=63159&sid=0f541e4670f96083c28f005df6f8d2b7)
     ;
     For i = 0 To *Target\NbConstants-1
       If *Target\ConstantEnabled[i]
@@ -1638,7 +1638,7 @@ Procedure CompilerCleanup()
         ;
         equal = FindString(Constant$, "=", 1)
         If equal > 0
-          Constant$ = Trim(RemoveString(Left(Constant$, equal-1), "#")) + "=" + Trim(LTrim(Right(Constant$, Len(Constant$)-equal)), #DQUOTE$) ; Also remove the "" around, as expected by the compiler (http://www.purebasic.fr/english/viewtopic.php?f=4&t=59430)
+          Constant$ = Trim(RemoveString(Left(Constant$, equal-1), "#")) + "=" + Trim(LTrim(Right(Constant$, Len(Constant$)-equal)), #DQUOTE$) ; Also remove the "" around, as expected by the compiler (https://www.purebasic.fr/english/viewtopic.php?f=4&t=59430)
           
           CompilerWrite("CONSTANT"+Chr(9)+Constant$, #PB_UTF8)
         EndIf
@@ -1890,7 +1890,7 @@ Procedure CompilerCleanup()
             ; Vista admin tools must run in the standalone debugger
             ;
             CompilerIf #CompileWindows
-              If *Target\RunEnableAdmin And OSVersion() >= #PB_OS_Windows_Vista And IsAdmin() = 0 ; Fallback only if we are not admin (http://www.purebasic.fr/english/viewtopic.php?f=4&t=50571&p=385348#p385348)
+              If *Target\RunEnableAdmin And OSVersion() >= #PB_OS_Windows_Vista And IsAdmin() = 0 ; Fallback only if we are not admin (https://www.purebasic.fr/english/viewtopic.php?f=4&t=50571&p=385348#p385348)
                 ExecuteStandaloneDebugger(*Target, DebuggerExe$, Executable$, Directory$, DebuggerParams$)
                 ProcedureReturn
               EndIf

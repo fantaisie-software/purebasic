@@ -13,8 +13,8 @@
 ;|
 ;|  Description      : Gadget for displaying and using tabs like in the browser
 ;|
-;|  Forum Topic      : http://www.purebasic.fr/german/viewtopic.php?f=8&t=24788
-;|                     http://www.purebasic.fr/english/viewtopic.php?f=12&t=47588
+;|  Forum Topic      : https://www.purebasic.fr/german/viewtopic.php?f=8&t=24788
+;|                     https://www.purebasic.fr/english/viewtopic.php?f=12&t=47588
 ;|  Website          : http://www.unionbytes.de/includes/tabbargadget/
 ;|
 ;|  Documentation    : http://help.unionbytes.de/tbg/

@@ -616,7 +616,7 @@ Procedure ProjectPanelMenuEvent(MenuItemID)
             Debug FileName$
             
             ; If the file doesn't exist, ask to create it, to ease the integration
-            ; http://www.purebasic.fr/english/viewtopic.php?f=4&t=47521
+            ; https://www.purebasic.fr/english/viewtopic.php?f=4&t=47521
             ;
             If FileSize(FileName$) < 0
               If MessageRequester(Language("FileStuff","AddNewFileTitle"), LanguagePattern("FileStuff","AddNewFileQuestion", "%filename%", Filename$), #PB_MessageRequester_YesNo | #FLAG_Question) = #PB_MessageRequester_Yes

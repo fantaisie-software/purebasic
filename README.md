@@ -83,9 +83,9 @@ work in the PureBasic package.
 [PureBasic]: https://www.purebasic.com "Visit PureBasic website"
 [PureBasic Team Blog]: https://www.purebasic.fr/blog/ "Random thoughts on PureBasic development"
 
-[PBF EN]: http://www.purebasic.fr/english "PureBasic forum for English speakers"
-[PBF DE]: http://www.purebasic.fr/german "PureBasic forum for German speakers"
-[PBF FR]: http://www.purebasic.fr/french "PureBasic forum for French speakers"
+[PBF EN]: https://www.purebasic.fr/english "PureBasic forum for English speakers"
+[PBF DE]: https://www.purebasic.fr/german "PureBasic forum for German speakers"
+[PBF FR]: https://www.purebasic.fr/french "PureBasic forum for French speakers"
 
 <!-- 3r party websites -->
 

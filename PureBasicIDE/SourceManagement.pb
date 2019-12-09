@@ -1709,7 +1709,7 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
     If *Buffer
       ReadData(#FILE_LoadSource, *Buffer, FileLength)
       
-      ; Don't check PB sources, as it can contains wierd characters well handled by Scintilla: http://www.purebasic.fr/english/viewtopic.php?f=4&t=61467
+      ; Don't check PB sources, as it can contains wierd characters well handled by Scintilla: https://www.purebasic.fr/english/viewtopic.php?f=4&t=61467
       ;
       If (IsPureBasicFile(FileName$) = #False And IsBinaryFile(*Buffer, FileLength)) Or (Format <> #PB_Ascii And Format <> #PB_UTF8) ; check for binary files
         FreeMemory(*Buffer)
@@ -1884,7 +1884,7 @@ Procedure SaveSourceFile(FileName$)
     EndIf
     
     If *Buffer Or FileLength = 0
-      *ActiveSource\FileName$ = FileName$ ; SaveProjectSettings() needs an updated FileName$ (http://www.purebasic.fr/english/viewtopic.php?f=4&t=59566)
+      *ActiveSource\FileName$ = FileName$ ; SaveProjectSettings() needs an updated FileName$ (https://www.purebasic.fr/english/viewtopic.php?f=4&t=59566)
       *ActiveSource\IsCode = IsCodeFile(FileName$)
       
       SaveProjectSettings(*ActiveSource, *ActiveSource\IsCode, 0, 1)

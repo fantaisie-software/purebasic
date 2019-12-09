@@ -57,7 +57,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           EndIf
         Until *Cursor = 0
         
-        ; Another special case: *#CONSTANT (http://www.purebasic.fr/english/viewtopic.php?f=4&t=40104)
+        ; Another special case: *#CONSTANT (https://www.purebasic.fr/english/viewtopic.php?f=4&t=40104)
         *NextCharacter.Character = *WordStart+#CharSize
         If *WordStart\c = '*' And *NextCharacter\c = '#'
           *WordStart+1

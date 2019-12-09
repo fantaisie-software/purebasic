@@ -1,7 +1,7 @@
 Silk Icon Theme for the PureBasic IDE
 
 by Timo Harter
-http://www.purebasic.com
+https://www.purebasic.com
 
 
 This theme uses the icons (some slightly modified) 

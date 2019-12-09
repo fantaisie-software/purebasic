@@ -9,7 +9,7 @@
 ; Example file:
 ;
 ; <?xml version="1.0" encoding="UTF-8"?>
-; <versions xmlns="http://www.purebasic.com/namespace">
+; <versions xmlns="https://www.purebasic.com/namespace">
 ;   <version category="bugfix" number="5.11" name="PureBasic 5.11" />
 ;   <version category="beta" number="5.30" beta="3" name="PureBasic 5.30 beta 3" />
 ;   <version category="release" number="5.20" lts="1" name="PureBasic 5.20 LTS" />

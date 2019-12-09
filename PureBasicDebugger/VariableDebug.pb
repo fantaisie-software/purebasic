@@ -960,7 +960,7 @@ Procedure OpenVariableWindow(*Debugger.DebuggerData)
       VariableWindowEvents(*Debugger, #PB_Event_SizeWindow)
       
       CompilerIf #CompileLinux
-        FlushEvents() ; Flush the events to finish window creation/resize or SetGadgetState() could fail on linux: http://www.purebasic.fr/english/viewtopic.php?f=23&t=48589
+        FlushEvents() ; Flush the events to finish window creation/resize or SetGadgetState() could fail on linux: https://www.purebasic.fr/english/viewtopic.php?f=23&t=48589
       CompilerEndIf
       
       Height = GetPanelHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel])

@@ -736,7 +736,7 @@ Procedure Debugger_Ended(*Debugger.DebuggerData)
   ChangeCurrentElement(FileList(), *ActiveSource)
   
   SetDebuggerMenuStates()
-  ActivateMainWindow() ; re-enable the focus on editor gadget (http://www.purebasic.fr/english/viewtopic.php?f=4&t=46375&p=352864#p352864)
+  ActivateMainWindow() ; re-enable the focus on editor gadget (https://www.purebasic.fr/english/viewtopic.php?f=4&t=46375&p=352864#p352864)
 EndProcedure
 
 ; returns true/false

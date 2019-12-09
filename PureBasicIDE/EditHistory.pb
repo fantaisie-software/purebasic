@@ -1623,7 +1623,7 @@ CompilerIf #CompileWindows
                 EditHistoryDialog\Close()
               EndIf
               
-              EditHistoryDialog = 0 ; Important on OS X to put back the pointer to null after closing, as it can be called in the resize callback (http://www.purebasic.fr/english/viewtopic.php?f=24&t=59703&start=60)
+              EditHistoryDialog = 0 ; Important on OS X to put back the pointer to null after closing, as it can be called in the resize callback (https://www.purebasic.fr/english/viewtopic.php?f=24&t=59703&start=60)
               
               ; clear the display cache
               ForEach EventSourceCache()

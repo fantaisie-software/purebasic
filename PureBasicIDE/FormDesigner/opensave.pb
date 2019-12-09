@@ -59,7 +59,7 @@ Procedure FD_Save(Filename$)
   handle = CreateFile(#PB_Any, Filename$, Format)
   If handle
     If *ActiveSource\Parser\Encoding = 1 ; UTF-8
-      WriteStringFormat(handle, #PB_UTF8); Write the BOM: http://www.purebasic.fr/english/viewtopic.php?f=4&t=63080
+      WriteStringFormat(handle, #PB_UTF8); Write the BOM: https://www.purebasic.fr/english/viewtopic.php?f=4&t=63080
     EndIf
     
     MajorVersion = #PB_Compiler_Version/100
