@@ -3,7 +3,7 @@
 [![CC-BY-2.5][CC-BY badge]][CC-BY license]
 
 by Timo Harter
-(http://www.purebasic.com)
+(https://www.purebasic.com)
 
 
 This theme uses the icons (some slightly modified) from the __[Silk icon set 1.3]__ by Mark James.
