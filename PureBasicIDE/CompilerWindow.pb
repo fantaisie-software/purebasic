@@ -1217,7 +1217,7 @@ Procedure CreateExecutable()
             File$+Extension$
           EndIf
           
-          ; If the name of the exe has changed, we need to re-save the file (http://www.purebasic.fr/english/viewtopic.php?f=4&t=59806)
+          ; If the name of the exe has changed, we need to re-save the file (https://www.purebasic.fr/english/viewtopic.php?f=4&t=59806)
           ;
           If *ActiveSource\ExecutableName$ <> File$
             *ActiveSource\ExecutableName$ = File$

@@ -401,7 +401,7 @@ CompilerIf #CompileWindows
           ;   Window's queue, which will crash the IDE if the foreground window hangs.
           ;   Steps to reproduce:
           ;   - run a PB program (with GUI) which does "RunProgram(some PB source)"
-          ;   - the program and the IDE will crash.  (http://www.purebasic.fr/english/viewtopic.php?t=36934)
+          ;   - the program and the IDE will crash.  (https://www.purebasic.fr/english/viewtopic.php?t=36934)
           ;
           ;   Instead we use the normal SetWindowForeground() here, and it even works:
           ;   - the starting program has focus

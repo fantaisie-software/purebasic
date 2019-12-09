@@ -1023,7 +1023,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   Procedure ChangeActiveLine(Line, TopOffset)  ; Line is 1 based
                                                ; *ActiveSource\CurrentLineOld = 0 ; do not scan procedurelist again!
     SendEditorMessage(#SCI_LINESCROLL, -99999, -99999)
-    SendEditorMessage(#SCI_ENSUREVISIBLE, Line-1, 0) ; Ensure the block is unfolded, if it was folded. Needs to be before #SCI_GOTOLINE (http://www.purebasic.fr/english/viewtopic.php?f=4&t=44871)
+    SendEditorMessage(#SCI_ENSUREVISIBLE, Line-1, 0) ; Ensure the block is unfolded, if it was folded. Needs to be before #SCI_GOTOLINE (https://www.purebasic.fr/english/viewtopic.php?f=4&t=44871)
     SendEditorMessage(#SCI_LINESCROLL, 0, Line+TopOffset)
     SendEditorMessage(#SCI_GOTOLINE, Line-1, 0)
     SetActiveGadget(*ActiveSource\EditorGadget)
@@ -3329,14 +3329,14 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     WordChars$ = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$@#*"
     For k = 192 To 255
-      WordChars$+Chr(k) ; For ASCII mode, to have "é, à" etc. (http://www.purebasic.fr/english/viewtopic.php?f=4&t=57421)
+      WordChars$+Chr(k) ; For ASCII mode, to have "é, à" etc. (https://www.purebasic.fr/english/viewtopic.php?f=4&t=57421)
     Next
     SendEditorMessage(#SCI_SETWORDCHARS, 0, ToAscii(WordChars$))
     
     SendEditorMessage(#SCI_SETMOUSEDWELLTIME, 750, 0)
     
     ; Auto adjust the horizontal scrollbar. Could have a performance impact according to the doc, to verify in practice
-    ; http://www.purebasic.fr/english/viewtopic.php?f=23&t=50693
+    ; https://www.purebasic.fr/english/viewtopic.php?f=23&t=50693
     ;
     ; Note: with new scintilla on OS X, this is broken (the horizontal scroll doesn't adjust at all)
     ; Also on OS X 10.8+ the scrollbar is hidden by default (new OS X scroll, so it's not an issue anymore)
@@ -3828,7 +3828,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     ; set the line into view (don't use ChangeActiveLine() here as it will scroll the line to top
     Position = SendEditorMessage(#SCI_POSITIONFROMLINE, LineNumber-1, 0)
-    SendEditorMessage(#SCI_ENSUREVISIBLE, LineNumber-1, 0) ; Ensure the block is unfolded, if it was folded. Needs to be before #SCI_GOTOLINE (http://www.purebasic.fr/english/viewtopic.php?f=4&t=44871)
+    SendEditorMessage(#SCI_ENSUREVISIBLE, LineNumber-1, 0) ; Ensure the block is unfolded, if it was folded. Needs to be before #SCI_GOTOLINE (https://www.purebasic.fr/english/viewtopic.php?f=4&t=44871)
     SendEditorMessage(#SCI_SETSEL, Position, Position)
     SendEditorMessage(#SCI_SCROLLCARET, 0, 0)
   EndProcedure

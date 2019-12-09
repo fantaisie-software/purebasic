@@ -127,7 +127,7 @@ Procedure InsertFavorite(Position, Entry$)
   If Right(Entry$, 1) = #Separator
     ImageID = OptionalImageID(#IMAGE_Explorer_Directory)
     Name$ = GetFilePart(Left(Entry$, Len(Entry$)-1))
-    If Name$ = "" ; It's root drive (C:\) (http://www.purebasic.fr/english/viewtopic.php?f=4&t=53810)
+    If Name$ = "" ; It's root drive (C:\) (https://www.purebasic.fr/english/viewtopic.php?f=4&t=53810)
       Name$ = Left(Entry$, Len(Entry$)-1)
     EndIf
   Else
@@ -283,7 +283,7 @@ Procedure.s NextExplorerEntry()
         Directory$ = GetGadgetText(#GADGET_Explorer)
         
         If GetGadgetItemState(#GADGET_Explorer, Explorer_CurrentItem) & #PB_Explorer_File
-          Result$ = ResolveRelativePath(CurrentDirectory$, Directory$ + Entry$) ; Ensure we really have a full path (use the initial current directory if not: http://www.purebasic.fr/english/viewtopic.php?f=4&t=55801)
+          Result$ = ResolveRelativePath(CurrentDirectory$, Directory$ + Entry$) ; Ensure we really have a full path (use the initial current directory if not: https://www.purebasic.fr/english/viewtopic.php?f=4&t=55801)
           
         ElseIf Explorer_FilesOnly = 0
           Result$ = Directory$ + Entry$ + #Separator ; to distinguish directories
@@ -299,7 +299,7 @@ Procedure.s NextExplorerEntry()
     If Explorer_CurrentItem = 0
       Explorer_CurrentItem = 1
       If GetGadgetState(#GADGET_Explorer) & #PB_Explorer_File
-        Result$ = ResolveRelativePath(CurrentDirectory$, GetGadgetText(#GADGET_Explorer)) ; Ensure we really have a full path (use the initial current directory if not: http://www.purebasic.fr/english/viewtopic.php?f=4&t=55801)
+        Result$ = ResolveRelativePath(CurrentDirectory$, GetGadgetText(#GADGET_Explorer)) ; Ensure we really have a full path (use the initial current directory if not: https://www.purebasic.fr/english/viewtopic.php?f=4&t=55801)
         
       ElseIf Explorer_FilesOnly = 0
         Result$ = GetGadgetText(#GADGET_Explorer) + #Separator ; to distinguish directories

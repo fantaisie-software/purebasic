@@ -415,7 +415,7 @@ Procedure OpenStructureViewerWindow()
       EnsureWindowOnDesktop(#WINDOW_StructureViewer)
       
       CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
-        ; http://www.purebasic.fr/english/viewtopic.php?f=24&t=63494
+        ; https://www.purebasic.fr/english/viewtopic.php?f=24&t=63494
         ; Warning, DisplayStructureRootList() does the resize, so it must be after
         ;
         WindowBounds(#WINDOW_StructureViewer, 500, 300, #PB_Ignore, #PB_Ignore)

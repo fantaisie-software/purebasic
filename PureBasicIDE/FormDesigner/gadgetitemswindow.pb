@@ -29,7 +29,7 @@ Procedure FD_UpdateItems()
   PopListPosition(FormWindows()\FormGadgets())
 EndProcedure
 Procedure FD_InitItems()
-  DisableWindow(#WINDOW_Main, #True) ; Important to disable the main window or it can lead to some issues: http://www.purebasic.fr/english/viewtopic.php?p=471724#p471724
+  DisableWindow(#WINDOW_Main, #True) ; Important to disable the main window or it can lead to some issues: https://www.purebasic.fr/english/viewtopic.php?p=471724#p471724
   
   OpenWindow(#Form_Items, 0, 0, 600, 400, "",#PB_Window_SystemMenu | #PB_Window_TitleBar | #PB_Window_WindowCentered | #PB_Window_SizeGadget, WindowID(#WINDOW_Main))
   AddKeyboardShortcut(#Form_Items, #PB_Shortcut_Command | #PB_Shortcut_C, #Menu_Copy)

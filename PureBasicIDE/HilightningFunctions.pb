@@ -76,7 +76,7 @@ Procedure GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, 
         EndIf
       Until *Cursor = 0
       
-      ; Another special case: *#CONSTANT (http://www.purebasic.fr/english/viewtopic.php?f=4&t=40104)
+      ; Another special case: *#CONSTANT (https://www.purebasic.fr/english/viewtopic.php?f=4&t=40104)
       *NextCharacter.Character = *WordStart+#CharSize
       If *WordStart\c = '*' And *NextCharacter\c = '#'
         *WordStart+1
@@ -370,7 +370,7 @@ Procedure InsertComments()
   
   GetSelection(@LineStart, 0, @LineEnd, @RowEnd)
   
-  If RowEnd <= 1 And LineStart <> LineEnd ; when selecting a full line, it actually selects the newline too, this results in one extra line. Needs at least 2 lines to work: http://www.purebasic.fr/english/viewtopic.php?f=23&t=48512
+  If RowEnd <= 1 And LineStart <> LineEnd ; when selecting a full line, it actually selects the newline too, this results in one extra line. Needs at least 2 lines to work: https://www.purebasic.fr/english/viewtopic.php?f=23&t=48512
     LineEnd - 1
   EndIf
   

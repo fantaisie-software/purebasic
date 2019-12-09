@@ -1139,7 +1139,7 @@ Procedure SavePreferences()
     
     NbSavedWords = 0
     For i = 1 To NbFoldStartWords
-      ; Avoid writing duplicate (http://www.purebasic.fr/english/viewtopic.php?f=4&t=55717)
+      ; Avoid writing duplicate (https://www.purebasic.fr/english/viewtopic.php?f=4&t=55717)
       If i = 1  Or FoldStart$(i) <> FoldStart$(i-1)
         NbSavedWords+1
         WritePreferenceString("Start_"+Str(NbSavedWords), FoldStart$(i))
@@ -1149,7 +1149,7 @@ Procedure SavePreferences()
     
     NbSavedWords = 0
     For i = 1 To NbFoldEndWords
-      ; Avoid writing duplicate (http://www.purebasic.fr/english/viewtopic.php?f=4&t=55717)
+      ; Avoid writing duplicate (https://www.purebasic.fr/english/viewtopic.php?f=4&t=55717)
       If i = 1  Or FoldEnd$(i) <> FoldEnd$(i-1)
         NbSavedWords+1
         WritePreferenceString("End_"+Str(NbSavedWords), FoldEnd$(i))
