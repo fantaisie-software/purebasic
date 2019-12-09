@@ -63,8 +63,8 @@ work in the PureBasic package.
 
 # Links
 
-- www.PureBasic.com
-- www.SpiderBasic.com
+- www.purebasic.com
+- www.spiderbasic.com
 - [PureBasic forums][PBF EN] (English)
 - [PureBasic forums][PBF DE] (German)
 - [PureBasic forums][PBF FR] (French)
