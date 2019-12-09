@@ -2,6 +2,7 @@
 
 [![GPLv3][GPL badge]][GPL License]&nbsp;
 [![Fantaisie Software License][Fantaisie badge]][Fantaisie License]
+[![Build Status](https://travis-ci.com/fantaisie-software/purebasic.svg?branch=master)](https://travis-ci.com/fantaisie-software/purebasic)
 
 - https://github.com/fantaisie-software/purebasic
 
