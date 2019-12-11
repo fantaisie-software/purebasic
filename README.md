@@ -8,6 +8,7 @@
 
 Welcome to __PureBasic OpenSources Projects__, a central public repository to access all open sourced code of [PureBasic], a native code BASIC compiler for Windows, Linux and OS X.
 
+[<kbd>Download as a ZIP Archive</kbd>][ZIP Archive]
 
 -----
 
@@ -17,6 +18,10 @@ Welcome to __PureBasic OpenSources Projects__, a central public repository to ac
 <!-- MarkdownTOC autolink="true" bracket="round" autoanchor="false" lowercase="only_ascii" uri_encoding="true" levels="1,2,3,4" -->
 
 - [Welcome](#welcome)
+- [Download Instructions](#download-instructions)
+    - [Downloading a ZIP Archive](#downloading-a-zip-archive)
+    - [Cloning the Repository Locally via Git](#cloning-the-repository-locally-via-git)
+    - [Forking on GitHub](#forking-on-github)
 - [License](#license)
 - [Links](#links)
 
@@ -37,6 +42,52 @@ If you're new to [Git] and GitHub, we suggest you take a look a the [GitHub Guid
 Happy hacking,
 
 [The Fantaisie Software Team]
+
+# Download Instructions
+
+Depending on what you're planning to do, you can choose to obtain a copy of this project in three different ways:
+
+1. [Download the project as a ZIP Archive][ZIP Archive]
+2. Clone the repository locally
+3. Fork the repository on GitHub
+
+If you're planning to actively participate in the development of thePureBasic IDE, then you should [fork on GitHub].
+If you don't know/have/use [Git], then just [download as a ZIP Archive][ZIP Archive].
+
+For the differences between these three choices, and their implications, carry on reading.
+
+## Downloading a ZIP Archive
+
+If you're not planning to use [Git], and you're only interested in the PureBasic IDE contents, for your own personal use, then downloading a [ZIP Archive] might be the best choice for you.
+You'll get a lighter version of the project, without any of the Git-specific contents, which is also going to be smaller in size.
+
+[<kbd>Download as a ZIP Archive</kbd>][ZIP Archive]
+
+Beware, this way you won't be able to update your local copy dynamically.
+To get an updated version, you'll have to re-download the ZIP archive from scratch.
+
+## Cloning the Repository Locally via Git
+
+If you'd like to be able to keep your local copy of the project updated via a single shell command, but are not interested in contributing your changes back to the main project, then you might be better off installing [Git] and downloading the project from the shell/CMD via:
+
+    git clone https://github.com/fantaisie-software/purebasic.git
+
+Then, whenever you want to update your local copy, just open your shell/CMD in the project root and type:
+
+    git pull
+
+## Forking on GitHub
+
+If you wish to join this project in full, and be able to contribute your changes back to the main (_upstream_) repository, then you should create a GitHub account and click on the <kbd>Fork</kbd> button that appears on the right side at beginning of this page (you need to be logged-in to see this option).
+
+By forking this project you'll be creating your own copy (your _fork_) of this repository on GitHub, which remains connected to its parent project (the _upstream repository_) thus facilitating synchronizing contents changes between the two in a flawless manner.
+
+After forking the repository, to download a local copy you should then clone _your_ fork of the repository (not this one) by typing in your shell/CMD:
+
+    git clone https://github.com/<your GitHub username>/purebasic.git
+
+where `<your GitHub username>` is whatever user name you registered your GitHub account with.
+
 
 # License
 
@@ -74,8 +125,6 @@ work in the PureBasic package.
                                REFERENCE LINKS
 ------------------------------------------------------------------------------>
 
-[open an Issue]: https://github.com/fantaisie-software/purebasic/issues/new "Open an Issue and talk to us!"
-
 <!-- official links to PureBasic, SpiderBasic and Fantaisie Software -->
 
 [The Fantaisie Software Team]: https://www.purebasic.com/support.php "More info about the Fantaisie Software Team"
@@ -100,6 +149,15 @@ work in the PureBasic package.
 
 [GPL badge]: https://img.shields.io/badge/License-GPLv3-blue
 [Fantaisie badge]: https://img.shields.io/badge/License-Fantaisie%20Software-blue
+
+<!-- repo links -->
+
+[open an Issue]: https://github.com/fantaisie-software/purebasic/issues/new "Open an Issue and talk to us!"
+[ZIP Archive]: https://github.com/tajmone/purebasic/archive/master.zip "Download a ZIP file of this project (without Git contents)"
+
+<!-- x-refs -->
+
+[Fork on GitHub]: #forking-on-github "Jump to document sections"
 
 <!-- project files -->
 
