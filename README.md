@@ -4,7 +4,8 @@
 [![Fantaisie Software License][Fantaisie badge]][Fantaisie License]
 [![Build Status](https://travis-ci.com/fantaisie-software/purebasic.svg?branch=master)](https://travis-ci.com/fantaisie-software/purebasic)
 
-- https://github.com/fantaisie-software/purebasic
+- `Repository:` https://github.com/fantaisie-software/purebasic
+- `Vanity URL:` https://git.io/purebasic
 
 Welcome to __PureBasic OpenSources Projects__, a central public repository to access all open sourced code of [PureBasic], a native code BASIC compiler for Windows, Linux and OS X.
 
