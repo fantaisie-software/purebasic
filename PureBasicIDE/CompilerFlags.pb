@@ -52,6 +52,8 @@ CompilerEndIf
 CompilerIf #SpiderBasic
   #ProductName$ = "SpiderBasic"
   #ProductWebSite$ = "https://www.spiderbasic.com"
+  #ProjectFileNamespace$ = "http://www.purebasic.com/namespace" ; SBP uses PBP namespace
+  #UpdateCheckNamespace$ = "http://www.spiderbasic.com/namespace"
   
   #SourceFileExtension  = ".sb"
   #IncludeFileExtension = ".sbi"
@@ -62,6 +64,8 @@ CompilerIf #SpiderBasic
 CompilerElse
   #ProductName$ = "PureBasic"
   #ProductWebSite$ = "https://www.purebasic.com"
+  #ProjectFileNamespace$ = "http://www.purebasic.com/namespace"
+  #UpdateCheckNamespace$ = "http://www.purebasic.com/namespace"
   
   #SourceFileExtension  = ".pb"
   #IncludeFileExtension = ".pbi"
