@@ -17,6 +17,7 @@ To reuse or distribute this theme, you must honor [the license terms by the orig
 
 <!-- MarkdownTOC autolink="true" bracket="round" autoanchor="false" lowercase="only_ascii" uri_encoding="true" levels="1,2,3,4" -->
 
+- [Folder Contents](#folder-contents)
 - [Icons Preview](#icons-preview)
 - [License and Info](#license-and-info)
 
@@ -24,6 +25,16 @@ To reuse or distribute this theme, you must honor [the license terms by the orig
 
 -----
 
+# Folder Contents
+
+- [`Theme.prefs`](./Theme.prefs) — main theme file.
+- [`Readme.txt`](./Readme.txt) — original info file attachment.
+- `*.png` (151) — theme icons + original icons that were modified.
+
+> __NOTE__ — Images with a filename beginning in `modified_` are the icons modified by Timo Harter, used in the actual IDE theme; their original version from the Silk Icon set is also included, with the same filename but without the `modified_` prefix.
+> Example:
+>
+> * [modified_find.png] (![icon][modified_find.png])  &rarr; [find.png] (![icon][find.png])
 
 # Icons Preview
 
