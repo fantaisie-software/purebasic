@@ -92,6 +92,53 @@ To reuse or distribute this theme, you must honor [the license terms by the orig
 | [wand.png]                      | ![icon][wand.png]                      | [world.png]                     | ![icon][world.png]                     | [wrench.png]                   | ![icon][wrench.png]                   |
 | [zoom.png]                      | ![icon][zoom.png]                      |                                 |                                        |                                |                                       |
 
+# License and Info
+
+Original icon set information:
+
+```
+Silk icon set 1.3
+
+_________________________________________
+Mark James
+http://www.famfamfam.com/lab/icons/silk/
+_________________________________________
+
+This work is licensed under a
+Creative Commons Attribution 2.5 License.
+[ http://creativecommons.org/licenses/by/2.5/ ]
+
+This means you may use it for any purpose,
+and make any changes you like.
+All I ask is that you include a link back
+to this page in your credits.
+
+Are you using this icon set? Send me an email
+(including a link or picture if available) to
+mjames@gmail.com
+
+Any other questions about this icon set please
+contact mjames@gmail.com
+```
+
+
+<!-----------------------------------------------------------------------------
+                               REFERENCE LINKS
+------------------------------------------------------------------------------>
+
+[Silk icon set 1.3]: http://www.famfamfam.com/lab/icons/silk/ "Visit the Silk Icons page at www.famfamfam.com"
+
+<!-- xrefs -->
+
+[the license terms by the original author]: #license-and-info
+
+<!-- license badge -->
+
+[CC-BY license]: https://creativecommons.org/licenses/by/2.5/ "Creative Commons Attribution 2.5 Generic"
+[CC-BY badge]: https://img.shields.io/badge/License-CC--BY--2.5-blue
+
+<!-- image files -->
+
 [accept.png]: ./accept.png
 [add.png]: ./add.png
 [application_add.png]: ./application_add.png
@@ -243,52 +290,6 @@ To reuse or distribute this theme, you must honor [the license terms by the orig
 [world.png]: ./world.png
 [wrench.png]: ./wrench.png
 [zoom.png]: ./zoom.png
-
-# License and Info
-
-Original icon set information:
-
-```
-Silk icon set 1.3
-
-_________________________________________
-Mark James
-http://www.famfamfam.com/lab/icons/silk/
-_________________________________________
-
-This work is licensed under a
-Creative Commons Attribution 2.5 License.
-[ http://creativecommons.org/licenses/by/2.5/ ]
-
-This means you may use it for any purpose,
-and make any changes you like.
-All I ask is that you include a link back
-to this page in your credits.
-
-Are you using this icon set? Send me an email
-(including a link or picture if available) to
-mjames@gmail.com
-
-Any other questions about this icon set please
-contact mjames@gmail.com
-```
-
-
-<!-----------------------------------------------------------------------------
-                               REFERENCE LINKS
------------------------------------------------------------------------------->
-
-[Silk icon set 1.3]: http://www.famfamfam.com/lab/icons/silk/ "Visit the Silk Icons page at www.famfamfam.com"
-
-<!-- xrefs -->
-
-[the license terms by the original author]: #license-and-info
-
-<!-- license badge -->
-
-[CC-BY license]: https://creativecommons.org/licenses/by/2.5/ "Creative Commons Attribution 2.5 Generic"
-[CC-BY badge]: https://img.shields.io/badge/License-CC--BY--2.5-blue
-
 
 <!-- EOF -->
 
