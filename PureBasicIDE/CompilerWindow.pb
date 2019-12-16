@@ -489,6 +489,13 @@ EndProcedure
 Procedure BuildWindowEvents(EventID)
   Quit = 0
   
+  If EventID = #PB_Event_Menu     ; Little wrapper to map the shortcut events (identified as menu)
+    EventID  = #PB_Event_Gadget   ; to normal gadget events...
+    GadgetID = EventMenu()
+  Else
+    GadgetID = EventGadget()
+  EndIf
+  
   If EventID = #PB_Event_Gadget
     Select EventGadget()
       Case #GADGET_Build_Targets
@@ -558,7 +565,11 @@ Procedure BuildWindowEvents(EventID)
         ForEver
         
       Case #GADGET_Build_Close
-        Quit = 1
+        ; CompilerBusy goes to 0 after each target
+        ; UseProjectBuildWindow goes to 0 when all are done
+        If (Not CompilerBusy) And (Not UseProjectBuildWindow)
+          Quit = 1
+        EndIf
         
     EndSelect
     
