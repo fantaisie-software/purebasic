@@ -30,15 +30,15 @@ This directory tree contains various assets for the PureBasic and SpiderBasic ID
 - [`ColorTable.xml`](./ColorTable.xml) — palettes dataset for the [Color Picker tool].
 - [`EmptySpace.png`](./EmptySpace.png) — 16x16 icon.
 - [`MissingIcon.png`](./MissingIcon.png) — 16x16 icon.
-- [`PBLogoBig.ico`](./PBLogoBig.ico) — PureBasic IDE icon (48x48 px).
-- [`PBLogoSmall.ico`](./PBLogoSmall.ico) — PureBasic IDE icon (32x32 px).
-- [`PBSourceFile.ico`](./PBSourceFile.ico) — PureBasic files icon (48x48 px).
-- [`purebasiclogo.bmp`](./purebasiclogo.bmp) — logo shown in PureBasic IDE "About" window (381x68 px).
-- [`spiderbasicstartuplogo_forum.pdn`](./spiderbasicstartuplogo_forum.pdn) — SpiderBasic Logotype ([Paint.NET] project file).
-- [`spiderbasicstartuplogo_forums.png`](./spiderbasicstartuplogo_forums.png) — SpiderBasic Logotype, red version (459x98 px).
-- [`spiderbasicstartuplogo_forums_blue.png`](./spiderbasicstartuplogo_forums_blue.png) — SpiderBasic Logotype, blue version (275x94 px).
-- [`startuplogo.png`](./startuplogo.png) — logo for PureBasic IDE splash screen (500x200 px).
-- [`startuplogo.psd`](./startuplogo.psd) — logo for PureBasic IDE splash screen (500x200 px).
+- [`PBLogoBig.ico`][PBLogoBig.ico] — PureBasic IDE icon (48x48 px).
+- [`PBLogoSmall.ico`][PBLogoSmall.ico] — PureBasic IDE icon (32x32 px).
+- [`PBSourceFile.ico`][PBSourceFile.ico] — PureBasic files icon (48x48 px).
+- [`purebasiclogo.bmp`][purebasiclogo.bmp] — logo shown in PureBasic IDE "About" window (381x68 px).
+- [`spiderbasicstartuplogo_forum.pdn`][spiderbasicstartuplogo_forum.pdn] — SpiderBasic Logotype ([Paint.NET] project file).
+- [`spiderbasicstartuplogo_forums.png`][spiderbasicstartuplogo_forums.png] — SpiderBasic Logotype, red version (459x98 px).
+- [`spiderbasicstartuplogo_forums_blue.png`][spiderbasicstartuplogo_forums_blue.png] — SpiderBasic Logotype, blue version (275x94 px).
+- [`startuplogo.png`][startuplogo.png] — logo for PureBasic IDE splash screen (500x200 px).
+- [`startuplogo.psd`][startuplogo.psd] — logo for PureBasic IDE splash screen (500x200 px).
 - [`templates.psd`](./templates.psd) — 16x16 icons project file.
 - [`ToolsPanelLeft.png`](./ToolsPanelLeft.png) — 16x16 icon.
 - [`ToolsPanelRight.png`](./ToolsPanelRight.png) — 16x16 icon.
@@ -49,18 +49,18 @@ Images info and previews, grouped by relevance.
 
 ## PureBasic Gears Logo
 
-The PureBasic logo shown in the "__Help__ » __About__" window.
+The logo shown in PureBasic IDE "__Help__ » __About__" window.
 
 |      image file     |    size   |
 |---------------------|-----------|
 | [purebasiclogo.bmp] | 381x68 px |
 
-![PureBasic Gears Logo](./purebasiclogo.bmp)
+![PureBasic Gears Logo][purebasiclogo.bmp]
 
 
 ## PureBasic Splash Screen
 
-The PureBasic logo image shown while the PureBasic IDE starts up.
+The logo image shown while the PureBasic IDE starts up.
 
 |     image file    |    size    |
 |-------------------|------------|
@@ -94,9 +94,9 @@ A logotype of the SpiderBasic name, in different colours.
 The [`spiderbasicstartuplogo_forum.pdn`][spiderbasicstartuplogo_forum.pdn] file is a [Paint.NET] project file.
 
 
-![SpiderBasic Logotype red](./spiderbasicstartuplogo_forums.png)
+![SpiderBasic Logotype red][spiderbasicstartuplogo_forums.png]
 
-![SpiderBasic Logotype blue](./spiderbasicstartuplogo_forums_blue.png)
+![SpiderBasic Logotype blue][spiderbasicstartuplogo_forums_blue.png]
 
 
 <!-----------------------------------------------------------------------------
