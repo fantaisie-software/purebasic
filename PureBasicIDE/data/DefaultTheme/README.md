@@ -1,6 +1,6 @@
 # Default IDE Theme
 
-The PureBasic default theme, created by Gary Willoughby «[Kale]» — author of the book _[PureBasic: A Beginner's Guide to Computer Programming]_ (2006), now [freely available in PDF format] under [CC BY-NC-SA 3.0] license.
+The PureBasic default theme, created by [Gary «Kale» Willoughby] — author of the book _[PureBasic: A Beginner's Guide to Computer Programming]_ (2006), now [freely available in PDF format] under [CC BY-NC-SA 3.0] license.
 
 # Folder Contents
 
@@ -54,17 +54,17 @@ The PureBasic default theme, created by Gary Willoughby «[Kale]» — author of
                                REFERENCE LINKS
 ------------------------------------------------------------------------------>
 
-[Kale]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=34 "Visit «Kale» Gary Willoughby's profile on the PureBasic Forums"
-
 <!-- PB Beginner's Guide -->
 
 [PureBasic: A Beginner's Guide to Computer Programming]: https://web.archive.org/web/20071012170409/http://pb-beginners.co.uk:80/ "See the book web page on Wayback Machine"
 
 [freely available in PDF format]: http://www.purearea.net/pb/download/PureBasicBook.pdf "Free PDF eBook at PureArea.net (direct link)"
 
-
-
 [CC BY-NC-SA 3.0]: https://creativecommons.org/licenses/by-nc-sa/3.0/ "View the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported license"
+
+<!-- people -->
+
+[Gary «Kale» Willoughby]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=34 "Visit Gary «Kale» Willoughby's profile on the PureBasic Forums"
 
 <!-- icons files -->
 
