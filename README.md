@@ -23,6 +23,9 @@ Welcome to __PureBasic OpenSources Projects__, a central public repository to ac
     - [Downloading a ZIP Archive](#downloading-a-zip-archive)
     - [Cloning the Repository Locally via Git](#cloning-the-repository-locally-via-git)
     - [Forking on GitHub](#forking-on-github)
+- [Credits](#credits)
+    - [Silk Icon Set](#silk-icon-set)
+- [Acknowledgements](#acknowledgements)
 - [License](#license)
 - [Links](#links)
 
@@ -90,6 +93,35 @@ After forking the repository, to download a local copy you should then clone _yo
 where `<your GitHub username>` is whatever user name you registered your GitHub account with.
 
 
+# Credits
+
+The list of third party components used in this project, with due credits to their authors and license terms.
+More details can be found inside the folder of each asset.
+
+## Silk Icon Set
+
+- [`PureBasicIDE/data/SilkTheme/`][SilkTheme]
+
+The __Silk Icon Theme__ included with PureBasic and SpiderBasic IDEs is based on [Mark James]'s __[Silk icon set 1.3]__, released under [CC-BY-2.5].
+Some icons were slightly modified by [Timo «Freak» Harter].
+
+[CC-BY-2.5]: https://creativecommons.org/licenses/by/2.5/ "Creative Commons Attribution 2.5 Generic"
+[Silk icon set 1.3]: http://www.famfamfam.com/lab/icons/silk/ "Visit the Silk Icons page at www.famfamfam.com"
+
+
+# Acknowledgements
+
+Our gratitude goes out to all those who helped us improve PureBasic and SpiderBasic in the course of time.
+The list is quite long, and we refer you to the Acknowledgements section of the [PureBasic][AcknPB] and [SpiderBasic][AcknSB] documentation for more details.
+
+Here follows a list of people who contributed to the assets found in this repository.
+The list is still in the making and incomplete, and we apologise for any temporary omissions.
+
+- __[Gary «Kale» Willoughby]__ — for designing the [default theme] of the PureBasic IDE.
+- __[Timo «Freak» Harter]__ — for the IDE, the Debugger, many commands and great ideas. PureBasic wouldn't be the same without him!
+- __Fabien Laboureur__ — for designing the [SpiderBasic logo].
+
+
 # License
 
 - [`LICENSE`][GPL License] — GPLv3
@@ -137,7 +169,12 @@ work in the PureBasic package.
 [PBF DE]: https://www.purebasic.fr/german "PureBasic forum for German speakers"
 [PBF FR]: https://www.purebasic.fr/french "PureBasic forum for French speakers"
 
-<!-- 3r party websites -->
+<!-- PureBasic and SpiderBasic documentation -->
+
+[AcknPB]: https://www.purebasic.com/documentation/mainguide/greats.html "Read the Acknowledgements section of PureBasic documentation"
+[AcknSB]: https://www.spiderbasic.com/documentation/mainguide/greats.html "Read the Acknowledgements section of SpiderBasic documentation"
+
+<!-- 3rd party websites -->
 
 [Git]: https://git-scm.com "Visit Git website"
 
@@ -164,5 +201,17 @@ work in the PureBasic package.
 
 [GPL License]: ./LICENSE "The GNU General Public License v3"
 [Fantaisie License]: ./LICENSE-FANTAISIE "The Fantaisie Software License"
+
+<!-- project folders -->
+
+[default theme]: ./PureBasicIDE/data/DefaultTheme/ "Navigate to the Default Theme folder"
+[SilkTheme]: ./PureBasicIDE/data/SilkTheme/ "Navigate to the Silk Icon Theme folder"
+[SpiderBasic logo]: ./PureBasicIDE/data/SpiderBasic/ "Navigate to the SpiderBasic logo folder"
+
+<!-- people -->
+
+[Gary «Kale» Willoughby]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=34 "Visit Gary «Kale» Willoughby's profile on the PureBasic Forums"
+[Mark James]: https://twitter.com/markjames "Visit Mark James's profile on Twitter"
+[Timo «Freak» Harter]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=25 "Visit Timo «Freak» Harter's profile on the PureBasic Forums"
 
 <!-- EOF -->

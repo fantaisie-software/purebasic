@@ -2,13 +2,11 @@
 
 [![CC-BY-2.5][CC-BY badge]][CC-BY license]
 
-by Timo Harter
-(https://www.purebasic.com)
+by [Timo «Freak» Harter], member of the [PureBasic Team].
 
+This theme uses the icons (some slightly modified) from the __[Silk icon set 1.3]__ by [Mark James].
 
-This theme uses the icons (some slightly modified) from the __[Silk icon set 1.3]__ by Mark James.
-
-To reuse or distribute this theme, you must honor [the license terms by the original author] listed below.
+To reuse or distribute this theme, you must honor [the license terms by the original author], listed below.
 
 -----
 
@@ -31,10 +29,10 @@ To reuse or distribute this theme, you must honor [the license terms by the orig
 - [`Readme.txt`](./Readme.txt) — original info file attachment.
 - `*.png` (151) — theme icons + original icons that were modified.
 
-> __NOTE__ — Images with a filename beginning in `modified_` are the icons modified by Timo Harter, used in the actual IDE theme; their original version from the Silk Icon set is also included, with the same filename but without the `modified_` prefix.
+> __NOTE__ — Images with a filename beginning in `modified_` are the icons modified by [Timo «Freak» Harter], used in the actual IDE theme; their original version from the Silk Icon set is also included, with the same filename but without the `modified_` prefix.
 > Example:
 >
-> * [modified_find.png] (![icon][modified_find.png])  &rarr; [find.png] (![icon][find.png])
+> * [modified_find.png]  (![icon][modified_find.png])  &rarr; [find.png]  (![icon][find.png])
 
 # Icons Preview
 
@@ -126,6 +124,7 @@ contact mjames@gmail.com
                                REFERENCE LINKS
 ------------------------------------------------------------------------------>
 
+[PureBasic Team]: https://www.purebasic.com/support.php "Learn more about the PureBasic Team at www.PureBasic.com"
 [Silk icon set 1.3]: http://www.famfamfam.com/lab/icons/silk/ "Visit the Silk Icons page at www.famfamfam.com"
 
 <!-- xrefs -->
@@ -136,6 +135,11 @@ contact mjames@gmail.com
 
 [CC-BY license]: https://creativecommons.org/licenses/by/2.5/ "Creative Commons Attribution 2.5 Generic"
 [CC-BY badge]: https://img.shields.io/badge/License-CC--BY--2.5-blue
+
+<!-- people -->
+
+[Mark James]: https://twitter.com/markjames "Visit Mark James's profile on Twitter"
+[Timo «Freak» Harter]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=25 "Visit Timo «Freak» Harter's profile on the PureBasic Forums"
 
 <!-- image files -->
 
