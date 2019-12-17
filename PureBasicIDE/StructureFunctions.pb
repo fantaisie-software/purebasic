@@ -697,8 +697,8 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
         If CompareMemoryString(@Name$, @InterfaceList(i), #PB_String_NoCase) = #PB_String_Equal
           
           ; Request structure content
-          CompilerWrite("INTERFACE"+Chr(9)+Trim(Name$))
           ForceDefaultCompiler()
+          CompilerWrite("INTERFACE"+Chr(9)+Trim(Name$))
           Repeat
             Response$ = CompilerRead()
             
