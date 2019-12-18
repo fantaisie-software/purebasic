@@ -404,7 +404,7 @@ Procedure CheckForUpdatesSchedule()
       UpdateCheck_Start()
       
     Case #UPDATE_Interval_Weekly
-      If Date() > LastUpdateCheck + (7 * 24 * 60 * 60 * 60)
+      If Date() > LastUpdateCheck + (7 * 24 * 60 * 60)
         UpdateCheck_Start()
       EndIf
       
