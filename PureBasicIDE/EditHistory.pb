@@ -16,6 +16,9 @@ UseSQLiteDatabase()
 ; disable this only for testing
 #HISTORY_WRITE_ASYNC = #True
 
+; enable to purge sessions which don't contain any edit events
+#HISTORY_PURGE_EMPTY_SESSIONS = #True
+
 ; keep previous versions of displayed sources cached
 ; to speed up loading (as reconstructing multiple diffs takes time)
 ; especially when browsing within the history of one file, this helps a lot
@@ -441,7 +444,6 @@ CompilerIf #CompileWindows
       ; Now purge old sessions if needed
       ;
       PurgeList$ = ""
-      FirstPurged = #True
       
       If HistoryPurgeMode = 1
         
@@ -460,12 +462,7 @@ CompilerIf #CompileWindows
           
           ; record sessions for deleting
           While NextDatabaseRow(#DB_History)
-            If FirstPurged
-              FirstPurged = #False
-            Else
-              PurgeList$ + ", "
-            EndIf
-            PurgeList$ + Str(GetDatabaseLong(#DB_History, 0))
+            PurgeList$ + ", " + Str(GetDatabaseLong(#DB_History, 0))
           Wend
           
           FinishDatabaseQuery(#DB_History)
@@ -487,12 +484,7 @@ CompilerIf #CompileWindows
         If DatabaseQuery(#DB_History, sql$)
           ; record sessions for deleting
           While NextDatabaseRow(#DB_History)
-            If FirstPurged
-              FirstPurged = #False
-            Else
-              PurgeList$ + ", "
-            EndIf
-            PurgeList$ + Str(GetDatabaseLong(#DB_History, 0))
+            PurgeList$ + ", " + Str(GetDatabaseLong(#DB_History, 0))
           Wend
           
           FinishDatabaseQuery(#DB_History)
@@ -500,7 +492,32 @@ CompilerIf #CompileWindows
         
       EndIf
       
+      CompilerIf #HISTORY_PURGE_EMPTY_SESSIONS
+        NewList FoundSessionID$()
+        If DatabaseQuery(#DB_History, "SELECT session_id FROM session")
+          While NextDatabaseRow(#DB_History)
+            AddElement(FoundSessionID$())
+            FoundSessionID$() = GetDatabaseString(#DB_History, 0)
+          Wend
+          FinishDatabaseQuery(#DB_History)
+          
+          ForEach FoundSessionID$()
+            If DatabaseQuery(#DB_History, "SELECT COUNT(*) FROM event WHERE session_id='" + FoundSessionID$() + "'")
+              If NextDatabaseRow(#DB_History)
+                If GetDatabaseLong(#DB_History, 0) = 0
+                  PurgeList$ + ", " + FoundSessionID$()
+                EndIf
+              EndIf
+              FinishDatabaseQuery(#DB_History)
+            EndIf
+          Next
+        EndIf
+        FreeList(FoundSessionID$())
+      CompilerEndIf
+      
       If PurgeList$ <> ""
+        ; strip beginning ", "
+        PurgeList$ = Mid(PurgeList$, 3)
         ; purge them all at once
         DatabaseUpdate(#DB_History, "BEGIN TRANSACTION")
         DatabaseUpdate(#DB_History, "DELETE FROM event WHERE session_id IN (" + PurgeList$ + ")")
