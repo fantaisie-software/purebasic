@@ -24,6 +24,7 @@ Welcome to __PureBasic OpenSources Projects__, a central public repository to ac
     - [Cloning the Repository Locally via Git](#cloning-the-repository-locally-via-git)
     - [Forking on GitHub](#forking-on-github)
 - [Credits](#credits)
+    - [Libmba](#libmba)
     - [Silk Icon Set](#silk-icon-set)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
@@ -98,15 +99,24 @@ where `<your GitHub username>` is whatever user name you registered your GitHub 
 The list of third party components used in this project, with due credits to their authors and license terms.
 More details can be found inside the folder of each asset.
 
+## Libmba
+
+- [`PureBasicIDE/libmba/`][libmba/]
+
+The PureBasic IDE uses the __[libmba]__ library by Michael B. Allen, released under the terms of the MIT License.
+
+```
+The MIT License
+
+Copyright (c) 2001-2005 Michael B. Allen <mba2000 ioplex.com>
+```
+
 ## Silk Icon Set
 
 - [`PureBasicIDE/data/SilkTheme/`][SilkTheme]
 
 The __Silk Icon Theme__ included with PureBasic and SpiderBasic IDEs is based on [Mark James]'s __[Silk icon set 1.3]__, released under [CC-BY-2.5].
 Some icons were slightly modified by [Timo «Freak» Harter].
-
-[CC-BY-2.5]: https://creativecommons.org/licenses/by/2.5/ "Creative Commons Attribution 2.5 Generic"
-[Silk icon set 1.3]: http://www.famfamfam.com/lab/icons/silk/ "Visit the Silk Icons page at www.famfamfam.com"
 
 
 # Acknowledgements
@@ -174,9 +184,12 @@ work in the PureBasic package.
 [AcknPB]: https://www.purebasic.com/documentation/mainguide/greats.html "Read the Acknowledgements section of PureBasic documentation"
 [AcknSB]: https://www.spiderbasic.com/documentation/mainguide/greats.html "Read the Acknowledgements section of SpiderBasic documentation"
 
-<!-- 3rd party websites -->
+<!-- 3rd party links and licenses -->
 
+[CC-BY-2.5]: https://creativecommons.org/licenses/by/2.5/ "Creative Commons Attribution 2.5 Generic"
 [Git]: https://git-scm.com "Visit Git website"
+[libmba]: http://www.ioplex.com/~miallen/libmba/ "Visit libmba home page"
+[Silk icon set 1.3]: http://www.famfamfam.com/lab/icons/silk/ "Visit the Silk Icons page at www.famfamfam.com"
 
 <!-- references -->
 
@@ -207,6 +220,7 @@ work in the PureBasic package.
 [default theme]: ./PureBasicIDE/data/DefaultTheme/ "Navigate to the Default Theme folder"
 [SilkTheme]: ./PureBasicIDE/data/SilkTheme/ "Navigate to the Silk Icon Theme folder"
 [SpiderBasic logo]: ./PureBasicIDE/data/SpiderBasic/ "Navigate to the SpiderBasic logo folder"
+[libmba/]: ./PureBasicIDE/libmba/ "Navigate to the libmba folder"
 
 <!-- people -->
 
