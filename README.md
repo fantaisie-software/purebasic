@@ -23,6 +23,7 @@ Welcome to __PureBasic OpenSources Projects__, a central public repository to ac
     - [Downloading a ZIP Archive](#downloading-a-zip-archive)
     - [Cloning the Repository Locally via Git](#cloning-the-repository-locally-via-git)
     - [Forking on GitHub](#forking-on-github)
+- [Contributing](#contributing)
 - [Credits](#credits)
     - [Silk Icon Set](#silk-icon-set)
 - [Acknowledgements](#acknowledgements)
@@ -92,6 +93,14 @@ After forking the repository, to download a local copy you should then clone _yo
 
 where `<your GitHub username>` is whatever user name you registered your GitHub account with.
 
+# Contributing
+
+- [`CONTRIBUTING.md`][CONTRIBUTING.md]
+
+This is an open source project open to users' contributions.
+Contributions are not limited to code programming, there are many ways in which you can help this project grow, and some of them don't even require using [Git].
+
+To learn more on how to contribute to the growth of this project, please read our _[Contributors' Guidelines]_.
 
 # Credits
 
@@ -119,7 +128,9 @@ The list is still in the making and incomplete, and we apologise for any tempora
 
 - __[Gary «Kale» Willoughby]__ — for designing the [default theme] of the PureBasic IDE.
 - __[Timo «Freak» Harter]__ — for the IDE, the Debugger, many commands and great ideas. PureBasic wouldn't be the same without him!
+- __Danilo Krahn__ — For his huge work on the editor and on the core commands set, and the tons of nice suggestions about code optimization and size reduction.
 - __Fabien Laboureur__ — for designing the [SpiderBasic logo].
+- __Gaetan Dupont-Panon__ — For the wonderful new visual designer, which really rocks on Windows, Linux and OS X!
 
 
 # License
@@ -180,8 +191,8 @@ work in the PureBasic package.
 
 <!-- references -->
 
-[create a pull request]: https://help.github.com/en/desktop/contributing-to-projects/creating-a-pull-request "Learn how to create pull requests"
 [GitHub Guides]: https://guides.github.com "Go to GitHub Guides"
+[Contributors' Guidelines]: ./CONTRIBUTING.md "Read the Contributors' Guidelines to this project"
 
 <!-- badges -->
 
@@ -190,6 +201,7 @@ work in the PureBasic package.
 
 <!-- repo links -->
 
+[create a pull request]: https://help.github.com/en/desktop/contributing-to-projects/creating-a-pull-request "Learn how to create pull requests"
 [open an Issue]: https://github.com/fantaisie-software/purebasic/issues/new "Open an Issue and talk to us!"
 [ZIP Archive]: https://github.com/tajmone/purebasic/archive/master.zip "Download a ZIP file of this project (without Git contents)"
 
@@ -201,6 +213,7 @@ work in the PureBasic package.
 
 [GPL License]: ./LICENSE "The GNU General Public License v3"
 [Fantaisie License]: ./LICENSE-FANTAISIE "The Fantaisie Software License"
+[CONTRIBUTING.md]: ./CONTRIBUTING.md "Contributors' Guidelines"
 
 <!-- project folders -->
 
