@@ -1,70 +1,129 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ;--------------------------------------------------------------------------------------------
 Global Dim MemoryViewer_Chars.s(31)
-;Wrappers to simplify the handling of the different variable types.
 
+#MEMORY_VIEW_TABLE_DATA_DEC = 0 
+#MEMORY_VIEW_TABLE_DATA_HEX = 1 
+#MEMORY_VIEW_TABLE_DATA_OCT = 2 
+
+Global MemoryViewTableData.i = MemoryIsHex 
+
+Procedure.s MemoryViewer_GetDataView(ViewTableData) 
+  Select ViewTableData 
+    Case #MEMORY_VIEW_TABLE_DATA_DEC 
+      ProcedureReturn "DEC" 
+    Case #MEMORY_VIEW_TABLE_DATA_HEX
+      ProcedureReturn "HEX"
+    Case #MEMORY_VIEW_TABLE_DATA_OCT 
+      ProcedureReturn "OCT"
+  EndSelect     
+EndProcedure 
+
+Procedure.s Oct(number.q)
+  Protected oct.s=Space(8*SizeOf(Character))
+  For a = 7 To 0 Step -1
+    PokeS(@oct+a*SizeOf(Character),Str(number & 7),SizeOf(Character),#PB_String_NoZero)
+    number >> 3
+  Next 
+  oct = Trim(oct,"0") 
+  If oct = "        " 
+    oct = "0"
+  EndIf   
+  ProcedureReturn oct 
+EndProcedure 
+
+;Wrappers to simplify the handling of the different variable types.
 Prototype.s MemoryViewer_PeekVal(*Pointer)
 
 Procedure.s MemoryViewer_PeekB(*Pointer)
-  If MemoryIsHex  ;<-global defined in debugger common, set in Prefs [debugger] as MemoryIsHex = 1
-    ProcedureReturn Hex(PeekB(*Pointer),#PB_Byte)
-  Else
-    ProcedureReturn Str(PeekB(*Pointer))
-  EndIf
+  Select MemoryViewTableData  ;<-global defined in debugger common, set in Prefs [debugger] as MemoryIsHex = 1
+    Case #MEMORY_VIEW_TABLE_DATA_HEX  
+      ProcedureReturn Hex(PeekB(*Pointer),#PB_Byte)
+    Case #MEMORY_VIEW_TABLE_DATA_DEC
+      ProcedureReturn Str(PeekB(*Pointer))
+    Case #MEMORY_VIEW_TABLE_DATA_OCT 
+      ProcedureReturn OCT(PeekB(*Pointer))
+  EndSelect   
 EndProcedure
 
 Procedure.s MemoryViewer_PeekCA(*Pointer)
-  If MemoryIsHex
-    ProcedureReturn Hex(PeekB(*Pointer) & $FF,#PB_Byte)
-  Else
-    ProcedureReturn Str(PeekB(*Pointer) & $FF)
-  EndIf
+  Select MemoryViewTableData
+    Case #MEMORY_VIEW_TABLE_DATA_HEX  
+      ProcedureReturn Hex(PeekB(*Pointer) & $FF,#PB_Byte)
+    Case #MEMORY_VIEW_TABLE_DATA_DEC
+      ProcedureReturn Str(PeekB(*Pointer) & $FF)
+    Case #MEMORY_VIEW_TABLE_DATA_OCT 
+      ProcedureReturn OCT(PeekB(*Pointer) & $FF) 
+  EndSelect
 EndProcedure
 
 Procedure.s MemoryViewer_PeekCU(*Pointer)
-  If MemoryIsHex
-    ProcedureReturn Hex(PeekW(*Pointer) & $FFFF,#PB_Word)
-  Else
-    ProcedureReturn Str(PeekW(*Pointer) & $FFFF)
-  EndIf
+  Select MemoryViewTableData
+    Case #MEMORY_VIEW_TABLE_DATA_HEX  
+      ProcedureReturn Hex(PeekW(*Pointer) & $FFFF,#PB_Word)
+    Case #MEMORY_VIEW_TABLE_DATA_DEC
+      ProcedureReturn Str(PeekW(*Pointer) & $FFFF)
+    Case #MEMORY_VIEW_TABLE_DATA_OCT 
+      ProcedureReturn OCT(PeekW(*Pointer) & $FFFF)
+  EndSelect  
 EndProcedure
+
 Procedure.s MemoryViewer_PeekW(*Pointer)
-  If MemoryIsHex
-    ProcedureReturn Hex(PeekW(*Pointer),#PB_Word)
-  Else
-    ProcedureReturn Str(PeekW(*Pointer))
-  EndIf
+  Select MemoryViewTableData
+    Case #MEMORY_VIEW_TABLE_DATA_HEX  
+      ProcedureReturn Hex(PeekW(*Pointer),#PB_Word)
+    Case #MEMORY_VIEW_TABLE_DATA_DEC
+      ProcedureReturn Str(PeekW(*Pointer))
+    Case #MEMORY_VIEW_TABLE_DATA_OCT   
+      ProcedureReturn OCT(PeekW(*Pointer))
+  EndSelect     
 EndProcedure
+
 Procedure.s MemoryViewer_PeekL(*Pointer)
-  If MemoryIsHex
-    ProcedureReturn Hex(PeekL(*Pointer),#PB_Long)
-  Else
-    ProcedureReturn Str(PeekL(*Pointer))
-  EndIf
+  Select MemoryViewTableData
+    Case #MEMORY_VIEW_TABLE_DATA_HEX
+      ProcedureReturn Hex(PeekL(*Pointer),#PB_Long)
+    Case #MEMORY_VIEW_TABLE_DATA_DEC
+      ProcedureReturn Str(PeekL(*Pointer))
+    Case #MEMORY_VIEW_TABLE_DATA_OCT
+      ProcedureReturn Hex(PeekL(*Pointer))
+  EndSelect
 EndProcedure
+
 Procedure.s MemoryViewer_PeekQ(*Pointer)
-  If MemoryIsHex
-    ProcedureReturn Hex(PeekQ(*Pointer),#PB_Quad)
-  Else
-    ProcedureReturn Str(PeekQ(*Pointer))
-  EndIf
+  Select MemoryViewTableData
+    Case #MEMORY_VIEW_TABLE_DATA_HEX
+      ProcedureReturn Hex(PeekQ(*Pointer),#PB_Quad)
+    Case #MEMORY_VIEW_TABLE_DATA_DEC
+      ProcedureReturn Str(PeekQ(*Pointer))
+    Case #MEMORY_VIEW_TABLE_DATA_OCT
+      ProcedureReturn OCT(PeekQ(*Pointer))
+  EndSelect
 EndProcedure
+
 Procedure.s MemoryViewer_PeekF(*Pointer)
-  If MemoryIsHex
-    ProcedureReturn Hex(PeekF(*Pointer),#PB_Float)
-  Else
-    ProcedureReturn StrF(PeekF(*Pointer))
-  EndIf
+  Select MemoryViewTableData
+    Case #MEMORY_VIEW_TABLE_DATA_HEX
+      ProcedureReturn Hex(PeekL(*Pointer),#PB_Long)
+    Case #MEMORY_VIEW_TABLE_DATA_DEC
+      ProcedureReturn StrF(PeekF(*Pointer))
+    Case #MEMORY_VIEW_TABLE_DATA_OCT
+      ProcedureReturn OCT(PeekL(*Pointer))
+  EndSelect
 EndProcedure
+
 Procedure.s MemoryViewer_PeekD(*Pointer)
-  If MemoryIsHex
-    ProcedureReturn Hex(PeekD(*Pointer),#PB_Double)
-  Else
-    ProcedureReturn StrD(PeekD(*Pointer))
-  EndIf
+  Select MemoryViewTableData
+    Case #MEMORY_VIEW_TABLE_DATA_HEX
+      ProcedureReturn Hex(PeekQ(*Pointer),#PB_Quad)
+    Case #MEMORY_VIEW_TABLE_DATA_DEC
+      ProcedureReturn StrD(PeekD(*Pointer))
+    Case #MEMORY_VIEW_TABLE_DATA_OCT
+      ProcedureReturn OCT(PeekQ(*Pointer))
+  EndSelect
 EndProcedure
 
 Procedure MemoryViewer_Table(*Debugger.DebuggerData, VariableSize, PeekVal.MemoryViewer_PeekVal)
@@ -417,7 +476,15 @@ Procedure MemoryViewerWindowEvents(*Debugger.DebuggerData, EventID)
   
   If EventID = #PB_Event_Gadget
     Select EventGadget()
-        
+      Case *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView] 
+        If EventType() = #PB_EventType_LeftClick
+          MemoryViewTableData + 1 
+          MemoryViewTableData % 3
+          SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView],MemoryViewer_GetDataView(MemoryViewTableData)) 
+          If *Debugger\MemoryDump ; is there any data ?
+            MemoryViewer_Update(*Debugger, 0, 0)
+          EndIf  
+        EndIf   
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display]
         Command.CommandInfo\Command = #COMMAND_GetMemory
         
@@ -535,12 +602,14 @@ Procedure MemoryViewerWindowEvents(*Debugger.DebuggerData, EventID)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_To],      155+TextWidth, 10, 20, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_End],     175+TextWidth, 10, 140, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display], 325+TextWidth, 10, DisplayWidth, ButtonHeight)
+      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView], 430+TextWidth, 10, DisplayWidth, ButtonHeight)
     Else
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Text],     10, 10, (Width-50)/7-5, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Start],    10+(Width-50)/7, 10, ((Width-50)*2)/7, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_To],       10+((Width-50)*3)/7, 10, 20, ButtonHeight)
-      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_End],      30+((Width-50)*3)/7, 10, ((Width-50)*2)/7, ButtonHeight)
-      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display],  40+((Width-50)*5)/7, 10, ((Width-50)*2)/7, ButtonHeight)
+      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_End],      30+((Width-50)*3)/7, 10, ((Width-50))/7, ButtonHeight)
+      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display],  40+((Width-50)*5)/7, 10, ((Width-50))/7, ButtonHeight)
+      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView], 50+((Width-50)*6)/7, 10, ((Width-50))/7, ButtonHeight)
     EndIf
     
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Editor], 10, 20+ButtonHeight, Width-20, Height-40-2*ButtonHeight)
@@ -615,6 +684,7 @@ Procedure OpenMemoryViewerWindow(*Debugger.DebuggerData)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Start]    = StringGadget(#PB_Any, 0, 0, 0, 0, "")
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_End]      = StringGadget(#PB_Any, 0, 0, 0, 0, "")
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display]  = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Display"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView] = ButtonGadget(#PB_Any, 0, 0, 0, 0, MemoryViewer_GetDataView(MemoryViewTableData))
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Editor]   = EditorGadget(#PB_Any, 0, 0, 0, 0)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Container]= ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_BorderLess)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List]     = ListIconGadget(#PB_Any, 0, 0, 0, 0, "", 80, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_MultiSelect)
@@ -679,6 +749,7 @@ Procedure UpdateMemoryViewerWindow(*Debugger.DebuggerData)
   SetWindowTitle(*Debugger\Windows[#DEBUGGER_WINDOW_Memory], Language("Debugger","MemoryWindowTitle") + " - " + GetFilePart(*Debugger\FileName$))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Text], Language("Debugger","Range")+":")
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display], Language("Debugger","Display"))
+  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView],MemoryViewer_GetDataView(MemoryViewTableData))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_CopyText], Language("Debugger","CopyText"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveText], Language("Debugger","SaveText"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveRaw], Language("Debugger","SaveRaw"))
