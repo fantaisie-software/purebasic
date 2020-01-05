@@ -517,6 +517,7 @@ Enumeration
   #DEBUGGER_GADGET_Memory_Start
   #DEBUGGER_GADGET_Memory_End
   #DEBUGGER_GADGET_Memory_Display
+  #DEBUGGER_GADGET_Memory_Display_DataView
   #DEBUGGER_GADGET_Memory_Editor
   #DEBUGGER_GADGET_Memory_Container
   #DEBUGGER_GADGET_Memory_List
