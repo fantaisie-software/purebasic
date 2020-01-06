@@ -12,9 +12,11 @@ install:
   - npm install -g eclint
 
 script:
-  # ==============================================
-  # EditorConfig Code Styles Validation via EClint
-  # ==============================================
-  # https://editorconfig.org
-  # https://www.npmjs.com/package/eclint
+  # =======================
+  # Source Files Validation
+  # =======================
+  # 1. Check PureBasic sources for IDE Settings.
+  # 2. Validate EditorConfig code styles via EClint:
+  #      https://editorconfig.org
+  #      https://www.npmjs.com/package/eclint
   - bash ./validate.sh
