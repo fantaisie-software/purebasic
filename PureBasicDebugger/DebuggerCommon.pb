@@ -1029,9 +1029,3 @@ CompilerIf Defined(PUREBASIC_IDE, #PB_Constant) = 0 ; only define if it is the s
   #FILE_LoadFunctions = 0
   #FILE_LoadAPI = 1
 CompilerEndIf
-; IDE Options = PureBasic 5.21 LTS (Linux - x64)
-; CursorPosition = 35
-; FirstLine = 20
-; Folding = ----
-; EnableUnicode
-; EnableXP

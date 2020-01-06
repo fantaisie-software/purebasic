@@ -1102,11 +1102,3 @@ Procedure Debugger_NetworkConnect(Mode, Host$, Port, Password$)
   ; return the debugger structure
   ProcedureReturn @RunningDebuggers()
 EndProcedure
-
-
-; IDE Options = PureBasic 5.20 beta 12 LTS (Linux - x64)
-; CursorPosition = 840
-; FirstLine = 822
-; Folding = ---
-; EnableUnicode
-; EnableXP

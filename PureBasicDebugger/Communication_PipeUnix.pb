@@ -686,10 +686,3 @@ CompilerIf #CompileWindows = 0
   EndDataSection
   
 CompilerEndIf
-
-
-; IDE Options = PureBasic 5.20 beta 12 LTS (Linux - x64)
-; CursorPosition = 538
-; FirstLine = 515
-; Folding = ---
-; EnableXP

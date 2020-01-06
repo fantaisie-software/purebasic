@@ -1891,11 +1891,3 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
   EndSelect
   
 EndProcedure
-
-
-
-; IDE Options = PureBasic 5.20 beta 12 LTS (Linux - x64)
-; CursorPosition = 1075
-; FirstLine = 1071
-; Folding = --
-; EnableXP

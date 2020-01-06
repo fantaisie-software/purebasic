@@ -739,9 +739,3 @@ DataSection
   Data$ "[CAN]", "[EM]" , "[SUB]", "[ESC]", "[FS]" , "[GS]" , "[RS]" , "[US]"
   
 EndDataSection
-; IDE Options = PureBasic 5.20 beta 12 LTS (Linux - x64)
-; CursorPosition = 692
-; FirstLine = 671
-; Folding = ----
-; EnableUnicode
-; EnableXP
