@@ -23,10 +23,10 @@ for pbfile in $(find . 	-name '*.pb'  -o \
 						-name '*.pbi' -o \
 						-name '*.pbf' );
 do
-    result="$(grep -c '^; IDE Options =' $pbfile)"
-    if [ "$result" != "0" ] ; then
-    	echo "$pbfile" >> $tmpLog
-    	passed=
+	result="$(grep -c '^; IDE Options =' $pbfile)"
+	if [ "$result" != "0" ] ; then
+		echo "$pbfile" >> $tmpLog
+		passed=
 	fi
 done
 

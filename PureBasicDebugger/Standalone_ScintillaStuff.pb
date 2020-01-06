@@ -654,8 +654,3 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   EndProcedure
   
 CompilerEndIf
-; IDE Options = PureBasic 5.20 beta 2 (Windows - x64)
-; CursorPosition = 484
-; FirstLine = 464
-; Folding = ---
-; EnableXP

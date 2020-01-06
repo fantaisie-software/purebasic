@@ -392,8 +392,3 @@ Procedure History_DebuggerEvent(*Debugger.DebuggerData)
   EndSelect
   
 EndProcedure
-; IDE Options = PureBasic 5.20 beta 12 LTS (Linux - x64)
-; CursorPosition = 271
-; FirstLine = 267
-; Folding = -
-; EnableXP

@@ -135,9 +135,3 @@ Global NewList CustomKeywordList.s()
 ; this is required for Language.pb of the ide
 Procedure BuildShortcutNamesTable()
 EndProcedure
-
-; IDE Options = PureBasic 5.20 beta 2 (Windows - x64)
-; CursorPosition = 127
-; FirstLine = 97
-; Folding = -
-; EnableXP
