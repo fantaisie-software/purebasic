@@ -1,12 +1,54 @@
 #!/bin/bash
 
-# "validate.sh"                                              v1.1.1 | 2019/11/20
+# "validate.sh"  by Tristano Ajmone                          v2.0.0 | 2020/01/06
 #-------------------------------------------------------------------------------
-# Validate code style consistency in the repository via EditorConfig settings
-# and the EClint validator tool:
-#   https://editorconfig.org
-#   https://www.npmjs.com/package/eclint
+# 1. Check that PureBasic sources don't contain saved IDE settings.
+# 2. Validate code style consistency in the repository via EditorConfig settings
+#    and the EClint validator tool:
+#      https://editorconfig.org
+#      https://www.npmjs.com/package/eclint
 #-------------------------------------------------------------------------------
+
+# *******************************************
+# 1. Check PureBasic Sources for IDE Settings
+# *******************************************
+
+echo -e "\n\033[34;1m==========================================="
+echo -e "\033[33;1mChecking PureBasic Sources for IDE Settings "
+echo -e "\033[34;1m===========================================\033[0m"
+
+tmpLog=$(mktemp)
+passed=true
+for pbfile in $(find . 	-name '*.pb'  -o \
+						-name '*.pbi' -o \
+						-name '*.pbf' );
+do
+    result="$(grep -c '^; IDE Options =' $pbfile)"
+    if [ "$result" != "0" ] ; then
+    	echo "$pbfile" >> $tmpLog
+    	passed=
+	fi
+done
+
+if [ "$passed" != true ] ; then
+	echo -e "\033[31;1m~~~ ERROR! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	echo -e "\033[31;1mThe following files contain IDE settings:\n\033[33;1m"
+	cat $tmpLog
+	rm $tmpLog
+	echo -e "\033[31;1m\nPlease change your PureBasic IDE preferences for:"
+	echo -e "\033[37;1m    Editor \033[34;1m>\033[37;1m Save Settings to \033[34;1m>\033[37;1m The end of the source file"
+	echo -e "\033[31;1mto some other option in order to prevent this from happening."
+	echo -e "\033[31;1m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	echo -e "\033[31;1m/// Aborting All Tests ///\033[0m"
+	exit 1
+fi
+echo -e "\033[32;1m/// Test Passed ///\033[0m"
+rm $tmpLog
+
+# *******************************************
+# 2. Check Sources for Code Style Consistency
+# *******************************************
+
 echo -e "\n\033[34;1m================================================"
 echo -e "\033[33;1mValidating Code Styles via EditorConfig Settings"
 echo -e "\033[34;1m================================================\033[0m"
@@ -44,7 +86,7 @@ eclint check 2> $tmpLog || {
 	echo -e "\033[31;1m~~~ ERROR! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
 	echo -e "\033[31;1mThe following files didn't pass the validation test:\n\033[33;1m";
 	cat $tmpLog | grep  "^[^ ]";
-	echo -e "\033[31;1m\n\033[31;1mRun ECLint locally for detailed information about the problems.";
+	echo -e "\033[31;1m\nRun ECLint locally for detailed information about the problems.";
 	echo -e "\033[31;1m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
 	echo -e "\033[31;1m/// Aborting All Tests ///\033[0m";
 	rm $tmpLog;
