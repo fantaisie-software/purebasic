@@ -22,7 +22,7 @@ Procedure.s MemoryViewer_GetDataView(ViewTableData)
   EndSelect     
 EndProcedure 
 
-Procedure.s Oct(number.q)
+Procedure.s OCT(number.q)
   Protected oct.s=Space(8*SizeOf(Character))
   For a = 7 To 0 Step -1
     PokeS(@oct+a*SizeOf(Character),Str(number & 7),SizeOf(Character),#PB_String_NoZero)
@@ -39,9 +39,9 @@ EndProcedure
 Prototype.s MemoryViewer_PeekVal(*Pointer)
 
 Procedure.s MemoryViewer_PeekB(*Pointer)
-  Select MemoryViewTableData  ;<-global defined in debugger common, set in Prefs [debugger] as MemoryIsHex = 1
+  Select MemoryViewTableData  
     Case #MEMORY_VIEW_TABLE_DATA_HEX  
-      ProcedureReturn Hex(PeekB(*Pointer),#PB_Byte)
+      ProcedureReturn "$" + RSet(Hex(PeekB(*Pointer),#PB_Byte),2,"0")
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn Str(PeekB(*Pointer))
     Case #MEMORY_VIEW_TABLE_DATA_OCT 
@@ -52,7 +52,7 @@ EndProcedure
 Procedure.s MemoryViewer_PeekCA(*Pointer)
   Select MemoryViewTableData
     Case #MEMORY_VIEW_TABLE_DATA_HEX  
-      ProcedureReturn Hex(PeekB(*Pointer) & $FF,#PB_Byte)
+      ProcedureReturn "$"+ RSet(Hex(PeekB(*Pointer) & $FF,#PB_Byte),2,"0") 
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn Str(PeekB(*Pointer) & $FF)
     Case #MEMORY_VIEW_TABLE_DATA_OCT 
@@ -63,7 +63,7 @@ EndProcedure
 Procedure.s MemoryViewer_PeekCU(*Pointer)
   Select MemoryViewTableData
     Case #MEMORY_VIEW_TABLE_DATA_HEX  
-      ProcedureReturn Hex(PeekW(*Pointer) & $FFFF,#PB_Word)
+      ProcedureReturn "$" + RSet(Hex(PeekW(*Pointer) & $FFFF,#PB_Word),4,"0")
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn Str(PeekW(*Pointer) & $FFFF)
     Case #MEMORY_VIEW_TABLE_DATA_OCT 
@@ -74,7 +74,7 @@ EndProcedure
 Procedure.s MemoryViewer_PeekW(*Pointer)
   Select MemoryViewTableData
     Case #MEMORY_VIEW_TABLE_DATA_HEX  
-      ProcedureReturn Hex(PeekW(*Pointer),#PB_Word)
+      ProcedureReturn "$" + RSet(Hex(PeekW(*Pointer),#PB_Word),4,"0")
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn Str(PeekW(*Pointer))
     Case #MEMORY_VIEW_TABLE_DATA_OCT   
@@ -85,7 +85,7 @@ EndProcedure
 Procedure.s MemoryViewer_PeekL(*Pointer)
   Select MemoryViewTableData
     Case #MEMORY_VIEW_TABLE_DATA_HEX
-      ProcedureReturn Hex(PeekL(*Pointer),#PB_Long)
+      ProcedureReturn "$" + RSet(Hex(PeekL(*Pointer),#PB_Long),8,"0") 
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn Str(PeekL(*Pointer))
     Case #MEMORY_VIEW_TABLE_DATA_OCT
@@ -96,7 +96,7 @@ EndProcedure
 Procedure.s MemoryViewer_PeekQ(*Pointer)
   Select MemoryViewTableData
     Case #MEMORY_VIEW_TABLE_DATA_HEX
-      ProcedureReturn Hex(PeekQ(*Pointer),#PB_Quad)
+      ProcedureReturn "$" + RSet(Hex(PeekQ(*Pointer),#PB_Quad),16,"0") 
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn Str(PeekQ(*Pointer))
     Case #MEMORY_VIEW_TABLE_DATA_OCT
@@ -107,7 +107,7 @@ EndProcedure
 Procedure.s MemoryViewer_PeekF(*Pointer)
   Select MemoryViewTableData
     Case #MEMORY_VIEW_TABLE_DATA_HEX
-      ProcedureReturn Hex(PeekL(*Pointer),#PB_Long)
+      ProcedureReturn "$" + RSet(Hex(PeekL(*Pointer),#PB_Long),8,"0") 
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn StrF(PeekF(*Pointer))
     Case #MEMORY_VIEW_TABLE_DATA_OCT
@@ -118,7 +118,7 @@ EndProcedure
 Procedure.s MemoryViewer_PeekD(*Pointer)
   Select MemoryViewTableData
     Case #MEMORY_VIEW_TABLE_DATA_HEX
-      ProcedureReturn Hex(PeekQ(*Pointer),#PB_Quad)
+      ProcedureReturn "$" + RSet(Hex(PeekQ(*Pointer),#PB_Quad),16,"0") 
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn StrD(PeekD(*Pointer))
     Case #MEMORY_VIEW_TABLE_DATA_OCT
