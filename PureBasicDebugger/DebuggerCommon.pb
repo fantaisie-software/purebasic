@@ -522,6 +522,7 @@ Enumeration
   #DEBUGGER_GADGET_Memory_Container
   #DEBUGGER_GADGET_Memory_List
   #DEBUGGER_GADGET_Memory_ViewType
+  #DEBUGGER_GADGET_Memory_ChkformatDataSection
   #DEBUGGER_GADGET_Memory_CopyText
   #DEBUGGER_GADGET_Memory_SaveText
   #DEBUGGER_GADGET_Memory_SaveRaw

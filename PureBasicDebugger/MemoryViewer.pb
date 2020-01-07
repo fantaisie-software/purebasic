@@ -374,8 +374,9 @@ Procedure MemoryViewer_Unicode(*Debugger.DebuggerData)
 EndProcedure
 
 Procedure MemoryViewer_Update(*Debugger.DebuggerData, Action, File) ; 0=display only, 1=display+copy to clipboard, 2=display+save to file
-  
+  Protected datatype.s, OptExportDS=1 
   ViewType = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ViewType])
+  OptExportDS = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ChkformatDataSection])
   
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Editor], Language("Debugger","NoData"))
   
@@ -400,20 +401,32 @@ Procedure MemoryViewer_Update(*Debugger.DebuggerData, Action, File) ; 0=display 
   
   Select ViewType
     Case  0: MemoryViewer_Hex(*Debugger)
-    Case  1: MemoryViewer_Table(*Debugger, 1, @MemoryViewer_PeekB()): Columns = 16
+    Case  1: MemoryViewer_Table(*Debugger, 1, @MemoryViewer_PeekB()): Columns = 16 : datatype="Data.b "
       
     Case  2 ; Character must work according to the exe mode
       If *Debugger\IsUnicode = 0
-        MemoryViewer_Table(*Debugger, 1, @MemoryViewer_PeekCA()): Columns = 16
+        MemoryViewer_Table(*Debugger, 1, @MemoryViewer_PeekCA()): Columns = 16 : datatype="Data.a "
       Else
-        MemoryViewer_Table(*Debugger, 2, @MemoryViewer_PeekCU()): Columns = 8
+        MemoryViewer_Table(*Debugger, 2, @MemoryViewer_PeekCU()): Columns = 8  : datatype="Data.u " 
       EndIf
       
-    Case  3: MemoryViewer_Table(*Debugger, 2, @MemoryViewer_PeekW()): Columns = 8
-    Case  4: MemoryViewer_Table(*Debugger, 4, @MemoryViewer_PeekL()): Columns = 4
-    Case  5: MemoryViewer_Table(*Debugger, 8, @MemoryViewer_PeekQ()): Columns = 2
-    Case  6: MemoryViewer_Table(*Debugger, 4, @MemoryViewer_PeekF()): Columns = 4
-    Case  7: MemoryViewer_Table(*Debugger, 8, @MemoryViewer_PeekD()): Columns = 2
+    Case  3: MemoryViewer_Table(*Debugger, 2, @MemoryViewer_PeekW()): Columns = 8 : datatype="Data.w "
+    Case  4: MemoryViewer_Table(*Debugger, 4, @MemoryViewer_PeekL()): Columns = 4 : datatype="Data.l "
+    Case  5: MemoryViewer_Table(*Debugger, 8, @MemoryViewer_PeekQ()): Columns = 2 : datatype="Data.q "
+    Case  6: MemoryViewer_Table(*Debugger, 4, @MemoryViewer_PeekF())
+      Columns = 4 
+      If MemoryViewTableData = #MEMORY_VIEW_TABLE_DATA_DEC 
+        datatype="Data.f "
+      Else 
+        datatype="Data.l "
+      EndIf   
+    Case  7: MemoryViewer_Table(*Debugger, 8, @MemoryViewer_PeekD())
+      Columns = 2
+      If MemoryViewTableData = #MEMORY_VIEW_TABLE_DATA_DEC 
+        datatype="Data.d "
+      Else 
+        datatype="Data.q "
+      EndIf    
     Case  8: MemoryViewer_AsciiUtf8(*Debugger, #PB_Ascii)
     Case  9: MemoryViewer_Unicode(*Debugger)
     Case 10: MemoryViewer_AsciiUtf8(*Debugger, #PB_UTF8)
@@ -436,9 +449,20 @@ Procedure MemoryViewer_Update(*Debugger.DebuggerData, Action, File) ; 0=display 
       Else
         
         For i = 0 To Count-1
-          Text$ + GetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List], i, 0)
+          If OptExportDS
+            Text$ + datatype 
+          Else   
+            Text$ + GetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List], i, 0)
+          EndIf   
           For c = 1 To Columns
-            Text$ + Chr(9) + GetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List], i, c)
+            If OptExportDS
+              Text$ + GetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List], i, c)
+              If c < Columns 
+                Text$ + ","
+              EndIf   
+            Else   
+              Text$ + Chr(9) + GetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List], i, c)
+            EndIf   
           Next c
           Text$ + #NewLine
         Next i  
@@ -592,6 +616,7 @@ Procedure MemoryViewerWindowEvents(*Debugger.DebuggerData, EventID)
     TextWidth    = Max(65, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Text]))
     
     ButtonHeight = Max(ButtonHeight, GetRequiredHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ViewType]))
+    dataWidth    = MAX(100, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ChkformatDataSection]))
     CopyWidth    = Max(100, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_CopyText]))
     SaveWidth    = Max(100, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveText]))
     SaveRawWidth = Max(100, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveRaw]))
@@ -619,14 +644,16 @@ Procedure MemoryViewerWindowEvents(*Debugger.DebuggerData, EventID)
     Y = Height - 10 - ButtonHeight
     If Width >= CopyWidth+SaveWidth+SaveRawWidth+250
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ViewType], 10, Y, 200, ButtonHeight)
+      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ChkformatDataSection],width-40-SaveRawWidth-SaveWidth-CopyWidth-datawidth,Y,datawidth,ButtonHeight) 
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_CopyText], Width-30-SaveRawWidth-SaveWidth-CopyWidth, Y, CopyWidth, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveText], Width-20-SaveRawWidth-SaveWidth, Y, SaveWidth, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveRaw], Width-10-SaveRawWidth, Y, SaveRawWidth, ButtonHeight)
     Else
-      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ViewType], 10, Y, (Width-50)/4, ButtonHeight)
-      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_CopyText], 20+(Width-50)/4, Y, (Width-50)/4, ButtonHeight)
-      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveText], 30+((Width-50)*2)/4, Y, (Width-50)/4, ButtonHeight)
-      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveRaw], 40+((Width-50)*3)/4, Y, (Width-50)/4, ButtonHeight)
+      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ViewType], 10, Y, (Width-50)/5, ButtonHeight)
+      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ChkformatDataSection],20+(Width-50)/5,Y,(width-50)/5,ButtonHeight)
+      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_CopyText], 30+((Width-50)*2)/5, Y, (Width-50)/5, ButtonHeight)
+      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveText], 40+((Width-50)*3)/5, Y, (Width-50)/5, ButtonHeight)
+      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveRaw], 50+((Width-50)*4)/5, Y, (Width-50)/5, ButtonHeight)
     EndIf
     
   ElseIf EventID = #PB_Event_CloseWindow
@@ -690,6 +717,7 @@ Procedure OpenMemoryViewerWindow(*Debugger.DebuggerData)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List]     = ListIconGadget(#PB_Any, 0, 0, 0, 0, "", 80, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_MultiSelect)
       CloseGadgetList()
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ViewType] = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ChkformatDataSection] = CheckBoxGadget(#PB_Any,0,0,0,0,"Data")
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_CopyText] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","CopyText"))
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveText] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","SaveText"))
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveRaw]  = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","SaveRaw"))
@@ -750,6 +778,7 @@ Procedure UpdateMemoryViewerWindow(*Debugger.DebuggerData)
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Text], Language("Debugger","Range")+":")
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display], Language("Debugger","Display"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView],MemoryViewer_GetDataView(MemoryViewTableData))
+  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ChkformatDataSection],"Data")
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_CopyText], Language("Debugger","CopyText"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveText], Language("Debugger","SaveText"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_SaveRaw], Language("Debugger","SaveRaw"))
