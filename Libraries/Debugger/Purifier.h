@@ -7,7 +7,7 @@
 
 typedef struct PB_PurifierMemoryBlock
 {
-  int *BeforeCookie; /* Directly store the before and after cookie adress so the check is fast */
+  int *BeforeCookie; /* Directly store the before and after cookie address so the check is fast */
   int *AfterCookie;
 } PB_PurifierMemoryBlock;
 

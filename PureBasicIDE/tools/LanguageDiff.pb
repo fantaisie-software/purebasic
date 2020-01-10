@@ -12,7 +12,7 @@
 ;
 ; The english.catalog in this directory should ALWAYS stay at the version of the
 ; LAST ide release, so that on a new release, this tool can be used to see the
-; changes that were made to the language. This diff can then be helpfull for
+; changes that were made to the language. This diff can then be helpful for
 ; the translators to update their translated languages.
 ;
 ; After that, the english.catalog should be brought up to date by the

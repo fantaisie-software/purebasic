@@ -1570,7 +1570,7 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
       If *Debugger\NbIncludedFiles > 0
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Splitter], ProfilerSplitter)
         
-        w = GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files]) - 20 ; substract the scrollbar width
+        w = GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files]) - 20 ; subtract the scrollbar width
         If w < 360
           SetGadgetItemAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], 0, #PB_ListIcon_ColumnWidth, w/3, 0)
           SetGadgetItemAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], 0, #PB_ListIcon_ColumnWidth, w/3, 1)

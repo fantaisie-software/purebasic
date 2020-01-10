@@ -51,7 +51,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
           *Cursor + 1
         EndIf
         
-        ; If not a line continuation, we have skipped the expresion so break
+        ; If not a line continuation, we have skipped the expression so break
         If Continuation = #False
           Break
         EndIf

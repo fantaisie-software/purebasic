@@ -88,7 +88,7 @@ Procedure SearchStringInFile(FileID, Filename$, String$, InitialPathLength)
   If ReadFile(FileID, Filename$)
     
     StringMode   = ReadStringFormat(FileID)  ; try to detect UTF8 bom
-    FileLength   = Lof(FileID) - Loc(FileID) ; substract bom size
+    FileLength   = Lof(FileID) - Loc(FileID) ; subtract bom size
     StringLength = Len(String$)
     BinaryCount  = 0 ; with more than 10 nontext chars, we consider it binary
     
@@ -211,7 +211,7 @@ Procedure SearchStringInFile(FileID, Filename$, String$, InitialPathLength)
           Else
             
             ; check for binary bytes
-            If *Buffer\a < 32 And  *Buffer\a <> 9 ; newline chars allready checked
+            If *Buffer\a < 32 And  *Buffer\a <> 9 ; newline chars already checked
               BinaryCount  + 1
             EndIf
             
@@ -257,7 +257,7 @@ Procedure Grep(DirectoryID, Directory$, String$, PatternList$, InitialPathLength
   EndIf
   
   ; Now check all the Patterns (if any)
-  ; We need to keep track of allready seen filenames, as one might match multiple patterns!
+  ; We need to keep track of already seen filenames, as one might match multiple patterns!
   ;
   NewList SeachedFiles.s()
   
@@ -522,7 +522,7 @@ Procedure GrepWindowEvents(EventID)
               
               NbGrepFiles = 0
               
-              ; get checkbox choises
+              ; get checkbox choices
               GrepCaseSensitive = GetGadgetState(#GADGET_Grep_MatchCase)
               GrepWholeWord     = GetGadgetState(#GADGET_Grep_WholeWord)
               GrepNoComments    = GetGadgetState(#GADGET_Grep_NoComments)
@@ -576,7 +576,7 @@ Procedure GrepWindowEvents(EventID)
     ; abort any ongoing search
     GrepAbort = 1
     
-    ; get checkbox choises
+    ; get checkbox choices
     GrepCaseSensitive = GetGadgetState(#GADGET_Grep_MatchCase)
     GrepWholeWord     = GetGadgetState(#GADGET_Grep_WholeWord)
     GrepNoComments    = GetGadgetState(#GADGET_Grep_NoComments)

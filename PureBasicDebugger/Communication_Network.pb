@@ -52,8 +52,8 @@ CompilerIf #CompileWindows
     ; //
     Network_Listen(Socket, InterfaceName.p-ascii, Port)
     
-    ; // Check If an incomming connection is made on a listening socket, does Not block
-    ; // returns new Socket Or SOCKET_ERROR (= no incomming connection)
+    ; // Check If an incoming connection is made on a listening socket, does Not block
+    ; // returns new Socket Or SOCKET_ERROR (= no incoming connection)
     ; //
     Network_CheckAccept(Socket)
     

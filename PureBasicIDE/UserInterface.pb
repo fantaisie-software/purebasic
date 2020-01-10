@@ -14,7 +14,7 @@ Procedure CreateIDEMenu()
   
   ; note: there is no flicker fix directly in here. The code that calls CreateIDEMenu()
   ; is responsible for calling Start.../StopFlickerFix()
-  ; this allows for more flexibility in wether or not to redraw the window after the fix
+  ; this allows for more flexibility in whether or not to redraw the window after the fix
   
   If EnableMenuIcons
     *MainMenu = CreateImageMenu(#MENU, WindowID(#WINDOW_Main))
@@ -666,7 +666,7 @@ Procedure CreateGUI()
         PanelFlags | #TabBarGadget_CloseButton
       EndIf
       
-      ; 0 height means autosize for the hight (according to the used font)
+      ; 0 height means autosize for the height (according to the used font)
       CompilerIf #CompileWindows
         TabBarGadget(#GADGET_FilesPanel, 0, 0, 0, 25, PanelFlags, #WINDOW_Main) ; Auto height doesn't look OK on Windows
         

@@ -81,7 +81,7 @@ Procedure CommandlineProjectBuild()
         
         Result$ = BuildProjectTarget(*Targets(), 0, #True, #False)
         
-        ; count the emited warnings during this compile
+        ; count the emitted warnings during this compile
         WarningCount = 0
         ForEach BuildInfo()
           If BuildInfo()\IsWarning
@@ -90,7 +90,7 @@ Procedure CommandlineProjectBuild()
         Next BuildInfo()
         
         If Result$ <> "" And WarningCount = OldWarningCount And QuietBuild = 0
-          ; Failures are loged as errors and warnings give a "success with warnings" line, so add a line for success here too
+          ; Failures are logged as errors and warnings give a "success with warnings" line, so add a line for success here too
           ; do this before executing the tools for a consistent log output
           PrintN(Language("Compiler","BuildSuccess"))
         EndIf
@@ -202,7 +202,7 @@ Procedure CommandlineHelp()
     PrintN("  /T <file>      Specify a file for code templates")
     PrintN("  /A <file>      Specify a file for the tools settings")
     PrintN("  /H <file>      Specify a file for the session history database")
-    PrintN("  /S <path>      Specify teh initial path for source files")
+    PrintN("  /S <path>      Specify the initial path for source files")
     PrintN("  /E <path>      Specify the initial path for the explorer tool")
     PrintN("  /L <line>      Set the cursor to the given line")
     PrintN("  /NOEXT         Do not associate the PB extensions")
@@ -230,7 +230,7 @@ Procedure CommandlineHelp()
     PrintN("  -t or --templates <file>    Specify a file for code templates")
     PrintN("  -a or --tools <file>        Specify a file for the tools settings")
     PrintN("  -H or --history <file>      Specify a file for the session history database")
-    PrintN("  -s or --sourcepath <path>   Specify teh initial path for source files")
+    PrintN("  -s or --sourcepath <path>   Specify the initial path for source files")
     PrintN("  -e or --explorerpath <path> Specify the initial path for the explorer tool")
     PrintN("  -l or --line <line>         Set the cursor to the given line")
     PrintN("")
@@ -436,7 +436,7 @@ Procedure ParseCommandline()
         
       Case "" ; filter out the empty string
         
-      Default ; parameter is interpretated as a filename or wildcard for filenames
+      Default ; parameter is interpreted as a filename or wildcard for filenames
         If FindString(Parameter$, "*", 1) = 0 And FindString(Parameter$, "?", 1) = 0
           AddElement(OpenFilesCommandline())
           OpenFilesCommandline() = ResolveRelativePath(CurrentDirectory$, Parameter$)

@@ -138,7 +138,7 @@ CompilerIf #CompileWindows
   EndProcedure
   
   Procedure StartFlickerFix(Window)
-    ; LockWindowUpdate() seems to be better for us than #WM_SETREDRAW: it does wierd things on Windows 8 (try with 100 recent file list, the main IDE flicker when loading a new file)
+    ; LockWindowUpdate() seems to be better for us than #WM_SETREDRAW: it does weird things on Windows 8 (try with 100 recent file list, the main IDE flicker when loading a new file)
     LockWindowUpdate_(WindowID(Window))
   EndProcedure
   
@@ -223,7 +223,7 @@ CompilerIf #CompileWindows
   #HDF_BITMAP_ON_RIGHT = $1000
   #HDI_IMAGE           = $0020
   
-  #HDF_SORTUP   = $0400 ; WinXP+ with skins only, but thats enough
+  #HDF_SORTUP   = $0400 ; WinXP+ with skins only, but that's enough
   #HDF_SORTDOWN = $0200
   
   Procedure SetSortArrow_NoTheme(Gadget, Column, Direction)
@@ -338,7 +338,7 @@ CompilerIf #CompileWindows
   ; Windows only
   ;
   ; Column: -1 to reset
-  ; Direction: 1=ascending, -1=decending
+  ; Direction: 1=ascending, -1=descending
   ;
   Procedure SetSortArrow(Gadget, Column, Direction)
     Protected IsThemed

@@ -321,7 +321,7 @@ EndProcedure
 
 Procedure ToolsPanel_Update()
   
-  ; because you can also change the order of items in the ToolsPanel compleetly,
+  ; because you can also change the order of items in the ToolsPanel completely,
   ; we destroy the whole ToolsPanel and recreate it.
   ;
   ForEach UsedPanelTools()
@@ -378,7 +378,7 @@ Procedure ToolsPanel_Update()
   ToolsPanel_Create(#True)
   
   ; Swap the gadgets in the splitter if the Toolspanelside changed.
-  ; we need to check which is the toolspanel, as ToolsPanelSide is allready updated,
+  ; we need to check which is the toolspanel, as ToolsPanelSide is already updated,
   ; we cannot use that one to know where the panel is now :)
   ;
   If GadgetType(GetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget)) = #PB_GadgetType_Panel
@@ -424,8 +424,8 @@ EndProcedure
 
 ; checks the autohide state of the ToolsPanel.
 ; If ToolsPanelAutoHide is set, the OS specific Event code must ensure that
-; this is called either on any mouse movement or in a timer intervall
-; to ensure currect updates of this
+; this is called either on any mouse movement or in a timer interval
+; to ensure correct updates of this
 ;
 Procedure ToolsPanel_CheckAutoHide()
   If ToolsPanelAutoHide And ToolsPanelMode
@@ -446,7 +446,7 @@ Procedure ToolsPanel_CheckAutoHide()
       If ToolsPanelVisible And Offset > ToolsPanelWidth + 40
         If ToolsPanelHideTime = 0 ; first time the panel was left
           ToolsPanelHideTime.q = ElapsedMilliseconds() + ToolsPanelHideDelay
-        ElseIf ToolsPanelHideTime < ElapsedMilliseconds() ; the hide timout has passed
+        ElseIf ToolsPanelHideTime < ElapsedMilliseconds() ; the hide timeout has passed
           ToolsPanel_Hide()
           ToolsPanelHideTime = 0
         EndIf

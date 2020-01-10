@@ -40,7 +40,7 @@ CompilerEndIf
 Global Dim ValidCharacters.b(#MaxSizeHT)  ; used by Syntax Highlighting and Structure Viewer
 
 ; stuff to use if not included from IDE/debugger
-; (the ide includes the debugger sources too, thats why
+; (the ide includes the debugger sources too, that's why
 ; #PUREBASIC_DEBUGGER is declared there too).
 ;
 CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) = 0
@@ -82,7 +82,7 @@ CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) = 0
     
   CompilerElse
     
-    ; not really a macro, but this is a macro in non-unicode mode, thats why it is here
+    ; not really a macro, but this is a macro in non-unicode mode, that's why it is here
     Procedure ToAscii(String$)
       Static *Buffer, BufferLength
       
@@ -179,7 +179,7 @@ Global NbBasicFunctions, NbApiFunctions
 ;   This is 1 based as the keyword array is 1 based too
 ;
 ; Used by: The Source Parser/resolving of related keywords features, as
-;   it is faster to refere to keywords by index than by name
+;   it is faster to refer to keywords by index than by name
 ;
 Enumeration 1
   #KEYWORD_Align
@@ -345,7 +345,7 @@ Enumeration 1
 EndEnumeration
 
 
-; To reduce CompilerIf accross the source, do some aliases
+; To reduce CompilerIf across the source, do some aliases
 ;
 CompilerIf #SpiderBasic
   #KEYWORD_DeclareC = #KEYWORD_Declare
@@ -374,14 +374,14 @@ Structure FunctionEntry
   Name$        ; name (in correct case)
   Proto$       ; quickhelp string (if any)
   *Ascii       ; pointer to name in ascii
-  AsciiBuffer.a[256] ; name in ascii for hilighting engine (which is ascii only)
+  AsciiBuffer.a[256] ; name in ascii for highlighting engine (which is ascii only)
 EndStructure
 
 Structure HilightPTR
   StructureUnion
     a.a[0]
     b.b[0] ; even when declaring with an array like this, we still
-    c.c[0] ; can use the single \b, which is perfect for a universial
+    c.c[0] ; can use the single \b, which is perfect for a universal
     w.w[0] ; pointer variable
     u.u[0]
     l.l[0]
@@ -448,7 +448,7 @@ CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
     Comment$ = PeekS(*StringStart+1, *LineEnd - *StringStart, SourceStringFormat)
     ScanCommentIssues(Comment$, Found(), #True) ; highlight mode
     
-    ; add them one by one (and manage space inbetween)
+    ; add them one by one (and manage space in between)
     *Cursor = *StringStart
     
     ; Note the \Position values are 1-based, but we did not include the ';' in the
@@ -934,7 +934,7 @@ EndProcedure
 
 
 Procedure IsKnownConstant(Word$)
-  ascii = Asc(UCase(Mid(Word$, 2, 1))) ; the word is garanteed to be longer that that (checked below)
+  ascii = Asc(UCase(Mid(Word$, 2, 1))) ; the word is guaranteed to be longer that that (checked below)
   If ascii = '_'
     char = 27
   ElseIf ascii >= 'A' And ascii <= 'Z'
@@ -1051,7 +1051,7 @@ EndProcedure
 
 
 Procedure IsDecNumber(*string.BYTE, length)
-  If length < 0 Or ByteUcase(*string\b) = 'E' ; prevent variablenames like e1, e, e1225 from hilighting as numbers
+  If length < 0 Or ByteUcase(*string\b) = 'E' ; prevent variablenames like e1, e, e1225 from highlighting as numbers
     ProcedureReturn 0
   EndIf
   
@@ -1110,7 +1110,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
   
   *Cursor.HilightPTR = *InBuffer
   *InBufferEnd = *InBuffer + InBufferLength
-  *LineStart   = *InBuffer ; Scintilla never requests the hilight of less than complete lines, so this is ok
+  *LineStart   = *InBuffer ; Scintilla never requests the highlight of less than complete lines, so this is ok
   
   If IsSourceCode And *ActiveSource And *ActiveSource\EnableASM
     ASMEnabled = 1
@@ -1158,7 +1158,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
     ; a direct '$' is seen as part of the word now, makes things simpler
     ; and fixes "Dim Array$(x)"
     ;
-    If AfterSpaces = 0 And *Cursor < *InBufferEnd And *Cursor\b = '$' And *WordStart < *WordEnd ; a single $ ususally starts a hex number, so exclude it!
+    If AfterSpaces = 0 And *Cursor < *InBufferEnd And *Cursor\b = '$' And *WordStart < *WordEnd ; a single $ usually starts a hex number, so exclude it!
       *WordEnd + 1
       *Cursor  + 1
       
@@ -1227,7 +1227,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
       CompilerEndIf
       
       
-      ; do not hilight as keyword if the last separator was \ (then its a structure member)
+      ; do not highlight as keyword if the last separator was \ (then its a structure member)
       ; also not when its the first thing in a command, and a Asm keyword (and asm turned on)
       ; as And, Or, Xor and such only happen as keywords after something else, this will work
       ;
@@ -1430,7 +1430,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
       
     EndIf
     
-    ; Everything that has a Word before a separator has been processed and outputed now.
+    ; Everything that has a Word before a separator has been processed and outputted now.
     ; Only separators remain
     
     If SeparatorUsed = 0 And SeparatorChar <> #SkipSeparator
@@ -1439,7 +1439,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         
         ; --------------------- ASM Line with "!" ---------------------
         
-        *StringStart = *Cursor ; hilight to lineend or comment
+        *StringStart = *Cursor ; highlight to lineend or comment
         While *Cursor < *InBufferEnd And *Cursor\b <> ';' And *Cursor\b <> 10 And *Cursor\b <> 13 And *Cursor\b
           *Cursor + 1
         Wend
@@ -1577,7 +1577,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
             ; no issue scanning in empty comments or marker lines
             Callback(*StringStart, *Cursor-*StringStart, *CommentColor, 0, 0)
           Else
-            ; scan/hilight issues
+            ; scan/highlight issues
             HighlightCommentIssues(*StringStart, *LineEnd, *Cursor, SourceStringFormat, Callback)
           EndIf
           
@@ -1799,7 +1799,7 @@ DataSection
   ;- Keywords - BASIC
   
   ; Note: First is the Keyword in real Case, then
-  ; the corresponding end keyword (for autocomplete), then wether the tag should include a
+  ; the corresponding end keyword (for autocomplete), then whether the tag should include a
   ; trailing space in autocomplete (if enabled)
   ; Keywords must be sorted here!
   

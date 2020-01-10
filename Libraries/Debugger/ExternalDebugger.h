@@ -144,7 +144,7 @@ M_INLINE(void) bswap_wstring(wchar_t *p)
 #define ByteSwapUnicodeString(p) if (PB_DEBUGGER_ByteSwap) bswap_wstring((wchar_t *)(p))
 #define ByteSwapString(p)        if (PB_DEBUGGER_ByteSwap && PB_DEBUGGER_ExternalUnicode) bswap_wstring((wchar_t *)(p))
 
-// Character values are transfered as longs in the debugger communication
+// Character values are transferred as longs in the debugger communication
 #define ByteSwapCharacter(p) if (PB_DEBUGGER_ByteSwap) bswap4((unsigned char *)(p))
 
 #ifdef PB_64

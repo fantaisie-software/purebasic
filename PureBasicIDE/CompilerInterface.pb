@@ -219,7 +219,7 @@ CompilerIf #CompileWindows
           Language$ = Left(*Target\VersionField$[17], 4)
         EndIf
         
-        ; correct the version fields 1 and 2 if needed ( if wrongly formated they leed to a resource error)
+        ; correct the version fields 1 and 2 if needed ( if wrongly formatted they leed to a resource error)
         Field1$ = ReplaceString(ReplaceVersionInfo(*Target\VersionField$[0], *Target), ".", ",")
         iscorrect = 1
         If CountString(Field1$, ",") <> 3
@@ -924,7 +924,7 @@ Procedure CompilerCleanup()
     ;
     Repeat
       If CommandlineBuild = 0
-        FlushEvents() ; flush atleast once the events even if data is waiting
+        FlushEvents() ; flush at least once the events even if data is waiting
       EndIf
       
       ; wait for data to be ready
@@ -965,7 +965,7 @@ Procedure CompilerCleanup()
       EndIf
       
       ; Handle the event that the user aborted the compilation
-      ; We can only savely abort a compilation by restarting the compiler, as else
+      ; We can only safely abort a compilation by restarting the compiler, as else
       ; the Compiler-IDE communication is out of sync!
       ;
       If CompilationAborted And CommandlineBuild = 0 ; not possible in commandline mode
@@ -1367,7 +1367,7 @@ Procedure CompilerCleanup()
           LoadSourceFile(ErrorFile$) ; will simply switch, if the file is open
         EndIf
         
-        If ErrorLine <> -1  ; hilight the error line
+        If ErrorLine <> -1  ; highlight the error line
           ChangeActiveLine(ErrorLine, -5)
           SetSelection(ErrorLine, 1, ErrorLine, -1)
         EndIf
@@ -1949,7 +1949,7 @@ Procedure CompilerCleanup()
                 SetDebuggerMenuStates()
                 
                 If IsDebuggerTimer = 0 ; Was no debugger before, activate the timer to check incoming commands
-                  Debug "[Activate debuger timer]"
+                  Debug "[Activate debugger timer]"
                   AddWindowTimer(#WINDOW_Main, #TIMER_DebuggerProcessing, 20) ; check every 20 ms
                   IsDebuggerTimer = 1
                 EndIf

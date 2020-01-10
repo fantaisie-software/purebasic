@@ -103,7 +103,7 @@ Procedure LoadPreferences()
   EnableColoring = 1
   EnableMarkers = 1
   
-  If SourcePathSet = 0 ; only load this if not allready set by commandline
+  If SourcePathSet = 0 ; only load this if not already set by commandline
     CompilerIf #SpiderBasic
       If PrefsVersion > 541 Or #CompileWindows = 0 ; We changed the default example path on Windows for SpiderBasic 2.00, so we invalidate previous pref to update it
         SourcePath$ = ReadPreferenceString("SourceDirectory", SourcePath$)
@@ -137,7 +137,7 @@ Procedure LoadPreferences()
   ; Init the color values with the PB defaults
   ;
   Restore DefaultColorSchemes
-  Read.l NbColorSchemes.l          ; read the unneded values
+  Read.l NbColorSchemes.l          ; read the unneeded values
   Read.s SchemeName$
   Read.l ToolsPanelFrontColor
   Read.l ToolsPanelBackColor
@@ -205,7 +205,7 @@ Procedure LoadPreferences()
   PreferenceGroup("Folding")
   EnableFolding    = ReadPreferenceLong("EnableFolding",  1)
   
-  ; defaut
+  ; default
   NbFoldStartWords = 9
   NbFoldEndWords = 6
   FoldStart$(1) = ";{"
@@ -2060,7 +2060,7 @@ Procedure ApplyPreferences()
   
   StartFlickerFix(#WINDOW_Main)
   
-  ; make sure unused entrys in the Arrays are empty.. in case the max values get changed
+  ; make sure unused entries in the Arrays are empty.. in case the max values get changed
   ;
   For i = FilesHistorySize + 1 To #MAX_RecentFiles
     RecentFiles(i) = ""
@@ -2574,7 +2574,7 @@ Procedure ApplyPreferences()
         SetUpHilightningColors() ; needed for every gadget individually now (scintilla)
         SetBackgroundColor()
         SetLineNumberColor()
-        UpdateHilightning()   ; hilight everything after a prefs update
+        UpdateHilightning()   ; highlight everything after a prefs update
       Else
         RemoveAllColoring()
       EndIf
@@ -3325,7 +3325,7 @@ Procedure OpenPreferencesWindow()
   
   ; now tell all Tools that the preferences are opened and that they should
   ; copy the current Preferences to use them in the while the preferences are edited, so
-  ; that teh original values stay unchanged
+  ; that the original values stay unchanged
   ;
   ForEach AvailablePanelTools()
     If AvailablePanelTools()\NeedConfiguration
@@ -4935,7 +4935,7 @@ Procedure PreferencesWindowEvents(EventID)
           Read.l PreferenceToolsPanelFrontColor
           Read.l PreferenceToolsPanelBackColor
           
-          ; read the hilight colors
+          ; read the highlight colors
           For i = 0 To #COLOR_Last
             Read.l Colors(i)\PrefsValue
           Next i

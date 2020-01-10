@@ -203,7 +203,7 @@ CompilerIf #CompileWindows = 0
       
     EndIf
     
-    ; Ok, we received atleast a part of the struct. Get the rest.
+    ; Ok, we received at least a part of the struct. Get the rest.
     ;
     Received = Result
     While Received < SizeOf(CommandInfo)

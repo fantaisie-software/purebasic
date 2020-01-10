@@ -86,7 +86,7 @@ Procedure.s UniqueFilename(FileName$)
         *Cursor = *BackCursor
         
       ElseIf PeekS(*Cursor, 3) = #Separator + "." + #Separator
-        ; simply remove this refrence to the own directory
+        ; simply remove this reference to the own directory
         PokeS(*Cursor, PeekS(*Cursor + 2*SizeOf(Character)))
         
       Else

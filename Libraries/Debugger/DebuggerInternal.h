@@ -69,7 +69,7 @@ struct CallStackStruct
 
 
 /* DebuggerStep description
- *-1 = execution was never stoped before (console debug only)
+ *-1 = execution was never stopped before (console debug only)
  *  0 = run
  *  1 = usual step
  *  2 = stop           (console debug only)
@@ -88,7 +88,7 @@ struct CallStackStruct
  * 5 = program ended (no error, not ended by debugger)
  * 6 = fatal error
  * 7 = dynamic breakpoint met
- * 8 = stoped by user (ctrl+c, external debugger or step result)
+ * 8 = stopped by user (ctrl+c, external debugger or step result)
  * 9 = data breakpoint met
  *
  * values only present on the IDE side
@@ -235,7 +235,7 @@ extern M_PBFUNCTION(void) PB_DEBUGGER_EndThreads();
 /* NOTE: For clarity in the code we use these 3 types of char declarations:
  * char    - indicates an ascii string
  * wchar_t - indicates a unicode string
- * xchar   - indicates that this string has the type of the executable, so unknown at compiletime
+ * xchar   - indicates that this string has the type of the executable, so unknown at compile time
  *           This is defined as a char really, so that it works well together with X_strlen()
  *           which returns a number of bytes always.
  *

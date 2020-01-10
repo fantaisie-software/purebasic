@@ -216,7 +216,7 @@ Procedure TemplateWindowEvents(EventID)
     
     If *Templates ; if its a separate window, it may be closed!
       For i = #GADGET_Template_Add To #GADGET_Template_Tree
-        DisableGadget(i, 0) ; reenable all gadgets
+        DisableGadget(i, 0) ; re-enable all gadgets
       Next i
       Template_UpdateGadgetStates()           ; update the disabled state
       
@@ -347,7 +347,7 @@ Procedure Template_FillTree()
   sublevel = 0
   ForEach Template()
     
-    ; close nessecary nodes..
+    ; close necessary nodes..
     While Template()\sublevel < sublevel
       sublevel - 1
     Wend
@@ -602,7 +602,7 @@ Procedure Template_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   EnableGadgetDrop(#GADGET_Template_Tree, #PB_Drop_Private, #PB_Drag_Move, #DRAG_Templates)
   
   CompilerIf #CompileLinux
-    ; the gtk label is by default not wraping lines
+    ; the gtk label is by default not wrapping lines
     gtk_label_set_line_wrap_(GadgetID(#GADGET_Template_Comment), #True)
   CompilerEndIf
   
@@ -623,7 +623,7 @@ EndProcedure
 Procedure Template_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
   Shared Templae_FirstResize
   
-  ;TODO: templates - splitterproblem (shoule be fixed and enabled again)
+  ;TODO: templates - splitterproblem (should be fixed and enabled again)
   ;   ResizeGadget(#GADGET_Template_Splitter, 0, 32, PanelWidth, PanelHeight-32)
   ;   If Templae_FirstResize
   ;     SetGadgetState(#GADGET_Template_Splitter, PanelHeight-32-Template_Splitter)

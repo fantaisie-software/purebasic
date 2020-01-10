@@ -440,7 +440,7 @@ CompilerIf #CompileLinux
           If *StringStart < *Cursor
             AddElement(Help_Styles())
             If *StringStart = Help_Directory(index)\Pointer
-              ; the whole file has no coloring/formating marks, so it is probably an example file, use the fixed font
+              ; the whole file has no coloring/formatting marks, so it is probably an example file, use the fixed font
               Help_Styles()\Style = #STYLE_Code
             Else
               Help_Styles()\Style = CurrentStyle

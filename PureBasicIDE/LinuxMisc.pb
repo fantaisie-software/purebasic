@@ -44,7 +44,7 @@ CompilerIf #CompileLinux
     EndIf
     
     ; If the PUREBASIC_HOME is not set, we use the path to the purebasic executable as a reference.
-    ; This way IDE compilation should work completly without the PUREBASIC_HOME. (so it is only needed
+    ; This way IDE compilation should work completely without the PUREBASIC_HOME. (so it is only needed
     ; for commandline compilation). This should be easier to setup for people.
     ;
     If PureBasicPath$ = "" ; only change if not set by commandline -b
@@ -210,7 +210,7 @@ CompilerIf #CompileLinux
     Window = g_object_get_data_(WindowID(#WINDOW_Main), "pb_gadgetlist")
     
     ; Set up the callback for the RunOnce event
-    ; (don't do this in OSStartupCode(), because at this point it is not determined if there is allready an editor Window)
+    ; (don't do this in OSStartupCode(), because at this point it is not determined if there is already an editor Window)
     ;
     gdk_add_client_message_filter_(gdk_atom_intern_("PureBasic_RunOnceSignal", 0), @RunOnce_MessageFilter(), 0)
     
@@ -269,7 +269,7 @@ CompilerIf #CompileLinux
     
     DeleteFile(RunOnceFile$)
     
-    ; Still need the SetWindowForeground here, as apperently it has no effect if we delay it until after the X message
+    ; Still need the SetWindowForeground here, as apparently it has no effect if we delay it until after the X message
     SetWindowForeground(#WINDOW_Main)
     ;ResizeMainWindow()
   EndProcedure

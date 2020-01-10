@@ -150,7 +150,7 @@
     WSADATA WinSockInfo;
 
     // We can call this multiple times (network lib does it too)
-    // We just need the same amout of WSACleanup() calls to match it
+    // We just need the same amount of WSACleanup() calls to match it
     //
     if (WSAStartup(MAKEWORD(1, 1), &WinSockInfo) == 0)
       return 1;

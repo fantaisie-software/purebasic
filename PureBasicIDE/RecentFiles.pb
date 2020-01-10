@@ -73,7 +73,7 @@ Procedure RecentFiles_AddFile(FileName$, IsProject)
   EndIf
   
   If IsEqualFile(FileName$, RecentFiles(Offset+1))
-    ProcedureReturn ; the file is allready at the top of the list, so there is nothing to do
+    ProcedureReturn ; the file is already at the top of the list, so there is nothing to do
   EndIf
   
   ; search for the same filename in the list

@@ -1523,7 +1523,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         MessageRequester(Language("Debugger", "ViewArrayList"), PeekAsciiLength(*Debugger\CommandData, *Debugger\Command\DataSize))
         
       Else ; no error
-           ; switch to the correct tab in case the display was started by contextmenu fro
+           ; switch to the correct tab in case the display was started by contextmenu from
            ; another tab
         If GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel]) <> 4
           SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 4)
@@ -1652,7 +1652,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
         MessageRequester(Language("Debugger", "ViewArrayList"), PeekAsciiLength(*Debugger\CommandData, *Debugger\Command\DataSize))
         
       Else ; no error
-           ; switch to the correct tab in case the display was started by contextmenu fro
+           ; switch to the correct tab in case the display was started by contextmenu from
            ; another tab
         SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 4)
         

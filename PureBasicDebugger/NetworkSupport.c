@@ -16,7 +16,7 @@
  *    So we just have the network support functions in this C file and import it in PB.
  *
  *    We can't just use the PB network lib because it uses non-blocking sockets, also it won't
- *    work for receiving a thread becase the IDE and Debugger are not compiled threadsafe.
+ *    work for receiving a thread because the IDE and Debugger are not compiled threadsafe.
  *
  *  Note:
  *    This code needs the Memory lib for calling PB_AllocateMemory(), but it will be linked anyway
@@ -138,7 +138,7 @@ integer Network_ConnectSocketCheck(OS_SOCKETTYPE Socket)
   FD_ZERO(&list2);
   FD_SET(Socket, &list2);
 
-  // The nfds must be the hightest FD in the set+1, but on Windows, Socket is an opaque type (and nfds is ignored)
+  // The nfds must be the highest FD in the set+1, but on Windows, Socket is an opaque type (and nfds is ignored)
   #ifdef WINDOWS
     nfds = 0;
   #else
@@ -219,7 +219,7 @@ integer Network_Listen(OS_SOCKETTYPE Socket, char *Interface, int Port)
 
     if (bind(Socket, (struct sockaddr *)&service, sizeof(service)) == 0)
     {
-      if (listen(Socket, 1) == 0) // accept only one simultanous connection
+      if (listen(Socket, 1) == 0) // accept only one simultaneous connection
       {
         return 1;
       }
@@ -229,8 +229,8 @@ integer Network_Listen(OS_SOCKETTYPE Socket, char *Interface, int Port)
   return 0;
 }
 
-// Check if an incomming connection is made on a listening socket, does not block
-// returns new Socket or SOCKET_ERROR (= no incomming connection)
+// Check if an incoming connection is made on a listening socket, does not block
+// returns new Socket or SOCKET_ERROR (= no incoming connection)
 //
 OS_SOCKETTYPE Network_CheckAccept(OS_SOCKETTYPE Socket)
 {

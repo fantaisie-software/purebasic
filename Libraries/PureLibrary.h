@@ -771,7 +771,7 @@ M_SYSFUNCTION(void)    SYS_SetStringBasePosition(int Position);
 
 
 
-// for lazyness and consistency with the other ...ToBuffer() macros :)
+// for laziness and consistency with the other ...ToBuffer() macros :)
 #define NullToBuffer(a) SYS_SetNullString(a)
 
 typedef struct PB_StructureSimpleList
