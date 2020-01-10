@@ -146,7 +146,7 @@ CompilerSelect #PB_Compiler_OS
     #DEFAULT_SplitterWidth      = 4
     
     #DEFAULT_DebuggerSource     = "..\PureBasicDebugger\"
-    #DEFAULT_DebuggerStayOnTop  = 1  ; these are different, because stayontop doesnt work on linux
+    #DEFAULT_DebuggerStayOnTop  = 1  ; these are different, because stayontop doesn't work on linux
     #DEFAULT_DebuggerBringToTop = 0
     
     #DEFAULT_ListIconImageSize  = 16 ; on windows 16x16 is required to even display!

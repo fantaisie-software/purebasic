@@ -5,8 +5,8 @@
 ;--------------------------------------------------------------------------------------------
 
 ; Change: Now *every* file in the source tree is included from this main file
-; This will reduce the number of XIncludeFile's in each file, and there is no more need to check dependancies.
-; Even platform specific files are always includeded. wether their code is compiled
+; This will reduce the number of XIncludeFile's in each file, and there is no more need to check dependencies.
+; Even platform specific files are always includeded. whether their code is compiled
 ; is decided in each file.
 
 XIncludeFile "CompilerFlags.pb"
@@ -531,7 +531,7 @@ AddTools_Execute(#TRIGGER_EditorStart, 0)
 ; Detect possible crashed session and display info if so
 DetectCrashedHistorySession()
 
-; Wait for the compiler to be loaded. (calls FlushEvents(), so the user can allready start editing)
+; Wait for the compiler to be loaded. (calls FlushEvents(), so the user can already start editing)
 WaitForCompilerReady()
 
 CompilerIf #CompileMacCocoa

@@ -401,7 +401,7 @@ Procedure Debugger_AddLog_BySource(*Source.SourceFile, Message$, TimeStamp)
     *Source\LogSize + 1
   EndIf
   
-  ; the *Source is not neccesarily the active source, so do not just add the
+  ; the *Source is not necessarily the active source, so do not just add the
   ; message to the log, but update the full list now
   ;
   ErrorLog_Refresh()
@@ -1041,7 +1041,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Expression
       
-      ; expresion evaluation for tooltips
+      ; expression evaluation for tooltips
       ; check if this message is for us (the debug output uses this message too)
       ;
       If *Debugger\Command\Value1 = AsciiConst('S','C','I','N') And *Debugger\CommandData And IsMouseDwelling = 1
@@ -1132,7 +1132,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
                   Case #TYPE_FLOAT:     Line$ + " = " + StrF_Debug(PeekF(*Pointer))
                   Case #TYPE_DOUBLE:    Line$ + " = " + StrD_Debug(PeekD(*Pointer))
                   Case #TYPE_QUAD:      Line$ + " = " + Str(PeekQ(*Pointer))
-                  Case #TYPE_CHARACTER: Line$ + " = " + Str(PeekL(*Pointer)) ; allready transformed to int here
+                  Case #TYPE_CHARACTER: Line$ + " = " + Str(PeekL(*Pointer)) ; already transformed to int here
                     
                   Case #TYPE_INTEGER
                     If *Debugger\Is64bit
@@ -1206,7 +1206,7 @@ Procedure Debugger_ShowLine(*Debugger.DebuggerData, Line)
   LineNumber = Line & $FFFFFF + 1
   
   If Debugger_SwitchToFile(*Debugger, Line)
-    ; make sure the linenumber is not too hight (could happen in the profiler)
+    ; make sure the linenumber is not too high (could happen in the profiler)
     If LineNumber > GetLinesCount(*ActiveSource)
       LineNumber = GetLinesCount(*ActiveSource)
     EndIf
@@ -1662,7 +1662,7 @@ Procedure Debugger_ProcessShortcuts(EventWindowID, EventID)
     
     ; On the debugger windows, we add the IDE shortcuts for all stuff that do not concern the IDE
     ; (eg breakpoint stuff is not added). We also add shortcuts to open other debug windows,
-    ; which could be usefull
+    ; which could be useful
     ;
     ForEach RunningDebuggers()
       For i = 0 To #DEBUGGER_WINDOW_LAST-1

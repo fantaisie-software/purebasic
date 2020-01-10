@@ -99,7 +99,7 @@ Declare UpdateDiffFileList()
 
 ;- Diff window
 
-; Show/hide the pogress gadgets and take other appropriate actions
+; Show/hide the progress gadgets and take other appropriate actions
 ;
 Procedure ShowDiffProgress(ShowProgress)
   If ShowProgress
@@ -999,7 +999,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
     If DiffShowColors
       HilightningEngine(*Buffer, Length-1, 0, @DiffHilightCallback(), 0)
     Else
-      ; no hilighting engine used here. just set the text color for everything
+      ; no highlighting engine used here. just set the text color for everything
       ScintillaSendMessage(Gadget, #SCI_SETSTYLING, Length-1, 1)
     EndIf
     
@@ -1337,7 +1337,7 @@ Procedure ScanDiffLines(Array Diff.DiffLine(1), *Buffer, Length)
   
   ; do a scan to count the lines
   If *Buffer And Length > 0
-    Lines = 1 ; its atleast one line then
+    Lines = 1 ; its at least one line then
     *Pointer = *Buffer
     While *Pointer < *BufferEnd
       If *Pointer\a = 13      ; windows newline

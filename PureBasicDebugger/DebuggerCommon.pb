@@ -695,7 +695,7 @@ Structure DebuggerData
   
   IsNetwork.l   ; true if the communication is network based
   Communication.Communication ; communication interface
-  Command.CommandInfo         ; last processed incomming command (for easy access)
+  Command.CommandInfo         ; last processed incoming command (for easy access)
   *CommandData                ; pointer to any additional command data (for last processed command)
   
   FileName$           ; real source file as opposed to what is in the executable (something like /tmp/PB_EditorOutput.pb)
@@ -785,10 +785,10 @@ Structure DebuggerData
   ; ===================================================
   ;
   SourceID.i         ; unique ID of the main source (if any)
-  TriggerTargetID.i  ; unique ID of the target that triggered the compile (not neccesarily the main file!)
+  TriggerTargetID.i  ; unique ID of the target that triggered the compile (not necessarily the main file!)
   
   ;   *SourceFile.l   ; pointer to associated sourcefile structure if any
-  ;   *CompileSource.l; the source that triggered the compile (not nessecarily the main file!)
+  ;   *CompileSource.l; the source that triggered the compile (not necessarily the main file!)
   ;
   ;   CPUUsage.l     ; last polled cpu usage value (in %)
   ;   CPUOldUsage.l  ; previous polled cpu usage value

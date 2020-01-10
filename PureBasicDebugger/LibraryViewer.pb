@@ -143,12 +143,12 @@ Procedure LibraryViewer_Init()
                   Else
                     If LibraryPlugins()\GetObjectWidth = 0
                       LibraryViewer_Init_Log(File$, "Function: GetObjectWidth(*Object)")
-                      LibraryViewer_Init_Log(File$, "  SetObjectSize() is allready implemented. This function is ignored.")
+                      LibraryViewer_Init_Log(File$, "  SetObjectSize() is already implemented. This function is ignored.")
                     EndIf
                     
                     If LibraryPlugins()\GetObjectHeight = 0
                       LibraryViewer_Init_Log(File$, "Function: GetObjectHeight(*Object)")
-                      LibraryViewer_Init_Log(File$, "  SetObjectSize() is allready implemented. This function is ignored.")
+                      LibraryViewer_Init_Log(File$, "  SetObjectSize() is already implemented. This function is ignored.")
                     EndIf
                   EndIf
                   
@@ -294,7 +294,7 @@ Procedure LibraryViewer_DisplayLibrary(*Debugger.DebuggerData, index)
     *Debugger\NbLibColumns = Count
     
     ; Send the command without data, so the "current displayed id" defaults to -1
-    ; (as we are not updating an allready displayed list)
+    ; (as we are not updating an already displayed list)
     ;
     Command.CommandInfo\Command = #COMMAND_GetLibraryInfo
     Command\Value1 = index
@@ -568,7 +568,7 @@ Procedure OpenLibraryViewerWindow(*Debugger.DebuggerData)
       UpdateLibraryViewerState(*Debugger)
       Debugger_ProcessEvents(Window, #PB_Event_ActivateWindow) ; makes all debugger windows go to the top
       
-      If *Debugger\LibraryList ; The library list was allready retrieved
+      If *Debugger\LibraryList ; The library list was already retrieved
         *libraries.Debugger_LibraryList = *Debugger\LibraryList
         For i = 0 To *Debugger\NbLibraries-1
           AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList], -1, *libraries\library[i]\Name$)

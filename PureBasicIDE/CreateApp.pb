@@ -380,7 +380,7 @@ Procedure CreateAppWindowEvents(EventID)
                 CloseCreateAppWindow()
                 
                 If LauchAppBuild(*CurrentAppTarget\HtmlFilename$)
-                  ; *ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeded
+                  ; *ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeeded
                   
                   Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", *CurrentAppTarget\HtmlFileName$), Date())
                   
@@ -421,7 +421,7 @@ Procedure CreateAppWindowEvents(EventID)
                   CloseCreateAppWindow()
                   
                   If LauchAppBuild(*CurrentAppTarget\iOSAppOutput$)
-                    ;*ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeded
+                    ;*ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeeded
                     
                     Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", *CurrentAppTarget\iOSAppOutput$), Date())
                   EndIf
@@ -457,7 +457,7 @@ Procedure CreateAppWindowEvents(EventID)
                   CloseCreateAppWindow()
                   
                   If LauchAppBuild(*CurrentAppTarget\AndroidAppOutput$)
-                    ;*ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeded
+                    ;*ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeeded
                     
                     Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", *CurrentAppTarget\AndroidAppOutput$), Date())
                   EndIf

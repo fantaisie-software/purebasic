@@ -33,7 +33,7 @@ typedef struct PB_StructureLibraryInfo
 
   char *ListTitles;  // for LIBRARYINFO_Objects: provides a Tab separated list of table headers (for the ListIcon display. format: TITLE1<tab>Size1<tab>TITLE2<tab>Size2)
 
-  int (*ExamineObjects)(void); // start object enumeration (return true if successfull, false if not)
+  int (*ExamineObjects)(void); // start object enumeration (return true if successful, false if not)
   int (*NextObject)(integer *id, char *buffer); // get next object. fill id and **info with unique ID and text for ListIcon line (Tab separated as the title string), return 0 for no more objects
   int (*GetObjectText)(integer id, char *buffer); // get Text info on the given id object (return success or failure)
   int (*GetObjectData)(integer id, void **data, integer *size); // get data representation of the id object (return success or failure)
@@ -42,7 +42,7 @@ typedef struct PB_StructureLibraryInfo
 } PB_LibraryInfo;
 
 /* Register a library for the Library Viewer:
- * The passed PB_DebuggerLibraryInfo structure must be initialized, and stay persisten during the whole
+ * The passed PB_DebuggerLibraryInfo structure must be initialized, and stay persistent during the whole
  * run of the program (the debugger does not store the contained data itself, the library must do that!
  */
 void PB_DEBUGGER_RegisterLibrary(PB_LibraryInfo *library);

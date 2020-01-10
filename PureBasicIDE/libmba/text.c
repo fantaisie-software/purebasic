@@ -370,7 +370,7 @@ utf8tolower(unsigned char *str, unsigned char *slim)
       }
       if ((wcl = towlower(wc)) != wc) {
 /* These functions are flawed because there are a few characters that encode
- * as a different number of bytes depending on wheather or not it's the
+ * as a different number of bytes depending on whether or not it's the
  * upper or lower case version of the UCS code. Right here we to see if
  * it didn't convert back to same size as lowercase and if so, return -1.
  */

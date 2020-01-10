@@ -11,7 +11,7 @@
 ;
 ; Some notes:
 ;
-; - For speed reasons, the dll is not threadsave.
+; - For speed reasons, the dll is not threadsafe.
 ;
 ; - The hilighter does not handle unicode. It does however handle UTF8, so if
 ;   Unicode text should be parsed, convert it to UTF8 first.
@@ -92,7 +92,7 @@ Procedure Callback(*Position, Length, Color)
   
 EndProcedure
 
-; Simple example code. It loads a PB file and outputs a HTML file withs some
+; Simple example code. It loads a PB file and outputs a HTML file with some
 ; coloring for functions, keywords and comments
 ;
 If OpenLibrary(#Dll, "SyntaxHilighting.dll")

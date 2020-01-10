@@ -184,7 +184,7 @@ Procedure FindWindowEvents(EventID)
   EndSelect
   
   If Quit
-    ; get checkbox choises
+    ; get checkbox choices
     FindCaseSensitive = GetGadgetState(#GADGET_Find_Case)
     FindWholeWord     = GetGadgetState(#GADGET_Find_WholeWord)
     FindNoComments    = GetGadgetState(#GADGET_Find_NoComments)

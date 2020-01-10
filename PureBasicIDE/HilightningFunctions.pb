@@ -192,7 +192,7 @@ Procedure.s GetNumber(Line$, Position) ; position is 0-based
   Select *Pointer\c
       
     Case '%', '$'
-      ; Hex and Bin numners, there can only be a +, - before this
+      ; Hex and Bin numbers, there can only be a +, - before this
       *Pointer - SizeOf(Character)
       If *Pointer >= *Buffer And (*Pointer\c = '+' Or *Pointer\c = '-')
         *Pointer - SizeOf(Character)
@@ -896,7 +896,7 @@ Procedure DeselectBlock()
       
       BlockSelectionUpdated = #True ; don't clear the stack in the scintilla callback
       If ListIndex(BlockSelectionStack()) = 0
-        ; no swaping here. restore the original selection
+        ; no swapping here. restore the original selection
         SendEditorMessage(#SCI_SETSEL, BlockSelectionStack()\StartPosition, BlockSelectionStack()\EndPosition)
       Else
         ; swap like in the SelectBlock() function
@@ -1089,7 +1089,7 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
   ; The caching cannot be done inside QuickHelpFromLine(), because
   ; we always have to analyse the line to know what word we are at.
   ;
-  ; QuickHelpFromLine() does determine wether caching can be done though too,
+  ; QuickHelpFromLine() does determine whether caching can be done though too,
   ; as we can only use the cached value if the line did not get edited,
   ; even if the word is the same (see QuickHelpFromLine())
   ;
@@ -1649,7 +1649,7 @@ Procedure.s CreateFoldingInformation()
   count = GetLinesCount(*ActiveSource)
   Output$ = ""
   bit = 0
-  value = %111111 ; the defaut is "expanded", so that when somebody with more foldpoints set does not view this code with all folds closed
+  value = %111111 ; the default is "expanded", so that when somebody with more foldpoints set does not view this code with all folds closed
   
   For i = 0 To count-1
     If IsFoldPoint(i)

@@ -3478,7 +3478,7 @@ _EndIf1:
 ; Data$ "IssueNameShort",   "Name"
 ; Data$ "IssueExprShort",   "Expression"
 ; Data$ "IssueName",        "Issue name"
-; Data$ "IssueExpr",        "Regular exression"
+; Data$ "IssueExpr",        "Regular expression"
 ; Data$ "IssueCodeNoColor", "No code color"
 ; Data$ "IssueCodeBack",    "Change issue background"
 ; Data$ "IssueCodeLine",    "Change line background"
@@ -3948,7 +3948,7 @@ _EndIf1:
 ; Data$ "Key98",            "Multiply"
 ; Data$ "Key99",            "Add"
 ; Data$ "Key100",           "Separator"
-; Data$ "Key101",           "Substract"
+; Data$ "Key101",           "Subtract"
 ; Data$ "Key102",           "Decimal"
 ; Data$ "Key103",           "Divide"
 ; Data$ "Key104",           "Num Lock"
@@ -4213,7 +4213,7 @@ _EndIf1:
 ; 
 ; Data$ "ServerTitle",      "Waiting for connections on port %port% ..."
 ; Data$ "ServerTitleNamed", "Waiting for connection on %host% (port %port%) ..."
-; Data$ "Listen",           "Waiting for incomming connection..."
+; Data$ "Listen",           "Waiting for incoming connection..."
 ; Data$ "ServerFailed",     "Could not create server on port"
 ; Data$ "ConnectionDenied", "Connection denied."
 ; 
@@ -94311,7 +94311,7 @@ _EndIf2639:
   POP    rcx
   POP    rdx
   CALL  _Procedure546
-; LibraryViewer_Init_Log(File$, "  SetObjectSize() is allready implemented. This function is ignored.")                      
+; LibraryViewer_Init_Log(File$, "  SetObjectSize() is already implemented. This function is ignored.")                      
   MOV    rax,_S309
   PUSH   rax
   PUSH   qword [rsp+56]
@@ -94333,7 +94333,7 @@ _EndIf2646:
   POP    rcx
   POP    rdx
   CALL  _Procedure546
-; LibraryViewer_Init_Log(File$, "  SetObjectSize() is allready implemented. This function is ignored.")
+; LibraryViewer_Init_Log(File$, "  SetObjectSize() is already implemented. This function is ignored.")
   MOV    rax,_S309
   PUSH   rax
   PUSH   qword [rsp+56]

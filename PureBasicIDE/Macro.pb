@@ -43,7 +43,7 @@ CompilerIf #PB_Compiler_Unicode = 0
   
 CompilerElse
   
-  ; not really a macro, but this is a macro in non-unicode mode, thats why it is here
+  ; not really a macro, but this is a macro in non-unicode mode, that's why it is here
   Procedure ToAscii(String$)
     Static *Buffer
     

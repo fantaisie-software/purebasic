@@ -614,7 +614,7 @@ EndProcedure
 
 Procedure AddTools_OpenEditWindow()
   
-  ; this window can't be allready open, because the open buttons are disabled when it is, so no check here
+  ; this window can't be already open, because the open buttons are disabled when it is, so no check here
   ;
   EditToolsWindowDialog = OpenDialog(?Dialog_EditTools, WindowID(#WINDOW_AddTools), @EditToolsWindowPositon)
   If EditToolsWindowDialog
@@ -696,7 +696,7 @@ Procedure AddTools_OpenEditWindow()
       EndIf
     EndIf
     
-    AddTools_UpdateDisabledState() ; make sure the right choises are enabled
+    AddTools_UpdateDisabledState() ; make sure the right choices are enabled
     
     SetActiveGadget(#GADGET_EditTools_CommandLine)
   EndIf
@@ -939,7 +939,7 @@ Procedure AddTools_OpenWindow()
       SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, ColumnWidth, 1)
       SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, ColumnWidth*3, 2)
       
-      ; dublicate the tools list to work on it, and fill the gadget
+      ; duplicate the tools list to work on it, and fill the gadget
       ;
       ClearList(ToolsList_Edit())
       ForEach ToolsList()
@@ -1075,7 +1075,7 @@ Procedure AddTools_WindowEvents(EventID)
         EndIf
         
       Case #GADGET_AddTools_Ok
-        If IsWindow(#WINDOW_EditTools) = 0 ; even when the ok butten is disabled, teh shortcut works, so check this!
+        If IsWindow(#WINDOW_EditTools) = 0 ; even when the ok butten is disabled, the shortcut works, so check this!
           
           ; copy the list over the old one, and save the prefs
           ;

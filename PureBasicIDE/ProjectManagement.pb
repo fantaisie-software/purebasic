@@ -75,7 +75,7 @@ Procedure.s Xml_MultiLine(Input$)   ; cuts newline at beginning and end and trim
     Input$ = RTrim(Left(Input$, Len(Input$)-1))
   Wend
   
-  ; trim spaces inbetween lines, and put back system newline
+  ; trim spaces in between lines, and put back system newline
   Count   = CountString(Input$, Chr(10))+1
   Output$ = ""
   For i = 1 To Count
@@ -152,7 +152,7 @@ Procedure IsProjectFile(FileName$)
   ;
   If "."+LCase(GetExtensionPart(FileName$)) = #ProjectFileExtension And FileSize(FileName$) < 1024*1024*10
     
-    ; Just parse the XML and check wether the main node and namespace are ok.
+    ; Just parse the XML and check whether the main node and namespace are ok.
     ; Project files are rather small, so this is ok
     ;
     If LoadXML(#XML_CheckProject, FileName$)
@@ -192,7 +192,7 @@ Procedure.s ProjectName(FileName$) ; Get the project name from a project file
   ProcedureReturn Result$
 EndProcedure
 
-; Provides a guess wether a file may be a sourcecode or not for the purpose of AutoComplete scanning
+; Provides a guess whether a file may be a sourcecode or not for the purpose of AutoComplete scanning
 ; Also used to decide whether a file should be highlighted or not
 ; Accept both PB/SB files here, to make it more comfortable to edit an SB file in the PB IDE for example
 ;
@@ -984,7 +984,7 @@ Procedure IsPureBasicFile(FileName$)
                     Case "directory":   ProjectTargets()\CurrentDirectory$ = Xml_SingleLine(GetXMLAttribute(*Entry, "value"))
                     Case "subsystem":   ProjectTargets()\Subsystem$        = Xml_SingleLine(GetXMLAttribute(*Entry, "value"))
                     Case "linker":      ProjectTargets()\LinkerOptions$    = Xml_SingleLine(GetXMLAttribute(*Entry, "value"))
-                    Case "watchlist":   ProjectTargets()\Watchlist$        = Xml_SingleLine(GetXMLNodeText(*Entry)) ; not stored as attribut as they may get big
+                    Case "watchlist":   ProjectTargets()\Watchlist$        = Xml_SingleLine(GetXMLNodeText(*Entry)) ; not stored as attribute as they may get big
                     Case "tools":       ProjectTargets()\EnabledTools$     = Xml_SingleLine(GetXMLNodeText(*Entry))
                       
                     Case "compiler"
@@ -2152,7 +2152,7 @@ Procedure IsPureBasicFile(FileName$)
             EndIf
             
             ; Now remove any file from the real project file list if it is not in the config list
-            ; We do not just do a ClearList() and re-fill it, becase the ProjectPanel stores
+            ; We do not just do a ClearList() and re-fill it, because the ProjectPanel stores
             ; pointers to the entries!
             ;
             ForEach ProjectFiles()

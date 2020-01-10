@@ -397,7 +397,7 @@ CompilerIf #CompileWindows
           EndIf
           
           ; NOTE:
-          ;   Do not call SetWindowForeground_Real() as it does the ugly hack to attach to the forground
+          ;   Do not call SetWindowForeground_Real() as it does the ugly hack to attach to the foreground
           ;   Window's queue, which will crash the IDE if the foreground window hangs.
           ;   Steps to reproduce:
           ;   - run a PB program (with GUI) which does "RunProgram(some PB source)"
@@ -405,7 +405,7 @@ CompilerIf #CompileWindows
           ;
           ;   Instead we use the normal SetWindowForeground() here, and it even works:
           ;   - the starting program has focus
-          ;   - when it launches the RunOnce IDE instance, that instance has forground rights too
+          ;   - when it launches the RunOnce IDE instance, that instance has foreground rights too
           ;   - the RunOnce instance calls AllowWindowSetForeground() to give the rights to this instance
           ;   - all works (the old IDE ends up with focus)
           ;

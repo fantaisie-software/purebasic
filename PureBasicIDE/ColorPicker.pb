@@ -1647,7 +1647,7 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
         If x >= 4 And y >= 4
           col = (x-4) / 23
           row = (y-4) / 23
-          If x <= (col*23)+24 And y <= (col*23)+24 ; check that we are really within a box and not in the inbetween space
+          If x <= (col*23)+24 And y <= (col*23)+24 ; check that we are really within a box and not in the in between space
             cols = (GadgetWidth(#GADGET_Color_History)-5) / 23
             If cols < 1: cols = 1: EndIf
             entry = row*cols + col

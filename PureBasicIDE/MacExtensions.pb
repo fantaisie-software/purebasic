@@ -27,7 +27,7 @@ CompilerIf #CompileMacCocoa
   #kThemeBrushAlertBackgroundActive = 3
   #noErr = 0
   
-  ; the HIThemeBrushCreateCGColor() is 10.4+ only, but the x86 version is atleast 10.4 anyway
+  ; the HIThemeBrushCreateCGColor() is 10.4+ only, but the x86 version is at least 10.4 anyway
   ImportC ""
     HIThemeBrushCreateCGColor(Brush, *Color)
     CGColorGetComponents(Color)

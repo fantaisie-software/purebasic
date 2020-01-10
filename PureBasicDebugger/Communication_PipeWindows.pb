@@ -34,7 +34,7 @@ CompilerIf #CompileWindows
     OutPipeHandle.i
     
     
-    ; Win9x does not support CreateNamedPipe(), so use anonymouse pipes there
+    ; Win9x does not support CreateNamedPipe(), so use anonymous pipes there
     ;
     IsNamedPipe.l
     DebuggerInPipeHandle.i  ; handles to the debugger end of the anonymous
@@ -104,7 +104,7 @@ CompilerIf #CompileWindows
     BytesAvailable  = 0
     PeekNamedPipe_(*This\InPipeHandle, #Null, 0, #Null, @BytesAvailable, #Null)
     
-    ; atleast a full command struct must be available
+    ; at least a full command struct must be available
     If BytesAvailable >= SizeOf(CommandInfo)
       
       ; read the structure
@@ -121,7 +121,7 @@ CompilerIf #CompileWindows
           *CommandData = AllocateMemory(*Command\DataSize)
           If *CommandData
             ;
-            ; This read may block, as we do not test if all is availeble, but this is ok.
+            ; This read may block, as we do not test if all is available, but this is ok.
             ; We cannot wait for all to be available, as it may be more than the pipe buffer can store!
             ;
             Received = 0
@@ -249,7 +249,7 @@ CompilerIf #CompileWindows
   
   
   Procedure WinPipe_Connect(*This.WinPipe_Communication)
-    ; all work done in the Create function (for this side atleast)
+    ; all work done in the Create function (for this side at least)
     ProcedureReturn #True
   EndProcedure
   

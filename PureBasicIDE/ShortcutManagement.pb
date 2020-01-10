@@ -62,7 +62,7 @@ Procedure CreateKeyboardShortcuts(Window)
           ; this shortcut is needed on the main window as well for the "insert end keyword on double press" option
           AddKeyboardShortcut(Window, KeyboardShortcuts(item), item)
         EndIf
-      ElseIf item <> #MENU_AutoComplete_Abort Or Window = #WINDOW_AutoComplete ; add "abort" only to teh autocomplete window
+      ElseIf item <> #MENU_AutoComplete_Abort Or Window = #WINDOW_AutoComplete ; add "abort" only to the autocomplete window
         AddKeyboardShortcut(Window, KeyboardShortcuts(item), item)
       EndIf
     EndIf
@@ -421,7 +421,7 @@ CompilerIf #CompileMacCarbon
   ; OSX uses symbols for its shortcuts. Unfortunately these are characters in the unicode range, but the IDE is ascii only.
   ; To solve this, we "subclass" the ListIcon's ItemData callback by replacing it and calling the original one only when needed
   ; In the callback we construct a unicode string with our shortcut symbols and set it
-  ; This way we have a consisten user interface with other Mac apps
+  ; This way we have a consistent user interface with other Mac apps
   ;
   Global ItemDataCallbackUPP, RealItemDataCallbackUPP, ShortcutColumnProperty
   
@@ -664,7 +664,7 @@ CompilerIf #CompileLinux | #CompileWindows
   #SHORTCUT_SelectBlock        = #PB_Shortcut_Control | #PB_Shortcut_M
   #SHORTCUT_DeselectBlock      = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_M
   #SHORTCUT_ProcedureListUpdate= #PB_Shortcut_F12
-  #SHORTCUT_VariableViewer     = 0 ; Alt+V allready used by VD!
+  #SHORTCUT_VariableViewer     = 0 ; Alt+V already used by VD!
   #SHORTCUT_ColorPicker        = 0 ; Alt+P is for Menu/&Project
   #SHORTCUT_AsciiTable         = #PB_Shortcut_A | #PB_Shortcut_Alt
   #SHORTCUT_Explorer           = #PB_Shortcut_X | #PB_Shortcut_Alt
@@ -876,7 +876,7 @@ DataSection
   Data$ "", "ProceduresUpdate":    Data.l #SHORTCUT_ProcedureListUpdate
   
   ; This is a list of shortcuts used by the OS or Windowmanager. Trying to use these
-  ; wil output an error
+  ; will output an error
   ;
   ReservedShortcuts:
   Data.l #PB_Shortcut_Control | #PB_Shortcut_Alt | #PB_Shortcut_Delete ; i wonder what that one is for.. ;)

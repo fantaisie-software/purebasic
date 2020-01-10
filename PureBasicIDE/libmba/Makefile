@@ -31,7 +31,7 @@ OBJECTS = $(TARGET)/allocator.$(PB_OBJ) \
 					$(TARGET)/time.$(PB_OBJ) \
 					$(TARGET)/varray.$(PB_OBJ)
 
-# need to add one empty tab line after the target, otherwise it failes here!?
+# need to add one empty tab line after the target, otherwise it fails here!?
 $(LIBRARY): $(LIBRARYFILE)
 
 
