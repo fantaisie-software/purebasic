@@ -217,7 +217,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
   EndProcedure
   
-  ; translate the hilightning colors into the os specific format for a faster hilightning
+  ; translate the highlighting colors into the os specific format for a faster highlighting
   ;
   Procedure SetUpHilightningColors()
     ; NOTE: When inventing new code styles, update the SetBackgroundColor() procedure to fit!
@@ -238,7 +238,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     *ModuleColor        = 15
     *BadEscapeColor     = 16
     
-    ; Setup the coloring (do it here, so it affects hilightning changes)
+    ; Setup the coloring (do it here, so it affects highlighting changes)
     ;
     If *ActiveSource ; only if a source is loaded
       SendEditorFontMessage(#STYLE_DEFAULT, EditorFontName$, EditorFontSize)
@@ -555,7 +555,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   Procedure HilightCallback(*StringStart.Ascii, Length, *Color, IsBold, TextChanged)
     
-    ; replace the text only if it was changed by the hilightningengine (case correction)
+    ; replace the text only if it was changed by the highlighting engine (case correction)
     ;
     If TextChanged
       ; Very strange: If the last line es empty and the previous has a keyword (case correction) at the end
@@ -660,7 +660,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       
       If *ActiveSource\IsCode
         
-        ; Seems to be a scintilla bug: when we update the hilightning (for example set EnableASM mode)
+        ; Seems to be a scintilla bug: when we update the highlighting (for example set EnableASM mode)
         ; and the update modifies the text content (for example case-sensitivity) inside
         ; a folded procedure, we get a mixup and a crash (at a later point)
         ; I think this is a scintilla issue.
@@ -697,7 +697,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           SendEditorMessage(#SCI_STARTSTYLING, 0, $FFFFFF) ; also overwrites the brace highlights
         EndIf
         
-        ; now call the hilightning engine
+        ; now call the highlighting engine
         ;
         Modified = GetSourceModified()  ; because the case correction changes the modified state!
         HilightningEngine(*InBuffer, InBufferLength, SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0), @HilightCallback(), 1)
@@ -748,7 +748,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       highestline = *Source\Parser\SourceItemCount - 1
     EndIf
     
-    If firstline < 0 ; could happen when re-hilighting the first line
+    If firstline < 0 ; could happen when re-highlighting the first line
       firstline = 0
     EndIf
     
@@ -2774,7 +2774,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               foldlevel = ScintillaSendMessage(EditorGadget, #SCI_GETFOLDLEVEL, *ActiveSource\CurrentLineOld-1, 0)
               OldLine$ = GetLine(*ActiveSource\CurrentLineOld-1) ; use the case corrected line!
               
-              ; update hilightning of the old line, as now keywords are not highlighted with the cursor inside (so do it when the mouse is moved away)
+              ; update highlighting of the old line, as now keywords are not highlighted with the cursor inside (so do it when the mouse is moved away)
               ;
               If (EnableColoring Or EnableCaseCorrection) And OldLine$ <> ""
                 HilightLine$ = OldLine$+#NewLine
@@ -2796,7 +2796,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                   SendEditorMessage(#SCI_STARTSTYLING, HilightOffset, $FFFFFF)
                 EndIf
                 
-                ; now call the hilightning engine
+                ; now call the highlighting engine
                 ;
                 Modified = GetSourceModified()  ; because the case correction changes the modified state!
                 HilightningEngine(*HilightBuffer, MemoryAsciiLength(*HilightBuffer), -1, @HilightCallback(), 1)
@@ -3351,7 +3351,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     ;  SendEditorMessage(#SCI_SETBUFFEREDDRAW, 0, 0)
     ;  SendEditorMessage(#SCI_SETTWOPHASEDRAW, 0, 0) ; this produces no flickering, so we can turn it off
     
-    ; Set up the hilightning for this GAdget: (moved to affect Prefs changes as well)
+    ; Set up the highlighting for this GAdget: (moved to affect Prefs changes as well)
     SetUpHilightningColors()
     
   EndProcedure

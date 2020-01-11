@@ -13,7 +13,7 @@
 ;
 ; - For speed reasons, the dll is not threadsafe.
 ;
-; - The hilighter does not handle unicode. It does however handle UTF8, so if
+; - The highlighter does not handle unicode. It does however handle UTF8, so if
 ;   Unicode text should be parsed, convert it to UTF8 first.
 ;
 ; The dll exports only one function:

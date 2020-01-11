@@ -22,7 +22,7 @@ CompilerIf #SpiderBasic
 CompilerEndIf
 
 ;
-;- Hilightning Colors
+;- Highlighting Colors
 ;
 ; Colors now managed in an array for easier extension and less code
 ;
@@ -2504,7 +2504,7 @@ Global AlwaysHideLog, ErrorLogVisible
 Global CustomKeywordFile$
 Global ToolsPanelUseFont, ToolsPanelUseColors
 
-; OS specific hilightning color representation:
+; OS specific highlighting color representation:
 ;
 Global *ASMKeywordColor, *BackgroundColor, *BasicKeywordColor, *CommentColor, *ConstantColor, *LabelColor
 Global *NormalTextColor, *NumberColor, *OperatorColor, *PointerColor, *PureKeywordColor, *SeparatorColor, *CustomKeywordColor

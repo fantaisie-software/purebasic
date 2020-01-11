@@ -215,7 +215,7 @@ XIncludeFile "HelpViewer.pb"
 ; macos specific
 XIncludeFile "MacMisc.pb"
 
-; hilightning files
+; highlighting files
 XIncludeFile "ScintillaHilightning.pb"
 XIncludeFile "CodeViewer.pb"
 XIncludeFile "DisplayMacroError.pb"

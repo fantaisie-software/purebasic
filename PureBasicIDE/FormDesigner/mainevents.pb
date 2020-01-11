@@ -3024,7 +3024,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
       
       DrawAlphaImage(ImageID(#TDrawing_Img),ox1,oy1)
       
-      ProcedureReturn #True ; Drawing sucessed
+      ProcedureReturn #True ; Drawing succeeded
     Else
       MessageRequester(appname, LanguagePattern("Form","OutOfMemoryError", "%size%", Str(x2-x1) +"x"+ Str(y2-y1)), #PB_MessageRequester_Ok | #FLAG_Error) ; Can't create the backend image, so we are probably out of memory (we don't want the IDE to crash !)
     EndIf

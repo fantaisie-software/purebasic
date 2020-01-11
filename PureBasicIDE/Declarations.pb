@@ -125,7 +125,7 @@ Declare BuildIndentVT()
 Declare UpdateIndent(FirstLine, LastLine)
 Declare UpdateFolding(*Source.SourceFile, firstline, lastline) ; redo all folding (no rescan) from the given line to at least lastline
 Declare CalculateHilightningColors()                           ; calculate really used colors (call once after a prefs load/update)
-Declare SetUpHilightningColors()                               ; set up the colors for hilighnint (called for each source when the prefs change, or when loading)
+Declare SetUpHilightningColors()                               ; set up the colors for highlighting (called for each source when the prefs change, or when loading)
 Declare HilightArea(*StartPos, *EndPos)                        ; highlight a given area of text (0, -1) highlights all!
 Declare UpdateHilightning()                                    ; highlight everything after a prefs update
 Declare StreamTextIn(*Buffer, Length)                          ; put the given buffer into the current source
@@ -387,7 +387,7 @@ Declare GrepWindowEvents(EventID)
 ;- HilightningEngine.pb
 ;
 Declare InitSyntaxCheckArrays()       ; create arrays like the ValidCharacters of TriggerCharacters
-Declare InitSyntaxHilightning()       ; initialize the hilightning
+Declare InitSyntaxHilightning()       ; initialize the highlighting
 Declare BuildCustomKeywordTable()     ; build the needed HT etc from the CustomKeywordList() list and file
 Declare HilightningEngine(*InBuffer, InBufferLength, CursorPosition, *HilightCallback, IsSourceCode) ; call the engine
 Declare IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)

@@ -84,7 +84,7 @@ EndProcedure
 *MarkerColor        = 0
 *ModuleColor        = 0
 
-EnableColoring = 1        ; set the hilightning options to on.
+EnableColoring = 1        ; set the highlighting options to on.
 EnableCaseCorrection = 1
 EnableKeywordBolding = 1
 

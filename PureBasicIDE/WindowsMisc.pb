@@ -411,7 +411,7 @@ CompilerIf #CompileWindows
           ;
           ;   The only case where this does not work is if a background program tries to run the IDE
           ;   but this is the problem of the background program, not of the IDE. This works fine with
-          ;   Explorer doubleclicks and the like which is the important part
+          ;   Explorer double-clicks and the like which is the important part
           ;
           SetWindowForeground(#WINDOW_Main)
         EndIf
