@@ -219,7 +219,7 @@ CompilerIf #CompileWindows
           Language$ = Left(*Target\VersionField$[17], 4)
         EndIf
         
-        ; correct the version fields 1 and 2 if needed ( if wrongly formatted they leed to a resource error)
+        ; correct the version fields 1 and 2 if needed ( if wrongly formatted they lead to a resource error)
         Field1$ = ReplaceString(ReplaceVersionInfo(*Target\VersionField$[0], *Target), ".", ",")
         iscorrect = 1
         If CountString(Field1$, ",") <> 3
