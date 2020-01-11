@@ -100,7 +100,7 @@ Procedure UpdateExplorerPatterns()
   ForEver
   
   
-  ; sanitise the selected patterns to avoid a crash when it is too high (may heppen if you remove a tool!)
+  ; sanitize the selected patterns to avoid a crash when it is too high (may happen if you remove a tool!)
   ;
   If ExplorerPattern >= Count Or ExplorerPattern < -1
     ExplorerPattern = 0
