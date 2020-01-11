@@ -6,7 +6,7 @@
 
 ; Change: Now *every* file in the source tree is included from this main file
 ; This will reduce the number of XIncludeFile's in each file, and there is no more need to check dependencies.
-; Even platform specific files are always includeded. whether their code is compiled
+; Even platform specific files are always included. Whether their code is compiled
 ; is decided in each file.
 
 XIncludeFile "CompilerFlags.pb"
