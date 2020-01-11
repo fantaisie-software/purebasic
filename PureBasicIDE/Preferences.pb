@@ -2559,7 +2559,7 @@ Procedure ApplyPreferences()
   ; calc which colors are actually used for display
   CalculateHilightningColors()
   
-  ; update all syntax hilighthing
+  ; update all syntax highlighthing
   ;
   *Source = *ActiveSource
   ForEach FileList()

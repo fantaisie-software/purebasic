@@ -1006,7 +1006,7 @@ Procedure FreePBString(ptrString)
 EndProcedure
 
 CompilerIf Defined(PUREBASIC_IDE, #PB_Constant) = 0 ; only define if it is the standalone debugger
-                                                    ; required stuff for the Hilightning Engine
+                                                    ; required stuff for the Highlighting Engine
   Structure SourceFileParser
     Encoding.l
   EndStructure

@@ -2597,7 +2597,7 @@ Procedure EventLoopCallback()
       
       If ToolsPanelVisible
         ; switch the logsplitter with the source container, so the container is directly in the ToolsSplitter
-        ; if there is no toolspanel, the sourcecontainer is allready on the main window.
+        ; if there is no toolspanel, the sourcecontainer is already on the main window.
         ;
         If ToolsPanelSide = 0
           SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget, #GADGET_SourceContainer)

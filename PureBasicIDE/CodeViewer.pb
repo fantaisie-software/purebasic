@@ -19,7 +19,7 @@ Procedure CodeViewer_UpdateHilight(Gadget)
   
   HighlightCodeViewer = Gadget
   
-  ; re-hilight the text
+  ; re-highlight the text
   Size = ScintillaSendMessage(Gadget, #SCI_GETTEXTLENGTH)
   *Buffer = AllocateMemory(Size+1)
   If *Buffer

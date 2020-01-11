@@ -417,7 +417,7 @@ EndProcedure
 
 
 ; Set the NoReadyCall to prevent the call to CompilerReady(), as it
-; re-hilights all sources.
+; re-highlight all sources.
 ;
 Procedure WaitForCompilerReady(NoReadyCall = 0)
   
@@ -851,7 +851,7 @@ Procedure CompilerCleanup()
       
       
       ; a compiler restart is required
-      RestartCompiler(*Compiler, #True) ; set #true to not call CompilerReady(), as it re-hilights all code!
+      RestartCompiler(*Compiler, #True) ; set #true to not call CompilerReady(), as it re-highlights all code!
       
       ; no need to wait for the compiler, as RestartCompiler()
       ; calls WaitForCompilerReady()
@@ -875,7 +875,7 @@ Procedure CompilerCleanup()
         ; (this is for the case where a subsystem cannot be found)
         Compiler_SubSystem$  = ""
         CompilerBusy = 0       ; disable the "compiler is busy" requester
-        RestartCompiler(*Compiler, #True) ; set #true to not call CompilerReady(), as it re-hilights all code!
+        RestartCompiler(*Compiler, #True) ; set #true to not call CompilerReady(), as it re-highlights all code!
                                           ; do not set Busy flag again as the compilation is aborted
         
         If CompilerReady ; if 0, restart failed

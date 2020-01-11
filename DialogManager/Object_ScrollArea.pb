@@ -14,7 +14,7 @@ XIncludeFile "Object_BinBase.pb"
 ;
 ;   All accepted by DlgBinBase
 ;
-;   The Childs will always get the size they ask for, exept if scrolling is set to one
+;   The Childs will always get the size they ask for, except if scrolling is set to one
 ;   direction only and the gadget cannot grow.
 ;
 ; innerheight = inner minimal height (-1 = do not change)

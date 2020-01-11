@@ -125,7 +125,7 @@ CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) = 0
 CompilerEndIf
 
 
-; OS specific hilightning color representation:
+; OS specific highlighting color representation:
 ;
 Global *ASMKeywordColor, *BackgroundColor, *BasicKeywordColor, *CommentColor, *ConstantColor, *LabelColor
 Global *NormalTextColor, *NumberColor, *OperatorColor, *PointerColor, *PureKeywordColor, *SeparatorColor, *CustomKeywordColor
@@ -562,7 +562,7 @@ Procedure InitSyntaxCheckArrays()
   Next
   
   ; This is for the SourceParser which does not convert to lowercase when
-  ; checking the array (as the hilighter does)
+  ; checking the array (as the highlighter does)
   ;
   For Char = 'A' To 'Z'
     BasicKeywordsHT(Char) = BasicKeywordsHT(Char+('a'-'A'))
@@ -755,7 +755,7 @@ Procedure InitSyntaxHilightning()
     
   EndIf
   
-  ; Indicate that hilightning is ready now:
+  ; Indicate that highlighting is ready now:
   ;
   IsHilightningReady = 1
   
@@ -814,7 +814,7 @@ CompilerIf Defined(PUREBASIC_DEBUGGER, #PB_Constant) ; only in IDE and debugger
       EndIf
     EndIf
     
-    ; sort the list and fill the hilighter arrays
+    ; sort the list and fill the highlighter arrays
     SortList(TempList(), #PB_Sort_Ascending|#PB_Sort_NoCase)
     
     NbCustomKeywords = ListSize(TempList())

@@ -809,7 +809,7 @@ Procedure OptionWindowEvents(EventID)
               UpdateSourceStatus(1) ; set the changed flag
             EndIf
             
-            ; update the hilightning if EnableASM changes
+            ; update the highlighting if EnableASM changes
             ;
             OldEnableASM = *ActiveSource\EnableASM
             GetTargetOptions(*ActiveSource)
