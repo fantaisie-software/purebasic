@@ -275,8 +275,18 @@ Procedure CloseSplashScreen()
   
   If IsClosed = 0 And NoSplashScreen = 0
     IsClosed = 1
-    CloseWindow(#WINDOW_Startup)
-    FreeImage(#IMAGE_Startup)
+    CompilerIf #PB_Compiler_Debugger
+      ; Prevent debugger errors when missing Scintilla.dll causes early exit
+      If IsWindow(#WINDOW_Startup)
+        CloseWindow(#WINDOW_Startup)
+      EndIf
+      If IsImage(#IMAGE_Startup)
+        FreeImage(#IMAGE_Startup)
+      EndIf
+    CompilerElse
+      CloseWindow(#WINDOW_Startup)
+      FreeImage(#IMAGE_Startup)
+    CompilerEndIf
   EndIf
 EndProcedure
 
