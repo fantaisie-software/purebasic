@@ -97,7 +97,7 @@ CompilerIf #CompileWindows
         CompilerEndIf
       CompilerEndIf
       
-      ; PureBasicPath$ = "C:\Users\GDupontPanon\Downloads\PureBasicEnvironment\PureBasicEnvironment\svn\v5.10\Build\PureBasic_x86\" ; Fred config
+      PureBasicPath$ = #PB_Compiler_Home
       
     CompilerEndIf
     
