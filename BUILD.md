@@ -50,7 +50,6 @@ PureBasic to open the "`PureBasic IDE.pbp`" project file and
 run it from PureBasic itself (be sure to adjust the constants in 'Compilers Options.../Contants')
 
 - The `#BUILD_DIRECTORY` constant must point to the Build/x64/ide/ folder created before by the 'make'
-- The `#PureBasicPath` constant must point to a full PureBasic installation.
 
 Don't hesitate to [drop a word] to improve this build guide, as right now it's very slim!
 
