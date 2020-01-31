@@ -699,8 +699,14 @@ Procedure IsPureBasicFile(FileName$)
           AddTabBarGadgetItem(#GADGET_FilesPanel, 0, Language("Project", "TabTitle"))
         EndIf
         
-        SetTabBarGadgetItemColor(#GADGET_FilesPanel, 0, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-        SetTabBarGadgetItemColor(#GADGET_FilesPanel, 0, #PB_Gadget_BackColor, #COLOR_ProjectInfo)
+        CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
+          SetTabBarGadgetItemColor(#GADGET_FilesPanel, 0, #PB_Gadget_FrontColor, GetCocoaColor("textColor"))
+          SetTabBarGadgetItemColor(#GADGET_FilesPanel, 0, #PB_Gadget_BackColor, GetCocoaColor("controlAccentColor"))
+        CompilerElse
+          SetTabBarGadgetItemColor(#GADGET_FilesPanel, 0, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+          SetTabBarGadgetItemColor(#GADGET_FilesPanel, 0, #PB_Gadget_BackColor, #COLOR_ProjectInfo)
+        CompilerEndIf
+        
         SetTabBarGadgetItemImage(#GADGET_FilesPanel, 0, OptionalImageID(#IMAGE_FilePanel_Project))
         
         UpdateProjectInfo()
