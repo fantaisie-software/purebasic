@@ -26,6 +26,7 @@ Welcome to __PureBasic OpenSources Projects__, a central public repository to ac
 - [Contributing](#contributing)
 - [Credits](#credits)
     - [Libmba](#libmba)
+    - [Monokai Theme](#monokai-theme)
     - [Silk Icon Set](#silk-icon-set)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
@@ -120,13 +121,22 @@ The MIT License
 Copyright (c) 2001-2005 Michael B. Allen <mba2000 ioplex.com>
 ```
 
+## Monokai Theme
+
+- [`PureBasicIDE/Preferences.pb`][MonokaiTheme]
+
+The PureBasic IDE uses the Monokai color scheme, created by [Wimer Hazenberg].
+
+    Monokai, copyright by Wimer Hazenberg (https://monokai.nl)
+
+The Monokai scheme is free to use provided that the above copyright notice and link to the author website are included in any work using the scheme.
+
 ## Silk Icon Set
 
 - [`PureBasicIDE/data/SilkTheme/`][SilkTheme]
 
 The __Silk Icon Theme__ included with PureBasic and SpiderBasic IDEs is based on [Mark James]'s __[Silk icon set 1.3]__, released under [CC-BY-2.5].
 Some icons were slightly modified by [Timo «Freak» Harter].
-
 
 # Acknowledgements
 
@@ -227,6 +237,7 @@ work in the PureBasic package.
 [GPL License]: ./LICENSE "The GNU General Public License v3"
 [Fantaisie License]: ./LICENSE-FANTAISIE "The Fantaisie Software License"
 [CONTRIBUTING.md]: ./CONTRIBUTING.md "Contributors' Guidelines"
+[MonokaiTheme]: ./PureBasicIDE/Preferences.pb#L5621 "View the source file containing the Monokai color scheme"
 
 <!-- project folders -->
 
@@ -240,5 +251,6 @@ work in the PureBasic package.
 [Gary «Kale» Willoughby]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=34 "Visit Gary «Kale» Willoughby's profile on the PureBasic Forums"
 [Mark James]: https://twitter.com/markjames "Visit Mark James's profile on Twitter"
 [Timo «Freak» Harter]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=25 "Visit Timo «Freak» Harter's profile on the PureBasic Forums"
+[Wimer Hazenberg]: https://www.monokai.nl/ "Visit Wimer Hazenberg's website"
 
 <!-- EOF -->

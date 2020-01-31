@@ -57,7 +57,10 @@ Procedure OpenAboutWindow()
               "Thanks to Neil Hodgson for the scintilla" + #NewLine +
               "editing component." + #NewLine +
               #NewLine +
-              "Scintilla © 1998-2017 Neil Hodgson <neilh@scintilla.org> "
+              "Scintilla © 1998-2017 Neil Hodgson <neilh@scintilla.org> " + #NewLine +
+              #NewLine +
+              "Thanks to Wimer Hazenberg for Monokai color palette." + #NewLine +
+              "http://www.monokai.nl/"
       
       ; For better debugging
       ;
