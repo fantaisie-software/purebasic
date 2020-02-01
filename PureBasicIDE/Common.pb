@@ -22,13 +22,13 @@ CompilerIf #SpiderBasic
 CompilerEndIf
 
 ;
-;- Hilightning Colors
+;- Highlighting Colors
 ;
 ; Colors now managed in an array for easier extension and less code
 ;
 ; NOTE: The values of these constants must correspond to the keys in the
 ;       language section that display them. The order in which the settings
-;       are displayed in the prefs is independant, as it can be set in the dialog xml
+;       are displayed in the prefs is independent, as it can be set in the dialog xml
 ;       The first index must be 0 so #COLOR_Last+1 is the total number of colors
 ;
 ;       Also the order of the Keys and color sets at the bottom of Preferences.pb
@@ -1049,7 +1049,7 @@ Enumeration 0
   
   #MENU_ProcedureListUpdate
   
-  #MENU_LastShortcutItemDummy ; to avoid changing #MENU_LastShortcutItem everytime
+  #MENU_LastShortcutItemDummy ; to avoid changing #MENU_LastShortcutItem every time
   #MENU_LastShortcutItem = #MENU_LastShortcutItemDummy-1
   
   #MENU_Form_AddItem
@@ -1517,7 +1517,7 @@ EndEnumeration
 ;
 #MATCH_OS        = 1 << 0 ; OS must match
 #MATCH_Version   = 1 << 1 ; Version must match (4.40 etc)
-#MATCH_VersionUp = 1 << 2 ; Version and any highter minor versions match (4.40 = 4.41, but not 4.40=4.50)
+#MATCH_VersionUp = 1 << 2 ; Version and any higher minor versions match (4.40 = 4.41, but not 4.40=4.50)
 #MATCH_Beta      = 1 << 3 ; Alpha/Beta version must match
 #MATCH_BetaUp    = 1 << 4 ; Alpha/Beta versions >= the input match (including final version)
 #MATCH_Processor = 1 << 5 ; Processor must match
@@ -1935,7 +1935,7 @@ Structure PTR
   StructureUnion
     a.a[0]
     b.b[0] ; even when declaring with an array like this, we still
-    c.c[0] ; can use the single \b, which is perfect for a universial
+    c.c[0] ; can use the single \b, which is perfect for a universal
     w.w[0] ; pointer variable
     u.u[0]
     l.l[0]
@@ -2309,7 +2309,7 @@ Interface ToolsPanelInterface
   DestroyFunction()              ; called when the item is destroyed
   
   ResizeHandler(PanelWidth, PanelHeight)   ; called after the panel is resized
-  EventHandler(EventGadgetID)              ; called for unhandled events in the main window (isn't neccesarily an event for this item, so always check)
+  EventHandler(EventGadgetID)              ; called for unhandled events in the main window (isn't necessarily an event for this item, so always check)
   
   PreferenceLoad()    ; called when the preferences are loaded (each tool should have it's own group!)
   PreferenceSave()    ; called when the preferences are saved to file
@@ -2402,7 +2402,7 @@ EndStructure
 ;- Global Data
 ;
 
-; OS dependant values:
+; OS dependent values:
 ;
 Global ToolbarHeight, ToolbarTopOffset, StatusbarHeight, MenuHeight, ButtonBackgroundColor
 Global ProjectInfoFrameHeight
@@ -2504,7 +2504,7 @@ Global AlwaysHideLog, ErrorLogVisible
 Global CustomKeywordFile$
 Global ToolsPanelUseFont, ToolsPanelUseColors
 
-; OS specific hilightning color representation:
+; OS specific highlighting color representation:
 ;
 Global *ASMKeywordColor, *BackgroundColor, *BasicKeywordColor, *CommentColor, *ConstantColor, *LabelColor
 Global *NormalTextColor, *NumberColor, *OperatorColor, *PointerColor, *PureKeywordColor, *SeparatorColor, *CustomKeywordColor
@@ -2678,7 +2678,7 @@ Global NewList CustomKeywordList.s()
 ; is no speed concern here
 ;
 ; Note: When scanning all open files, it is not enough to simply walk this
-;  list, as we need to track wether stuff is inside a macro and for that
+;  list, as we need to track whether stuff is inside a macro and for that
 ;  we need to walk the items in order!
 ;
 Global NewList SourceItemHeap.SourceItem()
@@ -2730,8 +2730,8 @@ EndProcedure
 
 
 CompilerIf #PB_Compiler_Debugger
-  ; Useful to ensures a ProcessEvent() is NEVER called in the debugger callback as it can generate very wierd bug
-  ; (new debugger event is processed While being in a debugger event. It is wrong, As it can changes the display order, and creates wierd bug).
+  ; Useful to ensures a ProcessEvent() is NEVER called in the debugger callback as it can generate very weird bug
+  ; (new debugger event is processed While being in a debugger event. It is wrong, As it can changes the display order, and creates weird bug).
   ;
   Global InDebuggerCallback = #False
 CompilerEndIf

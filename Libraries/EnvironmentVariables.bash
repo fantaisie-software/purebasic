@@ -37,7 +37,7 @@ fi
 if [ "$1" == "LINUX" ]; then
 
 # we use -D_GNU_SOURCE to avoid __isoc99sprintf() etc. which is only glibc7
-# we don't put -Winvalid-pch as we can temporarely put NO_UNICODE_ALIASES even for libs with precompiled headers
+# we don't put -Winvalid-pch as we can temporarily put NO_UNICODE_ALIASES even for libs with precompiled headers
 export PB_GCC_ANSI="gcc -D_GNU_SOURCE -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 -DLINUX -Wimplicit -fsigned-char -fno-ident -fshort-wchar -fno-optimize-sibling-calls -Wno-write-strings -Wno-pointer-sign -fno-stack-protector -Wno-deprecated-declarations -I$PB_LIBRARIES -D$PB_PROCESSOR"
 export PB_GPP_ANSI="g++ -DLINUX -D_GNU_SOURCE -fPIC -fno-stack-protector -fsigned-char -fno-ident -fshort-wchar -Wno-write-strings -Wno-deprecated-declarations -I$PB_LIBRARIES -D$PB_PROCESSOR"
 export PB_OGREFLAGS="-O2 -fvisibility=hidden -Wno-narrowing"
@@ -143,7 +143,7 @@ if [ "x$PB_COCOA" == "x" ]; then
 
 	export PB_CARBON=1
 	export PB_TARGET_POSTFIX=
-	echo "Using Carbon subsytem"
+	echo "Using Carbon subsystem"
 else
 	export PB_INCLUDE=-DPB_COCOA
 	export PB_LIBRARYMAKER="pblibrarymaker /NOLOG /CONSTANT COCOA /CONSTANT MACOS /CONSTANT $PB_PROCESSOR"
@@ -153,7 +153,7 @@ else
 	export PB_COCOA=1
 	export PB_TARGET_POSTFIX=_cocoa
 	export PB_CARBON= # remove the carbon env var, if set
-	echo "Using Cocoa subsytem"
+	echo "Using Cocoa subsystem"
 fi
 
 fi

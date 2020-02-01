@@ -27,7 +27,7 @@ CompilerIf #CompileMacCocoa
   #kThemeBrushAlertBackgroundActive = 3
   #noErr = 0
   
-  ; the HIThemeBrushCreateCGColor() is 10.4+ only, but the x86 version is atleast 10.4 anyway
+  ; the HIThemeBrushCreateCGColor() is 10.4+ only, but the x86 version is at least 10.4 anyway
   ImportC ""
     HIThemeBrushCreateCGColor(Brush, *Color)
     CGColorGetComponents(Color)
@@ -204,6 +204,31 @@ CompilerIf #CompileMacCocoa
   
   Procedure OpenWebBrowser(Url$)
     RunProgram("open", Url$, "")
+  EndProcedure
+  
+  Procedure GetCocoaColor(NSColorName.s)
+    Protected.CGFloat r, g, b, a
+    Protected NSColor, NSColorSpace
+    
+    ; There is no controlAccentColor on macOS < 10.14
+    If NSColorName = "controlAccentColor" And OSVersion() < #PB_OS_MacOSX_10_14
+      ProcedureReturn $D5ABAD
+    EndIf
+    
+    ; There are no system colors on macOS < 10.10
+    If Left(NSColorName, 6) = "system" And OSVersion() < #PB_OS_MacOSX_10_10
+      NSColorName = LCase(Mid(NSColorName, 7, 1)) + Mid(NSColorName, 8)
+    EndIf
+    
+    NSColorSpace = CocoaMessage(0, 0, "NSColorSpace deviceRGBColorSpace")
+    NSColor = CocoaMessage(0, CocoaMessage(0, 0, "NSColor " + NSColorName), "colorUsingColorSpace:", NSColorSpace)
+    If NSColor
+      CocoaMessage(@r, NSColor, "redComponent")
+      CocoaMessage(@g, NSColor, "greenComponent")
+      CocoaMessage(@b, NSColor, "blueComponent")
+      CocoaMessage(@a, NSColor, "alphaComponent")
+      ProcedureReturn RGBA(r * 255.0, g * 255.0, b * 255.0, a * 255.0)
+    EndIf
   EndProcedure
   
 CompilerEndIf

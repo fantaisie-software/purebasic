@@ -106,7 +106,7 @@ Procedure Debugger_UpdateWindowPreferences()
   
 EndProcedure
 
-; checks if an event is comming from a debugger window and dispactes it
+; checks if an event is coming from a debugger window and dispactes it
 ; to the right procedure
 ; returns 1 if it was a debugger event and 0 if not
 ;

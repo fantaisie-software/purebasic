@@ -203,7 +203,7 @@ CompilerIf #CompileWindows = 0
       
     EndIf
     
-    ; Ok, we received atleast a part of the struct. Get the rest.
+    ; Ok, we received at least a part of the struct. Get the rest.
     ;
     Received = Result
     While Received < SizeOf(CommandInfo)
@@ -686,10 +686,3 @@ CompilerIf #CompileWindows = 0
   EndDataSection
   
 CompilerEndIf
-
-
-; IDE Options = PureBasic 5.20 beta 12 LTS (Linux - x64)
-; CursorPosition = 538
-; FirstLine = 515
-; Folding = ---
-; EnableXP

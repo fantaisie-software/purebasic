@@ -100,7 +100,7 @@ Procedure UpdateExplorerPatterns()
   ForEver
   
   
-  ; sanitise the selected patterns to avoid a crash when it is too hight (may heppen if you remove a tool!)
+  ; sanitize the selected patterns to avoid a crash when it is too high (may happen if you remove a tool!)
   ;
   If ExplorerPattern >= Count Or ExplorerPattern < -1
     ExplorerPattern = 0
@@ -443,7 +443,7 @@ Procedure Explorer_FavoritesDropEvent()
     EndIf
   EndIf
   
-  ; remove any old entries equal to the draged ones
+  ; remove any old entries equal to the dragged ones
   ForEach ExplorerFavorites()
     If IsEqualFile(File$, ExplorerFavorites())
       If ListIndex(ExplorerFavorites()) < Position

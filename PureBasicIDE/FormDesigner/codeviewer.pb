@@ -764,7 +764,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                 EndIf
             EndSelect ;}
             
-            ; additionnal parameters (min, max...)
+            ; additional parameters (min, max...)
             Select FormWindows()\FormGadgets()\type ;{
               Case #Form_Type_Date                  ;{
                 If flags <> ""

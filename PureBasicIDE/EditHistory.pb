@@ -16,6 +16,9 @@ UseSQLiteDatabase()
 ; disable this only for testing
 #HISTORY_WRITE_ASYNC = #True
 
+; enable to purge sessions which don't contain any edit events
+#HISTORY_PURGE_EMPTY_SESSIONS = #True
+
 ; keep previous versions of displayed sources cached
 ; to speed up loading (as reconstructing multiple diffs takes time)
 ; especially when browsing within the history of one file, this helps a lot
@@ -260,7 +263,7 @@ CompilerIf #CompileWindows
       ; Session table:
       ;   session_id : primary key of table
       ;   os_id      : ID created by Session_Start() to detect dead instances. set to null for properly ended sessions
-      ;   version    : Compiler vesion (default compiler of the IDE)
+      ;   version    : Compiler version (default compiler of the IDE)
       ;   user       : OS user name
       ;   start_time : session start time
       ;   end_time   : session end time (0 for still running)
@@ -441,7 +444,6 @@ CompilerIf #CompileWindows
       ; Now purge old sessions if needed
       ;
       PurgeList$ = ""
-      FirstPurged = #True
       
       If HistoryPurgeMode = 1
         
@@ -460,12 +462,7 @@ CompilerIf #CompileWindows
           
           ; record sessions for deleting
           While NextDatabaseRow(#DB_History)
-            If FirstPurged
-              FirstPurged = #False
-            Else
-              PurgeList$ + ", "
-            EndIf
-            PurgeList$ + Str(GetDatabaseLong(#DB_History, 0))
+            PurgeList$ + ", " + Str(GetDatabaseLong(#DB_History, 0))
           Wend
           
           FinishDatabaseQuery(#DB_History)
@@ -487,12 +484,7 @@ CompilerIf #CompileWindows
         If DatabaseQuery(#DB_History, sql$)
           ; record sessions for deleting
           While NextDatabaseRow(#DB_History)
-            If FirstPurged
-              FirstPurged = #False
-            Else
-              PurgeList$ + ", "
-            EndIf
-            PurgeList$ + Str(GetDatabaseLong(#DB_History, 0))
+            PurgeList$ + ", " + Str(GetDatabaseLong(#DB_History, 0))
           Wend
           
           FinishDatabaseQuery(#DB_History)
@@ -500,7 +492,32 @@ CompilerIf #CompileWindows
         
       EndIf
       
+      CompilerIf #HISTORY_PURGE_EMPTY_SESSIONS
+        NewList FoundSessionID$()
+        If DatabaseQuery(#DB_History, "SELECT session_id FROM session")
+          While NextDatabaseRow(#DB_History)
+            AddElement(FoundSessionID$())
+            FoundSessionID$() = GetDatabaseString(#DB_History, 0)
+          Wend
+          FinishDatabaseQuery(#DB_History)
+          
+          ForEach FoundSessionID$()
+            If DatabaseQuery(#DB_History, "SELECT COUNT(*) FROM event WHERE session_id='" + FoundSessionID$() + "'")
+              If NextDatabaseRow(#DB_History)
+                If GetDatabaseLong(#DB_History, 0) = 0
+                  PurgeList$ + ", " + FoundSessionID$()
+                EndIf
+              EndIf
+              FinishDatabaseQuery(#DB_History)
+            EndIf
+          Next
+        EndIf
+        FreeList(FoundSessionID$())
+      CompilerEndIf
+      
       If PurgeList$ <> ""
+        ; strip beginning ", "
+        PurgeList$ = Mid(PurgeList$, 3)
         ; purge them all at once
         DatabaseUpdate(#DB_History, "BEGIN TRANSACTION")
         DatabaseUpdate(#DB_History, "DELETE FROM event WHERE session_id IN (" + PurgeList$ + ")")
@@ -840,7 +857,7 @@ CompilerIf #CompileWindows
           StorageSize = *Event\Size
           *StorageBuffer = *Event\Content
           
-          ; attemt to compress
+          ; attempt to compress
           CompilerIf #ENABLE_HISTORY_COMPRESSION
             CompressedSize = compressBound(*Event\Size) + 4
             *CompressedBuffer = AllocateMemory(CompressedSize)
@@ -886,7 +903,7 @@ CompilerIf #CompileWindows
             EndIf
           EndIf
           
-          ; attemt to compress
+          ; attempt to compress
           CompilerIf #ENABLE_HISTORY_COMPRESSION
             CompressedSize = compressBound(StorageSize) + 4
             *CompressedBuffer = AllocateMemory(CompressedSize)
@@ -1258,7 +1275,7 @@ CompilerIf #CompileWindows
             SetCodeViewer(#GADGET_History_Source, *File\Buffer, *File\Encoding)
             ; no FreeMemory(), as the loaded buffer lives on in the cache!
           Else
-            ; source was empty, or an error occured
+            ; source was empty, or an error occurred
             SetCodeViewer(#GADGET_History_Source, @"", 0)
           EndIf
           
@@ -1316,7 +1333,7 @@ CompilerIf #CompileWindows
               EndIf
             EndIf
             
-            ; only add further info if it differes from the current one
+            ; only add further info if it differs from the current one
             ;
             If User$ <> CurrentUser$
               Session$ + " - " + User$

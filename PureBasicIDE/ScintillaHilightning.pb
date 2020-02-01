@@ -61,7 +61,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       Colors(i)\DisplayValue = Colors(i)\UserValue
     Next i
     
-    ; for these basic colors, there is no choise (checkbox is hidden)
+    ; for these basic colors, there is no choice (checkbox is hidden)
     ; so nothing to check for them
     ;   #COLOR_GlobalBackground
     ;   #COLOR_NormalText
@@ -217,7 +217,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
   EndProcedure
   
-  ; translate the hilightning colors into the os specific format for a faster hilightning
+  ; translate the highlighting colors into the os specific format for a faster highlighting
   ;
   Procedure SetUpHilightningColors()
     ; NOTE: When inventing new code styles, update the SetBackgroundColor() procedure to fit!
@@ -238,7 +238,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     *ModuleColor        = 15
     *BadEscapeColor     = 16
     
-    ; Setup the coloring (do it here, so it affects hilightning changes)
+    ; Setup the coloring (do it here, so it affects highlighting changes)
     ;
     If *ActiveSource ; only if a source is loaded
       SendEditorFontMessage(#STYLE_DEFAULT, EditorFontName$, EditorFontSize)
@@ -555,7 +555,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   Procedure HilightCallback(*StringStart.Ascii, Length, *Color, IsBold, TextChanged)
     
-    ; replace the text only if it was changed by the hilightningengine (case correction)
+    ; replace the text only if it was changed by the highlighting engine (case correction)
     ;
     If TextChanged
       ; Very strange: If the last line es empty and the previous has a keyword (case correction) at the end
@@ -654,13 +654,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
   EndProcedure
   
-  Procedure UpdateHilightning()   ; hilight everything after a prefs update
+  Procedure UpdateHilightning()   ; highlight everything after a prefs update
     
     If EnableColoring Or EnableCaseCorrection
       
       If *ActiveSource\IsCode
         
-        ; Seems to be a scintilla bug: when we update the hilightning (for example set EnableASM mode)
+        ; Seems to be a scintilla bug: when we update the highlighting (for example set EnableASM mode)
         ; and the update modifies the text content (for example case-sensitivity) inside
         ; a folded procedure, we get a mixup and a crash (at a later point)
         ; I think this is a scintilla issue.
@@ -694,10 +694,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         SendEditorMessage(#SCI_SETUNDOCOLLECTION, #False, 0)
         
         If EnableColoring
-          SendEditorMessage(#SCI_STARTSTYLING, 0, $FFFFFF) ; also overwrites the brace hilights
+          SendEditorMessage(#SCI_STARTSTYLING, 0, $FFFFFF) ; also overwrites the brace highlights
         EndIf
         
-        ; now call the hilightning engine
+        ; now call the highlighting engine
         ;
         Modified = GetSourceModified()  ; because the case correction changes the modified state!
         HilightningEngine(*InBuffer, InBufferLength, SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0), @HilightCallback(), 1)
@@ -716,7 +716,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         
         ; non-pb files
         InBufferLength = SendEditorMessage(#SCI_GETTEXTLENGTH, 0, 0)
-        SendEditorMessage(#SCI_STARTSTYLING, 0, $FFFFFF) ; also overwrites the brace hilights
+        SendEditorMessage(#SCI_STARTSTYLING, 0, $FFFFFF) ; also overwrites the brace highlights
         SendEditorMessage(#SCI_SETSTYLING, InBufferLength, *NormalTextColor)
         
       EndIf
@@ -726,7 +726,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   EndProcedure
   
   
-  ; Updates the folding states only, starting at the given line until atleast
+  ; Updates the folding states only, starting at the given line until at least
   ; lastline. The update will go further as long as the folding level changes,
   ; but it will stop at lastline when no changes are made.
   ; (this way it is faster while still doing a correct update)
@@ -748,7 +748,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       highestline = *Source\Parser\SourceItemCount - 1
     EndIf
     
-    If firstline < 0 ; could happen when re-hilighting the first line
+    If firstline < 0 ; could happen when re-highlighting the first line
       firstline = 0
     EndIf
     
@@ -999,7 +999,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   Procedure StreamTextIn(*Buffer, Length)
     NoUserChange = 1
-    SendEditorMessage(#SCI_CLEARALL, 0, 0) ; should compleetly erase the old document and create a new one
+    SendEditorMessage(#SCI_CLEARALL, 0, 0) ; should completely erase the old document and create a new one
     SendEditorMessage(#SCI_SETTEXT, 0, *Buffer)
     SendEditorMessage(#SCI_EMPTYUNDOBUFFER, 0, 0) ; so this loading cannot be undone
     NoUserChange = 0
@@ -1079,7 +1079,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   
   Procedure SetSourceModified(Modified)
-    If *ActiveSource ; Fix a wierd crash on OS X
+    If *ActiveSource ; Fix a weird crash on OS X
       If Modified
         *ActiveSource\ScintillaModified = 1
       Else
@@ -1224,7 +1224,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ProcedureReturn GetLine(Index, *Source)
     EndIf
     
-    ; add any preceeding lines
+    ; add any preceding lines
     FirstLine = Index
     While FirstLine > 0 And HasLineContinuation(FirstLine-1, *Source)
       FirstLine - 1
@@ -1644,7 +1644,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               *WordStart + #CharSize
             EndIf
             
-            ; check if the word is preceeded by a '\' or a '.' or a '#' (then it is never a keyword)
+            ; check if the word is preceded by a '\' or a '.' or a '#' (then it is never a keyword)
             While *Cursor > *Start And (*Cursor\c = ' ' Or *Cursor\c = 9)
               *Cursor - #CharSize
             Wend
@@ -1706,7 +1706,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                   ;   For i = 1 To 1 +
                   ;                1
                   ;
-                  ; In one case we cant to ignore the "To" in the other case it is the stop keyword.
+                  ; In one case we can't to ignore the "To" in the other case it is the stop keyword.
                   ; Fortunately, in one case, the token is "," and in the other it is "+" or "|" and there is
                   ; no overlap. So just check what continuation token we have to decide whether to ignore the To
                   ; or not.
@@ -1768,7 +1768,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     ; if we ended here on a newline, it means the first expression token
     ; is actually on the next line
-    ; after this we can not hit a newline again, because the line must have atleast a continuation token
+    ; after this we can not hit a newline again, because the line must have at least a continuation token
     If *ExpressionStart\c = 10
       *ExpressionStart + #CharSize
       
@@ -2101,7 +2101,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         Line      = SendEditorMessage(#SCI_LINEFROMPOSITION, Cursor, 0)
         LineStart = SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0)
         
-        If Cursor > LineStart ; we want to hilight the brace before, not after the cursor!
+        If Cursor > LineStart ; we want to highlight the brace before, not after the cursor!
           Cursor-1
         EndIf
         
@@ -2169,7 +2169,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 EndIf
                 
               ElseIf *Cursor\c = ')' Or *Cursor\c = ']' Or *Cursor\c = '}'
-                ; we found a mismatch here, so hilight both with BRACEGOOD, but change the color to indicate a mismatch
+                ; we found a mismatch here, so highlight both with BRACEGOOD, but change the color to indicate a mismatch
                 bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
                 goodbrace = -1
                 Break
@@ -2245,7 +2245,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 EndIf
                 
               ElseIf *Cursor\c = '(' Or *Cursor\c = '[' Or *Cursor\c = '{'
-                ; we found a mismatch here, so hilight both with BRACEGOOD, but change the color to indicate a mismatch
+                ; we found a mismatch here, so highlight both with BRACEGOOD, but change the color to indicate a mismatch
                 bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
                 goodbrace = -1
                 Break
@@ -2257,30 +2257,30 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             
           EndIf
           
-          ; Note: the bad brace hilighting is only capable of marking one brace, but if we
+          ; Note: the bad brace highlighting is only capable of marking one brace, but if we
           ; find 2 mismatching braces (ie "[ ... )") we use the "good brace" mark but change the
           ; color so it indicates the right thing:
           ;
           If goodbrace = 1
-            ; hilight 2 braces in good color
+            ; highlight 2 braces in good color
             SendEditorMessage(#SCI_STYLESETFORE, #STYLE_BRACELIGHT, Colors(#COLOR_GoodBrace)\DisplayValue)
             SendEditorMessage(#SCI_BRACEHIGHLIGHT, Cursor, bracepos)
           ElseIf goodbrace = -1
-            ; hilight 2 braces in bad color
+            ; highlight 2 braces in bad color
             SendEditorMessage(#SCI_STYLESETFORE, #STYLE_BRACELIGHT, Colors(#COLOR_BadBrace)\DisplayValue)
             SendEditorMessage(#SCI_BRACEHIGHLIGHT, Cursor, bracepos)
           Else
-            ; hilight one brace as bad (no color change)
+            ; highlight one brace as bad (no color change)
             SendEditorMessage(#SCI_BRACEBADLIGHT, bracepos, 0)
           EndIf
           
         ElseIf SecondTry = #False And char <> 10 And char <> 13
           ; Try again with the character following the cursor if there was no brace before
-          ; The Cursor+2 is because we substract 1 again inside the call
+          ; The Cursor+2 is because we subtract 1 again inside the call
           UpdateBraceHilight(Cursor+2, #True)
           
         Else
-          ; remove all brace hilighting
+          ; remove all brace highlighting
           SendEditorMessage(#SCI_BRACEBADLIGHT, -1, 0)
         EndIf
         
@@ -2295,7 +2295,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   Procedure UpdateKeywordHilight(selStart, SetHilight)
     Static NewList Items.SourceItemPair() ; static to avoid re-creation on every call
     
-    ; Clear any old hilight
+    ; Clear any old highlight
     ;
     SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMatch)
     SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
@@ -2774,7 +2774,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               foldlevel = ScintillaSendMessage(EditorGadget, #SCI_GETFOLDLEVEL, *ActiveSource\CurrentLineOld-1, 0)
               OldLine$ = GetLine(*ActiveSource\CurrentLineOld-1) ; use the case corrected line!
               
-              ; update hilightning of the old line, as now keywords are not hilighted with the cursor inside (so do it when the mouse is moved away)
+              ; update highlighting of the old line, as now keywords are not highlighted with the cursor inside (so do it when the mouse is moved away)
               ;
               If (EnableColoring Or EnableCaseCorrection) And OldLine$ <> ""
                 HilightLine$ = OldLine$+#NewLine
@@ -2796,7 +2796,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                   SendEditorMessage(#SCI_STARTSTYLING, HilightOffset, $FFFFFF)
                 EndIf
                 
-                ; now call the hilightning engine
+                ; now call the highlighting engine
                 ;
                 Modified = GetSourceModified()  ; because the case correction changes the modified state!
                 HilightningEngine(*HilightBuffer, MemoryAsciiLength(*HilightBuffer), -1, @HilightCallback(), 1)
@@ -2829,17 +2829,17 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             EndIf
           EndIf
           
-          ; hilight matching braces
+          ; highlight matching braces
           UpdateBraceHilight(selStart)
           
-          ; hilight matching keywords
+          ; highlight matching keywords
           If selStart = selEnd
             UpdateKeywordHilight(selStart, #True)
           Else
-            UpdateKeywordHilight(selStart, #False)  ; remove any old hilight
+            UpdateKeywordHilight(selStart, #False)  ; remove any old highlight
           EndIf
           
-          ; hilight strings matching the selection
+          ; highlight strings matching the selection
           UpdateSelectionRepeat(selStart, selEnd)
           
           *ActiveSource\CurrentLineOld = *ActiveSource\CurrentLine
@@ -2900,7 +2900,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         
         ; if the last line needed visible is a fold point we must expand that!
         ; -> fixes a problem when hitting enter on a folded procedure line
-        ; -> second probem: typing "Procedure" above a folded procedure expands that one too!
+        ; -> second problem: typing "Procedure" above a folded procedure expands that one too!
         ;    (so check If the cursor is actually on this last line (to check for the 1st condition))
         ;
         If ScintillaSendMessage(EditorGadget, #SCI_GETFOLDLEVEL, lastLine, 0) & #SC_FOLDLEVELHEADERFLAG And ScintillaSendMessage(EditorGadget, #SCI_GETFOLDEXPANDED, lastLine, 0) = 0
@@ -2969,7 +2969,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 
                 ; This trick allows us to undo the whole newline action including the
                 ; indent in one step without glitches. We first undo the return operation,
-                ; then instert the newline + prefix for the next line.
+                ; then insert the newline + prefix for the next line.
                 ;
                 ; All other combinations (#SCI_BEGINUNDOACTION etc) will cause the cursor
                 ; to be in the wrong position after an undo.
@@ -3007,7 +3007,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           
         EndIf
         UpdateBraceHilight(SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0))
-        AutoCompleteKeywordInserted = 0 ; in everycase, set ths variable to 0 now!
+        AutoCompleteKeywordInserted = 0 ; in everycase, set this variable to 0 now!
         
         
       Case #SCN_STYLENEEDED
@@ -3038,7 +3038,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #False, 0)
               
               If EnableColoring
-                ScintillaSendMessage(EditorGadget, #SCI_STARTSTYLING, HilightOffset, $1F) ; do not overwrite indicators (brace hilight)
+                ScintillaSendMessage(EditorGadget, #SCI_STARTSTYLING, HilightOffset, $1F) ; do not overwrite indicators (brace highlight)
               EndIf
               
               Modified = GetSourceModified()
@@ -3188,8 +3188,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ProcedureReturn 0
     EndProcedure
     
-    ; Spechial handler for the doubleclick on linux, as the Scintilla event does
-    ; not provide the modifier keys, so we do not know if Ctrl+Doubleclick was done.
+    ; Spechial handler for the double-click on linux, as the Scintilla event does
+    ; not provide the modifier keys, so we do not know if Ctrl+Double-click was done.
     ;
     ProcedureC ScintillaDoubleclickHandler(*Widget, *Event.GdkEventButton, user_data)
       
@@ -3325,7 +3325,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     
     ; add *@$# to the word characters, so they get included in the selection
-    ; when you doubleclick a word (to so select constants/variables easily)
+    ; when you double-click a word (to so select constants/variables easily)
     
     WordChars$ = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$@#*"
     For k = 192 To 255
@@ -3351,7 +3351,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     ;  SendEditorMessage(#SCI_SETBUFFEREDDRAW, 0, 0)
     ;  SendEditorMessage(#SCI_SETTWOPHASEDRAW, 0, 0) ; this produces no flickering, so we can turn it off
     
-    ; Set up the hilightning for this GAdget: (moved to affect Prefs changes as well)
+    ; Set up the highlighting for this GAdget: (moved to affect Prefs changes as well)
     SetUpHilightningColors()
     
   EndProcedure
@@ -3362,7 +3362,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     If State
       ScintillaSendMessage(Gadget, #SCI_SETCARETLINEVISIBLE, #False)
-      ;ScintillaSendMessage(Gadget, #SCI_SETCARETSTYLE, 0) ; Hide the caret - Don't hide it as we can still select block of code, so it does look wierd
+      ;ScintillaSendMessage(Gadget, #SCI_SETCARETSTYLE, 0) ; Hide the caret - Don't hide it as we can still select block of code, so it does look weird
     Else
       ScintillaSendMessage(Gadget, #SCI_SETCARETLINEVISIBLE, #True)
       ;ScintillaSendMessage(Gadget, #SCI_SETCARETSTYLE, 1) ; Show the caret

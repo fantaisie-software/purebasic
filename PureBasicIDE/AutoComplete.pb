@@ -767,7 +767,7 @@ Procedure.s AutoComplete_IsOffsetOf(Line$, Column)
         ; need "OffsetOf" now (we must be on the 'F' now then)
         If *Cursor >= *Buffer + 7*#CharSize And CompareMemoryString(*Cursor-7*#CharSize, @"OffsetOf", #PB_String_NoCase, 8) = #PB_String_Equal
           
-          ; check what preceeds the "OffsetOf"
+          ; check what precedes the "OffsetOf"
           If *Cursor = *Buffer + 7*#CharSize Or ValidCharacters(PeekC(*Cursor - 8*#CharSize)) = 0
             ; success
             ProcedureReturn Name$
@@ -803,7 +803,7 @@ Procedure OpenAutoCompleteWindow()
   ;   multiple instances of this procedure to be running. (the next one is triggered while the first calls OpenWindow etc)
   ;
   ;   To solve it, we change the autocomplete handling to open the window only once (see CreateAutoCompleteWindow()),
-  ;   and then only show/hide it, which will involve no FlushEvents() and thus should work savely
+  ;   and then only show/hide it, which will involve no FlushEvents() and thus should work safely
   ;
   If AutoCompleteWindowReady And *ActiveSource And *ActiveSource\IsCode
     
@@ -1205,7 +1205,7 @@ Procedure AutoCompleteWindowEvents(EventID)
         MainWindowEvents(EventID)
         
         ; close the window after the main window processed the event (otherwise EventWindow() does a different output!?)
-        ; note that the main window event could have allready closed the window!!
+        ; note that the main window event could have already closed the window!!
         AutoComplete_Close()
         
         ProcedureReturn

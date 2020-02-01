@@ -25,7 +25,7 @@ CompilerIf #CompileWindows
       MessageRequester("Error", "Code: " + Str(Code) + #NewLine + "Message: " + Buffer$)
     EndProcedure
     
-    ; Declare a macro which can helps a lot to localize wierd bugs
+    ; Declare a macro which can helps a lot to localize weird bugs
     ;
     Procedure _TestHeaps(File$, Line)
       Protected StringHeap, MemoryBase, MemoryHeap

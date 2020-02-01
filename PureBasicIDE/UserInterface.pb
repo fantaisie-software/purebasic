@@ -14,7 +14,7 @@ Procedure CreateIDEMenu()
   
   ; note: there is no flicker fix directly in here. The code that calls CreateIDEMenu()
   ; is responsible for calling Start.../StopFlickerFix()
-  ; this allows for more flexibility in wether or not to redraw the window after the fix
+  ; this allows for more flexibility in whether or not to redraw the window after the fix
   
   If EnableMenuIcons
     *MainMenu = CreateImageMenu(#MENU, WindowID(#WINDOW_Main))
@@ -589,44 +589,54 @@ Procedure CustomizeTabBarGadget()
   CompilerEndIf
   
   CompilerIf #CompileMac
-    ;
-    ; Note: The GetThemeBrushAsColor() color below always gives me full white no matter what brush i try (except the black brush),
-    ;   so i think there is something wrong with that.
-    ;   Try the 10.4+ only alternative first in the x86 version where this is always available
-    ;
-    HIThemeBrushCreateCGColor(#kThemeBrushAlertBackgroundActive, @CGColor.i)
-    If CGColor
-      NbComponents = CGColorGetNumberOfComponents(CGColor)
-      *Components  = CGColorGetComponents(CGColor)
-      
-      If *Components And NbComponents = 2 ; its grey and alpha
-        
-        CompilerIf #PB_Compiler_Processor = #PB_Processor_x64 ; CGFloat is a double on 64 bit system
-          c = 255 * PeekD(*Components)
-        CompilerElse
-          c = 255 * PeekF(*Components)
-        CompilerEndIf
-        
-        TabBarGadgetInclude\TabBarColor = RGBA(c, c, c, $FF)
-        
-      ElseIf *Components And NbComponents = 4 ; its rgba
-        
-        CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
-          r = 255 * PeekD(*Components)
-          g = 255 * PeekD(*Components + 8)
-          b = 255 * PeekD(*Components + 16)
-        CompilerElse
-          r = 255 * PeekF(*Components)
-          g = 255 * PeekF(*Components + 4)
-          b = 255 * PeekF(*Components + 8)
-        CompilerEndIf
-        
-        TabBarGadgetInclude\TabBarColor = RGBA(r, g, b, $FF)
+    With TabBarGadgetInclude
+      If OSVersion() >= #PB_OS_MacOSX_10_14
+        \TabBarColor   = GetCocoaColor("windowBackgroundColor")
+      Else
+        ;
+        ; Note: The GetThemeBrushAsColor() color below always gives me full white no matter what brush i try (except the black brush),
+        ;   so i think there is something wrong with that.
+        ;   Try the 10.4+ only alternative first in the x86 version where this is always available
+        ;
+        HIThemeBrushCreateCGColor(#kThemeBrushAlertBackgroundActive, @CGColor.i)
+        If CGColor
+          NbComponents = CGColorGetNumberOfComponents(CGColor)
+          *Components  = CGColorGetComponents(CGColor)
+          
+          If *Components And NbComponents = 2 ; its grey and alpha
+            
+            CompilerIf #PB_Compiler_Processor = #PB_Processor_x64 ; CGFloat is a double on 64 bit system
+              c = 255 * PeekD(*Components)
+            CompilerElse
+              c = 255 * PeekF(*Components)
+            CompilerEndIf
+            
+            \TabBarColor = RGBA(c, c, c, $FF)
+            
+          ElseIf *Components And NbComponents = 4 ; its rgba
+            
+            CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+              r = 255 * PeekD(*Components)
+              g = 255 * PeekD(*Components + 8)
+              b = 255 * PeekD(*Components + 16)
+            CompilerElse
+              r = 255 * PeekF(*Components)
+              g = 255 * PeekF(*Components + 4)
+              b = 255 * PeekF(*Components + 8)
+            CompilerEndIf
+            
+            \TabBarColor = RGBA(r, g, b, $FF)
+          EndIf
+          
+          CGColorRelease(CGColor)
+        EndIf
       EndIf
-      
-      CGColorRelease(CGColor)
-    EndIf
+      \BorderColor   = GetCocoaColor("systemGrayColor")
+      \FaceColor     = GetCocoaColor("controlBackgroundColor")
+      \TextColor     = GetCocoaColor("textColor")
+    EndWith
   CompilerEndIf
+  
 EndProcedure
 
 Procedure CreateGUI()
@@ -635,6 +645,13 @@ Procedure CreateGUI()
   LoadEditorFonts()
   
   If OpenWindow(#WINDOW_Main, EditorWindowX, EditorWindowY, EditorWindowWidth, EditorWindowHeight, DefaultCompiler\VersionString$, #WINDOW_Main_Flags)
+    
+    CompilerIf #CompileMac
+      ; Quick fix for TabBarGadget And ToolbarGadget lack of transparency support
+      If OSVersion() >= #PB_OS_MacOSX_10_14
+        SetWindowColor(#WINDOW_Main, GetCocoaColor("windowBackgroundColor"))
+      EndIf
+    CompilerEndIf
     
     SmartWindowRefresh(#WINDOW_Main, 1)
     
@@ -666,7 +683,7 @@ Procedure CreateGUI()
         PanelFlags | #TabBarGadget_CloseButton
       EndIf
       
-      ; 0 height means autosize for the hight (according to the used font)
+      ; 0 height means autosize for the height (according to the used font)
       CompilerIf #CompileWindows
         TabBarGadget(#GADGET_FilesPanel, 0, 0, 0, 25, PanelFlags, #WINDOW_Main) ; Auto height doesn't look OK on Windows
         
@@ -2597,7 +2614,7 @@ Procedure EventLoopCallback()
       
       If ToolsPanelVisible
         ; switch the logsplitter with the source container, so the container is directly in the ToolsSplitter
-        ; if there is no toolspanel, the sourcecontainer is allready on the main window.
+        ; if there is no toolspanel, the sourcecontainer is already on the main window.
         ;
         If ToolsPanelSide = 0
           SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget, #GADGET_SourceContainer)

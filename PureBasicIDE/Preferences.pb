@@ -103,7 +103,7 @@ Procedure LoadPreferences()
   EnableColoring = 1
   EnableMarkers = 1
   
-  If SourcePathSet = 0 ; only load this if not allready set by commandline
+  If SourcePathSet = 0 ; only load this if not already set by commandline
     CompilerIf #SpiderBasic
       If PrefsVersion > 541 Or #CompileWindows = 0 ; We changed the default example path on Windows for SpiderBasic 2.00, so we invalidate previous pref to update it
         SourcePath$ = ReadPreferenceString("SourceDirectory", SourcePath$)
@@ -137,7 +137,7 @@ Procedure LoadPreferences()
   ; Init the color values with the PB defaults
   ;
   Restore DefaultColorSchemes
-  Read.l NbColorSchemes.l          ; read the unneded values
+  Read.l NbColorSchemes.l          ; read the unneeded values
   Read.s SchemeName$
   Read.l ToolsPanelFrontColor
   Read.l ToolsPanelBackColor
@@ -205,7 +205,7 @@ Procedure LoadPreferences()
   PreferenceGroup("Folding")
   EnableFolding    = ReadPreferenceLong("EnableFolding",  1)
   
-  ; defaut
+  ; default
   NbFoldStartWords = 9
   NbFoldEndWords = 6
   FoldStart$(1) = ";{"
@@ -2060,7 +2060,7 @@ Procedure ApplyPreferences()
   
   StartFlickerFix(#WINDOW_Main)
   
-  ; make sure unused entrys in the Arrays are empty.. in case the max values get changed
+  ; make sure unused entries in the Arrays are empty.. in case the max values get changed
   ;
   For i = FilesHistorySize + 1 To #MAX_RecentFiles
     RecentFiles(i) = ""
@@ -2559,7 +2559,7 @@ Procedure ApplyPreferences()
   ; calc which colors are actually used for display
   CalculateHilightningColors()
   
-  ; update all syntax hilighthing
+  ; update all syntax highlighthing
   ;
   *Source = *ActiveSource
   ForEach FileList()
@@ -2574,7 +2574,7 @@ Procedure ApplyPreferences()
         SetUpHilightningColors() ; needed for every gadget individually now (scintilla)
         SetBackgroundColor()
         SetLineNumberColor()
-        UpdateHilightning()   ; hilight everything after a prefs update
+        UpdateHilightning()   ; highlight everything after a prefs update
       Else
         RemoveAllColoring()
       EndIf
@@ -3325,7 +3325,7 @@ Procedure OpenPreferencesWindow()
   
   ; now tell all Tools that the preferences are opened and that they should
   ; copy the current Preferences to use them in the while the preferences are edited, so
-  ; that teh original values stay unchanged
+  ; that the original values stay unchanged
   ;
   ForEach AvailablePanelTools()
     If AvailablePanelTools()\NeedConfiguration
@@ -4935,7 +4935,7 @@ Procedure PreferencesWindowEvents(EventID)
           Read.l PreferenceToolsPanelFrontColor
           Read.l PreferenceToolsPanelBackColor
           
-          ; read the hilight colors
+          ; read the highlight colors
           For i = 0 To #COLOR_Last
             Read.l Colors(i)\PrefsValue
           Next i
@@ -5389,7 +5389,7 @@ DataSection
   
   CompilerIf #SpiderBasic
     
-    Data.l 9
+    Data.l 10
     
     ; now each color scheme. first the name string, then the front & backcolor
     ; for the toolspanel, then all the colors
@@ -5440,7 +5440,7 @@ DataSection
   CompilerElse
     
     ; total number of defined schemes:
-    Data.l 8
+    Data.l 9
     
   CompilerEndIf
   
@@ -5617,6 +5617,49 @@ DataSection
   Data.l $C08000 ; #COLOR_Module
   Data.l $464646 ; #COLOR_SelectionRepeat
   Data.l $000000 ; #COLOR_PlainBackground
+  
+  ; Based on the Monokai color scheme, copyright by Wimer Hazenberg (https://monokai.nl)
+  Data$ "Monokai"
+  Data.l $C2CFCF
+  Data.l $222827
+  Data.l $EFD966 ; #COLOR_ASMKeyword
+  Data.l $222827 ; #COLOR_Background
+  Data.l $7226F9 ; #COLOR_BasicKeyword
+  Data.l $5E7175 ; #COLOR_Comment
+  Data.l $FF81AE ; #COLOR_Constant
+  Data.l $669FE6 ; #COLOR_Label
+  Data.l $F2F8F8 ; #COLOR_NormalText
+  Data.l $FF81AE ; #COLOR_Number
+  Data.l $7226F9 ; #COLOR_Operator
+  Data.l $FF81AE ; #COLOR_Pointer
+  Data.l $2EE2A6 ; #COLOR_PureKeyword
+  Data.l $F0F8F8 ; #COLOR_Separator
+  Data.l $74DBE6 ; #COLOR_String
+  Data.l $2EE2A6 ; #COLOR_Structure
+  Data.l $808080 ; #COLOR_LineNumber
+  Data.l $222827 ; #COLOR_LineNumberBack
+  Data.l $AAAA00 ; #COLOR_Marker
+  Data.l $292929 ; #COLOR_CurrentLine
+  Data.l $C0C0C0 ; #COLOR_Selection
+  Data.l $000000 ; #COLOR_SelectionFront
+  Data.l $F0F8F8 ; #COLOR_Cursor
+  Data.l $F2F8F8 ; #COLOR_DebuggerLine
+  Data.l $F2F8F8 ; #COLOR_DebuggerLineSymbol
+  Data.l $0000FF ; #COLOR_DebuggerError
+  Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
+  Data.l $99994D ; #COLOR_DebuggerBreakPoint
+  Data.l $99994D ; #COLOR_DebuggerBreakpointSymbol
+  Data.l $1E1E1E ; #COLOR_DisabledBack
+  Data.l $669FE6 ; #COLOR_GoodBrace
+  Data.l $7226F9 ; #COLOR_BadBrace
+  Data.l $222827 ; #COLOR_ProcedureBack
+  Data.l $EFD966 ; #COLOR_CustomKeyword
+  Data.l $0080FF ; #COLOR_DebuggerWarning
+  Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
+  Data.l $808080 ; #COLOR_Whitespace
+  Data.l $2EE2A6 ; #COLOR_Module
+  Data.l $464646 ; #COLOR_SelectionRepeat
+  Data.l $222827 ; #COLOR_PlainBackground
   
   Data$ "Blue Style"
   Data.l $80FFFF

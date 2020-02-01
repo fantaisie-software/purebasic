@@ -78,6 +78,28 @@ Procedure.s GetSvnRevision()
   EndIf
 EndProcedure
 
+
+Procedure.s GetGitRevision()
+  ;Revision$ = ""
+  
+  ;git = RunProgram("git.exe", "rev-parse HEAD", GetCurrentDirectory(), #PB_Program_Open|#PB_Program_Read|#PB_Program_Hide|#PB_Program_Ascii)
+  ;If git
+  ;  Revision$ = ""
+  ;  While ProgramRunning(git)
+  ;    Revision$ + ReadProgramString(git)
+  ;  Wend
+  ;  CloseProgram(git)
+  ;EndIf
+  
+  ;If Revision$ = ""
+  ;  ProcedureReturn "0" ; fallback for the VersionNumber
+  ;Else
+  ;  ProcedureReturn Left(Revision$, 8) ; - don't return the full hash
+  ;EndIf
+  
+  ProcedureReturn "0" ; We don't use hash because we need a number for the version in the .RC
+EndProcedure
+
 ; Input: "PureBasic 4.30 Alpha 3 (Windows - x86)"
 ;
 Procedure.s MakeVersionNumber(VersionString$, SvnRevision$)
@@ -113,7 +135,7 @@ If BuildType$ And FileName$
   EndIf
   
   Version$ = GetCompilerVersion(Home$ + "Compilers\" + Compiler$)
-  Revision$ = GetSvnRevision()
+  Revision$ = GetGitRevision()
   VersionNumber$ = MakeVersionNumber(Version$, Revision$)
   
   If CreateFile(0, FileName$)

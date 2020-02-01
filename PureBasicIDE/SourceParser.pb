@@ -1346,7 +1346,7 @@ EndProcedure
 ; NOTE: *Buffer MUST be one char longer than Length and contain a NULL
 ;   at the end for some of the checks to work correctly!
 ;   Most CompareMemoryString() simply assume that the buffer is large enough still,
-;   so the NULL stops the comparisson correctly if not.
+;   so the NULL stops the comparison correctly if not.
 ;
 ;   Returns #True if the SourceItemArray was modified (and DetectChanges is true)
 ;   Note: Each line's items are always deleted and re-created, but if the content
@@ -1417,7 +1417,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
         length  = Len(BasicKeywords(k))
         compare = CompareMemoryString(ToAscii(BasicKeywords(k)), *Cursor, 1, length, #PB_Ascii)  ; Case insensitive compare
         
-        If compare = 0 And (ValidCharacters(PeekA(*Cursor + length)) = 0 Or PeekB(*Cursor + length) = '$') ; if the compare=0, then we have atleast length chars left
+        If compare = 0 And (ValidCharacters(PeekA(*Cursor + length)) = 0 Or PeekB(*Cursor + length) = '$') ; if the compare=0, then we have at least length chars left
           
           ; found a keyword here
           Keyword = k
@@ -2085,7 +2085,7 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
     ProcedureReturn
   EndIf
   
-  ; savety check
+  ; safety check
   If *Parser\SourceItemArray = 0
     *Parser\SortedValid = 0
     ProcedureReturn
@@ -2527,7 +2527,7 @@ EndProcedure
 
 ; These functions locate a matching keyword item in the parser data forward Or backward from the given line+item.
 ;
-; Matching keywords are anything in the same group that can follow/preceed the input item.
+; Matching keywords are anything in the same group that can follow/precede the input item.
 ; (for example Else->EndIf, or ElseIf->Else, or Import->EndImport
 ;
 ; The following results are possible: (*pLine\i is set according to *pItem\i)
@@ -3663,7 +3663,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
           *Cursor - SizeOf(Character)
         Wend
         
-        ; Now look if we have another '\' comming
+        ; Now look if we have another '\' coming
         If *Cursor >= *Buffer And *Cursor\c = '\'
           ; its a sub-structure, so add it (InsertElement, as we search backwards!)
           InsertElement(StructureStack())

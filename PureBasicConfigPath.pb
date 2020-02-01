@@ -84,7 +84,7 @@ Procedure.s PureBasicConfigPath()
     CompilerEndIf
     
     ; Note: no recursive creation needed here, as the home dir should
-    ; be existent allready and we go only one level below that.
+    ; be existent already and we go only one level below that.
     ;
     If FileSize(ConfigPath$) <> -2
       CreateDirectory(ConfigPath$)

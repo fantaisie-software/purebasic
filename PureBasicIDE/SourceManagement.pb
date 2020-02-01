@@ -46,22 +46,41 @@ Procedure RefreshSourceTitle(*Source.SourceFile)
   
   SetTabBarGadgetItemText(#GADGET_FilesPanel, Index, GetSourceTitle(*Source))
   
-  If *Source = *ProjectInfo
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_ProjectInfo)
-  ElseIf *Source\IsForm And *Source\ProjectFile
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_FormProjectFile)
-  ElseIf *Source\IsForm
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_FormFile)
-  ElseIf *Source\ProjectFile
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_ProjectFile)
-  Else
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #PB_Default)
-  EndIf
+  CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
+    If *Source = *ProjectInfo
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, GetCocoaColor("textColor"))
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, GetCocoaColor("controlAccentColor"))
+    ElseIf *Source\IsForm And *Source\ProjectFile
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, GetCocoaColor("textColor"))
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, GetCocoaColor("controlAccentColor"))
+    ElseIf *Source\IsForm
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, GetCocoaColor("textColor"))
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, GetCocoaColor("controlAccentColor"))
+    ElseIf *Source\ProjectFile
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, GetCocoaColor("textColor"))
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, GetCocoaColor("controlAccentColor"))
+    Else
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, GetCocoaColor("textColor"))
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, GetCocoaColor("controlBackgroundColor"))
+    EndIf
+  CompilerElse
+    If *Source = *ProjectInfo
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_ProjectInfo)
+    ElseIf *Source\IsForm And *Source\ProjectFile
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_FormProjectFile)
+    ElseIf *Source\IsForm
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_FormFile)
+    ElseIf *Source\ProjectFile
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_ProjectFile)
+    Else
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #PB_Default)
+    EndIf
+  CompilerEndIf
 EndProcedure
 
 ; get the title string for the current element in FileList()
@@ -649,7 +668,7 @@ Procedure ChangeTextEncoding(*Source.SourceFile, NewEncoding)
           UTF8ToAscii(*NewBuffer, @NewLength, *OldBuffer, @OldLength)
         EndIf
         
-        ScintillaSendMessage(*Source\EditorGadget, #SCI_CLEARALL, 0, 0) ; should compleetly erase the old document and create a new one
+        ScintillaSendMessage(*Source\EditorGadget, #SCI_CLEARALL, 0, 0) ; should completely erase the old document and create a new one
         
         If NewEncoding = 0
           ScintillaSendMessage(*Source\EditorGadget, #SCI_SETCODEPAGE, 0, 0)
@@ -1203,7 +1222,7 @@ Procedure AnalyzeSettings_Old(*Source.SourceFile, *Buffer, Length)
   EndIf
 EndProcedure
 
-Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analize the ConfigLines$ array
+Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the ConfigLines$ array
   ExecutableFormat$   = ""
   MarkerLines$ = ""
   
@@ -1694,7 +1713,7 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
   If ReadFile(#FILE_LoadSource, FileName$)
     ; try to detect the encoding first
     Format = ReadStringFormat(#FILE_LoadSource)
-    FileLength = Lof(#FILE_LoadSource)-Loc(#FILE_LoadSource) ; substract the BOM size!
+    FileLength = Lof(#FILE_LoadSource)-Loc(#FILE_LoadSource) ; subtract the BOM size!
     
     If *ActiveSource And *ActiveSource\FileName$ = "" And GetSourceModified() = 0 And (ListSize(FileList()) = 1 Or (IsProject And ListSize(FileList()) = 2))
       *EmptySource = *ActiveSource
@@ -1709,7 +1728,7 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
     If *Buffer
       ReadData(#FILE_LoadSource, *Buffer, FileLength)
       
-      ; Don't check PB sources, as it can contains wierd characters well handled by Scintilla: https://www.purebasic.fr/english/viewtopic.php?f=4&t=61467
+      ; Don't check PB sources, as it can contains weird characters well handled by Scintilla: https://www.purebasic.fr/english/viewtopic.php?f=4&t=61467
       ;
       If (IsPureBasicFile(FileName$) = #False And IsBinaryFile(*Buffer, FileLength)) Or (Format <> #PB_Ascii And Format <> #PB_UTF8) ; check for binary files
         FreeMemory(*Buffer)
@@ -1936,7 +1955,7 @@ Procedure LoadTempFile(FileName$)  ; load the specified file over the current op
   
   If ReadFile(#FILE_LoadSource, FileName$)
     Format = ReadStringFormat(#FILE_LoadSource)
-    FileLength = Lof(#FILE_LoadSource)-Loc(#FILE_LoadSource) ; substract the BOM size!
+    FileLength = Lof(#FILE_LoadSource)-Loc(#FILE_LoadSource) ; subtract the BOM size!
     
     If Format = #PB_Ascii
       *ActiveSource\Parser\Encoding = 0

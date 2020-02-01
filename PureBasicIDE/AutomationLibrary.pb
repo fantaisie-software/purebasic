@@ -344,7 +344,7 @@ CompilerElse
           TranslateMessage_(@msg)
           DispatchMessage_(@msg)
           
-          ; The connection communication is done (atleast the response) with PostMessage,
+          ; The connection communication is done (at least the response) with PostMessage,
           ; so we do not need code in the callback and can process it here
           ;
           If msg\hwnd = CommunicationWindow And msg\message = CommunicationMessage

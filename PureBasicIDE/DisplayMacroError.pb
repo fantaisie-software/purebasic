@@ -250,8 +250,8 @@ DataSection
   ; First the Keyword, then the keyword, that 'neutralized' it (for multiple, separate with ",")
   ; then the intend change For the line With the keyword,
   ; then the change for the line after the keyword
-  ; then wether the command should be preceeded by an empty line
-  ; then wether the command should be followed by an empty line
+  ; then whether the command should be preceded by an empty line
+  ; then whether the command should be followed by an empty line
   ;
   IntendKeywords:
   Data$ "If", "EnfIf"                   : Data.l  0, 1, 0, 0

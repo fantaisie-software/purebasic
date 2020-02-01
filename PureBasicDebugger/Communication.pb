@@ -265,7 +265,7 @@ Procedure Debugger_ForceDestroy(*Debugger.DebuggerData)
       ;
       Debugger_ProcessEvents(*Debugger\Windows[i], #PB_Event_CloseWindow)
       
-      ; each closing of a debugger window can destroy the structure allready,
+      ; each closing of a debugger window can destroy the structure already,
       ; as they all call Debugger_CheckDestroy(), so we must check for that!
       ;
       If IsDebuggerValid(*Debugger) = 0
@@ -350,7 +350,7 @@ CompilerIf #LOG_DEBUGGER_COMMANDS
       
       If *Command And *Command\DataSize > 0
         If *CommandData = 0
-          WriteStringN(Log, "  --- ERROR: Expected CommandData not availeble! ---")
+          WriteStringN(Log, "  --- ERROR: Expected CommandData not available! ---")
         Else
           *Base = *CommandData
           
@@ -585,7 +585,7 @@ Procedure Debugger_ProcessIncommingCommands()
             ;
             ; The only way to solve this is to force our window to the foreground before.
             ; (Leave this in for all Windows versions, because in case of a Memory/Pipe error,
-            ; we never know who had the focus so maybe this could happend there too)
+            ; we never know who had the focus so maybe this could happened there too)
             ;
             CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
               SetWindowForeground_Real(#WINDOW_Main)
@@ -814,7 +814,7 @@ Procedure Debugger_ProcessIncommingCommands()
         Break 2
       EndIf
       
-      ; exe is unloaded, take nessecary steps
+      ; exe is unloaded, take necessary steps
       ;
       If *Debugger\Command\Command = #COMMAND_End
         Debugger_End(*Debugger) ; Function shared with the Standalone debugger callback
@@ -916,7 +916,7 @@ Procedure Debugger_ExecuteProgram(FileName$, CommandLine$, Directory$)
   
   ; for windows we need an alternative solution for TerminateProcess_()
   ; we do it through a mutex.
-  ; It is initially locked, and if unlocked, the debugged programm will terminate itself.
+  ; It is initially locked, and if unlocked, the debugged program will terminate itself.
   ;
   CompilerIf #CompileWindows
     ; Note: We now use RunProgram() on Windows, so no handle inheriting.
@@ -1102,11 +1102,3 @@ Procedure Debugger_NetworkConnect(Mode, Host$, Port, Password$)
   ; return the debugger structure
   ProcedureReturn @RunningDebuggers()
 EndProcedure
-
-
-; IDE Options = PureBasic 5.20 beta 12 LTS (Linux - x64)
-; CursorPosition = 840
-; FirstLine = 822
-; Folding = ---
-; EnableUnicode
-; EnableXP

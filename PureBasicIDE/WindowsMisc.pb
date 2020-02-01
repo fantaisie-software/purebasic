@@ -97,7 +97,7 @@ CompilerIf #CompileWindows
         CompilerEndIf
       CompilerEndIf
       
-      ; PureBasicPath$ = "C:\Users\GDupontPanon\Downloads\PureBasicEnvironment\PureBasicEnvironment\svn\v5.10\Build\PureBasic_x86\" ; Fred config
+      PureBasicPath$ = #PB_Compiler_Home
       
     CompilerEndIf
     
@@ -397,7 +397,7 @@ CompilerIf #CompileWindows
           EndIf
           
           ; NOTE:
-          ;   Do not call SetWindowForeground_Real() as it does the ugly hack to attach to the forground
+          ;   Do not call SetWindowForeground_Real() as it does the ugly hack to attach to the foreground
           ;   Window's queue, which will crash the IDE if the foreground window hangs.
           ;   Steps to reproduce:
           ;   - run a PB program (with GUI) which does "RunProgram(some PB source)"
@@ -405,13 +405,13 @@ CompilerIf #CompileWindows
           ;
           ;   Instead we use the normal SetWindowForeground() here, and it even works:
           ;   - the starting program has focus
-          ;   - when it launches the RunOnce IDE instance, that instance has forground rights too
+          ;   - when it launches the RunOnce IDE instance, that instance has foreground rights too
           ;   - the RunOnce instance calls AllowWindowSetForeground() to give the rights to this instance
           ;   - all works (the old IDE ends up with focus)
           ;
           ;   The only case where this does not work is if a background program tries to run the IDE
           ;   but this is the problem of the background program, not of the IDE. This works fine with
-          ;   Explorer doubleclicks and the like which is the important part
+          ;   Explorer double-clicks and the like which is the important part
           ;
           SetWindowForeground(#WINDOW_Main)
         EndIf

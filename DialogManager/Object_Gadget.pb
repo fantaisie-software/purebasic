@@ -32,8 +32,8 @@ Structure DlgGadget Extends DlgBase
   ColumnAdded.l ; to know which is the first <column> element (to remove the default columns)
 EndStructure
 
-; Special structure to easily asign a fixed list of items to a gadget (and manage its language)
-; For example for Combobox with fixed choises
+; Special structure to easily assign a fixed list of items to a gadget (and manage its language)
+; For example for Combobox with fixed choices
 ;
 ; supported by: combobox, tree, listicon (for the columns)
 ;
@@ -49,7 +49,7 @@ EndStructure
 
 ; on windows, the callback is required
 ; Note: so this works also without the Scintilla lib, we use a constant
-;       to indicate wether or not it should be used.
+;       to indicate whether or not it should be used.
 ;
 CompilerIf Defined(DIALOG_USE_SCINTILLA, #PB_Constant)
   
@@ -305,7 +305,7 @@ EndProcedure
 
 Procedure DlgGadget_SizeApply(*THIS.DlgGadget, x.l, y.l, Width.l, Height.l)
   
-  ; On windows, when resizing a text, checkbox, option highter than it needs to be, its
+  ; On windows, when resizing a text, checkbox, option higher than it needs to be, its
   ; text is not put in the center (vertically) as it is on linux, so this looks bad when
   ; a text/checkbox is put next to a String/Combobox for example.
   ; actually, centering only is not good either. For windows it is needed to offset

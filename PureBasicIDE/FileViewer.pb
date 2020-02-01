@@ -75,7 +75,7 @@ Procedure OpenFileViewerWindow()
     
     ; TODO: Something is wrong here with the PB_OpenWindow3_DEBUG call because it
     ;   complains about the ParentID not being valid when it clearly is.
-    ;   This happend only with AllocationPreference set to high addresses first (Windows x64)
+    ;   This happened only with AllocationPreference set to high addresses first (Windows x64)
     ;
     DisableDebugger
     If OpenWindow(#WINDOW_FileViewer, FileViewerX, FileViewerY, FileViewerWidth, FileViewerHeight, Language("FileViewer","Title"), #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget|#PB_Window_MaximizeGadget|#PB_Window_Invisible, WindowID(#WINDOW_Main))
@@ -126,7 +126,7 @@ EndProcedure
 
 Procedure IsBinaryFile(*Buffer, Length)
   ; Check if the Data is text only or binary (search for bytes <= 30, except cr,lf,tab)
-  ; Note: we use a binary count as old PB file used a zero char to seperate the bottom options from the real code
+  ; Note: we use a binary count as old PB file used a zero char to separate the bottom options from the real code
   ; Also JaPBe uses some similar trick.
   ;
   BinaryCount = 0
@@ -186,7 +186,7 @@ Procedure FileViewer_OpenFile(Filename$)
     SetWindowForeground(#WINDOW_FileViewer)
   EndIf
   
-  ; check if this file was allready loaded
+  ; check if this file was already loaded
   ;
   Found = 0
   ForEach FileViewer()

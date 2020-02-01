@@ -359,7 +359,7 @@ enum
    */
   COMMAND_GetFile,
 
-  /* Command: Set the purifier intervalls
+  /* Command: Set the purifier intervals
    *  Value1:
    *  Value2:
    *    Data: 4x LONG (Global, Local, String, Dynamic) A value of 0 means check never
@@ -472,7 +472,7 @@ enum
    *  Value2: PB_DEBUGGER_Control
    *    Data: Message (ascii)
    *
-   * NOTE: this always stops the progam until a COMMAND_Run
+   * NOTE: this always stops the program until a COMMAND_Run
    */
   COMMAND_Error,
 
@@ -489,7 +489,7 @@ enum
    *       register display names
    *
    *     The order of registers in the display can differ from the order in the array,
-   *     thats why the WORD array tells the real order
+   *     that's why the WORD array tells the real order
    */
   COMMAND_RegisterLayout,
 
@@ -502,7 +502,7 @@ enum
    *     Array of INTEGER: register values
    *     Array of STRING: for each register with string representation: its string
    */
-  COMMAND_Register, // send registers. Value1=are registers writable? if DataSize=0, no register acces, otherwise DATA=array of register values.
+  COMMAND_Register, // send registers. Value1=are registers writable? if DataSize=0, no register access, otherwise DATA=array of register values.
 
 
   /* Command: Send a stack trace
@@ -529,7 +529,7 @@ enum
    *  Value2: NbVariables, counting each structure field individually (=number of sent entries)
    *    Data:
    *
-   *    for each transmited entry:
+   *    for each transmitted entry:
    *    BYTE: type (1=byte,3=word,5=long,7=structure,8=string,9=float,10=fixed,11=char,12=double,13=quad,21=integer)  (bit 7 is set when the variable is a pointer)
    *    BYTE: dynamictype (real type if type=TYPE_ARRAY etc for structured items. not used otherwise)
    *    BYTE: scope (0=main, 1=global, 2=threaded)
@@ -587,7 +587,7 @@ enum
   /* Command: Send local variable names + values
    *
    *  Value1: index of the Procedure in the procedure bank
-   *  Value2: number of transmited values
+   *  Value2: number of transmitted values
    *    Data:
    *
    *    same as for the global names, except the structure is this:

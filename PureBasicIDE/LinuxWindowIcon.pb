@@ -98,7 +98,7 @@ CompilerEndIf
 ;
 ; #PropModeReplace = 0
 ;
-; ; Simply import an allready linked file to get access to the XLib functions (which is linked as well)
+; ; Simply import an already linked file to get access to the XLib functions (which is linked as well)
 ; ;
 ; ImportC #PB_Compiler_Home+"compilers/stringutility.a"
 ;   XInternAtom(display, name.p-ascii, only_if_exists)

@@ -7,8 +7,8 @@
 ;
 ; This file should contain *all* function declarations that are meant to be used publicly.
 ; This means that any function that is being used outside of the file it is written in
-; is to be declared here. This will rule out any conflicts with non-declared functions, and make the overview easyer.
-; If neccesary, specify a short comment on the function purpose and the file that it is in!
+; is to be declared here. This will rule out any conflicts with non-declared functions, and make the overview easier.
+; If necessary, specify a short comment on the function purpose and the file that it is in!
 ;
 
 ; ===========================================
@@ -55,7 +55,7 @@ Declare SetWindowForeground(Window) ; put window in foreground
 Declare SetWindowForeground_NoActivate(Window) ; set window to the foreground without giving it the focus (and without a focus event!)
 Declare SetWindowStayOnTop(Window, StayOnTop)  ; make window stay on top
 Declare GetPanelWidth(Gadget)                  ; get width of panelgadget items
-Declare GetPanelHeight(Gadget)                 ; get hight of panelgadget items
+Declare GetPanelHeight(Gadget)                 ; get height of panelgadget items
 Declare GetPanelItemID(Gadget, Item)           ; get id of panelgadget item (only for plugins)
 Declare RedrawGadget(Gadget)                   ; trigger an update of the gadget (must work with the EditorGadget!)
 Declare SelectComboBoxText(Gadget)             ; select all text in editable combobox
@@ -88,7 +88,7 @@ Declare GetWindowMetrics()            ; executed after main window is open (get 
 Declare LoadEditorFonts()             ; load editor fonts, determine bold font name if needed, load bold font if needed
 Declare UpdateToolbarView()           ; hide/show main toolbar according to settings
 Declare RunOnce_Startup(InitialSourceLine) ; handle all RunOnce stuff on startup (return true if IDE should exit)
-Declare RunOnce_UpdateSetting()            ; set/unset the mutex for runonce accoring to the prefs
+Declare RunOnce_UpdateSetting()            ; set/unset the mutex for runonce according to the prefs
 Declare Session_IsRunning(OSSessonID$)     ; detection of running sessions. must be independent of runOnce handling!
 Declare.s Session_Start()                  ; start session. return OSSessionID$ for detection later
 Declare Session_End(OSSessonID$)           ; end session
@@ -123,11 +123,11 @@ Declare CountCharacters(Gadget, startPos, endPos)  ; Fix for the #SCI_COUNTCHARA
 
 Declare BuildIndentVT()
 Declare UpdateIndent(FirstLine, LastLine)
-Declare UpdateFolding(*Source.SourceFile, firstline, lastline) ; redo all folding (no rescan) from the given line to atleast lastline
+Declare UpdateFolding(*Source.SourceFile, firstline, lastline) ; redo all folding (no rescan) from the given line to at least lastline
 Declare CalculateHilightningColors()                           ; calculate really used colors (call once after a prefs load/update)
-Declare SetUpHilightningColors()                               ; set up the colors for hilighnint (called for each source when the prefs change, or when loading)
-Declare HilightArea(*StartPos, *EndPos)                        ; hilight a given area of text (0, -1) hilights all!
-Declare UpdateHilightning()                                    ; hilight everything after a prefs update
+Declare SetUpHilightningColors()                               ; set up the colors for highlighting (called for each source when the prefs change, or when loading)
+Declare HilightArea(*StartPos, *EndPos)                        ; highlight a given area of text (0, -1) highlights all!
+Declare UpdateHilightning()                                    ; highlight everything after a prefs update
 Declare StreamTextIn(*Buffer, Length)                          ; put the given buffer into the current source
 Declare StreamTextOut(*Buffer, Length)                         ; get the contents of the current source into the buffer
 Declare GetSourceLength()                                      ; get the source length in bytes
@@ -146,11 +146,11 @@ Declare SetSelection(LineStart, RowStart, LineEnd, RowEnd)                      
 Declare.s GetLine(Index, *Source.SourceFile = 0)                                               ; Return the line With the given index (0 based)
 Declare HasLineContinuation(Index, *Source.SourceFile = 0)                                     ; Returns true if the given line (0 based) ends with a line continuation
 Declare.s GetContinuationLine(Index, *Offset.INTEGER = 0, *Source.SourceFile = 0)              ; Return the line with given index (0 based) including any continued lines before or after)
-Declare SetLine(Index, NewLine$)                                                               ; replace the indexed line with the given text (and hilight it again)
+Declare SetLine(Index, NewLine$)                                                               ; replace the indexed line with the given text (and highlight it again)
 Declare CreateEditorGadget()                                                                   ; create the editing gadget for this source (must call ChangeActiveSource() right after creating the gadget!)
 Declare SetReadOnly(Gadget, State)                                                             ; set the editing gadget to readonly
 Declare InsertCodeString(String$)                                                              ; insert given string at the current position (also converts to utf8 if needed)
-Declare Undo()                                                                                 ; preform the standart editior function
+Declare Undo()                                                                                 ; perform the standard editior function
 Declare Redo()
 Declare Cut()
 Declare Copy()
@@ -164,7 +164,7 @@ Declare ApplyMarkerString(Markers$)       ; apply a string of marker numbers to 
 Declare HideLineNumbers(*Source.SourceFile, Hide)   ; hide/show the linenumbers gadget
 Declare AutoComplete_GetWordPosition(*X.INTEGER, *Y.INTEGER, *W.INTEGER, *H.INTEGER) ; get the position of the current word on the screen and size for the autocomplete window
 Declare AutoComplete_SelectWord()                                                    ; select the current word to insert the autocomplete result
-Declare FindText(Mode, Reverse = #False)                                             ; perform a seach, 1=find, 2=replace, 3=replace all (other params are globals)
+Declare FindText(Mode, Reverse = #False)                                             ; perform a search, 1=find, 2=replace, 3=replace all (other params are globals)
 Declare SetFoldLevel(Line, Level)                                                    ; folding functions (scintilla only for now)
 Declare SetFoldPoint(Line)
 Declare IsFoldPoint(Line)
@@ -173,7 +173,7 @@ Declare GetFoldState(Line)
 Declare ResizeEditorGadget(Gadget, X, Y, Width, Height) ; resize the editor gadget
 Declare FreeEditorGadget(Gadget)                        ; free the editor gadget
 Declare HideEditorGadget(Gadget, Hide)                  ; hide/show the editor gadget
-Declare UpdateLineNumbers(*Source.SourceFile)           ; update the linenumbers completly (number of lines has changed)
+Declare UpdateLineNumbers(*Source.SourceFile)           ; update the linenumbers completely (number of lines has changed)
 Declare MarkCurrentLine(LineNumber)                     ; mark and show the linenumber as the current line for the debugger (current source) (-1 = remove mark)
 Declare ClearCurrentLine(*Source.SourceFile)            ; clear any current line marks (in the given source)
 Declare MarkErrorLine(LineNumber)                       ; mark the given line for an error (current source)
@@ -183,13 +183,13 @@ Declare GetBreakPoint(*Source.SourceFile, LineNumber)   ; return the nearest BRe
 Declare MarkBreakPoint(LineNumber)                      ; set breakpoint mark
 Declare ClearBreakPoint(LineNumber)                     ; remove a breakpoint mark
 Declare ClearAllBreakPoints(*Source.SourceFile)         ; clears all breakpoint marks in this source
-Declare UpdateBraceHilight(Cursor, SecondTry=#False)    ; add/update brace hilighting with cursor at this position
+Declare UpdateBraceHilight(Cursor, SecondTry=#False)    ; add/update brace highlighting with cursor at this position
 Declare JumpToMatchingKeyword()                         ; jump to the matching keyword to the one on the cursor
-Declare UpdateKeywordHilight(selStart, SetHilight)      ; hilight the matching keyword to the one at the cursor
+Declare UpdateKeywordHilight(selStart, SetHilight)      ; highlight the matching keyword to the one at the cursor
 Declare GetCommentPosition(Line$)                       ; get the char index of the comment in the given line (-1 if none)
 Declare IsWhitespaceOnly(Line$)                         ; returns true if the line only contains whitespace (and maybe a comment)
 Declare CountColumns(String$)
-Declare UpdateSelectionRepeat(selStart=-1, selEnd=-1) ; highlight repeated occurances of the current selection
+Declare UpdateSelectionRepeat(selStart=-1, selEnd=-1) ; highlight repeated occurrences of the current selection
 Declare UpdateIsCodeStatus()                          ; The pb-file non-pb-file mode has changed
 
 ; Used by Templates/Macro Error window
@@ -211,7 +211,7 @@ Declare UpdateAboutWindow()             ; update after prefs change
 
 ;- AddHElpFiles.pb
 ;
-Declare AddHelpFiles_Init()             ; scan for available files (call befor CreateGUI()!)
+Declare AddHelpFiles_Init()             ; scan for available files (call before CreateGUI()!)
 Declare AddHelpFiles_AddMenuEntries()   ; add help menu entries to the current menu (doesn't create submenu)
 Declare AddHelpFiles_Display(MenuID)    ; display a help file by given menu id.
 
@@ -220,7 +220,7 @@ Declare AddHelpFiles_Display(MenuID)    ; display a help file by given menu id.
 Declare AddTools_AddMenuEntries()       ; adds tools entries to the main menu
 Declare AddTools_Execute(Trigger, *Target.CompileTarget) ; execute all assigned tools with the given trigger
 Declare AddTools_Init()                                  ; init tools (call before CreateGUI!)
-Declare UpdateEditToolsWindow()                          ; The open edit window function is only called from withing the file
+Declare UpdateEditToolsWindow()                          ; The open edit window function is only called from within the file
 Declare AddTools_EditWindowEvents(EventID)
 Declare AddTools_OpenWindow()
 Declare UpdateAddToolsWindow()
@@ -387,7 +387,7 @@ Declare GrepWindowEvents(EventID)
 ;- HilightningEngine.pb
 ;
 Declare InitSyntaxCheckArrays()       ; create arrays like the ValidCharacters of TriggerCharacters
-Declare InitSyntaxHilightning()       ; initialize the hilightning
+Declare InitSyntaxHilightning()       ; initialize the highlighting
 Declare BuildCustomKeywordTable()     ; build the needed HT etc from the CustomKeywordList() list and file
 Declare HilightningEngine(*InBuffer, InBufferLength, CursorPosition, *HilightCallback, IsSourceCode) ; call the engine
 Declare IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
@@ -485,7 +485,7 @@ Declare.s GetStringToken(Index)                                ; return token fr
 Declare.s StrByteSize(Size.q)                                  ; get a nice looking filesize / memory size value (with KB, MB, GB attached)
 Declare IsNumeric(Text$, *Output.INTEGER)                      ; check if a text is a valid number and return it if true
 Declare CatchPackedImage(Image, *Address.LONG, Index)          ; load an image that was packed & then included
-Declare.s RGBString(Color)                                     ; turns a color into a string "RGB(a,b,c)" as a platform independant color representation
+Declare.s RGBString(Color)                                     ; turns a color into a string "RGB(a,b,c)" as a platform independent color representation
 Declare ColorFromRGBString(String$)                            ; turns the result of RGBString() back into a color
 Declare StringToUTF8(String$)                                  ; returns the UTF8 version of the string, needs to be freed with FreeMemory()!
 Declare StringToAscii(String$)                                 ; returns the Ascii version of the string, needs to be freed with FreeMemory()!
@@ -505,8 +505,8 @@ Declare PreferencesWindowEvents(EventID)
 ;- ProcedureBrowser.pb
 ;
 Declare UpdateProcedureList() ; scan active source and update the procedure list and the autocomplete lists
-                              ;Declare ProcedureList_LineUpdate()    ; check if the current line is in the procedure list and update if neccesary.
-Declare JumpToProcedure()     ; jump to procedure under cursor (for doubleclick)
+                              ;Declare ProcedureList_LineUpdate()    ; check if the current line is in the procedure list and update if necessary.
+Declare JumpToProcedure()     ; jump to procedure under cursor (for double-click)
 
 ;- ProjectManagement.pb
 ;
@@ -570,9 +570,9 @@ Declare.s GetShortcutText(Shortcut)         ; get the text for any shortcut
 Declare ShortcutMenuItem(MenuItemID, Text$) ; create a menuitem with or without the shortcut name (when one is set)
 Declare FillShortcutList()                  ; fill the combobox with all shortcut names
 Declare.s GetShortcutOwner(Shortcut)        ; get the name where a shortcut is assigned to
-Declare IsShortcutUsed(Shortcut, CurrentPrefsItem, *CurrentAddTool) ; check if a given shortcut is allready used
-Declare.s ShortcutToIndependantName(Shortcut)                       ; translate shortcut into a OS independant name
-Declare IndependantNameToShortcut(Name$)                            ; trandlate os independant name back to shortcut
+Declare IsShortcutUsed(Shortcut, CurrentPrefsItem, *CurrentAddTool) ; check if a given shortcut is already used
+Declare.s ShortcutToIndependantName(Shortcut)                       ; translate shortcut into a OS independent name
+Declare IndependantNameToShortcut(Name$)                            ; trandlate os independent name back to shortcut
 CompilerIf #CompileMac
   Declare SetupMacPrefsShortcutCallback()
 CompilerEndIf
@@ -587,15 +587,15 @@ Declare ChangeActiveSourcecode(*OldSource.SourceFile = 0) ; change the active so
 Declare NewSource(FileName$, ExecuteTool)                 ; create a new source (with optional name to load a file in)
 Declare SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, ReportErrors) ; save the settings of *ActiveSource (a file must be open in write mode!)
 Declare AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile)          ; fill the *Source structure with the project settings from *Buffer. (return new project length)
-Declare LoadSourceFile(FileName$, Activate = 1)                                          ; load the given file into a new source (if not allready open)
+Declare LoadSourceFile(FileName$, Activate = 1)                                          ; load the given file into a new source (if not already open)
 Declare SaveSourceFile(FileName$)                                                        ; save the current source to the given name
 Declare LoadTempFile(FileName$)                                                          ; load the specified file over the current opened source
 Declare SaveTempFile(FileName$)                                                          ; save the current source to a temp name (no change of modified/unmodified by this!)
-Declare LoadSource()                                                                     ; open the 'load source' dialog and load any choosen files
-Declare OpenIncludeOnDoubleClick()                                                       ; after doubleclick on Includefile, open that file
+Declare LoadSource()                                                                     ; open the 'load source' dialog and load any chosen files
+Declare OpenIncludeOnDoubleClick()                                                       ; after double-click on Includefile, open that file
 Declare SaveSourceAs()                                                                   ; open the save as dialog and save any files
 Declare SaveSource()                                                                     ; save the current source (if new, open SaveSourceAs())
-Declare RemoveSource(*Source.SourceFile = 0)                                             ; close the current source (no saving done here, do it seperately!)
+Declare RemoveSource(*Source.SourceFile = 0)                                             ; close the current source (no saving done here, do it separately!)
 Declare CheckSourceSaved(*Source.SourceFile = 0)                                         ; check if the current source is saved or modified
 Declare SaveAll()                                                                        ; saves all sources
 Declare CheckAllSourcesSaved()                                                           ; this function is called when exiting the editor. saves all sources and closes them

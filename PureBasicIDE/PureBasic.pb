@@ -5,8 +5,8 @@
 ;--------------------------------------------------------------------------------------------
 
 ; Change: Now *every* file in the source tree is included from this main file
-; This will reduce the number of XIncludeFile's in each file, and there is no more need to check dependancies.
-; Even platform specific files are always includeded. wether their code is compiled
+; This will reduce the number of XIncludeFile's in each file, and there is no more need to check dependencies.
+; Even platform specific files are always included. Whether their code is compiled
 ; is decided in each file.
 
 XIncludeFile "CompilerFlags.pb"
@@ -215,7 +215,7 @@ XIncludeFile "HelpViewer.pb"
 ; macos specific
 XIncludeFile "MacMisc.pb"
 
-; hilightning files
+; highlighting files
 XIncludeFile "ScintillaHilightning.pb"
 XIncludeFile "CodeViewer.pb"
 XIncludeFile "DisplayMacroError.pb"
@@ -275,8 +275,18 @@ Procedure CloseSplashScreen()
   
   If IsClosed = 0 And NoSplashScreen = 0
     IsClosed = 1
-    CloseWindow(#WINDOW_Startup)
-    FreeImage(#IMAGE_Startup)
+    CompilerIf #PB_Compiler_Debugger
+      ; Prevent debugger errors when missing Scintilla.dll causes early exit
+      If IsWindow(#WINDOW_Startup)
+        CloseWindow(#WINDOW_Startup)
+      EndIf
+      If IsImage(#IMAGE_Startup)
+        FreeImage(#IMAGE_Startup)
+      EndIf
+    CompilerElse
+      CloseWindow(#WINDOW_Startup)
+      FreeImage(#IMAGE_Startup)
+    CompilerEndIf
   EndIf
 EndProcedure
 
@@ -531,7 +541,7 @@ AddTools_Execute(#TRIGGER_EditorStart, 0)
 ; Detect possible crashed session and display info if so
 DetectCrashedHistorySession()
 
-; Wait for the compiler to be loaded. (calls FlushEvents(), so the user can allready start editing)
+; Wait for the compiler to be loaded. (calls FlushEvents(), so the user can already start editing)
 WaitForCompilerReady()
 
 CompilerIf #CompileMacCocoa

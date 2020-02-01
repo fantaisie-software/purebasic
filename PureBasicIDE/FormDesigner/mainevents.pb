@@ -3024,7 +3024,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
       
       DrawAlphaImage(ImageID(#TDrawing_Img),ox1,oy1)
       
-      ProcedureReturn #True ; Drawing sucessed
+      ProcedureReturn #True ; Drawing succeeded
     Else
       MessageRequester(appname, LanguagePattern("Form","OutOfMemoryError", "%size%", Str(x2-x1) +"x"+ Str(y2-y1)), #PB_MessageRequester_Ok | #FLAG_Error) ; Can't create the backend image, so we are probably out of memory (we don't want the IDE to crash !)
     EndIf
@@ -5357,7 +5357,7 @@ Procedure FD_Redraw()
             y1 + Panel_Height
             y2 + Panel_Height
             
-            If this_parent_item <> FormWindows()\FormGadgets()\current_item ; the item is not currently displayed, dont draw the gadget
+            If this_parent_item <> FormWindows()\FormGadgets()\current_item ; the item is not currently displayed, don't draw the gadget
               dontdraw = 1
             EndIf
           EndIf
@@ -7700,7 +7700,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                     SelectElement(FormWindows()\FormGadgets()\Items(),row-1)
                     InsertElement(FormWindows()\FormGadgets()\Items())
                     FormWindows()\FormGadgets()\Items()\name = item
-                    ; udpate gadget list
+                    ; update gadget list
                     ForEach FormWindows()\FormGadgets()
                       If FormWindows()\FormGadgets()\parent = items_gadget_num And FormWindows()\FormGadgets()\parent_item = row
                         FormWindows()\FormGadgets()\parent_item = -2
@@ -7729,7 +7729,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                     SelectElement(FormWindows()\FormGadgets()\Items(),row)
                     AddElement(FormWindows()\FormGadgets()\Items())
                     FormWindows()\FormGadgets()\Items()\name = item
-                    ; udpate gadget list
+                    ; update gadget list
                     ForEach FormWindows()\FormGadgets()
                       If FormWindows()\FormGadgets()\parent = items_gadget_num And FormWindows()\FormGadgets()\parent_item = row
                         FormWindows()\FormGadgets()\parent_item = -2

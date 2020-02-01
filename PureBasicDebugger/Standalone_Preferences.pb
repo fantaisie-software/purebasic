@@ -469,8 +469,3 @@ Procedure Standalone_SavePreferences()
   EndIf
   
 EndProcedure
-; IDE Options = PureBasic 5.20 beta 2 (Windows - x64)
-; CursorPosition = 203
-; FirstLine = 174
-; Folding = -
-; EnableXP

@@ -7,7 +7,7 @@
 ;
 ;
 ;  Get the minimum required size to properly display the gadget content.
-;  This file is independant from the DialogManager so it can be used on gadgets
+;  This file is independent from the DialogManager so it can be used on gadgets
 ;  even when not a full dialog creation is done. The Flags value can be given to
 ;  include stuff like borders in the calculation
 ;
@@ -17,7 +17,7 @@
 ; Supported Gadgets:
 ;   Button, Checkbox, Option, Text, String, ComboBox, Image, ButtonImage
 ;
-; For those with variable content (ComboBox, String) only the Height value is usefull (width is mostly reported as 0)
+; For those with variable content (ComboBox, String) only the Height value is useful (width is mostly reported as 0)
 ;
 
 ; Repeated here, so it works with and without the Dialog framework
@@ -67,7 +67,7 @@ Procedure GetRequiredSize(Gadget, *Width.LONG, *Height.LONG, Flags = 0)
   
 EndProcedure
 
-; convinience wrappers if only one size is needed
+; convenience wrappers if only one size is needed
 ;
 Procedure GetRequiredWidth(Gadget, Flags = 0)
   Protected Width.l, Height.l
@@ -100,7 +100,7 @@ Procedure Frame3DTopOffset(Gadget)
   CompilerEndIf
   
   CompilerIf #CompileMac
-    ; TODO: a way to atleast calculate the top border correctly would be good
+    ; TODO: a way to at least calculate the top border correctly would be good
     ProcedureReturn 16
   CompilerEndIf
 EndProcedure

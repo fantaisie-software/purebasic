@@ -1,4 +1,4 @@
-﻿;--------------------------------------------------------------------------------------------
+;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -277,9 +277,9 @@ Procedure MemoryViewer_AsciiUtf8(*Debugger.DebuggerData, Mode)
   
   While *Pointer < *BufferEnd
     If *Pointer\b >= 0 And *Pointer\b < 32 ; a special char
-      Size + Len(MemoryViewer_Chars(*Pointer\b)) - 1 ; substract the 1 byte calculated before
+      Size + Len(MemoryViewer_Chars(*Pointer\b)) - 1 ; subtract the 1 byte calculated before
       If *Pointer\b = 0 Or *Pointer\b = 10 Or *Pointer\b = 13
-        Size + Len(#NewLine) ; we add a newline after linefeed and NULL for an easyer string view
+        Size + Len(#NewLine) ; we add a newline after linefeed and NULL for an easier string view
       EndIf
     EndIf
     *Pointer + 1
@@ -332,9 +332,9 @@ Procedure MemoryViewer_Unicode(*Debugger.DebuggerData)
   
   While *Pointer < *BufferEnd
     If *Pointer\w >= 0 And *Pointer\w < 32 ; a special char
-      Size + Len(MemoryViewer_Chars(*Pointer\w)) - 1 ; substract the 1 byte calculated before
+      Size + Len(MemoryViewer_Chars(*Pointer\w)) - 1 ; subtract the 1 byte calculated before
       If *Pointer\w = 0 Or *Pointer\w = 10 Or *Pointer\w = 13
-        Size + Len(#NewLine) ; we add a newline after linefeed and NULL for an easyer string view
+        Size + Len(#NewLine) ; we add a newline after linefeed and NULL for an easier string view
       EndIf
     EndIf
     *Pointer + 2

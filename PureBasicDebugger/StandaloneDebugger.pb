@@ -203,7 +203,7 @@ CompilerEndIf
 ;
 ; SOURCEFILE <filename>
 ;   allows to overwrite the "Main Source" filename, as it is stored in the debugged executable.
-;   This is usefull for editors that store the main file in a temporary location before compiling.
+;   This is useful for editors that store the main file in a temporary location before compiling.
 ;   This can be used to still display the correct filename
 ;   It must be a full path!
 ;
@@ -232,7 +232,7 @@ CompilerEndIf
 ;   Multiple BREAK statements are possible
 ;
 ; PURIFIER <granularity>
-;   Specifiy the purifier granularities (comma separated: Global, local, string, dynamic)
+;   Specify the purifier granularities (comma separated: Global, local, string, dynamic)
 ;   This is ignored if the purifier is not enabled
 ;   This will be set on shutdown if the purifier was enabled (to specify the chosen settings)
 ;
@@ -393,7 +393,7 @@ If OptionsFile$ <> ""
             Case "ERROR"  : CustomWarningMode = 2
           EndSelect
           
-          CompilerIf #CompileMac = 0 ; Recalling the watchlist and breakpoint makes the debugger crash :(. There is still something wierd here
+          CompilerIf #CompileMac = 0 ; Recalling the watchlist and breakpoint makes the debugger crash :(. There is still something weird here
           Case "WATCH"
             AddElement(Watchlist())
             Watchlist() = Value$
@@ -764,7 +764,7 @@ Procedure ProcessEvent(EventID)
     
     If EventID = #PB_Event_CloseWindow
       ; update the toggle buttons
-      ; Note: On OSX, we can get this somehow when the debugger struct is allready destroyed (when you end the
+      ; Note: On OSX, we can get this somehow when the debugger struct is already destroyed (when you end the
       ; program, close all debugger windows and then close the main one), so check this!
       ;
       If IsDebuggerValid(*DebuggerData)
@@ -799,7 +799,7 @@ Repeat
   
   If EventID = 0
     If Debugger_ProcessIncommingCommands() = 0 ; process debugger commands
-      Delay(1)                                 ; delay only when no commands were incomming
+      Delay(1)                                 ; delay only when no commands were incoming
     EndIf
   Else
     ProcessEvent(EventID)
@@ -1321,7 +1321,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Expression
       
-      ; expresion evaluation for tooltips
+      ; expression evaluation for tooltips
       ; check if this message is for us (the debug output uses this message too)
       ;
       If *Debugger\Command\Value1 = AsciiConst('S','C','I','N') And *Debugger\CommandData And IsMouseDwelling = 1
@@ -1410,7 +1410,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
                   Case #TYPE_FLOAT:     Line$ + " = " + StrF_Debug(PeekF(*Pointer))
                   Case #TYPE_DOUBLE:    Line$ + " = " + StrD_Debug(PeekD(*Pointer))
                   Case #TYPE_QUAD:      Line$ + " = " + Str(PeekQ(*Pointer))
-                  Case #TYPE_CHARACTER: Line$ + " = " + Str(PeekL(*Pointer)) ; allready transformed to int here
+                  Case #TYPE_CHARACTER: Line$ + " = " + Str(PeekL(*Pointer)) ; already transformed to int here
                     
                   Case #TYPE_INTEGER
                     If *Debugger\Is64bit

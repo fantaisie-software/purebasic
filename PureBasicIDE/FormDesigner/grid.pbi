@@ -613,8 +613,8 @@ ProcedureDLL GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 10
     *grid\color_cellsel = RGBA(180,220,255,200)
   CompilerEndIf
   
-  *grid\default_col_width = def_col_width
-  *grid\default_row_height = def_row_height
+  *grid\default_col_width = DesktopScaledX(def_col_width)
+  *grid\default_row_height = DesktopScaledY(def_row_height)
   
   *grid\hscroll = ScrollBarGadget(#PB_Any,x,y+height-Grid_Scrollbar_Width,width-Grid_Scrollbar_Width,Grid_Scrollbar_Width,0,1,1)
   

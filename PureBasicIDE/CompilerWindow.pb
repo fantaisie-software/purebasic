@@ -106,7 +106,7 @@ Procedure CompilerReady()
     InitStructureViewer()
   EndIf
   
-  ; Ok, everything is loaded, now hilight any allready open files.
+  ; Ok, everything is loaded, now highlight any already open files.
   ;
   If EnableColoring
     If ListSize(FileList()) > 0     ; on Linux, this happens before any source is open
@@ -672,7 +672,7 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
     
     Result$ = BuildProjectTarget(*Targets(), 0, #True, #False)
     
-    ; count the emited warnings during this compile
+    ; count the emitted warnings during this compile
     WarningCount = 0
     ForEach BuildInfo()
       If BuildInfo()\IsWarning
@@ -681,7 +681,7 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
     Next BuildInfo()
     
     If Result$ <> "" And WarningCount = OldWarningCount
-      ; Failures are loged as errors and warnings give a "success with warnings" line, so add a line for success here too
+      ; Failures are logged as errors and warnings give a "success with warnings" line, so add a line for success here too
       ; do this before executing the tools for a consistent log output
       BuildLogEntry(Language("Compiler","BuildSuccess"))
     EndIf
@@ -1214,7 +1214,7 @@ Procedure CreateExecutable()
             If *ActiveSource\ExecutableFormat = 1
               Extension$ = "" ; console, do not append .app automatically here
             Else
-              Extension$ = ".app"  ; autmatically append ".app" for gui programs
+              Extension$ = ".app"  ; automatically append ".app" for gui programs
             EndIf
           CompilerElse ; Linux
             Pattern$   = ""
@@ -1240,7 +1240,7 @@ Procedure CreateExecutable()
           EndIf
           
           If StartInternalBuild(TempPath$ + "PB_EditorOutput.pb", File$)
-            *ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeded
+            *ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeeded
           EndIf
           
         Else

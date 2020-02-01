@@ -206,7 +206,7 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
   
   ; make sure the timer for event processing is running
   If IsDebuggerTimer = 0
-    Debug "[Activate debuger timer]"
+    Debug "[Activate debugger timer]"
     AddWindowTimer(#WINDOW_Main, #TIMER_DebuggerProcessing, 20) ; check every 20 ms
     IsDebuggerTimer = 1
   EndIf

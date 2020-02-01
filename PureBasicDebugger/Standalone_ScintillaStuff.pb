@@ -370,7 +370,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         ScintillaSendMessage(Result, #SCI_SETSELFORE,    1, SelectionFrontColor)
       CompilerEndIf
       
-      ; mark all breakpoints that are allready set for this file (passed with optionsfile)
+      ; mark all breakpoints that are already set for this file (passed with optionsfile)
       ;
       ForEach BreakPoints()
         If (BreakPoints()>>24) & $FF = CurrentSource
@@ -654,8 +654,3 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   EndProcedure
   
 CompilerEndIf
-; IDE Options = PureBasic 5.20 beta 2 (Windows - x64)
-; CursorPosition = 484
-; FirstLine = 464
-; Folding = ---
-; EnableXP

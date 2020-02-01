@@ -237,7 +237,7 @@ $(TARGET)/%.png : ../PureBasicDebugger/Data/%.png $(TARGET)/dummy
 $(TARGET)/%.pb : dialogs/%.xml $(DIALOGCOMPILER) $(TARGET)/dummy
 	$(DIALOGCOMPILER) $< $@
 
-# theme targets (-mkdir supresses errors if the directory exists)
+# theme targets (-mkdir suppresses errors if the directory exists)
 #
 $(TARGET)/DefaultTheme.zip: data/DefaultTheme/*
 	rm -f $(TARGET)/DefaultTheme.zip

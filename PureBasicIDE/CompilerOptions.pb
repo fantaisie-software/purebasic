@@ -112,7 +112,7 @@ Procedure SetTargetOptions(*Target.CompileTarget)
   SetGadgetState(#GADGET_Option_UseCompiler, *Target\CustomCompiler)
   
   If *Target\CustomCompiler = #False
-    SetGadgetState(#GADGET_Option_SelectCompiler, 0) ; thats the default compiler
+    SetGadgetState(#GADGET_Option_SelectCompiler, 0) ; that's the default compiler
   Else
     ; find a matching compiler
     *Compiler.Compiler = FindCompiler(*Target\CompilerVersion$)
@@ -483,7 +483,7 @@ Procedure UpdateTargetGadgets()
     DisableMenuItem(#POPUPMENU_Options, #GADGET_Option_CopyTarget, 0)
     
     If Count = 1
-      DisableGadget(#GADGET_Option_RemoveTarget, 1) ; must keep atleast one target (and atleast one default)
+      DisableGadget(#GADGET_Option_RemoveTarget, 1) ; must keep at least one target (and at least one default)
       DisableGadget(#GADGET_Option_DefaultTarget, 1)
       SetGadgetState(#GADGET_Option_DefaultTarget, 1)
       DisableMenuItem(#POPUPMENU_Options, #GADGET_Option_RemoveTarget, 1)
@@ -809,7 +809,7 @@ Procedure OptionWindowEvents(EventID)
               UpdateSourceStatus(1) ; set the changed flag
             EndIf
             
-            ; update the hilightning if EnableASM changes
+            ; update the highlighting if EnableASM changes
             ;
             OldEnableASM = *ActiveSource\EnableASM
             GetTargetOptions(*ActiveSource)
@@ -919,7 +919,7 @@ Procedure OptionWindowEvents(EventID)
                 If GetGadgetState(#GADGET_Option_ExecutableFormat) = 1 ; console
                   Extension$ = ""                                      ; console, do not append .app automatically here
                 Else
-                  Extension$ = ".app"  ; autmatically append ".app" for gui programs
+                  Extension$ = ".app"  ; automatically append ".app" for gui programs
                 EndIf
               CompilerElse ; Linux
                 Pattern$   = ""

@@ -27,7 +27,7 @@ Procedure EnsureWindowOnDesktop(Window)
   r = l + WindowWidth(Window)
   b = t + #DesktopMargin ; we want the titlebar to stay on the desktop, so act as if the window is really small
   
-  ; monitor with which the window has atleast some pixels in common
+  ; monitor with which the window has at least some pixels in common
   monitor = -1
   mode    = 0
   
@@ -111,7 +111,7 @@ Procedure EnsureWindowOnDesktop(Window)
 EndProcedure
 
 ; Generate a unique id by an ever increasing counter (should wrap to 0 if it flows over)
-; These IDs are used to identify CompileTargets and Debuggers savely (without invalid pointer problems when they are removed etc)
+; These IDs are used to identify CompileTargets and Debuggers safely (without invalid pointer problems when they are removed etc)
 ;
 Procedure GetUniqueID()
   Static UniqueID

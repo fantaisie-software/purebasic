@@ -240,7 +240,7 @@ Procedure VariableGadget_Compare(*Gadget.VariableGadget, index1, index2)
     EndIf
     
   Else
-    ; atleast one is not a toplevel one
+    ; at least one is not a toplevel one
     ; find the index of the toplevel item for both items
     topindex1 = index1
     While *items\item[topindex1]\Parent <> -1
@@ -1086,7 +1086,7 @@ EndProcedure
 
 ; Called internally: Sync only a single item to the gadget display
 ;
-; NOTE: This is slow for gadgets with a large number of items, thats why
+; NOTE: This is slow for gadgets with a large number of items, that's why
 ;   only the watchlist actually uses it. (The VariableViewer does SyncAll())
 ;
 Procedure VariableGadget_SyncItem(ListIndex)
