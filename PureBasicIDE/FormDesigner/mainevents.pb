@@ -6166,15 +6166,15 @@ Procedure FD_UpdateSelectParent()
 EndProcedure
 Procedure FD_InitSelectParent(parent_gadget)
   DisableWindow(#WINDOW_Main,1)
-  OpenWindow(#WINDOW_Form_Parent, 0, 0, 412, 142, Language("Form","Parent"), #PB_Window_SystemMenu | #PB_Window_WindowCentered,WindowID(#WINDOW_Main))
+  OpenWindow(#WINDOW_Form_Parent, 0, 0, 482, 150, Language("Form","Parent"), #PB_Window_SystemMenu | #PB_Window_WindowCentered,WindowID(#WINDOW_Main))
   
-  Text_0 = TextGadget(#PB_Any, 20, 20, 110, 22, Language("Form","Parent"), #PB_Text_Right)
-  ComboBoxGadget(#GADGET_Form_Parent_Select, 140, 20, 250, 22)
-  Text_1 = TextGadget(#PB_Any, 20, 60, 110, 22, Language("Form","ParentItem"), #PB_Text_Right)
-  ComboBoxGadget(#GADGET_Form_Parent_SelectItem, 140, 60, 250, 22)
+  Text_0 = TextGadget(#PB_Any, 20, 24, 180, 22, Language("Form","Parent"), #PB_Text_Right)
+  ComboBoxGadget(#GADGET_Form_Parent_Select, 210, 20, 250, 30)
+  Text_1 = TextGadget(#PB_Any, 20, 64, 180, 22, Language("Form","ParentItem"), #PB_Text_Right)
+  ComboBoxGadget(#GADGET_Form_Parent_SelectItem, 210, 60, 250, 30)
   
-  ButtonGadget(#GADGET_Form_Parent_OK, 200, 100, 120, 25, Language("Form","OK"))
-  ButtonGadget(#GADGET_Form_Parent_Cancel, 90, 100, 100, 25, Language("Form","Cancel"))
+  ButtonGadget(#GADGET_Form_Parent_OK, 235, 108, 120, 25, Language("Form","OK"))
+  ButtonGadget(#GADGET_Form_Parent_Cancel, 125, 108, 100, 25, Language("Form","Cancel"))
   
   i = 0
   selected = 0
