@@ -524,6 +524,8 @@ Enumeration
   #DEBUGGER_GADGET_Memory_CopyText
   #DEBUGGER_GADGET_Memory_SaveText
   #DEBUGGER_GADGET_Memory_SaveRaw
+  #DEBUGGER_GADGET_Memory_ChkformatDataSection
+  #DEBUGGER_GADGET_Memory_Display_DataView
   
   #DEBUGGER_GADGET_Variable_Panel
   #DEBUGGER_GADGET_Variable_Splitter

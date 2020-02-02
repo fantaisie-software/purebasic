@@ -23,16 +23,16 @@ Procedure.s MemoryViewer_GetDataView(ViewTableData)
 EndProcedure 
 
 Procedure.s OCT(number.q)
-  Protected oct.s=Space(8*SizeOf(Character))
-  For a = 7 To 0 Step -1
+  Protected oct.s=Space(23)
+  For a = 22 To 0 Step -1
     PokeS(@oct+a*SizeOf(Character),Str(number & 7),SizeOf(Character),#PB_String_NoZero)
     number >> 3
   Next 
   oct = Trim(oct,"0") 
-  If oct = "        " 
+  If oct = ""
     oct = "0"
-  EndIf   
-  ProcedureReturn oct 
+  EndIf
+  ProcedureReturn oct
 EndProcedure 
 
 ;Wrappers to simplify the handling of the different variable types.
@@ -45,7 +45,7 @@ Procedure.s MemoryViewer_PeekB(*Pointer)
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn Str(PeekB(*Pointer))
     Case #MEMORY_VIEW_TABLE_DATA_OCT 
-      ProcedureReturn OCT(PeekB(*Pointer))
+      ProcedureReturn OCT(PeekB(*Pointer) & $FF)
   EndSelect   
 EndProcedure
 
@@ -78,7 +78,7 @@ Procedure.s MemoryViewer_PeekW(*Pointer)
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn Str(PeekW(*Pointer))
     Case #MEMORY_VIEW_TABLE_DATA_OCT   
-      ProcedureReturn OCT(PeekW(*Pointer))
+      ProcedureReturn OCT(PeekW(*Pointer) & $FFFF)
   EndSelect     
 EndProcedure
 
@@ -89,7 +89,7 @@ Procedure.s MemoryViewer_PeekL(*Pointer)
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn Str(PeekL(*Pointer))
     Case #MEMORY_VIEW_TABLE_DATA_OCT
-      ProcedureReturn Hex(PeekL(*Pointer))
+      ProcedureReturn OCT(PeekL(*Pointer) & $FFFFFFFF)
   EndSelect
 EndProcedure
 
@@ -111,7 +111,7 @@ Procedure.s MemoryViewer_PeekF(*Pointer)
     Case #MEMORY_VIEW_TABLE_DATA_DEC
       ProcedureReturn StrF(PeekF(*Pointer))
     Case #MEMORY_VIEW_TABLE_DATA_OCT
-      ProcedureReturn OCT(PeekL(*Pointer))
+      ProcedureReturn OCT(PeekL(*Pointer) & $FFFFFFFF)
   EndSelect
 EndProcedure
 
