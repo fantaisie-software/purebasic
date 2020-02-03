@@ -441,154 +441,161 @@ Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
     ; On OSX, for some reason we get events when you type in the Scintilla, so only react when the browser is focused
     ; as else the Caret jumps around to the selected procedure all the time
     ;
+    Protected EventValid.i = #False
     CompilerIf #CompileMac
       If EventGadgetID = #GADGET_ProcedureBrowser And GetActiveGadget() = #GADGET_ProcedureBrowser
-      CompilerElse
-        If EventGadgetID = #GADGET_ProcedureBrowser
+        EventValid = #True
+      EndIf
+    CompilerElse
+      If EventGadgetID = #GADGET_ProcedureBrowser
+        EventValid = #True
+      EndIf
+    CompilerEndIf
+    
+    If EventValid
+      index = GetGadgetState(#GADGET_ProcedureBrowser)
+      If index <> -1
+        SelectElement(ProcedureList(), index)
+        ChangeActiveLine(ProcedureList()\Line, 0)
+        
+        ; Unfold the procedure block if it was folded
+        SendEditorMessage(#SCI_ENSUREVISIBLE, ProcedureList()\Line)
+        
+        CompilerIf #CompileMac
+          ; remove selection so the we won't get more jumps to the procedure start! (OSX specific problem)
+          SetGadgetState(#GADGET_ProcedureBrowser, -1)
         CompilerEndIf
-        index = GetGadgetState(#GADGET_ProcedureBrowser)
-        If index <> -1
-          SelectElement(ProcedureList(), index)
-          ChangeActiveLine(ProcedureList()\Line, 0)
-          
-          ; Unfold the procedure block if it was folded
-          SendEditorMessage(#SCI_ENSUREVISIBLE, ProcedureList()\Line)
-          
-          CompilerIf #CompileMac
-            ; remove selection so the we won't get more jumps to the procedure start! (OSX specific problem)
-            SetGadgetState(#GADGET_ProcedureBrowser, -1)
-          CompilerEndIf
-        EndIf
       EndIf
     EndIf
-    
-  EndProcedure
+  EndIf
   
+EndProcedure
+
+
+Procedure ProcedureBrowser_PreferenceLoad(*Entry.ToolsPanelEntry)
   
-  Procedure ProcedureBrowser_PreferenceLoad(*Entry.ToolsPanelEntry)
-    
-    PreferenceGroup("ProcedureBrowser")
-    ProcedureBrowserSort = ReadPreferenceLong  ("Sort", 0) ; 0=by line, nogroup, 1=by line, group, 2=byname, nogroup  3 = byname, group
-    DisplayProtoType     = ReadPreferenceLong  ("Prototype", 0)
-    
-  EndProcedure
+  PreferenceGroup("ProcedureBrowser")
+  ProcedureBrowserSort = ReadPreferenceLong  ("Sort", 0) ; 0=by line, nogroup, 1=by line, group, 2=byname, nogroup  3 = byname, group
+  DisplayProtoType     = ReadPreferenceLong  ("Prototype", 0)
   
+EndProcedure
+
+
+Procedure ProcedureBrowser_PreferenceSave(*Entry.ToolsPanelEntry)
   
-  Procedure ProcedureBrowser_PreferenceSave(*Entry.ToolsPanelEntry)
-    
-    PreferenceComment("")
-    PreferenceGroup("ProcedureBrowser")
-    WritePreferenceLong("Sort", ProcedureBrowserSort)
-    WritePreferenceLong("Prototype", DisplayProtoType)
-    
-  EndProcedure
+  PreferenceComment("")
+  PreferenceGroup("ProcedureBrowser")
+  WritePreferenceLong("Sort", ProcedureBrowserSort)
+  WritePreferenceLong("Prototype", DisplayProtoType)
   
+EndProcedure
+
+
+Procedure ProcedureBrowser_PreferenceStart(*Entry.ToolsPanelEntry)
   
-  Procedure ProcedureBrowser_PreferenceStart(*Entry.ToolsPanelEntry)
-    
-    Backup_ProcedureBrowserSort = ProcedureBrowserSort
-    Backup_DisplayProtoType = DisplayProtoType
-    
-  EndProcedure
+  Backup_ProcedureBrowserSort = ProcedureBrowserSort
+  Backup_DisplayProtoType = DisplayProtoType
   
+EndProcedure
+
+
+Procedure ProcedureBrowser_PreferenceApply(*Entry.ToolsPanelEntry)
   
-  Procedure ProcedureBrowser_PreferenceApply(*Entry.ToolsPanelEntry)
-    
-    ProcedureBrowserSort = Backup_ProcedureBrowserSort
-    DisplayProtoType = Backup_DisplayProtoType
-    
-  EndProcedure
+  ProcedureBrowserSort = Backup_ProcedureBrowserSort
+  DisplayProtoType = Backup_DisplayProtoType
   
+EndProcedure
+
+
+Procedure ProcedureBrowser_PreferenceCreate(*Entry.ToolsPanelEntry)
   
-  Procedure ProcedureBrowser_PreferenceCreate(*Entry.ToolsPanelEntry)
-    
-    Top = 10
-    CheckBoxGadget(#GADGET_Preferences_ProcedureBrowserSort, 10, 10, 300, 25, Language("Preferences","ProcedureSort"))
-    CheckBoxGadget(#GADGET_Preferences_ProcedureBrowserGroup, 10, 40, 300, 25, Language("Preferences","ProcedureGroup"))
-    CheckBoxGadget(#GADGET_Preferences_ProcedureProtoType, 10, 70, 300, 25, Language("Preferences", "ProcedurePrototype"))
-    
-    GetRequiredSize(#GADGET_Preferences_ProcedureBrowserSort, @Width, @Height)
-    Width = Max(Width, GetRequiredWidth(#GADGET_Preferences_ProcedureBrowserGroup))
-    Width = Max(Width, GetRequiredWidth(#GADGET_Preferences_ProcedureProtoType))
-    
-    ResizeGadget(#GADGET_Preferences_ProcedureBrowserSort,  10, 10, Width, Height)
-    ResizeGadget(#GADGET_Preferences_ProcedureBrowserGroup, 10, 15+Height, Width, Height)
-    ResizeGadget(#GADGET_Preferences_ProcedureProtoType,    10, 20+Height*2, Width, Height)
-    
-    If Backup_ProcedureBrowserSort >= 2
-      SetGadgetState(#GADGET_Preferences_ProcedureBrowserSort, 1)
-    EndIf
-    SetGadgetState(#GADGET_Preferences_ProcedureBrowserGroup, Backup_ProcedureBrowserSort % 2)
-    
-    SetGadgetState(#GADGET_Preferences_ProcedureProtoType, Backup_DisplayProtoType)
-    
-  EndProcedure
+  Top = 10
+  CheckBoxGadget(#GADGET_Preferences_ProcedureBrowserSort, 10, 10, 300, 25, Language("Preferences","ProcedureSort"))
+  CheckBoxGadget(#GADGET_Preferences_ProcedureBrowserGroup, 10, 40, 300, 25, Language("Preferences","ProcedureGroup"))
+  CheckBoxGadget(#GADGET_Preferences_ProcedureProtoType, 10, 70, 300, 25, Language("Preferences", "ProcedurePrototype"))
   
+  GetRequiredSize(#GADGET_Preferences_ProcedureBrowserSort, @Width, @Height)
+  Width = Max(Width, GetRequiredWidth(#GADGET_Preferences_ProcedureBrowserGroup))
+  Width = Max(Width, GetRequiredWidth(#GADGET_Preferences_ProcedureProtoType))
   
-  Procedure ProcedureBrowser_PreferenceDestroy(*Entry.ToolsPanelEntry)
-    
-    Backup_ProcedureBrowserSort  = 2*GetGadgetState(#GADGET_Preferences_ProcedureBrowserSort)
-    Backup_ProcedureBrowserSort  + GetGadgetState(#GADGET_PReferences_ProcedureBrowserGroup)
-    Backup_DisplayProtoType = GetGadgetState(#GADGET_Preferences_ProcedureProtoType)
-    
-  EndProcedure
+  ResizeGadget(#GADGET_Preferences_ProcedureBrowserSort,  10, 10, Width, Height)
+  ResizeGadget(#GADGET_Preferences_ProcedureBrowserGroup, 10, 15+Height, Width, Height)
+  ResizeGadget(#GADGET_Preferences_ProcedureProtoType,    10, 20+Height*2, Width, Height)
   
+  If Backup_ProcedureBrowserSort >= 2
+    SetGadgetState(#GADGET_Preferences_ProcedureBrowserSort, 1)
+  EndIf
+  SetGadgetState(#GADGET_Preferences_ProcedureBrowserGroup, Backup_ProcedureBrowserSort % 2)
   
-  Procedure ProcedureBrowser_PreferenceEvents(*Entry.ToolsPanelEntry, EventGadgetID)
-    ;
-    ; nothing here
-    ;
-  EndProcedure
+  SetGadgetState(#GADGET_Preferences_ProcedureProtoType, Backup_DisplayProtoType)
   
-  Procedure ProcedureBrowser_PreferenceChanged(*Entry.ToolsPanelEntry, IsConfigOpen)
-    
-    If IsConfigOpen
-      Sort  = 2*GetGadgetState(#GADGET_Preferences_ProcedureBrowserSort)
-      Sort  + GetGadgetState(#GADGET_PReferences_ProcedureBrowserGroup)
-      If Sort <> ProcedureBrowserSort
-        ProcedureReturn 1
-      ElseIf GetGadgetState(#GADGET_Preferences_ProcedureProtoType) <> DisplayProtoType
-        ProcedureReturn 1
-      EndIf
-      
-    Else
-      If ProcedureBrowserSort <> Backup_ProcedureBrowserSort Or DisplayProtoType <> Backup_DisplayProtoType
-        ProcedureReturn 1
-      EndIf
-      
-    EndIf
-    
-    ProcedureReturn 0
-  EndProcedure
+EndProcedure
+
+
+Procedure ProcedureBrowser_PreferenceDestroy(*Entry.ToolsPanelEntry)
   
+  Backup_ProcedureBrowserSort  = 2*GetGadgetState(#GADGET_Preferences_ProcedureBrowserSort)
+  Backup_ProcedureBrowserSort  + GetGadgetState(#GADGET_PReferences_ProcedureBrowserGroup)
+  Backup_DisplayProtoType = GetGadgetState(#GADGET_Preferences_ProcedureProtoType)
   
-  ;- Initialisation code
-  ; This will make this Tool available to the editor
+EndProcedure
+
+
+Procedure ProcedureBrowser_PreferenceEvents(*Entry.ToolsPanelEntry, EventGadgetID)
   ;
-  ProcedureBrowser_VT.ToolsPanelFunctions
+  ; nothing here
+  ;
+EndProcedure
+
+Procedure ProcedureBrowser_PreferenceChanged(*Entry.ToolsPanelEntry, IsConfigOpen)
   
-  ProcedureBrowser_VT\CreateFunction      = @ProcedureBrowser_CreateFunction()
-  ProcedureBrowser_VT\DestroyFunction     = @ProcedureBrowser_DestroyFunction()
-  ProcedureBrowser_VT\ResizeHandler       = @ProcedureBrowser_ResizeHandler()
-  ProcedureBrowser_VT\EventHandler        = @ProcedureBrowser_EventHandler()
-  ProcedureBrowser_VT\PreferenceLoad      = @ProcedureBrowser_PreferenceLoad()
-  ProcedureBrowser_VT\PreferenceSave      = @ProcedureBrowser_PreferenceSave()
-  ProcedureBrowser_VT\PreferenceStart     = @ProcedureBrowser_PreferenceStart()
-  ProcedureBrowser_VT\PreferenceApply     = @ProcedureBrowser_PreferenceApply()
-  ProcedureBrowser_VT\PreferenceCreate    = @ProcedureBrowser_PreferenceCreate()
-  ProcedureBrowser_VT\PreferenceDestroy   = @ProcedureBrowser_PreferenceDestroy()
-  ProcedureBrowser_VT\PreferenceEvents    = @ProcedureBrowser_PreferenceEvents()
-  ProcedureBrowser_VT\PreferenceChanged   = @ProcedureBrowser_PreferenceChanged()
+  If IsConfigOpen
+    Sort  = 2*GetGadgetState(#GADGET_Preferences_ProcedureBrowserSort)
+    Sort  + GetGadgetState(#GADGET_PReferences_ProcedureBrowserGroup)
+    If Sort <> ProcedureBrowserSort
+      ProcedureReturn 1
+    ElseIf GetGadgetState(#GADGET_Preferences_ProcedureProtoType) <> DisplayProtoType
+      ProcedureReturn 1
+    EndIf
+    
+  Else
+    If ProcedureBrowserSort <> Backup_ProcedureBrowserSort Or DisplayProtoType <> Backup_DisplayProtoType
+      ProcedureReturn 1
+    EndIf
+    
+  EndIf
   
-  
-  AddElement(AvailablePanelTools())
-  
-  AvailablePanelTools()\FunctionsVT          = @ProcedureBrowser_VT
-  AvailablePanelTools()\NeedPreferences      = 1
-  AvailablePanelTools()\NeedConfiguration    = 1
-  AvailablePanelTools()\PreferencesWidth     = 320
-  AvailablePanelTools()\PreferencesHeight    = 100
-  AvailablePanelTools()\NeedDestroyFunction  = 1
-  AvailablePanelTools()\ToolID$              = "ProcedureBrowser"
-  AvailablePanelTools()\PanelTitle$          = "ProcedureBrowserShort"
-  AvailablePanelTools()\ToolName$            = "ProcedureBrowserLong"
+  ProcedureReturn 0
+EndProcedure
+
+
+;- Initialisation code
+; This will make this Tool available to the editor
+;
+ProcedureBrowser_VT.ToolsPanelFunctions
+
+ProcedureBrowser_VT\CreateFunction      = @ProcedureBrowser_CreateFunction()
+ProcedureBrowser_VT\DestroyFunction     = @ProcedureBrowser_DestroyFunction()
+ProcedureBrowser_VT\ResizeHandler       = @ProcedureBrowser_ResizeHandler()
+ProcedureBrowser_VT\EventHandler        = @ProcedureBrowser_EventHandler()
+ProcedureBrowser_VT\PreferenceLoad      = @ProcedureBrowser_PreferenceLoad()
+ProcedureBrowser_VT\PreferenceSave      = @ProcedureBrowser_PreferenceSave()
+ProcedureBrowser_VT\PreferenceStart     = @ProcedureBrowser_PreferenceStart()
+ProcedureBrowser_VT\PreferenceApply     = @ProcedureBrowser_PreferenceApply()
+ProcedureBrowser_VT\PreferenceCreate    = @ProcedureBrowser_PreferenceCreate()
+ProcedureBrowser_VT\PreferenceDestroy   = @ProcedureBrowser_PreferenceDestroy()
+ProcedureBrowser_VT\PreferenceEvents    = @ProcedureBrowser_PreferenceEvents()
+ProcedureBrowser_VT\PreferenceChanged   = @ProcedureBrowser_PreferenceChanged()
+
+
+AddElement(AvailablePanelTools())
+
+AvailablePanelTools()\FunctionsVT          = @ProcedureBrowser_VT
+AvailablePanelTools()\NeedPreferences      = 1
+AvailablePanelTools()\NeedConfiguration    = 1
+AvailablePanelTools()\PreferencesWidth     = 320
+AvailablePanelTools()\PreferencesHeight    = 100
+AvailablePanelTools()\NeedDestroyFunction  = 1
+AvailablePanelTools()\ToolID$              = "ProcedureBrowser"
+AvailablePanelTools()\PanelTitle$          = "ProcedureBrowserShort"
+AvailablePanelTools()\ToolName$            = "ProcedureBrowserLong"

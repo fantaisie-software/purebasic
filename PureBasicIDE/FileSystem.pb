@@ -184,76 +184,79 @@ Procedure.s CreateRelativePath(BasePath$, FileName$)
   ;
   For x = Len(BasePath$) To 1 Step -1
     If Mid(BasePath$, x, 1) = #Separator
+      Protected CaseMode.i
       CompilerIf #PB_Compiler_OS = #PB_OS_Linux
-        If CompareMemoryString(@BasePath$, @FileName$, 0, x) = 0
-        CompilerElse
-          If CompareMemoryString(@BasePath$, @FileName$, 1, x) = 0
-          CompilerEndIf
-          BasePath$ = Right(BasePath$, Len(BasePath$)-x)
-          FileName$ = Right(FileName$, Len(FileName$)-x)
-          Break
-        EndIf
+        CaseMode = #PB_String_CaseSensitive
+      CompilerElse
+        CaseMode = #PB_String_NoCase
+      CompilerEndIf
+      
+      If CompareMemoryString(@BasePath$, @FileName$, CaseMode, x) = 0
+        BasePath$ = Right(BasePath$, Len(BasePath$)-x)
+        FileName$ = Right(FileName$, Len(FileName$)-x)
+        Break
       EndIf
-    Next x
-    
-    ; now add ".." for each directory left in the BasePath$
-    ;
-    count = CountString(BasePath$, #Separator)
-    If count <= 3 ; do not go too many levels back.. it looks ugly
-      For i = 1 To count
-        FileName$ = ".." + #Separator + FileName$
-      Next i
-    Else
-      FileName$ = FullFileName$ ; use the full name here
     EndIf
-    
-    ProcedureReturn FileName$
-  EndProcedure
+  Next x
   
-  ; Tries to resolve a (relative or full) FileName$ relative to the
-  ; (full) BasePath$. The returned filename is made unique with
-  ; UniqueFilename()
+  ; now add ".." for each directory left in the BasePath$
   ;
-  Procedure.s ResolveRelativePath(BasePath$, FileName$)
+  count = CountString(BasePath$, #Separator)
+  If count <= 3 ; do not go too many levels back.. it looks ugly
+    For i = 1 To count
+      FileName$ = ".." + #Separator + FileName$
+    Next i
+  Else
+    FileName$ = FullFileName$ ; use the full name here
+  EndIf
+  
+  ProcedureReturn FileName$
+EndProcedure
+
+; Tries to resolve a (relative or full) FileName$ relative to the
+; (full) BasePath$. The returned filename is made unique with
+; UniqueFilename()
+;
+Procedure.s ResolveRelativePath(BasePath$, FileName$)
+  
+  ; do the cutting of "../" even if basepath is actually empty
+  If BasePath$ <> ""
+    BasePath$ = UniqueFilename(BasePath$)
     
-    ; do the cutting of "../" even if basepath is actually empty
-    If BasePath$ <> ""
-      BasePath$ = UniqueFilename(BasePath$)
+    If Right(BasePath$, 1) <> #Separator
+      BasePath$ + #Separator
+    EndIf
+    
+    If FindString(FileName$, #Separator, 1) = 0
+      FileName$ = BasePath$ + FileName$
       
-      If Right(BasePath$, 1) <> #Separator
-        BasePath$ + #Separator
-      EndIf
+      CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+      ElseIf Left(FileName$, 2) = "\\"  ; Network file path, Windows only (like: \\192.168.0.1\Test.pb)
+                                        ; FileName$ remains untouched here (it contains a drive letter)
+      CompilerEndIf
       
-      If FindString(FileName$, #Separator, 1) = 0
-        FileName$ = BasePath$ + FileName$
-        
-        CompilerIf #PB_Compiler_OS = #PB_OS_Windows
-        ElseIf Left(FileName$, 2) = "\\"  ; Network file path, Windows only (like: \\192.168.0.1\Test.pb)
-                                          ; FileName$ remains untouched here (it contains a drive letter)
-        CompilerEndIf
-        
-      ElseIf Left(FileName$, 1) = #Separator
-        CompilerIf #PB_Compiler_OS = #PB_OS_Windows
-          FileName$ = Left(BasePath$, 2) + FileName$
-        CompilerEndIf
-        ; On linux/mac. FileName is a full path, so no change
-        
-        CompilerIf #PB_Compiler_OS = #PB_OS_Windows
-        ElseIf Mid(FileName$, 2, 1) = ":"
-          ; FileName$ remains untouched here (it contains a drive letter)
-        CompilerEndIf
-        
-      Else
-        FileName$ = BasePath$ + FileName$
-        
-      EndIf
+    ElseIf Left(FileName$, 1) = #Separator
+      CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+        FileName$ = Left(BasePath$, 2) + FileName$
+      CompilerEndIf
+      ; On linux/mac. FileName is a full path, so no change
+      
+      CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+      ElseIf Mid(FileName$, 2, 1) = ":"
+        ; FileName$ remains untouched here (it contains a drive letter)
+      CompilerEndIf
+      
+    Else
+      FileName$ = BasePath$ + FileName$
       
     EndIf
     
-    ; the UniqueFilename() cuts all the "../" in the combined path
-    ; Do this even if FileName$ was a full path to get a unique name as
-    ; the debugger reports full filenames containing "../" for example.
-    ;
-    ProcedureReturn UniqueFilename(FileName$)
-  EndProcedure
+  EndIf
   
+  ; the UniqueFilename() cuts all the "../" in the combined path
+  ; Do this even if FileName$ was a full path to get a unique name as
+  ; the debugger reports full filenames containing "../" for example.
+  ;
+  ProcedureReturn UniqueFilename(FileName$)
+EndProcedure
+

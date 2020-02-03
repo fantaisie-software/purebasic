@@ -2277,383 +2277,378 @@ Procedure EventLoopCallback()
       If Word$ = "includefile" Or Word$ = "xincludefile" Or Word$ = "includebinary"
         OpenIncludeOnDoubleClick()
       Else
-        CompilerIf #CompileMac
-          ; On Mac, Ctrl+Click is a right-click, so it opens the context menu
-          ; So use the Command key instead here
-          If ModifierKeyPressed(#PB_Shortcut_Command)
-          CompilerElse
-            If ModifierKeyPressed(#PB_Shortcut_Control)
-            CompilerEndIf
-            
-            CompilerIf #CompileWindows
-              SendMessage_(GadgetID(*ActiveSource\EditorGadget), #WM_LBUTTONUP, 0, 0) ; simulate a mouseup to fix the ugly selection problem (https://www.purebasic.fr/english/viewtopic.php?f=4&t=50135)
-            CompilerEndIf
-            
-            JumpToProcedure()
-          EndIf
+        ; On Mac, Ctrl+Click is a right-click, so it opens the context menu
+        ; So use the Command key instead here
+        ; (On other OS, Command just maps to Control)
+        If ModifierKeyPressed(#PB_Shortcut_Command)
+          CompilerIf #CompileWindows
+            SendMessage_(GadgetID(*ActiveSource\EditorGadget), #WM_LBUTTONUP, 0, 0) ; simulate a mouseup to fix the ugly selection problem (https://www.purebasic.fr/english/viewtopic.php?f=4&t=50135)
+          CompilerEndIf
+          
+          JumpToProcedure()
         EndIf
       EndIf
-    CompilerEndIf
-    
-  EndProcedure
-  
-  ; Processes all events.
-  ; Moved into a procedure, so it can be called from the FlushEvents() too, so no events are lost.
-  ;
-  Procedure DispatchEvent(EventID)
-    
-    CompilerIf #PB_Compiler_Debugger
-      If InDebuggerCallback
-        Debug "DispatchEvent() can't be call inside the debugger callback !"
-        CallDebugger
-      EndIf
-    CompilerEndIf
-    
-    
-    If EventID = 0
-      ProcedureReturn 0
     EndIf
-    
-    ; Handle the RunOnce message here as it is posted to the queue
-    CompilerIf #CompileWindows
-      If EventID = RunOnceMessageID And EventWindow() = #WINDOW_Main
-        CompilerIf #DEBUG
-          ID = EventwParam()
-          Debug "[RunOnceMessage received] Code = '" + PeekS(@ID, 4, #PB_Ascii) + "', Window = " + Hex(EventlParam())
-        CompilerEndIf
-        
-        If EventwParam() = AsciiConst('F', 'I', 'N', 'D')
-          PostMessage_(EventlParam(), RunOnceMessageID, AsciiConst('H', 'W', 'N', 'D'), WindowID(#WINDOW_Main))
-          
-        ElseIf EventwParam() = AsciiConst('A', 'U', 'T', 'O')
-          ; broadcast for IDE's that support Automation (since 4.60)
-          ; respond with the kind of automation supported (AUT1 = version 1)
-          PostMessage_(EventlParam(), RunOnceMessageID, AsciiConst('A', 'U', 'T', '1'), WindowID(#WINDOW_Main))
-          
-        ElseIf EventwParam() = AsciiConst('O', 'P', 'E', 'N') And Editor_RunOnce
-          ; to this one we only answer when RunOnce is enabled
-          ; This way non-runonce instances are not affected
-          ; The data is actually sent after this with WM_COPYDATA (see Window callback)
-          PostMessage_(EventlParam(), RunOnceMessageID, AsciiConst('H', 'W', 'N', 'D'), WindowID(#WINDOW_Main))
-        EndIf
-        ProcedureReturn 1
-      EndIf
-    CompilerEndIf
-    
-    CompilerIf #CompileMac
-      ; The focus callback is a mess on OS X, so do it the 'easy' way (may be we can do that on every OSes).
-      ;
-      If EventID = #PB_Event_ActivateWindow
-        If AutoCompleteWindowOpen And EventWindow() <> #WINDOW_AutoComplete
-          AutoComplete_Close()
-        EndIf
-      EndIf
-      
-      ; On MacOS X, the quit can be invoked from the dock for example, so there will be no current window
-      ;
-      If EventID = #PB_Event_Menu And EventMenu() = #MENU_Exit
-        QuitIDE = MainWindowEvents(EventID)
-      Else
+  CompilerEndIf
+  
+EndProcedure
+
+; Processes all events.
+; Moved into a procedure, so it can be called from the FlushEvents() too, so no events are lost.
+;
+Procedure DispatchEvent(EventID)
+  
+  CompilerIf #PB_Compiler_Debugger
+    If InDebuggerCallback
+      Debug "DispatchEvent() can't be call inside the debugger callback !"
+      CallDebugger
+    EndIf
+  CompilerEndIf
+  
+  
+  If EventID = 0
+    ProcedureReturn 0
+  EndIf
+  
+  ; Handle the RunOnce message here as it is posted to the queue
+  CompilerIf #CompileWindows
+    If EventID = RunOnceMessageID And EventWindow() = #WINDOW_Main
+      CompilerIf #DEBUG
+        ID = EventwParam()
+        Debug "[RunOnceMessage received] Code = '" + PeekS(@ID, 4, #PB_Ascii) + "', Window = " + Hex(EventlParam())
       CompilerEndIf
       
-      ;   If EventID <> 4 And EventID <> -1
-      ;   ;  Debug "Event: "+Str(EventID)+"   Window: " + Str(EventWindow())
-      ;   EndIf
-      
-      ; Form events - this is not in the main window event procedure as it handles the grid events as well
-      ; it also handles the specific menu events related to form popups
-      FD_Event(EventID, EventGadget(), EventType())
-      
-      Select EventWindow()
-          
-        Case #WINDOW_Main
-          QuitIDE = MainWindowEvents(EventID)
-          
-        Case #WINDOW_About
-          AboutWindowEvents(EventID)
-          
-        Case #WINDOW_Preferences
-          PreferencesWindowEvents(EventID)
-          
-        Case #WINDOW_FileViewer
-          FileViewerWindowEvents(EventID)
-          
-        Case #WINDOW_Goto
-          GotoWindowEvents(EventID)
-          
-        Case #WINDOW_Find
-          FindWindowEvents(EventID)
-          
-        Case #WINDOW_StructureViewer
-          StructureViewerWindowEvents(EventID)
-          
-        Case #WINDOW_Grep
-          GrepWindowEvents(EventID)
-          
-        Case #WINDOW_GrepOutput
-          GrepOutputWindowEvents(EventID)
-          
-        Case #WINDOW_Option
-          OptionWindowEvents(EventID)
-          
-          CompilerIf #SpiderBasic
-          Case #WINDOW_CreateApp
-            CreateAppWindowEvents(EventID)
-          CompilerEndIf
-          
-        Case #WINDOW_AddTools
-          AddTools_WindowEvents(EventID)
-          
-        Case #WINDOW_EditTools
-          AddTools_EditWindowEvents(EventID)
-          
-        Case #WINDOW_AutoComplete
-          AutoCompleteWindowEvents(EventID)
-          
-        Case #WINDOW_Template
-          TemplateWindowEvents(EventID)
-          
-        Case #WINDOW_MacroError
-          MacroErrorWindowEvents(EventID)
-          
-        Case #WINDOW_Warnings
-          WarningWindowEvents(EventID)
-          
-        Case #WINDOW_Compiler
-          CompilerWindowEvents(EventID)
-          
-        Case #WINDOW_ProjectOptions
-          ProjectOptionsEvents(EventID)
-          
-        Case #WINDOW_Build
-          BuildWindowEvents(EventID)
-          
-        Case #WINDOW_Diff
-          DiffWindowEvents(EventID)
-          
-        Case #WINDOW_DiffDialog
-          DiffDialogWindowEvents(EventID)
-          
-        Case #WINDOW_FileMonitor
-          FileMonitorWindowEvents(EventID)
-          
-        Case #Form_ImgList
-          FormImgListWindowEvents(EventID)
-          
-        Case #Form_Columns
-          FormColumnsWindowEvents(EventID)
-          
-        Case #Form_Items
-          FormItemsWindowEvents(EventID)
-          
-        Case #WINDOW_Form_Parent
-          FD_EventSelectParent(EventID)
-          
-        Case #WINDOW_EditHistory
-          EditHistoryWindowEvent(EventID)
-          
-        Case #WINDOW_Updates
-          UpdateWindowEvents(EventID)
-          
-          CompilerIf #CompileLinux | #CompileMac
-            
-          Case #WINDOW_Help
-            HelpWindowEvents(EventID)
-            
-          CompilerEndIf
-          
-          CompilerIf #DEBUG
-            
-          Case #WINDOW_Debugging
-            DebuggingWindowEvents(EventID)
-            
-          CompilerEndIf
-          
-        Default
-          ; check debugger events
-          ;
-          If Debugger_ProcessShortcuts(EventWindow(), EventID) = 0 ; ide debugger
-            If Debugger_ProcessEvents(EventWindow(), EventID) = 0  ; 0 means unhandled (debugger general function)
-              
-              ; check ToolsPanel tools in separate windows
-              ;
-              ForEach AvailablePanelTools()
-                If AvailablePanelTools()\IsSeparateWindow And AvailablePanelTools()\ToolWindowID = EventWindow()
-                  If EventID = #PB_Event_CloseWindow
-                    
-                    If AvailablePanelTools()\NeedDestroyFunction
-                      Tool.ToolsPanelInterface = @AvailablePanelTools()
-                      Tool\DestroyFunction()
-                    EndIf
-                    
-                    If MemorizeWindow
-                      Window = AvailablePanelTools()\ToolWindowID
-                      If IsWindowMinimized(Window) = 0
-                        AvailablePanelTools()\ToolWindowX      = WindowX(Window)
-                        AvailablePanelTools()\ToolWindowY      = WindowY(Window)
-                        AvailablePanelTools()\ToolWindowWidth  = WindowWidth(Window)
-                        AvailablePanelTools()\ToolWindowHeight = WindowHeight(Window)
-                      EndIf
-                    EndIf
-                    CloseWindow(AvailablePanelTools()\ToolWindowID)
-                    AvailablePanelTools()\ToolWindowID = -1
-                    AvailablePanelTools()\IsSeparateWindow = 0
-                    
-                  ElseIf EventID = #PB_Event_Gadget
-                    If #DEFAULT_CanWindowStayOnTop And EventGadget() = AvailablePanelTools()\ToolStayOnTop
-                      AvailablePanelTools()\IsToolStayOnTop = GetGadgetState(AvailablePanelTools()\ToolStayOnTop)
-                      SetWindowStayOnTop(AvailablePanelTools()\ToolWindowID, AvailablePanelTools()\IsToolStayOnTop)
-                    Else
-                      Tool.ToolsPanelInterface = @AvailablePanelTools()
-                      Tool\EventHandler(EventGadget())
-                    EndIf
-                    
-                    ; menu events in a separate toolspanel item are treated as main window events,
-                    ; same as when they are integrated in the sidepanel
-                    ; same for drag & drop events
-                  ElseIf EventID = #PB_Event_Menu Or EventID = #PB_Event_GadgetDrop
-                    MainWindowEvents(EventID)
-                    
-                  ElseIf EventID = #PB_Event_SizeWindow
-                    ResizeTools()
-                    
-                  ElseIf EventID = #PB_Event_GadgetDrop
-                    ; spechial case for the Templates D+D
-                    If EventGadget() = #GADGET_Template_Tree
-                      Template_DropEvent()
-                    EndIf
-                    
-                  EndIf
-                  
-                  Break
-                EndIf
-              Next AvailablePanelTools()
-              
-            EndIf
-          EndIf
-          
-      EndSelect
-      
-      CompilerIf #CompileMac
+      If EventwParam() = AsciiConst('F', 'I', 'N', 'D')
+        PostMessage_(EventlParam(), RunOnceMessageID, AsciiConst('H', 'W', 'N', 'D'), WindowID(#WINDOW_Main))
+        
+      ElseIf EventwParam() = AsciiConst('A', 'U', 'T', 'O')
+        ; broadcast for IDE's that support Automation (since 4.60)
+        ; respond with the kind of automation supported (AUT1 = version 1)
+        PostMessage_(EventlParam(), RunOnceMessageID, AsciiConst('A', 'U', 'T', '1'), WindowID(#WINDOW_Main))
+        
+      ElseIf EventwParam() = AsciiConst('O', 'P', 'E', 'N') And Editor_RunOnce
+        ; to this one we only answer when RunOnce is enabled
+        ; This way non-runonce instances are not affected
+        ; The data is actually sent after this with WM_COPYDATA (see Window callback)
+        PostMessage_(EventlParam(), RunOnceMessageID, AsciiConst('H', 'W', 'N', 'D'), WindowID(#WINDOW_Main))
       EndIf
+      ProcedureReturn 1
+    EndIf
+  CompilerEndIf
+  
+  CompilerIf #CompileMac
+    ; The focus callback is a mess on OS X, so do it the 'easy' way (may be we can do that on every OSes).
+    ;
+    If EventID = #PB_Event_ActivateWindow
+      If AutoCompleteWindowOpen And EventWindow() <> #WINDOW_AutoComplete
+        AutoComplete_Close()
+      EndIf
+    EndIf
+    
+    ; On MacOS X, the quit can be invoked from the dock for example, so there will be no current window
+    ;
+    If EventID = #PB_Event_Menu And EventMenu() = #MENU_Exit
+      QuitIDE = MainWindowEvents(EventID)
+    Else
     CompilerEndIf
     
-    ProcedureReturn EventID ; return the eventid still, to be able to check for 0 events (empty queue)
-  EndProcedure
-  
-  ; remove all events from the queue.
-  ;
-  Procedure FlushEvents()
+    ;   If EventID <> 4 And EventID <> -1
+    ;   ;  Debug "Event: "+Str(EventID)+"   Window: " + Str(EventWindow())
+    ;   EndIf
     
-    While DispatchEvent(WindowEvent()) ; returns the eventid
-      EventLoopCallback()
-    Wend
+    ; Form events - this is not in the main window event procedure as it handles the grid events as well
+    ; it also handles the specific menu events related to form popups
+    FD_Event(EventID, EventGadget(), EventType())
     
-  EndProcedure
-  
-  
-  Procedure ErrorLog_Refresh()
-    ClearGadgetItems(#GADGET_ErrorLog)
-    
-    If *ActiveSource
-      If *ActiveSource = *ProjectInfo Or *ActiveSource\ProjectFile
+    Select EventWindow()
         
-        If ListSize(ProjectLog()) > 0
-          ForEach ProjectLog()
-            AddGadgetItem(#GADGET_ErrorLog, -1, ProjectLog())
-          Next ProjectLog()
-          SetGadgetState(#GADGET_ErrorLog, CountGadgetItems(#GADGET_ErrorLog)-1)
-        EndIf
+      Case #WINDOW_Main
+        QuitIDE = MainWindowEvents(EventID)
         
-      Else
+      Case #WINDOW_About
+        AboutWindowEvents(EventID)
         
-        If *ActiveSource\LogSize <> 0
-          For i = 0 To *ActiveSource\LogSize-1
-            AddGadgetItem(#GADGET_ErrorLog, -1, *ActiveSource\LogLines$[i])
-          Next i
-          SetGadgetState(#GADGET_ErrorLog, CountGadgetItems(#GADGET_ErrorLog)-1)
-        EndIf
+      Case #WINDOW_Preferences
+        PreferencesWindowEvents(EventID)
         
-      EndIf
-    EndIf
-  EndProcedure
-  
-  Procedure ErrorLog_Show()
-    If ErrorLogVisible = 0 ; only do this if it is needed ! (problems otherwise)
-      
-      If ToolsPanelVisible
-        ; switch the logsplitter with the source container, so the logsplitter is again in the toolspanel one
-        ; if there is no toolspanel, this step is not needed
+      Case #WINDOW_FileViewer
+        FileViewerWindowEvents(EventID)
+        
+      Case #WINDOW_Goto
+        GotoWindowEvents(EventID)
+        
+      Case #WINDOW_Find
+        FindWindowEvents(EventID)
+        
+      Case #WINDOW_StructureViewer
+        StructureViewerWindowEvents(EventID)
+        
+      Case #WINDOW_Grep
+        GrepWindowEvents(EventID)
+        
+      Case #WINDOW_GrepOutput
+        GrepOutputWindowEvents(EventID)
+        
+      Case #WINDOW_Option
+        OptionWindowEvents(EventID)
+        
+        CompilerIf #SpiderBasic
+        Case #WINDOW_CreateApp
+          CreateAppWindowEvents(EventID)
+        CompilerEndIf
+        
+      Case #WINDOW_AddTools
+        AddTools_WindowEvents(EventID)
+        
+      Case #WINDOW_EditTools
+        AddTools_EditWindowEvents(EventID)
+        
+      Case #WINDOW_AutoComplete
+        AutoCompleteWindowEvents(EventID)
+        
+      Case #WINDOW_Template
+        TemplateWindowEvents(EventID)
+        
+      Case #WINDOW_MacroError
+        MacroErrorWindowEvents(EventID)
+        
+      Case #WINDOW_Warnings
+        WarningWindowEvents(EventID)
+        
+      Case #WINDOW_Compiler
+        CompilerWindowEvents(EventID)
+        
+      Case #WINDOW_ProjectOptions
+        ProjectOptionsEvents(EventID)
+        
+      Case #WINDOW_Build
+        BuildWindowEvents(EventID)
+        
+      Case #WINDOW_Diff
+        DiffWindowEvents(EventID)
+        
+      Case #WINDOW_DiffDialog
+        DiffDialogWindowEvents(EventID)
+        
+      Case #WINDOW_FileMonitor
+        FileMonitorWindowEvents(EventID)
+        
+      Case #Form_ImgList
+        FormImgListWindowEvents(EventID)
+        
+      Case #Form_Columns
+        FormColumnsWindowEvents(EventID)
+        
+      Case #Form_Items
+        FormItemsWindowEvents(EventID)
+        
+      Case #WINDOW_Form_Parent
+        FD_EventSelectParent(EventID)
+        
+      Case #WINDOW_EditHistory
+        EditHistoryWindowEvent(EventID)
+        
+      Case #WINDOW_Updates
+        UpdateWindowEvents(EventID)
+        
+        CompilerIf #CompileLinux | #CompileMac
+          
+        Case #WINDOW_Help
+          HelpWindowEvents(EventID)
+          
+        CompilerEndIf
+        
+        CompilerIf #DEBUG
+          
+        Case #WINDOW_Debugging
+          DebuggingWindowEvents(EventID)
+          
+        CompilerEndIf
+        
+      Default
+        ; check debugger events
         ;
-        If ToolsPanelSide = 0
-          SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget, #GADGET_LogSplitter)
-        Else
-          SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_SecondGadget, #GADGET_LogSplitter)
+        If Debugger_ProcessShortcuts(EventWindow(), EventID) = 0 ; ide debugger
+          If Debugger_ProcessEvents(EventWindow(), EventID) = 0  ; 0 means unhandled (debugger general function)
+            
+            ; check ToolsPanel tools in separate windows
+            ;
+            ForEach AvailablePanelTools()
+              If AvailablePanelTools()\IsSeparateWindow And AvailablePanelTools()\ToolWindowID = EventWindow()
+                If EventID = #PB_Event_CloseWindow
+                  
+                  If AvailablePanelTools()\NeedDestroyFunction
+                    Tool.ToolsPanelInterface = @AvailablePanelTools()
+                    Tool\DestroyFunction()
+                  EndIf
+                  
+                  If MemorizeWindow
+                    Window = AvailablePanelTools()\ToolWindowID
+                    If IsWindowMinimized(Window) = 0
+                      AvailablePanelTools()\ToolWindowX      = WindowX(Window)
+                      AvailablePanelTools()\ToolWindowY      = WindowY(Window)
+                      AvailablePanelTools()\ToolWindowWidth  = WindowWidth(Window)
+                      AvailablePanelTools()\ToolWindowHeight = WindowHeight(Window)
+                    EndIf
+                  EndIf
+                  CloseWindow(AvailablePanelTools()\ToolWindowID)
+                  AvailablePanelTools()\ToolWindowID = -1
+                  AvailablePanelTools()\IsSeparateWindow = 0
+                  
+                ElseIf EventID = #PB_Event_Gadget
+                  If #DEFAULT_CanWindowStayOnTop And EventGadget() = AvailablePanelTools()\ToolStayOnTop
+                    AvailablePanelTools()\IsToolStayOnTop = GetGadgetState(AvailablePanelTools()\ToolStayOnTop)
+                    SetWindowStayOnTop(AvailablePanelTools()\ToolWindowID, AvailablePanelTools()\IsToolStayOnTop)
+                  Else
+                    Tool.ToolsPanelInterface = @AvailablePanelTools()
+                    Tool\EventHandler(EventGadget())
+                  EndIf
+                  
+                  ; menu events in a separate toolspanel item are treated as main window events,
+                  ; same as when they are integrated in the sidepanel
+                  ; same for drag & drop events
+                ElseIf EventID = #PB_Event_Menu Or EventID = #PB_Event_GadgetDrop
+                  MainWindowEvents(EventID)
+                  
+                ElseIf EventID = #PB_Event_SizeWindow
+                  ResizeTools()
+                  
+                ElseIf EventID = #PB_Event_GadgetDrop
+                  ; spechial case for the Templates D+D
+                  If EventGadget() = #GADGET_Template_Tree
+                    Template_DropEvent()
+                  EndIf
+                  
+                EndIf
+                
+                Break
+              EndIf
+            Next AvailablePanelTools()
+            
+          EndIf
         EndIf
-      EndIf
-      
-      ; switch the SourceContainer with the dummy so it is back in the correct splitter
-      SetGadgetAttribute(#GADGET_LogSplitter, #PB_Splitter_FirstGadget, #GADGET_SourceContainer)
-      
-      HideGadget(#GADGET_LogSplitter, 0)
-      ErrorLogVisible = 1  ; must be before the resize!
-      ResizeMainWindow()   ; resize main window and we are done.
-      
-      ; restore splitter position
-      SetGadgetState(#GADGET_LogSplitter, GadgetHeight(#GADGET_LogSplitter)-ErrorLogHeight_Hidden)
+        
+    EndSelect
+    
+    CompilerIf #CompileMac
     EndIf
-  EndProcedure
+  CompilerEndIf
   
-  Procedure ErrorLog_Hide()
-    If ErrorLogVisible
-      ErrorLogHeight_Hidden = GadgetHeight(#GADGET_LogSplitter) - GetGadgetState(#GADGET_LogSplitter)
-      HideGadget(#GADGET_LogSplitter, 1)
-      
-      ; switch the SourceContainer with the dummy
-      SetGadgetAttribute(#GADGET_LogSplitter, #PB_Splitter_FirstGadget, #GADGET_LogDummy)
-      
-      If ToolsPanelVisible
-        ; switch the logsplitter with the source container, so the container is directly in the ToolsSplitter
-        ; if there is no toolspanel, the sourcecontainer is already on the main window.
-        ;
-        If ToolsPanelSide = 0
-          SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget, #GADGET_SourceContainer)
-        Else
-          SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_SecondGadget, #GADGET_SourceContainer)
-        EndIf
-      EndIf
-      
-      ErrorLogVisible = 0  ; must be before the resize!
-      ResizeMainWindow()   ; resize main window and we are done.
-    EndIf
-  EndProcedure
+  ProcedureReturn EventID ; return the eventid still, to be able to check for 0 events (empty queue)
+EndProcedure
+
+; remove all events from the queue.
+;
+Procedure FlushEvents()
   
-  Procedure ErrorLog_SyncState(DoResize = #True) ; make sure the errorlog reflects the show/hide state of the current source
+  While DispatchEvent(WindowEvent()) ; returns the eventid
+    EventLoopCallback()
+  Wend
+  
+EndProcedure
+
+
+Procedure ErrorLog_Refresh()
+  ClearGadgetItems(#GADGET_ErrorLog)
+  
+  If *ActiveSource
     If *ActiveSource = *ProjectInfo Or *ActiveSource\ProjectFile
-      Show = ProjectShowLog
+      
+      If ListSize(ProjectLog()) > 0
+        ForEach ProjectLog()
+          AddGadgetItem(#GADGET_ErrorLog, -1, ProjectLog())
+        Next ProjectLog()
+        SetGadgetState(#GADGET_ErrorLog, CountGadgetItems(#GADGET_ErrorLog)-1)
+      EndIf
+      
     Else
-      Show = *ActiveSource\ErrorLog
+      
+      If *ActiveSource\LogSize <> 0
+        For i = 0 To *ActiveSource\LogSize-1
+          AddGadgetItem(#GADGET_ErrorLog, -1, *ActiveSource\LogLines$[i])
+        Next i
+        SetGadgetState(#GADGET_ErrorLog, CountGadgetItems(#GADGET_ErrorLog)-1)
+      EndIf
+      
+    EndIf
+  EndIf
+EndProcedure
+
+Procedure ErrorLog_Show()
+  If ErrorLogVisible = 0 ; only do this if it is needed ! (problems otherwise)
+    
+    If ToolsPanelVisible
+      ; switch the logsplitter with the source container, so the logsplitter is again in the toolspanel one
+      ; if there is no toolspanel, this step is not needed
+      ;
+      If ToolsPanelSide = 0
+        SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget, #GADGET_LogSplitter)
+      Else
+        SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_SecondGadget, #GADGET_LogSplitter)
+      EndIf
     EndIf
     
-    If AlwaysHideLog = 0 And Show
-      ErrorLog_Show()
-      SetMenuItemState(#MENU, #MENU_ShowLog, #True)
-    Else
-      ErrorLog_Hide()
-      SetMenuItemState(#MENU, #MENU_ShowLog, #False)
-    EndIf
-    UpdateErrorLogMenuState()
+    ; switch the SourceContainer with the dummy so it is back in the correct splitter
+    SetGadgetAttribute(#GADGET_LogSplitter, #PB_Splitter_FirstGadget, #GADGET_SourceContainer)
     
-    If DoResize
-      ResizeMainWindow()
+    HideGadget(#GADGET_LogSplitter, 0)
+    ErrorLogVisible = 1  ; must be before the resize!
+    ResizeMainWindow()   ; resize main window and we are done.
+    
+    ; restore splitter position
+    SetGadgetState(#GADGET_LogSplitter, GadgetHeight(#GADGET_LogSplitter)-ErrorLogHeight_Hidden)
+  EndIf
+EndProcedure
+
+Procedure ErrorLog_Hide()
+  If ErrorLogVisible
+    ErrorLogHeight_Hidden = GadgetHeight(#GADGET_LogSplitter) - GetGadgetState(#GADGET_LogSplitter)
+    HideGadget(#GADGET_LogSplitter, 1)
+    
+    ; switch the SourceContainer with the dummy
+    SetGadgetAttribute(#GADGET_LogSplitter, #PB_Splitter_FirstGadget, #GADGET_LogDummy)
+    
+    If ToolsPanelVisible
+      ; switch the logsplitter with the source container, so the container is directly in the ToolsSplitter
+      ; if there is no toolspanel, the sourcecontainer is already on the main window.
+      ;
+      If ToolsPanelSide = 0
+        SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget, #GADGET_SourceContainer)
+      Else
+        SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_SecondGadget, #GADGET_SourceContainer)
+      EndIf
     EndIf
-  EndProcedure
+    
+    ErrorLogVisible = 0  ; must be before the resize!
+    ResizeMainWindow()   ; resize main window and we are done.
+  EndIf
+EndProcedure
+
+Procedure ErrorLog_SyncState(DoResize = #True) ; make sure the errorlog reflects the show/hide state of the current source
+  If *ActiveSource = *ProjectInfo Or *ActiveSource\ProjectFile
+    Show = ProjectShowLog
+  Else
+    Show = *ActiveSource\ErrorLog
+  EndIf
   
-  Procedure DisableMenuAndToolbarItem(MenuItemID, State)
-    DisableMenuItem(#MENU, MenuItemID, State)
-    If *MainToolbar
-      DisableToolBarButton(#TOOLBAR, MenuItemID, State)
-    EndIf
-  EndProcedure
+  If AlwaysHideLog = 0 And Show
+    ErrorLog_Show()
+    SetMenuItemState(#MENU, #MENU_ShowLog, #True)
+  Else
+    ErrorLog_Hide()
+    SetMenuItemState(#MENU, #MENU_ShowLog, #False)
+  EndIf
+  UpdateErrorLogMenuState()
   
-  
+  If DoResize
+    ResizeMainWindow()
+  EndIf
+EndProcedure
+
+Procedure DisableMenuAndToolbarItem(MenuItemID, State)
+  DisableMenuItem(#MENU, MenuItemID, State)
+  If *MainToolbar
+    DisableToolBarButton(#TOOLBAR, MenuItemID, State)
+  EndIf
+EndProcedure
+
