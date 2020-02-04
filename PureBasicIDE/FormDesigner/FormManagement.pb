@@ -260,7 +260,10 @@ Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   ContainerGadget(#Form_GridContainer,0,0,100,100)
   
   If *Entry\IsSeparateWindow
-    CurrentParentWindow = *Entry\ToolWindowID
+    CurrentParentWindow = *Entry\ToolWindowID 
+    AddKeyboardShortcut(CurrentParentWindow, #PB_Shortcut_Command | #PB_Shortcut_C, #Menu_Copy)
+    AddKeyboardShortcut(CurrentParentWindow, #PB_Shortcut_Command | #PB_Shortcut_X, #Menu_Cut)
+    AddKeyboardShortcut(CurrentParentWindow, #PB_Shortcut_Command | #PB_Shortcut_V, #Menu_Paste) 
   Else
     CurrentParentWindow = #WINDOW_Main
   EndIf

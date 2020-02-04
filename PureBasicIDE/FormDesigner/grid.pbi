@@ -1067,11 +1067,11 @@ ProcedureDLL grid_GadgetHeight(*grid.Grid_Struct)
 EndProcedure
 
 ProcedureDLL grid_GadgetInnerWidth(*grid.Grid_Struct)
-  ProcedureReturn *grid\innerwidth
+  ProcedureReturn DesktopScaledX(*grid\innerwidth)
 EndProcedure
 
 ProcedureDLL grid_GadgetInnerHeight(*grid.Grid_Struct)
-  ProcedureReturn *grid\innerheight
+  ProcedureReturn DesktopScaledY(*grid\innerheight)
 EndProcedure
 
 ProcedureDLL grid_SetGadgetColor(*grid.Grid_Struct,ColorType,Color)

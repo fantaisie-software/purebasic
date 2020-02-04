@@ -399,8 +399,10 @@ Procedure FD_DuplicateGadget()
       
       redraw = 1
       
-      grid_SetActiveGadget(propgrid)
-      grid_BeginEditing(propgrid, 1, 3)
+      If propgrid
+        grid_SetActiveGadget(propgrid)
+        grid_BeginEditing(propgrid, 1, 3)
+      EndIf
     EndIf
   EndIf
 EndProcedure
