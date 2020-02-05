@@ -538,7 +538,7 @@ Procedure CompilerCleanup()
   CompilerEndIf
   
   If ExamineDirectory(0, TempPath$, "*")
-    Protected CompilerType.i
+    Protected CompilerType
     CompilerIf #CompileMac
       CompilerType = #PB_DirectoryEntry_Directory ; a .app is a directory!
     CompilerElse
