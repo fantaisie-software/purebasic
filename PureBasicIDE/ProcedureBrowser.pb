@@ -441,7 +441,7 @@ Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
     ; On OSX, for some reason we get events when you type in the Scintilla, so only react when the browser is focused
     ; as else the Caret jumps around to the selected procedure all the time
     ;
-    Protected EventValid.i = #False
+    Protected EventValid = #False
     CompilerIf #CompileMac
       If EventGadgetID = #GADGET_ProcedureBrowser And GetActiveGadget() = #GADGET_ProcedureBrowser
         EventValid = #True

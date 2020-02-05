@@ -184,7 +184,7 @@ Procedure.s CreateRelativePath(BasePath$, FileName$)
   ;
   For x = Len(BasePath$) To 1 Step -1
     If Mid(BasePath$, x, 1) = #Separator
-      Protected CaseMode.i
+      Protected CaseMode
       CompilerIf #PB_Compiler_OS = #PB_OS_Linux
         CaseMode = #PB_String_CaseSensitive
       CompilerElse

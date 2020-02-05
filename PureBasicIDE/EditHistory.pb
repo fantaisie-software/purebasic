@@ -573,7 +573,7 @@ Procedure History_AsyncUpdateName(PreviousName$, Name$)
   CompilerEndIf
   
   ; Use bind variables as we cannot modify strings in this thread
-  Protected Success.i = #False
+  Protected Success = #False
   CompilerIf #PB_Compiler_Unicode
     If sqlite3_prepare16_v2(DatabaseID(#DB_History), @"UPDATE event SET filename = ? WHERE filename = ? AND session_id = ?", -1, @*Statement, #Null) = #SQLITE_OK
       Success = #True
@@ -604,7 +604,7 @@ Procedure History_AsyncDeleteEvent(EventID)
     Debug "Async: deleting event with id: " + Str(EventID)
   CompilerEndIf
   
-  Protected Success.i = #False
+  Protected Success = #False
   CompilerIf #PB_Compiler_Unicode
     If sqlite3_prepare16_v2(DatabaseID(#DB_History), @"DELETE FROM event WHERE event_id = ?", -1, @*Statement, #Null) = #SQLITE_OK
       Success = #True
@@ -952,7 +952,7 @@ Procedure History_WriteEvent(*Event.HistoryEvent)
   CompilerEndIf
   
   ; Use bind variables as we cannot modify strings in this thread
-  Protected Success.i = #False
+  Protected Success = #False
   CompilerIf #PB_Compiler_Unicode
     If sqlite3_prepare16_v2(DatabaseID(#DB_History), @"INSERT INTO event(session_id, filename, event, time, type, previous_event, encoding, data) VALUES (?,?,?,?,?,?,?,?)", -1, @*Statement, #Null) = #SQLITE_OK
       Success = #True
