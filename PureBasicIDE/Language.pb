@@ -1596,6 +1596,8 @@ DataSection
   Data$ "ShiftCommentLeft", "Shift comments to the left"
   Data$ "SelectBlock",      "Select surrounding code block"
   Data$ "DeselectBlock",    "Revert to previous code block selection"
+  Data$ "MoveLinesUp",      "Move selected lines up"
+  Data$ "MoveLinesDown",    "Move selected lines down"
   Data$ "AutoComplete",     "Display the AutoComplete Window"
   Data$ "AutoCompleteConfirm","Insert the selected AutoComplete word"
   Data$ "AutoCompleteAbort",  "Close the AutoComplete Window"
