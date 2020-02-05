@@ -1043,6 +1043,9 @@ Enumeration 0
   #MENU_SelectBlock
   #MENU_DeselectBlock
   
+  #MENU_MoveLinesUp
+  #MENU_MoveLinesDown
+  
   #MENU_AutoComplete
   #MENU_AutoComplete_OK ; can now have a custom shortcut too
   #MENU_AutoComplete_Abort

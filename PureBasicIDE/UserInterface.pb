@@ -1375,6 +1375,16 @@ Procedure MainMenuEvent(MenuItemID)
     Case #MENU_DeselectBlock
       DeselectBlock()
       
+    Case #MENU_MoveLinesUp
+      If *ActiveSource And *ActiveSource\IsForm = 0
+        SendEditorMessage(#SCI_MOVESELECTEDLINESUP)
+      EndIf
+    
+    Case #MENU_MoveLinesDown
+      If *ActiveSource And *ActiveSource\IsForm = 0
+        SendEditorMessage(#SCI_MOVESELECTEDLINESDOWN)
+      EndIf
+    
     Case #MENU_ToggleFolds
       *ActiveSource\ToggleFolds = 1-*ActiveSource\ToggleFolds
       LineCount = GetLinesCount(*ActiveSource)-1
