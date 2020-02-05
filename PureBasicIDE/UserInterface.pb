@@ -1385,6 +1385,23 @@ Procedure MainMenuEvent(MenuItemID)
         SendEditorMessage(#SCI_MOVESELECTEDLINESDOWN)
       EndIf
     
+    Case #MENU_DeleteLines
+      If *ActiveSource And *ActiveSource\IsForm = 0
+        ; Do this manually, because the built-in Scintilla functions have drawbacks:
+        ; #SCI_LINECUT can delete multiple selected lines (nice!) but overwrites your clipboard
+        ; #SCI_LINEDELETE does not touch the clipboard, but can only delete 1 line at a time
+        StartLine  = SendEditorMessage(#SCI_LINEFROMPOSITION, SendEditorMessage(#SCI_GETSELECTIONSTART))
+        EndLine    = SendEditorMessage(#SCI_LINEFROMPOSITION, SendEditorMessage(#SCI_GETSELECTIONEND))
+        RangeStart = SendEditorMessage(#SCI_POSITIONFROMLINE, StartLine)
+        RangeEnd   = SendEditorMessage(#SCI_POSITIONFROMLINE, EndLine) + SendEditorMessage(#SCI_LINELENGTH, EndLine)
+        SendEditorMessage(#SCI_DELETERANGE, RangeStart, RangeEnd - RangeStart)
+      EndIf
+    
+    Case #MENU_DuplicateSelection
+      If *ActiveSource And *ActiveSource\IsForm = 0
+        SendEditorMessage(#SCI_SELECTIONDUPLICATE)
+      EndIf
+    
     Case #MENU_ToggleFolds
       *ActiveSource\ToggleFolds = 1-*ActiveSource\ToggleFolds
       LineCount = GetLinesCount(*ActiveSource)-1

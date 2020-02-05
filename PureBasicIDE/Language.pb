@@ -1598,6 +1598,8 @@ DataSection
   Data$ "DeselectBlock",    "Revert to previous code block selection"
   Data$ "MoveLinesUp",      "Move selected lines up"
   Data$ "MoveLinesDown",    "Move selected lines down"
+  Data$ "DeleteLines",      "Delete selected lines"
+  Data$ "DuplicateSelection","Duplicate selection"
   Data$ "AutoComplete",     "Display the AutoComplete Window"
   Data$ "AutoCompleteConfirm","Insert the selected AutoComplete word"
   Data$ "AutoCompleteAbort",  "Close the AutoComplete Window"

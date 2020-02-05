@@ -665,6 +665,8 @@ CompilerIf #CompileLinux | #CompileWindows
   #SHORTCUT_DeselectBlock      = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_M
   #SHORTCUT_MoveLinesUp        = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_Up
   #SHORTCUT_MoveLinesDown      = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_Down
+  #SHORTCUT_DeleteLines        = 0
+  #SHORTCUT_DuplicateSelection = #PB_Shortcut_Control | #PB_Shortcut_D
   #SHORTCUT_ProcedureListUpdate= #PB_Shortcut_F12
   #SHORTCUT_VariableViewer     = 0 ; Alt+V already used by VD!
   #SHORTCUT_ColorPicker        = 0 ; Alt+P is for Menu/&Project
@@ -727,6 +729,8 @@ CompilerElse
   #SHORTCUT_DeselectBlock      = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_M
   #SHORTCUT_MoveLinesUp        = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_Up
   #SHORTCUT_MoveLinesDown      = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_Down
+  #SHORTCUT_DeleteLines        = 0
+  #SHORTCUT_DuplicateSelection = #PB_Shortcut_Command | #PB_Shortcut_D
   #SHORTCUT_ProcedureListUpdate= #PB_Shortcut_F12
   #SHORTCUT_VariableViewer     = #PB_Shortcut_Command | #PB_Shortcut_Alt | #PB_Shortcut_V
   #SHORTCUT_ColorPicker        = #PB_Shortcut_Command | #PB_Shortcut_Alt | #PB_Shortcut_M
@@ -876,6 +880,8 @@ DataSection
   Data$ "", "DeselectBlock":       Data.l #SHORTCUT_DeselectBlock
   Data$ "", "MoveLinesUp":         Data.l #SHORTCUT_MoveLinesUp
   Data$ "", "MoveLinesDown":       Data.l #SHORTCUT_MoveLinesDown
+  Data$ "", "DeleteLines":         Data.l #SHORTCUT_DeleteLines
+  Data$ "", "DuplicateSelection":  Data.l #SHORTCUT_DuplicateSelection
   Data$ "", "AutoComplete":        Data.l #SHORTCUT_AutoComplete
   Data$ "", "AutoCompleteConfirm": Data.l #SHORTCUT_AutoCompleteConfirm
   Data$ "", "AutoCompleteAbort":   Data.l #SHORTCUT_AutoCompleteAbort
