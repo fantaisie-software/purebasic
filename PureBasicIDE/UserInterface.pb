@@ -72,6 +72,7 @@ Procedure CreateIDEMenu()
     ShortcutMenuItem(#MENU_Cut  , Language("MenuItem","Cut"))
     ShortcutMenuItem(#MENU_Copy , Language("MenuItem","Copy"))
     ShortcutMenuItem(#MENU_Paste, Language("MenuItem","Paste"))
+    ShortcutMenuItem(#MENU_PasteAsComment, Language("MenuItem","PasteComment"))
     MenuBar()
     ShortcutMenuItem(#MENU_CommentSelection,   Language("MenuItem","InsertComment"))
     ShortcutMenuItem(#MENU_UnCommentSelection, Language("MenuItem","RemoveComment"))
@@ -300,6 +301,7 @@ Procedure CreateIDEPopupMenu()
     ShortcutMenuItem(#MENU_Cut  , Language("MenuItem", "Cut"))
     ShortcutMenuItem(#MENU_Copy , Language("MenuItem", "Copy"))
     ShortcutMenuItem(#MENU_Paste, Language("MenuItem", "Paste"))
+    ShortcutMenuItem(#MENU_PasteAsComment, Language("MenuItem", "PasteComment"))
     MenuBar()
     ShortcutMenuItem(#MENU_CommentSelection,   Language("MenuItem", "InsertComment"))
     ShortcutMenuItem(#MENU_UnCommentSelection, Language("MenuItem", "RemoveComment"))
@@ -1143,6 +1145,11 @@ Procedure MainMenuEvent(MenuItemID)
         FD_PasteEvent()
       Else
         Paste()
+      EndIf
+      
+    Case #MENU_PasteAsComment
+      If *ActiveSource And *ActiveSource\IsForm = 0
+        PasteAsComment()
       EndIf
       
     Case #MENU_CommentSelection

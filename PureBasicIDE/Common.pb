@@ -944,6 +944,7 @@ Enumeration 0
   #MENU_Cut
   #MENU_Copy
   #MENU_Paste
+  #MENU_PasteAsComment
   #MENU_CommentSelection
   #MENU_UnCommentSelection
   #MENU_AutoIndent

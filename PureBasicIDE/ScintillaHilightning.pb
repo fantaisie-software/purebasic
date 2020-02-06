@@ -3408,6 +3408,22 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     ;UpdateFoldingMarks(*ActiveSource\EditorGadget, lineOld, lineNew)
   EndProcedure
   
+  Procedure PasteAsComment()
+    ClipboardText$ = GetClipboardText()
+    If ClipboardText$ <> ""
+      ClipboardText$ = ReplaceString(ClipboardText$, #CRLF$, #LF$)
+      ClipboardText$ = ReplaceString(ClipboardText$, #CR$,   #LF$)
+      NumLines = 1 + CountString(ClipboardText$, #LF$)
+      For i = 1 To NumLines
+        If i > 1
+          NewText$ + #LF$
+        EndIf
+        NewText$ + "; " + StringField(ClipboardText$, i, #LF$)
+      Next i
+      InsertCodeString(NewText$)
+    EndIf
+  EndProcedure
+  
   Procedure SelectAll()
     SendEditorMessage(#SCI_SELECTALL, 0, 0)
   EndProcedure

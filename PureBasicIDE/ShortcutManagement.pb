@@ -633,6 +633,7 @@ CompilerIf #CompileLinux | #CompileWindows
   #SHORTCUT_Cut                = #PB_Shortcut_Control | #PB_Shortcut_X
   #SHORTCUT_Copy               = #PB_Shortcut_Control | #PB_Shortcut_C
   #SHORTCUT_Paste              = #PB_Shortcut_Control | #PB_Shortcut_V
+  #SHORTCUT_PasteAsComment     = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_V
   #SHORTCUT_CommentSelection   = #PB_Shortcut_Control | #PB_Shortcut_B
   #SHORTCUT_UnCommentSelection = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_B ; Avoid 'Alt+B' shorcut as it conflict with german menu title: https://www.purebasic.fr/english/viewtopic.php?f=23&t=37098
   #SHORTCUT_SelectAll          = #PB_Shortcut_Control | #PB_Shortcut_A
@@ -697,6 +698,7 @@ CompilerElse
   #SHORTCUT_Cut                = #PB_Shortcut_Command | #PB_Shortcut_X
   #SHORTCUT_Copy               = #PB_Shortcut_Command | #PB_Shortcut_C
   #SHORTCUT_Paste              = #PB_Shortcut_Command | #PB_Shortcut_V
+  #SHORTCUT_PasteAsComment     = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_V
   #SHORTCUT_CommentSelection   = #PB_Shortcut_Command | #PB_Shortcut_B
   #SHORTCUT_UnCommentSelection = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_B
   #SHORTCUT_SelectAll          = #PB_Shortcut_Command | #PB_Shortcut_A
@@ -789,6 +791,7 @@ DataSection
   Data$ "Edit", "Cut":            Data.l #SHORTCUT_Cut
   Data$ "Edit", "Copy":           Data.l #SHORTCUT_Copy
   Data$ "Edit", "Paste":          Data.l #SHORTCUT_Paste
+  Data$ "Edit", "PasteComment":   Data.l #SHORTCUT_PasteAsComment
   Data$ "Edit", "InsertComment":  Data.l #SHORTCUT_CommentSelection
   Data$ "Edit", "RemoveComment":  Data.l #SHORTCUT_UnCommentSelection
   Data$ "Edit", "AutoIndent":     Data.l #SHORTCUT_AutoIndent

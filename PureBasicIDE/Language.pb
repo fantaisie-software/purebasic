@@ -420,6 +420,7 @@ DataSection
   Data$ "Cut",              "Cu&t"
   Data$ "Copy",             "&Copy"
   Data$ "Paste",            "&Paste"
+  Data$ "PasteComment",     "Paste as comment"
   Data$ "InsertComment",    "I&nsert comments"
   Data$ "RemoveComment",    "Re&move comments"
   Data$ "AutoIndent",       "Format indentation"
