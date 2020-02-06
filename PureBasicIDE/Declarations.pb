@@ -155,6 +155,7 @@ Declare Redo()
 Declare Cut()
 Declare Copy()
 Declare Paste()
+Declare PasteAsComment()
 Declare SelectAll()
 Declare AddMarker()                       ; handle the marker functionality
 Declare ClearMarkers()
