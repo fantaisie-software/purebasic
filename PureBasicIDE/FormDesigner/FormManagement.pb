@@ -273,7 +273,12 @@ Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   grid_SetGadgetAttribute(propgrid, #Grid_Caption_Row, 1)
   grid_SetGadgetAttribute(propgrid, #Grid_Caption_Col, 1)
   grid_SetGadgetAttribute(propgrid, #Grid_Disable_Delete, 1)
-  grid_SetGadgetColor(propgrid, #Grid_Color_LineLight, RGB(238, 238, 238))
+  
+  CompilerIf #CompileMac
+    grid_SetGadgetColor(propgrid, #Grid_Color_LineLight, GetCocoaColor("systemGrayColor"))
+  CompilerElse
+    grid_SetGadgetColor(propgrid, #Grid_Color_LineLight, RGB(238, 238, 238))
+  CompilerEndIf
   
   propgrid_combo = grid_CreateComboBox(propgrid)
   propgrid_proccombo = grid_CreateComboBox(propgrid)

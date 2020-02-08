@@ -202,12 +202,18 @@ EndProcedure
 Procedure PropGridAddNode(grid, row, title.s)
   grid_InsertRow(grid, row)
   grid_SetRowData(grid, row, -100)
-  grid_SetCellBackColor(grid, 0, row, RGB(238, 238, 238))
   grid_SetCellType(grid, 0, row, #Grid_Cell_Custom)
   grid_SetCellState(grid, 0, row, @PropGridFoldImgProc())
   
-  grid_SetCellBackColor(grid, 1, row, RGB(238, 238, 238))
-  grid_SetCellBackColor(grid, 2, row, RGB(238, 238, 238))
+  CompilerIf #CompileMac
+    grid_SetCellBackColor(grid, 0, row, GetCocoaColor("controlBackgroundColor"))
+    grid_SetCellBackColor(grid, 1, row, GetCocoaColor("controlBackgroundColor"))
+    grid_SetCellBackColor(grid, 2, row, GetCocoaColor("controlBackgroundColor"))
+  CompilerElse
+    grid_SetCellBackColor(grid, 0, row, RGB(238, 238, 238))
+    grid_SetCellBackColor(grid, 1, row, RGB(238, 238, 238))
+    grid_SetCellBackColor(grid, 2, row, RGB(238, 238, 238))
+  CompilerEndIf
   
   grid_SetCellString(grid, 1, row, title)
   grid_SetSelectionStyle(grid, 1, row, "", -1, 1, -1, -1, -1, -1, 0, Len(title))
@@ -219,7 +225,11 @@ Procedure PropGridAddNode(grid, row, title.s)
 EndProcedure
 Procedure PropGridAddItem(grid, row, title.s, value.s = "")
   grid_InsertRow(grid, row)
-  grid_SetCellBackColor(grid, 0, row, RGB(238, 238, 238))
+  CompilerIf #CompileMac
+    grid_SetCellBackColor(grid, 0, row, GetCocoaColor("controlBackgroundColor"))
+  CompilerElse
+    grid_SetCellBackColor(grid, 0, row, RGB(238, 238, 238))
+  CompilerEndIf
   grid_SetCellString(grid, 1, row, title)
   grid_SetCellString(grid, 2, row, value)
   grid_SetCellLockState(grid,0,row,1)
