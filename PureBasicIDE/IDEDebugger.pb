@@ -1715,7 +1715,7 @@ Procedure Debugger_ProcessShortcuts(EventWindowID, EventID)
               OpenAsmWindow(@RunningDebuggers())
               
             Case #MENU_Debugger_DataBreakPoints
-              OpenDataBreakpointWindow(@RunningDebuggers())		        
+              OpenDataBreakpointWindow(@RunningDebuggers())
               
               
             Default: result = 0

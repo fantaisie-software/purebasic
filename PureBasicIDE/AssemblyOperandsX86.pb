@@ -73,10 +73,10 @@ Data$ "COMVC";
 Data$ "CMOVE";
 Data$ "CMOVG";
 Data$ "CMOVGE";
-Data$ "CMOVL"; 
+Data$ "CMOVL";
 Data$ "CMOVLE";
 Data$ "CMOVNA";
-Data$ "CMOVNAE"; 
+Data$ "CMOVNAE";
 Data$ "CMOVNB";
 Data$ "CMOVNBE";
 Data$ "CMOVNC";
@@ -94,7 +94,7 @@ Data$ "CMOVP";
 Data$ "CMOVPE";
 Data$ "CMOVPO";
 Data$ "CMOVS";
-Data$ "CMOVZ"; 
+Data$ "CMOVZ";
 Data$ "CMP"; Compare Two Operands
 Data$ "CMPPD"; Compare Packed Double-Precision Floating-Point Values
 Data$ "CMPPS"; Compare Packed Single-Precision Floating-Point Values
