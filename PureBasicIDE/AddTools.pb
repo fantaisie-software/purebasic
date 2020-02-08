@@ -300,6 +300,18 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       Flags = 0
     EndIf
     
+    CommandLine$ = ToolsList()\CommandLine$
+
+    ; We can't launch a .app directory directly on OS X, we need to launch the executable in
+    ; /Contents/MacOS/ProgramName https://www.purebasic.fr/english/viewtopic.php?f=24&t=59274
+    ;
+    CompilerIf #CompileMac
+      If GetExtensionPart(CommandLine$) = "app"
+        Filename$ = GetFilePart(CommandLine$)
+        CommandLine$ = CommandLine$ + "/Contents/MacOS/" + Left(Filename$, Len(Filename$)-4)
+      EndIf
+    CompilerEndIf
+      
     If ToolsList()\Flags & 1  ; wait until tool quits
       Flags | #PB_Program_Open; no wait flag, as we do this with ProgramRunning()
       
@@ -312,7 +324,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
         EndIf
       EndIf
       
-      Program = RunProgram(ToolsList()\CommandLine$, ToolArguments$, ToolWorkingDir$, Flags)
+      Program = RunProgram(CommandLine$, ToolArguments$, ToolWorkingDir$, Flags)
       
       If Program
         If CommandlineBuild = 0
@@ -365,7 +377,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       
     Else
       
-      RunProgram(ToolsList()\CommandLine$, ToolArguments$, ToolWorkingDir$, Flags)
+      RunProgram(CommandLine$, ToolArguments$, ToolWorkingDir$, Flags)
       
     EndIf
     
