@@ -668,6 +668,15 @@ CompilerIf #CompileLinux | #CompileWindows
   #SHORTCUT_MoveLinesDown      = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_Down
   #SHORTCUT_DeleteLines        = 0
   #SHORTCUT_DuplicateSelection = #PB_Shortcut_Control | #PB_Shortcut_D
+  CompilerIf #PB_Compiler_OS   = #PB_OS_Windows
+    #SHORTCUT_ZoomIn           = #PB_Shortcut_Control | #VK_OEM_PLUS
+    #SHORTCUT_ZoomOut          = #PB_Shortcut_Control | #VK_OEM_MINUS
+    #SHORTCUT_ZoomDefault      = #PB_Shortcut_Control | #PB_Shortcut_0
+  CompilerElse
+    #SHORTCUT_ZoomIn           = 0
+    #SHORTCUT_ZoomOut          = 0
+    #SHORTCUT_ZoomDefault      = #PB_Shortcut_Control | #PB_Shortcut_0
+  CompilerEndIf
   #SHORTCUT_ProcedureListUpdate= #PB_Shortcut_F12
   #SHORTCUT_VariableViewer     = 0 ; Alt+V already used by VD!
   #SHORTCUT_ColorPicker        = 0 ; Alt+P is for Menu/&Project
@@ -733,6 +742,9 @@ CompilerElse
   #SHORTCUT_MoveLinesDown      = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_Down
   #SHORTCUT_DeleteLines        = 0
   #SHORTCUT_DuplicateSelection = #PB_Shortcut_Command | #PB_Shortcut_D
+  #SHORTCUT_ZoomIn             = 0
+  #SHORTCUT_ZoomOut            = 0
+  #SHORTCUT_ZoomDefault        = #PB_Shortcut_Command | #PB_Shortcut_0
   #SHORTCUT_ProcedureListUpdate= #PB_Shortcut_F12
   #SHORTCUT_VariableViewer     = #PB_Shortcut_Command | #PB_Shortcut_Alt | #PB_Shortcut_V
   #SHORTCUT_ColorPicker        = #PB_Shortcut_Command | #PB_Shortcut_Alt | #PB_Shortcut_M
@@ -885,6 +897,9 @@ DataSection
   Data$ "", "MoveLinesDown":       Data.l #SHORTCUT_MoveLinesDown
   Data$ "", "DeleteLines":         Data.l #SHORTCUT_DeleteLines
   Data$ "", "DuplicateSelection":  Data.l #SHORTCUT_DuplicateSelection
+  Data$ "", "ZoomIn":              Data.l #SHORTCUT_ZoomIn
+  Data$ "", "ZoomOut":             Data.l #SHORTCUT_ZoomOut
+  Data$ "", "ZoomDefault":         Data.l #SHORTCUT_ZoomDefault
   Data$ "", "AutoComplete":        Data.l #SHORTCUT_AutoComplete
   Data$ "", "AutoCompleteConfirm": Data.l #SHORTCUT_AutoCompleteConfirm
   Data$ "", "AutoCompleteAbort":   Data.l #SHORTCUT_AutoCompleteAbort
@@ -1023,8 +1038,15 @@ DataSection
   Data.l #PB_Shortcut_Separator
   Data.l #PB_Shortcut_Subtract
   Data.l #PB_Shortcut_Decimal
-  Data.l #PB_Shortcut_Divide
+  Data.l #PB_Shortcut_Divide ; Key103
   Data.l #PB_Shortcut_Numlock
-  Data.l #PB_Shortcut_Scroll
+  Data.l #PB_Shortcut_Scroll ; Key105
+  CompilerIf #CompileWindows
+    Data.l #VK_OEM_PLUS
+    Data.l #VK_OEM_MINUS ; Key107
+  CompilerElse
+    Data.l '='
+    Data.l '-' ; Key107
+  CompilerEndIf
   
 EndDataSection
