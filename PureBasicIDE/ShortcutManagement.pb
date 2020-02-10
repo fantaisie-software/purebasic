@@ -43,7 +43,7 @@ Procedure BuildShortcutNamesTable()
   Next i
   
   ; other keys
-  For index = 71 To #NbShortcutKeys-1
+  For index = 71 To #NbShortcutKeys
     ShortcutNames(index) = Language("Shortcuts","Key"+Str(index))
     Read.l ShortcutValues(index)
   Next index
@@ -73,7 +73,7 @@ EndProcedure
 Procedure GetBaseKeyIndex(Shortcut)
   
   If Shortcut
-    For i = 0 To #NbShortcutKeys-1
+    For i = 0 To #NbShortcutKeys
       If Shortcut & ~(#PB_Shortcut_Control|#PB_Shortcut_Alt|#PB_Shortcut_Shift|#PB_Shortcut_Command) = ShortcutValues(i)
         ProcedureReturn i
       EndIf
