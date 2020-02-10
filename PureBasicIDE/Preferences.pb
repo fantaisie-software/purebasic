@@ -99,6 +99,9 @@ Procedure LoadPreferences()
   LastUpdateCheck             = ReadPreferenceLong  ("LastUpdateCheck", 0)
   EnableMenuIcons             = ReadPreferenceLong  ("EnableMenuIcons", 1)
   
+  ; Force a default starting zoom
+  CurrentZoom = #ZOOM_Default
+  
   ; Removed options: always enabled now (todo: remove the old code later)
   EnableColoring = 1
   EnableMarkers = 1
