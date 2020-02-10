@@ -3450,6 +3450,18 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     SendEditorMessage(#SCI_SELECTALL, 0, 0)
   EndProcedure
   
+  Procedure ZoomStep(Direction)
+    If Direction > 0
+      SendEditorMessage(#SCI_ZOOMIN)
+    ElseIf Direction < 0
+      SendEditorMessage(#SCI_ZOOMOUT)
+    EndIf
+  EndProcedure
+  
+  Procedure ZoomDefault()
+    SendEditorMessage(#SCI_SETZOOM, #ZOOM_Default)
+  EndProcedure
+  
   Procedure AddMarker()
     
     UpdateCursorPosition()

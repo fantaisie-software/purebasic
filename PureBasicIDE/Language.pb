@@ -1601,6 +1601,9 @@ DataSection
   Data$ "MoveLinesDown",    "Move selected lines down"
   Data$ "DeleteLines",      "Delete selected lines"
   Data$ "DuplicateSelection","Duplicate selection"
+  Data$ "ZoomIn",           "Zoom in"
+  Data$ "ZoomOut",          "Zoom out"
+  Data$ "ZoomDefault",      "Zoom default"
   Data$ "AutoComplete",     "Display the AutoComplete Window"
   Data$ "AutoCompleteConfirm","Insert the selected AutoComplete word"
   Data$ "AutoCompleteAbort",  "Close the AutoComplete Window"
@@ -1648,6 +1651,8 @@ DataSection
   Data$ "Key103",           "Divide"
   Data$ "Key104",           "Num Lock"
   Data$ "Key105",           "Scroll Lock"
+  Data$ "Key106",           "Plus"
+  Data$ "Key107",           "Minus"
   
   
   ; ===================================================

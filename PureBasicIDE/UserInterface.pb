@@ -1386,12 +1386,12 @@ Procedure MainMenuEvent(MenuItemID)
       If *ActiveSource And *ActiveSource\IsForm = 0
         SendEditorMessage(#SCI_MOVESELECTEDLINESUP)
       EndIf
-    
+      
     Case #MENU_MoveLinesDown
       If *ActiveSource And *ActiveSource\IsForm = 0
         SendEditorMessage(#SCI_MOVESELECTEDLINESDOWN)
       EndIf
-    
+      
     Case #MENU_DeleteLines
       If *ActiveSource And *ActiveSource\IsForm = 0
         ; Do this manually, because the built-in Scintilla functions have drawbacks:
@@ -1403,12 +1403,27 @@ Procedure MainMenuEvent(MenuItemID)
         RangeEnd   = SendEditorMessage(#SCI_POSITIONFROMLINE, EndLine) + SendEditorMessage(#SCI_LINELENGTH, EndLine)
         SendEditorMessage(#SCI_DELETERANGE, RangeStart, RangeEnd - RangeStart)
       EndIf
-    
+      
     Case #MENU_DuplicateSelection
       If *ActiveSource And *ActiveSource\IsForm = 0
         SendEditorMessage(#SCI_SELECTIONDUPLICATE)
       EndIf
-    
+      
+    Case #MENU_ZoomIn
+      If *ActiveSource And *ActiveSource\IsForm = 0 And *ActiveSource <> *ProjectInfo
+        ZoomStep(1)
+      EndIf
+      
+    Case #MENU_ZoomOut
+      If *ActiveSource And *ActiveSource\IsForm = 0 And *ActiveSource <> *ProjectInfo
+        ZoomStep(-1)
+      EndIf
+      
+    Case #MENU_ZoomDefault
+      If *ActiveSource And *ActiveSource\IsForm = 0 And *ActiveSource <> *ProjectInfo
+        ZoomDefault()
+      EndIf
+      
     Case #MENU_ToggleFolds
       *ActiveSource\ToggleFolds = 1-*ActiveSource\ToggleFolds
       LineCount = GetLinesCount(*ActiveSource)-1
