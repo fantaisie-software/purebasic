@@ -2672,6 +2672,23 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
   EndProcedure
   
+  ; Check if zoom level has really changed, and if so, apply it to all open files
+  Procedure HandleZoomChange()
+    If *ActiveSource And *ActiveSource\IsForm = 0 And *ActiveSource <> *ProjectInfo
+      NewZoom = SendEditorMessage(#SCI_GETZOOM)
+      If NewZoom <> CurrentZoom
+        SynchronizingZoom = #True
+        ForEach FileList()
+          If FileList()\IsForm = 0 And @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource
+            ScintillaSendMessage(FileList()\EditorGadget, #SCI_SETZOOM, NewZoom)
+          EndIf
+        Next
+        ChangeCurrentElement(FileList(), *ActiveSource)
+        CurrentZoom = NewZoom
+        SynchronizingZoom = #False
+      EndIf
+    EndIf
+  EndProcedure
   
   ; This is used by the Template/ MacroError windows
   ; CompilerIf #CompileWindows | #CompileMac
@@ -2930,6 +2947,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         
       Case #SCN_ZOOM
         UpdateLineNumbers(*ActiveSource)
+        If SynchronizingZoom = 0
+          HandleZoomChange()
+        EndIf
         
       Case #SCN_CHARADDED
         If *ActiveSource And EditorGadget = *ActiveSource\EditorGadget
@@ -3271,6 +3291,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     CompilerIf #CompileWindows = 0
       EnableGadgetDrop(*ActiveSource\EditorGadget, #PB_Drop_Files, #PB_Drag_Copy)
     CompilerEndIf
+    
+    SendEditorMessage(#SCI_SETZOOM, CurrentZoom)
     
     SendEditorMessage(#SCI_SETLEXER, #SCLEX_CONTAINER, 0)
     

@@ -1933,6 +1933,8 @@ EndEnumeration
 #INDENT_Block     = 1
 #INDENT_Sensitive = 2
 
+#ZOOM_Default = 0
+
 
 
 ;
@@ -2437,6 +2439,7 @@ Global InitialSourceLine, MemorizeMarkers, LanguageFile$, ToolsPanelWidth_Hidden
 Global EnableBraceMatch, EnableKeywordMatch, ShowWhiteSpace, ShowIndentGuides, MonitorFileChanges
 Global FormVariable, FormVariableCaption, FormGrid, FormGridSize, FormEventProcedure, FormSkin, FormSkinVersion
 Global FilesPanelMultiline, FilesPanelCloseButtons, FilesPanelNewButton
+Global CurrentZoom, SynchronizingZoom
 
 ; Dialog Window data
 ;
