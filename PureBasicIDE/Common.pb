@@ -7,7 +7,7 @@
 
 
 ; indicates that we are compiling IDE
-; used for portable code like the HilightningEngine.or the FormDesigner
+; used for portable code like the HighlightingEngine.or the FormDesigner
 ;
 #PUREBASIC_IDE = 1
 
@@ -273,7 +273,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_ToolsPanelBackColor
   #GADGET_Preferences_ToolsPanelBackColorText
   #GADGET_Preferences_ToolsPanelBackColorSelect
-  #GADGET_Preferences_NoIndependantToolsColors
+  #GADGET_Preferences_NoIndependentToolsColors
   #GADGET_Preferences_KeywordList
   #GADGET_Preferences_KeywordText
   #GADGET_Preferences_KeywordAdd
@@ -679,7 +679,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   ;   #GADGET_CPU_List
   ;   #GADGET_CPU_OnTop
   ;   #GADGET_CPU_Text
-  ;   #GADGET_CPU_Intervall
+  ;   #GADGET_CPU_Interval
   ;   #GADGET_CPU_Set
   
   #GADGET_Template_Add     ; first to auto-disable
@@ -2472,12 +2472,12 @@ Global StructureViewerDialog.DialogWindow, StructureViewerPosition.DialogPositio
 Global StructureViewerStayOnTop
 
 Global GotoWindowDialog.DialogWindow
-Global SortSourcesWindowDialog.DialogWindow, SortSourcesWindowPositon.DialogPosition
-Global AddToolsWindowDialog.DialogWindow, AddToolsWindowPositon.DialogPosition
-Global EditToolsWindowDialog.DialogWindow, EditToolsWindowPositon.DialogPosition
-Global AboutWindowDialog.DialogWindow, AboutWindowPositon.DialogPosition
-Global PreferenceWindowDialog.DialogWindow, PreferenceWindowPositon.DialogPosition
-Global UpdateWindowDialog.DialogWindow, UpdateWindowPositon.DialogPosition
+Global SortSourcesWindowDialog.DialogWindow, SortSourcesWindowPosition.DialogPosition
+Global AddToolsWindowDialog.DialogWindow, AddToolsWindowPosition.DialogPosition
+Global EditToolsWindowDialog.DialogWindow, EditToolsWindowPosition.DialogPosition
+Global AboutWindowDialog.DialogWindow, AboutWindowPosition.DialogPosition
+Global PreferenceWindowDialog.DialogWindow, PreferenceWindowPosition.DialogPosition
+Global UpdateWindowDialog.DialogWindow, UpdateWindowPosition.DialogPosition
 
 CompilerIf #SpiderBasic
   Global CreateAppWindowDialog.DialogWindow, CreateAppWindowPosition.DialogPosition
@@ -2493,7 +2493,7 @@ CompilerIf #SpiderBasic
 CompilerEndIf
 
 
-; Global CPUMonitorActive, LastCPUUpdate, NextCPUUpdate, CPUUpdateIntervall, CPUStayOnTop
+; Global CPUMonitorActive, LastCPUUpdate, NextCPUUpdate, CPUUpdateInterval, CPUStayOnTop
 ; Global CPUWindowX, CPUWindowY, CPUWindowWidth, CPUWindowHeight, IsCPUMonitorInitialized
 ; Global DisplayCPUTotal, DisplayCPUFree, NBCPUColors
 
@@ -2506,12 +2506,12 @@ Global UpdateCheckInterval, UpdateCheckVersions, LastUpdateCheck
 ; Hilighgtning:
 ;
 Global EditorFontName$, EditorFontSize, EditorFontStyle, EditorFontStyle$, EditorFontID, EditorBoldFontID
-Global IsHilightningReady, HilightGadgetID, LineNumbersCursor, EditorBoldFontName$
+Global IsHighlightingReady, HighlightGadgetID, LineNumbersCursor, EditorBoldFontName$
 Global MarkProcedureBackground
 
 
 Global ToolsPanelFontName$, ToolsPanelFontSize, ToolsPanelFontStyle, ToolsPanelFontID
-Global ToolsPanelFrontColor, ToolsPanelBackColor, NoIndependantToolsColors
+Global ToolsPanelFrontColor, ToolsPanelBackColor, NoIndependentToolsColors
 Global ToolsPanelAutoHide, ToolsPanelVisible, ToolsPanelHideTime.q, ToolsPanelHideDelay, ToolsPanelHiddenWidth
 Global FakeToolsPanelID ; for the windows vertical toolspanel (only non-XP windows versions!)
 Global AlwaysHideLog, ErrorLogVisible

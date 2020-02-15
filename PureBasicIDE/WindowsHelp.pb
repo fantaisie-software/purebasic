@@ -58,8 +58,8 @@ CompilerIf #CompileWindows
   EndDataSection
   
   
-  Procedure.l IsPlatformSDKAvaiable()
-    IsAvaiable = 0
+  Procedure.l IsPlatformSDKAvailable()
+    IsAvailable = 0
     
     If RegCreateKeyEx_(#HKEY_CURRENT_USER, "Software\Microsoft\MSDN\7.0\Help", 0, #Null$, #REG_OPTION_NON_VOLATILE, #KEY_READ , 0, @NewKey, @KeyInfo) = #ERROR_SUCCESS
       Index = 0
@@ -75,12 +75,12 @@ CompilerIf #CompileWindows
           
           If Left(LCase(ValueName$),18) = "ms-help://ms.psdk." ; current version: ms-help://MS.PSDK.1033
             PlatformSDKHelpString$ = ValueName$
-            IsAvaiable = 1
+            IsAvailable = 1
             ; do not break here, as the below (newer) key might be present too!
             
           ElseIf Left(UCase(ValueName$),27) = "MS-HELP://MS.PSDKSVR2003SP1" ; current version: ms-help://MS.PSDKSVR2003SP1.1033
             PlatformSDKHelpString$ = ValueName$
-            IsAvaiable = 1
+            IsAvailable = 1
             
             Break ; this one has priority, so abort now
           EndIf
@@ -93,7 +93,7 @@ CompilerIf #CompileWindows
       RegCloseKey_(NewKey)
     EndIf
     
-    ProcedureReturn IsAvaiable
+    ProcedureReturn IsAvailable
   EndProcedure
   
   
@@ -102,7 +102,7 @@ CompilerIf #CompileWindows
     
     If PlatformSDKObject = 0
       
-      If PlatformSDKHelpString$ Or IsPlatformSDKAvaiable()
+      If PlatformSDKHelpString$ Or IsPlatformSDKAvailable()
         
         CoInitialize_(0)
         

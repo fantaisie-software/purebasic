@@ -51,7 +51,7 @@ Structure DlgGridBox Extends DlgBase
   NbRows.l
   NextChild.l
   
-  Rows.DlgGridBoxRow[#MAX_ROWS] ; here the childs are stored
+  Rows.DlgGridBoxRow[#MAX_ROWS] ; here the children are stored
   
   colSpacing.l
   rowSpacing.l
@@ -141,7 +141,7 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
           Height = 0
           Child\SizeRequest(@Width, @Height)
           
-          ; for now we only count the non-spaning childs.
+          ; for now we only count the non-spaning children.
           ; the others are calculated later
           ;
           If *THIS\Rows[row]\Cols[col]\Colspan = 1
@@ -156,7 +156,7 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
       Next col
     Next row
     
-    ; calculate effects by spanning childs
+    ; calculate effects by spanning children
     ;
     For row = 0 To *THIS\NbRows-1
       For col = 0 To *THIS\NbColumns-1
@@ -475,7 +475,7 @@ EndProcedure
 
 Procedure DlgGridBox_Finish(*THIS.DlgGridBox)
   
-  ; when all childs are added, we calculate the number of rows
+  ; when all children are added, we calculate the number of rows
   ; for easier access later. Note: the last added child can span several rows,
   ; so we cannot simply calculate the value from the NextChild one.
   ;

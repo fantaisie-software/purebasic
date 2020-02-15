@@ -322,12 +322,12 @@ Procedure OpenPurifierWindow(*Debugger.DebuggerData)
     If Window
       *Debugger\Windows[#DEBUGGER_WINDOW_Purifier] = Window
       
-      *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Frame] = FrameGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","PurifierIntervall"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Frame] = FrameGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","PurifierIntervall")) ; DO NOT FIX TYPO: PurifierIntervall
       
-      *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextGlobal] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","GlobalIntervall"))
-      *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextLocal] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","LocalIntervall"))
-      *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextString] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","StringIntervall"))
-      *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextDynamic] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","DynamicIntervall"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextGlobal] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","GlobalIntervall"))   ; DO NOT FIX TYPO: GlobalIntervall
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextLocal] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","LocalIntervall"))     ; DO NOT FIX TYPO: LocalIntervall
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextString] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","StringIntervall"))   ; DO NOT FIX TYPO: StringIntervall
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextDynamic] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","DynamicIntervall")) ; DO NOT FIX TYPO: DynamicIntervall
       
       *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarGlobal] = TrackBarGadget(#PB_Any, 0, 0, 0, 0, 0, #MAX_PurifierState, #PB_TrackBar_Ticks)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TrackbarLocal] = TrackBarGadget(#PB_Any, 0, 0, 0, 0, 0, #MAX_PurifierState, #PB_TrackBar_Ticks)
@@ -381,11 +381,11 @@ Procedure UpdatePurifierWindow(*Debugger.DebuggerData)
   
   SetWindowTitle(*Debugger\Windows[#DEBUGGER_WINDOW_Purifier], Language("Debugger","PurifierTitle") + " - " + DebuggerTitle(*Debugger\FileName$))
   
-  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Frame], Language("Debugger","PurifierIntervall"))
-  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextGlobal], Language("Debugger","GlobalIntervall"))
-  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextLocal], Language("Debugger","LocalIntervall"))
-  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextString], Language("Debugger","StringIntervall"))
-  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextDynamic], Language("Debugger","DynamicIntervall"))
+  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Frame], Language("Debugger","PurifierIntervall"))      ; DO NOT FIX TYPO: PurifierIntervall
+  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextGlobal], Language("Debugger","GlobalIntervall"))   ; DO NOT FIX TYPO: GlobalIntervall
+  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextLocal], Language("Debugger","LocalIntervall"))     ; DO NOT FIX TYPO: LocalIntervall
+  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextString], Language("Debugger","StringIntervall"))   ; DO NOT FIX TYPO: StringIntervall
+  SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextDynamic], Language("Debugger","DynamicIntervall")) ; DO NOT FIX TYPO: DynamicIntervall
   
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Ok], Language("Misc","Ok"))
   SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Cancel], Language("Misc","Cancel"))

@@ -203,7 +203,7 @@ CompilerIf #CompileWindows
         ; any newer setting. Try to delete these keys
         ;
         If OSVersion() = #PB_OS_Windows_XP
-          ; This fails if the key does not exist, and deletes all childs if it does exist,
+          ; This fails if the key does not exist, and deletes all children if it does exist,
           ; which is perfect for us.
           If SHDeleteKey_(#HKEY_CLASSES_ROOT, "Applications\" + ExecutableName$) = #ERROR_SUCCESS
             NeedUpdate | 1

@@ -11,11 +11,11 @@
 
 Global HighlightCodeViewer
 
-Procedure CodeViewer_HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
+Procedure CodeViewer_HighlightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
   ScintillaSendMessage(HighlightCodeViewer, #SCI_SETSTYLING, Length, *Color)
 EndProcedure
 
-Procedure CodeViewer_UpdateHilight(Gadget)
+Procedure CodeViewer_UpdateHighlight(Gadget)
   
   HighlightCodeViewer = Gadget
   
@@ -25,7 +25,7 @@ Procedure CodeViewer_UpdateHilight(Gadget)
   If *Buffer
     ScintillaSendMessage(Gadget, #SCI_GETTEXT, Size+1, *Buffer)
     ScintillaSendMessage(Gadget, #SCI_STARTSTYLING, 0, $FFFFFF)
-    HilightningEngine(*Buffer, Size, 0, @CodeViewer_HilightCallback(), 0)
+    HighlightingEngine(*Buffer, Size, 0, @CodeViewer_HighlightCallback(), 0)
     FreeMemory(*Buffer)
   EndIf
   
@@ -177,7 +177,7 @@ Procedure UpdateCodeViewer(Gadget)
   ScintillaSendMessage(Gadget, #SCI_SETTABWIDTH, TabLength)
   ScintillaSendMessage(Gadget, #SCI_SETUSETABS, RealTab)
   
-  CodeViewer_UpdateHilight(Gadget)
+  CodeViewer_UpdateHighlight(Gadget)
   
 EndProcedure
 
@@ -197,7 +197,7 @@ Procedure SetCodeViewer(Gadget, *Buffer, Encoding)
   ; back to readonly
   ScintillaSendMessage(Gadget, #SCI_SETREADONLY, 1)
   
-  CodeViewer_UpdateHilight(Gadget)
+  CodeViewer_UpdateHighlight(Gadget)
 EndProcedure
 
 
@@ -219,7 +219,7 @@ Procedure InitCodeViewer(Gadget, LineNumbers)
   
   If LineNumbers
     ; set to something > 0 to indicate that they are enabled
-    ; see CodeViewer_UpdateHilight()
+    ; see CodeViewer_UpdateHighlight()
     ScintillaSendMessage(Gadget, #SCI_SETMARGINWIDTHN, 0, 16)
     ScintillaSendMessage(Gadget, #SCI_SETMARGINTYPEN, 0, #SC_MARGIN_NUMBER)
   EndIf

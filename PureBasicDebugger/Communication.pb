@@ -318,7 +318,7 @@ CompilerIf #LOG_DEBUGGER_COMMANDS
         If *Command\Command = #COMMAND_FatalError
           ConstantName$ = "#COMMAND_FatalError"
         Else
-          Restore DebuggerCommands_Incomming
+          Restore DebuggerCommands_Incoming
           For i = 0 To *Command\Command
             Read.s ConstantName$
           Next i
@@ -502,7 +502,7 @@ EndProcedure
 ; NOTE: this must be called on a constant basis from the main
 ; loop!
 ;
-Procedure Debugger_ProcessIncommingCommands()
+Procedure Debugger_ProcessIncomingCommands()
   result = 0
   
   ;   CompilerIf #CompileWindows
@@ -531,7 +531,7 @@ Procedure Debugger_ProcessIncommingCommands()
         If *Debugger\Command\Command = #COMMAND_FatalError
           PrintN("IDE::PROCESSING->FatalError (Value1 = "+Str(*Debugger\Command\Value1)+")")
         Else
-          Restore DebuggerCommands_Incomming
+          Restore DebuggerCommands_Incoming
           For i = 0 To *Debugger\Command\Command
             Read.s ConstantName$
           Next i

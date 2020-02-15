@@ -169,7 +169,7 @@ Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Bucket, *Ignor
   
 EndProcedure
 
-Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceItem, SingeModuleOnly)
+Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceItem, SingleModuleOnly)
   
   If *Parser\SortedValid
     If Bucket < 0
@@ -181,7 +181,7 @@ Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceI
           If Type = #ITEM_DeclareModule
             ; module names are indexed in the main module
             ; do not show modules if a prefix:: is provided before the word
-            If SingeModuleOnly = 0
+            If SingleModuleOnly = 0
               For Bucket = 0 To #PARSER_VTSize-1
                 *Item.SourceItem = *Parser\MainModule\Indexed[Type]\Bucket[Bucket]
                 While *Item
@@ -222,7 +222,7 @@ Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceI
           If Type = #ITEM_DeclareModule
             ; module names are indexed in the main module
             ; do not show modules if a prefix:: is provided before the word
-            If SingeModuleOnly = 0
+            If SingleModuleOnly = 0
               *Item.SourceItem = *Parser\MainModule\Indexed[Type]\Bucket[Bucket]
               While *Item
                 If *Item <> *Ignore

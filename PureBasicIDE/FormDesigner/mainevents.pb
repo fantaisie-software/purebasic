@@ -5484,14 +5484,14 @@ Procedure FD_Redraw()
       xmin = 0 : xmax = 9999 : ymin = 0 : ymax = 9999
       Select FormSkin
         Case #PB_OS_MacOS
-          DrawSucess = FD_DrawGadget(d_x1 - FormWindows()\paddingx + #Page_Padding,d_y1 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,d_x2 - FormWindows()\paddingx + #Page_Padding,d_y2 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,form_gadget_type)
+          DrawSuccess = FD_DrawGadget(d_x1 - FormWindows()\paddingx + #Page_Padding,d_y1 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,d_x2 - FormWindows()\paddingx + #Page_Padding,d_y2 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,form_gadget_type)
         Case #PB_OS_Windows
-          DrawSucess = FD_DrawGadget(d_x1 + leftpadding - FormWindows()\paddingx + #Page_Padding,d_y1 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,d_x2 - FormWindows()\paddingx + #Page_Padding + leftpadding,d_y2 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,form_gadget_type)
+          DrawSuccess = FD_DrawGadget(d_x1 + leftpadding - FormWindows()\paddingx + #Page_Padding,d_y1 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,d_x2 - FormWindows()\paddingx + #Page_Padding + leftpadding,d_y2 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,form_gadget_type)
         Case #PB_OS_Linux
-          DrawSucess = FD_DrawGadget(d_x1 + leftpadding - FormWindows()\paddingx + #Page_Padding,d_y1 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,d_x2 - FormWindows()\paddingx + #Page_Padding + leftpadding,d_y2 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,form_gadget_type)
+          DrawSuccess = FD_DrawGadget(d_x1 + leftpadding - FormWindows()\paddingx + #Page_Padding,d_y1 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,d_x2 - FormWindows()\paddingx + #Page_Padding + leftpadding,d_y2 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding,form_gadget_type)
       EndSelect
       
-      If DrawSucess
+      If DrawSuccess
         DrawingMode(#PB_2DDrawing_Outlined)
         Box(d_x1 + leftpadding - FormWindows()\paddingx + #Page_Padding, d_y1 - FormWindows()\paddingy + #Page_Padding + topwinpadding + toptoolpadding + topmenupadding, d_x2 - d_x1, d_y2 - d_y1,RGB(0,0,0))
       EndIf

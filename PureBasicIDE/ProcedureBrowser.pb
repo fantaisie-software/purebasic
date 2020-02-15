@@ -328,7 +328,7 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
       *Found = FindProcedureFromSorted(@*ActiveSource\Parser, @*StartItem\Name$, #ITEM_Procedure, CandidateModules())
       If *Found
         Line = *Found\SortedLine + 1
-        If *ActiveSource\CurrentLine <> Line ; do not jump if the procedure header was doubleclicked
+        If *ActiveSource\CurrentLine <> Line ; do not jump if the procedure header was double-clicked
           ChangeActiveLine(Line, -5)
           
           ; Unfold the procedure block if it was folded
@@ -402,7 +402,7 @@ Procedure ProcedureBrowser_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   
   ListViewGadget(#GADGET_ProcedureBrowser, 0, 0, 0, 0)
   
-  If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
+  If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
     ToolsPanel_ApplyColors(#GADGET_ProcedureBrowser)
   EndIf
   

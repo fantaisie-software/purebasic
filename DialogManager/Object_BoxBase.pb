@@ -15,10 +15,10 @@ XIncludeFile "Object_Base.pb"
 
 
 Structure DlgBoxBase Extends DlgBase
-  NbChilds.l
+  NbChildren.l
   
   StructureUnion
-    Childs.DialogObject[#MAX_CHILDLIST]
+    Children.DialogObject[#MAX_CHILDLIST]
     *ChildDatas.DlgBase[#MAX_CHILDLIST]
   EndStructureUnion
 EndStructure
@@ -26,14 +26,14 @@ EndStructure
 
 Procedure DlgBoxBase_AddChild(*THIS.DlgBoxBase, Child.DialogObject)
   CompilerIf #PB_Compiler_Debugger
-    If *THIS\NbChilds >= #MAX_CHILDLIST
+    If *THIS\NbChildren >= #MAX_CHILDLIST
       MessageRequester("Dialog Manager", "Too many immediate child items (" + Str(#MAX_CHILDLIST) + ") !")
     EndIf
   CompilerEndIf
   
-  *THIS\Childs[*THIS\NbChilds] = Child
-  *THIS\ChildDatas[*THIS\NbChilds]\Parent = *THIS
-  *THIS\NbChilds + 1
+  *THIS\Children[*THIS\NbChildren] = Child
+  *THIS\ChildDatas[*THIS\NbChildren]\Parent = *THIS
+  *THIS\NbChildren + 1
 EndProcedure
 
 
@@ -44,8 +44,8 @@ Procedure DlgBoxBase_FoldApply(*THIS.DlgBoxBase, State)
       HideGadget(*THIS\Gadget, State)
     EndIf
     
-    For i = 0 To *THIS\NbChilds-1
-      *THIS\Childs[i]\FoldApply(State)
+    For i = 0 To *THIS\NbChildren-1
+      *THIS\Children[i]\FoldApply(State)
     Next i
   EndIf
 EndProcedure
@@ -57,8 +57,8 @@ Procedure DlgBoxBase_Find(*THIS.DlgBoxBase, Name$)
     ProcedureReturn *THIS ; now returns the object pointer!
   EndIf
   
-  For i = 0 To *THIS\NbChilds-1
-    Result = *THIS\Childs[i]\Find(Name$)
+  For i = 0 To *THIS\NbChildren-1
+    Result = *THIS\Children[i]\Find(Name$)
     If Result <> 0
       ProcedureReturn Result
     EndIf
@@ -71,16 +71,16 @@ Procedure DlgBoxBase_Update(*THIS.DlgBoxBase)
     SetGadgetText(*THIS\Gadget, DialogObjectText(*THIS\StaticData))
   EndIf
   
-  For i = 0 To *THIS\NbChilds-1
-    *THIS\Childs[i]\Update()
+  For i = 0 To *THIS\NbChildren-1
+    *THIS\Children[i]\Update()
   Next i
 EndProcedure
 
 
 
 Procedure DlgBoxBase_Destroy(*THIS.DlgBoxBase)
-  For i = 0 To *THIS\NbChilds-1
-    *THIS\Childs[i]\Destroy()
+  For i = 0 To *THIS\NbChildren-1
+    *THIS\Children[i]\Destroy()
   Next i
   
   FreeMemory(*THIS)

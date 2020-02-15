@@ -6,7 +6,7 @@
 
 
 
-XIncludeFile "../HilightningEngine.pb"
+XIncludeFile "../HighlightingEngine.pb"
 
 Prototype UserCallback(*Position, Length, Color)
 Global    UserCallback.UserCallback
@@ -58,7 +58,7 @@ ProcedureDLL AttachProcess(Instance)
   EnableColoring = 1
   EnableCaseCorrection = 0
   EnableKeywordBolding = 0
-  LoadHilightningFiles = 0
+  LoadHighlightingFiles = 0
   
   ; This is to enable InlineAsm parsing
   ;
@@ -68,7 +68,7 @@ ProcedureDLL AttachProcess(Instance)
   ; Call the init functions
   ;
   InitSyntaxCheckArrays()
-  InitSyntaxHilightning()
+  InitSyntaxHighlighting()
   
 EndProcedure
 
@@ -79,7 +79,7 @@ ProcedureDLL SyntaxHighlight(*Buffer, Length, Callback.UserCallback, EnableASM)
     ; If EnableAsm is set, it will treat it as a source file, and use the
     ; setting from DummySource, so InlineASM will be detected
     ;
-    HilightningEngine(*Buffer, Length, -1, @DllCallback(), EnableASM)
+    HighlightingEngine(*Buffer, Length, -1, @DllCallback(), EnableASM)
     
   EndIf
 EndProcedure

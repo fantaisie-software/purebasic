@@ -60,7 +60,7 @@
   #define Restore_GetLastError() SetLastError(Win_LastError)
 
   #define DelayMS(_time_) Sleep((DWORD)(_time_))
-  #define EllapsedMS() GetTickCount()
+  #define ElapsedMS() GetTickCount()
 
   /* This one tries to trigger WaitWindowEvent() to return.
    * This is to make the debugger communication more responsive
@@ -219,7 +219,7 @@
   // Those are a bit small to be exported functions, so use them
   // inline (they are not used that frequently, so no problem)
   //
-  static inline int EllapsedMS()
+  static inline int ElapsedMS()
   {
     struct timeval Time;
     gettimeofday(&Time, 0);

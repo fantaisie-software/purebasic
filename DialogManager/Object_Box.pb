@@ -12,7 +12,7 @@ XIncludeFile "Object_BoxBase.pb"
 ;
 ; Accepted keys in the XML:
 ;
-; spacing   = space to add between the packed childs (default=5)
+; spacing   = space to add between the packed children (default=5)
 ;
 ; expand    = yes           - items get bigger to fill all space (default)
 ;             no            - do not expand to fill all space
@@ -85,12 +85,12 @@ Procedure DlgBox_SizeRequest(*THIS.DlgBox, *Width.LONG, *Height.LONG)
   
   *THIS\FoldedCount = 0
   
-  If *THIS\NbChilds > 0
+  If *THIS\NbChildren > 0
     
-    For i = 0 To *THIS\NbChilds-1
+    For i = 0 To *THIS\NbChildren-1
       Height = 0
       Width  = 0
-      *THIS\Childs[i]\SizeRequest(@Width, @Height)
+      *THIS\Children[i]\SizeRequest(@Width, @Height)
       
       If *THIS\StaticData\Type = #DIALOG_HBox
         *Width\l  + Width
@@ -107,8 +107,8 @@ Procedure DlgBox_SizeRequest(*THIS.DlgBox, *Width.LONG, *Height.LONG)
       EndIf
     Next i
     
-    If *THIS\NbChilds - *THIS\FoldedCount > 0
-      SpaceCount = *THIS\NbChilds - *THIS\FoldedCount - 1
+    If *THIS\NbChildren - *THIS\FoldedCount > 0
+      SpaceCount = *THIS\NbChildren - *THIS\FoldedCount - 1
     Else
       SpaceCount = 0
     EndIf
@@ -131,8 +131,8 @@ EndProcedure
 
 Procedure DlgBox_SizeApply(*THIS.DlgBox, x, y, Width, Height)
   
-  If *THIS\NbChilds - *THIS\FoldedCount > 0
-    VisibleChilds = *THIS\NbChilds - *THIS\FoldedCount
+  If *THIS\NbChildren - *THIS\FoldedCount > 0
+    VisibleChildren = *THIS\NbChildren - *THIS\FoldedCount
     
     If *THIS\StaticData\Type = #DIALOG_HBox
       Available = Width
@@ -143,15 +143,15 @@ Procedure DlgBox_SizeApply(*THIS.DlgBox, x, y, Width, Height)
     ; equal sizes are requested
     ;
     If *THIS\Expand = #Dlg_Expand_Equal
-      Size = (Available - *THIS\Spacing * (VisibleChilds - 1)) / VisibleChilds
+      Size = (Available - *THIS\Spacing * (VisibleChildren - 1)) / VisibleChildren
       
-      For i = 0 To *THIS\NbChilds-1
+      For i = 0 To *THIS\NbChildren-1
         If *THIS\ChildDatas[i]\Folded = 0
           If *THIS\StaticData\Type = #DIALOG_HBox
-            *THIS\Childs[i]\SizeApply(x, y, Size, Height)
+            *THIS\Children[i]\SizeApply(x, y, Size, Height)
             x + Size + *THIS\Spacing
           Else
-            *THIS\Childs[i]\SizeApply(x, y, Width, Size)
+            *THIS\Children[i]\SizeApply(x, y, Width, Size)
             y + Size + *THIS\Spacing
           EndIf
         EndIf
@@ -160,15 +160,15 @@ Procedure DlgBox_SizeApply(*THIS.DlgBox, x, y, Width, Height)
       ; there is not enough space available... all items loose size in percent of what was requested
       ;
     ElseIf Available < *THIS\RequestedSize And Available > 0
-      For i = 0 To *THIS\NbChilds-1
+      For i = 0 To *THIS\NbChildren-1
         If *THIS\ChildDatas[i]\Folded = 0
           Size = (*THIS\ChildSizes[i] * Available) / *THIS\RequestedSize
           
           If *THIS\StaticData\Type = #DIALOG_HBox
-            *THIS\Childs[i]\SizeApply(x, y, Size, Height)
+            *THIS\Children[i]\SizeApply(x, y, Size, Height)
             x + Size + *THIS\Spacing
           Else
-            *THIS\Childs[i]\SizeApply(x, y, Width, Size)
+            *THIS\Children[i]\SizeApply(x, y, Width, Size)
             y + Size + *THIS\Spacing
           EndIf
         EndIf
@@ -177,15 +177,15 @@ Procedure DlgBox_SizeApply(*THIS.DlgBox, x, y, Width, Height)
       ; normal expanding mode: each item gets the same extra space
       ;
     ElseIf *THIS\Expand = #Dlg_Expand_Yes
-      Extra = (Available - *THIS\RequestedSize) / VisibleChilds
+      Extra = (Available - *THIS\RequestedSize) / VisibleChildren
       
-      For i = 0 To *THIS\NbChilds-1
+      For i = 0 To *THIS\NbChildren-1
         If *THIS\ChildDatas[i]\Folded = 0
           If *THIS\StaticData\Type = #DIALOG_HBox
-            *THIS\Childs[i]\SizeApply(x, y, *THIS\ChildSizes[i] + Extra, Height)
+            *THIS\Children[i]\SizeApply(x, y, *THIS\ChildSizes[i] + Extra, Height)
             x + *THIS\ChildSizes[i] + Extra + *THIS\Spacing
           Else
-            *THIS\Childs[i]\SizeApply(x, y, Width, *THIS\ChildSizes[i] + Extra)
+            *THIS\Children[i]\SizeApply(x, y, Width, *THIS\ChildSizes[i] + Extra)
             y + *THIS\ChildSizes[i] + Extra + *THIS\Spacing
           EndIf
         EndIf
@@ -214,7 +214,7 @@ Procedure DlgBox_SizeApply(*THIS.DlgBox, x, y, Width, Height)
         Extra = 0 ; expand no item at all
       EndIf
       
-      For i = 0 To *THIS\NbChilds-1
+      For i = 0 To *THIS\NbChildren-1
         If *THIS\ChildDatas[i]\Folded = 0
           If *THIS\ExpandItem = i
             Size = *THIS\ChildSizes[i] + Extra
@@ -223,10 +223,10 @@ Procedure DlgBox_SizeApply(*THIS.DlgBox, x, y, Width, Height)
           EndIf
           
           If *THIS\StaticData\Type = #DIALOG_HBox
-            *THIS\Childs[i]\SizeApply(x, y, Size, Height)
+            *THIS\Children[i]\SizeApply(x, y, Size, Height)
             x + Size + *THIS\Spacing
           Else
-            *THIS\Childs[i]\SizeApply(x, y, Width, Size)
+            *THIS\Children[i]\SizeApply(x, y, Width, Size)
             y + Size + *THIS\Spacing
           EndIf
         EndIf

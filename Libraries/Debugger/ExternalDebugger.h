@@ -72,7 +72,7 @@
  *   all the needed byte swapping with the below macros.
  *
  *   Since the swapping of the CommandInfo structure is the same for almost all commands it is
- *   handled in PB_DEBUGGER_ByteSwapIncommingCommand() and PB_DEBUGGER_ByteSwapOutgoingCommand().
+ *   handled in PB_DEBUGGER_ByteSwapIncomingCommand() and PB_DEBUGGER_ByteSwapOutgoingCommand().
  *   These functions are called by the communication plugins on sending and receiving.
  *   (note: this means the CommandInfo data is swapped after a send and should be re-filled)
  *
@@ -183,7 +183,7 @@ struct CommandInfo
   int TimeStamp;
 };
 
-extern void PB_DEBUGGER_ByteSwapIncommingCommand(struct CommandInfo *Command);
+extern void PB_DEBUGGER_ByteSwapIncomingCommand(struct CommandInfo *Command);
 extern void PB_DEBUGGER_ByteSwapOutgoingCommand(struct CommandInfo *Command);
 
 
@@ -289,7 +289,7 @@ extern int PB_DEBUGGER_LibraryCount;
 M_PBFUNCTION(void) PB_DEBUGGER_SendCommand(struct CommandInfo *command);
 M_PBFUNCTION(void) PB_DEBUGGER_SendSimpleCommand(int Command, int Value1, int Value2);
 M_PBFUNCTION(void) PB_DEBUGGER_SendCommandWithData(struct CommandInfo *command, const void *data);
-M_PBFUNCTION(int)  PB_DEBUGGER_IncommingCommand(integer *registers);
+M_PBFUNCTION(int)  PB_DEBUGGER_IncomingCommand(integer *registers);
 M_PBFUNCTION(void) PB_DEBUGGER_StoppedExternal(integer *registers);
 M_PBFUNCTION(void) PB_DEBUGGER_ErrorExternal(const char *Message);
 

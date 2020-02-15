@@ -12,14 +12,14 @@ XIncludeFile "GetRequiredSize.pb"
 ;
 ; panel - panel gadget
 ;
-; The direct childs of a Panel must be "Tab" items, which are containers for the real gadgets
+; The direct children of a Panel must be "Tab" items, which are containers for the real gadgets
 ;
 ; Accepted keys in the XML:
 ;
 ;
 ;
 
-; tab - PanelGadget childs
+; tab - PanelGadget children
 ;
 ; Accepted keys in the XML:
 ;
@@ -65,7 +65,7 @@ Procedure DlgPanel_New(*StaticData.DialogObjectData)
     ;
     ;     CompilerIf #CompileWindows
     ;       If UCase(DialogObjectKey(*StaticData, "MULTILINE")) = "YES"
-    ;         *THIS\Multiline = 1 ; is applied when all childs are added.
+    ;         *THIS\Multiline = 1 ; is applied when all children are added.
     ;       EndIf
     ;     CompilerEndIf
     
@@ -86,11 +86,11 @@ Procedure DlgPanel_SizeRequest(*THIS.DlgPanel, *Width.LONG, *Height.LONG)
   *Width\l  = 0
   *Height\l = 0
   
-  For i = 0 To *THIS\NbChilds-1
+  For i = 0 To *THIS\NbChildren-1
     Height = 0
     Width  = 0
     
-    *THIS\Childs[i]\SizeRequest(@Width, @Height)
+    *THIS\Children[i]\SizeRequest(@Width, @Height)
     
     *Width\l  = Max(*Width\l,  Width)
     *Height\l = Max(*Height\l, Height)
@@ -107,7 +107,7 @@ Procedure DlgPanel_SizeRequest(*THIS.DlgPanel, *Width.LONG, *Height.LONG)
   CompilerEndIf
   
   CompilerIf #CompileLinux
-    If *THIS\NbChilds > 0
+    If *THIS\NbChildren > 0
       ; works in most places.. still a bit a hack though
       *Label.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(*THIS\Gadget), gtk_notebook_get_nth_page_(GadgetID(*THIS\Gadget), 0))
       gtk_widget_size_request_(*Label, @Size.GtkRequisition)     ; get the min required size
@@ -132,7 +132,7 @@ Procedure DlgPanel_SizeApply(*THIS.DlgPanel, x, y, Width, Height)
   CompilerEndIf
   
   CompilerIf #CompileLinux
-    If *THIS\NbChilds > 0
+    If *THIS\NbChildren > 0
       ; works in most places.. still a bit a hack though
       *Label.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(*THIS\Gadget), gtk_notebook_get_nth_page_(GadgetID(*THIS\Gadget), 0))
       gtk_widget_size_request_(*Label, @Size.GtkRequisition)     ; get the min required size
@@ -142,8 +142,8 @@ Procedure DlgPanel_SizeApply(*THIS.DlgPanel, x, y, Width, Height)
     EndIf
   CompilerEndIf
   
-  For i = 0 To *THIS\NbChilds-1
-    *THIS\Childs[i]\SizeApply(0, 0, Width, Height)
+  For i = 0 To *THIS\NbChildren-1
+    *THIS\Children[i]\SizeApply(0, 0, Width, Height)
   Next i
 EndProcedure
 

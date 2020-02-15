@@ -194,7 +194,7 @@ Enumeration
   #COMMAND_ControlPurifier
   #COMMAND_Modules
   
-  #COMMAND_LastIncomming
+  #COMMAND_LastIncoming
 EndEnumeration
 
 ; For easier debugging of the debugger communications
@@ -248,7 +248,7 @@ CompilerIf #PRINT_DEBUGGER_COMMANDS | #LOG_DEBUGGER_COMMANDS
     Data$ "#COMMAND_GetModules"
     
     
-    DebuggerCommands_Incomming:
+    DebuggerCommands_Incoming:
     Data$ "#COMMAND_Init"
     Data$ "#COMMAND_End"
     Data$ "#COMMAND_ExeMode"
@@ -949,7 +949,7 @@ Declare DebuggerCallback(*Debugger.DebuggerData)
 Declare Debugger_ShowLine(*Debugger.DebuggerData, Line)
 
 ; this must be implemented by both debuggers.
-; It may only process window events, it MUST NOT call Debugger_ProcessIncommingCommands() again! (re-entry problems!)
+; It may only process window events, it MUST NOT call Debugger_ProcessIncomingCommands() again! (re-entry problems!)
 Declare FlushEvents()
 
 ; this defines a callback that is called for each debugger window that is opened

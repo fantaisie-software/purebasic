@@ -50,7 +50,7 @@ CompilerIf Defined(CompileWindows, #PB_Constant) = 0
 CompilerEndIf
 
 
-; Max number of childs that any container can have.
+; Max number of children that any container can have.
 ;
 #MAX_CHILDLIST = 100
 

@@ -149,7 +149,7 @@ Procedure DialogWindow_Fold(*THIS.DlgWindow, Name$, State)
   
   If *Result
     ; Note: the "Folded" flag is only set on the topmost object, so unfold
-    ; is done correctly, but all childs are hidden by FoldApply()
+    ; is done correctly, but all children are hidden by FoldApply()
     ;
     *Result\Folded = State
     
@@ -157,7 +157,7 @@ Procedure DialogWindow_Fold(*THIS.DlgWindow, Name$, State)
       RESULT\FoldApply(State)
       
     Else
-      ; To unfold (show) the childs, we must first ensure that
+      ; To unfold (show) the children, we must first ensure that
       ; none of the parents is still folded
       ;
       unfold = 1
@@ -208,7 +208,7 @@ Procedure DialogWindow_GuiUpdate(*THIS.DlgWindow)
     ResizeWindow(*THIS\Window, #PB_Ignore, #PB_Ignore, Width, Height)
   EndIf
   
-  THIS\SizeApply(0, 0, Width, Height) ; resize childs
+  THIS\SizeApply(0, 0, Width, Height) ; resize children
 EndProcedure
 
 

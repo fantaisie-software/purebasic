@@ -1609,7 +1609,7 @@ DataSection
   Data$ "AutoCompleteAbort",  "Close the AutoComplete Window"
   Data$ "ProceduresUpdate", "Trigger Update of Procedure & Variable Viewer"
   
-  Data$ "AllreadyUsed",     "The shortcut you specified is already used by"
+  Data$ "AllreadyUsed",     "The shortcut you specified is already used by" ; DO NOT FIX TYPO: AllreadyUsed
   Data$ "ExternalTool",     "External Tool"
   Data$ "Menu",             "Menu"
   Data$ "TabIntend",        "Indent/Unindent code Selection"
@@ -1700,14 +1700,14 @@ DataSection
   ;     ; ===================================================
   ;
   ;       Data$ "Title",            "CPU Monitor"
-  ;       Data$ "Intervall",        "Update Interval (ms)"
+  ;       Data$ "Intervall",        "Update Interval (ms)" ; DO NOT FIX TYPO: Intervall
   ;       Data$ "Free",             "Free Resources"
   ;       Data$ "All",              "Total Usage"
   ;       Data$ "Program",          "Program"
   ;       Data$ "CPUTime",          "CPU Time"
   ;       Data$ "CPUUsage",         "CPU Usage"
   ;       Data$ "MEMUsage",         "Memory"
-  ;       Data$ "InvalidIntervall", "Invalid Interval size!"
+  ;       Data$ "InvalidIntervall", "Invalid Interval size!"  ; DO NOT FIX TYPO: InvalidIntervall
   ;       Data$ "MonitorError",     "The CPU Monitor is not available on this system!"
   ;
   
@@ -1874,11 +1874,11 @@ DataSection
   Data$ "NoLibraryInfo",    "No Information"
   
   Data$ "PurifierTitle",    "Purifier Settings"
-  Data$ "PurifierIntervall","Integrity check interval"
-  Data$ "GlobalIntervall",  "Global variable space"
-  Data$ "LocalIntervall",   "Local variable space"
-  Data$ "StringIntervall",  "String variables"
-  Data$ "DynamicIntervall", "Allocated memory"
+  Data$ "PurifierIntervall","Integrity check interval" ; DO NOT FIX TYPO: PurifierIntervall
+  Data$ "GlobalIntervall",  "Global variable space"    ; DO NOT FIX TYPO: GlobalIntervall
+  Data$ "LocalIntervall",   "Local variable space"     ; DO NOT FIX TYPO: LocalIntervall
+  Data$ "StringIntervall",  "String variables"         ; DO NOT FIX TYPO: StringIntervall
+  Data$ "DynamicIntervall", "Allocated memory"         ; DO NOT FIX TYPO: DynamicIntervall
   Data$ "CheckAlways",      "Every line"
   Data$ "CheckLines",       "Every %lines% lines"
   Data$ "CheckNever",       "Never"

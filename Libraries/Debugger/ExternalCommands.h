@@ -165,7 +165,7 @@ enum
   /* Command: Request Array, List, Map data
    *
    *  Value1: Range (0=all, 1=non-zero only, 2=range)
-   *  Value2: PrefereGlobal
+   *  Value2: PreferGlobal
    *    Data: name+null (range+null if Value=2), external format
    *          - name MUST include "()" at the end!, name can be an expression, range has to be numbers
    *          - name MUST include a module prefix if the object is inside a module

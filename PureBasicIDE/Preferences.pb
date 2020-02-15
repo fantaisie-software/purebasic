@@ -180,7 +180,7 @@ Procedure LoadPreferences()
   Next i
   
   ; calc which colors are actually used for display
-  CalculateHilightningColors()
+  CalculateHighlightingColors()
   
   EditorFontName$   = ReadPreferenceString("EditorFontName", DefaultEditorFontName$)
   EditorFontSize    = ReadPreferenceLong  ("EditorFontSize", #DEFAULT_EditorFontSize)
@@ -430,12 +430,12 @@ Procedure LoadPreferences()
   
   ;- - MiscWindows
   PreferenceGroup("MiscWindows")
-  LoadDialogPosition(@PreferenceWindowPositon,  -1, -1,   0,   0, "Preference")
-  LoadDialogPosition(@AboutWindowPositon,       -1, -1,   0,   0, "About")
-  LoadDialogPosition(@SortSourcesWindowPositon, -1, -1,   0,   0, "SortSources")
-  LoadDialogPosition(@WarningWindowPosition,    -1, -1, 470, 180, "Warning")
-  LoadDialogPosition(@BuildWindowPosition,      -1, -1, 550, 350, "Build")
-  LoadDialogPosition(@UpdateWindowPositon,      -1, -1,   0,   0, "Updates")
+  LoadDialogPosition(@PreferenceWindowPosition,  -1, -1,   0,   0, "Preference")
+  LoadDialogPosition(@AboutWindowPosition,       -1, -1,   0,   0, "About")
+  LoadDialogPosition(@SortSourcesWindowPosition, -1, -1,   0,   0, "SortSources")
+  LoadDialogPosition(@WarningWindowPosition,     -1, -1, 470, 180, "Warning")
+  LoadDialogPosition(@BuildWindowPosition,       -1, -1, 550, 350, "Build")
+  LoadDialogPosition(@UpdateWindowPosition,      -1, -1,   0,   0, "Updates")
   
   ;- - Shortcuts
   PreferenceGroup("Shortcuts")
@@ -534,7 +534,7 @@ Procedure LoadPreferences()
   ;       CPUWindowY            = ReadPreferenceLong("Y",            0)
   ;       CPUWindowWidth        = ReadPreferenceLong("Width",      500)
   ;       CPUWindowHeight       = ReadPreferenceLong("Height",     400)
-  ;       CPUUpdateIntervall    = ReadPreferenceLong("Intervall", 1000)
+  ;       CPUUpdateInterval     = ReadPreferenceLong("Intervall", 1000) ; DO NOT FIX TYPO: Intervall
   ;       CPUStayOnTop          = ReadPreferenceLong("OnTop",        1)
   ;       DisplayCPUTotal       = ReadPreferenceLong("DisplayTotal", #PB_ListIcon_Checked)
   ;       DisplayCPUFree        = ReadPreferenceLong("DisplayFree",  0)
@@ -567,7 +567,7 @@ Procedure LoadPreferences()
   CompilerElse
     ToolsPanelBackColor        = ReadPreferenceLong("BackColor", $DFFFFF)
   CompilerEndIf
-  NoIndependantToolsColors   = ReadPreferenceLong("NoIndependantColors", 1)
+  NoIndependentToolsColors   = ReadPreferenceLong("NoIndependantColors", 1) ; DO NOT FIX TYPO: NoIndependantColors
   ToolsPanelAutoHide         = ReadPreferenceLong("AutoHide", 0)
   
   
@@ -780,9 +780,9 @@ Procedure LoadPreferences()
   
   ;- - AddTools
   PreferenceGroup("AddTools")
-  LoadDialogPosition(@AddToolsWindowPositon, -1, -1, 400, 300)
-  EditToolsWindowPositon\x = ReadPreferenceLong("EditX",    -1)
-  EditToolsWindowPositon\y = ReadPreferenceLong("EditY",    -1)
+  LoadDialogPosition(@AddToolsWindowPosition, -1, -1, 400, 300)
+  EditToolsWindowPosition\x = ReadPreferenceLong("EditX",    -1)
+  EditToolsWindowPosition\y = ReadPreferenceLong("EditY",    -1)
   
   
   ;- - AutoComplete
@@ -1221,12 +1221,12 @@ Procedure SavePreferences()
     ;- - MiscWindows
     PreferenceComment("")
     PreferenceGroup("MiscWindows")
-    SaveDialogPosition(@PreferenceWindowPositon,  0, "Preference")
-    SaveDialogPosition(@AboutWindowPositon,       0, "About")
-    SaveDialogPosition(@SortSourcesWindowPositon, 0, "SortSources")
-    SaveDialogPosition(@WarningWindowPosition,    1, "Warning")
-    SaveDialogPosition(@BuildWindowPosition,      1, "Build")
-    SaveDialogPosition(@UpdateWindowPositon,      0, "Updates")
+    SaveDialogPosition(@PreferenceWindowPosition,  0, "Preference")
+    SaveDialogPosition(@AboutWindowPosition,       0, "About")
+    SaveDialogPosition(@SortSourcesWindowPosition, 0, "SortSources")
+    SaveDialogPosition(@WarningWindowPosition,     1, "Warning")
+    SaveDialogPosition(@BuildWindowPosition,       1, "Build")
+    SaveDialogPosition(@UpdateWindowPosition,      0, "Updates")
     
     ;- - Shortcuts
     PreferenceComment("")
@@ -1338,7 +1338,7 @@ Procedure SavePreferences()
     ;       WritePreferenceLong("Y",         CPUWindowY)
     ;       WritePreferenceLong("Width",     CPUWindowWidth)
     ;       WritePreferenceLong("Height",    CPUWindowHeight)
-    ;       WritePreferenceLong("Intervall", CPUUpdateIntervall)
+    ;       WritePreferenceLong("Intervall", CPUUpdateInterval) ; DO NOT FIX TYPO: Intervall
     ;       WritePreferenceLong("OnTop",     CPUStayOnTop)
     ;       WritePreferenceLong("DisplayTotal",DisplayCPUTotal)
     ;       WritePreferenceLong("DisplayFree", DisplayCPUFree)
@@ -1367,7 +1367,7 @@ Procedure SavePreferences()
     WritePreferenceString("FontStyle",        ToolsPanelFontStyle$)
     WritePreferenceLong  ("FrontColor",       ToolsPanelFrontColor)
     WritePreferenceLong  ("BackColor",        ToolsPanelBackColor)
-    WritePreferenceLong  ("NoIndependantColors", NoIndependantToolsColors)
+    WritePreferenceLong  ("NoIndependantColors", NoIndependentToolsColors) ; DO NOT FIX TYPO: NoIndependantColors
     WritePreferenceLong  ("AutoHide",         ToolsPanelAutoHide)
     WritePreferenceLong  ("HideDelay",        ToolsPanelHideDelay)
     WritePreferenceLong  ("ActiveTools",      ListSize(UsedPanelTools()))
@@ -1489,9 +1489,9 @@ Procedure SavePreferences()
     ;- - AddTools
     PreferenceComment("")
     PreferenceGroup("AddTools")
-    SaveDialogPosition(@AddToolsWindowPositon, 1) ; save width/height as well
-    WritePreferenceLong("EditX", EditToolsWindowPositon\x)
-    WritePreferenceLong("EditY", EditToolsWindowPositon\y)
+    SaveDialogPosition(@AddToolsWindowPosition, 1) ; save width/height as well
+    WritePreferenceLong("EditX", EditToolsWindowPosition\x)
+    WritePreferenceLong("EditY", EditToolsWindowPosition\y)
     
     ;- - AutoComplete
     PreferenceComment("")
@@ -1981,7 +1981,7 @@ Procedure IsPreferenceChanged()
   
   ; Toolspanel cloring not working on Linux/OSX
   If ToolsPanelUseColors  <> GetGadgetState(#GADGET_Preferences_UseToolsPanelColors): ProcedureReturn 1: EndIf
-  If NoIndependantToolsColors <> GetGadgetState(#GADGET_Preferences_NoIndependantToolsColors): ProcedureReturn 1: EndIf
+  If NoIndependentToolsColors <> GetGadgetState(#GADGET_Preferences_NoIndependentToolsColors): ProcedureReturn 1: EndIf
   If ToolsPanelFrontColor <> PreferenceToolsPanelFrontColor: ProcedureReturn 1: EndIf
   If ToolsPanelBackColor  <> PreferenceToolsPanelBackColor: ProcedureReturn 1: EndIf
   
@@ -2406,7 +2406,7 @@ Procedure ApplyPreferences()
   ToolsPanelFontStyle  = PreferenceToolsPanelFontStyle
   
   ToolsPanelUseColors  = GetGadgetState(#GADGET_Preferences_UseToolsPanelColors)
-  NoIndependantToolsColors  = GetGadgetState(#GADGET_Preferences_NoIndependantToolsColors)
+  NoIndependentToolsColors  = GetGadgetState(#GADGET_Preferences_NoIndependentToolsColors)
   ToolsPanelFrontColor = PreferenceToolsPanelFrontColor
   ToolsPanelBackColor  = PreferenceToolsPanelBackColor
   
@@ -2560,7 +2560,7 @@ Procedure ApplyPreferences()
   SortCompilers()
   
   ; calc which colors are actually used for display
-  CalculateHilightningColors()
+  CalculateHighlightingColors()
   
   ; update all syntax highlighthing
   ;
@@ -2574,10 +2574,10 @@ Procedure ApplyPreferences()
       UpdateFolding(@FileList(), 0, -1)               ; redo all folding
       
       If EnableColoring
-        SetUpHilightningColors() ; needed for every gadget individually now (scintilla)
+        SetUpHighlightingColors() ; needed for every gadget individually now (scintilla)
         SetBackgroundColor()
         SetLineNumberColor()
-        UpdateHilightning()   ; highlight everything after a prefs update
+        UpdateHighlighting()   ; highlight everything after a prefs update
       Else
         RemoveAllColoring()
       EndIf
@@ -2752,7 +2752,7 @@ Procedure OpenPreferencesWindow()
     ProcedureReturn
   EndIf
   
-  PreferenceWindowDialog = OpenDialog(?Dialog_Preferences, WindowID(#WINDOW_Main), @PreferenceWindowPositon)
+  PreferenceWindowDialog = OpenDialog(?Dialog_Preferences, WindowID(#WINDOW_Main), @PreferenceWindowPosition)
   If PreferenceWindowDialog = 0
     ProcedureReturn
   EndIf
@@ -3379,7 +3379,7 @@ Procedure OpenPreferencesWindow()
   PreferenceToolsPanelFontSize   = ToolsPanelFontSize
   PreferenceToolsPanelFontStyle  = ToolsPanelFontStyle
   
-  SetGadgetState(#GADGET_Preferences_NoIndependantToolsColors, NoIndependantToolsColors)
+  SetGadgetState(#GADGET_Preferences_NoIndependentToolsColors, NoIndependentToolsColors)
   SetGadgetState(#GADGET_Preferences_AutoHidePanel, ToolsPanelAutoHide)
   If ToolsPanelAutoHide = 0
     DisableGadget(#GADGET_Preferences_ToolsPanelDelay, 1)
@@ -3396,7 +3396,7 @@ Procedure OpenPreferencesWindow()
   If ToolsPanelUseColors = 0
     DisableGadget(#GADGET_Preferences_ToolsPanelFrontColorSelect, 1)
     DisableGadget(#GADGET_Preferences_ToolsPanelBackColorSelect, 1)
-    DisableGadget(#GADGET_Preferences_NoIndependantToolsColors, 1)
+    DisableGadget(#GADGET_Preferences_NoIndependentToolsColors, 1)
   EndIf
   
   
@@ -3454,7 +3454,7 @@ Procedure OpenPreferencesWindow()
   ; fix required for the centereing of non-resizable windows in the dialog manager
   ; (works only if window is visible)
   CompilerIf #CompileLinuxGtk2
-    If PreferenceWindowPositon\x = -1 And PreferenceWindowPositon\y = -1
+    If PreferenceWindowPosition\x = -1 And PreferenceWindowPosition\y = -1
       While WindowEvent(): Wend
       gtk_window_set_position_(WindowID(#WINDOW_Preferences), #GTK_WIN_POS_CENTER)
     EndIf
@@ -3596,7 +3596,7 @@ Procedure ExportPreferences()
         Read.s MenuTitle$
         Read.s MenuItem$
         Read.l DefaultShortcut
-        WritePreferenceString(MenuItem$, ShortcutToIndependantName(Prefs_KeyboardShortcuts(i)))
+        WritePreferenceString(MenuItem$, ShortcutToIndependentName(Prefs_KeyboardShortcuts(i)))
       Next i
     EndIf
     
@@ -3726,8 +3726,8 @@ Procedure ImportPreferences()
           Read.s MenuTitle$
           Read.s MenuItem$
           Read.l DefaultShortcut
-          ShortcutName$ = ReadPreferenceString(MenuItem$, ShortcutToIndependantName(Prefs_KeyboardShortcuts(i)))
-          Prefs_KeyboardShortcuts(i) = IndependantNameToShortcut(ShortcutName$)
+          ShortcutName$ = ReadPreferenceString(MenuItem$, ShortcutToIndependentName(Prefs_KeyboardShortcuts(i)))
+          Prefs_KeyboardShortcuts(i) = IndependentNameToShortcut(ShortcutName$)
         Next i
         FillShortcutList()
       EndIf
@@ -4887,7 +4887,7 @@ Procedure PreferencesWindowEvents(EventID)
         index = GetGadgetState(#GADGET_Preferences_ShortcutList)
         If index >= 0
           If IsShortcutUsed(Shortcut, index, 0)
-            MessageRequester(#ProductName$, Language("Shortcuts","AllreadyUsed")+#NewLine+Chr(34)+GetShortcutOwner(Shortcut)+Chr(34), #FLAG_Info)
+            MessageRequester(#ProductName$, Language("Shortcuts","AllreadyUsed")+#NewLine+Chr(34)+GetShortcutOwner(Shortcut)+Chr(34), #FLAG_Info) ; DO NOT FIX TYPO: AllreadyUsed
           Else
             Prefs_KeyboardShortcuts(index) = Shortcut ; must be before the SetText for OSX (see ShortcutManagement.pb)
             SetGadgetItemText(#GADGET_Preferences_ShortcutList, index, GetShortcutText(Shortcut), 1)
@@ -5330,7 +5330,7 @@ Procedure PreferencesWindowEvents(EventID)
     Next i
     
     If MemorizeWindow
-      PreferenceWindowDialog\Close(@PreferenceWindowPositon)
+      PreferenceWindowDialog\Close(@PreferenceWindowPosition)
     Else
       PreferenceWindowDialog\Close()
     EndIf

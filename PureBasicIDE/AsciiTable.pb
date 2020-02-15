@@ -17,7 +17,7 @@ Procedure AsciiTable_CreateFunction(*Entry.AsciiTableStructure, PanelItemID)
   AddGadgetColumn(#GADGET_AsciiTable, 2, "Hex", 50)
   AddGadgetColumn(#GADGET_AsciiTable, 3, "Html", 80)
   
-  If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
+  If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
     ToolsPanel_ApplyColors(#GADGET_AsciiTable)
   EndIf
   

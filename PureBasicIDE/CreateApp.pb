@@ -282,7 +282,7 @@ Procedure CheckAndroidPackageID(ID$)
 EndProcedure
 
 
-Procedure LauchAppBuild(OutputFilename$)
+Procedure LaunchAppBuild(OutputFilename$)
   
   If CurrentAppIsProject
     ProcedureReturn CreateExecutableProject()
@@ -379,7 +379,7 @@ Procedure CreateAppWindowEvents(EventID)
                 
                 CloseCreateAppWindow()
                 
-                If LauchAppBuild(*CurrentAppTarget\HtmlFilename$)
+                If LaunchAppBuild(*CurrentAppTarget\HtmlFilename$)
                   ; *ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeeded
                   
                   Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", *CurrentAppTarget\HtmlFileName$), Date())
@@ -420,7 +420,7 @@ Procedure CreateAppWindowEvents(EventID)
                 Else
                   CloseCreateAppWindow()
                   
-                  If LauchAppBuild(*CurrentAppTarget\iOSAppOutput$)
+                  If LaunchAppBuild(*CurrentAppTarget\iOSAppOutput$)
                     ;*ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeeded
                     
                     Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", *CurrentAppTarget\iOSAppOutput$), Date())
@@ -456,7 +456,7 @@ Procedure CreateAppWindowEvents(EventID)
                 Else
                   CloseCreateAppWindow()
                   
-                  If LauchAppBuild(*CurrentAppTarget\AndroidAppOutput$)
+                  If LaunchAppBuild(*CurrentAppTarget\AndroidAppOutput$)
                     ;*ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeeded
                     
                     Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", *CurrentAppTarget\AndroidAppOutput$), Date())

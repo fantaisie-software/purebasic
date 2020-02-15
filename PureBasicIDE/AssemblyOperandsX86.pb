@@ -732,7 +732,7 @@ Data$ "VCVTPD2UDQ";	Convert Packed Double-Precision Floating-Point Values To Pac
 Data$ "VCVTPD2UQQ";	Convert Packed Double-Precision Floating-Point Values To Packed Unsigned Quadword Integers
 Data$ "VCVTPH2PS";	Convert 16-bit FP values To Single-Precision FP values
 Data$ "VCVTPS2PH";	Convert Single-Precision FP value To 16-bit FP value
-Data$ "VCVTPS2QQ";	Convert Packed Single Precision Floating-Point Values To Packed Singed Quadword Integer Values
+Data$ "VCVTPS2QQ";	Convert Packed Single Precision Floating-Point Values To Packed Singled Quadword Integer Values
 Data$ "VCVTPS2UDQ";	Convert Packed Single-Precision Floating-Point Values To Packed Unsigned Doubleword Integer Values
 Data$ "VCVTPS2UQQ";	Convert Packed Single Precision Floating-Point Values To Packed Unsigned Quadword Integer Values
 Data$ "VCVTQQ2PD";	Convert Packed Quadword Integers To Packed Double-Precision Floating-Point Values
@@ -742,7 +742,7 @@ Data$ "VCVTSS2USI";	Convert Scalar Single-Precision Floating-Point Value To Unsi
 Data$ "VCVTTPD2QQ";	Convert With Truncation Packed Double-Precision Floating-Point Values To Packed Quadword Integers
 Data$ "VCVTTPD2UDQ";	Convert With Truncation Packed Double-Precision Floating-Point Values To Packed Unsigned Doubleword Integers
 Data$ "VCVTTPD2UQQ";	Convert With Truncation Packed Double-Precision Floating-Point Values To Packed Unsigned Quadword Integers
-Data$ "VCVTTPS2QQ";	Convert With Truncation Packed Single Precision Floating-Point Values To Packed Singed Quadword Integer Values
+Data$ "VCVTTPS2QQ";	Convert With Truncation Packed Single Precision Floating-Point Values To Packed Singled Quadword Integer Values
 Data$ "VCVTTPS2UDQ";	Convert With Truncation Packed Single-Precision Floating-Point Values To Packed Unsigned Doubleword Integer Values
 Data$ "VCVTTPS2UQQ";	Convert With Truncation Packed Single Precision Floating-Point Values To Packed Unsigned Quadword Integer Values
 Data$ "VCVTTSD2USI";	Convert With Truncation Scalar Double-Precision Floating-Point Value To Unsigned Integer

@@ -628,7 +628,7 @@ Procedure AddTools_OpenEditWindow()
   
   ; this window can't be already open, because the open buttons are disabled when it is, so no check here
   ;
-  EditToolsWindowDialog = OpenDialog(?Dialog_EditTools, WindowID(#WINDOW_AddTools), @EditToolsWindowPositon)
+  EditToolsWindowDialog = OpenDialog(?Dialog_EditTools, WindowID(#WINDOW_AddTools), @EditToolsWindowPosition)
   If EditToolsWindowDialog
     EnsureWindowOnDesktop(#WINDOW_EditTools)
     
@@ -835,7 +835,7 @@ Procedure AddTools_EditWindowEvents(EventID)
           EndIf
           
           If IsShortcutUsed(Shortcut, -1, *CurrentTool)
-            MessageRequester(#ProductName$, Language("Shortcuts","AllreadyUsed")+#NewLine+Chr(34)+GetShortcutOwner(Shortcut)+Chr(34), #FLAG_Info)
+            MessageRequester(#ProductName$, Language("Shortcuts","AllreadyUsed")+#NewLine+Chr(34)+GetShortcutOwner(Shortcut)+Chr(34), #FLAG_Info) ; DO NOT FIX TYPO: AllreadyUsed
             error = 1
           Else
             error = 0
@@ -919,7 +919,7 @@ Procedure AddTools_EditWindowEvents(EventID)
   
   If Quit
     If MemorizeWindow
-      EditToolsWindowDialog\Close(@EditToolsWindowPositon)
+      EditToolsWindowDialog\Close(@EditToolsWindowPosition)
     Else
       EditToolsWindowDialog\Close()
     EndIf
@@ -939,7 +939,7 @@ Procedure AddTools_OpenWindow()
   
   If IsWindow(#WINDOW_AddTools) = 0
     
-    AddToolsWindowDialog = OpenDialog(?Dialog_AddTools, WindowID(#WINDOW_Main), @AddToolsWindowPositon)
+    AddToolsWindowDialog = OpenDialog(?Dialog_AddTools, WindowID(#WINDOW_Main), @AddToolsWindowPosition)
     If AddToolsWindowDialog
       EnsureWindowOnDesktop(#WINDOW_AddTools)
       
@@ -1200,7 +1200,7 @@ Procedure AddTools_WindowEvents(EventID)
   
   If Quit
     If MemorizeWindow
-      AddToolsWindowDialog\Close(@AddToolsWindowPositon)
+      AddToolsWindowDialog\Close(@AddToolsWindowPosition)
     Else
       AddToolsWindowDialog\Close()
     EndIf

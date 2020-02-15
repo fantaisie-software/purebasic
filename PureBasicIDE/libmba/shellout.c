@@ -182,7 +182,7 @@ sho_open(const unsigned char *shname, const unsigned char *ps1, int flags)
         free(sh);
         return NULL;
       }
-      if (writen(STDOUT_FILENO, TERM_PREPARE, strlen(TERM_PREPARE)) < 0) {
+      if (writen(STDOUT_FILENO, TERM_PREPARE, strlen(TERM_PREPARE)) < 0) { /* DO NOT FIX TYPO: writen */
         free(sh);
         return NULL;
       }
@@ -242,7 +242,7 @@ sho_open(const unsigned char *shname, const unsigned char *ps1, int flags)
   }
   if ((sh->flags & SHO_FLAGS_ISATTY) &&
       (flags & SHO_FLAGS_INTERACT) &&
-          writen(STDOUT_FILENO, ps1env + 4, ps1len) < 0) {
+          writen(STDOUT_FILENO, ps1env + 4, ps1len) < 0) { /* DO NOT FIX TYPO: writen */
     PMNO(errno);
     goto err;
   }
@@ -250,7 +250,7 @@ sho_open(const unsigned char *shname, const unsigned char *ps1, int flags)
   return sh;
 err:
   if ((sh->flags & SHO_FLAGS_ISATTY) && (flags & SHO_FLAGS_INTERACT)) {
-    writen(STDOUT_FILENO, TERM_RESTORE, strlen(TERM_RESTORE));
+    writen(STDOUT_FILENO, TERM_RESTORE, strlen(TERM_RESTORE)); /* DO NOT FIX TYPO: writen */
     tcsetattr(STDIN_FILENO, TCSANOW, &sh->t0);
   }
   free(sh);
@@ -265,7 +265,7 @@ sho_close(struct sho *sh)
   waitpid(sh->pid, &status, 0);
   status = WIFEXITED(status) ? WEXITSTATUS(status) : -1;
   if ((sh->flags & SHO_FLAGS_ISATTY) && (sh->flags & SHO_FLAGS_INTERACT)) {
-    writen(STDOUT_FILENO, TERM_RESTORE, strlen(TERM_RESTORE));
+    writen(STDOUT_FILENO, TERM_RESTORE, strlen(TERM_RESTORE)); /* DO NOT FIX TYPO: writen */
     tcsetattr(STDIN_FILENO, TCSANOW, &sh->t0);
   }
   free(sh);
@@ -310,9 +310,9 @@ sho_loop(struct sho *sh, const unsigned char *pv[], int pn, int timeout)
         return 0;
       }
       if ((sh->flags & SHO_FLAGS_INTERACT)) {
-        writen(STDOUT_FILENO, buf, n);
+        writen(STDOUT_FILENO, buf, n); /* DO NOT FIX TYPO: writen */
       }
-      if (writen(sh->ptym, buf, n) < 0) {
+      if (writen(sh->ptym, buf, n) < 0) { /* DO NOT FIX TYPO: writen */
         PMNO(errno);
         return -1;
       }
@@ -378,10 +378,10 @@ main(int argc, char *argv[])
   sh = sho_open("sh", "sh> ", 0);
   n = sprintf(buf, "%s\n", argv[1]);
   fputs(buf, stderr);
-  writen(sh->ptym, buf, n);
+  writen(sh->ptym, buf, n); /* DO NOT FIX TYPO: writen */
   if ((i = sho_expect(sh, pv, 1, buf, 256, 10)) != 1) {
     MMSG("timeout occurred, writing Ctrl-C");
-    writen(sh->ptym, "\x03", 1);                 /* Ctrl-C is SIGINT */
+    writen(sh->ptym, "\x03", 1);                 /* Ctrl-C is SIGINT */ /* DO NOT FIX TYPO: writen */
     if ((i = sho_expect(sh, pv, 1, buf, 256, 10)) != 1) {
       MMSG("timeout again! Sending SIGKILL");
       kill(sh->pid, SIGKILL);
@@ -389,7 +389,7 @@ main(int argc, char *argv[])
       return EXIT_FAILURE;
     }
   }
-  writen(sh->ptym, "exit $?\n", 8);
+  writen(sh->ptym, "exit $?\n", 8); /* DO NOT FIX TYPO: writen */
   fputs("exit $?\n", stderr);
   ret = sho_close(sh);
   if (ret) {

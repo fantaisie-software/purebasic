@@ -192,7 +192,7 @@ Procedure Explorer_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   
   EnableGadgetDrop(#GADGET_Explorer_Favorites, #PB_Drop_Files, #PB_Drag_Copy)
   
-  If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
+  If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
     ToolsPanel_ApplyColors(#GADGET_Explorer)
     ToolsPanel_ApplyColors(#GADGET_Explorer_Favorites)
   EndIf

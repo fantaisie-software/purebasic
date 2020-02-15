@@ -276,7 +276,7 @@ VERSION_DEMO: $(TARGET)/makeversion.exe $(TARGET)/dummy
 
 # Windows only: Syntax highlighting dll
 dll : tools/HighlightingDll.pb
-	$(PBCOMPILER) tools/HighlightingDll.pb /dll /exe "$(HOME)/SDK/Syntax Highlighting/SyntaxHilighting.dll" /CONSTANT MAKEFILE=1
+	$(PBCOMPILER) tools/HighlightingDll.pb /dll /exe "$(HOME)/SDK/Syntax Highlighting/SyntaxHighlighting.dll" /CONSTANT MAKEFILE=1
 	cp "tools\HighlightingDll_example.pb" "$(HOME)/SDK/Syntax Highlighting/Example.pb"
 
 # (Currently windows only, later hopefully crossplatform)

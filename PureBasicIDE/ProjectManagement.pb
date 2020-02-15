@@ -143,7 +143,7 @@ Procedure IsProjectFile(FileName$)
   Protected Result = #False
   
   ; Note: We can not share the loaded #XML with the LoadProject() (which would save a re-parse)
-  ;   because LoadSoruceFile() calls IsProjectFile() too, and this would invalidate
+  ;   because LoadSourceFile() calls IsProjectFile() too, and this would invalidate
   ;   the #XML from the LoadProject(), so just parse it twice (its small anyway)
   ;   This bug took a long time to track down.
   

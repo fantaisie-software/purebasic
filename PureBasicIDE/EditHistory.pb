@@ -1054,7 +1054,7 @@ Procedure HistoryEvent(*Source.SourceFile, Event)
     If Size > HistoryMaxFileSize
       
       ; Size checking works like this:
-      ; If the file is too large on open, it is excluded entirely (ExludeFromHistory = true)
+      ; If the file is too large on open, it is excluded entirely (ExcludeFromHistory = true)
       ; If the file was small but grows to large, write no events but the
       ; close event, so the event log is consistent
       ;

@@ -443,7 +443,7 @@ typedef struct
 // Flags for expression parsing
 #define EXPRESSION_FindVariable       1
 #define EXPRESSION_FindArrayListMap   2
-#define EXPRESSION_PrefereGlobalList  4
+#define EXPRESSION_PreferGlobalList  4
 
 extern M_PBFUNCTION(int) PB_DEBUGGER_ParseExpression(char *UTF8Input, int Flags, PB_TokenInfo *Result, char **ErrorMsg, PB_LineContext *context);
 extern M_PBFUNCTION(int) PB_DEBUGGER_ParseExpressionAscii(char *AsciiInput, integer Length, int Flags, PB_TokenInfo *Result, char **ErrorMsg, PB_LineContext *context);

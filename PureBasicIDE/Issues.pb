@@ -391,7 +391,7 @@ Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
     SetGadgetState(#GADGET_Issues_SingleFile, 1)
   EndIf
   
-  If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
+  If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
     ToolsPanel_ApplyColors(#GADGET_Issues_List)
   EndIf
   

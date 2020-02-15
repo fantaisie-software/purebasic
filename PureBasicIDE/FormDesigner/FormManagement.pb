@@ -298,7 +298,7 @@ Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   
   SetGadgetState(#Form_SplitterInt, form_splitter_pos)
   
-  If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
+  If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
     ToolsPanel_ApplyColors(#Form_PropObjList)
     ToolsPanel_ApplyColors(gadgetlist)
     ToolsPanel_ApplyColors(propgrid)

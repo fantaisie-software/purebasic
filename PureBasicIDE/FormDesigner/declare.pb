@@ -1053,8 +1053,8 @@ DataSection ;{
   date: : IncludeBinary "img/macdate.png"
   maccheckbx: : IncludeBinary "img/maccheckbox.png"
   maccheckbxsel: : IncludeBinary "img/maccheckboxchecked.png"
-  macoptin: : IncludeBinary "img/macoption.png"
-  macoptinsel: : IncludeBinary "img/macoptionselected.png"
+  macoption: : IncludeBinary "img/macoption.png"
+  macoptionsel: : IncludeBinary "img/macoptionselected.png"
   mactrackbar: : IncludeBinary "img/mactrackbar.png"
   mactrackbarv: : IncludeBinary "img/mactrackbarv.png"
   
@@ -1071,8 +1071,8 @@ DataSection ;{
   win8close: : IncludeBinary "img/windows8close.png"
   win8checkbx: : IncludeBinary "img/windows8checkbox.png"
   win8checkbxsel: : IncludeBinary "img/windows8checkboxok.png"
-  win8optin: : IncludeBinary "img/windows8option.png"
-  win8optinsel: : IncludeBinary "img/windows8optionok.png"
+  win8option: : IncludeBinary "img/windows8option.png"
+  win8optionsel: : IncludeBinary "img/windows8optionok.png"
   win8spin: : IncludeBinary "img/windows8spin.png"
   win8arrowdown: : IncludeBinary "img/windows8arrowdown.png"
   win8scrollup: : IncludeBinary "img/windows8scrollup.png"
@@ -1089,8 +1089,8 @@ DataSection ;{
   win7mindis: : IncludeBinary "img/windowsmindis.png"
   win7checkbx: : IncludeBinary "img/windowscheckbox.png"
   win7checkbxsel: : IncludeBinary "img/windowscheckboxsel.png"
-  win7optin: : IncludeBinary "img/windowsoption.png"
-  win7optinsel: : IncludeBinary "img/windowsoptionsel.png"
+  win7option: : IncludeBinary "img/windowsoption.png"
+  win7optionsel: : IncludeBinary "img/windowsoptionsel.png"
   
   ; linux drawing helping images
   linuxmin: : IncludeBinary "img/linuxmin.png"
