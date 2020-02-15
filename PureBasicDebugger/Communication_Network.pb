@@ -108,7 +108,7 @@ EndImport
 
 DataSection
   
-  CiperInitializer:
+  CipherInitializer:
   Data.b $D7, $2F, $E7, $B8, $AA, $9F, $E9, $01, $A5, $A5, $09, $58, $C9, $85, $A9, $CC
   
 EndDataSection
@@ -185,7 +185,7 @@ Procedure Network_SetupEncryption(*This.Network_Communication, Password$)
     ; This has to match what the debugger lib does
     ; Use the imported functions, so we get directly a binary representation
     MD5Init(@*This\HashContext)
-    MD5Update(@*This\HashContext, ?CiperInitializer, 16)
+    MD5Update(@*This\HashContext, ?CipherInitializer, 16)
     MD5Update(@*This\HashContext, ToAscii(Password$), StringByteLength(Password$, #PB_Ascii))
     MD5Final(*Key, @*This\HashContext)
     
@@ -200,8 +200,8 @@ Procedure Network_SetupEncryption(*This.Network_Communication, Password$)
     rijndael_set_key(@*This\CryptContext, *Key, 128)
     
     ; this will be needed for CBC on the actual data stream
-    CopyMemory(?CiperInitializer, @*This\InitializerEncrypt, 16)
-    CopyMemory(?CiperInitializer, @*This\InitializerDecrypt, 16)
+    CopyMemory(?CipherInitializer, @*This\InitializerEncrypt, 16)
+    CopyMemory(?CipherInitializer, @*This\InitializerDecrypt, 16)
     
     FreeMemory(*Key)
   EndIf

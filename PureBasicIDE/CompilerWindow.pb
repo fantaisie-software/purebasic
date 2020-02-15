@@ -96,11 +96,11 @@ Procedure CompilerReady()
   If *CurrentCompiler = @DefaultCompiler
     HistoryCompilerLoaded()
     
-    InitSyntaxHilightning()
+    InitSyntaxHighlighting()
     
     ; Set up the os specific color values
     ;
-    SetUpHilightningColors()
+    SetUpHighlightingColors()
     
     ; do this before scanning, as it affects saved data (known constants etc)
     InitStructureViewer()
@@ -121,7 +121,7 @@ Procedure CompilerReady()
           UpdateFolding(@FileList(), 0, -1)               ; redo all folding
           
           SetBackgroundColor()
-          UpdateHilightning()
+          UpdateHighlighting()
         EndIf
       Next FileList()
       

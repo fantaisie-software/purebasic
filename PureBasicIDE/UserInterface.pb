@@ -1053,7 +1053,7 @@ Procedure MainMenuEvent(MenuItemID)
       SaveAll()
       
     Case #MENU_CloseAll
-      If CheckAllSourcesSaved() ; returns true if abort was not choosen.
+      If CheckAllSourcesSaved() ; returns true if abort was not chosen.
         NbFiles = ListSize(FileList())
         If *ProjectInfo
           NbFiles - 1

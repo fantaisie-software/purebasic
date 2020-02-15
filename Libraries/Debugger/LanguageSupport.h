@@ -28,7 +28,7 @@ typedef struct
 {
   const char *Key;
   const char *Value;
-} PB_LangageItem;
+} PB_LanguageItem;
 
 // Set the default language values.
 //

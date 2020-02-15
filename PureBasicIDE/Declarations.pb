@@ -109,8 +109,8 @@ CompilerEndIf
 ; Editor specific files
 ; ===========================================
 
-;- RichEditHilightning.pb
-;- ScintillaHilightning.pb
+;- RichEditHighlighting.pb
+;- ScintillaHighlighting.pb
 ;
 ;Declare SendEditorMessage(Message, wParam, lParam)
 
@@ -124,10 +124,10 @@ Declare CountCharacters(Gadget, startPos, endPos)  ; Fix for the #SCI_COUNTCHARA
 Declare BuildIndentVT()
 Declare UpdateIndent(FirstLine, LastLine)
 Declare UpdateFolding(*Source.SourceFile, firstline, lastline) ; redo all folding (no rescan) from the given line to at least lastline
-Declare CalculateHilightningColors()                           ; calculate really used colors (call once after a prefs load/update)
-Declare SetUpHilightningColors()                               ; set up the colors for highlighting (called for each source when the prefs change, or when loading)
-Declare HilightArea(*StartPos, *EndPos)                        ; highlight a given area of text (0, -1) highlights all!
-Declare UpdateHilightning()                                    ; highlight everything after a prefs update
+Declare CalculateHighlightingColors()                          ; calculate really used colors (call once after a prefs load/update)
+Declare SetUpHighlightingColors()                              ; set up the colors for highlighting (called for each source when the prefs change, or when loading)
+Declare HighlightArea(*StartPos, *EndPos)                      ; highlight a given area of text (0, -1) highlights all!
+Declare UpdateHighlighting()                                   ; highlight everything after a prefs update
 Declare StreamTextIn(*Buffer, Length)                          ; put the given buffer into the current source
 Declare StreamTextOut(*Buffer, Length)                         ; get the contents of the current source into the buffer
 Declare GetSourceLength()                                      ; get the source length in bytes
@@ -186,9 +186,9 @@ Declare GetBreakPoint(*Source.SourceFile, LineNumber)   ; return the nearest BRe
 Declare MarkBreakPoint(LineNumber)                      ; set breakpoint mark
 Declare ClearBreakPoint(LineNumber)                     ; remove a breakpoint mark
 Declare ClearAllBreakPoints(*Source.SourceFile)         ; clears all breakpoint marks in this source
-Declare UpdateBraceHilight(Cursor, SecondTry=#False)    ; add/update brace highlighting with cursor at this position
+Declare UpdateBraceHighlight(Cursor, SecondTry=#False)  ; add/update brace highlighting with cursor at this position
 Declare JumpToMatchingKeyword()                         ; jump to the matching keyword to the one on the cursor
-Declare UpdateKeywordHilight(selStart, SetHilight)      ; highlight the matching keyword to the one at the cursor
+Declare UpdateKeywordHighlight(selStart, SetHighlight)  ; highlight the matching keyword to the one at the cursor
 Declare GetCommentPosition(Line$)                       ; get the char index of the comment in the given line (-1 if none)
 Declare IsWhitespaceOnly(Line$)                         ; returns true if the line only contains whitespace (and maybe a comment)
 Declare CountColumns(String$)
@@ -387,15 +387,15 @@ Declare OpenGrepWindow()
 Declare UpdateGrepWindow()
 Declare GrepWindowEvents(EventID)
 
-;- HilightningEngine.pb
+;- HighlightingEngine.pb
 ;
 Declare InitSyntaxCheckArrays()       ; create arrays like the ValidCharacters of TriggerCharacters
-Declare InitSyntaxHilightning()       ; initialize the highlighting
+Declare InitSyntaxHighlighting()      ; initialize the highlighting
 Declare BuildCustomKeywordTable()     ; build the needed HT etc from the CustomKeywordList() list and file
-Declare HilightningEngine(*InBuffer, InBufferLength, CursorPosition, *HilightCallback, IsSourceCode) ; call the engine
+Declare HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, *HighlightCallback, IsSourceCode) ; call the engine
 Declare IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
 
-;- HilightningFunctions.pb
+;- HighlightingFunctions.pb
 ;
 Declare GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, *EndIndex.INTEGER, Mode)   ; Retrieve the boundary of a word
 Declare.s GetWord(*Buffer, BufferLength, Position)                                                       ; extract the word at position from *Buffer
@@ -574,8 +574,8 @@ Declare ShortcutMenuItem(MenuItemID, Text$) ; create a menuitem with or without 
 Declare FillShortcutList()                  ; fill the combobox with all shortcut names
 Declare.s GetShortcutOwner(Shortcut)        ; get the name where a shortcut is assigned to
 Declare IsShortcutUsed(Shortcut, CurrentPrefsItem, *CurrentAddTool) ; check if a given shortcut is already used
-Declare.s ShortcutToIndependantName(Shortcut)                       ; translate shortcut into a OS independent name
-Declare IndependantNameToShortcut(Name$)                            ; trandlate os independent name back to shortcut
+Declare.s ShortcutToIndependentName(Shortcut)                       ; translate shortcut into a OS independent name
+Declare IndependentNameToShortcut(Name$)                            ; trandlate os independent name back to shortcut
 CompilerIf #CompileMac
   Declare SetupMacPrefsShortcutCallback()
 CompilerEndIf

@@ -26,7 +26,7 @@ Structure Plugin_Xml
   Text.l
 EndStructure
 
-; count childs and grandchilds
+; count children and grandchildren
 Procedure Xml_RecursiveCount(Node)
   Count = 0 ; do not count this node!
   Node  = ChildXMLNode(Node)
@@ -78,7 +78,7 @@ Procedure Xml_RecursiveAdd(Node, Gadget, Sublevel)
         Child = NextXMLNode(Child)
       Wend
       
-      ; do after adding the childs
+      ; do after adding the children
       SetGadgetItemState(Gadget, NewIndex, #PB_Tree_Expanded)
       
   EndSelect

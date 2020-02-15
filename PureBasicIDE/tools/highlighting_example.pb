@@ -33,12 +33,12 @@ EndProcedure
 Procedure.s GenerateQuickHelpText(Word$)
 EndProcedure
 
-XIncludeFile "..\HilightningEngine.pb"
+XIncludeFile "..\HighlightingEngine.pb"
 
 
 ; ==================================================
 
-Procedure HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
+Procedure HighlightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
   
   If IsBold
     WriteString("<B>")
@@ -90,7 +90,7 @@ EnableKeywordBolding = 1
 
 
 InitSyntaxCheckArrays()
-InitSyntaxHilightning()
+InitSyntaxHighlighting()
 
 
 File$ = OpenFileRequester("Choose File: ", "C:\", "PB Files|*.pb|All Files|*,*", 0)
@@ -104,7 +104,7 @@ If ReadFile(0, File$)
     If CreateFile(1, File$+".html")
       WriteString("<html><body bgcolor=#FFFFDF><pre>")
       
-      HilightningEngine(*Buffer, Size, 0, @HilightCallback(), 0) ; 3rd and 5th parameter MUST be 0 if not called from IDE
+      HighlightingEngine(*Buffer, Size, 0, @HighlightCallback(), 0) ; 3rd and 5th parameter MUST be 0 if not called from IDE
       
       WriteString("</pre></body></html>")
       

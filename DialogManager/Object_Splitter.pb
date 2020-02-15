@@ -25,7 +25,7 @@ XIncludeFile "GetRequiredSize.pb"
 
 Structure DlgSplitter Extends DlgBase
   IsVertical.l
-  NbChilds.l  ; max 2
+  NbChildren.l  ; max 2
   
   Minimum.l[2]
   RequestedWidth.l[2]
@@ -86,7 +86,7 @@ Procedure DlgSplitter_New(*StaticData.DialogObjectData)
     *THIS\VTable     = ?DlgSplitter_VTable
     *THIS\StaticData = *StaticData
     
-    ; Create 2 containers to put the childs in
+    ; Create 2 containers to put the children in
     ;
     *THIS\ChildGadget[0] = ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_BorderLess)
     CloseGadgetList()
@@ -198,16 +198,16 @@ Procedure DlgSplitter_SizeApply(*THIS.DlgSplitter, x, y, Width, Height)
 EndProcedure
 
 Procedure DlgSplitter_AddChild(*THIS.DlgSplitter, Child.DialogObject)
-  If *THIS\NbChilds >= 2
+  If *THIS\NbChildren >= 2
     CompilerIf #PB_Compiler_Debugger
-      MessageRequester("Dialog Manager", "Object can only hold two childs !")
+      MessageRequester("Dialog Manager", "Object can only hold two children !")
     CompilerEndIf
     
     ProcedureReturn
   EndIf
   
-  index = *THIS\NbChilds
-  *THIS\NbChilds + 1
+  index = *THIS\NbChildren
+  *THIS\NbChildren + 1
   
   ; NOTE: AddChild() is called after all child gadgets are created, that is why the
   ;   first OpenGadgetList() is in DlgSplitter_New() and we do the close here
@@ -216,7 +216,7 @@ Procedure DlgSplitter_AddChild(*THIS.DlgSplitter, Child.DialogObject)
   CloseGadgetList()
   
   ; open the gadgetlist of the next child (if any)
-  If *THIS\NbChilds < 2
+  If *THIS\NbChildren < 2
     OpenGadgetList(*THIS\ChildGadget[index+1])
   EndIf
   
@@ -229,7 +229,7 @@ Procedure DlgSplitter_Find(*THIS.DlgSplitter, Name$)
     ProcedureReturn *THIS ; now returns the object pointer!
   EndIf
   
-  For i = 0 To *THIS\NbChilds-1
+  For i = 0 To *THIS\NbChildren-1
     Result = *THIS\Child[i]\Find(Name$)
     If Result <> 0
       ProcedureReturn Result
@@ -239,7 +239,7 @@ EndProcedure
 
 
 Procedure DlgSplitter_Update(*THIS.DlgSplitter)
-  For i = 0 To *THIS\NbChilds-1
+  For i = 0 To *THIS\NbChildren-1
     *THIS\Child[i]\Update()
   Next i
 EndProcedure
@@ -247,7 +247,7 @@ EndProcedure
 
 
 Procedure DlgSplitter_Destroy(*THIS.DlgSplitter)
-  For i = 0 To *THIS\NbChilds-1
+  For i = 0 To *THIS\NbChildren-1
     *THIS\Child[i]\Destroy()
   Next i
   

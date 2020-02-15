@@ -573,13 +573,13 @@ define ll_variablegadget_create_variablegadget_nodeclose l_variablegadget_nodecl
 define ll_variablegadget_create_variablegadget_nodeclose l_variablegadget_nodeclose
 define ll_createpipecommunication_winpipe_vtbl l_winpipe_vtbl
 define ll_createpipecommunication_winpipe_vtbl l_winpipe_vtbl
-define ll_network_setupencryption_ciperinitializer l_ciperinitializer
-define ll_network_setupencryption_ciperinitializer l_ciperinitializer
-define ll_network_setupencryption_ciperinitializer l_ciperinitializer
-define ll_network_setupencryption_ciperinitializer l_ciperinitializer
-define ll_network_setupencryption_ciperinitializer l_ciperinitializer
-define ll_network_setupencryption_ciperinitializer l_ciperinitializer
-define ll_network_setupencryption_ciperinitializer l_ciperinitializer
+define ll_network_setupencryption_cipherinitializer l_cipherinitializer
+define ll_network_setupencryption_cipherinitializer l_cipherinitializer
+define ll_network_setupencryption_cipherinitializer l_cipherinitializer
+define ll_network_setupencryption_cipherinitializer l_cipherinitializer
+define ll_network_setupencryption_cipherinitializer l_cipherinitializer
+define ll_network_setupencryption_cipherinitializer l_cipherinitializer
+define ll_network_setupencryption_cipherinitializer l_cipherinitializer
 define ll_network_setupencryption_ciperinitializer l_ciperinitializer
 define ll_createnetworkcommunication_networkclient_vtbl l_networkclient_vtbl
 define ll_createnetworkcommunication_networkserver_vtbl l_networkserver_vtbl
@@ -1103,7 +1103,7 @@ _EndIf1:
 ; #COMMAND_ControlPurifier
 ; #COMMAND_Modules  
 ; 
-; #COMMAND_LastIncomming
+; #COMMAND_LastIncoming
 ; EndEnumeration
 ; 
 ; 
@@ -3911,7 +3911,7 @@ _EndIf1:
 ; Data$ "AutoCompleteAbort",  "Close the AutoComplete Window"
 ; Data$ "ProceduresUpdate", "Trigger Update of Procedure & Variable Viewer"
 ; 
-; Data$ "AllreadyUsed",     "The shortcut you specified is already used by" 
+; Data$ "AllreadyUsed",     "The shortcut you specified is already used by" ; DO NOT FIX TYPO: AllreadyUsed
 ; Data$ "ExternalTool",     "External Tool"
 ; Data$ "Menu",             "Menu"
 ; Data$ "TabIntend",        "Indent/Unindent code Selection"
@@ -4174,11 +4174,11 @@ _EndIf1:
 ; Data$ "NoLibraryInfo",    "No Information"
 ; 
 ; Data$ "PurifierTitle",    "Purifier Settings"
-; Data$ "PurifierIntervall","Integrity check interval"
-; Data$ "GlobalIntervall",  "Global variable space"
-; Data$ "LocalIntervall",   "Local variable space"
-; Data$ "StringIntervall",  "String variables"
-; Data$ "DynamicIntervall", "Allocated memory"
+; Data$ "PurifierIntervall","Integrity check interval" ; DO NOT FIX TYPO: PurifierIntervall
+; Data$ "GlobalIntervall",  "Global variable space"    ; DO NOT FIX TYPO: GlobalIntervall
+; Data$ "LocalIntervall",   "Local variable space"     ; DO NOT FIX TYPO: LocalIntervall
+; Data$ "StringIntervall",  "String variables"         ; DO NOT FIX TYPO: StringIntervall
+; Data$ "DynamicIntervall", "Allocated memory"         ; DO NOT FIX TYPO: DynamicIntervall
 ; Data$ "CheckAlways",      "Every line"
 ; Data$ "CheckLines",       "Every %lines% lines"     
 ; Data$ "CheckNever",       "Never" 
@@ -4534,7 +4534,7 @@ _EndIf1:
 ; 
 ; EndDataSection
 ; 
-; XIncludeFile ".."+#Separator+"PureBasicIDE"+#Separator+"HilightningEngine.pb"
+; XIncludeFile ".."+#Separator+"PureBasicIDE"+#Separator+"HighlightingEngine.pb"
 ; 
 ; 
 ; 
@@ -4949,7 +4949,7 @@ _EndIf1:
 ; 
 ; 
 ; 
-; Prototype HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
+; Prototype HighlightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
 ; 
 ; 
 ; Structure FunctionEntry
@@ -4959,7 +4959,7 @@ _EndIf1:
 ; AsciiBuffer.a[256] 
 ; EndStructure
 ; 
-; Structure HilightPTR
+; Structure HighlightPTR
 ; StructureUnion
 ; a.a[0]
 ; b.b[0] 
@@ -6252,7 +6252,7 @@ _EndIf1:
 ; 
 ; DataSection
 ; 
-; CiperInitializer:
+; CipherInitializer:
 ; Data.b $D7, $2F, $E7, $B8, $AA, $9F, $E9, $01, $A5, $A5, $09, $58, $C9, $85, $A9, $CC
 ; 
 ; EndDataSection
@@ -9349,7 +9349,7 @@ _EndIf3662:
 ; EndIf
 _EndIf3664:
 ; 
-; SetupHilightning()
+; SetupHighlighting()
   CALL  _Procedure662
 ; 
 ; EnsureWindowOnDesktop(#WINDOW_Main)
@@ -9672,7 +9672,7 @@ _Repeat3755:
   MOV    r15,qword [v_EventID]
   AND    r15,r15
   JNE   _EndIf3757
-; If Debugger_ProcessIncommingCommands() = 0 
+; If Debugger_ProcessIncomingCommands() = 0 
   CALL  _Procedure430
   MOV    r15,rax
   AND    r15,r15
@@ -25630,7 +25630,7 @@ _EndProcedure223:
   POP    r15
   POP    rbp
   RET
-; Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.HilightCallback, IsSourceCode)
+; Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback.HighlightCallback, IsSourceCode)
 _Procedure244:
   MOV    qword [rsp+8],rcx
   MOV    qword [rsp+16],rdx
@@ -25648,7 +25648,7 @@ _Procedure244:
   JNZ   .ClearLoop
   SUB    rsp,40
 ; 
-; *Cursor.HilightPTR = *InBuffer
+; *Cursor.HighlightPTR = *InBuffer
   PUSH   qword [rsp+PS244+0]
   POP    rax
   MOV    qword [rsp+40],rax
@@ -25714,7 +25714,7 @@ _EndIf511:
 ; EndIf    
 _EndIf510:
 ; 
-; SeperatorChar = 0
+; SeparatorChar = 0
   MOV    qword [rsp+72],0
 ; OldSeparatorChar = 0   
   MOV    qword [rsp+80],0
@@ -27186,11 +27186,11 @@ _EndIf577:
 ; Else
   JMP   _EndIf575
 _EndIf576:
-; *ForwardCursor.HilightPTR = *Cursor+1
+; *ForwardCursor.HighlightPTR = *Cursor+1
   MOV    r15,qword [rsp+40]
   INC    r15
   MOV    qword [rsp+192],r15
-; While *ForwardCursor.HilightPTR < *InBufferEnd And ValidCharacters(*ForwardCursor\a)
+; While *ForwardCursor.HighlightPTR < *InBufferEnd And ValidCharacters(*ForwardCursor\a)
 _While581:
   MOV    r15,qword [rsp+192]
   CMP    r15,qword [rsp+48]
@@ -27337,7 +27337,7 @@ End87:
   MOV    qword [rsp+192],r15
   JMP   _While585
 _Wend585:
-; While *ForwardCursor.HilightPTR < *InBufferEnd And ValidCharacters(*ForwardCursor\a)
+; While *ForwardCursor.HighlightPTR < *InBufferEnd And ValidCharacters(*ForwardCursor\a)
 _While586:
   MOV    r15,qword [rsp+192]
   CMP    r15,qword [rsp+48]
@@ -29526,7 +29526,7 @@ _EndIf657:
   JMP   _EndIf660
 _EndIf661:
 ; 
-; *BackCursor.HilightPTR = *Cursor-1
+; *BackCursor.HighlightPTR = *Cursor-1
   MOV    r15,qword [rsp+40]
   DEC    r15
   MOV    qword [rsp+240],r15
@@ -35722,7 +35722,7 @@ _EndProcedure269:
   POP    r15
   POP    rbp
   RET
-; Procedure SetupHilightning()
+; Procedure SetupHighlighting()
 _Procedure662:
   PS662=64
   XOR    rax,rax
@@ -35735,7 +35735,7 @@ _Procedure662:
   MOV    qword [v_EnableCaseCorrection],1
 ; 
 ; 
-; LoadHilightningFiles = 0 
+; LoadHighlightingFiles = 0 
   MOV    qword [rsp+40],0
 ; 
 ; CompilerIf #CompileLinux
@@ -35786,7 +35786,7 @@ _Procedure662:
 ; 
 ; InitSyntaxCheckArrays()
   CALL  _Procedure218
-; InitSyntaxHilightning()
+; InitSyntaxHighlighting()
   CALL  _Procedure220
 ; EndProcedure
 _EndProcedureZero663:
@@ -56300,7 +56300,7 @@ _EndProcedure161:
   ADD    rsp,64
   POP    r15
   RET
-; Procedure IsAfterStructure(Keyword, *LineStart, *Cursor.HilightPTR)
+; Procedure IsAfterStructure(Keyword, *LineStart, *Cursor.HighlightPTR)
 _Procedure234:
   MOV    qword [rsp+8],rcx
   MOV    qword [rsp+16],rdx
@@ -61125,7 +61125,7 @@ _Procedure656:
 ; 
 ; 
 ; 
-; Shared HilightGadget
+; Shared HighlightGadget
 ; 
 ; Select *scinotify\nmhdr\code
   MOV    rbp,qword [rsp+PS656+8]
@@ -61234,10 +61234,10 @@ _Procedure656:
   CALL   PB_ScintillaSendMessage3
   ADD    rsp,40
   MOV    qword [rsp+80],rax
-; HilightGadget = EditorGadget
+; HighlightGadget = EditorGadget
   PUSH   qword [rsp+PS656+8]
   POP    rax
-  MOV    qword [v_HilightGadget],rax
+  MOV    qword [v_HighlightGadget],rax
 ; 
 ; ScintillaSendMessage(EditorGadget, #SCI_STARTSTYLING, range\chrg\cpMin, $FFFFFF)
   SUB    rsp,8
@@ -61254,7 +61254,7 @@ _Procedure656:
   SUB    rsp,32
   CALL   PB_ScintillaSendMessage3
   ADD    rsp,40
-; HilightningEngine(*Buffer, reallength, -1, @HilightCallback(), 0)          
+; HighlightingEngine(*Buffer, reallength, -1, @HighlightCallback(), 0)          
   PUSH   qword 0
   LEA    rax,[_Procedure654]
   MOV    rax,rax
@@ -85669,7 +85669,7 @@ _EndIf3272:
   POP    rax
   MOV    qword [rbp+904],rax
 ; 
-; *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Frame] = FrameGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","PurifierIntervall"))
+; *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Frame] = FrameGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","PurifierIntervall")) ; DO NOT FIX TYPO: PurifierIntervall
   PUSH   qword [PB_StringBasePosition]
   SUB    rsp,8
   PUSH   qword [PB_StringBasePosition]
@@ -85707,7 +85707,7 @@ _EndIf3272:
   POP    rax
   MOV    qword [rbp+3024],rax
 ; 
-; *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextGlobal] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","GlobalIntervall"))
+; *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextGlobal] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","GlobalIntervall")) ; DO NOT FIX TYPO: GlobalIntervall
   PUSH   qword [PB_StringBasePosition]
   SUB    rsp,8
   PUSH   qword [PB_StringBasePosition]
@@ -85744,7 +85744,7 @@ _EndIf3272:
   POP    rbp
   POP    rax
   MOV    qword [rbp+3032],rax
-; *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextLocal] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","LocalIntervall"))
+; *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextLocal] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","LocalIntervall")) ; DO NOT FIX TYPO: LocalIntervall
   PUSH   qword [PB_StringBasePosition]
   SUB    rsp,8
   PUSH   qword [PB_StringBasePosition]
@@ -85781,7 +85781,7 @@ _EndIf3272:
   POP    rbp
   POP    rax
   MOV    qword [rbp+3056],rax
-; *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextString] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","StringIntervall"))
+; *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextString] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","StringIntervall")) ; DO NOT FIX TYPO: StringIntervall
   PUSH   qword [PB_StringBasePosition]
   SUB    rsp,8
   PUSH   qword [PB_StringBasePosition]
@@ -85818,7 +85818,7 @@ _EndIf3272:
   POP    rbp
   POP    rax
   MOV    qword [rbp+3080],rax
-; *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextDynamic] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","DynamicIntervall"))
+; *Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextDynamic] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","DynamicIntervall")) ; DO NOT FIX TYPO: DynamicIntervall
   PUSH   qword [PB_StringBasePosition]
   SUB    rsp,8
   PUSH   qword [PB_StringBasePosition]
@@ -88481,9 +88481,9 @@ _Procedure368:
   PUSH   rax
   POP    rcx
   CALL   MD5Init
-; MD5Update(@*This\HashContext, ?CiperInitializer, 16)
+; MD5Update(@*This\HashContext, ?CipherInitializer, 16)
   PUSH   qword 16
-  MOV    rbp,ll_network_setupencryption_ciperinitializer
+  MOV    rbp,ll_network_setupencryption_cipherinitializer
   MOV    rax,rbp
   PUSH   rax
   MOV    rbp,qword [rsp+PS368+16]
@@ -88544,26 +88544,26 @@ _Procedure368:
   MOVSXD rax,eax
 ; 
 ; 
-; CopyMemory(?CiperInitializer, @*This\InitializerEncrypt, 16)
+; CopyMemory(?CipherInitializer, @*This\InitializerEncrypt, 16)
   PUSH   qword 16
   MOV    rbp,qword [rsp+PS368+8]
   LEA    rax,[rbp+724]
   MOV    rax,rax
   PUSH   rax
-  MOV    rbp,ll_network_setupencryption_ciperinitializer
+  MOV    rbp,ll_network_setupencryption_cipherinitializer
   MOV    rax,rbp
   PUSH   rax
   POP    rcx
   POP    rdx
   POP    r8
   CALL   PB_CopyMemory
-; CopyMemory(?CiperInitializer, @*This\InitializerDecrypt, 16)
+; CopyMemory(?CipherInitializer, @*This\InitializerDecrypt, 16)
   PUSH   qword 16
   MOV    rbp,qword [rsp+PS368+8]
   LEA    rax,[rbp+740]
   MOV    rax,rax
   PUSH   rax
-  MOV    rbp,ll_network_setupencryption_ciperinitializer
+  MOV    rbp,ll_network_setupencryption_cipherinitializer
   MOV    rax,rbp
   PUSH   rax
   POP    rcx
@@ -104923,7 +104923,7 @@ _Procedure622:
   ADD    rsp,40
   POP    qword [PB_StringBasePosition]
 ; 
-; SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Frame], Language("Debugger","PurifierIntervall"))
+; SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_Frame], Language("Debugger","PurifierIntervall")) ; DO NOT FIX TYPO: PurifierIntervall
   PUSH   qword [PB_StringBasePosition]
   SUB    rsp,8
   PUSH   qword [PB_StringBasePosition]
@@ -104950,7 +104950,7 @@ _Procedure622:
   CALL   PB_SetGadgetText
   ADD    rsp,40
   POP    qword [PB_StringBasePosition]
-; SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextGlobal], Language("Debugger","GlobalIntervall"))
+; SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextGlobal], Language("Debugger","GlobalIntervall")) ; DO NOT FIX TYPO: GlobalIntervall
   PUSH   qword [PB_StringBasePosition]
   SUB    rsp,8
   PUSH   qword [PB_StringBasePosition]
@@ -104977,7 +104977,7 @@ _Procedure622:
   CALL   PB_SetGadgetText
   ADD    rsp,40
   POP    qword [PB_StringBasePosition]
-; SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextLocal], Language("Debugger","LocalIntervall"))
+; SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextLocal], Language("Debugger","LocalIntervall")) ; DO NOT FIX TYPO: LocalIntervall
   PUSH   qword [PB_StringBasePosition]
   SUB    rsp,8
   PUSH   qword [PB_StringBasePosition]
@@ -105004,7 +105004,7 @@ _Procedure622:
   CALL   PB_SetGadgetText
   ADD    rsp,40
   POP    qword [PB_StringBasePosition]
-; SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextString], Language("Debugger","StringIntervall"))
+; SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextString], Language("Debugger","StringIntervall")) ; DO NOT FIX TYPO: StringIntervall
   PUSH   qword [PB_StringBasePosition]
   SUB    rsp,8
   PUSH   qword [PB_StringBasePosition]
@@ -105031,7 +105031,7 @@ _Procedure622:
   CALL   PB_SetGadgetText
   ADD    rsp,40
   POP    qword [PB_StringBasePosition]
-; SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextDynamic], Language("Debugger","DynamicIntervall"))
+; SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Purifier_TextDynamic], Language("Debugger","DynamicIntervall")) ; DO NOT FIX TYPO: DynamicIntervall
   PUSH   qword [PB_StringBasePosition]
   SUB    rsp,8
   PUSH   qword [PB_StringBasePosition]
@@ -107320,7 +107320,7 @@ _EndProcedure295:
   POP    r15
   POP    rbp
   RET
-; Procedure HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
+; Procedure HighlightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
 _Procedure654:
   MOV    qword [rsp+8],rcx
   MOV    qword [rsp+16],rdx
@@ -107328,12 +107328,12 @@ _Procedure654:
   MOV    qword [rsp+32],r9
   PS654=48
   SUB    rsp,40
-; Shared HilightGadget
-; ScintillaSendMessage(HilightGadget, #SCI_SETSTYLING, Length, *Color)
+; Shared HighlightGadget
+; ScintillaSendMessage(HighlightGadget, #SCI_SETSTYLING, Length, *Color)
   PUSH   qword [rsp+PS654+16]
   PUSH   qword [rsp+PS654+16]
   PUSH   qword 2033
-  PUSH   qword [v_HilightGadget]
+  PUSH   qword [v_HighlightGadget]
   POP    rcx
   POP    rdx
   POP    r8
@@ -107553,7 +107553,7 @@ _EndProcedure519:
   POP    r15
   POP    rbp
   RET
-; Procedure Debugger_ProcessIncommingCommands()
+; Procedure Debugger_ProcessIncomingCommands()
 _Procedure430:
   PUSH   rbp
   PUSH   r15
@@ -113477,7 +113477,7 @@ _EndProcedureZero673:
 _EndProcedure673:
   ADD    rsp,40
   RET
-; Procedure CopyMemoryCheck(*Source.HilightPTR, *Target.HilightPTR, Length)
+; Procedure CopyMemoryCheck(*Source.HighlightPTR, *Target.HighlightPTR, Length)
 _Procedure214:
   MOV    qword [rsp+8],rcx
   MOV    qword [rsp+16],rdx
@@ -117049,7 +117049,7 @@ _EndProcedure645:
   POP    r15
   POP    rbp
   RET
-; Procedure InitSyntaxHilightning()  
+; Procedure InitSyntaxHighlighting()  
 _Procedure220:
   PUSH   rbp
   PUSH   r15
@@ -117130,11 +117130,11 @@ _Next387:
 ; 
 ; 
 ; If APIFunctionsRead = 0  
-  MOV    r15,qword [so_InitSyntaxHilightning.v_APIFunctionsRead]
+  MOV    r15,qword [so_InitSyntaxHighlighting.v_APIFunctionsRead]
   AND    r15,r15
   JNE   _EndIf389
 ; APIFunctionsRead = 1
-  MOV    qword [so_InitSyntaxHilightning.v_APIFunctionsRead],1
+  MOV    qword [so_InitSyntaxHighlighting.v_APIFunctionsRead],1
 ; 
 ; NbAPIFunctions = 0
   MOV    qword [v_NbApiFunctions],0
@@ -117634,7 +117634,7 @@ _EndIf389:
 ; 
 ; 
 ; 
-; IsHilightningReady = 1
+; IsHighlightingReady = 1
   MOV    qword [rsp+104],1
 ; 
 ; EndProcedure
@@ -118978,7 +118978,7 @@ v_ProfilerY rq 1
 v_DebuggerBreakPointColor rq 1
 v_Profiler_Zoomout rq 1
 v_EnableMenuIcons rq 1
-v_HilightGadget rq 1
+v_HighlightGadget rq 1
 v_Value$ rq 1
 v_OptionSep rq 1
 v_WatchListWindowMaximize rq 1
@@ -119119,7 +119119,7 @@ so_ToAscii.p_Buffer rq 1
 so_SetSortArrow_NoTheme.v_UpImage rq 1
 so_SetSortArrow_NoTheme.v_DownImage rq 1
 so_GetUniqueID.v_UniqueID rq 1
-so_InitSyntaxHilightning.v_APIFunctionsRead rq 1
+so_InitSyntaxHighlighting.v_APIFunctionsRead rq 1
 so_VariableGadget_Create.v_IsInitialized rq 1
 so_VariableWindowEvents.v_PopupVariableGadget rq 1
 so_LibraryViewer_Init_Log.v_LastFileName$ rq 1
@@ -121185,7 +121185,7 @@ l_winpipe_vtbl:
   dq    _Procedure322
   dq    _Procedure324
   dq    _Procedure326
-l_ciperinitializer:
+l_cipherinitializer:
   db     215,47,231,184,170,159,233,1,165,165,9,88,201,133,169,204
 l_networkclient_vtbl:
   dq    _Procedure404

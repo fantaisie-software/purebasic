@@ -259,7 +259,7 @@ Procedure Grep(DirectoryID, Directory$, String$, PatternList$, InitialPathLength
   ; Now check all the Patterns (if any)
   ; We need to keep track of already seen filenames, as one might match multiple patterns!
   ;
-  NewList SeachedFiles.s()
+  NewList SearchedFiles.s()
   
   If Trim(PatternList$) = ""
     PatternList$ = "*.*"
@@ -277,17 +277,17 @@ Procedure Grep(DirectoryID, Directory$, String$, PatternList$, InitialPathLength
             Filename$  = DirectoryEntryName(DirectoryID)
             Found = 0
             
-            ForEach SeachedFiles()
-              Searched$ = SeachedFiles() ; NOTE: @SeachedFiles() no longer returns the string pointer !?
+            ForEach SearchedFiles()
+              Searched$ = SearchedFiles() ; NOTE: @SearchedFiles() no longer returns the string pointer !?
               If IsEqualFile(Searched$, FileName$)
                 Found = 1
                 Break
               EndIf
-            Next SeachedFiles()
+            Next SearchedFiles()
             
             If Found = 0
-              AddElement(SeachedFiles())
-              SeachedFiles() = FileName$
+              AddElement(SearchedFiles())
+              SearchedFiles() = FileName$
               
               SetGadgetText(#GADGET_GrepOutput_Current, CreateRelativePath(Grep_BaseDirectory$, Directory$+FileName$))
               SearchStringInFile(#FILE_Grep, Directory$+Filename$, String$, InitialPathLength)

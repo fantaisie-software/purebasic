@@ -5,7 +5,7 @@
 ;--------------------------------------------------------------------------------------------
 ;
 ;
-; The SyntaxHilighting.dll provides the syntax parser of the
+; The SyntaxHighlighting.dll provides the syntax parser of the
 ; PureBasic IDE in form of a dll, so it can be easily reused
 ; to do other tasks as well.
 ;
@@ -95,7 +95,7 @@ EndProcedure
 ; Simple example code. It loads a PB file and outputs a HTML file with some
 ; coloring for functions, keywords and comments
 ;
-If OpenLibrary(#Dll, "SyntaxHilighting.dll")
+If OpenLibrary(#Dll, "SyntaxHighlighting.dll")
   
   InputFile$ = OpenFileRequester("Select PB File", "*.pb", "PB Files|*.pb|All Files|*.*", 0)
   If InputFile$

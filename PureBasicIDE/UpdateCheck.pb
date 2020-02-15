@@ -119,7 +119,7 @@ Procedure UpdateWindowEvents(EventID)
   
   If Quit
     If MemorizeWindow
-      UpdateWindowDialog\Close(@UpdateWindowPositon)
+      UpdateWindowDialog\Close(@UpdateWindowPosition)
     Else
       UpdateWindowDialog\Close()
     EndIf
@@ -288,7 +288,7 @@ Procedure UpdateCheckTimer()
   ;
   If ListSize(AvailableReleases()) > 0
     
-    UpdateWindowDialog = OpenDialog(?Dialog_Updates, WindowID(#WINDOW_Main), @UpdateWindowPositon)
+    UpdateWindowDialog = OpenDialog(?Dialog_Updates, WindowID(#WINDOW_Main), @UpdateWindowPosition)
     If UpdateWindowDialog
       EnsureWindowOnDesktop(#WINDOW_Updates)
       
@@ -317,7 +317,7 @@ Procedure UpdateCheckTimer()
       ; fix required for the centereing of non-resizable windows in the dialog manager
       ; (works only if window is visible)
       CompilerIf #CompileLinuxGtk2
-        If UpdateWindowPositon\x = -1 And UpdateWindowPositon\y = -1
+        If UpdateWindowPosition\x = -1 And UpdateWindowPosition\y = -1
           While WindowEvent(): Wend
           gtk_window_set_position_(WindowID(#WINDOW_Updates), #GTK_WIN_POS_CENTER)
         EndIf

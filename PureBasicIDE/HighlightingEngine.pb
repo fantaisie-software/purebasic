@@ -367,7 +367,7 @@ CompilerEndIf
 
 ; Use a prototype to have the fastest access possible to the callback
 ;
-Prototype HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
+Prototype HighlightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
 
 ; For API/BasicFunction array
 Structure FunctionEntry
@@ -377,7 +377,7 @@ Structure FunctionEntry
   AsciiBuffer.a[256] ; name in ascii for highlighting engine (which is ascii only)
 EndStructure
 
-Structure HilightPTR
+Structure HighlightPTR
   StructureUnion
     a.a[0]
     b.b[0] ; even when declaring with an array like this, we still
@@ -440,7 +440,7 @@ CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
     EndIf
   EndProcedure
   
-  Procedure HighlightCommentIssues(*StringStart, *LineEnd, *StringEnd, StringFormat, Callback.HilightCallback)
+  Procedure HighlightCommentIssues(*StringStart, *LineEnd, *StringEnd, StringFormat, Callback.HighlightCallback)
     Static NewList Found.FoundIssue() ; static to avoid constant alloc/free
     
     ; scan for issues
@@ -484,7 +484,7 @@ CompilerEndIf
 
 ; If *Source and *Target have same content: returns #False
 ; Otherwise, copy the memory and return #True
-Procedure CopyMemoryCheck(*Source.HilightPTR, *Target.HilightPTR, Length)
+Procedure CopyMemoryCheck(*Source.HighlightPTR, *Target.HighlightPTR, Length)
   
   ; for a fast equal check, do it in integer blocks
   While Length >= SizeOf(Integer)
@@ -595,7 +595,7 @@ Procedure InitSyntaxCheckArrays()
 EndProcedure
 
 
-Procedure InitSyntaxHilightning()
+Procedure InitSyntaxHighlighting()
   Static APIFunctionsRead
   
   NbBasicFunctions = 0
@@ -757,7 +757,7 @@ Procedure InitSyntaxHilightning()
   
   ; Indicate that highlighting is ready now:
   ;
-  IsHilightningReady = 1
+  IsHighlightingReady = 1
   
 EndProcedure
 
@@ -960,7 +960,7 @@ Global *KeywordExtends   = StringToAscii("Extends")
 ; returns true if the current position is after
 ; a structure or interface keyword
 ;
-Procedure IsAfterStructure(Keyword, *LineStart, *Cursor.HilightPTR)
+Procedure IsAfterStructure(Keyword, *LineStart, *Cursor.HighlightPTR)
   
   ; move away from word start char
   *Cursor - 1
@@ -1100,15 +1100,15 @@ EndProcedure
 
 ; callback function
 ;
-;Declare HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
+;Declare HighlightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
 
 #EndSeparator  = -1
 #SkipSeparator = -2
 #ModuleSeparator = -2
 
-Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.HilightCallback, IsSourceCode)
+Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback.HighlightCallback, IsSourceCode)
   
-  *Cursor.HilightPTR = *InBuffer
+  *Cursor.HighlightPTR = *InBuffer
   *InBufferEnd = *InBuffer + InBufferLength
   *LineStart   = *InBuffer ; Scintilla never requests the highlight of less than complete lines, so this is ok
   
@@ -1124,7 +1124,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
     SourceStringFormat = #PB_Ascii
   EndIf
   
-  SeperatorChar = 0
+  SeparatorChar = 0
   OldSeparatorChar = 0   ; the previous separator char
   OlderSeparatorChar = 0 ; the separator char before the previous one
   
@@ -1352,8 +1352,8 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
         EndIf
         
       Else
-        *ForwardCursor.HilightPTR = *Cursor+1
-        While *ForwardCursor.HilightPTR < *InBufferEnd And ValidCharacters(*ForwardCursor\a)
+        *ForwardCursor.HighlightPTR = *Cursor+1
+        While *ForwardCursor.HighlightPTR < *InBufferEnd And ValidCharacters(*ForwardCursor\a)
           *ForwardCursor + 1
         Wend
         NextWord$ = UCase(PeekAsciiLength(*Cursor+1, *ForwardCursor-*Cursor-1))
@@ -1364,7 +1364,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
           IsModulePrefix = 1
           *ForwardCursor + 2
           While *ForwardCursor < *InBufferEnd And *ForwardCursor\b = ' ' Or *ForwardCursor\b = 9: *ForwardCursor + 1: Wend
-          While *ForwardCursor.HilightPTR < *InBufferEnd And ValidCharacters(*ForwardCursor\a)
+          While *ForwardCursor.HighlightPTR < *InBufferEnd And ValidCharacters(*ForwardCursor\a)
             *ForwardCursor + 1
           Wend
           While *ForwardCursor < *InBufferEnd And *ForwardCursor\b = ' ' Or *ForwardCursor\b = 9: *ForwardCursor + 1: Wend
@@ -1697,7 +1697,7 @@ Procedure HilightningEngine(*InBuffer, InBufferLength, CursorPosition, Callback.
           
         Else ; since 5*a is not a pointer, we need to further check..
           
-          *BackCursor.HilightPTR = *Cursor-1
+          *BackCursor.HighlightPTR = *Cursor-1
           IsPointer = 1
           While *BackCursor >= *InBuffer And *BackCursor\b <> 10 And *BackCursor\b <> 13
             If *BackCursor\b = '(' Or *BackCursor\b = ':' Or *BackCursor\b = '[' Or *BackCursor\b = ',' Or *BackCursor\b = '*' Or *BackCursor\b = '=' Or *BackCursor\b = '+' Or *BackCursor\b = '-' Or *BackCursor\b = '/' Or *BackCursor\b = '@' Or *BackCursor\b = '&' Or *BackCursor\b = '|' Or *BackCursor\b = '!' Or *BackCursor\b = '~' Or *BackCursor\b = '<' Or *BackCursor\b = '>' Or *BackCursor\b = '\' Or *BackCursor\b = '%'
@@ -1972,6 +1972,6 @@ DataSection
   
   ;- Keywords - ASM
   ASMKeywords:
-  IncludeFile #PB_Compiler_FilePath+"AssemblyOperandsX86.pb" ; Needs the put the absolute path as it's used by the DocMaker and SyntaxHighlightning DLL
+  IncludeFile #PB_Compiler_FilePath+"AssemblyOperandsX86.pb" ; Needs the put the absolute path as it's used by the DocMaker and SyntaxHighlighting DLL
   
 EndDataSection

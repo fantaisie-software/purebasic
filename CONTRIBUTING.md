@@ -155,7 +155,7 @@ Always mention the author and the assets source, providing a back-link to the or
 
 Submission of contents to the main project require using __[Git]__, the famous version control tool, and embracing [GitHub's Fork & Pull Workflow].
 
-In this workflow, you won't be editing the project contents directly on the main repostiory (the _upstream_ repository), instead you'll be editing your own copy (a _fork_) of the repository, on your your machine, by working on a custom branch (not `master`) and then, when you're ready to submit your changes, you create a _pull request_ on GitHub, which is a request to integrate the changes from your custom branch into the upstream repository.
+In this workflow, you won't be editing the project contents directly on the main repository (the _upstream_ repository), instead you'll be editing your own copy (a _fork_) of the repository, on your your machine, by working on a custom branch (not `master`) and then, when you're ready to submit your changes, you create a _pull request_ on GitHub, which is a request to integrate the changes from your custom branch into the upstream repository.
 
 This approach is at the core of the _version control_ collaborative model, and it's what allows different people to work independently on the same files and then be able to integrate each other's changes without disrupting the main project.
 
@@ -179,7 +179,7 @@ In "__Preferences » Editor »  Save Settings to:__", there are four options to 
 3. __A common file project.cfg for every directory__ — a single `project.cfg` [Preference file] is created within a folder, the settings of each source file are grouped in a [Preference Group] named as the source file.
 4. __Don't save anything__
 
-Check that your IDE is not configured to use the first option, othwerwise you'll be modifying files tracked by Git, even if you don't actually change the file contents.
+Check that your IDE is not configured to use the first option, otherwise you'll be modifying files tracked by Git, even if you don't actually change the file contents.
 Options two and three are fine because the repository is set to ignore any files matching the patterns `*.pb.cfg`, `*.pbi.cfg` and `project.cfg` — i.e. those files are excluded from the repository (see [`.gitignore`][.gitignore]).
 
 ### Code Styles Conventions

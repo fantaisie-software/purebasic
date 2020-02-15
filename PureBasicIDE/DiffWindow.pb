@@ -729,7 +729,7 @@ Procedure OpenDiffWindow()
   
 EndProcedure
 
-Procedure DiffHilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
+Procedure DiffHighlightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
   ScintillaSendMessage(DiffStyleGadget, #SCI_SETSTYLING, Length, *Color)
 EndProcedure
 
@@ -997,7 +997,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
     DiffStyleGadget = Gadget
     ScintillaSendMessage(Gadget, #SCI_STARTSTYLING, 0, $1F)
     If DiffShowColors
-      HilightningEngine(*Buffer, Length-1, 0, @DiffHilightCallback(), 0)
+      HighlightingEngine(*Buffer, Length-1, 0, @DiffHighlightCallback(), 0)
     Else
       ; no highlighting engine used here. just set the text color for everything
       ScintillaSendMessage(Gadget, #SCI_SETSTYLING, Length-1, 1)

@@ -354,7 +354,7 @@ Procedure IsShortcutUsed(Shortcut, CurrentPrefsItem, *CurrentAddTool)
   ProcedureReturn 0
 EndProcedure
 
-Procedure.s ShortcutToIndependantName(Shortcut)
+Procedure.s ShortcutToIndependentName(Shortcut)
   
   If Shortcut = -1
     ProcedureReturn ""
@@ -384,7 +384,7 @@ Procedure.s ShortcutToIndependantName(Shortcut)
   
 EndProcedure
 
-Procedure IndependantNameToShortcut(Name$)
+Procedure IndependentNameToShortcut(Name$)
   
   Name$ = RemoveString(RemoveString(UCase(Name$), " "), Chr(9))
   

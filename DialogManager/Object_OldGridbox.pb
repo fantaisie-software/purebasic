@@ -113,17 +113,17 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
   *Width\l  = 0
   *Height\l = 0
   
-  If *THIS\NbChilds > 0
+  If *THIS\NbChildren > 0
     
-    RowCount = *THIS\NbChilds / *THIS\Columns
-    If RowCount * *THIS\Columns < *THIS\NbChilds
+    RowCount = *THIS\NbChildren / *THIS\Columns
+    If RowCount * *THIS\Columns < *THIS\NbChildren
       RowCount + 1 ; there are objects that do not fully fill the last row
     EndIf
     
-    For i = 0 To *THIS\NbChilds-1
+    For i = 0 To *THIS\NbChildren-1
       Width = 0
       Height = 0
-      *THIS\Childs[i]\SizeRequest(@Width, @Height)
+      *THIS\Children[i]\SizeRequest(@Width, @Height)
       
       col  = i % *THIS\Columns
       row  = i / *THIS\Columns
@@ -155,10 +155,10 @@ EndProcedure
 
 Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
   
-  If *THIS\NbChilds > 0
+  If *THIS\NbChildren > 0
     
-    RowCount = *THIS\NbChilds / *THIS\Columns
-    If RowCount * *THIS\Columns < *THIS\NbChilds
+    RowCount = *THIS\NbChildren / *THIS\Columns
+    If RowCount * *THIS\Columns < *THIS\NbChildren
       RowCount + 1 ; there are objects that do not fully fill the last row
     EndIf
     
@@ -259,7 +259,7 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
     
     ; Actual Child resizing...
     ;
-    For i = 0 To *THIS\NbChilds-1
+    For i = 0 To *THIS\NbChildren-1
       col  = i % *THIS\Columns
       row  = i / *THIS\Columns
       posx = x + col * *THIS\colSpacing
@@ -267,7 +267,7 @@ Procedure DlgGridBox_SizeApply(*THIS.DlgGridBox, x, y, Width, Height)
       For j = 0 To col-1: posx + ColSize(j): Next j
       For j = 0 To row-1: posy + RowSize(j): Next j
       
-      *THIS\Childs[i]\SizeApply(posx, posy, ColSize(col), RowSize(row))
+      *THIS\Children[i]\SizeApply(posx, posy, ColSize(col), RowSize(row))
     Next i
     
   EndIf

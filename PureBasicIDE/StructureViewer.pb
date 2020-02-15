@@ -708,7 +708,7 @@ Procedure StructureViewerWindowEvents(EventID)
           EndIf
           
         Case #GADGET_StructureViewer_Parent
-          If IsRootDiaplay = 0 And StructureViewerMode <> 2
+          If IsRootDisplay = 0 And StructureViewerMode <> 2
             If ListSize(StructureHistory()) = 1
               DisplayStructureRootList()
             ElseIf ListSize(StructureHistory()) > 0

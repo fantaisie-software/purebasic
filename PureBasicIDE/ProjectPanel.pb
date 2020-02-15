@@ -446,7 +446,7 @@ Procedure ProjectPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   TreeGadget(#GADGET_ProjectPanel, 0, 0, 0, 0)
   ProjectPanelVisible = #True
   
-  If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
+  If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
     ToolsPanel_ApplyColors(#GADGET_ProjectPanel)
   EndIf
   

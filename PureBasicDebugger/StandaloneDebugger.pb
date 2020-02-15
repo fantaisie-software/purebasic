@@ -42,7 +42,7 @@ XIncludeFile ".."+#Separator+"PureBasicIDE"+#Separator+"LinuxDebugging.pb"
 XIncludeFile ".."+#Separator+"PureBasicIDE"+#Separator+"FileSystem.pb"
 XIncludeFile ".."+#Separator+"PureBasicIDE"+#Separator+"Misc.pb"
 XIncludeFile ".."+#Separator+"PureBasicIDE"+#Separator+"Language.pb"
-XIncludeFile ".."+#Separator+"PureBasicIDE"+#Separator+"HilightningEngine.pb"
+XIncludeFile ".."+#Separator+"PureBasicIDE"+#Separator+"HighlightingEngine.pb"
 
 ; include shared debugger files
 ;
@@ -432,7 +432,7 @@ If Standalone_CreateGUI() = 0
   End
 EndIf
 
-SetupHilightning()
+SetupHighlighting()
 
 EnsureWindowOnDesktop(#WINDOW_Main)
 If IsDebuggerMaximized
@@ -798,7 +798,7 @@ Repeat
   EventID = WindowEvent()
   
   If EventID = 0
-    If Debugger_ProcessIncommingCommands() = 0 ; process debugger commands
+    If Debugger_ProcessIncomingCommands() = 0 ; process debugger commands
       Delay(1)                                 ; delay only when no commands were incoming
     EndIf
   Else

@@ -53,7 +53,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   ; calculate really used colors (using replacements for disabled colors
   ;
-  Procedure CalculateHilightningColors()
+  Procedure CalculateHighlightingColors()
     
     ; first set all colors to the user set value
     ;
@@ -219,7 +219,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   ; translate the highlighting colors into the os specific format for a faster highlighting
   ;
-  Procedure SetUpHilightningColors()
+  Procedure SetUpHighlightingColors()
     ; NOTE: When inventing new code styles, update the SetBackgroundColor() procedure to fit!
     *NormalTextColor    = 1
     *BasicKeywordColor  = 2
@@ -551,9 +551,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   ; Need to share the start of the buffer to get the position correctly
   ;
-  Global *HilightBuffer, HilightOffset, HilightGadget, NoUserChange
+  Global *HighlightBuffer, HighlightOffset, HighlightGadget, NoUserChange
   
-  Procedure HilightCallback(*StringStart.Ascii, Length, *Color, IsBold, TextChanged)
+  Procedure HighlightCallback(*StringStart.Ascii, Length, *Color, IsBold, TextChanged)
     
     ; replace the text only if it was changed by the highlighting engine (case correction)
     ;
@@ -571,22 +571,22 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ; note that this change appears in the undo buffer, but this can't be changed, because if you
       ; disable the undo buffer, you also clear it !
       ;
-      ScintillaSendMessage(HilightGadget, #SCI_SETTARGETSTART, *StringStart-*HilightBuffer+HilightOffset, 0)
-      ScintillaSendMessage(HilightGadget, #SCI_SETTARGETEND, *StringStart-*HilightBuffer+HilightOffset+ChangeLength, 0)
-      ScintillaSendMessage(HilightGadget, #SCI_REPLACETARGET, ChangeLength, *StringStart)
+      ScintillaSendMessage(HighlightGadget, #SCI_SETTARGETSTART, *StringStart-*HighlightBuffer+HighlightOffset, 0)
+      ScintillaSendMessage(HighlightGadget, #SCI_SETTARGETEND, *StringStart-*HighlightBuffer+HighlightOffset+ChangeLength, 0)
+      ScintillaSendMessage(HighlightGadget, #SCI_REPLACETARGET, ChangeLength, *StringStart)
     EndIf
     
     
     ; Only the good color style is used (faster according to the docs)
     ;
     If EnableColoring
-      ScintillaSendMessage(HilightGadget, #SCI_SETSTYLING, Length, *Color)
+      ScintillaSendMessage(HighlightGadget, #SCI_SETSTYLING, Length, *Color)
     EndIf
   EndProcedure
   
-  Procedure HilightArea(*StartPos, *EndPos)
+  Procedure HighlightArea(*StartPos, *EndPos)
     ;
-    ; hilightning is done only on demand (see ScintillaCallback)
+    ; highlighting is done only on demand (see ScintillaCallback)
     ;
   EndProcedure
   
@@ -646,7 +646,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     EndIf
     
     SetBackgroundColor()
-    UpdateHilightning()
+    UpdateHighlighting()
     UpdateProcedureList() ; update list for current source
     UpdateVariableViewer()
     UpdateMenuStates()
@@ -654,7 +654,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
   EndProcedure
   
-  Procedure UpdateHilightning()   ; highlight everything after a prefs update
+  Procedure UpdateHighlighting()   ; highlight everything after a prefs update
     
     If EnableColoring Or EnableCaseCorrection
       
@@ -685,9 +685,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         
         *InBuffer = AllocateMemory(InBufferLength+1)
         
-        *HilightBuffer = *InBuffer
-        HilightOffset = 0
-        HilightGadget = *ActiveSource\EditorGadget
+        *HighlightBuffer = *InBuffer
+        HighlightOffset = 0
+        HighlightGadget = *ActiveSource\EditorGadget
         
         SendEditorMessage(#SCI_GETTEXT, InBufferLength, *InBuffer)
         
@@ -700,7 +700,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         ; now call the highlighting engine
         ;
         Modified = GetSourceModified()  ; because the case correction changes the modified state!
-        HilightningEngine(*InBuffer, InBufferLength, SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0), @HilightCallback(), 1)
+        HighlightingEngine(*InBuffer, InBufferLength, SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0), @HighlightCallback(), 1)
         SetSourceModified(Modified)
         
         FreeMemory(*InBuffer)
@@ -2092,7 +2092,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   EndProcedure
   
   
-  Procedure UpdateBraceHilight(Cursor, SecondTry=#False)
+  Procedure UpdateBraceHighlight(Cursor, SecondTry=#False)
     
     CompilerIf #CompileMacCarbon = 0
       
@@ -2277,7 +2277,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         ElseIf SecondTry = #False And char <> 10 And char <> 13
           ; Try again with the character following the cursor if there was no brace before
           ; The Cursor+2 is because we subtract 1 again inside the call
-          UpdateBraceHilight(Cursor+2, #True)
+          UpdateBraceHighlight(Cursor+2, #True)
           
         Else
           ; remove all brace highlighting
@@ -2292,7 +2292,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   
   
-  Procedure UpdateKeywordHilight(selStart, SetHilight)
+  Procedure UpdateKeywordHighlight(selStart, SetHighlight)
     Static NewList Items.SourceItemPair() ; static to avoid re-creation on every call
     
     ; Clear any old highlight
@@ -2307,7 +2307,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     ; Try to locate a matching keyword
     ;
-    If EnableKeywordMatch And SetHilight And *ActiveSource\IsCode And (Colors(#COLOR_GoodBrace)\Enabled Or Colors(#COLOR_BadBrace)\Enabled) And CheckStringComment(selStart) = 0
+    If EnableKeywordMatch And SetHighlight And *ActiveSource\IsCode And (Colors(#COLOR_GoodBrace)\Enabled Or Colors(#COLOR_BadBrace)\Enabled) And CheckStringComment(selStart) = 0
       Line$ = GetCurrentLine()
       
       If Line$
@@ -2794,32 +2794,32 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               ; update highlighting of the old line, as now keywords are not highlighted with the cursor inside (so do it when the mouse is moved away)
               ;
               If (EnableColoring Or EnableCaseCorrection) And OldLine$ <> ""
-                HilightLine$ = OldLine$+#NewLine
+                HighlightLine$ = OldLine$+#NewLine
                 anchorPos = SendEditorMessage(#SCI_GETANCHOR, 0, 0) ; save & restore the cursor pos
                 currentPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
                 
                 If *ActiveSource\Parser\Encoding = 1
-                  *HilightBuffer = StringToUTF8(HilightLine$)
+                  *HighlightBuffer = StringToUTF8(HighlightLine$)
                 Else
-                  *HilightBuffer = StringToAscii(HilightLine$)
+                  *HighlightBuffer = StringToAscii(HighlightLine$)
                 EndIf
                 
-                HilightOffset = SendEditorMessage(#SCI_POSITIONFROMLINE, *ActiveSource\CurrentLineOld-1, 0)
-                HilightGadget = *ActiveSource\EditorGadget
+                HighlightOffset = SendEditorMessage(#SCI_POSITIONFROMLINE, *ActiveSource\CurrentLineOld-1, 0)
+                HighlightGadget = *ActiveSource\EditorGadget
                 
                 ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #False, 0)
                 
                 If EnableColoring
-                  SendEditorMessage(#SCI_STARTSTYLING, HilightOffset, $FFFFFF)
+                  SendEditorMessage(#SCI_STARTSTYLING, HighlightOffset, $FFFFFF)
                 EndIf
                 
                 ; now call the highlighting engine
                 ;
                 Modified = GetSourceModified()  ; because the case correction changes the modified state!
-                HilightningEngine(*HilightBuffer, MemoryAsciiLength(*HilightBuffer), -1, @HilightCallback(), 1)
+                HighlightingEngine(*HighlightBuffer, MemoryAsciiLength(*HighlightBuffer), -1, @HighlightCallback(), 1)
                 SetSourceModified(Modified)
                 
-                FreeMemory(*HilightBuffer)
+                FreeMemory(*HighlightBuffer)
                 
                 ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #True, 0)
                 SendEditorMessage(#SCI_SETANCHOR, anchorPos, 0)
@@ -2847,13 +2847,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           EndIf
           
           ; highlight matching braces
-          UpdateBraceHilight(selStart)
+          UpdateBraceHighlight(selStart)
           
           ; highlight matching keywords
           If selStart = selEnd
-            UpdateKeywordHilight(selStart, #True)
+            UpdateKeywordHighlight(selStart, #True)
           Else
-            UpdateKeywordHilight(selStart, #False)  ; remove any old highlight
+            UpdateKeywordHighlight(selStart, #False)  ; remove any old highlight
           EndIf
           
           ; highlight strings matching the selection
@@ -3026,7 +3026,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           EndIf
           
         EndIf
-        UpdateBraceHilight(SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0))
+        UpdateBraceHighlight(SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0))
         AutoCompleteKeywordInserted = 0 ; in everycase, set this variable to 0 now!
         
         
@@ -3047,9 +3047,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               
               range\lpstrText = *Buffer
               reallength = ScintillaSendMessage(EditorGadget, #SCI_GETTEXTRANGE, 0, @range)
-              *HilightBuffer = *Buffer
-              HilightOffset = range\chrg\cpMin
-              HilightGadget = EditorGadget
+              *HighlightBuffer = *Buffer
+              HighlightOffset = range\chrg\cpMin
+              HighlightGadget = EditorGadget
               
               If reallength > range\chrg\cpMax - range\chrg\cpMin
                 reallength = range\chrg\cpMax - range\chrg\cpMin ; just a safeguard. seen some weird overflow problem here
@@ -3058,11 +3058,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #False, 0)
               
               If EnableColoring
-                ScintillaSendMessage(EditorGadget, #SCI_STARTSTYLING, HilightOffset, $1F) ; do not overwrite indicators (brace highlight)
+                ScintillaSendMessage(EditorGadget, #SCI_STARTSTYLING, HighlightOffset, $1F) ; do not overwrite indicators (brace highlight)
               EndIf
               
               Modified = GetSourceModified()
-              HilightningEngine(*Buffer, reallength, currentPos-range\chrg\cpMin , @HilightCallback(), 1)
+              HighlightingEngine(*Buffer, reallength, currentPos-range\chrg\cpMin , @HighlightCallback(), 1)
               SetSourceModified(Modified)
               
               ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #True, 0)
@@ -3075,9 +3075,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             
           ElseIf EnableColoring
             ; non-pb files
-            HilightOffset = ScintillaSendMessage(EditorGadget, #SCI_GETENDSTYLED, 0, 0)
-            ScintillaSendMessage(EditorGadget, #SCI_STARTSTYLING, HilightOffset, $1F)
-            ScintillaSendMessage(EditorGadget, #SCI_SETSTYLING, *scinotify\position-HilightOffset, *NormalTextColor)
+            HighlightOffset = ScintillaSendMessage(EditorGadget, #SCI_GETENDSTYLED, 0, 0)
+            ScintillaSendMessage(EditorGadget, #SCI_STARTSTYLING, HighlightOffset, $1F)
+            ScintillaSendMessage(EditorGadget, #SCI_SETSTYLING, *scinotify\position-HighlightOffset, *NormalTextColor)
           EndIf
         EndIf
         
@@ -3374,7 +3374,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     ;  SendEditorMessage(#SCI_SETTWOPHASEDRAW, 0, 0) ; this produces no flickering, so we can turn it off
     
     ; Set up the highlighting for this GAdget: (moved to affect Prefs changes as well)
-    SetUpHilightningColors()
+    SetUpHighlightingColors()
     
   EndProcedure
   

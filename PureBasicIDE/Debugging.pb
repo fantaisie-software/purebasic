@@ -128,17 +128,17 @@ CompilerIf #DEBUG
       Text$ + Space(Indent) + "RequestedSize = "+Str(*Box2\RequestedSize) + #NewLine
       
       Text$ + Space(Indent) + "ChildSizes ="
-      For i = 0 To *Box\NbChilds-1
+      For i = 0 To *Box\NbChildren-1
         Text$ + " " + Str(*Box2\ChildSizes[i])
       Next i
       Text$ + #NewLine
     EndIf
     
-    If *Box\NbChilds = 0
+    If *Box\NbChildren = 0
       Text$ + Space(Indent) + "-- no children --"
     Else
-      For i = 0 To *Box\NbChilds-1
-        Text$ + DumpDialogHirachy(*Box\Childs[i], Indent+2)
+      For i = 0 To *Box\NbChildren-1
+        Text$ + DumpDialogHirachy(*Box\Children[i], Indent+2)
       Next i
     EndIf
     

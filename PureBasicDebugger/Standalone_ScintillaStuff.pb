@@ -97,9 +97,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   
   
-  Procedure HilightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
-    Shared HilightGadget
-    ScintillaSendMessage(HilightGadget, #SCI_SETSTYLING, Length, *Color)
+  Procedure HighlightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
+    Shared HighlightGadget
+    ScintillaSendMessage(HighlightGadget, #SCI_SETSTYLING, Length, *Color)
   EndProcedure
   
   ; CompilerIf #CompileWindows | #CompileMac; this function must be stdcall on windows and cdecl on linux (on mac, it MUST be ProcedureDLL for the callback to work!)
@@ -108,7 +108,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                                                                            ;   ProcedureCDLL ScintillaCallBack(EditorWindow.l, EditorGadget.l, *scinotify.SCNotification, lParam.l)
                                                                            ; CompilerEndIf
     
-    Shared HilightGadget
+    Shared HighlightGadget
     
     Select *scinotify\nmhdr\code
         
@@ -124,10 +124,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         If *Buffer
           range\lpstrText = *Buffer
           reallength = ScintillaSendMessage(EditorGadget, #SCI_GETTEXTRANGE, 0, @range)
-          HilightGadget = EditorGadget
+          HighlightGadget = EditorGadget
           
           ScintillaSendMessage(EditorGadget, #SCI_STARTSTYLING, range\chrg\cpMin, $FFFFFF)
-          HilightningEngine(*Buffer, reallength, -1, @HilightCallback(), 0)
+          HighlightingEngine(*Buffer, reallength, -1, @HighlightCallback(), 0)
           FreeMemory(*Buffer)
         EndIf
         
@@ -407,12 +407,12 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     ProcedureReturn Result
   EndProcedure
   
-  Procedure SetupHilightning()
-    EnableColoring = 1        ; set the hilightning options to on.
+  Procedure SetupHighlighting()
+    EnableColoring = 1        ; set the highlighting options to on.
     EnableCaseCorrection = 1
     ;EnableKeywordBolding = 1 ; this one is loaded from the IDE preferences
     
-    LoadHilightningFiles = 0 ; do not try to load the functions files
+    LoadHighlightingFiles = 0 ; do not try to load the functions files
     
     CompilerIf #CompileLinux
       
@@ -464,7 +464,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     *BadEscapeColor     = 16
     
     InitSyntaxCheckArrays()
-    InitSyntaxHilightning()
+    InitSyntaxHighlighting()
   EndProcedure
   
   Declare Standalone_ResizeGUI()

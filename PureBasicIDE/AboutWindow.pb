@@ -8,7 +8,7 @@ Procedure OpenAboutWindow()
   
   If IsWindow(#WINDOW_About) = 0
     
-    AboutWindowDialog = OpenDialog(?Dialog_About, WindowID(#WINDOW_Main), @AboutWindowPositon)
+    AboutWindowDialog = OpenDialog(?Dialog_About, WindowID(#WINDOW_Main), @AboutWindowPosition)
     If AboutWindowDialog
       EnsureWindowOnDesktop(#WINDOW_About)
       
@@ -23,7 +23,7 @@ Procedure OpenAboutWindow()
         ProductQuote$ = "..- a Basic to master the Web -.."
         
       CompilerElse
-        FormerDeveloppers$ = "Former Team Members :" + #NewLine +
+        FormerDevelopers$ =  "Former Team Members :" + #NewLine +
                              "Richard Andersson"     + #NewLine +
                              "Benny 'Berikco' Sels"  + #NewLine +
                              "Danilo Krahn"          + #NewLine + #NewLine
@@ -40,7 +40,7 @@ Procedure OpenAboutWindow()
               "Andre Beer" + #NewLine +
               "Timo 'fr34k' Harter" + #NewLine +
               #NewLine +
-              FormerDeveloppers$ +
+              FormerDevelopers$ +
               #ProductName$ + ", all the provided tools and components" + #NewLine +
               "are copyright © 1998-2019 Fantaisie Software" + #NewLine +
               #NewLine +
@@ -100,7 +100,7 @@ Procedure OpenAboutWindow()
       ; fix required for the centereing of non-resizable windows in the dialog manager
       ; (works only if window is visible)
       CompilerIf #CompileLinuxGtk2
-        If AboutWindowPositon\x = -1 And AboutWindowPositon\y = -1
+        If AboutWindowPosition\x = -1 And AboutWindowPosition\y = -1
           While WindowEvent(): Wend
           gtk_window_set_position_(WindowID(#WINDOW_About), #GTK_WIN_POS_CENTER)
         EndIf
@@ -136,7 +136,7 @@ Procedure AboutWindowEvents(EventID)
   
   If Quit
     If MemorizeWindow
-      AboutWindowDialog\Close(@AboutWindowPositon)
+      AboutWindowDialog\Close(@AboutWindowPosition)
     Else
       AboutWindowDialog\Close()
     EndIf

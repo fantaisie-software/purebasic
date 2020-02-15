@@ -595,7 +595,7 @@ Procedure Template_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   
   Template_FillTree()
   
-  If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
+  If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
     ToolsPanel_ApplyColors(#GADGET_Template_Tree)
   EndIf
   

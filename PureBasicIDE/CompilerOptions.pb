@@ -815,7 +815,7 @@ Procedure OptionWindowEvents(EventID)
             GetTargetOptions(*ActiveSource)
             
             If OldEnableASM <> *ActiveSource\EnableASM
-              UpdateHilightning()
+              UpdateHighlighting()
             EndIf
             
             SetDebuggerMenuStates() ; update the debugger menu state, as we can enable/disable it in the compiler options

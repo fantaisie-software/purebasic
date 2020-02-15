@@ -182,7 +182,7 @@ Procedure VariableViewer_CreateFunction(*Entry.VariableViewerData, PanelItemID)
   
   *Entry\List = ListViewGadget(#PB_Any, 0, 0, 0, 0)
   
-  If *Entry\IsSeparateWindow = 0 Or NoIndependantToolsColors = 0
+  If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
     ToolsPanel_ApplyColors(*Entry\List)
   EndIf
   

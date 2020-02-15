@@ -406,7 +406,7 @@ EndProcedure
 
 Procedure DetectNewLineType(*Buffer, BufferSize)
   
-  *Pointer.HilightPTR = *Buffer
+  *Pointer.HighlightPTR = *Buffer
   *BufferEnd = *Buffer + BufferSize
   DetectedType = -1
   
@@ -455,8 +455,8 @@ Procedure ChangeNewLineType(*ptrBuffer.INTEGER, *ptrBufferSize.INTEGER, NewLineT
   
   *NewBuffer = AllocateMemory(*ptrBufferSize\i + 1000000)
   *BufferEnd = *ptrBuffer\i + *ptrBufferSize\i
-  *ReadCursor.HilightPTR = *ptrBuffer\i
-  *WriteCursor.HilightPTR = *NewBuffer
+  *ReadCursor.HighlightPTR = *ptrBuffer\i
+  *WriteCursor.HighlightPTR = *NewBuffer
   
   CopyMemoryString("", @*WriteCursor)
   
@@ -1985,7 +1985,7 @@ Procedure LoadTempFile(FileName$)  ; load the specified file over the current op
     
     If *Buffer Or FileLength = 0
       Success = 1
-      ;      HilightArea(0, -1)
+      ;      HighlightArea(0, -1)
       FullSourceScan(*ActiveSource)
       UpdateFolding(*ActiveSource, 0, -1)
       UpdateSelectionRepeat()
