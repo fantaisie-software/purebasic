@@ -210,7 +210,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 [time.c]: ./time.c "View C source file"
 [varray.c]: ./varray.c "View C source file"
 
-[EditHistory.pb]: ../EditHistory.pb#58 "View PureBasic source file"
+[EditHistory.pb]: ../EditHistory.pb#L58 "View PureBasic source file"
 
 <!-- xrefs -->
 
