@@ -148,9 +148,9 @@ The list is still in the making and incomplete, and we apologise for any tempora
 
 - __[Gary «Kale» Willoughby]__ — for designing the [default theme] of the PureBasic IDE.
 - __[Timo «Freak» Harter]__ — for the IDE, the Debugger, many commands and great ideas. PureBasic wouldn't be the same without him!
-- __Danilo Krahn__ — For his huge work on the editor and on the core commands set, and the tons of nice suggestions about code optimization and size reduction.
+- __[Danilo Krahn]__ — For his huge work on the editor and on the core commands set, and the tons of nice suggestions about code optimization and size reduction.
 - __Fabien Laboureur__ — for designing the [SpiderBasic logo].
-- __Gaetan Dupont-Panon__ — For the wonderful new visual designer, which really rocks on Windows, Linux and OS X!
+- __[Gaetan Dupont-Panon]__ — For the wonderful new visual designer, which really rocks on Windows, Linux and OS X!
 
 
 # License
@@ -248,9 +248,11 @@ work in the PureBasic package.
 
 <!-- people -->
 
+[Danilo Krahn]: https://github.com/D-a-n-i-l-o "View Danilo Krahn's GitHub profile"
 [Gary «Kale» Willoughby]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=34 "Visit Gary «Kale» Willoughby's profile on the PureBasic Forums"
 [Mark James]: https://twitter.com/markjames "Visit Mark James's profile on Twitter"
-[Timo «Freak» Harter]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=25 "Visit Timo «Freak» Harter's profile on the PureBasic Forums"
+[Timo «Freak» Harter]: https://github.com/t-harter "View Timo «Freak» Harter's GitHub profile"
 [Wimer Hazenberg]: https://www.monokai.nl/ "Visit Wimer Hazenberg's website"
+[Gaetan Dupont-Panon]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=186 "Visit Gaetan Dupont-Panon's profile on the PureBasic Forums"
 
 <!-- EOF -->

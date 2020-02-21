@@ -139,7 +139,7 @@ contact mjames@gmail.com
 <!-- people -->
 
 [Mark James]: https://twitter.com/markjames "Visit Mark James's profile on Twitter"
-[Timo «Freak» Harter]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=25 "Visit Timo «Freak» Harter's profile on the PureBasic Forums"
+[Timo «Freak» Harter]: https://github.com/t-harter "View Timo «Freak» Harter's GitHub profile"
 
 <!-- image files -->
 
