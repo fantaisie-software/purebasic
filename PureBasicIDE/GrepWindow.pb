@@ -548,8 +548,9 @@ Procedure GrepWindowEvents(EventID)
               
               If IsGadget(#GADGET_GrepOutput_Current) ; the window could have been closed!
                 SetGadgetText(#GADGET_GrepOutput_Current, "")
-                DisableGrepWindow(#False)
               EndIf
+              
+              DisableGrepWindow(#False)
               
             Else
               MessageRequester(Language("Find","Info"), Language("Find","NeedString")+".", #FLAG_WARNING)
