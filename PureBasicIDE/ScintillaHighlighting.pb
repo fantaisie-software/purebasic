@@ -3349,7 +3349,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     ; add *@$# to the word characters, so they get included in the selection
     ; when you double-click a word (to so select constants/variables easily)
     
-    WordChars$ = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$@#*"
+    WordChars$ = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$#*"
     For k = 192 To 255
       WordChars$+Chr(k) ; For ASCII mode, to have "é, à" etc. (https://www.purebasic.fr/english/viewtopic.php?f=4&t=57421)
     Next
