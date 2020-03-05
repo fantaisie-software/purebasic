@@ -2527,7 +2527,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       SelectionLength = selEnd-selStart
       
       ; Look for repetitions of the selection
-      While *Pointer < *BufferEnd
+      While *Pointer <= *BufferEnd
         If CompareMemoryString(*Pointer, *Selection, #PB_String_NoCase, SelectionLength, #PB_UTF8) = #PB_String_Equal
           Position = *Pointer-*BufferStart
           ; don't mark the selection itself and check that this is a whole word before marking it
