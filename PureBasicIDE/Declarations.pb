@@ -131,6 +131,7 @@ Declare UpdateHighlighting()                                   ; highlight every
 Declare StreamTextIn(*Buffer, Length)                          ; put the given buffer into the current source
 Declare StreamTextOut(*Buffer, Length)                         ; get the contents of the current source into the buffer
 Declare GetSourceLength()                                      ; get the source length in bytes
+Declare ApplyWordChars(Gadget = #PB_All)                       ; update the word chars for a specific ScintillaGadget, or all sources if #PB_All
 Declare RefreshEditorGadget()                                  ; redraw the editorgadget
 Declare ChangeActiveLine(Line, TopOffset)                      ; change the currently active line
 Declare SetBackgroundColor(Gadget = -1)                        ; set the bacground color fur this source (also for linenumbers)

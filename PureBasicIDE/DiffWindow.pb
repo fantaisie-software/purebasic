@@ -682,7 +682,7 @@ Procedure OpenDiffWindow()
       For Gadget = #GADGET_Diff_File1 To #GADGET_Diff_File2
         ScintillaSendMessage(Gadget, #SCI_CLEARCMDKEY, #SCK_TAB) ; to enable the window shortcuts
         ScintillaSendMessage(Gadget, #SCI_CLEARCMDKEY, #SCK_RETURN)
-        ScintillaSendMessage(Gadget, #SCI_SETWORDCHARS, 0, ToAscii("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$@#.*")) ; for simpler selecting
+        ApplyWordChars(Gadget)
         ScintillaSendMessage(Gadget, #SCI_SETCARETLINEVISIBLE, 0, 0)
         
         ; margin for line numbers, this is hidden in UpdateDiffGadget() if it is disabled

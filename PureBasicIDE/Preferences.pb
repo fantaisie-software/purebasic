@@ -137,6 +137,8 @@ Procedure LoadPreferences()
   
   CodeFileExtensions$ = ReadPreferenceString("CodeFileExtensions", "")
   
+  ExtraWordChars$ = ReadPreferenceString("ExtraWordChars", #WORDCHARS_Default)
+  
   ; Init the color values with the PB defaults
   ;
   Restore DefaultColorSchemes
@@ -1101,6 +1103,8 @@ Procedure SavePreferences()
     
     WritePreferenceString("CodeFileExtensions", CodeFileExtensions$)
     
+    WritePreferenceString("ExtraWordChars", ExtraWordChars$)
+    
     ; Save the color values
     ;
     Restore ColorKeys
@@ -1765,6 +1769,7 @@ Procedure IsPreferenceChanged()
   If FilesHistorySize      <> Val(GetGadgetText(#GADGET_Preferences_FileHistorySize)): ProcedureReturn 1: EndIf
   If EnableLineNumbers     <> GetGadgetState(#GADGET_Preferences_EnableLineNumbers): ProcedureReturn 1: EndIf
   ;  If EnableMarkers         <> GetGadgetState(#GADGET_Preferences_EnableMarkers): ProcedureReturn 1: EndIf
+  If ExtraWordChars$       <> GetGadgetText(#GADGET_Preferences_ExtraWordChars) : ProcedureReturn 1 : EndIf
   If ShowWhiteSpace        <> GetGadgetState(#GADGET_Preferences_ShowWhiteSpace): ProcedureReturn 1: EndIf
   If ShowIndentGuides      <> GetGadgetState(#GADGET_Preferences_ShowIndentGuides): ProcedureReturn 1: EndIf
   If EnableBraceMatch      <> GetGadgetState(#GADGET_Preferences_EnableBraceMatch): ProcedureReturn 1: EndIf
@@ -2146,6 +2151,7 @@ Procedure ApplyPreferences()
   FilesHistorySize      = Val(GetGadgetText(#GADGET_Preferences_FileHistorySize))
   EnableLineNumbers     = GetGadgetState(#GADGET_Preferences_EnableLineNumbers)
   ;  EnableMarkers         = GetGadgetState(#GADGET_Preferences_EnableMarkers)
+  ExtraWordChars$       = GetGadgetText(#GADGET_Preferences_ExtraWordChars)
   ShowWhiteSpace        = GetGadgetState(#GADGET_Preferences_ShowWhiteSpace)
   ShowIndentGuides      = GetGadgetState(#GADGET_Preferences_ShowIndentGuides)
   EnableBraceMatch      = GetGadgetState(#GADGET_Preferences_EnableBraceMatch)
@@ -2483,6 +2489,9 @@ Procedure ApplyPreferences()
   SetupFileMonitor()
   
   ApplyPrefsTheme()
+  
+  ; Update Scintilla word chars
+  ApplyWordChars()
   
   ; remove the old shortcuts from all debugger windows
   Debugger_RemoveExtraShortcuts()
@@ -2901,6 +2910,7 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_EnableBraceMatch, EnableBraceMatch)
   SetGadgetState(#GADGET_Preferences_EnableKeywordMatch, EnableKeywordMatch)
   SetGadgetState(#GADGET_Preferences_EnableFolding, EnableFolding)
+  SetGadgetText(#GADGET_Preferences_ExtraWordChars, ExtraWordChars$)
   
   
   ;   If EnableColoring = 0

@@ -791,7 +791,7 @@ CompilerIf #CompileWindows
   
   Procedure AutoComplete_AdjustWindowSize(MaxWidth, MaxHeight)
     ;
-    ; Note: on windows there is no horitzontal scrollbar in ListViewGadget, so
+    ; Note: on windows there is no horizontal scrollbar in ListViewGadget, so
     ;   we do not resize in this direction at all
     ;
     NewHeight   = MaxHeight
