@@ -8005,8 +8005,8 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
           d_x1 = FD_NewWindowMouseX(#WINDOW_Main) - GadgetX(#GADGET_SourceContainer)
           d_y1 = FD_NewWindowMouseY(#WINDOW_Main) - GadgetY(#GADGET_SourceContainer) - MenuHeight() - ToolBarHeight(#TOOLBAR)
           
-          d_x1 = FD_AlignPoint(d_x1)
-          d_y1 = FD_AlignPoint(d_y1)
+          d_x1 = FD_AlignPoint(d_x1 + FormWindows()\paddingx - #Page_Padding - leftpadding)
+          d_y1 = FD_AlignPoint(d_y1 + FormWindows()\paddingy - #Page_Padding - topwinpadding - toptoolpadding - topmenupadding)
           d_x2 = 100 + d_x1
           d_y2 = 25 + d_y1
           
