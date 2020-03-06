@@ -214,7 +214,7 @@ EndProcedure
 Procedure InitCodeViewer(Gadget, LineNumbers)
   ScintillaSendMessage(Gadget, #SCI_CLEARCMDKEY, #SCK_TAB) ; to enable the window shortcuts
   ScintillaSendMessage(Gadget, #SCI_CLEARCMDKEY, #SCK_RETURN)
-  ScintillaSendMessage(Gadget, #SCI_SETWORDCHARS, 0, ToAscii("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$@#.*")) ; for simpler selecting
+  ApplyWordChars(Gadget)
   ScintillaSendMessage(Gadget, #SCI_SETMARGINWIDTHN, 1, 0)
   
   If LineNumbers

@@ -347,6 +347,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_EnableCaseCorrection
   #GADGET_Preferences_EnableLineNumbers
   ;  #GADGET_Preferences_EnableMarkers
+  #GADGET_Preferences_ExtraWordChars
   #GADGET_Preferences_ShowWhiteSpace
   #GADGET_Preferences_ShowIndentGuides
   #GADGET_Preferences_EnableBraceMatch
@@ -1939,6 +1940,8 @@ EndEnumeration
 
 #ZOOM_Default = 0
 
+#WORDCHARS_Default = "$#*%"
+
 
 
 ;
@@ -2444,6 +2447,7 @@ Global EnableBraceMatch, EnableKeywordMatch, ShowWhiteSpace, ShowIndentGuides, M
 Global FormVariable, FormVariableCaption, FormGrid, FormGridSize, FormEventProcedure, FormSkin, FormSkinVersion
 Global FilesPanelMultiline, FilesPanelCloseButtons, FilesPanelNewButton
 Global CurrentZoom, SynchronizingZoom
+Global ExtraWordChars$
 
 ; Dialog Window data
 ;

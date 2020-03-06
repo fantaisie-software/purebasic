@@ -3236,6 +3236,49 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   CompilerEndIf
   
   
+  
+  Procedure ApplyWordChars(Gadget = #PB_All)
+    
+    ; Do not allow whitespace characters!
+    ExtraWordChars$ = RemoveString(ExtraWordChars$, " ")
+    ExtraWordChars$ = RemoveString(ExtraWordChars$, #TAB$)
+    ExtraWordChars$ = RemoveString(ExtraWordChars$, #CR$)
+    ExtraWordChars$ = RemoveString(ExtraWordChars$, #LF$)
+    
+    ; Do not allow empty string
+    If ExtraWordChars$ = ""
+      ExtraWordChars$ = #WORDCHARS_Default
+    EndIf
+    
+    ; add *@$# (or custom) to the word characters, so they get included in the selection
+    ; when you double-click a word (to so select constants/variables easily)
+    
+    WordChars$ = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_" + ExtraWordChars$
+    For k = 192 To 255
+      WordChars$+Chr(k) ; For ASCII mode, to have "é, à" etc. (https://www.purebasic.fr/english/viewtopic.php?f=4&t=57421)
+    Next
+    *Ascii = ToAscii(WordChars$)
+    
+    If Gadget <> #PB_All
+      ; Apply to one specific gadget
+      ScintillaSendMessage(Gadget, #SCI_SETWORDCHARS, 0, *Ascii)
+    Else
+      ; Apply to all sources
+      *Source = @FileList()
+      ForEach FileList()
+        If @FileList() <> *ProjectInfo
+          If Not FileList()\IsForm
+            ScintillaSendMessage(FileList()\EditorGadget, #SCI_SETWORDCHARS, 0, *Ascii)
+          EndIf
+        EndIf
+      Next
+      ChangeCurrentElement(FileList(), *Source)
+    EndIf
+    
+  EndProcedure
+  
+  
+  
   Procedure CreateEditorGadget()
     
     FileList()\EditorGadget = ScintillaGadget(#PB_Any, 0, 0, 1, 1, @ScintillaCallBack())   ; do not create with size 0 as on linux that means as small as possible and looks ugly
@@ -3346,14 +3389,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     SendEditorMessage(#SCI_INDICSETUNDER, #INDICATOR_SelectionRepeat, #True)
     
     
-    ; add *@$# to the word characters, so they get included in the selection
-    ; when you double-click a word (to so select constants/variables easily)
-    
-    WordChars$ = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_$@#*"
-    For k = 192 To 255
-      WordChars$+Chr(k) ; For ASCII mode, to have "é, à" etc. (https://www.purebasic.fr/english/viewtopic.php?f=4&t=57421)
-    Next
-    SendEditorMessage(#SCI_SETWORDCHARS, 0, ToAscii(WordChars$))
+    ApplyWordChars(*ActiveSource\EditorGadget)
     
     SendEditorMessage(#SCI_SETMOUSEDWELLTIME, 750, 0)
     
