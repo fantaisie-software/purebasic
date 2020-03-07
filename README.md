@@ -146,11 +146,12 @@ The list is quite long, and we refer you to the Acknowledgements section of the 
 Here follows a list of people who contributed to the assets found in this repository.
 The list is still in the making and incomplete, and we apologise for any temporary omissions.
 
-- __[Gary «Kale» Willoughby]__ — for designing the [default theme] of the PureBasic IDE.
-- __[Timo «Freak» Harter]__ — for the IDE, the Debugger, many commands and great ideas. PureBasic wouldn't be the same without him!
+- __[ChrisRfr]__ — for having prepared the _ad hoc_ package with all the required GNU dependencies for building the IDE under Windows.
 - __[Danilo Krahn]__ — For his huge work on the editor and on the core commands set, and the tons of nice suggestions about code optimization and size reduction.
 - __Fabien Laboureur__ — for designing the [SpiderBasic logo].
 - __[Gaetan Dupont-Panon]__ — For the wonderful new visual designer, which really rocks on Windows, Linux and OS X!
+- __[Gary «Kale» Willoughby]__ — for designing the [default theme] of the PureBasic IDE.
+- __[Timo «Freak» Harter]__ — for the IDE, the Debugger, many commands and great ideas. PureBasic wouldn't be the same without him!
 
 
 # License
@@ -248,11 +249,12 @@ work in the PureBasic package.
 
 <!-- people -->
 
+[ChrisRfr]: https://github.com/ChrisRfr "View @ChrisRfr's GitHub profile"
 [Danilo Krahn]: https://github.com/D-a-n-i-l-o "View Danilo Krahn's GitHub profile"
+[Gaetan Dupont-Panon]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=186 "Visit Gaetan Dupont-Panon's profile on the PureBasic Forums"
 [Gary «Kale» Willoughby]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=34 "Visit Gary «Kale» Willoughby's profile on the PureBasic Forums"
 [Mark James]: https://twitter.com/markjames "Visit Mark James's profile on Twitter"
 [Timo «Freak» Harter]: https://github.com/t-harter "View Timo «Freak» Harter's GitHub profile"
 [Wimer Hazenberg]: https://www.monokai.nl/ "Visit Wimer Hazenberg's website"
-[Gaetan Dupont-Panon]: https://www.purebasic.fr/english/memberlist.php?mode=viewprofile&u=186 "Visit Gaetan Dupont-Panon's profile on the PureBasic Forums"
 
 <!-- EOF -->
