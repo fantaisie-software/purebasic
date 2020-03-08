@@ -9,7 +9,7 @@ Global Dim MemoryViewer_Chars.s(31)
 #MEMORY_VIEW_TABLE_DATA_HEX = 1
 #MEMORY_VIEW_TABLE_DATA_OCT = 2
 
-Global MemoryViewTableData.i = MemoryIsHex
+Global MemoryViewTableData.i
 
 Procedure.s OCT(number.q)
   Protected Oct.s=Space(23)
@@ -687,6 +687,8 @@ Procedure UpdateMemoryViewerWindowState(*Debugger.DebuggerData)
 EndProcedure
 
 Procedure OpenMemoryViewerWindow(*Debugger.DebuggerData)
+  
+  MemoryViewTableData = MemoryIsHex
   
   If *Debugger\Windows[#DEBUGGER_WINDOW_Memory]
     SetWindowForeground(*Debugger\Windows[#DEBUGGER_WINDOW_Memory])
