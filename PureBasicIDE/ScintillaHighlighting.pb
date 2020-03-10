@@ -3823,6 +3823,15 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           Else
             MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+".", #FLAG_Info)
           EndIf
+          
+        ElseIf Result <> -1 And Success = 0 And Mode <> 3
+          ; If an occurrence was found, but ignored (comment or string), must continue
+          If Reverse
+            Find\chrg\cpMin = Result - StringByteLength(FindSearchString$, StringMode)
+          Else
+            Find\chrg\cpMin = Result + StringByteLength(FindSearchString$, StringMode)
+          EndIf
+          
         EndIf
         
       Until Result = -1 Or (Success And Mode <> 3)
