@@ -9,6 +9,12 @@
 #Project_Version = 100
 #Project_VersionString = "1.0"
 
+#Project_Open_LoadLast    = 0
+#Project_Open_LoadAll     = 1
+#Project_Open_LoadDefault = 2
+#Project_Open_LoadMain    = 3
+#Project_Open_LoadNone    = 4
+
 ; Some helpers for the XML reading/writing
 ;
 Procedure NewSection(*Main, Name$)
@@ -864,7 +870,7 @@ Procedure LoadProject(Filename$)
       ProjectName$      = Language("Project","DefaultName")
       ProjectComments$  = ""
       ProjectCloseFiles = 1
-      ProjectOpenMode   = 0
+      ProjectOpenMode   = #Project_Open_LoadLast
       ProjectShowLog    = 1
       AutoCloseBuildWindow = 0
       ResetList(ProjectFiles())
@@ -1157,7 +1163,7 @@ Procedure LoadProject(Filename$)
       ; Ensure that there is a default target (create on if there are no targets)
       SetProjectDefaultTarget()
       
-      If ProjectOpenMode = 3 And CommandlineBuild = 0
+      If ProjectOpenMode = #Project_Open_LoadMain And CommandlineBuild = 0
         ; open the mainfile of the default target only
         If *DefaultTarget And *DefaultTarget\MainFile$
           LoadSourceFile(*DefaultTarget\FileName$) ; use the resolved path
@@ -1210,7 +1216,7 @@ Procedure LoadProject(Filename$)
               WarnFiles$ + #NewLine + ProjectFiles()\FileName$
             EndIf
             
-            If ProjectOpenMode = 1 Or (ProjectOpenMode = 0 And ProjectFiles()\LastOpen) Or (ProjectOpenMode = 2 And ProjectFiles()\AutoLoad)
+            If ProjectOpenMode = #Project_Open_LoadAll Or (ProjectOpenMode = #Project_Open_LoadLast And ProjectFiles()\LastOpen) Or (ProjectOpenMode = #Project_Open_LoadDefault And ProjectFiles()\AutoLoad)
               PushListPosition(ProjectFiles())
               LoadSourceFile(ProjectFiles()\FileName$) ; can change the ProjectFiles() index
               
@@ -2148,15 +2154,15 @@ Procedure ProjectOptionsEvents(EventID)
           ProjectCloseFiles = GetGadgetState(#GADGET_Project_CloseAllFiles)
           
           If GetGadgetState(#GADGET_Project_OpenLoadLast)
-            ProjectOpenMode = 0
+            ProjectOpenMode = #Project_Open_LoadLast
           ElseIf GetGadgetState(#GADGET_Project_OpenLoadAll)
-            ProjectOpenMode = 1
+            ProjectOpenMode = #Project_Open_LoadAll
           ElseIf GetGadgetState(#GADGET_Project_OpenLoadDefault)
-            ProjectOpenMode = 2
+            ProjectOpenMode = #Project_Open_LoadDefault
           ElseIf GetGadgetState(#GADGET_Project_OpenLoadMain)
-            ProjectOpenMode = 3
+            ProjectOpenMode = #Project_Open_LoadMain
           Else
-            ProjectOpenMode = 4
+            ProjectOpenMode = #Project_Open_LoadNone
           EndIf
           
           ; Now remove any file from the real project file list if it is not in the config list
@@ -2583,10 +2589,10 @@ Procedure OpenProjectOptions(NewProject)
       SetGadgetState(#GADGET_Project_CloseAllFiles, ProjectCloseFiles)
       
       Select ProjectOpenMode
-        Case 0:  SetGadgetState(#GADGET_Project_OpenLoadLast,    1)
-        Case 1:  SetGadgetState(#GADGET_Project_OpenLoadAll,     1)
-        Case 2:  SetGadgetState(#GADGET_Project_OpenLoadDefault, 1)
-        Case 3:  SetGadgetState(#GADGET_Project_OpenLoadMain,    1)
+        Case #Project_Open_LoadLast:    SetGadgetState(#GADGET_Project_OpenLoadLast,    1)
+        Case #Project_Open_LoadAll:     SetGadgetState(#GADGET_Project_OpenLoadAll,     1)
+        Case #Project_Open_LoadDefault: SetGadgetState(#GADGET_Project_OpenLoadDefault, 1)
+        Case #Project_Open_LoadMain:    SetGadgetState(#GADGET_Project_OpenLoadMain,    1)
         Default: SetGadgetState(#GADGET_Project_OpenLoadNone,    1)
       EndSelect
       
