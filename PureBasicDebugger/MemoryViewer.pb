@@ -376,6 +376,7 @@ Procedure MemoryViewer_Update(*Debugger.DebuggerData, Action, File) ; 0=display 
     HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Editor], 0)
     
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView],1)
+    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ChkformatDataSection],1)
   Else
     FreeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List]) ; recreate this to change the number of columns
     OpenGadgetList(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Container])
@@ -389,6 +390,7 @@ Procedure MemoryViewer_Update(*Debugger.DebuggerData, Action, File) ; 0=display 
     HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Container], 0)
     HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Editor], 1)
     DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView],0)
+    DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ChkformatDataSection],0)
   EndIf
   
   Select ViewType
