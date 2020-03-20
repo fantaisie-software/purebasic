@@ -24,12 +24,12 @@ The 3D version of the PureBasic logo was designed by Gustavo «[GuShH]» Julio F
 # Folder Contents
 
 - [`/mac/`][/mac/] — Images of PureBasic icons for Mac.
-- [`Logo 512.psd`][Logo 512.psd] — Photoshop project for PureBasic Logo 3D (512x512 px)
+- [`Logo512.psd`][Logo512.psd] — Photoshop project for PureBasic Logo 3D (512x512 px)
 - [`Logo256.png`][Logo256.png] — PureBasic Logo 3D (256x256 px).
-- [`PB 3D Mac Icon.bin`][PB 3D Mac Icon.bin]
-- [`PB 3D Mac Icon.icns`][PB 3D Mac Icon.icns] — Mac OS X Icon Resource file.
-- [`PB 3D Mac Icon.rsc`][PB 3D Mac Icon.rsc]
-- [`PB 3D Win Icon.ico`][PB 3D Win Icon.ico]
+- [`PB3D_MacIcon.bin`][PB3D_MacIcon.bin]
+- [`PB3D_MacIcon.icns`][PB3D_MacIcon.icns] — Mac OS X Icon Resource file.
+- [`PB3D_MacIcon.rsc`][PB3D_MacIcon.rsc]
+- [`PB3D_WinIcon.ico`][PB3D_WinIcon.ico]
 - [`pb-logo-blue-fav.png`][pb-logo-blue.png]
 - [`pb-logo-blue.png`][pb-logo-blue-fav.png]
 - [`pb-logo-white.png`][PBLogoLinux.png]
@@ -47,7 +47,7 @@ The PureBasic logo Photoshop project (raster image) and its PNG version.
 |   image file   |    size    |
 |----------------|------------|
 | [Logo256.png]  | 256x256 px |
-| [Logo 512.psd] | 512x512 px |
+| [Logo512.psd] | 512x512 px |
 
 ![PureBasic logo][Logo256.png]
 
@@ -62,10 +62,10 @@ The icon images in various formats and sizes.
 | [pb-logo-white.png]    | 40x40 px | (white w/ transparent BG)                     |
 | [PBLogoLinux.jpg]      | 48x48 px | ![PBLogoLinux.jpg][PBLogoLinux.jpg]           |
 | [PBLogoLinux.png]      | 48x48 px | ![PBLogoLinux.png][PBLogoLinux.png]           |
-| [PB 3D Mac Icon.bin]   |          |                                               |
-| [PB 3D Mac Icon.icns]  |          | Mac OS X Icon Resource file                   |
-| [PB 3D Mac Icon.rsc]   |          |                                               |
-| [PB 3D Win Icon.ico]   | 48x48 px | ![PB 3D Win Icon.ico][PB 3D Win Icon.ico]     |
+| [PB3D_MacIcon.bin]   |          |                                               |
+| [PB3D_MacIcon.icns]  |          | Mac OS X Icon Resource file                   |
+| [PB3D_MacIcon.rsc]   |          |                                               |
+| [PB3D_WinIcon.ico]   | 48x48 px | ![PB3D_WinIcon.ico][PB3D_WinIcon.ico]     |
 
 
 # Notes on Editing the Icons
@@ -88,7 +88,7 @@ On Windows 7, 8 and 10, only icons in the 32x32, 48x48 and 256x256 formats are s
 
 <!-- image files -->
 
-[Logo 512.psd]: ./Logo%20512.psd "PureBasic Logo, Photoshop project: 512x512 px"
+[Logo512.psd]: ./Logo512.psd "PureBasic Logo, Photoshop project: 512x512 px"
 [Logo256.png]: ./Logo256.png "PureBasic Logo 3D: 256x256 px"
 
 [pb-logo-blue-fav.png]: ./pb-logo-blue-fav.png "PureBasic PNG Icon: 16x16 px"
@@ -97,10 +97,10 @@ On Windows 7, 8 and 10, only icons in the 32x32, 48x48 and 256x256 formats are s
 [PBLogoLinux.jpg]: ./PBLogoLinux.jpg "PureBasic JPEG Icon: 48x48 px"
 [PBLogoLinux.png]: ./PBLogoLinux.png "PureBasic PNG Icon: 48x48 px"
 
-[PB 3D Mac Icon.bin]: ./PB%203D%20Mac%20Icon.bin "PureBasic Icon"
-[PB 3D Mac Icon.icns]: ./PB%203D%20Mac%20Icon.icns "PureBasic Mac OS X Icon Resource file"
-[PB 3D Mac Icon.rsc]: ./PB%203D%20Mac%20Icon.rsc "PureBasic Icon"
-[PB 3D Win Icon.ico]: ./PB%203D%20Win%20Icon.ico "PureBasic Icon for Windows: 48x48 px"
+[PB3D_MacIcon.bin]: ./PB3D_MacIcon.bin "PureBasic Icon"
+[PB3D_MacIcon.icns]: ./PB3D_MacIcon.icns "PureBasic Mac OS X Icon Resource file"
+[PB3D_MacIcon.rsc]: ./PB3D_MacIcon.rsc "PureBasic Icon"
+[PB3D_WinIcon.ico]: ./PB3D_WinIcon.ico "PureBasic Icon for Windows: 48x48 px"
 
 <!-- people -->
 
