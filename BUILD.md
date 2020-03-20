@@ -56,7 +56,7 @@ If all is setup correctly, it should compile all the dependencies and the IDE.
 A `Build` directory will be created with all temporary files in it.
 
 Once you have successfully launched the `make` once, you can then use
-PureBasic to open the "`PureBasic IDE.pbp`" project file and
+PureBasic to open the "`PureBasicIDE.pbp`" project file and
 run it from PureBasic itself (be sure to adjust the constants in 'Compilers Options.../Contants')
 
 - The `#BUILD_DIRECTORY` constant must point to the `Build/x64/ide/` folder created before by the execution of `make`.

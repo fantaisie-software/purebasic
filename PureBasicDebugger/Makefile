@@ -45,7 +45,7 @@ else
 
 ifeq ($(PB_MACOS),1)
 	GUIDEBUGGER = $(PUREBASIC_HOME)/compilers/pbdebugger.app
-	DEBUGGERFLAGS = --front -n "../PureBasicIDE/data/logo/PB 3D Mac Icon.icns"
+	DEBUGGERFLAGS = --front -n "../PureBasicIDE/data/logo/PB3D_MacIcon.icns"
 else
 	GUIDEBUGGER = $(PUREBASIC_HOME)/compilers/pbdebugger
 	DEBUGGERFLAGS = --subsystem gtk2

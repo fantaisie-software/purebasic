@@ -17,7 +17,7 @@ else
 	ABOUTIMAGE=data/purebasiclogo.bmp
 	ICOFILE=data/PBLogoBig.ico
 	ICOSOURCEFILE=data/PBSourceFile.ico
-	OSXICOFILE=data/logo/PB 3D Mac Icon.icns
+	OSXICOFILE=data/logo/PB3D_MacIcon.icns
 endif
 
 

@@ -44,7 +44,7 @@ If FileSize <= 0
   End 1
 EndIf
 
-DeleteFile(Path$+"Contents/Resources/PB 3D Mac Icon.icns")
+DeleteFile(Path$+"Contents/Resources/PB3D_MacIcon.icns")
 DeleteFile(Path$+"Contents/Resources/FileIcon.icns")
 DeleteFile(Path$+"Contents/Resources/Logo.icns")
 
@@ -63,8 +63,8 @@ If IsSpiderBasic
   
 Else
   
-  If CopyFile("data/logo/PB 3D Mac Icon.icns", Path$+"Contents/Resources/PB 3D Mac Icon.icns") = 0
-    PrintN("Cannot copy 'data/logo/PB 3D Mac Icon.icns'!")
+  If CopyFile("data/logo/PB3D_MacIcon.icns", Path$+"Contents/Resources/PB3D_MacIcon.icns") = 0
+    PrintN("Cannot copy 'data/logo/PB3D_MacIcon.icns'!")
     End 1
   EndIf
   
@@ -191,7 +191,7 @@ Else
   WriteStringN(0, "  <string>PureBasic</string>")
   
   WriteStringN(0, "  <key>CFBundleIconFile</key>")
-  WriteStringN(0, "  <string>PB 3D Mac Icon.icns</string>")
+  WriteStringN(0, "  <string>PB3D_MacIcon.icns</string>")
 EndIf
 
 ; Stuff that is equal to the Compiler created plist
