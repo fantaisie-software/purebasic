@@ -80,7 +80,7 @@ EndEnumeration
 
 ;- Windows
 ;
-Enumeration 1 ; 0 is reserved
+Runtime Enumeration 1 ; 0 is reserved
   #WINDOW_Startup
   #WINDOW_Main
   #WINDOW_About
@@ -123,7 +123,7 @@ EndEnumeration
 
 ;- Gadgets
 ;
-Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
+Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_FilesPanel     ; now a custom drawn CanvasGadget
   #GADGET_ToolsPanel
   #GADGET_ToolsPanelFake ; for hidden toolspanel
@@ -160,8 +160,10 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #Form_Splitter_OK
   #Form_Splitter_Cancel
   
+  #GADGET_Form_Parent_Select_Text
   #GADGET_Form_Parent_Select
   #GADGET_Form_Parent_SelectItem
+  #GADGET_Form_Parent_SelectItem_Text
   #GADGET_Form_Parent_OK
   #GADGET_Form_Parent_Cancel
   

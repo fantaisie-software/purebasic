@@ -6175,16 +6175,26 @@ Procedure FD_UpdateSelectParent()
   
 EndProcedure
 Procedure FD_InitSelectParent(parent_gadget)
+  Protected xml
+  
+  xml = CatchXML(#PB_Any, ?FormParent_Start, ?FormParent_End - ?FormParent_Start)
+  If XMLStatus(xml) <> #PB_XML_Success Or Not CreateDialog(#WINDOW_Form_Parent)
+    ProcedureReturn
+  EndIf
+  
+  If Not OpenXMLDialog(#WINDOW_Form_Parent, xml, "", #PB_Ignore, #PB_Ignore, #PB_Ignore, #PB_Ignore, WindowID(#WINDOW_Main))
+    FreeDialog(#WINDOW_Form_Parent)
+    ProcedureReturn
+  EndIf
+  
   DisableWindow(#WINDOW_Main,1)
-  OpenWindow(#WINDOW_Form_Parent, 0, 0, 482, 150, Language("Form","Parent"), #PB_Window_SystemMenu | #PB_Window_WindowCentered,WindowID(#WINDOW_Main))
   
-  Text_0 = TextGadget(#PB_Any, 20, 24, 180, 22, Language("Form","Parent"), #PB_Text_Right)
-  ComboBoxGadget(#GADGET_Form_Parent_Select, 210, 20, 250, 30)
-  Text_1 = TextGadget(#PB_Any, 20, 64, 180, 22, Language("Form","ParentItem"), #PB_Text_Right)
-  ComboBoxGadget(#GADGET_Form_Parent_SelectItem, 210, 60, 250, 30)
-  
-  ButtonGadget(#GADGET_Form_Parent_OK, 235, 108, 120, 25, Language("Form","OK"))
-  ButtonGadget(#GADGET_Form_Parent_Cancel, 125, 108, 100, 25, Language("Form","Cancel"))
+  SetWindowTitle(#WINDOW_Form_Parent, Language("Form","Parent"))
+  SetGadgetText(#GADGET_Form_Parent_Select_Text, Language("Form","Parent"))
+  SetGadgetText(#GADGET_Form_Parent_SelectItem_Text, Language("Form","ParentItem"))
+  SetGadgetText(#GADGET_Form_Parent_OK, Language("Form","OK"))
+  SetGadgetText(#GADGET_Form_Parent_Cancel, Language("Form","Cancel"))
+  RefreshDialog(#WINDOW_Form_Parent)
   
   i = 0
   selected = 0
@@ -6217,9 +6227,16 @@ Procedure FD_InitSelectParent(parent_gadget)
   EndIf
   
   FD_UpdateSelectParent()
+  
+  DataSection
+    FormParent_Start:
+    IncludeBinary "FormParent.xml"
+    FormParent_End:
+  EndDataSection
 EndProcedure
 Procedure FD_CloseSelectParent()
   CloseWindow(#WINDOW_Form_Parent)
+  FreeDialog(#WINDOW_Form_Parent)
   DisableWindow(#WINDOW_Main,0)
 EndProcedure
 Procedure FD_EventSelectParent(EventID)
