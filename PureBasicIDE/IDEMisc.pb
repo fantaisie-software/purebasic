@@ -124,7 +124,7 @@ Procedure.s CheckPureBasicKeyWords(CurrentWord$)
         Topic$ = "Reference/compilerdirectives"
       CompilerEndIf
       
-    Case "SIZEOF", "OFFSETOF", "TYPEOF", "SUBSYSTEM", "DEFINED", "CLEARSTRUCTURE", "COPYSTRUCTURE", "INITIALIZESTRUCTURE", "BOOL"
+    Case "SIZEOF", "OFFSETOF", "TYPEOF", "SUBSYSTEM", "DEFINED", "CLEARSTRUCTURE", "COPYSTRUCTURE", "RESETSTRUCTURE", "INITIALIZESTRUCTURE", "BOOL"
       Topic$ = "Reference/compilerfunctions"
       
   EndSelect
