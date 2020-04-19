@@ -768,6 +768,7 @@ DataSection
   Data$ "AutoSaveAll",      "Save all sources with Auto-save"
   Data$ "TabLength",        "Tab Length"
   Data$ "RealTab",          "Use real Tab (ASCII 9)"
+  Data$ "TabIndent",        "Indent with Tab Length"
   Data$ "SourcePath",       "Source Directory"
   Data$ "MemorizeCursor",   "Memorize Cursor position"
   Data$ "MemorizeMarkers",  "Memorize Marker positions"
