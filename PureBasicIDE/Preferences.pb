@@ -84,6 +84,7 @@ Procedure LoadPreferences()
   ShowMainToolbar             = ReadPreferenceLong  ("ShowToolbar"       , 1)
   TabLength                   = ReadPreferenceLong  ("TabLength"         , 2)
   RealTab                     = ReadPreferenceLong  ("RealTab"           , 0)
+  TabIndent                   = ReadPreferenceLong  ("TabIndent"         , 0)
   MemorizeCursor              = ReadPreferenceLong  ("MemorizeCursor"    , 1)
   MemorizeMarkers             = ReadPreferenceLong  ("MemorizeMarkers"   , 1)
   SelectedFilePattern         = ReadPreferenceLong  ("LastFilePattern"   , 0)
@@ -1073,6 +1074,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("ShowToolbar",          ShowMainToolbar)
     WritePreferenceLong  ("TabLength",            TabLength)
     WritePreferenceLong  ("RealTab",              RealTab)
+    WritePreferenceLong  ("TabIndent",            TabIndent)
     WritePreferenceLong  ("MemorizeCursor",       MemorizeCursor)
     WritePreferenceLong  ("MemorizeMarkers",      MemorizeMarkers)
     WritePreferenceLong  ("LastFilePattern",      SelectedFilePattern)
@@ -1783,6 +1785,7 @@ Procedure IsPreferenceChanged()
   If AutoPopupStructures       <> GetGadgetState(#GADGET_Preferences_StructureItems): ProcedureReturn 1: EndIf
   If AutoPopupModules          <> GetGadgetState(#GADGET_Preferences_ModulePrefix): ProcedureReturn 1: EndIf
   If RealTab                   <> GetGadgetState(#GADGET_Preferences_RealTab): ProcedureReturn 1: EndIf
+  If TabIndent                 <> GetGadgetState(#GADGET_Preferences_TabIndent): ProcedureReturn 1: EndIf
   If AutoPopupNormal           <> GetGadgetState(#GADGET_Preferences_AutoPopup): ProcedureReturn 1: EndIf
   If SaveProjectSettings       <> GetGadgetState(#GADGET_Preferences_SaveProjectSettings): ProcedureReturn 1: EndIf
   If OptionErrorLog            <> GetGadgetState(#GADGET_Preferences_ErrorLog): ProcedureReturn 1: EndIf
@@ -2165,6 +2168,7 @@ Procedure ApplyPreferences()
   AutoPopupStructures       = GetGadgetState(#GADGET_Preferences_StructureItems)
   AutoPopupModules          = GetGadgetState(#GADGET_Preferences_ModulePrefix)
   RealTab                   = GetGadgetState(#GADGET_Preferences_RealTab)
+  TabIndent                 = GetGadgetState(#GADGET_Preferences_TabIndent)
   AutoPopupNormal           = GetGadgetState(#GADGET_Preferences_AutoPopup)
   SaveProjectSettings       = GetGadgetState(#GADGET_Preferences_SaveProjectSettings)
   OptionErrorLog            = GetGadgetState(#GADGET_Preferences_ErrorLog)
@@ -2871,6 +2875,7 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_MemorizeMarkers, MemorizeMarkers)
   SetGadgetState(#GADGET_Preferences_AlwaysHideLog, AlwaysHideLog)
   SetGadgetState(#GADGET_Preferences_RealTab, RealTab)
+  SetGadgetState(#GADGET_Preferences_TabIndent, TabIndent)
   
   SetGadgetText(#GADGET_Preferences_TabLength, Str(TabLength))
   SetGadgetText(#GADGET_Preferences_SourcePath, SourcePath$)
