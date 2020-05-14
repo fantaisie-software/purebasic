@@ -95,9 +95,11 @@ CompilerIf #CompileWindows
             PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\PureBasic_x86\"
           CompilerEndIf
         CompilerEndIf
+      CompilerElse
+        PureBasicPath$ = #PB_Compiler_Home
       CompilerEndIf
       
-      PureBasicPath$ = #PB_Compiler_Home
+      
       
     CompilerEndIf
     

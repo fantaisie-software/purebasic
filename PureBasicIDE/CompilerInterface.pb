@@ -1764,12 +1764,15 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
         ;
         If FindString(WebServerAddress$, ":")
           ServerName$ = StringField(WebServerAddress$, 1, ":")
-          IP = GetIPByHost(ServerName$) ; works with IP as well
-          If IP
-            MongooseAddress$ = IPString(IP)
-            Port$ = StringField(WebServerAddress$, 2, ":")
-            If Port$
-              MongooseAddress$ + ":" + Port$
+          
+          If Val(ServerName$) = 0 ; Checks if it start with a number <> 0. A name will returns 0
+            IP = GetIPByHost(ServerName$) ; works with IP as well
+            If IP
+              MongooseAddress$ = IPString(IP)
+              Port$ = StringField(WebServerAddress$, 2, ":")
+              If Port$
+                MongooseAddress$ + ":" + Port$
+              EndIf
             EndIf
           EndIf
         Else
@@ -1786,7 +1789,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       If Error = #False
         AddElement(OpenedWebServers())
         
-        Debug MongooseAddress$
+        Debug "Mongoose address: " + MongooseAddress$
         
         OpenedWebServers() = RunProgram(PureBasicPath$ + "compilers/sbmongoose", " -listening_ports " + MongooseAddress$ +
                                                                                  " -document_root "+#DQUOTE$+RootPath$+#DQUOTE$ +
