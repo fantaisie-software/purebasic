@@ -102,7 +102,10 @@ where `<your GitHub username>` is whatever user name you registered your GitHub 
 This is an open source project open to users' contributions.
 Contributions are not limited to code programming, there are many ways in which you can help this project grow, and some of them don't even require using [Git].
 
-To learn more on how to contribute to the growth of this project, please read our _[Contributors' Guidelines]_.
+Contents submissions to the repository should be made using [Git] and [GitHub], and pull requests should be submitted to the [`devel` branch][devel] (pull requests to `master` branch will not be accepted).
+
+To learn more on how to contribute to the project, read our _[Contributors' Guidelines]_.
+The Guidelines present an introduction to the project and it's goals, providing detailed instructions on the different ways you can contribute — including tips and useful links on how to start using [Git] and [GitHub].
 
 # Credits
 
@@ -210,6 +213,7 @@ work in the PureBasic package.
 
 [CC-BY-2.5]: https://creativecommons.org/licenses/by/2.5/ "Creative Commons Attribution 2.5 Generic"
 [Git]: https://git-scm.com "Visit Git website"
+[GitHub]: https://github.com/ "Visit GitHub main page"
 [libmba]: http://www.ioplex.com/~miallen/libmba/ "Visit libmba home page"
 [Silk icon set 1.3]: http://www.famfamfam.com/lab/icons/silk/ "Visit the Silk Icons page at www.famfamfam.com"
 
@@ -228,6 +232,7 @@ work in the PureBasic package.
 [create a pull request]: https://help.github.com/en/desktop/contributing-to-projects/creating-a-pull-request "Learn how to create pull requests"
 [open an Issue]: https://github.com/fantaisie-software/purebasic/issues/new "Open an Issue and talk to us!"
 [ZIP Archive]: https://github.com/tajmone/purebasic/archive/master.zip "Download a ZIP file of this project (without Git contents)"
+[devel]: https://github.com/fantaisie-software/purebasic/tree/devel "View the 'devel' branch"
 
 <!-- x-refs -->
 
