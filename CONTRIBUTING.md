@@ -19,6 +19,8 @@ Some basic guidelines on how to contribute to the __[PureBasic OpenSource Projec
     - [Editing The Wiki](#editing-the-wiki)
     - [Contributing to the Repository](#contributing-to-the-repository)
         - [Development Cycle and Strategy](#development-cycle-and-strategy)
+        - [Setting-up Your Fork for Contributions](#setting-up-your-fork-for-contributions)
+        - [Working With `devel` Branch](#working-with-devel-branch)
         - [PureBasic IDE Settings](#purebasic-ide-settings)
         - [Code Styles Conventions](#code-styles-conventions)
             - [Code Styles Validation](#code-styles-validation)
@@ -155,18 +157,123 @@ Always mention the author and the assets source, providing a back-link to the or
 
 Submission of contents to the main project require using __[Git]__, the famous version control tool, and embracing [GitHub's Fork & Pull Workflow].
 
-In this workflow, you won't be editing the project contents directly on the main repository (the _upstream_ repository), instead you'll be editing your own copy (a _fork_) of the repository, on your your machine, by working on a custom branch (not `master`) and then, when you're ready to submit your changes, you create a _pull request_ on GitHub, which is a request to integrate the changes from your custom branch into the upstream repository.
+In this workflow, you won't be editing the project contents directly on the main repository (the _upstream_ repository), instead you'll be editing your own copy (a _fork_) of the repository, on your local machine, by working on a custom branch (never editing the `master` branch directly) and then, when you're ready to submit your changes, you create a _pull request_ on GitHub, which is a request to integrate the changes from your custom branch into the upstream repository.
 
 This approach is at the core of the _version control_ collaborative model, and it's what allows different people to work independently on the same files and then be able to integrate each other's changes without disrupting the main project.
 
-> **WARNING** — Currently the __[PureBasic OpenSource Projects]__ repository isn't fully Git compliant ([#24]) — (**1**) building the IDE requires modifying files tracked by Git, and (**2**) artifacts produced during compilation are not adeguately ignored by the repository.
-> The project is still transitioning from a personal machine-bound project into a [machine-agnostic] collaborative repository.
+> **WARNING** — Currently the __[PureBasic OpenSource Projects]__ repository isn't fully Git compliant ([#24]) — (**1**) building the IDE requires modifying files tracked by Git, and (**2**) some artefacts produced during compilation might not be adequately ignored by the repository.
+> The project is still transitioning from a personal machine-bound [SVN] project into a [machine-agnostic] collaborative Git repository, and there's an ongoing joint effort to make the transition happen in a smooth manner.
 
 ### Development Cycle and Strategy
 
-Currently the project hasn't defined any model or strategy for its development cycle, so right now all pull requests are being directed to the `master` branch.
+Since May 2020 the repository has adopted a new development strategy:
 
-In the near feature a strategy will be adopted for integrating contributions to the IDE code in development branches between each PureBasic release, so that `master` branch will always mirror the code used to build the PureBasic IDE that ships with the latest official release, and upcoming changes will be kept in development branches instead (allowing new features to be thoroughly tested before integration into main code base).
+- `master` branch can be modified only by the maintainers.
+- `devel` branch is now the baseline branch for all contributions.
+
+All pull-requests should be made to the [`devel` branch][devel].
+
+> **IMPORTANT** — You should _not_ make any changes directly in your local copy of the `devel` branch! Instead, you must create a new custom branch based on `devel`, and apply your changes to this custom branch, as explained further on.
+
+The `master` branch is now used by the maintainers to publish tagged-releases (i.e. when a new version of PureBasic is released) and additional commits which are considered stable and tested.
+
+The idea is to separate development from public releases.
+The `devel` baseline is where all new contributions are accepted and tested, and if a merged pull-request introduced a problem it can be fixed without exposing the `master` branch to bugs.
+
+Maintainers are free to decide if and when it's worth updating the `master` branch, whichever way they deem best.
+A tagged release is created on `master` branch whenever a new PureBasic version is released, so that the users can easily pin-point the PureBasic IDE source code that was used for its official package release.
+
+Additional commits might be added to `master` branch between tagged-releases, so that end-users can access the latest updates to the IDE without having to wait for the next official release — but all commits to `master` should only contain changes which have been tested and deemed safe and stable to use in production.
+
+### Setting-up Your Fork for Contributions
+
+If you intend to contribute contents to this project, you'll need to carry out some additional set-up steps in your local fork in order to be able to contribute to the _upstream_ repository:
+
+1. **REMOTE SETTINGS** — You need to ensure that your fork is able to track the upstream repository by adding the `upstream` remote:
+
+    ```bash
+    $ git remote add upstream https://github.com/fantaisie-software/purebasic.git
+    ```
+
+    From here-on your repository fork will recognize `upstream` as a reference to the main project (as opposed to the `origin` remote, which points to your fork on GitHub).
+
+2. **TRACKING `devel`** — You then also need to ensure that your local fork of the repository contains a copy of the `devel` branch (which is not created automatically when you fork the repository):
+
+    ```bash
+    $ git checkout --track -b devel upstream/devel
+    ```
+
+    From here-on you're fork will contain a local copy of the `devel` branch which tracks `upstream/devel`.
+
+The above commands only needs to be executed once.
+Now that you're set-up and ready to start contributing, the next section will introduce the main steps of the contribution cycle.
+
+
+### Working With `devel` Branch
+
+In this section we'll provide some basic guidelines on the contributions workflow of the __[PureBasic OpenSource Projects]__.
+
+Practical examples of the required Git commands are offered for each step, in order to help users who are new to working with Git — bare in mind: these are intended mainly as guidelines to orientate users in the right direction and, although _they do work_, they are not necessarily the best way to use Git.
+
+Contributors should always use the `devel` branch as the reference baseline for their contents submissions.
+All changes should be made to a new custom branch created from `devel`, but you shouldn't edit the `devel` branch directly (more details below).
+
+
+1. **SYNCH** — Ensure that your local fork of the repository is up-to-date by _pulling_ from [`upstream/devel`][devel] while inside your local `devel` branch:
+
+    ```bash
+    $ git checkout devel
+    $ git pull upstream/devel
+    ```
+
+    The above commands will synchronize your local copy of `devel` to mirror the current state of the upstream repository (a _pull_ command carries out a _fetch_ operation followed by a _merge_).
+
+    > **NOTE** — These commands might fail to execute if your current branch has some file changes waiting to be committed, or if you have changed the contents of your local `devel` branch (which you _shouldn't_ do, ever) causing to be out-of-synch with its upstream counterpart.
+
+2. **BRANCH** — In your local fork, create a new branch from `devel`:
+
+    ```bash
+    $ git checkout devel
+    $ git checkout -b your-branch-name
+    ```
+
+    where `your-branch-name` will be whatever name you choose for the contribution you're planning to work on (e.g. `new-themes`, `bug-fix`, etc.).
+    Try to choose a short and concise name that intuitively conveys the nature of the changes contained in the new branch.
+
+    The newly created branch is what you'll be working on (locally) to implement the changes you want to contribute to the upstream repository.
+
+3. **REBASE** — As you're working on your new features, chances are that in the meanwhile the upstream repository might get updated with new pull-requests being merged into `devel`. When this happens, you'll need to _rebase_ your local working branch in order to integrate the new commits that were added to `upstream/devel` since you created your branch (or since your last rebase operation):
+
+    ```bash
+    $ git checkout devel
+    $ git rebase upstream/devel
+    ```
+
+    The above commands will update your contributions branch and _replay_ all your changes on the latest `upstream/devel` branch, as if you had started to work on it from its last commit.
+
+    In most cases rebasing will work auto-magically, without requiring any adjustments on your side; but sometimes it might not (e.g. if folders and files were renamed in some later commit) and might fail and/or require some manual intervention on your side.
+
+4. **PULL-REQUEST** — Once you're contribution is ready for submission, you can push your changes to your GitHub fork (i.e. to your `origin` remote) and then create a pull-request from your repository homepage on GitHub.
+    While inside your contribution branch, type:
+
+    ```bash
+    $ git push -u origin HEAD
+    ```
+
+    The above command will create a copy of your local work branch on your GitHub fork (i.e. if your local branch was named `bug-fix` it will create `origin/bug-fix`).
+
+    Now that your contributions are published on GitHub (in your own _fork_) you can visit your fork's homepage on GitHub and create a pull-request from your browser (once you push your branch, in the landing page of your fork you'll see a new option to create a pull request).
+
+These are the main steps of the contribution cycle.
+Some steps, like rebasing to keep in synch with `upstream/devel`, might need to be carried out more than once.
+
+Once you've created your pull-request on the upstream repository, the project maintainers will start to review your submitted contents.
+During this stage there might be questions to better understand what your changes do, and often a discussion might follow regarding possible improvements, small corrections, etc.
+
+During the review process, you can still edit your working branch, and whenever you push changes to your fork/origin, the PR (pull request) contents are automatically updated (because it's linked to your origin/branch).
+It's not uncommon that maintainers might ask you to rebase your PR a couple of times in order to be able to integrate changes from other PRs that are being merged during the process — as a matter of fact, it's quite common practice that multiple pending PRs are handled all at once, in order to ensure that any conflicts are smoothly resolved in a single session.
+
+If you're stuck, or need help, don't hesitate to [open an Issue] — we'll be happy to help you out.
 
 ### PureBasic IDE Settings
 
@@ -311,6 +418,10 @@ Learning to work on GitHub:
 [#35]: https://github.com/fantaisie-software/purebasic/issues/35 "Issue #35 — Machine Agnostic Build Scripts"
 [machine-agnostic]: https://github.com/fantaisie-software/purebasic/milestone/1 "See milestone: machine agnosis"
 
+<!-- repo branches -->
+
+[devel]: https://github.com/fantaisie-software/purebasic/tree/devel "View the 'devel' branch"
+
 <!-- xrefs -->
 
 [Feedback]: #feedback "Jump to the Feedback guidelines"
@@ -333,6 +444,7 @@ Learning to work on GitHub:
 [EditorConfig]: https://editorconfig.org "Visit EditorConfig website"
 [Git]: https://git-scm.com "Visit Git official website"
 [Node.js]: https://nodejs.org/en/ "Visit Node.js website"
+[SVN]: https://en.wikipedia.org/wiki/Apache_Subversion "Learn more about Apache Subversion"
 [Travis CI]: https://travis-ci.com "Visit Travis CI website"
 
 <!-- misc. references -->
