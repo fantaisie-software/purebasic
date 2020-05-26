@@ -300,7 +300,6 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_AutoSaveAll
   #GADGET_Preferences_TabLength
   #GADGET_Preferences_RealTab
-  #GADGET_Preferences_TabIndent
   #GADGET_Preferences_MemorizeCursor
   #GADGET_Preferences_SourcePath
   #GADGET_Preferences_GetSourcePath
@@ -351,6 +350,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_ExtraWordChars
   #GADGET_Preferences_ShowWhiteSpace
   #GADGET_Preferences_ShowIndentGuides
+  #GADGET_Preferences_UseTabIndentForSplittedLines
   #GADGET_Preferences_EnableBraceMatch
   #GADGET_Preferences_EnableKeywordMatch
   #GADGET_Preferences_SelectFont
@@ -2449,7 +2449,7 @@ Global FormVariable, FormVariableCaption, FormGrid, FormGridSize, FormEventProce
 Global FilesPanelMultiline, FilesPanelCloseButtons, FilesPanelNewButton
 Global CurrentZoom, SynchronizingZoom
 Global ExtraWordChars$
-Global TabIndent
+Global UseTabIndentForSplittedLines
 
 ; Dialog Window data
 ;

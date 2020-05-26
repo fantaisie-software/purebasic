@@ -768,7 +768,6 @@ DataSection
   Data$ "AutoSaveAll",      "Save all sources with Auto-save"
   Data$ "TabLength",        "Tab Length"
   Data$ "RealTab",          "Use real Tab (ASCII 9)"
-  Data$ "TabIndent",        "Indent with Tab length"
   Data$ "SourcePath",       "Source Directory"
   Data$ "MemorizeCursor",   "Memorize Cursor position"
   Data$ "MemorizeMarkers",  "Memorize Marker positions"
@@ -808,7 +807,7 @@ DataSection
   Data$ "DefaultColors",    "Default Color Schemes"
   Data$ "ShowWhiteSpace",   "Show whitespace characters"
   Data$ "ShowIndentGuides", "Show indentation guides"
-  
+  Data$ "UseTabIndentForSplittedLines", "Use tab indent for splitted lines"
   
   Data$ "Color0",           "ASM Keywords"
   Data$ "Color1",           "Background"
