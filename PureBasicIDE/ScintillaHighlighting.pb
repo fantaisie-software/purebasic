@@ -1463,7 +1463,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   ;
   Procedure.s GetIndentContinuationPrefix(Previous$)
     ; Use this for a simple "block mode" indentation
-    If TabIndent
+    If UseTabIndentForSplittedLines
       If RealTab
         ProcedureReturn GetIndentPrefix(Previous$) + #TAB$
       Else
