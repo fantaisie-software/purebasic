@@ -1545,9 +1545,3 @@ CompilerIf #CompileLinux
     PostEvent(#PB_Event_Gadget, #WINDOW_AutoComplete, #GADGET_AutoComplete_List, #PB_EventType_FirstCustomValue)
   EndMacro
 CompilerEndIf
-
-; IDE Options = PureBasic 5.72 (MacOS X - x64)
-; CursorPosition = 1547
-; FirstLine = 1516
-; Folding = -----
-; EnableXP
