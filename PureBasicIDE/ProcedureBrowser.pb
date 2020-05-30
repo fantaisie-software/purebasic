@@ -148,23 +148,6 @@ Procedure UpdateProcedureList()
       OldText$ = GetGadgetItemText(#GADGET_ProcedureBrowser, OldIndex)
     EndIf
     
-    ; Lock the list update, as on GTK2 it's really slow
-    ; Note: we may not call SetGadgetState() after this!
-    
-    ;- Author : mk-soft
-    ;  Date   : 22.05.2020
-    ;  Bugfix : Linux Crash with g_object. Disabale optimize
-    
-    CompilerIf 0; #CompileLinux
-      CompilerIf #GtkVersion = 1
-        gtk_clist_freeze_(GadgetID(#GADGET_ProcedureBrowser)) ; on gtk1, its a clist
-      CompilerElse
-        *tree_model = gtk_tree_view_get_model_(GadgetID(#GADGET_ProcedureBrowser))
-        g_object_ref_(*tree_model) ; must be ref'ed or it is destroyed
-        gtk_tree_view_set_model_(GadgetID(#GADGET_ProcedureBrowser), #Null) ; disconnect the model for a faster update
-      CompilerEndIf
-    CompilerEndIf
-    
     ClearGadgetItems(#GADGET_ProcedureBrowser)
     ForEach ProcedureList()
       If ProcedureList()\Type = 0
@@ -191,30 +174,16 @@ Procedure UpdateProcedureList()
       EndIf
     Next ProcedureList()
     
-    ;- Author : mk-soft
-    ;  Date   : 22.05.2020
-    ;  Bugfix : Linux Crash with g_object. Disabale optimize
-    
-    CompilerIf 0; #CompileLinux
-      CompilerIf #GtkVersion = 1
-        gtk_clist_thaw_(GadgetID(#GADGET_ProcedureBrowser))
-      CompilerElse
-        gtk_tree_view_set_model_(GadgetID(#GADGET_ProcedureBrowser), *tree_model) ; reconnect the model
-        g_object_unref_(*tree_model)                                              ; release reference
-      CompilerEndIf
-    CompilerEndIf
-    
-    ; restore old selection
-    If NewIndex <> -1
-      SetGadgetState(#GADGET_ProcedureBrowser, NewIndex)
-    EndIf
-    
-    ;StopGadgetFlickerFix(#GADGET_ProcedureBrowser)
-    
-    ;- Added by mk-soft; Date 22.05.2020
     CompilerIf #CompileLinux
       SetGadgetState(#GADGET_ProcedureBrowser, -1)
+    CompilerElse
+      ; restore old selection
+      If NewIndex <> -1
+        SetGadgetState(#GADGET_ProcedureBrowser, NewIndex)
+      EndIf
     CompilerEndIf
+    
+    ;StopGadgetFlickerFix(#GADGET_ProcedureBrowser)
     
   EndIf
   
@@ -475,8 +444,8 @@ Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         ; Unfold the procedure block if it was folded
         SendEditorMessage(#SCI_ENSUREVISIBLE, ProcedureList()\Line)
         
-        CompilerIf #CompileMac Or #CompileLinux ;- Added by mk-soft; Date 22.05.2020
-          ; remove selection so the we won't get more jumps to the procedure start! (OSX specific problem)
+        CompilerIf #CompileMac Or #CompileLinux
+          ; remove selection so the we won't get more jumps to the procedure start! (OSX/Linux specific problem)
           SetGadgetState(#GADGET_ProcedureBrowser, -1)
         CompilerEndIf
       EndIf
