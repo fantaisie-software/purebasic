@@ -29,6 +29,12 @@ Global AutoComplete_CurrentModule$
 Global NewMap AutoComplete_LastStructureItem.s()  ; key and value is lowercase
 Global NewMap AutoComplete_LastModuleItem.s()
 
+;- Added by mk-soft; Date 29.05.2020; Linux force redraw TreeView
+Macro AutoComplete_Redraw()
+  CompilerIf #CompileLinux
+    FlushEvents()
+  CompilerEndIf
+EndMacro
 
 Procedure CreateAutoCompleteWindow()
   ;
@@ -64,6 +70,7 @@ Procedure CreateAutoCompleteWindow()
       
       ; disable the automatic search feature of the TreeView
       gtk_tree_view_set_enable_search_(GadgetID(#GADGET_AutoComplete_List), #False)
+      
     CompilerEndIf
     
     CompilerIf #CompileMac
@@ -1057,7 +1064,7 @@ Procedure OpenAutoCompleteWindow()
           CompilerIf #CompileLinuxGtk2
             ; reset scrolling position on linux for a better look
             ; (as we never close the window, a horizontal scroll could remain from the last autocomplete)
-            gtk_tree_view_scroll_to_point_(GadgetID(#GADGET_AutoComplete_List), 0, -1) ; scroll x=0 and ignore y
+            ; gtk_tree_view_scroll_to_point_(GadgetID(#GADGET_AutoComplete_List), 0, -1) ; scroll x=0 and ignore y
           CompilerEndIf
           
           Width = AutoCompleteWindowWidth
@@ -1090,7 +1097,6 @@ Procedure OpenAutoCompleteWindow()
           ; Update the selected item
           ; signal that this is the initial open, so we can select the last inserted item in structure or module mode
           AutoComplete_WordUpdate(#True)
-          
           AutoCompleteWindowOpen = 1
           
         EndIf
@@ -1127,6 +1133,7 @@ Procedure AutoComplete_ChangeSelectedItem(Direction)
     Else ; Down
       SetGadgetState(#GADGET_AutoComplete_List, Index+1)
     EndIf
+    
   EndIf
 EndProcedure
 
@@ -1187,7 +1194,7 @@ EndProcedure
 Procedure AutoCompleteWindowEvents(EventID)
   
   If AutoCompleteWindowOpen
-    
+      
     If EventID = #PB_Event_Menu
       MenuID = EventMenu()
       
@@ -1200,6 +1207,7 @@ Procedure AutoCompleteWindowEvents(EventID)
         EventGadgetID = #GADGET_AutoComplete_Abort
         
       Else
+          
         
         ; main window menu events, close the autocomplete window and pass the event on
         MainWindowEvents(EventID)
@@ -1220,6 +1228,13 @@ Procedure AutoCompleteWindowEvents(EventID)
       Select EventGadgetID
           
         Case #GADGET_AutoComplete_List
+          ;- Added by mk-soft; Date 29.05.2020; Linux Redraw TreeView
+          CompilerIf #CompileLinux
+            If EventType() = #PB_EventType_FirstCustomValue
+              AutoComplete_WordUpdate()
+            EndIf
+          CompilerEndIf
+          
           If EventType() = #PB_EventType_LeftDoubleClick
             AutoComplete_Insert()
           EndIf
@@ -1241,15 +1256,13 @@ Procedure AutoCompleteWindowEvents(EventID)
 EndProcedure
 
 
-
-
 Procedure AutoComplete_CheckAutoPopup()
   
   If AutoPopupNormal Or AutoPopupStructures Or AutoPopupModules
     
     Line$ = GetCurrentLine()
     
-    ; Debug "Check autopopup: " + Line$
+    ; Debug "Autocomplete checkautopopup: " + Line$
     
     If Line$
       GetCursorPosition()
@@ -1298,6 +1311,9 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
   LastChar = 0
   
   Line$ = GetCurrentLine()
+  
+  ; Debug "Autocomplete wordupdate " + Line$
+  
   If Line$
     GetCursorPosition() ; Ensures than the fields are updated
     
@@ -1433,11 +1449,13 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
         For i = OldStart+1 To AutoComplete_Start
           RemoveGadgetItem(#GADGET_AutoComplete_List, 0)
         Next i
+        AutoComplete_Redraw()
       ElseIf OldStart > AutoComplete_Start
         SelectElement(AutoCompleteList(), OldStart-1)
         Repeat
           AddGadgetItem(#GADGET_AutoComplete_List, 0, AutoCompleteList())
         Until ListIndex(AutoCompleteList()) = AutoComplete_Start Or PreviousElement(AutoCompleteList()) = 0
+        AutoComplete_Redraw()
       EndIf
       
       If OldEnd > AutoComplete_End
@@ -1446,11 +1464,13 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
           RemoveGadgetItem(#GADGET_AutoComplete_List, Last)
           Last-1
         Next i
+        AutoComplete_Redraw()
       ElseIf OldEnd < AutoComplete_End
         SelectElement(AutoCompleteList(), OldEnd+1)
         Repeat
           AddGadgetItem(#GADGET_AutoComplete_List, -1, AutoCompleteList())
         Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
+        AutoComplete_Redraw()
       EndIf
       
       ; call the OS function for dynamic resizing of the window
@@ -1511,9 +1531,23 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
         
       EndIf
       
-      
     EndIf
     
   EndIf
   
 EndProcedure
+
+; ****
+
+;- Added by mk-soft; Date 28.05.2020; Linux Redraw TreeView outside Scintilla Callback
+CompilerIf #CompileLinux
+  Macro AutoComplete_WordUpdate()
+    PostEvent(#PB_Event_Gadget, #WINDOW_AutoComplete, #GADGET_AutoComplete_List, #PB_EventType_FirstCustomValue)
+  EndMacro
+CompilerEndIf
+
+; IDE Options = PureBasic 5.72 (MacOS X - x64)
+; CursorPosition = 1547
+; FirstLine = 1516
+; Folding = -----
+; EnableXP
