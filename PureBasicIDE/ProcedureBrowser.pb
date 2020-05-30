@@ -613,9 +613,3 @@ AvailablePanelTools()\NeedDestroyFunction  = 1
 AvailablePanelTools()\ToolID$              = "ProcedureBrowser"
 AvailablePanelTools()\PanelTitle$          = "ProcedureBrowserShort"
 AvailablePanelTools()\ToolName$            = "ProcedureBrowserLong"
-
-; IDE Options = PureBasic 5.72 (MacOS X - x64)
-; CursorPosition = 615
-; FirstLine = 584
-; Folding = ----
-; EnableXP
