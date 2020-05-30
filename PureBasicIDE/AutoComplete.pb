@@ -29,7 +29,6 @@ Global AutoComplete_CurrentModule$
 Global NewMap AutoComplete_LastStructureItem.s()  ; key and value is lowercase
 Global NewMap AutoComplete_LastModuleItem.s()
 
-;- Added by mk-soft; Date 29.05.2020; Linux force redraw TreeView
 Macro AutoComplete_Redraw()
   CompilerIf #CompileLinux
     FlushEvents()
@@ -1064,7 +1063,7 @@ Procedure OpenAutoCompleteWindow()
           CompilerIf #CompileLinuxGtk2
             ; reset scrolling position on linux for a better look
             ; (as we never close the window, a horizontal scroll could remain from the last autocomplete)
-            ; gtk_tree_view_scroll_to_point_(GadgetID(#GADGET_AutoComplete_List), 0, -1) ; scroll x=0 and ignore y
+            gtk_tree_view_scroll_to_point_(GadgetID(#GADGET_AutoComplete_List), 0, -1) ; scroll x=0 and ignore y
           CompilerEndIf
           
           Width = AutoCompleteWindowWidth
@@ -1228,10 +1227,9 @@ Procedure AutoCompleteWindowEvents(EventID)
       Select EventGadgetID
           
         Case #GADGET_AutoComplete_List
-          ;- Added by mk-soft; Date 29.05.2020; Linux Redraw TreeView
           CompilerIf #CompileLinux
             If EventType() = #PB_EventType_FirstCustomValue
-              AutoComplete_WordUpdate()
+              AutoComplete_WordUpdate(EventData())
             EndIf
           CompilerEndIf
           
@@ -1262,7 +1260,7 @@ Procedure AutoComplete_CheckAutoPopup()
     
     Line$ = GetCurrentLine()
     
-    ; Debug "Autocomplete checkautopopup: " + Line$
+    ; Debug "Check autopopup: " + Line$
     
     If Line$
       GetCursorPosition()
@@ -1312,12 +1310,8 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
   
   Line$ = GetCurrentLine()
   
-  ; Debug "Autocomplete wordupdate " + Line$
-  
   If Line$
     GetCursorPosition() ; Ensures than the fields are updated
-    
-    ;Debug "Line: "+Line$
     
     Column = *ActiveSource\CurrentColumnChars-1
     found = GetWordBoundary(@Line$, Len(Line$), Column, @StartIndex, @EndIndex, 1)
@@ -1537,11 +1531,9 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
   
 EndProcedure
 
-; ****
-
-;- Added by mk-soft; Date 28.05.2020; Linux Redraw TreeView outside Scintilla Callback
 CompilerIf #CompileLinux
-  Macro AutoComplete_WordUpdate()
-    PostEvent(#PB_Event_Gadget, #WINDOW_AutoComplete, #GADGET_AutoComplete_List, #PB_EventType_FirstCustomValue)
+  ; Move WordUpdate from Scintilla Callback to Event-Loop
+  Macro AutoComplete_WordUpdate(IsInitial=#False)
+    PostEvent(#PB_Event_Gadget, #WINDOW_AutoComplete, #GADGET_AutoComplete_List, #PB_EventType_FirstCustomValue, IsInitial)
   EndMacro
 CompilerEndIf
