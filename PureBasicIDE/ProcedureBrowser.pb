@@ -150,7 +150,12 @@ Procedure UpdateProcedureList()
     
     ; Lock the list update, as on GTK2 it's really slow
     ; Note: we may not call SetGadgetState() after this!
-    CompilerIf #CompileLinux
+    
+    ;- Author : mk-soft
+    ;  Date   : 22.05.2020
+    ;  Bugfix : Linux Crash with g_object. Disabale optimize
+    
+    CompilerIf 0; #CompileLinux
       CompilerIf #GtkVersion = 1
         gtk_clist_freeze_(GadgetID(#GADGET_ProcedureBrowser)) ; on gtk1, its a clist
       CompilerElse
@@ -186,7 +191,11 @@ Procedure UpdateProcedureList()
       EndIf
     Next ProcedureList()
     
-    CompilerIf #CompileLinux
+    ;- Author : mk-soft
+    ;  Date   : 22.05.2020
+    ;  Bugfix : Linux Crash with g_object. Disabale optimize
+    
+    CompilerIf 0; #CompileLinux
       CompilerIf #GtkVersion = 1
         gtk_clist_thaw_(GadgetID(#GADGET_ProcedureBrowser))
       CompilerElse
@@ -201,6 +210,11 @@ Procedure UpdateProcedureList()
     EndIf
     
     ;StopGadgetFlickerFix(#GADGET_ProcedureBrowser)
+    
+    ;- Added by mk-soft; Date 22.05.2020
+    CompilerIf #CompileLinux
+      SetGadgetState(#GADGET_ProcedureBrowser, -1)
+    CompilerEndIf
     
   EndIf
   
@@ -229,7 +243,7 @@ Procedure JumpToProcedure() ; return 1 if a jump was done
   Protected *Found.SourceItem
   
   If *ActiveSource\IsCode = 0
-    ProcedureReturn
+    ProcedureReturn 0
   EndIf
   
   ; update the information
@@ -461,7 +475,7 @@ Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         ; Unfold the procedure block if it was folded
         SendEditorMessage(#SCI_ENSUREVISIBLE, ProcedureList()\Line)
         
-        CompilerIf #CompileMac
+        CompilerIf #CompileMac Or #CompileLinux ;- Added by mk-soft; Date 22.05.2020
           ; remove selection so the we won't get more jumps to the procedure start! (OSX specific problem)
           SetGadgetState(#GADGET_ProcedureBrowser, -1)
         CompilerEndIf
@@ -599,3 +613,9 @@ AvailablePanelTools()\NeedDestroyFunction  = 1
 AvailablePanelTools()\ToolID$              = "ProcedureBrowser"
 AvailablePanelTools()\PanelTitle$          = "ProcedureBrowserShort"
 AvailablePanelTools()\ToolName$            = "ProcedureBrowserLong"
+
+; IDE Options = PureBasic 5.72 (MacOS X - x64)
+; CursorPosition = 615
+; FirstLine = 584
+; Folding = ----
+; EnableXP
