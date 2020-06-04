@@ -369,6 +369,8 @@ Free books on Git:
 - _[Pro Git]_ — by Scott Chacon and Ben Straub, a comprehensive guide covering all aspects of Git, available in many languages.
 - _[Git Magic]_ — a step by step approach to learn Git, available in many languages.
 - _[Learn Version Control with Git]_ — A step-by-step course for the complete beginner, by Git Tower.
+- _[Das Git-Buch]_ (DE) — Free comprehensive book on Git, in German.
+Includes cross-platform installation guidelines and a chapter dedicated to the GitHub workflow.
 
 Git primers and tutorials:
 
@@ -463,6 +465,7 @@ Learning to work on GitHub:
 [Git Magic]: http://www-cs-students.stanford.edu/~blynn/gitmagic/ "Read 'Git Magic' on-line for free"
 [Pro Git]: https://git-scm.com/book/en/v2 "Read 'Pro Git' on-line for free"
 [Learn Version Control with Git]: https://www.git-tower.com/learn/git/ebook/en/command-line/introduction "Read 'Learn Version Control with Git' on-line for free"
+[Das Git-Buch]: http://gitbu.ch/ "Read or download the free German book 'Das Git-Buch'"
 
 <!-- Useful links: Git Tutorials -->
 
