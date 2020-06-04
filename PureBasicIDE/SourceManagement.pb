@@ -2253,6 +2253,8 @@ EndProcedure
 
 Procedure RemoveSource(*Source.SourceFile = 0)
   
+  FlushEvents()
+  
   If *Source = 0
     *Source = *ActiveSource
   EndIf
