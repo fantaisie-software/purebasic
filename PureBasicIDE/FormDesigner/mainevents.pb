@@ -7640,7 +7640,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
             If row >= 0
               Select col
                 Case 3 ; select
-                  file.s = OpenFileRequester(Language("Form", "SelectImage"),"",Language("Window", "MaskAllFiles"),0)
+                  file.s = OpenFileRequester(Language("Form", "SelectImage"),"",Language("Form", "MaskAllFiles"),0)
                   If file
                     SelectElement(FormWindows()\FormImg(),row)
                     grid_SetCellString(imglist_grid,0,row,file)
@@ -8282,3 +8282,9 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
   EndIf
 EndProcedure
 
+
+; IDE Options = PureBasic 5.72 (Windows - x86)
+; CursorPosition = 7642
+; FirstLine = 7626
+; Folding = ----------------------
+; EnableXP
