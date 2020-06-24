@@ -2239,9 +2239,3 @@ DataSection
   ; ===================================================
   
 EndDataSection
-
-; IDE Options = PureBasic 5.72 (Windows - x86)
-; CursorPosition = 2030
-; FirstLine = 1990
-; Folding = ---
-; EnableXP
