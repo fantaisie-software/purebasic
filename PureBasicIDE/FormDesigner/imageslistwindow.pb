@@ -69,7 +69,3 @@ Procedure FormImgListWindowEvents(EventID)
   EndSelect
   
 EndProcedure
-; IDE Options = PureBasic 5.72 (Windows - x86)
-; CursorPosition = 29
-; Folding = -
-; EnableXP
