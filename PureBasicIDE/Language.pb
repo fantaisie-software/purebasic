@@ -2141,7 +2141,7 @@ DataSection
   Data$ "SelectEventFileFirst", "You need to select an event file first."
   Data$ "CreateEventFile",      "The file doesn't exist - do you want to create it?"
   Data$ "FileAlreadyOpened",    "This file is already opened."
-  Data$ "DeleteItemConfirm",    "Do you really want to delete this item?" 
+  Data$ "DeleteItemConfirm",    "Do you really want to delete this item?"
   Data$ "MoveGadgetWarning",    "This gadget cannot be moved before its parent gadget or item."
   Data$ "DeleteGadgetWarning",  "You are going to delete a gadget (and all its child items). Do you want to continue?"
   Data$ "SaveRequiredWarning",  "You need to save your project first."
