@@ -634,8 +634,6 @@ Procedure CustomizeTabBarGadget()
         EndIf
       EndIf
       \BorderColor   = GetCocoaColor("systemGrayColor")
-      \FaceColor     = GetCocoaColor("controlBackgroundColor")
-      \TextColor     = GetCocoaColor("textColor")
     EndWith
   CompilerEndIf
   
