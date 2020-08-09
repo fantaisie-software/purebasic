@@ -46,41 +46,22 @@ Procedure RefreshSourceTitle(*Source.SourceFile)
   
   SetTabBarGadgetItemText(#GADGET_FilesPanel, Index, GetSourceTitle(*Source))
   
-  CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
-    If *Source = *ProjectInfo
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, GetCocoaColor("textColor"))
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, GetCocoaColor("controlAccentColor"))
-    ElseIf *Source\IsForm And *Source\ProjectFile
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, GetCocoaColor("textColor"))
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, GetCocoaColor("controlAccentColor"))
-    ElseIf *Source\IsForm
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, GetCocoaColor("textColor"))
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, GetCocoaColor("controlAccentColor"))
-    ElseIf *Source\ProjectFile
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, GetCocoaColor("textColor"))
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, GetCocoaColor("controlAccentColor"))
-    Else
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, GetCocoaColor("textColor"))
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, GetCocoaColor("controlBackgroundColor"))
-    EndIf
-  CompilerElse
-    If *Source = *ProjectInfo
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_ProjectInfo)
-    ElseIf *Source\IsForm And *Source\ProjectFile
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_FormProjectFile)
-    ElseIf *Source\IsForm
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_FormFile)
-    ElseIf *Source\ProjectFile
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_ProjectFile)
-    Else
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #PB_Default)
-    EndIf
-  CompilerEndIf
+  If *Source = *ProjectInfo
+    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_ProjectInfo)
+  ElseIf *Source\IsForm And *Source\ProjectFile
+    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_FormProjectFile)
+  ElseIf *Source\IsForm
+    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_FormFile)
+  ElseIf *Source\ProjectFile
+    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_ProjectFile)
+  Else
+    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #PB_Default)
+  EndIf
 EndProcedure
 
 ; get the title string for the current element in FileList()
