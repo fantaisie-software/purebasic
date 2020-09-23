@@ -499,7 +499,7 @@ EndProcedure
 ;  So to avoid any confustion from a disappearing character we handle this conversion
 ;  as well when doing the Source encoding change.
 ;
-;  Lets hope there are no more such spechial characters.
+;  Let's hope there are no more such special characters.
 ;
 ; Some notes:
 ;  - unrepresentable chars become '?'
