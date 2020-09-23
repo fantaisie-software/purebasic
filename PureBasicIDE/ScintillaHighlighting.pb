@@ -2593,7 +2593,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             If *OriginalItem And *OriginalItem\Type = #ITEM_Keyword
               *Item.SourceItem = 0
               
-              ; spechial treatment is needed for some keywords
+              ; special treatment is needed for some keywords
               Select *OriginalItem\Keyword
                   
                 Case #KEYWORD_For, #KEYWORD_ForEach, #KEYWORD_Repeat, #KEYWORD_While, #KEYWORD_Procedure, #KEYWORD_ProcedureC, #KEYWORD_ProcedureDLL, #KEYWORD_ProcedureCDLL
@@ -3214,7 +3214,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ProcedureReturn 0
     EndProcedure
     
-    ; Spechial handler for the double-click on linux, as the Scintilla event does
+    ; Special handler for the double-click on linux, as the Scintilla event does
     ; not provide the modifier keys, so we do not know if Ctrl+Double-click was done.
     ;
     ProcedureC ScintillaDoubleclickHandler(*Widget, *Event.GdkEventButton, user_data)

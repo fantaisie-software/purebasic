@@ -1,6 +1,6 @@
 @echo off
 
-:: Set the PureBasic home directory to a real x64 PureBasic installation (warning:
+:: Set the PureBasic home directory to a real x86 PureBasic installation (warning:
 :: when compiling, the IDE will be overwritten with the new one.
 set PUREBASIC_HOME=C:\PureBasic\Svn\v5.70\Build\PureBasic_x86
 

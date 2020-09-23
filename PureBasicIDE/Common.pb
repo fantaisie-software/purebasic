@@ -1764,7 +1764,7 @@ Structure SourceItem
   EndStructureUnion
 EndStructure
 
-; spechial scope value (in addition to the debugger ones)
+; special scope value (in addition to the debugger ones)
 #SCOPE_UNKNOWN = -1
 
 #PARSER_VTSize = 27   ; number of indexed entries per sorted array

@@ -2570,7 +2570,7 @@ Procedure MatchKeywordBackward(*Parser.ParserData, *pLine.INTEGER, *pItem.INTEGE
     ;
     If *Item\Type = #ITEM_Keyword
       
-      ; Spechial check: Inside Compiler statements we ignore the keywords, as the compiler
+      ; Special check: Inside Compiler statements we ignore the keywords, as the compiler
       ; statements do not need to respect the nesting of normal commands
       ;
       ; Note: The #KEYWORD_ constants are sorted by alphabetic keyword name, so this check works
@@ -2654,7 +2654,7 @@ Procedure MatchKeywordForward(*Parser.ParserData, *pLine.INTEGER, *pItem.INTEGER
     ;
     If *Item\Type = #ITEM_Keyword
       
-      ; Spechial check: Inside Compiler statements we ignore the keywords, as the compiler
+      ; Special check: Inside Compiler statements we ignore the keywords, as the compiler
       ; statements do not need to respect the nesting of normal commands
       ;
       ; Note: The #KEYWORD_ constants are sorted by alphabetic keyword name, so this check works
@@ -3856,7 +3856,7 @@ DataSection
   ;   are multiple pairs.
   ;   (Example: Case must be followed by either Case, Default Or EndSelect)
   ;
-  ; Note: Compiler Keywords are treated spechially, as they can be used
+  ; Note: Compiler Keywords are treated specially, as they can be used
   ;   outside of the normal nesting rules.
   ;
   KeywordMatches:
