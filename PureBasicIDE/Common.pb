@@ -2609,6 +2609,7 @@ Global NbIndentKeywords, IndentMode, BackspaceUnindent
 
 Global ProjectOptionsDialog.DialogWindow, ProjectOptionsPosition.DialogPosition
 Global IsProject = 0, IsProjectCreation = 0, NewProjectFile$
+Global IsProjectBusy = 0
 Global ProjectFile$, ProjectName$, ProjectComments$, DefaultProjectFile$, LastOpenProjectFile$
 Global ProjectExplorerPattern, ProjectExplorerPath$
 Global ProjectCloseFiles.l
