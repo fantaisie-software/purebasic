@@ -353,9 +353,45 @@
       <inputfile value="PureBasic.pb"/>
       <outputfile value=""/>
       <commandline value="/NOEXT"/>
-      <executable value="C:\Users\Fred\Desktop\pbide.exe"/>
+      <executable value=""/>
       <directory value="data\"/>
       <options thread="1" xpskin="1" dpiaware="1" debug="1"/>
+      <format exe="console" cpu="0"/>
+      <debugger custom="1" type="ide"/>
+      <constants>
+        <constant value="#BUILD_DIRECTORY=..\Build\x86\ide\" enable="1"/>
+        <constant value="#FredLocalCompile=1" enable="0"/>
+        <constant value="#SpiderBasic=1" enable="0"/>
+        <constant value="#SVNVersion=&quot;v5.70&quot;" enable="0"/>
+      </constants>
+    </target>
+    <target name="Windows - x86" enabled="1" default="0">
+      <inputfile value="PureBasic.pb"/>
+      <outputfile value="..\Build\x86\PureBasic.exe"/>
+      <commandline value="/NOEXT"/>
+      <executable value="..\Build\x86\PureBasic.exe"/>
+      <directory value="data\"/>
+      <options thread="1" xpskin="1" dpiaware="1" debug="1"/>
+      <icon enable="1">data\PBLogoBig.ico</icon>
+      <format exe="console" cpu="0"/>
+      <debugger custom="1" type="ide"/>
+      <constants>
+        <constant value="#BUILD_DIRECTORY=..\Build\x86\ide\" enable="1"/>
+        <constant value="#FredLocalCompile=1" enable="0"/>
+        <constant value="#SpiderBasic=1" enable="0"/>
+        <constant value="#SVNVersion=&quot;v5.70&quot;" enable="0"/>
+        <constant value="#CompileWindows=1" enable="1"/>
+        <constant value="#CompileX86=1" enable="1"/>
+      </constants>
+    </target>
+    <target name="Windows - x64" enabled="1" default="0">
+      <inputfile value="PureBasic.pb"/>
+      <outputfile value="..\Build\x64\PureBasic.exe"/>
+      <commandline value="/NOEXT"/>
+      <executable value="..\Build\x64\PureBasic.exe"/>
+      <directory value="data\"/>
+      <options thread="1" xpskin="1" dpiaware="1" debug="1"/>
+      <icon enable="1">data\PBLogoBig.ico</icon>
       <format exe="console" cpu="0"/>
       <debugger custom="1" type="ide"/>
       <constants>
@@ -363,6 +399,84 @@
         <constant value="#FredLocalCompile=1" enable="0"/>
         <constant value="#SpiderBasic=1" enable="0"/>
         <constant value="#SVNVersion=&quot;v5.70&quot;" enable="0"/>
+        <constant value="#CompileWindows=1" enable="1"/>
+        <constant value="#CompileX64=1" enable="1"/>
+      </constants>
+    </target>
+    <target name="Linux - x86" enabled="1" default="0">
+      <inputfile value="PureBasic.pb"/>
+      <outputfile value="..\Build\x86\PureBasic"/>
+      <commandline value="/NOEXT"/>
+      <executable value="..\Build\x86\PureBasic"/>
+      <directory value="data\"/>
+      <options thread="1" xpskin="1" dpiaware="1" debug="1"/>
+      <icon enable="1">data\logo\PBLogoLinux.png</icon>
+      <format exe="console" cpu="0"/>
+      <debugger custom="1" type="ide"/>
+      <constants>
+        <constant value="#BUILD_DIRECTORY=..\Build\x86\ide\" enable="1"/>
+        <constant value="#FredLocalCompile=1" enable="0"/>
+        <constant value="#SpiderBasic=1" enable="0"/>
+        <constant value="#SVNVersion=&quot;v5.70&quot;" enable="0"/>
+        <constant value="#CompileLinux=1" enable="1"/>
+        <constant value="#CompileX86=1" enable="1"/>
+      </constants>
+    </target>
+    <target name="Linux - x64" enabled="1" default="0">
+      <inputfile value="PureBasic.pb"/>
+      <outputfile value="..\Build\x64\PureBasic"/>
+      <commandline value="/NOEXT"/>
+      <executable value="..\Build\x64\PureBasic"/>
+      <directory value="data\"/>
+      <options thread="1" xpskin="1" dpiaware="1" debug="1"/>
+      <icon enable="1">data\logo\PBLogoLinux.png</icon>
+      <format exe="console" cpu="0"/>
+      <debugger custom="1" type="ide"/>
+      <constants>
+        <constant value="#BUILD_DIRECTORY=..\Build\x64\ide\" enable="1"/>
+        <constant value="#FredLocalCompile=1" enable="0"/>
+        <constant value="#SpiderBasic=1" enable="0"/>
+        <constant value="#SVNVersion=&quot;v5.70&quot;" enable="0"/>
+        <constant value="#CompileLinux=1" enable="1"/>
+        <constant value="#CompileX64=1" enable="1"/>
+      </constants>
+    </target>
+    <target name="Mac - x86" enabled="1" default="0">
+      <inputfile value="PureBasic.pb"/>
+      <outputfile value="..\Build\x86\PureBasic.app"/>
+      <commandline value="/NOEXT"/>
+      <executable value="..\Build\x86\PureBasic.app"/>
+      <directory value="data\"/>
+      <options thread="1" xpskin="1" dpiaware="1" debug="1"/>
+      <icon enable="1">data\logo\PB3D_MacIcon.icns</icon>
+      <format exe="console" cpu="0"/>
+      <debugger custom="1" type="ide"/>
+      <constants>
+        <constant value="#BUILD_DIRECTORY=..\Build\x86\ide\" enable="1"/>
+        <constant value="#FredLocalCompile=1" enable="0"/>
+        <constant value="#SpiderBasic=1" enable="0"/>
+        <constant value="#SVNVersion=&quot;v5.70&quot;" enable="0"/>
+        <constant value="#CompileMac=1" enable="1"/>
+        <constant value="#CompileX86=1" enable="1"/>
+      </constants>
+    </target>
+    <target name="Mac - x64" enabled="1" default="0">
+      <inputfile value="PureBasic.pb"/>
+      <outputfile value="..\Build\x64\PureBasic.app"/>
+      <commandline value="/NOEXT"/>
+      <executable value="..\Build\x64\PureBasic.app"/>
+      <directory value="data\"/>
+      <options thread="1" xpskin="1" dpiaware="1" debug="1"/>
+      <icon enable="1">data\logo\PB3D_MacIcon.icns</icon>
+      <format exe="console" cpu="0"/>
+      <debugger custom="1" type="ide"/>
+      <constants>
+        <constant value="#BUILD_DIRECTORY=..\Build\x64\ide\" enable="1"/>
+        <constant value="#FredLocalCompile=1" enable="0"/>
+        <constant value="#SpiderBasic=1" enable="0"/>
+        <constant value="#SVNVersion=&quot;v5.70&quot;" enable="0"/>
+        <constant value="#CompileMac=1" enable="1"/>
+        <constant value="#CompileX64=1" enable="1"/>
       </constants>
     </target>
   </section>
