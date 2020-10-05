@@ -4382,6 +4382,26 @@ Procedure PreferencesWindowEvents(EventID)
         DisableGadget(#GADGET_Preferences_Ok, 0)
         DisableGadget(#GADGET_Preferences_Cancel, 0)
         
+      Case #GADGET_Preferences_PageUp
+        index = GetGadgetState(#GADGET_Preferences_Tree)
+        If index > 0
+          SetGadgetState(#GADGET_Preferences_Tree, index - 1)
+        ElseIf index = -1
+          SetGadgetState(#GADGET_Preferences_Tree, 0)
+        EndIf
+        SetActiveGadget(#GADGET_Preferences_Tree)
+        PostEvent(#PB_Event_Gadget, #WINDOW_Preferences, #GADGET_Preferences_Tree, #PB_EventType_Change)
+        
+      Case #GADGET_Preferences_PageDown
+        index = GetGadgetState(#GADGET_Preferences_Tree)
+        If index < CountGadgetItems(#GADGET_Preferences_Tree) - 1
+          SetGadgetState(#GADGET_Preferences_Tree, index + 1)
+        ElseIf index = -1
+          SetGadgetState(#GADGET_Preferences_Tree, 0)
+        EndIf
+        SetActiveGadget(#GADGET_Preferences_Tree)
+        PostEvent(#PB_Event_Gadget, #WINDOW_Preferences, #GADGET_Preferences_Tree, #PB_EventType_Change)
+        
       Case #GADGET_Preferences_EnableHistory
         Enabled = GetGadgetState(#GADGET_Preferences_EnableHistory)
         For i = #GADGET_Preferences_HistoryTimer To #GADGET_Preferences_HistoryCount
