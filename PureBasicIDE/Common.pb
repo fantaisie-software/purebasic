@@ -205,6 +205,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_Ok
   #GADGET_Preferences_Cancel
   #GADGET_Preferences_Apply
+  #GADGET_Preferences_PageUp    ; Not actually a gadget, for now, just a shortcut
+  #GADGET_Preferences_PageDown  ; Not actually a gadget, for now, just a shortcut
   #GADGET_Preferences_MonitorFileChanges
   #GADGET_Preferences_SystemMessages
   #GADGET_Preferences_DebugToLog
