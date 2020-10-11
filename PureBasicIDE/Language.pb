@@ -1091,10 +1091,11 @@ DataSection
   Data$ "CaseSensitive",    "Case Sensitive"
   Data$ "WholeWord",        "Whole Words only"
   Data$ "SelectionOnly",    "Search inside Selection only"
+  Data$ "AutoWrap",         "AutoWrap at end of file"
   Data$ "NoComments",       "Don't search in Comments"
   Data$ "NoStrings",        "Don't search in Strings"
   Data$ "FindNext",         "Find Next"
-  Data$ "FindPrevious",     "Find previous"
+  Data$ "FindPrevious",     "Find Previous"
   Data$ "Replace",          "Replace"
   Data$ "ReplaceAll",       "Replace All"
   

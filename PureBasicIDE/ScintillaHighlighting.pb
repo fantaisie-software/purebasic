@@ -3851,13 +3851,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             ; We use OkCancel instead of YesNo as the 'Esc' key is handled with a 'Cancel' button
             ;
             If Reverse
-              If MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+"."+#NewLine+Language("Find","ContinueSearchReverse"), #FLAG_Question|#PB_MessageRequester_OkCancel) = #PB_MessageRequester_ResultOk
+              If FindAutoWrap Or (MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+"."+#NewLine+Language("Find","ContinueSearchReverse"), #FLAG_Question|#PB_MessageRequester_OkCancel) = #PB_MessageRequester_ResultOk)
                 Find\chrg\cpMin = SendEditorMessage(#SCI_GETTEXTLENGTH, 0, 0)
                 Find\chrg\cpMax = 0
                 Result = 0 ; do not end the loop yet!
               EndIf
             Else
-              If MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+"."+#NewLine+Language("Find","ContinueSearch"), #FLAG_Question|#PB_MessageRequester_OkCancel) = #PB_MessageRequester_ResultOk
+              If FindAutoWrap Or (MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+"."+#NewLine+Language("Find","ContinueSearch"), #FLAG_Question|#PB_MessageRequester_OkCancel) = #PB_MessageRequester_ResultOk)
                 Find\chrg\cpMin = 0
                 Result = 0 ; do not end the loop yet!
               EndIf
