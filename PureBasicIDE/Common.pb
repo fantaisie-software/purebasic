@@ -495,6 +495,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Find_Case
   #GADGET_Find_WholeWord
   #GADGET_Find_SelectionOnly
+  #GADGET_Find_AutoWrap
   #GADGET_Find_NoComments
   #GADGET_Find_NoStrings
   #GADGET_Find_FindNext
@@ -2457,6 +2458,7 @@ Global UseTabIndentForSplittedLines
 ;
 Global FindWindowDialog.DialogWindow, FindWindowPosition.DialogPosition
 Global FindDoReplace, FindCaseSensitive, FindWholeWord, FindSelectionOnly, FindNoComments, FindNoStrings
+Global FindAutoWrap
 Global FindHistorySize, FindSearchString$, FindReplaceString$
 Global WarningWindowPosition.DialogPosition
 Global *WarningWindowSource.SourceFile
