@@ -2946,16 +2946,31 @@ Procedure OpenPreferencesWindow()
   Restore DefaultColorSchemes
   Read.l NbSchemes
   
+  CurrentScheme = -1
   For i = 1 To NbSchemes
     Read.s Name$
     AddGadgetItem(#GADGET_Preferences_ColorSchemes, -1, Name$)
-    For c = 0 To #COLOR_Last+2 ; also read the 2 toolspanel colors
+    ; also read the 2 toolspanel colors
+    Read.l color
+    Read.l color
+    IsMatch = #True
+    For c = 0 To #COLOR_Last
       Read.l color
+      If Colors(c)\Enabled And (c <> #COLOR_Selection) And (c <> #COLOR_SelectionFront)
+        If color <> Colors(c)\UserValue
+          IsMatch = #False
+        EndIf
+      EndIf
     Next c
+    If IsMatch
+      CurrentScheme = i - 1
+    EndIf
   Next i
   
   SetGadgetItemText(#GADGET_Preferences_ColorSchemes, CountGadgetItems(#GADGET_Preferences_ColorSchemes)-1, Language("Preferences", "Accessibility"), 0)
-  
+  If CurrentScheme >= 0
+    SetGadgetState(#GADGET_Preferences_ColorSchemes, CurrentScheme)
+  EndIf
   
   ;- ------> Custom Keywords
   ;
@@ -5552,7 +5567,7 @@ DataSection
   Data.l $FFFFFF ; #COLOR_PlainBackground
   
   
-  Data$ "PHP extended"
+  Data$ "PHP Extended"
   Data.l $000000 ;  ToolsPanelFrontColor
   Data.l $F4F4F4 ;  ToolsPanelBackColor
   Data.l $724B92 ; #COLOR_ASMKeyword
