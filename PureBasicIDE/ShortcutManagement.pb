@@ -695,6 +695,10 @@ CompilerIf #CompileLinux | #CompileWindows
   #SHORTCUT_AutoCompleteConfirm= #PB_Shortcut_Tab
   #SHORTCUT_AutoCompleteAbort  = #PB_Shortcut_Escape
   #SHORTCUT_AutoIndent         = #PB_Shortcut_Control | #PB_Shortcut_I
+  #SHORTCUT_UpperCase          = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_U
+  #SHORTCUT_LowerCase          = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_L
+  #SHORTCUT_InvertCase         = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_X
+  #SHORTCUT_SelectWord         = 0
 CompilerElse
   ; MacOS default shortcuts
   ;
@@ -763,6 +767,10 @@ CompilerElse
   #SHORTCUT_AutoCompleteConfirm= #PB_Shortcut_Tab                          ; to be tested
   #SHORTCUT_AutoCompleteAbort  = #PB_Shortcut_Escape
   #SHORTCUT_AutoIndent         = #PB_Shortcut_Command | #PB_Shortcut_I
+  #SHORTCUT_UpperCase          = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_U
+  #SHORTCUT_LowerCase          = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_L
+  #SHORTCUT_InvertCase         = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_X
+  #SHORTCUT_SelectWord         = 0
 CompilerEndIf
 
 
@@ -897,6 +905,10 @@ DataSection
   Data$ "", "MoveLinesDown":       Data.l #SHORTCUT_MoveLinesDown
   Data$ "", "DeleteLines":         Data.l #SHORTCUT_DeleteLines
   Data$ "", "DuplicateSelection":  Data.l #SHORTCUT_DuplicateSelection
+  Data$ "", "UpperCase":           Data.l #SHORTCUT_UpperCase
+  Data$ "", "LowerCase":           Data.l #SHORTCUT_LowerCase
+  Data$ "", "InvertCase":          Data.l #SHORTCUT_InvertCase
+  Data$ "", "SelectWord":          Data.l #SHORTCUT_SelectWord
   Data$ "", "ZoomIn":              Data.l #SHORTCUT_ZoomIn
   Data$ "", "ZoomOut":             Data.l #SHORTCUT_ZoomOut
   Data$ "", "ZoomDefault":         Data.l #SHORTCUT_ZoomDefault

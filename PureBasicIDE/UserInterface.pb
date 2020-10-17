@@ -1407,6 +1407,15 @@ Procedure MainMenuEvent(MenuItemID)
         SendEditorMessage(#SCI_SELECTIONDUPLICATE)
       EndIf
       
+    Case #MENU_UpperCase
+      AdjustSelection(0)
+    Case #MENU_LowerCase
+      AdjustSelection(1)
+    Case #MENU_InvertCase
+      AdjustSelection(2)
+    Case #MENU_SelectWord
+      AdjustSelection(3)
+      
     Case #MENU_ZoomIn
       If *ActiveSource And *ActiveSource\IsForm = 0 And *ActiveSource <> *ProjectInfo
         ZoomStep(1)
