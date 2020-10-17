@@ -1054,6 +1054,11 @@ Enumeration 0
   #MENU_DeleteLines
   #MENU_DuplicateSelection
   
+  #MENU_UpperCase
+  #MENU_LowerCase
+  #MENU_InvertCase
+  #MENU_SelectWord
+  
   #MENU_ZoomIn
   #MENU_ZoomOut
   #MENU_ZoomDefault
