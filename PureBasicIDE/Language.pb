@@ -402,6 +402,7 @@ DataSection
   Data$ "Reload",           "R&eload"
   Data$ "Close",            "&Close"
   Data$ "CloseAll",         "C&lose All"
+  Data$ "ShowInFolder",     "Show in &Folder"
   Data$ "DiffCurrent",      "View chan&ges"
   Data$ "FileFormat",       "F&ile format"
   Data$ "EncodingPlain",    "Encoding: &Plain Text"

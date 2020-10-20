@@ -427,6 +427,11 @@ CompilerIf #CompileLinux
     EndIf
   EndProcedure
   
+  Procedure ShowExplorerFile(File$)
+    ; For now, just launch the containing folder
+    ShowExplorerDirectory(GetPathPart(File$))
+  EndProcedure
+  
   Procedure ModifierKeyPressed(Key)
     Select Key
       Case #PB_Shortcut_Shift:   mod = #GDK_SHIFT_MASK

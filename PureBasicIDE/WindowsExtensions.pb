@@ -384,6 +384,10 @@ CompilerIf #CompileWindows
     ShellExecute_(#Null, @"explore", @Directory$, #Null, #Null, #SW_SHOWNORMAL)
   EndProcedure
   
+  Procedure ShowExplorerFile(File$)
+    RunProgram("explorer.exe", "/SELECT," + #DQUOTE$ + File$ + #DQUOTE$, "")
+  EndProcedure
+  
   Procedure ModifierKeyPressed(Key)
     Select Key
       Case #PB_Shortcut_Shift:   vKey = #VK_SHIFT

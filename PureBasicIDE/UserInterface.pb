@@ -36,6 +36,8 @@ Procedure CreateIDEMenu()
     ShortcutMenuItem(#MENU_CloseAll, Language("MenuItem","CloseAll"))
     ShortcutMenuItem(#MENU_DiffCurrent, Language("MenuItem","DiffCurrent"))
     MenuBar()
+    ShortcutMenuItem(#MENU_ShowInFolder, Language("MenuItem","ShowInFolder"))
+    MenuBar()
     OpenSubMenu(Language("MenuItem","FileFormat"))
     ShortcutMenuItem(#MENU_EncodingPlain,  Language("MenuItem", "EncodingPlain"))
     ShortcutMenuItem(#MENU_EncodingUtf8,   Language("MenuItem", "EncodingUtf8"))
@@ -393,6 +395,8 @@ Procedure CreateIDEPopupMenu()
       MenuBar()
       ShortcutMenuItem(#MENU_AddProjectFile, Language("MenuItem","AddProjectFile"))
       ShortcutMenuItem(#MENU_RemoveProjectFile, Language("MenuItem","RemoveProjectFile"))
+      MenuBar()
+      ShortcutMenuItem(#MENU_ShowInFolder, Language("MenuItem","ShowInFolder"))
       MenuBar()
       ShortcutMenuItem(#MENU_Close , Language("MenuItem","Close"))
       ShortcutMenuItem(#MENU_CloseAll, Language("MenuItem","CloseAll"))
@@ -887,8 +891,22 @@ Procedure UpdateMenuStates()
     ;
     If *ActiveSource = *ProjectInfo
       NoRealSource = 1
+      DisableMenuAndToolbarItem(#MENU_ShowInFolder, 0)
+      DisableMenuAndToolbarItem(#MENU_DiffCurrent, 1)
     Else
       NoRealSource = 0
+      
+      If *ActiveSource\FileName$
+        DisableMenuAndToolbarItem(#MENU_ShowInFolder, 0)
+      Else
+        DisableMenuAndToolbarItem(#MENU_ShowInFolder, 1)
+      EndIf
+      If *ActiveSource\FileName$ And GetSourceModified()
+        DisableMenuAndToolbarItem(#MENU_DiffCurrent, 0)
+      Else
+        ; this cannot be done if the current source is not saved yet
+        DisableMenuAndToolbarItem(#MENU_DiffCurrent, 1)
+      EndIf
     EndIf
     
     ; File menu
@@ -1070,6 +1088,9 @@ Procedure MainMenuEvent(MenuItemID)
       If *ActiveSource And *ActiveSource <> *ProjectInfo And *ActiveSource\FileName$
         DiffSourceToFile(*ActiveSource, *ActiveSource\FileName$, #True) ; swap output, so it is File -> Source
       EndIf
+      
+    Case #MENU_ShowInFolder
+      ShowInFolder()
       
     Case #MENU_EncodingPlain
       ChangeTextEncoding(*ActiveSource, 0) ; only changes the encoding if needed, also sets the "edited" flag (because it modifies the text)
@@ -2005,6 +2026,12 @@ Procedure MainWindowEvents(EventID)
               
               ; Disable the Reload item if new source, project info tab, or form
               DisableMenuItem(#POPUPMENU_TabBar, #MENU_Reload, Bool( (*ActiveSource\FileName$ = "") Or (*ActiveSource = *ProjectInfo) Or (*ActiveSource\IsForm) ))
+              
+              Disabled = #True
+              If *ActiveSource = *ProjectInfo Or *ActiveSource\FileName$
+                Disabled = #False
+              EndIf
+              DisableMenuItem(#POPUPMENU_TabBar, #MENU_ShowInFolder, Disabled)
               
               ; Display the TabBar popup menu
               DisplayPopupMenu(#POPUPMENU_TabBar, WindowID(#WINDOW_Main))
