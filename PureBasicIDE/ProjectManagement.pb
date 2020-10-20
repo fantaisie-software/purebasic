@@ -579,7 +579,12 @@ EndProcedure
 ; Apply preferences changes
 Procedure UpdateProjectInfoPreferences()
   If *ProjectInfo
-    SetTabBarGadgetItemText(#GADGET_FilesPanel, 0, "> " + Language("Project","TabTitle"))
+    
+    ; Find Project tab (position may have changed!) and update its text
+    PushListPosition(FileList())
+    ChangeCurrentElement(FileList(), *ProjectInfo)
+    SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), Language("Project","TabTitle"))
+    PopListPosition(FileList())
     
     SetGadgetText(#GADGET_ProjectInfo_FrameProject, Language("Project","ProjectInfo"))
     SetGadgetText(#GADGET_ProjectInfo_FrameFiles, Language("Project","FileTab"))
