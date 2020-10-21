@@ -1658,6 +1658,26 @@ EndProcedure
 Procedure LoadSourceFile(FileName$, Activate = 1)
   success = 0
   
+  AddTools_RunFileViewer = 1 ; to tell if some tool has been executed
+  AddTools_File$ = FileName$
+  Ext$ = LCase(GetExtensionPart(FileName$))
+  
+  AddTools_Execute(#TRIGGER_FileViewer_Special, 0) ; special file tools have highest priority
+  
+  If AddTools_RunFileViewer
+    AddTools_Execute(#TRIGGER_FileViewer_All, 0)
+  EndIf
+  
+  If AddTools_RunFileViewer
+    If Ext$ <> "bmp" And Ext$ <> "png" And Ext$ <> "jpg" And Ext$ <> "jpeg" And Ext$ <> "tga" And Ext$ <> "ico" And Ext$ <> "txt"
+      AddTools_Execute(#TRIGGER_FileViewer_Unknown, 0)
+    EndIf
+  EndIf
+  
+  If AddTools_RunFileViewer = 0  ; stop if a tool has been run
+    ProcedureReturn
+  EndIf
+  
   ; Check if this is a project file
   ;
   If IsProjectFile(FileName$)
