@@ -2373,6 +2373,8 @@ Procedure RemoveSource(*Source.SourceFile = 0)
   FlushEvents()
   
   ; Remove old EditorGadget
+  ; Fix a stack corruption on OSX, needs to be after FlushEvent().
+  ; All events must be processed before the EditorGadget is removed.
   FreeEditorGadget(Gadget)
   
 EndProcedure
