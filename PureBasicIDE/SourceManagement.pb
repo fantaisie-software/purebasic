@@ -2352,7 +2352,6 @@ Procedure RemoveSource(*Source.SourceFile = 0)
   EndIf
   
   ChangeActiveSourcecode()
-  FreeEditorGadget(Gadget)
   
   ; make sure the options are closed (for non-project files)
   ; If this is true, we switched from a project file to non-project file while the options
@@ -2372,6 +2371,11 @@ Procedure RemoveSource(*Source.SourceFile = 0)
   ; progress, instead of just an unresponsive window for quite a while.
   ; There is almost no flicker anymore, so it actually looks quite good.
   FlushEvents()
+  
+  ; Remove old EditorGadget
+  ; Fix a stack corruption on OSX, needs to be after FlushEvent().
+  ; All events must be processed before the EditorGadget is removed.
+  FreeEditorGadget(Gadget)
   
 EndProcedure
 
