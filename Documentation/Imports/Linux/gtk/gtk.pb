@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 CompilerIf #PB_GTK = 3
   ImportC "`pkg-config --libs gtk+-3.0` `pkg-config --libs gthread-2.0`"
@@ -2758,10 +2758,3 @@ CompilerEndIf
   ApiC(gtk_window_unstick, (arg1))
   ApiC(gtk_wrap_mode_get_type, ())
 EndImport
-
-; IDE Options = PureBasic 5.40 LTS Beta 8 (Windows - x86)
-; CursorPosition = 2717
-; FirstLine = 2699
-; Folding = -
-; EnableUnicode
-; EnableXP
