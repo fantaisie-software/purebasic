@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# "validate.sh"  by Tristano Ajmone                          v3.0.0 | 2020/02/08
+# "validate.sh"  by Tristano Ajmone                          v3.1.0 | 2020/11/23
 #-------------------------------------------------------------------------------
 # 1. Check that PureBasic sources don't contain saved IDE settings.
 # 2. Validate code style consistency in the repository via EditorConfig settings
@@ -19,6 +19,11 @@ echo -e "\033[34;1m===========================================\033[0m"
 
 tmpLog=$(mktemp)
 passed=true
+
+# Change Internal Field Separator ($IFS) to handle filenames with spaces:
+IFS_COPY=$IFS
+IFS=$(echo -en "\n\b")
+
 for pbfile in $(find . 	-name '*.pb'  -o \
 						-name '*.pbi' -o \
 						-name '*.pbf' );
@@ -29,6 +34,7 @@ do
 		passed=
 	fi
 done
+IFS=$IFS_COPY # Restore original IFS!
 
 if [ "$passed" != true ] ; then
 	echo -e "\033[31;1m~~~ ERROR! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -62,6 +68,11 @@ echo -e "\033[34;1m==================================================\033[0m"
 
 tmpLog=$(mktemp)
 passed=true
+
+# Change Internal Field Separator ($IFS) to handle filenames with spaces:
+IFS_COPY=$IFS
+IFS=$(echo -en "\n\b")
+
 for pbfile in $(find . 	-name '*.pb'  -o \
 						-name '*.pbi' -o \
 						-name '*.pbf' );
@@ -72,6 +83,7 @@ do
 		passed=
 	fi
 done
+IFS=$IFS_COPY # Restore original IFS!
 
 if [ "$passed" != true ] ; then
 	echo -e "\033[31;1m~~~ ERROR! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
