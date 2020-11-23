@@ -1,0 +1,1 @@
+#C_LINKAGE = "C"

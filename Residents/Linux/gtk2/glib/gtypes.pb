@@ -1,0 +1,48 @@
+;#G_MININT64 = #G_GINT64_CONSTANT($8000000000000000)
+;#G_MAXINT64 = #G_GINT64_CONSTANT($7fffffffffffffff)
+;#G_MAXUINT64 = #G_GINT64_CONSTANT($ffffffffffffffff)
+;#G_E = 2.7182818284590452353602874713526624977572470937000
+;#G_LN2 = 0.69314718055994530941723212145817656807550013436026
+;#G_LN10 = 2.3025850929940456840179914546843642076011014886288
+;#G_PI = 3.1415926535897932384626433832795028841971693993751
+;#G_PI_2 = 1.5707963267948966192313216916397514420985846996876
+;#G_PI_4 = 0.78539816339744830961566084581987572104929234984378
+;#G_SQRT2 = 1.4142135623730950488016887242096980785696718753769
+;#G_LITTLE_ENDIAN = 1234
+;#G_BIG_ENDIAN = 4321
+;#G_PDP_ENDIAN = 3412	
+;#G_IEEE754_FLOAT_BIAS = (127)
+;#G_IEEE754_DOUBLE_BIAS = (1023)
+;#G_LOG_2_BASE_10 = (0.30102999566398119521)
+
+;Structure 
+;  mantissa:23.l
+;  biased_exponent:8.l
+;  sign:1
+;EndStructure
+
+;Structure 
+;  mantissa_low:32.l
+;  mantissa_high:20.l
+;  biased_exponent:11.l
+;  sign:1
+;EndStructure
+
+;Structure 
+;  sign:1
+;  biased_exponent:8.l
+;  mantissa:23.l
+;EndStructure
+
+;Structure 
+;  sign:1
+;  biased_exponent:11.l
+;  mantissa_high:20.l
+;  mantissa_low:32.l
+;EndStructure
+
+Structure GTimeVal
+  tv_sec.i  ; glong
+  tv_usec.i ; glong
+EndStructure
+
