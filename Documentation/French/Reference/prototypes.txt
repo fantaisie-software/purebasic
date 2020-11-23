@@ -1,0 +1,76 @@
+@Title Prototypes
+
+@Syntax
+
+  @Keyword Prototype.<type> nom(<parametre>, [, <parametre> [= ValeurDefaut]...])
+
+@Description
+
+  Pour les programmeurs chevronnés. Un @Keyword Prototype permet la déclaration d'un
+  type particulier qui servira à appeler une fonction. Cela permet de faire facilement des pointeurs
+  de fonctions, car ce type peut être affecté à une variable.
+  @LineBreak
+  @LineBreak
+  Cette fonctionnalité peut remplacer @@CallFunction 
+  car elle présente quelques avantages: vérification du type de paramètre, du nombre
+  de paramètres.
+  @LineBreak
+  @LineBreak
+  Contrairement à  @@CallFunction, le prototype peut gérer les paramètres de
+  types 'double', 'float' et 'quad' sans aucun problème. @@GetFunction permet d'obtenir 
+  facilement le pointeur d'une fonction dans une bibliothèque.
+  @LineBreak
+  @LineBreak
+  Les paramètres en fin de prototype peuvent avoir une valeur par défaut (une expression constante est requise).
+  Les paramètres ayant une valeur par défaut pourront être omis lors de l'appel du prototype, la valeur
+  par défaut de chaque paramètre manquant sera utilisée.
+  @LineBreak
+  @LineBreak
+  Par défaut, la fonction utilisera la convention d'appel 'stdcall' sur x86, ou 'fastcall' sur x64. Si le pointeur de fonction appelle
+  une fonction C utilisant la convention d'appel 'cdecl', @Keyword PrototypeC est fortement conseillé.
+  @LineBreak
+  @LineBreak
+  Les @ReferenceLink "pseudotypes" "pseudotypes" peuvent être utilisés pour les paramètres, mais pas pour le
+  type de retour.
+  
+@Example 
+
+@Code
+  ;MessageRequester("Exemple","Prototype...") ; Décommenter cette ligne sous Windows XP
+  Prototype.i ProtoMessageBox(Fenetre.i, Corps$, Titre$, Options.i = 0)
+
+  If OpenLibrary(0, "User32.dll")
+   
+    ; 'MsgBox' est une variable de type 'ProtoMessageBox' 
+    ;
+    MsgBox.ProtoMessageBox = GetFunction(0, "MessageBoxW")
+    
+    MsgBox(0, "Hello", "World") ; Les options peuvent être omises
+  EndIf
+    
+@EndCode
+
+
+@Example Avec des pseudotypes
+
+@Code
+  ; Nous spécifions le pseudotype 'p-unicode'pour les 2 paramètres de type string
+  ; (texte à afficher et titre) car l'api MessageBoxW est une fonction unicode. Le compilateur
+  ; convertira automatiquement les chaînes ascii en unicode pour les besoins de la fonction 
+  ;
+  ;MessageRequester("Exemple","Prototype...") ; Décommenter cette ligne sous Windows XP
+  Prototype.i ProtoMessageBoxW(Fenetre.i, Corps.p-unicode, Titre.p-unicode, Options.i = 0)
+
+  If OpenLibrary(0, "User32.dll")
+   
+    ; 'MsgBox' est une variable de type 'ProtoMessageBoxW' 
+    ;
+    MsgBox.ProtoMessageBoxW = GetFunction(0, "MessageBoxW")
+    
+    MsgBox(0, "Hello", "World") ; Les options peuvent être omises
+  EndIf
+    
+@EndCode
+
+
+

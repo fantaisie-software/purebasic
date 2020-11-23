@@ -1,0 +1,3810 @@
+;
+;     VectorDrawing library documentation
+;
+;      (c) 2020 - Fantaisie Software
+;
+
+@Library VectorDrawing
+
+@Overview
+  Die VectorDrawing Bibliothek bietet auflösungsunabhängige, hoch-qualitative Zeichenoperationen
+  für das Anzeigen, die Bild-Manipulation oder für das Drucken. Anders als die
+  @LibraryLink "2ddrawing" "2DDrawing" Bibliothek können die Funktionen in dieser Bibliothek
+  in einer Vielzahl von Maßeinheiten operieren und erlauben die gewünschten Koordinaten-Umwandlungen.
+  Dies ermöglicht das einfache Programmieren von Zeichenoperationen, welche unabhängig von der
+  aktuellen Ausgabeauflösung sind und einfach in verschiedene Größen skaliert werden können.
+@LineBreak
+  Die VectorDrawing Bibliothek unterstützt Alpha-Transparenz bei all ihren Operationen.
+  Es sind nur Vektorschriftarten wie TrueType zulässig, dagegen ist die Verwendung von
+  Bitmap-Schriftarten nicht möglich.
+  Sie können auch keine mittels @@RegisterFontFile registrierte Schriftart verwenden.
+
+@Section Zeichen-Sequenz
+  Die Zeichenoperationen in dieser Bibliothek beinhalten drei grundlegende Schritte:
+@LineBreak
+@LineBreak
+  1) Konstruieren eines Pfades (englisch "path") mit Funktionen wie @@AddPathLine, @@AddPathCurve, etc.
+@LineBreak
+  2) Auswählen einer Zeichenquelle (englisch "drawing source") wie @@VectorSourceColor
+@LineBreak
+  3) @Link "StrokePath" "Zeichnen" (stroke), @Link "FillPath" "Füllen" (fill), @Link "DotPath" "Punkten" (dot) oder 
+     @Link "DashPath" "Schraffieren" des Pfades
+@LineBreak
+@LineBreak
+  Nach dem Stricheln oder Füllen eines Pfades (englisch "stroking or filling a path")
+  wird der Pfad zurückgesetzt und ein neuer Pfad kann für die nächste Zeichenoperation
+  konstruiert werden. Die Auswahl der Zeichenquelle (Schritt 2) muss nicht jedes Mal
+  wiederholt werden, da die Zeichenquelle nicht zurückgesetzt wird.
+@LineBreak
+@LineBreak
+  Das Pfad-basierte Zeichenmodell ermöglicht das Zeichnen komplexer Flächen (englisch "shapes")
+  mit Eigenschaften wie dicke Linien mit abgerundeten/diagonalen Ecken und Punkt-/Strich-Mustern
+  (englisch "dot/dash patterns") ohne das Auftreten sichtbarer Artefakte an Stellen, wo sich Teile
+  der Figuren treffen. Da der gesamte Pfad auf einmal gezeichnet wird, können solche Artefakte
+  vermieden werden.
+@LineBreak
+@LineBreak  
+  Siehe die @@AddPathLine Funktion für ein einfaches Beispiel der Zeichenschritte.
+
+@Section Maßeinheiten
+  Jede Zeichenausgabe hat eine Standard-Maßeinheit. Die Standardeinheiten sind Pixel für die
+  Bildschirm- oder Rasterbild-Ausgabe, und Punkte für die Drucker- oder Vektorbild-Ausgabe.
+  Es ist jedoch möglich, eine andere Maßeinheit für die Ausgabe auszuwählen, wenn diese
+  mit @@ImageVectorOutput, @@PrinterVectorOutput oder einer ähnlichen Funktion erstellt wird.
+  Alle Zeichenoperationen werden die ausgewählte Maßeinheit verwenden und die Werte intern
+  in die aktuellen Geräte (Device) - Koordinaten umwandeln.
+  Dies ermöglicht das Schreiben von Zeichencode in der bevorzugten Maßeinheit, unabhängig
+  von der verwendeten Ausgabe. Die ausgewählte Maßeinheit für die Ausgabe kann mit @@VectorUnit
+  überprüft werden.  
+
+@Section Koordinaten-Umwandlung
+  Es ist möglich, das für das Zeichnen verwendete Koordinatensystem zu @Link "TranslateCoordinates" "bewegen",
+  zu @Link "ScaleCoordinates" "skalieren", zu @Link "RotateCoordinates" "drehen", zu
+  @Link "FlipCoordinatesX" "flippen" oder zu @Link "SkewCoordinates" "verzerren" (englisch "skew").
+  Die Transformationen können frei kombiniert werden. Solche Tranformationen (oder Umwandlungen)
+  wirken sich auf alle Zeichenoperationen aus.
+@LineBreak
+@LineBreak
+  Mögliche Anwendungszwecke der Koordinaten-Umwandlung sind das Zeichnen von Figuren in einer
+  gedrehten oder gestreckten Weise, ohne den aktuellen Zeichenmodus verändern zu müssen.
+  Zum Beispiel kann Drucker-Code leicht ins Querformat umgewandelt werden, indem einfach
+  die Koordinaten (und damit die gesamte Ausgabe) beim Start der Zeichenoperationen rotiert
+  werden.
+@LineBreak
+@LineBreak 
+  Es gibt vier verschiedene Koordinatensysteme und einige Funktionen verwenden einen optionalen
+  Parameter, um das zu verwendende System auszuwählen. Dies sind die verfügbaren Optionen:
+@LineBreak 
+@LineBreak 
+
+  @#PB_Coordinate_Device
+@Indent
+  Dieses Koordinatensystem repräsentiert die physischen Koordinaten des Ausgabegeräts.
+  Es kann nicht umgewandelt / transformiert werden. Dieses Koordinatensystem ist nützlich
+  beim Umwandeln von Werten zwischen dem Geräte- und dem aktuellen Zeichen-Koordinatensystem
+  mittels @@ConvertCoordinateX und @@ConvertCoordinateY.
+@EndIndent
+
+  @#PB_Coordinate_Output
+@Indent
+  Dieses Koordinatensystem repräsentiert die anfänglichen Ausgabekoordinaten in der ausgewählten
+  Maßeinheit. Dieses Koordinatensystem entspricht dem @#PB_Coordinate_Device, außer der möglichen
+  Skalierung (Größenänderung) durch eine abweichende Maßeinheit. Dieses Koordinatensystem kann
+  nicht umgewandelt / transformiert werden.
+@EndIndent
+
+  @#PB_Coordinate_User
+@Indent
+  Dies ist das für alle Zeichenoperationen verwendete Koordinatensystem. Dieses Koordinatensystem
+  wird immer dann verwendet, wenn nicht ausdrücklich ein abweichendes System angegeben wird.
+  Es kann frei umgewandelt / transformiert werden. Anfänglich entspricht dieses Koordinatensystem
+  dem @#PB_Coordinate_Output System und kann mittels @@ResetCoordinates darauf zurückgesetzt werden.
+@EndIndent
+
+  @#PB_Coordinate_Source
+@Indent
+  Dieses Koordinatensystem wird von den Befehlen verwendet, welche die Vektorzeichnen-Quelle
+  auswählen. Es ist am nützlichsten mit dem @@VectorSourceImage Befehl, um das verwendete
+  Quellbild umzuwandeln. Dieses Koordinatensystem ist relativ zum @#PB_Coordinate_User System,
+  daher wirkt sich jede Transformation des @#PB_Coordinate_User Systems auch auf dieses System
+  aus.
+@EndIndent
+
+  Für die meisten Anwendungszwecke ist @#PB_Coordinate_User das interessanteste Koordinatensystem
+  und daher auch der Standard. Die anderen Systeme sind hauptsächlich nützlich für die
+  Koordinaten-Umwandlung oder für spezielle Zwecke wie das Umwandeln eines Quellbildes.
+
+; ====== Code to generate the various coordinate translation images (do not show in the actual docs) ====
+;   Procedure DrawSample(Color)
+;     SaveVectorState()
+;     VectorSourceColor(Color)     
+;   
+;     ; draw triangle shape
+;     ResetPath()
+;     MovePathCursor(150, 50)
+;     AddPathLine(210, 150)
+;     AddPathLine(90, 150)
+;     ClosePath()
+;     FillPath()
+;     
+;     ; draw text
+;     MovePathCursor(150-VectorTextWidth("Test")/2, 200)
+;     DrawVectorText("Test")
+;   
+;     ; draw rulers
+;     TranslateCoordinates(0.5, 0.5) ; align with pixel center
+;   
+;     ResetPath()
+;     AddPathLine(0, 300)
+;     MovePathCursor(0, 0)
+;     AddPathLine(300, 0)    
+;     
+;     For a = 5 To 300 Step 5
+;       If a % 25 = 0
+;         b = 25
+;       Else
+;         b = 10
+;       EndIf
+;       
+;       If b > (a - 5)
+;         b = a - 2
+;       EndIf
+;             
+;       MovePathCursor(0, a)
+;       AddPathLine(b, a)
+;       
+;       MovePathCursor(a, 0)
+;       AddPathLine(a, b)           
+;     Next a
+; 
+;     ResetCoordinates() ; do not stretch the line lengths!
+;     StrokePath(1)
+;     RestoreVectorState()
+;   EndProcedure
+;   
+;   
+;   If OpenWindow(0, 0, 0, 400, 400, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+;     CanvasGadget(0, 0, 0, 400, 400)
+;     LoadFont(0, "Times New Roman", 20, #PB_Font_Bold)
+; 
+;     If StartVectorDrawing(CanvasVectorOutput(0))    
+;       VectorFont(FontID(0), 75)
+;       TranslateCoordinates(50, 50)      
+;       DrawSample(RGBA(0, 0, 255, 128))      
+;       
+;       TranslateCoordinates(50, -30)
+;       ;RotateCoordinates(150, 150, 30)
+;       ;FlipCoordinatesX(172)
+;       ;FlipCoordinatesY(102)
+;       ;SkewCoordinates(15, 0)
+;       ;ScaleCoordinates(0.7, 0.9)
+;       
+;       DrawSample(RGBA(255, 0, 0, 128))    
+;       
+;       StopVectorDrawing()
+;     EndIf
+;     
+;     Repeat
+;       Event = WaitWindowEvent()
+;     Until Event = #PB_Event_CloseWindow
+;   EndIf
+; =============================================================================================
+  
+  
+@Example Rotieren des Koordinatensystems
+@Image rotatecoordinates.png
+
+@Example Kombinieren von Koordinaten-Transformationen (Übersetzen & Verzerren, englisch "translation & skew")  
+@Image transformcoordinates.png  
+
+@Section Zeichenstatus und Layer (Schichten)
+  Eine Anzahl an Eigenschaften der Zeichenausgabe wie die Koordinaten-Umwandlungen, das
+  Clipping oder die Zeichen-Quelle können gespeichert und später wiederhergestellt werden
+  mittels @@SaveVectorState bzw. @@RestoreVectorState. Dies ermöglicht vorübergehende
+  Veränderungen an der Zeichenausgabe und das spätere Wiederherstellen des vorhergehenden
+  Status. Die Befehle arbeiten in einem Stack - daher ist es möglich, verschiedene
+  Zeichen-Status zu speichern/wieder herzustellen.
+@LineBreak
+@LineBreak
+  @@BeginVectorLayer erlaubt das Speichern des aktuellen Zeichenstatus und das Konstruieren
+  einer neuen virtuellen Zeichenschicht (Layer). Künftige Zeichenoperationen werden auf diesen
+  Layer geleitet. Der Aufruf von @@EndVectorLayer wird den Layer mit der darunter liegenden Zeichenausgabe
+  kombinieren und den vorherigen Zeichenstatus wiederherstellen. Dies ermöglicht das Kombinieren
+  einer Anzahl an Zeichenoperationen, um diese dann als einen Layer (Schicht) auf die Ausgabe
+  anzuwenden. Mehrere temporäre Layer können auf diese Art und Weise erstellt werden.
+
+@CommandList
+
+; TODO
+; @ExampleFile All VectorDrawing.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = StartVectorDrawing(Ausgabe)
+
+@Description
+  Bereitet die VectorDrawing Bibliothek zum Zeichnen auf die angegebene Ausgabe vor.
+
+@Parameter "Ausgabe"
+  Die Ausgabe, auf die gezeichnet werden soll. Diese Funktionen können verwendet werden,
+  um eine Ausgabe für das Vektor-Zeichnen zu erhalten:
+@LineBreak
+@LineBreak
+  @@WindowVectorOutput: Zeichnen wird direkt auf dem Fenster gerendert
+@LineBreak
+  @@ImageVectorOutput: Zeichnen wird direkt auf den Bilddaten gerendert (siehe @@CreateImage)
+@LineBreak
+  @@PrinterVectorOutput: Zeichnen wird direkt auf dem Drucker gerendert
+@LineBreak
+  @@CanvasVectorOutput: Zeichnen wird direkt auf dem @@CanvasGadget gerendert
+@LineBreak
+  @@PdfVectorOutput: Zeichnen wird direkt in einer PDF-Datei gerendert (nur auf Linux und OSX)
+@LineBreak
+  @@SvgVectorOutput: Zeichnen wird direkt in einer SVG-Datei gerendert (nur auf Linux)
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Zeichnen möglich ist. Oder Null, wenn die
+  Operation fehlgeschlagen ist.
+  
+@Remarks
+  Das Zeichnen muss mittels @@StopVectorDrawing abgeschlossen werden.
+@LineBreak
+@LineBreak
+  Wenn "Erstelle Thread-sicheres Executable" in den @ReferenceLink "ide_compiler" "Compiler-Optionen"
+  aktiviert ist, dann hat jeder Thread seine eigene Zeichenausgabe. Dies bedeutet, dass zwei Threads
+  auf verschiedenen Ausgaben zur gleichen Zeit zeichnen können.
+
+@SeeAlso
+  @@StopVectorDrawing
+
+@SupportedOS
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopVectorDrawing()
+
+@Description
+  Schließt eine Sequenz von Zeichenoperationen ab und gibt alle dadurch reservierten Ressourcen
+  frei.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@StartVectorDrawing
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = VectorOutputWidth()
+
+@Description
+  Gibt die Breite des Vektorzeichnen-Ausgabebereichs zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die Ausgabebreite zurück.
+
+@Example 
+
+@Code
+@EndCode
+
+@SeeAlso
+  @@VectorOutputHeight, @@VectorUnit, @@VectorResolutionX, @@VectorResolutionY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = VectorOutputHeight()
+
+@Description
+  Gibt die Höhe des Vektorzeichnen-Ausgabebereichs zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die Ausgabehöhe zurück.
+
+@Example 
+
+@Code
+@EndCode
+
+@SeeAlso
+  @@VectorOutputWidth, @@VectorUnit, @@VectorResolutionX, @@VectorResolutionY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = VectorResolutionX()
+
+@Description
+  Gibt die horizontale Auflösung des Vektorzeichnen-Ausgabebereichs zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die horizontale Auflösung in DPI ("dots per inch", englische Maßeinheit "Punkte pro Inch")
+  zurück.
+
+@SeeAlso
+  @@VectorResolutionY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = VectorResolutionY()
+
+@Description
+  Gibt die vertikale Auflösung des Vektorzeichnen-Ausgabebereichs zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die vertikale Auflösung in DPI ("dots per inch", englische Maßeinheit für "Punkte pro Zoll")
+  zurück.
+
+@Remarks
+  Die vertikale Auflösung kann im Fall der Druckerausgabe von der horizontalen Auflösung
+  abweichen.
+  
+@SeeAlso
+  @@VectorResolutionX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = VectorUnit()
+
+@Description
+  Gibt die Einheit zurück, in der alle Koordinaten und Größen auf der aktuellen
+  Vektorzeichnen-Ausgabe gemessen werden. Diese Einheit wurde angegeben, als 
+  die Ausgabe erstellt wurde.
+
+@NoParameters
+
+@ReturnValue
+  Gibt einen der folgenden Werte zurück:
+@FixedFont
+  @#PB_Unit_Pixel     : Werte werden in Pixel gemessen (oder Dots/Punkte im Fall eines Druckers)
+  @#PB_Unit_Point     : Werte werden in Punkten (1/72 Zoll bzw. Inch) gemessen
+  @#PB_Unit_Inch      : Werte werden in Zoll (Inch) gemessen
+  @#PB_Unit_Millimeter: Werte werden in Millimeter gemessen
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SaveVectorState()
+
+@Description
+  Speichert den aktuellen Vektorzeichnen-Status, um ihn später wieder herzustellen.
+  Mehrere Status können auf einem Stack (Stapel) gespeichert werden, und in umgekehrter
+  Reihenfolge (wie sie gespeichert wurden) wiederhergestellt werden.
+@LineBreak
+@LineBreak
+  Die folgenden Informationen werden mit diesem Befehl gespeichert:
+@LineBreak
+- Die Koordinaten-Transformationen
+@LineBreak
+- Die Zeichenquelle
+@LineBreak
+- Der Zeichensatz zum Zeichnen
+@LineBreak
+- Der Clipping-Pfad
+@LineBreak
+@LineBreak
+  Beachte, dass der aktuelle Pfad @Underline "nicht" durch diesen Befehl gespeichert wird.
+
+@NoParameters
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    LoadFont(0, "Times New Roman", 20, #PB_Font_Bold)    
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      VectorFont(FontID(0))
+      
+      MovePathCursor(20, 20)
+      DrawVectorText("Normal text")
+      
+      ; Änderungen am Zeichnungsstatus innerhalb dieses Blocks wirken sich nicht auf die anderen Befehle aus
+      SaveVectorState()
+        MovePathCursor(120, 160)
+        RotateCoordinates(120, 160, -50)
+        VectorSourceColor(RGBA(0, 0, 255, 255))
+        DrawVectorText("Rotated text")
+      RestoreVectorState()
+      
+      MovePathCursor(220, 140)
+      DrawVectorText("Normal text")
+
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@RestoreVectorState, @@BeginVectorLayer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RestoreVectorState()
+
+@Description
+  Stellt den Vektorzeichnen-Status wieder her, welcher durch den korrespondierenden Aufruf
+  von @@SaveVectorState gespeichert wurde.
+
+@NoParameters
+@NoReturnValue
+
+@Example
+  Siehe @@SaveVectorState für ein Beispiel.
+
+@SeeAlso
+  @@SaveVectorState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BeginVectorLayer([Alpha])
+
+@Description
+  Beginnt einen neuen leeren Layer (Schicht) oberhalb der aktuellen Vektorzeichnen-Ausgabe.
+  Alle nachfolgenden Zeichenoperationen werden auf diesem Layer ausgeführt, bis
+  @@EndVectorLayer aufgerufen wird. Dieser Befehl speichert auf die gleiche Weise wie
+  @@SaveVectorState auch den aktuelen Zeichenstatus.
+  Es können mehrere Layer erstellt werden.
+
+@OptionalParameter "Alpha"
+  Definiert die Alpha-Transparenz des neuen Vektor-Layers.
+  Erlaubte Werte reichen von 0 (vollständig transparent) bis 255 (völlig undurchsichtig).
+  Der Standard ist 255 (völlig undurchsichtig).
+
+@NoReturnValue
+
+@Remarks
+  Die zum Erstellen des temporären Layers benötigten Ressourcen hängen von der Größe des
+  aktuellen @Link "ClipPath" "Clipping-Pfads" ab. Um Ressourcen zu sparen und die
+  Zeichen-Performance zu erhöhen, ist es daher empfehlenswert, einen Clipping-Pfad
+  festzulegen, der nur den Bereich abdeckt, in welchem der temporäre Layer auch
+  Zeichnungen beinhaltet.
+  
+@Example 
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      ; Halb-transparentes Zeichnen auf dem Basis-Layer
+      AddPathCircle(75, 100, 60)      
+      VectorSourceColor(RGBA(255, 0, 0, 127))
+      FillPath()      
+      AddPathCircle(125, 100, 60)
+      VectorSourceColor(RGBA(0, 0, 255, 127))
+      FillPath()    
+      
+      ; Undurchsichtiges Zeichnen auf einem halb-transparenten Layer
+      BeginVectorLayer(127)
+        AddPathCircle(275, 100, 60)    
+        VectorSourceColor(RGBA(255, 0, 0, 255))
+        FillPath()        
+        AddPathCircle(325, 100, 60)
+        VectorSourceColor(RGBA(0, 0, 255, 255))
+        FillPath()    
+      EndVectorLayer()
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image beginvectorlayer.png
+
+@SeeAlso
+  @@EndVectorLayer, @@SaveVectorState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EndVectorLayer()
+
+@Description
+  Schließt das Zeichnen auf einem temporären Layer, der mit @@BeginVectorLayer erstellt
+  wurde, ab. Die Inhalte des Layers werden auf dem nächstniedrigeren Layer mittels der
+  Alpha-Transparenz des temporären Layers gezeichnet. Dieser Befehl stellt auch den
+  Zeichenstatus wieder her, der beim Aufruf vom @@BeginVectorLayer gültig war.
+
+@NoParameters
+@NoReturnValue
+
+@Example
+  Siehe @@BeginVectorLayer für ein Beispiel.
+
+@SeeAlso
+  @@BeginVectorLayer, @@SaveVectorState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NewVectorPage()
+
+@Description
+  Schließt die aktuelle Seite auf der Vektorzeichnen-Ausgabe ab und beginnt eine
+  neue Seite.
+@LineBreak
+@LineBreak
+  Die folgenden Ausgaben unterstützen mehrere Seiten:
+@LineBreak
+@LineBreak
+  @@PrinterVectorOutput
+@LineBreak
+  @@PdfVectorOutput
+@LineBreak
+  @@SvgVectorOutput
+    
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@NewPrinterPage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FillVectorOutput()
+
+@Description
+  Füllt die gesamte Zeichenfläche (außer Bereiche außerhalb des Clipping-Pfades) mit der
+  aktuellen Zeichenquelle. Diese Operation entspricht dem Konstruieren eines Pfades,
+  welcher die gesamte Zeichenfläche umfasst und darauf @@FillPath aufgerufen wird.
+
+@NoParameters
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      ; macht die gesamte Ausgabe rot
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      FillVectorOutput()
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FillPath, @@ClipPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResetCoordinates([System])
+
+@Description
+  Setzt jegliche Koordinationen-Transformationen zurück, die auf die aktuelle Vektorzeichnen-Ausgabe
+  angewandt wurden, und stellt das Koordinatensystem wieder her, das beim Aufruf von
+  @@StartVectorDrawing gültig war.
+
+@OptionalParameter "System"
+  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+
+@SeeAlso
+  @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates, @@SkewCoordinates,
+  @@FlipCoordinatesX, @@FlipCoordinatesY, @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TranslateCoordinates(x.d, y.d [, System])
+
+@Description
+  Verschiebt den Ursprung des Vektorzeichnen-Koordinatensystems. Die Verschiebung
+  wird entlang der x/y-Achse des aktuellen Koordinatensystems angewandt werden.
+  Alle zukünftigen Zeichenoperationen werden relativ zum neuen Ursprung sein.
+
+@Parameter "x.d, y.d"
+  Geben die Größe an, um wieviel der Koordinatenurprung entlang der x/y-Achse bewegt wird.
+
+@OptionalParameter "System"
+  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+@LineBreak
+@LineBreak
+  Das folgende Bild demonstriert den Effekt der "übersetzten" Koordinaten. 
+  Die gleiche Figur wird zweimal gezeichnet - das Original ist in Blau, und die Version mit
+  übersetzten Koordinaten in Rot.
+
+@Image translatecoordinates.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      TranslateCoordinates(30, 30) ; all coordinates are moved 30 pixels in each direction
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image translatecoordinates2.png
+
+@SeeAlso
+  @@ResetCoordinates, @@ScaleCoordinates, @@RotateCoordinates, @@SkewCoordinates,
+  @@FlipCoordinatesX, @@FlipCoordinatesY, @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleCoordinates(AusmaßX.d, AusmaßY.d [, System])
+
+@Description
+  Skaliert das Koordinatensystem der Vektorzeichnung durch Streckung in der x/y Richtung.
+ 
+@Parameter "AusmaßX.d, AusmaßY.d"
+  Geben die Skalierfaktoren für jede Richtung an. Ein Faktor von 1.0 beläßt das Koordinatensystem 
+  unverändert, während Faktoren über oder unter 1.0 das Koordinatensystem strecken. 
+  Ein negativer Faktor spiegelt die ausgegebenen Koordinaten. 
+
+@OptionalParameter "System"
+  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+@LineBreak
+@LineBreak
+  Das folgende Bild demonstriert den Effekt der skalierten Koordinaten. 
+  Die gleiche Figur wird zweimal gezeichnet - das Original ist in Blau, und die Version mit
+  skalierten Koordinaten in Rot.
+  
+@Image scalecoordinates.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      ScaleCoordinates(0.7, 0.9)
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image scalecoordinates2.png
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@RotateCoordinates, @@SkewCoordinates,
+  @@FlipCoordinatesX, @@FlipCoordinatesY, @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateCoordinates(x.d, y.d, Winkel.d [, System])
+
+@Description
+  Rotiert das Koordinatensystem der Vektorzeichnung um einen gegebenen Mittelpunkt. 
+  Der Mittelpunkt wird in Bezug auf das aktuelle Koordinatensystem angegeben. 
+
+@Parameter "x.d, y.d"
+  Geben den Mittelpunkt der Rotation an. 
+
+@Parameter "Winkel.d"
+  Gibt den Rotationswinkel (in Grad) an. Ein positiver Winkel rotiert das Koordinatensystem
+  im Uhrzeigersinn.
+
+@OptionalParameter "System"
+  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+@LineBreak
+@LineBreak
+  Das folgende Bild demonstriert den Effekt der rotierten Koordinaten. 
+  Die gleiche Figur wird zweimal gezeichnet - das Original ist in Blau, und die Version mit
+  rotierten Koordinaten in Rot.
+
+@Image rotatecoordinates.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      RotateCoordinates(50, 50, -20) ; rotate by -20 degrees around the (50, 50) point
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image rotatecoordinates2.png
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@SkewCoordinates,
+  @@FlipCoordinatesX, @@FlipCoordinatesY, @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SkewCoordinates(WinkelX.d, WinkelY.d [, System])
+
+@Description
+  Anwenden eines Scherwinkels (englisch "shearing angle") in die x- und/oder y-Richtung
+  auf das Koordinatensystem der Vektorzeichnung.
+
+@Parameter "WinkelX.d, WinkelY.d"
+  Geben die Scherwinkel für jede Richtung in Grad an.
+
+@OptionalParameter "System"
+  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+@LineBreak
+@LineBreak
+  Das folgende Bild demonstriert die Wirkung (mittels "Scherwinkel") verzerrter Koordinaten.
+  Die gleiche Figur wird zweimal gezeichnet - das Original ist in Blau, und die Version mit
+  verzerrten Koordinaten in Rot.
+
+@Image skewcoordinates.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      SkewCoordinates(45, 0)
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image skewcoordinates2.png
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates,
+  @@FlipCoordinatesX, @@FlipCoordinatesY, @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FlipCoordinatesX(AchseX.d [, System])
+
+@Description
+  Spiegelt das Vektorzeichnen-Koordinatensystem an der angegebenen X-Achse.
+
+@Parameter "AchseX.d"
+  Die x-Koordinate, an welcher das Koordinatensystem gespiegelt werden soll.
+
+@OptionalParameter "System"
+  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+@LineBreak
+@LineBreak
+  Das folgende Bild demonstriert den Effekt der "gespiegelten" Koordinaten.
+  Die gleiche Figur wird zweimal gezeichnet - das Original ist in Blau, und die Version mit
+  gespiegelten Koordinaten in Rot.
+
+@Image flipcoordinatesx.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      FlipCoordinatesX(200)
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image flipcoordinatesx2.png
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates,
+  @@SkewCoordinates, @@FlipCoordinatesY, @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FlipCoordinatesY(AchseY.d [, System])
+
+@Description
+  Spiegelt das Vektorzeichnen-Koordinatensystem an der angegebenen y-Achse.
+
+@Parameter "AchseY.d"
+  Die y-Koordinate, an welcher das Koordinatensystem gespiegelt werden soll.
+
+@OptionalParameter "System"
+  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+@LineBreak
+@LineBreak
+  Das folgende Bild demonstriert den Effekt der "gespiegelten" Koordinaten.
+  Die gleiche Figur wird zweimal gezeichnet - das Original ist in Blau, und die Version mit
+  gespiegelten Koordinaten in Rot.
+
+@Image flipcoordinatesy.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      FlipCoordinatesY(120)
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image flipcoordinatesy2.png
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates,
+  @@SkewCoordinates, @@FlipCoordinatesX, @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = ConvertCoordinateX(x.d, y.d [, Quelle, Ziel])
+
+@Description
+  Konvertiert einen Punkt von einem Koordinatensystem in ein anderes innerhalb der
+  Vektorzeichnen-Ausgabe. Diese Funktion gibt die X-Koordinate der Umwandlung zurück.
+  Die Y-Koordinate kann mit der @@ConvertCoordinateY Funktion ermittelt werden.
+
+@Parameter "x.d, y.d"
+  Gibt die Koordinaten des zu konvertierenden Punktes in Bezug auf das
+  Quell-Koordinatensystem an.
+
+@OptionalParameter "Quelle, Ziel"
+  Geben die Quell- und Ziel-Koordinaten für die Konvertierung an. Jede kann einer
+  der folgenden Werte sein:
+@FixedFont
+  @#PB_Coordinate_Device: Das Koordinatensystem der Ausgabe-Einheit
+  @#PB_Coordinate_Output: Das Koordinatensystem, wie es mit der Zeichenausgabe-Funktion erstellt wurde
+  @#PB_Coordinate_User  : Das Koordinatensystem für Punkte im Zeichenpfad
+  @#PB_Coordinate_Source: Das Koordinatensystem für die Vektorzeichnen-Quelle
+@EndFixedFont 
+  Die Standard-Konvertierung erfolgt von @#PB_Coordinate_User in @#PB_Coordinate_Output.
+
+@ReturnValue
+  Gibt die X-Koordinate des Punktes im Ziel-Koordinatensystem zurück.
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+  
+@Example 
+
+@Code
+  ; Diese Beispiel zeichnet einen Punkt an der Mausposition, selbst in einem veränderten
+  ; Koordinatensystem - durch Abbilden ("mapping") der Koordinaten vom Gerätesystem 
+  ; ("device", in Pixel) das Benutzersystem ("user", in Punkten)
+  ;
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)   
+    
+    Repeat
+      Event = WaitWindowEvent()
+      
+      If Event = #PB_Event_Gadget And EventGadget() = 0 And EventType() = #PB_EventType_LeftButtonDown
+        
+        If StartVectorDrawing(CanvasVectorOutput(0, #PB_Unit_Point))
+          RotateCoordinates(0, 0, 30)
+          
+          CanvasX = GetGadgetAttribute(0, #PB_Canvas_MouseX)
+          CanvasY = GetGadgetAttribute(0, #PB_Canvas_MouseY)
+          
+          DrawingX = ConvertCoordinateX(CanvasX, CanvasY, #PB_Coordinate_Device, #PB_Coordinate_User)
+          DrawingY = ConvertCoordinateY(CanvasX, CanvasY, #PB_Coordinate_Device, #PB_Coordinate_User)
+          
+          AddPathCircle(DrawingX, DrawingY, 10)
+          VectorSourceColor(RGBA(Random(255), Random(255), Random(255), 255))
+          FillPath()
+        
+          StopVectorDrawing()
+        EndIf
+        
+      EndIf
+      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates,
+  @@SkewCoordinates, @@FlipCoordinatesX, @@FlipCoordinatesY, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = ConvertCoordinateY(x.d, y.d [, Quelle, Ziel])
+
+@Description
+  Konvertiert einen Punkt von einem Koordinatensystem in ein anderes innerhalb der
+  Vektorzeichnen-Ausgabe. Diese Funktion gibt die Y-Koordinate der Umwandlung zurück.
+  Die X-Koordinate kann mit der @@ConvertCoordinateX Funktion ermittelt werden.
+
+@Parameter "x.d, y.d"
+  Gibt die Koordinaten des zu konvertierenden Punktes in Bezug auf das Quell-Koordinatensystem an.
+
+@OptionalParameter "Quelle, Ziel"
+  Geben die Quell- und Ziel-Koordinaten für die Konvertierung an. Jede kann einer
+  der folgenden Werte sein:
+@FixedFont
+  @#PB_Coordinate_Device: Das Koordinatensystem der Ausgabe-Einheit
+  @#PB_Coordinate_Output: Das Koordinatensystem, wie es mit der Zeichenausgabe-Funktion erstellt wurde
+  @#PB_Coordinate_User  : Das Koordinatensystem für Punkte im Zeichenpfad
+  @#PB_Coordinate_Source: Das Koordinatensystem für die Vektorzeichnen-Quelle
+@EndFixedFont 
+  Die Standard-Konvertierung erfolgt von @#PB_Coordinate_User in @#PB_Coordinate_Output.
+
+@ReturnValue
+  Gibt die Y-Koordinate des Punktes im Ziel-Koordinatensystem zurück.
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+  
+@Example 
+  Siehe @@ConvertCoordinateX für ein Beispiel.
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates,
+  @@SkewCoordinates, @@FlipCoordinatesX, @@FlipCoordinatesY, @@ConvertCoordinateX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResetPath()
+
+@Description
+  Setzt den Vektorzeichnen-Pfad auf einen leeren Pfad zurück und verschiebt den Cursor
+  an die Position (0, 0).
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@IsPathEmpty
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClosePath()
+
+@Description
+  Schließt die aktuelle Figur im Vektorzeichnen-Koordinatensystem durch Hinzufügen einer
+  geraden Linie bis zum Ausgangspunkt der Figur. Der Ausgangspunkt ist der Ort des letzten
+  @@MovePathCursor Aufrufs.
+@LineBreak
+@LineBreak
+  Wenn ein Pfad @Link "FillPath" "gefüllt" wird, werden nur geschlossene Figuren berücksichtigt.
+
+@NoParameters
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      ; Erstellt einen Pfad mit zwei geschlossenen Dreiecken
+      MovePathCursor(20, 160)
+      AddPathLine(100, 20)
+      AddPathLine(180, 160)
+      ClosePath()
+      
+      MovePathCursor(220, 160)
+      AddPathLine(300, 20)
+      AddPathLine(380, 160)
+      ClosePath()      
+
+      ; Füllt den Pfad
+      VectorSourceColor(RGBA(0, 0, 255, 255))
+      FillPath()
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image closepath.png
+
+@SeeAlso
+  @@FillPath, @@IsInsidePath, @@MovePathCursor, @@AddPathLine
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MovePathCursor(x.d, y.d [, Flags])
+
+@Description
+  Bewegt den Cursor des Vektorzeichnen-Pfades an eine neue Position. Dies beginnt auch eine
+  neue Figur innerhalb des Pfades - was bedeutet, dass ein Aufruf von @@ClosePath eine
+  Linie zurück zu dieser Position zeichnen wird.
+
+@Parameter "x.d, y.d"
+  Die neue Position des Pfad-Cursors.
+
+@OptionalParameter "Flags"
+  Kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default : Die neue Position ist absolut (Standard)
+  @#PB_Path_Relative: Die neue Position ist relativ zur letzten Cursor-Position.
+@EndFixedFont  
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 40)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        MovePathCursor(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image movepathcursor.png
+
+@SeeAlso
+  @@ClosePath, @@AddPathLine, @@FillPath, @@StrokePath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathLine(x.d, y.d [, Flags])
+
+@Description
+  Fügt eine gerade Linie zum Vektorzeichnen-Pfad hinzu. Die Linie beginnt an der aktuellen
+  Cursor-Position und endet an den angegebenen Koordinaten.
+
+@Parameter "x.d, y.d"
+  Die Position für das Ende der Linie. Diese wird zur neuen Position des Pfad-Cursors.
+
+@OptionalParameter "Flags"
+  Kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default : Die neue Position ist absolut (Standard)
+  @#PB_Path_Relative: Die neue Position ist relativ zur letzten Cursor-Position.
+@EndFixedFont  
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10, #PB_Path_RoundCorner)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image addpathline.png
+
+@SeeAlso
+  @@MovePathCursor, @@ClosePath, @@AddPathArc, @@AddPathCurve, 
+  @@AddPathCircle, @@AddPathEllipse, @@AddPathBox
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathArc(x1.d, y1.d, x2.d, y2.d, Radius.d, [, Flags])
+
+@Description
+  Ergänzt eine gerade Linie in Richtung (x1, y2) gefolgt von einem Kreisbogen (englisch "arc") in
+  Richtung (x2, y2) zum Vektorzeichnen-Pfad. Diese Funktion kann verwendet werden, um Pfade mit
+  abgerundeten Ecken zu erstellen.
+  Die neue Cursorposition wird der Endpunkt des Kreisbogens sein.
+
+@Parameter "x1.d, y1.d"
+  Die Zielposition für die gerade Linie.
+
+@Parameter "x2.d, y2.d"
+  Die Zielposition zur Richtungsangabe des Kreisbogens.
+
+@Parameter "Radius.d"
+  Der Radius für die abgerundete Ecke.
+
+@OptionalParameter "Flags"
+  Kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default : Die neue Position ist absolut (Standard)
+  @#PB_Path_Relative: Die neue Position ist relativ zur letzten Cursor-Position.
+@EndFixedFont  
+
+
+@NoReturnValue
+
+@Remarks
+  Die folgende Abbildung zeigt die Bedeutung der beiden Referenzpunkte und der Segmente,
+  die zum Pfad hinzugefügt werden. Zu beachten ist, dass keine zweite gerade Linie in
+  Richtung des (x2, y2) Punktes durch den Befehl hinzugefügt wird. Dies macht es möglich,
+  @@AddPathArc erneut zu verwenden, um eine weitere abgerundete Ecke auch an der (x2, y2)
+  Position hinzuzufügen.
+  
+; === Code to produce the below image (don't show this in the manual) ===
+;   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+;     CanvasGadget(0, 0, 0, 400, 200)
+;     LoadFont(0, "Times New Roman", 10, #PB_Font_Bold)
+;     
+;     If StartVectorDrawing(CanvasVectorOutput(0))
+;       VectorFont(FontID(0), 20)
+;     
+;       MovePathCursor(50, 80)
+;       AddPathArc(320, 150, 250, 40, 20)
+;       VectorSourceColor($FF0000FF)
+;       StrokePath(10)
+;     
+;       MovePathCursor(50, 80)
+;       AddPathLine(320, 150)
+;       AddPathLine(250, 40)
+;       VectorSourceColor($FF000000)
+;       DashPath(2, 5)
+;       
+;       MovePathCursor(25, 50)      
+;       DrawVectorText("cursor")
+;       
+;       MovePathCursor(305, 155)
+;       DrawVectorText("x1,y1")      
+;     
+;       MovePathCursor(230, 15)
+;       DrawVectorText("x2,y2")       
+;     
+;       StopVectorDrawing()
+;     EndIf
+;     
+;     Repeat
+;       Event = WaitWindowEvent()
+;     Until Event = #PB_Event_CloseWindow
+;   EndIf
+; ========
+
+@Image addpatharc2.png
+
+@Example 
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      MovePathCursor(40, 60)
+      AddPathArc(100, 140, 160, 20, 20)
+      AddPathArc(160, 20, 220, 180, 20)
+      AddPathArc(220, 180, 280, 80, 20)
+      AddPathArc(280, 80, 340, 120, 20)
+      AddPathLine(340, 120)
+
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+          
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image addpatharc.png
+
+@SeeAlso
+  @@MovePathCursor, @@AddPathLine, @@AddPathCurve, 
+  @@AddPathCircle, @@AddPathEllipse, @@AddPathBox
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathCurve(x1.d, y1.d, x2.d, y2.d, x3.d, y3.d [, Flags])
+
+@Description
+  Fügt eine kubische Bezier-Kurve zum Vektorzeichnen-Pfad hinzu. Die Kurve beginnt bei
+  der aktuellen Pfad-Position und endet bei (x3, y3). Die beiden anderen Punkte bestimmen
+  den Verlauf bzw. die Form der Kurve.
+
+@Parameter "x1.d, y1.d"
+  Der erste Kontrollpunkt der Kurve.
+
+@Parameter "x2.d, y2.d"
+  Der zweite Kontrollpunkt der Kurve.
+
+@Parameter "x3.d, y3.d"
+  Der Endpunkt der Kurve. Dieser Punkt wird zur neuen Pfad-Position.
+
+@OptionalParameter "Flags"
+  Kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default : Die neue Position ist absolut (Standard)
+  @#PB_Path_Relative: Die neue Position ist relativ zur letzten Cursor-Position.
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  Das nachfolgende Bild zeigt die Position der Referenzpunkte.
+  Siehe @InternetLink "http://en.wikipedia.org/wiki/B%C3%A9zier_curve" "hier" für weitere
+  Informationen über Bezier-Kurven.
+  
+;=== Code to produce this image (do not show this in the docs)
+;   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+;     CanvasGadget(0, 0, 0, 400, 200)
+;     LoadFont(0, "Times New Roman", 10, #PB_Font_Bold)
+;     
+;     If StartVectorDrawing(CanvasVectorOutput(0))
+;       VectorFont(FontID(0), 20)
+;     
+;       MovePathCursor(50, 100)
+;       AddPathCurve(90, 30, 250, 180, 350, 100)
+;       VectorSourceColor($FF0000FF)
+;       StrokePath(10)
+;     
+;       MovePathCursor(50, 100)
+;       AddPathLine(90, 30)
+;       AddPathLine(250, 180)
+;       AddPathLine(350, 100)
+;       VectorSourceColor($FF000000)
+;       DashPath(2, 5)
+;       
+;       MovePathCursor(25, 105)      
+;       DrawVectorText("cursor")
+;       
+;       MovePathCursor(110, 20)
+;       DrawVectorText("x1,y1")      
+;     
+;       MovePathCursor(190, 170)
+;       DrawVectorText("x2,y2")  
+;       
+;       MovePathCursor(325, 70)
+;       DrawVectorText("x3,y3")      
+;     
+;       StopVectorDrawing()
+;     EndIf
+;     
+;     Repeat
+;       Event = WaitWindowEvent()
+;     Until Event = #PB_Event_CloseWindow
+;   EndIf
+;===  
+@Image addpathcurve.png
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      MovePathCursor(50, 100)
+      AddPathCurve(90, 30, 250, 180, 350, 100)
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@MovePathCursor, @@AddPathLine, @@AddPathArc, 
+  @@AddPathCircle, @@AddPathEllipse, @@AddPathBox
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathBox(x.d, y.d, Breite.d, Höhe.d [, Flags])
+
+@Description
+  Fügt ein Kästchen (Box) zum Vektorzeichnen-Pfad hinzu. Dies ist eine bequeme Funktion,
+  welche die nötigen @@AddPathLine Aufrufe kombiniert, um eine einfache Kastenform zu erstellen.
+@LineBreak
+@LineBreak
+  Standardmäßig beendet diese Funktion die aktuelle Figur im Pfad und fügt die Box als
+  unverbundene und geschlossene Figur zum Pfad hinzu (d.h. ein Kasten, der ausgefüllt
+  werden kann). Dieses Verhalten kann mit den entsprechenden Flags geändert werden.
+
+@Parameter "x.d, y.d"
+  Geben den Ursprung der Box an.
+
+@Parameter "Breite.d, Höhe.d"
+  Geben die Breite und Höhe der Box an.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default  : Kein spezielles Verhalten (Standardwert)
+  @#PB_Path_Relative : Die Positionen sind relativ zur letzten Cursor-Position.
+  @#PB_Path_Connected: Die Box ist mit dem existierenden Pfad durch eine Linie
+                      verbunden und nicht automatisch eine geschlossene Figur.
+@EndFixedFont  
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      AddPathBox(50, 50, 200, 50)
+      AddPathBox(150, 75, 200, 50)
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image addpathbox.png
+
+@SeeAlso
+  @@MovePathCursor, @@AddPathLine, @@AddPathArc, 
+  @@AddPathCircle, @@AddPathEllipse, @@AddPathCurve
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathCircle(x.d, y.d, Radius.d [, StartWinkel.d, EndWinkel.d [, Flags]])
+
+@Description
+  Fügt einen Kreis (oder einen Teilkreis) zum Vektorzeichnen-Pfad hinzu.
+@LineBreak
+@LineBreak
+  Standardmäßig beendet diese Funktion die aktuelle Figur im Pfad und fügt den Kreis
+  als eine unverbundene Figur zum Pfad hinzu (volle Kreise werden als geschlossen markiert).
+  Dieses Verhalten kann mit den entsprechenden Flags geändert werden.
+
+@Parameter "x.d, y.d"
+  Geben den Mittelpunkt des Kreises an.
+
+@Parameter "Radius.d"
+  Gibt den Radius des Kreises an.
+
+@OptionalParameter "StartWinkel.d, EndWinkel.d"
+  Geben den Winkel (in Grad) für Beginn und Ende des Kreise an. Der Winkel 0 befindet
+  sich an der positiven X-Achse. Die Standardwerte lauten 0 bzw. 360 Grad.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default         : Kein spezielles Verhalten (Standardwert)
+  @#PB_Path_Relative        : Die Positionen sind relativ zur letzten Cursor-Position.
+  @#PB_Path_Connected       : Der Kreis ist mit dem existierenden Pfad durch eine Linie
+                             verbunden und nicht automatisch eine geschlossene Figur.
+  @#PB_Path_CounterClockwise: Die Zeichenrichtung zwischen den Start-/End-Winkeln
+                             verläuft gegen den Uhrzeigersinn.
+@EndFixedFont 
+
+@NoReturnValue
+
+@Remarks
+  Diese Funktion ist gedacht für die Erstellung eigenständiger Kreise oder Kreisbögen.
+  Um Figuren mit abgerundeten Ecken zu zeichnen, kann die @@AddPathArc Funktion verwendet
+  werden, welche automatisch die richtigen Winkel und den Mittelpunkt berechnet, um
+  abgerundete Ecken zu zeichnen.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      ; Teilkreis
+      AddPathCircle(100, 100, 75, 0, 235)
+      
+      ; Teilkreis mit Linien zum Mittelpunkt
+      MovePathCursor(300, 100)
+      AddPathCircle(300, 100, 75, 0, 235, #PB_Path_Connected)
+      ClosePath()
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image addpathcircle.png
+
+@SeeAlso
+  @@MovePathCursor, @@AddPathLine, @@AddPathArc, 
+  @@AddPathBox, @@AddPathEllipse, @@AddPathCurve
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathEllipse(x.d, y.d, RadiusX.d, RadiusY.d [, StartWinkel.d, EndWinkel.d [, Flags]])
+
+@Description
+  Fügt eine Ellipse (oder eine Teilellipse) zum Vektorzeichnen-Pfad hinzu.
+@LineBreak
+@LineBreak
+  Standardmäßig beendet diese Funktion die aktuelle Figur im Pfad und fügt die Ellipse
+  als eine unverbundene Figur zum Pfad hinzu (volle Ellipsen werden als geschlossen markiert).
+  Dieses Verhalten kann mit den entsprechenden Flags geändert werden.
+
+@Parameter "x.d, y.d"
+  Geben den Mittelpunkt der Ellipse an.
+
+@Parameter "RadiusX.d, RadiusY.d"
+  Geben den Radius der Ellipse in die X- und Y-Richtung an.
+
+@OptionalParameter "StartWinkel.d, EndWinkel.d"
+  Geben den Winkel (in Grad) für Beginn und Ende der Ellipse an. Der Winkel 0 befindet
+  sich an der positiven X-Achse. Die Standardwerte lauten 0 bzw. 360 Grad.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default         : Kein spezielles Verhalten (Standardwert)
+  @#PB_Path_Relative        : Die Positionen sind relativ zur letzten Cursor-Position.
+  @#PB_Path_Connected       : Der Kreis ist mit dem existierenden Pfad durch eine Linie
+                             verbunden und nicht automatisch eine geschlossene Figur.
+  @#PB_Path_CounterClockwise: Die Zeichenrichtung zwischen den Start-/End-Winkeln
+                             verläuft gegen den Uhrzeigersinn.
+@EndFixedFont 
+
+@NoReturnValue
+
+@Remarks
+  Diese Funktion zeichnet eine Ellipsenform mit einem definierten Radius an der X- und Y-Achse
+  des aktuellen Koordinatensystems. Um eine Ellipse mit einer abweichenden Drehung zu zeichnen,
+  drehen Sie das Koordinatensystem um den Mittelpunkt der Ellipse, bevor Sie die Ellipse
+  hinzufügen (wie im Beispiel unten gezeigt). Das aktuelle Koordinatensystem kann mit
+  @@SaveVectorState und @@RestoreVectorState konserviert werden.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      ; regular ellipse
+      AddPathEllipse(100, 100, 80, 30)
+      
+      ; rotated ellipse
+      SaveVectorState()
+        RotateCoordinates(300, 100, 45)
+        AddPathEllipse(300, 100, 80, 30)
+      RestoreVectorState()
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image addpathellipse.png
+
+@SeeAlso
+  @@MovePathCursor, @@AddPathLine, @@AddPathArc, 
+  @@AddPathBox, @@AddPathCircle, @@AddPathCurve
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathText(Text$)
+
+@Description
+  Fügt die Umrisse der Zeichen im angegebenen Text an der aktuellen Cursorposition in
+  den Vektorzeichnen-Pfad ein. Die aktuelle Position kann mit @@MovePathCursor eingestellt
+  werden. Nach dem Aufruf dieser Funktion wird der Cursor an das Ende des hinzugefügten
+  Textes verschoben.
+@LineBreak
+@LineBreak
+  Sofern möglich, sollte die @@DrawVectorText Funktion bevorzugt werden. Siehe die
+  folgenden Anmerkungen für weitere Details.
+
+@Parameter "Text$"
+  Gibt den zum Zeichenpfad hinzuzufügenden Text (einzeilig) an.
+
+@NoReturnValue
+
+@Remarks
+  Das Konvertieren von Text in einen Pfad ist ein aufwändiger Vorgang und kann zu einem
+  Verlust an Textqualität und sogar zu einer etwas anderen Textform (je nach Schriftart)
+  führen - im Vergleich zum direkten Zeichnen des Textes auf die Ausgabe mittels
+  @@DrawVectorText. Die @@DrawVectorText Funktion ist effizienter und kann Methoden wie
+  "Subpixel-Rendering" verwenden, um die Textqualität zu verbessern. Daher sollte die 
+  @@AddPathText Funktion nur dann verwendet werden, wenn der Text ausdrücklich als ein
+  Pfad benötigt wird und nicht nur für eine einfache Textzeichnung.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    LoadFont(0, "Times New Roman", 20, #PB_Font_Bold)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(FontID(0), 150)
+      
+      MovePathCursor(50, 25)
+      AddPathText("Text")
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      DashPath(3, 6)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image addpathtext.png
+
+@SeeAlso
+  @@DrawVectorText, @@DrawVectorParagraph, @@VectorTextWidth, @@VectorTextHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathSegments(Segmente$ [, Flags])
+
+@Description
+  Fügt mehrere im String-Format beschriebene Segmente zum Vektorzeichnen-Pfad hinzu. Dieser
+  Befehl kann verwendet werden, um die mit dem @@PathSegments Befehl aufgezeichneten
+  Pfad-Befehle zu reproduzieren.
+
+@Parameter "Segmente$"
+  Gibt die auszuführenden Pfad-Befehle an.
+@LineBreak
+@LineBreak
+  Die Segmentbeschreibung besteht aus "Ein-Buchstaben-Befehlen" gefolgt
+  von der entsprechenden Anzahl an Koordinaten für den Befehl. Die Werte können durch
+  Leerzeichen oder Komma getrennt werden. Befehle in Groß interpretieren ihre Argumente als
+  absolute Koordinaten, die entsprechenden Befehle in Klein interpretieren ihre Argumente
+  als relativ zum zuletzt hinzugefügten Pfadsegment.
+  
+@FixedFont
+  M x y                @@MovePathCursor
+  L x y                @@AddPathLine
+  C x1 y1 x2 y2 x3 y3  @@AddPathCurve
+  Z                    @@ClosePath
+@EndFixedFont   
+
+  Zusätzlich zu dieser vereinfachten Segmente-Syntax akzeptiert dieser Befehl auch Pfad-Beschreibungen
+  im vom @InternetLink "https://www.w3.org/TR/SVGTiny12/paths.html#PathData" "SVG Tiny Standard"
+  definierten Format, welches einige zusätzliche Befehlsbuchstaben enthält.
+  
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default          : Kein spezielles Verhalten (Standardwert)
+  @#PB_Path_Relative         : Interpretiert alle Koordinaten als relativ zum aktuellen Pfad-Cursor
+@EndFixedFont 
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      
+      AddPathSegments("M 40 20 L 120 20 L 120 60 L 200 60 L 200 100 L 280 100 L 280 140 L 360 140 L 360 180")
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10, #PB_Path_RoundCorner)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image addpathline.png
+
+@SeeAlso
+  @@PathSegments
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsInsidePath(x.d, y.d [, KoordinatenSystem])
+
+@Description
+  Überprüft, ob die angegebenen Koordinaten innerhalb einer geschlossenen Figur im
+  aktuellen Vektorzeichnen-Pfad liegen. Das heißt, diese Funktion gibt nicht Null
+  zurück, wenn der angegebene Punkt durch einen Aufruf von @@FillPath ausgefüllt
+  werden würde.
+
+@Parameter "x.d, y.d"
+  Geben die Koordinaten des zu testenden Punktes an.
+
+@OptionalParameter "KoordinatenSystem"
+  Gibt das Koordinatensystem für den zu testenden Punkt an. Dies kann einer der folgenden
+  Werte sein:
+@FixedFont
+  @#PB_Coordinate_Device: Das Koordinatensystem der Ausgabe-Einheit
+  @#PB_Coordinate_Output: Das Koordinatensystem, wie es mit der Zeichenausgabe-Funktion erstellt wurde
+  @#PB_Coordinate_User  : Das Koordinatensystem für Punkte im Zeichenpfad  (Standard)
+  @#PB_Coordinate_Source: Das Koordinatensystem für die Vektorzeichnen-Quelle
+@EndFixedFont 
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Punkt sich innerhalb des Pfades befindet,
+  und Null wenn nicht.
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+  
+@Example 
+
+@Code
+  
+  ; Dieses Beispiel verwendet die IsInsidePath() Funktion, um die Figur in grün auszufüllen
+  ; während sich die Maus innerhalb befindet, und andernfalls in blau.
+  ;
+  Procedure Draw()    
+    x = GetGadgetAttribute(0, #PB_Canvas_MouseX)
+    y = GetGadgetAttribute(0, #PB_Canvas_MouseY)
+  
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorSourceColor(RGBA(255, 255, 255, 255))   ; Löschen des vorherigen Inhalts
+      FillVectorOutput()
+      
+      AddPathEllipse(200, 100, 150, 75)             ; Vorbereiten des Pfads
+      
+      If IsInsidePath(x, y, #PB_Coordinate_Device)  ; Überprüfen, ob die Maus sich innerhalb befindet
+        VectorSourceColor(RGBA(0, 255, 0, 255))
+      Else
+        VectorSourceColor(RGBA(0, 0, 255, 255))
+      EndIf
+      
+      FillPath()                                    ; Ausfüllen des Pfades
+      StopVectorDrawing()
+    EndIf      
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    LoadFont(0, "Times New Roman", 20, #PB_Font_Bold)
+    Draw()
+    
+    Repeat
+      Event = WaitWindowEvent()
+      
+      If Event = #PB_Event_Gadget And EventGadget() = 0 And EventType() = #PB_EventType_MouseMove
+        Draw()
+      EndIf
+      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@IsInsideStroke, @@FillPath, @@ClosePath, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsInsideStroke(x.d, y.d, Breite.d [, Flags [, KoordinatenSystem]])
+
+@Description
+  Überprüft, ob sich die angegebenen Koordinaten innerhalb einer Fläche befinden,
+  in die durch einen Aufruf von @@StrokePath gezeichnet wird.
+
+@Parameter "x.d, y.d"
+  Geben die Koordinaten des zu testenden Punktes an.
+  
+@Parameter "Breite.d"
+  Gibt die für den Test zu verwendende Linienbreite an.
+
+@OptionalParameter "Flags"
+  Mögliche Flags für die Linieneigenschaften, wie bei der @@StrokePath Funktion beschrieben.
+
+@OptionalParameter "KoordinatenSystem"
+  Gibt das Koordinatensystem für den zu testenden Punkt an. Dies kann einer der folgenden
+  Werte sein:
+@FixedFont
+  @#PB_Coordinate_Device: Das Koordinatensystem der Ausgabe-Einheit
+  @#PB_Coordinate_Output: Das Koordinatensystem, wie es mit der Zeichenausgabe-Funktion erstellt wurde
+  @#PB_Coordinate_User  : Das Koordinatensystem für Punkte im Zeichenpfad  (Standard)
+  @#PB_Coordinate_Source: Das Koordinatensystem für die Vektorzeichnen-Quelle
+@EndFixedFont 
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Punkt innerhalb der Linie liegt,
+  und Null wenn nicht.
+
+@Example 
+
+@Code
+  ; Dieses Beispiel verwendet die IsInsideStroke() Funktion, um die Figur in grüner Farbe
+  ; auszufüllen, während sich die Maus auf ihrem Umriss befindet, und andernfalls in blau
+  ;
+  Procedure Draw()    
+    x = GetGadgetAttribute(0, #PB_Canvas_MouseX)
+    y = GetGadgetAttribute(0, #PB_Canvas_MouseY)
+  
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorSourceColor(RGBA(255, 255, 255, 255))         ; Löschen des vorherigen Inhalts
+      FillVectorOutput()
+      
+      AddPathEllipse(200, 100, 150, 75)                   ; Vorbereiten des Pfades
+      
+      If IsInsideStroke(x, y, 20, #PB_Path_Default, #PB_Coordinate_Device)  ; Überprüfen, ob die Maus sich innerhalb befindet
+        VectorSourceColor(RGBA(0, 255, 0, 255))
+      Else
+        VectorSourceColor(RGBA(0, 0, 255, 255))
+      EndIf
+      
+      StrokePath(20)                                      ; Ziehen/zeichnen des Pfades
+      StopVectorDrawing()
+    EndIf      
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    LoadFont(0, "Times New Roman", 20, #PB_Font_Bold)
+    Draw()
+    
+    Repeat
+      Event = WaitWindowEvent()
+      
+      If Event = #PB_Event_Gadget And EventGadget() = 0 And EventType() = #PB_EventType_MouseMove
+        Draw()
+      EndIf
+      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@IsInsidePath, @@StrokePath, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsPathEmpty()
+
+@Description
+  Überprüft, ob der aktuelle Vektorzeichnen-Pfad leer ist.
+
+@NoParameters
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Pfad leer ist - und Null, wenn der
+  Pfad irgendwelche Liniensegmente enthält.
+
+@SeeAlso
+  @@ResetPath, @@IsInsidePath, @@IsInsideStroke
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StrokePath(Breite.d [, Flags])
+
+@Description
+  Zeichnet ("stroke") den aktuellen Zeichenpfad ("drawing path") mit der aktuellen
+  Zeichenquelle ("drawing source"). Dies zeichnet den Pfad als eine durchgezogene Linie.
+@LineBreak
+@LineBreak
+  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  Dies kann durch entsprechende Flags verhindert werden.
+
+@Parameter "Breite.d"
+  Gibt die Breite für die zu zeichnende Linie an.
+
+@OptionalParameter "Flags"
+  Gibt optionale Eigenschaften für den gezogenen Strich an. Dies kann eine Kombination der
+  folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default       : Kein spezielles Verhalten  (Standardwert)
+  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurücksetzen
+  @#PB_Path_RoundEnd      : Zeichne die Linie(n) mit abgerundeten Enden
+  @#PB_Path_SquareEnd     : Zeichne die Linie(n) mit eckigen Kästen an den Enden
+  @#PB_Path_RoundCorner   : Zeichne die Linie(n) mit abgerundeten Ecken
+  @#PB_Path_DiagonalCorner: Zeichne die Linie(n) mit diagonal abgeschrägten Ecken
+@EndFixedFont    
+
+@NoReturnValue
+
+@Remarks
+  Das folgende Bild zeigt den Effekt der verschiedenen Flags. Die Ecken und Enden Flags
+  können mit dem binären Or ('|') Operator kombiniert werden, um die Effekte zu
+  kombinieren.
+  
+; ==== Code to generate the image (do not show this in the help)
+;   Procedure Draw(Flags, x, y, Text$)
+;     VectorSourceColor($FF0000FF)
+;     StrokePath(30, Flags|#PB_Path_Preserve)      
+;     
+;     VectorSourceColor($FF000000)
+;     DashPath(2, 7)
+;     
+;     MovePathCursor(x, y)
+;     DrawVectorText(Text$)
+;   EndProcedure
+;   
+;   If OpenWindow(0, 0, 0, 375, 300, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+;     CanvasGadget(0, 0, 0, 375, 300)
+;     LoadFont(0, "Courier New", 7, #PB_Font_Bold)
+;     
+;     If StartVectorDrawing(CanvasVectorOutput(0))
+;       VectorFont(FontID(0), 20)
+;       ScaleCoordinates(0.75, 0.75)
+;       
+;       MovePathCursor(50, 40)
+;       AddPathLine(170, 40)
+;       Draw(0, 200, 30, "#PB_Path_Default")
+;     
+;       MovePathCursor(50, 90)
+;       AddPathLine(170, 90)
+;       Draw(#PB_Path_SquareEnd, 200, 80, "#PB_Path_SquareEnd")
+;       
+;       MovePathCursor(50, 140)
+;       AddPathLine(170, 140)
+;       Draw(#PB_Path_RoundEnd, 200, 130, "#PB_Path_RoundEnd")
+;    
+;       MovePathCursor(50, 210)
+;       AddPathLine(110, 250)
+;       AddPathLine(170, 210)
+;       Draw(0, 200, 210, "#PB_Path_Default")
+;       
+;       MovePathCursor(50, 260)
+;       AddPathLine(110, 300)
+;       AddPathLine(170, 260)
+;       Draw(#PB_Path_DiagonalCorner, 200, 260, "#PB_Path_DiagonalCorner")
+;       
+;       MovePathCursor(50, 310)
+;       AddPathLine(110, 350)
+;       AddPathLine(170, 310)
+;       Draw(#PB_Path_RoundCorner, 200, 310, "#PB_Path_RoundCorner")  
+;     
+;       StopVectorDrawing()
+;     EndIf
+;     
+;     Repeat
+;       Event = WaitWindowEvent()
+;     Until Event = #PB_Event_CloseWindow
+;   EndIf
+; ================
+  
+@Image strokepath.png
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(20, #PB_Path_RoundCorner|#PB_Path_RoundEnd)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image strokepath2.png
+
+@SeeAlso
+  @@FillPath, @@DotPath, @@DashPath, @@CustomDashPath, @@IsInsideStroke, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DotPath(Breite.d, Distanz.d [, Flags [, StartOffset.d]])
+
+@Description
+  Zeichnet den aktuellen Zeichenpfad als eine Linie aus Punkten (englisch "dots").
+@LineBreak
+@LineBreak
+  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  Dies kann durch entsprechende Flags verhindert werden.
+
+@Parameter "Breite.d"
+  Gibt die Breite der gepunkteten Linie an.
+
+@Parameter "Distanz.d"
+  Gibt den Abstand zwischen den Zentren jedes Punktes an.
+ 
+@OptionalParameter "Flags"
+  Gibt optionale Eigenschaften für die gezeichneten Punkte an. Dies kann eine Kombination der
+  folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default       : Kein spezielles Verhalten  (Standardwert)
+  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurücksetzen
+  @#PB_Path_RoundEnd      : Zeichne die Punkte rund
+  @#PB_Path_SquareEnd     : Zeichne die Punkte als Rechtecke
+@EndFixedFont    
+
+@OptionalParameter "StartOffset.d"
+  Gibt den innerhalb des Punktmusters zu überspringenden Abstand an, bevor der Pfad gezeichnet wird.
+   Der Standardwert ist 0.
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      DotPath(5, 10, #PB_Path_RoundEnd)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image dotpath.png
+
+@SeeAlso
+  @@FillPath, @@StrokePath, @@DashPath, @@CustomDashPath, @@IsInsideStroke, @@ResetPath
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DashPath(Breite.d, Länge.d [, Flags [, StartOffset.d]]) 
+
+@Description
+  Zeichnet den aktuellen Zeichenpfad als eine Reihe von Strichen (englisch "dashes")
+  gleicher Länge und Abstands.
+@LineBreak
+@LineBreak
+  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  Dies kann durch entsprechende Flags verhindert werden.
+
+@Parameter "Breite.d"
+  Gibt die Breite der gestrichelten Linie an. Dieser Wert schließt keine runden/eckigen Linienenden ein.
+
+@Parameter "Länge.d"
+  Gibt die Länge jedes Strichs an (und des Abstands zwischen den Strichen).
+
+@OptionalParameter "Flags"
+  Gibt optionale Eigenschaften für die gezeichneten Striche an. Dies kann eine Kombination der
+  folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default       : Kein spezielles Verhalten  (Standardwert)
+  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurücksetzen
+  @#PB_Path_RoundEnd      : Zeichne die Striche mit abgerundeten Enden
+  @#PB_Path_SquareEnd     : Zeichne die Striche mit eckigen Kästen an den Enden
+  @#PB_Path_RoundCorner   : Zeichne die Striche mit abgerundeten Ecken
+  @#PB_Path_DiagonalCorner: Zeichne die Striche mit diagonal abgeschrägten Ecken
+@EndFixedFont    
+
+@OptionalParameter "StartOffset.d"
+  Gibt den innerhalb des Strichmusters zu überspringenden Abstand an, bevor der Pfad gezeichnet wird.
+  Der Standardwert ist 0.
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      DashPath(5, 15)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image dashpath.png
+
+@SeeAlso
+  @@FillPath, @@StrokePath, @@DotPath, @@CustomDashPath, @@IsInsideStroke, @@ResetPath
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CustomDashPath(Breite.d, Array.d() [, Flags [, StartOffset.d]])
+
+@Description
+  Zeichnet den aktuellen Zeichenpfad mit einem benutzerdefinierten Strichmuster
+  (englisch "dashing pattern").
+@LineBreak
+@LineBreak
+  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  Dies kann durch entsprechende Flags verhindert werden.
+
+@Parameter "Breite.d"
+  Gibt die Breite der gestrichelten Linie an.
+
+@Parameter "Array.d()"
+  Spezifiert die Länge jedes Striches und jedes Abstands zum nächsten Strich.
+  Das @ReferenceLink "dim" "Array" muss eine gerade Anzahl an Einträgen haben.
+  Wenn die Zeichenoperation das Ende des Arrays erreicht, wird das Muster wiederholt.
+  Eine Strichlänge von 0 wird einen einfachen Punkt zeichnen.
+
+@OptionalParameter "Flags"
+  Gibt optionale Eigenschaften für die gezeichneten Striche an. Dies kann eine Kombination der
+  folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default       : Kein spezielles Verhalten  (Standardwert)
+  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurücksetzen
+  @#PB_Path_RoundEnd      : Zeichne die Striche mit abgerundeten Enden
+  @#PB_Path_SquareEnd     : Zeichne die Striche mit eckigen Kästen an den Enden
+  @#PB_Path_RoundCorner   : Zeichne die Striche mit abgerundeten Ecken
+  @#PB_Path_DiagonalCorner: Zeichne die Striche mit diagonal abgeschrägten Ecken
+@EndFixedFont   
+
+@OptionalParameter "StartOffset.d"
+  Gibt den innerhalb des Strichmusters zu überspringenden Abstand an, bevor der Pfad gezeichnet wird.
+  Der Standardwert ist 0.
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      
+      Dim dashes.d(7)
+      dashes(0) = 20
+      dashes(1) = 10
+      dashes(2) = 0 ; draw a dot
+      dashes(3) = 10
+      dashes(4) = 0
+      dashes(5) = 10
+      dashes(6) = 20
+      dashes(7) = 10
+      CustomDashPath(5, dashes())
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image customdashpath.png
+
+@SeeAlso
+  @@FillPath, @@StrokePath, @@DotPath, @@DashPath, @@IsInsideStroke, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FillPath([Flags])
+
+@Description
+  Füllt alle geschlossenen Figuren im aktuellen Vektorzeichnen-Pfad mit der Farbe
+  der Zeichenquelle aus.
+@LineBreak
+@LineBreak
+  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  Dies kann durch entsprechende Flags verhindert werden.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default     : Kein spezielles Verhalten  (Standardwert)
+  @#PB_Path_Preserve    : Den Pfad nach dieser Funktion nicht zurücksetzen
+  @#PB_Path_Winding     : Füllt den gesamten Pfad einschließlich sich überlappender Figuren (kein ungerade/gerade Modus).
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Wenn der Pfad sich überlappende Figuren enthält, dann wird er in einem ungerade /
+  gerade Modus gefüllt, außer es wurde @#PB_Path_Winding angegeben. Von einer ungeraden Anzahl Grenzen eingeschlossene Bereiche
+  werden gefüllt, während in einer geraden Anzahl Grenzen eingeschlossene Bereiche
+  nicht gefüllt werden. Das heißt, alles innerhalb der Außengrenze wird gefüllt,
+  während eingeschlossene Figuren nicht ausgefüllt werden. Wenn die eingeschlossene
+  Figur ebenfalls eine eingeschlossene Figur enthält, wird diese dritte Figur ebenfalls
+  gefüllt, usw.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      AddPathBox(50, 50, 200, 50)
+      AddPathBox(150, 75, 200, 50)
+      VectorSourceColor(RGBA(0, 0, 255, 255))
+      FillPath()
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image fillpath.png
+
+@SeeAlso
+  @@StrokePath, @@DotPath, @@DashPath, @@CustomDashPath, @@ResetPath, @@ClipPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClipPath([Flags])
+
+@Description
+  Beschneidet (englisch "clip") die Vektorzeichnen-Ausgabe auf den vom aktuellen
+  Vektorzeichnen-Pfad definierten Bereich. Spätere Zeichenoperationen werden
+  sich nur auf Bereiche innerhalb des aktuellen Pfades auswirken. Das "Clipping"
+  wird mit jedem Clipping kombiniert, das vorher bereits auf der Zeichenausgabe
+  existierte.
+@LineBreak
+@LineBreak
+  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  Dies kann durch entsprechende Flags verhindert werden.
+
+@OptionalParameter "Flags"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Path_Default     : Kein spezielles Verhalten  (Standardwert)
+  @#PB_Path_Preserve    : Den Pfad nach dieser Funktion nicht zurücksetzen
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Es gibt keine "UnclipPath()" Funktion, also zum "Rückgängig machen": Der
+  Clipping-Bereich der Zeichenausgabe kann durch das Hinzufügen weiterer
+  Beschneidung (Clipping-Bereiche) nur kleiner, aber nicht wieder größer 
+  gemacht werden.
+@LineBreak
+@LineBreak
+  Der Clipping-Bereich kann jedoch durch die Verwendung der @@SaveVectorState
+  und @@RestoreVectorState Funktionen gespeichert und wiederhergestellt werden.
+  Um also temporäres Clipping auf die Zeichenausgabe anzuwenden, speichern
+  Sie zuerst den Zeichenstatus und stellen diesen später wieder her, um auf
+  die ursprünglichen Clipping-Bereiche zurück zu wechseln.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    LoadFont(0, "Times New Roman", 20, #PB_Font_Bold)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      ; Einstellen eines komplexen Clipping-Pfades mit verschachtelten Ellipsen
+      ; (jede Sekunde wird eine beschnitten / "clipped")
+      For i = 10 To 150 Step 5
+        AddPathEllipse(200, 100, 2*i, i)
+      Next i
+      ClipPath()
+    
+      ; Einigen Text mit diesem Clipping zeichnen
+      VectorFont(FontID(0), 150)      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      
+      MovePathCursor(50, 25)
+      DrawVectorText("Text")
+
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image clippath.png
+
+@SeeAlso
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = PathCursorX()
+
+@Description
+  Gibt die aktuelle X-Koordinate des Vektorzeichnen-Cursors zurück. Dies ist die Position,
+  an der neue Pfadsegmente hinzugefügt werden oder Text gezeichnet wird.
+
+@NoParameters
+
+@ReturnValue
+  Die X-Koordinate des Pfad-Cursors.
+
+@SeeAlso
+  @@PathCursorY, @@MovePathCursor, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = PathCursorY()
+
+@Description
+  Gibt die aktuelle Y-Koordinate des Vektorzeichnen-Cursors zurück. Dies ist die Position,
+  an der neue Pfadsegmente hinzugefügt werden oder Text gezeichnet wird.
+
+@NoParameters
+
+@ReturnValue
+  Die Y-Koordinate des Pfad-Cursors.
+
+@SeeAlso
+  @@PathCursorX, @@MovePathCursor, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = PathPointX(Distanz.d)
+
+@Description
+  Gibt die X-Koordinate des Punktes an der angegebenen Distanz vom Beginn des aktuellen
+  Vektorzeichnen-Pfades zurück.
+
+@Parameter "Distanz.d"
+  Gibt die Distanz vom Beginn des Pfades an. Wenn dieser Parameter negativ oder größer
+  als die Gesamtpfadlänge ist, dann wird der Start/Endpunkt des Pfades zurückgegeben.
+  Die vollständige Länge des Pfades kann mit @@PathLength ermittelt werden.
+
+@ReturnValue
+  Die X-Koordinate des Punktes im Pfad.
+
+@Example
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      ; Pfad konstruieren
+      MovePathCursor(150, 125)
+      AddPathCurve(0, 270, 0, -150, 350, 180)
+      
+      ; Position & Winkel des Punktes im Pfad ermitteln
+      x = PathPointX(200)
+      y = PathPointY(200)
+      a = PathPointAngle(200)
+      
+      ; Zeichnet den Pfad
+      VectorSourceColor($FF0000FF)
+      StrokePath(5)
+      
+      ; Zeichnet eine Markierung am Pfad-Punkt
+      AddPathCircle(x, y, 10)
+      VectorSourceColor($FFFF0000)
+      FillPath()
+      
+      MovePathCursor(x, y)
+      AddPathLine(30*Cos(Radian(a)), 30*Sin(Radian(a)), #PB_Path_Relative)
+      StrokePath(5)
+
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image pathpointx.png
+  
+@SeeAlso
+  @@PathPointY, @@PathPointAngle, @@PathLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = PathPointY(Distanz.d)
+
+@Description
+  Gibt die Y-Koordinate des Punktes an der angegebenen Distanz vom Beginn des aktuellen
+  Vektorzeichnen-Pfades zurück.
+
+@Parameter "Distanz.d"
+  Gibt die Distanz vom Beginn des Pfades an. Wenn dieser Parameter negativ oder größer
+  als die Gesamtpfadlänge ist, dann wird der Start/Endpunkt des Pfades zurückgegeben.
+  Die vollständige Länge des Pfades kann mit @@PathLength ermittelt werden.
+
+@ReturnValue
+  Die Y-Koordinate des Punktes im Pfad.
+
+@Example
+  Siehe @@PathPointX für ein Beispiel.
+  
+@SeeAlso
+  @@PathPointX, @@PathPointAngle, @@PathLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = PathPointAngle(Distanz.d)
+
+@Description
+  Gibt den Winkel des Pfads an dem Punkt mit dem angegebenen Abstand vom aktuellen Vektorzeichnen-Pfades
+  zurück.
+
+@Parameter "Distanz.d"
+  Gibt die Distanz vom Beginn des Pfades an. Wenn dieser Parameter negativ oder größer
+  als die Gesamtpfadlänge ist, dann wird der Start/Endpunkt des Pfades zurückgegeben.
+  Die vollständige Länge des Pfades kann mit @@PathLength ermittelt werden.
+
+@ReturnValue
+  Der Winkel des Pfads am angegebenen Punkt in Grad.
+  Der Winkel 0 markiert an der positiven X-Achse.
+
+@Example
+  Siehe @@PathPointX für ein Beispiel.
+  
+@SeeAlso
+  @@PathPointX, @@PathPointY, @@PathLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = PathLength()
+
+@Description
+  Gibt die Gesamtlänge des aktuellen Vektorzeichnen-Pfads zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die Länge des aktuellen Pfads zurück.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      ; Pfad konstruieren
+      MovePathCursor(150, 125)
+      AddPathCurve(0, 270, 0, -150, 350, 180)
+      
+      ; Länge ermitteln
+      Debug "Path length: " + PathLength()
+
+      ; Zeichnet den Pfad
+      VectorSourceColor($FF0000FF)
+      StrokePath(5)
+
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@PathPointX, @@PathPointY, @@PathPointAngle
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = PathBoundsX()
+
+@Description
+  Gibt die X-Koordinate (linke obere Ecke) vom Begrenzungsrahmen (englisch "bounding box") des
+  aktuellen Vektorzeichnen-Pfads zurück. Das Ergebnis ist die niedrigste X-Koordinate, welche
+  beim Zeichnen/Ausfüllen des aktuellen Pfads erreicht würde.
+
+@NoParameters
+
+@ReturnValue
+  Die X-Koordinate des Begrenzungsrahmens.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      ; Pfad konstruieren
+      MovePathCursor(150, 125)
+      AddPathCurve(0, 270, 0, -150, 350, 180)
+      
+      ; Pfad-Begrenzungen ermitteln
+      x = PathBoundsX()
+      y = PathBoundsY()
+      w = PathBoundsWidth()
+      h = PathBoundsHeight()
+      
+      ; Zeichnet den Pfad
+      VectorSourceColor($FF0000FF)
+      StrokePath(5)
+      
+      ; Zeichnen des Begrenzungsrahmens
+      AddPathBox(x, y, w, h)
+      VectorSourceColor($FF000000)
+      DashPath(2, 5)
+
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image pathboundsx.png
+  
+@SeeAlso
+  @@PathBoundsY, @@PathBoundsWidth, @@PathBoundsHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = PathBoundsY()
+
+@Description
+  Gibt die Y-Koordinate (linke obere Ecke) vom Begrenzungsrahmen (englisch "bounding box") des
+  aktuellen Vektorzeichnen-Pfads zurück. Das Ergebnis ist die niedrigste Y-Koordinate, welche
+  beim Zeichnen/Ausfüllen des aktuellen Pfads erreicht würde.
+
+@NoParameters
+
+@ReturnValue
+  Die Y-Koordinate des Begrenzungsrahmens.
+
+@Example
+  Siehe @@PathBoundsX für ein Beispiel.
+  
+@SeeAlso
+  @@PathBoundsX, @@PathBoundsWidth, @@PathBoundsHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = PathBoundsWidth()
+
+@Description
+  Gibt die Breite des Begrenzungsrahmens (englisch "bounding box") vom aktuellen Vektorzeichnen-Pfad
+  zurück. Das Ergebnis ist die Differenz zwischen der niedrigsten und höchsten X-Koordinate, welche
+  beim Zeichnen/Ausfüllen des aktuellen Pfads erreicht würde.
+
+@NoParameters
+
+@ReturnValue
+  Die Breite des Begrenzungsrahmens.
+
+@Example
+  Siehe @@PathBoundsX für ein Beispiel.
+  
+@SeeAlso
+  @@PathBoundsX, @@PathBoundsY, @@PathBoundsHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = PathBoundsHeight()
+
+@Description
+  Gibt die Höhe des Begrenzungsrahmens (englisch "bounding box") vom aktuellen Vektorzeichnen-Pfad
+  zurück. Das Ergebnis ist die Differenz zwischen der niedrigsten und höchsten Y-Koordinate, welche
+  beim Zeichnen/Ausfüllen des aktuellen Pfads erreicht würde.
+
+@NoParameters
+
+@ReturnValue
+  Die Höhe des Begrenzungsrahmens.
+
+@Example
+  Siehe @@PathBoundsX für ein Beispiel.
+  
+@SeeAlso
+  @@PathBoundsX, @@PathBoundsY, @@PathBoundsWidth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = PathSegments()
+
+@Description
+  Gibt eine String-Beschreibung des aktuellen Vektorzeichnen-Pfads zurück. Das Ergebnis kann
+  verwendet werden, um den aktuellen Pfad zu untersuchen oder später mit Hilfe des
+  @@AddPathSegments Befehls den gleichen Pfad zu reproduzieren.
+
+@NoParameters
+
+@ReturnValue
+  Der zurückgegebene String beinhaltet "Ein-Buchstaben-Befehle", gefolgt von der entsprechenden
+  Anzahl von Koordinaten-Parametern. Jeder Wert wird durch ein Leerzeichen getrennt. Alle
+  Koordinaten sind absolut.
+  
+@FixedFont
+  M x y                @@MovePathCursor
+  L x y                @@AddPathLine
+  C x1 y1 x2 y2 x3 y3  @@AddPathCurve
+  Z                    @@ClosePath
+@EndFixedFont
+
+  Es gibt keine String-Darstellungen für Befehle wie @@AddPathCircle oder @@AddPathEllipse, da
+  ihre Ergebnisse von der VectorDrawing-Bibliothek intern in @Link "AddPathCurve" "Kurven"
+  umgewandelt werden.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      ; Pfad-Segmente zeigen
+      Debug PathSegments()
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10, #PB_Path_RoundCorner)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddPathSegments
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorSourceColor(Farbe)
+
+@Description
+  Wählt eine einzelne Farbe als die Quelle für Vektorzeichnen-Operationen wie
+  @@FillPath, @@StrokePath und andere aus.
+
+@Parameter "Farbe"
+  Die 32Bit @Link "2DDrawing/RGBA" "RGBA" Farbe, inklusive Alpha-Transparenz.
+
+@NoReturnValue
+
+@SeeAlso
+  @@VectorSourceLinearGradient, @@VectorSourceCircularGradient, @@VectorSourceImage,
+  @@FillPath, @@FillVectorOutput, @@StrokePath, @@DotPath, @@DashPath, @@CustomDashPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorSourceLinearGradient(x1.d, y1.d, x2.d, y2.d)
+
+@Description
+  Wählt einen linearen Farbverlauf (englisch "color gradient") als Quelle für
+  Vektorzeichnen-Operationen wie @@FillPath oder @@StrokePath. Anfänglich ist der
+  Farbverlauf durchgängig schwarz. "Farbstopps" müssen nach dieser Funktion mittels
+  @@VectorSourceGradientColor hinzugefügt werden.
+
+@Parameter "x1.d, y1.d"
+  Geben den Punkt an, welcher den Start (Position 0.0) des Farbverlaufs repräsentiert.
+  Die Koordinaten werden in Bezug auf das @#PB_Coordinate_Source Koordinatensystem
+  angegeben.
+
+@Parameter "x2.d, y2.d"
+  Geben den Punkt an, welcher das Ende (Position 1.0) des Farbverlaufs repräsentiert.
+  Die Koordinaten werden in Bezug auf das @#PB_Coordinate_Source coordinate System
+  angegeben.
+
+@NoReturnValue
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+@LineBreak
+@LineBreak
+  Der Farbverlauf wird nur im Bereich zwischen den (x1, y1) und (x2, y2) Punkten definiert.
+  Außerhalb dieser Punkte hängt die verwendete Quellfarbe vom Betriebssystem ab, so dass
+  Zeichenoperationen außerhalb der Fläche des definierten Farbverlaufs vermieden werden sollten.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      VectorSourceLinearGradient(50, 0, 350, 0)
+      VectorSourceGradientColor(RGBA(255, 0, 0, 255), 0.0)
+      VectorSourceGradientColor(RGBA(0, 255, 0, 255), 0.5)
+      VectorSourceGradientColor(RGBA(0, 0, 255, 255), 1.0)
+      
+      AddPathBox(50, 25, 300, 150)
+      FillPath()
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image vectorsourcelineargradient.png
+
+@SeeAlso
+  @@VectorSourceGradientColor, @@VectorSourceCircularGradient, @@VectorSourceColor, @@VectorSourceImage
+
+@SupportedOS
+ 
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorSourceCircularGradient(x.d, y.d, Radius.d, [MitteX.d, MitteY.d]) 
+
+@Description
+  Wählt einen kreisförmigen Farbverlauf (englisch "color gradient") als Quelle für
+  Vektorzeichnen-Operationen wie @@FillPath oder @@StrokePath. Anfänglich ist der
+  Farbverlauf durchgängig schwarz. "Farbstopps" müssen nach dieser Funktion mittels
+  @@VectorSourceGradientColor hinzugefügt werden.
+
+@Parameter "x.d, y.d"
+  Geben den Mittelpunkt des Kreises an, welcher den Farbverlauf definiert.
+  Die Koordinaten werden in Bezug auf das @#PB_Coordinate_Source Koordinatensystem
+  angegeben.
+@LineBreak
+@LineBreak
+  Der Mittelpunkt des Kreises repräsentiert den Start (Position 0.0) des Farbverlaufs 
+  und der Umfang des Kreises repräsentiert das Ende (Position 1.0) des Farbverlaufs.
+  
+@Parameter "Radius.d"
+  Gibt den Radius des Kreises an, welcher den Farbverlauf definiert.
+
+@OptionalParameter "MitteX.d, MitteY.d"
+  Geben einen optionalen "Offset" (Versatz) für den Startpunkt des Farbverlaufs von der
+  Mitte des Kreises an. Mit diesen Parametern kann der Farbverlauf an jedem Punkt innerhalb
+  des Kreises gestartet werden.
+
+@NoReturnValue
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+@LineBreak
+@LineBreak
+  Der Farbverlauf wird nur im Bereich innerhalb des Kreises definiert.
+  Außerhalb des Kreises hängt die verwendete Quellfarbe vom Betriebssystem ab, so dass
+  Zeichenoperationen außerhalb der Fläche des definierten Farbverlaufs vermieden werden sollten.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      VectorSourceCircularGradient(200, 100, 150, -50, -50)
+      VectorSourceGradientColor(RGBA(255, 255, 255, 255), 0.0)
+      VectorSourceGradientColor(RGBA(0, 0, 0, 255), 1.0)
+      
+      FillVectorOutput()
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image vectorsourcecirculargradient.png
+
+@SeeAlso
+ @@VectorSourceGradientColor, @@VectorSourceLinearGradient, @@VectorSourceColor, @@VectorSourceImage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorSourceGradientColor(Farbe, Position.d)
+
+@Description
+  Fügt einen neuen "Farbstopp" (eine definierte Farbposition) zum mittels
+  @@VectorSourceLinearGradient bzw. @@VectorSourceCircularGradient
+  definierten Farbverlauf hinzu.
+@LineBreak
+@LineBreak
+  Ein Farbverlauf muss mindestens eine Farbe an Position 0.0 und 1.0 haben. Wenn
+  keine Farben für diese Positionen hinzugefügt werden, dann sind diese standardmäßig
+  schwarz. Zu einem Farbverlauf kann eine beliebige Anzahl an Farbpositionen
+  hinzugefügt werden.
+
+@Parameter "Farbe"
+  Die 32 Bit @Link "2DDrawing/RGBA" "RGBA" Farbe, inklusive Alpha-Transparenz.
+
+@Parameter "Position.d"
+  Die Position, an welche die Farbe hinzugefügt werden soll. Der Wert muss 
+  zwischen und einschließlich 0.0 (dem Farbverlaufsstart) und und 1.0 (dem
+  Farbverlaufsende) liegen.
+
+@NoReturnValue
+
+@Example 
+  Siehe @@VectorSourceLinearGradient für ein Beispiel.
+  
+@SeeAlso
+  @@VectorSourceLinearGradient, @@VectorSourceCircularGradient
+  
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorSourceImage(ImageID [, Alpha [, Breite.d, Höhe.d [, Flags]]])
+
+@Description
+  Wählt ein Bild als Quelle für Vektorzeichnen-Operationen wie @@FillPath oder
+  @@StrokePath aus. Diese Funktionen werden Pixel vom angegebenen Bild auf die
+  Zeichenausgabe anwenden, wo immer sie etwas zeichnen.
+
+@Parameter "ImageID"
+  Gibt das als Quelle zu verwendende Bild an. Verwende die @@ImageID Funktion,
+  um diesen Wert von einem Bild zu erhalten.
+
+@OptionalParameter "Alpha"
+  Gibt eine optionale Alpha-Transparenz an, die auf das Quellbild angewendet werden
+  soll. Diese Transparenz wird zusätzlich zu allen im Quellbild bereits vorhandenen
+  transparenten Pixeln angewandt.
+  @LineBreak
+  Der Standardwert ist 255 (keine zusätzliche Transparenz).
+
+@OptionalParameter "Breite.d, Höhe.d"
+  Geben eine optionale Breite und Höhe für das Bild an. Die Werte werden in Bezug
+  auf das @#PB_Coordinate_Source Koordinatensystem interpretiert. Wenn keine
+  Breite und Höhe angegeben werden, dann werden die Abmessungen des Quellbildes
+  (in Pixel) in die Einheit der Vektorzeichnen-Ausgabe konvertiert und so verwendet
+  (d.h. das Bild hat seine originale Größe).
+
+@OptionalParameter "Flags"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_VectorImage_Default: Bereiche außerhalb des Quellbildes sind transparent (Standard)
+  @#PB_VectorImage_Repeat : Das Quellbild wird wiederholt, um den gesamten Zeichenbereich abzudecken
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  verschiedenen Koordinatensysteme.
+  @LineBreak
+  @LineBreak
+  Durch Umwandlung des @#PB_Coordinate_Source Koordinatensystems kann das verwendete Quellbild
+  umgewandelt (verschoben, gedreht, gestreckt, verzerrt) werden. Siehe das zweite Beispiel unten
+  für eine Demonstration.
+
+@Example Wiederholtes Quellbild
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    
+    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      AddPathBox(50, 50, 200, 50)
+      AddPathBox(150, 75, 200, 50)
+      
+      VectorSourceImage(ImageID(0), 255, ImageWidth(0), ImageHeight(0), #PB_VectorImage_Repeat)
+      StrokePath(20)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image vectorsourceimage.png
+
+@Example Gedrehtes und gespiegeltes Quellbild
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    
+    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadFont(0, "Impact", 20, #PB_Font_Bold)    
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      FlipCoordinatesY(50, #PB_Coordinate_Source)
+      RotateCoordinates(50, 50, -45, #PB_Coordinate_Source)      
+      VectorSourceImage(ImageID(0), 255, ImageWidth(0), ImageHeight(0), #PB_VectorImage_Repeat)
+      
+      VectorFont(FontID(0), 150)
+      MovePathCursor(20, 20)      
+      DrawVectorText("TEXT")
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image vectorsourceimage2.png
+
+@SeeAlso  
+  @@VectorSourceColor, @@VectorSourceLinearGradient, @@VectorSourceCircularGradient
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DrawVectorImage(ImageID [, Alpha [, Breite.d, Höhe.d]])
+
+@Description
+  Zeichnet das angegebene Bild direkt in die Vektorzeichnen-Ausgabe.
+@LineBreak
+@LineBreak  
+  Das Bild wird an die Position des @Link "MovePathCursor" "Pfad-Cursors" gezeichnet.
+  Der Cursor wird zur unteren/rechten Ecke des Bildes verschoben, nachdem das Bild
+  gezeichnet wurde.
+
+@OptionalParameter "ImageID"
+  Gibt das zu zeichnende Bild an. Verwenden Sie die @@ImageID Funktion, um diesen
+  Wert von einem Bild zu erhalten.
+
+@OptionalParameter "Alpha"
+  Gibt eine optional Alpha-Transparenz an, die auf das Bild angewendet werden
+  soll. Diese Transparenz wird zusätzlich auf alle im Bild bereits vorhandenen
+  transparenten Pixeln angewandt.
+  @LineBreak
+  Der Standardwert ist 255 (keine zusätzliche Transparenz).
+
+@OptionalParameter "Breite.d, Höhe.d"
+  Geben eine optionale Breite und Höhe für das Bild an. Wenn keine
+  Breite und Höhe angegeben werden, dann werden die Abmessungen des Bildes
+  (in Pixel) in die Einheit der Vektorzeichnen-Ausgabe konvertiert und so verwendet
+  (d.h. das Bild hat seine originale Größe).
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    
+    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(50, 50)
+      DrawVectorImage(ImageID(0), 127)
+      
+      MovePathCursor(75, 75)
+      DrawVectorImage(ImageID(0), 127, ImageWidth(0) / 2, ImageHeight(0))
+
+      MovePathCursor(120, 0)
+      RotateCoordinates(120, 0, 35)
+      DrawVectorImage(ImageID(0), 127)
+    
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image drawvectorimage.png
+
+@SeeAlso
+  @@MovePathCursor, @@PathCursorX, @@PathCursorY, @@VectorSourceImage
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DrawVectorText(Text$)
+
+@Description
+  Zeichnet den angegebenen Text an der aktuellen Position des @Link "MovePathCursor" "Pfad-Cursors".
+  Der Cursor wird an das Ende des gezeichneten Textes verschoben. Der zu verwendende Zeichensatz
+  kann mittels @@VectorFont festgelegt werden.
+
+@Parameter "Text$"
+  Der zu zeichnende Text (einzeilig).
+
+@NoReturnValue
+
+@Remarks
+  Diese Funktion zeichnet nur einzelne Zeilen mit Text. Mehrere Aufrufe müssen erfolgen,
+  um mehrere Zeilen zu zeichnen. Verwenden Sie @@VectorTextWidth und @@VectorTextHeight,
+  um die Abmessungen des Textes zu bestimmen, um diesen richtig mit anderem Inhalt
+  auszurichten.
+@LineBreak
+@LineBreak
+  Die @@DrawVectorParagraph Funktion kann verwendet werden, um einen größeren Textblock
+  mit automatischem Layout wie Zeilenumbrüchen zu zeichnen. Diese Funktion eignet sich
+  vor allem für das Zeichnen von mehrzeiligem Text.
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    LoadFont(0, "Impact", 20, #PB_Font_Bold)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      VectorFont(FontID(0), 25)
+      VectorSourceColor(RGBA(0, 0, 0, 80))
+      Text$ = "The quick brown fox jumps over the lazy dog"
+      
+      For i = 1 To 6
+        MovePathCursor(200 - VectorTextWidth(Text$)/2, 100 - VectorTextHeight(Text$)/2)
+        DrawVectorText(Text$)
+        RotateCoordinates(200, 100, 30)
+      Next i
+
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image drawvectortext.png
+
+@SeeAlso
+  @@VectorTextWidth, @@VectorTextHeight, @@DrawVectorParagraph, @@AddPathText, @@VectorFont
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DrawVectorParagraph(Text$, Breite.d, Höhe.d [, Flags])
+
+@Description
+  Zeichnet einen Textabsatz (mehrere Zeilen) in einer vorgegebenen Zeichen-Box
+  mit automatischem Layout für Zeilenumbrüche. Wenn der Text nicht in das definierte
+  Feld passt, wird er am Ende abgeschnitten. Die zu verwendende Schriftart kann
+  mittels @@VectorFont eingestellt werden.
+
+@Parameter "Text$"
+  Gibt den zu zeichnenden Text an.
+
+@Parameter "Breite.d"
+  Gibt die Breite des Absatzes an. Zeilenumbrüche werden automatisch hinzufügt, wenn der
+  Text länger als die angegebene Breite ist.
+
+@Parameter "Höhe.d"
+  Gibt die maximale Höhe des Absatzes an. Wenn der Text nicht in diese Höhe passt, wird
+  er abgeschnitten. Die benötigte Höhe für den Absatz kann mittels @@VectorParagraphHeight
+  berechnet werden.
+
+@OptionalParameter "Flags"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_VectorParagraph_Left  : Der Absatz wird linksbündig ausgerichtet (Standard)
+  @#PB_VectorParagraph_Right : Der Absatz wird rechtsbündig ausgerichtet
+  @#PB_VectorParagraph_Center: Der Absatz wird zentriert
+  @#PB_VectorParagraph_Block : Der Absatz wird im Blocksatz ausgerichtet (nicht unterstützt auf Windows)
+@EndFixedFont
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 250, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 250)
+    LoadFont(0, "Times New Roman", 20)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      Text$ = "Every drawing output has a default unit of measurement. The default unit is pixels " +
+              "for screen or raster image outputs and points for printer or vector image outputs. " +
+              "It is however possible to select a different unit of measurement for the output when " +
+              "creating it with the ImageVectorOutput(), PrinterVectorOutput() or similar function."
+              
+      VectorFont(FontID(0), 18)
+      
+      MovePathCursor(25, 25)
+      DrawVectorParagraph(Text$, 350, 200)
+              
+
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image drawvectorparagraph.png
+
+@SeeAlso
+  @@VectorParagraphHeight, @@DrawVectorText, @@AddPathText, @@VectorFont
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorFont(FontID [, Größe.d])
+
+@Description
+  Gibt den für das Vektorzeichnen zu verwendenden Zeichensatz an.
+  @LineBreak
+  Es sind nur Vektorschriftarten wie TrueType zulässig, dagegen ist die Verwendung von
+  Bitmap-Schriftarten nicht möglich.
+
+@Parameter "FontID"
+  Die @@FontID der, für das Zeichnen, zu verwendenden Schriftart.
+
+@OptionalParameter "Größe.d"
+  Gibt die Größe der Schriftart an. Die Größe wird in Einheiten der
+  Vektorzeichnen-Ausgabe gemessen. Wenn keine Größe angegeben wird, dann wird
+  die beim @@LoadFont Befehl für den Zeichensatz verwendete Größe in die
+  aktuelle Vektorzeichnen-Einheit umgewandelt.
+
+@NoReturnValue
+
+@Remarks
+  Sie können keine mittels @@RegisterFontFile registrierte Schriftart verwenden.
+
+@SeeAlso
+  @@DrawVectorText, @@DrawVectorParagraph, @@VectorTextWidth, @@VectorTextHeight, @@VectorParagraphHeight
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = VectorTextWidth(Text$ [, Flags])
+
+@Description
+  Misst die Breite des angegebenen Textes in der aktuellen Vektorzeichnen Schriftart.
+
+@Parameter "Text$"
+  Der zu messende Text (einzeilig).
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_VectorText_Default: Gibt den logischen Begrenzungsrahmen des Textes zurück
+  @#PB_VectorText_Visible: Gibt den sichtbaren Begrenzungsrahmen des Textes zurück
+  @#PB_VectorText_Offset : Gibt ausgehend von der aktuellen Position den Offset 
+                          des Begrenzungsrahmens anstelle der Breite zurück
+@EndFixedFont
+  
+@ReturnValue
+  Gibt die Textbreite in Einheiten der Vektorzeichnen-Ausgabe zurück.
+
+@Remarks
+  Die Abmessungen des gezeichneten Textes können im Hinblick auf die beiden
+  Zeichen-Boxen (Begrenzungsrahmen) wie folgt definiert werden:
+@LineBreak
+@LineBreak
+  Die "logische Zeichen-Box" (englisch "logical bounding box") eines Zeichens oder eines
+  Textes definiert den Raum, den der Cursor bewegt werden muss, um den Text richtig
+  nebeneinander zu zeichnen. Jedoch können die tatsächlich gezeichneten Zeichen über
+  diese Box hinausragen (zum Beispiel im Falle von Kursiv- oder oder Serif-Schriften).
+  Bei der Bestimmung, wo der Text gezeichnet werden soll, ist die logische Zeichen-Box
+  die interessante.
+@LineBreak
+@LineBreak
+  Die "sichtbare Zeichen-Box" (englisch "visible bounding box") eines Zeichens oder eines
+  Textes definiert den Raum, in welchem der Text aktuell gezeichnet wird. Dieser Bereich
+  ist üblicherweise größer als die logische Zeichen-Box. Die sichtbaren Abmessungen eines
+  Textes können ermittelt werden durch Angabe des @#PB_VectorText_Visible Flags. Die
+  sichtbaren Abmessungen des Textes können bei einem Offset zur logischen Zeichen-Box
+  liegen. Dieser Versatz kann durch Angabe des @#PB_VectorText_Offset Flags berechnet werden.
+@LineBreak
+@LineBreak
+  Das folgende Beispiel zeigt einen Beispieltext mit der logischen Zeichen-Box in Blau,
+  der sichtbaren Zeichen-Box in Rot, und der Position der Grundlinie in Grün. Der Ursprung,
+  an dem der Text gezeichnet wird, ist die obere linke Ecke der logischen Zeichen-Box (Blau).
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 500, 250, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 500, 250)
+    LoadFont(0, "Monotype Corsiva", 20, #PB_Font_Italic)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      VectorFont(FontID(0), 125)
+      Text$ = "Sample"
+      
+      ; Zeichne Text
+      MovePathCursor(25, 25)
+      DrawVectorText(Text$)
+      
+      ; Zeichne die logische Zeichen-Box
+      AddPathBox(25, 25, VectorTextWidth(Text$), VectorTextHeight(Text$))
+      VectorSourceColor(RGBA(0, 0, 255, 255))
+      DashPath(2, 10)
+
+      ; Zeichne die sichtbare Zeichen-Box
+      AddPathBox(25 + VectorTextWidth(Text$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
+                 25 + VectorTextHeight(Text$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
+                 VectorTextWidth(Text$, #PB_VectorText_Visible), 
+                 VectorTextHeight(Text$, #PB_VectorText_Visible))
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      DashPath(2, 10)        
+      
+      ; Zeichne die Grundlinie
+      MovePathCursor(25, 25 + VectorTextHeight(Text$, #PB_VectorText_Baseline))
+      AddPathLine(VectorTextWidth(Text$), 0, #PB_Path_Relative)
+      VectorSourceColor(RGBA(0, 255, 0, 255))
+      DashPath(2, 10)                    
+
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image vectortextwidth.png  
+
+@SeeAlso
+  @@VectorTextHeight, @@DrawVectorText, @@DrawVectorParagraph, @@VectorParagraphHeight, @@VectorFont
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = VectorTextHeight(Text$ [, Flags])
+
+@Description
+  Misst die Höhe des angegebenen Textes in der aktuellen Vektorzeichnen Schriftart.
+
+@Parameter "Text$"
+  Der zu messende Text (einzeilig).
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_VectorText_Default : Gibt den logischen Begrenzungsrahmen des Textes zurück
+  @#PB_VectorText_Visible : Gibt den sichtbaren Begrenzungsrahmen des Textes zurück
+  @#PB_VectorText_Offset  : Gibt ausgehend von der aktuellen Position den Offset 
+                           des Begrenzungsrahmens anstelle der Höhe zurück
+  @#PB_VectorText_Baseline: Gibt den Offset der Grundlinie des Textes von der
+                           aktuellen Position zurück
+@EndFixedFont
+  
+@ReturnValue
+  Gibt die Texthöhe in Einheiten der Vektorzeichnen-Ausgabe zurück.
+  
+@Remarks
+  Die Abmessungen des gezeichneten Textes können im Hinblick auf die beiden
+  Zeichen-Boxen (Begrenzungsrahmen) wie folgt definiert werden:
+@LineBreak
+@LineBreak
+  Die "logische Zeichen-Box" (englisch "logical bounding box") eines Zeichens oder eines
+  Textes definiert den Raum, den der Cursor bewegt werden muss, um den Text richtig
+  nebeneinander zu zeichnen. Jedoch können die tatsächlich gezeichneten Zeichen über
+  diese Box hinausragen (zum Beispiel im Falle von Kursiv- oder oder Serif-Schriften).
+  Bei der Bestimmung, wo der Text gezeichnet werden soll, ist die logische Zeichen-Box
+  die interessante.
+@LineBreak
+@LineBreak
+  Die "sichtbare Zeichen-Box" (englisch "visible bounding box") eines Zeichens oder eines
+  Textes definiert den Raum, in welchem der Text aktuell gezeichnet wird. Dieser Bereich
+  ist üblicherweise größer als die logische Zeichen-Box. Die sichtbaren Abmessungen eines
+  Textes können ermittelt werden durch Angabe des @#PB_VectorText_Visible Flags. Die
+  sichtbaren Abmessungen des Textes können bei einem Offset zur logischen Zeichen-Box
+  liegen. Dieser Versatz kann durch Angabe des @#PB_VectorText_Offset Flags berechnet werden.
+@LineBreak
+@LineBreak
+  Die "Grundlinie" definiert die vertikale Distanz vom Ursprung des gezeichneten Textes
+  bis zur Linie, auf der die Buchstaben "sitzen". Diese ist nützlich, um Text mit
+  verschiedenen Höhen auf einer einzigen Linie zu zeichnen. Der Grundlinien-Wert für
+  den Text kann durch Angabe des @#PB_VectorText_Baseline Flags ermittelt werden.
+@LineBreak
+@LineBreak
+  Das folgende Beispiel zeigt einen Beispieltext mit der logischen Zeichen-Box in Blau,
+  der sichtbaren Zeichen-Box in Rot, und der Position der Grundlinie in Grün. Der Ursprung,
+  an dem der Text gezeichnet wird, ist die obere linke Ecke der logischen Zeichen-Box (Blau).
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 500, 250, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 500, 250)
+    LoadFont(0, "Monotype Corsiva", 20, #PB_Font_Italic)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      VectorFont(FontID(0), 125)
+      Text$ = "Sample"
+      
+      ; Zeichne Text
+      MovePathCursor(25, 25)
+      DrawVectorText(Text$)
+      
+      ; Zeichne die logische Zeichen-Box
+      AddPathBox(25, 25, VectorTextWidth(Text$), VectorTextHeight(Text$))
+      VectorSourceColor(RGBA(0, 0, 255, 255))
+      DashPath(2, 10)
+
+      ; Zeichne die sichtbare Zeichen-Box
+      AddPathBox(25 + VectorTextWidth(Text$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
+                 25 + VectorTextHeight(Text$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
+                 VectorTextWidth(Text$, #PB_VectorText_Visible), 
+                 VectorTextHeight(Text$, #PB_VectorText_Visible))
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      DashPath(2, 10)        
+      
+      ; Zeichen die Grundlinie
+      MovePathCursor(25, 25 + VectorTextHeight(Text$, #PB_VectorText_Baseline))
+      AddPathLine(VectorTextWidth(Text$), 0, #PB_Path_Relative)
+      VectorSourceColor(RGBA(0, 255, 0, 255))
+      DashPath(2, 10)                    
+
+      StopVectorDrawing()
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image vectortextwidth.png  
+
+@SeeAlso
+  @@VectorTextWidth, @@DrawVectorText, @@DrawVectorParagraph, @@VectorParagraphHeight, @@VectorFont
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = VectorParagraphHeight(Text$, Breite.d, Höhe.d)
+
+@Description
+  Gibt die Höhe zurück, die für das Zeichnen des angegebenen Textabsatzes mittels
+  der @@DrawVectorParagraph Funktion benötigt wird.
+
+@Parameter "Text$"
+  Der zu messende Absatz mit Text (können mehrere Zeilen sein).
+
+@Parameter "Breite.d"
+  Die für den Absatz zu nutzende Breite.
+
+@Parameter "Höhe.d"
+  Die maximal für den Absatz verfügbare Höhe.
+
+@ReturnValue
+  Die aktuell benötigte Höhe, um den Absatz mit Text zu zeichnen.
+
+@Remarks
+  Wenn der Text nicht in die Zeichen-Box passt, dann wird das Ergebnis gleich dem Wert
+  von "Höhe.d" sein. Dies deutet darauf hin, dass ein Aufruf von @@DrawVectorParagraph
+  Teile des Textes abschneiden würde.
+
+@SeeAlso
+  @@DrawVectorParagraph, @@DrawVectorText, @@VectorFont, @@VectorTextWidth, @@VectorTextHeight
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = PdfVectorOutput(Dateiname$, Breite.d, Höhe.d [, Einheit])
+
+@Description
+  Erstellt eine PDF-Datei und gibt die OutputID (Ausgabe-ID) zurück, um weitere
+  Vektorzeichnen-Operationen auszuführen. Die aktuellen Zeichenoperationen müssen in
+  einen @@StartVectorDrawing / @@StopVectorDrawing Block eingeschlossen werden.
+  Die PDF-Datei kann mit Hilfe des @@NewVectorPage Befehls mehrere Seiten haben.
+@LineBreak
+@LineBreak
+  @Bold "Hinweis: " Diese Funktion ist nur verfügbar auf Linux und Mac OSX.
+  
+@Parameter "Dateiname$"
+  Gibt den Dateinamen des zu erstellenden PDF-Dokuments an. Wenn die Datei existiert,
+  wird diese überschrieben.
+
+@Parameter "Breite.d, Höhe.d"
+  Geben die Abmessungen einer Seite im PDF in Einheiten der Vektorzeichnen-Ausgabe an.
+
+@OptionalParameter "Einheit"
+  Gibt die Einheiten für die Vektorzeichnen-Ausgabe an.
+  Die Standard-Einheit für PDF-Dateien ist @#PB_Unit_Point.  
+@FixedFont
+  @#PB_Unit_Pixel     : Werte werden in Pixel gemessen (oder Dots/Punkte im Fall eines Druckers)
+  @#PB_Unit_Point     : Werte werden in Punkten (1/72 Zoll bzw. Inch) gemessen
+  @#PB_Unit_Inch      : Werte werden in Zoll (Inch) gemessen
+  @#PB_Unit_Millimeter: Werte werden in Millimeter gemessen
+@EndFixedFont
+  
+@ReturnValue
+  Die OutputID der angegebenen Datei, um darin 2D Rendering-Operationen mittels
+  @@StartVectorDrawing auszuführen.
+  
+@Example 
+
+@Code
+  LoadFont(0, "Times New Roman", 20)
+    
+  If StartVectorDrawing(PdfVectorOutput("test.pdf", 595, 842))  
+    VectorFont(FontID(0), 25)
+    
+    MovePathCursor(20, 20)
+    DrawVectorText("This is page 1...")
+    
+    NewVectorPage()
+    
+    MovePathCursor(20, 20)
+    DrawVectorText("This is page 2...")      
+
+    StopVectorDrawing()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SvgVectorOutput, @@ImageVectorOutput, @@PrinterVectorOutput, @@WindowVectorOutput, @@CanvasVectorOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SvgVectorOutput(Dateiname$, Breite.d, Höhe.d [, Einheit])
+
+@Description
+  Erstellt eine SVG-Datei (skalierbare Vektorgrafik, englisch "scalable vector graphics")
+  und gibt OutputID (Ausgabe-ID) zurück, um Vektorzeichnen-Operationen durchzuführen.
+  Die aktuellen Zeichenoperationen müssen in einen @@StartVectorDrawing / @@StopVectorDrawing
+  Block eingeschlossen werden.
+  Die SVG-Datei kann mit Hilfe des @@NewVectorPage Befehls mehrere Seiten haben.
+@LineBreak
+@LineBreak
+  @Bold "Hinweis: " Diese Funktion ist nur auf Linux verfügbar.
+
+@Parameter "Dateiname$"
+  Gibt den Dateinamen der zu erstellenden SVG-Datei an. Wenn die Datei existiert,
+  wird diese überschrieben.
+
+@Parameter "Breite.d, Höhe.d"
+  Geben die Abmessungen einer Seite in der SVG-Datei in Einheiten der Vektorzeichnen-Ausgabe an.
+
+@OptionalParameter "Einheit"
+  Gibt die Einheiten für die Vektorzeichnen-Ausgabe an.
+  Die Standard-Einheit für SVG-Dateien ist @#PB_Unit_Point.  
+@FixedFont
+  @#PB_Unit_Pixel     : Werte werden in Pixel gemessen (oder Dots/Punkte im Fall eines Druckers)
+  @#PB_Unit_Point     : Werte werden in Punkten (1/72 Zoll bzw. Inch) gemessen
+  @#PB_Unit_Inch      : Werte werden in Zoll (Inch) gemessen
+  @#PB_Unit_Millimeter: Werte werden in Millimeter gemessen
+@EndFixedFont
+  
+@ReturnValue
+  Die OutputID der angegebenen Datei, um darin 2D Rendering-Operationen mittels
+  @@StartVectorDrawing auszuführen.
+
+@Example 
+
+@Code
+  If StartVectorDrawing(SvgVectorOutput("test.svg", 400, 200))
+
+    AddPathBox(50, 50, 200, 50)
+    AddPathBox(150, 75, 200, 50)
+    VectorSourceColor(RGBA(255, 0, 0, 255))
+    StrokePath(10)
+  
+    StopVectorDrawing()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@PdfVectorOutput, @@ImageVectorOutput, @@PrinterVectorOutput, @@WindowVectorOutput, @@CanvasVectorOutput
+
+@SupportedOS
+

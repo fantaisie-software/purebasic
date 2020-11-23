@@ -1,0 +1,217 @@
+;
+;     Font library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Font
+
+@Overview
+  Fonts are widely used on computers since it is the only way to render text in
+  differents sizes and forms.
+@LineBreak
+@LineBreak
+  Note: With Purebasic using a colored font is as yet not possible.
+  This may be achieved by using the @@StartDrawing function and
+  then drawing directly on the visual area.
+
+@CommandList
+
+@ExampleFile All Font.pb
+@ExampleFile All FontRegister.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeFont(#Font)
+
+@Description
+  Free the given Font, previously initialized by @@LoadFont.
+
+@Parameter "#Font"
+  The font to free. If @#PB_All is specified, all the remaining fonts are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining fonts are automatically freed when the program ends.
+
+@SeeAlso
+  @@LoadFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FontID = FontID(#Font)
+
+@Description
+  Returns the unique system identifier of the #Font.
+
+@Parameter "#Font"
+  The font to use.
+
+@ReturnValue
+  Returns the ID of the font.
+  This result is sometimes also referred to as a 'Handle'. Take a look at the extra chapter @ReferenceLink "handles" "Handles and Numbers" for
+  more information.
+
+@Example
+  An example of using FontID() in combination with @@SetGadgetFont:
+
+@Code
+  If OpenWindow(0, 0, 0, 222, 130, "FontID()", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ButtonGadget(0, 10, 10, 200, 30, "Click to change the font...")
+    Font1 = LoadFont(#PB_Any, "Arial"  ,  8, #PB_Font_Bold)
+    Font2 = LoadFont(#PB_Any, "Verdana", 12, #PB_Font_StrikeOut)
+    UsedFont = 1
+  EndIf
+
+  Repeat
+    Event = WaitWindowEvent()
+
+  If Event = #PB_Event_Gadget
+    If EventGadget() = 0
+      If UsedFont = 1
+        SetGadgetFont(0, FontID(Font2))
+        UsedFont = 2
+      Else
+        SetGadgetFont(0, FontID(Font1))
+        UsedFont = 1
+      EndIf
+    EndIf
+  EndIf
+
+  Until Event = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@LoadFont,
+  @@SetGadgetFont,
+  @@DrawingFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsFont(#Font)
+
+@Description
+  Tests if the given #Font is a valid and correctly initialized font.
+
+@Parameter "#Font"
+  The font to use.
+
+@ReturnValue
+  Returns nonzero if #Font is a valid font and zero otherwise.
+
+@Remarks
+  This function is bulletproof and can be used with any value. 
+  If Result is not zero then the object is valid and initialized, 
+  otherwise it returns zero. This is a good way to check that a font is ready to use. 
+
+@SeeAlso
+  @@LoadFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LoadFont(#Font, Name$, YSize [, Flags])
+
+@Description
+  Tries to open the specified font.
+
+@Parameter "#Font"
+  A number to identify the new font. @ReferenceLink "purebasic_objects" "#PB_Any"
+  can be used to auto-generate this number.
+
+@Parameter "Name$"
+  The name of the font to load.
+
+@Parameter "YSize"
+  The vertical size of the font in points.
+
+@OptionalParameter "Flags"
+  A combination of the following constants:
+@FixedFont
+  @#PB_Font_Bold       : The font will be bold
+  @#PB_Font_Italic     : The font will be italic
+  @#PB_Font_Underline  : The font will be underlined (Windows only)
+  @#PB_Font_StrikeOut  : The font will be strikeout (Windows only)
+  @#PB_Font_HighQuality: The font will be in high-quality mode (slower) (Windows only)
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the font was loaded successfully and zero if not. If @#PB_Any
+  was used for the #Font parameter then the generated number is returned on success.
+
+@Remarks
+  If previously another font was loaded with the same #Font number, then this
+  older font will be automatically freed when loading the new one.
+@LineBreak
+@LineBreak
+  On Windows the font mapper will always attempt to locate a font.
+  If a font name which does not exist such as: "Tim Now Ronin", is used,
+  then the font mapper will attempt to find the closest match. This will be
+  based upon such criteria as: the font name, the font height, the style and
+  so forth. Therefore, the assumption can not be made that a font will not be
+  loaded, due only to an incorrect font name, size, ect...
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 270, 160, "Loading font...", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If LoadFont(1, "Arial", 24)
+      SetGadgetFont(#PB_Default, FontID(1))
+      TextGadget(0, 10, 10, 250, 40, "Arial 24")
+    EndIf
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+@LineBreak
+@LineBreak
+@SeeAlso
+  @@FontID, @@FreeFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RegisterFontFile(FileName$)
+
+@Description
+  Register a font file for use with the @@LoadFont command. All fonts contained in the
+  file are then available.
+
+@Parameter "FileName$"
+  The file containing the font. The file must be in TrueType format.
+
+@ReturnValue
+  Returns nonzero if the file was sucessfully registered.
+
+@Remarks
+  The font file is registered for the current program only. This means that the font(s) are not
+  accessible by other programs and will be unregistered when the program ends.
+  No system-wide changes are made by this command.
+@LineBreak
+@LineBreak  
+  You cannot use a registered font with the VectorDrawing library.
+
+
+@Example
+@Code
+  ; Now let's use a new font, which it was downloaded from internet to the temporary directory...
+  ; The font name is "ascii" and the font file is "ascii.ttf"
+  If RegisterFontFile(GetTemporaryDirectory() + "ascii.ttf") ; We have to register it before to use it
+    LoadFont(0, "ascii", 12) ; Now we can load the font, the operating system knows it
+    SetGadgetFont(0, FontID(0))
+  ...
+@EndCode
+
+@ExampleFile All FontRegister.pb
+
+@SeeAlso
+  @@LoadFont
+
+@SupportedOS

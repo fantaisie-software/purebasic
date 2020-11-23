@@ -1,0 +1,771 @@
+;
+; Billboard library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Billboard
+
+@Overview
+
+  Les 'Billboards' sont des surfaces planes 
+  rectangulaires (composées de 2 triangles) qui 
+  sont toujours orientées face à la 
+  @LibraryLink "camera" "caméra". Ils sont très 
+  utiles pour afficher un grand nombre d' 
+  @LibraryLink "particle" "éléments" tels que 
+  la pluie, la neige, des arbres, de la 
+  végétation etc. 
+@LineBreak
+@LineBreak
+  La commande @@InitEngine3D doit être appelée 
+  avec succès avant de pouvoir utiliser les 
+  commandes relatives aux billboards.
+@LineBreak
+@LineBreak
+  Les  billboards sont gérés par groupe et 
+  chaque groupe contient ses propres billboards 
+  ayant une taille ou une position similaire 
+  afin d'accélérer la gestion d'un grand nombre 
+  d'objets.
+  
+@CommandList
+
+@ExampleFile All Billboard.pb
+@ExampleFile All BillboardGrass.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AddBillboard(#BillboardGroup, X, Y, Z)
+
+@Description
+  Ajoute un billboard à un groupe de billboards. 
+  
+@Parameter "#BillboardGroup"
+ Numéro du groupe de billboards auquel le 
+ nouveau billboard sera attaché.
+
+@Parameter  "X, Y, Z"
+ Coordonnées du nouveau billboard relatives à 
+ la position du groupe de billboards.
+
+@ReturnValue
+  Le nouvel indice du billboard.
+
+@SeeAlso
+  @@CreateBillboardGroup, @@BillboardLocate, 
+  @@BillboardX, @@BillboardY, @@BillboardZ, 
+  @@MoveBillboard, @@RemoveBillboard
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = BillboardGroupID(#BillboardGroup)
+
+@Description
+  Renvoie l'identifiant unique d'un groupe 
+  de billboard. 
+  
+@Parameter "#BillboardGroup" 
+  Le numéro du groupe de billboards à 
+  identifier.
+
+@ReturnValue
+  Renvoie l'identifiant unique qui identifie 
+  #BillboardGroup. 
+
+@Remarks 
+  Cette fonction est très utile quand une 
+  fonction d'une autre bibliothèque nécessite 
+  l'identifiant d'un BillboardGroup. 
+
+@SeeAlso
+  @@CreateBillboardGroup, @@IsBillboardGroup
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BillboardGroupMaterial(#BillboardGroup, MatiereID)
+
+@Description
+  Affecte une matière à un groupe de billboards. 
+  
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.  
+  
+@Parameter "MatiereID"
+  Numéro de la matière à assigner au groupe 
+  de billboards (et par conséquent aux 
+  billboards). 
+@LineBreak
+@LineBreak
+  Peut être facilement récupérée à l'aide de 
+  la commande @@MaterialID.
+@LineBreak
+@LineBreak
+  Cette matière sera utilisée par tous les 
+  billboards du groupe. @LineBreak
+  Un groupe de billboards ne peut avoir qu'une 
+  seule matière affectée à la fois.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateBillboardGroup
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = BillboardGroupX(#BillboardGroup [, Mode])
+
+@Description
+  Renvoie la position absolue en X du groupe 
+  de billboards.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@OptionalParameter "Mode"
+  Le mode d'obtention du vecteur de direction 
+  de la caméra. @LineBreak
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
+  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+@EndFixedFont
+
+@ReturnValue
+  La position absolue en X du groupe de 
+  billboards dans la scène 3D.
+
+@SeeAlso
+  @@CreateBillboardGroup,  @@BillboardGroupY, 
+  @@BillboardGroupZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = BillboardGroupY(#BillboardGroup [, Mode])
+
+@Description
+  Renvoie la position absolue en Y du groupe 
+  de billboards.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@OptionalParameter "Mode"
+  Le mode d'obtention du vecteur de direction 
+  de la caméra. @LineBreak
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
+  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+@EndFixedFont
+
+@ReturnValue
+  La position absolue en Y du groupe de 
+  billboards dans la scène 3D.
+
+@SeeAlso
+  @@CreateBillboardGroup,  @@BillboardGroupX,  
+  @@BillboardGroupZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = BillboardGroupZ(#BillboardGroup [, Mode])
+
+@Description
+  Renvoie la position absolue en Z du groupe 
+  de billboards.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@OptionalParameter "Mode"
+  Le mode d'obtention du vecteur de direction 
+  de la caméra. @LineBreak
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
+  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+@EndFixedFont
+
+@ReturnValue
+  La position absolue en Z du groupe de 
+  billboards dans la scène 3D.
+
+@SeeAlso
+  @@CreateBillboardGroup,  @@BillboardGroupX,  
+  @@BillboardGroupY
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = BillboardHeight(#Billboard, #BillboardGroup)
+
+@Description
+  Renvoie la hauteur d'un billboard au sein 
+  d'un groupe de billboards.
+  
+@Parameter "#Billboard"
+  Numéro du billboard.
+
+@Parameter "#BillboardGroup"
+ Numéro du groupe de billboards.
+
+@ReturnValue
+  La hauteur du billboard exprimée dans la 
+  même unité que celle utilisée par le monde 3D.
+  
+@SeeAlso
+  @@BillboardWidth, @@ResizeBillboard
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BillboardLocate(#Billboard, #BillboardGroup, X, Y, Z)
+
+@Description
+  Déplace un billboard de manière absolue.
+
+@Parameter "#Billboard"
+  Numéro du billboard à déplacer.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards qui contient 
+  le billboard à déplacer.
+
+@Parameter "X, Y, Z"
+  La nouvelle position du billboard.
+
+@NoReturnValue
+
+@Remarks
+  La position réelle du billboard dans le 
+  monde 3D est relative à la position du 
+  groupe de billboards. Pour déplacer un 
+  billboard par rapport à sa position actuelle, 
+  utiliser la commande @@MoveBillboard.
+ 
+@SeeAlso
+  @@MoveBillboard, @@BillboardX, @@BillboardY, 
+  @@BillboardZ
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = BillboardWidth(#Billboard, #BillboardGroup)
+
+@Description
+  Renvoie la largeur d'un billboard au sein 
+  d'un groupe de billboards. 
+  
+@Parameter "#Billboard"
+  Numéro du billboard.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@ReturnValue
+  La largeur du billboard en unité monde.
+
+@SeeAlso
+  @@BillboardHeight, @@ResizeBillboard
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = BillboardX(#Billboard, #BillboardGroup)
+
+@Description
+  Renvoie la position en X du billboard au 
+  sein d'un groupe de billboards.
+  
+@Parameter "#Billboard"
+  Numéro du billboard.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@ReturnValue
+  La position en X du billboard dans le 
+  groupe de billboards.
+
+@SeeAlso
+  @@BillboardY, @@BillboardZ, 
+  @@BillboardLocate, @@MoveBillboard
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = BillboardY(#Billboard, #BillboardGroup)
+
+@Description
+  Renvoie la position en Y du billboard au 
+  sein d'un groupe de billboards.
+  
+@Parameter "#Billboard"
+  Numéro du billboard.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@ReturnValue
+  La position en Y du billboard dans le groupe 
+  de billboards.
+
+@SeeAlso
+  @@BillboardX, @@BillboardZ, 
+  @@BillboardLocate, @@MoveBillboard
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = BillboardZ(#Billboard, #BillboardGroup)
+
+@Description
+  Renvoie la position en Z du billboard au 
+  sein d'un groupe de billboards.
+  
+@Parameter "#Billboard"
+  Numéro du billboard.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@ReturnValue
+  La position en Z du billboard dans le 
+  groupe de billboards.
+
+@SeeAlso
+  @@BillboardX, @@BillboardY, 
+  @@BillboardLocate, @@MoveBillboard
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearBillboards(#BillboardGroup) 
+
+@Description
+  Détruit tous les billboards contenus dans 
+  un groupe de billboards.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddBillboard, @@CountBillboards
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CountBillboards(#BillboardGroup)
+
+@Description
+  Renvoie le nombre de billboards contenus 
+  dans un groupe de billboards.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@ReturnValue
+  Le nombre de billboards contenus dans le 
+  groupe spécifié.
+
+@SeeAlso
+  @@AddBillboard,  @@ClearBillboards
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateBillboardGroup(#BillboardGroup, MatiereID, LargeurBillboard, HauteurBillboard [, X, Y, Z [, MasqueVisibilité [, Type]]]
+
+@Description
+  Créé un nouveau groupe de billboards vide.
+
+@Parameter "#BillboardGroup"
+  Le numéro du nouveau BillboardGroup. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro. 
+
+@Parameter "MatiereID"
+  La matière spécifiée sera affectée au groupe 
+  et par conséquent utilisée par tous les 
+  billboards du groupe.@LineBreak
+@LineBreak
+  La valeur 'MatiereID' peut être facilement 
+  récupérée à l'aide de la commande 
+  @@MaterialID.
+@LineBreak
+@LineBreak
+
+@Parameter "LargeurBillboard, HauteurBillboard"
+  Les dimensions par défaut (en unité monde) 
+  des futurs billboards. 
+@LineBreak 
+@LineBreak
+  Bien que la taille de chaque futur billboard 
+  pourra être definie indépendamment à l'aide 
+  de la commande @@ResizeBillboard, il est 
+  important de garder à l'esprit que des 
+  problèmes de performances peuvent très 
+  rapidement apparaître si tous les billboards 
+  d'un même groupe n'ont pas la même taille.
+  
+@OptionalParameter "X, Y, Z "  
+  La position absolue du nouveau groupe de 
+  billboards dans le monde 3D. 
+   
+@OptionalParameter "MasqueVisibilité"  
+  Un masque pour choisir sur quelle caméra le 
+  groupe de billboards doit être affiché.
+@LineBreak 
+@LineBreak 
+  Si ce masque correspond au masque spécifié 
+  dans @@CreateCamera alors l'entité sera 
+  visible par la caméra. @LineBreak 
+@LineBreak
+  Voir @@createEntity pour construire des 
+  masques appropriés. @LineBreak 
+@LineBreak
+  Si ce paramètre est omis ou @#PB_All alors 
+  le groupe de billboards sera visible par 
+  toutes les caméras.
+  
+@OptionalParameter "Type"
+  Peut prendre l'une des valeurs suivantes:
+@FixedFont  
+  @#PB_Billboard_Point: Billboards de points standards, toujours de face et plein cadre et toujours debout (par défaut). 
+  @#PB_Billboard_Oriented: Billboards orientés autour d'un vecteur de direction partagé (utilisé comme axe Y) et ne tournent autour de cet axe que pour faire face à la caméra. 
+  @#PB_Billboard_SelfOriented: Billboards orientés autour de leur propre vecteur de direction (de leur propre axe Y) et ne tournent autour de cet axe que pour faire face à la caméra.
+  @#PB_Billboard_Perpendicular: Billboards perpendiculaires à un vecteur de direction partagé (utilisé comme axe Z, face à l'écran) et les axes X, Y sont déterminés par un vecteur up commun. 
+  @#PB_Billboard_SelfPerpendicular: Billboards perpendiculaires à leur propre vecteur de direction (de leur propre axe Z, face à l'écran) et les axes X, Y sont déterminés par par un vecteur up commun.
+@EndFixedFont
+ 
+@ReturnValue  
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+  
+@Remarks
+  Si le #BillboardGroup est déjà utilisé 
+  alors il sera automatiquement détruit 
+  (ainsi que tous ses billboards) et remplacé 
+  par le nouveau.
+  
+@SeeAlso
+  @@FreeBillboardGroup, @@HideBillboardGroup, 
+  @@IsBillboardGroup, @@BillboardGroupID, 
+  @@AddBillboard, 
+  @@BillboardGroupCommonDirection, 
+  @@BillboardGroupCommonDirection
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BillboardGroupCommonDirection(#BillboardGroup, X, Y, Z)
+
+@Description 
+Change la direction commune d'affichage.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@Parameter "X, Y, Z"
+  Le vecteur de direction commune (valeurs 
+  généralement entre -1,0 et 1,0, sinon elle 
+  sera automatiquement normalisée).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateBillboardGroup
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BillboardGroupCommonUpVector(#BillboardGroup, X, Y, Z)
+
+@Description
+  Modifie le vecteur up commun.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@Parameter "X, Y, Z"
+  Le vecteur up commun (valeurs généralement 
+  entre -1,0 et 1,0, sinon elle sera 
+  automatiquement normalisée).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateBillboardGroup
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeBillboardGroup(#BillboardGroup)
+
+@Description
+  Détruit un groupe de billboards ainsi 
+  que tous les billboards qu'il contenait.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards à détruire.
+@LineBreak
+@LineBreak
+  Si @PB_All est spécifié, tous les autres 
+  groupes de billboards sont libérés.
+
+@NoReturnValue
+
+@Remarks
+  Un groupe détruit ne doit plus être utilisé 
+  par les commandes relatives aux groupes de 
+  billboards.
+@LineBreak  
+@LineBreak
+  Tous les groupes de billboards restants sont 
+  automatiquement supprimés quand le programme 
+  se termine. 
+
+@SeeAlso
+  @@CreateBillboardGroup, @@HideBillboardGroup, 
+  @@IsBillboardGroup, @@BillboardGroupID, 
+  @@AddBillboard
+      
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideBillboardGroup(#BillboardGroup, Etat)
+
+@Description
+  Cache ou affiche un groupe de billboards 
+  ainsi que tous les billboards qu'il 
+  contient.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards à afficher 
+  ou à cacher.
+
+@Parameter "Etat"
+  Le nouvel état du groupe de billboards:
+@FixedFont
+  @#True : Le groupe est caché.
+  @#False: Le groupe est affiché.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateBillboardGroup, @@FreeBillboardGroup, 
+  @@IsBillboardGroup, @@BillboardGroupID, 
+  @@AddBillboard
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsBillboardGroup(#BillboardGroup)
+
+@Description
+  Teste si un BillboardGroup est correctement 
+  initialisé.  
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards 
+  
+@ReturnValue 
+  Renvoie une valeur non nulle si l'objet est 
+  valide, zéro sinon. 
+  
+@Remarks
+  Cette fonction a été créée pour pouvoir 
+  passer n'importe quelle valeur en paramètre 
+  sans qu'il ne puisse y avoir de plantage.
+@LineBreak
+@LineBreak  
+  C'est la fonction idéale pour vérifier qu'un
+  objet est correctement initialisé.
+  
+@SeeAlso
+  @@CreateBillboardGroup, @@FreeBillboardGroup,
+  @@HideBillboardGroup, @@BillboardGroupID, 
+  @@AddBillboard
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveBillboard(#Billboard, #BillboardGroup, X, Y, Z)
+
+@Description
+  Déplace un billboard à l'intérieur d'un 
+  groupe de manière relative à sa position
+  actuelle. Pour effectuer un déplacement 
+  absolu, il convient d'utiliser la commande 
+  @@BillboardLocate.
+
+@Parameter "#Billboard"
+  Numéro du billboard.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards.
+
+@Parameter "X, Y, Z"
+  Valeur du déplacement en X, Y et Z relatif 
+  à la position actuelle du billboard.
+
+@NoReturnValue
+
+@SeeAlso
+  @@BillboardLocate, @@BillboardX, 
+  @@BillboardY, @@BillboardZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveBillboardGroup(#BillboardGroup, X, Y, Z [, Mode])
+
+@Description
+  Déplace un groupe de billboards de manière 
+  relative à sa position actuelle.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards à déplacer.
+
+@Parameter "X, Y, Z"
+  Nouvelle position du groupe de billboards.
+
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Relative: Déplacement relatif, à partir de la position actuelle du groupe de billboards (par défaut).
+  @#PB_Absolute: Déplacement absolu à la position spécifiée.
+@EndFixedFont
+  combinée avec l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Local : Déplacement local.
+  @#PB_Parent: Déplacement par rapport à la position du parent.
+  @#PB_World : Déplacement par rapport au monde.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateBillboardGroup, @@FreeBillboardGroup, @@HideBillboardGroup, @@BillboardGroupID, @@AddBillboard
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveBillboard(#Billboard, #BillboardGroup)
+
+@Description
+  Détruit un billboard d'un groupe de 
+  billboards.
+
+@Parameter "#Billboard"
+  Numéro du billboard à détruire.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards qui contient 
+  le billboard à détruire.
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddBillboard, @@ClearBillboards, 
+  @@CountBillboards
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeBillboard(#Billboard, #BillboardGroup, Largeur, Hauteur)
+
+@Description
+  Redimensionne un billboard.
+  
+@Parameter "#Billboard"
+  Numéro du billboard à redimensionner.
+
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards qui contient 
+  le billboard à redimensionner.
+
+@Parameter "Largeur, Hauteur"
+ Les nouvelles dimensions du billboard.
+@LineBreak
+@LineBreak
+  Eviter de redimensionner séparément chaque 
+  billboard d'un groupe car il peut y avoir 
+  de lourdes conséquences au niveau des 
+  perfomances si la taille utilisée n'est pas 
+  celle par défaut (spécifié par 
+  @@CreateBillboardGroup).
+
+@NoReturnValue
+
+@SeeAlso
+  @@BillboardHeight, @@BillboardWidth, 
+  @@CreateBillboardGroup 
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateBillboardGroup(#BillboardGroup, X, Y, Z [, Mode])
+
+@Description
+  Effectue une rotation d'un groupe de 
+  billboards.
+  
+@Parameter "#BillboardGroup"
+  Numéro du groupe de billboards qui 
+  contient le billboard à tourner.
+
+@Parameter "X, Y, Z"
+  Angles x,y,z spécifiés en degrés de 0 à 360.
+  
+@OptionalParameter "Mode  
+  @FixedFont
+  @ConstantColor "PB_Absolute": Rotation absolue (par défaut).
+  @ConstantColor "PB_Relative": Rotation relative basée sur la rotation précédente du #BillboardGroup.  
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@BillboardGroupMaterial, @@BillboardGroupID
+  
+@SupportedOS
+

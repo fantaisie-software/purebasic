@@ -1,0 +1,260 @@
+;
+;     RegularExpression library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library RegularExpression
+
+@Overview
+  Regular expressions allow to do advanced pattern matching to quickly match, extract or replace an arbitrary information
+  in a string. These kind of expressions are often difficult to read an write, but once you master them
+  it makes a lot of things easier. Therefore this library is not for beginners, and you need to have some
+  solid basis with SpiderBasic and programming in general to be able to use this library efficiently.
+
+@CommandList
+
+@ExampleFile All RegularExpression.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateRegularExpression(#RegularExpression, Pattern$ [, Flags])
+
+@Description
+  Create a new regular expression using the specified pattern.
+  
+@Parameter "#RegularExpression"
+  A number to identify the new regular expression.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "Pattern$"
+  The regular expression which will be applied to the string to match, extract or replace.
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_RegularExpression_DotAll    : '.' matches anything including newlines.
+  @#PB_RegularExpression_Extended  : whitespace and '#' comments will be ignored.
+  @#PB_RegularExpression_MultiLine : '^' and '$' match newlines within data.
+  @#PB_RegularExpression_AnyNewLine: recognize 'CR', 'LF', and 'CRLF' as newline sequences.
+  @#PB_RegularExpression_NoCase    : comparison and matching will be case-insensitive
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the regular expression was created successfully and zero if not. If @#PB_Any was used
+  for the #RegularExpression parameter then the generated number is returned on success.
+  If an error has been detected in the pattern, the result will be zero. To get more
+  information about the error, see @@RegularExpressionError.
+
+@Remarks
+  If a regular expression isn't used anymore, use @@FreeRegularExpression to free up some resources.
+
+@Example
+@Code
+  ; This expression will match every word of 3 letter which begin by a lower case letter,
+  ; followed with the character 'b' and which ends with an uppercase letter. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Debug MatchRegularExpression(0, "abC") ; Will print 1
+    Debug MatchRegularExpression(0, "abc") ; Will print 0
+  Else
+    Debug RegularExpressionError()
+  EndIf
+
+@EndCode
+
+@SeeAlso
+  @@RegularExpressionError, @@FreeRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExtractRegularExpression(#RegularExpression, String$, Array$())
+
+@Description
+  Extracts strings according to the #RegularExpression into an array. 
+
+@Parameter "#RegularExpression"
+  The regular expression to use.
+
+@Parameter "String$"
+  The string to apply the regular expression on.
+
+@Parameter "Array$()"
+  The extracted strings will be stored in this array. The array is automatically resized
+  to the number of element matching the expression found in the specified string.
+  
+@ReturnValue
+  Returns the number of elements matching the regular expression in the string.
+
+@Example
+@Code
+  ; This expression will match every word of 3 letter which begin by a lower case letter,
+  ; followed with the character 'b' and which ends with an uppercase letter. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Dim Result$(0)
+    NbFound = ExtractRegularExpression(0, "abC ABc zbA abc", Result$())
+    For k = 0 To NbFound-1
+      Debug Result$(k)
+    Next
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeRegularExpression(#RegularExpression)
+
+@Description
+  Free the specified #RegularExpression and release its associated memory.
+  
+@Parameter "#RegularExpression"
+  Free the regular expression. If @#PB_All is specified, all the remaining regular expressions are freed.  
+
+@NoReturnValue
+
+@Remarks  
+  All remaining regular expressions are automatically freed when the program ends.
+
+@SeeAlso
+  @@CreateRegularExpression
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsRegularExpression(#RegularExpression)
+
+@Description
+  Tests if the given #RegularExpression number is a valid and correctly initialized, regular expression. 
+  
+@Parameter "#RegularExpression"
+  The regular expression to use.
+
+@ReturnValue
+  Returns nonzero if #RegularExpression is a valid regular expression and zero otherwise.
+  
+@Remarks
+  This function is bulletproof and can be used with any value. If the 'Result' is not zero then the object is valid and
+  initialized, otherwise it will equal zero. This is the correct way to ensure a regular expression is ready to use.
+  
+@SeeAlso
+  @@CreateRegularExpression
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MatchRegularExpression(#RegularExpression, String$)
+
+@Description
+  Tests the string against the #RegularExpression.
+
+@Parameter "#RegularExpression"
+  The regular expression to use.
+
+@Parameter "String$"
+  The string to apply the regular expression on.
+
+@ReturnValue
+  Returns nonzero if the string matches the regular expression, returns zero otherwise.
+
+@Example
+@Code
+  ; This expression will match every word of 3 letter which begin by a lower case letter,
+  ; followed with the character 'b' and which ends with an uppercase letter. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    If MatchRegularExpression(0, "abC ABc zbA abc")
+      Debug "The string match !"
+    Else
+      Debug "No pattern found in the string"
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ReplaceRegularExpression(#RegularExpression, String$, ReplaceString$)
+
+@Description
+  Replaces all strings matching the #RegularExpression with 'ReplaceString$'.
+
+@Parameter "#RegularExpression"
+  The regular expression to use.
+
+@Parameter "String$"
+  The string to apply the regular expression on.
+
+@Parameter "ReplaceString$"
+  The string to use to replace the matched expression.
+
+@ReturnValue
+  Returns a new string with all matched expressions replaced with 'ReplaceString$'.
+
+@Remarks
+  Back references (usually described as \1, \2, etc.) are not supported. @@ExtractRegularExpression
+  combined with @@ReplaceString should achieve the requested behaviour.
+
+@Example
+@Code
+  ; This expression will match every word of 3 letter which begin by a lower case letter,
+  ; followed with the character 'b' and which ends with an uppercase letter. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Result$ = ReplaceRegularExpression(0, "abC ABc zbA abc", "---")
+    Debug Result$ ; Will print "--- ABc --- abc"
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@CreateRegularExpression
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = RegularExpressionError()
+
+@Description
+  Returns an human readable error (in english) about the latest failure of @@CreateRegularExpression.
+
+@NoParameters
+
+@ReturnValue
+  Returns an human readable error (in english) about the latest failure of @@CreateRegularExpression.
+
+@Example
+@Code
+  ; Here we put an extra bracket '[', so there is a syntax error in the regular expression
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[[A-Z][]")
+    Debug "Success"
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS

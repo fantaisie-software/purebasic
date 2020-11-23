@@ -1,0 +1,335 @@
+@Title Structures
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#Structure"><u>Structure</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#StructureUnion"><u>StructureUnion</u></a></td>
+  </tr>
+  </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+
+@FormatIf HTML
+<a name="Structure"></a>
+@FormatEndIf
+@Syntax
+
+  @Keyword Structure <nom> [@Keyword Extends <name>] [Align <expression numérique constante>]
+    ...
+  @Keyword EndStructure 
+
+@Description
+
+  @Keyword Structure est utile pour définir un type utilisateur et accéder à des zones mémoires 
+  du système d'exploitation par exemple. Les structures peuvent être utilisées pour rendre l'accès 
+  à des grands fichiers plus facilement. Cela peut être plus efficace dans la mesure où vous pouvez 
+  regrouper dans un même objet des informations communes. On accède aux structures avec le caractère @Keyword \ .
+  Les structures peuvent s'imbriquer. Les tableaux statiques sont acceptés dans une structure.
+  @LineBreak
+  @LineBreak
+  Les objets dynamiques tel que les tableaux, listes et maps sont supportés dans les structures et sont
+  automatiquement initialisés quand l'objet utilisant la structure est déclaré. Pour définir un tel champ,
+  utiliser les mot-clés suivant: @Keyword "Array", @Keyword "List" et @Keyword "Map".
+  @LineBreak
+  @LineBreak
+  Généralement, les structures sont utilisées en association avec une variable, un 
+  @LibraryLink "array" "tableau", une @LibraryLink "list" "liste", ou une 
+  @LibraryLink "map" "map". Toutefois, les utilisateurs avancés pourront allouer une 
+  structure en mémoire avec @@AllocateStructure et la libérer avec @@FreeStructure. 
+  Il est aussi possible d'initialiser une structure en mémoire avec 
+  @ReferenceLink "compilerfunctions" "InitializeStructure()", de la copier avec 
+  @ReferenceLink "compilerfunctions" "CopyStructure()", de la vider avec 
+  @ReferenceLink "compilerfunctions" "ClearStructure()" et de la reinitialiser avec 
+  @ReferenceLink "compilerfunctions" "ResetStructure()"
+  @LineBreak
+  @LineBreak
+  Il est possible de copier une structure complète en utilisant l'opérateur égal 
+  ("=") entre deux éléments de même type.
+  @LineBreak
+  @LineBreak 
+  Le paramètre optionnel @Keyword Extends permet d'étendre une structure existante avec de nouveaux champs. 
+  Tous les champs se trouvant dans la structure étendue se retrouveront en tête de la nouvelle structure. 
+  C'est très utile pour faire un héritage simple de structures.
+  @LineBreak
+  @LineBreak
+  Pour les utilisateurs avancés seulement. Le  paramètre @Keyword Align permet d'ajuster l'alignement entre chaque champ de la structure. L'alignement par défaut 
+  est de 1, ce qui signifie pas d'alignement. Par exemple, si l'alignement est fixé à 4, chaque champs sera aligné sur 4 octets. 
+  Cela peut aider à améliorer les performances lors de l'accès aux champs de la structure, mais cela peut utiliser plus de mémoire, car un certain espace 
+  entre chaque champs sera perdu. La valeur spéciale @#PB_Structure_AlignC peut être utilisée pour aligner la structure 
+  telle qu'elle se ferait en langage C, utile lors de l'importation structures C utilisées avec des fonctions API.
+  @LineBreak
+  @FixedFont
+  - @ReferenceLink "compilerfunctions" "SizeOf" permet de connaître la taille en octets d'une structure 
+  - @ReferenceLink "compilerfunctions" "OffsetOf" peut être utilisé pour rechercher l'index du champ indiqué. 
+  @EndFixedFont  
+  @LineBreak
+  @Bold Note : 
+  Un @Bold "Tableau statique" dans une structure ne se comporte pas de la même façon qu'un tableau défini avec la commande  @ReferenceLink "Dim" "Dim".
+  Ceci pour être conforme au format de structures en C/C++ (pour permettre un portage direct des structures de l'API).
+  Ce qui signifie que a@Bold "["2@Bold "]" assignera un tableau de 0 à 1 (deux éléments) alors que Dim a@Bold "("2@Bold ")" assignera un tableau de 0 à 2 (trois éléments).
+  Et Les fonctions de la bibliothèque @LibraryLink "Array" "Array" ne peuvent pas être utilisées avec ce type de tableaux.  
+  @LineBreak
+  @LineBreak
+  Lorsque vous utilisez des pointeurs dans les structures, L'étoile '*' doit être 
+  omise lors de l'utilisation du champ, une fois de plus pour faciliter 
+  le portage de code API. Cela peut être considéré comme une bizarrerie (et pour être honnête, ça l'est) 
+  mais c'est comme ça depuis le début de PureBasic et beaucoup, beaucoup de sources sont écrites de cette façon et
+  cela restera inchangé.
+  @LineBreak
+  @LineBreak
+  Quand beaucoup de champs doivent être remplis en une fois, il est conseillé d'utiliser @ReferenceLink "with_endwith" "With" : @ReferenceLink "with_endwith" "EndWith" 
+  pour réduire la quantité de code à saisir et améliorer sa lisibilité.
+  
+
+@Example
+@Code
+  Structure Personne
+    Nom.s
+    Prenom.s 
+    Age.w 
+  EndStructure
+
+  Dim MesAmis.Personne(100)
+
+  ; Ici la position '0' du tableau MesAmis()
+  ; contiendra une personne et ses informations personnelles
+
+  MesAmis(0)\Nom = "Durand"
+  MesAmis(0)\Prenom = "Michel" 
+  MesAmis(0)\Age = 32
+@EndCode
+
+@Example Structure plus complexe (Tableau statique imbriqué)
+@Code
+   Structure Fenetre
+    *FenetreSuivante.Fenetre  ; Pointe vers un autre objet fenêtre
+    x.w 
+    y.w
+    Nom.s[10]  ; 10 noms possibles
+  EndStructure
+@EndCode
+  
+@Example Structure étendue
+@Code
+  Structure MonPoint
+    x.l 
+    y.l
+  EndStructure
+
+  Structure MonPointEnCouleur Extends MonPoint
+    couleur.l 
+  EndStructure
+
+  ColoredPoint.MonPointEnCouleur\x = 10
+  ColoredPoint.MonPointEnCouleur\y = 20
+  ColoredPoint.MonPointEnCouleur\couleur = RGB(255, 0, 0)
+@EndCode
+
+
+@Example Copie de structure
+@Code
+  Structure MonPoint
+    x.l 
+    y.l
+  EndStructure
+
+  PointGauche.MonPoint\x = 10
+  PointGauche\y = 20
+  
+  PointDroit.MonPoint = PointGauche
+  
+  Debug PointDroit\x
+  Debug PointDroit\y
+@EndCode
+
+
+@Example Objet Dynamique
+@Code
+  Structure Personne
+    Nom$
+    Age.l
+    List Amis$()
+  EndStructure
+
+  Jean.Personne
+  Jean\Nom$ = "Jean"
+  Jean\Age   = 23
+  
+  ; Ajoutons des amis à Jean
+  ;
+  AddElement(Jean\Amis$())
+  Jean\Amis$() = "Jim"
+
+  AddElement(Jean\Amis$())
+  Jean\Amis$() = "Monica"
+  
+  ForEach Jean\Amis$()
+    Debug Jean\Amis$()
+  Next
+@EndCode
+
+@Example Tableau statique, dynamique et Structure en argument de procédure
+@Code
+  Structure Truc
+    a.l
+    b.l[2]          ; Tableau statique (Standard C) avec 2 valeurs b[0] et b[1], non redimensionnable
+    Array c.l(3,3)  ; Tableau dynamique avec 16 valeurs de c(0,0) à c(3,3), redimensionnable avec ReDim()
+  EndStructure
+
+  MaVar.Truc
+
+  Procedure MaProcedure(*blabla.Truc)
+    *blabla\a = 5
+    *blabla\b[0] = 1
+    *blabla\b[1] = 2
+    *blabla\c(3,3) = 33
+  EndProcedure
+
+  MaProcedure(@MaVar)
+  Debug MaVar\a
+  Debug MaVar\b[0]
+  Debug MaVar\b[1]
+  Debug MaVar\c(3,3)
+  
+  ;Debug MaVar\c(0,10) ; Erreur index hors limite
+  ReDim MaVar\c(3,10)  ; Attention, seule la dernière dimension peut être redimensionnée !
+  Debug  MaVar\c(0,10)
+@EndCode
+
+
+@Example Structure de structure(s)
+@Code
+  Structure pointF 
+    x.f 
+    y.f 
+  EndStructure 
+   
+  Structure Champs 
+    Champs1.q 
+    Champs2.s{6}
+    Champs3.s
+    Array Tab.pointF(3)  
+  EndStructure 
+ 
+  Define MaVar.Champs 
+ 
+  MaVar\Tab(3)\x = 34.67
+@EndCode
+
+
+@Example Alignement Mémoire
+@Code
+  Structure Type Align 4
+    Byte.b
+    Word.w
+    Long.l
+    Float.f
+  EndStructure
+  
+  Debug OffsetOf(Type\Byte)   ; Affiche 0
+  Debug OffsetOf(Type\Word)   ; Affiche 4
+  Debug OffsetOf(Type\Long)   ; Affiche 8
+  Debug OffsetOf(Type\Float)  ; Affiche 12
+@EndCode
+
+
+@Example Pointers
+@Code
+  Structure Personne
+    *Next.Personne ; Ici, le '*' est obligatoire pour déclarer un pointeur
+    Nom$
+    Age.b
+  EndStructure
+
+  Timo.Personne\Nom$ = "Timo"
+  Timo\Age = 25
+  
+  Fred.Personne\Nom$ = "Fred"
+  Fred\Age = 25
+  
+  Timo\Next = @Fred ; Lorsque vous utilisez le pointeur, le '*' est omis
+  
+  Debug Timo\Next\Nom$ ; Affichera 'Fred'
+@EndCode
+
+  @LineBreak
+  @LineBreak
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="StructureUnion"></a>
+@FormatEndIf
+@Syntax
+
+  @Keyword StructureUnion
+    Field1.Type
+    Field2.Type
+    ...
+  @Keyword EndStructureUnion
+
+@Description
+
+  @Keyword StructureUnion est prévu pour les programmeurs avancés qui souhaitent économiser de la mémoire en 
+  partageant certains champs à l'intérieur d'une même structure. Il s'agit d'un équivalent du mot clef 'union' en C/C++.
+  @LineBreak
+  @LineBreak
+  Note: Chaque champ dans la déclaration @Keyword "StructureUnion" peut être d'un @ReferenceLink "variables" "type" différent.
+
+@Example 
+
+@Code
+  Structure Type
+    Nom$
+    StructureUnion
+      Long.l      ; Chaque champ (Long, Float et Byte) est placé à la
+      Float.f     ; même adresse mémoire.
+      String.b    ; 
+    EndStructureUnion    
+  EndStructure 
+@EndCode
+
+@Example Exemple extended  (gestion des dates)
+
+@Code
+  Structure date
+    jour.s{2}
+    pk1.s{1}
+    mois.s{2}
+    pk2.s{1}
+    an.s{4}
+  EndStructure
+  
+  Structure date2
+    StructureUnion
+      s.s{10}
+      d.date
+    EndStructureUnion
+  EndStructure
+  
+  Dim d1.date2(5)
+  
+  d1(0)\s = "05.04.2008"
+  d1(1)\s = "07.05.2009"
+  
+  Debug d1(0)\d\jour
+  Debug d1(0)\d\mois
+  Debug d1(0)\d\an
+  
+  Debug d1(1)\d\jour
+  Debug d1(1)\d\mois
+  Debug d1(1)\d\an
+    
+  d2.date2\s = "15.11.2010"
+  
+  Debug d2\d\jour
+  Debug d2\d\mois
+  Debug d2\d\an
+@EndCode

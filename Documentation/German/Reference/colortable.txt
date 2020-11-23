@@ -1,0 +1,633 @@
+@Title Farbtabelle
+
+@Section Übersicht
+  
+  Nachfolgend wird eine Farbtabelle mit einer Auswahl von 216 verschiedenen Farben in unterschiedlichen 
+  Variationen dargestellt. Sie soll einen Überblick über mögliche Farben geben und Ihnen so die Farbwahl 
+  für Ihre Grafiken, Texte, Hintergründe etc. erleichtern. Die Farbe wird als HEX-Zahl angegeben!
+  @LineBreak
+  @LineBreak
+  Die in der Tabelle angegebenen Farbwerte sind im gebräuchlichen RGB-Format (rot, grün, blau) dargestellt.
+  Zum Beispiel stellt die blaue Farbe rechts oben den Hex-Wert '$0000FF' dar, wobei die beiden 'FF' den 
+  vollen Blau-Anteil kennzeichnen.
+  @LineBreak
+  @LineBreak
+  Bei allen PureBasic-Befehlen, wo ein Farbwert erwartet wird, haben Sie drei Möglichkeiten:
+  @LineBreak
+  @LineBreak
+  1.) Die dargestellten Hexwerte - in ihre drei Farbanteile zerlegt - in der Reihenfolge (R)ot, (G)rün
+      und (B)lau mit dem Befehl @@RGB übergeben:
+@Code
+  Plot(0, 0, RGB($00,$00,$FF))
+@EndCode
+
+  2.) den Farbwert als Ganzes übergeben - dann müssen allerdings die Rot- und Blau-Anteile getauscht,
+      d.h. die Farbe im BGR-Format übergeben werden. Unser o.g. blauer Farbwert wird dann wie folgt 
+      verwendet:
+@Code
+  Plot(0, 0, $FF0000))
+@EndCode
+
+  3.) die folgenden Farb-Konstanten verwenden:
+@Code  
+      #Black   
+      #Blue    
+      #Cyan    
+      #Gray    
+      #Green   
+      #Red     
+      #White   
+      #Yellow  
+@EndCode      
+
+  Achten Sie jedoch auf das Desktop-Thema der Betriebssysteme, das die angezeigte Farbe verändern kann.
+@Code
+  Plot(0, 0, #Red))
+@EndCode
+
+  Tipp für Fortgeschrittene: RGB-Einzelwerte werden wie folgt in einen Gesamtfarbwert umgerechnet:
+    Gesamt = R + G*256 + B*65536 
+
+
+@FormatIf HTML WEBSITE
+</blockquote>
+<p><b>
+  Farbtabelle
+</b></p>
+<blockquote>
+
+<TABLE border=0 cellPadding=1 cellSpacing=0>
+  <TBODY>
+    <TR> 
+      <TD align=middle><BR> <TABLE cellSpacing=1 cellPadding=2 border=0>
+          <TBODY>
+            <TR> 
+              <TD bgColor=#000000><BR> <BR></TD>
+              <TD bgColor=#000033><BR> <BR></TD>
+              <TD bgColor=#000066><BR> <BR></TD>
+              <TD bgColor=#000099><BR> <BR></TD>
+              <TD bgColor=#0000cc><BR> <BR></TD>
+              <TD bgColor=#0000ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>000000</TD>
+              <TD>000033</TD>
+              <TD>000066</TD>
+              <TD>000099</TD>
+              <TD>0000CC</TD>
+              <TD>0000FF</TD>
+            <TR> 
+              <TD bgColor=#330000><BR> <BR></TD>
+              <TD bgColor=#330033><BR> <BR></TD>
+              <TD bgColor=#330066><BR> <BR></TD>
+              <TD bgColor=#330099><BR> <BR></TD>
+              <TD bgColor=#3300cc><BR> <BR></TD>
+              <TD bgColor=#3300ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>330000</TD>
+              <TD>330033</TD>
+              <TD>330066</TD>
+              <TD>330099</TD>
+              <TD>3300CC</TD>
+              <TD>3300FF</TD>
+            <TR> 
+              <TD bgColor=#660000><BR> <BR></TD>
+              <TD bgColor=#660033><BR> <BR></TD>
+              <TD bgColor=#660066><BR> <BR></TD>
+              <TD bgColor=#660099><BR> <BR></TD>
+              <TD bgColor=#6600cc><BR> <BR></TD>
+              <TD bgColor=#6600ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>660000</TD>
+              <TD>660033</TD>
+              <TD>660066</TD>
+              <TD>660099</TD>
+              <TD>6600CC</TD>
+              <TD>6600FF</TD>
+            <TR> 
+              <TD bgColor=#990000><BR> <BR></TD>
+              <TD bgColor=#990033><BR> <BR></TD>
+              <TD bgColor=#990066><BR> <BR></TD>
+              <TD bgColor=#990099><BR> <BR></TD>
+              <TD bgColor=#9900cc><BR> <BR></TD>
+              <TD bgColor=#9900ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>990000</TD>
+              <TD>990033</TD>
+              <TD>990066</TD>
+              <TD>990099</TD>
+              <TD>9900CC</TD>
+              <TD>9900FF</TD>
+            <TR> 
+              <TD bgColor=#cc0000><BR> <BR></TD>
+              <TD bgColor=#cc0033><BR> <BR></TD>
+              <TD bgColor=#cc0066><BR> <BR></TD>
+              <TD bgColor=#cc0099><BR> <BR></TD>
+              <TD bgColor=#cc00cc><BR> <BR></TD>
+              <TD bgColor=#cc00ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>CC0000</TD>
+              <TD>CC0033</TD>
+              <TD>CC0066</TD>
+              <TD>CC0099</TD>
+              <TD>CC00CC</TD>
+              <TD>CC00FF</TD>
+            <TR> 
+              <TD bgColor=#ff0000><BR> <BR></TD>
+              <TD bgColor=#ff0033><BR> <BR></TD>
+              <TD bgColor=#ff0066><BR> <BR></TD>
+              <TD bgColor=#ff0099><BR> <BR></TD>
+              <TD bgColor=#ff00cc><BR> <BR></TD>
+              <TD bgColor=#ff00ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>FF0000</TD>
+              <TD>FF0033</TD>
+              <TD>FF0066</TD>
+              <TD>FF0099</TD>
+              <TD>FF00CC</TD>
+              <TD>FF00FF</TD>
+            </TR>
+            <TR> 
+              <TD colSpan=6><BR> <BR></TD>
+            </TR>
+            <TR> 
+              <TD bgColor=#003300><BR> <BR></TD>
+              <TD bgColor=#003333><BR> <BR></TD>
+              <TD bgColor=#003366><BR> <BR></TD>
+              <TD bgColor=#003399><BR> <BR></TD>
+              <TD bgColor=#0033cc><BR> <BR></TD>
+              <TD bgColor=#0033ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>003300</TD>
+              <TD>003333</TD>
+              <TD>003366</TD>
+              <TD>003399</TD>
+              <TD>0033CC</TD>
+              <TD>0033FF</TD>
+            <TR> 
+              <TD bgColor=#333300><BR> <BR></TD>
+              <TD bgColor=#333333><BR> <BR></TD>
+              <TD bgColor=#333366><BR> <BR></TD>
+              <TD bgColor=#333399><BR> <BR></TD>
+              <TD bgColor=#3333cc><BR> <BR></TD>
+              <TD bgColor=#3333ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>333300</TD>
+              <TD>333333</TD>
+              <TD>333366</TD>
+              <TD>333399</TD>
+              <TD>3333CC</TD>
+              <TD>3333FF</TD>
+            <TR> 
+              <TD bgColor=#663300><BR> <BR></TD>
+              <TD bgColor=#663333><BR> <BR></TD>
+              <TD bgColor=#663366><BR> <BR></TD>
+              <TD bgColor=#663399><BR> <BR></TD>
+              <TD bgColor=#6633cc><BR> <BR></TD>
+              <TD bgColor=#6633ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>663300</TD>
+              <TD>663333</TD>
+              <TD>663366</TD>
+              <TD>663399</TD>
+              <TD>6633CC</TD>
+              <TD>6633FF</TD>
+            <TR> 
+              <TD bgColor=#993300><BR> <BR></TD>
+              <TD bgColor=#993333><BR> <BR></TD>
+              <TD bgColor=#993366><BR> <BR></TD>
+              <TD bgColor=#993399><BR> <BR></TD>
+              <TD bgColor=#9933cc><BR> <BR></TD>
+              <TD bgColor=#9933ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>993300</TD>
+              <TD>993333</TD>
+              <TD>993366</TD>
+              <TD>993399</TD>
+              <TD>9933CC</TD>
+              <TD>9933FF</TD>
+            <TR> 
+              <TD bgColor=#cc3300><BR> <BR></TD>
+              <TD bgColor=#cc3333><BR> <BR></TD>
+              <TD bgColor=#cc3366><BR> <BR></TD>
+              <TD bgColor=#cc3399><BR> <BR></TD>
+              <TD bgColor=#cc33cc><BR> <BR></TD>
+              <TD bgColor=#cc33ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>CC3300</TD>
+              <TD>CC3333</TD>
+              <TD>CC3366</TD>
+              <TD>CC3399</TD>
+              <TD>CC33CC</TD>
+              <TD>CC33FF</TD>
+            <TR> 
+              <TD bgColor=#ff3300><BR> <BR></TD>
+              <TD bgColor=#ff3333><BR> <BR></TD>
+              <TD bgColor=#ff3366><BR> <BR></TD>
+              <TD bgColor=#ff3399><BR> <BR></TD>
+              <TD bgColor=#ff33cc><BR> <BR></TD>
+              <TD bgColor=#ff33ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>FF3300</TD>
+              <TD>FF3333</TD>
+              <TD>FF3366</TD>
+              <TD>FF3399</TD>
+              <TD>FF33CC</TD>
+              <TD>FF33FF</TD>
+            </TR>
+            <TR> 
+              <TD colSpan=6><BR> <BR></TD>
+            </TR>
+            <TR> 
+              <TD bgColor=#006600><BR> <BR></TD>
+              <TD bgColor=#006633><BR> <BR></TD>
+              <TD bgColor=#006666><BR> <BR></TD>
+              <TD bgColor=#006699><BR> <BR></TD>
+              <TD bgColor=#0066cc><BR> <BR></TD>
+              <TD bgColor=#0066ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>006600</TD>
+              <TD>006633</TD>
+              <TD>006666</TD>
+              <TD>006699</TD>
+              <TD>0066CC</TD>
+              <TD>0066FF</TD>
+            <TR> 
+              <TD bgColor=#336600><BR> <BR></TD>
+              <TD bgColor=#336633><BR> <BR></TD>
+              <TD bgColor=#336666><BR> <BR></TD>
+              <TD bgColor=#336699><BR> <BR></TD>
+              <TD bgColor=#3366cc><BR> <BR></TD>
+              <TD bgColor=#3366ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>336600</TD>
+              <TD>336633</TD>
+              <TD>336666</TD>
+              <TD>336699</TD>
+              <TD>3366CC</TD>
+              <TD>3366FF</TD>
+            <TR> 
+              <TD bgColor=#666600><BR> <BR></TD>
+              <TD bgColor=#666633><BR> <BR></TD>
+              <TD bgColor=#666666><BR> <BR></TD>
+              <TD bgColor=#666699><BR> <BR></TD>
+              <TD bgColor=#6666cc><BR> <BR></TD>
+              <TD bgColor=#6666ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>666600</TD>
+              <TD>666633</TD>
+              <TD>666666</TD>
+              <TD>666699</TD>
+              <TD>6666CC</TD>
+              <TD>6666FF</TD>
+            <TR> 
+              <TD bgColor=#996600><BR> <BR></TD>
+              <TD bgColor=#996633><BR> <BR></TD>
+              <TD bgColor=#996666><BR> <BR></TD>
+              <TD bgColor=#996699><BR> <BR></TD>
+              <TD bgColor=#9966cc><BR> <BR></TD>
+              <TD bgColor=#9966ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>996600</TD>
+              <TD>996633</TD>
+              <TD>996666</TD>
+              <TD>996699</TD>
+              <TD>9966CC</TD>
+              <TD>9966FF</TD>
+            <TR> 
+              <TD bgColor=#cc6600><BR> <BR></TD>
+              <TD bgColor=#cc6633><BR> <BR></TD>
+              <TD bgColor=#cc6666><BR> <BR></TD>
+              <TD bgColor=#cc6699><BR> <BR></TD>
+              <TD bgColor=#cc66cc><BR> <BR></TD>
+              <TD bgColor=#cc66ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>CC6600</TD>
+              <TD>CC6633</TD>
+              <TD>CC6666</TD>
+              <TD>CC6699</TD>
+              <TD>CC66CC</TD>
+              <TD>CC66FF</TD>
+            <TR> 
+              <TD bgColor=#ff6600><BR> <BR></TD>
+              <TD bgColor=#ff6633><BR> <BR></TD>
+              <TD bgColor=#ff6666><BR> <BR></TD>
+              <TD bgColor=#ff6699><BR> <BR></TD>
+              <TD bgColor=#ff66cc><BR> <BR></TD>
+              <TD bgColor=#ff66ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>FF6600</TD>
+              <TD>FF6633</TD>
+              <TD>FF6666</TD>
+              <TD>FF6699</TD>
+              <TD>FF66CC</TD>
+              <TD>FF66FF</TD>
+            </TR>
+            <TR> 
+              <TD colSpan=6><BR> <BR></TD>
+            </TR>
+            <TR> 
+              <TD bgColor=#009900><BR> <BR></TD>
+              <TD bgColor=#009933><BR> <BR></TD>
+              <TD bgColor=#009966><BR> <BR></TD>
+              <TD bgColor=#009999><BR> <BR></TD>
+              <TD bgColor=#0099cc><BR> <BR></TD>
+              <TD bgColor=#0099ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>009900</TD>
+              <TD>009933</TD>
+              <TD>009966</TD>
+              <TD>009999</TD>
+              <TD>0099CC</TD>
+              <TD>0099FF</TD>
+            <TR> 
+              <TD bgColor=#339900><BR> <BR></TD>
+              <TD bgColor=#339933><BR> <BR></TD>
+              <TD bgColor=#339966><BR> <BR></TD>
+              <TD bgColor=#339999><BR> <BR></TD>
+              <TD bgColor=#3399cc><BR> <BR></TD>
+              <TD bgColor=#3399ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>339900</TD>
+              <TD>339933</TD>
+              <TD>339966</TD>
+              <TD>339999</TD>
+              <TD>3399CC</TD>
+              <TD>3399FF</TD>
+            <TR> 
+              <TD bgColor=#669900><BR> <BR></TD>
+              <TD bgColor=#669933><BR> <BR></TD>
+              <TD bgColor=#669966><BR> <BR></TD>
+              <TD bgColor=#669999><BR> <BR></TD>
+              <TD bgColor=#6699cc><BR> <BR></TD>
+              <TD bgColor=#6699ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>669900</TD>
+              <TD>669933</TD>
+              <TD>669966</TD>
+              <TD>669999</TD>
+              <TD>6699CC</TD>
+              <TD>6699FF</TD>
+            <TR> 
+              <TD bgColor=#999900><BR> <BR></TD>
+              <TD bgColor=#999933><BR> <BR></TD>
+              <TD bgColor=#999966><BR> <BR></TD>
+              <TD bgColor=#999999><BR> <BR></TD>
+              <TD bgColor=#9999cc><BR> <BR></TD>
+              <TD bgColor=#9999ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>999900</TD>
+              <TD>999933</TD>
+              <TD>999966</TD>
+              <TD>999999</TD>
+              <TD>9999CC</TD>
+              <TD>9999FF</TD>
+            <TR> 
+              <TD bgColor=#cc9900><BR> <BR></TD>
+              <TD bgColor=#cc9933><BR> <BR></TD>
+              <TD bgColor=#cc9966><BR> <BR></TD>
+              <TD bgColor=#cc9999><BR> <BR></TD>
+              <TD bgColor=#cc99cc><BR> <BR></TD>
+              <TD bgColor=#cc99ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>CC9900</TD>
+              <TD>CC9933</TD>
+              <TD>CC9966</TD>
+              <TD>CC9999</TD>
+              <TD>CC99CC</TD>
+              <TD>CC99FF</TD>
+            <TR> 
+              <TD bgColor=#ff9900><BR> <BR></TD>
+              <TD bgColor=#ff9933><BR> <BR></TD>
+              <TD bgColor=#ff9966><BR> <BR></TD>
+              <TD bgColor=#ff9999><BR> <BR></TD>
+              <TD bgColor=#ff99cc><BR> <BR></TD>
+              <TD bgColor=#ff99ff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>FF9900</TD>
+              <TD>FF9933</TD>
+              <TD>FF9966</TD>
+              <TD>FF9999</TD>
+              <TD>FF99CC</TD>
+              <TD>FF99FF</TD>
+            </TR>
+            <TR> 
+              <TD colSpan=6><BR> <BR></TD>
+            </TR>
+            <TR> 
+              <TD bgColor=#00cc00><BR> <BR></TD>
+              <TD bgColor=#00cc33><BR> <BR></TD>
+              <TD bgColor=#00cc66><BR> <BR></TD>
+              <TD bgColor=#00cc99><BR> <BR></TD>
+              <TD bgColor=#00cccc><BR> <BR></TD>
+              <TD bgColor=#00ccff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>00CC00</TD>
+              <TD>00CC33</TD>
+              <TD>00CC66</TD>
+              <TD>00CC99</TD>
+              <TD>00CCCC</TD>
+              <TD>00CCFF</TD>
+            <TR> 
+              <TD bgColor=#33cc00><BR> <BR></TD>
+              <TD bgColor=#33cc33><BR> <BR></TD>
+              <TD bgColor=#33cc66><BR> <BR></TD>
+              <TD bgColor=#33cc99><BR> <BR></TD>
+              <TD bgColor=#33cccc><BR> <BR></TD>
+              <TD bgColor=#33ccff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>33CC00</TD>
+              <TD>33CC33</TD>
+              <TD>33CC66</TD>
+              <TD>33CC99</TD>
+              <TD>33CCCC</TD>
+              <TD>33CCFF</TD>
+            <TR> 
+              <TD bgColor=#66cc00><BR> <BR></TD>
+              <TD bgColor=#66cc33><BR> <BR></TD>
+              <TD bgColor=#66cc66><BR> <BR></TD>
+              <TD bgColor=#66cc99><BR> <BR></TD>
+              <TD bgColor=#66cccc><BR> <BR></TD>
+              <TD bgColor=#66ccff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>66CC00</TD>
+              <TD>66CC33</TD>
+              <TD>66CC66</TD>
+              <TD>66CC99</TD>
+              <TD>66CCCC</TD>
+              <TD>66CCFF</TD>
+            <TR> 
+              <TD bgColor=#99cc00><BR> <BR></TD>
+              <TD bgColor=#99cc33><BR> <BR></TD>
+              <TD bgColor=#99cc66><BR> <BR></TD>
+              <TD bgColor=#99cc99><BR> <BR></TD>
+              <TD bgColor=#99cccc><BR> <BR></TD>
+              <TD bgColor=#99ccff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>99CC00</TD>
+              <TD>99CC33</TD>
+              <TD>99CC66</TD>
+              <TD>99CC99</TD>
+              <TD>99CCCC</TD>
+              <TD>99CCFF</TD>
+            <TR> 
+              <TD bgColor=#cccc00><BR> <BR></TD>
+              <TD bgColor=#cccc33><BR> <BR></TD>
+              <TD bgColor=#cccc66><BR> <BR></TD>
+              <TD bgColor=#cccc99><BR> <BR></TD>
+              <TD bgColor=#cccccc><BR> <BR></TD>
+              <TD bgColor=#ccccff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>CCCC00</TD>
+              <TD>CCCC33</TD>
+              <TD>CCCC66</TD>
+              <TD>CCCC99</TD>
+              <TD>CCCCCC</TD>
+              <TD>CCCCFF</TD>
+            <TR> 
+              <TD bgColor=#ffcc00><BR> <BR></TD>
+              <TD bgColor=#ffcc33><BR> <BR></TD>
+              <TD bgColor=#ffcc66><BR> <BR></TD>
+              <TD bgColor=#ffcc99><BR> <BR></TD>
+              <TD bgColor=#ffcccc><BR> <BR></TD>
+              <TD bgColor=#ffccff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>FFCC00</TD>
+              <TD>FFCC33</TD>
+              <TD>FFCC66</TD>
+              <TD>FFCC99</TD>
+              <TD>FFCCCC</TD>
+              <TD>FFCCFF</TD>
+            </TR>
+            <TR> 
+              <TD colSpan=6><BR> <BR></TD>
+            </TR>
+            <TR> 
+              <TD bgColor=#00ff00><BR> <BR></TD>
+              <TD bgColor=#00ff33><BR> <BR></TD>
+              <TD bgColor=#00ff66><BR> <BR></TD>
+              <TD bgColor=#00ff99><BR> <BR></TD>
+              <TD bgColor=#00ffcc><BR> <BR></TD>
+              <TD bgColor=#00ffff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>00FF00</TD>
+              <TD>00FF33</TD>
+              <TD>00FF66</TD>
+              <TD>00FF99</TD>
+              <TD>00FFCC</TD>
+              <TD>00FFFF</TD>
+            <TR> 
+              <TD bgColor=#33ff00><BR> <BR></TD>
+              <TD bgColor=#33ff33><BR> <BR></TD>
+              <TD bgColor=#33ff66><BR> <BR></TD>
+              <TD bgColor=#33ff99><BR> <BR></TD>
+              <TD bgColor=#33ffcc><BR> <BR></TD>
+              <TD bgColor=#33ffff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>33FF00</TD>
+              <TD>33FF33</TD>
+              <TD>33FF66</TD>
+              <TD>33FF99</TD>
+              <TD>33FFCC</TD>
+              <TD>33FFFF</TD>
+            <TR> 
+              <TD bgColor=#66ff00><BR> <BR></TD>
+              <TD bgColor=#66ff33><BR> <BR></TD>
+              <TD bgColor=#66ff66><BR> <BR></TD>
+              <TD bgColor=#66ff99><BR> <BR></TD>
+              <TD bgColor=#66ffcc><BR> <BR></TD>
+              <TD bgColor=#66ffff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>66FF00</TD>
+              <TD>66FF33</TD>
+              <TD>66FF66</TD>
+              <TD>66FF99</TD>
+              <TD>66FFCC</TD>
+              <TD>66FFFF</TD>
+            <TR> 
+              <TD bgColor=#99ff00><BR> <BR></TD>
+              <TD bgColor=#99ff33><BR> <BR></TD>
+              <TD bgColor=#99ff66><BR> <BR></TD>
+              <TD bgColor=#99ff99><BR> <BR></TD>
+              <TD bgColor=#99ffcc><BR> <BR></TD>
+              <TD bgColor=#99ffff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>99FF00</TD>
+              <TD>99FF33</TD>
+              <TD>99FF66</TD>
+              <TD>99FF99</TD>
+              <TD>99FFCC</TD>
+              <TD>99FFFF</TD>
+            <TR> 
+              <TD bgColor=#ccff00><BR> <BR></TD>
+              <TD bgColor=#ccff33><BR> <BR></TD>
+              <TD bgColor=#ccff66><BR> <BR></TD>
+              <TD bgColor=#ccff99><BR> <BR></TD>
+              <TD bgColor=#ccffcc><BR> <BR></TD>
+              <TD bgColor=#ccffff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>CCFF00</TD>
+              <TD>CCFF33</TD>
+              <TD>CCFF66</TD>
+              <TD>CCFF99</TD>
+              <TD>CCFFCC</TD>
+              <TD>CCFFFF</TD>
+            <TR> 
+              <TD bgColor=#ffff00><BR> <BR></TD>
+              <TD bgColor=#ffff33><BR> <BR></TD>
+              <TD bgColor=#ffff66><BR> <BR></TD>
+              <TD bgColor=#ffff99><BR> <BR></TD>
+              <TD bgColor=#ffffcc><BR> <BR></TD>
+              <TD bgColor=#ffffff><BR> <BR></TD>
+            <TR></TR>
+            <TR> 
+              <TD>FFFF00</TD>
+              <TD>FFFF33</TD>
+              <TD>FFFF66</TD>
+              <TD>FFFF99</TD>
+              <TD>FFFFCC</TD>
+              <TD>FFFFFF</TD>
+            </TR>
+          </TBODY>
+        </TABLE></TD>
+    </TR>
+  </TBODY>
+</TABLE>
+</blockquote>
+@FormatElse
+
+@FormatEndIf

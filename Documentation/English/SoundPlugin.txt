@@ -1,0 +1,66 @@
+;
+;     SoundPlugin library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library SoundPlugin
+
+@Overview
+
+  PureBasic supports external sound formats through a dynamic native plug-in system. This means
+  that only the needed encoder or decoder is added to the final executable, which decreases the final
+  program size substantially. For example, if only the OGG decoder is needed, only the code dealing with the
+  OGG decoder will be used. Another nice feature is the automatic sound format detection, whenever several
+  different decoders are used. The following functions support the Sound plugins: @@LoadSound,
+  and @@CatchSound.
+    
+@CommandList
+
+@ExampleFile All SoundPlugin.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseFLACSoundDecoder()
+
+@Description
+  Enables the FLAC (Free Lossless Audio Codec) sound support for @@CatchSound and @@LoadSound.
+  Sound streaming is supported for this plug-in.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Since FLAC is a @Underline "not" destructive compression codec, the file size will remain quite large, especially compared to
+  @Link "UseOGGSoundDecoder" "OGG" for example. This allows for a reduction in file size, while still retaining all the 
+  original sound information.
+@LineBreak
+@LineBreak
+  For more information: @InternetLink "http://en.wikipedia.org/wiki/Free_Lossless_Audio_Codec" "Wikipedia - FLAC".
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOGGSoundDecoder()
+
+@Description
+  Enables the OGG (OGG Vorbis) sound support for @@CatchSound and @@LoadSound.
+  Sound streaming is supported for this plug-in.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  The OGG format uses destructive compression (lossy) which entails the loss of some of the original information when it is compressed.
+  This is actually one of the best lossy compression algorithms available, which can dramatically decrease the sound file size without 
+  the introduction of unnecessary audio artifacts. 
+@LineBreak
+@LineBreak
+  For more information: @InternetLink "http://en.wikipedia.org/wiki/Vorbis" "Wikipedia - OGG".
+  
+@SupportedOS

@@ -1,0 +1,234 @@
+@Title UserGuide - Compiler directives (for different behavior on different OS)
+
+This will be our last visit to the File Properties program. There is one limitation
+discussed previously to overcome and we've left it until now because it is a special case.
+@LineBreak
+@LineBreak
+So far the Attributes column on the display has simply been an @ReferenceLink "variables" "integer".
+This is because the return values of the @@GetFileAttributes and @@DirectoryEntryAttributes
+instructions have a different meaning on Windows systems compared with Mac and Linux systems.
+@LineBreak
+@LineBreak
+We can't allow for this difference at run-time, however we can use
+@ReferenceLink "compilerdirectives" "Compiler Directives" to have the program behave
+differently on the three different operating systems.
+@LineBreak
+@LineBreak
+
+Add this new procedure declaration to that section.
+@Code
+  Declare.s AttributeString(Attributes.l)
+@EndCode
+
+Add this new procedure to the implementation section.
+@Code
+  Procedure.s AttributeString(Attributes.l)
+    ; Converts an integer attributes value into a string description.
+    ; Supports Linux, Mac and Windows system's attributes.
+    
+    Protected.s Result
+    
+    Result = ""
+    
+    CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+          
+          ; These are the attributes for Windows systems.
+          ; A logical-and of the attribute with each constant filters out that bit and can then be used for comparison.
+      
+          If Attributes & #PB_FileSystem_Archive
+              Result + "A"
+          Else
+              Result + " "
+          EndIf
+          
+          If Attributes & #PB_FileSystem_Compressed
+              Result + "C"
+          Else
+              Result + " "
+          EndIf
+          
+          If Attributes & #PB_FileSystem_Hidden
+              Result + "H"
+          Else
+              Result + " "
+          EndIf
+          
+          If Attributes & #PB_FileSystem_ReadOnly
+              Result + "R"
+          Else
+              Result + " "
+          EndIf
+          
+          If Attributes & #PB_FileSystem_System
+              Result + "S"
+          Else
+              Result + " "
+          EndIf
+          
+    CompilerElse
+      
+      ; These are the attributes for Mac and Linux systems.
+      
+      If Attributes & #PB_FileSystem_Link
+        Result + "L "
+      Else
+        Result + "  "
+      EndIf
+      
+      ; User attributes.
+      If Attributes & #PB_FileSystem_ReadUser
+        Result + "R"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_WriteUser
+        Result + "W"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_ExecUser
+        Result + "X "
+      Else
+        Result + "  "
+      EndIf
+      
+      ; Group attributes.
+      If Attributes & #PB_FileSystem_ReadGroup
+        Result + "R"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_WriteGroup
+        Result + "W"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_ExecGroup
+        Result + "X "
+      Else
+        Result + "  "
+      EndIf
+      
+      ; All attributes.
+      If Attributes & #PB_FileSystem_ReadAll
+        Result + "R"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_WriteAll
+        Result + "W"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_ExecAll
+        Result + "X"
+      Else
+        Result + " "
+      EndIf
+      
+    CompilerEndIf
+    
+    ; Return the result.
+    ProcedureReturn Result
+    
+  EndProcedure
+@EndCode
+
+Finally, replace these two lines in the ListLoad procedure
+@Code
+      ; Convert the attributes to a string, for now.
+      Attrib = StrU(Files()\Attributes)
+@EndCode
+
+with these,
+@Code
+      ; Call AttributeString to convert the attributes to a string representation.
+      Attrib = AttributeString(Files()\Attributes)
+@EndCode
+
+Now when the program is executed a string display will be shown instead of the integer values.
+On a Windows system it would look something like this (assuming all attributes are set):
+@Code
+  ACHRS
+@EndCode
+
+and on the other two systems:
+@Code
+  L RWX RWX RWX
+@EndCode
+
+The @ReferenceLink "compilerdirectives" "CompilerIf" instruction works much like an
+@ReferenceLink "if_endif" "If" instruction - however it is the compiler that makes the
+decision at compile-time, rather than the executable at run-time. This means that we can
+include different code to handle the file attributes on the different operating systems.
+@LineBreak
+@LineBreak
+The lines between:
+@Code
+  CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+@EndCode
+
+and
+@Code
+  CompilerElse
+@EndCode
+
+will be compiled on Windows systems. The constant @#PB_Compiler_OS is automatically defined
+by PureBasic to allow this kind of program logic.
+@LineBreak
+@LineBreak
+The other section will be used on Mac and Linux systems - which work the same way,
+conveniently. If these operating systems had different attribute values too, then we could 
+use @ReferenceLink "compilerdirectives" "CompilerSelect" and @ReferenceLink "compilerdirectives" "CompilerCase"
+to make a three-way determination.
+@Code
+  CompilerSelect #PB_Compiler_OS
+      
+    CompilerCase #PB_OS_Linux
+      ; Code for Linux systems.
+      
+
+    CompilerCase #PB_OS_MacOS
+      ; Code for Mac systems.
+      
+    CompilerCase #PB_OS_Windows
+      ; Code for Windows systems.
+      
+  CompilerEndSelect
+@EndCode
+
+The last compiler directive that we're going to discuss here is:
+@ReferenceLink "compilerdirectives" "EnableExplicit".
+@LineBreak
+@LineBreak
+There is a good reason for using this directive. It requires that all @ReferenceLink "variables" "variables"
+must be defined explicitly before usage, in some way, (using @ReferenceLink "define" "Define",
+@ReferenceLink "dim" "Dim", @ReferenceLink "global" "Global", @ReferenceLink "protected" "Protected",
+@ReferenceLink "static" "Static" etc.) Doing so eliminates the possibility of logic errors due
+to mistyped variable names being defined "on-the-fly". This type of subtle error will not affect
+a program's compilation but could well present as an inconvenient bug at run-time. Using this
+directive eliminates this kind of problem as a compiler error would occur.
+@LineBreak
+@LineBreak
+For example:
+@Code
+  EnableExplicit
+  
+  Define.l Field, FieldMax
+  
+  ; ...
+  
+  If Field < FieldMax
+    ; If EnableExplicit is omitted this section of code may not execute when intended because FieldMax will be zero.
+  EndIf
+@EndCode
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_procedures" "< Previous: Structuring code in Procedures" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_files" "Next: Reading and writing files >"

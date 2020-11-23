@@ -1,0 +1,82 @@
+@Title Building a DLL
+
+  PureBasic allows to create standard Microsoft Windows DLL (Dynamic Linked Library), shared objects (.so) on Linux,
+  and dynamic libraries (.dylib) on MacOS X. 
+  The DLL code is like a PureBasic code excepts than no real code should be written outside of procedure. @LineBreak
+  @LineBreak
+  When writing a DLL, all the code is done inside procedures. When a procedure should be public 
+  (ie: accessible by third programs which will use the DLL), the keyword @Keyword ProcedureDLL (or @Keyword ProcedureCDLL if 
+  the procedure needs to be in 'CDecl' format, which is not the case of regular Windows DLL) is used instead 
+  of @Keyword Procedure (and @Keyword DeclareDLL or @Keyword DeclareCDLL if are used instead of Declare). This is the only change 
+  to do to a program. @LineBreak
+  @LineBreak
+  When this is done, select 'Shared DLL' as output format ('Compiler Option' window in the PureBasic editor 
+  or /DLL switch in command line) and a DLL with the name you set (in the save-requester when using the IDE) 
+  will be created in the selected directory.
+
+  @Example
+
+@Code
+  ProcedureDLL MyFunction()
+    MessageRequester("Hello", "This is a PureBasic DLL !", 0)
+  EndProcedure
+    
+  ; Now the client program, which use the DLL
+  ;
+  If OpenLibrary(0, "PureBasic.dll")
+    CallFunction(0, "MyFunction")
+    CloseLibrary(0)
+  EndIf
+@EndCode
+  
+  @Bold "For advanced programmers:" there is 4 special procedures which are called automatically by the OS when one 
+  of the following events happen: @LineBreak
+  @LineBreak
+  - DLL is attached to a new process @LineBreak
+  - DLL is detached from a process @LineBreak
+  - DLL is attached to a new thread @LineBreak
+  - DLL is detached from a thread @LineBreak
+  @LineBreak
+  To handle that, it's possible to declare 4 special procedures called: @FunctionColor AttachProcess(Instance), @FunctionColor DetachProcess(Instance), 
+  @FunctionColor AttachThread(Instance) and @FunctionColor DetachThread(Instance). This means these 4 procedures names are reserved and 
+  can't be used by the programmer for other purposes. @LineBreak
+  @LineBreak
+  @Bold "Notes about creating DLL's:" @LineBreak
+  @LineBreak
+  - The declaration of arrays, lists or map with @ReferenceLink "Dim" Dim, @ReferenceLink "NewList" NewList or @ReferenceLink "newmap" "NewMap" must always be done inside the procedure AttachProcess. @LineBreak
+  - Don't write program code outside procedures. The only exception is the declaration of variables or structures. @LineBreak
+  - DirectX initialization routines must not be written in the AttachProcess procedure. @LineBreak
+  @LineBreak
+  @Bold "Note about returning strings from DLL's:" @LineBreak
+  @LineBreak
+  If you want to return a string out of a DLL, the string has to be declared as @ReferenceLink "Global" Global before using it.
+
+@Example
+
+@Code
+  Global ReturnString$
+  
+  ProcedureDLL.s MyFunction(var.s)
+    ReturnString$ = var + " test"
+    ProcedureReturn ReturnString$
+  EndProcedure
+@EndCode
+
+  Without declaring it as @ReferenceLink "Global" Global first, the string is local to the ProcedureDLL
+  and can't be accessed from outside.
+  @LineBreak
+  @LineBreak
+  When using @@CallFunction (or one of its similar CallXXX functions) on 
+  a DLL function you will get a pointer on the return string, which you could read with 
+  @@PeekS.
+
+  @Example
+
+@Code
+  String.s = PeekS(CallFunction(0, "FunctionName", Parameter1, Parameter2))
+@EndCode 
+
+  @Bold "Here a complete code example:"
+  @LineBreak
+  
+  @ExampleFile All DLLSample.pb 

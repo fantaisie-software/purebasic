@@ -1,0 +1,75 @@
+@Title Break : Continue
+
+@Syntax
+
+  @Keyword Break [Level]
+
+@Description
+
+  @Keyword Break bietet die Möglichkeit, folgende Schleifen während jeder Wiederholung (Iteration) zu verlassen: 
+  @ReferenceLink "Repeat_Until" Repeat, @ReferenceLink "For_Next" For, @ReferenceLink "ForEach_Next" ForEach und @ReferenceLink "While_Wend" While. 
+  Der optionale 'Level' Parameter gibt die Anzahl zu verlassender Schleifen an, wenn es sich 
+  um mehrere verschachtelte Schleifen handelt. Wenn kein Parameter angegeben wurde, verlässt @Keyword Break die aktuelle Schleife.
+
+@Example Einfache Schleife
+       
+@Code       
+  For k=0 To 10
+    If k=5
+      Break  ; Wird direkt die For/Next Schleife verlassen
+    EndIf
+    Debug k
+  Next
+@EndCode  
+
+@Example Verschachtelte Schleifen
+  
+@Code    
+  For k=0 To 10
+    Counter = 0
+    Repeat
+      If k=5
+        Break 2 ; Wird direkt die Repeat/Until und die For/Next Schleifen verlassen
+      EndIf
+      Counter+1
+    Until Counter > 1
+    Debug k
+  Next
+@EndCode
+  
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword Continue
+
+@Description
+
+  @Keyword Continue bietet die Möglichkeit, bei folgenden Schleifen die aktuelle Wiederholung (Schleifendurchlauf)
+  zu überspringen und direkt zum Ende der Schleife zu springen (ohne den Quellcode dazwischen zu verarbeiten): 
+  @ReferenceLink "Repeat_Until" Repeat, @ReferenceLink "For_Next" For, @ReferenceLink "ForEach_Next" ForEach und @ReferenceLink "While_Wend" While. 
+  
+  @Example
+
+@Code       
+  For k=0 To 10
+    If k=5
+      Continue  ; Wird das 'Debug 5' überspringen und direkt zum nächstem Schleifendurchlauf übergehen
+    EndIf
+    Debug k
+  Next
+@EndCode  
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

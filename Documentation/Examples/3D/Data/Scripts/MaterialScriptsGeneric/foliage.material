@@ -1,0 +1,64 @@
+vertex_program foliage_vertexHLSL hlsl
+{
+	source foliage.hlsl
+	target vs_3_0
+	entry_point foliage_vertex
+}
+
+fragment_program foliage_pixelHLSL hlsl
+{
+	source foliage.hlsl
+	target ps_3_0
+	entry_point foliage_pixel
+}
+vertex_program foliage_vertexGLSL glsl
+{
+	source foliage_v.glsl
+}
+fragment_program foliage_pixelGLSL glsl
+{
+	source foliage_p.glsl
+}
+// Unified definition
+vertex_program foliage_vertex unified
+{
+	delegate foliage_vertexGLSL
+	delegate foliage_vertexHLSL
+}
+fragment_program foliage_pixel unified
+{
+	delegate foliage_pixelGLSL
+	delegate foliage_pixelHLSL
+}
+
+material foliage
+{
+	technique
+	{
+		pass
+		{			
+			vertex_program_ref foliage_vertex
+			{
+				param_named_auto 	world_matrix  	world_matrix
+				param_named_auto 	view_matrix  	viewproj_matrix
+				param_named_auto 	lightPosition 		light_position_object_space 0
+				param_named_auto 	lightdif 	derived_light_diffuse_colour 0
+				param_named_auto 	lightamb 	derived_ambient_light_colour 0
+				param_named_auto 	texmatx 			texture_matrix 0
+				param_named_auto 	fog 				fog_params
+				param_named_auto 	time				time 0.5 
+				param_named		 	windspeedx 			float 2
+				param_named		 	windspeedz			float 0
+			}
+			fragment_program_ref foliage_pixel
+			{
+				param_named_auto	fogcolor	fog_colour
+				param_named tex int 0
+			}
+			texture_unit
+			{
+				texture_alias texture1
+			}
+		}
+	}
+}

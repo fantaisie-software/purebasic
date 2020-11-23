@@ -1,0 +1,44 @@
+@Title Einsteiger-Kapitel - Erste Schritte mit der Debug-Ausgabe (Variablen & Operatoren)
+
+Normalerweise würden wir hier das typische "Hello World" ("Hallo Welt") präsentieren. Sie möchten es sehen?
+Ok, wir beginnen hier mit zwei Beispielen:
+
+@Section Debug-Ausgabe
+
+"Hello World" im @ReferenceLink "debugger" "Debug" Ausgabe-Fenster:
+
+@Code
+  Debug "Hello World!"
+@EndCode
+
+@Section MessageRequester
+
+"Hello World" in einem @@MessageRequester:
+
+@Code
+  MessageRequester("", "Hello World!")
+@EndCode
+
+@Section Fortgeschrittenes Debug-Beispiel:
+
+Wir fahren nun fort mit einem kleinen Beispiel unter Verwendung der verfügbaren Variablen-Typen,
+arithmetischen Operatoren und Darstellung des Ergebnisses:
+
+@Code
+  a = 5
+  b = 7
+  c = 3
+
+  d = a + b  ; wir verwenden die in den Variablen 'a' und 'b' gespeicherten Werte und speichern die Summe von beiden in 'd'
+  d / c      ; wir verwenden direkt den Wert von 'd' (= 12) geteilt durch den Wert von 'c' (= 3) und speichern das Ergebnis in 'd'
+
+  Debug d   ; wird 4 ausgeben
+@EndCode
+
+Auf diesem Weg haben Sie Variablen "on the fly" verwendet. Um den Compiler zu zwingen,
+Variablen immer vor ihrer ersten Verwendung zu deklarieren, verwenden Sie einfach das
+Schlüsselwort @ReferenceLink "compilerdirectives" "EnableExplicit". 
+
+
+@Section Einsteiger-Kapitel Navigation
+@ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_variables" "Nächstes: Variablen >"

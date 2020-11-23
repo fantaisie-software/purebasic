@@ -1,0 +1,429 @@
+;
+;     ToolBar library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library ToolBar
+
+@Overview
+  Toolbars are very useful to access some functions of the application 
+  quickly, with the help of small icons. It's often the shortcuts of menus 
+  items. SpiderBasic allows to create any number of toolbar and to handle them as 
+  if it was a menu.
+
+@CommandList
+
+@ExampleFile All ToolBar.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateToolBar(#ToolBar, WindowID)
+
+@Description
+  Creates a new empty toolbar on the given window.
+  
+@Parameter "#ToolBar"
+  A number to identify the new toolbar.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "WindowID"
+  The window for the new toolbar. It can be obtained using the @@WindowID function.
+  
+@ReturnValue
+  Returns nonzero if the toolbar was created successfully and zero if not. If @#PB_Any was used
+  for the #ToolBar parameter then the generated number is returned on success.
+  
+@Remarks
+  This toolbar become the default toolbar for creation and it's possible to use 
+  @@ToolBarImageButton and @@ToolBarSeparator to
+  add some items to this toolbar.
+@LineBreak
+@LineBreak
+  The events are handled the same way than menu events, using the function @@EventMenu. ToolBars are
+  often used as shortcut for menu items, so when assigning the same menu item number to a toolbar
+  button, both events are handled using the same code.
+
+@Example
+@Code
+  Procedure MenuEvents()
+    Debug "ToolBar item selected: " + EventMenu()
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 295, 260, "ToolBar example", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+    
+    CreateImage(0, 16, 16, 32, #PB_Image_Transparent)
+    If StartDrawing(ImageOutput(0))
+      Circle(8, 8, 7, RGB(255, 0, 0))
+      StopDrawing()
+    EndIf
+    
+    If CreateToolBar(0, WindowID(0))
+      ToolBarImageButton(0, ImageID(0))
+      ToolBarImageButton(2, ImageID(0))
+      ToolBarSeparator()
+      ToolBarImageButton(3, ImageID(0))
+      ToolBarToolTip(0, 3, "Cut")
+      
+      ToolBarImageButton(4, ImageID(0))
+      ToolBarToolTip(0, 4, "Copy")
+    EndIf
+    
+    DisableToolBarButton(0, 2, 1) ; Disable the button '2'
+      
+    BindEvent(#PB_Event_Menu, @MenuEvents())
+  EndIf
+@EndCode
+@LineBreak
+@Image createtoolbar.png
+
+@SeeAlso
+  @@ToolBarImageButton, @@ToolBarSeparator, @@FreeToolBar
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeToolBar(#ToolBar)
+
+@Description
+  Free the specified #Toolbar.
+
+@Parameter "#ToolBar"
+  The toolbar to free. If @#PB_All is specified, all the remaining toolbar are freed.
+  
+@NoReturnValue
+
+@Remarks  
+  All remaining toolbars are automatically freed when the program ends.
+  
+@SeeAlso
+  @@CreateToolBar
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableToolBarButton(#ToolBar, Button, State)
+
+@Description
+  Disable (or enable) a toolbar button in the given toolbar.
+
+@Parameter "#ToolBar"
+  The toolbar to use.
+
+@Parameter "Button"
+  The toolbar button to disable or enable.
+
+@Parameter "State"
+  The new state for the toolbar button. A value of 1 disables
+  the toolbar button and a value of 0 enables it.
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure MenuEvents()
+    Debug "ToolBar item selected: " + EventMenu()
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 295, 260, "ToolBar example", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+    
+    CreateImage(0, 16, 16, 32, #PB_Image_Transparent)
+    If StartDrawing(ImageOutput(0))
+      Circle(8, 8, 7, RGB(255, 0, 0))
+      StopDrawing()
+    EndIf
+    
+    If CreateToolBar(0, WindowID(0))
+      ToolBarImageButton(0, ImageID(0))
+      ToolBarImageButton(2, ImageID(0))
+      ToolBarSeparator()
+      ToolBarImageButton(3, ImageID(0))
+      ToolBarToolTip(0, 3, "Cut")
+      
+      ToolBarImageButton(4, ImageID(0))
+      ToolBarToolTip(0, 4, "Copy")
+    EndIf
+    
+    DisableToolBarButton(0, 2, 1) ; Disable the button '2'
+      
+    BindEvent(#PB_Event_Menu, @MenuEvents())
+  EndIf
+@EndCode
+@LineBreak
+@Image disabletoolbarbutton.png
+
+@SeeAlso
+  @@ToolBarImageButton
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function State = GetToolBarButtonState(#ToolBar, Button)
+
+@Description
+  Get the state of the specified toolbar button. The button has to be
+  created using the @#PB_ToolBar_Toggle mode.
+
+@Parameter "#ToolBar"
+  The toolbar to use.
+
+@Parameter "Button"
+  The toolbar button to get the state.
+  
+@ReturnValue
+  Returns nonzero if the toolbar button is toggled (pushed) and zero otherwise.
+
+@Remarks
+  Use @@SetToolBarButtonState to change the state of a toolbar button.
+
+@SeeAlso
+  @@SetToolBarButtonState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsToolBar(#ToolBar)
+
+@Description
+  Tests if the given #ToolBar number is a valid and correctly initialized, toolbar. 
+  
+@Parameter "#ToolBar"
+  The toolbar to use.
+
+@ReturnValue
+  Returns nonzero if #ToolBar is a valid toolbar and zero otherwise.
+  
+@Remarks
+  This function is bulletproof and can be used with any value. If the 'Result' is not zero then the object is valid and
+  initialized, otherwise it will equal zero. This is the correct way to ensure a toolbar is ready to use.
+  
+@SeeAlso
+  @@CreateToolBar
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetToolBarButtonState(#ToolBar, Button, State)
+
+@Description
+  Set the state of the specified toolbar button. The button has to be
+  created using the @#PB_ToolBar_Toggle mode.
+
+@Parameter "#ToolBar"
+  The toolbar to use.
+
+@Parameter "Button"
+  The toolbar button to set the state.
+  
+@Parameter "State"
+  The new state value for the toolbar button. If the state value is nonzero, the toolbar button will be pushed,
+  else it will be unpushed. 
+  
+@NoReturnValue
+
+@Remarks
+  Use @@GetToolBarButtonState to get the state of a toolbar button.
+
+@SeeAlso
+  @@GetToolBarButtonState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ToolBarHeight(#ToolBar) 
+
+@Description
+  Returns the height (in pixels) of the toolbar. This is useful for correct calculation on window height
+  when using a toolbar.
+
+@Parameter "#ToolBar"
+  The toolbar to use.
+
+@ReturnValue
+  Returns the height (in pixels) of the toolbar.
+
+@SeeAlso
+  @@CreateToolBar
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ToolBarImageButton(#Button, ImageID [, Mode])
+
+@Description
+  Add an image button to the toolbar being constructed. @@CreateToolBar must 
+  be called before to use this function.
+
+@Parameter "#Button"
+  The new toolbar button identifier.
+
+@Parameter "ImageID"
+  The image to use for the button. It can be easily obtained by using @@ImageID from
+  the Image library. It can be an image loaded with @@LoadImage or
+  created in memory with @@CreateImage. To have a real transparent background, use the PNG file format.
+
+@OptionalParameter "Mode"
+  The mode value can be one of the following constants:
+@FixedFont
+  @#PB_ToolBar_Normal: the button will act as standard button (default)
+  @#PB_ToolBar_Toggle: the button will act as toggle button
+@EndFixedFont
+  @@GetToolBarButtonState and @@SetToolBarButtonState can be used to retrieve or modify a toggle button state.
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure MenuEvents()
+    Debug "ToolBar item selected: " + EventMenu()
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 295, 260, "ToolBar example", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+    
+    CreateImage(0, 16, 16, 32, #PB_Image_Transparent)
+    If StartDrawing(ImageOutput(0))
+      Circle(8, 8, 7, RGB(255, 0, 0))
+      StopDrawing()
+    EndIf
+    
+    If CreateToolBar(0, WindowID(0))
+      ToolBarImageButton(0, ImageID(0), #PB_ToolBar_Toggle)
+      ToolBarToolTip(0, 0, "Open")
+      ToolBarImageButton(1, ImageID(0))
+      ToolBarToolTip(0, 1, "Save")
+    EndIf
+      
+    BindEvent(#PB_Event_Menu, @MenuEvents())
+  EndIf
+@EndCode
+@LineBreak
+@Image toolbarimagebutton.png
+
+@SeeAlso
+  @@CreateToolBar, @@ToolBarSeparator
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ToolBarSeparator()
+
+@Description
+  Add a vertical separator to toolbar being constructed. @@CreateToolBar must be 
+  called before to use this function.
+
+@NoParameters
+@NoReturnValue
+
+@Example
+@Code
+  Procedure MenuEvents()
+    Debug "ToolBar item selected: " + EventMenu()
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 295, 260, "ToolBar example", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+    
+    CreateImage(0, 16, 16, 32, #PB_Image_Transparent)
+    If StartDrawing(ImageOutput(0))
+      Circle(8, 8, 7, RGB(255, 0, 0))
+      StopDrawing()
+    EndIf
+    
+    If CreateToolBar(0, WindowID(0))
+      ToolBarImageButton(0, ImageID(0))
+      ToolBarSeparator()
+      ToolBarImageButton(2, ImageID(0))
+      ToolBarSeparator()
+      ToolBarImageButton(3, ImageID(0))
+    EndIf
+      
+    BindEvent(#PB_Event_Menu, @MenuEvents())
+  EndIf
+@EndCode
+@LineBreak
+@Image toolbarseparator.png
+
+@SeeAlso
+  @@CreateToolBar, @@ToolBarImageButton
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ToolBarToolTip(#ToolBar, Button, Text$) 
+
+@Description
+  Associates the specified text to the #ToolBar button. A tool-tip text is a text which is displayed
+  when the mouse cursor is over the button for a few time (usually a small yellow floating box).
+
+@Parameter "#ToolBar"
+  The toolbar to use.
+
+@Parameter "Button"
+  The toolbar button to set the tooltip.
+
+@Parameter "Text$"
+  The new text to associate with the toolbar button. If the text is empty, the tooltip
+  is removed.
+  
+@NoReturnValue
+
+@Example
+@Code
+  Procedure MenuEvents()
+    Debug "ToolBar item selected: " + EventMenu()
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 295, 260, "ToolBar example", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+    
+    CreateImage(0, 16, 16, 32, #PB_Image_Transparent)
+    If StartDrawing(ImageOutput(0))
+      Circle(8, 8, 7, RGB(255, 0, 0))
+      StopDrawing()
+    EndIf
+    
+    If CreateToolBar(0, WindowID(0))
+      ToolBarImageButton(0, ImageID(0))
+      ToolBarToolTip(0, 0, "Open")
+      ToolBarImageButton(1, ImageID(0))
+      ToolBarToolTip(0, 1, "Save")
+    EndIf
+      
+    BindEvent(#PB_Event_Menu, @MenuEvents())
+  EndIf
+@EndCode
+@LineBreak
+@Image toolbartooltip.png
+
+@SeeAlso
+  @@ToolBarImageButton, @@ToolBarSeparator
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ToolBarID = ToolBarID(#ToolBar)
+
+@Description
+  Returns the unique system identifier of the given toolbar.
+
+@Parameter "#ToolBar"
+  The toolbar to use.
+  
+@ReturnValue
+  Returns the ID of the toolbar. This sometimes also known as 'Handle'. Look at the extra chapter @ReferenceLink "handles" 
+  "Handles and Numbers" for more information.
+
+@SeeAlso
+  @@CreateToolBar
+
+@SupportedOS

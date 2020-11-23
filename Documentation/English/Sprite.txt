@@ -1,0 +1,758 @@
+;
+;     Sprite library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Sprite
+
+@Overview
+
+'Sprites' are well known from game players. These are small pictures, sometimes
+called 'brushes', which can be displayed at any position on a screen. The
+sprites can move over graphics using a transparent layer. Even better, PureBasic allows
+you to perform real-time effects like real shadow, alphablending, coloring, zoom, rotation
+all this in windowed or full screen mode ! @LineBreak
+@LineBreak
+After initializing the screen and sprite environment via @@InitSprite
+you can start opening a @Link "Screen/OpenScreen" "full-size" or @Link "Screen/OpenWindowedScreen" "windowed" screen.
+@LineBreak
+@LineBreak
+@Bold "Windows": DirectX 9 is used for screen creation which your programs to use hardware acceleration if available.
+Two additional @ReferenceLink "ide_compiler" "Subsystems" are also available, depending of the needs: "OpenGL" and "DirectX11" which
+respectively leverage OpenGL and DirectX11 to handle screen creation.
+@LineBreak
+@LineBreak
+@Bold "Linux": OpenGL is used to manage the screen which allows to use hardware acceleration.
+@LineBreak
+@LineBreak
+@Bold "MacOS X": OpenGL is used to manage the screen which allows to use hardware acceleration.
+
+
+@CommandList
+
+@ExampleFile All Sprite.pb
+@ExampleFile Linux Sprite.pb
+@ExampleFile All WindowedScreen.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CatchSprite(#Sprite, *MemoryAddress [, Mode])
+
+@Description
+  Loads the specified sprite from the given memory area.
+  A screen should be opened with @@OpenScreen or @@OpenWindowedScreen before loading a sprite.
+  Sprites can be in BMP format or any other format supported by the @LibraryLink "imageplugin" "ImagePlugin library".
+  A catched sprite can be freed by using the @@FreeSprite function. The 'CatchSprite' function is useful when
+  using the '@ReferenceLink "includes" "IncludeBinary"' PureBasic keyword. The images can be packed inside
+  the executable. Nevertheless, use this option very carefully, as it will take
+  more memory than storing the file in an external file (the file will be in both
+  executable memory and loaded into physical memory).
+@LineBreak
+@LineBreak
+  The following functions can be used to enable automatically more image formats:
+@LineBreak
+  @@UseJPEGImageDecoder
+@LineBreak
+  @@UseJPEG2000ImageDecoder
+@LineBreak
+  @@UsePNGImageDecoder
+@LineBreak
+  @@UseTIFFImageDecoder
+@LineBreak
+  @@UseTGAImageDecoder
+
+@Parameter "#Sprite"
+  A number to identify the new sprite. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "*MemoryAddress"
+  The memory address holding the image used to create the sprite.
+
+@OptionalParameter "Mode"
+  It can be a combination of the following values (with the '|' operator):
+@FixedFont
+  @#PB_Sprite_PixelCollision: Add special information to handle pixel collision through @@SpritePixelCollision.
+  @#PB_Sprite_AlphaBlending : Sprite is created with per pixel alpha-channel support, needed for @@DisplayTransparentSprite.
+                              The image format has to support it (only PNG and TIFF for now).
+@EndFixedFont
+
+@ReturnValue
+  Nonzero if the sprite has been created, zero otherwise. If @#PB_Any was used
+  for the #Sprite parameter then the generated number is returned on success.
+
+@Example
+@Code
+  Debug CatchSprite(0, ?Pic)
+
+  DataSection
+    Pic: 
+      IncludeBinary "Sprite.bmp"
+  EndDataSection
+@EndCode
+
+@Remarks
+  The "?" is a pointer to a label. More information about pointers and memory access can be found
+  in the relating chapter @ReferenceLink "memory" "here".
+
+@SeeAlso
+  @@CreateSprite, @@LoadSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClipSprite(#Sprite, x, y, Width, Height)
+
+@Description
+  Adds a clip zone to the specified sprite. For example, if a sprite is 100*100 (Width*Height) and
+  a clipping zone is added as x=10, y=10, Width=20, Height=20 then when the sprite is displayed, only the rectangular
+  area starting from x=10, y=10 with width=20 and height=20 will be displayed.
+
+@Parameter "#Sprite"
+  The sprite to clip.
+  
+@Parameter "x, y"
+  The clipping start position (in pixels). @#PB_Default can be used as value to remove the clipping.
+
+@Parameter "Width, Height"
+  The clipping size (in pixels). @#PB_Default can be used as value to remove the clipping.
+
+@NoReturnValue
+
+@Remarks
+  On some older gfx cards the clipping with ClipSprite() doesn't work properly,
+  if the sprite is larger than the used screen.
+
+@SeeAlso
+  @@DisplaySprite, @@DisplayTransparentSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CopySprite(#Sprite1, #Sprite2 [, Mode])
+
+@Description
+  Copy the #Sprite1 to #Sprite2.
+  
+@Parameter "#Sprite1"
+  The source sprite to copy.
+  
+@Parameter "#Sprite2"
+  A number to identify the new copied sprite. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number. If #Sprite2 doesn't exists, it is created.
+  
+@OptionalParameter "Mode"
+  It can be a combination of the following values (with the '|' operator):
+@FixedFont
+  @#PB_Sprite_PixelCollision: Add special information to handle pixel collision through @@SpritePixelCollision.
+  @#PB_Sprite_AlphaBlending : Sprite is created with per pixel alpha-channel support, needed for @@DisplayTransparentSprite.
+@EndFixedFont
+
+@ReturnValue
+  Nonzero if the sprite has been copied, zero otherwise. If @#PB_Any was used
+  for the #Sprite2 parameter then the generated number is returned on success.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateSprite(#Sprite, Width, Height [, Mode])
+
+@Description
+  Creates an empty sprite with the specified dimensions. @@SpriteOutput can be used
+  to draw on the sprite.
+
+@Parameter "#Sprite"
+  A number to identify the new sprite. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+  
+@Parameter "Width, Height"
+  The size of the new sprite (in pixels).
+
+@OptionalParameter "Mode"
+  It can be a combination of the following values (with the '|' operator):
+@FixedFont
+  @#PB_Sprite_PixelCollision: Add special information to handle pixel collision through @@SpritePixelCollision.
+  @#PB_Sprite_AlphaBlending : Sprite is created with per pixel alpha-channel support, needed for @@DisplayTransparentSprite.
+@EndFixedFont
+
+@ReturnValue
+  Nonzero if the sprite has been created, zero otherwise. If @#PB_Any was used
+  for the #Sprite parameter then the generated number is returned on success.
+
+@Remarks
+  CreateSprite() has to be called in the same thread where @@OpenScreen was called.
+
+@SeeAlso
+  @@SpriteOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisplaySprite(#Sprite, x, y)
+
+@Description
+  Displays the #Sprite at the specified position on the current screen.
+  As there is no transparent color or blending, this function is faster than @@DisplayTransparentSprite.
+  This function is clipped, so it's perfectly legal to display the sprite outside of the screen.
+
+@Parameter "#Sprite"
+  The sprite to display.
+  
+@Parameter "x, y"
+  The coordinate (in pixels) in the @LibraryLink "screen" "screen" where the sprite will be display.
+
+@NoReturnValue
+
+@SeeAlso
+  @@DisplayTransparentSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisplayTransparentSprite(#Sprite, x, y [, Intensity [, Color]])
+
+@Description
+  Display the #Sprite at the specified position on the current screen. The default
+  transparent color is 0 (black - this color will not be displayed).
+  It's possible to change the transparent color with @@TransparentSpriteColor.
+  This function is clipped, so it's perfectly legal to display the sprite outside of the screen.
+  The sprite has to be created with @#PB_Sprite_AlphaBlending flag to use this command.
+
+@Parameter "#Sprite"
+  The sprite to display.
+  
+@Parameter "x, y"
+  The coordinate (in pixels) in the @LibraryLink "screen" "screen" where the sprite will be displayed.
+
+@OptionalParameter "Intensity"
+  The intensity level used to display the sprite. Valid value are from 0 (fully transparent) 
+  to 255 (fully opaque). Default value is 255.
+  
+@OptionalParameter "Color"
+  The solid color used to display the sprite. The sprite will be rendered in only one color. 
+  To get a valid color, use @@RGB.
+
+@NoReturnValue
+
+@SeeAlso
+  @@DisplaySprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeSprite(#Sprite)
+
+@Description
+  Removes the specified sprite from memory. It's not possible to use the sprite anymore after calling this function.
+
+@Parameter "#Sprite"
+  The sprite to free. If @#PB_All is specified, all the remaining sprites are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining sprites are automatically freed when the program ends.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GrabSprite(#Sprite, x, y, Width, Height [, Mode])
+
+@Description
+  Grabs the screen content from the area x,y,Width,Height and creates a new sprite.
+
+@Parameter "#Sprite"
+  A number to identify the new grabbed sprite. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+  
+@Parameter "x, y"
+  The position in the screen used to start the grab (in pixels).
+
+@Parameter "Width, Height"
+  The size of the grab (in pixels).
+
+@OptionalParameter "Mode"
+  It can be a combination of the following values (with the '|' operator):
+@FixedFont
+  @#PB_Sprite_PixelCollision: Add special information to handle pixel collision through @@SpritePixelCollision.
+  @#PB_Sprite_AlphaBlending : Sprite is created with per pixel alpha-channel support, needed for @@DisplayTransparentSprite.
+@EndFixedFont
+
+@ReturnValue
+  Nonzero if the sprite has been grabbed, zero otherwise. If @#PB_Any was used
+  for the #Sprite parameter then the generated number is returned on success.
+
+@Remarks
+  GrabSprite() should be always called outside a @@StartDrawing : @@StopDrawing block.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitSprite()
+
+@Description
+  Initializes the sprite environment for later use. You must put this function at
+  the top of your source code if you want to use the sprite functions.
+
+@NoParameters
+
+@ReturnValue
+  Nonzero if the initialization of the sprite environment has successed, zero otherwise.
+  You should always test this result to see if the sprite environment has been correctly
+  initialized. If not you must quit the program or disable all the calls to the sprite
+  related functions.
+
+@OS Windows
+@LineBreak
+@LineBreak
+  This function tries to initialize DirectX 9, so if it fails,
+  it's probably because DirectX is not found or is a previous version.
+
+@OS Linux
+@LineBreak
+@LineBreak
+  This function tries to initialize OpenGL, so if it fails,
+  it's probably because the OpenGL library is not found.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsSprite(#Sprite)
+
+@Description
+  Tests if the given #Sprite number is a valid and correctly initialized, sprite. 
+  
+@Parameter "#Sprite"
+  The sprite to use.
+
+@ReturnValue
+  Nonzero if #Sprite is a valid sprite and zero otherwise.
+  
+@Remarks
+  This function is bulletproof and can be used with any value. If the 'Result' is not zero then the object is valid and
+  initialized, otherwise it will equal zero. This is the correct way to ensure a sprite is ready to use.
+  
+@SeeAlso
+  @@CreateSprite, @@LoadSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LoadSprite(#Sprite, Filename$ [, Mode])
+
+@Description
+  Load the specified sprite into memory for immediate use. A screen should be opened with @@OpenScreen or 
+  @@OpenWindowedScreen before loading a sprite.
+@LineBreak
+@LineBreak
+  The sprite can be in BMP format or any other format supported by the @LibraryLink "imageplugin" "ImagePlugin library". 
+  The following functions can be used to enable automatically more image formats:
+@LineBreak
+@LineBreak
+  @@UseJPEGImageDecoder
+@LineBreak
+  @@UseJPEG2000ImageDecoder
+@LineBreak
+  @@UsePNGImageDecoder
+@LineBreak
+  @@UseTIFFImageDecoder
+@LineBreak
+  @@UseTGAImageDecoder
+
+@Parameter "#Sprite"
+  A number to identify the new loaded sprite. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+  
+@Parameter "Filename$"
+  Name of the image file used to create the sprite.
+
+@OptionalParameter "Mode"
+  It can be a combination of the following values (with the '|' operator):
+@FixedFont
+  @#PB_Sprite_PixelCollision: Add special information to handle pixel collision through @@SpritePixelCollision.
+  @#PB_Sprite_AlphaBlending : Sprite is created with per pixel alpha-channel support, needed for @@DisplayTransparentSprite.
+                            The image format has to support it (only PNG and TIFF for now).
+@EndFixedFont
+
+@ReturnValue
+  Nonzero if the sprite has been loaded, zero otherwise. If @#PB_Any was used
+  for the #Sprite parameter then the generated number is returned on success.
+
+@Remarks
+  Sprites shouldn't be larger than the used screenmode. Using larger sprites possibly works on some
+  hardware, on others not. Better split your large sprite to several smaller ones.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SaveSprite(#Sprite, Filename$ [, ImagePlugin [, Flags]])
+
+@Description
+  Saves the specified sprite to a file. By default, the saved image will be in 24-bit BMP format.
+  Very useful for screenshots when used with the @@GrabSprite function.
+  
+@Parameter "#Sprite"
+  The sprite to save.
+  
+@Parameter "Filename$"
+  The filename to use for the saved sprite.
+
+@OptionalParameter "ImagePlugin"
+  It can be one of the following constant:
+@FixedFont
+  @#PB_ImagePlugin_BMP     : Save the image in BMP  (default).
+  @#PB_ImagePlugin_JPEG    : Save the image in JPEG (the function @@UseJPEGImageEncoder has to be used).
+  @#PB_ImagePlugin_JPEG2000: Save the image in JPEG2000 (the function @@UseJPEG2000ImageEncoder has to be used).
+  @#PB_ImagePlugin_PNG     : Save the image in PNG  (the function @@UsePNGImageEncoder has to be used).
+@EndFixedFont
+
+@OptionalParameter "Flags"
+  Additional control over saving for the specified plug-in. For now, only quality setting is supported:
+  a number from 0 (worse quality) to 10 (maximum quality). Only the JPEG and JPEG 2000 plugins currently support it (default
+  quality is set to '7' if no flags are specified).
+
+@ReturnValue
+  Nonzero if the sprite has been successfully saved, zero otherwise.
+
+@SeeAlso
+  @@LoadSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SpriteCollision(#Sprite1, x1, y1, #Sprite2, x2, y2)
+
+@Description
+  Tests if the two sprites are overlapping.
+  
+@Parameter "#Sprite1"
+  The first sprite to test.
+
+@Parameter "x1, y1"
+  Coordinates of the first sprite, in pixels.
+
+@Parameter "#Sprite2"
+  The second sprite to test.
+
+@Parameter "x2, y2"
+  Coordinates of the second sprite, in pixels.
+
+@ReturnValue
+  Nonzero if the two sprites are overlapping, zero otherwise.
+
+@Remarks
+  This routine compares the rectangular areas around the sprites, giving a very fast
+  but not very accurate function (depending on the shapes of your sprites).
+  Very useful for fast arcade games. Zoomed sprites are also supported.
+@LineBreak
+@LineBreak
+  For a more exact collision check use @@SpritePixelCollision.
+
+@SeeAlso
+  @@SpritePixelCollision
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SpriteDepth(#Sprite)
+
+@Description
+  Returns the color depth of the specified sprite.
+
+@Parameter "#Sprite"
+  The sprite to use.
+
+@ReturnValue
+  The color depth of the specified sprite.
+  
+@SeeAlso
+  @@SpriteWidth, @@SpriteHeight  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SpriteHeight(#Sprite)
+
+@Description
+  Returns the height (in pixels) of the specified sprite.
+
+@Parameter "#Sprite"
+  The sprite to use.
+
+@ReturnValue
+  The height (in pixels) of the specified sprite.
+  
+@SeeAlso
+  @@SpriteWidth, @@SpriteDepth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SpriteID = SpriteID(#Sprite)
+
+@Description
+  Returns the unique system identifier of the given sprite.
+
+@Parameter "#Sprite"
+  The sprite to use.
+  
+@ReturnValue
+  The ID of the sprite. This sometimes also known as 'Handle'. Look at the extra chapter @ReferenceLink "handles" 
+  "Handles and Numbers" for more information.
+
+@SeeAlso
+  @@CreateSprite, @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SpritePixelCollision(#Sprite1, x1, y1, #Sprite2, x2, y2)
+
+@Description
+  Tests if the two sprites are overlapping. @#PB_Sprite_PixelCollision
+  has to be specified at the sprite creation to have this command working.
+
+@Parameter "#Sprite1"
+  The first sprite to test.
+
+@Parameter "x1, y1"
+  Coordinates of the first sprite, in pixels.
+
+@Parameter "#Sprite2"
+  The second sprite to test.
+
+@Parameter "x2, y2"
+  Coordinates of the second sprite, in pixels.
+
+@ReturnValue
+  Nonzero if the two sprites are overlapping, zero otherwise.
+
+@Remarks
+  This routine performs a transparent pixel exact collision check, giving a slower but very accurate result.
+  To optimize the comparison you should always remove as many transparent pixels as possible so that
+  the sprite size is fully used by the sprite (i.e. do not have large transparent borders around
+  the actual image of the sprite). Zoomed sprites are also supported.
+@LineBreak
+@LineBreak
+  For a faster collision check based only on rectangular bounds, use @@SpriteCollision.
+@LineBreak
+@LineBreak
+  Attention, it does not work with sprites that have been rotated or transformed.
+
+@SeeAlso
+  @@SpriteCollision
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SpriteWidth(#Sprite)
+
+@Description
+  Returns the width (in pixels) of the specified sprite.
+
+@Parameter "#Sprite"
+  The sprite to use.
+
+@ReturnValue
+  The width (in pixels) of the specified sprite.
+  
+@SeeAlso
+  @@SpriteHeight, @@SpriteDepth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OutputID = SpriteOutput(#Sprite)
+
+@Description
+  Returns the OutputID of the sprite to perform @LibraryLink "2ddrawing" "2D rendering operation" on it. 
+
+@Parameter "#Sprite"
+  The sprite to draw on.
+
+@ReturnValue
+  The output ID or zero if drawing is not possible. This value should be passed directly to the
+  @@StartDrawing function to start the drawing operation. The return-value
+  is valid only for one drawing operation and cannot be reused.
+
+@Remarks
+  SpriteOutput() has to be called in the same thread where @@OpenScreen was called.
+
+@Example
+@Code
+  StartDrawing(SpriteOutput(#Sprite))
+    ; do some drawing stuff here...
+  StopDrawing()
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TransparentSpriteColor(#Sprite, Color)
+
+@Description
+  Changes the sprite transparent color (when displayed with @@DisplayTransparentSprite).
+
+@Parameter "#Sprite"
+  The sprite to use. If @#PB_Default is used, then the default color (black - RGB(0,0,0)) is changed to the new given
+  one and all future loaded or created sprites will use this color as the transparent one.
+
+@Parameter "Color"
+  The new color to handle as transparent color. @@RGB can be used to get a valid color value.
+  A table with common colors is available @ReferenceLink "colortable" "here".
+
+@NoReturnValue
+
+@SeeAlso
+  @@DisplayTransparentSprite, @@RGB
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateSprite(#Sprite, Angle.f, Mode)
+
+@Description
+  Rotates the specified #Sprite to the given 'Angle'.
+  
+@Parameter "Angle.f"
+   Angle value, in degree (from 0 to 360). The rotation is performed clockwise.
+
+@Parameter "Mode"
+  It can be one the following values:
+@FixedFont
+  @#PB_Absolute: the angle is set to the new angle.
+  @#PB_Relative: the angle is added to the previous angle value.
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SpriteBlendingMode(SourceMode, DestinationMode)
+
+@Description
+  Changes the way the sprite are blended with the background (when using @@DisplayTransparentSprite).
+  This function is for advanced users only. The result can differ depending of the underlying subsystem:
+  for example OpenGL and DirectX doesn't behave the same.
+
+@Parameter "SourceMode, DestinationMode"
+  Both source and destination mode can be one of the following values:
+@FixedFont
+  @#PB_Sprite_BlendZero
+  @#PB_Sprite_BlendOne
+  @#PB_Sprite_BlendSourceColor
+  @#PB_Sprite_BlendInvertSourceColor
+  @#PB_Sprite_BlendDestinationColor
+  @#PB_Sprite_BlendInvertDestinationColor
+  @#PB_Sprite_BlendSourceAlpha
+  @#PB_Sprite_BlendInvertSourceAlpha
+  @#PB_Sprite_BlendDestinationAlpha
+  @#PB_Sprite_BlendInvertDestinationAlpha
+@EndFixedFont
+  The default values are SpriteBlendingMode(#PB_Sprite_BlendSourceAlpha, #PB_Sprite_BlendInvertSourceAlpha).
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SpriteQuality(Quality)
+
+@Description
+  Changes the way the sprites are rendered.
+
+@Parameter "Quality"
+  The display sprite quality. Can be one the following values:
+@FixedFont
+  @#PB_Sprite_NoFiltering      : No filtering, faster but ugly when zooming/rotating (default).
+  @#PB_Sprite_BilinearFiltering: Bilinear filtering, slower but clean when zooming/rotating.
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TransformSprite(#Sprite, x1, y1, [z1], x2, y2, [z2], x3, y3, [z3], x4, y4, [z4])
+
+@Description
+  Transforms the sprite to the new given coordinates. This is typically used to perform
+  real-time transformations. Warning, as a sprite is a combination of 2 triangles, the transformation
+  could looks strange. If one of the optional 'z' parameter is specified, all need to be specified.
+
+@Parameter "x1, y1"
+  First point coordinate, in pixel
+  
+@Parameter "x2, y2"
+  Second point coordinate, in pixel
+  
+@Parameter "x3, y3"
+  Third point coordinate, in pixel
+
+@Parameter "x4, y4"
+  Fourth point coordinate, in pixel
+
+@Parameter "z1, z2, z3, z4"
+  The 'z' value, which specify the depth of the points.
+
+@NoReturnValue
+
+@FixedFont
+
+  ;
+  ; x1         x2
+  ;   ---------
+  ;   |      /|
+  ;   |    /  |
+  ;   |  /    |
+  ;   |/      |
+  ;   ---------
+  ; x4         x3
+  ;
+
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ZoomSprite(#Sprite, Width, Height)
+
+@Description
+  Zooms the specified #Sprite from the given dimension.
+
+@Parameter "Width"
+  New sprite width (in pixels). If @#PB_Default is specified, the initial sprite width is restored.
+
+@Parameter "Height"
+  New sprite height (in pixels). If @#PB_Default is specified, the initial sprite height is restored.
+
+@NoReturnValue
+
+@SupportedOS

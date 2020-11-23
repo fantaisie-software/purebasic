@@ -1,0 +1,115 @@
+@Title Inline x86 ASM
+
+@Section Introduction
+
+  PureBasic allows you to include any x86 assembler commands (including MMX and FPU one) directly 
+  in the source code, as if it was a real assembler. And it gives you even more: you can use directly 
+  any @ReferenceLink "variables" "variables" or @ReferenceLink "memory" "pointers" in the assembler keywords, you can put any ASM commands on the same line, ... 
+  
+  On Windows and Linux, PureBasic uses @Bold "fasm" (@InternetLink "http://flatassembler.net/" "http://flatassembler.net"), so if you want more information about 
+  the syntax, just read the @Bold "fasm" guide. @LineBreak
+  On OS X, PureBasic uses @Bold "yasm" (@InternetLink "http://yasm.tortall.net/" "http://yasm.tortall.net/"), so if you want more information about 
+  the syntax, just read the @Bold "yasm" guide. @LineBreak
+  @LineBreak
+  To activate the inline assembler use the compiler directives @ReferenceLink "CompilerDirectives" "EnableASM" and @ReferenceLink "CompilerDirectives" "DisableASM". @LineBreak
+  It's possible to enable the ASM syntax coloring in the IDE with the "enable inline ASM syntax coloring" @ReferenceLink "ide_compiler" "compiler option". @LineBreak
+  
+@Section Rules
+
+  You have several rules to closely follow if you want to include ASM in a BASIC code : @LineBreak
+  @LineBreak
+  - The used @ReferenceLink "variables" "variables" or @ReferenceLink "memory" "pointers" must be declared @Bold before to use them in an assembler keyword.
+  Their names in assembler are 'v_variablename' and 'p_pointername', and in a @ReferenceLink "procedures" "procedure" their names are 
+  'p.v_variablename' and 'p.p_pointername'. @LineBreak
+  - Labels: The labels need to be referenced in lowercase when using the in-line ASM. 
+  When you reference a @ReferenceLink "general_rules" "label", you must put the prefix 'l_' before the name. @LineBreak 
+  If the label is defined in a @ReferenceLink "procedures" "procedure", then its prefix is 'll_procedurename_', in lowercase. @LineBreak
+  When you reference a @ReferenceLink "module" "module" item, you must put the prefix 'module_name.l_' all in lowercase before the item.@LineBreak
+  If the label is defined in a @ReferenceLink "procedures" "procedure" inside a module, then its prefix is 'module_name.ll_procedurename_', in lowercase. @LineBreak
+
+  @Example
+
+@Code
+  DeclareModule MyModule
+    LabelDeclareModule: ;Its name is mymodule.l_labeldeclaremodule:
+    Declare Init()
+  EndDeclareModule
+
+  Module MyModule
+    Procedure Init() 
+      LabelModuleProcedure: ; Its name is mymodule.ll_init_labelmoduleprocedure: 
+      Debug "InitFerrari()"  
+    EndProcedure
+  
+    LabelModule1: ;Its name is mymodule.l_labelmodule1:
+  EndModule
+
+  Procedure Test (*Pointer, Variable)
+    TokiSTART:  ;Its name is ll_test_tokistart:
+  
+    ! MOV dword [p.p_Pointer], 20
+    ! MOV dword [p.v_Variable], 30
+    Debug *Pointer  ;Its name is p.p_Pointer
+    Debug Variable  ;Its name is p.v_Variable
+  EndProcedure
+  
+  VAR=1                       ;Its name is v_VAR
+  *Pointt=AllocateMemory(10)  ;Its name is p_Pointt
+  
+  MyModule::Init()
+  Test(0,0)
+
+  Label1: ;Its name is l_label1:
+  
+  !jmp l_labelend ; An instruction in assembler has to use the rules above. Here it's l_namelabel
+  ;...
+  LabelEnd: ;Its name is l_labelend:
+@EndCode 
+
+  - The errors in an ASM part are not reported by PureBasic but by FASM. Just check your code if a such error happen. @LineBreak
+  - With enabled InlineASM you can't use ASM keywords as label names in your source. @LineBreak
+  - On x86 processors, the available volatile registers are: eax, ecx and edx, xmm0, xmm1, xmm2 and xmm3. All others must be always preserved. @LineBreak
+  - On x64 processors, the available volatile registers are: rax, rcx, rdx, r8, r9, xmm0, xmm1, xmm2 and xmm3. All others must be always preserved. @LineBreak
+  - Windows only: an ASM help-file could be downloaded @InternetLink "http://www.purebasic.com/download/AsmHelp.zip" here. If you place the 'ASM.HLP' in the 'Help/' folder of PureBasic, 
+    you can also get help on ASM keywords with F1. (Note: this feature is only enabled, when InlineASM is enabled). @LineBreak
+  @LineBreak
+  When using assembler in a @ReferenceLink "procedures" "procedure", you have to be aware of several important things:  @LineBreak
+  @LineBreak
+  - To return directly the 'eax' (or 'rax' on x64) register content, just use @Keyword "ProcedureReturn", without any expression. 
+    It will let the 'eax' (or 'rax' on x64) register content untouched and use it as return-value.
+
+  @Example
+
+@Code
+  Procedure.l MyTest()
+    MOV eax, 45
+    ProcedureReturn  ; The returned value will be 45
+  EndProcedure
+@EndCode  
+
+  - Local variables in PureBasic are directly indexed by the stack pointer, which means if 
+    the stack pointer change via an ASM instruction (like PUSH, POP etc..) the variable index will 
+    be wrong and direct variable reference won't work anymore. 
+    @LineBreak
+    @LineBreak
+  - It's possible to pass directly an assembly line to the assembler without being processed by the compiler
+    by using the '!' character at the line start. This allow to have a full access to the assembler directives.
+    When using this, it's possible to reference the local variables using the notation 
+    'p.v_variablename' for a regular variable or 'p.p_variablename' for a pointer.
+    
+   @Example
+
+@Code
+  Procedure Test(*Pointer, Variable)
+    ! MOV dword [p.p_Pointer], 20
+    ! MOV dword [p.v_Variable], 30
+    Debug *Pointer
+    Debug Variable
+  EndProcedure
+  
+  Test(0, 0)
+@EndCode 
+  
+
+    @ExampleFile All AsmInline.pb
+

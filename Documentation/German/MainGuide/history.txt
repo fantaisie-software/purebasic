@@ -1,0 +1,2345 @@
+@Title PureBasic Geschichte
+
+@Section 23. November 2020 : Version 5.73 LTS
+
+- @Green "Hinzugefügt": #PB_HTTP_WeakSSL bei HTTRequest() um ältere Server zu unterstützen @LineBreak
+- @Green "Hinzugefügt": #PB_HTTP_Debug zum Ausgeben von Debug-Informationen in der Konsole @LineBreak
+- @Green "Hinzugefügt": Neue Einrückungs-Option (Shardik): @InternetLink "https://github.com/fantaisie-software/purebasic/pull/87" "link" @LineBreak
+- @Green "Hinzugefügt": Option zum automatischen Umbruch der Suche am Dateiende (kenmo) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/106" "link" @LineBreak
+- @Green "Hinzugefügt": Neue Editor-Tastenkürzel (Groß-/Kleinschreibung und deren Umkehrung)(kenmo) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/107" "link" @LineBreak
+@LineBreak
+- @Green "Aktualisiert": SQLite auf Version 3.33.0 @LineBreak
+@LineBreak
+- @Blue "Repariert": Auto-Vervollständigung auf Linux (mk-soft) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/94" "link" @LineBreak
+- @Blue "Repariert": IDE-Absturz auf MacOS mit TouchBar (mk-soft) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/110" "link" @LineBreak
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
+@Section 30. März 2020 : Version 5.72 LTS
+
+- @Green "Hinzugefügt": #PB_HTTP_Headers zu HTTPInfo(), um die Kopfzeilen (Header) zu erhalten @LineBreak
+- @Green "Hinzugefügt": #PB_HTTP_HeadersOnly zu HTTPRequest(), um nur die Kopfzeilen anzufordern (GetHTTPHeaders() ist jetzt veraltet) @LineBreak
+- @Green "Hinzugefügt": Scintilla Wortzeichen-Auswahl als Benutzereinstellung in der IDE (kenmo) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/71" "Link" @LineBreak
+- @Green "Hinzugefügt": Zoom-Tastaturkürzel in der IDE (kenmo) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/62" "Link" @LineBreak
+- @Green "Hinzugefügt": Neue Editor-Tastenkürzel-Funktionen in der IDE (kenmo) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/54" "Link" @LineBreak
+- @Green "Hinzugefügt": Memview (idle) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/53" "Link" @LineBreak
+@LineBreak
+- @Orange "Geändert": PostEvent() gibt jetzt ein Ergebnis zurück, da es in einigen extremen Fällen fehlschlagen kann. @LineBreak
+- @Orange "Geändert": Sign() gibt jetzt eine Ganzzahl anstelle einer Fließkommazahl zurück. @LineBreak
+- @Orange "Geändert": Auf MS Windows wurde der Standard-Zeichensatz von MS Shell Dlg in Segoe UI Größe 9 geändert. @LineBreak
+@LineBreak
+- @Green "Aktualisiert": OpenJPEG Bibliothek auf Version 2.3.1 @LineBreak
+- @Green "Aktualisiert": PCRE Bibliothek auf Version 8.44 @LineBreak
+- @Green "Aktualisiert": libpng auf Version 1.6.37 @LineBreak
+- @Green "Aktualisiert": libjpeg auf Version 9d @LineBreak
+- @Green "Aktualisiert": libtiff auf Version 4.1.0 @LineBreak
+- @Green "Aktualisiert": expat auf Version 2.2.9 @LineBreak
+- @Green "Aktualisiert": libflac auf Version 1.3.3 @LineBreak
+- @Green "Aktualisiert": libogg auf Version 1.3.4 @LineBreak
+- @Green "Aktualisiert": libvorbis auf Version 1.3.6 @LineBreak
+- @Green "Aktualisiert": sqlite auf Version 3.31.1 @LineBreak
+- @Green "Aktualisiert": curl auf Version 7.68.0 @LineBreak
+@LineBreak
+- @Blue "Repariert": 'Vorheriges suchen' Einfrieren der IDE (kenmo) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/74" "Link" @LineBreak
+- @Blue "Repariert": Drag'n'Drop Position von Gadgets im FormDesigner (ChrisR) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/69" "Link" @LineBreak
+- @Blue "Repariert": Fehler beim erneuten Aktivieren von Schaltflächen im Fenster 'Suchen in Dateien' in der IDE (Sicro) @InternetLink " https://github.com/fantaisie-software/purebasic/pull/64" "Link" @LineBreak
+- @Blue "Repariert": Anzeige-Fehler im Fenster '#WINDOW_Form_Parent' des FormDesigners (Sicro) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/50" "Link" @LineBreak
+- @Blue "Repariert": Viele Verbesserungen an der Dokumentation (Andre und Mesa) @LineBreak
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
+@Section 16. August 2019 : Version 5.71 LTS
+
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
+@Section 2. Januar 2019 : Version 5.70 LTS
+
+- @Green "Hinzugefügt": Brandneues QT Subsystem für Linux @LineBreak
+- @Green "Hinzugefügt": HTTPRequest(), HTTPRequestMemory() (gesponsert von c-wayne) @LineBreak
+- @Green "Hinzugefügt": UseMySQLDatabase() (gesponsert von Paul) @LineBreak
+- @Green "Hinzugefügt": Unterstützung für DPI-Erkennung bei Windows-Programmen @LineBreak
+- @Green "Hinzugefügt": #PS, #NPS, #PS$ and #NPS$ Konstanten (Pfadtrennzeichen abhängig vom Betriebssystem) @LineBreak
+- @Green "Hinzugefügt": #PB_JSON_NoClear Unterstützung bei ExtractJSONStructure @LineBreak
+- @Green "Hinzugefügt": #PB_Path_Winding Füllmodus beim VectorDrawing @LineBreak
+- @Green "Hinzugefügt": DesktopResolutionX(), DesktopResolutionY(), DesktopScaledX(), DesktopScaledY(), DesktopUnscaledX(), DesktopUnscaledY() @LineBreak
+- @Green "Hinzugefügt": ein optionaler 'Modus' Parameter für OpenConsole() @LineBreak
+- @Green "Hinzugefügt": MaterialTextureAliases()  @LineBreak
+- @Green "Hinzugefügt": #PB_Vehicle_IsInContact, #PB_Vehicle_ContactPointX/Y/Z für GetVehicleAttribute() @LineBreak
+- @Green "Hinzugefügt": #PB_Vehicle_ContactPointNormalX/Y/Z für GetVehicleAttribute() @LineBreak
+- @Green "Hinzugefügt": #PB_Vehicle_CurrentSpeedKmHour, #PB_Vehicle_ForwardVectorX/Y/Z für GetVehicleAttribute() @LineBreak
+- @Green "Hinzugefügt": #PB_Material_ProjectiveTexturing für SetMaterialAttribute() @LineBreak
+- @Green "Hinzugefügt": ParticleScaleRate(), ParticleAngle(), CameraReflection() @LineBreak
+- @Green "Hinzugefügt": BuildMeshLod(), MeshVertex(), CreateDataMesh() @LineBreak
+- @Green "Hinzugefügt": EntityDirection(), EntityDirectionX(), EntityDirectionY(), EntityDirectionZ() @LineBreak
+- @Green "Hinzugefügt": #PB_Local/#PB_Parent/#PB_World Unterstützung für ApplyEntityForce(), ApplyEntityImpulse(), ApplyEntityTorque() und ApplyEntityTorqueImpulse() @LineBreak
+@LineBreak
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
+
+@Section 4. Februar 2018 : Version 5.62
+
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
+
+@Section 7. Januar 2018 : Version 5.46 LTS
+
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
+
+@Section  12. September 2017 : Version 5.61
+
+- @Blue "Repariert": Das Touchbar-Problem beim neuen MacBook Air und das DebugOutput-Problem auf Windows. @LineBreak
+- @Blue "Repariert": Viele Fehler behoben. Bemerkenswerte Bug-Fixes sind: Prototyp und Quad-Return waren fehlerhaft,
+            MacBook Pro Absturz und OptionGadget unter Windows unterstützt jetzt die Tastatur. @LineBreak
+- @Green "Aktualisiert": Das MacOS X-Paket ist nun eigenständig ("self-contained"), um kompatibel mit OSX Sierra zu sein. @LineBreak
+@LineBreak
+- @Green "Aktualisiert": Diese Version ist mit neuen Zertifikaten signiert, um falsche positive (Antivirus) zu vermeiden. @LineBreak
+
+
+@Section 10. August 2017 : Version 5.45 LTS
+
+- @Blue "Repariert": Das Touchbar-Problem beim neuen MacBook Air und das DebugOutput-Problem auf Windows. @LineBreak
+- @Blue "Repariert": Viele Fehler behoben. Bemerkenswerte Bug-Fixes sind: Prototyp und Quad-Return waren fehlerhaft,
+            MacBook Pro Absturz und OptionGadget unter Windows unterstützt jetzt die Tastatur. @LineBreak
+- @Green "Aktualisiert": Das MacOS X-Paket ist nun eigenständig ("self-contained"), um kompatibel mit OSX Sierra zu sein. @LineBreak
+@LineBreak
+- @Green "Aktualisiert": Diese Version ist mit neuen Zertifikaten signiert, um falsche positive (Antivirus) zu vermeiden. @LineBreak
+
+
+@Section 2. März 2017 : Version 5.60
+
+- @Green "Hinzugefügt": GIF Decoder Support @LineBreak
+- @Green "Hinzugefügt": Unterstützung für große Icons und Text in der ToolBar Bibliothek @LineBreak
+- @Green "Hinzugefügt": SetImageFrame(), GetImageFrame(), ImageFrameCount(), AddImageFrame() @LineBreak
+- @Green "Hinzugefügt": RemoveImageFrame(), SetImageFrameDelay(), GetImageFrameDelay() @LineBreak
+- @Green "Hinzugefügt": UserAgent Unterstützung bei ReceiveHTTPMemory(), ReceiveHTTPFile() und GetHTTPHeader() @LineBreak
+- @Green "Hinzugefügt": #PB_Http_NoRedirect Unterstützung bei GetHTTPHeader() @LineBreak
+- @Green "Hinzugefügt": "Joe Doe <joe.doe@domain.com>" Email-Format Unterstützung bei SendMail() @LineBreak
+- @Green "Hinzugefügt": HTTPProxy() Proxy-Unterstützung für Http-verwandte Befehle @LineBreak
+- @Green "Hinzugefügt": Unterstützung für Kompressionslevel bei CreatePack() und CompressMemory() @LineBreak
+- @Green "Hinzugefügt": ParticleAcceleration(), ParticleColorFader(), ParticleEmitterAngle() @LineBreak
+- @Green "Hinzugefügt": #PB_Material_AlphaReject, #PB_Material_TAM und #PB_Material_EnvironmentMap Unterstützung für SetMaterialAttribute() @LineBreak
+- @Green "Hinzugefügt": neuer optionaler Parameter 'Layer' bei SetMaterialAttribute()  @LineBreak
+- @Green "Hinzugefügt": Neue Orientierungsmodi für SetNodeAnimationKeyFrameRotation() und AddStaticGeometryEntity() @LineBreak
+- @Green "Hinzugefügt": GetUserDirectory() um benutzerspezifische Verzeichnisse zu ermitteln @LineBreak
+- @Green "Hinzugefügt": Mehr Flexibilität für Base64Decoder zum Umgang mit 'non-padded' Eingaben @LineBreak
+- @Green "Hinzugefügt": Base64Encoder() und Base64Decoder(), die Strings als Eingabe/Ausgabe für einfachere Verwendung nutzen (siehe Namensänderung der bisherigen Befehle weiter unten) @LineBreak
+- @Green "Hinzugefügt": Farb-Konstanten wie #Black, #Blue etc. für alle OS @LineBreak
+- @Green "Hinzugefügt": Event(), um das aktuelle Ereignis zu erhalten (vor allem nützlich bei Callbacks) @LineBreak
+- @Green "Hinzugefügt": #PB_Canvas_Container Unterstützung, um ein Container-Verhalten für Canvas zu erhalten @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_Resize Unterstützung für PanelGadget(), ContainerGadget(), CanvasGadget() und ScrollAreaGadget() @LineBreak
+- @Green "Hinzugefügt": #PB_ListIcon_ColumnCount für GetGadgetAttribute() beim ListIconGadget(), um die Anzahl an Spalten zu ermitteln @LineBreak
+- @Green "Hinzugefügt": #PB_All support bei RemoveGadgetColumn(), um alle Spalten zu entfernen @LineBreak
+- @Green "Hinzugefügt": (IDE) Templates werden jetzt beim Erstellen gespeichert, um Verluste bei nicht korrekt geschlossener IDE zu vermeiden @LineBreak
+- @Green "Hinzugefügt": (IDE) Sprung zu einer Prozedur klappt diese nun automatisch auf, wenn sie zusammengefaltet war @LineBreak
+- @Green "Hinzugefügt": (IDE) neues spezifisches Popup-Menü für Datei-Reiter, um die Quellcode-Verwaltung zu vereinfachen @LineBreak
+- @Green "Hinzugefügt": (IDE) Finde vorherigen Suchbegriff (Rückwärts-Suche) @LineBreak
+@LineBreak
+- @Orange "Geändert": bisherigen Befehl Base64Encoder() in Base64EncoderBuffer() umbenannt @LineBreak
+- @Orange "Geändert": bisherigen Befehl Base64Decoder() in Base64DecoderBuffer() umbenannt @LineBreak
+- @Orange "Geändert": 'define.b' Syntax zum Ändern des Standard-Typs entfernt, da dies schwer zu findende Bugs hervorrufen konnte. @LineBreak
+
+@Section 19. Dezember 2016 : Version 5.51
+
+- @Green "Aktualisiert": MacOS X Paket ist jetzt 'self-contained' (in sich selbst enthalten), um OSX Sierra kompatibel zu sein @LineBreak
+@LineBreak
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
+
+@Section 19. November 2016 : Version 5.44 LTS
+
+- @Green  "Aktualisiert": Eine Bug-Fix Version des aktuellen "LTS"-Branches. @LineBreak
+  Diese behebt wichtige Linux-Probleme und bringt einen neuen Weg, um die App auf OS X zu installieren,
+  um auch OSX Sierra zu entsprechen. Nun ist das ganze Purebasic-Verzeichnis in die PureBasic.app eingebettet.
+  Wenn Sie daher die die Kommandozeile benutzen möchten, müssen Sie den Pfad
+  PureBasic.app/MacOS/Content/Resources/compiler zum $PATH hinzufügen. @LineBreak
+
+
+@Section 25. July 2016 : Version Version 5.43 LTS 
+
+- @Green  "Aktualisiert": Die neue Version des "Zweigs" von PureBasic mit Langzeit-Unterstützung ("long-term support", ohne
+  neue Funktionen etc.). @LineBreak
+  Alle Fixes der 5.50 sollten auch in dieser Version verfügbar sein. @LineBreak
+
+  
+@Section 25. Juli 2016 : Version 5.50
+
+- @Green "Hinzugefügt": Vehicle Bibliothek zum einfachen Erstellen von 3D-Vehikeln mit Rädern @LineBreak
+- @Green "Hinzugefügt": PickBody() zum einfachen Manipulieren eines 3D-Körpers mit der Maus @LineBreak
+- @Green "Hinzugefügt": CreateTube(), CreateTorus(), CreateIcoSphere() und CreateCapsule() @LineBreak
+- @Green "Hinzugefügt": #PB_Entity_PlaneBody und #PB_Entity_ConeBody Körpertypen @LineBreak
+- @Green "Hinzugefügt": GenericJoint() zum Erstellen jeder Art von Gelenk/Verbindung @LineBreak
+- @Green "Hinzugefügt": Begrenzungsrahmen-Größen-Unterstützung bei CreateEntityBody() @LineBreak
+- @Green "Hinzugefügt": RegisterFontFile() zum einfachen Verwendung von benutzerdefinierten Zeichensätzen @LineBreak
+- @Green "Hinzugefügt": PathLength(), PathPointX(), PathPointY(), PathPointAngle() @LineBreak
+- @Green "Hinzugefügt": PathBoundsX(), PathBoundsY(), PathBoundsWidth(), PathBoundsHeight() um den Begrenzungsrahmen eines Pfads zu ermitteln @LineBreak
+- @Green "Hinzugefügt": PathSegments(), AddPathSegments() zum Ermitteln/Setzen eines Pfads im Stringformat @LineBreak
+- @Green "Hinzugefügt": DebuggerError(), DebuggerWarning(), CloseDebugOutput() @LineBreak
+- @Green "Hinzugefügt": ResetStructure() zum Löschen und erneut Initialisierten eines Struktur-Puffers @LineBreak
+- @Green "Hinzugefügt": UTF8() und Ascii() zum einfachen Erstellen von UTF8 und Ascii String-Puffern (müssen mit FreeMemory() freigegeben werden) @LineBreak
+- @Green "Hinzugefügt": FormatNumber() um leicht wie Geld formatierte Zahlen zu erhalten @LineBreak
+- @Green "Hinzugefügt": @#StringConstant$ Syntax-Unterstützung, um die Adresse einer String-Konstante zu erhalten @LineBreak
+- @Green "Hinzugefügt": #PB_MessageRequester_Info, #PB_MessageRequester_Error und #PB_MessageRequester_Warning für MessageRequester() @LineBreak
+@LineBreak
+- @Green "Aktualisiert": SQLite Version 3.13.0 @LineBreak
+@LineBreak
+- @Orange "Geändert": ParticleVelocity() um die aktuelle Geschwindigkeit zu unterstützen. @LineBreak
+@LineBreak
+- @Red "Entfernt": ASCII-Modus für die interne PureBasic String-Darstellung, PureBasic ist jetzt rein Unicode. @LineBreak
+
+
+@Section 1. März 2016 : Version 5.42 LTS
+
+- @Red "Entfernt": 'Ereignisprozedur generieren' Option in den Einstellungen/Form
+@LineBreak
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
+
+@Section 23. Dezember 2015 : Version 5.41 LTS
+
+- @Green "Hinzugefügt": 'auto' Unterstützung für die innere Breite/Höhe einer ScrollArea in der Dialog Bibliothek @LineBreak
+@LineBreak
+- @Green "Aktualisiert": neueste Assembler Versionen für Windows, Linux und OS X @LineBreak
+@LineBreak
+- @Blue "Repariert": französische Anleitung komplett korrigiert durch 'GG' @LineBreak
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
+@Section 16. Oktober 2015 : Version 5.40 LTS
+
+- @Green "Hinzugefügt": neue Vector 2D Bibliothek @LineBreak
+- @Green "Hinzugefügt": neue CGI Bibliothek mit Standard und FastCGI Unterstützung @LineBreak
+- @Green "Hinzugefügt": Zeichenketten (Literal-Strings) Escape-Unterstützung mit dem '~' Operator (z.B.: a$ = ~"Hello\nWorld\n") @LineBreak
+- @Green "Hinzugefügt": EscapeString()/UnescapeString() Funktionen, um Escape-Operationen auf jegliche Strings (Variablen etc.) zu erlauben @LineBreak
+- @Green "Hinzugefügt": EnumerationBinary zum automatischen Erstellen von Bitmasken-Aufzählungen @LineBreak
+- @Green "Hinzugefügt": Datenbank-Parameter Bindung zur Vereinfachung der Abfragen-Erstellung @LineBreak
+- @Green "Hinzugefügt": SetDatabaseBlob(), SetDatabaseFloat(), SetDatabaseDouble(), SetDatabaseLong() @LineBreak
+- @Green "Hinzugefügt": SetDatabaseQuad(), SetDatabaseString(), SetDatabaseNull() @LineBreak
+- @Green "Hinzugefügt": SHA2 und SHA3 (224/256/384/512-bit) Unterstützung bei der Cipher Bibliothek @LineBreak
+- @Green "Hinzugefügt": StringFingerprint() @LineBreak
+- @Green "Hinzugefügt": CRC32 Unterstützung für StartFingerprint() @LineBreak
+- @Green "Hinzugefügt": ReceiveHTTPMemory(), IsJoint() @LineBreak
+- @Green "Hinzugefügt": RefreshDialog() zur Neuberechnung der Abmessungen nach einer Text-Änderung oder ähnlich @LineBreak
+- @Green "Hinzugefügt": "Gruppe" XML-Attribut für das 'Option' Dialog Gadget, um explizit eine Gruppe anzugeben @LineBreak
+- @Green "Hinzugefügt": HTTPS und einfach Auth. Unterstützung für ReceiveHTTPFile() und GetHTTPHeaders() @LineBreak
+- @Green "Hinzugefügt": Auto-Weiterleitungs-Unterstützung für ReceiveHTTPFile() und ReceiveHTTPMemory() @LineBreak
+- @Green "Hinzugefügt": Asynchron-Modus für ReceiveHTTPFile() und ReceiveHTTPMemory() @LineBreak
+- @Green "Hinzugefügt": HTTPProgress(), AbortHTTP() und FinishHTTP() zum Überwachen des Asynchron-Modus @LineBreak
+- @Green "Hinzugefügt": HTTPS/TLS Unterstützung für SendMail() @LineBreak
+- @Green "Hinzugefügt": FlushPreferenceBuffers() @LineBreak
+- @Green "Hinzugefügt": CopyDebugOutput() um die Debug-Ausgabe programmgesteuert in die Zwischenablage zu kopieren @LineBreak
+- @Green "Hinzugefügt": 7z Archiv-Erstellung @LineBreak
+- @Green "Hinzugefügt": tar (gz und bzip2) Archiv-Unterstützung bei der Erstellung und beim Entpacken @LineBreak
+- @Green "Hinzugefügt": Vollständiger Pfad im IDE 'Letzte Dateien' Menü @LineBreak
+- @Green "Hinzugefügt": #PB_ProgressBar_Unknown für SetGadgetState() zum Anzeigen eines unbekannten Fortschritts @LineBreak
+- @Green "Hinzugefügt": #PB_UTF8/Ascii/Unicode Unterstützung bei ReadCharacter() und WriteCharacter() @LineBreak
+- @Green "Hinzugefügt": #PB_UTF8 Unterstützung bei URLEncoder() und URLDecoder (jetzt der Standard-Modus) @LineBreak
+- @Green "Hinzugefügt": Windows 8.1/10 und OS X 10.9/10/11 Unterstützung bei OSVersion() @LineBreak
+- @Green "Hinzugefügt": #PB_Editor_xxx Konstanten bei Verwendung der 'Version' Info auf Windows @LineBreak
+- @Green "Hinzugefügt": #PB_Program_Ascii/Unicode/UTF8 Unterstützung für RunProgram() @LineBreak
+- @Green "Hinzugefügt": linux/osx Style-Flags beim Kommandozeilen-Compiler auf Windows, um Cross-Plattform-Skripts zu vereinfachen @LineBreak
+- @Green "Hinzugefügt": #PB_File_SharedWrite Unterstützung bei ReadFile() und CreateFile() @LineBreak
+- @Green "Hinzugefügt": 'IMPORTLIST' Compiler-Interface, um alle vordefinierten API-Funktionen zu erhalten @LineBreak
+- @Green "Hinzugefügt": #Null$ spezielle String-Konstante, um einen echten Null-Wert auf einen String anzuwenden (um diesen komplett freizugeben).
+    Diese kann auch für API-Funktionen verwendet werden, welche manchmal eine NULL anstelle einer String-Adresse akzeptieren. @LineBreak
+- @Green "Hinzugefügt": #Empty$ Konstante @LineBreak
+- @Green "Hinzugefügt": #PB_ByteLength Unterstützung bei MemoryStringLength() @LineBreak
+- @Green "Hinzugefügt": #PB_Ascii, #PB_UTF8 und #PB_Unicode Unterstützung bei Create/Open/ReadFile(), um den Standard Lese-/Schreibmodus festzulegen @LineBreak
+- @Green "Hinzugefügt": #PB_ByteLength Flag für PeekS() und #PB_UTF8 (nur) @LineBreak
+- @Green "Hinzugefügt": CreateCone(), CameraCustomParameter(), ResizeCamera() @LineBreak
+- @Green "Hinzugefügt": #PB_Entity_DisableContactResponse für SetEntityAttribute() @LineBreak
+- @Green "Hinzugefügt": #PB_Entity_ConeBody, #PB_Entity_PlaneBody @LineBreak
+- @Green "Hinzugefügt": FreeEntityBody(), FreeTerrainBody() @LineBreak
+- @Green "Hinzugefügt": ApplyEntityTorque(), ApplyEntityTorqueImpulse() @LineBreak
+- @Green "Hinzugefügt": 'KollisionsGruppe' und 'KollisionsMaske' Parameter für RayCollide() @LineBreak
+- @Green "Hinzugefügt": Migrations-Hilfeseite, um eine Schritt-für-Schritt Anleitung für die Migration von altem zu neuem PureBasic zu haben. @LineBreak
+- @Green "Hinzugefügt": Einsteiger-Kapitel in Deutsch (Danke an André und Vera) @LineBreak
+@LineBreak
+- @Blue "Aktualisiert": die Linux Printer Bibliothek, um natives GtkPrint anstelle von GnomePrint zu verwenden @LineBreak
+- @Blue "Aktualisiert": den Windows Compiler auf VC++ 2013 für bessere Code-Generierung @LineBreak
+- @Blue "Aktualisiert": SQLite auf 3.8.10.2 @LineBreak
+@LineBreak
+- @Blue "Repariert": Zip Archiv-Unterstützung @LineBreak
+- @Blue "Repariert": Probleme mit dem Senden von Emails und HTTP-Anfragen @LineBreak
+- @Blue "Repariert": 'CONSTANTLIST' Compiler-Interface, jetzt werden String-Konstanten als Escape-Strings zurückgegeben. @LineBreak
+@LineBreak
+- @Orange "Geändert": Die Standard GTK Version ist jetzt GTK3 auf Linux. Ein gtk2 Subsystem wurde für  Abwärtskompatibilität hinzugefügt. @LineBreak
+- @Orange "Geändert": Das Standard String-Format für RunProgram() Read/Writestring ist jetzt UTF8 anstelle von Unicode @LineBreak
+- @Orange "Geändert": Die Cipher Bibliothek, um modular zu sein (jetzt müssen UseMD5Fingerprint() und ähnliche Befehle verwendet werden). @LineBreak
+- @Orange "Geändert": ExamineFingerprint() in StartFingerprint() @LineBreak
+- @Orange "Geändert": NextFingerprint() in AddFingerprintBuffer() @LineBreak
+- @Orange "Geändert": EntityPhysicBody() in CreateEntityBody() @LineBreak
+- @Orange "Geändert": TerrainPhysicBody() in CreateTerrainBody() @LineBreak
+- @Orange "Geändert": Der SendMail() 'Asynchron' Parameter wurde durch das #PB_Mail_Asynchronous Flag ersetzt. @LineBreak
+- @Orange "Geändert": DLLImporter wurde entfernt und .pbl Dateien werden nicht mehr unterstützt.. Neue 'Import Library' Dateien können
+    können mit Hilfe des '/IMPORT' Switchs vom pbcompiler erstellt werden. @LineBreak
+@LineBreak
+- @Red "Entfernt": SetWindowCallback() Unterstützung auf OS X. Verwenden Sie BindEvent() stattdessen. @LineBreak
+- @Red "Entfernt": RemovePackFile() @LineBreak
+- @Red "Entfernt": #PB_Packer_CompressedSize Unterstützung für ZIP und 7z Archive mit PackerEntrySize() @LineBreak
+- @Red "Entfernt": AvailableScreenMemory() @LineBreak
+
+
+@Section 27. Oktober 2014 : Version 5.24 LTS
+
+- @Blue "Repariert": Die neue LTS Version, welche die Bug-Fixes der brandneuen 5.31 Version enthält. @LineBreak
+
+
+@Section 27. Oktober 2014 : Version 5.31
+
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
+
+@Section 25. Juli 2014 : Version 5.23 LTS
+
+- @Blue "Repariert": Die neue LTS Version, welche die meisten der letzten Bug-Fixe beinhalten sollte
+  (ohne die der neuen IDE, gelöst durch den neuen Unicode-Modus). Einige andere für die 5.30 verfügbare
+  Fixes könnten fehlen, da wenn wir zu viele interne Dinge einer Bibliothek geändert haben, wir diese
+  nicht in die alten "Branches" einfügen wollten. Daher keine aufregenden neuen Sachen, nur ein
+  Stabilisierungs-Release. @LineBreak
+
+  
+@Section 23. Juli 2014 : Version 5.30
+
+- @Green "Hinzugefügt": "Problem" ("Issue") IDE-Werkzeug, um TODO/FIXME-Markierungen innerhalb des Codes zu sammeln und anzuzeigen. @LineBreak
+- @Green "Hinzugefügt": JSON-Bibliothek @LineBreak
+- @Green "Hinzugefügt": ParseXML(), ComposeXML(), InsertXMLArray/List/Map/Structure(), ExtractXMLArray/List/Map/Structure() zur XML-Bibliothek @LineBreak
+- @Green "Hinzugefügt": OpenGLGadget() mit Unterstützung für native OpenGL-Befehle und -Konstanten auf Windows, OSX und Linux @LineBreak
+- @Green "Hinzugefügt": ExamineRegularExpression() und zugehörige Befehle, um RegEx-Übereinstimmungen Schritt für Schritt zu verarbeiten (mit Unterstützung für Gruppierungen) @LineBreak
+- @Green "Hinzugefügt": ClipOutput(), UnclipOutput(), SetOrigin(), GetOriginX(), GetOriginY() @LineBreak
+- @Green "Hinzugefügt": GetWindowData(), SetWindowData() @LineBreak
+- @Green "Hinzugefügt": AllocateStructure(), FreeStructure() @LineBreak
+- @Green "Hinzugefügt": #PB_Default Unterstützung bei WindowBounds(), um die minimale/maximale Größe zurückzusetzen @LineBreak
+- @Green "Hinzugefügt": 'Format' Parameter bei Read/WriteProgramString(), WriteProgramStringN() und ReadProgramError() @LineBreak
+- @Green "Hinzugefügt": /PREPROCESS Compiler-Flag zum Erstellen eines einzigen großen Quellcodes, bei dem alle Makros, CompilerIf und Datei-Includes aufgelöst sind. Kann mit /COMMENTED kombiniert werden, um den originalen Quellcode auch mit Kommentaren zu erhalten. @LineBreak
+- @Green "Hinzugefügt": Optionaler '#Server' Parameter bei NetworkServerEvent(), um Ereignisse nur auf einem bestimmten Server zu überprüfen @LineBreak
+- @Green "Hinzugefügt": #PB_String_NoZero Flag Unterstützung bei PokeS(), um das Schreiben des abschließenden Null-Zeichens zu vermeiden @LineBreak
+- @Green "Hinzugefügt": #PB_Enumeration Unterstützung bei Defined() @LineBreak
+- @Green "Hinzugefügt": #PB_Explorer_HiddenFiles, um versteckte Dateien in den Explorer-Gadgets anzuzeigen @LineBreak
+- @Green "Hinzugefügt": Optionaler 'Typ' Parameter bei CreateBillboardGroup() @LineBreak
+- @Green "Hinzugefügt": BillboardGroupCommonDirection(), BillboardGroupCommonUpVector() @LineBreak
+- @Green "Hinzugefügt": #PB_Entity_MinVelocity und #PB_Entity_ForceVelocity bei SetEntityAttribute() @LineBreak
+- @Green "Hinzugefügt": SetMaterialAttribute() mit #PB_Material_DepthCheck und #PB_Material_DepthWrite Konstanten @LineBreak
+- @Green "Hinzugefügt": #PB_Material_DepthCheck Unterstützung bei GetMaterialAttribute(). @LineBreak
+- @Green "Hinzugefügt": Engine3DStatus() mit diesen Konstanten: #PB_Engine3D_NbRenderedTriangles, #PB_Engine3D_NbRenderedBatches, #PB_Engine3D_CurrentFPS, #PB_Engine3D_MaximumFPS, #PB_Engine3D_MinimumFPS, #PB_Engine3D_AverageFPS, #PB_Engine3D_ResetFPS @LineBreak
+- @Green "Hinzugefügt": #PB_Absolute / #PB_Relative Unterstützung bei CameraDirectionX/Y/Z(), CameraX/Y/Z(), EntityX/Y/Z(), LightX/Y/Z(), LightDirectionX/Y/Z(), BillBoardGroupX/Y/Z(), NodeX/Y/Z(), ParticleEmitterX/Y/Z() und FetchOrientation() @LineBreak
+- @Green "Hinzugefügt": ParticleSpeedFactor(), DisableParticleEmitter() @LineBreak
+- @Green "Hinzugefügt": GetEntityCollisionMask(), GetEntityCollisionGroup(), SetEntityCollisionFilter() @LineBreak
+- @Green "Hinzugefügt": WaterHeight(), FreeWater() @LineBreak
+- @Green "Hinzugefügt": Vollständig Unicode-kompatible IDE @LineBreak
+- @Green "Hinzugefügt": Hervorheben wiederholter Vorkommen des gerade ausgewählten Worts in der IDE @LineBreak
+- @Green "Hinzugefügt": Editier-Modus für reinen Text, um Nicht-PB Dateien in der IDE zu bearbeiten @LineBreak
+- @Green "Hinzugefügt": Strg+E und Strg+Shift+E Tastaturkürzel, um Kommentare in einem ausgewählten Code-Block auszurichten bzw. zu verschieben @LineBreak
+- @Green "Hinzugefügt": Strg+M und Strg+Shift+M Tastaturkürzel, um den aktuellen Code-Block auszuwählen (wiederholte Tastendrücke selektieren den nächsten Code-Block) @LineBreak
+- @Green "Hinzugefügt": Popup-Menü bei der IDE Fehlerliste für Lösch-/Kopier-Operationen @LineBreak
+- @Green "Hinzugefügt": %HOME und %PROJECT bei den IDE-Werkzeug Kommandozeilen-Optionen, PB_TOOL_Project zu den verfügbaren Umgebungsvariablen hinzugefügt @LineBreak
+- @Green "Hinzugefügt": Automatische Code-Einrückung in der IDE kann Kommentare am Ende von Code-Zeilen ausrichten @LineBreak
+- @Green "Hinzugefügt": Auto-Vervollständigen merkt sich die letzte Auswahl beim Strukturen/Modul Auto-Vervollständigen @LineBreak
+- @Green "Hinzugefügt": Kontextsensitivität für aktuelle Module/Prozeduren bei der Anzeige von Variablen und Evaluierung von Ausdrücken im Debugger @LineBreak
+@LineBreak
+- @Orange "Geändert": FormatXML() mit #PB_XML_ReFormat fügt für eine besser lesbare Ausgabe nicht länger Zeilenumbrüche innerhalb ein-zeiliger Elemente ein @LineBreak
+- @Orange "Geändert": DeleteElement() gibt jetzt den Daten-Zeiger auf das neue aktuelle Element (sofern vorhanden) zurück @LineBreak
+- @Orange "Geändert": SetXMLAttribute() um Zeilenumbrüche in Attributen zu akzeptieren (werden dann als Charakter-Objekte kodiert) @LineBreak
+- @Orange "Geändert": Einen obligatorischen "Name" Parameter bei CreateXMLNode() hinzugefügt, da einige Parser diesen zum Zeitpunkt der Knoten-Erstellung benötigen @LineBreak
+- @Orange "Geändert": Der Weg, wie (X)IncludeFile und IncludeBinary arbeiten: diese sind jetzt relativ zur Datei, welche diese Befehle beinhalten (was einfacher zu handhaben ist) @LineBreak
+- @Orange "Geändert": #PB_Event_SizeWindow und #PB_Event_MoveWindow arbeiten nicht mehr in Echtzeit auf Windows, verwenden Sie BindEvent() um Echtzeit-Aktualisierungen zu erhalten. Dies sollte hässliches Flimmern bei Echtzeit-Größenänderungen auf Windows beseitigen. @LineBreak
+- @Orange "Geändert": DataSection Sprungmarken innerhalb von Prozeduren sind jetzt lokale Sprungmarken. @LineBreak
+- @Orange "Geändert": Der lokale ASM-Sprungmarken-Präfix wurde von "l_" in "ll_" geändert ("ll" für lokale Sprungmarken), um mögliche Konflikte mit Haupt-Sprungmarken zu vermeiden. @LineBreak
+- @Orange "Geändert": #PB_LinkedList Konstante wurde für eine bessere Konsistenz in #PB_List umbenannt @LineBreak
+- @Orange "Geändert": Den "Billboard" Parameter bei AddBillboard() entfernt, da dieser nicht verwendet wurde. Gibt jetzt den neuen Billboard-Index zurück. @LineBreak
+- @Orange "Geändert": Scintilla auf Version 3.4.2 aktualisiert @LineBreak
+@LineBreak
+- @Red "Entfernt": MaterialDepthWrite() (ersetzt durch @@SetMaterialAttribute) @LineBreak
+- @Red "Entfernt": CountRenderedTriangles() und Engine3DFrameRate(), ersetzt durch @@Engine3DStatus
+
+
+@Section 17. März 2014 : Version 5.22 LTS
+
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken
+
+
+@Section 20. November 2013 : Version 5.21 LTS
+
+- @Orange "Geändert": 'REQUEST' in 'AUTO' für die automatische Berechnung der Mindestgröße eines Splitters (der alte Syntax wird weiterhin unterstützt) @LineBreak
+@LineBreak
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken
+
+
+@Section 17. September 2013 : Version 5.20 LTS
+
+- @Green "Hinzugefügt": Module Unterstützung beim Compiler @LineBreak
+- @Green "Hinzugefügt": Runtime Bibliothek @LineBreak
+- @Green "Hinzugefügt": Dialog Bibliothek @LineBreak
+- @Green "Hinzugefügt": GTK3 Subsystem für Linux @LineBreak
+- @Green "Hinzugefügt": DirectX11 Subsystem für Windows (unterstützt derzeit noch nicht die 3D-Engine) @LineBreak
+- @Green "Hinzugefügt": Unterstützung für benannte Enumeration, um das Fortsetzen einer vorherigen Aufzählung zu ermöglichen @LineBreak
+- @Green "Hinzugefügt": JoystickName(), JoystickZ() @LineBreak
+- @Green "Hinzugefügt": Optionales #PB_Relative Flag bei JoystickX/Y/Z(), um genauere Werte zu erhalten @LineBreak
+- @Green "Hinzugefügt": Optionale Pad-Nummer bei JoystickX/Y/Z(), um komplexere Gamepads zu unterstützen @LineBreak
+- @Green "Hinzugefügt": ZoomSprite() akzeptiert jetzt #PB_Default als Breite/Höhe, um zur ursprünglichen Sprite-Größe zurückzukehren @LineBreak
+- @Green "Hinzugefügt": 'Farbe' und 'Intensiät' Parameter bei DisplayTransparentSprite() @LineBreak
+- @Green "Hinzugefügt": ClipSprite() unterstützt jetzt #PB_Default für individuelle Parameter @LineBreak
+- @Green "Hinzugefügt": #PB_Sprite_PixelCollision Flag bei CreateSprite(), LoadSprite(), um pixelgenaue Kollision zu aktivieren @LineBreak
+- @Green "Hinzugefügt": Zoom-Unterstützung bei SpritePixelCollision() und SpriteCollision() @LineBreak
+- @Green "Hinzugefügt": OpenGL Unterstützung bei SpriteBlending() (Warnung: es "wrappt" einfach den OpenGL-Modus, damit kann es sich anders verhalten als DirectX) @LineBreak
+- @Green "Hinzugefügt": 32-Bit Unterstützung bei SpriteOutput() für DX und OpenGL @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_Focus und #PB_EventType_LostFocus Unterstützung beim EditorGadget() @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_RightClick Unterstützung beim ListViewGadget() @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_Change Unterstützung beim PanelGadget() und DateGadget() @LineBreak
+- @Green "Hinzugefügt": #PB_Prototype und #PB_Module Unterstützung bei Defined() @LineBreak
+- @Green "Hinzugefügt": Alle Init() Funktionen können problemlos mehr als einmal aufgerufen werden (wie InitSound(), InitNetwork() etc.) @LineBreak
+- @Green "Hinzugefügt": #PB_FileSystem_Force Unterstützung bei DeleteFile() @LineBreak
+- @Green "Hinzugefügt": #PB_FileSystem_NoExtension Unterstützung bei GetFilePart() @LineBreak
+- @Green "Hinzugefügt": Hintergrundfarbe Parameter bei CreateImage() @LineBreak
+- @Green "Hinzugefügt": #PB_Entity_NbSubEntities bei GetEntityAttribute() @LineBreak
+- @Green "Hinzugefügt": MeshIndexCount(), SetRenderQueue(), FetchEntityMaterial(), GetMeshData(), SetMeshData() @LineBreak
+- @Green "Hinzugefügt": CPUName(), Un/BindEvent(), Un/BindGadgetEvent(), Un/BindMenuEvent() @LineBreak
+- @Green "Hinzugefügt": Vorherige Stelle wird angezeigt, wenn eine Struktur, Interface, Prototype oder Prozedur doppelt deklariert wird. @LineBreak
+- @Green "Hinzugefügt": 2 Lizenz-Dateien, um beim Vertrieb von PB Programmen einfach die benötigten Informationen beizufügen (siehe Referenz-Dokumentation) @LineBreak
+- @Green "Hinzugefügt": Bool() wird nun bei der Kompilierung ausgewertet, wenn der ganze Ausdruck konstant ist @LineBreak
+- @Green "Hinzugefügt": Debugger-Check für SortStructuredList() und SortList(), um sicherzustellen, dass die angegebene Liste vom korrekten Typ ist @LineBreak
+- @Green "Hinzugefügt": Linux Executables, welche auf einer neuen Distribution erstellt wurden, sollten weiterhin auf einem älteren Linux funktionieren. @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_FirstCustomValue für die Verwendung mit PostEvent() @LineBreak
+- @Green "Hinzugefügt": CameraFollow(), ExamineWorldCollisions(), NextWorldCollision(), FirstWorldCollisionEntity(), SecondWorldCollisionEntity() @LineBreak
+- @Green "Hinzugefügt": WorldCollisionContact(), WorldCollisionNormal(), WorldCollisionAppliedImpulse() @LineBreak
+- @Green "Hinzugefügt": BuildMeshTangents(), MeshVertexTangent(), CopyTexture() @LineBreak
+- @Green "Hinzugefügt": Pitch(), Roll(), Yaw() @LineBreak
+- @Green "Hinzugefügt": #PB_Gadget_RequiredSize Unterstützung für GadgetWidth/Height() @LineBreak
+- @Green "Hinzugefügt": #PB_Entity_LinearSleeping, #PB_Entity_AngularSleeping, #PB_Entity_DeactivationTime, #PB_Entity_IsActive, @LineBreak
+- @Green "Hinzugefügt": #PB_Entity_AngularVelocityX/Y/Z, #PB_Entity_ScaleX/Y/Z, #PB_Entity_AngularVelocity, #PB_Entity_HasContactResponse bei Get/SetEntityAttribute() @LineBreak
+@LineBreak
+- @ConstantColor "Optimiert": Pixel Sprite Kollisions-Routinen sind jetzt viel schneller mit DirectX @LineBreak
+- @ConstantColor "Optimiert": Weitere 'Peephole' Optimierungen bei der x64-Assembler Ausgabe @LineBreak
+- @ConstantColor "Optimiert": Schnellere Kompilierung bei großen Programmen @LineBreak
+- @ConstantColor "Optimiert": Linux Build-Server wurde aktualisiert - jetzt mit einem besseren GCC, der besseren Code produziert. @LineBreak
+@LineBreak
+- @Orange "Geändert": SpinGadget() Ereignistypen sind jetzt #PB_EventType_Up und #PB_EventType_Down anstelle von -1 und 1. @LineBreak
+- @Orange "Geändert": ZoomSprite3D() in ZoomSprite() umbenannt @LineBreak
+- @Orange "Geändert": TransformSprite3D() in TransformSprite() umbenannt @LineBreak
+- @Orange "Geändert": RotateSprite3D() in RotateSprite() umbenannt@LineBreak
+- @Orange "Geändert": Sprite3DQuality() in SpriteQuality() umbenannt @LineBreak
+- @Orange "Geändert": Sprite3DBlending() in SpriteBlending() umbenannt @LineBreak
+- @Orange "Geändert": Die gesamte 'Module' Bibliothek in 'Music' umbenannt @LineBreak
+- @Orange "Geändert": Frame3DGadget() in FrameGadget() umbenannt @LineBreak
+- @Orange "Geändert": Frame3DGadget3D() in FrameGadget3D() umbenannt @LineBreak
+- @Orange "Geändert": #PB_Shortcut_Prior in #PB_Shortcut_PageUp und #PB_Shortcut_Next in #PB_Shortcut_PageDown umbenannt @LineBreak
+- @Orange "Geändert": Packer Plugin-Konstanten in #PB_PackerPlugin_XXX umbenannt @LineBreak
+- @Orange "Geändert": RayCollide() gibt jetzt das kollidierende #Entity zurück @LineBreak
+@LineBreak
+- @Green "Aktualisiert": WebGadget() auf Windows benötigt nicht mehr die ATL.dll @LineBreak
+- @Green "Aktualisiert": zlib auf 1.2.8 @LineBreak
+- @Green "Aktualisiert": pqlib (PostgreSQL) auf 9.2.4 @LineBreak
+- @Green "Aktualisiert": ziplib auf 0.11.1 @LineBreak
+- @Green "Aktualisiert": SCNotification Scintilla Struktur @LineBreak
+@LineBreak
+- @Red "Entfernt": Mozilla ActiveX Unterstützung beim WebGadget() auf Windows, da die letzte ActiveX Version viel zu alt ist (2005) @LineBreak
+- @Red "Entfernt": Sprite3D Bibliothek (verschmolzen mit der regulären Sprite Bibliothek) @LineBreak
+- @Red "Entfernt": Palette Bibliothek (veraltet) @LineBreak
+- @Red "Entfernt": UnPackMemory() -> ersetzt durch UnCompressMemory() @LineBreak
+- @Red "Entfernt": RenderMovieFrame() und #PB_Movie_Rendered (veraltet) @LineBreak
+- @Red "Entfernt": DisplayTranslucentSprite() -> ersetzt mit dem 'Alpha' Parameter bei DisplayTransparentSprite() @LineBreak
+- @Red "Entfernt": DisplaySolidSprite() -> ersetzt mit dem 'Farbe' Parameter bei DisplayTransparentSprite() @LineBreak
+- @Red "Entfernt": DisplayRGBFilter() -> kann durch ein gezoomtes Sprite mit Farbe ersetzt werden @LineBreak
+- @Red "Entfernt": DisplayShadowSprite() -> kann durch DisplayTransparentSprite() mit einer Farbe ersetzt werden @LineBreak
+- @Red "Entfernt": StartSpecialFX(), StopSpecialFX(), DisplayAlphaSprite(), ChangeAlphaIntensity(), UseBuffer() @LineBreak
+- @Red "Entfernt": Carbon Subsystem auf OS X, es war zu alt um mit den neuen Bibliotheken verwendet zu werden @LineBreak
+@LineBreak
+- @Blue "Repariert": Viele Bugs @LineBreak
+
+
+@Section 19. März 2013 : Version 5.11
+
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken
+
+
+@Section 14. Februar 2013 : Version 5.10
+
+- @Green "Hinzugefügt": Form-Designer ist jetzt in die IDE integriert ! @LineBreak
+- @Green "Hinzugefügt": komplett überarbeitete Packer Bibliothek mit ZIP, BriefLZ, 7z (nur Entpacken), LZMA und JCALG1 (Windows x86 und nur UncompressMemory()) Unterstützung. JCALG1 Unterstützung wurde eingestellt. Archiv-Formate für BriefLZ wurden geändert. @LineBreak
+- @Green "Hinzugefügt": IPv6 Unterstützung bei der Network Bibliothek. Aktualisierte IPString(), MakeIPAddress(), GetClientIP(), IPAddressField(), ExamineIPAddress() und NextIPAddress(). #PB_Network_IPv6 Flag bei OpenConnection und CreateServer() hinzugefügt. FreeIP() für v6 IP hinzugefügt. @LineBreak
+- @Green "Hinzugefügt": System-Bibliothek: ComputerName(), UserName(), MemoryStatus(), CountCPUs() @LineBreak
+- @Green "Hinzugefügt": Zeilenfortsetzungs-Funktion, mit folgenden Operanden: ',' '|' '+' And Or XOr @LineBreak
+- @Green "Hinzugefügt": Vergleiche mit konstanten Strings werden jetzt zum Zeitpunkt des Kompilierens verarbeitet, was die Verwendung z.B. in CompilerIf ermöglicht. @LineBreak
+- @Green "Hinzugefügt": CocoaMessage() für  OS X @LineBreak
+- @Green "Hinzugefügt": 'Syntax überprüfen' um den Code nur zu kompilieren, ohne ein Executable zu erstellen/zu starten (/CHECK Switch oder im IDE Compiler Menü) @LineBreak
+- @Green "Hinzugefügt": Array/List/Map Parameter Unterstützung bei Interface Methoden @LineBreak
+- @Green "Hinzugefügt": Unterstützung für dynamische Array/List/Map in Strukturen/Interfaces in Residents. @LineBreak
+- @Green "Hinzugefügt": Unterstützung für #PB_Character, #PB_Unicode, #PB_Ascii und #PB_Integer Flags bei FillMemory() @LineBreak
+- @Green "Hinzugefügt": #PB_RegularExpression_NoCase Unterstützung bei CreateRegularExpression() @LineBreak
+- @Green "Hinzugefügt": EncodeImage() mit PNG, JPEG und JPEG2000 Unterstützung @LineBreak
+- @Green "Hinzugefügt": #PB_Memory_NoClear Unterstützung bei Re/AllocateMemory() @LineBreak
+- @Green "Hinzugefügt": ImageFormat() @LineBreak
+- @Green "Hinzugefügt": #PB_Editor_WordWrap beim EditorGadget() @LineBreak
+- @Green "Hinzugefügt": Vergleich mit mehreren Zeichen bei StringField() @LineBreak
+- @Green "Hinzugefügt": AnzahlVorkommen Parameter bei ReplaceString() @LineBreak
+- @Green "Hinzugefügt": PostEvent(), EventData() @LineBreak
+- @Green "Hinzugefügt": Rückgabewert bei SetCurrentDirectory() @LineBreak
+- @Green "Hinzugefügt": #PB_String_NoCase Modus Parameter bei FindString() @LineBreak
+- @Green "Hinzugefügt": #PB_Preference_NoSpace und #PB_Preference_GroupSeparator Flags bei OpenPreferences() und CreatePreferences() @LineBreak
+- @Green "Hinzugefügt": DatabaseColumnIndex() @LineBreak
+- @Green "Hinzugefügt": #PB_Cipher_URL und #PB_Cipher_NoPadding bei Base64Encoder(), URL-Kompatibilität bei Base64Decoder() hinzugefügt @LineBreak
+- @Green "Hinzugefügt": SetGadgetItemImage() bei allen Gadgets, welche Bilder bei den Einträgen unterstützen @LineBreak
+- @Green "Hinzugefügt": #PB_Gadget_ScreenCoordinate und #PB_Gadget_WindowCoordinate Flag bei GadgetX/Y() @LineBreak
+- @Green "Hinzugefügt": #PB_File_SharedRead (kein Effekt auf Linux/OSX), #PB_File_SharedWrite (kein Effekt auf Linux/OSX), #PB_File_Append und #PB_File_NoBuffering bei OpenFile(), ReadFile() und CreateFile() @LineBreak
+- @Green "Hinzugefügt": #PB_Event_RightClick, #PB_Event_LeftClick und #PB_Event_LeftDoubleClick Ereignisse @LineBreak
+- @Green "Hinzugefügt": optionaler Titel-Parameter bei OpenConsole() @LineBreak
+- @Green "Hinzugefügt": #PB_ScrollArea_ScrollStep beim ScrollAreaGadget() @LineBreak
+- @Green "Hinzugefügt": #PB_Ignore bei ResizeImage() @LineBreak
+- @Green "Hinzugefügt": eine bestimmte IP an CreateNetworkServer() binden @LineBreak
+- @Green "Hinzugefügt": Timeout, LokaleIP$ und LokalerPort Parameter bei OpenNetworkConnection() @LineBreak
+- @Green "Hinzugefügt": #PB_NetworkEvent_Disconnect Unterstützung bei NetworkClientEvent() @LineBreak
+- @Green "Hinzugefügt": #PB_Unicode, #PB_Ascii und #PB_UTF8 Unterstützung bei SendNetworkString() @LineBreak
+- @Green "Hinzugefügt": #PB_String_MaximumLength Attribut bei StringGadget() @LineBreak
+- @Green "Hinzugefügt": #PB_Event_DeactivateWindow Unterstützung @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_Change Unterstützung bei EditorGadget() @LineBreak
+- @Green "Hinzugefügt": #PB_Relative/#PB_Absolute Flag bei FileSeek() @LineBreak
+- @Green "Hinzugefügt": 'Offset' und 'Länge' Parameter bei SHA1/MD5/CRC32FileFingerprint() @LineBreak
+- @Green "Hinzugefügt": GetSoundPosition(), SetSoundPosition(), SoundLength(), PauseSound(), ResumeSound(), SoundStatus(), GetSoundFrequency() @LineBreak
+- @Green "Hinzugefügt": #PB_All Unterstützung bei SoundVolume() @LineBreak
+- @Green "Hinzugefügt": SetGadgetItemState() Unterstützung bei ExplorerListGadget() @LineBreak
+- @Green "Hinzugefügt": InputRequester schließen @LineBreak
+- @Green "Hinzugefügt": #PB_InputRequester_Password Flag bei InputRequester() @LineBreak
+- @Green "Hinzugefügt": optionaler Minimalwert bei Random() @LineBreak
+- @Green "Hinzugefügt": SetGadgetItemText() bei ListIconGadget(): Verwendung von Chr(10) wie bei AddGadgetItem() @LineBreak
+- @Green "Hinzugefügt": Stretch-Parameter bei OpenWindowedScreen() jetzt optional @LineBreak
+- @Green "Hinzugefügt": ScreenWidth(), ScreenHeight(), ScreenDepth() @LineBreak
+- @Green "Hinzugefügt": SMTP AUTH Unterstützung bei der Mail Bibliothek @LineBreak
+- @Green "Hinzugefügt": optionale Parameter bei RemoveMailRecipient(), Möglichkeit zum Entfernen aller Empfänger @LineBreak
+- @Green "Hinzugefügt": ReadString(#File [, Flags [, Länge]]) : Längen- und #PB_File_IgnoreEOL Unterstützung @LineBreak
+- @Green "Hinzugefügt": #PB_Window_InnerCoordinate Unterstützung bei WindowX/Y() @LineBreak
+- @Green "Hinzugefügt": #PB_Window_FrameCoordinate Unterstützung bei WindowWidth()/Height() @LineBreak
+- @Green "Hinzugefügt": #PB_Image_Raised Unterstützung beim ImageGadget() @LineBreak
+- @Green "Hinzugefügt": Unterstützung für FreeXXX(#PB_All) bei allen Freigeben-Befehlen @LineBreak
+- @Green "Hinzugefügt": Compiler-Kontansten: #PB_Compiler_LineNumbering, #PB_Compiler_InlineAssembly, #PB_Compiler_EnableExplicit @LineBreak
+- @Green "Hinzugefügt": Compiler-Kontansten: #PB_Compiler_ExecutableFormat (mit #PB_Compiler_DLL, #PB_Compiler_Console, #PB_Compiler_Executable) @LineBreak
+- @Green "Hinzugefügt": Compiler-Kontansten: #PB_Compiler_IsIncludeFile, #PB_Compiler_IsMainFile, #PB_Compiler_Filename (Dateiname ohne Pfad) @LineBreak
+- @Green "Hinzugefügt": Bool() Compiler-Operator. Boolesche Operationen ohne Bool() sind jetzt verboten. @LineBreak
+- @Green "Hinzugefügt": MacroExpandedCount internes Schlüsselwort @LineBreak
+- @Green "Hinzugefügt": UndefineMacro @LineBreak
+- @Green "Hinzugefügt": XIncludeFile berücksichtigt jetzt auch die Haupt-Datei, um doppeltes Einfügen zu vermeiden, wenn die Haupt-Datei von einer anderen Datei eingefügt ("included") wird @LineBreak
+- @Green "Hinzugefügt": TypeOf() für Variablen, Strukturen und Felder @LineBreak
+- @Green "Hinzugefügt": Defined(Sprungmarke, #PB_Label) Unterstützung @LineBreak
+- @Green "Hinzugefügt": CompilerElseIf @LineBreak
+- @Green "Hinzugefügt": lokale Sprungmarken @LineBreak
+- @Green "Hinzugefügt": Define verhält sich jetzt wie Global und akzeptiert Dim(), NewMap() und NewList() auf der gleichen Zeile @LineBreak
+- @Green "Hinzugefügt": Unterstützung des 'Align' Schlüsselworts bei Strukturen, mit einem speziellen #PB_Structure_AlignC Wert um das 'Padding' bei C-Strukturen zu imitieren @LineBreak
+- @Green "Hinzugefügt": Auto-Casting von numerischen Werten, wenn Strings beteiligt sind - erlaubt das Verketten von Strings und numerischen Konstanten @LineBreak
+- @Green "Hinzugefügt": 'CONSTANTLIST' beim Compiler Interface @LineBreak
+- @Green "Hinzugefügt": Aufzeichnen der Bearbeitungs-/Versionsgeschichte in der IDE um frühere Code-Zustände wiederherstellen zu können und zur Wiederherstellung nach einem Systemabsturz (siehe Datei -> Sitzungsgeschichte) @LineBreak
+- @Green "Hinzugefügt": AffectedDatabaseRows(), CheckDatabaseNull() bei der Database Bibliothek @LineBreak
+- @Green "Hinzugefügt": neue Text3D Bibliotheky @LineBreak
+- @Green "Hinzugefügt": optionaler Parameter 'Modus' bei allen ...Yaw/Roll/Pitch() Funktionen @LineBreak
+- @Green "Hinzugefügt": optionale 'Typ' und 'Modus' Parameter bei CreateMesh() @LineBreak
+- @Green "Hinzugefügt": RayCast(), MouseRayCast(), NormalX(), NormalY(), NormalZ() @LineBreak
+- @Green "Hinzugefügt": UpdateMesh(), EnableManualEntityBoneControl(), MoveEntityBone(), RotateEntityBone(), MeshIndex() @LineBreak
+- @Green "Hinzugefügt": optionaler Paramter 'Typ' bei AddSubMesh() @LineBreak
+- @Green "Hinzugefügt": 'Typ' Parameter bei FinishMesh() @LineBreak
+- @Green "Hinzugefügt": ScaleNode(), GetMaterialColor(), GetMaterialAttribute(), ConvertLocalToWorldPosition(), ConvertWorldToLocalPosition() @LineBreak
+- @Green "Hinzugefügt": MaterialCullingMode(), FetchOrientation(), SetOrientation(), GetX(), GetY(), GetZ(), GetW(), GetLightColor() @LineBreak
+- @Green "Hinzugefügt": AttachEntityObject(): Name des 'Bone' (Knochen) kann leer bleiben, womit das Objekt direkt zum Entity hinzugefügt wird @LineBreak
+@LineBreak
+- @Orange "Geändert": SoundFrequency() in SetSoundFrequency() umbenannt @LineBreak
+- @Orange "Geändert": AddMeshVertex() in MeshVertexPosition() umbenannt @LineBreak
+- @Orange "Geändert": LightColor() in SetLightColor() umbenannt @LineBreak
+- @Orange "Geändert": alle MaterialXXXXColor() entfernt, ersetzt durch SetMaterialColor() @LineBreak
+- @Orange "Geändert": alle XXXXLocate() entfernt, ersetzt durch #PB_Absolute Flag bei den MoveXXXX() Befehlen @LineBreak
+- @Orange "Geändert": ResizeEntity() entfernt, ersetzt durch #PB_Absolute Flag beim ScaleEntity() Befehl, ebenso bei ScaleNode() und ScaleText3D()@LineBreak
+- @Orange "Geändert": #PB_Sort_<Type> ersetzt durch #PB_<Type>, um mögliche Fehler zu vermeiden @LineBreak
+- @Orange "Geändert": Native Typen bei Zeigern (Pointern) sind nicht mehr erlaubt @LineBreak
+- @Orange "Geändert": StrF/D(), Nullen werden jetzt automatisch entfernt, wenn keine Dezimalstellen angegeben werden @LineBreak
+@LineBreak
+- @Green "Aktualisiert": Update des OGRE Core auf 1.8.2 @LineBreak
+- @Green "Aktualisiert": SQLite Version (3.7.15.2) @LineBreak
+- @Green "Aktualisiert": Einsteiger-Kapitel: neue Kapitel über dynamische Nummerierung und das Verwalten mehrerer Fensters hinzugefügt durch spikey @LineBreak
+@LineBreak
+- @Red "Entfernt": SendNetworkFile(), RecieveNetworkFile(), #PB_NetworkEvent_File, um mögliche Sicherheitslücke zu vermeiden @LineBreak
+- @Red "Entfernt": DirectX7 und NT4 Subsystem auf Windows @LineBreak
+- @Red "Entfernt": SDL Subsystem auf Linux @LineBreak
+- @Red "Entfernt": PowerPC Version auf OS X @LineBreak
+@LineBreak
+- ConstantColor "Optimiert": FindString() ist jetzt fast doppelt so schnell @LineBreak
+@LineBreak
+- @Blue "Repariert": viele Bugs @LineBreak
+
+
+@Section 5. November 2012 : Version 5.00
+
+- @Green "Hinzugefügt": Cocoa Support auf OS X (jetzt das Standard-Toolkit) @LineBreak
+- @Green "Hinzugefügt": 64-Bit Version von PureBasic für OS X @LineBreak
+- @Green "Hinzugefügt": Brandneuer Form-Designer, für Windows, Linux und OS X @LineBreak
+- @Green "Hinzugefügt": Carbon Subsystem für PowerPC und x86 Versionen von PureBasic @LineBreak
+- @Green "Hinzugefügt": Unterstützung für mehrdimensionale Arrays in Strukturen @LineBreak
+- @Green "Hinzugefügt": InitScintilla() auf Linux und OS X, um Kompilierungsprobleme zu vermeiden @LineBreak
+- @Green "Hinzugefügt": #PB_Window_NoActivate Flag bei OpenWindow() und HideWindow() @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_RightClick Support beim ScintillaGadget() @LineBreak
+- @Green "Hinzugefügt": Favoriten-Auswahl im Explorer-Werkzeug (IDE) @LineBreak
+- @Green "Hinzugefügt": Trigger für selbsterstellte Tools, wenn eine neue Quellcode-Datei erstellt wird (IDE) @LineBreak
+- @Green "Hinzugefügt": SetWindowCallback() Support auf OS X, um Callback-Ereignisse zu haben  @LineBreak
+- @Green "Hinzugefügt": teilweise Thread-Sicherheit bei GTK (Linux) @LineBreak
+- @Green "Hinzugefügt": SpritePixelCollision() Support auf OS X und Linux @LineBreak
+@LineBreak
+- @Green "Aktualisiert": Scintilla aktualisiert auf 3.2.2 @LineBreak
+- @Green "Aktualisiert": Expat aktualisiert auf 2.1.0 @LineBreak
+- @Green "Aktualisiert": libjpeg aktualisiert auf 8.0d @LineBreak
+- @Green "Aktualisiert": libpng aktualisiert auf 1.5.12 @LineBreak
+- @Green "Aktualisiert": Ogre auf 1.8.0, bullet auf 2.80, hydrax auf 0.5.4, CEGUI auf 0.7.7 @LineBreak
+- @Green "Aktualisiert": ModPlug lib aktualisiert auf 0.8.8.4 @LineBreak
+- @Green "Aktualisiert": Verwendung von VC++ 2010 anstelle von VC++ 2005 zum Kompilieren der Windows Libraries (32-Bit und 64-Bit), resultierend in besser optimiertem Code @LineBreak
+- @Green "Aktualisiert": Französische Anleitung wurde großartig aktualisiert/verbessert, Danke an Jean R. VIALE. @LineBreak
+@LineBreak
+- @Orange "Geändert": SetModulePosition() arbeitet jetzt in Millisekunden, nicht mehr in Pattern @LineBreak
+@LineBreak
+- @Blue "Repariert": Viele Bugs @LineBreak
+@LineBreak
+@Bold "3D Engine:" @LineBreak
+- @Green "Hinzugefügt": EntityAnimation Bibliothek @LineBreak
+- @Green "Hinzugefügt": NodeAnimation Bibliothek @LineBreak
+- @Green "Hinzugefügt": VertexAnimation Bibliothek @LineBreak
+- @Green "Hinzugefügt": Spline Bibliothek @LineBreak
+- @Green "Hinzugefügt": CG Tookit Support für die 3D engine (sowohl DirectX als auch OpenGL), mittels InitEngine3D() @LineBreak
+- @Green "Hinzugefügt": optionaler 'Modus' Parameter bei InitEngine3D() @LineBreak
+- @Green "Hinzugefügt": 'PickMask' Parameter bei MousePick() und CreateEntity() @LineBreak
+- @Green "Hinzugefügt": RenderWorld() gibt jetzt die 'ZeitSeitLetztemFrame' zurück, in Millisekunden @LineBreak
+- @Green "Hinzugefügt": SkyBox() und SkyDome() unterstützen jetzt Fog() @LineBreak
+- @Green "Hinzugefügt": 'Farbe' und 'TexturGröße' Parameter bei WorldShadows() @LineBreak
+- @Green "Hinzugefügt": #PB_World_UnderWater und #PB_World_WaterGodRays Flags bei CreateWater() @LineBreak
+- @Green "Hinzugefügt": RayPick(), CameraViewWidth(), CameraViewHeight(), CameraViewX(), CameraViewY(), CameraDirection()  @LineBreak
+- @Green "Hinzugefügt": CameraDirectionX/Y/Z(), SetCameraFixedYawAxis() @LineBreak @LineBreak
+- @Green "Hinzugefügt": optionaler 'IsActive' Parameter zum Rendern auf die Textur bei CreateCamera() @LineBreak
+- @Green "Hinzugefügt": ScaleMaterial(), MaterialFog(), ReloadMaterial(), ResetMaterial(), NodeFixedYawAxis() @LineBreak
+- @Green "Hinzugefügt": optionaler 'TextureCoordinateIndex' Parameter bei AddMaterialLayer() @LineBreak
+- @Green "Hinzugefügt": #PB_Material_Anisotropic Support bei MaterialFilteringMode() @LineBreak
+- @Green "Hinzugefügt": Unterstützung für #PB_Default als #Material, um die Standard-Einstellungen für Materialien festzulegen. @LineBreak
+- @Green "Hinzugefügt": #PB_Material_Wireframe, #PB_Material_Point und #PB_Material_Solid bei MaterialShadingMode() @LineBreak
+- @Green "Hinzugefügt": SoundListenerLocate() @LineBreak
+- @Green "Hinzugefügt": optionale DirectionX/Y/Z Parameter bei NodeLookAt() @LineBreak
+- @Green "Hinzugefügt": optionaler 'Modus' Parameter bei MoveLight(), MoveEntity() und MoveNode() @LineBreak
+- @Green "Hinzugefügt": CreateTexture() arbeitet jetzt auch mit Alpha-Texturen @LineBreak
+- @Green "Hinzugefügt": #PB_Entity_Wireframe, #PB_Entity_Solid, #PB_Entity_Point und #PB_Entity_DisplaySkeleton bei EntityRenderMode() @LineBreak
+- @Green "Hinzugefügt": FreeEntityJoints(), AttachEntityObject(), DetachEntityObject(), EntityBoneX/Y/Z() @LineBreak
+- @Green "Hinzugefügt": EntityBonePitch(), EntityBoneRoll(), EntityBoneYaw(), EntityFixedYawAxis() @LineBreak
+- @Green "Hinzugefügt": DirectionX/Y/Z optionale Paramter bei EntityLookAt() @LineBreak
+- @Green "Hinzugefügt": EntityVelocity(), EntityAngularFactor(), EntityLinearFactor(), EntityCustomParameter(), EntityParentNode() @LineBreak
+- @Green "Hinzugefügt": EntityBoundingBoxX/Y/Z(), DisableEntityBody() @LineBreak
+- @Green "Hinzugefügt": #PB_Entity_VelocityX/Y/Z, #PB_Entity_MassCenterX/Y/Z, #PB_Entity_MaxVelocity bei Get/SetEntityAttribute() @LineBreak
+- @Green "Hinzugefügt": LightAttenuation(), LightX/Y/Z(), LightDirection(), LightDirectionX/Y/Z() @LineBreak
+- @Green "Hinzugefügt": RotateLight(), LightPitch(), LightYaw(), LightRoll() @LineBreak
+- @Green "Hinzugefügt": GetScriptParticle(), CreateRenderTexture(), UpdateRenderTexture(), SaveRenderTexture() @LineBreak
+- @Green "Hinzugefügt": CreateCubeMapTexture(), EntityCubeMapTexture() @LineBreak
+- @Green "Hinzugefügt": HideEffect() arbeitet jetzt auch mit "Ribbon" (Farbband) @LineBreak
+- @Green "Hinzugefügt": EffectID(), RibbonEffectWidth(), AttachRibbonEffect(), DetachRibbonEffect(), CreateLensFlareEffect(), LensFlareEffectColor() @LineBreak
+- @Green "Hinzugefügt": EnableHingeJointAngularMotor() @LineBreak
+- @Green "Hinzugefügt": Joint Parameter bei ConeTwistJoint(), HingeJoint(), PointJoint(), SliderJoint() @LineBreak
+- @Green "Hinzugefügt": #PB_HingeJoint_LowerLimit und #PB_HingeJoint_UpperLimit bei Get/SetJointAttribute() @LineBreak
+- @Green "Hinzugefügt": optionale 'Pitch', 'Yaw', 'Roll' Parameter bei AddStaticGeometryEntity() @LineBreak
+- @Green "Hinzugefügt": FreeTerrain(), SetupTerrains(), CreateTerrain(), TerrainPhysicBody(), DefineTerrainTile() @LineBreak
+- @Green "Hinzugefügt": AddTerrainTexture(), BuildTerrain(), TerrainLocate(), TerrainHeight(), TerrainTileHeightAtPosition() @LineBreak
+- @Green "Hinzugefügt": TerrainTilePointX/Y(), TerrainTileSize(), GetTerrainTileHeightAtPoint(), SetTerrainTileHeightAtPoint() @LineBreak
+- @Green "Hinzugefügt": UpdateTerrain(), TerrainTileLayerMapSize(), GetTerrainTileLayerBlend(), SetTerrainTileLayerBlend() @LineBreak
+- @Green "Hinzugefügt": UpdateTerrainTileLayerBlend(), TerrainMousePick(), SaveTerrain(), TerrainRenderMode() @LineBreak
+- @Green "Hinzugefügt": Sondertasten-Handling bei InputEvent3D() @LineBreak
+@LineBreak
+- @Orange "Geändert": CameraLookAt() ändert nicht mehr die Richtung @LineBreak
+- @Orange "Geändert": Attach/DetachNodeObject() - das 'Typ' Objekt entfernt @LineBreak
+- @Orange "Geändert": Parameter 'Anfangsbreite' bei CreateRibbonEffect() entfernt @LineBreak
+@LineBreak
+- @Red "Entfernt": AnimateEntity() (ersetzt mit Start/StopEntityAnimation()) @LineBreak
+- @Red "Entfernt": #PB_Entity_Wireframe, #PB_Entity_Point und #PB_Entity_Solid bei EntityRenderMode() @LineBreak
+- @Red "Entfernt": CheckEntityCollision(), NextWorldCollision(), FirstWorldCollisionEntity(), SecondWorldCollisionEntity() @LineBreak
+
+
+@Section 21. Mai 2012 : Version 4.61
+
+- @Green "Hinzugefügt": "Up-to-date" VisualC SDK für Windows zum Erstellen von PureLibraries @LineBreak
+- @Green "Hinzugefügt": Ressourcen-Support für Win9x @LineBreak
+- @Green "Hinzugefügt": Neues Einsteiger-Kapitel (PureBasic-Einführung) im Referenz-Handbuch @LineBreak
+@LineBreak
+- @Green "Aktualisiert": FASM Version (1.69.35) @LineBreak
+- @Green "Aktualisiert": SQLite Version (3.7.9) @LineBreak
+- @Green "Aktualisiert": PCRE Version (8.30) @LineBreak
+@LineBreak
+- @Orange "Geändert": OpenGL Subsystem ist jetzt der Standard auf Linux (ein neues 'sdl' Subsystem wurde eingeführt) @LineBreak
+@LineBreak
+- @Blue "Repariert": 3D-Beispiele für Linux @LineBreak
+- @Blue "Repariert": WinAPI 64 Bit Residents (von Danilo) @LineBreak
+- @Blue "Repariert": Eine ganze Reihe Bugs im Compiler und den Bibliotheken @LineBreak
+
+
+@Section 7. November 2011 : Version 4.60
+
+- @Green "Hinzugefügt": ein brandneuer Ordner mit '3D' Beispielen @LineBreak
+- @Green "Hinzugefügt": 'Joint' Bibliothek @LineBreak
+- @Green "Hinzugefügt": 'SpecialEffect' Bibliothek @LineBreak
+- @Green "Hinzugefügt": 'StaticGeometry' Bibliothek @LineBreak
+- @Green "Hinzugefügt": CameraPitch(), CameraRoll(), CameraYaw(), SwitchCamera() @LineBreak
+- @Green "Hinzugefügt": ApplyEntityForce(), ApplyEntityImpulse(), EntityPitch(), EntityRoll(), EntityYaw() @LineBreak
+- @Green "Hinzugefügt": GetEntityAttribute(), GetEntityMaterial(), SetEntityAttribute(), SetEntityMaterial() @LineBreak
+- @Green "Hinzugefügt": LightDiffuseColor(), SpotLightRange(), LightLookAt(), DisableLightShadows() @LineBreak
+- @Green "Hinzugefügt": MaterialDepthWrite(), MaterialSelfIlluminationColor(), MaterialShininess(), GetScriptMaterial() @LineBreak
+- @Green "Hinzugefügt": CreateLine3D(), CreateCube(), CreateSphere(), CreateCylinder(), CreatePlane()  @LineBreak
+- @Green "Hinzugefügt": MeshVertexCount(), UpdateMeshBoundingBox(), MeshRadius(), AddMeshVertex() @LineBreak
+- @Green "Hinzugefügt": MeshVertexNormal(), MeshVertexColor(), AddSubMesh(), BuildMeshShadowVolume() @LineBreak
+- @Green "Hinzugefügt": MeshVertexTextureCoordinate(), AddMeshFace(), FinishMesh(), NormalizeMesh()  @LineBreak
+- @Green "Hinzugefügt": SaveMesh(), SetMeshMaterial(), SubMeshCount(), TransformMesh() @LineBreak
+- @Green "Hinzugefügt": NodePitch(), NodeRoll(), NodeYaw(), GetScriptTexture(), TextureOutput() @LineBreak
+- @Green "Hinzugefügt": EntityCollide(), RayCollide @LineBreak
+- @Green "Hinzugefügt": OpenGL Renderer zur 3D-Bibliothek auf Windows, wenn das OpenGL Subsystem verwendet wird @LineBreak
+- @Green "Hinzugefügt": CanvasGadget(), CanvasOutput() @LineBreak
+- @Green "Hinzugefügt": SetGadgetItemData() für das PanelGadget @LineBreak
+- @Green "Hinzugefügt": MoveElement(), MergeLists(), SplitList() @LineBreak
+- @Green "Hinzugefügt": RandomizeList(), RandomizeArray(), DoubleClickTime() @LineBreak
+- @Green "Hinzugefügt": PushListPosition(), PopListPosition(), PushMapPosition(), PopMapPosition() @LineBreak
+- @Green "Hinzugefügt": ImageID Parameter zu OpenSubMenu() @LineBreak
+- @Green "Hinzugefügt": #PB_ListIcon_ThreeState und #PB_ListIcon_Inbetween @LineBreak
+- @Green "Hinzugefügt": #PB_Tree_ThreeState und #PB_Tree_Inbetween @LineBreak
+- @Green "Hinzugefügt": "Crossplattform" ComboBox Ereignisse @LineBreak
+- @Green "Hinzugefügt": 'DeclareC' Schlüsselwort zur Vervollständigung @LineBreak
+@LineBreak
+- @Orange "Geändert": FindString() 'StartPosition' Parameter ist jetzt optional @LineBreak
+- @Orange "Geändert": WebGadget verwendet jetzt das WebKitGtk auf Linux @LineBreak
+- @Orange "Geändert": ContainerGadget mit #PB_Container_Borderless fügt jetzt keinen 2 Pixel breiten unsichtbaren Rand auf Linux mehr hinzu @LineBreak
+- @Orange "Geändert": EntityPhysicBody(), CreateLight(), RenderWorld(), ShowGUI(), WorldShadows() @LineBreak
+- @Orange "Geändert": EntityMaterial() in SetEntityMaterial() @LineBreak
+@LineBreak
+- @Red "Entfernt": Get/SetEntityMass(), Get/SetEntityFriction() @LineBreak
+- @Red "Entfernt": SetMeshData() @LineBreak
+@LineBreak
+- @Blue "Repariert": Viele Bugs @LineBreak
+@LineBreak
+@Bold "IDE:" @LineBreak
+- @Green "Hinzugefügt": IDE-Optionen für die Projekt-Erstellung per Kommandozeile @LineBreak
+- @Green "Hinzugefügt": Überwachen von Dateien auf Änderungen auf Disk, während sie in der IDE geöffnet sind @LineBreak
+- @Green "Hinzugefügt": eigene Datei-Panel Implementierung mit Drag & Drop, Dropdown Menü, Scrolling auch auf OSX @LineBreak
+- @Green "Hinzugefügt": Vergleichs-Tool für Verzeichnisse/Dateien @LineBreak
+- @Green "Hinzugefügt": Html Hilfe-Anzeiger für Linux/OSX @LineBreak
+- @Green "Hinzugefügt": Hilfe-Anzeiger im Werkzeug-Panel @LineBreak
+- @Green "Hinzugefügt": neues Farbauswahl-Tool ("Color-Picker") @LineBreak
+- @Green "Hinzugefügt": aktivierte Zeichensatz-Auswahl in der IDE für OSX @LineBreak
+- @Green "Hinzugefügt": Projekt-Panel merkt sich jetzt den Status aufgeklappter Knoten @LineBreak
+@LineBreak
+@Bold "Debugger:" @LineBreak
+- @Green "Hinzugefügt": Maximierungs-Schalter bei allen Debugger-Fenstern @LineBreak
+- @Green "Hinzugefügt": Alle IsXxx() und XxxID() Funktionen zum Ausdrucks-Parser (für Daten-Haltepunkte) @LineBreak
+
+
+@Section 8. September 2010 : Version 4.51
+
+- @Blue "Repariert": Eine ganze Reihe Bugs im Compiler und den Bibliotheken
+
+
+@Section 7. Juni 2010 : Version 4.50
+
+- @Green "Hinzugefügt": Unterstützung für Array, List, Map innerhalb von Strukturen @LineBreak
+- @Green "Hinzugefügt": CopyList(), CopyMap(), CopyArray() @LineBreak
+- @Green "Hinzugefügt": FreeList(), FreeMap(), FreeArray() @LineBreak
+- @Green "Hinzugefügt": CopyStructure(), InitializeStructure() @LineBreak
+- @Green "Hinzugefügt": Lautstärke-Support bei PlaySound() @LineBreak
+- @Green "Hinzugefügt": Tiefe-Parameter bei SaveImage() @LineBreak
+- @Green "Hinzugefügt": ImageDepth() Flag, um die originale oder aktuelle Bildtiefe zu erhalten @LineBreak
+- @Green "Hinzugefügt": #PB_Image_Transparent Flag bei CreateImage() @LineBreak
+- @Green "Hinzugefügt": 32Bit Support beim TGA Bild-Decoder @LineBreak
+- @Green "Hinzugefügt": RoundBox(), AbortFTPFile(), RandomData() @LineBreak
+- @Green "Hinzugefügt": #PB_2DDrawing_AllChannels Modus bei DrawingMode() @LineBreak
+- @Green "Hinzugefügt": Image (Bild) Unterstützung bei ComboBoxGadget() @LineBreak
+- @Green "Hinzugefügt": Grafische Console-Funktionen auf Linux @LineBreak
+- @Green "Hinzugefügt": Unterstützung für große Dateien bei der 'File' Library auf Linux/OSX @LineBreak
+- @Green "Hinzugefügt": CryptRandom(), CryptRandomData(), OpenCryptRandom(), CloseCryptRandom() @LineBreak
+- @Green "Hinzugefügt": Viele Mathe-Funktionen: Exp(), ATan2(), Radian(), Degree(), [A]CosH(), [A]SinH(), [A]TanH(), IsNaN(), IsInfinity(), NaN(), Infinity(), Sign() @LineBreak
+- @Green "Hinzugefügt": 'Debugger' Library, um einige Debugger-Aktionen aus dem Code heraus kontrollieren zu können @LineBreak
+@LineBreak
+- @Orange "Geändert": Die Image Library behandelt Bilder jetzt intern als 24Bit oder 32Bit (das Laden und Speichern funktioniert mit anderen Bit-Tiefen) @LineBreak
+@LineBreak
+- @Blue "Repariert": So einige Bugs in den Libraries und im Compiler @LineBreak
+@LineBreak
+@Bold "IDE/Debugger:" @LineBreak
+- @Green "Hinzugefügt": Schlüsselwort-Unterstreichung bei Break, Continue, ProcedureReturn @LineBreak
+- @Green "Hinzugefügt": StatusBar-Hilfe für Prototypen und Interfaces @LineBreak
+- @Green "Hinzugefügt": Schlüsselwort-abhängige Einrückung (Block-Modus ist weiterhin verfügbar) @LineBreak
+- @Green "Hinzugefügt": Option "Einrückung formatieren" im Bearbeiten-Menü @LineBreak
+- @Green "Hinzugefügt": Einrücknugs-Hilfslinien und Leerzeichen-Optionen @LineBreak
+- @Green "Hinzugefügt": Die Möglichkeit zur Auswahl mehrerer Compiler in den Compiler-Optionen @LineBreak
+- @Green "Hinzugefügt": Purifier-Werkzeug für den Debugger @LineBreak
+- @Green "Hinzugefügt": Vollständige Debugger-Kompatibilität zwischen allen OS und Prozessoren @LineBreak
+- @Green "Hinzugefügt": Netzwerk-Debuggen für den eigenständigen Debugger @LineBreak
+- @Green "Hinzugefügt": Daten-Haltepunkte beim Debugger @LineBreak
+- @Green "Hinzugefügt": Unterstützung für strukturierte Einträge in den 'Array/Listen/Map anzeigen' Registern der Variablenliste @LineBreak
+@LineBreak
+- @Orange "Geändert": Die Array, Listen bzw. Map-Namen in der Variablenliste müssen nun mit "()" eingegeben werden, um ihre Elemente anzuzeigen.
+
+
+@Section 1. Februar 2010 : Version 4.41
+ 
+- @Blue "Repariert": Eine ganze Reihe Bugs in den Bibliotheken und im Compiler
+ 
+
+@Section 1. Dezember 2009 : Version 4.40
+
+- @Green "Hinzugefügt": Native Linux x64 Unterstützung @LineBreak
+- @Green "Hinzugefügt": Eingebaute Map Bibliothek für Hash-Tabellen @LineBreak
+- @Green "Hinzugefügt": 'Threaded' Schlüsselwort für Thread-lokale Variablen @LineBreak
+- @Green "Hinzugefügt": Struktur-Zuweisung kopiert die Struktur (a.point = b.point) @LineBreak
+- @Green "Hinzugefügt": ClearStructure() @LineBreak
+- @Green "Hinzugefügt": AESEncoder(), AESDecoder(), StartAESCipher(), AddCipherBuffer(), FinishCipher() @LineBreak
+- @Green "Hinzugefügt": Dylib Unterstützung für OS X @LineBreak
+- @Green "Hinzugefügt": Joystick Bibliothek für OS X @LineBreak
+- @Green "Hinzugefügt": Systray Bibliothek für OS X @LineBreak
+- @Green "Hinzugefügt": Trim/LTrim/RTrim() haben ein optionales zu kürzendes Zeichen erhalten @LineBreak
+- @Green "Hinzugefügt": #PB_Function, #PB_OSFunction, #PB_Map bei Defined() @LineBreak
+- @Green "Hinzugefügt": ReverseString(), InsertString(), RemoveString() @LineBreak
+- @Green "Hinzugefügt": Blob-Unterstützung bei Datenbanken @LineBreak
+- @Green "Hinzugefügt": UsePostgreSQLDatabase(): native PostgreSQL Unterstützung @LineBreak
+- @Green "Hinzugefügt": 'Peephole'-Optimierer bei den 64 Bit Versionen, um besseren Code zu produzieren @LineBreak
+- @Green "Hinzugefügt": '.a' (ascii) und '.u' (unicode) native Typen, um native vorzeichenlose Byte und Word bereitzustellen. @LineBreak
+- @Green "Hinzugefügt": FileBuffersSize() - #PB_Default Unterstützung ändert die Buffergröße für die nächsten zu öffnenden Dateien @LineBreak
+- @Green "Hinzugefügt": #PB_URL_Protocol bei Get/SetURLPart() @LineBreak
+- @Green "Hinzugefügt": #PB_Shadow_TextureAdditive @LineBreak
+- @Green "Hinzugefügt": FTPDirectoryEntryRaw(), FillMemory() @LineBreak
+- @Green "Hinzugefügt": Global, Protected, Threaded, Shared und Static akzeptieren jetzt einen Typ, um sich auf alle Standard Variablen-Deklarationen auszuwirken. @LineBreak
+- @Green "Hinzugefügt": AddWindowTimer(), RemoveWindowTimer(), EventTimer() @LineBreak
+- @Green "Hinzugefügt": #PB_Window_Tool zum Erstellen von 'Tool'-Fenstern @LineBreak
+- @Green "Hinzugefügt": ShortcutGadget(), StatusBarProgress() @LineBreak
+- @Green "Hinzugefügt": StatusBarImage() unterstützt jetzt normale Bilder (nicht nur Icons) @LineBreak
+- @Green "Hinzugefügt": #PB_Checkbox_ThreeState Flag zum Erstellen einer "3 Status"-Checkbox @LineBreak
+- @Green "Hinzugefügt": CreateImageMenu(), CreatePopupImageMenu() für OSX @LineBreak
+- @Green "Hinzugefügt": Vollständige Alpha-Kanal Unterstützung für alle GUI-Elemente, die Bilder darstellen @LineBreak
+- @Green "Hinzugefügt": Vollständige Alpha-Kanal Unterstützung für die Image Bibliothek @LineBreak
+- @Green "Hinzugefügt": Neue Zeichen-Modi für 2DDrawing in ImageOutput() @LineBreak
+- @Green "Hinzugefügt": LinearGradient(), BoxedGradient(), CircularGradient(), EllipticalGradient(), ConicalGradient() @LineBreak
+- @Green "Hinzugefügt": CustomGradient(), GradientColor(), ResetGradientColors(), CustomFilterCallback() @LineBreak
+- @Green "Hinzugefügt": DrawAlphaImage() für alle Ausgabekanäle auf allen OS @LineBreak
+- @Green "Hinzugefügt": DrawAlphaImage() hat einen neuen Transparenz-Parameter und kann verwendet werden, um nicht-Alpha-Bilder teilweise transparent zu zeichnen @LineBreak
+- @Green "Hinzugefügt": QuickDraw Subsystem für WindowOutput() auf OSX @LineBreak
+- @Green "Hinzugefügt": Sprite/ScreenOutput für OpenGL (alle OS) @LineBreak
+- @Green "Hinzugefügt": DrawingFont() funktioniert für die SDL-Ausgabe @LineBreak
+- @Green "Hinzugefügt": OutputWidth(), OutputHeight(), OutputDepth() für 2DDrawing @LineBreak
+- @Green "Hinzugefügt": GrabDrawingImage(), DrawRotatedText(), RGBA(), Alpha(), AlphaBlend() @LineBreak
+- @Green "Hinzugefügt": #PB_PixelFormat_ReversedY - für Pixel-Buffer, die umgekehrt gespeichert sind (Windows ImageOutput oder OpenGl) @LineBreak
+- @Green "Hinzugefügt": #PB_OS_Windows_7, #PB_OS_MacOSX_10_6 bei OSVersion() @LineBreak
+@LineBreak
+- @Green "Aktualisiert": OGRE auf 1.6.2, sqlite 3.6.14.2, PCRE auf 7.9 @LineBreak
+@LineBreak
+- @orange "Geändert": Call(C)Function(Fast) Parameter wurden geändert von 'Any' in 'Integer'. @LineBreak
+- @orange "Geändert": OpenScreen() akzeptiert jetzt FlipModus und RefreshRate @LineBreak
+- @orange "Geändert": FlipBuffers() unterstützt keinen optionalen Parameter mehr @LineBreak
+@LineBreak
+- @Red "Entfernt": #PB_Image_DisplayFormat ist jetzt "veraltet"  (der Wert wurde auf 24 gesetzt, um standardmäßig 24Bit zu haben) @LineBreak
+- @Red "Entfernt": SetRefreshRate() wurde entfernt, der Parameter befindet sind jetzt in OpenScreen() @LineBreak
+ @LineBreak
+- @blue "Repariert": Image-Decoder sind jetzt thread-sicher @LineBreak
+- @blue "Repariert": Eine ganze Reihe Bugs in den Bibliotheken und im Compiler @LineBreak
+@LineBreak
+@Bold "PureBasic IDE:" @LineBreak
+- @Green "Hinzugefügt": Vollständige Projekt-Management @LineBreak
+- @Green "Hinzugefügt": Hervorheben passender Schlüsselwörter unter dem Cursor (gebunden an die Farbeinstellung zur Prüfung passender Klammern) @LineBreak
+- @Green "Hinzugefügt": Bearbeiten -> Gehe zum dazugehörenden Schlüsselwort @LineBreak
+- @Green "Hinzugefügt": PB_TOOL_Preferences Umgebungs-Variable für die IDE-Tools @LineBreak
+- @Green "Hinzugefügt": Themen-Management zum Anpassen der Menü-Icons @LineBreak
+- @Green "Hinzugefügt": Neues 'Silk' Thema basierend auf dem Icon-Set von Mark James @LineBreak
+- @Green "Hinzugefügt": 'AutoVervollständigen' überprüft auch indirekte Variablen-Deklarationen und respektiert den Zuständigkeitsbereich ("Scope") @LineBreak
+- @Green "Hinzugefügt": Automatisches Vervollständigen von Struktur-Einträgen @LineBreak
+@LineBreak
+- @orange "Geändert": Einstellungen für Codierung/Zeilenumbruch von den Compiler-Optionen in das Datei-Menü verschoben @LineBreak
+@LineBreak
+@Bold "PureBasic Debugger:" @LineBreak
+- @constantcolor "Optimiert": wesentlich verbesserte Geschwindigkeit beim Aktualisieren des Variablenanzeigers @LineBreak
+- @Green "Hinzugefügt": Fortschrittsanzeige, wenn die Aktualisierung des Variablenanzeigers länger dauert @LineBreak
+- @Green "Hinzugefügt": Möglichkeit zur Sortierung der Spalten im Variablenanzeiger (nur auf Windows)
+
+
+@Section 3. Juni 2009 : Version 4.31
+
+- @blue "Repariert": Viele Fehler des Compilers und der Bibliotheken
+
+
+@Section 16. Dezember 2008 : Version 4.30
+
+- @Green "Hinzugefügt": Vollständige 64 Bit Version von PureBasic (Windows) @LineBreak
+- @Green "Hinzugefügt": MacOS X x86 Unterstützung @LineBreak
+- @Green "Hinzugefügt": 'JPEG 2000' Bibliothek @LineBreak
+- @Green "Hinzugefügt": 'Node' Bibliothek @LineBreak
+- @Green "Hinzugefügt": 'Gadget3D' Bibliothek @LineBreak
+- @Green "Hinzugefügt": 'Window3D' Bibliothek @LineBreak
+- @Green "Hinzugefügt": 'Sound3D' Bibliothek @LineBreak
+- @Green "Hinzugefügt": Vollständige Unicode-Unterstützung bei der Engine3D @LineBreak
+- @Green "Hinzugefügt": MacOS X Unterstützung für die Engine3D @LineBreak
+- @Green "Hinzugefügt": Absolute/relative Rotation bei allen Engine3D Rotate-Befehlen @LineBreak
+- @Green "Hinzugefügt": Absolute Bewegung beim Engine3D physischen Körper @LineBreak
+- @Green "Hinzugefügt": EntityID(), EntityLookAt() @LineBreak
+- @Green "Hinzugefügt": CameraProjectionX(), CameraProjectionY(), WorldDebug(), Sun() @LineBreak
+- @Green "Hinzugefügt": MousePick(), PointPick(), PickX/Y/Z(), CreateWater(), AntialiasingMode() @LineBreak
+- @Green "Hinzugefügt": CatchModule(), ArraySize(), WindowBounds(), DesktopX(), DesktopY() @LineBreak
+- @Green "Hinzugefügt": FinishDatabaseQuery(), DatabaseID() @LineBreak
+- @Green "Hinzugefügt": CreateSemaphore(), FreeSemaphore(), SignalSemaphore(), WaitSemaphore(), TrySemaphore() @LineBreak
+- @Green "Hinzugefügt": '.i' nativer Typ als 32/64 Bit Ganzzahlen-Größe @LineBreak
+- @Green "Hinzugefügt": Read/WriteInteger(), Read/WritePreferenceInteger(), PeekI(), PokeI() @LineBreak
+- @Green "Hinzugefügt": Sprachen-Unterstützung (Lokalisierung) beim Compiler und Debugger @LineBreak
+- @Green "Hinzugefügt": Stil-Parameter bei FontRequester() @LineBreak
+- @Green "Hinzugefügt": Unterstützung für 'And/Or' in CompilerIf Bedingungen @LineBreak
+- @Green "Hinzugefügt": #PB_Event_MinimizeWindow, #PB_Event_MaximizeWindow, #PB_Event_RestoreWindow @LineBreak
+- @Green "Hinzugefügt": #PB_Ignore Unterstützung bei AddStatusBarField() @LineBreak
+- @Green "Hinzugefügt": #PB_Explorer_DisplayMode beim ExplorerListGadget() @LineBreak
+- @Green "Hinzugefügt": Unterstützung für mehrere Joysticks @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_FilePath Compiler-Konstante @LineBreak
+@LineBreak  
+- @constantcolor  "Verbessert": größere Überarbeitung der OnError Bibliothek (cross-plattform) @LineBreak
+- @constantcolor  "Verbessert": InitScintilla(), Parameter ist jetzt optional @LineBreak
+- @constantcolor  "Verbessert": Vollständige Neuprogrammierung des Debuggers zwecks Unterstützung der neuen Plattformen @LineBreak
+@LineBreak  
+- @constantcolor "Optimiert": XML Bibliothek zum schnellen Verarbeiten sehr großer Dateien @LineBreak
+- @constantcolor "Optimiert": LinkedList Bibliothek zwecks effizienterer Verwendung des Speichers @LineBreak
+@LineBreak  
+- @orange "Geändert": 'Read' Schlüsselwort benötigt jetzt einen Typ (Read.l, Read.q, etc.), um Probleme mit der 64 Bit Migration zu vermeiden @LineBreak
+- @orange "Geändert": CountList() in ListSize() @LineBreak
+- @orange "Geändert": ClearGadgetItemList() in ClearGadgetItems() @LineBreak
+- @orange "Geändert": CameraProjection() in CameraProjectionMode() @LineBreak
+- @orange "Geändert": AddElement() und entsprechende Befehle geben jetzt einen Zeiger auf den Start der Daten zurück @LineBreak
+- @orange "Geändert": ComboBoxGadget() Höhe ist jetzt die tatsächliche Gadget-Höhe @LineBreak
+- @orange "Geändert": #Long, #Byte, #Word etc. in #PB_Long, #PB_Byte, #PB_Word etc. zwecks Konsistenz @LineBreak
+- @orange "Geändert": RotateEntity(), RotateCamera() und RotateBillboard() x,y Rotations-Achsen @LineBreak
+- @orange "Geändert": CameraFOV() Winkel von Bogenmaß in Grad @LineBreak
+- @orange "Geändert": Array und LinkedList parameter in Prozeduren benötigen nun das 'Array' oder 'List' Schlüsselwort @LineBreak
+@LineBreak  
+- @red "Entfernt": StrQ(), HexQ(), BinQ(), ValQ() @LineBreak
+- @red "Entfernt": ChangeListIconGadgetDisplay(), ersetzt durch ein Gadget-Attribut @LineBreak
+- @red "Entfernt": ButtonImageGadget() Rückwärts-Kompatibilität @LineBreak
+- @red "Entfernt": CreateGadgetList(), erfolgt jetzt bei OpenWindow() automatisch @LineBreak
+- @red "Entfernt": CopyTexture(), TextureOutput() @LineBreak
+- @red "Entfernt": CPU-Monitor aus der IDE entfernt, da alle OS die gleiche Funktionalität bieten @LineBreak 
+@LineBreak
+- @blue "Repariert": DX9 Subsystem auf Windows @LineBreak
+- @blue "Repariert": Viele Fehler des Compilers und der Bibliotheken
+
+
+@Section 23. Mai 2008 : Version 4.20
+
+- @Green "Hinzugefügt": Mail Library @LineBreak
+- @Green "Hinzugefügt": Ftp Library @LineBreak
+- @Green "Hinzugefügt": RegularExpression Library @LineBreak
+- @Green "Hinzugefügt": Http Library @LineBreak
+- @Green "Hinzugefügt": SerialPort Library @LineBreak
+- @Green "Hinzugefügt": FLAC Library @LineBreak
+- @Green "Hinzugefügt": SQLite Library @LineBreak
+- @Green "Hinzugefügt": DirectX 9 Subsystem @LineBreak
+- @Green "Hinzugefügt": Sound Streaming für OGG und FLAC @LineBreak
+- @Green "Hinzugefügt": #PB_Sound_MultiChannel Unterstützung für die Sound Library @LineBreak
+- @Green "Hinzugefügt": CreateImageMenu(), CreatePopupImageMenu(), SHA1FingerPrint(), SHA1FileFingerPrint() @LineBreak
+- @Green "Hinzugefügt": CRC32FileFingerprint(), ExamineMD5FingerPrint(), ExamineSHA1FingerPrint(), @LineBreak
+- @Green "Hinzugefügt": NextFingerPrint(), FinishFingerPrint(), IsFingerPrint() @LineBreak
+- @Green "Hinzugefügt": Hexadezimal- und Binärunterstützung für Val() und ValQ() @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_Procedure Compiler Konstante @LineBreak
+- @Green "Hinzugefügt": #PB_Round_Nearest für Round() @LineBreak
+- @Green "Hinzugefügt": 'XOr' Unterstützung für 2DDrawing unter MacOS X @LineBreak
+- @Green "Hinzugefügt": Neues Tool zur Programmanalyse im Debugger Menu - um zu beobachten, wie oft Zeilen ausgeführt werden @LineBreak
+- @Green "Hinzugefügt": Der Debugger kann jetzt Ausdrücke auswerten (siehe Ausgabefenster des Debuggers) @LineBreak
+- @Green "Hinzugefügt": Der Speicheranzeiger kann Ausdrücke als Start-/Endadresse annehmen @LineBreak
+- @Green "Hinzugefügt": Ein "+" vor die Endadresse im Speicheranzeiger macht die Endadresse relativ zur Startadresse @LineBreak
+- @Green "Hinzugefügt": Platzieren des Cursors über einer Variable im Code zeigt deren Wert an, während das Programm läuft @LineBreak
+- @Green "Hinzugefügt": Auswählen eines komplexeren Ausdrucks und Platzieren des Cursors darüber wertet den Ausdruck aus und zeigt dessen Wert, wenn das Programm läuft @LineBreak
+@LineBreak
+- @orange "Geändert": Der letzte Parameter von Mid() ist jetzt optional @LineBreak
+@LineBreak
+- @constantcolor "Optimiert": Geschwindigkeit des Compilers beim Verarbeiten des Codes (bis zu 8x schneller) @LineBreak
+- @constantcolor "Optimiert": Alle Befehle profitieren vom Verwenden eines besseren C Compilers (nur unter Windows) @LineBreak
+@LineBreak
+- @blue "Repariert": Viele Bugs im Compiler und den Bibliotheken
+
+
+@Section 4. November 2007 : Version 4.10
+
+- @Green "Hinzugefügt": XML library @LineBreak
+- @Green "Hinzugefügt": Drag & Drop library @LineBreak
+- @Green "Hinzugefügt": Vista Kompatibilität (voll kompatibel mit UAC), außer bei der Sprite Library (geplant für 4.20) @LineBreak
+- @Green "Hinzugefügt": ModPlug Unterstützung für das Abspielen von Modulen (MIDAS entfernt) @LineBreak
+- @Green "Hinzugefügt": ScintillaGadget(), TruncateFile() @LineBreak
+- @Green "Hinzugefügt": EnableASM und DisableASM Compiler Direktiven @LineBreak
+- @Green "Hinzugefügt": #PB_OS_Windows_Vista und #PB_OS_Windows_Server_2008 bei OSVersion() @LineBreak
+- @Green "Hinzugefügt": Viele neue Features beim WebGadget() @LineBreak
+- @Green "Hinzugefügt": Viele neue kleine Verbesserungen bei der IDE (neues Compiler Kommunikations-Protokoll, 
+  Vista fähig, Klammer-Markierung, schnelleres Einfärben etc.) @LineBreak
+- @Green "Hinzugefügt": synchronisierte Veröffentlichung von Windows, Linux und MacOS X ! @LineBreak
+@LineBreak
+- @orange "Geändert": InitDatabase() in UseODBCDatabase() @LineBreak
+- @orange "Geändert": Auf Windows werden die Einstellungen der IDE und der PB-Werkzeuge jetzt im Anwender "applicationdata" (Anwenderdaten) Ordner gespeichert @LineBreak
+@LineBreak
+- @red "Entfernt": Das SmartUpdate Tool wird in Zukunft nicht mehr unterstützt @LineBreak
+@LineBreak  
+- @blue "Repariert": viele Bugs bei den Befehlen und im Compiler
+
+@OS Windows
+
+@Section 18. Dezember 2006 : Version 4.02 (Fröhliche Weihnachten !)
+
+- @blue "Repariert": Macro Probleme @LineBreak
+- @blue "Repariert": LoadImage() mit Plugins im Unicode Modus @LineBreak
+- @blue "Repariert": ExplorerListGadget() mit Dateien > 4Gb @LineBreak
+- @blue "Repariert": ExaminePreferenceKeys() hat den ersten Key nicht ausgegeben @LineBreak
+- @blue "Repariert": ExamineDirectory() hat Patterns nicht richtig verarbeitet @LineBreak
+- @blue "Repariert": Einige Probleme mit IDE und Debugger @LineBreak
+- @blue "Repariert": Eine Reihe Compilerbugs
+  
+
+@Section 1. November 2006 : Version 4.01
+ 
+- @orange "Geändert": CreateThread() gibt nicht mehr den OS-Handle zurück. (ThreadID() kann dazu benutzt werden) @LineBreak
+@LineBreak
+- @blue "Repariert": Einige wichtige Quad und Unicode Probleme @LineBreak
+- @blue "Repariert": Thread-Sicherer Modus machte in manchen Fällen Probleme @LineBreak
+- @blue "Repariert": Genestete Compiler-Direktiven in Macros @LineBreak
+- @blue "Repariert": GetFileDate() und DirectoryEntryDate() benutzen jetzt die lokale Zeitzone @LineBreak
+- @blue "Repariert": OpenFileRequester() hatte Probleme mit zu vielen selektierten Dateien @LineBreak
+- @blue "Repariert": Viele weitere bugs
+
+@Section 8. Mai 2006 : Version 4.00
+
+  Da PureBasic 4 ein ziemlich großes Release ist - sowohl im Hinblick auf Änderungen als auch
+  Verbesserungen, ist ein Dokument mit einer Übersicht aller Änderungen an den Library-Befehlen
+  seit dem letzten stabilen Release verfügbar: @MainGuideLink "changes" "Klicken Sie hier". 
+@LineBreak
+@LineBreak
+- @Green "Hinzugefügt": Native Unicode-Unterstützung @LineBreak
+- @Green "Hinzugefügt": Unterstützung von Subsystems @LineBreak
+- @Green "Hinzugefügt": Unbegrenzte Länge von Strings, sowohl im ASCII- als auch Unicode-Modus @LineBreak
+- @Green "Hinzugefügt": Threadsicheres Befehlsset und Strings @LineBreak
+- @Green "Hinzugefügt": Character Typ (.c) @LineBreak
+- @Green "Hinzugefügt": Double Typ (.d) @LineBreak
+- @Green "Hinzugefügt": Quad Typ (.q) @LineBreak
+- @Green "Hinzugefügt": 'XOr' und 'Not' logische Operatoren @LineBreak
+- @Green "Hinzugefügt": Fixed String Typ (String${#Anzahl}) @LineBreak
+- @Green "Hinzugefügt": Macro/EndMacro - einfacher und komplexer Modus @LineBreak
+- @Green "Hinzugefügt": With/EndWith für saubereren Code @LineBreak
+- @Green "Hinzugefügt": Möglichkeit der Zuweisung bei Static (ziemlich unbedeutend), Protected und Global: "Global a = 5" @LineBreak
+- @Green "Hinzugefügt": Es ist jetzt möglich, eine verknüpfte Liste von Zeigern zu erstellen @LineBreak
+- @Green "Hinzugefügt": Unterstützung für Global, Protected, Static und Shared Arrays und verknüpfte Listen: "Global NewList MyList.l()". NewList allein macht die Liste nicht mehr global. @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_File, #PB_Compiler_Line, #PB_Compiler_Version, #PB_Compiler_Home, #PB_Compiler_Debugger, #PB_Compiler_ThreadSafe, #PB_Compiler_Unicode @LineBreak
+- @Green "Hinzugefügt": CompilerError "Message" Direktive @LineBreak
+- @Green "Hinzugefügt": @Procedure() und ?Label Unterstützung in Data.l Direktiven @LineBreak
+- @Green "Hinzugefügt": Optionale Parameter für Prozeduren, Interface Methoden und Prototypes @LineBreak
+- @Green "Hinzugefügt": /CONSTANT Test=Wert Switch zum Deklarieren von Konstanten auf der Compilerzeile @LineBreak
+- @Green "Hinzugefügt": Swap Schlüsselwort zum schnellen Tauschen von 2 Variablen oder Elementen (Swap a,b). @LineBreak
+- @Green "Hinzugefügt": Mehrfaches 'Case' für Select/EndSelect: Case 1, 2, 6 To 20 @LineBreak
+- @Green "Hinzugefügt": 'Prototype' Schlüsselwort zum einfachen Deklarieren von Funkionszeigern @LineBreak
+- @Green "Hinzugefügt": 'ProcedureC' Schlüsselwort zum einfachen Deklarieren von cdecl Prozeduren @LineBreak
+- @Green "Hinzugefügt": Procedure Parameter können jetzt den gleichen Namen wie eine globale Variable haben (werden automatisch geschützt) @LineBreak
+- @Green "Hinzugefügt": EnableExplicit/DisableExplicit: Variablen müssen mittels Define, Global, Protected, Shared oder Static deklariert werden. @LineBreak
+- @Green "Hinzugefügt": Defined(Name, Typ) Compiler-Funktion. Typ kann sein #PB_Constant, #PB_Variable, #PB_Array, #PB_LinkedList, #PB_Structure, #PB_Interface @LineBreak
+- @Green "Hinzugefügt": ReDim für einfache und mehrdimensionale Arrays @LineBreak
+- @Green "Hinzugefügt": Import/ImportC/EndImport zum Importieren von Funktionen und Variablen von externen .lib @LineBreak
+- @Green "Hinzugefügt": Verknüpfte Listen und Arrays können jetzt als Prozedur-Parameter übergeben werden. @LineBreak
+- @Green "Hinzugefügt": /LINKER Flags zum Übergeben einer Befehlsdatei direkt an den Linker @LineBreak
+- @Green "Hinzugefügt": PseudoTypes: p-ascii, p-unicode, p-variant, p-utf8 und p-bstr @LineBreak
+- @Green "Hinzugefügt": Assembler und Linker Fehler beim CLI-compiler werden jetzt direkt angezeigt @LineBreak
+- @Green "Hinzugefügt": OpenGL Subsystem für Multimedia-Applikationen (kann mit dem für NT4 kombiniert werden) @LineBreak
+- @Green "Hinzugefügt": Vollständige Alphakanal-Unterstützung für die Sprite3D Library (über PNG und TIFF) @LineBreak
+- @Green "Hinzugefügt": Subsystem() Compiler-Direktive zur Überprüfung, ob ein Subsystem in Benutzung ist. @LineBreak
+- @Green "Hinzugefügt": Exponenten-Form für Fließkomma-Konstanten: 123.5e-20 @LineBreak
+- @Green "Hinzugefügt": Aliasnamen für lokale Variablen werden bei der Verwendung von "raw" Assembler ('!') generiert, für einfacheres Verweisen darauf (in der Form p.v_variable) @LineBreak
+- @Green "Hinzugefügt": 'Step over' und 'Step out' Features beim Debugger @LineBreak
+- @Green "Hinzugefügt": Process Library @LineBreak
+@LineBreak
+- @functioncolor "Aktualisiert": NT4 Unterstützung erfolgt jetzt durch Verwendung eines Subsystems (DirectX 3) @LineBreak
+- @functioncolor "Aktualisiert": Resident-Dateien unterstützen jetzt Quad, Double, Macros und Prototypes @LineBreak
+- @functioncolor "Aktualisiert": Viele Library Befehle @LineBreak
+- @functioncolor "Aktualisiert": OGRE Engine auf die 1.0.7 Version @LineBreak
+- @functioncolor "Aktualisiert": Die französische Dokumentation wurde stark verbessert. @LineBreak
+@LineBreak
+- @constantcolor "Optimiert": Kleinerer Executable-Footprint: 1,5 KB anstelle von 2,5 KB für das kleinste @LineBreak
+- @constantcolor "Optimiert": Schnelleres Mischen von numerischen Fließkomma und Literalen @LineBreak
+- @constantcolor "Optimiert": File Library komplett neu geschrieben und verwaltet jetzt einen Lese-/Schreib-Cache für sehr schnelle Performance. Ebenso Unterstützung für 64 Bit Dateien. @LineBreak
+- @constantcolor "Optimiert": Prozeduren sind jetzt so klein wie möglich, was etwas Geschwindigkeitszuwachs geben sollte. @LineBreak
+@LineBreak
+- @orange "Geändert": Console Library Befehle können jetzt vollständig umgeleitet werden (z.B. zur Verwendung für CGI) @LineBreak
+- @orange "Geändert": Wenn ein numerischer Parameter erwartet wird, ist es nicht mehr möglich, einen String zu übergeben. @LineBreak
+- @orange "Geändert": Temporäre purebasic.exe Namen sind nicht mehr zufällig, da dies zu einer Verlangsamung mit einigen Firewalls führte. @LineBreak
+- @orange "Geändert": 'DefType' umbenannt in 'Define' @LineBreak
+@LineBreak
+- @blue "Repariert": Interne System-Funktionen zerstören nicht mehr reservierte Register. @LineBreak
+- @blue "Repariert": Die Maus wird im "Windowed Modus" automatisch freigegeben, wenn das Fenster den Fokus verliert. @LineBreak
+- @blue "Repariert": KeyboardInkey() behandelt jetzt Shift/Alt Änderungen korrekt. @LineBreak
+- @blue "Repariert": IsScreenActive() arbeitet auch für den "Windowed Modus" korrekt. @LineBreak
+- @blue "Repariert": Viele kleine/mittlere Angelegenheiten, die seit der letzten Version aufgetreten sind.
+
+
+@Section 16. August 2005 : Version 3.94
+
+- @Green "Hinzugefügt": Brandneue IDE und 3 Debugger (!) @LineBreak
+- @Green "Hinzugefügt": Support für Ressourcen-Dateien beim Compiler und der IDE (/RESOURCE Compiler-Switch) @LineBreak
+- @Green "Hinzugefügt": Unterstützung der Versionsangabe bei Executables und DLL (mittels Ressourcen) @LineBreak
+- @Green "Hinzugefügt": Unterstützung für das #PB_Event_ActivateWindow Ereignis  @LineBreak
+- @Green "Hinzugefügt": #PB_Web_Mozilla Flag, um das Mozilla ActiveX beim WebGadget() zu nutzen @LineBreak
+- @Green "Hinzugefügt": GetToolBarButtonState() und SetToolBarButtonState() @LineBreak
+- @Green "Hinzugefügt": Vollständige Dokumentation für die IDE und den Debugger @LineBreak
+@LineBreak 
+- @blue "Repariert": 32x32 Bitmaps im ListIconGadget() im Anzeigemodus für große Icons @LineBreak
+- @blue "Repariert": OpenScreen()/CloseScreen() konnte fehlschlagen, wenn sprite3D verwendet wurde @LineBreak
+- @blue "Repariert": MovieLength() und MovieInfo() arbeiteten unkorrekt mit dem WMV-Format (Danke an Traumatic ;-) @LineBreak
+- @blue "Repariert": ToolBar Deaktivieren-Bug, wenn Images und Icons mit XP-Skins gemischt wurden @LineBreak
+- @blue "Repariert": Möglichen Absturz beim Schließen eines Fensters mit freigegebener Statusleiste oder ToolBar @LineBreak
+- @blue "Repariert": ImageGadget() und ButtonImageGadget() konnten nicht mit AnimateWindow_() verwendet werden @LineBreak
+- @blue "Repariert": ImageGadget() Bug bei der Verwendung von DisableGadget() @LineBreak
+- @blue "Repariert": LineXY() gab den Speicher nicht richtig frei @LineBreak
+- @blue "Repariert": Line() und LineXY() beeinflussten die DrawText() Position @LineBreak
+- @blue "Repariert": SortList() konnte bei großen, bereits sortierten Listen abstürzen @LineBreak
+- @blue "Repariert": SetMenuItemState() änderte nicht die Deaktivieren-Status @LineBreak
+- @blue "Repariert": Mit #PB_Any erstellte editierbare Combobox behandelte TAB nicht korrekt @LineBreak
+- @blue "Repariert": OpenFileRequester() schlug fehl, wenn der Standard-Dateiname nicht korrekt war @LineBreak
+- @blue "Repariert": Compiler-Bug bei String-Verkettung und Prozeduren @LineBreak
+- @blue "Repariert": Abgleichproblem in Prozeduren, was unter Umständen zum Fehlschlagen von API-Aufrufen führte @LineBreak
+
+
+@Section 28. Februar 2005 : Version 3.93
+
+- @Green "Hinzugefügt": SortStructuredArray(), SortList(), SortStructuredList() @LineBreak
+- @Green "Hinzugefügt": bedingte Anweisungen beim LibraryMaker @LineBreak
+- @Green "Hinzugefügt": KeyboardMode() (war nicht in der Anleitung) @LineBreak
+- @Green "Hinzugefügt": Optionaler 'Farbe' Parameter bei ColorRequester() und FontRequester() @LineBreak
+- @Green "Hinzugefügt": SetGadgetText() kann jetzt bei einem editierbaren ComboBoxGadget() verwendet werden @LineBreak
+- @Green "Hinzugefügt": #PB_Default Support bei ClipSprite() zum Entfernen des Clippings @LineBreak
+- @Green "Hinzugefügt": #PB_FileSystem_Force bei CopyDirectory() @LineBreak
+- @Green "Hinzugefügt": #PB_OS_Windows_Server_2003 Support bei OSVersion() @LineBreak
+- @Green "Hinzugefügt": Base64Decoder(), GetGadgetFont() @LineBreak
+- @Green "Hinzugefügt": ResizeImage() unterstützt jetzt einen 'Modus' Parameter zur Auswahl des Größenänderungs-Algorithmus @LineBreak
+- @Green "Hinzugefügt": Ereignis beim Verschieben oder Redimensionieren eines Splitters, wodurch die 'Childs' jetzt angepasst werden können @LineBreak
+- @Green "Hinzugefügt": Echtzeit-Debugger-Check für Plot(x,y,Farbe) bei ScreenOutput() und SpriteOutput() @LineBreak
+- @Green "Hinzugefügt": Debugger-Check bei DirectoryEntrySize/Name/Attributes() @LineBreak
+- @Green "Hinzugefügt": IDE-Verbesserungen von Tinman @LineBreak
+@LineBreak
+- @functioncolor "Aktualisiert": Interface-Importer und DirectX9 Interfaces in den Residents (danke an Traumatic!) @LineBreak
+- @functioncolor "Aktualisiert": Verwendung von Kale's Icons für die IDE @LineBreak
+- @functioncolor "Aktualisiert": Französische Dokumentation mittels trasfract auf Rechtschreibfehler kontrolliert und überarbeitet @LineBreak
+@LineBreak  
+- @constantcolor "Optimiert": Debugger-Modus ist kleiner und ermöglicht große strukturierte Variablen @LineBreak
+- @constantcolor "Optimiert": Misc Library aufgesplittet @LineBreak
+- @constantcolor "Optimiert": Schnellere Base64Encoder() Funktion @LineBreak
+- @constantcolor "Optimiert": Verbesserte Code-Generierung für Zuweisung und Verkettung von Strings @LineBreak
+@LineBreak  
+- @orange "Geändert": OffsetOf() Syntax, um zum SizeOf() zu passen (einheitlicher als vorher) @LineBreak
+@LineBreak  
+- @blue "Repariert": Ein Bug beim ImageGadget() mit aktiviertem XP-Skin und 32 Bit-Bitmaps @LineBreak
+- @blue "Repariert": ExplorerListGadget() stellte .ico und .lnk Dateien nicht korrekt dar @LineBreak
+- @blue "Repariert": ButtonImageGadget() verlor sein Bild unter manch seltenen Umständen mit XP-Skins @LineBreak
+- @blue "Repariert": Kein 'Ding' (windows-Sound) mehr beim Klick auf den Vollbildschirm, wenn ExamineMouse() nicht verwendet wurde @LineBreak
+- @blue "Repariert": Bei Verwendung von ALT+TAB bei einer Vollbildschirm-Anwendung wird das Icon korrekt dargestellt @LineBreak
+- @blue "Repariert": Sprites werden jetzt korrekt wiederhergestellt, nach dem Zurückschalten vom Multitasking @LineBreak
+- @blue "Repariert": CopyDirectory() modifizierte den Eingabestring unter manchen Umständen @LineBreak
+- @blue "Repariert": ListIndex() war fehlerhaft unter manch seltenen Umständen @LineBreak
+- @blue "Repariert": RemoveString() und CRC32FingerPrint() konnten nicht in Ausdrücken verwendet werden @LineBreak
+- @blue "Repariert": SetGadgetItemText() war fehlerhaft in Verbindung mit dem ListView() Gadget @LineBreak
+- @blue "Repariert": ExamineDirectory() mit einer nicht initialisierten String-Variable @LineBreak
+- @blue "Repariert": CalendarGadget() Bug, wenn mehrere Kalender auf dem gleichen Fenster initialisiert wurden @LineBreak
+- @blue "Repariert": RSet() gab in manch seltenen Situationen ein falsches Ergebnis zurück @LineBreak
+- @blue "Repariert": CreateFile() schlug fehl bei versteckten Dateien @LineBreak
+- @blue "Repariert": ZeroMemory_(), FillMemory_(), MoveMemory_() und CopyMemory_() wurden nicht erkannt @LineBreak
+- @blue "Repariert": #PB_Event_MoveWindow wird jetzt korrekt erkannt @LineBreak
+- @blue "Repariert": #PB_EventType_LostFocus wurde nicht gesendet, wenn 2 StringGadgets nebeneinander platziert waren. @LineBreak
+- @blue "Repariert": Gadget's Tooltips wurden auf NT4 nicht korrekt dargestellt, wenn das Fenster immer obenauf war @LineBreak
+- @blue "Repariert": OGG-Plugin funktionierte nicht mehr und manchmal wurden Songs abgeschnitten. Es ist jetzt auch schneller beim Dekodieren. @LineBreak
+- @blue "Repariert": ResizeImage() verändert jetzt das Bild nicht mehr, wenn die gleichen Dimensionen verwendet werden. @LineBreak
+- @blue "Repariert": TAB in einem EditorGadget() gibt den Fokus nicht mehr an andere Gadgets, sondern fügt ein TAB ein. @LineBreak
+- @blue "Repariert": LCase() behandelte das deutsche Zeichen 'ß' nicht korrekt @LineBreak
+- @blue "Repariert": SetGadgetState() arbeitete nicht korrekt beim OptionGadget() @LineBreak
+- @blue "Repariert": Die Dimensionen der Codeanzeige vom Debugger werden jetzt gespeichert wie bei den anderen Debugger-Fenstern. @LineBreak
+- @blue "Repariert": EditorGadget() bei der Verwendung von AddGadgetItem() mit leeren Strings und der -1 Position @LineBreak
+- @blue "Repariert": SortArray() konnte bei großen und bereits sortierten Arrays abstürzen und ist jetzt auch Thread-sicher @LineBreak
+- @blue "Repariert": ReceiveNetworkFile() behandelte lange Dateinamen nicht korrekt @LineBreak
+- @blue "Repariert": Darstellungsfehler bei ButtonImageGadget() und Toggle-Modus (mittels API) @LineBreak
+- @blue "Repariert": SpriteWidth() und SpriteHeight() gaben falsche Werte zurück, wenn ClipSprite() verwendet wurde @LineBreak
+- @blue "Repariert": MessageRequester() über einem Konsolenfenster schickte das Fenster in den Hintergrund @LineBreak
+- @blue "Repariert": SetGadgetState() beim ListIconGadget() stahl den aktuellen Fokus @LineBreak
+- @blue "Repariert": Base64Encoder() erzeugte manchmal eine falsche Ausgabe @LineBreak
+- @blue "Repariert": Refresh-Probleme beim FrameGadget() mit #PB_Frame_Single/Double Flags @LineBreak
+- @blue "Repariert": GDI-Ressourcen Leck beim ButtonImageGadget() und ImageGadget() @LineBreak
+- @blue "Repariert": RotateSprite3D verwendete einen falschen Winkel @LineBreak
+- @blue "Repariert": DisableMenuItem() arbeitete nicht mit #PB_Any @LineBreak
+- @blue "Repariert": GadgetWidth() funktionierte nicht korrekt beim SpinGadget() @LineBreak
+- @blue "Repariert": Date() gab ein falsches Ergebnis im Falle von 1970,1,1,0,0,0 zurück @LineBreak
+- @blue "Repariert": CallFunctionFast() akzeptierte nur 17 Parameter anstelle von 20 @LineBreak
+- @blue "Repariert": OpenWindowedScreen() im AutoStretch-Modus verlor einige Pixel @LineBreak
+- @blue "Repariert": Einige Refresh-Bugs beim PanelGadget() @LineBreak
+- @blue "Repariert": Fehler bei transparenten Farben und 32 Bit-Screens sowie 'Texture' Sprites @LineBreak
+- @blue "Repariert": Einige kleine Bugs in der IDE @LineBreak
+- @blue "Repariert": Einige Compiler-Bugs (String-Verkettung, Interfaces in Prozeduren) @LineBreak
+
+
+@Section 25. Oktober 2004 : Version 3.92
+
+- @Green "Hinzugefügt": CalendarGadget() und DateGadget(), Danke an Fr34k ! @LineBreak
+- @Green "Hinzugefügt": LibraryID(), SwapElements() @LineBreak
+- @Green "Hinzugefügt": SaveSprite() hat jetzt einen optionalen 'Flags' Parameter und kann jetzt 8 Bit-Sprites/Screens speichern @LineBreak
+- @Green "Hinzugefügt": Doppelklick auf den Fenster-Hintergrund generiert jetzt ein Ereignis (Danke an Rings) @LineBreak
+  @LineBreak
+- @constantcolor "Optimiert": CountList() und ListIndex() sind jetzt sehr schnell (sie durchlaufen jetzt nicht mehr jedes Element der Liste). @LineBreak
+  @LineBreak
+- @orange "Geändert": DeleteElement() geht jetzt immer zurück zum vorherigen Element (kann damit außerhalb der Liste liegen, @LineBreak
+              wenn es das erste Element war), um voll kompatibel mit ForEach zu sein. Ein optionaler Flag wurde @LineBreak
+              hinzugefügt, um die bisherige Verhaltensweise weiterhin zu ermöglichen. @LineBreak
+- @orange "Geändert": Das aktuelle Verzeichnis der Anwendung wird von keinem der PureBasic-Befehle mehr berührt, um den @LineBreak
+              Windows-Regeln zu entsprechen. @LineBreak
+  @LineBreak
+- @blue "Repariert": CloseWindow() Bug beim Verwenden des 'ParentWindow' OpenWindow() Parameters @LineBreak
+- @blue "Repariert": IsSound() war nicht verfügbar im NT4 Modus @LineBreak
+- @blue "Repariert": AddDate() konnte fehlschlagen, abhängig von der eingestellten Zeitzone des Computers. @LineBreak
+- @blue "Repariert": Speicherleck mit verknüpften Listen, Arrays und lokalen Variablen, wenn eine Struktur verwendet wurde, die Strings enthielt. @LineBreak
+- @blue "Repariert": SaveSprite() Standardwert für das Speichern von JPEG ist jetzt '7'. @LineBreak
+- @blue "Repariert": DisplayPalette() schlug fehl auf XP-Systemen (erste und letzte Farbe blieb unverändert) @LineBreak
+- @blue "Repariert": ImageGadget() unterstützt jetzt ToolTips und Bitmap/Icon "Live" Umschaltung @LineBreak
+- @blue "Repariert": ButtonImageGadget() unterstützt jetzt "Skinning" und Bitmap/Icon "Live" Umschaltung @LineBreak
+- @blue "Repariert": SetGadgetItemText() beim ListViewGadget() zerstörte die "Item-User-Daten" @LineBreak
+- @blue "Repariert": CopyImage() schlug auf WinNT4 in einigen Konstellationen fehl @LineBreak
+- @blue "Repariert": Ein Speicherleck in SendNetworkFile(). Es wird jetzt 1 bei Erfolg und 0 bei einem Fehler zurückgegeben. @LineBreak
+- @blue "Repariert": StatusBarText() aktualisierte nicht die Statusleiste bei gesetztem 'Borderless' Flag @LineBreak
+- @blue "Repariert": CatchImage() mit #PB_Any @LineBreak
+- @blue "Repariert": der PNG-Decoder kann jetzt auch sicher mit korrupten PNG umgehen @LineBreak
+- @blue "Repariert": der JPEG-Encoder mit Qualitätswerten kleiner als 3 konnte zu einem Crash führen @LineBreak
+- @blue "Repariert": ein kleiner TreeGadget() Bug, wenn Häkchen-Boxen aktiviert waren @LineBreak
+- @blue "Repariert": Packer Kompressionsroutine hatte Probleme mit manchen Dateien @LineBreak
+- @blue "Repariert": OnError Library konnte nicht in DLL's verwendet werden (Danke an Rings) @LineBreak
+- @blue "Repariert": die String-Verkettung war unter manchen Umständen falsch @LineBreak
+- @blue "Repariert": der Compiler gab keinen Exit-Code ungleich null zurück, wenn ein Fehler auftrat @LineBreak
+- @blue "Repariert": mehrere Compiler Bugs @LineBreak
+
+
+@Section 4. Juli 2004 : Version 3.91
+
+- @Green "Hinzugefügt": Desktop Library @LineBreak
+- @Green "Hinzugefügt": IsDatabase(), IsFile(), IsFont(), IsDirectory(), IsGadget(), IsImage(), IsLibrary(), IsMenu(), IsModule(), @LineBreak
+            &nbsp IsMovie(), IsPalette(), IsSprite(), IsSprite3D(), IsStatusBar(), IsSysTrayIcon(), IsToolBar(), IsWindow() @LineBreak
+- @Green "Hinzugefügt": Manifest-Datei (für XP Skins) wird jetzt in die Exe eingebunden @LineBreak
+- @Green "Hinzugefügt": 'Haupt-Source' Support in der IDE für Multi-Datei Projekte @LineBreak
+- @Green "Hinzugefügt": Debugger-Überprüfung für Zugriff auf leere Listenelemente @LineBreak
+  @LineBreak
+- @orange "Geändert": WindowMouseX() und WindowMouseY() geben jetzt die Koordinaten innerhalb des Fenster-Clientbereichs zurück (DesktopMouseX() ersetzt das alte Verhalten). @LineBreak
+- @orange "Geändert": LCC Ressourcen-Compiler und Linker wurden gegen PellesC ausgetauscht @LineBreak
+  @LineBreak
+- @blue "Repariert": AddDate() Bug @LineBreak
+- @blue "Repariert": MDIGadget-Größenänderung, nachdem eine StatusBar nach der MDI-Erstellung hinzugefügt wurde @LineBreak
+- @blue "Repariert": InputPathRequester() welcher unter einigen Umständen auf Win98 zu einem Crash führte @LineBreak
+- @blue "Repariert": OpenWindowedScreen() Position, wenn dieser Bildschirm in ContainerGadgets verwendet wurde @LineBreak
+- @blue "Repariert": Trim() in Ausdrücken @LineBreak
+- @blue "Repariert": ein Crash, der manchmal am Ende des Programms auftrat, wenn OpenHelp() benutzt wurde @LineBreak
+- @blue "Repariert": ein Bug in PlayMovie(), welcher das Movie auf einigen Konfigurationen versteckte @LineBreak
+- @blue "Repariert": Compiler-Bug beim Zugriff auf ein tief verschachteltes Strukturen-Array. @LineBreak
+
+
+@Section 12. April 2004 : Version 3.90
+
+- @Green "Hinzugefügt": #PB_Any Support (dynamische Numerierung) für DataBase, File, Font, FileSystem, Gadget, Image, Library, @LineBreak
+            &nbspModule, Movie, Palette, Sprite, Sprite3D, SysTray, ToolBar, StatusBar und Window @LineBreak
+- @Green "Hinzugefügt": CountString(), KeyboardInkey(), GetWindowTitle(), SetWindowTitle(), ElapsedMilliseconds() @LineBreak
+- @Green "Hinzugefügt": RemoveGadgetColumn(), SetGadgetAttribute(), GetGadgetAttribute(), SetGadgetItemAttribute(), GetGadgetItemAttribute() @LineBreak
+- @Green "Hinzugefügt": MDIGadget() von Fr34k @LineBreak
+- @Green "Hinzugefügt": VerticalBlank Support für FlipBuffers() (arbeitet ebenfalls im Fenstermodus 'Windowed') @LineBreak
+- @Green "Hinzugefügt": 'Autosize' (automatische Größenanpassung) für StatusBar und ToolBar (keine Callbacks mehr nötig) @LineBreak
+- @Green "Hinzugefügt": Neuer 'Size-Handler' von Fr34k, welcher automatische (Echtzeit-) Größenanpassung von Fenstern (mit #PB_Event_SizeWindow) ohne Callback ermöglicht ! @LineBreak
+- @Green "Hinzugefügt": Neuer optionaler 'z' Parameter bei TransformSprite3D() @LineBreak
+- @Green "Hinzugefügt": Mehrere neue Flags beim SplitterGadget() für höhere Flexibilität @LineBreak
+- @Green "Hinzugefügt": SetGadgetAttribute() Support für ScrollAreaGadget(), zum Anpassen der Größe des inneren Bereiches. @LineBreak
+- @Green "Hinzugefügt": Joystick und Module Support für den NT4 Kompatibilitäts-Modus @LineBreak
+- @Green "Hinzugefügt": Hexadezimale Anzeige, Löschen-Kopieren-Speichern der Debugger-Ausgabe und Speicherung der Fensterposition des Debuggers @LineBreak
+- @Green "Hinzugefügt": Unterstützung für Icons mit verschiedener Tiefe beim Standard Programm-Icon @LineBreak
+- @Green "Hinzugefügt": IDE-Features: Interface-Anzeiger, neuer MS SDK Support, Suchen in Dateien, Zeilennummerierung @LineBreak
+- @Green "Hinzugefügt": 'Static' Schlüsselwort für lokale Variablen (in Prozeduren), welche ihren Wert behalten sollen @LineBreak
+- @Green "Hinzugefügt": Aktuellste FAsm (Assembler) Version, welche eine kleine Geschwindigkeitsverbesserung mitbringt und einen Bug bei großen Sourcecodes beseitigt @LineBreak
+- @Green "Hinzugefügt": QuickHelp Support in der Purebasic IDE für die meisten der API Funktionen ! @LineBreak
+  @LineBreak
+- @orange "Geändert": kein #MemoryID und Flag bei AllocateMemory() mehr @LineBreak
+- @orange "Geändert": CDAudioName() benötigt keine ID mehr, wie bereits in der Anleitung geschrieben. @LineBreak
+  @LineBreak
+- @constantcolor "Optimiert": CDAudio, Database, File, Network, StatusBar und Systray Libraries gesplittet @LineBreak
+  @LineBreak
+- @red "Entfernt": UpdateStatusBar(), UseMemory(), MemoryID() @LineBreak
+  @LineBreak
+- @blue "Repariert": Französische Dokumentation ist jetzt absolut aktuell @LineBreak
+- @blue "Repariert": NT4 (DirectX 3) Support für die Sprite, Palette, Sound, Keyboard und Mouse Libraries @LineBreak
+- @blue "Repariert": Bug in CreateSprite3D(), die Breite und Höhe war 1 Pixel größer @LineBreak
+- @blue "Repariert": Bug bei SpritePixelCollision(), wenn das gleiche Sprite für Kollisionen verwendet wurde. @LineBreak
+- @blue "Repariert": Bug im Debugger unter Win98 (das Anwendungsfenster war im Hintergrund) @LineBreak
+- @blue "Repariert": OpenWindowedScreen() beachtete nicht die Menü-Höhe (sofern vorhanden) @LineBreak
+- @blue "Repariert": bei IsFilename() fehlten einige Checks @LineBreak
+- @blue "Repariert": Einige Bugs im Ausdruck-Parser des Compilers @LineBreak
+- @blue "Repariert": SizeOf() bei der Verwendung mit erweiterten Strukturen @LineBreak
+- @blue "Repariert": NewPrinterPage() Bug auf Win98 @LineBreak
+- @blue "Repariert": CloseScreen() bei der Verwendung mit der Sprite3D Library @LineBreak
+- @blue "Repariert": Einige Pfad-Probleme bei der Verwendung des Compilers im Konsolenmodus @LineBreak
+- @blue "Repariert": Alle Requester blockieren ('lock') jetzt alle geöffneten Fenster @LineBreak
+
+  
+@Section 9. Dezember 2003 : Version 3.81
+
+- @Green "Hinzugefügt": DatabaseUpdate(), DatabaseError() @LineBreak
+- @Green "Hinzugefügt": Play/Stop/Resume/PauseMovie() Support für auf Sprites gerenderte Movies @LineBreak
+- @Green "Hinzugefügt": 'Extends' Support für 'Structure' @LineBreak
+- @Green "Hinzugefügt": Icon-Support und Echtzeit Image-'Resize' für DrawImage() @LineBreak
+- @Green "Hinzugefügt": 2, 16 und 256 Farben BMP-Support für Catch/LoadSprite() @LineBreak
+- @Green "Hinzugefügt": #PB_Default Support für DrawingFont() @LineBreak
+- @Green "Hinzugefügt": Japanisch-Unterstützung für die Gadget Library, Editor und Visual Designer  @LineBreak
+- @Green "Hinzugefügt": Exzellentes SmartUpdate Tool von fr34k zum schnellen Updaten jeder PureBasic Version @LineBreak
+- @Green "Hinzugefügt": Neueste Version des Visual Designers von Berikco @LineBreak
+  @LineBreak
+- @constantcolor "Optimiert": ExplorerGadgets sind jetzt beim Einlesen von Verzeichnissen 5x schneller @LineBreak
+  @LineBreak
+- @orange "Geändert": Sprungmarken ("Labels") sind NICHT mehr "case-sensitive" (achten nicht auf Groß-/Kleinschreibung) @LineBreak
+- @orange "Geändert": Standard-Qualität für SaveImage() und JPEG-Plugin ist jetzt '7' @LineBreak
+- @orange "Geändert": InitModule() und InitPalette() benötigen die 'Maximum'-Parameter nicht mehr @LineBreak
+- @orange "Geändert": Verhalten von PlayMovie() bei gerenderten Movies wurde geändert @LineBreak
+  @LineBreak
+- @blue "Repariert": ein Speicherleck bei auf Sprites gerenderten Movies @LineBreak
+- @blue "Repariert": Requester-Befehle konnten andere Applikationen blockieren, wenn kein Fenster geöffnet war @LineBreak
+- @blue "Repariert": einige Interface Definitionen waren in den Residents falsch @LineBreak
+- @blue "Repariert": String-Konstanten mit mehreren Konstanten-Elementen @LineBreak
+- @blue "Repariert": KeyboardReleased(#PB_Key_All) funktionierte nicht @LineBreak
+- @blue "Repariert": Compiler-Bug mit Interface in Prozeduren und mit String-Rückgaben @LineBreak
+- @blue "Repariert": ProcedureDLL Bug, wenn ein String als Rückgabetyp definiert war @LineBreak
+- @blue "Repariert": CopySprite() arbeitete nicht mit Alpha-Sprites @LineBreak
+- @blue "Repariert": Bug im Compiler-Optimierer mit Bytes und Words in einigen sehr seltenen Fällen @LineBreak
+- @blue "Repariert": JPEG und TIFF Decoder-Bug in seltenen Situationen @LineBreak
+- @blue "Repariert": kleine EditorGadget() und SpinGadget() Bugs @LineBreak
+
+
+@Section 6. Oktober 2003 : Version 3.80
+
+- @Green "Hinzugefügt": ExplorerComboBoxGadget() @LineBreak
+- @Green "Hinzugefügt": CameraProjection(), CameraBackColor() und CameraRange() @LineBreak
+- @Green "Hinzugefügt": Den Modulo Operator: '%' @LineBreak
+- @Green "Hinzugefügt": ForEach Befehl zum schnellen Durchlaufen von verknüpften Listen @LineBreak
+- @Green "Hinzugefügt": Interface/EndInterface zur Unterstützung von Objekt-Funktionsaufrufen! Ja, COM und DX Objekte sind jetzt nativ in PureBasic verfügbar... @LineBreak
+- @Green "Hinzugefügt": Große Resident-Dateien mit allen Windows/DirectX Interfaces, fertig zur Benutzung ! @LineBreak
+- @Green "Hinzugefügt": Break und Continue zum Modifizieren des Schleifenablaufs @LineBreak
+- @Green "Hinzugefügt": Enumeration/EndEnumeration zum schnellen Deklarieren einer Vielzahl aufeinanderfolgender Konstanten @LineBreak
+- @Green "Hinzugefügt": OffsetOf() zum Ermitteln des Offsets eines Struktur oder eines Interface Felds @LineBreak
+- @Green "Hinzugefügt": SizeOf() unterstützt jetzt Variablen und Interfaces @LineBreak
+- @Green "Hinzugefügt": Interface-, Float- und String-Konstanten Unterstützung zum 'Resident' Dateiformat @LineBreak
+- @Green "Hinzugefügt": Qualitäts-Support bei SaveImage() und dem JPEG Encoder @LineBreak
+- @Green "Hinzugefügt": MessageRequester() 'Flags' ist jetzt ein optionaler Parameter @LineBreak
+- @Green "Hinzugefügt": Die Syntaxeinfärbung im Editor und der Strukturen-Anzeiger wurden stark verbessert @LineBreak
+  @LineBreak
+- @constantcolor "Optimiert": viele Abhängigkeiten von OGRE entfernt, resultierend in einer kleineren Engine3D.DLL @LineBreak
+  @LineBreak
+- @orange "Geändert": Konstanten sind jetzt wieder echte Konstanten (benutzen Sie Enumeration, um dynamische Konstanten zu erhalten) @LineBreak
+  @LineBreak
+- @blue "Repariert": ASM-Register Anzeige im Debugger @LineBreak
+- @blue "Repariert": IncludePath Probleme mit IncludeBinary @LineBreak
+- @blue "Repariert": Benutzung von TAB innerhalb eines editierbaren ComboBoxGadget() war nicht möglich @LineBreak
+- @blue "Repariert": DeleteDirectory() schlug fehl mit einem "Read-only" Verzeichnis im 'Force' Modus @LineBreak
+- @blue "Repariert": TGA-Decoder Bug bei Top/Down und RLE Bildern @LineBreak
+- @blue "Repariert": Möglicher 'Lock' in den AddPackFile() und PackMemory() Routinen @LineBreak
+- @blue "Repariert": die Strukturen-Größe, wenn eine Struktur sehr groß war (über 32000 Bytes) @LineBreak
+- @blue "Repariert": Int(): ein negativer Wert konnte falsche Ergebnisse produzieren @LineBreak
+- @blue "Repariert": ein LinkedList Problem, wenn diese innerhalb und außerhalb einer Prozedur benutzt wurde @LineBreak
+- @blue "Repariert": Line() und LineXY() zeichneten nicht den letzten Punkt @LineBreak
+- @blue "Repariert": Debugger überprüft: InitEngine3D() @LineBreak
+- @blue "Repariert": Ein Bug in TextLength(), wenn ein leerer String benutzt wurde @LineBreak
+- @blue "Repariert": Bug bei ProcedureReturn, wenn es in einem 'Select String$' Ausdruck verwendet wurde @LineBreak
+- @blue "Repariert": Sounds waren auf 50 begrenzt, wenn der Debugger aktiviert war @LineBreak
+- @blue "Repariert": ClipSprite() wurde nicht unterstützt von DisplayAlphaSprite(), DisplayShowSprite(), DisplaySolidSprite() und DisplayTranslucideSprite() @LineBreak
+- @blue "Repariert": Ein reserviertes Schlüsselwort wie 'Data' konnte nicht in einer Struktur benutzt werden @LineBreak
+- @blue "Repariert": CreatePack(), SaveImage() und SaveSprite() arbeiteten nicht mit sehr langen Dateinamen @LineBreak
+- @blue "Repariert": Inkey() hielt den Programmablauf an @LineBreak
+- @blue "Repariert": FileSize() gab einen falschen Wert für Stammverzeichnisse (Root) auf Win9x System zurück @LineBreak
+- @blue "Repariert": Ein Editor-Bug, welcher ein Vertauschen der Panels verursachte @LineBreak
+
+
+@Section 13. Juli 2003 : Version 3.72
+
+- @orange "Geändert": SelectedFilePattern() und Open/SaveFileRequester Patternindex basiert jetzt auf '0' anstelle auf '1'. Achtung ! @LineBreak
+- @orange "Geändert": ListIndex() basiert jetzt auf '0' anstelle auf '1'. Achtung ! @LineBreak
+  @LineBreak
+- @functioncolor "Aktualisiert": Editor: Update bei Finden/Ersetzen, ein '*' markiert jetzt eine geänderte Datei @LineBreak
+- @functioncolor "Aktualisiert": Toolbar Library wurde gesplittet und optimiert @LineBreak
+- @functioncolor "Aktualisiert": alle fehlenden Library Quickhelps (im Statusbar des Editors) @LineBreak
+  @LineBreak
+- @blue "Repariert": ParseDate() wenn keine Trennzeichen im Datum benutzt wurden @LineBreak
+- @blue "Repariert": ResizeImage() besitzt jetzt eine höhere Qualität beim Größe verändern @LineBreak
+- @blue "Repariert": verschiedene Gadget-Ereignis Probleme (Splitter, Panel) @LineBreak
+- @blue "Repariert": PNG und JPEG Decoder in einigen seltenen Fällen @LineBreak
+- @blue "Repariert": den Namen verschiedener Funktionen (OnError Library) @LineBreak
+- @blue "Repariert": verschiedene Compiler Bugs @LineBreak
+
+  
+@Section 7. Juni 2003 : Version 3.70
+- @Green "Hinzugefügt": Terrain Library @LineBreak
+- @Green "Hinzugefügt": Billboard Library @LineBreak
+- @Green "Hinzugefügt": Entity Library @LineBreak
+- @Green "Hinzugefügt": Material Library @LineBreak
+- @Green "Hinzugefügt": Particle Library @LineBreak
+- @Green "Hinzugefügt": OnError Library @LineBreak
+- @Green "Hinzugefügt": CameraLookAt(), CameraRenderMode(), CameraFOV(), Engine3DFrameRate(), CountRenderedTriangles() @LineBreak
+- @Green "Hinzugefügt": CreateMesh(), SetMeshData() @LineBreak
+- @Green "Hinzugefügt": ExamineLibraryFunctions(), NextLibraryFunction(), LibraryFunctionName(), LibraryFunctionAddress() @LineBreak
+- @Green "Hinzugefügt": IsFunctionEntry(), CallCFunction(), CallCFunctionFast() @LineBreak
+- @Green "Hinzugefügt": RenderMovieFrame(): Ja, Sie können ein Movie auf einem Sprite oder einem Bildschirm abspielen ! @LineBreak
+- @Green "Hinzugefügt": OpenGadgetList(), ScrollBarGadget(), ScrollAreaGadget(), SplitterGadget() @LineBreak
+- @Green "Hinzugefügt": HyperLinkGadget(), ContainerGadget(), EditorGadget() @LineBreak
+- @Green "Hinzugefügt": TreeGadgetItemNumber(), ExplorerListGadget(), ExplorerTreeGadget() @LineBreak
+- @Green "Hinzugefügt": #PB_FontRequester_Effects Flag für den FontRequester() @LineBreak
+- @Green "Hinzugefügt": PanelGadget() wurde vollständig neu geschrieben und ist jetzt XP Theme fähig @LineBreak
+- @Green "Hinzugefügt": TreeGadget() wurde neu geschrieben zur Unterstützung von dynamischen Einträgen (Hinzufügen, Entfernen...)  @LineBreak
+- @Green "Hinzugefügt": AddGadgetItem() unterstützt jetzt Bilder für das PanelGadget() @LineBreak
+- @Green "Hinzugefügt": 'ParentID' optionaler Parameter bei OpenWindow() @LineBreak
+- @Green "Hinzugefügt": CDecl Support für PureFunctions und Prozeduren ('ProcedureCDLL' und 'DeclareCDLL' Schlüsselwörter hinzugefügt) @LineBreak
+- @Green "Hinzugefügt": End [ExitCode] optionaler Parameter @LineBreak
+- @Green "Hinzugefügt": Präzisere Fehlermeldungen für Assembler und Linker Fehler @LineBreak
+- @Green "Hinzugefügt": /LINENUMBERING Compiler-Switch @LineBreak
+- @Green "Hinzugefügt": Vollständiger Debugger-Support für die 3D-Engine @LineBreak
+- @Green "Hinzugefügt": ComboBox Support für GetGadgetItemText() und SetGadgetItemText() @LineBreak
+- @Green "Hinzugefügt": Viele neue Funktionen beim Visual Designer, einschließlich Tab-Reihenfolge, Zeichensatz-Auswahl, neue Gadgets und mehr... @LineBreak
+  @LineBreak
+- @orange "Geändert": Mesh Library, eine neue Entity Library eingeführt (für flexiblere Kontrolle) @LineBreak
+- @orange "Geändert": ClosePanelGadget() in CloseGadgetList() @LineBreak
+- @orange "Geändert": Inline Assembler Sprungmarken sind jetzt l_label anstelle von pLabel @LineBreak
+  @LineBreak
+- @constantcolor "Optimiert": und gesplittet: Movie Library @LineBreak
+  @LineBreak
+- @blue "Repariert": SpriteCollision() und SpritePixelCollision() war um 1 Pixel falsch @LineBreak
+- @blue "Repariert": Ergebnis-Code von CopyDirectory war in manchen Fällen falsch @LineBreak
+- @blue "Repariert": StrF(): wenn Dezimalstellen angegeben werden, rundet es korrekt @LineBreak
+- @blue "Repariert": Verschiedene Debugger Warn-Meldungen fehlten @LineBreak
+- @blue "Repariert": Fließkommazahlen und Ganzzahlen wurden in manchen Fällen schlecht vermischt @LineBreak
+
+
+@Section 25. März 2003 : Version 3.62
+
+- @red "Entfernt": FakeEndSelect @LineBreak
+  @LineBreak
+- @blue "Repariert": Einige Compiler Bugs @LineBreak
+- @blue "Repariert": Kleiner Bug im PNG Encoder und Decoder @LineBreak
+- @blue "Repariert": ProcedureReturn innerhalb Select/EndSelect @LineBreak
+- @blue "Repariert": Array Zuweisung, wenn kein Speicher verfügbar war @LineBreak
+- @blue "Repariert": Int(): fehlerhaft seit v3.60 @LineBreak
+- @blue "Repariert": Val(): akzeptiert jetzt alle in BASIC gültigen Formen @LineBreak
+- @blue "Repariert": AddPackFile() Problem mit manchen Dateien @LineBreak
+- @blue "Repariert": RunProgram() mit sehr langen Pfaden @LineBreak
+  @LineBreak 
+
+
+@Section 19. März 2003 : Version 3.61
+
+ - @blue "Repariert": Schwerwiegende Compiler Bugs (Arrays) @LineBreak
+ - @blue "Repariert": Schwerwiegender MD5FileFingerprint() Bug @LineBreak
+ - @blue "Repariert": Syntax-Highlighting für Funktionen/Prozeduren und Alt+V Tastenkürzel @LineBreak
+ - @blue "Repariert": 2 Bugs im Visual Designer @LineBreak
+ - @blue "Repariert": Laden von Sprite und Image-Plugin (JPEG, PNG) im 16 Bit Modus @LineBreak
+ - @blue "Repariert": XOR Inline-Asm Schlüsselwort wurde nicht mehr erkannt @LineBreak
+ - @blue "Repariert": TGA Decoder konnte einige Dateien nicht laden @LineBreak
+   @LineBreak
+
+
+@Section 17. März 2003 : Version 3.60
+
+- @Green "Hinzugefügt": Mächtiger Visual Designer, zum einfachen Erstellen von graphischen Anwendungen @LineBreak
+- @Green "Hinzugefügt": Viele neue Optimierungen im Compiler-Kernel, welche in schnellerem/kleinerem Code
+                 resultieren (insbesondere beim Umgang mit Arrays und strukturierten Variablen) @LineBreak
+- @Green "Hinzugefügt": Native JPEG, TIFF, PNG und TGA Image/Sprite Decoder mittels Plugin @LineBreak
+- @Green "Hinzugefügt": Native JPEG und PNG Image/Sprite Encoder mittels Plugin @LineBreak
+- @Green "Hinzugefügt": Native OGG Sound Decoder mittels Plugin @LineBreak
+- @Green "Hinzugefügt": AvailableScreenMemory(), SelectedFilePattern(), DefaultPrinter() @LineBreak
+- @Green "Hinzugefügt": Flags für LoadFont() zum Aktivieren von kursiv, fett und weiteren @LineBreak
+- @Green "Hinzugefügt": Multi-Source Support für den Debugger (Include-Dateien) @LineBreak
+- @Green "Hinzugefügt": Array-Überlauf Debugger Überprüfung @LineBreak
+- @Green "Hinzugefügt": Data-Read-Überlauf Debugger Überprüfung @LineBreak
+- @Green "Hinzugefügt": Icon-Support für CatchImage() @LineBreak
+- @Green "Hinzugefügt": optionaler MMX, 3DNOW, SSE und SSE2 Support, mit Autoselect-Modus (zum automatischen
+    Auswählen der richtigen Routine während der Laufzeit, abhängig vom Prozessor). @LineBreak
+- @Green "Hinzugefügt": DLL-Importer Tool im Library SDK @LineBreak
+  @LineBreak
+- @constantcolor "Optimiert": und gesplittet: Font, Gadget und Window Libraries, für kleinere Executable (Danke an Danilo) @LineBreak
+  @LineBreak
+- @red "Entfernt": CatchJPEGSPrite() und LoadJPEGSprite() (ersetzt durch Plugins) @LineBreak
+  @LineBreak
+- @constantcolor "Verbesserung" des PureBasic Library-Formats (neues komprimiertes Format) @LineBreak
+- @constantcolor "Verbesserung" des Inline-ASM, akzeptiert jetzt FPU Opcode @LineBreak
+- @constantcolor "Verbesserung" des Editors: Doppelklick auf (X)IncludeFile öffnet die Datei, Inline-Hilfe arbeitet bei allen
+  Schlüsselwörtern (If/EndIf...), ASM-Syntax Einfärbung, Inline-Hilfe für ASM @LineBreak
+  @LineBreak
+- @orange "Geändert": SetGadgetFont() verwendet jetzt 2 Parameter, um Änderung des Zeichensatzes während der Laufzeit zu ermöglichen @LineBreak
+  @LineBreak
+- @blue "Repariert": SortArray() beim Sortieren von Strings im Groß-/Kleinschreibungs-unabhängigen Modus @LineBreak
+- @blue "Repariert": RunProgram() Befehl mit 3 Argumenten @LineBreak
+- @blue "Repariert": ImageOutput() Problem mit Windows 98 @LineBreak
+- @blue "Repariert": das 16Bit-Sprite Darstellungsproblem mit einigen alten Grafikkarten, welche intern 15 Bit verwenden @LineBreak
+- @blue "Repariert": einige Bugs im Compiler @LineBreak
+ @LineBreak
+
+
+@Section 13. Januar 2003 (Version 3.51)
+
+- @functioncolor "Aktualisiert": Französische Dokumentation für v3.51 @LineBreak
+  @LineBreak
+- @blue "Repariert": Einige Bugs im Compiler und die Ausgabe ein wenig optimiert @LineBreak
+- @blue "Repariert": IPString() und IPAddressField() (waren in umgedrehter Reihenfolge) @LineBreak
+- @blue "Repariert": InputRequester() und durch Hinzufügen von Tastaturunterstützung verbessert @LineBreak
+- @blue "Repariert": ReadPreferenceLong/String/Float(), um Schlüsselwörter mit Leerzeichen zu akzeptieren @LineBreak
+- @blue "Repariert": MouseButton "Beep"-Problem im Fullscreen-Modus @LineBreak
+- @blue "Repariert": Date() und ParseDate(), wenn ein ungültiges Datum angegeben wurde @LineBreak
+- @blue "Repariert": "XP-Theme" Problem des Editors @LineBreak
+- @blue "Repariert": ProcedureBrowser des Editors (Danke an Dominique und Plouf) @LineBreak
+- @blue "Repariert": OpenWindow() Dimension, wenn kein Flag angegeben wurde @LineBreak
+  @LineBreak
+- @red "Entfernt": Gosub/Return Check, welcher in v3.50 eingeführt wurde (aus Flexibilitätsgründen) @LineBreak
+ @LineBreak
+
+
+@Section 6. Januar 2003 : Happy New Year ! (Version 3.50)
+
+- @Green "Hinzugefügt": Engine3D Library: Add3DArchive(), AmbientColor(), Fog(), InitEngine3D(), LoadWord(), RenderWorld(), SkyBox(), SkyDome() @LineBreak
+- @Green "Hinzugefügt": Camera Library: CameraLocate(), CameraX(), CameraY(), CameraZ(), CreateCamera(), FreeCamera(), MoveCamera(), RotateCamera() @LineBreak
+- @Green "Hinzugefügt": Light Library: CopyLight(), CreateLight(), FreeLight(), HideLight(), LightColor(), LightLocate(), LightSpecularColor(), MoveLight() @LineBreak
+- @Green "Hinzugefügt": Mesh Library: CopyMesh(), FreeMesh(), GetMeshAnimationTime(), LoadMesh(), MeshAnimation(), MeshAnimationLength(), MeshLocate(), MeshTexture(), MeshX(), MeshY(), MeshZ(), MoveMesh(), ResizeMesh(), RotateMesh(), ScaleMesh(), SetMeshAnimationTime() @LineBreak
+- @Green "Hinzugefügt": Texture Library: CopyTexture(), CreateTexture(), FreeTexture(), LoadTexture(), TextureHeight(), TextureID(), TextureOutput(), TextureWidth() @LineBreak
+- @Green "Hinzugefügt": WriteFloat(), ReadFloat(), MouseLocate(), MD5FileFingerprint() @LineBreak
+- @Green "Hinzugefügt": STDCALL und ALLE Flags der PureLibraries. Siehe SDK Dokumentation für weitere Informationen. @LineBreak
+- @Green "Hinzugefügt": TreeGadget Checkbox Unterstützung für GetGadgetItemState() @LineBreak
+- @Green "Hinzugefügt": SetGadgetState() arbeitet jetzt bei ButtonImageGadget() @LineBreak
+  @LineBreak
+- @functioncolor "Aktualisiert": CallFunction() und CallFunctionFast(): Fließkommazahlen können direkt übergeben werden @LineBreak
+- @functioncolor "Aktualisiert": SetStatusBarText() 'Aussehen' Parameter ist jetzt optional @LineBreak
+- @functioncolor "Aktualisiert": FrameGadget() 'Flags' Parameter ist jetzt optional @LineBreak
+  @LineBreak
+- @constantcolor "Optimiert": CallFunctionFast() (2x schneller) @LineBreak
+- @constantcolor "Optimiert": die Code-Generierung: Chr(#Konstante) wird jetzt Buchstaben-String berücksichtigt und einige Geschwindigkeitssteigerungen @LineBreak
+  @LineBreak
+- @orange "Geändert": den Assembler (FASM), resultiert in einen besser optimierten Code (PB-Editor ist 6 KB kleiner zum Beispiel) @LineBreak
+- @orange "Geändert": LSet() durch RSet() und RSet() durch LSet() (waren vertauscht im Vergleich zu normalen Basic-Funktionen) @LineBreak
+- @orange "Geändert": OpenTreeGadgetNode() und CloseTreeGadgetNode() (jetzt mit einem Parameter) @LineBreak
+- @orange "Geändert": ReleaseMouse() erwartet jetzt einen Parameter @LineBreak
+  @LineBreak
+- @blue "Repariert": den Spiele Maus-Support im "Windowed"-Modus (konnte zu einer Computer-Blockierung führen) @LineBreak
+- @blue "Repariert": SelectElement() arbeitete falsch bei der Übergabe von -1.. @LineBreak
+- @blue "Repariert": TreeGadget() bei mehrfacher Benutzung auf dem gleichen Fenster @LineBreak
+- @blue "Repariert": SaveImage() mit 16Bit- und 8Bit-Desktops @LineBreak
+- @blue "Repariert": RSet() mit 2 Argumenten @LineBreak
+- @blue "Repariert": ein kleiner Bug in ParseDate() @LineBreak
+- @blue "Repariert": AddPackFile() und AddPackMemory(): Buffer-Überlauf in einigen seltenen Situationen @LineBreak
+- @blue "Repariert": OpenFileRequester() mit dem Mehrfachselektions-Modus (MultiSelection) @LineBreak
+- @blue "Repariert": ein blöder Bug beim Benutzen vieler Bilder in den Gadget-Einträgen (TreeGadget, ListIconGadget...) @LineBreak
+- @blue "Repariert": Cipher Library @LineBreak
+ @LineBreak
+
+
+@Section 9. Oktober 2002 : Version 3.40
+
+- @orange "Geändert": Struktur-Namen sind nicht mehr "case sensitive" (Groß- und Kleinschreibung wurde bisher unterschieden), da
+    dies einen schwierig zu findenden Bug verursachen konnte @LineBreak
+  @LineBreak
+- @Green "Hinzugefügt": Date Library: Date(), Year(), Month(), Day(), DayOfWeek(), DayOfYear(), Hour(), Minute(), Second(), FormatDate(), AddDate(), ParseDate() @LineBreak
+- @Green "Hinzugefügt": Hostname(), ExamineIPAddresses(), NextIPAddress(), IPString() @LineBreak
+- @Green "Hinzugefügt": LSet(), RSet(), Bin(), RemoveString(), StringField() @LineBreak
+- @Green "Hinzugefügt": ModuleVolume(), OSVersion(), WaitThread() @LineBreak
+- @Green "Hinzugefügt": CopyDirectory(), DeleteDirectory(), IsFilename() @LineBreak
+- @Green "Hinzugefügt": NextSelectedFileName(), InputRequester() @LineBreak
+- @Green "Hinzugefügt": DrawingBuffer(), DrawingBufferPixelFormat(), DrawingBufferPitch(), FillArea() @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_Date, #PB_Compiler_OS als eingebaute Compiler-Konstanten @LineBreak
+  @LineBreak
+- @constantcolor "Optimiert": "Splitted" Libs: FileSystem, StringExtension, Date @LineBreak
+  @LineBreak
+- @functioncolor "Aktualisiert": RunProgram() hat jetzt einen optionalen ArbeitsVerzeichnis$ Parameter @LineBreak
+- @functioncolor "Aktualisiert": SetGadgetFont(#PB_Font_Default) geht jetzt zurück zum Standard-Zeichensatz @LineBreak
+- @functioncolor "Aktualisiert": OpenWindow() akzeptiert jetzt 2 neue Flags: #PB_Window_WindowCentered und #PB_Window_ScreenCentered @LineBreak
+- @functioncolor "Aktualisiert": GetGadgetItemText() und SetGadgetItemText() arbeiten jetzt mit TreeGadget() @LineBreak
+- @functioncolor "Aktualisiert": ReplaceString hat jetzt einen optionalen 'StartPosition' Parameter @LineBreak
+- @functioncolor "Aktualisiert": SetGadgetState() kann zusammen mit ImageGadget() benutzt werden, um das aktuelle Bild zu ändern @LineBreak
+- @functioncolor "Aktualisiert": 'Level' Flag hinzugefügt bei PackMemory(), AddPackFile() und AddPackMemory() für schnellere Komprimierung @LineBreak
+- @functioncolor "Aktualisiert": beim Erstellen einer DLL, AttachProcess(), DetachProcess(), AttachThread() und DetachThread() müssen einen 'Instanz' Parameter haben @LineBreak
+- @functioncolor "Aktualisiert": keine '_' beim Erstellen einer DLL mehr @LineBreak
+  @LineBreak
+- @blue "Repariert": Debugger Problem in der FileSystem Library @LineBreak
+- @blue "Repariert": ReadPreferenceLong() und ReadPreferenceFloat() @LineBreak
+- @blue "Repariert": SpriteOutput() Bug beim Benutzen von Plot() @LineBreak
+- @blue "Repariert": CDAudioTrackLength(): der letzte Track gab immer 0 zurück... @LineBreak
+- @blue "Repariert": OpenWindowedScreen(): falsche BottomOffset und RightOffset Werte @LineBreak
+- @blue "Repariert": GetPathPart(), GetFilePart() und GetExtensionPart() @LineBreak
+- @blue "Repariert": SetGadgetText() beim Benutzen mit ComboBox und einem leeren String (löscht den ComboBox Inhalt) @LineBreak
+- @blue "Repariert": SetClipboardText(), benutzt jetzt das TEXT anstelle des OEM Formats. @LineBreak
+- @blue "Repariert": der Compiler warnte nicht, wenn eine "globale" Variable in den Prozedur-Parametern benutzt wurde. @LineBreak
+- @blue "Repariert": Compiler Bugs im InlineASM : 'MOV eax, "String"' und 'MOV eax, #CONSTANT' wurden schlecht kompiliert. @LineBreak
+- @blue "Repariert": Compiler Bug beim Benutzen negativer Fließkomma-Konstanten @LineBreak
+- @blue "Repariert": Compiler Bug beim Benutzen von Fließkomma-Operationen mit API-Funktionen @LineBreak
+- @blue "Repariert": Compiler Bug beim Vergleichen von Strings mit numerischen Werten (jetzt verboten) @LineBreak
+- @blue "Repariert": Compiler Bug beim Benutzen von INCLUDEBINARY in DataSection @LineBreak
+- @blue "Repariert": Compiler Bug wenn DECLARE und PROCEDURE nicht übereinstimmten (es wurden keine Fehlermeldungen generiert) @LineBreak
+- @blue "Repariert": Compiler Bug wenn DEBUG in Prozeduren mit String-Operationen benutzt wurde @LineBreak
+  @LineBreak
+  - Editor @constantcolor verbessert (mehrere Dateien, Prozeduren-Browser, Zusatz-Tools und mehr...) und den Sourcecode veröffentlicht... Dankeschön an Danilo ! @LineBreak
+  @LineBreak
+
+
+@Section 16. August 2002 : Version 3.30
+
+  Dies ist ein Release mit Bug-Fixes und zur Synchronisation mit der Linux-Version @LineBreak
+  @LineBreak
+- @Green "Hinzugefügt": HideMenu(), CreateSprite(), UseBuffer() @LineBreak
+- @Green "Hinzugefügt": Französische Hilfe (vollständig übersetzt) @LineBreak
+  @LineBreak
+- @functioncolor "Aktualisiert": SortArray() arbeitet jetzt auch mit Fließkommazahlen-Arrays @LineBreak
+- @functioncolor "Aktualisiert": LoadSprite(), GrabSprite(), CopySprite(), CatchSprite(), LoadJPEGSPrite(), CatchJPEGSprite() haben jetzt
+  einen optionalen 'Modus' Parameter @LineBreak
+- @functioncolor "Aktualisiert": GetFilePart(), GetPathPart() und GetExtensionPart() entfernen jetzt die evtl. vorhandene Anführungszeichen (") @LineBreak
+- @functioncolor "Aktualisiert": SetGadgetItemState() und GetGadgetItemState() können jetzt den Status der Häkchen bei einem ListIconGadget()
+  Eintrag setzen/ermitteln @LineBreak
+  @LineBreak
+- @blue "Repariert": SetClipboardText(): schlug in manchen Situation fehl @LineBreak
+- @blue "Repariert": SpritePixelCollision(): schlug fehl, wenn die Sprites verschiedene Größen hatten @LineBreak
+- @blue "Repariert": LoadJPEGSprite ignorierte den 'Modus' Parameter (war nachteilig für 3D Sprites) @LineBreak
+- @blue "Repariert": Bug in AddGadgetItem() mit ListIconGadget() @LineBreak
+- @blue "Repariert": PokeF() fehlte @LineBreak
+- @blue "Repariert": MovieAudio(): falsche Lautstärke-Reglung (basiert jetzt auf Dezibels...) @LineBreak
+- @blue "Repariert": ReleaseMouse() wurde nicht erkannt @LineBreak
+- @blue "Repariert": 2DDrawing Bug (erneut...) @LineBreak
+- @blue "Repariert": LoadSprite() schlug fehl mit 16 Bit und 32 Bit BMP. @LineBreak
+- @blue "Repariert": GetGadgetText() wenn es zusammen mit einem editierbaren ComboBoxGadget() benutzt wurde @LineBreak
+- @blue "Repariert": ReadByte() und ReadWord() (mit Long/Word Variablen) @LineBreak
+- @blue "Repariert": FreeMenu(), GadgetX(), GadgetY() @LineBreak
+- @blue "Repariert": DisplaySolidSprite() fehlte @LineBreak
+- @blue "Repariert": Debug-Routine fehlte für GadgetID() @LineBreak
+- @blue "Repariert": Bug beim Benutzen verschiedener Movies (Absturz am Programmende) @LineBreak
+- @blue "Repariert": ResizeImage() @LineBreak
+- @blue "Repariert": PreferenceGroup() @LineBreak
+- @blue "Repariert": ExamineMouse() gab immer 0 zurück @LineBreak
+- @blue "Repariert": PathRequester stürzte ab, wenn DefaultPath nicht initialisiert war @LineBreak
+- @blue "Repariert": InitSprite3D() stürzte bei alleinigem Aufruf ab @LineBreak
+- @blue "Repariert": Editor: ZoomSprite3D() wurde nicht hervorgehoben @LineBreak
+  @LineBreak
+
+
+@Section 9. Juni 2002 : Version 3.20
+
+  @Bold "WARNUNG!" Das Verhalten des Window Callbacks hat sich geändert und "locked" (blockiert) das Programm
+  bei Benutzung einer entsprechenden Routine ! Seht die SetWindowCallback() Dokumentation für weitere Info. @LineBreak
+  @LineBreak
+- @Green "Hinzugefügt": Cipher Library: CRC32Fingerprint(), MD5Fingerprint(), DESFingerprint(), Base64Encoder() @LineBreak
+- @Green "Hinzugefügt": AddKeyboardShortcut(), RemoveKeyboardShortcut(), SpinGadget(), WebGadget() @LineBreak
+- @Green "Hinzugefügt": GetMenuItemState(), SetMenuItemState(), MenuHeight() @LineBreak
+- @Green "Hinzugefügt": KeyboardReleased(), Trim(), Space() @LineBreak
+- @Green "Hinzugefügt": SelectElement(), LineXY(), GetExtensionPart() @LineBreak
+- @Green "Hinzugefügt": ! (XOR) und ~ (NOT) bitweise Operatoren @LineBreak
+- @Green "Hinzugefügt": "Protected" BASIC Schlüsselwort @LineBreak
+- @Green "Hinzugefügt": Shift+Tab Tastaturkürzel zum Rücksprung zum vorherigen Gadget @LineBreak
+- @Green "Hinzugefügt": Debugger erkennt nun die Benutzung eines NULL Pointers und die Division durch 0. @LineBreak
+  @LineBreak
+- @constantcolor "Optimiert": 2DDrawing, Keyboard, Mouse, Sound und Sprite Libraries (getrennte Einbindung der Befehle) ! @LineBreak
+- @constantcolor "Optimiert": Plot() Befehl bei Benutznug mit ScreenOutput() ist jetzt 40 mal schneller (DirectX) @LineBreak
+  @LineBreak
+- @functioncolor "Aktualisiert": PokeS() und PeekS() haben jetzt einen optionalen 'Länge' Parameter @LineBreak
+- @functioncolor "Aktualisiert": KeyboardPushed() kann jetzt #PB_Key_All als Parameter erhalten, für alle gedrückten Tasten @LineBreak
+- @functioncolor "Aktualisiert": FileSize() gibt jetzt -2 zurück, wenn die Datei ein Verzeichnis ist @LineBreak
+- @functioncolor "Aktualisiert": WindowID() kann einen optionalen #Window Parameter erhalten @LineBreak
+- @functioncolor "Aktualisiert": Alle Gadget Befehle haben jetzt einen optionalen 'Flags' Parameter, welcher die volle Kontrolle über deren Aussehen ermöglicht ! (Seht in die Gadget Dokumentation für weitere Informationen) @LineBreak
+- @functioncolor "Aktualisiert": Plot(), Line(), Box(), Circle(), Ellipse() haben jetzt einen optionalen 'Color' (Farb) Parameter. @LineBreak
+- @functioncolor "Aktualisiert": Beim Debugger wurden einige Bugs entfernt. Wenn ein Programm anhält oder der Debugger beendet wird, wird jetzt alles korrekt freigegeben. Dies leichteres Debuggen von "Fullscreen" Spielen, da der Bildschirm geschlossen wird, bevor der Fehler angezeigt wird. @LineBreak
+- @functioncolor "Aktualisiert": Debug-Routinen der Sprite Library. @LineBreak
+  @LineBreak
+- @orange "Geändert": StripLead() und StripTrail() in RTrim() und LTrim() umbenannt, für höhere Kompatibilität zu anderen BASIC Dialekten @LineBreak
+- @orange "Geändert": NetworkClientEvent(), CloseNetworkConnection() @LineBreak
+- @orange "Geändert": CreateToolBar(): 'WindowID' Parameter hinzugefügt @LineBreak
+- @orange "Geändert": CreateMenu(): 'WindowID' Parameter hinzugefügt @LineBreak
+- @orange "Geändert": NetworkClientEvent() und NetworkServerEvent(): keine 'String' Ereignisse mehr: "could be a possible exploit.." @LineBreak
+- @orange "Geändert": OpenWindowedScreen() x,y Parameter beinhalten die Breite der oberen und linken Fensterränder. @LineBreak
+- @orange "Geändert": ResizeWindow(), WindowWidth() und WindowHeight() benutzen jetzt die Breite/Höhe der inneren Fläche, um mit dem neuen OpenWindow() und der Skin-Unterstützung zu arbeiten @LineBreak
+  @LineBreak
+- @red "Entfernt": AttachToolBar(), DetachToolBar(), AttachMenu(), ReceiveNetworkString() @LineBreak
+  @LineBreak
+- @blue "Repariert": FrameGadget() mit anderen vertieften und erhöhten Rahmen @LineBreak
+- @blue "Repariert": ListViewGadget() Ereignisse @LineBreak
+- @blue "Repariert": FileSize() @LineBreak
+- @blue "Repariert": StopDrawing(), die Darstellung unter Win9x war nach häufigen Aufrufen fehlerhaft @LineBreak
+- @blue "Repariert": Debugger Probleme... @LineBreak
+- @blue "Repariert": AddGadgetItem() mit ListIconGadget() (-1 Position arbeitete nicht) @LineBreak
+- @blue "Repariert": SpritePixelCollision() mit "clipped" Sprites @LineBreak
+- @blue "Repariert": Möglicher Bug in Random() @LineBreak
+- @blue "Repariert": SpritePixelCollision(), nur (0,0,0) transparente Farbe arbeitete @LineBreak
+- @blue "Repariert": InitSprite(), InitSound(), InitPalette(), InitKeyboard() zeigten nicht mehr den Systemrequester an, wenn DirectX 7+ nicht gefunden wurde. @LineBreak
+- @blue "Repariert": RemoveGadgetItem() und ClearGadgetItemList(), wenn sie zusammen mit PanelGadget() benutzt wurden @LineBreak
+- @blue "Repariert": PathRequester() Standardpfad auf Win9x Systemen @LineBreak
+- @blue "Repariert": @LinkedList() mit dem '.s' Typ gibt jetzt den korrekten Listenelement-Zeiger zurück (anstelle des String-Zeigers) @LineBreak
+- @blue "Repariert": ReadPreferenceString() war in manchen Situationen fehlerhaft @LineBreak
+- @blue "Repariert": Dokumentation: SaveImage(), ScreenID(), SelectedFontStyle() und SelectedFontColor() fehlten @LineBreak
+  @LineBreak
+
+
+@Section 6. Mai 2002 : Version 3.10
+
+- @Green "Hinzugefügt": Preference Library: OpenPreferences(), CreatePreferences(), ReadPreferenceLong/Float/String(), WritePreferenceLong/Float/String(), PreferenceComment(), PreferenceGroup() @LineBreak
+- @Green "Hinzugefügt": Windows XP Skinning Support (siehe 'Compiler-Optionen' Fenster) @LineBreak
+- @Green "Hinzugefügt": GadgetX(), GadgetY(), GadgetWidth(), GadgetHeight(), GetGadgetItemState(), SetGadgetItemState(), GetGadgetItemText(), SetGadgetItemText(), CountGadgetItems(), TrackBarGadget(), IPAddressGadget() @LineBreak
+- @Green "Hinzugefügt": HideWindow(), RandomSeed(), MakeIPAddress(), IPAddressField() @LineBreak
+- @Green "Hinzugefügt": MouseWheel(), CatchSprite(), SaveSprite() @LineBreak
+- @Green "Hinzugefügt": RotateSprite3D(), ZoomSprite3D(), TransformSprite3D(), Sprite3DQuality(), Sprite3DBlendingMode() @LineBreak
+- @Green "Hinzugefügt": EventType(): Return/Änderungen/Fokus kann ermittelt werden bei StringGadget(), ComboBox() und anderen @LineBreak
+- @Green "Hinzugefügt": CatchImage(), CreatePack(), ClosePack(), NextPackFile(), AddPackFile(), AddPackMemory(), PackFileSize(), OpenPack() @LineBreak
+- @Green "Hinzugefügt": DirectoryEntrySize(), DirectoryEntryAttributes() @LineBreak
+- @Green "Hinzugefügt": Volle Kompatibilität mit 'WindowBlinds' auf WinXP, welches möglicherweise den Event-Handler zerstörte ! @LineBreak
+  @LineBreak
+- @constantcolor "Optimiert": PureLibraries (Nur benutzte Befehle werden im Executable eingebunden) : Image, Misc2, GadgetExtension, Requester, Sprite3D, Memory, Packer @LineBreak
+  @LineBreak
+- @functioncolor "Aktualisiert": CompareMemoryString(): einen optionalen 'Länge' Parameter hinzugefügt. @LineBreak
+- @functioncolor "Aktualisiert": DisplayPopupMenu(): (x,y) sind jetzt optional @LineBreak
+- @functioncolor "Aktualisiert": ResizeGadget(): die Übergabe von '-1' an eines der Argumente führt zu dessen Ignorierung (sehr nützlich für "resizeable" GUIs) @LineBreak
+- @functioncolor "Aktualisiert": GetGadgetText() und TextGadgetText() arbeiten jetzt zusammen mit TreeGadget() und ListIconGadget() @LineBreak
+- @functioncolor "Aktualisiert": AddGadgetItem() hat jetzt einen optionalen "Image" (Bild) Parameter. @LineBreak
+- @functioncolor "Aktualisiert": OpenWindow(): fügt jetzt die Größe der Fensterränder automatisch hinzu, um das "Skinning" Problem unter WinXP zu beheben @LineBreak
+- @functioncolor "Aktualisiert": FileSize() gibt jetzt die Größe für alle Dateien zurück, sogar für gesperrte ("locked") Dateien @LineBreak
+  @LineBreak
+- @red "Entfernt": InitGadget(): wird nicht mehr benötigt. @LineBreak
+- @red "Entfernt": DoubleClick() und EventMouseButtons(): benutzen Sie stattdessen EventType() @LineBreak
+- @red "Entfernt": OpenDefaultConsole(): OpenConsole() stellt jetzt automatisch fest, ob sich das Programm im 'Console' oder 'Windows' Format befindet. @LineBreak
+- @red "Entfernt": AddListIconGadgetItem() und AddTreeGadgetItem(): AddGadgetItem() wird jetzt benutzt @LineBreak
+- @red "Entfernt": ExpandTreeGadgetItem() und TreeGadgetItemState(): Set/GetGadgetItemState() werden jetzt benutzt @LineBreak
+  @LineBreak
+- @blue "Repariert": Gadget Ereignisse (Events) für ComboBox, ListIcon und Systray. @LineBreak
+- @blue "Repariert": Mögliche Speicherfehler mit Strings in besonderen Situationen @LineBreak
+- @blue "Repariert": Possible bug when using Procedures as callbacks @LineBreak
+- @blue "Repariert": Create3DSprite(): Größe war 1 Pixel kleiner @LineBreak
+- @blue "Repariert": Jedes Fenster hat jetzt seine eigene private Klasse @LineBreak
+- @blue "Repariert": PlaySound(): Debugger-Routine fehlte und kleine Störung am Ende des Abspielvorgangs @LineBreak
+- @blue "Repariert": ResizeGadget() zusammen mit PanelGadget und einige "Refresh" Probleme @LineBreak
+- @blue "Repariert": FindString() auf Win9x @LineBreak
+- @blue "Repariert": ExamineDirectory() Bug auf Win9x @LineBreak
+- @blue "Repariert": Module Library, das Abspielen sollte jetzt überall funktionieren @LineBreak
+- @blue "Repariert": SetGadgetText() für ListViewGadget() @LineBreak
+- @blue "Repariert": SelectedFontColor() @LineBreak
+- @blue "Repariert": Blöder Bug bei DeleteElement() @LineBreak
+- @blue "Repariert": NewList xxxx() alleine produzierte einen Linker Fehler @LineBreak
+- @blue "Repariert": Bug beim Drucken von Bildern @LineBreak
+- @blue "Repariert": Random() Befehl (nochmals !) @LineBreak
+- @blue "Repariert": ResizeImage() auf Win9x @LineBreak
+- @blue "Repariert": IncludeBinary Bug (bisher funktionierten nur absolute Pfade) @LineBreak
+- @blue "Repariert": Editor: Tab wurde schlecht verarbeitet. Kleiner Farbfehler beim Einfügen. @LineBreak
+  @LineBreak
+
+
+@Section 4. April 2002 : Version 3.00
+
+- @Green "Hinzugefügt": Library PureLibrary: OpenLibrary(), IsFunction(), CallFunction(), CloseLibrary() @LineBreak
+- @Green "Hinzugefügt": Help PureLibrary:  OpenHelp(), CloseHelp() @LineBreak
+- @Green "Hinzugefügt": Clipboard PureLibrary: ClearClipboard(), GetClipboardText(), GetClipboardData(), SetClipboardData(), SetClipboardText() @LineBreak
+- @Green "Hinzugefügt": ElseIf @LineBreak
+- @Green "Hinzugefügt": Wenn eine Bedingung (If/While...) nicht vor ENDPROCEDURE abgeschlossen wurde, zeigt der Compiler eine Fehlermeldung. @LineBreak
+- @Green "Hinzugefügt": ToolBarToolTip() @LineBreak
+- @Green "Hinzugefügt": SpritePixelCollision() @LineBreak
+- @Green "Hinzugefügt": Timer PureLibrary (Danke an Danilo): StartTimer(), EndTimer(), GetMinTimerResolution(), GetMaxTimerResolution() @LineBreak
+- @Green "Hinzugefügt": ComDX PureLibrary (Danke an Danilo): CallCOM(), CallDX() @LineBreak
+- @Green "Hinzugefügt": Printer PureLibrary: NewPrinterPage(), PrinterOutput(), PrintRequester(), StartPrinting(), StopPrinting(), PrinterPageWidth(), PrinterPageHeight() @LineBreak
+- @Green "Hinzugefügt": Variable Befehls-Argumente für jede Funktion @LineBreak
+- @Green "Hinzugefügt": Declare und DeclareDLL, um Prozeduren vor Ihrer  eigentlichen (inhaltlichen) Defininierung zu deklarieren @LineBreak
+- @Green "Hinzugefügt": CopyMemoryString(), MemoryStringLength(), CompareMemory(), ReAllocateMemory(), CompareMemoryString() @LineBreak
+- @Green "Hinzugefügt": CopyImage(), ResizeImage(), GrabImage() @LineBreak
+- @Green "Hinzugefügt": MovieStatus(), MovieLength() @LineBreak
+- @Green "Hinzugefügt": SoundVolume(), SoundPan(), SoundFrequency(), CatchSound() @LineBreak
+- @Green "Hinzugefügt": FirstDatabaseRow(), PreviousDatabaseRow() @LineBreak
+- @Green "Hinzugefügt": CreatePalette(), GetPaletteColor(), SetPaletteColor(), UsePalette() @LineBreak
+- @Green "Hinzugefügt": RGB(), ReplaceString(), StrU(), StrF(), ValF() @LineBreak
+- @Green "Hinzugefügt": HideGadget(), GadgetID() @LineBreak
+- @Green "Hinzugefügt": Niederländischer Catalog für den Editor @LineBreak
+  @LineBreak     
+- @functioncolor "Aktualisiert": Brandneue Library-Architektur, um NUR benötigte Befehle in das endgültige Executable einzubinden. Zur Zeit sind noch nicht alle Libraries soweit optimiert, um diese Funktion zu benutzen. Aber dies wird passieren, in naher Zukunft :). Außerdem benutzen alle Libraries das Standard STDCALL Format, somit gibt es keine umgekehrte Argumentreihenfolge mehr.. Alte Libraries sind jedoch weiterhin voll kompatibel. @LineBreak
+- @functioncolor "Aktualisiert": StopSound(): Die Übergabe von '-1' stoppt alle gerade abgespielten Sounds. @LineBreak
+- @functioncolor "Aktualisiert": PlaySound(): Der Flags Parameter ist jetzt optional. @LineBreak
+- @functioncolor "Aktualisiert": Sort(): es kann jetzt ein zu sortierender Bereich definiert werden (z.B.: von den Elementen 20 bis 50 eines Arrays). @LineBreak
+- @functioncolor "Aktualisiert": Resident Datei: #VK_xx Konstanten hinzugefügt, einige Strukturen repariert. @LineBreak
+  @LineBreak
+- @orange "Geändert": Intern werden die Parameter von Prozeduren jetzt in der richtigen Reihenfolge verarbeitet. Warnung: alle Callbacks müssen geändert werden, um dies zu berücksichtigen. Dies bedeutet auch, dass DLL Prozedur-Parameter in der richtigen Reihenfolge übergeben werden können. @LineBreak
+- @orange "Geändert": InitSound() benötigt keinen "Maximum Sound" Parameter mehr. @LineBreak
+- @orange "Geändert": Namensänderung von BackColour(), FrontColour() und TransparentSpriteColour() in BackColor(), FrontColor() und TransparentSpriteColor() @LineBreak
+  @LineBreak
+- @blue "Repariert": Compiler Absturz beim Verwenden von konstanten Strings, mehr Überprüfungen durch den Preprocessor @LineBreak
+- @blue "Repariert": StartDrawing() Bugs @LineBreak
+- @blue "Repariert": Random(), um bessere Zufallszahlen zu erhalten. @LineBreak
+- @blue "Repariert": GetDatabaseString() beim Erhalten von Null-Werten @LineBreak
+- @blue "Repariert": ExamineDirectory(): Fehler auf Win9x Systemen unter speziellen Umständen @LineBreak
+- @blue "Repariert": Resident Problem. Jetzt werden Anwender-Residents geladen. @LineBreak
+- @blue "Repariert": Editor Bug, welcher das Eingeben von speziellen Zeichen (oberhalb von 128 in der ASCII Tabelle) verhinderte und einige weitere Bugs. @LineBreak
+- @blue "Repariert": FPU Bug, welcher das korrekte Arbeiten von OpenGL verhinderte. @LineBreak
+- @blue "Repariert": 'Debug' Befehl: akzeptiert jetzt Fließkomma- und String-Funktionen ohne Probleme. @LineBreak
+  @LineBreak
+- @red "Entfernt": Mr. Skunk PureLibraries, da einige fehlerhaft waren und wir nicht im Besitz der Sourcecodes sind, um diese zu reparieren. @LineBreak
+  @LineBreak
+
+
+@Section 24. Februar 2002 : Version 2.95
+
+  Hinweis: Dies ist eine "Bug-fix" Veröffentlichung vor dem Erscheinen der neuen 3.0. Nur sehr wenige Veränderungen. @LineBreak
+  @LineBreak
+- @Green "Hinzugefügt": HtmlHelp Support zur Suche in der Hilfe + anderen Goodies. Die alten HTML Dateien können gefahrlos gelöscht werden. @LineBreak
+  @LineBreak
+- @blue "Repariert": Compiler Bugs (Float Variablen innerhalb eines Structure Arrays, XIncludeFile, 'a' Konstanten unter manch seltenen Umständen, Bug bei Ausdrücken, Konstanten-Verdopplung und die Integration der Image Library beim Benutzen mit Sprites, Speicherverlust in String-Prozuduren) @LineBreak
+- @blue "Repariert": LoadJPGSprite Bug @LineBreak
+- @blue "Repariert": Editor Farben-Problem mit normalen Textfarben @LineBreak
+  @LineBreak
+
+
+@Section 27. Januar 2002 : Version 2.90
+
+- @Green "Hinzugefügt": DLL Erstellung  ! @LineBreak
+- @Green "Hinzugefügt": Konstanten können jetzt Strings oder Fließkomma (Float) sein. @LineBreak
+- @Green "Hinzugefügt": Fehlersuche jetzt mit DebugLevel Befehlen innerhalb des Debugger-Fensters. @LineBreak
+- @Green "Hinzugefügt": Italienische Editorsprachdatei von Yuri. @LineBreak
+  @LineBreak
+- @orange "Geändert": Variablen, Arrays, LinkedList und Konstanten sind jetzt "case insensitive". @LineBreak
+  @LineBreak
+- @blue "Repariert": PathRequester(), OpenFileRequester(), SaveFileRequester() @LineBreak
+- @blue "Repariert": ExamineDirectory() kleiner Bug @LineBreak
+- @blue "Repariert": GetDatabaseFloat() @LineBreak
+- @blue "Repariert": Compiler Crash auf Windows NT4 Sp6a. @LineBreak
+
+
+@Section 13. Januar 2002 : Version 2.82
+
+- @Green "Hinzugefügt": PeekF(), PokeF() @LineBreak
+- @Green "Hinzugefügt": Math Library: ACos(), ASin(), ATan(), Pow(), Log(), Log10(), Round(), Cos(), Sin(), Tan(), Abs(), Sqr(), Int() @LineBreak
+- @Green "Hinzugefügt": SpriteOutput(): ermöglicht die Nutzung der 2DDrawing Befehle auf allen Sprites ! @LineBreak
+- @Green "Hinzugefügt": #PB_WindowInvisible @LineBreak
+  @LineBreak
+- @blue "Repariert": Compiler Bugs (a.l = Pow(), a = -16/Variable) @LineBreak
+- @blue "Repariert": ein Bug in OpenDatabaseRequester(), welcher das Öffnen der Datenbank mit einigen ODBC Treibern (MySQL...) verhindert @LineBreak
+- @blue "Repariert": FrontColour() Bug, welcher DX und ganze Systemcrashs verursachte... @LineBreak
+- @blue "Repariert": SaveImage() speichert immer in 24 Bit anstelle von 32 Bit @LineBreak
+- @blue "Repariert": ListViewGadget() benutzt jetzt die exakte Höhe des Gadgets, nicht mehr nur eine gerundete @LineBreak
+- @blue "Repariert": SysTrayIconToolTip() verursacht keinen Crash mehr, wenn der angegebene Text länger als 64 Zeichen ist @LineBreak
+- @blue "Repariert": ListIconGadget(): zerstört nicht mehr die Icons nach FreeGadget() @LineBreak
+- @blue "Repariert": ChangeListIconGadgetDiplay(): Refresh erfolgt automatisch @LineBreak
+- @blue "Repariert": Hintergrundfarbe der Fenster unter Windows XP @LineBreak
+  @LineBreak
+- @orange "Geändert": StrF(Zahl) in StrF(Zahl, Präzision) @LineBreak
+
+
+@Section 01. Januar 2002 : Version 2.80 ("Happy New Year" - Veröffentlichung)
+
+ @Underline Compiler: @LineBreak
+- @functioncolor "Update": Compiler-Kernel von Grund auf neu programmiert: komplexe Ausdrücke sind möglich @LineBreak
+- @functioncolor "Update": Code-Ausgabe optimiert @LineBreak  
+- @Green "Hinzugefügt": /REASM Compiler Flag, um das Reassemblieren nach Modifizierungen zu ermöglichen. @LineBreak
+- @Green "Hinzugefügt": Möglichkeit, Float Variablen bei API Aufrufen zu benutzen. @LineBreak
+- @blue "Repariert": Float Support (Vergleiche, Prozeduren, Abs(), Sin() etc..) @LineBreak
+- @blue "Repariert": alle bekannten Bugs @LineBreak
+ @LineBreak
+ @Underline Libraries: @LineBreak
+- @Green "Hinzugefügt": Sprite3D Library: Create3DSprite(), Display3DSprite(), Transform3DSprite(), Free3DSprite(), Start3D(), Stop3D() @LineBreak
+- @Green "Hinzugefügt": SaveImage() @LineBreak
+- @Green "Hinzugefügt": Debugger Routine für alle Befehle @LineBreak
+- @blue "Repariert": ExamineDirectory() @LineBreak
+- @blue "Repariert": OpenFile() (die Lese-Funktion arbeitete nicht) @LineBreak
+ @LineBreak
+ @Underline Editor: @LineBreak
+- @Green "Hinzugefügt": QuickHelp ("schnelle Hilfe") für die meisten Befehle @LineBreak
+- @Green "Hinzugefügt": Direktaufruf von Prozeduren @LineBreak
+- @Green "Hinzugefügt": Windows XP farbkompatibel und Support für Themen @LineBreak
+- @blue "Repariert": blöder Bug beim Ersetzen @LineBreak
+
+
+@Section 28. November 2001 : Version 2.70
+
+- @Green "Hinzugefügt": ChangeSysTrayIcon(), SysTrayIconToolIip(), ExpandTreeGadgetItem(), TreeGadgetItemState() @LineBreak
+- @Green "Hinzugefügt": DisableMenuItem(), GadgetToolTip(), StatusBarIcon() @LineBreak
+- @Green "Hinzugefügt": UseGadgetList(), TransparentSpriteColor(), ClipSprite(), CopySprite(), GrabSprite() @LineBreak
+- @Green "Hinzugefügt": ProgramParameter() @LineBreak
+- @Green "Hinzugefügt": Thread Library @LineBreak
+- @Green "Hinzugefügt": '!' Unterstützung, um "rohe" ASM Befehle in den Sourcecode einzufügen (werden direkt durch NAsm verarbeitet) @LineBreak
+- @Green "Hinzugefügt": Multilevel (100) Undo/Redo im Editor @LineBreak
+- @Green "Hinzugefügt": Farbiger Syntax beim Einfügen (Jaa ;-) @LineBreak
+   @LineBreak
+- @functioncolor "Update": StatusBarText(): 2 Flags für das Ausrichten (Zentriert & Rechts) @LineBreak
+- @functioncolor "Update": ReadData() gibt jetzt die Anzahl gelesener Bytes zurück @LineBreak
+- @functioncolor "Update": Der Debugger ist jetzt ein Thread mit hoher Priorität (viel besser einsetzbar) @LineBreak
+   @LineBreak
+- @orange "Geändert": PlaySound(), einen Flag für fortwährendes Abspielen (Looping) hinzugefügt @LineBreak
+- @orange "Geändert": SetStatusBarText() -> StatusBarText() @LineBreak
+- @orange "Geändert": InitSprite(): den Sprite Parameter entfernt @LineBreak
+   @LineBreak
+- @blue "Repariert": DatabaseQuery(), GetPathPart(), LoadSprite() (kann jetzt Sprites beliebiger Größe laden) @LineBreak
+- @blue "Repariert": CloseScreen(): kann jetzt zwischen Vollbild- (Fullscreen) und Fenstermodus (Windowed) ohne Probleme umschalten. Cool. @LineBreak
+- @blue "Repariert": Compiler Bugs (MultiArray in Prozeduren, Einlesen von Daten in Prozeduren) @LineBreak
+- @blue "Repariert": Flickering im Editor @LineBreak
+
+
+@Section 5. November 2001 : Version 2.60
+
+- @Green "Hinzugefügt": CopyMemory(), CatchJPEGSprite(), LoadJPEGSprite(), WindowMouseX(), WindowMouseY() @LineBreak
+- @Green "Hinzugefügt": MovieSeek(), MovieInfo(), DrawImage(), ScreenOutput(), WindowOutput(), ImageOutput(), CreateImage() @LineBreak
+- @Green "Hinzugefügt": Database Library @LineBreak
+- @Green "Hinzugefügt": Packer Library @LineBreak
+- @Green "Hinzugefügt": Console Library (von Sylvain) @LineBreak
+- @Green "Hinzugefügt": Möglichkeit, die 2DDrawing Library direkt auf Bildschirmen von Spielen zu nutzen @LineBreak
+- @Green "Hinzugefügt": XOR und Fill/Outline Modus für die 2D Drawing Funktionen @LineBreak
+- @Green "Hinzugefügt": -1 Feature bei FreeMemory(), um alle Bänke mit einem Aufruf freizugeben. @LineBreak
+- @Green "Hinzugefügt": Neue Flags bei RunProgram(): synchrones Starten und Möglichkeit das gestartete Programm zu verstecken. @LineBreak
+- @Green "Hinzugefügt": Mächtiger ASM-Monitor im Debugger (in einer Basic Sprache !) @LineBreak
+- @Green "Hinzugefügt": Variablen-Anzeiger im Debugger @LineBreak
+   @LineBreak
+- @orange "Geändert": Alle alten MemoryBank Funktionen umbenannt. @LineBreak
+- @orange "Geändert": ReadMemory() und WriteMemory() umbenannt -> ReadData(), WriteData() (für bessere Logik zusammen mit anderen Befehlen) @LineBreak
+- @orange "Geändert": Das Purebasic Library Format (siehe das SDK für weitere Informationen) @LineBreak
+- @orange "Geändert": DrawingOutput() wurde umbenannt in StartDrawing() und benötigt keine WindowID() mehr (stattdessen WindowOutput(), ScreenOutput() oder ImageOutput() @LineBreak
+- @orange "Geändert": Eof() benutzt jetzt einen Parameter.. @LineBreak
+   @LineBreak
+- @blue "Repariert": StopModule() (den #Module Parameter entfernt) @LineBreak
+- @blue "Repariert": Einen kleinen Compiler Bug @LineBreak
+- @blue "Repariert": PlayMovie()   @LineBreak
+- @blue "Repariert": Debugger während dem Benutzen von ASM Befehlen in PureBasic @LineBreak
+- @blue "Repariert": Clipboard EINFÜGEN innerhalb des Editors verändert nicht mehr den Zeichensatz des Editors @LineBreak
+
+
+@Section 23. September 2001 : Version 2.50
+
+- @Green "Hinzugefügt": Mouse Library @LineBreak
+- @Green "Hinzugefügt": Movie Library @LineBreak
+- @Green "Hinzugefügt": Sort Library @LineBreak
+- @Green "Hinzugefügt": Procedure Adresse (@ProcedureName()) @LineBreak
+- @Green "Hinzugefügt": Unterstützung für das 'Console' Executable Format @LineBreak
+- @Green "Hinzugefügt": DisplayTranslucideSprite(), DisplayAlphaSprite(), DisplayShadowSprite(), DisplayRGBFilter(), ChangeAlphaIntensity(), ClearScreen(), OpenWindowedScreen(), DisplaySolidSprite(), CloseScreen(), SetFrameRate(), IsScreenActive(), StartSpecialFX(), StopSpecialFX(), ResizeGadget(), JoystickAxisX(), JoystickAxisY(), ChangeGamma(), SetWindowCallback(), Red(), Green(), Blue() @LineBreak
+ @LineBreak
+- @orange "Änderung" bei LoadSprite() @LineBreak
+- @orange "Änderung" bei DisplayPalette (Screen-Argument entfernt) @LineBreak
+- @orange "Änderung" bei ExamineJoystick() @LineBreak
+- @orange "Änderung" bei OpenScreen (Text$ Parameter hinzugefügt) @LineBreak
+- @orange "Änderung" bei FontRequester (anfänglicher Fontname und -größe hinzugefügt) @LineBreak
+- @orange "Änderung" bei FrameGadget (Stil-Flag für Rahmen hinzugefügt) @LineBreak
+ @LineBreak
+- @blue "Repariert": Große Fehler in den DirectX Routinen (Sprite, Keyboard, Movie) bereinigt. Jetzt laufen alle sehr gut im Multitasking ! @LineBreak
+- @blue "Repariert": Icon-Support für ToolBar und Image Library @LineBreak
+- @blue "Repariert": SelectedFontName() @LineBreak
+- @blue "Repariert": ClearGadgetItemList(), wenn es zusammen mit TreeGadget() benutzt wird @LineBreak
+- @blue "Repariert": LoadFont() (falsche Y-Größe) @LineBreak
+ @LineBreak
+ @Underline Editor: @LineBreak
+- @Green "Hinzugefügt": optionales Autosave (automatisches Speichern) vor dem Compilieren @LineBreak
+- @Green "Hinzugefügt": Unterstützung für beliebige Zeichensätze @LineBreak
+- @Green "Hinzugefügt": Einschalten/Ausschalten der Syntax-Einfärbung @LineBreak
+- @Green "Hinzugefügt": 2 neue Komponenten beim Einfärben: 'Normaler Text' und 'Prozeduren/Befehle' @LineBreak
+- @Green "Hinzugefügt": Sprachen-, Zeichensatz- und Farbänderung in Echtzeit @LineBreak
+- @Green "Hinzugefügt": neues 'About' Fenster, viel besser jetzt ;-) @LineBreak
+ @LineBreak
+- @functioncolor "Aktualisiert": Ultra-schnelles Syntax-Highlighting beim Laden einer Sourcecode Datei @LineBreak
+- @functioncolor "Aktualisiert": Art des Syntax-Highlighting geändert (viel besser) @LineBreak
+
+
+@Section 1. August 2001 : Version 2.40
+
+- @Green "Hinzugefügt": Befehle für Data Unterstützung: Read, Restore, Data, DataSection, EndDataSection @LineBreak
+- @Green "Hinzugefügt": Fließkomma-Zahlen Unterstützung (in einem frühen Status) @LineBreak
+- @Green "Hinzugefügt": MemoryBank Library @LineBreak
+- @Green "Hinzugefügt": StatusBar Library @LineBreak
+- @Green "Hinzugefügt": Image Library @LineBreak
+- @Green "Hinzugefügt": Systray Library @LineBreak
+- @Green "Hinzugefügt": Viele neue Befehle:: EventlParam(), EventwParam(), ListIndex(), ListCount() @LineBreak ChangeCurrentElement(),
+ToolBarImageButton(), EventMouseButton(), UseDirectory() @LineBreak
+- @Green "Hinzugefügt": CreatePopupMenu() und DisplayPopupMenu() @LineBreak
+- @Green "Hinzugefügt": TreeGadget(), ImageGadget(), ButtonImageGadget(), AddTreeGadgetItem() @LineBreak
+- @Green "Hinzugefügt": ListIconGadget(), AddListIconGadgetItem(), ChangeListIconGadgetDisplay(), AddGadgetColumn() @LineBreak
+ @LineBreak
+- @orange "Änderung" des Standard-Typs von 'Word' (16 Bit) in 'Long' (32 Bit) @LineBreak
+- @orange "Änderung": WaitWindowEvent()/WindowEvent() geben jetzt alle Window Ereignisse zurück ! @LineBreak
+- @orange "Änderung"en bei: ComboBoxGadget(), PanelGadget() und ListViewGadget() @LineBreak
+- @orange "Änderung": ExamineDirectory() -> Anzahl hinzugefügt, um das Untersuchen mehrerer Verzeichnisse zur selben Zeit zu ermöglichen @LineBreak
+ @LineBreak
+- @blue "Repariert": CopyFile() (Überschreiben funktionierte nicht) @LineBreak
+- @blue "Repariert": FrontColour() (Text-Farbe änderte sich nicht..) @LineBreak
+- @blue "Repariert": GetGadgetState(), SetGadgetState() und RemoveGadgetItem() zur Unterstützung des PanelGadget @LineBreak
+ @LineBreak
+- @red "Entfernt": InitWindow(), InitRequester(), InitToolBar(), InitFont(), InitFile() und InitMenu() (Initialisierung erfolgt jetzt automatisch)
+
+
+@Section 17. Mai 2001 : Version 2.30
+
+- @Green "Hinzugefügt": zum Editor: Drag & Drop auf dem Hauptfenster, automatische Registry Unterstützung für .pb Dateien, automatisches Einrücken, Tab/Shift+Tab um einen markierten Block einfach einzurücken. @LineBreak
+- @Green "Hinzugefügt": Tonnen neuer Befehle: GetGadgetState(), SetGadgetState(), AddGadgetItem(), RemoveGadgetItem(), ClearGadgetItemList()
+  PanelGadget(), ClosePanelGadget(), TextGadget(), SpritesCollision(), Delay(), OptionGadget(), FrameGadget()
+  Loc(), PeekW/B(), PokeW/B(), GetPathPart(), GetFilePart(), RunProgram(), DoubleClick(), PathRequester() @LineBreak
+- @Green "Hinzugefügt": 'Tab' Unterstützung zur Gadget Bibliothek. @LineBreak
+- @Green "Hinzugefügt": Compiler-Anweisungen: CompilerIf/Else/Endif, CompilerSelect/Case/Default/EndSelect @LineBreak
+- @Green "Hinzugefügt": CD-Audio Bibliothek @LineBreak
+- @Green "Hinzugefügt": FileSystem Bibliothek @LineBreak
+- @Green "Hinzugefügt": Einen eingebauten ICON-Linker (GoRC wird nicht mehr benötigt) @LineBreak
+ @LineBreak
+- @constantcolor "Verbessert": Debugger (Schritt für Schritt / 'Step by Step' arbeitet jetzt perfekt) @LineBreak
+- @constantcolor "Verbessert": Optimierung der generierten Executable (kleiner und schneller) @LineBreak
+- @constantcolor "Verbessert": Vollständige Neuprogrammierung des Compiler Ausdruck-Prozessors-Kerns @LineBreak
+- @constantcolor "Verbessert": Compiler und Editor Größen reduziert (90 Kb anstelle 148 Kb und 33 Kb anstelle von 96 Kb) @LineBreak
+- @constantcolor "Verbessert": Tonnen kleiner Verbesserungen und Bug-Fixes, zu umfangreich alle einzeln aufzuführen @LineBreak
+ @LineBreak
+- @blue "Repariert": Einige garstige Bugs im Compiler beseitigt @LineBreak
+ @LineBreak
+- @orange "Änderung": LSR, LSR in die betreffenden << und >> geändert @LineBreak
+- @orange "Änderung": AddComboBoxItem() und AddListViewItem() in das gemeinsame AddGadgetItem() geändert @LineBreak
+                 
+                 
+@Section 25. März 2001 : Version 2.20
+
+- @Green "Hinzugefügt": Debugger Laufzeit (Runtime) Unterstützung für alle Pure Bibliotheken. Ein Programm stürzt jetzt nicht mehr so einfach ab. Es ist jetzt viel einfacher, Bugs aufzuspüren ! @LineBreak
+- @Green "Hinzugefügt": NT4.0 Unterstützung bei den Multimedia Bibliotheken (Sprite, Palette, Sound & Keyboard), welches auch die Entwicklung von auf NT4.0 laufenden Spielen oder Multimedia-Anwendungen ermöglicht ! @LineBreak
+- @Green "Hinzugefügt": Einige neue Funktionen hinzugefügt: Lof(), ReadMemory(), WriteMemory(), PeekS(), PokeS(), NetworkClientEvent(), SetGadgetFont(), WaitWindowEvent(), FileSeek() @LineBreak
+- @Green "Hinzugefügt": Eine brandneue Module Bibliothek hinzugefügt, die einfaches Abspielen von ProTracker, FastTracker oder ImpulseTracker Modulen ermöglicht. @LineBreak
+- @Green "Hinzugefügt": Speichern von Projekteinstellungen für jede Datei (Executable Name, Compiler-Einstellungen etc...) @LineBreak
+- @Green "Hinzugefügt": Einstellungs-Fenster zum einfachen Konfigurieren des Editors (Farbe, Standard-Verzeichnis etc..) @LineBreak
+- @Green "Hinzugefügt": Mehrsprachen-Unterstützung (Englisch, Französisch und Deutsch) für den Editor @LineBreak
+- @Green "Hinzugefügt": Icon (.ico) Unterstützung beim Erstellen eines Executable ! @LineBreak
+- @Green "Hinzugefügt": Win32 Hilfe-Support (beim Drücken von F1 über einer Windows-Funktion) hinzugefügt) @LineBreak
+ @LineBreak
+ - Viele @blue Bug-Fixes am Compiler, dieser ist jetzt viel zuverlässiger. @LineBreak
+ - Aktualisierung der Dokumentation @LineBreak
+
+
+@Section 26 Februar 2001 : Version 2.10
+
+- @Green "Hinzugefügt": Debugger, um sich einfach durch das Programm zu bewegen. Er hat folgende Features: Schritt für Schritt, Stop,
+    Fortsetzen, Beenden (nützlich um eine Endlosschleife abzubrechen...) und er kann aufgerufen und kontrolliert werden über 
+    den Quellcode mit den folgenden Befehlen: CallDebugger, EnableDebugger, DisableDebugger @LineBreak
+- @Green "Hinzugefügt": neue Befehle: ListViewGadget(), AddListViewItem(), GetGadgetText(), SetGadgetText(), SizeOf() @LineBreak
+- @Green "Hinzugefügt": zum Editor: Mehrsprachigkeit (Fran zösisch, Deutsch, Englisch) @LineBreak
+- @Green "Hinzugefügt": Microsoft Windows © Resident-Datei, welche alle Konstanten und Strukturen beinhaltet, welche für einfache
+    OS Programmierung in PureBasic benötigt werden. @LineBreak
+ @LineBreak
+  - Den Editor stark @constantcolor verbessert: kontext-sensitive Hilfe (F1 auf einem Schlüsselwort), Goto, Compiler Optionen, viel besseres
+    Syntax-Highlightning, '.prefs' Einstellungsdatei @LineBreak
+ @LineBreak
+- @blue "Repariert": Eine Menge an Bugs, und die gesamte Stabilität @constantcolor verbessert @LineBreak
+
+
+@Section 17. Dezember 2000 : Version 2.00 - Final release
+
+  - @blue Bereinigung aller bekannten Bugs, die 2D Drawing Library @Green hinzugefügt und einige wesentliche @constantcolor Verbesserungen
+
+
+@Section 28. November 2000 : Version 2.00 PR 3
+
+- @blue Bereinigung der mit DirectX zusammenhängenden Fehler @LineBreak
+- Eingebauter Editor (Syntax-Highlighting und direkter Zugriff auf den Compiler!) @LineBreak
+- @Green "Hinzugefügt": 2 neue Bibliotheken (Requester und ToolBar)
+
+
+@Section 12. November 2000 : Version 2.00 PR 2
+
+- Vielzahl an Fehlern wurde @blue bereinigt. Danke an alle Bug-Reporter :) @LineBreak
+- @Green "Hinzugefügt": 6 neue Bibliotheken (Sprite, Joystick, Keyboard, Sound, Network und Palette) 
+
+
+@Section 22. Oktober 2000 : Version 2.00 PR 1
+
+  - Erstes öffentliches Release von PureBasic x86. Nur für Testzwecke.
+ @LineBreak
+ @LineBreak
+
+
+
+; LINUX ---------------------------------------------------------------------------------------------
+;
+; LINUX ---------------------------------------------------------------------------------------------
+
+@OS Linux
+
+
+@Section 28. April 2007 : Version 4.01
+
+- @blue "Repariert": Alle Byteorder Probleme von 4.00 @LineBreak
+- @blue "Repariert": GetGadgetItemText() beim TreeGadget() @LineBreak
+- @blue "Repariert": IDE crash beim Benutzen von Compile->Run
+
+@Section 15. April 2007 : Version 4.00
+
+  Da PureBasic 4 ein ziemlich großes Release ist - sowohl im Hinblick auf Änderungen als auch
+  Verbesserungen, ist ein Dokument mit einer Übersicht aller Änderungen an den Library-Befehlen
+  seit dem letzten stabilen Release verfügbar: @MainGuideLink "changes" "Klicken Sie hier". 
+@LineBreak
+@LineBreak
+- @Green "Hinzugefügt": Native Unicode-Unterstützung @LineBreak
+- @Green "Hinzugefügt": Unterstützung von Subsystems @LineBreak
+- @Green "Hinzugefügt": Unbegrenzte Länge von Strings, sowohl im ASCII- als auch Unicode-Modus @LineBreak
+- @Green "Hinzugefügt": Threadsicheres Befehlsset und Strings @LineBreak
+- @Green "Hinzugefügt": Character Typ (.c) @LineBreak
+- @Green "Hinzugefügt": Double Typ (.d) @LineBreak
+- @Green "Hinzugefügt": Quad Typ (.q) @LineBreak
+- @Green "Hinzugefügt": 'XOr' und 'Not' logische Operatoren @LineBreak
+- @Green "Hinzugefügt": Fixed String Typ (String${#Anzahl}) @LineBreak
+- @Green "Hinzugefügt": Macro/EndMacro - einfacher und komplexer Modus @LineBreak
+- @Green "Hinzugefügt": With/EndWith für saubereren Code @LineBreak
+- @Green "Hinzugefügt": Möglichkeit der Zuweisung bei Static (ziemlich unbedeutend), Protected und Global: "Global a = 5" @LineBreak
+- @Green "Hinzugefügt": Es ist jetzt möglich, eine verknüpfte Liste von Zeigern zu erstellen @LineBreak
+- @Green "Hinzugefügt": Unterstützung für Global, Protected, Static und Shared Arrays und verknüpfte Listen: "Global NewList MyList.l()". NewList allein macht die Liste nicht mehr global. @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_File, #PB_Compiler_Line, #PB_Compiler_Version, #PB_Compiler_Home, #PB_Compiler_Debugger, #PB_Compiler_ThreadSafe, #PB_Compiler_Unicode @LineBreak
+- @Green "Hinzugefügt": CompilerError "Message" Direktive @LineBreak
+- @Green "Hinzugefügt": @Procedure() und ?Label Unterstützung in Data.l Direktiven @LineBreak
+- @Green "Hinzugefügt": Optionale Parameter für Prozeduren, Interface Methoden und Prototypes @LineBreak
+- @Green "Hinzugefügt": /CONSTANT Test=Wert Switch zum Deklarieren von Konstanten auf der Compilerzeile @LineBreak
+- @Green "Hinzugefügt": Swap Schlüsselwort zum schnellen Tauschen von 2 Variablen oder Elementen (Swap a,b). @LineBreak
+- @Green "Hinzugefügt": Mehrfaches 'Case' für Select/EndSelect: Case 1, 2, 6 To 20 @LineBreak
+- @Green "Hinzugefügt": 'Prototype' Schlüsselwort zum einfachen Deklarieren von Funkionszeigern @LineBreak
+- @Green "Hinzugefügt": 'ProcedureC' Schlüsselwort zum einfachen Deklarieren von cdecl Prozeduren @LineBreak
+- @Green "Hinzugefügt": Procedure Parameter können jetzt den gleichen Namen wie eine globale Variable haben (werden automatisch geschützt) @LineBreak
+- @Green "Hinzugefügt": EnableExplicit/DisableExplicit: Variablen müssen mittels Define, Global, Protected, Shared oder Static deklariert werden. @LineBreak
+- @Green "Hinzugefügt": Defined(Name, Typ) Compiler-Funktion. Typ kann sein #PB_Constant, #PB_Variable, #PB_Array, #PB_LinkedList, #PB_Structure, #PB_Interface @LineBreak
+- @Green "Hinzugefügt": ReDim für einfache und mehrdimensionale Arrays @LineBreak
+- @Green "Hinzugefügt": Import/ImportC/EndImport zum Importieren von Funktionen und Variablen von externen .lib @LineBreak
+- @Green "Hinzugefügt": Verknüpfte Listen und Arrays können jetzt als Prozedur-Parameter übergeben werden. @LineBreak
+- @Green "Hinzugefügt": PseudoTypes: p-ascii, p-unicode und p-utf8 @LineBreak
+- @Green "Hinzugefügt": Assembler und Linker Fehler beim CLI-compiler werden jetzt direkt angezeigt @LineBreak
+- @Green "Hinzugefügt": OpenGL Subsystem für Multimedia-Applikationen @LineBreak
+- @Green "Hinzugefügt": Vollständige Alphakanal-Unterstützung für die Sprite3D Library (über PNG und TIFF) @LineBreak
+- @Green "Hinzugefügt": Subsystem() Compiler-Direktive zur Überprüfung, ob ein Subsystem in Benutzung ist. @LineBreak
+- @Green "Hinzugefügt": Exponenten-Form für Fließkomma-Konstanten: 123.5e-20 @LineBreak
+- @Green "Hinzugefügt": Aliasnamen für lokale Variablen werden bei der Verwendung von "raw" Assembler ('!') generiert, für einfacheres Verweisen darauf (in der Form p.v_variable) @LineBreak
+- @Green "Hinzugefügt": 'Step over' und 'Step out' Features beim Debugger @LineBreak
+- @Green "Hinzugefügt": Process Library @LineBreak
+- @Green "Hinzugefügt": Erstellung von .so Bibliotheken @LineBreak
+@LineBreak
+- @functioncolor "Aktualisiert": Resident-Dateien unterstützen jetzt Quad, Double, Macros und Prototypes @LineBreak
+- @functioncolor "Aktualisiert": Viele Library Befehle @LineBreak
+- @functioncolor "Aktualisiert": OGRE Engine auf die 1.0.7 Version @LineBreak
+- @functioncolor "Aktualisiert": Die französische Dokumentation wurde stark verbessert. @LineBreak
+@LineBreak
+- @constantcolor "Optimiert": Schnelleres Mischen von numerischen Fließkomma und Literalen @LineBreak
+- @constantcolor "Optimiert": File Library komplett neu geschrieben und verwaltet jetzt einen Lese-/Schreib-Cache für sehr schnelle Performance. @LineBreak
+- @constantcolor "Optimiert": Prozeduren sind jetzt so klein wie möglich, was etwas Geschwindigkeitszuwachs geben sollte. @LineBreak
+@LineBreak
+- @orange "Geändert": Wenn ein numerischer Parameter erwartet wird, ist es nicht mehr möglich, einen String zu übergeben. @LineBreak
+- @orange "Geändert": 'DefType' umbenannt in 'Define' @LineBreak
+@LineBreak
+- @blue "Repariert": Interne System-Funktionen zerstören nicht mehr reservierte Register. @LineBreak
+- @blue "Repariert": Viele kleine/mittlere Angelegenheiten, die seit der letzten Version aufgetreten sind.
+
+
+
+@Section 21. September 2005 : Version 3.94
+
+- @Green "Hinzugefügt": Brandneue IDE für GTK1.2 und GTK2 !  @LineBreak
+- @Green "Hinzugefügt": Mächtiger integrierter, eigenständiger und Konsolen-Debugger ! @LineBreak
+- @Green "Hinzugefügt": SoundPlugin und SoudPluginOGG Libraries @LineBreak
+- @Green "Hinzugefügt": FillArea() Support sowohl für SDL als auch GTK @LineBreak
+- @Green "Hinzugefügt": DrawingMode() Support für SDL (außer XOR) @LineBreak
+- @Green "Hinzugefügt": #PB_ToolBar_Toggle, Get/SetToolBarButtonState() @LineBreak
+- @Green "Hinzugefügt": Gleicher Zeichensatz wie Windows für die SDL Drawing-Befehle @LineBreak
+- @Green "Hinzugefügt": DrawingImage() und Point() Support für GTK @LineBreak
+- @Green "Hinzugefügt": DrawingImage() für SDL, einschließlich Zoom-Support @LineBreak
+- @Green "Hinzugefügt": CallCFunction() und CallCFunctionFast() @LineBreak
+- @Green "Hinzugefügt": Get/SetGadgetAttribute() Support für das ScrollAreaGadget() @LineBreak
+- @Green "Hinzugefügt": ContainerGadget() Flags für 'Border' Support @LineBreak
+- @Green "Hinzugefügt": #PB_Event_ActivateWindow @LineBreak
+- @Green "Hinzugefügt": #PB_Splitter_First/SecondMinimumSize Support @LineBreak
+- @Green "Hinzugefügt": #PB_Splitter_First/SecondFixed Support @LineBreak
+- @Green "Hinzugefügt": CountTreeGadgetNodeItems() Support @LineBreak
+- @Green "Hinzugefügt": Optionaler 'Position' Parameter für OpenTreeGadgetNode() @LineBreak
+- @Green "Hinzugefügt": Optionaler 'Color' Parameter für ColorRequester() @LineBreak
+- @Green "Hinzugefügt": PNG-Transparenz Support für Images (für Toolbar und Gadgets) @LineBreak
+- @Green "Hinzugefügt": ParentID Support für OpenWindow() @LineBreak
+   @LineBreak
+- @orange "Geändert": *Warnung* CallFunction/Fast() ist nicht mehr CDecl-kompatibel (stattdessen CallCFunction) @LineBreak
+   @LineBreak
+- @constantcolor "Optimiert": SDL und GTK 'Shared Libraries' werden nur noch bei Verwendung hinzugelinkt @LineBreak
+- @constantcolor "Optimiert": 2DDrawing ist kleiner und schneller @LineBreak
+- @constantcolor "Optimiert": ListViewGadget() komplett neu programmiert, um besser skalierbar zu sein @LineBreak
+   @LineBreak
+- @blue "Repariert": Zeichensatz-Management für GTK2 wurde überarbeitet @LineBreak
+- @blue "Repariert": CallFunction() und CallFunctionFast akzeptierten nur 11 Argumente @LineBreak
+- @blue "Repariert": Circle() und Ellipse() waren nicht richtig zentriert @LineBreak
+- @blue "Repariert": GrabImage() und CopyImage() konnten bei einer ID > 9 fehlschlagen @LineBreak
+- @blue "Repariert": RunProgram() beendete das Programm, wenn die Datei nicht gefunden wurde @LineBreak
+- @blue "Repariert": PopupMenu() gab WindowEventID() nicht korrekt zurück @LineBreak
+- @blue "Repariert": SetGadgetState() mit ListViewGadget() scrollte nicht @LineBreak
+- @blue "Repariert": Mehrfacher Aufruf von CreateToolBar() konnte zu einem Abstutz führen @LineBreak
+- @blue "Repariert": TrackBarGadget() Bug unter GTK2 @LineBreak
+- @blue "Repariert": Image-Probleme auf 16 Bit-Desktops @LineBreak
+- @blue "Repariert": Refresh-Problem mit SetGadgetState() und ButtonImageGadget() @LineBreak
+- @blue "Repariert": RemoveGadgetItem() arbeitete nicht mit ListIconGadget() @LineBreak
+- @blue "Repariert": DesktopDepth() funktionierte nicht @LineBreak
+- @blue "Repariert": EditorGadget() unterstützte kein Get/SetGadgetItemText(), CountGadgetItems(), ClearGadgetItemList() @LineBreak
+- @blue "Repariert": Menü-Shortcuts gaben keine Ereignisse zurück @LineBreak
+- @blue "Repariert": MenuItem() gab bei Verwendung eines falschen Kürzels eine GTK-Warnung aus @LineBreak
+- @blue "Repariert": EventType() arbeitete nicht bei ListViewGadget() @LineBreak
+- @blue "Repariert": Input() gab nur ein Zeichen zurück @LineBreak
+- @blue "Repariert": ClipSprite() arbeitete nicht richtig @LineBreak
+- @blue "Repariert": CatchSound() hatte nicht den optionalen Parameter @LineBreak
+- @blue "Repariert": ReceiveNetworkFile() funktionierte nicht @LineBreak
+- @blue "Repariert": NetworkServerEvent() sendete kein 'Verbindungsabbruch' Ereignis @LineBreak
+- @blue "Repariert": userlibraries\ Verzeichnis funktionierte nicht @LineBreak
+- @blue "Repariert": Pfeile werden jetzt angezeigt, wenn zu viele Panels vorhanden sind @LineBreak
+- @blue "Repariert": Images verschwanden im TreeGadget() @LineBreak
+- @blue "Repariert": #PB_Event_SizeWindow Ereignis ging manchmal verloren
+  
+
+@Section 25. Januar 2005 : Version 3.92
+
+- @Green "Hinzugefügt": vollständige Runtime-Debugger Unterstützung mit einem einfachen Konsolen-Debugger @LineBreak
+- @Green "Hinzugefügt": Neuer Library-Maker mit bedingten with bedingten Direktiven @LineBreak
+- @Green "Hinzugefügt": DocMaker für Linux im SDK/  @LineBreak
+- @Green "Hinzugefügt": DynamicCPU, SSE, SSE2, 3DNOW, MMX Support für den Compiler  @LineBreak
+- @Green "Hinzugefügt": Allgemeine Subsytem-Unterstützung für den Compiler  @LineBreak
+- @Green "Hinzugefügt": GTK2+ Support (optional mittels Compiler-Switch: --subsytem gtk2)  @LineBreak
+- @Green "Hinzugefügt": Desktop Library  @LineBreak
+- @Green "Hinzugefügt": RemoveKeyboardShortcut(), GetGadgetAttribute(), SetGadgetAttribute()  @LineBreak
+- @Green "Hinzugefügt": GetGadgetItemAttribute(), SetGadgetItemAttribute()  @LineBreak
+- @Green "Hinzugefügt": CalendarGadget(), ExplorerTreeGadget(), ExplorerComboGadget()  @LineBreak
+- @Green "Hinzugefügt": MDIGadget(), DateGadget()  @LineBreak
+- @Green "Hinzugefügt": WebGadget() (ein Link von /usr/lib/libgtkmozembed.so muss noch erstellt werden)  @LineBreak
+- @Green "Hinzugefügt": UsePalette(), CreatePalette(), SetPaletteColor(), GetPaletteColor()  @LineBreak
+- @Green "Hinzugefügt": SwapElements(), IsFile(), DeleteDirectory()  @LineBreak
+- @Green "Hinzugefügt": OpenGadgetList(), CountString(), ActivateWindow()  @LineBreak
+- @Green "Hinzugefügt": ThreadPriority(), WaitThread()  @LineBreak
+- @Green "Hinzugefügt": CountLibraryFunctions(), ExamineLibraryFunctions(), NextLibraryFunction()  @LineBreak
+- @Green "Hinzugefügt": LibraryFunctionName(), LibraryFunctionAddress()  @LineBreak
+- @Green "Hinzugefügt": Standard Icon-Schalter für die Toolbar  @LineBreak
+- @Green "Hinzugefügt": Bikubische Interpolation bei ResizeImage()  @LineBreak
+ @LineBreak
+- @functioncolor "Aktualisiert": ExplorerListGadget() verwendet jetzt Icons  @LineBreak
+ @LineBreak
+- @constantcolor "Optimiert": LinkedLists, MemoryExtension und Misc (Libraries gesplittet)  @LineBreak
+ @LineBreak
+- @blue "Repariert": SetGadgetFont() mit #PB_Default funktionierte nicht @LineBreak
+- @blue "Repariert": Zeichensatzunterstützung für OptionGadget(), PanelGadget(), ExplorerListGadget()  @LineBreak
+- @blue "Repariert": GTK/GDK und SDL Strukturen in den Residents  @LineBreak
+- @blue "Repariert": RunProgram() konnte fehlschlagen, wenn keine Parameter angegeben waren @LineBreak
+- @blue "Repariert": BMP-Decoder für Sprites @LineBreak
+- @blue "Repariert": NetworkServerEvent() blockierte unter manchen Umständen @LineBreak
+- @blue "Repariert": ResizeImage() funktionierte nicht @LineBreak
+- @blue "Repariert": Speicherverlust bei SaveImage()  @LineBreak
+- @blue "Repariert": Ereignisse bei ExplorerListGadget() und ExplorerTreeGadget()  @LineBreak
+- @blue "Repariert": SpinGadget() vollständig neu programmiert, um 100% kompatibel mit Windows zu sein @LineBreak
+- @blue "Repariert": Sound Befehle führen nicht mehr zu einem Absturz, wenn keine Soundkarte vorhanden ist @LineBreak
+- @blue "Repariert": MessageRequester() und InputRequester() konnten X blockieren @LineBreak
+- @blue "Repariert": CountGadgetItems() funktionierte nicht beim TreeGadget()  @LineBreak
+- @blue "Repariert": FormatDate() stürzte ab @LineBreak
+- @blue "Repariert": ReplaceString() war fehlerhaft unter manchem Umständen @LineBreak
+- @blue "Repariert": EventWindowID() funktionierte nicht mit Menü-Ereignissen @LineBreak
+- @blue "Repariert": Der 3. Parameter von CatchSprite() war nicht optional  @LineBreak
+- @blue "Repariert": OpenFile() schlug fehl, wenn die Datei nicht existierte @LineBreak
+- @blue "Repariert": ExamineDirectory() stürzte ab, wenn eine Null-String Variable verwendet wurde @LineBreak
+- @blue "Repariert": Linker-Fehler bei Random(), PeekB()  @LineBreak
+- @blue "Repariert": HideGadget() und FreeGadget() bei einigen Gadgets  @LineBreak
+- @blue "Repariert": WindowX() und WindowY() gaben falsche Werte zurück @LineBreak
+- @blue "Repariert": Open/SaveFileRequester() wenn der Dateiname direkt im Eingabefeld eingegeben wurde @LineBreak
+
+
+@Section 11. Juli 2004 : Version 3.91
+
+- @Green "Hinzugefügt": IsWindow(), IsGadget() etc...  @LineBreak
+- @Green "Hinzugefügt": #PB_Any für alle Libraries, die dies auch unter Windows unterstützen @LineBreak
+- @Green "Hinzugefügt": Kompressions-Routine für die Packer Library @LineBreak
+- @Green "Hinzugefügt": DisplayShadowSprite(), DisplayAlphaSprite(), ChangeAlphaIntensity() @LineBreak
+- @Green "Hinzugefügt": IPString(), MakeIPAddress() @LineBreak
+- @Green "Hinzugefügt": DirectoryEntryAttributes() @LineBreak
+- @Green "Hinzugefügt": Set/GetWindowTitle() @LineBreak
+- @Green "Hinzugefügt": 8 Bits BMP RLE Support für alle Image-relevanten Befehle @LineBreak
+  @LineBreak
+- @functioncolor "Aktualisiert": Database Library @LineBreak
+  @LineBreak
+- @blue "Repariert": FileSize() welches nicht die richtigen Werte zurückgab @LineBreak
+- @blue "Repariert": NextSelectedFile() damit dieses sich wie der Windows-Befehl verhält @LineBreak
+- @blue "Repariert": OpenSubMenu() @LineBreak
+- @blue "Repariert": ColorRequester() gab einen falschen Wert zurück @LineBreak
+- @blue "Repariert": Box() Befehl, wenn dieser mit SpriteOutput() oder ScreenOutput() verwendet wurde @LineBreak
+- @blue "Repariert": CatchSprite() dekodierte nicht alle BMP richtig @LineBreak
+- @blue "Repariert": Linker-Bug wenn InitCDAudio() allein verwendet wurde @LineBreak
+- @blue "Repariert": SpinGadget() zeigte einige GTK Warnungen @LineBreak
+- @blue "Repariert": EditorGadget() wenn dieses in ein ContainerGadget() oder SplitterGadget() eingefügt wurde @LineBreak
+- @blue "Repariert": Round() fehlte @LineBreak
+- @blue "Repariert": DrawingBufferPixelFormat() welches einen falschen Wert zurückgab @LineBreak
+- @blue "Repariert": PanelGadget(): GetGadgetState() und SetGadgetState() wurden nicht unterstützt @LineBreak
+- @blue "Repariert": GadgetX(), GadgetY(), GadgetWidth() und GadgetHeight() für einige Gadgets @LineBreak
+- @blue "Repariert": ResizeWindow() @LineBreak
+- @blue "Repariert": ein Bug in WindowEvent() @LineBreak
+- @blue "Repariert": #PB_EventType_Change und #PB_EventType_Focus für StringGadget() und ComboBoxGadget() @LineBreak
+- @blue "Repariert": Event für PanelGadget() @LineBreak
+
+
+@Section 1. Januar 2004 : Version 3.81 - Happy New Year !
+
+- @Green "Hinzugefügt": Sort Library @LineBreak
+- @Green "Hinzugefügt": Toolbar Library @LineBreak
+- @Green "Hinzugefügt": StatusBar Library @LineBreak
+- @Green "Hinzugefügt": Font Library @LineBreak
+- @Green "Hinzugefügt": $PUREBASIC_HOME Env Variable, zum Angeben des Installationspfades @LineBreak
+- @Green "Hinzugefügt": ElapsedMilliseconds() @LineBreak
+- @Green "Hinzugefügt": CatchSprite(), CreateSprite(), SpriteOutput() und ScreenOutput() @LineBreak
+- @Green "Hinzugefügt": 2DDrawing Support für ScreenOutput() und SpriteOutput() mit sehr schnellem Direct-Videobuffer Zugriff @LineBreak
+- @Green "Hinzugefügt": SplitterGadget(), ContainerGadget(), ScrollAreaGadget(), IPAddressGadget(), EditorGadget() @LineBreak
+- @Green "Hinzugefügt": ScrollBarGadget(), SpinGadget(), TrackBarGadget(), HyperLinkGadget(), ExplorerListGadget() @LineBreak
+- @Green "Hinzugefügt": GetGadgetItemState(), SetGadgetItemState(), GetGadgetItemText(), SetGadgetItemText() @LineBreak
+- @Green "Hinzugefügt": BMP, JPEG, PNG, TIFF und TGA Decoder Support für LoadImage() und LoadSprite() @LineBreak
+- @Green "Hinzugefügt": BMP, JPEG and PNG Encoder für SaveImage() @LineBreak
+- @Green "Hinzugefügt": SaveImage(), CopyImage(), GrabImage() @LineBreak
+- @Green "Hinzugefügt": CopySprite(), GrabSprite(), UseBuffer(), DisplayTranslucideSprite(), DisplayRGBFilter() @LineBreak
+- @Green "Hinzugefügt": WindowID(#Window), WindowOutput() @LineBreak
+- @Green "Hinzugefügt": PathRequester(), InputRequester() @LineBreak
+- @Green "Hinzugefügt": DisableMenuItem(), GetMenuItemState(), SetMenuItemState(), MenuHeight() @LineBreak
+- @Green "Hinzugefügt": CloseTreeGadgetNode(), UseGadgetList(), SetGadgetFont(), ButtonImageGadget() @LineBreak
+- @Green "Hinzugefügt": DayOfYear(), SelectedFontStyle() @LineBreak
+- @Green "Hinzugefügt": Support für XOR und ungefüllter Formen bei 2DDrawing @LineBreak
+- @Green "Hinzugefügt": NextSelectedFileName() @LineBreak
+- @Green "Hinzugefügt": StrU(), CopyFile() @LineBreak
+- @Green "Hinzugefügt": vollständiger 3D-Engine Support @LineBreak
+- @Green "Hinzugefügt": Mustererkennung (Pattern-Matching) bei ExamineDirectory() @LineBreak
+ @LineBreak
+- Gadget Library gesplittet @LineBreak
+- Sprite Library gesplittet @LineBreak
+ @LineBreak
+- @functioncolor "Aktualisiert": Compiler auf v3.81 mit Enumeration, Interface, Modulo und mehr... @LineBreak
+
+
+@Section 10. Februar 2003 : Version 3.50
+
+- @Green "Hinzugefügt": Date Library @LineBreak
+- @Green "Hinzugefügt": Joystick Library @LineBreak
+- @Green "Hinzugefügt": Library Library @LineBreak
+- @Green "Hinzugefügt": Packer Library (nur Dekomprimieren) @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_OS und #PB_Compiler_Date @LineBreak
+- @Green "Hinzugefügt": WriteFloat(), ReadFloat(), RunProgram() @LineBreak
+- @Green "Hinzugefügt": Base64Encoder(), MD5FileFingerPrint(), CRC32FingerPrint() @LineBreak
+- @Green "Hinzugefügt": PeekF(), PokeF(), ProgramParameter(), OSVersion() @LineBreak
+- @Green "Hinzugefügt": RSet(), LSet(), RemoveString(), Bin(), StringField() @LineBreak
+ @LineBreak
+- @functioncolor "Aktualisiert": Compiler-Kernel auf v3.50 (einschließlich Fasm) @LineBreak
+- @functioncolor "Aktualisiert": Resident-Datei @LineBreak
+- @functioncolor "Aktualisiert": Dokumentation @LineBreak
+ @LineBreak
+- @blue "Repariert": Loc() und Lof(), wenn keine aktuelle Datei geöffnet ist @LineBreak
+
+
+@Section 22. September 2002 : Version 3.30
+
+- Dritte Linux Version, welche immer ausgereifter wird. Dennoch befindet sie sich noch in der Testphase. @LineBreak
+- @Green "Hinzugefügt": folgende Libraries: Cipher, Clipboard, Module, StatusBar und Thread. @LineBreak
+- @Green "Hinzugefügt": die meisten fehlenden Befehle in den anderen PureLibaries. @LineBreak
+- Das gesamte Paket einschließlich Installation wurde noch einmal überarbeitet, für verbesserte Zusammenarbeit mit dem aktuellen Linux Software Schema. @LineBreak
+- Mehrere größere Programme und Spiele wurden erfolgreich auf Linux portiert, ohne Änderung von einer Zeile Sourcecode. @LineBreak
+- Dokumentation wurde verbessert. @LineBreak
+- @functioncolor "Aktualisiert": Compiler wurde auf den Stand der letzten 3.30 Version gebracht, welche Tonnen von Änderungen und Verbesserungen bringt - zu viele um alles hier aufzuführen. @LineBreak
+
+
+@Section 11. Februar 2002 : Version 2.90
+
+- Zweite Linux Version, immer noch in der Beta-Test Phase. @LineBreak
+- @Green "Hinzugefügt": folgende Libraries: Database, Image, Sort, Memory, Console, 2DDrawing, Math @LineBreak
+- @functioncolor "Aktualisiert": Compiler auf die letzte v2.90 Version aktualisiert, welches tonnenweise Veränderungen und Verbesserungen - zu viele um diese aufzuzählen - mit sich bringt. @LineBreak
+
+
+@Section 10. Juli 2001 : Version 2.32
+
+  - Erstes öffentliches Release der Linux Version. Ausschließlich für Testzwecke.
+ @LineBreak
+ @LineBreak
+
+
+; MACOS X ---------------------------------------------------------------------------------------------
+;
+; MACOS X ---------------------------------------------------------------------------------------------
+
+@OS MacOS
+
+@Section 5. Oktober 2005 : Version 3.94
+  
+  Sie ist endlich da! Sie ist das Ergebnis vieler Monate harter Arbeit und wir sind sehr
+  glücklich, die OS X Version von PureBasic präsentieren zu können. Sie ist sehr vollständig,
+  bietet native Unterstützung aller PureBasic Libraries und kann entweder über die 
+  Kommandozeile (für die Kommandozeilen-Freaks) oder über die mitgelieferte IDE verwendet
+  werden.
+  @LineBreak
+  @LineBreak
+  Es gibt sogar eine optionale Unterstützung für GTK 1 und 2, um "Look & Feel" (Aussehen und
+  Handhabung) der Anwendung mit dieser API zu testen (zum Beispiel beim Portieren von OS X
+  auf Linux). Zögern Sie nicht damit, diese Version auszuprobieren und berichten Sie 
+  auftretende Probleme hier: @InternetLink "http://forums.purebasic.com" "http://forums.purebasic.com".
+  Viel Spaß! 
+  @LineBreak
+  @LineBreak
+
+  - Eingebaute native IDE und Debugger (eigenständig oder Konsole). @LineBreak
+  - Native OS X Unterstützung für GUI (Carbon), Sprites (OpenGL), Sounds und Movies (QuickTime). @LineBreak
+  - Sehr schnelle PowerPC Assembler Code-Generierung, welche ausgezeichnete Leistung und reduzierte 
+    Executable-Größe ermöglicht. @LineBreak
+  - Eingebaute OS X API Unterstützung (derzeit nur einige Funktionen). @LineBreak
+  - Die IDE und die Debugger sind vollständig in PureBasic geschrieben, was das Portierbarkeits-Konzept 
+    zwischen OS X, Windows und Linux beweist. @LineBreak
+  - Der größte Teil des PureBasic-Befehlssets wird unterstützt. @LineBreak

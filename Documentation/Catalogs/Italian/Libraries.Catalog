@@ -1,0 +1,284 @@
+;
+; PureBasic Debugger - Libraries language file
+;
+
+[LanguageInfo]
+Application = PB_Libraries
+Language    = Italiano
+LastUpdated = 24/10/2013
+Creator     = Marco GLARAY for Fantaisie Software
+Email       = marco.glaray@virgilio.it
+
+[Common]
+InitNeeded      = %s dev'essere chiamato prima di usare uno dei comandi %s.
+ScreenNeeded    = 'OpenScreen()' o 'OpenWindowedScreen()' devono essere chiamati prima di usare uno dei comandi %s.
+CallOnce        = %s può essere chiamato una sola volta.
+CallNeeded      = %s dev'essere chiamato prima di chiamare %s.
+CallNeededAny   = %s dev'essere chiamato prima di usare questo comando.
+CallNeededLib   = %s dev'essere chiamato prima di un'altra funzione %s.
+NoDrawingCall   = %s non può essere chiamato dentro un blocco 'StartDrawing()/StopDrawing()'.
+HighNumber      = L'oggetto numerico %s è molto alto (oltre %i), sei sicuro?
+NoObject        = %s non è stato inizializzato.
+NullAddress     = L'indirizzo della procedura è nullo.
+NullBuffer      = Questo 'buffer' è a zero.
+NullPointer     = Il puntatore è nullo.
+NullArgument    = '%s' è nullo.
+InvalidArgument = '%s' non è valido.
+NullLength      = La lunghezza specificata è zero.
+NegativeLength  = La lunghezza specificata è negativa.
+InvalidLength   = La lunghezza specificata non è valida.
+Negative        = '%s' è negativo.
+NullNegative    = '%s' è negativo o è zero.
+FileNotFound    = Il file non esiste.
+InvalidPort     = 'Port' non è un numero di porta valido.
+OutOfRange      = '%s' fuori limiti.
+NoLabel         = '%s' non è un puntatore di etichetta.
+NoProcedure     = '%s' non è un puntatore di Procedura.
+WrongType       = La Procedura specificata in '%s' non ha gli argomenti o il tipo di ritorno necessari.
+
+[2DDrawing]
+PlotOutside     = 'Plot()' è fuori dall'area disegnabile.
+PointOutside    = 'Point()' è fuori dall'area disegnabile.
+NullOutput      = L'uscita specificata è nulla NULL (=0).
+InvalidOutput   = L'uscita specificata non è valida.
+NullFontID      = L'ID del carattere (font) non valida: è 'NULL' (valore = 0).
+NeedStopDrawing = 'StopDrawing()' dev'essere chiamato prima di chiamare nuovamente 'StartDrawing()'.
+NoStartDrawing  = 'StopDrawing()' dev'essere chiamato solo dopo un chiamata riuscita a 'StartDrawing()'.
+
+[AudioCD]
+NoCurrent  = Nessun lettore AudioCD selezionato.
+NoTrack    = Traccia proppo alta: non esiste
+OutOfRange = Lettore AudioCD specificato fuori dai limiti
+
+[Cipher]
+SmallOutput       = La lunghezza d'uscita ('OutputLength') dev'essere almeno il 33% maggiore della lunghezza d'entrata ('InputLength').
+WrongKeySize      = L'ampiezza della chiave per AES dev'essere 128, 192 o 256.
+NullKeyBuffer     = Il 'buffer' della chiave è nullo.
+MinimalBufferSize = Il 'buffer' minimo per AES è di 16 byte.
+
+[Console]
+NoConsole   = La 'console' è già aperta. 'OpenConsole()' dev'essere chiamato per primo.
+WrongColor  = Il colore della 'console' dev'essere compreso tra 0 e 15.
+NoGraphical = Questo comando non è supportato nel modo grafico.
+
+[Database]
+NoPlugin     = 'UseODBCDatabase()' o 'UseSQLiteDatabase()' dev'essere chiamato prima di usare comandi di database
+InvalidIndex = Il parametro di 'StatementIndex' non può essere negativo.
+InvalidColumnIndex = L'indice di una 'Column' non può essere negativo.
+
+[DragDrop]
+InvalidAction  = Valore non consentito per 'Action'.
+ZeroAction     = '#PB_Drag_None' non è consentito come 'Action'.
+NoEvent        = Non è intervenuto alcun evento 'Drag&Drop'.
+EmptyList      = Impossibile trascinare un'elenco di file vuoto.
+EmptyString    = Impossibile trascinare una stringa vuota.
+NoFileEvent    = L'evento di trascinamento non era un '#PB_Drop_Files Event'.
+NoImageEvent   = L'evento di trascinamento non era un '#PB_Drop_Image Event'.
+NoPrivateEvent = L'evento di 'Drag&Drop' non era un '#PB_Drop_Private Event'.
+NoTextEvent    = L'evento di 'Drag&Drop' non era un '#PB_Drop_Text Event'.
+
+[Engine3D]
+NotInitialized    = 'InitEngine3D()' dev'esere chiamato con successo prima di usare il set di comadi 3D.
+NoTerrain         = Nessun terreno creato.
+CallBeforeSprites = 'InitEngine3D()' non è stato chiamato prima di 'InitSprite()'.
+
+[Entity]
+NegativeScale = Il valore della scala non può essere negativo.
+
+[Event]
+NeedOneWindow = Almeno una finestra dev'essere aperta per usare questo comando.
+
+[File]
+NegativeSeek       = Impossibile portarsi in una posizione assoluta negativa.
+SeekBehindEnd      = Impossibile posizionarsi in modo assoluto dopo la fine del file.
+NegativeBufferSize = La grandezza del 'buffer' non può essere negativa.
+
+[Gadget]
+NeedOpenGadgetList = 'OpenGadgetList()' dev'essere chiamato prima di chiamara ancora 'AddGadgetItem()' su questo Gadget.
+NoOpenGadgetList   = 'CloseGadgetList()' può essere chiamato solo dopo OpenGadgetList(), PanelGadget(), ScrollAreaGadget() o ContainerGadget().
+NoGadgetList       = Non esiste alcuna 'GadgetList' corrente.
+NotDifferent       = #Gadget1 e #Gadget2 devono essere differenti.
+SplitterChilds     = Impossibile creare 'SplitterGadget' con lo stesso 'Number' come uno dei suoi discendenti.
+ScrollBarRange     = L'ambito di 'ScrollBar' dev'essere compreso tra 0 e 10000
+MaxCanvasSize      = Dimensioni massime sono: 16000x16000
+
+[Gadget3D]
+NotDifferent   = #Gadget3D1 e #Gadget3D2 devono essere differenti.
+SplitterChilds = Impossibile creare 'SplitterGadget3D' con lo stesso 'Number' come uno dei suoi discendenti.
+NeedAWindow    = Necessario aprire una finestra 3D prima di aggiungervi dei gadget.
+
+[Image]
+HeightLarge      = Altezza dell'immagine maggiore di 32000 pixel.
+WidthLarge       = Ampiezza dell'immagine maggiore di 32000 pixel.
+InvalidDepth     = Profondità colore ('Depth') inadeguata: dev'essere 24 o 32.
+InvalidSaveDepth = Profondità colore ('Depth') inadeguata: dev'essere 1, 2, 4, 8, 24 o 32.
+IconNotResizable = L' #Image nell'icona non può essere ridimensionata.
+HeightSmall      = Altezza dell'immagine troppo piccola, dev'essere maggiore di zero.
+WidthSmall       = Larghezza  dell'immagine troppo piccola, dev'essere maggiore di zero.
+
+[Joystick]
+ButtonInvalid = Pulsante fuori limiti: dev'esse tra 1 e 32.
+
+[Library]
+WrongIndex = L'indice di 'GetFunctionEntry()' inizia da 1.
+
+[Light]
+InvalidColorType = Parametro colore non ammesso.
+
+[LinkedList]
+NotInitialized  = LinkedList non inizializzata.
+NegativeIndex   = 'SelectElement()' non può avere un indice negativo.
+FirstNull       = 'SwapElement()': il primo elemento è nullo.
+SecondNull      = 'SwapElement()': il secondo elemento è nullo.
+NoCurrent       = La LinkedList non ha elementi correnti.
+RelativeNull    = Un '*RelativeElement' dev'essere specificato.
+PushedElement   = Impossibile cancellare l'elemento corrente inserito.
+PushedElement2  = Impossibile spostare l'elemento corrente inserito in un'altra lista.
+NoPushedElement = Non c'è alcun elemento memorizzato da ripristinare.
+
+[Map]
+NotInitialized  = Mappa non inizializzata.
+NoCurrent       = Mappa senza elementi correnti.
+PushedElement   = Impossibile cancellare l'elemento corrente inserito.
+NoPushedElement = Non c'è alcun elemento memorizzato da ripristinare.
+
+[Material]
+InvalidColorType = Parametro colore non valido.
+
+[Math]
+MinNegative    = Il valore minimo non può essere negativo.
+MaxNegative    = Il valore massimo non può essere negativo.
+MinSuperiorMax = Il valore minimo non può essere superiore al valore massimo.
+
+[Memory]
+NullAddress   = Indirizzo specificato nullo.
+NullAlloc     = Impossibile allocare un blocco di memoria grandezza zero.
+NegativeAlloc = Impossibile allocare un blocco di memoria di grandezza negativa.
+NullSource    = Puntatore iniziale di memoria a zero.
+NullDest      = Puntatore finale di memoria a zero.
+WrongLength   = Lunghezza specificata minore di -1.
+InvalidType   = Tipo non valido per 'FillMemory()', dev'essere #PB_Byte, #PB_Word o #PB_Long.
+
+[Menu]
+NoCurrent = Nessun Menù corrente.
+
+[Mesh]
+Add3DArchiveBeforeLoadMesh = 'Add3DArchive' dev'essere chiamato almeno una volta prima di 'LoadMesh()'.
+
+[Music]
+InvalidVolume = Il 'volume' dev'essere compreso tra 0 e 100
+
+[Network]
+NegativeTimeOut     = Non può essere negativo il timeout di 'OpenNetworkConnection()'.
+IPv6FieldOutOfRange = L'indice del campo 'IPAddressField()' dev'essere compreso tra 0 e 7 per indirizzi IPv6.
+IPv4FieldOutOfRange = L'indice del campo 'IPAddressField()' dev'essere compreso tra 0 e 7 per indirizzi IPv4.
+
+[Node]
+ObjectNotAttached = L'oggetto specificato non è attaccato ad un nodo.
+NegativeScale     = Il valore di scala non può essere negativo.
+
+[OnError]
+DebuggerPresent = La libreria 'OnError' non può intercettare tutti gli errori con il Correttore attivato.
+LinesDisabled   = Le linee 'OnError' non sono supportate.
+NoHandler       = Questa funzione può essere chiamata solo all'interno di una gestione d'errore.
+
+[Packer]
+NoPack = Nessun compressore file è attualmente aperto.
+
+[Preference]
+InvalidKeyword             = La parola chiave per le funzioni 'Read/WritePreference()' non è valida.
+KeywordForbiddenCharacters = La parola chiave per le funzioni 'Read/WritePreference()' non deve contenere '=', 'LF' o 'CR'.
+
+[Process]
+InvalidName  = Il nome della variabile d'ambiente è vuoto.
+NoVariable   = Non c'è la variabile d'ambiente corrente.
+ProgramEnded = Il Programma non è più in esecuzione.
+FileNeeded   = Specificare un nome per il file.
+Flags1       = Etichette non valide: impossibile combinare '#PB_Program_Wait' con l'etichetta di comunicazione.
+Flags2       = Etichette non valide: '#PB_Program_Open' DEVE essere predisposto ad usare le etichette di comunicazione.
+NotEnded     = Programma non ancora terminato. ('ExitCode' non disponibile)
+NullRead     = Impossibile leggere un numero di byte pari a zero dal Programma.
+NullWrite    = Impossibile scrivere un numero di byte pari a zero nel Programma.
+
+[RegularExpression]
+WrongType       = La matrice risultante per 'ExtractRegularExpression()' dev'essere di tipo stringa.
+WrongDimensions = La matrice risultante per 'ExtractRegularExpression()' non può avere che una dimensione.
+
+[Screen]
+NoScreen   = Nessun schermo aperto.
+WrongDepth = La profondità di schermo dev'essere 4, 8, 16, 24 o 32.
+WrongGamma = Il valore 'gamma' dev'essere compreso tra 0 e 255.
+
+[Sort]
+MultiDimensionedArrayNotSupported = In 'SortArray()' non è supportata una matrice multidimensionale.
+NotSimpleList                     = La 'SortList()' non può essere usata in una lista strutturata.
+NotStructuredList                 = 'SortStructuredList()' non può essere usata in una lista non strutturata.
+
+[Sprite]
+EqualID          = Sprite1 e Sprite2 hanno la stessa ID.
+NoPixelCollision = Uno sprite dev'essere creato con '#PB_Sprite_PixelCollision' per supportare 'SpritePixelCollision()'.
+NoStartDrawing   = Questa funzione non può essere chiamata all'interno di un blocco 'StartDrawing()/StopDrawing()'.
+
+[Sprite3D]
+No2DSprite      = Lo sprite 2D #Sprite non è inizializzato.
+NoTextureSprite = Lo sprite 2D #Sprite dev'essere creato con '#PB_Sprite_Texture'.
+
+[StatusBar]
+NoCurrent     = Nessuna 'StatusBar' corrente.
+TooManyFields = Non sono ammessi più di 64 campi.
+WidthHigh     = L'ampiezza non può eccedere 8192.
+Appearance    = 'Appearance' dev'essere compreso tra 0 e 16.
+
+[String]
+IncorrectTrimCharacterLength  = La lunghezza di 'Character$' per 'Trim()' dev'essere 1.
+IncorrectLTrimCharacterLength = La lunghezza di 'Character$' per 'LTrim()' dev'essere 1.
+IncorrectRTrimCharacterLength = La lunghezza di 'Character$' per 'RTrim()' dev'essere 1.
+NegativeDecimalNumber         = I decimali per 'StrF()' o 'StrD()' non possono essere negativi.
+InvalidSringFieldIndex        = Indice di campo di 'StringField()' non valido, dev'essere almeno 1.
+InvalidFindStringMode         = Il parametro 'Mode' di 'FindString()' dev'essere 0 o '#PB_String_NoCase'.
+
+[Terrain]
+TerrainBeforeCamera = Il terreno dev'essere creato prima di qualsiasi telecamera.
+
+[Text3D]
+NegativeScale = Il valore di scala non può essere negativo.
+
+[Texture]
+Add3DArchiveBeforeLoadTexture = 'Add3DArchive' dev'essere chiamato almeno una volta prima di 'LoadTexture()'.
+
+[Thread]
+InvalidThread    = Questo 'Thread' non esiste.
+InvalidMutex     = Questo 'Mutex' non esiste.
+InvalidSemaphore = Questo 'Semaphore' non esiste.
+
+[Window]
+NeedOneWindow         = Almeno una finestra dev'essere aperta per usare questo comando.
+InvalidParent         = 'ParentID' non è un valido 'WindowID()'.
+InvalidEvent          = Il valore 'Event' di 'AddKeyboardShortcut()' dev'essere compreso tra 0 e 64000.
+OpenWindowMainThread  = 'OpenWindow()' può essere chiamato solo nel 'thread' principale.
+WindowEventMainThread = 'WindowEvent()' e 'WaitWindowEvent()' possono essere chiamati solo nel 'thread' principale.
+
+[Window3D]
+BeforeAnyWindow = 'SetGUITheme3D()' dev'essere chiamato prima di ogni altro comando di 'Window3D'.
+
+[Xml]
+NullNode             = Modo XML non valido. (0)
+UnknownEncoding      = Tipo di codifica sconosciuta.
+StandaloneModes      = Soltanto: #PB_XML_StandaloneYes, #PB_XML_StandaloneNo o #PB_XML_StandaloneUnset sono permessi.
+InvalidIndex         = L'indice dev'essere >= 1.
+NoNameNode           = Questo tipo di nodo XML non deve avere un nome.
+InvalidNodeName      = Nome del nodo non valido.
+InvalidAttributeName = Nome dell'attributo non valido.
+NoAttributeNode      = Questo tipo di nodo XML non deve avere un attributo.
+NoNewlines           = Caratteri di ritorno a capo non sono permessi in un attributo.
+NoChildren           = Un nodo 'Comment/CData/DTD' non può avere elementi secondari.
+PreviousWrongTree    = Il nodo precedente non è nello stesso albero XML come l'elemento padre.
+PreviousDirectChild  = Il nodo precedente non è un discendente diretto dell'elemento padre.
+CannotCreateRoot     = Un nodo radice non può essere creato manualmente.
+InvalidType          = Tipo di nodo non valido.
+CannotMoveRoot       = Il nodo radice non può essere copiato o spostato.
+CannotDeleteRoot     = Il nodo radice di un albero XML non può essere cancellato.
+CannotMove1          = Il nodo non può essere spostato dentro se stesso. (il nodo padre appartiene ad una famiglia di nodi)
+CannotMove2          = Il nodo da spostare e il nodo precedente sono uguali.
+CannotMove3          = Il nodo non può essere spostato dentro se stesso. (Nodo e nodo padre sono uguali).
+

@@ -1,0 +1,301 @@
+;
+;     StatusBar library documentation
+;
+;      (c) 2017 - Fantaisie Software
+;
+
+@Library StatusBar
+
+@Overview
+
+  A status bar is the bottom bar of a window where some information are displayed
+  on it. This bar is always visible and can be split in several parts.
+
+@CommandList
+
+@ExampleFile All StatusBar.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddStatusBarField(Width)
+
+@Description  
+  Adds a field to the current statusbar previously created with @@CreateStatusBar.
+  Each new field is created after the old one.
+  
+@Parameter "Width"
+  The width of the new field in pixels. If sets to @#PB_Ignore then the field
+  will be resized to fill the remaining free space on the statusbar. Multiple fields can have a width of @#PB_Ignore,
+  in which case the free space will be divided evenly among these fields.
+
+@NoReturnValue
+
+@Remarks
+  The following commands can be used to set or change the content of the statusbar field:
+@LineBreak
+  - @@StatusBarText
+@LineBreak
+  - @@StatusBarImage
+@LineBreak
+  - @@StatusBarProgress
+  
+@LineBreak
+@LineBreak
+  See @@CreateStatusBar for an example.
+
+@SeeAlso
+  @@StatusBarText, @@StatusBarImage, @@StatusBarProgress, @@CreateStatusBar
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateStatusBar(#StatusBar, WindowID)
+
+@Description
+  Create and add an empty #StatusBar to the specified WindowID.
+  Once the bar is created, @@AddStatusBarField can be
+  used to setup the different parts of the bar.
+
+@Parameter "#StatusBar"
+  A number to identify the new status bar.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+  
+@Parameter "WindowID"
+  The window on which the status bar needs to be created. @@WindowID can be used to get this value.
+  
+@ReturnValue
+  Nonzero if the status bar has been successfully created, zero otherwise.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 440, 50, "StatusBar", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    If CreateStatusBar(0, WindowID(0))
+      AddStatusBarField(90)
+      AddStatusBarField(100)
+      AddStatusBarField(#PB_Ignore) ; automatically resize this field
+      AddStatusBarField(100)
+    EndIf
+
+    StatusBarText(0, 0, "Area normal")
+    StatusBarText(0, 1, "Area borderless", #PB_StatusBar_BorderLess)
+    StatusBarText(0, 2, "Area right", #PB_StatusBar_Right) 
+    StatusBarText(0, 3, "Area centered", #PB_StatusBar_Center)
+    
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+@Image createstatusbar.png
+
+@SeeAlso
+  @@FreeStatusBar
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeStatusBar(#StatusBar) 
+
+@Description
+  Free the given status bar.
+  
+@Parameter "#StatusBar"
+  The status bar to free. If @#PB_All is specified, all the remaining status bars are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining status bars are automatically freed when the program ends.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsStatusBar(#StatusBar)
+
+@Description
+  Tests if the given status bar number is a valid and correctly initialized status bar. 
+
+@Parameter "#StatusBar"
+  The status bar to use.
+
+@ReturnValue
+  Nonzero if the status bar is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a status bar is ready to use.
+
+@SeeAlso
+  @@CreateStatusBar
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StatusBarImage(#StatusBar, Field, ImageID [, Appearance])
+
+@Description
+  Sets the specified Field to display an image. 
+  
+@Parameter "#StatusBar"
+  The status bar to use.
+  
+@Parameter "Field"
+  The field index to set the image. The first field index starts from zero.
+  
+@Parameter "ImageID"
+  The image to set to the specified statusbar field. It can be easily obtained by using @@ImageID.
+
+@OptionalParameter "Appearance"
+  It can be used to alter the look of the field with the following values:
+@FixedFont
+  @#PB_StatusBar_Raised    : raised borders (has no effect on OS X and Windows with theme enabled)
+  @#PB_StatusBar_BorderLess: without border 
+  @#PB_StatusBar_Center    : center the icon in the field
+  @#PB_StatusBar_Right     : align the icon to the right of the field
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 340, 50, "StatusBarImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    If CreateStatusBar(0, WindowID(0))
+      AddStatusBarField(120)
+      AddStatusBarField(170)
+    EndIf
+
+    If LoadImage(0, "cube16.ico")     ; change path/filename to your own image (or icon)
+      StatusBarImage(0, 0, ImageID(0))
+      StatusBarImage(0, 1, ImageID(0), #PB_StatusBar_Right) 
+    EndIf  
+    
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf 
+@EndCode
+
+; Note: this image needs to be updated to reflect the new behavior (no more text with the image)
+; @Image statusbaricon.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StatusBarID = StatusBarID(#StatusBar)
+
+@Description
+  Returns the unique system identifier of the status bar.
+
+@Parameter "#StatusBar"
+  The status bar to use.
+
+@ReturnValue
+  The system identifier. This result is sometimes also known as 'Handle'. Look at the extra
+  chapter @ReferenceLink "handles" "Handles and Numbers" for more information.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StatusBarText(#StatusBar, Field, Text$ [, Appearance])
+
+@Description
+  Sets the text for the specified status bar field. 
+  
+@Parameter "#StatusBar"
+  The status bar to use.
+  
+@Parameter "Field"
+  The field index to set the text. The first field index starts from zero.
+  
+@Parameter "Text$"
+  The text to set to the specified statusbar field.
+
+@OptionalParameter "Appearance"
+  It can be used to alter the look of the field with the following values:
+@FixedFont
+  @#PB_StatusBar_Raised    : raised borders (has no effect on OS X and Windows with theme enabled)
+  @#PB_StatusBar_BorderLess: without border 
+  @#PB_StatusBar_Center    : center the text in the field
+  @#PB_StatusBar_Right     : align the text to the right of the field
+@EndFixedFont
+  The options can be combined together with the '|' (OR) operator :
+@FixedFont
+  #PB_StatusBar_BorderLess | #PB_StatusBar_Right : Borderless right aligned field.
+@EndFixedFont
+  For a working example look at @@CreateStatusBar.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StatusBarProgress(#StatusBar, Field, Value [, Appearance [, Min, Max]])
+
+@Description
+  Display a progress bar in the specified 'Field' in the given '#StatusBar'.
+
+@Parameter "#StatusBar"
+  The status bar to use.
+  
+@Parameter "Field"
+  The field index to set the progress bar. The first field index starts from zero.
+  
+@Parameter "Value"
+  This specifies the current progress (relative to the current minimum and maximum). 
+  To update this value simply call this command again with a different value.
+
+@OptionalParameter "Appearance"
+  It can be used to alter the look of the field with the following values:
+@FixedFont
+  @#PB_StatusBar_Raised    : raised borders (has no effect on OS X and Windows with theme enabled)
+  @#PB_StatusBar_BorderLess: without border 
+@EndFixedFont
+
+@OptionalParameter "Min, Max"
+  Specifies the boundaries of the progress bar. If they are not specified
+  or have the value @#PB_Ignore then current boundaries will be used. 
+  The default 'Min' and 'Max' values for newly created status bar fields are 0 and 100.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 340, 50, "StatusBarProgress", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    If CreateStatusBar(0, WindowID(0))
+      AddStatusBarField(120)
+      AddStatusBarField(170)
+    EndIf
+
+    StatusBarText(0, 0, "ProgressBar !")
+    StatusBarProgress(0, 1, 25)
+    
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = StatusBarHeight(#StatusBar) 
+
+@Description
+  Returns the height in pixel of the #StatusBar. This is useful for correct calculation on window height
+  when using a statusbar.
+
+@Parameter "#StatusBar"
+  The status bar to use.
+
+@ReturnValue
+  The height in pixels of the status bar.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

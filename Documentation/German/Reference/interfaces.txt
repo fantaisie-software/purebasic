@@ -1,0 +1,109 @@
+@Title Interfaces
+
+@Syntax
+
+  @Keyword Interface <Name> [@Keyword Extends <Name>]
+    <Methode[.<Typ>]()>
+    ...
+  @Keyword EndInterface
+
+@Description
+
+  @Keyword Interfaces werden benutzt, um auf objektorientierte Module wie COM (Component Object Model) oder DirectX 
+  Dynamic Libraries (DLL) zuzugreifen. Diese Art von Bibliotheken (Libraries) werden unter Windows mehr 
+  und mehr üblich und durch die Verwendung von Interfaces wird der einfache Zugriff auf diese Module (ohne
+  Performanz-Verlust) realisiert.
+  @LineBreak
+  Sie legen auch die Basis für objektorientiertes Programmieren innerhalb von PureBasic, erfordern zu dessen
+  Realisierung jedoch einige fortgeschrittene Kenntnisse. Die meisten der Standard Windows Interfaces 
+  sind bereits in einer Resident-Datei implementiert, was die direkte Nutzung dieser Objekte ermöglicht. @LineBreak
+  @LineBreak
+  Der optionale @Keyword Extends Parameter kann verwendet werden, um ein Interface mit neuen Funktionen eines weiteren Interfaces 
+  zu erweitern (diese Funktionen werden in objektorientierten (OO) Sprachen wie C++ oder Java üblicherweise 
+  'Methoden' genannt). Alle im erweiterten (extended) Interface enthaltenen Funktionen werden im neuen 
+  Interface verfügbar und werden vor die neuen Funktionen platziert. Dies ist nützlich, um grundlegende 
+  Vererbung von Objekten durchzuführen. @LineBreak
+  @LineBreak
+  @ReferenceLink "dim" "Arrays" können mit Hilfe des @Keyword Array Schlüsselworts als Parameter übergeben werden,
+  @ReferenceLink "newlist" "Linked Lists" mittels des @Keyword List Schlüsselworts und @ReferenceLink "newmap" "Maps"
+  mittels des @Keyword Map Schlüsselworts.
+  @LineBreak
+  @LineBreak
+  Ein Rückgabewert-Typ kann in der Interface-Deklaration definiert werden, indem hinter der Methode der entsprechende
+  Typ ergänzt wird.
+  @LineBreak
+  @LineBreak
+  @ReferenceLink "compilerfunctions" "SizeOf" kann mit Interfaces benutzt werden, um die Größe des Interface zu ermitteln. 
+  @ReferenceLink "compilerfunctions" "OffsetOf" kann verwendet werden, um den Index der angegebenen Funktion zu ermitteln. 
+  @LineBreak
+  @LineBreak
+  Die @ReferenceLink "pseudotypes" "Pseudotypes" können für die Parameter der Funktion verwendet werden, jedoch
+  nicht für den Rückgabewert.
+  @LineBreak
+  @LineBreak
+  Hinweis: Das Konzept von Objekten und die innerhalb von PureBasic für ihre Verwendung vorgesehenen Möglichkeiten
+  wurde hauptsächlich für erfahrene Programmierer entwickelt. Allerdings ist das Verständnis dieser Konzepte 
+  und Fähigkeiten in keiner Weise eine Voraussetzung für die Schaffung professioneller Software oder Spiele.
+
+  @Example Einfaches Beispiel eines Objekt-Aufrufs
+
+@Code
+  ; Um auf ein externes Objekt (in einer DLL zum Beispiel) zugreifen zu
+  ; können, muss zuerst das Objekt-Interface deklariert werden:
+  ;
+  Interface MyObject
+    Move(x,y)
+    MoveF(x.f,y.f)
+    Destroy()
+  EndInterface
+  
+  ; CreateObject ist die Funktion, welche das Objekt (aus der DLL) erstellt,
+  ; dessen Interface gerade definiert wurde.
+  ; Erstelle das erste Objekt...
+  ;
+  Object1.MyObject = MyCreateObject()
+  
+  ; Und das zweite.
+  ;
+  Object2.MyObject = MyCreateObject()
+  
+  ; Dann können die gerade definierten Funktionen verwendet werden,
+  ; um auf das gewünschte Objekt zuzugreifen.
+  ;
+  Object1\Move(10, 20)
+  Object1\Destroy()
+  
+  Object2\MoveF(10.5, 20.1)
+  Object2\Destroy()
+@EndCode
+
+
+  @Example Beispiel mit 'Extends'
+
+@Code
+  ; Definieren eines einfachen Würfel Interface Objekts.
+  ;
+  Interface Cube
+    GetPosition()
+    SetPosition(x)
+    GetWidth()
+    SetWidth(Width)
+  EndInterface
+  
+  Interface ColoredCube Extends Cube
+    GetColor()
+    SetColor(Color)
+  EndInterface
+  
+  Interface TexturedCube Extends Cube
+    GetTexture()
+    SetTexture(TextureID)
+  EndInterface
+  
+  ; Die Interfaces für 3 verschiedene Objekte wurden jetzt definiert, diese Objekte beinhalten:
+  ;
+  ; - 'Cube', welches die Get/SetPosition() und Get/SetWidth() Funktionen besitzt.
+  ; - 'ColoredCube', welches die Get/SetPosition(), Get/SetWidth() und Get/SetColor() Funktionen besitzt.
+  ; - 'TexturedCube', welches die Get/SetPosition(), Get/SetWidth() und Get/SetTexture() Funktionen besitzt.
+  ;
+@EndCode

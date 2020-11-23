@@ -1,0 +1,1012 @@
+;
+;     CGI library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library CGI
+
+@Overview
+  CGI stands for "Common Gateway Interface" and allows creation of server side application.
+  This library provides all commands needed to receive requests or files, answer  it and
+  do various other operations. Both CGI and FastCGI mode are
+  supported.
+  @LineBreak
+  @LineBreak
+  The @InternetLink "https://en.wikipedia.org/wiki/Common_Gateway_Interface" "Wikipedia article on CGI" provides a good starting point for 
+  people new to CGI.
+    
+@CommandList
+
+@ExampleFile All CGI.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = CGICookieName(Index)
+
+@Description
+  Returns the name of the specified cookie.
+  
+@Parameter "Index"
+  The index of the cookie to get the name. The first index value starts from 0.
+  To get the number of available cookie, use @@CountCGICookies.
+
+@ReturnValue
+  Returns the name of the specified cookie.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html") ; Write the headers to inform the browser of the content format
+  WriteCGIHeader(#PB_CGI_HeaderSetCookie  , "mycookie=hello", #PB_CGI_LastHeader) ; Write one cookie named 'mycookie'
+  
+  WriteCGIString("<html><title>PureBasic - cookies</title><body>" +
+                 "NbCookies: " + CountCGICookies() + "<br><br>")
+
+  ; List the all cookies and display their name and value
+  ;
+  For k = 0 To CountCGICookies()-1 
+    WriteCGIString(CGICookieName(k)+": " + CGICookieValue(CGICookieName(k)) + "<br>")
+  Next
+    
+  WriteCGIString("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@CountCGICookies, @@CGICookieValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = CGICookieValue(Name$)
+
+@Description
+  Returns the value of the specified cookie.
+  
+@Parameter "Name$"
+  The name of the cookie to get the value. The cookie name is case-sensitive.
+  @@CGICookieName can be used to get the name of a specified cookie.
+  To get the number of available cookie, use @@CountCGICookies.
+
+@ReturnValue
+  Returns the value of the specified cookie.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html") ; Write the headers to inform the browser of the content format
+  WriteCGIHeader(#PB_CGI_HeaderSetCookie  , "mycookie=hello", #PB_CGI_LastHeader) ; Write one cookie named 'mycookie'
+  
+  WriteCGIString("<html><title>PureBasic - cookies</title><body>" +
+                 "NbCookies: " + CountCGICookies() + "<br><br>")
+
+  ; List the all cookies and display their name and value
+  ;
+  For k = 0 To CountCGICookies()-1 
+    WriteCGIString(CGICookieName(k)+": " + CGICookieValue(CGICookieName(k)) + "<br>")
+  Next
+
+  WriteCGIString("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@CountCGICookies, @@CGICookieName
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CountCGICookies()
+
+@Description
+  Returns the number of available cookies. The cookies are small persitent files stored in the web browser to 
+  allow to remember a context and ease future navigation when loading the same page later on. Please note than European legislation
+  now impose to inform users that cookies are not being used to gather information unnecessarily.
+    
+@NoParameters
+
+@ReturnValue
+  Returns the number of available cookies. The name and value of cookies can be get with 
+  @@CGICookieName and @@CGICookieValue.
+
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html") ; Write the headers to inform the browser of the content format
+  WriteCGIHeader(#PB_CGI_HeaderSetCookie  , "mycookie=hello", #PB_CGI_LastHeader) ; Write one cookie named 'mycookie'
+  
+  WriteCGIString("<html><title>PureBasic - cookies</title><body>" +
+                 "NbCookies: " + CountCGICookies() + "<br><br>")
+
+  WriteCGIString("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@CGICookieName, @@CGICookieValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CountCGIParameters()
+
+@Description
+  Returns the number of available parameters from GET or POST requests.
+    
+@NoParameters
+
+@ReturnValue
+  Returns the number of available parameters from GET or POST requests. Parameter information can be get with 
+  @@CGIParameterName, @@CGIParameterValue and @@CGIParameterType.
+
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+  WriteCGIString("<html><title>PureBasic - parameters</title><body>" +
+                 "NbParameters: " + CountCGIParameters() + "<br><br>")
+
+  WriteCGIString("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@CGIParameterName, @@CGIParameterValue, @@CGIParameterType, @@CGIParameterData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CGIParameterName(Index)
+
+@Description
+  Returns the name of the specified parameter.
+  
+@Parameter "Index"
+  The index of the parameter to get the name. The first index value starts from 0.
+  To get the number of available parameters, use @@CountCGIParameters.
+
+@ReturnValue
+  Returns the name of the specified parameter.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+  WriteCGIString("<html><title>PureBasic - parameters</title><body>" +
+                 "NbParameters: " + CountCGIParameters() + "<br><br>")
+  
+  ; List the all parameters and display their name
+  ;
+  For k = 0 To CountCGIParameters()-1 
+    WriteCGIString(CGIParameterName(k)+"<br>")
+  Next
+  
+  WriteCGIString("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@CountCGIParameters, @@CGIParameterValue, @@CGIParameterType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CGIParameterValue(Name$ [, Index])
+
+@Description
+  Returns the value of the specified parameter.
+  
+@Parameter "Name$"
+  The name of the parameter to get the value. The parameter name is case-sensitive.
+  @@CGIParameterName can be used to get the name of a specified parameter.
+  To get the number of available parameters, use @@CountCGIParameters. This
+  parameter will be ignored if an 'Index' is specified.
+
+@OptionalParameter "Index"
+  The index of the parameter to get the value. The first index value starts from 0.
+  If specified, the 'Name$' parameter value is ignored (excepts if sets to @#PB_Ignore).
+
+@ReturnValue
+  Returns the value of the specified parameter.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+ 
+  WriteCGIString("<html><title>PureBasic - parameters</title><body>" +
+                 "NbParameters: " + CountCGIParameters() + "<br><br>")
+  
+  ; List the all parameters and display their name and value
+  ;
+  For k = 0 To CountCGIParameters()-1 
+    WriteCGIString(CGIParameterName(k) + ": " + CGIParameterValue("", k) + "<br>")
+  Next
+  
+  WriteCGIString("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@CountCGIParameters, @@CGIParameterName, @@CGIParameterType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CGIParameterType(Name$ [, Index])
+
+@Description
+  Returns the type of the specified parameter.
+  
+@Parameter "Name$"
+  The name of the parameter to get the type. The parameter name is case-sensitive.
+  @@CGIParameterName can be used to get the name of a specified parameter.
+  To get the number of available parameters, use @@CountCGIParameters.
+
+@OptionalParameter "Index"
+  The index of the parameter to get the type. The first index value starts from 0.
+  If specified, the 'Name$' parameter value is ignored (excepts if sets to @#PB_Ignore).
+
+@ReturnValue
+  Returns the type of the specified parameter. It can be one of the following value:
+@FixedFont
+  @#PB_CGI_Text: the parameter is a string
+  @#PB_CGI_File: the parameter is a binary file. @@CGIParameterValue will returns the original filename
+                and @@CGIParameterData can be used to retrieve the binary data.
+@EndFixedFont
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+  WriteCGIString("<html><title>PureBasic - parameters</title><body>" +
+                 "NbParameters: " + CountCGIParameters() + "<br><br>")
+  
+  ; List the all parameters and display their name
+  ;
+  For k = 0 To CountCGIParameters()-1
+    If CGIParameterType("", k) = #PB_CGI_File
+      WriteCGIString("[File] "+CGIParameterName(k)+" (filename: "+CGIParameterValue("", k)+")<br>")
+    Else
+      WriteCGIString("[String] "+CGIParameterName(k)+" (value: "+CGIParameterValue("", k)+")<br>")
+    EndIf
+  Next
+  
+  WriteCGIString("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@CGIParameterName, @@CGIParameterValue, @@CGIParameterData, @@CGIParameterDataSize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Result = CGIParameterData(Name$ [, Index])
+
+@Description
+  Returns the memory buffer address of the specified parameter data.
+  
+@Parameter "Name$"
+  The name of the parameter to get the type. The parameter name is case-sensitive.
+  @@CGIParameterName can be used to get the name of a specified parameter.
+  To get the number of available parameters, use @@CountCGIParameters.
+
+@OptionalParameter "Index"
+  The index of the parameter to get the type. The first index value starts from 0.
+  If specified, the 'Name$' parameter value is ignored (excepts if sets to @#PB_Ignore).
+
+@ReturnValue
+  Returns the memory buffer address of the specified parameter data. 
+  The parameter type has to be @#PB_CGI_File.
+  @@CGIParameterDataSize can be used to get the size of the memory buffer.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+  WriteCGIString("<html><title>PureBasic - parameters</title><body>" +
+                 "NbParameters: " + CountCGIParameters() + "<br><br>")
+  
+  ; List the all parameters and display their name
+  ;
+  For k = 0 To CountCGIParameters()-1
+    If CGIParameterType("", k) = #PB_CGI_File
+      WriteCGIString("[File] "+CGIParameterName(k)+" (filename: '"+CGIParameterValue("", k) +
+                                                   "' - size: " + CGIParameterDataSize("", k) + 
+                                                   " bytes - *buffer: " + CGIParameterData("", k) + ")<br>")
+    EndIf
+  Next
+  
+  WriteCGIString("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@CGIParameterName, @@CGIParameterValue, @@CGIParameterType, @@CGIParameterDataSize
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CGIParameterDataSize(Name$ [, Index])
+
+@Description
+  Returns the size of the specified parameter data size.
+  
+@Parameter "Name$"
+  The name of the parameter to get the type. The parameter name is case-sensitive.
+  @@CGIParameterName can be used to get the name of a specified parameter.
+  To get the number of available parameters, use @@CountCGIParameters.
+
+@OptionalParameter "Index"
+  The index of the parameter to get the type. The first index value starts from 0.
+  If specified, the 'Name$' parameter value is ignored (excepts if sets to @#PB_Ignore).
+
+@ReturnValue
+  Returns the data size (in bytes) of the specified parameter. @@CGIParameterData can be
+  used to get the memory buffer address of the parameter.
+  The parameter type has to be @#PB_CGI_File.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+  WriteCGIString("<html><title>PureBasic - parameters</title><body>" +
+                 "NbParameters: " + CountCGIParameters() + "<br><br>")
+  
+  ; List the all parameters and display their name
+  ;
+  For k = 0 To CountCGIParameters()-1
+    If CGIParameterType("", k) = #PB_CGI_File
+      WriteCGIString("[File] "+CGIParameterName(k)+" (filename: '"+CGIParameterValue("", k) +
+                                                   "' - size: " + CGIParameterDataSize("", k) + 
+                                                   " bytes - *buffer: " + CGIParameterData("", k) + ")<br>")
+    EndIf
+  Next
+  
+  WriteCGIString("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@CGIParameterName, @@CGIParameterValue, @@CGIParameterType, @@CGIParameterData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Result = CGIBuffer()
+
+@Description
+  For advanced users. Returns the memory buffer address of the raw CGI input (only useful for
+  POST request type). It can be useful to do extra parsing not supported by this library while
+  still using other commands. The size of the buffer is the value
+  returned by @@ReadCGI.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the memory buffer address of the raw CGI input, or zero if an error occured.
+  
+@Example
+@Code
+  If Not InitCGI()
+    End
+  EndIf
+  
+  BufferSize = ReadCGI()
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+  WriteCGIString("<html><title>PureBasic - raw buffer</title><body>")  
+  If CGIBuffer()
+    WriteCGIString("Raw buffer content: <br><pre>" + PeekS(CGIBuffer(), BufferSize, #PB_Ascii) + "</pre>")
+  EndIf
+  
+  WriteCGIString("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@ReadCGI
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = CGIVariable(Name$)
+
+@Description
+  Gets the specified CGI environment variable content. When the CGI is loaded, many information are sent from the web
+  server to the CGI application through environment variables.
+  
+@Parameter "Name$"
+  The name of the variable to get. It can be a custom value or one of following predefined constants:
+@FixedFont
+  @#PB_CGI_AuthType          : the authentication method used by the web browser if any authentication 
+                              method was used. This is not set unless the script is protected.
+        
+  @#PB_CGI_ContentLength     : used for scripts that are receiving form data using the POST method. 
+                              This variable tells the byte length of the CGI input data stream. This is 
+                              required to read the data from the standard input with the POST method.
+        
+  @#PB_CGI_HeaderContentType : tells the media type of data being received from the user. 
+                              This is used for scripts called using the POST method.
+  @#PB_CGI_DocumentRoot      : the root path to the home HTML page for the server.
+  @#PB_CGI_GatewayInterface  : the version of the common gateway Interface (CGI) specification 
+                              being used to exchange the data between the client and server. 
+                              This is usually CGI/1.1 for the current revision level of 1.1.
+  @#PB_CGI_PathInfo          : extra path information added to the end of the URL that 
+                              accessed the server side script program.
+  @#PB_CGI_PathTranslated    : a translated version of the PATH_INFO variable translated 
+                              by the webserver from virtual to physical path information.
+  @#PB_CGI_QueryString       : this string contains any information at the end of the server side script 
+                              path that followed a question mark. Used to Return data if the GET method 
+                              was used by a form. There are length restrictions to the QUERY_STRING. 
+        
+  @#PB_CGI_RemoteAddr        : the IP address of the client computer.
+  @#PB_CGI_RemoteHost        : the fully qualified domain name of the client machine making the 
+                              HTTP request. It may not be possible to determine this name since 
+                              many client computers names are not recorded in the DNS system.
+  @#PB_CGI_RemoteIdent       : the ability to use this variable is limited to servers that support RFC 931. 
+                              This variable may contain the client machine's username, but it is intended 
+                              to be used for logging purposes only, when it is available.
+  @#PB_CGI_RemotePort        : the clients requesting port. 
+  @#PB_CGI_RemoteUser        : if the CGI script was protected and the user had to be logged in to 
+                              get access to the script, this value will contain the user's log in name.
+  @#PB_CGI_RequestURI        : the path to the requested file by the client.
+  @#PB_CGI_REquestMethod     : describes the request method used by the browser 
+                              which is usually GET, POST, Or HEAD.
+        
+  @#PB_CGI_ScriptName        : the virtual path of the CGI script being executed.
+  @#PB_CGI_ScriptFilename    : the local filename of the script  being executed.
+  @#PB_CGI_ServerAdmin       : the e-mail address of the server administrator. 
+  @#PB_CGI_ServerName        : the server hostname, IP address Or DNS alias name shown as a 
+                              self referencing URL. This does not include the protocol identifier 
+                              such as "HTTP:", the machine name, or port number.
+  @#PB_CGI_ServerPort        : the port number the HTTP requests and responses are being sent on.
+  @#PB_CGI_ServerProtocol    : this value is usually HTTP which describes the protocol 
+                              being used between the client and server computers. 
+  @#PB_CGI_ServerSignature   : server information specifying the name and version 
+                              of the web server and the port being serviced.
+  @#PB_CGI_ServerSoftware    : the name and version of the web server.
+        
+  @#PB_CGI_HttpAccept        : the media types of data that the client browser can accept. 
+                              These data types are separated by commas. 
+  @#PB_CGI_HttpAcceptEncoding: the encoding type the client browser accepts.
+  @#PB_CGI_HttpAcceptLanguage: the language the client browser accepts.
+  @#PB_CGI_HttpCookie        : used as an environment variable that contains cookies 
+                              associated with the server domain from the browser.
+  @#PB_CGI_HttpForwarded     : the forwarded page URL.
+  @#PB_CGI_HttpHost          : hostname from where the HTPP requests comes from.
+  @#PB_CGI_HttpPragma        : HTTP pragmas
+  @#PB_CGI_HttpReferer       : the page address where the HTTP request originated. 
+  @#PB_CGI_HttpUserAgent     : the name of the client web browser being used to make the request.
+@EndFixedFont
+
+
+@ReturnValue
+  Returns the value of the specified CGI environment variable.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+  WriteCGIString("<html><title>PureBasic - variables</title><body>")  
+  
+  Procedure WriteCGIConstant(Constant$)
+    WriteCGIString(Constant$ + ": " + CGIVariable(Constant$)+"<br>")
+  EndProcedure
+  
+  WriteCGIConstant(#PB_CGI_AuthType)
+  WriteCGIConstant(#PB_CGI_ContentLength)
+  WriteCGIConstant(#PB_CGI_HeaderContentType)
+  WriteCGIConstant(#PB_CGI_DocumentRoot)
+  WriteCGIConstant(#PB_CGI_GatewayInterface)
+  WriteCGIConstant(#PB_CGI_PathInfo)
+  WriteCGIConstant(#PB_CGI_PathTranslated)
+  WriteCGIConstant(#PB_CGI_QueryString)
+  WriteCGIConstant(#PB_CGI_RemoteAddr)
+  WriteCGIConstant(#PB_CGI_RemoteHost)
+  WriteCGIConstant(#PB_CGI_RemoteIdent)
+  WriteCGIConstant(#PB_CGI_RemotePort)
+  WriteCGIConstant(#PB_CGI_RemoteUser)
+  WriteCGIConstant(#PB_CGI_RequestURI)
+  WriteCGIConstant(#PB_CGI_RequestMethod)
+  WriteCGIConstant(#PB_CGI_ScriptName)
+  WriteCGIConstant(#PB_CGI_ScriptFilename)
+  WriteCGIConstant(#PB_CGI_ServerAdmin)
+  WriteCGIConstant(#PB_CGI_ServerName)
+  WriteCGIConstant(#PB_CGI_ServerPort)
+  WriteCGIConstant(#PB_CGI_ServerProtocol)
+  WriteCGIConstant(#PB_CGI_ServerSignature)
+  WriteCGIConstant(#PB_CGI_ServerSoftware)
+  WriteCGIConstant(#PB_CGI_HttpAccept)
+  WriteCGIConstant(#PB_CGI_HttpAcceptEncoding)
+  WriteCGIConstant(#PB_CGI_HttpAcceptLanguage)
+  WriteCGIConstant(#PB_CGI_HttpCookie)
+  WriteCGIConstant(#PB_CGI_HttpForwarded)
+  WriteCGIConstant(#PB_CGI_HttpHost)
+  WriteCGIConstant(#PB_CGI_HttpPragma)
+  WriteCGIConstant(#PB_CGI_HttpReferer)
+  WriteCGIConstant(#PB_CGI_HttpUserAgent)
+  
+  WriteCGIString("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@ReadCGI
+
+@SupportedOS
+
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishFastCGIRequest()
+
+@Description
+  Finish the current FastCGI request and free all resources associated to it. It's not mandatory
+  to use this command, as the request will be automatically finished when @@WaitFastCGIRequest()
+  is called again, or when the thread ends. It can still be useful in some special case where
+  resources are light before doing other processing.
+        
+@NoParameters
+
+@ReturnValue
+  Returns non-zero if a new request has been processed.
+
+@Example
+@Code
+  If Not InitCGI()
+    End
+  EndIf
+  
+  If Not InitFastCGI(5600) ; Create the FastCGI program on port 5600
+    End
+  EndIf
+  
+  While WaitFastCGIRequest()
+  
+    If ReadCGI()
+      WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+      WriteCGIString("<html><title>PureBasic - FastCGI</title><body>" +
+                     "Hello from PureBasic FastCGI !<br>" +
+                     "Actual time: <b>"+FormatDate("%hh:%ii", Date()) + "</b>" +
+                     "</body></html>")
+                     
+      FinishFastCGIRequest()
+      
+      ; Do some processing
+      ;
+      Delay(1000) ; Simulate large processing
+      
+    EndIf
+  Wend
+@EndCode
+
+@SeeAlso
+  @@InitCGI, @@InitFastCGI, @@WaitFastCGIRequest
+
+@SupportedOS
+  
+ 
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitCGI([MaxRequestSize])
+
+@Description
+  Initializes the CGI environment. This function has to be called successfully before using any other commands
+  of this library.
+  
+@OptionalParameter "MaxRequestSize"
+  The maximum request size, in bytes (default is 50 MB). When sending big data through CGI (like binary files),
+  it could be useful to specify a larger value.
+
+@ReturnValue
+  Returns non-zero if the CGI environment has been correctly initialized.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+  WriteCGIString("<html><title>PureBasic - variables</title><body>" +
+                 "Hello from PureBasic CGI !" +
+                 "</body></html>")
+@EndCode
+
+@SeeAlso
+  @@ReadCGI
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitFastCGI(LocalPort)
+
+@Description
+  Initializes FastCGI support. Once called, all the CGI commands switch automatically to FastCGI support.
+  This library support threaded FastCGI processing, when enabling the 'thread-mode' in PureBasic.
+  FastCGI support is only supported through a local socket. @@InitCGI needs to be called before
+  using this command. @LineBreak
+  @LineBreak
+  Unlike a regular CGI program which is launched at every request, the FastCGI program stays in memory
+  once launched and can handle any number of requests. It can be very useful if the CGI
+  initialization is time consumming (for example connecting a database), so it's only performed
+  once at start.
+      
+@Parameter "LocalPort"
+  The local port to bind the FastCGI application. The web-server needs to be configured to use this port.
+
+@ReturnValue
+  Returns non-zero if the FastCGI environment has been correctly initialized.
+
+@Remarks
+  Using FastCGI can be much easier for development than standard CGI, as the program can stay in memory and be
+  debugged as usual PureBasic application. @LineBreak
+  @LineBreak
+  To configure FastCGI support on Apache, you need to activate the 'mod_proxy' and 'mod_proxy_fcgi' modules, and then add
+  a 'ProxyPass' declaration in the configuration:
+@FixedFont  
+  ProxyPass /myfastcgiapp/ fcgi://localhost:5600/
+@EndFixedFont  
+  Here, the url '/myfastcgiapp' will redirect to the FastCGI program binded on the port 5600. It's also possible to
+  run the FastCGI program on distant server.
+@Example
+@Code
+  If Not InitCGI()
+    End
+  EndIf
+  
+  If Not InitFastCGI(5600) ; Create the FastCGI program on port 5600
+    End
+  EndIf
+  
+  While WaitFastCGIRequest()
+  
+    If ReadCGI()
+      WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+      WriteCGIString("<html><title>PureBasic - FastCGI</title><body>" +
+                     "Hello from PureBasic FastCGI !<br>" +
+                     "Actual time: <b>"+FormatDate("%hh:%ii", Date()) + "</b>" +
+                     "</body></html>")
+    EndIf
+    
+  Wend
+@EndCode
+
+@SeeAlso
+  @@InitCGI, @@WaitFastCGIRequest
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReadCGI()
+
+@Description
+  Reads the CGI request input. @@InitCGI has to be called succesfully before trying to the read the CGI input.
+  
+@NoParameters
+  
+@ReturnValue
+  Returns non-zero if the CGI request has been successfully read. If the request was to big or another
+  error occured, zero is returned and the CGI program should be ended.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+  WriteCGIString("<html><title>PureBasic - variables</title><body>" +
+                 "Hello from PureBasic CGI !" +
+                 "</body></html>")
+@EndCode
+
+@SeeAlso
+  @@InitCGI
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteCGIFile(Filename$)
+
+@Description
+  Writes a whole file to the CGI output. When sending binary data, the 'content-type' header should be set to 
+  'application/octet-stream'.
+  
+@Parameter "Filename$"
+  The file to write to the CGI output.
+  
+@ReturnValue
+  Returns non-zero if the file has been successfully written to the CGI output.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "application/octet-stream")
+  WriteCGIHeader(#PB_CGI_HeaderContentDisposition, "attachment; filename=test.bmp", #PB_CGI_LastHeader)
+  
+  WriteCGIFile(#PB_Compiler_Home + "examples/sources/data/PureBasic.bmp")
+@EndCode
+
+@SeeAlso
+  @@InitCGI, @@WriteCGIHeader
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteCGIData(*Buffer, Size)
+
+@Description
+  Writes binary data to the CGI output. When sending binary data, the 'content-type' header should be set to 
+  'application/octet-stream'.
+  
+@Parameter "*Buffer"
+  The memory buffer to write.
+  
+@Parameter "Size"
+  The size (in bytes) to write.
+
+@ReturnValue
+  Returns non-zero if the data has been successfully written to the CGI output.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "application/octet-stream")
+  WriteCGIHeader(#PB_CGI_HeaderContentDisposition, "attachment; filename=image.png", #PB_CGI_LastHeader)
+  
+  If ReadFile(0, #PB_Compiler_Home + "examples/sources/data/world.png")
+    Size = Lof(0)
+    *Buffer = AllocateMemory(Size)
+    ReadData(0, *Buffer, Size) ; Read the whole file into the new allocated buffer
+    
+    WriteCGIData(*Buffer, Size) ; Write the whole buffer to the CGI output
+    
+    CloseFile(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@InitCGI, @@WriteCGIHeader, @@WriteCGIFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteCGIHeader(Header$, Value$ [, Flags])
+
+@Description
+  Writes a header to the CGI output. The headers needs to be written before
+  any other data.
+  
+@Parameter "Header$"
+  The header to write. It can be a custom or one of the following value:
+@FixedFont
+  @#PB_CGI_HeaderContentLength : the length (in bytes) of the output stream (implies binary data).
+  @#PB_CGI_HeaderContentType   : the MIME content type of the output stream.
+  @#PB_CGI_HeaderExpires       : date and time when the document is no longer valid 
+                                and should be reloaded by the browser.
+  @#PB_CGI_HeaderLocation      : server redirection (cannot be sent as part of a complete header).
+  @#PB_CGI_HeaderPragma        : turns document caching on and off.
+  @#PB_CGI_HeaderStatus        : status of the request (cannot be sent as part of a complete header).
+  @#PB_CGI_HeaderContentDisposition : allows to specify a default filename when sending out a file.
+  @#PB_CGI_HeaderRefresh       : client reloads specified document.
+  @#PB_CGI_HeaderSetCookie     : client stores specified data, 
+                                useful for keeping track of data between requests.
+@EndFixedFont
+  
+@Parameter "Value$"
+  The header value to write.
+
+@OptionalParameter "Flags"
+  The string encoding to use. It can be one of the following value:
+@FixedFont
+  @#PB_Ascii (default)
+  @#PB_UTF8 
+@EndFixedFont
+  Combined with one of the following value:
+@FixedFont
+  @#PB_CGI_LastHeader : This is the last header written, meaning no more headers can be sent. 
+                       This flag is mandatory for the last header written.
+@EndFixedFont
+  
+@ReturnValue
+  Returns non-zero if the header has been successfully written to the CGI output.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader)
+  
+  WriteCGIString("<html><title>PureBasic - test</title><body>" +
+                 "Hello from PureBasic CGI<br>" +
+                 "</body></html>")
+@EndCode
+
+@SeeAlso
+  @@InitCGI, @@WriteCGIFile, @@WriteCGIStringN
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteCGIString(String$ [, Encoding])
+
+@Description
+  Write a string to the CGI output.
+  
+@Parameter "String$"
+  The string to write.
+  
+@OptionalParameter "Encoding"
+  The string encoding to use. It can be one of the following value:
+@FixedFont
+  @#PB_UTF8 (default)
+  @#PB_Ascii
+@EndFixedFont
+
+@ReturnValue
+  Returns non-zero if the string has been successfully written to the CGI output.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader)
+  
+  WriteCGIString("<html><title>PureBasic - test</title><body>" +
+                 "Hello from PureBasic CGI<br>" +
+                 "Actual time: <b>"+FormatDate("%hh:%ii", Date()) + "</b>" +
+                 "</body></html>")
+@EndCode
+
+@SeeAlso
+  @@InitCGI, @@WriteCGIHeader, @@WriteCGIStringN
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteCGIStringN(String$ [, Encoding])
+
+@Description
+  Write a string to the CGI output, including a carriage return.
+  
+@Parameter "String$"
+  The string to write.
+  
+@OptionalParameter "Encoding"
+  The string encoding to use. It can be one of the following value:
+@FixedFont
+  @#PB_UTF8 (default)
+  @#PB_Ascii
+@EndFixedFont
+
+@ReturnValue
+  Returns non-zero if the string has been successfully written to the CGI output.
+  
+@Example
+@Code
+  If Not InitCGI() Or Not ReadCGI()
+    End
+  EndIf
+  
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader)
+  
+  ; Using cariage return will make the page more readable when using "Show page source" in the browser
+  ;
+  WriteCGIStringN("<html><title>PureBasic - test</title><body>")
+  WriteCGIStringN("Hello from PureBasic CGI<br>")
+  WriteCGIStringN("Actual time: <b>"+FormatDate("%hh:%ii", Date()) + "</b>")
+  WriteCGIStringN("</body></html>")
+@EndCode
+
+@SeeAlso
+  @@InitCGI, @@WriteCGIHeader, @@WriteCGIString
+ 
+@SupportedOS
+ 
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WaitFastCGIRequest()
+
+@Description
+  Waits for a new incoming request. This command will halt the program execution
+  until a new request is available. @@InitFastCGI needs to be called successfully before
+  using this command.  
+      
+@NoParameters
+
+@ReturnValue
+  Returns non-zero if a new request has been processed.
+
+@Example
+@Code
+  If Not InitCGI()
+    End
+  EndIf
+  
+  If Not InitFastCGI(5600) ; Create the FastCGI program on port 5600
+    End
+  EndIf
+  
+  While WaitFastCGIRequest()
+  
+    If ReadCGI()
+      WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
+  
+      WriteCGIString("<html><title>PureBasic - FastCGI</title><body>" +
+                     "Hello from PureBasic FastCGI !<br>" +
+                     "Actual time: <b>"+FormatDate("%hh:%ii", Date()) + "</b>" +
+                     "</body></html>")
+    EndIf
+  Wend
+@EndCode
+
+@SeeAlso
+  @@InitCGI, @@InitFastCGI, @@FinishFastCGIRequest
+
+@SupportedOS
+  

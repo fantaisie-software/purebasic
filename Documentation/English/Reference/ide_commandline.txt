@@ -1,0 +1,109 @@
+
+@Title Command-line options for the IDE
+
+  The PureBasic IDE allows you to modify the paths and files being used 
+  from the command-line. This allows you to create several shortcuts that 
+  start the IDE with different configurations for different users, or for 
+  different projects.
+
+@LineBreak
+@LineBreak
+
+  There are also options for compiling PureBasic projects directly from the command-line.
+  Building a project from the command-line involves the same actions like at choosing the
+  'Build Target' or 'Build all Targets' from the @ReferenceLink "ide_compiler" "compiler menu".
+
+@LineBreak
+@LineBreak
+
+; == WINDOWS ONLY ==
+@OS Windows
+
+ General options:
+@FixedFont
+  /VERSION                 displays the IDE version and exits
+  /HELP or /?              displays a description of the command-line arguments
+@EndFixedFont
+
+  Options for launching the IDE:
+@fixedfont
+  /P <Preferences file>    loads/saves all the configuration to/from the given file
+  /T <Templates file>      loads/saves the code templates from/to the given file
+  /A <tools file>          loads/saves the configuration of the external tool from/to this file
+  /S <Source path>         overwrites the "Source path" setting from the preferences
+  /E <Explorer path>       starts the Explorer tool with the given path
+  /L <Line number>         moves the cursor to the given line number in the last opened file
+  /H <HistoryDatabase>     specify the file to use for the session history database
+  /NOEXT                   disables the registering of the .pb extension in the registry
+  /LOCAL                   puts all preferences in the PureBasic directory instead of the user profile location
+  /PORTABLE                the same as /LOCAL and /NOEXT combined
+@endfixedfont
+
+  Options for building projects:
+@FixedFont
+  /BUILD <file>            specifies the project file to build
+  /TARGET <target>         specifies the target to build (the default is to build all targets)
+  /QUIET                   hides all build messages except errors
+  /READONLY                does not update the project file after compiling (with new access time and build counters)
+@EndFixedFont
+
+  The default files for /P /T and /A are saved in the %APPDATA%\PureBasic\ directory on the system.
+@LineBreak
+@LineBreak
+  The /NOEXT command is useful when you have @ReferenceLink "several_pb" "several different PB versions at once"
+  (for testing of beta versions for example), but want the .pb extension to be associated 
+  with only one of them.
+  The /PORTABLE command can be used to keep all configuration inside the local directory to easily copy
+  PureBasic to different computers (or run it from USB sticks for example).
+
+@LineBreak
+@LineBreak
+  Example:
+@Code
+  PureBasic.exe Example.pb /PORTABLE
+@EndCode
+
+; == LINUX / MAC ONLY ==
+; a dirty trick: the @formatelse just inverse the previous "ignore text" flag, so we use it here as an else for the @os statement
+@formatelse
+
+ General options:
+@FixedFont
+  -v or --version             displays the IDE version and exits
+  -h or --help                displays a description of the command-line arguments
+@EndFixedFont
+
+  Options for launching the IDE:
+@fixedfont
+  -p or --preferences <file>    loads/saves all the configuration to/from the given file
+  -t or --templates <file>      loads/saves the code templates from/to the given file
+  -a or --tools <file>          loads/saves the configuration of the external tool from/to this file
+  -s or --sourcepath <path>     overwrites the "Source path" setting from the preferences
+  -e or --explorerpath <path>   starts the Explorer tool with the given path
+  -l or --line <Line number>    moves the cursor to the given line number in the last opened file
+  -H or --history <file>        specify the file to use for the session history database
+  
+@endfixedfont
+
+  Options for building projects:
+@FixedFont
+  -b or --build <file>        specifies the project file to build
+  -T or --target <target>     specifies the target to build (the default is to build all targets)
+  -q or --quiet               hides all build messages except errors
+  -r or --readonly            does not update the project file after compiling (with new access time and build counters)
+@EndFixedFont
+
+  The default files for -p -t and -a are saved in the .purebasic 
+  subdirectory of your home directory.
+
+@formatendif
+; == END OS SPECIFIC ==
+
+@LineBreak
+@LineBreak
+
+  You can also put the filenames of source files to load on the command-line. You can 
+  even specify wildcards for them (so with "*.pb" you can load a whole directory).
+
+
+

@@ -1,0 +1,412 @@
+@Title Editing features
+
+  The PureBasic IDE acts like any other Text Editor when it comes to the basic editing features. 
+  The cursor keys as well as Page Up/Page Down, Home and End keys can be used to navigate through the code. 
+  Ctrl+Home navigates to the beginning of the file and Ctrl+End  to the End.
+@LineBreak
+@LineBreak
+  The default shortcuts Ctrl+C (copy), Ctrl+X (cut) and Ctrl+V (paste) can be used for editing.
+  The "Insert" key controls whether text is inserted or overwritten. The Delete key does a forward delete.
+  Holding down the Shift key and using the arrow keys selects text.
+@LineBreak
+@LineBreak
+  The shortcuts Ctrl+Shift+Up and Ctrl+Shift+Down allow you to move a line up or down.
+@LineBreak
+  The shortcut Ctrl+D duplicates a selection.
+@LineBreak
+@LineBreak
+  In Windows, the shortcuts Ctrl+Plus and Ctrl+Minus allow you to zoom in and out 
+  the display of all tabs and Ctrl+0 restores the default zoom. Linux and OSX users 
+  can create them themselves. The shortcut Ctrl+mouse wheel only zooms the current 
+  tab.
+@LineBreak
+@LineBreak
+  The shortcuts Ctrl+Tab and Ctrl+Shift+Tab allow you to move around the open tabs.
+@LineBreak
+@LineBreak
+  There are many shortcuts available, like Ctrl+Shift+U/L/X to change the case, etc.
+  Go to @ReferenceLink "ide_preferences" "Preferences" (menu "Files" / "Preferences / General / Shortcuts".
+@LineBreak
+@LineBreak
+  Furthermore, the IDE has many extra editing features specific to programming or PureBasic.
+@LineBreak
+@LineBreak
+
+
+@Section Indentation:
+  When you press enter, the indentation (number of space/tab at the beginning of the line) of the current
+  and next line will be automatically corrected depending on the @ReferenceLink "general_rules" "keywords" that exist on these lines.
+  A "block mode" is also available where the new line simply gets the same indentation as the previous one.
+  The details of this feature can be customized in the  @referencelink "ide_preferences" "preferences".
+
+
+@Section Tab characters:
+  By default, the IDE does not insert a real tab when pressing the Tab key, as many 
+  programmers see it as a bad thing to use real tabs in source code.
+@LineBreak
+@LineBreak
+  It instead inserts two spaces. This behavior can be changed in the Preferences.
+  See @referencelink "ide_preferences" "Customizing the IDE" for more information.
+
+
+@Section Special Tab behavior:
+  When the Tab key is pressed while nothing or only a few characters are selected, 
+  the Tab key acts as mentioned above (inserting a number of spaces, or a real tab if 
+  configured that way). 
+@LineBreak
+@LineBreak
+  However when one or more full lines are selected, the reaction is 
+  different. In that case at the beginning of each selected line, it will insert spaces or 
+  a tab (depending on the configuration). This increases the indentation of the whole selected block.
+@LineBreak
+@LineBreak
+  Marking several lines of text and pressing Shift+Tab reverses this behavior. It removes 
+  spaces/tabs at the start of each line in order to reduce the indentation of the whole block.
+
+
+@Section Indentation/Alignment of comments:
+  Similar to the special tab behavior above, the keyboard shortcuts Ctrl+E and Ctrl+Shift+E
+  (CMD+E and CMD+Shift+E on OSX) can be used to change the indentation of only the comments 
+  in a selected block of code. This helps in aligning comments at the end of code lines to
+  make the code more readable. The used shortcut can be configured in the
+  @referencelink "ide_preferences" "preferences".
+  
+
+@Section Selecting blocks of code:
+  The shortcut Ctrl+M (CMD+M on OSX) can be used to select the block of code that
+  contains caret position (i.e. the surrounding If block, loop or procedure).
+  Repeated usage of the shortcut selects further surrounding code blocks.
+@LineBreak
+@LineBreak
+  The shortcut Ctrl+Shift+M (CMD+Shift+M on OSX) reverses the behavior and reverts the 
+  selection to the block that was selected before the last usage of the Ctrl+M shortcut.
+@LineBreak
+@LineBreak
+  The used shortcuts can be configured in the @referencelink "ide_preferences" "preferences".
+
+@Section Double-clicking on source text:
+  Double-clicking on a word selects the whole word as usual. However in some cases, 
+  double-clicking has a special meaning:
+@LineBreak
+@LineBreak
+  When double-clicking on the name of a @ReferenceLink "procedures" "procedure" call, while
+  holding down the Ctrl Key, the cursor automatically jumps to the declaration of this procedure
+  (the source containing this must currently open or part of the same project).
+@LineBreak
+@LineBreak
+  When double-clicking on an @ReferenceLink "includes" "IncludeFile" or 
+  @ReferenceLink "includes" "XincludeFile" statement, the IDE will 
+  try to open that file. (This is only possible if the included file is written 
+  as a literal string, and not through for example a constant.)
+@LineBreak
+@LineBreak
+  In the same way, if you double-click on an IncludeBinary statement, the IDE will 
+  try to display that file in the internal @ReferenceLink "ide_tools" "file viewer".
+
+@Section Marking of matching Braces and Keywords:
+
+@Image ide_main_match.png
+
+  When the cursor is on an opening or closing brace the IDE will highlight the other brace that matches it. If a
+  matching brace could not be found (which is a syntax error in PureBasic) the IDE will highlight the current
+  brace in red. This same concept is applied to keywords. If the cursor is on a Keyword such as "If", the IDE
+  will underline this keyword and all keywords that belong to it such as "Else" or "EndIf". If there is a mismatch
+  in the keywords it will be underlined in red. The "Goto matching Keyword" menu entry described below can be
+  used to quickly move between the matching keywords.
+@LineBreak
+@LineBreak
+  The brace and keyword matching can be configured in the @ReferenceLink "ide_preferences" "Preferences".
+ 
+
+@Section Command help in the status bar:
+
+@Image ide_main_commandhelp.png
+
+  While typing, the IDE will show the needed parameters for any PureBasic function 
+  whose parameters you are currently typing. This makes it easy to see any more 
+  parameters you still have to add to this function. This also works for @ReferenceLink "procedures" "procedures", 
+  @ReferenceLink "prototypes" "prototypes", @ReferenceLink "interfaces" "interfaces" or 
+  @ReferenceLink "import_endimport" "imported functions" in your code as long as they are declared in the same source 
+  code or @ReferenceLink "ide_projects" "project".
+ 
+@Section Folding options:
+
+@Image ide_main_folding.png
+  When special folding keywords are encountered (@Keyword Procedure / @Keyword EndProcedure by default. 
+  More can be added), the IDE marks the region between these keywords on the left side 
+  next to the line numbers with a [-] at the starting point, followed by a vertical line to the end point.
+@LineBreak
+@LineBreak
+  By clicking on the [-], you can hide ("fold") that section of source code to keep a better 
+  overview of larger source files. The [-] will turn into a [+]. By clicking again, the code will 
+  again be shown ("unfolded") again.
+@LineBreak
+@LineBreak
+  Note: Even though the state of these folded code lines is remembered when you save/reopen the file, 
+  the actual created code file always contains all lines. This only affects the display of the code 
+  in the IDE, not the code itself.
+@LineBreak
+@LineBreak
+  Another default fold keyword is ";{" and ";}". Since ";" marks a comment in PB, these will be 
+  totally ignored by the compiler. However, they provide the possibility to place custom fold 
+  points that do not correspond to a specific PB keyword.
+
+
+@Section Auto complete:
+
+@Image ide_main_autocomplete.png
+  So that you do not have to remember the exact name of every command, there is the Auto complete 
+  feature to make things easier. 
+@LineBreak
+@LineBreak
+  After you have typed the beginning of a command, a list of possible matches to the word start 
+  you have just typed will be displayed. A list of options is also displayed when you typed a
+  structured variable or interface followed by a "\".
+@LineBreak
+@LineBreak
+  You can then select one of these words with the up/down keys and insert it at the point you 
+  are by pressing the Tab key. You can also continue typing while the list is open. It will select the 
+  first match that is still possible after what you typed, and close automatically when either 
+  you have just typed an exact match or if there are no more possible matches in the list.
+@LineBreak
+@LineBreak
+  Escape closes the auto complete list at any time. It also closes if you click with the mouse 
+  anywhere within the IDE.
+@LineBreak
+@LineBreak
+  Note: You can configure what is displayed in the Auto complete list, as well as turning off the
+  automatic popup (requiring a keyboard shortcut such as Ctrl+Space to open list) in the
+  Preferences.
+  See the Auto complete section of @referencelink "ide_preferences" "Customizing the IDE" for more information. 
+
+
+@Section Tools Panel on the side:
+
+@Image ide_main_toolspanel.png
+  Many tools to make navigating/editing the source code easier can be added to the Tools Panel 
+  on the side of the editor window. For an overview of them and how to configure them, 
+  see @referencelink ide_tools "Built-in Tools".
+
+
+@Section The Edit Menu:
+  Following is an explanation of the Items in the Edit menu. Note that many of the Edit 
+  menu items are also accessible by right clicking on the source code, which opens a popup menu.
+
+@Image ide_menu_edit.png
+
+@Bold Undo
+@LineBreak
+  Undoes the last done action in the code editing area. There is an undo buffer, 
+  so several actions can be undone.
+
+@LineBreak
+@LineBreak
+
+@Bold Redo
+@LineBreak
+  Redo the last action undone by the undo function.
+
+@LineBreak
+@LineBreak
+
+@Bold Cut
+@LineBreak
+  Copy the selected part of the source code to the clipboard and remove it from the code.
+
+@LineBreak
+@LineBreak
+
+@Bold Copy
+@LineBreak
+  Copy the selected text to the Clipboard without deleting it from the code.
+
+@LineBreak
+@LineBreak
+
+@Bold Paste
+@LineBreak
+  Insert the content of the Clipboard at the current position in the code. If any text is 
+  selected before this, it will be removed and replaced with the content of the Clipboard.
+
+@LineBreak
+@LineBreak
+
+@Bold "Insert comments"
+@LineBreak
+  Inserts a comment (";") before every line of the selected code block. This makes 
+  commenting large blocks of code easier than putting the ; before each line manually.
+
+@LineBreak
+@LineBreak
+
+@Bold "Remove comments"
+@LineBreak
+  Removes the comment characters at the beginning of each selected line. This reverts the 
+  "Insert comments" command, but also works on comments manually set.
+
+@LineBreak
+@LineBreak
+
+@Bold "Format indentation"
+@LineBreak
+  Reformats the indentation of the selected lines to align with the code above them and to
+  reflect the @ReferenceLink "general_rules" "keywords" that they contain. The rules for the indentation can be specified in the
+  @ReferenceLink "ide_preferences" "preferences".
+
+@LineBreak
+@LineBreak
+
+@Bold "Select all"
+  Selects the whole source code.
+
+@LineBreak
+@LineBreak
+
+@Bold Goto
+@LineBreak
+  This lets you jump to a specific line in your source code.
+
+@LineBreak
+@LineBreak
+
+@Bold "Goto matching Keyword"
+@LineBreak
+  If the cursor is currently on a keyword such as "If" this menu option jumps directly to the keyword
+  that matches it (in this case "EndIf").
+
+@LineBreak
+@LineBreak
+
+@Bold "Goto recent line"
+@LineBreak
+  The IDE keeps track of the lines you view. For example if you switch to a different line 
+  with the above Goto function, or with the @ReferenceLink "ide_tools" "Procedure Browser" tool. With this menu option 
+  you can jump back to the previous position. 20 such past cursor positions are remembered.
+@LineBreak
+@LineBreak
+  Note that this only records greater jumps in the code. Not if you just move up/down a few 
+  lines with the cursor keys.
+
+@LineBreak
+@LineBreak
+
+@Bold "Toggle current fold"
+@LineBreak
+  This opens/closes the fold point in which the cursor is currently located.
+
+@LineBreak
+@LineBreak
+
+@Bold "Toggle all Folds"
+@LineBreak
+  This opens/closes all fold points in the current source. Very useful to for example hide 
+  all procedures in the code. Or to quickly see the whole code again when some of the code is folded.
+
+@LineBreak
+@LineBreak
+
+@Bold "Add/Remove Marker"
+@LineBreak
+  Markers act like Bookmarks in the source code. There presence is indicated by a little arrow 
+  next to the line numbers. You can later jump to these markers with the "Jump to marker" command.
+@LineBreak
+@LineBreak
+  The "Add/Remove Marker" sets or removes a marker from the current line you are editing.
+@LineBreak
+@LineBreak
+  Note: You can also set/remove markers by holding down the Ctrl Key and clicking on the border that
+  holds the markers (not the Line-number part of it).
+
+@LineBreak
+@LineBreak
+
+@Bold "Jump to Marker"
+@LineBreak
+  This makes the cursor jump to the next marker position further down the code from the current 
+  cursor position. If there is no marker after the cursor position, it jumps to the first on in the 
+  source code. So by pressing the "Jump to Marker" shortcut (F2 by default) several times, you can 
+  jump to all the markers in the code.
+
+@LineBreak
+@LineBreak
+
+@Bold "Clear Markers"
+  This removes all markers from the current source code.
+
+@LineBreak
+@LineBreak
+
+@Bold "Find/Replace"
+
+@Image ide_edit_search.png
+
+  The find/replace dialog enables you to search for specific words in your code, and 
+  also to replace them with something else.
+@LineBreak
+@LineBreak
+  The "Find Next" button starts the search. The search can be continued after a match is found with the 
+  Find Next menu command (F3 by default).
+@LineBreak
+@LineBreak
+  You can make the search more specific by enabling one of the checkboxes:
+@LineBreak
+@underline "Case Sensitive" : Only text that matches the exact case of the search word will be found.
+@LineBreak
+@underline "Whole Words only" : Search for the given word as a whole word. Do not display results where the search word is part of another word.
+@LineBreak
+@underline "Don't search in Comments" : Any match that is found inside a comment is ignored.
+@LineBreak
+@underline "Don't search in Strings" : Any match that is found inside a literal string (in " ") is ignored.
+@LineBreak
+@underline "Search inside Selection only" : Searches only the selected region of code. This is really useful 
+  only together with the "Replace All" button, in which case it will replace any found match, but only inside the selected region.
+@LineBreak
+@LineBreak
+  By enabling the "Replace with" checkbox, you go into replace mode. "Find Next" will still only search, but 
+  with each click on the "Replace" button, the next match of the search word will be replaced by whatever is 
+  inside the "Replace with" box.
+@LineBreak
+@LineBreak
+  By clicking on "Replace All", all matches from the current position downwards will be replaced
+  (unless "Search inside Selection only" is set).
+
+@LineBreak
+@LineBreak
+
+@Bold "Find Next"
+@LineBreak
+  This continues the search for the next match of the last search started by the Find/Replace dialog.
+
+@LineBreak
+@LineBreak
+
+@Bold "Find Previous"
+@LineBreak
+  This continues the search for the previous match of the last search started by the Find/Replace dialog.
+
+@LineBreak
+@LineBreak
+
+@Bold "Find in Files"
+
+@Image ide_edit_searchfiles.png
+
+  The Find in Files Dialog lets you carry out a search inside many files in a specific directory.
+@LineBreak
+@LineBreak
+  You have to specify a search keyword, as well as a base directory ("root directory") in which to 
+  search. You can customize the searched files by specifying extension filters.
+  Any number of filters can be given separated by ",". (*.* or an empty extension field searches all files).
+  As with "Find/Replace", there are checkboxes to make the search more specific.
+@LineBreak
+@LineBreak
+  The "Include sub-directories" checkbox makes it search (recursively) inside any subdirectory of the given root directory too.
+@LineBreak
+@LineBreak
+  When starting the search, a separate window will be opened displaying the search results, giving the file, 
+  line number as well as the matched line of each result. 
+@LineBreak
+@LineBreak
+  Double-clicking on an entry in the result window opens 
+  that file in the IDE and jumps to the selected result line.
+

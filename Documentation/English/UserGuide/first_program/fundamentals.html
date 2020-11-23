@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Fundamentals of PureBasic - Your First Program - PureBasic User Guide</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Fundamentals of the PureBasic Language</h1>
+
+Before we start writing this first program in PureBasic, there are a few fundamentals that you
+ should know about PureBasic and always keep in your mind. These are used everywhere in PureBasic
+ and will save you a lot of trouble if you remember them. The PureBasic source code is a language
+ which has rules that must be followed if you want it to be correct, just as with any other
+ language (for computers or humans).
+
+<p><h2>General layout of a PureBasic program</h2>
+A program written in PureBasic consists of one or more files containing the source code
+ (the instructions that the computer carries out) for your program. The compiler
+ reads these files and produces an executable which you can run like any other piece
+ of software on your computer. If there are any errors in your source codes you will be
+ told about them and an executable will not be created.
+
+<p>Usually you will write one instruction on each line, but you can use the colon character
+ to separate instructions to put them on the same line. For example, the two sets of
+ instructions below are equivalent (do not worry about what the instructions do at this point):
+
+<pre class="code">
+OpenConsole()
+For i=0 To 10
+    a = a + 2
+    PrintN(&quot;Hi there &quot+Str(a))
+Next
+
+
+OpenConsole() : For i=0 To 10 : a = a + 2 : PrintN(&quot;Hi there &quot+Str(a)) : Next
+</pre>
+
+Although you can put many instructions on one line like this, you cannot split an instruction
+ over a number of lines.
+
+<p><h2>Types of instructions</h2>
+As mentioned above, PureBasic source code is made up from sequences of instructions
+ for the computer to execute. These instructions can be:
+<ul>
+<li>simple manipulations of <i>variables</i> - variables are a place to store and manipulate data
+<li>more complex PureBasic <i>keywords</i> - keywords are instructions which are built into
+ the language. Keywords will be highlighted in bold text in the PureBasic editor (as a
+ handy aid to help you identify them).
+<li>or <i>commands</i> - commands are sequences of instructions which give your programs their most useful
+ abilities and are all contained in the &quot;PureLibraries&quot; files.
+</ul>
+
+<p><h2>Keywords</h2>
+The general format which keywords follow is:<br><blockquote>&lt;Keyword
+ name&gt; [Keyword data]</blockquote>which is the keyword name followed by
+ whatever the keyword is working on. Of course, the exact format of the instruction
+ depends on the keyword. These will be explained as they are reached in this
+ User Guide.
+
+<p>You should notice that keywords do not have parenthesis (brackets) after them.
+
+<p>An example of a keyword is the <i>For</i> keyword in the above example.
+
+<p><h2>Commands</h2>
+Commands always follow the format shown below:<blockquote>[return value] &lt;Command name&gt;([parameter 1 [, parameter 2 [, parameter 3 [, ... [, parameter n]]]]])</blockquote>
+
+Command names are always followed by an opening parenthesis (bracket), which must have
+ a matching closing parenthesis somewhere later. Commands are said to <i>take
+ parameters</i> and <i>return a result</i>, both of which are simply a method
+ of passing information from your source to the instructions, which  make up
+ the command, and back again.
+
+<p>Parameters are written inside the parentheses and
+ each parameter is separated by a comma. If there are no parameters then you do
+ not put anything between the parentheses. The meaning of each parameter is
+ completely dependant on the command.
+
+<p>The return value is a value which the command returns to your source code and
+ can be used in calculations and manipulated just like any other kind of value in
+ PureBasic. The return value is optional, so you may not need to use it; in this
+ case you simply start the instruction with the command name. What the return value
+ means is completely dependant on the command.
+
+<p>An example of a command is the <i>PrintN</i> command in the above example.
+
+<p><h2>Comments</h2>
+The semi-colon character is used to indicate a <i>comment</i> or remark.
+ Any text from the semi-colon to the end of the line is ignored by the PureBasic compiler,
+ allowing you to add comments to your programs so that you can remember why you done
+ something, or to explain an amazing piece of code that you wrote.
+
+<p><h2>Strings and numbers</h2>
+Strings (sequences of characters) which do not change during the execution of
+ your program are written by enclosing the string in inverted commas, the
+ &quot; character. An example of a string is &quot;Hi. I am a string&quot;.
+ Numbers in your program which do not change can be written simply as the
+ number, for example, 34. If you need to have a number with a fractional part
+ you can simply write, for example, 123.76.
+
+<p><h2>Execution of source code</h2>
+Your program starts executing from the first instruction in your source code and moves
+ step by step through it until the end of the program. Of course, you can also
+ change the flow of your program by making decisions, repeating instructions
+ and specifically executing other parts.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="introduction.html">Introduction and Requirements</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="example.html">Your first program!</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

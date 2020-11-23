@@ -1,0 +1,27 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - RegularExpression example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+; Will match every word of 3 letters, lowercase with a 'b' as middle letter
+;
+If CreateRegularExpression(0, "[a-z]b[a-z]")
+
+  Dim Result$(0)
+  
+  Result = ExtractRegularExpression(0, " abc it won't match abz", result$())
+  
+  Debug "Nb strings found: " + Result
+  
+  For k = 0 To Result-1
+    Debug Result$(k)
+  Next
+
+Else
+  Debug "Error: " + RegularExpressionError()
+EndIf

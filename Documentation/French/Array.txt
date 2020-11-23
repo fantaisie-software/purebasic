@@ -1,0 +1,207 @@
+;
+; Array library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Array
+
+@Overview
+
+  Un tableau permet de stocker des éléments 
+  de manière indexée. Contrairement à une 
+  @LibraryLink "List" "liste" ou à une 
+  @LibraryLink "Map" "map", les éléments
+  sont alloués de façon contiguë en mémoire. 
+  C'est pourquoi il n'est pas possible
+  d'insérer ou de supprimer un élément. 
+  D'un autre côté, il permet d'accéder à 
+  n'importe quel élément quasiment 
+  instantanément.
+@LineBreak
+@LineBreak
+  Pour manipuler un tableau, il doit d'abord être déclaré avec le mot clé 
+  @ReferenceLink "dim" "Dim" et peuvent être redimensionnés avec 
+  @ReferenceLink "dim" "ReDim".
+@LineBreak
+@LineBreak
+  Les tableaux peuvent être triés avec 
+  @@sortArray ou @@SortStructuredArray 
+  Il est également possible de réordonner 
+  les éléments d'un tableau dans un ordre 
+  aléatoire avec la fonction @@RandomizeArray.
+@LineBreak
+@LineBreak
+  Note: Ces tableaux sont dit dynamiques car ils peuvent changer de taille. Ils existent 
+  toutefois des tableaux dit statiques, non redimensionnables et utilisés seulement dans 
+  les structures. Ces tableaux s'écrivent avec des crochets. Par exemple: TabStatic[2].
+  Voir @ReferenceLink "structures" "ici". Les fonctions de cette bibliothèque Array ne peuvent 
+  pas être utilisées avec ce type de tableaux.
+  
+@CommandList
+
+@Section &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tri & divers
+  @@sortArray @LineBreak
+  @@SortStructuredArray @LineBreak
+  @@RandomizeArray @LineBreak
+  
+@ExampleFile All Array.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ArraySize(Tableau() [, Dimension])
+
+@Description
+  Renvoie la taille d'un tableau.
+  
+@Parameter "Tableau()"  
+  Le tableau à tester.
+  
+@OptionalParameter "Dimension"  
+  Pour les tableaux multidimensionnels, 
+  permet de renvoyer la taille d'une 
+  dimension donnée. 
+@LineBreak
+@LineBreak
+  La première dimension commence à 1. 
+
+@ReturnValue
+  Renvoie la taille de la dimension du 
+  tableau telle qu'elle a été spécifiée 
+  lors de sa déclaration avec 
+  @ReferenceLink "dim" "Dim" ou 
+  @ReferenceLink "dim" "ReDim". 
+@LineBreak
+@LineBreak
+  Si le tableau n'est pas encore déclaré 
+  ou si son allocation a échoué, il renverra -1.
+
+@Remarks
+  Attention, le nombre d'éléments est égale à la taille plus 1.@LineBreak
+  Par exemple: Dim a(2) contient 3 éléments de a(0) à a(2) pour une taille de 2.
+@LineBreak
+@LineBreak  
+  Ne fonctionne pas avec les tableaux statiques déclarés dans les 
+  @ReferenceLink "structures" "Structures".@LineBreak
+  Utilisez @ReferenceLink "compilerfunctions" "SizeOf" à la place.
+    
+@Example 
+@Code
+  Dim Tableau.l(10)
+  Debug ArraySize(Tableau()) ; affichera '10'
+
+  Dim Tableau3Dimensions.l(10, 20, 30)
+  Debug ArraySize(Tableau3Dimensions(), 2) ; affichera '20'
+  
+  Dim MultiArray2.l(2,2,2)
+    For n = 0 To ArraySize(MultiArray2(),2)
+  MultiArray2(0,n,0) = n+1
+  Next n
+  Debug MultiArray2(0,0,0) ; affichera '1'
+  Debug MultiArray2(0,1,0) ; affichera '2'
+  Debug MultiArray2(0,2,0) ; affichera '3' (Nous avons bien 3 éléments)
+  Debug ArraySize(MultiArray2(),2) ; affichera '2' (Et pourtant la taille est de 2)
+@EndCode
+
+@Example 
+@Code
+  Dim Test.q(99999999999999999)
+  
+  If ArraySize(Test()) <> -1
+    Test(12345) = 123  ; tout se passe bien
+  Else
+    Debug "Le tableau 'Test()' ne peut pas être initialisé."
+  EndIf
+@EndCode
+ 
+@Example 
+@Code
+Structure MaStructure
+  TabStatic.l[3]        ; Tableau statique, uniquement dans les structures
+                        ; (Standard C) avec 3 valeurs de Ex\TabStatic[0] à Ex\TabStatic[2], non redimensionnable
+  Array TabDynamic.l(4) ; Tableau dynamique avec 5 valeurs de TabDynamic.i(0) à TabDynamic.i(4), redimensionnable 
+EndStructure
+
+Debug SizeOf(MaStructure\TabStatic) ; Affiche 12
+Debug SizeOf(MaStructure\TabDynamic) ; Affiche 8
+
+Ex.MaStructure
+Debug ArraySize(Ex\TabDynamic()) ; Affiche 4
+@EndCode
+
+@SeeAlso
+  @@ListSize, @@MapSize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CopyArray(TableauSource(), TableauDestination())
+
+@Description
+  Copie un tableau. 
+  
+@Parameter "TableauSource()"
+  Le tableau à copier.
+  
+@Parameter "TableauDestination()"
+  La copie du tableau source. 
+@LineBreak
+@LineBreak
+  Tous les éléments qui se trouvaient 
+  auparavant dans ce tableau seront supprimés. 
+@LineBreak
+@LineBreak
+  Ce tableau doit être du même type (natif ou 
+  structuré) et avoir le même nombre de 
+  dimensions que TableauSource().
+   
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+
+@Example 
+@Code
+  Dim Nombres(5)
+  Dim NombresCopie(10)
+  
+  Nombres(0) = 128
+  Nombres(5) = 256
+  
+  Debug "Taille du tableau avant copie: "+Str(ArraySize(NombresCopie())) ; affichera 10
+  
+  CopyArray(Nombres(), NombresCopie())
+  
+  Debug "Taille du tableau après copie: "+Str(ArraySize(NombresCopie())) ; affichera 5
+  Debug NombresCopie(0)
+  Debug NombresCopie(5)
+@EndCode
+
+@SeeAlso
+  @@CopyList, @@CopyMap
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeArray(Tableau())
+
+@Description
+  Détruit un tableau et libère toutes 
+  les ressources associées. 
+
+@Parameter "Tableau()"
+  Le tableau à libérer.
+
+@NoReturnValue
+
+@Remarks
+ Pour continuer à l'utiliser, 
+ @ReferenceLink "dim" "Dim" doit être appelé.
+
+@SeeAlso
+  @@FreeList, @@FreeMap
+  
+@SupportedOS

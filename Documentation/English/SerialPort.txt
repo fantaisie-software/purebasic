@@ -1,0 +1,418 @@
+;
+;     SerialPort library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library SerialPort
+
+@Overview
+
+  The Serial port (also know as the RS-232 port) was first created in 1969, and despite its age, it is still
+  widely used in the industry. The process of computer driven hardware prototype creation is simplified
+  when the serial port is used. This library offers full access to the serial ports available on the computer.
+  Some basic knowledge about the terms used in this documentation will be needed, check
+  @InternetLink "http://en.wikipedia.org/wiki/RS232" "Wikipedia - RS232" for more information.
+
+@CommandList
+
+@ExampleFile All SerialPort.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AvailableSerialPortInput(#SerialPort)
+
+@Description
+  Returns the number of remaining bytes in the serial port input buffer.
+  
+@Parameter "#SerialPort"
+  The serial port to use.
+  
+@ReturnValue
+  The number of remaining bytes in the serial port input buffer.
+  
+@SeeAlso
+  @@AvailableSerialPortOutput
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AvailableSerialPortOutput(#SerialPort)
+
+@Description
+  Returns the number of remaining bytes in the serial port output buffer.
+
+@Parameter "#SerialPort"
+  The serial port to use.
+  
+@ReturnValue
+  The number of remaining bytes in the serial port output buffer.
+
+@SeeAlso
+  @@AvailableSerialPortInput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseSerialPort(#SerialPort)
+
+@Description
+  Closes the serial port previously opened with @@OpenSerialPort.
+
+@Parameter "#SerialPort"
+  The serial port to close. If @#PB_All is specified, all the remaining serial ports are freed.  
+
+@NoReturnValue
+
+@Remarks
+  All remaining opened serial ports are automatically closed when the program ends.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetSerialPortStatus(#SerialPort, Attribute)
+
+@Description
+  Returns the specified serial port status. 
+  
+@Parameter "#SerialPort"
+  The serial port to use.
+
+@Parameter "Attribute"
+  It can be one of the following values:
+@FixedFont
+  @#PB_SerialPort_RI : Get RI signal status (0 or 1)
+  @#PB_SerialPort_DCD: Get DCD signal status (0 or 1)
+  @#PB_SerialPort_DSR: Get DSR signal status (0 or 1)
+  @#PB_SerialPort_CTS: Get CTS signal status (0 or 1)
+  @#PB_SerialPort_XonCharacter : Character used for Xon/Xoff handshaking sequence (between 1 and 255)
+  @#PB_SerialPort_XoffCharacter: Character used for Xon/Xoff handshaking sequence (between 1 and 255)
+@EndFixedFont
+
+@ReturnValue
+  Returns the specified serial port status, according to the specified attribute. 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsSerialPort(#SerialPort)
+
+@Description
+  Tests if the given serial port is valid and correctly initialized. 
+
+@Parameter "#SerialPort"
+  The serial port to test.
+
+@ReturnValue
+  Nonzero if the serial port is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a serial port is ready to use.
+
+@SeeAlso
+  @@OpenSerialPort
+  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SerialPortError(#SerialPort)
+
+@Description
+  Returns the error on the serial port when @@ReadSerialPortData, @@WriteSerialPortData or @@WriteSerialPortString failed.
+
+@Parameter "#SerialPort"
+  The serial port to use.
+  
+@ReturnValue
+  Can be a combination of the following values:
+@FixedFont
+  @#PB_SerialPort_RxOver: An input buffer overflow has occurred.
+                         There is either no room in the input buffer
+                         or a character was received after the end-of-file (EOF)
+  @#PB_SerialPort_OverRun: A character-buffer overrun has occurred.
+                          The next character is lost.
+  @#PB_SerialPort_RxParity : The hardware detected a parity error.
+  @#PB_SerialPort_Frame    : The hardware detected a framing error.
+  @#PB_SerialPort_Break    : The hardware detected a break condition.
+  @#PB_SerialPort_TxFull   : The application tried to transmit a character but the output buffer was full.
+  @#PB_SerialPort_IOE      :  An I/O error occurred during communications with the device.
+  @#PB_SerialPort_WaitingCTS  : Specifies whether transmission is waiting for the CTS (clear-to-send) signal to be sent.
+  @#PB_SerialPort_WaitingDSR  : Specifies whether transmission is waiting for the DSR (data-set-ready) signal to be sent.
+  @#PB_SerialPort_WaitingRLSD : Specifies whether transmission is waiting for the RLSD (receive-line-signal-detect) signal to be sent.
+  @#PB_SerialPort_XoffReceived: Specifies whether transmission is waiting because the XOFF character was received.
+  @#PB_SerialPort_XoffSent    : Specifies whether transmission is waiting because the XOFF character was transmitted.
+                               Transmission halts when the XOFF character is transmitted to a system that takes the next
+                               character as XON, regardless of the actual character.
+  @#PB_SerialPort_EOFSent: Specifies whether the end-of-file (EOF) character has been received.
+@EndFixedFont
+
+@SeeAlso
+  @@ReadSerialPortData, @@WriteSerialPortData, @@WriteSerialPortString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SerialPortID = SerialPortID(#SerialPort)
+
+@Description
+  Returns the unique system identifier of the serial port.
+
+@Parameter "#SerialPort"
+  The serial port to use.
+  
+@ReturnValue
+  Returns the ID of the serial port. This function is useful when another library or API commands requires a 
+  serial port reference.
+
+@SeeAlso
+  @@OpenSerialPort
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenSerialPort(#SerialPort, SerialPortName$, Bauds, Parity, Data, Stop.f, HandshakeMode, InputBufferSize, OutputBufferSize)
+
+@Description
+  Opens a serial port for use.
+  
+@Parameter "#SerialPort"
+  A number to identify the new serial port.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+  
+@Parameter "SerialPortName$"
+  Text identifier for the serial port, for example "COM1" on
+  Windows or "/dev/ttyS0" on Linux. 
+  
+@Parameter "Bauds"
+  Defines the speed of the serial connection and can be one of the following values:
+@FixedFont
+    50, 75, 110, 150, 300, 600, 1200, 1800, 2400
+    4800, 9600, 19200, 38400, 57600 or 115200
+@EndFixedFont
+
+@Parameter "Parity"
+  Defines how the parity will be handled on the connection. It can be one of the following values:
+@FixedFont
+  @#PB_SerialPort_NoParity   : No parity
+  @#PB_SerialPort_EvenParity : Even parity
+  @#PB_SerialPort_MarkParity : Mark parity
+  @#PB_SerialPort_OddParity  : Odd parity
+  @#PB_SerialPort_SpaceParity: Space parity
+@EndFixedFont
+
+@Parameter "Data"
+  Defines the data length, in byte (usually 7 or 8). 
+  
+@Parameter "Stop"
+  Sets the number of stop bits (1, 1.5 or 2).
+
+@Parameter "HandshakeMode"
+  The handshake mode. It can be one of the following values:
+@FixedFont
+  @#PB_SerialPort_NoHandshake     : No handshaking
+  @#PB_SerialPort_RtsHandshake    : No handshaking but RTS is set to 1
+  @#PB_SerialPort_RtsCtsHandshake : RTS/CTS
+  @#PB_SerialPort_XonXoffHandshake: Xon/Xoff
+@EndFixedFont
+
+@Parameter "InputBufferSize"
+  Defines the size of the input buffer, in bytes. 
+  
+@Parameter "OutputBufferSize"
+  Defines the size of the output buffer, in bytes.
+  
+@ReturnValue
+  Nonzero if the serial port was successfully opened, zero otherwise 
+  (it may be already in use, or the parameters are wrong). If @#PB_Any was used
+  for the #SerialPort parameter then the generated number is returned on success.
+
+@Example
+@Code
+  If OpenSerialPort(0, "COM1", 300, #PB_SerialPort_NoParity, 8, 1, #PB_SerialPort_NoHandshake, 1024, 1024)
+    Debug "Success"
+  Else
+    Debug "Failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CloseSerialPort
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReadSerialPortData(#SerialPort, *Buffer, Length)
+
+@Description
+  Reads an arbitrary amount of data from the #SerialPort. If the input buffer was empty, this function will block 
+  until data is available. To check if data is available, use @@AvailableSerialPortInput.
+
+@Parameter "#SerialPort"
+  The serial port to use.
+  
+@Parameter "*Buffer"
+  The memory address to use to put the read data.
+    
+@Parameter "Length"
+  The length to read from the serial port, in bytes. The specified buffer should be large enough to handle it.
+
+@ReturnValue
+  The number of bytes which are actually read. It can be less than the requested length. 
+  If a read error has occured, it will return zero.
+
+@SeeAlso
+  @@AvailableSerialPortInput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SerialPortTimeouts(#SerialPort, RIT, RTTC, RTTM, WTTC, WTTM)
+
+@Description
+  Changes the default serial port timeouts.
+
+@Parameter "#SerialPort"
+  The serial port to use.
+
+@Parameter "RIT"
+  RIT stands for 'ReadIntervalTimeout'. Specifies the maximum time, in milliseconds, which are allowed to elapse
+  between the arrival of two characters on the communications line. Default value is 100 ms.
+  
+@Parameter "RTTC"
+  RTTC stands for 'ReadTotalTimeoutConstant'. Specifies the constant, in milliseconds, used to calculate the
+  total time-out period for read operations. For each read operation, this value is added to the
+  product of the ReadTotalTimeoutMultiplier member and the requested number of bytes. Default value is 100 ms.
+      
+@Parameter "RTTM"
+  RTTM stands for 'ReadTotalTimeoutMultiplier'. Specifies the multiplier, in milliseconds, used to calculate
+  the total time-out period for read operations. For each read operation, this value is multiplied
+  by the requested number of bytes to be read. Default value is 10 ms.
+
+@Parameter "WTTC"
+  WTTC stands for 'WriteTotalTimeoutConstant'. Specifies the constant, in milliseconds, used to calculate the
+  total time-out period for write operations. For each write operation, this value is added to the
+  product of the WriteTotalTimeoutMultiplier member and the number of bytes to be written. Default value is 10 ms.
+
+@Parameter "WTTM"
+  WTTM stands for 'WriteTotalTimeoutMultiplier'. Specifies the multiplier, in milliseconds, used to calculate the
+  total time-out period for write operations. For each write operation, this value is multiplied by
+  the number of bytes to be written. Default value is 100 ms.
+      
+@NoReturnValue
+
+@SeeAlso
+  @@OpenSerialPort
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetSerialPortStatus(#SerialPort, Attribute, Value)
+
+@Description
+  Changes the specified serial port status. 
+
+@Parameter "#SerialPort"
+  The serial port to use.
+
+@Parameter "Attribute"
+  The attribute to set. It can be one of the following value:
+@FixedFont
+  @#PB_SerialPort_DTR: set DTR signal status (value can be 0 or 1)
+  @#PB_SerialPort_RTS: set RTS signal status (value can be 0 or 1)
+  @#PB_SerialPort_TXD: Set TXD signal status (value can be 0 or 1)
+  @#PB_SerialPort_XonCharacter : Character used for Xon/Xoff handshaking sequence (value can be between 1 and 255). Default value is $11.
+  @#PB_SerialPort_XoffCharacter: Character used for Xon/Xoff handshaking sequence (value can be between 1 and 255). Default value is $13.
+@EndFixedFont
+
+@Parameter "Value"
+  The attribute value to set. See 'attribute' description to see which value is applicable.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenSerialPort(0, "COM1", 300, #PB_SerialPort_NoParity, 8, 1, #PB_SerialPort_XonXoffHandshake, 1024, 1024)
+    SetSerialPortStatus(0, #PB_SerialPort_XonCharacter, 8)
+    SetSerialPortStatus(0, #PB_SerialPort_XoffCharacter, 9)
+    Debug "Success"
+  Else
+    Debug "Failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenSerialPort
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteSerialPortData(#SerialPort, *Buffer, Length)
+
+@Description
+  Writes an arbitrary amount of data to the specified serial port.
+  
+@Parameter "#SerialPort"
+  The serial port to use.
+
+@Parameter "*Buffer"
+  The buffer to write.
+  
+@Parameter "Length"
+  The buffer length to write, in bytes.
+  
+@ReturnValue
+  The number of bytes written to the serial port, or zero if the operation has failed.
+  
+@Remarks
+  To check how much data is available in the output buffer, use @@AvailableSerialPortOutput.
+
+@SeeAlso
+  @@OpenSerialPort, @@WriteSerialPortString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteSerialPortString(#SerialPort, String$ [, Format])
+
+@Description
+  Writes a string to the specified serial port.
+  
+@Parameter "#SerialPort"
+  The serial port to use.
+
+@Parameter "String$"
+  The string to write.
+  
+@OptionalParameter "Format"
+  The string format to use. It can be one of the following value:
+@FixedFont  
+  @#PB_Ascii   : the string will be written in ascii format.
+  @#PB_UTF8    : the string will be written in UTF8 format (default).
+  @#PB_Unicode : the string will be written in unicode (UTF16) format.
+@EndFixedFont
+
+@ReturnValue
+  The number of bytes written to the serial port, or zero if the operation has failed.
+  
+@Remarks
+  To check how much data is available in the output buffer, use @@AvailableSerialPortOutput.
+
+@SeeAlso
+  @@OpenSerialPort, @@WriteSerialPortData
+
+@SupportedOS

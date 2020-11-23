@@ -1,0 +1,294 @@
+@Title Einsteiger-Kapitel - Speicher-Zugriff
+
+Einige PureBasic-Anweisungen, zum Beispiel die aus der @LibraryLink "cipher" "Cipher"
+Bibliothek, und viele Betriebssystem-API-Aufrufe benötigen einen @ReferenceLink "memory" "Zeiger"
+(Pointer) auf einen @LibraryLink "memory" "Speicherpuffer" als ein Argument, anstatt die
+Daten direkt selbst. PureBasic bietet eine Reihe von Anweisungen zum Manipulieren des
+Speicherpuffers, um dies zu erleichtern.
+@LineBreak
+@LineBreak
+Dieses Beispiel verwendet einen Puffer, um eine @LibraryLink "file" "Datei" von Disk in
+den Speicher zu lesen. Es konvertiert dann den Pufferinhalt in Hexadezimal und Textausgabe
+um, und stellt ihn in einem @@ListIconGadget als eine simple Hex-Viewer-Applikation dar.
+@LineBreak
+@LineBreak
+Ein @@ExplorerListGadget wird verwendet, um zu Beginn den Inhalt des Benutzer-Verzeichnisses
+anzuzeigen, und die Auswahl einer Datei zu ermöglichen. Zwei @Link "gadget/buttongadget" "Schalter"
+werden angeboten, einer zum Anzeigen einer Datei und ein weiterer um die Anzeige zu löschen.
+@LineBreak
+@LineBreak
+Das ListIcon Gadget ist unterteilt in neun @Link "gadget/addgadgetcolumn" "Spalten",
+die erste zeigt den Basis-Offset jeder Zeile in der Liste, die nächsten zeigen acht
+Byte-Werte ausgehend vom Basis-Wert und die neunte zeigt die entsprechende Zeichenfolge
+dieser acht Werte.
+@LineBreak
+@LineBreak
+Es werden zwei Zeiger verwendet - der erste (*Buffer) beinhaltet die Speicheradresse der
+kompletten Datei. Der zweite (*Byte), in der @ReferenceLink "procedures" "Prozedur"
+"FileDisplay", demonstriert die Verwendung von Zeiger-Arithmetik und der
+@LibraryLink "memory" "Peek" Anweisung, um einzelne Werte von innerhalb der Puffers
+zu erhalten.
+@LineBreak
+@LineBreak
+Schließlich zeigt die "FileClose" Prozedur die Verwendung der @@FillMemory Anweisung für
+das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer freizugeben.
+
+@Code
+  ;- Compiler-Direktiven
+  EnableExplicit
+  
+  ;- Konstanten
+  ; Fenster
+  Enumeration
+    #WindowHex
+  EndEnumeration
+  
+  ; Gadgets
+  Enumeration
+    #GadgetFiles
+    #GadgetOpen
+    #GadgetClose
+    #GadgetHex
+  EndEnumeration
+  
+  ;- Variablen
+  Define.l Event, EventWindow, EventGadget, EventType, EventMenu
+  Define.l Length
+  Define.s File
+  Define *Buffer
+  
+  ;- Deklarationen
+  Declare WindowCreate()
+  Declare WindowResize()
+  Declare FileClose()
+  Declare FileDisplay()
+  Declare FileRead()
+  
+  ;- Implementierung
+  Procedure WindowCreate()  
+    ; Erstellen des Fensters.
+    
+    Protected.l Col
+    Protected.s Label
+    
+    If OpenWindow(#WindowHex, 50, 50, 500, 400, "Hex View", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_MinimizeGadget | #PB_Window_TitleBar)
+      
+      ; Festlegen des Mindest-Fenstergröße.
+      WindowBounds(#WindowHex, 175, 175, #PB_Ignore, #PB_Ignore)
+      
+      ; Erstellen der Explorer Liste und Einstellen auf das Benutzer-Verzeichnis.
+      ExplorerListGadget(#GadgetFiles, 5, 5, 490, 175, GetHomeDirectory())
+      
+      ; Schalter.
+      ButtonGadget(#GadgetOpen, 5, 185, 80, 25, "Open")
+      ButtonGadget(#GadgetClose, 100, 185, 80, 25, "Close")
+      
+      ; ListIcon Gadget.
+      ListIconGadget(#GadgetHex, 5, 215, 490, 180, "Offset", 80, #PB_ListIcon_AlwaysShowSelection | #PB_ListIcon_GridLines | #PB_ListIcon_FullRowSelect)
+      
+      ; Spalten-Überschriften.
+      For Col = 0 To 7
+        Label = RSet(Hex(Col, #PB_Byte), 2, "0")
+        AddGadgetColumn(#GadgetHex, Col + 1, Label, 38)
+      Next Col
+      AddGadgetColumn(#GadgetHex, 9, "Text", 80)
+      
+    EndIf
+    
+  EndProcedure
+  
+  Procedure WindowResize()
+    ; Verändern der Gadgetgröße auf die neue Fenstergröße.
+    
+    Protected.l X, Y, W, H
+    
+    ; Explorer Liste
+    W = WindowWidth(#WindowHex) - 10
+    H = (WindowHeight(#WindowHex) - 35) / 2
+    ResizeGadget(#GadgetFiles, #PB_Ignore, #PB_Ignore, W, H)
+    
+    ; Schalter
+    Y = GadgetHeight(#GadgetFiles) + 10
+    ResizeGadget(#GadgetOpen, #PB_Ignore, Y, #PB_Ignore, #PB_Ignore)
+    ResizeGadget(#GadgetClose, #PB_Ignore, Y, #PB_Ignore, #PB_Ignore)
+    
+    ; ListIcon Anzeige
+    Y = (WindowHeight(#WindowHex) / 2) + 23
+    W = WindowWidth(#WindowHex) - 10
+    H = WindowHeight(#WindowHex) - (Y + 5)
+    ResizeGadget(#GadgetHex, #PB_Ignore, Y, W, H)
+    
+  EndProcedure
+  
+  Procedure FileClose()
+    ; Löscht die Listen-Anzeige und gibt den Speicherpuffer frei.
+    
+    Shared Length, *Buffer
+    
+    ClearGadgetItems(#GadgetHex)
+    FillMemory(*Buffer, Length)
+    FreeMemory(*Buffer)
+    
+  EndProcedure
+  
+  Procedure FileDisplay()
+    ; Anzeigen des Datei-Puffers in der Listen-Anzeige.
+    
+    Shared Length, *Buffer
+    
+    Protected *Byte
+    Protected Peek
+    Protected.l Rows, Cols, Offset
+    Protected.s OffsetString, Row, String
+    
+    ; Löschen der aktuellen Inhalte.
+    ClearGadgetItems(#GadgetHex)
+    
+    ; Die Zeilen durchlaufen.
+    For Rows = 0 To Length - 1 Step 8
+      
+      ; Löschen des Text-Wertes jeder Zeile.
+      String = ""
+      
+      ; Konvertieren des Offset-Wertes in einen String fester Länge.
+      Row = RSet(Hex(Rows, #PB_Long), 6, "0") + Chr(10)
+      
+      ; Die Spalten durchlaufen.
+      For Cols = 0 To 7
+        
+        ; Offset für die aktuelle Spalte berechnen.
+        Offset = Rows + Cols
+        
+        ; Den Offset mit der Datei-Größe vergleichen.
+        If Offset < Length
+          ; Der Offset ist kleiner als die Länge der Datei.
+          
+          ; Das Byte vom Puffer ermitteln.
+          *Byte = *Buffer + Offset
+          Peek = PeekB(*Byte)
+          
+          ; Das Byte in Text konvertieren.
+          Row + RSet(Hex(Peek, #PB_Byte), 2, "0") + Chr(10)
+          
+          ; Das Zeichen zur Text-Version hinzufügen.
+          Select Peek
+              
+            Case 0 To 31, 127
+              ; Nicht druckbare/darstellbare Zeichen.
+              String + Chr(129)   
+              
+            Default
+              ; Darstellbare Zeichen.
+              String + Chr(Peek)
+              
+          EndSelect
+          
+        Else
+          ; Der Offset ist größer als die Länge der Datei.
+          
+          ; Eine leere Spalte hinzufügen.
+          Row + Chr(10)
+          
+        EndIf
+        
+      Next Cols
+      
+      ; Die Text-Version am Ende der Hex-Spalten hinzufügen.
+      Row + String
+      
+      ; Hinzufügen der komplettierten Zeile zur Listen-Anzeige.
+      AddGadgetItem(#GadgetHex, -1, Row)
+      
+    Next Rows
+    
+  EndProcedure
+  
+  Procedure FileRead()
+    ; Lesen der Datei in den Speicherpuffer.
+    
+    Shared Length, File, *Buffer
+    
+    Protected.b ReadByte
+    Protected.l FileNumber, ReadLong, Size
+    
+    ; Stoppen wenn die Datei leer ist.
+    If File = ""
+      ProcedureReturn
+    EndIf
+    
+    ; Stoppen wenn die Dateigröße ungültig ist.
+    Size = FileSize(File)
+    If Size < 1
+      ProcedureReturn 
+    EndIf
+    
+    ; Öffnen der Datei.
+    FileNumber = OpenFile(#PB_Any, File)
+    Length = Lof(FileNumber)
+    
+    If File And Length
+      
+      ; Einen Speicherpuffer reservieren, um darin die Datei aufzunehmen.
+      *Buffer = AllocateMemory(Length)
+      
+      ; Lesen der Datei in den Puffer.
+      Length = ReadData(FileNumber, *Buffer, Length)
+      
+    EndIf
+    
+    ; Schließen der Datei.
+    CloseFile(FileNumber)
+    
+  EndProcedure
+  
+  ;- Hauptteil
+  WindowCreate()
+  
+  ;- Ereignis-Schleife
+  Repeat
+    
+    ; Ermitteln der Ereignis-Parameter.
+    Event = WaitWindowEvent()
+    EventGadget = EventGadget()
+    EventType = EventType()
+    EventWindow = EventWindow()
+    
+    ; Verarbeiten der Ereignisse.
+    Select Event
+        
+      Case #PB_Event_Gadget
+        If EventGadget = #GadgetFiles
+          ; Tue nichts.
+          
+        ElseIf EventGadget = #GadgetOpen
+          File = GetGadgetText(#GadgetFiles) + GetGadgetItemText(#GadgetFiles, GetGadgetState(#GadgetFiles))
+          If FileSize(File) > 0
+            FileRead()  
+            FileDisplay()
+          EndIf
+          
+        ElseIf EventGadget = #GadgetClose
+          FileClose()
+          
+        ElseIf EventGadget = #GadgetHex
+          ; Tue nichts.
+          
+        EndIf
+        
+      Case #PB_Event_CloseWindow
+        If EventWindow = #WindowHex
+          CloseWindow(#WindowHex)
+          Break
+        EndIf
+        
+      Case #PB_Event_SizeWindow
+        WindowResize()
+        
+    EndSelect
+    
+  ForEver
+@EndCode
+
+
+@Section Einsteiger-Kapitel Navigation
+@ReferenceLink "ug_files" "< Vorheriges: Lesen und Schreiben von Dateien" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_pb_any1" "Nächstes: Dynamische Nummerierung mittels #PB_Any >"

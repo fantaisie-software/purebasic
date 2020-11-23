@@ -1,0 +1,1332 @@
+;
+;     File library documentation
+;
+;      (c) 2018 - Fantaisie Software
+;
+
+@Library File
+
+@Overview
+  Files are the main method for storage on computers. PureBasic allows the programmer to create applications
+  in such a manner that the methods used to manage these files, are simple to use, and yet still optimized.
+  Any number of files may be handled at the same time. This library uses buffered functions to increase the
+  reading/writing speed. All the file functions can handle huge files, all the way up to: 2^64 bytes,
+  (i.e. if the file-system supports it).
+
+@LineBreak
+@LineBreak
+  For large amounts of data it may be useful to load the data into an @ReferenceLink "dim" "array",
+  a @ReferenceLink "newlist" "list" or a @ReferenceLink "newmap" "Map",
+  using a @LibraryLink "memory" "memory block" may also be a good idea.
+
+@LineBreak
+@LineBreak
+
+  To get valid file paths for reading/saving data, take a look at
+  the @LibraryLink "filesystem" "FileSystem" and the @LibraryLink "requester" "Requester" libraries.
+
+@CommandList
+
+@ExampleFile All File.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseFile(#File)
+
+@Description
+  Close the specified file. 
+
+@Parameter "#File"
+  The file to close. If @#PB_All is specified, all the remaining files are closed.
+
+@NoReturnValue
+
+@Remarks
+  Once the file is closed, it may not be used anymore. Closing a file ensures the buffer will
+  effectively be put to the disk.
+@LineBreak
+@LineBreak
+  All remaining opened files are automatically closed when the program ends.
+@LineBreak
+@LineBreak
+  For an example see the @@ReadFile or the @@CreateFile functions.
+
+@SeeAlso
+  @@CreateFile, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateFile(#File, Filename$ [, Flags])
+
+@Description
+
+  Create an empty file. 
+
+@Parameter "#File"
+  The number to identify the new file. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@Parameter "Filename$"
+  The filename and path to the new file. If the filename does not include a full path, it
+  is interpreted relative to the @Link "FileSystem/GetCurrentDirectory" "current directory".
+
+@OptionalParameter "Flags"
+  It can be a combination (using the '| operand) of the following values:
+@FixedFont
+  @#PB_File_SharedRead : the opened file can be read by another process (Windows only).
+  @#PB_File_SharedWrite: the opened file can be write by another process (Windows only).
+  @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file. 
+                        @@FileBuffersSize can not be used on this file.
+@EndFixedFont
+  combined with one of the following values (the following flags affect the @@WriteString(), @@WriteStringN, 
+  @@ReadString, @@ReadCharacter and @@WriteCharacter behaviour):
+@FixedFont
+  @#PB_Ascii  : all read/write string operation will use ascii if not specified otherwise.
+  @#PB_UTF8   : all read/write string operation will use UTF-8 if not specified otherwise (default).
+  @#PB_Unicode: all read/write string operation will use Unicode if not specified otherwise.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the file was created successfully and zero if there was an error.
+  If @#PB_Any was used as the #File parameter then the new generated number is returned on success.
+
+@Remarks
+  If the file already exists, it will be overwritten by the new empty file. 
+  The @@FileSize function can be used to determine whether a file exists so the
+  user can be prompted before overwriting a file.
+@LineBreak
+@LineBreak
+  To open an existing file for reading/writing, use the @@OpenFile function. To open a file for
+  reading only, use @@ReadFile.
+
+@Example
+@Code
+
+  If CreateFile(0, "Text.txt")         ; we create a new text file...
+    For a=1 To 10
+      WriteStringN(0, "Line "+Str(a))  ; we write 10 lines (each with 'end of line' character)
+    Next
+    For a=1 To 10
+      WriteString(0, "String"+Str(a))  ; and now we add 10 more strings on the same line (because there is no 'end of line' character)
+    Next
+    CloseFile(0)                       ; close the previously opened file and store the written data this way
+  Else
+    MessageRequester("Information","may not create the file!")
+  EndIf
+
+@EndCode
+
+@SeeAlso
+  @@OpenFile, @@ReadFile, @@CloseFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Eof(#File)
+
+@Description
+  Checks whether the end of the file has been reached.
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns nonzero if the read-pointer is at the end of the file or zero if not.
+
+@Remarks
+  For an example see the @@ReadFile function.
+
+@SeeAlso
+  @@Lof, @@Loc, @@CreateFile, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FileBuffersSize(#File, Size)
+
+@Description
+  Changes the size of the memory buffer used for file operations.
+
+@Parameter "#File"
+  The file to change. If @#PB_Default is used as this parameter then the
+  new buffer size will apply to all newly opened files with @@OpenFile, 
+  @@CreateFile or @@ReadFile.
+
+@Parameter "Size"
+  The new size (in bytes) for the memory buffer. A size of 0 disables memory buffering on the file.
+
+@NoReturnValue
+
+@Remarks
+  For performance reasons, the buffer size should be kept large enough (1028 seems
+  to be ok as a minimum). When buffers are used, the information is really written to the disk once the
+  cache buffer is full or when the file is closed. The @@FlushFileBuffers function
+  forces the cache buffer to be written at the time the function is called. 
+  The default buffer size is 4096 bytes per file.
+
+@SeeAlso
+  @@FlushFileBuffers
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = FileID(#File)
+
+@Description
+  Returns the Operating system handle of the file.
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns the file handle.
+
+@SeeAlso
+  @@CreateFile, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FileSeek(#File, NewPosition.q [, Mode])
+
+@Description
+  Change the read/write pointer position in the file. 
+
+@Parameter "#File"
+  The file to use.
+
+@Parameter "NewPosition.q"
+  The new position relative to the beginning of the file in bytes.
+
+@OptionalParameter "Mode"
+  The seek mode. It can be one of the following values:
+@FixedFont
+  @#PB_Absolute: the 'NewPosition' parameter will be an absolute position with the file (default).
+  @#PB_Relative: the 'NewPosition' parameter will be an offset (positive or negative) relative to the current file pointer position.
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+
+  file$ = OpenFileRequester("Select a file","","Text (.txt)|*.txt|All files (*.*)|*.*",0)
+  If file$
+    If ReadFile(0, file$)
+      length = Lof(0)                       ; read length of file
+      FileSeek(0, length - 10)              ; set the file pointer 10 chars from end of file
+      Debug "Position: " + Str(Loc(0))      ; show actual file pointer position
+      *MemoryID = AllocateMemory(10)        ; allocate the needed memory for 10 bytes
+      If *MemoryID
+        bytes = ReadData(0, *MemoryID, 10)  ; read this last 10 chars in the file
+        Debug PeekS(*MemoryID)
+      EndIf
+      CloseFile(0)
+    EndIf
+  EndIf
+
+@EndCode
+
+@SeeAlso
+  @@Loc, @@Lof
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = FlushFileBuffers(#File)
+
+@Description
+  Ensures that all buffered operations are written to disk. 
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Nonzero if the buffer has been successfully written the disk. If an error occurred (ie: disk full, disk error),
+  it will return zero.
+
+@Remarks
+  See @@FileBuffersSize for more information about file buffer management.
+
+@SeeAlso
+  @@FileBuffersSize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsFile(#File)
+
+@Description
+  Tests if the given #File number is a valid and correctly initialized file. 
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns nonzero if #File is a valid file and zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a file is ready to use.
+
+@SeeAlso
+  @@CreateFile, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Position.q = Loc(#File)
+
+@Description
+  Returns the read/write pointer position in the file.
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns the file pointer position relative to the start of the file in bytes.
+
+@Remarks
+  For an example look at the @@FileSeek function.
+
+@SeeAlso
+  @@FileSeek, @@Lof
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Length.q = Lof(#File)
+
+@Description
+  Returns the length of the specified file.
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns the length of the file in bytes.
+
+@Example
+@Code
+
+  file$ = OpenFileRequester("Select a file","","Text (.txt)|*.txt|All files (*.*)|*.*",0)
+  If file$
+    If ReadFile(0, file$)
+      length = Lof(0)                            ; get the length of opened file
+      *MemoryID = AllocateMemory(length)         ; allocate the needed memory
+      If *MemoryID
+        bytes = ReadData(0, *MemoryID, length)   ; read all data into the memory block
+        Debug "Number of bytes read: " + Str(bytes)
+      EndIf
+      CloseFile(0)
+    EndIf
+  EndIf
+
+@EndCode
+
+@SeeAlso
+  @@Loc, @@FileSeek, @@FileSize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenFile(#File, Filename$ [, Flags])
+
+@Description
+  Opens a file for reading/writing or creates a new file if it does not exist. 
+
+@Parameter "#File"
+  The number to identify the file. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@Parameter "Filename$"
+  The filename and path to the file. If the filename does not include a full path, it
+  is interpreted relative to the @Link "FileSystem/GetCurrentDirectory" "current directory".
+
+@OptionalParameter "Flags"
+  It can be a combination (using the '| operand) of the following values:
+@FixedFont
+  @#PB_File_SharedRead : the opened file can be read by another process (Windows only).
+  @#PB_File_SharedWrite: the opened file can be write by another process (Windows only).
+  @#PB_File_Append     : the file pointer position will be set at the end of file.
+  @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file. 
+                        @@FileBuffersSize can not be used on this file.
+@EndFixedFont
+  combined with one of the following values (the following flags affect the @@WriteString, @@WriteStringN, 
+  @@ReadString, @@ReadCharacter and @@WriteCharacter behaviour):
+@FixedFont
+  @#PB_Ascii  : all read/write string operation will use ascii if not specified otherwise.
+  @#PB_UTF8   : all read/write string operation will use UTF-8 if not specified otherwise (default).
+  @#PB_Unicode: all read/write string operation will use Unicode if not specified otherwise.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the file was opened successfully and zero if there was an error.
+  If @#PB_Any was used as the #File parameter then the new generated number is returned on success.
+
+@Remarks
+  This function fails if the file cannot be opened with write permission, for example if the file is located on a read-only
+  file-system like a CD. To open a file for reading only, use the @@ReadFile function. To overwrite an existing
+  file with a new and empty file, use the @@CreateFile function.
+@LineBreak
+@LineBreak
+  The file pointer will be positioned at the beginning of the file. To append data to the end of the file, use the
+  @#PB_File_Append flag to set the pointer to the end of the file.
+
+@Example
+@Code
+
+  If OpenFile(0, "Test.txt")    ; opens an existing file or creates one, if it does not exist yet
+    FileSeek(0, Lof(0))         ; jump to the end of the file (result of Lof() is used)
+    WriteStringN(0, "... another line at the end.")
+    CloseFile(0)
+  EndIf
+
+@EndCode
+
+@SeeAlso
+  @@CreateFile, @@ReadFile, @@CloseFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TruncateFile(#File)
+
+@Description
+
+  Cuts the file at the current @Link "FileSeek" "file position" and discards all data that follows.
+
+@Parameter "#File"
+  The file to use.
+
+@NoReturnValue
+
+@Remarks
+  This function may be used to shorten a file without the necessity of recreating it entirely. To make a file longer,
+  simply append more data with the write commands of this library.
+
+@SeeAlso
+  @@FileSeek, @@Loc
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.a = ReadAsciiCharacter(#File)
+
+@Description
+  Read an ascii character (1 byte) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read ascii character or zero if there was an error.
+
+@Remarks
+  For an example of how to read from a file, see the @@ReadFile function - with
+  ReadAsciiCharacter() only a ascii character is read, instead of a complete line (string).
+
+@SeeAlso
+  @@WriteAsciiCharacter, @@ReadUnicodeCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.b = ReadByte(#File)
+
+@Description
+  Read a byte (1 byte) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read byte or zero if there was an error.
+
+@Remarks
+  For an example of how read from a file see the @@ReadFile function - with
+  ReadByte() only a byte value is read, instead of a complete line (string).
+
+@SeeAlso
+  @@WriteByte, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.c = ReadCharacter(#File [, Format])
+
+@Description
+
+  Read a character from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@OptionalParameter "Format"
+  The format of the character to read. It can be one of the following value:
+@FixedFont
+  @#PB_Ascii  : 1 byte character.
+  @#PB_Unicode: 2 bytes character (default in @ReferenceLink "unicode" "unicode" mode).
+  @#PB_UTF8   : multi-bytes character (from 1 to 4 bytes).
+@EndFixedFont  
+
+@ReturnValue
+  Returns the read character or zero if there was an error.
+
+@Remarks
+  For an example of how to read from a file, see the @@ReadFile function - with
+  ReadCharacter() only a character is read, instead of a complete line (string).
+
+@SeeAlso
+  @@WriteCharacter, @@ReadAsciiCharacter, @@ReadUnicodeCharacter, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.d = ReadDouble(#File)
+
+@Description
+  Read a double (8 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read double value or zero if there was an error.
+
+@Remarks
+  For an example of how to read from a file, see the @@ReadFile function - with
+  ReadDouble() only a double value is read, instead of a complete line (string).
+
+@SeeAlso
+  @@WriteDouble, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReadFile(#File, Filename$ [, Flags])
+
+@Description
+  Open an existing file for read-only operations.
+
+@Parameter "#File"
+  The number to identify the file. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@Parameter "Filename$"
+  The filename and path to the file. If the filename does not include a full path, it
+  is interpreted relative to the @Link "FileSystem/GetCurrentDirectory" "current directory".
+
+@OptionalParameter "Flags"
+  It can be a combination (using the '| operand) of the following values:
+@FixedFont
+  @#PB_File_SharedRead : if the file has been already opened by another process for read operation,
+                        this flag is needed to access it (Windows only).
+  @#PB_File_SharedWrite: if the file has been already opened by another process for write operation,
+                        this flag is needed to access it (Windows only).
+  @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file. 
+                        @@FileBuffersSize can not be used on this file.
+@EndFixedFont
+  combined with one of the following values (the following flags affect the @@ReadString and @@ReadCharacter behaviour):
+@FixedFont
+  @#PB_Ascii  : all read string operation will use ascii if not specified otherwise.
+  @#PB_UTF8   : all read string operation will use UTF-8 if not specified otherwise (default).
+  @#PB_Unicode: all read string operation will use Unicode if not specified otherwise.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the file was opened successfully and zero if there was an error.
+  If @#PB_Any was used as the #File parameter then the new generated number is returned on success.
+
+@Remarks
+  To open a file for reading and writing, use the @@OpenFile function.
+  To create a new and empty file, use the @@CreateFile function.
+
+@Example
+@Code
+
+  If ReadFile(0, "Text.txt")   ; if the file could be read, we continue...
+    While Eof(0) = 0           ; loop as long the 'end of file' isn't reached
+      Debug ReadString(0)      ; display line by line in the debug window
+    Wend
+    CloseFile(0)               ; close the previously opened file
+  Else
+    MessageRequester("Information","Couldn't open the file!")
+  EndIf
+
+@EndCode
+
+@SeeAlso
+  @@OpenFile, @@CreateFile, @@CloseFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.f = ReadFloat(#File)
+
+@Description
+  Read a float (4 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read float value or zero if there was an error.
+
+@Remarks
+  For an example of how to read from a file, see the @@ReadFile function - with
+  ReadFloat() only a float value is read, instead of a complete line (string).
+
+@SeeAlso
+  @@WriteFloat, @@ReadDouble, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.i = ReadInteger(#File)
+
+@Description
+  Read an integer (4 bytes in 32-bit executable, 8 bytes in 64-bit executable) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read value or zero if there was an error.
+
+@Remarks
+  For an example of how to read from a file, see the @@ReadFile function - with
+  ReadInteger() only a integer value is read, instead of a complete line (string).
+
+@SeeAlso
+  @@WriteInteger, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.l = ReadLong(#File)
+
+@Description
+  Read a long (4 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read value or zero if there was an error.
+
+@Remarks
+  For an example of how to read from a file, see the @@ReadFile function - with
+  ReadLong() only a long value is read, instead of a complete line (string).
+
+@SeeAlso
+  @@WriteLong, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.q = ReadQuad(#File)
+
+@Description
+  Read a quad (8 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read number or zero if there was an error.
+
+@Remarks
+  For an example of how to read from a file, see the @@ReadFile function - with
+  ReadQuad() only a quad value is read, instead of a complete line (string).
+
+@SeeAlso
+  @@WriteQuad, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReadData(#File, *MemoryBuffer, LengthToRead)
+
+@Description
+  Read the content from the file to the specified memory buffer.
+
+@Parameter "#File"
+  The file to read from.
+
+@Parameter "*MemoryBuffer"
+  The address to write the read data to.
+
+@Parameter "LengthToRead"
+  The number of bytes to read.
+
+@ReturnValue
+  Returns the number of bytes actually read from the file. If there is an error,
+  the return value is zero.
+
+@Remarks
+  For a code example look at the @@Lof function.
+
+@SeeAlso
+  @@WriteData, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = ReadString(#File [, Flags [, Length]])
+
+@Description
+  Read a string from a file until an 'End Of Line' or a 'Null' character is found (Unix, DOS and Macintosh
+  file formats are supported).
+
+@Parameter "#File"
+  The file to read from.
+
+@OptionalParameter "Flags"
+  The flags to apply while reading the string. It may be one of the following values:
+@FixedFont
+  @#PB_Ascii  : reads the string as ASCII
+  @#PB_UTF8   : reads the string as UTF8
+  @#PB_Unicode: reads the string as UTF16
+@EndFixedFont
+  combined with:
+@FixedFont
+  @#PB_File_IgnoreEOL: ignores the end of line (but the resulting string will still contain them) until the specified
+                      length or the end of file.
+@EndFixedFont
+
+@OptionalParameter "Length"
+  Read the file until the length (in characters) have been reached. If an end of line is encountered
+  before the length is reached, the read will stop (unless the flag @#PB_File_IgnoreEOL has been set).
+
+@ReturnValue
+  Returns the read string, or an empty string if the read has failed.
+
+@Remarks
+  For detecting the string encoding format (byte order mark) used in a file there is the
+@@ReadStringFormat function available.
+@LineBreak
+@LineBreak
+  For an example see the @@ReadFile.
+
+@SeeAlso
+  @@WriteString, @@ReadStringFormat, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReadStringFormat(#File)
+
+@Description
+  Checks if the current file position contains a BOM (Byte Order Mark) and tries to identify the
+  String encoding used in the file. 
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns one of the following values:
+@FixedFont
+  @#PB_Ascii  : No BOM detected. This usually means a plain text file.
+  @#PB_UTF8   : UTF-8 BOM detected.
+  @#PB_Unicode: UTF-16 (little endian) BOM detected.
+
+  @#PB_UTF16BE: UTF-16 (big endian) BOM detected.
+  @#PB_UTF32  : UTF-32 (little endian) BOM detected.
+  @#PB_UTF32BE: UTF-32 (big endian) BOM detected.
+@EndFixedFont
+  The @#PB_Ascii, @#PB_UTF8 and @#PB_Unicode results may be used directly
+  in further calls to @@ReadString to read the file. The other results represent string
+  formats that cannot be directly read with PureBasic string functions. They are included for completeness so that an
+  application can display a proper error-message.
+
+
+@Remarks
+  If a BOM is detected, the @Link "FileSeek" "file pointer" will be placed
+  at the end of the BOM. If no BOM is detected, the file pointer remains unchanged.
+
+@LineBreak
+@LineBreak
+
+  The Byte Order Mark is a commonly used way to indicate the encoding for a textfile. It is usually placed
+  at the beginning of the file. It is however not a standard, just a commonly used practice. So if no BOM is
+  detected at the start of a file, it does not necessarily mean that it is a plain text file. It could also
+  just mean that the program that created the file did not use this practice.
+  @@WriteStringFormat may be used to place such a BOM in a file.
+
+@LineBreak
+@LineBreak
+
+  For more information, see this @InternetLink "http://en.wikipedia.org/wiki/Byte_Order_Mark" "Wikipedia Article."
+
+@LineBreak
+
+  More information about using unicode in a PureBasic program can also be found @ReferenceLink "unicode" "here".
+
+@SeeAlso
+  @@WriteStringFormat, @@ReadString, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.u = ReadUnicodeCharacter(#File)
+
+@Description
+  Read a unicode character (2 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read character or zero if there was an error.
+
+@Remarks
+  For an example of how to read from a file, see the @@ReadFile function - with
+  ReadUnicodeCharacter() only a unicode character is read, instead of a complete line (string).
+
+@SeeAlso
+  @@WriteUnicodeCharacter, @@ReadAsciiCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.w = ReadWord(#File)
+
+@Description
+  Read a word (2 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read number or zero if there was an error.
+
+@Remarks
+  For an example of how to read from a file, see the @@ReadFile function - with
+  ReadWord() only a word value is read, instead of a complete line (string).
+
+@SeeAlso
+  @@WriteWord, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteAsciiCharacter(#File, Number.a)
+
+@Description
+  Write an ascii character (1 byte) to a file. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The ascii character value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function - with WriteAsciiCharacter() only an ascii character is written, instead of a string.
+
+@SeeAlso
+  @@ReadAsciiCharacter, @@WriteUnicodeCharacter, @@WriteCharacter, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteByte(#File, Number.b)
+
+@Description
+  Write a byte number (1 byte) to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function - with WriteByte() only a byte number is written, instead of a string.
+
+@SeeAlso
+  @@ReadByte, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteCharacter(#File, Character.c [, Format])
+
+@Description
+  Write a character number (1 byte in ASCII, 2 bytes in @ReferenceLink "unicode" "unicode") to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Character"
+  The character value to write.
+
+@OptionalParameter "Format"
+  The format of the character to write. It can be one of the following value:
+@FixedFont
+  @#PB_Ascii  : 1 byte character.
+  @#PB_Unicode: 2 bytes character (default, see @ReferenceLink "unicode" "unicode" mode).
+  @#PB_UTF8   : multi-bytes character (from 1 to 4 bytes).
+@EndFixedFont  
+
+@ReturnValue
+  Returns nonzero if the operation was successful or zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function - with WriteCharacter() only a character number is written, instead of a string.
+
+@SeeAlso
+  @@ReadCharacter, @@writeAsciiCharacter, @@WriteUnicodeCharacter, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteDouble(#File, Number.d)
+
+@Description
+  Write a double number (8 bytes) to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number.d"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function - with WriteDouble() only a double number is written, instead of a string.
+
+@SeeAlso
+  @@ReadDouble, @@WriteFloat, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteFloat(#File, Number.f)
+
+@Description
+  Write a float number (4 bytes) to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number.f"
+  The float value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function - with WriteFloat() only a float number is written, instead of a string.
+
+@SeeAlso
+  @@ReadFloat, @@WriteDouble, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteInteger(#File, Number)
+
+@Description
+  Write an integer number (4 bytes in 32-bit executable, 8 bytes in 64-bit executable) to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function - with WriteInteger() only a integer variable is written, instead of a string.
+
+@SeeAlso
+  @@ReadInteger, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteLong(#File, Number)
+
+@Description
+  Write a long number (4 bytes) to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function - with WriteLong() only a long variable is written, instead of a string.
+
+@SeeAlso
+  @@ReadLong, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteData(#File, *MemoryBuffer, Length)
+
+@Description
+  Write the content of the specified memory buffer to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "*MemoryBuffer"
+  The memory address of the data to write to the file.
+
+@Parameter "Length"
+  The number of bytes to write to the file.
+
+@ReturnValue
+  Returns the number of bytes actually written to the file.
+  If there is an error, the return-value is zero.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@Example
+@Code
+
+  *MemoryID = AllocateMemory(1000)       ; allocating a memory block
+  If *MemoryID
+    PokeS(*MemoryID, "Store this string in the memory area")   ; we write a string into the memory block
+  EndIf
+  If CreateFile(0, GetHomeDirectory()+"Text.txt")           ; we create a new text file...
+    WriteData(0, *MemoryID, SizeOf(Character)*Len("Store this string in the memory area"))          ; write the text from the memory block into the file
+    CloseFile(0)                         ; close the previously opened file and so store the written data
+  Else
+    Debug "may not create the file!"
+  EndIf
+
+@EndCode
+
+@SeeAlso
+  @@ReadData, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteQuad(#File, Number.q)
+
+@Description
+  Write a quad number (8 bytes) to a file. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number.q"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function - with WriteQuad() only a quad number is written, instead of a string.
+
+@SeeAlso
+  @@ReadQuad, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteString(#File, Text$ [, Format])
+
+@Description
+  Write a string to a file. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Text$"
+  The string to write.
+
+@OptionalParameter "Format"
+  The format in which to write the string. It can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Writes the string in ASCII format
+  @#PB_UTF8   : Writes the string in UTF8 format
+  @#PB_Unicode: Writes the string in UTF16 format
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+  The null ending string character is not written to the file.
+@LineBreak
+@LineBreak
+  To place a BOM (byte order mark) to later identify the string encoding format of a file
+  use the @@WriteStringFormat function.
+  To write a string including a newline sequence, use the @@WriteStringN function.
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function.
+
+@SeeAlso
+  @@ReadString, @@WriteStringN, @@WriteStringFormat, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteStringFormat(#File, Format)
+
+@Description
+  Writes a BOM (Byte Order Mark) at the current position in the file. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Format"
+  The format for which the mark should be written. It can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Writes no BOM at all (this is usually interpreted as an plain Ascii file.)
+  @#PB_UTF8   : UTF-8 BOM
+  @#PB_Unicode: UTF-16 (little endian) BOM
+
+  @#PB_UTF16BE: UTF-16 (big endian) BOM
+  @#PB_UTF32  : UTF-32 (little endian) BOM
+  @#PB_UTF32BE: UTF-32 (big endian) BOM
+@EndFixedFont
+  The @#PB_Ascii, @#PB_UTF8 and @#PB_Unicode correspond to the flags supported
+  by @@WriteString and @@WriteStringN. After placing such a BOM,
+  the strings which follow should all be written with this flag. The other formats represent string
+  formats that can not be written directly with the PureBasic string functions. They are included only for completeness.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@LineBreak
+@LineBreak
+  The Byte Order Mark is a commonly used method with which to indicate the encoding of a textfile. It is usually placed
+  at the beginning of the file. It is however not a standard, just a commonly used practice. So if no BOM is
+  detected at the start of a file, it does not necessarily mean that it is a plain text file. It could also
+  just mean that the program that created the file did not use this practice.
+@@ReadStringFormat may be used detect a BOM within a file.
+
+@LineBreak
+@LineBreak
+  For more information, see this @InternetLink "http://en.wikipedia.org/wiki/Byte_Order_Mark" "Wikipedia Article."
+
+@LineBreak
+  More information about using unicode in PureBasic program can also be found @ReferenceLink "unicode" "here".
+
+@SeeAlso
+  @@ReadStringFormat, @@WriteString, @@WriteStringN, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteStringN(#File, Text$ [, Format])
+
+@Description
+  Write a string to a file and add an 'end of line' character. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Text$"
+  The string to write.
+
+@OptionalParameter "Format"
+  The format in which to write the string. It can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Writes the string in ASCII format
+  @#PB_UTF8   : Writes the string in UTF8 format
+  @#PB_Unicode: Writes the string in UTF16 format
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+@LineBreak
+@LineBreak
+  To place a BOM (byte order mark) to later identify the string encoding format of a file
+  use the @@WriteStringFormat function.
+  To write a string without a newline sequence, use the @@WriteString function.
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function.
+
+@SeeAlso
+  @@ReadString, @@WriteString, @@WriteStringFormat, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteUnicodeCharacter(#File, Number)
+
+@Description
+  Write a unicode character (2 bytes) to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The unicode character value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function - with WriteUnicodeCharacter() only a unicode character is written, instead of a string.
+
+@SeeAlso
+  @@ReadUnicodeCharacter, @@WriteAsciiCharacter, @@WriteCharacter, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteWord(#File, Number)
+
+@Description
+  Write a word number (2 bytes) to a file. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
+  space left on the output device for the write operation. 
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function - with WriteWord() only a word variable is written, instead of a string.
+
+@SeeAlso
+  @@ReadWord, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

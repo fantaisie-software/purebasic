@@ -1,0 +1,102 @@
+@Title Dim
+
+@Syntax
+
+  @Keyword Dim name.<type>(<expression>, [<expression>], ...) 
+
+@Description
+
+  @Keyword Dim is used to create new arrays (the initial value of each element will be zero).
+  An array in SpiderBasic can be of any types, including @ReferenceLink "Structures" structured, 
+  and user defined types. Once an array is defined it can be resized with @Keyword ReDim.
+  Arrays are dynamically allocated which means a @ReferenceLink "variables" "variable" or
+  an @ReferenceLink "general_rules" "expression" can be used to size them. 
+  To view all commands used to manage arrays, see the @LibraryLink "Array" "Array" library.
+  @LineBreak
+  @LineBreak
+  When you define a new array, please note that it will have one more element than you used as parameter, 
+  because the numbering of the elements in SpiderBasic (like in other BASIC's) starts at element 0. 
+  For example when you define @Keyword Dim(10) the array will have 11 elements, elements 0 to 10. 
+  This behavior is different for static arrays in @ReferenceLink "Structures" "structures".
+  @LineBreak
+  @LineBreak
+  The new arrays are always locals, which means @ReferenceLink "Global" Global or @ReferenceLink "Shared" Shared commands
+  have to be used if an array declared in the main source need to be used in procedures.
+  It is also possible to pass an array as parameter to a @ReferenceLink "Procedures" "procedure" - 
+  by using the keyword @Keyword Array. It will be passed "by reference" (which means, that the array will not be copied, instead the
+  functions in the procedure will manipulate the original array).
+  @LineBreak
+  @LineBreak
+  To delete the content of an array and release its used memory during program flow, 
+  call @@FreeArray.
+  @LineBreak
+  @LineBreak
+  If @Keyword Dim is used on an existing array, it will reset its contents to zero.
+  @LineBreak
+  @LineBreak
+  For fast swapping of array contents the @ReferenceLink "others" "Swap" keyword is available.
+  @LineBreak
+  @LineBreak
+  Note: Array bound checking is only done when the runtime @ReferenceLink "Debugger" Debugger is enabled. 
+
+  @Example 
+
+@Code
+  Dim MyArray(41)
+  MyArray(0) = 1
+  MyArray(1) = 2 
+@EndCode
+
+  @Example Multidimensional array
+  
+@Code  
+  Dim MultiArray.b(NbColumns, NbLines)
+  MultiArray(10, 20) = 10
+  MultiArray(20, 30) = 20
+@EndCode
+
+  @Example Array as procedure parameter
+  
+@Code  
+  Procedure fill(Array Numbers(1), Length)  ; the 1 stays for the number of dimensions in the array
+    For i = 0 To Length
+      Numbers(i) = i
+    Next
+  EndProcedure
+  
+  Dim Numbers(10)
+  fill(Numbers(), 10)  ; the array A() will be passed as parameter here
+  
+  Debug Numbers(5)
+  Debug Numbers(10)
+@EndCode
+
+
+@Syntax
+
+  @Keyword ReDim name.<type>(<expression>, [<expression>], ...) 
+
+@Description
+
+  @Keyword ReDim is used to 'resize' an already declared array while preserving its content. The
+  new size can be larger or smaller, but the number of dimension of the array can not be changed.
+  @LineBreak
+  @LineBreak
+  If @Keyword ReDim is used with a multi-dimension array, only its last dimension can be changed.
+
+  @Example 
+
+@Code
+  Dim MyArray.l(1) ; We have 2 elements
+  MyArray(0) = 1
+  MyArray(1) = 2
+  
+  ReDim MyArray(4) ; Now we want 5 elements
+  MyArray(2) = 3
+  
+  For k = 0 To 2
+    Debug MyArray(k)
+  Next
+@EndCode
+
+

@@ -1,0 +1,58 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Sound example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+; Note: should use Chrome to use WebAudio API
+;
+
+InitSound()
+
+Procedure PlayLazerEvent()
+  PlaySound(0)
+EndProcedure
+
+Procedure PlaySirenEvent()
+  PlaySound(1)
+EndProcedure
+
+Procedure Start()
+  If OpenWindow(0, 0, 0, 200, 90, "Sound example", #PB_Window_TitleBar | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+    
+    ButtonGadget(0, 10, 10, 180, 30, "Play Lazer !")
+    ButtonGadget(1, 10, 50, 180, 30, "Play Siren !")
+    
+    BindGadgetEvent(0, @PlayLazerEvent())
+    BindGadgetEvent(1, @PlaySirenEvent())
+  EndIf
+EndProcedure
+
+
+Procedure Loading(Type, Filename$, ObjectId)
+  Static NbLoadedElements
+  
+  Debug Filename$ + " loaded (id = " + ObjectId + ")"
+  
+  NbLoadedElements+1
+  If NbLoadedElements = 2 ; Finished the loading of all sounds, we can start the application
+    Start()
+  EndIf
+EndProcedure
+
+
+Procedure LoadingError(Type, Filename$)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loading())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+
+LoadSound(0, "Data/Lazer.wav")
+LoadSound(1, "Data/Siren.ogg")
+

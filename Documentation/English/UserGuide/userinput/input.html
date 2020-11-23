@@ -1,0 +1,282 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Interacting with the user - PureBasic User Guide</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Interacting with the user: Reading values from the user</h1>
+Now that you know how to display text for the user, we need to look at how to
+ read text in to your programs. There are two commands for doing this using
+ consoles, both described below.
+
+<p><h2>The Input command</h2>
+The first command is <span class="code">Input()</span>, which you have already seen in the examples
+ and exercises. The Input command has no parameters but returns a string
+ (the string which the user typed into the console window). When using the
+ Input command it will read characters in from the keyboard (if the console
+ window is active), until the user presses the return key. The Input command
+ will only accept characters up to the width of the console window.
+
+<p>Because the Input command waits for return to be pressed you would normally
+ use it when the user <em>must</em> make some input into your program. One
+ example of this is the way we have used it so far in the User Guide, to pause
+ the program until the user presses return (giving us a chance to see the
+ text in the console window before the program ends). Other examples may
+ be when a user enters a filename, a username or a password. All of those
+ would normally be entered before the program continues.
+
+<p>Below is an example of using the Input command. You can find the source
+ <a href="input.pb">here</a>. Underneath the example you will find some
+ sample output and an explanation of the source.
+
+<pre class="code">If OpenConsole()
+
+    Print(&quot;Enter your name: &quot;)
+
+    name$ = Input()
+    PrintN(&quot;&quot;)
+    PrintN(&quot;Hello, &quot;+name$+&quot;, nice to meet you&quot;)
+
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p><img class="output" src="input_run.png" alt="Output of the Input example" width="367" height="63">
+You will notice that we use the line <span class="code">Print(&quot;Enter your name: &quot;)</span>
+ before we get to any Input command. This is done to provide a <dfn>prompt</dfn>
+ to the user; some instructions that tell them what to enter instead of simply
+ leaving a flashing cursor. You will also see that we used Print to provide this
+ prompt. This makes the users input appear on the same line as the prompt,
+ although that is simply a matter of how you want the prompt to be displayed.
+
+<p>However, the important parts of the above example are the following lines:
+<pre class="codepart">    name$ = Input()
+    PrintN(&quot;&quot;)
+    PrintN(&quot;Hello, &quot;+name$+&quot;, nice to meet you&quot;)</pre>
+The first line there reads text entered by the user with the Input command.
+ The value returned by the Input command (which is the string the user has
+ entered) is stored in the <var>name$</var> variable. The next line,
+ <span class="code">PrintN(&quot;&quot;)</span>, may seem a strange thing to put in, but when the
+ user presses the return key it is not displayed in the console. So we must
+ &quot;manually&quot; put a new line in after the user has entered their string
+ (if we want to move onto a new line).
+ Finally, the string which the user entered is displayed to confirm that
+ it was read in successfully.
+
+<p><h2>The Inkey command</h2>
+The second method for reading the users input to a console window is the
+ <span class="code">Inkey()</span> command. It has no parameters and returns
+ a string containing two characters, showing what key the user pressed.
+ Unlike the Input command, Inkey does not wait for the user to press return.
+ It will check the keyboard and immediately return a string showing what
+ key had been pressed at that point. If there is no key being pressed
+ then the returned string will be empty (&quot;&quot;).
+
+<p>The first character in the returned string is the ASCII character which
+ represents that keypress. For example, if the user pressed the 'F' key then
+ the first character in the string will be &quot;F&quot;. The second character
+ in the string is more useful when the user presses keys that do not correspond to
+ letters or numbers (for example, the arrow keys). The second character in the
+ string allows you to check for those special keys.
+ 
+<p>Typical cases where you may use the Inkey command would be those where
+ the user can press a key but if they do not the program should continue
+ some processing. One example of this may be if you are calculating some
+ value which will take a long time and you want to give the user the
+ option to cancel by pressing some key on the keyboard. Another example of this
+ might be if you had a menu displayed that you wanted your program to respond
+ to any keys pressed immediately rather than wait for the return key to be pressed.
+
+<p>There is no example for the Inkey command at the moment because we have not yet
+ covered enough of the PureBasic language to allow us to process the characters
+ in the string. The required commands will be covered in the next chapter.
+
+<p><h2>Reading in numbers</h2>
+The two commands described above only cater for reading strings from the
+ user, so what do you do if you want to read in a number? For this you need
+ to know a couple of other commands, namely <span class="code">Val()</span>
+ and <span class="code">ValF()</span>. These two commands perform the opposite
+ function of the Str and StrF commands that were introduced in the
+ <a href="../variables/index.html">Variables chapter</a>.
+
+<p>The Val command takes a string (which contains a number) as a parameter
+ and returns a long as the result (which is the value of the number in the
+ string). The number contained in the string should only be a whole number.
+
+<p>The ValF command is similar, but is used to convert numbers with fractional
+ parts. It also takes a string as the parameter (containing the number to convert)
+ but this time returns a float.
+
+<p>This example shows the workings of Val and ValF. You can find the source
+ <a href="val.pb">here</a> and the output of the example below.
+
+<pre class="code">If OpenConsole()
+
+    Print(&quot;Please enter your name: &quot;)
+    name$ = Input()
+    PrintN(&quot;&quot;)
+
+    Print(&quot;How old are you? &quot;)
+    age.w = Val(Input())
+    PrintN(&quot;&quot;)
+
+    Print(&quot;Please enter a number (with decimal places if you like): &quot;)
+    num1.f = ValF(Input())
+    PrintN(&quot;&quot;)
+
+    Print(&quot;and another (with decimal places if you like): &quot;)
+    num2.f = ValF(Input())
+    PrintN(&quot;&quot;)
+
+    ; Display the results to the user
+    PrintN(&quot;&quot;)
+    PrintN(&quot;Hello, &quot;+name$+&quot;. I see that you are &quot;+Str(age)+&quot; years old.&quot;)
+    PrintN(&quot;You have an affinity with the number &quot;+StrF(num1 * num2)+&quot;!&quot;)
+
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p><img class="output" src="val_run.png" alt="Output of the Val and ValF example" width="492" height="102">
+ As you can see most of this example is the same as the Input example. The main
+ differences are in the lines which use either the Val or ValF commands. In these
+ cases the value returned by the Input command (which is the string that the user
+ enters) is used directly as the parameter to the Val or ValF command, to get the
+ numerical value of the number in the string. Of course, to print these out again
+ we need to convert them back to a string using the Str or StrF commands.
+
+<p><h2>Validating user input</h2>
+Another important task which you will need to deal with quite often is validating
+ some input that the user has given your program. You do this to make sure the
+ data your program has to work with is valid, and in an acceptable form or in the
+ correct range. This does not just apply to reading input from a console, but it is
+ a useful place (i.e. in the beginning) to start thinking about it.
+
+<p>To perform the validation of data, you only really need two parts to a piece of
+ code. The first must read the data from the user, and must be enclosed within the
+ second part - a loop which repeats until the correct format of data has been entered
+ (or while the incorrect format of data is being entered). The example below shows
+ two possible ways you can validate data that the user enters using the Input() command.
+ You can also find the source <a href="validation.pb">here</a>.
+
+<pre class="code">If OpenConsole()
+    
+    ; Problem 1 - read a number from the user in the range 1 to 10
+    Repeat
+        Print(&quot;Please enter a number in the range 1 to 10: &quot;)
+        
+        number.l = Val(Input())
+        PrintN(&quot;&quot;)  ; Move onto the line after the user's number has been entered
+        
+        ; Check the data the user entered and let them know if it was incorrect
+        If number<1 Or number>10
+            PrintN(&quot;Error. You must enter a number between 1 and 10.&quot;)
+        EndIf
+    
+        ; Keep going round the loop until the number the user enters is valid
+    Until number>=1 And number<=10
+    
+    PrintN(&quot;You successfully entered the number &quot;+Str(number))
+
+
+    ; Problem 2 - read a number from the user in the range 1 to 100
+    Print(&quot;Please enter a number in the range 1 to 100: &quot;)
+    number = Val(Input())
+    
+    While number<1 Or number>100
+        PrintN(&quot;&quot;)
+        Print(&quot;Error. You must enter a number between 1 and 100: &quot;)
+        number.l = Val(Input())
+    Wend
+    
+    PrintN(&quot;&quot;)
+    PrintN(&quot;You successfully entered the number &quot;+Str(number))
+    
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p><img class="output" src="validation_run.png" alt="Output of the validation example" width="706" height="268">
+<p>In the above example, two possible loops are shown as an example of how to
+ read a value from the user and make sure it is within a given range. In the first case,
+ the loop is taken care of by the lines: <pre class="codepart">
+    Repeat
+</pre>
+and
+<pre class="codepart">
+    Until number>=1 And number<=10
+</pre> meaning that the instructions inside the loop will repeat until the value of
+ the <var>number</var> variable is more than or equal to 1 and less than or equal to 10
+ (in other words in the range 1 to 10, inclusive). The second requirement is fulfilled
+ when the user is given some instruction about what to enter (always useful). The
+ Input() command is used to read what the user types and the Val() command is used to
+ convert it to a number.
+<pre class="codepart">
+        Print(&quot;Please enter a number in the range 1 to 10: &quot;)
+        
+        number.l = Val(Input())
+        PrintN(&quot;&quot;)  ; Move onto the line after the user's number has been entered
+</pre>
+
+The user is then given some immediate feedback so that they know they have made a mistake.
+ Notice that the expression in the If condition is the opposite of the condition that
+ controls the loop (since this condition is used to see if the user input is out of range
+ and the loop control condition checks to see if it is in range).
+<pre class="codepart">
+        If number<1 Or number>10
+            PrintN(&quot;Error. You must enter a number between 1 and 10.&quot;)
+        EndIf
+</pre>
+
+<p>The second example shows an alternative method for validating user input. First of all
+ the user is prompted to enter a value in a certain range. This value is then read using the
+ Val and Input commands:
+<pre class="codepart">
+    Print(&quot;Please enter a number in the range 1 to 100: &quot;)
+    number = Val(Input())
+</pre>
+The loop then runs while the data is outwith the required range (remember, a While...Wend
+ loop will not be executed at all if the condition is not met). In this case, the instructions
+ inside the loop are executed while the number that the user has entered is lower than 1 or more
+ than 100 (the range limits):
+<pre class="codepart">
+    While number<1 Or number>100
+</pre>
+and
+<pre class="codepart">
+    Wend
+</pre>
+
+Finally, the instructions in the loop are used to tell the user that they have made a mistake and
+ then read in a new value (again, using the Val and Input commands).
+<pre class="codepart">
+        PrintN(&quot;&quot;)
+        Print(&quot;Error. You must enter a number between 1 and 100: &quot;)
+        number.l = Val(Input())
+</pre>
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="print.html">Displaying text</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="appearance.html">Appearance of the display</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

@@ -1,0 +1,130 @@
+;
+; Help library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Help
+
+@Overview
+
+  L'aide (help) est un composant clé d'un 
+  logiciel. Cela permet à l'utilisateur 
+  d'en découvrir facilement et efficacement 
+  les fonctions. PureBasic permet d'afficher 
+  des fichiers d'aide normalisés traitant 
+  un niveau global et un niveau contextuel.
+  
+@OS Windows
+@LineBreak
+@LineBreak
+  Sous Microsoft Windows, deux types de 
+  formats sont supportés: .hlp 
+  (ancien format) et .chm (nouveau format 
+  compatible HTML).
+@EndOS
+@CommandList
+
+@ExampleFile All Help.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseHelp()
+
+@Description
+  Ferme la fenêtre d'aide préalablement 
+  ouverte avec @@OpenHelp.
+  
+@NoParameters
+
+@NoReturnValue 
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 220, 150, "Exemple...", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    StickyWindow(0,#True) 
+
+    ButtonGadget  (0, 10, 10, 200, 30, "Aide")
+    ButtonGadget  (1, 10, 60, 200, 30, "Aide DrawingMode()")
+    ButtonGadget  (2, 10, 110, 200, 30, "Fermer l'aide")
+    
+  Repeat
+    Event = WaitWindowEvent()
+    
+    Select Event
+        
+      Case #PB_Event_Gadget
+        Select EventGadget()
+          Case 0 
+            OpenHelp(#PB_Compiler_Home + "PureBasic.chm","")
+           
+          Case 1 
+            OpenHelp(#PB_Compiler_Home + "PureBasic.chm","2ddrawing/drawingmode.html")
+            
+          Case 2 
+            CloseHelp()
+             
+        EndSelect
+        
+    EndSelect
+  Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenHelp
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OpenHelp(NomFichier$, Theme$)
+
+@Description
+  Ouvre et affiche une fenêtre d'aide. 
+
+@Parameter "NomFichier$" 
+  Le nom du fichier d'aide .chm ou .hlp 
+  à utiliser.
+
+@Parameter "Theme$"
+  Le nom de la page à afficher.@LineBreak
+  Très utile pour l'aide en ligne / 
+  contextuelle).
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 220, 100, "Exemple...", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ButtonGadget  (0, 10, 10, 200, 30, "Aide")
+    ButtonGadget  (1, 10, 60, 200, 30, "Aide DrawingMode()")
+  
+  Repeat
+    Event = WaitWindowEvent()
+    
+    Select Event
+        
+      Case #PB_Event_Gadget
+        Select EventGadget()
+          Case 0 
+            OpenHelp(#PB_Compiler_Home + "PureBasic.chm","")
+            
+          Case 1 
+            OpenHelp(#PB_Compiler_Home + "PureBasic.chm","2ddrawing/drawingmode.html")
+            
+        EndSelect
+        
+    EndSelect
+  Until Event = #PB_Event_CloseWindow
+EndIf
+@EndCode
+
+
+@SeeAlso
+  @@CloseHelp
+  
+@SupportedOS
+

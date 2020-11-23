@@ -1,0 +1,57 @@
+@Title Runtime
+
+@Syntax
+
+  @Keyword Runtime Variable
+  @Keyword Runtime #Constant
+  @Keyword Runtime Procedure() declaration
+  @Keyword Runtime Enumeration declaration
+  
+@Description
+
+  For advanced programmers. @Keyword Runtime is used to create runtime accessible list of programming objects like variables,
+  constants and procedures. Once compiled a program doesn't have variable, constant or procedure label anymore as everything is
+  converted into binary code. @Keyword Runtime enforces the compiler to add an extra reference for a specific object to
+  have it available through the @LibraryLink "Runtime" "Runtime" library. The objects can be manipulated using their string
+  reference, even when the program is compiled.
+  @LineBreak
+  @LineBreak
+  Another use would be adding a small realtime scripting language to the program, allowing easy modification of exposed
+  variables, using runtime constants values. While it could be done manually by building a map of objects, the @Keyword Runtime
+  keyword allows to do it in a standard and unified way.
+
+  @Example Procedure
+
+@Code
+  Runtime Procedure OnEvent()
+    Debug "OnEvent"
+  EndProcedure 
+
+  Debug GetRuntimeInteger("OnEvent()") ; Will display the procedure address
+@EndCode
+
+  @Example Enumeration
+  
+@Code  
+  Runtime Enumeration
+    #Constant1 = 10
+    #Constant2
+    #Constant3
+  EndEnumeration
+
+  Debug GetRuntimeInteger("#Constant1")
+  Debug GetRuntimeInteger("#Constant2")
+  Debug GetRuntimeInteger("#Constant3")
+@EndCode
+
+  @Example Variable
+  
+@Code  
+  Define a = 20
+  Runtime a
+
+  Debug GetRuntimeInteger("a")
+  SetRuntimeInteger("a", 30)
+  
+  Debug a ; the variable has been modified
+@EndCode

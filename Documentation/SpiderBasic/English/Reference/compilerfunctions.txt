@@ -1,0 +1,280 @@
+@Title Compiler Functions
+
+
+@Syntax
+  
+  Size = @Keyword SizeOf(Type)
+
+@Description
+
+  @Keyword SizeOf can be used to find out the size of any complex @ReferenceLink "Structures" Structure (it does 
+  not work on the simple built-in types such as word and float), @ReferenceLink "Interfaces" Interface or even @ReferenceLink "variables" "variables". 
+  This can be useful in many areas such as calculating memory requirements for operations, using API commands, etc. 
+
+  @Example
+  
+@Code
+  Structure Person
+    Name.s
+    ForName.s 
+    Age.w 
+  EndStructure
+  
+  Debug "The size of my friend is "+Str(Sizeof(Person))+" bytes" ; will be 10 (4+4+2)
+  
+  John.Person\Name = "John"
+  
+  Debug SizeOf(John) ; will be also 10 
+@EndCode
+
+  Note: if a variable and a structure have the same name, the structure will have the priority over the variable.
+
+; -------------------------------------------------------------------------------------------------
+
+@Syntax
+
+  Index = @Keyword OffsetOf(Structure\Field)
+  Index = @Keyword OffsetOf(Interface\Function())
+
+@Description
+
+  @Keyword OffsetOf can be used to find out the index of a @ReferenceLink "Structures" Structure field or the index 
+  of an Interface function. When used with an @ReferenceLink "Interfaces" Interface, the function index is the memory 
+  offset, so it will be IndexOfTheFunction*SizeOf(Integer). 
+
+@Example
+
+@Code
+  Structure Person
+    Name.s
+    ForName.s 
+    Age.w 
+  EndStructure
+  
+  Debug OffsetOf(Person\Age) ; will be 8 as a string is 4 byte in memory
+                             ; (16 with the 64-bit compiler, as a string is 8 bytes there)
+  
+  
+  Interface ITest
+    Create()
+    Destroy(Flags) 
+  EndInterface
+  
+  Debug OffsetOf(ITest\Destroy()) ; will be 4
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+
+@Syntax
+
+  Type = @Keyword TypeOf(Object)
+
+@Description
+
+  @Keyword TypeOf can be used to find out the type of a @ReferenceLink "variables" "variable",
+  or a @ReferenceLink "structures" "structure field". The type can be
+  one of the following values:
+@FixedFont
+  @#PB_Byte      
+  @#PB_Word      
+  @#PB_Long      
+  @#PB_String    
+  @#PB_Structure
+  @#PB_Float
+  @#PB_Character
+  @#PB_Double
+  @#PB_Quad
+  @#PB_List
+  @#PB_Array
+  @#PB_Integer
+  @#PB_Map
+  @#PB_Ascii
+  @#PB_Unicode  
+@EndFixedFont
+
+@Example
+
+@Code
+  Structure Person
+    Name.s
+    ForName.s 
+    Age.w 
+  EndStructure
+  
+  If TypeOf(Person\Age) = #PB_Word
+    Debug "Age is a 'Word'"
+  EndIf
+            
+  Surface.f                 
+  If TypeOf(Surface) = #PB_Float
+    Debug "Surface is a 'Float'"
+  EndIf
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+
+@Syntax
+
+  Result = @Keyword Subsystem(<constant string expression>)
+
+@Description
+
+  @Keyword Subsystem can be used to find out if a @ReferenceLink "subsystems" "subsystem" is in use for the
+  program being compiled. The name of the subsystem is case sensitive.
+
+@Example
+
+@Code
+  CompilerIf Subsystem("OpenGL")
+    Debug "Compiling with the OpenGL subsystem"
+  CompilerEndIf
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+
+@Syntax
+
+  Result = @Keyword Defined(Name, Type)
+
+@Description
+
+  @Keyword Defined checks if a particular object of a code source like @ReferenceLink "structures" "structure", 
+  @ReferenceLink "interfaces" "interface", @ReferenceLink "variables" "variables" etc.
+  is already defined or not. The 'Name' parameter has to be specified without any extra decoration
+  (ie: without the '#' for a @ReferenceLink "general_rules" "constant", without '()' for an 
+  @ReferenceLink "dim" "array", a @ReferenceLink "newlist" "list" or a @ReferenceLink "newmap" "map").
+  @LineBreak
+  @LineBreak
+  The 'Type' parameter can be one of the following values:
+@FixedFont
+  @#PB_Constant
+  @#PB_Variable
+  @#PB_Array
+  @#PB_List
+  @#PB_Map
+  @#PB_Structure
+  @#PB_Interface
+  @#PB_Procedure
+  @#PB_Function
+  @#PB_OSFunction
+  @#PB_Label
+  @#PB_Prototype
+  @#PB_Module
+  @#PB_Enumeration
+@EndFixedFont
+
+@Example
+
+@Code
+  #PureConstant = 10
+  
+  CompilerIf Defined(PureConstant, #PB_Constant)
+    Debug "Constant 'PureConstant' is declared"
+  CompilerEndIf
+  
+  Test = 25
+  
+  CompilerIf Defined(Test, #PB_Variable)
+    Debug "Variable 'Test' is declared"
+  CompilerEndIf
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+
+@Syntax
+
+  @Keyword CopyStructure(*Source, *Destination, Structure)
+
+@Description
+
+  @Keyword CopyStructure copy the memory of a @ReferenceLink "structures" "structured" memory area to another.
+  This is useful when dealing with dynamic allocations, through @ReferenceLink "memory" "pointers". Every fields will be duplicated, even
+  @ReferenceLink "dim" "array", @ReferenceLink "newlist" "list", and @ReferenceLink "newmap" "map".
+  The destination structure will be automatically cleared before doing the copy, it's not
+  needed to call @Keyword ClearStructure before @Keyword CopyStructure. Warning: the destination
+  should be a valid structure memory area, or a cleared memory area. If the memory area is not cleared,
+  it could crash, as random values will be used by the clear routine.
+  There is no internal check to ensures that the structure match the two memory area. 
+  This function is for advanced users only and should be used with care.
+  
+@Example
+
+@Code
+  Structure People
+    Name$
+    LastName$
+    Map Friends$()
+    Age.l
+  EndStructure
+
+  Student.People\Name$ = "Paul"
+  Student\LastName$ = "Morito"
+  Student\Friends$("Tom") = "Jones"
+  Student\Friends$("Jim") = "Doe"
+  
+  CopyStructure(@Student, @StudentCopy.People, People)
+  
+  Debug StudentCopy\Name$
+  Debug StudentCopy\LastName$
+  Debug StudentCopy\Friends$("Tom")
+  Debug StudentCopy\Friends$("Jim")
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+
+@Syntax
+
+  @Keyword ClearStructure(*Pointer, Structure)
+
+@Description
+
+  @Keyword ClearStructure free the memory of a @ReferenceLink "structures" "structured" memory area.
+  This is useful when the structure contains strings, array, list or map which have been allocated internally by SpiderBasic.
+  'Structure' is the name of the structure which should be used to perform the clearing. All the fields will be
+  set to zero, even native type like long, integer etc. There is no internal check to ensures the structure 
+  match the memory area. This function is for advanced users only
+  and should be used with care.
+  
+@Example
+
+@Code
+  Structure People
+    Name$
+    LastName$
+    Age.l
+  EndStructure
+
+  Student.People\Name$ = "Paul"
+  Student\LastName$ = "Morito"
+  Student\Age = 10
+  
+  ClearStructure(@Student, People)
+  
+  ; Will print empty strings as the whole structure has been cleared. All other fields have been reset to zero.
+  ;
+  Debug Student\Name$
+  Debug Student\LastName$
+  Debug Student\Age
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+
+@Syntax
+
+  @Keyword Bool(<boolean expression>)
+
+@Description
+
+  @Keyword Bool can be used to evaluate a boolean expression outside of regular conditional operator like
+  @Keyword If, @Keyword While, @Keyword Until etc.
+  If the boolean expression is true, it will return @#True, otherwise it will return @#False.
+
+@Example
+
+@Code
+  Hello$ = "Hello"
+  World$ = "World"
+
+  Debug Bool(Hello$ = "Hello")  ; will print 1
+  Debug Bool(Hello$ <> "Hello" Or World$ = "World") ; will print 1
+@EndCode

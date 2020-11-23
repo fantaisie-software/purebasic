@@ -1,0 +1,85 @@
+@Title Import : EndImport
+
+@Syntax
+
+  @Keyword Import "NomFichier"
+    NomFonction.<type>(<parametre>, [, <parametre> [= ValeurDefaut]...]) [As "NomSymbole"]
+    ...
+    NomVariable.<type> [As "NomSymbole"]
+  @Keyword EndImport
+
+@Description
+
+  Pour les programmeurs chevronnés. @Keyword Import : @Keyword EndImport permet de déclarer facilement des fonctions
+  et des variables externes à partir d'un fichier bibliothèque (.lib) ou objet (.obj).
+  @LineBreak
+  @LineBreak
+  Une fois déclarées, les fonctions importées sont directement disponibles dans le programme, comme n'importe
+  quelle autre commande. Le compilateur ne vérifie pas si la fonction existe réellement dans le
+  fichier importé, donc si une erreur survient, elle sera reportée par le linker.
+  @LineBreak
+  @LineBreak
+  Les fonctions importées remplacent avantageusement les commandes @@OpenLibrary/@@CallFunction:
+  la vérification du type, le nombre de paramètres sont validés par le compilateur. De plus, contrairement à CallFunction(),
+  une fonction importée peut gérer les types 'double', 'float' et 'quad' sans aucun problème.
+  @LineBreak
+  @LineBreak
+  Les paramètres en fin de fonction peuvent avoir une valeur par défaut (une expression constante est requise).
+  Les paramètres ayant une valeur par défaut pourront être omis lors de l'appel de la fonction, la valeur
+  par défaut de chaque paramètre manquant sera utilisée.
+  @LineBreak
+  @LineBreak
+  Par défaut, le symbole de la fonction importée est décoré suivant le schéma suivant: _NomFonction@TailleArgument. Cela
+  devrait fonctionner pour la plupart des fonctions qui utilise la convention standard d'appel (stdcall). Par contre, si
+  la bibliothèque est écrite en C, et que les fonctions exportées ne sont pas stdcall, @Keyword ImportC devra être utilisé
+  à la place de @Keyword Import. Dans ce cas, par défaut le symbole est préfixé comme ceci: _NomFonction.
+  @LineBreak
+  @LineBreak
+  Les @ReferenceLink "pseudotypes" "pseudotypes" peuvent être utilisés pour les paramètres, mais pas pour le type de la valeur de retour.
+
+@Remarks  
+  En 64 bits, il n'y a qu'une seule convention d'appel, alors @Keyword ImportC fait la même chose que @Keyword Import.
+  
+@Example 
+
+@Code
+  Import "User32.lib"
+   
+    ; Pas besoin d'utiliser 'As' car PureBasic préfixe la fonction correctement
+    ; Nous définissons également le paramètre 'Options' comme facultatif, avec une valeur par défaut de 0 (quand il est omis)
+    ;
+    MessageBoxA(Fenetre.i, Corps$, Titre$, Options.i = 0)
+   
+    ; Cette fois PureBasic ne peut pas se débrouiller tout seul, car le
+    ; nom de la fonction n'est pas le même que celui utilisé par le symbole
+    ;
+    BoiteDeMessage(Fenetre.i, Corps$, Titre$, Options.i) As "_MessageBoxA@16"
+                                                   
+  EndImport
+ 
+  MessageBoxA(0, "Salut", "le Monde") ; Nous ne précisons pas les options
+  BoiteDeMessage(0, "Salut", "le Monde 2", 0)
+    
+@EndCode
+
+
+@Example Avec les pseudotypes
+
+@Code
+  Import "User32.lib"
+   
+    ; Nous utilisons le pseudotype 'p-unicode' pour les paramètres chaîne, car
+    ; MessageBoxW() est une fonction unicode seulement. Le compilateur va
+    ; automatiquement convertir les chaînes en unicode quand nécessaire.
+    ;
+    MessageBoxW(Fenetre.l, Corps.p-unicode, Titre.p-unicode, Options.l = 0)
+                                                 
+  EndImport
+ 
+  ;
+  MessageBoxW(0, "Salut", "le Monde") 
+    
+@EndCode
+
+
+

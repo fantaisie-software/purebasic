@@ -1,0 +1,258 @@
+@Title Normal Math-Formulas
+
+@Section Introduction
+
+  Following you find a nomination of various mathematical formulas. They should be a reference and 
+  also be helpful, to close possibly knowledge gaps. Because without good math knowledge complex 
+  games and applications can't be realized. @LineBreak
+  @LineBreak
+  Note: Instead of the used sign '^' please use the PureBasic function Pow() from the 'Math' library. 
+  'PI' stands for the constant value "PI = 3.1415...". An example for realizing such a formula in PureBasic 
+  code: A = PI*r^2 will be A = PI*Pow(r,2)
+
+@Section Square
+
+  @Image formula01.gif
+
+  l = Side length @LineBreak
+  e = Corner measure (ment) @LineBreak
+  A = Surface @LineBreak
+  U = Extent @LineBreak
+  @LineBreak
+  @Bold Surface: A = l^2 @LineBreak
+  @LineBreak
+  @Bold Extent: U = 4*l @LineBreak
+  @LineBreak
+  @Bold "Corner measure (ment):" e = SQR(2)*l 
+
+
+@Section Rhombus/Lozenge
+  
+  @Image formula02.gif
+  
+  l = Side length @LineBreak
+  b = Width @LineBreak
+  A = Surface @LineBreak
+  U = Extent @LineBreak
+  @LineBreak
+  @Bold Surface: A = l*b @LineBreak
+  @LineBreak
+  @Bold Extent: U = 4*l @LineBreak
+
+
+@Section Rectangle
+
+  @Image formula03.gif
+
+  l = Length @LineBreak
+  b = Width @LineBreak
+  e = Corner measure (ment) @LineBreak
+  A = Surface @LineBreak
+  U = Extent @LineBreak
+  @LineBreak
+  @Bold Surface: A = l*b @LineBreak
+  @LineBreak
+  @Bold Extent: U = 2*l+2*b @LineBreak
+  @LineBreak
+  @Bold "Corner measure (ment):" e = SQR(l^2+b^2)) @LineBreak
+
+
+@Section Rhomboid/Parallelogramm
+
+  @Image formula04.gif
+  
+  l = Lengthens @LineBreak
+  h = Height @LineBreak
+  b = Width @LineBreak
+  A = Surface @LineBreak
+  U = Extent @LineBreak
+  @LineBreak
+  @Bold Surface: A = l*h @LineBreak
+  @LineBreak
+  @Bold Extent: U = 2*l+2*b @LineBreak
+
+
+@Section Trapezoid
+
+  @Image formula05.gif
+
+  a = Side 1 @LineBreak
+  b = Side 2 @LineBreak
+  c = Side 3 @LineBreak
+  d = Side 4 @LineBreak
+  lm = Middle length @LineBreak
+  h = Height @LineBreak
+  A = Surface @LineBreak
+  U = Extent @LineBreak
+  @LineBreak
+  @Bold Surface: A = (a+c)/2*h @LineBreak
+  @LineBreak
+  @Bold Extent: U = a+b+c+d @LineBreak
+  @LineBreak
+  @Bold "Middle Length:" lm = (a+c)/2  @LineBreak
+
+
+@Section Triangle
+
+  @Image formula06.gif
+  
+  a = Side 1 @LineBreak
+  b = Side 2 @LineBreak
+  c = Side 3 @LineBreak
+  l = Side length @LineBreak
+  h = Height @LineBreak
+  A = Surface @LineBreak
+  U = Extent @LineBreak
+  @LineBreak
+  @Bold Surface: @LineBreak
+  A = (l*h)/2 @LineBreak
+  A = 1/4*SQR(U*(U-2*a)*(U-2*b)*(U-2*c)) @LineBreak
+  @LineBreak
+  @Bold Extent: U = a+b+c @LineBreak
+
+
+@Section Polygon
+
+  @Image formula07.gif
+  
+  l = Side length @LineBreak
+  d = Interior circle diameter @LineBreak
+  D = Periphery diameter @LineBreak
+  n = Number of corners @LineBreak
+  a = Central angle @LineBreak
+  ss = Corner angle @LineBreak
+  A = Surface @LineBreak
+  U = Extent @LineBreak
+  @LineBreak
+  @Bold "Interior circle diameter:" d = SQR(D*D-l*l) @LineBreak
+  @LineBreak
+  @Bold "Periphery diameter:" D = SQR(d*d+l*l) @LineBreak
+  @LineBreak
+  @Bold "Side length:" l = D*SIN(180/n) @LineBreak
+  @LineBreak
+  @Bold "Central angle:" a = 360/n @LineBreak
+  @LineBreak
+  @Bold "Corner angle:" ss = 180-a @LineBreak
+  @LineBreak
+  @Bold Surface: A = n*l*d/4 @LineBreak
+  @LineBreak
+  @Bold Extent: U = l*n @LineBreak
+
+
+@Section Circle
+
+  @Image formula08.gif
+
+  r = Radius @LineBreak
+  D = Diameter @LineBreak
+  A = Surface @LineBreak
+  U = Extent @LineBreak
+  @LineBreak
+  @Bold Surface: @LineBreak
+  A = PI*r^2 @LineBreak
+  A = PI/4*d^2 @LineBreak
+  @LineBreak
+  @Bold Extent: @LineBreak
+  U = 2*PI*r @LineBreak
+  U = PI*d @LineBreak
+ 
+ 
+@Section Sector of a circle
+
+  @Image formula09.gif
+
+  r = Radius @LineBreak
+  D = Diameter @LineBreak
+  l = Sinew length @LineBreak
+  lb = Length of curve @LineBreak
+  a = Central angle @LineBreak
+  A = Surface @LineBreak
+  U = Extent @LineBreak
+  @LineBreak
+  @Bold "Sinew length:" l = 2*r*SIN(a/2) @LineBreak
+  @LineBreak
+  @Bold "Length of curve:" lb = PI*r*a/180 @LineBreak
+  @LineBreak
+  @Bold Surface: @LineBreak
+  A = PI*D^2*a/1440 @LineBreak
+  A = lb*r/2 @LineBreak
+  @LineBreak
+  @Bold Extent: U = lb+D
+
+
+@Section Circle section
+
+  @Image formula10.gif
+
+  r = Radius @LineBreak
+  D = Diameter @LineBreak
+  l = Sinew length @LineBreak
+  lb = Length of curve @LineBreak
+  a = Central angle @LineBreak
+  b = Width @LineBreak
+  A = Surface @LineBreak
+  U = Extent @LineBreak
+  @LineBreak
+  @Bold "Sinew Length:" @LineBreak
+  l = 2*r*SIN(a/2) @LineBreak
+  l = 2*SQR(b*(2*r-b)) @LineBreak
+  @LineBreak
+  @Bold "Length of curve:" lb = PI*r*a/180 @LineBreak
+  @LineBreak
+  @Bold Width: @LineBreak
+  b = l/2*TAN(a/4) @LineBreak
+  b = r-SQR(r^2-l^2/4) @LineBreak
+  @LineBreak
+  @Bold Radius: r = b/2+l^2/(8*b) @LineBreak
+  @LineBreak
+  @Bold Surface: @LineBreak
+  A = PI*d^2*a/1440-(l*(r-b))/2 @LineBreak
+  A = (lb*r-l*(r-b))/2 @LineBreak
+  @LineBreak
+  @Bold Extent: U = lb+l @LineBreak
+
+
+@Section Annulus
+
+  @Image formula11.gif
+  
+  d = Inside diameter @LineBreak
+  D = Outside diameter @LineBreak
+  dm = Middle diameter @LineBreak
+  b = Width @LineBreak
+  A = Surface @LineBreak
+  @LineBreak
+  @Bold "Middle diameter:" dm = (D+d)/2 @LineBreak
+  @LineBreak
+  @Bold Surface: @LineBreak
+  A = PI*dm*b @LineBreak
+  A = PI/4*(D^2-d^2) @LineBreak
+
+
+@Section Memory consumption of a picture
+
+  a = Width of picture (in Pixel) @LineBreak
+  b = Height of picture (in Pixel) @LineBreak
+  bits = Colordepth of the picture (in Bits) @LineBreak
+  @LineBreak
+  size = a * b * (bits / 8) @LineBreak
+  
+  
+@Section Distance between two points
+
+  (x1|y1) = XY coordinates of point No. 1 @LineBreak
+  (x2|y2) = XY coordinates of point No. 2 @LineBreak
+  a = Distance between the points @LineBreak
+  @LineBreak
+  a = SQR((x1-x2)^2 + (y1-y2)^2)
+
+
+@Section "Mixing" of two values
+  
+  a = 1st Number @LineBreak
+  b = 2nd Number @LineBreak
+  v = Relationship (0% - 100%) @LineBreak
+  e = Result @LineBreak
+  @LineBreak
+  e = ((a*v)/100) + ((b*(100-v)) / 100) @LineBreak
+

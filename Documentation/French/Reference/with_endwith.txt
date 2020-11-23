@@ -1,0 +1,67 @@
+@Title With : EndWith
+
+@Syntax
+
+  @Keyword With <expression>
+    ...
+  @Keyword EndWith
+
+@Description
+
+  Le bloc @Keyword With : @Keyword EndWith permet de réduire la quantité de code à saisir et améliore sa lisibilité quand
+  beaucoup de champs d'une @ReferenceLink "structures" "structure" doivent être renseignés. L'<expression> spécifiée sera
+  automatiquement insérée avant chaque caractère anti-slash '\' qui suit un espace ou un opérateur. C'est une directive
+  de compilateur qui fonctionne de la même manière qu'une @ReferenceLink "macros" "macro": la ligne complète est recréée lors
+  de la compilation, puis elle est traitée. Les blocs @Keyword With : @Keyword EndWith ne peuvent pas être
+  imbriqués, car cela pourrait générer des bugs difficiles à résoudre.
+  
+@Example 
+
+@Code
+  Structure Personne
+    Nom$
+    Age.l
+    Taille.l
+  EndStructure
+
+  Ami.Personne
+  
+  With Ami
+    \Nom$ = "Yann"
+    \Age   = 30
+    \Taille  = 196
+    
+    Debug \Taille+\Taille
+  EndWith
+    
+@EndCode
+
+@Example
+
+@Code
+  Structure Corps
+    Poids.l
+    Couleur.l
+    Texture.l
+  EndStructure
+
+  Structure Personne
+    Nom$
+    Age.l
+    Corps.Corps[10]
+  EndStructure
+
+  Ami.Personne
+  
+  For k = 0 to 9
+    With Ami\Corps[k]
+      \Poids = 50
+      \Couleur  = 30
+      \Texture = \Couleur*k
+      
+      Debug \Texture
+    EndWith
+  Next
+    
+@EndCode
+

@@ -1,0 +1,46 @@
+@Title UserGuide - Constants
+
+In addition to @ReferenceLink "variables" "variables" PureBasic provides a method to
+define @ReferenceLink "general_rules" "constants" too. In fact it provides several.
+We’ll have a quick look at them now.
+
+Predefined constants - provided either by PureBasic itself (all begin with @#PB_), or
+from the API for the operating system. The IDE’s @ReferenceLink "ide_tools" "Structure Viewer"
+tool has a panel which shows all the predefined constants.
+
+User defined constants - by defining a constant name with the prefix # you can provide
+your own constants to make code more readable.
+@Code
+  #MyConstant1 = 10
+  #MyConstant2 = "Hello, World!"
+@EndCode
+
+@ReferenceLink "enumerations" "Enumerations" – PureBasic will automatically number a
+series of constants sequentially in an Enumeration, by default enumerations will
+begin from zero – but this can be altered, if desired.
+
+@Code
+  Enumeration
+    #MyConstantA
+    #MyConstantB
+    #MyConstantC
+  EndEnumeration
+  
+  Enumeration 10 Step 5
+    #MyConstantD
+    #MyConstantE
+    #MyConstantF
+  EndEnumeration
+  
+  Debug #MyConstantA   ; will be 0
+  Debug #MyConstantB   ; will be 1
+  Debug #MyConstantC   ; will be 2
+  
+  Debug #MyConstantD   ; will be 10
+  Debug #MyConstantE   ; will be 15
+  Debug #MyConstantF   ; will be 20
+@EndCode
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_variables" "< Previous: Variables" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_decisions" "Next: Decisions & Conditions >"

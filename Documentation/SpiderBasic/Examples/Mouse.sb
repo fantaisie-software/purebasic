@@ -1,0 +1,65 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Mouse example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+InitMouse(#PB_Mouse_Locked)
+
+OpenScreen(800, 600, 32, "Test")
+
+Procedure RenderFrame()
+  Static x, y
+  
+  ClearScreen(RGB(0, 0, 0))
+  
+  If ExamineMouse()
+    
+    SpriteX = MouseX()-SpriteWidth(0)/2
+    SpriteY = MouseY()-SpriteHeight(0)/2
+    DisplaySprite(0, SpriteX, SpriteY)
+    
+    If MouseButton(#PB_MouseButton_Left)
+      Debug "Left button"
+    EndIf
+    
+    If MouseButton(#PB_MouseButton_Right)
+      Debug "Right button"
+    EndIf
+    
+    If MouseButton(#PB_MouseButton_Middle)
+      Debug "Middle button"
+    EndIf
+    
+    WheelDelta = MouseWheel()
+    If WheelDelta
+      Debug "Mouse wheel: " + WheelDelta
+    EndIf
+  EndIf
+  
+  FlipBuffers(); // continue the rendering
+EndProcedure
+
+Procedure Loading(Type, Filename$, ObjectId)
+  Static NbLoadedElements
+  
+  NbLoadedElements+1
+  If NbLoadedElements = 1 ; The loading of all images and sounds is finished, we can start the rendering
+    FlipBuffers()         ; // start the rendering
+  EndIf
+EndProcedure
+
+Procedure LoadingError(Type, Filename$, ObjectId)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loading())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+
+LoadSprite(0, "Data/Spider.png")

@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Repeating instructions a number of times - Program Flow - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Program Flow: Repeating instructions a number of times</h1>
+
+Quite often you will need to repeat a set of instructions for an already known number of
+ repetitions. This is performed using a <dfn>loop</dfn>, and the most appropriate for
+ this type of task is the For...Next loop. It is called a For...Next loop because these
+ are the keywords used to indicate the start and end of the loop.
+
+<p><h2>For, To and Next keywords</h2>
+The basic structure of a For...Next loop is shown below:
+<pre class="codepart">
+For &lt;variable&gt; = &lt;expression 1&gt; To &lt;expression 2&gt;
+    ; Instructions
+Next
+</pre>
+
+<p>The operation of a For...Next loop is that you use a numeric variable as a counter and put
+ the name of the variable in place of the &lt;variable&gt; in the above structure. The
+ counter variable is set to the value of expression 1 before the start of the loop.
+ The loop starts by comparing the current value of the counter variable to the
+ value of expression 2 (which is the value to count to). If the counter has passed
+ the value of expression 2 then the loop exits and the program continues executing from
+ the next instruction after the Next keyword.
+
+<p>If the counter variable has not reached the value of expression 2 then the instructions
+ between the For and Next keywords are executed. The counter variable is then increased by
+ one and the program starts executing from the start of the loop again (where it checks
+ the value of the variable).
+
+<p>Note that the counter has to pass the value of expression 2 for the loop to stop.
+ That means the instructions will be executed in the loop when the counter variable has the
+ same value as expression 2.
+
+<p>The example below shows a simple example of a For...Next loop. You can also get the
+ source <a href="for_next.pb">here</a>:
+<pre class="code">If OpenConsole()
+
+    the_other = 10
+    For something=1 To the_other
+        PrintN(&quot;Current loop number is &quot;+Str(something))
+    Next
+    
+    PrintN(&quot;Press return to exit program.&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p><img class="output" src="for_next_run.png" alt="Output from For...Next loop example 1" width="350" height="227">
+As you can see if you run the example (also shown in the example output to the side of this
+ paragraph) you will see that the first time in the loop the value of the <var>something</var>
+ variable (which is being used as the counter) is 1. This is the value of the first expression
+ (which is simply the numeric constant one).
+
+<p class="noclear">At each <dfn>iteration</dfn> (another common word for repetition) of the loop you can see that the value of <var>something</var> is
+ increased by one. Finally, the last time round the loop occurs when the value of the
+ counter is 10 - this is the same value as the <var>the_other</var> variable, which is
+ used as the second expression, controlling the end of the loop.
+
+<p><h2>Step keyword</h2>
+So far the For...Next loop has proved useful in being able to count between two values.
+ But what if you need to count backwards, or use different increases at the end of each
+ iteration of the loop? The answer to that is to use the Step keyword, which fits into the
+ structure of a For...Next loop like this:
+<pre class="codepart">
+For &lt;variable&gt; = &lt;expression 1&gt; To &lt;expression 2&gt; [Step &lt;expression 3&gt;]
+    ; Instructions
+Next
+</pre>
+
+It is shown in square brackets to indicate that it is an optional part of the command (and
+ obviously, by leaving it out you are using the For...Next loop in the same way as the top of
+ this page). However, when you use the Step keyword the value of expression 3 is the value which
+ is added to the counter variable. For example, if you use &quot;Step -1&quot; then the
+ For...Next loop will count backwards. If you use &quot;Step 10&quot; then it will count forwards in
+ steps of 10.
+
+<p>This example demonstrates the use of the Step keyword in For...Next loops. You also get it
+ from <a href="for_step_next.pb">here</a>:
+<pre class="code">If OpenConsole()
+
+    PrintN(&quot;Start of first loop&quot;)
+    
+    the_other = 1
+    For something=10 To the_other Step -1
+        PrintN(&quot;Current loop number is &quot;+Str(something))
+    Next
+    
+    PrintN(&quot;&quot;)
+    PrintN(&quot;Start of second loop&quot;)
+
+    For something=1 To 10 Step 2
+        PrintN(&quot;Current loop number is &quot;+Str(something))
+    Next
+        
+    PrintN(&quot;Press return to exit program.&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p><img class="output" src="for_step_next_run.png" alt="Output from the Step keyword example" width="379" height="425">
+As you can see from the output, the value of the <var>something</var> variable
+ increases by the value of expression 3 each time it is printed, in both loops (-1
+ - increasing by a negative number decreases - and 2 respectively). In the second loop
+ you will notice that 10, the end value for the loop, is never printed. That is because
+ the value of the <var>something</var> variable is 9 and when adding 2 gives 11.
+ This is past the end value of the loop, so the loop ends here.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="select.html">Choosing one set of instructions from a set</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="while.html">Repeating instructions while something is happening</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

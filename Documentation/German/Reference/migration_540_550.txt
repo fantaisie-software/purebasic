@@ -1,0 +1,21 @@
+@Title Migration von PureBasic 5.40 nach 5.50
+
+@Section Particle Bibliothek
+
+@LineBreak
+ParticleVelocity(): Parameter verändert, um die aktuelle Geschwindigkeit zu unterstützen.
+@Code
+  ; Alt
+  ParticleVelocity(#ParticleEmitter, Minimum, Maximum)
+
+  ; Neu
+  ParticleVelocity(#ParticleEmitter, Modus, Wert)
+@EndCode
+
+@LineBreak
+@Section Sonstiges
+
+@LineBreak
+  Die interne Manipulation von Strings durch PureBasic erfolgt jetzt nur noch in Unicode.@LineBreak
+  Der ASCII-Modus wird intern nicht länger unterstützt. Die Funktion *Ergebnis = Ascii(String$)
+  ermöglicht die Manipulation von ASCII-Strings durch den Anwender.

@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Operator Precedence - Simple Processing - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Simple Processing: Operator Precedence</h1>
+
+Now you know the basic mathematical operators you need to know what order
+ they are calculated in (the so called operator precedence). PureBasic follows the same rules as mathematics
+ in this respect so that multiplication and division operators are evaluated
+ first (and in the order they are written - left to right - if they are
+ beside each other). Addition and subtraction operators are then calculated
+ (also in the left to right order if they are side by side).
+
+<p>For example, given the following calculation:
+
+<pre class="codepart">a = b + c - d + e * f * g / h</pre>
+
+Then the order the parts of the calculation are worked out in are as follows:
+<ol>
+<li>e * f
+<li>... * g
+<li>... / h
+<li>b + c
+<li>... - d
+<li>Finally the two parts of the calculation are added together and assigned to the
+ variable <var>a</var>.
+</ol>
+
+<p>Thankfully you can change the order in which calculations are worked out. This is
+ done by putting brackets around parts of the calculation to force it to be calculated
+ first. You can also put brackets inside brackets to force the order of evaluation.
+ The example below shows some applications of operator precedence and brackets. You can
+ find the source <a href="brackets.pb">here</a>
+
+<pre class="code">OpenConsole()
+
+a = 3
+b = 5
+c = 2
+d = 7
+
+; Different operators - multiplication before addition
+e = a + b * c
+PrintN(&quot;The value of e should be 13: &quot;+Str(e))
+
+; Changing the order of evaluation
+e = (a + b) * c
+PrintN(&quot;E should now be 16: &quot;+Str(e))
+
+; Multiple operators of same precedence - from left to right
+e = a + b - c
+PrintN(&quot;E should now be 6: &quot;+Str(e))
+
+DefType.f f
+
+; Multiple operators of same precedence - from left to right
+f = a / b * c
+PrintN(&quot;f = &quot;+StrF(f)+&quot; (should be 1.2)&quot;)
+
+; Changing the order of evaluation - but ends up the same since
+; the position of the brackets mean the same order is followed
+f = (a / b) * c
+PrintN(&quot;f = &quot;+StrF(f)+&quot; (should be 1.2)&quot;)
+
+; Changing the order of evaluation
+f = a / (b * c)
+PrintN(&quot;f = &quot;+StrF(f)+&quot; (should be 0.3)&quot;)
+
+; Nested brackets
+f = (a - ((b + d) / (c + d)))
+PrintN(&quot;f = &quot;+StrF(f)+&quot; (should be 1.6666...)&quot;)
+
+; Without brackets
+f = a - b + d / c + d
+PrintN(&quot;f = &quot;+StrF(f)+&quot; (should be 8.5C)&quot;)
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="brackets_run.png" alt="Output of the brackets example" width="447" height="200">
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="multiplication.html">Multiplication and Division</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="expressions.html">Expressions</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

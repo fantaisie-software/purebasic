@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Erstellen von Variablen - Variablen - PureBasic Benutzerhandbuch</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Variablen: Erstellen von Variablen</h1>
+Die Beispiele unten zeigen einige der Möglichkeiten, wie Sie Variablen mit den oben genannten
+Typen erstellen können. Dieser Code tut nichts, wenn Sie ihn kompilieren, er ist nur ein Beispiel
+für die verschiedenen Wege, auf denen Sie Variablen erstellen können. Alles was Sie tun müssen,
+ist ihn und die Erklärungen unten zu lesen.
+
+<pre class="code">DefType.w Hoehe
+DefType.f Distanz, Geschwindigkeit, Zeit
+
+Breite.w
+Zaehler.b
+
+DefType$ Adresse
+</pre>
+
+Die erste Zeile in diesem kleinen Abschnitt war <span class="code">DefType.w Hoehe</span>.
+Diese zeigt eine Möglichkeit der Benutzung des DefType Schlüsselworts zum Erstellen einer
+Variablen. In diesem Fall wird eine einzelne Variable "Hoehe" vom Word-Typ erstellt.
+
+<p>Die zweite Zeile <span class="code">DefType.f Distanz, Geschwindigkeit, Zeit</span> zeigt
+einen weiteren Weg zur Benutzung von DefType. Dieses Mal werden mehrere Variablen, getrennt 
+durch Komma, erstellt. Alle drei Variablen (&quot;Distanz&quot;, &quot;Geschwindigkeit&quot;
+und &quot;Zeit&quot;) sind Fließkommazahlen (Floats).
+
+<p>Die nächsten zwei Zeilen <pre class="codepart">Breite.w
+Zaehler.b</pre> demonstrieren eine weitere Möglichkeit zum Initialisieren einer Variablen,
+in diesem Fall einfach durch deren Benutzung. In diesem Fall werden die Variablen nicht
+für viel (eigentlich für nichts ...) verwendet. In diesen Fällen werden die Variablen "Breite"
+und "Zaehler" als Word beziehungsweise Byte initialisiert. Etwas, das Sie bei dieser Art der
+Deklarierung (wenn die Variable für nichts verwendet wird) beachten müssen, ist, dass Sie
+die Dollarschreibweise nicht verwenden können, um eine String-Variable zu erstellen und
+Sie immer einen Typ angeben müssen, wenn Sie nichts mit der Variablen tun (wie im oben
+genannten Beispiel).
+
+<p>Die letzte Zeile zeigt, wie eine String-Variable (genannt "Adresse") mit Hilfe der
+Dollarschreibweise und des DefType Schlüsselworts initialisiert wird. Erinnern Sie sich
+daran, dass Sie - sobald Sie eine Variable mit Hilfe der Dollarschreibweise erstellen -
+dem Variablennamen  immer ein Dollarzeichen anhängen müssen, wenn Sie die Variable
+verwenden.
+
+<p>Ein weiterer erwähnenswerter Punkt ist: wenn Sie eine Variable deklarieren, indem
+Sie sie benutzen (und tatsächlich etwas mit ihr tun, wie im nächsten Kapitel gezeigt), müssen
+Sie nicht den Typ angeben. PureBasic nimmt standardmäßig an, dass der Typ Long ist. Sie
+können den Standardtyp ändern, indem Sie das DefType Schlüsselwort ohne einen
+Variablennamen benutzen. Jede nach diesem Punkt ohne Angabe eines Typs erstellte
+Variable verwendet den mit DefType definierten Typ.
+
+<pre class="code">; hier ohne Typ-Angabe erstellte Variablen werden Longs sein
+DefType.f
+; hier ohne Typ-Angabe erstellte Variablen werden Floats (Fließkommazahlen) sein
+DefType.b
+; hier ohne Typ-Angabe erstellte Variablen werden Bytes sein
+DefType.s
+; hier ohne Typ-Angabe erstellte Variablen werden Strings sein
+</pre>
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="types.html">Variablentypen</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="summary.html">Zusammenfassung</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

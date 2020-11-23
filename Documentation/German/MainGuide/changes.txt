@@ -1,0 +1,615 @@
+@Title Änderungen
+
+@Bold "Änderungen an den Libraries von v3.94 zu v4.00"
+
+@Section Image
+
+@Red "Entfernt": UseImage() - ändern Sie UseImage(#Image) in ImageID(#Image), wo einfach nur die ID benötigt wird. @LineBreak
+@LineBreak
+@Green "Hinzugefügt": CreateImage(#Image, Breite, Höhe [, Tiefe]) - neuer Parameter @LineBreak
+@Green "Hinzugefügt": LoadImage(#Image, DateiName$ [, Flags]) - neuer Parameter @LineBreak
+@Green "Hinzugefügt": CatchImage(#Image, DateiName$ [, Länge [, Flags]]) - neue Parameter @LineBreak
+@LineBreak
+@Orange "Geändert": ImageDepth(#Image)        - neuer Parameter @LineBreak
+@Orange "Geändert": ImageHeight(#Image)       - neuer Parameter @LineBreak
+@Orange "Geändert": ImageWidth(#Image)        - neuer Parameter @LineBreak
+@Orange "Geändert": ImageID(#Image)           - neuer Parameter @LineBreak
+@Orange "Geändert": ImageOutput(#Image)       - neuer Parameter @LineBreak
+
+
+@Section String
+
+@Green "Hinzugefügt": StrD(Nummer [, Dezimalstellen]) @LineBreak
+@Green "Hinzugefügt": StrQ() @LineBreak
+@Green "Hinzugefügt": HexQ() @LineBreak
+@Green "Hinzugefügt": BinQ() @LineBreak
+@Green "Hinzugefügt": StrU(): ein #PB_Quad Flag hinzugefügt @LineBreak
+@Green "Hinzugefügt": ValD(), ValQ() @LineBreak
+@Green "Hinzugefügt": StringByteLength() - zum Berechnen der benötigten Länge eines Strings in den von PureBasic unterstützten verschiedenen Kodierungen
+
+
+@Section Math
+
+@Green "Hinzugefügt": IntQ()
+
+
+@Section Thread
+
+@Green "Hinzugefügt": IsThread(Thread)    - testet, ob ein Thread (noch) existiert. @LineBreak
+@Green "Hinzugefügt": CreateMutex()       - erstellt ein Mutex-Objekt @LineBreak
+@Green "Hinzugefügt": FreeMutex(Mutex)    - zerstört das Objekt @LineBreak
+@Green "Hinzugefügt": LockMutex(Mutex)    - wartet bis ein Mutex verfügbar ist und sperrt diesen dann @LineBreak
+@Green "Hinzugefügt": TryLockMutex(Mutex) - sperrt einen Mutex, wenn verfügbar, andernfalls wird umgehend 0 zurückgegeben @LineBreak
+@Green "Hinzugefügt": UnlockMutex(Mutex)  - entsperrt den Mutex, damit andere Threads diesen sperren können @LineBreak
+
+
+@Section Process (Neu)
+
+@Green "Hinzugefügt": GetEnvironmentVariable(Name$)         - ermittelt den Wert einer Umgebungsvariable @LineBreak
+@Green "Hinzugefügt": SetEnvironmentVariable(Name$, Wert$)  - setzt den Wert @LineBreak
+@Green "Hinzugefügt": RemoveEnvironmentVariable(Name$)      - löscht eine Umgebungsvariable @LineBreak
+@Green "Hinzugefügt": ExamineEnvironmentVariables()         - untersucht die derzeit gesetzten Umgebungsvariablen @LineBreak
+@Green "Hinzugefügt": NextEnvironmentVariable()             - ermittelt die nächste Variable @LineBreak
+@Green "Hinzugefügt": EnvironmentVariableName()             - ermittelt den Variablennamen @LineBreak
+@Green "Hinzugefügt": EnvironmentVariableValue()            - ermittelt den Variablenwert @LineBreak
+@Green "Hinzugefügt": ProgramName()               - ermittelt den vollständigen Pfad des Executables @LineBreak
+@Green "Hinzugefügt": CountProgramParameters()    - ermittelt die Anzahl der Parameter @LineBreak
+@Green "Hinzugefügt": IsProgram(Programm)         - überprüft, ob 'Programm' ein gültiges und mit RunProgram gestartetes Programm ist @LineBreak
+@Green "Hinzugefügt": ProgramID(Programm)         - ermittelt die ProcessID des Programms @LineBreak
+@Green "Hinzugefügt": ProgramRunning(Programm)    - gibt 1 zurück, wenn das Programm noch läuft @LineBreak
+@Green "Hinzugefügt": WaitProgram(Programm [, Timeout])  - wartet auf das Ende des Programms (mit optionalem Timeout). Gibt 1 zurück, wenn das Programm beendet wurde. @LineBreak
+@Green "Hinzugefügt": KillProgram(Programm)        - zwingt das Programm zum Beenden @LineBreak
+@Green "Hinzugefügt": ProgramExitCode(Programm)    - ermittelt den Exitcode des Programms (nur gültig, nachdem das Programm beendet wurde) @LineBreak
+@Green "Hinzugefügt": CloseProgram(Programm)       - schließt die Interaktion mit dem Programm @LineBreak
+@Green "Hinzugefügt": AvailableProgramOutput(Programm)         - gibt die Anzahl an Bytes zurück, die bereit sind zum Lesen @LineBreak
+@Green "Hinzugefügt": ReadProgramString(Programm)              - liest einen String von der Programmausgabe @LineBreak
+@Green "Hinzugefügt": ReadProgramData(Programm, *Buffer, Größe) - liest Daten von der Ausgabe @LineBreak
+@Green "Hinzugefügt": ReadProgramError(Programm)               - liest eine Nachricht von STDERR @LineBreak
+@Green "Hinzugefügt": WriteProgramString(Programm, String$)    - schreibt in die Programmeingabe (String) @LineBreak
+@Green "Hinzugefügt": WriteProgramData(Program, *Buffer, Größe)- schreibt Daten in die Programmeingabe @LineBreak
+@LineBreak
+@Orange "Geändert": ProgramParameter([Index])   - ermittelt den nächsten Parameter (oder den am Positions-Index) @LineBreak
+@Orange "Geändert": RunProgram() mit neuen Flags:
+@FixedFont
+  #PB_Program_Open    - öffnet die Programmkommunikation/ermittelt Informationen
+  #PB_Program_Read    - erlaubt das Lesen der Programmausgabe (STDOUT)
+  #PB_Program_Write   - erlaubt das Schreiben in die Programmeingabe (STDIN)
+  #PB_Program_Error   - erlaubt das Abfragen von Nachrichten auf der Standard-Fehlerausgabe (STDERR)
+  #PB_Program_Connect - verbindet die Ausgabe eines anderen Programms mit der Eingabe dieses Programms
+@EndFixedFont
+
+
+
+@Section File
+
+@Green "Hinzugefügt": FileBuffersSize(#Datei, Größe) - ändert die Größe des Puffers für die angegebene Datei @LineBreak
+@Green "Hinzugefügt": FileID(#Datei) - gibt die einmalige ID zurück, welche die Datei im Betriebssystem identifiziert @LineBreak
+@Green "Hinzugefügt": FlushFileBuffers(#Datei) - stellt sich, dass alle gepufferten Operationen auf Disk geschrieben werden @LineBreak
+@Green "Hinzugefügt": ReadChar(#Datei) @LineBreak
+@Green "Hinzugefügt": ReadQuad(#Datei) @LineBreak
+@Green "Hinzugefügt": ReadDouble(#Datei) @LineBreak
+@Green "Hinzugefügt": WriteChar(#Datei, Wert) @LineBreak
+@Green "Hinzugefügt": WriteQuad(#Datei, Wert) @LineBreak
+@Green "Hinzugefügt": WriteDouble(#Datei, Wert) @LineBreak
+@Green "Hinzugefügt": ReadStringFormat(#Datei) @LineBreak
+@Green "Hinzugefügt": WriteStringFormat(#Datei, Format) @LineBreak
+
+@LineBreak
+@Orange "Geändert": FileSeek(#Datei, NeuePosition)  - neuer Parameter @LineBreak
+@Orange "Geändert": WriteData(#Datei)               - neuer Parameter @LineBreak
+@Orange "Geändert": ReadData(#Datei)                - neuer Parameter @LineBreak
+@Orange "Geändert": Lof(#Datei)                     - neuer Parameter @LineBreak
+@Orange "Geändert": Loc(#Datei)                     - neuer Parameter @LineBreak
+@Orange "Geändert": ReadByte(#Datei)                - neuer Parameter @LineBreak
+@Orange "Geändert": ReadWord(#Datei)                - neuer Parameter @LineBreak
+@Orange "Geändert": ReadLong(#Datei)                - neuer Parameter @LineBreak
+@Orange "Geändert": ReadFloat(#Datei)               - neuer Parameter @LineBreak
+@Orange "Geändert": ReadString(#Datei [,Format])    - neuer Parameter @LineBreak
+@Orange "Geändert": ReadData(#Datei)                - neuer Parameter @LineBreak
+@Orange "Geändert": WriteByte(#Datei, Data)         - neuer Parameter @LineBreak
+@Orange "Geändert": WriteWord(#Datei, Data)         - neuer Parameter @LineBreak
+@Orange "Geändert": WriteLong(#Datei, Data)         - neuer Parameter @LineBreak
+@Orange "Geändert": WriteFloat(#Datei, Data)        - neuer Parameter @LineBreak
+@Orange "Geändert": WriteString(#Datei, Data [,Format])       - neuer Parameter @LineBreak
+@Orange "Geändert": WriteStringN(#Datei, Data [,Format])      - neuer Parameter @LineBreak
+@Orange "Geändert": WriteData(#Datei, Data, Länge)  - neuer Parameter @LineBreak
+@LineBreak
+@Red "Entfernt": UseFile()                - ändern Sie UseFile(#Datei) in FileID(#Datei), wo lediglich die ID benötigt wird. @LineBreak
+
+
+@Section 2DDrawing
+
+@Green "Hinzugefügt": DrawAlphaImage() @LineBreak
+@Green "Hinzugefügt": TextHeight(Text$)     - gibt die für den String benötigte Höhe zurück (unter Berücksichtigung des aktuellen Zeichensatzes/-ausgabe) @LineBreak
+@Green "Hinzugefügt": FillArea(x, y, RandFarbe [, Farbe]) - wenn RandFarbe = -1, wird der Bereich mit der gleichen Farbe wie an (x,y) gefüllt @LineBreak
+@LineBreak
+@Orange "Geändert": FrontColor(Farbe)     - Rot, Grün und Blau in nur einen Farbwert verbunden (fügen Sie RGB() für eine schnelle Umsetzung von altem Code hinzu). @LineBreak
+@Orange "Geändert": BackColor(Farbe)      - Rot, Grün und Blau in nur einen Farbwert verbunden. @LineBreak
+@Orange "Geändert": NeuX = DrawText(x, y, Text$ [, ZeichenFarbe [, HintergrundFarbe]]) - x/y Koordinaten und optionale Farbwerte hinzugefügt @LineBreak
+@Orange "Geändert": TextLength(Text$) -> TextWidth(Text$) - umbenannt @LineBreak
+@LineBreak
+@Red "Entfernt": Locate(x, y)   - nicht länger nützlich.
+
+
+@Section Palette
+
+@Red "Entfernt": UsePalette() @LineBreak
+@LineBreak
+@Orange "Geändert": GetPaletteColor(#Palette, Index)        - neuer Parameter @LineBreak
+@Orange "Geändert": SetPaletteColor(#Palette, Index, Farbe) - neuer Parameter 
+
+
+@Section Module
+
+@Orange "Geändert": SetModulePosition(#Modul, Position)    - neuer Parameter @LineBreak
+@Orange "Geändert": GetModulePosition(#Modul)    - neuer Parameter @LineBreak
+@Orange "Geändert": GetModuleRow(#Modul)    - neuer Parameter @LineBreak
+@Orange "Geändert": StopModule(#Modul)    - neuer Parameter und -1 = stoppt alle Module
+
+
+@Section Database
+
+@Orange "Geändert": FirstDatabaseRow(#Datenbank)    - neuer Parameter @LineBreak
+@Orange "Geändert": PreviousDatabaseRow(#Datenbank) - neuer Parameter @LineBreak
+@Orange "Geändert": NextDatabaseRow(#Datenbank)     - neuer Parameter @LineBreak
+@Orange "Geändert": GetDatabaseLong(#Datenbank)     - neuer Parameter @LineBreak
+@Orange "Geändert": GetDatabaseFloat(#Datenbank)    - neuer Parameter @LineBreak
+@Orange "Geändert": GetDatabaseString(#Datenbank)   - neuer Parameter @LineBreak
+@Orange "Geändert": DatabaseUpdate(#Datenbank, Anfrage$) - neuer Parameter @LineBreak
+@Orange "Geändert": DatabaseQuery(#Datenbank, Anfrage$) - neuer Parameter @LineBreak
+@Orange "Geändert": DatabaseColumnType(#Datenbank, Spalte) - neuer Parameter @LineBreak
+@Orange "Geändert": DatabaseColumns(#Datenbank) - neuer Parameter @LineBreak
+@Orange "Geändert": DatabaseColumnName(#Datenbank, Spalte) - neuer Parameter @LineBreak
+@LineBreak
+@Red "Entfernt": UseDatabase() @LineBreak
+
+
+@Section Movie
+
+@Orange "Geändert": MovieAudio(#Movie)        - neuer Parameter @LineBreak
+@Orange "Geändert": MovieHeight(#Movie)       - neuer Parameter @LineBreak
+@Orange "Geändert": MovieWidth(#Movie)        - neuer Parameter @LineBreak
+@Orange "Geändert": MovieInfo(#Movie)         - neuer Parameter @LineBreak
+@Orange "Geändert": MovieLength(#Movie)       - neuer Parameter @LineBreak
+@Orange "Geändert": RenderMovieFrame(#Movie)  - neuer Parameter @LineBreak
+@Orange "Geändert": ResizeMovie(#Movie, x, y, Breite, Höhe) - neuer Parameter @LineBreak
+@Orange "Geändert": ResumeMovie(#Movie)       - neuer Parameter @LineBreak
+@Orange "Geändert": PauseMovie(#Movie)        - neuer Parameter @LineBreak
+@Orange "Geändert": StopMovie(#Movie)         - neuer Parameter @LineBreak
+@Orange "Geändert": MovieSeek(#Movie, Position) - neuer Parameter @LineBreak
+@Orange "Geändert": MovieStatus(#Movie)       - neuer Parameter @LineBreak
+@LineBreak
+@Red "Entfernt": UseMovie()
+
+
+
+@Section FileSystem
+
+@Green "Hinzugefügt": FinishDirectory(#Verzeichnis) @LineBreak
+@Green "Hinzugefügt": DirectoryEntryType(#Verzeichnis) @LineBreak
+@Green "Hinzugefügt": DirectoryEntryDate(#Verzeichnis, DateType) - #PB_Date_Created, #PB_Date_Accessed, #PB_Date_Modified @LineBreak
+@Green "Hinzugefügt": GetFileDate(Dateiname$, DatenTyp) @LineBreak
+@Green "Hinzugefügt": SetFileDate(Dateiname$, DatenTyp) @LineBreak
+@LineBreak
+@Orange "Geändert": NextDirectoryEntry(#Verzeichnis)  - neuer Parameter @LineBreak
+@Orange "Geändert": DirectoryEntryName(#Verzeichnis)  - neuer Parameter @LineBreak
+@Orange "Geändert": DirectoryEntryAttributes(#Verzeichnis) - neuer Parameter @LineBreak
+@Orange "Geändert": DirectoryEntrySize(#Verzeichnis)       - neuer Parameter @LineBreak
+@LineBreak
+@blue "Umbenannt": IsFilename() in CheckFilename()      - Funktionsname geändert @LineBreak
+@LineBreak
+@Red "Entfernt": UseDirectory() @LineBreak
+@LineBreak
+Wichtige Hinweise: NextDirectoryEntry() gibt nicht länger den Typ eines Eintrags (Datei/Typ) zurück. Um
+einheitlich zu anderen Examine...()/Next...() Funktionen in PB zu sein, wird jetzt nur 0 oder 1 zurückgegeben
+(0 bedeutet keine weiteren Objekte). Verwenden Sie DirectoryEntryType(), um den Typ eines Eintrags herauszufinden,
+wie Sie dies zuvor mit dem Ergebnis von NextDirectoryEntry() gemacht haben.
+FinishDirectory() muss nach jedem ExamineDirectory() aufgerufen werden.
+
+
+@Section Menu
+
+@Green "Hinzugefügt": GetMenuItemText(#Menu, EintragID) @LineBreak
+@Green "Hinzugefügt": GetMenuTitleText(#Menu, EintragID) @LineBreak
+@Green "Hinzugefügt": SetMenuItemText(#Menu, EintragID, Text$) @LineBreak
+@Green "Hinzugefügt": SetMenuTitleText(#Menu, EintragID, Text$) @LineBreak
+@LineBreak
+@Orange "Geändert": DisableMenuItem(#Menu, EintragID, Status)  - neuer Parameter @LineBreak
+@Orange "Geändert": MenuID(#Menu)  - neuer Parameter
+
+
+@Section Console
+
+@Green "Hinzugefügt": EnableGraphicalConsole(Status) @LineBreak
+@Green "Hinzugefügt": RawKey() @LineBreak
+@Green "Hinzugefügt": Umleitung und Standardausgabe Unterstützung @LineBreak
+@LineBreak
+@Orange "Geändert": Inkey()  - gibt jetzt nur 1 Zeichen oder nichts zurück (anstelle von immer 2), verwenden Sie RawKey() für das extra Zeichen @LineBreak
+@LineBreak
+Hinweis: die alte Console Library verwendete einen grafischen Konsolenmodus, womit keine korrekte Ausgabe
+auf stdout erfolgte (Sie konnten sie nicht über die Befehlszeile aufrufen, wie : myprogram.exe > test.txt).
+Jetzt haben Sie diese Wahl mit EnableGraphicalConsole(Status), und wenn Sie nicht ausdrücklich den
+grafischen Modus einstellen, sollte die Ausgabe korrekt an stdout gesendet werden, was Ihnen das Schreiben
+besserer Konsolen-Werkzeuge ermöglicht. Das gleich gilt für stdin und den Input() Befehl.
+
+
+@Section AudioCD
+
+@Orange "Geändert": alle Funktionsnamen von 'CDAudio' in 'AudioCD' (weniger französisch-englisch...)
+
+
+@Section Toolbar
+
+@Green "Hinzugefügt": ToolBarHeight(#ToolBar) @LineBreak
+@Green "Hinzugefügt": ToolBarID(#ToolBar) @LineBreak
+@LineBreak
+@Orange "Geändert": ToolBarTooltip(#ToolBar, Schalter, Text$) - neuer Parameter @LineBreak
+@Orange "Geändert": DisableToolBarButton(#ToolBar, Schalter, Status) - neuer Parameter
+
+
+@Section Statusbar
+
+@Green "Hinzugefügt": StatusBarHeight(#StatusBar) @LineBreak
+@Green "Hinzugefügt": StatusBarID(#StatusBar)
+
+
+@Section Font
+
+@Orange "Geändert": FontID(#Font) - neuer Parameter @LineBreak
+@Orange "Geändert": CloseFont() in FreeFont() @LineBreak
+@LineBreak
+@Red "Entfernt": UseFont()
+
+@Section Preferences
+
+@Green "Hinzugefügt": Möglichkeit zum Hinzufügen/Ändern/Löschen von Schlüsseln in existierenden Prefs-Dateien. @LineBreak
+@Green "Hinzugefügt": RemovePreferenceKey(Name$) @LineBreak
+@Green "Hinzugefügt": RemovePreferenceGroup(Name$) @LineBreak
+@Green "Hinzugefügt": ExaminePreferenceGroups() - untersuchen aller Gruppennamen in der Datei @LineBreak
+@Green "Hinzugefügt": NextPreferenceGroup()     - springt zum nächsten Gruppennamen (die Gruppe wird als die aktuelle gesetzt). @LineBreak
+@Green "Hinzugefügt": PreferenceGroupName()     - ermitteln des Gruppennamens. @LineBreak
+@Green "Hinzugefügt": ExaminePreferenceKeys()   - untersuchen aller Schlüsselnamen in der aktuellen Gruppe. @LineBreak
+@Green "Hinzugefügt": NextPreferenceKey()       - springt zum nächsten Schlüssel. @LineBreak
+@Green "Hinzugefügt": PreferenceKeyName()       - ermitteln den Schlüsselnamen. @LineBreak
+@Green "Hinzugefügt": ReadPreferenceQuad(Schlüssel$, Standard) @LineBreak
+@Green "Hinzugefügt": ReadPreferenceDouble(Schlüssel$, Standard) @LineBreak
+@Green "Hinzugefügt": WritePreferenceQuad(Schlüssel$, Wert) @LineBreak
+@Green "Hinzugefügt": WritePreferenceDouble(Schlüssel$, Wert)
+
+
+
+@Section Sprite
+
+@Green "Hinzugefügt": SpriteID(#Sprite) @LineBreak
+@Green "Hinzugefügt": FlipBuffer() - ein Flag hinzugefügt, um eine CPU-optimierte Synchronisation im Vollbildschirm-Modus zu erhalten. @LineBreak
+@LineBreak
+@blue "Umbenannt": DisplayTranslucideSprite() in DisplayTranslucentSprite() @LineBreak
+@LineBreak
+@Orange "Geändert": TransparentSpriteColor(#Sprite, R, G, B) in TransparentSpriteColor(#Sprite, Farbe) @LineBreak
+@Orange "Geändert": ClearScreen(R, G, B) in ClearScreen(Farbe)
+
+
+@Section Library
+
+@blue "Umbenannt": IsFunction() -> GetFunction()
+
+
+
+@Section Network
+
+@Green "Hinzugefügt": UDP-Unterstützung über die Flags #PB_Network_UDP und #PB_Network_TCP @LineBreak
+@Green "Hinzugefügt": GetClientIP() @LineBreak
+@Green "Hinzugefügt": GetClientPort() @LineBreak
+@Green "Hinzugefügt": EventServerNumber() @LineBreak
+@LineBreak
+@blue "Umbenannt": NetworkClientID() -> EventClient()
+
+
+@Section Keyboard
+
+@Green "Hinzugefügt": #PB_Keyboard_International und #PB_Keyboard_AllowSystemKeys Flags bei KeyboardMode()
+
+
+@Section Clipboard
+
+@Orange "Geändert": GetClipboardData(Typ) in GetClipboardImage(#Image) @LineBreak
+@Orange "Geändert": SetClipboardData(Typ, Data) in SetClipboardImage(#Image)
+
+
+@Section Memory
+
+@Green "Hinzugefügt": Unterstützung für Unicode-Konvertierung bei PeekS() und PokeS() zwischen ASCII, UTF8 und UTF16 @LineBreak
+@Green "Hinzugefügt": PeekC(), PeekD(), PeekQ() @LineBreak
+@Green "Hinzugefügt": PokeC(), PokeD(), PokeQ() @LineBreak
+@Green "Hinzugefügt": MemorySize() - gibt die Größe eines Speicherblocks zurück @LineBreak
+@Green "Hinzugefügt": MoveMemory() @LineBreak
+@Green "Hinzugefügt": CompareMemoryString(*Text1, *Test2 [Modus [, MaxLänge [, Flags]]]) - Neue Flag-Parameter für den Vergleich von UTF16/UTF8/ASCII @LineBreak
+@Green "Hinzugefügt": MemoryStringLength() - Neue Flag-Parameter für UTF16/UTF8/ASCII Unterstützung @LineBreak
+@LineBreak
+Hinweis: Die Befehle PeekS, PokeS, CompareMemoryString, MemoryStringLength haben jetzt einen Parameter, welcher das String-Format angibt.
+Mögliche Optionen sind: #PB_Ascii, #PB_Unicode oder #PB_UTF8. Dies erlaubt das Arbeiten mit Strings im Speicher
+unabhängig vom aktuellen String-Modus, in dem das Executable kompiliert wurde (Unicode oder nicht).
+
+
+@Section Engine3D
+
+@Orange "Geändert": CreateMesh(#Mesh, MaximumVertex) - neuer Parameter @LineBreak
+@Orange "Geändert": MaterialAmbientColor(#Matrix1, -1) - -1 neuer Parameter @LineBreak
+@LineBreak
+@Green "Hinzugefügt": EntityRenderMode() @LineBreak
+@Green "Hinzugefügt": WorldShadows(#PB_Shadow_Additive)  @LineBreak
+@Green "Hinzugefügt": ParticleEmitterDirection() @LineBreak
+@Green "Hinzugefügt": GetEntityMass @LineBreak
+@Green "Hinzugefügt": SetEntityMass @LineBreak
+@Green "Hinzugefügt": GetEntityFriction @LineBreak
+@Green "Hinzugefügt": SetEntityFriction @LineBreak
+@Green "Hinzugefügt": EntityPhysicBody @LineBreak
+@Green "Hinzugefügt": ExamineWorldCollisions @LineBreak
+@Green "Hinzugefügt": NextWorldCollision @LineBreak
+@Green "Hinzugefügt": CheckWorldCollisionEntity @LineBreak
+@Green "Hinzugefügt": FirstWorldCollisionEntity @LineBreak
+@Green "Hinzugefügt": SecondWorldCollisionEntity @LineBreak
+@Green "Hinzugefügt": WorldGravity @LineBreak
+@Green "Hinzugefügt": EnableWorldCollision @LineBreak
+@Green "Hinzugefügt": EnableWorldPhysics @LineBreak
+@Green "Hinzugefügt": Parse3DScripts @LineBreak
+@LineBreak
+@Red "Entfernt": RotateParticleEmitter() (war bisher nutzlos) @LineBreak
+
+
+@Section Window
+
+@Green "Hinzugefügt": GetActiveWindow()       - gibt das Fenster mit dem Fokus zurück @LineBreak
+@Green "Hinzugefügt": DisableWindow(#Window, Status) - deaktiviert Anwendereingaben in das Fenster @LineBreak
+@Green "Hinzugefügt": GetWindowState(#Window)       - ermittelt den Minimiert/Maximiert Status @LineBreak
+@Green "Hinzugefügt": SetWindowState(#Window, Status)- setzt den Minimiert/Maximiert Status @LineBreak
+@Green "Hinzugefügt": StickyWindow(#Window, Status)  - setzt das Fenster in den Vordergrund aller anderen, auch wenn es deaktiviert ist @LineBreak
+@Green "Hinzugefügt": SetWindowColor(#Window, Farbe)- setzt die Hintergrundfarbe eines Fensters @LineBreak
+@Green "Hinzugefügt": GetWindowColor(#Window)       - ermittelt die aktuelle Hintergrundfarbe eines Fensters @LineBreak
+@Green "Hinzugefügt": SmartWindowRefresh(#Window, Status) - Aktiviert oder deaktiviert das "SmartRefresh" Feature (intelligentes Auffrischen) @LineBreak
+@LineBreak
+@Orange "Geändert": OpenWindow(#Window, x, y, Breite, Höhe, Titel$ [, Flags [, ParentID]]) - Flags sind jetzt am Ende und optional @LineBreak
+@Orange "Geändert": WaitWindowEvent([Timeout])                  - optionalen Timeout-Wert hinzugefügt @LineBreak
+@Orange "Geändert": ResizeWindow(#Window, x, y, Breite, Höhe)  - '-1' Parameter müssen in #PB_Ignore geändert werden @LineBreak
+@Orange "Geändert": SetWindowCallback(@Procedure() [, #Window]) - optionalen Window-Parameter hinzugefügt (um einen Callback nur für ein Fenster einzustellen) @LineBreak
+@Orange "Geändert": ResizeWindow(#Window, x, y, Breite, Höhe) - jetzt das gleiche wie ResizeGadget() @LineBreak
+@Orange "Geändert": WindowID(#Window)       - Parameter ist nicht länger optional @LineBreak
+@Orange "Geändert": WindowHeight(#Window)   - neuer Parameter @LineBreak
+@Orange "Geändert": WindowWidth(#Window)    - neuer Parameter @LineBreak
+@Orange "Geändert": WindowX(#Window)        - neuer Parameter @LineBreak
+@Orange "Geändert": WindowY(#Window)        - neuer Parameter @LineBreak
+@Orange "Geändert": WindowMouseX(#Window)   - neuer Parameter @LineBreak
+@Orange "Geändert": WindowMouseY(#Window)   - neuer Parameter @LineBreak
+@Orange "Geändert": WindowOutput(#Window)   - neuer Parameter @LineBreak
+@LineBreak
+@blue "Umbenannt": EventWindowID() in EventWindow() @LineBreak
+@blue "Umbenannt": EventGadgetID() in EventGadget() @LineBreak
+@blue "Umbenannt": EventMenuID()   in EventMenu() @LineBreak
+@blue "Umbenannt": ActivateWindow() in SetActiveWindow(#Window) @LineBreak
+@LineBreak
+@Red "Entfernt": MoveWindow() @LineBreak
+@Red "Entfernt": DetachMenu() @LineBreak
+@Red "Entfernt": UseWindow() @LineBreak
+@Red "Entfernt": Konstanten zur Kompatibilität mit früheren Versionen entfernt, wie z.B. #PB_EventCloseWindow (benutzen Sie stattdessen das dokumentierte #PB_Event_CloseWindow) @LineBreak
+
+
+@Section Gadget
+
+@Green "Hinzugefügt": GetActiveGadget()      - gibt das gerade aktive Gadget zurück @LineBreak
+@Green "Hinzugefügt": GadgetType(#Gadget) - gibt eine Konstante zurück, welche den Typ des Gadgets identifiziert @LineBreak
+@Green "Hinzugefügt": SetGadgetData(#Gadget, Wert) - weist einem Gadget einen Wert hinzu (funktioniert mit allen Gadgets) @LineBreak
+@Green "Hinzugefügt": GetGadgetData(#Gadget)        - liest den zugewiesenen Wert @LineBreak
+@Green "Hinzugefügt": SetGadgetItemData(#Gadget, Eintrag, Wert) - weist einem Gadget-Eintrag einen Wert zu (funktioniert nur bei bestimmten Gadgets) @LineBreak
+@Green "Hinzugefügt": GetGadgetItemData(#Gadget, Eintrag) @LineBreak
+@Green "Hinzugefügt": SetGadgetColor(#Gadget, Farbtyp, Farbe) @LineBreak
+@Green "Hinzugefügt": GetGadgetColor(#Gadget, Farbtyp) @LineBreak
+@Green "Hinzugefügt": SetGadgetItemColor(#Gadget, Eintrag, Farbtyp, Farbe [, Spalte]) @LineBreak
+@Green "Hinzugefügt": GetGadgetItemColor(#Gadget, Eintrag, Farbtyp [, Spalte]) @LineBreak
+@LineBreak
+@Orange "Geändert": ActivateGadget(#Gadget) ist jetzt SetActiveGadget(#Gadget) @LineBreak
+@Orange "Geändert": ResizeGadget(#Gadget, x, y, Breite, Höhe), -1 sollte jetzt in #PB_Ignore geändert werden @LineBreak
+@LineBreak
+@Red "Entfernt": #PB_String_MultiLine
+@LineBreak
+@LineBreak
+
+
+@Section Individuelle Änderungen bei Gadgets:
+
+@Bold "CalendarGadget()" @LineBreak
+ - unterstützt SetGadgetColor() mit den folgenden Farbtypen: @LineBreak
+ @Indent
+   #PB_Gadget_BackColor       - Hintergrund @LineBreak
+   #PB_Gadget_FrontColor      - Text zum Anzeigen der Tage @LineBreak
+   #PB_Gadget_TitleBackColor  - Hintergrund des Monats-Titels @LineBreak
+   #PB_Gadget_TitleFrontColor - Textfarbe des Monats-Titels @LineBreak
+   #PB_Gadget_GreyTextColor   - Farbe für Tage, die nicht im aktuellen Monat liegen @LineBreak
+ @EndIndent
+@LineBreak
+
+@Bold "ComboBoxGadget()" @LineBreak
+ - unterstützt SetGadgetItemData() @LineBreak
+@LineBreak
+
+@Bold "ContainerGadget()" @LineBreak
+ - unterstützt SetGadgetColor() für die Hintergrundfarbe @LineBreak
+@LineBreak
+
+@Bold "DateGadget()" @LineBreak
+ - unterstützt SetGadgetColor() mit den gleichen Wert wie das CalendarGadget() zum Einfärben des Aufklapp-Kalenders @LineBreak
+ - der Eingabebereich kann derzeit nicht eingefärbt werden @LineBreak
+@LineBreak
+
+@Bold "EditorGadget()" @LineBreak
+ - unterstützt SetGadgetColor für Vorder- und Hintergrundfarbe @LineBreak
+ - neuer Flag: #PB_Editor_ReadOnly  @LineBreak
+ - unterstützt SetGadgetrAttribute() mit #PB_Editor_ReadOnly zum Ermitteln/Setzen des "Readonly" Flags @LineBreak
+@LineBreak
+
+@Bold "ExplorerListGadget()" @LineBreak
+ - unterstützt SetGadgetColor() für Vorder- und Hintergrundfarbe & #PB_Gadget_LineColor @LineBreak
+ - unterstützt GetGadgetItemAttribute(#Gadget, 0, #PB_Explorer_ColumnWidth, 2) ; gibt die Breite der Spalte 2 zurück @LineBreak
+ - unterstützt SetGadgetItemAttribute(#Gadget, 0, #PB_Explorer_ColumnWidth, 100, 2) ; setzt die Breite der Spalte 2 auf 100 @LineBreak
+ - unterstützt GetGadgetItemText(#Gadget, -1, 2)             ; gibt die Überschrift der Spalte 2 zurück @LineBreak
+ - unterstützt SetGadgetItemText(#Gadget, -1, "New Text", 2) ; ändert die Überschrift der Spalte 2 @LineBreak
+@LineBreak
+
+@Bold "ExplorerTreeGadget()" @LineBreak
+ - unterstützt SetGadgetColor() für Vorder- und Hintergrundfarbe & #PB_Gadget_LineColor @LineBreak
+@LineBreak
+
+@Bold "HyperLinkGadget()" @LineBreak
+ - unterstützt SetGadgetColor() für die Vordergrundfarbe (Hintergrund ist immer transparent) @LineBreak
+ - neuer Flag: #PB_Hyperlink_Underline - zeichnet eine Linie unter den Text (ohne eine unterstrichenen Zeichensatz zu benötigen) @LineBreak
+@LineBreak
+
+@Bold "ListIconGadget()" @LineBreak
+ - unterstützt SetGadgetColor() für Vorder- und Hintergrundfarbe und #PB_Gadget_LineColor (für #PB_ListIcon_GridLines) @LineBreak
+ - unterstützt SetGadgetItemColor() für Vorder- und Hintergrundfarbe (kann für jede Zelle individuell eingestellt werden) @LineBreak
+ - unterstützt SetGadgetItemData() @LineBreak
+ - Das Ereignis zum Feststellen einer Änderung der der Checkbox ist jetzt #PB_EventType_Change @LineBreak
+ - unterstützt GetGadgetItemAttribute(#Gadget, 0, #PB_ListIcon_ColumnWidth, 2) ; gibt die Breite der Spalte 2 zurück @LineBreak
+ - unterstützt SetGadgetItemAttribute(#Gadget, 0, #PB_ListIcon_ColumnWidth, 100, 2) ; setzt die Breite von Spalte 2 auf 100 @LineBreak
+ - unterstützt GetGadgetItemText(#Gadget, -1, 2)             ; gibt die Überschrift von Spalte 2 zurück @LineBreak
+ - unterstützt SetGadgetItemText(#Gadget, -1, "New Text", 2) ; ändert die Überschrift von Spalte 2 @LineBreak
+@LineBreak
+
+@Bold "ListViewGadget()" @LineBreak
+ - unterstützt SetGadgetColor() für Vorder- und Hintergrundfarbe (nicht für individuelle Einträge) @LineBreak
+ - unterstützt SetGadgetItemData() @LineBreak
+ - neue Flags: @LineBreak
+ @Indent
+   #PB_ListView_Multiselect - erlaubt Mehrfach-Auswahl @LineBreak
+   #PB_ListView_ClickSelect - Mehrfachauswahl + Anklicken eines Eintrags markiert diesen oder entfernt die Markierung @LineBreak
+ @EndIndent
+@LineBreak
+
+@Bold "MDIGadget()" @LineBreak
+ - Die Child-Fenster des MDIGadget sind nicht länger "GadgetItems" (Gadget-Einträge), stattdessen echte PB-Fenster.
+   Dies bedeutet, dass Sie ALLE Befehle der Windows Library mit ihnen benutzen können (mit Ausnahme von StickyWindow()).
+   Dies macht einige der MDIGadget Features überflüssig, daher gibt es einige Änderungen: @LineBreak
+ - Das Gadget sendet keinerlei Events mehr: alle Ereignisse zum Schließen, Größenänderung oder Aktivieren werden jetzt als Window-Events empfangen. @LineBreak
+ - GetGadgetAttribute(), Get/SetGadgetItemAttribute, Get/SetGadgetItemState(), Get/SetGadgetItemText
+   werden alle nicht länger unterstützt. All dies kann einfach über die Befehle der Windows Library erledigt werden. @LineBreak
+ - RemoveGadgetItem() wird nicht länger unterstützt. Verwenden Sie CloseWindow(). @LineBreak
+@LineBreak
+Die mit dem MDIGadget nutzbaren Befehle sind jetzt nur noch diese: (+ die gesamte Windows Library!) @LineBreak
+ - ClearGadgetItemList() : schließt alle Child-Fenster @LineBreak
+ - CountGadgetItems()    : ermittelt die Anzahl an Child-Fenstern im Gadget @LineBreak
+ - GetGadgetState()      : ermittelt die WindowID des gerade im Vordergrund des Gadgets befindlichen Fensters @LineBreak
+ - SetGadgetState()      : setzt ein bestimmtes Fenster in den Vordergrund oder ordnet die Child-Fenster an. (Alles wie beim alten MDIGadget.) @LineBreak
+ - AddGadgetItem()       : erstellt ein MDI Child - dies funktioniert wie folgt: @LineBreak
+@FixedFont
+   AddGadgetItem(#MDI, #Window, Titel$ [, ImageID [, Flags]])
+     - #Window - Nummer des neuen Fensters (kann #PB_Any sein!)
+     - Titel$  - neuer Fenstertitel
+     - ImageID - Icon für das Fenster (optional)
+     - Flags   - unterstützt die meisten Flags von OpenWindow,
+                 wenn keine angegeben sind, werden die Standard MDI Flags verwendet.
+   Nicht unterstützte Flags: #PB_Window_Borderless, #PB_Window_ScreenCentered, #PB_Window_WindowCentered
+@EndFixedFont
+   Hinweis: Sie müssen jetzt CreateGadgetList() aufrufen, um Einträge zu einem MDI Child-Fenster hinzufügen zu können, einfach wie bei normalen Fenstern. @LineBreak
+@LineBreak
+ - SetGadgetColor()     kann mit #PB_Gadget_BackColor verwendet werden, um die MDI Hintergrundfarbe festzulegen @LineBreak
+ - SetGadgetAttribute() kann mit #PB_MDI_Image verwendet werden, um ein Hintergrundbild festzulegen, #PB_MDI_TileImage kann den Kachelmodus für das Bild ein- oder ausschalten @LineBreak
+@LineBreak
+@LineBreak
+
+@Bold "PanelGadget()" @LineBreak
+ - GetGadgetAttribute() hinzugefügt, mit #PB_Panel_ItemWidth, #PB_Panel_ItemHeight ("Readonly") 
+   (es muss mindestens ein Tab vorhanden sein, damit dies funktioniert) @LineBreak
+@LineBreak
+
+@Bold "ProgressBarGadget()" @LineBreak
+ - unterstützt SetGadgetColor() für Vorder- und Hintergrundfarbe (funktioniert nicht mit XP Skins) @LineBreak
+ - unterstützt SetGadgetAttribute() mit #PB_ProgressBar_Minimum, #PB_ProgressBar_Maximum @LineBreak
+@LineBreak
+
+@Bold "ScrollAreaGadget()" @LineBreak
+ - unterstützt SetGadgetColor() für die Hintergrundfarbe @LineBreak
+ - neuer Flag: #PB_ScrollArea_Center - wenn die innere Größe kleiner als die äußere ist, wird der innere Bereich automatisch zentriert @LineBreak
+ - neue Optionen für SetGadgetAttribute(): #PB_ScrollArea_X/#PB_ScrollArea_Y zum Auslesen/Setzen der aktuellen Scroll-Position @LineBreak
+ - generiert jetzt ein Ereignis, wenn gescrollt wird @LineBreak
+@LineBreak
+
+@Bold "ScrollBarGadget()" @LineBreak
+ - unterstützt SetGadgetAttribute() mit #PB_ScrollBar_Minimum, #PB_ScrollBar_Maximum, #PB_ScrollBar_PageLength @LineBreak
+@LineBreak
+
+@Bold "SpinGadget()" @LineBreak
+ - unterstützt SetGadgetColor für Vorder- und Hintergrundfarbe (to color the edit area) @LineBreak
+ - unterstützt SetGadgetAttribute() mit #PB_Spin_Minimum, #PB_Spin_Maximum @LineBreak
+ - Neue Flags:
+   @Indent
+     #PB_Spin_ReadOnly - Das zugehörige Stringgadget ist nicht editierbar, die Zahl kann nur durch die Pfeile geändert werden @LineBreak
+     #PB_Spin_Numeric  - Das SpinGadget wird automatisch den Text mit dem Wert des eingestellten Status aktualisieren, sodass SetGadgetText nicht benötigt wird. @LineBreak
+   @EndIndent
+ - Werte für EventType (Ereignistypen):
+   @Indent
+                    1 - der 'Hoch' Schalter wurde gedrückt @LineBreak
+                   -1 - der 'Runter' Schalter wurde gedrückt @LineBreak
+   #PB_EventType_Change - der Text in der Eingabebox wurde geändert @LineBreak
+   @EndIndent
+@LineBreak
+
+@Bold "SplitterGadget()" @LineBreak
+ - neue Flags für Get/SetGadgetAttribute(): #PB_Splitter_FirstGadget, #PB_Splitter_SecondGadget @LineBreak
+   Mit GetGadgetAttribute() geben sie die #Gadget Nummer des gespeicherten Gadget zurück. @LineBreak
+   Mit SetGadgetAttribute() können Sie ein neues Gadget in den Splitter-Bereich einfügen. @LineBreak
+@LineBreak
+   Hinweis: Das alte Gadget wird nicht automatisch freigegeben! (Es wird aus dem Splitter genommen und auf dem gleichen Fenster wie der Splitter platziert.)
+   Wenn Sie daher nicht möchten, dass das alte Gadget verbleibt, entfernen Sie es mit FreeGadget().
+   Dies ermöglicht das Umschalten von Gadgets in einem Splitter, ohne diese jedes Mal neu erstellen zu müssen. @LineBreak
+@LineBreak
+   Hinweis: Sie können ein Gadget nicht gleichzeitig in 2 Splitterbereichen haben. Um dieses daher von einem
+   Splitter in einen anderen zu verschieben, ersetzen Sie es zuerst im ersten Splitter und setzen Sie es 
+   dann in den zweiten. @LineBreak
+@LineBreak
+
+@Bold "StringGadget()" @LineBreak
+ - unterstützt SetGadgetColor() für Vorder- und Hintergrundfarbe @LineBreak
+@LineBreak
+
+@Bold "TextGadget()" @LineBreak
+ - unterstützt SetGadgetColor() für Vorder- und Hintergrundfarbe @LineBreak
+@LineBreak
+
+@Bold "TrackBarGadget()" @LineBreak
+ - unterstützt SetGadgetAttribute() mit #PB_TrackBar_Minimum, #PB_TrackBar_Maximum @LineBreak
+@LineBreak
+
+@Bold "TreeGadget()" @LineBreak
+ - unterstützt SetGadgetColor() für Vorder- und Hintergrundfarbe & #PB_Gadget_LineColor @LineBreak
+ - unterstützt SetGadgetItemColor() für Vorder- und Hintergrundfarbe @LineBreak
+ - Management der Einträge komplett geändert. Es gibt keinerlei Knoten ("Nodes") mehr,
+   einfach eine fortlaufende Liste, wo jeder Eintrag einen "Sublevel" hat. Die Sublevel
+   aller Einträge definieren die Baumstruktur wie folgt:
+@FixedFont
+   + Sublevel 0
+   +-+ Sublevel 1
+   | | Sublevel 1
+   | +-+ Sublevel 2
+   | | Sublevel 1
+   | Sublevel 0
+@EndFixedFont
+ - neuer Parameter für AddGadgetItem: AddGadgetItem(#Gadget, Position, Text$ [, ImageID [, Flags]]) @LineBreak
+   Der "Flags" Parameter wird beim TreeGadget immer benötigt und definiert den Sublevel, 
+   in welchen dieser Eintrag eingeordnet wird. @LineBreak
+@LineBreak   
+   Um den oben dargestellten Baum zu erstellen, gehen Sie wie folgt vor:
+@Code
+   AddGadgetItem(#TreeGadget, -1, "Sublevel 0", 0, 0)
+   AddGadgetItem(#TreeGadget, -1, "Sublevel 1", 0, 1)
+   AddGadgetItem(#TreeGadget, -1, "Sublevel 1", 0, 1)
+   AddGadgetItem(#TreeGadget, -1, "Sublevel 2", 0, 2)
+   AddGadgetItem(#TreeGadget, -1, "Sublevel 1", 0, 1)
+   AddGadgetItem(#TreeGadget, -1, "Sublevel 0", 0, 0)    
+@EndCode
+ - neues GetGadgetItemAttribute() mit #PB_Tree_SubLevel ("readonly"), um den Sublevel jedes Eintrags zu ermitteln @LineBreak
+ - @Red "Entfernt": OpenTreeGadgetNode() @LineBreak
+ - @Red "Entfernt": CloseTreeGadgetNode() @LineBreak
+ - @Red "Entfernt": TreeGadgetItemNumber()     - kann einfach mittels GadgetItemID() und einem Durchlauf durch die Eintragliste emuliert werden @LineBreak
+ - @Red "Entfernt": CountTreeGadgetNodeItems() - kann einfach durch Vergleichen des Sublevels der Einträge emuliert werden @LineBreak
+@LineBreak
+
+@MainGuideLink "history" "Zurück zur History"

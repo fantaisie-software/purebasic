@@ -1,0 +1,294 @@
+@Title UserGuide - Memory access
+
+Some PureBasic instructions, for example those from the @LibraryLink "cipher" "Cipher"
+library and many operating system API calls, require a @ReferenceLink "memory" "pointer"
+to a @LibraryLink "memory" "memory buffer" as an argument rather than the data directly
+itself. PureBasic provides a number of instructions to manipulate memory buffers to
+facilitate this.
+@LineBreak
+@LineBreak
+This example uses a buffer to read a @LibraryLink "file" "file" from disk into memory.
+It then converts the buffer content into a hexadecimal and text display in a @@ListIconGadget
+as a simple hex viewer application.
+@LineBreak
+@LineBreak
+An @@ExplorerListGadget is used to display the contents of the user's home directory,
+initially, and to allow selection of a file. Two @Link "gadget/buttongadget" "buttons"
+are provided, one to display a file and another to clear the display.
+@LineBreak
+@LineBreak
+The ListIcon Gadget is divided into nine @Link "gadget/addgadgetcolumn" "columns",
+the first shows the base offset of each line in the list, the next show eight byte
+values offset from the base value and the ninth shows the string equivalent of these
+eight values.
+@LineBreak
+@LineBreak
+Two pointers are used - the first (*Buffer) contains the memory address of the
+complete file. The second (*Byte), in the @ReferenceLink "procedures" "procedure"
+"FileDisplay", demonstrates the use of pointer arithmetic and the
+@LibraryLink "memory" "Peek" instruction to obtain individual values from within
+the buffer.
+@LineBreak
+@LineBreak
+Finally, the "FileClose" procedure demonstrates the use of the @@FillMemory instruction
+to overwrite the buffer's contents and @@FreeMemory to de-allocate the memory buffer.
+
+@Code
+  ;- Compiler Directives
+  EnableExplicit
+  
+  ;- Constants
+  ; Window
+  Enumeration
+    #WindowHex
+  EndEnumeration
+  
+  ; Gadgets
+  Enumeration
+    #GadgetFiles
+    #GadgetOpen
+    #GadgetClose
+    #GadgetHex
+  EndEnumeration
+  
+  ;- Variables
+  Define.l Event, EventWindow, EventGadget, EventType, EventMenu
+  Define.l Length
+  Define.s File
+  Define *Buffer
+  
+  ;- Declarations
+  Declare WindowCreate()
+  Declare WindowResize()
+  Declare FileClose()
+  Declare FileDisplay()
+  Declare FileRead()
+  
+  ;- Implementation
+  Procedure WindowCreate()  
+    ; Create the window.
+    
+    Protected.l Col
+    Protected.s Label
+    
+    If OpenWindow(#WindowHex, 50, 50, 500, 400, "Hex View", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_MinimizeGadget | #PB_Window_TitleBar)
+      
+      ; Set minimum window size.
+      WindowBounds(#WindowHex, 175, 175, #PB_Ignore, #PB_Ignore)
+      
+      ; Create Explorer List and set to user's home directory.
+      ExplorerListGadget(#GadgetFiles, 5, 5, 490, 175, GetHomeDirectory())
+      
+      ; Buttons.
+      ButtonGadget(#GadgetOpen, 5, 185, 80, 25, "Open")
+      ButtonGadget(#GadgetClose, 100, 185, 80, 25, "Close")
+      
+      ; List Icon Gadget.
+      ListIconGadget(#GadgetHex, 5, 215, 490, 180, "Offset", 80, #PB_ListIcon_AlwaysShowSelection | #PB_ListIcon_GridLines | #PB_ListIcon_FullRowSelect)
+      
+      ; Column Headings.
+      For Col = 0 To 7
+        Label = RSet(Hex(Col, #PB_Byte), 2, "0")
+        AddGadgetColumn(#GadgetHex, Col + 1, Label, 38)
+      Next Col
+      AddGadgetColumn(#GadgetHex, 9, "Text", 80)
+      
+    EndIf
+    
+  EndProcedure
+  
+  Procedure WindowResize()
+    ; Resize gadgets to new window size.
+    
+    Protected.l X, Y, W, H
+    
+    ; Explorer List
+    W = WindowWidth(#WindowHex) - 10
+    H = (WindowHeight(#WindowHex) - 35) / 2
+    ResizeGadget(#GadgetFiles, #PB_Ignore, #PB_Ignore, W, H)
+    
+    ; Buttons
+    Y = GadgetHeight(#GadgetFiles) + 10
+    ResizeGadget(#GadgetOpen, #PB_Ignore, Y, #PB_Ignore, #PB_Ignore)
+    ResizeGadget(#GadgetClose, #PB_Ignore, Y, #PB_Ignore, #PB_Ignore)
+    
+    ; List Icon View
+    Y = (WindowHeight(#WindowHex) / 2) + 23
+    W = WindowWidth(#WindowHex) - 10
+    H = WindowHeight(#WindowHex) - (Y + 5)
+    ResizeGadget(#GadgetHex, #PB_Ignore, Y, W, H)
+    
+  EndProcedure
+  
+  Procedure FileClose()
+    ; Clear the list view and release the memory buffer.
+    
+    Shared Length, *Buffer
+    
+    ClearGadgetItems(#GadgetHex)
+    FillMemory(*Buffer, Length)
+    FreeMemory(*Buffer)
+    
+  EndProcedure
+  
+  Procedure FileDisplay()
+    ; Display the file buffer in the list view.
+    
+    Shared Length, *Buffer
+    
+    Protected *Byte
+    Protected Peek
+    Protected.l Rows, Cols, Offset
+    Protected.s OffsetString, Row, String
+    
+    ; Clear current contents.
+    ClearGadgetItems(#GadgetHex)
+    
+    ; Loop through rows.
+    For Rows = 0 To Length - 1 Step 8
+      
+      ; Clear the text value for each row.
+      String = ""
+      
+      ; Convert the offset value to a fixed length string.
+      Row = RSet(Hex(Rows, #PB_Long), 6, "0") + Chr(10)
+      
+      ; Loop through columns.
+      For Cols = 0 To 7
+        
+        ; Calculate the offset for the current column.
+        Offset = Rows + Cols
+        
+        ; Compare the offset with the file length.
+        If Offset < Length
+          ; The offset is less than the length of the file.
+          
+          ; Obtain the byte from the buffer.
+          *Byte = *Buffer + Offset
+          Peek = PeekB(*Byte)
+          
+          ; Convert the byte to text.
+          Row + RSet(Hex(Peek, #PB_Byte), 2, "0") + Chr(10)
+          
+          ; Add the character to the text version.
+          Select Peek
+              
+            Case 0 To 31, 127
+              ; Unprintable characters.
+              String + Chr(129)   
+              
+            Default
+              ; Printable characters.
+              String + Chr(Peek)
+              
+          EndSelect
+          
+        Else
+          ; The offset is greater than the length of the file.
+          
+          ; Add an empty column.
+          Row + Chr(10)
+          
+        EndIf
+        
+      Next Cols
+      
+      ; Add the text version at the end of the hex columns.
+      Row + String
+      
+      ; Add the completed row to the list view.
+      AddGadgetItem(#GadgetHex, -1, Row)
+      
+    Next Rows
+    
+  EndProcedure
+  
+  Procedure FileRead()
+    ; Read the file into the memory buffer.
+    
+    Shared Length, File, *Buffer
+    
+    Protected.b ReadByte
+    Protected.l FileNumber, ReadLong, Size
+    
+    ; Stop if file is empty.
+    If File = ""
+      ProcedureReturn
+    EndIf
+    
+    ; Stop if file size is invalid.
+    Size = FileSize(File)
+    If Size < 1
+      ProcedureReturn 
+    EndIf
+    
+    ; Open the file.
+    FileNumber = OpenFile(#PB_Any, File)
+    Length = Lof(FileNumber)
+    
+    If File And Length
+      
+      ; Allocate a memory buffer to hold the file.
+      *Buffer = AllocateMemory(Length)
+      
+      ; Read the file into the buffer.
+      Length = ReadData(FileNumber, *Buffer, Length)
+      
+    EndIf
+    
+    ; Close the file.
+    CloseFile(FileNumber)
+    
+  EndProcedure
+  
+  ;- Main
+  WindowCreate()
+  
+  ;- Event Loop
+  Repeat
+    
+    ; Obtain event parameters.
+    Event = WaitWindowEvent()
+    EventGadget = EventGadget()
+    EventType = EventType()
+    EventWindow = EventWindow()
+    
+    ; Handle events.
+    Select Event
+        
+      Case #PB_Event_Gadget
+        If EventGadget = #GadgetFiles
+          ; Do nothing.
+          
+        ElseIf EventGadget = #GadgetOpen
+          File = GetGadgetText(#GadgetFiles) + GetGadgetItemText(#GadgetFiles, GetGadgetState(#GadgetFiles))
+          If FileSize(File) > 0
+            FileRead()  
+            FileDisplay()
+          EndIf
+          
+        ElseIf EventGadget = #GadgetClose
+          FileClose()
+          
+        ElseIf EventGadget = #GadgetHex
+          ; Do nothing.
+          
+        EndIf
+        
+      Case #PB_Event_CloseWindow
+        If EventWindow = #WindowHex
+          CloseWindow(#WindowHex)
+          Break
+        EndIf
+        
+      Case #PB_Event_SizeWindow
+        WindowResize()
+        
+    EndSelect
+    
+  ForEver
+@EndCode
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_files" "< Previous: Reading and writing files" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_pb_any1" "Next: Dynamic numbering using #PB_Any >"

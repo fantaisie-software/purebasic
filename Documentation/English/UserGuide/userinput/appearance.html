@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Interacting with the user - PureBasic User Guide</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Interacting with the user: Changing the appearance of the display</h1>
+This page shows you how to change the appearance of the console window, in terms
+ of changing what the window itself looks like, as well as making the text
+ you display in it look a little more pleasing. There are five commands to
+ be covered in this page, with one large example at the bottom showing all
+ of them in action.
+
+<p><h2>The ConsoleTitle command</h2>
+This command changes the text that appears in the title bar of the console
+ window. The command takes one parameter, the string with the text for the
+ title bar. It does not return any value. This command is useful if you want
+ to give the user some way to more easily identify the program running in that
+ console window, since most Operating Systems will display the text from the
+ title bar in whatever they use to switch between programs (for example, the
+ Start bar in Windows will show the title from the console when your program
+ is running).
+
+<p><h2>The ConsoleCursor command</h2>
+ConsoleCursor is a command which allows you to change the appearance of the
+ cursor which is displayed in the console window. This command has one parameter,
+ a number which represents the height to make the cursor. It does not return
+ any values.
+
+<p>The height of the cursor can be set to any value between 0 and 10. A height
+ of 0 means the cursor is invisible. A height between 1 to 10 sets the height
+ of the cursor directly, where 1 is the smallest cursor and 10 is the tallest.
+
+<p>The cursor is usually a flashing bar, and it can be found at the position
+ at which the next piece of text will be displayed. An example of why you
+ may want to change the look of the cursor could be that you are showing
+ different modes of how the program works (for example, you will typically
+ have experienced a text editor which uses different cursors for overtype
+ and insert modes). Or it may be that you simply prefer the look of
+ another type of cursor in your program (for example, no cursor).
+
+<p><h2>Positioning text with the ConsoleLocate command</h2>
+Up until this point the cursor position at which text was displayed in the
+ console window was determined by what you had previously printed. Using the
+ ConsoleLocate command you can set specific row and column positions at which
+ the next printing of text will take place. The command takes two parameters,
+ one for the row (0 being the topmost) and one for the column (0 being the
+ leftmost), in that order. It does not return a value.
+
+<p>Using this command gives you the possibility of creating any kind of layout
+ or display in a console window.
+
+<p><h2>Changing the colours with the ConsoleColor command</h2>
+The ConsoleColor allows you to change the text and background colors for all
+ future prints. It takes two parameters, both numeric, for the text colour
+ and the background colour (in that order). The command does not return any value. Using this
+ command, the ConsoleLocate command and clever use of what characters are printed
+ allows you to create some visually appealing displays in a console window.
+ The values which you can set and the colours they correspond to are shown below:
+
+<!-- Using the start attribute is depracated but I can't figure out how to get
+     counters to work under IE5.5 using CSS2. -->
+<ol start="0">
+<li>Black (Dark dark grey?) - default background
+<li>Dark blue
+<li>Dark green
+<li>Dark cyan
+<li>Dark red
+<li>Dark magenta
+<li>Brown
+<li>Light grey (Dark white?) - default foreground
+<li>Dark grey
+<li>Blue
+<li>Green
+<li>Cyan
+<li>Red
+<li>Magenta
+<li>Yellow
+<li>White
+</ol>
+
+<p><h2>The ClearConsole command</h2>
+This command removes any text from the console, and completely fills it with
+ the current background colour (as set by ConsoleColor, or black by default).
+ The cursor position is reset to the top-left of the console. This command
+ has no parameters and does not return any value.
+
+<p><h2>Example of changing console appearance</h2>
+The following example demonstrates the use of all of the above commands. You can
+ get the source from <a href="appearance.pb">here</a>.
+
+<pre class="code">If OpenConsole()
+
+    ConsoleTitle(&quot;PureBasic User Guide console appearance example&quot;)
+
+    PrintN(&quot;You will never see me!&quot;)
+    ClearConsole()
+
+    CnsoleColor(14, 1)
+    Print(&quot;Enter your name: &quot;)
+    ConsoleColor(7, 0)
+    name$ = Input()
+    ConsoleColor(14, 1)
+    ConsoleLocate(17, 0)
+    Print(&quot;Thank you, &quot;+name$)
+    ConsoleColor(7, 0)
+
+    ConsoleLocate(0, 24)
+    Print(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p><img class="output" src="appearance_run.png" alt="Example output of the console appearance example" width="399" height="501">
+The line <span class="code">ConsoleTitle(&quot;PureBasic User Guide console appearance example&quot;)</span>
+ changes the title of the console window as described in the paragraphs above.
+ You will see this when you run the program.
+
+<p class="noclear">The next two lines:<pre class="codepart">PrintN(&quot;You will never see me!&quot;)
+ClearConsole()</pre>demonstrate
+ the use of the ClearConsole command. Normally you would expect to see the
+ string which was displayed with the PrintN command, but this part of the
+ example proves that ClearConsole really does clear the console (since you
+ never see the string).
+
+<p class="noclear">The use of the ConsoleColor command is shown in the next
+ few lines. The color is changed to yellow text on a blue background and the
+ prompt is displayed. The color is then changed back to white text on a
+ black background which causes the users response to appear in those colors.
+
+<p class="noclear">After the user types a string the cursor is moved back to
+ where the end of the prompt is using the ConsoleLocate command. ConsoleColor
+ is then used to make the string appear as yellow text on a blue background
+ again. Notice that the text which is written over the string that the user
+ typed completely overwrites it (including the background).
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="input.html">Reading values from the user</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="summary.html">Summary</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

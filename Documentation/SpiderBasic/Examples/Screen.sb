@@ -1,0 +1,91 @@
+﻿; ------------------------------------------------------------
+;
+;   SpiderBasic - Screen example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Debug "Use mouse and arrow keys to move the sprites"
+
+OpenScreen(800, 600, 32, "Test")
+
+Global SpriteStep
+Global Init
+Global nbFrames
+
+SetFrameRate(60)
+
+Procedure RenderFrame()
+  Static x = 100, y = 200, previousElapsed
+  
+  ClearScreen(RGB(0, 0, 0))
+  
+  If ElapsedMilliseconds() - previousElapsed >= 1000
+    Debug "FPS: " + nbFrames
+    nbFrames = 0
+    previousElapsed = ElapsedMilliseconds()
+  Else
+    nbFrames + 1
+  EndIf
+  
+  If ExamineKeyboard()
+    
+    If KeyboardPushed(#PB_Key_Left)
+      x-1
+    ElseIf KeyboardPushed(#PB_Key_Right)
+      x+1
+    EndIf
+    
+    If KeyboardPushed(#PB_Key_Up)
+      y-1
+    ElseIf KeyboardPushed(#PB_Key_Down)
+      y+1
+    EndIf
+    
+    DisplayTransparentSprite(0, x+10, y+10, 60) ; And its shadow
+    DisplaySprite(0, x, y) ; The spider
+  EndIf
+  
+  If ExamineMouse()
+    
+    SpriteX = MouseX()-SpriteWidth(0)/2
+    SpriteY = MouseY()-SpriteHeight(0)/2
+    DisplaySprite(0, SpriteX, SpriteY)
+    
+    If SpritePixelCollision(0, x, y, 0, SpriteX, SpriteY)
+      Debug "Pixel Collide !"
+    EndIf
+   
+    If MouseButton(#PB_MouseButton_Left)
+      Debug "Left button"
+    EndIf
+  EndIf
+
+  FlipBuffers() ; continue the rendering
+EndProcedure
+
+
+Procedure Loading(Type, Filename$)
+  Static NbLoadedElements
+  
+  NbLoadedElements+1
+  If NbLoadedElements = 1 ; Finished the loading of all images and sounds, we can start the applications
+    FlipBuffers() ; start the rendering
+  EndIf
+EndProcedure
+
+
+Procedure LoadingError(Type, Filename$)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loading())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+
+LoadSprite(0, "Data/Spider.png", #PB_Sprite_PixelCollision)
+
+

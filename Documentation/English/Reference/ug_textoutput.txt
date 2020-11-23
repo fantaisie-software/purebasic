@@ -1,0 +1,124 @@
+@Title UserGuide - Displaying text output (Console)
+
+In the previous topic @ReferenceLink "ug_inputoutput" "Input & Output" you already saw
+an overview about the different possibilities to output text to the user, and in the
+topic @ReferenceLink "ug_data" "Storing Data in Memory", we started to build a small
+application to display the properties of files in a particular folder to the
+@ReferenceLink "debugger" "debug window".
+@LineBreak
+@LineBreak
+Now we're going to revisit this example to improve the data output section to resolve 
+some issues with using the debug window. Firstly, this window is only available in the
+PureBasic IDE which means its only useful to programmers, secondly it doesn't really
+give us much control over how our output looks.
+@LineBreak
+@LineBreak
+PureBasic provides a text mode window, or @Link "Console/OpenConsole" "console window",
+which can be used in compiled programs. So let's update our example to use it instead.
+@LineBreak
+@LineBreak
+First, we will need some extra working variables to make this work properly. Amend the
+variable definitions like this:
+@Code
+  ...
+  
+  ; Now we define a new list of files using the structure previously specified 
+  NewList Files.FILEITEM()
+  Define.s Access, Attrib, Create, Folder, Modify, Msg, Num, Size
+  Define.l Result
+  
+  ...
+@EndCode
+
+Next, remove the output section of code completely, from the comment line:
+@Code
+  ; If there are some entries in the list, show the results in the debug window.
+  ...
+@EndCode
+
+Now replace this with:
+@Code
+  ; Open a text mode screen to show the results.
+  OpenConsole()
+  
+  ; Display a title.
+  ; PrintN displays the string given in the console window and moves the print position to the start of the next line afterwards.
+  ; Space(n) returns n spaces in a string.
+  PrintN("File list of " + Folder + ".")
+  PrintN("-------------------------------------------------------------------------------")
+  Msg = "Num Name"
+  PrintN(Msg)
+  Msg = Space(4) + "Create" + Space(5) + "Access" + Space(5) + "Modify" + Space(5) + "Attrib Size"
+  PrintN(Msg)
+  
+  ; Loop through the list to display the results.
+  ForEach Files()
+    
+    ; Tabulate the number of the list index.
+    ; ListIndex() returns the current position in the list, counting from zero.
+    ; StrU converts an unsigned number into a string.
+    ; RSet pads a string to a set length with the necessary number of a specified character at the front.
+    ; Here we use it to make sure all the index numbers are padded to 3 characters in length.
+    Num = RSet(StrU(ListIndex(Files()) + 1), 3, " ")
+    
+    ; Display the item number and file name.
+    Msg = Num + " " + Files()\Name
+    PrintN(Msg)
+    
+    ; These lines convert the three date values to something more familiar.
+    Create = FormatDate("%dd/%mm/%yyyy", Files()\DateCreated)
+    Access = FormatDate("%dd/%mm/%yyyy", Files()\DateAccessed)
+    Modify = FormatDate("%dd/%mm/%yyyy", Files()\DateModified)
+    
+    ; Convert the file size to a padded string the same as with the index value above,
+    ; but allow space for the maximum size of a quad.
+    Size = RSet(StrU(Files()\Size), 19)
+    
+    ; Convert the attributes to a string, for now.
+    Attrib = RSet(StrU(Files()\Attributes), 6, " ")
+    
+    ; Display the file's properties.
+    Msg = Space(4) + Create + " " + Access + " " + Modify + " " + Attrib + " " + Size
+    PrintN(Msg)
+    
+    ; Display a blank line.
+    PrintN("")
+    
+  Next Files()
+  
+  ; Wait for the return key to be displayed, so the results can be viewed before the screen closes.
+  PrintN("")
+  PrintN("Press return to exit")
+  Input()
+@EndCode
+
+All being well the output should appear in a console window looking something like this:
+@Code
+  File list of C:\Documents and Settings\user\.
+  -------------------------------------------------------------------------------
+  Num Name
+      Create     Access     Modify     Attrib Size
+    1 NTUSER.DAT
+      03/07/2008 04/04/2011 02/04/2011     34            18874368
+  
+    2 kunzip.dll
+      14/07/2008 04/04/2011 14/07/2008     32               18432
+  
+    3 ntuser.dat.LOG
+      03/07/2008 04/04/2011 04/04/2011     34                1024
+  
+    4 ntuser.ini
+      03/07/2008 02/04/2011 02/04/2011      6                 278
+  
+  Press return to exit
+@EndCode
+
+This output is from a Windows XP system, later versions of Windows and Linux or Mac OSX
+will show different files of course.
+@LineBreak
+@Bold "Note for Linux/MacOS:" Please note, to select "Console" as executable format in the
+@ReferenceLink "ide_compiler" "compiler options".
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_inputoutput" "< Previous: Input & Output" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_gui" "Next: Building a graphical user interface (GUI) >"

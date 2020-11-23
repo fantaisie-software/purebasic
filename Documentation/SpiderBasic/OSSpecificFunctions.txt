@@ -1,0 +1,91 @@
+;
+; ------------------------------------------------------------------------------
+; 
+;      List of SpiderBasic commands that are not fully cross-platform
+;
+; ------------------------------------------------------------------------------
+; 
+; This file is used to automatically generate @SupportedOS tags for the help, 
+; and for any other purpose where such a list might be useful.
+; Keep the syntax strict, as it is automatically parsed.
+;
+; This file lists ONLY commands which do not work on all OS. Any command not listed
+; here will be marked as supported by all OS.
+;
+; File syntax:
+; - Empty lines and ";" lines are ignored
+; - Whitespace and case are ignored (also for function names to reduce errors)
+;
+; #Library: <Name>
+;   Specify the name of the library where the next functions are in.
+;   
+; A function entry looks like one of these:
+;   <functionname> : <os tags>
+;   <functionname> : <os tags> - <comment>
+;
+; <os tags> can be one of these separated by ",": 
+;   iOS
+;   Android
+;
+;   If a new tag is added, please document its use here.
+;
+;   If such a tag is present, it means the function works on this OS. If the tag is present in brackets, like "(Windows)",
+;   it means that the command exists only as a dummy function, so it compiles but does nothing. If a tag is not present at all,
+;   it means that the command is entirely missing on that OS.
+;
+;   The dummy tags will be ignored for the manual, but they might be useful for other purposes.
+;   (for example to do a tool to advise on platform problems)
+;   
+; <comment> can be a short comment about platform compatibility of this command. Something like
+;   "Only has a meaning on Windows" or similar may be helpful. (also ignored for the manual)
+;
+;
+; Special grouping tag (for entire libraries etc):
+; #StartGroup: <os tags> - <comment>
+;   <function list>
+; #EndGroup
+;
+;   Applies <os tags> and the optional <comment> to all commands in the list.
+;   Useful when entire libraries have the same tags and comments.
+;   The function list is one function per line (empty lines, comments and #Library lines are allowed)
+;
+;
+; Example: (indicates that the command is supported on Windows and has a dummy on Linux and MacOS, with a comment about that)
+;   #Library: Window
+;   SmartWindowRefresh: Windows, (Linux), (MacOS) - Only has an effect on Windows
+;
+; Group Example:
+;   #StartGroup: Windows, Linux - 3DEngine not supported on MacOS
+;     #Library: Engine3D
+;     Add3DArchive
+;     AmbientColor
+;     ...
+;   #StopGroup
+;  
+; ------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------
+;   Other Library differences
+; ------------------------------------------------------------------------------
+
+; InAppPurchase Library
+;
+#Library: InAppPurchase
+RegisterAppProduct: Android, iOS
+FetchAppProducts: Android, iOS
+ExamineAppProducts: Android, iOS
+NextAppProduct: Android, iOS
+AppProductName: Android, iOS
+AppProductDescription: Android, iOS
+AppProductPrice: Android, iOS
+AppProductID: Android, iOS
+PurchaseAppProduct: Android, iOS
+
+; System Library
+;
+#Library: System
+BatteryLevel: Android, iOS
+DeviceAlwaysOn: Android, iOS
+DeviceBrightness: Android, iOS
+DeviceInfo: Android, iOS
+VibrateDevice: Android, iOS

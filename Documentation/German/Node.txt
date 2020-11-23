@@ -1,0 +1,439 @@
+;
+;     Node library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Node
+
+@Overview
+  Nodes ("Knoten" oder auch "Verbindungen") sind Container, welche verwendet werden können, um Objekte wie @LibraryLink "entity" "Entities",
+  @LibraryLink "sound3d" "Sound", @LibraryLink "camera" "Camera", @LibraryLink "billboard" "Billboard" und sogar
+  Nodes selbst zusammen zu gruppieren. Sobald ein Objekt zu einem Node hinzugefügt wurde, ist seine Position und
+  Bewegung relativ zur Node-Position. Dies erlaubt einfaches hierarchisches Objekt-Management.
+@LineBreak
+@LineBreak
+  @@InitEngine3D muss erfolgreich aufgerufen worden sein, bevor die Node
+  Funktionen verwendet werden.
+
+@CommandList
+
+@ExampleFile All Node.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AttachNodeObject(#Node, ObjektID)
+
+@Description
+  Fügt ein existierendes Objekt zu einem #Node hinzu. Die unterstützten Objekte sind die
+  folgenden:
+@FixedFont
+  - Entity : verwenden Sie @@EntityID als 'ObjektID'.
+  - Sound3D: verwenden Sie @@SoundID3D als 'ObjektID'.
+  - Camera : verwenden Sie @@CameraID als 'ObjektID'.
+  - Node   : verwenden Sie @@NodeID als 'ObjektID'.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID als 'ObjektID'.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID as 'ObjektID'.
+@EndFixedFont
+  Ein Objekt kann mittels @@DetachNodeObject von einem Node getrennt werden.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DetachNodeObject(#Node, ObjektID)
+
+@Description
+  Trennt ein zuvor hinzugefügtes Objekt von einem #Node. Die unterstützten Objekte sind die
+  folgenden:
+@FixedFont
+  - Entity : verwenden Sie @@EntityID als 'ObjektID'.
+  - Sound3D: verwenden Sie @@SoundID3D als 'ObjektID'.
+  - Camera : verwenden Sie @@CameraID als 'ObjektID'.
+  - Node   : verwenden Sie @@NodeID als 'ObjektID'.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID als 'ObjektID'.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID as 'ObjektID'.
+@EndFixedFont
+  Ein Objekt kann mittels @@AttachNodeObject zu einem Node hinzugefügt werden.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateNode(#Node [, x, y, z])
+
+@Description
+  Erstellt einen neuen Knoten #Node an der angegebenen Position. Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als '#Node' 
+  Parameter verwendet wird, dann wird die neue Node-Nummer als 'Ergebnis' zurückgegeben.
+@LineBreak
+@LineBreak
+  Ist das 'Ergebnis' gleich 0, dann ist die Erstellung des Knotens fehlgeschlagen. Wenn #Node bereits erstellt
+  war, wird er automatisch freigegeben und durch den neuen ersetzt.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NodeID = NodeID(#Node)
+
+@Description
+  Gibt den einmaligen Systembezeichner für den Knoten zurück.
+  
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@ReturnValue
+  Gibt den einmaligen Systembezeichner für den Knoten zurück.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NodeLookAt(#Node, x, y, z [, RichtungX, RichtungY, RichtungZ])
+
+@Description
+  Der Punkt (in Welt-Einheiten), auf den der Knoten ausgerichtet ist.
+  Die Position des Knotens selbst wird dabei nicht geändert.
+
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@Parameter "x"
+  Die 'x' Position (in Welt-Einheiten), auf welche der Knoten weist.
+
+@Parameter "y"
+  Die 'y' Position (in Welt-Einheiten), auf welche der Knoten weist.
+
+@Parameter "z"
+  Die 'z' Position (in Welt-Einheiten), auf welche der Knoten weist.
+
+@OptionalParameter "RichtungX"
+  Die 'x' Vektor-Richtung des Knotens (Wert zwischen -1.0 und 1.0).
+
+@OptionalParameter "RichtungY"
+  Die 'y' Vektor-Richtung des Knotens (Wert zwischen -1.0 und 1.0).
+
+@OptionalParameter "RichtungZ"
+  Die 'z' Vektor-Richtung des Knotens (Wert zwischen -1.0 und 1.0).
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NodeX(#Node [, Modus])
+
+@Description
+  Gibt die 'x' Position des Knotens in der Welt zurück.
+  
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@OptionalParameter "Modus"
+  Der Modus, um die 'x' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'x' Position des Knotens in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'x' Position des Knotens relativ zu seinem übergeordneten ("parent").
+@EndFixedFont  
+  
+@ReturnValue
+  Die 'x' Position des Knotens in der Welt.
+
+@SeeAlso
+  @@NodeY, @@NodeZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NodeY(#Node [, Modus])
+
+@Description
+  Gibt die 'y' Position des Knotens in der Welt zurück.
+  
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@OptionalParameter "Modus"
+  Der Modus, um die 'y' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'y' Position des Knotens in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'y' Position des Knotens relativ zu seinem übergeordneten ("parent").
+@EndFixedFont  
+  
+@ReturnValue
+  Die 'y' Position des Knotens in der Welt.
+
+@SeeAlso
+  @@NodeX, @@NodeZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NodeZ(#Node [, Modus])
+
+@Description
+  Gibt die 'z' Position des Knotens in der Welt zurück.
+  
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@OptionalParameter "Modus"
+  Der Modus, um die 'z' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'z' Position des Knotens in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'z' Position des Knotens relativ zu seinem übergeordneten ("parent").
+@EndFixedFont  
+  
+@ReturnValue
+  Die 'z' Position des Knotens in der Welt.
+
+@SeeAlso
+  @@NodeX, @@NodeY
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeNode(#Node)
+
+@Description
+  Gibt den angegebenen Knoten #Node frei, welcher zuvor mit @@CreateNode erstellt wurde.
+  Sein gesamter zugehöriger Speicher wird freigegeben und dieses Objekt kann nicht mehr 
+  verwendet werden. 
+@LineBreak
+@LineBreak
+  Die hinzugefügten Objekte werden nicht automatisch freigegeben, und können daher
+  wiederverwendet werden.
+
+@Parameter "#Node"
+  Der freizugebende Knoten. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Knoten freigegeben.
+  
+@NoReturnValue
+
+@Remarks
+  Alle verbleibenden Nodes werden automatisch freigegeben, wenn das Programm endet.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsNode(#Node)
+
+@Description
+  Überprüft, ob der angegebene Knoten #Node gültig und ein korrekt initialisierter Knoten ist.
+@LineBreak
+@LineBreak
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. Wenn 'Ergebnis' ungleich Null ist, 
+  dann ist das Objekt gültig und initialisiert, andernfalls wird Null zurückgegeben. Dies ist der korrekte Weg, 
+  um sicherzugehen, dass ein Knoten fertig zur Benutzung ist.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveNode(#Node, x, y, z [, Modus])
+
+@Description
+  Bewegt den angegebenen Knoten.
+
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@Parameter "x"
+  Die neue 'x'-Position des Knotens.
+
+@Parameter "y"  
+  Die neue 'y'-Position des Knotens.
+
+@Parameter "z"  
+  Die neue 'z'-Position des Knotens.
+
+@OptionalParameter "Modus"
+  Der Bewegungsmodus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Bewegung, aufgehend von der aktuellen Knoten-Position (Standard).
+  @#PB_Absolute: absolute Bewegung an die angegebene Position.
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_Local : lokale Bewegung.
+  @#PB_Parent: Bewegung relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Bewegung relativ zur Welt.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@RotateNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateNode(#Node, x, y, z [, Modus])
+
+@Description
+  Rotiert den Knoten #Node entsprechend der angegebenen x,y, und z Winkel-Angaben.
+  Alle Winkel werden in Grad angegeben, mit Werten von 0 bis 360.
+@LineBreak
+@LineBreak
+  Der optionale Parameter 'Modus' kann einer der folgende Werte sein:
+@FixedFont
+  @ConstantColor "PB_Absolute": absolute Rotation (Standard).
+  @ConstantColor "PB_Relative": relative Rotation, basierend auf der vorherigen "Node"-Rotation.
+@EndFixedFont
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleNode(#Node, x, y, z [, Modus])
+
+@Description
+  Skaliert den Knoten entsprechend der angegebenen x,y,z Werte. Wenn der @#PB_Relative Modus
+  verwendet wird, handelt es sich dabei um eine faktor-basierende Skalierung (Größenänderung).
+  Dies bedeutet, dass die Größe des Knotens mit dem angegebenen Wert multipliziert wird, um die
+  neue Größe zu erhalten.
+
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+ 
+@Parameter "x"
+  Der 'x' Skalierungs-Wert.
+
+@Parameter "y"
+  Der 'y' Skalierungs-Wert.
+
+@Parameter "z"
+  Der 'z' Skalierungs-Wert.
+
+@OptionalParameter "Modus"
+  Der Skalierungs-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Skalierung, basierend auf der vorherigen Größe (Standard). Die Verwendung
+                von 1.0 als Skalierungs-Wert lässt diesen Wert unverändert.
+  @#PB_Absolute: absolute Skalierung, in Welt-Einheiten.
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NodeFixedYawAxis(#Node, Aktivieren [, VektorX, VektorY, VektorZ])
+
+@Description
+  Ändert die feste Hoch- bzw. Gierachse (englisch "fixed yaw axis") des Knotens.
+  Das Standard-Verhalten eines Knotens ist es, um seine eigene Y-Achse zu gieren.
+
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@Parameter "Aktivieren"
+  Aktiviert oder deaktiviert die Verwendung einer benutzerdefinierten Gierachse.
+  Wenn der Parameter auf @#True gesetzt wird, muss ein neuer Achsen-Vektor
+  angegeben werden. Wenn er auf @#False gesetzt wird, dann wird der
+  Knoten um seine eigene Y-Achse gieren.
+
+@OptionalParameter "VektorX"
+  Die X Vektor-Richtung der neuen Gier-Achse (Wert zwischen -1.0 und 1.0).
+  Der 'Aktivieren' Parameter muss gesetzt werden, um einen Effekt zu haben.
+
+@OptionalParameter "VektorY"
+  Die Y Vektor-Richtung der neuen Gier-Achse (Wert zwischen -1.0 und 1.0).
+  Der 'Aktivieren' Parameter muss gesetzt werden, um einen Effekt zu haben.
+
+@OptionalParameter "VektorZ"
+  Die Z Vektor-Richtung der neuen Gier-Achse (Wert zwischen -1.0 und 1.0).
+  Der 'Aktivieren' Parameter muss gesetzt werden, um einen Effekt zu haben.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NodeRoll(#Node [, Modus])
+
+@Description
+  Ermittelt den Roll-Wert (englisch "roll") des Knotens #Node.
+
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@OptionalParameter "Modus"
+  Der Modus zum Ermitteln des Roll-Wertes. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#True : Der Roll-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateNode 
+          verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
+  @#False: Der Roll-Wert wird bereinigt/justiert, womit er erneut mit @@RotateNode verwendet
+          werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+@EndFixedFont  
+
+@ReturnValue
+  Der aktuelle Roll-Wert des angegebenen Knotens.
+
+@SeeAlso
+  @@NodeYaw, @@NodePitch
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NodePitch(#Node [, Modus])
+
+@Description
+  Ermittelt die Neigung bzw. den Nick-Wert (englisch "pitch") des Knotens #Node.
+
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@OptionalParameter "Modus"
+  Der Modus zum Ermitteln des Neigungs-Wertes. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#True : Der Neigungs-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateNode
+          verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
+  @#False: Der Neigungs-Wert wird bereinigt/justiert, womit er erneut mit @@RotateNode verwendet
+          werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+@EndFixedFont  
+
+@ReturnValue
+  Der aktuelle Neigungs-Wert des angegebenen Knotens.
+
+@SeeAlso
+  @@NodeYaw, @@NodeRoll
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NodeYaw(#Node [, Modus])
+
+@Description
+  Ermittelt den Gier-Wert (englisch "yaw") des Knotens #Node.
+
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@OptionalParameter "Modus"
+  Der Modus zum Ermitteln des Gier-Wertes. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#True : Der Gier-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateNode 
+          verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
+  @#False: Der Gier-Wert wird bereinigt/justiert, womit er erneut mit @@RotateNode verwendet
+          werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+@EndFixedFont  
+
+@ReturnValue
+  Der aktuelle Gier-Wert des angegebenen Knotens.
+
+@SeeAlso
+  @@NodePitch, @@NodeRoll
+  
+@SupportedOS

@@ -1,0 +1,50 @@
+@Title Systemvoraussetzungen
+
+  PureBasic läuft auf Windows XP, Windows Vista, Windows 7, Windows 8 und Windows 10,
+  Linux (Kernel 2.2 oder höher) und MacOS X (10.8.5 oder höher). @LineBreak
+  @LineBreak
+  Falls irgendweIche Probleme auftreten, informieren Sie uns bitte.
+
+@Section Windows
+  Für viele Grafik-Funktionen wie @LibraryLink "engine3d" "3D" oder @LibraryLink "sprite" "Sprites"
+  wird die DirectX9.0c Version benötigt. Windows Vista und neuer haben diese nicht standardmäßig
+  installiert, weshalb Sie dies manuell nachholen müssen.
+  @LineBreak
+  @LineBreak
+  Sie können dies downloaden und installieren mit Hilfe des "DirectX End-User Runtime Web Installer"
+  hier: @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=35" "http://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=35".
+
+@Section Linux
+
+  Benötigte Pakete zur Verwendung von PureBasic:
+  @Indent @Section
+    - SDL 1.2 devel (für Spiele) @LineBreak
+    - GTK 3 (für GUI-Programme) @LineBreak
+    - libstdc++ devel @LineBreak
+    - GCC korrekt installiert @LineBreak
+  @LineBreak  
+    - iodbc und iodbc-devel, um die @LibraryLink "database" "Database" Befehle nutzen zu können (siehe @InternetLink "http://www.iodbc.org" "www.iodbc.org") @LineBreak
+  @LineBreak
+    - libgtkembedmoz.so sollte installiert sein, damit das @@WebGadget funktioniert (wird mit dem Mozilla/Firefox Paket ausgeliefert). @LineBreak
+  @LineBreak
+    - xine und xine-devel für die @LibraryLink "movie" "Movie" Befehle
+  @EndIndent 
+
+  PureBasic wurde erfolgreich auf folgenden Konfigurationen getestet (was nicht bedeutet, dass es nur auf diesen läuft):
+  @Indent @Section
+    - Redhat 7.0, 7.2, 7.3, 8.0 und 9.0 @LineBreak
+    - Mandrake 6.1, 8.0, 10.0 und 10.1 @LineBreak
+    - Suse 7.3, 8.0, 9.0, 10.2 @LineBreak
+    - Debian @LineBreak
+    - Ubuntu
+  @EndIndent
+
+@Section MacOS X
+
+  Zur Verwendung von PureBasic müssen Sie die Apple Entwicklerwerkzeuge (Developer tools) installieren.
+  Diese Tools finden Sie entweder auf einer der Installations-CDs oder auf der Apple Webseite: 
+  @InternetLink "http://developer.apple.com/" "http://developer.apple.com/" 
+  @LineBreak
+  @LineBreak
+  Bitte achten Sie darauf, die neueste Version der Tools (z.B. XCode) - welche für Ihre OS Version
+  benötigt wird - zu verwenden!

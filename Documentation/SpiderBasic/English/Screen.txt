@@ -1,0 +1,301 @@
+;
+;     Screen library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Screen
+
+@Overview
+
+A screen is a surface used to display game accelerated content like @LibraryLink "Sprite" "sprites".
+ A screen can be created either in a regular @LibraryLink "window" "window",
+or using the whole display (fullscreen mode).
+
+@CommandList
+
+@ExampleFile All Screen.sb
+@ExampleFile All WindowedScreen.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearScreen(Color)
+
+@Description
+  Clear the whole screen with the specified color. 
+  
+@Parameter "Color"
+  The color to use to clear the screen. @@RGB can be used to get a valid color value.
+  A table with common colors is available @ReferenceLink "colortable" "here".
+
+@NoReturnValue
+
+@Remarks
+  ClearScreen() has to be always called outside a @@StartDrawing : @@StopDrawing block.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseScreen()
+
+@Description
+  Close the current screen (either windowed or full screen mode). After closing a screen, all the sprites
+  must be reloaded as the screen format has been lost and the video memory released. An application or game
+  can switch from full screen to windowed mode on the fly without any problem.
+      
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FlipBuffers()
+
+@Description
+  Flip the back and front buffers of the current screen. The invisible area is now visible and vice versa,
+  which allowss to do a 'double-buffering' effect (flicker free graphical displays).
+  A screen must have been opened with @@OpenScreen or @@OpenWindowedScreen. The way the buffer are flipped 
+  (with or without synchronization) is set by @@OpenScreen or @@OpenWindowedScreen.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  FlipBuffers() has to be called outside a @@StartDrawing : ... : @@StopDrawing program block.
+
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsScreenActive()
+
+@Description
+  Checks if the screen still has the main input focus. If not, appropriate actions should be taken
+  such as @@ReleaseMouse, pause the game, stop the sounds etc.
+  
+@NoParameters
+
+@ReturnValue
+  Nonzero if the screen is still active, zero otherwise.
+
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen, @@ReleaseMouse, @@FlipBuffers
+        
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScreenWidth()
+
+@Description
+  Returns the current screen width, previously opened with @@OpenScreen or @@OpenWindowedScreen.
+  
+@NoParameters
+
+@ReturnValue
+  The current screen width, or zero if no screen is opened.
+  
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen, @@ScreenHeight, @@ScreenDepth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScreenHeight()
+
+@Description
+  Returns the current screen height, previously opened with @@OpenScreen or @@OpenWindowedScreen.
+  
+@NoParameters
+
+@ReturnValue
+  The current screen height, or zero if no screen is opened.
+  
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen, @@ScreenWidth, @@ScreenDepth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScreenDepth()
+
+@Description
+  Returns the current screen depth, previously opened with @@OpenScreen or @@OpenWindowedScreen.
+  
+@NoParameters
+  
+@ReturnValue
+  The current screen depth, or zero if no screen is opened. Depth is a value between 8 and 32.
+  
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen, @@ScreenWidth, @@ScreenHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetFrameRate(FrameRate)
+
+@Description
+  Set the frame rate (in frames per second) for the current screen. This is especially useful
+  for windowed screen mode where there is no refresh rate for the screen. This function
+  sets the maximum number of times per second that the @@FlipBuffers function is called.
+
+@Parameter "FrameRate"
+  The new framerate to set.
+  
+@NoReturnValue
+      
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen, @@FlipBuffers
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenScreen(Width, Height, Depth, Title$ [, FlipMode [, RefreshRate]])
+
+@Description
+  Opens a new screen according to the specified 'Width', 'Height' and 'Depth'. 
+  @@InitSprite has to be called successfully before using this command. The 
+  opened screen is created with 2 video buffers to allow double 
+  buffering, especially useful for games. The buffers can be manipulated with 
+  the @@FlipBuffers function.
+
+@Parameter "Width, Height"
+  The screen resolution, in pixels. The specified resolution has to be supported
+  or the screen won't be created.
+
+@Parameter "Depth"
+  Ignored.
+
+@Parameter "Title$"
+  Text to be display in the brower title bar.
+
+@OptionalParameter "FlipMode"
+  Ignored.
+
+@OptionalParameter "RefreshRate"
+  Ignored.
+
+@ReturnValue
+  Nonzero if the screen has been successfully opened, zero otherwise.
+
+@Remarks
+  The @LibraryLink "Requester" "Requester" functions cannot be used on screens
+  created with OpenScreen.
+@LineBreak
+@LineBreak  
+  To open a screen area on a regular window, see @@OpenWindowedScreen.
+
+@SeeAlso
+  @@OpenWindowedScreen, @@FlipBuffers, @@ResizeScreen
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenWindowedScreen(WindowID, x, y, Width, Height [, AutoStretch, RightOffset, BottomOffset [, FlipMode]])
+
+@Description
+  Open a new screen area according to given parameters on the given Window, which must be
+  opened before using @@OpenWindow. @@InitSprite has to be called successfully before using this command.
+  The "windowed screen" is able to use the hardware acceleration the same way than 
+  full-size @@OpenScreen function.
+
+@Parameter "WindowID"
+  The window to use to create the screen. @@WindowID can be used to get a valid window identifier.
+
+@Parameter "x, y"
+  The screen position in the specified window, in pixels.
+
+@Parameter "Width, Height"
+  The screen resolution, in pixels.
+
+@OptionalParameter "AutoStretch"
+  Ignored.
+
+@OptionalParameter "RightOffset, BottomOffset"
+  Ignored.
+
+@OptionalParameter "FlipMode"
+  Ignored.
+  
+@ReturnValue
+  Nonzero if the screen has been successfully opened, zero otherwise.
+
+@Remarks
+  Only one windowed screen can be opened at one time. The screen dimension can't be greater than the window size or artefacts can occurs.
+
+@Example Fixed screen size with gadgets
+@Code
+  OpenWindow(0, 20, 20, 840, 640, "A screen in a window...", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+
+  OpenWindowedScreen(WindowID(0), 20, 20, 800, 600)
+  
+  Procedure RenderFrame()
+    Static x, y
+    
+    ClearScreen(RGB(0, 0, 0))
+    
+    x+1
+    DisplaySprite(0, x, 30)
+    
+    FlipBuffers() ; continue the rendering
+  EndProcedure
+  
+  ; Register the render event so FlipBuffers() will trigger the associated procedure
+  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+  
+  CreateSprite(0, 64, 64)
+  If StartDrawing(SpriteOutput(0))
+    Circle(32, 32, 25, RGB(255, 0, 0)) ; Red circle
+    StopDrawing()
+  EndIf
+  
+  FlipBuffers() ; trigger the rendering
+@EndCode
+@Image openwindowedscreen.png
+
+@Linebreak
+  For a more detailed example look at @ExampleFile All WindowedScreen.sb
+
+@SeeAlso
+  @@OpenScreen, @@FlipBuffers, @@ResizeScreen
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeScreen(Width, Height)
+
+@Description
+  Resizes the screen previously opened with @@OpenScreen or @@OpenWindowedScreen.
+
+@Parameter "Width, Height"
+  The new screen resolution, in pixels.
+
+@NoReturnValue
+
+@Remarks
+  The screen dimension can't be greater than the window size or artefacts can occurs.
+
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen
+
+@SupportedOS

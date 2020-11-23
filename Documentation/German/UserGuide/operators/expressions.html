@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Ausdrücke - Einfache Verarbeitung - PureBasic Benutzerhandbuch</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Einfache Verarbeitung: Ausdrücke</h1>
+<dfn>Ausdruck</dfn> wird der allgemeine Name jeder Art von Berechnung in PureBasic
+genannt, egal ob numerisch oder String. Ausdrücke können so einfach wie ein fester Wert
+sein, es können jedoch auch komplexe mathematische Formeln sein, die viele Operatoren,
+Variablen und feste Werte beinhalten.
+
+<p>Alles, was einen Wert darstellt, kann in einem Ausdruck verwendet werden. Zum Beispiel
+können Befehle in Ausdrücken verwendet werden (Sie haben ja schon Erfahrung mit
+Operatoren und dem Befehl Str), sofern sie einen Wert zurückgeben. Es ist dann dieser Wert,
+der im Ausdruck verwendet wird. 
+
+<p>Sie können Ihre Ausdrücke so komplex machen, wie Sie mögen (oder sie für bessere
+Lesbarkeit vollständig aufsplitten). PureBasic vereinfacht automatisch den Ausdruck, um die
+beim Ablauf Ihres Programms erreichte Berechnungsgeschwindigkeit zu steigern.
+
+<p>Das folgende Beispiel zeigt eine Vielzahl von Ausdrücken. Sie können den Quellcode
+<a href="expression.pb">hier</a> finden. 
+
+<pre class="code">OpenConsole()
+
+; Ein einfacher Ausdruck
+simple.l = 8
+expression.f = simple * 3 + 2
+
+; Ein komplexeres Beispiel
+detail$ = &quot;This is the value of &quot;
+var_name.s = &quot; expression&quot;
+output_string.s = detail$ + var_name + &quot;: &quot; + StrF(expression)
+PrintN(output_string)
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="expression_run.png" alt="Ausgabe des Ausdrücke Beispiels" width="479" height="44">
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="brackets.html">Operatoren Vorrang</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="summary.html">Zusammenfassung</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

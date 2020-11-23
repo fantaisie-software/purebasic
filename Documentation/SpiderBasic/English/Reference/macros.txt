@@ -1,0 +1,156 @@
+@Title Macros
+
+@Syntax
+
+  @Keyword Macro <name> [(Parameter [, ...])]
+    ...
+  @Keyword EndMacro 
+
+@Description
+
+  Macros are a very powerful feature, mainly useful for advanced programmers. A macro is a placeholder
+  for some code (one keyword, one line or even many lines), which will be directly inserted in the 
+  source code at the place where a macro is used. In this, it differs from @ReferenceLink "procedures" "procedures", as the procedures
+  doesn't duplicate the code when they are called. 
+@LineBreak
+@LineBreak
+  The @Keyword "Macro" : @Keyword "EndMacro" declaration must be done before the macro will be called for the first time.
+  Because macros will be completely replaced by their related code at compile time, they are not local to a procedure.
+@LineBreak
+@LineBreak
+  A macro can not have a return type nor typed parameters. When a macro has some parameters, they are replaced
+  in the macro code by the literal expression which is passed to the called macro. No evaluation is
+  done as this stage, which is very important to understand: the evaluation of a line is started once
+  all the macros found on this line are expanded.
+@LineBreak
+@LineBreak
+  The macros are divided into two categories: simple (without parameters) and complex
+  (with parameters, needs the parentheses when calling it). When using no parameters, it's possible 
+  to replace any word with another word (or any expression). The macros can't be called recursively.
+  
+@Example Simple macro
+
+@Code
+  Macro MyNot
+    Not
+  EndMacro
+
+  a = 0
+  If MyNot a   ; Here the line will be expanded to : 'If Not a'
+    Debug "Ok"
+  EndIf
+  
+@EndCode
+
+  When using parameters, it's possible to do very flexible macros. The special concatenation character 
+  '#' can be used to create new labels or keyword by mixing the macro code and the parameter expression
+  (spaces are not accepted between each words by the concatenation character).
+  It's also possible to define default values for parameters, so they can be omitted when calling the
+  macro.
+  
+@Example Macro with parameter
+
+@Code
+  Macro UMsgBox(Title, Body)
+    MessageRequester(Title, UCase(Body), 0)
+  EndMacro
+
+  Text$ = "World"
+  UMsgBox("Hello", "-"+Text$+"-") ; Here the line will be expanded like that:
+                                  ; 'MessageRequester("Hello", UCase("-"+Text$+"-"), 0)'
+@EndCode
+
+@Example Macro with default parameter
+
+@Code
+  Macro UMsgBox(Title, Body = "Ha, no body specified")
+    MessageRequester(Title, UCase(Body), 0)
+  EndMacro
+
+  UMsgBox("Hello") ; Here the line will be expanded like that:
+                   ; 'MessageRequester("Hello", UCase("Ha, no body specified"), 0)'
+@EndCode
+
+@Example Macro parameter concatenation
+
+@Code
+  Macro XCase(Type, Text)
+    Type#Case(Text)
+  EndMacro
+
+  Debug XCase(U, "Hello")
+  Debug XCase(L, "Hello")
+  
+@EndCode
+
+@Example Advanced multi-line macro
+
+@Code
+  Macro DoubleQuote
+    "
+  EndMacro
+
+  Macro Assert(Expression)
+    CompilerIf #PB_Compiler_Debugger  ; Only enable assert in debug mode
+      If Expression
+        Debug "Assert (Line " + #PB_Compiler_Line + "): " + DoubleQuote#Expression#DoubleQuote
+      EndIf
+    CompilerEndIf
+  EndMacro
+
+  Assert(10 <> 10) ; Will display nothing
+  Assert(10 <> 15) ; Should display the assert
+  
+@EndCode
+
+
+@Syntax
+
+  @Keyword UndefineMacro <name>
+
+@Description
+
+  @Keyword UndefineMacro allows to undefine a previously defined macro, and redefine it in a different manner.
+  Once the macro has been undefined, it is no more available for use.
+    
+@Example Undefine macro
+
+@Code
+  Macro Test
+    Debug "1"
+  EndMacro
+  
+  Test ; Call the macro
+  
+  UndefineMacro Test ; Undefine the macro, it no more exists
+  
+  Macro Test ; Now we can redefine the macro
+    Debug "2"
+  EndMacro
+  
+  Test ; Call the macro
+  
+@EndCode
+
+
+@Syntax
+
+  @Keyword MacroExpandedCount
+
+@Description
+
+  @Keyword MacroExpandedCount allows to get the expanded count (number of time the macro has been expanded/called). It can
+  be useful to generate unique identifiers in the same macro for every expansion (like label, procedure name etc.).
+    
+@Example Expanded count
+
+@Code
+  Macro Test
+    Debug MacroExpandedCount
+  EndMacro
+  
+  Test ; Call the macro
+  Test ; Call the macro
+  Test ; Call the macro
+  
+@EndCode

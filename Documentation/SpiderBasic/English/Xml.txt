@@ -1,0 +1,1091 @@
+;
+;     Xml library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library XML
+
+@Overview
+
+  The XML library provides set of functions to easily add XML parsing and creating capability to
+  applications. 
+@LineBreak  
+@LineBreak  
+  The official specification of XML and XML Namespaces by the W3C can be found here:
+@LineBreak
+  @InternetLink "http://www.w3.org/TR/REC-xml/" "XML specification" @LineBreak
+  @InternetLink "http://www.w3.org/TR/REC-xml-names/" "XML Namespaces" @LineBreak
+  @InternetLink "http://www.w3.org/XML/Core/Translations" "Various translations of XML related documents" @LineBreak
+@LineBreak
+  Also the @InternetLink "http://en.wikipedia.org/wiki/Xml" "Wikipedia article on XML" provides a good starting point for people new to XML.
+  
+@CommandList
+
+@ExampleFile All Xml.sb
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsXML(#XML)
+
+@Description
+  Tests if the given #XML number is a valid and correctly initialized, XML. 
+  
+@Parameter "#XML"
+  The XML to use.
+
+@ReturnValue
+  Nonzero if #XML is a valid XML, zero otherwise.
+  
+@Remarks
+  This function is bulletproof and can be used with any value. If the 'Result' is not zero then the object is valid and
+  initialized, otherwise it will equal zero. This is the correct way to ensure a XML is ready to use.
+  
+@SeeAlso
+  @@LoadXML, @@CreateXML
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeXML(#XML)
+
+@Description
+  Frees the XML object and all data it contains.
+
+@Parameter "#XML"
+  The XML object to free. If @#PB_All is specified, all the remaining XML objects are freed.
+
+@NoReturnValue
+
+@Remarks  
+  All remaining XML objects are automatically freed when the program ends.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateXML(#XML [, Encoding])
+
+@Description
+  Creates a new empty XML tree identified by the #XML number.
+  
+@Parameter "#XML"
+  A number to identify the new XML.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+  
+@OptionalParameter "Encoding"
+  The encoding to use for the XML tree. Valid values are:
+@FixedFont   
+  @#PB_UTF8 (default)
+  @#PB_Ascii
+  @#PB_Unicode
+@EndFixedFont  
+
+@ReturnValue
+  Nonzero if the XML tree was created successfully, zero otherwise. If @#PB_Any was used
+  for the #XML parameter then the generated number is returned on success.
+
+@Remarks
+  The new XML tree will only have a root node which can be accessed with @@RootXMLNode.
+  To add new nodes, @@CreateXMLNode can be used.
+@Example
+@Code
+  ; Create xml tree
+  xml = CreateXML(#PB_Any) 
+  mainNode = CreateXMLNode(RootXMLNode(xml), "Zoo") 
+  
+  ; Create first xml node (in main node)
+  item = CreateXMLNode(mainNode, "Animal") 
+  SetXMLAttribute(item, "id", "1") 
+  SetXMLNodeText(item, "Elephant") 
+  
+  ; Create second xml node (in main node)
+  item = CreateXMLNode(mainNode, "Animal") 
+  SetXMLAttribute(item, "id", "2") 
+  SetXMLNodeText(item, "Tiger") 
+  
+  ; Display the xml
+  Debug ComposeXML(xml)
+@EndCode
+
+@SeeAlso
+  @@FreeXML, @@CreateXMLNode, @@RootXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LoadXML(#XML, Filename$ [, Encoding [, Flags]])
+
+@Description
+  Loads a XML tree from an URL or a local file.
+
+@Parameter "#XML"
+  A number to identify the new XML.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+  
+@Parameter "Filename$"
+  The filename to load the XML from.
+
+@OptionalParameter "Encoding"
+  Ignored.
+
+@OptionalParameter "Flags"
+  It can be one of the following value:
+@FixedFont
+  @#PB_LocalFile: the filename is a local file, @@OpenFileRequester() needs to be called before
+                 to have access to local files. @@SelectedFileID() is used to get the
+                 local file identifier.
+@EndFixedFont
+
+@ReturnValue
+  Nonzero if the xml object has been created. The xml data is still not loaded, the callbacks binded to 
+  @#PB_Event_Loading and @#PB_Event_LoadingError will be called once the loading is done.
+  If @#PB_Any was used for the #XML parameter then the generated number is returned on success.
+
+@SeeAlso
+  @@CreateXML, @@FreeXML, @@ParseXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ParseXML(#XML, Input$)
+
+@Description
+  Creates a new XML tree from XML data in the string. The XML is expected to be encoded
+  in the string format of the executable (Ascii or Unicode).
+
+@Parameter "#XML"
+  A number to identify the new XML.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "Input$"
+  The string containing the XML to parse.
+
+@ReturnValue
+  This function only returns zero on memory errors. 
+  To check for parser errors @@XMLStatus should be used.
+  In case of a parsing error, all data parsed before the error is accessible in the XML tree.
+
+@SeeAlso
+  @@FreeXML, @@CreateXML, @@LoadXML, @@ParseXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = XMLStatus(#XML)
+
+@Description
+  Returns the status of the last parsing operation done on this XML tree (using @@LoadXML
+  or @@ParseXML). This function should be called after every  @@LoadXML or
+  @@ParseXML call to ensure that the parsing succeeded.
+  A string representation of the parsing status (ie a readable error-message) is returned by the
+  @@XMLError function.
+
+@Parameter "#XML"
+  The XML to use.
+
+@ReturnValue
+  A value of zero (@#PB_XML_Success) indicates a successful parsing, all other values 
+  indicate various error conditions.
+@LineBreak
+@LineBreak
+  The following returnvalues are possible:
+@FixedFont
+  @#PB_XML_Success             : no error
+  @#PB_XML_Error               : an error has occured
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = XMLError(#XML)
+
+@Description
+  In case of an error while parsing XML data this function returns an error-message describing the error.
+  @@XMLStatus can be used to detect parsing errors.
+
+@Parameter "#XML"
+  The XML to use.
+
+@ReturnValue
+  The english readable error string.
+
+@Remarks
+  To get more information about the error, @@XMLErrorLine or @@XMLErrorPosition can be used.
+
+@SeeAlso
+  @@XMLErrorLine, @@XMLErrorPosition, @@XMLStatus
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = XMLErrorLine(#XML)
+
+@Description
+  In case of an error while parsing XML data this function returns the line in the input that caused the error (one based).
+  @@XMLStatus can be used to detect parsing errors.
+
+@Parameter "#XML"
+  The XML to use.
+
+@ReturnValue
+  The line in the XML where the error occured. The first line index starts from 1.
+
+@Remarks
+  To get the position within the line at which the error happened, @@XMLErrorPosition can be used.
+
+@SeeAlso
+  @@XMLError, @@XMLErrorPosition, @@XMLStatus
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = XMLErrorPosition(#XML)
+
+@Description
+  In case of an error while parsing XML data this function returns character position within the line returned by
+  @@XMLErrorLine at which the error was caused. (The first character of the line is at position 1)
+  @@XMLStatus can be used to detect parsing errors.
+
+@Parameter "#XML"
+  The XML to use.
+
+@ReturnValue
+  The character position in the XML where the error occured. The first character index starts from 1.
+
+@SeeAlso
+  @@XMLError, @@XMLErrorLine, @@XMLStatus
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExportXML(#XML, Filename$)
+
+@Description
+  Exports the specified xml to the user through a download. 
+
+@Parameter "#XML"
+  The xml to export.
+
+@Parameter "Filename$"
+  The filename to use. This is the name which will be shown to the user when the download starts.
+
+@NoReturnValue
+ 
+@SeeAlso
+  @@LoadXML, @@CreateXML, @@ComposeXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ComposeXML(#XML [, Flags])
+
+@Description
+  Returns the XML tree as markup in a single string. The XML will be returned in the
+  string format of the executable (Ascii or Unicode) independent of the setting returned
+  by @@GetXMLEncoding. The @@ExportXML function can be used to create markup in a different
+  encoding.
+
+@Parameter "#XML"
+  The XML to export. 
+  
+@OptionalParameter "Flags"
+  Not used.
+
+@ReturnValue
+  Returns the markup as a string.
+
+@SeeAlso
+  @@ExportXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetXMLEncoding(#XML)
+
+@Description
+  Returns the text encoding used for exporting/saving the given XML tree. 
+  
+@Parameter "#XML"
+  The XML to use. 
+
+@ReturnValue
+  It can be one of the following values:
+@FixedFont
+   @#PB_Ascii
+   @#PB_Unicode (UTF16)
+   @#PB_UTF8
+@EndFixedFont
+
+@SeeAlso  
+  @@ExportXML, @@SetXMLEncoding
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetXMLEncoding(#XML, Encoding)
+
+@Description
+  Changes the text encoding used for exporting/saving the given XML tree.
+
+@Parameter "#XML"
+  The XML to use. 
+
+@Parameter "Encoding"
+  It can be one of the following values:
+@FixedFont
+   @#PB_Ascii
+   @#PB_Unicode (UTF16)
+   @#PB_UTF8
+@EndFixedFont
+  This only affects the @Link "ExportXML" "exporting" of the tree. 
+  The data in the #XML object is always stored in the PB string format (Ascii or Unicode depending on 
+  the @ReferenceLink "ide_compiler" "compiler option"). So a unicode executable can safely change the encoding to
+  @#PB_Ascii for saving and then back to something else without loosing any information in the tree in memory.
+  
+@NoReturnValue
+
+@SeeAlso  
+  @@ExportXML, @@GetXMLEncoding
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetXMLStandalone(#XML)
+
+@Description
+  Returns the value of the "standalone" attribute in the XML declaration of the document.
+  
+@Parameter "#XML"
+  The XML to use. 
+
+@ReturnValue
+  It can be one of the following values:
+@FixedFont
+  @#PB_XML_StandaloneYes  : The document mode is standalone
+  @#PB_XML_StandaloneNo   : The document mode is not standalone
+@EndFixedFont
+
+@SeeAlso
+  @@SetXMLStandalone
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetXMLStandalone(#XML, Standalone)
+
+@Description
+  Changes the "standalone" attribute of the XML declaration when exporting/saving the document.
+
+@Parameter "#XML"
+  The XML to use. 
+
+@Parameter "Standalone"
+  It can be one of these values:
+@FixedFont
+  @#PB_XML_StandaloneYes  : The document mode is standalone
+  @#PB_XML_StandaloneNo   : The document mode is not standalone
+@EndFixedFont
+
+  Since this library does not validate document type definitions (DTDs), the value of this
+  attribute has no effect on the parsing/saving of documents with this library except that it is read from
+  and written to the XML declaration. This value is however important when working with XML documents
+  intended for validating parsers, that's why this command exists.
+
+@SeeAlso
+  @@GetXMLStandalone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RootXMLNode(#XML)
+
+@Description
+  Returns the root node of the XML tree. This node is always present. It represents the XML document
+  itself. The @Link "GetXMLNodeText" "text" contained in this node represents the whitespace outside of any
+  XML node (there can be no text outside of nodes). The children of this node are the @Link "MainXMLNode" "main node"
+  and any comments outside the main node. The @Link "XMLNodeType" "type" of this node is @#PB_Xml_Root.
+  
+@Parameter "#XML"
+  The XML to use. 
+
+@ReturnValue
+  Always returns a valid XML node if #XML is an existing XML tree.
+
+@SeeAlso
+  @@XMLNodeType, @@MainXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MainXMLNode(#XML)
+
+@Description
+  Returns the main XML node of the tree. A valid XML document must have one "main" or "document" node which
+  contains all other nodes. Except this node, there can only be comments on the first level below the 
+  @Link "RootXMLNode" "root node". The @Link "XMLNodeType" "type" of this node is @#PB_Xml_Normal.
+
+@Parameter "#XML"
+  The XML to use. 
+
+@ReturnValue
+  The main node, or zero if the tree has no main node (which happens if the tree is empty or the
+  main node was deleted).
+
+@SeeAlso
+  @@XMLNodeType, @@RootXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ChildXMLNode(Node [, Index])
+
+@Description
+  Returns a child node of the given XML node. 
+
+@Parameter "Node"
+  The XML node to get the child.
+  
+@OptionalParameter "Index"
+  The index of the child node. The first index starts from 1. If omitted, the first node is returned.
+
+@ReturnValue
+  The requested child node or zero if there are no children or index is out of range.
+
+@SeeAlso
+  @@ParentXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ParentXMLNode(Node)
+
+@Description
+  Returns the parent node of the given XML node. Every XML node has a parent, except the
+  @Link "RootXMLNode" "root node".
+  
+@Parameter "Node"
+  The XML node to get the parent.
+  
+@ReturnValue
+  The parent node or zero if 'Node' was the root node.
+
+@SeeAlso
+  @@ChildXMLNode, @@RootXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = XMLChildCount(Node)
+
+@Description
+  Returns the number of child nodes inside the specified XML node.
+  
+@Parameter "Node"
+  The XML node to count the children.
+  
+@ReturnValue
+  The number of child nodes inside the specified XML node.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextXMLNode(Node)
+
+@Description
+  Returns the next XML node after the given one (inside their parent node).
+
+@Parameter "Node"
+  The XML node to use.
+
+@ReturnValue
+  The node after the specified node or zero if there are no more nodes.
+
+@SeeAlso
+  @@PreviousXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PreviousXMLNode(Node)
+
+@Description
+  Returns the previous XML node from the given one (inside their parent node).
+
+@Parameter "Node"
+  The XML node to use.
+
+@ReturnValue
+  The node before the specified node or zero if the given node was the first child of its parent.
+
+@SeeAlso
+  @@NextXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = XMLNodeFromPath(ParentNode, Path$)
+
+@Description
+  Returns the XML node inside ParentNode who's relation to ParentNode is described through 'Path$'.
+  @@XMLNodePath can be used to get such a path to a node.
+
+@Parameter "ParentNode"
+  The parent XML node.
+
+@Parameter "Path$"
+  Contains a list of node names separated by '/' to indicate the way to follow from the parent
+  to the target node. For example "childtag/subchildtag" specifies the first node with name "subchildtag"
+  inside the first node with name "childtag" inside ParentNode.
+@LineBreak
+@LineBreak
+  A node name can have an index (one based) to specify which of multiple child tags of the same name should be selected.
+  "childtag/subchildtag[3]" specifies the 3rd "subchildtag" inside the first "childtag" of ParentNode.
+@LineBreak
+@LineBreak
+  Other rules: @LineBreak
+  - If a path starts with '/' it is relative to the tree's root. No matter which node ParentNode specifies. @LineBreak
+  - A Wildcard "*" can be used instead of a tag name to specify that any tag is to be selected. @LineBreak
+  - A Comment node has the tagname "#comment" @LineBreak
+  - A Processing Instruction node has the tagname "#instruction" @LineBreak
+
+@LineBreak
+  Some examples of valid paths:  
+@FixedFont
+  "/mainnode/#comment[4]" - the 4th comment inside the "mainnode" node inside the root of the tree
+  "*[10]"                 - the 10th node (of any type) inside ParentNode
+  "*/*/*"                 - the 1st node 3 levels below ParentNode independent of its type
+@EndFixedFont
+  
+  @Bold "Note: " This command is no implementation of the XPath specification. The syntax used and understood by this command
+  is only a small subset of XPath. This means a path returned from @@XMLNodePath is a valid XPath query,
+  but this command only understands the syntax described here, not just any XPath query.
+
+@ReturnValue
+  The target node or zero if the path did not lead to a valid node.
+
+@SeeAlso
+  @@XMLNodePath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = XMLNodeFromID(#XML, ID$)
+
+@Description
+  In valid XML, if a node has an attribute called "ID", the value of this attribute must be unique
+  within the XML document. This function can be used to search for a node in the document based on its ID
+  attribute.
+
+@Parameter "#XML"
+  The XML to use.
+
+@Parameter "ID$"
+  The ID value to look for.
+
+@ReturnValue
+  The node with the given ID tag or zero if no such node exists within the tree.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = XMLNodeType(Node)
+
+@Description
+  Returns the type of the given XML node. 
+  
+@Parameter "Node"
+  The XML node to use.
+  
+@ReturnValue
+  It can be one of the following:
+@LineBreak
+@LineBreak
+
+  @#PB_XML_Root
+@Indent
+  This is the trees root node. It represents the document itself. This node cannot be
+  created or deleted manually. Inside the root node, there can be only one node of type
+  @#PB_XML_Normal and also no plain text. (this is required to be a well-formed XML document)
+@EndIndent
+
+  @#PB_XML_Normal
+@Indent
+  This is a normal node in the tree. It can have a list of attributes and contain text and/or child nodes.
+@LineBreak
+  @Bold "Example: "<node attribute="hello"> contained text </node>
+@EndIndent
+
+  @#PB_XML_Comment
+@Indent
+  This node represents a comment. It can have no children or attributes. Its text represents the content of the comment.
+@LineBreak
+  @Bold "Example: "<!--  comment text  -->
+@EndIndent
+
+  @#PB_XML_CData
+@Indent
+  This is a CData section. A CData section contains only text. Its content is not interpreted by the parser so it can
+  contain unescaped "<" and ">" characters for example. CData sections can be used to include other markup or code
+  inside a document without having to escape all characters that could be interpreted as XML.
+@LineBreak
+  @Bold "Example: "<![CDATA[  cdata content  ]]>
+@EndIndent
+
+  @#PB_XML_DTD
+@Indent
+  This is a document type declaration (DTD). This library does not use a validating parser, so these declarations are
+  actually ignored when parsing a document. In order to save them back correctly, they are contained within such a DTD node.
+  The text content of the node is the entire DTD tag. It can be read and modified through commands like 
+  @@SetXMLNodeText and will be written back to the document when exporting/saving without modification.
+  The @@SetXMLStandalone command could be useful as well when working with DTDs.
+@LineBreak
+  @Bold "Example: "<!DOCTYPE name SYSTEM "external dtd uri">
+@EndIndent
+
+  @#PB_XML_Instruction
+@Indent
+  This node represents a Processing Instruction. Processing Instructions contain information that is intended
+  to be interpreted/executed by the target application. They have a @Link "GetXMLNodeName" "name" to specify the
+  content of the instruction and the instruction data which can be accessed with @@GetXMLNodeText.
+@LineBreak
+  @Bold "Example: "<?php if (...) ... ?>
+@LineBreak
+  (here "php" is the node name, and the rest up to the "?>" is the node text.)
+@EndIndent
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetXMLNodeText(Node)
+
+@Description
+  Returns the text inside the given XML node. 
+
+@Parameter "Node"
+  The XML node to use.  
+@LineBreak
+@LineBreak
+  For a node of @Link "XMLNodeType" "type" @#PB_XML_Normal, this is all text and
+  whitespace within the node that is not contained within a child node.
+@LineBreak
+  For the @Link "RootXMLNode" "root node", this is all whitespace outside of the main node. 
+  (there can be no text outside of the main node)
+@LineBreak
+  For @#PB_XML_Comment or @#PB_XML_CData nodes, this is all text
+  contained in the node.
+
+@ReturnValue
+  The text inside the given XML node.
+  
+@SeeAlso
+  @@SetXMLNodeText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetXMLNodeText(Node, Text$)
+
+@Description
+  Changes the text contained within the given XML node. See @@GetXMLNodeText 
+  for more information.
+
+@Parameter "Node"
+  The XML node to set the text.
+
+@Parameter "Text$"
+  The new text to set.
+
+@NoReturnValue
+
+@Remarks
+  If the node contains children, changing its contained text may require an adjustment of the
+  child nodes @Link "SetXMLNodeOffset" "offset values" as well.
+
+@SeeAlso
+  @@GetXMLNodeText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetXMLNodeOffset(Node)
+
+@Description
+  Returns the character offset of this node within its parent.
+
+@Parameter "Node"
+  The XML node to get the offset.
+
+@ReturnValue
+  The number of characters in the parent nodes @Link "GetXMLNodeText" "text data"
+  that lie between this node and the previous child node. So, if this node directly follows the previous one, this
+  value will be zero.
+
+@SeeAlso
+  @@SetXMLNodeOffset
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetXMLNodeOffset(Node, Offset)
+
+@Description
+  Changes the character offset of the given XML node within its parent nodes @Link "GetXMLNodeText" "text data".
+  See @@GetXMLNodeOffset for more information.
+
+@Parameter "Node"
+  The XML node to set the offset.
+
+@Parameter "Offset"
+  The new offset, in characters.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@GetXMLNodeOffset
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetXMLNodeName(Node)
+
+@Description
+  Returns the tagname of the given XML node.
+
+@Parameter "Node"
+  The XML node to get the name.
+  
+@ReturnValue
+  The tagname of the given XML node. If the node is not of @Link "XMLNodeType" "type" @#PB_XML_Normal
+  or @#PB_XML_Instruction, an empty string is returned.
+
+@SeeAlso
+  @@GetXMLNodeText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = XMLNodePath(Node [, ParentNode])
+
+@Description
+  Returns a string representing the relation between Node and ParentNode. 
+
+@Parameter "Node"
+  The XML node to get the path.
+
+@OptionalParameter "ParentNode"
+  It has to be a parent or grandparent of 'Node'. If omitted, the root node of the tree is used.
+
+@ReturnValue
+  A string representing the relation between 'Node' and 'ParentNode'. See @@XMLNodeFromPath for a 
+  description of the returned path string.
+
+@SeeAlso
+  @@XMLNodeFromPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetXMLAttribute(Node, Attribute$)
+
+@Description
+  Returns the value of an attribute in the given XML node.
+
+@Parameter "Node"
+  The XML node to get the atttribute.
+  
+@Parameter "Attribute$"
+  The attribute name.
+  
+@ReturnValue
+  The value of the attribute in the specified XML node. If the attribute does not exist
+  an empty string is returned. Only nodes of @Link "XMLNodeType" "type" @#PB_XML_Normal can 
+  have attributes. For all other node types the compiler raises an error.
+
+@SeeAlso
+  @@SetXMLAttribute, @@RemoveXMLAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetXMLAttribute(Node, Attribute$, Value$)
+
+@Description
+  Sets the value of the attribute on the given XML node. If the attribute does not exist yet, it will be added.
+
+@Parameter "Node"
+  The XML node to set the atttribute.
+  
+@Parameter "Attribute$"
+  The attribute name to change or create.
+
+@Parameter "Value$"
+  The new value to set.
+
+@NoReturnValue
+
+@Remarks
+  Only nodes of @Link "XMLNodeType" "type" @#PB_XML_Normal can have attributes. For all other node types
+  this function is ignored.
+
+@SeeAlso
+  @@GetXMLAttribute, @@RemoveXMLAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveXMLAttribute(Node, Attribute$)
+
+@Description
+  Removes the attribute from the given XML node.
+
+@Parameter "Node"
+  The XML node to remove the atttribute.
+  
+@Parameter "Attribute$"
+  The attribute name to remove. If the attribute doesn't exists, nothing happens.
+
+@NoReturnValue
+
+@Remarks
+  Only nodes of @Link "XMLNodeType" "type" @#PB_XML_Normal can have attributes. For all other node types
+  this function is ignored.
+
+@SeeAlso
+  @@GetXMLAttribute, @@SetXMLAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineXMLAttributes(Node)
+
+@Description
+  Starts to examine the attributes of the given XML node.
+
+@Parameter "Node"
+  The XML node to examine.
+
+@ReturnValue
+  Nonzero if the node is of @Link "XMLNodeType" "type" @#PB_XML_Normal and zero else 
+  (as such nodes cannot have attributes).
+
+@SeeAlso
+  @@NextXMLAttribute, @@XMLAttributeName, @@XMLAttributeValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextXMLAttribute(Node)
+
+@Description
+  This function must be called after @@ExamineXMLAttributes to move step
+  by step through the attributes of the given XML node.
+
+@Parameter "Node"
+  The XML node being examined with @@ExamineXMLAttributes.
+
+@ReturnValue
+  Zero if there are no more attributes or nonzero if there still is one.
+
+@SeeAlso
+  @@ExamineXMLAttributes, @@XMLAttributeName, @@XMLAttributeValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = XMLAttributeName(Node)
+
+@Description
+  After calling @@ExamineXMLAttributes and @@NextXMLAttribute
+  this function returns the attribute name of the currently examined attribute on the given XML node.
+
+@Parameter "Node"
+  The XML node being examined with @@ExamineXMLAttributes.
+
+@ReturnValue
+  The attribute name of the currently examined attribute on the given XML node.
+
+@SeeAlso
+  @@ExamineXMLAttributes, @@NextXMLAttribute, @@XMLAttributeValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = XMLAttributeValue(Node)
+
+@Description
+  After calling @@ExamineXMLAttributes and @@NextXMLAttribute
+  this function returns the attribute value of the currently examined attribute on the given XML node.
+
+@Parameter "Node"
+  The XML node being examined with @@ExamineXMLAttributes.
+
+@ReturnValue
+  The attribute value of the currently examined attribute on the given XML node.
+
+@SeeAlso
+  @@ExamineXMLAttributes, @@NextXMLAttribute, @@XMLAttributeName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateXMLNode(ParentNode, Name$ [, PreviousNode [, Type]])
+
+@Description
+  Creates a new XML node and inserts it into the given parent node.
+
+@Parameter "ParentNode"
+  The node into which to insert the new node. To insert the new node
+  at the root of the tree, @@RootXMLNode can be used here.
+
+@Parameter "Name$"
+  The node name$. Can be an empty string if the node name isn't required.
+
+@OptionalParameter "PreviousNode"
+  A childnode of 'ParentNode' after which the new node should
+  be inserted. If this value is 0 or not specified, the new node is inserted as the first child of 
+  its parent. If this value is -1, the node is inserted as the last child of its parent.
+
+@OptionalParameter "Type"
+  The @Link "XMLNodeType" "type" for the new node. The default is @#PB_XML_Normal.
+  Note that the node type cannot be changed after the node was created.
+
+@ReturnValue
+  The new XML node if it was created successfully or zero if no node could
+  be inserted at this point. 
+
+@Remarks
+  The following rules must be followed for a successful insertion: @LineBreak
+  - ParentNode may not be of type @#PB_XML_Comment or @#PB_XML_CData @LineBreak
+  - PreviousNode must be a direct child of ParentNode (if it is specified) @LineBreak
+  - A node of type @#PB_XML_Root cannot be created manually @LineBreak
+  - If the XML tree already has a @Link "MainXMLNode" "main node", only nodes other than @#PB_XML_Normal
+    and @#PB_XML_CData can be inserted at the root level
+
+@SeeAlso
+  @@DeleteXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DeleteXMLNode(Node)
+
+@Description
+  Deletes the specified XML node and all its contained text and children from its XML tree.
+
+@Parameter "Node"
+  The node to delete.
+
+@Remarks
+  The @Link "RootXMLNode" "root node" of a tree cannot be deleted.
+
+@SeeAlso
+  @@CreateXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ResolveXMLNodeName(Node [, Separator$])
+
+@Description
+  Returns the expanded name of the given node in a document that uses XML namespaces.
+  The expanded name consists of the namespace uri (if any) and the local node name, separated
+  by the separator character given in 'Separator$'.
+
+@Parameter "Node"
+  The node to use.
+  
+@OptionalParameter "Separator$"
+  The separator to use when concatenating the namespace and the local node name. 
+  The default separator character is "/".
+  
+@ReturnValue
+  In a document using namespaces, returns the expanded name of the node if it could be correctly
+  resolved or an empty string if a namespace prefix is used that is never declared (which is invalid).
+@LineBreak
+@LineBreak
+  In a document without namespaces, returns the node name itself.
+
+@SeeAlso
+  @@ResolveXMLAttributeName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ResolveXMLAttributeName(Node, Attribute$ [, Separator$])
+
+@Description
+  Returns the expanded name of the given node's attribute in a document that uses XML namespaces.
+  The expanded name consists of the namespace uri (if any) and the local attribute name, separated
+  by the separator character given in 'Separator$'.
+
+@Parameter "Node"
+  The node to use.
+  
+@Parameter "Attribute$"
+  The attribute to resolve.
+
+@OptionalParameter "Separator$"
+  The separator to use when concatenating the namespace and the local attribute name. 
+  The default separator character is "/".
+
+@ReturnValue
+  In a document using namespaces, returns the expanded name of the attribute if it could be correctly
+  resolved or an empty string if a namespace prefix is used that is never declared (which is invalid).
+@LineBreak
+@LineBreak
+  In a document without namespaces, returns the attribute name itself.
+
+@Remarks
+  @Bold "Note: " Unlike with @Link "ResolveXMLNodeName" "node names", the default namespace is not applied
+  to attribute names that do not have a namespace prefix. So attribute names without a namespace prefix
+  simply get their local name returned.
+
+@SeeAlso
+  @@ResolveXMLNodeName
+
+@SupportedOS
+

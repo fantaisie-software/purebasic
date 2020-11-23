@@ -1,0 +1,347 @@
+@Title UserGuide - Dynamic numbering of windows and gadgets using #PB_Any
+
+If you’ve looked at the help articles for the @Link "window/openwindow" "OpenWindow" command
+or for any of the @LibraryLink "gadget" "gadget" creation commands (for example @@ButtonGadget)
+or if you have experimented with the Form Designer tool, you may have noticed references to a
+special constant called @ReferenceLink "purebasic_objects" "#PB_Any". In this article we’re
+going to look into this a little further to find out why its so important.
+@LineBreak
+@LineBreak
+So far all of our examples have used a group of constants, an @ReferenceLink "enumerations" "enumeration",
+to identify a single @LibraryLink "window" "window" and each @LibraryLink "gadget" "gadget"
+on that window. This is fine in the simple programs we’ve demonstrated so far but presents
+a problem in more complex programs – only one of each of these windows can exist at the
+same time.
+@LineBreak
+@LineBreak
+So what happens if a program needs to provide more than one copy of a window? Maybe to have
+several files open at once or possibly to provide several different views of the same file.
+@LineBreak
+@LineBreak
+This is where the special @#PB_Any constant comes in. When this constant is used as the
+argument to the functions that support it, a unique reference number is automatically
+generated and returned as a result of the function.
+@LineBreak
+@LineBreak
+Providing we keep track of all these references we can use this to our advantage.
+Organising this is a little more complex than the examples we’ve seen so far – but the
+increased flexibility that it can provide makes this well worth the effort.
+@LineBreak
+@LineBreak
+This example program provides a window upon which a regular polygon is drawn in blue on a
+circumscribing grey circle. A combo box is provided to allow a selection of polygons to
+be drawn. A menu is provided to allow the creation of new windows or the closing of the
+current window.
+@LineBreak
+@LineBreak
+There are several things to notice about this program:
+@Indent
+  In the Enumerations section, note that there are only enumerations for the
+  @LibraryLink "menu" "menu items". These will be shared on all the windows – although
+  each window will have its own menu bar.
+  @LineBreak
+  @LineBreak
+  In the @ReferenceLink "structures" "Structures" section, note that the POLYGONWINDOW
+  structure contains four integer values and so provides a place to store references
+  for a menu bar, a label, a combo box and an image plot.
+  @LineBreak
+  @LineBreak
+  In the Variables section note that in addition to the usual variables to receive event
+  details, a @ReferenceLink "newmap" "map" called ActiveWindows is created using the
+  POLYGONWINDOW structure previously defined.
+  @LineBreak
+  @LineBreak
+  Look at the CreatePolygonWindow @ReferenceLink "procedures" "procedure". @LineBreak
+  When we create the window we capture the result of the @@OpenWindow function in a
+  variable called ThisWindow. We then convert this to a string value and use this as
+  the key for a new map entry.
+  @LineBreak
+  @LineBreak
+  When we then create the @Link "menu/createmenu" "menu", @Link "gadget/textgadget" "label",
+  @Link "gadget/comboboxgadget" "combo" and @Link "gadget/imagegadget" "image gadgets"
+  on the new window the references returned by these functions are stored in the map too.
+  @LineBreak
+  @LineBreak
+  Look at the ResizePolygonWindow procedure. @LineBreak
+  Notice how the value of EventWindow is passed in from the event loop into this procedure.
+  This value is then used to retrieve child control references from the map and these
+  references are then used to @Link "gadget/resizegadget" "resize" the gadgets.
+  @LineBreak
+  @LineBreak
+  Look at the DestroyPolygonWindow procedure. @LineBreak
+  Here the child control references are removed from the map when a window is closed.
+  If the map size reaches zero – there are no more open windows and DestroyPolygonWindow
+  sets an event flag to tell the program to end.
+  @LineBreak
+  @LineBreak
+  Start the program up. @LineBreak
+  - Use the New Window menu item to open up two or three new polygon windows. @LineBreak
+  - Use the combo box in each one to select a different shape – notice that each window
+    works independently of all the others. @LineBreak
+  - Resize some of the windows – notice that they can all be resized independently of
+    each other and that the polygon resizes with the window too. @LineBreak
+@EndIndent
+
+Finally, note that a @ReferenceLink "newmap" "map" isn’t the only way to achieve this
+effect, a @ReferenceLink "newlist" "List" or an @ReferenceLink "dim" "Array" could 
+be used to do the job too, if you prefer, although the code to implement these alternatives
+would need to be slightly different to that presented here because of the differences in
+the way those collections work.
+@LineBreak
+@Code
+  ; Compiler Directives
+  EnableExplicit
+  
+  ; Constants
+  CompilerIf Defined(Blue, #PB_Constant) = #False
+    #Blue = 16711680
+    #Gray = 8421504
+    #White = 16777215
+  CompilerEndIf
+  
+  ;- Enumerations
+  ; The menu commands will be the same on all the windows.
+  Enumeration
+    #MenuNew
+    #MenuClose
+  EndEnumeration
+  
+  ;- Structures
+  ; This structure will hold references to the unique elements of a window.
+  Structure POLYGONWINDOW
+    Menu.i
+    LabelSides.i
+    ComboSides.i
+    ImagePlot.i
+  EndStructure
+  
+  ;- Variables
+  
+  ; This map uses the previously defined structure to hold references for all the open windows.
+  NewMap ActiveWindows.POLYGONWINDOW()
+  
+  ; Event variables.
+  Define.i Event, EventWindow, EventGadget, EventType, EventMenu, EventQuit
+  Define.s EventWindowKey
+  
+  ; Implementation.
+  Procedure.i CreatePolygonWindow()
+    ; Creates a new window and gadgets, adding it and its child gadgets to the tracking map.
+    Shared ActiveWindows()
+    Protected.i ThisWindow
+    Protected.s ThisKey
+    
+    ThisWindow = OpenWindow(#PB_Any, 50, 50, 300, 300, "Polygon", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_MinimizeGadget | #PB_Window_TitleBar)  
+    
+    WindowBounds(ThisWindow, 250, 250, #PB_Ignore, #PB_Ignore)
+    
+    If ThisWindow
+      ; Maps take a string value as key so convert the integer ThisWindow to a string.
+      ThisKey = StrU(ThisWindow)
+      
+      ; Add a map element to hold the new gadget references.
+      AddMapElement(ActiveWindows(), ThisKey)
+      
+      ; Create the menu bar.
+      ActiveWindows(ThisKey)\Menu = CreateMenu(#PB_Any, WindowID(ThisWindow))
+      MenuTitle("Window")
+      MenuItem(#MenuNew, "New Window")
+      MenuItem(#MenuClose, "Close Window")
+      
+      ; Create the child gadgets and store their references in the map.
+      With ActiveWindows()
+        ; A label for the combo.
+        \LabelSides = TextGadget(#PB_Any, 5, 5, 150, 20, "Number of Sides:")
+        
+        ; The Sides combo.
+        \ComboSides = ComboBoxGadget(#PB_Any, 160, 5, 100, 25)
+        AddGadgetItem(\ComboSides, 0, "Triangle")
+        AddGadgetItem(\ComboSides, 1, "Diamond")
+        AddGadgetItem(\ComboSides, 2, "Pentagon")
+        AddGadgetItem(\ComboSides, 3, "Hexagon")
+        AddGadgetItem(\ComboSides, 4, "Heptagon")
+        AddGadgetItem(\ComboSides, 5, "Octagon")
+        AddGadgetItem(\ComboSides, 6, "Nonagon")
+        AddGadgetItem(\ComboSides, 7, "Decagon")
+        
+        ; Select Triangle.
+        SetGadgetState(\ComboSides, 0)
+        
+        ; The visual image gadget on the window.
+        \ImagePlot = ImageGadget(#PB_Any, 5, 35, 290, 240, 0, #PB_Image_Border)
+      EndWith
+    EndIf
+    
+    ; Return the reference to the new window.
+    ProcedureReturn ThisWindow
+  EndProcedure
+  
+  Procedure DestroyPolygonWindow(Window.i)
+    ; Remove Window from the ActiveWindows map, close the window and set the quit flag, if appropriate.
+    Shared EventQuit, ActiveWindows()
+    Protected.s ThisKey
+    
+    ; Convert the integer Window to a string.
+    ThisKey = StrU(Window)
+    
+    ; Delete the map entry.
+    DeleteMapElement(ActiveWindows(), ThisKey)
+    
+    ; Close the window.
+    CloseWindow(Window)
+    
+    ; Check if there are still open windows.
+    If MapSize(ActiveWindows()) = 0
+      EventQuit = #True
+    EndIf
+  EndProcedure
+  
+  Procedure.i ResizePolygonWindow(Window.i)
+    ; Resize the child gadgets on Window.
+    ; In practice only the ImageGadget needs to be resized in this example.
+    Shared ActiveWindows()
+    Protected.i ThisImage
+    Protected.i X, Y, W, H
+    Protected.s ThisKey
+    
+    ; Obtain references to the affected gadgets from the map.
+    ThisKey = StrU(Window)
+    ThisImage = ActiveWindows(ThisKey)\ImagePlot
+    
+    ; Resize gadgets.
+    W = WindowWidth(Window) - 15
+    H = WindowHeight(Window) - 70
+    ResizeGadget(ThisImage, #PB_Ignore, #PB_Ignore, W, H)
+  EndProcedure
+  
+  Procedure PlotPolygon(Window.i)
+    ; Draw the polygon image and transfer it to the image gadget.
+    Shared ActiveWindows()
+    Protected.f Radius, OriginX, OriginY, StartX, StartY, EndX, EndY
+    Protected.i Sides, Vertex, Width, Height, ThisCombo, ThisImage, ThisPlot
+    Protected.s ThisKey
+    
+    ; Check if the event is for the right window.
+    If Not IsWindow(Window) : ProcedureReturn : EndIf
+    
+    ; Obtain references to the affected gadgets from the map.
+    ThisKey = StrU(Window)
+    ThisCombo = ActiveWindows(ThisKey)\ComboSides
+    ThisImage = ActiveWindows(ThisKey)\ImagePlot
+    
+    ; Calculate dimensions and origin.
+    Sides = GetGadgetState(ThisCombo) + 3
+    Width = GadgetWidth(ThisImage) - 4
+    Height = GadgetHeight(ThisImage) - 4
+    OriginX = Width/2
+    OriginY = Height/2
+    If Width < Height
+      Radius = OriginX - 50
+    Else
+      Radius = OriginY - 50
+    EndIf
+    
+    ; Create a new image.
+    ThisPlot = CreateImage(#PB_Any, Width, Height)
+    StartDrawing(ImageOutput(ThisPlot))
+    
+    ; Draw a white background.
+    Box(0, 0, Width, Height, #White)
+    
+    ; Draw a gray circumscribing circle.
+    Circle(OriginX, OriginY, Radius, #Gray)
+    
+    ; Draw the polygon.
+    For Vertex = 0 To Sides
+      
+      ; Calculate side start point.
+      StartX =  OriginX + (Radius * Cos(2 * #PI * Vertex/Sides))
+      StartY = OriginY + (Radius * Sin(2 * #PI * Vertex/Sides)) 
+      
+      ; and end point.
+      EndX = OriginX + (Radius * Cos(2 * #PI * (Vertex + 1)/Sides))
+      EndY = OriginY + (Radius * Sin(2 * #PI * (Vertex + 1)/Sides))
+      
+      ; Draw the side in blue.
+      LineXY(StartX, StartY, EndX, EndY, #Blue)
+      
+    Next Vertex
+    
+    ; Fill the polygon in blue
+    FillArea(OriginX, OriginY, #Blue, #Blue)
+    
+    StopDrawing()
+    
+    ; Transfer the image contents to the visible gadget.
+    SetGadgetState(ThisImage, ImageID(ThisPlot))
+    
+    ; Destroy the temporary image.
+    FreeImage(ThisPlot)
+  EndProcedure
+  
+  ;- Main
+  
+  ; Create the first window.
+  EventWindow = CreatePolygonWindow()
+  ResizePolygonWindow(EventWindow)
+  PlotPolygon(EventWindow)
+  
+  ;- Event loop
+  Repeat
+    Event = WaitWindowEvent()
+    EventWindow = EventWindow()
+    EventWindowKey = StrU(EventWindow)
+    EventGadget = EventGadget()
+    EventType = EventType()
+    EventMenu = EventMenu()
+    
+    Select Event
+      Case #PB_Event_Gadget
+        ; A gadget event has occurred.
+        If EventGadget = ActiveWindows(EventWindowKey)\LabelSides
+          ; Do nothing.
+          
+        ElseIf EventGadget = ActiveWindows(EventWindowKey)\ComboSides
+          ; If the combo box changes, redraw the image.
+          PlotPolygon(EventWindow)
+          
+          ; Update the windows title to reflect the new shape.
+          SetWindowTitle(EventWindow, GetGadgetText(ActiveWindows(EventWindowKey)\ComboSides))
+          
+        ElseIf EventGadget = ActiveWindows(EventWindowKey)\ImagePlot
+          ; Do nothing.
+          
+        EndIf
+        
+      Case #PB_Event_Menu
+        ; A menu event has occurred.
+        If EventMenu = #MenuNew
+          EventWindow = CreatePolygonWindow()
+          ResizePolygonWindow(EventWindow)
+          PlotPolygon(EventWindow)
+          
+        ElseIf EventMenu = #MenuClose
+          DestroyPolygonWindow(EventWindow)
+          
+        EndIf
+        
+      Case #PB_Event_Repaint
+        ; A window's content has been invalidated.
+        PlotPolygon(EventWindow)
+        
+      Case #PB_Event_SizeWindow
+        ; A window has been resized.
+        ResizePolygonWindow(EventWindow)
+        PlotPolygon(EventWindow)
+        
+      Case #PB_Event_CloseWindow
+        ; A window has been closed.
+        DestroyPolygonWindow(EventWindow)
+        
+    EndSelect
+    
+  Until EventQuit = #True
+@EndCode
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_memory" "< Previous: Memory access" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_pb_any2" "Next: Managing multiple windows >"

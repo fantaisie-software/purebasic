@@ -1,0 +1,168 @@
+@Title Compiler Directives
+
+@Syntax
+
+  @Keyword CompilerIf <constant expression>
+    ...
+  [@Keyword CompilerElseIf]
+    ...
+  [@Keyword CompilerElse]
+    ...
+  @Keyword CompilerEndIf
+
+@Description
+
+  If the <constant expression> result is true, the code inside the @Keyword CompilerIf will be compiled, 
+  else it will be totally ignored. It's useful when building multi-OSes programs to
+  customize some programs part by using OS specific functions. The @Keyword And and @Keyword Or Keywords 
+  can be used in <constant expression> to combine multiple conditions.
+
+  @Example
+
+@Code
+  CompilerIf #PB_Compiler_OS = #PB_OS_Linux And #PB_Compiler_Processor = #PB_Processor_x86
+    ; some Linux and x86 specific code.
+  CompilerEndIf
+@EndCode
+
+  
+
+
+@Syntax
+
+  @Keyword CompilerSelect <numeric constant>
+    @Keyword CompilerCase <numeric constant>
+      ...
+    [@Keyword CompilerDefault]
+      ...
+  @Keyword CompilerEndSelect
+
+@Description
+
+  Works like a regular @ReferenceLink "Select_EndSelect" "Select : EndSelect" except that only one numeric 
+  value is allowed per case. It will tell the compiler which code should 
+  be compiled. It's useful when building multi-OSes programs to customize some programs part 
+  by using OS specific functions.
+
+  @Example
+
+@Code
+  CompilerSelect #PB_Compiler_OS
+    CompilerCase #PB_OS_AmigaOS
+      ; some Amiga specific code
+    CompilerCase #PB_OS_Linux
+      ; some Linux specific code
+  CompilerEndSelect
+@EndCode
+
+
+@Syntax
+
+  @Keyword CompilerError <string constant>
+
+@Description
+
+  Generates an error, as if it was a syntax error and display the associated message. It can be useful
+  when doing specialized routines, or to inform a source code is not available on an particular OS.
+
+  @Example
+
+@Code
+  CompilerIf #PB_Compiler_OS = #PB_OS_AmigaOS
+    CompilerError "AmigaOS isn't supported, sorry."
+  CompilerElse
+    CompilerError "OS supported, you can now comment me."
+  CompilerEndIf
+
+@EndCode
+
+
+
+@Syntax
+
+  @Keyword EnableExplicit
+  @Keyword DisableExplicit
+
+@Description
+
+  Enables or disables the explicit mode. When enabled, all the @ReferenceLink "variables" "variables" which are not explicitly
+  declared with @ReferenceLink "define" "Define", @ReferenceLink "global" "Global", @ReferenceLink "protected" "Protected" or
+  @ReferenceLink "static" "Static" are not accepted and the compiler
+  will raise an error. It can help to catch typo bugs.
+
+  @Example
+
+@Code
+  EnableExplicit
+  
+  Define a
+  
+  a = 20 ; Ok, as declared with 'Define'
+  b = 10 ; Will raise an error here
+@EndCode
+
+
+@Syntax
+
+  @Keyword EnableJS
+  @Keyword DisableJS
+
+@Description
+
+  Enables or disables the inline javascript. Inside this block, the line are left untouched and put as is
+  in the generated code. See the @ReferenceLink "InlinedJS" "inline javascript" section for more information.
+
+  @Example
+
+@Code
+  ; 
+  ;
+  Test = 10
+  
+  EnableJS
+    v_test = 20
+  DisableJS
+  
+  Debug Test ; Will be 20
+@EndCode
+
+
+@LineBreak
+@LineBreak
+
+@Section Reserved Constants
+
+  The SpiderBasic compiler has several reserved constants which can be useful to the programmer: 
+  
+@FixedFont
+  @#PB_Compiler_OS : Determines on which OS the compiler is currently running. It can be one of the following values:
+    @#PB_OS_Windows : The compiler is creating Windows executable (PureBasic)
+    @#PB_OS_Linux   : The compiler is creating Linux executable (PureBasic)
+    @#PB_OS_AmigaOS : The compiler is creating AmigaOS executable (PureBasic)
+    @#PB_OS_MacOS   : The compiler is creating OS X executable (PureBasic)
+    @#PB_OS_Web     : The compiler is generating a JavaScript file (SpiderBasic)
+
+  @#PB_Compiler_Processor : Determines the processor type for which the output is created. It can be one of the following:
+    @#PB_Processor_x86     : x86 processor architecture (also called IA-32 or x86-32) (PureBasic)
+    @#PB_Processor_x64     : x86-64 processor architecture (also called x64, AMD64 or Intel64) (PureBasic)
+    @#PB_Processor_PowerPC : PowerPC processor architecture (PureBasic)
+    @#PB_Processor_mc68000 : Motorola 68000 processor architecture (PureBasic)
+    @#PB_Processor_JavaScript : JavaScript output (SpiderBasic)
+  
+  @#PB_Compiler_Date     : Current date, at the compile time, in the SpiderBasic  @LibraryLink "Date" "date" format.
+  @#PB_Compiler_File     : Full path and name of the file being compiled, useful for debug purpose.
+  @#PB_Compiler_FilePath : Full path of the file being compiled, useful for debug purpose.
+  @#PB_Compiler_Filename : Filename (without path) of the file being compiled, useful for debug purpose.
+  @#PB_Compiler_Line     : Line number of the file being compiled, useful for debug purpose.
+  @#PB_Compiler_Procedure: Current procedure name, if the line is inside a @ReferenceLink "procedures" "procedure".
+  @#PB_Compiler_Module   : Current module name, if the line is inside a @ReferenceLink "module" "module".
+  @#PB_Compiler_Version  : Compiler version, in integer format in the form '420' for 4.20.
+  @#PB_Compiler_Home     : Full path of the SpiderBasic directory, can be useful to locate @ReferenceLink "includes" "include files"
+  @#PB_Compiler_Debugger : Set to 1 if the runtime debugger is enabled, set to 0 else. When a final project is created
+                          is created, the debugger is always disabled (this constant will be 0).
+  @#PB_Compiler_InlineJavaScript : Set to 1 if the if the code is inside a EnableJS/DisableJS block.
+  @#PB_Compiler_EnableExplicit: Set to 1 if the executable is compiled with enable explicit support, set to 0 else.
+  @#PB_Compiler_IsMainFile    : Set to 1 if the file being compiled is the main file, set to 0 else.
+  @#PB_Compiler_IsIncludeFile : Set to 1 if the file being compiled has been included by another file, set to 0 else.
+  
+@EndFixedFont  

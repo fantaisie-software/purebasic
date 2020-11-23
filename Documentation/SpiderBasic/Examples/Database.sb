@@ -1,0 +1,34 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Database example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+If OpenDatabase(0)
+  
+  DatabaseUpdate(0, "CREATE TABLE superheroes (firstname TEXT, name TEXT, weight REAL)")
+ 
+  DatabaseUpdate(0, "INSERT INTO superheroes (firstname, name, weight) Values ('Peter', 'Parker', '80.8')")
+  DatabaseUpdate(0, "INSERT INTO superheroes (firstname, name, weight) Values ('Bruce', 'Wayne', '70.5')")
+  DatabaseUpdate(0, "INSERT INTO superheroes (firstname, name, weight) Values ('Clark', 'Kent', '75.1')")
+  
+  ; List all superheroes with weigth > 72
+  ; 
+  If DatabaseQuery(0, "SELECT * FROM superheroes WHERE weight > 72")
+    While NextDatabaseRow(0)
+      Debug "superhero: " + GetDatabaseString(0, 0) + " " + GetDatabaseString(0, 1) + " (weight: " + GetDatabaseDouble(0, 2) + " kg)"
+    Wend
+   
+    FinishDatabaseQuery(0)
+  Else
+    Debug "DatabaseQuery() failed: " + DatabaseError()
+  EndIf  
+ 
+  CloseDatabase(0)
+Else
+  Debug "OpenDatabase() failed."
+EndIf

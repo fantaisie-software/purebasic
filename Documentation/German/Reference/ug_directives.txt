@@ -1,0 +1,243 @@
+@Title Einsteiger-Kapitel - Compiler-Direktiven (für unterschiedliches Verhalten auf verschiedenen OS)
+
+Dies wird unser letzter Blick auf das Datei-Eigenschaften Programm. Es gibt eine
+zu überwindende Einschränkung, welche wir zuvor diskutiert haben und es bis jetzt
+gelassen haben, weil es ein Sonderfall ist.
+@LineBreak
+@LineBreak
+Bisher war die angezeigte Attribut-Spalte einfach ein @ReferenceLink "variables" "Integer".
+Dies liegt daran, dass die Rückgabewerte von @@GetFileAttributes und @@DirectoryEntryAttributes
+auf Windows-Systemen eine andere Bedeutung haben, verglichen mit Mac- und Linux-Systemen.
+@LineBreak
+@LineBreak
+Wir können diesen Unterschied zur Laufzeit nicht erlauben, wir können jedoch
+@ReferenceLink "compilerdirectives" "Compiler-Direktiven" verwenden, damit sich das
+Programm auf den drei verschiedenen Betriebssystemen unterschiedlich verhält.
+@LineBreak
+@LineBreak
+
+Fügen Sie diese neue Prozedur-Deklarierung zu diesem Abschnitt hinzu.
+@Code
+  Declare.s AttributeString(Attributes.l)
+@EndCode
+
+Fügen Sie diese neue Prozedur zum Abschnitt der Implementierung hinzu.
+@Code
+  Procedure.s AttributeString(Attributes.l)
+    ; Konvertiert einen Integer Attribut-Wert in eine String-Beschreibung.
+    ; Unterstützt Linux, Mac und Windows Systemattribute.
+    
+    Protected.s Result
+    
+    Result = ""
+    
+    CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+    
+          ; Dies sind die Attribute für das Windows-System.
+          ; Ein "logisches Und" der Attribute mit jeder Konstante filtert dieses Bit
+          ; aus und kann dann zum Vergleich herangezogen werden.
+      
+          If Attributes & #PB_FileSystem_Archive
+              Result + "A"
+          Else
+              Result + " "
+          EndIf
+          
+          If Attributes & #PB_FileSystem_Compressed
+              Result + "C"
+          Else
+              Result + " "
+          EndIf
+          
+          If Attributes & #PB_FileSystem_Hidden
+              Result + "H"
+          Else
+              Result + " "
+          EndIf
+          
+          If Attributes & #PB_FileSystem_ReadOnly
+              Result + "R"
+          Else
+              Result + " "
+          EndIf
+          
+          If Attributes & #PB_FileSystem_System
+              Result + "S"
+          Else
+              Result + " "
+          EndIf
+          
+    CompilerElse
+      
+      ; Dies sind die Attribute für die Mac- und Linux-Systeme.
+      
+      If Attributes & #PB_FileSystem_Link
+        Result + "L "
+      Else
+        Result + "  "
+      EndIf
+      
+      ; Anwender-Attribute.
+      If Attributes & #PB_FileSystem_ReadUser
+        Result + "R"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_WriteUser
+        Result + "W"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_ExecUser
+        Result + "X "
+      Else
+        Result + "  "
+      EndIf
+      
+      ; Group attributes.
+      If Attributes & #PB_FileSystem_ReadGroup
+        Result + "R"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_WriteGroup
+        Result + "W"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_ExecGroup
+        Result + "X "
+      Else
+        Result + "  "
+      EndIf
+      
+      ; All attributes.
+      If Attributes & #PB_FileSystem_ReadAll
+        Result + "R"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_WriteAll
+        Result + "W"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_ExecAll
+        Result + "X"
+      Else
+        Result + " "
+      EndIf
+      
+    CompilerEndIf
+    
+    ; Rückgabe des Ergebnisses.
+    ProcedureReturn Result
+    
+  EndProcedure
+@EndCode
+
+Und schließlich ersetzen Sie diese zwei Zeilen in der ListLoad Prozedur
+@Code
+      ; Konvertiert die Attribute vorerst in einen String.
+      Attrib = StrU(Files()\Attributes)
+@EndCode
+
+mit diesen
+@Code
+      ; Aufrufen von AttributeString zum Konvertieren der Attribute in eine String-Darstellung.
+      Attrib = AttributeString(Files()\Attributes)
+@EndCode
+
+Wenn jetzt das Programm ausgeführt wird, dann wird eine String-Darstellung anstelle
+der Integer-Werte angezeigt. Auf einem Windows-System wird dies in etwa so aussehen
+(vorausgesetz alle Attribute sind gesetzt):
+@Code
+  ACHRS
+@EndCode
+
+und auf den anderen zwei Systemen:
+@Code
+  L RWX RWX RWX
+@EndCode
+
+Die @ReferenceLink "compilerdirectives" "CompilerIf" Anweisung funktioniert sehr ähnlich
+wie die @ReferenceLink "if_endif" "If" Anweisung - allerdings führt der Compiler den
+Vergleich bereits zum Zeitpunkt des Kompilierens durch, anders als das Executable zur
+Laufzeit. Dies bedeutet, dass wir unterschiedlichen Code einbinden können, um die
+Datei-Attribute auf den verschiedenen Betriebssystemen zu behandeln.
+@LineBreak
+@LineBreak
+Die Zeilen zwischen:
+@Code
+  CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+@EndCode
+
+und
+@Code
+  CompilerElse
+@EndCode
+
+werden auf den Windows-Systemen kompiliert. Die Konstante @#PB_Compiler_OS wird automatisch
+von PureBasic definiert, um diese Art der Programmlogik zu erlauben.
+@LineBreak
+@LineBreak
+Der andere Abschnitt wird auf den Mac- und Linux-Systemen verwendet - welche auf die
+gleiche Art und Weise arbeiten. Wenn diese Betriebssysteme ebenfalls noch verschiedene
+Attribut-Werte hätten, dann könnten wir @ReferenceLink "compilerdirectives" "CompilerSelect"
+und @ReferenceLink "compilerdirectives" "CompilerCase" verwenden, um eine Drei-Wege-Entscheidung
+durchzuführen.
+@Code
+  CompilerSelect #PB_Compiler_OS
+      
+    CompilerCase #PB_OS_Linux
+      ; Code für Linux-Systeme.
+      
+
+    CompilerCase #PB_OS_MacOS
+      ; Code für Mac-Systeme.
+      
+    CompilerCase #PB_OS_Windows
+      ; Code für Windows-Systeme.
+      
+  CompilerEndSelect
+@EndCode
+
+Die letzte Compiler-Direktive, welche wir uns hier anschauen möchten, ist:
+@ReferenceLink "compilerdirectives" "EnableExplicit".
+@LineBreak
+@LineBreak
+Es gibt einen guten Grund für die Verwendung dieser Direktive. Sie verlangt, dass alle
+@ReferenceLink "variables" "Variablen" vor Ihrer Verwendung ausdrücklich in irgendeiner
+Weise definiert werden müssen (z.B. mittels @ReferenceLink "define" "Define",
+@ReferenceLink "dim" "Dim", @ReferenceLink "global" "Global", @ReferenceLink "protected" "Protected",
+@ReferenceLink "static" "Static", etc.). Dies so zu tun, verhindert evtl. logische Fehler
+durch falsch eingegebene Variablen-Namen, welche "on-the-fly" (während der Laufzeit) definiert
+werden. Diese Art der subtilen Fehler hat keine Auswirkungen auf das Kompilieren des eines
+Programms, kann sich aber zur Laufzeit als ein sehr ungünstiger Fehler herausstellen.
+Die Verwendung dieser Direktive beseitigt diese Art von Problemen, da ein Compiler-Fehler
+auftreten würde.
+@LineBreak
+@LineBreak
+Zum Beispiel:
+@Code
+  EnableExplicit
+  
+  Define.l Field, FieldMax
+  
+  ; ...
+  
+  If Field < FieldMax
+    ; Wenn EnableExplicit weggelassen wird, dann wird dieser Code-Abschnitt nicht
+    ; wie gedacht ausgeführt werden, da FieldMax gleich Null sein wird.
+  EndIf
+@EndCode
+
+
+@Section Einsteiger-Kapitel Navigation
+@ReferenceLink "ug_procedures" "< Vorheriges: Strukturieren von Programmcode in Prozeduren" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_files" "Nächstes: Lesen und Schreiben von Dateien >"

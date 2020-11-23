@@ -1,0 +1,241 @@
+@Title Pointers and memory access
+
+@Section &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pointers
+
+@FormatIf HTML
+<!-- There is a bug somewhere, and i had to do this work around. Mesa -->
+<blockquote>
+Using pointers is possible by placing one '*' (asterix) in front of the name of a <a href="../reference/variables.html">variable</a>, <a href="../reference/dim.html">array</a>, 
+<a href="../reference/newlist.html">list</a> or <a href="../reference/newmap.html">map</a>. 
+A pointer is a placeholder for a memory address which is usually associated to a <a href="../reference/structures.html">structure</a>. 
+</blockquote>
+@FormatEndIf
+
+@Example
+
+@Code
+  *MyScreen.Screen = OpenScreen(0, 320, 200, 8, 0)
+  mouseX = *MyScreen\MouseX  ; Assuming the Screen structure contains a MouseX field
+@EndCode
+
+  There are only three valid methods to set the value of a pointer: @LineBreak
+  - Get the result from a function (as shown in the above example) @LineBreak
+  - Copy the value from another pointer @LineBreak
+  - Find the address of a variable, procedure or label (as shown below) @LineBreak
+  @LineBreak
+  Note: unlike C/C++, in PureBasic the '*' is @Bold always part of the item name.
+  Therefore '*ptr' and 'ptr' are two different variables. 
+  'ptr' is a variable (regular one) storing a value, '*ptr' is another variable of pointer type storing an address. 
+
+  @LineBreak
+  @LineBreak
+  @Underline "Pointers and memory size"
+  @LineBreak
+  @LineBreak
+  Because pointers receive only addresses as values, the memory size of a pointer is the 
+  space allowing to store an absolute address of the processor: 
+  @LineBreak
+  - On 32-bit processors the address space is limited to 32-bit, so a 
+  pointer takes 32-bit (4 bytes, like a 'long') in memory
+  @LineBreak
+  - On 64-bit processors it takes 64-bit (8 bytes, like a 'quad') in memory, because 
+  the absolute address is on a 64-bit range. 
+  @LineBreak
+  @LineBreak
+  As a consequence the type of a pointer depends of the CPU address mode, ('long' on 32-bit CPU 
+  and 'quad' on 64-bit one for example), so a pointer is a variable of type pointer.
+  @LineBreak
+  It results from this that assigning a native type to a pointer (*Pointer.l, *Pointer.b ...) makes no sense.
+  @LineBreak
+  @LineBreak
+  Note: 
+  @LineBreak
+  - Every time a memory address needs to be stored in a variable, it should be done through 
+  a pointer. This guaranteed address integrity at the compilation time whatever the CPU address mode is. 
+  @LineBreak
+  - PureBasic x86 does @Underline "not" generate 64-bit executables. For PureBasic programs compiled 
+    with this, the system grants them only an addressing with 32-bit pointers.
+  @LineBreak
+  @LineBreak
+  @Underline "Pointers and structures"
+  @LineBreak
+  @LineBreak
+  By assigning a structure to a pointer (for example *MyPointer.Point) it allows to access any memory 
+  address in a structured way (with the operator '\'). 
+  @LineBreak
+@Example Pointers and variables
+@Code
+  Define Point1.Point, Point2.Point
+  *CurrentPoint.Point = @Point1  ; Pointer declaration, associated to a structure and initialized with Point1's address
+  *CurrentPoint \x = 10          ; Assign value 10 to Point1\x
+  *CurrentPoint.Point = @Point2  ; move to Point2's address
+  *CurrentPoint \x = 20          ; Assign value 20 to Point2\x
+  Debug Point1\x
+  Debug Point2\x
+@EndCode
+
+@Example Pointers and array
+@Code
+  Define Point1.Point, Point2.Point
+  Dim *Points.Point(1) ; 2 slots array
+  *Points(0) = @Point1 ; Assign the first point variable to the first array slot
+  *Points(1) = @Point2 ; Same for second
+
+  *Points(0)\x = 10 ; Modify the variables through the pointers
+  *Points(1)\x = 20 ;
+  
+  Debug Point1\x
+  Debug Point2\x
+@EndCode
+
+  Pointers allow to move, to read and to write easily in memory. Furthermore they allow programmers 
+  to reach big quantities of data without supplementary cost further to data duplication. Copying a 
+  pointer is much faster. 
+  @LineBreak
+  @LineBreak
+  Pointers are also available in structures, for more information see the @ReferenceLink "structures" "structures chapter".
+  @LineBreak
+  @LineBreak
+  @Underline "Pointers and character strings"
+  @LineBreak
+  @LineBreak
+  All variables have a permanent size in memory (2 bytes for Word, 4 bytes for a Long, etc.) except 
+  for strings variables with lengths that can change. So string variables are managed by a different 
+  way of other variables. 
+  @LineBreak
+  Thus a structure field, that makes reference to a string, store only the memory address of the 
+  string instead of the string itself: a such structure field is a pointer towards a string. 
+  @LineBreak
+@Example
+@Code
+  Text$ = "Hello"
+  *Text = @Text$            ; *Text store the address of the string in memory 
+  *Pointer.String = @*Text  ; *Pointer points on *Text
+  Debug *Pointer\s          ; Display the string living at the address stored in *Pointer (i.e. @Text$)
+@EndCode
+
+  @Underline "Pointers Arithmetic"
+  @LineBreak
+  @LineBreak
+  Arithmetic operations on the pointers are possible and practical by using @ReferenceLink "compilerfunctions" "SizeOf()".
+  @LineBreak
+@Example
+@Code
+  Dim Array.Point(1)         ; Array of points 
+ 
+  *Pointer.Point = @Array()  ; Store the array address
+  *Pointer\x = 10            ; Change the first array element values
+  *Pointer\y = 15   
+
+  *Pointer + SizeOf(Point)   ; Move to the next array element 
+
+  *Pointer\x = 7             ; Change the second array element values
+  *Pointer\y = 9
+ 
+  ; Display results
+  For i = 0 To 1
+    Debug Array(i)\x
+    Debug Array(i)\y
+  Next i
+@EndCode  
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Section Addresses of variables
+
+    To get the address of a @ReferenceLink "variables" "variable" in your code, you use the at symbol (@). 
+    A common reason for using this is when you want to pass a structured type variable 
+    to a @ReferenceLink "procedures" "procedure". You must pass a pointer to this variable as you cannot pass structured 
+    variables directly.
+
+@Example
+
+@Code
+  Structure astruct
+    a.w
+    b.l
+    c.w
+  EndStructure
+  
+  Procedure SetB(*myptr.astruct)
+    *myptr\b = 69
+  EndProcedure
+  
+  Define.astruct myvar
+  
+  SetB(@myvar)
+  
+  Debug myvar\b
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Section Addresses of literal strings
+
+    To get the address of literal string, you can use the at symbol (@) in front of it. String constants are also supported.
+
+@Example
+
+@Code
+  *String = @"Test"
+  Debug PeekC(*String) ; Will display 84, which is the value of 'T'
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Section Addresses of procedures
+
+  For advanced programmers. The most common reason to get the address of a procedure is when dealing 
+  with the OS at a low-level. Some OSes allow you to specify callback or hook functions 
+  (for some operations) which get called by the OS and allows the programmer to extend 
+  the ability of the OS routine. The address of a @ReferenceLink "procedures" "procedure" is found in a similar way 
+  to @ReferenceLink "variables" "variables".
+
+@Example
+
+@Code
+  Procedure WindowCB(WindowID.i, Message.i, wParam.i, lParam.i)
+    ; This is where the processing of your callback procedure would be performed
+  EndProcedure
+  
+  ; A special callback for the Windows OS allowing you to process window events
+  SetWindowCallback( @WindowCB() )
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Section Addresses of labels
+
+  It can also be useful to find the address of @ReferenceLink "general_rules" "labels" in your code. This can be 
+  because you want to access the code or data stored at that label, or any other 
+  good reason you can think of. To find the address of a label, you put a 
+  question mark (?) in front of the label name.
+
+@Example
+
+@Code
+  Debug "Size of data file = " + Str(?endofmydata - ?mydata)
+  
+  DataSection
+    mydata:
+      IncludeBinary "somefile.bin"
+    endofmydata:
+  EndDataSection
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

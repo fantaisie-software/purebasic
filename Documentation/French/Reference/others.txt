@@ -1,0 +1,141 @@
+@Title Autres commandes
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#Goto"><u>Goto</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#End"><u>End</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Swap"><u>Swap</u></a></td>
+  </tr>
+  </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+
+@FormatIf HTML
+<a name="Goto"></a>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword Goto <label> 
+  
+@Description
+
+  Cette commande permet de transférer directement l'exécution du programme à l'emplacement 
+  d'un label. Soyez attentif en utilisant @Keyword Goto car une mauvaise utilisation peut provoquer 
+  une fin anormale du programme...
+@LineBreak
+@LineBreak 
+  Note: Pour sortir d'une boucle en toute sécurité, vous devez toujours utiliser 
+  @ReferenceLink "Break_Continue" Break à la place de @Keyword Goto et ne l'utilisez pas dans un 
+  bloc Select/EndSelect, à moins que vous ayez les aptitudes nécessaire pour gérer la pile vous-même.  
+@LineBreak 
+@LineBreak
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="End"></a>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword End [CodeDeSortie]
+
+@Description
+
+  Termine et quitte le programme de manière correcte à n'importe quel endroit du code source. 
+  Le paramètre optionnel 'CodeDeSortie' peut être utilisé pour renvoyer un code d'erreur différent 
+  de 0 (valeur par défaut) lorsque le programme se termine (souvent utilisé par les programmes en 
+  mode console).
+  @LineBreak
+  @LineBreak
+  Le 'CodeDeSortie' peut-être récupéré dans un autre programme à l'aide de la commande @@ProgramExitCode.
+@LineBreak 
+@LineBreak
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="Swap"></a>
+@FormatEndIf
+
+@Syntax
+  
+  @Keyword Swap <expression>, <expression>
+
+@Description
+
+  Permute la valeur des deux expressions, de manière très rapide. Chaque <expression> doit
+  être soit une @ReferenceLink "variables" "variable", un élément (structuré ou non) de 
+  @ReferenceLink "dim" "tableau", de @ReferenceLink "newlist" "liste" ou
+  de @ReferenceLink "newmap" "map" et être d'un des types natifs: long (.l), 
+  quad (.q), string, etc.
+  
+@Example Permute des chaînes
+
+@Code
+  Salut$ = "Salut"
+  Monde$ = "Monde"
+ 
+  Swap Salut$, Monde$
+  
+  Debug Salut$+" "+Monde$
+@EndCode
+
+@Example Permute des tableaux à dimensions multiples
+@Code
+  Dim Tableau1(5,5) 
+  Dim Tableau2(5,5) 
+  Tableau1(2,2) = 10     ; Initialise les tableaux
+  Tableau2(3,3) = 20 
+
+  Debug Tableau1(2,2)    ; Affichera 10
+  Debug Tableau2(3,3)    ; Affichera 20
+    
+  Swap Tableau1(2,2) , Tableau2(3,3)    ; Permutation de 2 éléments entre 2 tableaux différents
+  
+  Debug "Contenu des tableaux après permutation:"
+  Debug Tableau1(2,2)    ; Affichera 20
+  Debug Tableau2(3,3)    ; Affichera 10
+@EndCode
+
+@Example Permute différents éléments 
+@Code
+  Define a, b
+  Dim Tableau(4, 4)
+  NewList Liste1.Point()
+
+  ;-Initialise les variables, le tableau et la liste
+  a = 11
+  b = 12
+
+  Tableau(1,1) = 21
+
+  ;Ajoute un élément à la liste 1
+  AddElement(Liste1())
+  Liste1()\x = 31
+  Liste1()\y = 32
+
+  ;Permute un élément de la liste avec une variable
+  Swap Liste1()\x, a
+  ;Permute un élément de la liste avec un élément du tableau
+  Swap Liste1()\y, Tableau(1,1)
+
+
+  ;Affiche le résultat
+  Debug a              ; Affichera 31
+  Debug b              ; Affichera 12
+  Debug Tableau(1,1)   ; Affichera 32
+  Debug Liste1()\x     ; Affichera 11
+  Debug Liste1()\y     ; Affichera 21
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

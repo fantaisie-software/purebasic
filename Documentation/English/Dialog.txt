@@ -1,0 +1,621 @@
+;
+;     Dialog library documentation
+;
+;      (c) 2013 - Fantaisie Software
+;
+
+@Library Dialog
+
+@Overview
+  The dialog library allow to easily create complex user interface (GUI) based on an XML definition.
+  It features automatic @LibraryLink "gadget" "gadget" layout, which is very useful when creating interface which needs to work
+  on different operating systems or working with different @LibraryLink "font" "font" size. @LineBreak
+  @LineBreak
+  The XML definition can be file based, or created on the fly in memory using the @LibraryLink "xml" "XML" library.
+ 
+@CommandList
+
+@ExampleFile All Dialog.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateDialog(#Dialog)
+
+@Description
+  Create a new uninitialized dialog. To initialize the dialog, use @@OpenXMLDialog.
+
+@Parameter "#Dialog"
+  A number to identify the new dialog. @ReferenceLink "purebasic_objects" "#PB_Any" can be used
+  to auto-generate this number.
+
+@ReturnValue
+  Returns nonzero if the dialog was created successfully and zero if not.
+  If @#PB_Any was used as the #Dialog parameter, then the auto-generated number is returned in case of success.
+
+@SeeAlso
+  @@OpenXMLDialog, @@FreeDialog
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = DialogError(#Dialog)
+
+@Description
+  Returns the last error message (in english) to get more information about dialog creation failure after @@OpenXMLDialog. 
+
+@Parameter "#Dialog"
+  The dialog to use.
+
+@ReturnValue
+  Returns the error message. If no additional information is available, then the error message can be empty.
+
+@SeeAlso
+  @@CreateDialog, @@OpenXMLDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DialogGadget(#Dialog, Name$)
+
+@Description
+  Returns the gadget number of the specified gadget name.
+
+@Parameter "#Dialog"
+  The dialog to use.
+
+@Parameter "Name$"
+  The name of the gadget, as specified in the XML file (using the 'name' attribute).
+
+@ReturnValue
+  Returns the gadget number of the specified gadget name, or -1 if the gadget isn't found in the
+  dialog.
+
+@SeeAlso
+  @@CreateDialog, @@OpenXMLDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DialogWindow(#Dialog)
+
+@Description
+  Returns the window number of the dialog. It allows to use any @LibraryLink "window" "window" related
+  commands with the dialog. The dialog has to be initialized successfully with @@OpenXMLDialog before
+  using this command.
+
+@Parameter "#Dialog"
+  The dialog to use.
+
+@ReturnValue
+  Returns the window number of the specified dialog.
+
+@SeeAlso
+  @@CreateDialog, @@OpenXMLDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DialogID(#Dialog)
+
+@Description
+  Returns the unique ID which identifies the dialog in the operating system.
+
+@Parameter "#Dialog"
+  The dialog to use.
+
+@ReturnValue
+  Returns the unique ID which identifies the dialog in the operating system.
+
+@SeeAlso
+  @@CreateDialog, @@OpenXMLDialog
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeDialog(#Dialog)
+
+@Description
+  Free the specified dialog and release its associated memory. If the dialog window was still opened, it will be
+  automatically closed.
+
+@Parameter "#Dialog"
+  The dialog to free. If @#PB_All is specified, all the remaining dialogs are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining dialogs are automatically freed when the program ends.
+  
+@SeeAlso
+  @@CreateDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsDialog(#Dialog)
+
+@Description
+  Tests if the given dialog number is a valid dialog. 
+
+@Parameter "#Dialog"
+  The dialog to test.
+
+@ReturnValue
+  Returns nonzero if #Dialog is a valid dialog and zero if not.
+
+@Remarks
+  This function is bulletproof and can be used with any value. 
+  This is the correct way to ensure a dialog is ready to use.
+
+@SeeAlso
+  @@CreateDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenXMLDialog(#Dialog, #XML, Name$ [, x, y [, Width, Height [, ParentID]]])
+
+@Description
+  Open the specified dialog and display it on the screen. 
+  To access the dialog gadgets use @@DialogGadget. To get the window number of this dialog use @@DialogWindow. 
+
+@Parameter "#Dialog"
+  The dialog to use. It has to be previously created with @@CreateDialog.
+
+@Parameter "#XML"
+  The @LibraryLink "xml" "xml" to use. It has to be previously created with @@LoadXML, @@CreateXML, @@CatchXML or @@ParseXML.
+  That means it's possible to create dialogs on the fly with @@CreateXML, @@CatchXML or @@ParseXML.
+  See below for the supported XML attributes. When including XML in the code, it may be easier to use single quote
+  in XML for attribute (it's perfectly legal XML syntax).
+
+@Parameter "Name$"
+  The name of the dialog to open. An XML file can have several dialogs defined.
+
+@OptionalParameter "x, y"
+  The x, y coordinate (in pixels) of the #Dialog.
+
+@OptionalParameter "Width, Height"
+  The size (in pixels) of the #Dialog. If the size is smaller than the required size as defined in the XML (after layout
+  calculation), then the required size will be used. If omitted, the size of the dialog will be the smallest size required.
+
+@OptionalParameter "ParentID"
+  The parent window identifier. A valid window identifier can be retrieved with @@WindowID.
+
+@ReturnValue
+  Returns nonzero if the dialog has been successfully opened, returns zero otherwise.
+  To get more information about the error which has occurred, use @@DialogError.
+
+@Remarks
+  
+@FixedFont
+----------------------------------------------------------------
+   Dialog XML format
+----------------------------------------------------------------
+
+  I. Common attributes
+  --------------------
+
+  width     - positive integer value or 0 (default="0") (set the "minimum size" of a control)
+  height
+
+  id        - #Number identifier for a gadget or a window (default is #PB_Any if not specified). It can be a runtime constant.
+  name      - a string identifying the object (for @@DialogGadget mainly, case insensitive) (default="")
+  text      - text string for the object (default="")
+
+  flags     - gadget/window flags in the form "@#PB_Window_Borderless | @#PB_Window_ScreenCentered"  (default="")
+
+  min        - minimum value
+  max        - maximum value
+  value      - current value
+
+  invisible - if set to "yes", creates the object invisible (default="no")
+  disabled  - if "yes", creates the object disabled (gadgets only) (default="no")
+
+  colspan   - inside the <gridbox> element only, allows an element to span multiple rows/columns
+  rowspan     (default="1")
+
+  All these attributes are optional.
+
+
+  II. Root element
+  ----------------
+
+  <window> for a single window definition in the same XML file
+  </window>
+  
+  or 
+    
+  <dialogs> for a multiple window definition in the same XML file
+    <window name="FirstWindow">
+    </window>
+    <window name="SecondWindow">
+    </window>
+    ...
+  </dialogs>
+
+
+  III. Window element
+  -------------------
+
+  <window>
+  </window>
+  
+  Accepted keys in the XML: 
+  All common attributes and the following:
+  
+  minwidth  = 'auto' or a numeric value
+  maxwidth  = 'auto' or a numeric value
+  minheight = 'auto' or a numeric value
+  maxheight = 'auto' or a numeric value
+  
+  It allows to set the window bounds. If set to 'auto', then the
+  size is calculated depending of the children size requirement.
+  
+
+  - Creates the a window
+  - Can have all common attributes.
+  - Is a single-element container.
+  - If more than one <window> element is present, the 'name' attribute is used to identify them
+  - all gui elements can only be placed in here
+  
+  
+  IV. Layout elements
+  -------------------
+  
+  *****************************************************************
+  hbox and vbox
+  *****************************************************************
+
+    Arrange the elements horizontally or vertically. Can contain
+    any number of children.
+
+    Accepted keys in the XML: 
+    All common attributes and the following:
+  
+    spacing   = space to add between the packed childs (default=5)
+  
+    expand    = yes           - items get bigger to fill all space (default)
+                no            - do not expand to fill all space 
+                equal         - force equal sized items
+                item:<number> - expand only one item if space is available
+  
+
+    align     = top/center/bottom      - only applied when expand="no" for the vbox and top is the default
+              = left/center/right      - only applied when expand="no" for the hbox et left is the default
+                                       - An assembly of vbox and hbox allows a complex alignment top/left/center/bottom/right
+
+  *****************************************************************
+  gridbox 
+  *****************************************************************
+  
+    Align elements in a table. Can contain
+    any number of children.
+    
+    Accepted keys in the XML:
+    All common attributes and the following:
+  
+    columns = number of columns (default = 2)
+  
+    colspacing = space to add between columns/rows (default = 5)
+    rowspacing
+  
+    colexpand = yes           - items get bigger to fill all space
+    rowexpand   no            - do not expand to fill all space
+                equal         - force equal sized items
+                item:<number> - expand only one item if space is available
+  
+                for colexpand, Default=yes, For rowexpand, Default=no
+  
+    Any child within a gridbox can have these keys:
+  
+    colspan = number of columns to span (default = 1)
+    rowspan = number of rows to span
+  
+  *****************************************************************
+  multibox
+  *****************************************************************
+   
+    A box with multiple childs in the same position. Used to put multiple containers
+    inside and show only one of them at a time. Can contain
+    any number of children.
+   
+    Accepted keys in the XML:
+
+    All common attributes.
+    
+  *****************************************************************
+  singlebox
+  *****************************************************************
+   
+    A box with just one child. Used only to apply extra margin/alignment properties to a child.
+    Its called a box (as all virtual containers are called that).
+
+    Accepted keys in the XML:
+    
+    All common attributes and the following:
+  
+    margin = margin around the content (default = 10)
+             can be a single number (= all margin), or a combination of
+             top:<num>,left:<num>,right:<num>,bottom:<num>,vertical:<num>,horizontal:<num>
+             example: "vertical:5,left:10,right:0"
+  
+    expand = yes        - expand child to fill all space (default)
+             no         - no expanding
+             vertical   - expand vertically only
+             horizontal - expand horizontally only
+  
+    expandwidth  = max size to expand the children to. If the requested size is larger than
+    expandheight   this setting then the request size is used (ie the content does not get smaller)
+                   default=0
+  
+    align  = combination of top,left,bottom,right and center. (only effective when expand <> yes)
+             example: "top, center" or "top, left" (default) 
+             
+             
+             
+  V. Gadget elements
+  ------------------
+
+  All common XML attributes are supported. To bind an event procedure directly in the xml, the following attributes
+  are available for the gadgets:
+  
+    onevent      = EventProcedure() - generic event binding, for all event type
+    onchange     = EventProcedure() - #PB_EventType_Change binding (only for gadget which support this event type)
+    onfocus      = EventProcedure() - #PB_EventType_Focus binding (only for gadget which support this event type)
+    onlostfocus  = EventProcedure() - #PB_EventType_LostFocus binding (only for gadget which support this event type)
+    ondragstart  = EventProcedure() - #PB_EventType_DragStart binding (only for gadget which support this event type)
+    onrightclick = EventProcedure() - #PB_EventType_RightClick binding (only for gadget which support this event type)
+    onleftclick  = EventProcedure() - #PB_EventType_LeftClick binding (only for gadget which support this event type)
+    onrightdoubleclick = EventProcedure() - #PB_EventType_RightDoubleClick binding (only for gadget which support this event type)
+    onleftdoubleclick  = EventProcedure() - #PB_EventType_LeftDoubleClick binding (only for gadget which support this event type)
+    
+  The 'EventProcedure()' has to be declared as 'Runtime' in the main code, and has to respect the BindEvent() procedure
+  format. Under the hood, BindGadgetEvent() is called with the specified procedure.
+  
+  Supported gadgets:
+
+  <button>
+  <buttonimage>
+  <calendar>
+  <canvas>
+  <checkbox>
+  <combobox>
+  <container> - single element container
+  <date>
+  <editor>
+  <explorercombo>
+  <explorerlist>
+  <explorertree> 
+  <frame> - single element container (with standard borders only)
+  <hyperlink>
+  <ipaddress>
+  <image>
+  <listicon> 
+  <listview>
+  <option group> - use the same 'group' number to create linked @@OptionGadget.
+  <panel> - can contain <tab> items only
+  <progressbar min max value> 
+  <scrollarea scrolling="vertical,horizontal or both (default)" innerheight="value or auto (default)" innerwidth="value or auto (default)" step> - single element container, scrolling value determines growth behavior
+  <scrollbar min max page value> - page = page length
+  <spin min max value>
+  <splitter firstmin="value or auto" secondmin> - must contain 2 subitems, so its a 2 item container basically, minimum size is determined by contained gadgets. If "auto" is specified, the min value will be the minimum size of the child.
+  <string>
+  <text>
+  <trackbar min max value>
+  <tree>
+  <web>
+  <scintilla> - callback remains empty
+
+  Gadget related elements:
+  <tab> - single element container, for panel tabs (attribute 'text' is supported).
+  
+  Special elements:
+  <empty> - an empty element, useful when it's needed to have space between element, to align them to borders for example. 
+
+@EndFixedFont  
+
+@Example Simple resizable dialog
+
+@Code
+  #Dialog = 0
+  #Xml = 0
+  
+  XML$ = "<window id='#PB_Any' name='test' text='test' minwidth='auto' minheight='auto' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_SizeGadget'>" +
+         "  <panel>" +
+         "    <tab text='First tab'>" +
+         "      <vbox expand='item:2'>" +
+         "        <hbox>" +
+         "          <button text='button 1'/>" +
+         "          <checkbox text='checkbox 1'/>" +
+         "          <button text='button 2'/>" +
+         "        </hbox>" +
+         "        <editor text='content' height='150'/>" +
+         "      </vbox>" +
+         "    </tab>" +
+         "    <tab text='Second tab'>" +
+         "    </tab>" +
+         "  </panel>" +
+         "</window>"
+  
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+    
+    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
+      
+      Repeat
+        Event = WaitWindowEvent()
+      Until Event = #PB_Event_CloseWindow 
+      
+    Else  
+      Debug "Dialog error: " + DialogError(#Dialog)
+    EndIf
+  Else
+    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
+  EndIf
+@EndCode  
+
+@Example Multibox example
+
+@Code
+    #Dialog = 0
+  #Xml = 0
+  
+  Runtime Enumeration Gadget
+    #ListView
+    #GeneralContainer
+    #EditorContainer
+    #BackupContainer
+  EndEnumeration
+  
+  Procedure ShowPanels()
+    
+    HideGadget(#GeneralContainer, #True)
+    HideGadget(#EditorContainer, #True) 
+    HideGadget(#BackupContainer, #True)
+    
+    Select GetGadgetState(#ListView)
+      Case 0
+        HideGadget(#GeneralContainer, #False)
+        
+      Case 1
+        HideGadget(#EditorContainer, #False)
+        
+      Case 2
+        HideGadget(#BackupContainer, #False)
+    EndSelect
+  EndProcedure
+  
+  Runtime Procedure OnListViewEvent()
+    ShowPanels()
+  EndProcedure
+  
+  XML$ = "<window id='#PB_Any' name='test' text='Preferences' minwidth='auto' minheight='auto' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_SizeGadget'>" +
+         "  <hbox expand='item:2'>" +
+         "    <listview id='#ListView' width='100' onEvent='OnListViewEvent()'/>" +
+         "    <multibox>" +
+         "" +
+         "      <container id='#GeneralContainer' invisible='yes'>" +
+         "        <frame text='General'>" +
+         "          <vbox expand='no'>" +
+         "            <checkbox text='Enable red light'/>" +
+         "            <checkbox text='Enable green light'/>" +
+         "          </vbox>" +
+         "        </frame>" +
+         "      </container>" +
+         "" +
+         "      <container id='#EditorContainer' invisible='yes'>" +
+         "        <frame text='Editor'>" +
+         "          <vbox expand='no'>" +
+         "            <checkbox text='Set read only mode'/>" +
+         "            <checkbox text='Duplicate line automatically'/>" +
+         "            <checkbox text='Enable monospace font'/>" +
+         "          </vbox>" +
+         "        </frame>" +
+         "      </container>" +
+         "" +
+         "      <container  id='#BackupContainer' invisible='yes'>" +
+         "      <frame text='Backup'>" +
+         "        <vbox expand='no'>" +
+         "          <checkbox text='Activate backup'/>" +
+         "        </vbox>" +
+         "      </frame>" +
+         "      </container>" +
+         "" +
+         "    </multibox>" +
+         "  </hbox>" +
+         "</window>"
+  
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+    
+    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
+      
+      AddGadgetItem(#ListView, -1, "General")
+      AddGadgetItem(#ListView, -1, "Editor")
+      AddGadgetItem(#ListView, -1, "Backup")
+      
+      SetGadgetState(#ListView, 0)
+      
+      ShowPanels()
+      
+      Repeat
+        Event = WaitWindowEvent()
+      Until Event = #PB_Event_CloseWindow 
+      
+    Else  
+      Debug "Dialog error: " + DialogError(#Dialog)
+    EndIf
+  Else
+    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
+  EndIf
+@EndCode
+
+@Example Gridbox example
+
+@Code
+  #Dialog = 0
+  #Xml = 0
+  
+  XML$ = "<window id='#PB_Any' name='test' text='Gridbox' minwidth='auto' minheight='auto' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_SizeGadget'>" +
+         "    <gridbox columns='6'>" +
+         "          <button text='Button 1' />" +
+         "          <button text='Button 2' />" +
+         "          <button text='Button 3' colspan='3' />" +
+         "          <button text='Button 4' />" +
+         "          <button text='Button 5' rowspan='2' />" +
+         "          <button text='Button 6' />" +
+         "          <button text='Button 7' />" +
+         "          <button text='Button 8' />" +
+         "          <button text='Button 9' />" +
+         "          <button text='Button 10' />" +
+         "          <button text='Button 11' />" +
+         "          <button text='Button 12' />" +
+         "    </gridbox>" +
+         "  </window>"
+  
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+    
+    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
+      
+      Repeat
+        Event = WaitWindowEvent()
+      Until Event = #PB_Event_CloseWindow 
+      
+    Else  
+      Debug "Dialog error: " + DialogError(#Dialog)
+    EndIf
+  Else
+    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@CreateDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RefreshDialog(#Dialog)
+
+@Description
+  Refresh the dialog size to adjust it to any change. For
+  example, when changing the text content of gadgets, the dialog size will may be
+  need adjustments.
+
+@Parameter "#Dialog"
+  The dialog to refresh.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateDialog
+
+@SupportedOS

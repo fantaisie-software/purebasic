@@ -1,0 +1,351 @@
+@Title Règles de syntaxe générales
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#Commentaires"><u>Commentaires</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Mots clé"><u>Mots clé</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Fonctions"><u>Fonctions</u></a></td>
+  </tr>
+  <tr>  
+    <td align="center" vAlign="center" nowrap><a href="#Constantes"><u>Constantes</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Literal"><u>Séquences d'échappement</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Labels"><u>Labels</u></a></td>
+  </tr> 
+    <td align="center" vAlign="center" nowrap><a href="#Modules"><u>Modules</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Expressions"><u>Expressions</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Regroupement des commandes"><u>Regroupement des commandes</u></a></td>
+  </tr>
+  <tr>  
+    <td align="center" vAlign="center" nowrap><a href="#Texte multiligne"><u>Texte multiligne</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Glossaire"><u>Glossaire</u></a></td>
+  </tr>
+    </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+
+  PureBasic a défini des règles qui ne changent jamais,à savoir:  
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<a name="Commentaires"></a>
+@FormatEndIf
+
+@Section &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> Commentaires
+@FormatIf HTML
+<!-- Il y a un bug sur @Section et son indentation, et cette astuce pallie à ça. Mesa -->
+<blockquote>
+  Les commentaires sont signalés par <b><font color="#006666">';'</font></b> . 
+  Tout le texte situé après le caractère <b><font color="#006666">';'</font></b> 
+  est ignoré par le compilateur jusqu'à la fin de la ligne.
+  </blockquote>
+@FormatEndIf
+
+@Indent
+  @Example
+    
+@Code
+  If a = 10 ; Ceci est un commentaire pour indiquer quelque chose.
+@EndCode 
+@Endindent 
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Mots clé"></a>
+@FormatEndIf
+@Section > Mots clé (Keywords)
+  Tous les @Bold "mots clés" sont utilisés 
+  pour des choses générales à l'intérieur 
+  de PureBasic, comme la création de tableaux 
+  (Dim) ou des listes (NewList), ou le 
+  contrôle du déroulement du programme 
+  (If : Else : EndIf). Ils ne sont pas 
+  suivis par les parenthèses '()', qui 
+  sont généralement utilisées par PureBasic 
+  pour les @Bold "fonctions".
+@Indent 
+  @Example
+  
+@Code  
+    If a = 1      ; If, Else et EndIf sont des mots clés; contrairement à 'a'
+      ...         ; qui est une variable utilisée dans une expression ('a = 1').
+    Else
+      ...
+    EndIf
+@EndCode 
+@Endindent  
+
+  Les @Bold "mots clés" sont régulièrement 
+  décrits dans les chapitres sur le côté 
+  gauche de la page d'index du manuel de 
+  référence.
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Fonctions"></a>
+@FormatEndIf
+@Section > Fonctions
+  Toutes les fonctions doivent avoir un 
+  nom suivi d'un '(' à défaut de quoi 
+  elle ne sera pas considérée comme 
+  une fonction. Cela est vrai y compris 
+  lorsque la fonction ne prend aucun paramètre.
+@Indent 
+
+@Example
+@Code
+  WindowEvent() ; est une fonction.
+  WindowEvent   ; est une variable.
+@EndCode 
+@Endindent 
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Constantes"></a>
+@FormatEndIf
+@Section > Constantes
+  Toutes les constantes ont un nom précédé 
+  par un @Keyword #.@LineBreak
+  Elles ne peuvent être déclarées qu'une 
+  fois et garde toujours leur valeur prédéfinie. 
+  (Le compilateur remplace tous les noms 
+  des constantes avec leur valeur 
+  correspondante lors de la compilation 
+  de l'exécutable.)
+@Indent 
+
+@Example
+@Code  
+  #Hello = 10 ; est une constante.
+  Hello  = 10 ; est une variable.
+@EndCode 
+@Endindent  
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Literal"></a>
+@FormatEndIf
+@Section > Texte littéral
+  Les chaînes littérales sont encadrées par 
+  le caractère ". Les séquences d'échappement sont 
+  prises en charge en utilisant le caractère ~ avant 
+  la chaîne littérale.@LineBreak 
+  Les séquences d'échappement autorisés sont:
+@FixedFont
+  \a: bip                    @Keyword Chr(7)
+  \b: retour arrière         @Keyword Chr(8)
+  \f: saut de page           @Keyword Chr(12)
+  \n: retour à la ligne      @Keyword Chr(10)
+  \r: retour chariot         @Keyword Chr(13)
+  \t: tabulation horizontal  @Keyword Chr(9)
+  \v: tabulation vertical    @Keyword Chr(11)
+  \": double quote           @Keyword Chr(34)
+  \\: antislash              @Keyword Chr(92)
+@EndFixedFont
+  Il y a deux constantes spéciales pour les chaînes:
+@FixedFont
+  @ConstantColor "#Empty$": représente une chaîne vide (exactement la même chose que "")
+  @ConstantColor "#Null$" : représente une chaîne nulle. Ceci peut être utilisé avec les fonctions 
+           des APIs nécessitant un pointeur NULL en guise de chaîne ou à une chaîne vraiment libre.
+@EndFixedFont
+
+  Attention: Sous Windows, \t ne fonctionne pas avec les fonctions graphiques 
+  des bibliothèques 2DDrawing et VectorDrawing.
+@Indent
+  @Example
+@Code  
+  a$ =  "Salut le monde"  ; Texte standard
+  b$ = ~"Echappe\nMoi !"  ; Texte avec une séquence d'échappement
+@EndCode
+@Endindent
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Labels"></a>
+@FormatEndIf
+@Section > Labels
+  Tous les labels (étiquettes) doivent être 
+  suivis par un ':'. Les noms de label ne 
+  peuvent pas contenir d'opérateurs (+,-,...) ou 
+  de caractères spéciaux (é,à,ß,ä,ö,ü,...).
+  @LineBreak
+  Dans une @ReferenceLink "procedures" "procédure", 
+  l'étiquette sera disponible uniquement 
+  dans cette procédure.
+@Indent 
+
+  @Example
+@Code  
+  Je_suis_un_label:
+@EndCode 
+@Endindent
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Modules"></a>
+@FormatEndIf
+@Section > Modules
+  Les @ReferenceLink "module" "modules" utilisent un double deux-points comme cela @Bold"'::'" 
+  ce qui permet au programmeur d'accéder à un élément d'un module depuis l'extérieur 
+  de ce module. Le nom du module étant précisé, il est suivi du séparateur '::'.
+  Donc attention à ne pas confondre le '::' avec le simple':' d'une étiquette (label).
+@Indent
+
+@Example
+  
+@Code
+   Debug Voitures::NbVoitures ; Affiche le contenu de la variable 'NbVoitures' du module 'Voitures'
+@EndCode
+@Endindent
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Expressions"></a>
+@FormatEndIf
+@Section > Expressions
+  On appelle expression toute séquence de 
+  code qui peut être évaluée. Une expression 
+  peut regrouper toute variable, constante 
+  ou fonction d'un même type. Lorsque vous 
+  utilisez des nombres dans une expression, 
+  vous pouvez utiliser le symbole $ en tête 
+  pour préciser qu'il s'agit d'une valeur 
+  hexadécimale ou un % pour signifier une 
+  valeur binaire. Sans l'un ou l'autre de 
+  ces deux symboles, la valeur sera toujours 
+  considérée comme décimale. Les chaînes 
+  de caractères doivent être délimitées 
+  par des guillemets. 
+@Indent 
+
+@Example 
+@Code  
+  a = a + 1 + (12 * 3) 
+  a = a + WindowHeight() + b/2 + #MaConstante
+  
+  If a <> 12 + 2 
+    b + 2 >= c + 3
+  EndIf
+  
+  a.s = b.s + "ceci est une chaine" + c.s
+  a$ = b$ + "ceci est une autre chaine" + c$
+
+  foo = foo + $69 / %1001 ; Utilisation de nombres hexadécimal et binaire
+@EndCode 
+@Endindent  
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Regroupement des commandes"></a>
+@FormatEndIf
+@Section > Regroupement des commandes
+  Il est possible de placer un nombre 
+  quelconque de commandes sur la même 
+  ligne en les séparant par @Keyword :.
+@Indent 
+
+@Example
+@Code  
+  If Variable=0 : Debug "Ok" : Else : Debug "Erreur" : EndIf
+@EndCode 
+@Endindent   
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Texte multiligne"></a>
+@FormatEndIf
+@Section > Texte multiligne
+  Si une ligne de code contient une 
+  expression de grande taille, elle 
+  peut être divisée en plusieurs lignes. 
+  Une ligne découpée doit se terminer 
+  avec l'un des opérateurs suivants: 
+  plus (+), virgule (,), ou (|), And, 
+  Or, Xor.
+@Indent
+ 
+@Example
+@Code  
+  Texte$ = "Très très très très long texte" + #LF$ +
+          "un autre long texte" + #LF$ +
+          "et la fin du long texte."
+
+  MessageRequester("Bonjour c'est un titre très long.",
+                   "Et un très long message, afin que nous puissions utiliser le multiligne" + #LF$ + Texte$,
+                   #PB_MessageRequester_Ok)
+@EndCode 
+@Endindent 
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Glossaire"></a>
+@FormatEndIf
+@Section > Glossaire
+  Les mots suivants utilisés dans ce 
+  manuel ont toujours le même sens : 
+@LineBreak
+@LineBreak
+    <variable> : une variable basic. @LineBreak
+    <expression> : une expression comme commenté ci-dessus. @LineBreak
+    <constant> : une constante numérique. @LineBreak
+    <label> : un label de programme. @LineBreak
+    <type> : tout type, (standard ou structuré). @LineBreak
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+@FormatEndIf
+@Section > Autres
+  - Dans ce manuel, tous les sujets sont listés 
+  en ordre alphabétique pour réduire tout 
+  temps de recherche.
+  @LineBreak
+  @LineBreak
+  - La @Bold "valeur renvoyée" par les 
+  commandes est le plus souvent un 
+  @ReferenceLink "variables" "Integer". 
+  Dans le cas contraire, le type de la 
+  valeur est indiqué dans la description 
+  (ligne de syntaxe) de la commande.
+  @LineBreak
+  @LineBreak
+  - Dans la documentation de PureBasic, 
+  les termes "commandes" et "fonctions" ont 
+  le même sens, independamment du fait 
+  que la fonction retourne une valeur ou non.

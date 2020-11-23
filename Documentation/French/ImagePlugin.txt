@@ -1,0 +1,297 @@
+;
+; ImagePlugin library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library ImagePlugin
+
+@Overview
+
+  PureBasic supporte différents formats d'images 
+  grâce à un système de plugins dynamiques. Seul 
+  l'encodeur ou le décodeur nécessaire sera 
+  intégré au fichier exécutable, réduisant ainsi 
+  considérablement sa taille. 
+  @LineBreak
+  @LineBreak  
+  Par exemple, si vous avez seulement besoin du 
+  format JPEG, seule la routine concernant ce 
+  format sera utilisée. 
+  @LineBreak
+  @LineBreak  
+  Une autre caractéristique intéressante est 
+  l'auto-détection du format de fichier, si 
+  plusieurs décodeurs sont utilisés. 
+  @LineBreak
+  @LineBreak  
+  Les commandes suivantes supportent les plugins 
+  d'images: @@LoadImage, @@CatchImage, 
+  @@SaveImage, @@LoadSprite @@CatchSprite,
+  et @@SaveSprite.
+    
+@CommandList
+
+@ExampleFile All ImagePlugin.pb
+@ExampleFile All ImagePlugin_GIF.pb
+@ExampleFile All MDI_ImageViewer.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseGIFImageDecoder()
+
+@Description
+  Active le support du format GIF (Graphics Interchange Format) pour les commandes 
+  @@CatchImage, @@LoadImage, @@CatchSprite et @@LoadSprite. @LineBreak
+  Les fonctions @@LoadImage() et @@CatchImage sont les seules a prendre en charge 
+  les GIF multi-trames (Comprenant plusieurs images).
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Tous les formats sont pris en charge, y compris le format progressif et entrelacé. 
+
+@SeeAlso 
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEGImageDecoder()
+
+@Description
+  Active le support du format JPEG (Join Picture 
+  Expert Group) pour les commandes @@CatchImage, 
+  @@LoadImage, @@CatchSprite et @@LoadSprite. 
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks  
+  Toutes les variantes du JPEG sont supportées,
+  y compris la forme progressive. Le format de 
+  compression JPEG est dit 'destructif', ce qui 
+  veut dire que de l'information (plus ou moins 
+  essentielle) est perdue lors du processus de 
+  compression, permettant par la même occasion 
+  de diminuer considérablement la taille du 
+  fichier. 
+
+@SeeAlso 
+  @@UseJPEGImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEGImageEncoder()
+
+@Description
+  Active le support du format JPEG (Join 
+  Picture Expert Group) pour les commandes 
+  @@SaveImage et @@SaveSprite. 
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks  
+  Le format de compression JPEG est dit 
+  'destructif', ce qui veut dire que de 
+  l'information (plus ou moins essentielle) 
+  est perdue lors du processus de compression, 
+  permettant par la même occasion de diminuer 
+  considérablement la taille du fichier. 
+
+@SeeAlso 
+  @@UseJPEGImageDecoder,
+  @@SaveImage, @@SaveSprite
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEG2000ImageDecoder()
+
+@Description
+  Active le support du format JPEG 2000 pour 
+  les commandes @@CatchImage, @@LoadImage, 
+  @@CatchSprite et @@LoadSprite. 
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks  
+  Le format de compression JPEG 2000 est dit 
+  'destructif', ce qui veut dire que de 
+  l'information (plus ou moins essentielle) 
+  est perdue lors du processus de compression, 
+  permettant par la même occasion de diminuer 
+  considérablement la taille du fichier.
+
+@SeeAlso 
+  @@UseJPEG2000ImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEG2000ImageEncoder()
+
+@Description
+  Active le support du format JPEG 2000 pour 
+  les commandes @@SaveImage et @@SaveSprite. 
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Le format de compression JPEG 2000 est dit 
+  'destructif', ce qui veut dire que de 
+  l'information (plus ou moins essentielle) 
+  est perdue lors du processus de compression, 
+  permettant par la même occasion de diminuer 
+  considérablement la taille du fichier. 
+@LineBreak
+@LineBreak
+  Cet encodeur supporte les images 32-bit avec 
+  canal aplha (transparence).
+
+@SeeAlso 
+  @@UseJPEG2000ImageDecoder,
+  @@SaveImage, @@SaveSprite
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UsePNGImageDecoder()
+
+@Description
+  Active le support du format PNG (Portable 
+  Network Graphic) pour les commandes 
+  @@CatchImage, @@LoadImage,
+  @@CatchSprite et @@LoadSprite. 
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Toutes les variantes du PNG sont supportées,
+  y compris la forme progressive. Le format PNG 
+  utilise un algorithme de compression 
+  non-destructif, ce qui veut dire que 
+  l'intégralité de l'information est conservée. 
+  C'est actuellement le meilleur des formats 
+  non-destructif.  
+
+@SeeAlso 
+  @@UsePNGImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UsePNGImageEncoder()
+
+@Description
+  Active le support du format PNG (Portable 
+  Network Graphic) pour les commandes  
+  @@SaveImage et @@SaveSprite. 
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Le format PNG utilise un algorithme de 
+  compression non-destructif, ce qui veut dire 
+  que l'intégralité de l'information est 
+  conservée.   C'est actuellement le meilleur des formats 
+  non-destructif. 
+@LineBreak
+@LineBreak
+  Cet encodeur supporte les images 32-bit avec 
+  canal aplha (transparence).  
+
+@SeeAlso 
+  @@UsePNGImageDecoder,
+  @@SaveImage, @@SaveSprite
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseTGAImageDecoder()
+
+@Description
+  Active le support du format TGA (Targa) pour 
+  les commandes @@CatchImage, @@LoadImage, 
+  @@CatchSprite et @@LoadSprite. 
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Le format TGA utilise un algorithme de 
+  compression non-destructif, ce qui veut dire 
+  que l'intégralité de  l'information est 
+  conservée. La taille des images TGA est 
+  souvent très élévée car l'algorithme de 
+  compression (quand il est utilisé) est peu 
+  performant (RLE). 
+@LineBreak
+@LineBreak
+  Si une couche alpha (transparence) est 
+  présente dans l'image, elle ne sera pas 
+  prise en compte (pour l'instant).  
+
+@SeeAlso 
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseTIFFImageDecoder()
+
+@Description
+  Active le support du format TIFF pour les 
+  commandes @@CatchImage, @@LoadImage, 
+  @@CatchSprite et @@LoadSprite. 
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Le format TIFF est très complexe et regroupe 
+  différents algorithmes de compressions tels 
+  que le JPEG, LZW, etc...
+  Toutes les variantes du TIFF sont supportées. 
+  La taille des images est relativement 
+  importante.
+
+@SeeAlso 
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+  
+@SupportedOS
+

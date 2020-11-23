@@ -1,0 +1,19 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - System example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Global Start = ElapsedMilliseconds()
+
+Procedure TimerEvent()
+  Debug "Elapsed time in ms: " + Str(ElapsedMilliseconds()-Start)
+EndProcedure
+
+OpenWindow(0, 10, 10, 100, 100, "Timer", #PB_Window_TitleBar)
+AddWindowTimer(0, 0, 1000)
+BindEvent(#PB_Event_Timer, @TimerEvent())

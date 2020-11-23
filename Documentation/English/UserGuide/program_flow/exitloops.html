@@ -1,0 +1,326 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Exiting loops early - Program Flow - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Program Flow: Exiting loops early</h1>
+
+In some cases you will need to exit loops or blocks of code earlier than normal
+ (normal being when the program reaches the end of block or loop keyword). Typically
+ you will have some condition which, when it exists, means you need to exit the loop
+ from somewhere in the middle of the instructions. It is not always possible
+ to arrange your loops so that all conditions are checked in the loop expression.
+ The following paragraphs show you some methods which can be used to exit the
+ various blocks and loops.
+
+<p><h2>Goto keyword</h2>
+The Goto keyword is one of the most famous and well recognised commands available
+ in any BASIC language. Some people hate it and say that it encourages bad code.
+ Others love it for the simplicity and power it provides. The truth is that both these
+ views are true - it can be useful, but it can make code messy if used inappropriately.
+
+<p>The operation of the Goto keyword is to change the place in the program where
+ instructions are currently being executed from. To do this, you give the Goto keyword
+ the name of a label. You then define the label at the place you want to jump to.
+ The names of labels follow the same rules as for variables (only letters, numbers
+ and the underscore character allowed, must not start with a number) and must be
+ followed by a colon character. This is shown in the small example below (and also
+ available <a href="goto.pb">here</a>):
+
+<pre class="code">If OpenConsole()
+    Goto demo_label
+
+    PrintN(&quot;This command will not be executed&quot;)
+
+    demo_label:
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p>This keyword will be revisited in a future chapter, but has its uses in exiting loops early.
+
+<p><h2>If blocks</h2>
+Since If...EndIf blocks do not loop it is very easy to get out of these. You only need
+ to write your program in such a way that the instructions are not executed, after the
+ point where you decide the block should be exited. Because this is a decision that your
+ program makes while it is running, the most appropriate solution is to put another If...EndIf
+ block inside the main one. This allows you to make the decision about whether to
+ exit the block or not, and also control whether the remaining instructions are executed
+ or not. Consider this example (also <a href="exit_if1.pb">here</a>):
+
+<pre class="code">exit_test_var.l = 5
+If OpenConsole()
+    If exit_test_var&lt;&gt;5
+        PrintN(&quot;Some text&quot;)
+    EndIf
+    
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p>In this example, we want to exit the &quot;If Openconsole()&quot; block if the value of the
+ <var>exit_test_var</var> is equal to 5. One way to do this is to check for the opposite of our
+ exit condition and only execute the instructions if that is true. This is shown by the line
+ <span class="code">If exit_test_var&lt;&gt;5</span>.
+
+<p>This example shows the other way in which we could exit an If block, using the Goto keyword.
+ The source is available <a href="exit_if2.pb">here</a>.
+
+<pre class="code">If OpenConsole()
+    ; This is how many apples the user wants
+    desired_quantity = 10
+
+    If 1
+        ; The default number of apples in a delivery
+        apples = 8
+        
+        If apples &gt;= desired_quantity
+            Goto exit_position
+        EndIf
+        
+        PrintN(&quot;Not enough apples&quot;)
+        ; Perform instructions for adding more apples to the delivery
+        
+        exit_position:
+    EndIf
+    
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p>The line <span class="code">If 1</span> is used to have an If block which we are
+ inside (we will always go inside the block since 1 is non-zero and therefore treated as true)
+ and want to escape from early. In this case, we want to exit the If block if there
+ enough apples in the delivery (if the value of the <var>apples</var> variable is more than
+ or equal to the <var>desired_quantity</var> variable). When using the Goto keyword to jump past
+ the instructions we want to exit from, then we check for the specific condition and use the
+ Goto keyword if that is true. Note that this is the opposite logic of enclosing the instructions
+ inside another If block. Try changing one of the two variables to see the case where the
+ Goto keyword is executed.
+
+<p>You will also notice that the label for the Goto keyword is just before the EndIf keyword
+ for the block that we are exiting early. It is possible to have this label after the EndIf
+ keyword, but it would be better to keep it inside - after all, we have achieved the effect of
+ avoiding the instructions which made up the remainder of the block and that block is still
+ completely self-contained. The code is still relatively clean.
+
+<p><h2>Select blocks</h2>
+Select blocks are slightly more problematic than If blocks, even though they also do not
+ repeat the instructions contained within them. The only added problem is that you must not
+ use the Goto keyword to jump from the inside of a Select...EndSelect block to the outside.
+ It can cause your program to crash and should be avoided. You can still use the Goto keyword
+ to jump within the Select...EndSelect block. However, the easy way to avoid any problems is
+ to use an If...EndIf block to selectively avoid executing any instructions you want to exit
+ from, as shown in the first If example (above) and below. The code is available
+ <a href="exit_select1.pb">here</a>.
+
+<pre class="code">If OpenConsole()
+
+    game$ = &quot;Football&quot;
+    team$ = &quot;England&quot;
+
+    Select game$
+        Case &quot;Football&quot;
+            PrintN(&quot;Scotland will win the next football World cup.&quot;)
+            ; (Well, dreams can come true ;)
+
+            If team$&lt;&gt;&quot;Scotland&quot;
+                ; These are the instructions we want to skip
+                PrintN(&quot;The &quot; + team$ + &quot; football team have no chance of winning the next World Cup.&quot;)
+            EndIf
+            
+        Default
+            PrintN(&quot;I'm sorry, what kind of sport is that? ;p&quot;)
+    EndSelect
+
+    PrintN(&quot;Press return to exit program&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+If you still think you need to use the Goto keyword, you can use it like <a href="exit_select2.pb">this</a>:
+
+<pre class="code">If OpenConsole()
+
+    game$ = &quot;Football&quot;
+    team$ = &quot;England&quot;
+
+    Select game$
+        Case &quot;Football&quot;
+            PrintN(&quot;Scotland will win the next football World cup.&quot;)
+            ; (Well, dreams can come true ;)
+
+            If team$=&quot;Scotland&quot;
+                Goto is_scotland
+            EndIf
+
+            ; These are the instructions we want to skip
+            PrintN(&quot;The &quot; + team$ + &quot; football team have no chance of winning the next World Cup.&quot;)
+            
+            is_scotland:
+        Default
+            PrintN(&quot;I'm sorry, what kind of sport is that? ;p&quot;)
+    EndSelect
+
+    PrintN(&quot;Press return to exit program&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p>Notice that the label to jump to is just before the next entry in the Select block
+ (in this case the Default keyword, but it could be another Case keyword). Putting the
+ label in a position like this will mean that you can use the Goto keyword inside
+ a Select block to exit the instructions early.
+
+<p><h2>For loops</h2>
+For...Next loops (and the two other types of loop) are slightly different from If...EndIf
+ and Select...EndSelect blocks because not only do we need some way to jump past the
+ instructions we do not want to execute (when we exit early) but we also need some way
+ of getting the loop to stop. If not, the loop may end through other instructions inside it
+ or it may not. It depends on whether you really need to exit the loop completely
+ (as is what is being discussed here) or whether you just want to skip some instructions
+ and go onto the next iteration.
+
+<p>The first way to exit a For...Next loop early is to use an If block to skip any instructions
+ which should not be executed and to modify the loop counter variable so that the loop stops.
+ This is shown in the example below, in which a For...Next loop is used to count from 0 to 10
+ but it will be exited early when the counter reaches 5. The code can also be downloaded
+ from <a href="exit_for1.pb">here</a>.
+
+<pre class="code">If OpenConsole()
+
+    For count=0 To 10
+        If count=5
+            count = 10
+        Else
+            PrintN(&quot;The value of count is &quot;+Str(count))
+        EndIf
+    Next
+    
+    PrintN(&quot;Press return to exit program&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p>As you can see, the If keyword is used to detect when the condition is met that
+ should cause the loop to stop. In this case it checks to see if the value of the
+ <var>count</var> variable is 5. If it is then it sets the value of the variable
+ to the same value as the second expression in the For instruction (in this case, 10).
+ This causes the loop to stop on the next iteration. You will also see that the
+ instructions in the loop are inside the Else...EndIf part of the If block that checks
+ for the end of the end of the loop. This stops those instructions being executed
+ on the iteration of the loop in which the loop is stopped. Of course, if we did
+ want those instructions to run, even on the last iteration of the loop then we
+ would not need to put them inside the Else...EndIf part of the If block.
+
+<p>If it is not possible for you to modify the loop variable then you may want to consider
+ using a While or Repeat loop, which would allow you to combine checks on multiple variables
+ in the expression controlling the execution of the loop. The only other option would be
+ to use the Goto keyword to jump out of the loop (which is possible). The source code for
+ the example below can be found <a href="exit_for2.pb">here</a>.
+
+<pre class="code">If OpenConsole()
+
+    For count=0 To 10
+        If count=5
+            Goto loop_exit
+        Else
+            PrintN(&quot;The value of count is &quot;+Str(count))
+        EndIf
+    Next
+    loop_exit:
+    
+    PrintN(&quot;Press return to exit program&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p><h2>While and Repeat loops</h2>
+While and Repeat loops suffer from the same problem as For loops in that you need to find some way
+ to break out of the loop. However, the execution of these types of loops are controlled by an
+ expression rather than the value of a single variable and so you can build in additional
+ comparisons (or do the same as with the For examples by modifying an already existing one).
+ The example below shows both methods. You can get the source from <a href="exit_while1.pb">here</a>.
+
+<pre class="code">If OpenConsole()
+    
+    count = 0
+    While count &lt;= 10
+        If count = 5
+            count = 10
+        Else
+            PrintN(&quot;The value of count is &quot;+Str(count))
+        EndIf
+    
+        count = count + 1
+    Wend
+    
+    count = 0
+    loop_exit = 0
+    Repeat
+        If count = 5
+            loop_exit = 1
+        Else
+            PrintN(&quot;The value of count is &quot;+Str(count))
+        EndIf
+    
+        count = count + 1
+    Until count &gt; 10 Or loop_exit=1
+
+    PrintN(&quot;Press return to exit program&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p>Both loops in the above example are performing the same task as the For loops in the above
+ paragraphs. That is, to count from 0 to 10 but exit the loop early when the counter reaches
+ 5. Of course, with such a simple example we could have made the While loop check for 5 instead
+ of 10, but the point of the example is to show how to exit a loop from an alternative ending.
+
+<p>In the first loop, the same method is used as with the For...Next loop. That was to set
+ the value of the variable used to control the loop to the value it should normally be to
+ end the loop. The second loop uses a new variable whose sole purpose is to be used as a flag
+ in the expression controlling execution of the loop. This variable is set to a known value before
+ the loop and this value is checked for in the loop expression. The value of the variable is
+ changed when we need to exit the loop.
+
+<p>Of course, both methods can be applied equally to the other type of loops. The first loop
+ in the above example could easily have been a Repeat...Until loop and the second one could
+ have been a While...Wend loop. Although they operate in opposite ways from each other (notice
+ the inverted logic in the expressions controlling the loops), the methods used to exit the
+ loop early are the same.
+
+The other option would be to use the Goto keyword. This could be done in exactly the same way as
+ with the For...Next loops.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="repeat.html">Repeating instructions until something happens</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="summary.html">Summary</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

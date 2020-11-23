@@ -1,0 +1,55 @@
+@Title Global
+
+@Syntax
+
+  @Keyword Global[.<type>] <variable[.<type>]> [= <expression>] [, ...]
+
+@Description
+
+  @Keyword Global provides the ability for @ReferenceLink "variables" "variables" to be defined as global, i.e., 
+  variables defined as such may then be accessed within a @ReferenceLink "Procedures" Procedure. In this case the 
+  command @Keyword Global must be called for the according variables, @Bold before the declaration of the procedure.
+  Each variable may have a default value directly assigned to it. If a type is specified for a variable after @Keyword Global, 
+  the default type is changed through the use of this declaration.  @Keyword Global may also be used with @ReferenceLink "dim" "arrays", 
+  @ReferenceLink "newlist" "lists" and @ReferenceLink "newmap" "maps". @LineBreak
+  
+  @LineBreak
+  In order to use local variables within a procedure, which have the same name as global variables, 
+  take a look at the @ReferenceLink "Protected" Protected and @ReferenceLink "Static" Static keywords.
+
+@Example With variables
+
+@Code
+  Global a.l, b.b, c, d = 20
+  
+  Procedure Change()
+    Debug a  ; Will be 10 as the variable is global
+  EndProcedure
+  
+  a = 10
+  Change()
+@EndCode
+
+@LineBreak
+@Example With array
+
+@Code
+  Global Dim Array(2)
+  
+  Procedure Change()
+    Debug Array(0)  ; Will be 10 as the array is global
+  EndProcedure
+  
+  Array(0) = 10
+  Change()
+@EndCode
+
+@LineBreak
+@Example With default type
+
+@Code
+  ; 'Angle' and 'Position' will be a float, as they didn't have a specified type
+  ;
+  Global.f Angle, Length.b, Position
+
+@EndCode

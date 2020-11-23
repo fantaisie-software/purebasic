@@ -1,0 +1,66 @@
+@Title NewList
+
+@Syntax
+
+  @Keyword NewList nom.<type>()      
+
+@Description
+
+  @Keyword NewList permet de déclarer une nouvelle liste. Chaque élément de la liste est 
+  alloué dynamiquement. Il n'y a pas de limite, ce qui permet d'en créer autant que nécessaire. 
+  Une liste peut avoir tout type standard ou structuré valide. Pour connaître toutes les commandes 
+  disponibles pour la gestion des listes, consultez la bibliothèque @LibraryLink "List" "List".
+  @LineBreak
+  @LineBreak
+  Les listes sont toujours locales par défaut, donc pour accéder à partir d'une @ReferenceLink "Procedures" "procédure" à une liste définie dans le
+  code source principal du programme, l'utilisation de @ReferenceLink "Global" "Global" ou @ReferenceLink "Shared" "Shared"
+  est requise.
+  Il est également possible de passer une liste en paramètre d'une @ReferenceLink "Procedures" "procédure" à l'aide
+  du mot-clef @Keyword List.
+  @LineBreak
+  @LineBreak
+  Utilisez la commande @ReferenceLink "others" "Swap" pour permuter rapidement un élément d'une liste avec une variable, 
+  ou un élément d'un tableau ou un élément d'une autre liste.
+
+  @Example Liste simple
+
+@Code
+  NewList MaListe()
+  
+  AddElement(MaListe())
+  MaListe() = 10
+  
+  AddElement(MaListe())
+  MaListe() = 20
+  
+  AddElement(MaListe())
+  MaListe() = 30
+  
+  ForEach MaListe()
+    Debug MaListe()
+  Next
+@EndCode
+
+  @Example Liste en paramètre d'une procédure
+
+@Code
+  NewList Test()
+
+  AddElement(Test())
+  Test() = 1
+  AddElement(Test())
+  Test() = 2
+
+  Procedure DebugList(c, List ParameterList())
+
+    AddElement(ParameterList())
+    ParameterList() = 3
+
+    ForEach ParameterList()
+      MessageRequester("Liste", Str(ParameterList()))
+    Next
+ 
+  EndProcedure
+
+  DebugList(10, Test())
+@EndCode

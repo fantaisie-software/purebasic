@@ -1,0 +1,336 @@
+;
+;     Keyboard library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Keyboard
+
+@Overview
+
+  PureBasic provides fast and easy access to the keyboard. This capability
+  should only be used in applications where raw and extremely fast access is
+  required, such as in games for instance.
+
+@OS Windows
+  It use the DirectX technology.
+@LineBreak
+@LineBreak
+  This library was created for games and multimedia applications, which need fast
+  keyboard access based on DirectX. For regular Windows applications, it is better
+  to use the @@AddKeyboardShortcut function.
+
+@CommandList
+
+@ExampleFile All Keyboard.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitKeyboard()
+
+@Description
+  Initializes the keyboard environment for later use. This function has to be called before any other
+  function in this library.
+
+@NoParameters
+
+@ReturnValue
+  Nonzero if the keyboard access can be initialized, zero otherwise. 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineKeyboard()
+
+@Description
+  Updates the keyboard state. This function has to be called before using @@KeyboardInkey,
+  @@KeyboardPushed or @@KeyboardReleased.
+
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@KeyboardInkey, @@KeyboardPushed @@KeyboardReleased.
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = KeyboardInkey()
+
+@Description
+  Returns the last typed character, very useful when keyboard input is required within a
+  gaming application, such as the name in highscore, in game console, etc.).
+
+@NoParameters
+
+@ReturnValue
+  The last typed character.
+
+@Example
+@Code
+  If InitSprite() And InitKeyboard() And OpenScreen(800, 600, 32, "")
+    Repeat
+      FlipBuffers()
+      ClearScreen(RGB(0, 0, 0))
+     
+      ExamineKeyboard()
+     
+      ; If we press the 'Back' key, we will delete the last character
+      ;
+      If KeyboardReleased(#PB_Key_Back)
+        FullText$ = Left(FullText$, Len(FullText$)-1)
+      Else
+        result$=KeyboardInkey()
+        If FindString("1234567890 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", result$) ; Or your chosen valid characters
+          FullText$ + result$
+        EndIf ; Add the new text to the current one (if any)
+      EndIf
+     
+      ; Display the result
+      ;
+      If StartDrawing(ScreenOutput())
+          DrawingMode(1)
+          FrontColor(RGB(128, 255, 0))
+          DrawText(20, 20, "Just type some text...:")
+          DrawText(20, 40, FullText$)
+        StopDrawing()
+      EndIf
+    Until KeyboardPushed(#PB_Key_Escape)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineKeyboard
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function KeyboardMode(Flags)
+
+@Description
+  Changes the current behavior of the keyboard. This function affects @@KeyboardPushed and @@KeyboardReleased.
+  
+@Parameter "Flags" 
+  It can be a combination (using the '|' operator) of the following values:
+@FixedFont
+  @#PB_Keyboard_Qwerty         : The keyboard ignores the default language layout and always uses the QWERTY one (default behavior).
+  @#PB_Keyboard_International  : The keyboard uses the default language layout to map the keys (can be useful for non QWERTY keyboards).
+  @#PB_Keyboard_AllowSystemKeys: The 'OS' system keys are allowed (like Win+R etc.). This can be annoying in @Link "Screen/OpenScreen" "fullscreen mode" if the user
+          presses on them accidentally.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@KeyboardPushed, @@KeyboardReleased.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = KeyboardPushed(KeyID)
+
+@Description
+  Checks if the specified key is pressed. Any number of keys may be pressed at the same time. The function
+  @@ExamineKeyboard must be called before this function in order to update the keyboard
+  state. The keyboard behavior can be changed with @@KeyboardMode.
+@LineBreak
+@LineBreak
+  To check if a specified key has been pushed and released, see @@KeyboardReleased.
+
+@Parameter "KeyID"
+  The identifier of the key to be checked. List of available keys:
+@FixedFont
+  @#PB_Key_All   ; All keys are tested. Very useful for any key checks.
+
+  @#PB_Key_1
+  @#PB_Key_2
+  @#PB_Key_3
+  @#PB_Key_4
+  @#PB_Key_5
+  @#PB_Key_6
+  @#PB_Key_7
+  @#PB_Key_8
+  @#PB_Key_9
+  @#PB_Key_0
+
+  @#PB_Key_A
+  @#PB_Key_B
+  @#PB_Key_C
+  @#PB_Key_D
+  @#PB_Key_E
+  @#PB_Key_F
+  @#PB_Key_G
+  @#PB_Key_H
+  @#PB_Key_I
+  @#PB_Key_J
+  @#PB_Key_K
+  @#PB_Key_L
+  @#PB_Key_M
+  @#PB_Key_N
+  @#PB_Key_O
+  @#PB_Key_P
+  @#PB_Key_Q
+  @#PB_Key_R
+  @#PB_Key_S
+  @#PB_Key_T
+  @#PB_Key_U
+  @#PB_Key_V
+  @#PB_Key_W
+  @#PB_Key_X
+  @#PB_Key_Y
+  @#PB_Key_Z
+
+  @#PB_Key_Escape
+  @#PB_Key_Minus
+  @#PB_Key_Equals
+  @#PB_Key_Back
+  @#PB_Key_Tab
+  @#PB_Key_LeftBracket
+  @#PB_Key_RightBracket
+  @#PB_Key_Return
+  @#PB_Key_LeftControl
+  @#PB_Key_SemiColon
+  @#PB_Key_Apostrophe
+  @#PB_Key_Grave
+  @#PB_Key_LeftShift
+  @#PB_Key_BackSlash
+  @#PB_Key_Comma
+  @#PB_Key_Period
+  @#PB_Key_Slash
+  @#PB_Key_RightShift
+  @#PB_Key_Multiply
+  @#PB_Key_LeftAlt
+  @#PB_Key_Space
+  @#PB_Key_Capital
+  @#PB_Key_F1
+  @#PB_Key_F2
+  @#PB_Key_F3
+  @#PB_Key_F4
+  @#PB_Key_F5
+  @#PB_Key_F6
+  @#PB_Key_F7
+  @#PB_Key_F8
+  @#PB_Key_F9
+  @#PB_Key_F10
+  @#PB_Key_F11
+  @#PB_Key_F12
+  @#PB_Key_NumLock
+  @#PB_Key_Scroll
+  @#PB_Key_Pad0
+  @#PB_Key_Pad1
+  @#PB_Key_Pad2
+  @#PB_Key_Pad3
+  @#PB_Key_Pad4
+  @#PB_Key_Pad5
+  @#PB_Key_Pad6
+  @#PB_Key_Pad7
+  @#PB_Key_Pad8
+  @#PB_Key_Pad9
+  @#PB_Key_Add
+  @#PB_Key_Subtract
+  @#PB_Key_Decimal
+  @#PB_Key_PadEnter
+  @#PB_Key_RightControl
+  @#PB_Key_PadComma
+  @#PB_Key_Divide
+  @#PB_Key_RightAlt
+  @#PB_Key_Pause
+  @#PB_Key_Home
+  @#PB_Key_Up
+  @#PB_Key_Down
+  @#PB_Key_Left
+  @#PB_Key_Right
+  @#PB_Key_End
+  @#PB_Key_PageUp
+  @#PB_Key_PageDown
+  @#PB_Key_Insert
+  @#PB_Key_Delete
+@EndFixedFont
+  
+@ReturnValue
+  Nonzero if the specified key is pushed, zero otherwise.
+
+@Example
+@Code
+  If InitSprite() And InitKeyboard() And OpenScreen(800,600,16,"")
+    Repeat
+      FlipBuffers()
+
+      If StartDrawing(ScreenOutput())
+        DrawText(0, 0, "Press ESC to quit")
+        StopDrawing()
+      EndIf
+
+      ExamineKeyboard()
+      If KeyboardPushed(#PB_Key_Escape)   ; press Esc to quit
+        End
+      EndIf
+    ForEver
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineKeyboard, @@KeyboardReleased
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = KeyboardReleased(KeyID)
+
+@Description
+  Checks if the specified key has been pushed and released. This function is useful for 
+  switch key checks, like a 'Pause' key in a game (one time the game is paused, next time 
+  it will continue). The function @@ExamineKeyboard must be called before this function to update the keyboard
+  state. The keyboard behavior can be changed with @@KeyboardMode. 
+  
+@Parameter "KeyID"
+  The identifier of the key to be checked. For a full list of available keys see @@KeyboardPushed.
+
+@ReturnValue
+  Nonzero if the specified key has been pushed and released, zero otherwise.
+
+@Example
+@Code
+  If InitSprite() And InitKeyboard() And OpenScreen(800,600,16,"")
+    Paused = #False
+    Repeat
+      FlipBuffers()
+
+      If StartDrawing(ScreenOutput())
+
+        ExamineKeyboard()
+        If KeyboardReleased(#PB_Key_P)
+          If Paused = #False
+            Paused = #True
+          Else
+            Paused = #False
+          EndIf
+        EndIf
+
+        DrawingMode(0)
+
+        If Paused = #False
+          DrawText(20, 20, "Program is running...")
+        Else
+          DrawText(20, 20, "Program paused...    ")
+        EndIf
+
+        StopDrawing()
+      EndIf
+    Until KeyboardPushed(#PB_Key_Escape)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineKeyboard, @@KeyboardPushed
+
+@SupportedOS

@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Creating variables - Variables - PureBasic User Guide</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Variables: Creating variables</h1>
+
+The examples below show some of the ways you can create variables with the above types.
+ This code will not do anything if you compile it, it is just an example of the different
+ ways in which you can create variables, so all you need to do is read it and the explanation
+ below.
+
+<pre class="code">DefType.w height
+DefType.f distance, speed, time
+
+width.w
+counter.b
+
+DefType$ address
+</pre>
+
+The first line in that small section of code was <span class="code">DefType.w height</span>. This shows
+ one way of using the DefType keyword to create a variable. In this case it creates
+ a single variable called &quot;height&quot; and it is a word type.
+
+<p>The second line, <span class="code">DefType.f distance, speed, time</span>, shows another
+ way to use DefType. This time multiple variables are created by separating them with commas.
+ All three variables (&quot;distance&quot;, &quot;speed&quot; and &quot;time&quot;) are
+ floating point variables.
+
+<p>The next two lines <pre class="codepart">width.w
+counter.b</pre> demonstrate another way to initialize a variable, this time by simply
+ using it. In this case the variables are not used for much (well, not anything...).
+ In these cases the variables &quot;width&quot; and &quot;counter&quot; are initialised
+ as a word and a byte respectively. Something to note about this type of declaration
+ (where the variable is not used for anything) is that you cannot use the dollar notation
+ to create a string variable and you must always specify a type if you do not do anything
+ with the variable (as in the above example).
+
+<p>The final line shows how to initialize a string variable (called &quot;address&quot;)
+ using the dollar notation and the DefType keyword. Remember that once you create a variable
+ using the dollar notation, you must always follow the variable name with the dollar sign
+ when you use the variable.
+
+<p>Another point worth mentioning is that if you create a variable by using it (and actually
+ doing something with it, as will be shown in the next chapter) you do not need to set the
+ type. PureBasic will by default assume the type is a long. You can change the default type
+ by using the DefType keyword without a variable name. Any variable created after that point
+ without a type will use the type specified with the DefType.
+
+<pre class="code">; Variables created here without specifying a type will be longs
+DefType.f
+; Variables created here without specifying a type will be floats
+DefType.b
+; Variables created here without specifying a type will be bytes
+DefType.s
+; Variables created here without specifying a type will be strings
+</pre>
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="types.html">Variable types</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="summary.html">Summary</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

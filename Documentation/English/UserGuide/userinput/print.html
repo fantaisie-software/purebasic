@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Interacting with the user - PureBasic User Guide</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Interacting with the user: Displaying text</h1>
+There are two commands for displaying text in a console window. The first is
+ PrintN, which you have already experienced in the examples and exercises,
+ and the other is Print which is quite similar.
+
+<p>The PrintN command takes one parameter, the string to be displayed in the
+ console window. PrintN does not return a value. The string is displayed in the
+ console window at the current position of the cursor. The cursor is then moved
+ onto the next line, so that any text displayed after calling PrintN is shown
+ at the start of the next line.
+
+<p>The Print command is very similar. It takes one parameter (a string) and
+ returns no value. The string is displayed in the console window at the current
+ position of the cursor. The cursor is updated to be at the end of the
+ string which has just been printed, not on a new line.
+
+<p>Remember that to display numbers you first need to convert them to strings.
+ This is done using the <span class="code">Str()</span> and <span class="code">StrF()</span>
+ commands, as described in the <a href="../variables/index.html">Variables
+ chapter</a>.
+
+<p>This example illustrates the difference between PrintN and Print. You can
+ get the source code <a href="print.pb">here</a>. The output of the program
+ is shown below the example.
+
+<pre class="code">If OpenConsole()
+
+    Print(&quot;There will be no new line after this:&quot;)
+    Print(&quot;Told you!&quot;)
+
+    PrintN(&quot;Notice that the newline is put in after the string to be printed and not before it (this string is also on the end of the previous ones&quot;)
+    PrintN(&quot;This is on a new line&quot;)
+    PrintN(&quot;&quot;)
+    PrintN(&quot;That last command gave us a blank line (printing an empty string with a new line)&quot;)
+
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p><img class="output" src="print_run.png" alt="Output of the Print example" width="652" height="359">
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="consoles.html">Creating text displays</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="input.html">Reading values from the user</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

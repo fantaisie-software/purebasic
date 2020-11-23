@@ -1,0 +1,57 @@
+@Title Static
+
+@Syntax
+
+  @Keyword Static[.<type>] <variable[.<type>]> [= <constant expression>] [, ...]
+
+@Description
+
+  @Keyword Static allows to create a local persistent @ReferenceLink "variables" "variable" in a @ReferenceLink "Procedures" Procedure even 
+  if the same variable has been declared as @ReferenceLink "Global" Global in the main program. 
+  If a type is specified after @Keyword Static, the default type is changed for this declaration.
+  @Keyword Static can also be used with @ReferenceLink "dim" "arrays", @ReferenceLink "newlist" "lists" and @ReferenceLink "newmap" "maps".
+  When declaring a static array, the dimension parameter has to be a constant value. @LineBreak
+  @LineBreak
+  The value of the variable isn't reinitialized at each procedure call, means you can use local 
+  variables parallel to global variables (with the same name), and both will keep their values. 
+  Each variable can have a default value directly assigned to it, but it has to be a constant value.@LineBreak 
+  @LineBreak
+  Beside @Keyword Static you can use the keyword @ReferenceLink "Protected" Protected, to separate global from local variables, 
+  but with @ReferenceLink "Protected" Protected the local variables will not keep their values. 
+
+  @Example With variable
+
+@Code
+  Global a
+  a = 10
+  
+  Procedure Change()
+    Static a
+    a+1
+    Debug "In Procedure: "+Str(a) ; Will print 1, 2, 3 as the variable increments at each procedure call.
+  EndProcedure 
+  
+  Change()
+  Change()
+  Change()
+  Debug a ; Will print 10, as the static variable doesn't affect global one.
+@EndCode  
+
+  @Example With array
+
+@Code
+  Global Dim Array(2)
+  Array(0) = 10
+  
+  Procedure Change()
+    Static Dim Array(2)
+    Array(0)+1
+    Debug "In Procedure: " + Array(0) ; Will print 1, 2, 3 as the value of the array field increments at each procedure call.
+  EndProcedure 
+  
+  Change()
+  Change()
+  Change()
+  Debug Array(0) ; Will print 10, as the static array doesn't affect global one.
+@EndCode    
+    

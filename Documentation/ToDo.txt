@@ -1,0 +1,110 @@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Just a file to make statements about things to do...
+So every PureBasic SVN team member can see what are the next things
+on a shared place.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+-------------------
+NEW! The ToDo list is now public - see here:
+    http://www.purebasic.fr/english/viewtopic.php?t=38856
+                   ----------------------------------------------------
+
+
+Docs::Manual  (always valid for english version, other languages are independent)
+-------------
+
+- following examples are linked in the docs, but not available: Gadget3D.pb, Node.pb, Sound3D.pb, Window3D.pb
+- OpenDatabaseRequester(): description of optional parameter [, Plugin] is missing in the docs
+- Process lib: adding Source example
+- 3D engine:   source example, showing stuff like collision, etc.
+
+- EventLParam() / EventWParam() : users are requesting manual descriptions for them, because they are 
+                                  included since PB 2.4 but still not officially supported...
+- Math lib:    currently there is noted in the Overview, that mostly .f floats are supported. Either
+               Doubles should also be supported by PB or a note about this (and correct type converting) 
+               must be added.
+- Unicode example - there should be one in Examples directory, as many users are requesting this.
+- 8192x8192 restriction for images was removed?  => then the docs must be updated
+- Terrain lib: the generating of real-time-shadows on terrains isn't supported by PB now. A note should be
+               added to the manual - or will this be fixed within a short time?
+- Goto: more "warnings" at related keywords (Select...), that it shouldn't be used because of stack problems (see here: http://www.purebasic.fr/english/viewtopic.php?t=28136)
+- Add3DArchive(): documentation about the return value is missing  (adding archive successful or not?)
+- WaitWindowEvent(): a note about the default value (number or PB constant) of the optional 'TimeOut' parameter is missing
+- Fog/SkyDome (and probably other 3D commands too): more informations about parameter type and possible ranges are required (see here: http://www.purebasic.fr/german/viewtopic.php?p=216946#216946)
+- 3D libs: include "#PB_Compiler_Home +" in every example code to make them runnable!? (see here: http://www.purebasic.fr/german/viewtopic.php?p=216951#216951)
+- Node.pb example is missing
+- 'Compile executable' is completely missing in the IDE_Compiler.txt doc - e.g. there should
+   be added a note, that on MacOS ".app" must be added to the executable name to make it run
+   stand-alone
+- #PB_Integer constant is not mentioned in the docs
+- Scintilla.txt: example and screenshot are missing in the docs
+- Library Subsystems: DirectX 7 need to mentioned with PB4.40!
+
+
+
+Important! Please check also the change log (Readme.html) by fr34k for new/changed stuff 
+before creating the PB v4 final!  ;)
+
+Also be aware of notes about improving the manual by german users here:
+  http://www.purebasic.fr/german/viewtopic.php?t=7908  (old)
+  http://www.purebasic.fr/german/viewtopic.php?t=12957
+  http://www.purebasic.fr/german/viewtopic.php?t=12958
+
+
+
+DocMaker
+--------
+Must be updated to include the new keywords (highlighting and reference in the .chm index)
+
+Probably also include the general chapters of the reference to the 'Index', so that Unicode
+and other chapters can be easily found.
+
+** Note: most things are already done now. The reference and chm-content maybe needs a better
+         structure. For discussion see mentioned thread above on german board.
+         [18th June 2006 by André]
+
+
+
+Sources::Manual
+----------------
+All source examples should be checked, if all commands of a library
+are used in the source.
+
+Source examples should be extended for:
+  - all 3D libraries (a lot of commands are never used in official examples)
+  - Process lib
+  - 3D sprite lib
+  - more to follow...
+
+
+Topics done  (move to this chapter please)
+----------------------------------------------------------------------
+- OpenWindow(): check all examples using OpenWindow() for needed title$ + flags switch
+- Unicode:     an extra chapter describing the 'Basics' of Unicode and the
+               differences of compiling Ascii and Unicode programs, links to
+               needed IDE and Compiler settings as well
+- Window lib:  SmartWindowRefresh - description + example needed
+- WriteData(): example isn't working anymore -> problem with PeekS() and WriteData()?
+- CompilerDirectives: support for #PB_OS_MacOS constant (in compiler+residents too?)
+- Reference / Links section must be updated too
+- IsThread():  completely missing in manual
+- Enable/DisableExplicit:  description is included in CompilerDirectives.txt, but links in the CHM index are missing
+- NewList/Dim (+ related stuff at LinkedLists and Arrays):
+               currently there is sometimes described the old modus "always Global",
+               docs must be updated to the new way of working
+- Subsystems:  missing doc in Reference manual (linked from Compilerfunctions.txt)
+- OnErrorExit(): missing description added to the OnError lib
+- CreatePopupMenu(): updated example like suggested here: http://www.purebasic.fr/german/viewtopic.php?t=7338&postdays=0&postorder=asc&start=10
+                     (would be a change from using MenuTitle() to OpenSubMenu() - its a matter of view....  please Fred of fr34k decide)
+- CatchImage(): the length parameter is always needed when using compressed image formats, see here:
+                http://www.purebasic.fr/german/viewtopic.php?t=7338&postdays=0&postorder=asc&start=30
+                (seems also be true with CatchSound() and ogg sounds)
+- OpenHelp(): Flags parameter is missing in the manual
+- MakeIPAddress(): current help contains as description MakeIPAddress(Field0, Field1, Field2, Field3), but
+                   short help in the IDE statusbar shows MakeIPAddress(Field4,Field3,Field2,Field1). What is right?
+- CreateThread(): docs must be updated to reflect latest changes with PB 4.01 (it doesn't return the OS handle anymore...)
+- AddSysTrayIcon(): description of the return value is missing
+- RotateEntity(): uses now absolute angles??  (see here: http://www.purebasic.fr/english/viewtopic.php?t=28150)
+- ArraySize(): pressing F1 in the source doesn't display the related help, also not included in the index of 
+               .chm file => seems to be missing in IDE/DocMaker

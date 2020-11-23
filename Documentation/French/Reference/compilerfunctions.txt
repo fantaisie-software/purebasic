@@ -1,0 +1,600 @@
+@Title Les fonctions du compilateur
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#Bool"><u>Bool</u></a></td>  
+    <td align="center" vAlign="center" nowrap><a href="#Defined"><u>Defined</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Subsystem"><u>Subsystem</u></a></td>
+  </tr>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#OffsetOf"><u>OffsetOf</u></a></td>  
+    <td align="center" vAlign="center" nowrap><a href="#SizeOf"><u>SizeOf</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#TypeOf"><u>TypeOf</u></a></td>
+  </tr>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#InitializeStructure"><u>InitializeStructure</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#CopyStructure"><u>CopyStructure</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#ClearStructure"><u>ClearStructure</u></a></td>
+  </tr>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#ResetStructure"><u>ResetStructure</u></a></td>
+  </tr>  
+    </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<a name="Bool"></a>
+@FormatEndIf
+
+@Syntax
+  @Keyword Bool(<expression booléenne>)
+
+@Description
+  @Keyword Bool permet d'évaluer une 
+  expression booléenne en dehors des 
+  opérateurs conditionnels réguliers comme 
+  @Keyword If, @Keyword While, @Keyword Until, etc.
+  
+@Parameter "expression booléenne"
+  L'expression booléenne à tester.
+
+@ReturnValue
+  Renvoie @#True si l'expression booléenne est vraie, 
+  @#False sinon.
+  
+@Example
+@Code
+  Salut$ = "Salut"
+  LeMonde$ = "Le Monde"
+
+  Debug Bool(Salut$ = "Salut")  ; Affichera 1
+  Debug Bool(Salut$ <> "Salut" Or LeMonde$ = "Le Monde") ; Affichera 1
+@EndCode
+
+@Example
+@Code
+  Procedure Chiffre(char.c)
+    ProcedureReturn Bool(char >= '0' And char <= '9')
+  EndProcedure
+
+  Debug Chiffre('0')
+  Debug Chiffre('1')
+  Debug Chiffre('a')
+  Debug Chiffre('z')
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="Defined"></a>
+@FormatEndIf
+
+@Syntax
+  Resultat = @Keyword Defined(Nom, Type)
+
+@Description
+  @Keyword Defined détermine si un objet tel qu'une 
+  @ReferenceLink "structures" "structure", 
+  @ReferenceLink "interfaces" "interface", 
+  @ReferenceLink "variables" "variables" etc.
+  est déjà défini dans le programme. 
+  
+@Parameter "Nom"
+  Le nom de l'objet.
+@LineBreak
+@LineBreak 
+  Le paramètre 'Nom' doit être spécifié sans aucune 
+  forme de décoration (sans le '#' pour une 
+  @ReferenceLink "general_rules" "constante", sans 
+  les '()' pour un @ReferenceLink "dim" "tableau", 
+  une @ReferenceLink "newlist" "liste",  une 
+  @ReferenceLink "newmap" "map" ou une 
+  @ReferenceLink "Procedures" "procédure").  
+  
+@Parameter "Type"
+  Peut prendre une des valeurs suivantes:
+@FixedFont
+  @#PB_Constant
+  @#PB_Variable
+  @#PB_Array
+  @#PB_List
+  @#PB_Map
+  @#PB_Structure
+  @#PB_Interface
+  @#PB_Procedure
+  @#PB_Function
+  @#PB_OSFunction
+  @#PB_Label
+  @#PB_Prototype
+  @#PB_Module
+  @#PB_Enumeration
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  #PureConstante = 10
+  
+  CompilerIf Defined(PureConstante, #PB_Constant)
+    Debug "La constante 'PureConstante' est déjà déclarée"
+  CompilerEndIf
+  
+  Test = 25
+  
+  CompilerIf Defined(Test, #PB_Variable)
+    Debug "La variable 'Test' est déjà déclarée"
+  CompilerEndIf
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="Subsystem"></a>
+@FormatEndIf
+
+@Syntax
+  Resultat = @Keyword Subsystem(<expression texte constante>)
+
+@Description
+  @Keyword Subsystem permet de savoir si un 
+  @ReferenceLink "subsystems" "sous-système" 
+  est utilisé pour le programme en cours de 
+  compilation. 
+  
+@Parameter "expression texte constante"
+  Le nom de sous-système.@LineBreak 
+  Peut prendre une des valeurs suivantes: 
+  Sensible à la casse.
+@FixedFont
+  OpenGL
+  DirectX11
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur ni nulle si le sous 
+  système est utilisé,
+  zéro sinon.
+  
+@Example
+@Code
+  CompilerIf Subsystem("OpenGL")
+    Debug "Compilation avec le sous-système OpenGL" 
+  CompilerEndIf
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="OffsetOf"></a>
+@FormatEndIf
+
+@Syntax
+  Resultat = @Keyword OffsetOf(Structure\Champ)
+  Resultat = @Keyword OffsetOf(Interface\Fonction())
+
+@Description
+  La commande @Keyword OffsetOf permet de 
+  déterminer la position en mémoire d'un champ d'une  
+  @ReferenceLink "Structures" structure ou 
+  la position en mémoire d'une fonction dans le cas d'une 
+  @ReferenceLink "Interfaces" interface (soit 
+  IndexDeLaFunction*SizeOf(Integer)).
+  
+@Parameter "Structure\Champ ou Interface\Fonction()"
+  Le champ de la structure ou la fonction 
+  de l'interface.
+
+@ReturnValue
+  Renvoie l'index du champ ou de la fonction,
+  zéro sinon.
+  
+@Example
+@Code
+  Structure Personne
+    Nom.s
+    Prenom.s
+    Age.w
+  EndStructure
+ 
+  Debug OffsetOf(Personne\Age) ; Affichera 8 car une 'string' occupe 4 octets en mémoire
+                               ;(16 avec un compilateur 64 bits, car une 'string' occupe 8 octets en mémoire)
+ 
+  Interface ITest
+    Creer()
+    Detruire(Options)
+  EndInterface
+ 
+  Debug OffsetOf(ITest\Detruire()) ; Affichera 4
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="SizeOf"></a>
+@FormatEndIf
+
+@Syntax
+  Resultat = @Keyword SizeOf(Type)
+
+@Description
+  La commande @Keyword SizeOf permet de renvoyer la taille en octets que prendra une 
+  @ReferenceLink "Structures" structure, les types de base tels que les 'word', les 'float', 
+  etc.), une @ReferenceLink "Interfaces" interface ou même une variable 
+  (Si une variable et une structure ont le même nom, la structure aura la priorité sur la 
+  variable.).
+  @LineBreak 
+  Comme @Keyword SizeOf est une fonction du compilateur, 
+  elle ne fonctionne pas avec les tableaux, les Listes ou les Maps. 
+  Utilisez @@ArraySize, @@ListSize ou @@Mapsize à la place.
+  @LineBreak 
+  En tant que fonction du compilateur, SizeOf(x) est affectée à une constante et ne nécessite 
+  pas d'affectation à une autre variable si elle se trouve à l'intérieur d'une boucle ou 
+  d'une procédure appelée à plusieurs reprise.
+
+
+@Parameter "Type"
+  Le type de l'objet.
+
+@ReturnValue
+  La taille de l'objet en mémoire, en octets
+
+@Remarks  
+  C'est très utile dans de nombreux cas, notamment 
+  lors de l'utilisation des commandes API.
+@LineBreak
+@LineBreak
+  Note : Une variable de type caractère (CHARACTER) (.c) est unicode et occupe 2 octets et  
+  une variable de type ASCII (.a) n'occupe qu'1 octet.
+
+@Example 1
+@Code
+  VariableCaractere.c = '!'
+  Debug SizeOf(VariableCaractere) ; affiche 2, c'est à dire 2 octets
+  Debug SizeOf(CHARACTER)         ; affiche 2, c'est à dire 2 octets
+  
+  VariableAscii.a = '!'
+  Debug SizeOf(VariableAscii)     ; affiche 1, c'est à dire 1 octets
+  Debug SizeOf(ASCII)             ; affiche 1, c'est à dire 1 octets
+@EndCode
+  
+@Example 2
+@Code
+  Structure Personne
+    Nom.s
+    Prenom.s
+    Age.w
+  EndStructure
+ 
+  Debug "La taille d'une personne est "+Str(Sizeof(Personne))+" octets" ; Affichera 10 (4+4+2)
+ 
+  Jean.Personne\Nom = "Jean"
+ 
+  Debug SizeOf(Jean) ; Affichera 10 aussi
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="TypeOf"></a>
+@FormatEndIf
+
+@Syntax
+  Resultat = @Keyword TypeOf(Objet)
+
+@Description
+  @Keyword TypeOf permet de déterminer le type d'une 
+  @ReferenceLink "variables" "variable", 
+  ou d'un champ de @ReferenceLink "structures" "structure". 
+  
+@Parameter "Objet"
+  L'objet à utiliser.
+
+@ReturnValue  
+  Le type de l'objet.
+@LineBreak  
+@LineBreak
+  Le type peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Byte      
+  @#PB_Word      
+  @#PB_Long      
+  @#PB_String    
+  @#PB_Structure
+  @#PB_Float
+  @#PB_Character
+  @#PB_Double
+  @#PB_Quad
+  @#PB_List
+  @#PB_Array
+  @#PB_Integer
+  @#PB_Map
+  @#PB_Ascii
+  @#PB_Unicode 
+  @#PB_Interface  
+@EndFixedFont
+
+@Example
+
+@Code
+  Structure Personne
+    Nom.s
+    Prenom.s 
+    Age.w 
+  EndStructure
+  
+  If TypeOf(Personne\Age) = #PB_Word
+    Debug "Age est un 'Word'"
+  EndIf
+            
+  Surface.f                 
+  If TypeOf(Surface) = #PB_Float
+    Debug "Surface est un 'Float'"
+  EndIf
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="InitializeStructure"></a>
+@FormatEndIf
+
+@Syntax
+  @Keyword InitializeStructure(*Memoire, Structure)
+
+@Description
+  Initialise un objet @ReferenceLink "structures" "structuré" 
+  en mémoire.
+@linebreak
+@linebreak
+  En fait, cette fonction initialise les membres 
+  d'une @ReferenceLink "structures" "structure". 
+  Ces membres sont de type 
+  @LibraryLink "Array" "Array", 
+  @LibraryLink "List" "List" ou 
+  @LibraryLink "Map" "Map" mais les autres 
+  types ne sont pas affectés (.s .l, .i, etc.). 
+  
+@Parameter "*Memoire"
+  L'adresse mémoire à utiliser.
+  
+@Parameter "Structure"
+  Le nom de la structure qui doit être utilisé 
+  pour effectuer l'initialisation.@Linebreak 
+  Il n'y a pas de contrôle pour s'assurer que 
+  la zone mémoire corresponde à la structure.
+  
+@NoReturnValue
+
+@Remarks
+  Attention: plusieurs appels à 
+  @Keyword InitializeStructure crée une fuite 
+  de mémoire parce que les anciens membres 
+  de la structure ne sont pas libérés de la 
+  mémoire. @Keyword ClearStructure doit être 
+  appelée avant d'appeler une nouvelle fois 
+  @Keyword InitializeStructure.@Linebreak
+  Cette fonction est pour les utilisateurs 
+  avancés et doit être utilisée avec précaution. @Linebreak
+  Pour allouer une structure dynamique, 
+  utiliser @@AllocateStructure.
+   
+@Example
+@Code
+  Structure Personne
+    Prenom$
+    Age.l
+    List Amis.s()
+  EndStructure
+
+  *Etudiant.Personne = AllocateMemory(SizeOf(Personne))
+  InitializeStructure(*Etudiant, Personne)
+
+  ; Maintenant, la liste est prête à l'emploi
+  ;
+  AddElement(*Etudiant\Amis())
+  *Etudiant\Amis() = "John"
+  
+  AddElement(*Etudiant\Amis())
+  *Etudiant\Amis() = "Yann"
+
+  ; Affichage du contenu de la liste
+  ;
+  ForEach *Etudiant\Amis()
+    Debug *Etudiant\Amis()
+  Next
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="CopyStructure"></a>
+@FormatEndIf
+
+@Syntax
+  @Keyword CopyStructure(*Source, *Destination, Structure)
+
+@Description
+  Copie une @ReferenceLink "structures" "structure" 
+  en mémoire vers une autre.
+  
+@Parameter "*Source"
+  L'adresse mémoire contenant la structure à copier.
+  
+@Parameter "*Destination"
+  L'adresse mémoire de la copie.  
+  
+@Parameter "Structure"
+  Le nom de la structure qui doit être utilisé 
+  pour effectuer la copie. 
+  
+@NoReturnValue
+
+@Remarks  
+  C'est particulièrement utile lors de l'utilisation 
+  de mémoire dynamique avec les pointeurs. Chaque 
+  champ de la structure sera dupliqué, y compris 
+  les @LibraryLink "Array" "tableaux" dynamiques, 
+  les @LibraryLink "List" "listes" ou 
+  les @LibraryLink "Map" "maps". 
+  La structure de destination sera automatiquement 
+  effacée avant de faire la copie, il n'est pas 
+  nécessaire d'appeler @Keyword ClearStructure avant 
+  @Keyword CopyStructure. @Linebreak
+  Attention : La destination doit être une zone de 
+  mémoire de structure valide, ou une zone mémoire effacée. 
+  Si la zone de mémoire n'est pas effacée, cela pourrait 
+  provoquer un crash, car des valeurs aléatoires seront 
+  utilisées. @Linebreak
+  Il n'y a pas de contrôle pour s'assurer que les deux 
+  zones mémoires sont bien du type 'Structure', 
+  donc il est impératif de manipuler cette commande avec 
+  précaution.
+  
+@Example
+@Code
+  Structure Personne
+    Prenom$
+    Nom$
+    Map Amis$()
+    Age.l
+  EndStructure
+
+  Etudiant.Personne\Prenom$ = "Paul"
+  Etudiant\Nom$ = "Morito"
+  Etudiant\Amis$("Tom") = "Jones"
+  Etudiant\Amis$("Jim") = "Doe"
+  
+  CopyStructure(@Etudiant, @EtudiantCopy.Personne, Personne)
+  
+  Debug EtudiantCopy\Prenom$
+  Debug EtudiantCopy\Nom$
+  Debug EtudiantCopy\Amis$("Tom")
+  Debug EtudiantCopy\Amis$("Jim")
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="ClearStructure"></a>
+@FormatEndIf
+
+@Syntax
+  Resultat = @Keyword ClearStructure(*Memoire, Structure)
+
+@Description
+  Vide la zone mémoire 
+  @ReferenceLink "structures" "structurée" et 
+  met la valeur de tous les champs à zéro.
+  
+@Parameter "*Memoire"
+  L'adresse mémoire contenant la structure à 
+  effacer.
+  
+@Parameter "Structure"
+  Le nom de la structure qui sera utilisée 
+  pour effectuer le nettoyage. 
+   
+@NoReturnValue
+
+@Remarks  
+  C'est particulièrement utile quand la structure 
+  contient des chaînes de caractères, 
+  des @LibraryLink "Array" "tableaux", 
+  des @LibraryLink "List" "listes" ou 
+  des @LibraryLink "Map" "maps" qui ont été 
+  alloués en interne par PureBasic.
+  Tous les champs seront mis à zéro, même les types 
+  natifs comme long, integer, etc. @Linebreak
+  Il n'y a pas de contrôle pour s'assurer que la zone 
+  mémoire est bien du type 'Structure' spécifié, donc 
+  il est impératif de manipuler cette commande avec 
+  précaution. Cette fonction est réservée aux utilisateurs 
+  avancés.
+  
+@Example
+@Code
+  Structure Personne
+    Prenom$
+    Nom$
+    Age.l
+  EndStructure
+
+  Etudiant.Personne\Prenom$ = "Paul"
+  Etudiant\Nom$ = "Morito"
+  Etudiant\Age = 10
+  
+  ClearStructure(@Etudiant, Personne)
+  
+  ; Affichera des chaines vide, car la structure entiere a ete videe. Tous les autres champs ont ete remis a zero
+  ;
+  Debug Etudiant\Prenom$
+  Debug Etudiant\Nom$
+  Debug Etudiant\Age
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="ResetStructure"></a>
+@FormatEndIf
+
+@Syntax
+  @Keyword ResetStructure(*Memoire, Structure)
+
+@Description
+  @Keyword ResetStructure, vide la zone mémoire 
+  @ReferenceLink "structures" "structurée"
+  et l'initialise pour être prête à être utilisée.
+  
+@Parameter "*Memoire"
+  L'adresse mémoire contenant la structure à réinitialiser.
+  
+@Parameter "Structure"
+  Le nom de la structure utilisée.
+   
+@NoReturnValue
+
+@Remarks    
+  C'est particulièrement utile quand la structure 
+  contient des chaînes de caractères, 
+  des @LibraryLink "Array" "tableaux", 
+  des @LibraryLink "List" "listes" ou 
+  des @LibraryLink "Map" "maps" qui ont été 
+  alloués en interne par PureBasic.
+  Tous les champs seront mis à zéro, même les types 
+  natifs comme long, integer, etc. @Linebreak
+  Il n'y a pas de contrôle pour s'assurer que la zone 
+  mémoire est bien du type 'Structure' spécifié, donc 
+  il est impératif de manipuler cette commande avec 
+  précaution. Cette fonction est réservée aux utilisateurs 
+  avancés.
+  
+@Example
+
+@Code
+  Structure Personne
+    Map Amis.s()
+  EndStructure
+
+  Henri.Personne\Amis("1") = "Paul"
+  
+  ResetStructure(@Henri, Personne)
+  
+  ; Affiche une chaîne vide car l'ensemble de la structure a été réinitialisée. 
+  ; La map est encore utilisable, mais vide.
+  ;
+  Debug Henri\Amis("1")
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

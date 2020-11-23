@@ -1,0 +1,99 @@
+@Title UserGuide - Storing data in memory
+
+This example gathers information about the @LibraryLink "file" "files" in the logged on
+user's home directory into a @ReferenceLink "structures" "structured"
+@ReferenceLink "newlist" "list". For now the output isn't very exciting but we
+will come back to this example later on and make it a bit more friendly in several 
+different ways.
+@Code
+  ; This section describes the fields of a structure or record, mostly integers in this case,
+  ; but notice the string for the file name and the quad for the file size.
+  Structure FILEITEM
+    Name.s
+    Attributes.i
+    Size.q
+    DateCreated.i
+    DateAccessed.i
+    DateModified.i
+  EndStructure
+  
+  ; Now we define a new list of files using the structure previously specified 
+  ; and some other working variables we'll use later on.
+  NewList Files.FILEITEM()
+  Define.s Folder
+  Define.l Result
+  
+  ; This function gets the home directory for the logged on user.
+  Folder = GetHomeDirectory()
+  
+  ; Open the directory to enumerate all its contents.
+  Result = ExamineDirectory(0, Folder, "*.*")  
+  
+  ; If this is ok, begin enumeration of entries.
+  If Result
+    ; Loop through until NextDirectoryEntry(0) becomes zero - indicating that there are no more entries.
+    While NextDirectoryEntry(0)
+      ; If the directory entry is a file, not a folder.
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        ; Add a new element to the list.
+        AddElement(Files())
+        ; And populate it with the properties of the file.
+        Files()\Name = DirectoryEntryName(0)
+        Files()\Size = DirectoryEntrySize(0)
+        Files()\Attributes = DirectoryEntryAttributes(0)
+        Files()\DateCreated = DirectoryEntryDate(0, #PB_Date_Created)
+        Files()\DateAccessed = DirectoryEntryDate(0, #PB_Date_Accessed)
+        Files()\DateModified = DirectoryEntryDate(0, #PB_Date_Modified)
+      EndIf
+    Wend
+    ; Close the directory.
+    FinishDirectory(0)
+  EndIf
+  
+  ; Shows the results in the debug window (if there is no entry, nothing will be displayed)
+  ForEach Files()
+    Debug "Filename = " + Files()\Name
+    Debug "Size = " + Str(Files()\Size)
+    Debug "Attributes = " + StrU(Files()\Attributes)
+    Debug "Created = " + StrU(Files()\DateCreated)
+    Debug "Accessed = " + StrU(Files()\DateAccessed)
+    Debug "Modified = " + StrU(Files()\DateModified)
+  Next Files()
+@EndCode
+
+Ok, firstly, the dates in the output are just numbers - this isn't very helpful,
+so let's make them look a bit more familiar. Replace the last three Debug statements
+with these:
+@Code
+      ...
+      Debug "Created = " + FormatDate("%dd/%mm/%yyyy", Files()\DateCreated)
+      Debug "Accessed = " + FormatDate("%dd/%mm/%yyyy", Files()\DateAccessed)
+      Debug "Modified = " + FormatDate("%dd/%mm/%yyyy", Files()\DateModified)
+@EndCode
+
+The @@FormatDate function takes a date in PureBasic's own numeric date format and
+displays it in a format that we can specify. So now things should begin to look a bit
+more sensible.
+@LineBreak
+@LineBreak
+Finally, for now, the list isn't in any particular order, so let's
+@Link "Sort/SortStructuredList" "sort the list" before we display it. Add this
+line before the comment about showing the list and the
+@ReferenceLink "foreach_next" "ForEach" loop.
+@Code
+  ...
+  
+  ; Sort the list into ascending alphabetical order of file name.
+  SortStructuredList(Files(), #PB_Sort_Ascending, OffsetOf(FILEITEM\Name), #PB_String)
+  
+  ; If there are some entries in the list, show the results in the debug window.
+  ...
+@EndCode
+
+This command takes the @ReferenceLink "structures" "structured" @ReferenceLink "newlist" "list",
+and resorts it into ascending order (@#PB_Sort_Ascending), of the Name field of the structure
+(OffsetOf(FILEITEM\Name)), which is a string value (@#PB_String).
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_string" "< Previous: String Manipulation" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_inputoutput" "Next: Input & Output >"

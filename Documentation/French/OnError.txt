@@ -1,0 +1,625 @@
+;
+; OnError library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library OnError
+
+@Overview
+  Cette bibliothèque permet de détecter les erreurs 
+  d'exécution (crashs de programmes) de manière 
+  similaire au 
+  @ReferenceLink "ide_debugger" "débogueur PureBasic", 
+  mais sans le désavantage de la taille plus 
+  importante et de la vitesse d'exécution réduite 
+  inhérente à l'utilisation du débogueur. Cela permet 
+  aux programmes livrés à l'utilisateur final de 
+  collecter des informations importantes lors de 
+  dysfonctionnements et de les renvoyer au développeur.
+@LineBreak
+@LineBreak
+  Le @ReferenceLink "ide_debugger" "débogueur PureBasic" 
+  est quand même le meilleur outil pour trouver 
+  les bugs lors de la phase de développement, car 
+  il fournit des informations bien plus détaillées
+  sur le programme (comme la valeur des 
+  @ReferenceLink "variables" "variables") ainsi que 
+  des outils visuels pour trouver rapidement l'origine 
+  des bugs.
+@LineBreak
+@LineBreak
+  @Bold "Note:" Si cette bibliothèque et le 
+  @ReferenceLink "ide_debugger" "débogueur PureBasic" 
+  sont activés en même temps, toutes les erreurs ne 
+  seront pas détectées par la bibliothèque OnError, 
+  car des vérifications sont effectuées par le 
+  débogueur avant même que le code ne soit exécuté.
+@LineBreak
+@LineBreak
+  Cette bibliothèque fournit des informations sur 
+  le nom du code source et la ligne à laquelle 
+  l'erreur est survenue à l'aide des commandes 
+  @@ErrorFile et @@ErrorLine, seulement si cette 
+  fonctionnalité a été activée lors de la compilation 
+  du programme (car elle induit une légère pénalité 
+  dans la vitesse d'exécution du programme pour
+  retenir le numéro de la ligne en cours d'exécution). 
+  Pour l'activer, il faut cocher "Activer le numéro de 
+  ligne pour OnError" dans les 
+  @ReferenceLink "ide_compiler" "options de compilation"
+  ou spécifier /LINENUMBERING (Windows) ou --linenumbering 
+  (Linux, MacOS X) en 
+  @ReferenceLink "cli_compiler" "ligne de commande".
+
+@CommandList
+
+@ExampleFile All OnError.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OnErrorExit()
+
+@Description
+  Termine l'exécution du programme après n'importe 
+  quelle erreur gérée par OnError. 
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Le système peut afficher une fenêtre d'erreur ou 
+  un message dans la console avant de quitter.
+@LineBreak
+@LineBreak
+  Pour quitter un programme de manière silencieuse 
+  (sans message système), utiliser @@OnErrorCall et
+  terminer le programme à partir du handler.
+
+@Example
+@Code
+  MessageRequester("Test OnError", "Début Test.")
+
+  OnErrorExit()
+  Pokes(10, "Salut le Monde.") ; Déclenche une erreur de type #PB_OnError_InvalidMemory
+                               ; et le programme se termine
+  MessageRequester("Test OnError", "Ceci ne devrait jamais s'afficher.")
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OnErrorCall(@ErrorHandler())
+
+@Description
+  Spécifie une procédure à exécuter si une erreur 
+  survient. La procédure peut afficher des informations
+  à propos de l'erreur en utilisant les commandes 
+  de cette bibliothèque. Le programme se terminera
+  automatiquement dès que la procédure quittera.
+
+@Parameter "@ErrorHandler()"
+  Adresse d'une procédure sous la forme:
+@Code
+  Procedure ErrorHandler()
+  ; Votre code ici
+  EndProcedure
+@EndCode
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure GestionErreur()
+    MessageRequester("Test OnError", "L'erreur suivante est arrivée: " + ErrorMessage())
+  EndProcedure
+
+  MessageRequester("Test OnError", "Début Test.")
+
+  OnErrorCall(@GestionErreur())
+  Pokes(10, "Salut le Monde.") ; Provoque une erreur #PB_OnError_InvalidMemory
+  
+  MessageRequester("Test OnError", "Ceci ne devrait jamais s'afficher.")
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OnErrorGoto(?Etiquette)
+
+@Description
+  Si une erreur survient, le programme saute à 
+  l'étiquette (label) donnée.
+  Une fois dans le label, des informations à 
+  propos de l'erreur pourront être affichées 
+  en utilisant les commandes de cette bibliothèque.
+
+@Parameter "?Etiquette"
+  L'adresse de l'étiquette sur laquelle renvoyer 
+  le programme après une erreur.
+  
+@NoReturnValue
+
+@Remarks  
+  La pile du programme ne sera pas sauvegardée
+  avant le saut vers le label, donc les 
+  variables locales ne seront plus accessibles. 
+  Il n'est pas recommandé de vouloir continuer 
+  l'exécution d'un programme après une erreur, 
+  car le contexte ne sera plus correct. La 
+  meilleure pratique est de rassembler un
+  maximum d'informations à propos de l'erreur 
+  et de quitter le programme.
+
+@Example
+@Code
+  MessageRequester("Test OnError", "Début Test.")
+
+  OnErrorGoto(?GestionErreurs)
+  Pokes(10, "Salut le Monde.") ; Provoque une erreur #PB_OnError_InvalidMemory
+  
+  MessageRequester("Test OnError", "Ceci ne devrait jamais s'afficher.")
+  End
+  
+  GestionErreurs:
+  MessageRequester("Test OnError", "L'erreur suivante est arrivée: " + ErrorMessage())
+  End
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OnErrorDefault()
+
+@Description
+  Réinitialise l'action à exécuter lors d'une 
+  erreur en utilisant celle du système par défaut. 
+  En général c'est une fenêtre d'erreur qui 
+  s'affiche suivie de la fin du programme, 
+  mais pas toujours (certaines erreurs peuvent 
+  être ignorées). Pour être sûr de quitter le 
+  programme sur chaque erreur, utilisez @@OnErrorExit.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Si la bibliothèque OnError est 
+  utilisée dans une @ReferenceLink "dll" "dll", 
+  la meilleure approche est d'initialiser la 
+  gestion d'erreur au début de chaque fonction 
+  publique de la dll, et de la réinitialiser
+  avec cette commande à la fin de la fonction 
+  (pour éviter les interférences entre la 
+  bibliothèque OnError et la gestion d'erreur 
+  du programme utilisant la dll).
+
+@Example
+@Code
+  Procedure ErrorHandler()
+    MessageRequester("Test OnError", "L'erreur suivante est arrivée: " + ErrorMessage())
+  EndProcedure
+
+  MessageRequester("Test OnError", "Début Test.")
+
+  OnErrorCall(@ErrorHandler())
+  OnErrorDefault()             ; Commenter cet appel pour obtenir le gestionnaire à la place de l'erreur envoyée par le système
+  Pokes(10, "Salut le Monde.") ; Provoque une erreur #PB_OnError_InvalidMemory 
+  
+  MessageRequester("Test OnError", "Ceci ne devrait jamais s'afficher.")
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ErrorCode()
+
+@Description
+  Renvoie le code de l'erreur qui est survenue. 
+
+@NoParameters
+
+@ReturnValue
+  Renvoie une des valeurs suivantes:
+@FixedFont
+  @#PB_OnError_InvalidMemory         : Lecture ou écriture dans une zone protégée.
+  @#PB_OnError_Floatingpoint         : Erreur de calcul flottant.
+  @#PB_OnError_Breakpoint            : Point d'arrêt débogueur atteint (autres que ceux du PureBasic).
+  @#PB_OnError_IllegalInstruction    : Exécution d'une instruction invalide.
+  @#PB_OnError_PriviledgedInstruction: Exécution d'une instruction privilégiée (système) non autorisée.
+  @#PB_OnError_DivideByZero          : Division par zéro (Windows seulement).
+@EndFixedFont
+  Linux et MacOS X génèrent @#PB_OnError_Floatingpoint 
+  pour les erreurs de division par zéro.
+@LineBreak
+@LineBreak
+  De plus, chaque OS peut avoir plus de valeurs. 
+  Sous Windows, des erreurs personnalisées 
+  peuvent être génèrées avec @@RaiseError.
+
+@Remarks
+  Cette commande renvoie une valeur valide 
+  uniquement si l'erreur est gérée par 
+  @@OnErrorCall ou @@OnErrorGoto.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = ErrorMessage([CodeErreur])
+
+@Description
+  Renvoie un message d'erreur en anglais. 
+
+@OptionalParameter "CodeErreur"
+  Un code d'erreur spécifique. 
+@LineBreak
+@LineBreak
+  Voir @@ErrorCode pour les codes d'erreur 
+  disponibles.
+
+@ReturnValue
+  Renvoie un message d'erreur en anglais 
+  correspondant au code erreur specifié. 
+  Si le paramètre est omis, la fonction 
+  renvoie le message de l'erreur qui est 
+  survenue.  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ErrorLine()
+
+@Description
+  Renvoie le numéro de ligne dans le code 
+  source où l'erreur est survenue. 
+
+@NoParameters
+
+@ReturnValue
+  Renvoie le numéro de ligne dans le code 
+  source où l'erreur est survenue.
+@LineBreak
+@LineBreak
+  Cette commande renvoie une valeur valide 
+  uniquement si l'erreur est gérée par 
+  @@OnErrorCall ou @@OnErrorGoto.
+
+@Remarks
+  Le suivi des lignes en temps réel a besoin 
+  d'être activé à la compilation pour que 
+  cette fonction renvoie la ligne actuelle.
+  Pour l'activer, il faut cocher "Activer le 
+  numéro de ligne pour OnError" dans les 
+  @ReferenceLink "ide_compiler" "options de compilation"
+  ou spécifier /LINENUMBERING (Windows) ou --linenumbering 
+  (Linux, MacOS X) en @ReferenceLink "cli_compiler" "ligne de commande".
+  Si ce support est désactivé, cette fonction 
+  renverra -1.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = ErrorFile()
+
+@Description
+  Renvoie le nom du fichier du code source 
+  où l'erreur est survenue.
+
+@NoParameters
+
+@ReturnValue  
+  Renvoie le nom du fichier du code source 
+  où l'erreur est survenue.  
+@LineBreak
+@LineBreak
+  Cette commande renvoie une valeur valide 
+  uniquement si l'erreur est gérée par 
+  @@OnErrorCall ou @@OnErrorGoto.
+  
+@Remarks
+  Le suivi des lignes en temps réel a besoin 
+  d'être activé à la compilation pour que 
+  cette fonction renvoie la ligne actuelle.
+  Pour l'activer, il faut cocher "Activer 
+  le numéro de ligne pour OnError" dans 
+  les @ReferenceLink "ide_compiler" "options de compilation"
+  ou spécifier /LINENUMBERING (Windows) 
+  ou --linenumbering (Linux, MacOS X) en 
+  @ReferenceLink "cli_compiler" "ligne de commande".
+  Si ce support est désactivé, cette 
+  fonction renverra "OnError line support disabled".
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ErrorAddress()
+
+@Description
+  Renvoie l'adresse mémoire de l'instruction 
+  assembleur qui a causé l'erreur.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie l'adresse mémoire de l'instruction 
+  assembleur qui a causé l'erreur.
+@LineBreak
+@LineBreak
+  Cette commande renvoie une valeur valide 
+  uniquement si l'erreur est gérée par 
+  @@OnErrorCall ou @@OnErrorGoto.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ErrorTargetAddress()
+
+@Description
+  Après une erreur de type @#PB_OnError_InvalidMemory, 
+  cette commande renvoie l'adresse mémoire 
+  qui a été lue ou écrite quand l'erreur est 
+  survenue. 
+  
+@NoParameters
+
+@ReturnValue
+  Après une erreur de type @#PB_OnError_InvalidMemory, 
+  cette commande renvoie l'adresse mémoire 
+  qui a été lue ou écrite quand l'erreur est 
+  survenue. Cette commande n'a pas d'utilité 
+  pour les autres types d'erreur.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ErrorRegister(Registre) 
+
+@Description
+  Renvoie le contenu du registre spécifié 
+  du microprocesseur lorsque l'erreur 
+  est survenue.
+
+@Parameter "Registre"
+  Le registre à afficher.
+@LineBreak
+@LineBreak
+  Les registres disponibles dépendent du 
+  CPU pour lequel le programme est compilé. 
+  Les valeurs suivantes sont disponibles:
+@LineBreak
+@LineBreak
+
+  @Bold "x86:"
+@FixedFont
+  @#PB_OnError_EAX
+  @#PB_OnError_EBX
+  @#PB_OnError_ECX
+  @#PB_OnError_EDX
+  @#PB_OnError_EBP
+  @#PB_OnError_ESI
+  @#PB_OnError_EDI
+  @#PB_OnError_ESP
+  @#PB_OnError_Flags
+@EndFixedFont
+
+  @Bold "x64:"
+@FixedFont
+  @#PB_OnError_RAX
+  @#PB_OnError_RCX
+  @#PB_OnError_RDX
+  @#PB_OnError_RBX
+  @#PB_OnError_RSP
+  @#PB_OnError_RBP
+  @#PB_OnError_RSI
+  @#PB_OnError_RDI
+  @#PB_OnError_R8
+  @#PB_OnError_R9
+  ...
+  @#PB_OnError_R15
+  @#PB_OnError_Flags
+@EndFixedFont
+
+@ReturnValue
+  Renvoie le contenu du registre spécifié 
+  du microprocesseur lorsque l'erreur 
+  est survenue.
+@LineBreak
+@LineBreak
+  Cette commande renvoie une valeur valide 
+  uniquement si l'erreur est gérée par 
+  @@OnErrorCall ou @@OnErrorGoto.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RaiseError(CodeErreur)
+
+@Description
+  Génère artificiellement une erreur du 
+  type spéficié et lance une procédure 
+  de gestion d'erreur ou termine le 
+  programme si elle n'existe pas. 
+  Le 'CodeErreur' pourra être récupéré 
+  dans la procédure de gestion d'erreur 
+  avec la commande @@ErrorCode.
+
+@Parameter "CodeErreur"
+  Sous Windows, n'importe quel numéro 
+  d'erreur peut être utilisé (y compris 
+  ceux définis par l'utilisateur), c'est 
+  un nombre entre 0 et 268435455 (un 
+  sur 27 bits). 
+  Sous Linux ou MacOS X, seuls les numéros 
+  d'erreur suivants sont acceptés:
+@FixedFont
+  @#PB_OnError_InvalidMemory         : Lecture ou écriture dans une zone protégée.
+  @#PB_OnError_Floatingpoint         : Erreur de calcul flottant.
+  @#PB_OnError_Breakpoint            : Point d'arrêt débogueur atteint (autres que ceux du PureBasic).
+  @#PB_OnError_IllegalInstruction    : Exécution d'une instruction invalide.
+  @#PB_OnError_PriviledgedInstruction: Exécution d'une instruction privilégiée (système) non autorisée.
+@EndFixedFont
+
+@Example
+@Code
+  Procedure ErrorHandler()
+    MessageRequester("Test OnError", "L'erreur suivante est arrivée: " + ErrorMessage())
+  EndProcedure
+
+  MessageRequester("OnError test", "Début Test.")
+
+  OnErrorCall(@ErrorHandler())
+  RaiseError(#PB_OnError_InvalidMemory)
+  
+  MessageRequester("Test OnError", "Ceci ne devrait jamais s'afficher.")
+@EndCode
+
+@SeeAlso
+  @@ErrorCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ExamineAssembly(*MemoireDébut [, *MemoireFin])
+
+@Description
+  Désassemblage des instructions à partir d'une
+  adresse mémoire.
+
+@Parameter "*MemoireDébut" 
+  L'adresse en mémoire de la première 
+  instruction à désassembler. 
+@LineBreak
+@LineBreak 
+  Le désassemblage se déroulera jusqu'à 
+  ce que @@NextInstruction ne soit plus 
+  appelé ou si *MemoireFin est spécifié.
+  
+@OptionalParameter "*MemoireFin"
+  L'adresse en mémoire de la dernière 
+  instruction à désassembler et 
+  @@NextInstruction reverra zéro.
+  
+@ReturnValue
+  Renvoie une valeur non nulle si le 
+  désassemblage est possible, zéro sinon.
+
+@Remarks
+  @Bold "Important:" 
+  Les commandes de désassemblage utilisent la bibliothèque 
+  @InternetLink "http://udis86.sourceforge.net/" "Udis86 disassembler"
+  pour décoder les instructions. Elle est disponible 
+  sous license BSD qui peut être consultée 
+  @MainGuideLink "udis86" "ici".
+  Si @@ExamineAssembly et ses autres commandes 
+  relatives sont utilisées dans un programme, 
+  le texte de licence ci-dessus devra être 
+  inclus avec le logiciel.  
+  
+@Example
+@Code
+  DisableDebugger ; Désactive le Debugger
+  
+  Code_Start:
+    ; Placer le code à désassembler ici
+    a = (Random(100) * 5) + 2000
+  Code_End:
+  
+  Texte$ = "Code désassemblé: " + Chr(13)  
+  If ExamineAssembly(?Code_Start, ?Code_End)
+    While NextInstruction()
+      Texte$ + RSet(Hex(InstructionAddress()), SizeOf(Integer)*2, "0")
+      Texte$ + " " + InstructionString() + Chr(13)
+    Wend
+  EndIf
+  
+  MessageRequester("Resultat", Texte$)
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = NextInstruction()
+
+@Description
+  Désassemble l'instruction suivante, après 
+  avoir appelé @@ExamineAssembly.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'instruction a pu être désassemblée 
+  correctement, zéro sinon ou s'il n'y a 
+  plus d'instruction à décoder ('*AdresseFin' 
+  spécifiée à @@ExamineAssembly a été atteinte).
+
+@Remarks
+  Les informations
+  à propos de l'instruction décodée sont 
+  disponibles à l'aide des commandes 
+  @@InstructionString et @@InstructionAddress.
+
+@SeeAlso
+  @@ExamineAssembly, @@InstructionAddress, 
+  @@InstructionString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = InstructionAddress()
+
+@Description
+  Renvoie l'adresse de l'instruction qui 
+  a été désassemblée avec @@NextInstruction.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie l'adresse de l'instruction qui 
+  a été désassemblée avec @@NextInstruction.
+
+@SeeAlso
+  @@NextInstruction, @@InstructionString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = InstructionString()
+
+@Description
+  Renvoie la représentation sous forme 
+  de texte de l'instruction qui a été 
+  désassemblée avec @@NextInstruction.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie une chaîne de caractères représentant 
+  l'instruction qui a été désassemblée avec 
+  @@NextInstruction.
+
+@SeeAlso
+  @@NextInstruction, @@InstructionAddress
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

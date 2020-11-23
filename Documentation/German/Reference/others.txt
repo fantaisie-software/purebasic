@@ -1,0 +1,83 @@
+@Title Andere Befehle
+
+
+@Syntax
+
+  @Keyword Goto <Sprungmarke> 
+  
+@Description  
+
+  Dieser Befehl wird benutzt, um die Programmausführung direkt zu einer Sprungmarke zu verlegen. Seien Sie 
+  vorsichtig mit dieser Funktion, da falsche Benutzung zu einem Programmabsturz führen kann...
+  @LineBreak
+  @LineBreak
+  Hinweis: Um eine Schleife sicher zu verlassen, müssen Sie immer @ReferenceLink "Break_Continue" Break 
+  anstelle von @Keyword Goto verwenden, und es nie in einem @ReferenceLink "select_endselect" "Select / EndSelect"
+  Block verwenden (es sei denn, sie haben die Möglichkeit, selbst den Stack richtig zu verwalten).
+  @LineBreak
+  
+; ---------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword End [ExitCode]
+
+@Description  
+
+  Beendet ordentlich die Programmausführung. Der optionale 'ExitCode' Parameter kann angegeben werden, 
+  wenn das Programm einen Fehlercode zurückgeben soll (häufig in Konsolen-Programmen genutzt).
+  @LineBreak
+  @LineBreak
+  Der 'ExitCode' kann z.B. mit dem @@ProgramExitCode Befehl weiterverwendet werden.
+  @LineBreak
+  
+; ---------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+  
+@Syntax
+  
+  @Keyword Swap <Ausdruck>, <Ausdruck>
+
+@Description
+
+  Vertauscht ("swap") den Wert der beiden Ausdrücke, auf eine optimierte Art und Weise.
+  Beide Parameter <Ausdruck> müssen eine @ReferenceLink "variables" "Variable", ein @ReferenceLink "dim" "Array"-Element,
+  ein @ReferenceLink "newlist" "Listen"-Element oder ein @ReferenceLink "newmap" "Map"-Element (auch als Teil einer Struktur)
+  sein und in einem nativen PureBasic Typ wie Long (.l), Quad (.q), String, etc. vorliegen.
+
+@Example Vertauschen von Strings
+@Code
+  Hello$ = "Hello"
+  World$ = "World"
+  
+  Swap Hello$, World$
+  
+  Debug Hello$+" "+World$
+@EndCode
+
+@Example Vertauschen mehrdimensionaler Array-Elemente
+@Code
+  Dim Array1(5,5) 
+  Dim Array2(5,5) 
+  Array1(2,2) = 10     ; ursprünglichen Inhalt setzen
+  Array2(3,3) = 20
+  
+  Debug Array1(2,2) ; wird 10 ausgeben
+  Debug Array2(3,3) ; wird 20 ausgeben
+  
+  Swap Array1(2,2) , Array2(3,3)  ; Vertauschen ("swappen") von 2 Array-Elementen
+  
+  Debug "Array-Inhalte nach dem Vertauschen:"
+  Debug Array1(2,2)    ; wird 20 ausgeben
+  Debug Array2(3,3)    ; wird 10 ausgeben
+@EndCode
+  
+; ---------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

@@ -1,0 +1,226 @@
+@Title Prozeduren
+
+@Syntax
+
+  @Keyword Procedure[.<Typ>] Name(<Parameter1[.<Typ>]> [, <Parameter2[.<Typ>] [= StandardWert]>, ...])
+    ...
+    [@Keyword ProcedureReturn Wert]
+  @Keyword EndProcedure 
+
+@Description
+
+  Eine @Keyword Procedure ist ein Programmteil, welcher unabhängig vom Hauptcode des 
+  Programms ist und seine eigenen Parameter und @ReferenceLink "variables" "Variablen" haben kann. In PureBasic wird bei 
+  Prozeduren die Rekursion voll unterstützt, jede Prozedur kann sich auch selbst aufrufen. 
+  Die Variablen innerhalb der Prozedur erhalten bei jedem Aufruf der Prozedur standardmäßig 
+  den Wert 0 (null). Um auf Variablen des Hauptprogramms zugreifen zu können, müssen diese mit 
+  der Prozedur "geteilt" (shared) werden. Dies ist mit den @ReferenceLink "Shared" Shared oder @ReferenceLink "Global" Global Schlüsselworten 
+  möglich (siehe auch die @ReferenceLink "Protected" Protected und @ReferenceLink "Static" Static Schlüsselwörter). 
+  @LineBreak
+  @LineBreak
+  Die letzten Parameter können einen Standardwert (muss ein konstanter Ausdruck sein) haben. Wenn also
+  diese Parameter beim Prozedur-Aufruf weggelassen werden, wird der Standardwert verwendet.
+  @LineBreak
+  @LineBreak
+  @ReferenceLink "dim" "Arrays" können mit Hilfe des Schlüsselworts @Keyword Array als Parameter übergeben werden,
+  @ReferenceLink "newlist" "verknüpfte Listen" mittels des Schlüsselworts @Keyword List und 
+  @ReferenceLink "newmap" "Maps" mittels Schlüsselworts @Keyword Map.
+  @LineBreak
+  @LineBreak
+  Eine Prozedur kann wenn nötig eine Zahl oder einen String zurückliefern. Sie müssen in diesem 
+  Fall nach @Keyword Procedure den Typ (.Typ) festlegen und das @Keyword ProcedureReturn Schlüsselwort an einem beliebigen 
+  Punkt innerhalb der Prozedur aufrufen. Ein Aufruf von @Keyword ProcedureReturn verlässt umgehend die Prozedur, 
+  auch wenn er innerhalb einer Schleife erfolgt. 
+  @LineBreak
+  @Keyword ProcedureReturn kann nicht verwendet werden, um ein @ReferenceLink "dim" "Array", eine @ReferenceLink "newlist" "Linked List" 
+  oder eine @ReferenceLink "newmap" "Map" zurückzuliefern, übergeben Sie zu diesem Zweck das Array, die Linked List bzw. die Map
+  als Parameter an die Prozedur.
+  @LineBreak
+  @LineBreak
+  Wenn für @Keyword ProcedureReturn kein (Rückgabe-) Wert angegeben wird, dann wird der zurückgegebene
+  Wert undefiniert sein (siehe @ReferenceLink "inlinedasm" "Inline-ASM" für weitere Informationen).
+  @LineBreak
+  @LineBreak
+  Hinweis: Für die Rückgabe von Strings aus DLLs siehe @ReferenceLink "DLL" "DLLs". Für fortgeschrittene
+  Programmierer ist @Keyword ProcedureC verfügbar und wird die Prozedur mittels der 'CDecl' anstelle der
+  'StandardCall' Aufruf-Konvention deklarieren.
+  @LineBreak
+  @LineBreak
+  Einzelne Prozeduren können durch die Nutzung von @LibraryLink "thread" "Threads" auch asynchron zum eigentlichen
+  Hauptprogramm ausgeführt werden.
+
+  @Example Prozedur mit einer numerischen Variable als Rückgabewert
+
+@Code
+  Procedure Maximum(nb1, nb2)
+    If nb1 > nb2
+      Result = nb1
+    Else
+      Result = nb2
+    Endif
+  
+    ProcedureReturn Result
+  EndProcedure 
+  
+  Result = Maximum(15, 30)
+  Debug Result
+@EndCode
+
+
+  @Example Prozedur mit einem String als Rückgabewert
+
+@Code
+  Procedure.s Attach(string1$,string2$)
+    result$ = string1$+" "+string2$
+    ProcedureReturn result$
+  EndProcedure 
+  
+  a$ = Attach("PureBasic","Coder")
+  Debug a$
+@EndCode
+
+
+  @Example Parameter mit Standardwert
+
+@Code
+  Procedure a(a, b, c=2)
+    Debug c
+  EndProcedure
+
+  a(10, 12)      ; 2 wird als Standardwert für den dritten Parameter genutzt
+  a(10, 12, 15) 
+@EndCode
+
+ @Example Verknüpfte Listen als Parameter
+
+@Code
+  NewList Test.Point()
+
+  AddElement(Test())
+  Test()\x = 1
+  AddElement(Test())
+  Test()\x = 2
+
+  Procedure DebugList(c.l, List ParameterList.Point())
+
+    AddElement(ParameterList())
+    ParameterList()\x = 3
+
+    ForEach ParameterList()
+      MessageRequester("List", Str(ParameterList()\x))
+    Next
+ 
+  EndProcedure
+
+  DebugList(10, Test())
+@EndCode
+
+  @Example Array als Parameter
+  
+@Code
+  Dim Table.Point(10, 15)
+
+  Table(0,0)\x = 1
+  Table(1,0)\x = 2
+
+  Procedure TestIt(c.l, Array ParameterTable.Point(2))  ; Die Tabelle unterstützt 2 Dimensionen
+
+    ParameterTable(1, 2)\x = 3
+    ParameterTable(2, 2)\x = 4
+ 
+  EndProcedure
+
+  TestIt(10, Table())
+
+  MessageRequester("Table", Str(Table(1, 2)\x))
+@EndCode
+
+
+@Example Statische, dynamisches Array und das Übergeben einer Struktur an eine Prozedur
+@Code
+  Structure Whatever
+    a.l
+    b.l[2]          ; Statisches Array (Standard C) mit 2 Werten b[0] und b[1], nicht in der Größe veränderbar
+    Array c.l(3,3)  ; Dynamisches Array mit 16 Werten c(0,0) bis c(3,3), in der Größe veränderbar mittels ReDim()
+  EndStructure
+
+  MyVar.Whatever
+
+  Procedure MyProcedure(*blahblah.Whatever)
+    *blahblah\a = 5
+    *blahblah\b[0] = 1
+    *blahblah\b[1] = 2
+    *blahblah\c(3,3) = 33
+  EndProcedure
+
+  MyProcedure(@MyVar)
+  Debug MyVar\a
+  Debug MyVar\b[0]
+  Debug MyVar\b[1]
+  Debug MyVar\c(3,3)
+@EndCode
+
+
+@Example Aufrufen einer Funktion anhand ihres Namens
+  
+@Code  
+   Prototype Function()
+
+  Runtime Procedure Function1()
+      Debug "I call Function1 by its name"
+  EndProcedure
+
+  Procedure LaunchProcedure(Name.s)
+      Protected ProcedureName.Function = GetRuntimeInteger(Name + "()")
+      ProcedureName()
+  EndProcedure
+
+  LaunchProcedure("Function1") ; Display "I call Function1 by its name"
+@EndCode  
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword Declare[.<Typ>] Name(<Parameter1[.<Typ>]> [, <Parameter2[.<Typ>] [= StandardWert]>,...])
+
+@Description
+
+  Manchmal ist es notwendig, dass eine Prozedur von einer anderen Prozedur aufgerufen wird, 
+  bevor sie überhaupt deklariert wurde. Dies ist ärgerlich, da der Compiler dies mit 
+  'Prozedur xxxx nicht gefunden' reklamiert. Das Deklarieren mit @Keyword Declare kann in diesem konkreten 
+  Fall helfen, in dem zu Beginn nur der Kopf ('Header') der Prozedur deklariert wird. Nichtsdestotrotz, 
+  die Deklarierung des Headers und die tatsächliche Deklarierung der Prozedur müssen identisch sein 
+  (einschließlich der Typen-Angabe nach dem Prozedurnamen und optionaler Parameter, wenn vorhanden).
+  @LineBreak
+  @LineBreak
+  Für fortgeschrittene Programmierer ist @Keyword DeclareC verfügbar und wird die Prozedur mit
+  der 'CDecl' anstelle der 'StandardCall' Aufruf-Konvention deklarieren.
+
+  @Example
+
+@Code
+  Declare Maximum(Wert1, Wert2)
+  
+  Procedure Operate(Wert)
+    Maximum(10, 2)      ; Zu dieser Zeit ist Maximum() nicht bekannt.
+  EndProcedure
+  
+  Procedure Maximum(Wert1, Wert2)
+    ProcedureReturn 0
+  EndProcedure
+@EndCode  
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

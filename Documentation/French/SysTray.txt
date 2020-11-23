@@ -1,0 +1,292 @@
+;
+; SysTray library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library SysTray
+
+@Overview
+
+  SysTray est une zone de notification située 
+  à droite de la barre des tâches qui contient 
+  des icônes (programmes résidents, antivirus...) 
+  et l'horloge. PureBasic gère l'accès à cette
+  zone et vous permet d'ajouter un nombre 
+  quelconque d'icônes.
+  @LineBreak
+  @LineBreak
+  Sur certaines distributions Linux (comme 
+  Ubuntu), les icônes de la zone de 
+  notification peuvent être masquées par 
+  défaut. 
+  Pour plus d'informations, consulter ce 
+  @InternetLink "http://ubuntugenius.wordpress.com/2011/06/25/ubuntu-11-04-fix-show-all-iconsindicators-in-unity-panels-notification-area/" "lien".
+
+
+@CommandList
+
+@ExampleFile All SysTray.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AddSysTrayIcon(#SysTrayIcone, FenetreID, ImageID)
+
+@Description
+  Ajoute une icône dans la zone de 
+  notification. 
+  
+@Parameter "#SysTrayIcone"
+  Le numéro de la nouvelle icône.
+@LineBreak
+@LineBreak 
+  @ReferenceLink "purebasic_objects" "PB_Any #" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro. 
+  
+@Parameter "FenetreID"
+  L'identifiant système de la fenêtre.
+@LineBreak
+@LineBreak    
+  Peut être obtenu avec la fonction 
+  @@WindowID. 
+  
+@Parameter "ImageID"  
+  Numéro de l'image préalablement chargée 
+  par la fonction @@LoadImage. 
+@LineBreak
+@LineBreak  
+  Les images de type (.ico) ne sont supportées 
+  que sous Windows, pour Linux et MacOs 
+  utilisez une image au format PNG.@LineBreak 
+  Le format PNG a l'avantage d'utiliser la 
+  transparence.
+@LineBreak
+@LineBreak  
+  Un ImageID valide peut être obtenu 
+  simplement avec la fonction @@ImageID.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+
+@Remarks
+  Quand un évènement intervient sur une icône 
+  de la zone SysTray, l'évènement 
+  @#PB_Event_SysTray est renvoyé. 
+  @@EventGadget peut alors être utilisé pour 
+  connaître l'icône cliquée.@LineBreak
+  La fonction @@EventType est également mise 
+  à jour par cette fonction.
+@LineBreak
+@LineBreak
+  Toutes vos icônes SysTray sont 
+  automatiquement supprimées à la 
+  fermeture du programme.
+
+@Example 
+@Code
+  If OpenWindow(0, 100, 150, 300, 100, "Zone de notification", #PB_Window_SystemMenu)
+  
+  UsePNGImageDecoder()
+  
+  Icone$ = #PB_Compiler_Home + "examples/sources/Data/world.png"
+  
+  ; Ajout d'une icône dans la zone de notification
+  AddSysTrayIcon(0, WindowID(0), LoadImage(0, Icone$))
+  
+  Repeat
+    Event = WaitWindowEvent()
+  Until Event = #PB_Event_CloseWindow
+  
+EndIf
+@EndCode  
+  
+@SeeAlso
+  @@RemoveSysTrayIcon, @@ChangeSysTrayIcon
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ChangeSysTrayIcon(#SysTrayIcone, ImageID)
+
+@Description
+  Change une icône de la zone de notification.
+  
+@Parameter "#SysTrayIcone"
+  Le numéro de l'icône à changer.
+
+@Parameter "ImageID"  
+  Numéro de la nouvelle image préalablement 
+  chargée par la fonction @@LoadImage. 
+@LineBreak
+@LineBreak  
+  Les images de type (.ico) ne sont supportées 
+  que sous Windows, pour Linux et MacOs 
+  utilisez une image au format PNG.@LineBreak 
+  Le format PNG a l'avantage d'utiliser la 
+  transparence.
+@LineBreak
+@LineBreak  
+  Un ImageID valide peut être obtenu 
+  simplement avec la fonction @@ImageID.
+
+@NoReturnValue
+
+@Example 
+@Code
+  If OpenWindow(0, 100, 150, 300, 100, "Zone de notification", #PB_Window_SystemMenu)
+  
+  UsePNGImageDecoder()
+  
+  Icone$ = #PB_Compiler_Home + "examples/sources/Data/world.png"
+  
+  ; Ajout d'une icône dans la zone de notification
+  AddSysTrayIcon(0, WindowID(0), LoadImage(0, Icone$))
+
+  MessageRequester("Info", "Changement de l'icône de la zone de notification.")
+  Icone$ = #PB_Compiler_Home + "examples/sources/Data/Drive.bmp"
+  ; Changement de l'icône 
+  ChangeSysTrayIcon (0, LoadImage(0, Icone$))
+  MessageRequester("Info", "Icône remplacée." + Chr(10) + "Observez la transparence de cette nouvelle icône...")
+    
+  Repeat
+    Event = WaitWindowEvent()
+  Until Event = #PB_Event_CloseWindow
+  
+EndIf
+@EndCode  
+  
+@SeeAlso
+  @@AddSysTrayIcon, @@RemoveSysTrayIcon
+  
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsSysTrayIcon(#SysTrayIcone)
+
+@Description
+  Teste si une icône de la zone de 
+  notification est correctement initialisée. 
+  
+@Parameter "#SysTrayIcone"
+  Le numéro de l'icône.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+  
+@Remarks 
+  Cette fonction a été créée pour pouvoir 
+  passer n'importe quelle valeur en paramètre 
+  sans qu'il ne puisse y avoir de plantage. 
+@LineBreak
+@LineBreak
+   C'est la fonction idéale pour vérifier 
+   qu'un objet est correctement initialisé.
+  
+@SeeAlso
+  @@AddSysTrayIcon
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SysTrayIconToolTip(#SysTrayIcone, Texte$)
+
+@Description
+  Associe un texte flottant (bulle d'aide) 
+  à une icône de la zone de notification. 
+  
+@Parameter "#SysTrayIcone"
+    Le numéro de l'icône à utiliser.
+
+@Parameter "Texte$" 
+  'Tooltip' ou texte flottant qui apparaît 
+  au bout d'un certain temps lorsque le 
+  curseur de la souris est immobile au 
+  dessus de l'icône.
+  
+@NoReturnValue
+
+@Example 
+@Code
+  If OpenWindow(0, 100, 150, 300, 100, "Zone de notification", #PB_Window_SystemMenu)
+  
+  UsePNGImageDecoder()
+  
+  Icone$ = #PB_Compiler_Home + "examples/sources/Data/world.png"
+  
+  ; Ajout d'une icône dans la zone de notification
+  AddSysTrayIcon(0, WindowID(0), LoadImage(0, Icone$))
+
+  ; Ajout d'un texte flottant 
+  SysTrayIconToolTip(EventGadget(), "Hello le Monde")
+  MessageRequester("Info", "Survolez l'icône pour voir le texte apparaître.")
+    
+  Repeat
+    Event = WaitWindowEvent()
+  Until Event = #PB_Event_CloseWindow
+  
+EndIf
+@EndCode  
+  
+@SeeAlso
+  @@AddSysTrayIcon
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveSysTrayIcon(#SysTrayIcone)
+
+@Description
+  Supprime une icône de la zone de 
+  notification.
+ 
+@Parameter "#SysTrayIcone"
+  Le numéro de l'icône à supprimer.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, toutes les 
+  icônes SysTray restantes sont libérées.
+
+@NoReturnValue
+  
+@Remarks  
+  Toutes les icônes restantes sont 
+  automatiquement supprimées à la 
+  fermeture du programme.
+ 
+@Example 
+@Code
+  If OpenWindow(0, 100, 150, 300, 100, "Zone de notification", #PB_Window_SystemMenu)
+  
+  UsePNGImageDecoder()
+  
+  Icone$ = #PB_Compiler_Home + "examples/sources/Data/world.png"
+  
+  ; Ajout d'une icône dans la zone de notification
+  AddSysTrayIcon(0, WindowID(0), LoadImage(0, Icone$))
+
+  MessageRequester("Info", "Suppression de l'icône.")
+  ; Suppression de l'icône 
+  RemoveSysTrayIcon (0)
+  MessageRequester("Info", "Icône supprimée.")
+    
+  Repeat
+    Event = WaitWindowEvent()
+  Until Event = #PB_Event_CloseWindow
+  
+EndIf
+@EndCode  
+   
+@SeeAlso
+  @@AddSysTrayIcon
+  
+@SupportedOS

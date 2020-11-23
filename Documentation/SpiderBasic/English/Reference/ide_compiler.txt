@@ -1,0 +1,319 @@
+@Title Compiling your programs
+
+  Compiling is easy. Just select "Compile/Run" (F5 by default) and your program will be 
+  compiled and launched in the default web browser. 
+@LineBreak
+@LineBreak
+  To customize the compiling process, you can open the "Compiler options" dialog. The 
+  settings made there are associated with the current source file or the current project, 
+  and also remembered when they are closed. The place where this information is saved can be configured. 
+  By default, it is saved at the end of the source code as a comment (invisible in the IDE).
+@LineBreak
+@LineBreak
+  In case of an error that prevents the compiler from completing the compilation, it aborts 
+  and displays an error-message. This message is also logged in the error log, and the line 
+  that caused the error is marked.
+@LineBreak
+@LineBreak
+  A number of functions from older versions of SpiderBasic that have been removed from the package
+  still exist for a while as a compatibility wrapper to allow older codes to be tested/ported more
+  easily. If such a function is used in the code, the compiler will issue a warning.
+  A window will be opened displaying all warnings issued during compilation. Double-clicking
+  on a warning will display the file/line that caused the warning.
+  Note that such compatibility wrappers will not remain indefinitely but will be removed in a future update,
+  so it is recommended to fix issues that cause a compiler warning instead of relying on such deprecated functions.
+
+@Section The compiler menu
+
+@Image ide_menu_compile.png
+
+@Bold "Compile/Run"
+@LineBreak
+  This compiles the current source code with the compiler options set for it and 
+  executes it. The executable file is stored in a temporary location, but it will be executed with 
+  the current path set to the directory of the source code; so loading a file from the same directory
+  as the source code will work.
+@LineBreak
+@LineBreak
+  The source code need not be saved for this (but any @ReferenceLink "includes" "included files" must be saved).
+@LineBreak
+@LineBreak
+  The "Compile/Run" option respects the debugger setting (on or off) from the compiler 
+  options or debugger menu (they are the same).
+
+@LineBreak
+@LineBreak
+
+@Bold Run
+@LineBreak
+  This executes the last compiled source code once again. Whether or not the debugger is enabled 
+  depends on the setting of the last compilation.
+
+@LineBreak
+@LineBreak
+
+@Bold "Compile with Debugger"
+@LineBreak
+  This is the same as "Compile/Run" except that it ignores the debugger setting and enabled the 
+  debugger for this compilation. This is useful when you usually have the debugger off, but want 
+  to have it on for just this one compilation.
+
+@LineBreak
+@LineBreak
+
+@Bold "Compile without Debugger"
+@LineBreak
+  Same as "Compile with Debugger" except that it forces the debugger to be off for this compilation.
+
+@LineBreak
+@LineBreak
+
+@Bold "Restart Compiler" (not present on all OS)
+@LineBreak
+  This causes the compiler to restart. It also causes the compiler to reload all the libraries and 
+  resident files, and with that, the list of known SpiderBasic functions, Structures, Interfaces and 
+  Constants is updated too. 
+  This function is useful when you have added a new User Library to the PB directory, but 
+  do not want to restart the whole IDE. It is especially useful for library developers to test their library.
+
+@LineBreak
+@LineBreak
+
+@Bold "Compiler Options"
+@LineBreak
+  This opens the compiler options dialog, that lets you set the options for the compilation 
+  of this source file.
+
+@LineBreak
+@LineBreak
+
+@Bold "Export"
+@LineBreak
+  Launch the export process. The export settings can be changed in the "Compiler Options/Export"
+  panel.
+  
+@LineBreak
+@LineBreak
+
+@Bold "Set default Target"
+@LineBreak
+  When a project is open, this submenu shows all compile targets and allows to quickly
+  switch the current default target. The default target is the one which is compiled/executed
+  with the "Compile/Run" menu entry.
+
+@LineBreak
+@LineBreak
+
+@Bold "Build Target"
+@LineBreak
+  When a project is open, this submenu shows all compile targets and allows to directly compile
+  one of them.
+
+@LineBreak
+@LineBreak
+
+@Bold "Build all Targets"
+@LineBreak
+  When a project is open, this menu entry compiles all targets that have this option enabled in the
+  compiler options. A window is opened to show the build progress.
+
+
+@Section Compiler options for non-project files
+
+@Image ide_compiler_options.png
+
+@Bold "Main source file"
+@LineBreak
+  By enabling this option, you can define another file that will be the one sent to 
+  the compiler instead of this one. The use of this is that when you are editing a 
+  file that does not run by itself, but is @ReferenceLink "includes" "included" into another 
+  file, you can tell the compiler to use that other file to start the compilation.
+@LineBreak
+@LineBreak
+  Note: When using this option, you MUST save your source before compiling, as 
+  only files that are written to disk will be used in this case.
+  Most of the compiler settings will be taken from the main source file, so when setting 
+  this, they are disabled. Only some settings like the debugger setting will be used
+  from the current source.
+
+@LineBreak
+@LineBreak
+
+@Bold "Use Compiler"
+@LineBreak
+  This option allows the selection of a different compiler to use instead of the compiler of the current SpiderBasic version.
+  This makes it easy to compile different versions of the same program (x86 and x64 or PowerPC) without having to start up 
+  the IDE for the other compiler just for the compilation.
+  Additional compilers for this option have to be configured in the @ReferenceLink "ide_preferences" "preferences". 
+@LineBreak
+@LineBreak
+  If the compiler version matches that of the default compiler but the target processor is different then the built-in 
+  debugger of the IDE can still be used to debug the compiled executable. 
+  This means that an executable compiled with the x86 compiler can be debugged using the x64 IDE and vice versa on 
+  Windows and Linux. The same applies to the x86 and PowerPC compilers for Mac OSX. 
+  This is especially useful as this way the fast x86 IDE and debugger can be used on a Mac with an Intel processor 
+  while still compiling programs for the PowerPC processor through the slower emulation.
+  If the version does not match then the standalone debugger that comes with the selected compiler will 
+  be used for debugging to avoid version conflicts.
+
+@LineBreak
+@LineBreak
+
+@Bold "Use icon"
+@LineBreak
+  When enabled, allow to set the "favicon" file for the web application. The icon has to be 
+  in the PNG image format. This icon is usually displayed in the browser tab, near the page title.
+
+@LineBreak
+@LineBreak
+
+@Bold "Optimize JavaScript output"
+@LineBreak
+  When enabled, uses the Google JavaScript closure compiler to optimize the generated JavaScript code
+  to reduce its size. A recent Java JRE needs to be installed to have this option working. The
+  most recent JRE version can be found here: @InternetLink "https://java.com/download" "https://java.com/download".
+  
+
+@LineBreak
+@LineBreak
+
+@Bold "Library Subsystem"
+@LineBreak
+  Here you can select different subsystems for compilation. More than one subsystem can be specified, separated with space
+  character. For more information, see @ReferenceLink "subsystems" "subsystems".
+
+@LineBreak
+@LineBreak
+
+@Section Compile/Run
+
+  This section contains options that affect how the executable is run from the IDE for testing.
+  Except for the tools option, they have no effect when the "Create executable" menu is used.
+
+@Image ide_compiler_compile.png
+
+@Bold "Enable Debugger"
+@LineBreak
+  This sets the debugger state (on/off) for this source code, or if the main file option 
+  is used, for that file too. This can also be set from the debugger menu.
+
+@LineBreak
+@LineBreak
+
+@Bold "Web server address"
+@LineBreak
+  This allows to set a specific web server address for this file or project. The value has to be specified
+  as 'address:port' (example: 'localhost:8080' or 'mydomain:80').
+  If set to an empty value, localhost will be used with a random dynamic port, starting from the 
+  value set in Preferences/Compiler.
+
+@LineBreak
+@LineBreak
+
+@Bold "Execute tools"
+@LineBreak
+  Here @ReferenceLink "ide_externaltools" "external tools" can be enabled on a per-source basis.
+  The "Global settings" column shows if the tool is enabled or disabled in the 
+  @ReferenceLink "ide_externaltools" "tools configuration". A tool will only be executed for the source
+  if it is both enabled globally and for this source.
+  
+@LineBreak
+@LineBreak
+  Note: For a tool to be listed here, it must have the "Enable Tool on a per-source basis" option 
+  checked in the @ReferenceLink "ide_externaltools" "tools configuration" and be executed by a trigger
+  that is associated with a source file (i.e. not executed by menu or by editor startup for example).
+
+
+@Section Constants
+  
+  In this section, a set of special editor constants as well as custom constants can be defined
+  which will be predefined when compiling this source.
+
+@Image ide_compiler_constants.png
+
+@Bold "#PB_Editor_CompileCount"
+@LineBreak
+  If enabled, this constant holds the number of times that the code was compiled (both with "Compile/Run" and
+  "Create Executable") from the IDE. The counter can be manually edited in the input field.
+
+@LineBreak
+@LineBreak
+
+@Bold "#PB_Editor_BuildCount"
+@LineBreak
+  If enabled, this constant holds the number of times that the code was compiled with "Create Executable" only.
+  The counter can be manually edited in the input field.
+
+@LineBreak
+@LineBreak
+
+@Bold "#PB_Editor_CreateExecutable"
+@LineBreak
+  If enabled, this constants holds a value of 1 if the code is compiled with the "Create Executable" menu or
+  0 if "Compile/Run" was used.
+
+@LineBreak
+@LineBreak
+
+@Bold "Custom constants"
+@LineBreak
+  Here, custom constants can be defined and then easily switched on/off through checkboxes.
+  Constant definitions should be added as they would be written within the source code.
+  This provides a way to enable/disable certain features in a program by defining a constant here and then
+  checking in the source for it to enable/disable the features with 
+  @ReferenceLink "compilerdirectives" "CompilerIf/CompilerEndIf".
+@LineBreak
+@LineBreak
+  Inside the definition of these constants, environment variables can be used by specifying them
+  in a "bash" like style with a "$" in front. The environment variable will be replaced in the constant
+  definition before compiling the source. This allows to pass certain options of the system that the
+  code is compiled on to the program in the form of constants.
+@LineBreak
+@LineBreak
+  Example: #Creator="$USERNAME"
+@LineBreak
+  Here, the $USERNAME will be replaced by the username of the logged in user on Windows systems. If
+  an environment variable does not exist, it will be replaced by an empty string.
+  
+@LineBreak
+@LineBreak
+  Note: To test within the source code if a constant is defined or not, the @FunctionColor "Defined"()
+  @ReferenceLink "compilerfunctions" "compiler function" can be used.
+
+
+@Section Compiler options for projects
+
+@Image ide_compiler_targets.png
+
+  The compiler options for projects allow the definition of multiple compile targets. Each target is 
+  basically a set of compiler options with a designated source file and output executable. The left
+  side of the compiler options window is extended with the list of the defined compile targets. The toolbar
+  on top of it allows to create, delete, copy, edit or move targets in the list.
+@LineBreak
+@LineBreak
+  The default target is the one which will be compiled when the "Compile/Run" menu entry is selected. 
+  It can be quickly switched with the "Set as default target" checkbox or from the compiler menu.
+  The "Enable in 'Build all Targets'" option specifies whether or not the selected target will be built
+  when the 'Build all Targets' menu entry is used.
+@LineBreak
+@LineBreak
+  The right side of the compiler options is almost the same as in the non-project mode and reflects
+  the settings for the compile target that is currently selected on the left.
+  The only difference is the "Input source file" on the first tab. 
+  This fields has to be specified for all compile targets. Other than that, the compiler 
+  options are identical to the options described above. 
+@LineBreak
+@LineBreak
+  In project mode, the information about the compile target is stored in the project file and not in the
+  individual source files. Information that belongs to the file (such as the folding state) are still saved
+  for the individual source files in the location specified by the @ReferenceLink "ide_preferences" "Preferences".
+
+
+@Section The Build progress window
+
+@Image ide_compiler_build.png
+
+  When the 'Build all Targets' menu entry is selected on an open project, all targets that have the corresponding
+  option set in the compiler options will be compiled in the order they are defined in the compiler options. The progress
+  window shows the current compile progress as well as the status of each target. When the process is finished, the
+  build log can be copied to the clipboard or saved to disk.

@@ -1,0 +1,87 @@
+@Title Enumerations 
+
+@Syntax 
+
+  @Keyword Enumeration [name] [<constant> [@Keyword Step <constant>]] 
+    @#Constant1
+    @#Constant2 [= <constant>]
+    @#Constant3
+    ...
+  @Keyword EndEnumeration
+  
+@Description 
+
+  @Keyword Enumerations are very handy to declare a sequence of constants quickly without using fixed numbers. 
+  The first constant found in the enumeration will get the number 0 and the next one will be 1 etc. 
+  It's possible to change the first constant number and adjust the step for each new constant found 
+  in the enumeration. If needed, the current constant number can be altered by affecting with '=' 
+  the new number to the specified constant. As @Keyword "Enumeration"s only accept integer numbers, floats will be rounded to the nearest integer. @LineBreak
+  @LineBreak
+  A name can be set to identify an enumeration and allow to continue it later. It is useful to group objects altogether while
+  declaring them in different code place. @LineBreak
+  @LineBreak
+  For advanced user only: the reserved constant @#PB_Compiler_EnumerationValue store the next value which will be used 
+  in the enumeration. It can be useful to get the last enumeration value or to chain two enumerations.
+
+  @Example Simple enumeration 
+
+@Code
+  Enumeration
+    #GadgetInfo ; Will be 0
+    #GadgetText ; Will be 1
+    #GadgetOK   ; Will be 2
+  EndEnumeration
+@EndCode
+
+  @Example Enumeration with step 
+
+@Code
+  Enumeration 20 Step 3
+    #GadgetInfo ; Will be 20
+    #GadgetText ; Will be 23
+    #GadgetOK   ; Will be 26
+  EndEnumeration
+@EndCode
+
+  @Example Enumeration with dynamic change 
+
+@Code
+  Enumeration
+    #GadgetInfo      ; Will be 0
+    #GadgetText = 15 ; Will be 15
+    #GadgetOK        ; Will be 16
+  EndEnumeration
+@EndCode
+
+  @Example Named enumeration
+
+@Code
+  Enumeration Gadget
+    #GadgetInfo ; Will be 0
+    #GadgetText ; Will be 1
+    #GadgetOK   ; Will be 2
+  EndEnumeration
+  
+  Enumeration Window
+    #FirstWindow  ; Will be 0
+    #SecondWindow ; Will be 1
+  EndEnumeration
+
+  Enumeration Gadget
+    #GadgetCancel ; Will be 3
+    #GadgetImage  ; Will be 4
+    #GadgetSound  ; Will be 5
+  EndEnumeration
+@EndCode
+
+  @Example Getting next enumeration value
+
+@Code
+  Enumeration
+    #GadgetInfo ; Will be 0
+    #GadgetText ; Will be 1
+    #GadgetOK   ; Will be 2
+  EndEnumeration
+  
+  Debug "Next enumeration value: " + #PB_Compiler_EnumerationValue ; will print 3
+@EndCode

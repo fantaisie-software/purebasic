@@ -1,0 +1,58 @@
+@Title Define
+
+@Syntax
+
+  @Keyword Define.<type> [<variable> [= <expression>], <variable> [= <expression>], ...]
+
+@Description
+  Permet d'assigner le même type de données à une série de @ReferenceLink "variables" "variables".
+  @LineBreak 
+  Sans ce mot clé, les variables sont crées avec le type par défaut de PureBasic 
+  qui est le type entier INTEGER. Pour rappel le type INTEGER vaut:@LineBreak 
+  4 octets (avec un compilateur 32 bits) allant de -2147483648 à +2147483647@LineBreak 
+  8 octets (avec un compilateur 64 bits) allant de -9223372036854775808 à +9223372036854775807
+
+@Example
+@Code
+   Define.b a, b = 10, c = b*2, d ; Ces 4 variables sont de type octets (byte .b)
+@EndCode
+
+  @Keyword Define est d'une grande souplesse car il permet aussi d'assigner un type 
+  à une variable en particulier à l'intérieur d'une série.
+
+@Example
+@Code  
+   Define.q a, b.w, c, d  ; a, c, et d sont des Quad (.q) alors que b est un Word (.w)
+
+   Debug SizeOf(a) ; Affichera 8
+   Debug SizeOf(b) ; Affichera 2
+   Debug SizeOf(c) ; Affichera 8 
+   Debug SizeOf(d) ; Affichera 8
+@EndCode
+
+  @Keyword Define peut également être utilisé avec les @ReferenceLink "dim" "tableaux", 
+  les @ReferenceLink "newlist" "listes" et les @ReferenceLink "newmap" "maps". 
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<p>&nbsp;</p>
+<hr>
+@FormatEndIf
+@Syntax
+
+  @Keyword Define <variable>.<type> [= <expression>] [, <variable>.<type> [= <expression>], ...] 
+
+@Description
+  
+  Autre possibilité pour la déclaration des variables avec @Keyword "Define". 
+
+  @Example
+@Code
+  Define MonChar.c ; Caractère
+  Define MonLong.l ; Double Mots
+  Define MonWord.w ; Mot
+  
+  Debug SizeOf(MonChar)   ; Affichera 2 (à cause du mode unicode)
+  Debug SizeOf(MonLong)   ; Affichera 4 
+  Debug SizeOf(MonWord)   ; Affichera 2 
+@EndCode

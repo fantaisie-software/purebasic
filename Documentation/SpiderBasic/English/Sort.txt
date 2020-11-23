@@ -1,0 +1,141 @@
+;
+;     Sort library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Sort
+
+@Overview
+
+  Sometimes, elements has to be sorted to be usable or more convenient. SpiderBasic offers
+  highly optimized functions in order to sort @ReferenceLink "dim" "arrays" and @LibraryLink "List" "lists",
+  either in ascending or descending order.
+  @LineBreak
+  Furthermore there are functions to reorder the elements of an array or a list in a random order.
+
+@CommandList
+
+  @ExampleFile All Sort.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SortArray(ArrayName(), Options [, Start, End])
+
+@Description
+
+  Sorts the specified @ReferenceLink "dim" "array", according to the given options. The array may be of one of
+  @ReferenceLink "variables" "basic type": byte, word, long, integer, string or float. Structured and 
+  multi-dimensioned arrays are not supported.
+
+@Parameter "ArrayName()"
+  The array to sort.
+
+@Parameter "Options"
+   It can be a combination of the following values:
+@FixedFont
+  @#PB_Sort_Ascending : Sort the array in ascending order (lower values first)
+  @#PB_Sort_Descending: Sort the array in descending order (higher values first)
+  @#PB_Sort_NoCase    : Sort the string array without case sensitive (a=A, b=B etc..)
+@EndFixedFont
+
+@OptionalParameter "Start, End"
+  The index of the first and last element in the array that should be sorted. If these parameters
+  are not specified, then the whole array is sorted.
+
+@NoReturnValue
+
+@Remarks
+  If an array is not fully filled then null elements will be sorted first in ascending order and
+  last in descending order.
+
+@SeeAlso
+  @@RandomizeArray
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SortList(ListName(), Options [, Start, End])
+
+@Description
+
+  Sorts the specified @LibraryLink "List" "list", according to the given options. The list may be of one of
+  @ReferenceLink "variables" "basic type": byte, word, long, integer, string or float.
+  
+@Parameter "ListName()"
+  The list to sort.
+
+@Parameter "Options"
+   It can be a combination of the following values:
+@FixedFont
+  @#PB_Sort_Ascending : Sort the list in ascending order (lower values first)
+  @#PB_Sort_Descending: Sort the list in descending order (higher values first)
+  @#PB_Sort_NoCase    : Sort the string list without case sensitive (a=A, b=B etc..)
+@EndFixedFont
+
+@OptionalParameter "Start, End"
+  The index of the first and last element in the list that should be sorted. If these parameters
+  are not specified, then the whole list is sorted.
+
+@NoReturnValue
+
+@SeeAlso
+  @@RandomizeList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RandomizeArray(ArrayName() [, Start, End])
+
+@Description
+  Reorders the elements of the given array in a random order.
+
+@Parameter "ArrayName()"
+  The array to randomize.
+
+@OptionalParameter "Start, End"
+  The index of the first and last element in the array that should be randomized. If these parameters
+  are not specified, then the whole array is randomized.
+
+@NoReturnValue
+
+@Remarks
+  This function uses the pseudorandom number generator of the @@Random function to determine the new order of the array elements. 
+  It is therefore dependent on the current @@RandomSeed.
+
+@SeeAlso
+  @@SortArray, @@RandomizeList, @@Random, @@RandomSeed
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RandomizeList(List() [, Start, End])
+
+@Description
+  Reorders the elements of the given list in a random order.
+
+@Parameter "List()"
+  The list to randomize.
+
+@OptionalParameter "Start, End"
+  The @Link "List/ListIndex" "index" of the first and last element in the list that should be randomized. If these parameters
+  are not specified, then the whole list is randomized.
+
+@NoReturnValue
+
+@Remarks
+  This function uses the pseudorandom number generator of the @@Random function to determine the new order of the list elements. 
+  It is therefore dependent on the current @@RandomSeed.
+
+@SeeAlso
+  @@SortList, @@RandomizeArray, @@Random, @@RandomSeed
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+

@@ -1,0 +1,1627 @@
+@Title Variables, Types et Opérateurs 
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#Déclaration"><u>Déclaration</u></a></td>  
+    <td align="center" vAlign="center" nowrap><a href="#Types basiques"><u>Types basiques</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#chaîne de caractères"><u>Chaîne de caractères</u></a></td>
+  </tr>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#Opérateurs"><u>Opérateurs logiques</u></a></td>  
+    <td align="center" vAlign="center" nowrap><a href="#Opérateurs raccourcis"><u>Opérateurs raccourcis</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Priorité des opérateurs"><u>Priorité des opérateurs</u></a></td>
+</u></a></td>
+  </tr>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#Types structurés "><u>Types structurés</u></a></td> 
+    <td align="center" vAlign="center" nowrap><a href="#Types Pointeur"><u>Types Pointeur</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#nombres flottants"><u>Problèmes des nombres flottants</u></a></td>
+  </tr>
+    </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+
+@FormatIf HTML
+<a name="Déclaration"></a>
+@FormatEndIf
+@Section Déclaration des variables
+
+  La déclaration d'une variable en PureBasic 
+  se fait en la nommant. Les variables n'ont 
+  pas besoin d'être explicitement déclarées 
+  et peuvent être utilisées "à la volée".
+  @LineBreak 
+  Vous pouvez également spécifier le type que 
+  vous souhaitez pour cette variable. 
+  Cependant, par défaut, une variable qui est déclarée sans 
+  indiquer son type de façon explicite sera considérée 
+  comme étant de type INTEGER.
+  @LineBreak 
+  Le mot clef @ReferenceLink "define" "Define"
+  peut être utilisé pour déclarer plusieurs 
+  variables sur une même ligne.
+
+@Example 
+@Code  
+  vitesse.q ; Déclare une variable 'vitesse' du type quad (.q).
+  c.l = a*d.w ; 'd' est déclarée ici au milieu d'une expression et elle est de type word (.w) !
+  Define.b a0, b0 = 10, c0 = b0*2, d0 
+@EndCode
+
+@ExampleFile All Arithmetic.pb
+@LineBreak
+@LineBreak
+  @Bold "Note:" 
+  Les noms de variables ne peuvent pas commencer 
+  par un chiffre (0, 1, etc.), ne peuvent pas contenir 
+  de caractères spéciaux(é, à, ß, ä, ö, ü, etc.) ni 
+  d'opérateurs (+, -, etc.). 
+  @LineBreak
+  @LineBreak
+  @Bold "Note:" 
+  Si le contenu d'une variable ne change pas tout au 
+  long de l'exécution du programme (utilisation d'une
+  valeur fixe), il est préférable d'utiliser une 
+  @ReferenceLink "general_rules" "constante".
+  
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Types basiques"></a>
+@FormatEndIf
+@Section Types basiques
+
+  PureBasic permet de définir des variables de 
+  plusieurs types comme les entiers, des 
+  nombres à virgule, des caractères (char)
+  et des chaînes de caractères aussi. @LineBreak
+  Voici la liste des types natifs supportés: 
+  @LineBreak
+  @LineBreak
+
+@FormatIf HTML WEBSITE  
+  
+  <table width="75%" border="1" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0">
+    <tr> 
+      <td> 
+        <div align="center"><b>Nom</font></b></div>
+  
+      </td>
+      <td> 
+        <div align="center"><b>Extension</font></b></div>
+      </td>
+      <td> 
+        <div align="center"><b>Encombrement en m&eacute;moire</font></b></div>
+      </td>
+      <td> 
+        <div align="center"><b>Plage</font></b></div>
+       </td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Byte</font></td>
+      <td><font face="Arial" size="2">.b</font></td>
+      <td><font face="Arial" size="2">1 octet</font></td>
+      <td><font face="Arial" size="2">-128 &agrave; +127</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Ascii</font></td>
+      <td><font face="Arial" size="2">.a</font></td>
+      <td><font face="Arial" size="2">1 octet</font></td>
+      <td><font face="Arial" size="2">0 &agrave; +255</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Caract&egrave;re</font></td>
+      <td><font face="Arial" size="2">.c</font></td>
+      <td><font face="Arial" size="2">2 octets (unicode)</font></td>
+      <td><font face="Arial" size="2">0 &agrave; +65535</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Word</font></td>
+      <td><font face="Arial" size="2">.w</font></td>
+      <td><font face="Arial" size="2">2 octets</font></td>
+      <td><font face="Arial" size="2"> -32768 &agrave; +32767 </font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Unicode</font></td>
+      <td><font face="Arial" size="2">.u</font></td>
+      <td><font face="Arial" size="2">2 octets</font></td>
+      <td><font face="Arial" size="2">0 &agrave; +65535</font></td>
+    </tr>    
+    <tr> 
+      <td><font face="Arial" size="2">Long</font></td>
+      <td><font face="Arial" size="2">.l</font></td>
+      <td><font face="Arial" size="2">4 octets</font></td>
+      <td><font face="Arial" size="2">-2147483648 &agrave; +2147483647</font></td>
+    </tr>
+
+    <tr> 
+      <td><font face="Arial" size="2">Integer</font></td>
+      <td><font face="Arial" size="2">.i</font></td>
+      <td><font face="Arial" size="2">4 octets (avec compilateur 32-bit)</font></td>
+      <td><font face="Arial" size="2">-2147483648 &agrave; +2147483647</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Integer</font></td>
+      <td><font face="Arial" size="2">.i</font></td>
+      <td><font face="Arial" size="2">8 octets (avec compilateur 64-bit)</font></td>
+      <td><font face="Arial" size="2">-9223372036854775808 &agrave; +9223372036854775807</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Float</font></td>
+      <td><font face="Arial" size="2">.f</font></td>
+      <td><font face="Arial" size="2">4 octets</font></td>
+      <td><font face="Arial" size="2">Environ &plusmn;1.175494e-38 &agrave; &plusmn;3.402823e+38, 6 Chiffres significatifs (voir tout en bas) </font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Quad</font></td>
+      <td><font face="Arial" size="2">.q</font></td>
+      <td><font face="Arial" size="2">8 octets</font></td>
+      <td><font face="Arial" size="2">-9223372036854775808 &agrave; +9223372036854775807</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Double</font></td>
+      <td><font face="Arial" size="2">.d</font></td>
+      <td><font face="Arial" size="2">8 octets</font></td>
+      <td><font face="Arial" size="2">Environ &plusmn;2.2250738585072013e-308 &agrave; &plusmn;1.7976931348623157e+308, 15 Chiffres significatifs (voir tout en bas) </font></td>
+    </tr>
+    <tr> 
+      <td height="24"><font face="Arial" size="2">String</font></td>
+      <td height="24"><font face="Arial" size="2">.s</font></td>
+      <td height="24"><font face="Arial" size="2">longueur de la chaine + 1</font></td>
+      <td height="24"><font face="Arial" size="2">illimit&eacute;</font></td>
+    </tr>
+    <tr> 
+      <td height="24"><font face="Arial" size="2">String Fixe</font></td>
+      <td height="24"><font face="Arial" size="2">.s{Longueur}</font></td>
+      <td height="24"><font face="Arial" size="2">longueur de la chaine</font></td>
+      <td height="24"><font face="Arial" size="2">illimit&eacute;</font></td>
+    </tr>
+  </table>
+
+@FormatElse
+
+@FixedFont
+ 
+    Nom        | Extension    | Taille en mémoire                  | Plage
+  -------------+--------------+------------------------------------+----------------------------------------------
+  Byte         |    .b        | 1 octet                            | -128 à +127
+  Ascii        |    .a        | 1 octet                            | 0 à +255
+  Caractère    |    .c        | 2 octets                           | 0 à +65535
+  Word         |    .w        | 2 octets                           | -32768 à +32767
+  Unicode      |    .u        | 2 octets                           | 0 à +65535
+  Long         |    .l        | 4 octets                           | -2147483648 à +2147483647
+  Integer      |    .i        | 4 octets (avec compilateur 32-bit) | -2147483648 à +2147483647
+  Integer      |    .i        | 8 octets (avec compilateur 64-bit) | -9223372036854775808 à +9223372036854775807 
+  Float        |    .f        | 4 octets                           | illimité (voir ci-dessous)
+  Quad         |    .q        | 8 octets                           | -9223372036854775808 à +9223372036854775807
+  Double       |    .d        | 8 octets                           | illimité (voir ci-dessous)
+  String       |    .s        | longueur string+1                  | illimité
+  String Fixe  | .s{Longueur} | longueur string                    | illimité
+  
+@EndFixedFont
+
+@FormatEndIf
+
+@LineBreak
+@LineBreak
+  @Bold "> Types non-signés (.a, .u et .c):" @LineBreak
+  Purebasic offre des types non-signés 
+  pour les variables de type 'byte' 
+  et 'word' au travers des types 
+  'ascii' (.a) et 'unicode' (.u).
+  @LineBreak
+  Le type 'character'(.c) est 'word' 
+  non-signé en  mode 
+  @ReferenceLink "unicode" "unicode".
+@LineBreak
+@LineBreak
+@FormatIf HTML
+<a name="chaîne de caractères"></a>
+@FormatEndIf
+  @Bold "> Notation des variables de type chaîne de caractères ($ et .s):" 
+  Généralement une chaîne de caractère 
+  se définie avec le type '.s' mais il 
+  est possible d'utiliser '@Bold "$"' comme 
+  dernier caractère d'une variable
+  pour indiquer qu'il s'agit d'une 
+  chaîne de caractères.
+  De cette façon vous pouvez utiliser 
+  'a$' et 'a.s' qui sont alors deux 
+  variables différentes.
+@LineBreak  
+  Vous devrez conserver le '$' à 
+  la fin de la variable a$ contrairement 
+  au '.s' de la variable a.s qui n'est 
+  nécessaire que pour sa déclaration.
+
+@Code
+  a.s = "Une chaîne"
+  a$ = "Une autre chaîne"
+  Debug a   ; Affichera "Une chaîne"
+  Debug a$  ; Affichera "Une autre chaîne"
+@EndCode
+
+  @Bold "> Notation scientifique exponentielle (Ae+-B):" 
+  Les nombres à virgules (Float ou Double) 
+  peuvent être écrits sous la forme exponentielle:  
+@Code
+  valeur.d = 123.5e-20
+  Debug valeur   ; affichera 0.000000000000000001235
+@EndCode
+
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Opérateurs"></a>
+@FormatEndIf
+@Section Opérateurs
+
+  Les opérateurs peuvent être intégrés 
+  aux expressions pour combiner les 
+  variables, constantes et tout ce qui 
+  est nécessaire.  @LineBreak 
+  La table ci-dessous montre tous les 
+  opérateurs utilisables en PureBasic. 
+  @LineBreak 
+  @LineBreak 
+  @Bold "LHS" = Left Hand Side ou partie gauche de l'équation. @LineBreak
+  @Bold "RHS" = Right Hand Side ou partie droite de l'équation. @LineBreak
+  @LineBreak
+
+@FormatIf HTML WEBSITE
+      
+<table border="1" bordercolorlight="#999999" bordercolordark="#999999" cellspacing="0">
+<tr> 
+    <td><div align="center"><b>Op&eacute;rateur</b></div></td>
+    <td><div align="center"><b>Description / Exemple</b></div></td>
+</tr>
+
+<tr> 
+    <td><div align="center">=</div></td>
+    <td><font face="Arial" size="2"><b>EGAL</b>. Peut &ecirc;tre utilis&eacute; selon deux acceptions. 
+    La premi&egrave;re est pour l'affectation de la variable LHS &agrave; la valeur r&eacute;sultat de l'expression RHS. 
+    La seconde signification est l'utilisation dans une expression de comparaison entre LHS et RHS. 
+    Si le r&eacute;sultat de LHS est identique au r&eacute;sultat de RHS la valeur 'vrai' sera renvoy&eacute;e sinon se sera la valeur 'faux'.<br>
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono">a=b+c <font color="#006666">    ; Affecte la valeur de &quot;b+c&quot; &agrave; la variable &quot;a&quot;</font><br>
+    <b><font color="#006666">If</font></b> abc=def <font color="#006666">; Teste si les valeurs de abc et def sont identiques. 
+    </font> 
+    </font>
+    <br><br>
+    Avec les cha&icirc;nes, '=' est utilis&eacute; aussi bien pour affecter une cha&icirc;ne que pour comparer deux cha&icirc;nes.<br> 
+    Note: La comparaison entre deux cha&icirc;nes est sensible à la casse.<br>
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono">a$ = b$ <font color="#006666">   ; Affecte le contenu de la cha&icirc;ne &quot;b$&quot; à la cha&icirc;ne &quot;a$&quot; </font><br>
+    <b><font color="#006666">If</font></b> a$ = b$ <font color="#006666">; Teste si les cha&icirc;nes a$ et b$ sont identiques.</font>
+    </font>
+    </font></td>
+</tr>
+
+<tr> 
+    <td><div align="center">+</div></td>
+    <td><font face="Arial" size="2"><b>PLUS</b>. Donne le r&eacute;sultat de la valeur 
+    de l'expression RHS ajout&eacute;e &agrave; la valeur de l'expression 
+    LHS. Si le r&eacute;sultat de cet op&eacute;rateur n'est pas utilis&eacute; 
+    et qu'il y a une variable LHS, alors la valeur de l'expression RHS sera 
+    directement ajout&eacute;e &agrave; la valeur LHS.<br>
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono"> nombre=mavaleur+2 <font color="#006666">  ; 
+    Ajoute la valeur 2 &agrave; &quot;mavaleur&quot; et affecte le r&eacute;sultat 
+    &agrave; &quot;nombre&quot;</font><br>
+    variable+expression <font color="#006666">; La valeur de &quot;expression&quot; 
+    est directement ajout&eacute;e &agrave; &quot;variable&quot;</font> 
+    </font>
+    <br><br>
+    Avec les cha&icirc;nes, '+' permet aussi de combiner le contenu de deux cha&icirc;nes, le r&eacute;sultat sera affect&eacute; &agrave la cha&icirc;ne &agrave; gauche de l'opérateur '=' 
+    ou sera directement affect&eacute; &agrave; la cha&icirc;ne de gauche. Les valeurs num&eacute;riques sont &eacute;galement accept&eacute;es combin&eacute; avec une chaîne. 
+    Cela se comporte comme Str, StrF ou StrD avec leurs valeurs par d&eacute;faut dans les param&egrave;tres optionnels.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    a$ = b$ + " plus" <font color="#006666">; Combine le contenu de la cha&icirc;ne &quot;b$&quot; avec la cha&icirc;ne &quot; plus&quot; et affecte le tout à la cha&icirc;ne &quot;a$&quot;</font><br>
+    a$ + b$ <font color="#006666">; Ajoute le contenu de la cha&icirc;ne b$ directement &agrave; la cha&icirc;ne a$.</font><br>
+    a$ = b$ + 123 <font color="#006666">; Ici le 123 sera concat&eacute;n&eacute; en tant que cha&icirc;ne de caract&egrave;res.</font><br>
+    </font></font></td>
+</tr>
+
+<tr> 
+    <td><div align="center">-</div></td>
+    <td><font face="Arial" size="2"><b>MOINS</b>. Soustrait la valeur de l'expression 
+    RHS de la valeur de l'expression LHS. Si il n'y a pas d'expression LHS 
+    l'op&eacute;rateur prend la valeur n&eacute;gative de la valeur RHS. Si 
+    le r&eacute;sultat de l'op&eacute;rateur n'est pas utilis&eacute; et qu'il 
+    n'y a pas de variable LHS, alors la valeur de RHS est directement soustraite 
+    &agrave; la valeur de la variable LHS. Cet op&eacute;rateur ne peut &ecirc;tre 
+    utilis&eacute; avec les variables de type chaine.<br>
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono"> var=#MaConstante-chose<font color="#006666">; 
+    Soustrait la valeur de &quot;chose&quot; de &quot;#MyConstant&quot; et 
+    le r&eacute;sultat est affect&eacute; &agrave; &quot;var&quot;.</font><br>
+
+    uneautre=uneautre+ -var <font color="#006666">; Calcule la valeur n&eacute;gative 
+    de &quot;var&quot; et utilise le r&eacute;sultat avec l'op&eacute;rateur 
+    +.</font><br>
+    variable-expression <font color="#006666">; La valeur &quot;expression&quot; 
+    est directement soustraite &agrave; &quot;variable&quot;</font> 
+    </font></font></td>
+</tr>
+
+<tr> 
+    <td><div align="center">*</div></td>
+    <td><font face="Arial" size="2"><b>MULTIPLICATION</b>. Multiplie la valeur de l'expression 
+    LHS par la valeur de RHS. Si le r&eacute;sultat de l'op&eacute;rateur 
+    n'est pas utilis&eacute; et qu'il y a une variable LHS, alors la valeur 
+    de la variable est directement multipli&eacute;e par la valeur de l'expression 
+    RHS. Cet op&eacute;rateur ne peut &ecirc;tre utilis&eacute; dans une variable 
+    de type chaine.<br>
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono"> total=prix*quantite <font color="#006666">; 
+    Multiplie la valeur de &quot;prix&quot; par la valeur de &quot;quantite&quot; 
+    et utilise le r&eacute;sultat avec l'op&eacute;rateur =</font><br>
+    variable*expression <font color="#006666">; &quot;variable&quot; est multipl&eacute; 
+    directement par la valeur de &quot;expression&quot;</font> 
+    </font></font></td>
+</tr>
+
+<tr> 
+    <td><div align="center">/</div></td>
+    <td><font face="Arial" size="2"><b>DIVISION</b>. Divise la valeur de l'expression 
+    LHS par la valeur de l'expression RHS. Si le r&eacute;sultat de l'op&eacute;rateur 
+    n'est pas utilis&eacute; et qu'il y a une variable LHS, alors la valeur 
+    de la variable est directement divis&eacute;e par la valeur de l'expression 
+    RHS. Cet op&eacute;rateur ne peut &ecirc;tre utilis&eacute; dans les variables 
+    de type chaine.<br>
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono"> quantite=total/prix <font color="#006666">; 
+    Divise la valeur &quot;total&quot; par la valeur &quot;prix&quot; et le r&eacute;sultat 
+    est affect&eacute; &agrave; &quot;quantite&quot;</font><br>
+    variable/expression <font color="#006666">; &quot;variable&quot; est directement 
+    divis&eacute; par la valeur &quot;expression&quot;</font> 
+    </font></font></td>
+</tr>
+
+<tr> 
+    <td><div align="center">&</div></td>
+    <td><font face="Arial" size="2"><b>AND</b> est un ET logique (binaire). Il vous 
+    faut &ecirc;tre familiaris&eacute; avec les nombres binaires pour utiliser 
+    cet op&eacute;rateur. Le r&eacute;sultat de cet op&eacute;rateur est le 
+    r&eacute;sultat d'un ET logique entre les valeurs des expressions LHS 
+    et RHS, bit &agrave; bit. La valeur de chaque bit r&eacute;sultant est 
+    fix&eacute;e comme indiqu&eacute; dans la table ci-dessous. De plus, si 
+    le r&eacute;sultat de l'op&eacute;rateur n'est pas utilis&eacute; et qu'il 
+    y a une variable LHS, alors le r&eacute;sultat sera directement stock&eacute; 
+    dans cette variable. Cet op&eacute;rateur ne peut &ecirc;tre utilis&eacute; 
+    avec une variable de type chaine.<br>
+    <br>
+    <table align="center" border="1" cellspacing="0" width="211" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="61"><p align="center"> <font size="3" face="Arial">LHS</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">RHS</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">1</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">
+            <p align="center"><font face="Arial" size="3">0</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">0</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">
+            <p align="center"><font face="Arial" size="3">0</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+    </tr>
+</table>
+    <i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono"> <font color="#006666">; La repr&eacute;sentation 
+    binaire des valeurs est utilis&eacute;e pour une pr&eacute;sentation plus 
+    claire et lisible</font><br>
+    a.w = %1000 & %0101 <font color="#006666">; Le r&eacute;sultat sera %0000, soit 0</font><br>
+    b.w = %1100 & %1010 <font color="#006666">; Le r&eacute;sutlat sera %1000, soit 1*2^4 + 0*2^2 + 0*2^1 + 0*2^0 = 8</font><br>
+    bits = a & b <font color="#006666">; Effectue un ET bit &agrave; bit entre 
+    a et b et le r&eacute;sultat est affect&eacute; &agrave; &quot;bits&quot;</font><br>
+    a & b <font color="#006666">; Effectue un ET bit &agrave; bit entre a 
+    et b et place le r&eacute;sultat directement dans la variable &quot;a&quot;</font> 
+    </font></font></td>
+</tr>
+
+<tr> 
+    <td><div align="center">|</div></td>
+    <td><font face="Arial" size="2"><b>OR</b> est un OU logique. (binaire). Vous devez 
+    &ecirc;tre familiaris&eacute; avec les nombres binaires pour utiliser 
+    cet op&eacute;rateur. Le r&eacute;sultat de cet op&eacute;rateur est le 
+    r&eacute;sultat d'un OU logique entre les valeurs des expressions LHS 
+    et RHS bit &agrave; bit. La valeur de chaque bit r&eacute;sultant est 
+    fix&eacute;e comme indiqu&eacute; dans la table ci-dessous. De plus, si 
+    le r&eacute;sultat de l'op&eacute;rateur n'est pas utilis&eacute; et qu'il 
+    et qu'il y a une variable LHS alors le r&eacute;sultat est directement 
+    stock&eacute; dans cette variable. Cet op&eacute;rateur ne peut &ecirc;tre 
+    utilis&eacute; avec une variable de type chaine.<br>
+    <br>
+    <table align="center" border="1" cellspacing="0" width="211" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="61"><p align="center"> <font size="3" face="Arial">LHS</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">RHS</font></p>
+        </td>
+        <td width="0">
+           <p>&nbsp;</p> 
+        </td>
+        <td width="67"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">1</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">0</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+    </tr>
+</table>
+    <i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono"> <font color="#006666">; La repr&eacute;sentation 
+    binaire des valeurs est utilis&eacute;e pour une pr&eacute;sentation claire 
+    et lisible</font><br>
+    a.w = %1000 | %0101 <font color="#006666">; Le r&eacute;sultat sera %1101, soit 1*2^4 + 1*2^2 + 0*2^1 + 1*2^0 = 13</font><br>
+    b.w = %1100 | %1010 <font color="#006666">; Le r&eacute;sultat sera %1110, soit 14</font><br>
+    bits = a | b <font color="#006666">; Effectue un OU bit &agrave; bit entre 
+    a et b et place le r&eacute;sultat directement dans la variable &quot;bits&quot;</font><br>
+    a | b <font color="#006666">; Effectue un OU bit &agrave; bit entre a 
+    et b et place le r&eacute;sultat directement dans la variable &quot;a&quot;</font> 
+    </font></font></td>
+</tr>
+
+<tr> 
+    <td><div align="center">!</div></td>
+    <td><font face="Arial" size="2"><b>XOR</b> est un OU Exclusif logique (binaire). 
+    Vous devez &ecirc;tre familiaris&eacute; avec les nombres binaires pour 
+    utiliser cet op&eacute;rateur. Le r&eacute;sultat de cet op&eacute;rateur 
+    est le r&eacute;sultat d'un OU Exclusif entre les valeurs LHS et RHS bit 
+    &agrave; bit. La valeur de chaque bit r&eacute;sultant est fix&eacute;e 
+    comme indiqu&eacute; dans la table ci-dessous. De plus, si le r&eacute;sultat 
+    de l'op&eacute;rateur n'est pas utilis&eacute; et qu'il y a une variable 
+    LHS alors le r&eacute;sultat est directement stock&eacute; dans cette 
+    variable. Cet op&eacute;rateur ne peut &ecirc;tre utilis&eacute; avec 
+    une variable de type chaine.<br>
+
+    <br>
+<table align="center" border="1" cellspacing="0" width="211" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="61"><p align="center"> <font size="3" face="Arial">LHS</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">RHS</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">1</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">0</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+        <td width="61">
+            <p align="center"><font face="Arial" size="3">1</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">
+            <p align="center"><font face="Arial" size="3">0</font></p>
+        </td>
+    </tr>
+</table>
+    <i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono"> <font color="#006666">; La repr&eacute;sentation 
+    binaire des valeurs est utilis&eacute;e pour une pr&eacute;sentation claire 
+    et lisible</font><br>
+    a.w = %1000 ! %0101 <font color="#006666">; Le r&eacute;sultat sera %1101, soit 1*2^4 + 1*2^2 + 0*2^1 + 1*2^0 = 13</font><br>
+    b.w = %1100 ! %1010 <font color="#006666">; Le r&eacute;sultat sera %0110, soit 6</font><br>
+    bits = a ! b <font color="#006666">; Effectue un OU Exclusif bit &agrave; 
+    bit entre a et b et place le r&eacute;sultat dans &quot;bits&quot;</font><br>
+    a ! b <font color="#006666">; Effectue un OU Exclusif bit &agrave; bit 
+    entre a et b et place le r&eacute;sultat directement dans &quot;a&quot;</font>
+    </font></font></td>
+</tr>
+
+<tr> 
+    <td><div align="center">~</div></td>
+    <td><font face="Arial" size="2"><b>NOT</b> est une inversion logique (binaire). 
+    Vous devez &ecirc;tre familiaris&eacute; avec les nombres binaires pour 
+    utiliser cet op&eacute;rateur. Le r&eacute;sultat de cet op&eacute;rateur 
+    est une inversion bit &agrave; bit de la valeur RHS. La valeur de chaque 
+    bit est fix&eacute;e comme indiqu&eacute; dans la table ci-dessous. Cet 
+    op&eacute;rateur ne peut &ecirc;tre utilis&eacute; avec une variable de 
+    type chaine.<br>
+
+    <br>
+<table align="center" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="61"><p align="center"><font size="3" face="Arial">RHS</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center"><font size="3" face="Arial">0</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67"><p align="center">1</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center"><font size="3" face="Arial">1</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">
+            <p align="center">0</p>
+        </td>
+    </tr>
+</table>
+    <i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono"> <font color="#006666">; La repr&eacute;sentation 
+    binaire des valeurs est utilis&eacute;e pour une pr&eacute;sentation claire 
+    et lisible</font><br>
+    a.b = ~%1000 <font color="#006666">; En théorie le r&eacute;sultat sera %0111 mais en r&eacute;alit&eacute; il sera %11110111 (= -9 car le 'byte' est sign&eacute;)</font><br>
+    b.b = ~%1010 <font color="#006666">; En théorie le r&eacute;sultat sera %0101 mais en r&eacute;alit&eacute; il sera %11110101 (= -11 car le 'byte' est sign&eacute;)</font><br>
+    c.b = ~%0000 <font color="#006666">; Le r&eacute;sultat sera %11111111, soit -1 car c'est un nombre sign&eacute;</font><br>
+    d.a=%11111111<br>
+    e.a=~d <font color="#006666">; Affiche 0 car c'est un nombre non sign&eacute;</font><br>
+    </font></font></td>
+</tr>
+
+<tr> 
+    <td><div align="center">()</div></td>
+    <td><font face="Arial" size="2"><b>Parenth&egrave;ses</b>. Vous pouvez utiliser 
+    les parenth&egrave;ses pour forcer l'&eacute;valuation prioritaire d'une 
+    partie d'une expression ou modifier l'ordre d'&eacute;valuation.<br>
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono"> a = (5 + 6) * 3 <font color="#006666">; 
+    Le r&eacute;sultat est 33 car 5+6 est &eacute;valu&eacute; en premier</font><br>
+
+    b = 4 * (2 - (3 - 4)) <font color="#006666">; Le r&eacute;sutlat est 12 
+    car 3-4 est &eacute;valu&eacute; en premier, ensuite 2-r&eacute;sultat 
+    puis la mutiplication pour finir</font><br>
+    </font></font></td>
+</tr>
+
+<tr> 
+    <td><div align="center">&lt;</div></td>
+    <td><font face="Arial" size="2"><b>Inf&eacute;rieur &agrave;</b>. Utilis&eacute; pour comparer les valeurs des expressions LHS et RHS.
+    Si la valeur de LHS est plus petite que la valeur de RHS cet op&eacute;rateur rend un r&eacute;sultat vrai, sinon le r&eacute;sultat est faux.<br>
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    <b><font color="#006666">If</font></b> a &lt; b <font color="#006666">; Teste si la valeur de a est plus petite que la valeur de b,
+    et utilise le résultat dans la commande If</font>
+    </font>
+    <br>
+    <br>Note: La comparaison entre deux cha&icirc;nes est sensible à la casse.
+    </font></td>
+</tr>
+
+<tr> 
+    <td><div align="center">&gt;</div></td>
+    <td><font face="Arial" size="2"><b>Sup&eacute;rieur &agrave;</b>. Utilis&eacute; 
+    pour comparer les valeurs des expressions LHS et RHS. Si la valeur de 
+    LHS est plus grande que la valeur de RHS cet op&eacute;rateur rend un 
+    r&eacute;sultat vrai, sinon le r&eacute;sultat est faux.<br>
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    <b><font color="#006666">If</font></b> a &gt; b <font color="#006666">; Teste si la valeur de a est plus grande que la valeur de b,
+    et utilise le résultat dans la commande If</font>
+    </font>
+    <br>
+    <br>Note: La comparaison entre deux cha&icirc;nes est sensible à la casse.
+    </font></td>    
+</tr>
+
+<tr> 
+    <td><div align="center">&lt;= <br> =&lt;</div></td>
+    <td><font face="Arial" size="2"><b>Inf&eacute;rieur ou &eacute;gal &agrave;</b>. 
+    Utilis&eacute; pour comparer les valeurs des expressions LHS et RHS. Si 
+    la valeur de LHS est plus petite ou &eacute;gale &agrave; la valeur de 
+    RHS cet op&eacute;rateur rend un r&eacute;sultat vrai, sinon le r&eacute;sultat est faux.<br>
+    </td>
+</tr>
+
+<tr> 
+    <td><div align="center">&gt;= <br> =&gt;</div></td>
+    <td><font face="Arial" size="2"><b>Sup&eacute;rieur ou &eacute;gal &agrave;</b>. 
+    Utilis&eacute; pour comparer les valeurs des expressions LHS et RHS. Si 
+    la valeur de LHS est plus grande ou &eacute;gale &agrave; la valeur de 
+    RHS cet op&eacute;rateur rend un r&eacute;sultat vrai, sinon le r&eacute;sultat est faux.<br>
+    </td>
+</tr>
+
+<tr> 
+    <td><div align="center">&lt;&gt;</div></td>
+    <td><font face="Arial" size="2"><b>Diff&eacute;rent</b>. Utilis&eacute; pour comparer 
+    les valeurs des expressions LHS et RHS. Si la valeur de LHS est diff&eacute;rente 
+    de la valeur de RHS cet op&eacute;rateur rend un r&eacute;sultat vrai, 
+    sinon le r&eacute;sultat est faux.<br>
+    </td>
+</tr>
+
+<tr> 
+    <td><div align="center">And</div></td>
+    <td><font face="Arial" size="2"><b>ET</b> logique. Peut &ecirc;tre utilis&eacute; 
+    pour combiner les r&eacute;sultats vrais ou faux des op&eacute;rateurs 
+    de comparaison en donnant un r&eacute;sultat fix&eacute; comme indiqu&eacute; 
+    dans la table ci-dessous.<br>
+
+    <br>
+<table align="center" border="1" cellspacing="0" width="219" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="61"><p align="center"> <font size="3" face="Arial">LHS</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">RHS</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center">Faux</p>
+        </td>
+        <td width="61"><p align="center">Faux</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83"><p align="center">Faux</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center">Faux</p>
+        </td>
+        <td width="61"><p align="center">Vrai</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83">
+<p align="center">Faux</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+            <p align="center">Vrai</p>
+        </td>
+        <td width="61">
+<p align="center">Faux</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83">
+<p align="center">Faux</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+<p align="center">Vrai</p>
+        </td>
+        <td width="61">
+<p align="center">Vrai</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83">
+<p align="center">Vrai</p>
+        </td>
+    </tr>
+</table>
+    </td>
+</tr>
+    
+<tr> 
+    <td><div align="center">Or</div></td>
+    <td><font face="Arial" size="2"><b>OU</b> logique. Peut &ecirc;tre utilis&eacute; 
+    pour combiner les r&eacute;sultats vrais ou faux des op&eacute;rateurs 
+    de comparaison en donnant un r&eacute;sultat fix&eacute; comme indiqu&eacute; 
+    dans la table ci-dessous.<br>
+    
+    <br>
+<table align="center" border="1" cellspacing="0" width="219" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="61"><p align="center"> <font size="3" face="Arial">LHS</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">RHS</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center">Faux</p>
+        </td>
+        <td width="61"><p align="center">Faux</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83"><p align="center">Faux</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center">Faux</p>
+        </td>
+        <td width="61"><p align="center">Vrai</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83">
+<p align="center">Vrai</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+            <p align="center">Vrai</p>
+        </td>
+        <td width="61">
+<p align="center">Faux</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83">
+<p align="center">Vrai</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+<p align="center">Vrai</p>
+        </td>
+        <td width="61">
+<p align="center">Vrai</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83">
+<p align="center">Vrai</p>
+        </td>
+    </tr>
+</table>
+    </td>
+</tr>
+    
+<tr>
+    <td><div align="center">XOr</div></td>
+    <td><font face="Arial" size="2"><b>OU exclusif</b> logique. Peut &ecirc;tre utilis&eacute; 
+    pour combiner les r&eacute;sultats vrais ou faux des op&eacute;rateurs 
+    de comparaison en donnant un r&eacute;sultat fix&eacute; comme indiqu&eacute; 
+    dans la table ci-dessous. 
+    Cet op&eacute;rateur ne peut pas &ecirc;tre utilis&eacute; avec des cha&icirc;nes de caract&egrave;res.<br>
+    <br>
+<table align="center" border="1" cellspacing="0" width="219" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="61"><p align="center"> <font size="3" face="Arial">LHS</font></p>
+        </td>
+        <td width="61"><p align="center"><font size="3" face="Arial">RHS</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center">Faux</p>
+        </td>
+        <td width="61"><p align="center">Faux</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83"><p align="center">Faux</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center">Faux</p>
+        </td>
+        <td width="61"><p align="center">Vrai</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83">
+<p align="center">Vrai</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+            <p align="center">Vrai</p>
+        </td>
+        <td width="61">
+<p align="center">Faux</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83">
+<p align="center">Vrai</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">
+<p align="center">Vrai</p>
+        </td>
+        <td width="61">
+<p align="center">Vrai</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="83">
+<p align="center">Faux</p>
+        </td>
+    </tr>
+</table>
+    <!-- <i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    </font>--></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">Not</div></td>
+    <td><font face="Arial" size="2"><b>NOT</b>Le résultat de cet opérateur sera la négation de l'expression RHS.
+    Cet opérateur ne fonctionne pas avec les strings.<br>
+    <br>
+<table align="center" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="61"><p align="center"><font size="3" face="Arial">RHS</font></p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61"><p align="center">Faux</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">            <p align="center">Vrai</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="61">            <p align="center">Vrai</p>
+        </td>
+        <td width="0">
+            <p>&nbsp;</p>
+        </td>
+        <td width="67">
+<p align="center">Faux</p>
+        </td>
+    </tr>
+</table>
+    <!-- <i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    </font>--></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">&lt;&lt;</div></td>
+    <td><font face="Arial" size="2"><b>Décalage à gauche</b>. Décale vers la gauche les bits du nombre LHS de RHS places. Decaler les bits vers la gauche revient à faire une multiplication par un multiple de 2. Il est conseillé de bien comprendre les opérations binaires avant d'utiliser cet opérateur.<br>
+
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    a=%1011 &lt;&lt; 1 <font color="#006666">; La valeur de 'a' sera %10110. (en decimal: %1011=11 et %10110=22)</font><br>
+    b=%111 &lt;&lt; 4 <font color="#006666">; La valeur de 'b' sera %1110000. (en decimal: %111=7 et %1110000=112)</font><br>
+
+    c.l=$80000000 &lt;&lt; 1 <font color="#006666">; La valeur de 'c' sera 0. Les bits supérieurs sont perdus car ils dépassent la capacité du type.</font><br>
+    </font></font></td>
+</tr>
+    
+<tr>
+    <td><div align="center">&gt;&gt;</div></td>
+    <td><font face="Arial" size="2"><b>Décalage à droite</b>. Décale vers la droite les bits du nombre LHS de RHS places. Décaler les bits vers la droite revient à faire une division par un multiple de 2. Il est conseillé de bien comprendre les opérations binaires avant d'utiliser cet opérateur.<br>
+
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    d=16 &gt;&gt; 1 <font color="#006666">; La valeur de 'd' sera 8. (en binaire: 16=%10000 et 8=%1000)</font><br>
+    e.w=%10101010 &gt;&gt; 4 <font color="#006666">; La valeur de 'e' sera %1010. (en décimal: %10101010=170 et %1010=10). </font><br>
+
+    f.b=-128 &gt;&gt; 1 <font color="#006666">; La valeur de 'f' sera -64. -128=%10000000, -64=%11000000. Lors du décalage, le bit le plus fort reste (conservation du signe).</font><br>
+    </font></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">%</div></td>
+    <td><font face="Arial" size="2"><b>Modulo</b>. Calcule le reste de la division entière de RHS par LHS.<br>
+    <br><i><b>Exemple:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    a=16 % 2 <font color="#006666">; La valeur sera 0 car 16/2 = 8 (aucun reste)</font><br>
+    b=17 % 2 <font color="#006666">; La valeur sera 1 car 17/2 = 8*2+1 (reste 1)</font><br>
+    </font></font></td>
+</tr>
+   
+</table>
+
+@FormatElse
+  
+@Section Opérateur = (Egal) 
+
+  Peut être utilisé suivant deux acceptions. La première est pour l'affectation de la variable LHS à 
+  la valeur résultat de l'expression RHS. La seconde signification est l'utilisation dans une expression 
+  de comparaison entre LHS et RHS. Si le résultat de LHS est identique au résultat de RHS la valeur 'vrai' 
+  sera retournée sinon se sera la valeur 'faux'.
+  
+  @Example
+
+@Code
+  a=b+c ; Affecte la valeur de "b+c" à la variable "a"
+  If abc=def ; Teste si les valeurs de abc et def sont identiques et utilise le résultat dans la commande If
+@EndCode  
+  
+
+@Section Opérateur + (Plus)
+
+  Donne le résultat de la valeur de l'expression RHS ajoutée à la valeur de l'expression LHS. 
+  Si le résultat de cet opérateur n'est pas utilisé et qu'il y a une variable LHS, alors la 
+  valeur de l'expression RHS sera directement ajoutée à la valeur LHS.
+  
+  @Example
+
+@Code
+  nombre=mavaleur+2 ; Ajoute la valeur 2 à "mavaleur" et utilise le résultat avec l'opérateur =
+  variable+expression ; La valeur de "expression" est directement ajoutée à "variable"
+@EndCode
+
+
+@Section Opérateur - (Moins) 
+
+  Soustrait la valeur de l'expression RHS de la valeur de l'expression LHS. S'il n'y a 
+  pas d'expression LHS l'opérateur prend la valeur négative de la valeur RHS. Si le 
+  résultat de l'opérateur n'est pas utilisé et qu'il n'y a pas de variable LHS, alors la 
+  valeur de RHS est directement soustraite à la valeur de la variable LHS. Cet opérateur
+  ne peut être utilisé avec les variables de type chaîne.
+ 
+  @Example
+
+@Code
+  var=#MaConstante-chose; Soustrait la valeur de "chose" de "#MyConstant" et utilise le résultat avec l'opérateur égal.
+  uneautre=uneautre+ -var ; Calcule la valeur négative de "var" et utilise le résultat avec l'opérateur +.
+  variable-expression ; La valeur "expression" est directement soustraite à "variable"
+@EndCode
+
+
+@Section Opérateur * (Multiplication)
+
+  Multiplie la valeur de l'expression LHS par la valeur de RHS. Si le résultat de 
+  l'opérateur n'est pas utilisé et qu'il y a une variable LHS, alors la valeur de 
+  la variable est directement multipliée par la valeur de l'expression RHS. Cet 
+  opérateur ne peut être utilisé dans une variable de type chaine.
+  
+  @Example
+
+@Code
+  total=prix*quantite ; Multiplie la valeur de "prix" par la valeur de "quantite" et utilise le résultat avec l'opérateur =
+  variable*expression ; "variable" est multiplé directement par la valeur de "expression"
+@EndCode
+
+
+@Section Opérateur / (Division)
+
+  Divise la valeur de l'expression LHS par la valeur de l'expression RHS. Si le résultat 
+  de l'opérateur n'est pas utilisé et qu'il y a une variable LHS, alors la valeur de la 
+  variable est directement divisée par la valeur de l'expression RHS. Cet opérateur ne peut 
+  être utilisé dans les variables de type chaine.
+  
+  @Example
+  
+@Code  
+  quantite=total/prix ; Divise la valeur "total" par la valeur "prix" et utilise le résultat avec l'opérateur =
+  variable/expression ; "variable" est directement divisé par la valeur "expression"
+@EndCode
+
+
+@Section Opérateur & (AND est un ET logique (binaire))
+
+  Il vous faut être familiarisé avec les nombres binaires pour utiliser cet opérateur. 
+  Le résultat de cet opérateur est le résultat d'un ET logique entre les valeurs des 
+  expressions LHS et RHS, bit à bit. La valeur de chaque bit résultant est fixée comme 
+  indiqué dans la table ci-dessous. De plus, si le résultat de l'opérateur n'est pas utilisé 
+  et qu'il y a une variable LHS, alors le résultat sera directement stocké dans cette variable. 
+  Cet opérateur ne peut être utilisé avec une variable de type chaîne.
+
+@FixedFont
+LHS | RHS |Résultat
+------------------
+ 0  |  0  |    0
+ 0  |  1  |    0
+ 1  |  0  |    0
+ 1  |  1  |    1
+@EndFixedFont
+
+    @Example
+
+@Code
+  ; La représentation binaire des valeurs est utilisée pour une présentation plus claire et lisible
+  a.w = %1000 & %0101 ; Le résultat sera 0
+  b.w = %1100 & %1010 ; Le résutlat sera %1000
+  bits = a & b ; Effectue un ET bit à bit entre a et b et utilise le résultat avec l'opérateur =
+  a & b ; Effectue un ET bit à bit entre a et b et place le résultat directement dans la variable "a"
+@EndCode
+
+
+@Section Opérateur | (OR est un OU logique (binaire)) 
+
+  Vous devez être familiarisé avec les nombres binaires pour utiliser cet opérateur. 
+  Le résultat de cet opérateur est le résultat d'un OU logique entre les valeurs des 
+  expressions LHS et RHS bit à bit. La valeur de chaque bit résultant est fixée comme 
+  indiqué dans la table ci-dessous. De plus, si le résultat de l'opérateur n'est pas 
+  utilisé et qu'il et qu'il y a une variable LHS alors le résultat est directement stocké 
+  dans cette variable. Cet opérateur ne peut être utilisé avec une variable de type chaîne.
+
+@FixedFont
+LHS | RHS |Résultat
+------------------
+ 0  |  0  |    0
+ 0  |  1  |    1
+ 1  |  0  |    1
+ 1  |  1  |    1
+@EndFixedFont
+
+    @Example
+
+@Code    
+  ; La représentation binaire des valeurs est utilisée pour une présentation claire et lisible
+  a.w = %1000 | %0101 ; Le résultat sera %1101
+  b.w = %1100 | %1010 ; Le résultat sera %1110
+  bits = a | b ; Effectue un OU bit à bit entre a et b et utilise le résultat avec l'opérateur =
+  a | b ; Effectue un OU bit à bit entre a et b et place le résultat directement dans la variable "a"
+@EndCode
+
+
+@Section Opérateur ! (XOR est un OU exclusif logique (binaire))
+
+  Vous devez être familiarisé avec les nombres binaires pour utiliser cet opérateur. 
+  Le résultat de cet opérateur est le résultat d'un OU Exclusif entre les valeurs LHS et 
+  RHS bit à bit. La valeur de chaque bit résultant est fixée comme indiqué dans la table 
+  ci-dessous. De plus, si le résultat de l'opérateur n'est pas utilisé et qu'il y a 
+  une variable LHS alors le résultat est directement stocké dans cette variable. Cet opérateur 
+  ne peut être utilisé avec une variable de type chaîne.
+
+@FixedFont
+LHS | RHS |Résultat
+------------------
+ 0  |  0  |    0
+ 0  |  1  |    1
+ 1  |  0  |    1
+ 1  |  1  |    0
+@EndFixedFont
+
+  @Example
+
+@Code
+  ; La représentation binaire des valeurs est utilisée pour une présentation claire et lisible
+  a.w = %1000 ! %0101 ; Le résultat sera %1101
+  b.w = %1100 ! %1010 ; Le résultat sera %0110
+  bits = a ! b ; Effectue un OU Exclusif bit à bit entre a et b et utilise le résultat avec l'opérateur =
+  a ! b ; Effectue un OU Exclusif bit à bit entre a et b et place le résultat directement dans "a"
+@EndCode
+
+
+@Section Opérateur ~ (NON inversion logique (binaire))
+
+  Vous devez être familiarisé avec les nombres binaires pour utiliser cet opérateur. 
+  Le résultat de cet opérateur est une inversion bit à bit de la valeur RHS. La valeur 
+  de chaque bit est fixée comme indiqué dans la table ci-dessous. Cet opérateur ne peut 
+  être utilisé avec une variable de type chaîne.
+
+@FixedFont
+RHS |Résultat
+----------
+ 0  |    1
+ 1  |    0
+@EndFixedFont
+
+  @Example
+
+@Code
+  ; La représentation binaire des valeurs est utilisée pour une présentation claire et lisible
+  a.w = ~%1000 ; Le résultat sera %0111
+  b.w = ~%1010 ; Le résultat sera %0101
+@EndCode
+
+
+@Section () (Parenthèses)
+
+  Vous pouvez utiliser les parenthèses pour forcer l'évaluation prioritaire 
+  d'une partie d'une expression ou modifier l'ordre d'évaluation.
+  
+  @Example
+
+@Code
+  a = (5 + 6) * 3 ; Le résultat est 33 car 5+6 est évalué en premier
+  b = 4 * (2 - (3 - 4)) ; Le résultat est 12 car 3-4 est évalué en premier, ensuite 2-résultat puis la mutiplication pour finir
+@EndCode
+
+
+@Section < (Inférieur à)
+
+  Utilisé pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS est plus 
+  petite que la valeur de RHS cet opérateur rend un résultat vrai, sinon le résultat est faux.
+
+
+@Section > (Supérieur à)
+
+  Utilisé pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS est 
+  plus grande que la valeur de RHS cet opérateur rend un résultat vrai, sinon le résultat 
+  est faux.
+  
+
+@Section <=, =<  (Inférieur ou égal à)
+
+  Utilisé pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS 
+  est plus petite ou égale à la valeur de RHS cet opérateur rend un résultat vrai, 
+  sinon le résultat est faux.
+
+
+@Section >=, =>  (Supérieur ou égal à)
+
+  Utilisé pour comparer les valeurs des expressions LHS et RHS. Si la valeur de 
+  LHS est plus grande ou égale à la valeur de RHS cet opérateur rend un résultat 
+  vrai, sinon le résultat est faux.
+  
+  
+@Section <> (Différent) 
+
+  Utilisé pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS est 
+  différente de la valeur de RHS cet opérateur rend un résultat vrai, sinon le résultat 
+  est faux.
+  
+    
+@Section And (ET logique)
+    
+  Peut être utilisé pour combiner les résultats vrais ou faux des opérateurs de comparaison 
+  en donnant un résultat fixé comme indiqué dans la table ci-dessous.
+
+@FixedFont
+  LHS  |  RHS  |Résultat
+-----------------------
+  faux |  faux |  faux
+  faux |  vrai |  faux 
+  vrai |  faux |  faux 
+  vrai |  vrai |  vrai
+@EndFixedFont
+
+  
+@Section Or (OU logique)
+  
+  Peut être utilisé pour combiner les résultats vrais ou faux des opérateurs de comparaison 
+  en donnant un résultat fixé comme indiqué dans la table ci-dessous.
+
+@FixedFont
+  LHS  |  RHS  | Résultat
+-------------------------
+  faux |  faux |  faux
+  faux |  vrai |  vrai
+  vrai |  faux |  vrai
+  vrai |  vrai |  vrai
+@EndFixedFont
+
+
+@Section Operator XOr (OU exclusif logique)
+
+  Peut être utilisé pour combiner les résultats vrais ou faux des opérateurs de comparaison 
+  en donnant un résultat fixé comme indiqué dans la table ci-dessous.
+
+@FixedFont
+  LHS |  RHS | Résultat
+-----------------------
+ faux | faux | faux
+ faux | vrai | vrai
+ vrai | faux | vrai
+ vrai | vrai | faux
+@EndFixedFont
+
+@Section Operator Not (NON logique)
+
+  Le résultat de cet opérateur sera la négation de l'expression RHS.
+  Cet opérateur ne fonctionne pas avec les strings.
+
+@FixedFont
+  RHS | Résultat
+----------------
+ faux | vrai
+ vrai | faux
+@EndFixedFont
+
+  
+@Section Opérateur << (Décalage à gauche) 
+  
+  Décale vers la gauche les bits du nombre LHS de RHS places. Décaler les bits vers la gauche 
+  revient à faire une multiplication par un multiple de 2. Il est conseillé de bien comprendre 
+  les opérations binaires avant d'utiliser cet opérateur.
+
+  @Example
+
+@Code  
+  a=%1011 << 1 ; La valeur de 'a' sera %10110. (en decimal: %1011=11 et %10110=22)
+  b=%111 << 4 ; La valeur de 'b' sera %1110000. (en decimal: %111=7 et %1110000=112)
+  c.l=$80000000 << 1 ; La valeur de 'c' sera 0. Les bits supérieurs sont perdus car ils dépassent la capacité du type.
+@EndCode  
+  
+  
+@Section Opérateur >> (Décalage à droite)
+    
+  Décale vers la droite les bits du nombre LHS de RHS places. Décaler les bits vers la droite revient 
+  à faire une division par un multiple de 2. Il est conseillé de bien comprendre les opérations 
+  binaires avant d'utiliser cet opérateur.
+
+  @Example
+
+@Code  
+  d=16 >> 1 ; La valeur de 'd' sera 8. (en binaire: 16=%10000 et 8=%1000)
+  e.w=%10101010 >> 4 ; La valeur de 'e' sera %1010. (en décimal: %10101010=170 et %1010=10).
+  f.b=-128 >> 1 ; La valeur de 'f' sera -64. -128=%10000000, -64=%11000000. Lors du décalage, le bit le plus fort reste (conservation du signe).
+@EndCode  
+  
+
+@Section Opérateur % (Modulo)
+ 
+  Calcule le reste de la division entière de RHS par LHS.
+
+  @Example
+  
+@Code  
+  a=16 % 2 ; La valeur sera 0 car 16/2 = 8 (aucun reste)
+  b=17 % 2 ; La valeur sera 1 car 17/2 = 8*2+1 (reste 1)
+@EndCode  
+
+@FormatEndIf
+
+@LineBreak
+@LineBreak
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Opérateurs raccourcis"></a>
+@FormatEndIf
+@Section Opérateurs raccourcis
+
+  Tous les opérateurs mathématiques peuvent être utilisés sous une forme abrégée.
+
+@Example
+@Code
+  Valeur + 1   ; Equivaut à : Valeur = Valeur + 1
+  Valeur * 2   ; Equivaut à : Valeur = Valeur * 2
+  Valeur << 1  ; Equivaut à : Valeur = Valeur << 1
+@EndCode
+  
+  Note: Cela peut conduire à des résultats "imprévus" dans quelques rares cas, 
+  si l'assignement est modifiée avant l'affection.
+
+@Example
+@Code
+  Dim MonTableau(10)
+  MonTableau(Random(10)) + 1 ; Equivaut à: MonTableau(Random(10)) = MonTableau(Random(10)) + 1, mais ici Random() ne renverra pas la même valeur à chaque appel.
+@EndCode
+
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Priorité des opérateurs"></a>
+@FormatEndIf
+@Section Priorité des opérateurs
+
+@FormatIf HTML WEBSITE 
+
+<table  align="center" border="1" width="383" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="191" height="28">
+            <p align="center">&nbsp;Niveau de priorité</p>
+        </td>
+        <td width="176" height="28">
+            <p align="center">Opérateurs</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="191">
+            <p align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8 
+            &nbsp;(haute) </p>
+        </td>
+        <td width="176">
+            <p align="center">~, -</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="191">
+            <p align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7</p>
+        </td>
+        <td width="176">
+            <p align="center">&nbsp;&lt;&lt;, &gt;&gt;, %, !</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="191">
+            <p align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6</p>
+        </td>
+        <td width="176">
+            <p align="center">|, &amp;</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="191">
+            <p align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5</p>
+        </td>
+        <td width="176">
+            <p align="center">*, /</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="191">
+            <p align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4</p>
+        </td>
+        <td width="176">
+            <p align="center">&nbsp;&nbsp;+, -</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="191">
+            <p align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3 
+            </p>
+        </td>
+        <td width="176">
+            <p align="center">&gt;, &gt;=, &lt;, &lt;=, =, &lt;&gt;</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="191">
+            <p align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 
+            </p>
+        </td>
+        <td width="176">
+            <p align="center">Not</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="191">
+            <p align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 
+            &nbsp;(basse)</p>
+        </td>
+        <td width="176">
+            <p align="center">And, Or, XOr</p>
+        </td>
+    </tr>
+</table>
+
+@FormatElse
+@FixedFont
+  Niveau de Priorité |     Opérateurs
+  -------------------+-----------------------------
+       8 (haut)      |      ~, - (ici - est le négatif)
+       7             |    <<, >>, %, !
+       6             |       |, &
+       5             |       *, /
+       4             |       +, - (ici - est la soustraction)
+       3             | >, >=, =>, <, <=, =<, =, <>
+       2             |       Not
+       1 (bas)       |  And, Or, XOr
+@EndFixedFont
+@FormatEndIf
+
+
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Types structurés"></a>
+@FormatEndIf
+@Section Types structurés
+
+  Les types structurés peuvent être définis avec les options propres aux structures. Voyez le 
+  @ReferenceLink Structures "chapitre structures" pour plus d'informations.
+
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Types Pointeur"></a>
+@FormatEndIf
+@Section Types Pointeur 
+ 
+  Les pointeurs sont déclarés avec un '*' devant le nom de la variable. Plus d'informations 
+  peuvent être trouvées dans le @ReferenceLink "memory" "chapitre pointeurs".
+
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="nombres flottants"></a>
+@FormatEndIf
+@Section Informations concernant les nombres flottants
+
+  Un nombre flottant est stocké de telle manière que la 'virgule flotte' autour de la partie réelle. 
+  De la sorte, il est possible d'avoir des nombres dont la valeur peut être aussi bien grande que petite. 
+  Toutefois vous ne pouvez pas stocker de grands nombres avec une précision aussi élevée que des petits nombres. 
+  @LineBreak
+  @LineBreak
+  Une autre limitation concernant les nombres flottants est qu'ils restent concrètement représentés sous 
+  une forme binaire. Ainsi, ils ne peuvent être restitués qu'à partir de multiples et de divisions 
+  en base 2. Celà est important pour comprendre que la représentation décimale lors de l'affichage ou du calcul 
+  n'est pas tout à fait identique à ce que l'on peut attendre dans une représentation humaine. Représenter 0.5 
+  ou 0.125 est simple car ce sont des divisions parfaites de 2, cela est plus complexe pour des 
+  nombres comme 0.11 ou 0.10999999. L'affichage approché de la valeur est toujours correct à un nombre 
+  limité de décimales, mais ne soyez pas surpris si au-delà le nombre affiché s'écarte de la valeur que vous attendez! 
+  @LineBreak
+  @LineBreak
+  Ces remarques s'appliquent aux nombres flottants traités par ordinateur d'une manière générale et non 
+  spécifiquement à Purebasic.
+  @LineBreak
+  @LineBreak
+  Comme leur nom l'indique, les 'doubles' sont des flottants 'double-precision' (64-bit) comparativement aux flottants
+  'simple-precision' que sont les floats (32-bit). Donc, pour avoir plus de précision dans la manipulation des
+  nombres à virgule, il est préférable d'utiliser les 'doubles'.
+  @LineBreak
+  @LineBreak
+  @Indent
+    Float : De +- 1.175494e-38 à +- 3.402823e+38  @LineBreak
+    Double: De +-; 2.2250738585072013e-308 à +- 1.7976931348623157e+308 
+  @EndIndent
+  @LineBreak
+  @LineBreak  
+  Pour plus d'information sur le format 'IEEE 754', consulter l'article @InternetLink "https://fr.wikipedia.org/wiki/IEEE_754" "Wikipedia".
+
+@Example
+@Code  
+    a.f=0.1
+    b.f=0.5
+    c.f=0.9
+    Debug a ; Affiche 0.10000000149012
+    Debug b ; Affiche 0.5
+    Debug c ; Affiche 0.89999997615814
+@EndCode 

@@ -1,0 +1,111 @@
+@Title Enumerations 
+
+@Syntax 
+
+  @Keyword Enumeration [name] [<constant> [@Keyword Step <constant>]] 
+    @#Constant1
+    @#Constant2 [= <constant>]
+    @#Constant3
+    ...
+  @Keyword EndEnumeration
+
+Or
+  
+  @Keyword EnumerationBinary [name] [<constant>] 
+    @#Constant1
+    @#Constant2 [= <constant>]
+    @#Constant3
+    ...
+  @Keyword EndEnumeration
+ 
+@Description 
+
+  @Keyword Enumerations are very handy to declare a sequence of constants quickly without using fixed numbers. 
+  The first constant found in the enumeration will get the number 0 and the next one will be 1 etc. 
+  It's possible to change the first constant number and adjust the step for each new constant found 
+  in the enumeration. If needed, the current constant number can be altered by affecting with '=' 
+  the new number to the specified constant. As @Keyword "Enumeration"s only accept integer numbers, floats will be rounded to the nearest integer. @LineBreak
+  @LineBreak
+  A name can be set to identify an enumeration and allow to continue it later. It is useful to group objects altogether while
+  declaring them in different code place. @LineBreak
+  @LineBreak
+  For advanced user only: the reserved constant @#PB_Compiler_EnumerationValue store the next value which will be used 
+  in the enumeration. It can be useful to get the last enumeration value or to chain two enumerations. @LineBreak
+  @LineBreak
+  @Keyword EnumerationBinary can be used to create enumerations suitable for flags. The first item value is 1.
+  
+
+  @Example Simple enumeration 
+
+@Code
+  Enumeration
+    #GadgetInfo ; will be 0
+    #GadgetText ; will be 1
+    #GadgetOK   ; will be 2
+  EndEnumeration
+@EndCode
+
+  @Example Enumeration with step 
+
+@Code
+  Enumeration 20 Step 3
+    #GadgetInfo ; will be 20
+    #GadgetText ; will be 23
+    #GadgetOK   ; will be 26
+  EndEnumeration
+@EndCode
+
+  @Example Enumeration with dynamic change 
+
+@Code
+  Enumeration
+    #GadgetInfo      ; will be 0
+    #GadgetText = 15 ; will be 15
+    #GadgetOK        ; will be 16
+  EndEnumeration
+@EndCode
+
+  @Example Named enumeration
+
+@Code
+  Enumeration Gadget
+    #GadgetInfo ; will be 0
+    #GadgetText ; will be 1
+    #GadgetOK   ; will be 2
+  EndEnumeration
+  
+  Enumeration Window
+    #FirstWindow  ; will be 0
+    #SecondWindow ; will be 1
+  EndEnumeration
+
+  Enumeration Gadget
+    #GadgetCancel ; will be 3
+    #GadgetImage  ; will be 4
+    #GadgetSound  ; will be 5
+  EndEnumeration
+@EndCode
+
+  @Example Getting next enumeration value
+
+@Code
+  Enumeration
+    #GadgetInfo ; will be 0
+    #GadgetText ; will be 1
+    #GadgetOK   ; will be 2
+  EndEnumeration
+  
+  Debug "Next enumeration value: " + #PB_Compiler_EnumerationValue ; will print 3
+@EndCode
+
+  @Example Binary enumeration
+
+@Code
+  EnumerationBinary
+    #Flags1 ; will be 1
+    #Flags2 ; will be 2
+    #Flags3 ; will be 4
+    #Flags4 ; will be 8
+    #Flags5 ; will be 16
+  EndEnumeration
+@EndCode

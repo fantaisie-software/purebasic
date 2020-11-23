@@ -1,0 +1,51 @@
+
+
+vertex_program flow_reflect_vertex hlsl
+{
+	source flow_reflect.hlsl
+	target vs_3_0
+	entry_point flow_reflect_vertex
+}
+
+fragment_program flow_reflect_pixel hlsl
+{
+	source flow_reflect.hlsl
+	target ps_3_0
+	entry_point flow_reflect_pixel
+}
+
+
+material flow_reflect
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref flow_reflect_vertex
+			{
+				param_named_auto view_position camera_position_object_space	
+				param_named_auto viewproj_matrix  worldviewproj_matrix
+				param_named_auto 	fog fog_params
+			}
+			fragment_program_ref flow_reflect_pixel
+			{
+				param_named_auto 	timeval 	time 1
+				param_named_auto	fogcolor	fog_colour
+			}
+			texture_unit		//flowMap
+			{
+				texture_alias texture1
+			}
+			texture_unit		//reflectMap
+			{
+				texture_alias texture2
+			}
+			texture_unit		//normalMap
+			{
+				texture_alias texture3
+			}
+
+		}
+	}
+}
+

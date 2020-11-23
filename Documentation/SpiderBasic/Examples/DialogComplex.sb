@@ -1,0 +1,165 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Complex dialog example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Enumeration
+  #Dialog
+  #Dialog2
+EndEnumeration
+
+#Xml = 0
+
+; Declare this enumeration as 'Runtime' so we can use the constants directly in the XML
+;
+Runtime Enumeration Gadget
+  #ListView
+  #GeneralContainer
+  #EditorContainer
+  #BackupContainer
+EndEnumeration
+
+
+Procedure ShowPanels()
+  
+  HideGadget(#GeneralContainer, #True)
+  HideGadget(#EditorContainer, #True) 
+  HideGadget(#BackupContainer, #True)
+  
+  Select GetGadgetState(#ListView)
+    Case 0
+      HideGadget(#GeneralContainer, #False)
+      
+    Case 1
+      HideGadget(#EditorContainer, #False)
+      
+    Case 2
+      HideGadget(#BackupContainer, #False)
+  EndSelect
+EndProcedure
+
+; Declare this procedure as 'Runtime' so we can use it as an event handler directly in the XML
+;
+Runtime Procedure OnListViewEvent()
+  ShowPanels()
+EndProcedure
+
+
+Procedure CreateDialogGeneric(Dialog, XML$, x, y)
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+  
+    If CreateDialog(Dialog) And OpenXMLDialog(Dialog, #Xml, "test", x, y) = #False
+      Debug "Dialog error: " + DialogError(Dialog)
+    EndIf
+  Else
+    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
+  EndIf  
+EndProcedure
+
+
+XML$ = "<window id='#PB_Any' name='test' text='Preferences' minwidth='auto' minheight='auto' flags='#PB_Window_SystemMenu | #PB_Window_SizeGadget'>" +
+       "  <hbox expand='item:2'>" +
+       "    <listview id='#ListView' width='100' onevent='OnListViewEvent()'/>" +
+       "    <multibox>" +
+       "" +
+       "      <container id='#GeneralContainer'>" +
+       "        <frame text='General'>" +
+       "          <vbox expand='no'>" +
+       "            <checkbox text='Enable red light'/>" +
+       "            <checkbox text='Enable green light'/>" +
+       "          </vbox>" +
+       "        </frame>" +
+       "      </container>" +
+       "" +
+       "      <container id='#EditorContainer'>" +
+       "        <frame text='Editor'>" +
+       "          <vbox expand='no'>" +
+       "            <checkbox text='Set read only mode'/>" +
+       "            <checkbox text='Duplicate line automatically'/>" +
+       "            <checkbox text='Enable monospace font'/>" +
+       "          </vbox>" +
+       "        </frame>" +
+       "      </container>" +
+       "" +
+       "      <container  id='#BackupContainer'>" +
+       "      <frame text='Backup'>" +
+       "        <vbox expand='no'>" +
+       "          <checkbox text='Activate backup'/>" +
+       "        </vbox>" +
+       "      </frame>" +
+       "      </container>" +
+       "" +
+       "    </multibox>" +
+       "  </hbox>" +
+       "</window>"
+
+CreateDialogGeneric(#Dialog, XML$, 10, 10)
+  AddGadgetItem(#ListView, -1, "General")
+  AddGadgetItem(#ListView, -1, "Editor")
+  AddGadgetItem(#ListView, -1, "Backup")
+  
+  SetGadgetState(#ListView, 0)
+    
+  ShowPanels()
+
+XML$ = "<window id='#PB_Any' name='test' text='All Gadgets' minwidth='400' minheight='auto' flags='#PB_Window_SystemMenu | #PB_Window_SizeGadget'>" +
+         "  <panel>" +
+         "    <tab text='First tab'>" +
+         "      <vbox>" +
+         "        <hbox>" +
+         "          <button text='button'/>" +
+         "          <editor text='editor'/>" +
+         "          <hyperlink text='hyperlink'/>" +
+         "        </hbox>" +
+         "        <hbox>" +
+         "          <date />" +
+         "          <checkbox text='checkbox'/>" +
+         "          <option text='option'/>" +
+         "          <trackbar/>" +
+         "        </hbox>" +
+         "        <hbox>" +
+         "          <canvas text='date' flags='#PB_Canvas_Border'/>" +
+         "          <calendar text='checkbox'/>" +
+         "          <listview text='combo'/>" +
+         "          <web text='http://www.purebasic.com'/>" +
+         "        </hbox>" +
+         "        <hbox>" +
+         "          <image text='date' flags='#PB_Image_Border'/>" +
+         "          <progressbar/>" +
+         "          <combobox text='combo'/>" +
+         "          <text text='Text'/>" +
+         "        </hbox>" +
+         "        <hbox>" +
+         "          <scrollarea flags='#PB_ScrollArea_Border'/>" +
+         "          <listicon height='80' text='ListIcon'/>" +
+         "          <frame text='Frame'/>" +
+         "          <tree/>" +
+         "        </hbox>" +
+         "        <hbox>" +
+         "          <container flags='#PB_Container_Flat'/>" +
+         "          <string text='StringGadget'/>" +
+         "          <spin/>" +
+         "        </hbox>" +
+         "        <hbox>" +
+         "          <splitter flags='#PB_Splitter_Vertical'>" +
+         "            <button text='Left'/>" +
+         "            <button text='Right'/>" +
+         "          </splitter>" +
+         "          <buttonimage/>" +
+         "          <panel width='100'>" +
+         "            <tab text='1'/>" +
+         "            <tab text='2'/>" +
+         "            <tab text='3'/>" +
+         "          </panel>" +
+         "        </hbox>" +
+         "      </vbox>" +
+         "    </tab>" +
+         "  </panel>" +
+         "</window>"
+
+CreateDialogGeneric(#Dialog2, XML$, 370, 10)

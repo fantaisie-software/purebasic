@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Choosing one set of instructions from a set - Program Flow - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Program Flow: Choosing one set of instructions from a set</h1>
+Although it was possible to use the ElseIf keyword to check for multiple conditions
+ and execute some instructions for each of them, there are times when you do not
+ want to check something different each time, but do not want the overhead
+ of having to perform a full set of calculations and comparisons each time.
+ This is where the Select and EndSelect keywords come in.
+
+<p>The format of a Select...EndSelect block is shown below:
+<pre class="codepart">
+Select &lt;expression&gt;
+    Case &lt;constant 1&gt;
+        ; Instructions
+
+    [Case &lt;constant 2&gt;
+        ; Instructions]
+
+    [Case &lt;constant 3&gt;
+        ; Instructions]
+
+    ; ...
+
+    [Case &lt;constant n&gt;
+        ; Instructions]
+
+    [Default
+        ; Instructions]
+EndSelect
+</pre>
+
+The operation of this structure is as follows. First of all the value of the expression is
+ calculated. This can be any kind of expression, not just a comparison or logical one. It is
+ then compared to each of the constants (numeric or string) which follow the Case keywords.
+ If it matches any of those then the code following the matching Case is executed, until another
+ Case keyword is reached, at which point the program continues from the next instruction
+ after the EndSelect keyword. If none of the Case conditions match then the instructions
+ after the Default keyword are executed.
+
+<p>Again, the square brackets show that these conditions
+ are all optional, although you must have at least one Case condition, and the Default keyword
+ (if present) must be the last condition within the Select...EndSelect block.
+
+<p>Just as with the If...EndIf blocks, you can nest Select...EndSelect blocks inside each other
+ or inside any other blocks or loops as long as one block is entirely contained within the other.
+
+<p>The example below shows some uses of the Select...EndSelect block. You can also download the
+ sources from <a href="select.pb">here</a>.
+
+<pre class="code">If OpenConsole()
+
+    ; This is the same as one of the previous examples, although
+    ; the comparisons are always for equality so we cannot do the
+    ; same as the ElseIf name$<>&quot;John&quot; part of the previous example
+    name$ = &quot;John&quot;
+    Select name$
+        Case &quot;Andrew&quot;
+            PrintN(&quot;You have the same name as my brother.&quot;)
+            
+        Case &quot;Robert&quot;
+            PrintN(&quot;Were you named after the famous Scottish king?&quot;)
+            
+        Case &quot;John&quot;
+            PrintN(&quot;Where can we find Paul, George and Ringo?&quot;)
+            
+        Default
+            PrintN(&quot;Sorry, I do not recognise you.&quot;)
+    EndSelect
+
+
+    ; A simple set of instructions for farmers, depending on the age of their chickens ;)
+    ; (NB: no animals were harmed during the testing of this example!)
+    chicken_age.w = -1
+    Select chicken_age
+        Case 0
+            PrintN(&quot;Just a chick more than a chicken&quot;)
+
+        Case 1
+            PrintN(&quot;Useful for laying eggs&quot;)
+
+        Case 2
+            PrintN(&quot;Prime age for meat - choppity chop chop! >)&quot;)
+
+        Case 3
+            PrintN(&quot;Getting old now, better put it out of its misery - choppity chop chop! >)&quot;)
+
+        Default
+            PrintN(&quot;Counting them before they are hatched?&quot;)
+    EndSelect
+
+    PrintN(&quot;Press return to exit program.&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p>This example also gives a better idea of how to nest different types of blocks or loops.
+ You will see that the order of start and end keywords are If, Select, EndSelect, Select, EndSelect
+ and EndIf. This is the correct way to nest them, with the Select...EndSelect blocks completely
+ enclosed within the If...EndIf block. It would be an error to have the program written in such
+ a way that the order was (for example) If, Select, EndSelect, Select, EndIf and EndSelect.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="if.html">Choosing to execute some instructions</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="for.html">Repeating instructions a number of times</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

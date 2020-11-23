@@ -1,0 +1,128 @@
+;
+;     Accelerometer library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Accelerometer
+
+@Overview
+
+  SpiderBasic provides an easy access to accelerometer data, which are mainly used on phone
+  and tablets.
+
+@CommandList
+
+@ExampleFile All Accelerometer.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = StartAccelerometer(Frequency)
+
+@Description
+  Starts accelerometer data monitoring.
+
+@Parameter "Frequency"
+  The frequency (in millisecond) to refresh the accelerometer data. The lower the frequency is,
+  the more CPU consuming it is. This is a reference value, depending of the
+  device it can lack of precision. @@AccelerometerTime can be used to monitor the delay between 2
+  different fetches.
+
+@ReturnValue
+  Nonzero if accelerometer function are availables (ie: the device have an accelerometer), zero otherwise.
+
+@SeeAlso
+  @@StopAccelerometer, @@AccelerometerX, @@AccelerometerY, @@AccelerometerZ, @@AccelerometerTime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopAccelerometer()
+
+@Description
+  Stops accelerometer data monitoring.
+  
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@StartAccelerometer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = AccelerometerX()
+
+@Description
+  Returns the current acceleration on 'x' axis (in m/s^2). @@StartAccelerometer has to be called successfully before
+  using this command.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the current acceleration on 'x' axis (in m/s^2).
+
+@SeeAlso
+  @@StartAccelerometer, @@AccelerometerY, @@AccelerometerZ, @@AccelerometerTime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = AccelerometerY()
+
+@Description
+  Returns the current acceleration on 'y' axis (in m/s^2). @@StartAccelerometer has to be called successfully before
+  using this command.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the current acceleration on 'y' axis (in m/s^2).
+
+@SeeAlso
+  @@StartAccelerometer, @@AccelerometerX, @@AccelerometerZ, @@AccelerometerTime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = AccelerometerZ()
+
+@Description
+  Returns the current acceleration on 'z' axis (in m/s^2). @@StartAccelerometer has to be called successfully before
+  using this command.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the current acceleration on 'z' axis (in m/s^2).
+
+@SeeAlso
+  @@StartAccelerometer, @@AccelerometerX, @@AccelerometerY, @@AccelerometerTime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AccelerometerTime()
+
+@Description
+  Returns the time (in millisecond) when the current acceleration data has been fetched.
+  It can be used to ensure the time between two different fetches is not too wide. 
+  @@StartAccelerometer has to be called successfully before using this command.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the time (in millisecond) when the current acceleration data has been fetched.
+
+@SeeAlso
+  @@StartAccelerometer, @@AccelerometerX, @@AccelerometerY, @@AccelerometerZ
+
+@SupportedOS

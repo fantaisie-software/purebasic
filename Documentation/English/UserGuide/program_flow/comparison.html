@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Comparison Operators - Program Flow - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Program Flow: Comparison and Logical Operators</h1>
+In order to assist your program in making decisions and deciding whether to exit loops or
+ not, there are some new operators which are used solely for the comparison of values.
+ Although they can be used anywhere any other expression can be used, you will almost
+ always see them used with the keywords used for controlling the flow of your program.
+ There are six comparison operators and two logical operators, as described below.
+
+<p>All these operators can be used with all five of the basic built in variable types.
+ Because PureBasic's built in numeric data types are signed values (can store positive
+ and negative numbers) all the comparisons that are used are also signed. Note that
+ for strings the comparisons used here follow the ASCII values of the characters
+ so that the comparison is case sensitive, digits come before alphabetical characters,
+ symbols are between the two and so on.
+
+<p>All these operators are based on Boolean logic,
+ in which there are two values - true or false. In PureBasic false is represented by a
+ value of zero and any non-zero value is true.
+
+<p>Note that in all the following descriptions LHS is short for Left Hand Side and RHS
+ is short for Right Hand Side. These are used to describe the position of things relative to
+ the operator (i.e. whether it is on the left or ride side of the operator).
+
+<p><h2>Comparison Operators</h2>
+The comparison operators are the ones which perform the comparisons when you are controlling
+ the flow of your program. There are six of these operators, as shown below.
+
+<p><h2>Equals (Equality), =</h2>
+This operator is used to check whether the value of the expression on the LHS of the
+ operator is the same as the value on the RHS side of the operator. If the two values
+ are the same then this operator produces a true result (which is used with the
+ keywords for program flow). You will notice that this is the same symbol that is
+ used to assign values to variables, but PureBasic will understand which operation
+ to carry out (assignment or test for equality).
+
+<p><h2>Not equals (Inequality), &lt;&gt;</h2>
+The inequality operator performs the opposite function from the equality operator. That
+ is that it checks to see if the value of the expression on the LHS is not the same as
+ the value of the expression on the RHS. If the values are different then the result of
+ the comparison is true. If they have the same value then the result is false. The operator must be typed
+ as shown, i.e. you cannot write &gt;&lt;.
+
+<p><h2>Less than, &lt;</h2>
+As the name suggests, this operator compares the values of the expressions on the LHS and RHS
+ and if the value of the expression on the LHS is less than the value of the expression
+ on the RHS then the result is true. In any other situation the result is false.
+
+<p><h2>Greater than, &gt;</h2>
+This operator produces a result of true if the value of the expression on the LHS
+ is greater than the value of the expression on the RHS.
+
+<p><h2>Less than or equal to, &lt;=</h2>
+ This operator compares the value of the expression on the LHS to the value of the
+ expression on the RHS. If the value of the expression on the LHS is less than, or the
+ same as, the value of the expression on the RHS then the operator produces a result of
+ true. In any other case it produces a result of false. Note that it is this operator
+ which has the opposite function of the greater than operator. The operator must be typed
+ as shown, i.e. you cannot write =&lt;.
+
+<p><h2>Greater than or equal to, &gt;=</h2>
+ This operator compares the value of the expression on the LHS to the value of the
+ expression on the RHS. If the value of the expression on the LHS is greater than, or the
+ same as, the value of the expression on the RHS then the operator produces a result of
+ true. In any other case it produces a result of false. Note that it is this operator
+ which is the opposite of the less than operator. The operator must be typed
+ as shown, i.e. you cannot write =&gt;.
+
+<p><h2>Logical Operators</h2>
+The logical operators are used when you need to combine more than one comparison operator
+ in the same result or to modify the result, although they can also be used in other situations
+ where you would use operators.
+
+<p><h2>Logical AND, And</h2>
+And is used to combine two logical values (and therefore allows you
+ to combine two comparisons), and produces a result of true only if
+ both values on the LHS and RHS are true. In any other case it produces false as
+ a result. It might help you to think of the result from the And operator being
+ taken from this table:
+
+<table class="body">
+<tr>
+<th>Logical value of LHS</th>
+<th>Logical value of RHS</th>
+<th>Result from And operator</th>
+</tr>
+
+<tr>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+
+<tr>
+<td>False</td>
+<td>True</td>
+<td>False</td>
+</tr>
+
+<tr>
+<td>True</td>
+<td>False</td>
+<td>False</td>
+</tr>
+
+<tr>
+<td>True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+
+</table>
+
+ (That table is also in the Reference Manual.)
+
+<p><h2>Logical OR, Or</h2>
+The Or operator is also used to combine two logical values (and therefore allows you
+ to combine two comparisons). This operator gives a true result if either of the
+ values on the LHS or RHS are true. Only if both are false will it produce a result
+ of false. It might help you to think of the result from the And operator being
+ taken from this table:
+
+<table class="body">
+<tr>
+<th>Logical value of LHS</th>
+<th>Logical value of RHS</th>
+<th>Result from Or operator</th>
+</tr>
+
+<tr>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+
+<tr>
+<td>False</td>
+<td>True</td>
+<td>True</td>
+</tr>
+
+<tr>
+<td>True</td>
+<td>False</td>
+<td>True</td>
+</tr>
+
+<tr>
+<td>True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+
+</table>
+
+ (That table is also in the Reference Manual.)
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="introduction.html">Introduction</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="if.html">Choosing to execute some instructions</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

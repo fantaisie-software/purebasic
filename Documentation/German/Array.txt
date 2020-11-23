@@ -1,0 +1,182 @@
+;
+;     Array library documentation
+;
+;      (c) 2019 - Fantaisie Software
+;
+
+@Library Array
+
+@Overview
+  Arrays sind Strukturen zum Speichern von indizierten Elementen. Anders als bei
+  einer @LibraryLink "list" "verknüpften Liste" oder bei einer @LibraryLink "Map" "Map"
+  werden die Elemente in einer zusammenhängenden Weise im Speicher angelegt. 
+  Somit ist es nicht so einfach möglich, ein Element einzufügen oder zu entfernen.
+  Auf der anderen Seite bietet diese sehr schnellen und direkten Zugriff auf ein
+  beliebiges Element.
+@LineBreak
+@LineBreak
+  Um mit Arrays zu arbeiten, müssen diese zuerst deklariert werden. Dies kann mit
+  Hilfe des Schlüsselworts @ReferenceLink "dim" "Dim" erfolgen. Sie können ebenso in
+  ihrer Größe verändert werden, was mit Hilfe von @ReferenceLink "dim" "ReDim" geschieht.
+@LineBreak
+@LineBreak
+  Arrays können mit Hilfe von @@SortArray bzw. @@SortStructuredArray sortiert werden,
+  und können mittels @@RandomizeArray auch in einer zufälligen Reihenfolge neu angeordnet
+  werden.
+@LineBreak
+@LineBreak
+  Hinweis: Diese Arrays sind dynamisch, da sich ihre Größe ändern kann. In PureBasic
+  existieren dagegen auch sogenannte statische Arrays, die nicht in ihrer Größe verändert
+  und nur innerhalb von Strukturen verwendet werden können. Diese Arrays werden mit
+  eckigen Klammern geschrieben. Zum Beispiel: ArrayStatic[2]. Siehe @ReferenceLink "structures" "hier".
+  Die Funktionen dieser Array-Bibliothek können mit diesem Typ von Arrays nicht verwendet werden.
+
+@CommandList
+
+@Section &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sortieren & Verschiedenes
+  @@SortArray @LineBreak
+  @@SortStructuredArray @LineBreak
+  @@RandomizeArray @LineBreak
+
+@ExampleFile All Array.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ArraySize(Array() [, Dimension])
+
+@Description
+  Gibt die Größe des Arrays zurück, wie diese mit @Keyword Dim oder @Keyword ReDim angegeben wurde.
+
+@Parameter "Array()"
+  Das Array, von dem die Größe ermittelt werden soll.
+
+@OptionalParameter "Dimension"
+  Für mehrdimensionale Arrays kann dieser Parameter angegeben werden, um eine bestimmte Dimensions-Größe
+  zu erhalten. Die erste Dimension beginnt bei 1.
+
+@ReturnValue
+  Gibt die Größe der Array-Dimension zurück.
+  Wenn das Array noch nicht deklariert wurde (oder das Anlegen fehlgeschlagen ist), wird -1 
+  zurückgegeben. 
+  
+@Remarks
+  Wie bei @ReferenceLink "dim" "Dim" angegeben, entspricht die Anzahl der Elemente gleich Größe + 1.
+  Zum Beispiel: Dim a(2) beinhaltet 3 Elemente von a(0) bis a(2) bei einer Größe von 2.
+  @LineBreak
+  @LineBreak
+  Funktioniert nicht mit statischen Arrays, die in @ReferenceLink "structures" "Strukturen" deklariert wurden. @LineBreak
+  Verwenden Sie hier stattdessen @ReferenceLink "compilerfunctions" "SizeOf".
+
+@Example 
+@Code
+  Dim MyArray.l(10)
+  Debug ArraySize(MyArray()) ; wird '10' ausgeben
+
+  Dim MultiArray.l(10, 20, 30)
+  Debug ArraySize(MultiArray(), 2) ; wird '20' ausgeben
+  
+  Dim MultiArray2.l(2, 2, 2)
+  For n = 0 To ArraySize(MultiArray2(), 2)
+    MultiArray2(0, n, 0) = n + 1
+  Next n
+  Debug MultiArray2(0, 0, 0)  ; wird '1' ausgeben
+  Debug MultiArray2(0, 1, 0)  ; wird '2' ausgeben
+  Debug MultiArray2(0, 2, 0)  ; wird '3' ausgeben
+  Debug ArraySize(MultiArray2(), 2)  ; wird '2' ausgeben
+@EndCode
+
+@Example 
+@Code
+  Dim Test.q(99999999999999999)
+  
+  If ArraySize(Test()) <> -1
+    Test(12345) = 123  ; alles ist ok
+  Else
+    Debug "Array 'Test()' konnte nicht deklariert werden."
+  EndIf
+@EndCode
+
+@Example 
+@Code
+  Structure MyStructure
+    ArrayStatic.l[3]        ; Statisches Array, nur innerhalb von Strukturen
+    Array ArrayDynamic.l(4) ; Dynamisches Array
+  EndStructure
+  
+  Debug SizeOf(MyStructure\ArrayStatic)  ; wird 12 anzeigen
+  Debug SizeOf(MyStructure\ArrayDynamic) ; wird 8 anzeigen
+  
+  Ex.MyStructure
+  Debug ArraySize(Ex\ArrayDynamic())  ; wird 4 anzeigen
+@EndCode
+
+@SeeAlso
+  @@ListSize, @@MapSize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CopyArray(QuellArray(), ZielArray())
+
+@Description
+  Kopiert alle Elemente vom 'QuellArray()' in das 'ZielArray()'. 
+  Nach erfolgreichem Kopieren sind beide Arrays identisch.
+  Die Arrays müssen die gleiche Anzahl an Dimensionen haben.
+
+@Parameter "QuellArray()"
+  Das Array, von dem kopiert werden soll.
+
+@Parameter "ZielArray()"
+  Das Array, in welches kopiert werden soll. Alle zuvor in diesem Array
+  zu findenden Elemente werden gelöscht.
+  Dieses Array muss vom gleichen Typ (nativ oder strukturiert) sein und die gleiche
+  Anzahl an Dimensionen wie das Quell-Array haben.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Kopieren erfolgreich war, oder Null,
+  wenn es fehlschlug.
+
+@Example 
+
+@Code
+  Dim Numbers(5)
+  Dim NumbersCopy(10)
+  
+  Numbers(0) = 128
+  Numbers(5) = 256
+  
+  Debug "Array-Größe vor dem Kopieren: "+Str(ArraySize(NumbersCopy())) ; wird 10 ausgeben
+  
+  CopyArray(Numbers(), NumbersCopy())
+  
+  Debug "Array-Größe nach dem Kopieren: "+Str(ArraySize(NumbersCopy())) ; wird 5 ausgeben
+  Debug NumbersCopy(0)
+  Debug NumbersCopy(5)
+@EndCode
+
+@SeeAlso
+  @@CopyList, @@CopyMap
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeArray(Array())
+
+@Description
+  Gibt das angegebene 'Array()' und all seinen zugehörigen Speicher frei.
+  Um erneut darauf zuzugreifen, muss @ReferenceLink "dim" "Dim" aufgerufen werden.
+
+@Parameter "Array()"
+  Das freizugebende Array.
+
+@NoReturnValue
+
+@SeeAlso
+  @@FreeList, @@FreeMap
+
+@SupportedOS
+

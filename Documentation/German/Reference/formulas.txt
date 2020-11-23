@@ -1,0 +1,259 @@
+@Title Mathematische Formeln
+
+@Section Formeln
+
+  Nachfolgend eine Aufstellung verschiedener mathematischer Formeln. Diese sollen als Nachschlagewerk
+  dienen sowie hilfreich sein, evtl. Wissenslücken zu schließen. Denn ohne gute Mathekenntnisse können
+  komplexe Spiele und Applikationen nicht realisiert werden. @LineBreak
+  @LineBreak
+  Hinweis: Anstelle des in den Formeln angegebenen Zeichens '^' verwenden Sie die PureBasic-Funktion 
+  Pow() aus der "Math"-Befehlsbibliothek. 'PI' steht für den konstanten Wert "PI = 3.1415....". Ein 
+  Beispiel zur Umsetzung in PureBasic-Code: A = PI*r^2 ergibt A = PI*Pow(r,2)
+
+
+@Section Quadrat
+
+  @Image formula01.gif
+
+  l = Seitenlänge @LineBreak
+  e = Eckenmass @LineBreak
+  A = Fläche @LineBreak
+  U = Umfang @LineBreak
+  @LineBreak
+  @Bold Fläche: A = l^2 @LineBreak
+  @LineBreak
+  @Bold Umfang: U = 4*l @LineBreak
+  @LineBreak
+  @Bold "Eckenmass" e = SQR(2)*l 
+
+
+@Section Rhombus/Raute
+  
+  @Image formula02.gif
+  
+  l = Seitenlänge @LineBreak
+  b = Breite @LineBreak
+  A = Fläche @LineBreak
+  U = Umfang @LineBreak
+  @LineBreak
+  @Bold Fläche: A = l*b @LineBreak
+  @LineBreak
+  @Bold Umfang: U = 4*l @LineBreak
+
+
+@Section Rechteck
+
+  @Image formula03.gif
+
+  l = Länge @LineBreak
+  b = Breite @LineBreak
+  e = Eckenmass @LineBreak
+  A = Fläche @LineBreak
+  U = Umfang @LineBreak
+  @LineBreak
+  @Bold Fläche: A = l*b @LineBreak
+  @LineBreak
+  @Bold Umfang: U = 2*l+2*b @LineBreak
+  @LineBreak
+  @Bold Eckenmass: e = SQR(l^2+b^2)) @LineBreak
+
+
+@Section Rhomboid/Parallelogramm
+
+  @Image formula04.gif
+  
+  l = Länge @LineBreak
+  h = Höhe @LineBreak
+  b = Breite @LineBreak
+  A = Fläche @LineBreak
+  U = Umfang @LineBreak
+  @LineBreak
+  @Bold Fläche: A = l*h @LineBreak
+  @LineBreak
+  @Bold Umfang: U = 2*l+2*b @LineBreak
+
+
+@Section Trapez
+
+  @Image formula05.gif
+
+  a = Seite 1 @LineBreak
+  b = Seite 2 @LineBreak
+  c = Seite 3 @LineBreak
+  d = Seite 4 @LineBreak
+  lm = Mittlere Länge @LineBreak
+  h = Höhe @LineBreak
+  A = Fläche @LineBreak
+  U = Umfang @LineBreak
+  @LineBreak
+  @Bold Fläche: A = (a+c)/2*h @LineBreak
+  @LineBreak
+  @Bold Umfang: U = a+b+c+d @LineBreak
+  @LineBreak
+  @Bold "Mittlere Länge:" lm = (a+c)/2  @LineBreak
+
+
+@Section Dreieck
+
+  @Image formula06.gif
+  
+  a = Seite 1 @LineBreak
+  b = Seite 2 @LineBreak
+  c = Seite 3 @LineBreak
+  l = Seitenlänge @LineBreak
+  h = Höhe @LineBreak
+  A = Fläche @LineBreak
+  U = Umfang @LineBreak
+  @LineBreak
+  @Bold Fläche: @LineBreak
+  A = (l*h)/2 @LineBreak
+  A = 1/4*SQR(U*(U-2*a)*(U-2*b)*(U-2*c)) @LineBreak
+  @LineBreak
+  @Bold Umfang: U = a+b+c @LineBreak
+
+
+@Section Vieleck
+
+  @Image formula07.gif
+  
+  l = Seitenlänge @LineBreak
+  d = Inkreisdurchmesser @LineBreak
+  D = Umkreisdurchmesser @LineBreak
+  n = Eckenanzahl @LineBreak
+  a = Mittelpunktswinkel @LineBreak
+  ss = Eckenwinkel @LineBreak
+  A = Fläche @LineBreak
+  U = Umfang @LineBreak
+  @LineBreak
+  @Bold "Inkreisduchmesser:" d = SQR(D*D-l*l) @LineBreak
+  @LineBreak
+  @Bold "Umkreisdurchmesser:" D = SQR(d*d+l*l) @LineBreak
+  @LineBreak
+  @Bold "Seitenlänge:" l = D*SIN(180/n) @LineBreak
+  @LineBreak
+  @Bold "Mittelpunktswinkel:" a = 360/n @LineBreak
+  @LineBreak
+  @Bold "Eckenwinkel:" ss = 180-a @LineBreak
+  @LineBreak
+  @Bold Fläche: A = n*l*d/4 @LineBreak
+  @LineBreak
+  @Bold Umfang: U = l*n @LineBreak
+
+
+@Section Kreis
+
+  @Image formula08.gif
+
+  r = Radius @LineBreak
+  D = Durchmesser @LineBreak
+  A = Fläche @LineBreak
+  U = Umfang @LineBreak
+  @LineBreak
+  @Bold Fläche: @LineBreak
+  A = PI*r^2 @LineBreak
+  A = PI/4*d^2 @LineBreak
+  @LineBreak
+  @Bold Umfang: @LineBreak
+  U = 2*PI*r @LineBreak
+  U = PI*d @LineBreak
+ 
+ 
+@Section Kreisausschnitt
+
+  @Image formula09.gif
+
+  r = Radius @LineBreak
+  D = Durchmesser @LineBreak
+  l = Sehnenlänge @LineBreak
+  lb = Bogenlänge @LineBreak
+  a = Mittelpunktswinkel @LineBreak
+  A = Fläche @LineBreak
+  U = Umfang @LineBreak
+  @LineBreak
+  @Bold "Sehnenlänge:" l = 2*r*SIN(a/2) @LineBreak
+  @LineBreak
+  @Bold "Bogenlänge:" lb = PI*r*a/180 @LineBreak
+  @LineBreak
+  @Bold Fläche: @LineBreak
+  A = PI*D^2*a/1440 @LineBreak
+  A = lb*r/2 @LineBreak
+  @LineBreak
+  @Bold Umfang: U = lb+D
+
+
+@Section Kreisabschnitt
+
+  @Image formula10.gif
+
+  r = Radius @LineBreak
+  D = Durchmesser @LineBreak
+  l = Sehnenlänge @LineBreak
+  lb = Bogenlänge @LineBreak
+  a = Mittelpunktswinkel @LineBreak
+  b = Breite @LineBreak
+  A = Fläche @LineBreak
+  U = Umfang @LineBreak
+  @LineBreak
+  @Bold "Sehnenlänge:" @LineBreak
+  l = 2*r*SIN(a/2) @LineBreak
+  l = 2*SQR(b*(2*r-b)) @LineBreak
+  @LineBreak
+  @Bold "Bogenlänge:" lb = PI*r*a/180 @LineBreak
+  @LineBreak
+  @Bold Breite: @LineBreak
+  b = l/2*TAN(a/4) @LineBreak
+  b = r-SQR(r^2-l^2/4) @LineBreak
+  @LineBreak
+  @Bold Radius: r = b/2+l^2/(8*b) @LineBreak
+  @LineBreak
+  @Bold Fläche: @LineBreak
+  A = PI*d^2*a/1440-(l*(r-b))/2 @LineBreak
+  A = (lb*r-l*(r-b))/2 @LineBreak
+  @LineBreak
+  @Bold Umfang: U = lb+l @LineBreak
+
+
+@Section Kreisring
+
+  @Image formula11.gif
+  
+  d = Innendurchmesser @LineBreak
+  D = Aussendurchmesser @LineBreak
+  dm = mittlerer Durchmesser @LineBreak
+  b = Breite @LineBreak
+  A = Fläche @LineBreak
+  @LineBreak
+  @Bold "Mittlerer Durchmesser:" dm = (D+d)/2 @LineBreak
+  @LineBreak
+  @Bold Fläche: @LineBreak
+  A = PI*dm*b @LineBreak
+  A = PI/4*(D^2-d^2) @LineBreak
+
+
+@Section Speicherverbrauch eines Bildes
+
+  a = Breite des Bildes (in Pixel) @LineBreak
+  b = Höhe des Bildes (in Pixel) @LineBreak
+  bits = Farbtiefe des Bildes (in Bits) @LineBreak
+  @LineBreak
+  groesse = a * b * (Bits / 8) @LineBreak
+  
+  
+@Section Abstand zwischen zwei Punkten
+
+  (x1|y1) = XY-Koordinaten von Punkt Nr.1 @LineBreak
+  (x2|y2) = XY-Koordinaten von Punkt Nr.2 @LineBreak
+  a = Abstand zwischen den Punkten @LineBreak
+  @LineBreak
+  a = SQR((x1-x2)^2 + (y1-y2)^2)
+
+
+@Section "Mischen" zweier Werte
+  
+  a = 1. Zahl @LineBreak
+  b = 2. Zahl @LineBreak
+  v = Verhältnis (0% - 100%) @LineBreak
+  e = Ergebnis @LineBreak
+  @LineBreak
+  e = ((a*v)/100) + ((b*(100-v)) / 100) @LineBreak
+

@@ -1,0 +1,62 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Complex dialog example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+OpenScreen(800, 600, 32, "TouchScreen")
+
+Procedure RenderFrame()
+  Static SpriteFinger = -1
+  Static x, y
+  
+  ClearScreen(RGB(0, 0, 0))
+  
+  If ExamineTouchScreen() ; TouchScreen is detected and available
+    
+    For k = 0 To 4 ; Up to 5 possible fingers at once. We need to check them all, as some finger can be removed in between
+      
+      If TouchScreenPushed(k) And SpriteFinger = -1 ; One finger press detected, use it to move the sprite
+        SpriteFinger = k
+      EndIf
+    Next
+    
+    If SpriteFinger <> -1 And TouchScreenPushed(SpriteFinger) ; Ensure the finger used to move the sprite is still pressed
+      x = TouchX(SpriteFinger) - SpriteWidth(0) / 2           ; We want our finger centered in the sprite
+      y = TouchY(SpriteFinger) - SpriteHeight(0) / 2
+    Else
+      SpriteFinger = -1
+    EndIf
+    
+    DisplaySprite(0, x, y)
+    
+    FlipBuffers(); // continue the rendering
+  Else
+    Debug "No touchscreen device detected"
+  EndIf
+  
+EndProcedure 
+
+Procedure Loading(Type, Filename$, ObjectId)
+  Static NbLoadedElements
+  
+  NbLoadedElements+1
+  If NbLoadedElements = 1 ; The loading of all images and sounds is finished, we can start the rendering
+    FlipBuffers()         ; // start the rendering
+  EndIf
+EndProcedure
+
+Procedure LoadingError(Type, Filename$, ObjectId)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loading())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+
+LoadSprite(0, "Data/SpiderBasicLogo.png")

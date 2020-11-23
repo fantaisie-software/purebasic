@@ -1,0 +1,105 @@
+@Title NewMap
+
+@Syntax
+
+  @Keyword NewMap Name.<Typ>([Slots])
+  
+@Description
+
+  @Keyword NewMap ermöglicht das Deklarieren einer neuen Map, auch bekannt als Hashtable oder Dictionary (in Deutsch auch 
+  "Liste, Tabelle, Verzeichnis" genannt). Sie ermöglicht das einfache Referenzieren (= Zuweisen/Aufrufen) eines Elements,
+  basierend auf einem Schlüssel ('Key'). Alle Schlüssel in der Map sind einmalig. Dies bedeutet, dass sie keine zwei
+  verschiedenen Elemente mit dem gleichen Schlüssel haben kann. Es gibt kein Limit für die Elemente, daher kann es soviele
+  wie nötig geben. Eine Map kann alle @ReferenceLink "Variables" "Standard-Variablen" bzw. 
+  @ReferenceLink "Structures" "strukturierten Typen" haben. Um alle Befehle zum Verwalten von Maps zu sehen, schauen
+  Sie in die @LibraryLink "Map" "Map" Bibliothek.
+  @LineBreak
+  @LineBreak
+  Wenn ein neuer Schlüssel für eine Zuweisung verwendet wird, wird automatisch ein neues Element zur Map hinzugefügt.
+  Wenn sich bereits ein anderes Element mit dem gleichen Schlüssel in der Map befindet, wird dieses durch das neue ersetzt.
+  Sobald auf ein Element zugegriffen wurde oder eines erstellt wurde, wird dieses das aktuelle Element der Map,
+  und weiterer Zugriff auf dieses Element kann ohne Angabe des Schlüssels erfolgen. Dies ist nützlich beim Verwenden
+  von strukturierten Maps, da kein weiterer Aufruf des Elements benötigt wird, um auf die verschiedenen Struktur-Felder 
+  zuzugreifen.
+  @LineBreak
+  @LineBreak
+  Neue Maps sind standardmäßig immer lokal, weshalb die @ReferenceLink "Global" "Global" bzw. @ReferenceLink "Shared" "Shared"
+  Befehle verwendet werden müssen, wenn auf eine im Haupt-Quellcode deklarierte Map in Prozeduren zugegriffen werden muss.
+  Es ist möglich, eine Map als Parameter an eine @ReferenceLink "Procedures" "Prozedur" zu übergeben, indem das 
+  Schlüsselwort @Keyword "Map" verwendet wird.
+  @LineBreak
+  @LineBreak
+  Für das schnelle Austauschen von Map-Elementen gibt es das @ReferenceLink "others" "Swap" Schlüsselwort.
+  @LineBreak
+  @LineBreak
+  Der optionale Parameter 'Slots' definiert, wie viele "Slots" die Map zum Speichern ihrer Elemente erhält.
+  Je mehr Slots sie hat, desto schneller ist sie beim Zugriff auf ein Element, aber desto mehr Speicher benötigt sie auch.
+  Es ist ein Kompromiss - abhängig davon, wie viele Elemente die Map letztendlich enthalten wird und wie schnell der 
+  direkte Zugriff sein soll. Der Standardwert ist 512. Dieser Parameter hat keinen Einfluss darauf, wieviele Elemente
+  eine Map enthalten kann.
+
+  @Example Einfache Map
+
+@Code
+  NewMap Country.s()
+  
+  Country("GE") = "Germany"
+  Country("FR") = "France"
+  Country("UK") = "United Kingdom"
+  
+  Debug Country("FR")
+  
+  ForEach Country()
+    Debug Country()
+  Next
+@EndCode
+
+  @Example Map als Prozedur-Parameter
+
+@Code
+  NewMap Country.s()
+  
+  Country("GE") = "Germany"
+  Country("FR") = "France"
+  Country("UK") = "United Kingdom"
+
+  Procedure DebugMap(Map ParameterMap.s())
+
+    ParameterMap("US") = "United States"
+
+    ForEach ParameterMap()
+      Debug ParameterMap()
+    Next
+ 
+  EndProcedure
+
+  DebugMap(Country())
+@EndCode
+
+
+  @Example Strukturierte Map
+
+@Code
+  Structure Car
+    Weight.l
+    Speed.l
+    Price.l
+  EndStructure
+
+  NewMap Cars.Car()
+  
+  ; Hier verwenden wir das aktuelle Element nach dem Einfügen
+  ;
+  Cars("Ferrari F40")\Weight = 1000
+  Cars()\Speed = 320
+  Cars()\Price = 500000
+  
+  Cars("Lamborghini Gallardo")\Weight = 1200
+  Cars()\Speed = 340
+  Cars()\Price = 700000
+
+  ForEach Cars()
+    Debug "Car name: "+MapKey(Cars())
+    Debug "Weight: "+Str(Cars()\Weight)
+  Next 
+@EndCode

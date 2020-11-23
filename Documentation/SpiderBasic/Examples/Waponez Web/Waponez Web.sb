@@ -1,0 +1,458 @@
+EnableExplicit
+
+;InitSprite()
+;InitKeyboard()
+;UsePNGImageDecoder()
+
+InitSound()
+
+ExamineDesktops()
+Global ScreenWidth = DesktopWidth(0)
+Global ScreenHeight = DesktopHeight(0)
+
+#BackWidth = 320
+#BackHeight = 320
+
+Structure Bullet
+  x.w
+  y.w
+  Width.w
+  Height.w
+  Image.w
+  SpeedX.w
+  SpeedY.w
+EndStructure
+
+
+Structure Explosion
+  x.w
+  y.w
+  State.w
+  Delay.w
+EndStructure
+
+
+Structure Alien
+  x.w
+  y.w
+  Width.w
+  Height.w
+  Speed.w
+  StartImage.w
+  EndImage.w
+  ImageDelay.w
+  NextImageDelay.w
+  ActualImage.w
+  Armor.w
+EndStructure
+
+Global NewList Bullet.Bullet()
+Global NewList Explosion.Explosion()
+Global NewList Aliens.Alien()
+
+Global PlayerSpeedX, PlayerSpeedY, BulletSpeed
+Global PlayerWidth, PlayerHeight, PlayerX, PlayerY
+Global BulletDelay, ScrollDelay, ScrollY
+Global Fire, PlayerImage, EnableJoystick, Dead=0, DeadDelay=0
+Global BackX, BackY, AlienDelay, Boss, Score
+
+Procedure AddBullet(Sprite, x, y, SpeedX, SpeedY)
+  AddElement(Bullet())           
+  Bullet()\x      = x
+  Bullet()\y      = y
+  Bullet()\Width  = SpriteWidth(Sprite)
+  Bullet()\Height = SpriteHeight(Sprite)
+  Bullet()\Image  = Sprite
+  Bullet()\SpeedX = SpeedX
+  Bullet()\SpeedY = SpeedY
+EndProcedure
+
+Procedure SpritePixelCollision_2(sprite1,x1,y1,sprite2,x2,y2)
+  ; ProcedureReturn SpriteCollision(sprite1, x1, y1, sprite2, x2, y2)
+  ProcedureReturn SpritePixelCollision(sprite1, x1, y1, sprite2, x2, y2)
+EndProcedure
+
+Procedure MovePlayers()
+  Fire = 0
+  PlayerImage = 3  ; Non-moving player image
+
+;   If EnableJoystick
+;     If ExamineJoystick(0)
+;     
+;       PlayerX+JoystickAxisX(0)*PlayerSpeedX
+;       PlayerY+JoystickAxisY(0)*PlayerSpeedY
+; 
+;       If JoystickAxisX(0) = 1
+;         PlayerImage = 0
+;       EndIf
+;       
+;       If JoystickAxisX(0) = -1
+;         PlayerImage = 2
+;       EndIf
+;       
+;       ; All buttons works to fire the aLiEnZ !
+;       ;
+;       If JoystickButton(0, 1) Or JoystickButton(0, 2) Or JoystickButton(0, 3) Or JoystickButton(0, 4)
+;         Fire = 1
+;       EndIf
+;    
+;     EndIf
+;   EndIf
+
+  ExamineKeyboard()
+     
+  If KeyboardPushed(#PB_Key_Left)
+    PlayerX-PlayerSpeedX
+    PlayerImage = 2  ; Left moving player image
+  EndIf
+  
+  If KeyboardPushed(#PB_Key_Right)
+    PlayerX+PlayerSpeedX
+    PlayerImage = 0  ; Right moving player image
+  EndIf
+  
+  If KeyboardPushed(#PB_Key_Up)
+    PlayerY-PlayerSpeedY
+  EndIf
+  
+  If KeyboardPushed(#PB_Key_Down)
+    PlayerY+PlayerSpeedY
+  EndIf
+
+  If PlayerX < 0 : PlayerX = 0 : EndIf
+  If PlayerY < 0 : PlayerY = 0 : EndIf
+
+  If PlayerX > ScreenWidth-PlayerWidth  : PlayerX = ScreenWidth-PlayerWidth : EndIf
+  If PlayerY > ScreenHeight-PlayerHeight : PlayerY = ScreenHeight-PlayerHeight : EndIf
+ 
+  If Dead = 1
+    AddElement(Explosion())
+    Explosion()\x = PlayerX
+    Explosion()\y = PlayerY
+
+    Dead = 0
+  Else
+    If DeadDelay > 0
+      DeadDelay-1
+      If DeadDelay < 200 And DeadDelay % 2 = 0 ; make the sprite flicker to show invincibility
+        DisplayTransparentSprite(PlayerImage, PlayerX, PlayerY)
+      EndIf
+    Else
+      DisplayTransparentSprite(PlayerImage, PlayerX, PlayerY)
+    EndIf
+  EndIf
+    
+  If KeyboardPushed(#PB_Key_Space) Or Fire
+    If BulletDelay = 0 
+      If DeadDelay < 100
+        BulletDelay = 10
+
+        ; AddBullet() syntax: (#Sprite, x, y, SpeedX, SpeedY)
+        ;
+        AddBullet(4, PlayerX+5 , PlayerY-10,  0          , -BulletSpeed) ; Front bullet (Double bullet sprite)
+        AddBullet(6, PlayerX+45, PlayerY+6 ,  BulletSpeed, 0)            ; Right side bullet
+        AddBullet(7, PlayerX-11, PlayerY+6 , -BulletSpeed, 0)            ; Left side bullet
+        AddBullet(8, PlayerX+45, PlayerY-6 ,  BulletSpeed, -BulletSpeed) ; Front-Right bullet
+        AddBullet(9, PlayerX-11, PlayerY-6 , -BulletSpeed, -BulletSpeed) ; Front-Left bullet
+        AddBullet(55,PlayerX+20, PlayerY+45,  0          ,  BulletSpeed) ; Rear bullet
+     
+        PlaySound(0, #PB_Sound_MultiChannel)    ; Play the 'pffffiiiouuu' laser like sound
+      EndIf
+    EndIf
+  EndIf
+  
+EndProcedure
+
+
+Procedure DisplayBullets()
+  ForEach Bullet()
+
+    If Bullet()\y < 0          ; If a bullet is now out of the screen, simply delete it..
+      DeleteElement(Bullet())
+    Else
+      If Bullet()\x < 0        ; If a bullet is now out of the screen, simply delete it..
+        DeleteElement(Bullet())
+      Else
+        If Bullet()\x > ScreenWidth-Bullet()\Width
+          DeleteElement(Bullet())
+        Else
+          If Bullet()\y > ScreenHeight
+            DeleteElement(Bullet())
+          Else
+            DisplayTransparentSprite(Bullet()\Image, Bullet()\x, Bullet()\y)   ; Display the bullet..
+
+            Bullet()\y + Bullet()\SpeedY
+            Bullet()\x + Bullet()\SpeedX
+          EndIf
+        EndIf
+      EndIf
+    EndIf
+    
+  Next
+EndProcedure
+
+
+Procedure NewAlienWave()
+
+  If AlienDelay = 0
+
+    AddElement(Aliens())
+
+    If Boss = 1
+
+      Aliens()\x = 100
+      Aliens()\y = -16
+      Aliens()\Width  = SpriteWidth(50)
+      Aliens()\Height = SpriteHeight(50)
+      Aliens()\Speed  = 2
+      Aliens()\StartImage = 50
+      Aliens()\EndImage   = 50
+      Aliens()\ImageDelay = 1
+      Aliens()\NextImageDelay = 1
+      Aliens()\ActualImage = 50
+      Aliens()\Armor = 5
+   
+      AlienDelay = 80
+
+    Else
+
+      Aliens()\x = Random(ScreenWidth-32)
+      Aliens()\y = -32
+      Aliens()\Width  = SpriteWidth(10) 
+      Aliens()\Height = SpriteHeight(10)
+      Aliens()\Speed  = 3
+      Aliens()\StartImage  = 10 
+      Aliens()\EndImage    = 15 
+      Aliens()\ImageDelay  =  4
+      Aliens()\NextImageDelay = Aliens()\ImageDelay
+      Aliens()\ActualImage = 10
+      Aliens()\Armor = 2
+      
+      AlienDelay = Random(20)
+
+    EndIf
+  Else
+    AlienDelay-1
+  EndIf
+
+EndProcedure
+
+
+Procedure DisplayAliens()
+
+ForEach Aliens()
+
+    DisplayTransparentSprite(Aliens()\ActualImage, Aliens()\x, Aliens()\y)
+
+    Aliens()\y + Aliens()\Speed
+
+    If Aliens()\NextImageDelay = 0
+ 
+      Aliens()\ActualImage+1
+
+      If Aliens()\ActualImage > Aliens()\EndImage
+        Aliens()\ActualImage = Aliens()\StartImage
+      EndIf
+
+      Aliens()\NextImageDelay = Aliens()\ImageDelay
+    Else
+      Aliens()\NextImageDelay-1
+    EndIf
+
+    If Aliens()\Armor <= 0
+      AddElement(Explosion())
+      Explosion()\x = Aliens()\x
+      Explosion()\y = Aliens()\y
+
+      Score+20
+      DeleteElement(Aliens())
+    Else
+      If Aliens()\y > ScreenHeight
+        DeleteElement(Aliens())
+      EndIf
+    EndIf
+    
+  Next
+EndProcedure
+
+
+Procedure DisplayExplosions()
+
+  ResetList(Explosion())
+  While NextElement(Explosion())   ; Take the explosions objects, one by one.
+
+    ; For each object, display the current explosion image (called state here)
+    
+    DisplayTransparentSprite(Explosion()\State+20, Explosion()\x, Explosion()\y)
+
+    If Explosion()\Delay = 0
+      If Explosion()\State = 0  ; Play the sound only at the explosion start.
+        PlaySound(2, #PB_Sound_MultiChannel)
+      EndIf
+
+      If Explosion()\State < 7
+        Explosion()\State+1
+        Explosion()\Delay = 3
+      Else
+        DeleteElement(Explosion())
+      EndIf
+    Else
+      Explosion()\Delay-1
+    EndIf
+  Wend
+
+EndProcedure
+
+Procedure CheckCollisions()
+
+  ResetList(Aliens())
+  While NextElement(Aliens())
+    ResetList(Bullet())
+    While NextElement(Bullet())
+    
+      If SpritePixelCollision_2(Bullet()\Image, Bullet()\x, Bullet()\y, Aliens()\ActualImage, Aliens()\x, Aliens()\y)
+        Aliens()\Armor-1
+        DeleteElement(Bullet())
+      EndIf
+      
+    Wend
+
+    If DeadDelay = 0 ; No more invincible...
+      If SpritePixelCollision_2(PlayerImage, PlayerX, PlayerY, Aliens()\ActualImage, Aliens()\x, Aliens()\y)
+        Dead = 1
+        DeadDelay = 300
+
+        AddElement(Explosion())
+        Explosion()\x = Aliens()\x
+        Explosion()\y = Aliens()\y
+
+        DeleteElement(Aliens())
+      EndIf
+    EndIf
+  
+  Wend
+EndProcedure
+
+
+Procedure RenderFrame()
+  For BackX=0 To ScreenWidth Step #BackWidth
+    For BackY=-32 To ScreenHeight Step #BackHeight
+      DisplaySprite(30, BackX, BackY+ScrollY)
+    Next
+  Next
+  
+   CheckCollisions()
+
+   MovePlayers()
+  
+   DisplayBullets()
+  
+   NewAlienWave()
+ 
+   DisplayAliens()
+  
+   DisplayExplosions()
+
+  If BulletDelay > 0
+    BulletDelay-1
+  EndIf
+
+  If ScrollDelay = 0
+    ScrollY+1
+    ScrollDelay = 0
+  Else
+    ScrollDelay-1
+  EndIf
+  
+  If ScrollY>31
+    ScrollY = 0
+  EndIf      
+  
+  FlipBuffers() ; flip the buffer and ask for next frame
+EndProcedure
+
+
+Procedure Start()
+  
+  ClearScreen(0)
+  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+
+  PlayerWidth  = SpriteWidth(3)
+  PlayerHeight = SpriteHeight(3)
+  PlayerX = 300
+  PlayerY = 400
+  
+  FlipBuffers() ; start rendering
+  
+EndProcedure
+
+
+Procedure Loading(Type, Filename$)
+  Static NbLoadedElements
+  
+  NbLoadedElements+1
+  If NbLoadedElements = 26 ; Finished the loading of all images and sounds, we can start the applications
+    Start()
+  EndIf
+EndProcedure
+
+
+Procedure LoadingError(Type, Filename$)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loading())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+
+Define Path$, k
+
+OpenScreen(ScreenWidth, ScreenHeight, 32, "Waponez III")
+
+; SetRefreshRate(60)
+
+PlayerSpeedX = 6
+PlayerSpeedY = 6
+
+BulletSpeed = 10
+
+Path$ = "Data/"
+
+;
+; Load the sound effects
+;
+LoadSound(0, Path$+"Lazer.wav")
+LoadSound(2, Path$+"Explosion.wav")
+
+;
+; Load the 3 player sprites
+;
+LoadSprite(3, Path$+"Player_1.png", #PB_Sprite_PixelCollision)
+LoadSprite(0, Path$+"Player_2.png", #PB_Sprite_PixelCollision)
+LoadSprite(2, Path$+"Player_3.png", #PB_Sprite_PixelCollision)
+
+;
+; Load the bullets
+;
+LoadSprite( 4, Path$+"Bullet_1.png", #PB_Sprite_PixelCollision)
+LoadSprite( 6, Path$+"Bullet_Right.png", #PB_Sprite_PixelCollision)
+LoadSprite( 7, Path$+"Bullet_Left.png", #PB_Sprite_PixelCollision)
+LoadSprite( 8, Path$+"Bullet_Diag1.png", #PB_Sprite_PixelCollision)
+LoadSprite( 9, Path$+"Bullet_Diag2.png", #PB_Sprite_PixelCollision)
+LoadSprite(55, Path$+"Bullet_Bottom.png", #PB_Sprite_PixelCollision)
+
+For k=0 To 5
+  LoadSprite(k+10, Path$+"Ennemy_3_"+Str(k+1)+".png", #PB_Sprite_PixelCollision)
+Next
+
+;
+; Sprite 20 to 30 reserved for the explosions...
+;
+For k=0 To 7
+  LoadSprite(k+20, Path$+"Explosion_"+Str(k+1)+".png")
+Next
+  
+;
+; Load the background sprite
+;
+LoadSprite(30, Path$+"Back_4.png")

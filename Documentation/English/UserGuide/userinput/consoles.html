@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Interacting with the user - PureBasic User Guide</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Interacting with the user: Consoles</h1>
+<dfn>Console</dfn> is the name for the character mode display that we will be
+ using for the user interaction in this early part of the User Guide. You will
+ probably have seen consoles before using PureBasic as they are commonly used
+ to give a user a &quot;command prompt&quot; to allow the users to run programs
+ and scripts by typing their names rather than through a graphical environment.
+
+<p>Although consoles are only character mode displays (that is, each item
+ displayed in a console window is represented by one character rather than
+ being able to draw graphics to single pixel accuracy), it is possible
+ to enhance the display by using colours and positioning of the text to be
+ displayed. You can usually change the appearance of the console window itself.
+ You can even display some primitive graphics using the &quot;extended&quot; ASCII
+ character set (characters with values above 127), although what each of those
+ looks like may differ between Operating Systems.
+
+<p><h2>Compiler settings</h2>
+Before we go any further into the use of consoles we need to look at the
+ settings for our compiler. Although the programs we have written so far have
+ worked without problems we should set the compiler option for the output
+ format to be a console application. This will turn our programs into true
+ console based programs. To set this option, look in the &quot;Compiler menu
+ ->Compiler Options&quot; item. There you will find a drop down list for
+ selecting the &quot;Executable format&quot;; set this to &quot;Console&quot;.
+ You should remember to check this setting for every new program (which is
+ console based) that you start writing.
+
+<div class="important">
+<p><h2>Opening a console</h2>
+If you want to use any of the character mode display or input commands then
+ you <em>must</em> open a console before you do so. It is possible that you have
+ already seen what happens if you do not open a console first (while you have
+ been working with the previous examples and exercises): either the debugger
+ warns you that there is no console or your program would crash!
+
+<p>You can only open one console window at any time.
+</div>
+
+<p>To open a console window you use the <span class="code">OpenConsole()</span>
+ command. This command takes no parameters and returns a value which shows if
+ the console window was able to be opened successfully or not. Before the
+ previous chapter we had ignored the value returned by OpenConsole because we had not covered
+ the PureBasic keywords required to handle this value. However, you must
+ check it to ensure that the console could be opened (such as with the If
+ keyword, as demonstrated in the previous chapter). The code below shows
+ this.
+
+<p><h2>Closing the console</h2>
+To close a console window you use the <span class="code">CloseConsole()</span>
+ command. This has no parameters and does not return a value. PureBasic will
+ close any console you have open when the program ends, but this command can
+ be useful if you only want to open a console for a short time while you perform
+ some calculations. It is especially important to remember to close consoles
+ before you try to open another one because of the fact that you can only open
+ one console window at any time.
+
+<p><h2>Example</h2>
+You can also find the example <a href="console_basic.pb">here</a>.
+<pre class="code">If OpenConsole()
+    PrintN(&quot;Console was opened successfully&quot;)
+
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+Else
+    ; Failed to open console - make sure you do not use the Print command
+    ; to tell the user about it though :)
+EndIf
+End</pre>
+
+<p>
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="introduction.html">Introduction</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="print.html">Displaying text</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

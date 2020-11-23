@@ -1,0 +1,170 @@
+;
+;     Scintilla library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Scintilla
+
+@Overview
+  Scintilla is a free source code editing component. It comes with complete source code and a
+  license that permits use in any project or product personal or commercial. The license may be viewed
+@MainGuideLink "scintilla" "here". The source code, as well as the library documentation may be found
+  on the @InternetLink "http://www.scintilla.org/" "Scintilla Homepage".
+@LineBreak
+@LineBreak
+
+@Bold "From the Scintilla Homepage: "
+  As well as features found in standard text editing components, Scintilla includes features especially useful when editing
+  and debugging source code. These include support for syntax styling, error indicators, code completion and call tips.
+  The selection margin can contain markers like those used in debuggers to indicate breakpoints and the current line.
+  Styling choices are more open than with many editors, allowing the use of proportional fonts, bold and italics, multiple
+  foreground and background colors and multiple fonts.
+
+@LineBreak
+@LineBreak
+
+@Bold "Important:" The scintilla license requires that a copyright notice be included in all software that uses it
+  and the license text itself be included in the documentation for the software.
+  So if this library is used in software that is to be made public, the above linked license MUST be included with
+  the software.
+
+@LineBreak
+@LineBreak
+
+  PureBasic integrates the Scintilla library with the @LibraryLink "Gadget" "gadget library", so standard commands like
+  @@ResizeGadget or @@HideGadget may be used with the scintilla
+  control. Furthermore it provides the @@ScintillaSendMessage function to communicate
+  with the control to use its full potential. All structures and constants needed are already defined in PureBasic.
+
+@LineBreak
+@LineBreak
+
+@CommandList
+
+; @ExampleFile ; TODO
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitScintilla([LibraryName$])
+
+@Description
+  Loads the Scintilla DLL which is needed to use the commands of this library.
+  
+@OptionalParameter "LibraryName$"
+  Specifies the path and name of the DLL file (default is 'scintilla.dll').
+  The scintilla DLL file is included in the "Compilers" folder of the PureBasic package.
+
+@ReturnValue
+  Nonzero if the library was loaded successfully, zero otherwise. On OS X and Linux, the return value is always
+  @#True as the library is linked statically.
+
+@Remarks
+  This command is useful only on Windows, as on the other OS, the scintilla library is
+  linked statically with the executable and therefore does not need to be loaded or distributed with the program.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScintillaGadget(#Gadget, x, y, Width, Height, @Callback())
+
+@Description
+  Creates a new scintilla editing control in the current GadgetList.
+  @@InitScintilla has to be called successfully before using this command.
+
+@Parameter "#Gadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "@Callback()"
+  The address of a procedure to receive events from the control. It must be defined
+  as follows, where 'Gadget' is the gadget number of the control and *scinotify points to a structure
+  with information on the event:
+@Code
+
+  Procedure ScintillaCallBack(Gadget, *scinotify.SCNotification)
+    ; You code here
+  EndProcedure
+
+@EndCode
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks
+  The following events are supported through @@EventType:
+@FixedFont
+  @#PB_EventType_RightClick
+@EndFixedFont
+
+  After creation, Scintilla specific commands may be sent to the control with the
+  @@ScintillaSendMessage command. In addition common gadget commands like
+  @@ResizeGadget or @@HideGadget may be used
+  with the control as well.
+
+@Example
+@Code 
+  If OpenWindow(0, 0, 0, 330, 90, "ScintillaGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    
+    If InitScintilla()
+      ScintillaGadget(0, 10, 10, 320, 70, 0)
+      
+      ; Output set to red color
+      ScintillaSendMessage(0, #SCI_STYLESETFORE, 0, RGB(255, 0, 0))
+      
+      ; Set the initial text to the ScintillaGadget
+      *Text=UTF8("This is a simple ScintillaGadget with text...")
+      ScintillaSendMessage(0, #SCI_SETTEXT, 0, *Text)
+      FreeMemory(*Text) ; The buffer made by UTF8() has to be freed, to avoid memory leak
+      
+      ; Adding a second line of text with linebreak before
+      Text$ = Chr(10) + "Second line"
+      *Text=UTF8(Text$)
+      ScintillaSendMessage(0, #SCI_APPENDTEXT, Len(Text$), *Text)
+      FreeMemory(*Text)
+    EndIf
+    
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image scintillagadget.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScintillaSendMessage(#Gadget, Message [, Param [, LParam]])
+
+@Description
+  Sends a message to the scintilla control to perform a specific task.
+
+@Parameter "#Gadget"
+  The scintilla gadget to use.
+
+@Parameter "Message"
+  The message to send. More information about the possible messages may be found on the
+@InternetLink "http://www.scintilla.org/" "Scintilla Homepage".
+  The @#SCI_[...] constants representing the possible values are already defined
+  in PureBasic. 
+
+@OptionalParameter "Param"
+  The first custom parameter for the specified message. Default value if not specified is zero.
+
+@OptionalParameter "LParam"
+  The second custom parameter for the specified message. Default value if not specified is zero.
+
+@ReturnValue
+  The result of the message sent.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

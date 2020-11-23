@@ -1,0 +1,36 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Sort example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+#NbElements = 8
+
+Dim Array.s(#NbElements)
+Array(0) = "Hello"
+Array(1) = "This"
+Array(2) = "is"
+Array(3) = "a"
+Array(4) = "Nice"
+Array(5) = "test"
+Array(6) = "Isn't"
+Array(7) = "it ?"
+Array(8) = "Haha !"
+
+For k=0 To #NbElements
+  Debug Array(k)
+Next
+
+SortArray(Array(), #PB_Sort_Ascending | #PB_Sort_NoCase)
+
+Debug "---------------------"
+
+For k=0 To #NbElements
+  Debug Array(k)
+Next
+
+Debug "Sort finished !"

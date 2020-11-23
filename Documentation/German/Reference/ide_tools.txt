@@ -1,0 +1,281 @@
+
+@Title Verwenden der eingebauten Werkzeuge
+
+  Die PureBasic IDE kommt mit vielen eingebauten Werkzeugen, um die
+  Programmieraufgaben leichter zu machen und Ihre Produktivität zu erhöhen.
+  Viele von Ihnen können konfiguriert werden, um entweder für den Zugriff
+  über das Menü als separate Fenster verfügbar zu sein oder permanent 
+  in der Werkzeugtafel an der Seite des Eingabebereichs angezeigt zu werden.
+
+@LineBreak
+@LineBreak
+  Für weitere Informationen zum Konfigurieren dieser Werkzeuge und wo sie 
+  angezeigt werden, sehen Sie in das Kapitel @referencelink "ide_preferences" "Anpassen der IDE".
+
+
+@Section Werkzeuge für die seitliche Werkzeugtafel
+
+@Bold "Prozedurliste"
+
+@Image ide_tools_procedurelist.png
+
+  Dieses Werkzeug zeigt eine Liste aller im aktuellen Quellcode deklarierten
+  @ReferenceLink "procedures" "Prozeduren" und @ReferenceLink "macros" "Makros" an. Durch Doppelklick auf einen 
+  Eintrag in dieser Liste springt der Cursor automatisch zu dieser Prozedur.
+@LineBreak
+@LineBreak
+  Makros werden in der Liste mit einem "+" Zeichen vor ihrem Namen gekennzeichnet.
+@LineBreak
+@LineBreak
+  Sie können auch spezielle Kommentarmarken in Ihrem Code platzieren, welche
+  ebenfalls in dieser Liste angezeigt werden. Sie sehen so aus: ";- <Beschreibung>".
+  Das ; startet einen Kommentar, das unmittelbar darauf folgende '-' definiert 
+  eine solche Marke.
+@LineBreak
+@LineBreak
+  Die Beschreibung wird in der Prozedurliste gezeigt, und mit einem Klick
+  darauf wird zur Zeile dieser Markierung gesprungen. Solch eine 
+  Kommentarmarkierung kann von einer Prozedur unterschieden werden, indem 
+  in der Prozedurliste der Markierung ein ">" vorangestellt wird.
+@LineBreak
+@LineBreak
+  Die Liste an Prozeduren kann sortiert werden, und es können die Prozedur-/Makro-Argumente in der Liste angezeigt werden.
+  Für diese Optionen siehe @referencelink "ide_preferences" "Anpassen der IDE".
+
+@LineBreak
+@LineBreak
+
+@Bold "Projektliste"
+
+@Image ide_tools_project.png
+
+  Dieses Werkzeug stellt einen (Verzeichnis-) Baum aller Dateien im aktuellen @ReferenceLink "ide_projects" "Projekt" dar.
+  Ein Doppelklick auf eine Datei öffnet diese in der IDE. Dies ermöglicht schnellen Zugriff auf alle Dateien im Projekt.
+  Ein Rechtsklick auf einer Datei öffnet ein Kontext-Menü, das weitere Optionen bietet:
+
+@Indent
+  @Image ide_popupmenu_project.png
+
+  @Underline "Öffnen" - Öffnet die Datei in der IDE.
+@LineBreak
+  @Underline "Im Dateibetrachter öffnen" - Öffnet die Datei im Dateibetrachter der IDE.
+@LineBreak
+  @Underline "Im Explorer öffnen" - Öffnet die Datei im Datei-Manager des Betriebssystems.
+@LineBreak
+  @Underline "Datei zum Projekt hinzufügen" - Fügt eine neue Datei zum Projekt hinzu.
+@LineBreak
+  @Underline "Datei vom Projekt entfernen" - Entfernt die ausgewählte(n) Datei(en) vom Projekt.
+@LineBreak
+  @Underline "AutoVervollständigen-Daten aktualisieren" - Durchsucht die Datei erneut nach Auto-Vervollständigen Einträgen.
+  
+@EndIndent
+
+
+@Bold Dateiexplorer
+
+@Image ide_tools_fileexplorer.png
+
+  Das Dateiexplorer-Werkzeug stellt einen Explorer dar, über welchen Sie Dateien
+  auswählen und sie mit einem Doppelklick öffnen können. PureBasic-Dateien
+  (*.pb, *.pbi, *.pbp, *.pbf) werden in den Editier-Bereich geladen und alle anderen
+  erkannten Dateien (Text & Binär) werden im internen Dateibetrachter dargestellt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Variablenliste"
+
+@Image ide_tools_variablelist.png
+
+  Die Variablenliste kann @ReferenceLink "variables" "Variablen", @ReferenceLink "dim" "Arrays", 
+  @ReferenceLink "newlist" "Linked Lists", @ReferenceLink "general_rules" "Konstanten",
+  @ReferenceLink "structures" "Strukturen" und @ReferenceLink "interfaces" "Interfaces" anzeigen, 
+  die in Ihrem Quellcode oder jeder anderen geöffneten Datei definiert wurden.
+  Sie können in den @ReferenceLink "ide_preferences" "Einstellungen" konfigurieren,
+  was exakt in der Liste angezeigt werden soll.
+@LineBreak
+@LineBreak
+  Hinweis: Das Anzeigen von Variablen ist derzeit noch etwas eingeschränkt. Es können
+  nur Variablen gefunden werden, die explizit mittels @ReferenceLink "define" "Define", 
+  @ReferenceLink "global" "Global", @ReferenceLink "shared" "Shared", 
+  @ReferenceLink "protected" "Protected" oder @ReferenceLink "static" "Static" deklariert 
+  wurden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Code-Bausteine"
+
+@Image ide_tools_templates.png
+
+  Das Bausteine-Werkzeug ermöglicht eine Liste lauter kleiner Code-Abschnitte zu verwalten,
+  welche Sie schnell in Ihren Quellcode mittels Doppelklick einfügen können. Es erlaubt
+  Ihnen die Verwaltung der Codes in verschiedenen Verzeichnissen und das Hinzufügen eines
+  Kommentars zu jedem Code. Dieses Werkzeug ist perfekt, um kleine, oft verwendete
+  Code-Bausteine zu verwalten.
+
+@LineBreak
+@LineBreak
+
+@Bold "Problemliste"
+
+@Image ide_tools_issues.png
+
+  Das Problemlisten-Werkzeug sammelt alle Kommentare im Quellcode, die mit einem
+  bestimmten Format übereinstimmen und stellt sie geordnet nach Prioritäten dar.
+  Dies kann verwendet werden, um die Bereiche des Quellcodes im Blick zu behalten,
+  die noch weiterer Arbeit bedürfen.
+@LineBreak
+@LineBreak  
+  Jedes angezeigte Problem korrespondiert mit einem Kommentar im Code. Ein
+  Doppelklick auf ein Problem zeigt diese Code-Zeile. Probleme können für die
+  aktuelle Datei oder für mehrere Dateien (alle offenen Dateien, oder alle zum
+  aktuellen @ReferenceLink "ide_projects" "Projekt" gehörenden Dateien) angezeigt
+  werden.
+@LineBreak
+  Die Problemliste kann auch im CSV-Format exportiert werden.
+@LineBreak
+@LineBreak
+  Um die gesammelten Probleme zu konfigurieren, siehe der Abschnitt "Probleme"
+  in den @ReferenceLink "ide_preferences" "Einstellungen".
+
+@LineBreak
+@LineBreak  
+
+@Bold "Farbauswahl"
+
+@Image ide_tools_colorrequester.png
+
+  Die Farbauswahl hilft Ihnen, den perfekten Farbwert für jeden benötigten Einsatzzweck 
+  zu finden. Die folgenden Methoden zur Auswahl einer Farbe sind verfügbar:
+@LineBreak
+@LineBreak
+  RGB: Eine Farbe durch Auswahl der Rot-, Grün- und Blau-Intensitäten bestimmen.
+@LineBreak
+  HSV: Eine Farbe durch Auswahl von Farbton, Sättigung und Wert bestimmen.
+@LineBreak
+  HSL: Eine Farbe durch Auswahl von Farbton, Sättigung und Helligkeit bestimmen.
+@LineBreak
+  Rad: Eine Farbe mittels des HSV-Modells in einem Farbrad bestimmen.
+@LineBreak
+  Palette: Eine Farbe aus einer vor-definierten Palette auswählen.
+@LineBreak
+  Name: Eine Farbe aus einer Palette über den Namen auswählen.
+@LineBreak
+@LineBreak
+  Die Farbauswahl beinhaltet eine Alpha-Komponente, wenn das Häkchen "Alpha-Kanal einschließen"
+  gesetzt ist. Die individuellen Komponenten (rot/grün/blau Intensitäten bzw. Farbton/Sättigung/Helligkeit)
+  wie auch die hexadezimale Darstellung der aktuellen Farbe kann in den Textfeldern angesehen und
+  verändert werden.
+@LineBreak
+@LineBreak
+  Der Schalter "Farbe einfügen" fügt den hexadezimalen Wert der aktuellen Farbe in den Quellcode ein.
+  Der Schalter "RGB einfügen" fügt die Farbe als einen Aufruf der @@RGB bzw.
+  @@RGBA Funktion in den Code ein. Der Schalter "Farbe speichern" speichert die
+  aktuelle Farbe in den Merkbereich ("History") am unteren Rand. Das Anklicken einer Farbe in diesem
+  Merkbereich macht diese wieder zur aktuellen Farbe.
+
+@LineBreak
+@LineBreak
+
+@Bold "Zeichen-Tabelle"
+
+@Image ide_tools_ascii-table.png
+
+  Das Werkzeug "Zeichen-Tabelle" stellt eine Tabelle mit mit den ersten 256 Unicode Zeichen dar, 
+  zusammen mit deren Index in dezimal und hexadezimal, wie auch der zugehörigen Html-Schreibweise.
+  Durch einen Doppelklick auf eine Zeile, wird dieses Zeichen in den Quellcode eingefügt.
+  Mit den Schaltern am unteren Rand bestimmen Sie, aus welcher Spalte der Tabelle der 
+  entsprechende Wert bei einem Doppelklick eingefügt wird.
+
+@LineBreak
+@LineBreak
+
+@Bold "Hilfe-Tool"
+
+@Image ide_tools_help.png
+
+  Das Hilfe-Tool ist ein alternativer Anzeiger für das @ReferenceLink "ide_help" "Referenz-Handbuch".
+  Es kann verwendet werden, um das PureBasic-Handbuch Seite an Seite mit dem Code anzusehen.
+  Ob das F1-Tastenkürzel das Handbuch im Tool öffnet oder nicht, kann in den
+  @ReferenceLink "ide_preferences" "Einstellungen" angegeben werden.
+
+
+@Section Weitere eingebaute Werkzeuge
+
+@Bold "Strukturverzeichnis"
+
+@Image ide_tools_structureviewer.png
+
+  Das Strukturverzeichnis ermöglicht Ihnen die Anzeige aller Strukturen, Interfaces 
+  und Konstanten, welche in PureBasic vordefiniert sind. Ein Doppelklick auf eine
+  Struktur oder Interface zeigt deren Deklaration. Am oberen Rand der Liste können
+  Sie einen Filter auswählen, womit nur Einträge angezeigt werden, die mit dem
+  angegebenen Zeichen beginnen.
+@LineBreak
+@LineBreak
+  Der Schalter "Zurück" navigiert durch die angezeigten Einträge zurück.
+@LineBreak
+  "Namen einfügen" fügt einfach den Namen des ausgewählten Eintrags ein.
+@LineBreak
+  "Kopie einfügen" fügt eine Kopie der Deklarierung dieses Eintrags ein.
+@LineBreak
+  "Einfügen" lässt Sie einen Variablennamen eingeben und fügt dann eine Definition dieser
+  Variable und des ausgewählten Eintrags mit allen seinen Elementen ein.
+
+@LineBreak
+@LineBreak
+
+
+@Bold "Dateibetrachter"
+
+@Image ide_tools_fileviewer.png
+
+  Der interne Dateibetrachter ermöglicht Ihnen bestimmte Dateitypen anzuzeigen.
+  Text-Dateien, Bilder und Web-Seiten (nur unter Windows). Jedes unbekannte
+  Dateiformat wird im Hex-Anzeiger angezeigt. Der Schalter "Öffnen" öffnet eine
+  neue Datei, der "X" Schalter schließt diese und die Pfeiltasten können zum
+  Navigieren zwischen den geöffneten Dateien verwendet werden.
+@LineBreak
+@LineBreak
+  Auch jede Binär-Datei, die Sie über das Dateiexplorer-Werkzeug oder durch
+  Doppelklick auf ein @ReferenceLink "includes" "IncludeBinary" Schlüsselwort
+  zu öffnen versuchen, wird in diesem Dateibetrachter angezeigt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Dateien/Verzeichnisse vergleichen"
+
+@Image ide_tools_diff_options.png
+
+  Dieses Werkzeug kann zwei (Text-) Dateien oder zwei Verzeichnisse vergleichen und deren Unterschiede markieren.
+  Das Register "Optionen" kann verwendet werden, um einige Unterschiede wie Leerzeichen oder Änderungen der
+  Groß-/Kleinschreibung zu ignorieren.
+
+@Image ide_tools_diff_files.png
+
+  Die Dateien werden Seite an Seite angezeigt - mit ihren Unterschieden markiert auf folgende Weise:
+  In rot dargestellte Zeilen wurden in der rechten Datei entfernt, in grün dargestellte Zeilen
+  wurden in der rechten Datei hinzugefügt, und in gelb dargestellte Zeilen wurden zwischen den
+  beiden Dateien geändert.
+
+@Image ide_tools_diff_directories.png
+  
+  Beim Vergleichen von Verzeichnissen wird der Inhalt beider Verzeichnisse untersucht (mit der Option,
+  die Suche nach Datei-Endungen zu filtern und Unterverzeichnisse einzuschließen) und die Dateien werden
+  in einer ähnlichen Weise markiert: Dateien in rot existieren nicht im zweiten Verzeichnis, Dateien in
+  grün sind neu im zweiten Verzeichnis und Dateien in gelb wurden verändert. Ein Doppelklick auf
+  eine geänderte Datei zeigt die an dieser Datei vorgenommenen Veränderungen.
+
+
+@Section Andere Einträge im Werkzeuge-Menü
+
+@Bold "Form-Designer"
+
+@Image ide_tools_vdesigner.png
+
+  Der Form-Designer kann für das Gestalten der Benutzeroberfläche Ihrer Applikation
+  verwendet werden. Für weitere Informationen schauen Sie in das
+  @ReferenceLink "ide_form" "Form-Designer" Kapitel.
+

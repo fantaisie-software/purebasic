@@ -1,0 +1,105 @@
+@Title Interfaces 
+
+@Syntax 
+
+  @Keyword Interface <name> [@Keyword Extends <name>]
+    <Method[.<type>]()>
+    ...
+  @Keyword EndInterface
+
+@Description 
+
+  @Keyword Interfaces are used to access Object Oriented modules, such as COM (Component Object Model) or DirectX dynamic libraries (DLL). 
+  These types of libraries are becoming more and more common in Windows, and through the use of interfaces, the ability to access these modules 
+  easily (and without any performance hit) is realized. It also introduces the necessary basis for Object Oriented programming within PureBasic, 
+  but the use of interfaces requires some advanced knowledge. Most of the standard Windows interfaces have already been implemented within a resident 
+  file and this allows direct use of these objects. 
+  
+  @LineBreak
+  @LineBreak
+  The optional @Keyword Extends parameter may be used to extend another interface with new functions 
+  (Theses functions are commonly called 'methods' in Object Oriented (OO) languages such as C++ or Java). 
+  All functions contained within the extended interface are then made available within the new interface and will be 
+  placed before the new functions. This is useful in order to do basic inheritance of objects. @LineBreak
+  @LineBreak
+  @ReferenceLink "dim" "Arrays" can be passed as parameters using the @Keyword Array keyword,
+  @ReferenceLink "newlist" "lists" using the @Keyword List keyword and @ReferenceLink "newmap" "maps" using the @Keyword Map keyword.
+  @LineBreak
+  @LineBreak
+  A return type may be defined in the interface declaration by adding the type after the method.
+  @LineBreak
+  @LineBreak
+  @ReferenceLink "Others" SizeOf may be used with Interfaces in order to get the size of the interface and @ReferenceLink "Others" OffsetOf 
+  may be used to retrieve the index of the specified function. 
+  @LineBreak
+  @LineBreak
+  The @ReferenceLink "pseudotypes" "pseudotypes" may be used for the parameters of the functions, but not for the return
+  value.
+  @LineBreak
+  @LineBreak
+  Note: The concept of objects, and the capability provided within PureBasic for their use, has been developed for, and mainly
+  targeted towards, experienced programmers. However, an understanding of these concepts and capabilities are in no way a
+  prerequisite for creating professional software or games.
+
+  @Example Basic example of object call 
+
+@Code
+  ; In order to access an external object (within a DLL for example),
+  ; the objects' interface must first be declared:
+
+  Interface MyObject
+    Move(x,y)
+    MoveF(x.f,y.f)
+    Destroy()
+  EndInterface
+  
+  ; CreateObject is the function which creates the object, from the DLL,
+  ; whose interface has just been defined.
+  ; Create the first object...
+  ;
+  Object1.MyObject = MyCreateObject()
+  
+  ; And the second one.
+  ;
+  Object2.MyObject = MyCreateObject()
+  
+  ; Then the functions which have just been defined, may 
+  ; be used, in order to act upon the desired object.
+  ;
+  Object1\Move(10, 20)
+  Object1\Destroy()
+  
+  Object2\MoveF(10.5, 20.1)
+  Object2\Destroy()
+@EndCode
+
+  @Example Example with 'Extends' 
+
+@Code
+  ; Define a basic Cube interface object.
+  ;
+  Interface Cube
+    GetPosition()
+    SetPosition(x)
+    GetWidth()
+    SetWidth(Width)
+  EndInterface
+  
+  Interface ColoredCube Extends Cube
+    GetColor()
+    SetColor(Color)
+  EndInterface
+  
+  Interface TexturedCube Extends Cube
+    GetTexture()
+    SetTexture(TextureID)
+  EndInterface
+  
+  ; The interfaces for 3 different objects have now been defined, these objects include:
+  ;
+  ; - 'Cube' which has the: Get/SetPosition() and Get/SetWidth() functions.
+  ; - 'ColoredCube' which has the: Get/SetPosition(), Get/SetWidth() and Get/SetColor() functions.
+  ; - 'TexturedCube' which has the: Get/SetPosition(), Get/SetWidth() and Get/SetTexture() functions.
+  ;
+@EndCode
+

@@ -1,0 +1,45 @@
+@Title Shared
+
+@Syntax
+
+  @Keyword Shared <Variable> [, ...] 
+
+@Description
+
+  @Keyword Shared erlaubt den Zugriff auf eine @ReferenceLink "variables" "Variable", ein @ReferenceLink "dim" "Array" 
+  eine @ReferenceLink "NewList" "Linked List" oder eine @ReferenceLink "newmap" "Map" innerhalb der @ReferenceLink "Procedures" Prozedur.
+  Wenn @Keyword Shared zusammen mit einem Array, einer verknüpften Liste oder einer Map verwendet wird, muss nur
+  der Name gefolgt von '()' angegeben werden.
+
+@Example Mit Variable
+
+@Code
+  a = 10
+  
+  Procedure Change()
+    Shared a
+    a = 20 
+  EndProcedure 
+  
+  Change()
+  Debug a   ; wird 20 ausgeben, da die Variable "geteilt" (shared) wurde.
+@EndCode
+
+@LineBreak
+@Example Mit Array und verknüpfter Liste
+
+@Code
+  Dim Array(2)
+  NewList List()
+  AddElement(List())
+  
+  Procedure Change()
+    Shared Array(), List()
+    Array(0) = 1
+    List() = 2
+  EndProcedure 
+  
+  Change()
+  Debug Array(0)  ; wird 1 ausgeben, da das Array "geteilt" (shared) wurde.
+  Debug List()    ; wird 2 ausgeben, da die Liste "geteilt" (shared) wurde.
+@EndCode

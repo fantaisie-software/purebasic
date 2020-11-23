@@ -1,0 +1,652 @@
+;
+;     Mail library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Mail
+
+@Overview
+  Mail (Email) ist inzwischen ein gebräuchlicher Weg, um Informationen zwischen zwei entfernten Computern 
+  auszutauschen. Die Funktionen in dieser Bibliothek ermöglichen nicht nur die Erstellung von Emails,
+  sondern auch das Versenden dieser Email an einen einzelnen oder mehrere Empfänger.
+  Darüber hinaus können bei Bedarf optionale Anhänge erfolgen. Diese werden dann durch
+  einen Mail-Server gesendet.
+  @LineBreak
+  @LineBreak
+  Alle Mail-Befehle basieren auf der @LibraryLink "Network" "Network Bibliothek", daher muss @@InitNetwork 
+  aufgerufen werden, bevor diese verwendet werden können.
+@LineBreak
+@LineBreak
+  Auf Linux muss 'libcurl' installiert sein, damit die Mail-Befehle funktionieren (die meisten
+  Linux-Distributionen haben es bereits standardmäßig installiert).
+
+@CommandList
+
+@ExampleFile All Mail.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = AddMailAttachment(#Mail, Beschreibung$, Dateiname$ [, MimeTyp$])
+
+@Description
+  Fügt eine Datei-Anlage zur Email hinzu.
+
+@Parameter "#Mail"
+  Die zu verwendende Email.
+
+@Parameter "Beschreibung$"
+  Der Informations-String, welcher für die Anlage in der Email angezeigt wird.
+
+@Parameter "Dateiname$"
+  Die Datei, welche als Anlage (oder auch "Anhang") beigefügt werden soll.
+  Wenn der Dateiname keinen vollständigen Pfad beinhaltet, wird dieser relativ zum
+  @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis" interpretiert.
+@LineBreak
+@LineBreak
+  Sobald die Anlage hinzugefügt wurde, kann die lokale Datei geändert oder gelöscht werden, da
+  deren kompletter Inhalt kopiert und an die Email gehängt wird. 
+
+@OptionalParameter "MimeTyp$"
+  Der Typ der angehängten Datei.
+@LineBreak
+  Wenn dieser
+  Parameter weggelassen wird, dann wird die Datei-Endung verwendet, um den Mime-Typ dieser Datei zu bestimmen.
+  Im Anschluss folgt eine Liste der verfügbaren Mime-Typen. Wenn die Dateiendung mit keinem der verfügbaren
+  Mime-Typen übereinstimmt, dann wird der "application/octet-stream" Mime-Typ verwendet.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Anhang erfolgreich hinzugefügt wurde, und Null wenn nicht.
+
+@Remarks
+  Eine beliebige Anzahl an Anlagen kann zu einer Email hinzugefügt werden, aber das Größen-Limit
+  für eine einzelne Anlage ist derzeit auf 100 MByte festgelegt. Die meisten Server und Clients
+  verfügen nicht über die Fähigkeit, Anlagen dieser Größe zu verarbeiten. Daher empfiehlt es sich, dass
+  jede Anlage auf eine vernünftige Größe beschränkt wird.
+@LineBreak
+@LineBreak
+  Die verfügbaren Mime-Typen sind:
+@FixedFont
+  application/acad          | AutoCAD    dwg
+  application/clariscad     | ClarisCAD  ccad
+  application/drafting      | MATRA Prelude drafting   drw
+  application/dxf           | AutoCAD  dxf
+  application/i-deas        | SDRC I-deas  unv
+  application/iges          | Austauschformat CAO IGES   igs,iges
+  application/oda           | ODA  oda
+  application/pdf           | Adobe Acrobat  pdf
+  application/postscript    | PostScript   ai,eps,ps
+  application/pro_eng       | ProEngineer  prt
+  application/rtf           | Rich text   rtf
+  application/set           | CAO SET  set
+  application/sla           | Stereolithographie   stl
+  application/solids        | MATRA Solids   dwg
+  application/step          | STEP-Daten  step
+  application/vda           | surface   vda
+  application/x-mif         | Framemaker   mif
+  application/x-csh         | Script C-Shell (UNIX)   dwg
+  application/x-dvi         | dvi Text  dvi
+  application/hdf           | HDF-Daten   hdf
+  application/x-latex       | LaTEX  latex
+  application/x-netcdf      | netCDF   nc,cdf
+  application/x-sh          | Script Bourne Shell   dwg
+  application/x-tcl         | Script Tcl  tcl
+  application/x-tex         | Tex-Dateien  tex
+  application/x-texinfo     | eMacs  texinfo,texi
+  application/x-troff       | Troff  t,tr,troff
+  application/x-troff-man   | Troff/macro man  man
+  application/x-troff-me    | Troff/macro ME   me
+  application/x-troff-ms    | Troff/macro MS   ms
+  application/x-wais-source | Source Wais   src
+  application/x-bcpio       | CPIO binär  bcpio
+  application/x-cpio        | CPIO Posix  cpio
+  application/x-gtar        | Tar GNU   gtar
+  application/x-shar        | Archiv Shell  shar
+  application/x-sv4cpio     | CPIO SVR4n  sv4cpio
+  application/x-sv4crc      | CPIO SVR4 avec CRC  sc4crc
+  application/x-tar         | Archiv tar  tar
+  application/x-ustar       | Archiv tar Posix   man
+  application/zip           | Archiv ZIP   man
+  audio/basic               | audio au,snd
+  audio/x-aiff              | audio AIFF   aif,aiff,aifc
+  audio/x-wav               | audio Wave   wav
+  image/gif                 | Bilder gif  man
+  image/ief                 | Bilder Austausch-Format  ief
+  image/jpeg                | Bilder Jpeg   jpg,jpeg,jpe
+  image/png                 | Bilder Png  png
+  image/tiff                | Bilder Tiff   tiff,tif
+  image/x-cmu-raster        | Raster cmu  cmu
+  image/x-portable-anymap   | Anymap PBM   pnm
+  image/x-portable-bitmap   | Bitmap PBM   pbm
+  image/x-portable-graymap  | Graymap PBM  pgm
+  image/x-portable-pixmap   | Pixmap PBM   ppm
+  image/x-rgb               | Bild RGB   rgb
+  image/x-xbitmap           | Bilder Bitmap X   xbm
+  image/x-xpixmap           | Bilder Pixmap X   xpm
+  image/x-xwindowdump       | Bilder dump X Window  man
+  multipart/x-zip           | Archiv zip  zip
+  multipart/x-gzip          | Archiv GNU zip  gz,gzip
+  text/html                 | HTML   htm,html
+  text/plain                | Text ohne Formatierung   txt,g,h,c,cc,hh,m,f90
+  text/richtext             | Rich-Text   rtx
+  text/tab-separated-value  | Tab-separierter Text  tsv
+  text/x-setext             | Text Struct   etx
+  video/mpeg                | Video MPEG   mpeg,mpg,mpe
+  video/quicktime           | Video QuickTime  qt,mov
+  video/msvideo             | Video Microsoft Windows  avi
+  video/x-sgi-movie         | Video MoviePlayer  movie
+@EndFixedFont
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    If AddMailAttachment(0, "Anhang 1", OpenFileRequester("Einen Anhang auswählen", "", "", 0))
+      Debug "Anhang korrekt hinzugefügt"
+    Else
+      Debug "Anhang fehlgeschlagen"
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddMailAttachmentData, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = AddMailAttachmentData(#Mail, Beschreibung$, *Puffer, PufferLänge [, MimeTyp$])
+
+@Description
+  Fügt Speicherdaten als Anlage zur Email hinzu. 
+
+@Parameter "#Mail"
+  Die zu verwendende Email.
+
+@Parameter "Beschreibung$"
+  Der Informations-String, welcher für die Anlage in der Email angezeigt wird.
+
+@Parameter "*Puffer"
+  Der @LibraryLink "Memory" "Speicherbereich" der Daten, welche als Anhang hinzugefügt
+  werden sollen.
+  @LineBreak
+@LineBreak
+  Sobald die Anlage hinzugefügt wurde, kann der Speicherbereich geändert oder freigegeben werden, da
+  dessen kompletter Inhalt in die Email kopiert wird.
+
+@Parameter "PufferLänge"
+  Die Größe des Anhangs in Bytes.
+
+@OptionalParameter "MimeTyp$"
+  Der Typ der angehängten Datei.
+  @LineBreak
+  Wenn dieser
+  Parameter weggelassen wird, dann wird die Datei-Endung verwendet, um den Mime-Typ dieser Datei zu bestimmen.
+  Siehe den @@AddMailAttachment Befehl für eine Liste der verfügbaren Mime-Typen. Wenn die Dateiendung mit
+  keinem der verfügbaren Mime-Typen übereinstimmt, dann wird der "application/octet-stream" Mime-Typ verwendet.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Anhang erfolgreich hinzugefügt wurde, und Null wenn nicht.
+
+@Remarks
+  Eine beliebige Anzahl an Anlagen kann zu einer Email hinzugefügt werden, aber das Größen-Limit
+  für eine einzelne Anlage ist derzeit auf 100 MByte festgelegt. Die meisten Server und Clients
+  verfügen nicht über die Fähigkeit, Anlagen dieser Größe zu verarbeiten. Daher empfiehlt es sich, dass
+  jede Anlage auf eine vernünftige Größe beschränkt wird.
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+
+    If AddMailAttachmentData(0, "Anhang 1", ?Hello, 5)
+      Debug "Anhang korrekt hinzugefügt"
+    Else
+      Debug "Anhang fehlgeschlagen"
+    EndIf
+  EndIf
+
+
+  DataSection
+    Hello:
+      Data.b 'H', 'e', 'l', 'l', 'o'
+@EndCode
+
+@SeeAlso
+  @@AddMailAttachment, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddMailRecipient(#Mail, Adresse$, Flags)
+
+@Description
+  Fügt einen Empfänger (englisch "recipient") zur angegebenen Email hinzu. 
+
+@Parameter "#Mail"
+  Die zu verwendende Email.
+
+@Parameter "Adresse$"
+  Die Adresse des Empfängers. Die Adresse muss in einem der folgenden Formate vorliegen:
+@FixedFont
+  "joe.doe@domain.com"
+  "<joe.doe@domain.com>"
+  "Joe Doe <joe.doe@domain.com>"
+@EndFixedFont
+  
+@Parameter "Flags"
+  Die Kategorien, zu welcher der Empfänger hinzugefügt werden soll. Dies kann eine
+  Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Mail_To : Haupt-Empfänger (ggf. mehrere) der Email
+  @#PB_Mail_Cc : Empfänger (ggf. mehrere), welche eine Kopie der Email erhalten (und jeder dies sehen kann)
+  @#PB_Mail_Bcc: Empfänger (ggf. mehrere), welche eine Kopie der Email erhalten (aber niemand dies sieht)
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre ist der Hauptempfänger
+    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred erhält eine Kopie
+    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo erhält auch eine Kopie, aber Andre und Fred wissen dies nicht
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@RemoveMailRecipient, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateMail(#Mail, Von$, Betreff$ [, Kodierung])
+
+@Description
+  Erstellt eine neue, leere Email.
+
+@Parameter "#Mail"
+  Eine Nummer, mit welcher die neue Email identifiziert wird.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "Von$"
+  Die Absender-Adresse für die Email. Die Adresse muss in einem der folgenden Formate vorliegen:
+@FixedFont
+  "joe.doe@domain.com"
+  "<joe.doe@domain.com>"
+  "Joe Doe <joe.doe@domain.com>"
+@EndFixedFont
+
+@Parameter "Betreff$"
+  Die Betreffzeile für die Email.
+
+@OptionalParameter "Kodierung"
+  Die Kodierung (auch Verschlüsselung) für die Email. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @ConstantColor "PB_Ascii" : Der Mail-Inhalt wird in ASCII sein
+  @ConstantColor "PB_UTF8"  : Der Mail-Inhalt wird in @ReferenceLink "unicode" "UTF-8" sein (Standard)
+@EndFixedFont
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Email erfolgreich erstellt wurde, und Null wenn nicht.
+  Wenn @#PB_Any als #Mail Parameter verwendet wurde, dann wird bei Erfolg die
+  automatisch generierte Nummer zurückgegeben.
+
+@Remarks
+  @@SetMailBody, @@SetMailAttribute, @@AddMailAttachment und
+  @@AddMailAttachmentData können verwendet werden, um den Inhalt der Email zu verändern.
+@LineBreak
+@LineBreak
+  Hinweis: Entsprechend dem @InternetLink "http://www.ietf.org/rfc/rfc2822.txt" "RFC 2822"-Standard
+  muss ein Zeilenumbruch in einer Email immer mittels der CRLF-Zeichen erfolgen.
+@LineBreak
+@LineBreak
+  Auf Linux muss 'libcurl' installiert sein, damit die Mail-Befehle funktionieren (die meisten
+  Linux-Distributionen haben es bereits standardmäßig installiert).
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    SetMailBody(0, "Dies ist der Hauptteil !" + #CRLF$ + "Zweite Zeile")
+    Debug "Mail erstellt"
+  Else
+    Debug "Konnte die Mail nicht erstellen"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@InitNetwork, @@SetMailBody, @@SetMailAttribute, @@AddMailAttachment, @@AddMailAttachmentData, @@SendMail, @@FreeMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMail(#Mail)
+
+@Description
+  Gibt die angegebene 'Email und deren zugewiesenen Speicher frei.
+
+@Parameter "#Mail"
+  Die freizugebende Email. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Emails freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Wenn es verbleibende Emails gibt, dann werden diese automatisch freigegeben, wenn das Programm endet.
+
+@SeeAlso
+  @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetMailAttribute(#Mail, Attribut)
+
+@Description
+  Gibt das angegebene Email-Attribut zurück. 
+
+@Parameter "#Mail"
+  Die zu verwendende Email.
+
+@Parameter "Attribut"
+  Das zu ermittelnde Attribut. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Mail_From   : Ermittelt das 'Von' Attribut, definiert mit @@CreateMail.
+  @#PB_Mail_Subject: Ermittelt das 'Betreff' (englisch "subject") Attribut, definiert mit @@CreateMail.
+  @#PB_Mail_XMailer: Ermittelt das 'X-Mailer' Attribut (wenn es eines gibt)
+  @#PB_Mail_Date   : Ermittelt das 'Datums' Attribut (wenn es eines gibt)
+  @#PB_Mail_Custom : Ermittelt besondere ("Custom") Felder (wenn es welche gibt)
+@EndFixedFont
+
+@ReturnValue
+  Gibt das Attribut als einen String zurück. Ein leerer String wird zurückgegeben, wenn das
+  Attribut nicht existiert.
+
+@Remarks
+  @@SetMailAttribute kann verwendet werden, um die Email-Attribute zu ändern.
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    Debug GetMailAttribute(0, #PB_Mail_From)    ; wird "test@purebasic.com" ausgeben
+    Debug GetMailAttribute(0, #PB_Mail_Subject) ; wird "Hello" ausgeben
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SetMailAttribute, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetMailBody(#Mail)
+
+@Description
+  Gibt den angegebenen Email-Inhalt (auch "Email-Körper") zurück, welcher zuvor mit
+  @@SetMailBody festgelegt wurde.
+
+@Parameter "#Mail"
+  Die zu verwendende Email.
+
+@ReturnValue
+  Gibt den Inhalt (Körper) als einen String zurück.
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    SetMailBody(0, "Dies ist der Hauptteil")
+    Debug GetMailBody(0) ; wird "Dies ist der Hauptteil" ausgeben
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SetMailBody, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsMail(#Mail)
+
+@Description
+  Überprüft, ob die angegebene '#Mail' Nummer gültig ist und die Email korrekt initialisiert wurde.
+
+@Parameter "#Mail"
+  Die zu überprüfende Nummer.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die gültige Nummer gültig war.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. 
+  Dies ist der korrekte Weg, um sicherzustellen, dass die Email einsatzbereit ist.
+
+@SeeAlso
+  @@CreateMail, @@FreeMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = MailProgress(#Mail)
+
+@Description
+  Gibt den Fortschritt (englisch "progress") des angegebenen Email-Transfers zurück, welcher
+  mit @@SendMail gestartet wurde.
+
+@Parameter "#Mail"
+  Die zu verwendende Email.
+
+@ReturnValue
+  Gibt die Anzahl der übertragenen Bytes zurück, oder einen der folgenden Werte:
+@FixedFont
+  @#PB_Mail_Connected: Der Email-Transfer ist in seiner Initialisierungsphase.
+  @#PB_Mail_Finished : Der Email-Transfer ist korrekt abgeschlossen.
+  @#PB_Mail_Error    : Der Email-Transfer ist abgeschlossen, aber es ist ein Fehler aufgetreten.
+@EndFixedFont
+
+@SeeAlso
+  @@SendMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveMailRecipient(#Mail [, Addresse$ [, Flags])
+
+@Description
+  Entfernt einen Empfänger (englisch "recipient") von der angegebenen Email.
+
+@Parameter "#Mail"
+  Die zu verwendende Email.
+
+@OptionalParameter "Adresse$"
+  Die zu entfernende Adresse. Diese muss mit der Adresse eines Aufrufs von @@AddMailRecipient übereinstimmen.
+  Wenn nicht angegeben, werden alle Empfänger der Email entfernt.
+
+@OptionalParameter "Flags"
+  Die Kategorie(n), aus welcher/n der Empfänger entfernt werden soll. Dies kann eine
+  Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Mail_To : Haupt-Empfänger (ggf. mehrere) der Email
+  @#PB_Mail_Cc : Empfänger (ggf. mehrere), welche eine Kopie der Email erhalten (und jeder dies sehen kann)
+  @#PB_Mail_Bcc: Empfänger (ggf. mehrere), welche eine Kopie der Email erhalten (aber niemand dies sieht)
+@EndFixedFont
+  Wenn nicht angegeben, dann werden für die angegebene Adresse alle Kategorien entfernt.
+
+@NoReturnValue
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre ist der Hauptempfänger
+    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred erhält eine Kopie
+    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo erhält auch eine Kopie, aber Andre und Fred wissen dies nicht
+
+    ; Sicherstellen, dass Fred aus jeder Zieladresse entfernt wird :-)
+    RemoveMailRecipient(0, "fred@purebasic.com")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddMailRecipient
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SendMail(#Mail, Smtp$ [, Port [, Flags [, User$, Passwort$]]])
+
+@Description
+  Sendet die angegebene Email.
+
+@Parameter "#Mail"
+  Die zu sendende Email.
+
+@Parameter "Smtp$"
+  Die Adresse des Mail-Servers, welcher zum Versenden der Email verwendet werden soll.
+
+@OptionalParameter "Port"
+  Der Port des Mail-Servers. Der Standard ist Port 25.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Mail_Asynchronous: sendet die Email im Hintergrund (asynchron). @@MailProgress kann verwendet werden,
+                         um den Fortschritt zu verfolgen.
+  @#PB_Mail_UseSSL      : verwendet TLS/SSL zum Senden der Email (der Server muss dieses Protokoll unterstützen).
+@EndFixedFont
+
+@OptionalParameter "User$, Passwort$"
+  Der User (Anwender) und das Passwort, welche für die SMTP Authentifizierung verwendet werden, sofern
+  der Server dies erfordert.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Email korrekt gesendet wurde, und andernfalls Null.
+
+@Example Simple SMTP
+@Code
+  InitNetwork()
+
+  ; Hinweis: ändere die Adresse und Smtp, um ein lauffähiges Beispiel zu erhalten
+  ;
+  If CreateMail(0, "test@youraddress.com", "Hello")
+    AddMailRecipient(0, "youraddress@youraddress.com", #PB_Mail_To)
+
+    Debug SendMail(0, "smtp.yourfavoritesmtp.com")
+  EndIf
+@EndCode
+
+@Example Using GMail (TLS)
+@Code
+  InitNetwork()
+
+  ; Seien Sie sicher, das richtige Login und Passwort zu verwenden.
+  ;
+  Login$ = "yourlogin"
+  If CreateMail(0, Login$ + "@gmail.com", "Hello")
+    AddMailRecipient(0, "youraddress@youraddress.com", #PB_Mail_To)
+
+    Debug SendMail(0, "smtp.gmail.com", 465, #PB_Mail_UseSSL, Login$, "password")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CreateMail, @@MailProgress
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMailAttribute(#Mail, Attribut, Wert$)
+
+@Description
+  Ändert das angegebene Email-Attribut auf einen neuen Wert.
+
+@Parameter "#Mail"
+  Die zu verwendende Email.
+
+@Parameter "Attribut"
+  Das zu ändernde Attribut. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Mail_From   : Ändert das 'Von' Attribut, definiert mit @@CreateMail.
+  @#PB_Mail_Subject: Ändert das 'Betreff' (englisch "subject") Attribut, definiert mit @@CreateMail.
+  @#PB_Mail_XMailer: Ändert das 'X-Mailer' Attribut (wird nicht standardmäßig gesendet).
+  @#PB_Mail_Date   : Ändert das 'Datums' Attribut (Standard ist das aktuelle Computerdatum).
+  @#PB_Mail_Custom : Fügt besondere ("Custom") Felder hinzu (können mehrzeilig sein).
+@EndFixedFont
+
+@Parameter "Wert$"
+  Der neue Wert für das Attribut.
+
+@NoReturnValue
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    SetMailAttribute(0, #PB_Mail_XMailer, "PureMailer")
+    Debug GetMailAttribute(0, #PB_Mail_XMailer) ; wird "PureMailer" ausgeben
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetMailAttribute, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMailBody(#Mail, Body$)
+
+@Description
+  Ändert den Email-Inhalt ("body" = "Körper"). @@GetMailBody kann verwendet werden, um den
+  Inhalt wieder zu ermitteln.
+
+@Parameter "#Mail"
+  Die zu verwendende Email.
+
+@Parameter "Body$"
+  Der String mit dem neuen Email-Inhalt.
+
+@NoReturnValue
+
+@Remarks
+  Entsprechend des @InternetLink "http://www.ietf.org/rfc/rfc2822.txt" "RFC 2822" Standards muss
+  ein Zeilenumbruch in einer Email immer mit den @#CRLF$ Zeichen erfolgen.
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    SetMailBody(0, "Dies ist der Hauptteil")
+    Debug GetMailBody(0) ; wird "Dies ist der Hauptteil" ausgeben
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetMailAttribute, @@CreateMail
+
+@SupportedOS

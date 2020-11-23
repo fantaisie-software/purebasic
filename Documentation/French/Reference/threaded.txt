@@ -1,0 +1,63 @@
+@Title Threaded
+
+@Syntax
+
+  @Keyword Threaded[.<type>] <variable[.<type>]> [= <expression constante>] [, ...]
+
+@Description
+
+  @Keyword Threaded permet de créer une @ReferenceLink "variables" "variable", un @ReferenceLink "dim" "tableau" 
+  sauf les tableaux multi-dimensionnels), 
+  une @ReferenceLink "newlist" "liste" ou une @ReferenceLink "newmap" "map" qui sera persistant pour chaque @LibraryLink "thread" "thread".
+  C'est à dire que chaque @LibraryLink "thread" "thread" aura sa propre version de l'objet. C'est uniquement utile lors de l'écriture de programmes
+  multi-threadés. @LineBreak
+  Si un type est spécifié après le mot-clef @Keyword Threaded, le type par défaut pour cette déclaration est modifié. @LineBreak
+  @LineBreak
+  Chaque variable peut avoir une valeur par défaut assignée, mais cette valeur doit être une constante. 
+  Les variables threadées sont initialisées au lancement du premier thread.
+  Cela implique que si la variable est définie est assignée à une valeur en même temps alors elle est définie pour tous les threads. Voir exemple 2.
+  Lors de la déclaration d'un tableau threadé, les paramètres de dimensionnement doivent être des valeurs constantes. @LineBreak
+  @LineBreak
+  Un objet threadé ne peut pas être déclaré dans une procédure, et sa portée est toujours globale.
+
+
+@Example 1 Avec une variable
+
+@Code
+  Threaded Compteur
+  
+  Compteur = 128
+  
+  Procedure Thread(Parametre)
+    
+    Debug Compteur ; Affichera zero, car ce thread n'a pas encore utilisé cette variable
+    Compteur = 256
+    Debug Compteur ; Affichera 256
+    
+  EndProcedure
+  
+  Thread = CreateThread(@Thread(), 0)
+  WaitThread(Thread) ; Attente de la fin d'exécution du thread.
+  
+  Debug Compteur ; Affichera 128, meme si 'Compteur' a ete change dans le thread
+@EndCode
+
+@Example 2 Tous les threads
+
+@Code
+  Threaded Compteur = 128
+  
+  Procedure Thread(Parametre)
+    
+    Debug Compteur ; Affichera 128, car quand on lance un programme, on lance aussi un thread
+    Compteur = 256
+    Debug Compteur ; Affichera 256
+    
+  EndProcedure
+  
+  Thread = CreateThread(@Thread(), 0)
+  WaitThread(Thread) ; Attente de la fin d'exécution du thread.
+  
+  Debug Compteur ; Affichera 128, meme si 'Compteur' a ete change dans le thread
+@EndCode
+

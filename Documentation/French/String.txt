@@ -1,0 +1,1627 @@
+;
+; String library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library String
+
+@Overview
+  La bibliothèque String vous permet d'effectuer les opérations courantes 
+  sur les chaînes de caractères. Par défaut, les Chaînes de caractères sont 
+  vues comme des chaînes unicodes.
+
+@CommandList
+
+@ExampleFile All String.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Asc(Chaine$)
+
+@Description
+  Renvoie la valeur du premier caractère d'une chaîne.
+  
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+
+@ReturnValue
+  Renvoie la valeur ASCII du premier 
+  caractère de la chaîne ou sa valeur Unicode si 
+  sa valeur est supérieur à 255.
+@LineBreak
+@LineBreak
+  Comme le compilateur est  
+  @ReferenceLink "unicode" "unicode", 
+  il renverra une valeur de caractère 
+  unicode, sur deux octets.
+
+@Remarks
+  Vous trouverez une table ASCII 
+  @ReferenceLink "ascii" "ici". 
+@LineBreak
+@LineBreak
+  Il est également possible d'obtenir la valeur d'un caractère (et non d'une chaîne) 
+  en le plaçant entre des apostrophes directement, sans utiliser la fonction ASC. 
+
+@Example
+@Code
+  Debug "Veuillez vérifier que votre IDE est bien en UTF8: Fichier\Format du fichier\Encodage : Utf8 doit être coché."
+  Debug '!'      ; Affiche 33
+  Debug Asc("!") ; Affiche 33 (sur deux octets) car les valeur ascii sont intégrées dans unincode
+  Debug Asc("€") ; Affiche la valeur 8364 = 20AC en hexadecimal
+
+  Unicode$="€€ "
+  Debug Asc(Unicode$) ; Affiche la valeur 8364
+  ShowMemoryViewer(@Unicode$,StringByteLength(Unicode$) + SizeOf(CHARACTER)) ; Affiche AC 20 AC 20 20 00 00 00 (il est normal que AC et 20 soient "inversés" en mémoire)
+@EndCode
+
+@SeeAlso
+  @@Chr
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = Bin(Valeur.q [, Type])
+
+@Description
+  Convertit un nombre entier en un 
+  nombre binaire.
+
+@Parameter "Valeur.q "
+  Un nombre entier de type 'quad' (8 
+  octets).
+
+@OptionalParameter "Type"
+  Permet de traiter la 'Valeur' comme 
+  un type différent:
+@FixedFont
+  @#PB_Quad   : La valeur sera traitée comme un 'quad' (0 à 18446744073709551615) (Par défaut)
+  @#PB_Byte   : La valeur sera traitée comme un 'byte' (0 à 255)
+  @#PB_Ascii  : La valeur sera traitée comme un 'caractère ascii' (0 à 255)
+  @#PB_Word   : La valeur sera traitée comme un 'word' (0 à 65535)
+  @#PB_Unicode: La valeur sera traitée comme un 'caractère unicode' (0 à 65535)
+  @#PB_Long   : La valeur sera traitée comme un 'long' (0 à 4294967296)
+@EndFixedFont
+
+@ReturnValue
+  Convertit une valeur numérique de 
+  type 'quad' en chaîne en utilisant 
+  la représentation binaire.
+
+@Example
+@Code
+  Debug Bin(32) ; Affichera "100000"
+  Debug Bin(1024*1024*1024*1024) ; Affichera "10000000000000000000000000000000000000000"
+@EndCode
+
+@LineBreak
+  @Bold Note: Si des zéros supplémentaires 
+  sont nécessaires pour formater 
+  correctement le texte, il est possible 
+  d'utiliser @@RSet.
+
+@Example  
+@Code
+  Debug RSet(Bin(32), 16, "0") ; Affichera "0000000000100000"
+@EndCode
+
+@SeeAlso
+  @@Str, @@Val, @@Hex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = Chr(ValeurCaractere)
+
+@Description
+  Renvoie une chaîne obtenue avec la valeur du caractère donné.
+  
+@Parameter "ValeurCaractere"
+  La valeur du caractère.
+
+@ReturnValue
+  Renvoie une chaîne obtenue avec la 
+  valeur du caractère donné.
+  
+@Remarks
+  Un tableau avec toutes les valeurs Ascii et leur code associé peut être consulté 
+  @ReferenceLink "ascii" "ici".
+@LineBreak
+@LineBreak
+  Cette commande fonctionne en @ReferenceLink "unicode" "Unicode", qui renvoie les 
+  caractères associés à la valeur donnée.
+
+@Example
+@Code
+  Debug Chr(33)   ; Affiche le caractère "!"
+  Debug Chr(8364) ; Affiche le caractère "€"
+  Debug Chr($BC)  ; Affiche le caractère "¼"
+  Debug Chr($BD)  ; Affiche le caractère "½"
+@EndCode
+
+@SeeAlso
+  @@Asc, @@Val
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CountString(Chaine$, ChaineATrouver$)
+
+@Description
+  Renvoie le nombre d'occurences d'une 
+  sous-chaîne dans une chaîne de 
+  caractères.
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+
+@Parameter "ChaineATrouver$"
+  La chaîne de caractères à trouver.
+
+@ReturnValue
+  Renvoie le nombre d'occurences de 
+  la 'ChaineATrouver$' dans la 
+  'Chaine$'.
+  
+@Remarks
+  Cette fonction ne raisonne pas sur 
+  des mots, donc si la 'ChaineATrouver$' 
+  se trouve à l'intérieur d'un mot, 
+  elle sera comptabilisée quand même, 
+  comme le prouve l'exemple suivant.
+ 
+@Example
+@Code
+  Resultat = CountString("Combien de 'ien' contient le mot chien ?", "ien") ; Le résultat sera 4 
+@EndCode
+
+@SeeAlso
+  @@FindString,
+  @@InsertString,
+  @@RemoveString,
+  @@ReplaceString,
+  @@ReverseString,
+  @@StringByteLength,
+  @@StringField
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = EscapeString(Chaine$ [, Mode])
+
+@Description
+  Transforme une chaîne standard en chaîne 
+  avec des séquences d'échappement.
+
+@Parameter "String$"
+  La chaîne à transformer.
+
+@OptionalParameter "Mode"
+@FixedFont
+  @#PB_String_EscapeInternal: échappe une chaîne en utilisant le format de PureBasic (Par défaut). 
+                            (voir @ReferenceLink "general_rules" "Règles générales")                          
+  @#PB_String_EscapeXML     : échappe une chaîne en utilisant le format XML. Utile pour insérer une chaîne dans un arbre XML.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie la version échappée de la chaîne.
+
+@Remarks
+  La fonction @@UnescapeString peut être 
+  utilisée pour faire l'opération inverse.
+@LineBreak
+@LineBreak
+  Rappel du format PureBasic:
+@FixedFont
+  \a: bip                     @Keyword Chr(7)
+  \b: retour arrière          @Keyword Chr(8)
+  \f: saut de page            @Keyword Chr(12)
+  \n: retour à la ligne       @Keyword Chr(10)
+  \r: retour chariot          @Keyword Chr(13)
+  \t: tabulation horizontale  @Keyword Chr(9)
+  \v: tabulation verticale    @Keyword Chr(11)
+  \": double quote            @Keyword Chr(34)
+  \\: antislash               @Keyword Chr(92)
+@EndFixedFont  
+
+  Attention: Sous Windows, \t ne fonctionne pas avec les fonctions graphiques 
+  des bibliothèques 2DDrawing et VectorDrawing.
+  
+@Example
+@Code
+  Debug EscapeString("Test="+Chr(34)+"Hello"+Chr(34)+".") ; Affiche "Test=\"Hello\"."
+  Debug EscapeString("<item>Hello</item>", #PB_String_EscapeXML) ; Affiche "&lt;item&gt;Hello&lt;/item&gt;"
+@EndCode
+
+@SeeAlso 
+  @@UnescapeString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = FindString(Chaine$, ChaineCherchee$ [, PositionDepart] [, Mode]])  
+
+@Description
+  Cherche une sous-chaîne dans une 
+  chaîne de caractères.  
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+
+@Parameter " ChaineCherchee$ "
+  La chaîne de caractères à trouver.
+
+@OptionalParameter "PositionDepart"
+  Position du caractère à partir de 
+  laquelle la recherche commence.
+@LineBreak
+@LineBreak
+  L'indice du premier caractère valide 
+  est 1.
+@LineBreak
+@LineBreak  
+  Si ce paramètre n'est pas spécifié, 
+  la chaîne entière est recherchée.
+  
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_String_CaseSensitive: Recherche sensible à la casse (A <> a) (par défaut).
+  @#PB_String_NoCase       : Recherche insensible à la casse (A = a).
+@EndFixedFont
+
+@ReturnValue
+  Si 'ChaineCherchee$' est trouvée, sa 
+  position est renvoyée, en nombre de 
+  caractères, commençant à 1, sinon 
+  zéro est renvoyé.
+  
+@Example
+@Code
+  Position = FindString("PureBasic", "Bas") ; 'Position' recevra la valeur 5
+@EndCode  
+
+@SeeAlso
+  @@CountString,
+  @@InsertString,
+  @@RemoveString,
+  @@ReplaceString,
+  @@ReverseString,
+  @@StringByteLength,
+  @@StringField
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = Hex(Valeur.q [, Type])  
+
+@Description
+  Convertit un entier en une valeur 
+  hexadécimale.
+
+@Parameter "Valeur.q "
+  Un entier de type 'quad'. 
+
+@OptionalParameter "Type"
+@FixedFont
+  @#PB_Quad   : La valeur sera traitée comme un 'quad' (0 à 18446744073709551615) (Par défaut)
+  @#PB_Byte   : La valeur est un octet (8-bit) allant de 0 à 255
+  @#PB_Ascii  : La valeur est un octet (8-bit) allant de 0 à 255
+  @#PB_Word   : La valeur est un word (16-bit) allant de 0 à 65535
+  @#PB_Unicode: La valeur est un word (16-bit) allant de 0 à 65535
+  @#PB_Long   : La valeur est un long (32-bit) allant de 0 à 4294967295
+@EndFixedFont
+
+@ReturnValue
+  Convertit une valeur numérique de 
+  type 'quad' en une chaîne de 
+  caractères au format hexadécimal.
+  @LineBreak  
+  La valeur renvoyée est toujours 
+  positive.
+
+@Example
+@Code
+  Debug Hex(-1) 
+  Debug Hex(-1, #PB_Byte)
+  Debug Hex(-1, #PB_Word) 
+  Debug Hex(-1, #PB_Long) 
+  Debug Hex(-1, #PB_Quad)    ;  Quad est la valeur par défaut.
+  Debug Hex(12) ; Affichera "C"  
+  Debug Hex(1234567890) ; Affichera "499602D2"
+@EndCode
+
+  Note: Si des zéros supplémentaires 
+  sont nécessaires pour formater 
+  correctement le texte, il est possible 
+  d'utiliser @@RSet:
+
+@Code
+  Debug RSet(Hex(12), 4, "0") ; Affichera "000C"
+@EndCode
+  
+@SeeAlso
+  @@Bin,
+  @@Str,
+  @@Val
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = InsertString(Chaine$, ChaineAInserer$, Position)
+
+@Description
+  Insère une sous-chaîne dans une 
+  chaîne de caractères. 
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+
+@Parameter "ChaineAInserer$"
+  La chaîne de caractères à inserer.
+
+@Parameter "Position"
+  La position d'insertion (commence à 1).
+
+@ReturnValue
+  Insère la 'ChaineAInserer$' dans la 
+  'Chaine$' à la 'Position' spécifiée.
+
+@Example
+@Code
+  Debug InsertString("Hello !", "World", 7)  ; Affichera "Hello World!"
+  Debug InsertString("Hello !", "World", 1)  ; Affichera "WorldHello !"
+@EndCode
+
+@SeeAlso
+  @@CountString,
+  @@FindString,
+  @@RemoveString,
+  @@ReplaceString,
+  @@ReverseString,
+  @@StringByteLength,
+  @@StringField
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = LCase(Chaine$)  
+
+@Description
+  Convertit une chaîne en minuscules
+  
+@Parameter "Chaine$"
+  La chaîne de caractères à convertir.
+
+@ReturnValue
+  Renvoie la chaîne convertie en 
+  lettres minuscules (quand c'est 
+  possible). 
+
+@Remarks
+  Cette commande accepte les caractères 
+  accentués. Si un 'É' majuscule est 
+  trouvé, il sera transformé en un 'é' 
+  minuscule.
+
+@Example
+@Code
+  Debug LCase("PureBasic, LA PUISSANCE À L'ÉTAT PUR") ; Affichera "purebasic, la puissance à l'état pur"
+@EndCode
+
+@SeeAlso
+  @@UCase
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = Left(Chaine$, Longueur)
+
+@Description
+  Renvoie la partie gauche d'une chaîne.  
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+
+@Parameter "Longueur"
+  Le nombre de caractères à renvoyer. 
+
+@ReturnValue
+  Renvoie les caractères de la partie 
+  gauche de la 'Chaine$'.
+
+@Remarks
+  Cette fonction renverra toute la 
+  chaîne si la longueur est supérieure 
+  à la taille de la chaîne de caractères.
+
+@Example
+
+@Code
+  Debug Left("PureBasic", 4) ; Affichera "Pure"
+@EndCode
+
+@SeeAlso
+  @@Len,
+  @@Mid,
+  @@Right
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Len(Chaine$)  
+
+@Description
+  Renvoie la longueur d'une chaîne.
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+  
+@ReturnValue
+  Renvoie la longueur en caractères 
+  de la chaîne.
+ 
+@Example
+@Code
+  a = Len("PureBasic") ; a recevra 9
+@EndCode
+
+@SeeAlso
+  @@Left,
+  @@Mid,
+  @@Right
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = LSet(Chaine$, Longueur [, Caractere$])
+
+@Description
+  Ajuste la longueur d'une chaîne de 
+  caractères en y ajoutant des 
+  caractères en fin de chaîne si 
+  nécessaire pour atteindre la 
+  longueur spécifiée.
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+  
+@Parameter " Longueur "
+  Le nombre de caractères à ajouter.
+  
+@OptionalParameter "Caractere$"
+  Peut être utilisé en lieu et place 
+  du caractère d'espacement qui est 
+  la valeur par défaut. 
+  
+@ReturnValue
+  Renvoie une chaîne en y ajoutant des 
+  caractères en fin de chaîne si 
+  nécessaire pour atteindre la 
+  longueur spécifiée.
+  
+@Remarks
+  Si la chaîne est plus longue que la 
+  longueur spécifiée, elle sera tronquée 
+  à partir de la fin de la chaîne.
+  
+@Example
+
+@Code
+  Resultat$ = LSet("L", 8)          ; Resultat$ sera: "L       "
+  Resultat$ = LSet("L", 8, "-")     ; Resultat$ sera: "L-------"
+  Resultat$ = LSet("LongString", 4) ; Resultat$ sera: "Long"
+@EndCode
+  
+@SeeAlso
+  @@RSet
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = LTrim(Chaine$ [, Caractere$])   
+
+@Description
+  Supprime tous les espaces situés au 
+  début d'une chaîne. 
+
+@Parameter "Chaine$ "
+  La chaîne de caractères à utiliser.
+  
+@OptionalParameter "Caractere$"
+  Supprimera tous les 'Caractere$' 
+  situés au début de la chaîne.
+@LineBreak
+@LineBreak
+  'Caractere$' doit être une chaîne 
+  contenant seulement un caractère.
+  
+@ReturnValue
+  Renvoie une chaîne dont tous les 
+  espaces situés au début de la chaîne 
+  ont été supprimés. 
+  
+@Example
+@Code
+  Debug LTrim("   PureBasic")             ; Affichera "PureBasic".
+  Debug LTrim("!!Salut le Monde !!", "!") ; Affichera "Salut le Monde !!"
+@EndCode
+ 
+@SeeAlso
+  @@RTrim,
+  @@Trim
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = Mid(Chaine$, PositionDepart [, Longueur])  
+
+@Description
+  Extrait une sous-chaîne d'une chaîne.
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+  
+@Parameter " PositionDepart "
+  La position de départ (commence à 1).
+  
+@OptionalParameter "Longueur"
+  Précise combien de caractères seront 
+  extraits.
+@LineBreak
+@LineBreak
+  Si le paramètre 'Longueur' est omis, 
+  les caractères sont extraits jusqu'à 
+  la fin de la chaîne 'Chaine$'.
+  
+@ReturnValue
+  Renvoie une sous-chaîne de longueur 
+  'Longueur', à partir du caractère 
+  situé à la position 'PositionDepart'.
+ 
+@Example
+@Code
+  Debug Mid("Hello", 2) ; Affichera "ello"
+  Debug Mid("Hello", 2, 1) ; Affichera "e"
+@EndCode
+
+@SeeAlso
+  @@Left,
+  @@Len,
+  @@Right
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = RemoveString(Chaine$, ChaineASupprimer$ [, Mode [, Position [, NbOccurences]]])
+
+@Description
+  Supprime une sous-chaîne dans une 
+  chaîne.  
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+  
+@Parameter " ChaineASupprimer$ "
+  La chaîne de caractères à supprimer.
+  
+@OptionalParameter "Mode"
+  Peut être une combinaison des 
+  valeurs suivantes:
+@FixedFont
+  @#PB_String_CaseSensitive : La suppression est sensible à la casse (A<>a). Par défaut.
+  @#PB_String_NoCase        : La suppression est insensible à la casse (A=a). 
+@EndFixedFont
+
+@OptionalParameter "Position"
+  Position du premier caractère à 
+  partir de laquelle la suppression 
+  s'effectue.
+@LineBreak
+@LineBreak
+  La position du premier caractère 
+  est 1.
+
+@OptionalParameter "NbOccurences"
+  La suppression s'arrêtera une fois 
+  'NbOccurences' atteint.
+  
+@ReturnValue
+  Renvoie une chaîne dont toutes les 
+  occurrences ChaineASupprimer$ ont 
+  été supprimées. 
+ 
+@Example
+@Code
+  Debug RemoveString("deviser de l'Art", "de")          ; Affichera "viser  l'Art"
+  Debug RemoveString("deviser de l'Art", "de", 0, 1, 1) ; Affichera "viser de l'Art"
+@EndCode
+ 
+@SeeAlso
+  @@CountString,
+  @@FindString,
+  @@InsertString,
+  @@ReplaceString,
+  @@ReverseString,
+  @@StringByteLength,
+  @@StringField
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = ReplaceString(Chaine$, ChaineCherchee$, ChaineRemplacee$ [, Mode [, PositionDepart [, NbOccurences]]])  
+
+@Description
+  Remplace une sous-chaîne par une 
+  autre. 
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+  
+@Parameter "ChaineCherchee$"
+  La chaîne de caractères à substituée.
+  
+@Parameter "ChaineRemplacee$ "
+  La chaîne de caractères de remplacement.
+  
+@OptionalParameter "Mode"
+  Peut être une combinaison des valeurs 
+  suivantes:
+@FixedFont
+  @#PB_String_CaseSensitive : La suppression est sensible à la casse (A<>a). Par défaut.
+  @#PB_String_NoCase : Recherche les occurrences sans tenir compte de la casse (A=a). 
+  @#PB_String_InPlace: Remplacement direct dans la Chaîne de caractères initiale 'Chaîne$'. Dans ce cas,
+                      'ChaineRemplacee$' doit absolument avoir la même taille que 'ChaineCherchee$'.
+                      C'est une fonctionnalité pour programmeurs expérimentés qui ont besoin d'une fonction
+                      extrêmement rapide pour ce cas particulier. Quand cette option est utilisée, le résultat 
+                      renvoyé par ReplaceString() doit être ignoré (car c'est la chaîne de caractères passée en 
+                      paramètre qui est modifiée).
+@EndFixedFont
+  
+@OptionalParameter "PositionDepart"
+  Permet de spécifier à partir de quel 
+  caractère le remplacement doit être 
+  effectué. 
+@LineBreak
+@LineBreak
+  Sa valeur minimale est 1.
+
+@OptionalParameter "NbOccurences"
+  Le remplacement s'arrêtera une fois 
+  'NbOccurences' atteint.
+  
+@ReturnValue
+  Renvoie un chaîne dont toutes les  
+  occurrences 'ChaineCherchee$' ont 
+  été substituées par 'ChaineRemplacee$'.
+ 
+@Example
+@Code
+  Debug ReplaceString("deviser de l'Art", " de", " sur") ; Affichera "deviser sur l'Art"
+
+  test$ = "Salut les gens, Salut les gens"
+  Resultat$ = ReplaceString(test$, "SALUT", "ho non...", #PB_String_NoCase, 10) ; Affichera "Salut les gens, ho non... les gens"
+  Debug Resultat$
+  
+  test$ = "Bundy, Barbie, Buddy"
+  ReplaceString(test$, "B", "Z", #PB_String_InPlace, 1)  ; Tous les B seront remplacés par des Z  (Dans ce mode la chaîne de caractères passée en paramètre est modifiée)
+  Debug test$   ; Affichera "Zundy, Zarbie, Zuddy".
+@EndCode
+  
+@SeeAlso
+  @@CountString,
+  @@FindString,
+  @@InsertString,
+  @@RemoveString,
+  @@ReverseString,
+  @@StringByteLength,
+  @@StringField
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = ReverseString(Chaine$)
+
+@Description
+  Inverse tous les caractères d'une 
+  chaîne.
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+  
+@ReturnValue
+  Inverse tous les caractères de la 
+  'Chaine$'. 
+@LineBreak
+@LineBreak
+  Le dernier caractère devient le 
+  premier caractère et ainsi de suite.
+ 
+@Example
+@Code
+  Debug ReverseString("Salut")  ; Affichera "tulaS"
+@EndCode
+
+@SeeAlso
+  @@CountString,
+  @@FindString,
+  @@InsertString,
+  @@RemoveString,
+  @@ReplaceString,
+  @@StringByteLength,
+  @@StringField
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = Right(Chaine$, Longueur)  
+
+@Description
+  Renvoie la partie droite d'une chaîne. 
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+  
+@Parameter "Longueur"
+  Le nombre de caractères renvoyés est 
+  déterminé par Longueur. 
+  
+@ReturnValue
+   Renvoie les caractères de la partie 
+   droite de la chaîne 'Chaine$'.
+  
+@Remarks
+  Cette fonction renverra toute la 
+  chaîne si la longueur est supérieure 
+  à la taille de la chaîne de 
+  caractères.
+ 
+@Example
+
+@Code
+  Debug Right("PureBasic", 5) ; Affichera "Basic".
+@EndCode  
+  
+@SeeAlso
+  @@Left,
+  @@Len,
+  @@Mid
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = RSet(Chaine$, Longueur [, Caractere$])
+
+@Description
+  Ajuste la longueur de la chaîne de 
+  caractères en y ajoutant des 
+  caractères en début de chaîne si 
+  nécessaire pour atteindre la longueur 
+  spécifiée.  
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+  
+@Parameter "Longueur"
+  La longueur de chaîne à atteindre.
+  
+@OptionalParameter "Caractere$"
+  Peut être utilisé en lieu et place 
+  du caractère d'espacement qui est la 
+  valeur par défaut.
+  
+@ReturnValue 
+  Renvoie une chaîne en y ajoutant des 
+  caractères en début de chaîne si 
+  nécessaire pour atteindre la longueur 
+  spécifiée. 
+  
+@Remarks
+  Si la chaîne est plus longue que la 
+  longueur spécifiée, elle sera 
+  tronquée à partir de la fin de la 
+  chaîne.
+ 
+@Example
+@Code
+  Resultat$ = RSet("R", 8)          ; Le résultat est: "       R"
+  Resultat$ = RSet("R", 8, "-")     ; Le résultat est: "-------R"
+  Resultat$ = RSet("LongString", 4) ; Le résultat est: "Long"
+@EndCode
+  
+@SeeAlso
+  @@LSet
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = RTrim(Chaine$ [, Caractere$])  
+
+@Description
+  Supprime tous les espaces situés à 
+  la fin d'une chaîne. 
+
+@Parameter "Chaine$ "
+  La chaîne de caractères à utiliser.
+  
+@OptionalParameter "Caractere$"
+  Supprimera tous les 'Caractere$' 
+  situés à la fin de la chaîne.
+@LineBreak
+@LineBreak
+  'Caractere$' doit être une chaîne 
+  contenant seulement un caractère.
+  
+@ReturnValue
+  Renvoie une chaîne dont tous les 
+  espaces situés à la fin de la chaîne 
+  ont été supprimés. 
+  
+@Example
+@Code
+  Debug RTrim("PureBasic   ")       ; Affichera "PureBasic".  
+  Debug RTrim("Salut le Monde !!", "!") ; Affichera "Salut le Monde "
+@EndCode
+ 
+@SeeAlso
+  @@LTrim,
+  @@Trim
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = StringField(Chaine$, Index, Delimiteur$)
+
+@Description
+  Renvoie un champ d'une chaîne à 
+  l'index spécifié. 
+
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+  
+@Parameter "Index"
+  La position du champ.
+@LineBreak
+@LineBreak
+  La première position est 1.  
+  
+@Parameter "Delimiteur$"
+  La chaîne choisie comme séparateur 
+  des champs (plusieurs caractères 
+  de longueur autorisé). 
+  
+@ReturnValue
+  Renvoie un champ d'une chaîne à 
+  l'index spécifié.
+  
+@Example
+@Code
+For k=1 To 7
+  Debug StringField("Je suis une chaîne contenant des champs", k, " ")
+Next
+@EndCode
+
+@SeeAlso
+  @@CountString,
+  @@FindString,
+  @@InsertString,
+  @@RemoveString,
+  @@ReplaceString,
+  @@ReverseString,
+  @@StringByteLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = StringByteLength(Chaine$ [, Format])
+
+@Description
+  Renvoie le nombre d'octets nécessaire 
+  pour stocker une chaîne de caractères 
+  en mémoire. 
+
+@Parameter "Chaine$ "
+  La chaîne de caractères à utiliser.
+  
+@OptionalParameter "Format"
+@FixedFont  
+  @#PB_Ascii  : La chaîne est considérée comme une chaine ASCII
+  @#PB_UTF8   : La chaîne est considérée comme une chaine UTF-8
+  @#PB_Unicode: La chaîne est considérée comme une chaine unicode (Par défaut)
+@EndFixedFont 
+
+@Indent
+  Note: le nombre d'octets renvoyés 
+  n'inclut pas le caractère 'nul' de 
+  fin de chaîne. La taille du caractère 
+  nul est de 1 octet en mode ASCII et 
+  UTF-8 et de 2 octets en mode unicode.
+@EndIndent
+  
+@ReturnValue
+  Renvoie le nombre d'octets nécessaire 
+  pour stocker la chaîne de caractères 
+  en mémoire en fonction du 'Format' 
+  spécifié.
+  
+@Example
+@Code
+  Debug StringByteLength("é", #PB_UTF8) ; Le Resultat sera 2
+@EndCode
+  
+@Example
+@Code
+  Texte.s = "Salut !!!"
+
+  *mem = AllocateMemory(StringByteLength(Texte) + SizeOf(CHARACTER))
+  CopyMemory(@Texte, *mem, StringByteLength(Texte) + SizeOf(CHARACTER))
+  Debug MemorySize(*mem)
+  Debug PeekS(*mem)
+  ShowMemoryViewer(*mem, MemorySize(*mem))
+@EndCode
+
+@SeeAlso
+  @@CountString,
+  @@FindString,
+  @@InsertString,
+  @@RemoveString,
+  @@ReplaceString,
+  @@ReverseString,
+  @@StringField
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = StrF(Valeur.f [, NombreDeDecimales])
+
+@Description
+  Convertit un nombre à virgule en une 
+  chaîne de caractères. 
+  
+@Parameter "Valeur.f "
+  Le nombre à virgule à convertir.
+  
+@OptionalParameter "NombreDeDecimales"
+  Le nombre maximum de décimales, avec 
+  la suppression des zéros à droite, 
+  sinon le nombre sera arrondi à 10 
+  décimales. 
+@LineBreak
+@LineBreak
+  Le nombre sera arrondi si 
+  'NombreDeDecimales' est plus petit 
+  que le nombre de décimales existantes 
+  dans 'Valeur.f'. 
+  
+@ReturnValue
+  Renvoie une chaîne de caractères 
+  représentant la 'Valeur'. 
+  
+@Remarks
+  Les nombres entiers signés doivent 
+  être convertis avec @@Str et les 
+  nombres entiers non signés avec 
+  @@StrU.@LineBreak 
+  Il est possible d'omettre cette 
+  commande lors de la concaténation 
+  d'une chaîne et d'un 'float', cela 
+  utilisera alors le comportement par 
+  défaut de @@StrF.
+
+@Example  
+@Code
+  valeur.f = 10.54
+  Debug "Résultat: " + StrF(valeur)    ; Sans le 2ème paramètre, le nombre flottant est arrondi à 10 décimales.
+  Debug "Résultat: " + StrF(valeur,2)  ; Résultat avec deux décimales, la valeur est arrondie.
+  Debug "Résultat: " + StrF(valeur,0)  ; Résultat sans décimales, la valeur est arrondie.
+@EndCode
+
+@SeeAlso
+  @@Str,
+  @@StrD,
+  @@StrU,
+  @@Val,
+  @@ValD,
+  @@ValF,
+  @@FormatNumber
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = StrD(Valeur.d [, NombreDeDecimales])
+
+@Description
+Convertit un nombre à virgule en 
+double précision en une chaîne de 
+caractères. 
+  
+@Parameter "Valeur.d "
+  Le nombre à virgule à convertir.
+  
+@OptionalParameter "NombreDeDecimales"
+  Le nombre maximum de décimales, 
+  avec la suppression des zéros à 
+  droite, sinon le nombre sera 
+  arrondi à 10 décimales. 
+@LineBreak
+@LineBreak
+  Le nombre sera arrondi si 
+  'NombreDeDecimales' est plus petit 
+  que le nombre de décimales existantes 
+  dans 'Valeur.d'. L'arrondi se fait au plus proche comme avec la fonction 
+  @@Round et l'option @#PB_Round_Nearest.
+  
+@ReturnValue
+   Renvoie une chaîne de caractères 
+   représentant la 'Valeur'. 
+  
+@Remarks
+  Les nombres entiers signés doivent 
+  être convertis avec @@Str et les 
+  nombres entiers non signés avec 
+  @@StrU.@LineBreak 
+  Il est possible d'omettre cette 
+  commande lors de la concaténation 
+  d'une chaîne et d'un 'double', cela 
+  utilisera alors le comportement par 
+  défaut de @@StrD.
+
+@Example
+@Code
+  valeur.d = 10.54
+  Debug "Résultat: " + StrD(valeur)    ; Sans le 2ème paramètre, le nombre flottant est arrondi à 10 décimales.
+  Debug "Résultat: " + StrD(valeur,2)  ; Résultat avec deux décimales, la valeur est arrondie.
+  Debug "Résultat: " + StrD(valeur,0)  ; Résultat sans décimales, la valeur est arrondie.
+@EndCode
+
+@SeeAlso
+  @@Str,
+  @@StrF,
+  @@StrU,
+  @@Val,
+  @@ValD,
+  @@ValF,
+  @@FormatNumber
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = Str(Valeur.q)
+
+@Description
+  Convertit un nombre entier de type 
+  'quad' en une chaîne de caractères.
+  
+@Parameter "Valeur.q"
+  Le nombre entier à convertir.
+  
+@ReturnValue
+  Renvoie une chaîne de caractères 
+  représentant la 'Valeur'.
+
+@Remarks
+  Les nombres à virgule doivent être 
+  convertis avec @@StrF ou @@StrD et 
+  les nombres entiers non signés avec 
+  @@StrU.
+
+@Example
+@Code
+  Valeur.q = 100000000000000001
+  Debug "Résultat: " + Str(Valeur)
+@EndCode
+
+@SeeAlso
+  @@Val, @@Hex, @@Bin,
+  @@StrD,
+  @@StrF,
+  @@StrU,
+  @@Val,
+  @@ValD,
+  @@ValF,
+  @@FormatNumber
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = StrU(Valeur.q [, Type])
+
+@Description
+  Convertit un nombre entier non-signé 
+  en une chaîne de caractères.
+
+@Parameter "Valeur"
+  Le nombre entier à convertir.
+  
+@OptionalParameter "Type"
+@FixedFont
+  @#PB_Quad   : La valeur sera traitée comme un 'quad' (0 à 18446744073709551615) (Par défaut)
+  @#PB_Byte   : La valeur est un octet (8-bit) allant de 0 à 255
+  @#PB_Ascii  : La valeur est un octet (8-bit) allant de 0 à 255
+  @#PB_Word   : La valeur est un word (16-bit) allant de 0 à 65535
+  @#PB_Unicode: La valeur est un word (16-bit) allant de 0 à 65535
+  @#PB_Long   : La valeur est un long (32-bit) allant de 0 à 4294967295
+@EndFixedFont
+  
+@ReturnValue
+  Renvoie une chaîne de caractères 
+  représentant la 'Valeur'.
+  
+@Remarks
+  Les nombres entiers signés doivent 
+  être convertis avec @@Str et les 
+  nombres à virgule (float) avec 
+  @@StrF ou @@StrD.
+   
+@Example
+@Code
+  byte.b = 255
+  Debug Str(byte) ; Affichera -1
+  Debug StrU(byte, #PB_Byte) ; Affichera 255
+@EndCode
+  
+@SeeAlso
+  @@Str,
+  @@StrD,
+  @@StrF,
+  @@Val,
+  @@ValD,
+  @@ValF, @@Hex, @@Bin,
+  @@FormatNumber
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = Space(Longueur)
+
+@Description
+  Créé une chaîne de caractères de 
+  longueur 'Longueur' et ne contenant 
+  que des espaces.
+  
+@Parameter "Longueur"
+  Le nombre d'espaces à ajouter.
+   
+@ReturnValue
+  Renvoie une chaîne de caractères de 
+  longueur 'Longueur' et ne contenant 
+  que des espaces.
+   
+@Example
+
+@Code
+  Debug Space(10) ; Affichera "           ".  
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = Trim(Chaine$ [, Caractere$])
+
+@Description
+  Supprime tous les espaces situés 
+  au début et à la fin de la chaîne 
+  de caractères. 
+
+@Parameter "Chaine$ "
+  La chaîne de caractères à utiliser.
+  
+@OptionalParameter "Caractere$"
+  Supprime tous les 'Caractere$' 
+  situés au début et à la fin de la 
+  chaîne.
+@LineBreak
+@LineBreak
+  'Caractere$' doit être une chaîne 
+  contenant seulement un caractère.
+  
+@ReturnValue
+  Renvoie une chaîne de caractères 
+  dont tous les espaces situés au 
+  début et à la fin ont été supprimés.
+   
+@Example
+@Code
+  Debug Trim("   PureBasic   ") ; Affichera "PureBasic".
+  Debug Trim("!!Salut!!", "!")  ; Affichera "Salut"
+@EndCode
+ 
+@SeeAlso
+  @@LTrim,
+  @@RTrim
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = UCase(Chaine$)  
+
+@Description
+  Convertit une chaîne en majuscule.
+  
+@Parameter "Chaine$ "
+  La chaîne de caractères à utiliser.
+  
+@ReturnValue
+  Renvoie dans Resultat$ la chaîne 
+  'Chaine$' convertie en lettres 
+  majuscules (quand c'est possible). 
+@LineBreak
+@LineBreak
+  Cette commande accepte les caractères 
+  accentués. Si un 'é' minuscule est 
+  trouvé, il sera transformé en un 
+  'É' majuscule.
+   
+@Example
+@Code
+  Debug UCase("PureBasic, La puissance à l'état pur") ; Affichera "PUREBASIC, LA PUISSANCE À L'ÉTAT PUR"
+@EndCode
+
+@SeeAlso
+  @@LCase
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = UnescapeString(Chaine$ [, Mode])
+
+@Description
+  Transforme une chaîne  avec des séquences 
+  d'échappement en chaîne standard. 
+ 
+@Parameter "Chaine$"
+  La chaîne à transformer.
+
+@OptionalParameter "Mode"
+@FixedFont
+  @#PB_String_EscapeInternal: deséchappe la chaîne en utilisant le format de PureBasic (Par défaut).
+                             (voir @ReferenceLink "general_rules" "Règles de syntaxe générales".
+  @#PB_String_EscapeXML     : deséchappe la chaîne en utilisant le format XML. 
+                             Utile pour lire une chaîne provenant d'un arbre XML.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie la version non échappée 
+  de la chaîne.
+
+@Remarks
+  La fonction @@EscapeString peut être 
+  utilisée pour faire l'opération inverse.
+  @LineBreak
+  @LineBreak
+  Attention: Sous Windows, \t ne fonctionne pas avec les fonctions graphiques 
+  des bibliothèques 2DDrawing et VectorDrawing.
+ 
+@Example
+@Code
+  Debug UnescapeString(~"Test=\"Hello\".") ; Affichera "Test="Hello"."
+  Debug UnescapeString("&lt;item&gt;Hello&lt;/item&gt;", #PB_String_EscapeXML) ; Affichera "<item>Hello</item>"
+@EndCode
+
+@SeeAlso 
+  @@EscapeString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.d = ValD(Chaine$)
+
+@Description
+   Convertit une chaîne en une valeur 
+   numérique de type 'Double'. 
+  
+@Parameter "Chaine$ "
+  La chaîne de caractères à utiliser.
+  
+@ReturnValue
+  Renvoie une valeur numérique de 
+  type 'Double'.
+@LineBreak
+@LineBreak
+  La chaîne doit représenter un double 
+  au format décimal ou au format scientifique 
+  (exponentiel).@LineBreak
+  La conversion s'arrêtera au premier 
+  caractère non numérique.
+  
+@Remarks
+  Les chaînes représentant un entier 
+  'long' peuvent également être 
+  converties avec @@Val,
+  des nombres flottants 32 bits avec 
+  @@ValF (avec moins de précision que 
+  @@ValD).
+
+@Example
+@Code
+  Debug ValD("10.000024") ; Affichera 10.000024.
+  Debug ValD("1.2345e-2") ; Affichera  0.012345 
+@EndCode
+
+@SeeAlso
+  @@Str,
+  @@StrD,
+  @@StrF,
+  @@StrU,
+  @@Val,
+  @@ValF,
+  @@FormatNumber
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = ValF(Chaine$)
+
+@Description
+  Convertit une chaîne en une valeur 
+  numérique de type 'Float'. 
+  
+@Parameter "Chaine$ "
+  La chaîne de caractères à utiliser.
+  
+@ReturnValue
+  Renvoie une valeur numérique de 
+  type 'Float'
+@LineBreak
+@LineBreak
+  La chaîne doit représenter un float 
+  au format décimal ou au format scientifique 
+  (exponentiel).@LineBreak
+  La conversion s'arrêtera au premier 
+  caractère non numérique.
+  
+@Remarks
+  Les chaînes représentant un entier 
+  long peuvent également être converties 
+  avec @@Val, des nombres flottants 
+  64 bits avec @@ValD (avec plus de 
+  précision que @@ValF).
+  
+@Example
+@Code
+ Debug ValF("10.75")     ; Affichera   10.75
+ Debug ValF("1.2345e+3") ; Affichera 1234.5
+@EndCode
+
+@SeeAlso
+  @@Str,
+  @@StrD,
+  @@StrF,
+  @@StrU,
+  @@Val,
+  @@ValD,
+  @@FormatNumber
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.q = Val(Chaine$)
+
+@Description
+  Convertit une chaîne en une valeur 
+  numérique de type quad. 
+  
+@Parameter "Chaine$"
+  La chaîne de caractères à utiliser.
+  
+@ReturnValue
+  Renvoie une valeur numérique entière.
+@LineBreak
+@LineBreak
+  La chaîne doit représenter un entier 
+  au format décimal, hexadécimal (avec 
+  le préfixe '$') ou binaire (avec le 
+  préfixe '%').@LineBreak
+  La conversion s'arrêtera au premier 
+  caractère non numérique.
+  
+@Remarks
+  Les chaînes représentant une valeur 
+  flottante 32 bits devraient être converties 
+  avec @@ValF, et 64 bits avec @@ValD.
+
+@Example
+@Code
+  Debug Val("1024102410241024") ; affichera '1024102410241024'.
+  Debug Val("$10FFFFFFFF")      ; affichera '73014444031'.
+  Debug Val("%1000")            ; affichera '8'.
+  Debug Val("1.2345e+3")        ; affichera '1'. Utiliser ValF ou ValD.
+@EndCode
+
+@SeeAlso
+  @@Str,
+  @@StrD,
+  @@StrF,
+  @@ValD,
+  @@ValF,
+  @@FormatNumber
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Resultat = Ascii(Chaine$)
+
+@Description
+  Crée un tampon en mémoire contenant la version au format  ASCII d'une chaîne de caractères. 
+
+@Parameter "Chaine$"
+  La chaîne à convertir au format ASCII.
+
+@ReturnValue
+  La représentation  ASCII de la chaîne.
+
+@Remarks
+  Lorsque le tampon n'est plus nécessaire, il doit être libéré avec @@FreeMemory.
+@LineBreak
+@LineBreak 
+  Cette fonction est surtout utile lors de l'utilisation de bibliothèques tiers 
+  qui requièrent des chaînes de caractères au format ASCII en entrée.@LineBreak 
+  Le @ReferenceLink "Pseudotypes" "pseudotype" 'p-ascii' peuvent également être utilisé 
+  pour automatiser le processus de conversion lors de l'importation des fonctions externes.
+
+@Example
+@Code
+  *Ascii = Ascii("Hélé")
+  ShowMemoryViewer(*Ascii, MemorySize(*Ascii)) ; Affiche l'adresse du tampon suivi de 48 E9 6C E9 00
+    
+  Debug PeekS(*Ascii, -1, #PB_Ascii) ; Affiche "Hélé"
+@EndCode
+
+@Example
+@Code
+  Macro Unicode(Mem, Type = #PB_Ascii)
+    PeekS(Mem, -1, Type)
+  EndMacro
+
+  *Mem1 = Ascii("Test - éàîöÊÜ")
+  *Mem2 = UTF8("Test - éàîöÊÜ")
+
+  Texte.s = Unicode(*Mem1)
+  Debug Texte ; Affiche "Test - éàîöÊÜ"
+
+  Texte.s = Unicode(*Mem2, #PB_UTF8)
+  Debug Texte ; Affiche "Test - éàîöÊÜ"
+@EndCode
+
+@SeeAlso
+  @@UTF8
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Resultat = UTF8(Chaine$)
+
+@Description
+  Crée un tampon en mémoire contenant la version au format UTF8 d'une chaîne de caractères. 
+
+@Parameter "Chaine$"
+  La chaîne à convertir au format UTF8.
+
+@ReturnValue
+  La représentation UTF8 de la chaîne.
+
+@Remarks
+  Lorsque le tampon n'est plus nécessaire, il doit être libéré avec @@FreeMemory.
+@LineBreak
+@LineBreak 
+  Cette fonction est surtout utile lors de l'utilisation de bibliothèques tiers 
+  qui requièrent des chaînes de caractères au format UTF8 en entrée.@LineBreak 
+  Le @ReferenceLink "Pseudotypes" "pseudotype" 'p-utf8' peuvent également être utilisé 
+  pour automatiser le processus de conversion lors de l'importation des fonctions externes.
+
+
+@Example
+@Code
+  *UTF8 = UTF8("Hélé")
+  ShowMemoryViewer(*UTF8, MemorySize(*UTF8)) ; Affiche l'adresse du tampon suivi de 48 C3 A9 6C C3 A9 00
+  ;ShowMemoryViewer(*UTF8, MemoryStringLength(*UTF8, #PB_UTF8|#PB_ByteLength));
+  
+  Debug PeekS(*UTF8, -1, #PB_UTF8) ; Affiche "Hélé"
+   
+  ; Format UTF8: certains caractères sont codés sur 1 octet, d'autres sur 2, 3 ou 4 octets
+  ; H = 48
+  ; é = C3 A9
+  ; l = 6C
+  ; é =  C3 A9
+@EndCode
+
+@Example
+@Code
+  Macro Unicode(Mem, Type = #PB_Ascii)
+    PeekS(Mem, -1, Type)
+  EndMacro
+
+  *Mem1 = Ascii("Test - éàîöÊÜ")
+  *Mem2 = UTF8("Test - éàîöÊÜ")
+
+  Texte.s = Unicode(*Mem1)
+  Debug Texte ; Affiche "Test - éàîöÊÜ"
+
+  Texte.s = Unicode(*Mem2, #PB_UTF8)
+  Debug Texte ; Affiche "Test - éàîöÊÜ"
+@EndCode
+
+@SeeAlso
+  @@Ascii
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = FormatNumber(Nombre.d [, NbDecimales [, Virgule$ [, SeparateurMillier$]]])
+
+@Description
+  Formate un nombre au format monétaire.
+
+@Parameter "Nombre"
+  Le nombre à formater.
+
+@OptionalParameter "NbDecimales"
+  Nombre de décimales à afficher.
+
+@OptionalParameter "Virgule$"
+  La chaîne de caractères à utiliser pour séparer la partie entière de la partie décimales.
+@LineBreak
+@LineBreak
+  Elle contenir plusieurs caractères.@LineBreak 
+  La valeur par défaut est ".".
+
+@OptionalParameter "SeparateurMillier$"
+  La chaîne de caractères à utiliser pour séparer les milliers. 
+@LineBreak
+@LineBreak
+  Elle peut contenir plusieurs caractères.@LineBreak 
+  La valeur par défaut est ",".
+
+@ReturnValue
+  Le nombre formaté au format chaîne de caractères.
+
+@Example
+@Code
+  Debug FormatNumber(125400.25) ; Affiche 125,400.25
+  Debug FormatNumber(1125400.25, 2, ",", " ") ; Affiche 1 125 400,25  Formatage Fr
+@EndCode
+
+@SeeAlso
+  @@Str, @@StrU, @@StrF, @@StrD
+
+@SupportedOS

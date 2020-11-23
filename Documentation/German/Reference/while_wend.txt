@@ -1,0 +1,36 @@
+@Title While : Wend
+
+@Syntax
+
+  @Keyword While <Ausdruck>
+    ...
+  @Keyword Wend
+
+@Description
+
+  Eine @Keyword Wend Schleife wird solange durchlaufen, bis der <Ausdruck> 'falsch' ergibt. Ein wichtiger
+  Punkt, um eine Vorstellung von einer @Keyword "While" Schleife zu bekommen: Ergibt der erste Test 'falsch',
+  dann gelangt die Programmausführung niemals zum Programmcode innerhalb der Schleife und überspringt
+  diesen Teil. Eine @ReferenceLink "Repeat_Until" Repeat Schleife wird dagegen mindestens einmal ausgeführt (da der Test erst nach
+  jeder Schleife durchgeführt wird). @LineBreak
+  @LineBreak
+  Mit dem @ReferenceLink "Break_Continue" "Break" Befehl ist es möglich, die @Keyword "While : Wend" Schleife während jedes
+  Schleifendurchlaufs (vorzeitig) zu verlassen.
+  Mit dem @ReferenceLink "Break_Continue" "Continue" Befehl kann das Ende des aktuellen Schleifendurchlaufs übersprungen werden.
+
+  @Example
+
+@Code
+  b = 0
+  a = 10
+  While a = 10 
+    b = b+1
+    If b = 10
+      a=11
+    Endif 
+  Wend 
+@EndCode
+
+  Diese Programmschleife wird so oft ausgeführt, bis der Wert 'a' <> 10 ist. Der Wert von 'a' wird 11,
+  wenn b=10 ist; die Schleife wird insgesamt 10 mal ausgeführt.
+

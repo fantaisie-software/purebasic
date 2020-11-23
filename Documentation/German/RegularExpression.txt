@@ -1,0 +1,762 @@
+;
+;     RegularExpression library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library RegularExpression
+
+@Overview
+  Reguläre Ausdrücke (englisch: "regular expressions") ermöglichen fortgeschrittenes Vergleichen nach 
+  Mustern (englisch: "pattern matching"), um in einem String nach einer beliebigen Information
+  zu suchen/filtern, diese zu extrahieren oder zu ersetzen. Diese Art von Ausdrücken sind oft 
+  schwierig zu lesen und zu schreiben, aber sobald Sie sie beherrschen, machen sie viele Dinge
+  einfacher. Somit ist diese Bibliothek nicht für Anfänger gedacht, ebenso benötigen Sie ein solides
+  Grundwissen in PureBasic und Programmieren allgemein, um diese Bibliothek effizient nutzen zu können.
+@LineBreak
+@LineBreak
+  Diese Bibliothek verwendet PCRE, wobei es sich um eine "Open Source" Umsetzung der regulären Ausdrücke 
+  von Perl handelt. Alle in PCRE unterstützten regulären Ausdrücke werden auch in PureBasic unterstützt.
+  Um eine komplette Liste der unterstützten Suchmuster (englisch "pattern") und Argumente zu erhalten,
+  besuchen Sie bitte die PCRE Seite: @InternetLink "http://www.pcre.org/pcre.txt" "http://www.pcre.org/pcre.txt"
+@LineBreak
+  Die PCRE Lizenz kann @MainGuideLink "pcre" "hier" eingesehen werden.
+@LineBreak
+@LineBreak
+  @Bold "Wichtig:" Die PCRE Lizenz erfordert, dass eine Copyright-Notiz und der Lizenz-Text selbst in jede
+  Software integriert werden, welche die Bibliothek beinhaltet. Wenn also die Bibliothek in
+  einer Software verwendet wird, welche öffentlich zugänglich gemacht wird, dann MUSS die oben verlinkte
+  Lizenz in die Software integriert werden.
+@LineBreak
+@LineBreak
+  Anmerkung: In der Syntaxbeschreibung der Befehlsparameter wird für die Nummer des regulären Ausdrucks
+  der Einfachheit bzw. Übersichtlichkeit wegen ebenfalls die englische Bezeichnung "#RegularExpression" 
+  benutzt.
+
+@CommandList
+
+@ExampleFile All RegularExpression.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CountRegularExpressionGroups(#RegularExpression)
+
+@Description
+  Gibt die Anzahl der im regulären Ausdruck definierten Gruppen zurück.
+  Auf die Übereinstimmungen bei Gruppen von regulären Ausdrücken kann
+  mit Funktionen wie @@RegularExpressionGroup zugegriffen werden.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck.
+
+@ReturnValue
+  Die Anzahl an Gruppen, welche im regulären Ausdruck definiert wurden.
+  
+@Remarks
+  Gruppen in einem regulären Ausdruck werden definiert, indem ein Unter-Ausdruck
+  ("sub-expression") von Klammern "(" und ")" umschlossen wird. Die Gruppen
+  werden so nummeriert, wie sie im regulären Ausdruck vorkommen, von links
+  nach rechts. Die erste Gruppe hat den Index 1.
+  
+@SeeAlso
+  @@RegularExpressionGroup
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateRegularExpression(#RegularExpression, Pattern$ [, Flags])
+
+@Description
+  Erstellt einen neuen regulären Ausdruck mittels des angegebenen Pattern.
+  
+@Parameter "#RegularExpression"
+  Die Nummer, mit der der neue reguläre Ausdruck identifiziert wird.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "Pattern$"
+  Der reguläre Ausdruck, welcher auf den String angewandt wird, um String-Informationen
+  zu suchen bzw. zu filtern, zu extrahieren oder zu ersetzen.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_RegularExpression_DotAll    : '.' passt zu allem, einschließlich Zeilenvorschub (englisch "Newline").
+  @#PB_RegularExpression_Extended  : Leerzeichen und '#' Kommentare werden ignoriert.
+  @#PB_RegularExpression_MultiLine : '^' und '$' passt zu Zeilenvorschubzeichen innerhalb von Daten.
+  @#PB_RegularExpression_AnyNewLine: erkennt 'CR', 'LF' und 'CRLF' als Zeilenvorschub-Sequenzen.
+  @#PB_RegularExpression_NoCase    : Suche und Vergleich wird die Groß- und Kleinschreibung nicht berücksichtigen.
+@EndFixedFont
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der reguläre Ausdruck erfolgreich erstellt wurde,
+  und Null wenn nicht. Wenn @#PB_Any als #RegularExpression Parameter verwendet wurde, dann
+  wird bei Erfolg die generierte Nummer zurückgegeben.
+@LineBreak
+  Wenn ein Fehler im Pattern (Suchmuster) festgestellt wurde, wird das Ergebnis gleich Null
+  sein. Um mehr Informationen über den Fehler zu erhalten, siehe @@RegularExpressionError.
+
+@Remarks
+  Wenn ein regulärer Ausdruck nicht mehr verwendet wird, verwenden Sie @@FreeRegularExpression
+  zum Freigeben von Ressourcen.
+
+@Example
+@Code
+  ; Dieser Ausdruck passt auf jedes Wort mit 3 Buchstaben, welches mit einem
+  ; Kleinbuchstaben beginnt, gefolgt vom Zeichen 'b' und welches mit einem
+  ; Großbuchstaben endet. Beispiel: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Debug MatchRegularExpression(0, "abC") ; wird 1 ausgeben
+    Debug MatchRegularExpression(0, "abc") ; wird 0 ausgeben
+  Else
+    Debug RegularExpressionError()
+  EndIf
+
+@EndCode
+
+@SeeAlso
+  @@RegularExpressionError, @@FreeRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ExamineRegularExpression(#RegularExpression, String$)
+
+@Description
+  Startet das Überprüfen ("matching") des regulären Ausdrucks gegenüber dem
+  angegebenen String. Einzelne Übereinstimmungen ("matches") können mit der
+  @@NextRegularExpressionMatch Funktion durchlaufen werden.
+  @LineBreak
+  Von jeder Übereinstimmung können der passende String, seine Position/Länge und
+  alle Gruppen innerhalb der Übereinstimmung mit der entsprechenden Funktion
+  extrahiert werden.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck.
+
+@Parameter "String$"
+  Der String, auf den der reguläre Ausdruck angewandt werden soll.
+  
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Überprüfen erfolgreich gestartet
+  wurde. Ob eine aktuelle Übereinstimmung gefunden wurde, kann durch Aufruf von
+  @@NextRegularExpressionMatch ermittelt werden.
+  
+@Example
+@Code
+  ; Dieser Ausdruck wird bei jedem Wort übereinstimmen, das 3 Zeichen beinhaltet,
+  ; mit einem Kleinbuchstaben beginnt, gefolgt vom Buchstaben 'b' und mit einem
+  ; Großbuchstaben endet. Zum Beispiel: abC
+  ; Jede Übereinstimmung wird mit ihrer Position im Original-String ausgegeben.
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    If ExamineRegularExpression(0, "abC ABc zbA abc")
+      While NextRegularExpressionMatch(0)
+        Debug "Match: " + RegularExpressionMatchString(0)
+        Debug "    Position: " + Str(RegularExpressionMatchPosition(0))
+        Debug "    Length: " + Str(RegularExpressionMatchLength(0))
+      Wend
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@NextRegularExpressionMatch, 
+  @@RegularExpressionMatchString, @@RegularExpressionMatchPosition, @@RegularExpressionMatchLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ExtractRegularExpression(#RegularExpression, String$, Array$())
+
+@Description
+  Extrahiert Strings abhängig vom regulären Ausdruck #RegularExpression in ein @ReferenceLink "dim" "Array".
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck.
+
+@Parameter "String$"
+  Der String, auf den der reguläre Ausdruck angewendet werden soll.
+
+@Parameter "Array$()"
+  Die extrahierten Strings werden in diesem Array gespeichert. Die Größe des Arrays
+  wird automatisch an die Anzahl der Elemente im 'String$', welche mit dem Ausdruck 
+  zusammenpassen (englisch "matching"), angepasst.
+  
+@ReturnValue
+  Gibt die Anzahl der Elemente zurück, welche auf den regulären Ausdruck im String
+  passen.
+
+@Example
+@Code
+  ; Dieser Ausdruck passt auf jedes Wort mit 3 Buchstaben, welches mit einem
+  ; Kleinbuchstaben beginnt, gefolgt vom Zeichen 'b' und welches mit einem
+  ; Großbuchstaben endet. Beispiel: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Dim Result$(0)
+    NbFound = ExtractRegularExpression(0, "abC ABc zbA abc", Result$())
+    For k = 0 To NbFound-1
+      Debug Result$(k)
+    Next
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeRegularExpression(#RegularExpression)
+
+@Description
+  Gibt den angegebenen regulären Ausdruck #RegularExpression und dessen zugewiesenen
+  Speicher frei.
+
+@Parameter "#RegularExpression"
+  Gibt den regulären Ausdruck frei. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen
+  regulären Ausdrücke freigegeben.
+
+@NoReturnValue
+
+@Remarks  
+  Alle verbleibenden regulären Ausdrücke werden automatisch freigegeben,
+  wenn das Programm endet.
+  
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsRegularExpression(#RegularExpression)
+
+@Description
+  Überprüft, ob die angegebene '#RegularExpression' Nummer ein gültiger und korrekt initialisierter
+  regulärer Ausdruck ist.
+  
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn #RegularExpression ein gültiger regulärer
+  Ausdruck ist, andernfalls Null.
+  
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. Wenn 'Ergebnis' 
+  ungleich Null ist, dann ist das Objekt gültig und initialisiert, andernfalls wird Null zurückgegeben. 
+  Dies ist der korrekte Weg, um sicherzugehen, dass ein regulärer Ausdruck fertig zur Benutzung ist. 
+  
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = MatchRegularExpression(#RegularExpression, String$)
+
+@Description
+  Vergleicht den String mit dem regulären Ausdruck #RegularExpression.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck.
+
+@Parameter "String$"
+  Der String, auf den der reguläre Ausdruck angewendet werden soll.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der String dem regulären Ausdruck entspricht
+  (also Pattern bzw. Suchmuster gefunden wurde), andernfalls wird Null zurückgegeben.
+
+@Example
+@Code
+  ; Dieser Ausdruck passt auf jedes Wort mit 3 Buchstaben, welches mit einem
+  ; Kleinbuchstaben beginnt, gefolgt vom Zeichen 'b' und welches mit einem
+  ; Großbuchstaben endet. Beispiel: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    If MatchRegularExpression(0, "abC ABc zbA abc")
+      Debug "The string match !"
+    Else
+      Debug "No pattern found in the string"
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NextRegularExpressionMatch(#RegularExpression)
+
+@Description
+  Durchläuft alle Übereinstimmung des regulären Ausdrucks im Zielstring,
+  nach einem Aufruf von @@ExamineRegularExpression.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck. @@ExamineRegularExpression muss auf diesen
+  regulären Ausdruck aufgerufen worden sein.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn eine weitere Übereinstimmung gefunden wurde.
+  Wenn es keine weiteren Übereinstimmungen im String gibt, ist das Ergebnis gleich Null.
+  
+@Remarks
+  Die folgenden Funktionen können verwendet werden, um Informationen über die
+  aktuelle Übereinstimmung zu erhalten:
+@LineBreak
+@LineBreak
+  - @@RegularExpressionMatchString: Ermittelt den aktuell passenden String.
+@LineBreak
+  - @@RegularExpressionMatchPosition: Ermittelt die Position der aktuellen Übereinstimmung.
+@LineBreak
+  - @@RegularExpressionMatchLength: Ermittelt die Länge der aktuellen Übereinstimmung.
+@LineBreak
+  - @@RegularExpressionGroup: Extrahiert den passenden String einer Gruppe.
+@LineBreak
+  - @@RegularExpressionGroupPosition: Ermittelt die Position (innerhalb der Übereinstimmung) einer Gruppe.
+@LineBreak
+  - @@RegularExpressionGroupLength: Ermittelt die Länge einer Gruppe.
+@LineBreak
+  - @@RegularExpressionNamedGroup: Extrahiert den passenden String von einer benannten ("named") Gruppe.
+@LineBreak
+  - @@RegularExpressionNamedGroupPosition: Ermittelt die Position (innerhalb der Übereinstimmung) einer benannten Gruppe.
+@LineBreak
+  - @@RegularExpressionNamedGroupLength: Ermittelt die Länge einer benannten Gruppe.
+  
+@Example
+  Siehe @@ExamineRegularExpression für ein Beispiel.
+  
+@SeeAlso
+  @@ExamineRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = RegularExpressionMatchString(#RegularExpression)
+
+@Description
+  Gibt den String zurück, der beim letzten Aufruf von @@NextRegularExpressionMatch
+  mit dem regulären Ausdruck übereinstimmte.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck. @@ExamineRegularExpression und
+  @@NextRegularExpressionMatch müssen auf diesen regulären Ausdruck aufgerufen worden
+  sein.
+
+@ReturnValue
+  Der Teil-String, welcher mit dem regulären Ausdruck übereinstimmte.
+  
+@Example
+  Siehe @@ExamineRegularExpression für ein Beispiel.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionMatchPosition, @@RegularExpressionMatchLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = RegularExpressionMatchPosition(#RegularExpression)
+
+@Description
+  Gibt die Position der aktuellen Übereinstimmung innerhalb des Eingabestrings
+  (übergeben an @@ExamineRegularExpression) zurück, nach einem Aufruf von
+  @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck. @@ExamineRegularExpression und
+  @@NextRegularExpressionMatch müssen auf diesen regulären Ausdruck aufgerufen worden
+  sein.
+
+@ReturnValue
+  Die Position der Übereinstimmung innerhalb des originalen Strings. Das erste
+  Zeichen im String befindet sich an Position 1.
+  
+@Example
+  Siehe @@ExamineRegularExpression für ein Beispiel.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionMatchString, @@RegularExpressionMatchLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = RegularExpressionMatchLength(#RegularExpression)
+
+@Description
+  Gibt die Länge in Zeichen des aktuell übereinstimmenden Strings zurück,
+  nach einem Aufruf von @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck. @@ExamineRegularExpression und
+  @@NextRegularExpressionMatch müssen auf diesen regulären Ausdruck aufgerufen worden
+  sein.
+
+@ReturnValue
+  Die Länge der aktuellen Übereinstimmung in Zeichen.
+  
+@Example
+  Siehe @@ExamineRegularExpression für ein Beispiel.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionMatchString, @@RegularExpressionMatchPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = RegularExpressionGroup(#RegularExpression, Gruppe)
+
+@Description
+  Extrahiert den mit einer Gruppe innerhalb des regulären Ausdrucks 
+  übereinstimmenden String, nach einem Aufruf von @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck. @@ExamineRegularExpression und
+  @@NextRegularExpressionMatch müssen auf diesen regulären Ausdruck aufgerufen worden
+  sein.
+
+@Parameter "Gruppe"
+  Der Index der zu extrahierenden Gruppe. Die erste Gruppe hat den Index 1.
+
+@ReturnValue
+  Gibt den String zurück, der mit einer Gruppe des regulären Ausdrucks übereinstimmt.
+
+@Remarks
+  Gruppen in einem regulären Ausdruck werden definiert, indem ein Unter-Ausdruck
+  ("sub-expression") von Klammern "(" und ")" umschlossen wird. Die Gruppen
+  werden so nummeriert, wie sie im regulären Ausdruck vorkommen, von links
+  nach rechts. Die erste Gruppe hat den Index 1.
+@LineBreak
+  Die @@CountRegularExpressionGroups Funktion kann verwendet werden, um die Anzahl
+  an Gruppen in einem regulären Ausdruck herauszufinden.
+@LineBreak
+@LineBreak
+  Als eine Alternative kann auch die @@RegularExpressionNamedGroup Funktion verwendet
+  werden.
+  
+@Example
+@Code
+  ; Dieser Ausdruck stimmt mit einem Farbeinstellungs-String (mit den Werten Rot,
+  ; Grün oder Blau) überein. Die Farben sind mit () gruppiert und der Farbwert
+  ; wird im Falle einer Übereinstimmung extrahiert.
+  ;  
+  If CreateRegularExpression(0, "color=(red|green|blue)")
+    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+      While NextRegularExpressionMatch(0)
+        Debug "The color is " + RegularExpressionGroup(0, 1)
+      Wend
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionGroupPosition, @@RegularExpressionGroupLength,
+  @@RegularExpressionNamedGroup
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = RegularExpressionGroupPosition(#RegularExpression, Gruppe)
+
+@Description
+  Gibt die Position (innerhalb des aktuell übereinstimmenden Strings) der
+  angegebenen Gruppe zurück, nach einem Aufruf von @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck. @@ExamineRegularExpression und
+  @@NextRegularExpressionMatch müssen auf diesen regulären Ausdruck aufgerufen worden
+  sein.
+
+@Parameter "Gruppe"
+  Der Index der Gruppe. Die erste Gruppe hat den Index 1.
+
+@ReturnValue
+  Gibt die Zeichen-Position der Gruppe innerhalb des übereinstimmenden Strings
+  (nicht innerhalb des originalen Eingabestrings!) zurück.
+  Das erste Zeichen der Übereinstimmung hat die Position 1.
+
+@Remarks
+  Gruppen in einem regulären Ausdruck werden definiert, indem ein Unter-Ausdruck
+  ("sub-expression") von Klammern "(" und ")" umschlossen wird. Die Gruppen
+  werden so nummeriert, wie sie im regulären Ausdruck vorkommen, von links
+  nach rechts. Die erste Gruppe hat den Index 1.
+@LineBreak
+  Die @@CountRegularExpressionGroups Funktion kann verwendet werden, um die Anzahl
+  an Gruppen in einem regulären Ausdruck herauszufinden.
+@LineBreak
+@LineBreak
+  Als eine Alternative kann auch die @@RegularExpressionNamedGroupPosition Funktion
+  verwendet werden.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionGroup, @@RegularExpressionGroupLength,
+  @@RegularExpressionNamedGroupPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = RegularExpressionGroupLength(#RegularExpression, Gruppe)
+
+@Description
+  Gibt die Länge der angegebenen Gruppe des regulären Ausdrucks zurück,
+  nach einem Aufruf von @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck. @@ExamineRegularExpression und
+  @@NextRegularExpressionMatch müssen auf diesen regulären Ausdruck aufgerufen worden
+  sein.
+
+@Parameter "Gruppe"
+  Der Index der Gruppe. Die erste Gruppe hat den Index 1.
+
+@ReturnValue
+  Gibt die Zeichen-Position der Gruppe zurück.
+
+@Remarks
+  Gruppen in einem regulären Ausdruck werden definiert, indem ein Unter-Ausdruck
+  ("sub-expression") von Klammern "(" und ")" umschlossen wird. Die Gruppen
+  werden so nummeriert, wie sie im regulären Ausdruck vorkommen, von links
+  nach rechts. Die erste Gruppe hat den Index 1.
+@LineBreak
+  Die @@CountRegularExpressionGroups Funktion kann verwendet werden, um die Anzahl
+  an Gruppen in einem regulären Ausdruck herauszufinden.
+@LineBreak
+@LineBreak
+  Als eine Alternative kann auch die @@RegularExpressionNamedGroupLength Funktion
+  verwendet werden.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionGroup, @@RegularExpressionGroupPosition,
+  @@RegularExpressionNamedGroupLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = RegularExpressionNamedGroup(#RegularExpression, GruppenName$)
+
+@Description
+  Extrahiert den mit einer benannten Gruppe innerhalb des regulären Ausdrucks
+  übereinstimmenden String, nach einem Aufruf von @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck. @@ExamineRegularExpression und
+  @@NextRegularExpressionMatch müssen auf diesen regulären Ausdruck aufgerufen worden
+  sein.
+
+@Parameter "GruppenName$"
+  Der Name der zu extrahierenden Gruppe. Der Gruppenname beachtet die Groß- und
+  Kleinschreibung.
+
+@ReturnValue
+  Gibt den mit einer Gruppe des regulären Ausdrucks übereinstimmenden String zurück.
+
+@Remarks
+  Gruppen in einem regulären Ausdruck werden definiert, indem ein Unter-Ausdruck
+  ("sub-expression") von Klammern "(" und ")" umschlossen wird. Auf Gruppen kann
+  sowohl mittels Index-basierender Funktionen wie @@RegularExpressionGroup
+  zugegriffen werden, als auch durch Zuweisung eines Namens mittels des 
+  "(?<name>)" Syntax wie im Beispiel unten zu sehen.
+  
+@Example
+@Code
+  ; Dieser Ausdruck stimmt mit einem Farbeinstellungs-String (mit den Werten Rot,
+  ; Grün oder Blau) überein. Die Farben sind gruppiert mit (), was den Namen
+  ; "col" zugewiesen bekommen hat. Dieser Farbname wird dann extrahiert.
+  ;  
+  If CreateRegularExpression(0, "color=(?<col>red|green|blue)")
+    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+      While NextRegularExpressionMatch(0)
+        Debug "The color is " + RegularExpressionNamedGroup(0, "col")
+      Wend
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionNamedGroupPosition, @@RegularExpressionNamedGroupLength,
+  @@RegularExpressionGroup
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = RegularExpressionNamedGroupPosition(#RegularExpression, GruppenName$)
+
+@Description
+  Gibt die Position (innerhalb des aktuell übereinstimmenden Strings) der angegebenen
+  benannten Gruppe zurück, nach einem Aufruf von @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck. @@ExamineRegularExpression und
+  @@NextRegularExpressionMatch müssen auf diesen regulären Ausdruck aufgerufen worden
+  sein.
+
+@Parameter "GruppenName$"
+  Der Name der zu extrahierenden Gruppe. Der Gruppenname beachtet die Groß- und
+  Kleinschreibung.
+
+@ReturnValue
+  Gibt die Zeichen-Position der Gruppe innerhalb des übereinstimmenden Strings
+  (nicht innerhalb des originalen Eingabestrings!) zurück.
+  Das erste Zeichen der Übereinstimmung hat die Position 1.
+
+@Remarks
+  Gruppen in einem regulären Ausdruck werden definiert, indem ein Unter-Ausdruck
+  ("sub-expression") von Klammern "(" und ")" umschlossen wird. Auf Gruppen kann
+  sowohl mittels Index-basierender Funktionen wie @@RegularExpressionGroupPosition
+  zugegriffen werden, als auch durch Zuweisung eines Namens mittels des 
+  "(?<name>)" Syntax wie im Beispiel der @@RegularExpressionNamedGroup Funktion zu sehen.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionNamedGroup, @@RegularExpressionNamedGroupLength,
+  @@RegularExpressionGroupPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = RegularExpressionNamedGroupLength(#RegularExpression, GruppenName$)
+
+@Description
+  Gibt die Länge der angegebenen benannten Gruppe eines regulären Ausdrucks zurück,
+  nach einem Aufruf von @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck. @@ExamineRegularExpression und
+  @@NextRegularExpressionMatch müssen auf diesen regulären Ausdruck aufgerufen worden
+  sein.
+
+@Parameter "GruppenName$"
+  Der Name der zu extrahierenden Gruppe. Der Gruppenname beachtet die Groß- und
+  Kleinschreibung.
+
+@ReturnValue
+  Gibt die Zeichen-Position der Gruppe zurück.
+
+@Remarks
+  Gruppen in einem regulären Ausdruck werden definiert, indem ein Unter-Ausdruck
+  ("sub-expression") von Klammern "(" und ")" umschlossen wird. Auf Gruppen kann
+  sowohl mittels Index-basierender Funktionen wie @@RegularExpressionGroupLength
+  zugegriffen werden, als auch durch Zuweisung eines Namens mittels des 
+  "(?<name>)" Syntax wie im Beispiel der @@RegularExpressionNamedGroup Funktion zu sehen.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionNamedGroup, @@RegularExpressionNamedGroupPosition,
+  @@RegularExpressionGroupLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = ReplaceRegularExpression(#RegularExpression, String$, ErsatzString$)
+
+@Description
+  Ersetzt alle Strings, auf welche der reguläre Ausdruck #RegularExpression zutrifft,
+  mit 'ErsatzString$'.
+
+@Parameter "#RegularExpression"
+  Der zu verwendende reguläre Ausdruck.
+
+@Parameter "String$"
+  Der String, auf den der reguläre Ausdruck angewendet werden soll.
+
+@Parameter "ErsatzString$"
+  Der zu verwendende String, mit dem der gefundene Ausdruck ersetzt werden soll.
+
+@ReturnValue
+  Gibt einen neuen String zurück, in dem alle gefundenen Ausdrücke durch
+  'ErsatzString$' ersetzt wurden.
+
+@Remarks
+  Rückverweise (englisch "back references", meist als \1, \2, etc. beschrieben)
+  werden nicht unterstützt. @@ExtractRegularExpression kombiniert mit @@ReplaceString
+  sollte jedoch das gewünschte Ergebnis liefern.
+
+@Example
+@Code
+  ; Dieser Ausdruck passt auf jedes Wort mit 3 Buchstaben, welches mit einem
+  ; Kleinbuchstaben beginnt, gefolgt vom Zeichen 'b' und welches mit einem
+  ; Großbuchstaben endet. Beispiel: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Result$ = ReplaceRegularExpression(0, "abC ABc zbA abc", "---")
+    Debug Result$ ; wird "--- ABc --- abc" ausgeben
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = RegularExpressionError()
+
+@Description
+  Gibt eine vom Menschen lesbare Fehlermeldung (in Englisch) über den letzten Fehler von
+  @@CreateRegularExpression zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt eine vom Menschen lesbare Fehlermeldung (in Englisch) über den letzten Fehler von
+  @@CreateRegularExpression zurück.
+
+@Example
+@Code
+  ; Hier geben wir eine zusätzliche eckige Klammer '[' an, wodurch sich ein Syntax-Fehler
+  ; im regulären Ausdruck ergibt.
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[[A-Z][]")
+    Debug "Success"
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS

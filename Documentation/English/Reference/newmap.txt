@@ -1,0 +1,98 @@
+@Title NewMap
+
+@Syntax
+
+  @Keyword NewMap name.<type>([Slots])      
+  
+@Description
+
+  @Keyword NewMap allows to declare a new map, also known as hashtable or dictionary. It allows to quickly reference an element based
+  on a key. Each key in the map are unique, which means it can't have two distinct elements with the same key. There are no element limits,
+  so there can be as many as needed. A map can have any @ReferenceLink "Variables" "standard" or @ReferenceLink "Structures" "structured" type. 
+  To view all commands used to manage maps, see the @LibraryLink Map Map library. @LineBreak
+  @LineBreak
+  When using a new key for an assignment, a new element is automatically added to the map. If another element with the same key is already
+  in the map, it will be replaced by the new one. Once an element as been accessed or created, it becomes the current element of the map,
+  and further access to this element can be done without specify the key. This is useful when using structured map, as no more element
+  lookup is needed to access different structure field.@LineBreak
+  @LineBreak
+  New maps are always locals by default, so @ReferenceLink "Global" Global or @ReferenceLink "Shared" Shared commands
+  have to be used if a map declared in the main source need to be used in procedures.
+  It is also possible to pass a map as parameter to a @ReferenceLink "Procedures" "procedure" by using the
+  keyword @Keyword Map.
+  @LineBreak
+  @LineBreak
+  For fast swapping of map elements the @ReferenceLink "others" "Swap" keyword is available.
+  @LineBreak
+  @LineBreak
+  The optional 'Slots' parameter defines how much slots the map will have have to store its elements. The more slots is has, the faster it
+  will be to access an element, but the more memory it will use. It's a tradeoff depending of how many elements the map will ultimately
+  contains and how fast the random access should be. The default value is 512. This parameter has no impact about the number of elements
+  a map can contain.
+  
+  @Example Simple map
+
+@Code
+  NewMap Country.s()
+  
+  Country("GE") = "Germany"
+  Country("FR") = "France"
+  Country("UK") = "United Kingdom"
+  
+  Debug Country("FR")
+  
+  ForEach Country()
+    Debug Country()
+  Next
+@EndCode
+
+  @Example Map as procedure parameter
+
+@Code
+  NewMap Country.s()
+  
+  Country("GE") = "Germany"
+  Country("FR") = "France"
+  Country("UK") = "United Kingdom"
+
+  Procedure DebugMap(Map ParameterMap.s())
+
+    ParameterMap("US") = "United States"
+
+    ForEach ParameterMap()
+      Debug ParameterMap()
+    Next
+ 
+  EndProcedure
+
+  DebugMap(Country())
+@EndCode
+
+
+  @Example Structured map
+
+@Code
+  Structure Car
+    Weight.l
+    Speed.l
+    Price.l
+  EndStructure
+
+  NewMap Cars.Car()
+  
+  ; Here we use the current element after the new insertion
+  ;
+  Cars("Ferrari F40")\Weight = 1000
+  Cars()\Speed = 320
+  Cars()\Price = 500000
+  
+  Cars("Lamborghini Gallardo")\Weight = 1200
+  Cars()\Speed = 340
+  Cars()\Price = 700000
+
+  ForEach Cars()
+    Debug "Car name: "+MapKey(Cars())
+    Debug "Weight: "+Str(Cars()\Weight)
+  Next
+ 
+@EndCode

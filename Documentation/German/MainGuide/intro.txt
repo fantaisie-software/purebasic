@@ -1,0 +1,178 @@
+@Title Einführung
+
+  PureBasic ist eine "Hochsprachen" Programmiersprache, die auf den bekannten "BASIC"-Regeln basiert. 
+  Sie ist größtenteils kompatibel mit jedem anderen "BASIC"-Compiler.
+  Das Erlernen von PureBasic ist sehr leicht! PureBasic ist für Anfänger genauso wie für Experten 
+  geschaffen worden. Die Übersetzungsgeschwindigkeit ist wirklich schnell. Diese Software wurde für das Windows-
+  Betriebssystem entwickelt. Wir haben eine Menge Anstrengungen in ihre Realisierung gesetzt, um eine 
+  schnelle, zuverlässige und systemfreundliche Sprache zu produzieren.
+  @LineBreak
+  @LineBreak
+  Die Syntax ist einfach, aber mit den fortgeschrittenen Funktionen von PureBasic wie z.B. @ReferenceLink "memory" "Zeigern",
+  @ReferenceLink "structures" "Strukturen", @ReferenceLink "procedures" "Prozeduren", dynamisch verknüpften
+  @ReferenceLink "newlist" "Listen", @ReferenceLink "newmap" "Maps", @ReferenceLink "interfaces" "Interfaces",
+  modularer Programmierung (@ReferenceLink "module" "Module"), @ReferenceLink "inlinedasm" "Inline-Assember" und vieles
+  mehr sind die Möglichkeiten unbegrenzt.
+  Für den erfahrenen Programmierer 
+  gibt es keine Probleme, Zugang zu irgendwelchen legalen OS-Strukturen oder API-Objekten zu bekommen.
+  @LineBreak
+  @LineBreak
+  PureBasic ist eine portable Sprache, welche zur Zeit auf Linux, MacOS X und Windows 
+  Computersystemen arbeitet. Dies bedeutet, dass derselbe Programmcode für jedes System nativ kompiliert werden 
+  kann und trotzdem die volle Power des jeweiligen Systems ausnutzt. Es gibt keine Flaschenhälse wie einen virtuellen Prozessor 
+  oder einen Code-Übersetzer; der generierte Code produziert ein optimiertes Executable.
+ @LineBreak
+ @LineBreak
+
+@Section Die bedeutendsten Features von PureBasic
+
+  - x86 und x64 Support @LineBreak
+  - 83 native Befehlsbibliotheken @LineBreak
+  - Hunderte von Funktionen @LineBreak 
+  - Eingebaute @ReferenceLink "dim" "Arrays", dynamisch verknüpfte @ReferenceLink "newlist" "Listen", komplexe
+    @ReferenceLink "structures" "Strukturen", @ReferenceLink "memory" "Zeiger" und @ReferenceLink "variables" "Variablen"-Definitionen @LineBreak
+  - Unterstützte Typen: Byte (8 Bit), Word (16 Bit), Long (32 Bit), Quad (64 Bit), Float (32 Bit), Double (64 Bit) und Character @LineBreak
+  - Benutzerdefinierte Typen (@ReferenceLink "structures" "Strukturen") @LineBreak
+  - Eingebaute String-Typen (Charaktere), einschließlich Ascii und @ReferenceLink "unicode" "Unicode" @LineBreak
+  - Leistungsstarker @ReferenceLink "macros" "Macro" Support @LineBreak
+  - Konstanten, binäre und hexadezimale Zahlen werden unterstützt @LineBreak
+  - Verkürzung von Ausdrücken (Zusammenstellen von Konstanten und numerischen Zahlen @LineBreak
+  - Standard Arithmetik-Unterstützung unter Beachtung von Vorzeichen und Klammern: +, -, /, *, and, or, <<, >> @LineBreak
+  - Extrem schnelle Kompilierung @LineBreak
+  - Unterstützung von @ReferenceLink "procedures" "Prozeduren" für strukturiertes Programmieren mit @ReferenceLink "protected" "lokalen"
+    und @ReferenceLink "global" "globalen" Variablen @LineBreak
+  - Alle Standard BASIC Schlüsselworte: @ReferenceLink "if_endif" "If-Else-EndIf", @ReferenceLink "repeat_until" "Repeat-Until", etc. @LineBreak
+  - Spezialisierte Bibliotheken zur Manipulation von BMP-Bildern, Fenstern, Gadgets, DirectX ect. @LineBreak
+  - Die spezialisierten Bibliotheken sind sehr optimiert, für maximale Geschwindigkeit und Kompaktheit @LineBreak
+  - Die Win32 API wird vollständig unterstützt, so als wären es BASIC Schlüsselworte @LineBreak
+  - @ReferenceLink "inlinedasm" "Inline-Assembler" @LineBreak
+  - Vorkompilierte Strukturen mit Konstanten-Dateien für extra-schnelle Kompilierung @LineBreak
+  - Integrierter @ReferenceLink "debugger" "Debugger", um die Ausführung eines Programms zu verfolgen und Fehler leichter korrigieren zu können @LineBreak
+  - Konfigurierbarer @ReferenceLink "cli_compiler" "CLI-Compiler" @LineBreak
+  - Dedizierter @ReferenceLink "ide_start" "Editor" mit automatisch hervorgehobener Syntax @LineBreak  
+  - Sehr hohe Leistungsfähigkeit, ausführliche Stichwörter, Online-Hilfe @LineBreak
+  - Systemfreundlich, leicht zu installieren und leicht zu benutzen @LineBreak
+  - IDE und Hilfe ist verfügbar in Englisch, Deutsch und Französisch @LineBreak
+  - SDK Visual C
+  @LineBreak
+  @LineBreak
+  - Kompilierung von Fensterprogrammen, Konsole und DLL @LineBreak
+  - Erstellung von integrierten Wysiwyg-Fenstern @LineBreak
+  - Erstellung von Fenstern mit automatischer Anpassung von Gadgets (Layout) mit Hilfe der 'Dialog'-Bibliothek @LineBreak
+  - 33 native Gadgets @LineBreak
+  - 1 spezielles OpenGL-Gadget @LineBreak
+  - 1 Szintilla-Gadget @LineBreak
+  - Process, Thread, Mutex, Semaphore @LineBreak
+  - Drag'n Drop @LineBreak
+  - DPI für MS Windows @LineBreak
+  - QT und GTK3 für Linux @LineBreak
+  - DirectX- und OpenGL-Systeme @LineBreak
+  - Import von statischen (lib) oder dynamischen Bibliotheken (dll, so, usw.) @LineBreak
+  - Zeichnen mit Antialiasing mit Hilfe der 'Vector'-Bibliothek @LineBreak
+  - 3D-Funktionen mit der 3D-Engine OGRE @LineBreak
+  - Pseudotypen: p-ascii, p-utf8, p-bstr, p-unicode, p-variant @LineBreak
+  - Array, verknüpfte Listen (linked list), Maps, Datenbank (MySQL, SQLite, ODBC, PostgreSQL, Maria) @LineBreak
+  - json, xml @LineBreak
+  - Reguläre Ausdrücke @LineBreak
+  - Http, Ftp, Mail, Anwendungsserver / Client, CGI und FastCGI @LineBreak
+  - Cipher @LineBreak
+  - OnError @LineBreak
+  - Komprimierung/Dekomprimierung: BriefLZ, JCALG1, LZMA, Tar, Zip @LineBreak
+  - INI-Dateien @LineBreak
+  - Drucker, serielle Schnittstelle @LineBreak
+  - Runtime (Laufzeit) @LineBreak
+@LineBreak
+  Hier die vollständige Liste aller Bibliotheken, die PureBasic anbietet:
+@LineBreak
+@LineBreak
+@Code
+  Windows & System:
+    Array
+    Cgi
+    Cipher
+    Clipboard
+    Console
+    Database
+    Date
+    Debugger
+    Desktop
+    Dialog
+    Dragdrop
+    File
+    Filesystem
+    Font
+    Ftp
+    Gadget
+    Help
+    Http
+    Json
+    Library
+    Lists
+    Mail
+    Maps
+    Math
+    Memory
+    Menu
+    Network
+    Onerror
+    Packer
+    Preference
+    Printer
+    Process
+    Regularexpression
+    Requester
+    Runtimes
+    Scintilla
+    Serialport
+    Sort
+    Statusbar
+    String
+    System
+    Systray
+    Thread
+    Toolbar
+    Window
+    Xml
+
+  2D & Medien:
+    2DDrawing
+    Audiocd
+    Font
+    Image
+    Imageplugin
+    Joystick
+    Keyboard
+    Mouse
+    Movie
+    Music
+    Screen
+    Sound
+    Soundplugin
+    Sprite
+    Vectordrawing
+
+  3D-Engine:
+    Billboard
+    Camera
+    Engine3d
+    Entity
+    Entityanimation
+    Gadget3d
+    Joint
+    Light
+    Material
+    Mesh
+    Node
+    Nodeanimation
+    Particle
+    Sound3d
+    Specialeffect
+    Spline
+    Staticgeometry
+    Terrain
+    Text3d
+    Texture
+    Vehicle
+    Vertexanimation
+    Window3d
+@EndCode

@@ -1,0 +1,1411 @@
+;
+; Preference library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Preference
+
+@Overview
+
+  Un fichier "Préférence" contient des paramètres 
+  définis par l'utilisateur pour le programme. 
+  Il est stocké sur un disque et chargé à chaque 
+  lancement de ce programme, comme les fichiers 
+  '.INI' sous Windows par exemple. PureBasic 
+  offre la possibilité de créer un fichier de 
+  préférences hiérarchisées sous forme de groupes 
+  et facilement utilisable sur différentes 
+  plate-formes. 
+  Le format du fichier est en mode unicode UTF-8 avec BOM avec une 
+  préférence par ligne, utilisant la syntaxe 
+  'Clé = Valeur'. Des groupes peuvent être créés 
+  pour une lecture plus simple.
+  @LineBreak
+  @LineBreak
+
+
+@CommandList
+
+@ExampleFile All Preference.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClosePreferences()
+
+@Description
+  Ferme un fichier de préférences préalablement 
+  ouvert avec la commande @@OpenPreferences 
+  ou créé avec @@CreatePreferences.
+  
+@NoParameters
+  
+@NoReturnValue
+
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Choisir le groupe "Window"
+  PreferenceGroup("Window")
+  
+  ; Afficher la clé "w" de ce groupe
+  MessageRequester("Info", "w = " + ReadPreferenceLong ("w", 0))
+  
+  ; Fermer le fichier préférence
+  ClosePreferences()
+@EndCode
+
+@SeeAlso
+  @@CreatePreferences, @@OpenPreferences
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreatePreferences(Fichier$ [, Options])
+
+@Description
+  Crée un nouveau fichier de préférences vide.
+  @LineBreak 
+  Si le fichier existe déjà, il est écrasé. 
+  
+@Parameter "Fichier$"
+  Le nom du nouveau fichier de préférences. 
+
+@OptionalParameter "Options"
+  Peut être une combinaison des valeurs suivantes:
+@FixedFont
+  @#PB_Preference_NoSpace       : Pas d'espaces autour du signe égal.
+                                 Utile quand il s'agit d'un fichier de préférences externes qui 
+                                 n'accepte pas les espaces autour du signe égal.
+  @#PB_Preference_GroupSeparator: Ajoute une ligne vide entre les groupes pour faciliter la lisibilité.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si le fichier a 
+  été créé avec succès, zéro sinon.
+  
+@Remarks  
+  Une fois le fichier créé, les commandes telles 
+  que @@WritePreferenceString par exemple 
+  permettent d'écrire des informations dedans. 
+  Une fois les valeurs écrites, il est possible 
+  de les relire avec @@ReadPreferenceString ou 
+  une commande ad hoc. 
+@LineBreak
+@LineBreak
+  Pour effacer une clé ou un groupe, utiliser 
+  @@RemovePreferenceKey ou 
+  @@RemovePreferenceGroup.@LineBreak 
+  @@PreferenceGroup permet de créer ou changer 
+  le groupe courant.
+@LineBreak
+@LineBreak
+  Une fois les opérations sur le fichier terminées, 
+  il faut utiliser @@ClosePreferences pour mettre à 
+  jour, écrire et fermer le fichier préférences sur 
+  le disque.
+
+@Example
+@Code
+  ; Créer un fichier preference nommé Setup.ini
+  CreatePreferences(GetTemporaryDirectory()+"Setup.ini")
+  
+  ; Créer un groupe nommé "Window"
+  PreferenceGroup("Window")
+    WritePreferenceLong ("X", 10)     ; X = 10
+    WritePreferenceLong ("Y", 10)     ; Y = 10
+    WritePreferenceLong("W", 800)     ; W = 800
+    WritePreferenceLong("H", 600)     ; H = 600
+    WritePreferenceFloat("%", 20)     ; % = 20.000000
+    WritePreferenceString("Titre", "PureNote") ; Titre = "PureNote"
+  
+  ; Fermer le fichier préférence
+  ClosePreferences()
+@EndCode
+
+@SeeAlso
+  @@ClosePreferences
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ExaminePreferenceGroups()
+
+@Description
+  Commence l'énumération de tous les groupes 
+  trouvés dans le fichier de préférence courant.
+ 
+@NoParameters
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, 
+  zéro sinon. 
+
+@Remarks
+  La commande @@NextPreferenceGroup permet de 
+  passer au groupe suivant.
+
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Recherche des groupes dans le fichier préférence
+  ExaminePreferenceGroups()
+  While NextPreferenceGroup() ; Tant qu'il existe un groupe à afficher
+    MessageRequester("Groupes", PreferenceGroupName())  ; Afficher ce groupe
+  Wend
+  
+  ; Fermer le fichier préférence
+  ClosePreferences() 
+@EndCode  
+
+@SeeAlso
+  @@NextPreferenceGroup, @@PreferenceGroupName
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ExaminePreferenceKeys()
+
+@Description
+  Commence l'énumération de toutes les clés 
+  trouvées dans le fichier de préférence courant.
+  
+@NoParameters
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, 
+  zéro sinon. 
+
+@Remarks
+  La commande @@NextPreferenceKey permet de 
+  passer à la clé suivante.
+ 
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Groupe à examiner
+  PreferenceGroup("Window")
+  
+  ; Recherche des clés dans le groupe 'Window'  
+  ExaminePreferenceKeys()
+  While  NextPreferenceKey() ; Tant qu'il existe une clé à afficher
+    MessageRequester("Clés du groupe 'Window'", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; Afficher la clé et sa valeur
+  Wend
+  
+  ; Fermer le fichier préférence
+  ClosePreferences()  
+@EndCode  
+ 
+@SeeAlso
+  @@ExaminePreferenceGroups, @@NextPreferenceGroup, 
+  @@NextPreferenceKey, @@PreferenceKeyName(), 
+  @@PreferenceKeyValue()
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = FlushPreferenceBuffers()
+
+@Description
+  Veille à ce que toutes les modifications des 
+  préférences soient écrites sur le disque.
+  
+@NoParameters
+  
+@ReturnValue
+  Renvoie une valeur non nulle si les préférences 
+  ont été écrites sur le disque avec succès, zéro 
+  si une erreur survient (disque plein, erreur 
+  disque, etc).
+
+@SeeAlso
+  @@CreatePreferences, @@OpenPreferences
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = NextPreferenceGroup()
+
+@Description
+  Renvoie le groupe suivant.
+
+@NoParameters
+
+@ReturnValue
+  Récupère les informations concernant le groupe 
+  suivant dans l'énumération commencée avec 
+  @@ExaminePreferenceGroups. 
+
+@Remarks
+  Pour savoir le nom du groupe courant, utiliser 
+  @@PreferenceGroupName.
+
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Recherche des groupes dans le fichier préférence
+  ExaminePreferenceGroups()
+  While NextPreferenceGroup() ; Tant qu'il existe un groupe à afficher
+    MessageRequester("Groupes", PreferenceGroupName())  ; Afficher ce groupe
+  Wend
+  
+  ; Fermer le fichier préférence
+  ClosePreferences() 
+@EndCode  
+  
+@SeeAlso
+  @@ExaminePreferenceGroups, 
+  @@PreferenceGroupName, 
+  @@ExaminePreferenceKeys
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = NextPreferenceKey()
+
+@Description
+  Renvoie la clé suivante.
+  
+@NoParameters
+
+@ReturnValue
+  Récupère les informations concernant la clé 
+  suivante dans l'énumération commencée avec 
+  @@ExaminePreferenceKeys.
+
+@Remarks
+  Pour savoir le nom et la valeur de la clé 
+  courante, utiliser @@PreferenceKeyName et 
+  @@PreferenceKeyValue.
+ 
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Groupe à examiner
+  PreferenceGroup("Window")
+  
+  ; Recherche des clés dans le groupe 'Window'  
+  ExaminePreferenceKeys()
+  While  NextPreferenceKey() ; Tant qu'il existe une clé à afficher
+    MessageRequester("Clés du groupe 'Window'", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; Afficher la clé et sa valeur
+  Wend
+  
+  ; Fermer le fichier préférence
+  ClosePreferences()  
+@EndCode  
+  
+@SeeAlso
+  @@ExaminePreferenceKeys, @@PreferenceKeyName, 
+  @@PreferenceKeyValue
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = PreferenceGroupName()
+
+@Description
+  Renvoie le nom du groupe courant.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie le nom du groupe courant dans 
+  l'énumération commencée avec 
+  @@ExaminePreferenceGroups ou préalablement 
+  sélectionnée avec @@PreferenceGroup.
+
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Recherche des groupes dans le fichier préférence
+  ExaminePreferenceGroups()
+  While NextPreferenceGroup() ; Tant qu'il existe un groupe à afficher
+    MessageRequester("Groupes", PreferenceGroupName())  ; Afficher ce groupe
+  Wend
+  
+  ; Fermer le fichier préférence
+  ClosePreferences() 
+@EndCode  
+  
+@SeeAlso
+  @@ExaminePreferenceGroups
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = PreferenceKeyName()
+
+@Description
+  Renvoie le nom de la clé courante.
+  
+@NoParameters
+
+@ReturnValue
+  Renvoie le nom de la clé courante dans 
+  l'énumération commencée avec 
+  @@ExaminePreferenceKeys.
+
+@Remarks
+  La commande @@PreferenceKeyValue permet de 
+  récupérer la valeur de la clé.
+ 
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Groupe à examiner
+  PreferenceGroup("Window")
+  
+  ; Recherche des clés dans le groupe 'Window'  
+  ExaminePreferenceKeys()
+  While  NextPreferenceKey() ; Tant qu'il existe une clé à afficher
+    MessageRequester("Clés du groupe 'Window'", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; Afficher la clé et sa valeur
+  Wend
+  
+  ; Fermer le fichier préférence
+  ClosePreferences()  
+@EndCode  
+ 
+@SeeAlso
+  @@ExaminePreferenceKeys, @@PreferenceKeyValue
+
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = PreferenceKeyValue()
+
+@Description
+  Renvoie la valeur de la clé courante.
+  
+@NoParameters
+
+@ReturnValue
+  Renvoie la valeur de la clé courante dans 
+  l'énumération commencée avec 
+  @@ExaminePreferenceKeys.
+
+@Remarks
+  La commande @@PreferenceKeyName permet de 
+  récupérer le nom de la clé.
+ 
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Groupe à examiner
+  PreferenceGroup("Window")
+  
+  ; Recherche des clés dans le groupe 'Window'  
+  ExaminePreferenceKeys()
+  While  NextPreferenceKey() ; Tant qu'il existe une clé à afficher
+    MessageRequester("Clés du groupe 'Window'", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; Afficher la clé et sa valeur
+  Wend
+  
+  ; Fermer le fichier préférence
+  ClosePreferences()  
+@EndCode  
+ 
+@SeeAlso
+  @@ExaminePreferenceKeys, @@PreferenceKeyName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = OpenPreferences(Fichier$ [, Options])
+
+@Description
+  Ouvre un fichier de préférences. 
+  
+@Parameter "Fichier$"
+  Le nom du fichier de préférences à ouvrir. 
+
+@OptionalParameter "Options"
+  Peut être une combinaison des valeurs suivantes:
+@FixedFont
+  @#PB_Preference_NoSpace       : Pas d'espaces autour du signe égal.
+                                 Utile quand il s'agit d'un fichier de préférences externes qui 
+                                 n'accepte pas les espaces autour de signe égal.
+  @#PB_Preference_GroupSeparator: Ajoute une ligne vide entre les groupes pour faciliter la lisibilité.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, 
+  zéro sinon. 
+  
+@Remarks
+  Si le fichier ne peut pas être ouvert, le 
+  programmeur peut malgré tout utiliser la 
+  commande de lecture, celle-ci renvoyant alors 
+  la valeur spécifiée par défaut. 
+  Ceci est très pratique pour initialiser en une 
+  fois les variables du programme.
+  Les fonctions comme @@ReadPreferenceString 
+  peuvent être utilisées pour lire les valeurs 
+  de préférences stockées dans le fichier.
+@LineBreak
+@LineBreak
+  Pour effacer une clé ou un groupe, utiliser 
+  @@RemovePreferenceKey ou @@RemovePreferenceGroup.
+  @LineBreak 
+  @@PreferenceGroup permet de créer ou de changer 
+  le groupe courant.
+@LineBreak
+@LineBreak
+  Il est possible de modifier les valeurs 
+  existantes avec @@WritePreferenceString ou 
+  une commande ad hoc.
+@LineBreak
+@LineBreak
+  Une fois les opérations sur le fichier terminées, 
+  il faut utiliser @@ClosePreferences pour mettre à 
+  jour, écrire et fermer le fichier préférences sur 
+  le disque.
+ 
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Examen des Groupes
+  ExaminePreferenceGroups()
+  ; Pour chaque groupe
+  While NextPreferenceGroup()
+    texte$ = texte$ + PreferenceGroupName() + #LF$ ; On récupère son nom
+  ; Examen des Clés pour le groupe en cours  
+    ExaminePreferenceKeys()
+  ; Pour chaque clé  
+  While  NextPreferenceKey()                          
+    texte$ = texte$ + PreferenceKeyName() + " = " + PreferenceKeyValue() + #LF$ ; On récupère son nom et sa valeur
+  Wend
+  texte$ = texte$ +  #LF$
+  Wend
+
+ ; Afficher tous les groupes et toutes les clés avec leur valeur
+  MessageRequester("test.pref",texte$)
+
+  ; Fermer le fichier préférence
+  ClosePreferences()    
+@EndCode  
+ 
+@SeeAlso
+  @@ClosePreferences
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = PreferenceGroup(Nom$)
+
+@Description
+  Crée un nouveau groupe sous la forme: [Nom$] 
+  ou modifie le groupe courant dans le fichier 
+  de préférences.
+
+@Parameter "Nom$"
+   Le nouveau nom du groupe.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, 
+  zéro sinon. 
+
+@Remarks
+  Toutes les opérations de lecture ou d'écriture 
+  qui suivent ne concernent que ce groupe.
+@LineBreak
+@LineBreak
+  Si le groupe n'existe pas, il ne sera pas 
+  immédiatement créé. 
+  Il sera créé uniquement lorsqu'au moins une 
+  clé sera écrite dans ce groupe. Ceci permet 
+  d'utiliser PreferenceGroup() pour tester si 
+  un groupe existe sans créer plein de groupes 
+  vides.
+@LineBreak
+@LineBreak 
+  Pour quitter un groupe, un "Nom$" vide peut
+  être utilisé. 
+ 
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Groupe à examiner
+  PreferenceGroup("Window")
+  
+  ; Recherche des clés dans le groupe 'Window'  
+  ExaminePreferenceKeys()
+  While  NextPreferenceKey() ; Tant qu'il existe une clé à afficher
+    MessageRequester("Clés du groupe 'Window'", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; Afficher la clé et sa valeur
+  Wend
+  
+  ; Fermer le fichier préférence
+  ClosePreferences()  
+@EndCode  
+ 
+@SeeAlso
+  @@PreferenceGroupName()
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PreferenceComment(Texte$)
+
+@Description
+  Ecrit une ligne de commentaire dans le 
+  fichier préférences en cours de création.
+  
+@Parameter "Texte$"
+  Le nouveau commentaire à écrire.
+
+@NoReturnValue
+ 
+@Example
+@Code
+  ; Création du fichier prefs.txt
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt")
+
+    PreferenceComment("Les coordonnées de la fenêtre") ; écriture d'un commentaire
+    PreferenceComment("") ; écriture d'un commentaire (ligne vide)
+
+    PreferenceGroup("Window")
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+
+      ClosePreferences()
+    
+      RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+  EndIf
+@EndCode  
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.d = ReadPreferenceDouble(Clé$, ValeurParDefaut)
+
+@Description
+  Lit et renvoie le nombre 
+  @ReferenceLink "variables" "Double" 
+  associé à une clé. 
+  
+@Parameter "Clé$"  
+  Le nom de la clé à lire. 
+@LineBreak
+@LineBreak
+  Si la commande @@PreferenceGroup a été utilisée 
+  alors la recherche est limitée au groupe courant.
+
+@Parameter "ValeurParDefaut"  
+  la valeur par défaut à renvoyer si la clé n'existe 
+  pas ou si le fichier de préférences n'a pas été 
+  ouvert correctement (fichier absent par exemple).
+
+@ReturnValue
+  Renvoie le nombre à virgule en double précision 
+  @ReferenceLink "variables" "Double" 
+  associée à la clé. Si ce nombre n'existe pas 
+  alors la valeur par défaut 'ValeurParDefaut' 
+  est renvoyée.
+
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Ouvrir le Groupe 'Window'
+  PreferenceGroup("Window")
+  
+  ; Parcourir les clés jusqu'à la clé: w = 800
+  NextPreferenceKey() ; x = 0
+  NextPreferenceKey() ; y = 0
+  NextPreferenceKey() ; w = 800
+  
+  ; Lecture de la clé
+  cle$= PreferenceKeyName()
+  
+  ; Affichage de la valeur de la clé sous différents formats
+    MessageRequester("Clé Integer", Str(ReadPreferenceInteger(cle$,0)))
+    MessageRequester("Clé Float", StrF(ReadPreferenceFloat(cle$,0),6))
+    MessageRequester("Clé Double", StrD(ReadPreferenceDouble(cle$,0),15))
+    MessageRequester("Clé Long", Str(ReadPreferenceLong(cle$,0)))
+    MessageRequester("Clé Quad", Str(ReadPreferenceQuad(cle$,0)))
+    MessageRequester("Clé String", ReadPreferenceString(cle$,"0"))
+    
+  ; Fermer le fichier préférence
+  ClosePreferences() 
+@EndCode  
+   
+@SeeAlso
+  @@ReadPreferenceFloat, @@ReadPreferenceInteger, 
+  @@ReadPreferenceLong, @@ReadPreferenceQuad, 
+  @@ReadPreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = ReadPreferenceFloat(Clé$, ValeurParDefaut)
+
+@Description
+  Lit et renvoie le nombre 
+  @ReferenceLink "variables" "Float" 
+  associé à une clé. 
+  
+@Parameter "Clé$"  
+  Le nom de la clé à lire. 
+@LineBreak
+@LineBreak
+  Si la commande @@PreferenceGroup a été 
+  utilisée alors la recherche est limitée au 
+  groupe courant.
+
+@Parameter "ValeurParDefaut"  
+  la valeur par défaut à renvoyer si la clé 
+  n'existe pas ou si le fichier de préférences 
+  n'a pas été ouvert correctement (fichier 
+  absent par exemple).
+
+@ReturnValue
+  Renvoie le nombre à virgule en simple précision 
+  @ReferenceLink "variables" "Float" 
+  associée à la clé. Si ce nombre n'existe pas 
+  alors la valeur par défaut 'ValeurParDefaut' 
+  est renvoyée.
+
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Ouvrir le Groupe 'window'
+  PreferenceGroup("window")
+  
+  ; Parcourir les clés jusqu'à la clé: w = 800
+  NextPreferenceKey() ; x = 0
+  NextPreferenceKey() ; y = 0
+  NextPreferenceKey() ; w = 800
+  
+  ; Lecture de la clé
+  cle$= PreferenceKeyName()
+  
+  ; Affichage de la valeur de la clé sous différents formats
+    MessageRequester("Clé Integer", Str(ReadPreferenceInteger(cle$,0)))
+    MessageRequester("Clé Float", StrF(ReadPreferenceFloat(cle$,0),6))
+    MessageRequester("Clé Double", StrD(ReadPreferenceDouble(cle$,0),15))
+    MessageRequester("Clé Long", Str(ReadPreferenceLong(cle$,0)))
+    MessageRequester("Clé Quad", Str(ReadPreferenceQuad(cle$,0)))
+    MessageRequester("Clé String", ReadPreferenceString(cle$,"0"))
+    
+  ; Fermer le fichier préférence
+  ClosePreferences() 
+@EndCode  
+   
+@SeeAlso
+  @@ReadPreferenceDouble, @@ReadPreferenceInteger, 
+  @@ReadPreferenceLong, @@ReadPreferenceQuad, 
+  @@ReadPreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.i = ReadPreferenceInteger(Clé$, ValeurParDefaut)
+
+@Description
+  Lit et renvoie le nombre entier 
+  @ReferenceLink "variables" "Integer" 
+  associé à une clé. 
+  
+@Parameter "Clé$"  
+  Le nom de la clé à lire. 
+@LineBreak
+@LineBreak
+  Si la commande @@PreferenceGroup a été utilisée 
+  alors la recherche est limitée au groupe 
+  courant.
+
+@Parameter "ValeurParDefaut"  
+  la valeur par défaut à renvoyer si la clé 
+  n'existe pas ou si le fichier de préférences 
+  n'a pas été ouvert correctement (fichier 
+  absent par exemple).
+
+@ReturnValue
+  Renvoie le nombre entier 
+  @ReferenceLink "variables" "Integer" 
+  associée à la clé. Si ce nombre n'existe pas 
+  alors la valeur par défaut 'ValeurParDefaut' 
+  est renvoyée.
+
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Ouvrir le Groupe 'window'
+  PreferenceGroup("window")
+  
+  ; Parcourir les clés jusqu'à la clé: w = 800
+  NextPreferenceKey() ; x = 0
+  NextPreferenceKey() ; y = 0
+  NextPreferenceKey() ; w = 800
+  
+  ; Lecture de la clé
+  cle$= PreferenceKeyName()
+  
+  ; Affichage de la valeur de la clé sous différents formats
+    MessageRequester("Clé Integer", Str(ReadPreferenceInteger(cle$,0)))
+    MessageRequester("Clé Float", StrF(ReadPreferenceFloat(cle$,0),6))
+    MessageRequester("Clé Double", StrD(ReadPreferenceDouble(cle$,0),15))
+    MessageRequester("Clé Long", Str(ReadPreferenceLong(cle$,0)))
+    MessageRequester("Clé Quad", Str(ReadPreferenceQuad(cle$,0)))
+    MessageRequester("Clé String", ReadPreferenceString(cle$,"0"))
+    
+  ; Fermer le fichier préférence
+  ClosePreferences() 
+@EndCode  
+   
+@SeeAlso
+  @@ReadPreferenceDouble, @@ReadPreferenceFloat, 
+  @@ReadPreferenceLong, @@ReadPreferenceQuad, 
+  @@ReadPreferenceString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.l = ReadPreferenceLong(Clé$, ValeurParDefaut)
+
+@Description
+  Lit et renvoie le nombre entier 
+  @ReferenceLink "variables" "Long" 
+  associé à une clé. 
+  
+@Parameter "Clé$"  
+  Le nom de la clé à lire. 
+@LineBreak
+@LineBreak
+  Si la commande @@PreferenceGroup a été utilisée 
+  alors la recherche est limitée au groupe 
+  courant.
+
+@Parameter "ValeurParDefaut"  
+  la valeur par défaut à renvoyer si la clé 
+  n'existe pas ou si le fichier de préférences 
+  n'a pas été ouvert correctement (fichier 
+  absent par exemple).
+
+@ReturnValue
+  Renvoie le nombre entier 
+  @ReferenceLink "variables" "Long" 
+  associée à la clé. Si ce nombre n'existe pas 
+  alors la valeur par défaut 'ValeurParDefaut' 
+  est renvoyée.
+
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Ouvrir le Groupe 'window'
+  PreferenceGroup("window")
+  
+  ; Parcourir les clés jusqu'à la clé: w = 800
+  NextPreferenceKey() ; x = 0
+  NextPreferenceKey() ; y = 0
+  NextPreferenceKey() ; w = 800
+  
+  ; Lecture de la clé
+  cle$= PreferenceKeyName()
+  
+  ; Affichage de la valeur de la clé sous différents formats
+    MessageRequester("Clé Integer", Str(ReadPreferenceInteger(cle$,0)))
+    MessageRequester("Clé Float", StrF(ReadPreferenceFloat(cle$,0),6))
+    MessageRequester("Clé Double", StrD(ReadPreferenceDouble(cle$,0),15))
+    MessageRequester("Clé Long", Str(ReadPreferenceLong(cle$,0)))
+    MessageRequester("Clé Quad", Str(ReadPreferenceQuad(cle$,0)))
+    MessageRequester("Clé String", ReadPreferenceString(cle$,"0"))
+    
+  ; Fermer le fichier préférence
+  ClosePreferences() 
+@EndCode  
+   
+@SeeAlso
+  @@ReadPreferenceDouble, @@ReadPreferenceFloat, 
+  @@ReadPreferenceInteger, @@ReadPreferenceQuad, 
+  @@ReadPreferenceString
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.q = ReadPreferenceQuad(Clé$, ValeurParDefaut)
+
+@Description
+  Lit et renvoie le nombre entier 
+  @ReferenceLink "variables" "Quad" 
+  associé à une clé. 
+  
+@Parameter "Clé$"  
+  Le nom de la clé à lire. 
+@LineBreak
+@LineBreak
+  Si la commande @@PreferenceGroup a été utilisée 
+  alors la recherche est limitée au groupe 
+  courant.
+
+@Parameter "ValeurParDefaut"  
+  la valeur par défaut à renvoyer si la clé 
+  n'existe pas ou si le fichier de préférences 
+  n'a pas été ouvert correctement (fichier 
+  absent par exemple).
+
+@ReturnValue
+  Renvoie le nombre entier 
+  @ReferenceLink "variables" "Quad" 
+  associée à la clé. Si ce nombre n'existe pas 
+  alors la valeur par défaut 'ValeurParDefaut' 
+  est renvoyée.
+
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Ouvrir le Groupe 'window'
+  PreferenceGroup("window")
+  
+  ; Parcourir les clés jusqu'à la clé: w = 800
+  NextPreferenceKey() ; x = 0
+  NextPreferenceKey() ; y = 0
+  NextPreferenceKey() ; w = 800
+  
+  ; Lecture de la clé
+  cle$= PreferenceKeyName()
+  
+  ; Affichage de la valeur de la clé sous différents formats
+    MessageRequester("Clé Integer", Str(ReadPreferenceInteger(cle$,0)))
+    MessageRequester("Clé Float", StrF(ReadPreferenceFloat(cle$,0),6))
+    MessageRequester("Clé Double", StrD(ReadPreferenceDouble(cle$,0),15))
+    MessageRequester("Clé Long", Str(ReadPreferenceLong(cle$,0)))
+    MessageRequester("Clé Quad", Str(ReadPreferenceQuad(cle$,0)))
+    MessageRequester("Clé String", ReadPreferenceString(cle$,"0"))
+    
+  ; Fermer le fichier préférence
+  ClosePreferences() 
+@EndCode  
+   
+@SeeAlso
+  @@ReadPreferenceDouble, @@ReadPreferenceFloat, 
+  @@ReadPreferenceInteger, @@ReadPreferenceLong, 
+  @@ReadPreferenceString
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = ReadPreferenceString(Clé$, ValeurParDefaut)
+
+@Description
+  Lit et renvoie la chaîne de caractères 
+  @ReferenceLink "variables" "String" 
+  associé à une clé. 
+  
+@Parameter "Clé$"  
+  Le nom de la clé à lire. 
+@LineBreak
+@LineBreak
+  Si la commande @@PreferenceGroup a été utilisée 
+  alors la recherche est limitée au groupe 
+  courant.
+
+@Parameter "ValeurParDefaut"  
+  la valeur par défaut à renvoyer si la clé 
+  n'existe pas ou si le fichier de préférences 
+  n'a pas été ouvert correctement (fichier 
+  absent par exemple).
+
+@ReturnValue
+  Renvoie la chaîne de caractères 
+  @ReferenceLink "variables" "String" 
+  associée à la clé. Si ce nombre n'existe pas 
+  alors la valeur par défaut 'ValeurParDefaut' 
+  est renvoyée.
+
+@Example
+@Code
+  ; Ouvrir un fichier préférence
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Ouvrir le Groupe 'window'
+  PreferenceGroup("window")
+  
+  ; Parcourir les clés jusqu'à la clé: w = 800
+  NextPreferenceKey() ; x = 0
+  NextPreferenceKey() ; y = 0
+  NextPreferenceKey() ; w = 800
+  
+  ; Lecture de la clé
+  cle$= PreferenceKeyName()
+  
+  ; Affichage de la valeur de la clé sous différents formats
+    MessageRequester("Clé Integer", Str(ReadPreferenceInteger(cle$,0)))
+    MessageRequester("Clé Float", StrF(ReadPreferenceFloat(cle$,0),6))
+    MessageRequester("Clé Double", StrD(ReadPreferenceDouble(cle$,0),15))
+    MessageRequester("Clé Long", Str(ReadPreferenceLong(cle$,0)))
+    MessageRequester("Clé Quad", Str(ReadPreferenceQuad(cle$,0)))
+    MessageRequester("Clé String", ReadPreferenceString(cle$,"0"))
+    
+  ; Fermer le fichier préférence
+  ClosePreferences() 
+@EndCode  
+   
+@SeeAlso
+  @@ReadPreferenceDouble, @@ReadPreferenceFloat, 
+  @@ReadPreferenceInteger, @@ReadPreferenceLong, 
+  @@ReadPreferenceQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemovePreferenceGroup(Groupe$)
+
+@Description
+  Supprime un groupe et toutes ses clés.
+
+@Parameter "Groupe$"
+  Le groupe à supprimer.
+  
+@NoReturnValue
+
+@Example
+@Code
+  ; Création du fichier prefs.txt
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+
+    PreferenceGroup("Window")
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+      WritePreferenceString("Titre", "PureNote")
+      
+      PreferenceGroup("event")
+      WritePreferenceString("Pourcentage", "Pourcentage")
+      WritePreferenceFloat("%", 100)
+      
+      ClosePreferences()
+    
+      RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+    EndIf  
+    
+    MessageRequester("Info", "Ok pour supprimer le groupe 'event' ")
+    
+  ; Ouvrir un fichier préférence
+    OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
+    
+  ; Supprimer le groupe 'event'  
+    RemovePreferenceGroup("event")
+    
+    ClosePreferences()
+      
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+@EndCode  
+  
+@SeeAlso
+  @@PreferenceGroup, @@ExaminePreferenceGroups
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemovePreferenceKey(Clé$)
+
+@Description
+  Supprime une clé et sa valeur associée.
+  
+@Parameter "Clé$"
+  La clé à supprimer.
+  
+@NoReturnValue
+
+@Example
+@Code
+ If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+    PreferenceGroup("Window")
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+      WritePreferenceString("Titre", "PureNote")    
+    ClosePreferences()   
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+    EndIf  
+    
+    MessageRequester("Info", "Ok pour supprimer la clé 'Titre' ")
+    
+  ; Ouvrir le fichier préférence
+    OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
+    PreferenceGroup("Window")
+       
+  ; Supprimer la clé 'Titre'  
+    RemovePreferenceKey("Titre")
+    
+    ClosePreferences()      
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+@EndCode  
+ 
+@SeeAlso
+  @@ExaminePreferenceKeys
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WritePreferenceFloat(Clé$, Valeur.f)
+
+@Description
+  Crée ou change la paire Clé-Valeur sous la 
+  forme : 'Clé$ = Valeur'.@LineBreak
+  La valeur est de type nombre à virgule en 
+  simple précision 
+  @ReferenceLink "variables" "Float"
+  
+@Parameter "Clé$"  
+  Le nom de la clé à écrire.
+@LineBreak  
+@LineBreak
+  Si la clé existe, la valeur associée est 
+  remplacée par la nouvelle valeur.
+@LineBreak  
+@LineBreak   
+  Si @@PreferenceGroup a été utilisé alors 
+  l'écriture est limitée au groupe courant. 
+
+@Parameter "Valeur"  
+  Le nombre à virgule en simple précision à 
+  associer à la clé.
+  Voir @ReferenceLink "variables" "Float"
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Création du fichier prefs.txt
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+    PreferenceGroup("Window")
+      WritePreferenceString("Titre", "PureNote") 
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+      WritePreferenceInteger("I", 1024) 
+      WritePreferenceQuad("Q", 9223372036854775807)
+      WritePreferenceFloat("%", 20.10)
+      WritePreferenceDouble("D", 0.0123456789 )
+    ClosePreferences()   
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+    EndIf
+@EndCode  
+
+@SeeAlso
+  @@WritePreferenceDouble, 
+  @@WritePreferenceInteger, 
+  @@WritePreferenceLong, 
+  @@WritePreferenceQuad, 
+  @@WritePreferenceString
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+
+@Function WritePreferenceDouble(Clé$, Valeur.d)
+
+@Description
+  Crée ou change la paire Clé-Valeur sous la 
+  forme : 'Clé$ = Valeur'.@LineBreak
+  La valeur est de type nombre à virgule en 
+  double précision 
+  @ReferenceLink "variables" "Double"
+  
+@Parameter "Clé$"  
+  Le nom de la clé à écrire.
+@LineBreak  
+@LineBreak
+  Si la clé existe, la valeur associée est 
+  remplacée par la nouvelle valeur.
+@LineBreak  
+@LineBreak   
+  Si @@PreferenceGroup a été utilisé alors 
+  l'écriture est limitée au groupe courant. 
+
+@Parameter "Valeur"  
+  Le nombre à virgule en double précision à 
+  associer à la clé.
+  Voir @ReferenceLink "variables" "Double"
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Création du fichier prefs.txt
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+    PreferenceGroup("Window")
+      WritePreferenceString("Titre", "PureNote") 
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+      WritePreferenceInteger("I", 1024) 
+      WritePreferenceQuad("Q", 9223372036854775807)
+      WritePreferenceFloat("%", 20.10)
+      WritePreferenceDouble("D", 0.0123456789 )
+    ClosePreferences()   
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+    EndIf
+@EndCode  
+
+@SeeAlso
+  @@WritePreferenceFloat, 
+  @@WritePreferenceInteger, 
+  @@WritePreferenceLong, 
+  @@WritePreferenceQuad, 
+  @@WritePreferenceString
+     
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------
+
+@Function WritePreferenceInteger(Clé$, Valeur)
+
+@Description
+  Crée ou change la paire Clé-Valeur sous la 
+  forme : 'Clé$ = Valeur'.@LineBreak
+  La valeur est de type entier  
+  @ReferenceLink "variables" "Integer"
+  
+@Parameter "Clé$"  
+  Le nom de la clé à écrire.
+@LineBreak  
+@LineBreak
+  Si la clé existe, la valeur associée est 
+  remplacée par la nouvelle valeur.
+@LineBreak  
+@LineBreak   
+  Si @@PreferenceGroup a été utilisé alors 
+  l'écriture est limitée au groupe courant. 
+
+@Parameter "Valeur"  
+  Le nombre entier à associer à la clé.
+  Voir @ReferenceLink "variables" "Integer"
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Création du fichier prefs.txt
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+    PreferenceGroup("Window")
+      WritePreferenceString("Titre", "PureNote") 
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+      WritePreferenceInteger("I", 1024) 
+      WritePreferenceQuad("Q", 9223372036854775807)
+      WritePreferenceFloat("%", 20.10)
+      WritePreferenceDouble("D", 0.0123456789 )
+    ClosePreferences()   
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+    EndIf
+@EndCode  
+
+@SeeAlso
+  @@WritePreferenceFloat, 
+  @@WritePreferenceDouble, 
+  @@WritePreferenceLong, 
+  @@WritePreferenceQuad, 
+  @@WritePreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WritePreferenceLong(Clé$, Valeur)
+
+@Description
+  Crée ou change la paire Clé-Valeur sous la 
+  forme : 'Clé$ = Valeur'.@LineBreak
+  La valeur est de type entier long 
+  @ReferenceLink "variables" "Long"
+  
+@Parameter "Clé$"  
+  Le nom de la clé à écrire.
+@LineBreak  
+@LineBreak
+  Si la clé existe, la valeur associée est 
+  remplacée par la nouvelle valeur.
+@LineBreak  
+@LineBreak   
+  Si @@PreferenceGroup a été utilisé alors 
+  l'écriture est limitée au groupe courant. 
+
+@Parameter "Valeur"  
+  Le nombre entier long à associer à la clé.
+  Voir @ReferenceLink "variables" "Long"
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Création du fichier prefs.txt
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+    PreferenceGroup("Window")
+      WritePreferenceString("Titre", "PureNote") 
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+      WritePreferenceInteger("I", 1024) 
+      WritePreferenceQuad("Q", 9223372036854775807)
+      WritePreferenceFloat("%", 20.10)
+      WritePreferenceDouble("D", 0.0123456789 )
+    ClosePreferences()   
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+    EndIf
+@EndCode  
+
+@SeeAlso
+  @@WritePreferenceFloat, 
+  @@WritePreferenceDouble, 
+  @@WritePreferenceInteger, 
+  @@WritePreferenceQuad, 
+  @@WritePreferenceString
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WritePreferenceQuad(Clé$, Valeur.q)
+  
+@Description 
+  Crée ou change la paire Clé-Valeur sous la 
+  forme : 'Clé$ = Valeur'.@LineBreak
+  La valeur est de type entier quad
+  @ReferenceLink "variables" "Quad"
+  
+@Parameter "Clé$"  
+  Le nom de la clé à écrire.
+@LineBreak  
+@LineBreak
+  Si la clé existe, la valeur associée est 
+  remplacée par la nouvelle valeur.
+@LineBreak  
+@LineBreak   
+  Si @@PreferenceGroup a été utilisé alors 
+  l'écriture est limitée au groupe courant. 
+
+@Parameter "Valeur"  
+  Le nombre entier quad à associer à la clé.
+  Voir @ReferenceLink "variables" "Quad"
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Création du fichier prefs.txt
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+    PreferenceGroup("Window")
+      WritePreferenceString("Titre", "PureNote") 
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+      WritePreferenceInteger("I", 1024) 
+      WritePreferenceQuad("Q", 9223372036854775807)
+      WritePreferenceFloat("%", 20.10)
+      WritePreferenceDouble("D", 0.0123456789 )
+    ClosePreferences()   
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+    EndIf
+@EndCode  
+
+@SeeAlso
+  @@WritePreferenceFloat, 
+  @@WritePreferenceDouble, 
+  @@WritePreferenceInteger, 
+  @@WritePreferenceLong, 
+  @@WritePreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WritePreferenceString(Clé$, Valeur$)
+
+@Description
+  Crée ou change la paire Clé-Valeur sous la 
+  forme : 'Clé$ = Valeur'.@LineBreak
+  La valeur est de type chaîne de caractères 
+  @ReferenceLink "variables" "String"
+  
+@Parameter "Clé$"  
+  Le nom de la clé à écrire.
+@LineBreak  
+@LineBreak
+  Si la clé existe, la valeur associée est 
+  remplacée par la nouvelle valeur.
+@LineBreak  
+@LineBreak   
+  Si @@PreferenceGroup a été utilisé alors 
+  l'écriture est limitée au groupe courant. 
+
+@Parameter "Valeur"  
+  La valeur est de type chaîne de caractères à 
+  associer à la clé.
+  Voir @ReferenceLink "variables" "String"
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Création du fichier prefs.txt
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+    PreferenceGroup("Window")
+      WritePreferenceString("Titre", "PureNote") 
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+      WritePreferenceInteger("I", 1024) 
+      WritePreferenceQuad("Q", 9223372036854775807)
+      WritePreferenceFloat("%", 20.10)
+      WritePreferenceDouble("D", 0.0123456789 )
+    ClosePreferences()   
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+    EndIf
+@EndCode  
+
+@SeeAlso
+  @@WritePreferenceFloat, 
+  @@WritePreferenceDouble, 
+  @@WritePreferenceInteger, 
+  @@WritePreferenceQuad, 
+  @@WritePreferenceQuad
+  
+@SupportedOS

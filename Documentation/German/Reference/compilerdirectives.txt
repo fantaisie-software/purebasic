@@ -1,0 +1,209 @@
+@Title Compiler Direktiven
+
+@Syntax
+
+  @Keyword CompilerIf <Konstanten Ausdruck>
+    ...
+  [@Keyword CompilerElseIf]
+    ...
+  [@Keyword CompilerElse]
+    ...
+  @Keyword CompilerEndIf
+
+@Description
+
+  Wenn das Ergebnis des <Konstanten Ausdrucks> wahr ergibt, wird der Programmcode innerhalb 
+  des 'If' Abschnitts kompiliert, andernfalls wird er total ignoriert. Dies ist nützlich beim 
+  Erstellen von Multi-OS (auf mehreren Betriebssystemen lauffähigen) Programmen, um einige 
+  Programmabschnitte mit OS-spezifischen Funktionen individuell zu gestalten.
+  @LineBreak
+  @LineBreak
+  Die @Keyword "And" und @Keyword "Or" Schlüsselwörter können im <Konstanten Ausdruck>
+  verwendet werden, um mehrere Bedingungen zu kombinieren.
+
+  @Example
+  
+@Code
+  CompilerIf #PB_Compiler_OS = #PB_OS_Linux And #PB_Compiler_Processor = #PB_Processor_x86
+    ; etwas Linux und x86 spezifischer Programmcode.
+  CompilerEndIf
+@EndCode
+
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword CompilerSelect <numerischer Wert>
+    @Keyword CompilerCase <numerischer Wert>
+      ...
+    [@Keyword CompilerDefault]
+      ...
+  @Keyword CompilerEndSelect
+
+@Description
+
+  Arbeitet wie das reguläre @ReferenceLink "select_endselect" "Select : EndSelect", außer dass
+  nur ein numerischer Wert pro Bedingung erlaubt ist. Es teilt dem Compiler mit, welcher 
+  Programmcode kompiliert werden soll. Dies ist nützlich beim Erstellen von Multi-OS (auf 
+  mehreren Betriebssystemen lauffähigen) Programmen, um einige Programmabschnitte mit OS-spezifischen 
+  Funktionen individuell zu gestalten.
+
+  @Example
+
+@Code
+  CompilerSelect #PB_Compiler_OS
+    CompilerCase #PB_OS_MacOS
+      ; etwas Mac OS X spezifischer Programmcode
+    CompilerCase #PB_OS_Linux
+      ; etwas Linux spezifischer Programmcode
+  CompilerEndSelect
+@EndCode  
+
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword CompilerError <String Konstante>
+  @Keyword CompilerWarning <String Konstante>
+
+@Description
+
+  Generiert einen Fehler bzw. eine Warnung, so wie wenn es ein Syntax-Error wäre und zeigt die zugehörige Nachricht an.
+  Dies kann nützlich beim Bearbeiten spezieller Routinen sein oder um zu informieren, dass ein
+  Quellcode auf einem bestimmten OS nicht verfügbar ist.
+  @LineBreak
+  Hinweis: Während @Keyword "CompilerWarning" "nur" Warnungen anzeigt, aber der Kompilierungsprozess fortgesetzt wird,
+  stoppt der Befehl @Keyword "CompilerError" den Kompilierungsprozess.
+
+  @Example Generiert einen Fehler
+
+@Code
+  CompilerIf #PB_Compiler_OS = #PB_OS_Linux
+    CompilerError "Linux wird nicht unterstützt, sorry."
+  CompilerElse
+    CompilerError "OS wird unterstützt, Sie können mich nun (aus)kommentieren."
+  CompilerEndIf
+@EndCode
+
+  @Example Generiert eine Warnung
+
+@Code
+  CompilerIf #PB_Compiler_OS = #PB_OS_Linux
+    CompilerWarning "Linux wird nicht unterstützt, sorry."
+  CompilerElse
+    CompilerWarning "OS wird unterstützt, Sie können mich nun (aus)kommentieren."
+  CompilerEndIf
+@EndCode
+
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword EnableExplicit
+  @Keyword DisableExplicit
+
+@Description
+
+  Aktiviert (@Keyword "EnableExplicit") oder deaktiviert (@Keyword "DisableExplicit") den Explizit-Modus.
+  Wenn aktiviert, werden alle nicht ausdrücklich mittels @ReferenceLink "define" "Define", @ReferenceLink "global" "Global", 
+  @ReferenceLink "protected" "Protected" oder @ReferenceLink "static" "Static"
+  deklarierten @ReferenceLink "variables" "Variablen" nicht akzeptiert und der Compiler wird eine Fehlermeldung
+  ausgeben. Dies kann helfen, Schreibfehler bei der Verwendung von Variablen auszumerzen.
+
+  @Example
+
+@Code
+  EnableExplicit
+  
+  Define a
+  
+  a = 20 ; Ok, da mittels 'Define' deklariert
+  b = 10 ; Hier wird ein Fehler ausgegeben
+@EndCode
+
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword EnableASM
+  @Keyword DisableASM
+
+@Description
+
+  Aktiviert (@Keyword "EnableASM") oder deaktiviert (@Keyword "DisableASM") den Inline-Assembler. 
+  Wenn aktiviert, dann sind alle Assembler-Schlüsselwörter direkt im Quellcode verfügbar, siehe 
+  das Kapitel @ReferenceLink "InlinedASM" "Inline Assembler" für weitere Informationen.
+
+  @Example
+
+@Code
+  ; x86 Assembler Beispiel
+  ;
+  Test = 10
+  
+  EnableASM
+    MOV dword [v_Test],20
+  DisableASM
+  
+  Debug Test ; wird 20 ergeben
+@EndCode
+
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Section Reservierte Konstanten
+
+  Der PureBasic Compiler besitzt einige reservierte Konstanten, welche für den Programmierer nützlich sein können: 
+
+@FixedFont
+  @#PB_Compiler_OS : Mit dieser Konstante kann bestimmt werden, auf welchem OS der Compiler
+                    gerade läuft (nützlich für die Erstellung von Cross-Plattform Applikationen).
+                    Dies kann eine der folgenden Konstanten sein: 
+    @#PB_OS_Windows : Der Compiler läuft unter Windows.
+    @#PB_OS_Linux   : Der Compiler läuft unter Linux.
+    @#PB_OS_MacOS   : Der Compiler läuft unter Mac OS X.
+
+  @#PB_Compiler_Processor : Mit dieser Konstante kann bestimmt werden, für welchen Prozessor-Typ
+                    das Programm erstellt wird. Dies kann eine der folgenden Konstanten sein:
+    @#PB_Processor_x86     : x86 Prozessor-Architektur (auch IA-32 oder x86-32 genannt)
+    @#PB_Processor_x64     : x86-64 Prozessor-Architektur (auch x64, AMD64 oder Intel64 genannt)
+
+  @#PB_Compiler_ExecutableFormat : Bestimmt das Executable-Format. Dies kann eines der folgenden sein:
+    @#PB_Compiler_Executable : Reguläres Executable
+    @#PB_Compiler_Console    : Console-Executable (hat nur auf Windows einen Effekt, auf den anderen OS verhält es sich wie ein reguläres Executable)
+    @#PB_Compiler_DLL        : Shared DLL (dynlib auf MacOS X und shared object auf Linux)
+
+  @#PB_Compiler_Date     : Aktuelles Datum zum Zeitpunkt des Kompilierens, im PureBasic @LibraryLink "date" "Datums"-Format.
+  @#PB_Compiler_File     : Voller Pfad und Name der kompilierten Datei, nützlich für @ReferenceLink "ide_debugger" "Debug-Zwecke".
+  @#PB_Compiler_FilePath : Voller Pfad der kompilierten Datei, nützlich für @ReferenceLink "ide_debugger" "Debug-Zwecke".
+  @#PB_Compiler_Filename : Dateiname (ohne Pfad) der kompilierten Datei, nützlich für @ReferenceLink "ide_debugger" "Debug-Zwecke".
+  @#PB_Compiler_Line     : Zeilennummer der kompilierten Datei, nützlich für @ReferenceLink "ide_debugger" "Debug-Zwecke".
+  @#PB_Compiler_Procedure: Aktueller Prozedur-Name, wenn sich die Zeile innerhalb einer @ReferenceLink "procedures" "Prozedur" befindet.
+  @#PB_Compiler_Module   : Aktueller Modul-Name, wenn sich die Zeile innerhalb eines @ReferenceLink "module" "Moduls" befindet.
+  @#PB_Compiler_Version  : Compiler-Version, im Ganzzahl-Format in der Form '420' für 4.20.
+  @#PB_Compiler_Home     : Vollständiger Pfad des PureBasic-Verzeichnisses, kann nützlich zum Auffinden
+                          von @ReferenceLink "includes" "Include-Dateien" sein.
+  @#PB_Compiler_Debugger : Auf 1 gesetzt, wenn der @ReferenceLink "ide_debugger" "Laufzeit-Debugger" eingeschalten ist, andernfalls 0. 
+                          Wenn ein Executable erstellt wird, ist der Debugger immer ausgeschalten (diese Konstante wird dann 0 sein).
+  @#PB_Compiler_Thread   : Auf 1 gesetzt, wenn das Executable im threadsicheren Modus kompiliert wird, andernfalls 0.
+  @#PB_Compiler_Unicode  : Auf 1 gesetzt, wenn das Executable im @ReferenceLink "unicode" "Unicode"-Modus kompiliert wird, andernfalls 0.
+  @#PB_Compiler_LineNumbering : Auf 1 gesetzt, wenn das Executable mit Unterstützung für @LibraryLink "onerror" "OnError Zeilennummerierung" kompiliert wird, andernfalls 0.
+  @#PB_Compiler_InlineAssembly: Auf 1 gesetzt, wenn das Executable mit Unterstützung für @ReferenceLink "inlinedasm" "Inline-Assembler" kompiliert wird, andernfalls 0.
+  @#PB_Compiler_EnableExplicit: Auf 1 gesetzt, wenn das Executable mit Unterstützung für 'EnableExplicit' kompiliert wird, andernfalls 0.
+  @#PB_Compiler_IsMainFile    : Auf 1 gesetzt, wenn es sich bei der zu kompilierenden Datei um die Hauptdatei handelt, andernfalls 0.
+  @#PB_Compiler_IsIncludeFile : Auf 1 gesetzt, wenn die zu kompilierende Datei von einer anderen Datei eingebunden ("included") wurde, andernfalls 0.
+
+@EndFixedFont
+
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

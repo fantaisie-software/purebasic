@@ -1,0 +1,495 @@
+;
+; Keyboard library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Keyboard
+
+@Overview
+
+  PureBasic propose un accès simple et rapide au 
+  clavier qui ne doit être utilisé que pour des 
+  jeux ou applications qui nécessitent une 
+  gestion directe, exlusive et très rapide de 
+  celui-ci. 
+@LineBreak
+@LineBreak
+  Pour les applications normales, il convient 
+  d'utiliser @@AddKeyboardShortcut.
+    
+@OS Windows
+@LineBreak
+@LineBreak  
+  Sous Windows, l'interface est assurée par la 
+  technologie DirectX. Une version récente de 
+  DirectX 9  doit être installée (voir ici: 
+  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
+
+@EndOS
+
+@CommandList
+
+@ExampleFile All Keyboard.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = InitKeyboard()
+
+@Description
+  Initialise l'environnement propre à la 
+  gestion du clavier. 
+ 
+@NoParameters
+  
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'initialisation a réussi, zéro sinon.
+  
+@Remarks
+  Vous devez appeler cette fonction avant tout 
+  appel de fonctions de cette bibliothèque. 
+
+@SeeAlso  
+  @@ExamineKeyboard, @@KeyboardMode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ExamineKeyboard()
+
+@Description
+  Met à jour l'état du clavier. 
+
+@NoParameters  
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'état 
+  du clavier a changé, zéro sinon.
+  
+@Remarks
+  Cette fonction doit être appelée avant 
+  d'utiliser les commandes @@KeyboardInkey, 
+  @@KeyboardPushed et @@KeyboardReleased.
+
+@SeeAlso
+  @@InitKeyboard, @@KeyboardMode, @@KeyboardInkey, 
+  @@KeyboardPushed, @@KeyboardReleased
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = KeyboardInkey()
+
+@Description
+  Renvoie le dernier caractère tapé sur le clavier.
+  
+@NoParameters
+  
+@ReturnValue
+  Renvoie le dernier caractère tapé sur le 
+  clavier, très utile pour interagir facilement 
+  avec l'utilisateur (nom dans les highscores, 
+  console dans le jeu, etc.).
+
+@Example
+@Code
+  If InitSprite() And InitKeyboard() And OpenScreen(800,600,32,"")
+    Repeat
+      FlipBuffers()
+      ClearScreen(RGB(0, 0, 0))
+      
+      ExamineKeyboard()
+            
+      ; Efface le dernier caractère si la touche 'Back' est appuyée
+      ;
+      If KeyboardReleased(#PB_Key_Back)  
+        FullText$ = Left(FullText$, Len(FullText$)-1)
+      Else
+        resultat$=KeyboardInkey()
+        If FindString("1234567890 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzéèçàù", resultat$) ; Ajouter vos propres caractères valides ici
+          FullText$ + resultat$
+        EndIf ; Ajouter le nouveau texte à l'actuel (le cas échéant)
+      EndIf
+
+      ; Affiche le résultat
+      ;
+      If StartDrawing(ScreenOutput())
+        DrawingMode(1)
+        FrontColor(RGB(128, 255, 0))
+        DrawText(20, 20, "Ecrivez un petit texte...:")
+        DrawText(20, 40, FullText$)
+        StopDrawing()
+      EndIf
+    Until KeyboardPushed(#PB_Key_Escape)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@ExamineKeyboard, @@KeyboardPushed, 
+  @@KeyboardReleased
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function KeyboardMode(Mode)
+
+@Description
+  Modifie le comportement du clavier. 
+  
+@Parameter "Mode"
+  Peut être une combinaison de:
+@FixedFont
+  @#PB_Keyboard_Qwerty         : Le clavier ignore l'agencement des touches propres au langage de l'utilisateur et utilise toujours l'agencement QWERTY (mode par défaut).
+  @#PB_Keyboard_International  : Le clavier utilise l'agencement des touches propres au langage de l'utilisateur (utile pour les claviers non QWERTY).
+  @#PB_Keyboard_AllowSystemKeys: Les touches systèmes de l'OS ne sont pas bloquées (comme Win+R etc.). Cette option peut être gênante en mode @Link "Screen/OpenScreen" "plein écran"
+                                si l'utilisateur presse l'une de ces touches accidentellement.
+@EndFixedFont
+  
+@NoReturnValue
+  
+@Remarks
+  Cette commande affecte le résultat de 
+  @@KeyboardPushed et @@KeyboardReleased. 
+
+@SeeAlso
+  @@ExamineKeyboard, @@InitKeyboard, 
+  @@KeyboardPushed, @@KeyboardReleased
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = KeyboardPushed(ToucheID)
+
+@Description
+  Teste l'état enfoncé ou non d'une touche du 
+  clavier. 
+
+@Parameter "ToucheID"
+  L'identifiant PureBasic de la touche à tester.
+@LineBreak
+@LineBreak  
+  Valeurs possibles:
+@FixedFont
+    @#PB_Key_All   ; Toutes les touches sont testées.
+                  ; Utile pour coder un "Appuyer sur une touche..."
+    @#PB_Key_1
+    @#PB_Key_2
+    @#PB_Key_3
+    @#PB_Key_4
+    @#PB_Key_5
+    @#PB_Key_6
+    @#PB_Key_7
+    @#PB_Key_8
+    @#PB_Key_9
+    @#PB_Key_0
+
+    @#PB_Key_A
+    @#PB_Key_B
+    @#PB_Key_C
+    @#PB_Key_D
+    @#PB_Key_E
+    @#PB_Key_F
+    @#PB_Key_G
+    @#PB_Key_H
+    @#PB_Key_I
+    @#PB_Key_J
+    @#PB_Key_K
+    @#PB_Key_L
+    @#PB_Key_M
+    @#PB_Key_N
+    @#PB_Key_O
+    @#PB_Key_P
+    @#PB_Key_Q
+    @#PB_Key_R
+    @#PB_Key_S
+    @#PB_Key_T
+    @#PB_Key_U
+    @#PB_Key_V
+    @#PB_Key_W
+    @#PB_Key_X
+    @#PB_Key_Y
+    @#PB_Key_Z
+
+    @#PB_Key_Escape
+    @#PB_Key_Minus
+    @#PB_Key_Equals
+    @#PB_Key_Back
+    @#PB_Key_Tab
+    @#PB_Key_LeftBracket
+    @#PB_Key_RightBracket
+    @#PB_Key_Return
+    @#PB_Key_LeftControl
+    @#PB_Key_SemiColon
+    @#PB_Key_Apostrophe
+    @#PB_Key_Grave
+    @#PB_Key_LeftShift
+    @#PB_Key_BackSlash
+    @#PB_Key_Comma
+    @#PB_Key_Period
+    @#PB_Key_Slash
+    @#PB_Key_RightShift
+    @#PB_Key_Multiply
+    @#PB_Key_LeftAlt
+    @#PB_Key_Space
+    @#PB_Key_Capital
+    @#PB_Key_F1
+    @#PB_Key_F2
+    @#PB_Key_F3
+    @#PB_Key_F4
+    @#PB_Key_F5
+    @#PB_Key_F6
+    @#PB_Key_F7
+    @#PB_Key_F8
+    @#PB_Key_F9
+    @#PB_Key_F10
+    @#PB_Key_F11
+    @#PB_Key_F12
+    @#PB_Key_NumLock
+    @#PB_Key_Scroll
+    @#PB_Key_Pad0
+    @#PB_Key_Pad1
+    @#PB_Key_Pad2
+    @#PB_Key_Pad3
+    @#PB_Key_Pad4
+    @#PB_Key_Pad5
+    @#PB_Key_Pad6
+    @#PB_Key_Pad7
+    @#PB_Key_Pad8
+    @#PB_Key_Pad9
+    @#PB_Key_Add
+    @#PB_Key_Subtract
+    @#PB_Key_Decimal
+    @#PB_Key_PadEnter
+    @#PB_Key_RightControl
+    @#PB_Key_PadComma
+    @#PB_Key_Divide
+    @#PB_Key_RightAlt
+    @#PB_Key_Pause
+    @#PB_Key_Home
+    @#PB_Key_Up
+    @#PB_Key_Down
+    @#PB_Key_Left
+    @#PB_Key_Right
+    @#PB_Key_End
+    @#PB_Key_PageUp
+    @#PB_Key_PageDown
+    @#PB_Key_Insert
+    @#PB_Key_Delete
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si la touche est 
+  pressée, zéro sinon.
+  
+@Remarks
+  - Un nombre quelconque de touches peut être 
+  pressé simultanément.
+@LineBreak
+@LineBreak
+  - Si vous voulez tester si une touche spécifique 
+  a été appuyée puis relâchée, utiliser la 
+  commande @@KeyboardReleased.
+@LineBreak
+@LineBreak
+  - La fonction @@ExamineKeyboard doit être 
+  appelée avant pour mettre à jour l'état du 
+  clavier. 
+@LineBreak
+@LineBreak
+  - Le comportement du clavier peut être changé 
+  avec la commande @@KeyboardMode.
+ 
+@Example
+@Code
+  If InitSprite() And InitKeyboard() And OpenScreen(800,600,16,"")
+    Repeat
+      FlipBuffers()
+      
+      If StartDrawing(ScreenOutput())
+        DrawText(0, 0, "Appuyez sur la touche [Echap] pour quitter")
+        StopDrawing()
+      EndIf
+      
+      ExamineKeyboard()
+      If KeyboardPushed(#PB_Key_Escape)   ; Appuyez sur la touche [Echap] pour quitter
+        End
+      EndIf
+    ForEver
+  EndIf
+@EndCode
+ 
+@SeeAlso
+  @@ExamineKeyboard, @@KeyboardInkey, 
+  @@KeyboardReleased
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = KeyboardReleased(ToucheID)
+
+@Description
+  Teste l'état relaché ou non d'une touche du 
+  clavier.
+  
+@Parameter "ToucheID"
+  L'identifiant PureBasic de la touche à tester.
+@LineBreak
+@LineBreak  
+  Valeurs possibles:
+@FixedFont
+    @#PB_Key_All   ; Toutes les touches sont testées.
+                  ; Utile pour coder un "Appuyer sur une touche..."
+    @#PB_Key_1
+    @#PB_Key_2
+    @#PB_Key_3
+    @#PB_Key_4
+    @#PB_Key_5
+    @#PB_Key_6
+    @#PB_Key_7
+    @#PB_Key_8
+    @#PB_Key_9
+    @#PB_Key_0
+
+    @#PB_Key_A
+    @#PB_Key_B
+    @#PB_Key_C
+    @#PB_Key_D
+    @#PB_Key_E
+    @#PB_Key_F
+    @#PB_Key_G
+    @#PB_Key_H
+    @#PB_Key_I
+    @#PB_Key_J
+    @#PB_Key_K
+    @#PB_Key_L
+    @#PB_Key_M
+    @#PB_Key_N
+    @#PB_Key_O
+    @#PB_Key_P
+    @#PB_Key_Q
+    @#PB_Key_R
+    @#PB_Key_S
+    @#PB_Key_T
+    @#PB_Key_U
+    @#PB_Key_V
+    @#PB_Key_W
+    @#PB_Key_X
+    @#PB_Key_Y
+    @#PB_Key_Z
+
+    @#PB_Key_Escape
+    @#PB_Key_Minus
+    @#PB_Key_Equals
+    @#PB_Key_Back
+    @#PB_Key_Tab
+    @#PB_Key_LeftBracket
+    @#PB_Key_RightBracket
+    @#PB_Key_Return
+    @#PB_Key_LeftControl
+    @#PB_Key_SemiColon
+    @#PB_Key_Apostrophe
+    @#PB_Key_Grave
+    @#PB_Key_LeftShift
+    @#PB_Key_BackSlash
+    @#PB_Key_Comma
+    @#PB_Key_Period
+    @#PB_Key_Slash
+    @#PB_Key_RightShift
+    @#PB_Key_Multiply
+    @#PB_Key_LeftAlt
+    @#PB_Key_Space
+    @#PB_Key_Capital
+    @#PB_Key_F1
+    @#PB_Key_F2
+    @#PB_Key_F3
+    @#PB_Key_F4
+    @#PB_Key_F5
+    @#PB_Key_F6
+    @#PB_Key_F7
+    @#PB_Key_F8
+    @#PB_Key_F9
+    @#PB_Key_F10
+    @#PB_Key_F11
+    @#PB_Key_F12
+    @#PB_Key_NumLock
+    @#PB_Key_Scroll
+    @#PB_Key_Pad0
+    @#PB_Key_Pad1
+    @#PB_Key_Pad2
+    @#PB_Key_Pad3
+    @#PB_Key_Pad4
+    @#PB_Key_Pad5
+    @#PB_Key_Pad6
+    @#PB_Key_Pad7
+    @#PB_Key_Pad8
+    @#PB_Key_Pad9
+    @#PB_Key_Add
+    @#PB_Key_Subtract
+    @#PB_Key_Decimal
+    @#PB_Key_PadEnter
+    @#PB_Key_RightControl
+    @#PB_Key_PadComma
+    @#PB_Key_Divide
+    @#PB_Key_RightAlt
+    @#PB_Key_Pause
+    @#PB_Key_Home
+    @#PB_Key_Up
+    @#PB_Key_Down
+    @#PB_Key_Left
+    @#PB_Key_Right
+    @#PB_Key_End
+    @#PB_Key_PageUp
+    @#PB_Key_PageDown
+    @#PB_Key_Insert
+    @#PB_Key_Delete
+@EndFixedFont
+  
+@ReturnValue
+  Renvoie une valeur non nulle si la touche  
+  a été appuyée puis relâchée, zéro sinon.
+   
+@Example
+@Code
+  If InitSprite() And InitKeyboard() And OpenScreen(800,600,16,"")
+    Paused = #False
+    Repeat
+      FlipBuffers()
+      
+      If StartDrawing(ScreenOutput())
+        
+        ExamineKeyboard()
+        If KeyboardReleased(#PB_Key_P)
+          If Paused = #False
+            Paused = #True
+          Else
+            Paused = #False
+          EndIf
+        EndIf
+        
+        DrawingMode(0)
+
+        If Paused = #False
+          DrawText(20, 20, "Le programme tourne...        ")
+        Else
+          DrawText(20, 20, "Le programme est à l'arrêt...")
+        EndIf
+
+        StopDrawing()
+      EndIf
+    Until KeyboardPushed(#PB_Key_Escape)
+  EndIf
+@EndCode
+ 
+@SeeAlso
+  @@ExamineKeyboard, @@KeyboardInkey, 
+  @@KeyboardPushed
+ 
+@SupportedOS

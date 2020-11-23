@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Addition operator - Simple Processing - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Simple Processing: Addition operator</h1>
+
+The next operator is the addition symbol, <b>+</b>. When used with numeric
+ variables (and other numeric values) it performs the mathematical function
+ of adding them together (addition). When used with string variables (and
+ other strings) it joins them together (concatenation). You cannot mix
+ numeric types and strings using the addition operator without first
+ converting them (this has partially been covered with the Str command
+ and will be completed in a later chapter).
+
+<p><h2>Example using numeric variables</h2>
+The example below shows some of the uses of the addition operator. You
+ can get the source <a href="addition_op.pb">here</a>.
+
+<pre class="code">OpenConsole()
+
+; Part 1 - Simple example of using the addition operator
+DefType.l apples
+DefType.l oranges
+apples = 5
+oranges = 3
+fruit.l = apples + oranges
+PrintN(&quot;Total number of fruit is:&quot;)
+PrintN(Str(fruit))
+
+; Part 2 - Multiple operators can be used in the same calculation
+fruit = 2 + 4 + 1 + apples + 6 + 2 + oranges + 9
+PrintN(&quot;New fruit total:&quot;)
+PrintN(Str(fruit))
+
+; Part 3 - Shortcut version of the addition operator
+apples + 2
+PrintN(&quot;New number of apples:&quot;)
+PrintN(Str(apples))
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="addition_op_run.png" alt="Output of example" width="213" height="92">
+The first part of the example shows a simple example of using the addition
+ operator to add the values of two numeric variables. This value is then used
+ with the equals operator to set the value of the <var>fruit</var> variable.
+ This value is then printed out as shown in the previous page. This also shows
+ how to define a variable by using it rather than with the DefType command. In
+ this case the variable <var>fruit</var> is created when it is used in the
+ calculation.
+
+<p>The next part of the example shows that you can use more than one addition
+ operator in the same calculation. Any item which can be used as a numeric value
+ can be used in the calculation, and this example shows mixing variables and
+ numbers. This will add up all the numeric values and store the value (through
+ the equals operator) in the <var>fruit</var> variable.
+
+<p>The final part of the example shows how to use the addition operator in
+ a shortcut mode. The calculation must be on a line by itself and the result of
+ the calculation should not be used anywhere (for example with any other operator
+ or as a parameter to a command). The leftmost item in the calculation must
+ be a variable because when working like this the variable on the left is
+ increased by the remainder of the calculation. In this example the <var>apples</var>
+ variable is increased by 2.
+
+<p><h2>Example using strings</h2>
+This example shows the effect of using the addition operator with strings. As
+ mentioned above, strings are concatenated when the addition operator is used.
+ You can find the source <a href="addition_op_str.pb">here</a>.
+
+<pre class="code">OpenConsole()
+
+; Part 1 - Adding items and using the result as a parameter
+fruit.l = 8
+PrintN("Total number of fruit is: " + Str(fruit))
+
+; Part 2 - Adding multiple items
+DefType.s forename, surname
+forename = "John"
+surname = "Smith"
+person$ = surname + ", " + forename
+PrintN(person$)
+
+PrintN("Press return to exit")
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="addition_op_str_run.png" alt="Output of string addition example" width="332" height="64">
+The first part of the example demonstrates adding two strings together. The fixed
+ string and the return value of the Str command (a string) are joined together. The result
+ of the addition is used directly as the parameter to the PrintN command.
+
+<p>Part two of the example shows the addition of three strings (the <var>surname</var>
+ variable, a fixed string and the <var>forename</var> variable), the result of which
+ is used with the equals operator and is stored in the <var>person$</var>. The
+ <var>person$</var> variable is created at this point (and also shows that .s and $
+ both represent string types - remember to always use the suffix you created the
+ variable with though!).
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="equals.html">Equals</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="subtraction.html">Subtraction</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

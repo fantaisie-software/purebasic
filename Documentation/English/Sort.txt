@@ -1,0 +1,349 @@
+;
+;     Sort library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Sort
+
+@Overview
+
+  Sometimes, elements has to be sorted to be usable or more convenient. PureBasic offers
+  highly optimized functions in order to sort @ReferenceLink "dim" "arrays" and @LibraryLink "List" "lists",
+  either in ascending or descending order.
+  @LineBreak
+  @LineBreak
+  SortStructuredList and SortList use Mergesort which is a stable sort, so if you first sort 
+  all the list by titles and then again by album you will get a list which is sorted by album 
+  and each album is sorted by title.
+  @LineBreak
+  Note that this does not work with Arrays, as SortArray uses Quicksort which is unstable. 
+  (ie the sorting of the secondary key would be lost)
+  @LineBreak
+  @LineBreak
+  Furthermore there are functions to reorder the elements of an array or a list in a random order.
+
+  
+@CommandList
+
+  @ExampleFile All Sort_(Numeric).pb
+  @ExampleFile All Sort_(String).pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SortArray(ArrayName(), Options [, Start, End])
+
+@Description
+
+  Sorts the specified @ReferenceLink "dim" "array", according to the given options. The array may be of one of
+  @ReferenceLink "variables" "basic type": byte, word, long, integer, string or float. For structured
+  array, use @@SortStructuredArray. Multi-dimensioned arrays are not supported.
+
+@Parameter "ArrayName()"
+  The array to sort.
+
+@Parameter "Options"
+   It can be a combination of the following values:
+@FixedFont
+  @#PB_Sort_Ascending : Sort the array in ascending order (lower values first)
+  @#PB_Sort_Descending: Sort the array in descending order (higher values first)
+  @#PB_Sort_NoCase    : Sort the string array without case sensitive (a=A, b=B etc..)
+@EndFixedFont
+
+@OptionalParameter "Start, End"
+  The index of the first and last element in the array that should be sorted. If these parameters
+  are not specified, then the whole array is sorted.
+
+@NoReturnValue
+
+@Remarks
+  If an array is not fully filled then null elements will be sorted first in ascending order and
+  last in descending order.
+  @LineBreak
+  @Link "Math/IsNaN" "NaN numbers" are not accepted when sorting as it produces random results.
+  
+@SeeAlso
+  @@SortStructuredArray, @@RandomizeArray
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SortList(ListName(), Options [, Start, End])
+
+@Description
+
+  Sorts the specified @LibraryLink "List" "list", according to the given options. The list may be of one of
+  @ReferenceLink "variables" "basic type": byte, word, long, integer, string or float.
+  For structured list, use @@SortStructuredList.
+  
+@Parameter "ListName()"
+  The list to sort.
+
+@Parameter "Options"
+   It can be a combination of the following values:
+@FixedFont
+  @#PB_Sort_Ascending : Sort the list in ascending order (lower values first)
+  @#PB_Sort_Descending: Sort the list in descending order (higher values first)
+  @#PB_Sort_NoCase    : Sort the string list without case sensitive (a=A, b=B etc..)
+@EndFixedFont
+
+@OptionalParameter "Start, End"
+  The index of the first and last element in the list that should be sorted. If these parameters
+  are not specified, then the whole list is sorted.
+  @LineBreak
+  The first list element is at position 0, the next at 1 and so on.
+
+@NoReturnValue
+
+@SeeAlso
+  @@SortStructuredList, @@RandomizeList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SortStructuredArray(ArrayName(), Options, OffsetOf(Structure\Field), TypeOf(Structure\Field) [, Start, End])
+
+@Description
+
+  Sorts the specified structured @ReferenceLink "dim" "array", according to the given options. 
+  The array must have an associated @ReferenceLink "Structures" "structure".
+
+@Parameter "ArrayName()"
+  The array to sort.
+
+@Parameter "Options"
+   It can be a combination of the following values:
+@FixedFont
+  @#PB_Sort_Ascending : Sort the array in ascending order (lower values first)
+  @#PB_Sort_Descending: Sort the array in descending order (higher values first)
+  @#PB_Sort_NoCase    : Sort the string array without case sensitive (a=A, b=B etc..)
+@EndFixedFont
+
+@Parameter "OffsetOf(Structure\Field)"
+  Offset of the field in the structure.
+  @ReferenceLink "compilerfunctions" "OffsetOf()" may be used to retrieve the field offset in the structure associated to the array.
+  
+@Parameter "TypeOf(Structure\Field)"
+  The field type of the field in the structure. It has to match the real structure field type. 
+  @ReferenceLink "compilerfunctions" "TypeOf()" may be used to automatically retrieve the field type. 
+  Available types are:
+@FixedFont
+  @#PB_Byte     : The structure field to sort is a byte (.b)
+  @#PB_Word     : The structure field to sort is a word (.w)
+  @#PB_Long     : The structure field to sort is a long (.l)
+  @#PB_String   : The structure field to sort is a string (.s or $, fixed strings are not supported)
+  @#PB_Float    : The structure field to sort is a float (.f)
+  @#PB_Double   : The structure field to sort is a double (.d)
+  @#PB_Quad     : The structure field to sort is a quad (.q)
+  @#PB_Character: The structure field to sort is a character (.c)
+  @#PB_Integer  : The structure field to sort is an integer (.i)
+  @#PB_Ascii    : The structure field to sort is an ascii character (.a)
+  @#PB_Unicode  : The structure field to sort is a unicode character (.u)
+@EndFixedFont
+
+@OptionalParameter "Start, End"
+  The index of the first and last element in the array that should be sorted. If these parameters
+  are not specified, then the whole array is sorted.
+
+@Remarks
+  @ReferenceLink "variables" "Fixed strings" are not supported by the sort routine.
+  If an array is not fully filled then null elements will be sorted first in ascending order and last in descending order. 
+  @LineBreak
+  @Link "Math/IsNaN" "NaN numbers" are not accepted when sorting as it produces random results.
+
+@Example
+@Code
+
+  Structure Animal
+    Name$
+    Speed.l
+  EndStructure
+
+  Dim Animals.Animal(2)
+
+  Animals(0)\Name$ = "Tiger"
+  Animals(0)\Speed = 10
+
+  Animals(1)\Name$ = "Jaguar"
+  Animals(1)\Speed = 40
+
+  Animals(2)\Name$ = "Zebra"
+  Animals(2)\Speed = 30
+
+; Sort the array on the 'name$' field, which is a string
+;
+  SortStructuredArray(Animals(), 0, OffsetOf(Animal\Name$), TypeOf(Animal\Name$))
+
+  For k=0 To 2
+    Debug Animals(k)\Name$+" - Speed: "+Str(Animals(k)\Speed)
+  Next
+
+; Sort the array on the 'speed' field, which is a long
+;
+  SortStructuredArray(Animals(), 0, OffsetOf(Animal\Speed), TypeOf(Animal\Speed))
+
+  For k=0 To 2
+    Debug Animals(k)\Name$+" - Speed: "+Str(Animals(k)\Speed)
+  Next
+
+@EndCode
+
+@SeeAlso
+  @@SortArray, @@RandomizeArray
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SortStructuredList(ListName(), Options, OffsetOf(Structure\Field), TypeOf(Structure\Field) [, Start, End])
+
+@Description
+
+  Sorts the specified structured @LibraryLink "List" "list", according to the given options. 
+  The list must have an associated @ReferenceLink "Structures" "structure".
+
+@Parameter "ListName()"
+  The list to sort.
+
+@Parameter "Options"
+   It can be a combination of the following values:
+@FixedFont
+  @#PB_Sort_Ascending : Sort the list in ascending order (lower values first)
+  @#PB_Sort_Descending: Sort the list in descending order (higher values first)
+  @#PB_Sort_NoCase    : Sort the string list without case sensitive (a=A, b=B etc..)
+@EndFixedFont
+
+@Parameter "OffsetOf(Structure\Field)"
+  Offset of the field in the structure.
+  @ReferenceLink "compilerfunctions" "OffsetOf()" may be used to retrieve the field offset in the structure associated to the list.
+  
+@Parameter "TypeOf(Structure\Field)"
+  The field type of the field in the structure. It has to match the real structure field type. 
+  @ReferenceLink "compilerfunctions" "TypeOf()" may be used to automatically retrieve the field type. 
+  Available types are:
+@FixedFont
+  @#PB_Byte     : The structure field to sort is a byte (.b)
+  @#PB_Word     : The structure field to sort is a word (.w)
+  @#PB_Long     : The structure field to sort is a long (.l)
+  @#PB_String   : The structure field to sort is a string (.s or $, fixed strings are not supported)
+  @#PB_Float    : The structure field to sort is a float (.f)
+  @#PB_Double   : The structure field to sort is a double (.d)
+  @#PB_Quad     : The structure field to sort is a quad (.q)
+  @#PB_Character: The structure field to sort is a character (.c)
+  @#PB_Integer  : The structure field to sort is an integer (.i)
+  @#PB_Ascii    : The structure field to sort is an ascii character (.a)
+  @#PB_Unicode  : The structure field to sort is a unicode character (.u)
+@EndFixedFont
+
+@OptionalParameter "Start, End"
+  The index of the first and last element in the list that should be sorted. If these parameters
+  are not specified, then the whole list is sorted.
+  @LineBreak
+  The first list element is at position 0, the next at 1 and so on.
+  
+@Remarks
+  @ReferenceLink "variables" "Fixed strings" are not supported by the sort routine.
+
+@Example
+@Code
+
+  Structure Animal
+    Name$
+    Speed.l
+  EndStructure
+
+  NewList Animals.Animal()
+
+  AddElement(Animals())
+  Animals()\Name$ = "Tiger"
+  Animals()\Speed = 10
+
+  AddElement(Animals())
+  Animals()\Name$ = "Jaguar"
+  Animals()\Speed = 40
+
+  AddElement(Animals())
+  Animals()\Name$ = "Zebra"
+  Animals()\Speed = 30
+
+; Sort the list on the 'name$' field, which is a string
+;
+  SortStructuredList(Animals(), 0, OffsetOf(Animal\Name$), TypeOf(Animal\Name$))
+
+  ForEach Animals()
+    Debug Animals()\Name$+" - Speed: "+Str(Animals()\Speed)
+  Next
+
+; Sort the list on the 'speed' field, which is a long
+;
+  SortStructuredList(Animals(), 0, OffsetOf(Animal\Speed), TypeOf(Animal\Speed))
+
+  ForEach Animals()
+    Debug Animals()\Name$+" - Speed: "+Str(Animals()\Speed)
+  Next
+
+@EndCode
+
+@SeeAlso
+  @@SortList, @@RandomizeList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RandomizeArray(ArrayName() [, Start, End])
+
+@Description
+  Reorders the elements of the given array in a random order.
+
+@Parameter "ArrayName()"
+  The array to randomize.
+
+@OptionalParameter "Start, End"
+  The index of the first and last element in the array that should be randomized. If these parameters
+  are not specified, then the whole array is randomized.
+
+@NoReturnValue
+
+@Remarks
+  This function uses the pseudorandom number generator of the @@Random function to determine the new order of the array elements. 
+  It is therefore dependent on the current @@RandomSeed.
+
+@SeeAlso
+  @@SortArray, @@SortStructuredArray, @@RandomizeList, @@Random, @@RandomSeed
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RandomizeList(List() [, Start, End])
+
+@Description
+  Reorders the elements of the given list in a random order.
+
+@Parameter "List()"
+  The list to randomize.
+
+@OptionalParameter "Start, End"
+  The @Link "List/ListIndex" "index" of the first and last element in the list that should be randomized. If these parameters
+  are not specified, then the whole list is randomized.
+  @LineBreak
+  The first list element is at position 0, the next at 1 and so on.
+
+@NoReturnValue
+
+@Remarks
+  This function uses the pseudorandom number generator of the @@Random function to determine the new order of the list elements. 
+  It is therefore dependent on the current @@RandomSeed.
+
+@SeeAlso
+  @@SortList, @@SortStructuredList, @@RandomizeArray, @@Random, @@RandomSeed
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+

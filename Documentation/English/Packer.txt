@@ -1,0 +1,543 @@
+;
+;     Packer library documentation
+;
+;      (c) 2013 - Fantaisie Software
+;
+
+@Library Packer
+
+@Overview
+
+The packer library provides an efficient set of functions to compress and uncompress
+data and manage archives. Several packer formats are supported from Zip to Lzma.
+
+@CommandList
+
+@ExampleFile All Packer.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AddPackFile(#Pack, Filename$, PackedFilename$)
+
+@Description
+  Add and compress the file to the specified pack previously created with @@CreatePack.
+  Adding a large file can take a long time.
+
+@Parameter "#Pack"
+  The pack to use.
+
+@Parameter "Filename$"
+  The filename$ to add to the pack.
+
+@Parameter "PackedFilename$"
+  The filename to use in the archive to store the file.
+
+@ReturnValue
+  Nonzero if the file has been successfully added to the packfile.
+  If the file can't be compressed, it will be stored as is in the packfile.
+
+@SeeAlso
+  @@CreatePack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AddPackMemory(#Pack, *Buffer, Size, PackedFilename$)
+
+@Description
+  Add and compress the memory buffer to the specified pack previously created with @@CreatePack.
+
+@Parameter "#Pack"
+  The pack to use.
+
+@Parameter "*Buffer"
+  The memory buffer to add to the pack.
+
+@Parameter "Size"
+  The size of the memory to add to the pack.
+
+@Parameter "PackedFilename$"
+  The filename to use in the archive to store the memory buffer.
+
+@ReturnValue
+  Nonzero if the buffer has been successfully added to the packfile. 
+  If the memory buffer can't be compressed, it will be stored as is in the packfile.
+
+@SeeAlso
+  @@CreatePack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClosePack(#Pack)
+
+@Description
+  Close the specified pack file. 
+
+@Parameter "#Pack"
+  The pack to close. If @#PB_All is specified, all the remaining packs are closed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining opened packs are automatically closed when the program ends.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CompressMemory(*Buffer, Size, *Output, OutputSize [, Plugin [, Level]])
+
+@Description
+  Compress the buffer content into the output buffer. The output buffer length needs to be
+  at least as long as the buffer to compress.
+  
+@Parameter "*Buffer"
+  The memory buffer to compress.
+
+@Parameter "Size"
+  The size of the memory to compress.
+
+@Parameter "*Output"
+  The memory buffer to store the compressed data.
+
+@Parameter "OutputSize"
+  The memory buffer size to store the compressed data.
+
+@OptionalParameter "Plugin"
+  The plugin to use, if more than one packer plugin has been registered. It can be one of the following value:
+@FixedFont  
+  @#PB_PackerPlugin_BriefLZ: use the BriefLZ packer to compress the memory. @@UseBriefLZPacker has to be called to register the plugin.
+  @#PB_PackerPlugin_Zip    : use the Zip packer to compress the memory. @@UseZipPacker has to be called to register the plugin.
+  @#PB_PackerPlugin_Lzma   : use the Lzma packer to compress the memory. @@UseLzmaPacker has to be called to register the plugin.
+@EndFixedFont
+
+@OptionalParameter "Level"
+  The compression level to use. It is an integer value ranging from 0 (lower compression ratio, faster compression) to 9 (higher compression ratio,
+  slower compression).
+
+@ReturnValue
+  Return the compressed size if the buffer has been successfully compressed, zero otherwise.
+  If the buffer data can't be compressed (already compressed data generally don't compress anymore), it will return zero.
+
+@SeeAlso
+  @@UncompressMemory
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExaminePack(#Pack)
+
+@Description
+  Start to examine the pack content. @@NextPackEntry has to be called to list the entries found
+  in the pack file. The pack has to be previously opened with @@OpenPack. Packs being created
+  with @@CreatePack can not be examined.
+  
+@Parameter "#Pack"
+  The pack to use.
+
+@ReturnValue
+  Nonzero if the pack can be examined, zero otherwise.
+
+@Example
+@Code
+  UseZipPacker()
+
+  ; Open the packed file
+  If OpenPack(0, "mycompressedfiles.zip") 
+    
+    ; List all the entries
+    If ExaminePack(0)
+      While NextPackEntry(0)
+        Debug "Name: " + PackEntryName(0) + ", Size: " + PackEntrySize(0)
+      Wend
+    EndIf
+    
+    ClosePack(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@OpenPack, @@NextPackEntry
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextPackEntry(#Pack)
+
+@Description
+  Go to the next entry in the pack file. @@ExaminePack has to be called before calling this command.
+  To get more information about the current entry, use @@PackEntrySize, @@PackEntryType and @@PackEntryName.
+  To uncompress the current entry, use @@UncompressPackMemory or @@UncompressPackFile.
+  
+@Parameter "#Pack"
+  The pack to use.
+
+@ReturnValue
+  Nonzero if the pack contain another entry, zero otherwise.
+
+@SeeAlso
+  @@OpenPack, @@PackEntrySize, @@PackEntryType, @@PackEntryName, @@UncompressPackMemory, @@UncompressPackFile
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PackEntryType(#Pack)
+
+@Description
+  Returns the type of the current entry, set with @@NextPackEntry.
+  
+@Parameter "#Pack"
+  The pack to use.
+
+@ReturnValue
+  Returns one of the following values:
+@FixedFont
+  @#PB_Packer_File     : the current entry is a file
+  @#PB_Packer_Directory: the current entry is a directory
+@EndFixedFont
+
+@SeeAlso
+  @@OpenPack, @@NextPackEntry, @@PackEntrySize, @@PackEntryName
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PackEntrySize(#Pack [, Mode])
+
+@Description
+  Returns the size of the current entry, set with @@NextPackEntry.
+  
+@Parameter "#Pack"
+  The pack to use.
+
+@OptionalParameter "Mode"
+  The size type to get. It can be one of the following values:
+@FixedFont
+  @#PB_Packer_UncompressedSize: returns the uncompressed size of the entry (default).
+  @#PB_Packer_CompressedSize  : returns the compressed size of the entry.
+                                This is only supported for BriefLZ archives.
+@EndFixedFont
+
+@ReturnValue
+  Returns the size of the current entry.
+
+@SeeAlso
+  @@OpenPack, @@NextPackEntry, @@PackEntryType, @@PackEntryName
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = PackEntryName(#Pack)
+
+@Description
+  Returns the name of the current entry, set with @@NextPackEntry.
+  
+@Parameter "#Pack"
+  The pack to use.
+
+@ReturnValue
+  Returns the name of the current entry.
+
+@SeeAlso
+  @@OpenPack, @@NextPackEntry, @@PackEntryType, @@PackEntrySize
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreatePack(#Pack, Filename$ [, Plugin [, Level]])
+
+@Description
+  Create a new empty pack file. If the file already exists, it will be replaced with a new empty file.
+  Before creating a pack file, at least one packer has to be registered with one of the following 
+  command: @@UseZipPacker, @@UseBriefLZPacker.
+
+@Parameter "#Pack"
+  A number to identify the new pack file. @ReferenceLink "purebasic_objects" "#PB_Any" can be used as
+  a parameter to auto-generate this number.
+
+@Parameter "Filename$"
+  The filename for the new pack file.
+  
+@OptionalParameter "Plugin"
+  The plugin to use, if more than one packer plugin has been registered. It can be one of the following value:
+@FixedFont  
+  @#PB_PackerPlugin_BriefLZ: use the BriefLZ packer to create the pack file. @@UseBriefLZPacker has to be called to register the plugin.
+  @#PB_PackerPlugin_Zip    : use the Zip packer to create the pack file. @@UseZipPacker has to be called to register the plugin.
+  @#PB_PackerPlugin_Lzma   : use the Lzma packer to create the pack file (also known as 7z archive). @@UseLzmaPacker has to be called to register the plugin.
+  @#PB_PackerPlugin_Tar    : use the Tar packer to create the pack file. @@UseTarPacker has to be called to register the plugin.
+                             It can be combined with @#PB_Packer_Gzip or @#PB_Packer_Bzip2 to create compressed tar archive.
+@EndFixedFont
+
+@OptionalParameter "Level"
+  The compression level to use. It is an integer value ranging from 0 (lower compression ratio, faster compression) to 9 (higher compression ratio,
+  slower compression).
+
+@ReturnValue
+  Returns nonzero if the pack file has been successfully created, zero otherwise. If @#PB_Any
+  was used as the #Pack parameter then the generated pack number is returned.
+
+@Code
+  UseZipPacker()
+
+  ; Create the packed file
+  If CreatePack(0, "mycompressedfiles.zip") 
+  
+    ; add your files 
+    AddPackFile(0, "Image1.bmp", "Image1.bmp")  
+    AddPackFile(0, "Image2.bmp", "Image2.bmp") 
+    AddPackFile(0, "mywave1.wav", "mywave1.wav") 
+    AddPackFile(0, "mywave2.wav", "mywave2.wav") 
+    ClosePack(0) 
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ClosePack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenPack(#Pack, Filename$ [, Plugin])
+
+@Description
+  Open a previously existing pack file. Before opening a pack file, at least one packer has to be registered 
+  with one of the following command: @@UseZipPacker, @@UseLzmaPacker, @@UseTarPacker, @@UseBriefLZPacker.
+  Once opened, the pack content can be listed with @@ExaminePack.
+
+@Parameter "#Pack"
+  A number to identify pack file to open. @ReferenceLink "purebasic_objects" "#PB_Any" can be used as
+  a parameter to auto-generate this number.
+
+@Parameter "Filename$"
+  The filename for the pack file to open.
+  
+@OptionalParameter "Plugin"
+  The plugin to use, if more than one packer plugin has been registered. It can be one of the following value:
+@FixedFont  
+  @#PB_PackerPlugin_BriefLZ: use the BriefLZ packer to open the pack file. @@UseBriefLZPacker has to be called to have any effect.
+  @#PB_PackerPlugin_Zip    : use the Zip packer to open the pack file. @@UseZipPacker has to be called to have any effect.
+  @#PB_PackerPlugin_Lzma   : use the Lzma packer to open the pack file. @@UseLzmaPacker has to be called to have any effect.
+  @#PB_PackerPlugin_Tar    : use the Tar packer to open the pack file. @@UseTarPacker has to be called to have any effect.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the pack file has been successfully opened, zero otherwise. If @#PB_Any
+  was used as the #Pack parameter then the generated pack number is returned.
+
+@Code
+  UseZipPacker()
+
+  ; Open the packed file
+  If OpenPack(0, "mycompressedfiles.zip") 
+    
+    ; List all the entries
+    If ExaminePack(0)
+      While NextPackEntry(0)
+        Debug "Name: " + PackEntryName(0) + ", Size: " + PackEntrySize(0)
+      Wend
+    EndIf
+    
+    ClosePack(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ClosePack, @@ExaminePack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = UncompressMemory(*Buffer, Size, *Output, OutputSize [, Plugin])
+
+@Description
+  Uncompress the buffer content into the output buffer. The output buffer length needs to be
+  at least as long as the buffer to uncompress.
+  
+@Parameter "*Buffer"
+  The memory buffer to uncompress.
+
+@Parameter "Size"
+  The size of the memory to uncompress.
+
+@Parameter "*Output"
+  The memory buffer to store the uncompressed data.
+
+@Parameter "OutputSize"
+  The memory buffer size to store the uncompressed data. It must be at least of the size of the
+  uncompressed data.
+
+@OptionalParameter "Plugin"
+  The plugin to use, if more than one packer plugin has been registered. It can be one of the following value:
+@FixedFont  
+  @#PB_PackerPlugin_BriefLZ: use the BriefLZ packer to uncompress the memory. @@UseBriefLZPacker has to be called to have any effect.
+  @#PB_PackerPlugin_Zip    : use the Zip packer to uncompress the memory. @@UseZipPacker has to be called to have any effect.
+  @#PB_PackerPlugin_Lzma   : use the Lzma packer to uncompress the memory. @@UseLzmaPacker has to be called to have any effect.
+  @#PB_PackerPlugin_Jcalg1 : use the Jcalg1 packer to uncompress the memory. @@UseJcalg1Packer has to be called to have any effect.
+@EndFixedFont
+
+@ReturnValue
+  Return the uncompressed size if the buffer has been successfully uncompressed, -1 otherwise.
+
+@SeeAlso
+  @@CompressMemory
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = UncompressPackMemory(#Pack, *Buffer, Size [, PackedFilename$])
+
+@Description
+  Uncompress into the memory buffer from the current pack entry being
+  examined with @@ExaminePack and @@NextPackEntry.
+
+@Parameter "#Pack"
+  The pack to use.
+
+@Parameter "*Buffer"
+  The memory buffer to uncompress the pack entry.
+
+@Parameter "Size"
+  The size of the memory to uncompress the pack entry.
+
+@OptionalParameter "PackedFilename$"
+  The packed filename entry to uncompress. If this parameter is not specified, the current entry being
+  examined with @@ExaminePack and @@NextPackEntry is uncompressed.
+
+@ReturnValue
+  Return the uncompressed size if the pack entry has been successfully uncompressed into the memory buffer, -1 otherwise.
+  
+@SeeAlso
+  @@OpenPack, @@ExaminePack, @@NextPackEntry
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = UncompressPackFile(#Pack, Filename$ [, PackedFilename$])
+
+@Description
+  Uncompress into the specified filename from the current pack entry being
+  examined with @@ExaminePack and @@NextPackEntry. If the filename already
+  exists, it will erased and replaced with the new uncompressed data.
+
+@Parameter "#Pack"
+  The pack to use.
+
+@Parameter "Filename$"
+  The filename to uncompress the current pack entry.
+
+@OptionalParameter "PackedFilename$"
+  The packed filename entry to uncompress. If this parameter is not specified, the current entry being
+  examined with @@ExaminePack and @@NextPackEntry is uncompressed.
+
+@ReturnValue
+  Return the uncompressed size if the pack entry has been successfully uncompressed into the filename, -1 otherwise.
+  
+@SeeAlso
+  @@OpenPack, @@ExaminePack, @@NextPackEntry
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseZipPacker()
+
+@Description
+  Enable Zip compress, uncompress and archive support to the packer library. The created pack will be compatible
+  with other Zip archives in 2.0 format. The created archive size can be up to 2GB. @LineBreak
+  @LineBreak
+  For more information: @InternetLink "http://en.wikipedia.org/wiki/Zip_%28file_format%29" "Wikipedia - Zip".
+  
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@OpenPack, @@CreatePack, @@CompressMemory, @@UncompressMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseLzmaPacker()
+
+@Description
+  Enable Lzma compress, uncompress and 7z archive support to the packer library.
+  Lzma compression is considered as one of the best available multipurpose compression algorithm. It provides very good compress ratio
+  and fast uncompress. Compressing can be slow. @LineBreak
+  @LineBreak
+  For more information: @InternetLink "http://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Markov_chain_algorithm" "Wikipedia - Lzma".
+  
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@OpenPack, @@CompressMemory, @@UncompressMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseTarPacker()
+
+@Description
+  Enable Tar compress, uncompress and Tar archive support to the packer library.
+  Bzip2 and Gzip compression are both supported. Compressing and uncompressing Tar archives are usually fast.
+  
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@OpenPack, @@CompressMemory, @@UncompressMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseBriefLZPacker()
+
+@Description
+  Enable BriefLZ compress, uncompress and archive support to the packer library.
+  The created archives are a custom format created for PureBasic.
+  BriefLZ compression is very fast and the packer is very small, it could be the right choice for
+  program which needs a small executable size. Uncompress is also very fast, but compress ratio
+  is not as good as Zip or Lzma.
+  
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@OpenPack, @@CreatePack, @@CompressMemory, @@UncompressMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJcalg1Packer()
+
+@Description
+  Enable Jcalg1 uncompress support to the packer library. This is an old algorithm which was
+  used in previous version of PureBasic, so it is still available to allow to support old
+  compressed files. Compression and archive support is no more available. This packer
+  is only available on Windows x86 (32-bit). This packer is deprecated and no more supported.
+  
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@UncompressMemory
+
+@SupportedOS

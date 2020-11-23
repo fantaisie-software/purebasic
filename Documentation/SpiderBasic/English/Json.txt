@@ -1,0 +1,1852 @@
+;
+;     Json library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Json
+
+@Overview
+  The JSON library provides functions to parse, create or modify data in JSON format.
+  JSON (JavaScript Object Notation) is a lightweight data-interchange format supported
+  by many programming languages. An introduction to the format can be found
+  @InternetLink "http://www.json.org/" "here".
+@LineBreak
+@LineBreak
+  This library understands and produces the JSON format as defined by 
+  @InternetLink "http://tools.ietf.org/html/rfc7159" "RFC-7159".
+
+@CommandList
+
+@ExampleFile All Json.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AddJSONElement(JSONValue [, Index])
+
+@Description
+  Add a new array element to a JSON value of @Link "JSONType" "type" @#PB_JSON_Array.
+  
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Array.
+
+@OptionalParameter "Index"
+  The index at which the new value will be inserted into the array. If the index is outside
+  of the range of the array, the new value will be inserted either at the start (for Index < 0) or the end
+  of the array. If this parameter is not specified, the new value is added at the end of the array.
+  
+@ReturnValue
+  Returns the address of the added JSON value. 
+  The newly added value initially has type @#PB_JSON_Null.
+
+@Example
+@Code
+  If CreateJSON(0)
+    ArrayValue = SetJSONArray(JSONValue(0))
+    
+    ; add element at the end
+    For i = 1 To 5
+      NumValue = AddJSONElement(ArrayValue)
+      SetJSONInteger(NumValue, i)
+    Next i
+    
+    ; insert at a specific index
+    StrValue = AddJSONElement(ArrayValue, 1)
+    SetJSONString(StrValue, "Hello")
+    
+    Debug ComposeJSON(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@SetJSONArray, @@RemoveJSONElement, @@ResizeJSONElements,
+  @@ClearJSONElements, @@GetJSONElement, @@JSONArraySize, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AddJSONMember(JSONValue, Key$)
+
+@Description
+  Add a new member to a JSON value of @Link "JSONType" "type" @#PB_JSON_Object.
+  If a member with the specified key already exists, it will be replaced.
+  
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Object. 
+
+@Parameter "Key$"
+  The key for the new member. If a member with the same key exists in the object,
+  it will be replaced.  
+
+@ReturnValue
+  Returns the address of the added JSON member value.
+  The newly added value initially has type @#PB_JSON_Null.
+
+@Example
+@Code
+  If CreateJSON(0)
+    ObjectValue = SetJSONObject(JSONValue(0))
+    
+    FirstName = AddJSONMember(ObjectValue, "FirstName")
+    SetJSONString(FirstName, "John")
+    
+    LastName = AddJSONMember(ObjectValue, "LastName")
+    SetJSONString(LastName, "Smith")    
+    
+    Debug ComposeJSON(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@SetJSONObject, @@RemoveJSONMember,
+  @@ClearJSONMembers, @@GetJSONMember, @@ExamineJSONMembers, @@JSONObjectSize, 
+  @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearJSONElements(JSONValue)
+
+@Description
+  Remove all array elements from a JSON value of @Link "JSONType" "type" @#PB_JSON_Array.  
+  
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Array.
+
+@NoReturnValue
+
+@Example
+@Code
+  ParseJSON(0, "[1, 2, 3, 4]")
+  
+  ; clear the values and add a new string
+  ClearJSONElements(JSONValue(0))
+  SetJSONString(AddJSONElement(JSONValue(0)), "Hello")
+  
+  Debug ComposeJSON(0)
+@EndCode
+
+@SeeAlso
+  @@SetJSONArray, @@AddJSONElement, @@RemoveJSONElement, @@ResizeJSONElements, 
+  @@GetJSONElement, @@JSONArraySize, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearJSONMembers(JSONValue)
+
+@Description
+  Remove all object members from a JSON value of @Link "JSONType" "type" @#PB_JSON_Object.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Object.
+
+@NoReturnValue
+
+@Example
+@Code
+  Input$ = "{ " + Chr(34) + "x" + Chr(34) + ": 10, " + Chr(34) + "y" + Chr(34) + ": 20 }"
+  Debug Input$  
+  ParseJSON(0, Input$)
+  
+  ; clear the members and add a new one
+  ClearJSONMembers(JSONValue(0))
+  SetJSONString(AddJSONMember(JSONValue(0), "Hello"), "World")
+  
+  Debug ComposeJSON(0)
+@EndCode
+
+@SeeAlso
+  @@SetJSONObject, @@AddJSONMember, @@RemoveJSONMember,
+  @@GetJSONMember, @@ExamineJSONMembers, @@JSONObjectSize, 
+  @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ComposeJSON(#JSON [, Flags])
+
+@Description
+  Compose the given JSON data into a string. A string can be parsed
+  back into JSON data using the @@ParseJSON function.
+
+@Parameter "#JSON"
+  The JSON to compose.
+  
+@OptionalParameter "Flags"
+  If set to @#PB_JSON_PrettyPrint, the composed string will
+  contain additional newline and whitespace for better readability. The extra
+  whitespace is not significant to the JSON format. The output will have the
+  same meaning to a JSON reader with or without this flag.  
+
+@ReturnValue
+  The JSON data as a string.
+  
+@Remarks
+  The output string has the string format of the executable (Ascii or Unicode). 
+  JSON is generally encoded in UTF-8, so when writing the result string to a file 
+  or sending it to another application, it is advised to convert the string to UTF-8 
+  before doing so.
+
+@Example
+@Code
+  If CreateJSON(0)
+    Person = SetJSONObject(JSONValue(0))
+    SetJSONString(AddJSONMember(Person, "FirstName"), "John")
+    SetJSONString(AddJSONMember(Person, "LastName"), "Smith")
+    SetJSONInteger(AddJSONMember(Person, "Age"), 42)
+    
+    Debug ComposeJSON(0, #PB_JSON_PrettyPrint)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@ParseJSON
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateJSON(#JSON [, Flags])
+
+@Description
+  Create new, empty JSON data. Initially, the data will contain a JSON value
+  of @Link "JSONType" "type" @#PB_JSON_Null. The @@JSONValue function can be used
+  to access this value to change it.
+
+@Parameter "#JSON"
+  A number to identify the new JSON.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.  
+
+@OptionalParameter "Flags"
+  Not used.
+  
+@ReturnValue
+  Nonzero if the JSON data was created correctly, zero otherwise. If @#PB_Any was used
+  for the #JSON parameter then the generated number is returned on success.
+
+@Example
+@Code
+  If CreateJSON(0)
+    Person = SetJSONObject(JSONValue(0))
+    SetJSONString(AddJSONMember(Person, "FirstName"), "John")
+    SetJSONString(AddJSONMember(Person, "LastName"), "Smith")
+    SetJSONInteger(AddJSONMember(Person, "Age"), 42)
+    
+    Debug ComposeJSON(0, #PB_JSON_PrettyPrint)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@LoadJSON, @@ParseJSON, @@JSONValue, @@FreeJSON
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineJSONMembers(JSONValue)
+
+@Description
+  Starts to examine the members of a JSON value of @Link "JSONType" "type" @#PB_JSON_Object. 
+  The individual members can be examined with the @@NextJSONMember, @@JSONMemberKey and 
+  @@JSONMemberValue functions.
+
+@Parameter "JSONValue"
+  The JSON value to examine. The value must be of type @#PB_JSON_Object. 
+
+@ReturnValue
+  Returns nonzero if the object can be enumerated or zero if there was an error. 
+
+@Example
+@Code
+  Input$ = "{ " + Chr(34) + "x" + Chr(34) + ": 10, " + 
+                  Chr(34) + "y" + Chr(34) + ": 20, " + 
+                  Chr(34) + "z" + Chr(34) + ": 30 }"
+  
+  ParseJSON(0, Input$)
+  ObjectValue = JSONValue(0)
+  
+  If ExamineJSONMembers(ObjectValue)
+    While NextJSONMember(ObjectValue)
+      Debug JSONMemberKey(ObjectValue) + " = " + GetJSONInteger(JSONMemberValue(ObjectValue))
+    Wend
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@NextJSONMember, @@JSONMemberKey, @@JSONMemberValue, 
+  @@GetJSONMember, @@SetJSONObject, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExportJSON(#JSON, Filename$ [, Flags])
+
+@Description
+  Export the given JSON data to the user through a download. The JSON data will be
+  encoded in UTF-8 format.
+
+@Parameter "#JSON"
+  The JSON to export.
+  
+@Parameter "Filename$"
+  The filename to use. This is the name which will be shown to the user when the download starts.
+  
+@OptionalParameter "Flags"
+  If set to @#PB_JSON_PrettyPrint, the composed string will
+  contain additional newline and whitespace for better readability. The extra
+  whitespace is not significant to the JSON format. The output will have the
+  same meaning to a JSON reader with or without this flag.  
+
+@NoReturnValue
+
+@SeeAlso
+  @@ComposeJSON
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExtractJSONArray(JSONValue, Array())
+
+@Description
+  Extract elements from the given JSON value of @Link "JSONType" "type" @#PB_JSON_Array into
+  the specified Array(). The array will be resized to the number of elements contained
+  in the JSON value.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Array. 
+  
+@Parameter "Array()"
+  The array to fill with the JSON elements. The array will be resized to have the same size
+  as the JSON value. Any previous content of the array will be lost.
+
+@NoReturnValue
+
+@Remarks
+  The extraction is performed recursively if the array has a structure type.
+  If the JSON value contains any elements that do not have the proper type to match 
+  the Array(), they will be ignored and the corresponsing array element will be
+  left empty.
+@LineBreak
+@LineBreak
+  If the specified Array() has more than one dimension, the JSON data is expected to
+  be a nested array of arrays to represent the multi-dimensional data. See the below
+  example for more details.
+
+@Example
+@Code
+  ParseJSON(0, "[1, 3, 5, 7, 9]")
+  
+  Dim a(0)
+  ExtractJSONArray(JSONValue(0), a())
+  
+  For i = 0 To ArraySize(a())
+    Debug a(i)
+  Next i
+@EndCode
+
+@Example
+@Code
+  ParseJSON(0, "[[0, 1, 2], [3, 4, 5], [6, 7, 8]]")
+  
+  Dim a(0, 0)
+  ExtractJSONArray(JSONValue(0), a())
+  
+  For x = 0 To 2
+    For y = 0 To 2
+      Debug a(x, y)
+    Next y
+  Next x
+@EndCode
+  
+@SeeAlso
+  @@ExtractJSONList, @@ExtractJSONMap, @@ExtractJSONStructure,
+  @@InsertJSONArray, @@InsertJSONList, @@InsertJSONMap, @@InsertJSONStructure,
+  @@SetJSONArray, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExtractJSONList(JSONValue, List())
+
+@Description
+  Extract elements from the given JSON value of @Link "JSONType" "type" @#PB_JSON_Array into
+  the specified List(). The list will be resized to the number of elements contained
+  in the JSON value.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Array. 
+  
+@Parameter "List()"
+  The list to fill with the JSON elements. The list will be resized to have the same size
+  as the JSON value. Any previous content of the list will be lost.
+
+@NoReturnValue
+
+@Remarks
+  The extraction is performed recursively if the list has a structure type.
+  If the JSON value contains any elements that do not have the proper type to match 
+  the List(), they will be ignored and the corresponsing list element will be
+  left empty.
+
+@Example
+@Code
+  Input$ = "[ {" + Chr(34) + "x" + Chr(34) + ": 10, " + Chr(34) + "y" + Chr(34) + ": 20}, " + 
+             "{" + Chr(34) + "x" + Chr(34) + ": 30, " + Chr(34) + "y" + Chr(34) + ": 50}, " + 
+             "{" + Chr(34) + "x" + Chr(34) + ": -5, " + Chr(34) + "y" + Chr(34) + ": 100} ]"
+  
+  Structure Location
+    x.l
+    y.l
+  EndStructure
+  
+  NewList Locations.Location()
+  
+  ParseJSON(0, Input$)
+  ExtractJSONList(JSONValue(0), Locations())
+  
+  ForEach Locations()
+    Debug Str(Locations()\x) + ", " + Str(Locations()\y)
+  Next
+@EndCode
+  
+@SeeAlso
+  @@ExtractJSONArray, @@ExtractJSONMap, @@ExtractJSONStructure,
+  @@InsertJSONArray, @@InsertJSONList, @@InsertJSONMap, @@InsertJSONStructure,
+  @@SetJSONArray, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExtractJSONMap(JSONValue, Map())
+
+@Description
+  Extract members from the given JSON value of @Link "JSONType" "type" @#PB_JSON_Object into
+  the specified Map(). The map will be resized to the number of elements contained
+  in the JSON value.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Object. 
+  
+@Parameter "Map()"
+  The map to fill with the JSON elements. The map will be resized to have the same size
+  as the JSON value. Any previous content of the map will be lost.
+
+@NoReturnValue
+
+@Remarks
+  The extraction is performed recursively if the map has a structure type.
+  If the JSON value contains any members that do not have the proper type to match 
+  the Map(), they will be ignored and the corresponsing map element will be
+  left empty.
+
+@Example
+@Code
+  Input$ = "{" + Chr(34) + "enabled" + Chr(34) + ": 1, " + 
+                 Chr(34) + "displayed" + Chr(34) + ": 1, " + 
+                 Chr(34) + "visible" + Chr(34) + ": 0 }"        
+  ParseJSON(0, Input$)
+  
+  NewMap Options()
+  ExtractJSONMap(JSONValue(0), Options())       
+  
+  Debug Options("enabled")
+  Debug Options("visible")
+@EndCode
+  
+@SeeAlso
+  @@ExtractJSONArray, @@ExtractJSONList, @@ExtractJSONStructure,
+  @@InsertJSONArray, @@InsertJSONList, @@InsertJSONMap, @@InsertJSONStructure,
+  @@SetJSONObject, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExtractJSONStructure(JSONValue, *Buffer, Structure)
+
+@Description
+  Extract members from the given JSON value of @Link "JSONType" "type" @#PB_JSON_Object into
+  the specified structure memory. The structure will be cleared of any previous content
+  before extracting the JSON values.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Object. 
+  
+@Parameter "*Buffer"
+  The address of the structure memory to fill.
+  
+@Parameter "Structure"
+  The type of the structure to fill.
+
+@NoReturnValue
+
+@Remarks
+  The extraction is performed recursively if the structure contains further structures,
+  arrays, lists or maps. If the JSON value contains any members that do not have the 
+  proper type to match a structure member they will be ignored and the corresponding
+  structure member is left empty.
+@LineBreak
+@LineBreak
+  Any '*' or '$' characters are stripped from the structure member names before comparing
+  them to the JSON object members. So a member key must not include these characters to
+  be properly matched to a structure member.
+@LineBreak
+@LineBreak
+  The comparison of member keys to structure member names is performed case sensitive.
+
+@Example
+@Code
+  Structure Person
+    Name$
+    Age.l
+    List Books.s()
+  EndStructure
+
+  Input$ = "{" + Chr(34) + "Name" + Chr(34) + ": " + Chr(34) + "John Smith" + Chr(34) + ", " + 
+                 Chr(34) + "Age" + Chr(34) + ": 42, " + 
+                 Chr(34) + "Books" + Chr(34) + ": [" +
+                           Chr(34) + "Investing For Dummies" + Chr(34) + ", " + 
+                           Chr(34) + "A Little Bit of Everything For Dummies" + Chr(34) + "] }"
+                           
+  ParseJSON(0, Input$)
+  ExtractJSONStructure(JSONValue(0), @P.Person, Person)
+  
+  Debug P\Name$
+  Debug P\Age
+  Debug ListSize(P\Books())
+@EndCode
+  
+@SeeAlso
+  @@ExtractJSONArray, @@ExtractJSONList, @@ExtractJSONMap,
+  @@InsertJSONArray, @@InsertJSONList, @@InsertJSONMap, @@InsertJSONStructure,
+  @@SetJSONObject, @@JSONType
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeJSON(#JSON)
+
+@Description
+  Frees the JSON data and its contained values.
+
+@Parameter "#JSON"
+  The JSON data to free. If @#PB_All is specified, all the remaining JSON objects are freed.
+
+@NoReturnValue
+
+@Remarks  
+  All remaining JSON objects are automatically freed when the program ends.
+
+@SeeAlso
+  @@IsJSON, @@CreateJSON, @@ParseJSON, @@LoadJSON
+
+@SupportedOS
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetJSONBoolean(JSONValue)
+
+@Description
+  Return the boolean value of a JSON value of @Link "JSONType" "type" @#PB_JSON_Boolean.
+  A JSON value can be set to a boolean with @@SetJSONBoolean.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Boolean. 
+
+@ReturnValue
+  The boolean value @#True or @#False.
+
+@Example
+@Code
+  ParseJSON(0, "[true, true, false]")
+  
+  Debug GetJSONBoolean(GetJSONElement(JSONValue(0), 0))
+  Debug GetJSONBoolean(GetJSONElement(JSONValue(0), 1))
+  Debug GetJSONBoolean(GetJSONElement(JSONValue(0), 2))
+@EndCode
+  
+@SeeAlso
+  @@SetJSONBoolean, @@GetJSONDouble, @@GetJSONElement, @@GetJSONFloat, @@GetJSONInteger, 
+  @@GetJSONMember, @@GetJSONString, @@GetJSONQuad, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = GetJSONDouble(JSONValue)
+
+@Description
+  Return the value of a JSON value of @Link "JSONType" "type" @#PB_JSON_Number
+  as a double precision floating point value.
+@LineBreak
+@LineBreak
+  A JSON value can be set to a number with @@SetJSONDouble, @@SetJSONFloat, 
+  @@SetJSONInteger or @@SetJSONQuad.
+  
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Number. 
+
+@ReturnValue
+  The number as a double.
+
+@Example
+@Code
+  ParseJSON(0, "[1, 1.23, 1.23e-3]")
+  
+  Debug GetJSONDouble(GetJSONElement(JSONValue(0), 0))
+  Debug GetJSONDouble(GetJSONElement(JSONValue(0), 1))
+  Debug GetJSONDouble(GetJSONElement(JSONValue(0), 2))
+@EndCode
+  
+@SeeAlso
+  @@SetJSONDouble, @@SetJSONFloat, @@SetJSONInteger, @@SetJSONQuad, 
+  @@GetJSONBoolean, @@GetJSONElement, @@GetJSONFloat, @@GetJSONInteger, 
+  @@GetJSONMember, @@GetJSONString, @@GetJSONQuad, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetJSONElement(JSONValue, Index)
+
+@Description
+  Return the JSON array element at the given 'Index' of a JSON value
+  of @Link "JSONType" "type" @#PB_JSON_Array.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Array. 
+
+@Parameter "Index"
+  The index of the array element to return. The index must be between 0
+  and @@JSONArraySize - 1.
+  
+@ReturnValue
+  The address of the JSON value at the specified array index.
+  If the given 'Index' is out of range, the result is 0.
+
+@Example
+@Code
+  ParseJSON(0, "[1, 2, 3, 4, 5]")
+    
+  For i = 0 To JSONArraySize(JSONValue(0)) - 1
+    Debug GetJSONInteger(GetJSONElement(JSONValue(0), i))
+  Next i
+@EndCode
+  
+@SeeAlso
+  @@SetJSONArray, @@AddJSONElement, @@RemoveJSONElement, @@ResizeJSONElements, 
+  @@ClearJSONElements, @@JSONArraySize, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = GetJSONFloat(JSONValue)
+
+@Description
+  Return the value of a JSON value of @Link "JSONType" "type" @#PB_JSON_Number
+  as a single precision floating point value.
+@LineBreak
+@LineBreak
+  A JSON value can be set to a number with @@SetJSONDouble, @@SetJSONFloat, 
+  @@SetJSONInteger or @@SetJSONQuad.
+  
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Number. 
+
+@ReturnValue
+  The number as a float.
+
+@Example
+@Code
+  ParseJSON(0, "[1, 1.23, 1.23e-3]")
+  
+  Debug GetJSONFloat(GetJSONElement(JSONValue(0), 0))
+  Debug GetJSONFloat(GetJSONElement(JSONValue(0), 1))
+  Debug GetJSONFloat(GetJSONElement(JSONValue(0), 2))
+@EndCode
+  
+@SeeAlso
+  @@SetJSONDouble, @@SetJSONFloat, @@SetJSONInteger, @@SetJSONQuad, 
+  @@GetJSONBoolean, @@GetJSONDouble, @@GetJSONElement, @@GetJSONInteger, 
+  @@GetJSONMember, @@GetJSONString, @@GetJSONQuad, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetJSONInteger(JSONValue)
+
+@Description
+  Return the value of a JSON value of @Link "JSONType" "type" @#PB_JSON_Number
+  as an integer value.
+@LineBreak
+@LineBreak
+  A JSON value can be set to a number with @@SetJSONDouble, @@SetJSONFloat, 
+  @@SetJSONInteger or @@SetJSONQuad.
+  
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Number. 
+
+@ReturnValue
+  The number as an integer.
+
+@Example
+@Code
+  ParseJSON(0, "[1, 2, 3, 4, 5]")
+    
+  For i = 0 To JSONArraySize(JSONValue(0)) - 1
+    Debug GetJSONInteger(GetJSONElement(JSONValue(0), i))
+  Next i
+@EndCode
+  
+@SeeAlso
+  @@SetJSONDouble, @@SetJSONFloat, @@SetJSONInteger, @@SetJSONQuad, 
+  @@GetJSONBoolean, @@GetJSONDouble, @@GetJSONElement, @@GetJSONFloat, 
+  @@GetJSONMember, @@GetJSONString, @@GetJSONQuad, @@JSONType
+
+@SupportedOS
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetJSONMember(JSONValue, Key$)
+
+@Description
+  Return the JSON object member with the given Key$ of a JSON value
+  of @Link "JSONType" "type" @#PB_JSON_Object.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Object. 
+
+@Parameter "Key$"
+  The key of the member to return. The key is compared case sensitive.
+  
+@ReturnValue
+  The address of the JSON value with the specified key.
+  If the given 'Key$' does not exist in the object, the result is 0.
+
+@Example
+@Code
+  Input$ = "{ " + Chr(34) + "x" + Chr(34) + ": 10, " + 
+                  Chr(34) + "y" + Chr(34) + ": 20, " + 
+                  Chr(34) + "z" + Chr(34) + ": 30 }"
+  
+  ParseJSON(0, Input$)
+  
+  Debug GetJSONInteger(GetJSONMember(JSONValue(0), "x"))
+  Debug GetJSONInteger(GetJSONMember(JSONValue(0), "y"))
+  Debug GetJSONInteger(GetJSONMember(JSONValue(0), "y"))
+@EndCode
+  
+@SeeAlso
+  @@SetJSONObject, @@AddJSONMember, @@RemoveJSONMember,
+  @@ClearJSONMembers, @@ExamineJSONMembers, @@JSONObjectSize, 
+  @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetJSONString(JSONValue)
+
+@Description
+  Return the value of a JSON value of @Link "JSONType" "type" @#PB_JSON_String
+  as a string.
+  
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_String. 
+
+@ReturnValue
+  The string contained in the JSON value.
+
+@Example
+@Code
+  ParseJSON(0, Chr(34) + "The quick brown fox jumped over the lazy dog" + Chr(34))
+  
+  Debug GetJSONString(JSONValue(0))  
+@EndCode
+  
+@SeeAlso
+  @@SetJSONString, 
+  @@GetJSONBoolean, @@GetJSONDouble, @@GetJSONElement, @@GetJSONFloat, @@GetJSONInteger, 
+  @@GetJSONMember, @@GetJSONQuad, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.q = GetJSONQuad(JSONValue)
+
+@Description
+  Return the value of a JSON value of @Link "JSONType" "type" @#PB_JSON_Number
+  as an quad value.
+@LineBreak
+@LineBreak
+  A JSON value can be set to a number with @@SetJSONDouble, @@SetJSONFloat, 
+  @@SetJSONInteger or @@SetJSONQuad.
+  
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Number. 
+
+@ReturnValue
+  The number as an quad.
+
+@Example
+@Code
+  ParseJSON(0, "[1, 2, 3, 4, 5]")
+    
+  For i = 0 To JSONArraySize(JSONValue(0)) - 1
+    Debug GetJSONQuad(GetJSONElement(JSONValue(0), i))
+  Next i
+@EndCode  
+  
+@SeeAlso
+  @@SetJSONDouble, @@SetJSONFloat, @@SetJSONInteger, @@SetJSONQuad, 
+  @@GetJSONBoolean, @@GetJSONDouble, @@GetJSONElement, @@GetJSONFloat, @@GetJSONInteger,
+  @@GetJSONMember, @@GetJSONString, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function InsertJSONArray(JSONValue, Array())
+
+@Description
+  Insert the specified Array() into the given JSON value. The JSON value will be
+  changed to @Link "JSONType" "type" @#PB_JSON_Array.
+
+@Parameter "JSONValue"
+  The JSON value. The previous content of the value will be changed to the
+  contant of the Array().
+  
+@Parameter "Array()"
+  The array to insert into the JSON value.
+
+@NoReturnValue
+
+@Remarks
+  If the specified Array() has more than one dimension, the JSON value will be filled
+  with a nested array of arrays to represent the multi-dimensional data. See the below
+  example for more details.
+  
+@Example
+@Code
+  Dim Colors.s(3)
+  Colors(0) = "red"
+  Colors(1) = "yellow"
+  Colors(2) = "green"
+  Colors(3) = "blue"
+  
+  If CreateJSON(0)
+    InsertJSONArray(JSONValue(0), Colors())
+    Debug ComposeJSON(0)
+  EndIf
+@EndCode
+
+@Example
+@Code
+  Dim matrix(2, 2)
+  matrix(0, 0) = 1
+  matrix(1, 1) = 1
+  matrix(2, 2) = 1
+  
+  If CreateJSON(0)
+    InsertJSONArray(JSONValue(0), matrix())
+    Debug ComposeJSON(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@InsertJSONList, @@InsertJSONMap, @@InsertJSONStructure,   
+  @@ExtractJSONArray, @@ExtractJSONList, @@ExtractJSONMap, @@ExtractJSONStructure,
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function InsertJSONList(JSONValue, List())
+
+@Description
+  Insert the specified List() into the given JSON value. The JSON value will be
+  changed to @Link "JSONType" "type" @#PB_JSON_Array.
+
+@Parameter "JSONValue"
+  The JSON value. The previous content of the value will be changed to the
+  contant of the List().
+  
+@Parameter "List()"
+  The list to insert into the JSON value.
+
+@NoReturnValue
+
+@Example
+@Code
+  NewList Names.s()
+  AddElement(Names()): Names() = "John"
+  AddElement(Names()): Names() = "Jane"
+  AddElement(Names()): Names() = "Jim"
+  
+  If CreateJSON(0)
+    InsertJSONList(JSONValue(0), Names())
+    Debug ComposeJSON(0, #PB_JSON_PrettyPrint)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@InsertJSONArray, @@InsertJSONMap, @@InsertJSONStructure,   
+  @@ExtractJSONArray, @@ExtractJSONList, @@ExtractJSONMap, @@ExtractJSONStructure,
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function InsertJSONMap(JSONValue, Map())
+
+@Description
+  Insert the specified Map() into the given JSON value. The JSON value will be
+  changed to @Link "JSONType" "type" @#PB_JSON_Object.
+
+@Parameter "JSONValue"
+  The JSON value. The previous content of the value will be changed to the
+  contant of the Map().
+  
+@Parameter "Map()"
+  The map to insert into the JSON value.
+
+@NoReturnValue
+
+@Example
+@Code
+  NewMap Colors()
+  Colors("red")   = $0000FF
+  Colors("green") = $00FF00
+  Colors("blue")  = $FF0000
+  
+  If CreateJSON(0)
+    InsertJSONMap(JSONValue(0), Colors())
+    Debug ComposeJSON(0, #PB_JSON_PrettyPrint)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@InsertJSONArray, @@InsertJSONList, @@InsertJSONStructure,   
+  @@ExtractJSONArray, @@ExtractJSONList, @@ExtractJSONMap, @@ExtractJSONStructure,
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function InsertJSONStructure(JSONValue, *Buffer, Structure)
+
+@Description
+  Insert the contents of the specified structure memory into the given JSON value. 
+  The JSON value will be changed to @Link "JSONType" "type" @#PB_JSON_Object
+  and contain one member for each member in the structure.
+
+@Parameter "JSONValue"
+  The JSON value. The previous content of the value will be changed to the
+  contant of the structure.
+  
+@Parameter "*Buffer"
+  The address of the structure to insert into the JSON value.
+  
+@Parameter "Structure"
+  The type of the structure to insert.
+
+@NoReturnValue
+
+@Example
+@Code
+  Structure Person
+    FirstName$
+    LastName$
+    Age.l
+    List Books.s()
+  EndStructure
+  
+  Define P.Person
+  P\FirstName$ = "John"
+  P\LastName$  = "Smith"
+  P\Age        = 42
+  AddElement(P\Books()): P\Books() = "Investing For Dummies"
+  AddElement(P\Books()): P\Books() = "English Grammar For Dummies"
+  AddElement(P\Books()): P\Books() = "A Little Bit of Everything For Dummies"
+  
+  If CreateJSON(0)
+    InsertJSONStructure(JSONValue(0), @P, Person)
+    Debug ComposeJSON(0, #PB_JSON_PrettyPrint)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@InsertJSONArray, @@InsertJSONList, @@InsertJSONMap, 
+  @@ExtractJSONArray, @@ExtractJSONList, @@ExtractJSONMap, @@ExtractJSONStructure,
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsJSON(#JSON)
+
+@Description
+  Tests if the given #JSON number represents valid and correctly initialized JSON data. 
+  
+@Parameter "#JSON"
+  The JSON to use.
+
+@ReturnValue
+  Nonzero if #JSON is valid JSON data, zero otherwise.
+  
+@Remarks
+  This function is bulletproof and can be used with any value. If the 'Result' is not zero then the object is valid and
+  initialized, otherwise it will equal zero. 
+  
+@SeeAlso
+  @@CreateJSON, @@LoadJSON, @@ParseJSON, @@FreeJSON
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = JSONArraySize(JSONValue)
+
+@Description
+  Returns the number of elements in a JSON value of @Link "JSONType" "type" @#PB_JSON_Array.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Array. 
+
+@ReturnValue
+  The number of elements in the JSON array.
+
+@Example
+@Code
+  ParseJSON(0, "[1, 2, null, true]")
+  Debug JSONArraySize(JSONValue(0))
+@EndCode
+  
+@SeeAlso
+  @@SetJSONArray, @@AddJSONElement, @@RemoveJSONElement, @@ResizeJSONElements, 
+  @@ClearJSONElements, @@GetJSONElement, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = JSONErrorLine()
+
+@Description
+  Returns the line number within the JSON input of the last failed JSON parsing operation with
+  @@ParseJSON or @@LoadJSON.
+
+@NoParameters
+
+@ReturnValue
+  The line number (1-based) of the last JSON parser error. 
+
+@SeeAlso
+  @@JSONErrorPosition, @@JSONErrorMessage, @@ParseJSON, @@LoadJSON
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = JSONErrorMessage()
+
+@Description
+  Returns a message describing the cause for the failure at the last JSON parsing operation
+  with @@ParseJSON or @@LoadJSON.
+
+@NoParameters
+
+@ReturnValue
+  The error message in english.
+
+@Example
+@Code
+  If ParseJSON(0, "[1, 2, 3 4]")
+    ; work with the data
+  Else
+    Debug JSONErrorMessage()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@JSONErrorLine, @@JSONErrorPosition, @@ParseJSON, @@LoadJSON
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = JSONErrorPosition()
+
+@Description
+  Returns the character position within the line of the last failed JSON parsing operation with
+  @@ParseJSON or @@LoadJSON.
+
+@NoParameters
+
+@ReturnValue
+  The character position (1-based) of the last JSON parser error within the
+  line reported by @@JSONErrorLine.
+
+@SeeAlso
+  @@JSONErrorLine, @@JSONErrorMessage, @@ParseJSON, @@LoadJSON
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = JSONMemberKey(JSONValue)
+
+@Description
+  After a call to @@NextJSONMember, returns the key of the currently
+  examined JSON object member of the specified JSON value of 
+  @Link "JSONType" "type" @#PB_JSON_Object.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Object and
+  currently being examined with @@ExamineJSONMembers.
+
+@ReturnValue
+  The key of the current JSON object member.
+
+@Example
+  See @@ExamineJSONMembers for an example.
+  
+@SeeAlso
+  @@ExamineJSONMembers, @@NextJSONMember, @@JSONMemberValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = JSONMemberValue(JSONValue)
+
+@Description
+  After a call to @@NextJSONMember, returns the address of the currently
+  examined JSON object member of the specified JSON value of 
+  @Link "JSONType" "type" @#PB_JSON_Object.  
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Object and
+  currently being examined with @@ExamineJSONMembers.
+
+@ReturnValue
+  The address of the current JSON object member.
+
+@Example
+  See @@ExamineJSONMembers for an example.
+  
+@SeeAlso
+  @@ExamineJSONMembers, @@NextJSONMember, @@JSONMemberKey
+
+@SupportedOS
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = JSONObjectSize(JSONValue)
+
+@Description
+  Returns the number of members in a JSON value of @Link "JSONType" "type" @#PB_JSON_Object.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Object. 
+
+@ReturnValue
+  The number of members in the JSON object.
+
+@Example
+@Code
+  Input$ = "{ " + Chr(34) + "x" + Chr(34) + ": 10, " + 
+                  Chr(34) + "y" + Chr(34) + ": 20, " + 
+                  Chr(34) + "z" + Chr(34) + ": 30 }"
+  
+  ParseJSON(0, Input$)
+  Debug JSONObjectSize(JSONValue(0))
+@EndCode
+  
+@SeeAlso
+  @@SetJSONObject, @@AddJSONMember, @@RemoveJSONMember,
+  @@ClearJSONMembers, @@GetJSONMember, @@ExamineJSONMembers, 
+  @@JSONType
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = JSONType(JSONValue)
+
+@Description
+  Returns the type of the given JSON value.
+
+@Parameter "JSONValue"
+  The JSON value.
+
+@ReturnValue
+  It can be one of the following:
+@LineBreak
+@LineBreak
+
+  @#PB_JSON_Null
+@Indent
+  The value represents the JSON literal null.
+@EndIndent
+
+  @#PB_JSON_String
+@Indent
+  The value contains a string. @@GetJSONString can be used to read the string.
+@EndIndent
+
+  @#PB_JSON_Number
+@Indent
+  The value contains a number. @@GetJSONDouble, @@GetJSONFloat, @@GetJSONInteger or 
+  @@GetJSONQuad can be used to read the number.
+@EndIndent
+
+  @#PB_JSON_Boolean
+@Indent
+  The value contains a boolean. @@GetJSONBoolean can be used to read the value.
+@EndIndent
+
+  @#PB_JSON_Array
+@Indent
+  The value contains an array of JSON elements. @@JSONArraySize returns the size
+  of the array. @@GetJSONElement can be used to get a specific array element.
+  @@AddJSONElement, @@RemoveJSONElement, @@ResizeJSONElements or
+  @@ClearJSONElements can be used to modify the array.
+@EndIndent
+
+  @#PB_JSON_Object
+@Indent
+  The value contains an object (a set of key/value pairs). @@JSONObjectSize returns the
+  number of menbers in the object. @@GetJSONMember returns a specific member value.
+  @@ExamineJSONMembers can be used to examine the member values.
+  @@AddJSONMember, @@RemoveJSONMember or @@ClearJSONMembers can be used to modify the object.  
+@EndIndent
+
+@Example
+@Code
+  ; A procedure that accepts any JSON value and returns a string
+  ;
+  Procedure.s GetAnyValue(Value)
+    Select JSONType(Value)
+      Case #PB_JSON_Null:    ProcedureReturn "null"
+      Case #PB_JSON_String:  ProcedureReturn GetJSONString(Value)
+      Case #PB_JSON_Number:  ProcedureReturn StrD(GetJSONDouble(Value))    
+      Case #PB_JSON_Boolean: ProcedureReturn Str(GetJSONBoolean(Value))
+      Case #PB_JSON_Array:   ProcedureReturn "array"
+      Case #PB_JSON_Object:  ProcedureReturn "object"
+    EndSelect
+  EndProcedure
+  
+  ParseJSON(0, "[1, 2, true, null, " + Chr(34) + "hello" + Chr(34) + "]")
+  For i = 0 To JSONArraySize(JSONValue(0)) - 1
+    Debug GetAnyValue(GetJSONElement(JSONValue(0), i))
+  Next i
+@EndCode
+
+@SeeAlso
+  @@JSONValue, @@SetJSONArray, @@SetJSONBoolean, @@SetJSONDouble, 
+  @@SetJSONFloat, @@SetJSONInteger, @@SetJSONNull, 
+  @@SetJSONObject, @@SetJSONString, @@SetJSONQuad
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = JSONValue(#JSON)
+
+@Description
+  Returns the value of the specified #JSON data. The type of the value can be
+  checked with @@JSONType.
+
+@Parameter "#JSON"
+  The JSON data to return the value of.
+
+@ReturnValue
+  The JSON value. The result is never 0 for a valid #JSON data.
+
+@Remarks
+  Every #JSON data contains exactly one JSON value (containing possibly nested values).
+  Newly created #JSON data from @@CreateJSON contains a value of type @#PB_JSON_Null.
+@LineBreak
+@LineBreak
+  The type of the JSON value or its content can be modified with one of the following
+  functions:
+@LineBreak
+  - @@SetJSONArray: Change the value to an (empty) array
+@LineBreak
+  - @@SetJSONBoolean: Change the value to a boolean
+@LineBreak
+  - @@SetJSONDouble: Change the value to a number
+@LineBreak
+  - @@SetJSONFloat: Change the value to a number
+@LineBreak
+  - @@SetJSONInteger: Change the value to a number
+@LineBreak
+  - @@SetJSONNull: Change the value to a 'null'
+@LineBreak
+  - @@SetJSONObject: Change the value to an (empty) object
+@LineBreak
+  - @@SetJSONString: Change the value to a string
+@LineBreak
+  - @@SetJSONQuad: Change the value to a number
+
+@Example
+@Code
+  ParseJSON(0, Chr(34) + "The quick brown fox jumped over the lazy dog" + Chr(34))
+  
+  Debug GetJSONString(JSONValue(0))  
+@EndCode
+  
+@SeeAlso
+  @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LoadJSON(#JSON, Filename$ [, Flags])
+
+@Description
+  Parse JSON data from a file. The contents of the file are expected to be encoded in UTF-8 format. 
+  Files with another character encoding cannot be read by this command.  
+  The @@JSONValue function can be used to access the contained JSON value(s) after parsing.
+
+@Parameter "#JSON"
+  A number to identify the new JSON.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.  
+  
+@Parameter "Filename$"
+  The name of the file containing the JSON data. It can be an URL or a local file identifier got with @@SelectedFileID.
+
+@OptionalParameter "Flags"
+    It can be one of the following value:
+@FixedFont
+  @#PB_LocalFile: the filename is a local file, @@OpenFileRequester() needs to be called before
+                 to have access to local files. @@SelectedFileID() is used to get the
+                 local file identifier.
+@EndFixedFont
+  
+@ReturnValue
+  Nonzero if the JSON data was parsed correctly, zero otherwise. If @#PB_Any was used
+  for the #JSON parameter then the generated number is returned on success.
+
+@Remarks
+  In case of an error, the @@JSONErrorMessage, @@JSONErrorLine and @@JSONErrorPosition
+  functions can be used to get more information about the error.
+@LineBreak
+@LineBreak
+  JSON is a case sensitive data format. 
+
+@SeeAlso
+  @@CreateJSON, @@ParseJSON, @@JSONValue, @@FreeJSON,
+  @@JSONErrorMessage, @@JSONErrorLine, @@JSONErrorPosition
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextJSONMember(JSONValue)
+
+@Description
+  After a call to @@ExamineJSONMembers, this function is used to iterate over
+  all members of the specified JSON value of @Link "JSONType" "type" @#PB_JSON_Object.
+@LineBreak
+@LineBreak
+  @@JSONMemberKey and @@JSONMemberValue can be used to get information
+  about the current member.
+  
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Object and 
+  @@ExamineJSONMembers must have been called on this value.
+
+@ReturnValue
+  Returns non-zero if another JSON member was found. If the result is zero then
+  there are no more JSON members to be examined.
+
+@Example
+  See @@ExamineJSONMembers for an example.
+  
+@SeeAlso
+  @@ExamineJSONMembers, @@JSONMemberKey, @@JSONMemberValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ParseJSON(#JSON, Input$ [, Flags])
+
+@Description
+  Parse JSON data from a string. The @@JSONValue function can be
+  used to access the contained JSON value(s) after parsing.
+
+@Parameter "#JSON"
+  A number to identify the new JSON.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.  
+  
+@Parameter "Input$"
+  The string containing the JSON data to parse.
+
+@OptionalParameter "Flags"
+  Not used.
+    
+@ReturnValue
+  Nonzero if the JSON data was parsed correctly, zero otherwise. If @#PB_Any was used
+  for the #JSON parameter then the generated number is returned on success.
+
+@Remarks
+  In case of an error, the @@JSONErrorMessage, @@JSONErrorLine and @@JSONErrorPosition
+  functions can be used to get more information about the error.
+@LineBreak
+@LineBreak
+  JSON is a case sensitive data format.
+  
+@Example
+@Code
+  If ParseJSON(0, "[1, 2, 3, 4, 5]")    
+    For i = 0 To JSONArraySize(JSONValue(0)) - 1
+      Debug GetJSONInteger(GetJSONElement(JSONValue(0), i))
+    Next i
+  Else
+    JSONErrorMessage()
+  EndIf
+@EndCode  
+  
+@SeeAlso
+  @@CreateJSON, @@LoadJSON, @@JSONValue, @@FreeJSON,
+  @@JSONErrorMessage, @@JSONErrorLine, @@JSONErrorPosition,
+  @@ExportJSON
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveJSONElement(JSONValue, Index)
+
+@Description
+  Remove the element at the specified index from a JSON value of
+  @Link "JSONType" "type" @#PB_JSON_Array.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Array. 
+
+@Parameter "Index"
+  The index of the element to remove. The value must be between
+  0 and @@JSONArraySize - 1.
+  
+@NoReturnValue
+
+@Example
+@Code
+  ParseJSON(0, "[1, 2, 3, 4, 5]")
+  RemoveJSONElement(JSONValue(0), 2)
+  Debug ComposeJSON(0)
+@EndCode
+
+@SeeAlso
+  @@SetJSONArray, @@AddJSONElement, @@ResizeJSONElements, 
+  @@ClearJSONElements, @@GetJSONElement, @@JSONArraySize, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveJSONMember(JSONValue, Key$)
+
+@Description
+  Remove the memver with the specified key from a JSON value of
+  @Link "JSONType" "type" @#PB_JSON_Object.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Object. 
+
+@Parameter "Key$"
+  The key of the member to remove. 
+  
+@NoReturnValue
+
+@Example
+@Code
+  Input$ = "{ " + Chr(34) + "x" + Chr(34) + ": 10, " + 
+                  Chr(34) + "y" + Chr(34) + ": 20, " + 
+                  Chr(34) + "z" + Chr(34) + ": 30 }"
+  
+  ParseJSON(0, Input$)
+  RemoveJSONMember(JSONValue(0), "x")
+  Debug ComposeJSON(0, #PB_JSON_PrettyPrint)
+@EndCode
+
+@SeeAlso
+  @@SetJSONObject, @@AddJSONMember, 
+  @@ClearJSONMembers, @@GetJSONMember, @@ExamineJSONMembers, @@JSONObjectSize, 
+  @@JSONType
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeJSONElements(JSONValue, Size)
+
+@Description
+  Resize a JSON value of @Link "JSONType" "type" @#PB_JSON_Array so
+  that it has the given number of elements.
+
+@Parameter "JSONValue"
+  The JSON value. The value must be of type @#PB_JSON_Array. 
+  
+@Parameter "Size"
+  The new size of the array. This specifies the total number of elements
+  (not the index of the highest array element like @ReferenceLink "dim" "Dim").
+
+@NoReturnValue
+
+@Remarks
+  If new elements are added to the array, they will have the type @#PB_JSON_Null.
+
+@Example
+@Code
+  ParseJSON(0, "[1, 2, 3, 4, 5]") 
+  
+  ResizeJSONElements(JSONValue(0), 3)
+  Debug ComposeJSON(0)
+  
+  ResizeJSONElements(JSONValue(0), 10)
+  Debug ComposeJSON(0)
+@EndCode
+  
+@SeeAlso
+  @@SetJSONArray, @@AddJSONElement, @@RemoveJSONElement, 
+  @@ClearJSONElements, @@GetJSONElement, @@JSONArraySize, @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJSONArray(JSONValue)
+
+@Description
+  Change the @Link "JSONType" "type" of the JSON value to @#PB_JSON_Array.
+  The array will have no elements (even if the value previously contained array elements).
+
+@Parameter "JSONValue"
+  The JSON value.
+
+@NoReturnValue
+
+@Example
+@Code
+  If CreateJSON(0)
+    ArrayValue = SetJSONArray(JSONValue(0))
+    SetJSONString(AddJSONElement(ArrayValue), "hello")
+    SetJSONString(AddJSONElement(ArrayValue), "world")
+    
+    Debug ComposeJSON(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddJSONElement, @@RemoveJSONElement, @@ResizeJSONElements, 
+  @@ClearJSONElements, @@GetJSONElement, @@JSONArraySize, @@JSONType
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJSONBoolean(JSONValue, Value)
+
+@Description
+  Change the @Link "JSONType" "type" of the JSON value to @#PB_JSON_Boolean and
+  store the given boolean value.
+
+@Parameter "JSONValue"
+  The JSON value.
+
+@Parameter "Value"
+  The boolean value to store. A non-zero value is stored as @#True, a value
+  of 0 is stored as @#False.
+  
+@NoReturnValue
+
+@Example
+@Code
+  If CreateJSON(0)
+    ArrayValue = SetJSONArray(JSONValue(0))
+    SetJSONBoolean(AddJSONElement(ArrayValue), #True)
+    SetJSONBoolean(AddJSONElement(ArrayValue), #False)
+    
+    Debug ComposeJSON(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetJSONBoolean,
+  @@SetJSONArray, @@SetJSONDouble, 
+  @@SetJSONFloat, @@SetJSONInteger, @@SetJSONNull, 
+  @@SetJSONObject, @@SetJSONString, @@SetJSONQuad
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJSONDouble(JSONValue, Value.d)
+
+@Description
+  Change the @Link "JSONType" "type" of the JSON value to @#PB_JSON_Number and
+  store the given double value.
+
+@Parameter "JSONValue"
+  The JSON value.
+
+@Parameter "Value.d"
+  The value to store.
+  
+@NoReturnValue
+
+@Remarks
+  Note that JSON does not permit the special floating point values +Infinity, -Infinity or NaN in JSON data.
+  If such a value is set with this function, it will be replaced by a JSON 'null' literal when the
+  data is being saved or encoded. The functions @@IsInfinity or @@IsNaN can be used to detect
+  this case.
+
+@Example
+@Code
+  If CreateJSON(0)
+    ArrayValue = SetJSONArray(JSONValue(0))
+    SetJSONDouble(AddJSONElement(ArrayValue), 1.23)
+    SetJSONDouble(AddJSONElement(ArrayValue), 4.56)
+    
+    Debug ComposeJSON(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetJSONDouble,
+  @@SetJSONArray, @@SetJSONBoolean, 
+  @@SetJSONFloat, @@SetJSONInteger, @@SetJSONNull, 
+  @@SetJSONObject, @@SetJSONString, @@SetJSONQuad
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJSONFloat(JSONValue, Value.f)
+
+@Description
+  Change the @Link "JSONType" "type" of the JSON value to @#PB_JSON_Number and
+  store the given float value.
+
+@Parameter "JSONValue"
+  The JSON value.
+
+@Parameter "Value.f"
+  The value to store.
+  
+@NoReturnValue
+
+@Remarks
+  Note that JSON does not permit the special floating point values +Infinity, -Infinity or NaN in JSON data.
+  If such a value is set with this function, it will be replaced by a JSON 'null' literal when the
+  data is being saved or encoded. The functions @@IsInfinity or @@IsNaN can be used to detect
+  this case.
+
+@Example
+@Code
+  If CreateJSON(0)
+    ArrayValue = SetJSONArray(JSONValue(0))
+    SetJSONFloat(AddJSONElement(ArrayValue), 1.23)
+    SetJSONFloat(AddJSONElement(ArrayValue), 4.56)
+    
+    Debug ComposeJSON(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@GetJSONFloat,
+  @@SetJSONArray, @@SetJSONBoolean, @@SetJSONDouble, 
+  @@SetJSONInteger, @@SetJSONNull, 
+  @@SetJSONObject, @@SetJSONString, @@SetJSONQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJSONInteger(JSONValue, Value)
+
+@Description
+  Change the @Link "JSONType" "type" of the JSON value to @#PB_JSON_Number and
+  store the given integer value.
+
+@Parameter "JSONValue"
+  The JSON value.
+
+@Parameter "Value"
+  The value to store.
+  
+@NoReturnValue
+
+@Example
+@Code
+  If CreateJSON(0)
+    ArrayValue = SetJSONArray(JSONValue(0))
+    SetJSONInteger(AddJSONElement(ArrayValue), 1)
+    SetJSONInteger(AddJSONElement(ArrayValue), 2)
+    SetJSONInteger(AddJSONElement(ArrayValue), 3)
+    
+    Debug ComposeJSON(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetJSONInteger,
+  @@SetJSONArray, @@SetJSONBoolean, @@SetJSONDouble, 
+  @@SetJSONFloat, @@SetJSONNull, 
+  @@SetJSONObject, @@SetJSONString, @@SetJSONQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJSONNull(JSONValue)
+
+@Description
+  Clear the JSON value and set the @Link "JSONType" "type" to @#PB_JSON_Null.
+
+@Parameter "JSONValue"
+  The JSON value.
+
+@NoReturnValue
+
+@Example
+@Code
+  ParseJSON(0, "[1, 2, 3, 4, 5]") 
+  SetJSONNull(GetJSONElement(JSONValue(0), 2))
+  SetJSONNull(GetJSONElement(JSONValue(0), 3))
+  Debug ComposeJSON(0)
+@EndCode
+
+@SeeAlso
+  @@SetJSONArray, @@SetJSONBoolean, @@SetJSONDouble, 
+  @@SetJSONFloat, @@SetJSONInteger, 
+  @@SetJSONObject, @@SetJSONString, @@SetJSONQuad
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJSONObject(JSONValue)
+
+@Description
+  Change the @Link "JSONType" "type" of the JSON value to @#PB_JSON_Object.
+  The object will have no members (even if the value previously contained object members).
+
+@Parameter "JSONValue"
+  The JSON value.
+
+@NoReturnValue
+
+@Example
+@Code
+  If CreateJSON(0)
+    ObjectValue = SetJSONObject(JSONValue(0))
+    SetJSONInteger(AddJSONMember(ObjectValue, "x"), 10)
+    SetJSONInteger(AddJSONMember(ObjectValue, "y"), 20)
+    SetJSONInteger(AddJSONMember(ObjectValue, "z"), 30)
+
+    Debug ComposeJSON(0, #PB_JSON_PrettyPrint)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddJSONMember, @@RemoveJSONMember,
+  @@ClearJSONMembers, @@GetJSONMember, @@ExamineJSONMembers, @@JSONObjectSize, 
+  @@JSONType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJSONQuad(JSONValue, Value.q)
+
+@Description
+  Change the @Link "JSONType" "type" of the JSON value to @#PB_JSON_Number and
+  store the given quad value.
+
+@Parameter "JSONValue"
+  The JSON value.
+
+@Parameter "Value.q"
+  The value to store.
+  
+@NoReturnValue
+
+@Example
+@Code
+  If CreateJSON(0)
+    ArrayValue = SetJSONArray(JSONValue(0))
+    SetJSONQuad(AddJSONElement(ArrayValue), 1)
+    SetJSONQuad(AddJSONElement(ArrayValue), 2)
+    SetJSONQuad(AddJSONElement(ArrayValue), 3)
+    
+    Debug ComposeJSON(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@GetJSONQuad,
+  @@SetJSONArray, @@SetJSONBoolean, @@SetJSONDouble, 
+  @@SetJSONFloat, @@SetJSONInteger, @@SetJSONNull, 
+  @@SetJSONObject, @@SetJSONString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJSONString(JSONValue, String$)
+
+@Description
+  Change the @Link "JSONType" "type" of the JSON value to @#PB_JSON_String and
+  store the given string.
+
+@Parameter "JSONValue"
+  The JSON value.
+
+@Parameter "String$"
+  The string to store.
+  
+@NoReturnValue
+
+@Example
+@Code
+  If CreateJSON(0)
+    ArrayValue = SetJSONArray(JSONValue(0))
+    SetJSONString(AddJSONElement(ArrayValue), "with escaped new" + Chr(13) + Chr(10) + "line")
+    SetJSONString(AddJSONElement(ArrayValue), "with escaped \ backslash")
+    
+    Debug ComposeJSON(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetJSONString,
+  @@SetJSONArray, @@SetJSONBoolean, @@SetJSONDouble, 
+  @@SetJSONFloat, @@SetJSONInteger, @@SetJSONNull, 
+  @@SetJSONObject, @@SetJSONQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

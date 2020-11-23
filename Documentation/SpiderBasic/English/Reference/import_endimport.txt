@@ -1,0 +1,21 @@
+@Title Import : EndImport
+
+@Syntax
+
+  @Keyword Import "cordova command"
+  @Keyword EndImport
+
+@Description
+
+  For advanced programmers. @Keyword Import : @Keyword EndImport allows to easy invoke a cordova command at build time. It's
+  an Android and iOS functionnality only. The command has to start with 'cordova' followed by any supported parameters.
+  
+@Example 
+
+@Code
+  ; Will addd the camera plugin to the app, so it can be accessed with inline javascript
+  ;
+  Import "cordova plugin add cordova-plugin-camera"
+  EndImport
+   
+@EndCode

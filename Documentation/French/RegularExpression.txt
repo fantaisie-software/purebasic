@@ -1,0 +1,868 @@
+;
+; RegularExpression library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library RegularExpression
+
+@Overview
+  Les expressions régulières permettent de 
+  rechercher, extraire ou remplacer 
+  n'importe quel texte dans une chaîne de 
+  caractères qui correspond à un motif 
+  (pattern) donné. 
+  Ces motifs sont souvent assez difficiles 
+  à écrire et à appréhender, mais quand 
+  ils sont correctement utilisés ils 
+  rendent beaucoup de manipulations autour 
+  des chaînes de caractères plus aisées. 
+  De fait, cette bibliothèque n'est pas 
+  pour les néophytes et il est conseillé
+  d'avoir de solides bases en PureBasic 
+  et en programmation en général pour 
+  l'utiliser.
+@LineBreak
+@LineBreak
+  Cette bibliothèque utilise PCRE, qui est 
+  une implémentation OpenSource des 
+  expressions régulières de Perl. Toutes 
+  les expressions régulières supportées 
+  par PCRE seront reconnues dans PureBasic. 
+  Pour avoir une liste complète des motifs 
+  et des arguments disponibles, se rendre 
+  sur la page internet de PCRE: 
+  @InternetLink "http://www.pcre.org/pcre.txt" "http://www.pcre.org/pcre.txt"
+@LineBreak
+@LineBreak
+  La license PCRE est consultable 
+  @MainGuideLink "pcre" "ici".
+@LineBreak
+@LineBreak
+  @Bold "Important:" La licence de PCRE 
+  est très permissive, et permet son 
+  utilisation gratuite dans n'importe 
+  quel type de projet (commercial ou non) 
+  à partir du moment où le texte de la 
+  licence est fourni avec l'application
+  lors de sa distribution. Donc si vous 
+  utilisez cette bibliothèque, vous devez 
+  inclure un fichier contenant la licence 
+  mentionnée ci-dessus.
+
+@CommandList
+
+@ExampleFile All RegularExpression.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CountRegularExpressionGroups(#RegularExpression)
+
+@Description
+  Renvoie le nombre de groupes définis 
+  dans une expression régulière.
+@LineBreak
+@LineBreak
+  Les groupes d'expressions régulières 
+  peuvent être accessibles avec des 
+  fonctions comme
+  @@RegularExpressionGroup.
+
+@Parameter "#ExpressionReguliere"
+  L'expression régulière à utiliser.
+
+@ReturnValue
+  Le nombre de groupes définis dans 
+  l'expression régulière.
+  
+@Remarks
+  Les groupes dans une expression 
+  régulière sont définis en entourant 
+  une sous-expression avec des parenthèses 
+  "(" et ")". @LineBreak
+  Les groupes sont numérotés tels qu'ils 
+  apparaissent dans l'expression régulière 
+  de gauche à droite. @LineBreak
+  Le premier groupe a l'index 1.
+  
+@SeeAlso
+  @@RegularExpressionGroup
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateRegularExpression(#ExpressionReguliere, Motif$ [, Options])
+
+@Description
+  Crée une nouvelle expression régulière. 
+
+@Parameter "#ExpressionReguliere"  
+  L'identifiant de l'expression régulière.
+@LineBreak
+@LineBreak  
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro.
+ 
+@Parameter "Motif$" 
+  'Motif$' est une chaîne de caractères qui 
+  contient la règle qui sera appliquée pour 
+  chercher, extraire ou remplacer du texte. 
+
+@OptionalParameter "Options"
+  Peut prendre une des valeurs suivantes:
+@FixedFont
+  @#PB_RegularExpression_DotAll    : '.' prend tout en compte, y compris les retours à la ligne.
+  @#PB_RegularExpression_Extended  : Les espaces et les commentaires commençant par '#' sont ignorés.
+  @#PB_RegularExpression_MultiLine : '^' et '$' prennent en compte les retours à la ligne dans les données.
+  @#PB_RegularExpression_AnyNewLine: 'CR', 'LF', et 'CRLF' sont considérés comme des retours à la ligne.
+  @#PB_RegularExpression_NoCase    : Insensible à la casse.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'expression régulière a été créée avec 
+  succès, zéro sinon. 
+
+@Remarks
+  Si une erreur a été détectée dans la 
+  définition du motif, la fonction renvoie 
+  zéro. Voir @@RegularExpressionError.
+@LineBreak
+@LineBreak
+   Si une expression régulière n'est plus 
+   utilisée, il est possible de libérer 
+   ses ressources à l'aide de la fonction 
+   @@FreeRegularExpression.
+
+@Example
+@Code
+  ; Cette expression repérera chaque mot de 3 lettres qui commence par une minuscule,
+  ; suivi du caractère 'b' et qui se termine par une majuscule. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Debug MatchRegularExpression(0, "abC") ; Donnera 1
+    Debug MatchRegularExpression(0, "abc") ; Donnera 0
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@RegularExpressionError, @@FreeRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ExamineRegularExpression(#ExpressionReguliere, Chaîne$)
+
+@Description
+  Démarre la comparaison entre une expression 
+  réglière et une chaîne de caractère. 
+  Chaque correspondance peut être trouvée en 
+  utilisant la fonction 
+  @@NextRegularExpressionMatch.
+  Chaque correspondance comprend: la chaîne 
+  correspondante, sa position, sa longueur 
+  et des groupes au sein de la correspondance 
+  peuvent être extraits avec les fonctions 
+  appropriées.
+  
+@Parameter "#ExpressionReguliere"
+  L'expression régulière à utiliser.
+
+@Parameter "Chaîne$"
+  La chaîne de caractères à tester.
+  
+@ReturnValue
+  Renvoie une valeur non nulle si l'examen de 
+  la correspondance a été lancé avec succès, 
+  zéro sinon. 
+    
+@Example
+@Code
+  ; On cherche chaque mot de 3 lettres qui commence par une lettre minuscule, 
+  ; suivie par le caractère 'b' et qui se termine par une lettre majuscule. ex: abC
+  ; Chaque match est affiché avec sa position dans la chaîne d'origine.
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    If ExamineRegularExpression(0, "abC ABc zbA abc")
+      While NextRegularExpressionMatch(0)
+        Debug "Match: " + RegularExpressionMatchString(0)
+        Debug "    Position: " + Str(RegularExpressionMatchPosition(0))
+        Debug "    Longueur: " + Str(RegularExpressionMatchLength(0))
+      Wend
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@NextRegularExpressionMatch, 
+  @@RegularExpressionMatchString, @@RegularExpressionMatchPosition, 
+  @@RegularExpressionMatchLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ExtractRegularExpression(#ExpressionReguliere, Texte$, Tableau$())
+
+@Description
+  Extrait toutes les parties de la chaîne de 
+  caractères correspondant à une expression 
+  régulière vers un tableau.
+
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière.
+
+@Parameter "Texte$"
+  Le texte à tester.
+
+@Parameter "Tableau$()"
+  Il est automatiquement redimensionné pour 
+  contenir les éléments trouvés dans le 
+  'Texte$'.
+  
+@ReturnValue
+  Le nombre d'éléments trouvés.
+
+@Example
+@Code
+  ; Cette expression repérera chaque mot de 3 lettres qui commence par une minuscule,
+  ; suivi du caractère 'b' et qui se termine par une majuscule. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Dim Resultat$(0)
+    Nb = ExtractRegularExpression(0, "abC ABc zbA abc", Resultat$())
+    For k = 0 To Nb-1
+      Debug Resultat$(k)
+    Next
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeRegularExpression(#ExpressionReguliere)
+
+@Description
+  Libère une expression régulière ainsi 
+  que la mémoire associée. 
+  
+@Parameter "#ExpressionReguliere"  
+  L'expression régulière à supprimer.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, toutes les 
+  expressions régulières restantes sont 
+  libérées.
+
+@NoReturnValue
+
+@Remarks   
+  Toutes les expressions régulières restantes 
+  sont automatiquement libérées quand le 
+  programme se termine.
+
+@SeeAlso
+  @@CreateRegularExpression
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsRegularExpression(#ExpressionReguliere)
+
+@Description
+  Teste si une expression régulière est 
+  correctement initialisée. 
+  
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière.
+
+@ReturnValue
+  Revoie une valeur non nulle si l'expression 
+  régulière est valide.
+  
+@Remarks
+  Cette fonction a été conçue pour accepter 
+  n'importe quelle valeur en paramètre sans 
+  qu'il ne puisse y avoir de plantage. C'est 
+  la fonction idéale pour vérifier qu'un
+  objet est correctement initialisé.
+  
+@SeeAlso
+  @@CreateRegularExpression
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = MatchRegularExpression(#ExpressionReguliere, Texte$)
+
+@Description
+  Teste si une chaîne de caractères correspond 
+  à une expression régulière. 
+  
+@Parameter "#ExpressionReguliere" 
+  L'identifiant de l'expression régulière.
+
+@Parameter "Texte$"
+  La  chaîne de caractères à tester.
+
+@ReturnValue
+  Renvoie une valeur non nulle s'il existe une 
+  ou plusieurs correspondances, zéro sinon.
+
+@Example
+@Code
+  ; Cette expression repérera chaque mot de 3 lettres qui commence par une minuscule,
+  ; suivi du caractère 'b' et qui se termine par une majuscule. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    If MatchRegularExpression(0, "abC ABc zbA abc")
+      Debug "Le texte correspond !"
+    Else
+      Debug "Aucun motif trouvé dans le texte"
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = NextRegularExpressionMatch(#ExpressionReguliere)
+
+@Description
+  Recherche d'une nouvelle correspondance 
+  après un appel à @@ExamineRegularExpression.
+
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière. 
+
+@ReturnValue
+  Renvoie une valeur non nulle s'il existe une 
+  correspondance, zéro sinon.
+  
+@Remarks
+  Les fonctions suivantes peuvent être 
+  utilisées pour obtenir des informations 
+  sur la correspondance 
+  en cours:
+@LineBreak
+@LineBreak
+  - @@RegularExpressionMatchString: Renvoie 
+  la chaîne correspondante
+@LineBreak
+  - @@RegularExpressionMatchPosition: Renvoie 
+  la position
+@LineBreak
+  - @@RegularExpressionMatchLength: Renvoie 
+  la longueur
+@LineBreak
+  - @@RegularExpressionGroup: Extrait la 
+  chaîne de caractères d'un groupe
+@LineBreak
+  - @@RegularExpressionGroupPosition: Renvoie 
+  la position d'un groupe
+@LineBreak
+  - @@RegularExpressionGroupLength: Renvoie 
+  la longueur d'un groupe
+@LineBreak
+  - @@RegularExpressionNamedGroup: Extrait 
+  la chaîne de caractères d'un groupe nommé
+@LineBreak
+  - @@RegularExpressionNamedGroupPosition: 
+  Renvoie la position d'un groupe nommé
+@LineBreak
+  - @@RegularExpressionNamedGroupLength: 
+  Renvoie la longueur d'un groupe nommé
+  
+@Example
+  Voir @@ExamineRegularExpression.
+  
+@SeeAlso
+  @@ExamineRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = RegularExpressionMatchString(#ExpressionReguliere)
+
+@Description
+  Renvoie la chaîne de caractères après un 
+  appel à @@ExamineRegularExpression et 
+  à @@NextRegularExpressionMatch.
+
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière. 
+
+@ReturnValue
+  La sous-chaîne de caractères qui correspond 
+  à l'expression régulière.
+  
+@Example
+  Voir @@ExamineRegularExpression.
+  
+@SeeAlso
+  @@ExamineRegularExpression, 
+  @@NextRegularExpressionMatch,
+  @@RegularExpressionMatchPosition, 
+  @@RegularExpressionMatchLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = RegularExpressionMatchPosition(#ExpressionReguliere)
+
+@Description
+  Renvoie la position dans la chaîne après un 
+  appel à @@ExamineRegularExpression et 
+  à @@NextRegularExpressionMatch.
+
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière. 
+
+@ReturnValue
+  La position à l'intérieur de la chaîne 
+  originale. @LineBreak
+  Le premier caractère de la chaîne est à 
+  la position 1.
+  
+@Example
+  Voir @@ExamineRegularExpression.
+  
+@SeeAlso
+  @@ExamineRegularExpression, 
+  @@NextRegularExpressionMatch,
+  @@RegularExpressionMatchString, 
+  @@RegularExpressionMatchLength
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = RegularExpressionMatchLength(#ExpressionReguliere)
+
+@Description
+  Renvoie la longueur en caractères après un 
+  appel à @@ExamineRegularExpression et à 
+  @@NextRegularExpressionMatch.
+
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière.
+
+@ReturnValue
+  La longueur de la correspondance en 
+  caractères. 
+  
+@Example
+  Voir @@ExamineRegularExpression.
+  
+@SeeAlso
+  @@ExamineRegularExpression, 
+  @@NextRegularExpressionMatch,
+  @@RegularExpressionMatchString, 
+  @@RegularExpressionMatchPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = RegularExpressionGroup(#ExpressionReguliere, Groupe)
+
+@Description
+  Extrait la chaîne de caractères d'un groupe 
+  après un appel à @@ExamineRegularExpression 
+  et à @@NextRegularExpressionMatch.
+
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière. 
+
+@Parameter "Groupe"
+  L'index du groupe à extraire. @LineBreak
+  Le premier groupe a pour index 1. 
+
+@ReturnValue
+  Renvoie la chaîne de caractères qui 
+  correspond au groupe d'expression regulière.
+
+@Remarks
+  Les Groupes dans une expression régulière 
+  sont définis en entourant une 
+  sous-expression avec des parenthèses "(" 
+  et ")". @LineBreak
+  Les groupes sont numérotés comme ils 
+  apparaissent dans l'expression régulière 
+  de gauche à droite. 
+  Le premier groupe a l'index 1.@LineBreak
+  La fonction @@CountRegularExpressionGroups 
+  peut être utilisée pour connaître le nombre 
+  de groupes dans une expression régulière.
+@LineBreak
+@LineBreak
+  Une variante est l'utilisation de la fonction 
+  @@RegularExpressionNamedGroup.  
+  
+@Example
+@Code
+  ; Cette expression correspond à une couleur (avec la valeur rouge, vert et bleu)
+  ; Les couleurs sont regroupées avec des () et la valeur de la couleur est extraite 
+  ; dans le cas d'une correspondance.
+  ;  
+  If CreateRegularExpression(0, "color=(red|green|blue)")
+    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+      While NextRegularExpressionMatch(0)
+        Debug "La couleur est " + RegularExpressionGroup(0, 1)
+      Wend
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionGroupPosition, @@RegularExpressionGroupLength,
+  @@RegularExpressionNamedGroup
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = RegularExpressionGroupPosition(#ExpressionReguliere, Groupe)
+
+@Description
+  Renvoie la position (dans la chaîne) du 
+  groupe après un appel à 
+  @@ExamineRegularExpression et à 
+  @@NextRegularExpressionMatch.
+
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière.
+
+@Parameter "Group"
+  L'index du groupe à extraire. @LineBreak
+  Le premier groupe a pour index 1. 
+
+@ReturnValue
+  Renvoie la position du caractère du groupe 
+  au sein de la chaîne correspondante (pas 
+  dans la chaîne d'entrée originale !).
+  @LineBreak
+  Ce premier caractère a la position 1.
+
+@Remarks
+  Les Groupes dans une expression régulière 
+  sont définis en entourant une 
+  sous-expression avec des parenthèses "(" 
+  et ")". @LineBreak
+  Les groupes sont numérotés comme ils 
+  apparaissent dans l'expression régulière 
+  de gauche à droite. 
+  Le premier groupe a l'index 1.@LineBreak
+  La fonction @@CountRegularExpressionGroups 
+  peut être utilisée pour connaître le 
+  nombre de groupes dans une expression 
+  régulière.
+@LineBreak
+@LineBreak
+  Une variante est l'utilisation de la fonction 
+  @@RegularExpressionNamedGroupPosition.
+  
+@SeeAlso
+  @@ExamineRegularExpression, 
+  @@NextRegularExpressionMatch,
+  @@RegularExpressionGroup, 
+  @@RegularExpressionGroupLength,
+  @@RegularExpressionNamedGroupPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = RegularExpressionGroupLength(#ExpressionReguliere, Groupe)
+
+@Description
+  Renvoie la longueur du groupe après un 
+  appel à @@ExamineRegularExpression et 
+  à @@NextRegularExpressionMatch.
+
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière. 
+
+@Parameter "Group"
+  L'index du groupe à extraire. @LineBreak
+  Le premier groupe a pour index 1. 
+
+@ReturnValue
+  Renvoie la position du caractère du groupe.
+
+@Remarks
+  Les Groupes dans une expression régulière 
+  sont définis en entourant une 
+  sous-expression avec 
+  des parenthèses "(" et ")". @LineBreak
+  Les groupes sont numérotés comme ils 
+  apparaissent dans l'expression régulière 
+  de gauche à droite. 
+  Le premier groupe a l'index 1.@LineBreak
+  La fonction @@CountRegularExpressionGroups 
+  peut être utilisée pour connaître le nombre 
+  de groupes dans une expression régulière.
+@LineBreak
+@LineBreak
+  Une variante est l'utilisation de la fonction 
+  @@RegularExpressionNamedGroupLength.
+  
+@SeeAlso
+  @@ExamineRegularExpression, 
+  @@NextRegularExpressionMatch,
+  @@RegularExpressionGroup, 
+  @@RegularExpressionGroupPosition,
+  @@RegularExpressionNamedGroupLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = RegularExpressionNamedGroup(#ExpressionReguliere, GroupeNom$)
+
+@Description
+  Extrait la chaîne trouvée par un groupe 
+  nommé après un appel à 
+  @@ExamineRegularExpression et à 
+  @@NextRegularExpressionMatch.
+
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière. 
+
+@Parameter "GroupeNom$"
+  Le nom du groupe à extraire. @LineBreak
+  Le nom du groupe est sensible à la casse.
+
+@ReturnValue
+  Renvoie la chaîne trouvée par le groupe 
+  d'expression régulière.
+
+@Remarks
+  Les groupes dans une expression régulière 
+  sont définis en entourant une 
+  sous-expression avec  des parenthèses "(" 
+  et ")". 
+  Les groupes sont accessibles soit par leur 
+  index en utilisant @@RegularExpressionGroup 
+  soit par leur nom en utilisant la syntaxe 
+  "(? <Nom>)" comme le montre l'exemple 
+  ci-dessous.
+  
+@Example
+@Code
+  ; Cette expression correspond à une couleur (avec la valeur rouge, vert et bleu)
+  ; Les couleurs sont regroupées avec des () et un nom "col" puis la valeur de la 
+  ; couleur est extraite  dans le cas d'une correspondance.
+  ;
+  If CreateRegularExpression(0, "color=(?<col>red|green|blue)")
+    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+      While NextRegularExpressionMatch(0)
+        Debug "La couleur est " + RegularExpressionNamedGroup(0, "col")
+      Wend
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@ExamineRegularExpression, 
+  @@NextRegularExpressionMatch,
+  @@RegularExpressionNamedGroupPosition, 
+  @@RegularExpressionNamedGroupLength,
+  @@RegularExpressionGroup
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = RegularExpressionNamedGroupPosition(#ExpressionReguliere, GroupeNom$)
+
+@Description
+  Renvoie la position (au sein de la chaîne 
+  correspondante en cours) du groupe nommé 
+  spécifié après un appel à 
+  @@ExamineRegularExpression et à 
+  @@NextRegularExpressionMatch.
+
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière. 
+
+@Parameter "GroupeNom$"
+  Le nom du groupe à extraire. @LineBreak
+  Le nom du groupe est sensible à la casse.
+
+@ReturnValue
+  Renvoie la position du caractère du groupe 
+  au sein de la chaîne correspondante (pas 
+  dans la chaîne d'entrée originale !).
+  @LineBreak
+  Le premier caractère de la correspondance a 
+  la position 1.
+
+@Remarks
+  Les groupes dans une expression régulière 
+  sont définis en entourant une 
+  sous-expression avec 
+  des parenthèses "(" et ")". 
+  Les groupes sont accessibles soit par leur 
+  index en utilisant @@RegularExpressionGroup 
+  soit par leur nom en utilisant la syntaxe 
+  "(? <Nom>)" comme le montre l'exemple 
+  @@RegularExpressionNamedGroup.
+  
+@SeeAlso
+  @@ExamineRegularExpression, 
+  @@NextRegularExpressionMatch,
+  @@RegularExpressionNamedGroup, 
+  @@RegularExpressionNamedGroupLength,
+  @@RegularExpressionGroupPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = RegularExpressionNamedGroupLength(#ExpressionReguliere, GroupeNom$)
+
+@Description
+  Renvoie la longueur au sein de la chaîne 
+  correspondante en cours) du groupe nommé 
+  spécifié après un appel à 
+  @@ExamineRegularExpression et à 
+  @@NextRegularExpressionMatch.
+
+@Parameter "#ExpressionReguliere"
+  L'identifiant de l'expression régulière. 
+
+@Parameter "GroupeNom$"
+  Le nom du groupe à extraire. @LineBreak
+  Le nom du groupe est sensible à la casse.
+
+@ReturnValue
+  Renvoie la position du caractère du groupe.
+
+@Remarks
+  Les groupes dans une expression régulière 
+  sont définis en entourant une 
+  sous-expression avec 
+  des parenthèses "(" et ")". 
+  Les groupes sont accessibles soit par leur 
+  index en utilisant @@RegularExpressionGroup 
+  soit par leur nom en utilisant la syntaxe 
+  "(? <Nom>)" comme le montre l'exemple 
+  @@RegularExpressionNamedGroup.
+  
+@SeeAlso
+  @@ExamineRegularExpression, 
+  @@NextRegularExpressionMatch,
+  @@RegularExpressionNamedGroup, 
+  @@RegularExpressionNamedGroupPosition,
+  @@RegularExpressionGroupLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = ReplaceRegularExpression(#ExpressionReguliere, Texte$, TexteRemplace$)
+
+@Description
+  Remplace une chaîne de caractères par 
+  une autre. 
+  
+@Parameter "#ExpressionReguliere"  
+  L'identifiant de l'expression régulière.
+  
+@Parameter "Texte$"
+  La chaîne de caractères à remplacer.
+  
+@Parameter "TexteRemplace$"  
+  La chaîne de caractères de remplacement.
+  
+@ReturnValue  
+  Renvoie la nouvelle chaîne de caractères.
+
+@Remarks  
+  Les références arrières (généralement 
+  décrites comme \ 1, \ 2, etc) ne sont 
+  pas prises en charge. 
+  @@ExtractRegularExpression combinée à 
+  @@ReplaceString devrait obtenir le 
+  comportement demandé.
+  
+@Example
+@Code
+  ; Cette expression repérera chaque mot de 3 lettres qui commence par une minuscule,
+  ; suivi du caractère 'b' et qui se termine par une majuscule. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Resultat$ = ReplaceRegularExpression(0, "abC ABc zbA abc", "---")
+    Debug Resultat$     ; Affichera "--- ABc --- abc"
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@CreateRegularExpression
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = RegularExpressionError()
+
+@Description
+  Renvoie sous forme textuelle (en anglais) 
+  l'erreur survenue lors du dernier appel 
+  à @@CreateRegularExpression.
+  
+@NoParameters
+
+@ReturnValue
+  Renvoie l'erreur.
+  
+@Example 
+@Code
+  ; Un crochet '[' supplémentaire a été ajouté, donc il y a une erreur de syntaxe dans
+  ; l'expression régulière
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[[A-Z][]")
+    Debug "Succès"
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS

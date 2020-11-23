@@ -1,0 +1,101 @@
+@Title NewMap
+
+@Syntax
+
+  @Keyword NewMap nom.<type>([Slots])      
+  
+@Description
+
+  @Keyword NewMap permet de déclarer une nouvelle map, aussi connue sous le nom de table de hachage ou dictionnaire. Elle permet un accès rapide à
+  un élément basé sur une clef. Chaque clef dans la map est unique, ce qui signifie qu'il n'est pas possible d'avoir deux éléments 
+  distincts avec la même clef. Il n'y a pas de limite sur le nombre d'élément que peut contenir une map. Une map peut être déclarée avec
+  n'importe quel type @ReferenceLink "Variables" "basic" ou @ReferenceLink "Structures" "structuré". 
+  Pour consulter toutes les commandes nécessaires à la manipulation des maps, voir la bibliothèque @LibraryLink "Map" "Map". @LineBreak
+  @LineBreak
+  Quand une nouvelle clef est utilisée lors d'une affectation, un nouvel élément est automatiquement ajouté à la map. Si un autre élément avec
+  la même clef était déjà présent dans la map, il sera remplacé par le nouveau. Une fois qu'un élément a été créé ou accédé, il devient l'
+  élément courant de la map, et les accès à cet élément peuvent ensuite s'effectuer sans avoir à spécifier de clef. C'est très utile
+  lors de l'utilisation d'une map structurée, car la recherche de l'élément ne sera plus nécéssaire pour accéder aux différents champs. @LineBreak
+  @LineBreak
+  Les maps sont toujours locales par défaut, donc pour accéder à partir d'une @ReferenceLink "Procedures" "procédure" à une map définie dans le
+  code source principal du programme, l'utilisation de @ReferenceLink "Global" "Global" ou @ReferenceLink "Shared" "Shared"
+  est requise.
+  Il est également possible de passer une map en paramètre d'une @ReferenceLink "Procedures" "procédure" à l'aide
+  du mot-clef @Keyword Map.
+  @LineBreak
+  @LineBreak
+  Utilisez la commande @ReferenceLink "others" "Swap" pour permuter rapidement un élément d'une map avec une variable, 
+  un élément d'un tableau ou un élément de la map.
+  @LineBreak
+  @LineBreak
+  Le paramètre optionnel 'Slots' défini le nombre de slots interne qui sera utilisé par la map pour effectuer le stockage des éléments. Plus il y a de slots
+  en interne, plus l'accès à un élément sera rapide, mais plus la consommation mémoire sera importante. C'est un compromis dépendant
+  du nombre d'éléments que la map contiendra au maximum et de la rapidité nécessaire à l'accès d'un élément. La valeur par défaut est 512. Ce paramètre
+  n'a pas d'influence sur le nombre d'éléments que la map peut contenir.
+  
+  @Example Map simple
+
+@Code
+  NewMap Pays.s()
+  
+  Pays("DE") = "Allemagne"
+  Pays("FR") = "France"
+  Pays("UK") = "United Kingdom"
+  
+  Debug Pays("FR")
+  
+  ForEach Pays()
+    Debug Pays()
+  Next
+@EndCode
+
+  @Example Map en paramètre d'une procédure
+
+@Code
+  NewMap Pays.s()
+  
+  Pays("DE") = "Allemagne"
+  Pays("FR") = "France"
+  Pays("UK") = "United Kingdom"
+
+  Procedure DebugMap(Map ParameterMap.s())
+
+    ParameterMap("US") = "United States"
+
+    ForEach ParameterMap()
+      Debug ParameterMap()
+    Next
+ 
+  EndProcedure
+
+  DebugMap(Pays())
+@EndCode
+
+
+  @Example Map structurée
+
+@Code
+  Structure Voiture
+    Poids.l
+    Vitesse.l
+    Prix.l
+  EndStructure
+
+  NewMap Voitures.Voiture()
+  
+  ; Ici, nous utilisons l'élément courant après l'insertion du nouvel élément
+  ;
+  Voitures("Ferrari F40")\Poids = 1000
+  Voitures()\Vitesse = 320
+  Voitures()\Prix = 500000
+  
+  Voitures("Lamborghini Gallardo")\Poids = 1200
+  Voitures()\Vitesse = 340
+  Voitures()\Prix = 700000
+
+  ForEach Voitures()
+    Debug "Nom de la Voiture: "+MapKey(Voitures())
+    Debug "Poids: "+Str(Voitures()\Poids)
+  Next
+ 
+@EndCode

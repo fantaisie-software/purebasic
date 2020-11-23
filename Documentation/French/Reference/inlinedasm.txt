@@ -1,0 +1,166 @@
+@Title L'assembleur en ligne x86 
+
+  PureBasic permet d'inclure toute commande 
+  assembleur x86 (y compris les instructions 
+  MMX et FPU) directement dans le code source 
+  comme dans un vrai source assembleur. Vous 
+  pouvez également utiliser directement les 
+  @ReferenceLink "variables" "variables" ou 
+  @ReferenceLink "memory" "pointeurs" avec 
+  les instructions assembleur et pouvez 
+  intégrer plusieurs commandes assembleur 
+  sur une même ligne. 
+@LineBreak
+@LineBreak  
+  Sous Windows et Linux, PureBasic utilise @Bold "fasm" (
+  @InternetLink "http://flatassembler.net/" "http://flatassembler.net"), 
+  alors pour plus d'information à propose 
+  de la syntaxe, lire le guide fasm. @LineBreak
+  Sous OS X, PureBasic utilise @Bold "yasm" (
+  @InternetLink "http://yasm.tortall.net/" "http://yasm.tortall.net/"), 
+  alors pour plus d'information à propose de 
+  la syntaxe, lire le guide yasm. 
+@LineBreak
+@LineBreak
+  Pour utiliser l'assembleur en ligne, utiliser 
+  les directives du compilateur 
+  @ReferenceLink "CompilerDirectives" "EnableASM" 
+  ou @ReferenceLink "CompilerDirectives" "DisableASM". 
+@LineBreak
+@LineBreak
+  Il est possible d'activer la coloration syntaxique 
+  ASM dans l'IDE avec "Activer la coloration des 
+  mots clés assembleur" 
+  @ReferenceLink "ide_compiler" "compiler option". 
+@LineBreak
+   
+@Section Règles
+
+  Vous devez respecter plusieurs règles précises 
+  pour inclure de l'assembleur dans du code PureBasic: 
+@LineBreak
+@LineBreak
+  - Les @ReferenceLink "variables" "variables" et les @ReferenceLink "memory" "pointeurs" 
+  doivent être déclarés @Bold préalablement à leur utilisation dans un contexte assembleur. @LineBreak
+  - Concernant les étiquettes (labels): Les labels référencés en assembleur sont toujours en 
+  minuscule. Par exemple, le label 'ETIquette:' sera transformé en 'l_etiquette' dans le code 
+  assembleur.@LineBreak
+  Lorsque vous faites référence à un @ReferenceLink "general_rules" "label purebasic" dans 
+  le corps du programme (en dehors des procedures et des modules) avec des fonctions 
+  assembleurs, vous devez précéder son nom par un L minuscule et d'un caractère de 
+  soulignement comme ceci @Bold "'l_'". @LineBreak  
+  Si le label est défini dans une @ReferenceLink "procedures" "procédure", alors son 
+  préfixe est @Bold "'ll_nomprocedure_'", en minuscules (ll comme local label) mais il n'est 
+  accessible qu'à l'intérieur de la procédure.@LineBreak
+  Pour accéder à un label dans un @ReferenceLink "module" "module" avec des fonctions 
+ assembleurs, vous devez ajouter devant le label le préfixe @Bold "'nomdumodule.l_nomprocedure_'" écrit 
+ tout en minuscule.@LineBreak
+ Et enfin un label défini dans une procédure elle-même dans un module s'écrira @Bold "'nomdumodule.ll_nomprocedure_'"
+  - Pour info, les listes commencent par 't_nomlist', les map par 'm_nommap' et les tableaux 
+  par 'a_nomtableau' est toujours en minuscule.
+  
+@Example
+@Code
+  DeclareModule MonModule
+    LabelDeclareModule: ;Son nom assembleur est monmodule.l_labeldeclaremodule:
+    Declare Init()
+  EndDeclareModule
+
+  Module MonModule
+    Procedure Init() 
+      LabelModuleProcedure: ; Son nom assembleur est monmodule.ll_init_labelmoduleprocedure: 
+      Debug "InitFerrari()"  
+    EndProcedure
+  
+    LabelModule1: ;Son nom assembleur est monmodule.l_labelmodule1:
+  EndModule
+
+   Procedure Test (*Pointer, Variable)
+    TokiSTART:  ;Son nom assembleur est ll_test_tokistart:
+  
+    ! MOV dword [p.p_Pointer], 20
+    ! MOV dword [p.v_Variable], 30
+    Debug *Pointer  ;Son nom assembleur est p.p_Pointer
+    Debug Variable  ;Son nom assembleur est p.v_Variable
+  EndProcedure
+  
+  VAR=1                       ;Son nom assembleur est v_VAR
+  *Pointt=AllocateMemory(10)  ;Son nom assembleur est p_Pointt
+  
+  MonModule::Init()
+  Test(0,0) 
+  
+  Label1: ;Son nom assembleur est l_label1:  
+  !jmp l_labelend ; Une instruction en assembler doit suivre les règles ci-dessus. Ici c'est l_nomelabel
+  ;...
+  LabelEnd: ;Son nom assembleur est l_labelend:
+@EndCode
+
+  - Les erreurs dans une section asm ne sont pas reportées par PureBasic mais par Fasm. Vérifiez 
+  votre code si une telle erreur survient. @LineBreak
+  - Avec l'assembleur en ligne activé, vous ne pouvez pas utiliser les mots clés ASM pour les 
+  étiquettes (label). @LineBreak
+  - @Bold "Sur les processeurs x86, les registres volatiles sont: eax, ecx, edx, xmm0, xmm1, xmm2 et xmm3." 
+  Tous les autres doivent être préservés. @LineBreak
+  - @Bold "Sur les processeurs x64, les registres volatiles sont: rax, rcx, rdx, r8, r9, xmm0, xmm1, xmm2 et xmm3." 
+  Tous les autres doivent être préservés.
+  @LineBreak
+  - Windows: un fichier aide-ASM peut être téléchargé 
+  @InternetLink "http://www.purebasic.com/download/AsmHelp.zip" 
+  ici. Si vous déplacez le fichier 'ASM.HLP' dans le dossier 'Help/' de PureBasic, vous aurez accès à 
+  l'aide sur les mots clés assembleur en appuyant sur F1. 
+  (Note: Ne fonctionne que si l'option 'assembleur en ligne' est activé). 
+@LineBreak
+@LineBreak
+  Quand on utilise l'assembleur dans une 
+  @ReferenceLink "procedures" "procédure", 
+  il est utile de connaître les points suivants: 
+  @LineBreak
+  @LineBreak
+  - Pour renvoyer directement la valeur du 
+  registre 'eax' (ou 'rax' sur x64)comme valeur 
+  de retour, il suffit d'utiliser 
+  @Keyword "ProcedureReturn", sans paramètre. 
+  Le contenu du registre 'eax' (ou 'rax' sur x64) 
+  restera inchangé et sera utilisé comme valeur 
+  de retour.
+
+@Example
+@Code
+  Procedure.l MonTest()
+    !MOV eax, 45
+    ProcedureReturn  ; La valeur de retour sera 45
+  EndProcedure
+  Debug MonTest() 
+@EndCode
+  
+  - Les variables locales en PureBasic sont directement 
+  indexées par rapport au registre de la @Bold pile (ESP) 
+  ce qui implique qu'un changement de la valeur de 
+  ce registre par une instruction assembleur (tel 
+  que PUSH, POP etc..) la référence vers la variable 
+  ne sera plus correcte.
+@LineBreak  
+@LineBreak
+  - Il est possible de passer directement une ligne 
+  complète à l'assembleur sans aucune modification 
+  en utilisant le caractère @Bold "'!'" en début de ligne. 
+  Ceci permet d'avoir un accès total aux fonctionnalités 
+  de l'assembleur. Pour faciliter l'accès aux variables 
+  locales, une notation a été mise en place: 
+  @Bold "'p.v_NomVariable'" pour une variable standard et 
+  @Bold "'p.p_NomPointeur'" pour un pointeur.
+    
+@Example
+@Code
+  Procedure Test(*Pointer, Variable)
+    ! MOV dword [p.p_Pointer], 20
+    ! MOV dword [p.v_Variable], 30
+    Debug *Pointer
+    Debug Variable
+  EndProcedure
+  
+  Test(0, 0)
+@EndCode 
+
+@ExampleFile All AsmInline.pb

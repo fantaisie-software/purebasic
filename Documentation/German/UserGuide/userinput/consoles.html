@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Interagieren mit dem Benutzer - PureBasic Benutzerhandbuch</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Interagieren mit dem Benutzer: Konsolen</h1>
+<dfn>Konsole (englisch: Console)</dfn> ist der Name der Zeichenmodus-Anzeige,
+die wir für die Benutzerinteraktion in diesem ersten Teil des Benutzerhandbuchs
+verwenden. Sie werden vor dem Verwenden von PureBasic wahrscheinlich bereits
+Konsolen gesehen haben, da sie weithin verwendet werden, um einem Benutzer eine
+"Befehls-Eingabeaufforderung" anzubieten, welche den Anwendern erlaubt, Programme
+und Skripte durch Eingabe ihres Namens anstelle durch eine graphische Umgebung zu starten.
+
+<p>Obwohl Konsolen nur Zeichenmodus-Anzeigen (das heißt, jedes in einem Konsolenfenster
+angezeigte Element wird durch ein Zeichen dargestellt, anstatt pixelgenaue Grafiken zeichnen zu
+können) sind, ist es möglich, die Anzeige durch Verwenden von Farben und Platzieren des
+Texts zu verbessern. Sie können normalerweise das Aussehen des Konsolenfensters selbst
+ändern. Sie können sogar einige primitive Grafiken anzeigen, die den "erweiterten"
+ASCII-Zeichensatz (Zeichen mit Werten über 127) verwenden, obwohl das Aussehen jedes
+dieser Zeichen sich zwischen den Betriebssystemen unterscheiden kann.
+
+<p><h2>Compiler Einstellungen</h2>
+Bevor wir noch weiter in der Verwendung von Konsolen gehen, müssen wir uns die Einstellungen
+unseres Compilers ansehen. Obwohl die Programme, die wir bisher geschrieben haben, so weit
+ohne Probleme funktioniert haben, sollten wir die Compiler-Option für das Ausgabeformat auf
+eine Konsolen-Applikation setzen. Dies macht unsere Programme zu echten konsolenbasierten
+Programmen. Um diese Option zu setzen, sehen Sie im Eintrag "Compiler Menü -> Compiler
+Optionen" nach. Dort finden Sie ein Aufklapp-Menü zur Auswahl des "Executable-Formats";
+stellen Sie diese auf "Console". Sie sollten daran denken, diese Einstellung für jedes neue
+Programm (das konsolenbasiert ist) zu überprüfen, das Sie zu schreiben beginnen.
+
+<div class="important">
+<p><h2>Öffnen einer  Konsole</h2>
+Wenn Sie einige der Zeichenmodus-Anzeige- oder Eingabe-Befehle nutzen möchten, dann
+<em>müssen</em> Sie vorher eine Konsole öffnen. Sie haben möglicherweise schon
+gesehen, was geschieht, wenn Sie nicht zuerst eine Konsole öffnen (während Sie mit den
+vorherigen Beispielen und Übungen gearbeitet haben): entweder der Debugger warnt Sie,
+dass keine Konsole vorhanden ist, oder Ihr Programm wird abstürzen!
+
+<p>Sie können nur ein Konsolenfenster zur gleichen Zeit öffnen.</div>
+
+<p>Um ein Konsolenfenster zu öffnen, verwenden Sie den Befehl <span class="code">OpenConsole()</span>.
+Dieser Befehl hat keine Parameter und gibt einen Wert zurück, der anzeigt, ob es möglich
+war, das Konsolenfenster erfolgreich zu öffnen oder nicht. Bis jetzt haben wir den von
+OpenConsole zurückgegebenen Wert ignoriert, weil wir bisher nicht die PureBasic
+Schlüsselwörter besprochen haben, die zum Handhaben dieses Werts benötigt werden.
+Diese werden im nächsten Kapitel beschrieben. 
+
+<p><h2>Schließen der Konsole</h2>
+Um ein Konsolenfenster zu schließen, verwenden Sie den Befehl <span class="code">CloseConsole()</span>.
+Dieser hat keine Parameter und gibt auch keinen Wert zurück. PureBasic schließt
+automatisch jede Konsole, die Sie geöffnet haben, am Programmende. Dieser Befehl
+kann jedoch nützlich sein, wenn Sie nur für eine kurze Zeit eine Konsole öffnen wollen,
+während Sie einige Berechnungen durchführen. Es ist besonders wichtig, daran zu denken,
+Konsolen erst zu schließen, bevor Sie versuchen, eine weitere zu öffnen, da Sie zur
+gleichen Zeit nur ein Konsolfenster öffnen können.
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="introduction.html">Einführung</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="print.html">Darstellen von Text</a></td>
+</tr>
+</table>
+
+</body>
+</html>

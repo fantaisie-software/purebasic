@@ -1,0 +1,355 @@
+;
+;     Keyboard library documentation - MultiOS version !
+;
+;      (c) 2015 - Fantaisie Software
+;
+
+@Library Keyboard
+
+@Overview
+  PureBasic bietet einfachen und schnellen Zugriff auf die Tastatur. Diese Möglichkeit
+  sollte nur in Applikationen genutzt werden, die einen extrem schnellen Zugriff
+  auf die Tastatur im "Roh-Format" (raw) benötigen, wie z.B. Spielen.
+    
+@OS Windows
+  Es wird die DirectX Technologie benutzt.
+@LineBreak
+@LineBreak
+  Diese Library wurde für Spiele und Multimedia-Applikationen geschaffen, welche
+  schnellen - auf DirectX basierenden - Tastaturzugriff benötigen. Für normale
+  Windows-Applikationen ist es besser, den @@AddKeyboardShortcut Befehl zu verwenden.
+
+@CommandList
+
+@ExampleFile All Keyboard.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = InitKeyboard()
+
+@Description
+  Initialisiert die Programmumgebung zur späteren Benutzung der Keyboard-Befehle.
+  Diese Funktion muss vor allen anderen Befehlen aus dieser Bibliothek aufgerufen werden.
+
+@NoParameters
+
+@ReturnValue
+  Ungleich Null, wenn der Keyboard-Zugriff initialisiert werden konnte, andernfalls Null.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ExamineKeyboard()  
+
+@Description
+  Aktualisiert den Tastatur-Status. Dieser Befehl muss vor der Verwendung von @@KeyboardInkey, 
+  @@KeyboardPushed oder @@KeyboardReleased aufgerufen werden.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Zur Initialisierung der Tastaturabfrage muss zu Beginn des Programms 
+  @@InitKeyboard aufgerufen worden sein.
+
+@SeeAlso
+  @@KeyboardInkey, @@KeyboardPushed @@KeyboardReleased.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = KeyboardInkey()
+
+@Description
+  Gibt das zuletzt eingegebene Zeichen zurück - sehr nützlich, wenn effiziente Tastatureingabe
+  für ein Spiel (z.B. Name in einem HighScore, in einer Game-Konsole, etc.) erforderlich ist.
+
+@NoParameters
+
+@ReturnValue
+  Das letzte eingegebene Zeichen.
+
+@Remarks
+  Der Befehl @@ExamineKeyboard muss vor dieser
+  Funktion aufgerufen werden, um den Tastatur-Status zu aktualisieren. 
+
+@Example
+@Code
+  If InitSprite() And InitKeyboard() And OpenScreen(800, 600, 32, "")
+    Repeat
+      FlipBuffers()
+      ClearScreen(RGB(0, 0, 0))
+      
+      ExamineKeyboard()
+      
+      ; Wenn wir die 'Backspace'-Taste drücken, löschen wir das letzte Zeichen
+      ;
+      If KeyboardReleased(#PB_Key_Back)  
+        FullText$ = Left(FullText$, Len(FullText$)-1)
+      Else
+        result$=KeyboardInkey()
+        If FindString("1234567890 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", result$) ; oder die von Ihnen ausgewählten gültigen Zeichen
+          FullText$ + result$
+        EndIf ; den neuen Text zum aktuellen (wenn vorhanden) hinzufügen
+      EndIf
+
+      ; Ergebnis darstellen
+      ;
+      If StartDrawing(ScreenOutput())
+          DrawingMode(1)
+          FrontColor(RGB(128, 255, 0))
+          DrawText(20, 20, "Gib einfach etwas Text ein...:")
+          DrawText(20, 40, FullText$)
+        StopDrawing()
+      EndIf
+    Until KeyboardPushed(#PB_Key_Escape)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineKeyboard
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function KeyboardMode(Flags)
+
+@Description
+  Ändert das aktuelle Verhalten der Tastaturabfragen. Dieser Befehl beeinflusst die Befehle
+  @@KeyboardPushed und @@KeyboardReleased. 
+
+@Parameter "Flags" 
+  Dies kann eine Kombination (mittels des '|' Operators) der folgenden Werte sein:
+@FixedFont
+  @#PB_Keyboard_Qwerty         : Die Tastaturabfrage ignoriert die Standard-Tastasturbelegung und verwendet immer das QWERTY-Schema (Standard-Verhaltensweise). 
+  @#PB_Keyboard_International  : Die Tastaturabfrage verwendet die Standard-Tastasturbelegung zur Abbildung ("mappen") der Tasten (kann nützlich bei Tastaturen 
+                                sein, die nicht dem QWERTY-Schema entsprechen, wie z.B. einer üblichen deutschen Tastatur).
+  @#PB_Keyboard_AllowSystemKeys: Die 'OS' System-Tasten sind erlaubt (wie Win+R etc.). Dies kann jedoch zu Fehlbedienungen führen, wenn der Anwender diese im @Link "Screen/OpenScreen" "Fullscreen-Modus"
+                                versehentlich drückt.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@KeyboardPushed, @@KeyboardReleased.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = KeyboardPushed(KeyID) 
+
+@Description
+  Überprüft, ob die angegebene Taste gedrückt wird. Eine beliebige Anzahl an Tasten kann
+  zur gleichen Zeit gedrückt werden.
+@LineBreak
+@LineBreak
+  @@ExamineKeyboard muss vor dieser Funktion aufgerufen werden, um den Tastatur-Status zu
+  aktualisieren. Das Verhalten der Tastaturabfrage kann mittels @@KeyboardMode geändert werden.
+@LineBreak
+@LineBreak
+  Wenn Sie überprüfen möchten, ob eine Taste gedrückt und wieder losgelassen wurde, dann 
+  verwenden Sie den Befehl @@KeyboardReleased.
+
+@Parameter "KeyID"
+  Der Bezeichner (ID) der zu überprüfenden Taste.
+  Liste gültiger 'KeyID' Konstanten:
+@FixedFont
+    @#PB_Key_All   ; Alle Tasten werden überprüft. Sehr nützlich für beliebige Tastendrücke.
+  
+    @#PB_Key_1
+    @#PB_Key_2
+    @#PB_Key_3
+    @#PB_Key_4
+    @#PB_Key_5
+    @#PB_Key_6
+    @#PB_Key_7
+    @#PB_Key_8
+    @#PB_Key_9
+    @#PB_Key_0
+  
+    @#PB_Key_A     ; Buchstaben-Tasten
+    @#PB_Key_B
+    @#PB_Key_C
+    @#PB_Key_D
+    @#PB_Key_E
+    @#PB_Key_F
+    @#PB_Key_G
+    @#PB_Key_H
+    @#PB_Key_I
+    @#PB_Key_J
+    @#PB_Key_K
+    @#PB_Key_L
+    @#PB_Key_M
+    @#PB_Key_N
+    @#PB_Key_O
+    @#PB_Key_P
+    @#PB_Key_Q
+    @#PB_Key_R
+    @#PB_Key_S
+    @#PB_Key_T
+    @#PB_Key_U
+    @#PB_Key_V
+    @#PB_Key_W
+    @#PB_Key_X
+    @#PB_Key_Y
+    @#PB_Key_Z
+  
+    @#PB_Key_Escape
+    @#PB_Key_Minus
+    @#PB_Key_Equals
+    @#PB_Key_Back
+    @#PB_Key_Tab
+    @#PB_Key_LeftBracket
+    @#PB_Key_RightBracket
+    @#PB_Key_Return
+    @#PB_Key_LeftControl
+    @#PB_Key_SemiColon
+    @#PB_Key_Apostrophe
+    @#PB_Key_Grave
+    @#PB_Key_LeftShift
+    @#PB_Key_BackSlash
+    @#PB_Key_Comma
+    @#PB_Key_Period
+    @#PB_Key_Slash
+    @#PB_Key_RightShift
+    @#PB_Key_Multiply
+    @#PB_Key_LeftAlt
+    @#PB_Key_Space
+    @#PB_Key_Capital
+    @#PB_Key_F1              ; Funktions-Tasten
+    @#PB_Key_F2
+    @#PB_Key_F3
+    @#PB_Key_F4
+    @#PB_Key_F5
+    @#PB_Key_F6
+    @#PB_Key_F7
+    @#PB_Key_F8
+    @#PB_Key_F9
+    @#PB_Key_F10
+    @#PB_Key_F11
+    @#PB_Key_F12
+    @#PB_Key_NumLock
+    @#PB_Key_Scroll
+    @#PB_Key_Pad0
+    @#PB_Key_Pad1
+    @#PB_Key_Pad2
+    @#PB_Key_Pad3
+    @#PB_Key_Pad4
+    @#PB_Key_Pad5
+    @#PB_Key_Pad6
+    @#PB_Key_Pad7
+    @#PB_Key_Pad8
+    @#PB_Key_Pad9
+    @#PB_Key_Add
+    @#PB_Key_Subtract
+    @#PB_Key_Decimal
+    @#PB_Key_PadEnter
+    @#PB_Key_RightControl
+    @#PB_Key_PadComma
+    @#PB_Key_Divide
+    @#PB_Key_RightAlt
+    @#PB_Key_Pause
+    @#PB_Key_Home
+    @#PB_Key_Up              ; Cursor-Tasten      
+    @#PB_Key_Down
+    @#PB_Key_Left
+    @#PB_Key_Right
+    @#PB_Key_End
+    @#PB_Key_PageUp
+    @#PB_Key_PageDown
+    @#PB_Key_Insert
+    @#PB_Key_Delete
+@EndFixedFont
+
+@ReturnValue
+  Ungleich Null, wenn die angegebene Taste gedrückt wird, andernsfall Null.
+
+@Example
+@Code
+  If InitSprite() And InitKeyboard() And OpenScreen(800,600,16,"")
+    Repeat
+      FlipBuffers()
+      
+      If StartDrawing(ScreenOutput())
+        DrawText(0, 0, "ESC zum Beenden drücken")
+        StopDrawing()
+      EndIf
+      
+      ExamineKeyboard()
+      If KeyboardPushed(#PB_Key_Escape)   ; drücken Sie Esc zum Beenden
+        End
+      EndIf
+    ForEver
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineKeyboard, @@KeyboardReleased
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = KeyboardReleased(KeyID)
+
+@Description
+  Überprüft, ob die angegebene Taste gedrückt und wieder losgelassen wurde.
+  Dieser Befehl ist nützlich für die Überprüfung von "Umschalt-Tasten", wie z.B. einer
+  "Pause"-Taste in einem Spiel (einmal wird das Spiel angehalten, beim nächsten Mal wird
+  es fortgesetzt). 
+@LineBreak
+@LineBreak
+  @@ExamineKeyboard muss vor dieser Funktion aufgerufen werden, um den Tastatur-Status
+  zu aktualisieren. Das Verhalten der Tastaturabfrage kann mittels @@KeyboardMode geändert werden.
+
+@Parameter "KeyID"
+  Der Bezeichner (ID) der zu überprüfenden Taste.
+  Für eine komplette Liste der gültigen 'KeyID' Werte siehe @@KeyboardPushed.
+  
+@ReturnValue
+  Ungleich Null, wenn die angegebene Taste gedrückt und wieder losgelassen wurde,
+  andernfalls Null.
+
+@Example
+@Code
+  If InitSprite() And InitKeyboard() And OpenScreen(800,600,16,"")
+    Paused = #False
+    Repeat
+      FlipBuffers()
+      
+      If StartDrawing(ScreenOutput())
+        
+        ExamineKeyboard()
+        If KeyboardReleased(#PB_Key_P)
+          If Paused = #False
+            Paused = #True
+          Else
+            Paused = #False
+          EndIf
+        EndIf
+        
+        DrawingMode(0)
+
+        If Paused = #False
+          DrawText(20, 20, "Programm läuft...     ")
+        Else
+          DrawText(20, 20, "Programm angehalten...")
+        EndIf
+
+        StopDrawing()
+      EndIf
+    Until KeyboardPushed(#PB_Key_Escape)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineKeyboard, @@KeyboardPushed
+
+@SupportedOS

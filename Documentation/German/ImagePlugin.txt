@@ -1,0 +1,252 @@
+;
+;     ImagePlugin library documentation
+;
+;      (c) 2017 - Fantaisie Software
+;
+
+@Library ImagePlugin
+
+@Overview
+  PureBasic unterstützt externe Bildformate durch die Verwendung eines dynamischen nativen Plugin-Systems.
+  Durch die Verwendung dieses Systems wird nur der benötigte Encoder oder Decoder zum endgültigen Executable
+  hinzugefügt, was dadurch die Größe des finalen Programms enorm vermindert. 
+  @LineBreak
+  @LineBreak
+  Wenn zum Beispiel die Anwendung nur den JPEG-Decoder benötigt, wird auch nur der zum JPEG-Decoder 
+  gehörende Code verwendet.
+  @LineBreak
+  @LineBreak
+  Ein weiteres nettes Feature ist: wenn mehrere Decoder verwendet werden, werden diese Decoder automatisch
+  erkannt, durch die Verwendung der automatischen Bildformat-Erkennung.
+  @LineBreak
+  @LineBreak
+  Die folgenden Befehle unterstützen Image-Plugins: 
+  @LineBreak
+  @@LoadImage, @@CatchImage, @@SaveImage,
+  @@LoadSprite, @@CatchSprite und @@SaveSprite.
+
+@CommandList
+
+@ExampleFile All ImagePlugin.pb
+@ExampleFile All ImagePlugin_GIF.pb
+@ExampleFile All MDI_ImageViewer.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseGIFImageDecoder()
+
+@Description
+  Aktiviert die Unterstützung für GIF Bilder bei den @@CatchImage, @@LoadImage,
+  @@CatchSprite und @@LoadSprite Funktionen.
+  Nur @@LoadImage und @@CatchImage unterstützen "Multi-Frame" (aus mehreren Einzelbildern
+  bestehende) GIF-Bilder (dies resultiert in einem Multi-Frame Bild).
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Alle Formate werden unterstützt, einschließlich des progressiven und des Interlaced-Formats.
+
+@SeeAlso 
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEGImageDecoder()
+
+@Description
+  Aktiviert die Unterstützung für JPEG (Join Picture Expert Group) Bilder bei den @@CatchImage, @@LoadImage,
+  @@CatchSprite und @@LoadSprite Funktionen.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Alle Formate werden unterstützt, einschließlich dem progressiven Format.
+@LineBreak
+@LineBreak
+  Das JPEG-Format verwendet eine destruktive (verlustbehaftete) Kompression, was bedeutet,
+  dass ein Bild beim Komprimieren einen bestimmten Teil seiner Originalinformationen verliert. Dieser
+  Kompressions-Algorithmus ist einer der besten verfügbaren, welcher die Bildgröße
+  - ohne eine Menge von sichtbaren Artefakten zu produzieren - dramatisch vermindern kann.
+
+@SeeAlso 
+  @@UseJPEGImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEGImageEncoder()
+
+@Description
+  Aktiviert die Unterstützung für JPEG (Join Picture Expert Group) Bilder bei den @@SaveImage 
+  und @@SaveSprite Funktionen.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Das JPEG-Format verwendet eine destruktive (verlustbehaftete) Kompression, was bedeutet,
+  dass ein Bild beim Komprimieren einen bestimmten Teil seiner Originalinformationen verliert. Dieser
+  Kompressions-Algorithmus ist einer der besten verfügbaren, welcher die Bildgröße
+  - ohne eine Menge von sichtbaren Artefakten zu produzieren - dramatisch vermindern kann.
+
+@SeeAlso 
+  @@UseJPEGImageDecoder,
+  @@SaveImage, @@SaveSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEG2000ImageDecoder()
+
+@Description
+  Aktiviert die Unterstützung für JPEG 2000 Bilder bei den @@CatchImage, @@LoadImage,
+  @@CatchSprite und @@LoadSprite Funktionen.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Das JPEG 2000-Format verwendet eine destruktive (verlustbehaftete) Kompression, was bedeutet,
+  dass ein Bild beim Komprimieren einen bestimmten Teil seiner Originalinformationen verliert. Dieser
+  Kompressions-Algorithmus ist einer der besten verfügbaren, welcher die Bildgröße
+  - ohne eine Menge von sichtbaren Artefakten zu produzieren - dramatisch vermindern kann.
+
+@SeeAlso 
+  @@UseJPEG2000ImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEG2000ImageEncoder()
+
+@Description
+  Aktiviert die Unterstützung für JPEG 2000 Bilder bei den @@SaveImage und 
+  @@SaveSprite Funktionen.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Das JPEG 2000-Format verwendet eine destruktive (verlustbehaftete) Kompression, was bedeutet,
+  dass ein Bild beim Komprimieren einen bestimmten Teil seiner Originalinformationen verliert. Dieser
+  Kompressions-Algorithmus ist einer der besten verfügbaren, welcher die Bildgröße
+  - ohne eine Menge von sichtbaren Artefakten zu produzieren - dramatisch vermindern kann.
+@LineBreak
+@LineBreak
+  Dieser Encoder hat die Fähigkeit, Bilder mit 32 Bit Alpha-Kanal zu kodieren.
+
+@SeeAlso 
+  @@UseJPEG2000ImageDecoder,
+  @@SaveImage, @@SaveSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UsePNGImageDecoder()
+
+@Description
+  Aktiviert die Unterstützung für PNG (Portable Network Graphic) Bilder bei den @@CatchImage, @@LoadImage,
+  @@CatchSprite und @@LoadSprite Funktionen. 
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Alle Formate werden unterstützt, einschließlich dem progressiven Format. 
+@LineBreak
+@LineBreak
+  Das PNG-Format ist bei Web-Designern gut bekannt, da es inzwischen eines der
+  gängigen Formate ist. Das PNG-Format verwendet eine nicht-destruktive (verlustfreie) Kompression, was bedeutet, dass das Bild beim
+  Komprimieren keine Informationen verliert. Dies ist aktuell der beste verlustfreie Kompressionsalgorithmus.
+
+@SeeAlso 
+  @@UsePNGImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UsePNGImageEncoder()
+
+@Description
+  Aktiviert die Unterstützung für PNG (Portable Network Graphic) Bilder bei den @@SaveImage
+  und @@SaveSprite Funktionen.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Das PNG-Format ist bei Web-Designern gut bekannt, da es inzwischen eines der
+  gängigen Formate ist. Das PNG-Format verwendet eine nicht-destruktive (verlustfreie) Kompression, was bedeutet, dass das Bild beim
+  Komprimieren keine Informationen verliert. Dies ist aktuell der beste verlustfreie Kompressionsalgorithmus.
+@LineBreak
+@LineBreak
+  Dieser Encoder hat die Fähigkeit, Bilder mit 32 Bit Alpha-Kanal zu kodieren.
+
+@SeeAlso 
+  @@UsePNGImageDecoder,
+  @@SaveImage, @@SaveSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseTGAImageDecoder()
+
+@Description
+  Aktiviert die Unterstützung für TGA (Targa) Bilder bei den @@CatchImage, @@LoadImage,
+  @@CatchSprite und @@LoadSprite Funktionen.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Das TGA-Format verwendet eine nicht-destruktive (verlustfreie) Kompression, was bedeutet, dass das Bild beim
+  Komprimieren keine Informationen verliert. Die TGA-Bildgröße ist gewöhnlich recht groß, da die Kompression
+  (Run Length Encoding - RLE) sehr gering ausfällt. Die TGA Alpha-Kanal Information (wenn vorhanden) wird 
+  derzeit beim Verwenden dieses Formats ignoriert.
+
+@SeeAlso 
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseTIFFImageDecoder()
+
+@Description
+  Aktiviert die Unterstützung für TIFF Bilder bei den @@CatchImage, @@LoadImage,
+  @@CatchSprite und @@LoadSprite Funktionen.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Das TIFF-Format ist sehr komplex und unterstützt intern mehrere Unter-Kompressionsformate wie JPEG, LZW, etc.
+  Alle Formen des TIFF-Formats werden unterstützt. Die Verwendung dieses Formats resultiert in Programmen, 
+  die ziemlich groß sind.
+
+@SeeAlso 
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS

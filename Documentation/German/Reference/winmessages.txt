@@ -1,0 +1,62 @@
+@Title Windows Message Handling
+
+Die Nachrichten (englisch: "Messages") für Ihr Programm werden von Windows in eine Warteschlange 
+(Queue) geschickt, die erst abgearbeitet wird, wenn Sie dies wollen. Windows sendet tausende 
+Nachrichten an Ihr Programm, ohne dass Sie dies direkt merken. @LineBreak
+@LineBreak
+Wenn Sie z.B. den Status eines Gadgets ändern (egal ob Sie einen neuen Eintrag hinzufügen oder 
+das Image eines ImageGadget's ändern), wird eine Nachricht an die Warteschlange Ihres Programmes versendet. @LineBreak
+@LineBreak
+In PureBasic gibt es zwei Möglichkeiten, die Windows-Nachrichten zu empfangen und zu verarbeiten: 
+@@WaitWindowEvent und @@WindowEvent.
+Der Unterschied besteht darin, dass WaitWindowEvent() wartet, 
+bis eine Nachricht ankommt und WindowEvent() auch so weiterarbeitet. Bearbeitet werden die Nachrichten 
+in der Warteschlange jedoch erst, nachdem Sie WindowEvent() bzw. WaitWindowEvent() aufgerufen haben. @LineBreak
+@LineBreak
+@Bold "Besonderheiten von WindowEvent():" @LineBreak
+@LineBreak
+Der Befehl WindowEvent() wartet nicht, bis eine Message eintrifft, sondern überprüft nur, ob eine in der 
+Queue ist. Falls ja, wird die Message abgearbeitet und WindowEvent() liefert die Nummer der Message zurück. 
+Wenn keine Message ansteht, so wird NULL (0) zurückgegeben. @LineBreak
+@LineBreak
+Die Zeile 
+
+@Code
+  While WindowEvent() : Wend
+@EndCode  
+
+bewirkt somit, dass WindowEvent() solange aufgerufen wird, bis es 0 zurückgibt, d.h. bis alle Messages 
+aus der Warteschlange abgearbeitet sind. @LineBreak
+@LineBreak
+Es reicht NICHT, wenn man nach einem @@SetGadgetState ein simples 'WindowEvent()' macht, um diese 1 
+Message abzuarbeiten. Erstens könnten noch andere Nachrichten in der Schlange sein, die schon vorher 
+angekommen sind, und zweitens sendet Windows auch noch etliche andere Messages, um die wir uns nicht 
+kümmern müssen... die aber trotzdem in der Queue sind. @LineBreak
+@LineBreak
+Ein einfacher Aufruf von
+
+@Code
+  WindowEvent()
+@EndCode
+
+reicht nicht aus, denn dann läuft der Code unter Umständen auf einer Windows-Version korrekt, auf einer 
+anderen Version aber nicht. Die verschiedenen Windows-Versionen unterscheiden sich intern eben sehr stark, 
+so dass eine Version nur 1 Message schickt, aber eine andere Windows-Version 5 Nachrichten dafür versendet. @LineBreak
+@LineBreak
+Von daher macht man zum Updaten immer: 
+
+@Code
+  While WindowEvent() : Wend
+@EndCode
+
+Alternativ wäre natürlich auch noch
+
+@Code
+  Repeat : Until WindowEvent() = 0
+@EndCode
+
+möglich, was jedoch eher unüblich ist. @LineBreak
+@LineBreak
+Die geschilderte Methode "While : WindowEvent() : Wend" ist häufig im Zusammenhang mit dem Befehl @@Delay
+nützlich, wobei die Schleife VOR dem Delay() eingefügt wird, um z.B. erst das Update eines ImageGadget's 
+nach dem Austausch eines Bildes mit SetGadgetState() abzuwarten. 

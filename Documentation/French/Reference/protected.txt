@@ -1,0 +1,46 @@
+@Title Protected
+
+@Syntax
+
+  @Keyword Protected[.<type>] <variable[.<type>]> [= <expression>] [, ...]
+
+@Description
+
+  @Keyword Protected permet de créer une variable locale dans une procédure. Elle supplante l'éventuelle 
+  variable globale du même nom pendant toute la procédure (contrairement à une variable locale classique non protégée). 
+  Une valeur par défaut peut être assignée à la variable. 
+  @Keyword Protected peut aussi être utilisé avec les @ReferenceLink "dim" "tableaux", les @ReferenceLink "newlist" "listes" et les @ReferenceLink "newmap" "maps". @LineBreak
+  @LineBreak
+  La valeur de la variable locale sera réinitialisée à chaque appel de la procédure. Pour éviter cela,
+  @ReferenceLink "Static" "Static" permet de déclarer une variable locale indépendante des variables
+  globales tout en gardant sa valeur au fil des appels de la procédure.
+
+@Example Avec une variable
+
+@Code  
+  Global a
+  a = 10
+  
+  Procedure Change()
+    Protected a 
+    a = 20
+  EndProcedure 
+  
+  Debug a ; Affichera 10 car la variable a été protégée. 
+@EndCode  
+
+@LineBreak
+@Example Avec un tableau
+
+@Code
+  Global Dim Tableau(2)
+  Tableau(0) = 10
+  
+  Procedure Change()
+    Protected Dim Tableau(2) ; Ce tableau est protégé, il sera local.
+    Tableau(0) = 20 
+  EndProcedure 
+  
+  Change()
+  Debug Tableau(0) ; Affichera 10 car le tableau a été protégé.
+@EndCode

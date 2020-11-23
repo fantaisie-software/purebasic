@@ -1,0 +1,68 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Menu example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Procedure MenuEvents()
+  
+  Select EventMenu()  ; To see which menu has been selected
+
+    Case 11 ; About
+      Debug "About"
+      
+    Default
+      Debug "MenuItem: "+EventMenu()
+
+  EndSelect
+
+EndProcedure
+
+
+;
+; We just have to open a window and see when an event happen on the menu
+;
+If OpenWindow(0, 100, 150, 195, 260, "Menu example", #PB_Window_TitleBar)
+  
+  CreateImage(0, 16, 16, 32, RGB(255, 0, 0))
+  
+  ;
+  ; Create the menu. The indent is important here for a good lisibility
+  ;
+  If CreateMenu(0, WindowID(0))
+    MenuTitle("File")
+      MenuItem( 1, "Load...", ImageID(0))
+      MenuItem( 2, "Save")
+      MenuItem( 3, "Save As...")
+      MenuBar()
+      OpenSubMenu("Recents", ImageID(0))
+        MenuItem( 5, "Spider.png")
+        MenuItem( 6, "Basic.jpg")
+        OpenSubMenu("Even more !")
+          MenuItem( 12, "Yeah")
+        CloseSubMenu()
+        MenuItem( 13, "Rocks.tga")
+      CloseSubMenu()
+      MenuBar()
+      MenuItem( 7, "Quit")
+
+    MenuTitle("Edition")
+      MenuItem( 8, "Cut")
+      MenuItem( 9, "Copy")
+      MenuItem(10, "Paste")
+      
+    MenuTitle("?")
+      MenuItem(11, "About")
+
+  EndIf
+  
+  DisableMenuItem(0, 1, 1)
+  DisableMenuItem(0, 3, 1)
+  DisableMenuItem(0, 13, 1)
+  
+  BindEvent(#PB_Event_Menu, @MenuEvents())
+EndIf

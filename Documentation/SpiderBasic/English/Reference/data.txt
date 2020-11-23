@@ -1,0 +1,96 @@
+@Title Data
+
+@Section Introduction
+
+  SpiderBasic allows the use of @Keyword Data, to store predefined blocks of information inside of your program. 
+  This is very useful for default values of a program (language string for example) or, in a game, to 
+  define the sprite way to follow (precalculated). 
+  @LineBreak
+  @LineBreak
+  @Keyword DataSection must be called first to indicate a data section follow. This means all labels 
+  and data component will be stored in the @Keyword data section of the program, which has a much faster access 
+  than the code section. @Keyword Data will be used to enter the data. @Keyword EndDataSection must be specified if some 
+  code follows the data declaration. One of good stuff is you can define different @Keyword Data sections in the 
+  code without any problem. @Keyword Restore and @Keyword Read command will be used to retrieve the data.
+    
+@Section Commands
+
+@Syntax
+
+  @Keyword DataSection
+
+@Description
+
+  Start a data section. 
+
+
+@Syntax
+
+  @Keyword EndDataSection
+
+@Description
+
+  End a data section. 
+
+
+@Syntax
+
+  @Keyword Data.TypeName
+
+@Description
+  
+  Defines data. The type can only be a native @ReferenceLink "variables" "basic type" (integer, long, word, byte, ascii, unicode, float, double, quad, character, string). Any 
+  number of data can be put on the same line, each one delimited with a comma ','. 
+    
+@Example
+
+@Code
+  Data.l 100, 200, -250, -452, 145
+  Data.s "Hello", "This", "is ", "What ?"
+@EndCode
+
+
+@Syntax
+
+  @Keyword Restore label
+
+@Description
+
+  This keyword is useful to set the start indicator for the @Keyword "Read" to a specified label. All labels used
+  for this purpose should be placed within the @Keyword "DataSection" because the data is treated as a separate
+  block from the program code when it is compiled and may become disassociated from a label if the label
+  were placed outside of the DataSection.
+  
+@Example
+
+@Code
+  Restore StringData
+  Read.s MyFirstData$
+  Read.s MySecondData$
+  
+  Restore NumericalData
+  Read.l a
+  Read.l b
+
+  Debug MyFirstData$
+  Debug a
+  
+  DataSection
+    NumericalData:    
+      Data.l 100, 200, -250, -452, 145
+      
+    StringData:
+      Data.s "Hello", "This", "is ", "What ?"
+  EndDataSection
+@EndCode
+
+@Syntax
+
+  @Keyword Read[.<type>] <variable>
+  
+@Description
+
+  Read the next available data. The next available data can be changed by using the @Keyword Restore command. 
+  By default, the next available data is the first data declared. The type of data to read is determined by the
+  type suffix. The @ReferenceLink "define" "default type" will be used if it is not specified.
+

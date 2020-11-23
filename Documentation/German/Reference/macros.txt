@@ -1,0 +1,189 @@
+@Title Macros
+
+@Syntax
+
+  @Keyword Macro <Name> [(Parameter [, ...])]
+    ...
+  @Keyword EndMacro 
+
+@Description
+
+  Makros (englisch "Macros") sind ein sehr mächtiges Feature, hauptsächlich nützlich für fortgeschrittene 
+  Programmierer. Ein Makro ist ein Platzhalter für etwas Code (ein Schlüsselwort, eine Zeile oder 
+  auch viele Zeilen), welcher (beim Kompilieren) direkt an der Stelle, wo das Makro aufgerufen wird,
+  in den Programmcode eingefügt wird. 
+@LineBreak
+@LineBreak
+  In dieser Beziehung unterscheidet es sich von @ReferenceLink "procedures" "Prozeduren", da
+  Prozeduren beim Aufrufen nicht den Code duplizieren. 
+@LineBreak
+@LineBreak
+  Die @Keyword "Macro" : @Keyword "EndMacro" Deklaration muss vor dem ersten Aufruf des Makros erfolgen.
+  Da Makros zur Kompilier-Zeit komplett durch ihren zugehörigen Code ersetzt werden, sind sie nicht
+  lokal zu einer Prozedur, etc.
+@LineBreak
+@LineBreak
+  Ein Makro kann weder einen Rückgabewert noch typenbasierte Parameter haben. Wenn ein Makro
+  einige Parameter hat, werden diese im Makro exakt durch den wörtlichen Ausdruck ersetzt, der 
+  beim Aufruf des Makros an dieses übergeben wurde. Zu diesem Zeitpunkt wird keine Auswertung
+  vorgenommen, was sehr wichtig zum Verstehen ist: Die Auswertung einer Code-Zeile wird begonnen,
+  sobald alle auf dieser Zeile gefundenen Makros erweitert (d.h. durch ihren Inhalt ersetzt) wurden.
+@LineBreak
+@LineBreak
+  Die Makros werden in zwei Kategorien eingeteilt: Einfache (ohne Parameter) und 
+  komplexe (mit Parameter, benötigen Klammern beim Aufruf). Bei der Verwendung ohne Parameter
+  ist es möglich, jedes Wort mit einem anderen Wort (oder jeden Ausdrucks) zu ersetzen.
+  Die Makros können nicht rekursiv verwendet werden.
+  
+@Example Einfaches Makro
+
+@Code
+  Macro MyNot
+    Not
+  EndMacro
+
+  a = 0
+  If MyNot a   ; Hier wird die Zeile erweitert auf: 'If Not a'
+    Debug "Ok"
+  EndIf
+  
+@EndCode
+
+  Mit der Verwendung von Parametern ist es möglich, sehr flexible Makros zu erschaffen. 
+  Das spezielle Verknüpfungszeichen '#' kann benutzt werden, um neue Labels oder Keywords
+  (Schlüsselwörter) durch Mischen von Makro-Code und Parameter-Ausdrücken zu erschaffen
+  (Leerzeichen zwischen jedem Wort werden durch das Verknüpfungszeichen nicht akzeptiert).
+  Es ist auch möglich, Standardwerte für Parameter zu definieren, sodass sie beim Aufruf
+  des Makros weggelassen werden können.
+  
+@Example Makro mit Parameter
+
+@Code
+  Macro UMsgBox(Title, Body)
+    MessageRequester(Title, UCase(Body), 0)
+  EndMacro
+
+  Text$ = "World"
+  UMsgBox("Hello", "-"+Text$+"-") ; Hier wird die Zeile wie folgt erweitert:
+                                  ; 'MessageRequester("Hello", UCase("-"+Text$+"-"), 0)'
+@EndCode
+
+@Example Makro mit Standard-Parameter
+
+@Code
+  Macro UMsgBox(Title, Body = "Ha, no body specified")
+    MessageRequester(Title, UCase(Body), 0)
+  EndMacro
+
+  UMsgBox("Hello") ; Hier wird die Zeile wie folgt erweitert:
+                   ; 'MessageRequester("Hello", UCase("Ha, no body specified"), 0)'
+@EndCode
+
+@Example Makro mit Parameter-Verknüpfung
+
+@Code
+  Macro XCase(Type, Text)
+    Type#Case(Text)
+  EndMacro
+
+  Debug XCase(U, "Hello")
+  Debug XCase(L, "Hello")
+  
+@EndCode
+
+@Example Fortgeschrittenes mehrzeiliges Makro
+
+@Code
+  Macro DoubleQuote
+    "
+  EndMacro
+
+  Macro Assert(Expression)
+    CompilerIf #PB_Compiler_Debugger  ; 'Assert' (Erklärung) nur im Debug-Modus aktivieren
+      If Expression
+        Debug "Assert (Line " + #PB_Compiler_Line + "): " + DoubleQuote#Expression#DoubleQuote
+      EndIf
+    CompilerEndIf
+  EndMacro
+
+  Assert(10 <> 10) ; Wird nichts anzeigen
+  Assert(10 <> 15) ; Sollte die Erklärung anzeigen
+  
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword UndefineMacro <Name>
+
+@Description
+
+  @Keyword UndefineMacro ermöglicht das Löschen (englisch "Undefine") eines zuvor definierten Makros, und 
+  das neue Definieren in einer anderen Art und Weise. Sobald ein Makro gelöscht ("undefined") wurde, steht
+  es nicht mehr für die weitere Verwendung zur Verfügung.
+    
+@Example Löschen eines Makros
+
+@Code
+  Macro Test
+    Debug "1"
+  EndMacro
+  
+  Test ; Aufrufen des Makros
+  
+  UndefineMacro Test ; Löschen des Makros, es existiert jetzt nicht mehr
+  
+  Macro Test ; Jetzt können wir das Makro erneut definieren
+    Debug "2"
+  EndMacro
+  
+  Test ; Aufrufen des Makros
+  
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword MacroExpandedCount
+
+@Description
+
+  Mittels @Keyword MacroExpandedCount kann die Anzahl der "Erweiterungen" (englisch "expanded count", d.h. die Anzahl
+  wie oft ein Makro erweitert/aufgerufen wurde) ermittelt werden. Dies kann nützlich sein, um bei jeder
+  Erweiterung/jedem Aufruf einen eindeutigen Bezeichner im gleichen Makro zu generieren (wie Sprungmarken,
+  Prozedur-Namen, etc.).
+    
+@Example Anzahl der Makro-Aufrufe
+
+@Code
+  Macro Test
+    Debug MacroExpandedCount
+  EndMacro
+  
+  Test ; Aufrufen des Makros
+  Test ; Aufrufen des Makros
+  Test ; Aufrufen des Makros
+  
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

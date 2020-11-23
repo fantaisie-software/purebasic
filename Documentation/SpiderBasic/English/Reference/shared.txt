@@ -1,0 +1,44 @@
+@Title Shared
+
+@Syntax
+
+  @Keyword Shared <variable> [, ...] 
+
+@Description
+
+  @Keyword Shared allows a @ReferenceLink "variables" "variable", an @ReferenceLink "dim" "array", a @ReferenceLink "newlist" "list" 
+  or a @ReferenceLink "newmap" "map" to be accessed within a @ReferenceLink "Procedures" procedure. 
+  When @Keyword Shared is used with an array, a list or a map, only the name followed by '()' must be specified.
+
+@Example With variable
+
+@Code
+  a = 10
+  
+  Procedure Change()
+    Shared a
+    a = 20 
+  EndProcedure 
+  
+  Change()
+  Debug a   ; Will print 20, as the variable has been shared.
+@EndCode
+
+@LineBreak
+@Example With array and list
+
+@Code
+  Dim Array(2)
+  NewList List()
+  AddElement(List())
+  
+  Procedure Change()
+    Shared Array(), List()
+    Array(0) = 1
+    List() = 2
+  EndProcedure 
+  
+  Change()
+  Debug Array(0)  ; Will print 1, as the array has been shared.
+  Debug List()    ; Will print 2, as the list has been shared.
+@EndCode

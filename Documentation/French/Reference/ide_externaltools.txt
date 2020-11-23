@@ -1,0 +1,376 @@
+
+@Title Les outils externes
+
+
+  L'IDE du PureBasic vous permet de configurer des programmes externes pour qu'ils soient appelés
+  directement à partir d'un menu, de raccourcis, de la barre d'outils ou d'évènements "déclencheurs"
+  spéciaux (ex: ouverture de fichier, fermeture etc..). Ceci permet un accès aisé à ces outils
+  tout en programmant.
+@LineBreak
+@LineBreak
+  Vous pouvez également écrire vos propres petits outils en PureBasic pour effectuer des actions
+  spéciales sur le code source que vous êtes en train d'éditer, afin d'automatiser les tâches
+  récurrentes (ex : réorganisation du code, statistiques, etc..). De plus, vous pouvez configurer
+  des visualisateurs de fichiers externes pour remplacer le @ReferenceLink "ide_tools" "visualisateur de fichier"
+  intégré à l'IDE pour des types particuliers de fichier ou pour tous les fichiers.
+  
+@LineBreak
+@LineBreak
+
+@Image ide_exttools_menu.png
+
+  La commande "Outils personnalisés" du menu "Outils" ouvre la fenêtre de gestion des outils externes.
+  La liste affiche tous les outils déjà configurés par ordre d'apparition dans le menu "Outils" (les
+  outils ayant l'option 'caché' figurent aussi). Vous pouvez ajouter (bouton Nouveau) et supprimer
+  (bouton Effacer) des outils, ou modifier leur ordre de priorité en cliquant sur les boutons
+  "Vers le haut" / "Vers le bas" après avoir sélectionné un élément.
+
+@Image ide_exttools_toolswindow.png 
+
+  Chaque outil peut être rapidement activé ou désactivé à partir de la fenêtre "Outils personnalisés" du menu "Outils",
+  en cochant ou décochant la case à gauche du nom de l'outil.
+
+
+@Section Configurer un outil
+
+  Les seuls éléments obligatoires dans la configuration sont la ligne de commande du programme
+  à exécuter et son nom dans la liste du menu "Outils". Tout le reste est optionnel.
+
+@Image ide_exttools_toolsedit.png
+
+@Bold "Ligne de commande"
+@LineBreak
+  Contient le chemin et le nom du programme à exécuter.
+
+@LineBreak
+@LineBreak
+
+@Bold Arguments
+@LineBreak
+  Contient les arguments qui seront passés au programme. Vous pouvez écrire des options fixes, tout comme
+  des mots-clefs spéciaux qui seront remplacés lors de l'exécution du programme) :
+
+@LineBreak
+@LineBreak
+  %PATH : sera remplacé par le chemin du fichier source en cours d'édition. Il sera vide si le code source
+          n'a pas encore été enregistré.
+@LineBreak
+@LineBreak
+  %FILE : sera remplacé par le nom du fichier source en cours d'édition. Il sera vide si le code
+          source n'a pas encore été enregistré. Si l'outil est destiné à remplacer le visualisateur de
+          fichier intégré, ce mot-clef représentera le fichier à ouvrir.
+@LineBreak
+@LineBreak
+  %TEMPFILE : quand cette option est spécifiée, le fichier source en cours d'édition est enregistré dans un fichier
+              temporaire dont le nom est inséré ici. Ce fichier est créé uniquement pour l'outil et peut être
+              librement modifié ou effacé.
+@LineBreak
+@LineBreak
+  %COMPILEFILE : ce mot-clef est uniquement valide pour les déclencheurs de compilation (voir ci-dessous).
+                 Il sera remplacé par le nom du fichier temporaire qui est envoyé au compilateur pour effectuer la
+                 compilation. En modifiant ce fichier, il est possible de changer ce qui sera effectivement compilé.
+@LineBreak
+@LineBreak
+  %EXECUTABLE : sera remplacé par le nom de l'exécutable créé par la dernière commande "Créer un exécutable". 
+                Pour le déclencheur "Après Compiler/Exécuter", il sera remplacé par le nom du fichier exécutable
+                temporaire créé par le compilateur.
+@LineBreak
+@LineBreak
+  %CURSOR : sera remplacé par la position actuelle du curseur dans le code en cours d'édition, sous la forme : 
+            LIGNExCOLONNE.
+@LineBreak
+@LineBreak
+  %SELECTION : sera remplacé par la sélection actuelle sous la forme : LIGNEDEBUTxCOLONNEDEBUTxLIGNEFINxCOLONNEFIN. 
+               Il peut être utilisé en conjonction avec %TEMPFILE, si vous voulez que votre outil effectue des actions
+               basées sur le texte sélectionné.
+@LineBreak
+@LineBreak
+  %WORD : sera remplacé par le mot actuellement situé sous le curseur.
+
+@LineBreak
+@LineBreak
+
+  %PROJECT : le chemin complet vers le répertoire contenant le fichier du projet si un projet est ouvert.
+  
+@LineBreak  
+@LineBreak
+  %HOME : le chemin complet vers le répertoire PureBasic.
+
+  Note : pour chaque mot-clef désignant un fichier ou un chemin, il est généralement conseillé de les placer
+  entre "" (ex: "%TEMPFILE") pour s'assurer que les chemins contenant des espaces seront correctement
+  transmis à l'outil. Ces mots-clefs ainsi qu'une brève description peuvent aussi être consultés en 
+  cliquant sur le bouton "Info" à droite du champ Arguments.
+
+@LineBreak
+@LineBreak
+
+@Bold "Dossier de travail"
+@LineBreak
+  Permet de choisir un répertoire que l'outil utilisera lors de son lancement. Si aucun
+  répertoire n'est indiqué, l'outil utilisera le répertoire du code source en cours d'édition.
+
+@LineBreak
+@LineBreak
+
+@Bold Nom
+@LineBreak
+  Permet d'attribuer un nom à l'outil. Ce nom s'affichera dans la liste des outils, et si l'
+  outil n'est pas caché, dans le menu "Outils".
+
+
+@Section Evènement pour déclencher l'outil
+
+  Ici vous pouvez choisir quand l'outil devra être lancé. Plusieurs outils peuvent avoir le même  
+  déclencheur, ils seront tous exécutés quand cet évènement déclencheur se produira. L'ordre de leur exécution dépend
+  de l'ordre dans lequel ils apparaissent dans la liste des outils.
+
+@Image ide_exttools_toolstrigger.png
+
+@Bold "Menu ou raccourci"
+@LineBreak
+  L'outil ne sera pas lancé automatiquement. Il sera exécuté à partir d'un raccourci clavier ou d'un menu. 
+  Note : pour exécuter un programme à partir de la barre d'outils, il faut lui ajouter un bouton dans  
+         Fichier/Préférences/Général/Barre d'outils (voir @referencelink ide_preferences "Configurer l'IDE" pour
+         plus d'informations).
+@LineBreak
+@LineBreak
+  Si ce déclencheur est choisi, l'option "Raccourci" devient active et permet d'entrer
+  un raccourci qui lancera cet outil.         
+@LineBreak
+@LineBreak
+@Bold "Démarrage de l'éditeur"
+@LineBreak
+  L'outil sera exécuté immédiatement après le démarrage complet de l'IDE.
+
+@LineBreak
+@LineBreak
+
+@Bold "A la fermeture de l'éditeur"
+@LineBreak
+  L'outil sera exécuté juste avant que l'IDE ne quitte.
+  Notez que tous les fichiers sources auront déjà été fermés.
+
+@LineBreak
+@LineBreak
+@Bold "Avant Compiler/Exécuter"
+@LineBreak
+  L'outil sera exécuté juste avant la compilation du fichier source. En utilisant
+  le mot-clef %COMPILEFILE, il est possible de modifier le code à compiler.
+  Ceci permet par exemple de créer un petit pré-processeur pour le code source.
+  Notez que vous devriez activer l'option "Attendre la fin du programme" si vous voulez
+  que les modifications soient prises en compte par le compilateur.
+
+@LineBreak
+@LineBreak
+@Bold "Après Compiler/Exécuter"
+@LineBreak
+  L'outil sera exécuté juste après la compilation, mais avant que le programme ne soit
+  executé. En utilisant le mot-clef %EXECUTABLE, il est possible de récupérer
+  le nom du fichier qui vient d'être généré. Les modifications sont autorisées, mais si
+  le fichier est effacé, alors une erreur surviendra lorsque l'IDE essaiera d'exécuter le
+  fichier.
+
+@LineBreak
+@LineBreak
+@Bold "Démarrage d'un programme compilé"
+@LineBreak
+  L'outil sera lancé lorsque la commande "Exécuter" du menu "Compilateur" est activée.
+  L'outil est lancé avant que le programme ne soit exécuté. Le mot-clef %EXECUTABLE est
+  valide ici aussi.
+
+@LineBreak
+@LineBreak
+@Bold "Avant de créer un exécutable"
+@LineBreak
+  Cet évènement est identique à "Avant Compiler/Exécuter", mais il est déclenché juste avant la
+  création de l'exécutable final.
+
+@LineBreak
+@LineBreak
+@Bold "Après avoir créé un exécutable"
+@LineBreak
+  L'outil sera lancé une fois que l'exécutable final aura été créé. Le mot-clef %EXECUTABLE
+  peut servir à récupérer le nom de l'exécutable créé et ainsi effectuer des actions
+  dessus (ex: pour le compresser).
+
+@LineBreak
+@LineBreak
+@Bold "Code source chargé"
+@LineBreak
+  L'outil se lancera à chaque fois qu'un code source sera chargé dans l'IDE. Les mots-clefs
+  %FILE et %PATH sont toujours valides, car le fichier est forcément chargé à partir d'un média (disque,
+  réseau etc..).
+
+@LineBreak
+@LineBreak
+@Bold "Code source enregistré"
+@LineBreak
+  L'outil se lancera à chaque fois qu'un code source sera enregistré par l'IDE. Les mots-clefs
+  %FILE et %PATH sont toujours valides, car le fichier vient d'être enregistré sur un média (disque,
+  réseau etc.).
+
+@LineBreak
+@LineBreak
+@Bold "Code source fermé"
+@LineBreak
+  L'outil se lancera à chaque fois qu'un code source sera sur le point d'être fermé. A ce stade
+  le fichier est toujours là, donc vous pouvez obtenir son contenu avec le mot-clef %TEMPFILE.
+  Le mot-clef %FILE sera vide si le fichier n'a jamais été enregistré.
+  
+@LineBreak
+@LineBreak
+@Bold "Remplace le visualisateur - Tous les fichiers"
+@LineBreak
+  L'outil remplacera complètement le visualisateur de fichier intégré. Si on essaie d'ouvrir un
+  fichier qui ne peut être édité dans l'IDE, l'IDE va d'abord essayer les outils externes ayant
+  comme déclencheur ce type de fichier particulier, et si aucun ne correspond, alors
+  le fichier sera géré par cet outil. Utilisez le mot-clef %FILE pour récupérer le nom du fichier
+  qui doit être ouvert.
+@LineBreak
+@LineBreak
+  Note : un seul outil peut être associé à ce déclencheur. Tous les autres outils associés à ce
+         déclencheur seront ignorés.
+
+@LineBreak
+@LineBreak
+@Bold "Remplace le visualisateur - Fichiers inconnus"
+@LineBreak
+  Cet outil remplacera le visualisateur hexadécimal intégré, qui est normalement utilisé pour 
+  ouvrir les fichiers de types inconnus. Il sera exécuté, lorsque l'extension du fichier est inconnue 
+  pour l'IDE, et si aucun autre outil externe n'a été configuré pour gérer ce fichier (si un outil
+  est configuré avec le déclencheur "Remplace le visualisateur - Tous les fichiers", alors
+  cet outil ne sera jamais appelé).
+@LineBreak
+@LineBreak
+  Note : un seul outil peut être associé à ce déclencheur. 
+
+@LineBreak
+@LineBreak
+@Bold "Remplace le visualisateur – Fichier spécial"
+@LineBreak
+  Ce déclencheur permet à l'outil de gérer des extensions de fichiers spécifiques. Il a une plus haute 
+  priorité que les évènements "Remplace le visualisateur - Tous les fichiers", "Remplace le visualisateur – 
+  Fichiers inconnus" et plus haute également que le visualisateur de fichier intégré. Indiquez les
+  extensions que l'outil doit gérer dans le champ prévu à cet effet, sur la droite. Plusieurs extensions 
+  peuvent être attribuées.
+@LineBreak
+@LineBreak
+  Une utilisation courante de ce déclencheur est, par exemple, la configuration d'un programme comme
+  Acrobat Reader pour gérer les fichiers ayant l'extension "pdf". Ce qui permet d'ouvrir facilement 
+  ces fichiers à partir de l'Explorateur, du visualisateur de fichier intégré ou en double-cliquant sur le
+  mot-clef "IncludeBinary" dans le source.
+
+
+@Section Autres options sur le côté droit
+
+@Bold "Attendre la fin du programme"
+@LineBreak
+  L'IDE sera complètement bloqué jusqu'à ce que l'outil termine son exécution. Cette option
+  est requise si l'outil doit modifier un fichier source qui doit être rechargé par la suite,
+  ou passé au compilateur par les déclencheurs de compilation.
+
+@LineBreak
+@LineBreak
+@Bold "Démarrer caché"
+@LineBreak
+  L'outil sera lancé en mode invisible. Ne pas utiliser cette option si le programme
+  nécessite une interaction avec l'utilisateur, car il ne pourra plus être fermé.
+
+@LineBreak
+@LineBreak
+@Bold "Cacher l'éditeur"
+@LineBreak
+  Uniquement disponible si l'option "Attendre la fin du programme" est activée. 
+  Cache l'éditeur pendant l'exécution de l'outil.
+  
+@LineBreak
+@LineBreak
+@Bold "Recharger la source à la fin du programme"
+@LineBreak
+  Uniquement disponible si l'option "Attendre la fin du programme" est activée, et quand le mot-clef
+  %FILE ou %TEMPFILE est utilisé dans le champ "Arguments".
+@LineBreak
+@LineBreak  
+  Une fois que l'outil a terminé son exécution, l'IDE rechargera le fichier source dans
+  l'éditeur. Il est possible de choisir si le fichier doit être rechargé dans l'onglet actuel ou dans 
+  un nouvel onglet.
+
+@LineBreak
+@LineBreak
+@Bold "Cacher l'outil du menu principal"
+@LineBreak
+  N'affiche pas l'outil dans la liste du menu "Outils" de l'IDE. C'est utile pour les outils qui doivent
+  uniquement être exécutés à partir de déclencheurs spéciaux, mais pas à partir du menu.
+
+@LineBreak
+@LineBreak
+
+
+@Bold "Activer l'outil en fonction d'un fichier source"
+@LineBreak
+  Les outils avec cet option seront inscrits dans la liste "Exécuter des outils" dans les 
+  @ReferenceLink "ide_compiler" "options du compilateur", et exécutés uniquement pour les 
+  sources où il est permis. Notez que lors de la désactivation de l'outil dans la fenêtre 
+  "outils de configuration", il sera désactivé au niveau global et ne pourra être lancé 
+  depuis une source, même s'il est activé ici. 
+@LineBreak
+@LineBreak
+  Cette option n'est valable qu'avec : 
+@LineBreak
+  - Avant Compiler/Exécuter
+  - Après Compiler/Exécuter
+  - Exécuter Programme compilé
+  - Avant créer Exécutable
+  - Après créer Exécutable
+  - Code source chargé
+  - Code source enregistré
+  - Code source fermé 
+@LineBreak
+@LineBreak
+
+@Bold "Extensions des fichiers supportées (ext1,ext2,...)"
+@LineBreak
+  Uniquement disponible pour le déclencheur "Remplace le visualisateur - Fichier spécial".
+  Permet de saisir la liste des extensions gérées.
+  
+@Section Astuces pour l'écriture de vos propres outils de traitement
+
+  L'IDE fournit des informations supplémentaires pour les outils sous la forme de variables
+  d'environnement. Elles peuvent être facilement lues par l'outil à l'aide des commandes de 
+  la @LibraryLink "Process" "bibliothèque Process".
+@LineBreak
+@LineBreak
+  Voici une liste des variables fournies. Notez que celles qui donnent des informations sur le fichier en
+  cours d'édition ne sont pas accessibles pour les outils exécutés au démarrage ou à la fermeture de l'IDE.
+@FixedFont
+  PB_TOOL_IDE         - Chemin complet et nom de l'exécutable de l'IDE
+  PB_TOOL_Compiler    - Chemin complet et nom de l'exécutable du compilateur
+  PB_TOOL_Preferences - Chemin complet et nom du fichier des préférences de l'IDE
+  PB_TOOL_Project     - Chemin complet et le nom du projet actuellement ouvert (le cas échéant)
+  PB_TOOL_Language    - Langue actuellement utilisée dans l'IDE
+  PB_TOOL_FileList    - Liste de tous les fichiers ouverts dans l'IDE, séparés par un Chr(10)
+
+  PB_TOOL_Debugger    - Ces variables fournissent les paramètres correspondant à ceux de la fenêtre d'@ReferenceLink "ide_compiler" "options de compilation" 
+  PB_TOOL_InlineASM     pour le source en cours. Elles sont à 1 si l'option
+  PB_TOOL_Unicode       est activée, à 0 sinon.
+  PB_TOOL_Thread     
+  PB_TOOL_XPSkin     
+  PB_TOOL_OnError    
+
+  PB_TOOL_SubSystem   - Contenu du champ @ReferenceLink "ide_compiler" "Bibliothèque Sous-système" dans les options de compilation
+  PB_TOOL_Executable  - Identique au mot-clef %COMPILEFILE pour la ligne de commande
+  PB_TOOL_Cursor      - Identique au mot-clef %CURSOR      pour la ligne de commande
+  PB_TOOL_Selection   - Identique au mot-clef %SELECTION   pour la ligne de commande
+  PB_TOOL_Word        - Identique au mot-clef %WORD        pour la ligne de commande
+
+  PB_TOOL_MainWindow  - Identifiant système (Handle) de la fenêtre principale de l'IDE
+  PB_TOOL_Scintilla   - Identifiant système (Handle) du composant d'édition de code Scintilla pour le source en cours
+@EndFixedFont
+
+  Quand les mots-clefs %TEMPFILE ou %COMPILEFILE sont utilisés, l'IDE ajoute les options de compilation
+  à la fin du fichier temporaire (sous forme de commentaires), même si l'utilisateur a choisi de ne pas
+  sauver ces options en enregistrant un code source.
+@LineBreak
+@LineBreak
+  Ceci permet à l'outil de lire les options de compilation spécifiques à ce fichier, et de les prendre
+  en compte dans les actions qu'il va effectuer.

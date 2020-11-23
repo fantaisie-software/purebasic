@@ -1,0 +1,51 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Persistent file example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+; NOTE: when running in browser, if the user clear its cache it will be gone.
+; When creating a mobile application, the data will be persistent.
+;
+
+Procedure CreateFileCallback(Status, Filename$, File, SizeRead)
+  Select Status
+    Case #PB_Status_Saved
+      Debug "File saved: " + Filename$
+      Debug "Please relaunch the program to test the persitency."
+     
+    Case #PB_Status_Error
+      Debug "Can't save the file: " + Filename$
+  EndSelect
+EndProcedure
+
+
+Procedure ReadFileCallback(Status, Filename$, File, SizeRead)
+  Select Status
+    Case #PB_Status_Loaded
+      Debug "File found in localstorage: " + Filename$
+      Debug "Displaying file content: "
+      
+      ; Read the file content as string
+      Debug ReadString(File, #PB_File_IgnoreEOL)
+      CloseFile(File)
+     
+    Case #PB_Status_Error
+      Debug "File not found in localstorage: " + Filename$
+      Debug "Creating a new file..."
+     
+      If CreateFile(0, "test.txt", @CreateFileCallback(), #PB_LocalStorage)
+        WriteString(0, "Hello world !" + #LF$  + "Second line.")
+        CloseFile(0)
+      Else
+        Debug "CreateFile() failed"
+      EndIf
+  EndSelect
+EndProcedure
+
+; Try to read the file if already present, or it will create a new one
+;
+ReadFile(0, "test.txt", @ReadFileCallback(), #PB_LocalStorage)

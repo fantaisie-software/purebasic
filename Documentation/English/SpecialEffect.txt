@@ -1,0 +1,342 @@
+;
+;     SpecialEffect library documentation
+;
+;      (c) 2013 - Fantaisie Software
+;
+
+@Library SpecialEffect
+
+@Overview
+  The special effect library allows to apply easily several real-time effects in the
+  @LibraryLink "Engine3D" "3D world" like post processing and ribbon trails.
+
+@CommandList
+
+@ExampleFile All Ribbon.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateCompositorEffect(#Effect, CameraID, EffectName$)
+
+@Description
+  Create a new compositor effect. Once created, the effect is immediately applied to the rendering. It is possible
+  to hide the effect with @@HideEffect.
+
+@Parameter "#Effect"
+  The number to identify the new effect. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@Parameter "CameraID"
+  The camera to apply the effect. This effect will only affect this camera.  
+  To get a valid 'CameraID', use @@CameraID.
+
+@Parameter "EffectName$"
+  Name of effect, as described in the OGRE compositor file (usually a '.compositor' file).
+
+@ReturnValue
+  Returns nonzero if the effect was created successfully and zero if there was an error.
+  If @#PB_Any was used as the #Effect parameter then the new generated number is returned on success.
+
+@SeeAlso
+  @@FreeEffect, @@HideEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateRibbonEffect(#Effect, MaterialID, NbChains, NbElements, Length)
+
+@Description
+  Create a new ribbon trail effect. Once created, the effect has to be attached with @@AttachRibbonEffect. It is possible
+  to hide the effect with @@HideEffect.
+
+@Parameter "#Effect"
+  The number to identify the new effect. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@Parameter "MaterialID"
+  The material to apply on the ribbon trail. To get a valid 'MaterialID', use @@MaterialID.
+
+@Parameter "NbChains"
+  Number of chains of the ribbon trail. The more chains, the more precise the ribbon will be.
+
+@Parameter "NbElements"
+  Number of elements per chains. The more elements, the more precise the ribbon will be.
+
+@Parameter "Length"
+  Maximum length, in world unit, of the ribbon. Once the length is reached the ribbon will be completely fade out.
+
+@ReturnValue
+  Returns nonzero if the effect was created successfully and zero if there was an error.
+  If @#PB_Any was used as the #Effect parameter then the new generated number is returned on success.
+
+@SeeAlso
+  @@FreeEffect, @@HideEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RibbonEffectWidth(#Effect, ChainIndex, Width, FadeoutWidth) 
+
+@Description
+  Changed the ribbon chain width.
+
+@Parameter "#Effect"
+  The effect to use. This effect has to be created with @@CreateRibbonEffect.
+
+@Parameter "ChainIndex"
+  The index of the chain to change the width. The first index starts from zero. This index number must
+  be lower than the number of chains created with @@CreateRibbonEffect.
+
+@Parameter "Width"
+  The new width of the chain, in world unit.
+
+@Parameter "FadeoutWidth"
+  The fadeout width per second. Every second, the width of the ribbon chain will be decreased by this value up to be zero.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AttachRibbonEffect(#Effect, NodeID) 
+
+@Description
+  Attach the ribbon to the given node.
+
+@Parameter "#Effect"
+  The effect to use. This effect has to be created with @@CreateRibbonEffect.
+
+@Parameter "NodeID"
+  The node to attach the ribbon. A single ribbon can be attached to several nodes.
+  To get a valid node ID, use @@NodeID.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect, @@DetachRibbonEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DetachRibbonEffect(#Effect, NodeID) 
+
+@Description
+  Detach the ribbon from the given node.
+
+@Parameter "#Effect"
+  The effect to use. This effect has to be created with @@CreateRibbonEffect.
+
+@Parameter "NodeID"
+  The node to detach the ribbon. If the ribbon was not attached to this node, the function has no effect.
+  To get a valid node ID, use @@NodeID.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect, @@AttachRibbonEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateLensFlareEffect(#Effect, CameraID, NodeID, BurstSize, HaloSize, HaloMaterialID, CircleMaterialID, BurstMaterialID)
+
+@Description
+  Create a new lensflare effect for the given camera. A lensflare is always attached to a node, and will be displayed automatically
+  depending of the node position relative to the camera view.
+
+@Parameter "#Effect"
+  The number to identify the new effect. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@Parameter "CameraID"
+  The camera to apply the lensflare. It will only affect this camera. To get a valid 'CameraID', use @@CameraID.
+  
+@Parameter "NodeID"
+  The parent node to handle the lensflare. To get a valid 'NodeID', use @@NodeID.
+ 
+@Parameter "BurstSize"
+  The size of the burst, in world unit.
+
+@Parameter "HaloSize"
+  The size of the halo, in world unit.
+
+@Parameter "HaloMaterialID"
+  The halo material. To get a valid material ID, use @@MaterialID.
+
+@Parameter "CircleMaterialID"
+  The circle material. To get a valid material ID, use @@MaterialID.
+
+@Parameter "BurstMaterialID"
+  The burst material. To get a valid material ID, use @@MaterialID.
+
+@ReturnValue
+  Returns nonzero if the lensflare effect was created successfully and zero if there was an error.
+  If @#PB_Any was used as the #Effect parameter then the new generated number is returned on success.
+
+@SeeAlso
+  @@FreeEffect, @@LensFlareEffectColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LensFlareEffectColor(#Effect, ColorType, Color)
+
+@Description
+  Changes the color of the specified lens flare effect part.
+
+@Parameter "#Effect"
+  The effect to use. This effect has to be created with @@CreateLensFlareEffect.
+
+@Parameter "ColorType"
+  This can be one of the following value:
+@FixedFont
+  @#PB_LensFlare_HaloColor  : changes the halo color
+  @#PB_LensFlare_CircleColor: changes the circle color
+  @#PB_LensFlare_BurstColor : changes the burst color
+@EndFixedFont
+  
+@Parameter "Color"
+  The new color for the selected lensflare part. A valid color can be get with @@RGB.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateLensFlareEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeEffect(#Effect)
+
+@Description
+  Free the specified effect.
+
+@Parameter "#Effect"
+  The effect to free. If @#PB_All is specified, all the remaining effects are freed.
+
+@NoReturnValue
+
+@Remarks
+  Once the effect is freed, it may not be used anymore.
+@LineBreak
+@LineBreak
+  All remaining effects are automatically freed when the program ends.
+
+@SeeAlso
+  @@CreateRibbonEffect, @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsEffect(#Effect)
+
+@Description
+  Tests if the given effect number is a valid and correctly initialized effect. 
+
+@Parameter "#Effect"
+  The effect to use.
+
+@ReturnValue
+  Returns nonzero if #Effect is a valid effect, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a effect is ready to use.
+
+@SeeAlso
+  @@CreateRibbonEffect, @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideEffect(#Effect, State)
+
+@Description
+  Hide or show the specified effect. 
+
+@Parameter "#Effect"
+  The effect to use.
+
+@Parameter "State"
+  The new state of the effect.
+  If State = 1, the effect will be hidden, if State = 0 it will be shown.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect, @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CompositorEffectParameter(#Effect, TechniqueID, PassID, EffectName$, DataType, *Data)
+
+@Description
+  Set real-time parameter on the specified effect. 
+
+@Parameter "#Effect"
+  The effect to use. The effect has to be a compositor effect created with @@CreateCompositorEffect.
+
+@Parameter "TechniqueID"
+  The TechniqueID of the effect.
+
+@Parameter "PassID"
+  The PassID of the effect.
+
+@Parameter "EffectName$"
+  The name of the effect.
+
+@Parameter "DataType"
+  The datatype of the parameter to set.
+
+@Parameter "Data"
+  The data of the parameter to set. It depends of the specified datatype.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RibbonEffectColor(#Effect, ChainIndex, Color, FadeoutColor)
+
+@Description
+  Set the colors for the ribbon trail. 
+
+@Parameter "#Effect"
+  The effect to use. It has to be a ribbon trail create with @@CreateRibbonEffect.
+
+@Parameter "ChainIndex"
+  The index of the chain to change the color. The first index starts from zero. This index number must
+  be lower than the number of chains created with @@CreateRibbonEffect.
+
+@Parameter "Color"
+  The color of the trail. This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+ 
+@Parameter "FadeoutColor"
+  The fade-out color of the trail, the destination color when the ribbon trail fade.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect
+
+@SupportedOS

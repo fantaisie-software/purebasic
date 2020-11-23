@@ -1,0 +1,58 @@
+@Title Numéros et Identifiants (Handles)
+
+@Section Les numéros
+
+  Tous les objets crées sont identifiés par un numéro arbitraire (qui n'est pas l'identifiant de l'objet, comme défini ci-dessous). 
+  Dans ce manuel, les numéros s'écrivent sous la forme #Numéro (par exemple, chaque gadget créé a un numéro #Gadget). 
+@LineBreak
+@LineBreak
+  Les numéros que vous leurs attribuez n'ont pas besoin d'être des constantes, 
+  mais ils doivent être uniques pour chaque objet de votre programme (une image peut avoir le même numéro qu'un gadget, 
+  parce que ce sont des types d'objets différents). Ces numéros sont utilisés pour accéder ultérieurement à ces objets dans votre programme.   
+@LineBreak
+@LineBreak
+  Par exemple, les fonctions de gestion des évènements renvoient des numéros :
+
+@Code  
+  EventGadget()
+  EventMenu()
+  EventWindow()
+@EndCode
+
+
+@Section Les identifiants
+
+  Tous les objets ont également un numéro unique qui leur est attribué par le système. 
+  Ces numéros uniques sont appelés identifiants. 
+
+  Parfois, une fonction PureBasic n'a pas besoin du numéro comme paramètre, 
+  mais de l'identifiant. Dans ce manuel, ce genre de besoin est indiqué, à l'aide du suffixe ID.
+
+@Example
+  
+@Code  
+  ImageGadget(#Gadget, x, y, Largeur, Hauteur, ImageID [, Options])
+  ; #Gadget doit être le numéro que vous voulez attribuer au Gadget
+  ; ImageID doit être l'IDentifiant (numéro unique) de l'image.
+@EndCode
+
+  Pour obtenir l'identifiant d'un objet, il y a des fonctions spéciales telles que :
+
+@Code  
+  FontID()
+  GadgetID()
+  ImageID()
+  ThreadID()
+  WindowID()
+@EndCode  
+
+  La plupart des fonctions qui créent ces objets renvoient cet identifiant comme résultat, 
+  si tout s'est bien passé. Ceci est seulement le cas si @#PB_Any n'a pas été utilisé pour créer l'objet. 
+  Si @#PB_Any est utilisé, ces fonctions renvoient le numéro de l'objet qui a été attribué par PB pour elles, mais pas l'identifiant.
+
+@Example
+
+@Code
+  GadgetHandle = ImageGadget(...)
+@EndCode    
+

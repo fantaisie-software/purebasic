@@ -1,0 +1,587 @@
+;
+;     Billboard library documentation
+;
+;      (c) 2017 - Fantaisie Software
+;
+
+@Library Billboard
+
+@Overview
+  Billboards sind 3D-Ebenen (zusammengesetzt aus 2 Dreiecken), welche sich immer
+  vor der @LibraryLink "camera" "Kamera" befinden. Billboards sind nützlich, um schnell eine große Anzahl an
+  @LibraryLink "particle" "Elementen" darzustellen - wie Regen, Schnee, Bäume, Vegetation oder Partikel-basierende
+  Effekte. @@InitEngine3D muss erfolgreich aufgerufen worden sein, bevor Sie die Billboard-Befehle verwenden.
+@LineBreak
+@LineBreak
+  Billboards werden zu Billboard-Gruppen hinzugefügt, welche Sammlungen von ähnlich
+  dimensionierten und platzierten Billboards sind, damit sie angezeigt werden können.
+
+@CommandList
+
+@ExampleFile All Billboard.pb
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = AddBillboard(#BillboardGruppe, x, y, z)
+
+@Description
+  Fügt ein Billboard zur angegebenen Billboard-Gruppe an der angegebenen Position,
+  relativ zur Position der Billboard-Gruppe, hinzu. Eine Billboard-Gruppe muss vorher
+  mit dem Befehl @@CreateBillboardGroup erstellt worden sein.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, zu der Sie ein neues Billboard hinzufügen wollen.
+
+@Parameter "x, y, z"
+  Die Koordinaten, an denen das Billboard erstellt werden soll,
+  relativ zu den Koordinaten der Billboard-Gruppe.
+
+@ReturnValue
+  Der neue Billboard-Index. Der Wert kann verwendet werden, um dieses Billboard
+  mit den Befehlen (welchen einen solchen Wert benötigen) zu manipulieren.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BillboardGroupID = BillboardGroupID(#BillboardGruppe)
+
+@Description
+  Gibt die einmalige ID zurück, welche die angegebene '#BillboardGruppe' im Betriebssystem identifiziert.
+  Diese Funktion ist sehr nützlich, wenn eine andere Bibliothek einen Bezug auf die Billboard-Gruppe benötigt.
+
+@Parameter "#BillboardGruppe"
+  Die zu verwendende Billboard-Gruppe.
+  
+@ReturnValue
+  Die einmalige ID, welche die angegebene '#BillboardGruppe' im Betriebssystem identifiziert.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BillboardGroupMaterial(#BillboardGruppe, MaterialID)
+
+@Description
+  Weist der angegebenen Billboard-Gruppe ein Material zu. Dieses Material von
+  allen Billboards verwendet, welche zu dieser Gruppe hinzugefügt werden.
+  Einer Gruppe kann zur gleichen Zeit nur ein Material zugeordnet sein.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, der ein neues Material zugewiesen werden soll.
+
+@Parameter "MaterialID"
+  Die ID-Nummer des Materials, welches der Billboard-Gruppe (und den Billboards)
+  zugewiesen werden soll. Eine gültige 'MaterialID' kann einfach mit dem
+  @@MaterialID Befehl ermittelt werden.
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = BillboardGroupX(#BillboardGruppe [, Modus])
+
+@Description
+  Ermittelt die absolute Position der Billboard-Gruppe in der Welt.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, deren Position ermittelt werden soll.
+
+@OptionalParameter "Modus"
+  Der Modus, nach dem die 'x' Position ermittelt werden soll. Dies kann einer der folgenden
+  Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'x' Position der Billboard-Gruppe in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'x' Position der Billboard-Gruppe relativ zu ihrer übergeordneten (parent) Gruppe.
+@EndFixedFont  
+
+@ReturnValue
+  Die absolute X-Position der Billboard-Gruppe.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = BillboardGroupY(#BillboardGruppe [, Modus])
+
+@Description
+  Ermittelt die absolute Position der Billboard-Gruppe in der Welt.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, deren Position ermittelt werden soll.
+
+@OptionalParameter "Modus"
+  Der Modus, nach dem die 'y' Position ermittelt werden soll. Dies kann einer der folgenden
+  Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'y' Position der Billboard-Gruppe in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'y' Position der Billboard-Gruppe relativ zu ihrer übergeordneten (parent) Gruppe.
+@EndFixedFont  
+
+@ReturnValue
+  Die absolute Y-Position der Billboard-Gruppe.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = BillboardGroupZ(#BillboardGruppe [, Modus])
+
+@Description
+  Ermittelt die absolute Position der Billboard-Gruppe in der Welt.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, deren Position ermittelt werden soll.
+
+@OptionalParameter "Modus"
+  Der Modus, nach dem die 'z' Position ermittelt werden soll. Dies kann einer der folgenden
+  Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'z' Position der Billboard-Gruppe in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'z' Position der Billboard-Gruppe relativ zu ihrer übergeordneten (parent) Gruppe.
+@EndFixedFont  
+
+@ReturnValue
+  Die absolute Z-Position der Billboard-Gruppe.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = BillboardHeight(#Billboard, #BillboardGruppe)
+
+@Description
+  Ermittelt die Höhe des zur Billboard-Gruppe hinzugefügten Billboards.
+  Die Höhe wird in den von der Welt verwendeten Einheiten gemessen.
+  
+@Parameter "#Billboard"
+  Die Nummer des Billboards, dessen Höhe ermittelt werden soll.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, welche das Billboard enthält.
+
+@ReturnValue
+  Die Höhe des Billboards, in Welt-Einheiten.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BillboardLocate(#Billboard, #BillboardGruppe, x, y, z)
+
+@Description
+  Bewegt ein Billboard an eine neue Position innerhalb der Billboard-Gruppe, zu der 
+  es hinzugefügt wurde. Die neu angegebene Position ist relativ zur Position der
+  Billboard-Gruppe. Verwenden Sie den @@MoveBillboard Befehl, um ein Billboard
+  relativ zu seinen eigenen Koordinaten zu bewegen.
+
+@Parameter "#Billboard"
+  Die Nummer des Billboards, welches bewegt werden soll.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, welche das Billboard enthält.
+
+@Parameter "x, y, z"
+  Die neue Position des Billboards.
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = BillboardWidth(#Billboard, #BillboardGruppe)
+
+@Description
+  Ermittelt die Breite des zur Billboard-Gruppe hinzugefügten Billboards.
+  Die Breite wird in den von der Welt verwendeten Einheiten gemessen.
+  
+@Parameter "#Billboard"
+  Die Nummer des Billboards, dessen Breite ermittelt werden soll.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, welche das Billboard enthält.
+
+@ReturnValue
+  Die Breite des Billboards, in Welt-Einheiten.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = BillboardX(#Billboard, #BillboardGruppe)
+
+@Description
+  Gibt die Position des Billboards zurück - relativ zur Position der Gruppe, in der
+  es sich befindet.
+
+@Parameter "#Billboard"
+  Die Nummer des zu verwendenden Billboards.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, welche das Billboard enthält.
+
+@ReturnValue
+  Die X-Position des Billboards.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = BillboardY(#Billboard, #BillboardGruppe)
+
+@Description
+  Gibt die Position des Billboards zurück - relativ zur Position der Gruppe, in der
+  es sich befindet.
+
+@Parameter "#Billboard"
+  Die Nummer des zu verwendenden Billboards.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, welche das Billboard enthält.
+
+@ReturnValue
+  Die Y-Position des Billboards.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = BillboardZ(#Billboard, #BillboardGruppe)
+
+@Description
+  Gibt die Position des Billboards zurück - relativ zur Position der Gruppe, in der
+  es sich befindet.
+
+@Parameter "#Billboard"
+  Die Nummer des zu verwendenden Billboards.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, welche das Billboard enthält.
+
+@ReturnValue
+  Die Z-Position des Billboards.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearBillboards(#BillboardGruppe) 
+
+@Description
+  Entfernt und zerstört alle Billboards in der angegebenen Billboard-Gruppe.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der zu löschenden Billboard-Gruppe.
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CountBillboards(#BillboardGruppe)
+
+@Description
+  Ermittelt die Anzahl der Billboards, die in der Billboard-Gruppe enthalten sind.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der zu verwendenden Billboard-Gruppe.
+
+@ReturnValue
+  Die Anzahl der Billboards, die zu der Billboard-Gruppe hinzugefügt wurden.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateBillboardGroup(#BillboardGruppe, MaterialID, StandardBillboardBreite, StandardBillboardHöhe [, x, y, z [, SichtbarkeitsMaske [, Typ]]])
+
+@Description
+  Erstellt eine neue leere Billboard-Gruppe.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer zum Identifizieren der neuen Billboard-Gruppe. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "MaterialID"
+  Das Material, welches für alle mittels der @@AddBillboard Funktion zu dieser Gruppe
+  hinzugefügten Billboards verwendet werden soll. Um eine gültige Material-ID zu
+  erhalten, verwenden Sie @@MaterialID.
+
+@Parameter "StandardBillboardBreite"
+  Die Standardbreite (in Welt-Einheiten) der zu dieser Gruppe hinzugefügten Billboards.
+  Auch wenn die Größe jedes Billboards separat mit dem @@ResizeBillboard Befehl festgelegt
+  werden kann: Es ist wichtig zu beachten, dass es sich negativ auf die Leistung niederschlägt,
+  wenn nicht alle Billboards die gleiche Größe verwenden.
+
+@Parameter "StandardBillboardHöhe"
+  Die Standardhöhe (in Welt-Einheiten) der zu dieser Gruppe hinzugefügten Billboards.
+  Auch wenn die Größe jedes Billboards separat mit dem @@ResizeBillboard Befehl festgelegt
+  werden kann: es ist wichtig zu beachten, dass es sich negativ auf die Leistung niederschlägt,
+  wenn nicht alle Billboards die gleiche Größe verwenden.
+  
+@OptionalParameter "x, y, Z"
+  Die absolute Position der neuen Billboard-Gruppe in der Welt.
+  
+@OptionalParameter "SichtbarkeitsMaske"
+  Eine Maske zum Auswählen, auf welcher @LibraryLink "camera" "Kamera" die Billboard-Gruppe dargestellt werden soll.
+  Wenn diese Maske mit der bei @@CreateCamera angegebenen Maske zusammenpasst, dann wird die Billboard-Gruppe
+  auf der Kamera angezeigt. Siehe @@CreateEntity zum Aufbau korrekter Masken.
+  Wenn dieser Parameter weggelassen wird, dann wird die Billboard-Gruppe auf allen Kameras sichtbar sein.
+
+@OptionalParameter "Typ"
+  Der Billboard-Typ. Dies kann einer der folgenden Werte sein:
+@FixedFont  
+  @#PB_Billboard_Point: Standard-Punkt-Billboard, immer komplett vor der Kamera und immer aufrecht (Standard).
+  @#PB_Billboard_Oriented: Billboards sind um einen gemeinsamen Richtungsvektor (als Y-Achse verwendet)
+                          ausgerichtet und drehen sich nur um diese, um für die Kamera sichtbar zu sein.
+  @#PB_Billboard_SelfOriented: Billboards sind um ihren eigenen Richtungsvektor (ihre eigene Y-Achse)
+                              ausgerichtet und drehen sich nur um diese, um für die Kamera sichtbar zu sein.
+  @#PB_Billboard_Perpendicular: Billboards sind senkrecht zu einem gemeinsamen Richtungsvektor (verwendet
+                               als Z-Achse, der Blickrichtung) und die X- und Y-Achsen werden von einem
+                               gemeinsamen Aufwärts-Vektor ("up vector") bestimmt.
+  @#PB_Billboard_SelfPerpendicular: Billboards sind senkrecht zu ihrem eigenen Richtungsvektor (ihrer eigenen
+                                   Z-Achse, der Blickrichtung) und die X- und Y-Achsen werden von einem
+                                   gemeinsamen Aufwärts-Vektor ("up vector") bestimmt.
+@EndFixedFont
+
+@ReturnValue
+  Gibt null zurück, wenn die Billboard-Gruppe nicht erstellt werden konnte. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"
+  als Parameter '#BillboardGruppe' verwendet wurde, dann wird die Nummer der neuen Billboard-Gruppe zurückgegeben.
+  
+@SeeAlso
+  @@FreeBillboardGroup, @@AddBillboard, @@BillboardGroupCommonDirection, @@BillboardGroupCommonDirection
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BillboardGroupCommonDirection(#BillboardGruppe, x, y, z)
+
+@Description
+  Ändert die gemeinsame Richtung des Billboards.
+
+@Parameter "#BillboardGruppe"
+  Die zu verwendene Billboard-Gruppe.
+
+@Parameter "x, y, z"
+  Der gemeinsame Richtungsvektor (in der Regel Werte zwischen -1.0 und 1.0, wenn nicht werden sie
+  automatisch normalisiert).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateBillboardGroup
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BillboardGroupCommonUpVector(#BillboardGruppe, x, y, z)
+
+@Description
+  Ändert den gemeinsamen Aufwärts-Vektor ("up vector") des Billboards.
+
+@Parameter "#BillboardGruppe"
+  Die zu verwendene Billboard-Gruppe.
+
+@Parameter "x, y, z"
+  Der gemeinsame Aufwärts-Vektor (in der Regel Werte zwischen -1.0 und 1.0, wenn nicht werden sie
+  automatisch normalisiert).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateBillboardGroup
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeBillboardGroup(#BillboardGruppe)
+
+@Description
+  Gibt die angegebene Billboard-Gruppe und alle darin enthaltenen Billboards frei.
+  Der gesamte zugehörige Speicher wird freigegeben und dieses Objekt kann nicht
+  mehr benutzt werden.
+
+@Parameter "#BillboardGruppe"
+  Die freizugebende Billboard-Gruppe. Wenn @#PB_All angegeben wird, werden alle
+  verbliebenen Billboard-Gruppen freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Alle verbleibenden Billboard-Gruppen werden automatisch freigegeben, wenn das Programm endet.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideBillboardGroup(#BillboardGruppe, Status)
+
+@Description
+  Ändert die Sichtbarkeit (versteckt oder angezeigt) einer Billboard-Gruppe und
+  aller darin enthaltenen Billboards.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, welche versteckt oder angezeigt werden soll.
+
+@Parameter "Status"
+  Dieser kann folgende Werte annehmen:
+@FixedFont
+  @#True : die Billboard-Gruppe wird versteckt
+  @#False: die Billboard-Gruppe wird angezeigt
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsBillboardGroup(#BillboardGruppe)
+
+@Description
+  Überprüft, ob die angegebene BillboardGruppen-Nummer gültig und eine korrekt
+  initialisierte Billboard-Gruppe ist.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der zu verwendenden Billboard-Gruppe.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn die Billboard-Gruppe gültig ist, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. Dies ist
+  der korrekte Weg, um sicherzugehen, dass eine Billboard-Gruppe bereit zur Benutzung ist.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveBillboard(#Billboard, #BillboardGruppe, x, y, z)
+
+@Description
+  Bewegt ein in einer Billboard-Gruppe enthaltenes Billboard entsprechend der
+  angegebenen x,y und z Werte. Dies ist eine relative Bewegung, ausgehend von
+  der aktuellen Position des Billboards. Um eine absolute Bewegung (relativ
+  zu den Koordinaten der Billboard-Gruppe) auszuführen, verwenden Sie
+  @@BillboardLocate.
+
+@Parameter "#Billboard"
+  Die Nummer des Billboards, dass bewegt werden soll.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, welche das Billboard enthält.
+
+@Parameter "x, y, z"
+  Der Offset, der zur gegenwärtigen Position des Billboards addiert werden soll.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveBillboardGroup(#BillboardGruppe, x, y, z [, Modus])
+
+@Description
+  Bewegt eine Billboard-Gruppe entsprechend der angegebenen x, y und z Werte.
+  Dies ist standardmäßig eine relative Bewegung, ausgehend von der aktuellen Position der
+  Billboard-Gruppe.
+
+@Parameter "#BillboardGruppe"
+  Die zu bewegende Billboard-Gruppe.
+
+@Parameter "x, y, z"
+  Die neue Position der Billboard-Gruppe.
+  
+@OptionalParameter "Modus"
+  Der Bewegungs-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Bewegung, ausgehend von der aktuellen Position der Billboard-Gruppe (Standard).
+  @#PB_Absolute: absolute Bewegung an die angegebene Position.
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_Local : lokale Bewegung.
+  @#PB_Parent: Bewegung relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Bewegung relativ zur Welt.
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveBillboard(#Billboard, #BillboardGruppe)
+
+@Description
+  Entfernt ein Billboard aus der angegebenen Billboard-Gruppe.
+
+@Parameter "#Billboard"
+  Die Nummer des Billboards, welches entfernt werden soll.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, welche aktuell das Billboard enthält.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeBillboard(#Billboard, #BillboardGruppe, Breite, Höhe)
+
+@Description
+  Verändert die Größe (englisch: "resizes") eines Billboards, welches aktuell in einer
+  Billboard-Gruppe enthalten ist, auf eine neue Breite und Höhe, angegeben in
+  Welt-Einheiten. Beachten Sie, dass es - auch wenn Sie Billboards mit diesem Befehl
+  unabhängig in der Größe verändern können - einige Leistungseinbußen gibt, wenn
+  die Billboards innerhalb einer Billboard-Gruppe alle verschiedene Größen haben.
+  
+@Parameter "#Billboard"
+  Die Nummer des Billboards, dass in der Größe verändert werden soll.
+
+@Parameter "#BillboardGruppe"
+  Die Nummer der Billboard-Gruppe, welche aktuell das Billboard enthält.
+
+@Parameter "Breite, Höhe"
+  Die neue Größe des Billboards, in Welt-Einheiten.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateBillboardGroup(#BillboardGruppe, x, y, z [, Modus])
+
+@Description
+  Rotiert eine Billboard-Gruppe entsprechend der angegebenen x, y, z Winkel-Angaben.
+
+@Parameter "#BillboardGruppe"
+  Die Billboard-Gruppe, welche rotiert (gedreht) werden soll.
+  
+@Parameter "x, y, z"
+  Die neue Drehung, welche auf die Billboard-Gruppe angewandt werden soll.
+  Alle Winkel werden in Grad angegeben, mit Werten von 0 bis 360.
+
+@OptionalParameter "Modus"
+  Dies kann einer der folgende Werte sein:
+@FixedFont
+  @ConstantColor "PB_Absolute": absolute Rotation (Standard).
+  @ConstantColor "PB_Relative": relative Rotation, basierend auf der vorherigen "Billboard"-Rotation.
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS

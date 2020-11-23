@@ -1,0 +1,605 @@
+;
+;     Joint library documentation
+;
+;      (c)  - Fantaisie Software
+;
+
+@Library Joint
+
+@Overview
+  Les articulations, comme les charnières, les 
+  glissières, sont utilisées pour définir un 
+  lien entre deux 
+  @LibraryLink "Entity" "entités". 
+@LineBreak
+@LineBreak
+  Ce lien permet d'obtenir un comportement 
+  automatique lorsque l'une des entités est 
+  mise en mouvement. 
+@LineBreak
+@LineBreak
+  Elles peuvent être utilisées pour simuler 
+  une interaction de façon réaliste entre 
+  deux objets, comme par exemple: 
+  Une porte qui tourne sur ses gonds, un 
+  train qui glisse sur ses rails etc.
+@LineBreak
+@LineBreak
+  @@InitEngine3D doit être appelé avec succès 
+  avant d'utiliser les fonctions communes.
+
+@CommandList
+
+@ExampleFile All Joint.pb
+@ExampleFile All ConeJoint.pb
+@ExampleFile All HingeJoint.pb
+@ExampleFile All PointJoint.pb
+@ExampleFile All SliderJoint.pb
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EnableHingeJointAngularMotor(#Charniere, Activer, Vitesse, ImpulsionMax)
+
+@Description
+  Active le moteur angulaire d'une charnière.
+
+@Parameter "#Charniere"
+  La charnière à utiliser. 
+
+@Parameter "Activer"
+  Active ou désactive le moteur angulaire 
+  de la charnière. 
+@FixedFont
+  @#True : Le moteur est activé, 
+  @#False: Le moteur est désactivé.
+@EndFixedFont
+  
+@Parameter "Vitesse"
+  La vitesse que le moteur doit produire.
+
+@Parameter "ImpulsionMax"
+  L'impulsion maximale que le moteur doit 
+  produire.
+
+@NoReturnValue
+
+@SeeAlso
+  @@HingeJoint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HingeJointMotorTarget(#Charniere, Angle, Vitesse)
+
+@Description
+  Définit le moteur d'une charnière.
+
+@Parameter "#Charniere"
+  La charnière à utiliser. 
+
+@Parameter "Angle"
+  L'angle (en degrés) que le moteur doit 
+  atteindre.
+
+@Parameter "Vitesse"
+  La vitesse que le moteur doit produire.
+
+@NoReturnValue
+
+@Remarks
+  La charnière doit être crée au préalable 
+  avec @@HingeJoint
+
+@SeeAlso
+  @@HingeJoint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeJoint(#Charniere)
+
+@Description
+  Libère une charnière et toute la mémoire 
+  associée. 
+
+@Parameter "#Charniere"
+  la charnière à libérer.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, toutes les 
+  charnières restantes seront libérées.
+
+@NoReturnValue
+
+@Remarks
+  la charnière ne doit pas être utilisée 
+  après l'appel de cette fonction (ex: en 
+  utilisant son numéro avec les autres 
+  fonctions de cette bibliothèque).
+@LineBreak
+@LineBreak
+  Toutes les charnières restantes sont 
+  automatiquement libérées  lorsque le 
+  programme se termine.
+
+@SeeAlso
+  @@PointJoint, @@HingeJoint, 
+  @@ConeTwistJoint, @@SliderJoint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsJoint(#Charniere)
+
+@Description
+  Teste si une charnière est valide et 
+  correctement initialisée. 
+
+@Parameter "#Charniere"
+  La charnière à tester.
+
+@ReturnValue
+  Renvoie une valeur non nulle si la 
+  charnière est valide, zéro sinon.
+
+@Remarks
+  Cette fonction a été créée pour pouvoir 
+  passer n'importe quelle valeur en paramètre 
+  sans qu'il ne puisse y avoir de plantage. 
+@LineBreak
+@LineBreak
+  C'est une bonne façon de s'assurer qu'une 
+  charnière est prête à l'emploi.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GenericJoint(#Charniere, EntiteID, TransformX, TransformY, TransformZ, EntiteID2, TransformX2, TransformY2, TransformZ2)
+
+@Description
+  Crée une nouvelle charnière basée sur un 
+  ou deux points.
+
+@Parameter "#Charniere"
+  Le numéro d'identification de la nouvelle 
+  charnière. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "PB_Any #" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+
+@Parameter "EntiteID"
+  Le numéro d'identification de l'entité 
+  associée à la charnière. 
+@LineBreak
+@LineBreak
+  Pour obtenir un identifiant valide, utiliser 
+  @@EntityID.
+
+@Parameter "TransformX, TransformY, TransformZ"
+  La transformation à appliquer sur la première entité.
+
+@OptionalParameter "EntiteID2"
+  La deuxième entité associée à la charnière. 
+@LineBreak
+@LineBreak
+  Si ce paramètre n'est pas spécifié, une seule
+  charnière est créée entre le point de 
+  pivotement et l'entité. 
+@LineBreak
+@LineBreak
+  Si ce paramètre est spécifié, la première 
+  entité est fixée à la seconde entité. 
+@LineBreak
+@LineBreak
+  Pour obtenir un identifiant valide, utiliser 
+  @@EntityID.
+
+@OptionalParameter "TransformX2, TransformY2, TransformZ2"
+   La transformation à appliquer sur la seconde entité.
+
+@ReturnValue
+  Renvoie zéro si la charnière ne peut être créée. 
+@LineBreak
+@LineBreak
+  Si @ReferenceLink "purebasic_objects" "#PB_Any" 
+  est utilisé à la place de '#Charniere', le 
+  nouveau numéro de charnière sera renvoyé dans 'Resultat'.
+
+@Remarks
+  @@GetJointAttribute et @@SetJointAttribute 
+  peuvent être utilisées avec les attributs 
+  suivants pour modifier le comportement de la charnière:
+@FixedFont
+  @#PB_Joint_EnableSpring: Activation du ressort @#True = ON, @#False = OFF (par défaut)
+  @#PB_Joint_Stiffness   : Raideur entre 1 et 10000
+  @#PB_Joint_Damping     : Amortissement entre 0 et 1 (0 = très fort amortissement).
+  @#PB_Joint_Position    : Position de l'axe
+  @#PB_Joint_NoLimit     : Position libre de l'axe
+  @#PB_Joint_LowerLimit  : Limite inférieure
+  @#PB_Joint_UpperLimit  : Limite supérieure
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = PointJoint(#Charniere, EntiteID, PivotX, PivotY, PivotZ, [EntiteID2, PivotX2, PivotY2, PivotZ2])
+
+@Description
+  Crée une nouvelle charnière basée sur un ou deux points.
+
+@Parameter "#Charniere"
+  Le numéro d'identification de la nouvelle 
+  charnière. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "PB_Any #" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+
+@Parameter "EntiteID"
+  Le numéro d'identification de l'entité 
+  associée à la charnière. 
+@LineBreak
+@LineBreak
+  Pour obtenir un identifiant valide, utiliser 
+  @@EntityID.
+
+@Parameter "PivotX, PivotY, PivotZ"
+  La coordonnée du point de pivot de la charnière, par rapport au centre de l'entité. 
+
+@OptionalParameter "EntiteID2"
+  La deuxième entité associée à la charnière. 
+@LineBreak
+@LineBreak
+  Si ce paramètre n'est pas spécifié, une seule
+  charnière est créée entre le point de 
+  pivotement et l'entité. 
+@LineBreak
+@LineBreak
+  Si ce paramètre est spécifié, la première 
+  entité est fixée à la seconde entité. 
+@LineBreak
+@LineBreak
+  Pour obtenir un identifiant valide, utiliser 
+  @@EntityID.
+
+@OptionalParameter "PivotX2, PivotY2, PivotZ2"
+   La coordonnée du point de pivot de la charnière, par rapport au centre de la seconde entité.
+
+@ReturnValue
+  Renvoie zéro si la charnière ne peut être créée. 
+@LineBreak
+@LineBreak
+  Si @ReferenceLink "purebasic_objects" "#PB_Any" 
+  est utilisé à la place de '#Charniere', le 
+  nouveau numéro de charnière sera renvoyé dans 'Resultat'.
+
+@Remarks
+  @@GetJointAttribute et @@SetJointAttribute 
+  peuvent être utilisées avec les attributs 
+  suivants pour modifier le comportement de la charnière:
+@FixedFont
+  @#PB_PointJoint_Tau    : Valeur Tau de la charnière
+  @#PB_PointJoint_Damping: Valeur d'amortissement de la charnière
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = HingeJoint(#Charniere, EntiteID, PivotX, PivotY, PivotZ, AxeX, AxeY, AxeZ, EntiteID2, PivotX2, PivotY2, PivotZ2, AxeX2, AxeY2, AxeZ2)
+
+@Description
+  Crée une nouvelle charnière entre deux 
+  entités.
+
+@Parameter "#Charniere"
+  Le numéro d'identification de la 
+  nouvelle charnière. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "PB_Any #" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+  
+@Parameter "EntiteID"
+  La première entité associée à la charnière. 
+@LineBreak
+@LineBreak
+  Pour obtenir un identifiant valide, utiliser 
+  @@EntityID.
+ 
+@Parameter "PivotX, PivotY, PivotZ"
+  La coordonnée du point de pivot de la 
+  charnière, par rapport au centre de l'entité.
+
+@Parameter "AxeX, AxeY, AxeZ"
+  L'orientation de l'axe de la charnière.
+
+@Parameter "EntiteID2"
+  La deuxième entité associée à la charnière. 
+@LineBreak
+@LineBreak
+  Pour obtenir un identifiant valide, utiliser 
+  @@EntityID. 
+
+@Parameter "PivotX2, PivotY2, PivotZ2"
+  La coordonnée du second point de pivotement 
+  de la charnière, par rapport au centre de 
+  la seconde entité.
+
+@Parameter "AxeX2, AxeY2, AxeZ2"
+  L'orientation de l'axe de la charnière.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+@LineBreak
+@LineBreak
+  Si @ReferenceLink "purebasic_objects" "#PB_Any" 
+  est utilisé à la place de '#Charniere', le 
+  nouveau numéro sera renvoyé dans 'Resultat'.
+
+@Remarks
+  Une charnière peut être utilisée pour simuler 
+  une porte, le mouvement d'un pont, etc.
+@LineBreak
+@LineBreak
+  @@GetJointAttribute et @@SetJointAttribute 
+  peuvent être utilisés avec les attributs 
+  suivants pour modifier le comportement de la 
+  charnière:
+@FixedFont
+  @#PB_HingeJoint_LowerLimit : Limite inférieure de la charnière
+  @#PB_HingeJoint_UpperLimit : Limite supérieure de la charnière
+@EndFixedFont
+
+@ExampleFile All HingeJoint.pb
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, 
+  @@SetJointAttribute, 
+  @@EnableHingeJointAngularMotor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ConeTwistJoint(#Charniere, EntiteID, TransformationX, TransformationY, TransformationZ, EntiteID2, TransformationX2, TransformationY2, TransformationZ2)
+
+@Description
+  Crée une nouvelle charnière de type cône 
+  de torsion (articulation) entre deux entités.
+
+@Parameter "#Charniere"
+  Le numéro d'identification de la nouvelle 
+  charnière. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "PB_Any #" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+
+@Parameter "EntiteID"
+  La première entité associée à la charnière. 
+@LineBreak
+@LineBreak
+  Pour obtenir un identifiant valide, utiliser 
+  @@EntityID.
+
+@Parameter "TransformX, TransformY, TransformZ"
+  La valeur de la transformation à appliquer sur la première entité.
+
+@Parameter "EntiteID2"
+  La deuxième entité associée à la charnière. 
+@LineBreak
+@LineBreak
+  Pour obtenir un identifiant valide, utiliser 
+  @@EntityID.
+
+@Parameter "TransformX2, TransformY2, TransformZ2"
+  La valeur de la transformation à appliquer sur la seconde entité.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+@LineBreak
+@LineBreak
+  Si @ReferenceLink "purebasic_objects" "#PB_Any" est utilisé 
+  à la place de '#Charniere', le nouveau numéro sera renvoyé 
+  dans 'Resultat'.
+
+@Remarks
+  Un cône de torsion peut être utilisé pour 
+  attacher les bras ou les jambes au corps, etc.
+@LineBreak
+@LineBreak
+  @@GetJointAttribute et @@SetJointAttribute 
+  peuvent être utilisés avec les attributs 
+  suivants pour modifier le comportement de la 
+  charnière:
+@FixedFont
+  @#PB_ConeTwistJoint_SwingSpan : Première amplitude de balancement de la charnière.
+  @#PB_ConeTwistJoint_SwingSpan2: Seconde amplitude de balancement de la charnière.
+  @#PB_ConeTwistJoint_TwistSpan : Amplitude de torsion de la charnière.
+@EndFixedFont
+
+@ExampleFile All ConeJoint.pb
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, 
+  @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SliderJoint(#Charniere, EntiteID, TransformationX, TransformationY, TransformationZ, EntiteID2, TransformationX2, TransformationY2, TransformationZ2)
+
+@Description
+  Crée une nouvelle charnière de type 
+  glissière ou curseur entre deux entités.
+
+@Parameter "#Charniere"
+  Le numéro d'identification de la nouvelle 
+  charnière. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "PB_Any #" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+  
+@Parameter "EntiteID"
+  La première entité associée à la charnière. 
+@LineBreak
+@LineBreak
+  Pour obtenir un identifiant valide, utiliser 
+  @@EntityID.
+
+@Parameter "TransformX, TransformY, TransformZ"
+  La valeur de la transformation de la 
+  première entité.
+
+@Parameter "EntiteID2"
+  La deuxième entité associée à la charnière. 
+@LineBreak
+@LineBreak
+  Pour obtenir un identifiant valide, utiliser 
+  @@EntityID.
+@LineBreak
+@LineBreak
+@Parameter "TransformX2, TransformY2, TransformZ2"
+  La valeur de la transformation de la seconde 
+  entité.
+
+@ReturnValue
+  Renvoie zéro si la charnière ne peut être créée. 
+@LineBreak
+@LineBreak
+  Si @ReferenceLink "purebasic_objects" "#PB_Any" 
+  est utilisé à la place de '#Charniere', le 
+  nouveau numéro sera renvoyé dans 'Resultat'.
+
+@Remarks
+  La glissière peut être utilisée pour déplacer 
+  une entité avec contrainte sur une surface 
+  plane, etc.
+@LineBreak 
+@LineBreak  
+  @@GetJointAttribute et @@SetJointAttribute 
+  peuvent être utilisés avec les attributs 
+  suivants pour modifier le comportement de la charnière:
+@FixedFont
+  @#PB_SliderJoint_LowerLimit : Limite inférieure de la charnière.
+  @#PB_SliderJoint_UpperLimit : Limite supérieure de la charnière.
+@EndFixedFont
+
+@ExampleFile All SliderJoint.pb
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, 
+  @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetJointAttribute(#Charniere, Attribut)
+
+@Description
+  Obtenir la valeur d'un attribut d'une 
+  charnière.
+
+@Parameter "#Charniere"
+  La charnière à utiliser.
+
+@Parameter "Attribut"
+  L'attribut à obtenir.  
+
+@ReturnValue
+  Renvoie la valeur de l'attribut spécifié ou 
+  zéro si la charnière ne prend pas en charge 
+  l'attribut.
+
+@Remarks
+  Cette fonction est disponible pour toutes 
+  les charnières qui supportent les attributs.
+@LineBreak
+@LineBreak  
+  Voir les commandes individuelles pour les 
+  attributs communs:
+@LineBreak
+@LineBreak
+  - @@PointJoint @LineBreak
+  - @@ConeTwistJoint @LineBreak
+  - @@HingeJoint @LineBreak
+  - @@SliderJoint
+
+@SeeAlso
+  @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJointAttribute(#Charniere, Attribut, Valeur [, Axe])
+
+@Description
+  Régle la valeur de l'attribut d'une charnière.
+
+@Parameter "#Charniere"
+  La charnière à utiliser.
+
+@Parameter "Attribut"
+  L'attribut à définir.  
+
+@Parameter "Valeur"
+  Valeur de l'attribut à définir.
+
+@OptionalParameter "Axe"
+  L'axe à utiliser.@LineBreak 
+  A n'utiliser qu'avec @@GenericJoint dont les axes sont indexés comme cela:
+@FixedFont
+  0, 1 et 2: translation suivant les axes (x, y, z)
+  3, 4 et 5: rotation suivant les axes (x, y, z)
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Cette fonction est disponible pour toutes 
+  les charnières qui supportent les attributs. 
+@LineBreak
+@LineBreak
+  Voir les commandes individuelles  pour les 
+  attributs communs:
+@LineBreak
+@LineBreak
+  - @@GenericJoint @LineBreak
+  - @@PointJoint @LineBreak
+  - @@ConeTwistJoint @LineBreak
+  - @@HingeJoint @LineBreak
+  - @@SliderJoint
+  
+@ExampleFile All Joint.pb
+
+@SeeAlso
+  @@GetJointAttribute
+
+@SupportedOS

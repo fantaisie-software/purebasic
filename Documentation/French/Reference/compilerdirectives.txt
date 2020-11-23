@@ -1,0 +1,244 @@
+@Title Les directives du compilateur
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#CompilerIf"><u>CompilerIf</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#CompilerSelect"><u>CompilerSelect</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#CompilerError"><u>CompilerError/CompilatorWarning</u></a></td>
+  </tr>
+    <tr>
+    <td align="center" vAlign="center" nowrap><a href="#EnableExplicit"><u>EnableExplicit<br>DisableExplicit</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#EnableASM"><u>EnableASM<br>DisableASM</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Constantes"><u>Constantes prédéfinies</u></a></td>
+  </tr>
+    </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<a name="CompilerIf"></a>
+@FormatEndIf
+
+@Syntax
+  @Keyword CompilerIf  <expression constante>
+    ...
+  [@Keyword CompilerElseIf]
+    ...
+  [@Keyword CompilerElse]
+    ...
+  @Keyword CompilerEndIf
+
+@Description
+  Si <expression constante> est vrai alors le code 
+  inclus dans la structure 'If' sera compilé, 
+  sinon il sera totalement ignoré. @Linebreak
+  Cette directive permet de construire des 
+  programmes multi-plateformes en personnalisant 
+  des parties du code source en fonctions de
+  chaque système d'exploitation.
+
+@Example
+@Code
+  CompilerIf #PB_Compiler_OS = #PB_OS_Linux
+    ; code spécifique Linux..
+  CompilerElseIf #PB_Compiler_OS = #PB_OS_Windows
+    ; code spécifique pour Windows
+  CompilerEndIf
+@EndCode  
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="CompilerSelect"></a>
+@FormatEndIf
+
+@Syntax
+  @Keyword CompilerSelect <constante numérique>
+    @Keyword CompilerCase <constante numérique>
+      ...
+    [@Keyword CompilerElse]
+      ...
+    [@Keyword CompilerDefault]
+      ...
+  @Keyword CompilerEndSelect
+
+@Description
+  Fonctionne comme un 
+  @ReferenceLink "Select_EndSelect" "Select : EndSelect" 
+  classique en opérant une compilation conditionnelle. 
+  @Linebreak
+  Cette directive permet de construire des 
+  programmes multi-plateformes en personnalisant 
+  des parties du code source en fonctions de
+  chaque système d'exploitation.
+
+@Code
+  CompilerSelect #PB_Compiler_OS
+    CompilerCase #PB_OS_MacOS
+      ; du code spécifique à Mac OS X
+    CompilerCase #PB_OS_Linux
+      ; du code spécifique à Linux
+  CompilerEndSelect
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="CompilerError"></a>
+@FormatEndIf
+
+@Syntax
+  @Keyword CompilerError <message>
+  @Keyword CompilerWarning <message>
+  
+@Description
+
+  Génère une erreur ou un avertissement du compilateur, comme si c'était une 
+  erreur de syntaxe et affiche le message spécifié. Ceci peut être utile pour faire 
+  des routines spécifiques et indiquer qu'elles ne sont pas disponibles pour un OS
+  particulier.
+  @LineBreak
+  Note: Alors que @Keyword "CompilerWarning" affiche des avertissements "seulement", 
+  pendant que le processus de compilation se poursuit, la commande @Keyword "CompilerError" 
+  arrête le processus de compilation.
+
+@Example Génère une erreur
+@Code
+  CompilerIf #PB_Compiler_OS = #PB_OS_Linux
+    CompilerError "Linux n'est pas supporté, désolé."
+  CompilerElse
+    CompilerError "OS Supporté, vous pouvez me mettre en commentaire."
+  CompilerEndIf
+@EndCode
+  
+@Example Génère un avertissement
+@Code
+  CompilerIf #PB_Compiler_OS = #PB_OS_Linux
+    CompilerWarning "Linux n'est pas supporté, désolé."
+  CompilerElse
+    CompilerWarning "OS Supporté, vous pouvez me mettre en commentaire."
+  CompilerEndIf
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="EnableExplicit"></a>
+@FormatEndIf
+
+@Syntax
+  @Keyword EnableExplicit
+  @Keyword DisableExplicit
+
+@Description
+  Active ou désactive le mode explicite. 
+  Quand il est actif, toutes les 
+  @ReferenceLink "variables" "variables" qui ne
+  sont pas explicitement déclarées avec 
+  @ReferenceLink "define" "Define", 
+  @ReferenceLink "global" "Global", 
+  @ReferenceLink "protected" "Protected" ou
+  @ReferenceLink "static" "Static" ne seront 
+  pas acceptées par le compilateur et
+  génèreront une erreur. Cela peut aider à 
+  éviter les erreurs de frappe.
+
+@Example
+@Code
+  EnableExplicit
+  
+  Define a
+  
+  a = 20 ; Ok, car déclaré avec 'Define'
+  b = 10 ; Erreur
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="EnableASM"></a>
+@FormatEndIf
+
+@Syntax
+  @Keyword EnableASM
+  @Keyword DisableASM
+
+@Description
+
+  Active ou désactive l'assembleur en ligne. 
+  Quand il est actif, toutes les commandes 
+  assembleur sont incluses directement 
+  dans le code source, pour plus d'informations 
+  référez vous à la page 
+  @ReferenceLink "InlinedASM" "L'assembleur en ligne".
+
+@Example
+@Code
+  ; Exemple assembleur x86
+  ;
+  Test = 10
+  
+  EnableASM
+    MOV dword [v_Test],20
+  DisableASM
+  
+  Debug Test ; Affichera 20
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br><br>
+<a name="Constantes"></a>
+@FormatEndIf
+
+@Section Constantes prédéfinies
+  Le compilateur PureBasic déclare automatiquement 
+  plusieurs constantes avant chaque compilation
+  pour donner plus d'informations sur l'environnement 
+  de développement:
+ 
+@FixedFont
+    @#PB_Compiler_OS: Permet de savoir sur quelle plateforme est exécuté le compilateur
+    @#PB_OS_Windows : Le compilateur est exécuté sur Windows
+    @#PB_OS_Linux   : Le compilateur est exécuté sur Linux
+    @#PB_OS_MacOS   : Le compilateur est exécuté sur Mac OS X
+
+  @#PB_Compiler_Processor : Détermine le type de processeur pour lequel le programme est créé. Il peut être l'un des suivants:
+    @#PB_Processor_x86     : Architecture de processeur x86 (aussi appelé IA-32 ou x86-32)
+    @#PB_Processor_x64     : Architecture de processeur x86-64 (aussi appelé x64, AMD64 ou Intel64)
+  
+  @#PB_Compiler_ExecutableFormat : Détermine le format de l'exécutable. Il peut être l'un des suivants:
+    @#PB_Compiler_Executable : Exécutable standard
+    @#PB_Compiler_Console    : Exécutable console (Uniquement sur Windows, les autres OS utiliseront le format exécutable standard)
+    @#PB_Compiler_DLL        : DLL (dynlib sur MacOS X et objet partagé sur Linux)
+
+    
+  @#PB_Compiler_Date     : La date actuelle, au moment de la compilation, au format @LibraryLink "Date" "date" PureBasic.
+  @#PB_Compiler_File     : Chemin complet et nom du fichier en cours de compilation, utile pour @ReferenceLink "ide_debugger" "debogguer".
+  @#PB_Compiler_FilePath : Chemin complet du fichier en cours de compilation, utile pour @ReferenceLink "ide_debugger" "debogguer".
+  @#PB_Compiler_Line     : Numéro de la ligne du fichier en cours de compilation, utile pour @ReferenceLink "ide_debugger" "debogguer".
+  @#PB_Compiler_Procedure: Nom de la procédure actuelle, si la ligne est à l'intérieur d'une @ReferenceLink "procedures" "procédure".  
+  @#PB_Compiler_Module   : Nom du module courant, si la ligne est à l'intérieur d'un @ReferenceLink "module" "module".
+  @#PB_Compiler_Version  : Version du compilateur, nombre entier sous la forme '420' pour la version 4.20.
+  @#PB_Compiler_Home     : Chemin complet du répertoire PureBasic, utile pour localiser des @ReferenceLink "includes" "fichiers inclus"
+  @#PB_Compiler_Debugger : Egal à 1 si @ReferenceLink "ide_debugger" "le débogueur" est activé, égal 0 sinon. Quand un exécutable est
+                          créé, le débogueur est toujours désactivé (cette constante sera égale à 0).
+  @#PB_Compiler_Thread   : Egal à 1 si l'exécutable est compilé en mode 'multi-threadé', égal à 0 sinon.
+  @#PB_Compiler_Unicode  : Egal à 1 si l'exécutable est compilé en mode @ReferenceLink "unicode" "unicode", égal à 0 sinon.
+  @#PB_Compiler_LineNumbering : Egal à 1 si l'exécutable est compilé avec l'option 'Activer le numéro de ligne pour @LibraryLink "OnError" "OnError"', égal à 0 sinon.
+  @#PB_Compiler_InlineAssembly: Egal à 1 si l'exécutable est compilé avec l'option 'Activer @ReferenceLink "inlinedasm" "l'assembleur en ligne"', égal à 0 sinon.
+  @#PB_Compiler_EnableExplicit: Egal à 1 si l'exécutable est compilé en mode 'explicit', égal à 0 sinon.
+  @#PB_Compiler_IsMainFile    : Egal à 1 si l'exécutable en cours de compilation est le fichier principal, égal à 0 sinon.
+  @#PB_Compiler_IsIncludeFile : Egal à 1 si l'exécutable en cours de compilation a été inclus par un autre fichier, égal à 0 sinon.
+@EndFixedFont  
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

@@ -1,0 +1,570 @@
+;
+;     Particle library documentation
+;
+;      (c) 2017 - Fantaisie Software
+;
+
+@Library Particle
+
+@Overview
+
+Particles systems are widely used in the 3D scenes to simulate hard
+to predict events, like the rain, fire, explosions etc. PureBasic
+allows to create any number of particle emitters as needed which
+are running in an autonomous manner. Each emitter has its own shape, 
+and its own properties like the velocity, speed, emission rate and more. 
+@LineBreak
+@LineBreak
+@@InitEngine3D must be called successfully before using any of the Particle functions.
+
+@CommandList
+
+@ExampleFile All Particle.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateParticleEmitter(#ParticleEmitter, Width, Height, Depth, Type, [, x.f, y.f, z.f])
+
+@Description
+  Creates a new empty particle emitter of the given size.
+    
+@Parameter "#ParticleEmitter"
+  A number to identify the new particle emitter.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "Width, Height, Depth"
+  The size of the new particle emitter (respectively x,y and z dimension).
+  The default size of the future Particles can be specified with the @@ParticleSize function. 
+
+@Parameter "Type"
+  It can be one of the following value:
+@FixedFont
+  @#PB_Particle_Point: The emitter is a single point
+  @#PB_Particle_Box  : The emitter is a box, with an width, height and depth
+@EndFixedFont
+
+@OptionalParameter "x, y, z"
+  The initial position of the particle emitter in the world.
+  
+@ReturnValue
+  Nonzero if the particle emitter has been successfully created, zero otherwise.
+  If @ReferenceLink "purebasic_objects" "#PB_Any" was used as @#ParticleEmitter
+  parameter then the auto-generated number of the new particle emitter will be
+  returned.
+
+@SeeAlso
+  @@FreeParticleEmitter
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsParticleEmitter(#ParticleEmitter)
+
+@Description
+  Tests if the given particle emitter is valid and correctly initialized. 
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to test.
+
+@ReturnValue
+  Nonzero if the particle emitter is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a particle emitter is ready to use.
+
+@SeeAlso
+  @@CreateParticleEmitter
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableParticleEmitter(#ParticleEmitter, State)
+
+@Description
+  Enables or disables the particle emitter. When disabled, no more particle are emitted.
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "State"
+  It can take the following values:
+@FixedFont
+  @#True : The particle emitter is disabled.
+  @#False: The particle emitter is enabled.
+@EndFixedFont  
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleEmitterID = ParticleEmitterID(#ParticleEmitter)
+
+@Description
+  Returns the unique system identifier of the particle emitter.
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@ReturnValue
+  The unique system identifier of the particle emitter.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ParticleEmitterX(#ParticleEmitter [, Mode])
+
+@Description
+  Returns the particle emitter 'x' position in the world.
+  
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@OptionalParameter "Mode"
+  The mode to get the 'x' position. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'x' position of the particle emitter in the world (default).
+  @#PB_Relative: get the 'x' position of the particle emitter relative to its parent.
+@EndFixedFont
+
+@ReturnValue
+  The particle emitter 'x' position in the world (according to the given 'Mode').
+
+@SeeAlso
+  @@ParticleEmitterY, @@ParticleEmitterZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ParticleEmitterY(#ParticleEmitter [, Mode])
+
+@Description
+  Returns the particle emitter 'y' position in the world.
+  
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@OptionalParameter "Mode"
+  The mode to get the 'y' position. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'y' position of the particle emitter in the world (default).
+  @#PB_Relative: get the 'y' position of the particle emitter relative to its parent.
+@EndFixedFont
+
+@ReturnValue
+  The particle emitter 'y' position in the world (according to the given 'Mode').
+
+@SeeAlso
+  @@ParticleEmitterX, @@ParticleEmitterZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ParticleEmitterZ(#ParticleEmitter [, Mode])
+
+@Description
+  Returns the particle emitter 'z' position in the world.
+  
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@OptionalParameter "Mode"
+  The mode to get the 'z' position. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'z' position of the particle emitter in the world (default).
+  @#PB_Relative: get the 'z' position of the particle emitter relative to its parent.
+@EndFixedFont
+
+@ReturnValue
+  The particle emitter 'z' position in the world (according to the given 'Mode').
+
+@SeeAlso
+  @@ParticleEmitterX, @@ParticleEmitterY
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleEmitterAngle(#ParticleEmitter, Angle.f)
+
+@Description
+  Changes the emitted particle angles. All particules will have the same angle.
+  
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "Angle.f"
+  The new particle angle, in degree.
+   
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleEmissionRate(#ParticleEmitter, Rate)
+
+@Description
+  Changes the #ParticleEmitter emission rate.
+  
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "Rate"
+  The new particle emission rate, in particles per second.
+   
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleMaterial(#ParticleEmitter, MaterialID)
+
+@Description
+  Assigns a material to the specified particle emitter. 
+  This material will be used by all the particles of this emitter. An
+  emitter can only have one material assigned at once. 
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "MaterialID"
+  The new material to use for this particle emitter. A valid 'MaterialID' can be easily obtained with the @@MaterialID function.
+
+@NoReturnValue
+
+@SeeAlso
+  @@MaterialID
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleTimeToLive(#ParticleEmitter, MinimumTime, MaximumTime)
+
+@Description
+  Change the particles time to live for the particle emitter. Every particle
+  will live at least 'MinimumTime' and at most the 'MaximumTime' (in world time
+  unit). A random value, within this range, will be used by every particle emitted.
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "MinimumTime"
+  The minimum time for a particle before being freed.
+
+@Parameter "MaximumTime"
+  The maximum time for a particle before being freed.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleVelocity(#ParticleEmitter, Minimum, Maximum)
+
+@Description
+   Changes the particles velocity. A random velocity value, picked in the 'Minimum' and 'Maximum' range, 
+   will be used by every particle emitted.
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "Minimum"
+  The minimum velocity for a particle.
+
+@Parameter "Maximum"
+  The maximum velocity for a particle.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleAcceleration(#ParticleEmitter, x.f, y.f, z.f)
+
+@Description
+   Changes the particles acceleration vector. It can be useful to simulate gravity, wind, etc.
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "x, y, z"
+  The acceleration (force) vector to apply to all particles.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleSize(#ParticleEmitter, Width, Height)
+
+@Description
+   Change the particles dimensions. Particles are 2D planes (billboards) which always face the
+   camera. All particles in an emitter always have the same size.
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "Width, Size"
+  The new size of the particles, in world unit.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleColorRange(#ParticleEmitter, StartColor, EndColor)
+
+@Description
+  Changes the particles color range for the particle emitter. Every emitted particle
+  will get a random value, within the 'StartColor' and 'EndColor' range (gradiant
+  between these two color).
+ 
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "StartColor"
+  The first color for the particle. @@RGB can be used to get a valid color value. 
+
+@Parameter "EndColor"
+  The last color for the particle. @@RGB can be used to get a valid color value. 
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleColorFader(#ParticleEmitter, RedRate.f, GreenRate.f, BlueRate.f, AlphaRate.f)
+
+@Description
+  Changes the particles color fader rate.
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "RedRate, GreenRate, BlueRate, AlphaRate"
+  The color channels fader rate to apply, per second. Examples values and their effect:
+@FixedFont
+     0: no change will be applied
+    -1: will substract 256 to the color component every second.
+     1: will add 256 to the color component every  second.
+ -0.25: will substract 64 to the color component every second.
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeParticleEmitter(#ParticleEmitter)
+
+@Description
+  Frees the particle emitter. All its associated memory is released and this object can't be used
+  anymore.
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to free. If @#PB_All is specified, all the remaining particle emitters are freed.
+  
+@NoReturnValue
+
+@Remarks
+  All remaining particle emitters are automatically freed when the program ends.
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideParticleEmitter(#ParticleEmitter, State)
+
+@Description
+  Hides or shows the specified particle emitter.
+  
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "State"
+  It can take the following values:
+@FixedFont
+  @#True : the particle emitter is hidden
+  @#False: the particle emitter is shown
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveParticleEmitter(#ParticleEmitter, x.f, y.f, z.f [, Mode])
+
+@Description
+  Move the specified particle emitter.
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to move.
+
+@Parameter "x, y, z"  
+  The new position of the particle emitter.
+
+@Parameter "Mode"
+  It can be one of the following values:
+@FixedFont
+  @#PB_Relative: relative move, from the current particle emitter position (default).
+  @#PB_Absolute: absolute move to the specified position.
+@EndFixedFont
+  combined with one of the following values:
+@FixedFont
+  @#PB_Local : local move.
+  @#PB_Parent: move relative to the parent position.
+  @#PB_World : move relative to the world.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@ParticleEmitterX, @@ParticleEmitterY, @@ParticleEmitterZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleEmitterDirection(#ParticleEmitter, x.f, y.f, z.f)
+
+@Description
+  Changes the direction of the particle emitter according to the specified x,y,z values.
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "x, y, z"  
+  The new direction vector of the particle emitter.
+  
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeParticleEmitter(#ParticleEmitter, Width, Height, Depth)
+
+@Description
+  Resizes the particle emitter to the new specified 'Width', 'Height' and 'Depth' dimension.
+
+@Parameter "#ParticleEmitter"
+  The particle emitter to resize.  
+
+@Parameter "Width, Height, Depth"
+  The new size of the particle emitter (respectively x,y and z dimension).
+  
+@NoReturnValue
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetScriptParticleEmitter(#ParticleEmitter, Name$)
+
+@Description
+  Gets a particle emitter defined in an OGRE script file.
+  
+@Parameter "#ParticleEmitter"
+  A number to identify the new particle emitter. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Name$"
+  The name of the particle emitter in the OGRE script file. This name is case-sensitive.
+
+@ReturnValue
+  Zero if the particle emitter isn't found or can't be loaded from script files. If @ReferenceLink "purebasic_objects" "#PB_Any" is used 
+  as '#ParticleEmitter' parameter, the new particle emitter number is returned.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleSpeedFactor(#ParticleEmitter, Factor.f)
+
+@Description
+  Changes the current particle emitter speed factor.
+  
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "Factor"
+  The new particle emitter speed factor. The default speed factor is 1. When using a value
+  greater than 1, then the emitting speed will be increased. When using a value
+  lower than 1, then the emitting speed will be decreased. For example, using a speed factor
+  of 4.5, will have the particle emitting speed multiplied by 4.5.
+  Using a speed factor of 0.5, will have the particle emitting speed divised by 2.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleScaleRate(#ParticleEmitter, Rate.f)
+
+@Description
+  Changes the current particle emitter scale rate.
+  
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "Rate"
+  The new particle emitter scale rate. The default rate is 0, which means the particle will be the same size. 
+  When using a value greater than 0, the particle size will be increase over time (each second, the rate will be added to the current size). 
+  When using a value lower than 0, the particle size will be decreased over time (each second, the rate will be substracted from the current size).
+@LineBreak
+@LineBreak
+  For example: @LineBreak
+  A rate of 10 will increase the particle size of 10 units per second.@LineBreak
+  A rate of -2 will decrease the particle size of 2 units per second.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleAngle(#ParticleEmitter, RangeStart.f, RangeEnd.f [, SpeedRangeStart.f, SpeedRangeEnd.f])
+
+@Description
+  Changes the particle angle when emitted.
+  
+@Parameter "#ParticleEmitter"
+  The particle emitter to use.
+
+@Parameter "RangeStart, RangeEnd"
+  The particle range (in degree) between 0 and 360. For example a range of 45 to 90 will only emit particle with
+  an random angle between 45 and 90 degrees.
+
+@Parameter "SpeedRangeStart, SpeedRangeEnd"
+  Specify the rotation speed range of the emitted particle. A random rotation speed will be picked from this range when
+  a new particle is emitted.
+
+@Remark
+  To avoid display glitchs, the particle material should be configured to be non-repeatable using
+  SetMaterialAttribute(Material, @#PB_Material_TAM, @#PB_Material_ClampTAM).
+
+@NoReturnValue
+
+@SupportedOS
+
+

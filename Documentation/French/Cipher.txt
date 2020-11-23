@@ -1,0 +1,1473 @@
+;
+; Cipher library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Cipher
+
+@Overview
+
+  La bibliothèque Cipher propose un jeu de 
+  fonctions pour le chiffrement ou 
+  l'encodage des données. Par exemple la 
+  signature SHA-2 est utilisée dans de nombreux domaines en 
+  raison de sa résistance aux piratage.
+
+@CommandList
+
+@ExampleFile All Cipher.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddCipherBuffer(#Cipher, *Entree, *Sortie, Taille)
+
+@Description
+  Ajoute de nouvelles données au 
+  chiffrement démarré avec @@StartAESCipher 
+  et copie les données cryptées dans le 
+  tampon de sortie.
+
+@Parameter "#Cipher"
+   Le chiffrement auquel les données 
+   doivent être ajoutées.
+
+@Parameter "*Entree"
+   Le tampon d'entrée.
+
+@Parameter"*Sortie"
+   Le tampon de sortie.
+
+@Parameter "Taille"
+   La taille des données à chiffrer.
+   @LineBreak 
+   Il s'agit de la quantité d'octets qui 
+   sera lue à partir du tampon d'entrée 
+   et également écrite dans le tampon de 
+   sortie.
+   
+@NoReturnValue
+
+@SeeAlso
+  @@StartAESCipher, @@FinishCipher, 
+  @@AESDecoder, @@AESEncoder
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AESEncoder(*Entree, *Sortie, Taille, *Cle, Bits, *VecteurInitialisation [, Mode])
+
+@Description
+  Encode les données du tampon d'entrée 
+  en utilisant l'algorithme AES dans le 
+  tampon de sortie.
+  
+@Parameter "*Entree"
+  Le tampon d'entrée avec les données en 
+  clair.
+
+@Parameter "*Sortie"
+  Le tampon de sortie qui reçoit les 
+  données codées. @LineBreak
+  Il doit être différent du tampon 
+  d'entrée.
+
+@Parameter "Taille"
+  Le nombre d'octets à encoder.@LineBreak 
+  Au moins 16 octets sinon des données de 
+  rembourrage doivent être ajoutées dans 
+  le tampon d'entrée avant le codage, 
+  afin d'obtenir ces 16 octets minimum.
+
+@Parameter "*Cle"
+  Un tampon contenant la clé de codage.
+@FixedFont  
+  Sa taille dépend du paramètre 'Bits': 
+    l6 octets pour le cryptage 128 bits 
+    24 octets pour le cryptage 192 bits
+    32 octets pour le cryptage 256 bits
+@EndFixedFont 
+
+@Parameter "Bits"
+  La taille de la clé utilisée par le 
+  chiffrement. @LineBreak 
+  Les valeurs valides sont 128, 192 et 256.
+
+@Parameter "*VecteurInitialisation"
+  Est un bloc tampon de données aléatoires 
+  de 16 octets, utilisé pour initialiser 
+  le chiffrement afin d'empêcher toute 
+  violation de décodage (uniquement 
+  nécessaire si vous utilisez le  mode 
+  @#PB_Cipher_CBC).
+
+@OptionalParameter "Mode"
+@FixedFont  
+  @#PB_Cipher_CBC: Mode par défaut (Cipher Block Chaining). Besoin de '*VecteurInitialisation'.
+                  Recommandé car plus sûr que le mode ECB.
+  @#PB_Cipher_ECB: Mode Alternatif (Electronic CodeBook). Pas besoin de '*VecteurInitialisation'
+                  ni de chaînage(chaque bloc est codé indépendamment). Cryptage très faible comparé à CBC
+                  et ne devrait pas être utilisé pour un cryptage sérieux.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'encodage a réussie, zéro sinon.
+
+@Remarks
+  AES est un algorithme de chiffrement de 
+  l'industrie qui a un bon équilibre entre 
+  la vitesse et la sécurité. 
+  Voici l'introduction wikipedia sur AES: 
+  "En cryptographie, le Advanced 
+  Encryption Standard (AES) est une norme
+  de cryptage adopté par le gouvernement 
+  des États-Unis. La norme comprend trois 
+  chiffrements par bloc, AES-128, AES-192 
+  et AES-256. Chaque chiffrement AES a une 
+  taille de bloc de 128 bits, avec des 
+  tailles de clés de 128, 192 et 256 bits, 
+  respectivement.
+  Les chiffrements AES ont été analysés de 
+  façon approfondie et sont maintenant 
+  utilisés dans le monde entier.
+@LineBreak
+@LineBreak
+  PureBasic utilise une mise en œuvre 
+  conforme à la RFC de l'AES. 
+  Plus d'informations peuvent être 
+  trouvées dans le RFC 3602 : 
+  @InternetLink "http://www.ietf.org/rfc/rfc3602.txt" "http://www.ietf.org/rfc/rfc3602.txt".
+
+@Example CBC
+@Code
+  ; Crypter une chaîne de caractères
+  ;
+  String$ = "Hello voici un test pour AES"
+  
+  StringMemorySize = StringByteLength(String$) + SizeOf(Character) ; Espace pour la chaîne et son caractère 'nul' de terminaison de chaîne
+  *CipheredString = AllocateMemory(StringMemorySize)   
+  *DecipheredString = AllocateMemory(StringMemorySize) 
+  
+  If AESEncoder(@String$, *CipheredString, StringByteLength(String$), ?Key, 128, ?InitializationVector)
+    Debug "Codé : "+PeekS(*CipheredString) ; Attention, ça s'arrêtera sur le premier octet nul, uniquement à des fins de démonstration
+    
+    AESDecoder(*CipheredString, *DecipheredString, StringByteLength(String$), ?Key, 128, ?InitializationVector)
+    Debug "Décodé : "+PeekS(*DecipheredString)
+  EndIf
+
+  DataSection
+    Key:
+      Data.b $06, $a9, $21, $40, $36, $b8, $a1, $5b, $51, $2e, $03, $d5, $34, $12, $00, $06
+  
+    InitializationVector:
+      Data.b $3d, $af, $ba, $42, $9d, $9e, $b4, $30, $b4, $22, $da, $80, $2c, $9f, $ac, $41
+  EndDataSection
+  
+@EndCode
+
+@Example ECB
+@Code
+  String$ = "Hello voici un test pour AES"
+  Caractere.c = '0'
+  *CipheredString   = AllocateMemory(StringByteLength(String$) + SizeOf(Caractere)) ; Espace pour la chaîne de caractères avec son
+  *DecipheredString = AllocateMemory(StringByteLength(String$) + SizeOf(Caractere)) ; caractère null de fin de chaîne
+  
+  If AESEncoder(@String$, *CipheredString, StringByteLength(String$) + SizeOf(Caractere), ?Key, 128, 0, #PB_Cipher_ECB)
+    Debug "Codé : " + PeekS(*CipheredString)
+    
+    AESDecoder(*CipheredString, *DecipheredString, StringByteLength(String$) + SizeOf(Caractere), ?Key, 128, 0, #PB_Cipher_ECB)
+    Debug "Décodé : " + PeekS(*DecipheredString)
+  EndIf
+
+  DataSection
+    Key:
+      Data.b $06, $a9, $21, $40, $36, $b8, $a1, $5b, $51, $2e, $03, $d5, $34, $12, $00, $06
+  EndDataSection
+  
+@EndCode
+
+@SeeAlso
+  @@AESDecoder, @@StartAESCipher
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AESDecoder(*Entrée, *Sortie, Taille, *Cle, Bits, *VecteurInitialisation [, Mode])
+
+@Description
+  Décode les données du tampon d'entrée 
+  en utilisant l'algorithme AES dans le 
+  tampon de sortie.
+    
+@Parameter "*Entree"
+  Le tampon d'entrée avec les données en 
+  clair.
+
+@Parameter "*Sortie"
+  Le tampon de sortie qui reçoit les 
+  données codées. @LineBreak
+  Il doit être différent du tampon 
+  d'entrée.
+
+@Parameter "Taille"
+  Le nombre d'octets à encoder.@LineBreak 
+  Au moins 16 octets sinon des données 
+  de rembourrage doivent être ajoutées 
+  dans le tampon d'entrée avant le codage, 
+  afin d'obtenir ces 16 octets minimum.
+
+@Parameter "*Cle"
+  Un tampon contenant la clé de codage. 
+@FixedFont  
+  Sa taille dépend du paramètre 'Bits': 
+    l6 octets pour le cryptage 128 bits 
+    24 octets pour le cryptage 192 bits
+    32 octets pour le cryptage 256 bits
+@EndFixedFont 
+
+@Parameter "Bits"
+  La taille de la clé utilisée par le 
+  chiffrement. @LineBreak 
+  Les valeurs valides sont 128, 192 et 256.
+
+@Parameter "*VecteurInitialisation"
+  Est un bloc tampon de données aléatoires, 
+  utilisé pour initialiser le chiffrement
+  afin d'empêcher toute violation de 
+  décodage (uniquement nécessaire si vous 
+  utilisez le  mode @#PB_Cipher_CBC).
+  Sa taille vaut toujours 16 octets.  
+  Le contenu de ce bloc doit correspondre 
+  à celui qui a été utilisé pour 
+  @Link "AESEncoder" "encoder" les données.
+
+@OptionalParameter "Mode"
+@FixedFont  
+  @#PB_Cipher_CBC: Mode par défaut (Cipher Block Chaining). Besoin de '*VecteurInitialisation'.
+                  Recommandé car plus sûr que le mode ECB.
+  @#PB_Cipher_ECB: Mode Alternatif (Electronic CodeBook). Pas besoin de '*VecteurInitialisation'
+                  ni de chaînage(chaque bloc est codé indépendamment). Cryptage très faible comparé à CBC
+                  et ne devrait pas être utilisé pour un cryptage sérieux.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si le 
+  décodage a réussi, zéro sinon. 
+
+@Remarks
+  Pour plus d'informations à propos de 
+  AES et voir des exemples: @@AESEncoder.
+
+@SeeAlso
+  @@AESEncoder, @@StartAESCipher
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = DESFingerprint(MotDePasse$, Cle$)
+
+@Description
+  Renvoie une version cryptée d'un mot de passe, 
+  en utilisant le cryptage DES.
+ 
+@Parameter "MotDePasse$"
+  Le mot de passe à crypter.@LineBreak
+  Il peut contenir jusqu'à 8 caractères 
+  au maximum, les autres caractéres sont 
+  tout simplement ignorés.@LineBreak
+  @@StringFingerprint peut être utilisé 
+  pour traiter un tampon plus grand.
+
+@Parameter "Cle$"
+  Clé de cryptage.@LineBreak
+@Indent
+  Elle est est également appelée paramètre 'Salt' 
+  (grain de sel), bien connu des 
+  utilisateurs de Linux/Unix/BSD.
+  Lorsque l'on utilise une clé de 2 
+  caractères, cette fonction renvoie une 
+  chaîne 'Salt2', compatible avec tout
+  mot de passe standard Linux (/etc/passwd). 
+  Cette commande est basée sur la fonction 
+  open source 'crypt()'.
+@EndIndent
+
+@ReturnValue  
+  Renvoie le mot de passe crypté.
+  
+@Remarks  
+  Cet algorithme est basé sur la méthode 
+  de chiffrement DES (Data Encryption 
+  Standard) pour générer une chaîne de
+  13 caractères. Cette chaîne est unique 
+  et non réversible entrainant une grande 
+  difficulté pour la 'cracker' lorsque le 
+  mot de passe est correctement choisi.
+
+@Example
+@Code
+  Debug DESFingerprint("Mot de passe", "Key007")
+  Debug DESFingerprint("Nouveau mot de passe", "Key007")
+@EndCode
+
+@SeeAlso
+  @@StringFingerprint, @@FingerPrint
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = StartFingerprint(#Fingerprint, Plugin [, Bits])
+
+@Description
+  Initialise le calcul d'une empreinte 
+  en plusieurs étapes. 
+@LineBreak
+@LineBreak   
+  Contrairement à la commande @@Fingerprint, 
+  elle permet de calculer l'empreinte de grandes 
+  quantités de données sans avoir à charger 
+  le tout dans un tampon de mémoire continue. 
+
+@Parameter "#Fingerprint"
+  L'identifiant de ce calcul de type 'checksum'. 
+@LineBreak
+@LineBreak 
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut est utilisé pour générer automatiquement 
+  ce nombre.
+
+@Parameter "Plugin"
+  Le plugin à utiliser. Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
+@EndFixedFont
+
+@OptionalParameter "Bits"
+  Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
+@FixedFont
+  @#PB_Cipher_SHA2 : peut être 224, 256 (par defaut), 384 ou 512.
+  @#PB_Cipher_SHA3 : peut être 224, 256 (par defaut), 384 or 512.
+@EndFixedFont
+
+@ReturnValue  
+  Renvoie la valeur #FingerPrint si 
+  @#PB_Any a été utilisé pour ce paramètre.
+
+@Remarks
+  @@AddFingerprintBuffer permet d'ajouter des 
+  blocs de données au calcul et 
+  @@FinishFingerprint le terminera et 
+  renverra le résultat.
+   
+@Example
+@Code
+  UseMD5Fingerprint()
+
+  *Buffer = AllocateMemory(200) ; Prépare un tampon de données                 
+  If *Buffer
+    PokeS(*Buffer, "Le renard brun rapide saute sur le chien paresseux.", -1, #PB_Ascii)
+    Taille = MemoryStringLength(*Buffer, #PB_Ascii)
+    
+    If StartFingerprint(0, #PB_Cipher_MD5)                ; démarre le calcul
+      AddFingerprintBuffer(0, *Buffer, Taille/2)          ; calcule la partie 1
+      AddFingerprintBuffer(0, *Buffer+Taille/2, Taille/2) ; calcule la partie 2
+      
+      MD5$ = FinishFingerprint(0)                ; termine le calcul
+      Debug "MD5 checksum = " + MD5$
+      
+      MD5$ = Fingerprint(*Buffer, Length, #PB_Cipher_MD5)       ; comparaison avec le calcul en une seule étape
+      Debug "MD5 checksum = " + MD5$      
+    EndIf
+
+    FreeMemory(*Buffer)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Fingerprint, @@FileFingerprint, 
+  @@StringFingerprint
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishCipher(#Cipher)
+
+@Description
+  Met fin au flux de cryptage préalablement 
+  ouvert avec @@StartAESCipher.
+  
+@Parameter "#Cipher"
+  Le cipher à fermer.
+
+@NoReturnValue
+
+@Remarks
+  Cette commande devrait être appelée pour 
+  clore un calcul de chiffrement même si le 
+  chiffre n'est plus nécessaire car elle 
+  effacera toutes les données liées au 
+  calcul de chiffrement.
+
+@SeeAlso
+  @@StartAESCipher, @@AddCipherBuffer
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsCipher(#Cipher)
+
+@Description
+  Teste si le numéro #Cipher donné est un chiffre valide et correctement initialisé. 
+
+@Parameter "#Cipher"
+  Le cipher à utiliser.
+
+@ReturnValue
+  Renvoie une valeur non nulle si #Cipher est un chiffre valide, zéro sinon.
+
+@Remarks
+  Cette fonction a été créée pour pouvoir passer n'importe quelle valeur en 
+  paramètre sans qu'il ne puisse y avoir de plantage.
+@LineBreak
+@LineBreak  
+  C'est la fonction idéale pour vérifier qu'un chiffre est correctement initialisé.
+  
+@SeeAlso
+  @@StartAESCipher
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddFingerprintBuffer(#Fingerprint, *Tampon, Taille)
+
+@Description
+  Ajoute un nouveau tampon mémoire  dans le 
+  calcul d'une somme de contrôle commencé par 
+  @@StartFingerprint.
+@LineBreak
+@LineBreak
+  La somme de contrôle renvoyée à la fin du
+  calcul inclura tous les tampons ajoutés comme 
+  si la somme de contrôle avait été calculée avec 
+  chacun d'eux dans un seul tampon mémoire 
+  contigu.
+
+@Parameter "#FingerPrint"
+  L'identifiant du calcul en cours.
+
+@Parameter "*Tampon"  
+  Le tampon qui contient les nouvelles 
+  données à ajouter à l'empreinte.
+  
+@Parameter "Taille"  
+  Le nombre d'octets à ajouter à l'empreinte.
+
+@NoReturnValue
+
+@Remarks  
+  Voir @@StartFingerprint pour un 
+  exemple d'utilisation et plus d'informations.
+
+@SeeAlso
+  @@StartFingerprint, @@FinishFingerprint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = FinishFingerprint(#Fingerprint)
+
+@Description
+  Termine le calcul d'empreinte commencé avec 
+  @@StartFingerprint et renvoie la 
+  signature générée dans une chaîne de caractères 
+  hexadécimale.
+
+@Parameter "#FingerPrint"
+  L'identifiant du calcul à terminer.
+
+@ReturnValue
+  Renvoie l'empreinte sous forme d'une chaîne 
+  de caractères hexadécimale.
+  
+@Remarks
+ Cette commande doit toujours être appelée 
+ pour terminer un calcul, même si la 
+ signature n'est plus nécessaire, car elle 
+ libère toutes les données associées au 
+ calcul.
+@LineBreak
+@LineBreak
+  Voir @@StartFingerprint pour un 
+  exemple d'utilisation et plus d'informations.
+
+@SeeAlso
+  @@StartFingerprint, @@AddFingerprintBuffer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsFingerprint(#Fingerprint)
+
+@Description
+  Teste si un '#Fingerprint' est bien un calcul 
+  d'empreinte valide commencé par 
+  @@StartFingerprint.
+  
+@Parameter "#FingerPrint"  
+  L'empreinte à tester.
+  
+@ReturnValue  
+  Renvoie une valeur non nulle si l'empreinte 
+  est valide, zéro sinon.
+  
+@Remarks  
+  Cette fonction a été conçue pour pouvoir 
+  passer n'importe quelle valeur en 
+  paramètre sans qu'il ne puisse y avoir 
+  de plantage. C'est la fonction idéale 
+  pour vérifier qu'un objet est 
+  correctement initialisé.  
+
+@SeeAlso
+  @@StartFingerprint
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = FileFingerprint(Fichier$, Plugin [, Bits  [, Decalage [, Longueur]]))
+
+@Description
+  Renvoie une empreinte d'un fichier.
+  
+@Parameter "Fichier$"  
+  Le nom du fichier à utiliser.
+
+@Parameter "Plugin"
+  Le plugin à utiliser. Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
+@EndFixedFont
+
+@OptionalParameter "Bits"
+  Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
+@FixedFont
+  @#PB_Cipher_SHA2 : peut être 224, 256 (par defaut), 384 ou 512.
+  @#PB_Cipher_SHA3 : peut être 224, 256 (par defaut), 384 or 512.
+@EndFixedFont
+  
+@OptionalParameter "Decalage"
+  Le décalage en octets (offset), à partir du 
+  début du fichier avant de lancer le 
+  calcul de la somme de contrôle.
+
+@OptionalParameter "Longueur"
+  La longueur (en octets) à utiliser pour 
+  le calcul de la somme de contrôle.
+  
+@ReturnValue  
+  Renvoie l'empreinte si le calcul a été un 
+  succès.
+@LineBreak
+@LineBreak   
+   Si le fichier est introuvable ou qu'une 
+   erreur s'est produite, le résultat 
+   sera une chaîne de caractères vide.
+
+@SeeAlso
+  @@Fingerprint, @@StartFingerprint, 
+  @@StringFingerprint
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = Fingerprint(*Tampon, Taille, Plugin [, Bits])
+
+@Description
+  Renvoie l'empreinte des données contenues 
+  dans un tampon.
+
+@Parameter "*Tampon"
+  Le tampon contenant les données.
+
+@Parameter "Taille"
+  La taille du tampon.
+
+@Parameter "Plugin"
+  Le plugin à utiliser. Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
+@EndFixedFont
+
+@OptionalParameter "Bits"
+  Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
+@FixedFont
+  @#PB_Cipher_SHA2 : peut être 224, 256 (par defaut), 384 ou 512.
+  @#PB_Cipher_SHA3 : peut être 224, 256 (par defaut), 384 or 512.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie l'empreinte sous forme d'une chaîne 
+  de caractères hexadécimale.
+
+@Example (Une chaîne en tant que tampon mémoire)
+@Code
+  UseMD5Fingerprint()
+  test.s = "Ceci est un test avec une chaîne!"
+  Debug Fingerprint(@test, Len(test), #PB_Cipher_MD5)
+@EndCode
+
+@Example (Avec un tampon mémoire)
+@Code
+  UseMD5Fingerprint()
+
+  *Buffer = AllocateMemory(500)    
+  If *Buffer
+    PokeS(*Buffer, "Le renard brun rapide saute sur le chien paresseux.", -1, #PB_Ascii)
+    MD5$ = Fingerprint(*Buffer, MemoryStringLength(*Buffer, #PB_Ascii), #PB_Cipher_MD5)
+    Debug "MD5 Fingerprint = " + MD5$
+    FreeMemory(*Buffer)  ; sera libéré aussi à la fin du programme automatiquement
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FileFingerprint, @@StartFingerprint, 
+  @@StringFingerprint
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = StringFingerprint(Texte$, Plugin [, Bits [, Format]])
+
+@Description 
+  Renvoie l'empreinte d'une chaîne de caractères.
+
+@Parameter "Texte$"
+   La chaîne de caractères.
+
+@Parameter "Plugin"
+  Le plugin à utiliser. Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
+@EndFixedFont
+
+@OptionalParameter "Bits"
+  Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
+@FixedFont
+  @#PB_Cipher_SHA2 : peut être 224, 256 (par defaut), 384 ou 512.
+  @#PB_Cipher_SHA3 : peut être 224, 256 (par defaut), 384 or 512.
+@EndFixedFont
+
+@OptionalParameter "Format"
+  Le format de la chaîne de caractères à utiliser avant 
+  le 'hashage'.@LineBreak
+  Peut être l'une des valeurs suivantes:
+@FixedFont  
+  @#PB_UTF8    : la chaîne sera 'hashée' au format UTF8 (par défaut).
+  @#PB_Ascii   : la chaîne sera 'hashée' au format ASCII.
+  @#PB_Unicode : la chaîne sera 'hashée' au format Unicode (UTF16).
+@EndFixedFont
+
+@ReturnValue
+  Renvoie l'empreinte sous forme d'une chaîne 
+  de caractères hexadécimale.
+  
+@Example
+@Code
+  UseMD5Fingerprint()
+
+  Debug StringFingerprint("UnMotdePasse", #PB_Cipher_MD5)
+@EndCode
+
+@SeeAlso
+  @@FileFingerprint, @@StartFingerprint, @@Fingerprint
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseMD5Fingerprint()
+
+@Description
+  Déclare le plugin de prise d'empreinte MD5 pour une 
+  utilisation future.
+
+@NoParameters
+
+@NoReturnValue
+  
+@Remarks
+  Voici une explication rapide tireé de la RFC 1321 
+  sur MD5:
+@LineBreak  
+@LineBreak
+  L'algorithme prend en entrée un message de longueur 
+  arbitraire et produit en sortie une "empreinte 
+  digitale" 128 bits ou un "Message Digest" de l'entrée.
+  On suppose qu'il est mathématiquement impossible de 
+  produire deux messages ayant la même empreinte, 
+  ou de produire un message ayant un message digest 
+  cible pré-spécifié. L'algorithme MD5 est destiné 
+  à la production de signatures numériques.'
+@LineBreak  
+@LineBreak
+   MD5 est souvent utilisé pour le cryptage des 
+   mots de passe mais il doit être évité car il 
+   est a été jugé vulnérable à certaines attaques.
+   Plus d'informations peuvent être trouvées dans 
+   la RFC 1321:
+   @InternetLink "Http://www.ietf.org/rfc/rfc1321.txt" "http://www.ietf.org/rfc/rfc1321.txt".
+
+@Example  
+@Code
+  UseMD5Fingerprint()
+
+  Debug StringFingerprint("UnMotdePasse", #PB_Cipher_MD5)
+@EndCode
+
+@SeeAlso
+  @@UseSHA1Fingerprint(), @@UseSHA2Fingerprint(), 
+  @@UseSHA3Fingerprint(), @@UseCRC32Fingerprint()
+
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseSHA1Fingerprint()
+
+@Description
+  Déclare le plugin de prise d'empreinte SHA1 pour une 
+  utilisation future.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  SHA1 peut être utilisé pour calculer une somme de 
+  contrôle pour vérifier si un message n'a pas été 
+  modifié. contrairement à 
+  @Link "UseCRC32Fingerprint" "CRC32", il est presque 
+  impossible de modifier le message d'origine et de 
+  produire la même empreinte SHA1.
+@LineBreak
+@LineBreak
+   Voici une explication rapide tiré de la RFC 3174 
+   sur SHA1:
+@LineBreak
+@LineBreak
+  'La SHA-1 est dite sécurisée car il est 
+  mathématiquement impossible de trouver un message 
+  digest qui correspond à un message donné, ou de 
+  trouver deux messages différents qui produisent le 
+  même message digest.
+  Toute modification d'un message en transit donnera, 
+  avec une très forte probabilité, une autre empreinte, 
+  et la signature sera différente. "
+@LineBreak
+@LineBreak
+   Plus d'informations peuvent être trouvées dans la 
+   RFC 3174:
+   @InternetLink "Http://www.ietf.org/rfc/rfc3174.txt" "http://www.ietf.org/rfc/rfc3174.txt".
+
+@Example  
+@Code
+  UseSHA1Fingerprint()
+
+  Debug StringFingerprint("UnMotdePasse", #PB_Cipher_SHA1)
+@EndCode
+
+@SeeAlso
+  @@UseMD5Fingerprint(), @@UseSHA2Fingerprint(), 
+  @@UseSHA3Fingerprint(), @@UseCRC32Fingerprint()
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseSHA2Fingerprint()
+
+@Description
+  Déclare le plugin de prise d'empreinte SHA2 pour une 
+  utilisation future.
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Sur @InternetLink "https://fr.wikipedia.org/wiki/SHA-2" "Wikipedia": 
+  SHA-2 comprend des changements importants par rapport  
+  à son prédécesseur, SHA-1.
+  En 2005, un algorithme a émergé qui a trouvé des 
+  collisions SHA-1 avec environ 2000 fois moins d'étapes 
+  que prévu.
+  Bien qu'(à partir de 2015) aucun exemple de collision 
+  SHA-1 n'aie encore été publié, la marge de sécurité 
+  laissée par SHA-1 est plus faible que prévu, et son 
+  utilisation n'est donc plus recommandée pour les 
+  applications qui réclament une forte  résistance aux 
+  collisions, notamment concernant les signatures 
+  numériques.
+  Bien que SHA-2 présente une certaine similitude avec 
+  l'algorithme SHA-1, ces attaques ont pas été étendues 
+  avec succès à SHA-2.
+
+@Example  
+@Code
+  UseSHA2Fingerprint()
+
+  Debug StringFingerprint("UnMotdePasse", #PB_Cipher_SHA2, 512) ; Use SHA2-512 variant
+@EndCode
+
+@SeeAlso
+  @@UseMD5Fingerprint(), @@UseSHA1Fingerprint(), 
+  @@UseSHA3Fingerprint(), @@UseCRC32Fingerprint()
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseSHA3Fingerprint()
+
+@Description
+  Déclare le plugin de prise d'empreinte SHA3 pour une 
+  utilisation future. Les standards 224-bits, 256 bits,
+  384 bits et 512 bits sont pris en charge.
+  
+@NoParameters
+
+@NoReturnValue
+
+@Example  
+@Code
+  UseSHA3Fingerprint()
+
+  Debug StringFingerprint("UnMotdePasse", #PB_Cipher_SHA3, 512) ; Utilisation de SHA3-512
+@EndCode
+
+@SeeAlso
+  @@UseMD5Fingerprint(), @@UseSHA1Fingerprint(), 
+  @@UseSHA2Fingerprint(), @@UseCRC32Fingerprint()
+
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseCRC32Fingerprint()
+
+@Description
+  Déclare le plugin de prise d'empreinte CRC32 pour une 
+  utilisation future.  
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  CRC32 est un codage 32 bits qui n'est pas 
+  conçu pour le stockage de mot de passe car 
+  il est facilement piratable, mais 
+  utilisable pour des contrôles rapides 
+  d'intégrité des données. Par exemple les 
+  fichiers ZIP ont une somme de contrôle à la 
+  fin du fichier pour vérifier qu'il n'est pas 
+  corrompu.@LineBreak
+  Le principal avantage de l'algorithme 
+  CRC32 sur le hachage MD5 ou autre est 
+  sa très grande vitesse.
+
+@Example  
+@Code
+  UseCRC32Fingerprint()
+
+  Debug StringFingerprint("du texte", #PB_Cipher_CRC32)
+@EndCode
+
+@SeeAlso
+  @@UseMD5Fingerprint(), @@UseSHA1Fingerprint(), 
+  @@UseSHA2Fingerprint(), @@UseSHA3Fingerprint()
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Base64DecoderBuffer(*TamponSource, LongueurSource, *TamponDestination, LongueurDestination)  
+
+@Description
+  Décode un tampon codé en 
+  @Link "Base64EncoderBuffer" "Base64". 
+
+@Parameter "*TamponSource"
+  Le tampon contenant les données codées.
+
+@Parameter "LongueurSource"
+  La taille de la mémoire tampon d'entrée.
+
+@Parameter "*TamponDestination"
+  Le tampon de sortie où les données 
+  seront copiées.
+
+@Parameter "LongueurDestination"
+  La taille de la mémoire tampon de sortie.
+@Indent
+  La mémoire tampon de sortie peut être 
+  jusqu'à 33% plus petite que le tampon 
+  d'entrée, avec une taille minimale de 
+  64 octets.@LineBreak
+  Il est recommandé de faire un tampon 
+  légèrement plus grand, par exemple 30%, 
+  pour éviter les débordements.
+@EndIndent
+
+@ReturnValue
+   Renvoie la longueur des données 
+   décodées en octets.
+
+@Example Encodage & Décodage d'une variable texte
+@Code
+  Exemple$ = "Voici une phrase !" 
+  Decoded$ = Space(1024) 
+  Encoded$ = Space(1024) 
+    
+  Debug Base64EncoderBuffer(@Exemple$, StringByteLength(Exemple$), @Encoded$, StringByteLength(Encoded$))
+  Debug Encoded$ 
+    
+  Debug Base64DecoderBuffer(@Encoded$, StringByteLength(Encoded$), @Decoded$, StringByteLength(Decoded$))
+  Debug Decoded$
+@EndCode
+
+@Example Encodage & Décodage d'une DataSection
+@Code
+  DataSection
+    TestDebut:
+    Data.a $00, $01, $02, $03, $04, $05, $06, $07
+    Data.a $08, $09, $0A, $0B, $0C, $0D, $0E, $0F
+    TestFin:
+  EndDataSection
+  
+  Taille = (?TestFin - ?TestDebut) * 1.35
+  If Taille < 64
+  Taille = 64
+  EndIf
+  
+  *EncodeBuffer = AllocateMemory(Taille)
+  Taille = Base64EncoderBuffer(?TestDebut, ?TestFin - ?TestDebut, *EncodeBuffer, MemorySize(*EncodeBuffer))
+  ChaineEncodee$ = PeekS(*EncodeBuffer, Taille, #PB_Ascii)
+  Debug ChaineEncodee$
+  
+  *DecodeBuffer = AllocateMemory(Taille)
+  Taille = PokeS(*EncodeBuffer, ChaineEncodee$, StringByteLength(ChaineEncodee$, #PB_Ascii), #PB_Ascii|#PB_String_NoZero)
+  Taille = Base64DecoderBuffer(*EncodeBuffer, Taille, *DecodeBuffer, MemorySize(*DecodeBuffer))
+  ShowMemoryViewer(*DecodeBuffer, Taille)
+@EndCode
+
+@Example Problème de décodage d'une variable texte déjà codé en Base64 par un logiciel externe
+@Code
+  ; Attention, il est délicat d'utiliser une variable pour décoder un texte
+  ; déjà codé en Base64 par un logiciel externe (messagerie par exemple)
+  
+  Encoded$ = "Vm9pY2kgdW5lIHBocmFzZSAh" ;"Voici une phrase !", codée en Base64 utf8
+  Decoded$ = Space(1024) 
+   
+  Debug Base64DecoderBuffer(@Encoded$, StringByteLength(Encoded$), @Decoded$, 1024)
+  Debug Decoded$ ; ==> Affiche n'importe quoi
+  
+  ; Pour résoudre ce problème, suivre la procédure ci-dessous
+  
+  ; Différents exemples de textes déjà codés
+  Encode_utf8$      = "Vm9pY2kgdW5lIHBocmFzZSBow6kgIQ0K" ;Voici une phrase hé !, codée en Base64 utf8
+  Encode_iso8859_1$ = "Vm9pY2kgdW5lIHBocmFzZSBo6SAhDQo=" ;Voici une phrase hé !, codée en Base64 iso8859_1$
+  Encode_ascii$     = "Vm9pY2kgdW5lIHBocmFzZSBoICENCg==" ;Voici une phrase hé !, codée en Base64 ascii 
+
+  Procedure.s Decode64(Texte64.s, Option=#PB_UTF8)
+    Protected *in, *out
+    Protected Resultat.s
+  
+    *in = Ascii(Texte64) ; Le texte codé en Base64 est supposé être en ascii pour PureBasic
+    If *in <> 0
+      ; La mémoire tampon de sortie peut être jusqu'à 33% plus petite que le tampon d'entrée
+      *out = AllocateMemory(MemoryStringLength(*in,#PB_Ascii) * 0.8) ; Ici nous prenons une valeur de 20%
+      If *out <> 0
+        Base64DecoderBuffer(*in, MemorySize(*in), *out, MemorySize(*out))  ; Décodage...
+        Resultat = PeekS(*out, -1, Option) ; Le résultat est transféré dans une variable
+        FreeMemory(*out)
+      EndIf
+      FreeMemory(*in)
+    EndIf
+    ProcedureReturn Resultat
+  EndProcedure
+
+  Debug Decode64(Encode_utf8$)                 ; Affiche: Voici une phrase hé !
+  Debug Decode64(Encode_iso8859_1$, #PB_Ascii) ; Affiche: Voici une phrase hé ! (iso8859_1 est aussi appelée Latin-1 ou Europe occidentale et contient tous les caractères ascii)
+  Debug Decode64(Encode_ascii$, #PB_Ascii)     ; Affiche: Voici une phrase h ! (problème avec lettres accentuées...)
+                                               ; car le codage Base64 ascii s'arrête au caractère ascii n°127
+@EndCode
+
+@SeeAlso
+  @@Base64EncoderBuffer
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Base64EncoderBuffer(*TamponSource, LongueurSource, *TamponDestination, LongueurDestination [, Options])    
+
+@Description
+  Encode le contenu d'un tampon avec l'algorithme Base64. 
+  
+@Parameter "*TamponSource"
+  Le tampon contenant les données à coder.
+
+@Parameter "LongueurSource"
+  La taille de la mémoire tampon d'entrée.
+
+@Parameter "*TamponDestination"
+  Le tampon de sortie où les données codées 
+  seront copiées.
+
+@Parameter "LongueurDestination"
+  La taille de la mémoire tampon de sortie.
+@Indent
+  La mémoire tampon de sortie peut être 
+  jusqu'à 33% plus petite que le tampon 
+  d'entrée, avec une taille minimale de 
+  64 octets.@LineBreak
+  Il est recommandé de faire un tampon 
+  légèrement plus grand, par exemple 30%, 
+  pour éviter les débordements.
+@EndIndent
+
+@OptionalParameter "Options"
+  Peut être une combinaison de:
+@FixedFont   
+  @#PB_Cipher_NoPadding: Il ne sera pas plus insérer de '=' à la fin de la mémoire tampon.
+  @#PB_Cipher_URL      : Utilisation d'un codage légèrement différent, principalement utilisé 
+                         dans les URLs. Les caractères '+' et '/' seront respectivement codés 
+                         en '-' et '_'.
+@EndFixedFont
+  
+@ReturnValue
+   Renvoie la longueur des données 
+   codées en octets.
+
+@Remarks
+  Il est largement utilisé dans les 
+  programmes de messagerie mais peut
+  également être utile dans toute 
+  application nécessitant un encodage 
+  basé sur le code ASCII seul (7 bits, 
+  caractères 32 à 127) pour les fichiers 
+  binaires.
+  
+@Example
+@Code
+  Exemple$ = "Ceci est une chaîne !" 
+  Decoded$ = Space(1024) 
+  Encoded$ = Space(1024) 
+    
+  Debug Base64EncoderBuffer(@Exemple$, StringByteLength(Exemple$), @Encoded$, StringByteLength(Encoded$))
+  Debug Encoded$ 
+    
+  Debug Base64DecoderBuffer(@Encoded$, StringByteLength(Encoded$), @Decoded$, StringByteLength(Decoded$))
+  Debug Decoded$
+@EndCode 
+
+@Example Encodage & Décodage d'une DataSection
+@Code
+  DataSection
+    TestDebut:
+    Data.a $00, $01, $02, $03, $04, $05, $06, $07
+    Data.a $08, $09, $0A, $0B, $0C, $0D, $0E, $0F
+    TestFin:
+  EndDataSection
+  
+  Taille = (?TestFin - ?TestDebut) * 1.35
+  If Taille < 64
+  Taille = 64
+  EndIf
+  
+  *EncodeBuffer = AllocateMemory(Taille)
+  Taille = Base64EncoderBuffer(?TestDebut, ?TestFin - ?TestDebut, *EncodeBuffer, MemorySize(*EncodeBuffer))
+  ChaineEncodee$ = PeekS(*EncodeBuffer, Taille, #PB_Ascii)
+  Debug ChaineEncodee$
+  
+  *DecodeBuffer = AllocateMemory(Taille)
+  Taille = PokeS(*EncodeBuffer, ChaineEncodee$, StringByteLength(ChaineEncodee$, #PB_Ascii), #PB_Ascii|#PB_String_NoZero)
+  Taille = Base64DecoderBuffer(*EncodeBuffer, Taille, *DecodeBuffer, MemorySize(*DecodeBuffer))
+  ShowMemoryViewer(*DecodeBuffer, Taille)
+@EndCode
+
+@SeeAlso
+  @@Base64DecoderBuffer
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Base64Decoder(Source$, *TamponDestination, LongueurDestination)  
+
+@Description
+  Décode une chaîne de caractères encodée en @Link "Base64Encoder" "Base64". 
+
+@Parameter "Source$"
+  La chaîne de caractères à encoder.
+
+@Parameter "*TamponDestination"
+  Le tampon où les données brutes de sortie seront copiées.
+
+@Parameter "LongueurDestination"
+  La taille du tampon de sortie.
+@LineBreak
+@LineBreak
+  Le tampon de sortie peut être jusqu'à 33% plus petit que le tampon d'entrée, 
+  avec une taille minimale de 64 octets.@LineBreak
+  Il est toutefois recommandé d'obtenir un tampon légèrement plus grand que 33%, comme 30% 
+  plus petit pour éviter les débordements.
+
+@ReturnValue
+  Renvoie la longueur des données décodées en octets.
+
+@Example
+@Code
+  *Texte = UTF8("Voici un texte !")
+    
+  Encoder$ = Base64Encoder(*Texte, MemorySize(*Texte))
+  Debug "Texte encodé: " + Encoder$
+  
+  *TamponDecoder = AllocateMemory(1024)
+  Base64Decoder(Encoder$, *TamponDecoder, 1024)
+  Debug "Texte décodé: " + PeekS(*TamponDecoder, -1, #PB_UTF8)
+@EndCode
+
+@SeeAlso
+  @@Base64Encoder
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = Base64Encoder(*TamponSource, LongueurSource [, Options])  
+
+@Description
+Encode le tampon spécifié à l'aide de l'algorithme Base64. 
+Ceci est largement utilisé dans les programmes de courrier électronique mais peut être utile 
+pour tous les autres programmes qui ont besoin d'un codage ASCII uniquement (7 bits, 
+seulement de 32 à 127 caractères) pour les fichiers binaires bruts. 
+
+@Parameter "*TamponSource"
+  Le tampon contenant les données brutes.
+
+@Parameter "LongueurSource"
+  La taille du tampon d'entrée.
+
+@OptionalParameter "Options"
+  Peut être une combinaison des valeurs suivantes:
+@FixedFont  
+  @#PB_Cipher_NoPadding: Pas de '=' supplémentaire à la fin de la mémoire tampon pour la combler à 3 octets.
+  @#PB_Cipher_URL      : Codage légèrement différent, principalement utilisé dans les URLs. Les caractères '+' et '/' habituels
+                        seront encodés respectivement en '-' et '_'
+@EndFixedFont
+
+@ReturnValue
+  Renvoie les données codées sous forme de chaîne.
+
+@Example
+@Code
+  *Texte = UTF8("Voici un texte !")
+    
+  Encoder$ = Base64Encoder(*Texte, MemorySize(*Texte))
+  Debug "Texte encodé: " + Encoder$
+  
+  *TamponDecoder = AllocateMemory(1024)
+  Base64Decoder(Encoder$, *TamponDecoder, 1024)
+  Debug "Texte décodé: " + PeekS(*TamponDecoder, -1, #PB_UTF8)
+@EndCode
+
+@SeeAlso
+  @@Base64Decoder, @@Base64DecoderBuffer, @@Base64EncoderBuffer
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = StartAESCipher(#Cipher, *Cle, Bits, *VecteurInitialisation, Mode)
+
+@Description
+  Initialise un flux de chiffrement AES.
+
+@Parameter "#Cipher"
+  L'identifiant du nouveau chiffrement.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro.
+
+@Parameter "*Cle"
+   Un tampon contenant la clé de décodage.
+@Fixedfont
+   Sa taille dépend du paramètre 'Bits': 
+     l6 octets pour le cryptage 128 bits. 
+     24 octets pour le cryptage 196 bits.
+     32 octets pour le cryptage 256 bits.
+@EndFixedfont
+
+@Parameter "Bits"
+   La taille de la clé utilisée par le 
+   chiffrement. @LineBreak
+   Les valeurs valides sont 128, 192 et 
+   256.
+   
+@Parameter "*VecteurInitialisation"
+   Est un bloc de données aléatoires, 
+   utilisé pour initialiser le chiffrement 
+   et pour empêcher toute 
+   violation de décodage (uniquement 
+   nécessaire si vous utilisez le mode 
+   @ConstantColor"#PB_Cipher_CBC").
+@Fixedfont
+   Sa taille dépend du paramètre 'Bits': 
+     l6 octets pour le cryptage 128 bits. 
+     24 octets pour le cryptage 196 bits.
+     32 octets pour le cryptage 256 bits.
+@EndFixedfont
+
+@Parameter "Mode"
+  Peut être une combinaison de: 
+@FixedFont  
+  @#PB_Cipher_Decode: Le flux est utilisé pour décoder les données.
+  @#PB_Cipher_Encode: Le flux est utilisé pour encoder les données.
+avec
+  @#PB_Cipher_CBC: Mode par défaut (Cipher Block Chaining). Besoin de '*VecteurInitialisation'.
+                  Recommandé car plus sûr que le mode ECB.
+  @#PB_Cipher_ECB: Mode alternatif(Electronic CodeBook). Pas besoin de '*VecteurInitialisation'
+                   ni de chaînage(chaque bloc est codé indépendamment). Cryptage très faible comparé à CBC
+                   et ne devrait pas être utilisé pour un cryptage sérieux.
+@EndFixedFont
+
+@ReturnValue
+  Si @#PB_Any a été utilisé pour le 
+  paramètre #Cipher alors un numéro 
+  généré automatiquement est retourné.
+
+@Remarks
+  Les nouveaux tampons à encoder ou à 
+  décoder peuvent être ajoutés avec 
+  @@AddCipherBuffer.
+  @LineBreak
+  @LineBreak
+  Une fois le codage terminé, 
+  @@FinishCipher doit être appelé.
+  @LineBreak
+  @LineBreak
+  Pour plus d'information à propos de 
+  AES, voir @@AESEncoder.
+
+@SeeAlso
+  @@AddCipherBuffer, @@FinishCipher, 
+  @@AESEncoder, @@AESDecoder
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = OpenCryptRandom()
+
+@Description
+  Initialise l'accès au générateur de 
+  nombres pseudo-aléatoires. 
+
+@NoParameters
+
+@ReturnValue
+  Renvoie une valeur non nulle si le 
+  générateur est correctement initialisé,  
+  zéro s'il n'y a pas de générateur 
+  pseudo-aléatoire robuste disponible 
+  dans le système.
+
+@Remarks
+  Les commandes @@CryptRandom et 
+  @@CryptRandomData peuvent être 
+  utilisées pour lire les données 
+  disponibles.
+@LineBreak
+@LineBreak
+  Ce générateur est très robuste, assez 
+  pour être utilisé à des fins de 
+  cryptographie, comme la génération
+  de clés pour la commande @@AESEncoder. 
+  La source des données du générateur est 
+  "/dev/urandom" sous Linux et MacOS X, 
+  et la "Microsoft Cryptography API" 
+  sous Windows. Il est néanmoins
+  bien plus lent que la fonction 
+  @@Random classique.
+@LineBreak
+@LineBreak
+  Consulter @@CryptRandomData pour un 
+  exemple d'utilisation.
+
+@SeeAlso
+  @@CryptRandom, @@CryptRandomData, 
+  @@CloseCryptRandom
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseCryptRandom()
+
+@Description
+  Libère les ressources utilisées par le 
+  générateur de nombres pseudo-aléatoires 
+  précédemment initialisé avec 
+  @@OpenCryptRandom.
+
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@OpenCryptRandom, @@CryptRandom, 
+  @@CryptRandomData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CryptRandom(Maximum)
+
+@Description
+  Renvoie un nombre aléatoire (entier) 
+  qui se trouve entre 0 (inclus) et la 
+  valeur maximale du générateur 
+  pseudo-aléatoire cryptographique.
+  
+@Parameter "Maximum"  
+  Valeur maximale renvoyée par la fonction.
+  @LineBreak
+  Ne peut pas dépasser la valeur maximale 
+  d'un @ReferenceLink "variables" "long": 
+  2147483647.
+
+@ReturnValue
+  Renvoie le nombre aléatoire généré.
+
+@Remarks
+  Le générateur doit d'abord être ouvert 
+  avec la commande @@OpenCryptRandom.
+@LineBreak
+@LineBreak
+  @Bold "Important: " Utiliser une valeur 
+  'Maximum' qui est égale à une puissance 
+  de deux peut causer des probabilités 
+  plus élevés pour certaines valeurs, 
+  favorisant les attaques statistiques. 
+  C'est la conséquence de la division du 
+  nombre généré pour qu'il soit dans la 
+  plage spécifiée.
+@LineBreak
+@LineBreak
+  Pour générer des quantités plus 
+  importantes de nombres aléatoires, 
+  utilisez la commande @@CryptRandomData.
+  Pour une génération beaucoup plus 
+  rapide, mais moins robuste, utilisez 
+  la commande @@Random.
+
+@SeeAlso
+  @@OpenCryptRandom, @@CryptRandomData, 
+  @@CloseCryptRandom, @@Random
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CryptRandomData(*Tampon, Longueur)
+
+@Description
+  Remplit une mémoire tampon avec des 
+  données aléatoires provenant du 
+  générateur pseudo-aléatoire 
+  cryptographique .
+
+@Parameter "*Tampon"
+   Le tampon à remplir.
+
+@Parameter "Longueur"
+  La taille de la mémoire tampon en 
+  octets.
+
+@ReturnValue
+  Renvoie une valeur non nulle si les 
+  données aléatoires ont été générés 
+  avec succès, zéro sinon.
+  
+@Remarks
+Le générateur doit d'abord être ouvert 
+avec la commande @@OpenCryptRandom.
+@LineBreak
+@LineBreak
+  Pour une génération de données beaucoup 
+  plus rapide, mais moins robuste, 
+  utiliser la commande @@RandomData.
+
+@Example
+@Code
+  *Cle = AllocateMemory(16)
+  
+  If OpenCryptRandom() And *Cle
+    CryptRandomData(*Cle, 16)
+    
+    Texte$ = "Clé crée :"
+    For i = 0 To 15
+      Texte$ + " " + RSet(Hex(PeekB(*Cle+i), #PB_Byte), 2, "0")
+    Next i     
+    
+    CloseCryptRandom()
+  Else
+    Texte$ = "La création de clé n'est pas disponible"
+  EndIf
+  
+  MessageRequester("Exemple", Texte$)
+@EndCode
+
+@SeeAlso
+  @@OpenCryptRandom, @@CryptRandom, @@CloseCryptRandom
+  @@RandomData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

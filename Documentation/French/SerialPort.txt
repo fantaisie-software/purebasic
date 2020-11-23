@@ -1,0 +1,529 @@
+;
+; SerialPort library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library SerialPort
+
+@Overview
+Le port série aussi connu sous le nom de 
+port RS-232 est toujours largement utilisé 
+dans l'industrie, et ce en dépit de son 
+âge: il a été créé en 1969. Sa simplicité 
+permet de réaliser facilement des prototypes 
+contrôlés par ordinateur. Cette bibliothèque 
+offre un accès complet aux ports série 
+disponibles. Il est conseillé de connaître 
+la définition des termes relatifs aux ports 
+série, pour plus d'informations: 
+@InternetLink "http://en.wikipedia.org/wiki/RS232" "Wikipedia - RS232".
+
+@CommandList
+
+@ExampleFile All SerialPort.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AvailableSerialPortInput(#PortSerie)
+
+@Description
+  Renvoie le nombre d'octets restants 
+  dans le tampon d'entrée.
+  
+@Parameter "#PortSerie"
+  Le port série à utiliser.  
+ 
+@SeeAlso
+  @@AvailableSerialPortOutput
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AvailableSerialPortOutput(#PortSerie)
+
+@Description
+  Renvoie le nombre d'octets restants 
+  dans le tampon de sortie.
+  
+@Parameter "#PortSerie"
+  Le port série à utiliser. 
+
+@ReturnValue
+  Renvoie le nombre d'octets restants 
+  dans le tampon de sortie.
+
+@SeeAlso
+  @@AvailableSerialPortInput
+      
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseSerialPort(#PortSerie)
+
+@Description
+  Ferme un port série. 
+  
+@Parameter "#PortSerie"
+  Le port série à utiliser.  
+@LineBreak
+@LineBreak 
+  Si @#PB_All est spécifié, tous les ports 
+  série sont libérés.
+
+@NoReturnValue
+
+@Remarks
+  Tous les ports série ouverts sont 
+  fermés automatiquement quand 
+  le programme se termine.
+
+@SeeAlso
+  @@OpenSerialPort
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetSerialPortStatus(#PortSerie, Attribut)
+
+@Description
+  Renvoie le statut d'un port série. 
+    
+@Parameter "#PortSerie"
+  Le port série à utiliser.
+  
+@Parameter "Attribut"
+  Peut prendre l'une des valeurs suivantes:
+@FixedFont
+  @#PB_SerialPort_RI : Renvoie le statut du signal RI (0 ou 1)
+  @#PB_SerialPort_DCD: Renvoie le statut du signal DCD (0 ou 1)
+  @#PB_SerialPort_DSR: Renvoie le statut du signal DSR (0 ou 1)
+  @#PB_SerialPort_CTS: Renvoie le statut du signal CTS (0 ou 1)
+  @#PB_SerialPort_XonCharacter : Caractère 'Xon' utilisé pour le mode Xon/Xoff (entre 1 et 255)
+  @#PB_SerialPort_XoffCharacter: Caractère 'Xoff' utilisé pour le mode Xon/Xoff (entre 1 et 255)
+@EndFixedFont
+
+@ReturnValue
+  Renvoie le statut du port série en 
+  fonction de l'attribut demandé.
+@FixedFont
+  0 ou 1 pour l'attribut @#PB_SerialPort_RI  
+  0 ou 1 pour l'attribut @#PB_SerialPort_DCD
+  0 ou 1 pour l'attribut @#PB_SerialPort_DSR
+  0 ou 1 pour l'attribut @#PB_SerialPort_CTS
+  Entre 1 et 255 pour l'attribut @#PB_SerialPort_XonCharacter.
+  Entre 1 et 255 pour l'attribut @#PB_SerialPort_XoffCharacter.
+@EndFixedFont
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsSerialPort(#PortSerie)
+
+@Description
+  Teste si un port série est correctement 
+  initialisé. 
+    
+@Parameter "#PortSerie"
+  Le port série à utiliser.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+  
+@Remarks  
+  Cette fonction a été conçue pour accepter 
+  n'importe quelle valeur en paramètre 
+  sans qu'il ne puisse y avoir de plantage. 
+  C'est la fonction idéale pour vérifier 
+  qu'un objet est correctement initialisé.
+
+@SeeAlso
+  @@OpenSerialPort
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SerialPortError(#PortSerie)
+
+@Description
+  Renvoie l'erreur qui est survenue après 
+  @@ReadSerialPortData, 
+  @@WriteSerialPortData ou 
+  @@WriteSerialPortString. 
+  
+@Parameter "#PortSerie"
+  Le port série à utiliser.
+  
+@ReturnValue  
+  Peut être une combinaison des valeurs 
+  suivantes:  
+@FixedFont
+  @#PB_SerialPort_RxOver   : Un dépassement est survenu dans le tampon d'entrée (Il n'y a plus de
+                            place dans le tampon d'entrée ou un caractère a été reçu apres un 'fin-de-fichier' (EOF)).
+  @#PB_SerialPort_OverRun  : Un dépassement est survenu dans le tampon des caractères. Le prochain caractère est perdu.
+  @#PB_SerialPort_RxParity : Le système a détecté une erreur de parité.
+  @#PB_SerialPort_Frame    : Le système a détecté une erreur d'encapsulation des données.
+  @#PB_SerialPort_Break    : Le système a détecté une condition d'arrêt.
+  @#PB_SerialPort_TxFull   : L'application a essayé d'envoyer un caractère mais le tampon de sortie est plein.
+  @#PB_SerialPort_IOE      :  Une erreur d'Entrée/Sortie est survenue.
+  @#PB_SerialPort_WaitingCTS  : Indique que le système attend le signal CTS (clear-to-send) avant d'émettre.
+  @#PB_SerialPort_WaitingDSR  : Indique que le système attend le signal DSR (data-set-ready) avant d'émettre.
+  @#PB_SerialPort_WaitingRLSD : Indique que le système attend le signal RLSD (receive-line-signal-detect) avant d'émettre.
+  @#PB_SerialPort_XoffReceived: Indique que le système est en attente car le caractère XOFF a été reçu.
+  @#PB_SerialPort_XoffSent    : Indique que le système est en attente car le caractère XOFF a été transmis.
+                               La transmission s'arrête quand le caractère XOFF est émis à un système qui attend le caractère XON.
+  @#PB_SerialPort_EOFSent  : Indique que le caractère 'fin-de-fichier' (EOF) a été reçu.
+@EndFixedFont  
+
+@SeeAlso
+  @@ReadSerialPortData, 
+  @@WriteSerialPortData, 
+  @@WriteSerialPortString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SerialPortID = SerialPortID(#PortSerie)
+
+@Description 
+  Renvoie l'identifiant système unique 
+  d'un port série. 
+ 
+@Parameter "#PortSerie"
+  Le port série à utiliser.
+  
+@ReturnValue  
+  Renvoie l'identifiant système unique 
+  du port série. 
+
+@Remarks
+  Cette commande est utile quand une autre
+  bibliothèque ou une commande de l'API a 
+  besoin d'accéder au port série. 
+
+@SeeAlso
+  @@OpenSerialPort
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = OpenSerialPort(#PortSerie, NomPortSerie$, Bauds, Parite, Data, Stop.f, HandshakeMode, TailleTamponEntree, TailleTamponSortie)
+
+@Description
+  Ouvre un port série. 
+  
+@Parameter "#PortSerie"
+  Le port série à utiliser.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro.
+   
+@Parameter "NomPortSerie$"
+  L'identifiant du port série, par exemple 
+  "COM1" sous Windows ou "/dev/ttyS0" 
+  sous Linux. 
+
+@Parameter "Bauds"
+  La vitesse de la connexion.@LineBreak
+  Peut prendre une des valeurs suivantes:
+@FixedFont
+    50, 75, 110, 150, 300, 600, 1200, 1800, 2400, 4800, 9600, 19200, 38400, 57600 ou 115200
+@EndFixedFont
+
+@Parameter "Parite"
+  Le bit de parité utilisé. @LineBreak
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_SerialPort_NoParity   : Aucune parité 
+  @#PB_SerialPort_EvenParity : Pair
+  @#PB_SerialPort_OddParity  : Impair  
+  @#PB_SerialPort_MarkParity : Quand le bit de parité est présent mais pas utilisé et toujours posé à 1
+  @#PB_SerialPort_SpaceParity: Quand le bit de parité est présent mais pas utilisé et toujours posé à 0
+@EndFixedFont
+
+@Parameter "Data"
+  La longueur de chaque donnée en bits :
+@FixedFont
+  5 : Code Baudot (très ancien)
+  6 : Rare
+  7 : ASCII
+  8 : Octet
+  9 : Rare
+@EndFixedFont
+  
+@Parameter "Stop"
+  Le nombre de bits d'arrêts :
+@FixedFont
+  1, 1.5 ou 2
+@EndFixedFont
+
+@Parameter "HandshakeMode"
+  Peut prendre une des valeurs suivantes:
+@FixedFont
+  @#PB_SerialPort_NoHandshake     : Pas de protocole d'initialisation
+  @#PB_SerialPort_RtsHandshake    : Pas de protocole d'initialisation mais RTS est mis à 1
+  @#PB_SerialPort_RtsCtsHandshake : Protocole RTS/CTS
+  @#PB_SerialPort_XonXoffHandshake: Protocole Xon/Xoff
+@EndFixedFont
+
+@Parameter "TailleTamponEntree"
+  La taille du tampon d'entrée, en octets.
+  
+@Parameter "TailleTamponSortie"
+  La taille du tampon de sortie, en octets.
+  
+@ReturnValue 
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+@LineBreak
+@LineBreak
+  Si le port série ne peut pas être ouvert 
+  alors il peut être déjà en cours 
+  d'utilisation, ou les paramètres ne 
+  sont pas corrects.
+
+@Example
+@Code
+  If OpenSerialPort(0, "COM1", 300, #PB_SerialPort_NoParity, 8, 1, #PB_SerialPort_NoHandshake, 1024, 1024)
+    Debug "Succes"
+  Else
+    Debug "Echec"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CloseSerialPort
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ReadSerialPortData(#PortSerie, *Memoire, Taille)
+
+@Description
+  Lit des données et les écrit en mémoire. 
+    
+@Parameter "#PortSerie"
+  Le port série à utiliser.
+  
+@Parameter "*Memoire"
+  L'adresse mémoire où seront stockées 
+  les données reçues du port série.
+    
+@Parameter "Taille"
+  Le nombre d'octets à lire.
+
+@ReturnValue
+  Le nombre d'octets réellement lu ou zéro 
+  si une erreur est apparue. @LineBreak
+  Ce nombre peut être inférieur au nombre 
+  demandé dans 'Taille'
+
+@Remarks
+  Cette fonction bloquera l'éxécution du 
+  programme jusqu'à l'arrivée des données. 
+  Pour vérifier que des données sont 
+  disponibles dans le port série, 
+  utiliser @@AvailableSerialPortInput.
+
+@SeeAlso
+  @@AvailableSerialPortInput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SerialPortTimeouts(#PortSerie, RIT, RTTC, RTTM, WTTC, WTTM)
+
+@Description
+  Change les temps d'attentes par défaut.
+
+@Parameter "#PortSerie"
+  Le port série à utiliser.
+
+@Parameter "RIT"
+  'RIT' (Read Interval Timeout): Indique le 
+  temps d'attente maximum, en millisecondes, 
+  entre l'arrivée de deux caractères sur 
+  la ligne de communication.@LineBreak 
+  La valeur par défaut est 100.
+
+@Parameter "RTTC"
+  'RTTC' (Read Total Timeout Constant): 
+  Indique la constante, en millisecondes, 
+  utilisée pour calculer le temps d'attente 
+  maximum pour les opérations de lecture. 
+  Pour chaque opération de lecture, cette 
+  valeur est ajoutée au produit de 'RTTM' 
+  (Read Total Timeout Multiplier) et le 
+  nombre d'octets demandés.@LineBreak
+  La valeur par défaut est 100.
+
+@Parameter "RTTM" 
+  'RTTM' (Read Total Timeout Multiplier): 
+  Détermine le multiplicateur, en 
+  millisecondes, utilisé pour calculer le 
+  temps d'attente total pour les opérations 
+  de lecture. Pour chaque opération 
+  de lecture, cette valeur est multipliée 
+  par le nombre d'octets demandés. 
+  @LineBreak
+  La valeur par défaut est 10.
+
+@Parameter "WTTC"  
+  'WTTC' (WriteTotalTimeoutConstant): 
+  Indique la constante, en millisecondes, 
+  utilisée pour calculer le temps d'attente 
+  maximum pour les opérations d'écriture. 
+  Pour chaque opération d'écriture, cette 
+  valeur est ajoutée au produit de 'WTTM' 
+  (Write Total Timeout Multiplier) et le 
+  nombre d'octets devant être écrits. 
+  @LineBreak
+  La valeur par défaut est 10.
+
+@Parameter "WTTM"  
+  'WTTM' (Write Total Timeout Multiplier): 
+  Détermine le multiplicateur, en 
+  millisecondes, utilisé pour calculer le 
+  temps d'attente total pour les opérations 
+  d'écriture. Pour chaque opération 
+  d'écriture, cette valeur est multipliée 
+  par le nombre d'octets devant être écrits. 
+  @LineBreak
+  La valeur par défaut est 100.
+      
+@NoReturnValue
+
+@SeeAlso
+  @@OpenSerialPort
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetSerialPortStatus(#PortSerie, Attribut, Valeur)
+
+@Description
+  Change le statut d'un port série. 
+
+@Parameter "#PortSerie"
+  Le port série à utiliser.
+
+@Parameter "Attribut"  
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_SerialPort_DTR: Change le statut du signal DTR (0 ou 1)
+  @#PB_SerialPort_RTS: Change le statut du signal RTS (0 ou 1)
+  @#PB_SerialPort_TXD: Change le statut du signal TXD (0 ou 1)
+  @#PB_SerialPort_XonCharacter : Caractère 'Xon' utilisé pour le mode Xon/Xoff (entre 1 et 255). La valeur par défaut est $11.
+  @#PB_SerialPort_XoffCharacter: Caractère 'Xoff' utilisé pour le mode Xon/Xoff (entre 1 et 255). La valeur par défaut est $13.
+@EndFixedFont
+
+@Parameter "Valeur"
+  La valeur de l'attribut.
+@FixedFont
+  0 ou 1 pour l'attribut @#PB_SerialPort_DTR  
+  0 ou 1 pour l'attribut @#PB_SerialPort_RTS
+  0 ou 1 pour l'attribut @#PB_SerialPort_TXD
+  entre 1 et 255 pour l'attribut @#PB_SerialPort_XonCharacter. La valeur par défaut est $11.
+  entre 1 et 255 pour l'attribut @#PB_SerialPort_XoffCharacter. La valeur par défaut est $13.
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenSerialPort(0, "COM1", 300, #PB_SerialPort_NoParity, 8, 1, #PB_SerialPort_XonXoffHandshake, 1024, 1024)
+    SetSerialPortStatus(0, #PB_SerialPort_XonCharacter, 8)
+    SetSerialPortStatus(0, #PB_SerialPort_XoffCharacter, 9)
+    Debug "Succès"
+  Else
+    Debug "Echec"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenSerialPort
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteSerialPortData(#PortSerie, *Memoire, Taille)
+
+@Description
+  Envoie des données. 
+  
+@Parameter "#PortSerie"
+  Le port série à utiliser.
+
+@Parameter "*Memoire"
+  Le tampon (zone mémoire) où les données 
+  seront stockées.
+  
+@Parameter "Taille"
+  La taille du tampon.
+  
+@ReturnValue
+  Renvoie le nombre d'octets écrits sur le 
+  port série, ou zéro si l'opération a 
+  échoué.
+  
+@Remarks
+  Pour connaître le nombre d'octets 
+  disponibles dans le tampon de sortie, 
+  utiliser @@AvailableSerialPortOutput.
+  
+@SeeAlso
+  @@OpenSerialPort, @@WriteSerialPortString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteSerialPortString(#PortSerie, Texte$ [, Format])
+
+@Description
+  Envoie une chaîne de caractère.
+  
+@Parameter "#PortSerie"
+  Le port série à utiliser.
+
+@Parameter "Texte$"
+  Le texte à écrire.
+  
+@OptionalParameter "Format"
+  Peut être l'une des valeurs suivantes:
+@FixedFont  
+  @#PB_Ascii   : La chaîne sera écrite dans le format ASCII.
+  @#PB_UTF8    : La chaîne sera écrite dans le format UTF8 (par défaut).
+  @#PB_Unicode : La chaîne sera écrite dans le format unicode (UTF16).
+@EndFixedFont
+
+@ReturnValue
+  Renvoie le nombre d'octets écrits sur le 
+  port série, ou zéro si l'opération a 
+  échoué.
+  
+@Remarks
+   Pour connaître le nombre d'octets 
+   disponibles dans le tampon de sortie, 
+   utiliser @@AvailableSerialPortOutput.
+
+@SeeAlso
+  @@OpenSerialPort, @@WriteSerialPortData
+
+@SupportedOS

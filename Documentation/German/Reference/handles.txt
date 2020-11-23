@@ -1,0 +1,59 @@
+@Title Handles und Nummern
+
+@Section Nummern
+
+  Alle erstellten Objekte werden durch eine beliebige Nummer (welche nicht das "Handle" des Objekts ist, siehe
+  hierzu weiter unten) angesprochen. In dieser Anleitung werden diese Bezeichner (Nummern) durch die Notation #Nummer 
+  gekennzeichnet. (So hat zum Beispiel jedes erstellte Gadget eine #Gadget Nummer.) 
+@LineBreak
+@LineBreak
+  Die Zahlen, die man Objekten zuweist, müssen keine Konstanten sein, sie müssen aber für jedes Objekt 
+  einmalig sein. (Ein Bild kann z.B. aber die gleiche Zahl wie ein Gadget haben, weil dies ja 
+  unterschiedliche Dinge sind.) Diese Nummern werden benötigt, um die Objekte später im Programm anzusprechen. 
+@LineBreak
+@LineBreak
+  Zum Beispiel geben folgende Event-Funktionen diese Nummern zurück:
+@Code  
+  EventGadget()
+  EventMenu()
+  EventWindow()
+@EndCode
+
+
+@Section Handles
+
+  Alle Objekte bekommen auch vom System eine einmalige Nummer zugewiesen. Diese Nummern nennt man Handles. 
+  @LineBreak
+  @LineBreak
+  Einige PureBasic Funktionen benötigen eben dieses Handle, und nicht die Nummer von PureBasic. In dieser 
+  Anleitung wird dies als eine ID bezeichnet.
+
+  @Example
+  
+@Code
+  ImageGadget(#Gadget, x, y, Breite, Höhe, ImageID [, Flags])
+  ; #Gadget ist hier die Nummer, die Sie dem Gadget zuweisen möchten.
+  ; ImageID muss hier der Handle zu einem Bild sein.
+@EndCode
+
+  Um das Handle von einem Objekt zu ermitteln, gibt es spezielle Funktionen wie z.B.:
+
+@Code  
+  FontID()
+  GadgetID()
+  ImageID()
+  ThreadID()
+  WindowID()
+@EndCode  
+
+  Meistens geben die Funktionen, die solche Objekte erstellen, auch dieses Handle als Ergebnis zurück,
+  wenn das Objekt erfolgreich erstellt wurde. Dies ist nur dann der Fall, wenn @#PB_Any 
+  beim Erstellen des Objekts nicht verwendet wurde. Wenn @#PB_Any verwendet wird, dann
+  geben diese Befehle die von PB zugewiesenen Objekt-Nummern zurück, und nicht das Handle.
+
+  @Example
+  
+@Code
+  GadgetHandle = ImageGadget(...)
+@EndCode  
+

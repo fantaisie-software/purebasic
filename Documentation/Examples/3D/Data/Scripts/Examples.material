@@ -1,0 +1,821 @@
+material Examples/SphereMappedRustySteel
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture RustySteel.jpg
+			}
+
+			texture_unit
+			{
+				texture spheremap.png
+				colour_op_ex add src_texture src_current
+				colour_op_multipass_fallback one one
+				env_map spherical
+			}
+		}
+	}
+}
+
+material Examples/OgreLogo
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8
+
+			texture_unit
+			{
+				texture ogrelogo.png
+			}
+		}
+	}
+}
+
+material Examples/BeachStones
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.1 0.1 0.1
+
+			texture_unit
+			{
+				texture BeachStones.jpg
+			}
+		}
+	}
+}
+
+material Examples/TrippySkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture nm.png separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/SpaceSkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture stevecube.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/SceneSkyBox1
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture cubemap_fr.jpg cubemap_bk.jpg cubemap_lf.jpg cubemap_rt.jpg cubemap_up.jpg cubemap_dn.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/SceneCubeMap1
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+
+			texture_unit
+			{
+				cubic_texture cubemap.jpg combinedUVW
+				tex_address_mode clamp
+				env_map cubic_reflection
+			}
+		}
+	}
+}
+
+material Examples/SceneSkyBox2
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture cubescene_fr.jpg cubescene_bk.jpg cubescene_lf.jpg cubescene_rt.jpg cubescene_up.jpg cubescene_dn.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/SceneCubeMap2
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+
+			texture_unit
+			{
+				cubic_texture cubescene.jpg combinedUVW
+				tex_address_mode clamp
+				env_map cubic_reflection
+			}
+		}
+	}
+}
+
+material Examples/CloudyNoonSkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture cloudy_noon.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/StormySkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture stormy.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/EveningSkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture evening.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/DynamicCubeMap
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				// will be filled in at runtime
+				cubic_texture dyncubemap combinedUVW
+				tex_address_mode clamp
+				env_map cubic_reflection
+			}
+		}
+	}
+}
+
+material Examples/CloudySky
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				texture clouds.jpg
+				scroll_anim 0.15 0
+			}
+		}
+	}
+}
+
+material Examples/RustySteel
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture RustySteel.jpg
+			}
+		}
+	}
+}
+
+material Examples/Chrome
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture Chrome.jpg
+				env_map spherical
+			}
+		}
+	}
+}
+
+material Examples/SpaceSkyPlane
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				texture spacesky.jpg
+			}
+		}
+	}
+}
+
+material Examples/OgreDance
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			cull_hardware none
+			cull_software none
+
+			texture_unit
+			{
+				anim_texture ogredance.png 8 2
+				filtering none
+			}
+		}
+	}
+}
+
+material Examples/OgreParade : Examples/OgreDance
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				scroll 0.5 0
+				scale 0.5 0.5
+				scroll_anim 0 0.5
+			}
+		}
+	}
+}
+
+material Examples/OgreSpin : Examples/OgreDance
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture ogredance_1.png
+				rotate_anim 0.25
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/OgreWobble : Examples/OgreDance
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture ogredance_6.png
+				wave_xform scale_x sine 1 1.2 0 0.35
+				wave_xform scale_y sine 1 1 0.5 0.25
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/BumpyMetal
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.75 0.75 0.75
+
+			texture_unit
+			{
+				texture BumpyMetal.jpg
+			}
+		}
+	}
+}
+
+material Examples/WaterStream
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.1 0.1 0.1
+			scene_blend add
+			depth_write off
+			cull_software none
+			cull_hardware none
+
+			texture_unit
+			{
+				texture Water01.jpg
+				scroll_anim 0.125 0
+			}
+
+			texture_unit
+			{
+				texture Water01.jpg
+				wave_xform scroll_y sine 0 0.1 0 0.25
+			}
+		}
+	}
+}
+
+material Examples/Flare
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			diffuse vertexcolour
+
+			texture_unit
+			{
+				texture flare.png
+			}
+		}
+	}
+}
+material Examples/Flare2
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			diffuse vertexcolour
+
+			texture_unit
+			{
+				texture flaretrail.png
+			}
+		}
+	}
+}
+material Examples/Flare3
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_write off
+			diffuse vertexcolour
+
+			texture_unit
+			{
+				texture flare_alpha.dds
+			}
+		}
+	}
+}
+material Examples/FlarePointSprite
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			diffuse vertexcolour
+
+			point_sprites on
+			point_size 2
+			point_size_attenuation on
+
+			texture_unit
+			{
+				texture flare.png
+			}
+		}
+	}
+}
+
+material Examples/Droplet
+{
+	technique
+	{
+		pass
+		{
+			emissive 0.3 0.3 0.3
+			scene_blend colour_blend
+			depth_write off
+			diffuse vertexcolour
+
+			texture_unit
+			{
+				texture basic_droplet.png
+			}
+		}
+	}
+}
+material Examples/Hilite/Yellow
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture dkyellow.png
+			}
+		}
+	}
+}
+material Examples/Rocky
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.2 0.2 0.2
+
+			texture_unit
+			{
+				texture egyptrockyfull.jpg
+			}
+		}
+	}
+}
+material Examples/10PointBlock
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture 10points.png
+			}
+		}
+	}
+}
+material Material__25
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture texmap2.jpg
+			}
+		}
+	}
+}
+material "2 - Default"
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture MtlPlat2.jpg
+			}
+		}
+	}
+}
+material "Material #8"
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture BODY.jpg
+			}
+		}
+	}
+}
+material "Material #3"
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture HEAD4.jpg
+			}
+		}
+	}
+}
+material "Material #9"
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture LEGS.jpg
+			}
+		}
+	}
+}
+
+material Examples/Fish
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture steelhead.png
+			}
+		}
+	}
+}
+material Examples/Ninja
+{
+	technique
+	{
+		pass
+		{
+		
+			texture_unit
+			{
+				texture nskingr.jpg
+			}
+		}
+	}
+}
+
+material Examples/Robot
+{
+
+	// Software blending technique
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture r2skin.jpg
+			}
+		}
+	}
+}
+
+material Examples/GrassFloor
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture grass_1024.jpg
+			}
+		}
+	}
+}
+
+material Examples/Rockwall
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture rockwall.tga
+			}
+		}
+	}
+}
+
+material Examples/Aureola
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_write off			
+			diffuse vertexcolour
+			cull_hardware none
+
+			texture_unit
+			{
+				texture aureola.png PF_BYTE_LA
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+
+material RustyBarrel
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.5 0.5 0.5 1.0
+			diffuse 1.0 1.0 1.0 1.0
+			specular 0.0 0.0 0.0 1.0 12.5
+			emissive 0.0 0.0 0.0 1.0
+			texture_unit
+			{
+				texture RustyBarrel.png
+				filtering trilinear
+			}
+		}
+	}
+}
+
+material WoodPallet
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.5 0.5 0.5 1.0
+			diffuse 1.0 1.0 1.0 1.0
+			specular 0.0 0.0 0.0 1.0 12.5
+
+			texture_unit
+			{
+				texture WoodPallet.png
+				filtering trilinear
+			}
+		}
+	}
+}
+
+material Examples/LightRibbonTrail
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+			diffuse vertexcolour
+
+			texture_unit
+			{
+				texture ribbonband.png 1d
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material Examples/TudorHouse
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture fw12b.jpg
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+
+material Examples/Plane/IntegratedShadows
+{
+	technique
+	{
+		pass
+		{
+			// Single-pass shadowing
+			texture_unit
+			{
+				texture MtlPlat2.jpg
+			}
+			texture_unit
+			{
+				// standard modulation blend
+				content_type shadow
+				tex_address_mode clamp
+			}
+		}
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+

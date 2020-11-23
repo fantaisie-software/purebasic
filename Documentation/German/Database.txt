@@ -1,0 +1,1461 @@
+;
+;     Database library documentation
+;
+;       (c) Fantaisie Software
+;
+
+@Library Database
+
+@Overview
+  Die Database-Bibliothek ist eine einfache Sammlung von Befehlen, um auf SQLite-, PostgreSQL-, MySQL-, MariaDB- oder jeden
+  anderen Datenbank-Typ (Oracle, MySQL, Access, etc...) über ODBC zuzugreifen.
+  Der Zugriff auf oder das Speichern von Daten erfolgt über SQL-Abfragen.
+  Deshalb ist ein Verständnis der SQL-Syntax notwendig.
+@LineBreak
+@LineBreak
+  Nachfolgend einige Links über den SQL-Syntax:
+@LineBreak
+  @InternetLink "http://www.w3schools.com/sql/default.asp" "W3Schools SQL Tutorial"
+@LineBreak
+  @InternetLink "http://www.hwaci.com/sw/sqlite/lang.html" "SQLite SQL Befehle"
+@LineBreak
+  @InternetLink "http://www.postgresql.org/docs/8.4/interactive/index.html" "PostgreSQL Handbuch"
+@LineBreak
+@LineBreak
+  Die Datenbank-Programmierung beginnt mit dem Initialisieren der Datenbank-Umgebung 
+  mittels @@UseODBCDatabase, @@UseSQLiteDatabase, @@UseMySQLDatabase bzw. @@UsePostgreSQLDatabase.
+
+@OS Windows
+@LineBreak
+@LineBreak
+  Hinweis: Auf Windows ist es - insbesondere vor Verwendung einer ODBC-Datenbank - notwendig, eine ODBC "Benutzerdatenquelle" 
+  (englisch "User Data Source") einzurichten, was Ihre Datenbank über ODBC verfügbar und mit dieser 
+  Database-Bibliothek benutzbar macht. Zwecks weiterer Informationen sehen Sie in das Windows ODBC Hilfedokument. 
+
+@OS Linux
+@LineBreak
+@LineBreak
+  Hinweis: Das iODBC Paket (einschließlich des 'dev' Pakets) muss unter Linux installiert sein, 
+  um diese Bibliothek verwenden zu können. Schauen Sie auf @InternetLink "http://www.iodbc.org" "http://www.iodbc.org"
+  in die Download-Sektion für weitere Informationen.
+
+@CommandList
+
+@ExampleFile All Database.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = AffectedDatabaseRows(#Datenbank)
+
+@Description
+  Gibt die Anzahl der von der letzten @@DatabaseUpdate Operation betroffenen Zeilen zurück.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@ReturnValue
+  Gibt die Anzahl der von der letzten @@DatabaseUpdate Operation betroffenen Zeilen zurück.
+
+@SeeAlso
+  @@DatabaseUpdate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseDatabase(#Datenbank)
+
+@Description
+  Schließt die angegebene #Datenbank (und ggf. offene Verbindungen oder Transaktionen).
+  Damit sind keine weiteren Operationen in dieser Datenbank erlaubt.
+
+@Parameter "#Datenbank"
+  Die zu schließende Datenbank. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen
+  Datenbanken geschlossen.
+
+@NoReturnValue
+
+@Remarks
+  Alle noch offenen Datenbanken werden automatisch geschlossen, wenn das Programm endet.
+
+@SeeAlso
+  @@OpenDatabase, @@OpenDatabaseRequester  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DatabaseColumns(#Datenbank)
+
+@Description
+  Gibt die Anzahl an Spalten (Feldern) von der letzten mittels @@DatabaseQuery ausgeführten
+  Datenbank-Abfrage zurück.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@ReturnValue
+  Gibt die Anzahl an Spalten von der letzten Datenbank-Abfrage zurück.
+  
+@SeeAlso
+  @@DatabaseColumnName, @@DatabaseColumnType, @@DatabaseColumnSize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DatabaseColumnIndex(#Datenbank, SpaltenName$)
+
+@Description
+  Gibt den Index der Spalte nach Ausführung einer Abfrage mit @@DatabaseQuery in der geöffneten
+  #Datenbank zurück. Dies kann nützlich für die Verwendung mit Befehlen wie @@GetDatabaseLong
+  sein, welchen einen Spalten-Index benötigen.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "#SpaltenName$"
+  Der Name der Spalte, von der der Index ermittelt werden soll.
+
+@ReturnValue
+  Gibt den Index der angegebenen Spalte zurück, -1 wenn '#SpaltenName$' ungültig ist.
+  Der Index ist nur gültig, nachdem mit @@DatabaseQuery eine Datenbank-Abfrage ausgeführt wurde.
+
+@SeeAlso
+  @@DatabaseQuery, @@GetDatabaseBlob, @@GetDatabaseDouble, @@GetDatabaseFloat, @@GetDatabaseString, @@GetDatabaseQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = DatabaseColumnName(#Datenbank, Spalte)  
+
+@Description
+  Gibt den Namen der angegebenen Spalte (Feld) in der #Datenbank zurück.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Spalte"
+  Die zu verwendende Spalte (beginnend bei 0).
+
+@ReturnValue
+  Gibt den Namen der Spalte zurück.
+
+@SeeAlso
+  @@DatabaseColumns, @@DatabaseColumnType, @@DatabaseColumnSize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DatabaseColumnSize(#Datenbank, Spalte)
+
+@Description
+  Gibt die Größe der angegebenen Spalte (Feld) in der #Datenbank zurück.
+  Dies ist insbesondere nützlich, wenn sich die Größe des Feldes abhängig von den Einträgen in der
+  #Datenbank ändern kann, wie bei einem Blob- oder einem String-Feld.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Spalte"
+  Die zu verwendende Spalte (beginnend bei 0).
+
+@ReturnValue
+  Gibt die Größe der Spalte in Bytes zurück.
+
+@SeeAlso
+  @@DatabaseColumns, @@DatabaseColumnType, @@DatabaseColumnName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DatabaseColumnType(#Datenbank, Spalte)
+
+@Description
+  Gibt den Typ der angegebenen Spalte (Feld) in der #Datenbank zurück.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Spalte"
+  Die zu verwendende Spalte (beginnend bei 0).
+
+@ReturnValue
+  Gibt den Typ der angegebenen Spalte zurück.
+  Ist das Ergebnis gleich 0, ist der Typ nicht definiert oder der Befehl ist
+  fehlgeschlagen (z.B. es war nicht möglich, den Daten-Typ zu ermitteln).
+@LineBreak
+@LineBreak
+  Typen-Werte können sein:
+@FixedFont
+  @#PB_Database_Long  : Numerisches Format (ein Long (.l) in PureBasic)
+  @#PB_Database_String: String-Format (ein String (.s) in PureBasic)
+  @#PB_Database_Float : Numerisches Fließkomma-Format (ein Float (.f) in PureBasic)
+  @#PB_Database_Double: Numerisches Double-Format (ein Double (.d) in PureBasic)
+  @#PB_Database_Quad  : Numerisches Quad-Format (ein Quad (.q) in PureBasic)
+  @#PB_Database_Blob  : Blob-Format
+@EndFixedFont
+
+@SeeAlso
+  @@DatabaseColumns, @@DatabaseColumnName, @@DatabaseColumnSize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = DatabaseDriverDescription() 
+
+@Description
+  Gibt die Beschreibung des aktuellen Datenbank-Treibers zurück. Die Treiber werden
+  aufgelistet mit den @@ExamineDatabaseDrivers und @@NextDatabaseDriver 
+  Befehlen.
+
+@NoParameters
+
+@ReturnValue
+  Gibt den Beschreibungs-String zurück.
+
+@Remarks
+  Dies ist ein spezifischer Befehl für @Link "UseODBCDatabase" "ODBC-Datenbanken".
+
+@SeeAlso
+  @@ExamineDatabaseDrivers, @@NextDatabaseDriver, @@DatabaseDriverName
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = DatabaseDriverName() 
+
+@Description
+  Gibt den Namen des aktuellen Datenbank-Treibers zurück. Die Treiber werden
+  aufgelistet mit den @@ExamineDatabaseDrivers und @@NextDatabaseDriver 
+  Befehlen.
+
+@NoParameters
+
+@ReturnValue
+  Gibt den Namen des Treibers zurück.
+
+@Remarks
+  Dies ist ein spezifischer Befehl für @Link "UseODBCDatabase" "ODBC-Datenbanken".
+
+@SeeAlso
+  @@ExamineDatabaseDrivers, @@NextDatabaseDriver, @@DatabaseDriverDescription
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Fehler$ = DatabaseError()
+
+@Description
+  Gibt eine Beschreibung des letzten Fehlers im Textformat zurück. Dies ist insbesondere nützlich
+  bei den folgenden Befehlen: @@OpenDatabase, @@DatabaseQuery und @@DatabaseUpdate.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die Fehlerbeschreibung zurück.
+
+@Example  
+@Code
+  ; Zuerst stellen wir eine Verbindung zu der 'employee' (Angestellten) Tabelle her
+  ;
+  If DatabaseQuery(#Datenbank, "SELECT * FROM employee") ; Ermittelt alle Einträge in der 'employee' Tabelle
+    ; ...
+    FinishDatabaseQuery(#Datenbank)
+  Else
+    MessageRequester("Fehler", "Kann die folgende Abfrage nicht ausführen: "+DatabaseError())
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DatenbankID = DatabaseID(#Datenbank)
+
+@Description
+  Gibt die einmalige ID zurück, welche die angegebene '#Datenbank' im Betriebssystem
+  identifiziert. Diese Funktion ist nützlich, wenn eine andere Bibliothek einen Datenbank-Bezug benötigt.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@ReturnValue
+  Gibt die ID für diese Datenbank-Verbindung zurück.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DatabaseQuery(#Datenbank, Abfrage$ [, Flags])
+
+@Description
+  Führt eine SQL-Abfrage (englisch "SQL query") in der angegebenen Datenbank aus. 
+  Es werden nur Abfragen akzeptiert, die nicht die Datenbank-Einträge verändern ('SELECT'-ähnliche
+  Abfragen). Um Veränderungen an der Datenbank durchzuführen, verwenden Sie @@DatabaseUpdate.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Abfrage$"
+  Die auszuführende SQL-Abfrage.
+
+@OptionalParameter "Flags"
+  Die zu verwendenden Flags. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Database_StaticCursor : führt die Abfrage aus, um auf das Ergebnis in einer sequentiellen Weise zuzugreifen.
+                              Es ist auf manchen Treibern nicht möglich, mittels @@PreviousDatabaseRow oder
+                              @@FirstDatabaseRow zurückzuspringen, aber es ist der schnellere Weg zum Zugriff
+                              auf die Daten (Standard).
+  @#PB_Database_DynamicCursor: führt die Abfrage aus, um auf das Ergebnis in einer zufälligen Weise mittels
+                              @@PreviousDatabaseRow oder @@FirstDatabaseRow zuzugreifen. Dies kann langsamer sein,
+                              oder auf manchen Treibern auch nicht unterstützt.
+@EndFixedFont  
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Abfrage erfolgreich war, oder Null wenn sie
+  fehlgeschlagen ist (wegen eines SQL-Fehlers oder einer falsch formatierten Abfrage).
+
+@Remarks
+  Wenn die Abfrage erfolgreich war, dann kann @@NextDatabaseRow zum Auflisten der
+  Einträge (englisch "Records") verwendet werden (siehe Beispiel unten). Im Falle eines Fehlers
+  kann der Fehlertext mittels @@DatabaseError ermittelt werden. Es ist sicher
+  @@NextDatabaseRow zu verwenden, auch wenn die Abfrage keine Einträge zurückgibt.
+  Um die Anzahl der von der Abfrage zurückgegebenen Spalten (Felder) zu ermitteln,
+  verwenden Sie @@DatabaseColumns.
+@LineBreak
+@LineBreak
+  Sobald die Abfrage-Resultate nicht mehr benötigt werden, muss @@FinishDatabaseQuery 
+  aufgerufen werden, um alle Abfrage-Ressourcen freizugeben.
+@LineBreak
+@LineBreak
+  Die Abfrage kann Platzhalter für Bindungsvariablen (englisch "bind variables") enthalten.
+  Solche Variablen müssen vor dem Aufruf der Funktion mittels @@SetDatabaseString,
+  @@SetDatabaseLong etc. gesetzt werden. Nach dem Ausführen der Abfrage werden die
+  gebundenen Variablen (englisch "bound variables") gelöscht und müssen für zukünftige
+  Aufrufe erneut festgelegt werden. Die Syntax für das Angeben der Bindungsvariablen in
+  SQL ist abhängig von der Datenbank. Das Beispiel unten zeigt die Syntax.
+
+@Example  
+@Code
+  ; Zuerst stellen wir eine Verbindung zu der 'employee' (Angestellten) Tabelle her
+  ;
+  If DatabaseQuery(#DatenBank, "SELECT * FROM employee")  ; Ermittelt alle Einträge in der 'employee' Tabelle
+
+    While NextDatabaseRow(#Datenbank)   ; alle Einträge durchlaufen
+      Debug GetDatabaseString(#Datenbank, 0)  ; Inhalt vom ersten Feld anzeigen
+    Wend
+
+    FinishDatabaseQuery(#Datenbank)
+  Else
+    MessageRequester("Fehler", "Kann die folgende Abfrage nicht ausführen: "+DatabaseError())
+  EndIf
+@EndCode
+
+@Example Bindungsvariablen mit SQLite, MySQL und ODBC
+@Code
+  ; SQLite, MySQL und ODBC haben die gleiche Syntax für Bindungsvariablen. Diese werden durch das '?' Zeichen angegeben.
+  ;
+  SetDatabaseString(#Database, 0, "test")  
+  If DatabaseQuery(#Database, "SELECT * FROM employee WHERE id=?")    
+    ; ...
+  EndIf
+@EndCode
+
+@Example PostgreSQL
+@Code
+  ; PostgreSQL verwendet eine andere Syntax: $1, $2.. innerhalb der Anweisung, um die undefinierten Parameter anzugeben
+  ;
+  SetDatabaseString(#Database, 0, "test")  
+  If DatabaseQuery(#Database, "SELECT * FROM employee WHERE id=$1")    
+    ; ...
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DatabaseUpdate, @@NextDatabaseRow
+  @@SetDatabaseString, @@SetDatabaseLong, @@SetDatabaseQuad, @@SetDatabaseFloat, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@SetDatabaseNull
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DatabaseUpdate(#Datenbank, Abfrage$)
+
+@Description
+  Führt eine Änderungs-Abfrage in der angegebenen Datenbank aus. Dieser Befehl gibt keine
+  Einträge zurück. Um eine 'SELECT'-ähnliche Abfrage durchzuführen, verwenden Sie @@DatabaseQuery.
+  
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Abfrage$"
+  Die auszuführende Abfrage.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Abfrage erfolgreich war, oder Null wenn sie
+  fehlgeschlagen ist (wegen eines SQL-Fehlers oder einer falsch formatierten Abfrage).
+
+@Remarks
+  Diese Funktion ist dem @@DatabaseQuery Befehl ähnlich, ist jedoch unabhängig 
+  vom @@NextDatabaseRow Befehl. Somit ist es nicht möglich, mit diesem Befehl
+  eine Abfrage wie 'SELECT' auszuführen. Dieser Befehl ist nützlich für das Aktualisieren
+  (Updaten) von Einträgen in der Datenbank.
+  Im Falle eines Fehlers kann der Fehlertext mittels @@DatabaseError ermittelt werden.
+  @LineBreak
+  @LineBreak
+  Die Update-Anforderung kann Platzhalter für Bindungsvariablen (englisch "bind variables") enthalten.
+  Solche Variablen müssen vor dem Aufruf der Funktion mittels @@SetDatabaseString,
+  @@SetDatabaseLong etc. gesetzt werden. Nach dem Ausführen der Aktualisierung werden die
+  gebundenen Variablen (englisch "bound variables") gelöscht und müssen für zukünftige
+  Aufrufe erneut festgelegt werden. Die Syntax für das Angeben der Bindungsvariablen in
+  SQL ist abhängig von der Datenbank. Das Beispiel unten zeigt die Syntax.
+  
+@Example
+@Code
+  ; Zuerst stellen wir eine Verbindung zu der 'employee' (Angestellten) Tabelle her
+  ;
+  If DatabaseQuery(#Datenbank, "SELECT * FROM employee") ; Ermittelt alle Einträge in der 'employee' Tabelle
+  
+    While NextDatabaseRow(#Datenbank)   ; alle Einträge durchlaufen
+      
+      ; Aktualisieren des 'checked' Felds für jeden Eintrag, vorausgesetzt
+      ; das 'id' Feld ist das erste in der 'employee' Tabelle
+      ;
+      DatabaseUpdate(#Datenbank, "UPDATE employee SET checked=1 WHERE id="+GetDatabaseString(#Datenbank, 0)) 
+    Wend
+
+    FinishDatabaseQuery(#Datenbank)
+  EndIf
+@EndCode
+
+@Example Bindungsvariablen mit SQLite, MySQL und ODBC
+@Code
+  ; SQLite, MySQL und ODBC haben die gleiche Syntax für Bindungsvariablen. Diese werden durch das '?' Zeichen angegeben.
+  ;
+  SetDatabaseLong(0, 0, 1)
+  SetDatabaseString(0, 1, "test")
+  DatabaseUpdate(0, "UPDATE employee SET checked=? WHERE id=?")
+@EndCode
+
+@Example PostgreSQL
+@Code
+  ; PostgreSQL verwendet eine andere Syntax: $1, $2.. innerhalb der Anweisung, um die undefinierten Parameter anzugeben
+  ;
+  SetDatabaseLong(0, 0, 1)
+  SetDatabaseString(0, 1, "test")
+  DatabaseUpdate(0, "UPDATE employee SET checked=$1 WHERE id=$2")
+@EndCode
+
+@SeeAlso
+  @@DatabaseQuery
+  @@SetDatabaseString, @@SetDatabaseLong, @@SetDatabaseQuad, @@SetDatabaseFloat, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@SetDatabaseNull  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ExamineDatabaseDrivers()
+
+@Description
+  Untersucht die auf dem System verfügbaren Datenbank-Treiber.
+
+@NoParameters
+
+@ReturnValue
+  Wenn ODBC nicht installiert ist oder keine Treiber vorhanden sind, wird 0 zurückgegeben. Sonst
+  kann @@NextDatabaseDriver zum Auflisten der Treiber benutzt werden.
+
+@Remarks
+  Dies ist ein spezifischer Befehl für @Link "UseODBCDatabase" "ODBC-Datenbanken".
+
+@SeeAlso
+  @@NextDatabaseDriver, @@DatabaseDriverName, @@DatabaseDriverDescription
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishDatabaseQuery(#Datenbank)
+
+@Description
+  Schließt die aktuelle SQL-Abfrage in der Datenbank ab und gibt ihre zugehörigen Ressourcen frei.
+  Abfrage-relevante Funktionen wie @@FirstDatabaseRow oder @@NextDatabaseRow 
+  können nicht mehr verwendet werden.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@NoReturnValue
+
+@Example  
+@Code
+  ; Zuerst stellen wir eine Verbindung zu der 'employee' (Angestellten) Tabelle her
+  ;
+  If DatabaseQuery(#Datenbank, "SELECT * FROM employee") ; Ermittelt alle Einträge in der 'employee' Tabelle
+  
+    While NextDatabaseRow(#Datenbank) ; alle Einträge durchlaufen
+      Debug GetDatabaseString(#Datenbank, 0) ; Inhalt vom ersten Feld anzeigen
+    Wend
+    
+    FinishDatabaseQuery(#Datenbank)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DatabaseQuery
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = FirstDatabaseRow(#Datenbank)
+
+@Description
+  Gibt eine Information über die erste Zeile der #Datenbank zurück.
+  Das Flag @#PB_Database_DynamicCursor muss bei @@DatabaseQuery angegeben werden,
+  damit dieser Befehl funktioniert.
+  
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@ReturnValue
+  Ist das Ergebnis gleich Null, dann ist keine Datenbank-Zeile (kein Eintrag) verfügbar. 
+
+@Remarks
+  Um auf die Informationen innerhalb des Eintrags (bzw. der Zeile) zuzugreifen, können
+  @@GetDatabaseLong, @@GetDatabaseFloat und @@GetDatabaseString
+  verwendet werden.
+
+@SeeAlso
+  @@NextDatabaseRow, @@PreviousDatabaseRow, @@GetDatabaseLong
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetDatabaseBlob(#Datenbank, Spalte, *Puffer, PufferLänge)
+
+@Description
+  Gibt den Inhalt des angegebenen Datenbank-Feldes 'Spalte' im angegebenen Speicherpuffer als einen Zeiger auf den
+  Blob-Speicher zurück. Dieser Befehl ist nur gültig nach einem erfolgreichen @@FirstDatabaseRow, @@PreviousDatabaseRow
+  oder @@NextDatabaseRow.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Spalte"
+  Die zu verwendende Spalte (beginnend bei 0). @@DatabaseColumnIndex ist verfügbar, um den Index einer
+  namentlich bekannten Spalte zu ermitteln.
+
+@Parameter "*Puffer"
+  Die Adresse der Blob-Daten.
+
+@Parameter "PufferLänge"
+  Die Größe der Blob-Daten in Bytes.
+
+@ReturnValue
+  Ist das 'Ergebnis' gleich 0, dann konnte der Blob nicht empfangen werden oder sein Inhalt ist leer.
+
+@Remarks
+  Um den Typ eines Feldes zu ermitteln, kann @@DatabaseColumnType benutzt werden.
+  Um die Größe des Blob zu ermitteln, kann @@DatabaseColumnSize benutzt werden.
+@LineBreak
+@LineBreak
+  Hinweis: Dieser Befehl kann nur einmalig für jede Spalte aufgerufen werden. Damit müssen die erhaltenen
+  Daten in einer Variable gespeichert werden, wenn sie mehr als einmal benötigt werden, da alle
+  nachfolgenden Aufrufe einen falschen Wert liefern werden. Dies ist eine ODBC-Einschränkung.
+
+@SeeAlso
+  @@GetDatabaseDouble, @@GetDatabaseFloat, @@GetDatabaseLong, @@GetDatabaseString, @@GetDatabaseQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = GetDatabaseDouble(#Datenbank, Spalte)
+
+@Description
+  Gibt den Inhalt des angegebenen Datenbank-Feldes 'Spalte' als Fließkomma-Zahl doppelter
+  Genauigkeit (Double-Zahl) zurück. Dieser Befehl ist nur gültig nach einem erfolgreichen
+  @@FirstDatabaseRow, @@PreviousDatabaseRow oder @@NextDatabaseRow.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Spalte"
+  Die zu verwendende Spalte (beginnend bei 0). @@DatabaseColumnIndex ist verfügbar, um den Index einer
+  namentlich bekannten Spalte zu ermitteln.
+
+@ReturnValue
+  Gibt den Inhalt des Datenbankfeldes als Fließkomma-Zahl doppelter Genauigkeit zurück.
+
+@Remarks
+  Um den Typ eines Feldes zu ermitteln, kann @@DatabaseColumnType benutzt werden.
+@LineBreak
+@LineBreak
+  Hinweis: Dieser Befehl kann nur einmalig für jede Spalte aufgerufen werden. Damit müssen die erhaltenen
+  Daten in einer Variable gespeichert werden, wenn sie mehr als einmal benötigt werden, da alle
+  nachfolgenden Aufrufe einen falschen Wert liefern werden. Dies ist eine ODBC-Einschränkung.
+
+@SeeAlso
+  @@GetDatabaseBlob, @@GetDatabaseFloat, @@GetDatabaseLong, @@GetDatabaseString, @@GetDatabaseQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.f = GetDatabaseFloat(#Datenbank, Spalte)
+
+@Description
+  Gibt den Inhalt des angegebenen Datenbank-Feldes 'Spalte' als Fließkomma-Zahl (Float) zurück.
+  Dieser Befehl ist nur gültig nach einem erfolgreichen @@FirstDatabaseRow, @@PreviousDatabaseRow oder @@NextDatabaseRow.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Spalte"
+  Die zu verwendende Spalte (beginnend bei 0). @@DatabaseColumnIndex ist verfügbar, um den Index einer
+  namentlich bekannten Spalte zu ermitteln.
+
+@ReturnValue
+  Gibt den Inhalt des Datenbankfeldes als Fließkomma-Zahl einfacher Genauigkeit zurück.
+
+@Remarks
+  Um den Typ eines Feldes zu ermitteln, kann @@DatabaseColumnType benutzt werden.
+@LineBreak
+@LineBreak
+  Hinweis: Dieser Befehl kann nur einmalig für jede Spalte aufgerufen werden (die erhaltenen Daten
+  müssen in einer Variable gespeichert werden, wenn sie mehr als einmal benötigt werden), da alle
+  nachfolgenden Aufrufe einen falschen Wert liefern werden. Dies ist eine ODBC-Einschränkung.
+  
+@SeeAlso
+  @@GetDatabaseBlob, @@GetDatabaseDouble, @@GetDatabaseLong, @@GetDatabaseString, @@GetDatabaseQuad
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetDatabaseLong(#Datenbank, Spalte)
+
+@Description
+  Gibt den Inhalt des angegebenen Datenbank-Feldes 'Spalte' als Ganzzahl (Integer) zurück.
+  Dieser Befehl ist nur gültig nach einem erfolgreichen @@FirstDatabaseRow, @@PreviousDatabaseRow oder @@NextDatabaseRow.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Spalte"
+  Die zu verwendende Spalte (beginnend bei 0). @@DatabaseColumnIndex ist verfügbar, um den Index einer
+  namentlich bekannten Spalte zu ermitteln.
+
+@ReturnValue
+  Gibt den Inhalt des Datenbankfeldes als Ganzzahl zurück.
+
+@Remarks
+  Um den Typ eines Feldes zu ermitteln, kann @@DatabaseColumnType benutzt werden.
+@LineBreak
+@LineBreak
+  Hinweis: Dieser Befehl kann nur einmalig für jede Spalte aufgerufen werden (die erhaltenen Daten
+  müssen in einer Variable gespeichert werden, wenn sie mehr als einmal benötigt werden), da alle
+  nachfolgenden Aufrufe einen falschen Wert liefern werden. Dies ist eine ODBC-Einschränkung.
+
+@SeeAlso
+  @@GetDatabaseBlob, @@GetDatabaseDouble, @@GetDatabaseFloat, @@GetDatabaseString, @@GetDatabaseQuad
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.q = GetDatabaseQuad(#Datenbank, Spalte)
+
+@Description
+  Gibt den Inhalt des angegebenen Datenbank-Feldes 'Spalte' als Quad-Zahl zurück.
+  Dieser Befehl ist nur gültig nach einem erfolgreichen @@FirstDatabaseRow, @@PreviousDatabaseRow oder @@NextDatabaseRow.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Spalte"
+  Die zu verwendende Spalte (beginnend bei 0). @@DatabaseColumnIndex ist verfügbar, um den Index einer
+  namentlich bekannten Spalte zu ermitteln.
+
+@ReturnValue
+  Gibt den Inhalt des Datenbankfeldes als Quad-Zahl zurück.
+
+@Remarks
+  Um den Typ eines Feldes zu ermitteln, kann @@DatabaseColumnType benutzt werden.
+@LineBreak
+@LineBreak
+  Hinweis: Dieser Befehl kann nur einmalig für jede Spalte aufgerufen werden (die erhaltenen Daten
+  müssen in einer Variable gespeichert werden, wenn sie mehr als einmal benötigt werden), da alle
+  nachfolgenden Aufrufe einen falschen Wert liefern werden. Dies ist eine ODBC-Einschränkung.
+
+@SeeAlso
+  @@GetDatabaseBlob, @@GetDatabaseDouble, @@GetDatabaseFloat, @@GetDatabaseString, @@GetDatabaseLong
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = GetDatabaseString(#Datenbank, Spalte)
+
+@Description
+  Gibt den Inhalt des angegebenen Datenbank-Feldes 'Spalte' als String zurück.
+  Dieser Befehl ist nur gültig nach einem erfolgreichen @@FirstDatabaseRow, @@PreviousDatabaseRow oder @@NextDatabaseRow.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Spalte"
+  Die zu verwendende Spalte (beginnend bei 0). @@DatabaseColumnIndex ist verfügbar, um den Index einer
+  namentlich bekannten Spalte zu ermitteln.
+
+@ReturnValue
+  Gibt den Inhalt des Datenbankfeldes als String zurück.
+
+@Remarks
+  Um den Typ eines Feldes zu ermitteln, kann @@DatabaseColumnType benutzt werden.
+@LineBreak
+@LineBreak
+  Hinweis: Dieser Befehl kann nur einmalig für jede Spalte aufgerufen werden (die erhaltenen Daten
+  müssen in einer Variable gespeichert werden, wenn sie mehr als einmal benötigt werden), da alle
+  nachfolgenden Aufrufe einen falschen Wert liefern werden. Dies ist eine ODBC-Einschränkung.
+
+@SeeAlso
+  @@GetDatabaseBlob, @@GetDatabaseDouble, @@GetDatabaseFloat, @@GetDatabaseLong, @@GetDatabaseQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CheckDatabaseNull(#Datenbank, Spalte)
+
+@Description
+  Überprüft, ob der Inhalt der angegebenen Datenbank-Spalte gleich Null ist.
+  Dieser Befehl ist nur gültig nach einem erfolgreichen @@FirstDatabaseRow, @@PreviousDatabaseRow oder @@NextDatabaseRow.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "Spalte"
+  Die zu verwendende Spalte (beginnend bei 0). @@DatabaseColumnIndex ist verfügbar, um den Index einer
+  namentlich bekannten Spalte zu ermitteln.
+
+@ReturnValue
+  Gibt @#True zurück, wenn die Daten gleich Null sind, andernfalls @#False.
+
+@Remarks
+  Um den Typ einer Spalte zu ermitteln, kann @@DatabaseColumnType verwendet werden.
+@LineBreak
+@LineBreak
+  Hinweis: Diese Funktion kann nur einmal für jede Spalte aufgerufen werden. Wenn dieser Wert
+  mehr als einmal verwendet werden muss, müssen deshalb die Daten in einer Variable gespeichert
+  werden, da alle nachfolgenden Aufrufe einen falschen Wert zurückgeben werden. Dies ist eine
+  ODBC-Einschränkung.
+
+@SeeAlso
+  @@GetDatabaseBlob,
+  @@GetDatabaseDouble,
+  @@GetDatabaseFloat,
+  @@GetDatabaseLong,
+  @@GetDatabaseQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsDatabase(#Datenbank)
+
+@Description
+  Diese Funktion überprüft, ob die angegebene #Datenbank Nummer gültig und eine korrekt
+  initialisierte Datenbank ist.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn #Datenbank eine gültige Datenbank-Verbindung
+  ist, andernfalls wird Null zurückgegeben.
+
+@Remarks  
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. Ist das 'Ergebnis'
+  ungleich Null, dann ist das Objekt gültig und initialisiert, andernfalls wird Null zurückgegeben.
+  Dies ist ein guter Weg, um sicher zu stellen, dass eine Datenbank bereit zur Verwendung ist.
+
+@SeeAlso
+  @@OpenDatabase, @@OpenDatabaseRequester
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NextDatabaseDriver()
+
+@Description
+  Ermittelt Informationen über den nächsten verfügbaren Datenbank-Treiber.
+  Dieser Befehl muss nach @@ExamineDatabaseDrivers aufgerufen werden. Um
+  Informationen über den aktuellen Treiber zu erhalten, können @@DatabaseDriverName und
+  @@DatabaseDriverDescription benutzt werden.
+
+@NoParameters
+
+@ReturnValue
+  Ist das Ergebnis gleich 0, dann sind keine weiteren Treiber verfügbar. 
+  
+@Remarks
+  Dies ist ein spezifischer Befehl für @Link "UseODBCDatabase" "ODBC-Datenbanken".
+
+@SeeAlso
+  @@ExamineDatabaseDrivers, @@DatabaseDriverName, @@DatabaseDriverDescription
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NextDatabaseRow(#Datenbank)
+
+@Description
+  Ermittelt Informationen über den nächsten Datenbank-Eintrag (Zeile) in der #Datenbank.
+@LineBreak
+@LineBreak
+  Um auf die Informationen innerhalb des Eintrags (bzw. der Zeile) zuzugreifen,
+  können @@GetDatabaseLong, @@GetDatabaseFloat und 
+  @@GetDatabaseString verwendet werden.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@ReturnValue
+  Ist das Ergebnis gleich 0, dann sind keine weiteren Einträge mehr verfügbar (d.h. das Ende der Tabelle
+  wurde erreicht). 
+
+@SeeAlso
+  @@GetDatabaseBlob, @@GetDatabaseDouble, @@GetDatabaseFloat, @@GetDatabaseLong, @@GetDatabaseQuad, @@GetDatabaseString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = OpenDatabase(#Datenbank, DatenbankName$, Benutzer$, Passwort$ [, Plugin])
+
+@Description
+  Öffnet eine neue Datenbank-Verbindung.
+
+@Parameter "#Datenbank"
+  Die Nummer, mit der auf die neue Datenbank verwiesen wird.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "DatenbankName$"
+  Der Name der zu öffnenden Datenbank.
+
+@Parameter "Benutzer$"
+  Der Benutzername für die Verbindung.
+
+@Parameter "Password$"
+  Das Passwort für die Verbindung. Dies kann ein leerer String sein, wenn kein Passwort benötigt wird.
+
+@OptionalParameter "Plugin"
+  Gibt das zu verwendende Datenbank-Plugin an. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Database_ODBC      : Die Datenbank wird die ODBC-Umgebung nutzen (@@UseODBCDatabase muss aufgerufen werden).
+  @#PB_Database_SQLite    : Die Datenbank wird die SQLite-Umgebung nutzen (@@UseSQLiteDatabase muss aufgerufen werden).
+  @#PB_Database_PostgreSQL: Die Datenbank wird die PostgreSQL-Umgebung nutzen (@@UsePostgreSQLDatabase muss aufgerufen werden).
+  @#PB_Database_MySQL     : Die Datenbank wird die MySQL-Umgebung nutzen (@@UseMySQLDatabase muss aufgerufen werden).
+@EndFixedFont
+  Wenn 'Plugin' nicht angegeben wird, dann wird das erste registrierte Datenbank-Plugin verwendet.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Datenbank-Verbindung erfolgreich aufgebaut
+  werden konnte, und Null wenn nicht. Fehler-Informationen können mit dem @@DatabaseError
+  Befehl ermittelt werden.
+@LineBreak
+  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als #Datenbank Parameter verwendet wird,
+  dann wird die Nummer der neuen Datenbank zurückgegeben.
+
+@SeeAlso
+  @@OpenDatabaseRequester, @@CloseDatabase,
+  @@UseODBCDatabase, @@UseSQLiteDatabase, @@UsePostgreSQLDatabase, @@UseMySQLDatabase
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = OpenDatabaseRequester(#Datenbank [, Plugin]) 
+
+@Description
+  Öffnet den Standard ODBC-Requester, um eine Datenbank zum Öffnen auszuwählen.
+
+@Parameter "#Database"
+  Die Nummer, mit der auf die neue Datenbank verwiesen wird.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@OptionalParameter "Plugin"
+  Gibt das zu verwendende Datenbank-Plugin an. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Database_ODBC      : Die Datenbank wird die ODBC-Umgebung nutzen (@@UseODBCDatabase muss aufgerufen werden).
+@EndFixedFont
+  Wenn 'Plugin' nicht angegeben wird, dann wird das erste registrierte Datenbank-Plugin verwendet.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Datenbank-Verbindung erfolgreich aufgebaut
+  werden konnte, und Null wenn nicht. Fehler-Informationen können mit dem @@DatabaseError
+  Befehl ermittelt werden.
+@LineBreak
+  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als #Datenbank Parameter verwendet wird,
+  dann wird die Nummer der neuen Datenbank zurückgegeben.
+
+@Remarks
+  Dies ist ein spezifischer Befehl für @Link "UseODBCDatabase" "ODBC-Datenbanken".
+@LineBreak
+@LineBreak
+  Hinweis: Dieser Befehl wird auf Linux und MacOS X nicht unterstützt und wird dort 0 zurückgeben.
+
+@SeeAlso
+  @@OpenDatabase, @@CloseDatabase
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = PreviousDatabaseRow(#Datenbank)
+
+@Description
+  Ermittelt Informationen über den vorherigen Datenbank-Eintrag (Zeile) in der #Datenbank.
+  Das Flag @#PB_Database_DynamicCursor muss bei @@DatabaseQuery angegeben werden,
+  damit dieser Befehl funktioniert.
+@LineBreak
+@LineBreak
+  Um auf die Informationen innerhalb des Eintrags (bzw. der Zeile) zuzugreifen,
+  können @@GetDatabaseLong, @@GetDatabaseFloat und 
+  @@GetDatabaseString verwendet werden.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@ReturnValue
+  Ist das Ergebnis gleich 0, dann sind keine weiteren Einträge mehr verfügbar (d.h. der Anfang der Tabelle
+  wurde erreicht). 
+
+@Remarks
+  Wenn dieser Befehl Null zurückgibt, obwohl sich noch einige Einträge vor dem aktuellen
+  befinden, dann unterstützt der ODBC-Treiber diesen Befehl nicht. Es ist nicht obligatorisch
+  für einen ODBC-Treiber, diese Funktion zu unterstützen (anders als bei @@NextDatabaseRow). 
+  Wenn natürlich diese Funktion einmal arbeitet, dann wird sie auch auf jedem Computer mit dem gleichen
+  Treiber funktionieren.
+@LineBreak
+@LineBreak
+  @Link "UseSQLiteDatabase" "SQLite-Datenbank" unterstützen diesen Befehl nicht.
+
+@SeeAlso
+  @@GetDatabaseBlob, @@GetDatabaseDouble, @@GetDatabaseFloat, @@GetDatabaseLong, @@GetDatabaseQuad, @@GetDatabaseString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseBlob(#Datenbank, StatementIndex, *Puffer, PufferLänge)
+
+@Description
+  Richtet den Blob für die weitere Verwendung mit @@DatabaseUpdate ein.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+
+@Parameter "StatementIndex"
+  Unbestimmter Abfrage-Parameter-Index (englisch: "undefined query parameter index"), für welchen
+  der Blob eingefügt werden soll. Der erste unbestimmte Abfrage-Parameter-Index beginnt bei Null.
+  Der SQL-Syntax zum Angeben unbestimmter Parameter ist abhängig vom Datenbank-Manager.
+  Siehe die folgenden Beispiele, um zu sehen wie dies gemacht wird.
+
+@Parameter "*Puffer"
+  Die Adresse der Blob-Daten.
+
+@Parameter "PufferLänge"
+  Die Größe der Blob-Daten in Bytes.
+
+@NoReturnValue
+
+@Example SQLite, MySQL und ODBC
+
+@Code
+  ; SQLite, MySQL und ODBC verwenden den gleichen Syntax, um Blobs einzufügen. Diese werden mit dem '?' Zeichen angegeben.
+  ;
+  ; Die Datenbank sollte geöffnet sein und eine Tabelle PHOTOS mit 3 Feldern (BLOB, VARCHAR(255), BLOB) haben.
+  ;
+  SetDatabaseBlob(0, 0, ?Picture, PictureLength)
+  SetDatabaseBlob(0, 1, ?SmallPicture, SmallPictureLength)
+  DatabaseUpdate(0, "INSERT INTO PHOTOS (picture, name, small_picture) values (?, 'my description', ?);")
+@EndCode
+
+
+@Example PostgreSQL
+
+@Code
+  ; PostgreSQL verwendet einen anderen Syntax: $1, $2.. im Statement, um die unbestimmten Parameter anzugeben.
+  ;
+  ; Die Datenbank sollte geöffnet sein und eine Tabelle PHOTOS mit 3 Feldern (BYTEA, VARCHAR(255), BYTEA) haben.
+  ;
+  SetDatabaseBlob(0, 0, ?Picture, PictureLength)
+  SetDatabaseBlob(0, 1, ?SmallPicture, SmallPictureLength)
+  DatabaseUpdate(0, "INSERT INTO PHOTOS (picture, name, small_picture) values ($1, 'my description', $2);")
+@EndCode
+  @Bold "Hinweis:" PostgreSQL verwendet BYTEA zum Speichern großer Objekte. Das "Escaping" (Sperren), was
+  zum Speichern binärer Daten in einem solchen Feld benötigt wird, macht es oft größer als nötig.
+  Eine gute Möglichkeit zum Speichern binärer Daten ist es, diese mit @@Base64Encoder 
+  zu verschlüsseln, bevor sie an den Datenbank-Manager übergeben werden.
+
+@SeeAlso
+  @@DatabaseUpdate, @@GetDatabaseBlob
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseMySQLDatabase([BibliothekName$])
+
+@Description
+  Initialisiert die MySQL und MariaDB Datenbank-Programmumgebung zur weiteren Benutzung.
+
+@OptionalParameter "BibliothekName$"
+  Dateiname (und ggf. Pfad) der zu verwendenden dynamischen Bibliothek. Da die meisten Linux-Distributionen mit
+  paketierter libmysql.so ausgeliefert werden, kann sie auf den richtigen Namen gesetzt werden, sodass die
+  libmaria.so nicht mit der ausführbaren Datei gepackt werden muss. Wenn dieser Parameter nicht angegeben wird,
+  werden 'libmariadb.dll' (Windows), 'libmariadb.so' (Linux) oder 'libmariadb.dylib' (OS X) verwendet.
+
+@NoReturnValue
+
+@Remarks
+  MySQL und MariaDB (ein OpenSource-Zweig von MySQL) sind leistungsfähige, servergestützte Datenbankmanager,
+  die sehr große Datenbanken und hohe Parallelität unterstützen. PureBasic verwendet die OpenSource
+  MariaDB-Bibliothek, um MySQL- und MariaDB-Datenbanken zu verbinden, die in kommerziellen Anwendungen ohne
+  zusätzliche Lizenzen verwendet werden kann. Beim Versand Ihres PureBasic-Programms müssen Sie
+   'libmariadb.dll' (Windows), 'libmariadb.so' (Linux) bzw. 'libmariadb.dylib' (OS X) aus dem Verzeichnis
+   'PureBasic/Compilers' zu Ihrem Paket hinzufügen.
+@LineBreak
+@LineBreak
+  Es gibt keine zusätzlichen Treiber zu installieren - alles ist bereit, um einen MySQL oder MariaDB-Server
+  zu verbinden. Weitere Informationen zu MariaDB finden Sie unter: @InternetLink "https://mariadb.org/" "https://mariadb.org/".
+@LineBreak
+@LineBreak
+  Eine MySQL- oder MariaDB-Datenbank muss mittels @@OpenDatabase verbunden sein, bevor andere Datenbankfunktionen
+  verwendet werden können.
+  MySQL-spezifische Argumente können im Parameter 'DatenbankName$' von @@OpenDatabase übergeben werden:
+@FixedFont
+  - host: Name des Hosts oder IP-Adresse, zu dem/der verbunden werden soll.
+  - port: Port-Nummer, zu der auf dem Server-Host verbunden werden soll.
+  - dbname: Der Datenbank-Name.
+@EndFixedFont
+  
+@Example
+@Code
+  UseMySQLDatabase()
+
+  ; Sie sollten einen Server als 'Localhost' laufen haben
+  ;
+  If OpenDatabase(0, "host=localhost port=3306 dbname=test", "user", "password")
+    Debug "Verbunden zu MySQL"
+  Else
+    Debug "Verbindung fehlgeschlagen: "+DatabaseError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenDatabase, @@UseSQLiteDatabase, @@UseODBCDatabase, @@UsePostgreSQLDatabase
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UsePostgreSQLDatabase()
+
+@Description
+  Initialisiert die PostgreSQL Datenbank-Programmumgebung zur weiteren Benutzung.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  PostgreSQL ist ein mächtiger, server-basierter Datenbank-Manager mit Unterstützung für sehr große
+  Datenbanken und hoher Nichtsequentialität (englisch "concurrency"). Sie ist frei zur Verwendung
+  in kommerziellen Projekten, anders als MySQL, das eine Lizenz zur Verwendung in einem Nicht-GPL 
+  Programm benötigt.
+@LineBreak
+@LineBreak
+  Es ist kein zusätzlicher Treiber zu installieren, alles ist fertig für die Verbindung zu einem
+  PostgreSQL-Server. Für weitere Informationen über PostgreSQL siehe: 
+  @InternetLink "http://www.postgresql.org" "http://www.postgresql.org".
+@LineBreak
+@LineBreak
+  Eine PostgreSQL-Datenbank muss mittels @@OpenDatabase verbunden worden sein, bevor
+  jegliche anderen Datenbank-Funktionen verwendet werden.
+@LineBreak
+@LineBreak
+  PostgresSQL-spezifische Argumente können im Parameter 'DatenbankName$' von @@OpenDatabase
+  übergeben werden:
+@FixedFont
+  - host: Name des Hosts, zu dem verbunden werden soll.
+  - hostaddr: Numerische IP-Adresse des Hosts, zu dem verbunden werden soll.
+  - port: Port-Nummer, zu der auf dem Server-Host verbunden werden soll.
+  - dbname: Der Datenbank-Name. Standardmäßig ist dies derselbe wie der Anwender-Name ("User").
+  - connect_timeout: Maximale Wartezeit für die Verbindung, in Sekunden (schreiben Sie diese 
+                     als einen dezimalen Ganzzahl-String). 
+                     Null oder nicht angegeben bedeutet, dass für unbestimmte Zeit gewartet wird.
+                     Es ist nicht empfehlenswert, eine Zeitbeschränkung ("Timeout") von weniger
+                     als 2 Sekunden zu verwenden.
+@EndFixedFont
+  
+@Example
+@Code
+  UsePostgreSQLDatabase()
+
+  ; Sie sollten einen Server als 'Localhost' laufen haben
+  ;
+  If OpenDatabase(0, "host=localhost port=5432", "user", "password")
+    Debug "Verbindung zu PostgreSQL"
+  Else
+    Debug "Verbindung fehlgeschlagen: "+DatabaseError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenDatabase, @@UseSQLiteDatabase, @@UseODBCDatabase, @@UseMySQLDatabase
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseSQLiteDatabase([LibraryName$])
+
+@Description
+  Initialisiert die SQLite Datenbank-Programmumgebung zur weiteren Benutzung.
+
+@OptionalParameter "LibraryName$"
+  Dateiname (und ggf. Pfad) der dynamischen Library, welche verwendet werden soll.
+  @LineBreak
+  Sie sind in der Lage, die neueste Version der 'dll' Datei (so, dylib)
+  zu nutzen, ohne auf eine PB-Update warten zu müsen.
+  @LineBreak
+  Ohne diese Datei wird wie üblich die statische Library verwendet und das Executable wird größer sein.
+  @LineBreak
+  Es kommt keine Fehlermeldung, wenn die Datei nicht gefunden wird.
+  
+@NoReturnValue
+
+@Remarks
+  SQLite ist ein datei-basierter, serverloser Datenbank-Manager. Es gibt keinen Treiber oder zusätzliche
+  Dateien zum Installieren, alles ist fertig zur Benutzung. SQLite ist weit verbreitet in der
+  Industrie und wird als einer der besten eingebetteten (englisch "embedded") Datenbank-Manager
+  betrachtet. Für mehr Informationen über SQLite siehe: @InternetLink "http://www.sqlite.org" "http://www.sqlite.org".
+@LineBreak
+@LineBreak
+  Um eine neue leere Datenbank zu erstellen, erstellen Sie zuerst eine neue Datei mittels 
+  @@CreateFile. Die Datenbank-Befehle können jetzt verwendet werden,
+  um Tabellen zu erstellen und Einträge hinzufügen.
+@LineBreak
+@LineBreak
+  Eine SQLite Datenbank muss mittels @@OpenDatabase geöffnet werden, bevor irgendwelche
+  anderen Datenbank-Funktionen verwendet werden.
+
+@Example  
+@Code
+  UseSQLiteDatabase()
+
+  Filename$ = OpenFileRequester("Wähle einen Dateinamen", "PureBasic.sqlite", "*.sqlite|*.sqlite", 0)
+
+  If CreateFile(0, Filename$)
+    Debug "Datenbank-Datei erstellt"
+    CloseFile(0)
+  EndIf
+  
+  If OpenDatabase(0, Filename$, "", "")
+    Debug "Verbunden mit PureBasic.sqlite"
+    If DatabaseUpdate(0, "CREATE TABLE info (test VARCHAR(255));")
+      Debug "Tabelle erstellt"
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenDatabase, @@UsePostgreSQLDatabase, @@UseODBCDatabase, @@UseMySQLDatabase
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = UseODBCDatabase()
+
+@Description
+  Initialisiert die ODBC Datenbank-Programmumgebung zur weiteren Benutzung. Es wird versucht,
+  den ODBC-Treiber zu laden und die benötigten Ressourcen zu reservieren.
+
+@NoParameters
+
+@ReturnValue
+  Ist das Ergebnis gleich 0, dann ist der ODBC-Treiber nicht verfügbar oder ist zu alt (ODBC 3.0 oder besser
+  wird benötigt) und alle Datenbank-Funktionsaufrufe sollten nicht verwendet werden.
+
+@Remarks
+  Nach dem Aufruf von UseODBCDatabase() muss zuerst eine Datenbank mittels @@OpenDatabase und einem
+  registrierten ODBC-Datenbanknamen als Datenbank, oder mittels @@OpenDatabaseRequester geöffnet werden, bevor
+  weitere Datenbank-Befehle verwendet werden können.
+@LineBreak
+@LineBreak
+  Es ist möglich, durch Aufruf der Funktion @@ExamineDatabaseDrivers eine Liste
+  der verfügbaren Treiber zu erhalten.
+
+@Example  
+@Code
+  UseODBCDatabase()
+
+  If OpenDatabase(0, "MySQL-ODBC", "user", "password")
+    Debug "Connected to MySQL"
+  Else
+    Debug "Connection failed: "+DatabaseError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenDatabase, @@UseSQLiteDatabase, @@UsePostgreSQLDatabase, @@UseMySQLDatabase
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseString(#Datenbank, StatementIndex, Wert$)
+
+@Description
+  Legt einen String als Bindungsvariable (englisch "bind variable") für den nächsten Aufruf
+  von @@DatabaseQuery bzw. @@DatabaseUpdate fest.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+  
+@Parameter "StatementIndex"
+  Der Index der Bindungsvariable innerhalb des Statements (der Anweisung). Die erste Variable
+  hat den Index 0.
+
+@Parameter "Wert$"
+  Der für die Bindungsvariable zu verwendende Wert.
+
+@NoReturnValue
+
+@Remarks
+  Bindungsvariablen machen das Erstellen von Statements mit variablen Daten leichter, denn
+  es gibt keine Notwendigkeit, diese Daten in den String einzufügen. Der Statement-String
+  kann die Platzhalter enthalten, und die Daten werden vor Ausführung der Anweisung 
+  verknüpft ("gebunden"). Dieses Verfahren vermeidet auch Sicherheitslücken aufgrund von 
+  möglicher "SQL-Injection", welche auftreten können, wenn Daten (wie Strings) direkt in
+  den Anweisungstext eingefügt werden. Da die Anweisung nur den Platzhalter enthält, besteht
+  keine Gefahr.
+@LineBreak
+@LineBreak
+  Siehe @@DatabaseQuery und @@DatabaseUpdate für Beispiele, wie Bindungsvariablen in einer
+  SQL-Anweisung angegeben werden.
+  
+@SeeAlso
+  @@SetDatabaseLong, @@SetDatabaseQuad, @@SetDatabaseFloat, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@SetDatabaseNull, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseLong(#Datenbank, StatementIndex, Wert)
+
+@Description
+  Legt einen Long-Wert als Bindungsvariable (englisch "bind variable") für den nächsten Aufruf
+  von @@DatabaseQuery bzw. @@DatabaseUpdate fest.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+  
+@Parameter "StatementIndex"
+  Der Index der Bindungsvariable innerhalb des Statements (der Anweisung). Die erste Variable
+  hat den Index 0.
+
+@Parameter "Wert"
+  Der für die Bindungsvariable zu verwendende Wert.
+
+@NoReturnValue
+
+@Remarks
+  Bindungsvariablen machen das Erstellen von Statements mit variablen Daten leichter, denn
+  es gibt keine Notwendigkeit, diese Daten in den String einzufügen. Der Statement-String
+  kann die Platzhalter enthalten, und die Daten werden vor Ausführung der Anweisung 
+  verknüpft ("gebunden"). Dieses Verfahren vermeidet auch Sicherheitslücken aufgrund von 
+  möglicher "SQL-Injection", welche auftreten können, wenn Daten (wie Strings) direkt in
+  den Anweisungstext eingefügt werden. Da die Anweisung nur den Platzhalter enthält, besteht
+  keine Gefahr.
+@LineBreak
+@LineBreak
+  Siehe @@DatabaseQuery und @@DatabaseUpdate für Beispiele, wie Bindungsvariablen in einer
+  SQL-Anweisung angegeben werden.
+  
+@SeeAlso
+  @@SetDatabaseString, @@SetDatabaseQuad, @@SetDatabaseFloat, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@SetDatabaseNull, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseQuad(#Datenbank, StatementIndex, Wert.q)
+
+@Description
+  Legt einen Quad-Wert als Bindungsvariable (englisch "bind variable") für den nächsten Aufruf
+  von @@DatabaseQuery bzw. @@DatabaseUpdate fest.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+  
+@Parameter "StatementIndex"
+  Der Index der Bindungsvariable innerhalb des Statements (der Anweisung). Die erste Variable
+  hat den Index 0.
+
+@Parameter "Wert.q"
+  Der für die Bindungsvariable zu verwendende Wert.
+
+@NoReturnValue
+
+@Remarks
+  Bindungsvariablen machen das Erstellen von Statements mit variablen Daten leichter, denn
+  es gibt keine Notwendigkeit, diese Daten in den String einzufügen. Der Statement-String
+  kann die Platzhalter enthalten, und die Daten werden vor Ausführung der Anweisung 
+  verknüpft ("gebunden"). Dieses Verfahren vermeidet auch Sicherheitslücken aufgrund von 
+  möglicher "SQL-Injection", welche auftreten können, wenn Daten (wie Strings) direkt in
+  den Anweisungstext eingefügt werden. Da die Anweisung nur den Platzhalter enthält, besteht
+  keine Gefahr.
+@LineBreak
+@LineBreak
+  Siehe @@DatabaseQuery und @@DatabaseUpdate für Beispiele, wie Bindungsvariablen in einer
+  SQL-Anweisung angegeben werden.
+  
+@SeeAlso
+  @@SetDatabaseString, @@SetDatabaseLong, @@SetDatabaseFloat, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@SetDatabaseNull, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseFloat(#Datenbank, StatementIndex, Wert.f)
+
+@Description
+  Legt einen Float-Wert als Bindungsvariable (englisch "bind variable") für den nächsten Aufruf
+  von @@DatabaseQuery bzw. @@DatabaseUpdate fest.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+  
+@Parameter "StatementIndex"
+  Der Index der Bindungsvariable innerhalb des Statements (der Anweisung). Die erste Variable
+  hat den Index 0.
+
+@Parameter "Wert.f"
+  Der für die Bindungsvariable zu verwendende Wert.
+
+@NoReturnValue
+
+@Remarks
+  Bindungsvariablen machen das Erstellen von Statements mit variablen Daten leichter, denn
+  es gibt keine Notwendigkeit, diese Daten in den String einzufügen. Der Statement-String
+  kann die Platzhalter enthalten, und die Daten werden vor Ausführung der Anweisung 
+  verknüpft ("gebunden"). Dieses Verfahren vermeidet auch Sicherheitslücken aufgrund von 
+  möglicher "SQL-Injection", welche auftreten können, wenn Daten (wie Strings) direkt in
+  den Anweisungstext eingefügt werden. Da die Anweisung nur den Platzhalter enthält, besteht
+  keine Gefahr.
+@LineBreak
+@LineBreak
+  Siehe @@DatabaseQuery und @@DatabaseUpdate für Beispiele, wie Bindungsvariablen in einer
+  SQL-Anweisung angegeben werden.
+  
+@SeeAlso
+  @@SetDatabaseString, @@SetDatabaseLong, @@SetDatabaseQuad, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@SetDatabaseNull, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseDouble(#Datenbank, StatementIndex, Wert.d)
+
+@Description
+  Legt einen Double-Wert als Bindungsvariable (englisch "bind variable") für den nächsten Aufruf
+  von @@DatabaseQuery bzw. @@DatabaseUpdate fest.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+  
+@Parameter "StatementIndex"
+  Der Index der Bindungsvariable innerhalb des Statements (der Anweisung). Die erste Variable
+  hat den Index 0.
+
+@Parameter "Wert.d"
+  Der für die Bindungsvariable zu verwendende Wert.
+
+@NoReturnValue
+
+@Remarks
+  Bindungsvariablen machen das Erstellen von Statements mit variablen Daten leichter, denn
+  es gibt keine Notwendigkeit, diese Daten in den String einzufügen. Der Statement-String
+  kann die Platzhalter enthalten, und die Daten werden vor Ausführung der Anweisung 
+  verknüpft ("gebunden"). Dieses Verfahren vermeidet auch Sicherheitslücken aufgrund von 
+  möglicher "SQL-Injection", welche auftreten können, wenn Daten (wie Strings) direkt in
+  den Anweisungstext eingefügt werden. Da die Anweisung nur den Platzhalter enthält, besteht
+  keine Gefahr.
+@LineBreak
+@LineBreak
+  Siehe @@DatabaseQuery und @@DatabaseUpdate für Beispiele, wie Bindungsvariablen in einer
+  SQL-Anweisung angegeben werden.
+  
+@SeeAlso
+  @@SetDatabaseString, @@SetDatabaseLong, @@SetDatabaseQuad, @@SetDatabaseFloat
+  @@SetDatabaseBlob, @@SetDatabaseNull, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseNull(#Datenbank, StatementIndex)
+
+@Description
+  Legt einen NULL-Wert als Bindungsvariable (englisch "bind variable") für den nächsten Aufruf
+  von @@DatabaseQuery bzw. @@DatabaseUpdate fest.
+
+@Parameter "#Datenbank"
+  Die zu verwendende Datenbank.
+  
+@Parameter "StatementIndex"
+  Der Index der Bindungsvariable innerhalb des Statements (der Anweisung). Die erste Variable
+  hat den Index 0.
+
+@NoReturnValue
+
+@Remarks
+  Siehe @@DatabaseQuery und @@DatabaseUpdate für Beispiele, wie Bindungsvariablen in einer
+  SQL-Anweisung angegeben werden.
+  
+@SeeAlso
+  @@SetDatabaseString, @@SetDatabaseLong, @@SetDatabaseQuad, @@SetDatabaseFloat, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+

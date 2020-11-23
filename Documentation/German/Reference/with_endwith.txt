@@ -1,0 +1,72 @@
+@Title With : EndWith
+
+@Syntax
+
+  @Keyword With <Ausdruck>
+    ...
+  @Keyword EndWith
+
+@Description
+
+  @Keyword With : @Keyword EndWith Blöcke können mit @ReferenceLink "structures" "Struktur-Feldern"
+  eingesetzt werden, um die Menge an Programmcode zu reduzieren und seine Lesbarkeit zu verbessern.
+@LineBreak
+@LineBreak
+  Dies ist eine Compiler-Direktive und funktioniert ähnlich wie ein @ReferenceLink "macros" "Makro",
+  d.h. der angegebene 'Ausdruck' wird automatisch vor allen Backslash '\'-Zeichen eingefügt, denen
+  kein Leerzeichen oder ein Operator vorangeht.
+  Der Code verhält sich identisch zu seiner erweiterten Version.
+@LineBreak
+@LineBreak
+  @Keyword With : @Keyword EndWith Blöcke können nicht verschachtelt werden, da dies zu nur schwer 
+  zu findenden Bugs führen kann, wenn es mehrere - mit verschiedenen Werten ersetzte - Anweisungen gibt.
+  
+@Example 
+
+@Code
+  Structure Person
+    Name$
+    Age.l
+    Size.l
+  EndStructure
+
+  Friend.Person
+  
+  With Friend
+    \Name$ = "Yann"
+    \Age   = 30
+    \Size  = 196
+    
+    Debug \Size+\Size
+  EndWith
+    
+@EndCode
+
+@Example Komplexes Beispiel
+
+@Code
+  Structure Body
+    Weight.l
+    Color.l
+    Texture.l
+  EndStructure
+
+  Structure Person
+    Name$
+    Age.l
+    Body.Body[10]
+  EndStructure
+
+  Friend.Person
+  
+  For k = 0 to 9
+    With Friend\Body[k]
+      \Weight = 50
+      \Color  = 30
+      \Texture = \Color*k
+      
+      Debug \Texture
+    EndWith
+  Next
+    
+@EndCode

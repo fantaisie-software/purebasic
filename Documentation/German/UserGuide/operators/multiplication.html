@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Multiplikations- und Divisions-Operatoren - Einfache Verarbeitung - PureBasic Benutzerhandbuch</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Einfache Verarbeitung: Multiplikations- und Divisions-Operatoren</h1>
+Die Multiplikations- und Divisions-Operatoren sind sehr ähnlich. Beide können
+nur mit numerischen Elementen benutzt werden und beide führen ihre mathematischen
+Funktionen aus. Dies bedeutet, der Wert auf der linken Seite des Operators wird
+mit dem Wert auf der rechten Seite multipliziert bzw. durch diesen dividiert.
+
+<p>Beide Operatoren können in abgekürzter Form verwendet werden (das Ergebnis
+der Berechnung kann dann nicht in einem weiteren Ausdruck oder als Parameter eines
+Befehls verwendet werden und das Element auf der linken Seite des Operators muss
+eine Variable sein). In der abgekürzten Form wird die Variable auf der linken Seite
+des Operators multipliziert mit bzw. dividiert durch den Wert auf der rechten Seite
+und das Ergebnis wird in der Variablen auf der linken Seite des Operators gespeichert.
+Diese Zeilen zeigen jeweils die Standardform und das dazugehörige Äquivalent in der
+Kurzform:
+
+<pre class="codepart">a = a * b
+a * b
+
+c = c / d
+c / d</pre>
+
+Das nachfolgende Beispiel zeigt einige der Anwendungen von Multiplikations- und
+Divisions-Operatoren. Sie können den Quellcode auch <a href="multdiv_op.pb">hier</a> erhalten.
+
+<pre class="code">OpenConsole()
+
+width.l = 3
+length.l = 2
+height.l = 2
+
+area.l = width * length
+volume.l = height * area
+volume2.l = width * length * height
+PrintN(&quot;Plan view area = &quot;+Str(area))
+PrintN(&quot;Volume = &quot;+Str(volume)+&quot; and should be the same as Volume2 = &quot;+Str(volume2))
+
+total_cost.f = 13.67
+quantity.l = 9
+price_each.f = total_cost / quantity
+price_each / 1.175
+PrintN(&quot;Price of each item (excluding UK VAT) = &quot;+StrF(price_each))
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="multdiv_op_run.png" alt="Ausgabe des Multiplikation- und Divisions-Beispiels" width="603" height="85">
+ Dieses Bild zeigt die Ausgabe des obigen Beispielprogramms.
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="subtraction.html">Subtraktion</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="brackets.html">Operatoren Vorrang</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

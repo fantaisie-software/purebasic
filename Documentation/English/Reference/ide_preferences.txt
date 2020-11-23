@@ -1,0 +1,1277 @@
+
+@Title Customizing the IDE
+
+  The PureBasic IDE provides many options to customize or disable some of its 
+  features in order to become the perfect tool for you. 
+@LineBreak
+@LineBreak
+  These options are accessible from the Preferences command in the File menu, and the 
+  meaning of each setting is described here.
+
+@LineBreak
+@LineBreak
+
+  Any changes made will only take effect once you click the "OK" button or "Apply".
+
+;-------------------------------------------------------------------------------------------------------------------
+; General
+;-------------------------------------------------------------------------------------------------------------------
+@Section General
+
+@Image ide_prefs_general.png
+
+  Options that affect the general behavior of the IDE.
+
+@LineBreak
+@LineBreak
+
+@Bold "Run only one Instance"
+@LineBreak
+  If set, prevents the IDE from being opened more than once. Clicking on a 
+  PB file in the explorer will open it in the already existing IDE instance 
+  instead of opening a new one.
+
+@LineBreak
+@LineBreak
+
+@Bold "Disable Splash screen"
+@LineBreak
+  Disables the splash screen that is displayed on start-up.
+
+@LineBreak
+@LineBreak
+
+@Bold "Memorize Window positions"
+@LineBreak
+  Remembers the position of all IDE windows when you close them. If you prefer to 
+  have all windows open at a specific location and size, enable this option, move 
+  all windows to the perfect position, then restart the IDE (to save all options) 
+  and then disable this option to always open all windows in the last saved position.
+
+@LineBreak
+@LineBreak
+
+@Bold "Show window contents while moving the Splitter"
+@LineBreak
+  Enable this only if you have a fast computer. Otherwise moving the Splitter 
+  bar to the Error Log or Tools Panel may flicker a lot.
+
+@LineBreak
+@LineBreak
+
+@Bold "Auto-Reload last open sources"
+@LineBreak
+  On IDE start-up, opens all the sources that were open when the IDE was closed the last time.
+
+@LineBreak
+@LineBreak
+
+@Bold "Display full Source Path in Title bar"
+@LineBreak
+  If set, the IDE title bar will show the full path to the currently 
+  edited file. If not, only the filename is shown.
+
+@LineBreak
+@LineBreak
+
+@Bold "Recent Files list"
+@LineBreak
+  This setting specifies how many entries are shown in the "Recent Files" 
+  submenu of the File menu.
+
+@LineBreak
+@LineBreak
+
+@Bold "Search History size"
+@LineBreak
+  This setting specifies how many recent search words are 
+  remembered for "Find/Replace" and "Find in Files"
+  
+@LineBreak
+@LineBreak
+
+@Bold "Check for updates"
+@LineBreak
+  Specifies how often the IDE should check on the purebasic.com server for the
+  availability of new updates. An update check can also be performed manually at any time 
+  from the "Help" menu.
+  
+@LineBreak
+@LineBreak
+
+@Bold "Check for releases"
+@LineBreak
+  Specifies which kind of releases should cause a notification if they are available.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; General - Language
+;-------------------------------------------------------------------------------------------------------------------
+@Section General - Language
+
+@Image ide_prefs_language.png
+
+  This allows you to change the language of the IDE. The combo box shows the 
+  available languages, and you can view some information about the language file
+  (for example who translated it and when it was last updated).
+
+; == LINUX ONLY ==
+@OS Linux
+@LineBreak
+@LineBreak
+  Note: Changing the language for the IDE might require you to change the default 
+  font for Gtk, in order to display all strings correctly. See the configuration tools 
+  of your Linux distribution on how to change that.
+@formatendif
+; == END LINUX ONLY ==
+
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; General - Shortcuts
+;-------------------------------------------------------------------------------------------------------------------
+@Section General - Shortcuts
+
+@Image ide_prefs_shortcuts.png
+
+  Here you can fully customize all the shortcut commands of the IDE. Select an entry from 
+  the list, select the shortcut field, enter the new key combination and
+  click "Set" to change the entry.
+
+@LineBreak
+@LineBreak
+
+  Note that Tab & Shift+Tab are reserved for block-indentation and un-indentation and 
+  cannot be changed. Furthermore some key combination might have a special meaning for 
+  the OS and should therefore not be used.
+
+;-------------------------------------------------------------------------------------------------------------------
+; General - Themes
+;-------------------------------------------------------------------------------------------------------------------
+@Section General - Themes
+
+@Image ide_prefs_themes.png
+
+  This section shows the available icon themes for the IDE and allows to select
+  the theme to use. The IDE comes with two themes by default. 
+@LineBreak
+@LineBreak
+  More themes can be easily added by creating a zip-file containing the images 
+  (in png format) and a "Theme.prefs" file to describe the theme. The zip-file
+  has to be copied to the "Themes" folder in the PureBasic installation directory
+  to be recognized by the IDE. The "SilkTheme.zip" file can be used as an example 
+  to create a new theme.
+
+@LineBreak
+@LineBreak
+
+@Bold "Display Icons in the Menu"
+@LineBreak
+  Allows to hide/show the images in the IDE menus.
+
+@LineBreak
+@LineBreak
+
+@Bold "Show main Toolbar"
+@LineBreak
+  Allows to hide/show the main toolbar in order to gain space for the editing area.
+
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; General - Toolbar
+;-------------------------------------------------------------------------------------------------------------------
+@Section General - Toolbar
+
+@Image ide_prefs_toolbar.png
+
+  This allows to fully customize the main Toolbar. By selecting an entry and 
+  using the Buttons in the "Position" section, you can change the order. The 
+  "Item Settings" section can be used to modify the entry or add a new one. 
+  New ones are always added at the end of the list.
+
+@LineBreak
+@LineBreak
+
+  Types of items:
+@LineBreak
+@Bold Separator : a vertical separator line.
+@LineBreak
+@Bold Space : an empty space, the size of one toolbar icon.
+@LineBreak
+@Bold "Standard Icon" : allows you to select a OS standard icon from the combo box on the right.
+@LineBreak
+@Bold "IDE Icon" : allows you to select one of the IDE's own icons in the combo box on the right.
+@LineBreak
+@Bold "Icon File" : allows you to specify your own icon file to use in the edit box on the right
+  (PNG files are supported on all platforms, Windows additionally supports icon files).
+
+@LineBreak
+@LineBreak
+  If you do not select a separator or space, you can specify an action to carry out when the button is pressed:
+@LineBreak
+
+@Bold "Menu Item" : carries out the menu command specified in the combo box on the right.
+@LineBreak
+@Bold "Run tool" : executes the external tool specified in the combo box on the right.
+
+@LineBreak
+@LineBreak
+
+  The "Default Sets" section contains two standard toolbar 
+  sets which you can select, and later modify.
+
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor
+
+@Image ide_prefs_editor.png
+
+  Settings that affect the management of the source codes.
+
+@LineBreak
+@LineBreak
+
+@Bold "Monitor open files for changes on disk"
+@LineBreak
+  Monitors all open files for changes that are made to the files on disk while they are edited in the IDE.
+  If modifications are made by other programs, a warning is displayed with the choice to reload the file from disk.
+
+@LineBreak
+@LineBreak
+
+@Bold "Auto-save before compiling"
+@LineBreak
+  Saves the current source code before each compile/run or executable creation. Note that 
+  any open @ReferenceLink "includes" "include files" are not automatically saved.
+
+@LineBreak
+@LineBreak
+
+@Bold "Save all sources with Auto-save"
+@LineBreak
+  Saves all sources instead of just the current one with one of the Auto-save options.
+
+@LineBreak
+@LineBreak
+
+@Bold "Memorize cursor position"
+@LineBreak
+  Saves the current cursor position, as well as the state of 
+  all folding marks with the compiler options for the source file.
+
+@LineBreak
+@LineBreak
+
+@Bold "Memorize Marker positions"
+@LineBreak
+  Saves all the Markers with the options for the source file.
+
+
+@LineBreak
+@LineBreak
+
+@Bold "Always hide the error log"
+@LineBreak
+  The error log can be shown/hidden on a per-source basis. This option provides a global
+  setting to ignore the per-source setting and never display the error log. It also removes
+  the corresponding menu entries from the IDE menu.  
+
+@LineBreak
+@LineBreak
+
+@Bold "Save settings to"
+@LineBreak
+  This option allows to specify where the compiler options of a 
+  source file are saved:
+
+@LineBreak
+@LineBreak
+
+@indent
+
+@underline "The end of the Source file"
+@LineBreak
+  Saves the settings as a special comment block at the end of each source file.
+
+@LineBreak
+@LineBreak
+
+@underline "The file <filename>.pb.cfg"
+@LineBreak
+  Creates a .pb.cfg file for each saved source code that contains this information.
+
+@LineBreak
+@LineBreak
+
+@underline "A common file project.cfg for every directory"
+@LineBreak
+  Creates a file called project.cfg in each directory where PB files are 
+  saved. This one file will contain the options for all files in that directory.
+
+@LineBreak
+@LineBreak
+
+@underline "Don't save anything"
+@LineBreak
+  No options are saved. When reopening a source file, the 
+  defaults will always be used.
+
+@endindent
+
+@LineBreak
+@LineBreak
+
+
+@Bold "Tab Length"
+@LineBreak
+  Allows to specify how many spaces are inserted each time you press the Tab key.
+
+@LineBreak
+@LineBreak
+
+@Bold "Use real Tab (Ascii 9)"
+@LineBreak
+  If set, the tab key inserts a real tab character instead of spaces. 
+  If not set, there are spaces inserted when Tab is pressed. 
+@LineBreak
+@LineBreak
+  Note that if real tab is used, the "Tab Length" option specifies 
+  the size of one displayed tab character.
+
+@LineBreak
+@LineBreak
+
+@Bold "Source Directory"
+@LineBreak
+  Specifies the default directory used in the Open and Save dialogs 
+  if no other files are currently open (if another file is open, its 
+  path will be used as default).
+@LineBreak
+@LineBreak
+  Set this to the path were you usually save the source codes.
+
+@LineBreak
+@LineBreak
+
+@Bold "Code file extensions"
+@LineBreak
+  The IDE detects code files by their extension (pb, pbi or pbf by default). Non-code files
+  are edited in a "plain text" mode in which code-related features are disabled.
+  This setting causes the IDE to recognize further file extensions as code files.
+  The field can contain a comma-separated list (i.e. "pbx, xyz") of extensions to recognize.
+
+@LineBreak
+@LineBreak
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Editor
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Editing
+
+@Image ide_prefs_editorfont.png
+
+  Use "Select Font" to change the font used to display the source code. 
+  To ensure a good view of the source code, it should be a fixed-size font, 
+  and possibly even one where bold characters have the same size as non-bold ones.
+
+@LineBreak
+@LineBreak
+
+; == LINUX ONLY ==
+@OS Linux
+
+  Note: Only single-byte fonts can be used with the IDE. Make sure you 
+  do not select a multibyte Font here!
+@LineBreak
+@LineBreak
+
+@formatendif
+; == END LINUX ONLY ==
+
+
+@Bold "Enable bolding of keywords"
+@LineBreak
+  If your font does not display bold characters in the same size 
+  as non-bold ones, you should disable this option. If disabled, 
+  the keywords will not be shown as bold.
+
+@LineBreak
+@LineBreak
+
+@Bold "Enable case correction"
+@LineBreak
+  If enabled, the case of PureBasic keywords, PureBasic Functions 
+  as well as predefined constants will automatically be corrected 
+  while you type.
+
+@LineBreak
+@LineBreak
+
+@Bold "Enable marking of matching Braces"
+@LineBreak
+  If enabled, the brace matching the one under the cursor will be highlighted.
+
+@LineBreak
+@LineBreak
+
+@Bold "Enable marking of matching Keywords"
+@LineBreak
+  If enabled, the keyword(s) matching the one under the cursor will be underlined.
+
+@LineBreak
+@LineBreak
+
+@Bold "Display line numbers"
+@LineBreak
+  Shows or hides the line number column on the left.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Coloring
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Coloring
+
+@Image ide_prefs_editorcolors.png
+
+  Here you can change the color settings for the syntax coloring, as well as 
+  the debugger marks. Default color schemes can be selected from the box on the 
+  bottom, and also modified after they have been set.
+  Individual color settings can be disabled by use of the checkboxes.
+
+@Os Windows
+
+@LineBreak
+@LineBreak
+   
+  Note: The 'Accessibility' color scheme has (apart from high-contrast colors) a special setting
+  to always use the system color for the selection in the code editor. This helps screen-reader 
+  applications to better detect the selected text.
+
+@EndOs
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Coloring - Custom Keywords
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Coloring - Custom Keywords
+
+@Image ide_prefs_ownkeywords.png
+
+  In this section, a list of custom keywords can be defined. These keywords can have a special color
+  assigned to them in the coloring options and the IDE will apply case-correction to them if this feature is enabled.
+  This allows for applying a special color to special keywords by preprocessor tools or macro sets,
+  or to simply have some PB keywords colored differently.
+
+@LineBreak
+@LineBreak
+
+  Note that these keywords take precedence above all other coloring in the IDE, so this allows to
+  change the color or case correction even for PureBasic keywords.
+
+@LineBreak
+@LineBreak
+
+  The keywords can be either entered directly in the preferences or specified in a text file with
+  one keyword per line (or both).
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Folding
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Folding
+
+@Image ide_prefs_editorfolding.png
+
+  Here you can set the keywords in the source code that start/end a foldable 
+  section of code. You can add any number of words that will mark such a sections. 
+  You can also choose to completely disable the folding feature.
+@LineBreak
+@LineBreak
+  Words that are found inside comments are ignored, unless the defined keyword includes 
+  the comment symbol at the start (like the default ";{" keyword).
+@LineBreak
+@LineBreak
+  A keyword may not include spaces.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Indentation
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Indentation
+
+@Image ide_prefs_indent.png
+
+  Here you can specify how the editor handles code indentation when the return key is pressed.
+@LineBreak
+@LineBreak
+
+
+@Bold "No indentation"
+@LineBreak
+  Pressing return always places the cursor at the beginning of the next line.
+
+@LineBreak
+@LineBreak
+
+@Bold "Block mode"
+@LineBreak
+  The newly created line gets the same indentation as the one before it.
+
+@LineBreak
+@LineBreak
+
+@Bold "Keyword sensitive"
+@LineBreak
+  Pressing the return key corrects the indentation of both the old line and the new line depending
+  on the @ReferenceLink "general_rules" "keywords" on these lines. The rules for this are specified in the keyword list below. These
+  rules also apply when the "Reformat indentation" item in the @ReferenceLink "ide_editing" "edit menu" is used.
+
+@LineBreak
+@LineBreak
+
+@Bold "Show indentation guides"
+@LineBreak
+  Causes vertical lines to be shown to visualize the indentation on each line. This makes it easier
+  to see which source lines are on the same level of indentation.
+
+@LineBreak
+@LineBreak
+
+
+@Bold "Show whitespace characters"
+@LineBreak
+  Causes whitespace characters to be visible as little dots (spaces) or arrows (tab characters).
+
+@LineBreak
+@LineBreak
+
+  The keyword list contains the keywords that have an effect on the indentation. The "Before" setting specifies
+  the change in indentation on the line that contains the keyword itself while the "After" setting specifies the
+  change that applies to the line after it. 
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Auto complete
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Auto complete
+
+@Image ide_prefs_autocomplete.png
+
+
+@Bold "Display the full Auto complete list"
+@LineBreak
+  Always displays all keywords in the list, but selects the closest match.
+
+@LineBreak
+@LineBreak
+
+@Bold "Display all words that start with the first character"
+@LineBreak
+  Displays only those words that start with the same character as you typed. 
+  The closest mach is selected.
+
+@LineBreak
+@LineBreak
+
+@Bold "Display only words that start with the typed word"
+@LineBreak
+  Does not display any words that do not start with what you typed. 
+  If no words match, the list is not displayed at all.
+
+@LineBreak
+@LineBreak
+
+@Bold "Box width / Box height"
+@LineBreak
+  Here you can define the size of the auto complete list (in pixel).
+  Note that these are maximum values. The displayed box may become smaller if there are only a few items to display.
+
+@LineBreak
+@LineBreak
+
+@Bold "Add opening Brackets to Functions/Arrays/Lists"
+@LineBreak
+  Will automatically add a "(" after any function/Array/List inserted by auto 
+  complete. Functions with no parameters or lists get a "()" added.
+
+@LineBreak
+@LineBreak
+
+@Bold "Add a Space after PB Keywords followed by an expression"
+@LineBreak
+  When inserting PB keywords that cannot appear alone, a space 
+  is automatically added after them.
+
+@LineBreak
+@LineBreak
+
+@Bold "Add matching ‘End' keyword if Tab/Enter is pressed twice"
+@LineBreak
+  If you press Tab or Enter twice, it will insert the corresponding end 
+  keyword (for example "EndSelect" to "Select" or "EndIf " to "If") to 
+  the keyword you have just inserted. The end keyword will be inserted 
+  after the cursor, so you can continue typing after the first keyword 
+  that was inserted.
+
+@LineBreak
+@LineBreak
+
+@Bold "Automatically popup AutoComplete for Structure items"
+@LineBreak
+  Displays the list automatically whenever a structured variable or interface is entered
+  and the "\" character is typed after it to show the list of possible structure
+  fields. If disabled, the list can still be displayed by pressing the keyboard 
+  shortcut to open the AutoComplete window (usually Ctrl+Space, this can be modified
+  in the Shortcuts section of the Preferences).
+
+@LineBreak
+@LineBreak
+
+@Bold "Automatically popup AutoComplete outside of Structures"
+@LineBreak
+  Displays the list automatically when the current word is not a structure after
+  a certain amount of characters has been typed, and a possible match in the list 
+  is found. If disabled, the list can still be displayed by pressing the assigned
+  keyboard shortcut.
+
+@LineBreak
+@LineBreak
+
+@Bold "Characters needed before opening the list"
+@LineBreak
+  Here you can specify how many characters the word must have minimum 
+  before the list is automatically displayed.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Auto complete - Displayed items
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Auto complete - Displayed items
+
+@Image ide_prefs_autocompletelist.png
+
+  This shows a list of possible items that can be included with the possible matches in the AutoComplete list.
+
+@LineBreak
+@LineBreak
+
+@Bold "Source code Items"
+@LineBreak
+  Items defined in the active source code, or other open sources (see below).
+
+@LineBreak
+@LineBreak
+
+@Bold "Predefined Items"
+@LineBreak
+  Items that are predefined by PureBasic, such as the PureBasic keywords, functions or predefined constants.
+
+@LineBreak
+@LineBreak
+
+@Bold "Add Items from: the current source only"
+@LineBreak
+  Source code items are only added from the active source code.
+
+@LineBreak
+@LineBreak
+
+@Bold "Add Items from: the current project (if any)"
+@LineBreak
+  Source code items are added from the current project if there is one. The other source codes in the
+  project do not have to be currently open in the IDE for this.
+
+@LineBreak
+@LineBreak
+
+@Bold "Add Items from: the current project or all files (if none)"
+@LineBreak
+  Source code items are added from the current project. If the current source code does not
+  belong to the open project then the items from all open source codes will be added.
+
+@LineBreak
+@LineBreak
+
+@Bold "Add Items from: all open files"
+@LineBreak
+  Source code items are added from all currently open source codes.
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Issues
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Issues
+
+@Image ide_prefs_issues.png
+
+  Allows to configure the collection of 'issue' markers from comments in the source code.
+  Issue markers can be displayed in the @ReferenceLink "ide_tools" "Issues" or ProcedureBrowser
+  tool, and they can be marked within the source code with a separate background color.
+
+@LineBreak
+@LineBreak
+
+  A definition for an issue consists of the following:
+  
+@Indent
+
+  @Underline "Issue name"
+  @LineBreak
+    A name for the type of issue.
+  
+  @LineBreak
+  @LineBreak
+  
+  @Underline "Regular expression"
+  @LineBreak
+    A regular expression defining the pattern for the issue. This regular expression
+    is applied to all comments in the source code. Each match of the expression is
+    considered to match the issue type.
+  
+  @LineBreak
+  @LineBreak
+  
+  @Underline "Priority"
+  @LineBreak
+    Each issue type is assigned a priority. The priority can be used to order and filter
+    the displayed issues in the issue tool.
+  
+  @LineBreak
+  @LineBreak
+
+  @Underline "Color"
+  @LineBreak
+    The color used to mark the issue in the source code (if enabled). The color will be used
+    to mark the background of either only the issue text itself, or the entire code line depending
+    on the coloring option.
+  
+  @LineBreak
+  @LineBreak  
+  
+  @Underline "Show in issue tool"
+  @LineBreak
+    If enabled, any found issues of this type are listed in the issues tool. This option
+    can be disabled to cause an issue to only be marked in the source code with a special
+    background color if desired.
+  
+  @LineBreak
+  @LineBreak 
+  
+  @Underline "Show in procedure browser"
+  @LineBreak
+    If enabled, any found issues are shown as an entry in the procedure browser tool.
+
+@EndIndent
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Session history
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Session history
+
+@Image ide_prefs_sessionhistory.png
+
+  Allows to configure how the session history is recording changes.
+
+@LineBreak
+@LineBreak
+
+@Bold "Enable recording of history"
+@LineBreak
+  Enable or disable the history session recording. When enabled, all the changes made to a file will be recorded
+  in the background in a database. A session is created when the IDE launch, and is closed when the IDE quits.
+  This is useful to rollback to a previous version of a file, or to find back a deleted 
+  or corrupted file. It's like a very powerful source backup tool, limited in time (by default one month
+  of recording). It's not aimed to replace a real source versioning system like SVN or GIT. It's complementary
+  to have finer change trace. The source code will be stored without encryption, so if you are working on
+  sensitive source code, be sure to have this database file in a secure location, or disable this feature.
+  It's possible to define the session history database location using an @ReferenceLink "ide_commandline" "IDE command-line" switch.
+@LineBreak
+@LineBreak
+
+@Bold "Record change every X minutes"
+@LineBreak
+  Change the interval between each silent recording (when editing). A file will be automatically recorded when
+  saving or closing it.
+
+@LineBreak
+@LineBreak
+
+@Bold "Record only changes to files smaller than X kilobytes"
+@LineBreak
+  Change the maximum size (in kilobytes) of the files being recorded. This allow to exclude very big files which
+  could make the database grow a lot.
+
+@LineBreak
+@LineBreak
+
+@Bold "Keep all history"
+@LineBreak
+  Keep all the history, the database is never purged. It will always grows, so it should be watched.
+
+@LineBreak
+@LineBreak
+
+@Bold "Keep maximum X sessions"
+@LineBreak
+  After reaching the maximum number of sessions, the oldest session will be removed from the database.
+
+@LineBreak
+@LineBreak
+
+@Bold "Keep sessions for X days"
+@LineBreak
+  After reaching the maximum number of days, the session will be removed from the database.
+
+;-------------------------------------------------------------------------------------------------------------------
+; Compiler
+;-------------------------------------------------------------------------------------------------------------------
+@Section Compiler
+
+@Image ide_prefs_compiler.png
+
+  This page allows to select additional compilers which should be available for compilation
+  in the @ReferenceLink "ide_compiler" "Compiler Options". This allows switching between different
+  compilers of the same version (like the x86 and x64 compilers) or even switching between different 
+  versions easily.
+@LineBreak
+@LineBreak
+  Any PureBasic compiler starting from Version 4.10 can be added here. The target processor of the
+  selected compilers does not have to match that of the default compiler, as long as the target
+  operating system is the same. The list displays the compiler version and path of the selected
+  compilers.
+@LineBreak
+@LineBreak
+  The information used by the IDE (for code highlighting, auto complete, structure viewer) always 
+  comes from the default compiler. The additional compilers are only used for compilation.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Compiler - Defaults
+;-------------------------------------------------------------------------------------------------------------------
+@Section Compiler - Defaults
+
+@Image ide_prefs_editorstandards.png
+
+  This page allows setting the default compiler options that will be 
+  used when you create a new source code with the IDE.
+@LineBreak
+@LineBreak
+  For an explanation of the meaning of each field, see the @ReferenceLink "ide_compiler" "Compiler Options".
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Debugger
+;-------------------------------------------------------------------------------------------------------------------
+@Section Debugger
+
+@Image ide_prefs_debugger.png
+
+  Settings for the internal Debugger, or the Standalone Debugger. 
+  The command-line debugger is configured from the command-line only.
+
+@LineBreak
+@LineBreak
+
+@Bold "Debugger Type"
+@LineBreak
+  Select the type of debugger you want to use when compiling from the IDE here.
+
+@LineBreak
+@LineBreak
+
+@Bold "Choose Warning level"
+@LineBreak
+  Select the action that should be taken if the debugger issues a warning.
+  The available options are:
+@LineBreak
+  @Underline "Ignore Warnings:" Warnings will be ignored without displaying anything.
+@LineBreak
+  @Underline "Display Warnings:" Warnings will be displayed in the error log and the source 
+  code line will be marked, but the program continues to run.
+@LineBreak
+  @Underline "Treat Warnings as Errors:" A warning will be treated like an error.
+@LineBreak
+  See @ReferenceLink "ide_debugger" "Using the debugger" for more information on debugger warnings and errors.
+
+@LineBreak
+@LineBreak
+
+@Bold "Memorize debugger window positions"
+@LineBreak
+  The same as the "Memorize Window positions" for in the General 
+  section, but for all Debugger windows.
+
+@LineBreak
+@LineBreak
+
+@Bold "Keep all debugger windows on top"
+@LineBreak
+  All debugger windows will be kept on top of all other windows, 
+  even from other applications.
+
+@LineBreak
+@LineBreak
+
+@Bold "Bring Debugger windows to front when one is focused"
+@LineBreak
+  With this option set, focusing one window that belongs to the 
+  debugger of a file, all windows that belong to the same debugging 
+  session will be brought to the top.
+
+@LineBreak
+@LineBreak
+
+@Bold "Display Timestamp in error log"
+@LineBreak
+  Includes the time of the event in the error log.
+
+@LineBreak
+@LineBreak
+
+@Bold "Stop execution at program start"
+@LineBreak
+  Each program will be started in an already halted mode, giving 
+  you the opportunity to start moving step-by-step, right from 
+  the start of the program.
+
+@LineBreak
+@LineBreak
+
+@Bold "Stop execution before program end"
+@LineBreak
+  Stops the program execution right before the executable would 
+  unload. This gives you a last chance to use the debugging tools 
+  to examine Variables or Memory before the program ends.
+
+@LineBreak
+@LineBreak
+
+@Bold "Kill Program after an Error"
+@LineBreak
+  If a program encounters an error, it will be directly ended and all 
+  debugger windows closed. This gives the opportunity to directly modify 
+  the code again without an explicit "Kill Program", but there is no chance 
+  to examine the program after an error.
+
+@LineBreak
+@LineBreak
+
+@Bold "Keep Error marks after program end"
+@LineBreak
+  Does not remove the lines marked with errors when the program ends. This gives 
+  the opportunity to still see where an error occurred while editing the code again. 
+@LineBreak
+@LineBreak
+  The marks can be manually removed with the "Clear error marks" command in the "Error log" 
+  submenu of the debugger menu.
+
+@LineBreak
+@LineBreak
+
+@Bold "Clear error log on each run"
+@LineBreak
+  Clears the log window when you execute a program. This ensures that the log does not 
+  grow too big (this option is also available with the command-line debugger selected).
+
+@LineBreak
+@LineBreak
+
+@Bold "Timeout for Debugger startup"
+@LineBreak
+  Specifies the time in milliseconds how long the debugger will wait for a program to 
+  start up before giving up. This timeout prevents the debugger from locking up 
+  indefinitely if the executable cannot start for some reason.
+
+;-------------------------------------------------------------------------------------------------------------------
+; Debugger - Individual settings
+;-------------------------------------------------------------------------------------------------------------------
+@Section Debugger - Individual Settings
+
+  This allows setting options for the individual debugger tools. The "Display Hex values" 
+  options switch between displaying @ReferenceLink "variables" "Byte, Long and Word" as 
+  decimal or hexadecimal values.
+
+@Image ide_prefs_debugsettings.png
+
+@Bold "Debug Output – Add Timestamp"
+@LineBreak
+  Adds a timestamp to the output displayed from the Debug command.
+
+@LineBreak
+@LineBreak
+
+@Bold "Debug Output - Display debug output in the error log"
+@LineBreak
+  With this option enabled, a @ReferenceLink "debugger" "Debug" command in the code will not
+  open the @ReferenceLink "ide_debugtools" "Debug Output window", but instead show the output in the @ReferenceLink "ide_start" "error log".
+
+@LineBreak
+@LineBreak
+
+@Bold "Debug Output – Use custom font"
+@LineBreak
+  A custom font can be selected here for the @ReferenceLink "ide_debugtools" "debug output window". This allows to specify a
+  smaller font for much output or a proportional one if this is desired.
+
+@LineBreak
+@LineBreak
+
+; =======================================================
+; NOTE: due to problems, this option has been removed from the IDE for now. will maybe be added again later
+;
+;@Bold "Debug Output - Display System messages"
+;@LineBreak
+;
+; == WINDOWS ONLY ==
+;@OS Windows
+;  With this option set, the Debugger will display messages sent by the OutputDebugString Windows API command
+;  in the debug output window. This allows you to call OutputDebugString_() in your programs to output debug text,
+;  for example in sections where the debugger is disabled (with @referencelink debugger DisableDebugger), or inside
+;  a DLL, where the normal debug commands do not work.
+;@NewLine
+;  It will also output messages sent by some Windows dlls.
+;
+; == LINUX ONLY ==
+;@OS Linux
+;  With this option set, the Debugger will display Gtk+/Gdk warnings and errors in the debug output window, specifying
+;  the file and line in which the problem happened. This can help to debug your own Gtk+/Gdk specific code.
+;
+; == MACOS ONLY ==
+;@OS MacOS
+;  This option is not supported on PureBasic for MacOSX.
+;
+;@EndOS
+; == END OS SPECIFIC ==
+;
+;@LineBreak
+;@LineBreak
+; =======================================================
+
+@Bold "Profiler - Start Profiler on program startup"
+@LineBreak
+  Determines whether the profiler tool should start recording data when the program starts.
+
+@LineBreak
+@LineBreak
+
+
+@Bold "ASM Debugger – Update Stack trace automatically"
+@LineBreak
+  Updates the stack trace automatically on each step/stop you do. If disabled, 
+  a manual update button will be displayed in the ASM window.
+
+@LineBreak
+@LineBreak
+
+@Bold "Memory Viewer – Array view in one column only"
+@LineBreak
+  If the memory area is displayed in array view, this option selects whether 
+  it should be multi-column (with 16 bytes displayed in each column) or with 
+  only one column.
+
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Debugger - Default Windows
+;-------------------------------------------------------------------------------------------------------------------
+@Section Debugger - Default Windows
+
+@Image ide_prefs_debugwindows.png
+
+  The debugger tools you select on this page will automatically 
+  be opened each time you run a program with enabled debugger.
+  
+;-------------------------------------------------------------------------------------------------------------------
+; Form
+;-------------------------------------------------------------------------------------------------------------------
+@Section Form
+
+@Image ide_prefs_form.png
+
+  Allows to customize the integrated form designer behavior.
+  
+@LineBreak
+@LineBreak
+
+@Bold "New gadgets use #PB_Any by default"
+@LineBreak
+  If enabled, new gadget creation will use #PB_Any instead of static enumeration numbering.
+
+@LineBreak
+@LineBreak
+
+@Bold "New gadgets use a variable as caption"
+@LineBreak
+  If enabled, new gadget will use a variable instead of static text as caption. It can be useful
+  to easily localize the form.
+
+@LineBreak
+@LineBreak
+
+@Bold "Grid visible"
+@LineBreak
+  If enabled, the grid will be visible on the form designer, to ease gadget alignment.
+  
+@LineBreak
+@LineBreak
+
+@Bold "Generate event procedure"
+@LineBreak
+  If enabled, an event procedure will be automatically generated (and updated).
+
+@LineBreak
+@LineBreak
+
+@Bold "Generate event loop"
+@LineBreak
+  If enabled, a basic event loop will be generated for the form.
+
+@LineBreak
+@LineBreak
+
+@Bold "Grid size"
+@LineBreak
+  Space between two grid points, in pixels.
+  
+@LineBreak
+@LineBreak
+
+@Bold "OS skin"
+@LineBreak
+  Skin to use for the form designer.
+
+;-------------------------------------------------------------------------------------------------------------------
+; Tools Panel
+;-------------------------------------------------------------------------------------------------------------------
+@Section Tools Panel
+
+@Image ide_prefs_toolspanel.png
+
+  This allows configuring the internal tools that can be displayed in the side panel. 
+  Each tool that is in the "Displayed Tools" list is displayed in the Panel on the 
+  side of the edit area. Each tool that is not listed there is accessible from the 
+  Tools menu as a separate window.
+@LineBreak
+  Put only those tools in the side panel that you use very frequently, and put the 
+  most frequently used first, as it will be the active one once you open the IDE.
+
+@LineBreak
+@LineBreak
+
+  By selecting a tool in either of the lists, you get more configuration options 
+  for that tool (if there are any) in the "Configuration" section below.
+
+@LineBreak
+@LineBreak
+  Here is an explanation of those tools that have special options:
+
+@LineBreak
+@LineBreak
+
+@Bold "Explorer"
+@LineBreak
+  You can select between a Tree or List display of the file-system. 
+  You can also set whether the last displayed directory should be remembered, 
+  or if the Source Path should be the default directory when the IDE is started.
+
+@LineBreak
+@LineBreak
+
+@Bold "Procedure Browser"
+@LineBreak
+  "Sort Procedures by Name" : sorts the list alphabetically (by default they are listed as they appear in the code).
+@LineBreak
+  "Group Markers" : groups the ";-" markers together.
+@LineBreak
+  "Display Procedure Arguments" : Displays the full declaration of each procedure in the list.
+
+@LineBreak
+@LineBreak
+
+@Bold "Variable Viewer"
+@LineBreak
+  The "Display Elements from all open sources" option determines whether 
+  the list should only include items from this code, or from all open codes.
+@LineBreak
+@LineBreak
+  Furthermore you can select the type of items displayed in the Variable viewer.
+
+@LineBreak
+@LineBreak
+
+@Bold "Help Tool"
+@LineBreak
+  "Open sidebar help on F1": specifies whether to open the help tool instead of the separate help viewer when F1 is pressed.
+
+;-------------------------------------------------------------------------------------------------------------------
+; Tools panel - Options
+;-------------------------------------------------------------------------------------------------------------------
+@Section Tools panel - Options
+
+@Image ide_prefs_toolspanel_options.png
+
+  Here you can customize the appearance of the Tools Panel a bit more. You can 
+  select the side on which it will be displayed, a Font for its text, as well 
+  as a foreground and background color for the displayed tools.
+  The font and color options can be disabled to use the OS defaults instead.
+
+@LineBreak
+@LineBreak
+
+@Bold "Do not use colors/fonts for tools in external windows"
+@LineBreak
+  If set, the color/font options only apply to the Tools displayed in the Panel, 
+  those that you open from the Tools menu will have the default colors.
+
+@LineBreak
+@LineBreak
+
+@Bold "Automatically hide the Panel"
+@LineBreak
+  To save space, the Panel will be hidden if the mouse is not over it. 
+  Moving the mouse to the side of the IDE will show it again.
+
+@LineBreak
+@LineBreak
+
+@Bold "Milliseconds delay before hiding the Panel"
+@LineBreak
+  Sets a timeout in ms, after which the Panel is hidden if you leave it with the mouse.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Import/Export
+;-------------------------------------------------------------------------------------------------------------------
+@Section Import/Export
+
+@Image ide_prefs_import.png
+
+  This section allows you to export the layout settings of the IDE in a platform independent 
+  format, which allows you to import them again into the PureBasic IDE on another Operating System, 
+  or to share your options with other PB users.
+
+@LineBreak
+@LineBreak
+
+  To export your settings, select what types of settings you want to include, select a 
+  filename and press the "Save" button.
+
+@LineBreak
+@LineBreak
+
+  To import settings, select the filename and press "Open". You will then see the options that are 
+  included in this file as enabled checkboxes. After selecting what you want to import, click the 
+  "Import Settings" button.
+
+@LineBreak
+@LineBreak
+
+  For the new settings to take effect, you have to first click the apply button.
+
+@LineBreak
+@LineBreak
+
+  Note: You can import the style files from the jaPBe Editor, but only the color settings will be imported.
+

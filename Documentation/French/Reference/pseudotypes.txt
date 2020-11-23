@@ -1,0 +1,62 @@
+@Title Pseudotypes
+
+@Description
+
+  Pour les programmeurs chevronnés. Les pseudotypes sont destinés à faciliter la programmation quand
+  l'utilisation de bibliothèques externes nécessitant des types non supportés par PureBasic sont
+  requises. Plusieurs types prédéfinis sont disponibles et permettent une conversion à la volée
+  des types PureBasic vers ces types. Etant donné que ce ne sont pas des types normaux, leur notation
+  est volontairement différente: un préfixe 'p-' (pour 'pseudo') fait partie du nom du type.
+  Les pseudotypes disponibles sont:
+  
+@FixedFont
+  p-ascii: se comporte comme un type 'string', mais la chaîne de caractères sera toujours convertie en
+           ascii lors de l'appel de la fonction, même si le programme est compilé en mode @ReferenceLink "unicode" "unicode". 
+           C'est très utile pour appeler les fonctions d'une bibliothèque qui ne supporte pas
+           l'unicode, dans un programme unicode.
+           
+  p-utf8: se comporte comme un type 'string', mais la chaîne de caractères sera toujours convertie en
+          utf-8 lors de l'appel de la fonction. C'est très utile pour appeler les fonctions d'une bibliothèque qui ne supporte que
+          l'utf-8 comme format de chaîne de caractères.
+
+  p-bstr: se comporte comme un type 'string', mais la chaîne de caractères sera toujours convertie en
+          bstr lors de l'appel de la fonction. C'est très utile pour appeler les fonctions d'une bibliothèque qui ont besoin
+          des chaînes de caractères bstr, comme les composants COM.
+          
+  p-unicode: se comporte comme un type 'string', mais la chaîne de caractères sera toujours convertie en
+             unicode lors de l'appel de la fonction, même si le programme est compilé en mode ascii. 
+             C'est très utile pour appeler les fonctions d'une bibliothèque qui ne supporte que
+             l'unicode, dans un programme ascii.
+             
+  p-variant: se comporte comme un type numérique, en ajustant l'appel de la fonction pour utiliser correctement
+             un paramètre de type 'VARIANT'. C'est très utile pour appeler les fonctions d'une bibliothèque qui ont besoin
+             des paramètres de type 'VARIANT', comme les composants COM.
+@EndFixedFont
+  
+  Les pseudotypes peuvent être utilisés uniquement avec les @ReferenceLink "prototypes" "prototypes", les @ReferenceLink "interfaces" "interfaces"
+  et les fonctions @ReferenceLink "import_endimport" "importées". Ils ne font la conversion que si c'est
+  nécessaire.
+  
+@Example 
+
+@Code
+  ;MessageRequester("Exemple","Pseudotype...") ; Décommenter cette ligne sous Windows XP
+  Import "User32.lib"
+   
+    ; Nous spécifions le pseudotype 'p-ascii'pour les 2 paramètres de type string
+    ; (texte à afficher et titre) car l'api MessageBoxA est une fonction ascii. Le compilateur
+    ; convertira automatiquement les chaînes ascii en ascii pour les besoins de la fonction     
+    ;
+    MessageBoxA(Window.l, Corps.p-ascii, Titre.p-ascii, Options.i = 0)
+                                                  
+  EndImport
+  
+  ; L'exemple suivant fonctionnera correctement même si les chaînes internes PureBasic sont en unicode
+  ; car le compilateur se chargera automatiquement de la conversion ASCII.
+  ;
+  MessageBoxA(0, "Hello", "World")
+    
+@EndCode
+
+
+

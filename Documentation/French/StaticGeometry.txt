@@ -1,0 +1,216 @@
+;
+; StaticGeometry library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library StaticGeometry
+
+@Overview
+  Une géométrie statique est une forme 
+  géométrique prédéfinie et pré-rendue, 
+  qui peut être très complexe et qui a 
+  toujours un rendu très rapide. 
+  Mais une fois créée, la forme géométrique 
+  ne peut plus être déplacée.
+@LineBreak
+@LineBreak  
+  Elles peuvent être utilisées comme 
+  éléments de décors dans un paysage 
+  par exemple.
+@LineBreak
+@LineBreak
+  @@InitEngine3D doit être appelé avec 
+  succès avant d'utiliser les fonctions 
+  géométriques statiques.
+
+@CommandList
+
+@ExampleFile All StaticGeometry.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeStaticGeometry(#Statique)
+
+@Description
+  Libére une forme géométrique statique.
+
+@Parameter "#Statique"
+  La forme à libérer.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, toutes les 
+  formes géométriqyes statiques 
+  restantes sont libérées.
+
+@NoReturnValue
+
+@Remarks
+  Toutes les formes géométriques statiques 
+  restantes sont automatiquement libérées 
+  lorsque le programme se termine.
+
+@SeeAlso
+  @@CreateStaticGeometry
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsStaticGeometry(#Statique)
+
+@Description
+  Teste si une forme géométrique statique 
+  est valide et correctement initialisée.
+
+@Parameter "#Statique"
+  La forme à utiliser.
+
+@ReturnValue
+  Renvoie une valeur non nulle si #Statique 
+  est valide et initialisée, zéro sinon.
+
+@Remarks
+  C'est un bon moyen de vérifier que la 
+  forme géométrique statique est prête à 
+  l'emploi. 
+
+@SeeAlso
+  @@CreateStaticGeometry
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateStaticGeometry(#Statique, Largeur, Hauteur, Longueur, ActiverOmbres)
+
+@Description
+  Crée une forme géométrique statique vide.
+
+@Parameter "#Statique"
+  Le numéro d'identification de la nouvelle 
+  forme géométrique statique. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "PB_Any #" 
+  peut être utilisé pour générer automatiquement
+  ce numéro.
+@Parameter "Largeur, Hauteur, Longueur"
+  Dimensions (en unité monde) de la forme 
+  géométrique statique.
+
+@Parameter "ActiverOmbres"
+ Active ou désactive les ombres dynamiques 
+ sur la forme. 
+@FixedFont
+  @#True : Ombres affichées.
+  @#False: Ombres désactivées.
+@EndFixedFont
+  
+@ReturnValue
+  Renvoie une valeur non nulle si la forme 
+  géométrique statique a été 
+  créée avec succès, zéro sinon. 
+@LineBreak
+@LineBreak
+  Si @#PB_Any a été utilisé pour le paramètre 
+  #Statique alors le nombre généré 
+  est renvoyé en cas de succès.
+@LineBreak
+@LineBreak
+
+@Remarks
+  Si la nouvelle forme géométrique statique 
+  '#Statique' est chargée avec le même numéro, 
+  alors l'ancienne forme est automatiquement 
+  libérée lors de la création de la nouvelle.
+
+@SeeAlso
+  @@FreeStaticGeometry
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddStaticGeometryEntity(#Statique, EntitéID, X, Y, Z [, EchelleX, EchelleY, EchelleZ [, RotationX, RotationY, RotationZ [, RotationW, Mode]]])
+
+@Description
+  Ajoute une entité à une forme géométrique 
+  statique. 
+
+@Parameter "#Statique"
+  La forme à utiliser.
+
+@Parameter "EntitéID"
+  Le numéro d'identification 
+  @Link "Entity/EntityID" "EntitéID" de 
+  l'entité à ajouter à la forme géométrique 
+  statique.
+
+@Parameter "X, Y, Z"
+  La position de l'entité dans la forme 
+  géométrique statique.
+
+@OptionalParameter "EchelleX, EchelleY, EchelleZ"
+  Le facteur d'échelle à appliquer à l'entité.
+  
+@OptionalParameter "RotationX, RotationY, RotationZ"
+  La rotation à appliquer à l'entité.
+
+@OptionalParameter "RotationW"
+  La rotation à appliquer à l'entité. (Seulement utilisé avec @#PB_Orientation_Quaternion et @#PB_Orientation_Direction).
+
+@OptionalParameter "Mode"
+  Le mode de rotation. Peut avoir l'une des valeurs suivantes:
+@FixedFont
+  - @#PB_Orientation_PitchYawRoll: 'X' (tangage), 'Y' (lacet), 'Z' (roulis), appliqués dans cet ordre (par défaut).
+  - @#PB_Orientation_Quaternion  : 'X', 'Y', 'Z', 'W' pour les valeurs du quaternion
+  - @#PB_Orientation_Direction   : 'X', 'Y', 'Z' pour le vecteur de direction et 'W' pour la rotation (roulis).
+@EndFixedFont
+ 
+@NoReturnValue
+
+@Remarks
+  L'entité d'origine n'est pas modifiée par 
+  cette fonction et peut être libérée après 
+  l'ajout. 
+@LineBreak
+@LineBreak
+  La même entité peut être ajoutée plusieurs fois.
+@LineBreak
+@LineBreak
+  Attention: Une fois que toutes les entités ont 
+  été ajoutées, la commande @@BuildStaticGeometry 
+  doit être appelée pour générer la forme 
+  géométrique statique.
+
+@SeeAlso
+  @@CreateStaticGeometry, 
+  @@BuildStaticGeometry
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BuildStaticGeometry(#Statique)
+
+@Description
+  Construit une forme géométrique statique. 
+
+@Parameter "#Statique"
+  La forme à utiliser.
+
+@NoReturnValue
+
+@Remarks
+ Une fois créée, une forme géométrique 
+ statique ne peut plus être modifiée.
+
+@SeeAlso
+  @@CreateStaticGeometry, 
+  @@AddStaticGeometryEntity
+
+@SupportedOS

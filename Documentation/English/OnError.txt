@@ -1,0 +1,489 @@
+;
+;     OnError library documentation
+;
+;       (c) 2008 - Fantaisie Software
+;
+
+@Library OnError
+
+@Overview
+  This library provides a way to track program errors (program crashes) similar to the
+  @ReferenceLink "ide_debugger" "PureBasic debugger" but without the drawbacks of a bigger filesize and lower execution speed when
+  using the debugger. This way the final version of a program which is shipped to the end user
+  can still intercept program errors and provide some information about the error to the user
+  so he can report it back to the developer.
+@LineBreak
+@LineBreak
+  The @ReferenceLink "ide_debugger" "PureBasic debugger" is still the better tool for finding bugs during the development phase,
+  as it provides much more detailed information about the state of the program (like actual @ReferenceLink "variables" "variable" values)
+  and also has a number of interactive features to quickly locate bugs.
+@LineBreak
+@LineBreak
+  @Bold "Note:" If both this library and the @ReferenceLink "ide_debugger" "PureBasic debugger" are used, not all errors will be caught
+  by the OnError library as some checks are made and reported by the debugger even before the actual code with
+  the error is executed.
+@LineBreak
+@LineBreak
+  This library can provide information about the source code file and line at which the error occurred through
+  the @@ErrorFile and @@ErrorLine commands, but only if this feature is enabled
+  when compiling the program (it causes a very small slowdown in execution speed to track the line numbers).
+  To enable this feature, enable the "Enable OnError lines support" checkbox in the @ReferenceLink "ide_compiler" "compiler options"
+  or specify the /LINENUMBERING (Windows) or --linenumbering (Linux, Mac OSX) command-line switch when compiling
+  from the @ReferenceLink "cli_compiler" "command-line".
+
+@CommandList
+
+@ExampleFile All OnError.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OnErrorExit()
+
+@Description
+  Changes the action taken if an error occurs to directly exit the program, even if the default action
+  on the system is not to exit the program on this kind of error. The system may display an error dialog
+  or print an error-message on the console on exit.
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  To exit the program silently and suppress any system message, use @@OnErrorCall and
+  end the program from the error handler.
+
+@Example
+@Code
+  MessageRequester("OnError test", "Test start")
+
+  OnErrorExit()
+  Pokes(10, "Hello World") ; Cause a #PB_OnError_InvalidMemory error
+  
+  MessageRequester("OnError test", "This should never be displayed")
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OnErrorCall(@ErrorHandler())
+
+@Description
+  Changes the action taken if an error occurs to call the specified handler procedure. The handler
+  can display information about the error to the user using the commands of this library and do any
+  needed cleanup to shutdown the application. The program will end as soon as the handler returns.
+
+@Parameter "@ErrorHandler()"
+  The address of a procedure of the following form:
+@Code
+  Procedure ErrorHandler()
+    ; Your code here
+  EndProcedure
+@EndCode
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure ErrorHandler()
+    MessageRequester("OnError test", "The following error happened: " + ErrorMessage())
+  EndProcedure
+
+  MessageRequester("OnError test", "Test start")
+
+  OnErrorCall(@ErrorHandler())
+  Pokes(10, "Hello World") ; Cause a #PB_OnError_InvalidMemory error
+  
+  MessageRequester("OnError test", "This should never be displayed")
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OnErrorGoto(?LabelAddress)
+
+@Description
+  Changes the action taken when an error occurs to jump to the specified label address and continue
+  program execution there. After the jump to the label, the functions of this library can be used
+  to get further information about the error.
+
+@Parameter "?LabelAddress"
+  The address of a label in the program to jump to.
+  
+@NoReturnValue
+
+@Remarks
+  The program stack will not be adjusted before jumping to the label, so local variables
+  should not be accessed as they may not be reachable anymore. It is also not safe to continue normal
+  program execution after an error as things like the return address of a procedure may be wrong
+  if the stack is no longer correct. The best practice is just to gather and display information
+  about the error and then exit the program.
+
+@Example
+@Code
+  MessageRequester("OnError test", "Test start")
+
+  OnErrorGoto(?ErrorHandler)
+  Pokes(10, "Hello World") ; Cause a #PB_OnError_InvalidMemory error
+  
+  MessageRequester("OnError test", "This should never be displayed")
+  End
+  
+  ErrorHandler:
+  MessageRequester("OnError test", "The following error happened: " + ErrorMessage())
+  End
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OnErrorDefault()
+
+@Description
+  Changes the action taken when an error occurs back to the system default. This usually means displaying
+  an error dialog and exiting the program, but it may also mean to just ignore certain errors. To exit
+  the program on every error, use @@OnErrorExit. 
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  When using the OnError library inside a @ReferenceLink "dll" "DLL" the best practice is to set the error handler
+  at the beginning of every public DLL function and resetting it back to the default with this command
+  before returning to the caller to make sure there is no interference between the OnError library and
+  any exception handling done by the calling program.
+
+@Example
+@Code
+  Procedure ErrorHandler()
+    MessageRequester("OnError test", "The following error happened: " + ErrorMessage())
+  EndProcedure
+
+  MessageRequester("OnError test", "Test start")
+
+  OnErrorCall(@ErrorHandler())
+  OnErrorDefault()         ; Comment this to get the handler call instead of the system error handling
+  Pokes(10, "Hello World") ; Cause a #PB_OnError_InvalidMemory error
+  
+  MessageRequester("OnError test", "This should never be displayed")
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ErrorCode()
+
+@Description
+  Returns the error code of the currently handled error. This command only returns a meaningful value
+  if there was an error handled by @@OnErrorCall or @@OnErrorGoto.
+
+@NoParameters
+
+@ReturnValue
+  One of the following values:
+@FixedFont
+  @#PB_OnError_InvalidMemory         : Read or write operation on an invalid location
+  @#PB_OnError_Floatingpoint         : Floating-point error
+  @#PB_OnError_Breakpoint            : Debugger breakpoint reached (non-PureBasic breakpoints)
+  @#PB_OnError_IllegalInstruction    : Attempt to execute an illegal instruction
+  @#PB_OnError_PriviledgedInstruction: Attempt to execute a privileged (system-) instruction
+  @#PB_OnError_DivideByZero          : Division by zero (Windows only)
+@EndFixedFont
+  Linux and Mac OSX report @#PB_OnError_Floatingpoint for division by zero errors.
+@LineBreak
+@LineBreak
+  In addition, every OS may have more possible error values. On Windows, custom errors can be raised with
+  the @@RaiseError command.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ErrorMessage([ErrorCode])
+
+@Description
+  Returns an error-message for the given error code in english. 
+
+@OptionalParameter "ErrorCode"
+  A specific error code. See @@ErrorCode for the available error codes.
+
+@ReturnValue
+  The message for the currently handled error. If the 'ErrorCode' parameter is set, 
+  an english error-message for this specific error will be returned.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ErrorLine()
+
+@Description
+  Returns the line number in the source code where the current error occurred. 
+  This command only returns a meaningful value if there was an error handled by @@OnErrorCall or @@OnErrorGoto.
+@LineBreak
+@LineBreak
+  The tracking of line numbers needs to be enabled on compilation for this command to return the actual line number.
+  To enable this feature, enable the "Enable OnError lines support" checkbox in the @ReferenceLink "ide_compiler" "compiler options"
+  or specify the /LINENUMBERING (Windows) or --linenumbering (Linux, Mac OSX) command-line switch when compiling
+  from the @ReferenceLink "cli_compiler" "command-line".
+
+@NoParameters
+
+@ReturnValue
+  The line number of the error, or -1 if the OnError lines support is disabled.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ErrorFile()
+
+@Description
+  Returns the filename of the source code or @ReferenceLink "includes" "includefile" where the current error occurred.
+  This command only returns a meaningful value if there was an error handled by @@OnErrorCall or @@OnErrorGoto.
+@LineBreak
+@LineBreak
+  The tracking of line numbers needs to be enabled on compilation for this command to return the actual file name.
+  To enable this feature, enable the "Enable OnError lines support" checkbox in the @ReferenceLink "ide_compiler" "compiler options"
+  or specify the /LINENUMBERING (Windows) or --linenumbering (Linux, Mac OSX) command-line switch when compiling
+  from the @ReferenceLink "cli_compiler" "command-line".
+
+@NoParameters
+
+@ReturnValue
+  The filename of the error, or "OnError line support disabled" if the OnError lines support is disabled.
+  (A simple way to check if the OnError lines support is enabled is to check if the result of @@ErrorLine is not -1.)
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ErrorAddress()
+
+@Description
+  Returns the memory address of the assembly instruction that caused the current error.
+  This command only returns a meaningful value if there was an error handled by @@OnErrorCall or @@OnErrorGoto.
+
+@NoParameters
+
+@ReturnValue
+  The memory address of the assembly instruction that caused the current error.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ErrorTargetAddress()
+
+@Description
+  After an error with the code @#PB_OnError_InvalidMemory, this command returns the memory address which
+  was read/written when the error occurred. This command has no meaning for other error codes.
+
+@NoParameters
+
+@ReturnValue
+  The memory address which was read/written when the error occurred, after a @#PB_OnError_InvalidMemory error.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ErrorRegister(Register) 
+
+@Description
+  Returns the content of the specified CPU register at the time of the error.
+  This command only returns a meaningful value if there was an error handled by @@OnErrorCall or @@OnErrorGoto.
+
+@Parameter "Register"
+  The available register constants depend on the CPU type for which the program is compiled. The following values are available:
+@LineBreak
+@LineBreak
+
+  @Bold "x86:"
+@FixedFont
+  @#PB_OnError_EAX
+  @#PB_OnError_EBX
+  @#PB_OnError_ECX
+  @#PB_OnError_EDX
+  @#PB_OnError_EBP
+  @#PB_OnError_ESI
+  @#PB_OnError_EDI
+  @#PB_OnError_ESP
+  @#PB_OnError_Flags
+@EndFixedFont
+
+  @Bold "x64:"
+@FixedFont
+  @#PB_OnError_RAX
+  @#PB_OnError_RCX
+  @#PB_OnError_RDX
+  @#PB_OnError_RBX
+  @#PB_OnError_RSP
+  @#PB_OnError_RBP
+  @#PB_OnError_RSI
+  @#PB_OnError_RDI
+  @#PB_OnError_R8
+  @#PB_OnError_R9
+  ...
+  @#PB_OnError_R15
+  @#PB_OnError_Flags
+@EndFixedFont
+
+@ReturnValue
+  The content of the specified CPU register at the time of the error.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RaiseError(ErrorNumber)
+
+@Description
+  Artificially create the given error. The appropriate error action will be taken (call of the error handler
+  or program termination by the system if no handler is set). The ErrorNumber will be available inside the
+  error handler with the @@ErrorCode command.
+
+@Parameter "ErrorNumber"
+  On Windows, the error number can include application defined errors. The value can be between 0 and 268435455 (a 27bit number).
+  On Linux or Mac OSX, only the following errors can be raised:
+@FixedFont
+  @#PB_OnError_InvalidMemory         : Read or write operation on an invalid location
+  @#PB_OnError_Floatingpoint         : Floating-point error
+  @#PB_OnError_Breakpoint            : Debugger breakpoint reached (non-PureBasic breakpoints)
+  @#PB_OnError_IllegalInstruction    : Attempt to execute an illegal instruction
+  @#PB_OnError_PriviledgedInstruction: Attempt to execute a privileged (system-) instruction
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure ErrorHandler()
+    MessageRequester("OnError test", "The following error happened: " + ErrorMessage())
+  EndProcedure
+
+  MessageRequester("OnError test", "Test start")
+
+  OnErrorCall(@ErrorHandler())
+  RaiseError(#PB_OnError_InvalidMemory)
+  
+  MessageRequester("OnError test", "This should never be displayed")
+@EndCode
+
+@SeeAlso
+  @@ErrorCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineAssembly(*Address [, *EndAddress])
+
+@Description
+  Initializes the disassembling at the given address or address range.
+
+@LineBreak
+@LineBreak
+  @Bold "Important:" The disassembly commands use the @InternetLink "http://udis86.sourceforge.net/" "Udis86 disassembler library"
+  to decode the instructions. This library is released under the BSD license which can be viewed @MainGuideLink "udis86" "here".
+  If @@ExamineAssembly and the related commands are used in a program that is to be made public, the above linked
+  licence text must be included with the software.
+
+@Parameter "*Address"
+  The address of the first instruction to disassemble.
+  
+@OptionalParameter "*EndAddress"
+  If specified, the disassembling will end (@@NextInstruction will return zero) as soon as *EndAddress is reached.
+  If not specified, the disassembling will run until @@NextInstruction is no longer called.
+
+@ReturnValue
+  Nonzero if disassembling is possible, zero otherwise.
+
+@Example
+@Code
+  DisableDebugger ; do not disassemble any debugger related instructions
+  
+  Code_Start:
+    ; Place code to be disassembled here
+    a = (Random(100) * 5) + 2000
+  Code_End:
+  
+  Text$ = "Disassembled code: " + Chr(13)  
+  If ExamineAssembly(?Code_Start, ?Code_End)
+    While NextInstruction()
+      Text$ + RSet(Hex(InstructionAddress()), SizeOf(Integer)*2, "0")
+      Text$ + " " + InstructionString() + Chr(13)
+    Wend
+  EndIf
+  
+  MessageRequester("Result", Text$)
+@EndCode
+
+@SeeAlso
+  @@NextInstruction, @@InstructionAddress, @@InstructionString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextInstruction()
+
+@Description
+  Disassembles the next instruction after a call to @@ExamineAssembly. Information
+  about the disassembled instruction can be read with @@InstructionString and 
+  @@InstructionAddress.
+
+@NoParameters
+
+@ReturnValue
+  Nonzero if the instruction was successfully disassembled, zero otherwise ('*EndAddress'
+  that was specified in @@ExamineAssembly was reached).
+  
+@SeeAlso
+  @@ExamineAssembly, @@InstructionAddress, @@InstructionString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InstructionAddress()
+
+@Description
+  Returns the address of the instruction that was disassembled by a call to @@NextInstruction.
+
+@NoParameters
+
+@ReturnValue
+  The address of the instruction that was disassembled by a call to @@NextInstruction.
+
+@SeeAlso
+  @@NextInstruction, @@InstructionString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = InstructionString()
+
+@Description
+  Returns a string representation of the instruction that was disassembled by a call to 
+  @@NextInstruction.
+
+@NoParameters
+
+@ReturnValue
+  A string representation of the instruction that was disassembled by a call to 
+  @@NextInstruction.
+
+@SeeAlso
+  @@NextInstruction, @@InstructionAddress
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

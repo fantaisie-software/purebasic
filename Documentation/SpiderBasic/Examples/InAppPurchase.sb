@@ -1,0 +1,36 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - InAppPurchase example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+; Note: you will need valid googleplay or apple account with properly configured in-app items.
+; Android requires to put the GooglePlay public app API key in the 'create app' IDE dialog. 
+;
+
+Procedure OnFetchAppProducts(Success)
+  If Success
+    If ExamineAppProducts()
+      While NextAppProduct()
+        Debug "id: " + AppProductId() + ", name: " + AppProductName() + ", price: " + AppProductPrice()
+      Wend
+    Else
+      Debug "ExamineAppProducts() failed."
+    EndIf
+  Else
+    Debug "FetchAppProducts() failed."
+  EndIf
+EndProcedure
+
+Procedure OnPurchaseAppProduct(State, ProductId$)
+  Debug "Product: " + ProductId$ + ", state : " + State
+EndProcedure
+
+RegisterAppProduct("gems", @OnPurchaseAppProduct()) ; can be purchased more than once
+RegisterAppProduct("helmet", @OnPurchaseAppProduct(), #PB_Product_NonConsumable) ; can be purchased only once
+
+FetchAppProducts(@OnFetchAppProducts())
+

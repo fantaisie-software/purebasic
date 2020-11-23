@@ -1,0 +1,55 @@
+@Title ForEach : Next
+
+@Syntax 
+
+  @Keyword ForEach @FunctionColor List() @Bold "Or" @FunctionColor Map()
+    ...
+  @Keyword Next [List() @Bold "Or" Map()]
+  
+@Description 
+
+  @Keyword ForEach loops through all elements in the specified list or map starting from the first 
+  element up to the last. If the list or the map is empty, @Keyword ForEach : @Keyword Next exits immediately. 
+  To view all commands used to manage lists, please click @LibraryLink "List" "here".
+  To view all commands used to manage maps, please click @LibraryLink "Map" "here". @LineBreak
+  @LineBreak
+  When used with list, it's possible to @Link "List/DeleteElement" "delete" or @Link "List/AddElement" "add" elements
+  during the loop. As well it's allowed to change the current element with @@ChangeCurrentElement.
+  After one of the mentioned changes the next loop continues with the element following the current element.
+  @LineBreak
+  @LineBreak
+  With the @ReferenceLink "Break_Continue" Break command its possible to exit the @Keyword ForEach : @Keyword Next loop
+  at any moment, with the @ReferenceLink "Break_Continue" Continue command the end of the current iteration can be skipped. 
+
+  @Example list
+
+@Code       
+  NewList Number()
+  
+  AddElement(Number())
+  Number() = 10
+    
+  AddElement(Number())
+  Number() = 20
+    
+  AddElement(Number())
+  Number() = 30
+    
+  ForEach Number()
+    Debug Number() ; Will output 10, 20 and 30
+  Next
+@EndCode  
+
+  @Example Map
+
+@Code       
+  NewMap Country.s()
+
+  Country("US") = "United States"
+  Country("FR") = "France"
+  Country("GE") = "Germany"
+
+  ForEach Country()
+    Debug Country()
+  Next
+@EndCode  

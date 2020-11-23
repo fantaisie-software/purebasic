@@ -1,0 +1,90 @@
+@Title Import : EndImport
+
+@Syntax
+
+  @Keyword Import "Dateiname"
+    FunktionsName.<Typ>(<Parameter>, [, <Parameter> [= StandardWert]...]) [As "SymbolName"]
+    ...
+    VariablenName.<Typ> [As "SymbolName"]
+  @Keyword EndImport
+
+@Description
+  Für fortgeschrittene Programmierer. @Keyword Import : @Keyword EndImport ermöglicht das
+  einfache Deklarieren externer Funktionen und Variablen aus einer Library (.lib) oder
+  Objekt (.obj) Datei.
+  @LineBreak
+  @LineBreak
+  Sobald diese deklariert wurden, sind die importierten Funktionen wie jeder andere Befehl
+  direkt zur Verwendung im Programm verfügbar. Der Compiler überprüft nicht, ob die 
+  Funktion tatsächlich in der importierten Datei existiert; wenn also ein Fehler auftritt,
+  wird dieser direkt vom Linker mitgeteilt.
+  @LineBreak
+  @LineBreak
+  Dieses Feature kann die @@OpenLibrary/@@CallFunction
+  Sequenz ersetzen, da sie einige Vorteile bietet: es erfolgt eine Typen-Überprüfung, die 
+  Anzahl an Parametern wird geprüft. Nicht wie bei CallFunction() können ohne Probleme 
+  Doubles, Fließkomma und Quad @ReferenceLink "variables" "Variablen" verarbeitet werden. 
+  @LineBreak
+  @LineBreak
+  Die letzten Parameter können einen Standard-Wert (muss ein konstanter Ausdruck sein) haben. 
+  Wenn also diese Parameter beim Funktionsaufruf weggelassen werden, wird der Standardwert verwendet.
+  @LineBreak
+  @LineBreak
+  Standardmäßig wird der importierte Funktionsname (Funktionssymbol) auf folgende Art und Weise 'dekoriert':
+  _FunctionName@CallSize (Funktionsname und Aufrufgröße). Dies sollte bei den meisten Funktionen 
+  funktionieren, welche die Standardaufruf Konvention (stdcall) verwenden. Wenn es sich bei der
+  Library um eine C Library handelt und die Funktionen nicht stdcall entsprechen, sollte stattdessen
+  die @Keyword ImportC Variante verwendet werden. In diesem Fall wird das standardmäßige Funktionssymbol
+  wie folgt 'dekoriert': _FunctionName (nur Funktionsname).
+  @LineBreak
+  @LineBreak
+  Die @ReferenceLink "pseudotypes" "Pseudotypes" können für die Parameter verwendet werden, jedoch
+  nicht für den Rückgabewert.
+@Remarks
+  Auf x64 gibt es nur eine Aufruf-Konvention, somit werden sich @Keyword ImportC und 
+  @Keyword Import auf die selbe Weise verhalten.
+   
+@Example 
+
+@Code
+  Import "User32.lib"
+   
+    ; Keine Notwendigkeit für die Verwendung von 'As' da PureBasic die Funktion
+    ; korrekt dekoriert.
+    ; Wir definieren die 'Flags' auch als optional, mit einem Standardwert 
+    ; von 0 (wenn sie weggelassen werden).
+    ;
+    MessageBoxA(Window.i, Body$, Title$, Flags.i = 0)
+    
+    ; Diesmal findet PureBasic sie nicht allein, da der Funktionsname nicht
+    ; der gleiche ist, wie der vom Funktionssymbol verwendete.
+    ;
+    MsgBox(Window.i, Body$, Title$, Flags.i) As "_MessageBoxA@16" 
+                                                   
+  EndImport
+  
+  MessageBoxA(0, "Hello", "World") ; wir geben keine Flags an
+  MsgBox(0, "Hello", "World 2", 0)
+    
+@EndCode
+
+
+@Example Mit Pseudotypes
+
+@Code
+  Import "User32.lib"
+   
+    ; Wir verwenden den 'p-unicode' Pseudotype für die String Parameter, da
+    ; MessageBoxW() eine nur unter Unicode verwendbare Funktion ist. Der Compiler
+    ; wird - sofern notwendig - die Strings automatisch nach Unicode konvertieren.
+    ;
+    MessageBoxW(Window.l, Body.p-unicode, Title.p-unicode, Flags.l = 0)
+                                                  
+  EndImport
+  
+  MessageBoxW(0, "Hello", "World")
+    
+@EndCode
+
+
+

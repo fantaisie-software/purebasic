@@ -1,0 +1,160 @@
+@Title Arbeiten mit Quellcode-Dateien
+
+  Das Datei-Menü ermöglicht Ihnen die grundlegenden Datei-Operationen wie
+  Öffnen und Speichern von Quellcodes. 
+@LineBreak
+@LineBreak
+  Sie können mehrere Quellcodes zur gleichen Zeit bearbeiten. Sie können 
+  zwischen ihnen über die Schalttafeln unterhalb der Symbolleiste umschalten.
+  Auch die Standard-Tastenkürzel Strg+Tab und Strg+Shift+Tab können verwendet
+  werden, um zum nächsten/vorherigen Quellcode umzuschalten.
+
+@LineBreak
+@LineBreak
+
+  Die IDE ermöglicht das Editieren von Nicht-Quellcode-Textdateien. In diesem
+  "Nur Text"-Modus sind Code-bezogene Funktionen wie Färbung, Korrektur der
+  Groß-/Kleinschreibung oder Auto-Vervollständigen deaktiviert. Beim Speichern von
+  nur "Nur Text"-Dateien wird die IDE ihre Einstellungen nicht an das Ende der Datei
+  anhängen, auch wenn dies für Code-Dateien so in den
+  @ReferenceLink "ide_preferences" "Einstellungen" konfiguriert ist.
+@LineBreak
+  Ob eine Datei als Quellcode-Datei betrachtet wird oder nicht, hängt von der
+  Datei-Endung ab. Die Standard PureBasic-Dateiendungen (pb, pbi und pbf) werden
+  als Code-Dateien erkannt. Weitere Dateiendungen können als Code-Dateien erkannt
+  werden, indem ihre Endungen im Abschnitt "Editor" der
+  @ReferenceLink "ide_preferences" "Einstellungen" konfiguriert werden.
+
+@LineBreak
+@LineBreak
+
+@Section Inhalt des "Datei"-Menüs:
+
+@Image ide_menu_file.png
+
+@Bold Neu
+@LineBreak
+  Erstellt einen neuen leeren Quellcode.
+
+@LineBreak
+@LineBreak
+
+@Bold Öffnen
+@LineBreak
+  Öffnet einen existierenden Quellcode zum Bearbeiten.
+@LineBreak
+@LineBreak
+  Jede Text-Datei wird in den Hauptbereich zum Editieren des Quellcodes geladen.
+  Sie können auch Binär-Dateien über den "Öffnen"-Menüeintrag laden. Diese werden 
+  dann mit dem internen @ReferenceLink "ide_tools" "Dateibetrachter" angezeigt.
+
+@LineBreak
+@LineBreak
+
+@Bold Speichern
+@LineBreak
+  Speichert den gerade aktiven Quellcode auf Disk. Wenn die Datei noch nicht gespeichert
+  wurde, dann werden Sie nach einem Dateinamen gefragt. Anderenfalls wird der Code in die
+  Datei gespeichert, aus der er vorher geladen wurde.
+
+@LineBreak
+@LineBreak
+
+@Bold "Speichern als"
+@LineBreak
+  Speichert den gerade aktiven Quellcode an einen anderen Ort, als er vorher gespeichert
+  war. Dies fordert Sie zur Eingabe eines neuen Dateinamens auf und lässt die alte Datei
+  (sofern eine vorhanden) unangetastet.
+
+@LineBreak
+@LineBreak
+
+@Bold "Alle speichern"
+@LineBreak
+  Speichert alle aktuell geöffneten Quellcodes.
+
+@LineBreak
+@LineBreak
+
+@Bold "Datei neu laden"
+@LineBreak
+  Lädt den derzeit aktiven Quellcode erneut von Disk. Dies verwirft alle noch nicht gespeicherten Änderungen.
+
+@LineBreak
+@LineBreak
+
+@Bold Schließen
+@LineBreak
+  Schließt den gerade aktiven Quellcode. Wenn dies der einzige geöffnete Code war, dann
+  zeigt die IDE eine neue leere Datei an.
+
+@LineBreak
+@LineBreak
+
+@Bold "Alle schließen"
+@LineBreak
+  Schließt alle aktuell geöffneten Quellcodes.
+
+@LineBreak
+@LineBreak
+
+@Bold "Änderungen anzeigen"
+@LineBreak
+  Zeigt die am aktuellen Quellcode vorgenommenen Veränderungen im Vergleich zu seiner auf der Festplatte
+  existierenden Version.
+
+@LineBreak
+@LineBreak
+
+@Bold "Datei-Format"
+@LineBreak
+  In diesem Untermenü wählen Sie die Text-Codierung wie auch das Format des Zeilenumbruchs aus, welche beim Speichern
+  des derzeit aktiven Quellcodes auf Disk verwendet werden sollen. Die IDE kann mit Dateien im ASCII sowie UTF-8 
+  umgehen. Die von ihr unterstützten Zeilenumbruch-Formate sind Windows (CRLF), Linux/Unix (LF) und MacOSX (CR). 
+  Die Standards für neu erstellte Quellcodes können in den @ReferenceLink "ide_preferences" "Einstellungen" festgelegt werden.
+
+@LineBreak
+@LineBreak
+
+@Bold Einstellungen
+@LineBreak
+  Hier können Sie alle Einstellungen ändern, die das Aussehen & Verhalten der IDE
+  bestimmen. Für eine detaillierte Beschreibung dazu sehen Sie in das Kapitel
+  @referencelink "ide_preferences" "Anpassen der IDE".
+
+@LineBreak
+@LineBreak
+
+@Bold "Sitzungsgeschichte"
+@LineBreak
+  Die Sitzungsgeschichte (englisch "Session History") ist ein mächtiges Werkzeug, welches regelmäßig alle an
+  den Dateien vorgenommenen Änderungen in einer Datenbank aufzeichnet. Eine Sitzung wird erstellt, wenn
+  die IDE gestartet wird, und sie wird beim Beenden der IDE geschlossen.
+  Dies ist nützlich, um zu einer früheren Version einer Datei zurückzukehren, oder eine gelöschte oder
+  beschädigte Datei wiederzufinden. Sie funktioniert wie ein Quellcode-Backup-Tool, ist zeitlich begrenzt
+  (standardmäßig erfolgt das Aufzeichnen für 1 Monat). Sie hat nicht das Ziel, ein echtes Quellcode
+  Versionskontrollsystem wie SVN oder GIT zu ersetzen. Sie ist ergänzend zu sehen, um eine feinere
+  Überwachung von Änderungen zu haben. Der Quellcode wird ohne Verschlüsselung gespeichert - wenn Sie
+  an sensiblem Quellcode arbeiten, gehen Sie sicher, diese Datenbank-Datei an einem sicheren Ort zu haben,
+  oder deaktivieren Sie diese Funktion.
+@LineBreak
+  Um das Sitzungsgeschichte-Tool zu konfigurieren, siehe die @ReferenceLink "ide_preferences" "Einstellungen".
+
+@Image ide_sessionhistory.png
+
+@LineBreak
+@LineBreak
+
+@Bold "Letzte Dateien"
+@LineBreak
+  Hier können Sie eine Liste mit den zuletzt geöffneten Dateien sehen. Das Auswählen
+  einer Datei in diesem Untermenü öffnet diese erneut.
+
+@LineBreak
+@LineBreak
+
+@Bold Beenden
+@LineBreak
+  Dies schließt die IDE. Sie werden ggf. gefragt, alle noch nicht gespeicherten
+  Quellcodes zu sichern.
+

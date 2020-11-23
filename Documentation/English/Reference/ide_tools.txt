@@ -1,0 +1,262 @@
+
+@Title Using the built-in Tools
+
+  The PureBasic IDE comes with many building tools, to make programming tasks 
+  easier and increase your productivity. Many of them can be configured to be 
+  either accessible from the Menu as separate windows, or to be permanently 
+  displayed in the Panel on the side of the editing area.
+
+@LineBreak
+@LineBreak
+
+  For information on how to configure these tools and where they are displayed, 
+  see @referencelink "ide_preferences" "Configuring the IDE".
+
+
+@Section Tools for the Side Panel Area
+
+@Bold "Procedure Browser"
+
+@Image ide_tools_procedurelist.png
+
+  This tool displays a list of all @ReferenceLink "procedures" "procedures" and @ReferenceLink "macros" "macros" declared in the current source 
+  code. By double-clicking on an entry in that list, the cursor automatically 
+  jumps to that procedure. 
+@LineBreak
+@LineBreak
+  Macros will be marked in the list by a "+" sign before the name.
+@LineBreak
+@LineBreak
+  You can also place special comment marks in your code, 
+  that will be displayed in the list too. They look like this: ";- <description>". 
+  The ; starts a comment, the ‘-‘ that follows it immediately defines such a mark. 
+@LineBreak
+@LineBreak
+  The description will be shown in the Procedure list, and clicking on it will jump 
+  to the line of this mark. Such a comment mark can be distinguished from a Procedure 
+  by the "> " that is displayed before it in the procedure list.
+@LineBreak
+@LineBreak
+  The list of procedures can be sorted, and it can display the procedure/macro arguments in the list.
+  For these options, see @referencelink "ide_preferences" "Configuring the IDE".
+
+@LineBreak
+@LineBreak
+
+@Bold "Project Panel"
+
+@Image ide_tools_project.png
+
+  This tool displays a tree of all files in the current @ReferenceLink "ide_projects" "project". A double-click on a file
+  opens it in the IDE. This allows fast access to all files in the project. A right-click on a file opens a context menu
+  which provides more options:
+
+@Indent
+  @Image ide_popupmenu_project.png
+
+  @Underline "Open" - Open the file in the IDE.
+@LineBreak
+  @Underline "Open in FileViewer" - Open the file in the FileViewer of the IDE.
+@LineBreak
+  @Underline "Open in Explorer" - Open the file in the operating systems file manager.
+@LineBreak
+  @Underline "Add File to Project" - Add a new file to the project.
+@LineBreak
+  @Underline "Remove File from Project" - Remove the selected file(s) from the project.
+@LineBreak
+  @Underline "Refresh AutoComplete data" - Rescan the file for AutoComplete items.
+  
+@EndIndent
+
+@Bold Explorer
+
+@Image ide_tools_fileexplorer.png
+
+  The Explorer tool displays an explorer, from which you can select files and open 
+  them quickly with a double-click. PureBasic files (*.pb, *.pbi, *.pbp, *.pbf) will 
+  be loaded into the edit area and all other recognized files (text & binary) files 
+  will be displayed into the internal File Viewer.
+
+@LineBreak
+@LineBreak
+
+@Bold "Variable Viewer"
+
+@Image ide_tools_variablelist.png
+
+  The variable viewer can display @ReferenceLink "variables" "variables",
+  @ReferenceLink "dim" "Arrays", @ReferenceLink "newlist" "lists",
+  @ReferenceLink "general_rules" "Constants", @ReferenceLink "structures" "Structures"
+  and @ReferenceLink "interfaces" "Interfaces" defined in your source code, or
+  any currently opened file. You can configure what exactly it should display in 
+  the @ReferenceLink "ide_preferences" "preferences".
+@LineBreak
+  Note: The displaying of variables is somewhat limited for now. It can only detect 
+  variables explicitly declared with @ReferenceLink "define" "Define",
+  @ReferenceLink "global" "Global", @ReferenceLink "shared" "Shared",
+  @ReferenceLink "protected" "Protected" or @ReferenceLink "static" "Static".
+
+@LineBreak
+@LineBreak
+
+@Bold "Code Templates"
+
+@Image ide_tools_templates.png
+
+  The templates tool allows you to manage a list of small code parts, that you can 
+  quickly insert into your source code with a double-click. It allows you to manage the 
+  codes in different directories, and put a comment to each code. This tool is perfect to 
+  manage small, often used code parts.
+
+@LineBreak
+@LineBreak
+
+@Bold "Issue Browser"
+
+@Image ide_tools_issues.png
+
+  The issue browser tool collects comments in the source code that fit a defined format
+  and lists them ordered by priority. It can be used to track which areas of the
+  source code still need to be worked on. 
+@LineBreak
+@LineBreak  
+  Each displayed issue corresponds to one comment in
+  the code. A double-click on the issue shows that code line. Issues can be displayed for
+  the current file, or for multiple files (all open files, or all files that belong to 
+  the current @ReferenceLink "ide_projects" "project"). 
+  The issue list can also be exported in CSV format.
+@LineBreak
+@LineBreak
+  To configure the collected issues, see the "Issues" section in the
+  @ReferenceLink "ide_preferences" "Preferences".
+
+@LineBreak
+@LineBreak  
+  
+@Bold "Color Picker"
+
+@Image ide_tools_colorrequester.png
+  The color picker helps you to find the perfect color value for whatever task you need. 
+  The following methods of picking a color are available:
+@LineBreak
+@LineBreak
+  RGB: Select a color by choosing red, green and blue intensities.
+@LineBreak
+  HSV: Select a color by choosing hue, saturation and value.
+@LineBreak
+  HSL: Select a color by choosing hue, saturation and lightness.
+@LineBreak
+  Wheel: Select a color using the HSV model in a color wheel.
+@LineBreak
+  Palette: Select a color from a predefined palette.
+@LineBreak
+  Name: Select a color from a palette by name.
+@LineBreak
+@LineBreak
+  The color selection includes an alpha component, if the "Include alpha channel" checkbox is activated.
+  The individual components (red/green/blue intensities or hue/saturation/lightness) as well as
+  the hexadecimal representation of the current color can be seen and modified in the text fields.
+@LineBreak
+@LineBreak
+  The "Insert Color" button inserts the hexadecimal value of the current color in the source code.
+  The "Insert RGB" button inserts the color as a call to the @@RGB or 
+  @@RGBA function into the code. The "Save Color" button saves the current color
+  to the history area at the bottom. Clicking on a color in the history makes it the current color again.
+
+@LineBreak
+@LineBreak
+
+@Bold "Character Table"
+
+@Image ide_tools_ascii-table.png
+
+  The character table tool displays a table showing the first 256 unicode characters, together with 
+  their index in decimal and hex, as well as the corresponding html notation. By double-clicking 
+  on any line, this character will be inserted into the source code. With the buttons on the 
+  bottom, you can select which column of the table to insert on a double-click.
+
+
+@LineBreak
+@LineBreak
+
+@Bold "Help Tool"
+
+@Image ide_tools_help.png
+
+  The Help Tool is an alternative viewer for the @ReferenceLink "ide_help" "reference guide". It can
+  be used to view the PureBasic manual side by side with the code. Whether or not the F1 shortcut opens
+  the manual in the tool or as a separate window can be specified in the 
+  @ReferenceLink "ide_preferences" "preferences".
+
+@Section Other built-in tools
+
+@Bold "Structure Viewer"
+
+@Image ide_tools_structureviewer.png
+
+  The structure viewer allows you to view all the Structures, Interfaces and Constants 
+  predefined in PureBasic. Double-clicking on a Structure or Interface shows the 
+  declaration. On top of the list you can select a filter to display only entries that 
+  start with a given character.
+@LineBreak
+@LineBreak
+  The "Back" button navigates back through the viewed entries.
+@LineBreak
+  "Insert name" inserts just the name of the selected entry.
+@LineBreak
+  "Insert copy" inserts a copy of the declaration of that entry.
+@LineBreak
+  "Insert" lets you enter a variable name and then inserts a definition of that variable 
+  and the selected entry and all elements of it.
+
+@LineBreak
+@LineBreak
+
+
+@Bold "File Viewer"
+
+@Image ide_tools_fileviewer.png
+
+  The internal file viewer allows you do display certain types of files. Text files, 
+  images and web pages (windows only). Any unknown file type will be displayed in a 
+  hex-viewer. The "Open" button opens a new file, the "X button" closes it and the 
+  arrows can be used to navigate through the open files.
+@LineBreak
+  Also any binary file that you attempt to open from the Explorer tool, or by 
+  double-clicking on an @ReferenceLink "includes" "IncludeBinary" keyword will be 
+  displayed in this file viewer.
+
+
+@LineBreak
+@LineBreak
+
+@Bold "Compare Files/Folders"
+
+@Image ide_tools_diff_options.png
+
+  This tool can compare two (text-) files or two directories and highlight their differences.
+  The "Options" tab can be used to ignore some differences such as spaces or upper/lowercase changes.
+
+@Image ide_tools_diff_files.png
+
+  The files are shown side by side with the differences marked in the following way:
+  Lines shown in red were removed in the file on the right, lines shown in green were added
+  in the file on the right and lines shown in yellow were changed between the two files.
+
+@Image ide_tools_diff_directories.png
+  
+  When comparing directories, the content of both directories is examined (with the option to filter
+  the search by file extension and include subdirectories) and the files are marked in a similar way:
+  Files in red do not exist in the second directory, files in green are new in the second directory and
+  files in yellow were modified. A double-click on a modified file shows the modifications made
+  to that file.
+
+
+@Section Other entries in the Tools menu
+
+@Bold "Form Designer"
+
+@Image ide_tools_vdesigner.png
+
+  The Form Designer can be used to design the user interface for you 
+  application. For more information, see the @ReferenceLink "ide_form" "form designer" chapter.

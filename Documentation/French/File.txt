@@ -1,0 +1,2171 @@
+;
+; File library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library File
+
+@Overview
+
+Les fichiers sont les principaux modes de 
+stockage d'informations des ordinateurs 
+actuels. PureBasic vous permet de les gérer 
+de manière simple et efficace. Un nombre 
+quelconque de fichiers peuvent être ouverts 
+simultanément. Cette bibliothèque utilise 
+des fonctions optimisées pour accélérer la 
+vitesse de lecture/écriture des informations.
+Toutes les fonctions permettent la gestion
+des très gros fichiers, jusqu'à 2^64 octets 
+si le système de fichiers les supporte.
+
+@LineBreak
+@LineBreak
+
+Pour de grandes quantités de données, il 
+peut être utile de charger les données dans 
+un @ReferenceLink "dim" "tableau", 
+une @ReferenceLink "newlist" "liste" ou 
+une @ReferenceLink "NewMap" "map (carte)" 
+et l'utilisation de 
+@LibraryLink "memory" "blocs de mémoire" 
+peut aussi être une bonne idée.
+
+@LineBreak
+@LineBreak
+
+Pour obtenir les chemins de fichiers valides 
+pour la lecture et l'enregistrement des 
+données, jetez un oeil à la bibliothèque 
+@LibraryLink "filesystem" "FileSystem" 
+et à la bibliothèque 
+@LibraryLink "requester" "Requester".
+ 
+@CommandList
+
+@ExampleFile All File.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseFile(#Fichier)
+
+@Description
+  Ferme un fichier.
+  
+@Parameter "#Fichier  
+  Le fichier à fermer.
+@LineBreak
+@LineBreak  
+  Si @#PB_All est spécifié, tous les 
+  fichiers restants sont fermés.
+
+@NoReturnValue
+
+@Remarks
+  Une fois que le fichier est fermé, il ne 
+  peut plus être utilisé.
+@LineBreak
+@LineBreak
+  Fermer un fichier permet de s'assurer que 
+  toutes ses informations sont effectivement 
+  écrites  sur le disque. 
+@LineBreak
+@LineBreak
+  Tous les fichiers restant ouverts sont 
+  automatiquement fermés quand le programme 
+  se termine. 
+@LineBreak
+@LineBreak
+  Voir un exemple dans @@ReadFile ou 
+  @@CreateFile.
+  
+@Example
+@Code
+  If CreateFile(0, "Text.txt")         ; création d'un nouveau fichier texte...
+    For a=1 To 10
+      WriteStringN(0, "Ligne "+Str(a)) ; écriture de 10 lignes (suivies du code 'Fin de Ligne')
+    Next
+    For a=1 To 10
+      WriteString(0, "Chaîne"+Str(a))  ; ajoute 10 chaînes sur la même ligne (le code 'Fin de Ligne' n'est pas ajouté)
+    Next
+    CloseFile(0)                       ; ferme le fichier précédemment ouvert et enregistre les données
+  Else
+    MessageRequester("Information","Impossible de créer le fichier!")
+  EndIf
+@EndCode 
+   
+@SeeAlso
+  @@CreateFile, @@OpenFile, @@ReadFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateFile(#Fichier, NomFichier$ [, Options])
+
+@Description
+
+  Crée un fichier vide ou recrée une fichier vide s'il existe déjà.
+
+@Parameter "#Fichier"
+  Le numéro du nouveau fichier.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+  
+@Parameter "NomFichier$"
+  Le nom et le chemin vers le nouveau fichier.
+  @LineBreak
+  Si le nom de fichier ne contient pas de 
+  chemin complet alors le 
+  @Link "FileSystem/GetCurrentDirectory" "chemin courant" 
+  sera utilisé.
+
+@OptionalParameter "Options"
+  Peut être une combinaison de:
+@FixedFont
+  @#PB_File_SharedRead : Le fichier ouvert par un processus peut être lu par un autre processus (Windows uniquement).
+  @#PB_File_SharedWrite: le fichier ouvert par un processus peut être écrit par un autre processus (Windows uniquement).
+  @#PB_File_NoBuffering: Le système interne de mise en mémoire tampon de PureBasic sera désactivé pour ce fichier. 
+                        @@FileBuffersSize ne peut pas être utilisé sur ce fichier.
+@EndFixedFont
+  combiné avec l'une des valeurs suivantes (les options suivantes affectent le comportement de 
+  @@WriteString, @@WriteStringN, @@ReadString, @@ReadCharacter et @@WriteCharacter):
+@FixedFont
+  @#PB_Ascii  : Toute opération de lecture/écriture des chaînes de caractères utilisera le mode ASCII
+               (Par défaut pour les exécutables compilés en mode ASCII).
+  @#PB_UTF8   : Toute opération de lecture/écriture des chaînes de caractères utilisera le mode UTF-8
+               (Par défaut pour les exécutables compilés en mode Unicode).
+  @#PB_Unicode: Toute opération de lecture/écriture des chaînes de caractères utilisera le mode Unicode.
+@EndFixedFont  
+
+@ReturnValue
+  Renvoie une valeur non nulle si le fichier 
+  a été créé avec succès, zéro sinon.@LineBreak
+  Si @#PB_Any a été utilisé comme paramètre 
+  #Fichier alors le nouveau numéro 
+  généré est renvoyé en cas de succès.
+
+@Remarks
+  Attention, si le fichier existe déjà, il sera remplacé 
+  par un fichier vide ! 
+@LineBreak
+@LineBreak  
+  La fonction @@FileSize peut être utilisée 
+  pour déterminer si un fichier existe avant 
+  de l'écraser.
+@LineBreak
+@LineBreak
+   Pour ouvrir un fichier existant en lecture 
+   et en écriture, utilisez la fonction 
+   @@OpenFile.@LineBreak 
+   Pour ouvrir un fichier en lecture seule, 
+   utilisez @@ReadFile.
+
+@Example
+@Code
+  If CreateFile(0, "Text.txt")         ; crée un nouveau fichier texte ou recrée une fichier texte vide s'il existe déjà ...
+    For a=1 To 10
+      WriteStringN(0, "Ligne "+Str(a)) ; écriture de 10 lignes (suivies du code 'Fin de Ligne')
+    Next
+    For a=1 To 10
+      WriteString(0, "Chaîne"+Str(a))  ; ajoute 10 chaînes sur la même ligne (le code 'Fin de Ligne' n'est pas ajouté)
+    Next
+    CloseFile(0)                       ; ferme le fichier précédemment ouvert et enregistre les données
+  Else
+    MessageRequester("Information","Impossible de créer le fichier!")
+  EndIf
+@EndCode  
+
+@SeeAlso
+  @@OpenFile, @@ReadFile, @@CloseFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Eof(#Fichier)
+
+@Description
+  Teste si la fin d'un fichier (Eof : End Of 
+  File) a été atteinte. 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@ReturnValue
+  Renvoie une valeur non nulle si la fin du 
+  fichier a été atteinte, zéro sinon.
+
+@Example
+@Code
+  If ReadFile(0, "Texte.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadString(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)               ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Lof, @@Loc, @@CreateFile, @@OpenFile, 
+  @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FileBuffersSize(#Fichier, Taille)
+
+@Description
+  Change la taille des caches de 
+  lecture/écriture. 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+@LineBreak
+@LineBreak  
+  Si @#PB_Default est utilisé alors la valeur 
+  par défaut de la taille des caches sera 
+  changée, et tous les futurs appels à 
+  @@OpenFile, @@CreateFile et @@ReadFile
+  utiliseront cette nouvelle valeur.
+
+@Parameter "Taille"
+  La nouvelle taille du cache (en octet). 
+@LineBreak
+@LineBreak  
+  La taille par défaut du cache est de 4096 
+  octets.
+@LineBreak
+@LineBreak  
+  Une taille de zéro désactive complètement 
+  le cache et les informations sont 
+  immédiatement écrites dans le fichier.
+
+@NoReturnValue
+
+@Remarks
+  Pour des raisons de performances, le cache 
+  devrait être d'au moins 1024 octets. Quand 
+  le cache est actif, les informations ne 
+  sont réellement écrites dans le fichier que 
+  lorsque le cache est plein, ou que le 
+  fichier est fermé. La commande 
+  @@FlushFileBuffers permet de forcer cette 
+  écriture à tout moment.
+
+@Example
+@Code 
+  Fichier$=OpenFileRequester("Ouvrir un fichier","","",0)
+  texte$="FileBuffersSize() resultats:"+#CRLF$+"==============="+#CRLF$
+
+  TailleTampon=4096
+  While TailleTampon<1048577
+  texte$=texte$+"Buffer: "+Str(TailleTampon)+#CRLF$
+
+    If ReadFile(0,Fichier$)
+    FileBuffersSize(0,TailleTampon) ; Changement de la taille du tampon
+    start=ElapsedMilliseconds()     ; Début du chronométrage
+
+    While Eof(0)=#False        ; Lecture du fichier octet par octet
+        ReadByte(0)
+    Wend
+    stop=ElapsedMilliseconds()  ; Fin du chronométrage
+
+    CloseFile(0)
+    EndIf
+    texte$+"ReadByte: "+Str(stop-start)+#CRLF$+#CRLF$
+
+  TailleTampon = TailleTampon*2 ; Augmentation du tampon
+  Wend
+
+  MessageRequester("FileBuffersSize",texte$) ; Affichage
+@EndCode 
+
+@SeeAlso
+  @@FlushFileBuffers
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = FileID(#Fichier)
+
+@Description
+  Renvoie l'identifiant unique d'un fichier 
+  dans le système d'exploitation.
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@ReturnValue
+  Renvoie le @ReferenceLink "handles" "handle" 
+ du fichier.
+ 
+@Example
+@Code
+  hWnd=CreateFile(0, "Text.txt")  
+       Debug FileID(0)
+  CloseFile(0)                   
+       Debug hWnd
+@EndCode
+
+@SeeAlso
+  @@CreateFile, @@OpenFile, @@ReadFile
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FileSeek(#Fichier, Position.q [, Mode])
+
+@Description
+  Change la position du pointeur de 
+  lecture/écriture. 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@Parameter "Position.q"
+  La nouvelle position en octet par rapport 
+  au début du fichier.
+
+@OptionalParameter "Mode"
+  Le mode de recherche. Peut être l'une des 
+  valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Position absolue (par défaut).
+  @#PB_Relative: Position relative, un décalage (offset) positif ou négatif 
+                par rapport à la position courante du pointeur dans le fichier.
+@EndFixedFont
+
+@NoReturnValue
+  
+@Example
+@Code
+  Fichier$ = OpenFileRequester("Sélectionner un fichier","","Texte (.txt)|*.txt|Tous (*.*)|*.*",0)
+  If Fichier$
+    If ReadFile(0, Fichier$) 
+      length = Lof(0)                       ; Lit la taille en octets du fichier
+      FileSeek(0, length - 10)              ; place le pointeur 10 caractères avant la fin du fichier
+      Debug "Position: " + Str(Loc(0))      ; Affiche la position du pointeur
+      *MemoryID = AllocateMemory(10)        ; alloue un bloc mémoire pour 10 octets
+      If *MemoryID
+        bytes = ReadData(0, *MemoryID, 10)  ; Lit les 10 derniers caractères du fichier
+        Debug PeekS(*MemoryID)
+      EndIf
+      CloseFile(0)
+    EndIf
+  EndIf  
+@EndCode
+
+@SeeAlso
+  @@Loc, @@Lof
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = FlushFileBuffers(#Fichier)
+
+@Description
+  Ecrit immédiatement le contenu du cache 
+  dans un fichier. 
+ 
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@ReturnValue
+  Renvoie une valeur non nulle si le tampon 
+  a été écrit correctement sur le disque. 
+  Si une erreur survient (Ex: Erreur de 
+  disque, disque plein...), il renverra zéro.
+  
+@Remarks
+  Pour plus d'informations sur la gestion du
+  cache des fichiers, consulter 
+  @@FileBuffersSize.
+
+@SeeAlso
+  @@FileBuffersSize
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsFile(#Fichier)
+
+@Description
+  Teste si le numéro de fichier #Fichier est correctement initialisé. 
+
+@Parameter "#Fichier"
+  Le fichier à tester.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès zéro sinon. 
+  
+@Remarks
+  Cette fonction a été créée pour pouvoir 
+  passer n'importe quelle valeur en 
+  paramètre sans qu'il ne puisse 
+  y avoir de plantage. 
+@LineBreak
+@LineBreak
+  C'est la fonction idéale pour vérifier 
+  qu'un objet est correctement initialisé.
+  
+@SeeAlso
+  @@CreateFile, @@OpenFile, @@ReadFile
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.q = Loc(#Fichier)
+
+@Description
+  Renvoie la position du pointeur de 
+  lecture/écriture dans un fichier. 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@ReturnValue
+   Renvoie la position du pointeur en octet 
+   par rapport au début du fichier.
+  
+@Example
+@Code
+  Fichier$ = OpenFileRequester("Sélectionner un fichier","","Texte (.txt)|*.txt|Tous (*.*)|*.*",0)
+  If Fichier$
+    If ReadFile(0, Fichier$) 
+      length = Lof(0)                       ; Lit la taille en octets du fichier
+      FileSeek(0, length - 10)              ; place le pointeur 10 caractères avant la fin du fichier
+      Debug "Position: " + Str(Loc(0))      ; Affiche la position du pointeur
+      *MemoryID = AllocateMemory(10)        ; alloue un bloc mémoire pour 10 octets
+      If *MemoryID
+        bytes = ReadData(0, *MemoryID, 10)  ; Lit les 10 derniers caractères du fichier
+        Debug PeekS(*MemoryID)
+      EndIf
+      CloseFile(0)
+    EndIf
+  EndIf  
+@EndCode
+
+
+
+@SeeAlso
+  @@FileSeek, @@Lof
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.q = Lof(#Fichier)
+
+@Description
+  Lof (Length of File) renvoie la taille 
+  d'un fichier. 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@ReturnValue
+  Renvoie la longueur d'un fichier en octets. 
+  
+@Example  
+@Code
+  Fichier$ = OpenFileRequester("Sélectionnez un fichier","","Texte (.txt)|*.txt|Tous (*.*)|*.*",0)
+  If Fichier$
+    If ReadFile(0, Fichier$) 
+      length = Lof(0)                            ; Lit la taille en octets du fichier 
+      *MemoryID = AllocateMemory(length)         ; alloue un bloc mémoire de la taille du fichier
+      If *MemoryID
+        bytes = ReadData(0, *MemoryID, length)   ; Lit les données du fichier et les place dans le bloc mémoire
+        Debug "Nombre d'octets lus: " + Str(bytes)
+      EndIf
+      CloseFile(0)
+    EndIf
+  EndIf
+@EndCode    
+
+@SeeAlso
+  @@Loc, @@FileSeek, @@FileSize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = OpenFile(#Fichier, NomFichier$ [, Options]) 
+
+@Description
+  Ouvre un fichier en lecture et en écriture 
+  ou le crée s'il n'existe pas.
+  
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+  
+@Parameter " NomFichier$"
+  Le nom du fichier à ouvrir.
+
+@OptionalParameter "Options"
+  Peut être une combinaison de:
+@FixedFont
+  @#PB_File_SharedRead : Le fichier ouvert peut être lu par un autre processus (Windows uniquement).
+  @#PB_File_SharedWrite: Le fichier ouvert peut être écrit par un autre processus (Windows uniquement).
+  @#PB_File_Append     : La position du pointeur de fichier sera fixée à la fin du fichier.
+  @#PB_File_NoBuffering: Le système interne de mise en mémoire tampon de PureBasic sera désactivé pour ce fichier. 
+                        @@FileBuffersSize ne peut pas être utilisé sur ce fichier.
+@EndFixedFont
+  combiné avec l'une des valeurs suivantes (les options suivantes affectent le comportement de 
+  @@WriteString, @@WriteStringN, @@ReadString, @@ReadCharacter et @@WriteCharacter):
+@FixedFont
+  @#PB_Ascii  : Toute opération de lecture/écriture des chaînes de caractères utilisera le mode ASCII
+  @#PB_UTF8   : Toute opération de lecture/écriture des chaînes de caractères utilisera le mode UTF-8 (Par défaut).
+  @#PB_Unicode: Toute opération de lecture/écriture des chaînes de caractères utilisera le mode Unicode.
+@EndFixedFont  
+  
+@ReturnValue  
+  Renvoie une valeur non nulle en cas de 
+  succès zéro sinon. 
+@LineBreak
+@LineBreak  
+  Si @ReferenceLink "purebasic_objects" "#PB_Any" 
+  est utilisé pour le paramètre '#Fichier', 
+  le numéro du nouveau fichier sera renvoyé 
+  dans 'Resultat'.
+  
+@Remarks
+  Pour que l'ouverture du fichier avec 
+  OpenFile() soit un succès, le fichier doit 
+  avoir les droits en lecture et écriture. 
+  Ceci peut devenir un problème s'il faut 
+  manipuler des fichiers sur un CD-Rom par 
+  exemple. Dans ce cas, il convient 
+  d'utiliser @@ReadFile quand seule
+  la lecture du fichier est nécessaire.
+@LineBreak  
+@LineBreak
+  Pour écraser un fichier existant avec un 
+  nouveau fichier vide, utilisez la fonction 
+  @@CreateFile. 
+@LineBreak  
+@LineBreak  
+  Pour ajouter des données à la fin d'un 
+  fichier existant il faut au préalable 
+  positionner le pointeur de lecture/écriture 
+  en utilisant l'option @#PB_File_Append.
+
+@Example  
+@Code
+  If OpenFile(0, "Test.txt")    ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CreateFile, @@ReadFile, @@CloseFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TruncateFile(#Fichier)
+
+@Description
+  Coupe le fichier à la 
+  @Link "FileSeek" "position courante" et 
+  supprime toutes les données qui suivent. 
+   
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@NoReturnValue
+
+@Remarks  
+  Cette fonction peut être employée pour 
+  rendre un fichier plus court sans le 
+  recréer entièrement. 
+  Pour faire un fichier plus long, ajoutez 
+  simplement plus de données avec les 
+  commandes d'écriture de cette bibliothèque.
+
+@Example  
+@Code
+  If OpenFile(0, "Test.txt")    ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    For i = 1 To 10
+      WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    Next i
+    CloseFile(0)
+  EndIf
+
+  Taille.q=FileSize("Test.txt") ; Taille
+  Debug Taille
+  If OpenFile(0, "Test.txt")
+    FileSeek(0,Taille/2) ; Le pointeur se place à la moitié du fichier
+    TruncateFile(0)      ; On coupe le fichier au niveau du pointeur
+    CloseFile(0)
+  EndIf
+  Debug FileSize("Test.txt") ; Nouvelle Taille
+@EndCode
+  
+@SeeAlso
+  @@FileSeek, @@Loc
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.a = ReadAsciiCharacter(#Fichier) 
+
+@Description
+  Lit un caractère ascii (1 octet non signé). 
+  
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@ReturnValue
+  Renvoie le caractère ascii ou zéro si une 
+  erreur s'est produite.
+
+@Remarks 
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteAsciiCharacter(0,65)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0          ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadAsciiCharacter(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)              ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@WriteAsciiCharacter, 
+  @@ReadUnicodeCharacter, @@ReadCharacter, 
+  @@OpenFile, @@ReadFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.b = ReadByte(#Fichier) 
+
+@Description
+  Lit un 'byte' (1 octet signé). 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@ReturnValue
+  Renvoie l'octet lu ou zéro si une erreur 
+  s'est produite.
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteByte(0,65)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt") ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0         ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadByte(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)             ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@WriteByte, @@OpenFile, @@ReadFile
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.c = ReadCharacter(#Fichier [, Format])) 
+
+@Description
+  Lit un caractère. 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@OptionalParameter "Format"
+  Le format du caractère à lire. Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Ascii  : 1 octet non signé.
+  @#PB_Unicode: 2 octets non signés (par défaut en mode @ReferenceLink "unicode" "unicode").
+  @#PB_UTF8   : entre 1 et 4 octets non signés.
+@EndFixedFont  
+
+@ReturnValue
+  Renvoie le caractère lu ou zéro si une 
+  erreur s'est produite.
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteCharacter(0,65)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0          ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadCharacter(0)  ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)              ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@WriteCharacter, @@ReadAsciiCharacter, 
+  @@ReadUnicodeCharacter, @@OpenFile, 
+  @@ReadFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.d = ReadDouble(#Fichier) 
+
+@Description
+  Lit un nombre à virgule 'double' (8 octets). 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@ReturnValue
+  Renvoie le double lu ou zéro si une erreur 
+  s'est produite.
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))       ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteDouble(0,123456789.123456789)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0          ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadDouble(0)     ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)              ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@WriteDouble, @@OpenFile, @@ReadFile
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ReadFile(#Fichier, NomFichier$ [, Options]) 
+
+@Description
+  Ouvre un fichier pour des opérations de lecture seule.
+   
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+
+@Parameter "NomFichier$"  
+  Le nom et le chemin d'accès du fichier. @LineBreak 
+  Si le nom de fichier ne contient pas de 
+  chemin complet, il est interprété par 
+  rapport au 
+  @Link "FileSystem/GetCurrentDirectory" "répertoire courant".
+ 
+@OptionalParameter "Options"
+  Peut être une combinaison de:
+@FixedFont
+  @#PB_File_SharedRead : Le fichier ouvert par un processus peut être lu par un autre processus (Windows uniquement).
+  @#PB_File_SharedWrite: Le fichier ouvert par un processus peut être écrit par un autre processus (Windows uniquement).
+  @#PB_File_NoBuffering: Le système interne de mise en mémoire tampon de PureBasic sera désactivé pour ce fichier.  
+                        @@FileBuffersSize ne peut pas être utilisé sur ce fichier.
+@EndFixedFont
+  combiné avec l'une des valeurs suivantes (les options suivantes affectent le comportement de 
+  @@WriteString, @@WriteStringN, @@ReadString, @@ReadCharacter et @@WriteCharacter):
+@FixedFont
+  @#PB_Ascii  : Toute opération de lecture/écriture des chaînes de caractères utilisera le mode ASCII
+  @#PB_UTF8   : Toute opération de lecture/écriture des chaînes de caractères utilisera le mode UTF-8 (Par défaut).
+  @#PB_Unicode: Toute opération de lecture/écriture des chaînes de caractères utilisera le mode Unicode.
+@EndFixedFont 
+  
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+@LineBreak 
+@LineBreak 
+  Si @#PB_Any a été utilisé comme paramètre 
+  #Fichier alors le nouveau numéro généré 
+  est renvoyé en cas de succès.  
+
+@Remarks
+  Pour ouvrir un fichier en lecture et en 
+  écriture, utilisez la fonction @@OpenFile.
+  @LineBreak 
+  Pour créer un nouveau fichier vide, 
+  utilisez la fonction @@CreateFile.
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Crée un nouveau fichier vide ou recrée une fichier vide s'il existe déjà 
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+      WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")   ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadString(0)      ; Affiche du fichier
+    Wend
+    CloseFile(0)               ; Ferme le fichier précédemment créé ou ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenFile, @@CreateFile, @@CloseFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = ReadFloat(#Fichier)
+
+@Description
+  Lit un nombre à virgule 'float' (4 octets).
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@ReturnValue
+  Renvoie le nombre à virgule flottante en 
+  simple précision ou zéro si une erreur 
+  s'est produite.
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteFloat(0,1234.1234)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0          ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadFloat(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)              ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@WriteFloat, @@ReadDouble, @@OpenFile, 
+  @@ReadFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.i = ReadInteger(#Fichier)
+
+@Description
+  Lit un nombre entier 'integer' (4 octets 
+  sur les exécutables 32 bits, ou 8 octets 
+  sur les exécutables 64 bits).
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@ReturnValue
+  Renvoie le nombre entier ou zéro si une 
+  erreur s'est produite.
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteInteger(0,123456789)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0          ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadInteger(0)    ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)              ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@WriteInteger, @@OpenFile, @@ReadFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.l = ReadLong(#Fichier)
+
+@Description
+  Lit un nombre entier 'long' (4 octets).
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@ReturnValue
+  Renvoie le nombre entier ou zéro si une 
+  erreur s'est produite.
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt") ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))        ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteLong(0,123456789)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt") ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0         ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadLong(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)             ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@WriteLong, @@OpenFile, @@ReadFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.q = ReadQuad(#Fichier)
+
+@Description
+  Lit un nombre entier 'quad' (8 octets).
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@ReturnValue
+  Renvoie le nombre entier ou zéro si une 
+  erreur s'est produite.
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")    ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteQuad(0,123456789)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt") ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0         ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadQuad(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)             ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+  
+@EndCode
+ 
+@SeeAlso
+  @@WriteQuad, @@OpenFile, @@ReadFile
+
+@SupportedOS   
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ReadData(#Fichier, *Memoire, Longueur) 
+
+@Description
+  Lit le contenu d'un fichier et place les 
+  données en mémoire.
+  
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@Parameter "*Memoire"
+  L'adresse mémoire où seront stockées les 
+  données du fichier.
+
+@Parameter "Longueur"
+  Le nombre d'octets à lire.
+
+@ReturnValue
+  Renvoie le nombre d'octets effectivement 
+  lus dans le fichier. @LineBreak
+  S'il y a une erreur, le valeur renvoyée 
+  est zéro.
+  
+@Example  
+@Code
+  Fichier$ = OpenFileRequester("Sélectionnez un fichier","","Texte (.txt)|*.txt|Tous (*.*)|*.*",0)
+  If Fichier$
+    If ReadFile(0, Fichier$) 
+      length = Lof(0)                            ; Lit la taille en octets du fichier 
+      *MemoryID = AllocateMemory(length)         ; alloue un bloc mémoire de la taille du fichier
+      If *MemoryID
+        bytes = ReadData(0, *MemoryID, length)   ; Lit les données du fichier et les place dans le bloc mémoire
+        Debug "Nombre d'octets lus: " + Str(bytes)
+      EndIf
+      CloseFile(0)
+    EndIf
+  EndIf
+@EndCode    
+
+@SeeAlso
+  @@WriteData, @@OpenFile, @@ReadFile
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = ReadString(#Fichier [, Options [, Longueur]])
+
+@Description
+  Lit une chaîne de caractères jusqu'au prochain caractère 'Fin de Ligne' 
+  (EOL: End Of Line) ou 'Null'
+  (Les formats des fichiers texte DOS, Unix et Macintosh sont supportés). 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@OptionalParameter "Options"
+@FixedFont
+  @#PB_Ascii  : Lit le texte en ASCII.
+  @#PB_UTF8   : Lit le texte en UTF-8.
+  @#PB_Unicode: Lit le texte en UTF-16.
+@EndFixedFont
+  A combiner avec:
+@FixedFont
+  @#PB_File_IgnoreEOL: Ignore le caractère de fin de ligne et la lecture se poursuit jusqu'à ce que la longueur spécifiée soit atteinte ou jusqu'à
+                      la fin du fichier.
+@EndFixedFont  
+
+@OptionalParameter "Longueur"
+  Le nombre de caractères à lire.
+@Indent
+  Si un caractère de fin de ligne est 
+  rencontré avant que la longueur ne soit 
+  atteinte, la lecture s'arrête (à moins que 
+  l'option @#PB_File_IgnoreEOL ait été 
+  définie).
+@EndIndent
+  
+@ReturnValue  
+  Renvoie la chaîne lue ou une chaîne vide 
+  en cas d'erreur.
+  
+@Remarks
+  Si le fichier contient un en-tête BOM 
+  (byte order mark), utilisez la fonction 
+  @@ReadStringFormat.
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+      WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")   ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadString(0)      ; Affiche du fichier
+    Wend
+    CloseFile(0)               ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@WriteString, @@ReadStringFormat, 
+  @@OpenFile, @@ReadFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ReadStringFormat(#Fichier)
+
+@Description
+  Vérifie la présence d'un en-tête BOM 
+  (Byte Order Mark) et identifie le 
+  format d'encodage des chaînes de 
+  caractères. Si un BOM est détecté, le 
+  @Link "FileSeek" "curseur" du fichier
+  sera placé juste après le BOM.
+@LineBreak 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@ReturnValue 
+@FixedFont
+  @#PB_Ascii  : Aucun BOM détecté. Généralement un fichier texte standard
+  @#PB_UTF8   : UTF-8 et BOM détecté.
+  @#PB_Unicode: UTF-16 (little endian) et BOM détecté.
+  @#PB_UTF16BE: UTF-16 (big endian) et BOM détecté.
+  @#PB_UTF32  : UTF-32 (little endian) et BOM détecté.
+  @#PB_UTF32BE: UTF-32 (big endian) et BOM détecté.
+@EndFixedFont
+  Les resultats @#PB_Ascii, @#PB_UTF8 et 
+  @#PB_Unicode peuvent être utilisés 
+  directement avec @@ReadString pour lire le 
+  texte à partir du fichier. Les autres 
+  constantes sont incluses pour faciliter la 
+  détection du type de fichier, mais ne sont 
+  pas prises en compte nativement par PureBasic.
+
+@Remarks
+  Si le BOM est détecté, le 
+  @Link "FileSeek" "pointeur de fichier" sera 
+  placé à la fin du BOM. @LineBreak 
+  Si aucun BOM n'est détecté, la position du 
+  pointeur de fichier reste inchangé.
+@LineBreak
+@LineBreak
+  Le BOM (Byte Order Mark) est un moyen 
+  couramment utilisé pour indiquer le type 
+  d'encodage d'un fichier texte.
+  Il est habituellement placé au début du 
+  fichier. Néanmoins, ce n'est pas un standard
+  ni une norme, mais une pratique courante. 
+  Ainsi, si aucun BOM n'est détecté au début 
+  du fichier, cela ne veut pas forcément dire
+  qu'il s'agit d'un fichier ASCII. 
+  @@WriteStringFormat peut être utilisé pour
+  écrire un BOM dans un fichier.
+@LineBreak 
+@LineBreak
+  Pour plus d'informations, consulter cet 
+  @InternetLink "http://en.wikipedia.org/wiki/Byte_Order_Mark" "article Wikipedia".
+@LineBreak
+  Vous trouverez plus d'informations sur le 
+  mode unicode avec PureBasic 
+  @ReferenceLink "unicode" "ici".
+  
+@Example  
+@Code
+  Fichier$ = OpenFileRequester("Sélectionnez un fichier","","Texte (.txt)|*.txt|Tous (*.*)|*.*",0)
+  If Fichier$
+    If ReadFile(0, Fichier$) 
+      Format=ReadStringFormat(0)   
+      CloseFile(0)
+      Select Format
+        Case #PB_Ascii  
+           Debug "Aucun BOM détecté. Généralement un fichier texte standard"
+        Case #PB_UTF8   
+           Debug "UTF-8 et BOM détecté."
+        Case #PB_Unicode
+           Debug "UTF-16 (little endian) et BOM détecté."
+        Case #PB_UTF16BE
+          Debug "UTF-16 (big endian) et BOM détecté."
+        Case #PB_UTF32  
+           Debug "UTF-32 (little endian) et BOM détecté."
+        Case #PB_UTF32BE
+           Debug "UTF-32 (big endian) et BOM détecté."
+        Default
+          Debug "Format inconnu"
+       EndSelect
+     EndIf
+  EndIf
+@EndCode 
+
+@SeeAlso
+  @@WriteStringFormat, @@ReadString, 
+  @@OpenFile, @@ReadFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.u = ReadUnicodeCharacter(#Fichier) 
+
+@Description
+  Lit un caractère unicode (2 octets non signés). 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@ReturnValue
+  Renvoie le caractère lu ou zéro en cas 
+  d'erreur.
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteUnicodeCharacter(0,142)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0          ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadUnicodeCharacter(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)              ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@WriteUnicodeCharacter, 
+  @@ReadAsciiCharacter, @@ReadCharacter, 
+  @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.w = ReadWord(#Fichier)
+
+@Description
+  Lit une donnée de type 'word' (2 octets signés).
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@ReturnValue
+  Renvoie le nombre lu ou zéro en cas 
+  d'erreur.
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")   ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteWord(0,142)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt") ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0         ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadWord(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)             ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode 
+  
+@SeeAlso
+  @@WriteWord, @@OpenFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteAsciiCharacter(#Fichier, Valeur.a)
+
+@Description
+  Ecrit une valeur de type caractère ascii 
+  (1 octet non signé).
+  
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@Parameter "Valeur"
+  La valeur du caractère ASCII à écrire.
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut renvoyer une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+  Le fichier doit être ouvert en utilisant une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile). 
+  
+@Example
+@Code 
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteAsciiCharacter(0,65)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0          ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadAsciiCharacter(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)              ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode  
+
+@SeeAlso
+  @@ReadAsciiCharacter, 
+  @@WriteUnicodeCharacter, 
+  @@WriteCharacter, @@CreateFile, 
+  @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteByte(#Fichier, Valeur.b)
+
+@Description
+  Ecrit une valeur de type 'byte' (1 octet signé).
+ 
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@Parameter "Valeur"
+  La valeur de l'octet à écrire.
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteByte(0,65)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt") ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0         ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadByte(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)             ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReadByte, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteCharacter(#Fichier,  Caractere.c [, Format])
+
+@Description
+  Ecrit un caractère (1 octet  non signé 
+  en mode ascii ou 2 octets  non signés 
+  en mode unicode).
+ 
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@Parameter "Caractere.c"
+  La valeur du caractère à écrire.
+  
+@OptionalParameter "Format"
+  Le format du caractère à écrire. Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Ascii  : 1 octet non signé.
+  @#PB_Unicode: 2 octets non signés (par défaut, voir @ReferenceLink "unicode" "unicode").
+  @#PB_UTF8   : entre 1 et 4 octets non signés.
+@EndFixedFont  
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi ou zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant 
+  une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+  
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteCharacter(0,65)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0          ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadCharacter(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)              ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReadCharacter, @@writeAsciiCharacter, @@WriteUnicodeCharacter, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteDouble(#Fichier, Valeur.d)
+
+@Description
+  Ecrit une valeur de type 'double' 
+  (8 octets).
+ 
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@Parameter "Valeur"
+  La valeur à écrire.
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant 
+  une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+  
+@Example
+@Code
+  If CreateFile(0, "Test.txt")    ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteDouble(0,123456789.123456789)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0          ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadDouble(0)     ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)               ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode  
+
+@SeeAlso
+  @@ReadDouble, @@WriteFloat, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteFloat(#Fichier, Valeur.f)
+
+@Description
+  Ecrit une valeur de type 'float' (4 octets).
+ 
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@Parameter "Valeur"
+  La valeur à écrire.
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant 
+  une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")  ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))         ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteFloat(0,1234.1234)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0          ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadFloat(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)              ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReadFloat, @@WriteDouble, @@CreateFile, 
+  @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteInteger(#Fichier, Valeur)
+
+@Description
+  Ecrit une valeur de type 'integer' 
+  (4 octets sur un exécutable 32 bits 
+  ou 8 octets sur un exécutable 64 bits). 
+  
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@Parameter "Valeur"
+  La valeur à écrire.
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant 
+  une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")    ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))           ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteInteger(0,1234)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")  ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0          ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadInteger(0)    ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)              ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReadInteger, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteLong(#Fichier, Valeur.l)
+
+@Description
+  Ecrit une valeur de type 'long' (4 octets).
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@Parameter "Valeur"
+  La valeur à écrire.
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant 
+  une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")    ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))           ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteLong(0,123456789)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")   ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadLong(0)        ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)               ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode 
+
+@SeeAlso
+  @@ReadLong, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteData(#Fichier, *Memoire, Longueur) 
+
+@Description
+  Ecrit le contenu d'une zone mémoire dans 
+  un fichier.
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@Parameter "*Memoire"
+  L'adresse mémoire des données à écrire 
+  dans le fichier.
+
+@Parameter "Longueur"
+  Le nombre d'octets à écrire dans le 
+  fichier.
+
+@ReturnValue
+  Renvoie le nombre d'octets qui ont été 
+  réellement écrits dans le fichier, ou zéro en cas d'erreur.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+  
+@Example
+@Code
+  *MemoryID = AllocateMemory(1000) ; Alloue un bloc mémoire de 1000 octets
+  If *MemoryID
+    PokeS(*MemoryID, "Enregister ce texte dans le bloc mémoire", -1, #PB_Unicode) ; Ecriture d'une chaîne de caractères dans le bloc mémoire
+  EndIf
+  If CreateFile(0, GetHomeDirectory()+"Test.txt")   ; Création d'un nouveau fichier...
+    WriteData(0, *MemoryID, SizeOf(Character)*Len("Enregister ce texte dans le bloc mémoire"))   ; On écrit le texte du bloc mémoire dans le fichier
+    CloseFile(0)                 ; Ferme le fichier précédemment ouvert et enregistre les données  
+  Else
+    Debug "Impossible de créer le fichier!"
+  EndIf
+  
+  If ReadFile(0, GetHomeDirectory()+"Test.txt")   ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadString(0, #PB_Unicode)      ; Affiche du fichier
+    Wend
+    CloseFile(0)               ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+
+@EndCode
+
+@SeeAlso
+  @@ReadData, @@CreateFile, @@OpenFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteQuad(#Fichier, Valeur.q)
+
+@Description
+  Ecrit une valeur de type 'quad' (8 octets).
+  
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant 
+  une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+
+@Example
+@Code
+  If CreateFile(0, "Test.txt")    ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))           ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteQuad(0,123456789999)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")   ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadQuad(0)        ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)               ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode   
+
+@SeeAlso
+  @@ReadQuad, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteString(#Fichier, Texte$ [, Format])
+
+@Description
+  Ecrit une chaîne de caractères dans un 
+  fichier.  
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@Parameter "Texte$"
+  Le texte à écrire dans le fichier.
+
+@OptionalParameter "Format"  
+@FixedFont
+  @#PB_Ascii  : Ecrit le texte en ASCII.
+  @#PB_UTF8   : Ecrit le texte en UTF-8.
+  @#PB_Unicode: Ecrit le texte en UTF-16. 
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant 
+  une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+@LineBreak
+@LineBreak
+  Le caractère 'NUL' de fin de chaîne n'est 
+  pas écrit dans le fichier.
+@LineBreak
+@LineBreak  
+  Afin d'identifier plus facilement le type 
+  d'encodage d'un fichier, utilisez la 
+  commande @@WriteStringFormat pour écrire 
+  un BOM (Byte Order Mark). 
+  
+@Example
+@Code
+  If CreateFile(0, "Test.txt")    ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))           ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteString(0, "Une ligne.")
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")   ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadString(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)               ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@ReadString, @@WriteStringN, @@WriteStringFormat, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteStringFormat(#Fichier, Format)
+
+@Description
+  Ecrit un BOM (Byte Order Mark) à la 
+  position courante. 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+  
+@Parameter "Format"
+@FixedFont
+  @#PB_Ascii  : N'écrit aucun BOM (fichier texte standard).
+  @#PB_UTF8   : UTF-8 avec un BOM.
+  @#PB_Unicode: UTF-16 (little endian) avec un BOM.
+  @#PB_UTF16BE: UTF-16 (big endian) avec un BOM.
+  @#PB_UTF32  : UTF-32 (little endian) avec un BOM.
+  @#PB_UTF32BE: UTF-32 (big endian) avec un BOM.
+@EndFixedFont
+  Les constantes @#PB_Ascii, @#PB_UTF8 et 
+  @#PB_Unicode correspondent aux options 
+  supportées par @@WriteString et 
+  @@WriteStringN. Après avoir placé un BOM, 
+  toutes les opérations d'écriture devraient
+  utiliser ce format.
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant 
+  une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+@LineBreak
+@LineBreak
+  Le BOM (Byte Order Mark) est un moyen 
+  couramment utilisé pour indiquer le type 
+  d'encodage d'un fichier texte.
+  Il est habituellement placé au début du 
+  fichier. Néanmoins, ce n'est pas un 
+  standard ni une norme, mais une
+  pratique courante. Ainsi, si aucun BOM 
+  n'est détecté au début du fichier, cela 
+  ne veut pas forcément dire
+  qu'il s'agit d'un fichier ASCII. 
+  @@ReadStringFormat peut être utilisé 
+  pour detecter le BOM d'un fichier.
+@LineBreak 
+@LineBreak
+  Pour plus d'informations, consulter cet 
+  @InternetLink "http://en.wikipedia.org/wiki/Byte_Order_Mark" "article Wikipedia".
+@LineBreak
+  Vous trouverez plus d'informations sur le 
+  mode unicode avec PureBasic 
+  @ReferenceLink "unicode" "ici".
+  
+@Example  
+@Code
+  If CreateFile(0, "Test.txt")         ; Création d'un nouveau fichier texte...
+    WriteStringFormat(0, #PB_Unicode)  ; Fichier au format unicode
+      WriteStringN(0, "Ligne hé hé à ù Ê Ï")  ; Ecriture de quelques signes (suivis du code 'Fin de Ligne')
+    CloseFile(0)                       ; Ferme le fichier précédemment ouvert et enregistre les données
+  Else
+    MessageRequester("Information","Impossible de créer le fichier!")
+  EndIf
+    If ReadFile(0, "Test.txt") 
+      Format=ReadStringFormat(0) 
+     While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadString(0)       ; Affiche ligne par ligne le contenu du fichier
+    Wend
+      CloseFile(0)
+      Select Format
+        Case #PB_Ascii  
+           Debug "Aucun BOM détecté. Généralement un fichier texte standard"
+        Case #PB_UTF8   
+           Debug "UTF-8 et BOM détecté."
+        Case #PB_Unicode
+           Debug "UTF-16 (little endian) et BOM détecté."
+        Case #PB_UTF16BE
+          Debug "UTF-16 (big endian) et BOM détecté."
+        Case #PB_UTF32  
+           Debug "UTF-32 (little endian) et BOM détecté."
+        Case #PB_UTF32BE
+           Debug "UTF-32 (big endian) et BOM détecté."
+        Default
+          Debug "Format inconnu"
+       EndSelect
+     EndIf
+@EndCode 
+  
+@SeeAlso
+  @@ReadStringFormat, @@WriteString, 
+  @@WriteStringN, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteStringN(#Fichier, Texte$ [, Format])
+
+@Description
+  Ecrit une chaîne de caractères dans un 
+  fichier suivie du code 'Fin de Ligne'. 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@Parameter "Texte$"
+  Le texte à écrire dans le fichier.
+
+@OptionalParameter "Format" 
+@FixedFont
+  @#PB_Ascii  : Ecrit le texte en ASCII.
+  @#PB_UTF8   : Ecrit le texte en UTF-8.
+  @#PB_Unicode: Ecrit le texte en UTF-16.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant 
+  une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+@LineBreak
+@LineBreak
+  Vous trouverez un exemple d'utilisation 
+  avec la commande @@CreateFile.
+@LineBreak 
+@LineBreak
+  Afin d'identifier plus facilement le type 
+  d'encodage d'un fichier, utilisez la 
+  commande @@WriteStringFormat pour écrire 
+  un BOM (Byte Order Mark). 
+  
+@Example
+@Code
+  If CreateFile(0, "Test.txt")    ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))           ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteString(0, "Une ligne.")
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")   ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadString(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)               ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReadString, @@WriteString, 
+  @@WriteStringFormat, @@CreateFile, 
+  @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteUnicodeCharacter(#Fichier, Valeur.c)
+
+@Description
+  Ecrit une valeur de type caractère 
+  unicode (2 octets non signés).
+  
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@Parameter "Valeur"
+  La valeur du caractère unicode à écrire.
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant 
+  une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+  
+@Example
+@Code
+  If CreateFile(0, "Test.txt")    ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))           ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteString(0, "Une ligne hé hé à.")
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")   ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadString(0)      ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)               ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReadUnicodeCharacter, 
+  @@WriteAsciiCharacter, @@WriteCharacter, 
+  @@CreateFile, @@OpenFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WriteWord(#Fichier, Valeur)
+
+@Description
+  Ecrit une valeur de type 'word' (2 octets signés). 
+
+@Parameter "#Fichier"
+  Le fichier à utiliser.
+
+@Parameter "Valeur"
+  La valeur à écrire.
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi et zéro si elle a 
+  échoué.
+
+@Remarks  
+  En raison de la mise en mémoire 
+  @Link "FileBuffersSize" "tampon", cette 
+  fonction peut retourner une valeur avec 
+  succès même s'il n'y a pas assez d'espace 
+  disponible sur le périphérique de sortie 
+  pour l'opération d'écriture.
+@LineBreak
+@LineBreak  
+  Le fichier doit être ouvert en utilisant 
+  une fonction d'écriture compatible 
+  (c'est à dire pas avec @@ReadFile).
+  
+@Example
+@Code
+  If CreateFile(0, "Test.txt")    ; Ouvre un fichier existant ou en crée un nouveau s'il n'existait pas
+    FileSeek(0, Lof(0))           ; Place le pointeur à la fin du fichier en utilisant le résultat de Lof() 
+    WriteWord(0, 142)
+    WriteStringN(0, "... une autre ligne à la fin du fichier.")
+    CloseFile(0)
+  EndIf
+  If ReadFile(0, "Test.txt")   ; Si le fichier peut être lu , on continue...
+    While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
+      Debug ReadWord(0)        ; Affiche ligne par ligne le contenu du fichier
+    Wend
+    CloseFile(0)               ; Ferme le fichier précédemment ouvert
+  Else
+    MessageRequester("Information","Impossible d'ouvrir le fichier!")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReadWord, @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

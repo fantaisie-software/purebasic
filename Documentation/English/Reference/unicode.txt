@@ -1,0 +1,47 @@
+@Title Unicode
+
+@Section Introduction
+
+  Unicode is the term used for extended character sets which allows displaying text in many languages
+  (including those with a lot of different characters like Japanese, Korean etc.). It solves the
+  ASCII problem of having a lot of table dedicated for each language by having a unified table where
+  each character has its own place.
+  @LineBreak
+  @LineBreak
+  To simplify, unicode can be seen as a big ascii table, which doesn't have 256 characters but up to 65536. Thus,
+  each character in unicode will need 2 bytes in memory (this is important when dealing with @ReferenceLink "memory" "pointers" for example). 
+  @LineBreak
+  @LineBreak
+  Here are some links to have a better understanding about unicode (must have reading):
+  @LineBreak
+  @LineBreak
+  @InternetLink "http://en.wikipedia.org/wiki/Unicode" "General unicode information" @LineBreak
+  @InternetLink "http://www.unicode.org/faq/utf_bom.html" "Unicode and BOM"
+   
+@Section Unicode and Windows
+  
+  PureBasic internally uses the UCS2 encoding which is also the format used by the Windows unicode API,
+  so no conversions are needed at runtime when calling an OS function. When dealing with an API function, PureBasic
+  will automatically use the unicode one if available (for example MessageBox_() will map to MessageBoxW()).
+  All the API structures and constants supported by PureBasic are using unicode version.
+
+@Section UTF-8
+  
+  UTF-8 is another unicode encoding, which is byte based. Unlike UCS2 which always takes 2 bytes per characters,
+  UTF-8 uses a variable length encoding for each character (up to 4 bytes can represent one character).
+  The biggest advantage of UTF-8 is the fact it doesn't includes null characters in its coding, so it can be
+  edited like a regular text file. Also the ASCII characters from 1 to 127 are always preserved, so the text
+  is kind of readable as only special characters will be encoded. One drawback is its variable length, so it
+  all string operations will be slower due to needed pre-processing to locate a character is in the text.
+  @LineBreak
+  @LineBreak
+  PureBasic uses UTF-8 by default when writing string to files (@LibraryLink "File" "File" and @LibraryLink "Preference" "Preference" libraries),
+  so all texts are fully cross-platform.
+  @LineBreak
+  @LineBreak
+  The PureBasic compiler also handles both Ascii and UTF-8 files (the UTF-8 files need to have the correct BOM header
+  to be handled correctly). Both can be mixed in a single program without problem: an ascii file can include
+  an UTF-8 file and vice-versa, as long as all string-literals (i.e. "x") and character-literals (i.e. 'x') in the ASCII 
+  files contain only characters with a code <= 127.. When developing, it's recommended to set the IDE in UTF-8 mode, 
+  so all the source files will be unicode ready.
+

@@ -1,0 +1,247 @@
+;
+; Font library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Font
+
+@Overview
+
+  Les polices de caractères sont largement 
+  utilisées sur les ordinateurs. Elles 
+  permettent d'agrémenter les textes avec 
+  différentes tailles et formes de polices.
+@LineBreak
+@LineBreak
+  Note: En PureBasic, les polices de 
+  caractères colorées ne sont pas encore 
+  supportées. Il est néanmoins possible de 
+  contourner cette limitation en utilisant la 
+  commande @@StartDrawing et dessiner 
+  directement sur la surface souhaitée.
+
+@CommandList
+
+@ExampleFile All Font.pb
+@ExampleFile All FontRegister.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeFont(#Police)
+
+@Description
+  Libère une police. 
+  
+@Parameter "#Police"
+  Le numéro de la police à libérer.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, toutes les 
+  polices restantes seront libérées.
+
+@NoReturnValue  
+
+@Remarks
+  Toutes les polices restantes sont 
+  automatiquement libérées quand le 
+  programme se termine. 
+
+@SeeAlso
+  @@LoadFont
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = FontID(#Police)
+
+@Description
+  Renvoie l'identifiant d'une police dans 
+  le système d'exploitation. 
+  
+@Parameter "#Police"
+  Le numéro d'identification de la police 
+  à tester.
+
+@ReturnValue  
+  Renvoie l'identifiant système de la police.
+@LineBreak
+@LineBreak
+  Ce résultat est aussi parfois appelé 
+  'Handle'. Jetez un oeil au chapitre 
+  
+  @ReferenceLink "handles" "Numéros et Identifiants" 
+  pour plus d'informations.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 222, 130, "FontID()", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)  
+    ButtonGadget(0, 10, 10, 200, 30, "Cliquez pour changer la police...")
+    Font1 = LoadFont(#PB_Any, "Arial"  ,  8, #PB_Font_Bold) 
+    Font2 = LoadFont(#PB_Any, "Verdana", 12, #PB_Font_StrikeOut) 
+    UsedFont = 1
+  EndIf 
+  
+  Repeat 
+    Event = WaitWindowEvent()
+  
+    If Event = #PB_Event_Gadget
+      If EventGadget() = 0
+        If UsedFont = 1 
+          SetGadgetFont(0, FontID(Font2)) 
+          UsedFont = 2
+        Else
+          SetGadgetFont(0, FontID(Font1)) 
+          UsedFont = 1
+        EndIf
+      EndIf
+    EndIf
+  Until Event = #PB_Event_CloseWindow 
+@EndCode
+
+@SeeAlso
+  @@IsFont, @@LoadFont, @@SetGadgetFont, @@DrawingFont
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsFont(#Police)
+
+@Description
+  Teste si une police est correctement 
+  initialisée. 
+  
+@Parameter "#Police"
+  Le numéro de la police à tester.
+
+@ReturnValue  
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+  
+@Remarks
+   Cette fonction a été créée pour pouvoir 
+   passer n'importe quelle valeur en 
+   paramètre sans qu'il ne puisse y avoir 
+   de plantage. 
+@LineBreak
+@LineBreak
+   C'est la fonction idéale pour vérifier 
+   qu'un objet est correctement initialisé.
+
+@SeeAlso
+  @@FontID, @@LoadFont
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = LoadFont(#Police, NomPolice$, Taille [, Options]) 
+
+@Description
+  Charge une police de caractères.
+
+@Parameter "#Police"
+  Le numéro de la police.
+@LineBreak
+@LineBreak    
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisés pour générer 
+  automatiquement ce numéro.
+ 
+@Parameter "NomPolice$"
+  Le nom de la police.
+  
+@Parameter "Taille"
+   Taille de la police.
+   
+@OptionalParameter "Options"
+  Peut être une combinaison de:
+@FixedFont
+  @#PB_Font_Bold       : La police de caractères sera en gras
+  @#PB_Font_Italic     : La police de caractères sera en italique
+  @#PB_Font_Underline  : La police de caractères sera soulignée (Windows seulement)
+  @#PB_Font_StrikeOut  : La police de caractères sera barrée (Windows seulement)
+  @#PB_Font_HighQuality: La police de caractères sera en qualité supérieure (plus lent)(Windows seulement)
+@EndFixedFont
+  
+@ReturnValue 
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+
+@Remarks
+  Si une autre police de caractères était 
+  déjà chargé avec le même numéro #Police, 
+  elle sera  automatiquement fermée lors du 
+  chargement de la nouvelle.
+@LineBreak
+@LineBreak
+  Sous Windows, le gestionnaire de police de 
+  caractères essaiera toujours de trouver une
+  police équivalente à celle demandée, si 
+  cette dernière n'est pas disponible. Par 
+  exemple, si vous essayez de charger la 
+  police "Tim Now Ronin" et qu'elle n'existe 
+  pas, une autre police sera chargée 
+  automatiquement, en fonction de sa taille, 
+  du style etc. Il est donc peu probable que 
+  cette commande échoue.
+
+@Example
+@Code
+   If OpenWindow(0, 0, 0, 270, 160, "Chargement police...", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)  
+    If LoadFont(1, "Arial", 24) 
+      SetGadgetFont(#PB_Default, FontID(1)) 
+      TextGadget(0, 10, 10, 250, 40, "Arial 24") 
+    EndIf 
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow 
+  EndIf 
+@EndCode
+
+@SeeAlso
+  @@FreeFont, @@FontID
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = RegisterFontFile(Fichier$)
+
+@Description
+  Enregistre un fichier de police en vue d'être utilisé avec la commande @@LoadFont. @LineBreak
+  Toutes les polices contenues dans le fichier seront alors disponibles.
+
+@Parameter "Fichier$"
+  Le fichier contenant les polices.@LineBreak 
+  Le fichier doit être au format TrueType.
+
+@ReturnValue
+  Renvoie une valeur non nulle si le fichier a été enregistré correctement.
+
+@Remarks
+  Le fichier de police est inscrit pour le programme en cours. 
+  Cela signifie que la ou les polices ne sont pas accessibles 
+  par les autres programmes.@LineBreak
+  Le fichier est désinscrit lorsque le programme se termine.@LineBreak
+  Aucun changement dans le système d'exploitation n'est fait par cette commande.
+  @LineBreak
+  @LineBreak
+  Vous ne pouvez pas utiliser de police enregistrée avec la bibliothèque 
+  VectorDrawing.
+  
+@Example
+@Code
+  ; Utilisons une nouvelle police qui a été téléchargée à partir d'Internet dans le répertoire temporaire ...
+  ; Le nom de la police est "ascii" et le fichier est "ascii.ttf"
+  If RegisterFontFile(GetTemporaryDirectory() + "ascii.ttf") ; Nous devons l'enregistrer avant de l'utiliser
+    LoadFont(0, "ascii", 12) ; Maintenant, nous pouvons charger la police, le système d'exploitation la connait
+    SetGadgetFont(0, FontID(0))
+  ...
+@EndCode
+@ExampleFile All FontRegister.pb
+
+@SeeAlso
+  @@LoadFont

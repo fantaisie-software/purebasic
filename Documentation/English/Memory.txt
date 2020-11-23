@@ -1,0 +1,966 @@
+;
+;     Memory library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Memory
+
+@Overview
+
+  Sometimes, it's very useful have raw access to the system memory (RAM) to process
+  some time consuming operations and speed them up. This library allows to allocate any number of memory
+  buffers and to use them directly within PureBasic.
+@LineBreak
+@LineBreak
+  @Bold "Note:" Direct memory manipulation must be handled with care. Accessing memory areas outside of allocated
+  buffers will cause the program to crash.
+
+@CommandList
+
+@ExampleFile All MemoryBank.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *MemoryID = AllocateMemory(Size [, Flags])
+
+@Description
+  Allocates a contiguous memory area with the specified size in bytes.
+  The new memory area will be cleared and filled with zeros.
+  
+@Parameter "Size"
+  The size in bytes for the new memory area.
+  
+@OptionalParameter "Flags"
+  It can be one of the following values:
+@FixedFont  
+  @#PB_Memory_NoClear: don't fill the new memory area with zeros. It can help to have faster allocation if the
+                      allocated memory is used immediately.
+@EndFixedFont
+
+@ReturnValue
+  Returns the address of the allocated memory, or zero if the memory cannot be allocated.
+  
+@Remarks
+  @@FreeMemory can be used to return the allocated memory back to the system.
+  @@ReallocateMemory can be used to change the size of the allocated area.
+  All the allocated memory areas are automatically freed when the programs ends.
+@LineBreak
+@LineBreak
+  If the program crashes at this command, it is usually a result of a memory corruption at
+  an earlier time in the program by writing at an area outside of the allocated memory area.
+  Such an error can be narrowed down to the real cause using the 
+  @ReferenceLink "ide_debugtools" "purifier" debugger tool.
+  
+@Example
+@Code
+  *MemoryID = AllocateMemory(5000)
+  If *MemoryID
+    Debug "Starting address of the 5000 Byte memory area:"
+    Debug *MemoryID
+    PokeS(*MemoryID, "Store this string in the memory area")
+    FreeMemory(*MemoryID)  ; will also be done automatically at the end of program
+  Else
+    Debug "Couldn't allocate the requested memory!"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReAllocateMemory, @@FreeMemory, @@MemorySize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Item.StructureName = AllocateStructure(StructureName)
+
+@Description
+  Allocates a new dynamic structure item. This dynamic structure item is properly initialized
+  and ready to use, without the need to call @ReferenceLink "compilerfunctions" "InitializeStructure()".
+  To access the structure data, a @ReferenceLink "memory" "pointer" associated with the specified 'StructureName' has to be used.
+  
+@Parameter "StructureName"
+  The name of the structure used to create the new dynamic item. The structure has to be already
+  created.
+  
+@ReturnValue
+  The address of the new dynamic structure item, zero otherwise.
+  
+@Remarks
+  This command is for advanced users and shouldn't be needed for most of programs. It's often a better choice
+  to use a structured @LibraryLink "array" "array", @LibraryLink "list" "list" or @LibraryLink "map" "map" to store dynamic structured items.
+@LineBreak
+@LineBreak
+  @@FreeStructure can be used to free the dynamic structure item.
+  All dynamic structures are automatically freed when the programs ends.
+@LineBreak
+@LineBreak
+  If the program crashes at this command, it is usually a result of a memory corruption at
+  an earlier time in the program by writing at an area outside of the allocated memory area.
+  Such an error can be narrowed down to the real cause using the 
+  @ReferenceLink "ide_debugtools" "purifier" debugger tool.
+  
+@Example
+@Code
+  Structure People
+    Name$
+    List Friends$()
+  EndStructure
+  
+  *DynamicPeople.People = AllocateStructure(People)
+  *DynamicPeople\Name$ = "Fred"
+  AddElement(*DynamicPeople\Friends$())
+  *DynamicPeople\Friends$() = "Stef"
+  
+  Debug *DynamicPeople\Name$
+  Debug *DynamicPeople\Friends$()
+  
+  FreeStructure(*DynamicPeople)
+@EndCode
+
+@SeeAlso
+  @@FreeStructure
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CompareMemory(*MemoryID1, *MemoryID2, Size)
+
+@Description
+  Compares the content of two memory areas.
+
+@Parameter "*MemoryID1, *MemoryID2"
+  The addresses of the two memory areas to compare.
+
+@Parameter "Size"
+  The amount of bytes to compare.
+
+@ReturnValue
+  Returns nonzero if the two areas contain the same bytes or zero if the content does not match.
+
+@SeeAlso
+  @@AllocateMemory, @@CompareMemoryString, @@MemorySize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CompareMemoryString(*String1, *String2 [, Mode [, Length [, Flags]]])
+
+@Description
+  Compare two strings at the specified memory addresses.
+  
+@Parameter "*String1, *String2"
+  The addresses of the strings to compare.
+  
+@OptionalParameter "Mode"
+  Character comparison mode. This can be one of the following values:
+@FixedFont
+  @#PB_String_CaseSensitive : Case sensitive search (a=a). (default)
+  @#PB_String_NoCase: String comparison is case insensitive (a=A).
+@EndFixedFont
+
+@OptionalParameter "Length"
+  The number of characters to compare. If this parameter is not specified or has the value -1, 
+  the strings are compared until a null-character is reached. If the strings are not null-terminated, 
+  this parameter must be specified.
+  
+@OptionalParameter "Flags"
+  The string format to use when comparing the strings. This can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Compares the strings as ascii
+  @#PB_UTF8   : Compares the strings as UTF8
+  @#PB_Unicode: Compares the strings as unicode (default)
+@EndFixedFont
+  
+@ReturnValue
+  Returns one of the following values:
+@FixedFont
+  @#PB_String_Equal  : if String1 equals String2
+  @#PB_String_Lower  : if String1 is lower than String2
+  @#PB_String_Greater: if String1 greater than String2
+@EndFixedFont
+
+@SeeAlso
+  @@PokeS, @@PeekS, @@MemoryStringLength, @@CopyMemoryString, @@CompareMemory, @@MemorySize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CopyMemory(*SourceMemoryID, *DestinationMemoryID, Size)
+
+@Description
+  Copy a memory area starting from the *SourceMemoryID to the *DestinationMemoryID.
+  
+@Parameter "*SourceMemoryID"
+  The address where the bytes are copied from.
+  
+@Parameter "*DestinationMemoryID"
+  The address where the bytes are copied to.
+
+@Parameter "Size"
+  The amount of bytes to copy.
+
+@NoReturnValue
+
+@Remarks
+  The source and destination buffers may not overlap. To copy memory to a destination
+  address that overlaps with the source buffer, use @@MoveMemory.
+  
+@SeeAlso
+  @@MoveMemory, @@CopyMemoryString, @@AllocateMemory, @@MemorySize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CopyMemoryString(*String [, @*DestinationMemoryID])
+
+@Description
+  Copy the string from the specified address to the destination memory address if specified,
+  or at the end of the previous buffer if omitted.
+
+@Parameter "*String"
+  The address of the string to copy. The string must be terminated with a null-character.
+  The string is expected to be in the PB string format.
+
+@OptionalParameter "@*DestinationMemoryID"
+  The pointer to a variable holding the address with the destination buffer. After the string
+  has been copied, the variable *DestinationMemoryID will point to the null-character at the end of the
+  copied string, so a further call to this function will append the new string to the previous one.
+@LineBreak
+@LineBreak
+  If this parameter is omitted, the address from the previous call is used.
+  
+@ReturnValue
+  Returns the value of *DestinationMemoryID after the string was copied.
+
+@Example
+@Code
+  *Buffer = AllocateMemory(1000)
+  *Pointer = *Buffer
+  CopyMemoryString("Hello", @*Pointer)
+  CopyMemoryString(" World")  ; This one will be put just after "Hello"
+  *Pointer-4                  ; Come back from 2 characters unicode (on the 'l' of 'World')
+  CopyMemoryString("LD")      ; Finally the last two letters will be uppercase
+  Debug PeekS(*Buffer)
+@EndCode
+
+@SeeAlso
+  @@CopyMemory, @@PeekS, @@PokeS
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FillMemory(*Memory, Size [, Value [, Type]])
+
+@Description
+  Fills the memory area with the specified value by repeatedly writing that value.
+ 
+@Parameter "*Memory"
+  The address of the memory area to fill.
+  
+@Parameter "Size"
+  The size in bytes of the memory area to fill.
+  
+@OptionalParameter "Value"
+  The value to write into the memory area. The default is the value 0.
+
+@OptionalParameter "Type"
+  The type for the value. This can be one of the following constants:
+@FixedFont
+  @#PB_Byte     : Fills the memory using a byte (1 byte) value (default).
+  @#PB_Ascii    : Fills the memory using a byte (1 byte) value.
+  @#PB_Word     : Fills the memory using a word (2 bytes) value.
+  @#PB_Unicode  : Fills the memory using a word (2 bytes) value.
+  @#PB_Character: Fills the memory using a character (2 bytes in @ReferenceLink "unicode" "unicode").
+  @#PB_Long     : Fills the memory using a long (4 bytes) value.
+  @#PB_Integer  : Fills the memory using an integer value (4 bytes in 32-bit executable, 8 bytes in 64-bit executable).
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  *Buffer = AllocateMemory(500)
+  
+  FillMemory(*Buffer, 500) ; Fill 500 bytes of value 0 (clear the memory area)
+  FillMemory(*Buffer, 500, $FF) ; Fill 500 bytes of value $FF
+  FillMemory(*Buffer, 500, $BADF00D, #PB_Long) ; Fill 500 bytes of value $BADF00D
+@EndCode
+
+@SeeAlso
+  @@AllocateMemory, @@MemorySize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMemory(*MemoryID)
+
+@Description
+  Free the memory previously allocated with @@AllocateMemory or @@ReAllocateMemory. 
+  
+@Parameter "*MemoryID"
+  The address of the memory area to free. This must be a value returned from
+  either @@AllocateMemory or @@ReAllocateMemory.
+  
+@NoReturnValue
+
+@Remarks
+  If the program crashes at this command even though the input seems correct,  
+  it is usually a result of a memory corruption at an earlier time in the program by writing
+  at an area outside of the allocated memory area.
+  Such an error can be narrowed down to the real cause using the 
+  @ReferenceLink "ide_debugtools" "purifier" debugger tool. 
+@LineBreak
+@LineBreak
+  All remaining allocated memory blocks are automatically freed when the program ends.
+  
+@SeeAlso
+  @@AllocateMemory, @@ReAllocateMemory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeStructure(*Item)
+
+@Description
+  Free the dynamic structure item previously allocated with @@AllocateStructure. There is no
+  need to call @ReferenceLink "compilerfunctions" "ClearStructure()" before freeing the 
+  structure.
+  
+@Parameter "*Item"
+  The address of the dynamic structure item to free. This must be a value returned from
+  @@AllocateStructure.
+  
+@NoReturnValue
+
+@Remarks
+  If the program crashes at this command even though the input seems correct,  
+  it is usually a result of a memory corruption at an earlier time in the program by writing
+  at an area outside of the allocated memory area.
+  Such an error can be narrowed down to the real cause using the 
+  @ReferenceLink "ide_debugtools" "purifier" debugger tool. 
+@LineBreak
+@LineBreak
+  All remaining allocated dynamic structure items are automatically freed when the program ends.
+  
+@SeeAlso
+  @@AllocateStructure
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MemorySize(*MemoryID)
+
+@Description  
+  Returns the length of the given memory area.
+  
+@Parameter "*MemoryID"
+  The address of the memory area to get the size from. This must be a value returned from
+  either @@AllocateMemory or @@ReAllocateMemory.
+
+@ReturnValue
+  Returns the size of the given memory area in bytes.
+
+@SeeAlso
+  @@AllocateMemory, @@ReAllocateMemory, @@FreeMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MemoryStringLength(*String [, Flags])
+
+@Description
+  Returns the length (in characters) of the given zero terminated string.
+  
+@Parameter "*String"
+  The address of the string to get the length from.
+
+@OptionalParameter "Flags"
+  The string format to use. This can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Reads the strings as ascii.
+  @#PB_UTF8   : Reads the strings as UTF8
+  @#PB_Unicode: Reads the strings as unicode (by default, see @ReferenceLink "unicode" "unicode" mode).
+@EndFixedFont
+  Combined with one of the following value:
+@FixedFont
+  @#PB_ByteLength: only valid when using the @#PB_UTF8 flag, the result will represent bytes (not characters).
+                  it can be useful as UTF8 have variable characters lengths.
+@EndFixedFont
+
+@ReturnValue
+  Returns the length of the string in characters.
+  
+@SeeAlso
+  @@PokeS, @@PeekS, @@AllocateMemory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveMemory(*SourceMemoryID, *DestinationMemoryID, Size)
+
+@Description
+  Copy a memory area starting from the *SourceMemoryID to the *DestinationMemoryID.
+  Overlapping of the two memory areas is allowed.
+  
+@Parameter "*SourceMemoryID"
+  The address where the bytes are copied from.
+  
+@Parameter "*DestinationMemoryID"
+  The address where the bytes are copied to.
+
+@Parameter "Size"
+  The amount of bytes to copy.
+
+@NoReturnValue
+
+@Remarks
+  This command can be slower than @@CopyMemory, but it ensures that the bytes are copied correctly,
+  even if the two memory areas overlap.
+
+@SeeAlso
+  @@CopyMemory, @@AllocateMemory, @@MemorySize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *NewMemoryID = ReAllocateMemory(*MemoryID, Size [, Flags])
+
+@Description
+  Resizes the given memory buffer to a new size. The memory may be copied to a new location in the
+  process if there is not enough memory available at its current location.
+  
+@Parameter "*MemoryID"
+  The address of the memory area to resize. This value must be the result of a call to
+  @@AllocateMemory or @@ReAllocateMemory.
+@LineBreak
+@LineBreak
+  If this parameter is @#Null, the command acts like @@AllocateMemory and allocates
+  a new memory area of the given size.
+
+@Parameter "Size"
+  The size in bytes for the resized or allocated buffer.
+
+@OptionalParameter "Flags"
+  It can be one of the following values:
+@FixedFont  
+  @#PB_Memory_NoClear: don't fill the extended memory area with zeros. It can help to have faster allocation if the
+                      extended memory is used immediately. If the memory size is reduced, this flag has no effect.
+@EndFixedFont  
+
+@ReturnValue
+  Returns the new address of the memory area if it could be resized. In this case, the old '*MemoryID' address can
+  no longer be used. If resizing the memory area failed (because there is not enough memory available), the result 
+  is zero, and the '*MemoryID' address is still valid with the existing memory area and the old size.
+
+@Remarks
+  If the size of the memory area is increased, any new bytes are initially filled with zeros unless the @#PB_Memory_NoClear flag is specified.
+@LineBreak
+@LineBreak
+  If the program crashes at this command even though the input seems correct,  
+  it is usually a result of a memory corruption at an earlier time in the program by writing
+  at an area outside of the allocated memory area.
+  Such an error can be narrowed down to the real cause using the 
+  @ReferenceLink "ide_debugtools" "purifier" debugger tool. 
+@LineBreak
+@LineBreak
+  All remaining allocated memory blocks are automatically freed when the program ends.
+  
+@Example
+@Code
+  *MemoryID = AllocateMemory(1000)
+  PokeS(*MemoryID, "Store this string")
+  ; do something more with it here...
+  ;
+  *NewMemoryID = ReAllocateMemory(*MemoryID, 2000) ; need more memory
+  If *NewMemoryID
+    ; work with *NewMemoryID now with size 2000
+    Debug "The old contents are still here:"
+    Debug PeekS(*NewMemoryID)
+    ;
+    FreeMemory(*NewMemoryID) 
+  Else
+    ; resizing failed, keep working with *MemoryID (size 1000)
+    ;
+    FreeMemory(*MemoryID)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AllocateMemory, @@FreeMemory, @@MemorySize
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.a = PeekA(*MemoryBuffer)
+
+@Description
+  Reads an ascii character (1 byte) from the specified memory address.
+
+@Parameter "*MemoryBuffer"
+  The address to read from.
+
+@ReturnValue
+  Returns the value of the ascii character.
+
+@SeeAlso
+  @@PokeA
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.b = PeekB(*MemoryBuffer)
+
+@Description
+  Reads a byte (1 byte) number from the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to read from.
+
+@ReturnValue
+  Returns the value of the byte.
+
+@SeeAlso
+  @@PokeB
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.c = PeekC(*MemoryBuffer)
+
+@Description
+  Reads a character (2 bytes in @ReferenceLink "unicode" "unicode") number from 
+  the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to read from.
+
+@ReturnValue
+  Returns the value of the character.
+
+@SeeAlso
+  @@PokeC
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.d = PeekD(*MemoryBuffer)
+
+@Description
+  Reads a double (8 bytes) number from  the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to read from.
+
+@ReturnValue
+  Returns the value of the double.
+
+@SeeAlso
+  @@PokeD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.i = PeekI(*MemoryBuffer)
+
+@Description
+  Reads an integer (4 bytes in 32-bit executable, 8 bytes in 64-bit executable) number from the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to read from.
+
+@ReturnValue
+  Returns the value of the integer.
+
+@SeeAlso
+  @@PokeI
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.l = PeekL(*MemoryBuffer)
+
+@Description
+  Reads a long (4 bytes) number from the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to read from.
+
+@ReturnValue
+  Returns the value of the long.
+
+@SeeAlso
+  @@PokeL
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.w = PeekW(*MemoryBuffer)
+
+@Description
+  Reads a word (2 bytes) number from the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to read from.
+
+@ReturnValue
+  Returns the value of the word.
+
+@SeeAlso
+  @@PokeW
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.f = PeekF(*MemoryBuffer)
+
+@Description
+  Reads a float (4 bytes) from the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to read from.
+
+@ReturnValue
+  Returns the value of the float.
+
+@SeeAlso
+  @@PokeF
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.q = PeekQ(*MemoryBuffer)
+
+@Description
+  Reads a quad (8 bytes) number from  the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to read from.
+
+@ReturnValue
+  Returns the value of the quad.
+
+@SeeAlso
+  @@PokeQ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = PeekS(*MemoryBuffer [, Length [, Format]])
+
+@Description
+  Reads a string from the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to read from.
+  
+@OptionalParameter "Length"
+  The maximum number of characters to read. If this parameter is not specified or -1 is used then
+  there is no maximum.
+  The string is read until a terminating null-character is encountered or the maximum length is reached.
+
+@OptionalParameter "Format"  
+  The string format to use when reading the string. This can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Reads the strings as ascii.
+  @#PB_UTF8   : Reads the strings as UTF8
+  @#PB_Unicode: Reads the strings as unicode (default).
+@EndFixedFont
+  Combined with one of the following value:
+@FixedFont
+  @#PB_ByteLength: only valid when using the @#PB_UTF8 flag, the 'Length' will represent bytes (not characters).
+                  it can be useful as UTF8 have variable characters lengths.
+@EndFixedFont
+
+@ReturnValue
+  Returns the read string.
+
+@SeeAlso
+  @@PokeS, @@MemoryStringLength, @@CompareMemoryString, @@CopyMemoryString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.u = PeekU(*MemoryBuffer)
+
+@Description
+  Reads an unicode character (2 bytes) from 
+  the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to read from.
+
+@ReturnValue
+  Returns the value of the unicode character.
+
+@SeeAlso
+  @@PokeU
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeA(*MemoryBuffer, Number)
+
+@Description
+  Writes an ascii character (1 byte) to the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekA
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeB(*MemoryBuffer, Number)
+
+@Description
+  Writes a byte (1 byte) number to the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekB
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeC(*MemoryBuffer, Number)
+
+@Description
+  Writes a character (2 bytes in @ReferenceLink "unicode" "unicode") number 
+  to the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekC
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeD(*MemoryBuffer, Number)
+
+@Description
+  Writes a double (8 bytes) number to the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeI(*MemoryBuffer, Number)
+
+@Description
+  Writes an integer (4 bytes in 32-bit executable, 8 bytes in 64-bit executable) number to the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekI
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeL(*MemoryBuffer, Number)
+
+@Description
+  Writes a long (4 bytes) number to the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekL
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeQ(*MemoryBuffer, Number)
+
+@Description
+  Writes a quad (8 bytes) number to the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekQ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeW(*MemoryBuffer, Number)
+
+@Description
+  Writes a word (2 bytes) number to the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekW  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeF(*MemoryBuffer, Number.f)
+
+@Description
+  Writes a float (4 bytes) to the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekF
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PokeS(*MemoryBuffer, Text$ [, Length [, Flags]])
+
+@Description
+  Writes a string to the specified memory address, followed by a null-character for termination.
+  
+@Parameter "*MemoryBuffer"
+  The address to write to.
+
+@Parameter "Text$"
+  The string to write.
+  
+@OptionalParameter "Length"
+  The maximum number of characters to write. If this parameter is not specified or -1 is used then
+  the full length is written.
+  The terminating null-character that is always written (unless the @#PB_String_NoZero flag is set) is not included in this count.
+
+@OptionalParameter "Flags"  
+  The string format to use when writing the string. This can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Writes the strings in ascii
+  @#PB_UTF8   : Writes the strings in UTF8
+  @#PB_Unicode: Writes the strings in unicode (default)
+@EndFixedFont
+  It can be combined with the following constants:
+@FixedFont
+  @#PB_String_NoZero: Doesn't write the terminating null-character.
+@EndFixedFont
+
+@ReturnValue
+  The amount of bytes written to memory, not including the terminating null-character.
+  The amount of written bytes differs from the string length in characters if the format is 
+  @#PB_UTF8 or @#PB_Unicode.
+
+@SeeAlso
+  @@PeekS, @@CopyMemoryString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeU(*MemoryBuffer, Number)
+
+@Description
+  Writes an unicode character (2 bytes) to the specified memory address.
+  
+@Parameter "*MemoryBuffer"
+  The address to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekU
+  
+@SupportedOS
+

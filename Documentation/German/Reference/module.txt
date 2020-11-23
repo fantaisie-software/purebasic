@@ -1,0 +1,165 @@
+@Title Module
+
+@Syntax
+
+  @Keyword DeclareModule <Name>
+    ...
+  @Keyword EndDeclareModule
+
+  @Keyword Module <Name>
+    ...
+  @Keyword EndModule
+  
+  @Keyword UseModule <Name>
+  @Keyword UnuseModule <name>
+
+@Description
+  Module sind eine einfache Möglichkeit, um Teile des Programmcodes vom Haupt-Code zu isolieren, was die
+  Wiederverwendung und den Austausch von Code ohne das Risiko von Namens-Konflikten erlaubt. In einigen
+  anderen Programmiersprachen sind die Module auch als 'Namespaces' ("Namensräume") bekannt.
+@LineBreak
+@LineBreak
+  Ein Modul (englisch "module") muss einen @Keyword DeclareModule Abschnitt (das ist die öffentliche
+  Schnittstelle) und einen zugehörigen @Keyword Module Abschnitt (das ist die Implementierung) besitzen.
+@LineBreak
+@LineBreak
+  Nur auf die im @Keyword DeclareModule Abschnitt deklarierten Elemente kann von außerhalb des Moduls
+  zugegriffen werden. Der gesamte Code im @Keyword Module Abschnitt wird "privat" für dieses Modul gehalten.
+  Auf Elemente aus dem Hauptcode wie Prozeduren, Variablen, etc. kann innerhalb des Moduls nicht zugegriffen
+  werden, auch wenn sie als @ReferenceLink "global" "global" deklariert wurden. Ein Modul kann als eine
+  "Blackbox", eine leere Code-Seite, angesehen werden, wobei die Namen der Elemente nicht in Konflikt mit
+  dem Haupt-Code kommen können. Dies macht es leichter, spezifischen Code zu schreiben, da einfache
+  Namen in jedem Modul - ohne das Risiko eines Namenskonflikts - wiederverwendet werden können.
+@LineBreak
+@LineBreak
+  Die in einem @Keyword DeclareModule Abschnitt erlaubten Elemente können folgende sein: 
+  @ReferenceLink "procedures" "Prozeduren" (nur die Prozedur-@ReferenceLink "procedures" "Deklaration" ist erlaubt),
+  @ReferenceLink "structures" "Strukturen", @ReferenceLink "macros" "Makros",
+  @ReferenceLink "variables" "Variablen", @ReferenceLink "general_rules" "Konstanten",
+  @ReferenceLink "enumerations" "Enumeration", @ReferenceLink "dim" "Array", @ReferenceLink "newlist" "Listen",
+  @ReferenceLink "newmap" "Map" und @ReferenceLink "general_rules" "Sprungmarken" (Labels) sein.
+@LineBreak
+@LineBreak
+  Um auf ein Modul-Element von außerhalb des Moduls zuzugreifen, muss der Modul-Name gefolgt vom '::' Trennzeichen
+  angegeben werden. Wenn der Modul-Name explizit angegeben wird, dann ist das Modul-Element überall im
+  Quellcode verfügbar, auch in einem anderen Modul. Alle Elemente in einem @Keyword DeclareModule Abschnitt
+  können mit Hilfe von @Keyword UseModule automatisch in ein anderes Modul oder in den Hauptcode importiert
+  werden. Wenn in diesem Fall ein Namenskonflikt im Modul auftritt, werden die Modul-Elemente nicht importiert
+  und ein Compiler-Fehler ausgelöst. @Keyword UnuseModule entfernt die Modul-Elemente. @Keyword UseModule 
+  ist nicht zwingend erforderlich, um auf ein Modul-Element zuzugreifen, aber der Modul-Name muss 
+  angegeben werden.
+@LineBreak
+@LineBreak
+  Um Informationen zwischen den Modulen gemeinsam zu nutzen, kann ein gemeinsames Modul ("common module") erstellt
+  und dann in allen Modulen (die es benötigen) verwendet werden. Dies ist der gebräuchlichste Weg, um globale
+  Daten für alle Module zu haben.
+@LineBreak
+@LineBreak
+  Die in den Modulen verfügbaren Standard-Elemente sind alle PureBasic Befehle, Strukturen und Konstanten. 
+  Daher können Modul-Elemente nicht wie interne PureBasic Befehle, Strukturen oder Konstanten benannt werden.
+@LineBreak
+@LineBreak
+  Der gesamte in @Keyword DeclareModule bzw. @Keyword Module Abschnitte gesetzte Code wird wie jeder andere Code ausgeführt, 
+  wenn der Programmablauf das Modul erreicht.
+@LineBreak
+@LineBreak
+  Wenn die Anweisungen @Keyword Define, @Keyword EnableExplicit, @Keyword EnableASM in einem Modul
+  verwendet werden, haben sie keine Wirkung außerhalb des jeweiligen Moduls, und umgekehrt.
+@LineBreak
+@LineBreak
+  Hinweis: Module sind in PureBasic nicht obligatorisch, sind aber beim Erstellen großer Projekte zu empfehlen.
+  Sie helfen dabei, einen besser/leichter zu verwaltenden Code zu erstellen, auch wenn dieser etwas ausführlicher
+  als Modul-freier Code ausfällt. Die Verwendung eines @Keyword DeclareModule Abschnitts macht das Modul ziemlich
+  selbsterklärend dokumentiert, für einfache Wiederverwendung und dessen Austausch.
+
+@Example
+    
+@Code
+  
+  ; Alle Elemente in diesem Abschnitt sind für den Zugriff von außerhalb verfügbar
+  ;
+  DeclareModule Ferrari
+    #FerrariName$ = "458 Italia"
+    
+    Declare CreateFerrari()
+  EndDeclareModule
+  
+  ; Alle Elemente in diesem Abschnitt sind privat. Alle Namen können ohne
+  ; Namenskonflikt auch woanders verwendet werden.
+  ;
+  Module Ferrari
+    
+    Global Initialized = #False
+    
+    Procedure Init() ; Private Initialisierungs-Prozedur
+      If Initialized = #False
+        Initialized = #True
+        Debug "InitFerrari()"
+      EndIf
+    EndProcedure  
+      
+    Procedure CreateFerrari()
+      Init()
+      Debug "CreateFerrari()"
+    EndProcedure
+    
+  EndModule
+  
+  
+  Procedure Init() ; Initialisierungs-Prozedur des Hauptcodes, kommt nicht in Konflikt mit der Ferrari Init() Prozedur
+    Debug "Main init()"
+  EndProcedure
+  
+  Init()
+  
+  Ferrari::CreateFerrari()
+  Debug Ferrari::#FerrariName$
+  
+  Debug "------------------------------"
+  
+  UseModule Ferrari ; Jetzt alle öffentlichen (public) Elemente in den Geltungsbereich des Hauptprogramms importieren
+  
+  CreateFerrari()
+  Debug #FerrariName$
+
+@EndCode
+
+@Example mit einem gemeinsamen Modul
+
+@Code
+  
+  ; Das gemeinsame ("Common") Modul, was von den anderen zum Austausch von Daten verwendet wird
+  ;
+  DeclareModule Cars
+    Global NbCars = 0
+  EndDeclareModule
+  
+  Module Cars 
+  EndModule
+  
+  ; Erstes Auto-Modul
+  ;
+  DeclareModule Ferrari
+  EndDeclareModule
+  
+  Module Ferrari
+    UseModule Cars
+    
+    NbCars+1
+  EndModule
+  
+  ; Zweites Auto-Modul
+  ;
+  DeclareModule Porsche
+  EndDeclareModule
+  
+  Module Porsche
+    UseModule Cars
+    
+    NbCars+1
+  EndModule
+  
+  Debug Cars::NbCars
+
+@EndCode
+

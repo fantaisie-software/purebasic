@@ -1,0 +1,226 @@
+;
+;     Printer library documentation
+;
+;      (c) 2012 - Fantaisie Software
+;
+
+@Library Printer
+
+@Overview
+
+  Printers are essential devices to transforms virtual, numeric data to sheet. Many softwares require a way to
+  print data back to sheet to be really useful. Purebasic allows to print any kind of data from raw texts
+  to pictures, in any resolution.
+  
+@CommandList
+
+@ExampleFile All Printer.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DefaultPrinter()
+
+@Description
+  Selects the default printer as current printer for print operation. This function has to be
+  called before all other printer functions. Once @@DefaultPrinter has been successfully called, @@StartPrinting is used to actually start to print.
+  
+@NoParameters
+  
+@ReturnValue  
+  Nonzero if a default printer is available, zero otherwise.
+
+@SeeAlso
+  @@StartPrinting
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NewPrinterPage()
+
+@Description
+  Creates a new empty page. The previous page is sent to the printer and can't be modified anymore. It has to be called inside a 
+  @@StartDrawing/@@StopDrawing block.
+  
+@NoParameters  
+
+@NoReturnValue
+
+@Example
+
+@Code
+  If PrintRequester()
+    If StartPrinting("Two sheets")
+      If StartDrawing(PrinterOutput())
+        DrawingMode(#PB_2DDrawing_Transparent)
+        DrawText(10, 10, "First page !", RGB(0, 0, 0))
+      
+        ; Tell the printer to start a new page
+        NewPrinterPage()
+        
+        DrawText(10, 10, "Second page !", RGB(0, 0, 0))
+      
+        StopDrawing()
+      EndIf
+      
+      StopPrinting()
+    EndIf
+  EndIf
+@EndCode
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OutputID = PrinterOutput()
+
+@Description
+  Returns the OutputID of the current printer to be used with the @@StartDrawing function.
+  Drawing on the printer will be performed using pixel based drawing operations.
+
+@NoParameters
+
+@ReturnValue
+  The OutputID of the current printer to be used with the @@StartDrawing function.
+
+@Remarks
+  Drawing on a printer using pixel based drawing may reduce printing quality and adds
+  extra complexity because the printers resolution must be taken into account. Vector based
+  drawing using @@PrinterVectorOutput should be preferred, as it provides resolution independent
+  functions for high-quality printing.
+  
+@Example
+@Code
+  StartDrawing(PrinterOutput())
+    ; do some drawing stuff here...
+  StopDrawing()
+@EndCode
+
+@SeeAlso
+  @@StartDrawing, @@PrinterVectorOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorOutputID = PrinterVectorOutput([Unit])
+
+@Description
+  Returns the OutputID of the current printer to be used with the @@StartVectorDrawing function.
+
+@OptionalParameter "Unit"
+  Specifies the unit used for measuring distances on the drawing output. 
+  The default unit for printer output is @#PB_Unit_Point.
+@FixedFont
+  @#PB_Unit_Pixel     : Values are measured in pixels (or dots in case of a printer)
+  @#PB_Unit_Point     : Values are measured in points (1/72 inch)
+  @#PB_Unit_Inch      : Values are measured in inches
+  @#PB_Unit_Millimeter: Values are measured in millimeters
+@EndFixedFont
+
+@ReturnValue
+  The OutputID of the current printer to be used with the @@StartVectorDrawing function.
+
+@Example
+@Code
+  StartVectorDrawing(PrinterVectorOutput(#PB_Unit_Point))
+    ; do some drawing stuff here...
+  StopVectorDrawing()
+@EndCode
+
+@SeeAlso
+  @@StartVectorDrawing, @@PrinterOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PrintRequester()
+
+@Description
+  Open a regular print requester, to choose the printer and doing some adjustments. This function must be
+  called before all other printer functions. Once @@PrintRequester has been successfully called, 
+  @@StartPrinting is used to actually start to print.
+  
+@NoParameters
+
+@ReturnValue
+  Nonzero if the user successfully selected a printer, zero otherwise.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = StartPrinting(JobName$)
+
+@Description
+  Initializes the printer and start the print operation. 
+  
+@Parameter "JobName$"
+  The name which will be shown in the printer spooler and which identify the new print operation.
+
+@ReturnValue
+  Nonzero if the print operation has been started successfully, zero otherwise.
+
+@SeeAlso
+  @@StopPrinting
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopPrinting()
+
+@Description
+  Stop all the print operations and send the data to the printer.
+  
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@StartPrinting
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PrinterPageWidth()
+
+@Description
+  Return the width of the drawing area.
+
+@NoParameters
+
+@ReturnValue
+  The width of the drawing area, in pixels. The number changes with the DPI of the printer. This means
+  than a document printed at 75 DPI will have a drawing area 4 times smaller than a document printed at
+  150 DPI. This value refers to the client area, the one you can write on. It doesn't count the
+  hardware printer margins, but doesn't add any 'soft' margins.
+
+@SeeAlso
+  @@PrinterPageHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PrinterPageHeight()
+
+@Description
+  Returns the height of the drawing area. 
+
+@NoParameters
+
+@ReturnValue
+  The height of the drawing area, in pixels. The number changes with the DPI of the printer. This means
+  than a document printed at 75 DPI will have a drawing area 4 times smaller than a document printed at
+  150 DPI. This value refers to the client area, the one you can write on. It doesn't count the
+  hardware printer margins, but doesn't add any 'soft' margins.
+  
+@SeeAlso
+  @@PrinterPageWidth
+
+@SupportedOS

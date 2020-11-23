@@ -1,0 +1,2085 @@
+;
+;     2DDrawing library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library 2DDrawing
+
+@Overview
+  The 2D drawing library contains all the 2D rendering operations that can be performed on a visual area.
+  Drawing a line, a box, a circle or even text is considered a 2D rendering operation. 
+  @LineBreak
+  @LineBreak
+  The output of the drawing functions is possible on a window, a screen,
+  a sprite, an image or the printer. More information can be found 
+  at @@StartDrawing.
+  @LineBreak
+  @LineBreak
+  Note: The drawing process starts after calling @@StartDrawing and must
+  end with @@StopDrawing.
+
+@CommandList
+
+@ExampleFile All 2DDrawing.pb
+@ExampleFile All 2DDrawingAlpha.pb
+@ExampleFile All DirectScreenDrawing.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Red(Color)
+
+@Description
+  Returns the red component of a color value.
+  
+@Parameter "Color"
+  The color value. This can be a 24-bit RGB or a 32-bit RGBA value.
+
+@ReturnValue
+  Returns the value of the red component. The result will be between 0 and 255.
+  
+@Remarks
+  To combine red, green and blue values in order to create a 24-bit RGB color,
+  use the @@RGB function.
+  These functions are useful to perform @LibraryLink "2ddrawing" "Drawing operations".
+
+@SeeAlso
+  @@Green, @@Blue, @@Alpha, @@RGB, @@RGBA
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Green(Color)
+
+@Description
+  Returns the green component of a color value.
+  
+@Parameter "Color"
+  The color value. This can be a 24-bit RGB or a 32-bit RGBA value.
+
+@ReturnValue
+  Returns the value of the green component. The result will be between 0 and 255.
+  
+@Remarks
+  To combine red, green and blue values in order to create a 24-bit RGB color,
+  use the @@RGB function.
+  These functions are useful to perform @LibraryLink "2ddrawing" "Drawing operations".
+
+@SeeAlso
+  @@Red, @@Blue, @@Alpha, @@RGB, @@RGBA
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Blue(Color)
+
+@Description
+  Returns the blue component of a color value.
+  
+@Parameter "Color"
+  The color value. This can be a 24-bit RGB or a 32-bit RGBA value.
+
+@ReturnValue
+  Returns the value of the blue component. The result will be between 0 and 255.
+  
+@Remarks
+  To combine red, green and blue values in order to create a 24-bit RGB color,
+  use the @@RGB function.
+  These functions are useful to perform @LibraryLink "2ddrawing" "Drawing operations".
+
+@SeeAlso
+  @@Red, @@Green, @@Alpha, @@RGB, @@RGBA
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Alpha(Color)
+
+@Description
+  Returns the alpha component of a color value.
+  
+@Parameter "Color"
+  The color value. This must be a 32-bit RGBA value.
+
+@ReturnValue
+  Returns the value of the alpha component. The result will be between 0 and 255.
+  A value of 0 means fully transparent and a value of 255 means fully opaque.
+  
+@Remarks
+  To combine red, green, blue and alpha values in order to create a 32-bit RGB color,
+  use the @@RGBA function.
+  These functions are useful to perform @LibraryLink "2ddrawing" "Drawing operations".
+
+@SeeAlso
+  @@Red, @@Green, @@Blue, @@RGBA
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Color = RGB(Red, Green, Blue)
+
+@Description
+  Returns the 24-bit color value corresponding to the Red, Green, Blue components.
+  
+@Parameter "Red, Green, Blue"
+  The value of the red, green and blue components for the color. Each value
+  must be between 0 and 255.
+
+@ReturnValue
+  Returns the combined color value.  
+
+@Remarks
+  To extract the red, green and blue values from a 24 Bit color value, use
+  the @@Red, @@Green and @@Blue functions.
+  These functions are useful to perform @LibraryLink "2ddrawing" "Drawing operations".
+
+@LineBreak
+@LineBreak
+  A color table with common colors is available @ReferenceLink "colortable" "here".
+  
+@SeeAlso
+  @@Red, @@Green, @@Blue, @@RGBA
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Color.q = RGBA(Red, Green, Blue, Alpha)
+
+@Description
+  Returns the 32-bit color value corresponding to the Red, Green, Blue and Alpha values.
+  
+@Parameter "Red, Green, Blue"
+  The value of the red, green and blue components for the color. Each value
+  must be between 0 and 255.
+  
+@Parameter "Alpha"
+  The alpha component of the color. The value must be between 0 and 255.
+  A value of 0 means fully transparent and a value of 255 means fully opaque.
+
+@ReturnValue
+  Returns the combined color value.
+  
+@Remarks
+  To extract the red, green, blue or alpha values from a 32-bit color value, use
+  the @@Red, @@Green, @@Blue and @@Alpha functions.
+  These functions are useful to perform @LibraryLink "2ddrawing" "Drawing operations".
+@LineBreak
+@LineBreak
+  Result varies from 0 to 4 294 967 295 shades.
+   It is therefore advisable to use a 'quad', (Result.q) and set unused bytes to zero.
+   Indeed, on a 32-Bit operating system, Result is a Long integer (by default) with a 
+   range of use from - 2 147 483 648 to + 2 147 483 647,  so comparing two colors is 
+   hazardous with a Long integer.
+ 
+@Example
+@Code
+  Debug RGBA(0, 0, 0, 0)         ; Completely transparent black  
+  Debug RGBA(255, 255, 255, 255) ; White totally opaque
+@EndCode 
+ 
+@Example Color 24-bits to Color 32-bits
+@Code
+   Alpha = 255
+  
+  ; Use a Quad (see remarks)
+  Color24.q  = ColorRequester()
+  
+  Color32.q = RGBA(Red(Color24), Green(Color24), Blue(Color24), alpha) 
+  Color32 = Color32 & $FFFFFFFF ; Zeroing unused bytes
+
+  ; It's also possible to replace the two lines above with:
+  ; Color32 = Color24 | Alpha << 24
+  
+  Debug "Red " + Red(Color32)
+  Debug "Green  " + Green(Color32)
+  Debug "Blue  " + Blue(Color32)
+  Debug "Alpha " + Alpha(Color32)
+@EndCode 
+ 
+@SeeAlso
+  @@Red, @@Green, @@Blue, @@Alpha, @@RGB
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Color = AlphaBlend(Color1, Color2)
+
+@Description
+  Returns the resulting 32-bit color from blending the two 32-bit colors.
+  
+@Parameter "Color1"
+  The color that will be in front. It is blended on to 'Color2'.
+
+@Parameter "Color2"
+  The color that will be in the back.
+
+@ReturnValue
+  Returns the combined color.
+  
+@Remarks
+  The @@RGBA function can be used to create 32-bit colors with alpha transparency.
+  These functions are useful to perform @LibraryLink "2ddrawing" "Drawing operations".
+  
+@SeeAlso
+  @@RGBA
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BackColor(Color)
+
+@Description
+  Set the default background color for graphic functions and text display. 
+
+@Parameter "Color"
+  The new color to be used as the background color. 
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+  Whether or not the alpha channel is used depends on the @Link "DrawingMode" "drawing mode".
+@LineBreak
+@LineBreak
+  A color table with common colors is available @ReferenceLink "colortable" "here".
+
+@NoReturnValue
+
+@SeeAlso
+  @@FrontColor, @@RGB, @@RGBA, @@DrawingMode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Box(x, y, Width, Height [, Color])
+
+@Description
+  Draw a box of given dimensions on the current output. The filling mode is determined by @@DrawingMode.
+  The current output is set with @@StartDrawing.
+
+@Parameter "x, y, Width, Height"
+  The position and size of the box in the current drawing output.
+
+@OptionalParameter "Color"
+  The color to be used for the box. If this parameter is not specified, the default color 
+  set with @@FrontColor will be used.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      y = 0
+      For x = 0 To 95 Step 10
+        Box(x, y, 200-2*x, 200-2*y, RGB(Random(255), Random(255), Random(255)))
+        y + 10        ; the same as y = y + 10
+      Next x
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image box.png
+
+@SeeAlso
+  @@RoundBox, @@Line, @@Circle, @@Ellipse
+  @@FrontColor, @@RGB, @@RGBA, @@DrawingMode
+
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RoundBox(x, y, Width, Height, RoundX, RoundY [, Color])
+
+@Description
+  Draw a box of the given dimensions with rounded corners on the current output.
+  The filling mode is determined by @@DrawingMode. 
+  The current output is set with @@StartDrawing.
+
+@Parameter "x, y, Width, Height"
+  The position and size of the box in the current drawing output.
+
+@Parameter "RoundX, RoundY"
+  The radius of the rounded corners in the x and y direction.
+
+@OptionalParameter "Color"
+  The color to be used for the round box. If this parameter is not specified, the default color 
+  set with @@FrontColor will be used.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      y = 0
+      For x = 0 To 95 Step 10
+        RoundBox(x, y, 200-2*x, 200-2*y, 20, 20, RGB(Random(255), Random(255), Random(255)))
+        y + 10 
+      Next x
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image roundbox.png
+
+@SeeAlso
+  @@Box, @@Line, @@Circle, @@Ellipse
+  @@FrontColor, @@RGB, @@RGBA, @@DrawingMode
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Circle(x, y, Radius [, Color])  
+
+@Description
+  Draw a circle on the current output.
+  The filling mode is determined by @@DrawingMode.
+  The current output is set with @@StartDrawing.
+
+@Parameter "x, y"
+  The position of the center pixel of the circle.
+
+@Parameter "Radius"
+  The radius of the circle. This radius does not include the center pixel.
+
+@OptionalParameter "Color"
+  The color to be used for the circle. If this parameter is not specified, the default color 
+  set with @@FrontColor will be used.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For Radius = 100 To 10 Step -10
+        Circle(100, 100, Radius, RGB(Random(255), Random(255), Random(255)))
+      Next
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image circle.png
+
+@SeeAlso
+  @@Box, @@RoundBox, @@Line, @@Ellipse
+  @@FrontColor, @@RGB, @@RGBA, @@DrawingMode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DrawImage(ImageID, x, y [, Width, Height])  
+
+@Description
+  Draws an image to the current drawing output.
+  The filling mode is determined by @@DrawingMode.
+  The current output is set with @@StartDrawing.
+
+@Parameter "ImageID"
+  The ID of the image to draw. This value can be obtained 
+  using the @@ImageID function from the image library. 
+
+@Parameter "x, y"
+  The position of the top/left corner of the image in the drawing output.
+
+@OptionalParameter "Width, Height"
+  The image will be resized and drawn. If these parameters are not specified then
+  the image will be drawn in its original size.
+
+@NoReturnValue
+
+@Remarks
+  The image will be alpha-blended if the current @@DrawingMode specifies one of the
+  alpha-blending flags, otherwise the image is just copied to the output. To draw an image using
+  alpha-blending in any case, use the @@DrawAlphaImage command.
+
+@SeeAlso
+  @@DrawAlphaImage, @@ImageID
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DrawAlphaImage(ImageID, x, y [, ConstAlpha])
+
+@Description
+  Draws an image to the current drawing output using alpha-blending.
+  The filling mode is determined by @@DrawingMode.
+  The current output is set with @@StartDrawing.
+
+@Parameter "ImageID"
+  The ID of the image to draw. This value can be obtained 
+  using the @@ImageID function from the image library. 
+
+@Parameter "x, y"
+  The position of the top/left corner of the image in the drawing output.
+
+@OptionalParameter "ConstAlpha"
+  The amount of extra transparency to apply to the image when drawing.
+  The value can range from 0 (fully transparent) to 255 (fully opaque). Even images
+  that have no alpha channel themselves can be drawn with transparency this way.  
+
+@NoReturnValue
+
+@Remarks
+  This command works on all drawing outputs, even those that do not support the alpha-blending
+  flags in @@DrawingMode.  
+  The image will be drawn at its original size.
+  @@ResizeImage can be used to change the size of an image.
+
+@OS Windows
+  @LineBreak
+  @LineBreak
+  This command cannot be used to draw Icons (loaded from .ico files).
+@EndOS
+
+@SeeAlso
+  @@DrawImage, @@ImageID
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Buffer = DrawingBuffer()  
+
+@Description
+  Returns the drawing buffer for direct pixel manipulation.
+
+@NoParameters
+
+@ReturnValue
+  Returns the pixel data pointer if direct access is possible or zero if the pixel 
+  data cannot be accessed directly.
+
+@Remarks
+  This function has to be called again if other drawing commands of this library where used since the last pixel manipulation.
+  Once @@StopDrawing has been called, the buffer is invalidated and can no more be used.
+@LineBreak
+@LineBreak
+  This function is for advanced programmers only. To get more information about the buffer,
+  the following functions are available: @@DrawingBufferPixelFormat and 
+  @@DrawingBufferPitch.    
+@LineBreak
+@LineBreak
+  The returned address can be directly in video memory if the output is 
+  @@ScreenOutput or @@SpriteOutput 
+  and allows very fast pixel manipulation. With @@ImageOutput this command allows
+  direct access to the pixels of the target image.
+
+@Example
+
+  For an example of how the drawing buffer can be used to create a nice visual effect, take a look here:
+  @ExampleFile All DirectScreenDrawing.pb
+
+@SeeAlso
+  @@DrawingBufferPixelFormat, @@DrawingBufferPitch
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DrawingBufferPitch()  
+
+@Description
+  Returns the real length of one line of the current drawing buffer. 
+
+@NoParameters
+
+@ReturnValue
+  Returns the length in bytes of one line in the output, including any additional padding
+  behind the pixel data of a line.
+
+@Remarks
+  @@DrawingBuffer must be called before using this function.
+
+@SeeAlso
+  @@DrawingBuffer, @@DrawingBufferPixelFormat
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DrawingBufferPixelFormat()
+
+@Description
+  Returns the pixel format of the current output. 
+
+@NoParameters
+
+@ReturnValue
+  The result can be a combination (with bitwise or)  of the following flags:
+
+@FixedFont
+  @#PB_PixelFormat_8Bits      : 1 byte per pixel, palletised
+  @#PB_PixelFormat_15Bits     : 2 bytes per pixel 
+  @#PB_PixelFormat_16Bits     : 2 bytes per pixel
+  @#PB_PixelFormat_24Bits_RGB : 3 bytes per pixel (RRGGBB)
+  @#PB_PixelFormat_24Bits_BGR : 3 bytes per pixel (BBGGRR)
+  @#PB_PixelFormat_32Bits_RGB : 4 bytes per pixel (RRGGBB)
+  @#PB_PixelFormat_32Bits_BGR : 4 bytes per pixel (BBGGRR)
+  @#PB_PixelFormat_ReversedY  : The Y-Coordinate of the output is reversed in memory (the bottom row is stored first).
+@EndFixedFont 
+
+@Remarks
+  @@DrawingBuffer must be called before using this function.
+
+
+@Example
+  The following examples show how to handle the result:
+
+@Code
+  If DrawingBufferPixelFormat() = #PB_PixelFormat_32Bits_RGB | #PB_PixelFormat_ReversedY
+    ; 32-bit RGB with reversed Y coordinate
+  EndIf
+  
+  If DrawingBufferPixelFormat() = #PB_PixelFormat_32Bits_RGB
+    ; 32-bit RGB without reversed Y coordinate
+  EndIf
+  
+  If DrawingBufferPixelFormat() & #PB_PixelFormat_32Bits_RGB
+    ; 32-bit RGB, with or without reversed Y coordinate
+  EndIf
+  
+@EndCode
+
+@SeeAlso
+  @@StartDrawing, @@DrawingBufferPitch
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DrawingFont(FontID)  
+
+@Description
+  Sets the font to be used for text rendering on the current output.
+
+@Parameter "FontID"
+  The font to be used.
+  The FontID can be easily obtained with the @@FontID function 
+  from the font library. 
+@LineBreak
+@LineBreak
+  To restore the default system font, @#PB_Default can be used as FontID.
+
+@NoReturnValue
+
+@SeeAlso
+  @@LoadFont, @@FontID
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DrawingMode(Mode)
+
+@Description
+  Change the drawing mode for text and graphics output.
+
+@Parameter "Mode"
+  The behavior for further drawing operations. It can be a combination of the following flags:
+@LineBreak
+@LineBreak
+
+  @#PB_2DDrawing_Default
+@Indent
+  This is the default drawing mode when the drawing starts.
+  Text is displayed with a solid background and graphic shapes are filled. 
+  If the current output has an alpha channel, the drawing operations will only modify the  color components 
+  and leave the alpha channel unchanged.
+  @LineBreak
+  @Image PB_2DDrawing_Default.png
+@EndIndent
+
+  @#PB_2DDrawing_Transparent
+@Indent
+  If this flag is set then the background will be transparent with the @@DrawText command.
+  @LineBreak
+  @Image PB_2DDrawing_Transparent.png
+@EndIndent
+
+  @#PB_2DDrawing_XOr
+@Indent
+  Enables the XOR mode. All graphics will be XOR'ed with the current background. This mode cannot be combined
+  with the below alpha channel modes.
+  @LineBreak
+  @LineBreak
+  Note: This mode does not work with @@PrinterOutput.
+  @LineBreak
+  @Image PB_2DDrawing_XOr.png
+@EndIndent
+
+  @#PB_2DDrawing_Outlined
+@Indent
+  If this flag is set then shapes will be drawn as outlines only and not filled. This applies to commands
+  such as @Link "Circle" "Circle", @Link "Box" "Box", etc.
+  @LineBreak
+  @Image PB_2DDrawing_Outlined.png
+@EndIndent
+
+@Bold "Note:" The following modes only work with @@ImageOutput and @@CanvasOutput. They are ignored for all other outputs:
+@LineBreak
+@LineBreak
+
+  @#PB_2DDrawing_AlphaBlend
+@Indent
+  The drawing operations will be alpha-blended onto the background. The @@RGBA command can be used
+  to specify colors with alpha transparency in commands like @@FrontColor, @@Box,
+  @@DrawText etc.
+  @LineBreak
+  @Image PB_2DDrawing_AlphaBlend.png  
+@EndIndent
+
+  @#PB_2DDrawing_AlphaClip
+@Indent
+  The drawing operations will be alpha-blended onto the background like with the @#PB_2DDrawing_AlphaBlend mode,
+  with the addition that the alpha channel of the drawing output acts as a mask. This means that areas of the output that are
+  transparent before the blending will also remain transparent afterwards. If the drawing output has no alpha channel then this
+  mode acts just like the @#PB_2DDrawing_AlphaBlend mode.
+@EndIndent
+
+  @#PB_2DDrawing_AlphaChannel
+@Indent
+  The drawing operations will only modify the alpha channel of the drawing output. All color information is ignored.
+  For example drawing a @Link "Circle" "circle" with a color value of @Link "2DDrawing/RGBA" "RGBA"(0, 0, 0, 0) will "cut" a hole
+  into the drawing output by making the circle area fully transparent. If the drawing output has no alpha channel, as the CanvasGadget, 
+  then no drawing will have an effect in this mode.
+@EndIndent
+
+  @#PB_2DDrawing_AllChannels
+@Indent
+  The drawing operations will modify the color channels and the alpha channel of the drawing output. The content of the
+  channels is replaced by the drawing operation without any blending. Drawing in this mode has the same effect as drawing
+  first using the @#PB_2DDrawing_Default mode and then drawing the same operation using the 
+  @#PB_2DDrawing_AlphaChannel mode. If the drawing output has no alpha channel, as the CanvasGadget, then this mode is
+  equivalent to the @#PB_2DDrawing_Default mode.
+  @LineBreak
+  @Image AlphaBlending.png
+@EndIndent
+
+  @#PB_2DDrawing_Gradient
+@Indent
+  This mode allows drawing with a gradient instead of a solid color. The gradient shape can be defined with commands such as
+  @@LinearGradient, @@CircularGradient etc. and the colors used in the
+  gradient can be set with @@GradientColor. The color parameters given to the individual drawing commands
+  will be ignored in this mode. This mode can be combined with the above alpha channel modes to have gradients with semitransparent
+  colors.
+  @LineBreak
+  @Image PB_2DDrawing_Gradient.png
+@EndIndent
+
+  @#PB_2DDrawing_CustomFilter
+@Indent
+  In this mode, the drawing of the pixels can be defined by a custom procedure with the @@CustomFilterCallback
+  command. This allows the implementation of custom drawing effects while still using the default functions to do the actual drawing.
+  @LineBreak
+  @Image customfilter.png  
+@EndIndent
+
+@NoReturnValue
+
+@Remarks
+  To use several modes at once, you have to use the '|' (OR) operator. The following is an example for
+  XOR'ed outlined shapes:
+@Code
+  DrawingMode(#PB_2DDrawing_Outlined | #PB_2DDrawing_XOr)
+@EndCode
+
+@SeeAlso
+  @@FrontColor, @@BackColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DrawRotatedText(x, y, Text$, Angle.f [, Color])
+
+@Description
+  Displays the given string on the current output at the given angle.
+
+@Parameter "x, y"
+  The location of the top/left corner of the text in the output.
+  This is also the location around which the string will be rotated.
+
+@Parameter "Text$"
+  The text to draw.
+
+@Parameter "Angle.f"
+  The angle in degrees to rotate counterclockwise
+  starting from the normal @Link "DrawText" "text orientation".
+
+@OptionalParameter "Color"
+  The color to be used for the text. If this parameter is not specified, the default color 
+  set with @@FrontColor will be used.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+  The background of the rotated text is always transparent.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For Angle = 0 To 360 Step 45
+        DrawRotatedText(100, 100, "Hello World!", Angle, RGB(0, 0, 0))
+      Next Angle
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image rotatedtext.png
+
+@SeeAlso
+  @@DrawText, @@DrawingFont, @@FrontColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FillArea(x, y, OutlineColor [, FillColor])
+
+@Description
+  Fill an arbitrary area starting from x,y position until the
+  OutlineColor is encountered. This is useful for filling any kind of shape.
+
+@Parameter "x, y"
+  The location at which the filling should start.
+
+@Parameter "OutlineColor"
+  The color which should be considered the border to stop the filling.
+  If this parameter is set to -1 then the area defined by the color 
+  found at the (x,y) coordinates will be filled, and filling stops at any color that
+  differs from the starting point.
+@LineBreak
+@LineBreak
+  On 32-bit images, the alpha channel is ignored when 
+  determining whether a pixel counts as a border pixel or not.
+
+@OptionalParameter "FillColor"
+  The color to be used for filling the pixels. If this parameter is not specified, the default color 
+  set with @@FrontColor will be used.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+
+@NoReturnValue
+
+@Remarks  
+  This command does not work with @@PrinterOutput.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 300, 300, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 300, 300) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 300, 300, RGB(255, 255, 255))
+
+      Circle(150, 150, 125 ,$00FF00)
+      Circle(150, 150, 120 ,$FF0000)
+      LineXY(30, 150, 270, 150, $FFFFFF)
+      FillArea(150, 155, -1, $0000FF) ; Replace -1 by $00FF00, and compare the result
+
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 300, 300, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image fillarea.png
+
+@SeeAlso
+  @@FrontColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GrabDrawingImage(#Image, x, y, Width, Height)
+
+@Description
+  Create a new image with the content of the given area in the current output. 
+
+@Parameter "#Image"
+  The number of the new image to create. 
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to select a number automatically.
+
+@Parameter "x, y, Width, Height"
+  The location and size of the area to copy into the new image.
+  The new image will be created with the specified width and height.
+
+@ReturnValue
+  Returns nonzero on success and zero on failure.
+  If @#PB_Any was used as the '#Image' parameter then the number of the new image is returned.
+
+@Remarks
+  This command does not work with @@PrinterOutput.
+@LineBreak
+@LineBreak
+  Any parts of the specified area that are outside of the drawing output will be undefined in the created image. Also if the current
+  output is @@WindowOutput, any part of the window that is currently not visible may be undefined in the resulting image.
+
+@SeeAlso
+  @@GrabImage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = StartDrawing(OutputID) 
+
+@Description
+  Change the current drawing output to the specified output. After setting this, 
+  all drawing functions are rendered to this output.
+
+@Parameter "OutputID"
+  The output to draw on. It can be obtained with the following functions:
+@LineBreak
+@LineBreak
+  @@WindowOutput: Graphics will be rendered directly on the Window
+@LineBreak
+  @@ScreenOutput: Graphics will be rendered directly on the Screen (for games)
+@LineBreak
+  @@SpriteOutput: Graphics will be rendered directly on the Sprite (for games)
+@LineBreak
+  @@ImageOutput: Graphics will be rendered directly on the Image data (see @@CreateImage)
+@LineBreak
+  @@PrinterOutput: Graphics will be rendered directly on the Printer
+@LineBreak
+  @@CanvasOutput: Graphics will be rendered directly on the @@CanvasGadget
+@LineBreak
+  @@TextureOutput: Graphics will be rendered directly on the Texture (for 3D games)
+
+@ReturnValue
+  Returns nonzero if drawing is possible or zero if the operation failed.
+
+@Remarks
+  Once all drawing operations are finished, @@StopDrawing must be called. 
+@LineBreak
+@LineBreak
+  If "Create thread-safe executable" is enabled in the @ReferenceLink "ide_compiler" "compiler options" then
+  every thread has its own current drawing output, which means two threads can do drawing on separate
+  outputs at the same time.
+
+@SeeAlso
+  @@StopDrawing
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DrawText(x, y, Text$ [, FrontColor [, BackColor]])
+
+@Description
+  Display the given string on the current output at the given x,y position.
+  The current output is set with @@StartDrawing. 
+
+@Parameter "x, y"
+  The location at which to draw the text.
+
+@Parameter "Text$"
+  The text to draw.
+
+@OptionalParameter "FrontColor"
+  The color to be used for the text. If this parameter is not specified, the default color 
+  set with @@FrontColor will be used.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+
+@OptionalParameter "BackColor"
+  The color to be used for the background. If this parameter is not specified, the default color 
+  set with @@BackColor will be used.
+@LineBreak
+@LineBreak
+  If the current @@DrawingMode includes the @#PB_2DDrawing_Transparent flag,
+  then this parameter is ignored and the background is transparent.
+
+@ReturnValue
+  Returns the new x position of the text cursor (ie the location just after the printed text).
+
+@Remarks
+  If @@DrawingMode is set to non-transparent background 
+  and the current drawing mode uses the alpha channel then the text is first blended onto the background
+  and then applied to the drawing output.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      DrawingMode(#PB_2DDrawing_Transparent)
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For i = 1 To 30
+        DrawText(Random(200), Random(200), "Hello World!", RGB(Random(255), Random(255), Random(255)))
+      Next i
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image text.png
+
+@SeeAlso 
+  @@DrawRotatedText, @@DrawingFont, @@FrontColor, @@BackColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ellipse(x, y, RadiusX, RadiusY [, Color]) 
+
+@Description
+  Draw an ellipse in the current drawing output.
+  The filling mode is determined by @@DrawingMode.
+  The current output is set with @@StartDrawing.
+
+@Parameter "x, y"
+  The position of the center pixel of the ellipse.
+
+@Parameter "RadiusX, RadiusY"
+  The radius of the ellipse in the x and y direction. The center pixel is not
+  included in these values.
+
+@OptionalParameter "Color"
+  The color to be used for the ellipse. If this parameter is not specified, the default color 
+  set with @@FrontColor will be used.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For radius=50 To 10 Step -10
+        Ellipse(100, 100, radius*2, radius, RGB(Random(255), Random(255), Random(255)))
+      Next radius
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image ellipse.png
+
+@SeeAlso
+  @@Box, @@RoundBox, @@Line, @@Circle
+  @@FrontColor, @@RGB, @@RGBA, @@DrawingMode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FrontColor(Color)
+
+@Description
+  Set the default color for graphic functions and text display. 
+
+@Parameter "Color"
+  The new color to be used as the foreground color. 
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+  Whether or not the alpha channel is used depends on the @Link "DrawingMode" "drawing mode".
+@LineBreak
+@LineBreak
+  A color table with common colors is available @ReferenceLink "colortable" "here".
+
+@NoReturnValue
+
+@SeeAlso
+  @@BackColor, @@RGB, @@RGBA, @@DrawingMode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Line(x, y, Width, Height [, Color]) 
+
+@Description
+  Draw a line of given dimensions on the current output. 
+  The current output is set with @@StartDrawing.
+
+@Parameter "x, y"
+  The origin of the line to draw.
+
+@Parameter "Width, Height"
+  The dimension of the line to draw. These values include the starting point
+  so a Height of 1 draws a horizontal line while a Height of 0 draws nothing at all.
+
+@OptionalParameter "Color"
+  The color to be used for the line. If this parameter is not specified, the default color 
+  set with @@FrontColor will be used.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+
+@NoReturnValue
+
+@Remarks
+  To draw a line given the coordinates of the start- and end point, use the @@LineXY function.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For Width = 1 To 180 Step 5
+        Line(10, 10, Width, 180, RGB(Random(255), Random(255), Random(255)))
+      Next Width
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image line.png
+
+@SeeAlso
+  @@LineXY, @@Box, @@RoundBox, @@Ellipse, @@Circle
+  @@FrontColor, @@RGB, @@RGBA
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LineXY(x1, y1, x2, y2 [, Color]) 
+
+@Description
+  Draw a line using the location of the start- and endpoint on the current output.
+  The current output is set with @@StartDrawing.
+
+@Parameter "x1, y1"
+  The location of the startpoint of the line.
+
+@Parameter "x2, y2"
+  The location of the endpoint of the line.
+
+@OptionalParameter "Color"
+  The color to be used for the line. If this parameter is not specified, the default color 
+  set with @@FrontColor will be used.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+
+@NoReturnValue
+
+@Remarks
+  To draw a line given the start coordinates and the dimensions, use the @@Line function.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For Angle = 0 To 360 Step 3
+        LineXY(100, 100, 100+Cos(Radian(Angle))*90, 100+Sin(Radian(Angle))*90, RGB(Random(255), Random(255), Random(255)))
+      Next Angle
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image linexy.png
+
+@SeeAlso
+  @@Line, @@Box, @@RoundBox, @@Ellipse, @@Circle
+  @@FrontColor, @@RGB, @@RGBA
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Plot(x, y [, Color]) 
+
+@Description
+  Draw a single pixel at the given location in the current output. 
+  The current output is set with @@StartDrawing.
+
+@Parameter "x, y"
+  The location of the pixel to set.
+@LineBreak
+@LineBreak
+  For performance reasons there are no bounds checks performed on these coordinates, the specified
+  coordinates must be inside the current drawing area. @@OutputWidth and 
+  @@OutputHeight can be used to verify that. This command is also not affected by any clipping
+  imposed by @@ClipOutput.
+
+@OptionalParameter "Color"
+  The color to be used for the pixel. If this parameter is not specified, the default color 
+  set with @@FrontColor will be used.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      For x = 0 To 199
+        For y = 0 To 199
+          Plot(x, y, RGB(Random(255), Random(255), Random(255)))
+        Next y
+      Next x
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Point, @@FrontColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Color = Point(x, y)
+
+@Description
+  Return the color of a pixel in the current output.
+
+@Parameter "x, y"
+  The location of the pixel in the output.
+@LineBreak
+@LineBreak
+  For performance reasons there are no bounds checks performed on these coordinates, the specified
+  coordinates must be inside the current drawing area. @@OutputWidth and 
+  @@OutputHeight can be used to verify that. This command is also not affected by calls to
+  @@ClipOutput.
+
+@ReturnValue
+  Returns the color of the specified pixel.
+@LineBreak
+@LineBreak
+  This color will only contain alpha information if the output has a 32-bit color depth and the
+  current @@DrawingMode is set to one of the alpha channel modes. Otherwise the alpha component
+  of the color is set to 0.
+
+@Remarks
+  This command does not work with @@PrinterOutput.
+
+@SeeAlso
+  @@Plot, @@Red, @@Green,
+  @@Blue, @@Alpha
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopDrawing() 
+
+@Description
+  Once all the needed graphics operations (started with @@StartDrawing) have been 
+  performed, this function must be called to finish the drawing and free all associated resources.
+
+@NoParameters
+
+@NoReturnValue
+
+@Example
+  Typically, a normal drawing sequence would look like:
+@Code
+  If StartDrawing(WindowOutput(0))
+    Box(10,10,20,20)
+    Line(30,50,100,100)
+    ....
+    StopDrawing() 
+  EndIf
+@EndCode 
+
+@SeeAlso
+  @@StartDrawing
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Height = TextHeight(Text$)  
+
+@Description
+  Return the height of the given string in the current output using the current font. 
+
+@Parameter "Text$"
+  The text to measure.
+
+@ReturnValue
+  Returns the height of the given text in pixels.
+
+@SeeAlso
+  @@TextWidth, @@DrawingFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Width = TextWidth(Text$)  
+
+@Description
+  Return the width of the given string in the current output using the current font. 
+
+@Parameter "Text$"
+  The text to measure.
+
+@ReturnValue
+  Returns the width of the given text in pixels.
+
+@SeeAlso
+  @@TextHeight, @@DrawingFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OutputDepth()
+
+@Description
+  Returns the color depth of the current drawing output.
+
+@NoParameters
+
+@ReturnValue
+  Returns the depth in bits per pixel.
+
+@SeeAlso 
+  @@OutputWidth, @@OutputHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OutputWidth()
+
+@Description
+  Returns the width of the current drawing output. 
+
+@NoParameters
+
+@ReturnValue
+  Returns the width of the output in pixels.
+
+@SeeAlso
+  @@OutputHeight, @@OutputDepth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OutputHeight()
+
+@Description
+  Returns the height of the current drawing output. 
+
+@NoParameters
+
+@ReturnValue
+  Returns the height of the output in pixels.
+
+@SeeAlso
+  @@OutputWidth, @@OutputDepth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CustomFilterCallback(@FilterCallback())
+
+@Description
+  Specifies a callback that will be called for every pixel that is part of a drawing operation in
+  @#PB_2DDrawing_CustomFilter @Link "DrawingMode" "drawing mode".
+
+@Parameter "@FilterCallback()"
+  The address of a callback function to call. It must have the following form:
+@Code
+  Procedure CustomCallback(x, y, SourceColor, TargetColor)
+    ;
+    ; Calculate ResultColor from the given input
+    ;
+    ProcedureReturn ResultColor
+  EndProcedure
+@EndCode
+
+  The callback will be called for every pixel that is drawn as a result of a call to drawing functions
+  like @@Line, @@Box or @@DrawText. The SourceColor
+  parameter specifies the color given in the drawing operation and the TargetColor parameter specifies
+  the color of the target pixel in the drawing area. Both colors are always 32-bit with alpha channel
+  independent of the color depth of the output. The callback has to calculate the color that the target
+  pixel should have after the drawing and return that.
+@LineBreak
+@LineBreak
+  The x and y coordinate received in the callback are always relative to the upper left corner of
+  the drawing output. The coordinates are not affected by any calls to @@SetOrigin or @@ClipOutput.  
+
+@NoReturnValue
+
+@Remarks
+  This callback will be called many times (for every pixel to draw) so it should be very small and
+  fast to not have a too big impact on the drawing performance.
+@LineBreak
+@LineBreak
+  Note: The @#PB_2DDrawing_CustomFilter @Link "DrawingMode" "drawing mode"
+  only works on @@ImageOutput and @@CanvasOutput.
+
+@Example
+@Code
+  Procedure FilterCallback(x, y, SourceColor, TargetColor)
+    ; Take only the Red component from the Source, do not modify the others
+    ProcedureReturn RGBA(Red(SourceColor), Green(TargetColor), Blue(TargetColor), Alpha(TargetColor))
+  EndProcedure
+  
+  UseJPEGImageDecoder()
+
+  If OpenWindow(0, 0, 0, 400, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    LoadImage(1, #PB_Compiler_Home + "examples/3d/Data/Textures/clouds.jpg")
+  
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      DrawImage(ImageID(1), 0, 0, 400, 200)
+      
+      DrawingMode(#PB_2DDrawing_CustomFilter)      
+      CustomFilterCallback(@FilterCallback())
+      Circle(100, 100, 100, $0000FF)   
+      Circle(300, 100, 100, $000000)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image customfilter.png
+
+@SeeAlso 
+  @@DrawingMode, @@CustomGradient
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function GradientColor(Position.f, Color)
+
+@Description
+  Adds the given Color at the given Position to the spectrum of the drawing gradient. 
+
+@Parameter "Position.f"
+  The position for the color in the gradient.
+  It must be a float value between 0.0 and 1.0.
+
+@Parameter "Color"
+  The color to be used.
+  This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
+
+@NoReturnValue
+
+@Remarks
+  By default, the drawing gradient ranges from the current @Link "BackColor" "background color" at position
+  0.0 to the current @Link "FrontColor" "front color" at position 1.0. With this command, additional colors
+  can be added Inbetween, or the colors at 0.0 and 1.0 can be overwritten. 
+@LineBreak
+@LineBreak
+  The @@ResetGradientColors command can be used to revert back to the default gradient.
+@LineBreak
+@LineBreak
+  The following commands can be used to specify the shape of the drawing gradient:
+@LineBreak
+  - @@LinearGradient
+@LineBreak
+  - @@CircularGradient
+@LineBreak
+  - @@EllipticalGradient
+@LineBreak
+  - @@BoxedGradient
+@LineBreak
+  - @@ConicalGradient
+@LineBreak
+  - @@CustomGradient
+@LineBreak
+@LineBreak
+  Note: This command only has an effect with @@ImageOutput and @@CanvasOutput. 
+  The gradient only affects the drawing commands when @#PB_2DDrawing_Gradient is
+  set with the @@DrawingMode command.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($0000FF)
+      GradientColor(0.4, $00FFFF)
+      GradientColor(0.6, $FFFF00)
+      FrontColor($FF0000)
+      
+      LinearGradient(0, 0, 200, 200)    
+      Circle(100, 100, 100)   
+      LinearGradient(350, 100, 250, 100)
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image gradientcolor.png
+
+@SeeAlso
+  @@ResetGradientColors,
+  @@LinearGradient, @@CircularGradient, @@EllipticalGradient,
+  @@BoxedGradient, @@ConicalGradient, @@CustomGradient,
+  @@DrawingMode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResetGradientColors()
+
+@Description
+  Removes all colors from the drawing gradient and reverts back to a gradient from the current
+  @Link "BackColor" "background color" to the current @Link "FrontColor" "front color".
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  The @@GradientColor command can be used to add additional colors to the gradient.
+@LineBreak
+@LineBreak
+  Note: This command only has an effect with @@ImageOutput and @@CanvasOutput. 
+  The gradient only affects the drawing commands when @#PB_2DDrawing_Gradient is
+  set with the @@DrawingMode command.
+
+@SeeAlso
+  @@GradientColor,
+  @@LinearGradient, @@CircularGradient, @@EllipticalGradient,
+  @@BoxedGradient, @@ConicalGradient, @@CustomGradient,
+  @@DrawingMode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LinearGradient(x1, y1, x2, y2)
+
+@Description
+  Sets the drawing gradient to have a linear shape defined by the two points x1,y1 and x2,y2. 
+
+@Parameter "x1, y1"
+  The position at which to apply the current @Link "BackColor" "background color".
+
+@Parameter "x2, y2"
+  The position at which to apply the current @Link "FrontColor" "front color".
+
+@NoReturnValue
+
+@Remarks
+  Additional colors can be added to the gradient with the @@GradientColor command.
+@LineBreak
+@LineBreak
+  Note: This command only has an effect with @@ImageOutput and @@CanvasOutput. 
+  The gradient only affects the drawing commands when @#PB_2DDrawing_Gradient is
+  set with the @@DrawingMode command.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+      
+      LinearGradient(0, 0, 200, 200)    
+      Circle(100, 100, 100)   
+      LinearGradient(350, 100, 250, 100)
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image lineargradient.png
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@CircularGradient, @@EllipticalGradient,
+  @@BoxedGradient, @@ConicalGradient, @@CustomGradient,
+  @@DrawingMode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CircularGradient(x, y, Radius)
+
+@Description
+  Sets the drawing gradient to have a circular shape.
+
+@Parameter "x, y"
+  The location at which to apply the current @Link "BackColor" "background color".
+
+@Parameter "Radius"
+  The radius around (x, y) at which to apply the current @Link "FrontColor" "front color".
+
+@NoReturnValue
+
+@Remarks
+  Additional colors can be added to the gradient with the @@GradientColor command.
+@LineBreak
+@LineBreak
+  Note: This command only has an effect with @@ImageOutput and @@CanvasOutput. 
+  The gradient only affects the drawing commands when @#PB_2DDrawing_Gradient is
+  set with the @@DrawingMode command.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+      
+      CircularGradient(100, 100, 100)     
+      Circle(100, 100, 100)
+      CircularGradient(350, 100, 75)
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image circulargradient.png
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@LinearGradient, @@EllipticalGradient,
+  @@BoxedGradient, @@ConicalGradient, @@CustomGradient,
+  @@DrawingMode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EllipticalGradient(x, y, RadiusX, RadiusY)
+
+@Description
+  Sets the drawing gradient to have an elliptical shape.
+
+@Parameter "x, y"
+  The location at which to apply the current @Link "BackColor" "background color".
+
+@Parameter "RadiusX, RadiusY"
+  The radius around in the x and y direction at which to apply the current @Link "FrontColor" "front color".
+
+@NoReturnValue
+
+@Remarks
+  Additional colors can be added to the gradient with the @@GradientColor command.
+@LineBreak
+@LineBreak
+  Note: This command only has an effect with @@ImageOutput and @@CanvasOutput. 
+  The gradient only affects the drawing commands when @#PB_2DDrawing_Gradient is
+  set with the @@DrawingMode command.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+       
+      EllipticalGradient(100, 100, 150, 50)
+      Circle(100, 100, 100)   
+      EllipticalGradient(300, 100, 50, 150)
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image ellipticalgradient.png
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@LinearGradient, @@CircularGradient,
+  @@BoxedGradient, @@ConicalGradient, @@CustomGradient,
+  @@DrawingMode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BoxedGradient(x, y, Width, Height)
+
+@Description
+  Sets the drawing gradient to have a box shape.
+
+@Parameter "x, y, Width, Height"
+  The location of the gradient box.
+  The gradient ranges from the current @Link "BackColor" "background color" at the center
+  of the box to the current @Link "FrontColor" "front color" at the edges of the box.
+
+@NoReturnValue
+
+@Remarks
+  Additional colors can be added to the gradient with the @@GradientColor command.
+@LineBreak
+@LineBreak
+  Note: This command only has an effect with @@ImageOutput and @@CanvasOutput. 
+  The gradient only affects the drawing commands when @#PB_2DDrawing_Gradient is
+  set with the @@DrawingMode command.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+      
+      BoxedGradient(0, 0, 200, 200)      
+      Circle(100, 100, 100)
+      BoxedGradient(225, -100, 150, 400)
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image boxedgradient.png
+
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@LinearGradient, @@CircularGradient,
+  @@EllipticalGradient, @@ConicalGradient, @@CustomGradient,
+  @@DrawingMode
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ConicalGradient(x, y, Angle.f)
+
+@Description
+  Sets the drawing gradient to have a conical shape.
+
+@Parameter "x, y"
+  The center position of the conical gradient.
+
+@Parameter "Angle.f"
+  The angle (in degrees) at which to start the gradient.
+  The gradient starts with the current @Link "BackColor" "background color" at the given angle and
+  then changes towards the current @Link "FrontColor" "front color" counterclockwise until the angle is reached again.
+
+@NoReturnValue
+
+@Remarks
+  Additional colors can be added to the gradient with the @@GradientColor command.
+@LineBreak
+@LineBreak
+  Note: This command only has an effect with @@ImageOutput and @@CanvasOutput. 
+  The gradient only affects the drawing commands when @#PB_2DDrawing_Gradient is
+  set with the @@DrawingMode command.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+      
+      ConicalGradient(100, 100, 0.0)     
+      Circle(100, 100, 100)
+      ConicalGradient(300, 0, 90.0)     
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image conicalgradient.png
+
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@LinearGradient, @@CircularGradient,
+  @@EllipticalGradient, @@BoxedGradient, @@CustomGradient,
+  @@DrawingMode
+
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CustomGradient(@GradientCallback())
+
+@Description
+  Sets the drawing gradient to have a custom shape, defined by the given callback procedure.
+
+@Parameter "@GradientCallback()"
+  The address of a callback procedure to define the gradient.
+  The callback must have the following form:
+@Code
+  Procedure.f GradientCallback(x, y)
+    ;
+    ; Return a value between 0.0 and 1.0 to define the gradient for the x/y position.
+    ; 
+    ProcedureReturn 1.0
+  EndProcedure
+@EndCode
+
+  The callback will be called for every pixel that is part of a drawing operation. The callback
+  has to return a value between 0.0 and 1.0 (not a color value) to define the gradient value at the given position.
+@LineBreak
+@LineBreak
+  The x and y coordinate received in the callback are always relative to the upper left corner of
+  the drawing output. The coordinates are not affected by any calls to @@SetOrigin or @@ClipOutput.
+  
+@NoReturnValue
+
+@Remarks
+  By default the value 0.0 represents the current @Link "BackColor" "background color" and the value 1.0 represents
+  the current @Link "FrontColor" "front color". 
+  Additional colors can be added to the gradient with the @@GradientColor command.  
+@LineBreak
+@LineBreak
+  This callback will be called many times (for every pixel to draw) so it should be very small and
+  fast to not have a too big impact on the drawing performance.
+@LineBreak
+@LineBreak
+  Note: This command only has an effect with @@ImageOutput and @@CanvasOutput. 
+  The gradient only affects the drawing commands when @#PB_2DDrawing_Gradient is
+  set with the @@DrawingMode command.
+
+@Example
+@Code
+  Procedure.f GradientCallback(x, y)
+    ProcedureReturn Sin(x * 0.1) * Sin(y * 0.1) ; will be between 0 and 1
+  EndProcedure
+
+  If OpenWindow(0, 0, 0, 400, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+      
+      CustomGradient(@GradientCallback())
+      Circle(100, 100, 100)   
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image customgradient.png
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@LinearGradient, @@CircularGradient,
+  @@EllipticalGradient, @@BoxedGradient, @@ConicalGradient,
+  @@DrawingMode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetOrigin(x, y)  
+
+@Description
+  Set an offset at which all drawing in the current output takes place.
+  This defines the location of the coordinates (0, 0) within the output for
+  every following drawing command. By default, the origin is located in the
+  upper left corner of the drawing output.
+  
+@Parameter "x, y"
+  The new position of the drawing origin. This is an absolute location and is not
+  affected by any previous call to this function.
+
+@NoReturnValue
+
+@Remarks
+  This command affects the location of all future drawing commands with the exception of the
+  @@ClipOutput command and the @@SetOrigin command itself. Also, the coordinates received
+  in a @@CustomGradient or @@CustomFilterCallback callback are always absolute regardless
+  of any calls to this function.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
+        
+      ; Draw the same figure at different locations by moving the drawing origin
+      For x = 0 To 120 Step 40
+        For y = 0 To 120 Step 60
+          SetOrigin(x, y)
+          Box(0, 0, 30, 30, $FF0000)
+          Circle(15, 15, 10, $00FF00)
+        Next y
+      Next x   
+         
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))      
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image setorigin.png
+
+@SeeAlso
+  @@GetOriginX, @@GetOriginY, @@ClipOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetOriginX()
+
+@Description
+  Get the X coordinate of the drawing origin that was set using @@SetOrigin.
+  
+@NoParameters
+
+@ReturnValue
+  The X coordinate of the drawing origin.
+
+@SeeAlso
+  @@GetOriginY, @@SetOrigin
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetOriginY()
+
+@Description
+  Get the Y coordinate of the drawing origin that was set using @@SetOrigin.
+  
+@NoParameters
+
+@ReturnValue
+  The Y coordinate of the drawing origin.
+
+@SeeAlso
+  @@GetOriginX, @@SetOrigin
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClipOutput(x, y, Width, Height)  
+
+@Description
+  Define a bounding box that restricts all drawing to the current drawing
+  output. Any pixels drawn outside of this box will be clipped.
+  
+@Parameter "x, y, Width, Height"
+  The position and size of the clipping box. The (x, y) coordinates are always absolute
+  and not affected by calls to @@SetOrigin.
+
+@NoReturnValue
+
+@Remarks
+  This command only has an effect on drawing outputs created by @@ImageOutput or @@CanvasOutput.
+@LineBreak
+@LineBreak  
+  The drawing origin is not modified by a call to this function. To make all drawing
+  relative to the upper left corner of the clipping box, a separate call to
+  @@SetOrigin must be made if this is desired.
+@LineBreak
+@LineBreak
+  The @@Plot and @@Point commands perform no bounds checking for performance reasons and
+  therefore are also not affected by this command.
+  
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "2DDrawing Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
+
+      ClipOutput(50, 50, 100, 100) ; restrict all drawing to this region
+      Circle( 50,  50, 50, $0000FF)  
+      Circle( 50, 150, 50, $00FF00)  
+      Circle(150,  50, 50, $FF0000)  
+      Circle(150, 150, 50, $00FFFF)  
+      
+      DrawingMode(#PB_2DDrawing_Outlined)
+      Box(50, 50, 100, 100, $000000)
+         
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))      
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image clipoutput.png
+
+@SeeAlso
+  @@UnclipOutput, @@SetOrigin, @@OutputWidth, @@OutputHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UnclipOutput()  
+
+@Description
+  Remove any clipping imposed by the @@ClipOutput command. The following drawing
+  commands will be able to draw to the entire drawing output again.
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  This command only has an effect by drawing outputs created by @@ImageOutput or @@CanvasOutput.
+
+@SeeAlso
+  @@ClipOutput, @@SetOrigin, @@OutputWidth, @@OutputHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

@@ -1,0 +1,164 @@
+@Title UserGuide - Building a graphical user interface (GUI)
+
+In addition to the @ReferenceLink "ug_textoutput" "console window", PureBasic supports
+the creation of graphical user interfaces (GUI) too. So let's revisit the file properties
+example from previous items again and turn it into a GUI application.
+@LineBreak
+@LineBreak
+Note that PureBasic provides a far easier way of getting this particular job done
+already - the @@ExplorerListGadget; but, as the example is intended to introduce
+managing GUI elements, using that gadget would defeat this object a bit.
+
+@Code
+  ; The structure for file information as before.
+  Structure FILEITEM
+    Name.s
+    Attributes.i
+    Size.q
+    DateCreated.i
+    DateAccessed.i
+    DateModified.i
+  EndStructure
+  
+  ; This is a constant to identify the window.
+  Enumeration
+    #WindowFiles
+  EndEnumeration
+  
+  ; This is an enumeration to identify controls which will appear on the window.
+  Enumeration
+    #Folder
+    #Files
+  EndEnumeration
+  
+  ; Now we define a list of files using the structure previously specified.
+  NewList Files.FILEITEM()
+  
+  ; And some working variables to make things happen.
+  Define.s Access, Attrib, Create, Folder, Modify, Msg, Num, Size
+  Define.l Result, Flags
+  
+  ; These variables will receive details of GUI events as they occur in the program.
+  Define.l Event, EventWindow, EventGadget, EventType, EventMenu
+  
+  ; This function gets the home directory for the logged on user.
+  Folder = GetHomeDirectory()
+  
+  ; Open the directory to enumerate its contents.
+  Result = ExamineDirectory(0, Folder, "*.*")
+  
+  ; If this is ok, begin enumeration of entries.
+  If Result
+    ; Loop through until NextDirectoryEntry(0) becomes zero - indicating that there are no more entries.
+    While NextDirectoryEntry(0)
+      ; If the directory entry is a file, not a folder.
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+
+        ; Add a new element to the list.
+        AddElement(Files())
+        ; And populate it with the properties of the file.
+        Files()\Name = DirectoryEntryName(0)
+        Files()\Size = DirectoryEntrySize(0)
+        Files()\Attributes = DirectoryEntryAttributes(0)
+        Files()\DateCreated = DirectoryEntryDate(0, #PB_Date_Created)
+        Files()\DateAccessed = DirectoryEntryDate(0, #PB_Date_Accessed)
+        Files()\DateModified = DirectoryEntryDate(0, #PB_Date_Modified)
+      EndIf
+    Wend
+    ; Close the directory.
+    FinishDirectory(0)
+  EndIf
+  
+  ; Sort the list into ascending alphabetical order of file name.
+  SortStructuredList(Files(), #PB_Sort_Ascending, OffsetOf(FILEITEM\Name), #PB_String)
+  
+  ; The interesting stuff starts to happen here...
+  
+  ; This line defines a flag for the window attributes by OR-ing together the desired attribute constants.
+  Flags = #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_MinimizeGadget | #PB_Window_MaximizeGadget | #PB_Window_TitleBar
+  
+  ; Open a GUI window.
+  OpenWindow(#WindowFiles, 50, 50, 450, 400, "File Properties", Flags)
+  ; A text gadget to show the name of the folder.
+  TextGadget(#Folder, 5, 40, 440, 25, Folder)
+  ; A list icon gadget to hold the file list and properties.
+  ListIconGadget(#Files, 5, 70, 440, 326, "#", 35)
+  ; Add columns to the ListIconGadget to hold each property.
+  AddGadgetColumn(#Files, 1, "Name", 200)
+  AddGadgetColumn(#Files, 2, "Created", 100)
+  AddGadgetColumn(#Files, 3, "Accessed", 100)
+  AddGadgetColumn(#Files, 4, "Modified", 100)
+  AddGadgetColumn(#Files, 5, "Attributes", 150)
+  AddGadgetColumn(#Files, 6, "Size", 100)
+  
+  ; Load the files into the list view.
+  ForEach Files()
+    ; Display the item number and file name.
+    Num = StrU(ListIndex(Files()) + 1)
+    
+    ; These lines convert the three date values to something more familiar.
+    Create = FormatDate("%dd/%mm/%yyyy", Files()\DateCreated)
+    Access = FormatDate("%dd/%mm/%yyyy", Files()\DateAccessed)
+    Modify = FormatDate("%dd/%mm/%yyyy", Files()\DateModified)
+    
+    ; Convert the file size to a padded string the same as with the index value above,
+    ; but allow space for the maximum size of a quad.
+    Size = StrU(Files()\Size)
+    
+    ; Convert the attributes to a string, for now.
+    Attrib = StrU(Files()\Attributes)
+    
+    ; Build a row string.  
+    ; The Line Feed character 'Chr(10)' tells the gadget to move to the next column.
+    Msg = Num + Chr(10) + Files()\Name + Chr(10) + Create + Chr(10) + Access + Chr(10) + Modify + Chr(10) + Attrib + Chr(10) + Size
+    
+    ; Add the row to the list view gadget.
+    AddGadgetItem(#Files, -1, Msg)
+  Next Files()
+  
+  ; This is the event loop for the window.  
+  ; It will deal with all the user interaction events that we wish to use. 
+  
+  Repeat
+    ; Wait until a new window or gadget event occurs.
+    Event = WaitWindowEvent()
+    ; In programs with more than one form, which window did the event occur on.
+    EventWindow = EventWindow()
+    ; Which gadget did the event occur on.
+    EventGadget = EventGadget()
+    ; What sort of event occurred.
+    EventType = EventType()
+    
+    ; Take some action.
+    Select Event
+        
+      Case #PB_Event_Gadget
+        ; A gadget event occurred.
+        If EventGadget = #Folder
+        ElseIf EventGadget = #Files
+        EndIf
+        
+      Case #PB_Event_CloseWindow
+        ; The window was closed.
+        If EventWindow = #WindowFiles
+          CloseWindow(#WindowFiles)
+          Break
+        EndIf
+        
+    EndSelect
+    
+    ; Go round and do it again.
+    ; In practice the loop isn't infinite because it can be stopped by clicking the window's Close button.
+  ForEver
+@EndCode
+
+At this point the application already has some useful features. However, it has some problems too: @LineBreak
+1) You can't choose a folder to show. @LineBreak
+2) You can't update the list contents without closing and restarting the program. @LineBreak
+3) If you resize the window, the gadgets don't resize with it. @LineBreak
+4) The attributes column is still not very useful. @LineBreak
+We will revisit this program again later on to fix all these issues.
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_textoutput" "< Previous: Displaying text output (Console)" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_graphics" "Next: Displaying graphics output & simple drawing >"

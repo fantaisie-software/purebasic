@@ -1,0 +1,127 @@
+@Title Dim
+
+@Syntax
+
+  @Keyword Dim Name.<Typ>(<Ausdruck>, [<Ausdruck>], ...)
+
+@Description
+
+  @Keyword Dim wird benutzt, um neue Arrays anzulegen (der anfängliche Wert jedes Elements wird null sein). Ein Array in PureBasic kann
+  von beliebigem Typ sein, einschließlich @ReferenceLink "Structures" "strukturierter" und benutzerdefinierter Typen. Wenn
+  ein Array einmal dimensioniert wurde, kann es mit @Keyword ReDim erneut dimensioniert (d.h. in der Größe)
+  verändert werden. Arrays werden dynamisch angelegt - dies bedeutet, dass eine
+  @ReferenceLink "variables" "Variable" oder ein @ReferenceLink "general_rules" "Ausdruck" benutzt werden kann, 
+  um sie erneut zu dimensionieren.
+  Um alle Befehle zu sehen, die zum Verwalten von Arrays verwendet werden, schauen Sie in die @LibraryLink "Array" "Array" Bibliothek.
+  @LineBreak
+  @LineBreak
+  Wenn Sie ein neues Array definieren, beachten Sie bitte, dass es ein Element mehr haben wird,
+  als Sie als Parameter angegeben haben, da die Nummerierung der Elemente in PureBasic (wie in
+  anderen BASIC's) beim Element 0 beginnt. Zum Beispiel wenn Sie Dim(10) verwenden, wird das Array
+  11 Elemente haben, die Elemente 0 bis 10. Dieses Verhalten ist anders bei statischen Arrays in @ReferenceLink "Structures" "Strukturen".
+  Statische Arrays verwenden eckige Klammern "[]", zum Beispiel hat ArrayStatic[2] hat nur 2 Elemente von 0 bis 1,
+  und die Funktionen der @LibraryLink "Array" "Array"-Bibliothek arbeiten nicht mit ihnen.
+  @LineBreak
+  @LineBreak
+  Die neuen Arrays sind immer lokal. Dies bedeutet, dass die @ReferenceLink "Global" "Global" oder
+  @ReferenceLink "Shared" "Shared" Befehle benutzt werden müssen, wenn ein im Haupt-Quellcode deklariertes
+  Array in Prozeduren verwendet werden soll. Es ist auch möglich, mit dem @Keyword "Array"-Schlüsselwort ein Array als Parameter an eine
+  @ReferenceLink "Procedures" "Prozedur" zu übergeben - es wird dabei "by reference" (was bedeutet, 
+  dass das Array nicht kopiert wird, sondern stattdessen die Funktionen in der Prozedur das originale
+  Array manipulieren) übergeben.
+  @LineBreak
+  @LineBreak
+  Um den Inhalt eines Arrays zu löschen und seinen verwendeten Speicher während des Programmablaufs
+  freizugeben, rufen Sie @@FreeArray auf.
+  @LineBreak
+  @LineBreak
+  Wenn @Keyword Dim auf ein existierendes Array angewandt wird, setzt es seine Inhalte auf null zurück.
+  @LineBreak
+  @LineBreak
+  Für schnelles Vertauschen von Array-Inhalten steht das @ReferenceLink "others" "Swap" Schlüsselwort
+  zur Verfügung.
+  @LineBreak
+  @LineBreak
+  Hinweis: Eine Überprüfung auf Überschreitung der Array-Grenzen findet nur statt, wenn der Laufzeit - @ReferenceLink "Debugger" "Debugger" aktiviert ist.
+
+@Example
+@Code
+  Dim MyArray.l(41)
+  MyArray(0) = 1
+  MyArray(1) = 2
+@EndCode
+
+@Example Mehrdimensionales Array
+@Code
+  Dim MultiArray.b(NbColumns, NbLines)
+  MultiArray(10, 20) = 10
+  MultiArray(20, 30) = 20
+@EndCode
+
+@Example Array als Prozedur-Parameter  
+@Code  
+  Procedure fill(Array Numbers(1), length)  ; die 1 gibt hier die Anzahl der Dimensionen im Array an.
+    For i = 0 To length
+      Numbers(i) = i
+    Next i
+  EndProcedure
+  
+  Dim Numbers(10)
+  fill(Numbers(), 10)  ; das Array Numbers() wird hier als Parameter übergeben
+  
+  Debug Numbers(5)
+  Debug Numbers(10)
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword ReDim Name.<Typ>(<Ausdruck>, [<Ausdruck>], ...) 
+
+@Description
+
+  @Keyword ReDim wird verwendet, um ein bereits deklariertes Array neu zu dimensionieren (d.h. in der Größe zu verändern,
+  englisch 'resize'), während sein Inhalt erhalten bleibt. Die neue Größe kann kleiner oder größer sein, allerdings kann
+  die Anzahl an Dimensionen nicht verändert werden.
+  @LineBreak
+  @LineBreak
+  Wenn @Keyword ReDim mit einem mehrdimensionalen Array verwendet wird, kann nur die letzte Dimension geändert werden.
+
+@Example 
+@Code
+  Dim MyArray.l(1) ; Wir haben 2 Elemente
+  MyArray(0) = 1
+  MyArray(1) = 2
+  
+  ReDim MyArray(4) ; Jetzt möchten wir 5 Elemente
+  MyArray(2) = 3
+  
+  For k = 0 To 2
+    Debug MyArray(k)
+  Next
+@EndCode
+
+@Example Mehrdimensionales Array
+@Code
+  Dim MyTab.l(1,1,1) 
+  
+  ; ReDim MyTab(4,1,1) ; Nein!
+  ; ReDim MyTab(1,4,1) ; Nein!
+  ReDim MyTab(1,1,4) ; Ja! Nur seine letzte Dimension kann verändert werden.
+  MyTab(1,1,4) = 3
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

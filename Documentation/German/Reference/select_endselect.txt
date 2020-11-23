@@ -1,0 +1,64 @@
+@Title Select : EndSelect
+
+@Syntax
+
+  @Keyword Select <Ausdruck1>
+    @Keyword Case <Ausdruck> [, <Ausdruck> [<numerischer Ausdruck> To <numerischer Ausdruck>]]
+       ...
+    [@Keyword Case <Ausdruck>]
+       ...
+    [@Keyword Default] 
+       ...
+  @Keyword EndSelect 
+
+@Description
+
+  @Keyword Select bietet die Möglichkeit, eine schnelle Auswahl zu treffen. Das Programm führt den <Ausdruck1> aus und behält 
+  dessen Ergebnis im Speicher. Es vergleicht dann diesen Wert mit allen Werten aus den @Keyword "Case" <Ausdrücken>, 
+  und wenn der Wert eines angegebenen @Keyword "Case" <Ausdrucks> 'wahr' ergibt, führt es den zugehörigen Programmcode aus und
+  verlässt die @Keyword "Select" Struktur. @Keyword Case unterstützt mehrfache Werte und Werte-Bereiche durch die Verwendung
+  des optionalen @Keyword "To" Schlüsselworts (nur numerische Werte). Wenn keiner der @Keyword "Case" Werte 'wahr' ist, dann wird 
+  der @Keyword "Default" Code (sofern definiert) ausgeführt.
+@LineBreak
+@LineBreak
+  Hinweis: @Keyword Select akzeptiert auch @ReferenceLink "variables" "Fließkommazahlen" (Floats) als <Ausdruck1>,
+  rundet diese jedoch auf die nächstgelegene Ganzzahl (Integer) ab (Vergleiche werden nur mit Ganzzahlen durchgeführt).
+
+
+@Example Einfaches Beispiel
+
+@Code
+  Value = 2
+  
+  Select Value
+    Case 1
+      Debug "Value = 1"
+      
+    Case 2 
+      Debug "Value = 2"
+      
+    Case 20 
+      Debug "Value = 20"
+      
+    Default
+      Debug "I don't know"
+  EndSelect
+@EndCode
+
+@Example Mehrfachauswahl und Bereich Beispiel
+
+@Code
+  Value = 2
+  
+  Select Value
+    Case 1, 2, 3
+      Debug "Value ist 1, 2 oder 3"
+      
+    Case 10 To 20, 30, 40 To 50
+      Debug "Value liegt zwischen 10 und 20, ist gleich 30 oder zwischen 40 und 50"
+      
+    Default
+      Debug "Ich weiß nicht"
+      
+  EndSelect
+@EndCode

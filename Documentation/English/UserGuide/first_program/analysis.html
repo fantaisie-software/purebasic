@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Analysis - Your First Program - PureBasic User Guide</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Your First Program: Analysis</h1>
+
+Almost every example in this User Guide will be followed by a page like this where
+ new instructions and concepts are broken down from the example source code
+ and explained in detail. This will include what the instructions do, why they
+ were used in a particular circumstance and any things to watch out for when
+ using them.
+
+<p>Not all analyses will be as thorough as this one, since future ones will
+ only discuss new issues.
+
+<p><h2>Analysis of the first program</h2>
+The first line in your source code was <span class="code">OpenConsole()</span>.
+ This instruction contains a single command; you know it is a command because
+ a set of parentheses follows the name.
+
+<p>The purpose of this command is to open the console window that appears when
+ you run your program. It has no parameters (there is nothing between the
+ parentheses) and returns a value showing whether the console window was
+ opened successfully or not. However, in this case we are ignoring the returned
+ value for simplicity, and because we have not yet covered the keywords required
+ to handle it.
+
+<p>The second instruction in the program was <span class="code">PrintN(&quot;Hello, world&quot;)</span>.
+ This is another command (as you can see by the parenthesis).
+
+<p>The PrintN command writes text to a console window and then moves onto the
+ next line, therefore we use this to print the &quot;Hello, world&quot; text
+ in the console. The PrintN command has one parameter which must be a string.
+ In this case, we use the fixed string &quot;Hello, world&quot; (remember,
+ from the fundamentals, fixed strings are sequences of characters enclosed within
+ inverted commas). The PrintN command does not return a value.
+
+<p>The third instruction was <span class="code">Input()</span>, which is, again,
+ a command. It has no parameters and the result is not being used. This command
+ will take input from the user (as text typed in a console window) until the
+ user presses the return key. The reason for using this command is to pause the
+ program and give the user a chance to see what we printed in the console window.
+ If the Input command was not in the program then there would be no pause;
+ the console window would close and the program would exit before we could see
+ anything. So even using it in this simple way is very useful.
+
+<p>Next, the <span class="code">CloseConsole()</span> command is called. Again,
+ there are no parameters and it has no result. As you may also have guessed,
+ this command closes the console window. It is always a good idea to close or
+ free anything you open, create or allocate in a program, although all of
+ PureBasics libraries will normally automatically do this for you when the program
+ ends.
+
+<p>Finally, there is the <span class="code">End</span> keyword (you know it
+ is a keyword because there are no parentheses). The purpose of the End keyword
+ is to tell your program to stop running and exit.
+
+<p>It is only the end of the program when that instruction is executed, not when
+ it is found by the compiler in your source code. Commonly you may store data or more code
+ after an End instruction if you would not want the computer to try to execute
+ it without specifically telling it to. So you use the End instruction to make
+ sure the program has stopped before that point.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="example.html">Your first program!</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="summary.html">Summary</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

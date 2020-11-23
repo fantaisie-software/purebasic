@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Interacting with the user - PureBasic User Guide</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Interacting with the user: Summary</h1>
+
+This chapter has described the use of consoles, which are displays of characters.
+ Typically these look like command prompts or shell windows, depending on your
+ operating system. Consoles are simple ways to interact with the user using
+ text.
+
+<p>The remainder of this page will highlight the main points which you should
+ remember from this chapter, and on the next page you will get to try out your
+ new knowledge in some exercises.
+
+<ul>
+<li><p>When you are writing an application that is to be used purely as a console
+ application (for example, you are writing a command line/DOS/shell command like
+ e.g. 'dir') you should make sure that you use the compiler option to create a
+ console application.</p>
+
+<li><p>You must always use the OpenConsole to open a console window before using
+ the other commands in this library. Remember to also check that the console could be
+ opened successfully.</p>
+
+<li><p>You can only open one console at a time, although it is possible to close consoles
+ when you no longer need them using the CloseConsole command (allowing you to
+ open another one at a later point). If you have a console open when your program
+ ends, PureBasic will close it for you automatically.</p>
+
+<li><p>There are two commands for displaying text in the console, Print and PrintN.
+ PrintN moves the cursor onto the next line after printing the text whereas the
+ Print command does not.</p>
+
+<li><p>There are two commands for getting input from the user. The Input command
+ waits for the user to enter a line of text and the Inkey command checks to see
+ if any keys are being pressed.</p>
+
+<li><p>The appearance of the console can be changed in a number of ways, including
+ the title of the window, colors, cursor size and position.</p>
+</ul>
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="appearance.html">Changing the appearance of the display</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="exercises.html">Exercises</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

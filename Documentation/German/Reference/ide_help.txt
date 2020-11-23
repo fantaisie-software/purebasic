@@ -1,0 +1,128 @@
+
+@Title Aufrufen der Hilfe
+
+  Die PureBasic IDE bietet eine Möglichkeit zum Zugriff auf die PureBasic-Hilfedatei, 
+  genauso auf andere Dateien und Dokumentation, die Sie während dem Programmieren
+  ansehen möchten.
+
+@Section Schneller Zugriff auf das Referenz-Handbuch
+
+@Image ide_help_purebasic.png
+
+  Durch Drücken des Hilfe-Tastenkürzels (standardmäßig F1) oder Auswählen von
+  "Hilfe..." im Hilfe-Menü wird - sofern sich der Cursor auf einem/r PureBasic-Schlüsselwort
+  oder -Funktion befindet - wird die Hilfe direkt mit der Beschreibung dieses
+  Schlüsselworts bzw. Funktion geöffnet.
+@LineBreak
+@LineBreak
+  Wenn das Wort an der Cursor-Position keinen Hilfe-Eintrag hat, wird die Hauptseite
+  der Anleitung angezeigt.
+@LineBreak
+@LineBreak
+  Das Referenz-Handbuch kann mit Hilfe des @ReferenceLink "ide_tools" "Hilfe-Tools" auch
+  Seite an Seite mit dem Quellcode angesehen werden.
+
+
+; == WINDOWS ONLY ==
+@OS Windows
+
+@Section Schneller Zugriff auf die Windows API Hilfe
+
+  Es gibt zwei Möglichkeiten, um den gleichen schnellen Zugriff wie bei den PureBasic-Funktionen
+  (durch Drücken von F1 mit dem Cursor auf der Funktion) auch bei den Funktionen der Windows API
+  zu erhalten. Um diese Funktion zu aktivieren, müssen Sie zusätzliche Hilfe-Dateien für diese
+  Funktionen aus dem Internet laden:
+
+@LineBreak
+@LineBreak
+
+@Bold "Microsoft Plattform SDK"
+
+@LineBreak
+@LineBreak
+
+  Das "Microsoft Plattform SDK" bietet die kompletteste und aktuellste Programmier-Referenz
+  für die Windows Plattform. Sie bietet Informationen zu allen API-Funktionen, genauso wie
+  Zusammenfassungen und Einführungen in die verschiedenen für die Programmierung auf der 
+  Windows-Plattform genutzten Technologien. Das Paket ist recht groß (bis zu 400 MB, abhängig
+  von den ausgewählten Komponenten).
+@LineBreak
+@LineBreak
+  Für die IDE-Hilfe können Sie entweder die "Februar 2003" oder die "Windows Server 2003 SP1" 
+  Edition des SDK installieren.
+
+@LineBreak
+@LineBreak
+
+  Es kann von hier geladen werden:
+@LineBreak
+  @InternetLink "http://www.microsoft.com/msdownload/platformsdk/sdkupdate/" "http://www.microsoft.com/msdownload/platformsdk/sdkupdate/"
+@LineBreak
+@LineBreak
+  Beachten Sie, dass das SDK auf dieser Seite auch auf CD bestellt werden kann.
+  Auch wenn Sie bereits Besitzer irgendeines Entwickler-Produkts von Microsoft (wie
+  zum Beispiel Visual Studio) sind, ist dort möglicherweise bereits eine Ausgabe des
+  SDK auf einer der mitgelieferten CDs enthalten.
+
+@LineBreak
+@LineBreak
+
+@Bold "Die win32.hlp Hilfedatei"
+
+@LineBreak
+@LineBreak
+
+  Es gibt eine viel kleinere Alternative zum kompletten SDK von Microsoft (7,5 MB Download).
+  Diese Hilfe ist ziemlich alt (ursprünglich für Windows 95 geschrieben), sodass diese keine
+  Informationen zu neuen APIs und Technologien enthält, die seitdem eingeführt wurden.
+@LineBreak
+@LineBreak
+  Dennoch bietet sie gute Informationen zu den am häufigsten genutzten APIs, welche zum
+  größten Teil heute noch gültig sind, da diese zumeist nicht geändert wurden. Dieser
+  Download ist zu empfehlen, wenn Sie nur gelegentliche Hilfe zu API-Funktionen benötigen,
+  aber nicht das komplette SDK laden möchten.
+
+@LineBreak
+@LineBreak
+
+  Sie kann von hier geladen werden:
+@LineBreak
+  @InternetLink "http://www.purebasic.com/download/WindowsHelp.zip" "http://www.purebasic.com/download/WindowsHelp.zip"
+@LineBreak
+@LineBreak
+  Um sie von der PureBasic IDE aus benutzen zu können, erstellen Sie einfach ein "Help" Unterverzeichnis in Ihrem
+  PureBasic-Ordner und kopieren die "win32.hlp" Datei dorthin.
+
+@EndOS
+; == END WINDOWS ONLY ==
+
+
+@Section Zugriff auf externe Hilfedateien aus der IDE
+
+  Wenn Sie andere Hilfedateien haben, auf die Sie von der IDE aus zugreifen möchten, dann
+  erstellen Sie ein "Help" Unterverzeichnis in Ihrem PureBasic-Ordner und kopieren Sie diese dorthin.
+  Diese Dateien erscheinen dann im "Externe Hilfe" Untermenü im Hilfe-Menü und außerdem im Aufklappmenü,
+  welches Sie nach Drücken der rechten Maustaste im Eingabebereich erhalten.
+
+@OS Windows
+  @LineBreak
+  @LineBreak
+  .chm- und .hlp-Dateien werden im "MS Help Viewer" angezeigt.
+@EndOS
+
+@LineBreak
+@LineBreak
+  Die IDE öffnet die Hilfedateien mit dem internen @ReferenceLink "ide_tools" "Dateibetrachter".
+  Damit können z.B. Text-Dateien direkt angezeigt werden. Für andere Typen können Sie das
+  @referencelink "ide_externaltools" "Werkzeuge konfigurieren" Menü nutzen, um externe
+  Werkzeuge für die von Ihnen verwendeten Hilfedateien zu konfigurieren. Die Hilfe wird
+  dann in diesem Programm angezeigt.
+
+@LineBreak
+@LineBreak
+
+  Wenn Sie zum Beispiel PDF-Hilfedateien haben, können Sie ein externes Werkzeug zum Umgang
+  mit den PDF-Dateien konfigurieren (z.B. den Acrobat Reader) und die Dateien in das "Help"
+  Unterverzeichnis in Ihren PureBasic-Ordner kopieren. Wenn Sie jetzt auf die Datei im
+  "Externe Hilfe" Menü klicken, wird diese mit diesem externen Programm geöffnet.
+    

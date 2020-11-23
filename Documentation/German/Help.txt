@@ -1,0 +1,68 @@
+;
+;     Help library documentation - MultiOS version !
+;
+;      (c) 2012 - Fantaisie Software
+;
+
+@Library Help
+
+@Overview
+  Die Hilfe ist ein sehr bedeutender Bestandteil jeder Art von Software. Sie gibt den Endanwendern
+  die Möglichkeit, die Software-Funktionen schnell und einfach zu entdecken.
+  Die PureBasic Help-Funktionen ermöglichen das Anzeigen von Standard Hilfe-Dateien sowohl
+  mit "Global" als auch "Kontext-sensitiver" Unterstützung.
+@LineBreak
+@LineBreak
+  Auf Microsoft Windows gibt es zwei verschiedene Formate von Hilfe-Dateien, welche unterstützt
+  werden: Das ".hlp" Format (was das alte Format ist) und das ".chm" Format (was das neue Format
+  ist). Das ".chm" Format basiert auf HTML, was für "Hyper Text Markup Language" steht.
+
+@CommandList
+
+@ExampleFile All Help.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseHelp()
+
+@Description
+  Schließt das zuvor mit @@OpenHelp geöffnete Hilfe-Fenster.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@OpenHelp
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OpenHelp(Dateiname$, Thema$)
+
+@Description
+  Öffnet ein Hilfe-Fenster und zeigt dieses an.
+
+@Parameter "Dateiname$"
+  Der Name der zu öffnenden .chm oder .hlp Datei.
+
+@Parameter "Thema$"
+  Der interne Name der darzustellenden Seite.
+  Wenn der Parameter 'Thema$' kein leerer String ist, stellt die OpenHelp-Funktion
+  direkt die angegebene Seite dar (sehr nützlich für Online/kontext-sensitive Hilfe).
+
+@NoReturnValue
+
+@Example
+@Code
+  OpenHelp("help.chm", "index.htm")
+  OpenHelp("help.chm", "print.txt")
+
+@EndCode
+
+@SeeAlso
+  @@CloseHelp
+
+@SupportedOS

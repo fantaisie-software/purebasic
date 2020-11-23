@@ -1,0 +1,280 @@
+;
+; Joystick library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Joystick
+
+@Overview
+
+  PureBasic permet la gestion complète des 
+  joysticks connectés à  l'ordinateur.
+  @LineBreak
+  Tous les joysticks et les pads sont 
+  acceptés, même les manettes 
+  multi-boutons, triggers, etc.
+  
+@Remarks  
+  Sur Windows l'interface est assurée par 
+  la technologie DirectX et sur Linux avec 
+  SDL.
+
+@CommandList
+
+@ExampleFile All Joystick.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = InitJoystick()
+
+@Description
+  Initialise l'environnement de gestion 
+  des joysticks. 
+  
+@NoParameters
+
+@ReturnValue 
+  Renvoie le nombre de joysticks 
+  disponibles.
+  
+@Remarks
+  Vous devez appeler cette fonction avant 
+  toute autre fonction de cette 
+  bibliothèque.
+
+@SeeAlso
+  @@ExamineJoystick
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ExamineJoystick(#Joystick) 
+
+@Description
+  Met à jour l'état d'un joystick.
+
+@Parameter "#Joystick"
+  Le numéro du joystick à utiliser.
+@LineBreak
+@LineBreak
+  Le premier numéro de joystick commence 
+  à 0.  
+  
+@ReturnValue
+  Renvoie une valeur non nulle si le 
+  joystick est prêt.
+  
+@Remarks
+  Met à jour l'état actuel d'un joystick 
+  qui pourra être interrogé dans un second 
+  temps avec les commandes @@JoystickAxisX, 
+  @@JoystickAxisY, @@JoystickAxisZ et 
+  @@JoystickButton.
+
+@SeeAlso
+  @@JoystickButton, @@JoystickAxisX, 
+  @@JoystickAxisY, @@JoystickAxisZ.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = JoystickAxisX(#Joystick [, Pad [, Mode]])) 
+
+@Description
+  Renvoie l'état de l'axe X d'un joystick. 
+  
+@Parameter "#Joystick"
+  Le numéro du joystick à utiliser.
+@LineBreak
+@LineBreak
+  Le premier joystick commence à 0. 
+  
+@OptionalParameter "Pad"
+  Le pad à utiliser si la manette dispose 
+  de plusieurs pads.
+@LineBreak
+@LineBreak
+  Le premier pad a pour indice 0.
+
+@OptionalParameter "Mode"
+  Peut être l'une des valeurs suivante:
+@FixedFont
+  @#PB_Absolute: -1 : Mouvement vers la gauche
+                 0 : Aucun mouvement 
+                 1 : Mouvement vers la droite (par défaut)
+  @#PB_Relative: Renvoie une valeur entre -1000 (gauche) et 1000 (droit). 
+                Si la manette de jeu ne supporte pas le mouvement relatif, le résultat sera -1000, 0 ou 1000.
+@EndFixedFont
+  
+@ReturnValue
+  Renvoie la valeur de l'axe X qui dépend 
+  du mode utilisé.
+
+@Remarks
+  La fonction @@ExamineJoystick doit être 
+  appelée avant cette fonction pour mettre 
+  à jour l'état du joystick.
+
+@SeeAlso
+  @@ExamineJoystick, @@InitJoystick, 
+  @@JoystickAxisY, @@JoystickAxisZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = JoystickAxisY(#Joystick [, Pad [, Mode]])) 
+
+@Description
+  Renvoie l'état de l'axe Y d'un joystick. 
+  
+@Parameter "#Joystick"
+  Le numéro du joystick à utiliser.
+@LineBreak
+@LineBreak
+  Le premier joystick commence à 0. 
+  
+@OptionalParameter "Pad"
+  Le pad à utiliser si la manette dispose 
+  de plusieurs pads.
+@LineBreak
+@LineBreak
+  Le premier pad a pour indice 0.
+
+@OptionalParameter "Mode"
+  Peut être l'une des valeurs suivantes:
+@FixedFont  
+  @#PB_Absolute: -1 : Mouvement vers le haut
+                 0 : Aucun mouvement 
+                 1 : Mouvement vers le bas (par défaut)
+  @#PB_Relative: Renvoie une valeur entre -1000 (haut) et 1000 (bas). 
+                Si la manette de jeu ne supporte pas le mouvement relatif, le résultat sera -1000, 0 ou 1000.
+@EndFixedFont
+  
+@ReturnValue
+  Renvoie la valeur de l'axe Y qui dépend 
+  du mode utilisé.
+
+@Remarks
+  La fonction @@ExamineJoystick doit être 
+  appelée avant cette fonction pour mettre 
+  à jour l'état du joystick.
+
+@SeeAlso
+  @@ExamineJoystick, @@InitJoystick, 
+  @@JoystickAxisX, @@JoystickAxisZ
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = JoystickAxisZ(#Joystick [, Pad [, Mode]])) 
+
+@Description
+  Renvoie l'état de l'axe Z d'un joystick. 
+  
+@Parameter "#Joystick"
+  Le numéro du joystick à utiliser.
+@LineBreak
+@LineBreak
+  Le premier joystick commence à 0. 
+  
+@OptionalParameter "Pad"
+  Le pad à utiliser si la manette dispose 
+  de plusieurs pads.
+@LineBreak
+@LineBreak
+  Le premier pad a pour indice 0.
+
+@OptionalParameter "Mode"
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: -1 : Mouvement vers l'arrière
+                 0 : Aucun mouvement 
+                 1 : Mouvement vers l'avant (par défaut)
+  @#PB_Relative: Renvoie une valeur entre -1000 et 1000. 
+                Si la manette de jeu ne supporte pas le mouvement relatif, le résultat sera -1000, 0 ou 1000.
+@EndFixedFont
+  
+@ReturnValue
+  Renvoie la valeur de l'axe Z qui dépend 
+  du mode utilisé.
+
+@Remarks
+  La fonction @@ExamineJoystick doit être 
+  appelée avant cette fonction pour mettre 
+  à jour l'état du joystick.
+
+@SeeAlso
+  @@ExamineJoystick, @@InitJoystick, 
+  @@JoystickAxisX, @@JoystickAxisY
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = JoystickName(#Joystick)
+
+@Description
+  Renvoie le nom d'un joystick.
+  
+@Parameter "#Joystick"
+    Le numéro du joystick à utiliser.
+@LineBreak
+@LineBreak
+  Le premier joystick commence à 0. 
+  
+@ReturnValue
+  Renvoie le nom de la manette.
+  
+@Remarks
+  Cette fonction peut être utile si 
+  plusieurs manettes sont connectées, 
+  afin d'identifier la bonne.
+
+@SeeAlso
+  @@InitJoystick
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = JoystickButton(#Joystick, Bouton) 
+
+@Description
+  Renvoie l'état d'un bouton d'un joystick. 
+
+@Parameter "#Joystick"
+  Le numéro du joystick.
+@LineBreak
+@LineBreak
+  Le premier joystick commence à 0. 
+
+@Parameter "Bouton"  
+  Le bouton à tester.
+@LineBreak
+@LineBreak
+  L'index du premier bouton est 1.  
+  
+@ReturnValue
+  Renvoie  une valeur non nulle si le 
+  bouton est pressé, zéro sinon.
+  
+@Remarks
+  La fonction @@ExamineJoystick doit être 
+  appelée avant cette fonction pour mettre 
+  à jour l'état des boutons.
+@LineBreak
+@LineBreak
+  Un nombre quelconque de boutons peuvent 
+  être pressés simultanément.
+
+@SeeAlso
+  @@ExamineJoystick, @@InitJoystick
+    
+@SupportedOS

@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Equals operator - Simple Processing - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Simple Processing: Equals operator</h1>
+
+The first operator is the equals symbol, <b>=</b>. As a mathematical symbol it
+ is used for assignment. In other words, you use the equals symbol to set the
+ value of a variable. The value you set to the variable can be a simple value
+ or an expression. The simpler assignment is shown below, and the expression
+ version can be found in some of the later examples. The code shown below can
+ also be found <a href="equals_op.pb">here</a>.
+
+<pre class="code">OpenConsole()
+name$ = &quot;John&quot;
+height.f = 186.6
+weight.f = 80
+age.w = 23
+copy_height.l = height
+PrintN(name$)
+PrintN(StrF(height))
+PrintN(Str(copy_height))
+PrintN(Str(height))
+PrintN(Str(age))
+Input()
+CloseConsole()
+End</pre>
+
+The first four lines (after the <span class="code">OpenConsole()</span> command)
+ set the values of the variables (on the left hand side of the = operator) using
+ strings and numbers typed directly into the code. You can only set the values of
+ variables, so it must always only be a variable name on the left hand side of
+ the = operator when you are using it for assignment. Note that you must store
+ strings in string variables and numbers in numeric variables or the compiler will
+ give you an error.
+
+<p>The next line shows how to set the value of a variable using another variable
+ - it is just the same except you use a variable name on the right hand side to
+ use as the value. PureBasic will automatically convert between different numeric
+ types automatically (<var>copy_height</var> is a long and <var>height</var> is
+ a float).
+
+<p><img class="output" src="equals_op_run.png" alt="Equals example output" width="179" height="182">
+The next five lines (starting with <code>PrintN</code>)
+ show you what the values of the variable are, and an example of commands you
+ can use to display values. Obviously these values should be the same as the ones
+ we set in the code. The output from the program is shown in the screengrab on
+ the right and the lines of code are explained below.
+
+<p>First of all, remember that the <code>PrintN()</code> command
+ takes a string as a parameter and prints it to the console. The first print
+ line displays the <var>name$</var> variable. Since this is a string type, we
+ can put the variable name directly as the parameter and it will be displayed.
+ As you can see, &quot;John &quot; is printed to the console, so this is as
+ expected.
+
+<p>The next line - <span class="code">PrintN(StrF(height))</span> - displays
+ the <var>height</var> variable. Since numeric variables (in this case a float)
+ are not strings we must convert it to a string before printing it. The command
+ to convert float numbers to strings is <dfn>StrF</dfn>, which takes one
+ parameter - the floating point number to convert. This is the reason for putting
+ <var>height</var> (the name of the float variable) in the brackets. The StrF()
+ command returns a string. You will notice that each command (PrintN and StrF) has
+ its own set of brackets, and that the StrF command is inside the PrintN brackets.
+ This means that the parameter for the PrintN command is the result of the StrF()
+ command which, as described above, is a string.
+
+<p><div class="important">As you can see, the value displayed is &quot;186.60006&quot;
+ which does not seem correct - after all, we set the value of <var>height</var>
+ to 186.6. <em>The reason for this is that is a limitation of the float number
+ format and affects all computers and languages which use this number format
+ (not just PureBasic).</em> Computers which work in 1's and 0's cannot always
+ store values which have decimal fractions with exact precision. However, there
+ is some good news. To get around this you can shorten the amount of digits
+ that get displayed - this will be demonstrated in a later chapter. The other
+ piece of good news is that PureBasic will have a &quot;double&quot; type added
+ for extra precision (roughly twice as accurate) in the future.</div>
+
+<p>The next line is <span class="code">PrintN(Str(copy_height))</span>. This
+ displays the value of the <var>copy_height</var> variable. This is another
+ numeric variable so we must convert it before displaying it. This time the
+ type of the variable is one which whole numbers are stored so to convert this
+ we must use the <dfn>Str</dfn> command, which is the same as StrF except that
+ the parameter in this case is a long. The value displayed in the console is
+ &quot;187&quot;, which you may also think is strange. However, remember that
+ PureBasic will automatically convert between types when you assign values
+ to numeric variables. When converting float types to any of the types for storing
+ whole numbers the behaviour is to round to the nearest number. 
+
+<p>The line <span class="code">PrintN(Str(height))</span> shows what happens if you
+ use the wrong conversion command for a variable of a certain type (in this case
+ a float is being converted using the command for whole numbers). What happens
+ in this case is that PureBasic will try to convert the float into the type
+ to fill the parameter. As mentioned above, the parameter to the Str command
+ is a long type, so the effect is the same as the previous line of code.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="introduction.html">Introduction</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="addition.html">Addition</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

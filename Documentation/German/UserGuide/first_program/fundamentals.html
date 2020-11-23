@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Grundlagen der PureBasic Sprache - Ihr erstes Programm - PureBasic Benutzerhandbuch</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Grundlagen der PureBasic Sprache</h1>
+
+Bevor wir mit dem Schreiben des ersten Programms in PureBasic beginnen, gibt es einige Grundlagen,
+die Sie über PureBasic kennen und stets in Ihrem Gedächtnis behalten sollten. Diese werden
+überall in PureBasic verwendet und ersparen Ihnen viele Schwierigkeiten, wenn Sie sich an sie erinnern.
+Der PureBasic Quellcode ist eine Sprache mit bestimmten Regeln, denen gefolgt werden muss, damit
+sie richtig ist. Einfach so, wie es sich mit jeder anderen Sprache (für Computer oder Menschen) verhält.
+
+<p><h2>Allgemeiner Aufbau eines PureBasic Programms</h2>
+Ein in PureBasic geschriebenes Programm besteht aus einer oder mehreren Dateien, die den Quellcode
+(die Anweisungen, welche der Computer ausführt) enthalten. Der Compiler liest diese Dateien und
+erzeugt ein ausführbares Programm (englisch: Executable), welches Sie wie jede andere Software auf
+Ihrem Computer ausführen können. Wenn es irgendwelche Fehler in Ihrem Quellcode gibt, werden Sie
+darüber informiert und es wird kein Executable erstellt.
+
+<p>Normalerweise schreiben Sie eine Anweisung auf jeder Zeile, aber Sie können auch das
+Doppelpunkt-Zeichen verwenden, um mehrere Anweisungen auf derselben Zeile zu trennen. Zum
+Beispiel sind die zwei Abschnitte unten äquivalent (machen Sie sich keine Gedanken darum, was
+die Anweisungen an dieser Stelle tun):  
+
+<pre class="code">
+OpenConsole()
+For i=0 To 10
+    a = a + 2
+    PrintN(&quot;Hallo dort &quot+Str(a))
+Next
+
+
+For i=0 To 10 : a = a + 2 : PrintN(&quot;Hallo dort &quot+Str(a)) : Next
+</pre>
+
+Obwohl Sie - wie hier gezeigt - viele Anweisungen auf einer Zeile platzieren können, können Sie
+jedoch keine Anweisung über mehrere Zeilen verteilen.
+
+<p><h2>Typen von Anweisungen</h2>
+Wie oben erwähnt, besteht PureBasic Quellcode aus einer Folge von Anweisungen, die der
+Computer ausführen soll. Diese Anweisungen können sein:  
+<ul>
+<li>einfache Manipulationen von <i>Variablen</i> - Variablen sind ein Platz, um Daten zu speichern und zu manipulieren
+<li>komplexere PureBasic <i>Schlüsselwörter</i> - Schlüsselwörter (englisch: Keywords) sind Anweisungen, die in der
+Sprache eingebaut sind. Schlüsselwörter werden durch Fettschrift im PureBasic-Editor hervorgehoben (als eine
+praktische Hilfe, damit Sie sie besser identifizieren können).
+<li>oder <i>Befehle</i> - Befehle sind eine Folge von Anweisungen, die Ihren Programmen ihre nützlichen
+Fähigkeiten verleihen und komplett in den "PureLibraries" Bibliotheken enthalten sind.
+</ul>
+
+<p><h2>Schlüsselwörter</h2>
+Das allgemeine Format, welchem Schlüsselwörter folgen, lautet wie folgt:
+<br><blockquote>&lt;Schlüsselwort Name&gt; [Schlüsselwort Daten]</blockquote>
+was aus dem Schlüsselwort-Name gefolgt von den Angaben, woran das Schlüsselwort arbeitet.
+Natürlich hängt das genaue Format der Anweisung vom Schlüsselwort ab. Diese werden erklärt, sobald wir
+sie in diesem Benutzerhandbuch erreicht haben.
+
+<p>Sie werden bemerkt haben, dass Schlüsselwörter keine Klammern nach ihrem Namen besitzen.
+
+<p>Ein Beispiel für ein Schlüsselwort ist das <i>For</i> Schlüsselwort im oben aufgeführten Beispiel.
+
+<p><h2>Befehle</h2>
+Befehle entsprechen immer dem nachfolgend beschriebenen Format:<blockquote>[Rückgabewert] &lt;Befehl Name&gt;([Parameter 1 [, Parameter 2 [, Parameter 3 [, ... [, Parameter n]]]]])</blockquote>
+
+Befehlsnamen werden immer von einer öffnenden Klammer gefolgt, die irgendwo später eine passende
+schließende Klammer haben muss. Über Befehle wird gesagt, dass sie <i>Parameter annehmen</i>
+und ein <i>Ergebnis zurückliefern</i>. Beides sind einfache Methoden, um Informationen aus Ihrer
+Quelle an die den Befehl ausmachenden Anweisungen weiterzureichen und wieder zurückzugeben.
+
+<p>Parameter werden innerhalb der Klammern geschrieben, und jeder Parameter durch ein Komma
+getrennt. Wenn es keine Parameter gibt, dann geben Sie nichts zwischen den Klammern an. Die
+Bedeutung jedes Parameters ist völlig vom Befehl abhängig. 
+
+<p>Der Rückgabewert ist ein Wert, welchen der Befehl an Ihren Quellcode zurückgibt und der
+für Berechnungen verwendet und manipuliert werden, einfach wie jeder andere Art von Wert in
+PureBasic. Der Rückgabewert ist optional, so dass es sein kann, dass Sie ihn nicht verwenden
+müssen; in diesem Fall starten Sie die Anweisung einfach mit dem Befehlsnamen. Was der
+Rückgabewert bedeutet, ist völlig vom Befehl abhängig. 
+
+<p>Ein Beispiel für einen Befehl ist der <i>PrintN</i> Befehl im obigen Beispiel.
+
+<p><h2>Kommentare</h2>
+Das Semikolon-Zeichen wird verwendet, um einen <i>Kommentar</i> oder eine Bemerkung anzuzeigen.
+Jeder Text nach dem Semikolon bis zum Ende der Zeile wird vom PureBasic Compiler ignoriert.
+Dies ermöglicht Ihnen, Ihren Programmen Kommentare hinzuzufügen, damit Sie sich erinnern können,
+warum Sie etwas eingegeben haben oder um ein erstaunliches Stück Code zu erklären, dass Sie
+geschrieben haben.
+
+<p><h2>Strings und Zahlen</h2>
+Strings (Folge von Zeichen), welche sich während der Ausführung Ihres Programms nicht ändern,
+werden durch das Einschließen des Strings in Anführungszeichen, dem " Zeichen, eingegeben. Ein
+Beispiel für einen String ist "Hi. Ich bin ein String". Zahlen in Ihrem Programm, die sich nicht ändern,
+können einfach als Zahl, zum Beispiel 34, eingegeben werden. Wenn Sie eine Zahl mit einem
+Bruchteil benötigen, können Sie einfach zum Beispiel 123.76 schreiben. 
+
+<p><h2>Ausführen von Quellcode</h2>
+Ihr Programm beginnt die Ausführung mit der ersten Anweisung Ihres Quellcodes und setzt diese
+Schritt für Schritt bis zum Ende des Programms fort. Natürlich können Sie auch den Fluss Ihres
+Programms durch Treffen von Entscheidungen, Wiederholen von Anweisungen und ausdrückliches
+Ausführen von anderen Teilen ändern. 
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="introduction.html">Einführung und Voraussetzungen</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="example.html">Ihr erstes Programm!</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

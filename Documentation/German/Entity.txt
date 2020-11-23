@@ -1,0 +1,1632 @@
+;
+;     Entity library documentation
+;
+;      (c) 2018 - Fantaisie Software
+;
+
+@Library Entity
+
+@Overview
+  Entities (= Mehrzahl, einzeln "Entity"; in Deutsch: "Wesen" oder auch "Einheit") sind Objekte, welche aus
+  einem @LibraryLink "mesh" "Mesh-Objekt" und einem @LibraryLink "material" "Material" zusammengesetzt wurden und in Echtzeit frei
+  bewegt und verwandelt ("transformt") werden können. Die Bibliothek  @LibraryLink "entityanimation" "Entity Animation"
+  ist verfügbar, um ein Entity basierend auf einem Skelett zu animieren.
+@LineBreak
+@LineBreak
+  Es ist möglich, ein Mesh oder ein Material jeweils bei mehreren Entities zu benutzen. Dies reduziert den
+  Speicherverbrauch und notwendige CPU-Takte. 
+@LineBreak
+@LineBreak
+  @@InitEngine3D sollte
+  erfolgreich aufgerufen worden sein, bevor Sie die Entity-Befehle verwenden.
+
+@CommandList
+
+@ExampleFile All Entity.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ApplyEntityForce(#Entity, x, y, z [, PositionX, PositionY, PositionZ [, Modus]])
+
+@Description
+  Wendet den angegebenen Kraft-/Stärke-Wert (englisch "force") auf das Entity an.
+  Der neue Kraft-Wert ersetzt alle bisher auf das Entity angewendeten Kraft-Werte.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@Parameter "x, y, z"
+  Die Kraftwerte.
+
+@OptionalParameter "PositionX, PositionY, PositionZ"
+  Die Position, relativ zur Mitte des Entity, wo die Kraft angewendet werden soll.
+
+@OptionalParameter "Modus"
+  Der anzuwendende Kraft-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Local : lokale Kraft.
+  @#PB_Parent: Kraft relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Kraft relativ zur Welt.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso @@ApplyEntityImpulse, @@ApplyEntityTorque, @@ApplyEntityTorqueImpulse
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ApplyEntityImpulse(#Entity, x, y, z [, PositionX, PositionY, PositionZ [, Modus]])
+
+@Description
+  Wendet eine Impulskraft (englisch "impulse force") auf das Entity an.
+  Die neue Impulskraft wird zur bereits vorhandenen Kraft/Stärke des Entity addiert.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@Parameter "x, y, z"
+  Gibt den Impulskraft-Wert an.
+
+@OptionalParameter "PositionX, PositionY, PositionZ"
+  Die Position, relativ zur Mitte des Entity, wo die Impulskraft angewendet werden soll.
+
+@OptionalParameter "Mode"
+  Der anzuwendende Impuls-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Local : lokaler Impuls.
+  @#PB_Parent: Impuls relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Impuls relativ zur Welt.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso @@ApplyEntityForce, @@ApplyEntityTorque, @@ApplyEntityTorqueImpulse
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ApplyEntityTorque(#Entity, x, y, z [, Modus])
+
+@Description
+  Wendet eine Drehkraft (Rotation) auf das Entity an. Die neue Drehkraft ersetzt alle Kräfte,
+  die vorher auf das Entity angewendet wurden.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@Parameter "x, y, z"
+  Die Dreh-Kraftwerte (englisch "force values").
+
+@OptionalParameter "Modus"
+  Der anzuwendende Drehkraft-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Local : lokale Drehkraft.
+  @#PB_Parent: Drehkraft relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Drehkraft relativ zur Welt.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso @@ApplyEntityImpulse, @@ApplyEntityForce, @@ApplyEntityTorqueImpulse
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ApplyEntityTorqueImpulse(#Entity, x, y, z [, Modus])
+
+@Description
+  Wendet einen Drehimpuls (englisch "rotation impulse") auf das Entity an. Der neue Impuls wird
+  zusätzlich zur Drehkraft angewandt, die vorher auf das Entity angewendet wurde.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@Parameter "x, y, z"
+  Die Dreh-Impuls-Werte.
+  
+@OptionalParameter "Modus"
+  Der anzuwendende Drehimpuls-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Local : lokaler Drehimpuls.
+  @#PB_Parent: Drehimpuls relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Drehimpuls relativ zur Welt.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso @@ApplyEntityImpulse, @@ApplyEntityForce, @@ApplyEntityTorque
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CopyEntity(#Entity, #NewEntity)
+
+@Description
+  Erstellt ein neues Objekt '#NewEntity', welches eine exakte Kopie des
+  angegebenen Objekts '#Entity' ist.  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als
+  '#NewEntity' Parameter verwendet wird, dann wird die Nummer des neuen Entity als 'Ergebnis' zurückgegeben.
+@LineBreak
+@LineBreak
+  Ist das 'Ergebnis' gleich 0, ist das Kopieren des Entity fehlgeschlagen.
+@LineBreak
+@LineBreak
+  Wurde das Objekt '#NewEntity' bereits erstellt, wird es automatisch
+  freigegeben und durch das neue ersetzt.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateEntity(#Entity, MeshID, MaterialID, [x, y, z [, PickMaske [, SichtbarkeitsMaske]])
+
+@Description
+  Erstellt ein neues Entity-Objekt mittels dem angegebenen Mesh und Material.
+  
+@Parameter "#Entity" 
+  Die Nummer zum Identifizieren des neuen Entity. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "MeshID"
+  Das für die Erstellung des Entity zu verwendende Mesh. Um eine gültige Mesh-ID
+  zu erhalten, verwenden Sie @@MeshID. Dynamische Meshes werden nicht unterstützt
+  (= Meshes, welche mit dem @#PB_Mesh_Dynamic Flag erstellt wurden).
+  
+@Parameter "MaterialID"
+  Das für die Erstellung des Entity zu verwendende Material. Um eine gültige Material-ID
+  zu erhalten, verwenden Sie @@MaterialID.
+  @LineBreak
+  @#PB_Material_None kann als Parameter-Wert verwendet werden, um das dem Mesh zugewiesene
+  .material Skript zu verwenden. Vor der Verwendung von @#PB_Material_None sollte
+  @@Parse3DScripts aufgerufen werden.
+
+@OptionalParameter "x, y, z"
+  Die Position des neuen Entity in der Welt.
+
+@OptionalParameter "PickMaske"
+  Ein spezieller Wert, der von @@RayPick und @@MousePick verwendet wird, um auszuwählen,
+  welche Entity-Gruppe behandelt wird. Da es eine Maske ist, sollte jeder Wert eine
+  Potenz von zwei sein. 31 verschiedene Masken sind verfügbar. Um einfach einen Masken-Wert
+  zu erstellen, kann der '<<' Operator verwendet werden:
+@FixedFont
+  - 1 << 1  : erster gültiger Masken-Wert
+  - 1 << 2  : zweiter gültiger Masken-Wert
+  - 1 << 3  : dritter gültiger Masken-Wert
+  - ...
+  - 1 << 31 : letzter gültiger Masken-Wert
+@EndFixedFont
+  Um deren Verwendung zu vereinfachen, sollten Konstanten für die Speicherung des Masken-Werts
+  und dessen spätere Verwendung genutzt werden. Beim Aufrufen der "Pick"-Funktionen können
+  Masken mit Hilfe des '|' Operators kombiniert werden, um mehr als einen Typ von Entities
+  auszuwählen.
+  
+@OptionalParameter "SichtbarkeitsMaske"
+  Eine Maske, um auszuwählen, auf welcher Kamera das Entity angezeigt werden soll.
+  Wenn diese Maske zu der bei @@CreateCamera spezifizierten Maske passt, wird das
+  Entity auf der Kamera dargestellt. Siehe 'PickMaske' zum Erstellen korrekter Masken.
+  Wenn dieser Parameter weggelassen wird, dann wird das Entity auf allen Kameras
+  sichtbar sein.
+
+@ReturnValue
+  Gibt null zurück, wenn das Entity nicht erstellt werden konnte. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"
+  als '#Entity' Parameter verwendet wird, dann wird die neue Entity-Nummer zurückgegeben.
+
+@SeeAlso
+  @@FreeEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityFixedYawAxis(#Entity, Aktivieren [, VektorX, VektorY, VektorZ])
+
+@Description
+  Ändert die feste Gier- oder Hochachse (englisch "fixed yaw axis") des Entity.
+  Das Standardverhalten eines Entity ist es, um seine eigene Y-Achse zu gieren.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "Aktivieren"
+  Aktiviert oder deaktiviert die Verwendung einer benutzerdefinierten Hochachse.
+  Wenn auf @#True gesetzt, muss ein neuer Achsen-Vektor spezifiziert
+  werden. Wenn auf @#False gesetzt, wird das Entity um seine
+  eigene Y-Achse gieren.
+
+@OptionalParameter "VektorX"
+  X-Vektor-Richtung der neuen Gierachse (Wert zwischen -1.0 und 1.0).
+  Der Parameter 'Aktivieren' muss gesetzt werden, damit dies einen Effekt hat.
+
+@OptionalParameter "VektorY"
+  Y-Vektor-Richtung der neuen Gierachse (Wert zwischen -1.0 und 1.0).
+  Der Parameter 'Aktivieren' muss gesetzt werden, damit dies einen Effekt hat.
+
+@OptionalParameter "VektorZ"
+  Z-Vektor-Richtung der neuen Gierachse (Wert zwischen -1.0 und 1.0).
+  Der Parameter 'Aktivieren' muss gesetzt werden, damit dies einen Effekt hat.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityID = EntityID(#Entity)
+
+@Description
+  Gibt die einmalige ID zurück, welche das angegebene '#Entity' im Betriebssystem identifiziert.
+  Diese Funktion ist sehr nützlich, wenn eine andere Bibliothek einen Entity-Bezug benötigt.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityLookAt(#Entity, x, y, z [, RichtungX, RichtungY, RichtungZ])
+
+@Description
+  Der Punkt (in Welt-Einheiten), welchen das Entity anvisiert.
+  Die Position des Entity wird dabei nicht verändert.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "x, y, z"
+  Die Position (in Welt-Einheiten), in welche das Entity zeigen soll.
+
+@OptionalParameter "RichtungX, RichtungY, RichtungZ"
+  Die Vektor-Richtung des Entity (Werte zwischen -1.0 und 1.0).
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityVelocity(#Entity, x, y, z)
+
+@Description
+  Ändert die lineare Geschwindigkeit (englisch "linear velocity") des #Entity. Der lineare
+  Faktor wird auf das Entity vor jeder Bewegung angewandt. Um den endgültigen Wert zu
+  erhalten, siehe @@EntityLinearFactor für weitere Informationen.
+@LineBreak
+@LineBreak
+  Das Entity benötigt einen physischen Körper (englisch "physic body"), um lineare
+  Geschwindigkeit zu unterstützen. Um die aktuelle Geschwindigkeit des Entity zu erhalten,
+  verwenden Sie @@GetEntityAttribute.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "x, y, z"
+  Die Geschwindigkeits-Vektor-Kraft (englisch "velocity vector force").
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityAngularFactor(#Entity, x, y, z)
+
+@Description
+  Ändert den Winkel-Faktor (englisch "angular factor") des #Entity.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "x, y, z"
+  Der Winkel-Faktor-Vektor.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityLinearFactor(#Entity, x, y, z)
+
+@Description
+  Ändert den linearen Faktor für das #Entity. Wenn dies bewegt wird, dann wird die lineare
+  Geschwindigkeit des Entity mit dem linearen Faktor multipliziert, um die endgültige
+  Geschwindigkeit zu erhalten. Dies ist sehr nützlich, um die Entity-Bewegung auf eine
+  oder mehrere Achsen einzuschränken. Standardmäßig ist der lineare Faktor gleich 1 für
+  alle Achsen - das bedeutet, er hat keine Auswirkungen auf die Geschwindigkeit.
+  Das Entity benötigt einen physischen Körper, um die Einschränkung der linearen
+  Geschwindigkeit zu unterstützen.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "x"
+  Der lineare 'x' Faktor-Wert. Wenn dieser auf 0 gesetzt wird, dann wird das Entity nicht
+  mehr in der Lage sein, sich auf der 'x' Achse zu bewegen.
+
+@Parameter "y"
+  Der lineare 'y' Faktor-Wert. Wenn dieser auf 0 gesetzt wird, dann wird das Entity nicht
+  mehr in der Lage sein, sich auf der 'y' Achse zu bewegen.
+
+@Parameter "z"
+  Der lineare 'z' Faktor-Wert. Wenn dieser auf 0 gesetzt wird, dann wird das Entity nicht
+  mehr in der Lage sein, sich auf der 'z' Achse zu bewegen.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityCustomParameter(#Entity, SubEntity, ParameterIndex, Wert1, Wert2, Wert3, Wert4)
+
+@Description
+  Legt einen benutzerdefinierten Parameter im Material-Shader-Skript des #Entity fest.
+  Um einen Effekt zu haben, sollte das dem Entity zugeordnete Material ein
+  Shader-Skript (entweder GLSL oder HLSL) haben.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "SubEntity"
+  Das zu verwendende "Sub-Entity". Der erste Sub-Entity-Index beginnt bei 0 (entspricht
+  dem Haupt-Entity).
+
+@Parameter "ParameterIndex"
+  Der Parameter-Index im Shader-Skript.
+
+@Parameter "Wert1"
+  Der erste Parameter-Wert.
+
+@Parameter "Wert2"
+  Der zweite Parameter-Wert (wenn der Parameter nur einen Wert akzeptiert, dann wird dieser
+  Wert ignoriert).
+
+@Parameter "Wert3"
+  Der dritte Parameter-Wert (wenn der Parameter nur zwei Werte akzeptiert, dann wird dieser
+  Wert ignoriert).
+
+@Parameter "Wert4"
+  Der vierte Parameter-Wert (wenn der Parameter nur drei Werte akzeptiert, dann wird dieser
+  Wert ignoriert).
+
+@NoReturnValue
+
+  Für weitere Informationen siehe das folgende Beispiel:
+  
+@ExampleFile All RustyBall.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityBoundingBox(#Entity, Flags)
+
+@Description
+  Gibt die Position des Begrenzungsrahmens (englisch "bounding box") zurück, entweder
+  in lokalen oder Welt-Koordinaten.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "Flags"
+  Flags kann einer der folgenden Werte sein:
+
+@FixedFont
+  @#PB_Entity_MinBoundingBoxX: minimale 'x'-Position des Begrenzungsrahmens
+  @#PB_Entity_MaxBoundingBoxX: maximale 'x'-Position des Begrenzungsrahmens
+  @#PB_Entity_MinBoundingBoxY: minimale 'y'-Position des Begrenzungsrahmens
+  @#PB_Entity_MaxBoundingBoxY: maximale 'y'-Position des Begrenzungsrahmens
+  @#PB_Entity_MinBoundingBoxZ: minimale 'z'-Position des Begrenzungsrahmens
+  @#PB_Entity_MaxBoundingBoxZ: maximale 'z'-Position des Begrenzungsrahmens
+@EndFixedFont
+  
+  kombiniert mit einem der folgenden Werte:
+
+@FixedFont
+  @#PB_Entity_WorldBoundingBox: Positionen werden in Welt-Koordinaten zurückgegeben (Standard)
+  @#PB_Entity_LocalBoundingBox: Positionen werden in lokalen Koordinaten zurückgegeben
+@EndFixedFont
+
+@ReturnValue
+  Gibt die Position des Begrenzungsrahmens zurück, entweder in lokalen oder in Welt-Koordinaten.
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableEntityBody(#Entity, Deaktivieren)
+
+@Description
+  Deaktiviert den (physischen) Körper eines Entity. Die Physik-Engine hat keinen Einfluss
+  auf das Entity mehr, wenn ein Entity-Körper deaktiviert ist.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "Deaktivieren"
+  Wenn auf @#True gesetzt, wird der Entity-Körper deaktiviert.
+  Wenn auf @#False gesetzt, wird der Körper aktiviert.
+
+@NoReturnValue
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityParentNode(#Entity)
+
+@Description
+  Gibt die übergeordnete ("parent") @@NodeID zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@ReturnValue
+  Gibt die übergeordnete ("Parent-") @@NodeID zurück, sofern vorhanden. Dies kann
+  entweder ein echter Knoten ("Node") sein - oder ein Knochen ("bone"), wenn das
+  Entity einem Knochen ("bone") zugeordnet ist.
+  Wenn das Entity keinen übergeordneten Knoten hat, wird 0 zurückgegeben.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = FetchEntityMaterial(#Entity, #Material [, SubEntity])
+
+@Description
+  Ermittelt das Material, welches dem angegebenen #Entity mittels @SetEntityMaterial zugewiesen wurde.
+  
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+  
+@Parameter "#Material"
+  Die neu erstellte @LibraryLink "material" "Material"-Nummer.
+
+@OptionalParameter "SubEntity"
+  Das Sub-Entity, von welchem das Material ermittelt werden soll. Der erste Sub-Entity-Index
+  beginnt bei 0 (was dem Haupt-Entity entspricht).
+
+@ReturnValue
+  Gibt bei Erfolg einen Wert ungleich Null zurück, und Null bei einem Fehler.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetEntityMaterial(#Entity, MaterialID [, SubEntity])
+
+@Description
+  Weist dem angegebenen '#Entity' ein Material zu. Einem Entity kann zur gleichen Zeit
+  nur ein Material zugeordnet bekommen.
+  
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+  
+@Parameter "#Material"
+  Die neu erstellte @LibraryLink "material" "Material" Nummer.
+
+@OptionalParameter "SubEntity"
+  Das Sub-Entity, bei welchem das Material zugewiesen werden soll. Der erste Sub-Entity-Index
+  beginnt bei 0 (was dem Haupt-Entity entspricht).
+
+@NoReturnValue
+  
+@SeeAlso
+  @@FetchEntityMaterial, @@GetEntityAttribute, 
+  @@SetEntityAttribute
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityCollide(#Entity, #Entity2)
+
+@Description
+  Überprüft, ob die zwei angegebenen Entity-Objekte kollidieren.
+@LineBreak
+@LineBreak
+  Um ihre Kollisionen durch die Physik-Engine verwalten zu können, benötigt das Entity
+  einen mittels @@CreateEntityBody erstellten Körper ("body").
+@LineBreak
+@LineBreak
+  Um einen Effekt zu haben, muss die Physik-Engine mittels @@EnableWorldPhysics
+  aktiviert sein.
+
+@Parameter "#Entity"
+  Das erste zu testende Entity.
+  
+@Parameter "#Entity2"
+  Das zweite zu testende Entity.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die zwei Entity-Objekte kollidieren.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateEntityBody(#Entity, Typ [, Masse [, Restitution, Reibung [, GrößeX, GrößeY, GrößeZ [, AchseX, AchseY, AchseZ]])
+
+@Description
+  Ändert den Typ des Körpers ("body"), welcher mit dem '#Entity' verknüpft ist.
+@LineBreak
+@LineBreak
+  Um die Kollisionen eines 'Entity' durch die Physik-Engine verwalten zu lassen,
+  muss für das 'Entity' ein Körper festgelegt werden. Tatsächlich ist nur der 
+  Körper der Physik-Engine bekannt, welche alle Berechnungen rund um das Entity
+  erledigen wird, wie das Überprüfen der Masse, der Reibung und wenn es zusammenstößt, 
+  das Zurückbewegen des tatsächlichen Entity.
+@LineBreak
+@LineBreak
+  Um irgendeinen Effekt zu haben, muss die Physik-Engine mittels
+  @@EnableWorldPhysics aktiviert werden.
+
+@Parameter "Typ"
+  Typ definiert, wie die Physik-Engine dieses Entity behandeln wird. Dies kann eine
+  der folgenden Konstanten sein:
+@FixedFont
+  @#PB_Entity_None       : Kein Körper ("body") ist mit dem Entity verknüpft (Standard)
+  @#PB_Entity_StaticBody : Der Körper ist nur statisch, was bedeutet, dass das Mesh nicht animiert werden kann.
+                          Dieser Modus erlaubt sehr präzise Kollisionen, da diese gegen Dreiecke
+                          ausgeführt werden (auch bekannt als "Tri-Mesh Collision"). Er ist auch 
+                          schnell bei Zusammenstößen mit den Entity-Körpertypen Kasten ("Box") und
+                          Kugel ("Sphere"). Er ist perfekt, wenn das Mesh für die Erde oder eine
+                          statische Welt verwendet wird.
+  @#PB_Entity_PlaneBody  : Eine 'virtuelle' Ebene ("plane") wird rings um das Entity gelegt (mit den gleichen Abmessungen)
+                          und wird für das Managen von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_ConeBody   : Ein 'virtueller' Kegel ("cone") wird rings um das Entity gelegt (mit den gleichen Abmessungen)
+                          und wird für das Managen von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_BoxBody    : Eine 'virtuelle' Box wird rings um das Entity gelegt (mit den gleichen Abmessungen)
+                          und wird für das Managen von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_SphereBody : Eine 'virtuelle' Kugel wird rings um das Entity gelegt und wird für das Managen
+                          von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_CylinderBody : Ein 'virteller' Zylinder wird rings um das Entity gelegt und wird für das Managen
+                          von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_CapsuleBody : Eine 'virtelle' Kapsel wird rings um das Entity gelegt und wird für das Managen
+                          von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_ConvexHullBody : Eine 'virtuelle' komplexe Form - abgeleitet vom tatsächlichen Mesh - wird rings
+                          um das Entity gelegt und wird für das Managen von Kollisionen mit anderen 'Entities' verwendet.           
+                          Dieser Modus ist langsamer als die grundlegenden Kollisionsformen.
+  @#PB_Entity_CompoundBody   : Ein 'virtueller' zusammengesetzter Körper ("compound body") wird rings um das Entity
+                          gelegt und wird für das Managen von Kollisionen mit anderen 'Entities' verwendet.
+@EndFixedFont
+
+@OptionalParameter "Masse"
+  Masse des Objekts. Verwenden Sie nicht zu große Werte, oder dies könnte Physik-Inkohärenzen
+  produzieren (1 ist der bevorzugte Wert).
+ 
+@OptionalParameter "Restitution"
+  Restitution des Objekts. Dieser Wert kann auch mittels @@GetEntityAttribute und @@SetEntityAttribute
+  ermittelt bzw. gesetzt werden.
+
+@OptionalParameter "Reibung"
+  Reibung des Objekts. Dieser Wert kann auch mittels @@GetEntityAttribute und @@SetEntityAttribute
+  ermittelt bzw. gesetzt werden.
+  
+@OptionalParameter "GrößeX, GrößeY, GrößeZ"
+  Die Größe vom Begrenzungsrahmen (englisch "bounding box") des Körpers. Dies gilt nur für
+  die folgenden Körper-Typen:
+@FixedFont
+  @#PB_Entity_BoxBody     : GrößeX, GrößeY und GrößeZ sind verfügbar.
+  @#PB_Entity_SphereBody  : GrößeX ist verfügbar.
+  @#PB_Entity_ConeBody    : GrößeX und GrößeY sind verfügbar.
+  @#PB_Entity_CylinderBody: GrößeX und GrößeY sind verfügbar.
+  @#PB_Entity_CapsuleBody : GrößeX, GrößeY und GrößeZ sind verfügbar.
+@EndFixedFont  
+
+@OptionalParameter "AchseX, AchseY, AchseZ"
+  Die Achsen des Körpers. Dies gilt nur für die folgenden Körper-Typen:
+@FixedFont
+  @#PB_Entity_PlaneBody
+  @#PB_Entity_CylinderBody
+  @#PB_Entity_CapsuleBody 
+@EndFixedFont 
+
+@NoReturnValue
+
+@SeeAlso
+  @@FreeEntityBody
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityRenderMode(#Entity, Modus)
+
+@Description
+  Ändert den Rendermodus des angegebenen '#Entity'.
+  
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+  
+@Parameter "Modus"
+  Kann eine Kombination (mittels des '|' Operators) der folgenden Werte sein:
+@FixedFont
+  @#PB_Entity_CastShadow      : das Entity wirft einen Schatten, wenn @@WorldShadows aktiviert wurde (Standard)
+  @#PB_Entity_DisplaySkeleton : zeigt das Entity-Skelett an
+  @#PB_Shadow_None            : deaktiviert den Schattenwurf für bestimmte Mesh/Objekt-Entities (nützlich bei "grounds")
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AttachEntityObject(#Entity, Bone$, ObjektID [, x, y, z, Nick, Roll, Gier])
+
+@Description
+  Fügt ein existierendes Objekt zu einem #Entity-Knochen (englisch "bone") hinzu.
+  Ein Objekt kann vom Entity-Knochen mittels @@DetachEntityObject entfernt werden.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "Bone$"
+  Der Knochen-Name ("bone") im OGRE-Mesh. Bleibt der Knochen-Name leer, dann wird das Objekt nicht
+  zu einem Knochen sondern direkt zum Entity-Objekt hinzugefügt.
+
+@Parameter "ObjektID"
+  Das hinzuzufügende Objekt. Dies kann eines der folgenden Typen sein:
+@FixedFont
+  - Entity : verwenden Sie @@EntityID als 'ObjektID'.
+  - Camera : verwenden Sie @@CameraID als 'ObjektID'.
+  - Light  : verwenden Sie @@LightID als 'ObjektID'.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID als 'ObjektID'.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID als 'ObjektID'.
+@EndFixedFont
+
+@OptionalParameter "x, y, z"
+  Die relative Offset-Position des hinzugefügten Objekts.
+  
+@OptionalParameter "Pitch"
+  Der auf das hinzugefügte Objekt anzuwendende 'Nick'-Wert (englisch "Pitch").
+
+@OptionalParameter "Roll"
+  Der auf das hinzugefügte Objekt anzuwendende 'Roll'-Wert.
+
+@OptionalParameter "Yaw"
+  Der auf das hinzugefügte Objekt anzuwendende 'Gier'-Wert (englisch "Yaw").
+
+@NoReturnValue  
+
+@SeeAlso
+  @@DetachEntityObject
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DetachEntityObject(#Node, ObjektID)
+
+@Description
+  Trennt (entfernt) ein zuvor hinzugefügtes Objekt von einem #Entity-Knochen (englisch "bone").
+  Die unterstützten Objekte sind die folgenden:
+@FixedFont
+  - Entity : verwenden Sie @@EntityID als 'ObjektID'.
+  - Camera : verwenden Sie @@CameraID als 'ObjektID'.
+  - Light  : verwenden Sie @@LightID als 'ObjektID'.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID als 'ObjektID'.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID als 'ObjektID'.
+@EndFixedFont
+  Ein Objekt kann zu einem Entity-Knochen mittels @@AttachEntityObject hinzugefügt werden.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EnableManualEntityBoneControl(#Entity, Bone$, Status, VererbungsOrientierung)
+
+@Description
+  Aktiviert die manuelle Kontrolle eines Knochens ("Bone"). Dieser kann manuell mit @@MoveEntityBone
+  bewegt und mit @@RotateEntityBone gedreht werden.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@Parameter "Bone$"
+  Der Knochen-Name ("bone") im OGRE-Mesh.
+
+@Parameter "Status"  
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#True : die manuelle Knochen-Kontrolle ist aktiviert.
+  @#False: die manuelle Knochen-Kontrolle ist deaktiviert.
+@EndFixedFont
+
+@OptionalParameter "VererbungsOrientierung"
+  Sagt aus, ob die Knochen-Ausrichtung sich von der Entity-Ausrichtung ableiten soll. Dies kann einer
+  der folgenden Werte sein:
+@FixedFont
+  @#True : die manuelle Knochen-Ausrichtung wird vom Entity vererbt.
+  @#False: die manuelle Knochen-Ausrichtung berücksichtigt nicht die Entity-Ausrichtung.
+@EndFixedFont
+  
+@NoReturnValue  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveEntityBone(#Entity, Bone$, x, y, z, Modus)
+
+@Description
+  Bewegt den angegebenen Entity-Knochen ("Bone"). Der Knochen muss sich im manuellen Modus befinden,
+  siehe bei @@EnableManualEntityBoneControl.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@Parameter "Bone$"
+  Der Knochen-Name ("bone") im OGRE-Mesh.
+
+@Parameter "x, y, z"  
+  Die neue Position des Knochens.
+
+@Parameter "Modus"
+  Der Bewegungs-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Bewegung, ausgehend von der aktuellen Knochen-Position (Standard).
+  @#PB_Absolute: absolute Bewegung an die angegebene Position.
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_Local : lokale Bewegung.
+  @#PB_Parent: Bewegung relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Bewegung relativ zur Welt.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@RotateEntityBone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeEntityBody(#Entity)
+
+@Description
+  Gibt den mit dem Entity verknüpften Körper frei.
+  
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateEntityBody
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeEntityJoints(#Entity)
+
+@Description
+  Gibt alle mit dem Entity verknüpften Gelenke (englisch @LibraryLink "joint" "Joints") frei.
+  
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityBoneX(#Entity, Bone$ [, OffsetX, OffsetY, OffsetZ])
+
+@Description
+  Gibt die 'x' Position des Knochens (Bone) in der Welt zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+  
+@Parameter "Bone$"
+  Der Name des Knochens (Bone) im OGRE-Mesh.
+
+@OptionalParameter "OffsetX"
+  Der 'x' Offset relativ zum Knochen.
+
+@OptionalParameter "OffsetY"
+  Der 'y' Offset relativ zum Knochen.
+
+@OptionalParameter "OffsetX"
+  Der 'z' Offset relativ zum Knochen.
+
+@ReturnValue
+  Gibt die 'x' Position des #Entity-Knochens in der Welt zurück.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityBoneY(#Entity, Bone$ [, OffsetX, OffsetY, OffsetZ])
+
+@Description
+  Gibt die 'y' Position des Knochens (Bone) in der Welt zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+  
+@Parameter "Bone$"
+  Der Name des Knochens (Bone) im OGRE-Mesh.
+
+@OptionalParameter "OffsetX"
+  Der 'x' Offset relativ zum Knochen.
+
+@OptionalParameter "OffsetY"
+  Der 'y' Offset relativ zum Knochen.
+
+@OptionalParameter "OffsetX"
+  Der 'z' Offset relativ zum Knochen.
+
+@ReturnValue
+  Gibt die 'y' Position des #Entity-Knochens in der Welt zurück.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityBoneZ(#Entity, Bone$ [, OffsetX, OffsetY, OffsetZ])
+
+@Description
+  Gibt die 'z' Position des Knochens (Bone) in der Welt zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+  
+@Parameter "Bone$"
+  Der Name des Knochens (Bone) im OGRE-Mesh.
+
+@OptionalParameter "OffsetX"
+  Der 'x' Offset relativ zum Knochen.
+
+@OptionalParameter "OffsetY"
+  Der 'y' Offset relativ zum Knochen.
+
+@OptionalParameter "OffsetX"
+  Der 'z' Offset relativ zum Knochen.
+
+@ReturnValue
+  Gibt die 'z' Position des #Entity-Knochens in der Welt zurück.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityBonePitch(#Entity, Bone$)
+
+@Description
+  Gibt die Nick-Winkel (englisch "Pitch") des Entity-Knochens (Bone) zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+  
+@Parameter "Bone$"
+  Der Name des Knochens (Bone) im OGRE-Mesh.
+
+@ReturnValue
+  Der aktuelle Nick-Wert (Pitch) des Knochens (Bone). Dieser Wert liegt immer zwischen
+  -180.0 und 180.0 Grad.
+  
+@SeeAlso
+  @@EntityBoneYaw, @@EntityBoneRoll
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityBoneYaw(#Entity, Bone$)
+
+@Description
+  Gibt die Gier-Winkel (englisch "Yaw") des Entity-Knochens (Bone) zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+  
+@Parameter "Bone$"
+  Der Name des Knochens (Bone) im OGRE-Mesh.
+
+@ReturnValue
+  Der aktuelle Gier-Wert (Yaw) des Knochens (Bone). Dieser Wert liegt immer zwischen
+  -180.0 und 180.0 Grad.
+
+@SeeAlso
+  @@EntityBonePitch, @@EntityBoneRoll
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityBoneRoll(#Entity, Bone$)
+
+@Description
+  Gibt die Roll-Winkel (englisch "Roll") des Entity-Knochens (Bone) zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+  
+@Parameter "Bone$"
+  Der Name des Knochens (Bone) im OGRE-Mesh.
+
+@ReturnValue
+  Der aktuelle Roll-Wert des Knochens (Bone). Dieser Wert liegt immer zwischen
+  -180.0 und 180.0 Grad.
+
+@SeeAlso
+  @@EntityBonePitch, @@EntityBoneYaw
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityX(#Entity [, Modus])
+
+@Description
+  Gibt die aktuelle Position des Entity innerhalb der Welt zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@OptionalParameter "Modus"
+  Der Modus, um die 'x' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'x' Position des Entities in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'x' Position des Entities relativ zu seinem übergeordneten ("parent").
+@EndFixedFont  
+
+@ReturnValue
+  Gibt die 'x' Position des Entities zurück.
+
+@SeeAlso
+  @@EntityY, @@EntityZ, @@MoveEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityY(#Entity [, Modus])
+
+@Description
+  Gibt die aktuelle Position des Entity innerhalb der Welt zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@OptionalParameter "Modus"
+  Der Modus, um die 'y' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'y' Position des Entities in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'y' Position des Entities relativ zu seinem übergeordneten ("parent").
+@EndFixedFont  
+
+@ReturnValue
+  Gibt die 'y' Position des Entities zurück.
+
+@SeeAlso
+  @@EntityX, @@EntityZ, @@MoveEntity
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityZ(#Entity [, Modus])
+
+@Description
+  Gibt die aktuelle Position des Entity innerhalb der Welt zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@OptionalParameter "Modus"
+  Der Modus, um die 'z' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'z' Position des Entities in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'z' Position des Entities relativ zu seinem übergeordneten ("parent").
+@EndFixedFont  
+
+@ReturnValue
+  Gibt die 'z' Position des Entities zurück.
+
+@SeeAlso
+  @@EntityX, @@EntityY, @@MoveEntity
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeEntity(#Entity)
+
+@Description
+  Gibt das angegebene '#Entity', welches zuvor mit @@CreateEntity 
+  erstellt wurde, frei. Sein gesamter zugehöriger Speicher wird freigegeben
+  und dieses Objekt kann nicht mehr benutzt werden.
+
+@Parameter "#Entity"
+  Das freizugebende Entity. Wenn @#PB_All angegeben wird, werden alle verbliebenen Entities freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Alle verbleibenden 'Entities' werden automatisch freigegeben, wenn das Programm endet.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideEntity(#Entity, Status)
+
+@Description
+  Versteckt oder zeigt das angegebene Objekt '#Entity'.
+@LineBreak
+@LineBreak
+  'Status' kann einen der folgenden Werte annehmen:
+@FixedFont
+  1: das #Entity wird versteckt
+  0: das #Entity wird angezeigt
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsEntity(#Entity)
+
+@Description
+  Überprüft, ob das angegebene '#Entity' gültig und ein korrekt initialisiertes Entity ist.
+@LineBreak
+@LineBreak
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. Wenn 'Ergebnis' ungleich Null ist, 
+  dann ist das Objekt gültig und initialisiert, andernfalls wird Null zurückgegeben. Dies ist der korrekte Weg, 
+  um sicherzugehen, dass ein Entity fertig zur Benutzung ist.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveEntity(#Entity, x, y, z [, Modus])
+
+@Description
+  Bewegt das angegebene Entity.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "x, y, z"
+  Die neue Position des Entity-Objekts.
+
+@OptionalParameter "Modus"
+  Der Bewegungs-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Bewegung, ausgehend von der aktuellen Position des Entities (Standard).
+  @#PB_Absolute: absolute Bewegung an die angegebene Position.
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_Local : lokale Bewegung.
+  @#PB_Parent: Bewegung relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Bewegung relativ zur Welt.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@RotateEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateEntity(#Entity, x, y, z [, Modus])
+
+@Description
+  Rotiert/dreht das Entity entsprechend der angegebenen x,y,z Winkel-Angaben.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "x, y, z"
+  Die anzuwendende Rotation, in Grad. Gültige Werte reichen von 0 bis 359.
+
+@OptionalParameter "Modus"
+  Der Rotations-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: absolute Rotation (Standard).
+  @#PB_Relative: relative Rotation, basierend auf der vorherigen "Entity"-Rotation.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@MoveEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateEntityBone(#Entity, Bone$, x, y, z, Modus)
+
+@Description
+  Rotiert/dreht den Entity-Knochen entsprechend der angegebenen x,y,z Winkel-Angaben.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "Bone$"
+  Der Knochen-Name ("bone") im OGRE-Mesh.
+
+@Parameter "x, y, z"
+  Die anzuwendende Rotation, in Grad. Gültige Werte reichen von 0 bis 359.
+
+@OptionalParameter "Modus"
+  Der Rotations-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: absolute Rotation (Standard).
+  @#PB_Relative: relative Rotation, basierend auf der vorherigen "Entity-Knochen"-Rotation.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@MoveEntityBone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleEntity(#Entity, x, y, z [, Modus])
+
+@Description
+  Skaliert das Entity-Objekt entsprechend der angegebenen 'x,y,z' Werte. Wenn der @#PB_Relative Modus
+  verwendet wird, handelt es sich dabei um eine faktor-basierende Skalierung (Größenänderung).
+  Dies bedeutet, dass die Größe des Entity mit dem angegebenen Wert multipliziert wird, um die
+  neue Größe zu erhalten.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+ 
+@Parameter "x, y, z"
+  Die anzuwendenden Skalierungs-Werte.
+
+@OptionalParameter "Modus"
+  Der Skalierungs-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Skalierung, basierend auf der vorherigen Größe (Standard). Die Verwendung
+                von 1.0 als Skalierungs-Wert lässt diesen Wert unverändert.
+  @#PB_Absolute: absolute Skalierung, in Welt-Einheiten.
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  ScaleEntity(0, 2, 2, 2) ; Verdoppelt die aktuelle Größe des Entity
+  ScaleEntity(0, 1, 1, 1) ; Verändert die Größe des Entity nicht (Multiplikation mit 1 verändert gar nichts)
+  ScaleEntity(0, 3, 1, 1) ; Macht die Breite des Entity 3-mal größer
+  ScaleEntity(0, 1, 1, 1, #PB_Absolute) ; Setzt die Entity-Größe auf 1,1,1 zurück.
+@EndCode
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityRoll(#Entity [, Modus])
+
+@Description
+  Ermittelt den Roll-Winkel (englisch "roll") des #Entity.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@OptionalParameter "Modus"
+  Der Modus zum Ermitteln des Roll-Wertes. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt den absoluten Roll-Wert, ignoriert dabei den aktuellen Roll-Wert des übergeordneten (Standard).
+  @#PB_Relative: ermittelt den Roll-Wert relativ zum aktuellen Roll-Wert des übergeordneten.
+@EndFixedFont  
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_Engine3D_Raw     : Der Roll-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateEntity 
+                         verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
+  @#PB_Engine3D_Adjusted: Der Roll-Wert wird bereinigt/justiert, womit er erneut mit @@RotateEntity verwendet
+                         werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+@EndFixedFont  
+
+@ReturnValue
+  Der aktuelle Roll-Wert des angegebenen Entity. Dieser Wert liegt immer zwischen
+  -180.0 und 180.0 Grad.
+
+@SeeAlso
+  @@EntityYaw, @@EntityPitch
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityPitch(#Entity [, Modus])
+
+@Description
+  Ermittelt die Neigung oder auch Nick-Winkel (englisch "pitch") des #Entity.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@OptionalParameter "Modus"
+  Der Modus zum Ermitteln des Neigungs-Wertes. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt den absoluten Neigungs-Wert, ignoriert dabei den aktuellen Neigungs-Wert des übergeordneten (Standard).
+  @#PB_Relative: ermittelt den Neigungs-Wert relativ zum aktuellen Neigungs-Wert des übergeordneten.
+@EndFixedFont  
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_Engine3D_Raw     : Der Neigungs-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateEntity 
+                         verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
+  @#PB_Engine3D_Adjusted: Der Neigungs-Wert wird bereinigt/justiert, womit er erneut mit @@RotateEntity verwendet
+                         werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+@EndFixedFont  
+
+@ReturnValue
+  Der aktuelle Nick-Wert des angegebenen Entity. Dieser Wert liegt immer zwischen
+  -180.0 und 180.0 Grad.
+
+@SeeAlso
+  @@EntityYaw, @@EntityRoll
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EntityYaw(#Entity [, Modus])
+
+@Description
+  Ermittelt den Gier-Winkel (englisch "yaw") des #Entity.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@OptionalParameter "Modus"
+  Der Modus zum Ermitteln des Gier-Wertes. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt den absoluten Gier-Wert, ignoriert dabei den aktuellen Gier-Wert des übergeordneten (Standard).
+  @#PB_Relative: ermittelt den Gier-Wert relativ zum aktuellen Gier-Wert des übergeordneten.
+@EndFixedFont  
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_Engine3D_Raw     : Der Gier-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateEntity 
+                         verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
+  @#PB_Engine3D_Adjusted: Der Gier-Wert wird bereinigt/justiert, womit er erneut mit @@RotateEntity verwendet
+                         werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+@EndFixedFont  
+
+@ReturnValue
+  Der aktuelle Gier-Wert (Yaw) des angegebenen Entity. Dieser Wert liegt immer zwischen
+  -180.0 und 180.0 Grad.
+
+@SeeAlso
+  @@EntityPitch, @@EntityRoll
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetEntityAttribute(#Entity, Attribut)
+
+@Description
+  Ermittelt das angegebene Attribut des angegebenen Entity.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "Attribut"
+  Gibt das zu ermittelnde Attribut an. Die folgenden Attribute sind verfügbar:
+@FixedFont
+  @#PB_Entity_Friction           : Ermittelt den Reibungs-Wert.
+  @#PB_Entity_Restitution        : Ermittelt den Restitutions-Wert.
+  @#PB_Entity_LinearVelocity     : Ermittelt die aktuelle lineare Geschwindigkeit (alle Achsen).
+  @#PB_Entity_LinearVelocityX    : Ermittelt die aktuelle lineare Geschwindigkeit auf der 'x' Achse.
+  @#PB_Entity_LinearVelocityY    : Ermittelt die aktuelle lineare Geschwindigkeit auf der 'y' Achse.
+  @#PB_Entity_LinearVelocityZ    : Ermittelt die aktuelle lineare Geschwindigkeit auf der 'z' Achse.
+  @#PB_Entity_MassCenterX        : Ermittelt die 'x' Position des Masse-Schwerpunkts.
+  @#PB_Entity_MassCenterY        : Ermittelt die 'y' Position des Masse-Schwerpunkts.
+  @#PB_Entity_MassCenterZ        : Ermittelt die 'z' Position des Masse-Schwerpunkts.
+  @#PB_Entity_NbSubEntities      : Ermittelt die Anzahl der Sub-Entities.
+  @#PB_Entity_LinearSleeping     : Ermittelt den minimalen linearen Geschwindigkeitswert, unter dem das Entity-Objekt "zu schlafen" beginnt.
+  @#PB_Entity_AngularSleeping    : Ermittelt den minimalen Winkel-Geschwindigkeitswert, unter dem das Entity-Objekt "zu schlafen" beginnt.
+  @#PB_Entity_DeactivationTime   : Ermittelt die zu wartende Zeit (in Millisekunden), bevor das Entity-Objekt 
+                                  unter den vorgenannten Bedingungen in den Ruhezustand ("Schlaf-Modus") versetzt wird.
+  @#PB_Entity_IsActive           : Ermittelt, ob ein Entity-Körper aktiv ist (und nicht "schläft").
+  @#PB_Entity_AngularVelocityX   : Ermittelt die aktuelle Winkel-Geschwindigkeit auf der 'x' Achse.
+  @#PB_Entity_AngularVelocityY   : Ermittelt die aktuelle Winkel-Geschwindigkeit auf der 'y' Achse.
+  @#PB_Entity_AngularVelocityZ   : Ermittelt die aktuelle Winkel-Geschwindigkeit auf der 'z' Achse.
+  @#PB_Entity_AngularVelocity    : Ermittelt die aktuelle Winkel-Geschwindigkeit (alle Achsen).
+  @#PB_Entity_HasContactResponse : Überprüft, ob der Entity-Körper Kontakte hat.
+  @#PB_Entity_ScaleX             : Ermittelt die aktuelle Skalierung des Entity auf der 'x' Achse.
+  @#PB_Entity_ScaleY             : Ermittelt die aktuelle Skalierung des Entity auf der 'y' Achse.
+  @#PB_Entity_ScaleZ             : Ermittelt die aktuelle Skalierung des Entity auf der 'z' Achse.
+@EndFixedFont
+
+@ReturnValue
+  Gibt den Wert des angegebenen Attributs zurück - oder 0, wenn das Entity das Attribut nicht unterstützt.
+
+@SeeAlso
+  @@SetEntityAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetEntityAttribute(#Entity, Attribut, Wert)
+
+@Description
+  Setzt den angegebenen Attribut-Wert beim angegebenen Entity.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "Attribut"
+  Das zu setzende Attribut. Die folgenden Attribute sind verfügbar:
+@FixedFont
+  @#PB_Entity_Friction         : Ändert den Reibungs-Wert.
+  @#PB_Entity_Restitution      : Ändert den Restitutions-Wert.
+  @#PB_Entity_MinVelocity      : Legt die minimale lineare Geschwindigkeit des Entity fest. Da dieser Wert nicht
+                                gespeichert wird, muss der Befehl bei jeder Bewegung des Entity aufgerufen werden.
+  @#PB_Entity_MaxVelocity      : Legt die maximale lineare Geschwindigkeit des Entity fest. Da dieser Wert nicht
+                                gespeichert wird, muss der Befehl bei jeder Bewegung des Entity aufgerufen werden.
+  @#PB_Entity_ForceVelocity    : Legt die lineare Geschwindigkeit des Entity fest. Da dieser Wert nicht gespeichert
+                                wird, muss der Befehl bei jeder Bewegung des Entity aufgerufen werden.
+  @#PB_Entity_LinearSleeping   : Ändert den minimalen linearen Geschwindigkeitswert, unter dem das Entity-Objekt "schlafen" wird.
+  @#PB_Entity_AngularSleeping  : Ändert den minimalen Winkel-Geschwindigkeitswert, unter dem das Entity-Objekt "schlafen" wird.
+  @#PB_Entity_DeactivationTime : Zu wartende Zeit (in Millisekunden), bevor das Entity-Objekt in den Ruhezustand ("Schlaf-Modus")
+                                versetzt wird, wenn die vorgenannten Bedingungen zutreffen.
+  @#PB_Entity_DisableContactResponse: Deaktiviert oder aktiviert die physischen Kontakte für dieses Entity. Wert kann @#True oder @#False sein.
+@EndFixedFont
+
+@Parameter "Wert"
+  Wert des zu setzenden Attributs.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@GetEntityAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetEntityCollisionMask(#Entity)
+
+@Description
+  Ermittelt die aktuelle Entity-Kollisionsmaske, wie sie mit @@SetEntityCollisionFilter
+  festgelegt wurde.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@ReturnValue
+  Die aktuelle Kollisionsmaske des Entity.
+
+@SeeAlso
+  @@SetEntityCollisionFilter, @@GetEntityCollisionGroup
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetEntityCollisionGroup(#Entity)
+
+@Description
+  Ermittelt die aktuelle Entity-Kollisionsgruppe, wie sie mit @@SetEntityCollisionFilter
+  festgelegt wurde.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@ReturnValue
+  Die aktuelle Entity-Kollisionsgruppe.
+
+@SeeAlso
+  @@SetEntityCollisionFilter, @@GetEntityCollisionMask
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetEntityCollisionFilter(#Entity, KollisionsGruppe, KollisionsMaske)
+
+@Description
+  Legt die Kollisionsgruppe und -maske des Entity fest.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "KollisionsGruppe" 
+  Die neue Kollisionsgruppe.
+
+@Parameter "KollisionsMaske"
+  Die neue Kollisionsmaske.
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetEntityCollisionGroup, @@GetEntityCollisionMask, @@RayCollide
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = AddSubEntity(#Entity, #SubEntity, Typ, [OffsetX, OffsetY, OffsetZ [, GrößeX, GrößeY, GrößeZ [, AchseX, AchseY, AchseZ]]])
+
+@Description
+  Fügt ein "Sub-Entity" zu einem Entity hinzu.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity.
+
+@Parameter "#SubEntity"
+  Das hinzuzufügende Entity.
+
+@Parameter "Typ"
+  Typ definiert, wie die Physik-Engine dieses Entity behandeln wird. Dies kann eine
+  der folgenden Konstanten sein:
+@FixedFont
+  @#PB_Entity_StaticBody : Der Körper ist nur statisch, was bedeutet, dass das Mesh nicht animiert werden kann.
+                          Dieser Modus erlaubt sehr präzise Kollisionen, da diese gegen Dreiecke
+                          ausgeführt werden (auch bekannt als "Tri-Mesh Collision"). Er ist auch 
+                          schnell bei Zusammenstößen mit den Entity-Körpertypen Kasten ("Box") und
+                          Kugel ("Sphere"). Er ist perfekt, wenn das Mesh für die Erde oder eine
+                          statische Welt verwendet wird.
+  @#PB_Entity_PlaneBody  : Eine 'virtuelle' Ebene ("plane") wird rings um das Entity gelegt (mit den gleichen Abmessungen)
+                          und wird für das Managen von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_ConeBody   : Ein 'virtueller' Kegel ("cone") wird rings um das Entity gelegt (mit den gleichen Abmessungen)
+                          und wird für das Managen von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_BoxBody    : Eine 'virtuelle' Box wird rings um das Entity gelegt (mit den gleichen Abmessungen)
+                          und wird für das Managen von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_SphereBody : Eine 'virtuelle' Kugel wird rings um das Entity gelegt und wird für das Managen
+                          von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_CylinderBody : Ein 'virteller' Zylinder wird rings um das Entity gelegt und wird für das Managen
+                          von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_CapsuleBody : Eine 'virtelle' Kapsel wird rings um das Entity gelegt und wird für das Managen
+                          von Kollisionen mit anderen 'Entities' verwendet.
+  @#PB_Entity_ConvexHullBody : Eine 'virtuelle' komplexe Form - abgeleitet vom tatsächlichen Mesh - wird rings
+                          um das Entity gelegt und wird für das Managen von Kollisionen mit anderen 'Entities' verwendet.           
+                          Dieser Modus ist langsamer als die grundlegenden Kollisionsformen.
+  @#PB_Entity_CompoundBody   : Ein 'virtueller' zusammengesetzter Körper ("compound body") wird rings um das Entity
+                          gelegt. Dies ist die schnellste Möglichkeit für eine beliebige Form. Diese wird durch einen
+              "Haufen" an Ecken (Scheiteln, englisch "vertices") definiert, jedoch wird die Form aus der
+              kleinsten konvexen Form gebildet, welche die Ecken umschließt.
+@EndFixedFont
+
+@OptionalParameter "OffsetX, OffsetY, OffsetZ"
+  Versatz (Offset) der Übersetzung ("translation") des Körpers.
+
+@OptionalParameter "GrößeX, GrößeY, GrößeZ"
+  Die Größe vom Begrenzungsrahmen (englisch "bounding box") des Körpers. Dies gilt nur für
+  die folgenden Körper-Typen:
+@FixedFont
+  @#PB_Entity_BoxBody     : GrößeX, GrößeY und GrößeZ sind verfügbar.
+  @#PB_Entity_SphereBody  : GrößeX ist verfügbar.
+  @#PB_Entity_ConeBody    : GrößeX und GrößeY sind verfügbar.
+  @#PB_Entity_CylinderBody: GrößeX und GrößeY sind verfügbar.
+  @#PB_Entity_CapsuleBody : GrößeX, GrößeY und GrößeZ sind verfügbar.
+@EndFixedFont  
+  Wenn GrößeX = -1, dann wird der Begrenzungsrahmen verwendet.
+  
+@OptionalParameter "AchseX, AchseY, AchseZ"
+  Die Achsen der Körperorientierung. Dies gilt nur für die folgenden Körper-Typen:
+@FixedFont
+  @#PB_Entity_PlaneBody
+  @#PB_Entity_CylinderBody
+  @#PB_Entity_CapsuleBody 
+@EndFixedFont 
+  
+@ReturnValue
+  Gibt Null zurück, wenn das Entity nicht erstellt werden konnte.
+ 
+@Remarks
+  Es ist notwendig, die @@CreateEntityBody Funktion mit der 
+  #PB_Entity_CompoundBody Option zu verwenden, nachdem alle 'Sub-Entities' hinzugefügt wurden.
+  
+@SeeAlso
+  @@CreateEntity
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityDirection(#Entity, x, y, z [, Modus, LokalerRichtungsVektor])
+
+@Description
+  Legt die Richtung für das Entity-Objekt fest.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@Parameter "x, y, z"
+  Der Richtungs-Vektor (Werte zwischen -1.0 und 1.0).
+
+@OptionalParameter "Modus"
+  Der Richtungs-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Local : lokale Bewegung.
+  @#PB_Parent: Bewegung relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Bewegung relativ zur Welt.
+@EndFixedFont
+
+@OptionalParameter "LokalerRichtungsVektor"
+  Der lokale Richtungs-Vektor. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Vector_X
+  @#PB_Vector_Y
+  @#PB_Vector_Z
+  @#PB_Vector_NegativeX
+  @#PB_Vector_NegativeY
+  @#PB_Vector_NegativeZ
+@EndFixedFont
+
+@NoReturnValue
+ 
+@SeeAlso
+  @@EntityDirectionX, @@EntityDirectionY, @@EntityDirectionZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityDirectionX(#Entity)
+
+@Description
+  Ermittelt die 'x'-Richtung des Entity.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@ReturnValue
+  Gibt die 'x'-Richtung des Entity zurück.
+ 
+@SeeAlso
+  @@EntityDirection, @@EntityDirectionY, @@EntityDirectionZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityDirectionY(#Entity)
+
+@Description
+  Ermittelt die 'y'-Richtung des Entity.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@ReturnValue
+  Gibt die 'y'-Richtung des Entity zurück.
+ 
+@SeeAlso
+  @@EntityDirection, @@EntityDirectionX, @@EntityDirectionZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityDirectionZ(#Entity)
+
+@Description
+  Ermittelt die 'z'-Richtung des Entity.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@ReturnValue
+  Gibt die 'z'-Richtung des Entity zurück.
+ 
+@SeeAlso
+  @@EntityDirection, @@EntityDirectionX, @@EntityDirectionY
+  
+@SupportedOS

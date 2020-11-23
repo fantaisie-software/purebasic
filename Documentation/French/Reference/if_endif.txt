@@ -1,0 +1,65 @@
+@Title If : Else : EndIf
+
+@Syntax
+
+  @Keyword If <expression> 
+    ...
+  [@Keyword ElseIf <expression>]
+    ...
+  [@Keyword Else]
+    ...
+  @Keyword EndIf 
+
+@Description
+
+  La structure @Keyword If est utilisée pour effectuer des tests et/ou changer le déroulement 
+  du programme selon le résultat (vrai ou faux) du test. @Keyword ElseIf est utilisé pour produire un nombre 
+  quelconque de tests additionnels si le premier n'a pas eu un résultat vrai. La commande optionnelle
+  @Keyword Else est utilisée pour exécuter une séquence de code si tous les tests précédents de 
+  la structure ont échoué. Les structures @Keyword If peuvent être imbriquées sans limite de profondeur.
+  @LineBreak
+  @LineBreak
+  Les court-circuits sont pris en charge, ce qui signifie que si un test est vrai, tous les tests 
+  suivants seront ignorés.
+
+@Example Test simple
+     
+@Code
+  a = 5
+  If a = 10 
+    Debug "a = 10"
+  Else
+    Debug "a <> 10"
+  EndIf    
+@EndCode
+
+@Example Test multiple
+  
+@Code
+  b = 15
+  If a = 10 And b >= 10 Or c = 20     
+    If b = 15
+      Debug "b = 15"
+    Else 
+      PrintN("Autre possibilité") 
+    EndIf 
+  Else 
+    PrintN("Erreur de test")
+  EndIf  
+@EndCode
+
+@Example Court-circuit
+
+@Code
+  Procedure AfficherSalut()
+    Debug "Salut"
+    ProcedureReturn 1
+  EndProcedure
+
+  a = 10
+  If a = 10 Or AfficherSalut() = 1 ; a est égal à 10, alors le deuxième test est totalement ignoré
+    Debug "Succès"
+  Else     
+    Debug "Erreur"
+  EndIf  
+@EndCode

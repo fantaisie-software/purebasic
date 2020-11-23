@@ -1,0 +1,220 @@
+@Title Using the command line compiler
+
+@OS Windows
+
+@Section Introduction
+
+  The command line compiler is located in the subdirectory 'Compilers\' from the SpiderBasic folder. 
+  The easier way to access this is to add this directory in the windows PATH variable, 
+  which will give access to all the commands of this directory at all times.
+  The Linux/OS X switches equivalent are also accepted on Windows to ease script creation
+  across all plateforms.
+
+@Section Command switches
+
+  /? (-h, --help): display a quick help about the compiler. @LineBreak
+  @LineBreak
+  /COMMENTED (-c, --commented): create a commented javascript output file. @LineBreak
+  @LineBreak
+  /DEBUGGER (-d, --debugger): enable the debugger support. @LineBreak
+  @LineBreak
+  /OUTPUT (-o, --output) "filename": output name for the created web, iOS or Android app. @LineBreak
+  @LineBreak
+  /JAVASCRIPT (-js, --javascript) "filename.js": name of the created javascript file. @LineBreak
+  @LineBreak
+  /LIBRARYPATH (-lp, --librarypath) "path": path of the SpiderBasic dependencies. @LineBreak
+  @LineBreak
+  /COPYLIBRARIES (-cl, --copylibraries) "path": copy the SpiderBasic dependencies to the specified local path. @LineBreak
+  @LineBreak
+  /RESOURCEDIRECTORY (-rd, --resourcedirectory) "path": the directory where all the app resources are located. @LineBreak
+  @LineBreak
+  /OPTIMIZEJS (-z, --optimizejs): creates an optimized javascript output, including needed javascript.
+  A recent Java JRE needs to be installed to have this option working. The
+  most recent JRE version can be found here: @InternetLink "https://java.com/download" "https://java.com/download". @LineBreak
+  @LineBreak
+  /ICON (-n, --icon) \"filename.png\": icon to display in the browser tab. Has to be in PNG
+  image format.
+  @LineBreak
+  /APPNAME (-an, --appname): set the app name. @LineBreak
+  @LineBreak
+  /APPVERSION (-av, --appversion): set the app version. @LineBreak
+  @LineBreak
+  /APPPERMISSION (-ap, --apppermission) "permission": add a permission to the app (it can be specified several time). Available
+  permissions: @LineBreak
+  - geolocation: add GPS access and other location API support to the app. @LineBreak
+  @LineBreak
+  /STARTUPIMAGE (-si, --startupimage) "image.png": set the startup image to use when launching the app (iOS and Android only) @LineBreak
+  @LineBreak
+  /PACKAGEID (-pi, --packageid) "com.yourcompany.appid": set the package id for the app (iOS and Android only) @LineBreak
+  @LineBreak  
+  /IAPKEY (-ik, --iapkey) "MIIB......AQAB": set InAppPurchase API key for the Android app @LineBreak
+  @LineBreak  
+  /DEPLOY (-p, --deploy): automatically deploy the app on USB connected device (iOS and Android only) @LineBreak
+  @LineBreak  
+  /FULLSCREEN (-fs, --fullscreen): activate fullscreen mode for the app (iOS and Android only) @LineBreak
+  @LineBreak  
+  /ORIENTATION (-w, --orientation) "orientation": set the app orientation (iOS and Android only): @LineBreak
+  - "any": the app can be in landscape or portrait mode, depending of the device orientation (default).  @LineBreak
+  - "portrait": the app will always launch in portait mode. @LineBreak
+  - "landscape": the app will always launch in landscape mode. @LineBreak
+  @LineBreak
+  /ANDROID: create an Android app (Windows only). @LineBreak 
+  @LineBreak  
+  /JDK "jdk path": set the path to full JDK 1.8+ used to build Android app (Windows only). @LineBreak
+  @LineBreak  
+  /RESIDENT (-r, --resident) "filename": create a resident file specified by the filename. @LineBreak
+  @LineBreak
+  /QUIET (-q, --quiet): Disable all unnecessary text output, very useful when using another editor. @LineBreak
+  @LineBreak
+  /STANDBY (-sb, --standby): Loads the compiler in memory and wait for external commands (editor, scripts...). 
+  More information about using this flag is available in the file 'CompilerInterface.txt' from the SpiderBasic 'SDK' directory. @LineBreak
+  @LineBreak
+  /IGNORERESIDENT (-ir, --ignoreresident) "Filename" : Doesn't load the specified resident file when the compiler starts. It's
+  mostly useful when updating a resident which already exists, so it won't load it. @LineBreak
+  @LineBreak
+  /CONSTANT (-t, --constant) Name=Value: Creates the specified constant with the given expression. 
+  Example: 'sbcompiler test.sb /CONSTANT MyConstant=10'. The constant @#MyConstant
+  will be created on the fly with a value of 10 before the program gets compiled. @LineBreak
+  @LineBreak
+  /SUBSYSTEM (-s, --subsystem) "Name": Uses the specific subsystem to replace a set of internal functions. For
+  more information, see @ReferenceLink "subsystems" "subsystems". @LineBreak
+  @LineBreak
+  /CHECK (-k, --check) : Check the syntax only, doesn't create or launch the executable. @LineBreak
+  @LineBreak
+  /PREPROCESS (-pp, --preprocess) "Filename": Preprocess the source code and write the output in the specified "Filename". 
+  The processed file is a single file with all macro expanded, compiler directive handled and
+  multiline resolved. This allows an easier parsing of a SpiderBasic source file, as all is expanded
+  and is available in a flat file format. No comments are included by default, but the flag /COMMENTED can be
+  used to have all untouched original source as comments and allow comments processing. The preprocessed
+  file can be recompiled as any other SpiderBasic source file to create the final output.@LineBreak
+  @LineBreak
+  /LANGUAGE (-g, --language) "Language": uses the specified language for the compiler. @LineBreak
+  @LineBreak
+  /VERBOSE (-vb, --verbose): Displays more information when creating an app. @LineBreak
+  @LineBreak
+  /VERSION (-v, --version): Displays the compiler version. @LineBreak
+  @LineBreak
+  
+  @Example
+  
+@FixedFont
+  CLI> sbcompiler sourcecode.sb /OUTPUT "test.html"
+@EndFixedFont
+  
+  The compiler will compile the source code to test.html. @LineBreak
+  @LineBreak
+  
+@FixedFont
+  CLI> sbcompiler sourcecode.sb /DEBUGGER /OUTPUT "test.html"
+@EndFixedFont
+  
+  The compiler will compile the source code to test.html with debugger support.
+
+
+; MacOS and Linux --------------------------------------------------------------------------
+; 
+; MacOS and Linux --------------------------------------------------------------------------
+
+@ElseOS 
+
+@Section Introduction
+
+  The command line compiler is located in the subdirectory 'compilers/' from the spiderbasic folder. 
+  The easier way to access this is to add this directory in the PATH variable, 
+  which will give access to all the commands of this directory at all times. 
+
+@Section Command switches
+
+  -h, --help: display a quick help about the compiler. @LineBreak
+  @LineBreak
+  -c, --commented: create a commented javascript output file. @LineBreak
+  @LineBreak
+  -d, --debugger: enable the debugger support. @LineBreak
+  @LineBreak
+  -o, --output "filename": output name for the created web, iOS or Android app. @LineBreak
+  @LineBreak
+  -z, --optimizejs: creates an optimized javascript output, including needed javascript. @LineBreak
+  @LineBreak
+  -js, --javascript "filename.js": name of the created javascript file
+  @LineBreak
+  -lp, --librarypath "path": path of the SpiderBasic dependencies
+  @LineBreak
+  -cl, --copylibraries "path": copy the SpiderBasic dependencies to the specified local path
+  @LineBreak
+  -n, --icon \"filename.png\": icon to display in the browser tab. Has to be in PNG
+  image format.
+  @LineBreak
+  -an, --appname: set the app name. @LineBreak
+  @LineBreak
+  -av, --appversion: set the app version. @LineBreak
+  @LineBreak
+  -ap, --apppermission "permission": add a permission to the app (it can be specified several time). Available
+  permissions: @LineBreak
+  - geolocation: add GPS access and other location API support to the app. @LineBreak
+  @LineBreak
+  -si, --startupimage "image.png": set the startup image to use when launching the app (iOS and Android only) @LineBreak
+  @LineBreak
+  -pi, --packageid "com.yourcompany.appid": set the package id for the app (iOS and Android only) @LineBreak
+  @LineBreak  
+  -ik, --iapkey "MIIB......AQAB": set InAppPurchase API key for the Android app @LineBreak
+  @LineBreak  
+  -p, --deploy: automatically deploy the app on USB connected device (iOS and Android only) @LineBreak
+  @LineBreak  
+  -fs, --fullscreen: activate fullscreen mode for the app (iOS and Android only) @LineBreak
+  @LineBreak  
+  -w, --orientation "orientation": set the app orientation (iOS and Android only): @LineBreak
+  - "any": the app can be in landscape or portrait mode, depending of the device orientation (default).  @LineBreak
+  - "portrait": the app will always launch in portait mode. @LineBreak
+  - "landscape": the app will always launch in landscape mode. @LineBreak
+  @LineBreak
+  -i, --ios: create an iOS app (MacOS only). @LineBreak 
+  @LineBreak
+  -r, --resident "Filename": create a resident file specified by the filename. @LineBreak
+  @LineBreak
+  -q, --quiet: Disable all unnecessary text output, very useful when using another editor. @LineBreak
+  @LineBreak
+  -sb, --standby: Loads the compiler in memory and wait for external commands (editor, scripts...). 
+  More information about using this flag is available in the file 'CompilerInterface.txt' from the SpiderBasic 'SDK' directory. @LineBreak
+  @LineBreak
+  -ir, --ignoreresident "Filename": Doesn't load the specified resident file when the compiler starts. It's
+  mostly useful when updating a resident which already exists, so it won't load it. @LineBreak
+  @LineBreak
+  -t, --constant Name=Value: Creates the specified constant with the given expression. 
+  Example: 'sbcompiler test.sb /CONSTANT MyConstant=10'. The constant @#MyConstant
+  will be created on the fly with a value of 10 before the program gets compiled. @LineBreak
+  @LineBreak
+  -s, --subsystem "Name": Uses the specific subsystem to replace a set of internal functions. For
+  more information, see @ReferenceLink "subsystems" "subsystems". @LineBreak
+  @LineBreak
+  -k, --check: Check the syntax only, doesn't create or launch the executable. @LineBreak
+  @LineBreak
+  -pp, --preprocess "Filename": Preprocess the source code and write the output in the specified "Filename". 
+  The processed file is a single file with all macro expanded, compiler directive handled and
+  multiline resolved. This allows an easier parsing of a SpiderBasic source file, as all is expanded
+  and is available in a flat file format. No comments are included by default, but the flag /COMMENTED can be
+  used to have all untouched original source as comments and allow comments processing. The preprocessed
+  file can be recompiled as any other SpiderBasic source file to create the final output.@LineBreak
+  @LineBreak
+  -g, --language "Language": uses the specified language for the compiler. @LineBreak
+  @LineBreak
+  -vb, --verbose: Displays more information when creating an app. @LineBreak
+  @LineBreak
+  -v, --version: Displays the compiler version. @LineBreak
+  @LineBreak
+  
+  @Example
+  
+@FixedFont
+  CLI> sbcompiler sourcecode.sb --output "test.html"
+@EndFixedFont
+  
+  The compiler will compile the source code to test.html. @LineBreak
+  @LineBreak
+  
+@FixedFont
+  CLI> sbcompiler sourcecode.sb --debugger --output "test.html"
+@EndFixedFont
+  
+  The compiler will compile the source code to test.html with debugger support.
+
+@EndOS

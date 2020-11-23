@@ -1,0 +1,52 @@
+@Title UserGuide - Input & Output
+
+Every PureBasic application can communicate and interact with the user on different ways.
+@LineBreak
+@LineBreak
+Thereby we distinguish between
+@LineBreak
+a) the pure output of information
+@LineBreak
+b) the interaction of the PureBasic application with the user, when user-input will be taken
+and the results will be outputted again. 
+@LineBreak
+@LineBreak
+It's not possible anymore, to use a simple "PRINT" command to output some things on the
+screen, like it was possible on DOS operating systems (OS) without a graphical user interface
+(GUI) years ago. Today such a GUI is always present, when you use an actual OS like Windows,
+Mac OSX or Linux.
+@LineBreak
+@LineBreak
+@Bold "For the output of information we have different possibilities:"
+@LineBreak
+- @ReferenceLink "debugger" "Debug" window (only possible during programming with PureBasic)
+@LineBreak
+- @@MessageRequester (output of shorter text messages in a requester window)
+@LineBreak
+- @LibraryLink "file" "Files" (for saving the results in a text-file, etc.)
+@LineBreak
+- @LibraryLink "console" "Console" (for simple and almost non-graphic text output, most
+similar to earlier DOS times)
+@LineBreak
+- @LibraryLink "window" "Windows" and @LibraryLink "gadget" "gadgets" (standard windows with
+GUI elements on the desktop of the OS, e.g. for applications)
+@LineBreak
+- @Link "screen/openscreen" "Screen" (Output of text and graphics directly on the screen, e.g. for games)
+@LineBreak
+@LineBreak
+To be able to @Bold "record and process input by the user" of the PureBasic application, the three
+last-mentioned output options have also the possibility to get user-input:
+@LineBreak
+- in the @LibraryLink "console" "console" using @@Input
+@LineBreak
+- in the window using @@WaitWindowEvent / @@WindowEvent, which can get the events occurred in the
+@LibraryLink "window" "window", like clicking on a @Link "gadget/buttongadget" "button" or the
+entered text in a @@StringGadget
+@LineBreak
+- in the @Link "screen/openscreen" "graphics screen" using the @LibraryLink "keyboard" "keyboard"
+@LineBreak
+- there is as well the possibility to get user-input using the @@InputRequester 
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_data" "< Previous: Storing data in memory" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_textoutput" "Next: Displaying text output (Console) >"

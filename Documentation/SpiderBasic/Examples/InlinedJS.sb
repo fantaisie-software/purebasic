@@ -1,0 +1,25 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - InlinedJS
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+; Using line based raw access
+;
+Stock = 10
+!v_stock++;
+Debug "Stock: " + Stock
+
+
+; Using EnableJS block
+;
+EnableJS
+  v_stock++;
+  v_stock++;
+  v_stock++;
+DisableJS
+Debug "Stock: " + Stock

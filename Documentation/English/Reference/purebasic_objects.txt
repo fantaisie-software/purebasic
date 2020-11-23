@@ -1,0 +1,134 @@
+@Title PureBasic objects
+
+@Section Introduction
+
+  The purpose of this section is to describe the behavior, creation, and handling of 
+  objects in PureBasic. For the demonstration, we will use the @LibraryLink Image Image object, but the 
+  same logic applies to all other PureBasic objects. When creating an Image object, we 
+  can do it in two ways: indexed and dynamic. 
+
+@Section I. Indexed numbering
+
+  The static, indexed way, allows you to reference an object by a predefined 
+  numeric value. The first available index number is 0 and subsequent indexes 
+  are allocated sequentially. This means that if you use the number 0 and then 
+  the number 1000, 1001 indexes will be allocated and 999 (from 1 to 999) will 
+  be unused, which is not an efficient way to use indexed objects. If you need a 
+  more flexible method, use the dynamic way of allocating objects, as described 
+  in section II. The indexed way offers several advantages:
+  @Indent @Section
+    - Easier handling, since no @ReferenceLink "Variables" variables or @ReferenceLink "Dim" arrays are required. @LineBreak
+    - 'Group' processing, without the need to use an intermediate array. @LineBreak
+    - Use the object in @ReferenceLink "Procedures" procedures without declaring anything in @ReferenceLink "Global" global (if using a @ReferenceLink "General_Rules" constant or a number). @LineBreak
+    - An object that is associated with an index is automatically freed when reusing that index.
+  @EndIndent
+
+  The maximum index number is limited to an upper bound, depending of the object 
+  type (usually from 5000 to 60000). @ReferenceLink "Enumerations" Enumerations are strongly recommended if 
+  you plan to use sequential constants to identify your objects (which is also 
+  recommended).
+
+  @Example
+
+@Code
+  CreateImage(0, 640, 480) ; Create an image, the n°0
+  ResizeImage(0, 320, 240) ; Resize the n°0 image
+@EndCode  
+
+  @Example
+
+@Code
+  CreateImage(2, 640, 480) ; Create an image, the n°2
+  ResizeImage(2, 320, 240) ; Resize the n°2 image
+  CreateImage(2, 800, 800) ; Create a new image in the n°2 index, the old one is automatically free'ed
+@EndCode
+
+  @Example
+
+@Code
+  For k = 0 To 9
+    CreateImage(k, 640, 480) ; Create 10 different images, numbered from 0 to 9
+    ResizeImage(k, 320, 240) ; Create a new image in the n°2 index, the old one is automatically free'ed
+  Next
+@EndCode  
+
+  @Example
+
+@Code
+  #ImageBackground = 0
+  #ImageButton     = 1
+
+  CreateImage(#ImageBackground, 640, 480) ; Create an image (n°0)
+  ResizeImage(#ImageBackground, 320, 240) ; Resize the background image
+  CreateImage(#ImageButton    , 800, 800) ; Create an image (n°1)
+@EndCode  
+
+@EndIndent
+
+@Section II. Dynamic numbering
+
+  Sometimes, indexed numbering isn't very handy to handle dynamic situations where we need 
+  to deal with an unknown number of objects. PureBasic provides an easy and complementary way 
+  to create objects in a dynamic manner. Both methods (indexed and dynamic) can be used together 
+  at the same time without any conflict. To create a dynamic object, you just have to specify 
+  the @#PB_Any constant instead of the indexed number, and the dynamic number will be returned as 
+  result of the function. Then just use this number with the other object functions in the place 
+  where you would use an indexed number (except to create a new object). This way of object handling can be very useful when used 
+  in combination with a @LibraryLink "List" "list", which is also a dynamic way of storage.
+
+  @Indent
+  @Example
+
+@Code
+  DynamicImage1 = CreateImage(#PB_Any, 640, 480) ; Create a dynamic image
+  ResizeImage(DynamicImage1, 320, 240) ; Resize the DynamicImage1
+@EndCode  
+
+  A complete example of dynamic objects and @LibraryLink "List" "lists" can be found here:
+
+@ExampleFile All MDI_ImageViewer.pb
+
+  @LineBreak
+  @LineBreak
+  Further description and an example of dynamic numbering multiple windows and gadgets
+  can be found in the related @ReferenceLink "ug_pb_any1" "'Beginners chapter'".
+
+@EndIndent 
+
+@Section Overview of the different PureBasic objects
+
+  Different PureBasic objects (windows, gadgets, sprites, etc.) can use the same range of object numbers
+  again. So the following objects can be enumerated each one starting at 0 (or other value) and PureBasic
+  differs them by their type:
+  @Indent
+  - @LibraryLink "database" "Database" @LineBreak
+  - @LibraryLink "dialog" "Dialog" @LineBreak
+  - @LibraryLink "entity" "Entity" @LineBreak
+  - @LibraryLink "file" "File" @LineBreak
+  - @LibraryLink "ftp" "FTP" @LineBreak
+  - @LibraryLink "gadget" "Gadget" (including the @@ScintillaGadget) @LineBreak
+  - @LibraryLink "gadget3d" "Gadget3D" @LineBreak
+  - @LibraryLink "image" "Image" @LineBreak
+  - @LibraryLink "library" "Library" @LineBreak
+  - @LibraryLink "light" "Light" @LineBreak
+  - @LibraryLink "mail" "Mail" @LineBreak
+  - @LibraryLink "material" "Material" @LineBreak
+  - @LibraryLink "menu" "Menu" (not @@MenuItem, as this is no object) @LineBreak
+  - @LibraryLink "mesh" "Mesh" @LineBreak
+  - @LibraryLink "movie" "Movie" @LineBreak
+  - @LibraryLink "music" "Music" @LineBreak
+  - @LibraryLink "network" "Network" @LineBreak
+  - @LibraryLink "node" "Node" @LineBreak
+  - @LibraryLink "particle" "Particle" @LineBreak
+  - @LibraryLink "regularexpression" "RegularExpression" @LineBreak
+  - @LibraryLink "serialport" "SerialPort" @LineBreak
+  - @LibraryLink "sound" "Sound" @LineBreak
+  - @LibraryLink "sound3d" "Sound3D" @LineBreak
+  - @LibraryLink "sprite" "Sprite" @LineBreak
+  - @LibraryLink "statusbar" "StatusBar" @LineBreak
+  - @LibraryLink "texture" "Texture" @LineBreak
+  - @LibraryLink "toolbar" "ToolBar" @LineBreak
+  - @LibraryLink "window" "Window" @LineBreak
+  - @LibraryLink "window3d" "Window3D" @LineBreak
+  - @LibraryLink "xml" "XML" @LineBreak
+  @EndIndent

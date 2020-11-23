@@ -1,0 +1,495 @@
+;
+;     Map library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Map
+
+@Overview
+
+  Maps (also known as hashtable or dictionary) are structures for storing data which are dynamically allocated
+  depending of your need. It is a collection of elements (the data you want to store)
+  and each element is fully independent of the others. You can add as many elements
+  as you want (or as many as will fit into the memory of your computer), and accessing
+  it back using a key. This kind of data management is very useful when you need fast
+  access to a random element. The inserting order of the elements are not kept when using
+  a map (unlike a @LibraryLink "List" "List") and therefore they can't be sorted.  
+@LineBreak
+@LineBreak
+  Before you can work with Maps, you must declare them first. This could be
+  done with the keyword @ReferenceLink "newmap" "NewMap". @ReferenceLink "structures" "structures" are also
+  often used to store multiple data in a single element.
+@LineBreak
+@LineBreak
+  To specifically search the contents of a Map, using of loops is recommended: 
+  @ReferenceLink "for_next" "For : Next", @ReferenceLink "foreach_next" "ForEach : Next", 
+  @ReferenceLink "repeat_until" "Repeat : Until" or @ReferenceLink "while_wend" "While : Wend".
+@LineBreak
+@LineBreak
+  Other possibilities for storing data are the use of @LibraryLink "array" "Arrays"
+  and @LibraryLink "List" "Lists".
+
+@CommandList
+
+; TODO: example does not exist so far
+; @ExampleFile All Map.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AddMapElement(Map(), Key$ [, Flags])
+
+@Description
+  Adds a new empty element in the Map() using the specified key. This new element becomes the current
+  element of the map.
+
+@Parameter "Map()"
+  The map to which to add the element.
+
+@Parameter "Key$"
+  The key for the new element.
+
+@OptionalParameter "Flags"
+  Flags can be one of the following values:
+@FixedFont  
+  @#PB_Map_ElementCheck  : Checks if an element with a same key already exists, and replaces it (default).
+  @#PB_Map_NoElementCheck: No element check, so if a previous element with the same key was already present, it 
+                      will be not replaced but kept in the map, unreachable with direct access. It will remain unreachable 
+                      until the newly added element has been deleted. Such unreachable elements will still be listed when enumerating
+                      all the map elements with @ReferenceLink "foreach_next" "ForEach" or @@NextMapElement. This mode is faster but also more 
+                      error prone, so use it with caution.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. 
+  The value returned is a @ReferenceLink "memory" "pointer" to the new element data.
+
+@Remarks
+  This function isn't mandatory when dealing with maps, as elements are automatically added when affecting a value to them.
+
+@Example
+@Code
+  NewMap Country.s()
+  
+  ; Regular way to add an element
+  Country("US") = "United States"
+  
+  ; The same using AddMapElement()
+  AddMapElement(Country(), "FR")
+  Country() = "France"
+  
+  ForEach Country()
+    Debug Country()
+  Next
+@EndCode
+
+@SeeAlso
+  @@DeleteMapElement, @@ClearMap, @@MapSize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearMap(Map()) 
+
+@Description
+  Clears all the elements in the specified map and releases their memory. After this call 
+  the map is still usable, but is empty (i.e. there are no more elements in it).
+
+@Parameter "Map()"
+  The map to clear.
+
+@NoReturnValue
+
+@Remarks
+  PureBasic will only free the memory for the elements. If you have been using the
+  map for something such as storing handles of objects that you create
+  directly with the OS, there is no way PureBasic (or any other language) can know
+  what they are. Therefore, in cases such as that, you should go through the
+  elements in the map and free the objects yourself.
+
+@Example
+@Code
+  NewMap Country.s()
+
+  Country("FR") = "France"
+  Country("US") = "United States"
+
+  ; Proof that items have been added to the map
+  MessageRequester("Information", "There are "+Str(MapSize(Country()))+" elements in the map")
+ 
+  ; Clear the map and show that the map really is empty
+  ClearMap(Country())
+  MessageRequester("Information", "There are "+Str(MapSize(Country()))+" element in the map")
+@EndCode
+
+@SeeAlso
+  @@AddMapElement, @@DeleteMapElement
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CopyMap(SourceMap(), DestinationMap())
+
+@Description
+  Copy every element of the source to the destination map.
+
+@Parameter "SourceMap()"
+  The map to copy from.
+
+@Parameter "DestinationMap()"
+  The map to copy to. The existing elements in this map will be freed.
+  After a successful copy, the two maps are identical.
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If the two maps do not have the 
+  same type then the copy will fail.
+
+@Example
+@Code
+  NewMap Age()
+  NewMap AgeCopy()
+  
+  Age("John")  = 15
+  Age("Elise") = 30
+  
+  CopyMap(Age(), AgeCopy())
+  
+  Debug AgeCopy("John")
+  Debug AgeCopy("Elise")
+@EndCode
+
+@SeeAlso
+  @@CopyArray, @@CopyList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMap(Map())
+
+@Description
+  Free the specified map and release all its associated memory. To access it again
+  @ReferenceLink "newmap" "NewMap" has to be called.
+
+@Parameter "Map()"
+  The map to free.
+
+@NoReturnValue
+
+@SeeAlso
+  @@ClearMap
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MapSize(Map()) 
+
+@Description
+  Returns the number of elements in the specified map. It does not change the 
+  current element. 
+
+@Parameter "Map()"
+  The map to use.
+
+@ReturnValue
+  Returns the number of elements in the map.
+
+@Remarks
+  This function is very fast (it doesn't iterates all the map but
+  uses a cached result) and can be safely used to determine if a map is empty or not.
+
+@Example
+@Code
+  NewMap Country.s()
+
+  Country("FR") = "France"
+  Country("US") = "United States"
+  
+  ; Will print '2'
+  Debug "Size of the map: " + Str(MapSize(Country()))
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DeleteMapElement(Map() [, Key$])  
+
+@Description
+  Removes the current element or the element with the given key from the specified map. 
+
+@Parameter "Map()"
+  The map to use.
+
+@OptionalParameter "Key$"
+  The key for the item to remove. If this is not specified, then the current element
+  of the map is removed.
+
+@ReturnValue
+  Returns the memory address of the new current element of the map. If the map has no 
+  current element after the deletion, the result is 0.
+
+@Remarks
+  After this call, the new current 
+  element is the previous element (the one before the deleted element), which is an arbitrary
+  element, as a map isn't sorted. If that element does not exist (in other words, you deleted the first element in the map)
+  then there is no more current element, as it will be before the first element, like
+  after a @@ResetMap. If there was only one element in the map when you deleted it then you are left
+  with no current element!
+@linebreak
+@linebreak
+  If the optional 'Key$' parameter is specified then there will be no more current element after this call.
+  So don't use this parameter if the command is used inside a @ReferenceLink "foreach_next" "ForEach : Next" loop!
+  
+@Example
+@Code
+  NewMap Country.s()
+
+  Country("US") = "United States"
+  Country("FR") = "France"
+  Country("GE") = "Germany"
+
+  ; Delete a country
+  DeleteMapElement(Country(), "FR")
+  
+  ForEach Country()
+    Debug Country()
+  Next
+@EndCode
+
+@SeeAlso
+  @@AddMapElement, @@ClearMap, @@MapSize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = FindMapElement(Map(), Key$)
+  
+@Description
+  Change the current map element to the element associated at the specified key. 
+
+@Parameter "Map()"
+  The map to use.
+
+@Parameter "Key$"
+  The key to find.
+
+@ReturnValue
+  Returns nonzero if the key was found and zero otherwise.
+  The value returned is a @ReferenceLink "memory" "pointer" to the element data.
+
+@Example
+@Code
+  NewMap Country.s()
+
+  Country("US") = "United States"
+  Country("FR") = "France"
+  Country("GE") = "Germany"
+
+  If FindMapElement(Country(), "US")
+    Debug "'US' is in the country list."    
+  Else
+    Debug "'US' is NOT in the country list !"    
+  EndIf
+  
+  If FindMapElement(Country(), "UK")
+    Debug "'UK' is in the country list."
+  Else
+    Debug "'UK' is NOT in the country list !"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddMapElement, @@DeleteMapElement, @@MapKey
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Key$ = MapKey(Map())
+  
+@Description
+  Returns the key of the current map element. 
+
+@Parameter "Map()"
+  The map to use.
+
+@ReturnValue
+  Returns the key of the current element.
+  If there is no current element, an empty string is returned.
+
+@Example
+@Code
+  NewMap Country.s()
+
+  Country("US") = "United States"
+  Country("FR") = "France"
+  Country("GE") = "Germany"
+
+  ForEach Country()
+    Debug MapKey(Country())
+  Next
+@EndCode
+
+@SeeAlso
+  @@ResetMap, @@NextMapElement
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextMapElement(Map())  
+
+@Description
+  Moves from the current element to the next element in the specified map, or onto the first
+  element if @@ResetMap was previously called. 
+
+@Parameter "Map()"
+  The map to use.
+
+@ReturnValue
+  Returns nonzero if the next element was set and zero if there is no next element.
+  The value returned is a @ReferenceLink "memory" "pointer" to the new element data.
+
+@Example
+@Code
+  NewMap Country.s()
+
+  Country("US") = "United States"
+  Country("FR") = "France"
+  Country("GE") = "Germany"
+
+  ResetMap(Country())
+  While NextMapElement(Country())
+    Debug Country()
+  Wend
+@EndCode
+
+@SeeAlso
+  @@ResetMap, @@MapKey
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResetMap(Map()) 
+
+@Description
+  Resets the current element of the specified map to be before the first element. This means no more current element.
+  However, this is very useful to process all the elements by using @@NextMapElement.
+
+@Parameter "Map()"
+  The map to use.
+
+@NoReturnValue
+
+@Example
+@Code
+  NewMap Country.s()
+
+  Country("US") = "United States"
+  Country("FR") = "France"
+  Country("GE") = "Germany"
+
+  ResetMap(Country())
+  While NextMapElement(Country())
+    Debug Country()
+  Wend
+@EndCode
+
+@SeeAlso
+  @@NextMapElement
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PushMapPosition(Map())
+
+@Description
+  Remembers the current element (if any) of the map so it can later be restored using @@PopMapPosition. The position
+  is remembered on a stack structure, so multiple calls to this function are possible.
+
+@Parameter "Map()"
+  The map to use.
+
+@NoReturnValue
+
+@Remarks
+  This function can be used to remember the current element, so an iteration can be made over the map
+  using @@NextMapElement or @ReferenceLink "foreach_next" "ForEach" and the current element can be restored
+  after the iteration using @@PopMapPosition. Multiple calls can be made to this function, as long as
+  each is balanced with a corresponding @@PopMapPosition call later.
+@LineBreak
+@LineBreak
+  Note: It is not allowed to delete an element that is a remembered current element using the @@DeleteMapElement or
+  @@ClearMap function. This may result in a crash when @@PopMapPosition is called because the elements memory
+  is no longer valid. 
+
+@Example
+@Code
+  NewMap Numbers()
+  Numbers("A") = 1
+  Numbers("B") = 2
+  Numbers("C") = 5
+  Numbers("D") = 3
+  Numbers("E") = 2
+  Numbers("F") = 5
+  
+  ; A simple duplicate elimination using a nested iteration
+  ;
+  ForEach Numbers()
+    Value = Numbers()
+    PushMapPosition(Numbers())
+    While NextMapElement(Numbers())
+      If Numbers() = Value 
+        DeleteMapElement(Numbers())
+      EndIf
+    Wend
+    PopMapPosition(Numbers())
+  Next
+  
+  ForEach Numbers()
+    Debug Numbers()
+  Next
+@EndCode
+
+@SeeAlso
+  @@PopMapPosition, @@FindMapElement, @@NextMapElement, @@ResetMap,
+  @ReferenceLink "foreach_next" "ForEach"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PopMapPosition(Map())
+
+@Description
+  Restores the current element of the map previously remembered using @@PushMapPosition.
+
+@Parameter "Map()"
+  The map to use.
+
+@NoReturnValue
+
+@Remarks
+  The state of the map will be the same as it was on the corresponding call to @@PushMapPosition. If there
+  was no current element when @@PushMapPosition was called then there is no current element after this call 
+  as well.
+@LineBreak
+@LineBreak
+  See the @@PushMapPosition function for an example.
+
+@SeeAlso
+  @@PushMapPosition, @@FindMapElement, @@NextMapElement, @@ResetMap,
+  @ReferenceLink "foreach_next" "ForEach"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

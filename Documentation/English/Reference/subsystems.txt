@@ -1,0 +1,79 @@
+@Title Subsystems
+
+@Section Introduction
+  PureBasic integrated commandset relies on available OS libraries. Sometimes, there is different way to achieve
+  the same goal and when it makes sense, PureBasic offers the possibility to change the used underlying libraries for
+  specific commands, without changing one line of source code. For example, on Windows there is the 'OpenGL' subsystem
+  available, which will use OpenGL functions to render sprites, instead of DirectX (which is the default subsystem).
+  It can be useful to use OpenGL instead of DirectX when writing a crossplatform game, as OS X and Linux use OpenGL as default.
+  It also allows to use raw OpenGL commands directly on screen. @LineBreak
+  @LineBreak
+  To enable a subsystem, its name has to be set in the IDE @ReferenceLink "ide_compiler" "compiler options", or through the /SUBSYSTEM @ReferenceLink "cli_compiler" "command-line" switch.
+  This is a compile time option, which means an executable can not embed more than one subsystem at once. If multiple support is
+  needed (for example shipping an OpenGL and DirectX version of a game), two executables needs to be created. @LineBreak
+  @LineBreak
+  The available subsystems are located in the PureBasic 'subsystems' folder. Any residents or libraries found in this drawer
+  will have precedency over the default libraries and residents, when a subsystem is specified. Any number of different subsystems
+  can be specified (as long it doesn't affect the same libraries). @LineBreak
+  @LineBreak
+  The @Keyword Subsystem @ReferenceLink "compilerfunctions" "compiler function" can be used to detect if a specific subsystem is used
+  for the compilation.
+  
+@Section Available subsystems
+  Here is a list of available subsystems, and the affected libraries: @LineBreak
+  @LineBreak
+  @Bold "Windows"
+@FixedFont
+  OpenGL: use OpenGL instead of DirectX. Affected libraries: 
+          - Sprite
+          - Screen
+          - All 3D engine related libraries
+@EndFixedFont
+@LineBreak
+  @Bold "Linux"
+@FixedFont
+  gtk2: Affected libraries:
+          - 2D Drawing
+          - AudioCD
+          - Clipboard
+          - Desktop
+          - Drag & Drop
+          - Font
+          - Gadget
+          - Image
+          - Menu
+          - Movie
+          - Printer
+          - Requester
+          - Scintilla
+          - StatusBar
+          - SysTray
+          - Toolbar
+          - Window
+          
+  qt: Affected libraries:
+          - 2D Drawing
+          - AudioCD
+          - Clipboard
+          - Desktop
+          - Drag & Drop
+          - Font
+          - Gadget
+          - Image
+          - Menu
+          - Movie
+          - Printer
+          - Requester
+          - Scintilla
+          - StatusBar
+          - SysTray
+          - Toolbar
+          - Window          
+@EndFixedFont
+@LineBreak
+  @Bold "MacOS X"
+@FixedFont
+  None
+@EndFixedFont
+  
+

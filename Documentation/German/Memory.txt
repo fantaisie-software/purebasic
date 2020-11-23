@@ -1,0 +1,1009 @@
+;
+;     Memory library documentation
+;
+;      (c) 2016 - Fantaisie Software
+;
+
+@Library Memory
+
+@Overview
+  Manchmal ist es sehr nützlich, direkten bzw. "rohen" ("raw") Zugriff auf den Systemspeicher (RAM) zu haben,
+  um einige zeitintensive Operationen durchzuführen und sie zu beschleunigen.
+  Diese Bibliothek ermöglicht das Reservieren einer beliebigen Anzahl an Speicherbereichen
+  (Memory-Puffer) und deren direkte Benutzung in PureBasic.
+@LineBreak
+@LineBreak
+  @Bold "Hinweis:" Die direkte Speicher-Manipulation muss vorsichtig erfolgen.
+  Der Zugriff auf Speicherbereiche außerhalb der reservierten Speicherpuffer
+  wird das Programm zum Absturz bringen.
+
+@CommandList
+
+@ExampleFile All MemoryBank.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *MemoryID = AllocateMemory(Größe [, Flags])
+
+@Description
+  Reserviert einen zusammenhängenden Speicherbereich mit der angegebenen Größe in Bytes.
+  Der neue Speicherbereich wird gelöscht und mit Nullen gefüllt.
+  
+@Parameter "Größe"
+  Die Größe (in Bytes) des neuen Speicherbereichs.
+
+@OptionalParameter "Flags"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont  
+  @#PB_Memory_NoClear: füllt den neuen Speicherbereich nicht mit Nullen. Dies kann für eine schnellere Allokation
+                      sorgen, wenn der zugewiesene Speicher sofort verwendet wird.
+@EndFixedFont
+
+@ReturnValue
+  Gibt die Adresse des reservierten Speichers zurück, oder Null wenn der Speicher nicht
+  reserviert werden konnte.
+  
+@Remarks
+  Der Befehl @@FreeMemory kann verwendet werden, um den reservierten Speicher frei, d.h.
+  zurück an das System, zu geben.
+  Der @@ReallocateMemory Befehl kann benutzt werden, um die Größe des reservierten
+  Bereichs zu ändern.
+  Alle reservierten Speicherbereiche werden automatisch freigegeben, wenn
+  das Programm beendet wird.
+@LineBreak
+@LineBreak
+  @Bold "Hinweis:" Wenn das Programm bei diesem Befehl abstürzt, ist dies gewöhnlich
+  das Ergebnis eines Speicherfehlers (englisch "Memory corruption") zu einem früheren
+  Zeitpunkt im Programm, indem dort in einen Bereich außerhalb des reservierten
+  Speicherbereichs geschrieben wurde. Solch ein Fehler kann mit Hilfe des
+  @ReferenceLink "ide_debugtools" "Purifier" Debugger-Tools bis auf die eigentliche
+  Ursache eingegrenzt werden.
+  
+@Example
+@Code
+  *MemoryID = AllocateMemory(5000)
+  If *MemoryID
+    Debug "Startadresse des 5000 Byte Speicherbereichs ist:"
+    Debug *MemoryID
+    PokeS(*MemoryID, "Wir speichern diesen String im Speicherbereich")
+    FreeMemory(*MemoryID)  ; wird am Ende des Programms auch automatisch erledigt
+  Else
+    Debug "Konnte den angeforderten Speicher nicht reservieren!"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReAllocateMemory, @@FreeMemory, @@MemorySize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Eintrag.StrkturName = AllocateStructure(StrukturName)
+
+@Description
+  Reserviert einen neuen dynamischen Struktur-Eintrag. Dieser dynamische Struktur-Eintrag
+  wird richtig initialisiert und ist bereit zur Verwendung, ohne dass
+  @ReferenceLink "compilerfunctions" "InitializeStructure()" aufgerufen werden muss.
+  Um auf die Struktur-Daten zuzugreifen, muss ein @ReferenceLink "memory" "Zeiger"
+  verknüpft mit dem angegebenen 'StrukturName' verwendet werden.
+  
+@Parameter "StrukturName"
+  Der Name der für die Erstellung des neuen dynamischen Eintrags zu verwendenden Struktur.
+  Die Struktur muss bereits erstellt worden sein.
+  
+@ReturnValue
+  Die Adresse des neuen dynamischen Struktur-Eintrags, andernfalls Null.
+  
+@Remarks
+  Dieser Befehl ist für fortgeschrittene Anwender und sollte für die meisten Programme
+  nicht benötigt werden. Es ist oftmals die bessere Wahl, ein strukturiertes
+  @LibraryLink "array" "Array", @LibraryLink "list" "List" oder @LibraryLink "map" "Map"
+  zu verwenden, um dynamisch strukturierte Einträge zu speichern.
+@LineBreak
+@LineBreak
+  @@FreeStructure kann verwendet werden, um den dynamisch strukturierten Eintrag freizugeben.
+  Alle dynamischen Strukturen werden automatisch freigegeben, wenn das Programm endet.
+@LineBreak
+@LineBreak
+  Wenn das Programm bei diesem Befehl abstürzt, ist dies regelmäßig das Resultat eines
+  Speicherfehlers ("memory corruption") zu einem früheren Zeitpunkt im Programm, indem
+  dort in einen Bereich außerhalb des reservierten Speicherbereichs geschrieben wurde.
+  Solch ein Fehler kann mit Hilfe des @ReferenceLink "ide_debugtools" "Purifier"
+  Debugger-Tools auf die eigentliche Ursache eingegrenzt werden.
+  
+@Example
+@Code
+  Structure People
+    Name$
+    List Friends$()
+  EndStructure
+  
+  *DynamicPeople.People = AllocateStructure(People)
+  *DynamicPeople\Name$ = "Fred"
+  AddElement(*DynamicPeople\Friends$())
+  *DynamicPeople\Friends$() = "Stef"
+  
+  Debug *DynamicPeople\Name$
+  Debug *DynamicPeople\Friends$()
+  
+  FreeStructure(*DynamicPeople)
+@EndCode
+
+@SeeAlso
+  @@FreeStructure
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CompareMemory(*MemoryID1, *MemoryID2, Größe)
+
+@Description
+  Vergleicht den Inhalt von zwei Speicherbereichen.
+
+@Parameter "*MemoryID1, *MemoryID2"
+  Die Adressen der zwei zu vergleichenden Speicherbereiche.
+
+@Parameter "Größe"
+  Die Anzahl Bytes, welche verglichen werden sollen.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die zwei Bereiche die gleichen
+  Bytes enthalten, oder Null wenn der Inhalt nicht übereinstimmt.
+
+@SeeAlso
+  @@AllocateMemory, @@CompareMemoryString, @@MemorySize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CompareMemoryString(*String1, *String2 [, Modus [, Länge [, Flags]]])
+
+@Description
+  Vergleicht zwei Strings an den angegebenen Speicheradressen.
+  
+@Parameter "*String1, *String2"
+  Die Adressen der zu vergleichenden Strings.
+  
+@OptionalParameter "Modus"
+  Der Modus des String-Vergleichs. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_String_CaseSensitive : String-Vergleich beachtet die Groß-/Kleinschreibung (a=a). Standard-Wert, wenn der Parameter weggelassen wird.
+  @#PB_String_NoCase: String-Vergleich erfolgt unabhängig von Groß-/Kleinschreibung (a = A).
+@EndFixedFont
+
+@OptionalParameter "Länge"
+  Die Anzahl der zu vergleichenden Zeichen (Character). Wenn dieser Parameter nicht
+  angegeben wird oder den Wert -1 hat, werden die Strings bis zum Erreichen eines Null-Zeichens
+  verglichen. Wenn die Strings nicht null-terminiert sind, dann muss dieser Parameter angegeben
+  werden.
+  
+@OptionalParameter "Flags"
+  Das beim Vergleichen der Strings zu verwendende String-Format.
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Ascii  : Vergleicht die Strings als ASCII
+  @#PB_UTF8   : Vergleicht die Strings als UTF8
+  @#PB_Unicode: Vergleicht die Strings als Unicode (Standard)
+@EndFixedFont
+  
+@ReturnValue
+  Gibt einen der folgenden Werte zurück:
+@FixedFont
+  @#PB_String_Equal  : wenn String1 gleich String2 ist
+  @#PB_String_Lower  : wenn String1 kleiner als String2 ist
+  @#PB_String_Greater: wenn String1 größer als String2 ist
+@EndFixedFont
+
+@SeeAlso
+  @@PokeS, @@PeekS, @@MemoryStringLength, @@CopyMemoryString, @@CompareMemory, @@MemorySize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CopyMemory(*QuellMemoryID, *ZielMemoryID, Größe)
+
+@Description
+  Kopiert einen Speicherbereich beginnend von der *QuellMemoryID zur *ZielMemoryID.
+  
+@Parameter "*QuellMemoryID"
+  Die Adresse, von der die Bytes kopiert werden sollen.
+  
+@Parameter "*ZielMemoryID"
+  Die Adresse, wohin die Bytes kopiert werden sollen.
+
+@Parameter "Größe"
+  Die Anzahl der zu kopierenden Bytes.
+
+@NoReturnValue
+
+@Remarks
+  Die Quell- und Zielpuffer dürfen sich nicht überlappen. Um Speicher an eine
+  Ziel-Adresse zu kopieren, welche sich mit dem Quell-Puffer überschneidet,
+  verwenden Sie @@MoveMemory.
+  
+@SeeAlso
+  @@MoveMemory, @@CopyMemoryString, @@AllocateMemory, @@MemorySize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CopyMemoryString(*String [, @*ZielMemoryID])
+
+@Description
+  Kopiert den String von der angegebenen Adresse zur Ziel-Speicheradresse (sofern diese
+  angegeben wurde), oder an das Ende des vorherigen Puffers (wenn die Ziel-Adresse
+  weggelassen wurde).
+
+@Parameter "*String"
+  Die Adresse des zu kopierenden Strings. Der String muss mit einem Null-Zeichen
+  abgeschlossen ("null-terminiert") sein. Der String wird im PB String-Format erwartet.
+
+@OptionalParameter "@*ZielMemoryID"
+  Der @ReferenceLink "memory" "Zeiger" auf eine Variable, welche die Adresse des Zielpuffers enthält.
+  Nachdem der String kopiert wurde, wird die Variable "*ZielMemoryID" auf das Null-Zeichen
+  am Ende des kopierten Strings verweisen, wodurch ein weiterer Aufruf dieser Funktion
+  den neuen String an den vorherigen anfügt.
+@LineBreak
+@LineBreak
+  Wird dieser Parameter weggelassen, wird die Adresse des vorherigen Aufrufs verwendet.
+  
+@ReturnValue
+  Gibt den Wert von "*ZielMemoryID" zurück, nachdem der String kopiert wurde.
+
+@Example
+@Code
+  *Puffer = AllocateMemory(1000)
+  *Pointer = *Puffer
+  CopyMemoryString("Hello", @*Pointer)
+  CopyMemoryString(" World")  ; Dieser String wird einfach nach "Hello" im Speicherpuffer eingefügt
+  *Pointer-4                  ; Setzt den Zeiger um 2 Unicode-Zeichen zurück (auf das 'l' von 'World')
+  CopyMemoryString("LD")      ; Schließlich werden die letzten beiden Zeichen groß geschrieben
+  Debug PeekS(*Puffer)
+@EndCode
+
+@SeeAlso
+  @@CopyMemory, @@PeekS, @@PokeS
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FillMemory(*Memory, Größe [, Wert [, Typ]])
+
+@Description
+  Füllt den Speicherbereich mit dem angegebenen Wert, indem dieser Wert wiederholt
+  dorthin geschrieben wird. 
+
+@Parameter "*Memory"
+  Die Adresse des zu füllenden Speicherbereichs.
+  
+@Parameter "Größe"
+  Die Größe (in Bytes) des zu füllenden Speichers.
+  
+@OptionalParameter "Wert"
+  Der Wert, welcher in den Speicherbereich geschrieben werden soll. Der Standard ist der
+  Wert 0.
+
+@OptionalParameter "Typ"
+  Der Typ für den Wert. Dies kann eine der folgenden Konstanten sein:
+@FixedFont
+  @#PB_Byte     : Füllt den Speicher mittels eines Byte (1 Byte) Wertes (= Standard).
+  @#PB_Ascii    : Füllt den Speicher mittels eines Byte (1 byte) Wertes.
+  @#PB_Word     : Füllt den Speicher mittels eines Word (2 Byte) Wertes.
+  @#PB_Unicode  : Füllt den Speicher mittels eines Word (2 Byte) Wertes.
+  @#PB_Character: Füllt den Speicher mittels eines Character (2 Bytes in @ReferenceLink "unicode" "Unicode").
+  @#PB_Long     : Füllt den Speicher mittels eines Long (4 Byte) Wertes.
+  @#PB_Integer  : Füllt den Speicher mittels eines Integer Wertes (4 Bytes in einem 32-Bit Executable, 8 Bytes in einem 64-Bit Executable).
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  *Puffer = AllocateMemory(500)
+  
+  FillMemory(*Puffer, 500) ; Füllt 500 Byte mit dem Wert 0 (löscht den Speicherbereich)
+  FillMemory(*Puffer, 500, $FF) ; Füllt 500 Byte mit dem Wert $FF
+  FillMemory(*Puffer, 500, $BADF00D, #PB_Long) ; Füllt 500 Byte mit dem Wert $BADF00D
+@EndCode
+
+@SeeAlso
+  @@AllocateMemory, @@MemorySize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMemory(*MemoryID)
+
+@Description
+  Gibt den zuvor mittels @@AllocateMemory oder @@ReAllocateMemory reservierten Speicher frei.
+  
+@Parameter "*MemoryID"
+  Die Adresse des frei zu gebenden Speicherbereichs. Dies muss ein Wert sein, der
+  entweder von @@AllocateMemory oder @@ReAllocateMemory zurückgegeben wurde.
+  
+@NoReturnValue
+
+@Remarks
+  Wenn das Programm bei diesem Befehl abstürzt, auch wenn die Eingabe korrekt
+  erscheint, ist dies üblicherweise das Ergebnis eines Speicherfehlers zu einem früheren
+  Zeitpunkt im Programm, bei dem in einen Bereich außerhalb des reservierten Speicherbereichs
+  geschrieben wurde.
+  Ein solcher Fehler kann mit Hilfe des @ReferenceLink "ide_debugtools" "Purifier" Debugger-Tools
+  bis auf die eigentliche Ursache eingegrenzt werden.
+@LineBreak
+@LineBreak
+  Alle verbliebenen reservierten Speicherblöcke werden automatisch freigegeben, wenn
+  das Programm endet.
+  
+@SeeAlso
+  @@AllocateMemory, @@ReAllocateMemory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeStructure(*Eintrag)
+
+@Description
+  Gibt den zuvor mittels @@AllocateStructure reservierten dynamischen Struktur-Eintrag frei.
+  Es ist nicht notwendig, @ReferenceLink "compilerfunctions" "ClearStructure()" vor dem
+  Freigeben der Struktur aufzurufen.
+  
+@Parameter "*Eintrag"
+  Die Adresse des freizugebenden dynamischen Struktur-Eintrags. Dies muss ein von
+  @@AllocateStructure zurückgegebener Wert sein.
+  
+@NoReturnValue
+
+@Remarks
+  Wenn das Programm bei diesem Befehl abstürzt, auch wenn die Eingabe korrekt
+  erscheint, ist dies üblicherweise das Ergebnis eines Speicherfehlers zu einem früheren
+  Zeitpunkt im Programm, bei dem in einen Bereich außerhalb des reservierten Speicherbereichs
+  geschrieben wurde.
+  Ein solcher Fehler kann mit Hilfe des @ReferenceLink "ide_debugtools" "Purifier" Debugger-Tools
+  bis auf die eigentliche Ursache eingegrenzt werden.
+@LineBreak
+@LineBreak
+  Alle verbliebenen reservierten dynamischen Struktur-Einträge werden automatisch
+  freigegeben, wenn das Programm endet.
+  
+@SeeAlso
+  @@AllocateStructure
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = MemorySize(*MemoryID)
+
+
+@Description
+  Gibt die Länge des angegebenen Speicherbereichs zurück.
+  
+@Parameter "*MemoryID"
+  Die Adresse des Speicherbereichs, von dem die Größe ermittelt werden soll. Dies muss
+  ein Wert sein, der entweder von @@AllocateMemory oder @@ReAllocateMemory zurückgegeben wurde.
+
+@ReturnValue
+  Gibt die Größe des angegebenen Speicherbereis in Bytes zurück.
+
+@SeeAlso
+  @@AllocateMemory, @@ReAllocateMemory, @@FreeMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = MemoryStringLength(*String [, Flags])
+
+@Description
+  Gibt die Länge (in Characters) des angegebenen Null-terminierten Strings zurück.
+  
+@Parameter "*String"
+  Die Adresse des Strings, von dem die Länge ermittelt werden soll.
+
+@OptionalParameter "Flags"
+  Das zu verwendende String-Format. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Ascii  : Liest die Strings als ASCII
+  @#PB_UTF8   : Liest die Strings als UTF8
+  @#PB_Unicode: Liest die Strings als Unicode (Standard, siehe @ReferenceLink "unicode" "Unicode"-Modus)
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_ByteLength: nur gültig bei Verwendung des @#PB_UTF8 Flags, das Ergebnis wird Bytes darstellen (nicht 'Character'-Zeichen).
+                  Dies kann nützlich sein, da UTF8 variable Zeichen-Längen ('Character') hat.
+@EndFixedFont
+
+@ReturnValue
+  Gibt die Länge des Strings in "Characters" zurück.
+  
+@SeeAlso
+  @@PokeS, @@PeekS, @@AllocateMemory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveMemory(*QuellMemoryID, *ZielMemoryID, Größe)
+
+@Description
+  Kopiert einen Speicherbereich beginnend bei der '*QuellMemoryID' an die
+  '*ZielMemoryID'. Das Überlappen der beiden Speicherbereiche ist erlaubt.
+  
+@Parameter "*QuellMemoryID"
+  Die Adresse, von der die Bytes kopiert werden.
+  
+@Parameter "*ZielMemoryID"
+  Die Adresse, wohin die Bytes kopiert werden.
+
+@Parameter "Größe"
+  Die Anzahl an zu kopierenden Bytes.
+
+@NoReturnValue
+
+@Remarks
+  Dieser Befehl kann langsamer als @@CopyMemory sein, aber er stellt sicher, dass die Bytes
+  korrekt kopiert werden, auch wenn sich die zwei Speicherbereiche überschneiden.
+
+@SeeAlso
+  @@CopyMemory, @@AllocateMemory, @@MemorySize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *NeueMemoryID = ReAllocateMemory(*MemoryID, Größe [, Flags])
+
+
+@Description
+  Verändert den angegebenen Speicherpuffer auf eine neue Größe. Der Speicher
+  kann in diesem Prozess an eine neue Stelle kopiert werden, wenn an seinem alten
+  Platz nicht genügend Speicher verfügbar ist.
+  
+@Parameter "*MemoryID"
+  Die Adresse des Speicherbereichs, der in der Größe verändert werden soll. Dieser Wert
+  muss das Ergebnis eines Aufrufs von @@AllocateMemory bzw. @@ReAllocateMemory sein.
+@LineBreak
+@LineBreak
+  Wenn dieser Parameter @#Null lautet, dann verhält sich dieser Befehl wie
+  @@AllocateMemory und reserviert einen neuen Speicherbereich in der angegebenen Größe.
+
+@Parameter "Größe"
+  Die Größe (in Bytes) für den in der Größe veränderten oder neu reservierten
+  Puffer.
+
+@OptionalParameter "Flags"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont  
+  @#PB_Memory_NoClear: füllt den erweiterten Speicherbereich nicht mit Nullen. Dies kann für eine schnellere Allokation
+                      sorgen, wenn der erweiterte Speicher sofort verwendet wird. Wenn der Speicherbereich verkleinert
+                      wird, dann hat dieses Flag keinen Effekt.
+@EndFixedFont
+
+@ReturnValue
+  Gibt die neue Adresse des Speicherbereichs zurück, wenn dieser in der Größe verändert werden
+  konnte. In diesem Fall kann die alte '*MemoryID' Adresse nicht länger verwendet werden.
+  Wenn die Größenänderung des Speicherbereichs fehlgeschlagen ist (weil nicht genug Speicher
+  verfügbar ist), ist das Ergebnis gleich Null, und die '*MemoryID' Adresse ist weiterhin
+  gültig mit dem existierenden Speicherbereich und der alten Größe.
+
+@Remarks
+  Wenn die Größe des Speicherbereichs erhöht wird, werden alle neuen Bytes anfänglich mit 
+  Nullen gefüllt, außer das @#PB_Memory_NoClear Flag wird angegeben.
+@LineBreak
+@LineBreak
+  Wenn das Programm bei diesem Befehl abstürzt, auch wenn die Eingabe korrekt
+  erscheint, ist dies üblicherweise das Ergebnis eines Speicherfehlers zu einem früheren
+  Zeitpunkt im Programm, bei dem in einen Bereich außerhalb des reservierten Speicherbereichs
+  geschrieben wurde.
+  Ein solcher Fehler kann mit Hilfe des @ReferenceLink "ide_debugtools" "Purifier" Debugger-Tools
+  bis auf die eigentliche Ursache eingegrenzt werden.
+@LineBreak
+@LineBreak
+  Alle verbliebenen reservierten Speicherbereiche werden am Programmende automatisch freigegeben.
+  
+@Example
+@Code
+  *MemoryID = AllocateMemory(1000)
+  PokeS(*MemoryID, "Speichere diesen String")
+  ; hier kann noch mehr mit dem Speicherbereich gemacht werden...
+  ;
+  *NewMemoryID = ReAllocateMemory(*MemoryID, 2000) ; wir brauchen mehr Speicher
+  If *NewMemoryID
+    ; arbeitet jetzt mit *NewMemoryID mit einer Größe von 2000 Byte
+    Debug "Der alte Inhalt ist noch vorhanden:"
+    Debug PeekS(*NewMemoryID)
+    ;
+    FreeMemory(*NewMemoryID) 
+  Else
+    ; die Größenänderung schlug fehl, wir arbeiten weiter mit *MemoryID (Größe 1000)
+    ;
+    FreeMemory(*MemoryID)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AllocateMemory, @@FreeMemory, @@MemorySize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Wert.a = PeekA(*Speicherpuffer)
+
+@Description
+  Liest ein ASCII-Zeichen (1 Byte "Character") von der angegebenen Speicheradresse.
+
+@Parameter "*Speicherpuffer"
+  Die Adresse, von der gelesen werden soll.
+
+@ReturnValue
+  Gibt den Wert des ASCII-Zeichens (Character) zurück.
+
+@SeeAlso
+  @@PokeA
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Wert.b = PeekB(*Speicherpuffer)
+
+@Description
+  Liest einen Byte-Wert (1 Byte) von der angegebenen Speicheradresse.
+
+@Parameter "*Speicherpuffer"
+  Die Adresse, von der gelesen werden soll.
+
+@ReturnValue
+  Gibt den Wert des Bytes zurück.
+
+@SeeAlso
+  @@PokeB
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Wert.c = PeekC(*Speicherpuffer)
+
+@Description
+  Liest einen Character-Wert (2 Bytes in @ReferenceLink "unicode" "Unicode")
+  von der angegebenen Speicheradresse.
+
+@Parameter "*Speicherpuffer"
+  Die Adresse, von der gelesen werden soll.
+
+@ReturnValue
+  Gibt den Wert des Characters (Zeichen) zurück.
+
+@SeeAlso
+  @@PokeC
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Wert.d = PeekD(*Speicherpuffer)
+
+@Description
+  Liest einen Double-Wert (8 Bytes) von der angegebenen Speicheradresse.
+
+@Parameter "*Speicherpuffer"
+  Die Adresse, von der gelesen werden soll.
+
+@ReturnValue
+  Gibt den Wert des Double-Werts zurück.
+
+@SeeAlso
+  @@PokeD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Wert.i = PeekI(*Speicherpuffer)
+
+@Description
+  Liest einen Ganzzahl-Wert (auch "Integer", 4 Bytes in einem 32-Bit Executable, 8 Bytes in einem
+  64-Bit Executable) von der angegebenen Speicheradresse.
+
+@Parameter "*Speicherpuffer"
+  Die Adresse, von der gelesen werden soll.
+
+@ReturnValue
+  Gibt den Wert des Integer-Werts (Ganzzahl) zurück.
+
+@SeeAlso
+  @@PokeI
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Wert.l = PeekL(*Speicherpuffer)
+
+@Description
+  Liest einen Long-Wert (4 Bytes) von der angegebenen Speicheradresse.
+
+@Parameter "*Speicherpuffer"
+  Die Adresse, von der gelesen werden soll.
+
+@ReturnValue
+  Gibt den Wert des Long-Werts zurück.
+
+@SeeAlso
+  @@PokeL
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Wert.w = PeekW(*Speicherpuffer)
+
+@Description
+  Liest einen Word-Wert (2 Bytes) von der angegebenen Speicheradresse.
+
+@Parameter "*Speicherpuffer"
+  Die Adresse, von der gelesen werden soll.
+
+@ReturnValue
+  Gibt den Wert des Word-Werts zurück.
+
+@SeeAlso
+  @@PokeW
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Wert.f = PeekF(*Speicherpuffer)
+
+@Description
+  Liest einen Float-Wert (4 Bytes) von der angegebenen Speicheradresse.
+
+@Parameter "*Speicherpuffer"
+  Die Adresse, von der gelesen werden soll.
+
+@ReturnValue
+  Gibt den Wert des Float-Werts zurück.
+
+@SeeAlso
+  @@PokeF
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Wert.q = PeekQ(*Speicherpuffer)
+
+@Description
+  Liest einen Quad-Wert (8 Bytes) von der angegebenen Speicheradresse.
+
+@Parameter "*Speicherpuffer"
+  Die Adresse, von der gelesen werden soll.
+
+@ReturnValue
+  Gibt den Wert des Quad-Werts zurück.
+
+@SeeAlso
+  @@PokeQ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = PeekS(*Speicherpuffer [, Länge [, Format]])
+
+@Description
+  Liest einen String von der angegebenen Speicheradresse.
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, von der gelesen werden soll.
+  
+@OptionalParameter "Länge"
+  Die maximale Anzahl an zu lesenden Zeichen ("Character"). Wenn dieser Parameter nicht
+  angegeben wird oder -1 verwendet wird, dann gibt es kein Maximum.
+  Der String wird gelesen, bis ein abschließendes Null-Zeichen auftritt, oder die maximale
+  Länge erreicht wird.
+
+@OptionalParameter "Format"
+  Das beim Lesen des Strings zu verwendende String-Format. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Ascii  : Liest die Strings als ASCII
+  @#PB_UTF8   : Liest die Strings als UTF8
+  @#PB_Unicode: Liest die Strings als Unicode (Standard)
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_ByteLength: nur gültig bei Verwendung des @#PB_UTF8 Flags, die 'Länge' wird Bytes darstellen (nicht 'Character'-Zeichen).
+                  Dies kann nützlich sein, da UTF8 variable Zeichen-Längen ('Character') hat.
+@EndFixedFont
+
+@ReturnValue
+  Gibt den eingelesenen String zurück.
+
+@Remarks
+  Eine Kombination aus @@PokeS und PeekS() kann verwendet werden, um eine Konvertierung
+  zwischen den verschiedenen unterstützten String-Modi (ASCII, UTF8 und Unicode) vorzunehmen.
+
+@SeeAlso
+  @@PokeS, @@MemoryStringLength, @@CompareMemoryString, @@CopyMemoryString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Wert.u = PeekU(*Speicherpuffer)
+
+@Description
+  Liest einen Unicode-Character (2 Bytes) von der angegebenen Speicheradresse.
+
+@Parameter "*Speicherpuffer"
+  Die Adresse, von der gelesen werden soll.
+
+@ReturnValue
+  Gibt den Wert des Unicode-Zeichen (Character) zurück.
+
+@SeeAlso
+  @@PokeU
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeA(*Speicherpuffer, Nummer)
+
+@Description
+  Schreibt ein ASCII-Zeichen (1 Byte) an die angegebene Speicheradresse.
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, an die geschrieben werden soll.
+
+@Parameter "Nummer"
+  Der zu schreibende Wert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekA
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeB(*Speicherpuffer, Nummer)
+
+@Description
+  Schreibt einen Byte-Wert (1 Byte) an die angegebene Speicheradresse.
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, an die geschrieben werden soll.
+
+@Parameter "Nummer"
+  Der zu schreibende Wert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekB
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeC(*Speicherpuffer, Nummer)
+
+@Description
+  Schreibt einen Character-Wert (2 Bytes in @ReferenceLink "unicode" "Unicode")
+  an die angegebene Speicheradresse.
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, an die geschrieben werden soll.
+
+@Parameter "Nummer"
+  Der zu schreibende Wert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekC
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeD(*Speicherpuffer, Nummer)
+
+@Description
+  Schreibt einen Double-Wert (8 Bytes) an die angegebene Speicheradresse.
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, an die geschrieben werden soll.
+
+@Parameter "Nummer"
+  Der zu schreibende Wert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeI(*Speicherpuffer, Nummer)
+
+@Description
+  Schreibt einen Ganzzahl-Wert (auch "Integer", 4 Bytes in einem 32-Bit Executable, 8 Bytes in einem
+  64-Bit Executable) an die angegebene Speicheradresse.
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, an die geschrieben werden soll.
+
+@Parameter "Nummer"
+  Der zu schreibende Wert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekI
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeL(*Speicherpuffer, Nummer)
+
+@Description
+  Schreibt einen Long-Wert (4 Bytes) an die angegebene Speicheradresse.
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, an die geschrieben werden soll.
+
+@Parameter "Nummer"
+  Der zu schreibende Wert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekL
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeQ(*Speicherpuffer, Nummer)
+
+@Description
+  Schreibt einen Quad-Wert (8 Bytes) an die angegebene Speicheradresse.
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, an die geschrieben werden soll.
+
+@Parameter "Nummer"
+  Der zu schreibende Wert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekQ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeW(*Speicherpuffer, Nummer)
+
+@Description
+  Schreibt einen Word-Wert (2 Bytes) an die angegebene Speicheradresse.
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, an die geschrieben werden soll.
+
+@Parameter "Nummer"
+  Der zu schreibende Wert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekW
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeF(*Speicherpuffer, Nummer.f)
+
+@Description
+  Schreibt einen Float-Wert (4 Bytes) an die angegebene Speicheradresse.
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, an die geschrieben werden soll.
+
+@Parameter "Nummer"
+  Der zu schreibende Wert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekF
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = PokeS(*Speicherpuffer, Text$ [, Länge [, Flags]])
+
+@Description
+  Schreibt einen String an die angegebene Speicheradresse, gefolgt von einem Null-Zeichen für
+  den Abschluss ("null-terminierter" String).
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, an die geschrieben werden soll.
+
+@Parameter "Text$"
+  Der zu schreibende String.
+
+@OptionalParameter "Länge"
+  Die maximale Anzahl an zu schreibenden Zeichen (Character). Wird dieser Parameter
+  nicht angegeben oder -1 verwendet, dann wird die volle Länge geschrieben.
+  Das abschließende Null-Zeichen, was immer geschrieben wird (außer das @#PB_String_NoZero
+  Flag ist gesetzt), wird bei dieser Zählung nicht mitgerechnet.
+
+@OptionalParameter "Flags"  
+  Das beim Schreiben des Strings zu verwendende String-Format. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Ascii  : Schreibt die Strings als ASCII
+  @#PB_UTF8   : Schreibt die Strings als UTF8
+  @#PB_Unicode: Schreibt die Strings als Unicode (Standard)
+@EndFixedFont
+  Dieser kann mit der folgenden Konstante kombiniert werden:
+@FixedFont
+  @#PB_String_NoZero: Schreibt nicht das abschließende Null-Zeichen.
+@EndFixedFont
+  
+@ReturnValue
+  Die Anzahl der in den Speicher geschriebenen Bytes, ohne das abschließende
+  Null-Zeichen. Die Anzahl an geschriebenen Bytes weicht von der String-Länge in Zeichen (Character)
+  ab, wenn das Format @#PB_UTF8 or @#PB_Unicode ist.
+
+@Remarks
+  Eine Kombination aus PokeS() und @@PeekS kann verwendet werden, um eine Konvertierung
+  zwischen den verschiedenen unterstützten String-Modi (ASCII, UTF8 und Unicode) vorzunehmen.
+
+@SeeAlso
+  @@PeekS, @@CopyMemoryString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeU(*Speicherpuffer, Nummer)
+
+@Description
+  Schreibt einen Unicode-Character (2 Bytes) an die angegebene Speicheradresse.
+  
+@Parameter "*Speicherpuffer"
+  Die Adresse, an die geschrieben werden soll.
+
+@Parameter "Nummer"
+  Der zu schreibende Wert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekU
+
+@SupportedOS

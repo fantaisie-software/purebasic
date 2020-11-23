@@ -1,0 +1,80 @@
+@Title Gosub : Return
+
+@Syntax
+
+  @Keyword Gosub MyLabel 
+     
+  MyLabel: 
+    ...
+  @Keyword Return
+ 
+ 
+@Description
+
+  @Keyword Gosub stands for 'Go to sub routine'. A @ReferenceLink "general_rules" "label" must be specified after @Keyword Gosub, at that point 
+  the program execution continues immediately after the position defined by that label, and will do so until 
+  encountering a @Keyword Return. When a return is reached, the program execution is then transferred immediately 
+  below the @Keyword Gosub.
+  @LineBreak
+  @Keyword Gosub is useful when building fast structured code.
+  @LineBreak
+  @LineBreak
+  Another technique which may be used in order to insert a sub routine into a standalone program component 
+  is to use @ReferenceLink "procedures" "procedures".
+  @Keyword Gosub may only be used within the main body of the source code, and may not be used within 
+  @ReferenceLink "procedures" "procedures".
+
+  @Example
+
+@Code       
+  a = 1
+  b = 2
+  Gosub ComplexOperation 
+  Debug a 
+  End 
+       
+  ComplexOperation: 
+    a = b*2+a*3+(a+b) 
+    a = a+a*a 
+  Return 
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword FakeReturn 
+
+@Description
+
+  If the command @ReferenceLink "Others" Goto is used within the body of a sub routine, @Keyword FakeReturn must be used.
+  @Keyword FakeReturn simulates a return without actually executing a return, and if it is not used, the program will crash.
+  Note: To exit a loop safely, @ReferenceLink "break_continue" "Break" should be used instead of Goto. 
+
+  @Example
+  
+@Code     
+  Gosub SubRoutine1
+     
+  SubRoutine1:
+    ...
+    If a = 10
+      FakeReturn 
+      Goto Main_Loop 
+    Endif 
+  Return
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

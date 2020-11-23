@@ -1,0 +1,237 @@
+;
+;     ImagePlugin library documentation
+;
+;      (c) 2017 - Fantaisie Software
+;
+
+@Library ImagePlugin
+
+@Overview
+  PureBasic supports external image formats through the use of a dynamic native plug-in system.
+  By use of this system, only the required encoder or decoder will be added to the final executable,
+  this in turn, dramatically reduces the size of the final program.
+  @LineBreak
+  @LineBreak
+  If for example, the application only requires the JPEG decoder, only that code which deals with the
+  JPEG decoder is used.
+  @LineBreak
+  @LineBreak
+  Another nice feature is: if several decoders are being used, these decoders will be detected automatically,
+  through the use of automatic image format detection.
+  @LineBreak
+  @LineBreak
+  The following functions support image plugins:
+  @LineBreak
+  @@LoadImage, @@CatchImage, @@SaveImage,
+  @@LoadSprite, @@CatchSprite and @@SaveSprite.
+
+@CommandList
+
+@ExampleFile All ImagePlugin.pb
+@ExampleFile All ImagePlugin_GIF.pb
+@ExampleFile All MDI_ImageViewer.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseGIFImageDecoder()
+
+@Description
+  Enables the GIF image support for the @@CatchImage, @@LoadImage, @@CatchSprite and @@LoadSprite functions. Only @@LoadImage and @@CatchImage
+  supports multi-frame GIF (it will result into a multi-frame image).
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  All formats are supported, including the progressive and interlaced format. 
+
+@SeeAlso 
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEGImageDecoder()
+
+@Description
+  Enables the JPEG (Joint Picture Expert Group) image support for the @@CatchImage, @@LoadImage,
+  @@CatchSprite and @@LoadSprite functions. 
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  All formats are supported, including
+  the progressive format. The JPEG format makes use of destructive compression (lossy), what this means, is that the picture
+  loses a certain amount of the original information when that picture is compressed. This compression algorithm is actually one of the best available,
+  it will dramatically decrease the image size without the introduction of a lot of visible  artifacts.
+
+@SeeAlso 
+  @@UseJPEGImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEGImageEncoder()
+
+@Description
+  Enables the JPEG (Joint Picture Expert Group) image support for the @@SaveImage and @@SaveSprite functions.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  The JPEG format makes use of destructive compression (lossy), what this means, is that the picture loses a certain amount of the
+  original information when that picture is compressed. This compression algorithm is actually one of the best available,
+  it will dramatically decrease the image size without the introduction of a lot of visible  artifacts.
+
+@SeeAlso 
+  @@UseJPEGImageDecoder,
+  @@SaveImage, @@SaveSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEG2000ImageDecoder()
+
+@Description
+  Enables the JPEG 2000 image support for the @@CatchImage, @@LoadImage,
+  @@CatchSprite and @@LoadSprite functions.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  The JPEG 2000 format makes use of destructive compression (lossy), what this means, is that the picture loses a certain amount of the
+  original information when that picture is compressed. This compression algorithm is actually one of the best available,
+  it will dramatically decrease the image size without the introduction of a lot of visible  artifacts.
+
+@SeeAlso 
+  @@UseJPEG2000ImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseJPEG2000ImageEncoder()
+
+@Description
+  Enables the JPEG 2000 image support for the @@SaveImage and @@SaveSprite functions.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  The JPEG 2000 format makes use of destructive compression (lossy), what this means, is that the picture loses a certain amount of the
+  original information when that picture is compressed. This compression algorithm is actually one of the best available,
+  it will dramatically decrease the image size without the introduction of a lot of visible  artifacts. This encoder has the capability to
+  encode 32-bit images with alpha channel.
+
+@SeeAlso 
+  @@UseJPEG2000ImageDecoder,
+  @@SaveImage, @@SaveSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UsePNGImageDecoder()
+
+@Description
+  Enables the PNG (Portable Network Graphic) image support for the @@CatchImage, @@LoadImage,
+  @@CatchSprite and @@LoadSprite functions. 
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  All formats are supported, including
+  the progressive format. The PNG format is well known by web designers, as it is now one of the more
+  popular formats. The PNG format makes use of non-destructive compression (lossless) which means that the picture
+  does not lose any information when that picture is compressed. This is actually the best lossless compression
+  algorithm available.
+
+@SeeAlso 
+  @@UsePNGImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UsePNGImageEncoder()
+
+@Description
+  Enables the PNG (Portable Network Graphic) image support for @@SaveImage and @@SaveSprite.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  The PNG format is well known by web designers, as it is now one of the more
+  popular formats. The PNG format makes use of non-destructive compression (lossless) which means that the picture
+  does not lose any information when that picture is compressed. This is actually the best lossless compression
+  algorithm available. This encoder has the capability to encode 32-bit images with alpha channel.
+
+@SeeAlso 
+  @@UsePNGImageDecoder,
+  @@SaveImage, @@SaveSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseTGAImageDecoder()
+
+@Description
+  Enables the TGA (Targa) image support for the @@CatchImage, @@LoadImage,
+  @@CatchSprite and @@LoadSprite functions. 
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  The TGA format makes use of
+  non-destructive compression (lossless) which means that the picture does not lose any information when it is compressed.
+  The TGA image size is usually large, since the compression is very weak (Run Length Encoding - RLE). At this point,
+  the TGA alpha channel information (if any) is ignored when using this format.
+
+@SeeAlso 
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseTIFFImageDecoder()
+
+@Description
+  Enables the TIFF image support for the @@CatchImage, @@LoadImage,
+  @@CatchSprite and @@LoadSprite functions. 
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  The TIFF format is very complex and
+  internally supports several sub-compression formats such as: JPEG, LZW, etc. All forms of the TIFF format are supported, using this format
+  will result in programs which are quite large.
+
+@SeeAlso 
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+

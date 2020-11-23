@@ -1,0 +1,1965 @@
+;
+; Entity library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Entity
+
+@Overview
+
+  Une entité, ou 'Entity' en anglais 
+  est un objet 3D composé d'un 
+  @LibraryLink "mesh" "mesh" (un maillage 3D) 
+  et d'une @LibraryLink "material" "matière" 
+  (ou matériau). Une entité peut être déplacée 
+  et transformée en temps réel. De plus, la 
+  bibliothèque 
+  @LibraryLink "entityanimation" "EntityAnimation" 
+  est disponible pour animer une partie d'une 
+  entité constituée d'un squelette, ce qui 
+  permet de faire marcher une entité, par 
+  exemple.  
+@LineBreak
+@LineBreak
+  Il est possible de partager un mesh et/ou 
+  une matière entre plusieurs entités 
+  réduisant ainsi la consommation mémoire et 
+  l'utilisation du processeur. 
+@LineBreak
+@LineBreak
+  @@InitEngine3D doit être appelé avec succès 
+  avant de pouvoir utiliser les commandes 
+  relatives aux entités.
+
+@CommandList
+
+@ExampleFile All Entity.pb
+@ExampleFile All CopyAngle.pb
+@LineBreak
+@LineBreak
+@ExampleFile All AttachEntityObject.pb
+@ExampleFile All AttachEntityObject2.pb
+@ExampleFile All AttachEntityObject3.pb
+@LineBreak
+@LineBreak
+@ExampleFile All EntityBonePosition.pb
+@ExampleFile All EntityBonePosition2.pb
+@ExampleFile All EnableManualEntityBoneControl.pb
+@LineBreak
+@LineBreak
+@ExampleFile All EntityBoundingBox.pb
+@ExampleFile All EntityCollide.pb
+@ExampleFile All VisibilityMask.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ApplyEntityForce(#Entity, X, Y, Z [, PositionX, PositionY, PositionZ [, Mode]])
+
+@Description
+  Applique une force sur une entité. 
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "X, Y, Z"
+  Valeur de la force en x, y et z.
+
+@OptionalParameter "PositionX, PositionY, PositionZ"
+  La position relative par rapport au centre 
+  de l'entité, où la force doit être appliquée.
+  
+@OptionalParameter "Mode"
+  Le mode à appliquer. Il peut s'agir de l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Local : Force locale.
+  @#PB_Parent: Force relative à la position du parent.
+  @#PB_World : Force relative au monde.
+@EndFixedFont
+ 
+@NoReturnValue
+
+@SeeAlso
+  @@ApplyEntityImpulse, @@ApplyEntityTorque, @@ApplyEntityTorqueImpulse
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ApplyEntityImpulse(#Entity, X, Y, Z [, PositionX, PositionY, PositionZ [, Mode]])
+
+@Description
+  Applique une impulsion à une entité.  
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "X, Y, Z"
+  Valeur de la force d'impulsion en en x, y et z.
+
+@OptionalParameter "PositionX, PositionY, PositionZ"
+  La position relative par rapport au centre 
+  de l'entité, où l'impulsion doit être appliquée.
+  
+@OptionalParameter "Mode"
+  Le mode d'impulsion appliqué. Il peut s'agir de l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Local : Impulsion locale.
+  @#PB_Parent: Impulsion relative à la position du parent.
+  @#PB_World : Impulsion relative au monde.
+@EndFixedFont
+   
+@NoReturnValue
+
+@SeeAlso 
+  @@ApplyEntityForce, @@ApplyEntityTorque, @@ApplyEntityTorqueImpulse
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ApplyEntityTorque(#Entity, X, Y, Z [, Mode])
+
+@Description
+  Applique un couple de force à l'entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "X, Y, Z"
+  Les valeurs du couple en x, y et z.
+  
+@OptionalParameter "Mode"
+  Le mode de couple de force de rotation appliqué. Il peut s'agir de l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Local : Rotation locale.
+  @#PB_Parent: Rotation relative à la position du parent.
+  @#PB_World : Rotation relative au monde.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso 
+  @@ApplyEntityImpulse, @@ApplyEntityForce, @@ApplyEntityTorqueImpulse
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ApplyEntityTorqueImpulse(#Entity, X, Y, Z [, Mode])
+
+@Description
+  Applique une impulsion de couple à l'entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "X, Y, Z"
+  Les valeurs de l'impulsion de couple en x, y et z.
+  
+@OptionalParameter "Mode"
+  Le mode d'impulsion de couple de force de rotation appliqué. Il peut s'agir de l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Local : Impulsion de rotation locale.
+  @#PB_Parent: Impulsion de rotation relative à la position du parent.
+  @#PB_World : Impulsion de rotation relative au monde.
+@EndFixedFont  
+
+@NoReturnValue
+
+@SeeAlso 
+  @@ApplyEntityImpulse, @@ApplyEntityForce, @@ApplyEntityTorque
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CopyEntity(#Entity, #NouvelleEntity)
+
+@Description
+  Crée une copie d'une entité.
+  
+@Parameter "#Entity"
+  L'entité à copier.
+
+@Parameter "#NouvelleEntity"  
+  La copie.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro.
+@LineBreak
+@LineBreak
+  Tous ses attributs sont dupliqués.  
+  
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+@LineBreak
+@LineBreak
+  Si la '#NouvelleEntity' était déjà créée, 
+  elle est automatiquement supprimée et 
+  remplacée par la nouvelle.
+
+@SeeAlso
+  @@CreateEntity, @@FreeEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateEntity(#Entity, MeshID, MatiereID, [X, Y, Z [, MasqueSelection [, MasqueVisibilite]])
+
+@Description
+  Crée une nouvelle entité utilisant un 
+  mesh et une matière. 
+   
+@Parameter "#Entity"  
+  Numéro de l'entité. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro.
+
+@Parameter "MeshID"  
+   Le mesh à utiliser. 
+@LineBreak
+@LineBreak    
+   Pour obtenir un identifiant valide, 
+   utiliser @@MeshID.
+@LineBreak
+@LineBreak   
+  Les meshes dynamiques (créés avec l'option 
+  @#PB_Mesh_Dynamic) ne sont pas autorisés.  
+  
+@Parameter "MatiereID"
+  La matière à utiliser. 
+@LineBreak
+@LineBreak 
+  Pour obtenir un identifiant valide, 
+  utilisez @@MaterialID.
+
+@OptionalParameter "X, Y, Z" 
+  La position de la nouvelle entité dans 
+  le monde.
+
+@OptionalParameter "MasqueSelection"
+  Utilisé par  @@RayPick et @@MousePick  
+  pour sélectionner le groupe d'entités 
+  qui sera traité.
+@LineBreak
+@LineBreak
+  Comme il s'agit d'un masque, chaque 
+  valeur doit être une puissance de deux 
+  et 31 masques différents sont disponibles.
+@LineBreak
+@LineBreak
+  Pour créer une valeur de masque facilement, 
+  l'opérateur '<<'  peut être utilisé: 
+@FixedFont
+  - 1 << 1  : Première valeur de masque valide
+  - 1 << 2  : Deuxième valeur de masque valide
+  - 1 << 3  : Troisième valeur de masque valide
+  - ...
+  - 1 << 31 : Dernières valeur de masque valide
+@EndFixedFont
+   Pour faciliter l'utilisation, les 
+   constantes doivent être utilisées pour 
+   stocker la valeur du masque.
+@LineBreak
+@LineBreak
+   Lorsque vous appelez les fonctions de 
+   sélection, les masques peuvent être 
+   combinés avec l'opérateur '|'
+   pour sélectionner plus d'un type d'entité.
+
+@OptionalParameter "MasqueVisibilite" 
+  Un masque à choisir sur la caméra qui 
+  affiche l'entité. 
+@LineBreak
+@LineBreak
+Si ce masque correspond au masque spécifié par 
+  @@CreateCamera alors l'entité sera affichée 
+  par la caméra. @LineBreak
+  Voir l'option 'MasqueSelection' ci-dessus 
+  pour construire des masques appropriés.
+@LineBreak
+@LineBreak
+  Si ce paramètre est omis alors l'entité 
+  sera visible par toutes les caméras.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+@LineBreak
+@LineBreak  
+  Si l'entité était déjà créée, elle est 
+  automatiquement supprimée et remplacée 
+  par la nouvelle.
+
+@SeeAlso
+  @@FreeEntity, @@HideEntity, @@IsEntity
+
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityFixedYawAxis(#Entity, Actif [, VecteurX.f, VecteurY.f, VecteurZ.f])
+
+@Description
+  Change l'axe fixe de lacet d'une entité. 
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "Actif"
+  Active ou désactive l'utilisation d'un axe 
+  de lacet personnalisé. 
+@FixedFont
+  @#True : Un nouvel axe vecteur doit être spécifié. 
+  @#False: L'entité fera un lacet autour de son axe propre Y.
+@EndFixedFont
+
+@OptionalParameter "VecteurX, VecteurY, VecteurZ"
+  Direction du vecteur du nouvel axe de lacet.
+@LineBreak
+@LineBreak
+  Valeur comprise entre -1.0 et 1.0.
+@LineBreak
+@LineBreak  
+  Le paramètre "Actif" doit être posé à 
+  @#True pour avoir un effet.
+  
+@NoReturnValue
+
+@Remarks
+  Le comportement par défaut d'une entité est 
+  un lacet autour de son propre axe Y.
+
+@SeeAlso
+  @@EntityYaw
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityID(#Entity)
+
+@Description
+  Renvoie l'identifiant unique d'une entité.  
+
+@Parameter "#Entity"
+  L'entité à utiliser.  
+
+@ReturnValue
+  Renvoie le numéro de l'entité.
+  
+@Remarks
+  Cette fonction est très utile quand une 
+  fonction d'une autre bibliothèque nécessite 
+  l'identifiant d'une entité.
+
+@SeeAlso
+  @@CreateEntity, @@FreeEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityLookAt(#Entity, X, Y, Z [, DirectionX.f, DirectionY.f, DirectionZ.f])
+
+@Description
+  Spécifie le point (dans l'unité du monde) 
+  auquel une entité fait face.
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "X, Y, Z"
+   L'entité pointe vers la position 'X, Y, Z' 
+   (dans l'unité du monde).
+
+@OptionalParameter "DirectionX, DirectionY, DirectionZ"
+  La direction de l'entité.
+@LineBreak
+@LineBreak 
+  Valeur comprise entre -1.0 et 1.0.
+
+@NoReturnValue
+
+@Remarks
+  La position de l'entité n'est pas modifiée.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityVelocity(#Entity, X, Y, Z)
+
+@Description
+  Modifie la vitesse linéaire d'une entité. 
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "X, Y, Z"
+  Le vecteur vitesse.
+
+@NoReturnValue
+
+@Remarks
+  Le facteur linéaire est appliqué à l'entité.
+  @LineBreak
+  Consultez @@EntityLinearFactor pour plus 
+  d'informations.
+@LineBreak
+@LineBreak
+  L'entité a besoin d'un corps physique pour 
+  avoir une vitesse linéaire. 
+@LineBreak
+@LineBreak
+  Pour obtenir la vitesse courante de l'entité, 
+  utilisez @@GetEntityAttribute.
+
+@SeeAlso
+  @@EntityAngularFactor, 
+  @@EntityCustomParameter, 
+  @@EntityLinearFactor, 
+  @@MoveEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityAngularFactor(#Entity, X, Y, Z)
+
+@Description
+  Modifie le facteur angulaire d'une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "X, Y, Z"
+   Les facteurs angulaires du vecteur.
+
+@NoReturnValue
+
+@SeeAlso
+  @@EntityVelocity, @@EntityCustomParameter, 
+  @@EntityLinearFactor, @@MoveEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityLinearFactor(#Entity, X, Y, Z)
+
+@Description
+   Modifie le facteur linéaire d'une entité. 
+   
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "X, Y, Z"
+  Les valeurs du facteur linéaire. 
+@LineBreak
+@LineBreak
+  0 indique que l'entité ne sera plus en 
+  mesure de se déplacer sur l'axe spécifié 'x, y ou z'.
+
+@NoReturnValue
+
+@Remarks
+  En cas de déplacement, la vitesse linéaire 
+  est multipliée par le facteur linéaire 
+  pour obtenir la vitesse finale. 
+@LineBreak
+@LineBreak  
+  Ceci est très utile pour contraindre le 
+  mouvement d'une entité sur un ou plusieurs 
+  axes. 
+@LineBreak
+@LineBreak  
+  Par défaut, le facteur linéaire est de 1 
+  pour tous les axes ce qui signifie aucun 
+  impact sur la vitesse. 
+@LineBreak
+@LineBreak  
+  L'entité a besoin d'un corps physique pour 
+  utiliser cette contrainte.
+
+
+@SeeAlso
+  @@EntityVelocity, @@EntityCustomParameter, 
+  @@EntityAngularFactor, @@MoveEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityCustomParameter(#Entity, SousEntity, IndexParametre, Valeur1, Valeur2, Valeur3, Valeur4)
+
+@Description
+  Définit des paramètres personnalisés pour 
+  le 'script shader' matériau d'une entité.
+  @LineBreak  
+  Pour avoir un effet, le matériau associé 
+  à l'entité doit avoir un 'script shader', 
+  soit GLSL soit HLSL.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "SousEntity"
+  La sous-entité à utiliser. 
+@LineBreak
+@LineBreak   
+  Le premier indice commence à 0 
+  (reprensentant l'entité principale).
+
+@Parameter "IndexParametre"
+  L'indice de paramètre dans le shader script.
+
+@Parameter "Valeur1, Valeur2, Valeur3, Valeur4"
+  Les valeurs du paramètre.
+@LineBreak
+@LineBreak 
+  Si le paramètre ne peut accepter une valeur, 
+  cette valeur sera ignorée.
+
+@NoReturnValue
+
+@SeeAlso
+  @@EntityVelocity, @@EntityLinearFactor, 
+  @@EntityAngularFactor, @@MoveEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityBoundingBox(#Entity, Options)
+
+@Description
+  Renvoie la position de la boîte englobante 
+  d'une entité en coordonnées locales ou 
+  mondiales.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "Options"
+@FixedFont
+  @#PB_Entity_MinBoundingBoxX: Min 'x' de la boîte englobante
+  @#PB_Entity_MaxBoundingBoxX: Max 'x' de la boîte englobante
+  @#PB_Entity_MinBoundingBoxY: Min 'y' de la boîte englobante
+  @#PB_Entity_MaxBoundingBoxY: Max 'y' de la boîte englobante
+  @#PB_Entity_MinBoundingBoxZ: Min 'z' de la boîte englobante
+  @#PB_Entity_MaxBoundingBoxZ: Max 'z' de la boîte englobante
+@EndFixedFont
+  
+  Il est possible de la combiner avec l'une 
+  des valeurs suivantes:
+@FixedFont
+  @#PB_Entity_WorldBoundingBox: Coordonnées mondiales (par défaut)
+  @#PB_Entity_LocalBoundingBox: Coordonnées locales
+@EndFixedFont
+
+@ReturnValue
+  Renvoie la position de la boîte englobante 
+  en coordonnées locales ou mondiales.
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableEntityBody(#Entity, Desactiver)
+
+@Description
+  Désactive le corps d'une entité. 
+
+@Parameter "#Entity"
+  L'entité à désactiver.
+
+@Parameter "Desactiver"
+@FixedFont
+   @#True : Le corps de l'entité est désactivé. 
+   @#False: Le corps de l'entité est activé.
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Le moteur physique n'affecte plus l'entité 
+  quand son corps est désactivé.
+ 
+@SeeAlso
+  @@CreateEntityBody, @@CreateEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityParentNode(#Entity)
+
+@Description
+  Renvoie le numéro du noeud parent d'une 
+  entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@ReturnValue
+  Renvoie le  @@NodeID parent, s'il existe 
+  ou zéro sinon. 
+
+@Remarks 
+  Il peut s'agir d'un noeud réel ou d'un 
+  os si l'entité est fixée à un os.
+
+@SeeAlso
+  @@FreeEntityJoints
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = FetchEntityMaterial(#Entity, #Matiere [, SousEntity])
+
+@Description
+  Installe la matière associée à l'#Entity 
+  avec @@SetEntityMaterial.
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "#Material"
+  Le numéro de la nouvelle 
+  @LibraryLink "material" "matière".  
+
+@OptionalParameter "SousEntity"
+ La sous-entité  à utiliser. @LineBreak
+ Le premier indice commence à 0 (ce qui 
+ représente la principale entité).
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+ 
+@SeeAlso
+  @@SetEntityMaterial, @@GetEntityAttribute, 
+  @@SetEntityAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetEntityMaterial(#Entity, MatiereID [, SousEntity])
+
+@Description
+  Assigne une matière à l'entité. 
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "MatiereID
+  La matière.
+@LineBreak
+@LineBreak
+  Si une matière était déjà assignée à 
+  l'entité alors elle est remplacée.
+@LineBreak
+@LineBreak
+  Peut être facilement obtenu avec la 
+  commande @@MaterialID.
+
+@OptionalParameter "SousEntity"
+ La sous-entité  à utiliser. @LineBreak
+ Le premier indice commence à 0 (ce qui 
+ représente la principale entité).
+ 
+@NoReturnValue
+  
+@SeeAlso
+  @@FetchEntityMaterial, @@GetEntityAttribute, 
+  @@SetEntityAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityCollide(#Entity, #Entity2)
+
+@Description
+  Vérifie si deux entités entrent en collision. 
+  
+@Parameter "#Entity"
+  La première entité à tester.
+  
+@Parameter "#Entity2"
+  La seconde entité à tester.
+  
+@ReturnValue
+  Renvoie une valeur non nulle si les deux 
+  entités entrent en collision.
+
+@Remarks
+  Pour que les collisions soient gérées par 
+  le moteur physique, une entité a besoin 
+  d'un corps (body) créé avec 
+  @@CreateEntityBody.
+@LineBreak
+@LineBreak
+  De plus, le moteur physique doit être 
+  activé avec @@EnableWorldPhysics.
+
+
+@SeeAlso
+  @@DetachEntityObject, @@CreateEntity, 
+  @@DisableEntityBody
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateEntityBody(#Entity, Type [, Masse [, Restitution, Friction [, TailleX, TailleY, TailleZ [, AxeX, AxeY, AxeZ]])
+
+@Description
+  Crée ou change le type de corps (body) 
+  associé à une entité. 
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "Type"  
+  Définit comment le moteur physique gère 
+  l'entité:
+@FixedFont
+  @#PB_Entity_None       : Aucun body associé à l'entity (mode par défaut).
+  @#PB_Entity_StaticBody : Le body est statique, c'est à dire que le mesh ne peut pas être animé.
+                          Ce mode permet des collisions très précises, car elles sont faites par rapport aux triangles
+                          qui composent le mesh (connu comme la tri-mesh collision). Les collisions entre body static et les autres types de body
+                          (sphere, box etc.) sont très rapides, mais entre deux body static, cela devient très lent.
+                          C'est le type de body parfait pour utiliser une mesh comme un sol ou pour un monde statique.
+  @#PB_Entity_PlaneBody  : Un plan 'virtuel' sur l'entity (avec les mêmes dimensions)
+                          est utilisé pour gérer les collisions entre les autres entités.
+  @#PB_Entity_ConeBody   : Un cône 'virtuel' englobant totalement l'entity (avec les mêmes dimensions)
+                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_BoxBody    : Une boîte 'virtuelle' englobant totalement l'entity (avec les mêmes dimensions)
+                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_SphereBody : Une sphère 'virtuelle' englobant totalement l'entity
+                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_CylinderBody : Un cylindre 'virtuel' englobant totalement l'entity
+                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_CapsuleBody : Une capsule 'virtuelle' englobant totalement l'entity
+                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_ConvexHullBody : Une forme complexe 'virtuelle' déduite du mesh réel gère les collisions contre les autres
+                          entités. Ce mode est plus lent que le mode basic de collision.
+  @#PB_Entity_CompoundBody   : Un corps composé 'virtuelle' englobant totalement l'entity
+                          est utilisée pour gérer les collisions entre les autres entités.
+@EndFixedFont
+
+@OptionalParameter "Masse"
+  Masse de l'objet. 
+@LineBreak
+@LineBreak
+  Ne pas utiliser une valeur trop grande car 
+  il pourrait se produire des incohérences 
+  physiques (Préférer la valeur 1).
+
+@OptionalParameter "Restitution"
+  Coefficient de Restitution de la vitesse 
+  de l'objet suite à une collision (Rebond).
+@LineBreak
+@LineBreak
+  En théorie, ce coefficient est égal à la 
+  vitesse restituée, divisée par la vitesse 
+  initiale.
+  Il est aussi égal à la racine carrée de la 
+  hauteur du rebond, divisée par la hauteur 
+  du lâché.
+@LineBreak
+@LineBreak 
+  Il est généralement compris entre 0 et 1 
+  mais s'il est supérieur à 1 ou inférieur à 
+  0, la collision produit de l'énergie 
+  cinétique et donc de la vitesse (vitesse 
+  restituée > vitesse initiale).
+@LineBreak
+@LineBreak
+  Cette valeur peut également être obtenue ou 
+  définie via @@GetEntityAttribute et 
+  @@SetEntityAttribute
+
+@OptionalParameter "Friction"
+  Force de friction ou de frottement de 
+  l'objet. 
+@LineBreak
+@LineBreak
+  Attention ce paramètre est proportionnel 
+  à la Masse.
+@LineBreak
+@LineBreak 
+  Cette valeur peut également être obtenue 
+  ou définie via @@GetEntityAttribute et 
+  @@SetEntityAttribute
+  
+@OptionalParameter "TailleX, TailleY, TailleZ"
+  Les dimensions de la boîte englobante autour du corps. Ne concerne que le type de corps suivant:
+@FixedFont
+  @#PB_Entity_BoxBody     : TailleX, TailleY, TailleZ sont disponibles.
+  @#PB_Entity_SphereBody  : TailleX est disponible.
+  @#PB_Entity_ConeBody    : TailleX, TailleY sont disponibles.
+  @#PB_Entity_CylinderBody: TailleX, TailleY sont disponibles.
+  @#PB_Entity_CapsuleBody : TailleX, TailleY, TailleZ sont disponibles.
+@EndFixedFont  
+
+@OptionalParameter "AxeX, AxeY, AxeZ"
+  Les axes du corps. Ne concerne que le type de corps suivant:
+@FixedFont
+  @#PB_Entity_PlaneBody
+  @#PB_Entity_CylinderBody
+  @#PB_Entity_CapsuleBody 
+@EndFixedFont 
+
+@NoReturnValue
+
+@Remarks
+  Pour que les collisions soient gérées par 
+  le moteur physique, une entité doit avoir 
+  un corps. @LineBreak
+@LineBreak
+  De plus, le moteur physique doit être 
+  activé à l'aide de la commande 
+  @@EnableWorldPhysics.
+@LineBreak
+@LineBreak 
+  En fait, seul le corps est connu du moteur 
+  physique lequel fera tous les calculs 
+  concernant l'entité, vérifiera sa masse, 
+  les forces de frottement (friction) 
+  et s'il entre en collision, cela entraînera 
+  un mouvement de recul de l'entité 
+  (Restitution).
+  
+@SeeAlso
+  @@EntityAngularFactor, 
+  @@EntityCollide, 
+  @@EntityCustomParameter, 
+  @@EntityLinearFactor, 
+  @@GetEntityAttribute, 
+  @@FetchEntityMaterial, 
+  @@SetEntityAttribute, 
+  @@SetEntityMaterial
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityRenderMode(#Entity, Mode)
+
+@Description
+  Change le mode de rendu d'une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "Mode"
+  Peut être une combinaison de:
+@FixedFont
+  @#PB_Entity_CastShadow      : L'entité projette des ombres si @@WorldShadows est activé (mode par défaut).
+  @#PB_Entity_DisplaySkeleton : Affiche le squelette de l'entité
+  @#PB_Shadow_None            : Désactive la projection des ombres (utile pour l'affichage des "sols")
+@EndFixedFont
+ 
+@NoReturnValue
+ 
+@SeeAlso
+  @@CreateEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AttachEntityObject(#Entity, Os$, ObjetID [, X, Y, Z, Tangage, Roulis, Lacet])
+
+@Description
+  Attache un objet existant à un os d'une 
+  entité. 
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "Os$
+  Le nom de l'os dans le mesh OGRE.
+@LineBreak
+@LineBreak
+  Si le nom de l'os est vide, l'objet n'est 
+  pas attaché à un os, mais directement à 
+  l'entité.
+  
+@Parameter "ObjetID"
+  Peut être un des objets suivants:
+@FixedFont
+  - Entity : Utilisation de @@EntityID en tant que 'ObjetID'.
+  - Camera : Utilisation de @@CameraID en tant que 'ObjetID'.
+  - Light  : Utilisation de @@LightID en tant que 'ObjetID'.
+  - BillboardGroup : Utilisation de @@BillboardGroupID en tant que 'ObjetID'.
+  - ParticleEmitter: Utilisation de @@ParticleEmitterID en tant que 'ObjetID'.
+@EndFixedFont
+  
+@OptionalParameter "X, Y, Z"
+  Déplacement relatif par rapport à la 
+  position de l'objet.
+
+@OptionalParameter "Tangage, Roulis, Lacet"
+  Correspondent à la rotation de l'objet par 
+  rapport aux 3 axes.
+  
+@NoReturnValue
+
+@Remarks
+  Un objet peut être détaché de l'os d'une 
+  entité avec @@DetachEntityObject.
+   
+@SeeAlso
+  @@DetachEntityObject
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DetachEntityObject(#Noeud, ObjetID)
+
+@Description
+  Détache un objet précédemment attaché à un 
+  os d'une entité. 
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+
+@Parameter "ObjetID"
+  Les objets pris en charge sont:
+@FixedFont
+  - Entity : Utilisation de @@EntityID en tant que 'ObjetID'.
+  - Camera : Utilisation de @@CameraID en tant que 'ObjetID'.
+  - Light  : Utilisation de @@LightID en tant que 'ObjetID'.
+  - BillboardGroup : Utilisation de @@BillboardGroupID en tant que 'ObjetID'.
+  - ParticleEmitter: Utilisation de @@ParticleEmitterID en tant que 'ObjetID'.
+@EndFixedFont
+  
+@NoReturnValue
+
+@Remarks
+  Un objet peut être attaché à un os avec 
+  @@AttachEntityObject.
+
+@SeeAlso
+  @@AttachEntityObject
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EnableManualEntityBoneControl(#Entity, Os$, Etat, HeritageOrientation)
+
+@Description
+  Activer la commande manuelle d'un os. 
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "Os$"
+  Le nom de l'os dans le mesh OGRE.
+
+@Parameter "Etat"  
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#True : La commande manuelle de l'os est activée.
+  @#False: La commande manuelle de l'os est désactivée.
+@EndFixedFont
+
+@OptionalParameter "HeritageOrientation"
+  Indique si l'orientation de l'os doit 
+  hériter de l'orientation de l'entité. 
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#True : L'orientation manuelle de l'os est héritée de l'entité.
+  @#False: L'orientation manuelle de l'os ne prend pas en compte l'orientation de l'entité.
+@EndFixedFont
+  
+@NoReturnValue  
+
+@Remarks
+  Il peut être déplacé manuellement avec 
+  @@MoveEntityBone et tourné avec 
+  @@RotateEntityBone.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveEntityBone(#Entity, Os$, X, Y, Z, Mode)
+
+@Description
+  Déplace l'os d'une entité. 
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "Os$"
+  Le nom de l'os dans le mesh OGRE.
+
+@Parameter "X, Y, Z"  
+  Nouvelle position de l'os.
+
+@Parameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Relative: Déplacement relatif, à partir de la position actuelle de l'os (par défaut).
+  @#PB_Absolute: Déplacement absolu à la position spécifiée.
+@EndFixedFont
+  combinée avec l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Local : Déplacement local.
+  @#PB_Parent: Déplacement par rapport à la position du parent.
+  @#PB_World : Déplacement par rapport au monde.
+@EndFixedFont
+
+@NoReturnValue  
+
+@Remarks
+  L'os doit être en mode manuel en utilisant 
+  @@EnableManualEntityBoneControl.
+
+@SeeAlso
+  @@RotateEntityBone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeEntityBody(#Entity)
+
+@Description
+  Libère le corps associé à l'entité.
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateEntityBody
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeEntityJoints(#Entity)
+
+@Description
+  Libère toutes les 
+  @LibraryLink "joint" "articulations" 
+  associées à une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+ 
+@NoReturnValue
+  
+@SeeAlso
+  @@EntityParentNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityBoneX(#Entity, Os$ [, DeplacementX, DeplacementY, DeplacementZ])
+
+@Description
+  Renvoie la position en X d'un os d'une 
+  entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "Os$"
+  Le nom de l'os dans le mesh OGRE .
+
+@OptionalParameter "DeplacementX, DeplacementY, DeplacementZ"
+  Le décalage par rapport à l'os.
+
+@ReturnValue
+  Renvoie la position en X de l'os dans le 
+  monde.
+  
+@SeeAlso
+  @@EntityBoneY, @@EntityBoneZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityBoneY(#Entity, Os$ [, DeplacementX, DeplacementY, DeplacementZ])
+
+@Description
+ Renvoie la position en Y d'un os d'une 
+ entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "Os$"
+  Le nom de l'os dans le mesh OGRE .
+
+@OptionalParameter "DeplacementX, DeplacementY, DeplacementZ"
+  Le décalage par rapport à l'os.
+
+@ReturnValue
+  Renvoie la position en Y de l'os dans le 
+  monde.
+  
+@SeeAlso
+  @@EntityBoneX, @@EntityBoneZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityBoneZ(#Entity, Os$ [, DeplacementX, DeplacementY, DeplacementZ])
+
+@Description
+  Renvoie la position en Z d'un os d'une 
+  entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "Os$"
+  Le nom de l'os dans le mesh OGRE .
+
+@OptionalParameter "DeplacementX, DeplacementY, DeplacementZ"
+  Le décalage par rapport à l'os.
+
+@ReturnValue
+  Renvoie la position en Z de l'os dans le 
+  monde.
+   
+@SeeAlso
+  @@EntityBoneX, @@EntityBoneY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = EntityBonePitch(#Entity, Os$)
+
+@Description
+  Renvoie le tangage (torsion de haut en 
+  bas) d'un os d'une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "Os$"
+  Le nom de l'os dans le mesh OGRE.
+
+@ReturnValue
+  La valeur du tangage de l'os. 
+@LineBreak
+@LineBreak
+  Valeur toujours comprise entre -180.0 et 
+  180.0 degrés.
+  
+@SeeAlso
+  @@EntityBoneYaw, @@EntityBoneRoll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = EntityBoneYaw(#Entity, Os$)
+
+@Description
+  Renvoie le lacet (torsion horizontale de 
+  gauche à droite) d'un os d'une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "Os$"
+  Le nom de l'os dans le mesh OGRE.
+
+@ReturnValue
+  La valeur du lacet de l'os. 
+@LineBreak
+@LineBreak
+  Valeur toujours comprise entre -180.0 et 
+  180.0 degrés.
+
+@SeeAlso
+  @@EntityBonePitch, @@EntityBoneRoll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = EntityBoneRoll(#Entity, Os$)
+
+@Description
+  Renvoie le roulis (torsion verticale de 
+  gauche à droite) d'un os d'une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "Os$"
+  Le nom de l'os dans le mesh OGRE.
+
+@ReturnValue
+  La valeur du roulis de l'os. 
+@LineBreak
+@LineBreak
+  Valeur toujours comprise entre -180.0 et 
+  180.0 degrés.
+
+@SeeAlso
+  @@EntityBoneRoll, @@EntityBoneYaw
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityX(#Entity [, Mode])
+
+@Description
+  Renvoie la position en X d'une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@OptionalParameter "Mode"
+  Le mode d'obtention du vecteur de direction 
+  de la caméra. @LineBreak
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
+  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+@EndFixedFont
+  
+@ReturnValue
+  Renvoie la position en X de l'entité dans 
+  le monde 3D.
+
+@SeeAlso
+  @@EntityY, @@EntityZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityY(#Entity [, Mode])
+
+@Description
+  Renvoie la position en Y d'une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@OptionalParameter "Mode"
+  Le mode d'obtention du vecteur de direction 
+  de la caméra. @LineBreak
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
+  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+@EndFixedFont
+   
+@ReturnValue
+  Renvoie la position en Y de l'entité dans 
+  le monde 3D.
+ 
+@SeeAlso
+  @@EntityX, @@EntityZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityZ(#Entity [, Mode])
+
+@Description
+  Renvoie la position en Z d'une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+ 
+@OptionalParameter "Mode"
+  Le mode d'obtention du vecteur de direction 
+  de la caméra. @LineBreak
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
+  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+@EndFixedFont
+   
+@ReturnValue
+  Renvoie la position en Z de l'entité dans 
+  le monde 3D.
+
+@SeeAlso
+  @@EntityX, @@EntityY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeEntity(#Entity)
+
+@Description
+  Supprime une entité. 
+
+@Parameter "#Entity"
+  L'entité à supprimer.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, toutes les 
+  entités restantes sont libérées.
+  
+@NoReturnValue  
+
+@Remarks
+  Toutes les entities restantes sont 
+  automatiquement supprimées quand le 
+  programme se termine. 
+
+@SeeAlso  
+  @@CreateEntity  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideEntity(#Entity, Etat)
+
+@Description
+  Affiche ou cache une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "Etat"
+@FixedFont
+  @#False: L'entité est affichée
+  @#True : L'entité est cachée
+@EndFixedFont
+  
+@NoReturnValue 
+
+@SeeAlso
+  @@CreateEntity, @@FreeEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsEntity(#Entity)
+
+@Description
+  Teste si une entité est correctement 
+  initialisée. 
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@ReturnValue   
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+
+@Remarks
+  Cette fonction a été créée pour pouvoir 
+  passer n'importe quelle valeur en paramètre 
+  sans qu'il ne puisse y avoir de plantage.
+@LineBreak
+@LineBreak
+  C'est la fonction idéale pour vérifier 
+  qu'un objet est correctement initialisé.
+  
+@SeeAlso
+  @@CreateEntity, @@FreeEntity 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveEntity(#Entity, X, Y, Z [, Mode])
+
+@Description
+  Déplace une entité. 
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "X, Y, Z"
+  Nouvelle position de l'entité.
+
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Relative: Déplacement relatif, à partir de la position actuelle de l'entité (par défaut).
+  @#PB_Absolute: Déplacement absolu à la position spécifiée.
+@EndFixedFont
+  combinée avec l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Local : Déplacement local.
+  @#PB_Parent: Déplacement par rapport à la position du parent.
+  @#PB_World : Déplacement par rapport au monde.
+@EndFixedFont
+
+@NoReturnValue
+   
+@Remarks
+  Le déplacement dans le monde 3D est relatif à la position actuelle de l'entité. 
+  
+  
+@SeeAlso
+  @@RotateEntity, @@ScaleEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateEntity(#Entity, X, Y, Z [, Mode])
+
+@Description
+  Effectue une rotation d'une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "X, Y, Z"
+  Angles de rotation.
+@LineBreak
+@LineBreak
+  Tous les angles sont en degrés, de 0 à 359.
+
+@OptionalParameter "Mode"
+@FixedFont
+  @#PB_Absolute: Rotation absolue (par défaut).
+  @#PB_Relative: Rotation relative basée sur la rotation précédente de l'entité.  
+@EndFixedFont
+  
+@NoReturnValue  
+   
+@SeeAlso
+  @@MoveEntity, @@ScaleEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateEntityBone(#Entity, Os$, X, Y, Z, Mode)
+
+@Description
+  Fait pivoter un os d'une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "Os$"
+  Le nom de l'os dans le mesh OGRE.
+
+@Parameter "X, Y, Z"
+  La valeur de rotation en X, Y, Z, 
+  entre 0 à 359 degrés.
+
+@OptionalParameter "Mode"
+@FixedFont
+  @#PB_Absolute: Rotation absolue (par défaut).
+  @#PB_Relative: Rotation relative basée sur la rotation précédente de l'os.  
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@MoveEntityBone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleEntity(#Entity, X, Y, Z [, Mode])
+
+@Description
+  Change les dimensions d'une entité.
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "X, Y, Z"
+  Les facteurs d'échelle sur les trois axes. 
+@linebreak
+@linebreak  
+  Les dimensions de l'entité vont être 
+  multipliées par les valeurs X, Y, Z.
+ 
+@OptionalParameter "Mode"
+ Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Relative: Facteur d'échelle relatif, sur la base de la taille initiale (par défaut). 
+                L'utilisation de la valeur 1.0 permettra de garder la taille inchangée.
+  @#PB_Absolute: Facteur d'échelle absolue, dans l'unité du monde.
+@EndFixedFont 
+
+@NoReturnValue 
+
+@Remarks  
+  Lorsque vous utilisez le mode @#PB_Relative, 
+  alors la taille de l'entité sera multipliée 
+  par la valeur donnée pour obtenir la 
+  nouvelle taille.
+
+@Example
+@Code
+  ScaleEntity(0, 2, 2, 2) ; Double la taille courante de l'entité.
+  ScaleEntity(0, 1, 1, 1) ; Ne change pas la taille de l'entité (Multiplication par '1').
+  ScaleEntity(0, 3, 1, 1) ; Change la taille en 'x': 3 fois plus grande.
+  ScaleEntity(0, 1, 1, 1, #PB_Absolute) ; Réinitialise la taille de l'entité à 1,1,1.
+@EndCode
+ 
+@SeeAlso
+  @@MoveEntity, @@RotateEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = EntityRoll(#Entity [, Mode])
+
+@Description
+  Renvoie le roulis d'une entité. 
+  (Mouvement vertical de gauche à droite)
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute : Valeur absolue, et le roulis du parent est ignoré (par défaut).
+  @#PB_Relative : Valeur relative par rapport au roulis courant du parent.
+@EndFixedFont    
+  Combinée avec
+@FixedFont
+  @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas être utilisée avec @@RotateEntity pour récupérer la même orientation (par défaut).
+  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation.
+@EndFixedFont  
+
+@ReturnValue
+  La valeur du roulis actuel de l'entité. 
+@linebreak
+@linebreak
+  Valeur toujours comprise entre -180.0 et 
+  180.0 degrés.
+
+@SeeAlso
+  @@EntityYaw, @@EntityPitch
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = EntityPitch(#Entity [, Mode])
+
+@Description
+  Renvoie le tangage d'une entité. 
+  (Mouvement vertical de haut en bas)
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute : Valeur absolue, et le tangage du parent est ignoré (par défaut).
+  @#PB_Relative : Valeur relative par rapport au tangage courant du parent.
+@EndFixedFont    
+  Combinée avec
+@FixedFont
+  @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas être utilisée avec @@RotateEntity pour récupérer la même orientation (par défaut).
+  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation.
+@EndFixedFont  
+
+@ReturnValue
+  La valeur du tangage actuel de l'entité. 
+@linebreak
+@linebreak
+  Valeur toujours comprise entre -180.0 et 
+  180.0 degrés. 
+  
+@SeeAlso
+  @@EntityYaw, @@EntityRoll
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = EntityYaw(#Entity [, Mode])
+
+@Description
+  Renvoie le lacet d'une entité. 
+  (Mouvement horizontal de gauche à droite)
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute : Valeur absolue, et le roulis du parent est ignoré (par défaut).
+  @#PB_Relative : Valeur relative par rapport au roulis courant du parent.
+@EndFixedFont    
+  Combinée avec
+@FixedFont
+  @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas être utilisée avec @@RotateEntity pour récupérer la même orientation (par défaut).
+  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation.
+@EndFixedFont 
+
+@ReturnValue
+  La valeur du lacet actuel de l'entité. 
+@linebreak
+@linebreak
+  Valeur toujours comprise entre -180.0 et 
+  180.0 degrés.
+
+@SeeAlso
+  @@EntityPitch, @@EntityRoll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetEntityAttribute(#Entity, Attribut)
+
+@Description
+  Renvoie la valeur d'un attribut d'une 
+  entité.
+  
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "Attribut" 
+@FixedFont
+  @#PB_Entity_Friction          : Renvoie la valeur de la force de friction ou de frottement.
+  @#PB_Entity_Restitution       : Renvoie la valeur du coefficient de restitution de la vitesse.
+  @#PB_Entity_LinearVelocity    : Renvoie la vitesse linéaire courante (tous les axes).
+  @#PB_Entity_LinearVelocityX   : Renvoie la vitesse linéaire courante sur l'axe des 'x'.
+  @#PB_Entity_LinearVelocityY   : Renvoie la vitesse linéaire courante sur l'axe des 'y'.
+  @#PB_Entity_LinearVelocityZ   : Renvoie la vitesse linéaire courante sur l'axe des 'z'.
+  @#PB_Entity_assCenterX        : Renvoie la position du centre de masse en 'x'.
+  @#PB_Entity_MassCenterY       : Renvoie la position du centre de masse en 'y'.
+  @#PB_Entity_MassCenterZ       : Renvoie la position du centre de masse en 'z'.
+  @#PB_Entity_NbSubEntities     : Renvoie le nombre de sous-entités.
+  @#PB_Entity_LinearSleeping    : Renvoie la valeur de vitesse linéaire minimum en dessous de laquelle l'entité sera endormie.
+  @#PB_Entity_AngularSleeping   : Renvoie la valeur de vitesse angulaire minimum en dessous de laquelle l'entité sera endormie.
+  @#PB_Entity_DeactivationTime  : Renvoie le temps d'attente (en millisecondes) avant de mettre l'entité en mode veille lorsque les conditions ci-dessus sont remplies.
+  @#PB_Entity_IsActive          : Renvoie si un corps d'entité est actif (pas de veille).
+  @#PB_Entity_AngularVelocityX  : Renvoie la vitesse angulaire courante sur l'axe 'x'.
+  @#PB_Entity_AngularVelocityY  : Renvoie la vitesse angulaire courante sur l'axe 'y'.
+  @#PB_Entity_AngularVelocityZ  : Renvoie la vitesse angulaire courante sur l'axe 'z'.
+  @#PB_Entity_AngularVelocity   : Renvoie la vitesse angulaire courante (tous les axes).
+  @#PB_Entity_HasContactResponse: Teste si le corps de l'entité est en contact.
+  @#PB_Entity_ScaleX            : Renvoie la valeur courante de l'échelle sur l'axe 'x'.
+  @#PB_Entity_ScaleY            : Renvoie la valeur courante de l'échelle sur l'axe 'y'.
+  @#PB_Entity_ScaleZ            : Renvoie la valeur courante de l'échelle sur l'axe 'z'.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie la valeur de l'attribut spécifié 
+  ou zéro si l'entité ne supporte pas 
+  l'attribut. 
+  
+@SeeAlso
+  @@SetEntityAttribute, @@SetEntityMaterial, 
+  @@FetchEntityMaterial
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetEntityAttribute(#Entity, Attribut, Valeur)
+
+@Description
+  Assigne la valeur d'un attribut de 
+  l'articulation associée à une entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "Attribut"
+  L'attribut à définir parmi:  
+
+@FixedFont
+  @#PB_Entity_Friction        : Change la valeur de la force de friction ou de frottement.
+  @#PB_Entity_Restitution     : Change la valeur du coefficient de restitution de la vitesse.
+  @#PB_Entity_MinVelocity     : Change la vitesse minimum linéaire. Comme cette valeur n'est pas stockée,
+                               il doit être appelé à chaque fois que l'entité est déplacée.
+  @#PB_Entity_MaxVelocity     : Change la vitesse maximum linéaire. Comme cette valeur n'est pas stockée,
+                               il doit être appelé à chaque fois que l'entité est déplacée.
+  @#PB_Entity_ForceVelocity   : Définit la vitesse linéaire de l'entité. Comme cette valeur n'est pas stockée,
+                               il doit être appelé à chaque fois que l'entité est déplacée.
+  @#PB_Entity_LinearSleeping  : Change la valeur de vitesse linéaire minimum en dessous de laquelle l'entité sera endormie.
+  @#PB_Entity_AngularSleeping : Change la valeur de vitesse angulaire minimum en dessous de laquelle l'entité sera endormie.
+  @#PB_Entity_DeactivationTime: Temps d'attente (en millisecondes) avant de mettre l'entité en mode veille lorsque les conditions ci-dessus sont remplies.
+  @#PB_Entity_DisableContactResponse: Désactive ou active les contacts physiques pour cette entité. La valeur peut être @#True ou @#False.
+@EndFixedFont
+
+@Parameter "Valeur"
+  Valeur de l'attribut.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@GetEntityAttribute, @@SetEntityMaterial, 
+  @@FetchEntityMaterial
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetEntityCollisionMask(#Entity)
+
+@Description
+  Renvoie le masque de collision de l'entité 
+  actuelle, telle que déterminé par 
+  @@SetEntityCollisionFilter.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@ReturnValue
+  le masque de collision de l'entité actuelle.
+
+@SeeAlso
+  @@SetEntityCollisionFilter, 
+  @@GetEntityCollisionGroup
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetEntityCollisionGroup(#Entity)
+
+@Description
+  Renvoie le groupe de collision de l'entité 
+  actuelle, telle que déterminée par 
+  @@SetEntityCollisionFilter.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@ReturnValue
+  Le groupe actuel de collision de l'entité.
+
+@SeeAlso
+  @@SetEntityCollisionFilter, 
+  @@GetEntityCollisionMask
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetEntityCollisionFilter(#Entity, CollisionGroupe, CollisionMasque)
+
+@Description
+  Définit le groupe de collision de l'entité 
+  et le masque.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "CollisionGroupe"
+  Le nouveau groupe de collision.
+
+@Parameter "CollisionMasque"
+  Le nouveau masque de collision.
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetEntityCollisionGroup, 
+  @@GetEntityCollisionMask,
+  @@RayCollide
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AddSubEntity(#Entity, #SubEntity, Type, [DecalageX, DecalageY, DecalageZ [, TailleX, TailleY, TailleZ [, AxeX, AxeY, AxeZ]]])
+
+@Description
+  Ajoute une entité en tant que sous-entité à une entité existante.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+  
+@Parameter "#SubEntity"
+  L'entité à ajouter.
+  
+@Parameter "Type"  
+  Définit comment le moteur physique gère la sous-entité:
+@FixedFont
+  @#PB_Entity_StaticBody : Le body est statique, c'est à dire que le mesh ne peut pas être animé.
+                          Ce mode permet des collisions très précises, car elles sont faites par rapport aux triangles
+                          qui composent le mesh (connu comme la tri-mesh collision). Les collisions entre body static et les autres types de body
+                          (sphere, box etc.) sont très rapides, mais entre deux body static, cela devient très lent.
+                          C'est le type de body parfait pour utiliser une mesh comme un sol ou pour un monde statique.
+  @#PB_Entity_PlaneBody  : Un plan 'virtuel' sur l'entity (avec les mêmes dimensions)
+                          est utilisé pour gérer les collisions entre les autres entités.
+  @#PB_Entity_ConeBody   : Un cône 'virtuel' englobant totalement l'entity (avec les mêmes dimensions)
+                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_BoxBody    : Une boîte 'virtuelle' englobant totalement l'entity (avec les mêmes dimensions)
+                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_SphereBody : Une sphère 'virtuelle' englobant totalement l'entity
+                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_CylinderBody : Un cylindre 'virtuel' englobant totalement l'entity
+                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_CapsuleBody : Une capsule 'virtuelle' englobant totalement l'entity
+                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_ConvexHullBody : Une forme arbitraire 'virtuelle' englobant totalement l'entity 
+                          définie par un nuage de vertices et la forme sera la plus petite 
+                          forme convexe qui entoure les vertices.
+
+@EndFixedFont
+
+@OptionalParameter "DecalageX, DecalageY, DecalageZ"
+  Le décalage ou translation (Offset) du body en X, Y et Z.
+  
+@OptionalParameter "TailleX, TailleY, TailleZ"
+  Les dimensions de la boîte englobante autour du corps. Ne concerne que le type de corps suivant:
+@FixedFont
+  @#PB_Entity_BoxBody     : TailleX, TailleY, TailleZ sont disponibles.
+  @#PB_Entity_SphereBody  : TailleX est disponible.
+  @#PB_Entity_ConeBody    : TailleX, TailleY sont disponibles.
+  @#PB_Entity_CylinderBody: TailleX, TailleY sont disponibles.
+  @#PB_Entity_CapsuleBody : TailleX, TailleY, TailleZ sont disponibles.
+@EndFixedFont  
+  Si TailleX = -1 alors le système utilise la boîte englobante.
+  
+@OptionalParameter "AxeX, AxeY, AxeZ"
+  Les axes du corps. Ne concerne que le type de corps suivant:
+@FixedFont
+  @#PB_Entity_PlaneBody
+  @#PB_Entity_CylinderBody
+  @#PB_Entity_CapsuleBody 
+@EndFixedFont 
+
+@ReturnValue   
+  Renvoie une valeur non nulle en cas de succès, zéro sinon.
+ 
+@Remarks
+  Il est nécessaire d'utiliser la fonction @@CreateEntityBody() 
+  avec l'option #PB_Entity_CompoundBody après l'ajout de toutes 
+  les sous-entités. 
+ 
+@SeeAlso
+  @@CreateEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EntityDirection(#Entity, X, Y, Z [, Mode, VecteurDirectionLocal])
+
+@Description
+  Définit la direction de l'entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "X, Y, Z"
+  Le vecteur direction (valeur entre -1.0 et 1.0).
+
+@OptionalParameter "Mode"
+  Le mode de direction. Il peut s'agir de l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Local : Mouvement local.
+  @#PB_Parent: Mouvement relatif à la position des parents.
+  @#PB_World : Mouvement relatif au monde.
+@EndFixedFont
+
+@OptionalParameter "VecteurDirectionLocal"
+  Le vecteur local de direction. Il peut s'agir de l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Vector_X
+  @#PB_Vector_Y
+  @#PB_Vector_Z
+  @#PB_Vector_NegativeX
+  @#PB_Vector_NegativeY
+  @#PB_Vector_NegativeZ
+@EndFixedFont
+
+@NoReturnValue
+ 
+@SeeAlso
+  @@EntityDirectionX, @@EntityDirectionY, @@EntityDirectionZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityDirectionX(#Entity)
+
+@Description
+  Obtenir la direction 'x' de l'entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@ReturnValue
+  Renvoie la direction 'x' de l'entité.
+ 
+@SeeAlso
+  @@EntityDirection, @@EntityDirectionY, @@EntityDirectionZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityDirectionY(#Entity)
+
+@Description
+  Obtenir la direction 'y' de l'entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@ReturnValue
+  Renvoie la direction 'y' de l'entité.
+ 
+@SeeAlso
+  @@EntityDirection, @@EntityDirectionX, @@EntityDirectionZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = EntityDirectionZ(#Entity)
+
+@Description
+  Obtenir la direction 'z' de l'entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@ReturnValue
+  Renvoie la direction 'z' de l'entité.
+ 
+@SeeAlso
+  @@EntityDirection, @@EntityDirectionX, @@EntityDirectionY
+  
+@SupportedOS

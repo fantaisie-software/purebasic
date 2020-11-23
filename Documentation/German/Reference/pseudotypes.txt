@@ -1,0 +1,62 @@
+@Title Pseudotypes
+
+@Description
+
+  Für fortgeschrittene Programmierer. Die Pseudotypes (unechte Datentypen) sind eine Möglichkeit 
+  zur Vereinfachung des Programmierens im Umgang mit externen Libraries (Befehls-Bibliotheken), welche 
+  @ReferenceLink "variables" "Datentypen" benötigen, die nicht intern von PureBasic unterstützt
+  werden.
+@LineBreak
+@LineBreak
+  In diesem Fall ist des möglich, das vordefinierte Pseudotype zu verwenden, welches die notwendige
+  Konvertierung "on-the-fly" (während der Verwendung) ohne Zusatzarbeiten erledigt. Da es sich dabei 
+  nicht um 'echte' Datentypen handelt, wurde das gewählte Namensschema ausdrücklich anders gewählt:
+  ein 'p-' Präfix (für 'Pseudo') ist Bestandteil des Typennamens. Die verfügbaren Pseudotypes sind:
+@FixedFont
+  p-ascii: verhält sich wie ein Stringtyp, konvertiert jedoch vor dem Aufrufen der Funktion den
+           String immer nach ASCII, auch wenn das Programm im @ReferenceLink "unicode" "Unicode"-Modus kompiliert wurde.
+           Dies ist zum Beispiel sehr nützlich in einem Unicode-Programm beim Zugriff auf eine 
+           Shared-Library, die selbst kein Unicode unterstützt.
+           
+  p-utf8:  verhält sich wie ein Stringtyp, konvertiert jedoch vor dem Aufrufen der Funktion den
+           String immer nach UTF8. Dies ist sehr nützlich beim Zugriff auf eine Shared-Library, die 
+           einen @ReferenceLink "unicode" "Unicode"-String als UTF8 anstelle von ASCII- oder Unicode-Strings übergeben braucht.
+
+  p-bstr:  verhält sich wie ein Stringtyp, konvertiert jedoch vor dem Aufrufen der Funktion den
+           String immer nach BSTR. Dies ist sehr nützlich beim Zugriff auf eine Shared-Library, die 
+           BSTR Parameter benötigt (wie COM Komponenten).
+
+  p-unicode: verhält sich wie ein Stringtyp, konvertiert jedoch vor dem Aufrufen der Funktion den
+             String immer nach @ReferenceLink "unicode" "Unicode", auch wenn das Programm im ASCII-Modus kompiliert wurde.
+             Dies ist sehr nützlich zum Beispiel in einem Ascii-Programm beim Zugriff auf eine 
+             Shared-Library, die nur Unicode unterstützt.
+
+  p-variant: verhält sich wie ein numerischer Typ, stellt den Funktionsaufruf jedoch so ein, dass
+             der 'Variant' Parameter korrekt verwendet wird. Dies ist sehr nützlich beim Zugriff
+             auf "Shared Libraries", welche den 'Variant' Parameter benötigen, wie COM Komponenten.
+@EndFixedFont
+
+  Die Pseudotypes können nur mit den @ReferenceLink "prototypes" "Prototypes", @ReferenceLink "interfaces" "Interfaces"
+  und @ReferenceLink "import_endimport" "importierten Funktionen" verwendet werden. Die Pseudotypes führen die 
+  Konvertierung nur dann aus, wenn es notwendig ist.
+  
+@Example 
+
+@Code
+  Import "User32.lib"
+   
+    ; Wir verwenden den 'p-ascii' Pseudotype für die String Parameter, da
+    ; MessageBoxA() eine nur unter ASCII verwendbare Funktion ist. Der Compiler
+    ; wird - sofern notwendig - die Strings automatisch nach ASCII konvertieren.
+    ;
+    MessageBoxA(Window.i, Body.p-ascii, Title.p-ascii, Flags.i = 0)
+                                                  
+  EndImport
+  
+  ; Dies wird korrekt funktionieren, auch wenn die internen PureBasic-Strings
+  ; in Unicode vorliegen, da der Compiler eigenständig die nötige
+  ; ASCII-Konvertierung erledigt.
+  ;
+  MessageBoxA(0, "Hello", "World")
+    
+@EndCode

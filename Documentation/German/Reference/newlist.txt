@@ -1,0 +1,70 @@
+@Title NewList
+
+@Syntax
+
+  @Keyword NewList Name.<Typ>()      
+
+@Description
+
+  @Keyword NewList ermöglicht die Einrichtung einer dynamisch verknüpften Liste ("Dynamic Linked List"). 
+  @LineBreak
+  @LineBreak
+  Jedes Element einer Liste wird dynamisch zugewiesen. Es gibt keine Einschränkungen in der Anzahl 
+  der Elemente, es können so viele wie nötig benutzt werden. Eine Liste kann jeden @ReferenceLink "Variables" "Standard-" oder 
+  @ReferenceLink "Structures" "Struktur-Typ" haben. 
+  @LineBreak
+  @LineBreak
+  Für eine Liste aller Befehle zum Verwalten von Listen siehe die @LibraryLink "List" "Linked List" Bibliothek. 
+  @LineBreak
+  @LineBreak
+  Die neuen verknüpften Listen sind immer lokal. Dies bedeutet, dass die @ReferenceLink "Global" "Global" oder
+  @ReferenceLink "Shared" "Shared" Befehle benutzt werden müssen, wenn eine im Haupt-Quellcode deklarierte
+  Liste in Prozeduren verwendet werden soll. Es ist auch möglich, mit dem @Keyword "List"-Schlüsselwort eine verknüpfte Liste als Parameter an eine
+  @ReferenceLink "Procedures" "Prozedur" zu übergeben.
+  @LineBreak
+  @LineBreak
+  Für schnelles Vertauschen von Listen-Inhalten steht das @ReferenceLink "others" "Swap" Schlüsselwort
+  zur Verfügung.
+
+  @Example
+
+@Code
+  NewList MyList.l()
+  
+  AddElement(MyList())
+  MyList() = 10
+  
+  AddElement(MyList())
+  MyList() = 20
+  
+  AddElement(MyList())
+  MyList() = 30
+  
+  ForEach MyList()
+    Debug MyList()
+  Next
+@EndCode
+
+  @Example Liste als Parameter für eine Prozedur
+
+@Code
+  NewList Test.l()
+
+  AddElement(Test())
+  Test() = 1
+  AddElement(Test())
+  Test() = 2
+
+  Procedure DebugList(c.l, List ParameterList.l())
+
+    AddElement(ParameterList())
+    ParameterList() = 3
+
+    ForEach ParameterList()
+      MessageRequester("List", Str(ParameterList()))
+    Next
+ 
+  EndProcedure
+
+  DebugList(10, Test())
+@EndCode

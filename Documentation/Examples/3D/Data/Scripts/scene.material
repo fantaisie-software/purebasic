@@ -1,0 +1,68 @@
+material Scene/RibbonTrail
+{
+	technique
+	{
+		pass
+		{
+      lighting off
+      depth_write off
+      scene_blend alpha_blend
+
+			texture_unit
+			{
+				texture ribbonband.png 1d
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+
+
+material Scene/GroundBlend
+ {
+    technique
+    {
+       pass
+       {
+       		lighting on
+       		
+          texture_unit
+          {
+            texture ground_mask.png
+          }
+          texture_unit
+          {
+             texture ground_diffuse.png             
+             colour_op alpha_blend
+          }
+          texture_unit
+          {
+             texture desert07_rt.jpg
+             colour_op_ex blend_current_alpha src_texture src_current
+						 env_map spherical
+          }
+       }
+    }
+ }
+ 
+ 
+material Scene/burst
+ {
+    technique
+    {
+        pass
+        {
+            ambient 1 1 1
+            diffuse 1 1 1
+            lighting off
+            depth_write off
+            scene_blend add
+            texture_unit
+            {
+                texture Lensflare5.jpg
+            }
+        }
+    }
+}

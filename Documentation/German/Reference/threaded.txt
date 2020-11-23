@@ -1,0 +1,67 @@
+@Title Threaded
+
+@Syntax
+
+  @Keyword Threaded[.<Typ>] <Variable[.<Typ>]> [= <konstanter Ausdruck>] [, ...]
+
+@Description
+
+  @Keyword Threaded ermöglicht das Erstellen von @LibraryLink "thread" "Thread-basierten" beständigen
+  @ReferenceLink "variables" "Variablen", @ReferenceLink "dim" "Arrays" (außer multi-dimensionaler 
+  Arrays), @ReferenceLink "newlist" "Listen" oder  @ReferenceLink "newmap" "Maps".
+  @LineBreak
+  @LineBreak
+  Das bedeutet, dass jeder @LibraryLink "thread" "Thread" seine eigene Version des Objekts haben wird.
+  Dies ist nur nützlich beim Schreiben von "multithreaded" Programmen (mit mehreren Prozessen).
+  Wenn nach @Keyword Threaded ein Typ angegeben wird, dann wird der Standard-Typ für diese Deklaration geändert.
+  @LineBreak
+  @LineBreak
+  Jeder Variable kann direkt ein Standard-Wert zugewiesen werden, aber dies muss ein konstanter Wert sein.
+  Die Thread-Initialisierung erfolgt beim ersten Start des Threads.
+  Das bedeutet, dass bei gleichzeitiger Deklaration und Zuweisung einer Thread-Variable die Variable für alle Threads zugewiesen wird. Siehe Beispiel 2.
+  Beim Deklarieren eines "Threaded" Arrays, muss der Dimensions-Parameter ebenfalls ein konstanter Wert sein.
+  @LineBreak
+  @LineBreak
+  Ein "Threaded" Objekt kann nicht in einer Prozedur deklariert werden, sein Geltungsbereich ist immer global.
+
+
+@Example 1 Mit Variablen
+
+@Code
+  Threaded Counter
+  
+  Counter = 128
+  
+  Procedure Thread(Parameter)
+    
+    Debug Counter ; Wird null anzeigen, da dieser Thread diese Variable bisher nicht verwendet hat
+    Counter = 256
+    Debug Counter ; Wird 256 anzeigen
+    
+  EndProcedure
+  
+  Thread = CreateThread(@Thread(), 0)
+  WaitThread(Thread) ; Warte auf das Beenden des Threads
+  
+  Debug Counter ; Wird 128 anzeigen, auch wenn 'Counter' innerhalb des Threads verändert wurde
+@EndCode
+
+
+@Example 2 Alle Threads
+
+@Code
+  Threaded Counter = 128 ; Definiert für alle Threads
+  
+  Procedure Thread(Parameter)
+    
+    Debug Counter ; Wird 128 anzeigen, da beim Programmstart auch ein Thread gestartet wurde
+    Counter = 256
+    Debug Counter ; Wird 256 anzeigen
+    
+  EndProcedure
+  
+  Thread = CreateThread(@Thread(), 0)
+  WaitThread(Thread) ; Warte auf das Beenden des Threads
+  
+  Debug Counter ; Wird 128 anzeigen, auch wenn 'Counter' innerhalb des Threads verändert wurde
+@EndCode

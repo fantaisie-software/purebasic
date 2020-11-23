@@ -1,0 +1,420 @@
+;
+; StatusBar library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library StatusBar
+
+@Overview
+
+  Une barre d'état ou 'StatusBar' est une barre 
+  horizontale située dans la partie inférieure 
+  d'une fenêtre et qui affiche des informations. 
+  @LineBreak
+  Cette barre est toujours visible et peut être 
+  séparée en plusieurs champs. 
+
+@CommandList
+
+@ExampleFile All StatusBar.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddStatusBarField(Largeur)
+
+@Description  
+  Ajoute un champ à la barre d'état.
+
+@Parameter "Largeur"
+   La largeur du nouveau champ, en pixels.
+@LineBreak
+@LineBreak   
+  Avec @#PB_Ignore, le champ sera dimensionné 
+  automatiquement afin de remplir l'espace 
+  libre de la barre d'état. Plusieurs champs 
+  peuvent avoir une largeur valant @#PB_Ignore, 
+  dans ce cas l'espace libre sera partagé entre 
+  ces différents champs.
+
+@NoReturnValue
+
+@Remarks
+  Les nouveaux champs sont ajoutés à la suite 
+  (à droite) du dernier champ créé.
+@LineBreak
+@LineBreak  
+  Les commandes suivantes permettent d'agir sur 
+  le contenu d'un champ de la barre d'état: 
+@LineBreak
+@LineBreak
+  - @@StatusBarText @LineBreak
+  - @@StatusBarImage @LineBreak
+  - @@StatusBarProgress @LineBreak 
+
+@Example
+@Code  
+  If OpenWindow(0, 0, 0, 940, 60, "Barre d'état", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+  
+  ButtonGadget(1,10,3,300,25,"Ajouter un champ dans la barre d'état")
+  If CreateStatusBar(0, WindowID(0))
+    AddStatusBarField(110)
+  EndIf
+  
+  StatusBarText(0, 0, "Champ normal")
+  
+  Repeat
+    Event = WaitWindowEvent()
+    
+    Select Event
+        
+      Case #PB_Event_Gadget
+        Select EventGadget()
+          Case 1 
+            AddStatusBarField(110)
+        EndSelect
+        
+    EndSelect
+  Until Event = #PB_Event_CloseWindow
+  
+EndIf
+@EndCode  
+  
+@SeeAlso
+  @@StatusBarText, 
+  @@StatusBarImage, 
+  @@StatusBarProgress, 
+  @@CreateStatusBar
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateStatusBar(#BarreEtat, FenetreID)
+
+@Description
+  Ajoute une barre d'état vide à une fenêtre 
+  donnée.
+
+@Parameter "#BarreEtat"
+  Le numéro d'identification de la barre d'état.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro.
+   
+@Parameter "FenetreID"
+  Le numéro d'identification de la fenêtre. 
+@LineBreak
+@LineBreak  
+  @@WindowID peut être utilisée pour obtenir 
+  cette valeur.
+  
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+
+@Example
+@Code  
+  If OpenWindow(0, 0, 0, 940, 50, "Barre d'état", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    If CreateStatusBar(0, WindowID(0))
+      AddStatusBarField(110)
+      AddStatusBarField(150)
+      AddStatusBarField(#PB_Ignore) ; dimensionne automatiquement ce champ
+      AddStatusBarField(300)
+    EndIf
+
+    StatusBarText(0, 0, "Champ normal")
+    StatusBarText(0, 1, "Champ sans bordure", #PB_StatusBar_BorderLess)
+    StatusBarText(0, 2, "Champ alignement droit", #PB_StatusBar_Right) 
+    StatusBarText(0, 3, "Champ alignement centré", #PB_StatusBar_Center)
+    
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+@Image createstatusbar.png  
+
+@SeeAlso
+  @@FreeStatusBar
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeStatusBar(#BarreEtat)
+
+@Description
+  Efface et libère une barre d'état.
+  
+@Parameter "#BarreEtat"
+  La barre d'état à libérer. 
+@LineBreak  
+@LineBreak
+  Si @#PB_All est spécifié, toutes les barres 
+  d'état sont libérées.
+
+@NoReturnValue
+
+@Remarks
+  Toutes les barres d'état restantes sont 
+  automatiquement libérées quand le programme 
+  se termine.
+
+@SeeAlso
+  @@CreateStatusBar
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsStatusBar(#BarreEtat)
+
+@Description
+  Teste si une barre d'état est correctement 
+  initialisée. 
+
+@Parameter "#BarreEtat"
+  La barre d'état à utiliser.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas 
+  de succès, zéro sinon. 
+
+@Remarks
+  Cette fonction a été créée pour pouvoir passer 
+  n'importe quelle valeur en paramètre sans 
+  qu'il ne puisse y avoir de plantage. 
+
+@SeeAlso
+  @@CreateStatusBar
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StatusBarImage(#BarreEtat, Champ, ImageID [, Apparence])
+
+@Description
+  Ajoute ou remplace une image d'un champ.
+
+@Parameter "#BarreEtat"
+  La barre d'état à utiliser.
+  
+@Parameter "Champ"
+  Le champ à utiliser. 
+@LineBreak
+  Le premier champ commence à zéro.
+  
+@Parameter "ImageID"
+  L'identifiant de l'image à utiliser. 
+@LineBreak  
+  Cet identifiant est aisément obtenu avec 
+  @@ImageID.
+
+@OptionalParameter "Apparence"
+  Peut être une combinaison des valeurs 
+  suivantes (combinaison avec l'opérateur '|' (OR)):
+@FixedFont
+  @#PB_StatusBar_Raised    : Bordure en relief élevé (Sauf OS X et Windows avec thème graphique)
+  @#PB_StatusBar_BorderLess: Sans bordure
+  @#PB_StatusBar_Center    : Texte centré
+  @#PB_StatusBar_Right     : Texte aligné à droite
+@EndFixedFont
+
+@NoReturnValue
+ 
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 340, 50, "Barre d'état et Image", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    If CreateStatusBar(0, WindowID(0))
+      AddStatusBarField(120)
+      AddStatusBarField(170)
+    EndIf
+    
+    UsePNGImageDecoder()
+
+    If LoadImage(0, #PB_Compiler_Home + "Examples/Sources/Data/world.png")     ;Changer le Chemin/NomFichier vers votre propre icône de 16x16 pixels.
+      StatusBarImage(0, 0, ImageID(0))
+    EndIf  
+    
+    If LoadImage(1, #PB_Compiler_Home + "Examples/Sources/Data/Drive.bmp")     ; Changer le Chemin/NomFichier vers votre propre icône de 16x16 pixels.
+     StatusBarImage(0, 1, ImageID(1), #PB_StatusBar_Right)  
+    EndIf  
+      
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf 
+  
+  ; Avez-vous remarqué la transparence des deux icônes ?
+@EndCode
+; @Image statusbaricon.png
+  
+@SeeAlso
+  @@StatusBarText, @@StatusBarProgress, 
+  @@CreateStatusBar
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = StatusBarID(#BarreEtat)
+
+@Description
+  Renvoie l'identifiant système d'une barre 
+  d'état.
+
+@Parameter "#BarreEtat"
+  La barre d'état à utiliser.
+
+@ReturnValue
+  Renvoie l'identifiant système unique de 
+  la barre d'état. 
+@LineBreak
+@LineBreak
+  Cet identifiant est aussi connu sous le 
+  nom de 'Handle'. @LineBreak
+  Voir le chapitre 
+  @ReferenceLink "handles" "Numéros et Identifiants (Handles)" 
+  pour plus d'informations.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StatusBarProgress(#BarreEtat, Champ, Valeur [, Apparence [, Min, Max]])
+
+@Description
+  Affiche une barre de progression dans un 
+  champ.
+
+@Parameter "#BarreEtat"
+  La barre d'état à utiliser.  
+  
+@Parameter "Champ"
+  Le champ à utiliser. 
+@LineBreak
+  Le premier champ commence à zéro.
+  
+@Parameter "Valeur"
+  La progression à afficher, entre un 
+  minimum et un maximum. 
+@LineBreak 
+@LineBreak  
+  La mise à jour de la barre de progression 
+  se fait en appellant cette fonction de 
+  nouveau avec une nouvelle valeur de 
+  progression.
+
+@OptionalParameter "Apparence"
+  Peut être une combinaison des valeurs 
+  suivantes (combinaison avec l'opérateur '|' 
+  (OR)):
+@FixedFont
+  @#PB_StatusBar_Raised    : Bordure en relief élevé (sauf OS X et Windows avec thème graphique)
+  @#PB_StatusBar_BorderLess: Sans bordure
+@EndFixedFont
+
+@OptionalParameter "Min, Max"
+  Les bornes minimum et maximum autorisées.
+@LineBreak 
+@LineBreak   
+  S'ils sont omis, ou si @#PB_Ignore est 
+  spécifié, alors les valeurs précédentes 
+  seront utilisées.
+@LineBreak 
+@LineBreak   
+  Les valeurs par défaut de 'Min' et 'Max' 
+  pour les champs nouvellement créés sont 
+  respectivement 0 et 100.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 360, 50, "Barre d'état avec une barre de progression", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    If CreateStatusBar(0, WindowID(0))
+      AddStatusBarField(170)
+      AddStatusBarField(150)
+    EndIf
+
+    StatusBarText(0, 0, "Progression en cours...")
+    StatusBarProgress(0, 1, 0)
+    Delay(500)    
+    StatusBarProgress(0, 1, 25)
+    Delay(500)
+    StatusBarProgress(0, 1, 50)
+    Delay(500)
+    StatusBarProgress(0, 1, 75)
+    Delay(500)
+    StatusBarProgress(0, 1, 100)
+    StatusBarText(0, 0, "Terminé !")
+    
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@StatusBarText, @@StatusBarImage, 
+  @@CreateStatusBar
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StatusBarText(#BarreEtat, Champ, Texte$ [, Apparence])
+
+@Description
+  Change le texte d'un champ.
+ 
+@Parameter "#BarreEtat"
+  La barre d'état à utiliser.  
+  
+@Parameter "Champ"
+  Le champ à utiliser. 
+@LineBreak
+  Le premier champ commence à zéro.
+  
+@Parameter "Texte$"
+  Le texte à afficher. 
+
+@OptionalParameter "Apparence"
+  Peut être une combinaison des valeurs 
+  suivantes (combinaison avec l'opérateur '|' 
+  (OR)):
+@FixedFont
+  @#PB_StatusBar_Raised    : Bordure en relief élevé (Sauf OS X et Windows avec thème graphique)
+  @#PB_StatusBar_BorderLess: Sans bordure
+  @#PB_StatusBar_Center    : Texte centré
+  @#PB_StatusBar_Right     : Texte aligné à droite
+@EndFixedFont
+
+@NoReturnValue
+  
+@SeeAlso
+  @@StatusBarImage, @@StatusBarProgress, 
+  @@CreateStatusBar 
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = StatusBarHeight(#BarreEtat) 
+
+@Description
+  Renvoie la hauteur d'une barre d'état.
+ 
+@Parameter "#BarreEtat"
+  La barre d'état à utiliser.  
+
+@ReturnValue
+  Renvoie la hauteur en pixels de la barre 
+  d'état. 
+  
+@SeeAlso
+  @@CreateStatusBar  
+  
+@SupportedOS

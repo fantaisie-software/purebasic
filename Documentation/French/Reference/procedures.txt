@@ -1,0 +1,340 @@
+@Title Procedures
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#Procedure"><u>Procedure</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Declare"><u>Declare</u></a></td>
+  </tr>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#ProcedureC"><u>ProcedureC</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#DeclareC"><u>DeclareC</u></a></td>  
+  </tr>
+    </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+
+@FormatIf HTML
+<a name="Procedure"></a>
+@FormatEndIf
+@Syntax
+
+  @Keyword Procedure[.<type>] nom(<variable1[.<type>]> [, <variable2[.<type>]>, ...]) 
+    ...
+    [@Keyword ProcedureReturn valeur]
+  @Keyword EndProcedure 
+
+@Description
+
+  Une procédure est une partie du code indépendante du 
+  programme principal. Elle peut avoir des paramètres et 
+  ses propres @ReferenceLink "variables" "variables". En 
+  PureBasic, les procédures sont récursives et peuvent 
+  donc s'appeler elles-mêmes. Lors de chaque appel à la 
+  procédure, les variables locales sont automatiquement 
+  initialisées avec la valeur nulle. 
+  @LineBreak
+  @LineBreak   
+  Pour accéder aux variables du programme principal, ils 
+  faut les partager au préalable en utilisant les mots 
+  clefs @ReferenceLink "Shared" Shared 
+  ou @ReferenceLink "Global" Global (voir aussi: 
+  @ReferenceLink "Protected" "Protected" et 
+  @ReferenceLink "Static" "Static"). 
+  @LineBreak
+  @LineBreak  
+  Il est possible d'utiliser des paramètres ayant une valeur 
+  par défaut à condition que cette expression soit 
+  constante et placée en fin de liste des paramètres.
+  Les paramètres ayant une valeur par défaut pourront être 
+  omis lors de l'appel de la procédure, la valeur
+  par défaut de chaque paramètre manquant sera utilisée.
+  @LineBreak
+  Par exemple: @Keyword Procedure Calcul(num1, num2=0)
+  @LineBreak
+  Calcul (2, 3)
+  @LineBreak
+  Calcul (2)
+  @LineBreak
+  @LineBreak  
+  Une procédure peut également recevoir en paramètre des 
+  @ReferenceLink "newlist" "listes", des 
+  @ReferenceLink "newmap" "maps" et des 
+  @ReferenceLink "dim" "tableaux" 
+  à l'aide des mot-clefs @Keyword List, @Keyword Map et 
+  @Keyword Array @LineBreak
+  Important: Pour les tableaux vous devrez indiquer 
+  le nombre de dimensions. @LineBreak
+  Par exemple: Procedure Calcul(Array num(3))
+  @LineBreak
+  Ici num() est un tableau à 3 dimensions !
+  @LineBreak
+  @LineBreak  
+  Une procédure peut renvoyer une valeur de retour. 
+  Pour cela, il faut deux choses. Premièrement, 
+  il faut définir le type de donnée de retour  
+  après @Keyword Procedure qui peut être 'Integer', 'Long', 
+  'Float', 'String' ou autre puis utiliser le mot clef 
+  @Keyword ProcedureReturn pour déclencher le retour.
+  @LineBreak
+  Attention @Keyword ProcedureReturn sort immédiatement 
+  d'une procédure, même si l'appel est placé à l'intérieur 
+  d'une boucle.  @LineBreak
+  Toutefois @Keyword ProcedureReturn ne peut pas être 
+  utilisé pour renvoyer un @ReferenceLink "dim" "tableau", 
+  une @ReferenceLink "newlist" "liste" ou une 
+  @ReferenceLink "newmap" "map". Pour cela, passer le 
+  tableau, la liste ou la map en tant que paramètre 
+  dans la procédure.
+  @LineBreak
+  @LineBreak  
+  Si aucune valeur n'est spécifiée pour 
+  @Keyword ProcedureReturn, la valeur renvoyée sera 
+  indéterminée (voir 
+  @ReferenceLink "inlinedasm" "assembleur en ligne" 
+  pour plus d'information).
+  @LineBreak
+  @LineBreak
+  Les procédures peuvent également être appelées de 
+  manière asynchrone en utilisant les 
+  @LibraryLink "thread" "threads".
+  @LineBreak
+  @LineBreak  
+  Les procédures peuvent également contenir une 
+  @ReferenceLink "data" "DataSection" locale. 
+  @LineBreak
+  @LineBreak
+  @Bold "Note:" 
+  Pour déclarer une procedure partagée dans une DLL, voir 
+  @ReferenceLink "DLL" "ProcedureDLL" ou 
+  @ReferenceLink "DLL" "ProcedureCDLL".@LineBreak
+  Pour renvoyer une chaîne de caractères depuis 
+  une DLL, voir @ReferenceLink "DLL" "DLLs". 
+
+@FormatIf HTML
+<a name="ProcedureC"></a>
+@FormatEndIf 
+
+  @LineBreak
+  @LineBreak
+  @Bold "Note:" Pour les programmeurs chevronnés, 
+  @Keyword ProcedureC est disponible pour déclarer la 
+  procédure en utilisant la convention d'appel 'cdecl' 
+  au lieu de 'stdcall'.
+
+
+@Example procédure qui renvoie une valeur numérique
+@Code
+  Procedure Maximum(nb1, nb2)
+    If nb1>nb2
+      Resultat = nb1
+    Else
+      Resultat = nb2
+    Endif
+  
+    ProcedureReturn Resultat
+  EndProcedure 
+  
+  Resultat = Maximum(15,30)
+  Debug Resultat
+  End 
+@EndCode
+
+
+@Example Procedure qui renvoie une chaîne de caractères
+@Code
+  Procedure.s Attacher(Texte1$, Texte2$)
+    ProcedureReturn Texte1$ + " " + Texte2$
+  EndProcedure 
+
+  Resultat$ = Attacher("Coder avec ","PureBasic"))
+  Debug Resultat$
+@EndCode
+
+
+@Example Procédure avec un paramètre par défaut
+@Code
+  Procedure a(a, b, c=2)
+    Debug c
+  EndProcedure
+
+  a(10, 12) ; ou
+  a(10, 12, 15) 
+@EndCode
+
+
+@Example Listes en paramètre
+@Code
+  NewList Test.Point()
+
+  AddElement(Test())
+  Test()\x = 1
+  AddElement(Test())
+  Test()\x = 2
+
+  Procedure DebugList(c.l, List ParametreListe.Point())
+
+    AddElement(ParametreListe())
+    ParametreListe()\x = 3
+
+    ForEach ParametreListe()
+      MessageRequester("Liste", Str(ParametreListe()\x))
+    Next
+ 
+  EndProcedure
+
+  DebugList(10, Test())
+@EndCode
+
+
+@Example Tableau en paramètre
+@Code
+  Dim Tableau.Point(10, 15)
+
+  Tableau(0,0)\x = 1
+  Tableau(1,0)\x = 2
+
+  Procedure Test(c.l, Array ParametreTableau.Point(2))  ; Attention, ici le tableau comporte 2 dimensions
+
+    ParametreTableau(1, 2)\x = 3
+    ParametreTableau(2, 2)\x = 4
+ 
+  EndProcedure
+
+  Test(10, Tableau())
+
+  MessageRequester("Tableau", Str(Tableau(1, 2)\x))
+@EndCode
+
+@Example Structure en paramètre
+@Code
+  Structure Truc
+    a.l
+    b.l[2]          ; Tableau statique (Standard C) avec 2 valeurs b[0] et b[1], non redimensionnable
+    Array c.l(3,3)  ; Tableau dynamique avec 16 valeurs de c(0,0) à c(3,3), redimensionnable avec ReDim()
+  EndStructure
+
+  MaVar.Truc
+
+  Procedure MaProcedure(*blabla.Truc)
+    *blabla\a = 5
+    *blabla\b[0] = 1
+    *blabla\b[1] = 2
+    *blabla\c(3,3) = 33
+  EndProcedure
+
+  MaProcedure(@MaVar)
+  Debug MaVar\a
+  Debug MaVar\b[0]
+  Debug MaVar\b[1]
+  Debug MaVar\c(3,3)
+@EndCode
+
+@Example Appeler une fonction par son nom
+  
+@Code  
+   Prototype Function()
+
+  Runtime Procedure Function1()
+      Debug "J'appelle la Fonction1 par son nom"; 
+  EndProcedure
+
+  Procedure LaunchProcedure(Name.s)
+      Protected ProcedureName.Function = GetRuntimeInteger(Name + "()")
+      ProcedureName()
+  EndProcedure
+
+  LaunchProcedure("Function1") ; Affiche "J'appelle la Fonction1 par son nom"  
+@EndCode  
+
+@Example ProcedureC
+@Code
+  ImportC ""
+    qsort(*base, num, taille, *ProcedureComparer)
+  EndImport 
+
+  Dim valeurs.s(5)
+  valeurs(0) = "40"
+  valeurs(1) = "10"
+  valeurs(2) = "100"
+  valeurs(3) = "90"
+  valeurs(4) = "20"
+  valeurs(5) = "25"
+
+  ProcedureC.i Comparer(*a.String, *b.String)
+    ProcedureReturn Val(*a\s) - Val(*b\s)
+  EndProcedure
+
+  qsort(@valeurs(), ArraySize(valeurs()) + 1, SizeOf(String), @Comparer())
+
+  For n = 0 To 5
+    Debug valeurs(n)
+  Next n
+@EndCode
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="Declare"></a>
+@FormatEndIf     
+@Syntax
+
+  @Keyword Declare[.<type>] nom(<variable1[.<type>]> [, <variable2[.<type>] [= ValeurParDefaut]>, ...])
+
+@Description
+  Dans certains cas, une procédure peut appeler une 
+  autre procédure qui n'a pas été déclarée avant sa 
+  propre définition. Ce cas peut se produire et 
+  provoquer une erreur de compilation. @Keyword Declare 
+  permet de traiter ce cas particulier en déclarant 
+  seulement l'en-tête de la procédure. Il est essentiel 
+  que les attributs de la fonction @Keyword Declare et 
+  la déclaration réelle de la procédure soient 
+  identiques (type et ValeurParDefaut compris).
+  @LineBreak
+  @LineBreak
+  @Bold "Note:" Pour déclarer une procedure partagée dans 
+  une DLL voir @ReferenceLink "DLL" "DeclareDLL" ou
+  @ReferenceLink "DLL" "DeclareCDLL".
+  
+  
+@FormatIf HTML
+<a name="DeclareC"></a>
+@FormatEndIf
+
+@LineBreak
+@LineBreak  
+  @Bold "Note:" Pour les programmeurs chevronnés, 
+  @Keyword DeclareC est disponible pour déclarer la 
+  procédure en utilisant la convention d'appel 'cdecl' 
+  au lieu de 'stdcall'.
+  
+  
+@Example
+@Code
+  Declare Maximum(Valeur1, Valeur2)
+  
+  Procedure Traitement()
+    Resultat = Maximum(10, 2)      ; A cet instant Maximum() n'est pas connu du compilateur.
+    ProcedureReturn Resultat
+  EndProcedure
+  
+  Procedure Maximum(Valeur1, Valeur2)
+    If Valeur1 > Valeur2
+      Resultat = Valeur1
+    Else
+      Resultat = Valeur2
+    Endif
+
+    ProcedureReturn Resultat
+  EndProcedure
+  
+  Debug Traitement()
+
+@EndCode  
+

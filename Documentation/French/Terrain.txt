@@ -1,0 +1,874 @@
+;
+; Terrain library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Terrain
+
+@Overview
+
+  Les terrains sont des scènes 3D extérieures 
+  qui simulent un environnement naturel réaliste 
+  basé sur des plans en 2D pré-calculés. 
+@LineBreak
+@LineBreak  
+  Ils sont utiles dans de nombreux cas, 
+  comme par exemple les jeux de simulation en 3D. 
+@LineBreak
+@LineBreak
+  @@InitEngine3D doit être appelé avec succès 
+  avant l'utilisation des commandes 'Terrain'. 
+@LineBreak  
+@LineBreak
+  Il est possible de créer un terrain gigantesque 
+  (La taille est fonction de la puissance de 
+  l'ordinateur) en réunissant plusieurs 
+  'parcelles' plus petites appelées 'tiles'.
+
+@CommandList
+
+@ExampleFile All Terrain.pb
+@ExampleFile All TerrainBlend.pb
+@ExampleFile All TerrainHeight.pb
+@ExampleFile All TerrainPhysic.pb
+@ExampleFile All TerrainShadow.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeTerrain(#Terrain)
+
+@Description
+  Libère un terrain et toute la mémoire 
+  associée. 
+
+@Parameter "#Terrain"
+  Le terrain à libérer.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, tous les 
+  terrains restants sont libérés.
+
+@NoReturnValue
+
+@Remarks
+  Ce terrain ne doit pas être utilisé 
+  en utilisant son numéro avec les autres 
+  fonctions de cette bibliothèque, 
+  après l'appel de cette fonction, 
+  à moins de le créer à nouveau.
+@LineBreak  
+@LineBreak
+  Tous les terrains restants sont 
+  automatiquement libérés lorsque 
+  le programme se termine.
+
+@SeeAlso
+  @@CreateTerrain 
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeTerrainBody(#Terrain)
+
+@Description
+  Libère le corps associé au terrain.
+  
+@Parameter "#Terrain"
+ Le terrain à utiliser.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrainBody
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetupTerrains(LumiereID, DistanceCarteComposite.f, Options)
+
+@Description
+  Configuration des paramètres par 
+  défaut pour tous les futurs terrains.
+
+@Parameter "LumiereID"
+  La lumière à utiliser pour le rendu 
+  du terrain. 
+@LineBreak  
+@LineBreak
+  Pour obtenir un identifiant valide, 
+  utilisez @@LightID.
+
+@Parameter "DistanceCarteComposite.f"
+  La distance à laquelle on commence 
+  à utiliser une carte composite si 
+  elle est présente, dans l'unité du 
+  monde.
+
+@Parameter "Options"
+  Peut être une combinaison des valeurs suivantes:
+@FixedFont
+  @#PB_Terrain_Lightmap     : Active la carte allégée pour les terrains (une texture avec des ombres statiques).
+  @#PB_Terrain_NormalMapping: Active le mapping normal pour les terrains. Il s'agit d'une texture spéciale 
+                             qui simule le relief, comme les petits rochers, etc.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateTerrain(#Terrain, Taille, TailleMonde, Echelle, NbCouches, NomFichier$, Extension$)
+
+@Description
+  Crée un nouveau terrain. 
+  
+@Parameter "#Terrain"  
+  Le numéro d'identification du 
+  nouveau terrain. 
+@LineBreak  
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro. 
+
+@Parameter "Taille"
+  La taille du nouveau terrain 
+  (moins une arête). 
+  
+@Parameter "TailleMonde"
+  La taille du monde du nouveau 
+  terrain.
+  
+@Parameter "Echelle"
+  Le facteur d'échelle à appliquer 
+  au nouveau terrain. 
+  
+@Parameter "NbCouches"
+  Le nombre de couches de texture du 
+  nouveau terrain. 
+@LineBreak  
+@LineBreak
+  Pour ajouter une couche de texture, 
+  utilisez @@AddTerrainTexture.
+  
+@Parameter "NomFichier$"
+  Le nom du fichier (sans l'extension) 
+  pour stocker les données de terrain 
+  précalculées. 
+@LineBreak  
+@LineBreak
+  Comme le terrain peut être complexe 
+  et prendre beaucoup de temps pour sa 
+  création, un cache sera écrit sur le 
+  disque et rechargé automatiquement 
+  s'il est présent (et non périmé).
+
+@Parameter "Extension$"
+  L'extension utilisée par les fichiers 
+  de données.
+  
+@ReturnValue
+  Renvoie une valeur non nulle en cas 
+  de succès et zéro en cas d'échec. 
+  
+@Remarks
+  @@SetupTerrains doit être appelé 
+  auparavant pour régler les paramètres 
+  par défaut du nouveau terrain. Après 
+  la création du terrain, de nouvelles 
+  parcelles (tiles) peuvent être définies 
+  par @@DefineTerrainTile et les textures 
+  peuvent être appliquées avec 
+  @@AddTerrainTexture. 
+  Une fois la définition du terrain 
+  terminée, @@BuildTerrain doit être 
+  appelé pour le construire.
+
+@SeeAlso
+  @@FreeTerrain, @@SetupTerrains, 
+  @@BuildTerrain, @@DefineTerrainTile, 
+  @@AddTerrainTexture
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateTerrainBody(#Terrain, Restitution, Friction)
+
+@Description
+  Ajoute un corps physique statique 
+  au terrain. 
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "Restitution"
+  Le facteur de restitution. 
+@LineBreak  
+@LineBreak
+  Si défini à 0.0, le terrain ne 
+  restituera aucune force, ce qui 
+  signifie que l'objet qui entre 
+  en collision avec lui ne rebondira 
+  pas sur le terrain. Avec une valeur 
+  supérieure à 0.0, il restituera une 
+  certaine force à l'objet qui va rebondir 
+  en cas de collision avec le terrain. 
+  Plus la valeur du coefficient de restitution 
+  est élevée et plus le rebond sera important.
+  
+@Parameter "Friction"
+  La force de frottement. 
+@LineBreak  
+@LineBreak
+  Si défini à 0.0, l'objet glissera sur le 
+  terrain sans perdre de force. 
+  Avec une valeur supérieure à 0.0, l'objet 
+  perdra de la vitesse (freinage) en cas de 
+  collision avec le terrain. 
+  Plus la valeur de la force de frottement 
+  est élevée et plus la vitesse décroît 
+  rapidement (décélération).
+
+@NoReturnValue
+  
+@Remarks
+  Cela permet aux objets physiques d'entrer 
+  en collision avec le terrain.
+
+@SeeAlso
+  @@CreateTerrain, @@FreeTerrainBody
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = DefineTerrainTile(#Terrain, ParcelleX, ParcelleY, NomCarteHauteur$, RetournementX, RetournementY)
+
+@Description
+   Définit le contenu d'une parcelle 
+   du terrain final.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "ParcelleX, ParcelleY"
+  L'indice en x et en y de la parcelle, 
+  par rapport à la parcelle centrale 
+  du terrain. 
+@LineBreak  
+@LineBreak
+  La parcelle centrale commence à 0.0. 
+@LineBreak  
+@LineBreak
+  La valeur peut être négative.
+  
+@Parameter "RetournementX, RetournementY"
+@FixedFont
+  @#True : L'image sera renversée. 
+  @#False: Aucun retournement ne sera effectué.
+@endFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas 
+  de succès et zéro en cas d'échec. 
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddTerrainTexture(#Terrain, Couche, TailleMonde, NomCarteDiffusionSpeculaire$, NomCarteHauteurNormale$)
+
+@Description
+   Ajoute une texture au terrain.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "Couche"
+  L'indice de la couche (calque) sur 
+  laquelle la texture est appliquée. 
+@LineBreak  
+@LineBreak
+  L'indice de la première couche commence 
+  à 0. 
+@LineBreak  
+@LineBreak
+  Le nombre maximum de couches est défini 
+  lors de la création du terrain, voir 
+  @@CreateTerrain.
+  
+@Parameter "TailleMonde"
+  La taille du monde de la texture.
+
+@Parameter "NomCarteDiffusionSpeculaire$"
+  Le nom de la carte (image) de diffusion 
+  spéculaire à appliquer sur cette couche.
+@LineBreak  
+@LineBreak
+  Le mot spéculaire désigne la direction 
+  dans laquelle la lumière se réfléchit 
+  d'après les lois de Descartes.
+  
+@Parameter "NomCarteHauteurNormale$"
+  Le nom de la carte (image) de hauteur 
+  normale (perpendiculaire) à appliquer 
+  sur cette couche.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BuildTerrain(#Terrain)
+
+@Description
+   Construit un terrain. 
+
+@Parameter "#Terrain"
+  Le terrain à construire.
+
+@NoReturnValue
+
+@Remarks
+  Avant de construire un terrain, 
+  les parcelles doivent être définies 
+  par @@DefineTerrainTile et les 
+  textures ajoutées avec @@AddTerrainTexture.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile, 
+  @@AddTerrainTexture
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TerrainLocate(#Terrain, X, Y, Z)
+
+@Description
+  Modifie l'emplacement absolu d'un 
+  terrain dans le monde.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "X, Y, Z"
+  Nouvel emplacement absolu dans le 
+  monde (dans l'unité du monde). 
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = TerrainHeight(#Terrain, X, Z)
+
+@Description
+  Renvoie la hauteur d'un terrain à 
+  la position spécifiée dans le monde.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "X, Z"
+  La position en 'X' et en 'Z' dans 
+  le monde (en unité du monde) de la 
+  hauteur du terrain.
+
+@ReturnValue
+  Renvoie la hauteur du terrain (en 
+  unité du monde) à la position spécifiée. 
+@LineBreak  
+@LineBreak
+  Si le terrain ne se trouve pas à 
+  la position spécifiée, le résultat 
+  sera nul.
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = TerrainTileHeightAtPosition(#Terrain, ParcelleX, ParcelleY, Couche, X, Y)
+
+@Description
+  Renvoie la hauteur de la parcelle 
+  d'un terrain aux coordonnées spécifiées.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "ParcelleX, ParcelleY"
+  L'indice 'X' et 'Y' de la parcelle.
+
+@Parameter "Couche"
+  L'indice de la couche. 
+@LineBreak
+@LineBreak
+  L'indice de la première couche commence 
+  à 0. 
+@LineBreak
+@LineBreak
+  Le nombre maximum de couches est défini 
+  lors de la création du terrain, voir 
+  @@CreateTerrain.
+
+@Parameter "X, Y"
+  La position en 'X' et en 'Y' dans la 
+  parcelle, en pixels, de la hauteur du 
+  terrain.
+
+@ReturnValue
+  Renvoie la hauteur de la parcelle du 
+  terrain (dans l'unité du monde) aux 
+  coordonnées spécifiées.
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = TerrainTilePointX(#Terrain, ParcelleX, ParcelleY, X, Y, Z)
+
+@Description
+  Renvoie la position 'X' du point (X, Y, Z) 
+  dans la parcelle d'un terrain.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "ParcelleX, ParcelleY"
+  L'indice 'X' et 'Y' de la parcelle.
+
+@Parameter "X, Y, Z"
+  La position en X, Y, Z du point dans le monde, 
+  en unité du monde.
+
+@ReturnValue
+  Renvoie la position en 'X', en pixels, 
+  du point dans la parcelle du terrain.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = TerrainTilePointY(#Terrain, ParcelleX, ParcelleY, X, Y, Z)
+
+@Description
+  Renvoie la position 'Y' du point (X, Y, Z) 
+  dans la parcelle d'un terrain.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "ParcelleX, ParcelleY"
+  L'indice 'X' et 'Y' de la parcelle.
+
+@Parameter "X, Y, Z"
+  La position X, Y, Z du point dans le monde, 
+  en unité du monde.
+
+@ReturnValue
+  Renvoie la position en 'Y', en pixels, 
+  du point dans la parcelle du terrain.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = TerrainTileSize(#Terrain, ParcelleX, ParcelleY)
+
+@Description
+  Renvoie la taille de la parcelle du terrain.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "ParcelleX, ParcelleY"
+  L'indice 'X' et 'Y' de la parcelle.
+
+@ReturnValue
+  Renvoie la taille, en pixels, de la 
+  parcelle du terrain. 
+@LineBreak
+@LineBreak
+  Comme une parcelle est toujours carrée, 
+  la taille correspond à la largeur et à la 
+  hauteur de la parcelle.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetTerrainTileHeightAtPoint(#Terrain, ParcelleX, ParcelleY, X, Y)
+
+@Description
+  Renvoie la hauteur de la parcelle au 
+  point spécifié.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "ParcelleX, ParcelleY"
+  L'indice 'X' et 'Y' de la parcelle.
+
+@Parameter "X, Y"
+  La position en 'X' et en 'Y' dans la 
+  parcelle, en pixels.
+
+@ReturnValue
+  Renvoie la hauteur de la parcelle de 
+  terrain, dans l'unité du monde, aux 
+  coordonnées spécifiées.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetTerrainTileHeightAtPoint(#Terrain, ParcelleX, ParcelleY, X, Y, Hauteur)
+
+@Description
+
+  Définit la hauteur de la parcelle 
+  d'un terrain aux coordonnées spécifiées. 
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "ParcelleX, ParcelleY"
+  L'indice 'X' et 'Y' de la parcelle.
+
+@Parameter "X, Y"
+  La position en 'X' et en 'Y' dans 
+  la parcelle, en pixels.
+
+@Parameter "Hauteur"
+  La nouvelle hauteur du terrain, 
+  dans l'unité du monde, à la position 
+  spécifiée dans la parcelle.
+
+@NoReturnValue
+
+@Remarks
+  Le changement ne sera pas pris en compte 
+  immédiatement, @@UpdateTerrain doit être 
+  appelé une fois toutes les modifications 
+  faites.
+
+@SeeAlso
+  @@CreateTerrain, 
+  @@GetTerrainTileHeightAtPoint, 
+  @@UpdateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateTerrain(#Terrain)
+
+@Description
+  Mises à jour d'un terrain. 
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@NoReturnValue
+
+@Remarks
+  Nécessaire après la modification 
+  du terrain avec des commandes comme 
+  @@SetTerrainTileHeightAtPoint.
+
+@SeeAlso
+  @@CreateTerrain, @@SetTerrainTileHeightAtPoint
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = TerrainTileLayerMapSize(#Terrain, ParcelleX, ParcelleY)
+
+@Description
+  Renvoie la taille de la carte de 
+  mélange des couches de la parcelle 
+  d'un terrain.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "ParcelleX, ParcelleY"
+  L'indice 'X' et 'Y' de la parcelle.
+
+@ReturnValue
+  Renvoie la taille (en pixels) 
+  de la carte de mélange du terrain. 
+@LineBreak
+@LineBreak
+  Comme la carte de couche de mélange 
+  est toujours carrée, la taille correspond 
+  à la largeur et à la hauteur.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = GetTerrainTileLayerBlend(#Terrain, ParcelleX, ParcelleY, Couche, X, Y)
+
+@Description
+  Renvoie la valeur de mélange de la 
+  couche de la parcelle d'un terrain 
+  à la position spécifiée.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "ParcelleX, ParcelleY"
+  L'indice 'X' et 'Y' de la parcelle.
+
+@Parameter "Couche"
+  L'indice de la couche. 
+@LineBreak
+@LineBreak
+  L'indice de la première couche 
+  commence à 0. 
+@LineBreak
+@LineBreak
+  Le nombre maximum de couches est 
+  définie lors de la création du 
+  terrain, voir @@CreateTerrain.
+
+@Parameter "X, Y"
+  La position dans la parcelle, 
+  en pixels, de la valeur de mélange.
+
+@ReturnValue
+  Renvoie la valeur de mélange de la 
+  couche de la parcelle à la position 
+  spécifiée. 
+@LineBreak
+@LineBreak
+  La valeur de mélange varie de 0.0 
+  (entièrement transparent) à 1.0 
+  (complètement opaque).
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetTerrainTileLayerBlend(#Terrain, ParcelleX, ParcelleY, Couche, X, Y, Valeur.f)
+
+@Description
+  Définit la valeur de mélange de la 
+  couche de la parcelle du terrain 
+  à la position spécifiée. 
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "ParcelleX, ParcelleY"
+  L'indice 'X' et 'Y' de la parcelle.
+
+@Parameter "Couche"
+  L'indice de la couche. 
+@LineBreak
+@LineBreak
+  L'indice de la première couche commence 
+  à 0. 
+@LineBreak
+@LineBreak
+  Le nombre maximum de couches est défini 
+  lors de la création du terrain, voir 
+  @@CreateTerrain.
+
+@Parameter "X, Y"
+  La position dans la parcelle, en pixels, 
+  de la valeur de mélange.
+
+@Parameter "Valeur.f"
+  La valeur de mélange de couche de parcelle 
+  du terrain à la position spécifiée.
+@LineBreak
+@LineBreak
+  La valeur de mélange varie de 0.0 (entièrement 
+  transparent) à 1.0 (complètement opaque).
+
+@NoReturnValue
+
+@Remarks 
+  Le changement ne sera pas pris en compte 
+  immédiatement, @@UpdateTerrainTileLayerBlend 
+  doit être appelé une fois toutes les 
+  modifications éffectuées.
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateTerrainTileLayerBlend(#Terrain, ParcelleX, ParcelleY, Couche)
+
+@Description
+  Met à jour la couche de mélange d'une 
+  parcelle d'un terrain. 
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "ParcelleX, ParcelleY"
+  L'indice 'X' et 'Y' de la parcelle.
+
+@Parameter "Couche"
+  L'indice de la couche à mettre à jour. 
+@LineBreak
+@LineBreak
+  L'indice de la première couche commence à 0. 
+@LineBreak
+@LineBreak
+  Le nombre maximum de couches est défini 
+  lors de la création du terrain, voir 
+  @@CreateTerrain.
+
+@NoReturnValue
+
+@Remarks 
+  Ceci est nécessaire après la modification 
+  de la couche de mélange avec la valeur 
+  @@SetTerrainTileLayerBlend.
+
+@SeeAlso
+  @@CreateTerrain, @@SetTerrainTileLayerBlend
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = TerrainMousePick(#Terrain, CameraID, X, Y)
+
+@Description
+  Simule un clic de souris sur un 
+  terrain au point 2D spécifié sur 
+  la caméra spécifiée.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "CameraID"
+  La caméra à utiliser. 
+@LineBreak
+@LineBreak
+  Pour obtenir un identifiant valide, 
+  voir @@CameraID.
+  
+@Parameter "X, Y"
+  La position du point ,en pixels, 
+  dans le champ de la caméra.
+
+@ReturnValue 
+  Si le terrain a reçu un clic simulé 
+  de souris, 'Resultat' vaudra @#True, 
+  sinon il vaudra @#False. 
+@LineBreak
+@LineBreak
+  Pour obtenir des informations sur la 
+  position du clic, utilisez @@PickX, 
+  @@PickY et @@PickZ.
+
+@SeeAlso
+  @@CreateTerrain, @@CreateCamera
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SaveTerrain(#Terrain, Modification)
+
+@Description
+  Enregistre le terrain sur disque en 
+  utilisant le nom de fichier et 
+  l'extension définis par @@CreateTerrain.
+
+@Parameter "#Terrain"
+  Le terrain à sauvegarder.
+
+@Parameter "Modification"
+@FixedFont
+  @#True : Le terrain ne sera sauvé que s'il a été modifié.
+  @#False: Il sera toujours sauvé.
+@EndFixedFont
+
+@NoReturnValue 
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TerrainRenderMode(#Terrain, Options)
+
+@Description
+  Modifie la façon dont le terrain 
+  est rendu.
+
+@Parameter "#Terrain"
+  Le terrain à utiliser.
+
+@Parameter "Options"
+  Peut être une combinaison des valeurs suivantes:
+@FixedFont
+  @#PB_Terrain_CastShadows   : Active la projection des ombres dynamiques sur le terrain (peut être lent).
+  @#PB_Terrain_LowLODShadows : Active la projection des ombres de faible qualité (pour avoir un rendu plus rapide).
+@EndFixedFont
+
+@NoReturnValue 
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS

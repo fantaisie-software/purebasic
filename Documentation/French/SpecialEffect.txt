@@ -1,0 +1,541 @@
+;
+;     File library documentation
+;
+;      (c)  - Fantaisie Software
+;
+
+@Library SpecialEffect
+
+@Overview
+  La bibliothèque d'effets spéciaux permet 
+  d'appliquer facilement plusieurs effets 
+  en temps réel dans le 
+  @LibraryLink "Engine3D" "monde 3D", 
+  comme le post-traitement, les effets de 
+  traînée que l'on appelle aussi 'rubans', 
+  les lensflares (torches), etc.
+
+@CommandList
+
+@ExampleFile All Ribbon.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateCompositorEffect(#Effet, CameraID, NomEffet$)
+
+@Description
+   Crée un nouvel effet compositeur 
+   (compositor). 
+
+@Parameter "#Effet"
+  Le numéro d'identification du nouvel 
+  effet. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro.
+
+@Parameter "CameraID"
+  La caméra qui applique l'effet. 
+@LineBreak
+@LineBreak
+  Cet effet n'affecte que cette caméra. 
+@LineBreak
+@LineBreak
+  Pour obtenir un numéro 'CameraID' 
+  valide, utiliser @@CameraID.
+
+@Parameter "NomEffet$"
+  Nom de l'effet comme décrit dans le 
+  fichier compositeur OGRE(généralement 
+  un fichier '.compositor').
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'effet 
+  a été créé avec succès, zéro sinon.
+@LineBreak
+@LineBreak
+  Si @#PB_Any a été utilisé comme paramètre 
+  #Effet alors le nouveau numéro généré est 
+  retourné en cas de succès.
+
+@Remarks
+  Une fois créé, l'effet est immédiatement 
+  appliqué au rendu. 
+@LineBreak
+@LineBreak
+  Il est possible de masquer l'effet avec 
+  @@HideEffect.
+   
+@SeeAlso
+  @@FreeEffect, @@HideEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateRibbonEffect(#Effet, MatiereID, NbChaines, NbElements, Longueur)
+
+@Description
+  Crée un nouvel effet de traînée (ruban).
+
+@Parameter "#Effet"
+  Le numéro d'identification du nouvel effet. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+
+@Parameter "MatiereID"
+  Le matériau à appliquer sur le ruban. 
+@LineBreak
+@LineBreak
+  Pour obtenir un 'MatiereID' valide, utiliser 
+  @@MaterialID.
+
+@Parameter "NbChaines"
+  Nombre de chaînes composant le ruban. 
+@LineBreak
+@LineBreak
+  Plus il y a de chaînes et plus le ruban sera 
+  précis.
+
+@Parameter "NbElements"
+  Nombre d'éléments par chaînes. 
+@LineBreak
+@LineBreak
+  Plus il y a d'éléments et plus le ruban sera 
+  précis.
+
+@Parameter "Longueur"
+  Longueur maximale, en unité du monde, du 
+  ruban. 
+@LineBreak
+@LineBreak
+  Une fois la longueur atteinte, le ruban 
+  disparaît complètement.
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'effet a 
+  été créé avec succès, zéro sinon.
+@LineBreak
+@LineBreak
+  Si @#PB_Any a été utilisé comme paramètre 
+  #Effet alors le nouveau numéro généré est 
+  renvoyé en cas de succès.
+
+@Remarks
+  Attention, une fois créé, l'effet reste 
+  invisible. @LineBreak
+  @@AttachRibbonEffect permet d'afficher 
+  l'effet. @LineBreak
+  Il est possible de masquer l'effet avec 
+  @@hideEffect.
+@LineBreak
+@LineBreak
+  Il est possible de masquer l'effet avec 
+  @@HideEffect.
+
+@SeeAlso
+  @@FreeEffect, @@HideEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RibbonEffectWidth(#Effet, IndexChaine, Largeur, LargeurFondu))
+
+@Description
+  Modifie la largeur de la chaîne d'un ruban. 
+
+@Parameter "#Effet"
+  L'effet à utiliser. 
+@LineBreak
+@LineBreak
+  Cet effet doit être créé avec 
+  @@CreateRibbonEffect.
+  
+@Parameter "IndexChaine"
+  L'indice de la chaîne. 
+@LineBreak
+@LineBreak
+  Le premier indice commence à zéro. 
+@LineBreak
+@LineBreak
+  Ce numéro d'index doit être inférieur au 
+  nombre de chaînes créées par 
+  @@CreateRibbonEffect.
+
+@Parameter "Largeur"
+  La nouvelle largeur de la chaîne, dans 
+  l'unité du monde.
+  
+@Parameter "LargeurFondu"
+ La largeur du fondu par seconde. 
+@LineBreak
+@LineBreak
+ Chaque seconde, la largeur de la chaîne 
+ du ruban sera diminuée de cette valeur 
+ jusqu'à zéro.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AttachRibbonEffect(#Effet, NoeudID) 
+
+@Description
+  Attache un ruban au noeud donné.
+
+@Parameter "#Effet"
+  L'effet à utiliser. 
+@LineBreak
+@LineBreak
+  Cet effet doit être créé avec 
+  @@CreateRibbonEffect.
+
+@Parameter "NoeudID"
+  Le noeud attaché au ruban. 
+@LineBreak
+@LineBreak
+  Un seul ruban peut être fixé à 
+  plusieurs noeuds.
+@LineBreak
+@LineBreak
+  Pour obtenir un ID de noeud valide, 
+  utiliser @@NodeID
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect, 
+  @@DetachRibbonEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DetachRibbonEffect(#Effet, NoeudID) 
+
+@Description
+  Détache le ruban du noeud donné.
+
+@Parameter "#Effet"
+   L'effet à utiliser. 
+@LineBreak
+@LineBreak
+   Cet effet a été créé avec 
+   @@CreateRibbonEffect.
+
+@Parameter "NoeudID"
+  Le nœud à détacher du ruban. 
+@LineBreak
+@LineBreak
+  Si le ruban n'a pas été attaché au nœud, 
+  la fonction n'a aucun effet.
+@LineBreak
+@LineBreak
+  Pour obtenir un ID de noeud valide,
+  utiliser @@NodeID.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect, @@AttachRibbonEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateLensFlareEffect(#Effet, CameraID, NoeudID, TailleBurst, TailleHalo, HaloMatiereID, CercleMatiereID, BurstMatiereID)
+
+@Description
+  Crée un nouvel effet de lensflare 
+  (flamme ou flamboiement). 
+
+@Parameter "#Effet"
+  Le numéro d'identification du nouvel 
+  effet. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro.
+
+@Parameter "CameraID"
+   La caméra qui utilise le lensflare. 
+@LineBreak
+@LineBreak
+   Cela n'affectera que cette caméra. 
+@LineBreak
+@LineBreak
+   Pour obtenir un 'CameraID' valide, 
+   utiliser @@CameraID.
+  
+@Parameter "NoeudID"
+  Le nœud parent qui gère le lensflare. 
+@LineBreak
+@LineBreak
+  Pour obtenir un 'NoeudID' valide , 
+  utiliser @@NodeID.
+
+@Parameter "TailleBurst"  
+  Taille du Burst du lensflare, dans 
+  l'unité du monde.
+  
+@Parameter "TailleHalo"
+  La taille du halo, dans l'unité du 
+  monde.
+
+@Parameter "HaloMatiereID"
+  Le matériau du halo. 
+@LineBreak
+@LineBreak
+  Pour obtenir un ID de matériau valide, 
+  utiliser @@MaterialID.
+
+@Parameter "CercleMatiereID"
+  Le matériau du cercle. 
+@LineBreak
+@LineBreak
+  Pour obtenir un ID de matériau valide, 
+  utiliser @@MaterialID.
+
+@Parameter "BurstMatiereID"
+  Le matériau de salve. 
+@LineBreak
+@LineBreak
+  Pour obtenir un ID de matériau valide, 
+  utiliser @@MaterialID.
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'effet 
+  a été créé avec succès, zéro sinon.
+@LineBreak
+@LineBreak
+  Si @#PB_Any a été utilisé comme paramètre 
+  #Effet alors le nouveau numéro généré est 
+  renvoyé en cas de succès.
+
+@Remarks
+  Un lensflare est toujours attaché à un noeud, 
+  et sera affiché automatiquement en fonction 
+  de la position du nœud relativement à la vue 
+  de la caméra.
+
+@SeeAlso
+  @@FreeEffect, @@LensFlareEffectColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LensFlareEffectColor(#Effet, TypeCouleur, Couleur)
+
+@Description
+  Change la couleur d'un effet lensflare 
+  (flamme ou flamboiement).
+
+@Parameter "#Effet"
+  L'effet à utiliser. 
+@LineBreak
+@LineBreak
+  Cet effet a été créé avec 
+  @@CreateLensFlareEffect.
+
+@Parameter "TypeCouleur"
+@FixedFont
+  @#PB_LensFlare_HaloColor  : Change la couleur du halo.
+  @#PB_LensFlare_CircleColor: Change la couleur du cercle.
+  @#PB_LensFlare_BurstColor : Change la couleur du burst.
+@EndFixedFont
+  
+@Parameter "Couleur"
+  La nouvelle couleur du lensflare. 
+@LineBreak
+@LineBreak
+  Une couleur valide peut être obtenue par 
+  @@RGB.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateLensFlareEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeEffect(#Effet)
+
+@Description
+  Supprime un effet. 
+
+@Parameter "#Effet"
+  L'effet à supprimer.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, tous les effets 
+  restants sont supprimés.
+
+@NoReturnValue
+
+@Remarks
+  Une fois l'effet supprimé, il ne peut plus 
+  être utilisé.
+@LineBreak
+@LineBreak
+  Tous les effets restants sont 
+  automatiquement supprimés lorsque le 
+  programme se termine.
+
+@SeeAlso
+  @@CreateRibbonEffect, 
+  @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsEffect(#Effet)
+
+@Description
+  Teste si un effet est un effet valide et 
+  correctement initialisé.
+
+@Parameter "#Effet"
+  L'effet à utiliser.
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'effet est 
+  un effet valide, zéro sinon.
+
+@Remarks
+  Cette fonction peut être utilisée avec 
+  n'importe quelle valeur. 
+@LineBreak
+@LineBreak
+  C'est une bonne façon de s'assurer qu'un 
+  effet est prêt à l'emploi.
+
+@SeeAlso
+  @@CreateRibbonEffect, 
+  @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideEffect(#Effet, Etat)
+
+@Description
+  Masque ou affiche un effet. 
+
+@Parameter "#Effet"
+  L'effet à utiliser.
+
+@Parameter "Etat"
+@FixedFont 
+  @#True  : L'effet sera caché.
+  @#False : L'effet sera affiché.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect, 
+  @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CompositorEffectParameter(#Effet, TechniqueID, PassID, NomEffet$, DataType, *Data)
+
+@Description
+  Régle en temps réel les paramètres d'un 
+  effet.
+
+@Parameter "#Effet"
+   L'effet à utiliser. 
+@LineBreak
+@LineBreak
+   L'effet doit être un effet compositeur 
+   créé par @@CreateCompositorEffect.
+
+@Parameter "TechniqueID"
+  Le TechniqueID de l'effet.
+
+@Parameter "PassID"
+   Le PassID de l'effet.
+
+@Parameter "NomEffet$"
+  Le nom de l'effet.
+
+@Parameter "DataType"
+  Le type de données du paramètre.
+
+@Parameter "Data"
+  Les données du paramètre. 
+@LineBreak
+@LineBreak
+  Cela dépend du type de données spécifié.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RibbonEffectColor(#Effet, IndexChaine, Couleur, CouleurFondu)
+
+@Description
+  Définit les couleurs du ruban. 
+
+@Parameter "#Effet"
+  L'effet à utiliser. 
+@LineBreak
+@LineBreak
+  Un ruban doit être créé avec 
+  @@CreateRibbonEffect.
+  
+@Parameter "IndexChaine"
+  L'indice de la chaîne.@LineBreak
+  Le premier indice commence à partir de 
+  zéro.@LineBreak
+  Cet indice doit être inférieur au nombre 
+  de chaînes créées avec @@CreateRibbonEffect.
+
+@Parameter "Couleur"
+  La couleur du ruban. 
+@LineBreak
+@LineBreak
+  Cette couleur peut être au format 
+  @@RGB ou @@RGBA.
+ 
+@Parameter "CouleurFondu"
+  La couleur de fondu du ruban est la couleur 
+  finale lorsque le ruban s'estompe.
+@LineBreak
+@LineBreak
+  Cette couleur peut être au format 
+  @@RGB ou @@RGBA.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect
+
+@SupportedOS

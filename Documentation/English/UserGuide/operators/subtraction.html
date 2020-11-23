@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Subtraction operator - Simple Processing - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Simple Processing: Subtraction operator</h1>
+
+The subtraction operator, <b>-</b>, is very similar to the addition operator.
+ When used with numeric types of variables it performs the mathematical
+ operation of subtraction, i.e. the value on the right hand side of the
+ operator is subtracted from the value on the left hand side. You cannot
+ use this operator with string types.
+
+<p>It is possible to use the subtraction operator in a normal manner,
+ where the result of the subtraction is used with another operator or
+ as a parameter to a command, or in the shortcut mode shown in the previous
+ page. The same restrictions apply as with the addition operator: the
+ result of the calculation must not be used and the leftmost item must
+ be a variable (so that it can be decreased).
+
+<p>This example demonstrates some of the uses of the subtraction operator.
+ You can get the source <a href="subtraction_op.pb">here</a>.
+
+<pre class="code">OpenConsole()
+
+; Part 1 - Simple example of using the subtraction operator
+x2 = 50
+x1 = 25
+distance = x2 - x1
+PrintN(&quot;Distance between two points: &quot; + Str(distance))
+
+; Part 2 - Multiple operators can be used in the same calculation
+total = 100
+half = 50
+quarter = 25
+tenth = 10
+leftovers = total - half - quarter - tenth - 2
+PrintN(&quot;Remaining quantity: &quot; + Str(leftovers))
+
+; Part 3 - Shortcut version of the subtraction operator
+leftovers - 3
+PrintN(&quot;After decreasing using shortcut method: &quot; + Str(leftovers))
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="subtraction_op_run.png" alt="Output of the subtraction example" width="557" height="91">
+ This image shows the output of the example program.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="addition.html">Addition</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="multiplication.html">Multiplication and Division</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

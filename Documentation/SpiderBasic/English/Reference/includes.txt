@@ -1,0 +1,54 @@
+@Title Includes Functions
+
+@Syntax
+
+  @Keyword IncludeFile  "Filename" 
+  
+@Description
+
+  @Keyword IncludeFile will always include the specified source file, at the current place in the code
+  (even if @Keyword XIncludeFile has been called for this file before).
+  
+  @Example
+
+@Code
+  IncludeFile "Sources\myfile.sb" ; This file will be inserted in the current code.
+@EndCode
+
+  This command is useful, if you want to split your source code into several files, to be able 
+  to reuse parts e.g. in different projects.
+
+@Syntax
+
+  @Keyword XIncludeFile "Filename"
+  
+@Description
+
+  @Keyword XIncludeFile is similar to @Keyword IncludeFile excepts it avoids to include the same file twice.
+
+  @Example
+
+@Code
+  XIncludeFile "Sources\myfile.sb" ; This file will be inserted.
+  XIncludeFile "Sources\myfile.sb" ; This file will be ignored along with all subsequent calls. 
+@EndCode
+
+  This command is useful, if you want to split your source code into several files, to be able 
+  to reuse parts e.g. in different projects.
+
+@Syntax
+
+  @Keyword IncludePath "path" 
+
+@Description
+
+  @Keyword IncludePath will specify a default path for all files included after the call of 
+  this command. This can be very handy when you include many files which are in the same directory.
+
+  @Example
+
+@Code
+  IncludePath  "Sources\Data"
+  IncludeFile  "Sprite.sb"
+  XIncludeFile "Music.sb"
+@EndCode

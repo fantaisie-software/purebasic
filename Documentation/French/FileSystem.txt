@@ -1,0 +1,1528 @@
+;
+; FileSystem library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library FileSystem
+
+@Overview
+
+  La bibliothèque FileSystem vous permet de 
+  manipuler les fichiers et répertoires de
+  vos périphériques de sauvegarde (Clé USB, disques durs, etc...).
+  Vous pourrez par exemple examiner le contenu 
+  d'un répertoire, en créer un nouveau, etc... 
+@LineBreak
+@LineBreak
+  Si vous voulez examiner le contenu d'un 
+  répertoire commencez par la commande 
+  @@ExamineDirectory. 
+@LineBreak
+@LineBreak
+  Les chemins des fichiers et des répertoires 
+  peuvent être complets ou relatifs. 
+  Les chemins relatifs sont interprétés par 
+  rapport au répertoire courant du programme. 
+  Les fonctions @@GetCurrentDirectory et 
+  @@SetCurrentDirectory peuvent être utilisés pour 
+  modifier le répertoire courant.
+@LineBreak
+@LineBreak 
+  Des caractères de séparation de chemin d'accès aux fichiers spécifiques aux systèmes 
+  d'exploitation sont disponibles: @#PS, @#NPS, @ConstantColor "#PS$" ('\') et @ConstantColor "#NPS$" ('/').
+@LineBreak 
+@LineBreak
+  En complément de cette bibliothèque, vous 
+  pourrez manipuler des fichiers avec les commandes 
+  de la bibliothèque @LibraryLink "file" "File".
+@LineBreak 
+@LineBreak
+  Pour obtenir le nom du programme en cours, 
+  utilisez la commande @@ProgramFilename 
+  de la bibliothèque 
+  @LibraryLink "process" "Process".
+
+@CommandList
+
+@ExampleFile All FileSystem.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CopyDirectory(RepertoireSource$, RepertoireDestination$, Masque$ [, Mode])
+
+@Description
+  Copie un répertoire. 
+
+@Parameter "RepertoireSource$"
+  Le dossier à copier.
+
+@Parameter "RepertoireDestination$"
+  Le dossier de destination de la copie.
+
+@Parameter "Masque$"
+  Le masque de copie. 
+@Indent
+  Par exemple: "*.*" copie tous les fichiers 
+  situés dans le répertoire.@LineBreak
+  "*.exe" copie seulement les fichiers .exe. 
+  @LineBreak
+  Par défaut, une chaîne Masque$ vide permet 
+  la copie de tous les fichiers.
+@EndIndent
+
+@OptionalParameter "Mode"
+ Peut être une combinaison des valeurs suivantes:
+@FixedFont
+  @#PB_FileSystem_Recursive: Copie le répertoire et tous ses sous-répertoires.
+  @#PB_FileSystem_Force    : Remplace également les fichiers protégés (Lecture seule).
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'opération 
+  a réussi, zéro sinon.
+
+@Remarks
+  Si le répertoire existe déjà, son contenu sera automatiquement écrasé. 
+@LineBreak
+@LineBreak
+  La fonction @@FileSize peut être utilisée 
+  pour déterminer si la cible existe ou non.
+  
+@Example
+@Code
+  Debug CopyDirectory("D:\Jeux\MonJeu\", "D:\Jeux\Recup\", "", #PB_FileSystem_Recursive)
+@EndCode
+
+@SeeAlso
+  @@CreateDirectory, @@ExamineDirectory, 
+  @@DeleteDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CopyFile(NomFichierSource$, NomFichierDestination$) 
+
+@Description
+  Copie un fichier. 
+
+@Parameter "NomFichierSource$"
+  Le fichier à copier.
+
+@Parameter "NomFichierDestination$"
+  Le fichier copié.
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'opération a réussi, zéro sinon.
+
+@Remarks
+  Si le répertoire existe déjà son contenu 
+  sera automatiquement écrasé. 
+@LineBreak
+@LineBreak
+  La fonction @@FileSize peut être utilisée 
+  pour déterminer si la cible existe ou non.
+@LineBreak
+@LineBreak  
+  Si le fichier source et le fichier de 
+  destination sont les mêmes alors la 
+  copie ne se produit pas 
+  et zéro sera renvoyé.
+  
+@Example
+@Code
+  Debug CopyFile("D:\PB\Nouveau.pb", "E:\Projet.pb)
+@EndCode  
+
+@SeeAlso
+  @@RenameFile, @@DeleteFile, @@FileSize, 
+  @@CreateFile, @@OpenFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateDirectory(NomRepertoire$) 
+
+@Description
+  Crée un nouveau répertoire.  
+  
+@Parameter "NomRepertoire$"
+  Le nom du nouveau répertoire.
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'opération 
+  a réussi, zéro sinon.
+
+@Remarks
+  Cette fonction échoue si le répertoire 
+  parent du nouveau dossier n'existe pas. 
+  @LineBreak
+  Pour créer plusieurs niveaux de répertoire, 
+  il suffit d'appeler cette fonction 
+  pour chacun d'entre-eux.
+  
+@Example
+@Code
+  If CreateDirectory("c:\PB")
+    RunProgram("c:\PB")
+  EndIf
+@EndCode 
+
+@SeeAlso
+  @@CopyDirectory, @@ExamineDirectory, 
+  @@DeleteDirectory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = DeleteDirectory(Repertoire$, Masque$ [, Mode])
+
+@Description
+  Efface un répertoire.
+  
+@Parameter "Repertoire$"
+  Le dossier à détruire.
+
+@Parameter "Masque$"
+  Le masque de suppression des fichiers contenu dans le répertoire. 
+@Indent
+  Par exemple: @LineBreak
+  "*.*" détruit tous les fichiers situés 
+  dans le répertoire.@LineBreak
+  "*.exe" détruit seulement les fichiers .exe. 
+  @LineBreak
+  @LineBreak
+  Par défaut, une chaîne Masque$ vide ("") 
+  permet la supression de tous les fichiers.
+@EndIndent
+
+@OptionalParameter "Mode"
+  Peut être une combinaison des valeurs suivantes:
+@FixedFont
+  @#PB_FileSystem_Recursive: Efface le répertoire et tous les sous-répertoires.
+  @#PB_FileSystem_Force    : Efface également les fichiers protégés (Lecture seule).
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'opération 
+  a réussi, zéro sinon.
+  
+@Example
+@Code
+  If FileSize("c:\PB") = -2
+    DeleteDirectory("c:\PB","*.*", #PB_FileSystem_Recursive|#PB_FileSystem_Force)
+    Debug "Dossier c:\PB supprimé"
+  EndIf
+@EndCode 
+
+@SeeAlso
+  @@CreateDirectory, @@ExamineDirectory, 
+  @@CopyDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = DeleteFile(NomFichier$ [, Mode]))
+
+@Description
+  Supprime un fichier.
+  
+@Parameter "NomFichier$"
+  Le fichier à supprimer.
+  
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_FileSystem_Force: Supprime aussi les fichiers qui sont protégés (en lecture seule).
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'opération  
+  a réussi, zéro sinon.
+  
+@Example
+@Code
+  If FileSize("c:\PB") = -2
+    DeleteFile("c:\PB\ok.txt")
+    Debug "Fichier supprimé"
+  EndIf
+@EndCode 
+
+@SeeAlso
+  @@CopyFile, @@RenameFile, @@FileSize, 
+  @@CreateFile, @@OpenFile  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = DirectoryEntryAttributes(#Repertoire)
+
+@Description
+  Renvoie les attributs du fichier courant dans 
+  le #Repertoire examiné par les fonctions
+  @@ExamineDirectory et @@NextDirectoryEntry. 
+
+@Parameter "#Repertoire"
+  Le répertoire examiné avec @@ExamineDirectory.
+
+@ReturnValue  
+  Avec Windows, les attributs sont une combinaison 
+  des valeurs suivantes:
+@FixedFont
+  @#PB_FileSystem_Hidden    : Fichier caché
+  @#PB_FileSystem_Archive   : Fichier inchangé et archivé depuis le dernier examen
+  @#PB_FileSystem_Compressed: Fichier compressé
+  @#PB_FileSystem_Normal    : Fichier normal
+  @#PB_FileSystem_ReadOnly  : Fichier en lecture seule
+  @#PB_FileSystem_System    : Fichier système.
+@EndFixedFont
+
+  Avec Linux ou MacOSX, les attributs sont une 
+  combinaison des valeurs suivantes:
+@FixedFont
+  @#PB_FileSystem_Link      : Le fichier est un lien symbolique
+  @#PB_FileSystem_ReadUser  : Permission d'accès en lecture pour le propriétaire
+  @#PB_FileSystem_WriteUser : Permission d'accès en écriture pour le propriétaire
+  @#PB_FileSystem_ExecUser  : Permission d'accès en exécution pour le propriétaire
+  @#PB_FileSystem_ReadGroup : Permission d'accès en lecture pour les membres du groupe propriétaire
+  @#PB_FileSystem_WriteGroup: Permission d'accès en écriture pour les membres du groupe propriétaire
+  @#PB_FileSystem_ExecGroup : Permission d'accès en exécution pour les membres du groupe propriétaire
+  @#PB_FileSystem_ReadAll   : Permission d'accès en lecture pour les autres utilisateurs
+  @#PB_FileSystem_WriteAll  : Permission d'accès en écriture pour les autres utilisateurs
+  @#PB_FileSystem_ExecAll   : Permission d'accès en exécution pour les autres utilisateurs
+@EndFixedFont  
+
+@Remarks
+  Pour vérifier si un attribut est présent, 
+  il suffit d'utiliser l'operateur '&' (And):
+
+@Example  
+@Code
+  Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+        Attributs = GetFileAttributes(DirectoryEntryName(0))
+        If Attributs & #PB_FileSystem_System
+          Debug "Attribut : Système"
+        EndIf
+        Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille
+        Attributs = DirectoryEntryAttributes(0)
+        If Attributs & #PB_FileSystem_System
+          Debug "Attribut : Système"
+        EndIf
+      EndIf
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode  
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = DirectoryEntryDate(#Repertoire, TypeDate)
+
+@Description
+  Renvoie la date du fichier courant dans le 
+  #Repertoire examiné par les fonctions
+  @@ExamineDirectory et @@NextDirectoryEntry. 
+
+@Parameter "#Repertoire"
+  Le répertoire examiné avec @@ExamineDirectory.
+
+@Parameter "TypeDate"
+   Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Date_Created : Renvoie la date de création du fichier.
+  @#PB_Date_Accessed: Renvoie la date du dernier accès au fichier.
+  @#PB_Date_Modified: Renvoie la date de la dernière modification du fichier.
+@EndFixedFont
+
+@ReturnValue
+  La date renvoyée est dans le même format que 
+  celui utilisé dans la bibliothèque 
+  @LibraryLink "Date" "Date", donc
+  toutes les commandes telles que 
+  @@FormatDate peuvent être utilisées.
+
+@Remarks
+  Sous Linux et Mac OSX, la date de retour pour 
+  @#PB_Date_Created est la même que la date de 
+  @#PB_Date_Modified, parce que la plupart des 
+  systèmes de fichiers ne stockent pas une date 
+  de création du fichier.
+
+@Example  
+@Code
+  Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+        DateAcces = DirectoryEntryDate(0, #PB_Date_Accessed)
+      Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille
+        DateAcces = DirectoryEntryDate(0, #PB_Date_Accessed)
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+      Debug "Dernier accès le : " + FormatDate("%dd/%mm/%yyyy", DateAcces)
+      Debug ""
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes
+@LineBreak
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = DirectoryEntryName(#Repertoire)
+
+@Description
+  Renvoie le nom du fichier courant dans le 
+  #Repertoire examiné par les fonctions
+  @@ExamineDirectory et @@NextDirectoryEntry. 
+
+@Parameter "#Repertoire"
+  Le répertoire examiné avec @@ExamineDirectory.
+
+@ReturnValue
+  Renvoie le nom du répertoire courant.
+
+@Remarks 
+  Les pseudo-répertoires "." et ".." peuvent être 
+  renvoyés dans une énumération de répertoire, 
+  de sorte qu'ils doivent être filtrés s'ils ne 
+  doivent pas être inclus.
+
+@Example  
+@Code
+ Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+      Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = DirectoryEntryType(#Repertoire)
+
+@Description
+  Renvoie le type du fichier courant dans le 
+  #Repertoire examiné par les fonctions
+  @@ExamineDirectory et @@NextDirectoryEntry. 
+
+@Parameter "#Repertoire"
+  Le répertoire examiné avec @@ExamineDirectory.
+
+@ReturnValue
+@FixedFont
+  @#PB_DirectoryEntry_File     : C'est un fichier.
+  @#PB_DirectoryEntry_Directory: C'est un répertoire.
+@EndFixedFont
+
+@Example  
+@Code
+ Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+      Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.q = DirectoryEntrySize(#Repertoire)
+
+@Description
+  Renvoie la taille en octets du fichier courant 
+  dans le #Repertoire examiné par les fonctions
+  @@ExamineDirectory et @@NextDirectoryEntry. 
+  
+@Parameter "#Repertoire"
+  Le répertoire examiné avec @@ExamineDirectory.
+
+@ReturnValue
+  Renvoie la taille de l'entrée du répertoire 
+  courant en octets.
+  
+@Remarks
+  DirectoryEntrySize() renvoie un quad (8 octets) 
+  supportant les tailles de fichier supérieures à 4Go.
+
+@Example  
+@Code
+ Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+      Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate  
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ExamineDirectory(#Repertoire, NomRepertoire$, Filtre$) 
+
+@Description
+  Examine un répertoire et crée une liste qui peut être ensuite parcourue avec les fonctions 
+  @@NextDirectoryEntry et @@DirectoryEntryName. 
+
+@Parameter "#Repertoire"
+  Le numéro qui identifie le listing de fichier.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement 
+  ce numéro.
+  
+@Parameter "NomRepertoire$"
+  Le dossier à examiner.  
+  
+@Parameter "Filtre$"
+  Permet de sélectionner quels types de fichiers doivent être retenus. 
+@Indent
+  Par exemple, un 'Filtre$' "*.*"  ou "" retiendra tous les fichiers (et sous-dossiers) du 
+  répertoire, "*.exe" ne retient que les fichiers dont l'extension est .exe 
+  (ou les sous-dossiers se terminant par .exe).
+@LineBreak
+@LineBreak  
+  Veuillez noter le comportement spécifique de MS Windows quand vous utilisez une extension 
+  de nom de fichier à 3 caractères car les extensions plus longues seront prises en compte aussi.
+  Par exemple, le filtre "*.log" trouvera aussi les fichiers "*.log*" comme le fichier 
+  "test.log_1".
+@EndIndent
+
+@ReturnValue
+   Renvoie une valeur non nulle si l'opération a réussi, zéro sinon.
+@LineBreak
+@LineBreak
+  Si @ReferenceLink "purebasic_objects" "#PB_Any" est utilisé pour le paramètre 
+  '#Repertoire', le numéro du nouveau répertoire sera renvoyé dans 'Resultat'.
+
+@Remarks
+  Une fois que l'examen du répertoire est terminé, la commande @@FinishDirectory doit être 
+  appelée pour libérer toutes les ressources associées à ce listing.
+@LineBreak
+@LineBreak 
+  Des caractères de séparation de chemin d'accès aux fichiers spécifiques aux systèmes 
+  d'exploitation sont disponibles: @#PS, @#NPS, @ConstantColor "#PS$" ('\') et @ConstantColor "#NPS$" ('/').
+
+@Example
+@Code
+  Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+      Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FinishDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishDirectory(#Repertoire)
+
+@Description
+  Termine l'examen du répertoire commencé par 
+  @@ExamineDirectory.
+  Ceci permet de libérer les ressources associées 
+  au listing du #Répertoire.
+
+@Parameter "#Repertoire"
+  Le répertoire examiné avec @@ExamineDirectory.
+
+@NoReturnValue
+
+@Example  
+@Code
+ Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+      Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineDirectory
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetExtensionPart(CheminComplet$)
+
+@Description
+  Extrait l'extension d'un fichier d'après son 
+  chemin complet.
+
+@Parameter "CheminComplet$"
+  Le chemin d'accès complet au fichier.
+
+@ReturnValue
+  Renvoie l'extension du fichier. @LineBreak
+  Par exemple, si le chemin d'accès complet est 
+  "C:\PureBasic\PB.exe", le résultat sera "exe".
+  
+@Remarks
+  Pour récupérer le nom du fichier ou son chemin, 
+  voir les fonctions @@GetFilePart et @@GetPathPart.
+
+@Example  
+@Code
+  Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+      Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille      
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+      Debug "Extension : " + GetExtensionPart(DirectoryEntryName(0))
+      Debug ""
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetFilePart,
+  @@GetPathPart
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetFilePart(CheminComplet$ [, Mode]))
+
+@Description
+  Extrait le nom d'un fichier d'un chemin complet.
+
+@Parameter "CheminComplet$"
+  Le chemin d'accès complet au fichier.
+  
+@OptionalParameter "Mode"
+  Il peut s'agir d'une des valeurs suivantes:
+@FixedFont
+  @#PB_FileSystem_NoExtension: Obtenir le nom du fichier sans son extension (le cas échéant).
+@EndFixedFont
+
+@ReturnValue
+  Renvoie le nom du fichier. @LineBreak
+  Si, par exemple, la chaîne CheminComplet$ est 
+  "C:\PureBasic\PB.exe", la chaîne
+  retournée dans Fichier$ sera "PB.exe". 
+
+@Remarks
+  Pour récupérer l'extension ou le chemin, voir 
+  les fonctions @@GetExtensionPart et  @@GetPathPart.
+
+@Example  
+@Code
+  Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+      Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille      
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+      Debug "Nom : " + GetFilePart(DirectoryEntryName(0))
+      Debug ""
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetExtensionPart,
+  @@GetPathPart
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetPathPart(CheminComplet$)
+
+@Description
+  Extrait le chemin d'un fichier d'un chemin complet.
+
+@Parameter "CheminComplet$"
+  Le chemin d'accès complet au fichier.
+
+@ReturnValue
+  Renvoie le chemin. @LineBreak
+  Si, par exemple, la chaîne CheminComplet$ est 
+  "C:\PureBasic\PB.exe", la chaîne
+  renvoyée dans Chemin$ sera "C:\PureBasic\".
+
+@Remarks
+  Pour récupérer l'extension ou le nom du fichier, 
+  voir les fonctions @@GetExtensionPart et @@GetFilePart.
+
+@Example  
+@Code
+  Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+      Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille      
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+      Debug "Chemin : " + GetPathPart(DirectoryEntryName(0))
+      Debug ""
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetExtensionPart,
+  @@GetFilePart 
+       
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsDirectory(#Repertoire)
+
+@Description
+  Teste si un listing est correctement initialisé. 
+
+@Parameter "#Repertoire"
+  Le dossier à tester.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, 
+  zéro sinon.
+
+@Remarks
+  Cette fonction a été créée pour pouvoir passer 
+  n'importe quelle valeur en paramètre sans qu'il 
+  ne puisse y avoir de plantage. 
+@LineBreak
+@LineBreak
+  C'est la fonction idéale pour vérifier qu'un 
+  objet est correctement initialisé.
+
+@SeeAlso
+  @@ExamineDirectory  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CheckFilename(NomFichier$)
+
+@Description 
+  Vérifie si un nom de fichier ne contient aucun 
+  caractère interdit par le
+  système de fichiers. @LineBreak
+  Par exemple, les caractères '/' et '\' sont 
+  interdits sous Windows.
+  
+@Parameter "NomFichier$"
+  Le nom du fichier à tester sans son chemin.
+
+@ReturnValue
+  Renvoie une valeur non nulle si le fichier ne 
+  contient pas de caractères non valides et zéro 
+  si c'est le cas.
+  
+@Remarks
+   En fonction des OS, certains nom de fichiers sont interdits. 
+   Par exemple, Windows n'autorise pas de créer un fichier portant le 
+   nom COM1 jusqu'à COM9, LPT1 jusqu'à LPT9, CON, PRN, AUX, CLOCK$, NUL, 
+   KEYBD$, CONFIG$, $Mft, $MftMirr, $LogFile, $Volume, $AttrDef, $Bitmap, 
+   $Boot, $BadClus, $Secure, $Upcase, $Extend, $Quota, $ObjId, $Reparse. 
+   Et à éviter les noms LST, SCREEN$ et $IDLE$ sur les systèmes anciens.
+@LineBreak
+@LineBreak
+   Pour plus d'informations voir 
+   @InternetLink "https://en.wikipedia.org/wiki/Filename" "ici", en anglais. 
+
+@Example  
+@Code
+  Debug CheckFilename("PureBasic.exe")  ; Affiche 1
+  Debug CheckFilename("PureBasic")      ; Affiche 1
+  Debug CheckFilename("\PureBasic.exe") ; Affiche 0
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.q = FileSize(NomFichier$) 
+
+@Description
+  Renvoie la taille d'un fichier. 
+
+@Parameter "NomFichier$" 
+  Le nom du fichier.
+
+@ReturnValue
+  Renvoie la taille du fichier en octets ou 
+  l'une des valeurs suivantes:
+@FixedFont
+  -1: Fichier inexistant.
+  -2: Le fichier est en fait un répertoire.
+@EndFixedFont
+
+@Example  
+@Code
+  Procedure.s TailleFichier(NomFichier$)
+  Taille = FileSize(NomFichier$)  
+  Select Taille
+    Case -2
+      Reponse$  = "C'est un répertoire"
+    Case -1
+       Reponse$ = "Le fichier n'existe pas"
+    Default
+      Reponse$  = "La taille du fichier est de " + Str(Taille) + " Octets."
+  EndSelect
+  ProcedureReturn Reponse$
+  EndProcedure
+
+  Debug TailleFichier(#PB_Compiler_Home)
+  Debug TailleFichier(#PB_Compiler_Home + "Compilers\FichierInconnu.exe")
+  Debug TailleFichier(#PB_Compiler_Home + "Compilers\PureBasic.exe")
+@EndCode
+  
+@SeeAlso
+  @@DirectoryEntrySize
+    
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetCurrentDirectory()
+
+@Description
+  Renvoie le chemin du répertoire courant de 
+  l'application. 
+
+@NoParameters
+
+@ReturnValue 
+  Renvoie le chemin complet du répertoire courant. 
+  @LineBreak
+  Il se termine par un séparateur de répertoire 
+  ('\', @#PS, @ConstantColor "#PS$" pour Windows ou '/', @#NPS, @ConstantColor "#NPS$" pour les autres OS).
+@LineBreak
+@LineBreak
+  Cette fonction renvoie une chaîne vide dans le 
+  cas très improbable d'un échec.
+
+@Remarks
+  Tous les accès aux fichiers sont relatifs à ce 
+  répertoire quand un chemin absolu n'est pas 
+  spécifié. @@SetCurrentDirectory peut être utilisé 
+  pour changer le répertoire courant.
+
+@Example  
+@Code
+  Debug GetCurrentDirectory()
+  Debug GetHomeDirectory()
+  Debug GetUserDirectory(#PB_Directory_Documents)
+  Debug GetTemporaryDirectory()
+  Debug #PB_Compiler_Home  
+  Debug #PB_Compiler_File
+  Debug #PB_Compiler_Filename
+  Debug #PB_Compiler_FilePath
+@EndCode
+
+@SeeAlso
+  @@SetCurrentDirectory,
+  @@GetHomeDirectory,
+  @@GetUserDirectory
+  @@GetTemporaryDirectory
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetHomeDirectory()
+
+@Description
+  Renvoie le chemin du répertoire racine de 
+  l'utilisateur qui est actuellement logué. 
+
+@NoParameters
+
+@ReturnValue 
+  Renvoie le chemin complet du répertoire courant. 
+  @LineBreak
+  Il se termine par un séparateur de répertoire 
+  ('\', @#PS, @ConstantColor "#PS$" pour Windows ou '/', @#NPS, @ConstantColor "#NPS$" pour les autres OS).
+@LineBreak
+@LineBreak
+  Cette fonction renvoie une chaîne vide dans le 
+  cas très improbable d'un échec.
+
+@Remarks
+  Ce répertoire a les droits de l'utilisateur, 
+  donc il est possible d'y lire et ecrire des 
+  fichiers. Il est spécifique à chaque utilisateur 
+  et peut donc être utile pour stocker des 
+  informations concernant uniquement cet 
+  utilisateur (fichiers de préférences, 
+  plugins etc.).
+
+@Example  
+@Code
+  Debug GetCurrentDirectory()
+  Debug GetHomeDirectory()
+  Debug GetUserDirectory(#PB_Directory_Documents)
+  Debug GetTemporaryDirectory()
+  Debug #PB_Compiler_Home  
+  Debug #PB_Compiler_File
+  Debug #PB_Compiler_Filename
+  Debug #PB_Compiler_FilePath
+@EndCode
+
+@SeeAlso
+  @@GetCurrentDirectory,
+  @@GetTemporaryDirectory,
+  @@GetUserDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetUserDirectory(Type)
+
+@Description
+ Renvoie le chemin du répertoire du type d'annuaire spécifié. 
+
+@Parameter "Type"
+  Le type de répertoire. Peut s'agir de l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Directory_Desktop    : Répertoire 'Bureau' de l'utilisateur connecté
+  @#PB_Directory_Downloads  : Répertoire 'Téléchargements' de l'utilisateur connecté
+  @#PB_Directory_Documents  : Répertoire 'Documents' de l'utilisateur connecté
+  @#PB_Directory_Pictures   : Répertoire 'Images' de l'utilisateur connecté
+  @#PB_Directory_Musics     : Répertoire 'Musiques' de l'utilisateur connecté  
+  @#PB_Directory_Videos     : Répertoire 'Videos' de l'utilisateur connecté
+  @#PB_Directory_Public     : Répertoire 'Documents Publics' de l'utilisateur connecté
+  @#PB_Directory_ProgramData: Répertoire des données stokées par les programmes de l'utilisateur connecté
+                             Sous Linux et OSX, c'est le dossier 'home' suivi de '/.' pour pouvoir créer 
+                             un répertoire de configuration caché par l'utilisateur connecté
+  @#PB_Directory_AllUserData: Répertoire de données des programmes communs (accessible à tous les utilisateurs)
+  @#PB_Directory_Programs   : Répertoire  des fichiers de programme globaux (lecture seule)
+@EndFixedFont
+
+@ReturnValue
+  Renvoie le chemin complet du répertoire demandé et terminé par un séparateur d'annuaire 
+  ('\', @#PS, @ConstantColor "#PS$" pour Windows ou '/', @#NPS, @ConstantColor "#NPS$" pour les autres OS). @LineBreak
+   Renvoie une chaîne vide si le type n'est pas trouvé.
+
+@Example
+@Code
+  Debug GetUserDirectory(#PB_Directory_Desktop)
+  Debug GetUserDirectory(#PB_Directory_Downloads)
+  Debug GetUserDirectory(#PB_Directory_Documents)
+  Debug GetUserDirectory(#PB_Directory_Pictures)
+  Debug GetUserDirectory(#PB_Directory_Videos)
+  Debug GetUserDirectory(#PB_Directory_Musics)
+  Debug GetUserDirectory(#PB_Directory_Public)
+  Debug GetUserDirectory(#PB_Directory_ProgramData)
+  Debug GetUserDirectory(#PB_Directory_AllUserData)
+  Debug GetUserDirectory(#PB_Directory_Programs)
+@EndCode
+
+@SeeAlso
+  @@GetCurrentDirectory,
+  @@GetHomeDirectory,
+  @@GetTemporaryDirectory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetTemporaryDirectory()
+
+@Description
+  Renvoie le chemin du répertoire temporaire. 
+
+@NoParameters
+
+@ReturnValue 
+  Renvoie le chemin complet et le nom du répertoire 
+  temporaire. @LineBreak
+  Il se termine par un séparateur de répertoire 
+  ('\', @#PS, @ConstantColor "#PS$" pour Windows ou '/', @#NPS, @ConstantColor "#NPS$" pour les autres OS).
+@LineBreak
+@LineBreak
+  Cette fonction renvoie une chaîne vide dans le 
+  cas très improbable d'un échec.
+
+@Remarks
+  Ce répertoire a les droits de l'utilisateur, 
+  donc il est possible d'y lire et ecrire des 
+  fichiers. Il est spécifique à chaque 
+  utilisateur et peut donc être utile pour 
+  stocker des informations concernant uniquement 
+  cet utilisateur (fichiers de préférences, 
+  plugins etc.).
+
+@Example  
+@Code
+  Debug GetCurrentDirectory()
+  Debug GetHomeDirectory()
+  Debug GetUserDirectory(#PB_Directory_Documents)
+  Debug GetTemporaryDirectory()
+  Debug #PB_Compiler_Home  
+  Debug #PB_Compiler_File
+  Debug #PB_Compiler_Filename
+  Debug #PB_Compiler_FilePath
+@EndCode
+
+@SeeAlso
+  @@GetCurrentDirectory,
+  @@GetUserDirectory,
+  @@GetHomeDirectory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetFileDate(NomFichier$, TypeDate)
+
+@Description
+  Renvoie la date d'un fichier. 
+@LineBreak
+
+@Parameter "NomFichier$"
+  Le fichier à tester.
+
+@Parameter "TypeDate"
+  Le type de date:
+@FixedFont
+  @#PB_Date_Created : Renvoie la date de création du fichier.
+  @#PB_Date_Accessed: Renvoie la date du dernier accès au fichier.
+  @#PB_Date_Modified: Renvoie la date de la dernière modification du fichier.
+@EndFixedFont
+
+@ReturnValue
+  La date renvoyée est dans le même format que 
+  celui utilisé dans la bibliothèque 
+  @LibraryLink "Date" "Date", donc
+  toutes les commandes telles que @@FormatDate 
+  peuvent être utilisées.
+
+@Remarks
+  Sous Linux et Mac OSX, la date de retour pour 
+  @#PB_Date_Created est la même que la date 
+  de @#PB_Date_Modified, parce que la plupart 
+  des systèmes de fichiers ne stockent pas une 
+  date de création de fichier.
+  
+@Example  
+@Code
+  Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+        DateAcces = GetFileDate(DirectoryEntryName(0), #PB_Date_Accessed)
+      Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille
+        DateAcces = DirectoryEntryDate(0, #PB_Date_Accessed)
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+      Debug "Dernier accès le : " + FormatDate("%dd/%mm/%yyyy", DateAcces)
+      Debug ""
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@SetFileDate, @@DirectoryEntryDate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetFileAttributes(NomFichier$)
+
+@Description
+  Renvoie les attributs d'un fichier. 
+
+@Parameter "NomFichier$"
+  Le fichier à tester.@LineBreak
+  Cela peut également être le nom d'un répertoire.
+
+@ReturnValue
+  Renvoie les attributs du fichier. @LineBreak
+  Si le fichier n'existe pas ou si les attributs 
+  du fichier ne peuvent être lus, la commande 
+  renvoie -1.
+@LineBreak
+@LineBreak
+  Sur Windows, les attributs sont une combinaison 
+  des valeurs suivantes:
+@FixedFont
+  @#PB_FileSystem_Hidden    : Fichier caché.
+  @#PB_FileSystem_Archive   : Fichier inchangé et archivé depuis le dernier test.
+  @#PB_FileSystem_Compressed: Fichier compressé.
+  @#PB_FileSystem_Normal    : Fichier normal.
+  @#PB_FileSystem_ReadOnly  : Fichier en lecture seule.
+  @#PB_FileSystem_System    : Fichier système.
+@EndFixedFont
+
+  Sur Linux ou MacOSX, les attributs sont une combinaison des valeurs suivantes:
+@FixedFont
+  @#PB_FileSystem_Link      : Le fichier est un lien symbolique
+  @#PB_FileSystem_ReadUser  : Permission d'accès en lecture pour le propriétaire
+  @#PB_FileSystem_WriteUser : Permission d'accès en écriture pour le propriétaire
+  @#PB_FileSystem_ExecUser  : Permission d'accès en exécution pour le propriétaire
+  @#PB_FileSystem_ReadGroup : Permission d'accès en lecture pour les membres du groupe propriétaire
+  @#PB_FileSystem_WriteGroup: Permission d'accès en écriture pour les membres du groupe propriétaire
+  @#PB_FileSystem_ExecGroup : Permission d'accès en exécution pour les membres du groupe propriétaire
+  @#PB_FileSystem_ReadAll   : Permission d'accès en lecture pour les autres utilisateurs
+  @#PB_FileSystem_WriteAll  : Permission d'accès en écriture pour les autres utilisateurs
+  @#PB_FileSystem_ExecAll   : Permission d'accès en exécution pour les autres utilisateurs
+@EndFixedFont 
+
+@Remarks
+  Pour vérifier si un attribut est présent, 
+  il suffit d'utiliser l'operateur '&' (And):
+  
+@Code
+  Attributs = GetFileAttributes("C:\Text.txt")
+  If Attributs & #PB_FileSystem_Hidden
+    Debug "Fichier caché !"
+  EndIf
+@EndCode  
+
+@Example
+@Code
+  Attributs = GetFileAttributes("c:\autoexec.bat") 
+  
+  If Attributs = -1 
+    Debug "Erreur à la lecture des attributs du fichier!"
+  Else 
+    If Attributs & #PB_FileSystem_Hidden     : texte$ + "H" : Else : texte$+"-" : EndIf 
+    If Attributs & #PB_FileSystem_Archive    : texte$ + "A" : Else : texte$+"-" : EndIf 
+    If Attributs & #PB_FileSystem_Compressed : texte$ + "C" : Else : texte$+"-" : EndIf 
+    If Attributs & #PB_FileSystem_Normal     : texte$ + "N" : Else : texte$+"-" : EndIf 
+    If Attributs & #PB_FileSystem_ReadOnly   : texte$ + "R" : Else : texte$+"-" : EndIf 
+    If Attributs & #PB_FileSystem_System     : texte$ + "S" : Else : texte$+"-" : EndIf 
+    Debug texte$ 
+  EndIf
+@EndCode
+
+@Example  
+@Code
+  Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+        Attributs = GetFileAttributes(DirectoryEntryName(0))
+        If Attributs & #PB_FileSystem_System
+          Debug "Attribut : Système"
+        EndIf
+        Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille
+        Attributs = DirectoryEntryAttributes(0)
+        If Attributs & #PB_FileSystem_System
+          Debug "Attribut : Système"
+        EndIf
+      EndIf
+      Debug Type$ + DirectoryEntryName(0) + Taille$
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode  
+
+@SeeAlso
+  @@SetFileAttributes, @@DirectoryEntryAttributes
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = NextDirectoryEntry(#Repertoire)
+
+@Description
+  Cette fonction doit être appelée à la suite de 
+  @@ExamineDirectory.
+  Elle examine à la suite chaque entrée de la 
+  liste du répertoire.
+
+@Parameter "#Repertoire"
+  Le dossier à examiner avec @@ExamineDirectory
+
+@ReturnValue
+  Renvoie une valeur non nulle si une nouvelle 
+  entrée a été lue ou zéro s'il n'y a pas 
+  d'entrée supplémentaire.
+
+@Remarks
+  Le type, le nom, la taille, la date et les 
+  attributs du fichier ou sous-répertoire 
+  correspondant à l'entrée peuvent être obtenus
+  grâce aux fonctions @@DirectoryEntryType, 
+  @@DirectoryEntryName, @@DirectoryEntrySize, 
+  @@DirectoryEntryDate et @@DirectoryEntryAttributes.
+
+@Example  
+@Code
+  Repertoire$ = GetHomeDirectory()  ; Liste tous les fichiers et les dossiers du répertoire racine de l'utilisateur qui est actuellement logué (Home)
+  If ExamineDirectory(0, Repertoire$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = " [Fichier] "
+        Taille$ = " (Taille : " + DirectoryEntrySize(0) + ")"
+        Else
+        Type$ = " [Dossier] "
+        Taille$ = "" ; Un Dossier n'a pas de taille
+        Attributs = DirectoryEntryAttributes(0)
+        Debug Type$ + DirectoryEntryName(0) + Taille$
+      EndIf
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode  
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate 
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = RenameFile(AncienNom$, NouveauNom$) 
+
+@Description
+  Renomme ou déplace un fichier.@LineBreak
+  Renomme un dossier.  
+
+@Parameter "AncienNom$"
+  L'ancien nom du fichier.
+
+@Parameter "NouveauNom$"
+  Le nouveau nom du fichier.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, 
+ zéro sinon.
+  
+@Remarks
+  Comme il n'est pas nécessaire que l'ancien et 
+  le nouveau nom de fichier soient dans le même 
+  répertoire, cette fonction peut donc être 
+  utilisée pour déplacer un fichier d'un 
+  répertoire vers un autre ou même d'un lecteur 
+  vers un autre. 
+
+@Example
+@Code
+  RenameFile("C:\Temp\Test.txt", "C:\Temp\TestNew.txt")    ; Renomme le fichier Test.txt du répertoire Temp
+  RenameFile("C:\Temp\", "C:\TempNew\")                    ; Renomme le répertoire Temp en TempNew
+
+  If RenameFile("C:\test.txt", "D:\temp\test_backup.txt")   
+    Debug "Fichier déplacé et renommé avec succès."     
+  Else 
+    Debug "Echec, le fichier ne peut pas être renommé et déplacé." ; Echec si par exemple le fichier (ou le disque) n'existe pas.
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CopyFile, @@DeleteFile, @@CreateFile, 
+  @@CopyDirectory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SetFileDate(NomFichier$, TypeDate, Date)
+
+@Description
+  Change la date d'un fichier. 
+
+@Parameter "NomFichier$"
+  Le fichier à utiliser.
+
+@Parameter "TypeDate"
+  Le type de date à modifier:
+@FixedFont
+  @#PB_Date_Created : Change la date de création du fichier.
+  @#PB_Date_Accessed: Change la date du dernier accès au fichier.
+  @#PB_Date_Modified: Change la date de la dernière modification du fichier.
+@EndFixedFont
+
+@Parameter "Date"
+  La nouvelle date. 
+  Ce doit être une valeur de la bibliothèque 
+  @LibraryLink "Date" "Date".
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'opération 
+  a réussi, zéro sinon.
+
+@Remarks
+  La date est dans le même format que celui 
+  utilisé dans la bibliothèque 
+  @LibraryLink "Date" "Date", donc
+  toutes les commandes telles que 
+  @@FormatDate peuvent être utilisées.
+@LineBreak
+@LineBreak 
+   Sous Linux et Mac OSX, la date utilisée pour @#PB_Date_Created 
+   est la même que pour @#PB_Date_Modified, parce que la plupart 
+   des systèmes de fichiers ne stockent pas une date de création 
+   de fichier.
+ 
+@Code
+  SetFileDate("F:\Test.txt", #PB_Date_Accessed, Date())
+@EndCode 
+  
+@SeeAlso
+  @@GetFileDate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SetFileAttributes(NomFichier$, Attributs)
+
+@Description
+  Change les attributs d'un fichier. 
+
+@Parameter "NomFichier$"
+  Le nom du fichier à utiliser.@LineBreak
+  Cela peut-être un répertoire.
+
+@Parameter "Attributs"
+  Les nouveaux attributs.
+@LineBreak
+@LineBreak 
+  Sur Windows, les attributs sont une 
+  combinaison de:
+@FixedFont
+  @#PB_FileSystem_Hidden    : Fichier caché.
+  @#PB_FileSystem_Archive   : Fichier inchangé et archivé depuis le dernier test.
+  @#PB_FileSystem_Normal    : Fichier normal.
+  @#PB_FileSystem_ReadOnly  : Fichier en lecture seule.
+  @#PB_FileSystem_System    : Fichier système.
+@EndFixedFont
+
+  Sur Linux ou MacOSX, les attributs sont 
+  une combinaison de:
+@FixedFont
+  @#PB_FileSystem_ReadUser  : Permission d'accès en lecture pour le propriétaire
+  @#PB_FileSystem_WriteUser : Permission d'accès en écriture pour le propriétaire
+  @#PB_FileSystem_ExecUser  : Permission d'accès en exécution pour le propriétaire
+  @#PB_FileSystem_ReadGroup : Permission d'accès en lecture pour les membres du groupe propriétaire
+  @#PB_FileSystem_WriteGroup: Permission d'accès en écriture pour les membres du groupe propriétaire
+  @#PB_FileSystem_ExecGroup : Permission d'accès en exécution pour les membres du groupe propriétaire
+  @#PB_FileSystem_ReadAll   : Permission d'accès en lecture pour les autres utilisateurs
+  @#PB_FileSystem_WriteAll  : Permission d'accès en écriture pour les autres utilisateurs
+  @#PB_FileSystem_ExecAll   : Permission d'accès en exécution pour les autres utilisateurs
+@EndFixedFont 
+
+@Remarks
+  Pour combiner plusieurs attributs, il suffit 
+  d'utiliser l'operateur '|' (Ou).
+  
+@Example  
+@Code
+  SetFileAttributes("C:\Test.txt", #PB_FileSystem_Hidden | #PB_FileSystem_ReadOnly)
+@EndCode  
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'opération 
+  a réussi, zéro sinon.
+
+@SeeAlso
+  @@GetFileAttributes
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+@Function Resultat = SetCurrentDirectory(Repertoire$)
+
+@Description
+  Change le répertoire courant de l'application. 
+
+@Parameter "Repertoire$"
+  Le chemin complet vers le nouveau répertoire 
+  courant, ou un chemin relatif au répertoire 
+  courant.
+
+@ReturnValue
+  Renvoie une valeur non nulle si le répertoire 
+  courant a été changé avec succès, zéro sinon.
+  
+@Remarks
+  Tous les accès aux fichiers sont relatifs à ce 
+  répertoire quand un chemin absolu n'est pas 
+  spécifié. @@GetCurrentDirectory peut être 
+  utilisé pour récupérer le répertoire courant.
+@LineBreak
+@LineBreak 
+  Des caractères de séparation de chemin d'accès aux fichiers spécifiques aux systèmes 
+  d'exploitation sont disponibles: @#PS, @#NPS, @ConstantColor "#PS$" ('\') et @ConstantColor "#NPS$" ('/').
+
+@Example  
+@Code
+  Debug GetCurrentDirectory()
+  Debug SetCurrentDirectory("c:\")
+  Debug GetCurrentDirectory()
+@EndCode 
+
+@SeeAlso
+  @@GetCurrentDirectory
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+
+

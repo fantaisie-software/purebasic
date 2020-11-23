@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Gleichheits-Operator - Einfache Verarbeitung - PureBasic Benutzerhandbuch</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Einfache Verarbeitung: Gleichheits-Operator</h1>
+
+Der erste Operator ist das Gleichheitszeichen, =. Als ein mathematisches Symbol wird es für
+die Zuweisung verwendet. Mit anderen Worten: Sie verwenden das Gleichheitszeichen, um
+den Wert einer Variablen festzulegen. Der Wert, den Sie der Variablen zuweisen, kann ein
+einfacher Wert oder ein Ausdruck sein. Die einfachere Zuweisung wird unten gezeigt und die
+Ausdrucksversion finden Sie in einigen der späteren Beispiele. Den unten gezeigten Code
+finden Sie auch <a href="equals_op.pb">hier</a>.
+
+
+<pre class="code">OpenConsole()
+name$ = &quot;John&quot;
+height.f = 186.6
+weight.f = 80
+age.w = 23
+copy_height.l = height
+PrintN(name$)
+PrintN(StrF(height))
+PrintN(Str(copy_height))
+PrintN(Str(height))
+PrintN(Str(age))
+Input()
+CloseConsole()
+End</pre>
+
+Die ersten vier Zeilen (nach dem <span class="code">OpenConsole()</span> Befehl)
+legen den Wert der Variablen (auf der linken Seite des = Operators) fest, indem
+Strings und Zahlen direkt im Code eingegeben werden. Sie können nur die Werte
+von Variablen festlegen, so dass immer nur ein Variablenname auf der linken Seite des
+= Operators stehen darf, wenn Sie ihn für eine Zuweisung verwenden. Beachten Sie,
+dass Sie Strings in Stringvariablen und Zahlen in numerischen Variablen speichern
+müssen, oder der Compiler wird Ihnen eine Fehlermeldung anzeigen.
+
+<p><div class="important">Anmerkung: Bei Fließkomma-Zahlen dient - wie allgemein
+bei Programmiersprachen üblich - anstelle des Kommas der Punkt als Trennzeichen
+zwischen dem ganzzahligen Teil und den Nachkommastellen eines Wertes. Beispiel:
+<span class="code">height.f = 186.6</span></div>
+
+<p>Die nächste Zeile zeigt, wie der Wert einer Variablen durch eine andere Variable festgelegt
+wird - es ist genau wie bisher, mit der Ausnahme, dass Sie einen Variablennamen auf der rechten
+Seite anstelle eines Wertes benutzen. PureBasic wandelt automatisch zwischen verschiedenen
+numerischen Typen um (<var>copy_height</var> ist ein Long und <var>height</var> ist ein Float). 
+
+<p><img class="output" src="equals_op_run.png" alt="Beispielausgabe für Gleichheit" width="179" height="182">
+Die nächsten fünf Zeilen (beginnend mit <code>PrintN</code>) zeigen Ihnen
+die Werte der einzelnen Variablen sowie ein Beispiel der Befehle, die Sie
+zum Anzeigen von Werten benutzen können. Offensichtlich sollen diese Werte
+die Gleichen wie die sein, die wir im Code eingegeben haben. Die Ausgabe vom
+Programm wird im Bildschirmfoto auf der rechten Seite gezeigt und die Zeilen des
+Codes werden unten erklärt. 
+
+<p>Zuallererst erinnern Sie sich daran, dass der Befehl <code>PrintN()</code> einen String
+als Parameter erhält und ihn auf der Konsole ausgibt. Die erste Ausgabezeile zeigt die Variable
+<var>name$</var> an. Da dies ein Stringtyp ist, können wir den Variablennamen direkt als
+Parameter übergeben und erhalten den Inhalt angezeigt. Wie Sie sehen können, wird "John" auf
+der Konsole ausgegeben, so wie dies zu erwarten war.
+
+<p>Die nächste Zeile - <span class="code">PrintN(StrF(height))</span> - stellt
+die <var>height</var> Variable dar. Da numerische Variablen (in diesem Fall eine
+Fließkommazahl) keine Strings sind, müssen wir diese vor dem Anzeigen erst in
+einen String konvertieren. Der Befehl zum Konvertieren von Fließkommazahlen in
+Strings lautet <dfn>StrF</dfn>, welcher einen Parameter annimmt - die zu
+konvertierende Fließkommazahl. Dies ist der Grund, warum <var>height</var> (der
+Name der Fließkomma-Variable) in Klammern angegeben wird. Der StrF() Befehl
+gibt einen String zurück. Sie werden feststellen, dass jeder Befehl (PrintN und
+StrF) sein eigenes Set an Klammern besitzt, und sich der StrF Befehl innerhalb
+der Klammern von PrintN befindet. Dies bedeutet, dass der Parameter des PrintN
+Befehls das Ergebnis des StrF() Befehls ist, welches - wie oben beschrieben -
+ein String ist.
+
+<p><div class="important">Wie Sie sehen können, lautet der dargestellte Wert
+&quot;186.60006&quot;, was nicht ganz korrekt scheint - da wir den Wert von
+<var>height</var> auf 186.6 festgelegt haben. <em>Der Grund dafür liegt in
+einer Einschränkung des Fließkomma-Formats und betrifft alle Computer und
+Programmiersprachen, die dieses Zahlenformat verwenden (nicht nur PureBasic).</em>
+Computer, die mit 1'en und 0'en funktionieren, können nicht immer Werte speichern,
+die Dezimalbrüche mit exakter Genauigkeit haben. Jedoch gibt es auch gute Nachrichten.
+Um dieses Problem zu umgehen, können Sie die Anzahl an Ziffern verkürzen, die angezeigt
+werden - dies wird in einem späteren Kapitel demonstriert. Die andere gute Nachricht ist,
+dass PureBasic zukünftig einen Typ "Doubles" für höhere Genauigkeit (die etwa zweimal
+so genau ist) hinzugefügt bekommt.</div>
+
+<p>Die nächste Zeile lautet <span class="code">PrintN(Str(copy_height))</span>.
+Diese stellt den Wert der <var>copy_height</var> Variable dar. Dies ist eine
+weitere numerische Variable, weshalb wir sie vor dem Anzeigen konvertieren müssen.
+Dieses Mal ist der Variablentyp ein Typ, welcher ganze Zahlen speichert. Um
+diese zu konvertieren, müssen wir den <dfn>Str</dfn> Befehl benutzen, welcher
+genau wie StrF arbeitet, außer dass in diesem Fall der Parameter ein Long ist.
+Der in der Konsole angezeigte Wert lautet &quot;187&quot;, welcher - wie Sie
+vielleicht denken mögen - auch seltsam aussieht. Erinnern Sie sich jedoch daran,
+dass PureBasic automatisch zwischen Typen umwandelt, wenn Sie numerischen Variablen
+Werte zuweisen. Beim Konvertieren von Fließkommazahlen (Floats) in einen Typ zum
+Speichern von ganzen Zahlen wird automatisch auf die nächste (Ganz-)Zahl gerundet.
+
+<p>Die Zeile <span class="code">PrintN(Str(height))</span> zeigt, was passiert,
+wenn Sie den falschen Umwandlungsbefehl für eine Variable eines bestimmten Typs
+verwenden (in diesem Fall wird eine Fließkommazahl mit Hilfe des Befehls für ganze Zahlen
+umgewandelt). Was in diesem Fall geschieht, ist, dass PureBasic versucht, die Fließkommazahl
+in den als Parameter benötigten Typ umzuwandeln. Wie oben erwähnt, ist der Parameter zum
+Befehl Str ein Long-Typ, so dass es zum gleichen Effekt wie bei der vorherigen Zeile des Codes 
+kommt.
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="introduction.html">Einführung</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="addition.html">Addition</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

@@ -1,0 +1,317 @@
+;
+;     StatusBar library documentation
+;
+;      (c) 2017 - Fantaisie Software
+;
+
+@Library StatusBar
+
+@Overview
+  Eine Status-Leiste (statusbar) ist die untere Leiste eines Fensters, worauf einige
+  Informationen angezeigt werden. Diese Leiste ist immer sichtbar und kann in mehrere
+  Abschnitte aufgeteilt werden.
+
+@CommandList
+
+@ExampleFile All StatusBar.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddStatusBarField(Breite)
+
+@Description
+  Fügt ein Feld zur aktuellen Statusleiste hinzu, die zuvor mittels @@CreateStatusBar
+  erstellt wurde. Jedes neue Feld wird nach dem alten Feld erstellt.
+
+@Parameter "Breite"
+  Die Breite des neuen Felds in Pixel. Wenn diese auf @#PB_Ignore gesetzt
+  wird, dann wird die Größe des Feldes automatisch angepasst, um den verbleibenden freien Platz auf der
+  Statusleiste zu füllen. Mehrere Felder können eine Breite von @#PB_Ignore haben, in diesem
+  Fall wird der freie Platz gleichmäßig zwischen diesen Feldern aufgeteilt.
+
+@NoReturnValue
+
+@Remarks
+  Die folgenden Befehle können verwendet werden, um den Inhalt eines Statusleisten-Felds festzulegen
+  oder zu ändern:
+@LineBreak
+  - @@StatusBarText
+@LineBreak
+  - @@StatusBarImage
+@LineBreak
+  - @@StatusBarProgress
+  
+@LineBreak
+@LineBreak
+  Siehe @@CreateStatusBar für ein Beispiel.
+
+@SeeAlso
+  @@StatusBarText, @@StatusBarImage, @@StatusBarProgress, @@CreateStatusBar
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateStatusBar(#Statusleiste, WindowID)
+
+@Description
+  Erstellt und fügt eine leere #Statusleiste zur angegebenen WindowID hinzu.
+@LineBreak
+@LineBreak
+  Sobald die Statusleiste erstellt wurde, kann @@AddStatusBarField zum
+  Definieren der verschiedenen Abschnitte der Leiste benutzt werden.
+
+@Parameter "#Statusleiste"
+  Eine Nummer zum Identifizieren der neuen Statusleiste.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
+  automatisch zu generieren.
+  
+@Parameter "WindowID"
+  Das Fenster, auf dem die Statusleiste erstellt werden soll. @@WindowID kann verwendet
+  werden, um diesen Wert zu ermitteln.
+  
+@ReturnValue
+  Ein Wert ungleich Null, wenn die Statusleiste erfolgreich erstellt wurde,
+  andernfalls Null.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 440, 50, "StatusBar", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    If CreateStatusBar(0, WindowID(0))
+      AddStatusBarField(90)
+      AddStatusBarField(100)
+      AddStatusBarField(#PB_Ignore) ; Größe dieses Feldes automatisch anpassen
+      AddStatusBarField(100)
+    EndIf
+
+    StatusBarText(0, 0, "Area normal")
+    StatusBarText(0, 1, "Area randlos", #PB_StatusBar_BorderLess)
+    StatusBarText(0, 2, "Area rechts", #PB_StatusBar_Right) 
+    StatusBarText(0, 3, "Area zentriert", #PB_StatusBar_Center)
+    
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+@Image createstatusbar.png
+
+@SeeAlso
+  @@FreeStatusBar
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeStatusBar(#Statusleiste) 
+
+@Description
+  Gibt die angegebene Statusleiste frei.
+
+@Parameter "#Statusleiste"
+  Die freizugebende Statusleiste. Wenn @#PB_All angegeben wird, dann werden alle
+  verbliebenen Statusleisten freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Alle verbleibenden Statusleisten werden automatisch freigegeben, wenn das Programm endet.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsStatusBar(#Statusleiste)
+
+@Description
+  Überprüft, ob die angegebene Statusleisten-Nummer gültig und eine korrekt initialisierte
+  Statusleiste ist.
+
+@Parameter "#Statusleiste"
+  Die zu verwendende Statusleiste.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn die Statusleiste gültig ist, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. Dies ist der
+  richtige Weg, um sicher zu stellen, dass eine Statusleiste bereit zur Verwendung ist.
+
+@SeeAlso
+  @@CreateStatusBar
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StatusBarImage(#Statusleiste, Feld, ImageID [, Aussehen])
+
+@Description
+  Definiert das angegebene Feld zur Anzeige eines Bildes.
+
+@Parameter "#Statusleiste"
+  Die zu verwendende Statusleiste.
+  
+@Parameter "Feld"
+  Der Feld-Index, wo das Bild definiert werden soll. Der erste Feld-Index beginnt bei Null.
+  
+@Parameter "ImageID"
+  Das für das angegebene Statusleisten-Feld festzulegende Bild. Dieses kann einfach
+  mittels @ImageID ermittelt werden.
+
+@OptionalParameter "Aussehen"
+  Dies kann verwendet werden, um das Aussehen des Feldes mit folgenden Werten zu
+  beeinflussen:
+@FixedFont
+  @#PB_StatusBar_Raised    : "erhabene" Ränder (hat keinen Effekt auf OS X und Windows mit aktiviertem Theme)
+  @#PB_StatusBar_BorderLess: ohne Ränder
+  @#PB_StatusBar_Center    : Icon im Feld zentrieren
+  @#PB_StatusBar_Right     : Icon im Feld nach rechts ausrichten
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 340, 50, "StatusBarImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    If CreateStatusBar(0, WindowID(0))
+      AddStatusBarField(120)
+      AddStatusBarField(170)
+    EndIf
+
+    If LoadImage(0, "cube16.ico")     ; ändern Sie Pfad/Dateiname auf Ihr eigenes Bild (oder Icon)
+      StatusBarImage(0, 0, ImageID(0))
+      StatusBarImage(0, 1, ImageID(0), #PB_StatusBar_Right) 
+    EndIf  
+    
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf 
+@EndCode
+
+; Note: this image needs to be updated to reflect the new behavior (no more text with the image)
+; @Image statusbaricon.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StatusBarID = StatusBarID(#Statusleiste)
+
+@Description
+  Gibt den eindeutigen System-Bezeichner ("Identifier" oder kurz "ID") der Statusleiste zurück.
+
+@Parameter "#Statusleiste"
+  Die zu verwendende Statusleiste.
+
+@ReturnValue
+  Der Systembezeichner. 
+  Diese Ergebnis ist manchmal auch als 'Handle' bekannt. Schauen Sie in das Extra-Kapitel
+  @ReferenceLink "handles" "Handles und ID's" für weitere Informationen.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StatusBarText(#Statusleiste, Feld, Text$ [, Aussehen])
+
+@Description
+  Legt den Text für das angegebene Statusleisten-Feld fest.
+
+@Parameter "#Statusleiste"
+  Die zu verwendende Statusleiste.
+  
+@Parameter "Feld"
+  Der Feld-Index, wo der Text definiert werden soll. Der erste Feld-Index beginnt bei Null.
+
+@Parameter "Text$"
+  Der Text, welcher für das angegebene Statusleisten-Feld gesetzt werden soll.
+
+@OptionalParameter "Aussehen"
+  Dies kann verwendet werden, um das Aussehen des Feldes mit folgenden Werten zu
+  beeinflussen:
+@FixedFont
+  @#PB_StatusBar_Raised    : "erhabene" Ränder (hat keinen Effekt auf OS X und Windows mit aktiviertem Theme)
+  @#PB_StatusBar_BorderLess: ohne Ränder
+  @#PB_StatusBar_Center    : zentriert den Text im Feld
+  @#PB_StatusBar_Right     : richtet den Text am rechten Rand des Feldes aus
+@EndFixedFont
+  Die Optionen können mit Hilfe des '|' (OR) Operators kombiniert werden:
+@FixedFont
+  #PB_StatusBar_BorderLess | #PB_StatusBar_Right : randloses Feld mit rechtsausgerichtetem Text
+@EndFixedFont
+  Für ein lauffähiges Beispiel siehe @@CreateStatusBar.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StatusBarProgress(#Statusleiste, Feld, Wert [, Aussehen [, Min, Max]])
+
+@Description
+  Stellt einen Fortschrittsbalken im angegebenen Feld der angegebenen Statusleiste dar.
+  
+@Parameter "#Statusleiste"
+  Die zu verwendende Statusleiste.
+  
+@Parameter "Feld"
+  Der Feld-Index, wo der Fortschrittsbalken definiert werden soll. Der erste Feld-Index beginnt bei Null.
+
+@Parameter "Wert"
+  Dies definiert den aktuellen Fortschritt (relativ zum aktuellen Minimum und Maximum).
+  Um diesen Wert zu aktualisieren, rufen Sie einfach diesen Befehl mit einem anderen Wert erneut auf.
+
+@OptionalParameter "Aussehen"
+  Dies kann verwendet werden, um das Aussehen des Feldes mit folgenden Werten zu
+  beeinflussen:
+@FixedFont
+  @#PB_StatusBar_Raised    : "erhabene" Ränder (hat keinen Effekt auf OS X und Windows mit aktiviertem Theme)
+  @#PB_StatusBar_BorderLess: ohne Ränder 
+@EndFixedFont
+
+@OptionalParameter "Min, Max"
+  Definieren die Grenzen des Fortschrittsbalkens. Wenn sie nicht
+  angegeben werden oder den Wert @#PB_Ignore haben, dann werden die aktuellen Grenzen
+  verwendet. Die Standardwerte von 'Min' und 'Max' für ein neu
+  erstelltes Statusleisten-Feld sind 0 und 100.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 340, 50, "StatusBarProgress", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    If CreateStatusBar(0, WindowID(0))
+      AddStatusBarField(120)
+      AddStatusBarField(170)
+    EndIf
+
+    StatusBarText(0, 0, "ProgressBar !")
+    StatusBarProgress(0, 1, 25)
+    
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = StatusBarHeight(#Statusleiste) 
+
+@Description
+  Gibt die Höhe (in Pixel) der '#Statusleiste' zurück. Dies ist nützlich für die korrekte
+  Berechnung der Fensterhöhe, wenn eine Statusleiste verwendet wird.
+
+@Parameter "#Statusleiste"
+  Die zu verwendende Statusleiste.
+
+@ReturnValue
+  Die Höhe (in Pixel) der Statusleiste.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

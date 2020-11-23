@@ -1,0 +1,263 @@
+;
+; Runtime library documentation
+;
+; Fantaisie Software
+;
+
+@Library Runtime
+
+@Overview
+
+  Les objets dits "Runtime" (en cours 
+  d'exécution du programme) sont les 
+  objets d'un programme qui restent 
+  accessibles même lorsque le programme 
+  est compilé. L'accès à ces objets se 
+  fait par l'intermédiaire de leur 
+  référence qui est une chaîne de caractères 
+  créée à cet effet pendant la compilation. 
+  @LineBreak
+  Pour plus d'informations sur le concept 
+  "Runtime", voir 
+  @ReferenceLink "Runtime" "Runtime".
+  
+@CommandList
+
+@ExampleFile All Runtime.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetRuntimeInteger(Objet$)
+
+@Description
+  Renvoie la valeur au format 'entier' ('integer') 
+  de l'objet runtime ou l'adresse de la procedure 
+  si l'objet runtime est une procedure. 
+
+@Parameter "Objet$"
+  Nom de l'objet. 
+@LineBreak   
+@LineBreak 
+  Les objets suivants sont supportés: @LineBreak  
+@FixedFont 
+  - Variable : Le nom d'une 'Variable' (insensible à la casse). 
+  - Constante: Le nom d'une '#Constante' (insensible à la casse).
+  - Procedure: Le nom d'une 'Procedure()' (insensible à la casse).
+@EndFixedFont
+  Lors d'un accès aux éléments publics d'un 
+  @ReferenceLink "module" "module", 
+  le nom du préfixe du module est obligatoire, 
+  même si @Keyword UseModule est utilisé.
+
+@ReturnValue
+  Renvoie la valeur 'entière' de l'objet, zéro si 
+  l'objet est introuvable. @LineBreak
+  Comme zéro est une valeur entière valide, 
+  @@IsRuntime peut être utilisé pour déterminer 
+  si l'objet runtime existe vraiment. Si la 
+  variable est de type 'float' ou 'double', elle 
+  est automatiquement convertie en entier 'integer'.
+@LineBreak
+@LineBreak 
+  Si l'objet runtime est une procédure, la 
+  fonction renvoie l'adresse de la procédure.
+
+@SeeAlso
+  @@SetRuntimeInteger, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.d = GetRuntimeDouble(Objet$)
+
+@Description
+  Renvoie la valeur au format 'double' de 
+  l'objet runtime.
+
+@Parameter "Objet$"
+  Nom de l'objet. 
+@LineBreak   
+@LineBreak 
+  Les objets suivants sont supportés: @LineBreak  
+@FixedFont 
+  - Variable : Le nom d'une 'Variable' (insensible à la casse). 
+  - Constante: Le nom d'une '#Constante' (insensible à la casse).
+  - Procedure: Le nom d'une 'Procedure()' (insensible à la casse).
+@EndFixedFont
+  Lors d'un accès aux éléments publics d'un 
+  @ReferenceLink "module" "module", 
+  le nom du préfixe du module est obligatoire, 
+  même si @Keyword UseModule est utilisé.
+
+@ReturnValue
+  Renvoie la valeur au format 'double' de l'objet 
+  ou zéro si l'objet est introuvable. @LineBreak
+  Comme zéro est une valeur entière valide, 
+  @@IsRuntime peut être utilisé pour déterminer 
+  si l'objet runtime existe vraiment. Si la 
+  variable est de type 'float' ou 'integer', elle 
+  est automatiquement convertie en entier 
+  'double'.
+
+@SeeAlso
+  @@SetRuntimeDouble, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetRuntimeString(Objet$)
+
+@Description
+  Renvoie la valeur au format 'chaîne de caractères' 
+  ('string') de l'objet runtime.
+
+@Parameter "Objet$"
+  Nom de l'objet. 
+@LineBreak   
+@LineBreak 
+  Les objets suivants sont supportés: @LineBreak  
+@FixedFont 
+  - Variable : Le nom d'une 'Variable' (insensible à la casse). 
+  - Constante: Le nom d'une '#Constante' (insensible à la casse).
+  - Procedure: Le nom d'une 'Procedure()' (insensible à la casse).
+@EndFixedFont
+  Lors d'un accès aux éléments publics d'un 
+  @ReferenceLink "module" "module", 
+  le nom du préfixe du module est obligatoire, 
+  même si @Keyword UseModule est utilisé.
+
+@ReturnValue
+  Renvoie la valeur au format 'chaîne de caractères' 
+  de l'objet ou une chaîne vide si 
+  l'objet est introuvable. @LineBreak
+  Comme une chaîne vide est une valeur de chaîne 
+  valide, @@IsRuntime peut être utilisé 
+  pour déterminer si l'objet runtime existe 
+  vraiment. 
+
+@SeeAlso
+  @@SetRuntimeString, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsRuntime(Objet$)
+
+@Description
+  Vérifie si l'objet spécifié est bien un objet 
+  @ReferenceLink "Runtime" "runtime".
+
+@Parameter "Objet$"
+  Nom de l'objet.
+@LineBreak   
+@LineBreak 
+  Les objets suivants sont supportés: @LineBreak  
+@FixedFont 
+  - Variable : Le nom d'une 'Variable' (insensible à la casse). 
+  - Constante: Le nom d'une '#Constante' (insensible à la casse).
+  - Procedure: Le nom d'une 'Procedure()' (insensible à la casse).
+@EndFixedFont
+  Lors d'un accès aux éléments publics d'un 
+  @ReferenceLink "module" "module", 
+  le nom du préfixe du module est obligatoire, 
+  même si @Keyword UseModule est utilisé.
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'objet spécifié 
+  est un objet @ReferenceLink "Runtime" "runtime", 
+  zéro sinon.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetRuntimeDouble(Objet$, Valeur.d)
+
+@Description
+  Modifie la valeur au format 'double' de l'objet 
+  runtime.
+
+@Parameter "Objet$"
+  Nom de l'objet. 
+  Les objets suivants sont supportés: @LineBreak  
+@FixedFont 
+  - Variable : Le nom d'une 'Variable' (insensible à la casse).
+ @EndFixedFont
+  Lors d'un accès aux éléments publics d'un 
+  @ReferenceLink "module" "module", 
+  le nom du préfixe du module est obligatoire, 
+  même si @Keyword UseModule est utilisé.
+
+@Parameter "Valeur"
+  La nouvelle valeur au format 'double'.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@GetRuntimeDouble, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetRuntimeInteger(Objet$, Valeur.i)
+
+@Description
+  Modifie la valeur au format 'entier' ('integer') 
+  de l'objet runtime.
+
+@Parameter "Objet$"
+  Nom de l'objet. 
+  Les objets suivants sont supportés: @LineBreak  
+@FixedFont 
+  - Variable : Le nom d'une 'Variable' (insensible à la casse).
+ @EndFixedFont
+  Lors d'un accès aux éléments publics d'un 
+  @ReferenceLink "module" "module", 
+  le nom du préfixe du module est obligatoire, 
+  même si @Keyword UseModule est utilisé.
+
+@Parameter "Valeur"
+  La nouvelle valeur au format 'integer'.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@GetRuntimeInteger, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetRuntimeString(Objet$, Valeur$)
+
+@Description
+  Modifie la valeur au format 'chaîne de caractères' 
+  ('string') de l'objet runtime.
+
+@Parameter "Objet$"
+  Nom de l'objet.
+  Les objets suivants sont supportés: @LineBreak  
+@FixedFont 
+  - Variable : Le nom d'une 'Variable' (insensible à la casse).
+ @EndFixedFont
+  Lors d'un accès aux éléments publics d'un 
+  @ReferenceLink "module" "module", 
+  le nom du préfixe du module est obligatoire, 
+  même si @Keyword UseModule est utilisé.
+
+@Parameter "Valeur$"
+  La nouvelle valeur au format 'chaîne de 
+  caractères'. 
+
+@NoReturnValue
+  
+@SeeAlso
+  @@GetRuntimeInteger, @@IsRuntime
+
+@SupportedOS

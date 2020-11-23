@@ -1,0 +1,315 @@
+;
+;     Text3D library documentation
+;
+;      (c) 2020 - Fantaisie Software
+;
+
+@Library Text3D
+
+@Overview
+  Die Text3D Bibliothek soll das Anzeigen von Text in der 3D-Welt vereinfachen. Es können
+  beliebige Zeichensätze verwendet werden, und der Text kann entsprechend des zu verfolgenden
+  Objekts bewegt und skaliert werden.
+@LineBreak
+@LineBreak
+  @@InitEngine3D muss erfolgreich aufgerufen worden sein, bevor diese Funktionen genutzt
+  werden können.
+
+@CommandList
+
+@ExampleFile All Text3D.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateText3D(#Text3D, Beschriftung$ [, Font$, Höhe, Farbe])
+
+@Description
+  Erstellt einen neuen 3D-Text. Um angezeigt zu werden, muss der Text mit einem
+  @LibraryLink "node" "Node" oder einem @LibraryLink "entity" "Entity" verknüpft werden.
+
+@Parameter "#Text3D"
+  Die Nummer zum Identifizieren des neuen 3D-Textes. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+  
+@Parameter "Beschriftung$"
+  Die anzuzeigende Text-Beschriftung (englisch "Caption"). Sie kann mittels @@Text3DCaption
+  geändert werden.
+  
+@OptionalParameter "Font$"
+  Der zu verwendende Zeichensatz-Name. Der Zeichensatz muss im Add3DArchive() Pfad vorhanden sein,
+  und muss wie in der 'proper-definitions.fontdef' Datei definiert werden.
+    
+@OptionalParameter "Höhe"
+  Die zu verwendende Zeichensatz-Höhe.
+
+@OptionalParameter "Farbe"
+  Die zu verwendende RGBA-Farbe. Um eine gültige Farbe zu erhalten, verwenden Sie @@RGBA.
+  Die Farbe kann mittels @@Text3DColor geändert werden.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Text erfolgreich erstellt wurde, und
+  Null bei einem Fehler. Wenn @#PB_Any als #Text3D Parameter verwendet wurde,
+  dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@SeeAlso
+  @@FreeText3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeText3D(#Text3D)
+
+@Description
+  Gibt den angegebenen Text frei.
+
+@Parameter "#Text3D"
+  Der freizugebende Text. Wenn @#PB_All angegeben wird, werden alle verbliebenen Texte
+  freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Sobald der Text freigegeben wurde, kann dieser nicht mehr verwendet werden.
+@LineBreak
+@LineBreak
+  Alle verbleibenden Texte werden automatisch freigegeben, wenn das Programm endet.
+
+@SeeAlso
+  @@CreateText3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text3DID = Text3DID(#Text3D)
+
+@Description
+  Gibt den eindeutigen System-Bezeichner des Textes zurück.
+
+@Parameter "#Text3D"
+  Der zu verwendende Text.
+
+@ReturnValue
+  Gibt den eindeutigen System-Bezeichner des Textes zurück.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsText3D(#Text3D)
+
+@Description
+  Überprüft, ob die angegebene Text-Nummer ein gültiger und korrekt initialisierter Text ist.
+
+@Parameter "#Text3D"
+  Der zu überprüfende Text.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn #Text3D ein gültiger Text ist, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden.
+  Dies ist der richtige Weg, um sicher zu stellen, dass ein 3D-Text bereit zur Verwendung ist.
+
+@SeeAlso
+  @@CreateText3D
+
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveText3D(#Text3D, x, y, z [, Modus])
+
+@Description
+  Bewegt den angegebenen Text.
+
+@Parameter "#Text3D"
+  Der zu verwendende Text.
+
+@Parameter "x"
+  Die neue 'x'-Position des Textes.
+
+@Parameter "y"  
+  Die neue 'y'-Position des Textes.
+
+@Parameter "z"  
+  Die neue 'z'-Position des Textes.
+
+@OptionalParameter "Modus"
+  Der Bewegungs-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Bewegung, ausgehend von der aktuellen Text-Position (Standard).
+  @#PB_Absolute: absolute Bewegung an die angegebene Position.
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_Local : lokale Bewegung.
+  @#PB_Parent: Bewegung relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Bewegung relativ zur Welt.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@ScaleText3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleText3D(#Text3D, x, y, z [, Modus])
+
+@Description
+  Skaliert den Text entsprechend der angegebenen x,y,z Werte. Bei Verwendung des @#PB_Relative
+  Modus ist dies faktor-basierte Skalierung (Größenveränderung), was bedeutet, dass die
+  Text-Größe mit dem angegebenen Wert multipliziert wird, um die neue Größe zu erhalten.
+
+@Parameter "#Text3D"
+  Der zu verwendende Text.
+ 
+@Parameter "x"
+  Der 'x'-Skalierungswert.
+
+@Parameter "y"
+  Der 'y'-Skalierungswert.
+
+@Parameter "z"
+  Der 'z'-Skalierungswert.
+
+@OptionalParameter "Modus"
+  Der Skalierungs-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Skalierung, basierend auf der vorherigen Größe (Standard). Die Verwendung von 1.0 als Skalierungswert lässt diesen Wert unverändert.
+  @#PB_Absolute: absolute Skalierung, in Welt-Einheiten.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@MoveText3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text3DCaption(#Text3D, Beschriftung$)
+
+@Description
+  Ändert den angezeigten Text.
+
+@Parameter "#Text3D"
+  Der zu verwendende Text.
+ 
+@Parameter "Beschriftung$"
+  Die neu anzuzeigende Text-Beschriftung (englisch "Caption").
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateText3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text3DColor(#Text3D, Farbe)
+
+@Description
+  Ändert die angezeigte Text-Farbe.
+
+@Parameter "#Text3D"
+  Der zu verwendende Text.
+ 
+@Parameter "Farbe"
+  Die neu anzuzeigende Text-Farbe. Um eine gültige Farbe zu erhalten, verwenden Sie @@RGBA.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateText3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text3DAlignment(#Text3D, Ausrichtung)
+
+@Description
+  Ändert die Ausrichtung des angezeigten Textes.
+
+@Parameter "#Text3D"
+  Der zu verwendende Text.
+ 
+@Parameter "Ausrichtung"
+  Die neue Text-Ausrichtung. Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Text3D_Left  : wird der Text nach links ausgerichtet werden
+  @#PB_Text3D_Top   : wird der Text nach oben ausgerichtet werden
+  @#PB_Text3D_Bottom: wird der Text nach unten ausgerichtet werden
+  @#PB_Text3D_HorizontallyCentered: der Text wird horizontal zentriert werden
+  @#PB_Text3D_VerticallyCentered  : der Text wird vertikal zentriert werden
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateText3D
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = Text3DX(#Text3D)
+
+@Description
+  Gibt die absolute 'x' Position des Textes in der Welt zurück.
+
+@Parameter "#Text3D"
+  Der zu verwendende Text.
+
+@ReturnValue
+  Gibt die absolute 'x' Position des Textes zurück.
+
+@SeeAlso
+  @@Text3DY, @@Text3DZ, @@MoveText3D
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = Text3DY(#Text3D)
+
+@Description
+  Gibt die absolute 'y' Position des Textes in der Welt zurück.
+
+@Parameter "#Text3D"
+  Der zu verwendende Text.
+
+@ReturnValue
+  Gibt die absolute 'y' Position des Textes zurück.
+
+@SeeAlso
+  @@Text3DX, @@Text3DZ, @@MoveText3D
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = Text3DZ(#Text3D)
+
+@Description
+  Gibt die absolute 'z' Position des Textes in der Welt zurück.
+
+@Parameter "#Text3D"
+  Der zu verwendende Text.
+
+@ReturnValue
+  Gibt die absolute 'z' Position des Textes zurück.
+
+@SeeAlso
+  @@Text3DX, @@Text3DY, @@MoveText3D
+    
+@SupportedOS

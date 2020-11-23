@@ -1,0 +1,162 @@
+;
+;     StaticGeometry library documentation
+;
+;      (c) 2017 - Fantaisie Software
+;
+
+@Library StaticGeometry
+
+@Overview
+  A static geometry is a predefined and pre-rendered geometry form, which can be very complex and
+  still have a very fast rendering. But once created, the geometry can't be moved anymore.
+@LineBreak
+@LineBreak
+  @@InitEngine3D should be called successfully before using the static geometry functions.
+
+@CommandList
+
+; @ExampleFile All StaticGeometry.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeStaticGeometry(#StaticGeometry)
+
+@Description
+  Free the given StaticGeometry, previously initialized by @@CreateStaticGeometry.
+
+@Parameter "#StaticGeometry"
+  The static geometry to free. If @#PB_All is specified, all the remaining static geometries are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining static geometries are automatically freed when the program ends.
+
+@SeeAlso
+  @@CreateStaticGeometry
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsStaticGeometry(#StaticGeometry)
+
+@Description
+  Tests if the given #StaticGeometry is a valid and correctly initialized static geometry.
+
+@Parameter "#StaticGeometry"
+  The static geometry to use.
+
+@ReturnValue
+  Returns nonzero if #StaticGeometry is a valid static geometry and zero otherwise.
+
+@Remarks
+  This function is bulletproof and can be used with any value. 
+  If Result is not zero then the object is valid and initialized, 
+  otherwise it returns zero. This is a good way to check that a static geometry is ready to use. 
+
+@SeeAlso
+  @@CreateStaticGeometry
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateStaticGeometry(#StaticGeometry, Width, Height, Length, EnableShadows)
+
+@Description
+  Create an empty static geometry.
+
+@Parameter "#StaticGeometry"
+  A number to identify the new static geometry will be identified. @ReferenceLink "purebasic_objects" "#PB_Any"
+  can be used to auto-generate this number.
+
+@Parameter "Width"
+  Width (in world unit) of the static geometry.
+
+@Parameter "Height"
+  Height (in world unit) of the static geometry.
+
+@Parameter "Length"
+  Length (in world unit) of the static geometry.
+
+@Parameter "EnableShadows"
+  Enables or disables dynamic shadows casting on the static geometry. Set to @#True to enable it, @#False otherwise.
+  
+@ReturnValue
+  Returns nonzero if the static geometry has been successfully created and zero if not. If @#PB_Any
+  was used for the #StaticGeometry parameter then the generated number is returned on success.
+
+@Remarks
+  If previously another static geometry was loaded with the same #StaticGeometry number, then this
+  older static geometry will be automatically freed when creating the new one.
+
+@SeeAlso
+  @@FreeStaticGeometry
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddStaticGeometryEntity(#StaticGeometry, EntityID, x, y, z [, ScaleX, ScaleY, ScaleZ [, RotationX, RotationY, RotationZ [, RotationW, Mode]]])
+
+@Description
+  Add an entity to the specified #StaticGeometry. The original entity is left untouched by this function and
+  can be freed after the add. The same entity can be added multiple time.
+
+@Parameter "#StaticGeometry"
+  StaticGeometry to use.
+
+@Parameter "EntityID"
+  The @Link "Entity/EntityID" "EntityID" of the entity to add to the static geometry.
+
+@Parameter "x, y, z"
+  The position of the entity in the static geometry.
+
+@OptionalParameter "ScaleX, ScaleY, ScaleZ"
+  The scale factor to apply to the added entity.
+  
+@OptionalParameter "RotationX, RotationY, RotationZ"
+  The rotation to apply to the added entity.
+
+@OptionalParameter "RotationW"
+  The rotation to apply to the added entity (only used for @#PB_Orientation_Quaternion and @#PB_Orientation_Direction).
+
+@OptionalParameter "Mode"
+  The rotation mode. It can be one of the following value:
+@FixedFont
+  - @#PB_Orientation_PitchYawRoll: 'RotationX' (pitch), 'RotationY' (yaw), 'RotationZ' (roll), applied in this order (default).
+  - @#PB_Orientation_Quaternion  : 'RotationX', 'RotationY', 'RotationZ', 'RotationW' for quaternion values
+  - @#PB_Orientation_Direction   : 'RotationX', 'RotationY', 'RotationZ' for direction vector, and 'RotationW' for rotation (roll).
+@EndFixedFont
+ 
+@NoReturnValue
+
+@Remarks
+  Once all the entities have been added, the command @@BuildStaticGeometry has to be called to generate
+  the static geometry.
+
+@SeeAlso
+  @@CreateStaticGeometry, @@BuildStaticGeometry
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BuildStaticGeometry(#StaticGeometry)
+
+@Description
+  Build the final static geometry. Once created, a static geometry can't be modified anymore.
+
+@Parameter "#StaticGeometry"
+  StaticGeometry to use.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateStaticGeometry, @@AddStaticGeometryEntity
+
+@SupportedOS

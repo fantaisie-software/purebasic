@@ -1,0 +1,481 @@
+;
+; System library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library System
+
+@Overview
+
+  La bibliothèque système offre l'accès à 
+  certaines informations spécifiques au 
+  système, comme le nombre de processeurs, 
+  la quantité de mémoire disponible, etc.
+
+@CommandList
+
+@ExampleFile All System.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CocoaMessage(AddresseValeurDeRetour, Objet, Methode$ [, ValeurParametre [, Parametre$, [, ValeurParametre, ...]]])
+
+@Description
+  Pour les utilisateurs avancés. Disponible sur 
+  Mac OS X uniquement, elle permet d'envoyer 
+  facilement un message Objective-C au framework 
+  OS X et d'accéder à toute l'API. Habituellement 
+  Objective-C utilise des parenthèses pour avoir 
+  une syntaxe claire pour les messages. 
+  Comme PureBasic ne supporte pas Objective-C en 
+  natif, il doit l'émuler, alors la syntaxe est 
+  un peu différente. Une fois apprise, il est 
+  facile d'appeler une API.
+  Pour plus d'exemples, n'hésitez pas à lire le 
+  thread suivant sur le 
+  @InternetLink "http://www.purebasic.fr/english/viewtopic.php?f=19&t=50795" "forum".
+  
+@Parameter "AddresseValeurDeRetour"
+  Si l'appel de l'API renvoie une structure ou 
+  un type différent d'entier 'integer', ce champ 
+  est utilisé pour définir le résultat du retour. 
+  Une adresse vers la structure ou la variable 
+  doit être spécifiée. 
+  Si zéro est spécifié, le résultat sera ignoré.
+
+@Parameter "Objet"
+  L'objet sur lequel les méthodes Objective-C 
+  seront appelées. Il peut être égal à zéro si 
+  la méthode est une méthode statique (c'est le 
+  cas la plupart du temps lors de la création 
+  d'un objet).
+
+@Parameter "Methode$"
+  La méthode de l'objet à appeler, suivi d'un 
+  ';' comme d'habitude. 
+  Si la méthode a besoin d'une structure comme 
+  paramètre, '@' doit être ajouté après le 
+  point-virgule. Si la méthode s'attend à 
+  une chaîne comme paramètre, '$' peut être 
+  ajouté après le point-virgule, de sorte que 
+  la chaîne sera automatiquement convertie dans 
+  une NSString temporaire. Ce n'est pas requis, 
+  mais il peut être utile et ça facilite le 
+  codage. Si la méthode n'est pas prise en 
+  charge par l'objet, un message du débogueur 
+  sera levé lors de l'exécution.
+  
+@OptionalParameter "ValeurParametre"
+  La valeur du paramètre associé à la méthode 
+  précédente.
+
+@OptionalParameter "Parameter$"
+  Le paramètre de la méthode suivante. 
+  PureBasic supporte jusqu'à 7 
+  paramètres par méthode.
+
+@ReturnValue
+  Valeur de retour de type 'Integer'. Utile 
+  pour la création d'identifiant d'objets.
+
+@Remarks
+  PureBasic a déjà configuré un pool de mémoire 
+  temporaire qui est vidé à chaque fois que 
+  @@WindowEvent ou @@WaitWindowEvent est appelé. 
+  Si vous avez besoin de libérer immédiatement 
+  les gros objets, vous devrez créer un pool de 
+  mémoire locale pour chacun de vos appels.
+
+@Example avec une chaîne
+@Code
+  ; Objective-C: 
+  ;   ColorList = [NSColorList colorListNamed:@"Crayons"];
+  ;
+  ColorList = CocoaMessage(0, 0, "NSColorList colorListNamed:$", @"Crayons") ; Créera un NSString pour "Crayons"
+@EndCode
+
+@Example avec un type complexe
+@Code
+  ; Objective-C: 
+  ;   Transform = [NSAffineTransform transform];
+  ;
+  Transform = CocoaMessage(0, 0, "NSAffineTransform transform") ; Obtenir une 'identity transform'
+
+  ; Objective-C: 
+  ;   [TransForm scaleXBy:sx yBy:sy];
+  ;
+  sx.CGFloat = 5.5
+  sy.CGFloat = 20
+  CocoaMessage(0, TransForm, "scaleXBy:@", @sx, "yBy:@", @sy) ; Agrandit x par 5.5, y par 20. comme sx n'est pas un 'integer', '@' doit être utilisé.
+  
+  ; Objective-C: 
+  ;   NSAffineTransform TransformStruct = [TransForm transformStruct];
+  ;
+  CocoaMessage(@TransformStruct.NSAffineTransform, TransForm, "transformStruct") ; Obtenir une structure transform
+  
+  Debug TransformStruct\m11 ; debug affiche 5.5
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = CPUName()
+
+@Description
+  Renvoie le nom du processeur.
+
+@NoParameters
+  
+@ReturnValue
+  Renvoie le nom du CPU (la totalité des 
+  informations du fournisseur). 
+  Il n'y a pas de norme à ce propos, alors 
+  cette fonction ne doit pas être utilisée 
+  pour identifier le CPU lors de l'exécution, 
+  mais peut être utile pour du deboguage 
+  par exemple.
+
+@Example
+
+@Code
+  Debug CPUName() ; Ex: "Intel(R) Core(TM) i7 CPU 860  @ 2.80GHz"
+@EndCode
+
+@SeeAlso
+  @@ComputerName, @@UserName
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Delay(Temps)
+
+@Description
+  Suspend totalement l'exécution du programme 
+  pendant une durée spécifiée.
+  
+@Parameter "Temps"
+  Le délai en millisecondes.
+@LineBreak
+@LineBreak
+  Attention, le délai réel peut être plus long 
+  que le temps spécifié.
+
+@NoReturnValue
+
+@Remarks
+  Cette fonction est particulièrement utile 
+  dans les boucles d'évènements utilisant 
+  @@WindowEvent ou @@ExamineKeyboard, pour 
+  éviter qu'elles ne monopolisent tout le 
+  temps processeur.
+@LineBreak
+@LineBreak
+  En fait, cette fonction suspend le thread en cours d'exécution.
+
+@SeeAlso
+  @@ElapsedMilliseconds  
+  
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.q = ElapsedMilliseconds()
+
+@Description
+  Renvoie le nombre de millisecondes qui se 
+  sont écoulées depuis le démarrage de 
+  l'ordinateur.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie le temps écoulé en millisecondes.
+  
+@Remarks  
+  La valeur absolue qui est retournée n'est 
+  d'aucune utilité, car elle varie en fonction 
+  du système d'exploitation. 
+  Au lieu de cela, cette fonction doit être 
+  utilisée pour calculer les différences de 
+  temps entre plusieurs appels à 
+  ElapsedMilliseconds().
+@LineBreak
+@LineBreak  
+  Cette fonction est relativement précise: il 
+  peut y avoir de légères différences en 
+  fonction de l'OS sur lequel le programme 
+  s'exécute. 
+  cela est dû au fait que certains systèmes 
+  ont une minuterie avec une résolution 
+  inférieure à d'autres.
+
+@Example
+@Code
+  ;
+  ; exemple d'utilisation comme chronomètre
+  ;
+  TempsDepart.q = ElapsedMilliseconds()  ; Récupère la valeur actuelle
+  Delay(1000)  ; Attend 1000 millisecondes
+  TempsEcoule.q = ElapsedMilliseconds()-TempsDepart  ; La valeur 'TempsEcoule' devrait être d'environ 1000 millisecondes
+
+  Debug "Temps écoulé : "+Str(TempsEcoule)+" millisecondes" 
+@EndCode
+
+@SeeAlso
+  @@Delay
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = DoubleClickTime()
+
+@Description
+  Renvoie le réglage système de la durée du 
+  double-clic. 
+@LineBreak
+@LineBreak
+  Si deux clics de souris se produisent dans
+  cette durée, ils sont considérés comme un 
+  double-clic.
+  
+@NoParameters
+
+@ReturnValue
+   Renvoie la durée du double-clic en 
+   millisecondes.
+  
+@Remarks
+  Cette fonction peut être utilisée avec 
+  @Link "Screen/OpenScreen" "Openscreen" 
+  ou @@CanvasGadget.
+  
+@SeeAlso
+  @@ElapsedMilliseconds, @@OpenScreen, 
+  @@OpenWindowedScreen, @@CanvasGadget
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = OSVersion()
+
+@Description
+  Renvoie la version du système d'exploitation 
+  sur lequel le programme s'exécute. 
+
+@NoParameters
+
+@ReturnValue
+ Renvoie l'une des valeurs suivantes, selon 
+ le système d'exploitation:
+@LineBreak
+@LineBreak
+  @Bold "Windows"
+@Indent  
+@FixedFont
+  @#PB_OS_Windows_NT3_51
+  @#PB_OS_Windows_95
+  @#PB_OS_Windows_NT_4
+  @#PB_OS_Windows_98
+  @#PB_OS_Windows_ME
+  @#PB_OS_Windows_2000
+  @#PB_OS_Windows_XP
+  @#PB_OS_Windows_Server_2003
+  @#PB_OS_Windows_Vista
+  @#PB_OS_Windows_Server_2008
+  @#PB_OS_Windows_7
+  @#PB_OS_Windows_Server_2008_R2  
+  @#PB_OS_Windows_8  
+  @#PB_OS_Windows_Server_2012
+  @#PB_OS_Windows_8_1
+  @#PB_OS_Windows_Server_2012_R2
+  @#PB_OS_Windows_10
+  @#PB_OS_Windows_Future  ; Nouvelle version de Windows (n'existant pas lorsque le programme a été écrit)
+@EndFixedFont
+@EndIndent
+
+  @Bold "Linux"
+@Indent
+@FixedFont
+  @#PB_OS_Linux_2_2
+  @#PB_OS_Linux_2_4
+  @#PB_OS_Linux_2_6
+  @#PB_OS_Linux_Future ; Nouvelle version de Linux (n'existant pas lorsque le programme a été écrit)
+@EndFixedFont
+@EndIndent
+
+  @Bold "Mac OSX"
+@Indent
+@FixedFont
+  @#PB_OS_MacOSX_10_0
+  @#PB_OS_MacOSX_10_1
+  @#PB_OS_MacOSX_10_2
+  @#PB_OS_MacOSX_10_3
+  @#PB_OS_MacOSX_10_4
+  @#PB_OS_MacOSX_10_5
+  @#PB_OS_MacOSX_10_6
+  @#PB_OS_MacOSX_10_7
+  @#PB_OS_MacOSX_10_8
+  @#PB_OS_MacOSX_10_9
+  @#PB_OS_MacOSX_10_10
+  @#PB_OS_MacOSX_10_11
+  @#PB_OS_MacOSX_Future  ; Nouvelle version de MacOS X (n'existant pas lorsque le programme a été écrit)
+@EndFixedFont
+@EndIndent
+
+@Example
+@Code
+  Select OSVersion()
+    Case #PB_OS_Windows_98
+      MessageRequester("Info", "Windows 98")
+
+    Case #PB_OS_Windows_2000
+      MessageRequester("Info", "Windows 2000")
+  
+    Case #PB_OS_Windows_XP
+      MessageRequester("Info", "Windows XP")
+
+    Default
+      MessageRequester("Info", "version de Windows inconnue")    
+  EndSelect
+@EndCode
+
+  Note : La valeur des constantes respecte 
+  l'ordre chronologique de sortie des 
+  différentes versions, ce qui permet de 
+  déterminer rapidement si une version est 
+  plus ancienne ou plus récente qu'une version 
+  donnée.
+
+@Code
+  If OsVersion() < #PB_OS_Windows_2000
+    ;
+    ; Toutes les versions plus anciennes que Windows 2000
+    ;
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = ComputerName()
+
+@Description
+  Renvoie le nom de l'ordinateur.
+
+@NoParameters
+  
+@ReturnValue
+  Renvoie le nom de l'ordinateur.
+
+@Example
+@Code
+  Debug "Nom de l'ordinateur : " + ComputerName()
+@EndCode
+
+@SeeAlso
+  @@UserName, @@CPUName
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = UserName()
+
+@Description
+  Renvoie le nom de l'utilisateur en cours.
+
+@NoParameters
+ 
+@ReturnValue
+  Renvoie le nom de l'utilisateur actuellement 
+  loggé.
+
+@Example
+@Code
+  Debug "Utilisateur actuellement connecté: " + UserName()
+@EndCode
+
+@SeeAlso
+  @@ComputerName, @@CPUName
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.q = MemoryStatus(Type)
+
+@Description
+  Renvoie les informations sur un type de 
+  mémoire demandé.
+
+@Parameter "Type"
+  Le type de mémoire à tester. @LineBreak
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_System_TotalPhysical: La quantité totale de mémoire installée, en octets.
+  @#PB_System_FreePhysical : La mémoire disponible, en octets.
+  @#PB_System_TotalVirtual : La taille de la mémoire virtuelle totale, en octets (Windows uniquement).
+  @#PB_System_FreeVirtual  : La taille de la mémoire virtuelle disponible, en octets (Windows uniquement).
+  @#PB_System_TotalSwap    : La taille de la mémoire de swap total, en octets (Windows et Linux uniquement).
+  @#PB_System_FreeSwap     : La taille de la mémoire de swap disponible, en octets (Windows et Linux uniquement).
+  @#PB_System_PageSize     : La taille de la page mémoire, en octets (généralement 4 Ko).
+@EndFixedFont
+
+@ReturnValue
+  Renvoie les informations sur le type de 
+  mémoire spécifiée.
+
+@Example
+@Code
+  Debug "La quantité totale de mémoire installée, en octets: " + MemoryStatus(#PB_System_TotalPhysical)
+  Debug "La mémoire disponible, en octets: " + MemoryStatus(#PB_System_FreePhysical)
+  Debug "La taille de page mémoire, en octets (généralement 4 Ko): " + MemoryStatus(#PB_System_PageSize)
+  ;(Windows et Linux uniquement)
+  ;Debug "La taille de la mémoire de swap total, en octets (Windows et Linux uniquement): " + MemoryStatus(#PB_System_TotalSwap)
+  ;Debug "La taille de la mémoire de swap disponible, en octets (Windows et Linux uniquement): " + MemoryStatus(#PB_System_FreeSwap)
+  ;(Windows uniquement)
+  ;Debug "La taille de la mémoire virtuelle totale, en octets (Windows uniquement): " + MemoryStatus(#PB_System_TotalVirtual)
+  ;Debug "La taille de la mémoire virtuelle disponible, en octets (Windows uniquement): " + MemoryStatus(#PB_System_FreeVirtual)
+@EndCode
+
+@SeeAlso
+  @@CountCPUs
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CountCPUs([Type])
+
+@Description
+  Renvoie le nombre de core de microprocesseurs.
+
+@OptionalParameter "Type"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_System_CPUs        : Le nombre total de coeurs de processeurs. (Par défaut)
+  @#PB_System_ProcessCPUs : Le nombre de coeurs de processeurs disponibles pour le processus en cours. 
+                           Ceci est utile car le système d'exploitation peut obliger un processus à 
+                           n'utiliser qu'un petit nombre de CPU.
+@EndFixedFont
+  
+@ReturnValue
+  Renvoie le nombre de coeurs.
+  
+@Example
+@Code
+  Debug "Le nombre total de coeurs installés sur l'ordinateur: " + CountCPUs(#PB_System_CPUs)
+  Debug "Le nombre de coeurs disponibles pour le processus en cours: " + CountCPUs(#PB_System_ProcessCPUs)
+@EndCode
+
+@SeeAlso
+  @@MemoryStatus
+  
+@SupportedOS

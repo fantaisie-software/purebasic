@@ -1,0 +1,774 @@
+;
+;     Thread library documentation
+;
+;      (c) 2009 - Fantaisie Software
+;
+
+@Library Thread
+
+@Overview
+
+  A thread is a part of a program which runs asynchronously, in the background
+  of this program. This means it's possible to perform long operations
+  (compression, image processing, etc) without halting the whole program and let the user
+  continue to do other things. A thread runs within your program, it's not
+  another process. When the main program exits, all the threads are destroyed.
+  Under PureBasic, threads are simply a procedure which is called asynchronously.
+  The thread runs until the procedure exits.
+@LineBreak
+@LineBreak
+  Examples of places of programs where threads are useful are when you need to be able to handle
+  multiple situations with different response times or which occur at different
+  intervals. In the above paragraph, the response times of image processing and the
+  user interface are quite different (you would want to wait for the image to be processed
+  but always have the user interface to respond).  
+@LineBreak
+@LineBreak
+  PureBasic has a special compiler setting to create thread-safe executables. (/THREAD command-line 
+  switch or "create thread-safe executable" in the IDE compiler options). Without this mode, 
+  certain functions (and also the string access) are faster, but not safe to use in threads.
+  It is still possible to create threads without this mode but it is not recommended, as even something simple
+  like a local string access can be dangerous and needs to be protected.
+  Enabling this option makes these things save inside threads, but comes at the price of 
+  some speed. The decision on whether or not to use threads should therefore done with care, 
+  and the threadmode should only be used when there is a real need for it.
+@LineBreak
+@LineBreak
+  Note: Threads need to be used carefully because it is possible that you can have
+  multiple access to shared resources (memory, variables, files, etc) and you need
+  to manually ensure that you do run into trouble because of this. The Mutex functions in
+  this library can be used to synchronize access to such shared resources.
+@LineBreak
+@LineBreak
+  Using the @ReferenceLink "threaded" "Threaded" keyword it's possible to create thread-based
+  persistent objects (variables, arrays, lists, maps).
+
+@OS Windows
+@LineBreak
+@LineBreak
+  Note: Don't use DirectX inside threads (MS Windows limitation)! If you need to display
+  graphics in threads use @LibraryLink "image" "Images" and
+  @LibraryLink "2ddrawing" "2DDrawing" instead.
+
+@CommandList
+
+@ExampleFile All Thread.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsThread(Thread)
+
+@Description
+  Tests if the given thread number is a valid thread created with the 
+  @@CreateThread function, and if it is still running.
+  
+@Parameter "Thread"
+  The thread to use.
+
+@ReturnValue
+  Nonzero if the thread is still valid and running, zero otherwise.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ThreadID = ThreadID(Thread)
+
+@Description
+  Returns the unique system identifier of the thread.
+
+@Parameter "Thread"
+  The thread to use.
+
+@ReturnValue
+  The system identifier. This result is sometimes also known as 'Handle'.
+  Look at the extra chapter @ReferenceLink "handles" "Handles and Numbers" for
+  more information.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Mutex = CreateMutex()
+
+@Description
+  Creates a new mutex object. The mutex is initially unlocked.
+@Linebreak
+@Linebreak
+  The main objective of the mutex functions is thread synchronization. They do not create
+  too much overhead, but they only work within one program, not system-wide.
+  A mutex is an object that can only be "owned" or locked by one thread at a time,
+  so it is used to protect shared resources. Only the thread that has the mutex
+  locked may access a certain file, memory area, ...
+@Linebreak
+  See @@LockMutex and @@UnlockMutex for locking/unlocking a mutex.
+
+@NoParameter
+
+@ReturnValue
+  The new mutext object, or zero if the mutex creation has failed.
+
+@Example
+@Code
+  ; Run this code once as it is. You will see that the lines printed are
+  ; mixed from between the threads. Now uncomment the Mutex functions and
+  ; the strings are printed in order, because only one thread at a time
+  ; has the right to execute the printing functions.
+  ;
+  Procedure WithoutMutex(*Number)     
+    Shared Mutex
+    
+    For a = 1 To 5      
+      ;LockMutex(Mutex)    ; uncomment this to see the difference
+    
+      PrintN("Thread "+Str(*Number)+": Trying to print 5x in a row:")
+      For b = 1 To 5
+        Delay(50)
+        PrintN("Thread "+Str(*Number)+" Line "+Str(b))
+      Next b          
+      
+      ;UnlockMutex(Mutex) ; uncomment this to see the difference
+    Next a    
+  EndProcedure
+  
+  OpenConsole()
+  Mutex = CreateMutex()
+  
+  thread1 = CreateThread(@WithoutMutex(), 1)
+  Delay(25)
+  thread2 = CreateThread(@WithoutMutex(), 2)
+  Delay(25)
+  thread3 = CreateThread(@WithoutMutex(), 3)
+  
+  WaitThread(thread1)
+  WaitThread(thread2)
+  WaitThread(thread3)
+  
+  Input()
+@EndCode
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Thread = CreateThread(@ProcedureName(), *Value)
+
+@Description
+  Creates a new thread running in the application background. If the thread is
+  correctly created, it returns the Thread number which is used with the
+  other thread functions, such as @@KillThread, @@PauseThread, etc. The procedure 
+  which you use as a thread must take one parameter and cannot return anything.
+  The '*Value' argument of CreateThread() is passed as the parameter to the procedure.
+  If you do try to return a value from your thread it will simply be lost.
+
+@Parameter "@ProcedureName()"
+  The address of the procedure you want to use as the code for the
+  new thread. Remember to put the @ in front to get the name and the () afterwards so
+  it gets the address of the procedure.
+
+@Parameter "*Value"
+  The value passed to the thread procedure as parameter. It is up to
+  you to decide what this is used for.
+
+@ReturnValue
+  The number for the newly created thread, or zero if a new thread could not be created.
+  This number is required if you want to control the thread using the other functions in this library.
+
+@Example
+  The example below shows the basic way to create a thread, although in this case it
+  does not do anything.
+@LineBreak
+@LineBreak
+@Code
+  Procedure YourProcedure(*Value)
+    ; The variable '*Value' will contain 23
+  EndProcedure
+
+  CreateThread(@YourProcedure(), 23)
+@EndCode
+
+@Example Passing multiple parameters to a thread
+
+@Code
+  Structure Person
+    Name$
+    Age.b
+    Phone.l
+  EndStructure
+  
+  Procedure Thread(*Parameters.Person)
+    
+    ; Display the parameters
+    ;
+    Debug *Parameters\Name$
+    Debug *Parameters\Age
+    Debug *Parameters\Phone
+    
+    ; Once we don't need them anymore, use ClearStructure() to ensure dynamic 
+    ; objects (if any) are correctly cleared, and release the dynamic memory block
+    ClearStructure(*Parameters, Person)
+    FreeMemory(*Parameters)
+    
+  EndProcedure
+  
+  ; We use a dynamically allocated block, so even if we call it from a procedure, it will
+  ; still work. The memory block will be freed by the thread, when 
+  ;
+  *Parameters.Person = AllocateMemory(SizeOf(Person))
+  *Parameters\Name$ = "John"
+  *Parameters\Age   = 30
+  *Parameters\Phone = 10203040
+  
+  CreateThread(@Thread(), *Parameters) ; Send the thread a pointer to our structure
+
+  Delay(2000)
+@EndCode
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMutex(Mutex)
+
+@Description
+  Frees a mutex object and the memory it requires.
+
+@Parameter "Mutex"
+  The mutex to free.
+
+@NoReturnValue
+
+@Remarks
+  The mutex object should be unlocked by the time it is freed and it may no longer be used after it was
+  freed. To ensure this a mutex should only be freed after all threads that use it have either
+  ended, or are otherwise sure not to use this mutex again.
+
+@SeeAlso
+  @@CreateMutex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function KillThread(Thread)
+
+@Description
+  Immediately kills the specified thread, which had previously been created with @@CreateThread. This is
+  a very dangerous function, and should only be used rarely. The problem is that the thread is killed immediately
+  and has no chance to perform any cleanup code (for example, freeing memory, releasing items,
+  de-allocating its own stack).
+@LineBreak
+@LineBreak
+  If possible, a flag like a global variable should be used to tell the thread to quit itself (which does the needed cleanup)
+  and this function should only be used if this is not possible for some reason.
+
+@Parameter "Thread"
+  The thread to kill. This value is returned by @@CreateThread.
+
+@NoReturnValue
+
+@Example
+@Code
+  ; A procedure/thread which will never exit. Not good, but it
+  ; shows how KillThread works 
+  Procedure PrintStuff(*Interval)
+    Repeat
+      PrintN(".")
+      Delay(*Interval)
+    ForEver
+  EndProcedure
+  
+  If OpenConsole()
+    thread = CreateThread(@PrintStuff(), 500)
+    If thread
+      For i=0 To 10
+        PrintN("A")
+        Delay(999)
+  
+        If i=5
+          KillThread(thread)
+        EndIf
+      Next
+    EndIf
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LockMutex(Mutex)
+
+@Description
+  Waits until the mutex object is available (not locked by another thread) and then locks the object
+  so no other thread can get a lock on the object.
+@LineBreak
+@LineBreak
+  After this function returns, it is assured that this thread is the only one with a locked state on the mutex.
+  The thread can now freely access the shared resource that is protected by this mutex, as it is the only one
+  with exclusive access to the mutex.
+@LineBreak
+@LineBreak
+  If another thread calls LockMutex() while this one has the lock, it will wait inside the LockMutex() function until
+  this thread calls @@UnlockMutex to release its lock on the mutex.
+@LineBreak
+@LineBreak
+  @Bold "Note:" Since the LockMutex() function waits until the mutex is available, it can easily lead to lockup
+  situations if a @@UnlockMutex call is forgotten.
+@LineBreak
+@LineBreak
+  See @@CreateMutex for a code example.
+  
+@Parameter "Mutex"
+  The mutex to lock.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@UnlockMutex, @@CreateMutex  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PauseThread(Thread)
+
+@Description
+  Pauses the execution of the specified thread, previously created with @@CreateThread. The thread
+  can be resumed with @@ResumeThread.
+  
+@Parameter "Thread"
+  The thread to pause. This value is returned by @@CreateThread.
+
+@NoReturnValue
+
+@example
+@Code
+  Procedure PrintStuff(*Dummy)
+    For i = 0 To 10
+      PrintN(".")
+      Delay(200)
+    Next
+  EndProcedure
+  
+  If OpenConsole()
+    thread = CreateThread(@PrintStuff(), 0)
+    If thread
+      Delay(100)
+      PauseThread(thread)
+      For i = 0 To 10
+        PrintN("A")
+        Delay(50)
+      Next
+      
+      ; Resume thread and give it enough time to complete
+      ResumeThread(thread)
+      Delay(3000)
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ResumeThread, @@CreateThread
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResumeThread(Thread)
+
+@Description
+  Resumes execution of the specified thread, previously paused with @@PauseThread.
+  
+@Parameter "Thread"
+  The thread to resume. This value is returned by @@CreateThread.
+
+@NoReturnValue
+
+@Remarks
+  See the @@PauseThread function for an example code.
+
+@SeeAlso
+  @@PauseThread, @@CreateThread
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OldPriority = ThreadPriority(Thread, Priority)
+
+@Description
+  Change the priority of the specified thread and returns the old priority.
+@LineBreak
+@LineBreak
+  The priority value can go from 1 to 32. 1 is the lowest priority available, 16 is the normal priority
+  and 32 is the time critical priority (highest, please don't use it unless you know what you're
+  doing). 
+@LineBreak
+@LineBreak
+  If the priority is 0, then the priority isn't changed (useful to only retrieve the thread
+  priority without change it). All threads are created with a normal priority.
+@LineBreak
+@LineBreak
+  Typically you would give a thread which is always running (for example, an image processing thread)
+  a priority which is not greater than any other thread in your system. The reason for this is that if
+  it is always running, and it has a high priority, then no other thread will get a chance to run.
+  If a thread needs to be highly responsive but spends most of its time waiting for some event
+  you might consider giving it a higher than normal priority.
+@linebreak
+@linebreak
+
+@OS Windows
+  Windows schedules threads (chooses which one to run for a short length of time) using a
+  preemptive priority based scheduling strategy, with round robin scheduling within
+  the same priority level. This means that if it is time for execution of a different thread
+  (known as a context switch) then the thread with the highest priority that is available to run will be the next one to
+  be executed. If there is more than one thread with the highest priority, and they are available to
+  run, then each thread will be cycled through on successive context switches.
+@EndOs
+  
+@Parameter "Thread"
+  The thread to change the priority of. This value is returned by @@CreateThread.
+
+@Parameter "Priority"
+  The new priority to assign to the thread. The priority can be zero (meaning not to change
+  the priority) or range from 1 (lowest priority) to 32 (highest priority). 16 is normal priority.
+  Windows doesn't support 32 different level of priority, here is the corresponding table:
+@FixedFont 
+  - 1: lowest
+  - between 2 and 15: below normal 
+  - 16:  normal
+  - between 17 and 30: above normal
+  - 31: highest
+  - 32: time critical
+@EndFixedFont
+
+@ReturnValue
+  The priority of the thread before this function was called. This can be
+  useful if you only want to boost the priority of the thread for a short time and then return
+  it to its previous level. The returned value is not necessary the same than the one set with ThreadPriority(), as
+  it depends of the granularity of the priority tuning offered by the system. @LineBreak
+
+@Example
+@Code
+  ; Procedure which always runs (note, no Delay function as
+  ; this would cause the thread to stop running while it was
+  ; being delayed
+  Procedure PrintStuff(*Interval)
+    For i = 0 To 1000000000
+      ; Nasty busy wait
+    Next
+  EndProcedure
+  
+  If OpenConsole()
+    thread = CreateThread(@PrintStuff(), 500)
+    If thread
+      ; Increase the priority above the main thread
+      ; You should notice a delay before the print function
+      ; is executed. Now change the 17 to 15 (lower than normal priority)
+      ; and see that the print executes immediately
+      ThreadPriority(thread, 17)
+      PrintN("Waits for higher priority thread to finish")
+    EndIf
+    
+    PrintN("Press return to exit")
+    Input()
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TryLockMutex(Mutex)
+
+@Description
+  Tries to lock the specified mutex. Unlike @@LockMutex, this function does not
+  stop execution until the mutex is available. It returns immediately and the return-value indicates
+  if the lock was successful or not. This is useful in situations were the thread should not wait
+  for the mutex to be available but rather do other things in the meantime.
+
+@Parameter "Mutex"
+  The mutex to lock.
+
+@ReturnValue
+  Nonzero if the mutex was successfully locked, zero otherwise.
+
+@Remarks
+  If the lock was successful, the @@UnlockMutex function must be called
+  to make the mutex available to other threads again. If this is not done, this could easily lead to a lockup situation.
+
+@Example
+@Code
+  Procedure ThreadProcedure(*Value)
+    Shared Mutex
+    
+    Repeat
+      If TryLockMutex(Mutex)
+        PrintN("Mutex successfully locked.")
+        
+        UnlockMutex(Mutex)
+        Break ; quit the loop and thread
+      Else
+        PrintN("Still waiting for mutex access...")
+        Delay(200)
+      EndIf
+    ForEver  
+  EndProcedure
+  
+  OpenConsole()
+  
+  Mutex = CreateMutex()
+  LockMutex(Mutex) ; main program has the mutex locked at first
+  Thread = CreateThread(@ThreadProcedure(), 0)
+  
+  Delay(4000)
+  UnlockMutex(Mutex) ; now release the mutex, so the thread can get it
+  
+  Input()
+@EndCode
+
+@SeeAlso
+  @@UnlockMutex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UnlockMutex(Mutex)
+
+@Description
+  Unlocks a mutex previously locked by @@LockMutex. The mutex is then available
+  again for other threads to lock it.
+
+@Parameter "Mutex"
+  The mutex to unlock.
+
+@NoReturnValue
+
+@Remarks
+  A mutex can only be unlocked by the thread that also locked it.
+@Linebreak
+@Linebreak
+  See @@CreateMutex for a code example.
+
+@SeeAlso
+  @@LockMutex, @@CreateMutex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WaitThread(Thread [, Timeout])
+
+@Description
+  Stop the program execution until the specified 'Thread' exits, or the optional timeout (in milliseconds)
+  is reached. If the thread is already finished, it returns immediately.
+  
+@Parameter "Thread"
+  The thread to wait for. This value is returned by @@CreateThread.
+
+@OptionalParameter "Timeout"
+  Timeout to wait, in milliseconds. 
+
+@ReturnValue
+  Nonzero if the thread has ended, or zero if the timeout was reached.
+
+@Example
+@Code
+  Procedure PrintStuff(*Interval)
+    For i = 0 To 10
+      PrintN(".")
+      Delay(*Interval)
+    Next
+  EndProcedure
+  
+  If OpenConsole()
+    thread = CreateThread(@PrintStuff(), 500)
+    If thread
+      ; Wait for thread to finish before we continue
+      ; Try commenting the WaitThread function out and seeing what happens
+      WaitThread(thread)
+      
+      For i = 0 To 10
+        PrintN("A")
+        Delay(1000)
+      Next
+    EndIf
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Semaphore = CreateSemaphore([InitialCount])
+
+@Description
+  Creates a new semaphore object.
+@LineBreak
+@LineBreak
+  A semaphore is a thread synchronization object that keeps an internal count. It has two kinds of operations:
+  @Link "SignalSemaphore" "signal" and @Link "WaitSemaphore" "wait". A wait operation decreases the count
+  of the semaphore by one. If the count would drop below 0, the wait operation will block until a signal call is made.
+  A signal operation increases the count one, releasing a blocking thread if there is one. A semaphore allows
+  to enforce minimum or maximum counts across threads for example to prevent a queue from running out or getting
+  too many items.
+@LineBreak
+@LineBreak
+  Unlike a @Link "CreateMutex" "mutex", a semaphore object is not "owned" by a particular thread, which means that
+  signal/wait calls do not need to be done from the same thread as it is the case with @@LockMutex and
+  @@UnlockMutex. In fact a common use for a semaphore objects is for one thread to do the 
+  @@SignalSemaphore calls and for another one to do all @@WaitSemaphore calls to implement
+  a producer/consumer pattern.
+
+@OptionalParameter "InitialCount"
+  It has be a positive value that specifies the initial count of the semaphore. 
+  If it is not specified, the initial count is zero.
+
+@ReturnValue
+  The new semaphore, or zero if the semaphore creation has failed.
+
+@Example
+  This example shows a "producer" thread populating a queue with elements and the main thread reading them.
+  The semaphore is used to make sure the queue never runs out of elements. Note that this could also be
+  achieved with only a mutex and waiting/polling for queue elements with a @@Delay in between,
+  but the semaphore commands do a more efficient wait (returning immediately at the @@SignalSemaphore call
+  and not just on the next time a polling loop would check the queue).
+@Code
+; Make sure "Create thread-safe executable" is set in the compiler options
+; for accurate debugging with threads
+;
+Global Semaphore = CreateSemaphore()
+Global Mutex     = CreateMutex()
+Global NewList Queue()
+
+Procedure Producer(Total)
+
+  For i = 1 To Total
+    Delay(Random(750) + 250)
+    
+    ; The queue access still needs a normal mutex lock to be thread-safe
+    LockMutex(Mutex)
+      LastElement(Queue())
+      AddElement(Queue())
+      Queue() = i
+    UnlockMutex(Mutex)    
+
+    ; Signal that there is a new queue element
+    SignalSemaphore(Semaphore)
+  Next i
+    
+EndProcedure
+
+If CreateThread(@Producer(), 30)
+
+  For i = 1 To 30  
+    ; wait for one element to be available
+    WaitSemaphore(Semaphore)
+    
+    ; display the queue state
+    LockMutex(Mutex)
+      Queue$ = "Queue:"
+      ForEach Queue()
+        Queue$ + " " + Str(Queue())
+      Next Queue()
+      Debug Queue$
+    
+      ; remove head element from the queue
+      FirstElement(Queue())
+      DeleteElement(Queue())
+    UnlockMutex(Mutex)
+    
+  Next i
+
+EndIf
+@EndCode  
+
+@SeeAlso
+  @@FreeSemaphore
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeSemaphore(Semaphore) 
+
+@Description
+  Destroys the given Semaphore object and frees all resources used by it.
+  
+@Parameter "Semaphore"
+  The semaphore to free.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateSemaphore
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SignalSemaphore(Semaphore)
+
+@Description
+  Increases the internal count of the semaphore by one, releasing a waiting thread if there is one.
+
+@Parameter "Semaphore"
+  The semaphore to signal.
+
+@NoReturnValue
+
+@Remarks
+  The semaphore count is limited to a signed @ReferenceLink "variables" "32-bit value", so a maximum of 2147483647 
+  @@SignalSemaphore calls can be made without being balanced by @@WaitSemaphore 
+  calls in between.  
+@LineBreak
+@LineBreak
+  See @@CreateSemaphore for a code example.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WaitSemaphore(Semaphore)
+
+@Description
+  Decreases the internal count of the semaphore by one, blocking thread execution if the count would
+  fall below zero. A blocked thread is resumed as soon as another thread calls @@SignalSemaphore.
+
+@Parameter "Semaphore"
+  The semaphore to wait for.
+
+@NoReturnValue
+
+@Remarks
+  The semaphore count is limited to a signed @ReferenceLink "variables" "32-bit value", so a maximum of 2147483647 
+  @@WaitSemaphore calls can be made without being balanced by @@SignalSemaphore 
+  calls in between.  
+@LineBreak
+@LineBreak
+  See @@CreateSemaphore for a code example.
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TrySemaphore(Semaphore)
+
+@Description
+  Decreases the internal count of the semaphore by one only if the count is above 0. This is the same
+  as a @@WaitSemaphore operation, but without blocking if the count would fall below 0.
+
+@Parameter "Semaphore"
+  The semaphore to use.
+
+@ReturnValue
+  Nonzero if the semaphore count was decreased, or zero if the count could not be decreased because
+  it was already zero.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

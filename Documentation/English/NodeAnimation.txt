@@ -1,0 +1,579 @@
+;
+;     Node animation library documentation
+;
+;      (c) 2018 - Fantaisie Software
+;
+
+@Library NodeAnimation
+
+@Overview
+
+Node animation allows to define track to follow for a node, with predefined key frame and smooth interpolation.
+Then an object like a camera can be attached to this node and be moved easily on the track.
+@LineBreak
+@LineBreak
+@@InitEngine3D should be called successfully before using the node animation functions.
+
+@CommandList
+
+@ExampleFile All NodeAnimation.pb
+@ExampleFile All NodeAnimation2.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateNodeAnimation(#NodeAnimation, NodeID, Length, Interpolation, RotationInterpolation)
+
+@Description
+  Creates a new node animation of the specified length. A node animation doesn't exist physically in the
+  3D world, it is an virtual track to move a node (and its attached object) easily around the world.
+
+@Parameter "#NodeAnimation"
+  The number to identify the new node animation. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "NodeID"
+  The node to move automatically. @@NodeID can be use to get a valid node identifier.
+
+@Parameter "Length"
+  The length of the new animation (in milliseconds).
+
+@Parameter "Interpolation"
+  The type of interpolation to apply between points. It can be one of the following value:
+@FixedFont
+  @#PB_NodeAnimation_Linear: each points will be linked together using a straight line, which can result to abrupt direction change
+  @#PB_NodeAnimation_Spline: each points will be linked together using a spline, which results in smooth direction change, but is also slower.
+@EndFixedFont
+
+@Parameter "RotationInterpolation"
+  The type of interpolation for the rotation to apply between points. It can be one of the following value:
+@FixedFont
+  @#PB_NodeAnimation_LinearRotation:    each points will be linked together using a straight line, which can result to abrupt rotation
+  @#PB_NodeAnimation_SphericalRotation: each points will be linked together using a curve, which results in smoother rotation, but is also slower.
+@EndFixedFont
+
+@ReturnValue
+  Returns zero if the #NodeAnimation can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used 
+  as '#NodeAnimation' parameter, the new node animation number is returned.
+
+@SeeAlso
+  @@FreeNodeAnimation
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeNodeAnimation(#NodeAnimation)
+
+@Description
+  Frees a node animation and releases all its associated memory. This node animation must not be used
+  (by using its number with the other functions in this library) after
+  calling this function, unless you create it again.
+
+@Parameter "#NodeAnimation"
+  The node animation to free. If @#PB_All is specified, all the remaining node animations are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining node animations are automatically freed when the program ends.
+
+@SeeAlso
+  @@CreateNodeAnimation
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateNodeAnimationKeyFrame(#NodeAnimation, Time, x, y, z)
+
+@Description
+  Create a new keyframe for the #NodeAnimation. A keyframe is a point in the world at a specified time.
+  When the node animation will be played, it will follow every keyframe and thus moving from points
+  to points. The move will be interpolated to respect the time constraint. For example, if the first
+  keyframe is set at time 0, the second at time 1000 and the third at time 3000, going from
+  the first keyframe to the second will takes 1000 milliseconds, and going from the second keyframe to the third will takes 2000 milliseconds.
+  The overall animation will take 3000 milliseconds.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+
+@Parameter "Time"
+  The time in the animation to set the keyframe (in milliseconds). This value has to be between zero and the 'Length'
+  defined in @@CreateNodeAnimation.
+
+@Parameter "x, y, z"
+  The new keyframe position in the world.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateNodeAnimation
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetNodeAnimationKeyFrameTime(#NodeAnimation, KeyFrame)
+
+@Description
+
+  Returns the #NodeAnimation keyframe time.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+  
+@Parameter "#Keyframe"
+  The node animation keyframe index. The first keyframe index is zero.
+  
+@ReturnValue
+  Returns the node animation keyframe time (in milliseconds), or zero if the keyframe doesn't exists.
+
+@SeeAlso
+  @@CreateNodeAnimationKeyFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetNodeAnimationKeyFramePosition(#NodeAnimation, KeyFrame, x, y, z)
+
+@Description
+
+  Changes the keyframe position for the #NodeAnimation.
+  
+@Parameter "#NodeAnimation"
+  The node animation to use.
+  
+@Parameter "#Keyframe"
+  The node animation keyframe index. The first keyframe index is zero. If the keyframe
+  doesn't exists, this function has no effect.
+
+@Parameter "x, y, z"
+  The new keyframe position in the world.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateNodeAnimationKeyFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetNodeAnimationKeyFrameX(#NodeAnimation, KeyFrame)
+
+@Description
+
+  Returns the #NodeAnimation keyframe 'x' position.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+  
+@Parameter "#Keyframe"
+  The node animation keyframe index. The first keyframe index is zero.
+  
+@ReturnValue
+  Returns the node animation keyframe 'x' position in the world, or zero if the keyframe doesn't exists.
+
+@SeeAlso
+  @@CreateNodeAnimationKeyFrame, @@GetNodeAnimationKeyFrameY, @@GetNodeAnimationKeyFrameZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetNodeAnimationKeyFrameY(#NodeAnimation, KeyFrame)
+
+@Description
+
+  Returns the #NodeAnimation keyframe 'y' position.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+  
+@Parameter "#Keyframe"
+  The node animation keyframe index. The first keyframe index is zero.
+  
+@ReturnValue
+  Returns the node animation keyframe 'y' position in the world, or zero if the keyframe doesn't exists.
+
+@SeeAlso
+  @@CreateNodeAnimationKeyFrame, @@GetNodeAnimationKeyFrameX, @@GetNodeAnimationKeyFrameZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetNodeAnimationKeyFrameZ(#NodeAnimation, KeyFrame)
+
+@Description
+
+  Returns the #NodeAnimation keyframe 'z' position.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+  
+@Parameter "#Keyframe"
+  The node animation keyframe index. The first keyframe index is zero.
+  
+@ReturnValue
+  Returns the node animation keyframe 'z' position in the world, or zero if the keyframe doesn't exists.
+
+@SeeAlso
+  @@CreateNodeAnimationKeyFrame, @@GetNodeAnimationKeyFrameX, @@GetNodeAnimationKeyFrameY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetNodeAnimationKeyFrameRotation(#NodeAnimation, KeyFrame, x, y, z [, w, Mode])
+
+@Description
+  Changes the keyframe rotation for the #NodeAnimation.
+  
+@Parameter "#NodeAnimation"
+  The node animation to use.
+  
+@Parameter "#Keyframe"
+  The node animation keyframe index. The first keyframe index is zero. If the keyframe
+  doesn't exists, this function has no effect.
+
+@Parameter "x, y, z"
+  The keyframe 'x, y, z' rotation in the world. Values depends of the selected mode.
+  
+@OptionalParameter "w"
+  The keyframe 'w' rotation in the world (only used for @#PB_Orientation_Quaternion and @#PB_Orientation_Direction).
+
+@OptionalParameter "Mode"
+  The rotation mode. It can be one of the following value:
+@FixedFont
+  - @#PB_Orientation_PitchYawRoll: 'x' (pitch), 'y' (yaw), 'z' (roll), applied in this order (default).
+  - @#PB_Orientation_Quaternion  : 'x', 'y', 'z', 'w' for quaternion values
+  - @#PB_Orientation_Direction   : 'x', 'y', 'z' for direction vector, and 'w' for rotation (roll).
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateNodeAnimationKeyFrame, @@GetNodeAnimationKeyFramePitch, @@GetNodeAnimationKeyFrameYaw, @@GetNodeAnimationKeyFrameRoll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetNodeAnimationKeyFramePitch(#NodeAnimation, KeyFrame)
+
+@Description
+
+  Returns the #NodeAnimation keyframe pitch.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+  
+@Parameter "#Keyframe"
+  The node animation keyframe index. The first keyframe index is zero.
+  
+@ReturnValue
+  Returns the current node animation keyframe pitch, or zero if the keyframe doesn't exists.
+
+@SeeAlso
+  @@CreateNodeAnimationKeyFrame, @@GetNodeAnimationKeyFrameYaw, @@GetNodeAnimationKeyFrameRoll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetNodeAnimationKeyFrameYaw(#NodeAnimation, KeyFrame)
+
+@Description
+
+  Returns the #NodeAnimation keyframe yaw.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+  
+@Parameter "#Keyframe"
+  The node animation keyframe index. The first keyframe index is zero.
+  
+@ReturnValue
+  Returns the current node animation keyframe yaw, or zero if the keyframe doesn't exists.
+
+@SeeAlso
+  @@CreateNodeAnimationKeyFrame, @@GetNodeAnimationKeyFramePitch, @@GetNodeAnimationKeyFrameRoll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetNodeAnimationKeyFrameRoll(#NodeAnimation, KeyFrame)
+
+@Description
+
+  Returns the #NodeAnimation keyframe roll.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+  
+@Parameter "#Keyframe"
+  The node animation keyframe index. The first keyframe index is zero.
+  
+@ReturnValue
+  Returns the current node animation keyframe roll, or zero if the keyframe doesn't exists.
+
+@SeeAlso
+  @@CreateNodeAnimationKeyFrame, @@GetNodeAnimationKeyFramePitch, @@GetNodeAnimationKeyFrameYaw
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetNodeAnimationKeyFrameScale(#NodeAnimation, KeyFrame, x, y, z)
+
+@Description
+
+  Changes the keyframe scale factor for the #NodeAnimation. The scale factor will be
+  applied to the node associated to the animation.
+  
+@Parameter "#NodeAnimation"
+  The node animation to use.
+  
+@Parameter "#Keyframe"
+  The node animation keyframe index. The first keyframe index is zero. If the keyframe
+  doesn't exists, this function has no effect.
+
+@Parameter "x"
+  The new keyframe 'x' scale factor. If this value is 1.0, no scaling will be applied on the 'x' axis.
+  
+@Parameter "y"
+  The new keyframe 'y' scale factor. If this value is 1.0, no scaling will be applied on the 'y' axis.
+
+@Parameter "z"
+  The new keyframe 'z' scale factor. If this value is 1.0, no scaling will be applied on the 'z' axis.
+
+@NoReturnValue
+
+@Remarks
+  The scale factor will resize the node by multiplying its size with the given factor: @LineBreak
+  - a scale factor of 1.0 will not affect the size of the node @LineBreak
+  - a scale factor of 2.0 will double the size of the node @LineBreak
+  - a scale factor of 0.5 will half the size of the node @LineBreak
+  
+
+@SeeAlso
+  @@CreateNodeAnimationKeyFrame, @@GetNodeAnimationKeyFramePitch, @@GetNodeAnimationKeyFrameYaw, @@GetNodeAnimationKeyFrameRoll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddNodeAnimationTime(#NodeAnimation, Time)
+
+@Description
+
+  Add time to the specified #NodeAnimation.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+
+@Parameter "Time"
+  The time to add (in milliseconds) to the specified animation, relative to the current animation time.
+
+@NoReturnValue
+
+@SeeAlso
+  @@StartNodeAnimation
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StartNodeAnimation(#NodeAnimation [, Flags])
+
+@Description
+
+  Start the specified #NodeAnimation. The animation is always started from the beginning.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+
+@Parameter "Flag"
+  Flags can be a combination of the following values:
+@FixedFont
+  @#PB_NodeAnimation_Once:   Play the animation only once. By default the animation loops automatically when its end is reached.
+                              @@NodeAnimationStatus can be used to detect the animation end.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@StopNodeAnimation, @@NodeAnimationStatus, @@AddNodeAnimationTime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopNodeAnimation(#NodeAnimation)
+
+@Description
+
+  Stop the specified #NodeAnimation.
+
+@Parameter "#NodeAnimation"
+  The node animation to stop.
+
+@NoReturnValue
+
+@SeeAlso
+  @@StartNodeAnimation
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NodeAnimationStatus(#NodeAnimation)
+
+@Description
+
+  Return the specified #NodeAnimation status.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+
+@ReturnValue
+  The return value can be one of the following constants:
+@FixedFont
+  @#PB_NodeAnimation_Stopped: The animation is stopped (or has ended).
+  @#PB_NodeAnimation_Started: The animation is running.
+@EndFixedFont
+
+@SeeAlso
+  @@StartNodeAnimation, @@StopNodeAnimation
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetNodeAnimationTime(#NodeAnimation)
+
+@Description
+
+  Returns the current #NodeAnimation time.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+
+@ReturnValue
+  The current node animation time (in milliseconds) or 0 if the animation isn't running.
+
+@SeeAlso
+  @@StartNodeAnimation, @@AddNodeAnimationTime, @@SetNodeAnimationTime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetNodeAnimationTime(#NodeAnimation, Time)
+
+@Description
+
+  Changes the current #NodeAnimation time. This is an absolute time position. To change the
+  time relative to the current time, use @@AddNodeAnimationTime.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+
+@Parameter "Time"
+  The absolute time to set (in milliseconds).
+
+@NoReturnValue
+
+@SeeAlso
+  @@StartNodeAnimation, @@AddNodeAnimationTime, @@GetNodeAnimationTime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetNodeAnimationLength(#NodeAnimation)
+
+@Description
+
+  Returns the #NodeAnimation length.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+
+@ReturnValue
+  The node animation length (in milliseconds).
+
+@SeeAlso
+  @@StartNodeAnimation, @@SetNodeAnimationLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetNodeAnimationLength(#NodeAnimation, Length)
+
+@Description
+
+  Change the #NodeAnimation length.
+
+@Parameter "#NodeAnimation"
+  The node animation to use.
+
+@Parameter "Length"
+  The new node animation length (in milliseconds).
+
+@SeeAlso
+  @@StartNodeAnimation, @@GetNodeAnimationLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetNodeAnimationWeight(#NodeAnimation)
+
+@Description
+
+  Returns the #NodeAnimation weight. The weight is useful when playing several animations at once.
+  For example to do a smooth transition from one animation to another, it is possible to reduce 
+  progressively the weight of the first animation and increase the weight of the second animation.
+  
+@Parameter "#NodeAnimation"
+  The node animation to use.
+
+@ReturnValue
+  The current node animation weight (value between 0.0 and 1.0). If the weight is 0, then the animation
+  has no effect. If the weight is 1, then animation is fully playing.
+
+@SeeAlso
+  @@StartNodeAnimation
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetNodeAnimationWeight(#NodeAnimation, Weight)
+
+@Description
+
+  Changes the #NodeAnimation weight. The weight is useful when playing several animations at once.
+  For example to do a smooth transition from one animation to another, it is possible to reduce 
+  progressively the weight of the first animation and increase the weight of the second animation.
+  
+@Parameter "#NodeAnimation"
+  The node animation to use.
+
+@Parameter "Weight"
+  The new node animation weight (value between 0.0 and 1.0). If the weight is 0, then the animation
+  has no effect. If the weight is 1, then animation is fully playing.
+
+@NoReturnValue
+
+@SeeAlso
+  @@StartNodeAnimation
+
+@SupportedOS

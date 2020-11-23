@@ -1,0 +1,97 @@
+@Title Einsteiger-Kapitel - Entscheidungen & Bedingungen
+
+Es gibt verschiedene Möglichkeiten zum Verarbeiten von Daten aus Benutzereingaben oder
+auf andere Weise erhaltenen Daten (Laden aus einer Datei, ...). Die gebräuchlichen
+@ReferenceLink "variables" arithmetischen Funktionen" (+, -, *, /, ...) können mit
+Bedingungen kombiniert werden. Sie können das Set an @ReferenceLink "if_endif" "If : Else/ElseIf : EndIf"
+Schlüsselwörtern oder die @ReferenceLink "select_endselect" "Select : Case/Default : EndSelect"
+Schlüsselworte verwenden, verwenden Sie einfach die am besten für Ihre Situation geeigneten!
+@LineBreak
+@LineBreak
+Dieses Beispiel zeigt die Verwendung von @Keyword "If : ElseIf : Else : EndIf" für das
+Erzeugen einer Nachricht, gegebenenfalls für die Ansicht in der Statusleiste einer
+Eingabemaske (@LibraryLink "gadget" "GUI") oder etwas ähnlichem, basierend auf der Anzahl
+an Elementen und gefilterten Elementen in einer, imaginären, Liste. Beachten Sie bitte,
+dass im Gegensatz zu einigen anderen BASIC-Sprachen, PureBasic kein "Then" Schlüsselwort
+verwendet und dass in den ElseIf und EndIf Schlüsselwörtern kein Leerzeichen enthalten ist.
+
+@Code
+  Define.l Items = 10, Filter = 6
+  Define.s Message
+  
+  If Items = 0 
+    Message = "Liste ist leer."
+    
+  ElseIf Items = 1 And Filter = 0
+    Message = "Ein Eintrag. Vom Filter nicht angezeigt."
+    
+  ElseIf Items > 1 And Filter = 0
+    Message = StrU(Items) + " Einträge. Alle gefiltert."
+    
+  ElseIf Items > 1 And Filter = 1
+    Message = StrU(Items) + " Einträge. Einer vom Filter angezeigt."
+    
+  ElseIf Items = Filter
+    Message = StrU(Items) + " Einträge. Keine gefiltert."
+    
+  Else
+    ; Keine der anderen Bedingungen traf zu.
+    Message = StrU(Items) + " Einträge. " + StrU(Filter) +" angezeigt vom Filter."
+    
+  EndIf
+  
+  Debug Message
+@EndCode
+
+@LineBreak
+Dieses Beispiel zeigt die Verwendung von @Keyword "Select : Case : Default : EndSelect",
+um die ersten 127 @ReferenceLink "ascii" "ASCII"-Zeichen in Gruppen zu kategorisieren.
+Die "For : Next" Schleife zählt bis 130, um das @ReferenceLink "select_endselect" "Default"
+Schlüsselwort zu demonstrieren.
+
+@Code
+  Define.c Char
+  Define.s Message
+  
+  For Char = 0 To 130
+    
+    Select Char
+
+      Case 0 To 8, 10 To 31, 127
+        Message = StrU(Char) + " ist ein nicht druckbarer Kontroll-Code."
+        
+      Case 9
+        Message = StrU(Char) + " ist ein Tab."
+        
+      Case 32
+        Message = StrU(Char) + " ist ein Leerzeichen."
+        
+      Case 36, 128   
+        Message = StrU(Char) + " ist ein Währungssymbol. (" + Chr(Char) + ")"
+        
+      Case 33 To 35, 37 To 47, 58 To 64, 91 To 96
+        Message = StrU(Char) + " ist ein Satzzeichen oder mathematisches Symbol. (" + Chr(Char) + ")"
+        
+      Case 48 To 57
+        Message = StrU(Char) + " ist eine Zahl. (" + Chr(Char) + ")"
+        
+      Case 65 To 90
+        Message = StrU(Char) + " ist ein Großbuchstabe. (" + Chr(Char) + ")"
+        
+      Case 97 To 122
+        Message = StrU(Char) + " ist ein Kleinbuchstabe. (" + Chr(Char) + ")"
+        
+      Default
+        ; Wenn keine der vorangegangenen Case Bedingungen zutraf.
+        Message = "Sorry, ich weiß nicht, was " + StrU(Char) + " ist!"
+        
+    EndSelect
+    
+    Debug Message
+    
+  Next Char
+@EndCode
+
+
+@Section Einsteiger-Kapitel Navigation
+@ReferenceLink "ug_constants" "< Vorheriges: Konstanten" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_loops" "Nächstes: Schleifen >"

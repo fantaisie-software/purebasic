@@ -1,0 +1,66 @@
+@Title With : EndWith
+
+@Syntax
+
+  @Keyword With <expression>
+    ...
+  @Keyword EndWith
+
+@Description
+
+  @Keyword With : @Keyword EndWith blocks may be used with @ReferenceLink "structures" "structure" fields in order to reduce 
+  the quantity of code and to improve its' readability. This is a compiler directive, and works similarly to a @ReferenceLink "macros" "macro", i.e.,
+  the specified expression is automatically inserted before any anti-slash '\' character which does not have a space or an operator preceding it.
+  The code behaves identically to its' expanded version. @Keyword With : @Keyword EndWith blocks may not be nested, as this could introduce bugs
+  which are difficult to track under conditions where several statements have been replaced implicitly.
+  
+@Example 
+
+@Code
+  Structure Person
+    Name$
+    Age.l
+    Size.l
+  EndStructure
+
+  Friend.Person
+  
+  With Friend
+    \Name$ = "Yann"
+    \Age   = 30
+    \Size  = 196
+    
+    Debug \Size+\Size
+  EndWith
+    
+@EndCode
+
+@Example Complex example
+
+@Code
+  Structure Body
+    Weight.l
+    Color.l
+    Texture.l
+  EndStructure
+
+  Structure Person
+    Name$
+    Age.l
+    Body.Body[10]
+  EndStructure
+
+  Friend.Person
+  
+  For k = 0 to 9
+    With Friend\Body[k]
+      \Weight = 50
+      \Color  = 30
+      \Texture = \Color*k
+      
+      Debug \Texture
+    EndWith
+  Next
+    
+@EndCode
+

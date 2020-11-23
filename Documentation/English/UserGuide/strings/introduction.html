@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Introduction - Working with strings - PureBasic User Guide</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Working with strings: Introduction</h1>
+
+Most of the PureBasic built-in types are used to handle numbers (different ranges of whole numbers
+ or &quot;floating point&quot; numbers which can store fractional parts). However, one of the
+ built-in types is used to work with strings; strings are simply a sequence of characters
+ (numbers, letters or symbols) which can be manipulated as one or in smaller parts. This chapter
+ of the user guide will show you how to work with strings in whole or in parts.
+
+<p><h2>Memory organisation of strings</h2>
+Before we begin it might (or might not ;) be useful to know about the memory organisation of strings. As mentioned
+ above, a string is simply a sequence of characters. Each character in a PureBasic string requires
+ one byte in memory, therefore there are 256 different possible characters at each position in a
+ string. However, character number 0 (not the "0" digit - the actual character has the value 0),
+ which is sometimes called the null character or null terminator, is used to indicate the end of the
+ string. Each character in a string is located in memory next to each other, so that the
+ character at the start is in the lowest memory address and the character at the end of the string in
+ the highest memory address (followed by the null terminator). PureBasic will handle all
+ memory management for strings (including null terminators), allowing you to get one with your program and not need to worry
+ about the low level details.
+
+<p><h2>Characters represented</h2>
+You now know that 256 different characters can be represented by a single character in a string.
+ How do you know what character is represented by what number? Well, for most cases it does not
+ matter since you can enter a string directly into your PureBasic source code between sets of inverted
+ commas (the &quot; character, placed at the start and end of the string). You can then work on the strings
+ as if they were just strings of characters, rather than needing to know about what those character
+ values are. However, for those who want to know, PureBasic (as with probably everything else on your computer)
+ conforms to the ASCII character code standard.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td>None</td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="conversions.html">Conversions between numbers, strings and vice versa</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

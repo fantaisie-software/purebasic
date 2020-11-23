@@ -1,0 +1,27 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Requester example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Procedure RequesterSuccess()
+  ; Process all the selected filename
+  ;
+  While NextSelectedFile()
+    Debug SelectedFileName()
+  Wend
+EndProcedure
+
+Procedure ButtonEvent()
+  OpenFileRequester("", @RequesterSuccess(), #PB_Requester_MultiSelection)
+EndProcedure
+
+If OpenWindow(0, 100, 100, 200, 45, "File")
+  ButtonGadget(0, 10, 10, 180, 25, "Open local file(s)...")
+  BindGadgetEvent(0, @ButtonEvent())
+EndIf
+

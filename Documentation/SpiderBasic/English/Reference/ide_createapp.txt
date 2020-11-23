@@ -1,0 +1,243 @@
+@Title Creating app
+
+  Create an app is easy in SpiderBasic once the initial setup is done. Please refer to each section 
+  to see how to setup your system to support app creation. @LineBreak
+  @LineBreak
+  Create app window is found in the 'Compiler' menu of the SpiderBasic IDE:
+  
+@Image ide_menu_compile.png
+
+@Section Web app
+
+@Image ide_compiler_createwebapp.png
+
+@Bold "AppName" 
+@LineBreak
+  The name of the web app, will be displayed in the browser tab title. If nothing is specified, 'SpiderApp' will be used as default.
+@LineBreak
+@LineBreak
+
+@Bold "HTML filename"
+@LineBreak
+  The main output filename (should have the extension ".html"). If no value is specified, the
+  default output filename will be "spiderbasic.html".
+@LineBreak
+@LineBreak
+
+@Bold "JavaScript filename"
+@LineBreak
+  A SpiderBasic program is contained in one big JavaScript file. This will set the name of this
+  file (should have the extension ".js"). If no value is specified, the default JavaScript filename
+  will be "spiderbasic.js".
+@LineBreak
+@LineBreak
+
+@Bold "SpiderBasic library path"
+@LineBreak
+  The library path where all SpiderBasic dependencies should be loaded from. It can be relative to the
+  main HTML file, or be loaded from another server. This should be a raw copy of the 
+  'SpiderBasic/Libraries/JavaScript' directory. If no value is specified, the default JavaScript directory
+  will be "spiderbasic".
+@LineBreak
+@LineBreak
+
+@Bold "Copy SpiderBasic libraries"
+@LineBreak
+  If enabled, it will copy automatically the 'SpiderBasic/Libraries/JavaScript' content to the
+  directory in 'SpiderBasic library path'. The path has to be relative and the
+  destination directory structure needs to be already created.
+@LineBreak
+@LineBreak
+
+@Bold "Resource directory"
+@LineBreak
+  The path of the resource directory where all the app assets belongs to. It can be only one resource directory
+  specified. The whole directory will be automatically copied to the app root directory.
+@LineBreak
+@LineBreak
+
+@Bold "Commandline"
+@LineBreak
+  A post processing program to execute when the app creation is successfully finished. It can be for example a SCP
+  command to upload automatically the new files to a remote server.
+@LineBreak
+@LineBreak
+
+@Bold "Arguments"
+@LineBreak
+  The arguments to use for the post processing program.
+@LineBreak
+@LineBreak
+
+
+@Section iOS app
+
+@Image ide_compiler_createiosapp.png
+
+@Bold "Overview"  
+  @LineBreak
+  To be able to create iOS app, a Mac and an Apple developper subscription (99$/year) are required.
+  XCode needs to be installed on the Mac (available freely on the AppStore), and the developper account needs to be
+  linked to XCode (XCode/Preferences/Account). The iOS certificates needs to be downloaded to the local Mac.
+  Your Apple Team ID (info available in your online Apple account -> Profile) needs to be set in the
+  SpiderBasic IDE -> Preferences -> Compiler.
+  
+@Bold "AppName"  
+@LineBreak
+  The name of the iOS app, will be displayed on the iOS desktop.
+@LineBreak
+@LineBreak
+
+@Bold "Version"
+@LineBreak
+  The version of the iOS app (ex: 1.0.0.0).
+@LineBreak
+@LineBreak
+
+@Bold "Package ID"
+@LineBreak
+  The package identifier of the iOS app (ex: com.spiderbasic.test).
+@LineBreak
+@LineBreak
+
+@Bold "Startup image"
+@LineBreak
+  The image (in png or jpg format) to uses when the app launch. It will be automatically resized and cropped 
+  to fit all iOS possible devices. The image should be 2048x2048 pixels to have best resolution on iPad, and
+  the main information should be at the center of the image, as borders can be cropped depending of the devices
+  screen resolution.
+@LineBreak
+@LineBreak
+
+@Bold "Orientation"
+@LineBreak
+  The orientation to use for the app. By default, the app can be freely rotated when the device is rotated.
+  "Portrait" and "Landscape" mode can be specified to force a specific app orientation.
+@LineBreak
+@LineBreak
+
+@Bold "Fullscreen"
+@LineBreak
+  When enabled, all battery information, date and such will be removed and the app will run in fullscreen mode.
+  This is mainly useful for games.
+@LineBreak
+@LineBreak
+
+@Bold "Geolocation"
+@LineBreak
+  When enabled, the geolocation permission requirement is added to the app, so the GPS information can be read
+  (from inline Javascript for now, a built-in library will be available later).
+@LineBreak
+@LineBreak
+
+@Bold "Resource directory"
+@LineBreak
+  The path of the resource directory where all the app assets belongs to. It can be only one resource directory
+  specified. The whole directory will be automatically copied to the app root directory.
+@LineBreak
+@LineBreak
+
+
+@Bold "Output filename"
+@LineBreak
+  The name of the created app (.ipa).
+@LineBreak
+@LineBreak
+
+@Bold "Automatic upload"
+@LineBreak
+  If the app creation is successful, it will be installed automatically on the USB connected device. The device
+  needs to have been registered on XCode before. It also needs to be paired with the Mac (when the device is plugged
+  via USB, iTunes should launch and ask access to the device, it has to be allowed).
+@LineBreak
+@LineBreak
+
+
+@Section Android app
+
+@Image ide_compiler_createandroidapp.png
+
+@Bold "Overview"  
+@LineBreak
+  To be able to create an Android app, a Windows computer is required. 
+  JDK 1.8+ needs to be installed (available here: @InternetLink "http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" "JDK 1.8")
+  and the path has to be specified in the SpiderBasic IDE -> Preferences -> Compiler.
+  Before publishing an Android app on GooglePlay, it needs to be signed, SpiderBasic doesn't handle it
+  automatically for now.
+@LineBreak
+@LineBreak
+
+@Bold "AppName"  
+@LineBreak
+  The name of the Android app, will be displayed on the Android desktop.
+@LineBreak
+@LineBreak
+
+@Bold "Version"
+@LineBreak
+  The version of the Android app (ex: 1.0.0.0).
+@LineBreak
+@LineBreak
+
+@Bold "Package ID"
+@LineBreak
+  The package identifier of the Android app (ex: com.spiderbasic.test).
+@LineBreak
+@LineBreak
+
+@Bold "IAP Key"
+@LineBreak
+  Your GooglePlay In-App Purchase Key. It can be found in the google play console 'Service & API' -> 'Public key RSA for this app'
+  (the key which looks like: MIIB......AQAB).
+@LineBreak
+@LineBreak
+
+@Bold "Startup image"
+@LineBreak
+  The image (in png or jpg format) to uses when the app launch. It will be automatically resized and cropped 
+  to fit all Android possible devices. The image should be 2048x2048 pixels to have best resolution on tablet, and
+  the main information should be at the center of the image, as borders can be cropped depending of the devices
+  screen resolution.
+@LineBreak
+@LineBreak
+
+@Bold "Orientation"
+@LineBreak
+  The orientation to use for the app. By default, the app can be freely rotated when the device is rotated.
+  "Portrait" and "Landscape" mode can be specified to force a specific app orientation.
+@LineBreak
+@LineBreak
+
+@Bold "Fullscreen"
+@LineBreak
+  When enabled, all battery information, date and such will be removed and the app will run in fullscreen mode.
+  This is mainly useful for games.
+@LineBreak
+@LineBreak
+
+@Bold "Geolocation"
+@LineBreak
+  When enabled, the geolocation permission requirement is added to the app, so the GPS information can be read
+  (from inline Javascript for now, a built-in library will be available later).
+@LineBreak
+@LineBreak
+
+@Bold "Resource directory"
+@LineBreak
+  The path of the resource directory where all the app assets belongs to. It can be only one resource directory
+  specified. The whole directory will be automatically copied to the app root directory.
+@LineBreak
+@LineBreak
+
+
+@Bold "Output filename"
+@LineBreak
+  The name of the created app (.apk)
+@LineBreak
+@LineBreak
+
+@Bold "Automatic upload"
+@LineBreak
+  If the app creation is successful, it will be installed automatically on the USB connected device.
+@LineBreak
+@LineBreak

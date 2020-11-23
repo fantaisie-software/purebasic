@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Repeating instructions until something happens - Program Flow - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Program Flow: Repeating instructions until something happens</h1>
+
+The final loop type that PureBasic offers is the Repeat...Until loop (I am sure
+ you can guess where the name came from by now :). This type of loop can be thought of
+ as the opposite of the While...Wend loop, although both could be used for the same
+ purposes. The basic structure of the Repeat...Until loop is shown below:
+
+<pre class="codepart">
+Repeat
+    ; Instructions to execute during the loop
+Until &lt;expression&gt;
+</pre>
+
+<p>The operation of a Repeat...Until loop is that the instructions inside the
+ loop are executed and then the value of the expression is calculated. If this
+ value is true then the loop exits and the program continues executing from the
+ next instruction after the Until keyword. If the value of the expression is
+ false then the loop repeats. The overall working of this loop can be thought
+ of as repeating a sequence of instructions until something happens. Notice
+ that the instructions inside the loop are always executed at least once.
+
+<p>The examples below different ways to use the Repeat...Until loops, which
+ you can also download from <a href="repeat.pb">here</a>.
+
+<pre class="code">If OpenConsole()
+
+    divided.l = 64
+    Repeat
+        PrintN(&quot;divided = &quot;+Str(divided))
+        divided = divided / 2
+    Until divided = 1
+
+    Repeat
+        PrintN(&quot;You will see this once&quot;)
+    Until 1
+
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p><img class="output" src="repeat_run.png" alt="Output from the Repeat...Until loop example" width="302" height="187">
+ As you can see from the example output on the right, the last variable value to be printed is 2.
+ This is because the value is printed and then divided by 2 (giving 1). The Repeat loop exits when
+ the value of the variable is 1, and because the expression check is performed at the end of the
+ loop, it is exited here.
+
+<p class="noclear">The second Repeat...Until loop in that example shows the position that the expression
+ is checked. The loop exits when the expression, 1, is true (and since 1 is non-zero it
+ is true, meaning that the loop will exit on the first iteration). As you can see from
+ the example output, the print instruction is executed before the loop is exited meaning
+ that the expression check must come after the PrintN command, i.e. at the end of the
+ loop. This is the opposite from the Wile...Wend loop.
+
+<p><h2>Forever keyword</h2>
+There is an alternative to using the Until keyword and that is to use the
+ Forever keyword. It does not require an expression since its use is to
+ make the loop repeat forever. If you use this keyword in a Repeat loop
+ then you will need to use one of the techniques described on the next page
+ to get out of the loop.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="while.html">Repeating instructions while something is happening</td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="exitloops.html">Exiting loops early</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

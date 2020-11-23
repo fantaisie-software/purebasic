@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Interagieren mit dem Benutzer - PureBasic Benutzerhandbuch</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Interagieren mit dem Benutzer: Darstellen von Text</h1>
+Es gibt zwei Befehle für das Anzeigen von Text in einem Konsolenfenster. Der erste ist PrintN,
+den Sie schon in den Beispielen und Übungen kennen gelernt haben, und der andere ist Print,
+der ziemlich ähnlich ist. 
+
+<p>Der Befehl PrintN erwartet einen Parameter: den String, der im Konsolfenster angezeigt
+werden soll. PrintN gibt keinen Wert zurück. Der String wird im Konsolenfenster an der
+gegenwärtigen Position des Cursors angezeigt. Der Cursor wird dann auf die nächste Zeile
+bewegt, so dass jeder Text, der nach dem Anrufen von PrintN angezeigt wird, am Anfang
+der nächsten Zeile angezeigt wird. 
+
+<p>Der Print Befehl ist sehr ähnlich. Er erwartet ebenfalls einen Parameter (einen String) und
+gibt keinen Wert zurück. Der String wird im Konsolenfenster an der gegenwärtigen Position
+des Cursors angezeigt. Die Cursor-Position wird aktualisiert, damit sie sich am Ende des
+gerade ausgegebenen Strings befindet, jedoch nicht auf einer neuen Zeile.
+
+<p>Erinnern Sie sich daran, dass Sie für das Anzeigen von Zahlen diese zuerst in Strings
+umwandeln müssen. Dies wird mit Hilfe der Befehle Str() und StrF() getan, wie im
+<a href="../variables/index.html">Variablen Kapitel</a> beschrieben.
+
+<p>Dieses Beispiel erläutert den Unterschied zwischen PrintN und Print. Sie können den
+Quellcode <a href="print.pb">hier</a> bekommen. Die Ausgabe des Programms
+wird unterhalb des Beispiels gezeigt.
+
+<pre class="code">OpenConsole()
+
+Print(&quot;There will be no new line after this:&quot;)
+Print(&quot;Told you!&quot;)
+
+PrintN(&quot;Notice that the newline is put in after the string to be printed and not before it (this string is also on the end of the previous ones&quot;)
+PrintN(&quot;This is on a new line&quot;)
+PrintN(&quot;&quot;)
+PrintN(&quot;That last command gave us a blank line (printing an empty string with a new line)&quot;)
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End
+</pre>
+
+<p><img class="output" src="print_run.png" alt="Ausgabe des Print Beispiels" width="652" height="359">
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="consoles.html">Erstellen von Text-Anzeigen</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="input.html">Einlesen von Benutzereingaben</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

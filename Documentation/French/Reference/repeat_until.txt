@@ -1,0 +1,26 @@
+@Title Repeat : Until
+
+@Syntax
+
+  @Keyword Repeat
+    ...
+  @Keyword Until <expression> [ou @Keyword Forever] 
+
+@Description
+
+  Cette fonction boucle jusqu'à ce que <expression> soit vrai. Si une boucle infinie est requise 
+  il est préférable d'utiliser le mot clef @Keyword Forever à la place de Until.
+
+@Example
+
+@Code
+  a=0
+  Repeat 
+    a=a+1
+    Debug a
+  Until a>100 
+@EndCode
+
+  Ceci produira une boucle jusqu'à ce que "a" prenne une valeur strictement supérieure à 100, (il y aura donc 101 cycles).
+  
+

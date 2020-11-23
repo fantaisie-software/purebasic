@@ -1,0 +1,49 @@
+@Title Configuration système requise
+
+  PureBasic fonctionne sur les versions 32 bits et 64 bits de Windows XP, Vista, Windows 7, Windows 8 et Windows 10, 
+  Linux (noyau 2.2 et ultérieur) et MacOS X (10.8.5 et ultérieur). @LineBreak
+  @LineBreak
+  Si vous rencontrez un problème sur l'une des configurations ci-dessus, n'hésitez pas à
+  nous en informer.
+
+@Section Windows
+  Afin d'utiliser les nombreuses fonctions graphiques @LibraryLink "engine3d" "3D" ainsi que les @LibraryLink "sprite" "Sprites", 
+  il est nécessaire d'utiliser la version 9.0c de DirectX. Windows Vista et les versions ultérieures de Windows contiennent déjà 
+  cette version de DirectX, mais pour les versions antérieures de Windows, il faudra procéder à une installation manuelle.
+  @LineBreak
+  @LineBreak
+  Vous pouvez la télécharger et l'installer via le "DirectX End-User Runtime Web Installer"
+  ici: @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=35" "http://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=35".
+  @LineBreak
+  En français: @InternetLink "https://www.microsoft.com/fr-fr/download/details.aspx?id=20265" "https://www.microsoft.com/fr-fr/download/details.aspx?id=20265"
+  
+@Section Linux
+
+Paquets nécessaires pour utiliser PureBasic sous Linux:  
+@Indent @Section
+  - sdl 1.2 devel (pour les commandes multimédias) @LineBreak
+  - gtk 3 (Pour les programmes GUI) @LineBreak
+  - libstdc++ devel @LineBreak
+  - gcc correctement installé @LineBreak
+@LineBreak  
+  - iodbc et iodbc-devel doivent être installés pour utiliser les commandes @LibraryLink "database" "Database" (voir @InternetLink "http://www.iodbc.org" "www.iodbc.org") @LineBreak
+@LineBreak
+  - libwebkit doit être installé pour utiliser @@WebGadget. @LineBreak
+@LineBreak
+  - xine et xine-devel pour les commandes @LibraryLink "movie" "Movie" 
+  
+Pour plus d'information, consulter les fichiers INSTALL et README.
+
+@EndIndent
+
+
+@Section MacOS X
+
+Les outils de développement Apple (Apple Developer Tools) doivent être installés avant de pouvoir
+utiliser PureBasic. Ils sont fournis sur les CDs (ou DVD) d'installation de MacOS X ou disponible sur
+le site web d'Apple: http://developer.apple.com/
+@LineBreak
+@LineBreak
+Pensez à utiliser la dernière version des différents outils (par exemple XCode), adaptée à la bonne version de votre OS !
+Les outils de ligne de commandes doivent être installés depuis XCode.
+

@@ -1,0 +1,171 @@
+;
+;     Font library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Font
+
+@Overview
+  Fonts are widely used on computers since it is the only way to render text in
+  differents sizes and forms.
+@LineBreak
+@LineBreak
+  Note: with SpiderBasic using a colored font is as yet not possible.
+  This may be achieved by using the @@StartDrawing function and
+  then drawing directly on the visual area.
+
+@CommandList
+
+@ExampleFile All Font.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeFont(#Font)
+
+@Description
+  Free the given Font, previously initialized by @@LoadFont.
+
+@Parameter "#Font"
+  The font to free. If @#PB_All is specified, all the remaining fonts are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining fonts are automatically freed when the program ends.
+
+@SeeAlso
+  @@LoadFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FontID = FontID(#Font)
+
+@Description
+  Returns the unique system identifier of the #Font.
+
+@Parameter "#Font"
+  The font to use.
+
+@ReturnValue
+  Returns the ID of the font.
+  This result is sometimes also referred to as a 'Handle'. Take a look at the extra chapter @ReferenceLink "handles" "Handles and Numbers" for
+  more information.
+
+@Example
+  An example of using FontID() in combination with @@DrawingFont:
+
+@Code
+  If OpenWindow(0, 100, 200, 300, 200, "2D Drawing Test")
+  
+    If CreateImage(0, 300, 200)
+      If StartDrawing(ImageOutput(0))
+        DrawingMode(#PB_2DDrawing_Transparent)
+        
+        LoadFont(0, "times", 30)
+        DrawingFont(FontID(0))
+        
+        DrawText(10, 50, "Hello world !", RGB(255, 0, 0))
+        
+        LoadFont(0, "verdana", 12)
+        DrawingFont(FontID(0))
+        
+        DrawText(10, 150, "This is a green verdana text", RGB(0, 255, 0))
+        
+        StopDrawing()
+      EndIf
+    EndIf
+  
+    ; Create a gadget to display the image
+    ;  
+    ImageGadget(0, 0, 0, 300, 200, ImageID(0))
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@LoadFont, @@DrawingFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsFont(#Font)
+
+@Description
+  Tests if the given #Font is a valid and correctly initialized font.
+
+@Parameter "#Font"
+  The font to use.
+
+@ReturnValue
+  Returns nonzero if #Font is a valid font and zero otherwise.
+
+@Remarks
+  This function is bulletproof and can be used with any value. 
+  If Result is not zero then the object is valid and initialized, 
+  otherwise it returns zero. This is a good way to check that a font is ready to use. 
+
+@SeeAlso
+  @@LoadFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LoadFont(#Font, Name$, Height [, Flags])
+
+@Description
+  Tries to open the specified font.
+
+@Parameter "#Font"
+  A number to identify the new font. @ReferenceLink "spiderbasic_objects" "#PB_Any"
+  can be used to auto-generate this number.
+
+@Parameter "Name$"
+  The name of the font to load.
+
+@Parameter "Height"
+  The vertical size of the font in points.
+
+@OptionalParameter "Flags"
+  A combination of the following constants:
+@FixedFont
+  @#PB_Font_Bold       : The font will be bold
+  @#PB_Font_Italic     : The font will be italic
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the font was loaded successfully and zero if not. If @#PB_Any
+  was used for the #Font parameter then the generated number is returned on success.
+
+@Example
+@Code
+  If OpenWindow(0, 100, 200, 300, 200, "2D Drawing Test")
+  
+    If CreateImage(0, 300, 200)
+      If StartDrawing(ImageOutput(0))
+        DrawingMode(#PB_2DDrawing_Transparent)
+        
+        LoadFont(0, "times", 30)
+        DrawingFont(FontID(0))
+        DrawText(10, 50, "Hello world !", RGB(255, 0, 0))
+        
+        StopDrawing()
+      EndIf
+    EndIf
+  
+    ; Create a gadget to display the image
+    ;  
+    ImageGadget(0, 0, 0, 300, 200, ImageID(0))
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FontID, @@FreeFont
+
+@SupportedOS
+

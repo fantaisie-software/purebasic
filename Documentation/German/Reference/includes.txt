@@ -1,0 +1,78 @@
+@Title Include Funktionen
+
+@Syntax
+
+  @Keyword IncludeFile  "Dateiname" 
+  @Keyword XIncludeFile "Dateiname" 
+
+@Description
+
+  @Keyword IncludeFile fügt die genannte Programmdatei (Datei mit PureBasic-Sourcecode) an der aktuellen 
+  Stelle in den Programmcode ein. @Keyword XIncludeFile macht genau dasselbe, außer dass es vermeidet, dieselbe 
+  Datei mehrfach einzufügen.
+
+  @Example
+
+@Code
+  XIncludeFile "Sources\myfile.pb" ; diese Datei wird eingefügt.
+  XIncludeFile "Sources\myfile.pb" ; diese Datei wird ignoriert, wie auch alle späteren Aufrufe.
+@EndCode
+
+  Diese Befehle sind nützlich, wenn Sie Ihren Programmcode auf verschiedene Dateien aufteilen möchten, 
+  um einzelne Teile z.B. in verschiedenden Projekten wiederverwenden zu können.
+  @LineBreak
+  
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword IncludeBinary "Dateiname"
+
+@Description
+
+  @Keyword IncludeBinary fügt die genannte Datei an der aktuellen Stelle in das Programm ein. 
+  Das Einfügen sollte dabei innerhalb eines @ReferenceLink "Data" "Data-Blocks" erfolgen.
+
+  @Example
+
+@Code
+  DataSection
+    MapLabel:
+    IncludeBinary "Data\map.data"
+  EndDataSection
+@EndCode
+
+  Dieser Befehl ist insbesondere nützlich im Zusammenhang mit den Catch-Befehlen (gegenwärtig 
+  gibt es @@CatchImage, @@CatchSound, @@CatchSprite) 
+  zum Einfügen von Bildern, Sounds, Sprites etc. in das Executable.
+  @LineBreak
+     
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword IncludePath "Dateipfad"
+
+@Description
+
+  @Keyword IncludePath legt den Standard-Dateipfad für alle nach diesem Befehl einzufügenden Dateien fest. 
+  Dies kann sehr nützlich sein, wenn Sie viele Dateien einfügen, die sich im selben Verzeichnis befinden.
+
+  @Example
+
+@Code
+  IncludePath  "Sources\Data"
+  IncludeFile  "Sprite.pb"
+  XIncludeFile "Music.pb"
+@EndCode  
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

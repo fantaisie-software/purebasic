@@ -1,0 +1,148 @@
+;
+;     Clipboard library documentation
+;
+;      (c) 2012 - Fantaisie Software
+;
+
+@Library Clipboard
+
+@Overview
+  Die Zwischenablage (das "Clipboard") ist der Standard-Weg, um Informationen und Daten zwischen gerade
+  auf dem OS laufenden Applikationen auszutauschen. Sie bietet dem Anwender auch einfachen temporären
+  Speicherplatz, wo Informationen und Daten schnell und einfach gespeichert und wieder abgerufen werden
+  können. Zum Beispiel wird im Text-Editor ein Text beim Ausschneiden in die Zwischenablage kopiert, von wo er
+  später wieder abgerufen werden kann, indem er in einer anderen Applikation eingefügt wird.
+@LineBreak
+@LineBreak
+  PureBasic gibt dem Programmierer die Möglichkeit, Anwendungen zu entwickeln, die zum 
+  Ausschneiden, Kopieren und Einfügen von Text oder Bildern über die Standard-Zwischenablage
+  imstande sind.
+  
+@CommandList
+
+@ExampleFile All Clipboard.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearClipboard()
+
+@Description
+  Löscht die Zwischenablage (das Clipboard). Das bedeutet, dass alle im Clipboard enthaltenen Daten restlos gelöscht 
+  werden und nicht mehr über die Zwischenablage verfügbar sind.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@SetClipboardText, @@SetClipboardImage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetClipboardImage(#Image [, Tiefe])
+
+@Description
+  Erstellt ein neues Bild aus den gerade in der Zwischenablage befindlichen Bild-Daten (sofern es 
+  dort welche gibt).
+
+@Parameter "#Image"
+  Die Nummer für das neue Bild.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@OptionalParameter "Tiefe"
+  Die Tiefe des neuen Bildes. Gültige Werte sind 24 (Standard) oder 32 Bit.
+
+@ReturnValue
+  Gibt bei Erfolg einen Wert ungleich Null zurück, und Null bei einem Fehler. 
+  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als #Image Parameter verwendet wurde,
+  dann wird die neue Image Nummer zurückgegeben.
+
+@Remarks
+  Das Bild kann mittels der Funktion @@FreeImage freigegeben werden.
+  Zur weiteren Verwendung des Bildes sind Befehle wie z.B. @@DrawImage 
+  oder @@ImageGadget verfügbar.
+
+@SeeAlso
+  @@GetClipboardText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = GetClipboardText()
+
+@Description
+  Gibt den gerade in der Zwischenablage befindlichen Text-String zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt den Inhalt der Zwischenablage zurück, wenn diese Text enthält.
+  Wenn die Zwischenablage keine Daten oder keine Text-Daten enthält, dann wird
+  ein leerer String zurückgegeben.
+
+@SeeAlso
+  @@GetClipboardImage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetClipboardImage(#Image)
+
+@Description
+  Stellt eine Kopie des angegebenen Bildes '#Image' in die Zwischenablage.
+  Wenn die Zwischenablage gerade ein Bild enthält, wird dieses überschrieben.
+
+@Parameter "#Image"
+  Das Bild, welches in die Zwischenablage kopiert werden soll.
+
+@NoReturnValue
+
+@Remarks
+  Ein Bild ist für die Verwendung mit dieser Funktion verfügbar, nachdem es z.B. mittels
+  @@CreateImage erstellt oder mittels @@LoadImage
+  geladen wurde.
+
+@Example
+@Code
+  If CreateImage(0, 26, 20)
+    StartDrawing(ImageOutput(0))
+      Box(0, 0, 26, 20, RGB(255, 255, 255))
+      Circle(13, 10, 5, RGB(255, 0, 0))
+    StopDrawing()
+    SetClipboardImage(0)
+  EndIf
+
+  ; jetzt können Sie ein Grafik-Tool öffnen und den Inhalt der Zwischenablage einfügen, 
+  ; Sie werden eine japanische Flagge sehen ;-)
+@EndCode
+
+@SeeAlso
+  @@SetClipboardText, @@ClearClipboard
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetClipboardText(Text$)
+
+@Description
+  Speichert einen String in der Zwischenablage. Wenn die Zwischenablage bereits Text enthält,
+  wird dieser überschrieben.
+
+@Parameter "Text$"
+  Der String, den Sie in der Zwischenablage speichern möchten.
+
+@NoReturnValue 
+
+@SeeAlso
+  @@SetClipboardImage, @@ClearClipboard
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

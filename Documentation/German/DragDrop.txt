@@ -1,0 +1,916 @@
+;
+;     Drag & Drop library documentation
+;
+;      (c) 2017 - Fantaisie Software
+;
+
+@Library DragDrop
+
+@OverView
+  Drag & Drop (zu Deutsch "Ziehen & fallen lassen") ist heutzutage eine weithin verwendete Technologie, da sie 
+  einen einfachen und sehr intuitiven Weg bietet, um Daten zwischen Fenstern und Applikationen hin und her
+  zu schieben. Diese Bibliothek bietet Crossplattform-Funktionen, um diese Funktionalität
+  mit lediglich einigen extra Zeilen Code zu @LibraryLink "gadget" "Gadgets" und @LibraryLink "window" "Fenstern" hinzuzufügen.
+@LineBreak
+@LineBreak
+  Weiterhin bietet diese Bibliothek einige Funktionen, um ihre Standard-Möglichkeiten mit
+  plattform-spezifischen APIs zu erweitern. Damit wird dem erfahrenen Programmierer
+  alle Freiheit zum Arbeiten mit spezifischen Formaten gegeben, während er trotzdem
+  von dem durch diese Bibliothek gebotenen Framework profitieren kann.
+@LineBreak
+@LineBreak
+  Es gibt Einschränkungen auf OSX, hier ist Drag & Drop nur mit Bildern möglich.
+
+@CommandList
+
+@ExampleFile All DragDrop.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DragText(Text$ [, Aktionen])
+
+@Description
+  Startet eine Drag & Drop Operation mit Text-Daten. 
+
+@Parameter "Text$"
+  Der zu "ziehende" (englisch "to drag") Text.
+
+@OptionalParameter "Aktionen"
+  Eine Kombination der Drag & Drop Aktionen, welche für die Daten erlaubt sein sollen.
+  Wenn der Parameter nicht angegeben wird, wird @#PB_Drag_Copy die einzige erlaubte Aktion sein.
+  Mögliche Aktionen sind: (sie können mittels '|' kombiniert werden)
+@FixedFont
+  @#PB_Drag_Copy: Der Text kann kopiert werden
+  @#PB_Drag_Move: Der Text kann verschoben werden
+  @#PB_Drag_Link: Der Text kann verlinkt werden
+@EndFixedFont
+
+  Der Anwender kann durch Drücken der Zusatztasten wie 'Strg' oder 'Shift' entscheiden, welche dieser 
+  Aktionen verwendet werden soll. Die Aktionen, welche tatsächlich stattfinden können, richten sich
+  auch nach den vom Zielobjekt (englisch "drop target") erlaubten Aktionen.
+@LineBreak
+  (Auf MacOSX werden die Aktionen nur als ein Vorschlag übergeben. Das Zielobjekt kann immer
+  noch eine andere Aktion auswählen.)
+
+@ReturnValue
+  Gibt einen der oben genannten Drag & Drop Aktions-Werte zurück, welche die vom Anwender genutzte Aktion
+  anzeigen, oder @#PB_Drag_None wenn der Anwender die Drag & Drop Operation abgebrochen hat.
+@LineBreak
+@LineBreak
+  Bitte beachten Sie, dass es bei Rückgabe von @#PB_Drag_Move in Ihrer Verantwortung liegt,
+  den verschobenen Text von Ihrer Applikation zu entfernen.
+
+@Remarks
+  Drag & Drop kann grundsätzlich jederzeit gestartet
+  werden, aber die linke Maustaste sollte aktuell gedrückt sein, da andernfalls die Operation umgehend
+  und ohne Erfolg beendet wird. Der übliche Zeitpunkt zum Starten einer Drag & Drop Operation ist, wenn
+  ein @LibraryLink "Gadget" "Gadget" über @@EventType ein Ereignis vom Typ
+  @#PB_EventType_DragStart zurückmeldet.
+
+@SeeAlso
+  @@DragFiles, @@DragImage, @@DragPrivate, @@DragOSFormats,
+  @@SetDragCallback
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DragImage(ImageID [, Aktionen])
+
+@Description
+  Startet eine Drag & Drop Operation mit Bild-Daten.
+
+@Parameter "ImageID"
+  Das zu "ziehende" (englisch "to drag") Bild.
+  @@ImageID kann verwendet werden, um diese ID für ein Bild zu erhalten.
+
+@OptionalParameter "Aktionen"
+  Eine Kombination der Drag & Drop Aktionen, welche für das Bild erlaubt sein sollen.
+  Wenn der Parameter nicht angegeben wird, wird @#PB_Drag_Copy die einzige erlaubte Aktion sein.
+  Mögliche Aktionen sind: (sie können mittels '|' kombiniert werden)
+@FixedFont
+  @#PB_Drag_Copy: Das Bild kann kopiert werden
+  @#PB_Drag_Move: Das Bild kann verschoben werden
+  @#PB_Drag_Link: Das Bild kann verlinkt werden
+@EndFixedFont
+
+  Der Anwender kann durch Drücken der Zusatztasten wie 'Strg' oder 'Shift' entscheiden, welche dieser 
+  Aktionen verwendet werden soll. Die Aktionen, welche tatsächlich stattfinden können, richten sich
+  auch nach den vom Zielobjekt (englisch "drop target") erlaubten Aktionen.
+@LineBreak
+  (Auf MacOSX werden die Aktionen nur als ein Vorschlag übergeben. Das Zielobjekt kann immer
+  noch eine andere Aktion auswählen.)
+
+@ReturnValue
+  Gibt einen der oben genannten Drag & Drop Aktions-Werte zurück, welche die vom Anwender genutzte Aktion
+  anzeigen, oder @#PB_Drag_None wenn der Anwender die Drag & Drop Operation abgebrochen hat.
+@LineBreak
+@LineBreak
+  Bitte beachten Sie, dass es bei Rückgabe von @#PB_Drag_Move in Ihrer Verantwortung liegt,
+  das verschobene Bild von Ihrer Applikation zu entfernen.
+
+@Remarks
+  Drag & Drop kann grundsätzlich jederzeit gestartet
+  werden, aber die linke Maustaste sollte aktuell gedrückt sein, da andernfalls die Operation umgehend
+  und ohne Erfolg beendet wird. Der übliche Zeitpunkt zum Starten einer Drag & Drop Operation ist, wenn
+  ein @LibraryLink "Gadget" "Gadget" über @@EventType ein Ereignis vom Typ
+  @#PB_EventType_DragStart zurückmeldet.
+
+@Example
+@Code
+  ; Verschieben Sie das Bild zu einer Applikation, welche Bilder akzeptiert (wie Office- oder Grafikprogramme).
+  ;
+  If LoadImage(1, #PB_Compiler_Home + "examples/sources/data/PureBasicLogo.bmp")
+    If OpenWindow(1, 200, 200, 400, 90, "Drag & Drop", #PB_Window_SystemMenu)
+      ImageGadget(1, 10, 10, 380, 70, ImageID(1))
+    
+      Repeat
+        Event = WaitWindowEvent()      
+        If Event = #PB_Event_Gadget And EventGadget() = 1 And EventType() = #PB_EventType_DragStart
+          DragImage(ImageID(1))
+        EndIf      
+      Until Event = #PB_Event_CloseWindow
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DragFiles, @@DragText, @@DragPrivate, @@DragOSFormats,
+  @@SetDragCallback
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DragFiles(Dateien$ [, Aktionen])
+
+@Description
+  Startet eine Drag & Drop Operation mit einer Liste von Dateinamen.
+
+@Parameter "Dateien$"
+  Eine Liste der zu "ziehenden" (englisch "to drag") Dateinamen oder Verzeichnisse. Mehrere Dateinamen sollten
+  mit einem @Link "String/Chr" "Chr(10)" (Zeilenvorschub) Zeichen getrennt werden. Jeder Dateiname muss
+  seinen vollen Pfad beinhalten, da die Ziel-Applikation nicht weiß, wie sie relative Namen auflösen soll.
+  Die Dateinamen müssen auf existierende Dateien verweisen, sodass die Ziel-Applikation auf sie zugreifen kann.
+
+@OptionalParameter "Aktionen"
+  Eine Kombination der Drag & Drop Aktionen, welche für die Dateien erlaubt sein sollen.
+  Wenn der Parameter nicht angegeben wird, wird @#PB_Drag_Copy die einzige erlaubte Aktion sein.
+  Mögliche Aktionen sind: (sie können mittels '|' kombiniert werden)
+@FixedFont
+  @#PB_Drag_Copy: Die Dateien können kopiert werden
+  @#PB_Drag_Move: Die Dateien können verschoben werden
+  @#PB_Drag_Link: Die Dateien können verlinkt werden
+@EndFixedFont
+
+  Der Anwender kann durch Drücken der Zusatztasten wie 'Strg' oder 'Shift' entscheiden, welche dieser 
+  Aktionen verwendet werden soll. Die Aktionen, welche tatsächlich stattfinden können, richten sich
+  auch nach den vom Zielobjekt (englisch "drop target") erlaubten Aktionen.
+@LineBreak
+  (Auf MacOSX werden die Aktionen nur als ein Vorschlag übergeben. Das Zielobjekt kann immer
+  noch eine andere Aktion auswählen.)
+
+@ReturnValue
+  Gibt einen der oben genannten Drag & Drop Aktions-Werte zurück, welche die vom Anwender genutzte Aktion
+  anzeigen, oder @#PB_Drag_None wenn der Anwender die Drag & Drop Operation abgebrochen hat.
+@LineBreak
+@LineBreak
+  Bitte beachten Sie, dass - anders als bei anderen Funktionen zum Starten von Drag & Drop - nichts unternommen
+  werden sollte, wenn @#PB_Drag_Move zurückgegeben wird. Da es sich bei den "gezogenen" Dateien
+  nur um den Dateinamen und nicht um die Datei selbst handelt, muss jede auf die Datei anzuwendende Aktion vom
+  Zielobjekt ausgeführt werden.
+
+@Remarks
+  Drag & Drop kann grundsätzlich jederzeit gestartet
+  werden, aber die linke Maustaste sollte aktuell gedrückt sein, da andernfalls die Operation umgehend
+  und ohne Erfolg beendet wird. Der übliche Zeitpunkt zum Starten einer Drag & Drop Operation ist, wenn
+  ein @LibraryLink "Gadget" "Gadget" über @@EventType ein Ereignis vom Typ
+  @#PB_EventType_DragStart zurückmeldet.
+
+@Example
+@Code
+  ; Wählen Sie einige Dateien oder Ordner und ziehen Sie diese zu einer anderen Applikation
+  ;
+  If OpenWindow(1, 200, 200, 400, 400, "Drag & Drop", #PB_Window_SystemMenu)
+    ExplorerListGadget(1, 10, 10, 380, 380, "*", #PB_Explorer_MultiSelect)
+  
+    Repeat
+      Event = WaitWindowEvent()  
+          
+      If Event = #PB_Event_Gadget And EventGadget() = 1 And EventType() = #PB_EventType_DragStart
+        Files$ = ""       
+        For i = 0 To CountGadgetItems(1)-1
+          If GetGadgetItemState(1, i) & #PB_Explorer_Selected
+            Files$ + GetGadgetText(1) + GetGadgetItemText(1, i) + Chr(10)
+          EndIf
+        Next i        
+        
+        DragFiles(Files$)
+      EndIf      
+      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DragText, @@DragImage, @@DragPrivate, @@DragOSFormats,
+  @@SetDragCallback
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DragPrivate(Typ [, Aktionen])
+
+@Description
+  Startet eine "private" Drag & Drop Operation. Anders als die anderen Funktionen zum Starten von Drag & Drop, 
+  können diese Daten nur innerhalb der Applikation wieder abgelegt werden (mittels Funktionen wie 
+  @@DragText oder @@DragImage "gezogene" Daten können auch von
+  einer anderen Applikation akzeptiert werden). Diese Funktion sollte verwendet werden, um Drag & Drop 
+  Funktionalität mit Daten - welche nicht von anderen Applikationen verstanden werden - zwischen 
+  @LibraryLink "gadget" "Gadgets" oder @LibraryLink "window" "Fenstern" herzustellen.
+
+@Parameter "Typ"
+  Typ kann jeder @ReferenceLink "variables" "Ganzzahl"-Wert (Integer) sein, welcher die in die Applikation zu ziehenden
+  Daten identifiziert. Der gleiche Wert muss bei @@EnableGadgetDrop oder
+  @@EnableWindowDrop für die @LibraryLink "gadget" "Gadgets"/@LibraryLink "window" "Fenster"
+  angegeben werden, welche diese Daten akzeptieren sollen.
+@LineBreak
+  Auf diesem Weg lässt sich exakt definieren, welche privaten "Drag"-Operationen von welchem Gadget/Fenster
+  akzeptiert werden, was das Realisieren komplexer Drag & Drop Schemen ermöglicht.
+
+@OptionalParameter "Aktionen"
+  Eine Kombination der Drag & Drop Aktionen, welche für die Daten erlaubt sein sollen.
+  Wenn der Parameter nicht angegeben wird, wird @#PB_Drag_Copy die einzige erlaubte Aktion sein.
+  Mögliche Aktionen sind: (sie können mittels '|' kombiniert werden)
+@FixedFont
+  @#PB_Drag_Copy: Die Daten können kopiert werden
+  @#PB_Drag_Move: Die Daten können verschoben werden
+  @#PB_Drag_Link: Die Daten können verlinkt werden
+@EndFixedFont
+
+  Der Anwender kann durch Drücken der Zusatztasten wie 'Strg' oder 'Shift' entscheiden, welche dieser 
+  Aktionen verwendet werden soll. Die Aktionen, welche tatsächlich stattfinden können, richten sich
+  auch nach den vom Zielobjekt (englisch "drop target") erlaubten Aktionen.
+
+@ReturnValue
+  Gibt einen der oben genannten Drag & Drop Aktions-Werte zurück, welche die vom Anwender genutzte Aktion
+  anzeigen, oder @#PB_Drag_None wenn der Anwender die Drag & Drop Operation abgebrochen hat.
+
+@Remarks
+  Drag & Drop kann grundsätzlich jederzeit gestartet
+  werden, aber die linke Maustaste sollte aktuell gedrückt sein, da andernfalls die Operation umgehend
+  und ohne Erfolg beendet wird. Der übliche Zeitpunkt zum Starten einer Drag & Drop Operation ist, wenn
+  ein @LibraryLink "Gadget" "Gadget" über @@EventType ein Ereignis vom Typ
+  @#PB_EventType_DragStart zurückmeldet.
+@LineBreak
+@LineBreak
+  Wenn die Operation nicht abgebrochen wurde, wird die @Link "window/waitwindowevent" "Ereignis-Schleife"
+  ein @#PB_Event_WindowDrop oder @#PB_Event_GadgetDrop Ereignis vom Typ
+  @#PB_Drop_Private empfangen.
+
+@SeeAlso
+  @@DragText, @@DragImage, @@DragFiles, @@DragOSFormats,
+  @@SetDragCallback
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DragOSFormats(Formate(), Anzahl [, Aktionen])
+
+@Description
+  Startet eine Drag & Drop Operation mit einer Liste vorgegebener Daten-Formate. Die verfügbaren
+  Format-Typen und die Art und Weise, wie diese dargestellt werden, hängt vom Betriebssystem ab.
+  Diese Funktion bietet die Möglichkeit zum Arbeiten mit Formaten, welche nicht nativ von PureBasic
+  unterstützt werden, während trotzdem die von dieser Befehls-Bibliothek angebotenen einfachen 
+  Mechanismen zum Ausführen einer Drag & Drop Operation genutzt werden können.
+
+@Parameter "Formate()"
+  Ein @ReferenceLink "dim" "Array" von DragDataFormat @ReferenceLink "structures" "Strukturen",
+  welches ein oder mehrere "Drag"-Formate enthält.
+  @LineBreak
+  Die Struktur hat die folgende Form:
+@Code
+  Structure DragDataFormat
+    Format.i    ; Die OS-spezifische ID für das "zu verschiebende" Format (siehe unten für weitere Informationen)
+    *Buffer     ; Der Speicherpuffer, welcher die Daten in diesem Format enthält
+    Size.i      ; Die Größe der Daten im Puffer
+  EndStructure
+@EndCode
+
+  @Bold "Windows:"
+  @Indent
+    Auf Windows gibt das 'Format'-Feld einen CLIPBOARDFORMAT Wert an. Es kann jedes standardmäßige
+    Clipboard (Zwischenablage) Format sein (zu finden im Windows SDK) oder ein mit dem API-Befehl
+    RegisterClipboardFormat_() registriertes Format.
+  @EndIndent  
+
+  @Bold "Linux:"
+  @Indent
+    Auf Linux gibt das 'Format'-Feld einen GdkAtom Wert an. Dieser kann mit der gdk Funkion gdk_atom_intern_() erstellt werden.
+    Häufig verstandene Atome sind die gemeinsamen Mime-Typen (z.B. "text/html" für Html-Daten). Das Atom kann
+    auch mit jedem String, welcher von der Ziel-Applikation verstanden wird, erstellt werden.
+  @EndIndent    
+
+  @Bold "MacOSX:"
+  @Indent
+    Auf MacOSX gibt das 'Format'-Feld einen "Clipboard Scrap"-Typ an. Dies sind 4-Zeichen Konstanten,
+    zum Beispiel 'TEXT'. Es gibt eine Anzahl vordefinierter "Scrap"-Typen, aber auch eigene Werte können
+    verwendet werden, wenn das Zielprogramm diese versteht.
+  @EndIndent   
+
+@Parameter "Anzahl"
+  Die Anzahl der im Array enthaltenen Formate.
+@LineBreak
+@LineBreak
+  Wenn mehrere Formate "verschoben" werden, wird das Ziel das erste - welches es erkennt - akzeptieren.
+  Daher sollte das Format, welches die meisten Informationen enthält (d.h. die genauesten Daten 
+  darstellt), das erste im Array sein, während die üblichen aber weniger inhaltsreichen Formate
+  später folgen. Auf diesem Weg wird jede Applikation die beste Darstellung von Daten erhalten, 
+  welche sie versteht.
+
+@OptionalParameter "Aktionen"
+  Eine Kombination der Drag & Drop Aktionen, welche für die Daten erlaubt sein sollen.
+  Wenn der Parameter nicht angegeben wird, wird @#PB_Drag_Copy die einzige erlaubte Aktion sein.
+  Mögliche Aktionen sind: (sie können mittels '|' kombiniert werden)
+@FixedFont
+  @#PB_Drag_Copy: Die Daten können kopiert werden
+  @#PB_Drag_Move: Die Daten können verschoben werden
+  @#PB_Drag_Link: Die Daten können verlinkt werden
+@EndFixedFont
+
+  Der Anwender kann durch Drücken der Zusatztasten wie 'Strg' oder 'Shift' entscheiden, welche dieser 
+  Aktionen verwendet werden soll. Die Aktionen, welche tatsächlich stattfinden können, richten sich
+  auch nach den vom Zielobjekt (englisch "drop target") erlaubten Aktionen.
+@LineBreak
+  (Auf MacOSX werden die Aktionen nur als ein Vorschlag übergeben. Das Zielobjekt kann immer
+  noch eine andere Aktion auswählen.)
+
+@ReturnValue
+  Gibt einen der oben genannten Drag & Drop Aktions-Werte zurück, welche die vom Anwender genutzte Aktion
+  anzeigen, oder @#PB_Drag_None wenn der Anwender die Drag & Drop Operation abgebrochen hat.
+@LineBreak
+@LineBreak
+  Bitte beachten Sie, dass es bei Rückgabe von @#PB_Drag_Move in Ihrer Verantwortung liegt,
+  die verschobenden Daten von Ihrer Applikation zu entfernen.
+
+@Remarks
+  Drag & Drop kann grundsätzlich jederzeit gestartet
+  werden, aber die linke Maustaste sollte aktuell gedrückt sein, da andernfalls die Operation umgehend
+  und ohne Erfolg beendet wird. Der übliche Zeitpunkt zum Starten einer Drag & Drop Operation ist, wenn
+  ein @LibraryLink "Gadget" "Gadget" über @@EventType ein Ereignis vom Typ
+  @#PB_EventType_DragStart zurückmeldet.
+
+@SeeAlso
+  @@DragText, @@DragImage, @@DragFiles, @@DragPrivate,
+  @@SetDragCallback
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EnableGadgetDrop(#Gadget, Format, Aktionen [, PrivatTyp])
+
+@Description
+  Aktiviert ein @LibraryLink "gadget" "Gadget", um als Ziel für Drag & Drop Operationen eines bestimmten Formats zu dienen.
+  Wenn der Anwender Daten diesen Formats über das Gadget zieht, wird der Mauscursor anzeigen, dass
+  die Daten hier abgelegt ("fallen gelassen", englisch "dropped") werden können.
+
+@Parameter "#Gadget"
+  Die PureBasic Gadget-Nummer des betreffenden Gadgets.
+
+@Parameter "Format"
+  Das Daten-Format, welches einer der folgenden Werte oder eine OS-spezifische
+  ID für ein anderes (custom) Format sein kann (siehe @@DragOSFormats für weitere Informationen).
+@FixedFont
+  @#PB_Drop_Text   : Akzeptiere Text auf diesem Gadget
+  @#PB_Drop_Image  : Akzeptiere Bilder auf diesem Gadget
+  @#PB_Drop_Files  : Akzeptiere Dateinamen auf diesem Gadget
+  @#PB_Drop_Private: Akzeptiere ein "privates" Drag & Drop auf diesem Gadget
+@EndFixedFont
+
+@Parameter "Aktionen"
+  Eine Kombination der Drag & Drop Aktionen, welche für die Daten erlaubt sein sollen.
+  Der Anwender kann durch Drücken der Zusatztasten wie 'Strg' oder 'Shift' entscheiden, welche dieser 
+  Aktionen verwendet werden soll. Die Aktionen, welche tatsächlich stattfinden können, richten sich
+  auch nach den vom Quellobjekt (englisch "Drag object") erlaubten Aktionen.
+  Mögliche Aktionen sind: (sie können mittels '|' kombiniert werden)
+@FixedFont
+  @#PB_Drag_None: Das Daten-Format wird auf diesem Gadget nicht akzeptiert
+  @#PB_Drag_Copy: Die Daten können kopiert werden
+  @#PB_Drag_Move: Die Daten können verschoben werden
+  @#PB_Drag_Link: Die Daten können verlinkt werden
+@EndFixedFont
+
+@OptionalParameter "PrivatTyp"
+  Der Typ des zu akzeptierenden "privaten" Drag & Drop, wenn 'Format' gleich @#PB_Drop_Private ist.
+  Siehe @@DragPrivate für weitere Informationen.
+  Dieser Parameter wird bei anderen Formaten ignoriert.
+
+@NoReturnValue
+
+@Remarks
+  Mehrere Formate können auf dem gleichen Gadget erlaubt sein. Wenn die Quelle der
+  Verschiebe-Operation mehrere Formate anbietet, welche zur Liste der akzeptierten Formate passen,
+  dann wird das zuletzt hinzugefügte akzeptiert. Daher sollte das bevorzugte Format, in welchem 
+  Daten empfangen werden, zuletzt aktiviert werden.
+@LineBreak  
+@LineBreak  
+  Wenn Daten auf dem Gadget abgelegt wurden, wird das Programm ein @#PB_Event_GadgetDrop 
+  Ereignis empfangen. @@EventGadget wird das Ziel-Gadget anzeigen und die
+  Event-Funktionen dieser Bibliothek können zum Ermitteln der abgelegten Daten verwendet werden.
+
+@SeeAlso
+  @@EnableWindowDrop, @@EventDropType, @@EventDropAction,
+  @@SetDropCallback
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EnableWindowDrop(#Window, Format, Aktionen [, PrivatTyp])
+
+@Description
+  Aktiviert ein @LibraryLink "window" "Fenster", um als Ziel für Drag & Drop Operationen eines bestimmten Formats zu dienen.
+  Nur der Bereich des Fensters, welcher nicht mit Gadgets belegt ist, wird der Zielbereich sein.
+  Wenn der Anwender Daten diesen Formats über das Fenster zieht, wird der Mauscursor anzeigen, dass
+  die Daten hier abgelegt ("fallen gelassen") werden können.
+
+@Parameter "#Window"
+  Die PureBasic Fenster-Nummer des betreffenden Fensters.
+
+@Parameter "Format"
+  Das Daten-Format, welches einer der folgenden Werte oder eine OS-spezifische
+  ID für ein anderes (custom) Format sein kann (siehe @@DragOSFormats für weitere Informationen).
+@FixedFont
+  @#PB_Drop_Text   : Akzeptiere Text auf diesem Fenster
+  @#PB_Drop_Image  : Akzeptiere Bilder auf diesem Fenster
+  @#PB_Drop_Files  : Akzeptiere Dateinamen auf diesem Fenster
+  @#PB_Drop_Private: Akzeptiere ein "privates" Drag & Drop auf diesem Fenster
+@EndFixedFont
+
+@Parameter "Aktionen"
+  Eine Kombination der Drag & Drop Aktionen, welche für die Daten erlaubt sein sollen.
+  Der Anwender kann durch Drücken der Zusatztasten wie 'Strg' oder 'Shift' entscheiden, welche dieser 
+  Aktionen verwendet werden soll. Die Aktionen, welche tatsächlich stattfinden können, richten sich
+  auch nach den vom Quellobjekt (englisch "Drag object") erlaubten Aktionen.
+  Mögliche Aktionen sind: (sie können mittels '|' kombiniert werden)
+@FixedFont
+  @#PB_Drag_None: Das Daten-Format wird auf diesem Gadget nicht akzeptiert
+  @#PB_Drag_Copy: Die Daten können kopiert werden
+  @#PB_Drag_Move: Die Daten können verschoben werden
+  @#PB_Drag_Link: Die Daten können verlinkt werden
+@EndFixedFont
+
+@OptionalParameter "PrivatTyp"
+  Der Typ des zu akzeptierenden "privaten" Drag & Drop, wenn 'Format' gleich @#PB_Drop_Private ist.
+  Siehe @@DragPrivate für weitere Informationen.
+  Dieser Parameter wird bei anderen Formaten ignoriert.
+
+@NoReturnValue
+
+@Remarks
+  Mehrere Formate können auf dem gleichen Fenster erlaubt sein. Wenn die Quelle der
+  Verschiebe-Operation mehrere Formate anbietet, welche zur Liste der akzeptierten Formate passen,
+  dann wird das zuletzt hinzugefügte akzeptiert. Daher sollte das bevorzugte Format, in welchem 
+  Daten empfangen werden, zuletzt aktiviert werden.
+@LineBreak
+@LineBreak
+  Wenn Daten auf dem Fenster abgelegt wurden, wird das Programm ein @#PB_Event_WindowDrop 
+  Ereignis empfangen. @@EventWindow wird das Ziel-Fenster anzeigen und die
+  Event-Funktionen dieser Bibliothek können zum Ermitteln der abgelegten Daten verwendet werden.
+
+@SeeAlso
+  @@EnableGadgetDrop, @@EventDropType, @@EventDropAction,
+  @@SetDropCallback
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EventDropAction()
+
+@Description
+  Nachdem ein @#PB_Event_GadgetDrop oder @#PB_Event_WindowDrop Ereignis von 
+  @@WaitWindowEvent oder @@WindowEvent
+  empfangen wurde, gibt diese Funktion zurück, welche Aktion mit diesen Daten stattfinden sollte.
+
+@NoParameters
+
+@ReturnValue
+  Gibt einen der folgende Werte zurück:
+@FixedFont
+  @#PB_Drag_Copy: Die Daten sollten kopiert werden
+  @#PB_Drag_Move: Die Daten sollten verschoben werden (die Quelle der Drag & Drop Operation ist verantwortlich für das Entfernen der originalen Daten)
+  @#PB_Drag_Link: Die Daten sollten verlinkt werden
+@EndFixedFont
+
+@SeeAlso
+  @@EnableGadgetDrop, @@EnableWindowDrop,
+  @@EventDropType, @@EventDropX, @@EventDropY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EventDropType()
+
+@Description
+  Nachdem ein @#PB_Event_GadgetDrop oder @#PB_Event_WindowDrop von 
+  @@WaitWindowEvent oder @@WindowEvent
+  empfangen wurde, gibt diese Funktion das Format der abgelegten Daten zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt einen der folgenden Werte oder eine OS-spezifische ID für ein anderes Format (siehe
+  @@DragOSFormats für weitere Informationen) zurück:
+@FixedFont
+  @#PB_Drop_Text   : Text wurde abgelegt.        (verwenden Sie @@EventDropText um ihn zu erhalten)
+  @#PB_Drop_Image  : Ein Bild wurde abgelegt.    (verwenden Sie @@EventDropImage um es zu erhalten)
+  @#PB_Drop_Files  : Dateinamen wurden abgelegt. (verwenden Sie @@EventDropFiles um sie zu erhalten)
+  @#PB_Drop_Private: Eine "private" Operation wurde abgeschlossen. (verwenden Sie @@EventDropPrivate um deren Typ zu erfahren)
+@EndFixedFont
+
+@Remarks
+  Für den Umgang mit OS-spezifischen Formaten können @@EventDropBuffer und 
+  @@EventDropSize verwendet werden.
+
+@SeeAlso
+  @@EnableGadgetDrop, @@EnableWindowDrop, @@EventDropAction,
+  @@EventDropText,  @@EventDropImage,  @@EventDropFiles,  @@EventDropPrivate,
+  @@EventDropBuffer,  @@EventDropSize,
+  @@EventDropX, @@EventDropY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = EventDropText()
+
+@Description
+  Nachdem ein @#PB_Event_GadgetDrop oder @#PB_Event_WindowDrop von 
+  @@WaitWindowEvent oder @@WindowEvent
+  empfangen wurde und das Format (kann mit @@EventDropType ermittelt werden)
+  @#PB_Drop_Text ist, gibt diese Funktion den abgelegten
+  Text zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt den abgelegten Text zurück.
+
+@SeeAlso
+  @@EnableGadgetDrop, @@EnableWindowDrop,
+  @@EventDropType,  @@EventDropAction,
+  @@EventDropX, @@EventDropY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EventDropImage(#Image [, Tiefe])
+
+@Description
+  Nachdem ein @#PB_Event_GadgetDrop oder @#PB_Event_WindowDrop von 
+  @@WaitWindowEvent oder @@WindowEvent
+  empfangen wurde und das Format (kann mit @@EventDropType ermittelt werden)
+  @#PB_Drop_Image ist, kann diese Funktion zum Erhalten des abgelegten Bildes
+  verwendet werden.
+
+@Parameter "#Image"
+  Die Nummer des neu zu erstellenden Bildes.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@OptionalParameter "Tiefe"
+  Die Farbtiefe für das neue Bild. Unterstützte Werte sind 24 und 32 Bit. 24 Bit ist
+  der Standard.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Bild erfolgreich erstellt wurde, und Null wenn nicht.
+  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als #Image Parameter verwendet wurde, dann wird
+  bei Erfolg die generierte Nummer zurückgegeben.
+
+@SeeAlso
+  @@EnableGadgetDrop, @@EnableWindowDrop,
+  @@EventDropType,  @@EventDropAction,
+  @@EventDropX, @@EventDropY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = EventDropFiles()
+
+@Description
+  Nachdem ein @#PB_Event_GadgetDrop oder @#PB_Event_WindowDrop vom Format @#PB_Drop_Files 
+  (kann mit @@EventDropType ermittelt werden) durch @@WaitWindowEvent oder @@WindowEvent
+  empfangen wurde, gibt diese Funktion die abgelegten Dateinamen zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt eine Liste von Dateinamen oder Verzeichnissen zurück, alle mit komplettem Dateipfad. Die
+  einzelnen Namen sind durch ein @Link "String/Chr" "Chr(10)" (Zeilenumbruch) Zeichen getrennt.
+
+@SeeAlso
+  @@EnableGadgetDrop, @@EnableWindowDrop,
+  @@EventDropType,  @@EventDropAction,
+  @@EventDropX, @@EventDropY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EventDropPrivate()
+
+@Description
+  Nachdem ein @#PB_Event_GadgetDrop oder @#PB_Event_WindowDrop von 
+  @@WaitWindowEvent oder @@WindowEvent
+  empfangen wurde und das Format (kann mit @@EventDropType ermittelt werden)
+  @#PB_Drop_Private ist, gibt diese Funktion den abgelegten 'PrivatTyp' zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt den privaten Typ-Wert zurück, welcher beim Starten der Drag & Drop Operation verwendet wurde.
+@LineBreak
+  (Siehe @@DragPrivate für weitere Informationen.)
+
+@SeeAlso
+  @@EnableGadgetDrop, @@EnableWindowDrop,
+  @@EventDropType,  @@EventDropAction,
+  @@EventDropX, @@EventDropY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Ergebnis = EventDropBuffer()
+
+@Description
+  Nachdem ein @#PB_Event_GadgetDrop oder @#PB_Event_WindowDrop von 
+  @@WaitWindowEvent oder @@WindowEvent
+  empfangen wurde und es sich um ein OS-spezifisches Format handelt, kann diese Funktion verwendet
+  werden, um auf die abgelegten Daten zuzugreifen.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die Speicheradresse zurück, wo sich die abgelegten Daten befinden.
+  Der @@EventDropSize Befehl gibt die Größe dieses Puffers zurück.
+
+@Remarks
+  Der zurückgegebene Speicherpuffer ist intern für diese Bibliothek und sollte nicht freigegeben
+  werden. Er ist auch nur gültig bis zum nächsten Aufruf von @@WaitWindowEvent 
+  oder @@WindowEvent. Daher sollten die Daten kopiert werden, wenn sie
+  länger benötigt werden.
+
+@SeeAlso
+  @@EventDropSize, 
+  @@EnableGadgetDrop, @@EnableWindowDrop,
+  @@EventDropType,  @@EventDropAction,
+  @@EventDropX, @@EventDropY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EventDropSize()
+
+@Description
+  Nachdem ein @#PB_Event_GadgetDrop oder @#PB_Event_WindowDrop von 
+  @@WaitWindowEvent oder @@WindowEvent
+  empfangen wurde und es sich um ein OS-spezifisches Format handelt, gibt diese Funktion die Größe
+  der abgelegten Daten zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die Größe (in Bytes) des von @@EventDropBuffer zurückgegebenen
+  Speicherpuffers zurück.
+
+@SeeAlso
+  @@EventDropBuffer, 
+  @@EnableGadgetDrop, @@EnableWindowDrop,
+  @@EventDropType,  @@EventDropAction,
+  @@EventDropX, @@EventDropY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EventDropX()
+
+@Description
+  Nachdem ein @#PB_Event_GadgetDrop oder @#PB_Event_WindowDrop von 
+  @@WaitWindowEvent oder @@WindowEvent
+  empfangen wurde, gibt diese Funktion die x-Position zurück, an welcher die Daten abgelegt wurden.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die x-Koordinate der "Drop"-Position (wo das Objekt abgelegt bzw. "fallen gelassen" wurde)
+  zurück - relativ zum Gadget oder Fenster, in dem die Daten abgelegt wurden.
+
+@SeeAlso
+  @@EnableGadgetDrop, @@EnableWindowDrop,
+  @@EventDropType,  @@EventDropAction,
+  @@EventDropY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = EventDropY()
+
+@Description
+  Nachdem ein @#PB_Event_GadgetDrop oder @#PB_Event_WindowDrop von 
+  @@WaitWindowEvent oder @@WindowEvent
+  empfangen wurde, gibt diese Funktion die y-Position zurück, an welcher die Daten abgelegt wurden.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die y-Koordinate der "Drop"-Position (wo das Objekt abgelegt bzw. "fallen gelassen" wurde)
+  zurück - relativ zum Gadget oder Fenster, in dem die Daten abgelegt wurden.
+
+@SeeAlso
+  @@EnableGadgetDrop, @@EnableWindowDrop,
+  @@EventDropType,  @@EventDropAction,
+  @@EventDropX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDragCallback(@DragCallback())
+
+@Description
+  Gibt eine Callback-Funktion an, welche während einer von dieser Applikation ausgelösten Drag & Drop
+  Operation aufgerufen werden soll. Der Callback ermöglicht die Modifikation des von PureBasic angebotenen
+  Drag & Drop Prozesses, z.B. durch die Aktivierung eines besonderen Mauscursors durch die API des 
+  Betriebssystems.
+
+@Parameter "@DragCallback()"
+  Die Adresse einer Funktion, welche während einer Drag-Operation (das Objekt wird "gezogen")
+  aufgerufen wird.
+@LineBreak
+@LineBreak
+  Die Form und Funktion des Callbacks hängt vom OS ab.
+  Dieser muss folgende Form haben:
+@LineBreak
+@LineBreak
+
+@Bold "Windows:"
+@Indent
+@Code
+  Procedure DragCallback(Aktion)
+  
+    ProcedureReturn #True
+  EndProcedure
+@EndCode
+
+  Der Callback wird während der Drag & Drop Operation aufgerufen. 'Aktion' definiert die Aktion, welche
+  stattfinden soll, wenn der Anwender an dieser Stelle den Mauscursor loslässt. Sie kann einer dieser
+  Werte sein:
+@FixedFont
+  @#PB_Drag_None: Die Daten werden nicht akzeptiert, wenn sie hier abgelegt werden
+  @#PB_Drag_Copy: Die Daten werden kopiert
+  @#PB_Drag_Move: Die Daten werden verschoben
+  @#PB_Drag_Link: Die Daten werden verlinkt
+@EndFixedFont  
+
+  Der Callback kann einen besonderen Mauscursor oder ein Verschiebebild ("drag image") anbieten. Wenn er dies tut, 
+  sollte er @#False zurückgeben. Die Rückgabe von @#True bewirkt, 
+  dass der standardmäßige Mauscursor verwendet wird.
+@EndIndent
+
+@Bold "Linux:"
+@Indent
+@Code
+  Procedure DragCallback(*Context.GdkDragContext, isStart)
+  
+  EndProcedure
+@EndCode
+
+  Der Callback wird nur zum Start und zum Ende einer Drag & Drop Operation aufgerufen. Der '*Context' 
+  Parameter gibt den "gdk drag context" dieser Operation an und 'isStart' spezifiziert, ob dies der
+  Start oder das Ende der Operation ist. Der Rückgabewert des Callbacks wird ignoriert.
+@LineBreak
+@LineBreak  
+  Gtk Funktionen wie gtk_drag_set_icon_pixbuf_() können im Callback verwendet werden, um ein anderes
+  Verschiebebild ("drag image") für die Operation zu definieren.
+@EndIndent
+
+@Bold "MacOSX:"
+@Indent
+@Code
+  Procedure DragCallback(DragReference, isStart)
+  
+  EndProcedure
+@EndCode
+
+  Der Callback wird nur zum Start und zum Ende einer Drag & Drop Operation aufgerufen. Der 'DragReference'
+  Parameter gibt den "Carbon drag context" dieser Operation in Form eines 'DragRef' Wertes an und 'isStart'
+  spezifiziert, ob dies der Start oder das Ende der Operation ist. Der Rückgabewert des Callbacks wird ignoriert.
+@LineBreak
+@LineBreak
+  Alle Funktionen des Carbon Drag Managers können verwendet werden, um die Drag-Operation vor ihrem Start
+  zu beeinflussen (weitere Einträge/"Flavors" hinzufügen zum Beispiel), und um weitere Informationen über
+  die Operation zu erhalten, nachdem sie abgeschlossen wurde.
+
+@NoReturnValue
+
+@SeeAlso
+  @@SetDropCallback
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDropCallback(@DropCallback())
+
+@Description
+  Definiert eine Callback-Funktion, welche aufgerufen werden soll, wenn Daten über ein Gadget oder Fenster
+  (was das Ablegen von Daten erlaubt) fallen gelassen werden (siehe @@EnableGadgetDrop / 
+  @@EnableWindowDrop). 
+  Der Callback ermöglicht die Modifikation des von PureBasic angebotenen Drag & Drop Prozesses, z.B. durch 
+  einen gesonderten visuellen Hinweis auf dem Ziel-Gadget oder Ziel-Fenster.
+
+@Parameter "@DropCallback()"
+  Die Adresse einer Funktion, welche während einer Drop-Operation (das Objekt wird "fallen gelassen")
+  aufgerufen wird.
+@LineBreak
+@LineBreak
+  Der Callback wird aufgerufen, sobald die Maus das Ziel-Gadget oder Ziel-Fenster berührt, bewegt wird
+  und verlässt. Er ermöglicht es, dem Anwender ein zusätzliches Feedback zu geben, z.B. durch
+  Hervorheben des Ziel-Eintrags oder Ziel-Bereichs.
+@LineBreak
+@LineBreak
+  Weiterhin kann der Callback die gegenwärtig beabsichtigte Aktion unterbinden und damit genauer
+  definieren, wo innerhalb eines Gadgets oder Fensters die Daten abgelegt werden können.
+  Der Mauscursor sollte hier nicht verändert werden, da die Quelle für die Drag & Drop Operation
+  dafür verantwortlich ist.
+@LineBreak
+@LineBreak
+  Die Form des Callbacks wird nachfolgend beschrieben:
+
+@Code
+  Procedure DropCallback(ZielHandle, Status, Format, Aktion, x, y)
+  
+    ProcedureReturn #True
+  EndProcedure
+@EndCode
+
+  Der erste Parameter spezifiziert das @ReferenceLink "handles" "OS-spezifische Handle" für das Ziel-Gadget oder
+  das Ziel-Fenster. Auf Windows ist dies ein HWND-Wert, auf Linux ein GtkWidget-Pointer, und auf MacOSX ist es ein
+  ControlRef- bzw. WindowRef-Wert. Dies sind die
+  gleichen Werte wie sie von @@GadgetID bzw. @@WindowID 
+  für das Ziel-Gadget bzw. Ziel-Fenster zurückgegeben werden.
+@LineBreak  
+@LineBreak
+  'Status' definiert den aktuellen Status der Drag & Drop Operation und ist einer der folgenden Werte:
+@FixedFont
+  @#PB_Drag_Enter : Die Maus erreichte das Gadget oder Fenster
+  @#PB_Drag_Update: Die Maus wurde innerhalb des Gadgets oder Fensters bewegt, oder die beabsichtigte Aktion hat sich verändert
+  @#PB_Drag_Leave : Die Maus hat das Gadget oder Fenster verlassen (Format, Aktion, x, y sind in diesem Fall 0)
+  @#PB_Drag_Finish: Das Drag & Drop ist abgeschlossen
+@EndFixedFont
+
+  'Format' gibt das Datenformat an und kann einer der folgenden Werte sein, oder eine OS-spezifische ID
+  für ein besonderes Format (siehe @@DragOSFormats für weitere Informationen).
+@FixedFont
+  @#PB_Drop_Text   : Akzeptiere Text auf diesem Gadget oder Fenster
+  @#PB_Drop_Image  : Akzeptiere Bilder auf diesem Gadget oder Fenster
+  @#PB_Drop_Files  : Akzeptiere Dateinamen auf diesem Gadget oder Fenster
+  @#PB_Drop_Private: Akzeptiere ein "privates" Drag & Drop auf diesem Gadget oder Fenster
+@EndFixedFont
+
+  'Aktion' definiert die Aktion, welche  stattfinden soll, wenn der Anwender an dieser Stelle die Maus los lässt.
+  Sie kann einer dieser Werte sein:
+@FixedFont
+  @#PB_Drag_None: Die Daten werden nicht akzeptiert, wenn sie hier abgelegt werden
+  @#PB_Drag_Copy: Die Daten werden kopiert
+  @#PB_Drag_Move: Die Daten werden verschoben
+  @#PB_Drag_Link: Die Daten werden verlinkt
+@EndFixedFont  
+  
+  Durch die Rückgabe von @#True erlaubt der Callback, dass die Aktion an diesem Punkt stattfindet.
+  Durch die Rückgabe von @#False unterbindet der Callback die Aktion (der Mauscursor wird 
+  durch die "Drag"-Quelle in einen "Verboten"-Cursor geändert).
+  Insbesondere wenn 'Status' gleich @#PB_Drag_Finish ist, wird das Zurückgeben von 
+  @#False die gesamte Drag & Drop Operation fehlschlagen lassen.
+
+@NoReturnValue
+
+@SeeAlso
+  @@SetDragCallback
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

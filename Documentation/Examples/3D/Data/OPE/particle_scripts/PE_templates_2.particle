@@ -1,0 +1,307 @@
+
+particle_system PEExamples/flame
+{
+	quota	500
+	material	PE/lensflare
+	particle_width	2
+	particle_height	12
+	cull_each	false
+	renderer	billboard
+
+	emitter Box
+	{
+		angle	2
+		colour	1 0.189474 0.0631577 1
+		colour_range_start	1 0.189474 0.0631577 1
+		colour_range_end	1 0.189474 0.0631577 1
+		direction	0 -1 0
+		emission_rate	10
+		position	0 20 0
+		velocity	6
+		velocity_min	6
+		velocity_max	6
+		time_to_live	6
+		time_to_live_min	6
+		time_to_live_max	6
+		duration	0
+		duration_min	0
+		duration_max	0
+		repeat_delay	0
+		repeat_delay_min	0
+		repeat_delay_max	0
+		width	2
+		height	2
+		depth	2
+	}
+
+	affector Scaler
+	{
+		rate	2
+	}
+
+	affector ColourFader2
+	{
+		red1	0
+		green1	0.05
+		blue1	0.01
+		alpha1	0
+		red2	0
+		green2	1
+		blue2	1
+		alpha2	0
+		state_change	0.8
+	}
+}
+
+particle_system PEExamples/floatyGreeny
+{
+	quota	1000
+	material	PE/lensflare
+	particle_width	3
+	particle_height	3
+	cull_each	false
+	renderer	billboard
+
+	emitter HollowEllipsoid
+	{
+		angle	0
+		colour	1 1 0 1
+		colour_range_start	1 1 0 1
+		colour_range_end	0.3 1 0.3 1
+		direction	0 1 0
+		emission_rate	400
+		position	0 0 0
+		velocity	20
+		velocity_min	20
+		velocity_max	20
+		time_to_live	5
+		time_to_live_min	5
+		time_to_live_max	5
+		duration	0
+		duration_min	0
+		duration_max	0
+		repeat_delay	0
+		repeat_delay_min	0
+		repeat_delay_max	0
+		width	30
+		height	15
+		depth	5
+		inner_width	0.8
+		inner_height	0.8
+		inner_depth	0.8
+	}
+
+	affector LinearForce
+	{
+		force_vector	10 0 0
+		force_application	add
+	}
+
+	affector ColourFader
+	{
+		red	-0.25
+		green	-0.25
+		blue	-0.25
+		alpha	0
+	}
+}
+
+particle_system PEExamples/ringOfFire
+{
+	quota	2000
+	material	PE/explosion
+	particle_width	10
+	particle_height	10
+	cull_each	false
+	renderer	billboard
+
+	emitter Ring
+	{
+		angle	10.31
+		colour	1 1 1 1
+		colour_range_start	1 1 1 1
+		colour_range_end	1 1 1 1
+		direction	0 1 0
+		emission_rate	250
+		position	0 0 0
+		velocity	3
+		velocity_min	3
+		velocity_max	11
+		time_to_live	3
+		time_to_live_min	3
+		time_to_live_max	3
+		duration	0
+		duration_min	0
+		duration_max	0
+		repeat_delay	0
+		repeat_delay_min	0
+		repeat_delay_max	0
+		width	30
+		height	30
+		depth	2
+		inner_width	0.5
+		inner_height	0.5
+	}
+
+	affector ColourFader
+	{
+		red	-0.5
+		green	-0.5
+		blue	-0.25
+		alpha	0
+	}
+}
+
+particle_system PEExamples/space
+{
+	quota	1000
+	material	PE/Flare
+	particle_width	22
+	particle_height	55.05
+	cull_each	true
+	renderer	billboard
+	billboard_type	oriented_self
+
+	emitter Point
+	{
+		angle	90
+		colour	0.1 0.1 0.1 1
+		colour_range_start	0.1 0.1 0.1 1
+		colour_range_end	1 1 1 1
+		direction	0 0 -1
+		emission_rate	400
+		position	0 0 0
+		velocity	30.65
+		velocity_min	30.65
+		velocity_max	259.3
+		time_to_live	2
+		time_to_live_min	2
+		time_to_live_max	3
+		duration	0
+		duration_min	0
+		duration_max	0
+		repeat_delay	0
+		repeat_delay_min	0
+		repeat_delay_max	0
+	}
+
+	affector ColourFader
+	{
+		red	-0.5
+		green	-0.5
+		blue	-0.5
+		alpha	0
+	}
+}
+
+particle_system PEExamples/point_rendering
+{
+	quota	9001
+	material	PE/point_lensflare
+	particle_width	1
+	particle_height	1
+	cull_each	false
+	renderer	billboard
+	sorted	false
+	local_space	false
+	billboard_type	point
+	billboard_origin	center
+	billboard_rotation_type	texcoord
+	common_up_vector	0 1 0
+	point_rendering	true
+	accurate_facing	false
+
+	emitter Point
+	{
+		angle	99
+		colour	1 1 0 1
+		colour_range_start	1 1 0 1
+		colour_range_end	0.3 1 0.3 1
+		direction	0 1 0
+		emission_rate	2000
+		position	0 0 0
+		velocity	7
+		velocity_min	7
+		velocity_max	12
+		time_to_live	2.766
+		time_to_live_min	2.766
+		time_to_live_max	5
+		duration	0
+		duration_min	0
+		duration_max	0
+		repeat_delay	0
+		repeat_delay_min	0
+		repeat_delay_max	0
+	}
+
+	affector ColourFader
+	{
+		red	-0.4
+		green	-0.4
+		blue	-0.1
+		alpha	-0.5
+	}
+}
+
+particle_system PEExamples/bounce
+{
+	quota	5000
+	material	PE/Flare
+	particle_width	4
+	particle_height	5
+	cull_each	false
+	renderer	billboard
+	sorted	false
+	local_space	false
+	billboard_type	oriented_self
+	billboard_origin	center
+	billboard_rotation_type	texcoord
+	common_up_vector	0 1 0
+	point_rendering	false
+	accurate_facing	false
+
+	emitter Point
+	{
+		angle	90
+		colour	1 1 0 1
+		colour_range_start	1 1 0 1
+		colour_range_end	0.3 1 0.3 1
+		direction	0 1 0
+		emission_rate	2000
+		position	0 0 0
+		velocity	15
+		velocity_min	15
+		velocity_max	15
+		time_to_live	7
+		time_to_live_min	7
+		time_to_live_max	7
+		duration	0.5
+		duration_min	0.5
+		duration_max	0.5
+		repeat_delay	7
+		repeat_delay_min	7
+		repeat_delay_max	7
+	}
+
+	affector LinearForce
+	{
+		force_vector	0 -10 0
+		force_application	add
+	}
+
+	affector DeflectorPlane
+	{
+		plane_point	0 -10 0
+		plane_normal	0 1 0
+		bounce	0.8989
+	}
+
+	affector ColourFader
+	{
+		red	-0.1
+		green	-0.1
+		blue	-0.1
+		alpha	0
+	}
+}
+

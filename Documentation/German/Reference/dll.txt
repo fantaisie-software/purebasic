@@ -1,0 +1,93 @@
+@Title Erstellung einer DLL
+
+  PureBasic ermöglicht das Erstellen einer Standard Microsoft Windows DLL ("Dynamic Linked Library"),
+  "shared objects" (.so) auf Linux, und "dynamic libraries" (.dylib) auf MacOS X.
+  Der DLL Code entspricht "normalem" PureBasic Code, mit der Ausnahme, dass außerhalb von Prozeduren 
+  kein eigentlicher Programmcode geschrieben werden sollte. 
+  @LineBreak
+  @LineBreak
+  Beim Schreiben einer DLL wird sämtlicher Code innerhalb von Prozeduren ausgeführt. Wenn eine Prozedur 
+  'public' (öffentlich) sein soll (d.h. darauf durch dritte Programme zugegriffen werden kann, die die 
+  DLL benutzen), dann wird das Schlüsselwort @Keyword ProcedureDLL (oder @Keyword ProcedureCDLL wenn die Prozedur im 'CDecl' 
+  Format vorliegen muss, was bei regulären Windows DLL nicht der Fall ist) anstelle von @Keyword Procedure 
+  (und @Keyword DeclareDLL oder @Keyword DeclareCDLL anstelle von @Keyword Declare) benutzt. Dies ist die einzige notwendige Änderung 
+  am Programm. 
+  @LineBreak
+  @LineBreak
+  Nachdem dies erfolgte, wählen Sie 'Shared DLL' als Ausgabeformat (Fenster @ReferenceLink "ide_compiler" "'Compiler-Optionen'" in der
+  PureBasic-IDE) oder den Zusatz '/DLL' bei Verwendung des Compilers im @ReferenceLink "cli_compiler" "Kommandozeilenmodus". 
+  Im "Executable erstellen" Speichern-Dialog (bei Verwendung der PureBasic-IDE) wird nun eine DLL mit dem von Ihnen 
+  eingegebenen Namen im ausgewählten Verzeichnis erstellt.
+
+  @Example
+
+@Code
+  ProcedureDLL MyFunction()
+    MessageRequester("Hallo", "Dies ist eine PureBasic DLL !", 0)
+  EndProcedure
+    
+  ; Hier das Client Programm, welches die DLL benutzt
+  ;
+  If OpenLibrary(0, "PureBasic.dll")
+    CallFunction(0, "MyFunction")
+    CloseLibrary(0)
+  EndIf
+@EndCode
+  
+  @Bold "Nur für fortgeschrittene Programmierer:" Es gibt 4 spezielle Prozeduren, die vom OS automatisch aufgerufen 
+  werden, wenn eines der folgenden Ereignisse auftritt: 
+  @Indent @Section
+    - DLL wurde zu einem neuen Prozess hinzugefügt @LineBreak
+    - DLL wurde von einem Prozess entfernt @LineBreak
+    - DLL wurde zu einem neuen Thread hinzugefügt @LineBreak
+    - DLL wurde von einem Thread entfernt 
+  @EndIndent    
+
+  Um diese Ereignisse zu verwalten, ist es möglich, 4 spezielle Prozeduren zu deklarieren: @FunctionColor AttachProcess(Instanz), 
+  @FunctionColor DetachProcess(Instanz), @FunctionColor AttachThread(Instanz) und @FunctionColor DetachThread(Instanz). 
+  Dies bedeutet, dass diese 4 Prozedur-Namen reserviert sind und vom Programmierer nicht für andere Zwecke verwendet werden können.
+  @LineBreak
+  @LineBreak
+  @Bold "Hinweise zur Erstellung von DLL's:"
+  @Indent @Section
+    - Die Deklaration von Arrays, Listen bzw. Maps mittels @ReferenceLink "Dim" "Dim", @ReferenceLink "NewList" "NewList" bzw. @ReferenceLink "newmap" "NewMap" muss stets innerhalb 
+      der Prozedur AttachProcess erfolgen. @LineBreak
+    - Schreiben Sie keinen Programmcode außerhalb von Prozeduren. Als Ausnahmen erlaubt sind lediglich 
+      Variablen- oder Strukturen-Deklarationen. @LineBreak
+    - DirectX Initialisierungsroutinen dürfen nicht innerhalb der AttachProcess Prozedur geschrieben werden. 
+  @EndIndent
+  @Bold "Hinweise zur Rückgabe von Strings aus DLL's:"
+  @LineBreak
+  @LineBreak
+  Bei der Rückgabe von Strings aus einer DLL-Funktion muß der String als @ReferenceLink "global" Global deklariert sein.
+
+  @Example
+
+@Code
+  Global ReturnString$
+  
+  ProcedureDLL.s MyFunction(var.s)
+    ReturnString$ = var + " test"
+    ProcedureReturn ReturnString$
+  EndProcedure
+@EndCode
+
+  Ohne die Deklaration als @ReferenceLink "Global" Global ist der String nur Lokal in der ProcedureDLL
+  verfügbar und kann somit nicht außerhalb verwendet werden. 
+  @LineBreak
+  @LineBreak
+  Bei der Verwendung von @@CallFunction (oder einer ihrer verwandten CallXXX-Funktionen) auf 
+  eine DLL-Funktion wird bei der Rückgabe eines Strings immer ein Zeiger auf diesen zurückgegeben, welcher mit 
+  @@PeekS ausgelesen werden muss.
+
+  @Example
+
+@Code
+  String.s = PeekS(CallFunction(0, "FunctionName", Parameter1, Parameter2))
+@EndCode 
+
+  @Bold "Nachfolgend noch ein komplettes Code-Beispiel:"
+  @LineBreak
+
+  @ExampleFile All DLLSample.pb 
+

@@ -1,0 +1,395 @@
+;
+;     Texture library documentation
+;
+;      (c) 2013 - Fantaisie Software
+;
+
+@Library Texture
+
+@Overview
+
+Textures are useful to have realistic looking @LibraryLink "mesh" "meshes". It's possible
+to create a texture on fly (with regular @LibraryLink "2ddrawing" "2DDrawing functions") or load
+it from disk. @@InitEngine3D must be called successfully before using the Texture functions.
+
+@CommandList
+
+@ExampleFile All Texture.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CopyTexture(#Texture, #NewTexture)
+
+@Description
+  Creates a new texture which is the exact copy of the specified texture.
+
+@Parameter "#Texture"
+  The texture to copy.
+  
+@Parameter "#NewTexture"
+  A number to identify the new texture.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@ReturnValue
+  Nonzero if the texture was successfully duplicated, zero otherwise. If @#PB_Any was used
+  for the #NewTexture parameter then the generated number is returned on success.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateTexture(#Texture, Width, Height [, TextureName$])
+
+@Description
+  Creates a new blank texture with the specified dimension.
+  
+@Parameter "#Texture"
+  A number to identify the texture.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "Width, Height"
+  The size of the new texture, in pixels. The width and height of the texture should be each preferably be powers of 2, and if possible,
+  make them square because this will look best on the most hardware.
+  Examples: 64x64, 128x128, 256x256, but also 128x64, 16x32... Old GFX cards can
+  have limitation, so if possible limit the texture size to 256x256.
+
+@OptionalParameter "TextureName$"
+  The name of the new texture in the OGRE system. This allow to use this name in script to assign a shader
+  to this texture
+  
+@ReturnValue
+  Nonzero if the texture was successfully created, zero otherwise. If @#PB_Any was used
+  for the #Texture parameter then the generated number is returned on success.
+
+@Example
+@Code
+  CreateTexture(0, 256, 256) ; Creates a new 256x256 texture
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateRenderTexture(#Texture, CameraID, Width, Height [, Flags [, RenderTextureName$]])
+
+@Description
+  Creates a new render texture. The camera associated to the texture will render its view directly
+  on the texture, without being displayed on screen. This can be very useful to
+  have objects which display a part of the scene (like a TV screen, a mirror etc).
+
+@Parameter "#Texture"
+  A number to identify the new texture. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "CameraID"
+  The ID of the camera to associate with the texture. This ID can be get with @@CameraID.
+
+@Parameter "Width"
+  The width of the new texture (in pixels).
+
+@Parameter "Height"
+  The height of the new texture (in pixels).
+
+@OptionalParameter "Flags"
+  The flags can be one of the following value:
+@FixedFont
+  @#PB_Texture_AutomaticUpdate: the texture is updated at every @@RenderWorld automatically (default)
+  @#PB_Texture_ManualUpdate:    the texture is not updated automatically, @@UpdateRenderTexture has to be called manually.
+  @#PB_Texture_CameraViewPort:  the camera viewport won't be removed, useful to still be able to do a capture from the camera.
+@EndFixedFont
+
+@OptionalParameter "RenderTextureName$"
+  The name of the new texture in the OGRE system. This allow to use this name in script to assign a shader
+  to this texture.
+
+@ReturnValue
+  Returns zero if the texture can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used
+  as '#Texture' parameter, the new texture number is returned.
+
+@Remarks
+  @@TextureOutput is not supported on rendered textures.
+
+@SeeAlso
+  @@UpdateRenderTexture
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateRenderTexture(#Texture)
+
+@Description
+  Updates the texture content with the current camera view. If the render texture has been
+  created with the @#PB_Texture_AutomaticUpdate flag, this function is not needed.
+
+@Parameter "#Texture"
+  The texture to update.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRenderTexture
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SaveRenderTexture(#Texture, Filename$)
+
+@Description
+  Save the render texture content. It can be useful to do screenshots of a particular scene.
+  The save format can be "BMP", "PNG", "JPG", "TGA", etc.
+
+@Parameter "#Texture"
+  The texture to use.
+
+@Parameter "Filename$"
+  The filename where the texture will be saved. This can be an absolute or relative (to the current directory)
+  path.
+
+@ReturnValue
+  If the texture can't be saved (permission error, disk full etc), the returned value will be zero.
+
+@SeeAlso
+  @@CreateRenderTexture
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateCubeMapTexture(#Texture, Width, Height, TextureName$ [, BackColor])
+
+@Description
+  Creates a new cube map texture. A cube map texture use the surrounding to render itself as reflection on it.
+  This texture has to exist in an OGRE script.
+
+@Parameter "#Texture"
+  The number to identify the new texture. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Width"
+  The width of the new texture (in pixels).
+
+@Parameter "Height"
+  The height of the new texture (in pixels).
+
+@Parameter "TextureName$"
+  The name of the texture in the OGRE scripts. This texture has to be defined in the script with the
+  correct value to have a working cube mapping. If 'TextureName$' is set to 'CubeMapTexture', a material
+  script should contain the following definition (which can be adapted depending on your needs):
+@FixedFont
+  material CubeMapMaterial
+  {
+    technique
+    {
+      pass
+      {
+        texture_unit
+        {
+          cubic_texture CubeMapTexture combinedUVW
+          tex_address_mode clamp
+          env_map cubic_reflection
+        }
+      }
+    }
+  }
+@EndFixedFont
+
+@OptionalParameter "BackColor"
+  The back color of the cube mapping scene, if no @@SkyBox is used. To get a valid color, use @@RGB.
+
+@ReturnValue
+  Returns zero if the texture can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used
+  as '#Texture' parameter, the new texture number is returned.
+
+@SeeAlso
+  @@EntityCubeMapTexture
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = EntityCubeMapTexture(#Texture, #Entity)
+
+@Description
+  Applies the cube map texture to the @LibraryLink "entity" "entity". The entity will reflect the world around it.
+
+@Parameter "#Texture"
+  The texture to use. The texture must have been created with @@CreateCubeMapTexture.
+
+@Parameter "#Entity"
+  The entity to apply the texture. One texture can be applied to many entities.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateCubeMapTexture
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeTexture(#Texture)
+
+@Description
+  Frees the specified texture. All its associated memory is released and this object can't be used
+  anymore.
+
+@Parameter "#Texture"
+   The texture to free. If @#PB_All is specified, all the remaining textures are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining textures are automatically freed when the program ends.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsTexture(#Texture)
+
+@Description
+  Tests if the given texture is valid and correctly initialized. 
+  
+@Parameter "#Texture"
+    The texture to test.
+
+@ReturnValue
+  Nonzero if the texture is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a texture is ready to use.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetScriptTexture(#Texture, Name$)
+
+@Description
+  Get a texture defined in an OGRE script file. Scripts are loaded and parsed when calling @@Parse3DScripts.
+  
+@Parameter "#Texture"
+  A number to identify the new texture. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+  
+@Parameter "Name$"
+  The name of the texture in the script files.
+
+@ReturnValue
+  Nonzero if the texture was successfully created, zero otherwise. If @#PB_Any was used
+  for the #Texture parameter then the generated number is returned on success.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LoadTexture(#Texture, Filename$)
+
+@Description
+  Loads a new texture from the disk. Before loading a texture, an archive has to be specified with @@Add3DArchive.
+@LineBreak
+@LineBreak
+  Texture format can be in PNG, TGA or JPG. It's strongly recommended to make the
+  texture dimension square and with power of 2 width/height: 64x64, 128x128, 256x256... Old GFX cards can
+  have limitation, so if possible limit the texture size to 256x256.
+
+@Parameter "#Texture"
+  A number to identify the new texture. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Filename$"
+  The filename of the texture.
+
+@ReturnValue
+  Nonzero if the texture was successfully loaded, zero otherwise. If @#PB_Any was used
+  for the #Texture parameter then the generated number is returned on success.
+
+@SeeAlso
+  @@FreeTexture
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TextureID = TextureID(#Texture)
+
+@Description
+  Returns the unique system identifier of the texture.
+
+@Parameter "#Texture"
+  The texture to use.
+
+@ReturnValue
+  Returns the unique system identifier of the texture.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Height = TextureHeight(#Texture)
+
+@Description
+  Returns the height of the specified texture.
+  
+@Parameter "#Texture"
+  The texture to use.
+  
+@ReturnValue
+   The height of the texture, in pixels.
+
+@SeeAlso
+  @@TextureWidth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OutputID = TextureOutput(#Texture)
+
+@Description
+  Returns the OutputID of the image to perform @LibraryLink "2ddrawing" "2D rendering operation" on it. 
+  Textures created with @@CreateRenderTexture are not supported.
+
+@Parameter "#Texture"
+  The texture to draw on.
+
+@ReturnValue
+  Returns the output ID or zero if drawing is not possible. This value should be passed directly to the
+  @@StartDrawing function to start the drawing operation. The return-value
+  is valid only for one drawing operation and cannot be reused.
+
+@Example
+@Code
+  ...
+  StartDrawing(TextureOutput(#Texture))
+    ; do some drawing stuff here...
+  StopDrawing()
+@EndCode
+
+@SeeAlso
+  @@StartDrawing, @@CreateRenderTexture
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Width = TextureWidth(#Texture)
+
+@Description
+  Returns the width of the specified texture.
+  
+@Parameter "#Texture"
+  The texture to use.
+  
+@ReturnValue
+   The width of the texture, in pixels.
+
+@SeeAlso
+  @@TextureHeight
+  
+@SupportedOS
+

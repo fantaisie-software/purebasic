@@ -1,0 +1,899 @@
+;
+;     Camera library documentation
+;
+;      (c) 2018 - Fantaisie Software
+;
+
+@Library Camera
+
+@Overview
+  Cameras are used to display the 3D world. You can manage them like real life
+  cameras, which means you can rotate, move, change the field of vision and more.
+  At least one camera is absolutely required in order to @Link "Engine3D/RenderWorld" "render" the world to the
+  screen. Many cameras can be used at the same time with different positions
+  and views to allow cool effects like: split-screen, rear view, etc.
+  @@InitEngine3D must be called successfully before using the
+  camera functions.
+
+@CommandList
+
+@ExampleFile All Camera.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraBackColor(#Camera, Color)
+
+@Description
+  Changes the camera background color. When a new camera is created, the default background color
+  is set to black.
+
+@Parameter "#Camera"
+  The camera to use.
+  
+@Parameter "Color"
+  New color of the camera background. @@RGB can be used to get a valid color value.
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraFollow(#Camera, ObjectID, Angle, Height, Distance, RotationPercent, PositionPercent [, Mode])
+
+@Description
+  Follow the specified object in a smooth manner, using interpolation. 
+
+@Parameter "#Camera"
+  The camera to use.
+  
+@Parameter "ObjectID"
+  The object to follow. It can be one of the following type:
+@FixedFont
+  - Entity         : use @@EntityID to get a valid ID.
+  - Light          : use @@LightID to get a valid ID.
+  - Node           : use @@NodeID to get a valid ID.
+  - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
+  - BillboardGroup : use @@BillboardGroupID to get a valid ID.
+  - Text3D         : use @@Text3DID to get a valid ID.
+@EndFixedFont
+
+@Parameter "Angle"
+  The angle  of the camera relative to the followed object.
+
+@Parameter "Height"
+  The absolute height of the camera.
+
+@Parameter "Distance"
+  The distance of the camera relative to the followed object.
+
+@Parameter "RotationPercent"
+  Value to apply when the camera rotate to get it again in the correct angle. Valid values are from 0 to 1.
+
+@Parameter "PositionPercent"
+  Value to apply when the camera moves to get it again in the correct position. Valid values are from 0 to 1.
+  When value is 0, the camera doesn't move. When value is 1, the camera is set to the final position, without interpolation.
+
+@OptionalParameter "Mode"
+  It can be one of the following value:
+@FixedFont  
+  @#True : the camera will automatically look at the followed entity (default).
+  @#False: the camera will not automatically look at the followed entity.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso @@CreateCamera
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraFOV(#Camera, Angle)
+
+@Description
+  Changes a camera field of vision (FOV) which allows you to view a larger or smaller area
+  of the scene. Angles above 90 degrees result in a wide-angle (fish-eye like) view. Angles
+  lower than 30 degrees result in a stretched (telescopic) view. Typical values are between
+  45 and 60 degrees.
+
+@Parameter "#Camera"
+  The camera to use.
+  
+@Parameter "Angle"
+  The new view angle for the camera, in degrees.
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraID = CameraID(#Camera)
+
+@Description
+  Returns the unique ID which identifies the given '#Camera' in the operating system. This 
+  function is very useful when another library needs a camera reference. 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraCustomParameter(#Camera, ParameterIndex, Value1, Value2, Value3, Value4)
+
+@Description
+  Sets a custom parameter value to the camera shader script (either GLSL or HLSL).
+
+@Parameter "#Camera"
+  The camera to use.
+
+@Parameter "ParameterIndex"
+  The parameter index in the shader script.
+
+@Parameter "Value1"
+  The first parameter value.
+
+@Parameter "Value2"
+  The second parameter value (if the parameter only accept one value, this value will be ignored).
+
+@Parameter "Value3"
+  The third parameter value (if the parameter only accept two values, this value will be ignored).
+
+@Parameter "Value4"
+  The fourth parameter value (if the parameter only accept three values, this value will be ignored).
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CheckObjectVisibility(#Camera, ObjectID)
+
+@Description
+  Checks if an object is visible within a camera view.
+  
+@Parameter "#Camera"
+  The camera to use.
+
+@Parameter "ObjectID"
+  The object to check. It can be one of the following type:
+@FixedFont
+  - Entity         : use @@EntityID to get a valid ID.
+  - Light          : use @@LightID to get a valid ID.
+  - Node           : use @@NodeID to get a valid ID.
+  - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
+  - BillboardGroup : use @@BillboardGroupID to get a valid ID.
+  - Text3D         : use @@Text3DID to get a valid ID.
+@EndFixedFont
+
+@ReturnValue
+  Returns @#True if object is within the selected camera view or @#False if outside the visible area.
+
+@Example
+@Code
+  InitEngine3D()
+  InitSprite()
+  InitKeyboard()
+
+  OpenWindow(0, 0, 0, 800, 600, "Object Visibility (Use arrows <--  --> and ESC to quit)", #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0),0, 0, 800, 600)
+  CreateCamera(0, 0, 0, 100, 100)
+
+  CreateCube(0, 1)
+  CreateTexture(0, 100, 100)
+  If StartDrawing(TextureOutput(0))
+    DrawingMode(#PB_2DDrawing_Gradient)
+    CircularGradient(50, 50, 48)
+    Circle(50, 50, 48)
+    StopDrawing()
+  EndIf
+
+  CreateMaterial(0, TextureID(0))
+  ScaleMaterial(0, 0.1, 0.1)
+  CreateEntity(0, MeshID(0), MaterialID(0), 0, 0, -2)
+
+  Repeat
+  Repeat : Event = WindowEvent() : Until Event = 0
+ 
+  RenderWorld()
+  RotateEntity(0, 0.1, -0.3, 0.3, #PB_Relative)
+  ExamineKeyboard()
+  
+  If KeyboardPushed(#PB_Key_Left)
+    MoveEntity(0, -0.1, 0, 0,#PB_Relative)
+  ElseIf  KeyboardPushed(#PB_Key_Right)
+    MoveEntity(0, 0.1, 0, 0,#PB_Relative)
+  EndIf
+  
+  If CheckObjectVisibility(0, EntityID(0)) = #False
+    Debug "Can't see the object anymore"
+  Else
+    Debug "I see it !"
+  EndIf
+  
+  FlipBuffers()
+  Until KeyboardPushed(#PB_Key_Escape)
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraDirection(#Camera, x, y, z)
+
+@Description
+  Changes the direction of a camera. The position of the camera is not changed.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@Parameter "x, y, z"
+  The direction vector (usually values between -1.0 and 1.0, if not it will be automatically normalized).
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraDirectionX(#Camera [, Mode])
+
+@Description
+  Returns the 'x' direction vector of the camera.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@OptionalParameter "Mode"
+  The mode to get the 'x' direction vector. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'x' direction vector of the camera in the world (default).
+  @#PB_Relative: get the 'x' direction vector of the camera relative to its parent.
+@EndFixedFont
+
+@ReturnValue
+  Returns the 'x' direction vector of the camera. This value is always between -1.0 and 1.0.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraDirectionY(#Camera [, Mode])
+
+@Description
+  Returns the 'y' direction vector of the camera.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@OptionalParameter "Mode"
+  The mode to get the 'y' direction vector. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'y' direction vector of the camera in the world (default).
+  @#PB_Relative: get the 'y' direction vector of the camera relative to its parent.
+@EndFixedFont  
+
+@ReturnValue
+  Returns the 'y' direction vector of the camera. . This value is always between -1.0 and 1.0.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraDirectionZ(#Camera [, Mode])
+
+@Description
+  Returns the 'z' direction vector of the camera.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@OptionalParameter "Mode"
+  The mode to get the 'z' direction vector. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'z' direction vector of the camera in the world (default).
+  @#PB_Relative: get the 'z' direction vector of the camera relative to its parent.
+@EndFixedFont
+
+
+@ReturnValue
+  Returns the 'z' direction vector of the camera. This value is always between -1.0 and 1.0.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraFixedYawAxis(#Camera, Enable [, VectorX, VectorY, VectorZ])
+
+@Description
+  Change the fixed yaw axis of the camera. The default behaviour of a camera is to yaw around its own Y axis.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@Parameter "Enable"
+  Enable or disable the use of a custom yaw axis. If set to @#True, a new axis vector has to be specified.
+  If set to @#False, the camera will yaw around its own Y axis.
+
+@OptionalParameter "VectorX"
+  'x' vector direction of the new yaw axis (usually a value between -1.0 and 1.0, if not it will be automatically normalized).
+  'Enable' parameter has to be set to have any effect.
+
+@OptionalParameter "VectorY"
+  'y' vector direction of the new yaw axis (usually a value between -1.0 and 1.0, if not it will be automatically normalized).
+  'Enable' parameter has to be set to have any effect.
+
+@OptionalParameter "VectorZ"
+  'z' vector direction of the new yaw axis (usually a value between -1.0 and 1.0, if not it will be automatically normalized).
+  'Enable' parameter has to be set to have any effect.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraLookAt(#Camera, x, y, z)
+
+@Description
+  The point (in world unit) that a camera will face.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@Parameter "x, y, z"
+  The position (in world unit) to point the camera at.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraProjectionMode(#Camera, Mode [, Width, Height])
+
+@Description
+  Change the #Camera projection mode.
+
+@Parameter "#Camera"
+  The camera to use.
+  
+@Parameter "Mode"
+  The value representing the way in which the world should be projected. This should be one of the following values:
+@FixedFont
+  @#PB_Camera_Perspective : Renders the whole scene with perspective
+  @#PB_Camera_Orthographic: Renders the whole scene in Orthographic mode (no 3D depth)
+@EndFixedFont
+
+@OptionalParameter "Width"
+  Width of the plotting x range.
+  
+@OptionalParameter "Height"
+  Height of the plotting y range.
+  
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraProjectionX(#Camera, x, y, z)
+
+@Description
+  Returns the 'x' position, in pixels, of a 3D point on the specified #Camera. If the point is outside
+  of the camera current view, it returns -1. This is very useful to map 3D points to 2D screen.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraProjectionY(#Camera, x, y, z)
+
+@Description
+
+  Returns the 'y' position, in pixels, of a 3D point on the specified #Camera. If the point is outside
+  of the camera current view, it returns -1. This is very useful to map 3D points to 2D screen.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraRange(#Camera, Near, Far)
+
+@Description
+  Changes camera near and far range.
+
+@Parameter "#Camera"
+  The camera to use.
+  
+@Parameter "Near"
+  The closest distance to the camera where the world should be rendered.
+
+@Parameter "Far"
+  The largest distance to the camera where the world should be rendered.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraRenderMode(#Camera, RenderMode)
+
+@Description
+  Changes the mode in which the world is displayed through a camera. When you create a new camera,
+  using the @@CreateCamera function, the default render mode is to display the world with full
+  details and textures.
+
+@Parameter "#Camera" 
+  The camera to use.
+
+@Parameter "RenderMode"
+  The value representing the way in which the world should be rendered. This should be one of the following values:
+@FixedFont
+  @#PB_Camera_Plot     : Renders the whole scene by showing only the vertices (plots)
+  @#PB_Camera_Wireframe: Renders the whole scene by showing only the triangles (lines)
+  @#PB_Camera_Textured : Renders the whole scene at full detail, with textures.
+@EndFixedFont
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CameraReflection(#Camera, #MainCamera, EntityID)
+
+@Description
+  Set the #Camera as a reflective camera, using #MainCamera and the EntityID as source.
+  A RTT Texture has to be created from #Camera using @@CreateRenderTexture. 
+  The material which will use this RTT texture has to be defined with SetMaterialAttribute(Material, @#PB_Material_ProjectiveTexturing, #Camera). @LineBreak
+  This command has to be used in the rendering loop.
+
+@Parameter "#Camera" 
+  The camera to use for the reflection.
+
+@Parameter "#MainCamera"
+  The camera to use for the reflection source.
+
+@Parameter "EntityID"
+  The @@EntityID to use as source for the reflection.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@SetMaterialAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraRoll(#Camera [, Mode])
+
+@Description
+  Get the roll of the #Camera.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@OptionalParameter "Mode"
+  The mode to get the roll. It can be one of the following value:
+@FixedFont
+  @#True : the roll is the raw value, but it can't be used in @@RotateCamera to get back the same orientation (default).
+  @#False: the roll is adjusted, so it can be put back in @@RotateCamera to get back the same orientation.
+@EndFixedFont  
+
+@ReturnValue
+  The current roll value of the camera. This value is always between -180.0 and 180.0 degrees.
+
+@SeeAlso
+  @@CameraYaw, @@CameraPitch
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraPitch(#Camera [, Mode])
+
+@Description
+  Get the pitch of the #Camera.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@OptionalParameter "Mode"
+  The mode to get the pitch. It can be one of the following value:
+@FixedFont
+  @#True : the pitch is the raw value, but it can't be used in @@RotateCamera to get back the same orientation (default).
+  @#False: the pitch is adjusted, so it can be put back in @@RotateCamera to get back the same orientation.
+@EndFixedFont  
+
+@ReturnValue
+  The current pitch value of the camera. This value is always between -180.0 and 180.0 degrees.
+
+@SeeAlso
+  @@CameraYaw, @@CameraRoll
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraYaw(#Camera [, Mode])
+
+@Description
+  Get the yaw of the #Camera.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@OptionalParameter "Mode"
+  The mode to get the yaw. It can be one of the following value:
+@FixedFont
+  @#True : the yaw is the raw value, but it can't be used in @@RotateCamera to get back the same orientation (default).
+  @#False: the yaw is adjusted, so it can be put back in @@RotateCamera to get back the same orientation.
+@EndFixedFont  
+
+@ReturnValue
+  The current yaw value of the camera. This value is always between -180.0 and 180.0 degrees.
+
+@SeeAlso
+  @@CameraPitch, @@CameraRoll
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraViewX(#Camera)
+
+@Description
+  Returns the 'x' position (in pixels) of the camera frame in the screen.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@ReturnValue
+  Returns the 'x' position (in pixels) of the camera frame in the screen.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraViewY(#Camera)
+
+@Description
+  Returns the 'y' position (in pixels) of the camera frame in the screen.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@ReturnValue
+  Returns the 'y' position (in pixels) of the camera frame in the screen.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraViewWidth(#Camera)
+
+@Description
+  Returns the width (in pixels) of the camera frame in the screen.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@ReturnValue
+  Returns the width (in pixels) of the camera frame in the screen.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraViewHeight(#Camera)
+
+@Description
+  Returns the height (in pixels) of the camera frame in the screen.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@ReturnValue
+  Returns the height (in pixels) of the camera frame in the screen.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraX(#Camera [, Mode])
+
+@Description
+  Returns the current 'x' position of the camera in the world.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@OptionalParameter "Mode"
+  The mode to get the 'x' position. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'x' position of the camera in the world (default).
+  @#PB_Relative: get the 'x' position of the camera relative to its parent.
+@EndFixedFont  
+
+@ReturnValue
+  Returns the 'x' position of the camera.
+  
+@SeeAlso
+  @@CameraY, @@CameraZ, @@MoveCamera
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraY(#Camera [, Mode])
+
+@Description
+  Returns the current 'y' position of the camera in the world.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@OptionalParameter "Mode"
+  The mode to get the 'y' position. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'y' position of the camera in the world (default).
+  @#PB_Relative: get the 'y' position of the camera relative to its parent.
+@EndFixedFont  
+
+@ReturnValue
+  Returns the 'y' position of the camera.
+  
+@SeeAlso
+  @@CameraX, @@CameraZ, @@MoveCamera
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CameraZ(#Camera [, Mode])
+
+@Description
+  Returns the current position of the camera in the world.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@OptionalParameter "Mode"
+  The mode to get the 'z' position. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'z' position of the camera in the world (default).
+  @#PB_Relative: get the 'z' position of the camera relative to its parent.
+@EndFixedFont  
+
+@ReturnValue
+  Returns the 'z' position of the camera.
+
+@SeeAlso
+  @@CameraX, @@CameraY, @@MoveCamera
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateCamera(#Camera, x, y, Width, Height [, VisibilityMask])
+
+@Description
+  Creates a new camera in the current world, at the position x,y with the specified dimensions.
+  Note that these positions and sizes are the position and sizes of the display on the screen,
+  not the position and size of the camera in the world.
+@LineBreak
+@LineBreak
+  Unlike other graphics related functions, these coordinates and dimensions are in percents,
+  from 0 to 100 (float numbers can be used for more precise placement). This could seems odd,
+  but 3D applications should be resolution independent and this is a good way of achieving that.
+  If a camera is created with a height of 50% then it will always fill 50% of the height of the
+  screen, irrespective of whether you use a screen which is 640*480 or 1600*1200. If a camera
+  has already been created with the same number, the previous camera is automatically
+  freed and replaced by the new one.
+@LineBreak
+@LineBreak
+  Cameras can be overlapped. This means that it is possible to display a camera which fills the whole
+  screen and put a little camera inside which shows another place in the world. To achieve this,
+  the order of creation is very important: the camera which will be on top should be created last.
+
+@Parameter "#Camera"
+  The number to identify the new camera. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y"
+  The position (in percentages) of the left edge of the start of the display for this camera.
+  0 means at the left of the screen, 100 means at the right of the screen. See the picture below
+  for a better overview.
+
+@Parameter "Width, Height"
+  The size (in percentages) the display for this camera should take up.
+  See the picture below for a better overview.
+  
+@OptionalParameter "VisibilityMask"
+  A mask to select which @LibraryLink "entity" "entities" and @LibraryLink "billboard" "billboards"
+  to display on this camera. The camera defines
+  its own mask, and if the entity or billboard mask match, then it will be displayed. By default
+  the entities and billboards have no mask, meaning they will be always displayed on all cameras.
+
+@ReturnValue
+  Returns zero if the camera can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used 
+  as '#Camera' parameter, the new camera number will be returned as 'Result'.
+
+@Remarks
+
+@Example Camera creation position and dimension:
+@Code
+  CreateCamera(0, 0, 0, 100, 100) ; Creates a camera which fill the whole screen
+  
+  CreateCamera(0, 0,  0, 100, 50) ; Creates an horizontal split screen effect, for 2 players
+  CreateCamera(1, 0, 50, 100, 50) ; mode on the same screen
+
+  CreateCamera(0, 0, 0, 100, 100) ; Create a full screen camera
+  CreateCamera(1, 25, 0, 50, 10)  ; And a rearview mirror effect.
+                                  ; Note the rearview is last so that it is displayed on top of the full screen camera
+@EndCode
+
+@Example Two cameras separating screen into two halves:
+@Code 
+  ; upper camera
+  CreateCamera(0, 0, 0, 100, 50)  
+  MoveCamera(0, 0, 50, 150, #PB_Absolute)
+  CameraBackColor(0, RGB(215, 225, 255))
+  
+  ; camera below
+  CreateCamera(1, 0, 50, 100, 50) 
+  MoveCamera(1, 0, 50, -150, #PB_Absolute)
+  CameraBackColor(1, RGB(255, 225, 215))
+  RotateCamera(1, 180, 0, 0)
+@EndCode
+@Image createcamera.png
+
+
+@SeeAlso
+  @@FreeCamera, @@ResizeCamera
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeCamera(#Camera)
+
+@Description
+  Frees a camera and releases all its associated memory. This camera must not be used
+  (by using its number with the other functions in this library) after
+  calling this function, unless you create it again.
+
+@Parameter "#Camera"
+  The camera to free. If @#PB_All is specified, all the remaining cameras are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining cameras are automatically freed when the program ends.
+
+@SeeAlso
+  @@CreateCamera
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsCamera(#Camera)
+
+@Description
+  Tests if the given #Camera is a valid and correctly initialized camera.
+@LineBreak
+@LineBreak
+  This function is bulletproof and can be used with any value. If the 'Result' is not zero then the object is valid and
+  initialized, else it returns zero. This is the correct way to ensure a camera is ready to use.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveCamera(#Camera, x, y, z [, Mode])
+
+@Description
+  Move the specified camera.
+
+@Parameter "#Camera"
+  The camera to move.
+
+@Parameter "x, y, z"  
+  The new position of the camera.
+
+@OptionalParameter "Mode"
+  The move mode. It can be one of the following values:
+@FixedFont
+  @#PB_Relative: relative move, from the current camera position (default).
+  @#PB_Absolute: absolute move to the specified position.
+@EndFixedFont
+  combined with one of the following values:
+@FixedFont
+  @#PB_Local : local move.
+  @#PB_Parent: move relative to the parent position.
+  @#PB_World : move relative to the world.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@RotateCamera
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeCamera(#Camera, x, y, Width, Height)
+
+@Description
+  Resizes the camera according to the specified dimension. All values are in percentages, like
+  with @@CreateCamera.
+  
+@Parameter "#Camera"
+  The camera to resize.
+
+@Parameter "x, y"  
+  The new position of the camera display. This values are in percentages, from to 0 to 100.
+
+@Parameter "Width, Height"  
+  The new size of the camera display. This values are in percentages, from to 0 to 100.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateCamera
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateCamera(#Camera, x, y, z [, Mode])
+
+@Description
+  Rotates the camera according to the specified x,y,z angle values.
+  
+@Parameter "#Camera"
+  The camera to rotate.
+
+@Parameter "x, y, z"  
+  The new rotation to apply to the camera. Angles are in degree, with values 
+  ranging from 0 to 360.
+
+@OptionalParameter "Mode"
+  It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: absolute rotation (default).
+  @#PB_Relative: relative rotation based on the previous camera rotation.  
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SwitchCamera(#Camera, #NewCamera)
+
+@Description
+  Switch the currently displayed camera.
+
+@Parameter "#Camera"
+  The camera to switch.
+
+@Parameter "#NewCamera"
+  The new camera to display.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateCamera
+  
+@SupportedOS

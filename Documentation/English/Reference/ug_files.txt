@@ -1,0 +1,122 @@
+@Title UserGuide - Reading and writing files
+
+This example will write 100 random records each containing a @ReferenceLink "variables" "byte",
+a @ReferenceLink "variables" "floating-point number", a @ReferenceLink "variables" "long integer"
+and a @ReferenceLink "variables" "string". It then reads all the records back and displays them
+in the @ReferenceLink "ide_debugger" "debug window".
+@LineBreak
+@LineBreak
+It demonstrates the @@GetTemporaryDirectory, @@CreateFile, @@OpenFile, @@EOF and a number of
+@LibraryLink "file" "Read and Write" data instructions too.
+@LineBreak
+@LineBreak
+It works fine as far as it goes, but has a drawback. As the string value has a variable length -
+you can't randomly access the records because you can't predict where each new record will
+start in the file. They must be all be read back in the same sequence as they were written.
+This isn't a problem with the small number of records created here but this could be an
+inconvenience with a larger file. PureBasic offers a way to handle this situation too - but
+an example would be too complex for this topic. See the @LibraryLink "database" "Database"
+sections of the help-file or reference manual to see how it could be done.
+
+@Code
+  EnableExplicit
+  ; Define the constants:
+  #MAXBYTE = 255
+  #MAXLONG = 2147483647
+  
+  ; Define some variables.
+  Define.f Float
+  Define.i Count, File
+  Define.s Folder, FileName, String
+  
+  ; Create a temporary file name.
+  Folder = GetTemporaryDirectory()
+  FileName = Folder + "test.data"
+  
+  ; Create the temporary file.
+  ; If #PB_Any is used, CreateFile returns the file's number.  
+  ; Useful if you may have more than one file open simultaneously.
+  File = CreateFile(#PB_Any, FileName)
+  
+  If File
+    ; If this was successful - write 100 random records.
+    For Count = 1 To 100
+      
+      ; Write a random byte (0 - 255).
+      WriteByte(File, Random(#MAXBYTE))
+      
+      ; Create and write a random float.
+      ; This calculation is there to make the number have a floating-point component (probably).
+      Float = Random(#MAXLONG) / ((Random(7) + 2) * 5000)
+      WriteFloat(File, Float)
+      
+      ; Write a random long.
+      WriteLong(File, Random(#MAXLONG))
+      
+      ; Create and write a random string in Unicode format.
+      ; Note the use of WriteStringN to delimit the string with an end of line marker.
+      String = "String " + StrU(Random(#MAXLONG))
+      WriteStringN(File, String, #PB_Unicode)
+      
+    Next Count
+    
+    ; Close the file.
+    CloseFile(File)
+    
+  Else
+    ; If this was unsuccessful.
+    Debug "Could not create the file: " + FileName 
+    
+  EndIf
+  
+  ; Open the file for reading this time.
+  File = ReadFile(#PB_Any, FileName)
+  
+  If File
+    ; If this was successful - read and display records from the file.
+    
+    ; Reset the counter.
+    Count = 1
+    
+    ; Loop until the 'end of file' is reached.
+    ; This will read all of the records regardless of how many there are.
+    While Eof(File) = 0
+      
+      ; Print a header line.
+      Debug "------------------------------------------------------------------------------------------------"
+      
+      Debug "[" + StrU(Count) + "]"
+      Count + 1
+      ; Read a byte value and print it.
+      Debug StrU(ReadByte(File), #PB_Byte)
+      
+      ; Read a float value.
+      Debug StrF(ReadFloat(File))
+      
+      ; Read a long value.
+      Debug StrU(ReadLong(File), #PB_Long)
+      
+      ; Read a string value.
+      Debug ReadString(File, #PB_Unicode)
+      
+    Wend
+    
+    ; Print the trailing line.
+    Debug "------------------------------------------------------------------------------------------------"
+    
+    ; Close the file.
+    CloseFile(File)
+    
+    ; Tidy up.
+    DeleteFile(FileName)
+    
+  Else
+    ; If this was unsuccessful.
+    Debug "Could not open the file: " + FileName
+    
+  EndIf
+@EndCode
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_directives" "< Previous: Compiler directives" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_memory" "Next: Memory access >"

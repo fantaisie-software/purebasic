@@ -1,0 +1,1556 @@
+;
+;     Mesh library documentation
+;
+;      (c) 2020 - Fantaisie Software
+;
+
+@Library Mesh
+
+@Overview
+  Mesh's sind 3D-Objekte, welche aus vielen Scheiteln (englisch: "vertices" bzw. "vertexes")
+  und Dreiecken bestehen, die miteinander verbunden sind, um die endgültige Form zu
+  ergeben. Ein Mesh kann ein optionales Skelett (englisch "skeleton") mit Knochen (englisch "bones") haben, um Echtzeit-Animation zu
+  ermöglichen. Ein Mesh kann nicht direkt bewegt oder angezeigt werden, sondern muss mittels
+  eines @LibraryLink "Entity" "Entity" (Wesen) benutzt/manipuliert werden.
+@LineBreak
+@LineBreak
+  @@InitEngine3D muss erfolgreich aufgerufen worden sein, bevor Sie die
+  Mesh-Befehle benutzen.
+
+@CommandList
+
+@ExampleFile All Mesh.pb
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateMesh(#Mesh [, Typ [, Modus])
+
+@Description
+  Erstellt ein neues leeres '#Mesh'. Nach der Erstellung können weitere Befehle dieser
+  Bibliothek wie @@MeshVertexPosition oder @@MeshFace verwendet werden, um es weiter
+  aufzubauen.
+  
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Mesh. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@OptionalParameter "Typ"
+  Der Typ des neuen Mesh. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Mesh_TriangleList : das Mesh wird aus einer Liste von Dreiecken zusammengesetzt (Standard).
+  @#PB_Mesh_TriangleStrip: das Mesh wird aus einer Liste verbundener Dreiecke zusammengesetzt
+                          (Scheitelpunkte werden geteilt).
+  @#PB_Mesh_TriangleFan  : das Mesh wird aus einer Liste verbundener Dreiecke zusammengesetzt,
+                          welche den gleichen zentralen Scheitelpunkt gemeinsam haben.
+  @#PB_Mesh_PointList    : das Mesh wird aus einer Liste von Punkten zusammengesetzt.
+  @#PB_Mesh_LineList     : das Mesh wird aus einer Liste von Linien zusammengesetzt.
+  @#PB_Mesh_LineStrip    : das Mesh wird aus einer Liste verbundener Linien zusammengesetzt
+                          (Scheitelpunkte werden geteilt).
+@EndFixedFont
+
+@OptionalParameter "Modus"
+  Der Modus des neuen Mesh. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Mesh_Static : sobald es erstellt wurde, kann das Mesh nicht mehr mit den Mesh-Update-Funktionen
+                    verändert werden (Standard).
+  @#PB_Mesh_Dynamic: sobald es erstellt wurde, kann das Mesh mit den Mesh-Update-Funktionen verändert werden.
+@EndFixedFont
+
+@ReturnValue
+  Gibt einen Wert ungleich null zurück, wenn das Mesh erfolgreich erstellt wurde und
+  null, wenn ein Fehler auftrat.
+  Wenn @#PB_Any als #Mesh Parameter verwendet wurde, dann wird bei Erfolg
+  die neu generierte Nummer zurückgegeben.
+
+@Remarks
+  Wenn das #Mesh bereits existierte, dann wird dieses freigegeben und durch ein neues ersetzt.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateDataMesh(#Mesh, Array.PB_MeshVertex())
+
+@Description
+  Erstellt ein neues '#Mesh' vom angegebenen zwei-dimensionalen Array des Typs PB_MeshVertex.
+  Dieser Befehl erlaubt eine schnellere Mesh-Erstellung als mittels @@CreateMesh, indem ein
+  Array vorbereitet und mit einmal an den Befehl übergeben wird.
+  
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Mesh. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+  
+@Parameter "Array"
+  Ein zwei-dimensionales Array des Typs PB_MeshVertex, das für die Erstellung des neuen
+  Meshs verwendet wird. Die PB_MeshVertex Struktur ist wie folgt definiert:
+@Code
+  Structure PB_MeshVertex
+    x.f
+    y.f
+    z.f
+    NormalX.f
+    NormalY.f
+    NormalZ.f
+    TangentX.f
+    TangentY.f
+    TangentZ.f 
+    u.f
+    v.f
+    Color.l
+  EndStructure   
+@EndCode
+
+@Remarks
+  If the #Mesh was already created, then it is freed and replaced by a new one.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CopyMesh(#Mesh, #NewMesh)
+
+@Description
+  Erstellt ein neues Objekt '#NewMesh', welches eine exakte Kopie des angegebenen '#Mesh' ist.
+  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als '#NewMesh' Parameter verwendet wird, 
+  dann wird die Nummer des neuen Mesh als 'Ergebnis' zurückgegeben.
+@LineBreak
+@LineBreak
+  Ist das 'Ergebnis' gleich 0, ist das Kopieren des Mesh's fehlgeschlagen.
+  Wenn das neue Objekt '#NewMesh' bereits existiert, wird dieses automatisch freigegeben
+  und durch das neue ersetzt.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMesh(#Mesh)
+
+@Description
+  Gibt das angegebene '#Mesh' frei. Sein gesamter zugehöriger Speicherplatz wird freigegeben
+  und dieses Objekt kann nicht mehr benutzt werden.
+
+@Parameter "#Mesh"
+  Das freizugebende Mesh. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Meshes freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Alle verbleibenden Meshes werden automatisch freigegeben, wenn das Programm endet.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsMesh(#Mesh)
+
+@Description
+  Überprüft, ob das angegebene '#Mesh' gültig und ein korrekt initialisiertes Mesh ist.
+@LineBreak
+@LineBreak
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. Wenn 'Ergebnis' gleich Null ist, 
+  dann ist das angegebene Mesh noch nicht korrekt erstellt bzw. initialisiert. Dies ist der korrekte Weg, 
+  um sicherzugehen, dass ein Mesh fertig zur Benutzung ist.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LoadMesh(#Mesh, Dateiname$)
+
+@Description
+  Lädt ein neues '#Mesh' Objekt.
+  Vor dem Laden eines Mesh muss ein Archiv mittels @@Add3DArchive definiert werden.
+
+@Parameter "#Mesh"
+  Eine Nummer zum Identifizieren des neuen Mesh. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Nummer automatisch zu generieren.
+
+@Parameter "Dateiname$"
+  Der Dateiname des Mesh.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Mesh erfolgreich geladen wurde, andernfalls Null.
+  Wenn @#PB_Any als #Mesh Parameter verwendet wurde, dann wird im Erfolgsfall die
+  generierte Nummer zurückgegeben.
+
+@Remarks
+  Das Mesh muss im OGRE .mesh Format vorliegen. Zum Konvertieren vieler 3D-Formate
+  (einschließlich Materialien und Animationen) ist ein Kommandozeilen-Programm - basierend
+  auf @InternetLink "http://assimp.sourceforge.net/main_features_formats.html" "assimp" -
+  verfügbar. Es kann hier heruntergeladen werden:
+  @InternetLink "http://www.purebasic.com/download/OgreAssimpConverter.zip" "OgreAssimpConverter.zip" (nur für Windows).
+@LineBreak
+  Es wurden einige Probleme mit Schatten und konvertierten Meshes berichtet - wenn das passiert,
+  verwenden Sie OgreMeshUpdater.exe auf das neu konvertierte Mesh und es sollte es reparieren.
+@LineBreak
+@LineBreak
+  Es ist auch möglich, existierende Exporter für Milkshape, Lightwave, Blender oder 3DS Max
+  zu verwenden. Weitere Informationen sind auf der
+  @InternetLink "http://www.ogre3d.org" "OGRE Webseite" zu finden.
+
+@SeeAlso
+  @@FreeMesh
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = MeshID(#Mesh)
+
+@Description
+  Gibt die einmalige MeshID des '#Mesh' zurück. Die Verwendung dieser Funktion wird
+  insbesondere von der @@CreateEntity Funktion benötigt.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetMeshData(#Mesh, SubMesh, DataArray(), Flags, ErsterIndex, LetzterIndex)
+
+@Description
+  Ermittelt interne Mesh-Daten, wie Eckpunkte (Vertices), Fläche (face), etc.
+  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstützt.
+
+@Parameter "#Mesh"
+  Das zu verwendende Mesh.
+
+@Parameter "SubMesh"
+  Das SubMesh, von dem die Daten ermittelt werden sollen. Der Index des ersten Sub-Meshes
+  ist 0 (Haupt-Mesh).
+
+@Parameter "DataArray()"
+  Das Array, um die Daten zu empfangen. Es muss ein Array vom Typ "PB_MeshVertex" oder "PB_MeshFace"
+  sein - abhängig von den angegebenen Flags.
+
+@Parameter "Flags"
+  Gibt an, welche Art von Daten abgerufen werden sollen. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Mesh_Vertex: DataArray() ist ein Array vom Typ "PB_MeshVertex".
+  @#PB_Mesh_Face  : DataArray() ist ein Array vom Typ "PB_MeshFace".
+@EndFixedFont
+  kombiniert mit:
+@FixedFont
+  @#PB_Mesh_UVCoordinate : Ermittelt die UV-Koordinaten-Information (nur beim @#PB_Mesh_Vertex Flag)
+  @#PB_Mesh_Normal       : Ermittelt die Normalen-Information (nur beim @#PB_Mesh_Vertex Flag)
+  @#PB_Mesh_Color        : Ermittelt die Farb-Information (nur beim @#PB_Mesh_Vertex Flag)
+@EndFixedFont
+
+  Die "PB_MeshVertex" und "PB_MeshFace" Strukturen sind wie folgt definiert:
+@FixedFont
+  @Keyword Structure PB_MeshVertex
+    x.f
+    y.f
+    z.f
+    NormalX.f ; nur verwendet, wenn das @#PB_Mesh_Normal Flag gesetzt ist
+    NormalY.f ;
+    NormalZ.f ;
+    TangentX.f
+    TangentY.f
+    TangentZ.f
+    u.f       ; nur verwendet, wenn das @#PB_Mesh_UVCoordinate Flag gesetzt ist
+    v.f       ;
+    Color.l   ; nur verwendet, wenn das @#PB_Mesh_Color Flag gesetzt ist
+  @Keyword EndStructure    
+  
+  @Keyword Structure PB_MeshFace
+    Index.l
+  @Keyword EndStructure   
+@EndFixedFont
+
+@Parameter "ErsterIndex, LetzterIndex"
+  Erster und letzter Index, von dem die Daten ermittelt werden sollen.
+
+@ReturnValue
+  Gibt bei Erfolg einen Wert ungleich Null zurück, und Null bei einem Fehler.
+  Im Erfolgsfall wurde DataArray() in der Größe angepasst und enthält die Mesh-Information.
+
+@SeeAlso
+  @@SetMeshData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SetMeshData(#Mesh, SubMesh, DataArray(), Flags, ErsterIndex, LetzterIndex)
+
+@Description
+  Legt die internen Mesh-Daten fest, wie Eckpunkte (vertices), Fläche (face), etc.
+  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstützt.
+
+@Parameter "#Mesh"
+  Das zu verwendende Mesh.
+
+@Parameter "SubMesh"
+  Das Sub-Mesh, dessen Daten festgelegt werden sollen. Der Index des ersten Sub-Meshes
+  ist 0 (Haupt-Mesh).
+
+@Parameter "DataArray()"
+  Das Array, welches die festzulegenden Daten enthält. Es muss ein Array vom Typ
+  "PB_MeshVertex" oder "PB_MeshFace" sein - abhängig von den angegebenen Flags.
+
+@Parameter "Flags"
+  Gibt an, welche Art von Daten gesetzt werden sollen. Dies kann einer der folgenden
+  Werte sein:
+@FixedFont
+  @#PB_Mesh_Vertex: DataArray() ist ein Array vom Typ vom "PB_MeshVertex".
+  @#PB_Mesh_Face  : DataArray() ist ein Array vom Typ vom "PB_MeshFace".
+@EndFixedFont
+  kombiniert mit:
+@FixedFont
+  @#PB_Mesh_UVCoordinate : Setzt die UV-Koordinaten-Information (nur beim @#PB_Mesh_Vertex Flag)
+  @#PB_Mesh_Normal       : Setzt die Normalen-Information (nur beim @#PB_Mesh_Vertex Flag)
+  @#PB_Mesh_Color        : Setzt die Farb-Information (nur beim @#PB_Mesh_Vertex Flag)
+@EndFixedFont
+
+  Die "PB_MeshVertex" und "PB_MeshFace" Strukturen sind wie folgt definiert:
+@FixedFont
+  @Keyword Structure PB_MeshVertex
+    x.f
+    y.f
+    z.f
+    NormalX.f ; nur verwendet, wenn das @#PB_Mesh_Normal Flag gesetzt ist
+    NormalY.f ;
+    NormalZ.f ;
+    TangentX.f
+    TangentY.f
+    TangentZ.f
+    u.f       ; nur verwendet, wenn das @#PB_Mesh_UVCoordinate Flag gesetzt ist
+    v.f       ;
+    Color.l   ; nur verwendet, wenn das @#PB_Mesh_Color Flag gesetzt ist
+  @Keyword EndStructure    
+  
+  @Keyword Structure PB_MeshFace
+    Index.l
+  @Keyword EndStructure   
+@EndFixedFont
+
+@Parameter "ErsterIndex, LetzterIndex"
+  Erster und letzter Index, deren Daten festgelegt werden sollen.
+
+@ReturnValue
+  Gibt bei Erfolg einen Wert ungleich Null zurück, und Null bei einem Fehler.
+
+@SeeAlso
+  @@GetMeshData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BuildMeshShadowVolume(#Mesh)
+
+@Description
+  Erstellt das Ausmaß des Schattens für das angegebene #Mesh. Dies wird benötigt, wenn das Mesh
+  einen Schatten werfen soll. Erfolgen sollte dies, sobald die Mesh-Erstellung vollständig
+  abgeschlossen ist, oder der Schatten entspricht nicht dem (fertigen) Mesh.
+
+@Parameter "#Mesh"
+  Gibt das betroffene Mesh-Objekt an.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateLine3D(#Mesh, x, y, z, Farbe, x2, y2, z2, Farbe2)
+
+@Description
+  Erstellt ein neues 3D-Linien-Mesh. Die Linie ist ein Drahtgitter-Objekt, welches
+  zum Vereinfachen des Debuggings verwendet werden kann.
+  Um die Position der Linie zu verändern, erstellen Sie sie einfach neu.
+
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Meshs.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "x, y, z"
+  Die Koordinaten des ersten Punkts der Linie, in Welt-Einheiten.
+
+@Parameter "Farbe"
+  Die für den ersten Punkt zu verwendende Farbe. @@RGB kann verwendet werden,
+  um eine gültige Farbe zu erhalten.
+
+@Parameter "x2, y2, z2"
+  Die Koordinaten des zweiten Punkts der Linie, in Welt-Einheiten.
+
+@Parameter "Farbe2"
+  Die für den zweiten Punkt zu verwendende Farbe. Ist diese Farbe anders als die für
+  den ersten Punkt gesetzte Farbe, dann wird ein Farbverlauf zwischen diesen zwei
+  Farben erstellt. @@RGB kann verwendet werden, um eine gültige Farbe zu erhalten.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  InitEngine3D() 
+  InitSprite() 
+  
+  OpenWindow(0, 0, 0, 640, 480, "Line3D example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
+  
+  ; Light
+  CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
+  
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
+  CameraLookAt(0, 0, 0, 0)
+  
+  ; Erstelle die Linie und binde sie an die Szene
+  CreateLine3D(0, 0, 0, 0, RGB(255, 0, 0), 1, 1, 1, RGB(0, 0, 255))
+  CreateEntity(0, MeshID(0), #PB_Material_None)
+  
+  Repeat
+    RenderWorld()
+    FlipBuffers()
+  Until WaitWindowEvent(1) = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@FreeMesh, @@CreateSphere, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateCylinder
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateCube(#Mesh, Größe)
+
+@Description
+  Erstellt ein neues Würfel-Mesh (englisch "cube").
+
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Meshs.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "Größe"
+  Die Größe, in Welt-Einheiten, des Würfels.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  InitEngine3D() 
+  InitSprite() 
+  
+  OpenWindow(0, 0, 0, 640, 480, "Cube example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
+  
+  ; Light
+  CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
+  
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
+  CameraLookAt(0, 0, 0, 0)
+  
+  ; Erstelle den Würfel und binde ihn an die Szene
+  CreateCube(0, 1)
+  CreateEntity(0, MeshID(0), #PB_Material_None)
+  
+  Repeat
+    RenderWorld()
+    FlipBuffers()
+  Until WaitWindowEvent(1) = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@FreeMesh, @@CreateSphere, @@CreateMesh, @@CreateCylinder, @@CreatePlane, @@CreateLine3D
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateSphere(#Mesh, Radius.f [, AnzSegmente, AnzRinge])
+
+@Description
+  Erstellt ein neues Kugel-Mesh (englisch "sphere").
+
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Meshs.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "Radius"
+  Radius, in Welt-Einheiten, der Kugel.
+
+@OptionalParameter "AnzSegmente"
+  Anzahl der Segmente, um die Kugel zu erstellen (Standard: 16). Die Segmente sind die vertikalen Linien der Kugel.
+  Je mehr Segmente, desto realistischer wird die Kugel sein. Es wird sich jedoch auch auf die
+  Render-Geschwindigkeit auswirken, wenn zu viele von ihnen definiert werden.
+
+@OptionalParameter "AnzRinge"
+  Anzahl der Ringe, um die Kugel zu erstellen (Standard: 16). Die Ringe sind die horizontalen Linien der Kugel.
+  Je mehr Ringe, desto realistischer wird die Kugel sein. Es wird sich jedoch auch auf die
+  Render-Geschwindigkeit auswirken, wenn zu viele von ihnen definiert werden.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  InitEngine3D() 
+  InitSprite() 
+  
+  OpenWindow(0, 0, 0, 640, 480, "Sphere example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
+  
+  ; Light
+  CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
+  
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
+  CameraLookAt(0, 0, 0, 0)
+  
+  ; Erstelle die Kugel und binde sie an die Szene
+  CreateSphere(0, 1)
+  CreateEntity(0, MeshID(0), #PB_Material_None)
+  
+  Repeat
+    RenderWorld()
+    FlipBuffers()
+  Until WaitWindowEvent(1) = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@FreeMesh, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateTube(#Mesh, AußenRadius.f, InnenRadius.f, Höhe.f [, AnzBasisSegmente, AnzHöhenSegmente)
+
+@Description
+  Erstellt ein neues Rohr-Mesh (englisch "tube", deutsch auch "Röhre").
+
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Meshs.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "AußenRadius"
+  Außen-Radius, in Welt-Einheiten, des Rohrs.
+
+@Parameter "InnenRadius"
+  Innen-Radius, in Welt-Einheiten, des Rohrs.
+
+@Parameter "Höhe"
+  Höhe, in Welt-Einheiten, des Rohrs.
+
+@OptionalParameter "AnzBasisSegmente"
+  Anzahl der Segmente, die für die Basis der Röhre verwendet werden (Standard: 16).
+
+@OptionalParameter "AnzHöhenSegmente"
+  Anzahl der Segmente, die für die Höhe des Rohrs verwendet werden (Standard: 1).
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  InitEngine3D() 
+  InitSprite() 
+  
+  OpenWindow(0, 0, 0, 640, 480, "Tube example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
+  
+  ; Light
+  CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
+  
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0, 2, 4, 3, #PB_Absolute | #PB_Local)
+  CameraLookAt(0, 0, 0, 0)
+  
+  ; Erstelle die Röhre und binde sie an die Szene
+  CreateTube(0, 0.5, 0.4, 2)
+  CreateEntity(0, MeshID(0), #PB_Material_None)
+  
+  Repeat
+    RenderWorld()
+    FlipBuffers()
+  Until WaitWindowEvent(1) = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@FreeMesh, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateTorus(#Mesh, Radius.f, InnenRadius.f, Höhe.f [, AnzAusschnittSegmente, AnzKreisSegmente)
+
+@Description
+  Erstellt ein neues Ring-Mesh (englisch "torus").
+
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Meshs.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "Radius"
+  Radius, in Welt-Einheiten, des Rings.
+  
+@Parameter "InnenRadius"
+  Radius des Ausschnitts, in Welt-Einheiten, des Rings.
+
+@Parameter "Höhe"
+  Höhe, in Welt-Einheiten, des Rings.
+
+@OptionalParameter "AnzAusschnittSegmente"
+  Anzahl der Segmente, die für den Ausschnitt (englisch "section") der Röhre verwendet werden (Standard: 16).
+
+@OptionalParameter "AnzKreisSegmente"
+  Anzahl der Segmente, die für den Kreis (englisch "circle") der Röhre verwendet werden (Standard: 16).
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  InitEngine3D() 
+  InitSprite() 
+  
+  OpenWindow(0, 0, 0, 640, 480, "Torus example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
+  
+  ; Light
+  CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
+  
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0, 2, 4, 3, #PB_Absolute | #PB_Local)
+  CameraLookAt(0, 0, 0, 0)
+  
+  ; Erstelle den Ring und binde sie an die Szene
+  CreateTorus(0, 1, 0.3)
+  CreateEntity(0, MeshID(0), #PB_Material_None)
+  
+  Repeat
+    RenderWorld()
+    FlipBuffers()
+  Until WaitWindowEvent(1) = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@FreeMesh, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateCapsule(#Mesh, Radius.f, Höhe.f [, AnzRinge, AnzSegmente, AnzHöhenSegmente)
+
+@Description
+  Erstellt ein neues Kapsel-Mesh (englisch "capsule").
+
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Meshs.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "Radius"
+  Radius, in Welt-Einheiten, der Kapsel.
+
+@Parameter "Höhe"
+  Höhe, in Welt-Einheiten, der Kapsel.
+
+@OptionalParameter "AnzRinge"
+  Anzahl der Ringe, die für die Erstellung der Kapsel verwendet werden (Standard: 8).
+
+@OptionalParameter "AnzSegmente"
+  Anzahl der Segmente, die für die Erstellung der Kapsel verwendet werden (Standard: 16).
+
+@OptionalParameter "AnzHöhenSegmente"
+  Anzahl der Höhen-Segmente, die für die Erstellung der Kapsel verwendet werden (Standard: 1).
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  InitEngine3D() 
+  InitSprite() 
+  
+  OpenWindow(0, 0, 0, 640, 480, "Capsule example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
+  
+  ; Light
+  CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
+  
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0, 2, 0, 5, #PB_Absolute | #PB_Local)
+  CameraLookAt(0, 0, 0, 0)
+  
+  ; Erstelle die Kapsel und binde sie an die Szene
+  CreateCapsule(0, 1, 1)
+  CreateEntity(0, MeshID(0), #PB_Material_None)
+  
+  Repeat
+    RenderWorld()
+    FlipBuffers()
+  Until WaitWindowEvent(1) = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@FreeMesh, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateIcoSphere(#Mesh, Radius.f [, Iterationen)
+
+@Description
+  Erstellt ein neues Ico-Sphere Mesh.
+
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Meshs.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "Radius"
+  Radius, in Welt-Einheiten, der Ico-Sphere.
+
+@OptionalParameter "Iterationen"
+  Anzahl der Wiederholungen (Iterationen), die zur Erstellung der Ico-Sphere verwendet werden (Standard: 2).
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  InitEngine3D() 
+  InitSprite() 
+  
+  OpenWindow(0, 0, 0, 640, 480, "IcoSphere example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
+  
+  ; Light
+  CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
+  
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0, 2, 0, 5, #PB_Absolute | #PB_Local)
+  CameraLookAt(0, 0, 0, 0)
+  
+  ; Erstelle die Ico-Sphere und binde sie an die Szene
+  CreateIcoSphere(0, 1)
+  CreateEntity(0, MeshID(0), #PB_Material_None)
+  
+  Repeat
+    RenderWorld()
+    FlipBuffers()
+  Until WaitWindowEvent(1) = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@FreeMesh, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateCone(#Mesh, Radius.f, Höhe.f [, AnzBasisSegmente, AnzHöhenSegmente])
+
+@Description
+  Erstellt einen neuen Kegel (englisch "cone").
+
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Meshs.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "Radius"
+  Radius, in Welt-Einheiten, des Kegels.
+
+@Parameter "Höhe"
+  Höhe, in Welt-Einheiten, des Kegels.
+
+@OptionalParameter "AnzBasisSegmente"
+  Anzahl an Segmenten, die für die Basis des Kegels genutzt werden (Standard: 16).
+
+@OptionalParameter "AnzHöhenSegmente"
+  Anzahl an Segmenten, die für die Höhe des Kegels genutzt werden (Standard: 1).
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  InitEngine3D() 
+  InitSprite() 
+  
+  OpenWindow(0, 0, 0, 640, 480, "Cone example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
+  
+  ; Licht
+  CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
+  
+  ; Kamera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
+  CameraLookAt(0, 0, 0, 0)
+  
+  ; Erstellen des Kegels und Hinzufügen zur Szene
+  CreateCone(0, 0.5, 1)
+  CreateEntity(0, MeshID(0), #PB_Material_None)
+  
+  Repeat
+    RenderWorld()
+    FlipBuffers()
+  Until WaitWindowEvent(1) = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@FreeMesh, @@CreateSphere, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateCylinder(#Mesh, Radius.f, Höhe.f [, AnzBasisSegmente, AnzHöhenSegmente, Geschlossen])
+
+@Description
+  Erstellt ein neues Zylinder-Mesh (englisch "cylinder").
+
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Meshs.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "Radius"
+  Radius, in Welt-Einheiten, des Zylinders.
+
+@Parameter "Höhe"
+  Höhe, in Welt-Einheiten, des Zylinders.
+
+@OptionalParameter "AnzBasisSegmente"
+  Anzahl an Segmenten, die für die Basis des Kegels genutzt werden (Standard: 16).
+
+@OptionalParameter "AnzHöhenSegmente"
+  Anzahl an Segmenten, die für die Höhe des Kegels genutzt werden (Standard: 1).
+
+@OptionalParameter "Geschlossen"
+  Gibt an, ob der Zylinder oben und unten geschlossen sein soll, oder ob er offen bleiben
+  soll (wie bei einem Rohr). Setzen Sie diesen Wert auf @#True (Standard), um einen geschlossenen Zylinder
+  zu erstellen, oder andernfalls auf @#False.
+  
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  InitEngine3D() 
+  InitSprite() 
+  
+  OpenWindow(0, 0, 0, 640, 480, "Cylinder example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
+  
+  ; Licht
+  CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
+  
+  ; Kamera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
+  CameraLookAt(0, 0, 0, 0)
+  
+  ; Erstelle den Zylinder und binde ihn an die Szene
+  CreateCylinder(0, 0.5, 1)
+  CreateEntity(0, MeshID(0), #PB_Material_None)
+  
+  Repeat
+    RenderWorld()
+    FlipBuffers()
+  Until WaitWindowEvent(1) = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@FreeMesh, @@CreateSphere, @@CreateCone, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreatePlane(#Mesh, KachelGrößeX, KachelGrößeZ, KachelZählerX, KachelZählerZ, TexturWiederholungsZählerX, TexturWiederholungsZählerZ)
+
+@Description
+  Erstellt ein neues Ebenen-Mesh (englisch "plane").
+
+@Parameter "#Mesh"
+  Die Nummer zum Identifizieren des neuen Meshs.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "KachelGrößeX"
+  X-Größe (in Welt-Einheiten) einer einzelnen Kachel (englisch "tile") der Ebene.
+  Eine Kachel ist die Basis-Komponente einer Ebene. Eine Ebene kann sich aus einer
+  Menge Kacheln zusammensetzen, um sie größer zu machen und Verformung zu erlauben.
+
+@Parameter "KachelGrößeZ"
+  Z-Größe (in Welt-Einheiten) einer einzelnen Kachel (englisch "tile") der Ebene.
+  Eine Kachel ist die Basis-Komponente einer Ebene. Eine Ebene kann sich aus einer
+  Menge Kacheln zusammensetzen, um sie größer zu machen und Verformung zu erlauben.
+
+@Parameter "KachelZählerX"
+  Anzahl der Kacheln ("tiles"), um die X-Achse der Ebene zu erstellen.
+
+@Parameter "KachelZählerZ"
+  Anzahl der Kacheln ("tiles"), um die Z-Achse der Ebene zu erstellen.
+
+@Parameter "TexturWiederholungsZählerX"
+  Anzahl, wie oft die der Ebene zugewiesene Textur auf der X-Achse wiederholt wird.
+  Um die komplette Textur der gesamten X-Achse zuzuweisen, verwenden Sie einfach 1.
+
+@Parameter "TexturWiederholungsZählerZ"
+  Anzahl, wie oft die der Ebene zugewiesene Textur auf der Z-Achse wiederholt wird.
+  Um die komplette Textur der gesamten Z-Achse zuzuweisen, verwenden Sie einfach 1.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  InitEngine3D() 
+  InitSprite() 
+  
+  OpenWindow(0, 0, 0, 640, 480, "Plane example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
+  
+  ; Light
+  CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
+  
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
+  CameraLookAt(0, 0, 0, 0)
+  
+  ; Erstelle die Ebene und binde sie an die Szene
+  CreatePlane(0, 2, 2, 1, 1, 0, 0)
+  CreateEntity(0, MeshID(0), #PB_Material_None)
+  
+  Repeat
+    RenderWorld()
+    FlipBuffers()
+  Until WaitWindowEvent(1) = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@FreeMesh, @@CreateSphere, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddSubMesh([Typ])
+
+@Description
+  Fügt ein neues Sub-Mesh ("Unter-Objekt" des Mesh) zum aktuellen Mesh hinzu, welches
+  zuvor mit @@CreateMesh erstellt wurde. Ein Mesh kann eine beliebige Anzahl an
+  Sub-Meshs haben. Die Position eines Sub-Mesh ist relativ zur Position des Mesh.
+  Sobald ein Sub-Mesh erstellt wurde, verwenden Sie die folgenden Befehle zu dessen
+  Aufbau: @@MeshVertexPosition, @@MeshFace und @@MeshIndex.
+
+@OptionalParameter "Type"
+  Der Typ des neuen Sub-Mesh. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Mesh_TriangleList : das Sub-Mesh wird aus einer Liste von Dreiecken zusammengesetzt (Standard).
+  @#PB_Mesh_TriangleStrip: das Sub-Mesh wird aus einer Liste verbundener Dreiecke zusammengesetzt
+                          (Scheitelpunkte werden geteilt).
+  @#PB_Mesh_TriangleFan  : das Sub-Mesh wird aus einer Liste verbundener Dreiecke zusammengesetzt,
+                          welche den gleichen zentralen Scheitelpunkt gemeinsam haben.
+  @#PB_Mesh_PointList    : das Sub-Mesh wird aus einer Liste von Punkten zusammengesetzt.
+  @#PB_Mesh_LineList     : das Sub-Mesh wird aus einer Liste von Linien zusammengesetzt.
+  @#PB_Mesh_LineStrip    : das Sub-Mesh wird aus einer Liste verbundener Linien zusammengesetzt
+                          (Scheitelpunkte werden geteilt).
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@FreeMesh, @@CreateMesh, @@MeshVertexPosition, @@MeshFace
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = MeshIndexCount(#Mesh [, SubMesh])
+
+@Description
+  Gibt die Anzahl der Indexes im Mesh zurück.
+
+@Parameter "Mesh"
+  Das zu verwendende Mesh.
+
+@OptionalParameter "SubMesh"
+  Wenn angegeben, wird die Anzahl an Indexes im angegebenen Sub-Mesh zurückgegeben.
+  Der Index des ersten Sub-Mesh ist 0 (Haupt-Mesh).
+
+@ReturnValue
+  Gibt die Anzahl an Indexes im Mesh zurück, oder Null wenn das Mesh oder Sub-Mesh nicht existiert.
+
+@SeeAlso
+  @@CreateMesh, @@LoadMesh, @@MeshVertexCount
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = MeshVertexCount(#Mesh [, SubMesh])
+
+@Description
+  Gibt die Anzahl an Eckpunkten (Vertex) des Meshs zurück.
+
+@Parameter "Mesh"
+  Gibt das zu verwendende Mesh-Objekt an.
+
+@OptionalParameter "SubMesh"
+  Wenn angegeben, wird die Anzahl an Eckpunkten (Vertex) des angegebenen Sub-Mesh zurückgegeben.
+  Der Index des ersten Sub-Mesh ist 0 (Haupt-Mesh).
+
+@ReturnValue
+  Gibt die Anzahl an Eckpunkten des Mesh zurück, oder Null wenn das Mesh oder Sub-Mesh nicht existiert.
+
+@SeeAlso
+  @@CreateMesh, @@LoadMesh, @@MeshIndexCount
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateMeshBoundingBox(#Mesh)
+
+@Description
+  Aktualisiert den Begrenzungsrahmen (englisch "bounding box") des Meshs. Wenn ein Mesh
+  manuell verändert wurde, muss sein Begrenzungsrahmen neu berechnet werden, insbesondere
+  wenn das Mesh für Kollisionen verwendet wird. Der Begrenzungsrahmen ist der kleinste
+  Rahmen (bzw. Box), welcher das komplette Mesh beinhalten kann.
+
+@Parameter "Mesh"
+  Das zu verwendende Mesh-Objekt.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateMesh(#Mesh, SubMesh)
+
+@Description
+  Beginnt die Aktualisierung des Mesh, um in Echtzeit seine Eckpunkte (vertices) und andere Werte zu
+  ändern. Das Mesh muss mit dem @#PB_Mesh_Dynamic Flag erstellt worden sein. Sobald die Aktualisierung
+  des Mesh abgeschlossen wurde, muss @@FinishMesh aufgerufen werden. Das Mesh kann die folgenden
+  Befehle zur Änderung seiner Eigenschaften verwenden: @@MeshIndex, @@MeshFace, @@MeshVertexPosition,
+  @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor und @@MeshVertexTextureCoordinate.
+
+@Parameter "Mesh"
+  Das zu verwendende Mesh.
+
+@Parameter "SubMesh"
+  Der Index des Submesh, welches verändert werden soll. Der Index des ersten Submesh ist 0 (Haupt-Mesh).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@MeshIndex, @@MeshFace, @@MeshVertexPosition, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor
+  @@MeshVertexTextureCoordinate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MeshIndex(Index)
+
+@Description
+  Aktualisiert oder fügt einen einzigen Eckpunkt (vertex) im Mesh hinzu, welches mit @@CreateMesh
+  erstellt oder mit @@UpdateMesh aktualisiert wurde. Dieser verhält sich wie der Befehl @@MeshFace,
+  aber mit einer beliebigen Anzahl an Eckpunkten. Bei Verwendung der Modi @#PB_Mesh_LineList oder
+  @#PB_Mesh_LineStrip gibt es nur zwei Eckpunkte pro Line, weshalb in diesem Fall @@MeshIndex verwendet
+  werden muss.
+  
+@Parameter "Index"
+  Der Eck-/Scheitelpunkt-Index (englisch "vertex index").
+
+@NoReturnValue
+
+@SeeAlso
+  @@UpdateMesh, @@MeshIndex, @@MeshFace, @@MeshVertexPosition, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor
+  @@MeshVertexTextureCoordinate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = MeshRadius(#Mesh)
+
+@Description
+  Gibt den Radius der kleinsten Kugel, welche das Mesh umfassen kann, zurück.
+  
+@Parameter "Mesh"
+  Das zu verwendende Mesh-Objekt.
+
+@ReturnValue
+  Gibt den Radius des Mesh zurück.
+
+@SeeAlso
+  @@CreateMesh
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MeshVertex(x, y, z, u.f, v.f, Farbe [, NormalX, NormalY, NormalZ])
+
+@Description
+  Fügt einen Eckpunkt (Vertex) zum aktuellen Mesh hinzu, welches zuvor mittels
+  @@CreateMesh erstellt wurde. Bestimmte Attribute können mittels @@MeshVertexTangent
+  zum neu erstellten Eckpunkt hinzugefügt werden.
+  Um eine neue Oberfläche zu erstellen, verwenden Sie @@MeshFace.
+
+@Parameter "x, y, z"
+  Die Position des neuen Eckpunkts.
+  
+@Parameter "u"
+  Der 'u' Wert. Dieser Wert ist die X-Position der Textur, an der der Eckpunkt zugeordnet
+  werden soll. Dieser Wert liegt normalerweise zwischen 0 und 1, wobei 0 der Ursprung der
+  Textur X und 1 das Ende der Textur X ist (siehe @@MeshVertexTextureCoordinate für
+  weitere Informationen).
+
+@Parameter "v"
+  Der 'v' Wert. Dieser Wert ist die Y-Position der Textur, an der der Eckpunkt zugeordnet
+  werden soll. Dieser Wert liegt normalerweise zwischen 0 und 1, wobei 0 der Ursprung der
+  Textur Y und 1 das Ende der Textur Y ist (siehe @@MeshVertexTextureCoordinate für
+  weitere Informationen).
+
+@Parameter "Farbe"
+  Farbe des Eckpunkts. Diese Farbe kann im @Link "2DDrawing/RGB" "RGB" oder @Link "2DDrawing/RGBA" "RGBA"
+  Format vorliegen (siehe @@MeshVertexColor für weitere Informationen).
+
+@Parameter "NormalX, NormalY, NormalZ"
+  Der Normalvektor(siehe @@MeshVertexNormal für weitere Informationen).
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@MeshFace, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor, @@MeshVertexTextureCoordinate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MeshVertexPosition(x, y, z)
+
+@Description
+  Fügt einen neuen Eckpunkt (Vertex) zum aktuellen Mesh hinzu, welches zuvor mittels
+  @@CreateMesh erstellt wurde. Um bestimmte Attribute des neu erstellten Eckpunkts
+  festzulegen, verwenden Sie die folgenden Befehle: @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor und
+  @@MeshVertexTextureCoordinate. Wenn mehrere Attribute angegeben werden müssen, kann @@MeshVertex 
+  stattdessen verwendet werden. Um eine neue Oberfläche zu erstellen, verwenden Sie @@MeshFace.
+  
+@Parameter "x, y, z"
+  Die Position des neuen Eckpunkts.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@MeshFace, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor, @@MeshVertexTextureCoordinate, @@MeshVertex 
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MeshVertexNormal(x, y, z)
+
+@Description
+  Legt die "Normalen"-Informationen des aktuellen Eckpunkts (Vertex) fest, welcher zuvor mittels @@MeshVertexPosition
+  oder @@MeshVertex hinzugefügt wurde. Der Normalenvektor oder auch die Scheitelpunktnormale (englisch "normal vector") wird verwendet,
+  um Blitze (englisch "lightning") auf einem Objekt zu berechnen.
+@LineBreak
+@LineBreak
+  Um automatisch die Vektor-Normalen zu berechnen, sobald das Mesh erstellt wurde, verwenden
+  Sie @@NormalizeMesh.
+
+@Parameter "x, y, z"
+  Der Normalen-Vektor.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@MeshVertexPosition, @@MeshVertexColor, @@MeshVertexTextureCoordinate, @@NormalizeMesh, @@MeshVertex
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MeshVertexTangent(x, y, z)
+
+@Description
+  Legt die Tangenten-Informationen des aktuellen Eckpunkts (Vertex) fest, welcher zuvor mittels
+  @@MeshVertexPosition oder @@MeshVertex hinzugefügt wurde.
+@LineBreak
+@LineBreak
+  Der Tangenten-Vektor wird hauptsächlich in Shader-Skripten verwendet. Um automatisch
+  den Tangenten-Vektor zu berechnen, sobald das Mesh erstellt wurde, verwenden Sie
+  @@BuildMeshTangents.
+
+@Parameter "x, y, z"
+  Der Tangenten-Vektor.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@MeshVertexPosition, @@MeshVertexNormal, @@MeshVertexColor, @@MeshVertexTextureCoordinate, @@BuildMeshTangents, @@MeshVertex
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MeshVertexColor(Farbe)
+
+@Description
+  Legt die Farb-Informationen des aktuellen Eckpunkts (Vertex) fest, welcher zuvor mittels
+  @@MeshVertexPosition oder @@MeshVertex hinzugefügt wurde.
+  @LineBreak
+  Damit dies einen Effekt hat, muss das mit dem Mesh verknüpfte Material mittels
+  @@SetMaterialColor(@#Material, @#PB_Material_AmbientColor, -1) und @@AmbientColor(), das
+  auf einen positiven Wert gesetzt wurde, definiert werden.
+  Diese Funktion benötigt einen zuvor erstellten Eckpunkt (Vertex), um diesem eine Farbe hinzufügen zu können.
+
+@Parameter "Farbe"
+  Farbe des Eckpunkts. Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@MeshVertexPosition, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexTextureCoordinate, @@MeshVertex
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MeshVertexTextureCoordinate(u.f, v.f)
+
+@Description
+  Legt die "UV"-Informationen des aktuellen Eckpunkts (Vertex) fest, welcher zuvor mittels @@MeshVertexPosition oder @@MeshVertex
+  hinzugefügt wurde. Die "UV"-Information wird verwendet, um die Textur auf das Mesh-Objekt anzuwenden.
+
+@Parameter "u"
+  Der u-Wert. Dieser Wert ist die X-Position in der Textur, wo der Eckpunkt liegen soll. Dieser Wert
+  liegt gewöhnlich zwischen 0 und 1, wobei 0 der x-Ursprung der Textur darstellt und 1 das x-Ende der
+  Textur.
+
+@Parameter "v"
+  Der v-Wert. Dieser Wert ist die Y-Position in der Textur, wo der Eckpunkt liegen soll. Dieser Wert
+  liegt gewöhnlich zwischen 0 und 1, wobei 0 der y-Ursprung der Textur darstellt und 1 das y-Ende der
+  Textur.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@MeshVertexPosition, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor, @@MeshVertex
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MeshFace(Vertex1, Vertex2, Vertex3)
+
+@Description
+  Aktualisiert oder fügt eine (Ober-) Fläche (englisch "face") zum aktuellen Mesh hinzu, welches zuvor mittels
+  @@CreateMesh erstellt wurde. Die angegebenen Eckpunkte (englisch "vertices") müssen existieren.
+  Der Index des ersten Eckpunkts (Vertex) beginnt bei 0. Die erstellte Fläche ist ein Dreieck.
+  @@MeshIndex kann verwendet werden, wenn die Anzahl an Eck-/Scheitelpunkten nicht drei beträgt.
+
+@Parameter "Vertex1"
+  Der Index des ersten Eckpunkts, um die Fläche zu erstellen.
+
+@Parameter "Vertex2"
+  Der Index des zweiten Eckpunkts, um die Fläche zu erstellen.
+
+@Parameter "Vertex3"
+  Der Index des dritten Eckpunkts, um die Fläche zu erstellen.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@MeshVertexPosition, @@MeshVertex
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishMesh(Modus)
+
+@Description
+  Schließt die mittels @@CreateMesh begonnene Erstellung des aktuellen Mesh-Objekts ab.
+
+@Parameter "Modus"
+  Wenn auf @#True gesetzt, wird das Mesh in ein statisches Mesh konvertiert und ist nicht mehr veränderbar.
+  Wenn auf @#False gesetzt, wird das Mesh noch mit @@UpdateMesh veränderbar sein. Statische Meshes sind
+  schneller darzustellen (zu "rendern") als dynamische Meshes.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NormalizeMesh(#Mesh [, SubMesh])
+
+@Description
+  "Normalisiert" das Mesh oder das Sub-Mesh. Es wird automatisch der Normalen-Vektor für jeden
+  Eckpunkt (Knoten) des angegebenen Meshs oder Sub-Meshs berechnet.
+  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstützt.
+
+@Parameter "Mesh"
+  Gibt das zu verwendende Mesh-Objekt an.
+
+@OptionalParameter "SubMesh"
+  Wenn angegeben, wird nur das Sub-Mesh "normalisiert". Der Index des ersten Sub-Mesh lautet 0 (Haupt-Mesh).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@MeshVertexNormal
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BuildMeshTangents(#Mesh)
+
+@Description
+  Berechnet automatisch den Tangenten-Vektor für jeden Scheitel (Vertex) des 
+  angegebenen Mesh-Objekts.
+  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstützt.
+
+@Parameter "Mesh"
+  Das zu verwendende Mesh-Objekt.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@MeshVertexTangent
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddMeshManualLOD(#Mesh, #MeshLOD, Distanz.f)
+
+@Description
+  Fügt dem Mesh eine neue Detailebene (englisch: "level of detail", abgekürzt 'LOD') hinzu.
+  Das #Mesh wird automatisch durch #MeshLOD (häufig eine vereinfachte Version des #Mesh, mit
+  weniger Details) ersetzt, wenn es außerhalb der angegebenen Entfernung von der Kamera
+  angezeigt wird. Je nach Entfernung können mehrere "LOD-Meshes" für dasselbe #Mesh verwendet
+  werden.
+
+@Parameter "Mesh"
+  Das zu verwendende Mesh-Objekt.
+
+@Parameter "MeshLOD"
+  Das zu verwendende Mesh, wenn die Entfernung von der Kamera erreicht wurde.
+
+@Parameter "Distanz"
+  Die minimale Entfernung von der Kamera, ab der #MeshLOD anstelle vom #Mesh verwendet werden soll.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@BuildMeshLOD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BuildMeshLOD(#Mesh, AnzLOD, Distanz.f, ReduktionsWert.f)
+
+@Description
+  Erstellt automatisch ein oder mehrere Detailebenen ("level of detail", abgekürzt LOD) für das Mesh.
+  Das #Mesh wird automatisch durch ein weniger komplexes Mesh ersetzt, wenn es außerhalb der angegebenen
+  Entfernung von der Kamera angezeigt wird. Wenn genauere "LOD-Meshes" benötigt werden,
+  kann @@AddMeshManualLOD verwendet werden.
+
+@Parameter "Mesh"
+  Das zu verwendende Mesh-Objekt.
+
+@Parameter "AnzLOD"
+  Anzahl benötigter LOD für dieses Mesh.
+
+@Parameter "Distanz"
+  Die minimale Entfernung von der Kamera, ab der das erste LOD-Mesh anstelle vom #Mesh verwendet wird.
+  Für die nächsten LOD-Meshes wird die Entfernung mittels dieser Formel berechnet: 'Distanz / SqrF(1-ReduktionsWert)'.
+
+@Parameter "ReduktionsWert"
+  Die anzuwendende Reduktion (Verkleinerung), zwischen 0 (keine Reduktion) und 1 (100% Reduktion).
+  @LineBreak
+  
+@LineBreak
+Beispiel: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
+- Die erste Reduktion des originalen Meshes bei 100 Einheiten von der Kamera, die Scheitelzahl geteilt durch 4 (75% Reduktion).
+- Die zweite Verkleinerung des originalen Meshes beginnt bei 200 Einheiten von der Kamera, die Anzahl der Scheitelpunkte geteilt durch 16.
+- Die dritte Verkleinerung des originalen Meshes beginnt bei 400 Einheiten von der Kamera, die Anzahl der Scheitelpunkte geteilt durch 64.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@AddMeshManualLOD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SaveMesh(#Mesh, Dateiname$)
+
+@Description
+  Speichert das Mesh-Objekt. Das gespeicherte Mesh kann mit Hilfe des @@LoadMesh
+  Befehls wieder geladen werden.
+
+@Parameter "Mesh"
+  Das zu speichernde Mesh-Objekt.
+
+@Parameter "Dateiname$"
+  Gibt den Dateinamen und Pfad zur neuen Mesh-Datei an. Wenn der Dateiname keinen vollständigen
+  Pfad beinhaltet, wird dieser relativ zum @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis"
+  interpretiert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@LoadMesh
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMeshMaterial(#Mesh, MaterialID [, SubMesh])
+
+@Description
+  Legt das Standard-Material für das Mesh-Objekt fest.
+
+@Parameter "Mesh"
+  Das zu verwendende Mesh-Objekt.
+
+@Parameter "MaterialID"
+  Gibt das Standard-Material an, welches für das Mesh verwendet werden soll. Um eine
+  gültige 'MaterialID' zu erhalten, verwenden Sie @@MaterialID.
+
+@OptionalParameter "SubMesh"
+  Wenn angegeben, wird das Material nur auf das Sub-Mesh angewendet.
+  Der Index des ersten Sub-Mesh lautet 0 (Haupt-Mesh).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@LoadMesh
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SubMeshCount(#Mesh)
+
+@Description
+  Gibt die Anzahl an Sub-Meshs vom Mesh-Objekt zurück.
+
+@Parameter "Mesh"
+  Das zu verwendende Mesh-Objekt.
+
+@ReturnValue
+  Gibt die Anzahl an Sub-Meshs vom Mesh zurück.
+
+@SeeAlso
+  @@CreateMesh, @@LoadMesh, @@AddSubMesh
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TransformMesh(#Mesh, x, y, z, SkalierungX, SkalierungY, SkalierungZ, DrehungX, DrehungY, DrehungZ [, SubMesh])
+
+@Description
+  Verformt (englisch "transform") das Mesh-Objekt entsprechend der angegebenen Parameter.
+
+@Parameter "Mesh"
+  Gibt das zu verwendende Mesh-Objekt an.
+
+@Parameter "x, y, z"
+  Die neue Position des Meshs an, relativ zu seinem Knoten (Node). Wenn der SubMesh Parameter
+  angegeben wird, gibt dies die neue x-Position des Sub-Meshs an, relativ zu seinem übergeordneten
+  Mesh (englisch "parent").
+
+@Parameter "SkalierungX"
+  Fügt einen Skalierungs-Faktor (englisch "scale factor") auf der X-Achse zum Mesh hinzu.
+  Wenn der SubMesh Parameter angegeben wird, dann wird die Skalierung auf das Sub-Mesh angewandt.
+
+@Parameter "SkalierungY"
+  Fügt einen Skalierungs-Faktor (englisch "scale factor") auf der Y-Achse zum Mesh hinzu.
+  Wenn der SubMesh Parameter angegeben wird, dann wird die Skalierung auf das Sub-Mesh angewandt.
+
+@Parameter "SkalierungZ"
+  Fügt einen Skalierungs-Faktor (englisch "scale factor") auf der Z-Achse zum Mesh hinzu.
+  Wenn der SubMesh Parameter angegeben wird, dann wird die Skalierung auf das Sub-Mesh angewandt.
+
+@Parameter "DrehungX"
+  Wendet eine Drehung (englisch "rotation"), in Grad, auf der x-Achse des Meshs an.
+  Wenn der SubMesh Parameter angegeben wird, dann wird die Drehung auf das Sub-Mesh angewandt.
+
+@Parameter "DrehungY"
+  Wendet eine Drehung (englisch "rotation"), in Grad, auf der y-Achse des Meshs an.
+  Wenn der SubMesh Parameter angegeben wird, dann wird die Drehung auf das Sub-Mesh angewandt.
+
+@Parameter "DrehungZ"
+  Wendet eine Drehung (englisch "rotation"), in Grad, auf der z-Achse des Meshs an.
+  Wenn der SubMesh Parameter angegeben wird, dann wird die Drehung auf das Sub-Mesh angewandt.
+
+@OptionalParameter "SubMesh"
+  Wenn angegeben, dann wird die Verformung nur auf das Sub-Mesh angewendet. Der Index des
+  ersten Sub-Mesh lautet 0 (Haupt-Mesh).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateMesh, @@LoadMesh
+  
+@SupportedOS

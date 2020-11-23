@@ -1,0 +1,22 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Desktop example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+ExamineDesktops()
+
+Debug "Desktop dimension: " + DesktopWidth(0) + " x " + DesktopHeight(0)
+
+OpenWindow(0, 10, 10, 200, 50, "Desktop example")
+
+Procedure TimerEvent()
+  Debug "Mouse position: x:" + DesktopMouseX() + " y:" + DesktopMouseY()
+EndProcedure
+
+AddWindowTimer(0, 0, 1000) ; Add a timer every second (1000 ms)
+BindEvent(#PB_Event_Timer, @TimerEvent())

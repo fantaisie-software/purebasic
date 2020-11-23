@@ -1,0 +1,27 @@
+@Title Migration from PureBasic 5.60 to 5.72 LTS
+
+@Section Math library
+
+@LineBreak
+Sign(): now returns an integer instead of a float.
+@Code
+  ; Old
+  Var.d(f) = Sign(X)
+
+  ; New
+  Var.i = Sign(X)
+@EndCode
+
+@LineBreak
+@Section Window library
+
+@LineBreak
+PostEvent(): now returns a result as it could fail in some extrem case @LineBreak
+
+@LineBreak
+@Section Others
+
+In MS WIndows, the default font changed from MS Shell Dlg to Segoe UI size 9.
+
+@LineBreak
+@LineBreak

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Variablentypen - Variablen - PureBasic Benutzerhandbuch</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Variablen: Variablentypen</h1>
+
+<p>Es gibt fünf eingebaute Typen, die Ihnen ermöglichen, Ganzzahlen (auch: Integer, ganze Zahlen
+in drei verschiedenen Bereichen), Fließkommazahlen (Zahlen mit Bruchteilen oder sehr große Zahlen)
+und Strings (Folge von Buchstaben, Zahlen oder jedem anderen Zeichen) zu speichern. Sie definieren
+eine Variable und ihren Typ, indem Sie:  
+<ul>
+<li>die Variable ausdrücklich mit Hilfe des <span class="code">DefType</span> Schlüsselworts erstellen, oder
+<li>die Variable zum ersten Mal benutzen.
+</ul>
+
+Beide Methoden werden in den Beispielen unten gezeigt. Wenn Sie eine Variable erstellen, wird deren
+Anfangswert auf Null bzw. einen leeren String gesetzt.
+
+<p><h2>Die eingebauten Typen</h2>
+Wie oben erwähnt, gibt es fünf eingebaute Typen. Ein Variablentyp ist erkennbar an
+der Erweiterung nach dem Variablennamen in der Form <span class="code">&lt;Variablenname&gt;.&lt;Erweiterung&gt;</span>.
+Sie müssen PureBasic die Erweiterung nur beim ersten Mal sagen und es wird sich
+daran erinnern. <br>Die fünf Grundtypen werden in der nachfolgenden Tabelle gezeigt:
+
+<p><table class="body">
+<tr>
+<th>Typ</th>
+<th>Erweiterung</th>
+<th>Verwendung</th>
+<th>Bereich</th>
+</tr>
+
+<tr>
+<td align="center">Byte</td>
+<td align="center">b</td>
+<td align="center">Kleine Ganzzahlen</td>
+<td align="center">-128 bis +127</td>
+</tr>
+
+<tr>
+<td align="center">Word</td>
+<td align="center">w</td>
+<td align="center">Mittlere Ganzzahlen</td>
+<td align="center">-32768 bis +32767</td>
+</tr>
+
+<tr>
+<td align="center">Long</td>
+<td align="center">l (kleines 'L')</td>
+<td align="center">Große Ganzzahlen</td>
+<td align="center">-2147483648 bis +2147483647</td>
+</tr>
+
+<tr>
+<td align="center">Float</td>
+<td align="center">f</td>
+<td align="center">Fließkommazahlen mit Bruchteilen oder sehr große Zahlen</td>
+<td align="center"></td>
+</tr>
+
+<tr>
+<td align="center">String</td>
+<td align="center">s</td>
+<td align="center">Folge von Buchstaben, Ziffern oder anderen Zeichen (z.B. eine Adresse)</td>
+<td align="center">Bis zu 65536 Zeichen</td>
+</tr>
+</table>
+
+<p>Sie können den Typ einer Variablen nicht ändern, sobald sie einmal definiert worden ist.
+Der Compiler zeigt Ihnen eine Fehlermeldung, wenn Sie versuchen, dieses zu tun. 
+
+<p>Als eine Alternative können Sie bei Stringvariablen das Dollarsymbol ($) verwenden, um
+anzuzeigen, dass es sich um einen String handelt. Wenn Sie dies tun, müssen Sie das
+Dollarsymbol nach dem Variablennamen immer verwenden. Sie sollten keine .....................
+zwischen dem Variablennamen und dem Dollarsymbol platzieren. 
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="whatarevariables.html">Was sind Variablen?</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="creating.html">Erstellen von Variablen</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

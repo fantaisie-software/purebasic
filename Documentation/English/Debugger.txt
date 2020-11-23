@@ -1,0 +1,420 @@
+;
+;     Debugger library documentation
+;
+;      (c) 2010 - Fantaisie Software
+;
+
+@Library Debugger
+
+@Overview
+
+  The Debugger library provides functions for controlling the @ReferenceLink "ide_debugger" "debugger",
+  for example to empty the debug output window or to open the memory viewer with a specific memory
+  area to display. All these debugger tools are described in the @ReferenceLink "ide_debugtools" "debugger tools" chapter.
+@LineBreak
+@LineBreak
+  The functions in this library are only compiled into the executable if the debugger is enabled on compilation.
+  If the debugger is disabled then the entire call to these functions will be ignored.
+  
+@LineBreak
+@LineBreak
+  There are also a number of special @ReferenceLink "debugger" "keywords" to control the debugger from code.
+
+@CommandList
+
+
+@SupportedOS
+
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CopyDebugOutput()
+
+@Description
+  Copy the @ReferenceLink "ide_debugtools" "debug output" window content to the clipboard.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools",
+  @ReferenceLink "debugger" "Debug",
+  @@ShowDebugOutput,
+  @@ClearDebugOutput,
+  @@SaveDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowDebugOutput()
+
+@Description
+  Open the @ReferenceLink "ide_debugtools" "debug output" window or bring it to the front if it is already open.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools",
+  @ReferenceLink "debugger" "Debug",
+  @@ClearDebugOutput, @@SaveDebugOutput, @@CopyDebugOutput, @@CloseDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseDebugOutput()
+
+@Description
+  Close the @ReferenceLink "ide_debugtools" "debug output".
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools",
+  @ReferenceLink "debugger" "Debug",
+  @@CopyDebugOutput, @@ShowDebugOutput, @@ClearDebugOutput, @@SaveDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearDebugOutput()
+
+@Description
+  Clear the content of the debug output window.
+
+@NoParameters
+@NoReturnValue
+
+@Example
+@Code
+  ; Show 10 debug values only, not a continuous list
+  Repeat
+    ClearDebugOutput()
+    For i = 1 To 10
+      Debug x
+      x + 1
+    Next i
+    
+    Delay(500)
+  ForEver
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools",
+  @ReferenceLink "debugger" "Debug",
+  @@ShowDebugOutput,
+  @@SaveDebugOutput, @@CopyDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DebuggerError(Message$)
+
+@Description
+  Generates a runtime debugger error. The program execution will be stopped if the debugger is activated. 
+  Can be useful when creating re-usable modules meant to be shared.
+
+@Parameter "Message$"
+  The error message to display.
+
+@NoReturnValue
+
+@SeeAlso
+  @@DebuggerWarning
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DebuggerWarning(Message$)
+
+@Description
+  Generates a runtime debugger warning. Can be useful when creating re-usable modules meant to be shared.
+
+@Parameter "Message$"
+  The warning message to display.
+
+@NoReturnValue
+
+@SeeAlso
+  @@DebuggerError
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SaveDebugOutput(Filename$)
+
+@Description
+  Save the content of the debug output window to the given file.
+
+@Parameter "Filename$"
+  The filename to save the output to.
+
+@NoReturnValue
+
+@Remarks
+  An error occurs if the file cannot be saved.
+
+@Example
+@Code
+  For i = 1 To 100
+    Debug Random(i)
+  Next i
+  SaveDebugOutput("C:\log.txt")
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools",
+  @ReferenceLink "debugger" "Debug",
+  @@ShowDebugOutput,
+  @@ClearDebugOutput, @@CopyDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowProfiler()
+
+@Description
+  Open the @ReferenceLink "ide_debugtools" "profiler" window or bring it to the front if it is already open.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools",
+  @@ResetProfiler,
+  @@StartProfiler, 
+  @@StopProfiler
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResetProfiler()
+
+@Description
+  Reset the line counters for the profiler.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools",
+  @@ShowProfiler,
+  @@StartProfiler, 
+  @@StopProfiler
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StartProfiler()
+
+@Description
+  Start the counting of executed lines by the profiler.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools",
+  @@ShowProfiler,
+  @@ResetProfiler, 
+  @@StopProfiler
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopProfiler()
+
+@Description
+  Stop the counting of executed lines by the profiler.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools",
+  @@ShowProfiler,
+  @@ResetProfiler, 
+  @@StartProfiler
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowMemoryViewer([*Buffer, Length])
+
+@Description
+  Open the @ReferenceLink "ide_debugtools" "memory viewer" window or bring it to the front if it is already open.
+
+@OptionalParameter "*Buffer, Length"
+  The memory area to be displayed in the memory viewer. If these parameters
+  are not specified, then the memory viewer will just be opened without displaying
+  a specific memory area.
+
+@NoReturnValue
+
+@Example
+@Code
+  *Memory = AllocateMemory(1000)
+  If *Memory
+    RandomData(*Memory, 1000)       ; Fill memory with some data
+  
+    ShowMemoryViewer(*Memory, 1000) ; Open memory viewer
+    CallDebugger                ; Halt the program, so it does not end right away
+  EndIf
+@EndCode
+
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowLibraryViewer([Library$ [, #Object]])
+
+@Description
+  Open the @ReferenceLink "ide_debugtools" "library viewer" window or bring it to the front if it is already open. If Library$ is specified then
+  the viewer will show the objects of that library. If an #Object number is specified, then the viewer
+  will display the specified object of that library.
+
+@OptionalParameter "Library$"
+  The library that should be displayed in the viewer.
+  If this parameter is not specified then the viewer will be opened without
+  displaying a specific library.
+
+@OptionalParameter "#Object"
+  An object of the library to display in the viewer. If this parameter
+  is not specified, then no object is displayed.
+
+@NoReturnValue
+
+@Example
+@Code
+  If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+    DrawingMode(#PB_2DDrawing_Transparent)
+    Box(0, 0, 200, 200, RGB(255, 255, 255))
+    For i = 1 To 30
+      DrawText(Random(200), Random(200), "Hello World!", RGB(Random(255), Random(255), Random(255)))
+    Next i
+    StopDrawing() 
+    
+    ShowLibraryViewer("Image", 0)  ; Show the image
+    CallDebugger                 ; Halt the program so it does not end right away
+  EndIf
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowWatchlist()
+
+@Description
+  Open the @ReferenceLink "ide_debugtools" "watchlist" window or bring it to the front if it is already open.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowVariableViewer()
+
+@Description
+  Open the @ReferenceLink "ide_debugtools" "variable viewer" window or bring it to the front if it is already open.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowCallstack()
+
+@Description
+  Open the @ReferenceLink "ide_debugtools" "callstack" window or bring it to the front if it is already open.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowAssemblyViewer()
+
+@Description
+  Open the @ReferenceLink "ide_debugtools" "assembly viewer" window or bring it to the front if it is already open.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PurifierGranularity(GlobalGranularity, LocalGranularity, StringGranularity, DynamicGranularity)
+
+@Description
+  Change the interval in which the @ReferenceLink "ide_debugtools" "purifier" checks the different areas for memory corruption. 
+
+@Parameter "GlobalGranularity"
+  The number of source lines to execute between checks on global variables.
+  Using @#PB_Ignore will keep the existing interval value. A value of 0 disables the check.
+
+@Parameter "LocalGranularity"
+  The number of source lines to execute between checks on local variables.
+  Using @#PB_Ignore will keep the existing interval value. A value of 0 disables the check.
+
+@Parameter "StringGranularity"
+  The number of source lines to execute between checks on string memory.
+  Using @#PB_Ignore will keep the existing interval value. A value of 0 disables the check.
+
+@Parameter "DynamicGranularity"
+  The number of source lines to execute between checks on allocated memory.
+  Using @#PB_Ignore will keep the existing interval value. A value of 0 disables the check.
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Disable check for string memory and check allocated memory every 10 lines
+  PurifierGranularity(#PB_Ignore, #PB_Ignore, 0, 10)
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
