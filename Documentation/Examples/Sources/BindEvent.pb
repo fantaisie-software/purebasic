@@ -53,17 +53,17 @@ Procedure OnSpeedButtonEvent()
       If Gadget=0
         Debug "Enter button -"
       ElseIf Gadget=1
-        Debug "Enter button +" 
-      EndIf      
+        Debug "Enter button +"
+      EndIf
       
     Case #PB_EventType_MouseLeave
       If Gadget=0
         Debug "Leave button -"
       ElseIf Gadget=1
-        Debug "Leave button +" 
-      EndIf  
+        Debug "Leave button +"
+      EndIf
       
-    ; Each time a button is left clicked  
+    ; Each time a button is left clicked
     Case #PB_EventType_LeftButtonDown
       Pressed = #True
       
@@ -85,18 +85,18 @@ EndProcedure
 Procedure OnTimer()
   If Pressed ; Each time a button is left clicked and as long as it's clicked
     Select Gadget
-      Case 0 ; Button "-"  
+      Case 0 ; Button "-"
         If n>Min
-         n-1 
-         SetGadgetState(2, GetGadgetState(2)-1) ; ProgressBar down        
+         n-1
+         SetGadgetState(2, GetGadgetState(2)-1) ; ProgressBar down
         EndIf
         
-      Case 1 ; Button "+"      
+      Case 1 ; Button "+"
         If n<Max
-         n+1 
-         SetGadgetState(2, GetGadgetState(2)+1) ; ProgressBar up	
+         n+1
+         SetGadgetState(2, GetGadgetState(2)+1) ; ProgressBar up
         EndIf
-    EndSelect    
+    EndSelect
     
     Debug n
   EndIf

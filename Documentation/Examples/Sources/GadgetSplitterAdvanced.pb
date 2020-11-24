@@ -12,7 +12,7 @@
 #WindowHeight = 480
 
 Procedure OnSizeWindow()
-  ResizeGadget(5, #PB_Ignore, #PB_Ignore, WindowWidth(0), WindowHeight(0)-25) ; Our 'master' splitter gadget  
+  ResizeGadget(5, #PB_Ignore, #PB_Ignore, WindowWidth(0), WindowHeight(0)-25) ; Our 'master' splitter gadget
 EndProcedure
 
 
@@ -55,7 +55,7 @@ If OpenWindow(0, 0, 0, #WindowWidth, #WindowHeight, "PureBasic - Gadget Demonstr
           SetGadgetState(11, 5)
           
         Case 20
-          Debug "OK" 
+          Debug "OK"
           
       EndSelect
       
@@ -66,4 +66,4 @@ If OpenWindow(0, 0, 0, #WindowWidth, #WindowHeight, "PureBasic - Gadget Demonstr
 
 EndIf
 
-End  
+End

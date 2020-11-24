@@ -16,7 +16,7 @@ EndIf
 FileName$ = OpenFileRequester("","","Music Modules (*.mod, *.xm, *.it)|*.mod;*.xm;*.it", 0)
 If FileName$
   If LoadMusic(0, FileName$)
-    PlayMusic(0)    
+    PlayMusic(0)
     MessageRequester("PureBasic - Module player", "Playing the music module...")
     
     ; Now, perform a nice fading...

@@ -14,7 +14,7 @@
 ; an xml file, like in the Dialog library)
 
 
-Runtime Procedure RuntimeProcedure() 
+Runtime Procedure RuntimeProcedure()
   Debug "Runtime procedure"
 EndProcedure
 

@@ -1,22 +1,22 @@
 ;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - Animation Entity 
+;   PureBasic - Animation Entity
 ;
-;   Adapted from Character demo (Ogre SDK)    
+;   Adapted from Character demo (Ogre SDK)
 ;
 ; ------------------------------------------------------------
 ;
 
 ;Description = A demo showing 3rd-person character control
 ;
-;Use the cursor keys To move Sinbad, And the space bar To jump. 
-;Use mouse To look around And mouse wheel To zoom. 
-;Press [Q] To take out Or put back Sinbad's swords. 
-;With the swords equipped, you can left click To slice vertically Or right click To slice horizontally. 
+;Use the cursor keys To move Sinbad, And the space bar To jump.
+;Use mouse To look around And mouse wheel To zoom.
+;Press [Q] To take out Or put back Sinbad's swords.
+;With the swords equipped, you can left click To slice vertically Or right click To slice horizontally.
 ;When the swords are Not equipped, press [E] To start/stop a silly dance routine.
 
-; [PgUp]&[Pgdown] = Speed animation  
+; [PgUp]&[Pgdown] = Speed animation
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
@@ -55,7 +55,7 @@ Macro Clamp(num, min, max)
     num=min
   ElseIf num>max
     num=max
-  EndIf  
+  EndIf
 EndMacro
 
 Structure Vector3
@@ -94,8 +94,8 @@ Structure s_Entity
   TopAnimID.i                      ; current top (upper-body) animation
   FadingIn.i[#NUM_ANIMS]           ; which animations are fading in
   FadingOut.i[#NUM_ANIMS]          ; which animations are fading out
-  SwordsDrawn.i               
-  KeyDirection.Vector3             ; player's local intended direction 
+  SwordsDrawn.i
+  KeyDirection.Vector3             ; player's local intended direction
   GoalDirection.Vector3            ; actual intended direction in world-space
   VerticalVelocity.f               ; for jumping
   Timer.f                          ; general timer to see how long animations have been playing
@@ -108,13 +108,13 @@ Macro Vector3_ZERO(V)
 EndMacro
 
 Macro LengthVector3(V)
-  (V\x * V\x + V\y * V\y + V\z * V\z)  
-EndMacro  
+  (V\x * V\x + V\y * V\y + V\z * V\z)
+EndMacro
 
 Macro GetNodePosition(Position, Node)
-  Position\x = NodeX(Node)  
-  Position\y = NodeY(Node)  
-  Position\z = NodeZ(Node)  
+  Position\x = NodeX(Node)
+  Position\y = NodeY(Node)
+  Position\z = NodeZ(Node)
 EndMacro
 
 Macro SubVector3(V, V1, V2)
@@ -182,7 +182,7 @@ If InitEngine3D(3)
     
     KeyboardMode(#PB_Keyboard_International)
     
-    ;->> Main Loop 
+    ;->> Main Loop
     Repeat
       
       Screen3DEvents()
@@ -201,7 +201,7 @@ If InitEngine3D(3)
           Ralenti + 0.1
         ElseIf KeyboardReleased(#PB_Key_PageDown) And Ralenti > 0.1
           Ralenti - 0.1
-        EndIf  
+        EndIf
         
       EndIf
       
@@ -226,8 +226,8 @@ Procedure.f Distance(*V1.Vector3, *V2.Vector3)
   V\x = *V2\x - *V1\x
   V\y = *V2\y - *V1\y
   V\z = *V2\z - *V1\z
-  ProcedureReturn Sqr((V\x * V\x) + (V\y * V\y) + (V\z * V\z))  
-EndProcedure  
+  ProcedureReturn Sqr((V\x * V\x) + (V\y * V\y) + (V\z * V\z))
+EndProcedure
 
 Procedure injectKeyDown()
   With Sinbad
@@ -260,22 +260,22 @@ Procedure injectKeyDown()
       ; keep track of the player's intended direction
     Else
       
-      If KeyboardPushed(#PB_Key_Up) 
+      If KeyboardPushed(#PB_Key_Up)
         \KeyDirection\z = -1
-      ElseIf KeyboardPushed(#PB_Key_Down) 
+      ElseIf KeyboardPushed(#PB_Key_Down)
         \KeyDirection\z = 1
       Else
         \KeyDirection\z = 0
       EndIf
       
-      If KeyboardPushed(#PB_Key_Left) 
+      If KeyboardPushed(#PB_Key_Left)
         \KeyDirection\x = -1
-      ElseIf KeyboardPushed(#PB_Key_Right) 
+      ElseIf KeyboardPushed(#PB_Key_Right)
         \KeyDirection\x = 1
       Else
         \KeyDirection\x = 0
       EndIf
-    EndIf  
+    EndIf
     
     
     If KeyboardPushed(\Key\Jump) And (\TopAnimID = #ANIM_IDLE_TOP Or \TopAnimID = #ANIM_RUN_TOP)
@@ -290,11 +290,11 @@ Procedure injectKeyDown()
       
       ; start running If Not already moving And the player wants To move
       setBaseAnimation(#ANIM_RUN_BASE, #True)
-      If (\TopAnimID = #ANIM_IDLE_TOP) 
+      If (\TopAnimID = #ANIM_IDLE_TOP)
         setTopAnimation(#ANIM_RUN_TOP, #True)
-      EndIf  
-    EndIf 
-  EndWith  
+      EndIf
+    EndIf
+  EndWith
   
 EndProcedure
 
@@ -304,9 +304,9 @@ Procedure injectKeyUp()
       
       ; stop running If already moving And the player doesn't want to move
       setBaseAnimation(#ANIM_IDLE_BASE)
-      If (\TopAnimID = #ANIM_RUN_TOP) 
+      If (\TopAnimID = #ANIM_RUN_TOP)
         setTopAnimation(#ANIM_IDLE_TOP)
-      EndIf  
+      EndIf
     EndIf
   EndWith
 EndProcedure
@@ -321,13 +321,13 @@ Procedure injectMouseDown()
     If \SwordsDrawn And (\TopAnimID = #ANIM_IDLE_TOP Or \TopAnimID = #ANIM_RUN_TOP)
       
       ; If swords are out, And character's not doing something weird, then SLICE!
-      If MouseButton(#PB_MouseButton_Left) 
+      If MouseButton(#PB_MouseButton_Left)
         setTopAnimation(#ANIM_SLICE_VERTICAL, #True)
-      ElseIf MouseButton(#PB_MouseButton_Right) 
+      ElseIf MouseButton(#PB_MouseButton_Right)
         setTopAnimation(#ANIM_SLICE_HORIZONTAL, #True)
-      EndIf    
+      EndIf
       \Timer = 0
-    EndIf		
+    EndIf
   EndWith
 EndProcedure
 
@@ -343,7 +343,7 @@ Procedure setupBody()
     
     ; create main model
     \BodyNode = CreateNode(#PB_Any, 0, #CHAR_HEIGHT, 0)
-    \Direction = CreateNode(#PB_Any, 0, 0, 1) 
+    \Direction = CreateNode(#PB_Any, 0, 0, 1)
     \BodyEnt = CreateEntity(#PB_Any, MeshID(LoadMesh(#PB_Any, "Sinbad.mesh")), #PB_Material_None)
     
     AttachNodeObject(\BodyNode, EntityID(\BodyEnt))
@@ -360,8 +360,8 @@ Procedure setupBody()
     
     For i = 0 To 1
       RibbonEffectColor(\SwordTrail, i, RGBA(255*0.8, 255*0.8, 0, 255), RGBA(1, 255, 255, 5))
-      RibbonEffectWidth(\SwordTrail, i, 0.5, 1) 
-    Next 
+      RibbonEffectWidth(\SwordTrail, i, 0.5, 1)
+    Next
     HideEffect(\SwordTrail, #False)
     
     Vector3_ZERO(\KeyDirection)
@@ -392,7 +392,7 @@ Procedure setupAnimations()
     
     \SwordsDrawn = #False
   EndWith
-EndProcedure  
+EndProcedure
 
 Procedure setupCamera()
   With Sinbad
@@ -403,8 +403,8 @@ Procedure setupCamera()
     ;CameraBackColor(\Camera, RGB(255, 255, 255*0.8))
     
     ; create a pivot at roughly the character's shoulder
-    \CameraPivot = CreateNode(#PB_Any) 
-    \CameraPitch = CreateNode(#PB_Any) 
+    \CameraPivot = CreateNode(#PB_Any)
+    \CameraPitch = CreateNode(#PB_Any)
     ; this is where the camera should be soon, And it spins around the pivot
     \CameraGoal = CreateNode(#PB_Any, 0, 0, 15)
     AttachNodeObject(\CameraPivot, NodeID(\CameraPitch))
@@ -413,7 +413,7 @@ Procedure setupCamera()
     \CameraNode = CreateNode(#PB_Any)
     MoveNode(\CameraNode, NodeX(\CameraPivot) + NodeX(\CameraGoal), NodeY(\CameraPivot) + NodeY(\CameraGoal), NodeZ(\CameraPivot) + NodeZ(\CameraGoal), #PB_Absolute)
     
-    NodeFixedYawAxis(\CameraPivot, #True) 
+    NodeFixedYawAxis(\CameraPivot, #True)
     NodeFixedYawAxis(\CameraGoal , #True)
     NodeFixedYawAxis(\CameraNode , #True)
     
@@ -424,15 +424,15 @@ Procedure setupCamera()
 EndProcedure
 
 Procedure Normalize(*V.Vector3)
-  Define.f magSq, oneOverMag 
+  Define.f magSq, oneOverMag
   
-  magSq = *V\x * *V\x + *V\y * *V\y + *V\z * *V\z 
+  magSq = *V\x * *V\x + *V\y * *V\y + *V\z * *V\z
   If magsq > 0
     oneOverMag = 1.0 / Sqr(magSq)
     *V\x * oneOverMag
     *V\y * oneOverMag
     *V\z * oneOverMag
-  EndIf  
+  EndIf
   
 EndProcedure
 
@@ -448,7 +448,7 @@ Procedure.f CurveAngle( Actuelle.f , Cible.f , P.f )
   If P > 1000 : P = 1000 : EndIf
   Valeur.f = Actuelle + ( Delta * P / 1000 )
   ProcedureReturn WrapPi(Valeur)
-EndProcedure 
+EndProcedure
 
 Procedure updateBody(deltaTime.f)
   Protected.Vector3 pos, Dir, PosMain, PosDir
@@ -477,9 +477,9 @@ Procedure updateBody(deltaTime.f)
       
       ; calculate how much the character has To turn To face goal direction
       ; reduce "turnability" If we're in midair
-      If (\BaseAnimID = #ANIM_JUMP_LOOP) 
+      If (\BaseAnimID = #ANIM_JUMP_LOOP)
         yawAtSpeed * 0.2
-      EndIf  
+      EndIf
       
       RotateNode(\BodyNode, 0, CurveAngle(NodeYaw(\BodyNode), yawToGoal, 2000 * deltaTime), 0)
       
@@ -522,10 +522,10 @@ Procedure updateAnimations(deltaTime.f)
       
       ; flip the draw swords animation If we need To put it back
       If \SwordsDrawn
-        topAnimSpeed = -1 
+        topAnimSpeed = -1
       Else
-        topAnimSpeed = 1 
-      EndIf  
+        topAnimSpeed = 1
+      EndIf
             
       ; half-way through the animation is when the hand grasps the handles...
       If (\Timer >= GetEntityAnimationLength(\BodyEnt, \Anims[\TopAnimID]) / 2000.0) And (\Timer - deltaTime < GetEntityAnimationLength(\BodyEnt, \Anims[\TopAnimID]) / 2000.0)
@@ -538,12 +538,12 @@ Procedure updateAnimations(deltaTime.f)
           AttachEntityObject(\BodyEnt, "Sheath.R", EntityID(\Sword2))
           ; change the hand state To grab Or let go
           StopEntityAnimation(\BodyEnt, \Anims[#ANIM_HANDS_CLOSED])
-          StartEntityAnimation(\BodyEnt, \Anims[#ANIM_HANDS_RELAXED], #PB_EntityAnimation_Manual)				  
+          StartEntityAnimation(\BodyEnt, \Anims[#ANIM_HANDS_RELAXED], #PB_EntityAnimation_Manual)
         Else
           AttachEntityObject(\BodyEnt, "Handle.L", EntityID(\Sword1))
-          AttachEntityObject(\BodyEnt, "Handle.R", EntityID(\Sword2))	
+          AttachEntityObject(\BodyEnt, "Handle.R", EntityID(\Sword2))
           StartEntityAnimation(\BodyEnt, \Anims[#ANIM_HANDS_CLOSED], #PB_EntityAnimation_Manual)
-          StopEntityAnimation(\BodyEnt, \Anims[#ANIM_HANDS_RELAXED])	
+          StopEntityAnimation(\BodyEnt, \Anims[#ANIM_HANDS_RELAXED])
         EndIf
       EndIf
       
@@ -558,14 +558,14 @@ Procedure updateAnimations(deltaTime.f)
         
         HideEffect(\SwordTrail, #False)
         AttachRibbonEffect(\SwordTrail, EntityParentNode(\Sword1))
-        AttachRibbonEffect(\SwordTrail, EntityParentNode(\Sword2))  
+        AttachRibbonEffect(\SwordTrail, EntityParentNode(\Sword2))
         
       EndIf
       
       If \Timer >= GetEntityAnimationLength(\BodyEnt, \Anims[\TopAnimID]) / 1000
         
         ; animation is finished, so Return To what we were doing before
-        If \BaseAnimID = #ANIM_IDLE_BASE 
+        If \BaseAnimID = #ANIM_IDLE_BASE
           setTopAnimation(#ANIM_IDLE_TOP)
         Else
           setTopAnimation(#ANIM_RUN_TOP)
@@ -622,10 +622,10 @@ Procedure updateAnimations(deltaTime.f)
     ; increment the current base And top animation times
     If \BaseAnimID <> #ANIM_NONE
       AddEntityAnimationTime(\BodyEnt, \Anims[\BaseAnimID], deltaTime * baseAnimSpeed * 1000)
-    EndIf  
+    EndIf
     If \TopAnimID <> #ANIM_NONE
       AddEntityAnimationTime(\BodyEnt, \Anims[\TopAnimID], deltaTime * topAnimSpeed * 1000)
-    EndIf  
+    EndIf
     
     ; apply smooth transitioning between our animations
     fadeAnimations(deltaTime)
@@ -634,7 +634,7 @@ EndProcedure
 
 Procedure fadeAnimations(deltaTime.f)
   Protected.f newWeight
-  With Sinbad	
+  With Sinbad
     For i = 0 To #NUM_ANIMS-1
       
       If \FadingIn[i]
@@ -643,9 +643,9 @@ Procedure fadeAnimations(deltaTime.f)
         newWeight = GetEntityAnimationWeight(\BodyEnt, \Anims[i]) + deltaTime * #ANIM_FADE_SPEED
         Clamp(newWeight, 0, 1)
         SetEntityAnimationWeight(\BodyEnt, \Anims[i], newWeight)
-        If newWeight >= 1 
+        If newWeight >= 1
           \FadingIn[i] = #False
-        EndIf  
+        EndIf
         
       ElseIf \FadingOut[i]
         
@@ -681,7 +681,7 @@ Procedure updateCameraGoal(deltaYaw.f, deltaPitch.f, deltaZoom.f)
   Protected.f dist, distChange
   Protected.Vector3 V1, V2
   
-  With Sinbad 
+  With Sinbad
     RotateNode(\CameraPivot, 0, Degree(deltaYaw), 0, #PB_Relative)
     
     ; bound the pitch
@@ -719,7 +719,7 @@ Procedure setBaseAnimation(id.i, reset.i = #False)
       Flags = #PB_EntityAnimation_Manual
       If reset = #False
         Flags | #PB_EntityAnimation_Continue
-      EndIf  
+      EndIf
       StartEntityAnimation(\BodyEnt, \Anims[id], Flags)
       SetEntityAnimationWeight(\BodyEnt, \Anims[id], 0)
       \FadingOut[id] = #False
@@ -745,7 +745,7 @@ Procedure setTopAnimation(id.i, reset.i = #False)
       Flags = #PB_EntityAnimation_Manual
       If reset = #False
         Flags | #PB_EntityAnimation_Continue
-      EndIf  
+      EndIf
 
       StartEntityAnimation(\BodyEnt, \Anims[id], Flags)
       SetEntityAnimationWeight(\BodyEnt, \Anims[id], 0)

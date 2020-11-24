@@ -11,18 +11,18 @@
 Enumeration
   #IMAGE_Content  ; stores the previous CanvasGadget content while the mouse is down
   #IMAGE_Color
-  #IMAGE_LoadSave 
+  #IMAGE_LoadSave
 EndEnumeration
 
 Enumeration
   #GADGET_Canvas
-  #GADGET_Color 
+  #GADGET_Color
   #GADGET_Brush
   #GADGET_Line
   #GADGET_Box
   #GADGET_Circle
   #GADGET_Fill
-  #GADGET_Clear 
+  #GADGET_Clear
   #GADGET_Load
   #GADGET_Save
 EndEnumeration
@@ -139,11 +139,11 @@ If OpenWindow(0, 0, 0, 460, 400, "CanvasGadget", #PB_Window_SystemMenu | #PB_Win
 
             
             Case #PB_EventType_LeftButtonUp
-              DrawAction(X, Y, EventType())                        
+              DrawAction(X, Y, EventType())
             
             Case #PB_EventType_MouseMove
               If GetGadgetAttribute(#GADGET_Canvas, #PB_Canvas_Buttons) & #PB_Canvas_LeftButton
-                DrawAction(X, Y, EventType())            
+                DrawAction(X, Y, EventType())
               EndIf
                       
           EndSelect
@@ -160,12 +160,12 @@ If OpenWindow(0, 0, 0, 460, 400, "CanvasGadget", #PB_Window_SystemMenu | #PB_Win
           EventGadget = EventGadget()
           For Gadget = #GADGET_Brush To #GADGET_Fill
             If Gadget = EventGadget
-              SetGadgetState(Gadget, 1) 
+              SetGadgetState(Gadget, 1)
             Else
               SetGadgetState(Gadget, 0) ; unset the state of all other gadgets
             EndIf
-          Next Gadget          
-          CurrentMode = EventGadget             
+          Next Gadget
+          CurrentMode = EventGadget
       
         Case #GADGET_Clear
           If StartDrawing(CanvasOutput(#GADGET_Canvas))
@@ -200,7 +200,7 @@ If OpenWindow(0, 0, 0, 460, 400, "CanvasGadget", #PB_Window_SystemMenu | #PB_Win
               EndIf
               
               FreeImage(#IMAGE_LoadSave)
-            EndIf            
+            EndIf
           EndIf
                 
       EndSelect

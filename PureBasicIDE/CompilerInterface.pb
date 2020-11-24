@@ -1792,7 +1792,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
           MessageRequester("Error", "Invalid server address ("+ WebServerAddress$ + "). This adress is already in use in another spiderbasic source.", #FLAG_Error)
           Error = #True
         EndIf
-      Next 
+      Next
       
       If Error = #False
         AddElement(OpenedWebServers())

@@ -11,7 +11,7 @@
 #WindowWidth  = 450
 #WindowHeight = 305
 
-; Load our images.. 
+; Load our images..
 ;
 LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/Drive.bmp")
 LoadImage(1, #PB_Compiler_Home + "examples/sources/Data/File.bmp")
@@ -106,4 +106,4 @@ If OpenWindow(0, 100, 200, #WindowWidth, #WindowHeight, "PureBasic - Advanced Ga
   Until Event = #PB_Event_CloseWindow
 EndIf
 
-End 
+End

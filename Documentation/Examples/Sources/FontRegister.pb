@@ -18,7 +18,7 @@ Procedure Rebuilt_FontFile_From_DataSection()
   CreateFile(0, GetTemporaryDirectory() + "ascii.ttf")
   
   ; ... from the data section datas.
-  Restore ASCII_ttf_start  
+  Restore ASCII_ttf_start
   For i=1 To (?ASCII_ttf_end-?ASCII_ttf_start)/8 ; Number of quads inside the data section
     Read.q DATAQuad
     WriteQuad(0, DATAQuad)
@@ -40,7 +40,7 @@ AddGadgetColumn(0, 7, "225..255", 110)
 
 
 ; Rebuilt the font file from the data section if necessary.
-If FileSize(GetTemporaryDirectory() + "ascii.ttf") = -1  
+If FileSize(GetTemporaryDirectory() + "ascii.ttf") = -1
   Rebuilt_FontFile_From_DataSection()
 EndIf
 

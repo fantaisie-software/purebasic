@@ -9,7 +9,7 @@
 ;
 Debug "Compiler:"
 Debug "*********"
-If #PB_Compiler_OS = #PB_OS_Windows:Debug "#PB_Compiler_OS = #PB_OS_Windows":EndIf 
+If #PB_Compiler_OS = #PB_OS_Windows:Debug "#PB_Compiler_OS = #PB_OS_Windows":EndIf
 If #PB_Compiler_OS = #PB_OS_Linux:Debug "#PB_Compiler_OS = #PB_OS_Linux":EndIf
 If #PB_Compiler_OS = #PB_OS_MacOS:Debug "#PB_Compiler_OS = #PB_OS_MacOS":EndIf
 
@@ -115,7 +115,7 @@ Select OSVersion()
   Case #PB_OS_MacOSX_Future:Debug "#PB_OS_MacOSX_Future"
     
   Default
-    Debug "Unknown"    
+    Debug "Unknown"
 EndSelect
 
 Debug "UserName(): " + UserName()

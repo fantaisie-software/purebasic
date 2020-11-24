@@ -47,7 +47,7 @@ If ParseJSON(#JSON_Parse, Input$)
   Debug ""
   ForEach Numbers()
     Debug Numbers()
-  Next 
+  Next
 EndIf
 
 

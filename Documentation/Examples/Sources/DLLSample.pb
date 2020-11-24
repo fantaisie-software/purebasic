@@ -16,10 +16,10 @@
 ; Rules to follow:
 ;   - Never write code outside a procedure, except for variables
 ;   or structure declaration.
-;   
+;
 ;   - DirectX Init routines must not be initialized in the the
 ;   AttachProcess() procedure
-;   
+;
 ;   - There is 4 procedures automatically called: AttachProcess(),
 ;   DetachProcess(), AttachThread() and DetachThread(). If you don't
 ;   need them, just remove them.
@@ -68,7 +68,7 @@ CompilerIf #TESTDLL = 0
 CompilerElse
 
   If OpenLibrary(0, "PureBasic.dll") Or OpenLibrary(0, "PureBasic.so")
-    CallFunction(0, "EasyRequester", @"Test")  
+    CallFunction(0, "EasyRequester", @"Test")
   EndIf
     
 CompilerEndIf

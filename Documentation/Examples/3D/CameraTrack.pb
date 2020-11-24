@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-; Code adapted from this tutorial 
+; Code adapted from this tutorial
 ; http://www.ogre3d.org/tikiwiki/3rd+person+camera+system+tutorial
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
@@ -16,14 +16,14 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 #PlayerSpeed = 2
 
 Enumeration
-  #MainWindow 
+  #MainWindow
   #StMode
   #StFPS
   #Editor
 EndEnumeration
 
-Enumeration 
-  #ThirdPersonChase  
+Enumeration
+  #ThirdPersonChase
   #ThirdPersonFixed
   #FirstPerson
 EndEnumeration
@@ -46,7 +46,7 @@ Structure s_Entity
   elapsedTime.f
   Key.s_Key
   SightNode.i
-  CameraNode.i  
+  CameraNode.i
   DirectionNode.i
   Offset.Vector3 ; if needed for FirstPerson
 EndStructure
@@ -55,20 +55,20 @@ Structure s_Camera
   Camera.i
   Mode.i
   Tightness.f
-  CameraNode.i 
+  CameraNode.i
   TargetNode.i
-EndStructure    
+EndStructure
 
 Macro GetNodePosition(Position, Node)
-  Position\x = NodeX(Node)  
-  Position\y = NodeY(Node)  
-  Position\z = NodeZ(Node)  
+  Position\x = NodeX(Node)
+  Position\y = NodeY(Node)
+  Position\z = NodeZ(Node)
 EndMacro
 
 Macro GetEntityPosition(Position, Node)
-  Position\x = EntityX(Node)  
-  Position\y = EntityY(Node)  
-  Position\z = EntityZ(Node)  
+  Position\x = EntityX(Node)
+  Position\y = EntityY(Node)
+  Position\z = EntityZ(Node)
 EndMacro
 
 Macro SetVector3(V, xx, yy, zz)
@@ -147,28 +147,28 @@ If InitEngine3D()
       \Key\Up    = #PB_Key_Up
       \Offset\x = 0
       \Offset\y = 50 ; Offset could be needed for FirstPerson
-      \Offset\z = 0  
-      ; Entity use 3 nodes    
-      \SightNode=CreateNode(#PB_Any, 120, 20, 0) ; For cameraLookAt 
+      \Offset\z = 0
+      ; Entity use 3 nodes
+      \SightNode=CreateNode(#PB_Any, 120, 20, 0) ; For cameraLookAt
       \CameraNode=CreateNode(#PB_Any, -140, 100, 0) ; Camera position
-      \DirectionNode=CreateNode(#PB_Any, 1, 0, 0) ; Direction normalized 
+      \DirectionNode=CreateNode(#PB_Any, 1, 0, 0) ; Direction normalized
       
       AttachEntityObject(\Entity, "", NodeID(\SightNode))
-      AttachEntityObject(\Entity, "", NodeID(\CameraNode))   
-      AttachEntityObject(\Entity, "", NodeID(\DirectionNode))     
+      AttachEntityObject(\Entity, "", NodeID(\CameraNode))
+      AttachEntityObject(\Entity, "", NodeID(\DirectionNode))
     EndWith
     
     ;-Camera
     CreateCamera(0, 0, 0, 100, 100)
-    With Camera  
+    With Camera
       \Camera = 0
       \Mode = #ThirdPersonChase
       \Tightness = 0.01
       ; Camera use 2 nodes
       \CameraNode = CreateNode(#PB_Any, -3000, 700, 0) ; Camera position
-      \TargetNode = CreateNode(#PB_Any) ; For cameraLookAt 
+      \TargetNode = CreateNode(#PB_Any) ; For cameraLookAt
       AttachNodeObject(\CameraNode, CameraID(\Camera))
-    EndWith  
+    EndWith
     
     ;-Light
     CreateLight(0,RGB(125,125,125),700,500,0)
@@ -192,14 +192,14 @@ If InitEngine3D()
       
       If Engine3DStatus(#PB_Engine3D_CurrentFPS)
         Robot\elapsedTime = 40/Engine3DStatus(#PB_Engine3D_CurrentFPS)
-      EndIf  
+      EndIf
       
       If ExamineMouse()
         InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left), "", 0)
       EndIf
       
       If ExamineKeyboard()
-        CameraMode(@Camera, @robot)     
+        CameraMode(@Camera, @robot)
         HandleEntity(@Robot)
       EndIf
       
@@ -242,8 +242,8 @@ Procedure HandleEntity(*Entity.s_Entity)
       RotateEntity(\Entity, 0,#PlayerSpeed/2 * \elapsedTime, 0, #PB_Relative)
     ElseIf KeyboardPushed(\Key\Right)
       RotateEntity(\Entity, 0, -#PlayerSpeed/2 * \elapsedTime, 0, #PB_Relative)
-    EndIf 
-  EndWith   
+    EndIf
+  EndWith
 EndProcedure
 
 Procedure CameraMode(*Camera.s_Camera, *Entity.s_Entity)
@@ -267,17 +267,17 @@ Procedure CameraMode(*Camera.s_Camera, *Entity.s_Entity)
     *Camera\Tightness = 0.01
     SetGadgetText3D(#StMode, "ThirdPersonFixed")
     
-  ElseIf KeyboardReleased(#PB_Key_F4)  
+  ElseIf KeyboardReleased(#PB_Key_F4)
     *Camera\Mode = #FirstPerson
     HideEntity(*Entity\Entity, #True)
     GetEntityPosition(Temp, *Entity\Entity)
     AddVector3(CameraPosition, Temp, *Entity\Offset)
     GetNodePosition(TargetPosition, *Entity\SightNode)
     CameraInstantUpdate(*Camera, @CameraPosition, @TargetPosition)
-    *Camera\Tightness = 1   
+    *Camera\Tightness = 1
     SetGadgetText3D(#StMode, "FirstPerson")
     
-  EndIf 
+  EndIf
 EndProcedure
 
 Procedure CameraTrack(*Camera.s_Camera, *Entity.s_Entity)
@@ -310,7 +310,7 @@ Procedure CameraInstantUpdate(*Camera.s_Camera, *CameraPosition.Vector3, *Target
   
   MoveNode(*Camera\TargetNode, *TargetPosition\x, *TargetPosition\y, *TargetPosition\z, #PB_Absolute)
   
-  CameraLookAt(*Camera\Camera, NodeX(*Camera\TargetNode), NodeY(*Camera\TargetNode), NodeZ(*Camera\TargetNode)) 
+  CameraLookAt(*Camera\Camera, NodeX(*Camera\TargetNode), NodeY(*Camera\TargetNode), NodeZ(*Camera\TargetNode))
 EndProcedure
 
 Procedure CameraUpdate(*Camera.s_Camera, *CameraPosition.Vector3, *TargetPosition.Vector3)
@@ -326,5 +326,5 @@ Procedure CameraUpdate(*Camera.s_Camera, *CameraPosition.Vector3, *TargetPositio
   V2\z = (*TargetPosition\z - NodeZ(*Camera\TargetNode)) *  *Camera\Tightness
   MoveNode(*Camera\TargetNode, V2\x, V2\y, V2\z)
   
-  CameraLookAt(*Camera\Camera, NodeX(*Camera\TargetNode), NodeY(*Camera\TargetNode), NodeZ(*Camera\TargetNode)) 
+  CameraLookAt(*Camera\Camera, NodeX(*Camera\TargetNode), NodeY(*Camera\TargetNode), NodeZ(*Camera\TargetNode))
 EndProcedure

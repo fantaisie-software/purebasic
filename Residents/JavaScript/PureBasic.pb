@@ -60,7 +60,7 @@ IncludeFile "../Common.pb"
 ; Font
 ;
 #PB_Font_Bold        = 1 << 1
-#PB_Font_Italic      = 1 << 2 
+#PB_Font_Italic      = 1 << 2
 #PB_Font_Underline   = 1 << 3
 #PB_Font_StrikeOut   = 1 << 4
 #PB_Font_HighQuality = 1 << 5
@@ -189,7 +189,7 @@ IncludeFile "../Common.pb"
 #PB_EventType_Change            = 9
 
 #PB_EventType_SizeItem   = $FFFE  ; for MDIGadget
-#PB_EventType_CloseItem  = $FFFF  ; for MDIGadget 
+#PB_EventType_CloseItem  = $FFFF  ; for MDIGadget
 
 ; Window flags
 ;
@@ -299,14 +299,14 @@ IncludeFile "../Common.pb"
 #PB_Explorer_NoMyDocuments       = $00000200
 #PB_Explorer_NoHidden            = $00000400
 
-; Flags for ExplorerTreeGadget and ExplorerViewGadget: 
+; Flags for ExplorerTreeGadget and ExplorerViewGadget:
 #PB_Explorer_NoFiles             = $00000001
 #PB_Explorer_NoDriveRequester    = $00000010
 #PB_Explorer_AutoSort            = $00000040
 #PB_Explorer_BorderLess          = $00100000
 #PB_Explorer_AlwaysShowSelection = $01000000
 
-; ExplorerList only Flags: 
+; ExplorerList only Flags:
 #PB_Explorer_NoParentFolder      = $00000002
 #PB_Explorer_NoFolders           = $00000004
 #PB_Explorer_NoDirectoryChange   = $00000008
@@ -316,7 +316,7 @@ IncludeFile "../Common.pb"
 #PB_Explorer_HeaderDragDrop      = $00800000
 #PB_Explorer_FullRowSelect       = $02000000
 
-; ExplorerTree only Flags: 
+; ExplorerTree only Flags:
 #PB_Explorer_NoLines             = $04000000
 #PB_Explorer_NoButtons           = $08000000
 
@@ -324,7 +324,7 @@ IncludeFile "../Common.pb"
 #PB_Explorer_DrivesOnly          = $00000080
 #PB_Explorer_Editable            = $00000100
 
-; Return values for Explorer: 
+; Return values for Explorer:
 #PB_Explorer_None                = $0
 #PB_Explorer_File                = $1
 #PB_Explorer_Directory           = $2
@@ -374,7 +374,7 @@ IncludeFile "../Common.pb"
 #PB_MDI_TileHorizontally        = -3
 #PB_MDI_Next                    = -4
 #PB_MDI_Previous                = -5
-#PB_MDI_Arrange                 = -6 
+#PB_MDI_Arrange                 = -6
 
 #PB_MDI_Image     = 3 ; Attributes
 #PB_MDI_TileImage = 4
@@ -460,7 +460,7 @@ IncludeFile "../Common.pb"
 #PB_ProgressBar_Maximum  = 2
 
 #PB_Panel_ItemWidth  = 1 ; Attributes
-#PB_Panel_ItemHeight = 2 
+#PB_Panel_ItemHeight = 2
 #PB_Panel_TabHeight  = 3
 
 ; Not supported yet
@@ -507,7 +507,7 @@ IncludeFile "../Common.pb"
 #PB_SerialPort_NoParity    = 0 ; #NOPARITY
 #PB_SerialPort_OddParity   = 1 ; #ODDPARITY
 #PB_SerialPort_EvenParity  = 2 ; #EVENPARITY
-#PB_SerialPort_MarkParity  = 3 ; #MARKPARITY	
+#PB_SerialPort_MarkParity  = 3 ; #MARKPARITY
 #PB_SerialPort_SpaceParity = 4 ; #SPACEPARITY
 
 ; Keyboard key
@@ -560,7 +560,7 @@ IncludeFile "../Common.pb"
 #PB_Key_Y               = 89
 #PB_Key_Z               = 90
 
-#PB_Key_Minus           = '-'  
+#PB_Key_Minus           = '-'
 #PB_Key_Equals          = '='
 #PB_Key_LeftBracket     = '('
 #PB_Key_RightBracket    = ')'
@@ -607,18 +607,18 @@ IncludeFile "../Common.pb"
 #PB_Key_Pad9            = 105
 #PB_Key_PadEnter        = 13 ; Same as 'Enter'
 
-#PB_Key_Subtract        = 109    
+#PB_Key_Subtract        = 109
 #PB_Key_Add             = 107
 #PB_Key_Decimal         = 110
 #PB_Key_PadComma        = 110
 #PB_Key_Divide          = 111
 #PB_Key_Multiply        = 106
 
-#PB_Key_Pause           = 19    
+#PB_Key_Pause           = 19
 #PB_Key_Home            = 36
-#PB_Key_End             = 35    
-#PB_Key_PageUp          = 33    
-#PB_Key_PageDown        = 34    
+#PB_Key_End             = 35
+#PB_Key_PageUp          = 33
+#PB_Key_PageDown        = 34
 
 #PB_Key_Left            = 37
 #PB_Key_Up              = 38
@@ -636,13 +636,13 @@ IncludeFile "../Common.pb"
 #PB_Shortcut_Alt     = $40000
 #PB_Shortcut_Command = $80000
 
-; 
+;
 ;
 #PB_Shortcut_Back    = 8
 #PB_Shortcut_Tab     = 9
 #PB_Shortcut_Clear   = 127
 #PB_Shortcut_Return  = 13
-#PB_Shortcut_Capital = 0     
+#PB_Shortcut_Capital = 0
 #PB_Shortcut_Escape  = 27
 #PB_Shortcut_Space   = 32
 #PB_Shortcut_PageUp  = 33

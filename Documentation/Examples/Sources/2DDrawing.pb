@@ -26,7 +26,7 @@ If OpenWindow(0, 100, 200, 300, 200, "2D Drawing Test")
       
       DrawingMode(#PB_2DDrawing_Transparent)
       BackColor(RGB(0,155,155)) ; Change the text back and front colour
-      FrontColor(RGB(255,255,255)) 
+      FrontColor(RGB(255,255,255))
       DrawText(10,50,"Hello, this is a test")
 
       StopDrawing()
@@ -34,7 +34,7 @@ If OpenWindow(0, 100, 200, 300, 200, "2D Drawing Test")
   EndIf
 
   ; Create a gadget to display our nice image
-  ;  
+  ;
   ImageGadget(0, 0, 0, 0, 0, ImageID(0))
   
   ;
@@ -44,7 +44,7 @@ If OpenWindow(0, 100, 200, 300, 200, "2D Drawing Test")
   ;
   
   Repeat
-    Event = WaitWindowEvent() 
+    Event = WaitWindowEvent()
   Until Event = #PB_Event_CloseWindow  ; If the user has pressed on the window close button
   
 EndIf

@@ -62,8 +62,8 @@ If InitEngine3D()
       Screen3DEvents()
      
       RotateNode(Plane, 0, 0, 0.5, #PB_Relative)
-      RenderWorld()     
-      FlipBuffers()      
+      RenderWorld()
+      FlipBuffers()
       ExamineKeyboard()
       
     Until KeyboardPushed(#PB_Key_Escape) Or quit = 1

@@ -1,5 +1,5 @@
 ; It can take few minutes to build all terrains (it will be more faster after saving it)
-MessageRequester("Warning !", "It can take a few minutes to build all terrains...", 0) 
+MessageRequester("Warning !", "It can take a few minutes to build all terrains...", 0)
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 #CameraSpeed = 2
@@ -17,10 +17,10 @@ Macro VECTOR3(V, a, b, c)
   V\x = a
   V\y = b
   V\z = c
-EndMacro  
+EndMacro
 
 Structure s_Vehicle
-  Chassis.i 
+  Chassis.i
   Wheels.i[4]
   
   WheelsEngine.i[4]
@@ -40,7 +40,7 @@ Global MaxEngineForce.f = 3000.0
 Global MaxEngineBrake.f = 100.0
 
 Global SteeringIncrement.f = 0.5
-Global SteeringClamp.f = 23        
+Global SteeringClamp.f = 23
 
 Global WheelRadius.f = 0.5;
 Global WheelWidth.f = 0.4 ;
@@ -49,7 +49,7 @@ Global SuspensionStiffness.f = 25.0
 Global SuspensionDamping.f =  0.4 * 2.0 * Sqr(suspensionStiffness)
 Global SuspensionCompression.f =  0.2 * 2.0 * Sqr(suspensionStiffness)
 Global MaxSuspensionTravelCm.f = 400.0;
-Global FrictionSlip.f = 1000     
+Global FrictionSlip.f = 1000
 
 Global RollInfluence.f = 0.5
 Global SuspensionRestLength.f = 0.6;
@@ -98,14 +98,14 @@ If InitEngine3D(Flags)
     
     WorldShadows(#PB_Shadow_Modulative, -1, RGB(105, 105, 105))
     ;WorldDebug(#PB_World_DebugBody)
-    ;- Light 
+    ;- Light
     ;
     light = CreateLight(#PB_Any ,RGB(190, 190, 190), 400, 120, 100,#PB_Light_Directional)
-    SetLightColor(light, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4)) 
-    LightDirection(light ,0.55, -0.3, -0.75) 
+    SetLightColor(light, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4))
+    LightDirection(light ,0.55, -0.3, -0.75)
     AmbientColor(RGB(255*0.2, 255*0.2,255*0.2))
     
-    ;- Camera 
+    ;- Camera
     ;
     CreateCamera(0, 0, 0, 100, 100)
     MoveCamera(0,  800, 400, 80, #PB_Absolute)
@@ -116,22 +116,22 @@ If InitEngine3D(Flags)
     SetupTerrains(LightID(Light), 600, #PB_Terrain_NormalMapping)
     ; initialize terrain
     CreateTerrain(0, 513, 800, 20, 3, "TerrainGroup", "dat")
-    ; set all texture will be use when terrrain will be constructed 
+    ; set all texture will be use when terrrain will be constructed
     AddTerrainTexture(0,  0, 100, "dirt_grayrocky_diffusespecular.jpg",  "dirt_grayrocky_normalheight.jpg")
     AddTerrainTexture(0,  1,  30, "grass_green-01_diffusespecular.jpg", "grass_green-01_normalheight.jpg")
     AddTerrainTexture(0,  2, 200, "growth_weirdfungus-03_diffusespecular.jpg", "growth_weirdfungus-03_normalheight.jpg")
     
     ; Build terrains
-    Imported = DefineTerrainTile(0, 0, 0, "terrain513.png", 0, 0)  
-    BuildTerrain(0)  
+    Imported = DefineTerrainTile(0, 0, 0, "terrain513.png", 0, 0)
+    BuildTerrain(0)
     
     If imported = #True
-      InitBlendMaps() 
+      InitBlendMaps()
       UpdateTerrain(0)
       
       ; If enabled, it will save the terrain as a (big) cache for a faster load next time the program is executed
       ; SaveTerrain(0, #False)
-    EndIf  
+    EndIf
     ; enable shadow terrain
     TerrainRenderMode(0, 0)
     
@@ -160,11 +160,11 @@ If InitEngine3D(Flags)
       ElapsedTime = RenderWorld()
       FlipBuffers()
       
-    Until KeyboardPushed(#PB_Key_Escape)   
+    Until KeyboardPushed(#PB_Key_Escape)
     
-    End 
+    End
     
-  EndIf 
+  EndIf
 Else
   CompilerIf #PB_Compiler_OS <> #PB_OS_Windows Or Subsystem("OpenGL")
     ;
@@ -175,7 +175,7 @@ Else
   CompilerElse
     MessageRequester("Error","Can't initialize engine3D")
   CompilerEndIf
-EndIf 
+EndIf
 
 Procedure Clamp(*var.float, min.f, max.f)
   If *var\f < min
@@ -183,13 +183,13 @@ Procedure Clamp(*var.float, min.f, max.f)
   ElseIf *var\f > max
     *var\f = max
   EndIf
-EndProcedure  
+EndProcedure
 
 Procedure InitBlendMaps()
   minHeight1.f = 70
   fadeDist1.f = 40
   minHeight2.f = 70
-  fadeDist2.f = 15    
+  fadeDist2.f = 15
   ty = 0
    tx = 0
       Size = TerrainTileLayerMapSize(0, tx, ty)
@@ -209,12 +209,12 @@ Procedure InitBlendMaps()
       UpdateTerrainTileLayerBlend(0, tx, ty, 1)
       UpdateTerrainTileLayerBlend(0, tx, ty, 2)
 
-EndProcedure  
+EndProcedure
 
 Procedure BuildVehicle(*Vehicle.s_Vehicle)
   Protected.VECTOR3 wheelDirectionCS0,wheelAxleCS,connectionPointCS0
   
-  With *Vehicle  
+  With *Vehicle
     ;reset
     For i = 0 To 3
       
@@ -266,49 +266,49 @@ Procedure BuildVehicle(*Vehicle.s_Vehicle)
     
     ;-WheelSteerable and WheelsEngine
     VECTOR3(connectionPointCS0, #CUBE_HALF_EXTENTS-(0.3*WheelWidth), connectionHeight,2*#CUBE_HALF_EXTENTS-WheelRadius)
-    AddVehicleWheel(\Chassis, \Wheels[0], 
+    AddVehicleWheel(\Chassis, \Wheels[0],
                     connectionPointCS0\x, connectionPointCS0\y,connectionPointCS0\z,
                     wheelAxleCS\x, wheelAxleCS\y,wheelAxleCS\z,
-                    SuspensionRestLength, 
-                    WheelRadius, 
-                    isFrontWheel, 
+                    SuspensionRestLength,
+                    WheelRadius,
+                    isFrontWheel,
                     RollInfluence)
     
     ;-WheelSteerable and WheelsEngine
     VECTOR3(connectionPointCS0, -#CUBE_HALF_EXTENTS+(0.3*WheelWidth), connectionHeight, 2*#CUBE_HALF_EXTENTS-WheelRadius)
-    AddVehicleWheel(\Chassis, \Wheels[1], 
+    AddVehicleWheel(\Chassis, \Wheels[1],
                     connectionPointCS0\x, connectionPointCS0\y,connectionPointCS0\z,
                     wheelAxleCS\x, wheelAxleCS\y,wheelAxleCS\z,
-                    SuspensionRestLength, 
-                    WheelRadius, 
-                    isFrontWheel, 
+                    SuspensionRestLength,
+                    WheelRadius,
+                    isFrontWheel,
                     RollInfluence)
     
     isFrontWheel = #False
     
     VECTOR3(connectionPointCS0, -#CUBE_HALF_EXTENTS+(0.3*WheelWidth), connectionHeight, -2*#CUBE_HALF_EXTENTS+WheelRadius);
-    AddVehicleWheel(\Chassis, \Wheels[2], 
+    AddVehicleWheel(\Chassis, \Wheels[2],
                     connectionPointCS0\x, connectionPointCS0\y,connectionPointCS0\z,
                     wheelAxleCS\x, wheelAxleCS\y,wheelAxleCS\z,
-                    SuspensionRestLength, 
-                    WheelRadius, 
-                    isFrontWheel, 
+                    SuspensionRestLength,
+                    WheelRadius,
+                    isFrontWheel,
                     RollInfluence)
     
     
     VECTOR3(connectionPointCS0, #CUBE_HALF_EXTENTS-(0.3*WheelWidth), connectionHeight, -2*#CUBE_HALF_EXTENTS+WheelRadius);
-    AddVehicleWheel(\Chassis, \Wheels[3], 
+    AddVehicleWheel(\Chassis, \Wheels[3],
                     connectionPointCS0\x, connectionPointCS0\y,connectionPointCS0\z,
                     wheelAxleCS\x, wheelAxleCS\y,wheelAxleCS\z,
-                    SuspensionRestLength, 
-                    WheelRadius, 
-                    isFrontWheel, 
+                    SuspensionRestLength,
+                    WheelRadius,
+                    isFrontWheel,
                     RollInfluence)
     
     Debug #PB_Vehicle_MaxSuspensionForce
     For i= 0 To 3
       SetVehicleAttribute(\Chassis, #PB_Vehicle_MaxSuspensionForce, 4000, i)
-    Next	
+    Next
     
   EndWith
 EndProcedure
@@ -317,22 +317,22 @@ Procedure HandleVehicle()
   With Vehicle
     
     
-    If KeyboardPushed(#PB_Key_Left)  
+    If KeyboardPushed(#PB_Key_Left)
       \SteeringLeft = #True
       \SteeringRight = #False
-    ElseIf KeyboardPushed(#PB_Key_Right)  
+    ElseIf KeyboardPushed(#PB_Key_Right)
       \SteeringRight = #True
       \SteeringLeft = #False
-    Else 
+    Else
       \SteeringRight = #False
-      \SteeringLeft = #False          
+      \SteeringLeft = #False
     EndIf
     
     
-    If KeyboardPushed(#PB_Key_Down) 
+    If KeyboardPushed(#PB_Key_Down)
       \EngineForce = 0
       \EngineBrake = MaxEngineBrake
-    ElseIf KeyboardPushed(#PB_Key_Up) 
+    ElseIf KeyboardPushed(#PB_Key_Up)
       \EngineForce = MaxEngineForce
       \EngineBrake = 0
     Else
@@ -343,7 +343,7 @@ Procedure HandleVehicle()
     
     ;  PBO_SetVehicleAttribute(\Chassis, #PB_Vehicle_RollInfluence, 2)
     
-  EndWith 
+  EndWith
 EndProcedure
 
 Procedure ControlVehicle(elapsedTime.f)
@@ -351,7 +351,7 @@ Procedure ControlVehicle(elapsedTime.f)
     
     ; apply engine Force on relevant wheels
     For i = \WheelsEngine[0] To \WheelsEngine[0]+\WheelsEngineCount-1
-      ApplyVehicleBrake(\Chassis, \WheelsEngine[i], \EngineBrake)  
+      ApplyVehicleBrake(\Chassis, \WheelsEngine[i], \EngineBrake)
       ApplyVehicleForce(\Chassis, \WheelsEngine[i], \EngineForce)
     Next
         
@@ -360,14 +360,14 @@ Procedure ControlVehicle(elapsedTime.f)
       \Steering + SteeringIncrement*elapsedTime
       If (\Steering > SteeringClamp)
         \Steering = SteeringClamp
-      EndIf  
+      EndIf
       
     ElseIf (\SteeringRight)
       
       \Steering - SteeringIncrement*elapsedTime
       If (\Steering < -SteeringClamp)
         \Steering = -SteeringClamp
-      EndIf  
+      EndIf
     Else
       \Steering = Interpolation(\Steering, 0, 0.05)
     EndIf
@@ -380,10 +380,10 @@ Procedure ControlVehicle(elapsedTime.f)
         ApplyVehicleSteering(\Chassis, \WheelsSteerable[i], \Steering)
       Else
         ApplyVehicleSteering(\Chassis, \WheelsSteerable[i], -\Steering)
-      EndIf  
+      EndIf
     Next
     
-  EndWith   
+  EndWith
 EndProcedure
 
 Procedure.f Interpolation(x1.f, x2.f, percent.f)

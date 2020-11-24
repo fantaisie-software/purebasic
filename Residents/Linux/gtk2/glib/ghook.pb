@@ -26,7 +26,7 @@ Structure GHook
   hook_id.i   ; gulong
   flags.l     ; guint
   PB_Align(0, 4, 1)
-  func.i      ; gpointer 
+  func.i      ; gpointer
  *destroy
 EndStructure
 

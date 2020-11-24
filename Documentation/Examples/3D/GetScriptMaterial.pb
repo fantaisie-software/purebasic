@@ -36,7 +36,7 @@ If InitEngine3D()
     CreateEntity(2,MeshID(0), MaterialID(Yellow),   0,  60,  0)
     CreateEntity(3,MeshID(0), MaterialID(Green) ,   0, -60,  0)
     
-    ; Camera 
+    ; Camera
     CreateCamera(0, 0, 0, 100, 100)
     CameraBackColor(0, RGB(50, 50, 50))
     MoveCamera(0,0, 100, 300, #PB_Absolute)

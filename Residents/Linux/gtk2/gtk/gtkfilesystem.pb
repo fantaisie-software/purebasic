@@ -43,7 +43,7 @@ EndEnumeration
 ;  *volumes_changed
 ;  *bookmarks_changed
 ; EndStructure
-; 
+;
 ; Structure GtkFileFolderIface
 ;   base_iface.GTypeInterface
 ;  **error).GError

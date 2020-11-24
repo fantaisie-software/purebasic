@@ -13,7 +13,7 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 #CameraSpeed = 1
 
 Enumeration
-  #MainWindow 
+  #MainWindow
   #Editor
 EndEnumeration
 
@@ -65,24 +65,24 @@ If InitEngine3D()
         
         If KeyboardReleased(#PB_Key_F2)
           SkyDome("clouds.jpg", 30)
-        ElseIf KeyboardReleased(#PB_Key_F3) 
+        ElseIf KeyboardReleased(#PB_Key_F3)
           SkyDome("Wood.jpg", 30)
         ElseIf KeyboardReleased(#PB_Key_F4)
           SkyDome("", 0)
         EndIf
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
                   
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf
@@ -93,7 +93,7 @@ If InitEngine3D()
       MoveCamera  (0, KeyX, 0, KeyY)
      
       RenderWorld()
-      Screen3DStats()      
+      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

@@ -69,4 +69,4 @@ If OpenWindow(0, 100, 120, #WindowWidth, #WindowHeight, "PureBasic - Gadget Demo
   Until Event = #PB_Event_CloseWindow
 EndIf
 
-End  
+End

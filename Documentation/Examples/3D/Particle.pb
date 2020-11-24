@@ -61,7 +61,7 @@ If InitEngine3D()
       If ExamineMouse()
         MouseX = -MouseDeltaX() * #CameraSpeed * 0.05
         MouseY = -MouseDeltaY() * #CameraSpeed * 0.05
-      EndIf  
+      EndIf
       
       If ExamineKeyboard()
         
@@ -70,28 +70,28 @@ If InitEngine3D()
           DisableParticleEmitter(0, Disable)
         EndIf
         
-        If KeyboardPushed(#PB_Key_F6) 
+        If KeyboardPushed(#PB_Key_F6)
           speedFactor = speedFactor + percent * (#MaxSpeedFactor - speedFactor)
           ParticleSpeedFactor(1, speedFactor)
         EndIf
         
-        If KeyboardPushed(#PB_Key_F7) 
+        If KeyboardPushed(#PB_Key_F7)
           speedFactor = speedFactor + percent * (#MinSpeedFactor - speedFactor)
           ParticleSpeedFactor(1, speedFactor)
         EndIf
     
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf

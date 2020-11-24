@@ -5,7 +5,7 @@
 Structure GDebugKey
  *key
   value.l ; guint
-  PB_Align(0, 4) 
+  PB_Align(0, 4)
 EndStructure
 
 Structure GTrashStack

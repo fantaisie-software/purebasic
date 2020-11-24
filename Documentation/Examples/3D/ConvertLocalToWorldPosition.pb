@@ -18,7 +18,7 @@ Structure Vector3
 EndStructure
 
 Define.f KeyX, KeyY, MouseX, MouseY, RollZ, sens = -1
-Define.Vector3 Resultat, C1, C2 
+Define.Vector3 Resultat, C1, C2
 
 C1\x = -25 : C1\y = -25 : C1\z = -25
 C2\x =  25 : C2\y =  25 : C2\z =  25
@@ -43,8 +43,8 @@ If InitEngine3D()
     CreateMaterial(0, LoadTexture(0, "Dirt.jpg"))
     CreateMaterial(1, LoadTexture(1, "Wood.jpg"))
     
-    CreateEntity(0, MeshID(0), MaterialID(0))  
-    CreateEntity(1, MeshID(1), MaterialID(1))  
+    CreateEntity(0, MeshID(0), MaterialID(0))
+    CreateEntity(1, MeshID(1), MaterialID(1))
     CreateEntity(2, MeshID(1), MaterialID(1))
 
     SkyBox("stevecube.jpg")
@@ -85,4 +85,4 @@ Else
   MessageRequester("Error", "The 3D Engine can't be initialized",0)
 EndIf
 
-End 
+End

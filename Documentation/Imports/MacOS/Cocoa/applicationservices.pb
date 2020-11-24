@@ -80,7 +80,7 @@ ImportC "-framework ApplicationServices"
   ApiC(CGShadingGetTypeID, ())
   ApiC(PMPaperGetPPDPaperName, (paper, *paperName))
   ApiC(PMPrinterGetName, (printer))
-  ApiC(PMPrinterGetPaperList, (printer, *paperList)) 
+  ApiC(PMPrinterGetPaperList, (printer, *paperList))
   ApiC(PMPrinterIsDefault, (printer))
   ApiC(PMServerCreatePrinterList, (server, *printerList))
   

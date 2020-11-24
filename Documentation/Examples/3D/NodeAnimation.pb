@@ -7,7 +7,7 @@
 ;
 ; ------------------------------------------------------------
 ;
-;An example of using AnimationTracks To make a node smoothly 
+;An example of using AnimationTracks To make a node smoothly
 ;follow a predefined path With spline interpolation.
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
@@ -22,7 +22,7 @@ If InitEngine3D()
   InitMouse()
   
   If Screen3DRequester()
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data"                , #PB_3DArchive_FileSystem)    
+    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data"                , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"          , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"         , #PB_3DArchive_FileSystem)
@@ -47,7 +47,7 @@ If InitEngine3D()
     ;- SkyBox
     SkyBox("desert07.jpg")
     
-    ;- NodeAnimation 
+    ;- NodeAnimation
     NodeAnimation = CreateNodeAnimation(#PB_Any, NodeID(0), Duration, #PB_NodeAnimation_Spline, #PB_NodeAnimation_LinearRotation)
         
     CreateNodeAnimationKeyFrame(NodeAnimation, Time * 0,  200,   0,    0); key 0
@@ -68,11 +68,11 @@ If InitEngine3D()
       TimeSinceLastFrame = RenderWorld()
       FlipBuffers()
       
-    Until KeyboardPushed(#PB_Key_Escape)   
+    Until KeyboardPushed(#PB_Key_Escape)
     
-    End 
+    End
     
-  EndIf 
+  EndIf
 Else
   MessageRequester("Error","Can't initialize engine3D")
-EndIf 
+EndIf

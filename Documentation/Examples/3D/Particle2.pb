@@ -109,23 +109,23 @@ If InitEngine3D()
       If ExamineMouse()
         MouseX = -MouseDeltaX() * #CameraSpeed * 0.05
         MouseY = -MouseDeltaY() * #CameraSpeed * 0.05
-      EndIf  
+      EndIf
       
       If ExamineKeyboard()
               
 
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf

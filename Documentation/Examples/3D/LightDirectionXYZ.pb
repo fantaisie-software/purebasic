@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-#PB_Material_SelfIlluminationColor = 3 
+#PB_Material_SelfIlluminationColor = 3
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
@@ -27,7 +27,7 @@ If InitEngine3D()
   
   If Screen3DRequester()
     
-    KeyboardMode(#PB_Keyboard_International)  
+    KeyboardMode(#PB_Keyboard_International)
     
     ; Ground
     CreateMaterial(0, LoadTexture(0, "Dirt.jpg"))
@@ -48,7 +48,7 @@ If InitEngine3D()
     
     ; Camera
     ;
-    CreateCamera(0, 0, 0, 100, 100) 
+    CreateCamera(0, 0, 0, 100, 100)
     MoveCamera(0, 0, 900, 1000, #PB_Absolute)
     CameraLookAt(0, 0, 0, 0)
     CameraBackColor(0, RGB(0, 0, 30))
@@ -73,7 +73,7 @@ If InitEngine3D()
       x = LightX(0) + LightDirectionX(0) * Distance
       y = LightY(0) + LightDirectionY(0) * Distance
       z = LightZ(0) + LightDirectionZ(0) * Distance
-      CreateLine3D(10, LightX(0), LightY(0), LightZ(0),  RGB(0, 255, 0), x, y, z, RGB(0, 255, 0))   
+      CreateLine3D(10, LightX(0), LightY(0), LightZ(0),  RGB(0, 255, 0), x, y, z, RGB(0, 255, 0))
       
       RenderWorld()
       FlipBuffers()

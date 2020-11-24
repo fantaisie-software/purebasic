@@ -32,7 +32,7 @@ If InitEngine3D()
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/OPE/particle_scripts", #PB_3DArchive_FileSystem)
     Parse3DScripts()
     
-    KeyboardMode(#PB_Keyboard_International)  
+    KeyboardMode(#PB_Keyboard_International)
     
     ; Particles
     ;
@@ -41,7 +41,7 @@ If InitEngine3D()
       Read.s Particle$
       GetScriptParticleEmitter(i, Particle$)
       HideParticleEmitter(i, 1)
-    Next 
+    Next
     
     ; Camera
     ;
@@ -54,29 +54,29 @@ If InitEngine3D()
       If ExamineMouse()
         MouseX = -MouseDeltaX() * #CameraSpeed * 0.005
         MouseY = -MouseDeltaY() * #CameraSpeed * 0.005
-      EndIf  
+      EndIf
       
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf
         
       EndIf
       
-      If ElapsedMilliseconds() - Time > 2500 
+      If ElapsedMilliseconds() - Time > 2500
         Time = ElapsedMilliseconds()
         HideParticleEmitter(Particle, 1)
         Particle + 1

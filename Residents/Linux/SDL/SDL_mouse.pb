@@ -20,7 +20,7 @@ EndStructure
 ; SDL_PRESSED isn't defined in the includes ? Found 1 on google, so we believe it
 
 #SDL_PRESSED  = 1
-#SDL_RELEASED = 0 
+#SDL_RELEASED = 0
 
 #SDL_BUTTON_LMASK = #SDL_PRESSED << (#SDL_BUTTON_LEFT-1)
 #SDL_BUTTON_MMASK = #SDL_PRESSED << (#SDL_BUTTON_MIDDLE-1)

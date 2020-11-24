@@ -191,7 +191,7 @@ If DirectDraw\SetCooperativeLevel(hWnd, #DDSCL_EXCLUSIVE | #DDSCL_FULLSCREEN) = 
         EndIf
       EndIf
       
-    Until Quit = 1 
+    Until Quit = 1
 
   Else
      MessageRequester("Warning:", "Couldn't set display mode", 0)
@@ -207,4 +207,4 @@ DataSection
     Data.l $15e65ec0
     Data.w $3b9c, $11d2
     Data.b $b9, $2f, $00, $60, $97, $97, $ea, $5b
-EndDataSection 
+EndDataSection

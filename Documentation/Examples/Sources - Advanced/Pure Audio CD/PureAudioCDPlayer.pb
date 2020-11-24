@@ -42,11 +42,11 @@ EndIf
 Procedure.s GetHourFormat(LengthInSeconds) ; Format seconds into minutes and seconds
   Minutes = LengthInSeconds/60
   Seconds = LengthInSeconds-Minutes*60
-  If Seconds < 10 
+  If Seconds < 10
     ProcedureReturn Str(Minutes)+"m:0"+Str(Seconds)+"s"
-  Else 
-    ProcedureReturn Str(Minutes)+"m:"+Str(Seconds)+"s" 
-  EndIf  
+  Else
+    ProcedureReturn Str(Minutes)+"m:"+Str(Seconds)+"s"
+  EndIf
 EndProcedure
 
 Procedure RefreshCD() ; If a (new) CD is inside
@@ -68,7 +68,7 @@ Procedure RefreshCD() ; If a (new) CD is inside
   SetGadgetText(#TextNbTracks, "Total Tracks: "+Str(AudioCDTracks()))
 EndProcedure
 
-;- 
+;-
 ;- ---------- Main Code ---------
 ;- Open a window
 If OpenWindow(#Window0, 0, 0, 400, 470, "PureBasic - AudioCD Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
@@ -98,30 +98,30 @@ If OpenWindow(#Window0, 0, 0, 400, 470, "PureBasic - AudioCD Example", #PB_Windo
   
   RefreshCD() ; Fullfill the ListView with CD's tracks
   
-  ;- Loop: 
-  Repeat    
+  ;- Loop:
+  Repeat
     Repeat
       ;- ->Management of the gadgets
       Event = WindowEvent()  ; This time we use the WindowEvent(), non-blocking command to allow time refreshing
       
       If Event = #PB_Event_Gadget
-        Select EventGadget() 
+        Select EventGadget()
             
           Case #ButtonPlay              ; Play
             If Pause=#True
               ResumeAudioCD()
-              Pause=#False 
+              Pause=#False
             Else
               CurrentTrack = GetGadgetState(#ListViewTracks)+1
               PlayAudioCD(CurrentTrack, AudioCDTracks())
             EndIf
             
           Case #ButtonPause             ; Pause
-            Pause=#True            
+            Pause=#True
             PauseAudioCD()
             
           Case #ButtonStop              ; Stop
-            Pause=#False 
+            Pause=#False
             StopAudioCD()
             
           Case #ButtonEject             ; Eject/Close
@@ -142,7 +142,7 @@ If OpenWindow(#Window0, 0, 0, 400, 470, "PureBasic - AudioCD Example", #PB_Windo
           Case #ButtonPreviousTrack     ; Play Previous Track
             CurrentTrack = CurrentTrack - 1
             If CurrentTrack < 1
-              CurrentTrack=AudioCDTracks()              
+              CurrentTrack=AudioCDTracks()
             EndIf
             SetGadgetState(#ListViewTracks, CurrentTrack-1)
             PlayAudioCD(CurrentTrack, AudioCDTracks())
@@ -150,24 +150,24 @@ If OpenWindow(#Window0, 0, 0, 400, 470, "PureBasic - AudioCD Example", #PB_Windo
           Case #ButtonNextTrack         ; Play Next Track
             CurrentTrack = CurrentTrack + 1
             If CurrentTrack > AudioCDTracks()
-              CurrentTrack=1              
+              CurrentTrack=1
             EndIf
             SetGadgetState(#ListViewTracks, CurrentTrack-1)
             PlayAudioCD(CurrentTrack, AudioCDTracks())
             
           Case #ListViewTracks           ; Click on Track = Play the Track
             If Pause=#True
-              Pause=#False 
+              Pause=#False
             EndIf
             CurrentTrack = GetGadgetState(#ListViewTracks)+1
-            PlayAudioCD(CurrentTrack, AudioCDTracks())           
+            PlayAudioCD(CurrentTrack, AudioCDTracks())
             
         EndSelect
         
       Else
         If Event = #PB_Event_CloseWindow ; Close the Window
-          Quit = 1 
-        EndIf   
+          Quit = 1
+        EndIf
       EndIf
     Until Event = 0
     
@@ -179,8 +179,8 @@ If OpenWindow(#Window0, 0, 0, 400, 470, "PureBasic - AudioCD Example", #PB_Windo
     
     If CurrentTrack > 0 ; A track is playing...
       If AudioCDTrackSeconds() = 0  ; Update the ListView if a new track is played
-        SetGadgetState(#ListViewTracks, CurrentTrack-1) 
-      EndIf     
+        SetGadgetState(#ListViewTracks, CurrentTrack-1)
+      EndIf
       SetGadgetText(#TextStatus, "Playing Track " + Str(CurrentTrack) + " (Length: " + GetHourFormat(AudioCDTrackLength(CurrentTrack)) + ")")
       SetGadgetText(#TextTime, "Time: " + GetHourFormat(AudioCDTrackSeconds()))
       DisableGadget(#ButtonPlay, 1)
@@ -238,4 +238,4 @@ For k=0 To NbCDDrives-1 ; Stop all the CD drives, if some are playing together
   StopAudioCD()
 Next
 
-End 
+End

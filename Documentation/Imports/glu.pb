@@ -1,7 +1,7 @@
 XIncludeFile "common.pbi"
 
 
-CompilerSelect #PB_Compiler_OS 
+CompilerSelect #PB_Compiler_OS
 
 CompilerCase #PB_OS_Windows
 

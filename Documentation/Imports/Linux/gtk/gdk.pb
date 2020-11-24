@@ -7,7 +7,7 @@ CompilerElse ; GTK2
   ImportC "`pkg-config --libs gtk+-2.0` `pkg-config --libs gthread-2.0`"
   
   ; GTK 2 only functions
-  ;  
+  ;
   ApiC(gdk_add_client_message_filter, (arg1, arg2, arg3))
   ApiC(gdk_display_add_client_message_filter, (arg1, arg2, arg3, arg4))
   ApiC(gdk_event_send_client_message, (arg1, arg2))

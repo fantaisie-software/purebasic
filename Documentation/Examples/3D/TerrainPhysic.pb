@@ -39,12 +39,12 @@ EndStructure
 Structure s_Entity
   Entity.i
   EntityBody.i
-  BodyOffsetY.f 
+  BodyOffsetY.f
   elapsedTime.f
   Key.s_Key
-  MainNode.i  
+  MainNode.i
   SightNode.i
-  CameraNode.i  
+  CameraNode.i
   ForwardNode.i
   StrafeNode.i
 EndStructure
@@ -52,14 +52,14 @@ EndStructure
 Structure s_Camera
   Camera.i
   Tightness.f
-  CameraNode.i 
+  CameraNode.i
   TargetNode.i
-EndStructure    
+EndStructure
 
 Macro GetNodePosition(Position, Node)
-  Position\x = NodeX(Node)  
-  Position\y = NodeY(Node)  
-  Position\z = NodeZ(Node)  
+  Position\x = NodeX(Node)
+  Position\y = NodeY(Node)
+  Position\z = NodeZ(Node)
 EndMacro
 
 Macro SubVector3(V, V1, V2)
@@ -101,14 +101,14 @@ If InitEngine3D(Flags)
     
     MaterialFilteringMode(#PB_Default, #PB_Material_Anisotropic, 8)
     
-    ;- Light 
+    ;- Light
     ;
     light = CreateLight(#PB_Any ,RGB(185, 185, 185), 4000, 1200, 1000, #PB_Light_Directional)
-    SetLightColor(light, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4)) 
-    LightDirection(light ,0.55, -0.3, -0.75) 
+    SetLightColor(light, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4))
+    LightDirection(light ,0.55, -0.3, -0.75)
     AmbientColor(RGB(5, 5,5))
     
-    ;- Camera 
+    ;- Camera
     ;
     CreateCamera(0, 0, 0, 100, 100)
     CameraBackColor(0, RGB(5, 5, 10))
@@ -116,9 +116,9 @@ If InitEngine3D(Flags)
     ;----------------------------------
     ;-terrain definition
     SetupTerrains(LightID(Light), 3000, #PB_Terrain_NormalMapping)
-    ;-initialize terrain 
+    ;-initialize terrain
     CreateTerrain(0, 513, 12000, 600, 3, "TerrainPhysic", "dat")
-    ;-set all texture will be use when terrrain will be constructed 
+    ;-set all texture will be use when terrrain will be constructed
     AddTerrainTexture(0,  0, 100, "dirt_grayrocky_diffusespecular.jpg",  "dirt_grayrocky_normalheight.jpg")
     AddTerrainTexture(0,  1,  30, "grass_green-01_diffusespecular.jpg", "grass_green-01_normalheight.jpg")
     AddTerrainTexture(0,  2, 200, "growth_weirdfungus-03_diffusespecular.jpg", "growth_weirdfungus-03_normalheight.jpg")
@@ -126,10 +126,10 @@ If InitEngine3D(Flags)
     ;-Construct terrains
     For ty = #TerrainMiniY To #TerrainMaxiY
       For tx = #TerrainMiniX To #TerrainMaxiX
-        Imported = DefineTerrainTile(0, tx, ty, "terrain513.png", ty % 2, tx % 2)    
+        Imported = DefineTerrainTile(0, tx, ty, "terrain513.png", ty % 2, tx % 2)
       Next
-    Next  
-    BuildTerrain(0)  
+    Next
+    BuildTerrain(0)
     
     If Imported = #True
       InitBlendMaps()
@@ -137,7 +137,7 @@ If InitEngine3D(Flags)
       
       ; If enabled, it will save the terrain as a (big) cache for a faster load next time the program is executed
       ; SaveTerrain(0, #False)
-    EndIf 
+    EndIf
     
     ; enable shadow terrain
     TerrainRenderMode(0, 0)
@@ -171,7 +171,7 @@ If InitEngine3D(Flags)
     HideEntity(1, 1)
     
     ;Body
-    CreateEntityBody(1, #PB_Entity_CapsuleBody, 1, 0, 0) 
+    CreateEntityBody(1, #PB_Entity_CapsuleBody, 1, 0, 0)
     
     ; Skybox
     SkyBox("desert07.jpg")
@@ -180,7 +180,7 @@ If InitEngine3D(Flags)
     With Robot
       \Entity = 0
       \EntityBody = 1
-      \BodyOffsetY = 43 
+      \BodyOffsetY = 43
       
       \Key\Down        = #PB_Key_Down
       \Key\Left        = #PB_Key_Left
@@ -191,27 +191,27 @@ If InitEngine3D(Flags)
       \Key\Jump        = #PB_Key_Space
       
       \MainNode    = CreateNode(#PB_Any) ; Entity position
-      \SightNode   = CreateNode(#PB_Any,  120,  20,  0) ; For cameraLookAt 
+      \SightNode   = CreateNode(#PB_Any,  120,  20,  0) ; For cameraLookAt
       \CameraNode  = CreateNode(#PB_Any, -140, 100,  0) ; Camera position
-      \ForwardNode = CreateNode(#PB_Any,    1,   0,  0) ; Direction normalized 
-      \StrafeNode  = CreateNode(#PB_Any,    0,   0, -1) ; Direction normalized 
+      \ForwardNode = CreateNode(#PB_Any,    1,   0,  0) ; Direction normalized
+      \StrafeNode  = CreateNode(#PB_Any,    0,   0, -1) ; Direction normalized
       
       AttachNodeObject(\MainNode, NodeID(\SightNode))
-      AttachNodeObject(\MainNode, NodeID(\CameraNode))   
-      AttachNodeObject(\MainNode, NodeID(\ForwardNode))     
-      AttachNodeObject(\MainNode, NodeID(\StrafeNode))    
+      AttachNodeObject(\MainNode, NodeID(\CameraNode))
+      AttachNodeObject(\MainNode, NodeID(\ForwardNode))
+      AttachNodeObject(\MainNode, NodeID(\StrafeNode))
       AttachNodeObject(\MainNode, EntityID(\Entity))
     EndWith
     
     ;-Camera
-    With Camera  
+    With Camera
       \Camera = 0
       \Tightness = 0.035
       ; Camera use 2 nodes
       \CameraNode = CreateNode(#PB_Any, -3000, 700, 0) ; Camera position
-      \TargetNode = CreateNode(#PB_Any) ; For cameraLookAt 
+      \TargetNode = CreateNode(#PB_Any) ; For cameraLookAt
       AttachNodeObject(\CameraNode, CameraID(\Camera))
-    EndWith  
+    EndWith
     
     ;==================================
     ; create material
@@ -252,9 +252,9 @@ If InitEngine3D(Flags)
     
     Repeat
       
-      Screen3DEvents()   
+      Screen3DEvents()
       
-      Robot\elapsedTime = TimeSinceLastFrame 
+      Robot\elapsedTime = TimeSinceLastFrame
       
       HandleEntity(@Robot)
       
@@ -263,11 +263,11 @@ If InitEngine3D(Flags)
       TimeSinceLastFrame = RenderWorld(60) * 40 / 1000
       FlipBuffers()
       
-    Until KeyboardPushed(#PB_Key_Escape)   
+    Until KeyboardPushed(#PB_Key_Escape)
     
-    End 
+    End
     
-  EndIf 
+  EndIf
 Else
   CompilerIf #PB_Compiler_OS <> #PB_OS_Windows Or Subsystem("OpenGL")
     ;
@@ -278,7 +278,7 @@ Else
   CompilerElse
     MessageRequester("Error","Can't initialize engine3D")
   CompilerEndIf
-EndIf 
+EndIf
 
 Procedure Clamp(*var.float, min.f, max.f)
   If *var\f < min
@@ -292,7 +292,7 @@ Procedure InitBlendMaps()
   minHeight1.f = 70
   fadeDist1.f = 40
   minHeight2.f = 70
-  fadeDist2.f = 15    
+  fadeDist2.f = 15
   For ty = #TerrainMiniY To #TerrainMaxiY
     For tx = #TerrainMiniX To #TerrainMaxiX
       Size = TerrainTileLayerMapSize(0, tx, ty)
@@ -312,21 +312,21 @@ Procedure InitBlendMaps()
       UpdateTerrainTileLayerBlend(0, tx, ty, 1)
       UpdateTerrainTileLayerBlend(0, tx, ty, 2)
     Next
-  Next  
-EndProcedure  
+  Next
+EndProcedure
 
 Procedure OnGround(*Entity.s_Entity)
   With *Entity
-    Result = RayCollide(EntityX(\EntityBody), EntityY(\EntityBody), EntityZ(\EntityBody), EntityX(\EntityBody), EntityY(\EntityBody)-70,  EntityZ(\EntityBody)) 
-    ;CreateLine3D(20,EntityX(\EntityBody), EntityY(\EntityBody), EntityZ(\EntityBody), $FFFF, EntityX(\EntityBody), EntityY(\EntityBody)-70,  EntityZ(\EntityBody), $FFFF)  
+    Result = RayCollide(EntityX(\EntityBody), EntityY(\EntityBody), EntityZ(\EntityBody), EntityX(\EntityBody), EntityY(\EntityBody)-70,  EntityZ(\EntityBody))
+    ;CreateLine3D(20,EntityX(\EntityBody), EntityY(\EntityBody), EntityZ(\EntityBody), $FFFF, EntityX(\EntityBody), EntityY(\EntityBody)-70,  EntityZ(\EntityBody), $FFFF)
     Delta.f = EntityY(\EntityBody) - PickY() - \BodyOffsetY
 
     If Result=-1 Or (Result>-1 And (delta >= 1))
       ProcedureReturn 0
     Else
       ProcedureReturn 1
-    EndIf  
-  EndWith  
+    EndIf
+  EndWith
 EndProcedure
 
 Procedure HandleEntity(*Entity.s_Entity)
@@ -341,7 +341,7 @@ Procedure HandleEntity(*Entity.s_Entity)
     SubVector3(Forward, PosDir, PosMain)
     SubVector3(Strafe, PosStrafe, PosMain)
     
-    Speed = #PlayerSpeed * \elapsedTime 
+    Speed = #PlayerSpeed * \elapsedTime
     Speed2 = Speed / 2
     
     If ExamineKeyboard()
@@ -354,10 +354,10 @@ Procedure HandleEntity(*Entity.s_Entity)
         WorldDebug(#PB_World_DebugNone)
       EndIf
       
-      If KeyboardPushed(\Key\Jump) And OnGround(*Entity) 
+      If KeyboardPushed(\Key\Jump) And OnGround(*Entity)
         Jump = 18
         MemJump = 1
-      EndIf  
+      EndIf
       
       Rot\x * 0.30
       Rot\y * 0.30
@@ -367,7 +367,7 @@ Procedure HandleEntity(*Entity.s_Entity)
       Trans\z * 0.20
       
       If KeyboardPushed(\Key\Up)
-        Trans\x + Forward\x * Speed 
+        Trans\x + Forward\x * Speed
         Trans\z + Forward\z * Speed
       ElseIf KeyboardPushed(\Key\Down)
         Trans\x + Forward\x * -Speed2
@@ -378,7 +378,7 @@ Procedure HandleEntity(*Entity.s_Entity)
         Rot\y + 2 * \elapsedTime
       ElseIf KeyboardPushed(\Key\Right)
         Rot\y - 2 * \elapsedTime
-      EndIf 
+      EndIf
       
       If KeyboardPushed(\Key\StrafeLeft)
         Trans\x + Strafe\x * Speed2
@@ -386,32 +386,32 @@ Procedure HandleEntity(*Entity.s_Entity)
       ElseIf KeyboardPushed(\Key\StrafeRight)
         Trans\x + Strafe\x * -Speed2
         Trans\z + Strafe\z * -Speed2
-      EndIf 
+      EndIf
       
-      If OnGround(*Entity) 
-        Jump = 0 
-      ElseIf MemJump  
-        Jump + 20 * \elapsedTime 
-        If Jump > 100 
+      If OnGround(*Entity)
+        Jump = 0
+      ElseIf MemJump
+        Jump + 20 * \elapsedTime
+        If Jump > 100
           MemJump = 0
-        EndIf  
-      Else  
-        Jump - 9 
-      EndIf  
+        EndIf
+      Else
+        Jump - 9
+      EndIf
       
     EndIf
     
     MoveEntity  (\EntityBody, Trans\x, Trans\y, Trans\z)
-    RotateEntity(\EntityBody, 0, Rot\y, 0, #PB_Relative)   
+    RotateEntity(\EntityBody, 0, Rot\y, 0, #PB_Relative)
     
-    MoveNode(\MainNode, EntityX(\EntityBody), EntityY(\EntityBody)-\BodyOffsetY, EntityZ(\EntityBody), #PB_Absolute) 
-    RotateNode(\MainNode, 0, EntityYaw(\EntityBody), 0) 
+    MoveNode(\MainNode, EntityX(\EntityBody), EntityY(\EntityBody)-\BodyOffsetY, EntityZ(\EntityBody), #PB_Absolute)
+    RotateNode(\MainNode, 0, EntityYaw(\EntityBody), 0)
     
-  EndWith   
+  EndWith
 EndProcedure
 
 Procedure CameraTrack(*Camera.s_Camera, *Entity.s_Entity)
-  Protected.Vector3 CameraPosition, TargetPosition 
+  Protected.Vector3 CameraPosition, TargetPosition
   Protected.f x, y, z
   
   GetNodePosition(CameraPosition, *Entity\CameraNode)

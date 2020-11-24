@@ -65,10 +65,10 @@ If OpenWindow(0, 0, 0, 340, 285, "Gadget and sprites!", #PB_Window_SystemMenu | 
         ExamineMouse()
     
         ; do the sprite & screen management at every frame
-        If KeyboardPushed(#PB_Key_Up)    And playerY > 0   : playerY -3 : EndIf  
-        If KeyboardPushed(#PB_Key_Down)  And playerY < 280 : playerY +3 : EndIf  
-        If KeyboardPushed(#PB_Key_Left)  And playerX > 0   : playerX -3 : EndIf  
-        If KeyboardPushed(#PB_Key_Right) And playerX < 300 : playerX +3 : EndIf  
+        If KeyboardPushed(#PB_Key_Up)    And playerY > 0   : playerY -3 : EndIf
+        If KeyboardPushed(#PB_Key_Down)  And playerY < 280 : playerY +3 : EndIf
+        If KeyboardPushed(#PB_Key_Left)  And playerX > 0   : playerX -3 : EndIf
+        If KeyboardPushed(#PB_Key_Right) And playerX < 300 : playerX +3 : EndIf
     
         If KeyboardPushed(#PB_Key_F1)
           ReleaseMouse(#True)

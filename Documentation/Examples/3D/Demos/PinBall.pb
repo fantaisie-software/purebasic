@@ -11,14 +11,14 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 Macro CreateCadre(x, y, z, sx, sy, sz, m, r, f)
   Cadre = CreateEntity(#PB_Any, MeshID(1), MaterialID(2), x, y, z)
-  ScaleEntity(Cadre, sx, sy, sz) 
+  ScaleEntity(Cadre, sx, sy, sz)
   CreateEntityBody(Cadre, #PB_Entity_BoxBody, m, r, f)
 EndMacro
 
 Macro CreateBumper (x, y, z, m, r, f)
   Cylinder = CreateEntity(#PB_Any, MeshID(3), MaterialID(0), x, y, z)
-  CreateEntityBody(Cylinder, #PB_Entity_CylinderBody, m, r, f) 
-EndMacro 
+  CreateEntityBody(Cylinder, #PB_Entity_CylinderBody, m, r, f)
+EndMacro
 
 #CameraSpeed = 1
 
@@ -65,12 +65,12 @@ If InitEngine3D()
   
     ; Cadre
     CreateCadre(-22, 2,  25,  6, 4,  1, 0, 0.0, 1) : RotateEntity(Cadre, 0, -30, 0)
-    CreateCadre( 21, 2, -40, 11, 4,  1, 0, 1.0, 1) : RotateEntity(Cadre, 0, -50, 0)     
+    CreateCadre( 21, 2, -40, 11, 4,  1, 0, 1.0, 1) : RotateEntity(Cadre, 0, -50, 0)
     CreateCadre(-21, 2, -40, 11, 4,  1, 0, 1.0, 1) : RotateEntity(Cadre, 0,  50, 0)
-    CreateCadre(  0, 2, -45, 50, 4,  1, 0, 1.0, 0) 
-    CreateCadre( 21, 2,  45,  8, 4,  1, 0, 1.0, 0) 
-    CreateCadre(-25, 2,   0,  1, 4, 90, 0, 0.2, 1) 
-    CreateCadre( 25, 2,   0,  1, 4, 90, 0, 0.2, 1)  
+    CreateCadre(  0, 2, -45, 50, 4,  1, 0, 1.0, 0)
+    CreateCadre( 21, 2,  45,  8, 4,  1, 0, 1.0, 0)
+    CreateCadre(-25, 2,   0,  1, 4, 90, 0, 0.2, 1)
+    CreateCadre( 25, 2,   0,  1, 4, 90, 0, 0.2, 1)
     CreateCadre( 17, 2,   5,  1, 4, 80, 0, 0.2, 1)
   
     ; Bumper
@@ -115,22 +115,22 @@ If InitEngine3D()
           HingeJointMotorTarget(0, 18, 0.08)
         Else
           HingeJointMotorTarget(0, -18, 0.08)
-        EndIf 
+        EndIf
         
         If KeyboardPushed(#PB_Key_RightShift) Or KeyboardPushed(#PB_Key_RightControl)
           DisableEntityBody(FlipR, 0)
           HingeJointMotorTarget(1, -18, 0.08)
         Else
           HingeJointMotorTarget(1, 18, 0.08)
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_Space)
           ApplyEntityImpulse(Sphere, 0, 0, -3)
-        EndIf     
+        EndIf
        
       EndIf
  
-      If EntityZ(Sphere) > 50 
+      If EntityZ(Sphere) > 50
         MoveEntity(Sphere, 21, 1.01, 20, #PB_Absolute)
       EndIf
       

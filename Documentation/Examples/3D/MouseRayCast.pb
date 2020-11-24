@@ -13,11 +13,11 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 #CameraSpeed = 0.4
 #N = 2
 Enumeration
-  #MainWindow 
+  #MainWindow
   #Editor
 EndEnumeration
 
-Define.f KeyX, KeyY, MouseX, MouseY, RatioX, RatioY 
+Define.f KeyX, KeyY, MouseX, MouseY, RatioX, RatioY
 
 If InitEngine3D()
   
@@ -33,7 +33,7 @@ If InitEngine3D()
   
   If Screen3DRequester()
     
-    KeyboardMode(#PB_Keyboard_International)  
+    KeyboardMode(#PB_Keyboard_International)
     
     WorldDebug(#PB_World_DebugEntity)
     
@@ -86,7 +86,7 @@ If InitEngine3D()
     CreateNode(0, 3, 0, 0)
     AttachNodeObject(0, EntityID(5))
     
-    CreateNode(1, 0, 0, 1) 
+    CreateNode(1, 0, 0, 1)
     AttachNodeObject(0, NodeID(1))
     MoveNode(0, 0, 1, 0)
     
@@ -126,7 +126,7 @@ If InitEngine3D()
         MouseY = -MouseDeltaY() * #CameraSpeed * 0.5
         Mx = MouseX()
         My = MouseY()
-      EndIf  
+      EndIf
       
       If ExamineKeyboard()
         
@@ -134,19 +134,19 @@ If InitEngine3D()
           Stop = 0
         Else
           Stop = 1
-        EndIf          
+        EndIf
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf
@@ -155,20 +155,20 @@ If InitEngine3D()
       
       Entity = MouseRayCast(0, Mx, My,-1)
       
-      If Entity>0 
+      If Entity>0
         
-        CreateLine3D(11, PickX(), PickY(), PickZ(), RGB(255,255,0), 
-                         PickX() + NormalX()*#N, 
-                         PickY() + NormalY()*#N, 
+        CreateLine3D(11, PickX(), PickY(), PickZ(), RGB(255,255,0),
+                         PickX() + NormalX()*#N,
+                         PickY() + NormalY()*#N,
                          PickZ() + NormalZ()*#N, RGB(255,255,0))
         
         SetGadgetText3D(#Editor, "Entity = " + Str(Entity))
-      Else   
+      Else
         If IsMesh(11)
           FreeMesh(11)
-        EndIf  
+        EndIf
         SetGadgetText3D(#Editor, "I'm looking...")
-      EndIf  
+      EndIf
       
       RotateNode(0, 0, 1, 0, #PB_Relative)
       

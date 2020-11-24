@@ -68,7 +68,7 @@ If OpenWindow(0, 100, 200, 500, 300, "PureBasic MiniBrowser v1.0", #PB_Window_Mi
           Case 5
             SetGadgetText(10, GetGadgetText(4))
             
-        EndSelect      
+        EndSelect
       
       Case #PB_Event_Menu ; We only have one shortcut
         SetGadgetText(10, GetGadgetText(4))

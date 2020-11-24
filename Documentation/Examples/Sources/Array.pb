@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-Structure BasicStructure 
+Structure BasicStructure
   Field1.b
   Field2.w
   Field3.l
@@ -29,7 +29,7 @@ Dim StructuredMultiArray.ComplexStructure(10, 20, 10) ; 11*21*11 = 2541 elements
 
 ; Filling arrays & Structure access
 ;
-For k=0 To 100        ; Fill the basic array with values from 0 to 100. 
+For k=0 To 100        ; Fill the basic array with values from 0 to 100.
   BasicArray(k) = k
 Next
 

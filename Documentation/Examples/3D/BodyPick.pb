@@ -29,7 +29,7 @@ If InitEngine3D()
     Parse3DScripts()
     
     WorldShadows(#PB_Shadow_Modulative, -1, RGB(105, 105, 105))
-    ;WorldDebug(#PB_World_DebugBody)    
+    ;WorldDebug(#PB_World_DebugBody)
     
     ;- Materials
     ;
@@ -63,18 +63,18 @@ If InitEngine3D()
     Torus = CreateEntity(#PB_Any, MeshID(TorusMesh), MaterialID(3),0,5,35)
     Tube = CreateEntity(#PB_Any, MeshID(TubeMesh), MaterialID(4),0,5,40)
     
-     EntityRenderMode(Plane, 0) 
+     EntityRenderMode(Plane, 0)
     ;-Body
     ;
     CreateEntityBody(Capsule, #PB_Entity_CapsuleBody, 1)
     CreateEntityBody(Cone, #PB_Entity_ConeBody, 1)
     CreateEntityBody(Cube, #PB_Entity_BoxBody, 1)
-    CreateEntityBody(Cylinder, #PB_Entity_CylinderBody, 1) 
+    CreateEntityBody(Cylinder, #PB_Entity_CylinderBody, 1)
     CreateEntityBody(IcoSphere, #PB_Entity_SphereBody, 1)
     CreateEntityBody(Plane, #PB_Entity_PlaneBody, 0,0,1)
     CreateEntityBody(Sphere, #PB_Entity_SphereBody, 1)
-    CreateEntityBody(Torus, #PB_Entity_CylinderBody, 1) 
-    CreateEntityBody(Tube, #PB_Entity_CylinderBody, 1) 
+    CreateEntityBody(Torus, #PB_Entity_CylinderBody, 1)
+    CreateEntityBody(Tube, #PB_Entity_CylinderBody, 1)
     
     ;- Light
     ;

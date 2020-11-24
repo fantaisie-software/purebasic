@@ -35,11 +35,11 @@ If InitEngine3D()
   If Screen3DRequester()
     
     CreateMaterial(#Material0, LoadTexture(#Texture0, "clouds.jpg"))
-    CreateMaterial(#Material1, LoadTexture(#Texture1, "Dirt.jpg"))        
+    CreateMaterial(#Material1, LoadTexture(#Texture1, "Dirt.jpg"))
     
     CreateCube(#Mesh, 20)
     CreateEntity(#Entity0, MeshID(#Mesh), MaterialID(#Material0),  5, 0, 0)
-    CreateEntity(#Entity1, MeshID(#Mesh), MaterialID(#Material1), -5, 0, 0)    
+    CreateEntity(#Entity1, MeshID(#Mesh), MaterialID(#Material1), -5, 0, 0)
     
     
     SkyBox("stevecube.jpg")
@@ -53,11 +53,11 @@ If InitEngine3D()
       If ExamineKeyboard()
         If KeyboardReleased(#PB_Key_F5)
           SetRenderQueue(EntityID(#Entity0), 1)
-          SetRenderQueue(EntityID(#Entity1), 0)  
+          SetRenderQueue(EntityID(#Entity1), 0)
         ElseIf KeyboardReleased(#PB_Key_F6)
           SetRenderQueue(EntityID(#Entity0), 0)
-          SetRenderQueue(EntityID(#Entity1), 1)  
-        EndIf  
+          SetRenderQueue(EntityID(#Entity1), 1)
+        EndIf
       EndIf
       
       RenderWorld()

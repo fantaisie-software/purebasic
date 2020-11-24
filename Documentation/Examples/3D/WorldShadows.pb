@@ -22,13 +22,13 @@ If InitEngine3D()
   
   If Screen3DRequester()
     
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)   
+    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts",#PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
     Parse3DScripts()
     
-    KeyboardMode(#PB_Keyboard_International) 
+    KeyboardMode(#PB_Keyboard_International)
     
     WorldShadows(#PB_Shadow_Modulative, -1, RGB(255, 0, 0))
     
@@ -41,7 +41,7 @@ If InitEngine3D()
     ;
     MeshPlane = CreatePlane(#PB_Any, 100, 100, 10, 10, 15, 15)
     Ground = CreateEntity(#PB_Any, MeshID(MeshPlane), MaterialID(DirtMaterial))
-    EntityRenderMode(Ground, 0) 
+    EntityRenderMode(Ground, 0)
     
     ; Meshes
     ;
@@ -54,7 +54,7 @@ If InitEngine3D()
     CreateEntity(#PB_Any, MeshID(MeshCube), MaterialID(WoodMaterial), -5, 1, -5)
     CreateEntity(#PB_Any, MeshID(MeshSphere), MaterialID(WoodMaterial),  0, 2,  0)
     Logo = CreateEntity(#PB_Any, MeshID(MeshLogo), MaterialID(WoodMaterial),  5, 3,  5)
-    ScaleEntity(Logo, 0.2, 0.2, 0.2) 
+    ScaleEntity(Logo, 0.2, 0.2, 0.2)
     
     ; Camera
     ;

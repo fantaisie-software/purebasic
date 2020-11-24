@@ -6,7 +6,7 @@
 ;    (c) Fantaisie Software
 ;
 ; ------------------------------------------------------------
-; WaterWorld files come from the software Deled 
+; WaterWorld files come from the software Deled
 ; http://www.delgine.com, Thanks For this great editor 3D.
 
 
@@ -33,12 +33,12 @@ EndStructure
 
 Structure s_Entity
   EntityBody.i
-  BodyOffsetY.f 
+  BodyOffsetY.f
   elapsedTime.f
   Fov.f
   Key.s_Key
-  MainNode.i  
-  CameraNode.i  
+  MainNode.i
+  CameraNode.i
   HandNode.i
   ForwardNode.i
   StrafeNode.i
@@ -46,9 +46,9 @@ EndStructure
 
 
 Macro GetNodePosition(Position, Node)
-  Position\x = NodeX(Node)  
-  Position\y = NodeY(Node)  
-  Position\z = NodeZ(Node)  
+  Position\x = NodeX(Node)
+  Position\y = NodeY(Node)
+  Position\z = NodeZ(Node)
 EndMacro
 
 Macro SubVector3(V, V1, V2)
@@ -63,9 +63,9 @@ Declare OnGround(*Entity.s_Entity)
 
 Define Robot.s_Entity
 Dim Barrel.Vector3(2)
-Barrel(0)\x =  0 : Barrel(0)\y =  0 : Barrel(0)\z = 0  
-Barrel(1)\x = 60 : Barrel(1)\y =  0 : Barrel(1)\z = 0 
-Barrel(2)\x = 30 : Barrel(2)\y = 70 : Barrel(2)\z = 0 
+Barrel(0)\x =  0 : Barrel(0)\y =  0 : Barrel(0)\z = 0
+Barrel(1)\x = 60 : Barrel(1)\y =  0 : Barrel(1)\z = 0
+Barrel(2)\x = 30 : Barrel(2)\y = 70 : Barrel(2)\z = 0
 
 If InitEngine3D()
   
@@ -109,7 +109,7 @@ If InitEngine3D()
     CreateEntity(2, MeshID(2), #PB_Material_None)
     
         
-    ;- Barrel 
+    ;- Barrel
     LoadMesh(4, "Barrel.mesh")
     Restore Barrel
     For i = 1 To 3
@@ -119,12 +119,12 @@ If InitEngine3D()
       For j=0 To 2
         Barrel = CreateEntity(#PB_Any, MeshID(4), MaterialID(4), x+Barrel(j)\x, y+Barrel(j)\y, z+Barrel(j)\z)
         ScaleEntity(Barrel, 8, 10, 8)
-        CreateEntityBody(Barrel, #PB_Entity_CylinderBody, 50, 0, 0.5) 
+        CreateEntityBody(Barrel, #PB_Entity_CylinderBody, 50, 0, 0.5)
       Next
-     Next 
+     Next
        
      ;Body
-    CreateEntityBody(0, #PB_Entity_CapsuleBody, 0.45, 0, 0) 
+    CreateEntityBody(0, #PB_Entity_CapsuleBody, 0.45, 0, 0)
     CreateEntityBody(2, #PB_Entity_StaticBody)
     
     ;-Billboard
@@ -134,7 +134,7 @@ If InitEngine3D()
     With Robot
       \Fov = 50
       \EntityBody = 0
-      \BodyOffsetY = 43 
+      \BodyOffsetY = 43
       \Key\Down  = #PB_Key_Down ;Down
       \Key\Left  = #PB_Key_Left ;Left
       \Key\Right = #PB_Key_Right;Right
@@ -144,11 +144,11 @@ If InitEngine3D()
       \MainNode   = CreateNode(#PB_Any) ; Entity position
       \CameraNode = CreateNode(#PB_Any,  0, 80,  0) ; Camera position
       \HandNode   = CreateNode(#PB_Any,  0, 80,  0) ; Hand position
-      \ForwardNode= CreateNode(#PB_Any,  0,  0, -1) ; Direction normalized 
+      \ForwardNode= CreateNode(#PB_Any,  0,  0, -1) ; Direction normalized
       \StrafeNode = CreateNode(#PB_Any, -1,  0,  0) ; Direction normalized
       
-      AttachNodeObject(\MainNode  , NodeID(\CameraNode))   
-      AttachNodeObject(\MainNode  , NodeID(\HandNode))   
+      AttachNodeObject(\MainNode  , NodeID(\CameraNode))
+      AttachNodeObject(\MainNode  , NodeID(\HandNode))
       AttachNodeObject(\MainNode  , NodeID(\ForwardNode))
       AttachNodeObject(\MainNode  , NodeID(\StrafeNode))
       AttachNodeObject(\HandNode  , EntityID(1))
@@ -161,9 +161,9 @@ If InitEngine3D()
     
     ;- Camera
     CreateCamera(0, 0, 0, 100, 100)
-    CameraRange(0, 0.08, 5000) 
+    CameraRange(0, 0.08, 5000)
     AttachNodeObject(Robot\CameraNode, CameraID(0))
-    CameraLookAt(0, NodeX(Robot\ForwardNode) * 100, NodeY(Robot\CameraNode), NodeZ(Robot\ForwardNode) * 100) 
+    CameraLookAt(0, NodeX(Robot\ForwardNode) * 100, NodeY(Robot\CameraNode), NodeZ(Robot\ForwardNode) * 100)
     
     ;- Skybox
     SkyBox("desert07.jpg")
@@ -183,7 +183,7 @@ If InitEngine3D()
       
       If Engine3DStatus(#PB_Engine3D_CurrentFPS)
         Robot\elapsedTime = 40/Engine3DStatus(#PB_Engine3D_CurrentFPS)
-      EndIf  
+      EndIf
       
       HandleEntity(@Robot)
       
@@ -199,11 +199,11 @@ EndIf
 End
 
 Procedure OnGround(*Entity.s_Entity)
-  ProcedureReturn RayCollide(NodeX(*Entity\MainNode),  NodeY(*Entity\MainNode)+1, NodeZ(*Entity\MainNode), NodeX(*Entity\MainNode), NodeY(*Entity\MainNode)-3,  NodeZ(*Entity\MainNode)) 
+  ProcedureReturn RayCollide(NodeX(*Entity\MainNode),  NodeY(*Entity\MainNode)+1, NodeZ(*Entity\MainNode), NodeX(*Entity\MainNode), NodeY(*Entity\MainNode)-3,  NodeZ(*Entity\MainNode))
 EndProcedure
 
 Procedure HandleEntity(*Entity.s_Entity)
-  Protected.Vector3 Forward, Strafe, PosMain, PosDir, PosStrafe 
+  Protected.Vector3 Forward, Strafe, PosMain, PosDir, PosStrafe
   Protected.f Speed, Speed2, SpeedShoot, x, y
   Protected.f MouseX, MouseY
   Static Jump.f, MemJump.i, Rot.Vector3, Trans.Vector3, Clic
@@ -229,14 +229,14 @@ Procedure HandleEntity(*Entity.s_Entity)
       Rot\y + MouseX
       If NodePitch(\CameraNode) < 80 And MouseY > 0
         Rot\x + MouseY
-      ElseIf NodePitch(\CameraNode) > -80 And MouseY < 0 
+      ElseIf NodePitch(\CameraNode) > -80 And MouseY < 0
         Rot\x + MouseY
-      EndIf  
+      EndIf
      
-      If MouseButton(#PB_MouseButton_Left) 
+      If MouseButton(#PB_MouseButton_Left)
         If Clic = 0
           x = ScreenWidth / 2
-          y = ScreenHeight / 2 
+          y = ScreenHeight / 2
           If PointPick(0, x, y)
             Clic = 1
             Shoot = CreateEntity(#PB_Any, MeshID(3), MaterialID(3), BillboardGroupX(0), BillboardGroupY(0), BillboardGroupZ(0))
@@ -251,11 +251,11 @@ Procedure HandleEntity(*Entity.s_Entity)
       If MouseButton(#PB_MouseButton_Right)
         If \Fov > 20
           \Fov - 2 * \elapsedTime
-        EndIf  
+        EndIf
       Else
         If \Fov < 50
           \Fov + 2 * \elapsedTime
-        EndIf  
+        EndIf
       EndIf
       
     EndIf
@@ -264,7 +264,7 @@ Procedure HandleEntity(*Entity.s_Entity)
       If KeyboardPushed(\Key\Jump) And OnGround(*Entity)>-1
         Jump = 30
         MemJump = 1
-      EndIf 
+      EndIf
       
       Rot\x * 0.30
       Rot\y * 0.30
@@ -287,33 +287,33 @@ Procedure HandleEntity(*Entity.s_Entity)
       ElseIf KeyboardPushed(\Key\Right)
         Trans\x = Strafe\x * -Speed
         Trans\z = Strafe\z * -Speed
-      EndIf 
+      EndIf
       
       MoveEntity(\EntityBody, Trans\x, Trans\y, Trans\z)
       
       If OnGround(*Entity)>-1
         Jump = 0
-      ElseIf MemJump  
+      ElseIf MemJump
         Jump + 30
-        If Jump > 60 
+        If Jump > 60
           MemJump = 0
-        EndIf  
-      Else  
+        EndIf
+      Else
         Jump - 4 * \elapsedTime
-      EndIf  
+      EndIf
     EndIf
           
     
-    CameraFOV(0, \Fov)  
+    CameraFOV(0, \Fov)
        
     RotateEntity(\EntityBody,     0, Rot\y, 0, #PB_Relative)
     RotateNode(\CameraNode  , Rot\x,     0, 0, #PB_Relative)
     RotateNode(\HandNode    , Rot\x,     0, 0, #PB_Relative)
     
-    MoveNode(\MainNode, EntityX(\EntityBody), EntityY(\EntityBody) - \BodyOffsetY, EntityZ(\EntityBody), #PB_Absolute) 
-    RotateNode(\MainNode, 0, EntityYaw(\EntityBody), 0) 
+    MoveNode(\MainNode, EntityX(\EntityBody), EntityY(\EntityBody) - \BodyOffsetY, EntityZ(\EntityBody), #PB_Absolute)
+    RotateNode(\MainNode, 0, EntityYaw(\EntityBody), 0)
     
-  EndWith   
+  EndWith
 EndProcedure
 
 DataSection
@@ -321,4 +321,4 @@ DataSection
   Data.f -885, 300, 158
   Data.f -800, 60, -1580
   Data.f -710, 60, -1270
-EndDataSection  
+EndDataSection

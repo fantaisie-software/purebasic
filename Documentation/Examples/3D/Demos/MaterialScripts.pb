@@ -46,7 +46,7 @@ Procedure Norme3D(*V.f3,l.f=1)
   lm = l / lng3d(*v)
   *V\x * lm
   *V\y * lm
-  *V\z * lm 
+  *V\z * lm
 EndProcedure
 
 Procedure Pvectoriel3d(*r.f3,*p.f3,*q.f3)
@@ -60,7 +60,7 @@ Procedure defmatrot(*p.f3,w.f, orientation=0)
   Protected pp.f3, l.f
  
   vec3d(lo_p,*p\x,*p\y,*p\z)
-  l=lng3d(lo_p) 
+  l=lng3d(lo_p)
   Select orientation
     Case 0:vec3d(pp,Cos(w),0,Sin(w))
     Case 1:vec3d(pp,0,Cos(w),Sin(w))
@@ -165,14 +165,14 @@ Procedure blur2D(Array s.f(2),di.w, dj.w,pass=1,loop=1)
    
     If loop
         d=dx-dii/2:Dim lx(dx + 2*dii): For i = 0 To dx + 2*dii: lx(i) = (i+d) % (dx+1): Next
-        d=dx-dii/2:Dim ly(dy + 2*djj): For i = 0 To dy + 2*djj: ly(i) = (i+d) % (dy+1): Next   
+        d=dx-dii/2:Dim ly(dy + 2*djj): For i = 0 To dy + 2*djj: ly(i) = (i+d) % (dy+1): Next
     Else
         Dim lx(dx + 2*dii): For i = 0 To dx + 2*dii: lx(i) = limite(i-1-dii/2, 0, dx): Next
         Dim ly(dy + 2*djj): For i = 0 To dy + 2*djj: ly(i) = limite(i-1-djj/2, 0, dy): Next
-    EndIf 
+    EndIf
     For k=1 To pass
         Dim ty.f(dx)
-        For j = 0 To djj - 1: For i = 0 To dx: ty(i) + s(ly(j),i): Next: Next   
+        For j = 0 To djj - 1: For i = 0 To dx: ty(i) + s(ly(j),i): Next: Next
         For j = 0 To dy
             For i = 0 To dx: ty(i) + s(ly(djj+j),i) - s(ly(j),i): Next
             tx=0:For i = 0 To dii-1: tx+ty(lx(i)): Next
@@ -260,7 +260,7 @@ Procedure Noise2d(Array t.f(2), dx.w, dy.w,rnd, oinit.b, onb.b=16)
             i+dd:Wend
         j+d:Wend
         dd/2:onb-1
-    Wend     
+    Wend
 EndProcedure
 
 Procedure Finterpol(Array F.f(1),profil.s,dmin.f=1,dmax.f=0)
@@ -274,7 +274,7 @@ Procedure Finterpol(Array F.f(1),profil.s,dmin.f=1,dmax.f=0)
         t=StringField(profil,i+1,"/")
         s(i)\x=ValF(t)*rx
         s(i)\y=ValF(StringField(t,2,","))*(dmax-dmin)+dmin
-    Next 
+    Next
    
     For j=0 To n-1
         y=s(j)\y
@@ -352,7 +352,7 @@ Procedure textureArrayToNM(tex,Array t.f(2),amplitude.f)
             Norme3D(p,127)
             bmp(j,i)=RGBA(p\z+128,p\y+128,p\x+128,255)
         Next
-    Next 
+    Next
     n=CreateTexture(tex,dx,dy):If tex=-1:tex=n:EndIf
     StartDrawing(TextureOutput(tex)):CopyMemory(@bmp(0,0),DrawingBuffer(),dx*dy*4):StopDrawing()
     ProcedureReturn tex
@@ -365,7 +365,7 @@ Procedure texturediffuse(tex,dx,dy,rnd=0,f=0,lissage=0,grad.s="0,$000000/1,$ffff
   Protected Dim t.f(0,0)
  
   Noise2d(t(),dx,dy,rnd,f)
-  blur2D(t(),lissage,lissage,2)   
+  blur2D(t(),lissage,lissage,2)
   outline2d(t(),0,1,outline)
   ProcedureReturn textureArrayToColor(tex,t(),grad)
 EndProcedure
@@ -374,7 +374,7 @@ Procedure texturenormal(tex,dx,dy,rnd=0,f=0,lissage=0,relief.f=1,outline.s="0,0/
   Protected Dim t.f(0,0)
  
   Noise2d(t(),dx,dy,rnd,f)
-  blur2D(t(),lissage,lissage,2)   
+  blur2D(t(),lissage,lissage,2)
   outline2d(t(),0,1,outline)
   ProcedureReturn textureArraytoNM(tex,t(),relief)
 EndProcedure
@@ -393,7 +393,7 @@ Procedure mesh_node(mesh,size.f,radius.f,nbseg_length=128,nbseg_section=32,txrep
   Protected.f3 p,ap,d,s,ss
  
   Macro ligne(jj)
-    aj=jj/nbseg_length *2*#PI     
+    aj=jj/nbseg_length *2*#PI
     p\x = (Sin(aj)+2* Sin(2*aj))*size
     p\y = (Cos(aj)-2* Cos(2*aj))*size
     p\z = - 2*Sin(3*aj)*size
@@ -405,8 +405,8 @@ Procedure mesh_node(mesh,size.f,radius.f,nbseg_length=128,nbseg_section=32,txrep
     sub3d(d,p,ap):Norme3D(d,1)
     defmatrot(d,aj)
     For i=0 To nbseg_section
-      With t(i,j) 
-        ai=i*2*#PI/nbseg_section       
+      With t(i,j)
+        ai=i*2*#PI/nbseg_section
         s\y=Sin(ai)*radius
         s\z=Cos(ai)*radius
         calcmatrot(ss,s)
@@ -494,7 +494,7 @@ Procedure affiche3d()
     CameraReflection(1,0,EntityID(10))
     RenderWorld()
     DisplayTransparentSprite(0,8,8)
-    FlipBuffers()   
+    FlipBuffers()
   Until MouseButton(#PB_MouseButton_Left) Or KeyboardReleased(#PB_Key_Escape)
 EndProcedure
 

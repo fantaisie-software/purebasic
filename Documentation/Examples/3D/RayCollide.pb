@@ -24,7 +24,7 @@
 #RayCollidesWith   		= #COL_Sphere | #COL_Cylinder ; Ray dont collide with Box !
 
 Enumeration
-  #MainWindow 
+  #MainWindow
   #Editor
 EndEnumeration
 
@@ -33,7 +33,7 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 Define.f KeyX, KeyY, MouseX, MouseY, RatioX, RatioY, d = 200
 Define.f x1,y1,z1,x2,y2,z2
 
-Define.i Shoot 
+Define.i Shoot
 
 If InitEngine3D()
   
@@ -112,17 +112,17 @@ If InitEngine3D()
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf
@@ -134,7 +134,7 @@ If InitEngine3D()
           z1 = -4
           x2 = 0
           y2 = -2
-          z2 = 4    
+          z2 = 4
           CreateLine3D(3, x1,y1,z1,RGB(255,0,0),x2,y2,z2,RGB(255,0,0))
         ElseIf KeyboardReleased(#PB_Key_F4)
           ;-Check RayCollide with box
@@ -143,7 +143,7 @@ If InitEngine3D()
           z1 = -4
           x2 = 4
           y2 = -2
-          z2 = 4    
+          z2 = 4
           CreateLine3D(3, x1,y1,z1,RGB(255,0,0),x2,y2,z2,RGB(255,0,0))
         EndIf
         
@@ -155,7 +155,7 @@ If InitEngine3D()
         Text$ = "Nothing"
       Else
         Text$ = "Entity = " + Str(Entity)
-      EndIf	
+      EndIf
       
       SetGadgetText3D(#Editor, Text$)
       

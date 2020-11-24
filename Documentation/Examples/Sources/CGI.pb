@@ -18,7 +18,7 @@ EndIf
 
 WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Write the headers to inform the browser of the content format
 
-WriteCGIString("<html><title>PureBasic CGI</title><body>")  
+WriteCGIString("<html><title>PureBasic CGI</title><body>")
 
 Procedure WriteCGIConstant(Constant$)
   WriteCGIString(Constant$ + ": " + CGIVariable(Constant$)+"<br>")

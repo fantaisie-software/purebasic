@@ -11,7 +11,7 @@
 #CameraSpeed = 0.4
 
 Enumeration
-  #MainWindow 
+  #MainWindow
   #Editor
 EndEnumeration
 
@@ -55,7 +55,7 @@ If InitEngine3D()
     CreateEntity(2, MeshID(2), MaterialID(2),  0, 2, 0)
     CreateEntity(4, MeshID(3), MaterialID(4))
     
-    CreateEntity(3, MeshID(1), MaterialID(3))  
+    CreateEntity(3, MeshID(1), MaterialID(3))
     ScaleEntity(3, 0.1, 0.1, 0.1)
     
     ; Camera
@@ -89,7 +89,7 @@ If InitEngine3D()
         
         InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left))
    
-        If MouseButton(#PB_MouseButton_Left) 
+        If MouseButton(#PB_MouseButton_Left)
           Entity = MousePick(0, MouseX(), MouseY())
           If Entity>=0 And Entity<>3
             MoveEntity(3, PickX(), PickY(), PickZ(), #PB_Absolute)
@@ -101,17 +101,17 @@ If InitEngine3D()
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf

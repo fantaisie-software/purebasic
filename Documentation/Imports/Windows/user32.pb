@@ -492,6 +492,6 @@ Import "user32.lib"
        Api(GetRawInputData, (hRawInput, uiCommand.l, *pData, *pcbSize, cbSizeHeader.l), 20)
        Api(GetRawInputDeviceInfo, (hDevice, uiCommand.l, *pData, *pcbSize), 16)
        Api(GetRawInputDeviceList, (*pRawInputDeviceList, *puiNumDevices, cbSize.l), 12)
-       Api(GetRegisteredRawInputDevices, (*pRawInputDevices, *puiNumDevices, cbSize.l), 12) 
+       Api(GetRegisteredRawInputDevices, (*pRawInputDevices, *puiNumDevices, cbSize.l), 12)
        Api(RegisterRawInputDevices, (*pRawInputDevices, uiNumDevices.l, cbSize.l), 12)
 EndImport

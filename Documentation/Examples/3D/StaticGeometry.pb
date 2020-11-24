@@ -55,7 +55,7 @@ If InitEngine3D()
 
     For z = -10 To 10
       For x = -10 To 10
-        AddStaticGeometryEntity(0, EntityID(0), x * 1000, 0, z * 1000, 1000,  10, 1000, 0, 0, 0)        
+        AddStaticGeometryEntity(0, EntityID(0), x * 1000, 0, z * 1000, 1000,  10, 1000, 0, 0, 0)
         Height.f = 200 + Random(800)
         AddStaticGeometryEntity(0, EntityID(0), x * 1000, Height/2, z * 1000,  200, Height, 200, 0, Random(360), 0)
       Next
@@ -85,23 +85,23 @@ If InitEngine3D()
       
       If ExamineKeyboard()
               
-        If KeyboardPushed(#PB_Key_Up)    
+        If KeyboardPushed(#PB_Key_Up)
           MoveCamera(0,  0, 0, -2 * Boost)
         ElseIf KeyboardPushed(#PB_Key_Down)
           MoveCamera(0,  0, 0,  2 * Boost)
-        EndIf 
+        EndIf
   
-        If KeyboardPushed(#PB_Key_Left)  
-          MoveCamera(0, -2 * Boost, 0, 0) 
+        If KeyboardPushed(#PB_Key_Left)
+          MoveCamera(0, -2 * Boost, 0, 0)
         ElseIf KeyboardPushed(#PB_Key_Right)
           MoveCamera(0,  2 * Boost, 0, 0)
-        EndIf 
+        EndIf
   
       EndIf
            
       ; Sun
       nx = 10000 * Cos(ElapsedMilliseconds() / 2500)
-      nz = 10000 * Sin(ElapsedMilliseconds() / 2500)   
+      nz = 10000 * Sin(ElapsedMilliseconds() / 2500)
       MoveNode(0, nx, 3000, nz, #PB_Absolute)
       
       RotateCamera(0, Pitch, Yaw, 0, #PB_Relative)

@@ -1,32 +1,32 @@
 ;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - Facial animation 
+;   PureBasic - Facial animation
 ;
 ;    (c) Fantaisie Software
 ;
 ; ------------------------------------------------------------
 ;
 ;Adapted from facial animation (Ogre SDK)
-; 	
+;
 ;["Title"] = "Facial Animation"
 ;["Description"] = "A demonstration of the facial animation feature, using pose animation."
 ;["Help"] = "Use the checkbox to enable/disable manual animation. "
 ;"When manual animation is enabled, use the sliders to adjust each pose's influence."
-; 	
+;
 
 Enumeration
   #CheckBox
   #FrameExpressions
   #FrameShapes
-EndEnumeration  
+EndEnumeration
 
 #Mesh = 0
 #Entity = 0
 
-Global mPlayAnimation, Track = 4, KeyFrame = 0 
+Global mPlayAnimation, Track = 4, KeyFrame = 0
 Global Animation$ = "Manual"
-Define.f TimeSinceLastFrame 
+Define.f TimeSinceLastFrame
 
 Declare SetupContent()
 Declare setupControls()
@@ -62,7 +62,7 @@ If InitEngine3D()
   
   Repeat
     
-    Repeat   
+    Repeat
       Event = WindowEvent()
       
       If Event = #PB_Event_CloseWindow  ; If the user has pressed on the close button
@@ -74,8 +74,8 @@ If InitEngine3D()
             checkBoxToggled()
           Default
             sliderMoved(Gadget)
-        EndSelect    
-      EndIf  
+        EndSelect
+      EndIf
       
     Until Event = 0
     
@@ -93,7 +93,7 @@ End
 Procedure SetupContent()
   
   ; setup some basic lighting For our scene
-  AmbientColor(RGB(128, 128, 128))		
+  AmbientColor(RGB(128, 128, 128))
   CreateLight(0, RGB(255, 255, 255), 40, 60, 50)
   CreateLight(1, RGB(255, 255, 255), -120, -80, -50)
   
@@ -106,9 +106,9 @@ Procedure SetupContent()
   CreateVertexPoseKeyFrame(#Mesh, Animation$, Track, KeyFrame)
   
   ; create pose references For the first 15 poses
-  For i = 0 To 14 
+  For i = 0 To 14
     AddVertexPoseReference(#Mesh, Animation$, Track, KeyFrame, i, 0)
-  Next 
+  Next
   
   ; create a head entity from the mesh
   CreateEntity(#Entity, MeshID(#Mesh), #PB_Material_None, 0, -30, 0)
@@ -139,13 +139,13 @@ Procedure setupControls()
       Expressions()\slider = TrackBarGadget(#PB_Any , 870, 80 + i * 25, 100, 20, 0, 10, 1)
       Expressions()\text   = TextGadget(#PB_Any, 820, 80 + i * 25, 50, 20, Mid(poseName$, 12))
       SetGadgetData(Expressions()\slider, i)
-    Else 
+    Else
       AddElement(MouthShapes())
       MouthShapes()\slider = TrackBarGadget(#PB_Any, 870, 140 + i * 25, 100, 20, 0, 10, 1)
       MouthShapes()\text   = TextGadget(#PB_Any, 820, 140 + i * 25, 50, 20, Left(poseName$, 1))
       SetGadgetData(MouthShapes()\slider, i)
-    EndIf  
-  Next 
+    EndIf
+  Next
   
   ; checkbox To switch between automatic animation And manual animation.
   CheckBoxGadget(#CheckBox, 810, 10, 180, 25, "Manual Animation")
@@ -157,38 +157,38 @@ Procedure checkBoxToggled()
   mPlayAnimation = 1 - GetGadgetState(#CheckBox)
   
   ; toggle animation states and frameGadget
-  If mPlayAnimation 
+  If mPlayAnimation
     StartEntityAnimation(#Entity, "Speak")
     StopEntityAnimation(#Entity, "Manual")
     HideGadget(#FrameExpressions, 1)
     HideGadget(#FrameShapes, 1)
   Else
     StopEntityAnimation(#Entity, "Speak")
-    StartEntityAnimation(#Entity, "Manual")  
+    StartEntityAnimation(#Entity, "Manual")
     HideGadget(#FrameExpressions, 0)
     HideGadget(#FrameShapes, 0)
   EndIf
   
   ; toggle expression controls
   ForEach Expressions()
-    If mPlayAnimation 
+    If mPlayAnimation
       HideGadget(Expressions()\text, 1)
       HideGadget(Expressions()\slider, 1)
-    Else 
+    Else
       HideGadget(Expressions()\text, 0)
       HideGadget(Expressions()\slider, 0)
-    EndIf  
-  Next 
+    EndIf
+  Next
   
   ; toggle mouth shape controls
   ForEach MouthShapes()
-    If mPlayAnimation 
+    If mPlayAnimation
       HideGadget(MouthShapes()\text, 1)
       HideGadget(MouthShapes()\slider, 1)
-    Else 
+    Else
       HideGadget(MouthShapes()\text, 0)
       HideGadget(MouthShapes()\slider, 0)
-    EndIf  
+    EndIf
   Next
 EndProcedure
 

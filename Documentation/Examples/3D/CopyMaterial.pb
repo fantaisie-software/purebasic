@@ -27,14 +27,14 @@ If InitEngine3D()
     CreateSphere(0, 40, 50, 50)
     CreateEntity(0,MeshID(0), MaterialID(0), -60,   0,  0)
     
-    ; Copy the Material 
+    ; Copy the Material
     CopyMaterial(0, 1)
     
-    ; Create a cube with the new material 
+    ; Create a cube with the new material
     CreateCube(1, 40)
     CreateEntity(1, MeshID(1), MaterialID(1), 60, 0, 0)
         
-    ; Camera 
+    ; Camera
     CreateCamera(0, 0, 0, 100, 100)
     CameraBackColor(0, $333333)
     MoveCamera(0,0,100,300, #PB_Absolute)

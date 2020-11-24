@@ -91,14 +91,14 @@
   
   Debug seems_utf8(@"Hélé", 4)  ; displays #false because it's an unicode-string
   Debug seems_utf8(@unicode, 4) ; displays #false because it's an unicode-string
-  Debug seems_utf8(*Mem0, 4)    ; displays #true because it's an UTF8-string 
-  Debug seems_utf8(*Mem1, 4)    ; displays #false because it's an ASCII-string 
-  Debug seems_utf8(*Mem2, 4)    ; displays #true because it's an UTF8-string 
+  Debug seems_utf8(*Mem0, 4)    ; displays #true because it's an UTF8-string
+  Debug seems_utf8(*Mem1, 4)    ; displays #false because it's an ASCII-string
+  Debug seems_utf8(*Mem2, 4)    ; displays #true because it's an UTF8-string
   
   PokeS(*Mem0,"Hele", 4, #PB_UTF8) ; Fills a buffer with an UTF8-String
   Debug seems_utf8(*Mem0, 4)       ; displays #false because the buffer is filled with ascii characters only (0 to $80=127)
-                                     ; then it's not possible to discriminate an ascii-string of an utf8-string 
+                                     ; then it's not possible to discriminate an ascii-string of an utf8-string
   
   PokeS(*Mem0,"Hé Hele", 7, #PB_UTF8) ; Fills a buffer with an UTF8-String
-  Debug seems_utf8(*Mem0, 7)          ; displays #true because because it's an UTF8-string   
+  Debug seems_utf8(*Mem0, 7)          ; displays #true because because it's an UTF8-string
     

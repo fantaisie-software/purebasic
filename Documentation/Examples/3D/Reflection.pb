@@ -46,7 +46,7 @@ If InitEngine3D()
     CreateLight(0,$ffffff, 10000, 5000, 2000)
     AmbientColor($888888)
     
-    CreateCamera(1,0,0,100,100)  
+    CreateCamera(1,0,0,100,100)
     CreateRenderTexture(0,CameraID(1),ScreenWidth()/1,ScreenHeight()/1)
     CreateMaterial(1,TextureID(0))
     SetMaterialAttribute(1,#PB_Material_ProjectiveTexturing,1)
@@ -86,11 +86,11 @@ If InitEngine3D()
       MoveEntity(1,si*dp,-co*dp,0,0)
       EntityDirection(1, si, co, 0, #PB_World, #PB_UNIT_Y)
       
-      CameraReflection(1,0,EntityID(1))  
+      CameraReflection(1,0,EntityID(1))
       RenderWorld()
       FlipBuffers()
-    Until KeyboardPushed(#PB_Key_Escape)   
-  EndIf 
+    Until KeyboardPushed(#PB_Key_Escape)
+  EndIf
 Else
   MessageRequester("Error","Can't initialize engine3D")
 EndIf

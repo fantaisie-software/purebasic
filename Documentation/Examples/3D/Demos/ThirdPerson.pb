@@ -1,12 +1,12 @@
 ;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - Third Person 
+;   PureBasic - Third Person
 ;
 ;    (c) Fantaisie Software
 ;
 ; ------------------------------------------------------------
-; 
+;
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
@@ -33,12 +33,12 @@ EndStructure
 Structure s_Entity
   Entity.i
   EntityBody.i
-  BodyOffsetY.f 
+  BodyOffsetY.f
   elapsedTime.f
   Key.s_Key
-  MainNode.i  
+  MainNode.i
   SightNode.i
-  CameraNode.i  
+  CameraNode.i
   ForwardNode.i
   StrafeNode.i
 EndStructure
@@ -46,14 +46,14 @@ EndStructure
 Structure s_Camera
   Camera.i
   Tightness.f
-  CameraNode.i 
+  CameraNode.i
   TargetNode.i
-EndStructure    
+EndStructure
 
 Macro GetNodePosition(Position, Node)
-  Position\x = NodeX(Node)  
-  Position\y = NodeY(Node)  
-  Position\z = NodeZ(Node)  
+  Position\x = NodeX(Node)
+  Position\y = NodeY(Node)
+  Position\z = NodeZ(Node)
 EndMacro
 
 Macro SubVector3(V, V1, V2)
@@ -108,7 +108,7 @@ If InitEngine3D()
     CreateMaterial(3, LoadTexture(3, "Wood.jpg"))
     GetScriptMaterial(4, "Scene/GroundBlend")
     
-    MaterialFilteringMode(1, #PB_Material_Anisotropic, 8) 
+    MaterialFilteringMode(1, #PB_Material_Anisotropic, 8)
     
     ;Robot
     LoadMesh   (0, "robot.mesh")
@@ -124,14 +124,14 @@ If InitEngine3D()
     CreateEntity(2, MeshID(2), MaterialID(1), 0, 0, 0)
        
     ;Body
-    CreateEntityBody(1, #PB_Entity_CapsuleBody, 1, 0, 0) 
+    CreateEntityBody(1, #PB_Entity_CapsuleBody, 1, 0, 0)
     CreateEntityBody(2, #PB_Entity_StaticBody)
     
     ;Add some statics and dynamics objects
     CreateCube(3, 1)
-    AddObjects()  
+    AddObjects()
     
-    ;Add some stairs 
+    ;Add some stairs
     MakeColimacon(120, 0, 120, 130, 7, 48, 15)
     MakeStair(360, 0, 220, 130, 11, 48, 15)
     
@@ -149,7 +149,7 @@ If InitEngine3D()
     With Robot
       \Entity = 0
       \EntityBody = 1
-      \BodyOffsetY = 43 
+      \BodyOffsetY = 43
       
       \Key\Down        = #PB_Key_Down
       \Key\Left        = #PB_Key_Left
@@ -160,30 +160,30 @@ If InitEngine3D()
       \Key\Jump        = #PB_Key_Space
      
       \MainNode    = CreateNode(#PB_Any) ; Entity position
-      \SightNode   = CreateNode(#PB_Any,  120,  20,  0) ; For cameraLookAt 
+      \SightNode   = CreateNode(#PB_Any,  120,  20,  0) ; For cameraLookAt
       \CameraNode  = CreateNode(#PB_Any, -140, 100,  0) ; Camera position
-      \ForwardNode = CreateNode(#PB_Any,    1,   0,  0) ; Direction normalized 
-      \StrafeNode  = CreateNode(#PB_Any,    0,   0, -1) ; Direction normalized 
+      \ForwardNode = CreateNode(#PB_Any,    1,   0,  0) ; Direction normalized
+      \StrafeNode  = CreateNode(#PB_Any,    0,   0, -1) ; Direction normalized
       
       AttachNodeObject(\MainNode, NodeID(\SightNode))
-      AttachNodeObject(\MainNode, NodeID(\CameraNode))   
-      AttachNodeObject(\MainNode, NodeID(\ForwardNode))     
-      AttachNodeObject(\MainNode, NodeID(\StrafeNode))    
+      AttachNodeObject(\MainNode, NodeID(\CameraNode))
+      AttachNodeObject(\MainNode, NodeID(\ForwardNode))
+      AttachNodeObject(\MainNode, NodeID(\StrafeNode))
       AttachNodeObject(\MainNode, EntityID(\Entity))
     EndWith
     
     ;-Camera
     CreateCamera(0, 0, 0, 100, 100)
-    With Camera  
+    With Camera
       \Camera = 0
       \Tightness = 0.035
       ; Camera use 2 nodes
       \CameraNode = CreateNode(#PB_Any, -3000, 700, 0) ; Camera position
-      \TargetNode = CreateNode(#PB_Any) ; For cameraLookAt 
+      \TargetNode = CreateNode(#PB_Any) ; For cameraLookAt
       AttachNodeObject(\CameraNode, CameraID(\Camera))
-    EndWith  
+    EndWith
     
-    ;-Main loop    
+    ;-Main loop
     ;
     Repeat
       Screen3DEvents()
@@ -207,8 +207,8 @@ End
 
 Procedure OnGround(*Entity.s_Entity)
   With *Entity
-    ProcedureReturn RayCollide(NodeX(\MainNode),  NodeY(\MainNode)+3, NodeZ(\MainNode), NodeX(\MainNode), NodeY(\MainNode),  NodeZ(\MainNode)) 
-  EndWith  
+    ProcedureReturn RayCollide(NodeX(\MainNode),  NodeY(\MainNode)+3, NodeZ(\MainNode), NodeX(\MainNode), NodeY(\MainNode),  NodeZ(\MainNode))
+  EndWith
 EndProcedure
 
 Procedure IsStair(*Entity.s_Entity)
@@ -217,14 +217,14 @@ Procedure IsStair(*Entity.s_Entity)
     x = (NodeX(\ForwardNode) - NodeX(\MainNode))*30
     y = (NodeY(\ForwardNode) - NodeY(\MainNode))*30
     z = (NodeZ(\ForwardNode) - NodeZ(\MainNode))*30
-    ;CreateLine3D(20, NodeX(\MainNode), NodeY(\MainNode)+20, NodeZ(\MainNode), $FFFF, NodeX(\MainNode)+x, NodeY(\MainNode)+y+20,  NodeZ(\MainNode)+z, $FFFF) 
-    Ray1 = RayCollide(NodeX(\MainNode), NodeY(\MainNode)+10, NodeZ(\MainNode),  NodeX(\MainNode)+x, NodeY(\MainNode)+y+10,  NodeZ(\MainNode)+z) 
-    Ray2 = RayCollide(NodeX(\MainNode), NodeY(\MainNode)+20, NodeZ(\MainNode),  NodeX(\MainNode)+x, NodeY(\MainNode)+y+20,  NodeZ(\MainNode)+z) 
+    ;CreateLine3D(20, NodeX(\MainNode), NodeY(\MainNode)+20, NodeZ(\MainNode), $FFFF, NodeX(\MainNode)+x, NodeY(\MainNode)+y+20,  NodeZ(\MainNode)+z, $FFFF)
+    Ray1 = RayCollide(NodeX(\MainNode), NodeY(\MainNode)+10, NodeZ(\MainNode),  NodeX(\MainNode)+x, NodeY(\MainNode)+y+10,  NodeZ(\MainNode)+z)
+    Ray2 = RayCollide(NodeX(\MainNode), NodeY(\MainNode)+20, NodeZ(\MainNode),  NodeX(\MainNode)+x, NodeY(\MainNode)+y+20,  NodeZ(\MainNode)+z)
     If Ray1>-1 And Ray2=-1
       ProcedureReturn 1
     EndIf
     ProcedureReturn 0
-  EndWith  
+  EndWith
 EndProcedure
 
 Procedure HandleEntity(*Entity.s_Entity)
@@ -239,7 +239,7 @@ Procedure HandleEntity(*Entity.s_Entity)
     SubVector3(Forward, PosDir, PosMain)
     SubVector3(Strafe, PosStrafe, PosMain)
     
-    Speed = #PlayerSpeed * \elapsedTime 
+    Speed = #PlayerSpeed * \elapsedTime
     Speed2 = Speed / 2
     
     If ExamineKeyboard()
@@ -255,7 +255,7 @@ Procedure HandleEntity(*Entity.s_Entity)
       If KeyboardPushed(\Key\Jump) And OnGround(*Entity)>-1
         Jump = 4
         MemJump = 1
-      EndIf  
+      EndIf
       
       Rot\x * 0.30
       Rot\y * 0.30
@@ -265,7 +265,7 @@ Procedure HandleEntity(*Entity.s_Entity)
       Trans\z * 0.20
       
       If KeyboardPushed(\Key\Up)
-        Trans\x + Forward\x * Speed 
+        Trans\x + Forward\x * Speed
         Trans\z + Forward\z * Speed
       ElseIf KeyboardPushed(\Key\Down)
         Trans\x + Forward\x * -Speed2
@@ -276,7 +276,7 @@ Procedure HandleEntity(*Entity.s_Entity)
         Rot\y + 2 * \elapsedTime
       ElseIf KeyboardPushed(\Key\Right)
         Rot\y - 2 * \elapsedTime
-      EndIf 
+      EndIf
       
       If KeyboardPushed(\Key\StrafeLeft)
         Trans\x + Strafe\x * Speed2
@@ -284,36 +284,36 @@ Procedure HandleEntity(*Entity.s_Entity)
       ElseIf KeyboardPushed(\Key\StrafeRight)
         Trans\x + Strafe\x * -Speed2
         Trans\z + Strafe\z * -Speed2
-      EndIf 
+      EndIf
       
-      If OnGround(*Entity) > -1 
+      If OnGround(*Entity) > -1
         Jump = 0
-      ElseIf MemJump  
+      ElseIf MemJump
         Jump + 20
-        If Jump > 80 
+        If Jump > 80
           MemJump = 0
-        EndIf  
-      Else  
-        Jump - 9 
-      EndIf  
+        EndIf
+      Else
+        Jump - 9
+      EndIf
       
       If IsStair(*Entity) And Jump = 0 And ( Abs(Trans\x)>=Speed / 2 Or Abs(Trans\z)>=Speed / 2)
-        Jump = 22 ; Or more 
-      EndIf 
+        Jump = 22 ; Or more
+      EndIf
       
     EndIf
     
     MoveEntity  (\EntityBody, Trans\x, Trans\y, Trans\z)
-    RotateEntity(\EntityBody, 0, Rot\y, 0, #PB_Relative)   
+    RotateEntity(\EntityBody, 0, Rot\y, 0, #PB_Relative)
     
-    MoveNode(\MainNode, EntityX(\EntityBody), EntityY(\EntityBody)-\BodyOffsetY, EntityZ(\EntityBody), #PB_Absolute) 
-    RotateNode(\MainNode, 0, EntityYaw(\EntityBody), 0) 
-  EndWith   
+    MoveNode(\MainNode, EntityX(\EntityBody), EntityY(\EntityBody)-\BodyOffsetY, EntityZ(\EntityBody), #PB_Absolute)
+    RotateNode(\MainNode, 0, EntityYaw(\EntityBody), 0)
+  EndWith
 EndProcedure
 
 
 Procedure CameraTrack(*Camera.s_Camera, *Entity.s_Entity)
-   Protected.Vector3 CameraPosition, TargetPosition 
+   Protected.Vector3 CameraPosition, TargetPosition
    Protected.f x, y, z
 
    GetNodePosition(CameraPosition, *Entity\CameraNode)
@@ -350,12 +350,12 @@ Procedure MakeColimacon(PX.f, PY.f, PZ.f, Length.i, Height.i, Width.i, Stair.i)
     RotateEntity(Ent, 0, Angle, 0)
     CreateEntityBody(Ent, #PB_Entity_StaticBody)
     Angle = Mod(Angle + 30, 360)
-  Next 
+  Next
 EndProcedure
 
 Procedure MakeStair(PX.f, PY.f, PZ.f, Length.i, Height.i, Width.i, Stair.i)
   Protected.i a, Ent, Nb
-  Protected.f Size, SizeD, Delta, H  
+  Protected.f Size, SizeD, Delta, H
 
   For a = 1 To Stair
     Ent = CreateEntity(#PB_Any, MeshID(3), MaterialID(2))
@@ -373,52 +373,52 @@ Procedure MakeStair(PX.f, PY.f, PZ.f, Length.i, Height.i, Width.i, Stair.i)
   ;Add Pyramid
   Nb = 7
   Delta = 0.01
-  Size = 20 
-  SizeD = Size + 0.5 
+  Size = 20
+  SizeD = Size + 0.5
   H = EntityY(Ent) + Height/2 + Delta
   For j = 0 To Nb
     For i= 0 To Nb-j
       Ent = CreateEntity(#PB_Any, MeshID(3), MaterialID(4))
-      ScaleEntity(Ent, Size, Size, Size) 
+      ScaleEntity(Ent, Size, Size, Size)
       CreateEntityBody(Ent, #PB_Entity_BoxBody, 0.5)
       MoveEntity(Ent, 340 +  j * (SizeD / 2) + i * SizeD, H + (SizeD / 2) + (j * SizeD), 890, #PB_Absolute)
-    Next 
-  Next 
+    Next
+  Next
 EndProcedure
 
 Procedure AddObjects()
   Protected Size.Vector3
   Protected.f x, z
-  Protected.i Ent, i  
+  Protected.i Ent, i
   
   For i = 0 To 100
     If Random(1)
       Size\x = Random(60) + 30
       Size\y = Random(60) + 30
-      Size\z = Random(60) + 30     
+      Size\z = Random(60) + 30
       Volume.f = Size\x * Size\y * Size\z
       Ent=CreateEntity(#PB_Any, MeshID(3), MaterialID(3), Random(5000)-2600, 100, Random(5000)-2500)
       RotateEntity(Ent, 0, Random(360), 0)
-      ScaleEntity(ent, Size\x, Size\y, Size\z)        
+      ScaleEntity(ent, Size\x, Size\y, Size\z)
       CreateEntityBody(Ent, #PB_Entity_BoxBody, (Volume / 7000), 0, 2)
     Else
       Size\x = Random( 60) + 30
       Size\y = Random(160) + 30
-      Size\z = Random( 60) + 30     
+      Size\z = Random( 60) + 30
       
       Repeat
         x = Random(5000)-2500
-      Until x < -400 Or x > 400  
+      Until x < -400 Or x > 400
       
       Repeat
         z = Random(5000)-2500
-      Until z < -400 Or z > 400  
+      Until z < -400 Or z > 400
       
       Ent=CreateEntity(#PB_Any, MeshID(3), MaterialID(2), x, Size\y / 2 + Random(90) , z)
       RotateEntity(Ent, 0, Random(360), 0)
       ScaleEntity(Ent, Size\x, Size\y, Size\z)
-      CreateEntityBody(Ent, #PB_Entity_StaticBody)   
+      CreateEntityBody(Ent, #PB_Entity_StaticBody)
     EndIf
     
-  Next 
-EndProcedure    
+  Next
+EndProcedure

@@ -10,7 +10,7 @@
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
-Define.f KeyX, KeyY, MouseX, MouseY, SpriteX, SpriteY 
+Define.f KeyX, KeyY, MouseX, MouseY, SpriteX, SpriteY
 
 LoadFont(0, "Verdana", 24, #PB_Font_Bold)
 
@@ -85,7 +85,7 @@ If InitEngine3D()
     CreateCamera(1, 50,  0, 50, 50, #Mask2); Entity 2 visible
     MoveCamera(1, 0, 120, 500, #PB_Absolute)
     
-    CreateCamera(2,  0, 50, 50, 50, #Mask3); Entity 3 visible 
+    CreateCamera(2,  0, 50, 50, 50, #Mask3); Entity 3 visible
     MoveCamera(2, 0, 120, 500, #PB_Absolute)
     
     CreateCamera(3, 50, 50, 50, 50, #Mask1 | #Mask3) ; entities 1 & 3 visibles
@@ -105,7 +105,7 @@ If InitEngine3D()
    
       ExamineKeyboard()
        
-      RenderWorld() 
+      RenderWorld()
       FlipBuffers()
       
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1

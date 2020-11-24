@@ -1,7 +1,7 @@
 ;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - Mesh Manual - SuperQuadratics 
+;   PureBasic - Mesh Manual - SuperQuadratics
 ;
 ;    (c) Fantaisie Software
 ;
@@ -11,7 +11,7 @@
 ;http://lrv.fri.uni-lj.si/~franc/SRSbook/geometry.pdf
 
 ; Use [F2]/[F3] - Change Render Material
-; Use cursor to change SuperQuadratics 
+; Use cursor to change SuperQuadratics
 
 #Color = #True ; #False white mesh / #True color mesh
 
@@ -22,7 +22,7 @@ Global Epsilon2.f = 1
 Global Epsilon1.f = 1
 
 #Scale = 20
-#Delta = 1.0 / 10.0 
+#Delta = 1.0 / 10.0
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
@@ -46,14 +46,14 @@ Macro Text3D(No, Texte, Color, Alignment, x, y, z, Sx, Sy)
   ScaleText3D(No, Sx, Sy, 1)
 EndMacro
 
-;Convert 2D to 3D 
+;Convert 2D to 3D
 Macro Convert2DTo3D(Camera, x, y, d)
   If PointPick(Camera, x, y)
     sx = CameraX(Camera) + PickX() * d
     sy = CameraY(Camera) + PickY() * d
-    sz = CameraZ(Camera) + PickZ() * d 
-  EndIf  
-EndMacro 
+    sz = CameraZ(Camera) + PickZ() * d
+  EndIf
+EndMacro
 
 If InitEngine3D()
   
@@ -90,20 +90,20 @@ If InitEngine3D()
     AmbientColor(RGB(90, 90, 90))
     
     Convert2DTo3D(0, CameraViewWidth(0)-140, 60, Depth)
-    Text3D(0, "               ", RGBA(255, 255, 0, 255), 
+    Text3D(0, "               ", RGBA(255, 255, 0, 255),
            #PB_Text3D_Left | #PB_Text3D_Bottom, sx, sy, sz, 10, 10)
     
-    Convert2DTo3D(0, CameraViewWidth(0)/2, CameraViewHeight(0)-60, Depth)    
-    Text3D(1, "SuperQuadratics", RGBA(  0, 255, 0, 255), 
+    Convert2DTo3D(0, CameraViewWidth(0)/2, CameraViewHeight(0)-60, Depth)
+    Text3D(1, "SuperQuadratics", RGBA(  0, 255, 0, 255),
            #PB_Text3D_HorizontallyCentered | #PB_Text3D_VerticallyCentered, sx, sy, sz, 10, 10)
     
-    Convert2DTo3D(0, 40, 50, Depth) 
-    Text3D(3, "Use cursor to change SuperQuadratics  ", RGBA(255, 255, 255, 255), 
-           #PB_Text3D_Left | #PB_Text3D_VerticallyCentered, sx, sy, sz, 6, 6) 
+    Convert2DTo3D(0, 40, 50, Depth)
+    Text3D(3, "Use cursor to change SuperQuadratics  ", RGBA(255, 255, 255, 255),
+           #PB_Text3D_Left | #PB_Text3D_VerticallyCentered, sx, sy, sz, 6, 6)
     
-    Convert2DTo3D(0, 40, 100, Depth)     
-    Text3D(2, "Use [F2]/[F3] - Change Render Material", RGBA(255, 255, 255, 255), 
-           #PB_Text3D_Left | #PB_Text3D_VerticallyCentered, sx, sy, sz, 6, 6)  
+    Convert2DTo3D(0, 40, 100, Depth)
+    Text3D(2, "Use [F2]/[F3] - Change Render Material", RGBA(255, 255, 255, 255),
+           #PB_Text3D_Left | #PB_Text3D_VerticallyCentered, sx, sy, sz, 6, 6)
     
     Repeat
       Screen3DEvents()
@@ -124,13 +124,13 @@ If InitEngine3D()
         If KeyboardPushed(#PB_Key_Right)
           Epsilon2 + 0.01
         ElseIf KeyboardPushed(#PB_Key_Left) And Epsilon2 > 0.01
-          Epsilon2 - 0.01 
+          Epsilon2 - 0.01
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
           Epsilon1 + 0.01
         ElseIf KeyboardPushed(#PB_Key_Down) And Epsilon1 > 0.01
-          Epsilon1 - 0.01 
+          Epsilon1 - 0.01
         EndIf
         
       EndIf
@@ -143,7 +143,7 @@ If InitEngine3D()
       
       RenderWorld()
       
-      Screen3DStats()      
+      Screen3DStats()
       
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
@@ -168,7 +168,7 @@ Macro Vertex(T, P, C)
   ;MeshVertexNormal(nx, ny, nz)
   If #Color
     MeshVertexColor(RGB(Abs(x*C),Abs(y*C), Abs(z*C)))
-  EndIf  
+  EndIf
 EndMacro
 
 Macro SuperCos(Angle, Epsilon)
@@ -177,30 +177,30 @@ EndMacro
 
 Macro SuperSin(Angle, Epsilon)
   (Pow(Abs(Sin(Angle)), Epsilon) * Sign(Sin(Angle)))
-EndMacro 
+EndMacro
 
 Procedure.d CalculateX(Theta.d, Phi.d)
-  ProcedureReturn SuperCos(Phi, Epsilon1) * SuperCos(Theta, Epsilon2)  
+  ProcedureReturn SuperCos(Phi, Epsilon1) * SuperCos(Theta, Epsilon2)
 EndProcedure
 
 Procedure.d CalculateY(Theta.d, Phi.d)
-  ProcedureReturn SuperCos(Phi, Epsilon1) * SuperSin(Theta, Epsilon2) 
+  ProcedureReturn SuperCos(Phi, Epsilon1) * SuperSin(Theta, Epsilon2)
 EndProcedure
 
 Procedure.d CalculateZ(Phi.d)
-  ProcedureReturn SuperSin(Phi, Epsilon1) 
+  ProcedureReturn SuperSin(Phi, Epsilon1)
 EndProcedure
 
 Procedure.d CalculateNX(Theta.d, Phi.d)
-  ProcedureReturn SuperCos(Phi, 2.0-Epsilon1) * SuperCos(Theta, 2.0-Epsilon2)  
+  ProcedureReturn SuperCos(Phi, 2.0-Epsilon1) * SuperCos(Theta, 2.0-Epsilon2)
 EndProcedure
 
 Procedure.d CalculateNY(Theta.d, Phi.d)
-  ProcedureReturn SuperCos(Phi, 2.0-Epsilon1) * SuperSin(Theta, 2.0-Epsilon2) 
+  ProcedureReturn SuperCos(Phi, 2.0-Epsilon1) * SuperSin(Theta, 2.0-Epsilon2)
 EndProcedure
 
 Procedure.d CalculateNZ(Phi.d)
-  ProcedureReturn SuperSin(Phi, 2.0-Epsilon1) 
+  ProcedureReturn SuperSin(Phi, 2.0-Epsilon1)
 EndProcedure
 
 Procedure CreateSuperQuadratics()

@@ -26,7 +26,7 @@ If InitEngine3D()
   
   If Screen3DRequester()
     
-    AmbientColor(RGB(200, 200, 200))  
+    AmbientColor(RGB(200, 200, 200))
  
     CreateMaterial(0, LoadTexture(0, "r2skin.jpg"))
     CreateEntity(0, LoadMesh(0, "robot.mesh"), MaterialID(0))
@@ -53,18 +53,18 @@ If InitEngine3D()
       If x<=0  Or x>=(100-s)
       	ps=-ps
       	px = -px
-      EndIf	
+      EndIf
       
       y + py
       If y<=0  Or y>=(100-s)
       	ps=-ps
       	py = -py
-      EndIf	
+      EndIf
       
 			s	+ ps
       If s<=1 Or s>=100
       	ps = -ps
-      EndIf	
+      EndIf
       
       ResizeCamera(1,x,y,s,s)
 

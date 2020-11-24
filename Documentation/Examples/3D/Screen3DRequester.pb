@@ -90,10 +90,10 @@ Procedure Screen3DRequester()
           If ScreenX = Width And ScreenY = Height And ScreenD = Depth And ScreenF = RefreshRate
             SetGadgetState(#GADGET_ScreenModes, Position)
             FullScreenMode$ = Str(Width)+"x"+Str(Height)+"x"+Str(Depth)+"@"+Str(RefreshRate)
-          EndIf  
+          EndIf
         EndIf
        
-      Wend        
+      Wend
       
     EndIf
     
@@ -102,7 +102,7 @@ Procedure Screen3DRequester()
     
     Restore WindowedScreenDimensions
 
-    Repeat      
+    Repeat
       Read.l CurrentWidth
       Read.l CurrentHeight
       
@@ -174,10 +174,10 @@ Procedure Screen3DRequester()
   If Quit = 2 ; Launch button has been pressed
   
     CreatePreferences(GetHomeDirectory()+"PureBasicDemos3D.prefs")
-      WritePreferenceLong  ("FullScreen"        , FullScreen)          
-      WritePreferenceString("FullScreenMode"    , FullScreenMode$)     
-      WritePreferenceString("WindowedScreenMode", WindowedScreenMode$) 
-      WritePreferenceLong  ("Antialiasing"      , AAMode)  
+      WritePreferenceLong  ("FullScreen"        , FullScreen)
+      WritePreferenceString("FullScreenMode"    , FullScreenMode$)
+      WritePreferenceString("WindowedScreenMode", WindowedScreenMode$)
+      WritePreferenceLong  ("Antialiasing"      , AAMode)
       
     If FullScreen
       ScreenMode$ = FullScreenMode$
@@ -282,9 +282,9 @@ EndProcedure
 DataSection
   WindowedScreenDimensions:
     Data.l  320, 240
-    Data.l  512, 384      
+    Data.l  512, 384
     Data.l  640, 480
-    Data.l  800, 600     
+    Data.l  800, 600
     Data.l 1024, 768
     Data.l 1280, 1024
     Data.l 1600, 1200

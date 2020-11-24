@@ -42,7 +42,7 @@ If InitEngine3D()
     CreateEntity(1, MeshID(0), MaterialID(1), 0, -4, 0)
     ScaleEntity(1, 1, 3, 1)
     CreateEntity(2, MeshID(0), MaterialID(1), 0, -8, 0)
-    ScaleEntity(2, 1, 3, 1)    
+    ScaleEntity(2, 1, 3, 1)
     ; Bodies
     ;
     CreateEntityBody(0, #PB_Entity_StaticBody)
@@ -89,17 +89,17 @@ If InitEngine3D()
         
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf

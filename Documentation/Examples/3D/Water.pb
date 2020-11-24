@@ -88,7 +88,7 @@ If InitEngine3D()
         
         For i=0 To 9
           MoveEntity(i, EntityX(i), WaterHeight(0, EntityX(i), EntityZ(i)), EntityZ(i), #PB_Absolute)
-        Next 
+        Next
         
         RotateCamera(0, MouseY, MouseX, 0, #PB_Relative)
         MoveCamera  (0, KeyX, 0, KeyY)

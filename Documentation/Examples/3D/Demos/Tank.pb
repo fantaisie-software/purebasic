@@ -1,7 +1,7 @@
 ;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - Tank 
+;   PureBasic - Tank
 ;
 ;    (c) Fantaisie Software
 ;
@@ -29,23 +29,23 @@ EndStructure
 Structure s_Entity
   elapsedTime.f
   Key.s_Key
-  MainNode.i  
+  MainNode.i
   TourelleNode.i
   CanonNode.i
   ShootNode.i
   ForwardNode.i
   SightNode.i
-  CameraNode.i  
+  CameraNode.i
   SightNode1.i
-  CameraNode1.i  
+  CameraNode1.i
 EndStructure
 
 Structure s_Camera
   Camera.i
   Tightness.f
-  CameraNode.i 
+  CameraNode.i
   TargetNode.i
-EndStructure  
+EndStructure
 
 Structure Bullet
   Bullet.i
@@ -58,9 +58,9 @@ EndStructure
 
 
 Macro GetNodePosition(Position, Node)
-  Position\x = NodeX(Node)  
-  Position\y = NodeY(Node)  
-  Position\z = NodeZ(Node)  
+  Position\x = NodeX(Node)
+  Position\y = NodeY(Node)
+  Position\z = NodeZ(Node)
 EndMacro
 
 Macro SubVector3(V, V1, V2)
@@ -75,7 +75,7 @@ Declare CameraTrack(*Camera.s_Camera, *Entity.s_Entity)
 Declare CreatePyramide(Nb.i)
 Declare Shootbullet()
 
-;-Variables 
+;-Variables
 Define Tank.s_Entity
 Define Camera.s_Camera
 Global NewList Bullets.Bullet()
@@ -103,7 +103,7 @@ If InitEngine3D()
     ; Ribbon texture
     CreateTexture(1,128, 1)
     StartDrawing(TextureOutput(1))
-    DrawingMode(#PB_2DDrawing_Gradient)     
+    DrawingMode(#PB_2DDrawing_Gradient)
     BackColor(0)
     GradientColor(0.5, RGB(255, 255, 255))
     FrontColor(0)
@@ -167,14 +167,14 @@ If InitEngine3D()
     ;-Camera
     CreateCamera(0, 0, 0, 100, 100)
     CameraFOV(0, 40)
-    With Camera  
+    With Camera
       \Camera = 0
       \Tightness = 0.035
       ; Camera use 2 nodes
       \CameraNode = CreateNode(#PB_Any, 0, 700, 300) ; Camera position
-      \TargetNode = CreateNode(#PB_Any)              ; For cameraLookAt 
+      \TargetNode = CreateNode(#PB_Any)              ; For cameraLookAt
       AttachNodeObject(\CameraNode, CameraID(\Camera))
-    EndWith  
+    EndWith
     
     CreateCamera(1, 0.1, 67, 33, 33)
     CameraFOV(1, 25)
@@ -186,23 +186,23 @@ If InitEngine3D()
       \Key\Up    = #PB_Key_Up
       
       \MainNode    = CreateNode(#PB_Any) ; Entity position
-      \TourelleNode= CreateNode(#PB_Any,  0, 2.0,   0) 
-      \CanonNode   = CreateNode(#PB_Any,  0, 0.8,   0) 
+      \TourelleNode= CreateNode(#PB_Any,  0, 2.0,   0)
+      \CanonNode   = CreateNode(#PB_Any,  0, 0.8,   0)
       \ShootNode   = CreateNode(#PB_Any,  0, 0.0,  -8)
-      \SightNode   = CreateNode(#PB_Any,  0, 2.0, -12) ; For cameraLookAt 
+      \SightNode   = CreateNode(#PB_Any,  0, 2.0, -12) ; For cameraLookAt
       \CameraNode  = CreateNode(#PB_Any,  0, 6.0,  15) ; Camera position
-      \ForwardNode = CreateNode(#PB_Any,  0, 0.0,  -1) ; Direction normalized 
+      \ForwardNode = CreateNode(#PB_Any,  0, 0.0,  -1) ; Direction normalized
       
-      \SightNode1  = CreateNode(#PB_Any,  0, 1.0,   0) ; For cameraLookAt 
+      \SightNode1  = CreateNode(#PB_Any,  0, 1.0,   0) ; For cameraLookAt
       \CameraNode1 = CreateNode(#PB_Any,  0, 1.0,   0) ; Camera1 position
       
       AttachNodeObject(\MainNode, NodeID(\SightNode))
       AttachNodeObject(\MainNode, NodeID(\TourelleNode))
-      AttachNodeObject(\MainNode, NodeID(\CameraNode))   
-      AttachNodeObject(\MainNode, NodeID(\ForwardNode))     
+      AttachNodeObject(\MainNode, NodeID(\CameraNode))
+      AttachNodeObject(\MainNode, NodeID(\ForwardNode))
       
       AttachNodeObject(\TourelleNode, NodeID(\CanonNode))
-      AttachNodeObject(\CanonNode   , NodeID(\ShootNode))      
+      AttachNodeObject(\CanonNode   , NodeID(\ShootNode))
       
       AttachNodeObject(\CanonNode   , NodeID(\CameraNode1))
       AttachNodeObject(\ShootNode   , NodeID(\SightNode1))
@@ -214,21 +214,21 @@ If InitEngine3D()
       
     EndWith
     
-    ;-Main loop    
+    ;-Main loop
     ;
     Repeat
       Screen3DEvents()
       
       If Engine3DStatus(#PB_Engine3D_CurrentFPS)
         Tank\elapsedTime = 40/Engine3DStatus(#PB_Engine3D_CurrentFPS)
-      EndIf       
+      EndIf
       
       HandleEntity(@Tank)
       
       ShootBullet()
       
       CameraTrack(@Camera, @Tank)
-      CameraLookAt(1, NodeX(Tank\SightNode1), NodeY(Tank\SightNode1), NodeZ(Tank\SightNode1)) 
+      CameraLookAt(1, NodeX(Tank\SightNode1), NodeY(Tank\SightNode1), NodeZ(Tank\SightNode1))
       
       RenderWorld()
       FlipBuffers()
@@ -243,7 +243,7 @@ End
 
 Procedure CreatePyramide(Nb)
   Define Ent, i, j
-  Define Size.f, SizeD.f 
+  Define Size.f, SizeD.f
   
   Size=1.5
   SizeD = Size + 0.01
@@ -258,21 +258,21 @@ Procedure CreatePyramide(Nb)
   Next j
 EndProcedure
 Procedure Normalize(*V.Vector3)
-  Define.f magSq, oneOverMag 
+  Define.f magSq, oneOverMag
   
-  magSq = *V\x * *V\x + *V\y * *V\y + *V\z * *V\z 
+  magSq = *V\x * *V\x + *V\y * *V\y + *V\z * *V\z
   If magsq > 0
     oneOverMag = 1.0 / Sqr(magSq)
     *V\x * oneOverMag
     *V\y * oneOverMag
     *V\z * oneOverMag
-  EndIf  
+  EndIf
   
 EndProcedure
 
 Procedure AddShoot(*Entity.s_Entity)
   Define Bullet, Color = RGB(255, 0, 0)
-  Define.Vector3 PosCanon, PosShoot 
+  Define.Vector3 PosCanon, PosShoot
   
   Bullet = CreateEntity(#PB_Any, MeshID(2), MaterialID(1))
   ScaleEntity(Bullet, 0.1, 0.1, 0.1)
@@ -282,9 +282,9 @@ Procedure AddShoot(*Entity.s_Entity)
   
   With Bullets()
     \Bullet = Bullet
-    \numRibbon = CreateRibbonEffect(#PB_Any, MaterialID(7), 1, 80, 120); 
+    \numRibbon = CreateRibbonEffect(#PB_Any, MaterialID(7), 1, 80, 120);
     RibbonEffectColor(\numRibbon, 0, RGBA(255, 50, 0, 255), RGBA(1, 5, 255, 5))
-    RibbonEffectWidth(\numRibbon, 0, 0.3, 1) 
+    RibbonEffectWidth(\numRibbon, 0, 0.3, 1)
     AttachRibbonEffect(\numRibbon, EntityParentNode(\Bullet))
     
     GetNodePosition(PosCanon, *Entity\CanonNode)
@@ -312,22 +312,22 @@ Procedure Shootbullet()
         DeleteElement(Bullets(), 1)
       EndIf
     EndWith
-  Next  
+  Next
 EndProcedure
 
 
 Procedure HandleEntity(*Entity.s_Entity)
-  Protected.Vector3 Forward, PosMain, PosDir 
+  Protected.Vector3 Forward, PosMain, PosDir
   Protected Speed.f, Speed2.f, x.f, y.f
   Protected MouseX.f, MouseY.f
-  Static Rot.Vector3, Trans.Vector3, Clic, AngleCanon.f, Time 
+  Static Rot.Vector3, Trans.Vector3, Clic, AngleCanon.f, Time
   
   With *Entity
     GetNodePosition(PosMain, \MainNode)
     GetNodePosition(PosDir, \ForwardNode)
     SubVector3(Forward, PosDir, PosMain)
     
-    Speed = #PlayerSpeed * \elapsedTime 
+    Speed = #PlayerSpeed * \elapsedTime
     Speed2 = Speed / 2
     
     If ExamineMouse()
@@ -366,7 +366,7 @@ Procedure HandleEntity(*Entity.s_Entity)
       Trans\z * 0.30
       
       If KeyboardPushed(\Key\Up)
-        Trans\x + Forward\x * Speed 
+        Trans\x + Forward\x * Speed
         Trans\z + Forward\z * Speed
       ElseIf KeyboardPushed(\Key\Down)
         Trans\x + Forward\x * -Speed2
@@ -377,16 +377,16 @@ Procedure HandleEntity(*Entity.s_Entity)
         Rot\y + 1.5 * \elapsedTime
       ElseIf KeyboardPushed(\Key\Right)
         Rot\y - 1.5 * \elapsedTime
-      EndIf 
+      EndIf
       
     EndIf
         
     MoveNode(\MainNode, Trans\x, Trans\y, Trans\z)
-    RotateNode(\MainNode, 0, Rot\y, 0, #PB_Relative)     
+    RotateNode(\MainNode, 0, Rot\y, 0, #PB_Relative)
     RotateNode(\TourelleNode, 0, MouseX, 0, #PB_Relative)
     RotateNode(\CanonNode, AngleCanon, 0, 0, #PB_Absolute)
     
-  EndWith   
+  EndWith
 EndProcedure
 
 Procedure CameraTrack(*Camera.s_Camera, *Entity.s_Entity)

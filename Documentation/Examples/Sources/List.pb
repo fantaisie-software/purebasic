@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-Structure BasicStructure 
+Structure BasicStructure
     Field1.b
     Field2.w
     Field3.l

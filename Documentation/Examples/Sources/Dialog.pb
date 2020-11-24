@@ -13,7 +13,7 @@
 
 ; This callback is directly set in the xml
 ;
-Runtime Procedure EnableAlphaBlendingEvent() 
+Runtime Procedure EnableAlphaBlendingEvent()
   Debug "Enable alpha blending checkbox modified !"
 EndProcedure
 

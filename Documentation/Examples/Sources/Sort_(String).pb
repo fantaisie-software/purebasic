@@ -36,5 +36,5 @@ End
 
 
 DataSection
-  Data.s "Hello", "This", "is", "a", "Nice", "test", "Isn't", "it ?", "Haha !" 
+  Data.s "Hello", "This", "is", "a", "Nice", "test", "Isn't", "it ?", "Haha !"
 EndDataSection

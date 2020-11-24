@@ -39,14 +39,14 @@ If InitEngine3D()
     
     ;Mesh
     ;
-    PlaneMesh = CreatePlane(#PB_Any, 1500, 1500, 40, 40, 15, 15)    
+    PlaneMesh = CreatePlane(#PB_Any, 1500, 1500, 40, 40, 15, 15)
     RoboTMesh = LoadMesh(#PB_Any, "robot.mesh")
     SphereMesh = CreateSphere(#PB_Any, 10)
     
     ; Entity
     ;
-    Ground = CreateEntity(#PB_Any,MeshID(PlaneMesh),MaterialID(DirtMaterial)) ; Ground 
-    EntityRenderMode(Ground, 0)    
+    Ground = CreateEntity(#PB_Any,MeshID(PlaneMesh),MaterialID(DirtMaterial)) ; Ground
+    EntityRenderMode(Ground, 0)
     
     Entity      = CreateEntity(#PB_Any, MeshID(RoboTMesh), #PB_Material_None)    ; Robot
     RedSphere   = CreateEntity(#PB_Any, MeshID(SphereMesh), MaterialID(RedMaterial))
@@ -63,7 +63,7 @@ If InitEngine3D()
     
     ; SkyBox
     ;
-    SkyBox("desert07.jpg") 
+    SkyBox("desert07.jpg")
     
     ; Camera
     ;
@@ -80,11 +80,11 @@ If InitEngine3D()
       Screen3DEvents()
       
       If ExamineMouse()
-        MouseX = -MouseDeltaX()/10 
+        MouseX = -MouseDeltaX()/10
         MouseY = -MouseDeltaY()/10
       EndIf
       
-      RobotMove = #False    
+      RobotMove = #False
       If ExamineKeyboard()
         
         If KeyboardReleased(#PB_Key_Space)
@@ -99,7 +99,7 @@ If InitEngine3D()
           MoveEntity(Entity, -1 * Speed, 0, 0)
           RotateEntity(Entity, 0, 180, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_Right)
           MoveEntity(Entity, 1 * Speed, 0, 0)
@@ -111,7 +111,7 @@ If InitEngine3D()
           MoveEntity(Entity, 0, 0, -1 * Speed)
           RotateEntity(Entity, 0, 90, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_Down)
           MoveEntity(Entity, 0, 0, 1 * Speed)
@@ -121,7 +121,7 @@ If InitEngine3D()
         
         If KeyboardPushed(#PB_Key_PageUp) And Speed < 2.0
           Speed + 0.05
-        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1 
+        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1
           Speed - 0.05
         EndIf
         
@@ -133,14 +133,14 @@ If InitEngine3D()
         EndIf
       Else
         StopEntityAnimation(Entity, "Walk")
-      EndIf  
+      EndIf
       
       AddEntityAnimationTime(Entity, "Walk", TimeSinceLastFrame)
       
       RotateCamera(Camera, MouseY, MouseX, RollZ, #PB_Relative)
       MoveCamera  (Camera, KeyX, 0, KeyY)
       
-      TimeSinceLastFrame = RenderWorld() * Speed 
+      TimeSinceLastFrame = RenderWorld() * Speed
       
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1

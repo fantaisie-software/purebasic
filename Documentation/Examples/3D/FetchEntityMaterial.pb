@@ -39,14 +39,14 @@ If InitEngine3D()
     CreateSphere(#Mesh0, 40, 50, 50)
     CreateEntity(#Entity0,MeshID(#Mesh0), MaterialID(#Material0), -60, 0, 0)
     
-    ; Get the MaterialID 
+    ; Get the MaterialID
     FetchEntityMaterial(#Entity0, #Material1)
     
     ; Create a cube with materialID
     CreateCube(#Mesh1, 40)
     CreateEntity(#Entity1, MeshID(#Mesh1), MaterialID(#Material1), 60, 0, 0)
         
-    ; Camera 
+    ; Camera
     CreateCamera(#Camera, 0, 0, 100, 100)
     CameraBackColor(#Camera, RGB(30, 0, 0))
     MoveCamera(#Camera, 0, 100, 300, #PB_Absolute)

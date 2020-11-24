@@ -62,7 +62,7 @@ If InitEngine3D()
     MeshFace(2,3,0)
     
     FinishMesh(#True)
-    NormalizeMesh(0) 
+    NormalizeMesh(0)
     
     UpdateMeshBoundingBox(0)
     

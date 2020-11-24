@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ;
 ;Cursor = Move Robot
-;Speed animation = PageUp and PageDown 
+;Speed animation = PageUp and PageDown
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
@@ -21,7 +21,7 @@ EndEnumeration
 
 #NUM_ANIMS = 2 ; number of animations
 
-Define.f KeyX, KeyY, MouseX, MouseY, Angle, Speed = 1.0, TimeSinceLastFrame 
+Define.f KeyX, KeyY, MouseX, MouseY, Angle, Speed = 1.0, TimeSinceLastFrame
 Global RobotMove, FadeIn, FadeOut, Anim
 
 Global Dim Anim.s(#NUM_ANIMS)
@@ -35,7 +35,7 @@ Macro Clamp(num, min, max)
     num=min
   ElseIf num>max
     num=max
-  EndIf  
+  EndIf
 EndMacro
 
 If InitEngine3D()
@@ -100,11 +100,11 @@ If InitEngine3D()
       Screen3DEvents()
       
       If ExamineMouse()
-        MouseX = -MouseDeltaX()/10 
+        MouseX = -MouseDeltaX()/10
         MouseY = -MouseDeltaY()/10
       EndIf
       
-      RobotMove = #False    
+      RobotMove = #False
       Angle = EntityYaw(1)
       If ExamineKeyboard()
         
@@ -115,12 +115,12 @@ If InitEngine3D()
           
         ElseIf KeyboardPushed(#PB_Key_Right)
           MoveEntity(1, 1 * Speed, 0, 0)
-          Angle = 0 
+          Angle = 0
           RobotMove = #True
           
         ElseIf KeyboardPushed(#PB_Key_Up)
           MoveEntity(1, 0, 0, -1 * Speed)
-          Angle = 90 
+          Angle = 90
           RobotMove = #True
           
         ElseIf KeyboardPushed(#PB_Key_Down)
@@ -131,7 +131,7 @@ If InitEngine3D()
         
         If KeyboardPushed(#PB_Key_PageUp) And Speed < 1.0
           Speed + 0.05
-        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1 
+        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1
           Speed - 0.05
         EndIf
         
@@ -143,17 +143,17 @@ If InitEngine3D()
         If Anim <> #Walk
           Anim = #Walk
           Fadein  = #Walk
-          FadeOut = #Idle 
+          FadeOut = #Idle
           StartEntityAnimation(1, Anim(Anim), #PB_EntityAnimation_Manual)
-        EndIf  
+        EndIf
       Else
         If Anim <> #Idle
           Anim = #Idle
           Fadein  = #Idle
-          FadeOut = #Walk 
+          FadeOut = #Walk
           StartEntityAnimation(1, Anim(Anim), #PB_EntityAnimation_Manual)
-        EndIf  
-      EndIf  
+        EndIf
+      EndIf
       
       AddEntityAnimationTime(1, Anim(Anim), TimeSinceLastFrame)
       fadeAnimations(TimeSinceLastFrame / 1000.0)
@@ -181,9 +181,9 @@ Procedure fadeAnimations(deltaTime.f)
     newWeight = GetEntityAnimationWeight(1, Anim(FadeIn)) + deltaTime * #ANIM_FADE_SPEED
     Clamp(newWeight, 0, 1)
     SetEntityAnimationWeight(1, Anim(FadeIn), newWeight)
-    If newWeight >= 1 
+    If newWeight >= 1
       FadeIn = #False
-    EndIf  
+    EndIf
     
   EndIf
   
@@ -201,7 +201,7 @@ Procedure fadeAnimations(deltaTime.f)
   
 EndProcedure
 
-Procedure.f WrapPi(Angle.f) 
+Procedure.f WrapPi(Angle.f)
   Angle + 180
   Angle - Round(Angle * 1/360.0, #PB_Round_Down) * 360
   Angle - 180
@@ -213,4 +213,4 @@ Procedure.f CurveAngle(Actuelle.f, Target.f, P.f)
   If P > 1000 : P = 1000 : EndIf
   Valeur.f = Actuelle + (Delta * P / 1000)
   ProcedureReturn WrapPi(Valeur)
-EndProcedure 
+EndProcedure

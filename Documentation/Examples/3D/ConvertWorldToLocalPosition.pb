@@ -11,7 +11,7 @@
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 ; Button left to draw
-; Button right to clear 
+; Button right to clear
 
 Structure Vector3
   x.f
@@ -111,7 +111,7 @@ If InitEngine3D()
         If MouseRayCast(0, MouseX(), MouseY(), -1) = Entity
           DrawOnWhiteBoard()
         EndIf
-      EndIf   
+      EndIf
       
       If ExamineKeyboard()
         
@@ -160,10 +160,10 @@ Procedure DrawOnWhiteBoard()
   StartDrawing(ImageOutput(0))
   If MouseButton(#PB_MouseButton_Left)
     
-    ConvertWorldToLocalPosition(EntityID(Entity), PickX(), PickY(), PickZ()) 
+    ConvertWorldToLocalPosition(EntityID(Entity), PickX(), PickY(), PickZ())
     
-    x = (1 - GetX()) * 80 
-    y = (1 - GetZ()) * 60 
+    x = (1 - GetX()) * 80
+    y = (1 - GetZ()) * 60
     
     If x>0 And x<160 And y>0 And y<120
       If mem = 0
@@ -175,7 +175,7 @@ Procedure DrawOnWhiteBoard()
       
       Memx = x
       Memy = y
-    EndIf  
+    EndIf
   ElseIf MouseButton(#PB_MouseButton_Right)
     StopDrawing()
     InitImage()
@@ -183,4 +183,4 @@ Procedure DrawOnWhiteBoard()
     mem = 0
   EndIf
   StopDrawing()
-EndProcedure        
+EndProcedure

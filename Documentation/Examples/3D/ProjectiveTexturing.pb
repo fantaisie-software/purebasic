@@ -45,10 +45,10 @@ If InitEngine3D()
     CreateLight(0,$ffffff, 10000, 5000, 2000)
     AmbientColor($888888)
     
-    CreateCamera(1,0,0,2,4)  
+    CreateCamera(1,0,0,2,4)
     CameraFOV(1,40)
     MoveCamera(1,0,80,0)
-    SwitchCamera(1,0)  
+    SwitchCamera(1,0)
     
     For i=1 To 3
       LoadTexture(0,  "Valetcoeur.jpg")
@@ -75,12 +75,12 @@ If InitEngine3D()
       cx-(-Bool(KeyboardPushed(#PB_Key_Left))+Bool(KeyboardPushed(#PB_Key_Right)))*1
       cz+(-Bool(KeyboardPushed(#PB_Key_Down))+Bool(KeyboardPushed(#PB_Key_Up   )))*1
       If KeyboardReleased(#PB_Key_F12):fdf=1-fdf:If fdf:CameraRenderMode(0,#PB_Camera_Wireframe):Else:CameraRenderMode(0,#PB_Camera_Textured):EndIf:EndIf
-      CameraLookAt(1,cx,0,cz)   
+      CameraLookAt(1,cx,0,cz)
       CreateLine3D(100,CameraX(1),CameraY(1),CameraY(1),$ffffff,cx,0,cz,$ffffff)
       RenderWorld()
       FlipBuffers()
-    Until KeyboardPushed(#PB_Key_Escape)   
-  EndIf 
+    Until KeyboardPushed(#PB_Key_Escape)
+  EndIf
 Else
   MessageRequester("Error","Can't initialize engine3D")
 EndIf

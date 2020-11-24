@@ -15,20 +15,20 @@
 ;
 
     OpenConsole()                                  ; First we must open a console
-    ConsoleTitle ("PureBasic - Console Example:")  ; Now we can give the opened console a Titlename ;)                                                  
+    ConsoleTitle ("PureBasic - Console Example:")  ; Now we can give the opened console a Titlename ;)
     EnableGraphicalConsole(1)
 
-;                                                                                                   
+;
 ;-------- Ask and display the UserName --------
 ;
     
-    ConsoleLocate (18,12)                          ; x y position 
+    ConsoleLocate (18,12)                          ; x y position
     Print ("Please enter your name:   ")           ; Ask for name
     name$=Input()                                  ; Wait for user input
 
     ClearConsole()                                 ; This will clean the ConsoleScreen
     
-    ConsoleLocate (24,10)                          ; x y position 
+    ConsoleLocate (24,10)                          ; x y position
     PrintN ("Welcome "+name$)                      ; Print our text and the UserName
     ConsoleLocate (24,12)                          ; x y position
     PrintN (text$)                                 ; Print our text
@@ -37,13 +37,13 @@
 
 ;
 ;-------- Cls and Cycle the Text-BG-Color 0 to 15 --------
-;                                                  
+;
 
     ClearConsole()                                 ; This will clean the ConsoleScreen
                                                    ; Info: Standard colors are (8 for text, 0 for backround)
     For i = 0 To 15
-        ConsoleColor (0,i)                         ; Change BackGround text color (max 15) in every loop         
-        ConsoleLocate (24,4+i)                     ; x y position 
+        ConsoleColor (0,i)                         ; Change BackGround text color (max 15) in every loop
+        ConsoleLocate (24,4+i)                     ; x y position
         Print (text$)                              ; Print our text
     Next i
 
@@ -57,8 +57,8 @@
     ClearConsole()                                 ; This will clean the ConsoleScreen
                                                    ; Info: Standard colors are (8 for text, 0 for backround)
     For i = 0 To 15
-        ConsoleColor (i,0)                         ; Change ForGround text color (max 15) in every loop         
-        ConsoleLocate (24,4+i)                     ; x y position 
+        ConsoleColor (i,0)                         ; Change ForGround text color (max 15) in every loop
+        ConsoleLocate (24,4+i)                     ; x y position
         Print (text$)                              ; Print our text
     Next i
 
@@ -73,13 +73,13 @@
         ClearConsole()                             ; This will clean the ConsoleScreen
         ;                                          ; Info: Standard colors are (8 for text, 0 for backround)
         For i = 0 To 15
-            ConsoleColor (i,a)                     ; Change ForGround text color (max 15) in every loop         
-            ConsoleLocate (24,4+i)                 ; x y position 
+            ConsoleColor (i,a)                     ; Change ForGround text color (max 15) in every loop
+            ConsoleLocate (24,4+i)                 ; x y position
             Print (text$)                          ; Print our text
         Next i
         ;
         Delay(dlay/10)                             ; Waits for moment
-    Next a    
+    Next a
 
     ;-------- Exit --------
 

@@ -39,7 +39,7 @@ Structure TEXTMETRIC
   tmFirstChar.c
   tmLastChar.c
   tmDefaultChar.c
-  tmBreakChar.c 
+  tmBreakChar.c
   tmItalic.b
   tmUnderlined.b
   tmStruckOut.b
@@ -256,7 +256,7 @@ Structure ENUMLOGFONTEX
   elfFullName.c[#LF_FULLFACESIZE]
   elfStyle.c[#LF_FACESIZE]
   elfScript.c[#LF_FACESIZE]
-EndStructure 
+EndStructure
 
 Structure LOGCOLORSPACE
   lcsSignature.l
@@ -318,7 +318,7 @@ Structure MIXERLINE_TARGET
 EndStructure
 
 
-Structure MIXERLINE 
+Structure MIXERLINE
   cbStruct.l
   dwDestination.l
   dwSource.l
@@ -503,7 +503,7 @@ Structure NMCBEENDEDIT
 EndStructure
 
 
-Structure NMDATETIMEFORMAT 
+Structure NMDATETIMEFORMAT
   nmhdr.NMHDR
   *pszFormat
   st.SYSTEMTIME
@@ -512,7 +512,7 @@ Structure NMDATETIMEFORMAT
 EndStructure
 
 
-Structure NMTTDISPINFO 
+Structure NMTTDISPINFO
   hdr.NMHDR
   *lpszText
   szText.c[80]
@@ -803,7 +803,7 @@ CompilerIf #PB_Compiler_Unicode
   #DTN_FORMAT      = -743
   #DTN_FORMATQUERY = -742
   
-  #JOY_CONFIGCHANGED_MSGSTRINGW = "MSJSTICK_VJOYD_MSGSTR" 
+  #JOY_CONFIGCHANGED_MSGSTRINGW = "MSJSTICK_VJOYD_MSGSTR"
   #JOY_CONFIGCHANGED_MSGSTRING = #JOY_CONFIGCHANGED_MSGSTRINGW
 
   #WM_CAP_DRIVER_GET_NAME = #WM_CAP_DRIVER_GET_NAMEW
@@ -950,7 +950,7 @@ CompilerElse
   #DTN_FORMAT      = -756
   #DTN_FORMATQUERY = -755
   
-  #JOY_CONFIGCHANGED_MSGSTRINGA = "MSJSTICK_VJOYD_MSGSTR" 
+  #JOY_CONFIGCHANGED_MSGSTRINGA = "MSJSTICK_VJOYD_MSGSTR"
   #JOY_CONFIGCHANGED_MSGSTRING = #JOY_CONFIGCHANGED_MSGSTRINGA
   
   #WM_CAP_DRIVER_GET_NAME = #WM_CAP_DRIVER_GET_NAMEA
@@ -969,17 +969,17 @@ CompilerElse
 CompilerEndIf
 
 
-#CFSTR_SHELLIDLIST                   = "Shell IDList Array" 
+#CFSTR_SHELLIDLIST                   = "Shell IDList Array"
 #CFSTR_SHELLIDLISTOFFSET             = "Shell Object Offsets"
-#CFSTR_NETRESOURCES                  = "Net Resource"        
-#CFSTR_FILEDESCRIPTORA               = "FileGroupDescriptor" 
+#CFSTR_NETRESOURCES                  = "Net Resource"
+#CFSTR_FILEDESCRIPTORA               = "FileGroupDescriptor"
 #CFSTR_FILEDESCRIPTORW               = "FileGroupDescriptorW"
-#CFSTR_FILECONTENTS                  = "FileContents"        
-#CFSTR_FILENAMEA                     = "FileName"            
-#CFSTR_FILENAMEW                     = "FileNameW"           
-#CFSTR_PRINTERGROUP                  = "PrinterFriendlyName" 
-#CFSTR_FILENAMEMAPA                  = "FileNameMap"         
-#CFSTR_FILENAMEMAPW                  = "FileNameMapW"        
+#CFSTR_FILECONTENTS                  = "FileContents"
+#CFSTR_FILENAMEA                     = "FileName"
+#CFSTR_FILENAMEW                     = "FileNameW"
+#CFSTR_PRINTERGROUP                  = "PrinterFriendlyName"
+#CFSTR_FILENAMEMAPA                  = "FileNameMap"
+#CFSTR_FILENAMEMAPW                  = "FileNameMapW"
 #CFSTR_SHELLURL                      = "UniformResourceLocator"
 #CFSTR_INETURLA                      = #CFSTR_SHELLURL
 #CFSTR_INETURLW                      = "UniformResourceLocatorW"
@@ -990,7 +990,7 @@ CompilerEndIf
 #CFSTR_DRAGCONTEXT                   = "DragContext"
 #CFSTR_MOUNTEDVOLUME                 = "MountedVolume"
 #CFSTR_PERSISTEDDATAOBJECT           = "PersistedDataObject"
-#CFSTR_TARGETCLSID                   = "TargetCLSID"                 
+#CFSTR_TARGETCLSID                   = "TargetCLSID"
 #CFSTR_LOGICALPERFORMEDDROPEFFECT    = "Logical Performed DropEffect"
 #CFSTR_AUTOPLAY_SHELLIDLISTS         = "Autoplay Enumerated IDList Array"
 #CFSTR_UNTRUSTEDDRAGDROP             = "UntrustedDragDrop"

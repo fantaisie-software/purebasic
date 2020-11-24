@@ -1,5 +1,5 @@
 ; -------------------------------------------------------------------------
-; 
+;
 ; Converted from the expat 2.01 package (http://expat.sourceforge.net/)
 ;
 ; -------------------------------------------------------------------------
@@ -7,7 +7,7 @@
 ; Copyright (c) 1998, 1999, 2000 Thai Open Source Software Center Ltd
 ;                                And Clark Cooper
 ; Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006 Expat maintainers.
-; 
+;
 ; Permission is hereby granted, free of charge, To any person obtaining
 ; a copy of this software And associated documentation files (the
 ; "Software"), To deal in the Software without restriction, including
@@ -15,10 +15,10 @@
 ; distribute, sublicense, And/Or sell copies of the Software, And To
 ; permit persons To whom the Software is furnished To do so, subject To
 ; the following conditions:
-; 
+;
 ; The above copyright notice And this permission notice shall be included
 ; in all copies Or substantial portions of the Software.
-; 
+;
 ; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 ; EXPRESS Or IMPLIED, INCLUDING BUT Not LIMITED To THE WARRANTIES OF
 ; MERCHANTABILITY, FITNESS For A PARTICULAR PURPOSE And NONINFRINGEMENT.
@@ -86,7 +86,7 @@ Enumeration ; XML_FeatureEnum
 EndEnumeration
 
 
-Enumeration ; XML_Error 
+Enumeration ; XML_Error
   #XML_ERROR_NONE
   #XML_ERROR_NO_MEMORY
   #XML_ERROR_SYNTAX
@@ -135,7 +135,7 @@ EndEnumeration
 
 
 ; Prototypes are not supported in residents
-; Prototype.l XML_Encoding_convert(*pdata, s.p-ascii) 
+; Prototype.l XML_Encoding_convert(*pdata, s.p-ascii)
 ; Prototype   XML_Encoding_release(*pdata)
 
 Structure XML_Encoding

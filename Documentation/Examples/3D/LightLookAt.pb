@@ -33,7 +33,7 @@ If InitEngine3D()
     AmbientColor(0)
     
     ;- Camera
-    CreateCamera(0, 0, 0, 100, 100) 
+    CreateCamera(0, 0, 0, 100, 100)
     MoveCamera(0, 0, 900, 1200, #PB_Absolute)
     CameraLookAt(0, 0, 0, 0)
     CameraBackColor(0, RGB(0, 0, 30))

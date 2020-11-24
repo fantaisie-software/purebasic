@@ -19,7 +19,7 @@ If LoadImage(0, #PB_Compiler_Home+"Examples/Sources/Data/PureBasicLogo.gif")
   CanvasGadget(0, 0, 0, ImageWidth(0), ImageHeight(0))
   
   ; Add a timer to animate the GIF, starts immediately to display the first frame witout delay
-  AddWindowTimer(0, 0, 1) 
+  AddWindowTimer(0, 0, 1)
  
   Repeat
     Event = WaitWindowEvent()

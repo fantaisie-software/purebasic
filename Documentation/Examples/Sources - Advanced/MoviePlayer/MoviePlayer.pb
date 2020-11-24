@@ -48,7 +48,7 @@ If OpenWindow(0, 100, 100, #WindowWidth, #WindowHeight, "PureBasic Movie Player 
         MenuItem(11, "Right")
       CloseSubMenu()
       
-    MenuTitle("About") 
+    MenuTitle("About")
       MenuItem(12, "About")
   EndIf
 
@@ -83,7 +83,7 @@ If OpenWindow(0, 100, 100, #WindowWidth, #WindowHeight, "PureBasic Movie Player 
             MovieName$ = OpenFileRequester("Choose the movie to play", "", "Movie/Audio files|*.avi;*.mpg;*.asf;*.mp3;*.wav|All Files|*.*", 0)
             If MovieName$
               If LoadMovie(0, MovieName$)
-                MovieLoaded = 1 
+                MovieLoaded = 1
                 MovieState  = 0
                 
                 If MovieHeight(0) > 0  ; Not an audio only file..
@@ -125,7 +125,7 @@ If OpenWindow(0, 100, 100, #WindowWidth, #WindowHeight, "PureBasic Movie Player 
             
           Case 4 ; Pause
             If MovieLoaded And MovieState = 1
-              PauseMovie(0) 
+              PauseMovie(0)
               MovieState = 2  ; Paused
               StatusBarText(0, 0, "Movie paused.", 0)
            EndIf
@@ -155,19 +155,19 @@ If OpenWindow(0, 100, 100, #WindowWidth, #WindowHeight, "PureBasic Movie Player 
           ; ---------------- Size -------------------
 
           Case 13  ; Size 50%
-            If MovieLoaded 
+            If MovieLoaded
               MovieWidth  = MovieWidth(0)/2
               MovieHeight = MovieHeight(0)/2
             EndIf
             
           Case 14 ; Size 100%
-            If MovieLoaded 
+            If MovieLoaded
               MovieWidth  = MovieWidth(0)
               MovieHeight = MovieHeight(0)
             EndIf
                     
           Case 15 ; Size 200%
-            If MovieLoaded 
+            If MovieLoaded
               MovieWidth  = MovieWidth(0)*2
               MovieHeight = MovieHeight(0)*2
             EndIf
@@ -225,7 +225,7 @@ If OpenWindow(0, 100, 100, #WindowWidth, #WindowHeight, "PureBasic Movie Player 
           
     EndSelect
     
-  ForEver    
+  ForEver
 EndIf
 
 End

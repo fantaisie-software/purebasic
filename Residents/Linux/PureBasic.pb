@@ -441,12 +441,12 @@ CompilerEndIf
 ; Drag & Drop
 ;
 CompilerIf Subsystem("qt")
-  #PB_Drag_None = 0 
+  #PB_Drag_None = 0
   #PB_Drag_Copy = $1  ; matches Qt::DropAction
   #PB_Drag_Move = $2
   #PB_Drag_Link = $4
 CompilerElse
-  #PB_Drag_None = 0 
+  #PB_Drag_None = 0
   #PB_Drag_Copy = 1 << 1
   #PB_Drag_Move = 1 << 2
   #PB_Drag_Link = 1 << 3

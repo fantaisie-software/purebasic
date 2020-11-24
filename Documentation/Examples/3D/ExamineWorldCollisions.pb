@@ -81,7 +81,7 @@ If InitEngine3D()
           Speed1 = -0.2
         Else
           Speed1 * 0.9
-        EndIf   
+        EndIf
         
       EndIf
       
@@ -109,7 +109,7 @@ If InitEngine3D()
             
             CreateLine3D(Total, x, y, z, RGB(0, 255, 0), xn ,yn, zn, RGB(0, 255, 0))
             
-            total + 1           
+            total + 1
             
             If total > 200
               
@@ -117,7 +117,7 @@ If InitEngine3D()
                 FreeMesh(i)
               Next
               total = 0
-            EndIf 
+            EndIf
             
           EndIf
         Wend

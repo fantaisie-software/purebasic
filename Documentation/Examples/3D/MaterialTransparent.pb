@@ -12,7 +12,7 @@
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
-Define.f KeyX, KeyY, MouseX, MouseY, RollZ, Blend, Pas = 0.2 
+Define.f KeyX, KeyY, MouseX, MouseY, RollZ, Blend, Pas = 0.2
 
 If InitEngine3D()
   
@@ -34,7 +34,7 @@ If InitEngine3D()
     CreateMaterial(0, LoadTexture(0, "Dirt.jpg"))
     MaterialBlendingMode(0, #PB_Material_AlphaBlend)
     
-    CreateEntity(0, MeshID(0), MaterialID(0))  
+    CreateEntity(0, MeshID(0), MaterialID(0))
 
     SkyBox("stevecube.jpg")
     
@@ -49,7 +49,7 @@ If InitEngine3D()
       Blend + pas
       If blend >= 255 Or Blend <= 0
         pas = -pas
-      EndIf  
+      EndIf
       
       SetMaterialColor(0, #PB_Material_DiffuseColor, RGBA(255, 255, 255, Blend))
       
@@ -67,4 +67,4 @@ Else
   MessageRequester("Error", "The 3D Engine can't be initialized",0)
 EndIf
 
-End 
+End

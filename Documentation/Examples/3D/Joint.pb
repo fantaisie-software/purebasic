@@ -15,7 +15,7 @@ Define Direction = 0, Time = ElapsedMilliseconds()
 #CameraSpeed = 1
 
 Macro DoorClosed()
-  (EntityX(1) > -1.07)  
+  (EntityX(1) > -1.07)
 EndMacro
 
 If InitEngine3D()
@@ -36,7 +36,7 @@ If InitEngine3D()
     CreateMaterial(0, LoadTexture(0, "Dirt.jpg"))
     CreateMaterial(1, LoadTexture(1, "Wood.jpg"))
     GetScriptMaterial(2, "Color/Green")
-    GetScriptMaterial(3, "Color/Red")  
+    GetScriptMaterial(3, "Color/Red")
     
     ; Meshes
     ;
@@ -70,8 +70,8 @@ If InitEngine3D()
     ; SliderJoint
     ;
     SliderJoint  (0, EntityID(0), -1, 0, 0, EntityID(1), 1, 0, 0)
-    SetJointAttribute(0, #PB_SliderJoint_LowerLimit, -3)  
-    SetJointAttribute(0, #PB_SliderJoint_UpperLimit,  0)   
+    SetJointAttribute(0, #PB_SliderJoint_LowerLimit, -3)
+    SetJointAttribute(0, #PB_SliderJoint_UpperLimit,  0)
     
     ; HingeJoint
     ;
@@ -90,16 +90,16 @@ If InitEngine3D()
     Repeat
       Screen3DEvents()
       
-       If ElapsedMilliseconds() - Time > 1500 And Not DoorClosed() 
+       If ElapsedMilliseconds() - Time > 1500 And Not DoorClosed()
          Direction = 1 - Direction
          Time = ElapsedMilliseconds()
        EndIf
 
       If Direction = 1
-        ApplyEntityImpulse(1, 0.3, 0, 0) 
+        ApplyEntityImpulse(1, 0.3, 0, 0)
       Else
-        ApplyEntityImpulse(1, -0.3, 0, 0) 
-      EndIf 
+        ApplyEntityImpulse(1, -0.3, 0, 0)
+      EndIf
       
       If ExamineMouse()
         MouseX = -MouseDeltaX() * #CameraSpeed * 0.05
@@ -111,25 +111,25 @@ If InitEngine3D()
         If KeyboardReleased(#PB_Key_Space)
           direction = 0
           DisableEntityBody(1, 0)
-          ApplyEntityImpulse(1, -10, 0, 0) 
-          Time = ElapsedMilliseconds() 
+          ApplyEntityImpulse(1, -10, 0, 0)
+          Time = ElapsedMilliseconds()
           FreeEntity(3)
           CreateEntity(3, MeshID(1), MaterialID(3), -1, 15, 0.23)
           CreateEntityBody(3, #PB_Entity_SphereBody, 0.5)
-        EndIf 
+        EndIf
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf

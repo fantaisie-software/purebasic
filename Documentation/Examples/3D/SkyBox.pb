@@ -10,13 +10,13 @@
 ; Thanks to Steve 'Sinbad' Streeting for the nice SkyBox !
 ;
 
-; Use [F2]/[F3] to change SkyBox's texture 
+; Use [F2]/[F3] to change SkyBox's texture
 ; Use [F4] to disable SkyBox
 
 #CameraSpeed = 1
 
 Enumeration
-  #MainWindow 
+  #MainWindow
   #Editor
 EndEnumeration
 
@@ -45,7 +45,7 @@ If InitEngine3D()
     ;-Entity
     CreateEntity(0, LoadMesh(0, "robot.mesh"), MaterialID(0))
     
-    ;-Camera 
+    ;-Camera
     CreateCamera(0,0,0,100,100)
     MoveCamera(0,0,0,100, #PB_Absolute)
     CameraBackColor(0, RGB(19, 34, 49))
@@ -72,24 +72,24 @@ If InitEngine3D()
         
         If KeyboardReleased(#PB_Key_F2)
           SkyBox("stevecube.jpg")
-        ElseIf KeyboardReleased(#PB_Key_F3) 
+        ElseIf KeyboardReleased(#PB_Key_F3)
           SkyBox("desert07.jpg")
         ElseIf KeyboardReleased(#PB_Key_F4)
           SkyBox("")
         EndIf
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
                   
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf

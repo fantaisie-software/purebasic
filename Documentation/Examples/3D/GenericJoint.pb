@@ -31,7 +31,7 @@ If InitEngine3D()
     
     ;====================== Materials/textures ========================
     
-    CreateMaterial(0, LoadTexture(0,"wood.jpg"))   
+    CreateMaterial(0, LoadTexture(0,"wood.jpg"))
     GetScriptMaterial(1, "Examples/SphereMappedRustySteel")
     GetScriptMaterial(2, "Color/Red")
     GetScriptMaterial(3, "Color/Green")
@@ -130,7 +130,7 @@ If InitEngine3D()
     CreateLight(0, RGB(255, 255, 255), 1560, 900, 500)
     AmbientColor($777777)
     
-    WorldShadows(#PB_Shadow_Additive) 
+    WorldShadows(#PB_Shadow_Additive)
     
     MouseLocate(ex/2, ey/2)
     
@@ -152,7 +152,7 @@ If InitEngine3D()
         EndIf
       EndIf
       
-      If ExamineKeyboard() 
+      If ExamineKeyboard()
         keyy = -(Bool(KeyboardPushed(#PB_Key_Up)<>0)-Bool(KeyboardPushed(#PB_Key_Down)<>0))-MouseWheel()*5
         keyx = -(Bool(KeyboardPushed(#PB_Key_Left)<>0)-Bool(KeyboardPushed(#PB_Key_Right)<>0))
       EndIf

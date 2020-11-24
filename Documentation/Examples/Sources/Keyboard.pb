@@ -63,4 +63,4 @@ Else
   MessageRequester("Error", "Impossible to open a 800*600 32 bit screen",0)
 EndIf
 
-End   
+End

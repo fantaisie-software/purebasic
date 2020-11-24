@@ -1,5 +1,5 @@
 ﻿
-Macro DQuoteM 
+Macro DQuoteM
   "
 EndMacro
 

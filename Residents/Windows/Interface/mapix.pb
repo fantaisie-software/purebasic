@@ -23,7 +23,7 @@ Interface IMAPISession
   SetDefaultStore(a.l, b.l, c.l)
   AdminServices(a.l, b.l)
   ShowForm(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l, k.l)
-  PrepareForm(a.l, b.l, c.l)  
+  PrepareForm(a.l, b.l, c.l)
 EndInterface
 
 ; IAddrBook interface definition

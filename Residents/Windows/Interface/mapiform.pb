@@ -10,7 +10,7 @@ Interface IPersistMessage
   IsDirty()
   InitNew(a.l, b.l)
   Load(a.l, b.l, c.l, d.l)
-  Save(a.l) 
+  Save(a.l)
 EndInterface
 
 ; IMAPIMessageSite interface definition

@@ -26,7 +26,7 @@ If InitEngine3D(3)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"            , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"              , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"             , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Particles"           , #PB_3DArchive_FileSystem)  
+    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Particles"           , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip"    , #PB_3DArchive_Zip)
     Parse3DScripts()
         
@@ -96,9 +96,9 @@ If InitEngine3D(3)
     ;
     AttachNodeObject(1, EntityID(1))
     AttachNodeObject(1, EntityID(2))
-    AttachNodeObject(1, ParticleEmitterID(0))  
-    AttachNodeObject(1, ParticleEmitterID(Jet)) 
-    AttachNodeObject(1, BillboardGroupID(0))  
+    AttachNodeObject(1, ParticleEmitterID(0))
+    AttachNodeObject(1, ParticleEmitterID(Jet))
+    AttachNodeObject(1, BillboardGroupID(0))
     AttachNodeObject(1, LightID(0))
     AttachNodeObject(1, LightID(1))
           
@@ -106,11 +106,11 @@ If InitEngine3D(3)
       Screen3DEvents()
       
       If ExamineMouse()
-        MouseX = -MouseDeltaX()/10 
+        MouseX = -MouseDeltaX()/10
         MouseY = -MouseDeltaY()/10
       EndIf
       
-      RobotMove = #False    
+      RobotMove = #False
       If ExamineKeyboard()
         If KeyboardReleased(#PB_Key_F5)
           FreeNode(1)
@@ -118,12 +118,12 @@ If InitEngine3D(3)
           Debug EntityY(1)
           Debug EntityZ(1)
           MoveEntity(1, 0, 0, 0, #PB_Absolute)
-        EndIf        
+        EndIf
         If KeyboardReleased(#PB_Key_Space)
           DetachNodeObject(1, EntityID(2))
           DetachNodeObject(1, BillboardGroupID(0))
           DetachNodeObject(1, LightID(1))
-          DetachNodeObject(1, ParticleEmitterID(Jet)) 
+          DetachNodeObject(1, ParticleEmitterID(Jet))
      
         EndIf
         
@@ -131,18 +131,18 @@ If InitEngine3D(3)
           MoveEntity(2,  0, 18, 0, #PB_Absolute)
           AttachNodeObject(1, EntityID(2))
           MoveBillboardGroup(0, 0, 120, 0, #PB_Absolute)
-          AttachNodeObject(1, BillboardGroupID(0))  
+          AttachNodeObject(1, BillboardGroupID(0))
           MoveLight(1, 0, 35, 70, #PB_Absolute)
           AttachNodeObject(1, LightID(1))
           MoveParticleEmitter(Jet,  -15, 12, -5, #PB_Absolute)
-          AttachNodeObject(1, ParticleEmitterID(Jet)) 
+          AttachNodeObject(1, ParticleEmitterID(Jet))
         EndIf
         
         If KeyboardPushed(#PB_Key_Left)
           MoveNode(1, -1, 0, 0)
           RotateNode(1, 0, 180, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_Right)
           MoveNode(1, 1, 0, 0)
@@ -154,7 +154,7 @@ If InitEngine3D(3)
           MoveNode(1, 0, 0, -1)
           RotateNode(1, 0, 90, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_Down)
           MoveNode(1, 0, 0, 1)
@@ -170,7 +170,7 @@ If InitEngine3D(3)
         EndIf
       Else
         StopEntityAnimation(1, "Walk")
-      EndIf 
+      EndIf
             
       CameraLookAt(0, EntityX(1), EntityY(1) + 40, EntityZ(1))
   

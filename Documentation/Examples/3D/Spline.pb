@@ -7,7 +7,7 @@
 ;
 ; ------------------------------------------------------------
 ;
-;An example of using SimpleSpline To make an Entity smoothly 
+;An example of using SimpleSpline To make an Entity smoothly
 ;follow a predefined path With spline interpolation.
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
@@ -21,7 +21,7 @@ If InitEngine3D()
   InitMouse()
   
   If Screen3DRequester()
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/"                , #PB_3DArchive_FileSystem)    
+    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/"                , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"          , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"         , #PB_3DArchive_FileSystem)
@@ -55,7 +55,7 @@ If InitEngine3D()
     ;
     LoadMesh(2, "ninja.mesh")
     CreateEntity(2, MeshID(2), #PB_Material_None, 500, 0, 400)
-    ScaleEntity(2, 1.4, 1.4, 1.4)  
+    ScaleEntity(2, 1.4, 1.4, 1.4)
     StartEntityAnimation(2, "Walk", #PB_EntityAnimation_Manual)
     
     ;- Camera
@@ -79,7 +79,7 @@ If InitEngine3D()
     AddSplinePoint(spline, EntityX(5), 0, EntityZ(5))
     AddSplinePoint(spline, EntityX(6), 0, EntityZ(6))
     AddSplinePoint(spline, EntityX(8), 0, EntityZ(8))
-    AddSplinePoint(spline, EntityX(7), 0, EntityZ(7)) 
+    AddSplinePoint(spline, EntityX(7), 0, EntityZ(7))
     AddSplinePoint(spline, EntityX(4), 0, EntityZ(4))
     
     ;- Spline Ninja
@@ -106,7 +106,7 @@ If InitEngine3D()
       
       If time > 1
         Time = 0
-      EndIf  
+      EndIf
       
       ; Ninja
       ComputeSpline(splineN, TimeSinceLastFrame/2) ; Should be called before using SplineX(); SplineY() and SplineZ()
@@ -124,11 +124,11 @@ If InitEngine3D()
       TimeSinceLastFrame = RenderWorld() / 1000
       
       FlipBuffers()
-    Until KeyboardPushed(#PB_Key_Escape)   
+    Until KeyboardPushed(#PB_Key_Escape)
     
-    End 
+    End
     
-  EndIf 
+  EndIf
 Else
   MessageRequester("Error","Can't initialize engine3D")
-EndIf 
+EndIf

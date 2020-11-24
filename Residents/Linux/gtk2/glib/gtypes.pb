@@ -10,31 +10,31 @@
 ;#G_SQRT2 = 1.4142135623730950488016887242096980785696718753769
 ;#G_LITTLE_ENDIAN = 1234
 ;#G_BIG_ENDIAN = 4321
-;#G_PDP_ENDIAN = 3412	
+;#G_PDP_ENDIAN = 3412
 ;#G_IEEE754_FLOAT_BIAS = (127)
 ;#G_IEEE754_DOUBLE_BIAS = (1023)
 ;#G_LOG_2_BASE_10 = (0.30102999566398119521)
 
-;Structure 
+;Structure
 ;  mantissa:23.l
 ;  biased_exponent:8.l
 ;  sign:1
 ;EndStructure
 
-;Structure 
+;Structure
 ;  mantissa_low:32.l
 ;  mantissa_high:20.l
 ;  biased_exponent:11.l
 ;  sign:1
 ;EndStructure
 
-;Structure 
+;Structure
 ;  sign:1
 ;  biased_exponent:8.l
 ;  mantissa:23.l
 ;EndStructure
 
-;Structure 
+;Structure
 ;  sign:1
 ;  biased_exponent:11.l
 ;  mantissa_high:20.l
