@@ -1750,7 +1750,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
     Static WebServerPortIndex = 0
     
     RootPath$ = GetPathPart(Executable$)
-    If Right(RootPath$, 1) = "\" ; mongoose doesn't like path terminated with "\"
+    If Right(RootPath$, 1) = "\" ; And Mid(RootPath$, 2, 1) <> ":"; mongoose doesn't like path terminated with "\", except for root drive (E:\)
       RootPath$ = Left(RootPath$, Len(RootPath$)-1)
     EndIf
     
@@ -1786,10 +1786,20 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
         WebServerPortIndex+1
       EndIf
       
+      ; Check than no server use this adress already (ie: 2 different sources  with the same *Target\WebServerAddress$
+      ForEach WebLaunchedServers()
+        If WebLaunchedServers() = WebServerAddress$
+          MessageRequester("Error", "Invalid server address ("+ WebServerAddress$ + "). This adress is already in use in another spiderbasic source.", #FLAG_Error)
+          Error = #True
+        EndIf
+      Next 
+      
       If Error = #False
         AddElement(OpenedWebServers())
         
         Debug "Mongoose address: " + MongooseAddress$
+        Debug "Mongoose document_root: " + RootPath$
+        Debug "Mongoose spiderbasic_root: " + PureBasicPath$
         
         OpenedWebServers() = RunProgram(PureBasicPath$ + "compilers/sbmongoose", " -listening_ports " + MongooseAddress$ +
                                                                                  " -document_root "+#DQUOTE$+RootPath$+#DQUOTE$ +
