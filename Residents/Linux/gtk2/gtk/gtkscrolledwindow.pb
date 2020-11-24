@@ -1,4 +1,4 @@
-Structure GtkScrolledWindow
+﻿Structure GtkScrolledWindow
   container.GtkBin
  *hscrollbar.GtkWidget
  *vscrollbar.GtkWidget

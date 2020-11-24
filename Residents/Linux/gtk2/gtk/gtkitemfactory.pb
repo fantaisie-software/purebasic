@@ -1,4 +1,4 @@
-Structure GtkItemFactory
+﻿Structure GtkItemFactory
   object.GtkObject
  *path
  *accel_group.GtkAccelGroup

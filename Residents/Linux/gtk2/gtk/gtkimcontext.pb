@@ -1,4 +1,4 @@
-Structure GtkIMContext
+﻿Structure GtkIMContext
   parent_instance.GObject
 EndStructure
 

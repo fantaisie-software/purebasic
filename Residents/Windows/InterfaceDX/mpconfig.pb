@@ -1,4 +1,4 @@
-
+﻿
 ; IMixerPinConfig interface definition
 ;
 Interface IMixerPinConfig

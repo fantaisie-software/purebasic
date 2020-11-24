@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "odbccp32.lib"
            Api(AboutDlg, (arg1, arg2, arg3, arg4), 16)

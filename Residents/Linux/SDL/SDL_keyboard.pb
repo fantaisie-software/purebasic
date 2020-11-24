@@ -1,4 +1,4 @@
-Structure SDL_keysym
+﻿Structure SDL_keysym
   scancode.b
   pad.b
   pad2.w

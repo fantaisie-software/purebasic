@@ -1,4 +1,4 @@
-Structure GtkMenuItem
+﻿Structure GtkMenuItem
   item.GtkItem
  *submenu.GtkWidget
  *event_window.GdkWindow

@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "loadperf.lib"
   AnsiWide(LoadPerfCounterTextStrings, (arg1, arg2), 8)

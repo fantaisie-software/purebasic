@@ -1,4 +1,4 @@
-
+﻿
 ; IEnumGUID interface definition
 ;
 Interface IEnumGUID

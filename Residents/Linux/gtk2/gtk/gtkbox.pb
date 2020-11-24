@@ -1,4 +1,4 @@
-Structure GtkBox
+﻿Structure GtkBox
   container.GtkContainer
  *children.GList
   spacing.w

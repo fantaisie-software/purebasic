@@ -1,4 +1,4 @@
-#GDK_CURRENT_TIME = 0
+﻿#GDK_CURRENT_TIME = 0
 #GDK_PARENT_RELATIVE = 1
 #GDK_NONE = 0 ; #_GDK_MAKE_ATOM (0)
 Enumeration   ; GdkByteOrder

@@ -1,4 +1,4 @@
-
+﻿
 ; IComponentData interface definition
 ;
 Interface IComponentData

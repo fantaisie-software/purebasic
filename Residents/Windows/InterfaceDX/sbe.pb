@@ -1,4 +1,4 @@
-
+﻿
 ; IStreamBufferInitialize interface definition
 ;
 Interface IStreamBufferInitialize

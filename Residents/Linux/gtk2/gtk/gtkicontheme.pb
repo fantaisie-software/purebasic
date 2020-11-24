@@ -1,4 +1,4 @@
-Structure GtkIconTheme
+﻿Structure GtkIconTheme
   parent_instance.GObject
  *priv.GtkIconThemePrivate
 EndStructure

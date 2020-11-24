@@ -1,4 +1,4 @@
-Structure GtkHScrollbar
+﻿Structure GtkHScrollbar
   scrollbar.GtkScrollbar
 EndStructure
 

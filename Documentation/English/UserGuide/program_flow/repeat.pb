@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
 
     divided.l = 64
     Repeat

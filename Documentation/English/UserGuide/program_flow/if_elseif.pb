@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
     name$ = "John"
     
     If name$="Frank"

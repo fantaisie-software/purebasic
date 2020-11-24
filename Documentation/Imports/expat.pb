@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 CompilerIf #PB_Compiler_OS = #PB_OS_Windows
   #LibName$ = "expat.lib"

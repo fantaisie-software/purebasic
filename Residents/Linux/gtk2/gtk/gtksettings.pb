@@ -1,4 +1,4 @@
-Structure GtkSettings
+﻿Structure GtkSettings
   parent_instance.GObject
  *queued_settings.GData
  *property_values.GtkSettingsPropertyValue

@@ -1,4 +1,4 @@
-OpenConsole()
+﻿OpenConsole()
 
 a = 3
 b = 5

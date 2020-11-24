@@ -1,4 +1,4 @@
-Enumeration   ; GtkDebugFlag
+﻿Enumeration   ; GtkDebugFlag
   #GTK_DEBUG_MISC = 1<<0
   #GTK_DEBUG_PLUGSOCKET = 1<<1
   #GTK_DEBUG_TEXT = 1<<2

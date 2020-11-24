@@ -1,4 +1,4 @@
-Enumeration   ; GdkExtensionMode
+﻿Enumeration   ; GdkExtensionMode
   #GDK_EXTENSION_EVENTS_NONE
   #GDK_EXTENSION_EVENTS_ALL
   #GDK_EXTENSION_EVENTS_CURSOR

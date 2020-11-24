@@ -1,4 +1,4 @@
-OpenConsole()
+﻿OpenConsole()
 
 Print("Enter your name: ")
 

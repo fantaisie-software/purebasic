@@ -1,4 +1,4 @@
-Structure GThreadPool
+﻿Structure GThreadPool
  *func.GFunc
   user_data.i ; gpointer
   exclusive.l ; gboolean

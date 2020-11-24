@@ -1,4 +1,4 @@
-Structure PangoAttribute
+﻿Structure PangoAttribute
  *klass.PangoAttrClass
   start_index.l
   end_index.l

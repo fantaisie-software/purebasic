@@ -1,4 +1,4 @@
-Structure GtkAdjustment
+﻿Structure GtkAdjustment
   parent_instance.GtkObject
   lower.d
   upper.d

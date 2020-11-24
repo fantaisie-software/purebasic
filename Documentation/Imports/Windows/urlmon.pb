@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "urlmon.lib"
        Api(BindAsyncMoniker, (arg1, arg2, arg3, arg4, arg5), 20)

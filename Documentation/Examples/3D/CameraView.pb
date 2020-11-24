@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - CameraView
@@ -39,7 +39,7 @@ If InitEngine3D()
      
     ;- Camera
     ;
-    CreateCamera(1, 50, 50, 1, 1) ; J'ai ajouté et caché cette caméra pour que la caméra 0 ne soit pas zoomée ! Bug ogre ?
+    CreateCamera(1, 50, 50, 1, 1) ; J'ai ajoutÃ© et cachÃ© cette camÃ©ra pour que la camÃ©ra 0 ne soit pas zoomÃ©e ! Bug ogre ?
     
     CreateCamera(0, 25, 25, 50, 50)
     MoveCamera(0, 0, 120, 500, #PB_Absolute)

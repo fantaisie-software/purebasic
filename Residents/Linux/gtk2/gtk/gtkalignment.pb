@@ -1,4 +1,4 @@
-Structure GtkAlignment
+﻿Structure GtkAlignment
   bin.GtkBin
   xalign.f
   yalign.f

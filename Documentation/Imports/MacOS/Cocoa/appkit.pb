@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 ImportC "-framework AppKit"
   ApiC(NSBeep, ())

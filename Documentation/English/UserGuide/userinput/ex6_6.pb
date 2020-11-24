@@ -1,4 +1,4 @@
-; Open console and only continue with main program if successful
+﻿; Open console and only continue with main program if successful
 If OpenConsole()
     DefType.l   width, height       ; Width and height of rectangle
     DefType.l   row, column         ; Counters for the row and column, when displaying the rectangle

@@ -1,4 +1,4 @@
-
+﻿
 ; IPersistMoniker interface definition
 ;
 Interface IPersistMoniker

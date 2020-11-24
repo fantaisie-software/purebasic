@@ -1,4 +1,4 @@
-Structure GtkRadioMenuItem
+﻿Structure GtkRadioMenuItem
   check_menu_item.GtkCheckMenuItem
  *group.GSList
 EndStructure

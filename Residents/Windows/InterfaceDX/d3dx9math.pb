@@ -1,4 +1,4 @@
-
+﻿
 ; ID3DXMatrixStack interface definition
 ;
 Interface ID3DXMatrixStack

@@ -1,4 +1,4 @@
-Structure GtkExpander
+﻿Structure GtkExpander
   bin.GtkBin
  *priv.GtkExpanderPrivate
 EndStructure

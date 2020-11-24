@@ -1,4 +1,4 @@
-Structure GtkFontButton
+﻿Structure GtkFontButton
   button.GtkButton
  *priv.GtkFontButtonPrivate
 EndStructure

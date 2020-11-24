@@ -1,4 +1,4 @@
-Structure GtkActionGroup
+﻿Structure GtkActionGroup
   parent.GObject
  *private_data.GtkActionGroupPrivate
 EndStructure

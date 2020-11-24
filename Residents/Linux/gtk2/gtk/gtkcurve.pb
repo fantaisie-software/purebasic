@@ -1,4 +1,4 @@
-Structure GtkCurve
+﻿Structure GtkCurve
   graph.GtkDrawingArea
   cursor_type.l ; gint
   min_x.f

@@ -1,4 +1,4 @@
-
+﻿
 ; IAMLine21Decoder interface definition
 ;
 Interface IAMLine21Decoder

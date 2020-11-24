@@ -1,4 +1,4 @@
-OpenConsole()
+﻿OpenConsole()
 
 ; A simple expression
 simple.l = 8

@@ -1,4 +1,4 @@
-
+﻿
 Structure SDL_RWops_stdio
   autoclose.l
  *fp

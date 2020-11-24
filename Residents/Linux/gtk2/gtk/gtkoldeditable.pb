@@ -1,4 +1,4 @@
-Structure GtkOldEditable
+﻿Structure GtkOldEditable
   widget.GtkWidget
   current_pos.l
   selection_start_pos.l

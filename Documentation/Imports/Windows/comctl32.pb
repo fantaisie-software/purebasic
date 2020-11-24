@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "comctl32.lib"
        Api(_TrackMouseEvent, (arg1), 4)

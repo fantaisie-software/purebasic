@@ -1,4 +1,4 @@
-Structure GtkColorSelectionDialog
+﻿Structure GtkColorSelectionDialog
   parent_instance.GtkDialog
  *colorsel.GtkWidget
  *ok_button.GtkWidget

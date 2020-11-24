@@ -1,4 +1,4 @@
-Structure GtkSizeGroup
+﻿Structure GtkSizeGroup
   parent_instance.GObject
  *widgets.GSList
   mode.b

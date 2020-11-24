@@ -1,4 +1,4 @@
-
+﻿
 ; IADs interface definition
 ;
 Interface IADs

@@ -1,4 +1,4 @@
-Structure GtkTextChildAnchor
+﻿Structure GtkTextChildAnchor
   parent_instance.GObject
   segment.i ; gpointer
 EndStructure

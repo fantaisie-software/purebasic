@@ -1,4 +1,4 @@
-OpenConsole()
+﻿OpenConsole()
 
 ; Part 1 - Adding items and using the result as a parameter
 fruit.l = 8

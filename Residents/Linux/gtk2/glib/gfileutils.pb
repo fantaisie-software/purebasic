@@ -1,4 +1,4 @@
-Enumeration   ; GFileError
+﻿Enumeration   ; GFileError
   #G_FILE_ERROR_EXIST
   #G_FILE_ERROR_ISDIR
   #G_FILE_ERROR_ACCES

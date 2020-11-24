@@ -1,4 +1,4 @@
-Enumeration   ; GTraverseFlags
+﻿Enumeration   ; GTraverseFlags
   #G_TRAVERSE_LEAVES = 1<<0
   #G_TRAVERSE_NON_LEAVES = 1<<1
   #G_TRAVERSE_ALL = #G_TRAVERSE_LEAVES|#G_TRAVERSE_NON_LEAVES

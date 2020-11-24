@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 CompilerIf #PB_GTK = 3
   ImportC "`pkg-config --libs gtk+-3.0` `pkg-config --libs gthread-2.0`"

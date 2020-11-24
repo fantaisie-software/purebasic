@@ -1,4 +1,4 @@
-Structure GTypePluginClass
+﻿Structure GTypePluginClass
   base_iface.GTypeInterface
  *use_plugin.GTypePluginUse
  *unuse_plugin.GTypePluginUnuse

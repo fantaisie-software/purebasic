@@ -1,4 +1,4 @@
-OpenConsole()
+﻿OpenConsole()
 
 ; Part 1 - Simple example of using the addition operator
 DefType.l apples

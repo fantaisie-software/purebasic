@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectShowStream interface definition
 ;
 Interface IDirectShowStream

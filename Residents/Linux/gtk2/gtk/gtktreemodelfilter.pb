@@ -1,4 +1,4 @@
-Structure GtkTreeModelFilter
+﻿Structure GtkTreeModelFilter
   parent.GObject
  *priv.GtkTreeModelFilterPrivate
 EndStructure

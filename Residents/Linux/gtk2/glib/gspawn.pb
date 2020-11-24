@@ -1,4 +1,4 @@
-Enumeration   ; GSpawnError
+﻿Enumeration   ; GSpawnError
   #G_SPAWN_ERROR_FORK
   #G_SPAWN_ERROR_READ
   #G_SPAWN_ERROR_CHDIR

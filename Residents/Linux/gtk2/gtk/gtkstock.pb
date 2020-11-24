@@ -1,4 +1,4 @@
-Structure GtkStockItem
+﻿Structure GtkStockItem
  *stock_id
  *label
   modifier.l

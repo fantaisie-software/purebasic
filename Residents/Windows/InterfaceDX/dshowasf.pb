@@ -1,4 +1,4 @@
-
+﻿
 ; IConfigAsfWriter interface definition
 ;
 Interface IConfigAsfWriter

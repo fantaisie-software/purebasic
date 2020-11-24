@@ -1,4 +1,4 @@
-; This example is shorter, but you need to make sure that the
+﻿; This example is shorter, but you need to make sure that the
 ; variables are all of the correct type and that the output
 ; is formatted correctly
 

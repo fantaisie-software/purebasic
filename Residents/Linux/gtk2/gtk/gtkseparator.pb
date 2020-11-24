@@ -1,4 +1,4 @@
-Structure GtkSeparator
+﻿Structure GtkSeparator
   widget.GtkWidget
 EndStructure
 

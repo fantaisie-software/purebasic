@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 ImportC "-lSDL -lpthread"
   ApiC(SDL_AddTimer, (arg1, arg2, arg3))

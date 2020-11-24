@@ -1,4 +1,4 @@
-Structure GEnumClass
+﻿Structure GEnumClass
   g_type_class.GTypeClass
   minimum.l  ; gint
   maximum.l  ; gint

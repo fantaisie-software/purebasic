@@ -1,4 +1,4 @@
-Enumeration   ; GtkPrivateFlags
+﻿Enumeration   ; GtkPrivateFlags
   #PRIVATE_GTK_USER_STYLE = 1<<0
   #PRIVATE_GTK_RESIZE_PENDING = 1<<2
   #PRIVATE_GTK_LEAVE_PENDING = 1<<4

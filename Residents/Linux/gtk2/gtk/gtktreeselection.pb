@@ -1,4 +1,4 @@
-Structure GtkTreeSelection
+﻿Structure GtkTreeSelection
   parent.GObject
  *tree_view.GtkTreeView
   type.l  ; GtkSelectionMode enum

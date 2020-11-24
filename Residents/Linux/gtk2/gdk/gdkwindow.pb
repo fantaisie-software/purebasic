@@ -1,4 +1,4 @@
-Enumeration   ; GdkWindowClass
+﻿Enumeration   ; GdkWindowClass
   #GDK_INPUT_OUTPUT
   #GDK_INPUT_ONLY
 EndEnumeration

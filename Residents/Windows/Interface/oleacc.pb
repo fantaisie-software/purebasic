@@ -1,4 +1,4 @@
-
+﻿
 ; IAccessible interface definition
 ;
 Interface IAccessible

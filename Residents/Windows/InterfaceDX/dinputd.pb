@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectInputEffectDriver interface definition
 ;
 Interface IDirectInputEffectDriver

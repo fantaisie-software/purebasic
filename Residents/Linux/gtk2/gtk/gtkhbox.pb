@@ -1,4 +1,4 @@
-Structure GtkHBox
+﻿Structure GtkHBox
   box.GtkBox
 EndStructure
 

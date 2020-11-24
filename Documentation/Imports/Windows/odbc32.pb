@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "odbc32.lib"
        Api(CloseODBCPerfData, (), 0)

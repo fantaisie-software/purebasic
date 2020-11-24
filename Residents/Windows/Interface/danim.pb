@@ -1,4 +1,4 @@
-
+﻿
 ; IDAViewSite interface definition
 ;
 Interface IDAViewSite

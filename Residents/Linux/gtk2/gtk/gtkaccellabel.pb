@@ -1,4 +1,4 @@
-Structure GtkAccelLabel
+﻿Structure GtkAccelLabel
   label.GtkLabel
   gtk_reserved.l
   accel_padding.l

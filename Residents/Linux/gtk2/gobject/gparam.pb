@@ -1,4 +1,4 @@
-Enumeration   ; GParamFlags
+﻿Enumeration   ; GParamFlags
   #G_PARAM_READABLE = 1<<0
   #G_PARAM_WRITABLE = 1<<1
   #G_PARAM_CONSTRUCT = 1<<2

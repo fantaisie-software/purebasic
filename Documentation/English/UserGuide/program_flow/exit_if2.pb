@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
     ; This is how many apples the user wants
     desired_quantity = 10
 

@@ -1,4 +1,4 @@
-Structure GtkWindow
+﻿Structure GtkWindow
   bin.GtkBin
  *title
  *wmclass_name

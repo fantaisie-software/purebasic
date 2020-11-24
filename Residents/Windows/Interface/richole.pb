@@ -1,4 +1,4 @@
-
+﻿
 ; IRichEditOle interface definition
 ;
 Interface IRichEditOle

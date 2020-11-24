@@ -1,4 +1,4 @@
-Structure GtkInvisible
+﻿Structure GtkInvisible
   widget.GtkWidget
   has_user_ref_count.l  ; gboolean
   PB_Align(0, 4)

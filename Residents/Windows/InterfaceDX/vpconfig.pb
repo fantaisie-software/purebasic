@@ -1,4 +1,4 @@
-
+﻿
 ; IVPBaseConfig interface definition
 ;
 Interface IVPBaseConfig

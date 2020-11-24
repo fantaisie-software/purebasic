@@ -1,4 +1,4 @@
-Enumeration   ; SDLKey
+﻿Enumeration   ; SDLKey
   #SDLK_UNKNOWN = 0
   #SDLK_FIRST = 0
   #SDLK_BACKSPACE = 8

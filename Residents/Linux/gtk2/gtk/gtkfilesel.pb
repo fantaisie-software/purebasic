@@ -1,4 +1,4 @@
-Structure GtkFileSelection
+﻿Structure GtkFileSelection
   parent_instance.GtkDialog
  *dir_list.GtkWidget
  *file_list.GtkWidget

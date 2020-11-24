@@ -1,4 +1,4 @@
-
+﻿
 ; IAMCollection interface definition
 ;
 Interface IAMCollection

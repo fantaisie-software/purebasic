@@ -1,4 +1,4 @@
-Enumeration   ; GtkToolbarChildType
+﻿Enumeration   ; GtkToolbarChildType
   #GTK_TOOLBAR_CHILD_SPACE
   #GTK_TOOLBAR_CHILD_BUTTON
   #GTK_TOOLBAR_CHILD_TOGGLEBUTTON

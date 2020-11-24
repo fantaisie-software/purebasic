@@ -1,4 +1,4 @@
-
+﻿
 ; IDirect3D8 interface definition
 ;
 Interface IDirect3D8

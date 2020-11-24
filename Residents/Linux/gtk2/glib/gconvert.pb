@@ -1,4 +1,4 @@
-Enumeration   ; GConvertError
+﻿Enumeration   ; GConvertError
   #G_CONVERT_ERROR_NO_CONVERSION
   #G_CONVERT_ERROR_ILLEGAL_SEQUENCE
   #G_CONVERT_ERROR_FAILED

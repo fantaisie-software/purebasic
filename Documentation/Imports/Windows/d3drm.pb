@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "d3drm.lib"
        Api(D3DRMColorGetAlpha, (arg1), 4)

@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "gdi32.lib"
        Api(AbortDoc, (arg1), 4)

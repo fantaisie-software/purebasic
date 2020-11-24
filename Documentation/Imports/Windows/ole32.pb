@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "ole32.lib"
        Api(BindMoniker, (arg1, arg2, arg3, arg4), 16)

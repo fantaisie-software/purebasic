@@ -1,4 +1,4 @@
-Structure GtkVButtonBox
+﻿Structure GtkVButtonBox
   button_box.GtkButtonBox
 EndStructure
 

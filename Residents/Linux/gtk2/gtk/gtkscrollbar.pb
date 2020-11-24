@@ -1,4 +1,4 @@
-Structure GtkScrollbar
+﻿Structure GtkScrollbar
   range.GtkRange
 EndStructure
 

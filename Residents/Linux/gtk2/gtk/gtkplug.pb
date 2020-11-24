@@ -1,4 +1,4 @@
-Structure GtkPlug
+﻿Structure GtkPlug
   window.GtkWindow
  *socket_window.GdkWindow
  *modality_window.GtkWidget

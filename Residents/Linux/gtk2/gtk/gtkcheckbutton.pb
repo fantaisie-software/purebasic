@@ -1,4 +1,4 @@
-Structure GtkCheckButton
+﻿Structure GtkCheckButton
   toggle_button.GtkToggleButton
 EndStructure
 

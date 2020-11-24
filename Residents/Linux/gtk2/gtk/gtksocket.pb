@@ -1,4 +1,4 @@
-Structure GtkSocket
+﻿Structure GtkSocket
   container.GtkContainer
   request_width.w
   request_height.w

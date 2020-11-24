@@ -1,4 +1,4 @@
-; It can take few minutes to build all terrains (it will be more faster after saving it)
+﻿; It can take few minutes to build all terrains (it will be more faster after saving it)
 MessageRequester("Warning !", "It can take a few minutes to build all terrains...", 0)
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 

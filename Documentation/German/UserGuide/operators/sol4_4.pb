@@ -1,4 +1,4 @@
-; Remember to open the console so we can display the results
+﻿; Remember to open the console so we can display the results
 OpenConsole()
 
 ; Create the variables we require

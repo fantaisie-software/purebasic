@@ -1,4 +1,4 @@
-Structure GtkHRuler
+﻿Structure GtkHRuler
   ruler.GtkRuler
 EndStructure
 

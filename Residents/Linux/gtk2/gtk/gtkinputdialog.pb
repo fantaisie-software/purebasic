@@ -1,4 +1,4 @@
-Structure GtkInputDialog
+﻿Structure GtkInputDialog
   dialog.GtkDialog
  *axis_list.GtkWidget
  *axis_listbox.GtkWidget

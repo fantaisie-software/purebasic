@@ -1,4 +1,4 @@
-#GTK_MAX_COMPOSE_LEN = 7
+﻿#GTK_MAX_COMPOSE_LEN = 7
 Structure GtkIMContextSimple
   object.GtkIMContext
  *tables.GSList

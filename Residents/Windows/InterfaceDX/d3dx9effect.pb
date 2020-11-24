@@ -1,4 +1,4 @@
-
+﻿
 ; ID3DXEffectPool interface definition
 ;
 Interface ID3DXEffectPool

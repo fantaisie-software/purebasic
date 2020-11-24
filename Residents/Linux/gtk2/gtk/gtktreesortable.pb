@@ -1,4 +1,4 @@
-Structure GtkTreeSortableIface
+﻿Structure GtkTreeSortableIface
   g_iface.GTypeInterface
  *sort_column_changed
  *get_sort_column_id

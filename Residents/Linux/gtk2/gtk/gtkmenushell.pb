@@ -1,4 +1,4 @@
-Structure GtkMenuShell
+﻿Structure GtkMenuShell
   container.GtkContainer
  *children.GList
  *active_menu_item.GtkWidget

@@ -1,4 +1,4 @@
-Structure GtkEventBox
+﻿Structure GtkEventBox
   bin.GtkBin
 EndStructure
 

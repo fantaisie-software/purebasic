@@ -1,4 +1,4 @@
-
+﻿
 ; IPropertySetter interface definition
 ;
 Interface IPropertySetter

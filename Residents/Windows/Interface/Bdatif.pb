@@ -1,4 +1,4 @@
-
+﻿
 ; IBDA_TIF_REGISTRATION interface definition
 ;
 Interface IBDA_TIF_REGISTRATION

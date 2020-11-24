@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectPlayNATHelp interface definition
 ;
 Interface IDirectPlayNATHelp

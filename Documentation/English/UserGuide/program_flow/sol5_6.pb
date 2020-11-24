@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
 
     Print("  x")
     For column = 2 To 12

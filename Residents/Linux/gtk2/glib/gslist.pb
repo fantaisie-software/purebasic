@@ -1,4 +1,4 @@
-Structure GSList
+﻿Structure GSList
   data.i ; gpointer
  *next.GSList
 EndStructure

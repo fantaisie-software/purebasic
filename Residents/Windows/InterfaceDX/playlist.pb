@@ -1,4 +1,4 @@
-
+﻿
 ; IAMPlayListItem interface definition
 ;
 Interface IAMPlayListItem

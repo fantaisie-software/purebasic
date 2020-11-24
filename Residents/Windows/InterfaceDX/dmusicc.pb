@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectMusic interface definition
 ;
 Interface IDirectMusic

@@ -1,4 +1,4 @@
-Enumeration   ; GdkCursorType
+﻿Enumeration   ; GdkCursorType
   #GDK_X_CURSOR = 0
   #GDK_ARROW = 2
   #GDK_BASED_ARROW_DOWN = 4

@@ -1,4 +1,4 @@
-Structure GTuples
+﻿Structure GTuples
   len.l
 EndStructure
 

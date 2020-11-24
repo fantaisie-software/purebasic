@@ -1,4 +1,4 @@
-
+﻿
 ; IWebBrowser interface definition
 ;
 Interface IWebBrowser

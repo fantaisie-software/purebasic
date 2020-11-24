@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "ws2_32.lib"
        Api(freeaddrinfo, (arg1), 4)

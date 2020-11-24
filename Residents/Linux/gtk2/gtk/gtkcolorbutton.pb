@@ -1,4 +1,4 @@
-Structure GtkColorButton
+﻿Structure GtkColorButton
   button.GtkButton
  *priv.GtkColorButtonPrivate
 EndStructure

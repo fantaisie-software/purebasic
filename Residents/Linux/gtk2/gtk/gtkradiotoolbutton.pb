@@ -1,4 +1,4 @@
-Structure GtkRadioToolButton
+﻿Structure GtkRadioToolButton
   parent.GtkToggleToolButton
 EndStructure
 

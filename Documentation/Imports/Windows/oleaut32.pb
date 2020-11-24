@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "oleaut32.lib"
        Api(BSTR_UserFree, (arg1, arg2), 8)

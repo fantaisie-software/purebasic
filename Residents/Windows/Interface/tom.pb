@@ -1,4 +1,4 @@
-
+﻿
 ; ITextDocument interface definition
 ;
 Interface ITextDocument

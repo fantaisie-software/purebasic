@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "shell32.lib"
        Api(CallCPLEntry16, (arg1, arg2, arg3, arg4, arg5, arg6), 24)

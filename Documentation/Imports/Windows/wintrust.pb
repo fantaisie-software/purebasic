@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "wintrust.lib"
        Api(WinLoadTrustProvider, (arg1), 4)

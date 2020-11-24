@@ -1,4 +1,4 @@
-Structure GtkListItem
+﻿Structure GtkListItem
   item.GtkItem
 EndStructure
 

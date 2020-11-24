@@ -1,4 +1,4 @@
-#G_LOG_LEVEL_USER_SHIFT = (8)
+﻿#G_LOG_LEVEL_USER_SHIFT = (8)
 Enumeration   ; GLogLevelFlags
   #G_LOG_FLAG_RECURSION = 1<<0
   #G_LOG_FLAG_FATAL = 1<<1

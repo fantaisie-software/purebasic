@@ -1,4 +1,4 @@
-Structure GtkHSeparator
+﻿Structure GtkHSeparator
   separator.GtkSeparator
 EndStructure
 

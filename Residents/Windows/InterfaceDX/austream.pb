@@ -1,4 +1,4 @@
-
+﻿
 ; IAudioMediaStream interface definition
 ;
 Interface IAudioMediaStream

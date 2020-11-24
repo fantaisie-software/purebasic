@@ -1,4 +1,4 @@
-Enumeration   ; GMarkupError
+﻿Enumeration   ; GMarkupError
   #G_MARKUP_ERROR_BAD_UTF8
   #G_MARKUP_ERROR_EMPTY
   #G_MARKUP_ERROR_PARSE

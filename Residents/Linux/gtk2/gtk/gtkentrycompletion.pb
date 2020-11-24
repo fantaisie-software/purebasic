@@ -1,4 +1,4 @@
-Structure GtkEntryCompletion
+﻿Structure GtkEntryCompletion
   parent_instance.GObject
  *priv.GtkEntryCompletionPrivate
 EndStructure

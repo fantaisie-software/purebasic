@@ -1,4 +1,4 @@
-Structure GtkPropertyMark
+﻿Structure GtkPropertyMark
  *property.GList
   offset.l
   index.l

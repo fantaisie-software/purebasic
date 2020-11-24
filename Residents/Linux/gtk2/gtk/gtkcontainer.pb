@@ -1,4 +1,4 @@
-Structure GtkContainer
+﻿Structure GtkContainer
   widget.GtkWidget
  *focus_child.GtkWidget
   packed_flags.l

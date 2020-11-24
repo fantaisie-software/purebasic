@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "aclui.lib"
        Api(CreateSecurityPage, (arg1), 4)

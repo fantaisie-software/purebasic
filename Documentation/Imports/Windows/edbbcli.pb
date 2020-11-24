@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "edbbcli.lib"
        Api(BackupFree, (arg1), 4)

@@ -1,4 +1,4 @@
-
+﻿
 ; IOleAdviseHolder interface definition
 ;
 Interface IOleAdviseHolder

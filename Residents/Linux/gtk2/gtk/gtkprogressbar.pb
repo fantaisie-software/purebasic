@@ -1,4 +1,4 @@
-Enumeration   ; GtkProgressBarStyle
+﻿Enumeration   ; GtkProgressBarStyle
   #GTK_PROGRESS_CONTINUOUS
   #GTK_PROGRESS_DISCRETE
 EndEnumeration

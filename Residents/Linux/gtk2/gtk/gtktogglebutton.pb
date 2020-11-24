@@ -1,4 +1,4 @@
-Structure GtkToggleButton
+﻿Structure GtkToggleButton
   button.GtkButton
   packed_flags.l
   ; active:1

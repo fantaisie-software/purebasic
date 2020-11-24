@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 ImportC "-framework Accelerate"
   ApiC(vImageAffineWarp_ARGB8888, (*src, *dest, *tempBuffer, *transform, *backColor, flags))

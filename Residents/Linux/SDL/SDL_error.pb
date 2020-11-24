@@ -1,4 +1,4 @@
-Enumeration   ; SDL_errorcode
+﻿Enumeration   ; SDL_errorcode
   #SDL_ENOMEM
   #SDL_EFREAD
   #SDL_EFWRITE

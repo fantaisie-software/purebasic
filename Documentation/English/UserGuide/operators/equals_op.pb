@@ -1,4 +1,4 @@
-OpenConsole()
+﻿OpenConsole()
 name$ = "John"
 height.f = 186.6
 weight.f = 80

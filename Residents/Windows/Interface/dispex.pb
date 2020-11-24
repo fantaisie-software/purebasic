@@ -1,4 +1,4 @@
-
+﻿
 ; IDispatchEx interface definition
 ;
 Interface IDispatchEx

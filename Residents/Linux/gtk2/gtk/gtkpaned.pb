@@ -1,4 +1,4 @@
-Structure GtkPaned
+﻿Structure GtkPaned
   container.GtkContainer
  *child1.GtkWidget
  *child2.GtkWidget

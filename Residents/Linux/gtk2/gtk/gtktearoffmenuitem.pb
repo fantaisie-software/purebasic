@@ -1,4 +1,4 @@
-Structure GtkTearoffMenuItem
+﻿Structure GtkTearoffMenuItem
   menu_item.GtkMenuItem
   packed_flags.l
   ; torn_off:1

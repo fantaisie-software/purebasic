@@ -1,4 +1,4 @@
-Structure GtkTextTagTable
+﻿Structure GtkTextTagTable
   parent_instance.GObject
  *hash.GHashTable
  *anonymous.GSList

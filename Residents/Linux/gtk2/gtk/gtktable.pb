@@ -1,4 +1,4 @@
-Structure GtkTable
+﻿Structure GtkTable
   container.GtkContainer
  *children.GList
  *rows.GtkTableRowCol

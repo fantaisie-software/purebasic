@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectDrawVideo interface definition
 ;
 Interface IDirectDrawVideo

@@ -1,4 +1,4 @@
-Enumeration   ; GtkDestDefaults
+﻿Enumeration   ; GtkDestDefaults
   #GTK_DEST_DEFAULT_MOTION = 1<<0
   #GTK_DEST_DEFAULT_HIGHLIGHT = 1<<1
   #GTK_DEST_DEFAULT_DROP = 1<<2

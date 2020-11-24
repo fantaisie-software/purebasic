@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "rasapi32.lib"
        Api(DDMGetPhonebookInfo, (arg1, arg2, arg3, arg4, arg5, arg6, arg7), 28)

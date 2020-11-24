@@ -1,4 +1,4 @@
-Structure GtkLabel
+﻿Structure GtkLabel
   misc.GtkMisc
  *label
   packed_flags.l

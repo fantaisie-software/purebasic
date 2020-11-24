@@ -1,4 +1,4 @@
-
+﻿
 ; IPropertyStorage interface definition
 ;
 Interface IPropertyStorage

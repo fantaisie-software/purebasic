@@ -1,4 +1,4 @@
-
+﻿
 ; ID3DXFile interface definition
 ;
 Interface ID3DXFile

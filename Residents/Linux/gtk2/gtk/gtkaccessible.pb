@@ -1,4 +1,4 @@
-Structure GtkAccessible
+﻿Structure GtkAccessible
   parent.AtkObject
  *widget.GtkWidget
 EndStructure

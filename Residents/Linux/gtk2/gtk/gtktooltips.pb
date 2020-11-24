@@ -1,4 +1,4 @@
-Structure GtkTooltipsData
+﻿Structure GtkTooltipsData
  *tooltips.GtkTooltips
  *widget.GtkWidget
  *tip_text

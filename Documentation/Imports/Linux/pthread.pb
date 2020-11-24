@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 ImportC "-lpthread"
   ApiC(pthread_attr_destroy, (arg1))

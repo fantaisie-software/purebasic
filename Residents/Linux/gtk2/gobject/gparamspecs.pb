@@ -1,4 +1,4 @@
-Structure GParamSpecChar
+﻿Structure GParamSpecChar
   parent_instance.GParamSpec
   minimum.b
   maximum.b

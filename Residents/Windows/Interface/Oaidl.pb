@@ -1,4 +1,4 @@
-
+﻿
 ; ICreateTypeInfo interface definition
 ;
 Interface ICreateTypeInfo

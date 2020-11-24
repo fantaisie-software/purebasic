@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
 
     the_other = 10
     For something=1 To the_other

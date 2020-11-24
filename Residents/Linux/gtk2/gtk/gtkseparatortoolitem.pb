@@ -1,4 +1,4 @@
-Structure GtkSeparatorToolItem
+﻿Structure GtkSeparatorToolItem
   parent.GtkToolItem
  *priv.GtkSeparatorToolItemPrivate
 EndStructure

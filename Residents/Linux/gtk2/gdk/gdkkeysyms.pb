@@ -1,4 +1,4 @@
-#GDK_VoidSymbol = $FFFFFF
+﻿#GDK_VoidSymbol = $FFFFFF
 #GDK_BackSpace = $FF08
 #GDK_Tab = $FF09
 #GDK_Linefeed = $FF0A

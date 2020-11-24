@@ -1,4 +1,4 @@
-
+﻿
 ; IQueryAssociations interface definition
 ;
 Interface IQueryAssociations

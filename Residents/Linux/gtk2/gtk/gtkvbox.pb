@@ -1,4 +1,4 @@
-Structure GtkVBox
+﻿Structure GtkVBox
   box.GtkBox
 EndStructure
 

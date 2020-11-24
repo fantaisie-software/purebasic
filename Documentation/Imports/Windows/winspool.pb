@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "winspool.lib"
        Api(AbortPrinter, (arg1), 4)

@@ -1,4 +1,4 @@
-
+﻿
 ; IMAPISession interface definition
 ;
 Interface IMAPISession

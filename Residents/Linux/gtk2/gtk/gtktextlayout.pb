@@ -1,4 +1,4 @@
-Structure GtkTextLayout
+﻿Structure GtkTextLayout
   parent_instance.GObject
   screen_width.l
   width.l

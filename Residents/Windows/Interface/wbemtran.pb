@@ -1,4 +1,4 @@
-
+﻿
 ; IWbemTransport interface definition
 ;
 Interface IWbemTransport

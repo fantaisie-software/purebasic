@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectPlay8Client interface definition
 ;
 Interface IDirectPlay8Client

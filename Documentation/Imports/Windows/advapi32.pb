@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "advapi32.lib"
   AnsiWide(AbortSystemShutdown, (arg1), 4)

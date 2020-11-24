@@ -1,4 +1,4 @@
-Structure GtkRuler
+﻿Structure GtkRuler
   widget.GtkWidget
  *backing_store.GdkPixmap
  *non_gr_exp_gc.GdkGC

@@ -1,4 +1,4 @@
-
+﻿
 ; IGPEInformation interface definition
 ;
 Interface IGPEInformation

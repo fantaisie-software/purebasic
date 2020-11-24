@@ -1,4 +1,4 @@
-Structure GtkScale
+﻿Structure GtkScale
   range.GtkRange
   digits.l
   packed_flags.l

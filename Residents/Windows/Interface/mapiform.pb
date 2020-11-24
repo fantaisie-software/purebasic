@@ -1,4 +1,4 @@
-
+﻿
 ; IPersistMessage interface definition
 ;
 Interface IPersistMessage

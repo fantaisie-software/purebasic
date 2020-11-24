@@ -1,4 +1,4 @@
-
+﻿
 ; IMSVidRect interface definition
 ;
 Interface IMSVidRect

@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "mslsp32.lib"
        Api(LSEnumProviders, (arg1, arg2), 8)

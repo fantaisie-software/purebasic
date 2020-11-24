@@ -1,4 +1,4 @@
-
+﻿
 ; IIlsServer interface definition
 ;
 Interface IIlsServer

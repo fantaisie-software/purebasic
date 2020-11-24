@@ -1,4 +1,4 @@
-Enumeration   ; GtkFileFilterFlags
+﻿Enumeration   ; GtkFileFilterFlags
   #GTK_FILE_FILTER_FILENAME = 1<<0
   #GTK_FILE_FILTER_URI = 1<<1
   #GTK_FILE_FILTER_DISPLAY_NAME = 1<<2

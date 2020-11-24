@@ -1,4 +1,4 @@
-
+﻿
 ; IBackgroundCopyFile interface definition
 ;
 Interface IBackgroundCopyFile

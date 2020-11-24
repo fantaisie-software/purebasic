@@ -1,4 +1,4 @@
-Structure GtkStatusbar
+﻿Structure GtkStatusbar
   parent_widget.GtkHBox
  *frame.GtkWidget
  *label.GtkWidget

@@ -1,4 +1,4 @@
-;
+﻿;
 ; OpenGL Gadget demonstration
 ;
 ; (c) Fantaisie Software

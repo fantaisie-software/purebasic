@@ -1,4 +1,4 @@
-Structure GtkRadioAction
+﻿Structure GtkRadioAction
   parent.GtkToggleAction
  *private_data.GtkRadioActionPrivate
 EndStructure

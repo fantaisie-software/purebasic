@@ -1,4 +1,4 @@
-Enumeration   ; GdkCapStyle
+﻿Enumeration   ; GdkCapStyle
   #GDK_CAP_NOT_LAST
   #GDK_CAP_BUTT
   #GDK_CAP_ROUND

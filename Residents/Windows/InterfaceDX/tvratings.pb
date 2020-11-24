@@ -1,4 +1,4 @@
-
+﻿
 ; IXDSToRat interface definition
 ;
 Interface IXDSToRat

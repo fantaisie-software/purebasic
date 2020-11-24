@@ -1,4 +1,4 @@
-
+﻿
 ; IVPBaseNotify interface definition
 ;
 Interface IVPBaseNotify

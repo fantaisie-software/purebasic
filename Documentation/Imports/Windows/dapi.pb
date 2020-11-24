@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "dapi.lib"
   AnsiWide(BatchExport, (arg1), 4)

@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "msi.lib"
        Api(MsiCloseAllHandles, (), 0)

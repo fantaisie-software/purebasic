@@ -1,4 +1,4 @@
-
+﻿
 ; IKsControl interface definition
 ;
 Interface IKsControl

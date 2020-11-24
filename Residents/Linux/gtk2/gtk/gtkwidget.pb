@@ -1,4 +1,4 @@
-Enumeration   ; GtkWidgetFlags
+﻿Enumeration   ; GtkWidgetFlags
   #GTK_TOPLEVEL = 1<<4
   #GTK_NO_WINDOW = 1<<5
   #GTK_REALIZED = 1<<6

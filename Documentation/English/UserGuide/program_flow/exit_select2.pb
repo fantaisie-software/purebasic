@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
 
     game$ = "Football"
     team$ = "England"

@@ -1,4 +1,4 @@
-
+﻿
 ; IWbemPropertyProvider interface definition
 ;
 Interface IWbemPropertyProvider

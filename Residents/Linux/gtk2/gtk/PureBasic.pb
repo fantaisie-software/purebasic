@@ -1,4 +1,4 @@
-
+﻿
 ; check #G_TOKEN_LAST value
 
 IncludePath "../gdk/"

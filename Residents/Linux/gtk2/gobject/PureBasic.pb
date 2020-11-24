@@ -1,4 +1,4 @@
-
+﻿
 IncludePath "../glib"
 XIncludeFile "PureBasic.pb"
 IncludePath "../gobject"

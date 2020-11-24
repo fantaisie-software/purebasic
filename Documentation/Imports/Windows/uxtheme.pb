@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "uxtheme.lib"
        Api(CloseThemeData, (arg1), 4)

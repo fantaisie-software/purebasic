@@ -1,4 +1,4 @@
-
+﻿
 ; IHlink interface definition
 ;
 Interface IHlink

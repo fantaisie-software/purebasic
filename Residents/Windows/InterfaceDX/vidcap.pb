@@ -1,4 +1,4 @@
-
+﻿
 ; IKsTopologyInfo interface definition
 ;
 Interface IKsTopologyInfo

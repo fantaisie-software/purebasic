@@ -1,4 +1,4 @@
-
+﻿
 ; IAMDirectSound interface definition
 ;
 Interface IAMDirectSound

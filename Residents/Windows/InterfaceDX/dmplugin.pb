@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectMusicTool interface definition
 ;
 Interface IDirectMusicTool

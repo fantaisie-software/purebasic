@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "win32spl.lib"
        Api(InitializePrintMonitor, (arg1), 4)

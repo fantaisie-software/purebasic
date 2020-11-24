@@ -1,4 +1,4 @@
-Structure GtkIMMulticontext
+﻿Structure GtkIMMulticontext
   object.GtkIMContext
  *slave.GtkIMContext
  *priv.GtkIMMulticontextPrivate

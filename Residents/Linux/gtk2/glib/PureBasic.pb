@@ -1,4 +1,4 @@
-; Root file for gtk/gobject
+﻿; Root file for gtk/gobject
 ;
 CompilerIf SizeOf(Integer) = 4 ; x86, PowerPC
   Macro PB_Align(pad32, pad64, index=)

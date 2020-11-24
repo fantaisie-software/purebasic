@@ -1,4 +1,4 @@
-
+﻿
 ; IFolderViewOC interface definition
 ;
 Interface IFolderViewOC

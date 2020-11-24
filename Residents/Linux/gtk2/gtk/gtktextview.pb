@@ -1,4 +1,4 @@
-Enumeration   ; GtkTextWindowType
+﻿Enumeration   ; GtkTextWindowType
   #GTK_TEXT_WINDOW_PRIVATE
   #GTK_TEXT_WINDOW_WIDGET
   #GTK_TEXT_WINDOW_TEXT

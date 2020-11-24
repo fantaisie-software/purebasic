@@ -1,4 +1,4 @@
-
+﻿
 ; IVMRImagePresenter9 interface definition
 ;
 Interface IVMRImagePresenter9

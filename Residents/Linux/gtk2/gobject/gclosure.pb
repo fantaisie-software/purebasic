@@ -1,4 +1,4 @@
-Structure GClosureNotifyData
+﻿Structure GClosureNotifyData
   data.i ; gpointer
  *notify.GClosureNotify
 EndStructure

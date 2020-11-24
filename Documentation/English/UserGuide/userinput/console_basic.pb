@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
     PrintN("Console was opened successfully")
 
     PrintN("Press return to exit")

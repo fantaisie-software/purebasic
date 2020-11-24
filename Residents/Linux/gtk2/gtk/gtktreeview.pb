@@ -1,4 +1,4 @@
-Enumeration   ; GtkTreeViewDropPosition
+﻿Enumeration   ; GtkTreeViewDropPosition
   #GTK_TREE_VIEW_DROP_BEFORE
   #GTK_TREE_VIEW_DROP_AFTER
   #GTK_TREE_VIEW_DROP_INTO_OR_BEFORE

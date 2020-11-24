@@ -1,4 +1,4 @@
-
+﻿
 ; IDxDiagProvider interface definition
 ;
 Interface IDxDiagProvider

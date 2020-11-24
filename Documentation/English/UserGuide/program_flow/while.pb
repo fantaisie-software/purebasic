@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
     age.w = 0
     While age <= 120
         PrintN("Happy birthday at "+Str(age)+" years old")

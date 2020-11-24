@@ -1,4 +1,4 @@
-Structure GtkTextTag
+﻿Structure GtkTextTag
   parent_instance.GObject
  *table.GtkTextTagTable
  *name

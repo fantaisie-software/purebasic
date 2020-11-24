@@ -1,4 +1,4 @@
-;
+﻿;
 ; Native OpenGL Test
 ;
 ; (c) Fantaisie Software

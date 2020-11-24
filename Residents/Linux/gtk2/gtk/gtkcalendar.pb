@@ -1,4 +1,4 @@
-Enumeration   ; GtkCalendarDisplayOptions
+﻿Enumeration   ; GtkCalendarDisplayOptions
   #GTK_CALENDAR_SHOW_HEADING = 1<<0
   #GTK_CALENDAR_SHOW_DAY_NAMES = 1<<1
   #GTK_CALENDAR_NO_MONTH_CHANGE = 1<<2

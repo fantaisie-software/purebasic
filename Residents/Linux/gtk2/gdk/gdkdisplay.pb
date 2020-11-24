@@ -1,4 +1,4 @@
-Structure GdkDisplay
+﻿Structure GdkDisplay
   parent_instance.GObject
  *queued_events.GList
  *queued_tail.GList

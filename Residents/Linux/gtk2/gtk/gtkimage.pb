@@ -1,4 +1,4 @@
-Structure GtkImagePixmapData
+﻿Structure GtkImagePixmapData
  *pixmap.GdkPixmap
 EndStructure
 

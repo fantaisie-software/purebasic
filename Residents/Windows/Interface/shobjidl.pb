@@ -1,4 +1,4 @@
-
+﻿
 ; IPersistFolder interface definition
 ;
 Interface IPersistFolder

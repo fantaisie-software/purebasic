@@ -1,4 +1,4 @@
-
+﻿
 ; IKsControl interface definition - Already defined in dmksctrl.pb
 ;
 

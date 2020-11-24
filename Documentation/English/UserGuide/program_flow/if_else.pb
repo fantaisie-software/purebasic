@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
     a.l = 3
     b.l = 4
     If a=b

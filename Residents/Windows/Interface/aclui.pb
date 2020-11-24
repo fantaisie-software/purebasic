@@ -1,4 +1,4 @@
-
+﻿
 ; ISecurityInformation interface definition
 ;
 Interface ISecurityInformation

@@ -1,4 +1,4 @@
-Structure GtkBindingSet
+﻿Structure GtkBindingSet
  *set_name
   priority.l  ; gint
   PB_Align(0, 4)

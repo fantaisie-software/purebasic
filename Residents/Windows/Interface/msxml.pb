@@ -1,4 +1,4 @@
-
+﻿
 ; IXMLDOMImplementation interface definition
 ;
 Interface IXMLDOMImplementation

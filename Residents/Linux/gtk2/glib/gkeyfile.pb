@@ -1,4 +1,4 @@
-Enumeration   ; GKeyFileError
+﻿Enumeration   ; GKeyFileError
   #G_KEY_FILE_ERROR_UNKNOWN_ENCODING
   #G_KEY_FILE_ERROR_PARSE
   #G_KEY_FILE_ERROR_NOT_FOUND

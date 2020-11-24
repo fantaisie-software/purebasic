@@ -1,4 +1,4 @@
-Structure GdkColor
+﻿Structure GdkColor
   pixel.l
   red.u
   green.u
