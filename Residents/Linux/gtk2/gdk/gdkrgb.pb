@@ -1,4 +1,4 @@
-Structure GdkRgbCmap
+﻿Structure GdkRgbCmap
   colors.l[256] ; guint
   n_colors.l    ; gint
   PB_Align(0, 4)

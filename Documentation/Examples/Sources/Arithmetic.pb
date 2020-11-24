@@ -1,4 +1,4 @@
-;
+﻿;
 ; Program to demonstrate the capatibilities of the PureBasic compiler.
 ;
 

@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "dplayx.lib"
        Api(DirectPlayCreate, (arg1, arg2, arg3), 12)

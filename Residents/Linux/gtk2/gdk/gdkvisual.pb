@@ -1,4 +1,4 @@
-Enumeration   ; GdkVisualType
+﻿Enumeration   ; GdkVisualType
   #GDK_VISUAL_STATIC_GRAY
   #GDK_VISUAL_GRAYSCALE
   #GDK_VISUAL_STATIC_COLOR

@@ -1,4 +1,4 @@
-
+﻿
 ; ISWbemServices interface definition
 ;
 Interface ISWbemServices

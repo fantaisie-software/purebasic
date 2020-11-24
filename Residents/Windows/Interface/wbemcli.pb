@@ -1,4 +1,4 @@
-
+﻿
 ; IWbemClassObject interface definition
 ;
 Interface IWbemClassObject

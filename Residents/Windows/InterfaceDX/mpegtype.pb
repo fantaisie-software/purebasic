@@ -1,4 +1,4 @@
-
+﻿
 ; IMpegAudioDecoder interface definition
 ;
 Interface IMpegAudioDecoder

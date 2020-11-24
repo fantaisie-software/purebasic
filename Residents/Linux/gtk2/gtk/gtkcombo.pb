@@ -1,4 +1,4 @@
-Structure GtkCombo
+﻿Structure GtkCombo
   hbox.GtkHBox
  *entry.GtkWidget
  *button.GtkWidget

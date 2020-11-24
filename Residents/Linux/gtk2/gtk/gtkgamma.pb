@@ -1,4 +1,4 @@
-Structure GtkGammaCurve
+﻿Structure GtkGammaCurve
   vbox.GtkVBox
  *table.GtkWidget
  *curve.GtkWidget

@@ -1,4 +1,4 @@
-Structure GtkTreeDragSourceIface
+﻿Structure GtkTreeDragSourceIface
   g_iface.GTypeInterface
  *row_draggable
  *drag_data_get

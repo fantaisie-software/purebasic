@@ -1,4 +1,4 @@
-Structure GtkButton
+﻿Structure GtkButton
   bin.GtkBin
  *event_window.GdkWindow
  *label_text

@@ -1,4 +1,4 @@
-Structure GtkTreeModelSort
+﻿Structure GtkTreeModelSort
   parent.GObject
   root.i        ; gpointer
   stamp.l       ; gint

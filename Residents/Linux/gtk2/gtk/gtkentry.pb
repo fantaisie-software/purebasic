@@ -1,4 +1,4 @@
-Structure GtkEntry
+﻿Structure GtkEntry
   widget.GtkWidget
  *text
   packed_flags.l

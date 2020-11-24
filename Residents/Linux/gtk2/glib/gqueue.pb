@@ -1,4 +1,4 @@
-Structure GQueue
+﻿Structure GQueue
  *head.GList
  *tail.GList
   length.l   ; guint

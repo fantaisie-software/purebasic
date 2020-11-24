@@ -1,4 +1,4 @@
-Structure GtkPreview
+﻿Structure GtkPreview
   widget.GtkWidget
  *buffer
   buffer_width.w

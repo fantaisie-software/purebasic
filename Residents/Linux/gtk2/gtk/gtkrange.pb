@@ -1,4 +1,4 @@
-Structure GtkRange
+﻿Structure GtkRange
   widget.GtkWidget
  *adjustment.GtkAdjustment
   update_policy.l

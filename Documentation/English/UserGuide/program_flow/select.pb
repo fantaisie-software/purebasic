@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
 
     ; This is the same as one of the previous examples, although
     ; the comparisons are always for equality so we cannot do the

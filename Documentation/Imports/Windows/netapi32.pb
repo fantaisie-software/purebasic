@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "netapi32.lib"
        Api(I_BrowserDebugCall, (arg1, arg2, arg3), 12)

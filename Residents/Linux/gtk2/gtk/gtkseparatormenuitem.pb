@@ -1,4 +1,4 @@
-Structure GtkSeparatorMenuItem
+﻿Structure GtkSeparatorMenuItem
   menu_item.GtkMenuItem
 EndStructure
 

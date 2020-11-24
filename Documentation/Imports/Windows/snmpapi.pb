@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "snmpapi.lib"
        Api(SnmpSvcAddrIsIpx, (arg1, arg2, arg3), 12)

@@ -1,4 +1,4 @@
-Enumeration   ; GtkDialogFlags
+﻿Enumeration   ; GtkDialogFlags
   #GTK_DIALOG_MODAL = 1<<0
   #GTK_DIALOG_DESTROY_WITH_PARENT = 1<<1
   #GTK_DIALOG_NO_SEPARATOR = 1<<2

@@ -1,4 +1,4 @@
-Enumeration   ; GtkRcFlags
+﻿Enumeration   ; GtkRcFlags
   #GTK_RC_FG = 1<<0
   #GTK_RC_BG = 1<<1
   #GTK_RC_TEXT = 1<<2

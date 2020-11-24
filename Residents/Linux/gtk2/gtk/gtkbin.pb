@@ -1,4 +1,4 @@
-Structure GtkBin
+﻿Structure GtkBin
   container.GtkContainer
  *child.GtkWidget
 EndStructure

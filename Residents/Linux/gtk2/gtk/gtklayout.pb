@@ -1,4 +1,4 @@
-Structure GtkLayout
+﻿Structure GtkLayout
   container.GtkContainer
  *children.GList
   width.l

@@ -1,4 +1,4 @@
-Structure GCompletion
+﻿Structure GCompletion
  *items.GList
  *func
  *prefix.gchar

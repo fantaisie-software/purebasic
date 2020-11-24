@@ -1,4 +1,4 @@
-Structure GtkCellLayoutIface
+﻿Structure GtkCellLayoutIface
   g_iface.GTypeInterface
  *pack_start
  *pack_end

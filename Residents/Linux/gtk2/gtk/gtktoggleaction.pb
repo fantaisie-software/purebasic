@@ -1,4 +1,4 @@
-Structure GtkToggleAction
+﻿Structure GtkToggleAction
   parent.GtkAction
  *private_data.GtkToggleActionPrivate
 EndStructure

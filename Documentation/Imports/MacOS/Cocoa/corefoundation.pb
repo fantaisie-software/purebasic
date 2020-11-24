@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 ImportC "-framework CoreFoundation"
   ApiC(CFAbsoluteTimeGetCurrent, .d())

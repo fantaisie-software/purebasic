@@ -1,4 +1,4 @@
-Structure GSource
+﻿Structure GSource
   callback_data.i ; gpointer
  *callback_funcs.GSourceCallbackFuncs
  *source_funcs.GSourceFuncs

@@ -1,4 +1,4 @@
-Enumeration   ; GtkTextSearchFlags
+﻿Enumeration   ; GtkTextSearchFlags
   #GTK_TEXT_SEARCH_VISIBLE_ONLY = 1<<0
   #GTK_TEXT_SEARCH_TEXT_ONLY = 1<<1
 EndEnumeration

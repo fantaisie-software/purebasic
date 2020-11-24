@@ -1,4 +1,4 @@
-Enumeration   ; GdkDragAction
+﻿Enumeration   ; GdkDragAction
   #GDK_ACTION_DEFAULT = 1<<0
   #GDK_ACTION_COPY = 1<<1
   #GDK_ACTION_MOVE = 1<<2

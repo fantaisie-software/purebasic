@@ -1,4 +1,4 @@
-Structure GtkFileChooserWidgetClass
+﻿Structure GtkFileChooserWidgetClass
   parent_class.GtkVBoxClass
 EndStructure
 

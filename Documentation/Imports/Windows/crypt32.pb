@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "crypt32.lib"
        Api(CertAddCertificateContextToStore, (arg1, arg2, arg3, arg4), 16)

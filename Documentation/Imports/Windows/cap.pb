@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "cap.lib"
        Api(DumpCAP, (), 0)

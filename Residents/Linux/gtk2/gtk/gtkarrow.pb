@@ -1,4 +1,4 @@
-Structure GtkArrow
+﻿Structure GtkArrow
   misc.GtkMisc
   arrow_type.w
   shadow_type.w

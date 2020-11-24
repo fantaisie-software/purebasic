@@ -1,4 +1,4 @@
-
+﻿
 ; IDelaydC interface definition
 ;
 Interface IDelaydC

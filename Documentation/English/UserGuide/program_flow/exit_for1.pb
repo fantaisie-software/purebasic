@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
 
     For count=0 To 10
         If count=5

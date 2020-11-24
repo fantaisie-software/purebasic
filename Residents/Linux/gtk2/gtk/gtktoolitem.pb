@@ -1,4 +1,4 @@
-Structure GtkToolItem
+﻿Structure GtkToolItem
   parent.GtkBin
  *priv.GtkToolItemPrivate
 EndStructure

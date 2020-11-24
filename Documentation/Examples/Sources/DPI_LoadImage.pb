@@ -1,4 +1,4 @@
-;
+﻿;
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - DPI Aware Load Image example file

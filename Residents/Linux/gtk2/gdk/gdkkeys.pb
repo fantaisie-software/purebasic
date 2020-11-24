@@ -1,4 +1,4 @@
-Structure GdkKeymapKey
+﻿Structure GdkKeymapKey
   keycode.l
   group.l
   level.l

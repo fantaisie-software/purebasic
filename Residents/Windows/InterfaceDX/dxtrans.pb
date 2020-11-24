@@ -1,4 +1,4 @@
-
+﻿
 ; IDXBaseObject interface definition
 ;
 Interface IDXBaseObject

@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectMusicSynth interface definition
 ;
 Interface IDirectMusicSynth

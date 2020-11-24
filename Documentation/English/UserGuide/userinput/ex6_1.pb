@@ -1,4 +1,4 @@
-; Open console and check that it is opened successfully. Only perform the main part of
+﻿; Open console and check that it is opened successfully. Only perform the main part of
 ; the program if it was successful.
 If OpenConsole()
 

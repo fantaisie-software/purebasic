@@ -1,4 +1,4 @@
-Structure GtkDrawingArea
+﻿Structure GtkDrawingArea
   widget.GtkWidget
   draw_data.i ; gpointer
 EndStructure

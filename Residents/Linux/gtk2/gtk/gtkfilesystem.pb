@@ -1,4 +1,4 @@
-Enumeration   ; GtkFileInfoType
+﻿Enumeration   ; GtkFileInfoType
   #GTK_FILE_INFO_DISPLAY_NAME = 1<<0
   #GTK_FILE_INFO_IS_FOLDER = 1<<1
   #GTK_FILE_INFO_IS_HIDDEN = 1<<2

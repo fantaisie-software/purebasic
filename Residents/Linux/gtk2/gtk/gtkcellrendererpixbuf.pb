@@ -1,4 +1,4 @@
-Structure GtkCellRendererPixbuf
+﻿Structure GtkCellRendererPixbuf
   parent.GtkCellRenderer
  *pixbuf.GdkPixbuf
  *pixbuf_expander_open.GdkPixbuf

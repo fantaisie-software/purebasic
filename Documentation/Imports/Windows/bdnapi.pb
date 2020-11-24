@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "bdnapi.lib"
        Api(BdnConnectionClose, (arg1), 4)

@@ -1,4 +1,4 @@
-
+﻿
 ; IFaxTiff interface definition
 ;
 Interface IFaxTiff

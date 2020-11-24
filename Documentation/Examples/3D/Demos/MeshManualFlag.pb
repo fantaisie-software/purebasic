@@ -1,4 +1,4 @@
-;
+﻿;
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - Mesh Manual - Flag
@@ -112,7 +112,7 @@ Procedure DrawMatrix()
   
   For b=0 To #Nbz
     For a=0 To #NbX
-      ;les coordonn�es de vertex
+      ;les coordonnées de vertex
       y.f=Sin(Radian((AngleVague+a*WavePeriodX+b*WavePeriodZ)))*WaveAmplitude
       MeshVertexPosition(a - #NbX/2, y, b - #Nbz/2)
       MeshVertexNormal(0,1,0)

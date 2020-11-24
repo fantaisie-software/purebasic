@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "rpcrt4.lib"
        Api(char_array_from_ndr, (arg1, arg2, arg3, arg4), 16)

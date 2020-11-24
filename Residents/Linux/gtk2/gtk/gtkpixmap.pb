@@ -1,4 +1,4 @@
-Structure GtkPixmap
+﻿Structure GtkPixmap
   misc.GtkMisc
  *pixmap.GdkPixmap
  *mask.GdkBitmap

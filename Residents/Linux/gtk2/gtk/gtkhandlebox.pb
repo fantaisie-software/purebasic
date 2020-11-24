@@ -1,4 +1,4 @@
-Structure GtkHandleBox
+﻿Structure GtkHandleBox
   bin.GtkBin
  *bin_window.GdkWindow
  *float_window.GdkWindow

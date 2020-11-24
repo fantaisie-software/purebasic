@@ -1,4 +1,4 @@
-Enumeration   ; GtkAnchorType
+﻿Enumeration   ; GtkAnchorType
   #GTK_ANCHOR_CENTER
   #GTK_ANCHOR_NORTH
   #GTK_ANCHOR_NORTH_WEST

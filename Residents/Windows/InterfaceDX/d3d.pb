@@ -1,4 +1,4 @@
-
+﻿
 ; IDirect3D interface definition
 ;
 Interface IDirect3D

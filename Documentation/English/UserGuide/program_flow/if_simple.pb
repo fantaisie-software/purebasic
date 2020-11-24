@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
     PrintN("Console was opened successfully")
 
     a.l = 3

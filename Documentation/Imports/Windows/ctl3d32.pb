@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "ctl3d32.lib"
        Api(BtnWndProc3d, (arg1, arg2, arg3, arg4), 16)

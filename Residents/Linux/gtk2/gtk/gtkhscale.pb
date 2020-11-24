@@ -1,4 +1,4 @@
-Structure GtkHScale
+﻿Structure GtkHScale
   scale.GtkScale
 EndStructure
 

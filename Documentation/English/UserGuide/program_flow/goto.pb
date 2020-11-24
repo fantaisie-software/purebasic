@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
     Goto demo_label
 
     PrintN("This command will not be executed")

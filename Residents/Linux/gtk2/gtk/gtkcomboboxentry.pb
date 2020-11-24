@@ -1,4 +1,4 @@
-Structure GtkComboBoxEntry
+﻿Structure GtkComboBoxEntry
   parent_instance.GtkComboBox
  *priv.GtkComboBoxEntryPrivate
 EndStructure

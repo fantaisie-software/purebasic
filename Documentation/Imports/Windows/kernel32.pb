@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "kernel32.lib"
        Api(_hread, (arg1, arg2, arg3), 12)

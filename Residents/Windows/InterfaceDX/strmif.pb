@@ -1,4 +1,4 @@
-
+﻿
 ; ICreateDevEnum interface definition
 ;
 Interface ICreateDevEnum

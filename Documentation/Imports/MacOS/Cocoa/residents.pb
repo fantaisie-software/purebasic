@@ -1,4 +1,4 @@
-; *** Macros ***
+﻿; *** Macros ***
 
 CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
   Macro CGFloat:d:EndMacro

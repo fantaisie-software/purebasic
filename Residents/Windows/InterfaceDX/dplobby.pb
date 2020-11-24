@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectPlayLobby interface definition
 ;
 Interface IDirectPlayLobby

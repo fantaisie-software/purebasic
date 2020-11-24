@@ -1,4 +1,4 @@
-
+﻿
 ; IKsClockPropertySet interface definition
 ;
 Interface IKsClockPropertySet

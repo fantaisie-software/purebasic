@@ -1,4 +1,4 @@
-;
+﻿;
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - Gadget 3D
@@ -41,12 +41,12 @@ Enumeration ; Gadget3D
 EndEnumeration
 
 If InitEngine3D()
-
+  
   Add3DArchive(#PB_Compiler_Home + "examples/3d/Data", #PB_3DArchive_FileSystem)
   Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
   Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
   Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
-    
+  
   InitSprite()
   InitKeyboard()
   InitMouse()
@@ -54,12 +54,12 @@ If InitEngine3D()
   If Screen3DRequester()
     
     SkyBox("desert07.jpg")
-		
-		CreateCamera(0, 0, 0, 100, 100)  ; Front camera
+    
+    CreateCamera(0, 0, 0, 100, 100)  ; Front camera
     MoveCamera(0, 0, 0, 100, #PB_Absolute)
     
     OpenWindow3D(#MainWindow, 50, 20, 280, 400, "Hello in 3D !", #PB_Window3D_SizeGadget)
-		
+    
     Top = 10
     TextGadget3D(#ActiveWindowLabel, 10, Top, 250, 25, "Active window: ") : Top + 30
     
@@ -78,11 +78,11 @@ If InitEngine3D()
     AddGadgetItem3D(#ComboBox, -1, "Item 3")
     AddGadgetItem3D(#ComboBox, -1, "Item 4")
     
-     ;- ScrollBar
+    ;- ScrollBar
     TextGadget3D(#PB_Any, 10, Top, 100, 25, "Scroll bar: ")
     ScrollBarGadget3D(#ScrollBar, 110, Top+7, 150, 10, 0, 100, 20) : Top + 30
     SetGadgetState3D(#ScrollBar, 30)
-        
+    
     ;- String
     TextGadget3D(#PB_Any, 10, Top, 100, 25, "String: ")
     StringGadget3D(#String, 110, Top, 150, 25, "Modify me") : Top + 30
@@ -111,36 +111,36 @@ If InitEngine3D()
     TextGadget3D(#PB_Any, 10, Top, 100, 25, "Button: ")
     ButtonGadget3D(#Button, 110, Top, 150, 25, "Click me !") : Top + 30
     GadgetToolTip3D(#Button, "I'm a button !")
-        
+    
     
     OpenWindow3D(#SecondWindow, 400, 150, 400, 400, "More gadgets", #PB_Window3D_SizeGadget)
     
     PanelGadget3D(#Panel, 10, 10, 370, 350)
-      GadgetToolTip3D(#Panel, "Panel tooltip !")
-      AddGadgetItem3D(#Panel, -1, "First")
-        ListViewGadget3D(#ListView, 10, 10, 200, 200, #PB_ListView3D_Multiselect)
-          For k = 0 To 20
-            AddGadgetItem3D(#ListView, -1, "Item "+Str(k))
-          Next
-          
-      AddGadgetItem3D(#Panel, -1, "Second")
-        ContainerGadget3D(#Container, 0, 0, 400, 400)
-          GadgetToolTip3D(#Container, "Container tooltip !")
-      
-          LoadTexture(0, "clouds.jpg")
-          ImageGadget3D(#Image, 10, 10, 128, 128, TextureID(0))
-      
-          ScrollAreaGadget3D(#ScrollArea, 10, 150, 100, 100, 256, 256, 30)
-          GadgetToolTip3D(#ScrollArea, "Scroll area tooltip !")
-            ImageGadget3D(#Image2, 10, 10, 256, 256, TextureID(0))
-          CloseGadgetList3D()
-        
-        CloseGadgetList3D()
+    GadgetToolTip3D(#Panel, "Panel tooltip !")
+    AddGadgetItem3D(#Panel, -1, "First")
+    ListViewGadget3D(#ListView, 10, 10, 200, 200, #PB_ListView3D_Multiselect)
+    For k = 0 To 20
+      AddGadgetItem3D(#ListView, -1, "Item "+Str(k))
+    Next
     
-      AddGadgetItem3D(#Panel, -1, "Third")
-        EditorGadget3D(#Editor, 10, 10, 300, 200)
-        SetGadgetText3D(#Editor, "Multi" + #LF$ + "Line" + #LF$ + "Editor !")
-      
+    AddGadgetItem3D(#Panel, -1, "Second")
+    ContainerGadget3D(#Container, 0, 0, 400, 400)
+    GadgetToolTip3D(#Container, "Container tooltip !")
+    
+    LoadTexture(0, "clouds.jpg")
+    ImageGadget3D(#Image, 10, 10, 128, 128, TextureID(0))
+    
+    ScrollAreaGadget3D(#ScrollArea, 10, 150, 100, 100, 256, 256, 30)
+    GadgetToolTip3D(#ScrollArea, "Scroll area tooltip !")
+    ImageGadget3D(#Image2, 10, 10, 256, 256, TextureID(0))
+    CloseGadgetList3D()
+    
+    CloseGadgetList3D()
+    
+    AddGadgetItem3D(#Panel, -1, "Third")
+    EditorGadget3D(#Editor, 10, 10, 300, 200)
+    SetGadgetText3D(#Editor, "Multi" + #LF$ + "Line" + #LF$ + "Editor !")
+    
     CloseGadgetList3D()
     
     Repeat
@@ -165,17 +165,17 @@ If InitEngine3D()
       ; Handle the GUI 3D events, it's similar to regular GUI events
       ;
       Repeat
-      	Event = WindowEvent3D()
-      	
-      	SetGadgetText3D(#ActiveWindowLabel, "Active #Window3D: "+Str(GetActiveWindow3D()))
-      	
-      	Select Event
-      		Case #PB_Event3D_Gadget
-      		  If EventGadget3D() = #CloseButton
-      		    CloseWindow3D(#MainWindow)
-      		  EndIf
-      			
-      	EndSelect
+        Event = WindowEvent3D()
+        
+        SetGadgetText3D(#ActiveWindowLabel, "Active #Window3D: "+Str(GetActiveWindow3D()))
+        
+        Select Event
+          Case #PB_Event3D_Gadget
+            If EventGadget3D() = #CloseButton
+              CloseWindow3D(#MainWindow)
+            EndIf
+            
+        EndSelect
       Until Event = 0
       
       RenderWorld()
@@ -183,7 +183,7 @@ If InitEngine3D()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf
-    
+  
 Else
   MessageRequester("Error", "The 3D Engine can't be initialized",0)
 EndIf

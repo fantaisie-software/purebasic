@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "rpcns4.lib"
        Api(I_GetDefaultEntrySyntax, (), 0)

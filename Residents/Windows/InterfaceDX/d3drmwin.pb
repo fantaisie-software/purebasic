@@ -1,4 +1,4 @@
-
+﻿
 ; IDirect3DRMWinDevice interface definition
 ;
 Interface IDirect3DRMWinDevice

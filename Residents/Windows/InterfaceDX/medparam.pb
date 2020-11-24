@@ -1,4 +1,4 @@
-
+﻿
 ; IMediaParamInfo interface definition
 ;
 Interface IMediaParamInfo

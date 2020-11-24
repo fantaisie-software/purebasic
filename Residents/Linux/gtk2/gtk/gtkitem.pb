@@ -1,4 +1,4 @@
-Structure GtkItem
+﻿Structure GtkItem
   bin.GtkBin
 EndStructure
 

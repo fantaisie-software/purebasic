@@ -1,4 +1,4 @@
-Enumeration   ; GdkFontType
+﻿Enumeration   ; GdkFontType
   #GDK_FONT_FONT
   #GDK_FONT_FONTSET
 EndEnumeration

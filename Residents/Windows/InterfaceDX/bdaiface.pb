@@ -1,4 +1,4 @@
-
+﻿
 ; IBDA_NetworkProvider interface definition
 ;
 Interface IBDA_NetworkProvider

@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectInputEffect interface definition
 ;
 Interface IDirectInputEffect

@@ -1,4 +1,4 @@
-;
+﻿;
 ; Info: SDL_Events.pb has been completed by hand (some enum didn't convert correctly)
 ;
 

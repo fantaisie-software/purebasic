@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "comdlg32.lib"
        Api(ArrowBtnWndProc, (arg1, arg2, arg3, arg4), 16)

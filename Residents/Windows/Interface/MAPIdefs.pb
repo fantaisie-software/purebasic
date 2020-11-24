@@ -1,4 +1,4 @@
-
+﻿
 ; IMAPIAdviseSink interface definition
 ;
 Interface IMAPIAdviseSink

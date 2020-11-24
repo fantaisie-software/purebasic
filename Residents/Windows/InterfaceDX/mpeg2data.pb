@@ -1,4 +1,4 @@
-
+﻿
 ; IMpeg2Data interface definition
 ;
 Interface IMpeg2Data

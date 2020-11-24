@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectPlayVoiceClient interface definition
 ;
 Interface IDirectPlayVoiceClient

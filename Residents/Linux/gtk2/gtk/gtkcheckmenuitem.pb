@@ -1,4 +1,4 @@
-Structure GtkCheckMenuItem
+﻿Structure GtkCheckMenuItem
   menu_item.GtkMenuItem
   packed_flags.l
   ; active:1

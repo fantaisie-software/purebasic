@@ -1,4 +1,4 @@
-Structure GtkTreeItem
+﻿Structure GtkTreeItem
   item.GtkItem
  *subtree.GtkWidget
  *pixmaps_box.GtkWidget

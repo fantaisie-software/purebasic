@@ -1,4 +1,4 @@
-Structure GArray
+﻿Structure GArray
  *data
   len.l ; guint
   PB_Align(0, 4)

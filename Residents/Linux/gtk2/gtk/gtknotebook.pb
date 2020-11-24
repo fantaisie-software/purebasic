@@ -1,4 +1,4 @@
-Enumeration   ; GtkNotebookTab
+﻿Enumeration   ; GtkNotebookTab
   #GTK_NOTEBOOK_TAB_FIRST
   #GTK_NOTEBOOK_TAB_LAST
 EndEnumeration

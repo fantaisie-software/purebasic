@@ -1,4 +1,4 @@
-
+﻿
 ; IOleUILinkContainerW interface definition
 ;
 Interface IOleUILinkContainerW

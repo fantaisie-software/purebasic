@@ -1,4 +1,4 @@
-
+﻿
 ; IDirect3DRMObject interface definition
 ;
 Interface IDirect3DRMObject

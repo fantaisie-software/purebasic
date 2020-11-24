@@ -1,4 +1,4 @@
-#G_MEM_ALIGN = 4 ; #GLIB_SIZEOF_VOID_P
+﻿#G_MEM_ALIGN = 4 ; #GLIB_SIZEOF_VOID_P
 #G_MEM_ALIGN = 4 ; #GLIB_SIZEOF_LONG
 Structure GMemVTable
  *malloc

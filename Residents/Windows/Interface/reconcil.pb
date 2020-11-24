@@ -1,4 +1,4 @@
-
+﻿
 ; INotifyReplica interface definition
 ;
 Interface INotifyReplica

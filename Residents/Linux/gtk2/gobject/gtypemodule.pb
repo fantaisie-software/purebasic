@@ -1,4 +1,4 @@
-Structure GTypeModule
+﻿Structure GTypeModule
   parent_instance.GObject
   use_count.l ; guint
   PB_Align(0,4)

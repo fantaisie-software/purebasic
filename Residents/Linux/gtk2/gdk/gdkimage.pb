@@ -1,4 +1,4 @@
-Enumeration   ; GdkImageType
+﻿Enumeration   ; GdkImageType
   #GDK_IMAGE_NORMAL
   #GDK_IMAGE_SHARED
   #GDK_IMAGE_FASTEST

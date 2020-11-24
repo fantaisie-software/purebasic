@@ -1,4 +1,4 @@
-Enumeration   ; GtkCellRendererState
+﻿Enumeration   ; GtkCellRendererState
   #GTK_CELL_RENDERER_SELECTED = 1<<0
   #GTK_CELL_RENDERER_PRELIT = 1<<1
   #GTK_CELL_RENDERER_INSENSITIVE = 1<<2

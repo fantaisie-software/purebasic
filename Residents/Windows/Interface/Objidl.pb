@@ -1,4 +1,4 @@
-
+﻿
 ; IMarshal interface definition
 ;
 Interface IMarshal

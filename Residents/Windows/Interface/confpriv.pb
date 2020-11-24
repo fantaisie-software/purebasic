@@ -1,4 +1,4 @@
-
+﻿
 ; IDummy interface definition
 ;
 Interface IDummy

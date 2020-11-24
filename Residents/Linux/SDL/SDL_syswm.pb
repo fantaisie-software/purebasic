@@ -1,4 +1,4 @@
-
+﻿
 
 Enumeration   ; SDL_SYSWM_TYPE
   #SDL_SYSWM_X11

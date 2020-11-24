@@ -1,4 +1,4 @@
-Structure GtkCellRendererToggle
+﻿Structure GtkCellRendererToggle
   parent.GtkCellRenderer
   packed_flags.l
   ; active:1

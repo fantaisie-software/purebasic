@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "d3dim.lib"
        Api(Direct3D_HALCleanUp, (arg1, arg2), 8)

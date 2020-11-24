@@ -1,4 +1,4 @@
-Structure GValueArray
+﻿Structure GValueArray
   n_values.l     ; guint
   PB_Align(0, 4, 0)
  *values.GValue

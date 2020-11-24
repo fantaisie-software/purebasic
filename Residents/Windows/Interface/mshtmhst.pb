@@ -1,4 +1,4 @@
-
+﻿
 ; IHostDialogHelper interface definition
 ;
 Interface IHostDialogHelper

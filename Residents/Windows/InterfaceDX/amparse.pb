@@ -1,4 +1,4 @@
-
+﻿
 ; IAMParse interface definition
 ;
 Interface IAMParse

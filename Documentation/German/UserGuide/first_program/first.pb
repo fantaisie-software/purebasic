@@ -1,4 +1,4 @@
-OpenConsole()
+﻿OpenConsole()
 PrintN("Hello, world")
 Input()
 CloseConsole()

@@ -1,4 +1,4 @@
-;
+﻿;
 ; Movie player in PureBasic
 ;
 ; Note: This source code is for demonstration only and is not

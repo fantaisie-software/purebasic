@@ -1,4 +1,4 @@
-Enumeration   ; GtkTreeViewMode
+﻿Enumeration   ; GtkTreeViewMode
   #GTK_TREE_VIEW_LINE
   #GTK_TREE_VIEW_ITEM
 EndEnumeration

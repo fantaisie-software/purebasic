@@ -1,4 +1,4 @@
-Structure GtkFrame
+﻿Structure GtkFrame
   bin.GtkBin
  *label_widget.GtkWidget
   shadow_type.w

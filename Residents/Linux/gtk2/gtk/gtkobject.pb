@@ -1,4 +1,4 @@
-Enumeration   ; GtkObjectFlags
+﻿Enumeration   ; GtkObjectFlags
   #GTK_IN_DESTRUCTION = 1<<0
   #GTK_FLOATING = 1<<1
   #GTK_RESERVED_1 = 1<<2

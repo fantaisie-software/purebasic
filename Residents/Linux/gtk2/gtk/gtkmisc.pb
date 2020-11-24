@@ -1,4 +1,4 @@
-Structure GtkMisc
+﻿Structure GtkMisc
   widget.GtkWidget
   xalign.f
   yalign.f

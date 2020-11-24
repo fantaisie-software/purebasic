@@ -1,4 +1,4 @@
-Structure GtkTipsQuery
+﻿Structure GtkTipsQuery
   label.GtkLabel
   packed_flags.l
   ; emit_always:1

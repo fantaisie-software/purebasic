@@ -1,4 +1,4 @@
-
+﻿
 ; IMixerOCXNotify interface definition
 ;
 Interface IMixerOCXNotify

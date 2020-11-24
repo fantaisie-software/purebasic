@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "rassapi.lib"
        Api(RasAdminCompressPhoneNumber, (arg1, arg2), 8)

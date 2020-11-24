@@ -1,4 +1,4 @@
-Structure GtkFixed
+﻿Structure GtkFixed
   container.GtkContainer
  *children.GList
 EndStructure

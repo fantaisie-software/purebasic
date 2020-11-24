@@ -1,4 +1,4 @@
-Structure GtkMenu
+﻿Structure GtkMenu
   menu_shell.GtkMenuShell
  *parent_menu_item.GtkWidget
  *old_active_menu_item.GtkWidget

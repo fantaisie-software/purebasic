@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
     
     ; Problem 1 - read a number from the user in the range 1 to 10
     Repeat

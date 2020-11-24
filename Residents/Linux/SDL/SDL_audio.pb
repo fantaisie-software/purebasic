@@ -1,4 +1,4 @@
-Structure SDL_AudioSpec
+﻿Structure SDL_AudioSpec
   freq.l
   format.w
   channels.b

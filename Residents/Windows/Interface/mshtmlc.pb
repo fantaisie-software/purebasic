@@ -1,4 +1,4 @@
-
+﻿
 ; IHTMLFiltersCollection interface definition
 ;
 Interface IHTMLFiltersCollection

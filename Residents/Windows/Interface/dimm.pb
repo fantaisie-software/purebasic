@@ -1,4 +1,4 @@
-
+﻿
 ; IEnumRegisterWordA interface definition
 ;
 Interface IEnumRegisterWordA

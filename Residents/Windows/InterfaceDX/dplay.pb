@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectPlay2 interface definition
 ;
 Interface IDirectPlay2

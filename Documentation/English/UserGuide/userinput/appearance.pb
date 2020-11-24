@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
 
     ConsoleTitle("PureBasic User Guide console appearance example")
 

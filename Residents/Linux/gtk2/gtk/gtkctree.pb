@@ -1,4 +1,4 @@
-Enumeration   ; GtkCTreePos
+﻿Enumeration   ; GtkCTreePos
   #GTK_CTREE_POS_BEFORE
   #GTK_CTREE_POS_AS_CHILD
   #GTK_CTREE_POS_AFTER

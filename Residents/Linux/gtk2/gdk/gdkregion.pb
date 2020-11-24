@@ -1,4 +1,4 @@
-Enumeration   ; GdkFillRule
+﻿Enumeration   ; GdkFillRule
   #GDK_EVEN_ODD_RULE
   #GDK_WINDING_RULE
 EndEnumeration

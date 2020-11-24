@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "dlcapi.lib"
        Api(AcsLan, (arg1, arg2), 8)

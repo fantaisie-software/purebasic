@@ -1,4 +1,4 @@
-
+﻿
 ; IUniformResourceLocatorA interface definition
 ;
 Interface IUniformResourceLocatorA

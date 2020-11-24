@@ -1,4 +1,4 @@
-
+﻿
 ; IDsAdminCreateObj interface definition
 ;
 Interface IDsAdminCreateObj

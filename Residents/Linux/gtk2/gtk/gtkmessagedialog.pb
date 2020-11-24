@@ -1,4 +1,4 @@
-Enumeration   ; GtkMessageType
+﻿Enumeration   ; GtkMessageType
   #GTK_MESSAGE_INFO
   #GTK_MESSAGE_WARNING
   #GTK_MESSAGE_QUESTION

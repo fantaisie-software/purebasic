@@ -1,4 +1,4 @@
-Enumeration   ; GUnicodeType
+﻿Enumeration   ; GUnicodeType
   #G_UNICODE_CONTROL
   #G_UNICODE_FORMAT
   #G_UNICODE_UNASSIGNED

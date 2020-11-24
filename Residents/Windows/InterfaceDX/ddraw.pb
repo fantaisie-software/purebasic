@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectDraw interface definition
 ;
 Interface IDirectDraw

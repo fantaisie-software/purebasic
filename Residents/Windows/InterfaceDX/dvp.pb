@@ -1,4 +1,4 @@
-
+﻿
 ; IDDVideoPortContainer interface definition
 ;
 Interface IDDVideoPortContainer

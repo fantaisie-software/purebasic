@@ -1,4 +1,4 @@
-Structure GtkRadioButton
+﻿Structure GtkRadioButton
   check_button.GtkCheckButton
  *group.GSList
 EndStructure

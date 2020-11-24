@@ -1,4 +1,4 @@
-
+﻿
 ; ICAManagerInternal interface definition
 ;
 Interface ICAManagerInternal

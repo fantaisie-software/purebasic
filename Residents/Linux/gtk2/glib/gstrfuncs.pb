@@ -1,4 +1,4 @@
-Enumeration   ; GAsciiType
+﻿Enumeration   ; GAsciiType
   #G_ASCII_ALNUM = 1<<0
   #G_ASCII_ALPHA = 1<<1
   #G_ASCII_CNTRL = 1<<2

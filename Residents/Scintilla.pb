@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -978,60 +978,60 @@
 
 Structure SCCharacterRange
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows
-	  cpMin.l  ; The 'long' is 32bit on Windows64
-	  cpMax.l
-	CompilerElse
-	  cpMin.i  ; On Unix, the 'long' type is 64bit on a 64bit OS!
-	  cpMax.i
-	CompilerEndIf
+    cpMin.l  ; The 'long' is 32bit on Windows64
+    cpMax.l
+  CompilerElse
+    cpMin.i  ; On Unix, the 'long' type is 64bit on a 64bit OS!
+    cpMax.i
+  CompilerEndIf
 EndStructure
 
 Structure SCTextRange
-	chrg.SCCharacterRange
-	*lpstrText
+  chrg.SCCharacterRange
+  *lpstrText
 EndStructure
 
 Structure SCTextToFind
-	chrg.SCCharacterRange
-	*lpstrText
-	chrgText.SCCharacterRange
+  chrg.SCCharacterRange
+  *lpstrText
+  chrgText.SCCharacterRange
 EndStructure
 
 Structure SCNotifyHeader
-	hwndFrom.i
-	idFrom.i  ; defined as uptr_t in scintilla headers (differs from NMHDR in 64bits mode, but does not hurt)
-	code.l    ; defined unsigned int (always 32bit)
-	CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
-	  PB_Alignmnent.b[4]
-	CompilerEndIf
+  hwndFrom.i
+  idFrom.i  ; defined as uptr_t in scintilla headers (differs from NMHDR in 64bits mode, but does not hurt)
+  code.l    ; defined unsigned int (always 32bit)
+  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+    PB_Alignmnent.b[4]
+  CompilerEndIf
 EndStructure ; SizeOf 12
 
 Structure SCNotification
-	nmhdr.SCNotifyHeader
-	position.l			;// SCN_STYLENEEDED, SCN_MODIFIED, SCN_DWELLSTART, SCN_DWELLEND
-	ch.l				;// SCN_CHARADDED, SCN_KEY
-	modifiers.l			;// SCN_KEY
-	modificationType.l	;// SCN_MODIFIED
-	*text				;// SCN_MODIFIED
-	length.l			;// SCN_MODIFIED
-	linesAdded.l		;// SCN_MODIFIED
-	message.l			;// SCN_MACRORECORD
-	CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
-	  PB_Alignmnent1.b[4]
-	CompilerEndIf
-	wParam.i			;// SCN_MACRORECORD --- Unsigned Long
-	lParam.i			;// SCN_MACRORECORD
-	line.l				;// SCN_MODIFIED
-	foldLevelNow.l		;// SCN_MODIFIED
-	foldLevelPrev.l		;// SCN_MODIFIED
-	margin.l			;// SCN_MARGINCLICK
-	listType.l			;// SCN_USERLISTSELECTION
-	x.l					;// SCN_DWELLSTART, SCN_DWELLEND
-	y.l					;// SCN_DWELLSTART, SCN_DWELLEND
-	token.l      ;	// SCN_MODIFIED with SC_MOD_CONTAINER
-	annotationLinesAdded.l   ;	// SCN_MODIFIED with SC_MOD_CHANGEANNOTATION
-	updated.l     ; // SCN_UPDATEUI
-EndStructure ;
+  nmhdr.SCNotifyHeader
+  position.l			;// SCN_STYLENEEDED, SCN_MODIFIED, SCN_DWELLSTART, SCN_DWELLEND
+  ch.l            ;// SCN_CHARADDED, SCN_KEY
+  modifiers.l     ;// SCN_KEY
+  modificationType.l	;// SCN_MODIFIED
+  *text               ;// SCN_MODIFIED
+  length.l            ;// SCN_MODIFIED
+  linesAdded.l        ;// SCN_MODIFIED
+  message.l           ;// SCN_MACRORECORD
+  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+    PB_Alignmnent1.b[4]
+  CompilerEndIf
+  wParam.i			;// SCN_MACRORECORD --- Unsigned Long
+  lParam.i      ;// SCN_MACRORECORD
+  line.l        ;// SCN_MODIFIED
+  foldLevelNow.l;// SCN_MODIFIED
+  foldLevelPrev.l		;// SCN_MODIFIED
+  margin.l          ;// SCN_MARGINCLICK
+  listType.l        ;// SCN_USERLISTSELECTION
+  x.l               ;// SCN_DWELLSTART, SCN_DWELLEND
+  y.l               ;// SCN_DWELLSTART, SCN_DWELLEND
+  token.l           ;	// SCN_MODIFIED with SC_MOD_CONTAINER
+  annotationLinesAdded.l   ;	// SCN_MODIFIED with SC_MOD_CHANGEANNOTATION
+  updated.l                ; // SCN_UPDATEUI
+EndStructure               ;
 
 ;struct SCNotification {
 ;	struct NotifyHeader nmhdr;

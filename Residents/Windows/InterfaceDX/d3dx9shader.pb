@@ -1,4 +1,4 @@
-
+﻿
 ; ID3DXConstantTable interface definition
 ;
 Interface ID3DXConstantTable

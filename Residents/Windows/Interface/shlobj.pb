@@ -1,4 +1,4 @@
-
+﻿
 ; IContextMenu interface definition
 ;
 Interface IContextMenu

@@ -1,4 +1,4 @@
-
+﻿
 ; IAMVideoAcceleratorNotify interface definition
 ;
 Interface IAMVideoAcceleratorNotify

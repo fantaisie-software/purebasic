@@ -1,4 +1,4 @@
-Structure GtkIMContextInfo
+﻿Structure GtkIMContextInfo
  *context_id
  *context_name
  *domain

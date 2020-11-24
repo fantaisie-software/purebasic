@@ -1,4 +1,4 @@
-
+﻿
 ; IAMWstDecoder interface definition
 ;
 Interface IAMWstDecoder

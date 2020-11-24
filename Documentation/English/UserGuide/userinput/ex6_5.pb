@@ -1,4 +1,4 @@
-; Open console and only continue with main program if successful
+﻿; Open console and only continue with main program if successful
 If OpenConsole()
     DefType.l   width, height       ; Width and height of rectangle
     DefType.s   draw_character      ; The character that will be used to draw the rectangle

@@ -1,4 +1,4 @@
-Structure GtkTextMark
+﻿Structure GtkTextMark
   parent_instance.GObject
   segment.i ; gpointer
 EndStructure

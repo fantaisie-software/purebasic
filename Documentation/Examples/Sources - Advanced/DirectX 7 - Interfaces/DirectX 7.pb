@@ -1,4 +1,4 @@
-;
+﻿;
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - Raw DirectX 7 example using Interfaces

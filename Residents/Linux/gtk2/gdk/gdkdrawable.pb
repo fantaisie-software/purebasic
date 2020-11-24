@@ -1,4 +1,4 @@
-Structure GdkDrawable
+﻿Structure GdkDrawable
   parent_instance.GObject
 EndStructure
 

@@ -1,4 +1,4 @@
-
+﻿
 ; IDirect3D9 interface definition
 ;
 Interface IDirect3D9

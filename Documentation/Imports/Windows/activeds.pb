@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "activeds.lib"
        Api(ADsBuildEnumerator, (arg1, arg2), 8)

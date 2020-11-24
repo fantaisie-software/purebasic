@@ -1,4 +1,4 @@
-Structure GtkEditableClass
+﻿Structure GtkEditableClass
   base_iface.GTypeInterface
  *insert_text
  *delete_text

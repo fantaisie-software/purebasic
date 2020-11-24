@@ -1,4 +1,4 @@
-  ;
+ï»¿  ;
   ; ------------------------------------------------------------
   ;
   ;   PureBasic - UTF8-String example file
@@ -80,16 +80,16 @@
     
   EndProcedure
   
-  unicode.s="Hélé" ; Since PB 5.5, all strings are created in unicode by default
+  unicode.s="HÃ©lÃ©" ; Since PB 5.5, all strings are created in unicode by default
   
   *Mem0=AllocateMemory(4)
-  PokeS(*Mem0,"Hélé",4, #PB_UTF8) ; Fills a buffer with an UTF8-String
+  PokeS(*Mem0,"HÃ©lÃ©",4, #PB_UTF8) ; Fills a buffer with an UTF8-String
   
-  *Mem1 = Ascii("Hélé") ; Fills a buffer with an ASCII-String
-  *Mem2 = UTF8("Hélé")  ; Fills a buffer With an UTF8-String
+  *Mem1 = Ascii("HÃ©lÃ©") ; Fills a buffer with an ASCII-String
+  *Mem2 = UTF8("HÃ©lÃ©")  ; Fills a buffer With an UTF8-String
   
   
-  Debug seems_utf8(@"Hélé", 4)  ; displays #false because it's an unicode-string
+  Debug seems_utf8(@"HÃ©lÃ©", 4)  ; displays #false because it's an unicode-string
   Debug seems_utf8(@unicode, 4) ; displays #false because it's an unicode-string
   Debug seems_utf8(*Mem0, 4)    ; displays #true because it's an UTF8-string
   Debug seems_utf8(*Mem1, 4)    ; displays #false because it's an ASCII-string
@@ -99,6 +99,6 @@
   Debug seems_utf8(*Mem0, 4)       ; displays #false because the buffer is filled with ascii characters only (0 to $80=127)
                                      ; then it's not possible to discriminate an ascii-string of an utf8-string
   
-  PokeS(*Mem0,"Hé Hele", 7, #PB_UTF8) ; Fills a buffer with an UTF8-String
+  PokeS(*Mem0,"HÃ© Hele", 7, #PB_UTF8) ; Fills a buffer with an UTF8-String
   Debug seems_utf8(*Mem0, 7)          ; displays #true because because it's an UTF8-string
     

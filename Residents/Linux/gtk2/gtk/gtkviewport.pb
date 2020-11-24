@@ -1,4 +1,4 @@
-Structure GtkViewport
+﻿Structure GtkViewport
   bin.GtkBin
   shadow_type.l ; GtkShadowType enum
   PB_Align(0, 4)

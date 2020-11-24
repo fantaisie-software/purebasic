@@ -1,4 +1,4 @@
-
+﻿
 ; IDirect3DRM interface definition
 ;
 Interface IDirect3DRM

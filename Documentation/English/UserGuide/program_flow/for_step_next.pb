@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
 
     PrintN("Start of first loop")
     

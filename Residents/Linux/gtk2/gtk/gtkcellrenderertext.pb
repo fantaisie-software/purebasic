@@ -1,4 +1,4 @@
-Structure GtkCellRendererText
+﻿Structure GtkCellRendererText
   parent.GtkCellRenderer
  *text
  *font.PangoFontDescription

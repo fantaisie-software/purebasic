@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectXFile interface definition
 ;
 Interface IDirectXFile

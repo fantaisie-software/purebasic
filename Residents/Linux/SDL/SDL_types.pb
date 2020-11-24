@@ -1,4 +1,4 @@
-Enumeration   ; SDL_bool
+﻿Enumeration   ; SDL_bool
   #SDL_FALSE = 0
   #SDL_TRUE = 1
 EndEnumeration

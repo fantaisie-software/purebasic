@@ -1,4 +1,4 @@
-Structure GdkScreen
+﻿Structure GdkScreen
   parent_instance.GObject
   packed_flags.l
   ; closed:1

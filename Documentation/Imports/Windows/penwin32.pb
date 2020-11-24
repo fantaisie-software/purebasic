@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "penwin32.lib"
        Api(AddInksetInterval, (arg1, arg2), 8)

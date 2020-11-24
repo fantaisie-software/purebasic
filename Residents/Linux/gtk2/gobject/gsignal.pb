@@ -1,4 +1,4 @@
-Enumeration   ; GSignalFlags
+﻿Enumeration   ; GSignalFlags
   #G_SIGNAL_RUN_FIRST = 1<<0
   #G_SIGNAL_RUN_LAST = 1<<1
   #G_SIGNAL_RUN_CLEANUP = 1<<2

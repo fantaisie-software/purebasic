@@ -1,4 +1,4 @@
-
+﻿
 ; ITTAPI interface definition
 ;
 Interface ITTAPI

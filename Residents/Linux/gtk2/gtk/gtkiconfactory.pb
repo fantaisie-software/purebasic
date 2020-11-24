@@ -1,4 +1,4 @@
-Structure GtkIconFactory
+﻿Structure GtkIconFactory
   parent_instance.GObject
  *icons.GHashTable
 EndStructure

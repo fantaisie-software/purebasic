@@ -1,4 +1,4 @@
-
+﻿
 IncludePath "../gobject"
 XIncludeFile "PureBasic.pb"
 IncludePath "../gdk"

@@ -1,4 +1,4 @@
-;
+﻿;
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - SerialPort example file
@@ -15,9 +15,9 @@ CompilerElse
 CompilerEndIf
 
 If OpenSerialPort(0, Port$, 300, #PB_SerialPort_NoParity, 8, 1, #PB_SerialPort_NoHandshake, 1024, 1024)
-
-	MessageRequester("Information", "SerialPort opened with success")
-
+  
+  MessageRequester("Information", "SerialPort opened with success")
+  
 Else
-	MessageRequester("Error", "Can't open the serial port: "+Port$)
+  MessageRequester("Error", "Can't open the serial port: "+Port$)
 EndIf

@@ -1,4 +1,4 @@
-Structure GdkPixmapObject
+﻿Structure GdkPixmapObject
   parent_instance.GdkDrawable
  *impl.GdkDrawable
   depth.l ; gint

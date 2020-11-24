@@ -1,4 +1,4 @@
-Structure GtkStyle
+﻿Structure GtkStyle
   parent_instance.GObject
   fg.GdkColor[5]
   bg.GdkColor[5]

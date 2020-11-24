@@ -1,4 +1,4 @@
-Structure GtkColorSelection
+﻿Structure GtkColorSelection
   parent_instance.GtkVBox
   private_data.i ; gpointer
 EndStructure

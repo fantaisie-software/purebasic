@@ -1,4 +1,4 @@
-; Open console and continue with program only if it is successful
+﻿; Open console and continue with program only if it is successful
 If OpenConsole()
 
     a.w = 5

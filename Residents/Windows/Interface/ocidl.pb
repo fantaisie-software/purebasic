@@ -1,4 +1,4 @@
-
+﻿
 ; IEnumConnections interface definition
 ;
 Interface IEnumConnections

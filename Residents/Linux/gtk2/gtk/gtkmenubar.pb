@@ -1,4 +1,4 @@
-Structure GtkMenuBar
+﻿Structure GtkMenuBar
   menu_shell.GtkMenuShell
 EndStructure
 

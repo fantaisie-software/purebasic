@@ -1,4 +1,4 @@
-
+﻿
 ; IReferenceClock interface definition - Already defined in dmusicc.pb
 ;
 

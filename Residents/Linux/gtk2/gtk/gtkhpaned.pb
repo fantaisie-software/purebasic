@@ -1,4 +1,4 @@
-Structure GtkHPaned
+﻿Structure GtkHPaned
   paned.GtkPaned
 EndStructure
 

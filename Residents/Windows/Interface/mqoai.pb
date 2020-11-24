@@ -1,4 +1,4 @@
-
+﻿
 ; IMSMQQuery interface definition
 ;
 Interface IMSMQQuery

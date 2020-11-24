@@ -1,4 +1,4 @@
-Structure GtkTextBuffer
+﻿Structure GtkTextBuffer
   parent_instance.GObject
  *tag_table.GtkTextTagTable
  *btree.GtkTextBTree

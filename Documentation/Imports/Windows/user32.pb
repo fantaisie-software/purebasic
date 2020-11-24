@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "user32.lib"
        Api(ActivateKeyboardLayout, (arg1, arg2), 8)

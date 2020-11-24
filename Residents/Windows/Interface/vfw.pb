@@ -1,4 +1,4 @@
-
+﻿
 ; IAVIStream interface definition
 ;
 Interface IAVIStream

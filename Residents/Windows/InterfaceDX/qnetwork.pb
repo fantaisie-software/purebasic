@@ -1,4 +1,4 @@
-
+﻿
 ; IAMNetShowConfig interface definition
 ;
 Interface IAMNetShowConfig

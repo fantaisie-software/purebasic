@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "lz32.lib"
        Api(CopyLZFile, (arg1, arg2), 8)

@@ -1,4 +1,4 @@
-Structure GtkFontSelection
+﻿Structure GtkFontSelection
   parent_instance.GtkVBox
  *font_entry.GtkWidget
  *family_list.GtkWidget

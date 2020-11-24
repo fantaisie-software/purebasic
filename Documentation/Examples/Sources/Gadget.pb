@@ -1,4 +1,4 @@
-;
+﻿;
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - Gadget example file
@@ -30,7 +30,7 @@ If OpenWindow(0, 100, 200, #WindowWidth, #WindowHeight, "PureBasic - Gadget Demo
       ListViewGadget(4, 6, 10, 230, 148)
 
       For k=0 To 30
-        AddGadgetItem(4, -1, "Music Song n� "+Str(k))
+        AddGadgetItem(4, -1, "Music Song n° "+Str(k))
       Next
 
       ButtonGadget(5,  250, 10, 80, GadgetHeight, "Add")

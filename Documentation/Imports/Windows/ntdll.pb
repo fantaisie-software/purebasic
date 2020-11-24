@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "ntdll.lib"
        Api(CsrAllocateCaptureBuffer, (arg1, arg2, arg3), 12)

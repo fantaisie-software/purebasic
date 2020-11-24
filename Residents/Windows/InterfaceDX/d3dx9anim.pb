@@ -1,4 +1,4 @@
-
+﻿
 ; ID3DXAnimationSet interface definition
 ;
 Interface ID3DXAnimationSet

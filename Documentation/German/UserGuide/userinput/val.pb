@@ -1,4 +1,4 @@
-OpenConsole()
+﻿OpenConsole()
 
 Print("Please enter your name: ")
 name$ = Input()

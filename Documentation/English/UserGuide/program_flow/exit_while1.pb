@@ -1,4 +1,4 @@
-If OpenConsole()
+﻿If OpenConsole()
     
     count = 0
     While count <= 10

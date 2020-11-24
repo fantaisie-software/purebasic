@@ -1,4 +1,4 @@
-Structure GtkSelectionData
+﻿Structure GtkSelectionData
   selection.i ; GdkAtom
   target.i    ; GdkAtom
   type.i      ; GdkAtom

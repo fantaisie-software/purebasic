@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "mpr.lib"
   AnsiWide(MultinetGetConnectionPerformance, (arg1, arg2), 8)

@@ -1,4 +1,4 @@
-Enumeration   ; GtkSpinButtonUpdatePolicy
+﻿Enumeration   ; GtkSpinButtonUpdatePolicy
   #GTK_UPDATE_ALWAYS
   #GTK_UPDATE_IF_VALID
 EndEnumeration

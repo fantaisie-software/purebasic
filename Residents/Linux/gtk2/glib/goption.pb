@@ -1,4 +1,4 @@
-Enumeration   ; GOptionFlags
+﻿Enumeration   ; GOptionFlags
   #G_OPTION_FLAG_HIDDEN = 1<<0
   #G_OPTION_FLAG_IN_MAIN = 1<<1
   #G_OPTION_FLAG_REVERSE = 1<<2

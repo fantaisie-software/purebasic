@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "nal.lib"
        Api(AllocNetworkBuffer, (arg1, arg2), 8)

@@ -1,4 +1,4 @@
-
+﻿
 ; IMSVidCtl interface definition
 ;
 Interface IMSVidCtl

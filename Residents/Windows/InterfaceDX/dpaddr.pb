@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectPlay8Address interface definition
 ;
 Interface IDirectPlay8Address

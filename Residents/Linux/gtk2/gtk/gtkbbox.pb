@@ -1,4 +1,4 @@
-Structure GtkButtonBox
+﻿Structure GtkButtonBox
   box.GtkBox
   child_min_width.l  ; gint
   child_min_height.l ; gint

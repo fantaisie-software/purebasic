@@ -1,4 +1,4 @@
-
+﻿
 ; IOleDocument interface definition
 ;
 Interface IOleDocument

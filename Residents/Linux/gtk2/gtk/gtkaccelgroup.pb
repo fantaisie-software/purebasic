@@ -1,4 +1,4 @@
-Enumeration   ; GtkAccelFlags
+﻿Enumeration   ; GtkAccelFlags
   #GTK_ACCEL_VISIBLE = 1<<0
   #GTK_ACCEL_LOCKED = 1<<1
   #GTK_ACCEL_MASK = $07

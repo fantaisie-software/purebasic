@@ -1,4 +1,4 @@
-
+﻿
 ; ICreatePropBagOnRegKey interface definition
 ;
 Interface ICreatePropBagOnRegKey

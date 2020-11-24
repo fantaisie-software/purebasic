@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "resutils.lib"
        Api(ClusWorkerCheckTerminate, (arg1), 4)

@@ -1,4 +1,4 @@
-
+﻿
 ; IWMIExtension interface definition
 ;
 Interface IWMIExtension

@@ -1,4 +1,4 @@
-Structure GtkOptionMenu
+﻿Structure GtkOptionMenu
   button.GtkButton
  *menu.GtkWidget
  *menu_item.GtkWidget

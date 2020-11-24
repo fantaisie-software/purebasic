@@ -1,4 +1,4 @@
-
+﻿
 ; IMultiMediaStream interface definition
 ;
 Interface IMultiMediaStream

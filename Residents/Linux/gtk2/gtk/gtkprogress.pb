@@ -1,4 +1,4 @@
-Structure GtkProgress
+﻿Structure GtkProgress
   widget.GtkWidget
  *adjustment.GtkAdjustment
  *offscreen_pixmap.GdkPixmap

@@ -1,4 +1,4 @@
-; Open the console and only perform the main instructions
+﻿; Open the console and only perform the main instructions
 ; if it was opened successfully
 If OpenConsole()
 

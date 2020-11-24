@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "winfax.lib"
        Api(FaxAbort, (arg1, arg2), 8)

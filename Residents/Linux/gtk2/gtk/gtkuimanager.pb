@@ -1,4 +1,4 @@
-Structure GtkUIManager
+﻿Structure GtkUIManager
   parent.GObject
  *private_data.GtkUIManagerPrivate
 EndStructure

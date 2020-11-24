@@ -1,4 +1,4 @@
-Structure GtkImageMenuItem
+﻿Structure GtkImageMenuItem
   menu_item.GtkMenuItem
  *image.GtkWidget
 EndStructure

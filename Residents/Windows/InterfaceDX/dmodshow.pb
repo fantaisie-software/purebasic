@@ -1,4 +1,4 @@
-
+﻿
 ; IDMOWrapperFilter interface definition
 ;
 Interface IDMOWrapperFilter

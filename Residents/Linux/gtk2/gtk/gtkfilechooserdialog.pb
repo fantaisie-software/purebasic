@@ -1,4 +1,4 @@
-Structure GtkFileChooserDialogClass
+﻿Structure GtkFileChooserDialogClass
   parent_class.GtkDialogClass
 EndStructure
 

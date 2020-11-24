@@ -1,4 +1,4 @@
-Structure GtkAspectFrame
+﻿Structure GtkAspectFrame
   frame.GtkFrame
   xalign.f
   yalign.f

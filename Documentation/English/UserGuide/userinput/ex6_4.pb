@@ -1,4 +1,4 @@
-; We must open a console so that we can display the result
+﻿; We must open a console so that we can display the result
 ; Only continue with the main part of the program if the console was opened successfully
 If OpenConsole()
 

@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "tapi32.lib"
        Api(GetTheFunctionPtr, (arg1, arg2), 8)

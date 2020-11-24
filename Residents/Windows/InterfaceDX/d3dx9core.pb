@@ -1,4 +1,4 @@
-
+﻿
 ; ID3DXBuffer interface definition
 ;
 Interface ID3DXBuffer

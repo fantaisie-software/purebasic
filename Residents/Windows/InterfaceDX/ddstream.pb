@@ -1,4 +1,4 @@
-
+﻿
 ; IDirectDrawMediaStream interface definition
 ;
 Interface IDirectDrawMediaStream

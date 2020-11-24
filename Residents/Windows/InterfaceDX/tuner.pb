@@ -1,4 +1,4 @@
-
+﻿
 ; ITuningSpaces interface definition
 ;
 Interface ITuningSpaces

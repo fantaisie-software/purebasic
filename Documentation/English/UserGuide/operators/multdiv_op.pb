@@ -1,4 +1,4 @@
-OpenConsole()
+﻿OpenConsole()
 
 width.l = 3
 length.l = 2

@@ -1,4 +1,4 @@
-Enumeration   ; GtkCellType
+﻿Enumeration   ; GtkCellType
   #GTK_CELL_EMPTY
   #GTK_CELL_TEXT
   #GTK_CELL_PIXMAP

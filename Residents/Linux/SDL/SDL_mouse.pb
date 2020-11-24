@@ -1,4 +1,4 @@
-Structure SDL_Cursor
+﻿Structure SDL_Cursor
   area.SDL_Rect
   hot_x.w
   hot_y.w

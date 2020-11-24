@@ -1,4 +1,4 @@
-Structure GtkList
+﻿Structure GtkList
   container.GtkContainer
  *children.GList
  *selection.GList

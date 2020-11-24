@@ -1,4 +1,4 @@
-OpenConsole()
+﻿OpenConsole()
 
 Print("There will be no new line after this:")
 Print("Told you!")

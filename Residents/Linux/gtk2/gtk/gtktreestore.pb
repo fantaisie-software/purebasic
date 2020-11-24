@@ -1,4 +1,4 @@
-Structure GtkTreeStore
+﻿Structure GtkTreeStore
   parent.GObject
   stamp.l  			   ; gint
   PB_Align(0, 4, 0)

@@ -1,4 +1,4 @@
-Enumeration   ; GIOError
+﻿Enumeration   ; GIOError
   #G_IO_ERROR_NONE
   #G_IO_ERROR_AGAIN
   #G_IO_ERROR_INVAL

@@ -1,4 +1,4 @@
-#SDL_MAX_TRACKS = 99
+﻿#SDL_MAX_TRACKS = 99
 #SDL_AUDIO_TRACK = $00
 #SDL_DATA_TRACK = $04
 Enumeration   ; CDstatus

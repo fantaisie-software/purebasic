@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "imm32.lib"
        Api(ImmAssociateContext, (arg1, arg2), 8)

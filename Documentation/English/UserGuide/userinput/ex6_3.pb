@@ -1,4 +1,4 @@
-; Open console and only continue with program if it was opened successfully
+﻿; Open console and only continue with program if it was opened successfully
 If OpenConsole()
 
     ; Loop to display each of the foreground colors

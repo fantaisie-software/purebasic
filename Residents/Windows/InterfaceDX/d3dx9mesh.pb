@@ -1,4 +1,4 @@
-
+﻿
 ; ID3DXBaseMesh interface definition
 ;
 Interface ID3DXBaseMesh

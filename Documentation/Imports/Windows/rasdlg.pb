@@ -1,4 +1,4 @@
-XIncludeFile "common.pbi"
+﻿XIncludeFile "common.pbi"
 
 Import "rasdlg.lib"
   AnsiWide(RasAutodialDisableDlg, (arg1), 4)
