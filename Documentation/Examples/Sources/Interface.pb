@@ -16,58 +16,58 @@ Debug "***************************"
 Debug "*        Example 1        *"
 Debug "***************************"
 
-Structure Foo 
-		*vt                         ;pointer to virtual table as first entry 
+Structure Foo
+		*vt                         ;pointer to virtual table as first entry
 		intFoo.i
-EndStructure 
+EndStructure
 
-;public menthods 
-Procedure Foo_SetFoo(*this.foo,value.i)  ;first parameter is the *this pointer 
-		*this\intFoo = value 
-EndProcedure 
+;public menthods
+Procedure Foo_SetFoo(*this.foo,value.i)  ;first parameter is the *this pointer
+		*this\intFoo = value
+EndProcedure
 
-Procedure Foo_GetFoo(*this.foo) 
-		ProcedureReturn *this\intFoo 
-	EndProcedure   
+Procedure Foo_GetFoo(*this.foo)
+		ProcedureReturn *this\intFoo
+	EndProcedure
 	
-	;destructor 
+	;destructor
 	Procedure Foo_Free(*this.foo)
 		FreeMemory(*this)
-	EndProcedure 
+	EndProcedure
 	
-	Interface IFoo    ;create interface hides the *this pointer 
+	Interface IFoo    ;create interface hides the *this pointer
 		Get()
-		Set(value.i) 
-		Free() 
-	EndInterface 
+		Set(value.i)
+		Free()
+	EndInterface
 	
 	DataSection
-	  vtFoo:    ;create virtual table   
+	  vtFoo:    ;create virtual table
 		Data.i @Foo_GetFoo()
 		Data.i @Foo_SetFoo()
-		Data.i @Foo_Free() 
-	EndDataSection   
+		Data.i @Foo_Free()
+	EndDataSection
 	
-	;contructor 
-	Procedure New_Foo() 
-		Protected *this.foo 
+	;contructor
+	Procedure New_Foo()
+		Protected *this.foo
 		*this = AllocateMemory(SizeOf(foo))
-		If *this 
-				*this\vt = ?vtFoo 
+		If *this
+				*this\vt = ?vtFoo
 				ProcedureReturn *this
-		EndIf 
-	EndProcedure 
+		EndIf
+	EndProcedure
 	
-	;user declares inteface 
+	;user declares inteface
 	
-	Global *myfoo.ifoo = New_Foo() 
+	Global *myfoo.ifoo = New_Foo()
 	
-	If *myfoo 
-		*myfoo\Set(123) 
-		Debug *myfoo\Get() 
-		*myfoo\Free() 
-	EndIf 
-	Debug ""	
+	If *myfoo
+		*myfoo\Set(123)
+		Debug *myfoo\Get()
+		*myfoo\Free()
+	EndIf
+	Debug ""
 	
 	
 	
@@ -99,7 +99,7 @@ Procedure.i RectangleInit(Length=0, Width=0)
 	*Object = AllocateMemory(SizeOf(Rectangle))
 	
 	If *Object
-		*Object\DSVT = ?Class 
+		*Object\DSVT = ?Class
 		
 		*Object\Length = Length
 		*Object\Width = Width
@@ -129,14 +129,14 @@ Procedure Destroy(*this.Rectangle)
 	FreeMemory(*this)
 EndProcedure
 
-DataSection 
-	Class: 
+DataSection
+	Class:
 	Data.i @Perimeter()
 	Data.i @Surface()
 	Data.i @Length()
 	Data.i @Width()
 	Data.i @Destroy()
-EndDataSection 
+EndDataSection
 
 ; How to use it
 MyField.NewRectangle = RectangleInit(20,10)
@@ -153,4 +153,4 @@ Debug "Perimeter is  " + MyField\Perimeter()
 Debug "Surface is  "  + MyField\Surface()
 
 MyField\Destroy()
-Debug ""	
+Debug ""

@@ -25,7 +25,7 @@ If InitEngine3D()
   
   If Screen3DRequester()
     
-    KeyboardMode(#PB_Keyboard_International)  
+    KeyboardMode(#PB_Keyboard_International)
     
     ; Ground
     CreateMaterial(0, LoadTexture(0, "Dirt.jpg"))
@@ -36,7 +36,7 @@ If InitEngine3D()
     AmbientColor(0)
     CreateLight(0, RGB(255, 255, 255), 0, 400, 0, #PB_Light_Spot)
     SpotLightRange(0, 1, 30, 3)
-    LightDirection(0, 0.2, -1, 0.5) 
+    LightDirection(0, 0.2, -1, 0.5)
     
     ; spot
     CreateSphere(1, 20, 50, 50)
@@ -53,7 +53,7 @@ If InitEngine3D()
     
     ; Camera
     ;
-    CreateCamera(0, 0, 0, 100, 100) 
+    CreateCamera(0, 0, 0, 100, 100)
     MoveCamera(0, 0, 900, 1000, #PB_Absolute)
     CameraLookAt(0, 0, 0, 0)
     CameraBackColor(0, RGB(0, 0, 30))
@@ -65,20 +65,20 @@ If InitEngine3D()
       
       RotateLight(0, 0, Speed, 0, #PB_Relative)
       
-      Entity = RayPick(LightX(0), LightY(0), LightZ(0), LightDirectionX(0), LightDirectionY(0), LightDirectionZ(0)) 
+      Entity = RayPick(LightX(0), LightY(0), LightZ(0), LightDirectionX(0), LightDirectionY(0), LightDirectionZ(0))
       
-      If Entity 
+      If Entity
         SetEntityMaterial(1, MaterialID(5))   ;Cube detected
         Speed = 0.1
-        CreateLine3D(10, LightX(0), LightY(0), LightZ(0), RGB(255, 0, 0), PickX(), PickY(), PickZ(), RGB(255, 0, 0))  
+        CreateLine3D(10, LightX(0), LightY(0), LightZ(0), RGB(255, 0, 0), PickX(), PickY(), PickZ(), RGB(255, 0, 0))
         Detected = #True
         
       ElseIf Detected
         SetEntityMaterial(1, MaterialID(1))   ;Nothing
         Speed = 1
-        FreeMesh(10) 
+        FreeMesh(10)
         Detected = #False
-      EndIf  
+      EndIf
       
       RenderWorld()
       FlipBuffers()

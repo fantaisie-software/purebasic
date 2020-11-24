@@ -37,7 +37,7 @@ If InitEngine3D()
     ; create  material
     CreateMaterial(1, LoadTexture(1, "wood.jpg"))
     SetMaterialColor(1, #PB_Material_AmbientColor, #PB_Material_AmbientColors)
-    ; 
+    ;
     CreateMaterial(2, LoadTexture(2, "dirt.jpg"))
     SetMaterialColor(2, #PB_Material_AmbientColor, #PB_Material_AmbientColors)
     
@@ -55,15 +55,15 @@ If InitEngine3D()
     CreateEntity(2, MeshID(1),MaterialID(1),  0,  1, 0)
     CreateEntity(3, MeshID(1),MaterialID(1), -1,  0, 0)
     CreateEntity(4, MeshID(1),MaterialID(1),  1,  0, 0)
-    CreateEntity(5, MeshID(2),MaterialID(3),  0,  0, 0)  
+    CreateEntity(5, MeshID(2),MaterialID(3),  0,  0, 0)
     
     Compound = CreateEntity(#PB_Any)
         
-    AddSubEntity(Compound, 1, #PB_Entity_BoxBody) 
-    AddSubEntity(Compound, 2, #PB_Entity_BoxBody) 
-    AddSubEntity(Compound, 3, #PB_Entity_BoxBody) 
-    AddSubEntity(Compound, 4, #PB_Entity_BoxBody) 
-    AddSubEntity(Compound, 5, #PB_Entity_SphereBody) 
+    AddSubEntity(Compound, 1, #PB_Entity_BoxBody)
+    AddSubEntity(Compound, 2, #PB_Entity_BoxBody)
+    AddSubEntity(Compound, 3, #PB_Entity_BoxBody)
+    AddSubEntity(Compound, 4, #PB_Entity_BoxBody)
+    AddSubEntity(Compound, 5, #PB_Entity_SphereBody)
     CreateEntityBody(Compound, #PB_Entity_CompoundBody, 1, 0.4, 0.4)
     
     RotateEntity(Compound, 45, 0, 0)
@@ -73,7 +73,7 @@ If InitEngine3D()
     Cube = CreateEntity(#PB_Any, MeshID(1),MaterialID(1),  0, 1, 0)
     
     Compound2 = CreateEntity(#PB_Any)
-    AddSubEntity(Compound2, Cube, #PB_Entity_BoxBody, 0, -0.5, 0) 
+    AddSubEntity(Compound2, Cube, #PB_Entity_BoxBody, 0, -0.5, 0)
     CreateEntityBody(Compound2, #PB_Entity_CompoundBody, 1, 0.4, 0.4)
     
     
@@ -85,7 +85,7 @@ If InitEngine3D()
     ScaleEntity(Robot, 0.05,0.05,0.05)
     Compound3 = CreateEntity(#PB_Any)
     
-    AddSubEntity(Compound3, Robot, #PB_Entity_CapsuleBody, 0, 2.1, 0) 
+    AddSubEntity(Compound3, Robot, #PB_Entity_CapsuleBody, 0, 2.1, 0)
     CreateEntityBody(Compound3, #PB_Entity_CompoundBody, 1, 0.2, 0.2)
     
     

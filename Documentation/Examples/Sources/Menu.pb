@@ -71,7 +71,7 @@ If OpenWindow(0, 100, 150, 195, 260, "PureBasic - Menu")
             SetMenuItemState(0,14,0)      ; So uncheck Me
           Else                            ; Else
             SetMenuItemState(0,14,1)      ; Check Me
-          EndIf 
+          EndIf
  
           Default
             MessageRequester("Info", "MenuItem: "+Str(EventMenu()), 0)
@@ -87,4 +87,4 @@ If OpenWindow(0, 100, 150, 195, 260, "PureBasic - Menu")
 
 EndIf
 
-End  
+End

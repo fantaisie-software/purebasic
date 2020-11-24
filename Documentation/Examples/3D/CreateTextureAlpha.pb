@@ -27,7 +27,7 @@ If InitEngine3D()
   
   If Screen3DRequester()
     
-    KeyboardMode(#PB_Keyboard_International)  
+    KeyboardMode(#PB_Keyboard_International)
     
     AmbientColor(RGB(255,255,255))
     
@@ -44,7 +44,7 @@ If InitEngine3D()
       StartDrawing(TextureOutput(i))
       DrawingMode(#PB_2DDrawing_AllChannels | #PB_2DDrawing_AlphaBlend)
       Box(0, 0, 256, 256, RGBA(0, 0, 0, 255))
-      Box(4, 4, 248, 248, RGBA(R, G, B, A)) 
+      Box(4, 4, 248, 248, RGBA(R, G, B, A))
       Circle(127, 127, 50, RGBA(0, 0, 0, 0))
       StopDrawing()
       CreateMaterial(i, TextureID(i))
@@ -71,17 +71,17 @@ If InitEngine3D()
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf
@@ -112,7 +112,7 @@ DataSection
   Data.i 255, 0, 0, 127
   Data.f -20, 0, 5
   Data.i 0, 0, 255, 127
-  Data.f 20, 0, 5 
+  Data.f 20, 0, 5
   Data.i 0, 255, 0, 127
   Data.f 0, 40, -5
-EndDataSection  
+EndDataSection

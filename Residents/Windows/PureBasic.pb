@@ -154,7 +154,7 @@ IncludeFile "..\Common.pb"
 #PB_EventType_Resize            = 6
 
 #PB_EventType_SizeItem   = $FFFE  ; for MDIGadget
-#PB_EventType_CloseItem  = $FFFF  ; for MDIGadget 
+#PB_EventType_CloseItem  = $FFFF  ; for MDIGadget
 
 ; Window flags
 ;
@@ -238,7 +238,7 @@ IncludeFile "..\Common.pb"
 
 #PB_ComboBox_Editable  = 2 | 64  ; #CBS_DROPDOWN | #CBS_AUTOHSCROLL
 #PB_ComboBox_LowerCase = $4000   ; #CBS_LOWERCASE
-#PB_ComboBox_UpperCase = $2000   ; #CBS_UPPERCASE 
+#PB_ComboBox_UpperCase = $2000   ; #CBS_UPPERCASE
 #PB_ComboBox_Image     = $10000000 ; #WS_VISIBLE (reused for this flag)
 
 #PB_Container_BorderLess = 0
@@ -248,7 +248,7 @@ IncludeFile "..\Common.pb"
 #PB_Container_Double     = 8
 
 #PB_Date_Calendar = 0  ; default
-#PB_Date_UpDown   = $1 ;DTS_UPDOWN 
+#PB_Date_UpDown   = $1 ;DTS_UPDOWN
 #PB_Date_CheckBox = $2 ;DTS_SHOWNONE
 
 #PB_Date_Minimum  = 1  ; for Get/SetGadgetAttribute
@@ -258,14 +258,14 @@ IncludeFile "..\Common.pb"
 #PB_Explorer_NoMyDocuments       = $00000200
 #PB_Explorer_HiddenFiles         = $00000400
 
-; Flags for ExplorerTreeGadget and ExplorerViewGadget: 
+; Flags for ExplorerTreeGadget and ExplorerViewGadget:
 #PB_Explorer_NoFiles             = $00000001
 #PB_Explorer_NoDriveRequester    = $00000010
 #PB_Explorer_AutoSort            = $00000040
 #PB_Explorer_BorderLess          = $00100000
 #PB_Explorer_AlwaysShowSelection = $01000000
 
-; ExplorerList only Flags: 
+; ExplorerList only Flags:
 #PB_Explorer_NoParentFolder      = $00000002
 #PB_Explorer_NoFolders           = $00000004
 #PB_Explorer_NoDirectoryChange   = $00000008
@@ -275,7 +275,7 @@ IncludeFile "..\Common.pb"
 #PB_Explorer_HeaderDragDrop      = $00800000
 #PB_Explorer_FullRowSelect       = $02000000
 
-; ExplorerTree only Flags: 
+; ExplorerTree only Flags:
 #PB_Explorer_NoLines             = $04000000
 #PB_Explorer_NoButtons           = $08000000
 
@@ -283,7 +283,7 @@ IncludeFile "..\Common.pb"
 #PB_Explorer_DrivesOnly          = $00000080
 #PB_Explorer_Editable            = $00000100
 
-; Return values for Explorer: 
+; Return values for Explorer:
 #PB_Explorer_None                = $0
 #PB_Explorer_File                = $1
 #PB_Explorer_Directory           = $2
@@ -314,8 +314,8 @@ IncludeFile "..\Common.pb"
 
 #PB_ListIcon_ColumnWidth = 1
 
-#PB_ListView_MultiSelect = $800 ; #LBS_EXTENDEDSEL 
-#PB_ListView_ClickSelect = $8   ; #LBS_MULTIPLESEL 
+#PB_ListView_MultiSelect = $800 ; #LBS_EXTENDEDSEL
+#PB_ListView_ClickSelect = $8   ; #LBS_MULTIPLESEL
 
 #PB_ListIcon_CheckBoxes     = 1
 #PB_ListIcon_MultiSelect    = 4
@@ -335,7 +335,7 @@ IncludeFile "..\Common.pb"
 #PB_MDI_TileHorizontally        = -3
 #PB_MDI_Next                    = -4
 #PB_MDI_Previous                = -5
-#PB_MDI_Arrange                 = -6 
+#PB_MDI_Arrange                 = -6
 
 #PB_MDI_Image     = 3 ; Attributes
 #PB_MDI_TileImage = 4
@@ -421,7 +421,7 @@ IncludeFile "..\Common.pb"
 #PB_ProgressBar_Maximum  = 2
 
 #PB_Panel_ItemWidth  = 1 ; Attributes
-#PB_Panel_ItemHeight = 2 
+#PB_Panel_ItemHeight = 2
 #PB_Panel_TabHeight  = 3
 
 #PB_TrackBar_Ticks    = 1
@@ -463,7 +463,7 @@ IncludeFile "..\Common.pb"
 #PB_SerialPort_NoParity    = 0 ; #NOPARITY
 #PB_SerialPort_OddParity   = 1 ; #ODDPARITY
 #PB_SerialPort_EvenParity  = 2 ; #EVENPARITY
-#PB_SerialPort_MarkParity  = 3 ; #MARKPARITY	
+#PB_SerialPort_MarkParity  = 3 ; #MARKPARITY
 #PB_SerialPort_SpaceParity = 4 ; #SPACEPARITY
 
 ; Keyboard key
@@ -482,9 +482,9 @@ IncludeFile "..\Common.pb"
 #PB_Key_8               = $09
 #PB_Key_9               = $0A
 #PB_Key_0               = $0B
-#PB_Key_Minus           = $0C   
+#PB_Key_Minus           = $0C
 #PB_Key_Equals          = $0D
-#PB_Key_Back            = $0E   
+#PB_Key_Back            = $0E
 #PB_Key_Tab             = $0F
 #PB_Key_Q               = $10
 #PB_Key_W               = $11
@@ -498,7 +498,7 @@ IncludeFile "..\Common.pb"
 #PB_Key_P               = $19
 #PB_Key_LeftBracket     = $1A
 #PB_Key_RightBracket    = $1B
-#PB_Key_Return          = $1C   
+#PB_Key_Return          = $1C
 #PB_Key_LeftControl     = $1D
 #PB_Key_A               = $1E
 #PB_Key_S               = $1F
@@ -511,7 +511,7 @@ IncludeFile "..\Common.pb"
 #PB_Key_L               = $26
 #PB_Key_SemiColon       = $27
 #PB_Key_Apostrophe      = $28
-#PB_Key_Grave           = $29   
+#PB_Key_Grave           = $29
 #PB_Key_LeftShift       = $2A
 #PB_Key_BackSlash       = $2B
 #PB_Key_Z               = $2C
@@ -522,11 +522,11 @@ IncludeFile "..\Common.pb"
 #PB_Key_N               = $31
 #PB_Key_M               = $32
 #PB_Key_Comma           = $33
-#PB_Key_Period          = $34    
-#PB_Key_Slash           = $35    
+#PB_Key_Period          = $34
+#PB_Key_Slash           = $35
 #PB_Key_RightShift      = $36
-#PB_Key_Multiply        = $37    
-#PB_Key_LeftAlt         = $38    
+#PB_Key_Multiply        = $37
+#PB_Key_LeftAlt         = $38
 #PB_Key_Space           = $39
 #PB_Key_Capital         = $3A
 #PB_Key_F1              = $3B
@@ -540,36 +540,36 @@ IncludeFile "..\Common.pb"
 #PB_Key_F9              = $43
 #PB_Key_F10             = $44
 #PB_Key_NumLock         = $45
-#PB_Key_Scroll          = $46    
+#PB_Key_Scroll          = $46
 #PB_Key_Pad7            = $47
 #PB_Key_Pad8            = $48
 #PB_Key_Pad9            = $49
-#PB_Key_Subtract        = $4A    
+#PB_Key_Subtract        = $4A
 #PB_Key_Pad4            = $4B
 #PB_Key_Pad5            = $4C
 #PB_Key_Pad6            = $4D
-#PB_Key_Add             = $4E    
+#PB_Key_Add             = $4E
 #PB_Key_Pad1            = $4F
 #PB_Key_Pad2            = $50
 #PB_Key_Pad3            = $51
 #PB_Key_Pad0            = $52
-#PB_Key_Decimal         = $53    
+#PB_Key_Decimal         = $53
 #PB_Key_F11             = $57
 #PB_Key_F12             = $58
-#PB_Key_PadEnter        = $9C    
+#PB_Key_PadEnter        = $9C
 #PB_Key_RightControl    = $9D
-#PB_Key_PadComma        = $B3    
-#PB_Key_Divide          = $B5    
-#PB_Key_RightAlt        = $B8    
-#PB_Key_Pause           = $C5    
-#PB_Key_Home            = $C7    
-#PB_Key_Up              = $C8    
-#PB_Key_PageUp          = $C9    
-#PB_Key_Left            = $CB    
-#PB_Key_Right           = $CD    
-#PB_Key_End             = $CF    
-#PB_Key_Down            = $D0    
-#PB_Key_PageDown        = $D1    
+#PB_Key_PadComma        = $B3
+#PB_Key_Divide          = $B5
+#PB_Key_RightAlt        = $B8
+#PB_Key_Pause           = $C5
+#PB_Key_Home            = $C7
+#PB_Key_Up              = $C8
+#PB_Key_PageUp          = $C9
+#PB_Key_Left            = $CB
+#PB_Key_Right           = $CD
+#PB_Key_End             = $CF
+#PB_Key_Down            = $D0
+#PB_Key_PageDown        = $D1
 #PB_Key_Insert          = $D2
 #PB_Key_Delete          = $D3
 
@@ -686,7 +686,7 @@ IncludeFile "..\Common.pb"
 #PB_Shortcut_F24= 135
 #PB_Shortcut_Numlock= 144
 #PB_Shortcut_Scroll =145
-; 
+;
 ; ;- special ASCII chars (moved to WindowsUnicode.res to have the string ones in unicode!)
 ; #SOH$   = Chr(001)  :  #SOH =   1 ;    (Start of Header)
 ; #STX$   = Chr(002)  :  #STX =   2 ;    (Start of Text)

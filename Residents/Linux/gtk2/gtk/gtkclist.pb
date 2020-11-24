@@ -201,7 +201,7 @@ Structure GtkCell_pt
   spacing.b
   PB_Align(3, 7)
  *pixmap.GdkPixmap
- *mask.GdkBitmap 
+ *mask.GdkBitmap
 EndStructure
 
 Structure GtkCell

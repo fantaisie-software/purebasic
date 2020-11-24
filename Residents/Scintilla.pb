@@ -982,7 +982,7 @@ Structure SCCharacterRange
 	  cpMax.l
 	CompilerElse
 	  cpMin.i  ; On Unix, the 'long' type is 64bit on a 64bit OS!
-	  cpMax.i	
+	  cpMax.i
 	CompilerEndIf
 EndStructure
 
@@ -992,7 +992,7 @@ Structure SCTextRange
 EndStructure
 
 Structure SCTextToFind
-	chrg.SCCharacterRange 
+	chrg.SCCharacterRange
 	*lpstrText
 	chrgText.SCCharacterRange
 EndStructure
@@ -1007,7 +1007,7 @@ Structure SCNotifyHeader
 EndStructure ; SizeOf 12
 
 Structure SCNotification
-	nmhdr.SCNotifyHeader 
+	nmhdr.SCNotifyHeader
 	position.l			;// SCN_STYLENEEDED, SCN_MODIFIED, SCN_DWELLSTART, SCN_DWELLEND
 	ch.l				;// SCN_CHARADDED, SCN_KEY
 	modifiers.l			;// SCN_KEY
@@ -1028,10 +1028,10 @@ Structure SCNotification
 	listType.l			;// SCN_USERLISTSELECTION
 	x.l					;// SCN_DWELLSTART, SCN_DWELLEND
 	y.l					;// SCN_DWELLSTART, SCN_DWELLEND
-	token.l      ;	// SCN_MODIFIED with SC_MOD_CONTAINER 
+	token.l      ;	// SCN_MODIFIED with SC_MOD_CONTAINER
 	annotationLinesAdded.l   ;	// SCN_MODIFIED with SC_MOD_CHANGEANNOTATION
 	updated.l     ; // SCN_UPDATEUI
-EndStructure ; 
+EndStructure ;
 
 ;struct SCNotification {
 ;	struct NotifyHeader nmhdr;

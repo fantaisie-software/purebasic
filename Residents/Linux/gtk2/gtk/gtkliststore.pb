@@ -1,7 +1,7 @@
 Structure GtkListStore
   parent.GObject
   stamp.l 				 ; gint
-  PB_Align(0, 4) 
+  PB_Align(0, 4)
   seq.i  					 ; gpointer
   _gtk_reserved1.i ; gpointer
  *sort_list.GList

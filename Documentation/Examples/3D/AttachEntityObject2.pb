@@ -26,7 +26,7 @@ If InitEngine3D()
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"          , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"         , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Particles"       , #PB_3DArchive_FileSystem)  
+    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Particles"       , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
     Parse3DScripts()
         
@@ -91,9 +91,9 @@ If InitEngine3D()
     ;
     AttachEntityObject(1, "Joint18", EntityID(2), 10, -8, -5, 0, 0, 0)
     AttachEntityObject(1, "Joint15", EntityID(3), 10, -8, 0, 0, 0, 0)
-    AttachEntityObject(1, "Joint15", ParticleEmitterID(0), 15, 0, 0, 0, 0, 45)  
-    AttachEntityObject(1, "Joint18", ParticleEmitterID(Jet), 15, -12, -5, 0, 0, -90) 
-    AttachEntityObject(1, "Joint1" , BillboardGroupID(0), 0, 50, 0, 0, 0, 0)  
+    AttachEntityObject(1, "Joint15", ParticleEmitterID(0), 15, 0, 0, 0, 0, 45)
+    AttachEntityObject(1, "Joint18", ParticleEmitterID(Jet), 15, -12, -5, 0, 0, -90)
+    AttachEntityObject(1, "Joint1" , BillboardGroupID(0), 0, 50, 0, 0, 0, 0)
     AttachEntityObject(1, "Joint18", LightID(0), 10, -35, 20, 0, 0, 0)
     AttachEntityObject(1, "Joint15", LightID(1), 10, -35, -20, 0, 0, 0)
     
@@ -101,32 +101,32 @@ If InitEngine3D()
       Screen3DEvents()
       
       If ExamineMouse()
-        MouseX = -MouseDeltaX()/10 
+        MouseX = -MouseDeltaX()/10
         MouseY = -MouseDeltaY()/10
       EndIf
       
-      RobotMove = #False    
+      RobotMove = #False
       If ExamineKeyboard()
         
         If KeyboardReleased(#PB_Key_Space)
           DetachEntityObject(1, EntityID(2))
           DetachEntityObject(1, BillboardGroupID(0))
           DetachEntityObject(1, LightID(1))
-          DetachEntityObject(1, ParticleEmitterID(Jet)) 
+          DetachEntityObject(1, ParticleEmitterID(Jet))
         EndIf
         
         If KeyboardReleased(#PB_Key_Return)
           AttachEntityObject(1, "Joint18", EntityID(2), 10, -8, -5, 0, 0, 0)
-          AttachEntityObject(1, "Joint1", BillboardGroupID(0), 0, 60, 0, 0, 0, 0)  
+          AttachEntityObject(1, "Joint1", BillboardGroupID(0), 0, 60, 0, 0, 0, 0)
           AttachEntityObject(1, "Joint15", LightID(1), 0, -35, 0, 0, 0, 0)
-          AttachEntityObject(1, "Joint18", ParticleEmitterID(Jet), 15, -12, -5, 0, 0, -90) 
+          AttachEntityObject(1, "Joint18", ParticleEmitterID(Jet), 15, -12, -5, 0, 0, -90)
         EndIf
         
         If KeyboardPushed(#PB_Key_Left)
           MoveEntity(1, -1 * Speed, 0, 0)
           RotateEntity(1, 0, 180, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_Right)
           MoveEntity(1, 1 * Speed, 0, 0)
@@ -138,7 +138,7 @@ If InitEngine3D()
           MoveEntity(1, 0, 0, -1 * Speed)
           RotateEntity(1, 0, 90, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_Down)
           MoveEntity(1, 0, 0, 1 * Speed)
@@ -154,7 +154,7 @@ If InitEngine3D()
         EndIf
       Else
         StopEntityAnimation(1, "Walk")
-      EndIf  
+      EndIf
       
       AddEntityAnimationTime(1, "Walk", TimeSinceLastFrame)
       

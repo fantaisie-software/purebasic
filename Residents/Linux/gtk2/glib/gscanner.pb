@@ -43,7 +43,7 @@ EndEnumeration
 
 
 Structure GTokenValue
-  StructureUnion 
+  StructureUnion
     v_symbol.l
    *v_identifier
     v_binary.l

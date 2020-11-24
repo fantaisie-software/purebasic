@@ -25,7 +25,7 @@ If InitEngine3D()
   
   If Screen3DRequester()
     
-    AmbientColor(RGB(0, 200, 0))  ; Green 'HUD' like color 
+    AmbientColor(RGB(0, 200, 0))  ; Green 'HUD' like color
  
     CreateMaterial(0, LoadTexture(0, "r2skin.jpg"))
     CreateEntity(0, LoadMesh(0, "robot.mesh"), MaterialID(0))
@@ -53,17 +53,17 @@ If InitEngine3D()
       If ExamineKeyboard()
              
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
                   
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf

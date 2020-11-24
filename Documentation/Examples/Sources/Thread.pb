@@ -19,4 +19,4 @@ EndProcedure
 
 CreateThread(@AlertThread(), 0)
 
-MessageRequester("Info", "It will display an alert every 2 seconds."+#LF$+"Click To finish the program", 0) 
+MessageRequester("Info", "It will display an alert every 2 seconds."+#LF$+"Click To finish the program", 0)

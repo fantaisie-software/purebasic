@@ -101,4 +101,4 @@ Interface IImageList Extends IUnknown
   GetDragImage(a, b, c, d)
   GetItemFlags(a, b)
   GetOverlayImage(a, b)
-EndInterface 
+EndInterface

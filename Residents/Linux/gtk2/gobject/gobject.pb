@@ -1,7 +1,7 @@
 Structure GObject
   g_type_instance.GTypeInstance
   ref_count.l ; guint
-  PB_Align(0, 4) 
+  PB_Align(0, 4)
  *qdata.GData
 EndStructure
 

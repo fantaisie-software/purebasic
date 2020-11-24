@@ -9,7 +9,7 @@
 ;
 ; This program isn't finished, the harder is done but I don't
 ; have the time to implement the whole RFC 959 commands :-).
-; 
+;
 ;
 ; 20/05/2002
 ;   Added a textgadget..
@@ -77,14 +77,14 @@ If CreateNetworkServer(0, Port)
       Delay(20)
     EndIf
     
-  Until Quit = 1 
+  Until Quit = 1
   
   CloseNetworkServer(0)
 Else
   MessageRequester("Error", "Can't create the server (port in use ?).", 0)
 EndIf
 
-End 
+End
 
 
 ProcessRequest:

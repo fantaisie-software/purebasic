@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ; Thanks to kelebrindae for this nice code.
 
-#PB_Material_AmbientColor  = 2 
+#PB_Material_AmbientColor  = 2
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
@@ -30,7 +30,7 @@ If InitEngine3D()
       Box(0, 0, 128, 128, $FFFFFF)
       StopDrawing()
       
-    CreateTexture(1, 128, 128)    
+    CreateTexture(1, 128, 128)
     StartDrawing(TextureOutput(1))
       Box(0, 0, 128, 128, $000000)
       Box(0, 0, 64, 64, $BBBBBB)
@@ -50,37 +50,37 @@ If InitEngine3D()
     ;
     CreatePlane(1, 40, 40, 20, 20, 15, 15)
     sol = CreateEntity(#PB_Any, MeshID(1), MaterialID(1))
-    CreateEntityBody(sol, #PB_Entity_StaticBody)   
+    CreateEntityBody(sol, #PB_Entity_StaticBody)
     
     CreateCube(2, 1)
     support = CreateEntity(#PB_Any, MeshID(2), MaterialID(3))
     ScaleEntity(support, 20, 0.3, 0.3)
     MoveEntity(support, 0, 10, 0, #PB_Absolute)
-    CreateEntityBody(support, #PB_Entity_StaticBody)   
+    CreateEntityBody(support, #PB_Entity_StaticBody)
     
     support2 = CreateEntity(#PB_Any, MeshID(2), MaterialID(3))
     ScaleEntity(support2, 0.4, 12, 0.4)
     RotateEntity(support2, 30, 0, 0)
     MoveEntity(support2, 10, 5, -3, #PB_Absolute)
-    CreateEntityBody(support2, #PB_Entity_StaticBody)   
+    CreateEntityBody(support2, #PB_Entity_StaticBody)
     
     support3 = CreateEntity(#PB_Any, MeshID(2), MaterialID(3))
     ScaleEntity(support3, 0.4, 12, 0.4)
     RotateEntity(support3, -30, 0, 0)
     MoveEntity(support3, 10, 5, 3, #PB_Absolute)
-    CreateEntityBody(support3, #PB_Entity_StaticBody)   
+    CreateEntityBody(support3, #PB_Entity_StaticBody)
     
     support4 = CreateEntity(#PB_Any, MeshID(2), MaterialID(3))
     ScaleEntity(support4, 0.4, 12, 0.4)
     RotateEntity(support4, 30, 0, 0)
     MoveEntity(support4,-10,5,-3, #PB_Absolute)
-    CreateEntityBody(support2, #PB_Entity_StaticBody)   
+    CreateEntityBody(support2, #PB_Entity_StaticBody)
     
     support5 = CreateEntity(#PB_Any, MeshID(2), MaterialID(3))
     ScaleEntity(support5, 0.4, 12, 0.4)
     RotateEntity(support5, -30, 0, 0)
     MoveEntity(support5, -10, 5, 3, #PB_Absolute)
-    CreateEntityBody(support5, #PB_Entity_StaticBody)   
+    CreateEntityBody(support5, #PB_Entity_StaticBody)
     
     ; Pendulums
     #NBPENDULUM = 16
@@ -95,7 +95,7 @@ If InitEngine3D()
       ; Create a sphere
       sph(i) = CreateEntity(#PB_Any, MeshID(3), MaterialID(2))
       MoveEntity(sph(i), EntityX(support) + position, EntityY(support) - stringLength,EntityZ(support), #PB_Absolute)
-      CreateEntityBody(sph(i), #PB_Entity_SphereBody)   
+      CreateEntityBody(sph(i), #PB_Entity_SphereBody)
       
       ; Attach the support and the sphere
       PointJoint(#PB_Any, EntityID(support), position, 0, 0, EntityID(sph(i)), 0, stringLength, 0)
@@ -103,7 +103,7 @@ If InitEngine3D()
       
       ; Gently push the sphere
       ApplyEntityImpulse(sph(i),0,0,4)
-    Next 
+    Next
     
     ; Camera
     ;

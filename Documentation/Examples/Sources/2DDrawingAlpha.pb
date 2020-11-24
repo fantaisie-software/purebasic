@@ -89,7 +89,7 @@ If OpenWindow(0, 0, 0, 800, 600, "Alphachannel demo", #PB_Window_SystemMenu|#PB_
     ; The gradient defined the color to draw, the color parameter of the commands is then ignored
     ;
     DrawingFont(FontID(0))
-    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent|#PB_2DDrawing_Gradient)   
+    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent|#PB_2DDrawing_Gradient)
     LinearGradient(310, 10, 310+TextWidth("Alphachannel Gradient demo"), 10+TextHeight("Alphachannel Gradient demo"))
     GradientColor(0.0,  $80FF0000)
     GradientColor(0.25, $FF00FF00)
@@ -99,11 +99,11 @@ If OpenWindow(0, 0, 0, 800, 600, "Alphachannel demo", #PB_Window_SystemMenu|#PB_
     DrawText(310, 10, "Alphachannel Gradient demo")
 
     DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
-    Box(350, 75, 400, 150, $FF0000FF)   
+    Box(350, 75, 400, 150, $FF0000FF)
     Circle(400, 125, 20,  $FF0000FF)
     Circle(600, 125, 20,  $FF0000FF)
     Circle(500, 175, 40,  $FF0000FF)
-    Circle(700, 150, 40,  $FFFF0000)   
+    Circle(700, 150, 40,  $FFFF0000)
     Box(430, 80, 15, 140, $FF0000FF)
    
     DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Gradient)
@@ -113,8 +113,8 @@ If OpenWindow(0, 0, 0, 800, 600, "Alphachannel demo", #PB_Window_SystemMenu|#PB_
     GradientColor(0.25, $8000FF00)
     GradientColor(0.5,  $FFFF0000)
     GradientColor(0.75, $8000FFFF)
-    GradientColor(1.0,  $FF0000FF)   
-    FillArea(360, 80, -1)    
+    GradientColor(1.0,  $FF0000FF)
+    FillArea(360, 80, -1)
    
     StopDrawing()
   EndIf
@@ -132,7 +132,7 @@ If OpenWindow(0, 0, 0, 800, 600, "Alphachannel demo", #PB_Window_SystemMenu|#PB_
         Box(x, y, #box_size, #box_size, $C0C0C0)
         Box(x+#box_size, y+#box_size, #box_size, #box_size, $C0C0C0)
       Next x
-    Next y   
+    Next y
 
     ; draw the alpha image
     DrawAlphaImage(ImageID(0), 0, 0)
@@ -358,4 +358,4 @@ DataSection
     Data.b $2A,$56,$C8,$CF,$5F,$CB,$28,$E5,$FF,$12,$C0,$A5,$21,$E6,$D8,$30
     Data.b $33,$37,$92,$62,$FF,$BF,$5A,$FF,$03,$14,$40,$F3,$DA,$D8,$5F,$19
     Data.b $B7,$00,$00,$00,$00,$49,$45,$4E,$44,$AE,$42,$60,$82
-EndDataSection 
+EndDataSection

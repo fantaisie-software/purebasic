@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-;Speed animation = PageUp and PageDown 
+;Speed animation = PageUp and PageDown
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
@@ -57,7 +57,7 @@ If InitEngine3D()
       Screen3DEvents()
       
       If ExamineMouse()
-        MouseX = -MouseDeltaX()/10 
+        MouseX = -MouseDeltaX()/10
         MouseY = -MouseDeltaY()/10
       EndIf
       
@@ -82,7 +82,7 @@ If InitEngine3D()
         
         If KeyboardPushed(#PB_Key_PageUp) And Speed < 2.0
           Speed + 0.05
-        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1 
+        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1
           Speed - 0.05
         EndIf
                 
@@ -116,7 +116,7 @@ If InitEngine3D()
       CreateLine3D(17, x1, y2, z2, Color, x1, y2, z1, Color)
       ;Edge
       CreateLine3D(18, x1, y1, z1, Color, x1, y2, z1, Color)
-      CreateLine3D(19, x2, y1, z1, Color, x2, y2, z1, Color)    
+      CreateLine3D(19, x2, y1, z1, Color, x2, y2, z1, Color)
       CreateLine3D(20, x2, y1, z2, Color, x2, y2, z2, Color)
       CreateLine3D(21, x1, y1, z2, Color, x1, y2, z2, Color)
  

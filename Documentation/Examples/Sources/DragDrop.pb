@@ -32,30 +32,30 @@ EndEnumeration
 If OpenWindow(#Window, 0, 0, 760, 310, "Drag & Drop", #PB_Window_SystemMenu|#PB_Window_ScreenCentered)
   
   ; Create some images for the image demonstration
-  ; 
+  ;
   CreateImage(#ImageSource, 136, 136)
   If StartDrawing(ImageOutput(#ImageSource))
     Box(0, 0, 136, 136, $FFFFFF)
-    DrawText(5, 5, "Drag this image", $000000, $FFFFFF)        
+    DrawText(5, 5, "Drag this image", $000000, $FFFFFF)
     For i = 45 To 1 Step -1
       Circle(70, 80, i, Random($FFFFFF))
-    Next i        
+    Next i
     
     StopDrawing()
-  EndIf  
+  EndIf
   
   CreateImage(#ImageTarget, 136, 136)
   If StartDrawing(ImageOutput(#ImageTarget))
     Box(0, 0, 136, 136, $FFFFFF)
     DrawText(5, 5, "Drop images here", $000000, $FFFFFF)
     StopDrawing()
-  EndIf  
+  EndIf
   
   
   ; Create and fill the source gadgets
   ;
-  ListIconGadget(#SourceText,       10, 10, 140, 140, "Drag Text here", 130)   
-  ImageGadget(#SourceImage,        160, 10, 140, 140, ImageID(#ImageSource), #PB_Image_Border) 
+  ListIconGadget(#SourceText,       10, 10, 140, 140, "Drag Text here", 130)
+  ImageGadget(#SourceImage,        160, 10, 140, 140, ImageID(#ImageSource), #PB_Image_Border)
   ExplorerListGadget(#SourceFiles, 310, 10, 290, 140, GetHomeDirectory(), #PB_Explorer_MultiSelect)
   ListIconGadget(#SourcePrivate,   610, 10, 140, 140, "Drag private stuff here", 260)
      
@@ -71,7 +71,7 @@ If OpenWindow(#Window, 0, 0, 760, 310, "Drag & Drop", #PB_Window_SystemMenu|#PB_
   ; Create the target gadgets
   ;
   ListIconGadget(#TargetText,  10, 160, 140, 140, "Drop Text here", 130)
-  ImageGadget(#TargetImage,    160, 160, 140, 140, ImageID(#ImageTarget), #PB_Image_Border) 
+  ImageGadget(#TargetImage,    160, 160, 140, 140, ImageID(#ImageTarget), #PB_Image_Border)
   ListIconGadget(#TargetFiles, 310, 160, 140, 140, "Drop Files here", 130)
   ListIconGadget(#TargetPrivate1, 460, 160, 140, 140, "Drop Private Type 1 here", 130)
   ListIconGadget(#TargetPrivate2, 610, 160, 140, 140, "Drop Private Type 2 here", 130)
@@ -101,12 +101,12 @@ If OpenWindow(#Window, 0, 0, 760, 310, "Drag & Drop", #PB_Window_SystemMenu|#PB_
           DragImage(ImageID(#ImageSource))
         
         Case #SourceFiles
-          Files$ = ""       
+          Files$ = ""
           For i = 0 To CountGadgetItems(#SourceFiles)-1
             If GetGadgetItemState(#SourceFiles, i) & #PB_Explorer_Selected
               Files$ + GetGadgetText(#SourceFiles) + GetGadgetItemText(#SourceFiles, i) + Chr(10)
             EndIf
-          Next i 
+          Next i
           If Files$ <> ""
             DragFiles(Files$)
           EndIf

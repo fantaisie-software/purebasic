@@ -7,7 +7,7 @@ If OpenConsole()
     
     ; Loop which repeats until the user types in the value to signal
     ; the end of the loop
-    Repeat    
+    Repeat
         ; Give the user a prompt, telling them what to enter
         PrintN("")
         Print("Please enter a value for number "+Str(which_number)+" in the range 1 to 10: ")

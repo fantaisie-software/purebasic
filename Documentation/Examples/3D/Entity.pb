@@ -71,7 +71,7 @@ If InitEngine3D()
           KeyY = #CameraSpeed
         Else
           KeyY = 0
-        EndIf    
+        EndIf
         
       EndIf
       

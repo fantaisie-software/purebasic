@@ -1,7 +1,7 @@
 ;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - Drawing via Direct Screen Access (DSA) 
+;   PureBasic - Drawing via Direct Screen Access (DSA)
 ;
 ;    (c) Fantaisie Software
 ;
@@ -46,7 +46,7 @@ If OpenScreen(#ScreenWidth, #ScreenHeight, 32, "PB Plasma")
     If StartDrawing(ScreenOutput())
       Buffer      = DrawingBuffer()             ; Get the start address of the screen buffer
       Pitch       = DrawingBufferPitch()        ; Get the length (in byte) took by one horizontal line
-      PixelFormat = DrawingBufferPixelFormat()  ; Get the pixel format. 
+      PixelFormat = DrawingBufferPixelFormat()  ; Get the pixel format.
       
       If PixelFormat = #PB_PixelFormat_32Bits_RGB
         For i = 0 To 255
@@ -55,7 +55,7 @@ If OpenScreen(#ScreenWidth, #ScreenHeight, 32, "PB Plasma")
       Else                        ; Else it's 32bits_BGR
         For i = 0 To 255
           ColorTable(i) = i       ; Blue is at the 1th pixel
-        Next    
+        Next
       EndIf
     
       For y = 0 To #ScreenHeight-1

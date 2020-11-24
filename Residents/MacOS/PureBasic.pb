@@ -57,8 +57,8 @@ IncludeFile "../Common.pb"
 
 ; Font
 ;
-#PB_Font_Bold        = 1 
-#PB_Font_Italic      = 2 
+#PB_Font_Bold        = 1
+#PB_Font_Italic      = 2
 #PB_Font_Underline   = 4
 #PB_Font_StrikeOut   = 0 ; TODO
 #PB_Font_HighQuality = 0 ; TODO
@@ -276,7 +276,7 @@ IncludeFile "../Common.pb"
 #PB_ListIcon_MultiSelect = 1
 #PB_ListIcon_CheckBoxes = 2
 #PB_ListIcon_ThreeState = 8
-#PB_ListIcon_GridLines = 16      
+#PB_ListIcon_GridLines = 16
 #PB_ListIcon_HeaderDragDrop = 32
 
 ; Item attributes
@@ -287,7 +287,7 @@ IncludeFile "../Common.pb"
 ; Gadget attributes
 #PB_ListIcon_ColumnWidth = 1
 
-#PB_ListView_MultiSelect = 1 
+#PB_ListView_MultiSelect = 1
 #PB_ListView_ClickSelect = 2 ; NOT SUPPORTED
 
 #PB_MDI_BorderLess              = $00000001
@@ -721,16 +721,16 @@ CompilerEndIf
 #PB_Shortcut_Alt     = $40000
 #PB_Shortcut_Command = $80000
 
-; 
+;
 ;
 #PB_Shortcut_Back    = 8
 #PB_Shortcut_Tab     = 9
 #PB_Shortcut_Clear   = 127
 #PB_Shortcut_Return  = 13
-#PB_Shortcut_Menu    = 0     
+#PB_Shortcut_Menu    = 0
 #PB_Shortcut_Pause   = 0
 #PB_Shortcut_Print   = 0
-#PB_Shortcut_Capital = 0     
+#PB_Shortcut_Capital = 0
 #PB_Shortcut_Escape  = 27
 #PB_Shortcut_Space   = 32
 #PB_Shortcut_PageUp  = 11
@@ -785,7 +785,7 @@ CompilerEndIf
 #PB_Shortcut_Z = 122
 #PB_Shortcut_LeftWindows  = 0
 #PB_Shortcut_RightWindows = 0
-#PB_Shortcut_Apps = 0        
+#PB_Shortcut_Apps = 0
 #PB_Shortcut_Pad0 = 48
 #PB_Shortcut_Pad1 = 49
 #PB_Shortcut_Pad2 = 50

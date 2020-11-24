@@ -116,4 +116,4 @@ If OpenWindow(0, 100, 200, #WindowWidth, #WindowHeight, "PureBasic - Gadget Demo
 
 EndIf
 
-End 
+End

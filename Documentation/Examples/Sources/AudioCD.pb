@@ -79,7 +79,7 @@ If OpenWindow(0, 100, 200, 265, 125, "PureBasic - AudioCD Example", #PB_Window_S
       Event = WindowEvent()  ; This time we use the WindowEvent(), non-blocking command to allow time refreshing
 
       If Event = #PB_Event_Gadget
-        Select EventGadget() 
+        Select EventGadget()
 
           Case #GADGET_Play
             CurrentTrack = GetGadgetState(4)+1
@@ -101,7 +101,7 @@ If OpenWindow(0, 100, 200, 265, 125, "PureBasic - AudioCD Example", #PB_Window_S
         EndSelect
 
       Else
-        If Event = #PB_Event_CloseWindow : Quit = 1 : EndIf   
+        If Event = #PB_Event_CloseWindow : Quit = 1 : EndIf
       EndIf
     Until Event = 0
 

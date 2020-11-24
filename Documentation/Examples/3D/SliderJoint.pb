@@ -30,7 +30,7 @@ If InitEngine3D()
     CreateMaterial(0, LoadTexture(0, "Dirt.jpg"))
     CreateMaterial(1, LoadTexture(1, "Wood.jpg"))
     GetScriptMaterial(2, "Color/Green")
-    GetScriptMaterial(3, "Color/Red")  
+    GetScriptMaterial(3, "Color/Red")
     
     ; Meshes
     ;
@@ -59,8 +59,8 @@ If InitEngine3D()
     ; SliderJoint
     ;
     SliderJoint(0, EntityID(0), -1, 0, 0, EntityID(1), 1, 0, 0)
-    SetJointAttribute(0, #PB_SliderJoint_LowerLimit, -3)  
-    SetJointAttribute(0, #PB_SliderJoint_UpperLimit,  0)   
+    SetJointAttribute(0, #PB_SliderJoint_LowerLimit, -3)
+    SetJointAttribute(0, #PB_SliderJoint_UpperLimit,  0)
         
     ; Camera
     ;
@@ -83,23 +83,23 @@ If InitEngine3D()
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_PageUp)
-          ApplyEntityImpulse(1, 0.1, 0, 0) 
+          ApplyEntityImpulse(1, 0.1, 0, 0)
         ElseIf KeyboardPushed(#PB_Key_PageDown)
-          ApplyEntityImpulse(1, -0.1, 0, 0) 
-        EndIf        
+          ApplyEntityImpulse(1, -0.1, 0, 0)
+        EndIf
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf

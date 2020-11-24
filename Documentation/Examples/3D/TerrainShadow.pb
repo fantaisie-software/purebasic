@@ -47,14 +47,14 @@ If InitEngine3D(Flags)
     
     WorldShadows(#PB_Shadow_Modulative, #PB_Default, RGB(105, 105, 105))
     
-    ;- Light 
+    ;- Light
     ;
     light = CreateLight(#PB_Any ,RGB(255, 255, 255), 4000, 1200, 1000,#PB_Light_Directional)
-    SetLightColor(light, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4)) 
-    LightDirection(light ,0.55, -0.3, -0.75) 
+    SetLightColor(light, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4))
+    LightDirection(light ,0.55, -0.3, -0.75)
     AmbientColor(RGB(255*0.2, 255*0.2,255*0.2))
         
-    ;- Camera 
+    ;- Camera
     ;
     CreateCamera(0, 0, 0, 100, 100)
     MoveCamera(0,  800, 400, 80, #PB_Absolute)
@@ -64,9 +64,9 @@ If InitEngine3D(Flags)
     ;----------------------------------
     ; terrain definition
     SetupTerrains(LightID(Light), 3000, #PB_Terrain_NormalMapping)
-    ; initialize terrain 
+    ; initialize terrain
     CreateTerrain(0, 513, 12000, 600, 4, "TerrainShadow", "dat")
-    ; set all texture will be use when terrrain will be constructed 
+    ; set all texture will be use when terrrain will be constructed
     AddTerrainTexture(0,  0, 100, "dirt_grayrocky_diffusespecular.jpg",  "dirt_grayrocky_normalheight.jpg")
     AddTerrainTexture(0,  1,  30, "grass_green-01_diffusespecular.jpg", "grass_green-01_normalheight.jpg")
     AddTerrainTexture(0,  2, 200, "growth_weirdfungus-03_diffusespecular.jpg", "growth_weirdfungus-03_normalheight.jpg")
@@ -74,16 +74,16 @@ If InitEngine3D(Flags)
     ; construct terrains
     For ty = #TerrainMiniY To #TerrainMaxiY
       For tx = #TerrainMiniX To #TerrainMaxiX
-        DefineTerrainTile(0, tx, ty, "terrain513.png", ty % 2, tx % 2)  
+        DefineTerrainTile(0, tx, ty, "terrain513.png", ty % 2, tx % 2)
       Next
-    Next  
-    BuildTerrain(0)  
+    Next
+    BuildTerrain(0)
     
     ;InitBlendMaps
     minHeight1.f = 70
     fadeDist1.f = 40
     minHeight2.f = 70
-    fadeDist2.f = 15    
+    fadeDist2.f = 15
     For ty = #TerrainMiniY To #TerrainMaxiY
       For tx = #TerrainMiniX To #TerrainMaxiX
         Size = TerrainTileLayerMapSize(0, tx, ty)
@@ -103,7 +103,7 @@ If InitEngine3D(Flags)
         UpdateTerrainTileLayerBlend(0, tx, ty, 1)
         UpdateTerrainTileLayerBlend(0, tx, ty, 2)
       Next
-    Next  
+    Next
     
     ; enable shadow terrain
     TerrainRenderMode(0, 0)
@@ -123,20 +123,20 @@ If InitEngine3D(Flags)
     Repeat
       Screen3DEvents()
       
-      If ExamineKeyboard()       
+      If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf
@@ -157,16 +157,16 @@ If InitEngine3D(Flags)
       EndIf
       ;CameraLocate(0, CameraX(0), PBO_GetTerrainHeight(0, CameraX(0), CameraZ(0)) + 20, CameraZ(0))
       MoveCamera  (0, KeyX, 0, KeyY)
-      RotateCamera(0,  MouseY, MouseX, 0, #PB_Relative)  
+      RotateCamera(0,  MouseY, MouseX, 0, #PB_Relative)
       
       RenderWorld()
       FlipBuffers()
       
-    Until KeyboardPushed(#PB_Key_Escape)   
+    Until KeyboardPushed(#PB_Key_Escape)
     
-    End 
+    End
     
-  EndIf 
+  EndIf
 Else
   CompilerIf #PB_Compiler_OS <> #PB_OS_Windows Or Subsystem("OpenGL")
     ;
@@ -177,4 +177,4 @@ Else
   CompilerElse
     MessageRequester("Error","Can't initialize engine3D")
   CompilerEndIf
-EndIf 
+EndIf

@@ -31,7 +31,7 @@ If ReadFile(0, OpenFileRequester("Choose a file to compress", "", "*.*", 0))
       EndIf
     Else
       MessageRequester("Error", "Can't compress the file")
-    EndIf 
+    EndIf
     
     FreeMemory(*Source)
     FreeMemory(*Target)

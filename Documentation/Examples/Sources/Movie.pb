@@ -9,7 +9,7 @@
 ;
 
 If InitMovie() = 0
-  MessageRequester("Error", "Can't initialize movie playback !", 0) 
+  MessageRequester("Error", "Can't initialize movie playback !", 0)
   End
 EndIf
 
@@ -25,4 +25,4 @@ If MovieName$
   Else
     MessageRequester("Error", "Can't load the movie...", 0)
   EndIf
-EndIf 
+EndIf

@@ -11,7 +11,7 @@
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 Define.f KeyX, KeyY, MouseX, MouseY
-Define DebugBody 
+Define DebugBody
 
 #CameraSpeed = 1
 
@@ -28,7 +28,7 @@ If InitEngine3D(#PB_Engine3D_DebugLog | #PB_Engine3D_DebugOutput)
   
   If Screen3DRequester()
     
-    KeyboardMode(#PB_Keyboard_International) 
+    KeyboardMode(#PB_Keyboard_International)
     
     WorldShadows(#PB_Shadow_Modulative, -1, RGB(155, 0, 0))
         
@@ -41,7 +41,7 @@ If InitEngine3D(#PB_Engine3D_DebugLog | #PB_Engine3D_DebugOutput)
     ;
     CreatePlane(0, 100, 100, 10, 10, 15, 15)
     CreateEntity(0, MeshID(0), MaterialID(2))
-    EntityRenderMode(0, 0) 
+    EntityRenderMode(0, 0)
     
     ; Meshes
     ;

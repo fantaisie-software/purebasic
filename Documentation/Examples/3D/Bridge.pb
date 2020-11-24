@@ -41,7 +41,7 @@ If InitEngine3D()
     ;
     CreatePlane(3, 500, 500, 5, 5, 5, 5)
     CreateEntity(3,MeshID(3),MaterialID(3), 0, -50, 0)
-    EntityRenderMode(3, 0) 
+    EntityRenderMode(3, 0)
     CreateEntityBody(3, #PB_Entity_BoxBody, 0, 1, 1)
     
     ; Bridge
@@ -117,10 +117,10 @@ If InitEngine3D()
           If Plank <= #NbPlanks
             DisableEntityBody(Plank(Plank), 0)
             FreeEntityJoints(Plank(Plank))
-            Plank + 1  
-          EndIf  
+            Plank + 1
+          EndIf
           
-        EndIf      
+        EndIf
         
         If KeyboardPushed(#PB_Key_Left)
           KeyX = -#CameraSpeed

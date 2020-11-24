@@ -1,7 +1,7 @@
 ;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - Quake 3 Selector 
+;   PureBasic - Quake 3 Selector
 ;
 ;    (c) Fantaisie Software
 ;
@@ -87,7 +87,7 @@ If OpenWindow(0, 100, 100, WindowWidth, WindowHeight, "Quake 3 Launcher - by Alp
             Case 5
               ActualPosition = GetGadgetState(5)
               ResetList(Mods())
-              For k=0 To ActualPosition 
+              For k=0 To ActualPosition
                 NextElement(Mods())
               Next
 

@@ -17,7 +17,7 @@ If InitEngine3D()
   InitMouse()
   
   If Screen3DRequester()
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data"                , #PB_3DArchive_FileSystem)    
+    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data"                , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
     
     ; Material
@@ -30,7 +30,7 @@ If InitEngine3D()
      
     ; Camera
     ;
-    CreateCamera(0, 0, 0, 100, 100) 
+    CreateCamera(0, 0, 0, 100, 100)
     MoveCamera(0, 0, 150, 300, #PB_Absolute)
     CameraLookAt(0, 0, 0, 0)
     CameraBackColor(0, RGB(0, 0, 30))
@@ -48,12 +48,12 @@ If InitEngine3D()
       ExamineKeyboard()
       RenderWorld()
       FlipBuffers()
-    Until KeyboardPushed(#PB_Key_Escape)   
+    Until KeyboardPushed(#PB_Key_Escape)
     
-    End 
+    End
     
-  EndIf 
+  EndIf
 Else
   MessageRequester("Error","Can't initialize engine3D")
-EndIf 
+EndIf
 

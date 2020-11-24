@@ -13,7 +13,7 @@ InitNetwork()
 
 If CreateMail(0, "fred@purebasic.com", "Hello !")
 
-  SetMailBody(0, "Hello !" + #CRLF$ + 
+  SetMailBody(0, "Hello !" + #CRLF$ +
                  "This is a multi-" + #CRLF$ +
                  "line mail !")
   

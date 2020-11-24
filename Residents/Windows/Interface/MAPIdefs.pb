@@ -26,7 +26,7 @@ EndInterface
 Interface IMAPIProp
   QueryInterface(a.l, b.l)
   AddRef()
-  Release()  
+  Release()
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -186,7 +186,7 @@ EndInterface
 
 ; IDistList interface definition
 ;
-Interface IDistList  
+Interface IDistList
   QueryInterface(a.l, b.l)
   AddRef()
   Release()
@@ -364,7 +364,7 @@ Interface IAttach
   CopyTo(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l)
   CopyProps(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
   GetNamesFromIDs(a.l, b.l, c.l, d.l, e.l)
-  GetIDsFromNames(a.l, b.l, c.l, d.l) 
+  GetIDsFromNames(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IMAPIControl interface definition

@@ -46,13 +46,13 @@ If InitEngine3D()
       SoundVolume3D(0, 50)
       SoundRange3D(0, 1, 500)
       PlaySound3D(0, #PB_Sound3D_Loop)
-    EndIf  
+    EndIf
     
     If LoadSound3D(1, "Siren.ogg")
       SoundVolume3D(1, 50)
       SoundRange3D(1, 1, 500)
       PlaySound3D(1, #PB_Sound3D_Loop)
-    EndIf 
+    EndIf
     
     ;- Node
     ; Create a node, so we can link the entity and the sound
@@ -65,10 +65,10 @@ If InitEngine3D()
       AttachNodeObject(1, SoundID3D(1))
       AttachNodeObject(1, EntityID(1))
       
-    ;- Camera  
+    ;- Camera
     CreateCamera(0, 0, 0, 100, 100)
     MoveCamera(0, -550, 70, 10, #PB_Absolute)
-    CameraLookAt(0, NodeX(1), NodeY(1), NodeZ(1)) 
+    CameraLookAt(0, NodeX(1), NodeY(1), NodeZ(1))
     
     ;- Light
     AmbientColor(0)
@@ -88,17 +88,17 @@ If InitEngine3D()
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
                   
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf

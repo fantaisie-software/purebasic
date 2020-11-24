@@ -11,7 +11,7 @@ Interface ITnef
   OpenTaggedBody(a.l, b.l)
   SetProps(a.l, b.l, c.l)
   EncodeRecips(a.l)
-  FinishComponent(a.l, b.l, c.l, d.l, e.l) 
+  FinishComponent(a.l, b.l, c.l, d.l, e.l)
 EndInterface
 ; ExecutableFormat=
 ; CursorPosition=14

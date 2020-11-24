@@ -1335,4 +1335,4 @@
 ; #GDK_NewSheqelSign = $20aa
 ; #GDK_DongSign = $20ab
 ; #GDK_EuroSign = $20ac
-; 
+;

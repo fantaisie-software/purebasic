@@ -24,16 +24,16 @@ Structure Bullet
   Life.l
 EndStructure
 
-Define.f KeyX, KeyY, MouseX, MouseY, Speed = 0.1 
-Define.i RobotMove,Time 
+Define.f KeyX, KeyY, MouseX, MouseY, Speed = 0.1
+Define.i RobotMove,Time
 Global NewList Bullets.Bullet()
 
 #CameraSpeed = 2
 
-Macro GetBonePosition(Position, Entity, Bone, x1, y1, z1) 
-  Position\x = EntityBoneX(Entity, Bone, x1, y1, z1)   
-  Position\y = EntityBoneY(Entity, Bone, x1, y1, z1)   
-  Position\z = EntityBoneZ(Entity, Bone, x1, y1, z1) 
+Macro GetBonePosition(Position, Entity, Bone, x1, y1, z1)
+  Position\x = EntityBoneX(Entity, Bone, x1, y1, z1)
+  Position\y = EntityBoneY(Entity, Bone, x1, y1, z1)
+  Position\z = EntityBoneZ(Entity, Bone, x1, y1, z1)
 EndMacro
 
 Macro SubVector3(V, V1, V2)
@@ -62,7 +62,7 @@ If InitEngine3D()
   
   If Screen3DRequester()
     
-    KeyboardMode(#PB_Keyboard_International) 
+    KeyboardMode(#PB_Keyboard_International)
     
     WorldShadows(#PB_Shadow_Modulative, 3000, RGB(175, 175, 175))
     
@@ -103,18 +103,18 @@ If InitEngine3D()
       Screen3DEvents()
       
       If ExamineMouse()
-        MouseX = -MouseDeltaX()/10 
+        MouseX = -MouseDeltaX()/10
         MouseY = -MouseDeltaY()/10
       EndIf
       
-      RobotMove = #False    
+      RobotMove = #False
       If ExamineKeyboard()
         
         
         If KeyboardPushed(#PB_Key_Q)
           RotateEntity(1, 0, 180, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_D)
           RotateEntity(1, 0, 0, 0)
@@ -124,7 +124,7 @@ If InitEngine3D()
         If KeyboardPushed(#PB_Key_Z)
           RotateEntity(1, 0, 90, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_S)
           RotateEntity(1, 0, -90, 0)
@@ -149,7 +149,7 @@ If InitEngine3D()
         
         If KeyboardPushed(#PB_Key_PageUp) And Speed < 1.0
           Speed + 0.05
-        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1 
+        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1
           Speed - 0.05
         EndIf
         
@@ -162,7 +162,7 @@ If InitEngine3D()
       Else
         StopEntityAnimation(1, "Shoot")
         SetEntityAnimationTime(1, "Shoot", 0)
-      EndIf  
+      EndIf
       
       AddEntityAnimationTime(1, "Shoot", TimeSinceLastFrame)
       
@@ -190,28 +190,28 @@ EndIf
 End
 
 Procedure Normalize(*V.Vector3)
-  Define.f magSq, oneOverMag 
+  Define.f magSq, oneOverMag
   
-  magSq = *V\x * *V\x + *V\y * *V\y + *V\z * *V\z 
+  magSq = *V\x * *V\x + *V\y * *V\y + *V\z * *V\z
   If magsq > 0
     oneOverMag = 1.0 / Sqr(magSq)
     *V\x * oneOverMag
     *V\y * oneOverMag
     *V\z * oneOverMag
-  EndIf  
+  EndIf
   
 EndProcedure
 
 
 Procedure AddShoot()
   Protected.i Bullet
-  Protected.Vector3 Bone1, Bone2, Direction 
+  Protected.Vector3 Bone1, Bone2, Direction
   Protected.f Angle
   
   GetBonePosition(Bone1, 1, "Joint17", 0, 0, 0)
   GetBonePosition(Bone2, 1, "Joint18", 0, 0, -5)
   SubVector3(Direction, Bone2, Bone1)
-  Normalize(@Direction)        
+  Normalize(@Direction)
   
   For i=0 To 315 Step 45
     AddElement(Bullets())
@@ -224,12 +224,12 @@ Procedure AddShoot()
         \Bullet = CreateEntity(#PB_Any, MeshID(2), MaterialID(1), 2.4*Cos(Radian(Angle))+Bone2\x+1.2, 2.4*Sin(Radian(Angle))+Bone2\y+0.7, Bone2\z)
       Else
         \Bullet = CreateEntity(#PB_Any, MeshID(2), MaterialID(1), Bone2\x, 2.4*Sin(Radian(Angle))+Bone2\y+0.7, 2.4*Cos(Radian(Angle))+Bone2\z+1.2)
-      EndIf   
+      EndIf
       Angle + 45
       CreateEntityBody(\Bullet, #PB_Entity_SphereBody, 1)
       ApplyEntityImpulse(\Bullet, Direction\x * \Speed, Direction\y * \Speed, Direction\z * \Speed)
     EndWith
-  Next 
+  Next
 EndProcedure
 
 Procedure Shootbullet()
@@ -243,5 +243,5 @@ Procedure Shootbullet()
         DeleteElement(Bullets(), 1)
       EndIf
     EndWith
-  Next  
+  Next
 EndProcedure

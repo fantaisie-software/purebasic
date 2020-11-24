@@ -24,4 +24,4 @@ If SoundFileName$
     MessageRequester("Error", "Can't load the sound.", 0)
   EndIf
 EndIf
-End   
+End

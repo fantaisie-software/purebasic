@@ -13,7 +13,7 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 #CameraSpeed = 0.4
 
 Enumeration
-  #MainWindow 
+  #MainWindow
   #Editor
 EndEnumeration
 
@@ -34,7 +34,7 @@ If InitEngine3D()
   
   If Screen3DRequester()
     
-    KeyboardMode(#PB_Keyboard_International)  
+    KeyboardMode(#PB_Keyboard_International)
     
     ;WorldDebug(#PB_World_DebugEntity)
     
@@ -74,7 +74,7 @@ If InitEngine3D()
     CreateNode(0)
     AttachNodeObject(0, EntityID(5))
     
-    CreateNode(1, 0, 0, 1) 
+    CreateNode(1, 0, 0, 1)
     AttachNodeObject(0, NodeID(1))
     MoveNode(0, 0, 1, 0)
     
@@ -105,22 +105,22 @@ If InitEngine3D()
       If ExamineMouse()
         MouseX = -MouseDeltaX() * #CameraSpeed * 0.5
         MouseY = -MouseDeltaY() * #CameraSpeed * 0.5
-      EndIf  
+      EndIf
       
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf
@@ -133,15 +133,15 @@ If InitEngine3D()
       If Entity>=0
         CreateLine3D(10, NodeX(0), NodeY(0), NodeZ(0), RGB(255, 0, 0), PickX(), PickY(), PickZ(), RGB(255, 0, 0))
         SetGadgetText3D(#Editor, "Entity = " + Str(Entity))
-      Else   
+      Else
         SetGadgetText3D(#Editor, "I'm looking...")
-      EndIf  
+      EndIf
       
-      If entity = 10 
+      If entity = 10
         SpeedRotate = 0.1
       Else
         SpeedRotate = 1
-      EndIf  
+      EndIf
       RotateNode(0, 0, SpeedRotate, 0, #PB_Relative)
       
       RotateCamera(0, MouseY, MouseX, 0, #PB_Relative)

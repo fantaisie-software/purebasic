@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-NbJoysticks = InitJoystick() 
+NbJoysticks = InitJoystick()
 
 If NbJoysticks = 0
   MessageRequester("Error", "No joysticks are availables.", 0)

@@ -5,7 +5,7 @@ EndStructure
 
 Structure GClosure
   packed_flags.l
-  ; ref_count:15	
+  ; ref_count:15
   ; meta_marshal:1
   ; n_guards:1
   ; n_fnotifiers:2

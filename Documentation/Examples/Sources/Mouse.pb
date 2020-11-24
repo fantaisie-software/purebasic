@@ -42,7 +42,7 @@ Repeat
   ClearScreen(RGB(0,0,0))              ; CleanScreen, black
 
   ExamineKeyboard()
-  ExamineMouse()                      
+  ExamineMouse()
           
   x = MouseX()                         ; Returns actual x pos of our mouse
   y = MouseY()                         ; Returns actual y pos of our mouse

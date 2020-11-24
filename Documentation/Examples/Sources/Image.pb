@@ -42,7 +42,7 @@ If OpenWindow(0, 100, 100, 500, 300, "PureBasic - Image")
         DrawImage(ImageID(0), 20, 10)
         DrawImage(ImageID(1), 320, 80)
         DrawImage(ImageID(2), 320, 200)
-      StopDrawing()    
+      StopDrawing()
     EndIf
     
   Until Event = #PB_Event_CloseWindow  ; If the user has pressed on the close button

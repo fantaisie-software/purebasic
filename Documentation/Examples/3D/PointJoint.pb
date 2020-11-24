@@ -54,9 +54,9 @@ If InitEngine3D()
     
     ; PointJoint
     ;
-    PointJoint(0, EntityID(3), -5, -1, 0, EntityID(0), 0, 1, 0) 
+    PointJoint(0, EntityID(3), -5, -1, 0, EntityID(0), 0, 1, 0)
     PointJoint(1, EntityID(0),  0, -1, 0, EntityID(1), 0, 1, 0)
-    PointJoint(2, EntityID(1),  0, -1, 0, EntityID(2), 0, 1, 0) 
+    PointJoint(2, EntityID(1),  0, -1, 0, EntityID(2), 0, 1, 0)
     
     For i=0 To 2
       SetJointAttribute(i, #PB_PointJoint_Tau, 10)
@@ -85,17 +85,17 @@ If InitEngine3D()
         EndIf
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf

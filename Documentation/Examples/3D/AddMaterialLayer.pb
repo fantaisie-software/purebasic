@@ -12,7 +12,7 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 #CameraSpeed = 1
 
-Define.f KeyX, KeyY, MouseX, MouseY 
+Define.f KeyX, KeyY, MouseX, MouseY
 
 Font = LoadFont(#PB_Any, "Arial", 12, #PB_Font_Bold)
 
@@ -76,7 +76,7 @@ If InitEngine3D()
           KeyY = #CameraSpeed
         Else
           KeyY = 0
-        EndIf    
+        EndIf
         
       EndIf
           

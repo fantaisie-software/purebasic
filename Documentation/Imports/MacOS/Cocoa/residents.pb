@@ -17,7 +17,7 @@ CompilerEndIf
 #kCFNotFound = -1
 
 CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
-  #NSNotFound = $7fffffffffffffff 
+  #NSNotFound = $7fffffffffffffff
 CompilerElse
   #NSNotFound = $7fffffff
 CompilerEndIf
@@ -137,7 +137,7 @@ Enumeration
   #NSNumericPadKeyMask  = 1 << 21
   #NSHelpKeyMask        = 1 << 22
   #NSFunctionKeyMask    = 1 << 23
-  #NSDeviceIndependentModifierFlagsMask = $ffff0000 
+  #NSDeviceIndependentModifierFlagsMask = $ffff0000
 EndEnumeration
 
 Enumeration
@@ -379,7 +379,7 @@ Enumeration
   #NSLocalDomainMask    = 2
   #NSNetworkDomainMask  = 4
   #NSSystemDomainMask   = 8
-  #NSAllDomainsMask     = $ffff 
+  #NSAllDomainsMask     = $ffff
 EndEnumeration
 
 Enumeration
@@ -396,7 +396,7 @@ EndEnumeration
 
 Enumeration
   #kCGHeadInsertEventTap
-  #kCGTailAppendEventTap 
+  #kCGTailAppendEventTap
 EndEnumeration
 
 Enumeration
@@ -411,7 +411,7 @@ Enumeration
   #kCFRunLoopBeforeWaiting  = 1 << 5
   #kCFRunLoopAfterWaiting   = 1 << 6
   #kCFRunLoopExit           = 1 << 7
-  #kCFRunLoopAllActivities  = $0fffffff 
+  #kCFRunLoopAllActivities  = $0fffffff
 EndEnumeration
 
 Enumeration
@@ -487,7 +487,7 @@ Enumeration
   #kCFNumberFormatterOrdinalStyle
   #kCFNumberFormatterCurrencyISOCodeStyle = 8
   #kCFNumberFormatterCurrencyPluralStyle
-  #kCFNumberFormatterCurrencyAccountingStyle  
+  #kCFNumberFormatterCurrencyAccountingStyle
 EndEnumeration
 
 #kCFNumberFormatterParseIntegersOnly = 1

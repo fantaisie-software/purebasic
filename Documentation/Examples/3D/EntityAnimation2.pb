@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ;
 ;Cursor = Move Robot
-;Speed animation = PageUp and PageDown 
+;Speed animation = PageUp and PageDown
 
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
@@ -67,11 +67,11 @@ If InitEngine3D()
       Screen3DEvents()
       
       If ExamineMouse()
-        MouseX = -MouseDeltaX()/10 
+        MouseX = -MouseDeltaX()/10
         MouseY = -MouseDeltaY()/10
       EndIf
       
-      RobotMove = #False    
+      RobotMove = #False
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
@@ -94,7 +94,7 @@ If InitEngine3D()
         
         If KeyboardPushed(#PB_Key_PageUp) And Speed < 1.0
           Speed + 0.05
-        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1 
+        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1
           Speed - 0.05
         EndIf
         

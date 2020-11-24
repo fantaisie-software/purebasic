@@ -96,7 +96,7 @@ If InitEngine3D()
       Screen3DEvents()
       
       If ExamineMouse()
-        MouseX = -MouseDeltaX()/10 
+        MouseX = -MouseDeltaX()/10
         MouseY = -MouseDeltaY()/10
       EndIf
       
@@ -105,7 +105,7 @@ If InitEngine3D()
         
         If KeyboardReleased(#PB_Key_F5)
           No + 1
-          SaveRenderTexture(1, "test" + Str(No) + ".png")  
+          SaveRenderTexture(1, "test" + Str(No) + ".png")
         EndIf
         
         If KeyboardPushed(#PB_Key_Left)
@@ -130,7 +130,7 @@ If InitEngine3D()
       RotateCamera(1, MouseY, MouseX, 0, #PB_Relative)
       MoveCamera  (1, KeyX, 0, KeyY)
       
-      RenderWorld() 
+      RenderWorld()
       
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1

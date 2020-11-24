@@ -60,7 +60,7 @@ If InitEngine3D()
         Read.l Co
         Read.f u : Read.f v
         MeshVertexPosition(x, y, z)
-        MeshVertexNormal(0, 0, 0) 
+        MeshVertexNormal(0, 0, 0)
         MeshVertexColor(Co)
         MeshVertexTextureCoordinate(u, v)
       Next i
@@ -70,7 +70,7 @@ If InitEngine3D()
     Next
     
     FinishMesh(#True)
-    NormalizeMesh(0) 
+    NormalizeMesh(0)
     
     UpdateMeshBoundingBox(0)
     
@@ -98,17 +98,17 @@ If InitEngine3D()
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf
@@ -121,7 +121,7 @@ If InitEngine3D()
       MoveCamera  (0, KeyX, 0, KeyY)
       
       RenderWorld()
-      Screen3DStats()      
+      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf
@@ -140,7 +140,7 @@ DataSection
   Data.f 0,0            ; UVCoordinate
   
   Data.f 0.5,-0.5,0.5   ; position
-  Data.l $FF0000        ; color 
+  Data.l $FF0000        ; color
   Data.f 0,1            ; UVCoordinate
   
   Data.f 0.5,-0.5,-0.5  ; position
@@ -151,8 +151,8 @@ DataSection
   Data.l $FF0000        ; color
   Data.f 1,0            ; UVCoordinate
   
-  Data.w 2,1,0          ; Face 
-  Data.w 0,3,2          ; Face 
+  Data.w 2,1,0          ; Face
+  Data.w 0,3,2          ; Face
   
   ;-Front
   Data.f 0.5,-0.5,0.5   ; position

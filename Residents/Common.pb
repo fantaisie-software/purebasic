@@ -9,7 +9,7 @@
 
 ; Deprecated constants:
 ;
-#PB_LinkedList = 14 
+#PB_LinkedList = 14
 #PB_Engine3D_Current = 0
 #PB_Engine3D_Maximum = 1
 #PB_Engine3D_Minimum = 2
@@ -209,7 +209,7 @@ EndStructure
 ; 2D Drawing
 ;
 #PB_2DDrawing_Default      =  0
-#PB_2DDrawing_Transparent  =  1 
+#PB_2DDrawing_Transparent  =  1
 #PB_2DDrawing_XOr          =  2
 #PB_2DDrawing_Outlined     =  4
 #PB_2DDrawing_AlphaChannel =  8
@@ -246,37 +246,37 @@ EndStructure
 #PB_CGI_HeaderSetCookie = "Set-Cookie"
 #PB_CGI_HeaderContentDisposition = "Content-Disposition"
 
-#PB_CGI_AuthType = "AUTH_TYPE"   
-#PB_CGI_ContentLength = "CONTENT_LENGTH"   
-#PB_CGI_ContentType = "CONTENT_TYPE"   
-#PB_CGI_DocumentRoot = "DOCUMENT_ROOT"   
-#PB_CGI_GatewayInterface = "GATEWAY_INTERFACE"   
-#PB_CGI_PathInfo = "PATH_INFO"   
-#PB_CGI_PathTranslated = "PATH_TRANSLATED"   
-#PB_CGI_QueryString = "QUERY_STRING"   
-#PB_CGI_RemoteAddr = "REMOTE_ADDR"   
-#PB_CGI_RemoteHost = "REMOTE_HOST"   
-#PB_CGI_RemoteIdent = "REMOTE_IDENT"   
-#PB_CGI_RemotePort = "REMOTE_PORT"   
-#PB_CGI_RemoteUser = "REMOTE_USER"   
-#PB_CGI_RequestURI = "REQUEST_URI"   
-#PB_CGI_RequestMethod = "REQUEST_METHOD"   
-#PB_CGI_ScriptName = "SCRIPT_NAME"   
-#PB_CGI_ScriptFilename = "SCRIPT_FILENAME"   
-#PB_CGI_ServerAdmin = "SERVER_ADMIN"   
-#PB_CGI_ServerName = "SERVER_NAME"   
-#PB_CGI_ServerPort = "SERVER_PORT"   
-#PB_CGI_ServerProtocol = "SERVER_PROTOCOL"   
-#PB_CGI_ServerSignature = "SERVER_SIGNATURE"   
-#PB_CGI_ServerSoftware = "SERVER_SOFTWARE"     
-#PB_CGI_HttpAccept = "HTTP_ACCEPT"   
-#PB_CGI_HttpAcceptEncoding = "HTTP_ACCEPT_ENCODING"   
-#PB_CGI_HttpAcceptLanguage = "HTTP_ACCEPT_LANGUAGE"   
-#PB_CGI_HttpCookie = "HTTP_COOKIE"   
-#PB_CGI_HttpForwarded = "HTTP_FORWARDED"   
-#PB_CGI_HttpHost = "HTTP_HOST"   
-#PB_CGI_HttpPragma = "HTTP_PRAGMA"   
-#PB_CGI_HttpReferer = "HTTP_REFERER"   
+#PB_CGI_AuthType = "AUTH_TYPE"
+#PB_CGI_ContentLength = "CONTENT_LENGTH"
+#PB_CGI_ContentType = "CONTENT_TYPE"
+#PB_CGI_DocumentRoot = "DOCUMENT_ROOT"
+#PB_CGI_GatewayInterface = "GATEWAY_INTERFACE"
+#PB_CGI_PathInfo = "PATH_INFO"
+#PB_CGI_PathTranslated = "PATH_TRANSLATED"
+#PB_CGI_QueryString = "QUERY_STRING"
+#PB_CGI_RemoteAddr = "REMOTE_ADDR"
+#PB_CGI_RemoteHost = "REMOTE_HOST"
+#PB_CGI_RemoteIdent = "REMOTE_IDENT"
+#PB_CGI_RemotePort = "REMOTE_PORT"
+#PB_CGI_RemoteUser = "REMOTE_USER"
+#PB_CGI_RequestURI = "REQUEST_URI"
+#PB_CGI_RequestMethod = "REQUEST_METHOD"
+#PB_CGI_ScriptName = "SCRIPT_NAME"
+#PB_CGI_ScriptFilename = "SCRIPT_FILENAME"
+#PB_CGI_ServerAdmin = "SERVER_ADMIN"
+#PB_CGI_ServerName = "SERVER_NAME"
+#PB_CGI_ServerPort = "SERVER_PORT"
+#PB_CGI_ServerProtocol = "SERVER_PROTOCOL"
+#PB_CGI_ServerSignature = "SERVER_SIGNATURE"
+#PB_CGI_ServerSoftware = "SERVER_SOFTWARE"
+#PB_CGI_HttpAccept = "HTTP_ACCEPT"
+#PB_CGI_HttpAcceptEncoding = "HTTP_ACCEPT_ENCODING"
+#PB_CGI_HttpAcceptLanguage = "HTTP_ACCEPT_LANGUAGE"
+#PB_CGI_HttpCookie = "HTTP_COOKIE"
+#PB_CGI_HttpForwarded = "HTTP_FORWARDED"
+#PB_CGI_HttpHost = "HTTP_HOST"
+#PB_CGI_HttpPragma = "HTTP_PRAGMA"
+#PB_CGI_HttpReferer = "HTTP_REFERER"
 #PB_CGI_HttpUserAgent = "HTTP_USER_AGENT"
 
 ; Cipher
@@ -288,7 +288,7 @@ EndStructure
 #PB_Cipher_SHA3  = 5
 
 #PB_Cipher_Decode    = 1 << 0
-#PB_Cipher_Encode    = 1 << 1 
+#PB_Cipher_Encode    = 1 << 1
 #PB_Cipher_CBC       = 1 << 2 ; Used by AES
 #PB_Cipher_ECB       = 1 << 3 ; Used by AES
 #PB_Cipher_URL       = 1 << 4 ; Used by Base64Encoder
@@ -365,7 +365,7 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_Image_FloydSteinberg =  1 << 8 ; SaveImage()
   
   #PB_ImagePlugin_JPEG2000 = $4B32504A
-  #PB_ImagePlugin_TGA      = $414754  
+  #PB_ImagePlugin_TGA      = $414754
   #PB_ImagePlugin_TIFF     = $46464954
   #PB_ImagePlugin_ICON     = $4E4F4349
   #PB_ImagePlugin_GIF      = $474946
@@ -374,7 +374,7 @@ CompilerEndIf
 
 ; deprecated, just map it to 24bit image depth always
 ; use 24bit for better Windows GDI compatibility
-#PB_Image_DisplayFormat = 24  
+#PB_Image_DisplayFormat = 24
 #PB_Image_Transparent   = -1 ; CreateImage()
 #PB_Image_OriginalDepth = -2  ; ImageDepth()
 #PB_Image_InternalDepth = -3  ; ImageDepth()
@@ -630,7 +630,7 @@ CompilerEndIf
 #PB_OpenGL_MiddleButton = #PB_Canvas_MiddleButton
 
 ; Constants for #PB_Canvas_Cursor, maybe also
-; used for other cursor stuff in the future 
+; used for other cursor stuff in the future
 ; (so named PB_Cursor_XXX And Not PB_Canvas_XXX)
 Enumeration
   #PB_Cursor_Default
@@ -687,10 +687,10 @@ EndEnumeration
 #PB_HTTP_WeakSSL      = (1 << 4)
 #PB_HTTP_Debug        = (1 << 5)
 
-#PB_HTTP_Get = 0    
-#PB_HTTP_Post = 1   
-#PB_HTTP_Put = 2    
-#PB_HTTP_Patch = 3  
+#PB_HTTP_Get = 0
+#PB_HTTP_Post = 1
+#PB_HTTP_Put = 2
+#PB_HTTP_Patch = 3
 #PB_HTTP_Delete = 4
 
 #PB_HTTP_StatusCode = 0
@@ -721,7 +721,7 @@ EndEnumeration
 
 #PB_Mail_Connected = -1
 #PB_Mail_Error     = -2
-#PB_Mail_Finished  = -3 
+#PB_Mail_Finished  = -3
 
 #PB_Mail_Asynchronous = 1 << 0
 #PB_Mail_UseSSL       = 1 << 1
@@ -742,7 +742,7 @@ EndEnumeration
 ; Network
 ;
 #PB_Network_TCP = 1; #SOCK_STREAM
-#PB_Network_UDP = 2; #SOCK_DGRAM 
+#PB_Network_UDP = 2; #SOCK_DGRAM
 #PB_Network_IPv4 = 0
 #PB_Network_IPv6 = 1 << 28
 
@@ -774,7 +774,7 @@ CompilerIf #PB_Compiler_Processor = #PB_Processor_x86
     #PB_OnError_ESI
     #PB_OnError_EDI
     #PB_OnError_ESP
-    #PB_OnError_Flags 
+    #PB_OnError_Flags
   EndEnumeration
 CompilerEndIf
 
@@ -802,16 +802,16 @@ CompilerEndIf
 
 CompilerIf #PB_Compiler_Processor = #PB_Processor_PowerPC
   Enumeration 0
-    #PB_OnError_r0 
-    #PB_OnError_r1 
-    #PB_OnError_r2 
-    #PB_OnError_r3 
-    #PB_OnError_r4 
-    #PB_OnError_r5 
-    #PB_OnError_r6 
-    #PB_OnError_r7 
-    #PB_OnError_R8 
-    #PB_OnError_R9 
+    #PB_OnError_r0
+    #PB_OnError_r1
+    #PB_OnError_r2
+    #PB_OnError_r3
+    #PB_OnError_r4
+    #PB_OnError_r5
+    #PB_OnError_r6
+    #PB_OnError_r7
+    #PB_OnError_R8
+    #PB_OnError_R9
     #PB_OnError_R10
     #PB_OnError_R11
     #PB_OnError_R12
@@ -834,9 +834,9 @@ CompilerIf #PB_Compiler_Processor = #PB_Processor_PowerPC
     #PB_OnError_r29
     #PB_OnError_r30
     #PB_OnError_r31
-    #PB_OnError_cr 
+    #PB_OnError_cr
     #PB_OnError_xer
-    #PB_OnError_lr 
+    #PB_OnError_lr
     #PB_OnError_ctx
   EndEnumeration
 CompilerEndIf
@@ -895,7 +895,7 @@ CompilerEndIf
 
 #PB_System_TotalPhysical = 0
 #PB_System_FreePhysical  = 1
-#PB_System_TotalVirtual  = 2 
+#PB_System_TotalVirtual  = 2
 #PB_System_FreeVirtual   = 3
 #PB_System_TotalSwap     = 4
 #PB_System_FreeSwap      = 5
@@ -949,7 +949,7 @@ CompilerEndIf
 #PB_SerialPort_WaitingRLSD  = (1 << 9)
 #PB_SerialPort_XoffReceived = (1 << 10)
 #PB_SerialPort_XoffSent     = (1 << 11)
-#PB_SerialPort_EOFSent      = (1 << 12) 
+#PB_SerialPort_EOFSent      = (1 << 12)
 
 ; For the SetSerialPortStatus() only
 ;
@@ -1054,7 +1054,7 @@ CompilerEndIf
 
 CompilerIf #PB_Compiler_OS = #PB_OS_Web
 
-  Enumeration 
+  Enumeration
     #PB_XML_Success
     #PB_XML_Error
   EndEnumeration
@@ -1064,7 +1064,7 @@ CompilerElse
   ; Return values for XMLStatus()
   ; The values correspond to the #XML_ERROR_... enum in expat.pb
   ;
-  Enumeration 
+  Enumeration
     #PB_XML_Success
     #PB_XML_NoMemory
     #PB_XML_Syntax
@@ -1099,7 +1099,7 @@ CompilerElse
     #PB_XML_TextDeclaration
     #PB_XML_PublicID
     #PB_XML_Suspended
-    #PB_XML_NotSuspended  
+    #PB_XML_NotSuspended
     #PB_XML_Aborted
     #PB_XML_Finished
     #PB_XML_SuspendedPE
@@ -1146,7 +1146,7 @@ CompilerEndIf
 #PB_VectorParagraph_Center = (1 << 2)
 #PB_VectorParagraph_Block  = (1 << 3)
 
-; Disable all constants not supported by SpiderBasic 
+; Disable all constants not supported by SpiderBasic
 ;
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 
@@ -1238,7 +1238,7 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 ; Rotations type
 #PB_Orientation_PitchYawRoll = 1 << 7
 #PB_Orientation_Quaternion   = 1 << 8
-#PB_Orientation_Direction    = 1 << 9 
+#PB_Orientation_Direction    = 1 << 9
 
 
 #PB_Shadow_None            = 0
@@ -1271,16 +1271,16 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 #PB_Entity_LinearVelocityY = 5
 #PB_Entity_LinearVelocityZ = 6
 #PB_Entity_MassCenterX = 7
-#PB_Entity_MassCenterY = 8 
+#PB_Entity_MassCenterY = 8
 #PB_Entity_MassCenterZ = 9
 #PB_Entity_MaxVelocity = 10
 #PB_Entity_LinearVelocity = 11
 #PB_Entity_NbSubEntities = 12
-#PB_Entity_LinearSleeping = 13 
-#PB_Entity_AngularSleeping = 14 
-#PB_Entity_DeactivationTime = 15 
-#PB_Entity_IsActive = 16 
-#PB_Entity_AngularVelocityX = 17 
+#PB_Entity_LinearSleeping = 13
+#PB_Entity_AngularSleeping = 14
+#PB_Entity_DeactivationTime = 15
+#PB_Entity_IsActive = 16
+#PB_Entity_AngularVelocityX = 17
 #PB_Entity_AngularVelocityY = 18
 #PB_Entity_AngularVelocityZ = 19
 #PB_Entity_AngularVelocity = 20
@@ -1378,7 +1378,7 @@ EndEnumeration
 
 #PB_ScrollBar3D_Vertical = 1
 
-#PB_ScrollBar3D_Minimum    = 1 
+#PB_ScrollBar3D_Minimum    = 1
 #PB_ScrollBar3D_Maximum    = 1 << 1
 #PB_ScrollBar3D_PageLength = 1 << 2
 
@@ -1439,7 +1439,7 @@ EndEnumeration
 #PB_Material_Point	   = 1 << 4
 #PB_Material_Solid	   = 1 << 5
 
-#PB_Material_Fixed    = 0 
+#PB_Material_Fixed    = 0
 #PB_Material_Animated = 1
 
 #PB_Material_AmbientColors = -1
@@ -1450,7 +1450,7 @@ EndEnumeration
 #PB_Material_AmbientColor  = 2
 #PB_Material_SelfIlluminationColor = 3
 
-; Atttributes 
+; Atttributes
 #PB_Material_Shininess      = 0
 #PB_Material_TextureRotate  = 1
 #PB_Material_TextureUScale  = 2
@@ -1495,15 +1495,15 @@ Structure PB_MeshVertex
   NormalZ.f
   TangentX.f
   TangentY.f
-  TangentZ.f 
+  TangentZ.f
   u.f
   v.f
   Color.l
-EndStructure    
+EndStructure
 
 Structure PB_MeshFace
   Index.l
-EndStructure        
+EndStructure
 
 
 #PB_Mesh_Vertex       = 1 << 0
@@ -1513,7 +1513,7 @@ EndStructure
 #PB_Mesh_Face         = 1 << 4
 #PB_Mesh_Tangent      = 1 << 5
 
-#PB_Mesh_PointList     = 1 
+#PB_Mesh_PointList     = 1
 #PB_Mesh_LineList      = 2
 #PB_Mesh_LineStrip     = 3
 #PB_Mesh_TriangleList  = 4
@@ -1556,7 +1556,7 @@ EndStructure
 ; Terrain
 ;
 #PB_Terrain_CastShadows   = 1 << 0
-#PB_Terrain_LowLODShadows = 1 << 1 
+#PB_Terrain_LowLODShadows = 1 << 1
 
 #PB_Terrain_Lightmap      = 1 << 0
 #PB_Terrain_NormalMapping = 1 << 1

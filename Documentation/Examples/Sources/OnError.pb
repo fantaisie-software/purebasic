@@ -10,13 +10,13 @@
  
 Procedure ErrorHandler()
  
-  ErrorMessage$ = "A program error was detected:" + Chr(13) 
+  ErrorMessage$ = "A program error was detected:" + Chr(13)
   ErrorMessage$ + Chr(13)
   ErrorMessage$ + "Error Message:   " + ErrorMessage()      + Chr(13)
-  ErrorMessage$ + "Error Code:      " + Str(ErrorCode())    + Chr(13)  
+  ErrorMessage$ + "Error Code:      " + Str(ErrorCode())    + Chr(13)
   ErrorMessage$ + "Code Address:    " + Str(ErrorAddress()) + Chr(13)
  
-  If ErrorCode() = #PB_OnError_InvalidMemory   
+  If ErrorCode() = #PB_OnError_InvalidMemory
     ErrorMessage$ + "Target Address:  " + Str(ErrorTargetAddress()) + Chr(13)
   EndIf
  
@@ -30,7 +30,7 @@ Procedure ErrorHandler()
   ErrorMessage$ + Chr(13)
   ErrorMessage$ + "Register content:" + Chr(13)
  
-  CompilerSelect #PB_Compiler_Processor 
+  CompilerSelect #PB_Compiler_Processor
     CompilerCase #PB_Processor_x86
       ErrorMessage$ + "EAX = " + Str(ErrorRegister(#PB_OnError_EAX)) + Chr(13)
       ErrorMessage$ + "EBX = " + Str(ErrorRegister(#PB_OnError_EBX)) + Chr(13)

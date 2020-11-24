@@ -23,13 +23,13 @@ Structure Quaternion
   y.f
   z.f
   w.f
-EndStructure 
+EndStructure
 
 Declare ConvertLocalToWorld(*N.Vector3, *P.Vector3, *Orientation.Quaternion, *Position.Vector3)
 
 Define.f KeyX, KeyY, MouseX, MouseY, RollZ, sens = -1
 Define Pos.Vector3, Orientation.Quaternion
-Define.Vector3 Resultat, C1, C2 
+Define.Vector3 Resultat, C1, C2
 
 C1\x = -25 : C1\y = -25 : C1\z = -25
 C2\x =  25 : C2\y =  25 : C2\z =  25
@@ -54,8 +54,8 @@ If InitEngine3D()
     CreateMaterial(0, LoadTexture(0, "Dirt.jpg"))
     CreateMaterial(1, LoadTexture(1, "Wood.jpg"))
     
-    CreateEntity(0, MeshID(0), MaterialID(0))  
-    CreateEntity(1, MeshID(1), MaterialID(1))  
+    CreateEntity(0, MeshID(0), MaterialID(0))
+    CreateEntity(1, MeshID(1), MaterialID(1))
     CreateEntity(2, MeshID(1), MaterialID(1))
 
     SkyBox("stevecube.jpg")
@@ -78,7 +78,7 @@ If InitEngine3D()
       RotateEntity(0, 0, 0.4, 0, #PB_Relative)
       MoveEntity(0, 0, 0, -1, #PB_Local)
       
-      Pos\x = EntityX(0) : Pos\y = EntityY(0) :Pos\z = EntityZ(0)  
+      Pos\x = EntityX(0) : Pos\y = EntityY(0) :Pos\z = EntityZ(0)
       
       FetchOrientation(EntityID(0))
       Orientation\x = GetX()
@@ -102,7 +102,7 @@ Else
   MessageRequester("Error", "The 3D Engine can't be initialized",0)
 EndIf
 
-End 
+End
 
 Macro CROSS_PRODUCT(N, V1, V2)
   N\x = ((V1\y * V2\z) - (V1\z * V2\y))
@@ -110,16 +110,16 @@ Macro CROSS_PRODUCT(N, V1, V2)
   N\z = ((V1\x * V2\y) - (V1\y * V2\x))
 EndMacro
 
-Procedure QuaternionVector3(*R.Vector3, *Q.Quaternion, *P.Vector3) 
+Procedure QuaternionVector3(*R.Vector3, *Q.Quaternion, *P.Vector3)
   ; nVidia SDK implementation
-  Protected.Vector3 uv, uuv 
+  Protected.Vector3 uv, uuv
   CROSS_PRODUCT(uv, *Q, *P)
   CROSS_PRODUCT(uuv, *Q, uv)
   uv\x * (2.0 * *Q\w) : uv\y * (2.0 * *Q\w) : uv\z * (2.0 * *Q\w)
-  uuv\x * 2.0 : uuv\y * 2.0 : uuv\z * 2.0  
-  *R\x = *P\x + uv\x + uuv\x 
-  *R\y = *P\y + uv\y + uuv\y 
-  *R\z = *P\z + uv\z + uuv\z 
+  uuv\x * 2.0 : uuv\y * 2.0 : uuv\z * 2.0
+  *R\x = *P\x + uv\x + uuv\x
+  *R\y = *P\y + uv\y + uuv\y
+  *R\z = *P\z + uv\z + uuv\z
 EndProcedure
 
 Procedure ConvertLocalToWorld(*N.Vector3, *P.Vector3, *Orientation.Quaternion, *Position.Vector3)

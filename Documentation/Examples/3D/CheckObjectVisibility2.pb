@@ -24,7 +24,7 @@ If InitEngine3D()
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"          , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"         , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/fonts"           , #PB_3DArchive_FileSystem) 
+    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/fonts"           , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
     Parse3DScripts()
     
@@ -78,7 +78,7 @@ If InitEngine3D()
     CreateMaterial(10, TextureID(10))
     SetMaterialColor(10, #PB_Material_SelfIlluminationColor, RGB(255, 255, 255))
     
-    ;- Billboard group 
+    ;- Billboard group
     ;
     CreateBillboardGroup(0, MaterialID(10), 68, 48)
     AddBillboard(0, 0, 0, 0)
@@ -86,7 +86,7 @@ If InitEngine3D()
     ;- Attach objects
     ;
     AttachEntityObject(1, "Joint1", CameraID(1), 0, 0, 0, 0, 0, 40)
-    AttachEntityObject(1, "Joint1", BillboardGroupID(0), 0, 60, 0, 0, 0, 0)    
+    AttachEntityObject(1, "Joint1", BillboardGroupID(0), 0, 60, 0, 0, 0, 0)
     ;-Light
     ;
     CreateLight(0, RGB(255, 255, 255), -40, 100, 80)
@@ -108,14 +108,14 @@ If InitEngine3D()
     Repeat
       Screen3DEvents()
       
-      RobotMove = #False    
+      RobotMove = #False
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
           MoveEntity(1, -1 * Speed, 0, 0)
           RotateEntity(1, 0, 180, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_Right)
           MoveEntity(1, 1 * Speed, 0, 0)
@@ -127,7 +127,7 @@ If InitEngine3D()
           MoveEntity(1, 0, 0, -1 * Speed)
           RotateEntity(1, 0, 90, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_Down)
           MoveEntity(1, 0, 0, 1 * Speed)
@@ -137,7 +137,7 @@ If InitEngine3D()
         
         If KeyboardPushed(#PB_Key_PageUp) And Speed < 2.0
           Speed + 0.05
-        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1 
+        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1
           Speed - 0.05
         EndIf
         
@@ -161,17 +161,17 @@ If InitEngine3D()
       Object$ = ""
       
       If CheckObjectVisibility(1, EntityID(2))
-        Object$ + "PureBasic ! " 
-      EndIf  
+        Object$ + "PureBasic ! "
+      EndIf
       If CheckObjectVisibility(1, EntityID(3))
-        Object$ + "Green Sphere ! " 
-      EndIf  
+        Object$ + "Green Sphere ! "
+      EndIf
       If CheckObjectVisibility(1, EntityID(4))
-        Object$ + "Blue Sphere ! " 
-      EndIf  
+        Object$ + "Blue Sphere ! "
+      EndIf
       If CheckObjectVisibility(1, EntityID(5))
-        Object$ + "Yellow Sphere ! " 
-      EndIf 
+        Object$ + "Yellow Sphere ! "
+      EndIf
       
       If Object$ = ""
         Object$ = "nothing !"

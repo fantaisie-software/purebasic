@@ -25,7 +25,7 @@ If InitEngine3D()
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"          , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"         , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Particles"       , #PB_3DArchive_FileSystem)  
+    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Particles"       , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
     Parse3DScripts()
     
@@ -77,14 +77,14 @@ If InitEngine3D()
     CreateMaterial(10, TextureID(10))
     SetMaterialColor(10, #PB_Material_SelfIlluminationColor, RGB(255, 255, 255))
     
-    ;- Billboard group 
+    ;- Billboard group
     ;
     CreateBillboardGroup(0, MaterialID(10), 80, 60)
     AddBillboard(0, 0, 0, 0)
     
     ;- Attach objects
     ;
-    AttachEntityObject(1, "Joint1" , BillboardGroupID(0), 0, 60, 0, 0, 0, 0)  
+    AttachEntityObject(1, "Joint1" , BillboardGroupID(0), 0, 60, 0, 0, 0, 0)
     AttachEntityObject(1, "Joint1", CameraID(1), 0, 0, 0, 0, 0, 10)
     
     ;-Light
@@ -99,14 +99,14 @@ If InitEngine3D()
     Repeat
       Screen3DEvents()
             
-      RobotMove = #False    
+      RobotMove = #False
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
           MoveEntity(1, -1 * Speed, 0, 0)
           RotateEntity(1, 0, 180, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_Right)
           MoveEntity(1, 1 * Speed, 0, 0)
@@ -118,7 +118,7 @@ If InitEngine3D()
           MoveEntity(1, 0, 0, -1 * Speed)
           RotateEntity(1, 0, 90, 0)
           RobotMove = #True
-        EndIf  
+        EndIf
         
         If KeyboardPushed(#PB_Key_Down)
           MoveEntity(1, 0, 0, 1 * Speed)
@@ -128,7 +128,7 @@ If InitEngine3D()
         
         If KeyboardPushed(#PB_Key_PageUp) And Speed < 2.0
           Speed + 0.05
-        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1 
+        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1
           Speed - 0.05
         EndIf
         

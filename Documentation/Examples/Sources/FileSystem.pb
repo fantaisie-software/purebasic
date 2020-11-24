@@ -46,4 +46,4 @@ If OpenWindow(0, 100, 200, 290, 200, "PureBasic - FileSystem Example")
 
 EndIf
 
-End 
+End

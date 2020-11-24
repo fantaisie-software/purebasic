@@ -56,7 +56,7 @@ Debug ""
 CallDebugger
 
 
-; Conversion Ascii -> unicode      (Sometimes, functions from some api (dll, so, ...) or some datas from a COM transaction send ascii strings) 
+; Conversion Ascii -> unicode      (Sometimes, functions from some api (dll, so, ...) or some datas from a COM transaction send ascii strings)
 ; ============================
 Debug "Ascii -> unicode"
 MyString_U = PeekS(*MyString_ASCII, SizeOf(*MyString_ASCII), #PB_Ascii) ; Translate ascii to unicode
@@ -92,12 +92,12 @@ CallDebugger
 
 
 
-; If you need an ascii-string, the buffer provided by the function ascii() or the pseudotype p-ascii 
+; If you need an ascii-string, the buffer provided by the function ascii() or the pseudotype p-ascii
 ; are usually sufficient.
 ; However, if you need a variable (unicode) nested with an ascii-string so do that:
 
 Procedure$ ToAscii (MyString_U.s)
-;      Debug  Len(MyString_U) 
+;      Debug  Len(MyString_U)
 		Protected out$ = Space(Len(MyString_U))
 		PokeS(@out$, MyString_U, -1, #PB_Ascii)
 		ProcedureReturn out$

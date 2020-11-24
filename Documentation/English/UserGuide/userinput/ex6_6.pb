@@ -24,7 +24,7 @@ If OpenConsole()
         height = Val(Input())
         PrintN("")
         
-        ; Check for invalid values and warn the user    
+        ; Check for invalid values and warn the user
         If height<=0 Or height>=25
             PrintN("Invalid height - it must be more than 0 and less than 25")
         EndIf

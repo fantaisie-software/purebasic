@@ -1,7 +1,7 @@
 ;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - MeshManual 
+;   PureBasic - MeshManual
 ;
 ;    (c) Fantaisie Software
 ;
@@ -34,11 +34,11 @@ If InitEngine3D()
     
     ;- Mesh Plane
     CreateMesh(0, #PB_Mesh_LineStrip, #PB_Mesh_Static)
-    MeshVertexPosition(-10, 0, -10) 
+    MeshVertexPosition(-10, 0, -10)
     MeshVertexColor(RGB(255,0,0))
-    MeshVertexPosition(-10, 0,  10) 
-    MeshVertexColor(RGB(255,255,0)) 
-    MeshVertexPosition( 10, 0,  10) 
+    MeshVertexPosition(-10, 0,  10)
+    MeshVertexColor(RGB(255,255,0))
+    MeshVertexPosition( 10, 0,  10)
     MeshVertexColor(RGB(255,0,255))
     MeshVertexPosition( 10, 0, -10)
     MeshVertexColor(RGB(0,255,0))
@@ -55,7 +55,7 @@ If InitEngine3D()
     For i = 0 To 10000
       MeshVertexPosition(Random(200)-100, Random(200)-100, Random(200)-100)
       MeshVertexColor(RGB(255,255,0))
-    Next i 
+    Next i
     FinishMesh(#False)
     
     SetMeshMaterial(1, MaterialID(0))
@@ -65,26 +65,26 @@ If InitEngine3D()
     
     ;- Mesh Box
     CreateMesh(2, #PB_Mesh_LineStrip, #PB_Mesh_Static)
-    MeshVertexPosition(-10, -10, -10) 
-    MeshVertexPosition(-10, -10,  10) 
-    MeshVertexPosition( 10, -10,  10) 
+    MeshVertexPosition(-10, -10, -10)
+    MeshVertexPosition(-10, -10,  10)
+    MeshVertexPosition( 10, -10,  10)
     MeshVertexPosition( 10, -10, -10)
     MeshVertexPosition(-10, -10, -10)
     AddSubMesh(#PB_Mesh_LineStrip)
-    MeshVertexPosition(-10,  10, -10) 
-    MeshVertexPosition(-10,  10,  10) 
-    MeshVertexPosition( 10,  10,  10) 
+    MeshVertexPosition(-10,  10, -10)
+    MeshVertexPosition(-10,  10,  10)
+    MeshVertexPosition( 10,  10,  10)
     MeshVertexPosition( 10,  10, -10)
     MeshVertexPosition(-10,  10, -10)
     AddSubMesh(#PB_Mesh_LineList)
-    MeshVertexPosition(-10, -10, -10) 
-    MeshVertexPosition(-10,  10, -10) 
-    MeshVertexPosition(-10, -10,  10) 
-    MeshVertexPosition(-10,  10,  10) 
-    MeshVertexPosition( 10, -10,  10) 
-    MeshVertexPosition( 10,  10,  10) 
-    MeshVertexPosition( 10, -10, -10) 
-    MeshVertexPosition( 10,  10, -10) 
+    MeshVertexPosition(-10, -10, -10)
+    MeshVertexPosition(-10,  10, -10)
+    MeshVertexPosition(-10, -10,  10)
+    MeshVertexPosition(-10,  10,  10)
+    MeshVertexPosition( 10, -10,  10)
+    MeshVertexPosition( 10,  10,  10)
+    MeshVertexPosition( 10, -10, -10)
+    MeshVertexPosition( 10,  10, -10)
     FinishMesh(#False)
     
     SetMeshMaterial(2, MaterialID(0))
@@ -94,17 +94,17 @@ If InitEngine3D()
     ;- Mesh Grid
     CreateMesh(3, #PB_Mesh_LineList, #PB_Mesh_Static)
     For i=0 To 20
-      MeshVertexPosition(-20, 0, (i-10)*-2) 
+      MeshVertexPosition(-20, 0, (i-10)*-2)
       MeshVertexColor(RGB(55,155,255))
-      MeshVertexPosition(20, 0, (i-10)*-2) 
+      MeshVertexPosition(20, 0, (i-10)*-2)
       MeshVertexColor(RGB(55,155,255))
     Next
     For i=0 To 20
-      MeshVertexPosition((i-10)*-2, 0, -20) 
+      MeshVertexPosition((i-10)*-2, 0, -20)
       MeshVertexColor(RGB(255,155,55))
-      MeshVertexPosition((i-10)*-2, 0,  20) 
+      MeshVertexPosition((i-10)*-2, 0,  20)
       MeshVertexColor(RGB(255,155,55))
-    Next     
+    Next
     FinishMesh(#False)
     
     SetMeshMaterial(3, MaterialID(0))
@@ -116,9 +116,9 @@ If InitEngine3D()
     CreateMesh(4, #PB_Mesh_LineStrip, #PB_Mesh_Static)
     
     ; Define vertex position of index 0..3
-    MeshVertexPosition(-10, 0, -10) 
-    MeshVertexPosition(-10, 0,  10) 
-    MeshVertexPosition( 10, 0,  10) 
+    MeshVertexPosition(-10, 0, -10)
+    MeshVertexPosition(-10, 0,  10)
+    MeshVertexPosition( 10, 0,  10)
     MeshVertexPosition( 10, 0, -10)
     
     ; Define usage of vertices by referring To the indexes
@@ -133,17 +133,17 @@ If InitEngine3D()
     Plane2 = CreateNode(#PB_Any, 0, 30, 0)
     AttachNodeObject(Plane2, MeshID(4))
     
-    ;- Mesh Box (using MeshIndex) 
+    ;- Mesh Box (using MeshIndex)
     CreateMesh(5, #PB_Mesh_LineList, #PB_Mesh_Static)
     
     ; Define vertex position of index 0..7
-    MeshVertexPosition(-10, -10, -10) 
-    MeshVertexPosition(-10, -10,  10) 
-    MeshVertexPosition( 10, -10,  10) 
+    MeshVertexPosition(-10, -10, -10)
+    MeshVertexPosition(-10, -10,  10)
+    MeshVertexPosition( 10, -10,  10)
     MeshVertexPosition( 10, -10, -10)
-    MeshVertexPosition(-10,  10, -10) 
-    MeshVertexPosition(-10,  10,  10) 
-    MeshVertexPosition( 10,  10,  10) 
+    MeshVertexPosition(-10,  10, -10)
+    MeshVertexPosition(-10,  10,  10)
+    MeshVertexPosition( 10,  10,  10)
     MeshVertexPosition( 10,  10, -10)
     
     ; Define usage of vertices by referring To the indexes
@@ -199,8 +199,8 @@ If InitEngine3D()
       RotateNode(Plane, 0.3, -0.3, -0.3, #PB_Relative)
       RotateNode(Stars, 0.1, 0.1, 0.1, #PB_Relative)
       RotateNode(Box, 0.3, 0.3, 0.3, #PB_Relative)
-      RotateNode(Grid, 0.3, 0.3, 0.3, #PB_Relative) 
-      RotateNode(Plane2, 0.3, -0.3, -0.3, #PB_Relative) 
+      RotateNode(Grid, 0.3, 0.3, 0.3, #PB_Relative)
+      RotateNode(Plane2, 0.3, -0.3, -0.3, #PB_Relative)
       RotateNode(Box2, 0.3, 0.3, 0.3, #PB_Relative)
       RenderWorld()
       

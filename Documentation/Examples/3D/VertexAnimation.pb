@@ -13,7 +13,7 @@
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
-Define.f MouseX, MouseY, Pose 
+Define.f MouseX, MouseY, Pose
 
 #Mesh = 1
 
@@ -22,7 +22,7 @@ Macro Clamp(num, min, max)
     num=min
   ElseIf num>max
     num=max
-  EndIf  
+  EndIf
 EndMacro
 
 If InitEngine3D(3)
@@ -51,9 +51,9 @@ If InitEngine3D(3)
     
     LoadMesh(#Mesh, "Shapekey.mesh")
     
-    ; Create a animation state For each vertex pose, using the pose name 
-    Track     = 0 
-    KeyFrame  = 0 
+    ; Create a animation state For each vertex pose, using the pose name
+    Track     = 0
+    KeyFrame  = 0
     PoseIndex = 0
     Animation$ = MeshPoseName(#Mesh, PoseIndex)
     
@@ -64,7 +64,7 @@ If InitEngine3D(3)
     ;- Entity
     CreateEntity(1, MeshID(#Mesh), #PB_Material_None, 0, 50, 0)
     ScaleEntity(1, 3, 3, 3)
-    StartEntityAnimation(1, Animation$)  
+    StartEntityAnimation(1, Animation$)
    
     ;- SkyBox
     SkyBox("Desert07.jpg")
@@ -82,7 +82,7 @@ If InitEngine3D(3)
       Screen3DEvents()
       
       If ExamineMouse()
-        MouseX = -MouseDeltaX()/10 
+        MouseX = -MouseDeltaX()/10
         MouseY = -MouseDeltaY()/10
       EndIf
       
@@ -93,7 +93,7 @@ If InitEngine3D(3)
           Clamp(Pose, 0, 1)
         ElseIf KeyboardPushed(#PB_Key_PageUp) And Pose > 0
           Pose - 0.01
-          Clamp(Pose, 0, 1) 
+          Clamp(Pose, 0, 1)
         EndIf
         
       EndIf
@@ -106,7 +106,7 @@ If InitEngine3D(3)
       
       RotateCamera(0, MouseY, MouseX, 0, #PB_Relative)
       
-      RenderWorld() 
+      RenderWorld()
       
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1

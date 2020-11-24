@@ -45,7 +45,7 @@ If CreateNetworkServer(0, Port)
       EndSelect
     EndIf
     
-  Until Quit = 1 
+  Until Quit = 1
   
   MessageRequester("PureBasic - Server", "Click to quit the server.", 0)
   
@@ -55,5 +55,5 @@ Else
 EndIf
 
   
-End   
+End
 

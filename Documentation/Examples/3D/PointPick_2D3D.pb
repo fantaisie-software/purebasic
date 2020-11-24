@@ -55,10 +55,10 @@ If InitEngine3D()
         My = MouseY()
         
         If PointPick(0, Mx, My)
-          MoveParticleEmitter(0, CameraX(0) + PickX() * Depth, 
-                                 CameraY(0) + PickY() * Depth,  
-                                 CameraZ(0) + PickZ() * Depth, #PB_Absolute) 
-        EndIf  
+          MoveParticleEmitter(0, CameraX(0) + PickX() * Depth,
+                                 CameraY(0) + PickY() * Depth,
+                                 CameraZ(0) + PickZ() * Depth, #PB_Absolute)
+        EndIf
       EndIf
       
       ExamineKeyboard()

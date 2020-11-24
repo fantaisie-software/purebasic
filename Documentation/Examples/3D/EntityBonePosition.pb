@@ -16,14 +16,14 @@ Structure Vector3
   z.f
 EndStructure
 
-Define.f KeyX, KeyY, MouseX, MouseY, Speed = 1.0 
+Define.f KeyX, KeyY, MouseX, MouseY, Speed = 1.0
 Define.i RobotMove
-Define.Vector3 Bone1, Bone2 
+Define.Vector3 Bone1, Bone2
 
-Macro GetBonePosition(Position, Entity, Bone, x1, y1, z1) 
-  Position\x = EntityBoneX(Entity, Bone, x1, y1, z1)   
-  Position\y = EntityBoneY(Entity, Bone, x1, y1, z1)   
-  Position\z = EntityBoneZ(Entity, Bone, x1, y1, z1) 
+Macro GetBonePosition(Position, Entity, Bone, x1, y1, z1)
+  Position\x = EntityBoneX(Entity, Bone, x1, y1, z1)
+  Position\y = EntityBoneY(Entity, Bone, x1, y1, z1)
+  Position\z = EntityBoneZ(Entity, Bone, x1, y1, z1)
 EndMacro
 
 Macro SubVector3(V, V1, V2)
@@ -87,11 +87,11 @@ If InitEngine3D()
       Screen3DEvents()
       
       If ExamineMouse()
-        MouseX = -MouseDeltaX()/10 
+        MouseX = -MouseDeltaX()/10
         MouseY = -MouseDeltaY()/10
       EndIf
       
-      RobotMove = #False    
+      RobotMove = #False
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
@@ -114,7 +114,7 @@ If InitEngine3D()
         
         If KeyboardPushed(#PB_Key_PageUp) And Speed < 2.0
           Speed + 0.05
-        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1 
+        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1
           Speed - 0.05
         EndIf
         
@@ -126,14 +126,14 @@ If InitEngine3D()
         EndIf
       Else
         StopEntityAnimation(1, "Walk")
-      EndIf  
+      EndIf
       
       AddEntityAnimationTime(1, "Walk", TimeSinceLastFrame)
       
       GetBonePosition(Bone1, 1, "Joint18", 10, -8, -5)
       GetBonePosition(Bone2, 1, "Joint15", 10, -8, 0)
-      MoveEntity(2, Bone1\x, Bone1\y, Bone1\z, #PB_Absolute) 
-      MoveEntity(3, Bone2\x, Bone2\y, Bone2\z, #PB_Absolute) 
+      MoveEntity(2, Bone1\x, Bone1\y, Bone1\z, #PB_Absolute)
+      MoveEntity(3, Bone2\x, Bone2\y, Bone2\z, #PB_Absolute)
       
       RotateCamera(0, MouseY, MouseX, RollZ, #PB_Relative)
       MoveCamera  (0, KeyX, 0, KeyY)

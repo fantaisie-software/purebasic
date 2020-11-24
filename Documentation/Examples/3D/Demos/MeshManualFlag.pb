@@ -1,19 +1,19 @@
 ;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - Mesh Manual - Flag 
+;   PureBasic - Mesh Manual - Flag
 ;
 ;    (c) Fantaisie Software
 ;
 ; ------------------------------------------------------------
-; 
+;
 ;
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 #CameraSpeed = 1
 #NbX=30
-#NbZ=30 
+#NbZ=30
 
 Global.f AngleVague, WaveFrequency, WavePeriodX, WavePeriodZ, WaveAmplitude
 WaveFrequency=3  ;=waves/second
@@ -39,7 +39,7 @@ If InitEngine3D()
   
   If Screen3DRequester()
     
-    ;-Material  
+    ;-Material
     GetScriptMaterial(1, "Scene/GroundBlend")
     MaterialCullingMode(1, 1)
     
@@ -65,17 +65,17 @@ If InitEngine3D()
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf
@@ -87,7 +87,7 @@ If InitEngine3D()
         MouseY = -(MouseDeltaY()/10)
       EndIf
       MoveCamera  (0, KeyX, 0, KeyY)
-      RotateCamera(0,  MouseY, MouseX, 0, #PB_Relative)  
+      RotateCamera(0,  MouseY, MouseX, 0, #PB_Relative)
       
       ; Waves
       UpdateMatrix()
@@ -113,9 +113,9 @@ Procedure DrawMatrix()
   For b=0 To #Nbz
     For a=0 To #NbX
       ;les coordonnées de vertex
-      y.f=Sin(Radian((AngleVague+a*WavePeriodX+b*WavePeriodZ)))*WaveAmplitude 
-      MeshVertexPosition(a - #NbX/2, y, b - #Nbz/2) 
-      MeshVertexNormal(0,1,0) 
+      y.f=Sin(Radian((AngleVague+a*WavePeriodX+b*WavePeriodZ)))*WaveAmplitude
+      MeshVertexPosition(a - #NbX/2, y, b - #Nbz/2)
+      MeshVertexNormal(0,1,0)
       MeshVertexTextureCoordinate(a/#NbX, b/#Nbz)
     Next a
   Next b
@@ -132,7 +132,7 @@ Procedure DrawMatrix()
       MeshFace(P2, P3, P4)
     Next
   Next
-EndProcedure  
+EndProcedure
 
 Procedure CreateMatrix()
   

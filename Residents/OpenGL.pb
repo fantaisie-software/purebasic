@@ -4,17 +4,17 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ;--------------------------------------------------------------------------------------------
 
-;  Version 
+;  Version
 #GL_VERSION_1_1                    = 1
 
-;  AccumOp 
+;  AccumOp
 #GL_ACCUM                          = $0100
 #GL_LOAD                           = $0101
 #GL_RETURN                         = $0102
 #GL_MULT                           = $0103
 #GL_ADD                            = $0104
 
-;  AlphaFunction 
+;  AlphaFunction
 #GL_NEVER                          = $0200
 #GL_LESS                           = $0201
 #GL_EQUAL                          = $0202
@@ -24,7 +24,7 @@
 #GL_GEQUAL                         = $0206
 #GL_ALWAYS                         = $0207
 
-;  AttribMask 
+;  AttribMask
 #GL_CURRENT_BIT                    = $00000001
 #GL_POINT_BIT                      = $00000002
 #GL_LINE_BIT                       = $00000004
@@ -47,7 +47,7 @@
 #GL_SCISSOR_BIT                    = $00080000
 #GL_ALL_ATTRIB_BITS                = $000fffff
 
-;  BeginMode 
+;  BeginMode
 #GL_POINTS                         = $0000
 #GL_LINES                          = $0001
 #GL_LINE_LOOP                      = $0002
@@ -59,7 +59,7 @@
 #GL_QUAD_STRIP                     = $0008
 #GL_POLYGON                        = $0009
 
-;  BlendingFactorDest 
+;  BlendingFactorDest
 #GL_ZERO                           = 0
 #GL_ONE                            = 1
 #GL_SRC_COLOR                      = $0300
@@ -69,36 +69,36 @@
 #GL_DST_ALPHA                      = $0304
 #GL_ONE_MINUS_DST_ALPHA            = $0305
 
-;  BlendingFactorSrc 
-;       GL_ZERO 
-;       GL_ONE 
+;  BlendingFactorSrc
+;       GL_ZERO
+;       GL_ONE
 #GL_DST_COLOR                      = $0306
 #GL_ONE_MINUS_DST_COLOR            = $0307
 #GL_SRC_ALPHA_SATURATE             = $0308
-;       GL_SRC_ALPHA 
-;       GL_ONE_MINUS_SRC_ALPHA 
-;       GL_DST_ALPHA 
-;       GL_ONE_MINUS_DST_ALPHA 
+;       GL_SRC_ALPHA
+;       GL_ONE_MINUS_SRC_ALPHA
+;       GL_DST_ALPHA
+;       GL_ONE_MINUS_DST_ALPHA
 
-;  Boolean 
+;  Boolean
 #GL_TRUE                           = 1
 #GL_FALSE                          = 0
 
-;  ClearBufferMask 
-;       GL_COLOR_BUFFER_BIT 
-;       GL_ACCUM_BUFFER_BIT 
-;       GL_STENCIL_BUFFER_BIT 
-;       GL_DEPTH_BUFFER_BIT 
+;  ClearBufferMask
+;       GL_COLOR_BUFFER_BIT
+;       GL_ACCUM_BUFFER_BIT
+;       GL_STENCIL_BUFFER_BIT
+;       GL_DEPTH_BUFFER_BIT
 
-;  ClientArrayType 
-;       GL_VERTEX_ARRAY 
-;       GL_NORMAL_ARRAY 
-;       GL_COLOR_ARRAY 
-;       GL_INDEX_ARRAY 
-;       GL_TEXTURE_COORD_ARRAY 
-;       GL_EDGE_FLAG_ARRAY 
+;  ClientArrayType
+;       GL_VERTEX_ARRAY
+;       GL_NORMAL_ARRAY
+;       GL_COLOR_ARRAY
+;       GL_INDEX_ARRAY
+;       GL_TEXTURE_COORD_ARRAY
+;       GL_EDGE_FLAG_ARRAY
 
-;  ClipPlaneName 
+;  ClipPlaneName
 #GL_CLIP_PLANE0                    = $3000
 #GL_CLIP_PLANE1                    = $3001
 #GL_CLIP_PLANE2                    = $3002
@@ -106,34 +106,34 @@
 #GL_CLIP_PLANE4                    = $3004
 #GL_CLIP_PLANE5                    = $3005
 
-;  ColorMaterialFace 
-;       GL_FRONT 
-;       GL_BACK 
-;       GL_FRONT_AND_BACK 
+;  ColorMaterialFace
+;       GL_FRONT
+;       GL_BACK
+;       GL_FRONT_AND_BACK
 
-;  ColorMaterialParameter 
-;       GL_AMBIENT 
-;       GL_DIFFUSE 
-;       GL_SPECULAR 
-;       GL_EMISSION 
-;       GL_AMBIENT_AND_DIFFUSE 
+;  ColorMaterialParameter
+;       GL_AMBIENT
+;       GL_DIFFUSE
+;       GL_SPECULAR
+;       GL_EMISSION
+;       GL_AMBIENT_AND_DIFFUSE
 
-;  ColorPointerType 
-;       GL_BYTE 
-;       GL_UNSIGNED_BYTE 
-;       GL_SHORT 
-;       GL_UNSIGNED_SHORT 
-;       GL_INT 
-;       GL_UNSIGNED_INT 
-;       GL_FLOAT 
-;       GL_DOUBLE 
+;  ColorPointerType
+;       GL_BYTE
+;       GL_UNSIGNED_BYTE
+;       GL_SHORT
+;       GL_UNSIGNED_SHORT
+;       GL_INT
+;       GL_UNSIGNED_INT
+;       GL_FLOAT
+;       GL_DOUBLE
 
-;  CullFaceMode 
-;       GL_FRONT 
-;       GL_BACK 
-;       GL_FRONT_AND_BACK 
+;  CullFaceMode
+;       GL_FRONT
+;       GL_BACK
+;       GL_FRONT_AND_BACK
 
-;  DataType 
+;  DataType
 #GL_BYTE                           = $1400
 #GL_UNSIGNED_BYTE                  = $1401
 #GL_SHORT                          = $1402
@@ -146,17 +146,17 @@
 #GL_4_BYTES                        = $1409
 #GL_DOUBLE                         = $140A
 
-;  DepthFunction 
-;       GL_NEVER 
-;       GL_LESS 
-;       GL_EQUAL 
-;       GL_LEQUAL 
-;       GL_GREATER 
-;       GL_NOTEQUAL 
-;       GL_GEQUAL 
-;       GL_ALWAYS 
+;  DepthFunction
+;       GL_NEVER
+;       GL_LESS
+;       GL_EQUAL
+;       GL_LEQUAL
+;       GL_GREATER
+;       GL_NOTEQUAL
+;       GL_GEQUAL
+;       GL_ALWAYS
 
-;  DrawBufferMode 
+;  DrawBufferMode
 #GL_NONE                           = 0
 #GL_FRONT_LEFT                     = $0400
 #GL_FRONT_RIGHT                    = $0401
@@ -172,75 +172,75 @@
 #GL_AUX2                           = $040B
 #GL_AUX3                           = $040C
 
-;  Enable 
-;       GL_FOG 
-;       GL_LIGHTING 
-;       GL_TEXTURE_1D 
-;       GL_TEXTURE_2D 
-;       GL_LINE_STIPPLE 
-;       GL_POLYGON_STIPPLE 
-;       GL_CULL_FACE 
-;       GL_ALPHA_TEST 
-;       GL_BLEND 
-;       GL_INDEX_LOGIC_OP 
-;       GL_COLOR_LOGIC_OP 
-;       GL_DITHER 
-;       GL_STENCIL_TEST 
-;       GL_DEPTH_TEST 
-;       GL_CLIP_PLANE0 
-;       GL_CLIP_PLANE1 
-;       GL_CLIP_PLANE2 
-;       GL_CLIP_PLANE3 
-;       GL_CLIP_PLANE4 
-;       GL_CLIP_PLANE5 
-;       GL_LIGHT0 
-;       GL_LIGHT1 
-;       GL_LIGHT2 
-;       GL_LIGHT3 
-;       GL_LIGHT4 
-;       GL_LIGHT5 
-;       GL_LIGHT6 
-;       GL_LIGHT7 
-;       GL_TEXTURE_GEN_S 
-;       GL_TEXTURE_GEN_T 
-;       GL_TEXTURE_GEN_R 
-;       GL_TEXTURE_GEN_Q 
-;       GL_MAP1_VERTEX_3 
-;       GL_MAP1_VERTEX_4 
-;       GL_MAP1_COLOR_4 
-;       GL_MAP1_INDEX 
-;       GL_MAP1_NORMAL 
-;       GL_MAP1_TEXTURE_COORD_1 
-;       GL_MAP1_TEXTURE_COORD_2 
-;       GL_MAP1_TEXTURE_COORD_3 
-;       GL_MAP1_TEXTURE_COORD_4 
-;       GL_MAP2_VERTEX_3 
-;       GL_MAP2_VERTEX_4 
-;       GL_MAP2_COLOR_4 
-;       GL_MAP2_INDEX 
-;       GL_MAP2_NORMAL 
-;       GL_MAP2_TEXTURE_COORD_1 
-;       GL_MAP2_TEXTURE_COORD_2 
-;       GL_MAP2_TEXTURE_COORD_3 
-;       GL_MAP2_TEXTURE_COORD_4 
-;       GL_POINT_SMOOTH 
-;       GL_LINE_SMOOTH 
-;       GL_POLYGON_SMOOTH 
-;       GL_SCISSOR_TEST 
-;       GL_COLOR_MATERIAL 
-;       GL_NORMALIZE 
-;       GL_AUTO_NORMAL 
-;       GL_VERTEX_ARRAY 
-;       GL_NORMAL_ARRAY 
-;       GL_COLOR_ARRAY 
-;       GL_INDEX_ARRAY 
-;       GL_TEXTURE_COORD_ARRAY 
-;       GL_EDGE_FLAG_ARRAY 
-;       GL_POLYGON_OFFSET_POINT 
-;       GL_POLYGON_OFFSET_LINE 
-;       GL_POLYGON_OFFSET_FILL 
+;  Enable
+;       GL_FOG
+;       GL_LIGHTING
+;       GL_TEXTURE_1D
+;       GL_TEXTURE_2D
+;       GL_LINE_STIPPLE
+;       GL_POLYGON_STIPPLE
+;       GL_CULL_FACE
+;       GL_ALPHA_TEST
+;       GL_BLEND
+;       GL_INDEX_LOGIC_OP
+;       GL_COLOR_LOGIC_OP
+;       GL_DITHER
+;       GL_STENCIL_TEST
+;       GL_DEPTH_TEST
+;       GL_CLIP_PLANE0
+;       GL_CLIP_PLANE1
+;       GL_CLIP_PLANE2
+;       GL_CLIP_PLANE3
+;       GL_CLIP_PLANE4
+;       GL_CLIP_PLANE5
+;       GL_LIGHT0
+;       GL_LIGHT1
+;       GL_LIGHT2
+;       GL_LIGHT3
+;       GL_LIGHT4
+;       GL_LIGHT5
+;       GL_LIGHT6
+;       GL_LIGHT7
+;       GL_TEXTURE_GEN_S
+;       GL_TEXTURE_GEN_T
+;       GL_TEXTURE_GEN_R
+;       GL_TEXTURE_GEN_Q
+;       GL_MAP1_VERTEX_3
+;       GL_MAP1_VERTEX_4
+;       GL_MAP1_COLOR_4
+;       GL_MAP1_INDEX
+;       GL_MAP1_NORMAL
+;       GL_MAP1_TEXTURE_COORD_1
+;       GL_MAP1_TEXTURE_COORD_2
+;       GL_MAP1_TEXTURE_COORD_3
+;       GL_MAP1_TEXTURE_COORD_4
+;       GL_MAP2_VERTEX_3
+;       GL_MAP2_VERTEX_4
+;       GL_MAP2_COLOR_4
+;       GL_MAP2_INDEX
+;       GL_MAP2_NORMAL
+;       GL_MAP2_TEXTURE_COORD_1
+;       GL_MAP2_TEXTURE_COORD_2
+;       GL_MAP2_TEXTURE_COORD_3
+;       GL_MAP2_TEXTURE_COORD_4
+;       GL_POINT_SMOOTH
+;       GL_LINE_SMOOTH
+;       GL_POLYGON_SMOOTH
+;       GL_SCISSOR_TEST
+;       GL_COLOR_MATERIAL
+;       GL_NORMALIZE
+;       GL_AUTO_NORMAL
+;       GL_VERTEX_ARRAY
+;       GL_NORMAL_ARRAY
+;       GL_COLOR_ARRAY
+;       GL_INDEX_ARRAY
+;       GL_TEXTURE_COORD_ARRAY
+;       GL_EDGE_FLAG_ARRAY
+;       GL_POLYGON_OFFSET_POINT
+;       GL_POLYGON_OFFSET_LINE
+;       GL_POLYGON_OFFSET_FILL
 
-;  ErrorCode 
+;  ErrorCode
 #GL_NO_ERROR                       = 0
 #GL_INVALID_ENUM                   = $0500
 #GL_INVALID_VALUE                  = $0501
@@ -249,14 +249,14 @@
 #GL_STACK_UNDERFLOW                = $0504
 #GL_OUT_OF_MEMORY                  = $0505
 
-;  FeedBackMode 
+;  FeedBackMode
 #GL_2D                             = $0600
 #GL_3D                             = $0601
 #GL_3D_COLOR                       = $0602
 #GL_3D_COLOR_TEXTURE               = $0603
 #GL_4D_COLOR_TEXTURE               = $0604
 
-;  FeedBackToken 
+;  FeedBackToken
 #GL_PASS_THROUGH_TOKEN             = $0700
 #GL_POINT_TOKEN                    = $0701
 #GL_LINE_TOKEN                     = $0702
@@ -266,50 +266,50 @@
 #GL_COPY_PIXEL_TOKEN               = $0706
 #GL_LINE_RESET_TOKEN               = $0707
 
-;  FogMode 
-;       GL_LINEAR 
+;  FogMode
+;       GL_LINEAR
 #GL_EXP                            = $0800
 #GL_EXP2                           = $0801
 
 
-;  FogParameter 
-;       GL_FOG_COLOR 
-;       GL_FOG_DENSITY 
-;       GL_FOG_END 
-;       GL_FOG_INDEX 
-;       GL_FOG_MODE 
-;       GL_FOG_START 
+;  FogParameter
+;       GL_FOG_COLOR
+;       GL_FOG_DENSITY
+;       GL_FOG_END
+;       GL_FOG_INDEX
+;       GL_FOG_MODE
+;       GL_FOG_START
 
-;  FrontFaceDirection 
+;  FrontFaceDirection
 #GL_CW                             = $0900
 #GL_CCW                            = $0901
 
-;  GetMapTarget 
+;  GetMapTarget
 #GL_COEFF                          = $0A00
 #GL_ORDER                          = $0A01
 #GL_DOMAIN                         = $0A02
 
-;  GetPixelMap 
-;       GL_PIXEL_MAP_I_TO_I 
-;       GL_PIXEL_MAP_S_TO_S 
-;       GL_PIXEL_MAP_I_TO_R 
-;       GL_PIXEL_MAP_I_TO_G 
-;       GL_PIXEL_MAP_I_TO_B 
-;       GL_PIXEL_MAP_I_TO_A 
-;       GL_PIXEL_MAP_R_TO_R 
-;       GL_PIXEL_MAP_G_TO_G 
-;       GL_PIXEL_MAP_B_TO_B 
-;       GL_PIXEL_MAP_A_TO_A 
+;  GetPixelMap
+;       GL_PIXEL_MAP_I_TO_I
+;       GL_PIXEL_MAP_S_TO_S
+;       GL_PIXEL_MAP_I_TO_R
+;       GL_PIXEL_MAP_I_TO_G
+;       GL_PIXEL_MAP_I_TO_B
+;       GL_PIXEL_MAP_I_TO_A
+;       GL_PIXEL_MAP_R_TO_R
+;       GL_PIXEL_MAP_G_TO_G
+;       GL_PIXEL_MAP_B_TO_B
+;       GL_PIXEL_MAP_A_TO_A
 
-;  GetPointerTarget 
-;       GL_VERTEX_ARRAY_POINTER 
-;       GL_NORMAL_ARRAY_POINTER 
-;       GL_COLOR_ARRAY_POINTER 
-;       GL_INDEX_ARRAY_POINTER 
-;       GL_TEXTURE_COORD_ARRAY_POINTER 
-;       GL_EDGE_FLAG_ARRAY_POINTER 
+;  GetPointerTarget
+;       GL_VERTEX_ARRAY_POINTER
+;       GL_NORMAL_ARRAY_POINTER
+;       GL_COLOR_ARRAY_POINTER
+;       GL_INDEX_ARRAY_POINTER
+;       GL_TEXTURE_COORD_ARRAY_POINTER
+;       GL_EDGE_FLAG_ARRAY_POINTER
 
-;  GetTarget 
+;  GetTarget
 #GL_CURRENT_COLOR                  = $0B00
 #GL_CURRENT_INDEX                  = $0B01
 #GL_CURRENT_NORMAL                 = $0B02
@@ -519,75 +519,75 @@
 #GL_FEEDBACK_BUFFER_TYPE           = $0DF2
 #GL_SELECTION_BUFFER_POINTER       = $0DF3
 #GL_SELECTION_BUFFER_SIZE          = $0DF4
-;       GL_TEXTURE_BINDING_1D 
-;       GL_TEXTURE_BINDING_2D 
-;       GL_VERTEX_ARRAY 
-;       GL_NORMAL_ARRAY 
-;       GL_COLOR_ARRAY 
-;       GL_INDEX_ARRAY 
-;       GL_TEXTURE_COORD_ARRAY 
-;       GL_EDGE_FLAG_ARRAY 
-;       GL_VERTEX_ARRAY_SIZE 
-;       GL_VERTEX_ARRAY_TYPE 
-;       GL_VERTEX_ARRAY_STRIDE 
-;       GL_NORMAL_ARRAY_TYPE 
-;       GL_NORMAL_ARRAY_STRIDE 
-;       GL_COLOR_ARRAY_SIZE 
-;       GL_COLOR_ARRAY_TYPE 
-;       GL_COLOR_ARRAY_STRIDE 
-;       GL_INDEX_ARRAY_TYPE 
-;       GL_INDEX_ARRAY_STRIDE 
-;       GL_TEXTURE_COORD_ARRAY_SIZE 
-;       GL_TEXTURE_COORD_ARRAY_TYPE 
-;       GL_TEXTURE_COORD_ARRAY_STRIDE 
-;       GL_EDGE_FLAG_ARRAY_STRIDE 
-;       GL_POLYGON_OFFSET_FACTOR 
-;       GL_POLYGON_OFFSET_UNITS 
+;       GL_TEXTURE_BINDING_1D
+;       GL_TEXTURE_BINDING_2D
+;       GL_VERTEX_ARRAY
+;       GL_NORMAL_ARRAY
+;       GL_COLOR_ARRAY
+;       GL_INDEX_ARRAY
+;       GL_TEXTURE_COORD_ARRAY
+;       GL_EDGE_FLAG_ARRAY
+;       GL_VERTEX_ARRAY_SIZE
+;       GL_VERTEX_ARRAY_TYPE
+;       GL_VERTEX_ARRAY_STRIDE
+;       GL_NORMAL_ARRAY_TYPE
+;       GL_NORMAL_ARRAY_STRIDE
+;       GL_COLOR_ARRAY_SIZE
+;       GL_COLOR_ARRAY_TYPE
+;       GL_COLOR_ARRAY_STRIDE
+;       GL_INDEX_ARRAY_TYPE
+;       GL_INDEX_ARRAY_STRIDE
+;       GL_TEXTURE_COORD_ARRAY_SIZE
+;       GL_TEXTURE_COORD_ARRAY_TYPE
+;       GL_TEXTURE_COORD_ARRAY_STRIDE
+;       GL_EDGE_FLAG_ARRAY_STRIDE
+;       GL_POLYGON_OFFSET_FACTOR
+;       GL_POLYGON_OFFSET_UNITS
 
-;  GetTextureParameter 
-;       GL_TEXTURE_MAG_FILTER 
-;       GL_TEXTURE_MIN_FILTER 
-;       GL_TEXTURE_WRAP_S 
-;       GL_TEXTURE_WRAP_T 
+;  GetTextureParameter
+;       GL_TEXTURE_MAG_FILTER
+;       GL_TEXTURE_MIN_FILTER
+;       GL_TEXTURE_WRAP_S
+;       GL_TEXTURE_WRAP_T
 #GL_TEXTURE_WIDTH                  = $1000
 #GL_TEXTURE_HEIGHT                 = $1001
 #GL_TEXTURE_INTERNAL_FORMAT        = $1003
 #GL_TEXTURE_BORDER_COLOR           = $1004
 #GL_TEXTURE_BORDER                 = $1005
-;       GL_TEXTURE_RED_SIZE 
-;       GL_TEXTURE_GREEN_SIZE 
-;       GL_TEXTURE_BLUE_SIZE 
-;       GL_TEXTURE_ALPHA_SIZE 
-;       GL_TEXTURE_LUMINANCE_SIZE 
-;       GL_TEXTURE_INTENSITY_SIZE 
-;       GL_TEXTURE_PRIORITY 
-;       GL_TEXTURE_RESIDENT 
+;       GL_TEXTURE_RED_SIZE
+;       GL_TEXTURE_GREEN_SIZE
+;       GL_TEXTURE_BLUE_SIZE
+;       GL_TEXTURE_ALPHA_SIZE
+;       GL_TEXTURE_LUMINANCE_SIZE
+;       GL_TEXTURE_INTENSITY_SIZE
+;       GL_TEXTURE_PRIORITY
+;       GL_TEXTURE_RESIDENT
 
-;  HintMode 
+;  HintMode
 #GL_DONT_CARE                      = $1100
 #GL_FASTEST                        = $1101
 #GL_NICEST                         = $1102
 
-;  HintTarget 
-;       GL_PERSPECTIVE_CORRECTION_HINT 
-;       GL_POINT_SMOOTH_HINT 
-;       GL_LINE_SMOOTH_HINT 
-;       GL_POLYGON_SMOOTH_HINT 
-;       GL_FOG_HINT 
-;       GL_PHONG_HINT 
+;  HintTarget
+;       GL_PERSPECTIVE_CORRECTION_HINT
+;       GL_POINT_SMOOTH_HINT
+;       GL_LINE_SMOOTH_HINT
+;       GL_POLYGON_SMOOTH_HINT
+;       GL_FOG_HINT
+;       GL_PHONG_HINT
 
-;  IndexPointerType 
-;       GL_SHORT 
-;       GL_INT 
-;       GL_FLOAT 
-;       GL_DOUBLE 
+;  IndexPointerType
+;       GL_SHORT
+;       GL_INT
+;       GL_FLOAT
+;       GL_DOUBLE
 
-;  LightModelParameter 
-;       GL_LIGHT_MODEL_AMBIENT 
-;       GL_LIGHT_MODEL_LOCAL_VIEWER 
-;       GL_LIGHT_MODEL_TWO_SIDE 
+;  LightModelParameter
+;       GL_LIGHT_MODEL_AMBIENT
+;       GL_LIGHT_MODEL_LOCAL_VIEWER
+;       GL_LIGHT_MODEL_TWO_SIDE
 
-;  LightName 
+;  LightName
 #GL_LIGHT0                         = $4000
 #GL_LIGHT1                         = $4001
 #GL_LIGHT2                         = $4002
@@ -597,7 +597,7 @@
 #GL_LIGHT6                         = $4006
 #GL_LIGHT7                         = $4007
 
-;  LightParameter 
+;  LightParameter
 #GL_AMBIENT                        = $1200
 #GL_DIFFUSE                        = $1201
 #GL_SPECULAR                       = $1202
@@ -609,39 +609,39 @@
 #GL_LINEAR_ATTENUATION             = $1208
 #GL_QUADRATIC_ATTENUATION          = $1209
 
-;  InterleavedArrays 
-;       GL_V2F 
-;       GL_V3F 
-;       GL_C4UB_V2F 
-;       GL_C4UB_V3F 
-;       GL_C3F_V3F 
-;       GL_N3F_V3F 
-;       GL_C4F_N3F_V3F 
-;       GL_T2F_V3F 
-;       GL_T4F_V4F 
-;       GL_T2F_C4UB_V3F 
-;       GL_T2F_C3F_V3F 
-;       GL_T2F_N3F_V3F 
-;       GL_T2F_C4F_N3F_V3F 
-;       GL_T4F_C4F_N3F_V4F 
+;  InterleavedArrays
+;       GL_V2F
+;       GL_V3F
+;       GL_C4UB_V2F
+;       GL_C4UB_V3F
+;       GL_C3F_V3F
+;       GL_N3F_V3F
+;       GL_C4F_N3F_V3F
+;       GL_T2F_V3F
+;       GL_T4F_V4F
+;       GL_T2F_C4UB_V3F
+;       GL_T2F_C3F_V3F
+;       GL_T2F_N3F_V3F
+;       GL_T2F_C4F_N3F_V3F
+;       GL_T4F_C4F_N3F_V4F
 
-;  ListMode 
+;  ListMode
 #GL_COMPILE                        = $1300
 #GL_COMPILE_AND_EXECUTE            = $1301
 
-;  ListNameType 
-;       GL_BYTE 
-;       GL_UNSIGNED_BYTE 
-;       GL_SHORT 
-;       GL_UNSIGNED_SHORT 
-;       GL_INT 
-;       GL_UNSIGNED_INT 
-;       GL_FLOAT 
-;       GL_2_BYTES 
-;       GL_3_BYTES 
-;       GL_4_BYTES 
+;  ListNameType
+;       GL_BYTE
+;       GL_UNSIGNED_BYTE
+;       GL_SHORT
+;       GL_UNSIGNED_SHORT
+;       GL_INT
+;       GL_UNSIGNED_INT
+;       GL_FLOAT
+;       GL_2_BYTES
+;       GL_3_BYTES
+;       GL_4_BYTES
 
-;  LogicOp 
+;  LogicOp
 #GL_CLEAR                          = $1500
 #GL_AND                            = $1501
 #GL_AND_REVERSE                    = $1502
@@ -659,67 +659,67 @@
 #GL_NAND                           = $150E
 #GL_SET                            = $150F
 
-;  MapTarget 
-;       GL_MAP1_COLOR_4 
-;       GL_MAP1_INDEX 
-;       GL_MAP1_NORMAL 
-;       GL_MAP1_TEXTURE_COORD_1 
-;       GL_MAP1_TEXTURE_COORD_2 
-;       GL_MAP1_TEXTURE_COORD_3 
-;       GL_MAP1_TEXTURE_COORD_4 
-;       GL_MAP1_VERTEX_3 
-;       GL_MAP1_VERTEX_4 
-;       GL_MAP2_COLOR_4 
-;       GL_MAP2_INDEX 
-;       GL_MAP2_NORMAL 
-;       GL_MAP2_TEXTURE_COORD_1 
-;       GL_MAP2_TEXTURE_COORD_2 
-;       GL_MAP2_TEXTURE_COORD_3 
-;       GL_MAP2_TEXTURE_COORD_4 
-;       GL_MAP2_VERTEX_3 
-;       GL_MAP2_VERTEX_4 
+;  MapTarget
+;       GL_MAP1_COLOR_4
+;       GL_MAP1_INDEX
+;       GL_MAP1_NORMAL
+;       GL_MAP1_TEXTURE_COORD_1
+;       GL_MAP1_TEXTURE_COORD_2
+;       GL_MAP1_TEXTURE_COORD_3
+;       GL_MAP1_TEXTURE_COORD_4
+;       GL_MAP1_VERTEX_3
+;       GL_MAP1_VERTEX_4
+;       GL_MAP2_COLOR_4
+;       GL_MAP2_INDEX
+;       GL_MAP2_NORMAL
+;       GL_MAP2_TEXTURE_COORD_1
+;       GL_MAP2_TEXTURE_COORD_2
+;       GL_MAP2_TEXTURE_COORD_3
+;       GL_MAP2_TEXTURE_COORD_4
+;       GL_MAP2_VERTEX_3
+;       GL_MAP2_VERTEX_4
 
-;  MaterialFace 
-;       GL_FRONT 
-;       GL_BACK 
-;       GL_FRONT_AND_BACK 
+;  MaterialFace
+;       GL_FRONT
+;       GL_BACK
+;       GL_FRONT_AND_BACK
 
-;  MaterialParameter 
+;  MaterialParameter
 #GL_EMISSION                       = $1600
 #GL_SHININESS                      = $1601
 #GL_AMBIENT_AND_DIFFUSE            = $1602
 #GL_COLOR_INDEXES                  = $1603
-;       GL_AMBIENT 
-;       GL_DIFFUSE 
-;       GL_SPECULAR 
+;       GL_AMBIENT
+;       GL_DIFFUSE
+;       GL_SPECULAR
 
-;  MatrixMode 
+;  MatrixMode
 #GL_MODELVIEW                      = $1700
 #GL_PROJECTION                     = $1701
 #GL_TEXTURE                        = $1702
 
-;  MeshMode1 
-;       GL_POINT 
-;       GL_LINE 
+;  MeshMode1
+;       GL_POINT
+;       GL_LINE
 
-;  MeshMode2 
-;       GL_POINT 
-;       GL_LINE 
-;       GL_FILL 
+;  MeshMode2
+;       GL_POINT
+;       GL_LINE
+;       GL_FILL
 
-;  NormalPointerType 
-;       GL_BYTE 
-;       GL_SHORT 
-;       GL_INT 
-;       GL_FLOAT 
-;       GL_DOUBLE 
+;  NormalPointerType
+;       GL_BYTE
+;       GL_SHORT
+;       GL_INT
+;       GL_FLOAT
+;       GL_DOUBLE
 
-;  PixelCopyType 
+;  PixelCopyType
 #GL_COLOR                          = $1800
 #GL_DEPTH                          = $1801
 #GL_STENCIL                        = $1802
 
-;  PixelFormat 
+;  PixelFormat
 #GL_COLOR_INDEX                    = $1900
 #GL_STENCIL_INDEX                  = $1901
 #GL_DEPTH_COMPONENT                = $1902
@@ -732,195 +732,195 @@
 #GL_LUMINANCE                      = $1909
 #GL_LUMINANCE_ALPHA                = $190A
 
-;  PixelMap 
-;       GL_PIXEL_MAP_I_TO_I 
-;       GL_PIXEL_MAP_S_TO_S 
-;       GL_PIXEL_MAP_I_TO_R 
-;       GL_PIXEL_MAP_I_TO_G 
-;       GL_PIXEL_MAP_I_TO_B 
-;       GL_PIXEL_MAP_I_TO_A 
-;       GL_PIXEL_MAP_R_TO_R 
-;       GL_PIXEL_MAP_G_TO_G 
-;       GL_PIXEL_MAP_B_TO_B 
-;       GL_PIXEL_MAP_A_TO_A 
+;  PixelMap
+;       GL_PIXEL_MAP_I_TO_I
+;       GL_PIXEL_MAP_S_TO_S
+;       GL_PIXEL_MAP_I_TO_R
+;       GL_PIXEL_MAP_I_TO_G
+;       GL_PIXEL_MAP_I_TO_B
+;       GL_PIXEL_MAP_I_TO_A
+;       GL_PIXEL_MAP_R_TO_R
+;       GL_PIXEL_MAP_G_TO_G
+;       GL_PIXEL_MAP_B_TO_B
+;       GL_PIXEL_MAP_A_TO_A
 
-;  PixelStore 
-;       GL_UNPACK_SWAP_BYTES 
-;       GL_UNPACK_LSB_FIRST 
-;       GL_UNPACK_ROW_LENGTH 
-;       GL_UNPACK_SKIP_ROWS 
-;       GL_UNPACK_SKIP_PIXELS 
-;       GL_UNPACK_ALIGNMENT 
-;       GL_PACK_SWAP_BYTES 
-;       GL_PACK_LSB_FIRST 
-;       GL_PACK_ROW_LENGTH 
-;       GL_PACK_SKIP_ROWS 
-;       GL_PACK_SKIP_PIXELS 
-;       GL_PACK_ALIGNMENT 
+;  PixelStore
+;       GL_UNPACK_SWAP_BYTES
+;       GL_UNPACK_LSB_FIRST
+;       GL_UNPACK_ROW_LENGTH
+;       GL_UNPACK_SKIP_ROWS
+;       GL_UNPACK_SKIP_PIXELS
+;       GL_UNPACK_ALIGNMENT
+;       GL_PACK_SWAP_BYTES
+;       GL_PACK_LSB_FIRST
+;       GL_PACK_ROW_LENGTH
+;       GL_PACK_SKIP_ROWS
+;       GL_PACK_SKIP_PIXELS
+;       GL_PACK_ALIGNMENT
 
-;  PixelTransfer 
-;       GL_MAP_COLOR 
-;       GL_MAP_STENCIL 
-;       GL_INDEX_SHIFT 
-;       GL_INDEX_OFFSET 
-;       GL_RED_SCALE 
-;       GL_RED_BIAS 
-;       GL_GREEN_SCALE 
-;       GL_GREEN_BIAS 
-;       GL_BLUE_SCALE 
-;       GL_BLUE_BIAS 
-;       GL_ALPHA_SCALE 
-;       GL_ALPHA_BIAS 
-;       GL_DEPTH_SCALE 
-;       GL_DEPTH_BIAS 
+;  PixelTransfer
+;       GL_MAP_COLOR
+;       GL_MAP_STENCIL
+;       GL_INDEX_SHIFT
+;       GL_INDEX_OFFSET
+;       GL_RED_SCALE
+;       GL_RED_BIAS
+;       GL_GREEN_SCALE
+;       GL_GREEN_BIAS
+;       GL_BLUE_SCALE
+;       GL_BLUE_BIAS
+;       GL_ALPHA_SCALE
+;       GL_ALPHA_BIAS
+;       GL_DEPTH_SCALE
+;       GL_DEPTH_BIAS
 
-;  PixelType 
+;  PixelType
 #GL_BITMAP                         = $1A00
-;       GL_BYTE 
-;       GL_UNSIGNED_BYTE 
-;       GL_SHORT 
-;       GL_UNSIGNED_SHORT 
-;       GL_INT 
-;       GL_UNSIGNED_INT 
-;       GL_FLOAT 
+;       GL_BYTE
+;       GL_UNSIGNED_BYTE
+;       GL_SHORT
+;       GL_UNSIGNED_SHORT
+;       GL_INT
+;       GL_UNSIGNED_INT
+;       GL_FLOAT
 
-;  PolygonMode 
+;  PolygonMode
 #GL_POINT                          = $1B00
 #GL_LINE                           = $1B01
 #GL_FILL                           = $1B02
 
-;  ReadBufferMode 
-;       GL_FRONT_LEFT 
-;       GL_FRONT_RIGHT 
-;       GL_BACK_LEFT 
-;       GL_BACK_RIGHT 
-;       GL_FRONT 
-;       GL_BACK 
-;       GL_LEFT 
-;       GL_RIGHT 
-;       GL_AUX0 
-;       GL_AUX1 
-;       GL_AUX2 
-;       GL_AUX3 
+;  ReadBufferMode
+;       GL_FRONT_LEFT
+;       GL_FRONT_RIGHT
+;       GL_BACK_LEFT
+;       GL_BACK_RIGHT
+;       GL_FRONT
+;       GL_BACK
+;       GL_LEFT
+;       GL_RIGHT
+;       GL_AUX0
+;       GL_AUX1
+;       GL_AUX2
+;       GL_AUX3
 
-;  RenderingMode 
+;  RenderingMode
 #GL_RENDER                         = $1C00
 #GL_FEEDBACK                       = $1C01
 #GL_SELECT                         = $1C02
 
-;  ShadingModel 
+;  ShadingModel
 #GL_FLAT                           = $1D00
 #GL_SMOOTH                         = $1D01
 
 
-;  StencilFunction 
-;       GL_NEVER 
-;       GL_LESS 
-;       GL_EQUAL 
-;       GL_LEQUAL 
-;       GL_GREATER 
-;       GL_NOTEQUAL 
-;       GL_GEQUAL 
-;       GL_ALWAYS 
+;  StencilFunction
+;       GL_NEVER
+;       GL_LESS
+;       GL_EQUAL
+;       GL_LEQUAL
+;       GL_GREATER
+;       GL_NOTEQUAL
+;       GL_GEQUAL
+;       GL_ALWAYS
 
-;  StencilOp 
-;       GL_ZERO 
+;  StencilOp
+;       GL_ZERO
 #GL_KEEP                           = $1E00
 #GL_REPLACE                        = $1E01
 #GL_INCR                           = $1E02
 #GL_DECR                           = $1E03
-;       GL_INVERT 
+;       GL_INVERT
 
-;  StringName 
+;  StringName
 #GL_VENDOR                         = $1F00
 #GL_RENDERER                       = $1F01
 #GL_VERSION                        = $1F02
 #GL_EXTENSIONS                     = $1F03
 
-;  TextureCoordName 
+;  TextureCoordName
 #GL_S                              = $2000
 #GL_T                              = $2001
 #GL_R                              = $2002
 #GL_Q                              = $2003
 
-;  TexCoordPointerType 
-;       GL_SHORT 
-;       GL_INT 
-;       GL_FLOAT 
-;       GL_DOUBLE 
+;  TexCoordPointerType
+;       GL_SHORT
+;       GL_INT
+;       GL_FLOAT
+;       GL_DOUBLE
 
-;  TextureEnvMode 
+;  TextureEnvMode
 #GL_MODULATE                       = $2100
 #GL_DECAL                          = $2101
-;       GL_BLEND 
-;       GL_REPLACE 
+;       GL_BLEND
+;       GL_REPLACE
 
-;  TextureEnvParameter 
+;  TextureEnvParameter
 #GL_TEXTURE_ENV_MODE               = $2200
 #GL_TEXTURE_ENV_COLOR              = $2201
 
-;  TextureEnvTarget 
+;  TextureEnvTarget
 #GL_TEXTURE_ENV                    = $2300
 
-;  TextureGenMode 
+;  TextureGenMode
 #GL_EYE_LINEAR                     = $2400
 #GL_OBJECT_LINEAR                  = $2401
 #GL_SPHERE_MAP                     = $2402
 
-;  TextureGenParameter 
+;  TextureGenParameter
 #GL_TEXTURE_GEN_MODE               = $2500
 #GL_OBJECT_PLANE                   = $2501
 #GL_EYE_PLANE                      = $2502
 
-;  TextureMagFilter 
+;  TextureMagFilter
 #GL_NEAREST                        = $2600
 #GL_LINEAR                         = $2601
 
-;  TextureMinFilter 
-;       GL_NEAREST 
-;       GL_LINEAR 
+;  TextureMinFilter
+;       GL_NEAREST
+;       GL_LINEAR
 #GL_NEAREST_MIPMAP_NEAREST         = $2700
 #GL_LINEAR_MIPMAP_NEAREST          = $2701
 #GL_NEAREST_MIPMAP_LINEAR          = $2702
 #GL_LINEAR_MIPMAP_LINEAR           = $2703
 
-;  TextureParameterName 
+;  TextureParameterName
 #GL_TEXTURE_MAG_FILTER             = $2800
 #GL_TEXTURE_MIN_FILTER             = $2801
 #GL_TEXTURE_WRAP_S                 = $2802
 #GL_TEXTURE_WRAP_T                 = $2803
-;       GL_TEXTURE_BORDER_COLOR 
-;       GL_TEXTURE_PRIORITY 
+;       GL_TEXTURE_BORDER_COLOR
+;       GL_TEXTURE_PRIORITY
 
-;  TextureTarget 
-;       GL_TEXTURE_1D 
-;       GL_TEXTURE_2D 
-;       GL_PROXY_TEXTURE_1D 
-;       GL_PROXY_TEXTURE_2D 
+;  TextureTarget
+;       GL_TEXTURE_1D
+;       GL_TEXTURE_2D
+;       GL_PROXY_TEXTURE_1D
+;       GL_PROXY_TEXTURE_2D
 
-;  TextureWrapMode 
+;  TextureWrapMode
 #GL_CLAMP                          = $2900
 #GL_REPEAT                         = $2901
 
-;  VertexPointerType 
-;       GL_SHORT 
-;       GL_INT 
-;       GL_FLOAT 
-;       GL_DOUBLE 
+;  VertexPointerType
+;       GL_SHORT
+;       GL_INT
+;       GL_FLOAT
+;       GL_DOUBLE
 
-;  ClientAttribMask 
+;  ClientAttribMask
 #GL_CLIENT_PIXEL_STORE_BIT         = $00000001
 #GL_CLIENT_VERTEX_ARRAY_BIT        = $00000002
 #GL_CLIENT_ALL_ATTRIB_BITS         = $ffffffff
 
-;  polygon_offset 
+;  polygon_offset
 #GL_POLYGON_OFFSET_FACTOR          = $8038
 #GL_POLYGON_OFFSET_UNITS           = $2A00
 #GL_POLYGON_OFFSET_POINT           = $2A01
 #GL_POLYGON_OFFSET_LINE            = $2A02
 #GL_POLYGON_OFFSET_FILL            = $8037
 
-;  texture 
+;  texture
 #GL_ALPHA4                         = $803B
 #GL_ALPHA8                         = $803C
 #GL_ALPHA12                        = $803D
@@ -963,13 +963,13 @@
 #GL_PROXY_TEXTURE_1D               = $8063
 #GL_PROXY_TEXTURE_2D               = $8064
 
-;  texture_object 
+;  texture_object
 #GL_TEXTURE_PRIORITY               = $8066
 #GL_TEXTURE_RESIDENT               = $8067
 #GL_TEXTURE_BINDING_1D             = $8068
 #GL_TEXTURE_BINDING_2D             = $8069
 
-;  vertex_array 
+;  vertex_array
 #GL_VERTEX_ARRAY                   = $8074
 #GL_NORMAL_ARRAY                   = $8075
 #GL_COLOR_ARRAY                    = $8076
@@ -1011,7 +1011,7 @@
 #GL_T2F_C4F_N3F_V3F                = $2A2C
 #GL_T4F_C4F_N3F_V4F                = $2A2D
 
-;  Extensions 
+;  Extensions
 #GL_EXT_vertex_array               = 1
 #GL_EXT_bgra                       = 1
 #GL_EXT_paletted_texture           = 1
@@ -1020,7 +1020,7 @@
 ;  #define GL_WIN_phong_shading              1
 ;  #define GL_WIN_specular_fog               1
 
-;  EXT_vertex_array 
+;  EXT_vertex_array
 #GL_VERTEX_ARRAY_EXT               = $8074
 #GL_NORMAL_ARRAY_EXT               = $8075
 #GL_COLOR_ARRAY_EXT                = $8076
@@ -1055,13 +1055,13 @@
 #GL_EDGE_FLAG_ARRAY_POINTER_EXT    = $8093
 #GL_DOUBLE_EXT                     = #GL_DOUBLE
 
-;  EXT_bgra 
+;  EXT_bgra
 #GL_BGR_EXT                        = $80E0
 #GL_BGRA_EXT                       = $80E1
 
-;  EXT_paletted_texture 
+;  EXT_paletted_texture
 
-;  These must match the GL_COLOR_TABLE_*_SGI enumerants 
+;  These must match the GL_COLOR_TABLE_*_SGI enumerants
 #GL_COLOR_TABLE_FORMAT_EXT         = $80D8
 #GL_COLOR_TABLE_WIDTH_EXT          = $80D9
 #GL_COLOR_TABLE_RED_SIZE_EXT       = $80DA
@@ -1078,18 +1078,18 @@
 #GL_COLOR_INDEX12_EXT              = $80E6
 #GL_COLOR_INDEX16_EXT              = $80E7
 
-;  WIN_draw_range_elements 
+;  WIN_draw_range_elements
 #GL_MAX_ELEMENTS_VERTICES_WIN      = $80E8
 #GL_MAX_ELEMENTS_INDICES_WIN       = $80E9
 
-;  WIN_phong_shading 
+;  WIN_phong_shading
 #GL_PHONG_WIN                      = $80EA
 #GL_PHONG_HINT_WIN                 = $80EB
 
-;  WIN_specular_fog 
+;  WIN_specular_fog
 #GL_FOG_SPECULAR_TEXTURE_WIN       = $80EC
 
-;  For compatibility with OpenGL v1.0 
+;  For compatibility with OpenGL v1.0
 #GL_LOGIC_OP = #GL_INDEX_LOGIC_OP
 #GL_TEXTURE_COMPONENTS = #GL_TEXTURE_INTERNAL_FORMAT
 

@@ -67,7 +67,7 @@ If InitEngine3D()
       If Timer < ElapsedMilliseconds()
         Timer = ElapsedMilliseconds() + 5
         yaw + 0.1
-      EndIf 
+      EndIf
                
       ;Ribbon
       X = 1000 + 500 * Cos(ElapsedMilliseconds() / 250)

@@ -12,7 +12,7 @@
 
 
 Procedure RepaintCanvas(x)
-  ; Paint a canvas which looks like a Trackbar  
+  ; Paint a canvas which looks like a Trackbar
   If StartDrawing( CanvasOutput(0) )
     Box(0,0,OutputWidth(),OutputHeight(),RGB($FF,$FF,$FF))
     DrawingMode(#PB_2DDrawing_Gradient)
@@ -28,12 +28,12 @@ Procedure RepaintCanvas(x)
 EndProcedure
 
 Procedure OnLeftClick()
-  ; Left click on the canvas  
+  ; Left click on the canvas
   RepaintCanvas( GetGadgetAttribute(0,#PB_Canvas_MouseX) )
 EndProcedure
 
 Procedure OnMouseMove()
-  ; Left click + move on the mouse on the canvas  
+  ; Left click + move on the mouse on the canvas
   If GetGadgetAttribute(0,#PB_Canvas_Buttons) & #PB_Canvas_LeftButton
     x = GetGadgetAttribute(0,#PB_Canvas_MouseX)
     If x < 0 : x = 0 : EndIf
@@ -48,7 +48,7 @@ If OpenWindow(0, 0, 0, 220, 40, "BindGadgetEvent", #PB_Window_SystemMenu | #PB_W
   
   RepaintCanvas(50) ; Paint the canvas and set the tracker at 50
   
-  BindGadgetEvent(0, @OnLeftClick(),#PB_EventType_LeftClick) ; Bind canvas left click 
+  BindGadgetEvent(0, @OnLeftClick(),#PB_EventType_LeftClick) ; Bind canvas left click
   BindGadgetEvent(0, @OnMouseMove(),#PB_EventType_MouseMove) ; Bind mouse move on the canvas
   
   Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow

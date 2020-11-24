@@ -3,7 +3,7 @@ Structure GtkCellRendererText
  *text
  *font.PangoFontDescription
   font_scale.d
-  foreground.PangoColor ; Warning 'PangoColor' is only 6 bytes, even on x64, so it gets packed together and need an alignment 
+  foreground.PangoColor ; Warning 'PangoColor' is only 6 bytes, even on x64, so it gets packed together and need an alignment
   background.PangoColor ;
   PB_Align(0, 4)
  *extra_attrs.PangoAttrList

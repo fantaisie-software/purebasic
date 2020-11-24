@@ -13,7 +13,7 @@ ImportC "-framework Carbon"
   ApiC(FSRefMakePath, (arg1, arg2, arg3))
   ApiC(LaunchApplication, (arg1))
   ApiC(NativePathNameToFSSpec, (arg1, arg2, arg3))
-  ApiC(RunApplicationEventLoop, ())  
+  ApiC(RunApplicationEventLoop, ())
   
   ApiC(CallNextEventHandler, (arg1, arg2))
   ApiC(CopyEvent, (arg1))

@@ -38,15 +38,15 @@ Procedure FillTree(*CurrentNode, CurrentSublevel)
         
         
     ; Now get the first child node (if any)
-    ;    
+    ;
     *ChildNode = ChildXMLNode(*CurrentNode)
     
     ; Loop through all available child nodes and call this procedure again
     ;
     While *ChildNode <> 0
-      FillTree(*ChildNode, CurrentSublevel + 1)      
+      FillTree(*ChildNode, CurrentSublevel + 1)
       *ChildNode = NextXMLNode(*ChildNode)
-    Wend        
+    Wend
   
   EndIf
 
@@ -57,7 +57,7 @@ If FileName$ <> ""
 
   If LoadXML(#XML, FileName$)
 
-    ; Note: 
+    ; Note:
     ;   The LoadXML() succeed if the file could be read. This does not mean that
     ;   there was no error in the XML though. To check this, XMLStatus() can be
     ;   used.
@@ -80,7 +80,7 @@ If FileName$ <> ""
       
       ; Get the main XML node, and call the FillTree() procedure with it
       ;
-      *MainNode = MainXMLNode(#XML)      
+      *MainNode = MainXMLNode(#XML)
       If *MainNode
         FillTree(*MainNode, 0)
       EndIf

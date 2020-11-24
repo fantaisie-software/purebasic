@@ -5,7 +5,7 @@
 ;  Author: kelebrindae
 ;
 ;  Rough simulation of a car, using PB's physics engine.
-; 
+;
 ;  Controls:
 ;  - W -> Wireframe view
 ;  - P -> Display physics bodies
@@ -35,8 +35,8 @@ Structure wheel_struct
   wheelJoint.i  ; joint support <> wheel
   
   wheelRadius.f
-  wheelWidth.f 
-  wheelMass.f 
+  wheelWidth.f
+  wheelMass.f
   
   isSteer.b
   isDrive.b
@@ -120,13 +120,13 @@ Procedure createWheel(*ptrcar.car_struct,side.i, supportZpos.f, isSteer.b, isDri
   CreateEntityBody(*ptrcar\wheel()\support,#PB_Entity_BoxBody,1,0,0)
   
   *ptrcar\wheel()\supJoint = HingeJoint(#PB_Any,EntityID(*ptrcar\wheel()\support),-(supportWidth/2) * side,-(supportHeight/2),0, 0,1,0,EntityID(*ptrcar\chassis),((*ptrcar\width/2) - (supportWidth/2)) * side,(*ptrcar\chassisHeight/2),supportZpos, 0,1,0)
-  If isSteer = #True   
+  If isSteer = #True
     SetJointAttribute(*ptrcar\wheel()\supJoint,#PB_HingeJoint_LowerLimit,-15)
     SetJointAttribute(*ptrcar\wheel()\supJoint,#PB_HingeJoint_UpperLimit,15)
   Else
     SetJointAttribute(*ptrcar\wheel()\supJoint,#PB_HingeJoint_LowerLimit,0)
     SetJointAttribute(*ptrcar\wheel()\supJoint,#PB_HingeJoint_UpperLimit,0)
-  EndIf 
+  EndIf
   
   ; Wheel entity + joint
   If isDrive = #True
@@ -190,7 +190,7 @@ Procedure createCar(*ptrCar.car_struct, template.i=#FWDRIVE,
   ; Create the car's body
   *ptrCar\body = CreateEntity(#PB_Any,MeshID(cubeMesh),MaterialID(mtBlue),0,EntityY(*ptrCar\chassis) + *ptrCar\chassisHeight + *ptrCar\height/2,0,0)
   ScaleEntity(*ptrCar\body,*ptrCar\width-0.1,*ptrCar\height,*ptrCar\length-0.1)
-  CreateEntityBody(*ptrCar\body,#PB_Entity_BoxBody,*ptrCar\mass,0,1) 
+  CreateEntityBody(*ptrCar\body,#PB_Entity_BoxBody,*ptrCar\mass,0,1)
   *ptrCar\bodyJoint = SliderJoint(#PB_Any,EntityID(*ptrCar\chassis),0,*ptrCar\chassisHeight,0,EntityID(*ptrCar\body),0,-*ptrCar\height/2,0)
   SetJointAttribute(*ptrCar\bodyJoint,#PB_SliderJoint_LowerLimit,0)
   SetJointAttribute(*ptrCar\bodyJoint,#PB_SliderJoint_UpperLimit,0)
@@ -448,14 +448,14 @@ Repeat
           SetJointAttribute(car\wheel()\supJoint,#PB_HingeJoint_LowerLimit,-car\maxSteer)
           SetJointAttribute(car\wheel()\supJoint,#PB_HingeJoint_UpperLimit,car\maxSteer)
         EndIf
-      Next car\wheel() 
+      Next car\wheel()
     Else
       ForEach car\wheel()
         If car\wheel()\isSteer = #True
           SetJointAttribute(car\wheel()\supJoint,#PB_HingeJoint_LowerLimit,0)
           SetJointAttribute(car\wheel()\supJoint,#PB_HingeJoint_UpperLimit,0)
         EndIf
-      Next car\wheel() 
+      Next car\wheel()
     EndIf
     
     ;- Forward / backward acceleration
@@ -464,19 +464,19 @@ Repeat
         If car\wheel()\isDrive = #True
           EnableHingeJointAngularMotor(car\wheel()\wheelJoint, #True, -car\maxSpeed, car\accel)
         EndIf
-      Next car\wheel() 
+      Next car\wheel()
     ElseIf KeyboardPushed(#PB_Key_Down)
       ForEach car\wheel()
         If car\wheel()\isDrive = #True
           EnableHingeJointAngularMotor(car\wheel()\wheelJoint, #True, car\maxSpeed, car\accel)
         EndIf
-      Next car\wheel() 
+      Next car\wheel()
     Else
       ForEach car\wheel()
         If car\wheel()\isDrive = #True
           EnableHingeJointAngularMotor(car\wheel()\wheelJoint, #False, 0,0)
         EndIf
-      Next car\wheel() 
+      Next car\wheel()
     EndIf
     
     ;- Camera management

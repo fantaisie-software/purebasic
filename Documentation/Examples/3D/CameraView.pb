@@ -10,7 +10,7 @@
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
-Define.f KeyX, KeyY, MouseX, MouseY, SpriteX, SpriteY 
+Define.f KeyX, KeyY, MouseX, MouseY, SpriteX, SpriteY
 
 If InitEngine3D()
   
@@ -72,7 +72,7 @@ If InitEngine3D()
       Screen3DEvents()
       
       If ExamineMouse()
-        MouseX = -MouseDeltaX()/10 
+        MouseX = -MouseDeltaX()/10
         MouseY = -MouseDeltaY()/10
       EndIf
       
@@ -100,7 +100,7 @@ If InitEngine3D()
       RotateCamera(0, MouseY, MouseX, 0, #PB_Relative)
       MoveCamera  (0, KeyX, 0, KeyY)
       
-      RenderWorld() 
+      RenderWorld()
       
       DisplayTransparentSprite(0, SpriteX, SpriteY)
    

@@ -44,9 +44,9 @@ Procedure DrawCube(Gadget)
   glRotatef_ (RollAxisY, 0, 1.0, 0) ; rotate around Y axis
   glRotatef_ (RollAxisZ, 0, 0, 1.0) ; rotate around Z axis
  
-  RollAxisX + RotateSpeedX 
-  RollAxisY + RotateSpeedY 
-  RollAxisZ + RotateSpeedZ 
+  RollAxisX + RotateSpeedX
+  RollAxisY + RotateSpeedY
+  RollAxisZ + RotateSpeedZ
 
   ; clear framebuffer And depth-buffer
 
@@ -59,24 +59,24 @@ Procedure DrawCube(Gadget)
   glDisable_(#GL_LIGHTING)
   glBegin_  (#GL_QUADS)
   
-  ; Build a face, composed of 4 vertex ! 
+  ; Build a face, composed of 4 vertex !
   ; glBegin() specify how the vertexes are considered. Here a group of
   ; 4 vertexes (GL_QUADS) form a rectangular surface.
 
   ; Now, the color stuff: It's r,v,b but with float values which
-  ; can go from 0.0 To 1.0 (0 is .. zero And 1.0 is full intensity) 
+  ; can go from 0.0 To 1.0 (0 is .. zero And 1.0 is full intensity)
   
   glNormal3f_ (0,0,1.0)
   glColor3f_  (0,0,1.0)
-  glVertex3f_ (0.5,0.5,0.5)   
-  glColor3f_  (0,1.0,1.0)         
+  glVertex3f_ (0.5,0.5,0.5)
+  glColor3f_  (0,1.0,1.0)
   glVertex3f_ (-0.5,0.5,0.5)
   glColor3f_  (1.0,1.0,1.0)
   glVertex3f_ (-0.5,-0.5,0.5)
   glColor3f_  (0,0,0)
-  glVertex3f_ (0.5,-0.5,0.5) 
+  glVertex3f_ (0.5,-0.5,0.5)
 
-  ; The other face is the same than the previous one 
+  ; The other face is the same than the previous one
   ; except the colour which is nice blue To white gradiant
 
   glNormal3f_ (0,0,-1.0)
@@ -133,7 +133,7 @@ EndProcedure
 Procedure SetupGL()
     
   glMatrixMode_(#GL_PROJECTION)
-  gluPerspective_(30.0, 200/200, 1.0, 10.0) 
+  gluPerspective_(30.0, 200/200, 1.0, 10.0)
   
   ; position viewer
   glMatrixMode_(#GL_MODELVIEW)

@@ -57,14 +57,14 @@ If CreateNetworkServer(0, Port)
       Delay(20)  ; Don't stole the whole CPU !
     EndIf
     
-  Until Quit = 1 
+  Until Quit = 1
     
   CloseNetworkServer(0)
 Else
   MessageRequester(AtomicTitle$, "Error: can't create the server (port in use ?).", 0)
 EndIf
   
-End 
+End
 
 
 
@@ -117,7 +117,7 @@ ProcessRequest:
       EndIf
 
       ; Test if the file exists, and if not display the error message
-      ;   
+      ;
 
       If ReadFile(0, BaseDirectory$+RequestedFile$, #PB_UTF8)
       

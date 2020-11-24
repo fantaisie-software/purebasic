@@ -28,4 +28,4 @@ Else
   MessageRequester("PureBasic - Client", "Can't find the server (Is it launched ?).", 0)
 EndIf
   
-End   
+End

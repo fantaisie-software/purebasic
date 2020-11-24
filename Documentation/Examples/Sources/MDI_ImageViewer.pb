@@ -22,7 +22,7 @@ Structure MDIWindow
   ImageHeight.l
   ImageGifAnimated.l
   
-  ; Our MDI Window  
+  ; Our MDI Window
   Window.i
   
   ; gadget numbers
@@ -83,7 +83,7 @@ If OpenWindow(#WINDOW, 0, 0, 800, 600, "MDI ImageViewer", #WindowFlags)
     MenuItem(#MENU_Close, "Close")
     MenuItem(#MENU_CloseAll, "Close All")
     MenuBar()
-    MenuItem(#MENU_QUit, "Quit")      
+    MenuItem(#MENU_QUit, "Quit")
     MenuTitle("Windows")
     MenuItem(#MENU_TileV, "Tile vertically")
     MenuItem(#MENU_TileH, "Tile horizontally")
@@ -122,13 +122,13 @@ If OpenWindow(#WINDOW, 0, 0, 800, 600, "MDI ImageViewer", #WindowFlags)
           If SelectMDIWindow(Window) ; Check if it's one of our MDI window
             RemoveWindowTimer(MDIWindow()\Window,MDIWindow()\Window)
             CloseWindow(Window)
-            FreeImage(MDIWindow()\Image)     
-            DeleteElement(MDIWindow())   
+            FreeImage(MDIWindow()\Image)
+            DeleteElement(MDIWindow())
           EndIf
           
         EndIf
         
-      Case #PB_Event_ActivateWindow 
+      Case #PB_Event_ActivateWindow
         
         Window = EventWindow()
         
@@ -171,8 +171,8 @@ If OpenWindow(#WINDOW, 0, 0, 800, 600, "MDI ImageViewer", #WindowFlags)
                 
                 Item = ListIndex(MDIWindow())
                 
-                MDIWindow()\Image       = Image            
-                MDIWIndow()\ImageWidth  = ImageWidth(Image) 
+                MDIWindow()\Image       = Image
+                MDIWIndow()\ImageWidth  = ImageWidth(Image)
                 MDIWindow()\ImageHeight = ImageHeight(Image)
                 
                 
@@ -186,20 +186,20 @@ If OpenWindow(#WINDOW, 0, 0, 800, 600, "MDI ImageViewer", #WindowFlags)
                 MDIWindow()\ImageGadget = ImageGadget(#PB_Any, 0, 0, MDIWindow()\ImageWidth, MDIWindow()\ImageHeight, ImageID(Image))
                 If UCase(GetExtensionPart(Filename$)) = "GIF"  And ImageFrameCount(MDIWindow()\Image) <> 1
                   MDIWindow()\ImageGifAnimated = #True
-                  AddWindowTimer(MDIWindow()\Window, MDIWindow()\Window, 1) 
+                  AddWindowTimer(MDIWindow()\Window, MDIWindow()\Window, 1)
                 EndIf
                 CloseGadgetList()
                 
               Else
                 MessageRequester("Image Viewer","Could not load image: "+FileName$)
-              EndIf            
+              EndIf
               
               FileName$ = NextSelectedFileName()
             Wend
             
           Case #MENU_Close
             Window = GetGadgetState(#GADGET_MDI)
-            If Window <> -1 
+            If Window <> -1
               SelectMDIWindow(Window)
               RemoveWindowTimer(MDIWindow()\Window, MDIWindow()\Window)
               CloseWindow(Window)
@@ -212,12 +212,12 @@ If OpenWindow(#WINDOW, 0, 0, 800, 600, "MDI ImageViewer", #WindowFlags)
             ForEach MDIWindow()
               RemoveWindowTimer(MDIWindow()\Window, MDIWindow()\Window)
               CloseWindow(MDIWindow()\Window)
-              FreeImage(MDIWindow()\Image)  
+              FreeImage(MDIWindow()\Image)
             Next
             ClearList(MDIWindow())
             
           Case #MENU_Quit
-            Quit = 1     
+            Quit = 1
             
           Case #MENU_TileV
             SetGadgetState(#GADGET_MDI, #PB_MDI_TileVertically)
@@ -250,5 +250,5 @@ If OpenWindow(#WINDOW, 0, 0, 800, 600, "MDI ImageViewer", #WindowFlags)
         
     EndSelect
     
-  Until Quit = 1  
+  Until Quit = 1
 EndIf

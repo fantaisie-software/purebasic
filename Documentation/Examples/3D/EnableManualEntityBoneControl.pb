@@ -49,10 +49,10 @@ If InitEngine3D()
       Bone$ = "Joint"+Str(i)
       Bone(i) = Bone$
       EnableManualEntityBoneControl(0, Bone$, #True, #True)
-      Text3D(i, Str(i), RGBA(255, 0, 0, 255), #PB_Text3D_HorizontallyCentered | #PB_Text3D_VerticallyCentered)  
+      Text3D(i, Str(i), RGBA(255, 0, 0, 255), #PB_Text3D_HorizontallyCentered | #PB_Text3D_VerticallyCentered)
       AttachEntityObject(0, Bone$, Text3DID(i))
       ScaleText3D(i, 4, 4, 0)
-    Next 
+    Next
     
     RotateEntity(0, 0, -70, 0)
     
@@ -72,7 +72,7 @@ If InitEngine3D()
       If ExamineKeyboard()
         
         If KeyboardReleased(#PB_Key_F5)
-          EnableManualEntityBoneControl(0, Bone(0), #False, #True)          
+          EnableManualEntityBoneControl(0, Bone(0), #False, #True)
         EndIf
         
         If KeyboardPushed(#PB_Key_Left)
@@ -82,18 +82,18 @@ If InitEngine3D()
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          RotateEntityBone(0, bone(14), 0, 0, 1, #PB_Relative) 
-          RotateEntityBone(0, bone(17), 0, 0, 1, #PB_Relative) 
+          RotateEntityBone(0, bone(14), 0, 0, 1, #PB_Relative)
+          RotateEntityBone(0, bone(17), 0, 0, 1, #PB_Relative)
         ElseIf KeyboardPushed(#PB_Key_Down)
-          RotateEntityBone(0, bone(14), 0, 0, -1, #PB_Relative) 
-          RotateEntityBone(0, bone(17), 0, 0, -1, #PB_Relative) 
-        EndIf    
+          RotateEntityBone(0, bone(14), 0, 0, -1, #PB_Relative)
+          RotateEntityBone(0, bone(17), 0, 0, -1, #PB_Relative)
+        EndIf
         
-        If KeyboardPushed(#PB_Key_PageUp) 
-          MoveEntityBone(0, bone(7), 1, 0, 0, #PB_Relative) 
-        ElseIf KeyboardPushed(#PB_Key_PageDown) 
-          MoveEntityBone(0, bone(7), -1, 0, 0, #PB_Relative)    
-        EndIf       
+        If KeyboardPushed(#PB_Key_PageUp)
+          MoveEntityBone(0, bone(7), 1, 0, 0, #PB_Relative)
+        ElseIf KeyboardPushed(#PB_Key_PageDown)
+          MoveEntityBone(0, bone(7), -1, 0, 0, #PB_Relative)
+        EndIf
       EndIf
       
       RenderWorld()

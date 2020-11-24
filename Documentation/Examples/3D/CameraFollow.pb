@@ -57,7 +57,7 @@ If InitEngine3D()
     ;- Ninja
     NinjaMesh = LoadMesh(#PB_Any, "ninja.mesh")
     Ninja = CreateEntity(#PB_Any, MeshID(NinjaMesh), MaterialID(NinjaRed), 500, 0, 400)
-    ScaleEntity(Ninja, 0.5, 0.5, 0.5)  
+    ScaleEntity(Ninja, 0.5, 0.5, 0.5)
     StartEntityAnimation(Ninja, "Walk")
     
     ; SkyBox
@@ -96,9 +96,9 @@ If InitEngine3D()
       EndIf
       
       MoveEntity(Ninja, KeyX, 0, KeyY, #PB_Local)
-      Yaw(EntityID(Ninja), MouseX, #PB_World)         
+      Yaw(EntityID(Ninja), MouseX, #PB_World)
       CameraFollow(Camera, EntityID(Ninja), 0, EntityY(Ninja) + 80, 160, 0.1, 0.1, #False)
-      CameraLookAt(Camera, EntityX(Ninja), 40, EntityZ(Ninja))      
+      CameraLookAt(Camera, EntityX(Ninja), 40, EntityZ(Ninja))
       
       RenderWorld()
       Screen3DStats()

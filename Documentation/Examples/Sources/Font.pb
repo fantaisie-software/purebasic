@@ -31,7 +31,7 @@ If CreateImage(0, 450, 130)
     DrawingFont(FontID(1))                  ; Use the Arial font
     DrawText(10,40, "Font: Arial - Size: 24", RGB(0, 0, 0))     ; Print our text
 
-    StopDrawing()                           ; This is absolutely needed when the drawing operations are 
+    StopDrawing()                           ; This is absolutely needed when the drawing operations are
   EndIf                                     ; finished !!! Never forget it !
 
 EndIf

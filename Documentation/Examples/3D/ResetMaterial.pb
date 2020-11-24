@@ -7,7 +7,7 @@
 ;
 ; ------------------------------------------------------------
 ;
-;Use [F5] 
+;Use [F5]
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
@@ -25,7 +25,7 @@ If InitEngine3D(#PB_Engine3D_DebugOutput)
   InitMouse()
   
   If Screen3DRequester()
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"  , #PB_3DArchive_FileSystem)   
+    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"  , #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
     Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts" , #PB_3DArchive_FileSystem)
     Parse3DScripts()
@@ -37,17 +37,17 @@ If InitEngine3D(#PB_Engine3D_DebugOutput)
     ;- Mesh
     LoadMesh(0, "robot.mesh")
     
-    ;- Entity 
+    ;- Entity
     CreateEntity(0, MeshID(0), MaterialID(0), -60, 0, 0)
     CreateEntity(1, MeshID(0), MaterialID(0))
     CreateEntity(2, MeshID(0), MaterialID(0),  60, 0, 0)
     
-    ;This one will keep his material 
+    ;This one will keep his material
     CreateEntity(3, MeshID(0), #PB_Material_None, -60, 0, 60)
 
     ; Camera
     ;
-    CreateCamera(0, 0, 0, 100, 100) 
+    CreateCamera(0, 0, 0, 100, 100)
     MoveCamera(0, 150, 90, 150, #PB_Absolute)
     CameraLookAt(0, 0, 50, 0)
     CameraBackColor(0, RGB(0, 0, 30))
@@ -71,11 +71,11 @@ If InitEngine3D(#PB_Engine3D_DebugOutput)
       
       RenderWorld()
       FlipBuffers()
-    Until KeyboardPushed(#PB_Key_Escape)   
+    Until KeyboardPushed(#PB_Key_Escape)
     
-    End 
+    End
     
-  EndIf 
+  EndIf
 Else
   MessageRequester("Error","Can't initialize engine3D")
 EndIf
@@ -84,11 +84,11 @@ Procedure CreateMaterialScript(texture.s)
   If CreateFile(0, #PB_Compiler_Home + "examples/3d/Data/Scripts/ResetMaterial.material")
     Restore Material
     Line$ = "material TestReset"
-    While Line$<> "END" 
+    While Line$<> "END"
       If FindString(Line$, "MyTextureHere", 1)
         Line$ = ReplaceString(Line$, "MyTextureHere", texture)
-      EndIf  
-      WriteStringN(0, Line$) 
+      EndIf
+      WriteStringN(0, Line$)
       Read.s Line$
     Wend
     CloseFile(0)
@@ -98,7 +98,7 @@ Procedure CreateMaterialScript(texture.s)
 EndProcedure
 
 DataSection
-Material: 
+Material:
 Data.s "{"
 Data.s "	technique"
 Data.s "	{"

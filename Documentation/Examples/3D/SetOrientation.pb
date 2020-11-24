@@ -1,7 +1,7 @@
 ;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - SetOrientation 
+;   PureBasic - SetOrientation
 ;
 ;    (c) Fantaisie Software
 ;
@@ -64,7 +64,7 @@ If InitEngine3D()
           KeyY = #CameraSpeed
         Else
           KeyY = 0
-        EndIf    
+        EndIf
         
       EndIf
       

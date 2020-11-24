@@ -12,14 +12,14 @@
 #Speed = 60
 
 Enumeration
-  #MainWindow 
+  #MainWindow
   #Editor
 EndEnumeration
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 Define.f KeyX, KeyY, MouseX, MouseY, RatioX, RatioY
-Define DebugBody 
+Define DebugBody
 
 If InitEngine3D()
   
@@ -92,7 +92,7 @@ If InitEngine3D()
         
         InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left))
         
-        If MouseButton(#PB_MouseButton_Left) 
+        If MouseButton(#PB_MouseButton_Left)
           If Clic = 0
             If PointPick(0, MouseX(), MouseY())
               Clic = 1
@@ -111,17 +111,17 @@ If InitEngine3D()
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed 
+          KeyX = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed 
+          KeyX = #CameraSpeed
         Else
           KeyX = 0
         EndIf
         
         If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed 
+          KeyY = -#CameraSpeed
         ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed 
+          KeyY = #CameraSpeed
         Else
           KeyY = 0
         EndIf

@@ -19,7 +19,7 @@ EndIf
 If OpenScreen(800, 600, 32, "Sprite")
 
   ; Load our 16 bit sprite (which is a 24 bit picture in fact, as BMP doesn't support 16 bit format)
-  ; 
+  ;
   LoadSprite(0, #PB_Compiler_Home + "examples/sources/Data/PureBasic.bmp")
   CopySprite(0, 1, 0)
   

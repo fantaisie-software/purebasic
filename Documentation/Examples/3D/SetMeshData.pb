@@ -28,7 +28,7 @@ WaveAmplitude=3
 
 Define.f KeyX, KeyY, MouseX, MouseY
 
-Global Dim MeshData.PB_MeshVertex(0) 
+Global Dim MeshData.PB_MeshVertex(0)
 
 Declare UpdateMatrix()
 Declare CreateMatrix()
@@ -46,7 +46,7 @@ If InitEngine3D()
  
   If Screen3DRequester()
    
-    ;-Material 
+    ;-Material
     GetScriptMaterial(#Material, "Scene/GroundBlend")
     MaterialCullingMode(#Material, 1)
    
@@ -94,7 +94,7 @@ If InitEngine3D()
         MouseY = -(MouseDeltaY()/10)
       EndIf
       MoveCamera  (#Camera, KeyX, 0, KeyY)
-      RotateCamera(#Camera,  MouseY, MouseX, 0, #PB_Relative) 
+      RotateCamera(#Camera,  MouseY, MouseX, 0, #PB_Relative)
      
       ; Waves
       UpdateMatrix()
@@ -137,7 +137,7 @@ Procedure DrawMatrix()
       MeshFace(P2, P3, P4)
     Next
   Next
-EndProcedure 
+EndProcedure
 
 Procedure CreateMatrix()
  

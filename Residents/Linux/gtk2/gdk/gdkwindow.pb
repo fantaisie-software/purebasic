@@ -150,7 +150,7 @@ Structure GdkWindowObject
   depth.b
   resize_count.b
   PB_Align(1, 1, 2)
-  state.l  ; GdkWindowState enum 
+  state.l  ; GdkWindowState enum
   packed_flags.l
   ; guffaw_gravity:1
   ; input_only:1

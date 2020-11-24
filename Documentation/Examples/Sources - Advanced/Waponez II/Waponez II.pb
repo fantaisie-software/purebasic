@@ -74,7 +74,7 @@ Global NewList Aliens.Alien()
 
 
 Procedure AddBullet(Sprite, x, y, SpeedX, SpeedY)
-  AddElement(Bullet())           
+  AddElement(Bullet())
   Bullet()\x      = x
   Bullet()\y      = y
   Bullet()\Width  = SpriteWidth(Sprite)
@@ -197,7 +197,7 @@ If OpenScreen(640, 480, 16, "Waponez II")
         ScrollY = 0
       EndIf
       
-    Else  
+    Else
           ; The screen is no more active but our game multitask friendly, so we stop the sounds and
           ; add a delay to not eat the whole CPU. Smart hey ? :)
           
@@ -288,7 +288,7 @@ MovePlayers:
   
     
   If KeyboardPushed(#PB_Key_Space) Or Fire
-    If BulletDelay = 0 
+    If BulletDelay = 0
       If DeadDelay < 100
         BulletDelay = 10
 
@@ -366,11 +366,11 @@ NewAlienWave:
 
       Aliens()\x = Random(600)
       Aliens()\y = -32
-      Aliens()\Width  = SpriteWidth(10) 
+      Aliens()\Width  = SpriteWidth(10)
       Aliens()\Height = SpriteHeight(10)
       Aliens()\Speed  = 3
-      Aliens()\StartImage  = 10 
-      Aliens()\EndImage    = 15 
+      Aliens()\StartImage  = 10
+      Aliens()\EndImage    = 15
       Aliens()\ImageDelay  =  4
       Aliens()\NextImageDelay = Aliens()\ImageDelay
       Aliens()\ActualImage = 10
@@ -489,4 +489,4 @@ DisplayExplosions:
     EndIf
   Wend
 
-Return  
+Return
