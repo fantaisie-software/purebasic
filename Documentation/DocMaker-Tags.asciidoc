@@ -1,0 +1,456 @@
+:revnumber: 5.00
+:revdate: 2020-11-25
+:doctitle: PureBasic DocMaker v{revnumber}
+:author: Fantaisie Software
+:email: support@purebasic.com
+:lang: en
+// Misc Settings:
+:toc!:
+:experimental:
+:icons: font
+:linkattrs:
+:reproducible:
+
+
+// IMPORTANT!!!
+// *****************************************************************************
+// If a table cell ends with a block element, always add after the block a line
+// containing the `{empty}` attribute, before the next `|` cell delimiter.
+// This prevents block elements from overflowing into the cell below, when using
+// Asciidoctor's default HTML template.
+// *****************************************************************************
+
+
+Documentation of all available tags:
+
+[cols="<m,<a"]
+[%autowidth.stretch]
+|===============================================================================
+| Tag | Description
+
+// ~~~>>> Table Entries Begin Here >>>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Bold |
+
+Will print the text in "" following the tag in bold letters.
+
+.Example
+`@Bold "Text which should be printed bold"` will give *Text which should be printed bold*
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Code +
+{nbsp}@EndCode |
+
+Mark the start and the end of a code example section.
+Text between these tags will be displayed in fixed-font size, even linebreaks are not needed.
+
+IMPORTANT: `@Code`/`@EndCode` must always start at row 1 in text files!
+
+.Example
+--------------
+@Code
+  Debug "Test"
+@EndCode
+--------------
+
+.Parameter description
+No parameters.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @CommandList | {empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @ConstantColor | {empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Deprecated |
+
+This generates a box with a warning text in it: "`This function is deprecated etc., etc.`".
+
+.Example
+Deprecated functions should be documented like i did with `CountList()`:
+
+* The `@Description` tag followed immediately by the `@Deprecated` tag, followed by a short description on how to replace this command (with a direct link if possible).
+* No further description of parameters or return value to make clear that it should no longer be used.
+* The `@Deprecated` tag will generate a warning about the deprecated state of the function, and it will mark the function as deprecated in the libraries command overview.
+
+.Parameter description
+I noticed that very new users have a problem when encountering a "`This function is deprecated`" warning from the compiler with code they got from the forum etc. (most often with `CreateGadgetList()`, as the VD still generates that!).
+
+The problem the new users are having is that there is no mention of these in the documentation (except maybe the history) so they do not know what to do with them at all.
+The docs should have an entry for such commands, so the page comes up if you press kbd:[F1] on them, or search in the index.
+No information at all is not good IMHO.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Description |
+
+General description of the command (it's purpose, etc.).
+For further details also `@Remarks` can be used.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Example |
+
+Generate a bold "Example" and indentation.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @ExampleFile |
+
+Add a link to a PureBasic .pb code example in the "Examples" directory.
+After the tag the target OS must be added.
+
+.Example
+-----------------------------
+@ExampleFile All 2DDrawing.pb
+-----------------------------
+
+.Parameter description
+* 1^st^ parameter = target OS (see `@OS` tag for possible words)
+* 2^nd^ parameter = name of the .pb file
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @FastLink |
+
+Shorter form of the normal `@Link` tag, when linking to PB commands.
+
+Instead of `@Link "GetGadgetState" "GetGadgetState()"` the `@FastLink "GetGadgetState()"` can be used.
+
+.Example
+----------------------------
+@FastLink "GetGadgetState()"
+----------------------------
+{empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @FixedFont +
+{nbsp}@EndFixedFont |
+
+.Example
+----------------------------------
+@FixedFont
+  @ConstantColor "#PB_OnError_EAX"
+@EndFixedFont
+----------------------------------
+{empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @FormatIf +
+{nbsp}@FormatElse +
+{nbsp}@FormatEndif |
+
+Conditional block, depending on the generated output format.
+More than one format can be specified.
+
+.Example
+-------------------------------------------------
+@FormatIf HTML WEBSITE
+  ; Here a block only for HTML and WEBSITE output
+@FormatEndif
+-------------------------------------------------
+{empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Function | {empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @FunctionColor | {empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Green |
+
+Will print the text in "" following the tag in green letters.
+
+NOTE: added with pre v4 release of DocMaker!
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Image |
+
+Add a preview picture to the description.
+
+.Example
+------------------------------
+@Image openwindowedscreen2.png
+------------------------------
+
+.Parameter description
+File name of the image (must be saved in "…\HelpPictures" path).
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Indent +
+{nbsp}@EndIndent |
+
+Indent a block of text.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @InternetLink |
+
+Create a link to an internet site
+
+.Example
+---------------------------------------------------------------------------
+@InternetLink "http://www.purebasic.com/OgreSources.zip" "OgreSources.zip".
+---------------------------------------------------------------------------
+{empty}
+
+.Parameter description
+* 1^st^ parameter = real "`\http://...`" link.
+* 2^nd^ parameter = link name to be displayed.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Keyword |
+
+The following word or text section (inside "") will be displayed in bold+green letters, just like keywords in the PB IDE.
+
+.Example
+-----------------
+@Keyword "Global"
+-----------------
+{empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Library |
+
+Indicate the name of the library, normally placed at the start of a docmaker file.
+
+.Example
+------------------------------------
+@Library "onerror" "OnError Library"
+------------------------------------
+
+.Parameter description
+* `"onerror"` = name of the library.
+* `"OnError Library"` = name of the link to be displayed in the manual.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @LibraryLink |
+
+Create a link to the main page of a PB library.
+
+.Example
+-----------------------------------------
+@LibraryLink "console" "console programs"
+-----------------------------------------
+
+.Parameter description
+* `"console"` = name of library.
+* `"console program"` = name of the link to be displayed in the manual.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @LineBreak |
+
+Forces a linebreak in description text.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Link |
+
+Create a link to another PB command.
+
+.Example
+-------------------------
+@Link "Random" "Random()"
+
+@Link "Misc/RGB" "RGB()"
+-------------------------
+
+.Parameter description
+* `"Random"` = name of the command (in same library).
+* `"Random()"` = name of the link to be displayed in the manual.
+* `"Misc/RGB"` = name of the command (here in another library).
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @MainGuideLink | {empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @NoParameters |
+
+Generates "`Parameters: This function has no parameters`".
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @NoReturnvalue |
+
+Generates "`Return Value: This function does not return a value`" for functions without a return value.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Orange |
+
+Will print the text in "" following the tag in orange letters.
+
+NOTE: added with pre v4 release of DocMaker!
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @OS +
+{nbsp}@ElseOS +
+{nbsp}@EndOS |
+
+After this tag the "`Operation System`" (OS) can be specified.
+The text following after this tag will only be displayed, if the help is compiled for this OS.
+
+.Example
+-----------
+@OS Windows
+-----------
+
+.Parameter description
+You can currently use after `@OS`:
+
+* `Windows`
+* `Linux`
+* `AmigaOS`
+* `MacOS X`
+* `All`
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Overview | {empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Parameter |
+
+Start description for a parameter (show the parameter name in bold/indented)
+
+.Example
+--------------------------
+@Parameter <parametername>
+--------------------------
+{empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Parameters |
+
+Optional: Start the parameter list ... this will be done automatically, if one or more `@Parameter` tags are used.
+So it's mainly for compatibility with older docs.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Red |
+
+Will print the text in "" following the tag in red letters.
+
+NOTE: added with pre v4 release of DocMaker!
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @ReferenceLink |
+
+Create a link to a help page in the reference chapter (not in a library).
+
+.Example
+----------------------------------
+@ReferenceLink "newlist" "NewList"
+----------------------------------
+
+.Parameter description
+* `"newlist"` = name of the page in reference chapter.
+* `"NewList"` = name of the link to be displayed in the manual.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Remarks |
+
+Additional information/tips about using the command.
+(general description about the command will be written at the `@Description` tag!)
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @ReturnValue |
+
+Description of the return value.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Section |
+
+Put a bold headline into the description and indent the following block of text (until a new `@Section` is reached).
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @SeeAlso |
+
+Provides one or more link(s) to other related command(s).
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @SupportedOS |
+
+
+.Parameter description
+You can currently use after `@SupportedOS`:
+
+* `Windows`
+* `Linux`
+* `AmigaOS`
+* `MacOS X`
+* `All`
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Syntax |
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @Title | {empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @UnderLine |
+
+Will underline the text specified in "" after the tag.
+
+
+`@Underline "F"ile` will give +++<u>F</u>+++ile.
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @@__CommandName__ |
+
+Faster command link, with built-in check to ensure the command exists.
+
+.Example
+-------------
+@@CloseWindow
+-------------
+{empty}
+{empty}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+| @#__ConstantName__ |
+
+Faster constant coloring.
+
+.Example
+---------------------
+@#PB_Window_Invisible
+---------------------
+{empty}
+
+|===============================================================================
+
+// EOF //
