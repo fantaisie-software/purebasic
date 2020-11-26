@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="author" content="Fantaisie Software">
+<link rel="icon" type="image/png" href="https://www.purebasic.com/img/favicon.png">
 <title>PureBasic Documentation Guidelines</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -444,22 +445,31 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Fantaisie Software</span><br>
 <span id="email" class="email"><a href="mailto:support@purebasic.com">support@purebasic.com</a></span><br>
-<span id="revdate">2020-11-25</span>
+<span id="revdate">2020-11-26</span>
+<br><span id="revremark">DocMaker v5.00</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_commands_descriptions">1. Commands Descriptions</a></li>
 <li><a href="#_taking_screenshots">2. Taking Screenshots</a></li>
-<li><a href="#_commands_code_samples">3. Commands Code Samples</a></li>
+<li><a href="#_code_conventions">3. Code Conventions</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
+<!--
+*******************************************************************************
+* DON'T EDIT THIS DOCUMENT!!! This HTML document was generated from AsciiDoc. *
+* If you want to contribute changes, submit them to its AsciiDoc source at:   *
+*                                                                             *
+* https://github.com/fantaisie-software/purebasic/tree/master/Documentation/  *
+*******************************************************************************
+-->
 <div class="paragraph">
-<p>How to write proper documentation for PureBasic.</p>
+<p>Some guidelines on how to write proper documentation for PureBasic.</p>
 </div>
 </div>
 </div>
@@ -476,13 +486,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="openblock">
 <div class="content">
 <div class="paragraph">
-<p>Links to other manual sections can be made this way:</p>
+<p>Links to other sections of the manual can be easily created via the following tags:</p>
 </div>
 <div class="hdlist">
 <table>
 <tr>
 <td class="hdlist1">
-<code>@@FunctionName</code>                        
+<code>@@<em>FunctionName</em></code>                      
 </td>
 <td class="hdlist2">
 <p>&#8201;&#8212;&#8201;direct link to the function (any library).</p>
@@ -509,7 +519,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <code>@LibraryLink "Image" "text"</code>           
 </td>
 <td class="hdlist2">
-<p>&#8201;&#8212;&#8201;link to the start site of a library.</p>
+<p>&#8201;&#8212;&#8201;link to the main page of a library.</p>
 </td>
 </tr>
 <tr>
@@ -523,8 +533,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </table>
 </div>
 <div class="paragraph">
-<p>Use the <code>@@FunctionName</code> notation wherever a link of the form <code>@Link "Library/Function" "Function()"</code> is not needed, because it is the shortest form.
-Use the general <code>@Link</code> form only to make links with a different text than the function name.</p>
+<p>Use the <code>@@<em>FunctionName</em></code> notation wherever a link in the form <code>@Link "Library/Function" "Function()"</code> is not necessary, because the former is shorter.
+Use the general <code>@Link</code> form only to create links with a different text than the function name.</p>
 </div>
 <div class="paragraph">
 <p>The following link form is still supported for compatibility, but should no longer be used:</p>
@@ -576,7 +586,7 @@ Multiple parameters can be described in one go if they belong together, but ever
 </div>
 </li>
 <li>
-<p>Mark optional parameters with <code>@OptionalParameter</code> line, and describe in the text what happens if they are left out:</p>
+<p>Mark optional parameters with an <code>@OptionalParameter</code> line, and in the text describe what happens if they are omitted:</p>
 <div class="listingblock">
 <div class="content">
 <pre>@OptionalParameter "Depth"
@@ -586,15 +596,15 @@ Multiple parameters can be described in one go if they belong together, but ever
 </li>
 <li>
 <p>Keep the <code>@Description</code> section short.
-If there is much extra stuff to say, put it in a <code>@Remarks</code> section after <strong>parameters</strong> and <strong>return value</strong>.</p>
+If there is extra stuff to say, put it in a <code>@Remarks</code> section after <strong>parameters</strong> and <strong>return value</strong>.</p>
 </li>
 <li>
 <p>Stuff to put in the <code>@SeeAlso</code> section:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Commands that are mentioned/linked elsewhere in the page for the current command (for example in the <code>@Remarks</code> section).
-This is for fast access after the user read the whole page.</p>
+<p>Commands that are mentioned/linked elsewhere in the current command page (e.g. in the <code>@Remarks</code> section).
+This grants quick access to user who have read the whole page.</p>
 </li>
 <li>
 <p>Commands that must be used to create a parameter for the current command:</p>
@@ -623,8 +633,8 @@ This is for fast access after the user read the whole page.</p>
 </div>
 </li>
 <li>
-<p>Other commands that the user might want to know about in relation to this command.
-Do not overdo this though: don&#8217;t list all commands of the current library, etc.</p>
+<p>Other commands that users might want to know about in relation to the current command.
+Don&#8217;t overdo it though: don&#8217;t list all commands of the current library, etc.</p>
 </li>
 </ul>
 </div>
@@ -663,7 +673,7 @@ Do not overdo this though: don&#8217;t list all commands of the current library,
 </ul>
 </div>
 <div class="paragraph">
-<p>Images should be accompanied by the code that produced the image/screenshot as an example, so the user can recreate the same image and experiment with the code.</p>
+<p>Images should be accompanied by the code that produced the image/screenshot, as an example so that users can recreate the same image and experiment with the code.</p>
 </div>
 </li>
 </ol>
@@ -674,8 +684,8 @@ Do not overdo this though: don&#8217;t list all commands of the current library,
 <h2 id="_taking_screenshots"><a class="anchor" href="#_taking_screenshots"></a>2. Taking Screenshots</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Screenshots should be taken with the same tool and consistent settings.
-Unless things are OS specific, they should be taken under Windows 7.</p>
+<p>Screenshots should be taken with the same tool and using consistent settings.
+Unless dealing with OS specific things, they should be taken under Windows&#160;7.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -695,7 +705,7 @@ Enter <code>#66B2FF</code> as the color to use.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>To take screenshots of parts of a window, the &#8220;Use interactive window capture mode&#8221; is fine.</p>
+<p>To take screenshots of specific parts of a window, the &#8220;Use interactive window capture mode&#8221; is fine.</p>
 </div>
 </div>
 </div>
@@ -704,22 +714,23 @@ Enter <code>#66B2FF</code> as the color to use.</p>
 <p>Use Windows 7 with the default theme.</p>
 </li>
 <li>
-<p>Use a PB setup with the default preferences settings and color theme.</p>
+<p>Ensure your PureBasic IDE is setup with the default preferences settings and color theme.</p>
 </li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_commands_code_samples"><a class="anchor" href="#_commands_code_samples"></a>3. Commands Code Samples</h2>
+<h2 id="_code_conventions"><a class="anchor" href="#_code_conventions"></a>3. Code Conventions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>About the sample codes in the commands (the goal is to have consistent looking code sources).</p>
+<p>Some code styles conventions for the code examples for the various commands.
+The goal is to provide end users with consistent looking code sources.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Always uses a 2 spaces indent, also before the first statement:</p>
+<p>Always uses a 2 spaces indent, even before the first statement:</p>
 <div class="listingblock">
 <div class="content">
 <pre>@Code
@@ -732,7 +743,7 @@ Enter <code>#66B2FF</code> as the color to use.</p>
 </div>
 </li>
 <li>
-<p>Don&#8217;t use type if not absolutely necessary (no <code>.w</code>, <code>.b</code>) as it makes the code a bit harder to read.</p>
+<p>Don&#8217;t use types (e.g. <code>.w</code>, <code>.b</code>) unless absolutely necessary, because they make the code slightly harder to read.</p>
 <div class="openblock">
 <div class="content">
 <div class="listingblock">
@@ -755,7 +766,7 @@ Enter <code>#66B2FF</code> as the color to use.</p>
 </div>
 </li>
 <li>
-<p>Put spaces between parameters, operations, constants, etc.</p>
+<p>Insert separating spaces between parameters, operators, constants, etc.</p>
 <div class="openblock">
 <div class="content">
 <div class="listingblock">
@@ -779,7 +790,7 @@ Enter <code>#66B2FF</code> as the color to use.</p>
 </li>
 <li>
 <p>Don&#8217;t use the <code>End</code>, <code>FreeXXX()</code>, <code>CloseXXX()</code> statement unless necessary.
-It makes the code clearer:</p>
+The code is clearer without them.</p>
 <div class="openblock">
 <div class="content">
 <div class="listingblock">
@@ -814,7 +825,9 @@ It makes the code clearer:</p>
 </div>
 </li>
 <li>
-<p>The variables, etc. should be mixed-case, without <code>_</code>:</p>
+<p>Variables names and other identifiers should be in
+<a href="https://en.wikipedia.org/wiki/Camel_case" title="Wikipedia page on Camel Case" target="_blank" rel="noopener">camel case</a>, not in
+<a href="https://en.wikipedia.org/wiki/Snake_case" title="Wikipedia page on Camel Case" target="_blank" rel="noopener">snake case</a>&#8201;&#8212;&#8201;i.e. mixed-case, without <code>_</code>:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -830,6 +843,31 @@ It makes the code clearer:</p>
 <p>Add more here if needed :p !</p>
 </li>
 </ol>
+</div>
+<hr>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Feel free to contribute to this document by submitting your own fixes and improvements via <a href="https://git-scm.com/" title="Visit Git website" target="_blank" rel="noopener">Git</a> and creating a pull request on the <strong>PureBasic Open Source</strong> repository:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/fantaisie-software/purebasic/tree/master/Documentation/" title="View the PureBasic Documentation sources on GitHub" target="_blank" rel="noopener">https://github.com/fantaisie-software/purebasic</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If have any questions, remarks or suggestions, just write to: &lt;<a href="mailto:support@purebasic.com">support@purebasic.com</a>&gt;.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
