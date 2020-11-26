@@ -1,7 +1,11 @@
 = PureBasic Documentation Guidelines
 Fantaisie Software <support@purebasic.com>
-:revdate: 2020-11-25
+:revdate: 2020-11-26
+:DocMakerVer: 5.00
+:revremark: DocMaker v{DocMakerVer}
+:revnumber!:
 :lang: en
+:favicon: https://www.purebasic.com/img/favicon.png
 // TOC Settings:
 :toclevels: 5
 :toc: left
@@ -18,11 +22,31 @@ Fantaisie Software <support@purebasic.com>
 :reproducible:
 :sectanchors:
 
+ifdef::backend-html5[]
+++++
+<!--
+*******************************************************************************
+* DON'T EDIT THIS DOCUMENT!!! This HTML document was generated from AsciiDoc. *
+* If you want to contribute changes, submit them to its AsciiDoc source at:   *
+*                                                                             *
+* https://github.com/fantaisie-software/purebasic/tree/master/Documentation/  *
+*******************************************************************************
+-->
+++++
+endif::[]
+
+// IMPORTANT!!!
+// *****************************************************************************
+// If you edit the contents of this document, don't forget to update also the
+// :revdate: line accordingly (3rd line), so end users will always know which
+// version of the document they're dealing with, and which one is the latest.
+// *****************************************************************************
+
 // *****************************************************************************
 // *                            Document Preamble                              *
 // *****************************************************************************
 
-How to write proper documentation for PureBasic.
+Some guidelines on how to write proper documentation for PureBasic.
 
 
 == Commands Descriptions
@@ -33,17 +57,17 @@ About writing proper descriptions in the commands.
 . Include references to other commands (same library and other libraries, and to the reference chapters as well) whenever this makes sense.
 +
 --
-Links to other manual sections can be made this way:
+Links to other sections of the manual can be easily created via the following tags:
 
 [horizontal]
-`@@FunctionName`                        :: -- direct link to the function (any library).
+`@@_FunctionName_`                      :: -- direct link to the function (any library).
 `@Link "DrawImage" "DrawImage()"`       :: -- direct link to a command (same library).
 `@Link "Image/DrawImage" "DrawImage()"` :: -- direct link to a command (other library).
-`@LibraryLink "Image" "text"`           :: -- link to the start site of a library.
+`@LibraryLink "Image" "text"`           :: -- link to the main page of a library.
 `@ReferenceLink "colortable" "text"`    :: -- link to a chapter in reference guide.
 
-Use the `@@FunctionName` notation wherever a link of the form `@Link "Library/Function" "Function()"` is not needed, because it is the shortest form.
-Use the general `@Link` form only to make links with a different text than the function name.
+Use the `@@_FunctionName_` notation wherever a link in the form `@Link "Library/Function" "Function()"` is not necessary, because the former is shorter.
+Use the general `@Link` form only to create links with a different text than the function name.
 
 The following link form is still supported for compatibility, but should no longer be used:
 
@@ -74,7 +98,7 @@ Multiple parameters can be described in one go if they belong together, but ever
   Specifies the location and dimensions of the box to draw.
 -----------------------------------------------------------
 
-. Mark optional parameters with `@OptionalParameter` line, and describe in the text what happens if they are left out:
+. Mark optional parameters with an `@OptionalParameter` line, and in the text describe what happens if they are omitted:
 +
 ---------------------------------------------------------------------------
 @OptionalParameter "Depth"
@@ -82,12 +106,12 @@ Multiple parameters can be described in one go if they belong together, but ever
 ---------------------------------------------------------------------------
 
 . Keep the `@Description` section short.
-If there is much extra stuff to say, put it in a `@Remarks` section after *parameters* and *return value*.
+If there is extra stuff to say, put it in a `@Remarks` section after *parameters* and *return value*.
 
 . Stuff to put in the `@SeeAlso` section:
 
-** Commands that are mentioned/linked elsewhere in the page for the current command (for example in the `@Remarks` section).
-This is for fast access after the user read the whole page.
+** Commands that are mentioned/linked elsewhere in the current command page (e.g. in the `@Remarks` section).
+This grants quick access to user who have read the whole page.
 
 ** Commands that must be used to create a parameter for the current command:
 +
@@ -107,8 +131,8 @@ This is for fast access after the user read the whole page.
 `Line()`  -> `LineXY()` +
 `Print()` -> `PrintN()`
 
-** Other commands that the user might want to know about in relation to this command.
-Do not overdo this though: don't list all commands of the current library, etc.
+** Other commands that users might want to know about in relation to the current command.
+Don't overdo it though: don't list all commands of the current library, etc.
 
 . Order of sections for a function:
 ** `@Function`
@@ -122,14 +146,28 @@ Do not overdo this though: don't list all commands of the current library, etc.
 ** `@SupportedOS`
 
 +
-Images should be accompanied by the code that produced the image/screenshot as an example, so the user can recreate the same image and experiment with the code.
+Images should be accompanied by the code that produced the image/screenshot, as an example so that users can recreate the same image and experiment with the code.
+
+// @TODO: Provide an example of the code that produced the image/screenshot.
+//        Find one in the PB Help sources (I couldn't find any so far).
+//
+//     -- It's not clear what "code" the above is referring to, i.e. whether
+//        it's PB code that procedurally generates an image (e.g. a chart) or
+//        if it's referring to some automated script to generate screenshots
+//        (images and screenshots are quite different beasts altogether).
+//
+//     -- Separating images from screenshots in the above sentence, and
+//        specifying what's expected for each type, independently, would improve
+//        readability and understanding.
+//
+//     -- Should also provide an example for each type (image/screenshot).
 
 
 
 == Taking Screenshots
 
-Screenshots should be taken with the same tool and consistent settings.
-Unless things are OS specific, they should be taken under Windows 7.
+Screenshots should be taken with the same tool and using consistent settings.
+Unless dealing with OS specific things, they should be taken under Windows{nbsp}7.
 
 
 . Use https://getgreenshot.org[_Greenshot_^,title="Go to Greenshot website"]
@@ -140,21 +178,22 @@ To take screenshots of whole windows:
 * In the preferences of _Greenshot_, under menu:Capture[Window capture], select "`Window capture mode`" and "`Use custom color`".
 Enter `#66B2FF` as the color to use.
 
-To take screenshots of parts of a window, the "`Use interactive window capture mode`" is fine.
+To take screenshots of specific parts of a window, the "`Use interactive window capture mode`" is fine.
 --
 
 . Use Windows 7 with the default theme.
 
-. Use a PB setup with the default preferences settings and color theme.
+. Ensure your PureBasic IDE is setup with the default preferences settings and color theme.
 
 
 
-== Commands Code Samples
+== Code Conventions
 
-About the sample codes in the commands (the goal is to have consistent looking code sources).
+Some code styles conventions for the code examples for the various commands.
+The goal is to provide end users with consistent looking code sources.
 
 
-. Always uses a 2 spaces indent, also before the first statement:
+. Always uses a 2 spaces indent, even before the first statement:
 +
 -------------
 @Code
@@ -165,7 +204,7 @@ About the sample codes in the commands (the goal is to have consistent looking c
 @EndCode
 -------------
 
-. Don't use type if not absolutely necessary (no `.w`, `.b`) as it makes the code a bit harder to read.
+. Don't use types (e.g. `.w`, `.b`) unless absolutely necessary, because they make the code slightly harder to read.
 +
 --
 .OK:
@@ -183,7 +222,7 @@ About the sample codes in the commands (the goal is to have consistent looking c
 -------------------
 --
 
-. Put spaces between parameters, operations, constants, etc.
+. Insert separating spaces between parameters, operators, constants, etc.
 +
 --
 .OK:
@@ -202,7 +241,7 @@ About the sample codes in the commands (the goal is to have consistent looking c
 --
 
 . Don't use the `End`, `FreeXXX()`, `CloseXXX()` statement unless necessary.
-It makes the code clearer:
+The code is clearer without them.
 +
 --
 .OK:
@@ -232,11 +271,26 @@ It makes the code clearer:
 ------------------------------------------------------------------------------
 --
 
-. The variables, etc. should be mixed-case, without `_`:
+. Variables names and other identifiers should be in
+https://en.wikipedia.org/wiki/Camel_case[camel case^,title="Wikipedia page on Camel Case"], not in
+https://en.wikipedia.org/wiki/Snake_case[snake case^,title="Wikipedia page on Camel Case"]
+-- i.e. mixed-case, without `_`:
 
 ** _[.green]#OK:#_ `MyVariable`
 ** _[.red]#Wrong:#_ `my_variable`, `My_Variable`
 
 . Add more here if needed :p !
+
+'''
+
+[NOTE]
+============================
+Feel free to contribute to this document by submitting your own fixes and improvements via https://git-scm.com/[Git^,title="Visit Git website"] and creating a pull request on the *PureBasic Open Source* repository:
+
+* https://github.com/fantaisie-software/purebasic/tree/master/Documentation/[https://github.com/fantaisie-software/purebasic^,title="View the PureBasic Documentation sources on GitHub"]
+
+If have any questions, remarks or suggestions, just write to: <support@purebasic.com>.
+============================
+
 
 // EOF //

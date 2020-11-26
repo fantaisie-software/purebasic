@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Fantaisie Software</span><br>
 <span id="email" class="email"><a href="mailto:support@purebasic.com">support@purebasic.com</a></span><br>
-<span id="revdate">2020-11-25</span>
+<span id="revdate">2020-11-26</span>
 <br><span id="revremark">DocMaker v5.00</span>
 </div>
 <div id="toc" class="toc2">
@@ -461,11 +461,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<!--
+*******************************************************************************
+* DON'T EDIT THIS DOCUMENT!!! This HTML document was generated from AsciiDoc. *
+* If you want to contribute changes, submit them to its AsciiDoc source at:   *
+*                                                                             *
+* https://github.com/fantaisie-software/purebasic/tree/master/Documentation/  *
+*******************************************************************************
+-->
+<div class="paragraph">
+<p>How to use DocMaker v5.00 to build the official PureBasic and SpiderBasic documentation, or to document your custom libraries and modules.</p>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you want to build help files following the PureBasic format, you should use the DocMaker tool as it will lift all the hard work from you.</p>
+<p>If you want to build help files following the PureBasic format, you should use the DocMaker tool as it will lift all the hard work from you.
+<code>DocMaker.exe</code> ships with the PureBasic SDK for Windows, and can be found inside the <code>SDK/DocMaker/</code> subfolder of the PureBasic installation.</p>
 </div>
 <div class="paragraph">
 <p>DocMaker currently supports the following output formats:</p>
@@ -508,6 +524,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="paragraph">
 <p>To create help files for your own libraries, modules or applications, you&#8217;ll have to write a template file with some special tags, which DocMaker will convert to the target output format.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+For more info on DocMaker&#8217;s tags, see the <a href="DocMaker-Tags.html"><em>PureBasic DocMaker Tags Guide</em></a>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -666,17 +694,28 @@ The <code>/HTMLWORKSHOP</code> parameter has to be specified when this option is
 <h2 id="_windows_chm_help"><a class="anchor" href="#_windows_chm_help"></a>4. Windows CHM Help</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Precompiled CHM Help files are perfect because they are compact (compressed) and contain the needed tool to do indexing and searching in the help file.
+<p>Compiled
+<a href="https://en.wikipedia.org/wiki/Microsoft_Compiled_HTML_Help" title="Wikipedia page on Microsoft Compiled HTML Help" target="_blank" rel="noopener">CHM Help</a>
+files are perfect because they are compact (compressed) and support indexing and searching the help file.
 Nevertheless creating these files is a long and rather boring process.
 Don&#8217;t worry, DocMaker will handle all the work for you (almost :-).</p>
 </div>
 <div class="paragraph">
-<p>First, get the HTML Help Workshop from the Microsoft web site (free tool).
-Then launch DocMaker.
+<p>First, download and install the <strong>HTML Help Workshop</strong> from Microsoft website (free tool):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.microsoft.com/en-us/download/details.aspx?id=21138" class="bare">https://www.microsoft.com/en-us/download/details.aspx?id=21138</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Then launch DocMaker.
 A <code>PureBasic Help.hhp</code> file will be created.</p>
 </div>
 <div class="paragraph">
-<p>If you have installed HTML Help Workshop correctly, it will be launched when double clicking on the <code>PureBasic Help.hhp</code> file.
+<p>If you have installed <strong>HTML Help Workshop</strong> correctly, it will be launched when double clicking on the <code>PureBasic Help.hhp</code> file.
 Then look for the <strong>compile</strong> button in the toolbar and go for it&#8201;&#8212;&#8201;you&#8217;ve just compiled your first CHM Help file, with index and menus!</p>
 </div>
 </div>
@@ -685,7 +724,7 @@ Then look for the <strong>compile</strong> button in the toolbar and go for it&#
 <h2 id="_purebasic_documentation"><a class="anchor" href="#_purebasic_documentation"></a>5. PureBasic Documentation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The source files of the entire PureBasic documentation (in three different languages) are now available on GitHub, and can be recompiled using DocMaker, without any problems:</p>
+<p>The source files of the entire PureBasic Documentation (in three different languages) are now available on GitHub, and can be recompiled using DocMaker, without any problems:</p>
 </div>
 <div class="ulist">
 <ul>

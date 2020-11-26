@@ -1,6 +1,6 @@
 = PureBasic DocMaker Help
 Fantaisie Software <support@purebasic.com>
-:revdate: 2020-11-25
+:revdate: 2020-11-26
 :DocMakerVer: 5.00
 :revremark: DocMaker v{DocMakerVer}
 :revnumber!:
@@ -19,6 +19,19 @@ Fantaisie Software <support@purebasic.com>
 :reproducible:
 :sectanchors:
 
+ifdef::backend-html5[]
+++++
+<!--
+*******************************************************************************
+* DON'T EDIT THIS DOCUMENT!!! This HTML document was generated from AsciiDoc. *
+* If you want to contribute changes, submit them to its AsciiDoc source at:   *
+*                                                                             *
+* https://github.com/fantaisie-software/purebasic/tree/master/Documentation/  *
+*******************************************************************************
+-->
+++++
+endif::[]
+
 // IMPORTANT!!!
 // *****************************************************************************
 // If you edit the contents of this document, don't forget to update also the
@@ -26,10 +39,17 @@ Fantaisie Software <support@purebasic.com>
 // version of the document they're dealing with, and which one is the latest.
 // *****************************************************************************
 
+// *****************************************************************************
+// *                            Document Preamble                              *
+// *****************************************************************************
+
+How to use DocMaker v{DocMakerVer} to build the official PureBasic and SpiderBasic documentation, or to document your custom libraries and modules.
+
 [Preface]
 == Introduction
 
 If you want to build help files following the PureBasic format, you should use the DocMaker tool as it will lift all the hard work from you.
+`DocMaker.exe` ships with the PureBasic SDK for Windows, and can be found inside the `SDK/DocMaker/` subfolder of the PureBasic installation.
 
 DocMaker currently supports the following output formats:
 
@@ -43,6 +63,7 @@ DocMaker currently supports the following output formats:
 
 To create help files for your own libraries, modules or applications, you'll have to write a template file with some special tags, which DocMaker will convert to the target output format.
 
+TIP: For more info on DocMaker's tags, see the <<DocMaker-Tags#,_PureBasic DocMaker Tags Guide_>>.
 
 
 == Installing DocMaker
@@ -101,22 +122,27 @@ The `/HTMLWORKSHOP` parameter has to be specified when this option is used.
 
 == Windows CHM Help
 
-Precompiled CHM Help files are perfect because they are compact (compressed) and contain the needed tool to do indexing and searching in the help file.
+Compiled
+https://en.wikipedia.org/wiki/Microsoft_Compiled_HTML_Help[CHM Help^,title="Wikipedia page on Microsoft Compiled HTML Help"]
+files are perfect because they are compact (compressed) and support indexing and searching the help file.
 Nevertheless creating these files is a long and rather boring process.
 Don't worry, DocMaker will handle all the work for you (almost :-).
 
-First, get the HTML Help Workshop from the Microsoft web site (free tool).
+First, download and install the *HTML Help Workshop* from Microsoft website (free tool):
+
+- https://www.microsoft.com/en-us/download/details.aspx?id=21138
+
 Then launch DocMaker.
 A `PureBasic Help.hhp` file will be created.
 
-If you have installed HTML Help Workshop correctly, it will be launched when double clicking on the `PureBasic Help.hhp` file.
+If you have installed *HTML Help Workshop* correctly, it will be launched when double clicking on the `PureBasic Help.hhp` file.
 Then look for the *compile* button in the toolbar and go for it -- you've just compiled your first CHM Help file, with index and menus!
 
 
 
 == PureBasic Documentation
 
-The source files of the entire PureBasic documentation (in three different languages) are now available on GitHub, and can be recompiled using DocMaker, without any problems:
+The source files of the entire PureBasic Documentation (in three different languages) are now available on GitHub, and can be recompiled using DocMaker, without any problems:
 
 * https://github.com/fantaisie-software/purebasic/tree/master/Documentation/[https://github.com/fantaisie-software/purebasic^,title="View the PureBasic Documentation sources on GitHub"]
 
