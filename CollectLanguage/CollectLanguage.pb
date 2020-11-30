@@ -1,14 +1,14 @@
-; === Copyright Notice ===
+﻿; === Copyright Notice ===
 ;
 ;
 ;                   PureBasic source code file
 ;
 ;
 ; This file is part of the PureBasic Software package. It may not
-; be distributed or published in source code or binary form without 
-; the expressed permission by Fantaisie Software. 
+; be distributed or published in source code or binary form without
+; the expressed permission by Fantaisie Software.
 ;
-; By contributing modifications or additions to this file, you grant 
+; By contributing modifications or additions to this file, you grant
 ; Fantaisie Software the rights to use, modify and distribute your
 ; work in the PureBasic package.
 ;
@@ -62,7 +62,7 @@ XIncludeFile "../PureBasicIDE/Language.pb"
 
 
 Procedure WriteCatalogFile(Filename$, AppID$, Comment$ = "PureBasic Language file")
-
+  
   Debug "Writing file: " + Output$ + Filename$
   
   NewList Group.s()
@@ -79,12 +79,12 @@ Procedure WriteCatalogFile(Filename$, AppID$, Comment$ = "PureBasic Language fil
     If found = 0
       AddElement(Group())
       Group() = Key()\Group$
-    EndIf    
-  Next Key()  
+    EndIf
+  Next Key()
   
   Debug "Total groups: " + Str(ListSize(Group()))
   Debug "Total keys  : " + Str(ListSize(Key()))
-
+  
   If CreateFile(0, Output$ + Filename$)
     WriteStringN(0, ";")
     WriteStringN(0, "; " + Comment$)
@@ -93,7 +93,7 @@ Procedure WriteCatalogFile(Filename$, AppID$, Comment$ = "PureBasic Language fil
     WriteStringN(0, "[LanguageInfo]")
     WriteStringN(0, "Application = " + AppID$)
     WriteStringN(0, "Language    = English")
-;    WriteStringN(0, "LastUpdated = " + FormatDate("%mm/%dd/%yyyy", Date())) ; It mess with git, we can use the commit date anyway
+    ;    WriteStringN(0, "LastUpdated = " + FormatDate("%mm/%dd/%yyyy", Date())) ; It mess with git, we can use the commit date anyway
     WriteStringN(0, "Creator     = PureBasic Team")
     WriteStringN(0, "Email       = Support@PureBasic.com")
     WriteStringN(0, "")
@@ -113,18 +113,18 @@ Procedure WriteCatalogFile(Filename$, AppID$, Comment$ = "PureBasic Language fil
         If LCase(Key()\Group$) = LCase(Group()) And Trim(Key()\Key$) <> ""
           WriteStringN(0, LSet(Key()\Key$, length, " ") + " = " + Key()\Value$)
         EndIf
-      Next Key()      
-
+      Next Key()
+      
       WriteStringN(0, "")
     Next Group()
     
-    CloseFile(0)  
+    CloseFile(0)
   Else
     MessageRequester("Error", "Cannot write catalog file: " + Chr(13) + Output$)
     End #EXIT_FAILURE
     
-  EndIf  
-
+  EndIf
+  
 EndProcedure
 
 Procedure.s UnEscape(String$)
@@ -143,30 +143,30 @@ EndProcedure
 
 ; NOTE: The format must match exactly
 ;
-; static PB_Language LanguageTable = 
+; static PB_Language LanguageTable =
 ; {
 ;   "Libraries.catalog",
-;   "PB_Libraries",  
+;   "PB_Libraries",
 ;   "Common",
 ;   0,
 ;   {
-;     "NoStartDrawing",   "StopDrawing() must be called after a successful StartDrawing().",      
+;     "NoStartDrawing",   "StopDrawing() must be called after a successful StartDrawing().",
 ;     "", "",
 ;   }
 ; };
 
 Procedure SearchLibraryFile(File$)
-
+  
   If ReadFile(0, File$)
     While Eof(0) = 0
       Line$ = ReadString(0)
       
-      If FindString(Line$, "static PB_Language LanguageTable", 1) <> 0              
+      If FindString(Line$, "static PB_Language LanguageTable", 1) <> 0
         ReadString(0) ; {
         ReadString(0) ; catalog file
         ReadString(0) ; app id
         Group$ = ReadString(0)
-        ReadString(0) ; 0, 
+        ReadString(0) ; 0,
         ReadString(0) ; {
         
         Group$ = Trim(StringField(Group$, 2, Chr(34)))
@@ -198,21 +198,21 @@ Procedure SearchLibraryFile(File$)
             Key()\Value$ = Value$
           EndIf
         Until Eof(0) Or Key$ = ""
-      
+        
         Break
-      EndIf      
+      EndIf
     Wend
-  
+    
     CloseFile(0)
   Else
     MessageRequester("Error", "Cannot read file: " + Chr(13) + File$)
-    End #EXIT_FAILURE    
+    End #EXIT_FAILURE
   EndIf
-
+  
 EndProcedure
 
 Procedure SearchLibraries(ID, Path$)
-
+  
   ; Find further directories
   ;
   If ExamineDirectory(ID, Path$, "*")
@@ -221,10 +221,10 @@ Procedure SearchLibraries(ID, Path$)
         Name$ = DirectoryEntryName(ID)
         If Name$ <> "." And Name$ <> ".."
           SearchLibraries(ID+1, Path$+"/"+Name$)
-        EndIf      
+        EndIf
       EndIf
     Wend
-  
+    
     FinishDirectory(ID)
   EndIf
   
@@ -237,10 +237,10 @@ Procedure SearchLibraries(ID, Path$)
         SearchLibraryFile(Path$+"/"+Name$)
       EndIf
     Wend
-  
+    
     FinishDirectory(ID)
   EndIf
-
+  
 EndProcedure
 
 ClearList(Key())
@@ -254,7 +254,7 @@ WriteCatalogFile("Libraries.catalog", "PB_Libraries", "PureBasic Debugger - Libr
 ClearList(Key())
 
 ; NOTE:
-;   The DebuggerLanguage.c is expected to only contain the PB_DEBUGGER_LanguageTable 
+;   The DebuggerLanguage.c is expected to only contain the PB_DEBUGGER_LanguageTable
 ;   array, with one entry per line max, else this fails.
 ;
 If ReadFile(0, Libraries$ + "/Debugger/DebuggerLanguage.c")
@@ -277,7 +277,7 @@ If ReadFile(0, Libraries$ + "/Debugger/DebuggerLanguage.c")
       
       If UCase(Key$) = "_GROUP_"
         Group$ = Value$
-      
+        
       ElseIf UCase(Key$) = "_END_"
         Break
         
@@ -285,11 +285,11 @@ If ReadFile(0, Libraries$ + "/Debugger/DebuggerLanguage.c")
         AddElement(Key())
         Key()\Group$ = Group$
         Key()\Key$   = Key$
-        Key()\Value$ = Value$      
+        Key()\Value$ = Value$
         
       EndIf
-    
-    EndIf    
+      
+    EndIf
   Wend
 Else
   MessageRequester("Error", "Cannot read input file: " + Chr(13) + Libraries$ + "/Debugger/DebuggerLanguage.c")
@@ -325,7 +325,7 @@ Repeat
     Key()\Key$   = Name$
     Key()\Value$ = String$
     
-  EndIf  
+  EndIf
 ForEver
 
 WriteCatalogFile("Editor.catalog", "PB_IDE", "PureBasic IDE language file")
