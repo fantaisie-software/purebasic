@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# "asciidoc2html.sh"  by Tristano Ajmone                     v1.0.0 | 2020/11/25
+# "asciidoc2html.sh"  by Tristano Ajmone                     v2.0.0 | 2020/12/07
 #-------------------------------------------------------------------------------
 # Convert to HTML all AsciiDoc files with extension "*.asciidoc" inside current
 # folder. Requires Asciidoctor (Ruby) to be installed:
@@ -26,7 +26,8 @@ fi
 # ===============
 # Convert to HTML
 # ===============
-# Every document in current folder with extension "*.asciidoc":
+# Every document in current folder with extension "*.asciidoc".
+# Currently, all HTML docs will be generated in the "../Documentation" folder.
 
 for doc in *.asciidoc ; do
 	asciidoctor \
@@ -40,5 +41,6 @@ for doc in *.asciidoc ; do
 		-a sectanchors \
 		-a toc=left \
 		-a reproducible \
+		-D ../Documentation \
 			$doc
 done
