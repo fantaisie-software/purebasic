@@ -7,8 +7,8 @@ PureBasic has established rules which never change. These are:
 @FormatIf HTML
 <!-- There is a bug somewhere, and i had to do this work around. Mesa -->
 <blockquote>
-  Comments are marked by <b><font color="#006666">;</font></b>. All text entered 
-  after <b><font color="#006666">;</font></b> is ignored by the compiler.
+  Comments are marked by the semicolon character <b><font color="#006666">';'</font></b>.
+  All text entered after the semicolon, and up to the end of the line, is ignored by the compiler.
 </blockquote>
 @FormatEndIf
 
@@ -26,7 +26,7 @@ PureBasic has established rules which never change. These are:
 
   All @Bold "keywords" are used for general things inside PureBasic, like creating arrays (Dim) or lists (NewList),
   or controlling the program flow (If : Else : EndIf). They are not followed by the brackets '()', which are
-  typically for PureBasic @Bold "functions".
+  typically used for PureBasic @Bold "functions".
 
   @Example
   
@@ -48,7 +48,7 @@ PureBasic has established rules which never change. These are:
 
 @Section Functions
 
-  All @Bold "functions" must be followed by a ( or else it will not be considered as a function, (even for null parameter functions).
+  Every @Bold "function" must be followed by an opening round bracket '(' character, otherwise it will not be considered a function (this applies also to functions without parameters).
 
   @Example
   
@@ -67,7 +67,8 @@ PureBasic has established rules which never change. These are:
 
 @Section Constants
 
-  All constants are preceded by @Keyword #. They can only be declared once in the source and always keep their predefined values. 
+  All constants are preceded by the hash @Keyword "#" character.
+  They can only be declared once in the source and always keep their predefined values. 
   (The compiler replaces all constant names with their corresponding values when compiling the executable.)
 
   @Example
@@ -83,8 +84,9 @@ PureBasic has established rules which never change. These are:
 
 @Section Literal strings
 
-  Literal strings are declared using the " character. Escape sequences are supported using the ~
-  character before the literal string. The allowed escape sequences are:
+  Literal strings are declared using the " character.
+  Escape sequences are supported by prepending the ~ character to the literal string.
+  The supported escape sequences are:
 @FixedFont
   \a: alarm           @Keyword Chr(7)
   \b: backspace       @Keyword Chr(8)
@@ -116,9 +118,9 @@ PureBasic has established rules which never change. These are:
 
 @Section Labels
 
-  All labels must be followed by a @Keyword : (colon). Label names may not contain any operators (+,-,...) as 
-  well special characters (ß,ä,ö,ü,...). When defined in a @ReferenceLink "procedures" "procedure", the label will be only available in this
-  procedure.
+  All labels must be followed by a colon @Keyword ":" character.
+  Label names may not contain any operators (+,-,...) or special characters (ß,ä,ö,ü,...).
+  Labels defined inside a @ReferenceLink "procedures" "procedure" will be available only in that procedure.
 
   @Example
   
@@ -132,8 +134,8 @@ PureBasic has established rules which never change. These are:
 
 @Section Modules
 
-  @ReferenceLink "module" "Modules" use a :: (double colon) when referencing a module name. Be careful not to confuse
-  these with single label colons.
+  @ReferenceLink "module" "Modules" use a :: (double colon) when referencing a module name.
+  Be careful not to confuse these with the single colon used by labels.
 
   @Example
   
@@ -147,10 +149,12 @@ PureBasic has established rules which never change. These are:
 
 @Section Expressions
 
-  An expression is something which can be evaluated. An expression can mix any variables, constants, 
-  or functions, of the same type. When you use numbers in an expression, you can add the Keyword $ sign 
-  in front of it to mean a hexadecimal number, or a Keyword % sign to mean a binary number. 
-  Without either of those, the number will be treated as decimal. Strings must be enclosed by inverted commas.
+  An expression is something which can be evaluated.
+  An expression can mix any variables, constants, or functions, of the same type.
+  When using numbers in an expression, you can prefix them with the @Keyword "$" symbol
+  to indicate a hexadecimal number, or with the @Keyword "%" symbol to indicate a binary number. 
+  Without either of those, the number will be treated as decimal.
+  Strings must be enclosed within straight double quotes.
 
   @Example
   
@@ -188,8 +192,8 @@ PureBasic has established rules which never change. These are:
 
 @Section Line continuation
 
-  If the line contains a big expression, it can be split on several lines. A split line has to end
-  with one of the following operator: plus (+), comma (,), or (|), And, Or, Xor.
+  Long expressions can be split across several lines.
+  A split line has to end with one of the following operators: plus (+), comma (,), or (|), And, Or, Xor.
 
   @Example
 
@@ -231,9 +235,8 @@ PureBasic has established rules which never change. These are:
   - @Bold "Return values" of commands are always @ReferenceLink "variables" "Integer" if no other type
     is specified in the Syntax line of the command description.
   @LineBreak
-  - In the PureBasic documentation are used the terms "commands" and "functions" as well - this is one and the same,
-    independently of a return-value. If a value is returned by the command or function, you can read in the
-    related command description.
+  - In the PureBasic documentation, the terms "commands" and "functions" are used interchangeably, regardless of whether the function returns a value or not.
+    To learn whether value is returned by a specific command or function, consult the description provided in the command's documentation.
   @LineBreak
 
 @FormatIf HTML
