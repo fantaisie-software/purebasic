@@ -1,0 +1,67 @@
+@Title If : Else : EndIf
+
+@Syntax
+
+  @Keyword If <Ausdruck>
+    ...
+  [@Keyword ElseIf <Ausdruck>]
+    ...
+  [@Keyword Else]
+    ...
+  @Keyword EndIf
+
+@Description
+
+  Die @Keyword "If" Struktur wird zu Testzwecken benutzt und/oder um die Richtung der weiteren
+  Programmausführung zu ändern - abhängig davon, ob der Test 'wahr' oder 'falsch' ergibt. Das
+  optionale @Keyword "ElseIf" kann für eine beliebige Anzahl zusätzlicher Tests verwendet werden,
+  wenn der vorherige Test nicht 'wahr' ergab. Das optionale @Keyword "Else" wird verwendet,
+  um einen Teil des Programm-Codes auszuführen, wenn alle vorherigen Tests 'falsch' ergaben.
+  Eine beliebige Zahl von @Keyword 'If' Strukturen kann ineinander verschachtelt werden.
+  @LineBreak
+  @LineBreak
+  "Kurzschluss"-Auswertungen (englisch "short-circuit evaluations") für Ausdrücke werden
+  unterstützt - was bedeutet, dass 'wenn' ein Test 'wahr' ist, alle danach folgenden Tests
+  ignoriert und nicht einmal ablaufen werden.
+
+  @Example Basis-Test
+
+@Code
+  a = 5
+  If a = 10 
+    Debug "a = 10"
+  Else
+    Debug "a <> 10"
+  EndIf    
+@EndCode
+
+  @Example Mehrfach-Test
+
+@Code
+  b = 15
+  If a = 10 And b >= 10 Or c = 20     
+    If b = 15
+      Debug "b = 15"
+    Else       
+      Debug "Andere Möglichkeit"
+    EndIf   
+  Else     
+    Debug "Test-Fehler"
+  EndIf  
+@EndCode
+
+  @Example Kurzschluss-Test
+
+@Code
+  Procedure DisplayHello()
+    Debug "Hallo"
+    ProcedureReturn 1
+  EndProcedure
+
+  a = 10
+  If a = 10 Or DisplayHello() = 1 ; a ist gleich mit 10, somit wird der zweite Test vollständig ignoriert
+    Debug "Test-Erfolg"
+  Else     
+    Debug "Test-Fehler"
+  EndIf  
+@EndCode

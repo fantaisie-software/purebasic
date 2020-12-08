@@ -1,0 +1,1386 @@
+;
+;     File library documentation
+;
+;      (c) 2012 - Fantaisie Software
+;
+
+@Library File
+
+@Overview
+  Files in SpiderBasic can be either locals (result of @@OpenFileRequester), or remote. Both are handled
+  the same way, in a binary form, allowing any type of file manipulation.
+
+@CommandList
+
+@ExampleFile All File.sb
+@ExampleFile All FilePersistent.sb
+@ExampleFile All FileStreaming.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseFile(#File)
+
+@Description
+  Close the specified file. 
+
+@Parameter "#File"
+  The file to close. If @#PB_All is specified, all the remaining files are closed.
+
+@NoReturnValue
+
+@Remarks
+  Once the file is closed, it may not be used anymore. 
+@LineBreak
+@LineBreak
+  All remaining opened files are automatically closed when the program ends.
+@LineBreak
+@LineBreak
+  For an example see the @@ReadFile or the @@CreateFile functions.
+
+@SeeAlso
+  @@CreateFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateFile(#File, Filename$, Callback [, Flags])
+
+@Description
+  Create an empty file. In SpiderBasic, the file are always created in memory. To be saved,
+  the file needs to be exported using @@ExportFile or use the @#PB_LocalStorage flag.
+   The file will automatically grows when write commands are used.
+
+@Parameter "#File"
+  The number to identify the new file. @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@Parameter "Filename$"
+  The filename to the new file. It wille be used when using @@ExportFile
+
+@Parameter "Callback"
+  The callback to be called when data has been saved to the file. It has to use the following syntax:
+
+@Code
+  Procedure Callback(Status, Filename$, File, SizeRead)
+    Select Status
+      Case #PB_Status_Saved
+        ; File correctly saved
+        
+      Case #PB_Status_Error
+        ; File saving has failed
+    EndSelect
+  EndProcedure
+@EndCode
+
+@OptionalParameter "Flags"
+  It can be a combination (using the '| operand) of the following values (affects the @@WriteString, @@WriteStringN, 
+  @@ReadString, @@ReadCharacter and @@WriteCharacter behaviour):
+@FixedFont
+  @#PB_Ascii  : all read/write string operation will use ascii if not specified otherwise.
+  @#PB_UTF8   : all read/write string operation will use UTF-8 if not specified otherwise (default).
+  @#PB_Unicode: all read/write string operation will use Unicode if not specified otherwise.
+  @#PB_LocalStorage: will save the file on client side using its filename when @@CloseFile is called. This file
+                  could be opened again in anothe session in the same browser later, but it can be wiped if the
+                  user clear its local cache. It's also domain related, so if the application domain name change,
+                  the files won't be accessible anymore.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the file was created successfully and zero if there was an error.
+  If @#PB_Any was used as the #File parameter then the new generated number is returned on success.
+
+@Example
+@Code
+  Procedure Callback(Status, Filename$, File, SizeRead)
+    Select Status
+      Case #PB_Status_Saved
+        ; File correctly saved
+        
+      Case #PB_Status_Error
+        ; File saving has failed
+    EndSelect
+  EndProcedure
+
+  If CreateFile(0, "Text.txt", @Callback())      ; we create a new text file
+    For a=1 To 10
+      WriteStringN(0, "Line "+Str(a))  ; we write 10 lines (each with 'end of line' character)
+    Next
+    For a=1 To 10
+      WriteString(0, "String"+Str(a))  ; and now we add 10 more strings on the same line (because there is no 'end of line' character)
+    Next
+    
+    ExportFile(0, "text/plain")
+    CloseFile(0)                      
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReadFile, @@CloseFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Eof(#File)
+
+@Description
+  Checks whether the end of the file has been reached.
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns nonzero if the read-pointer is at the end of the file or zero if not.
+
+@Remarks
+  For an example see the @@ReadFile function.
+
+@SeeAlso
+  @@Lof, @@Loc, @@CreateFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExportFile(#File, MimeType$ [, Flags])
+
+@Description
+  Exports the specified file to the user through a download. The file filename will be used
+  as download name.
+
+@Parameter "#File"
+  The file to export.
+
+@Parameter "MimeType$"
+  The mimetype to use for the file. Common types are:
+@FixedFont
+  text/plain
+  text/html
+  application/octet-stream
+  application/json
+  image/jpeg
+  image/png
+@EndFixedFont
+  Full list can be found here: @InternetLink "http://www.freeformatter.com/mime-types-list.html" "http://www.freeformatter.com/mime-types-list.html".
+
+@OptionalParameter "Flags"
+  Can be one the following value:
+@FixedFont
+  @#PB_LocalFile: the file will be exported as a download (default).
+  @#PB_GoogleDriveFile: the file will be exported on google drive. @@UseGoogleDrive should have been successfully called before using this flag. 
+                       If the flag @#PB_GoogleDriveFile has been specified with OpenFile() or CreateFile(),
+                       the file on goole drive will be updated. If the flag wasn't specified, then a new file will be created using the specified filename.
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  If CreateFile(0, "SomeText.txt")
+    WriteStringN(0, "First line")
+    WriteStringN(0, "Second line")
+    
+    ExportFile(0, "text/plain")
+    
+    CloseFile(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExportFileMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Buffer = ExportFileMemory(#File)
+
+@Description
+  Exports the full content of the specified file to a new memory buffer.
+
+@Parameter "#File"
+  The file to export.
+
+@ReturnValue
+  A new memory buffer internally allocated with @@AllocateMemory containing the file content. 
+  Once the buffer is no more needed @@FreeMemory must be called to release the memory.
+
+@Example
+@Code
+  If CreateFile(0, "SomeText.txt")
+    WriteStringN(0, "First line")
+    WriteStringN(0, "Second line")
+    
+    *Buffer = ExportFileMemory(0)
+    Debug PeekS(*Buffer, 0, 3) ; Will display 'Fir'
+    
+    CloseFile(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExportFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FetchData(#File, Size)
+
+@Description
+  Load data from the file, without modifying the file pointer position. This is only useful when reading
+  local file with @#PB_File_Streaming flag.
+
+@Parameter "#File"
+  The file to use.
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure ReadCallback(Status, Filename$, File, Size)
+    If Status = #PB_Status_Loaded
+      Debug "File: " + Filename$ + " - Size read: " + Size + " bytes"
+      
+      ; Do something with the data
+      FileSeek(0, Size, #PB_Relative) ; Skip the read data and continue the streaming
+      
+      If Not Eof(0)
+        FetchData(0, 1024) ; Read the next 1024 bytes of the file
+      EndIf
+      
+    ElseIf Status = #PB_Status_Error
+      Debug "Error when loading the file: " + Filename$
+    EndIf
+  EndProcedure
+  
+  Procedure OpenFileRequesterCallback()
+    If NextSelectedFile()
+      ReadFile(0, SelectedFileID(), @ReadCallback(), #PB_LocalFile | #PB_File_Streaming)
+      FetchData(0, 1024) ; Read the first 1024 bytes of the file
+    EndIf
+  EndProcedure
+  
+  Procedure ChooseFileEvent()
+    OpenFileRequester("*.txt", @OpenFileRequesterCallback())
+  EndProcedure
+  
+  OpenWindow(0, 0, 0, 300, 50, "Read file example", #PB_Window_ScreenCentered)
+    ButtonGadget(0, 10, 10, 280, 30, "Choose a file...")
+    
+  BindGadgetEvent(0, @ChooseFileEvent())
+@EndCode
+
+@SeeAlso
+  @@CreateFile, @@CloseFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = FileID(#File)
+
+@Description
+  Returns the Operating system handle of the file.
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns the file handle.
+
+@SeeAlso
+  @@CreateFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FileSeek(#File, NewPosition.q [, Mode])
+
+@Description
+  Change the read/write pointer position in the file. 
+
+@Parameter "#File"
+  The file to use.
+
+@Parameter "NewPosition.q"
+  The new position relative to the beginning of the file in bytes.
+
+@OptionalParameter "Mode"
+  The seek mode. It can be one of the following values:
+@FixedFont
+  @#PB_Absolute: the 'NewPosition' parameter will be an absolute position with the file (default).
+  @#PB_Relative: the 'NewPosition' parameter will be an offset (positive or negative) relative to the current file pointer position.
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  If CreateFile(0, "Text.txt")         ; we create a new text file
+    WriteStringN(0, "Hello world")
+    
+    ; Rollback to the start of "world"
+    FileSeek(0, 6, #PB_Absolute)
+    Debug ReadString(0) ; will print "world"
+    
+    CloseFile(0)                       
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Loc, @@Lof
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsFile(#File)
+
+@Description
+  Tests if the given file number is a valid and correctly initialized file. 
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns nonzero if #File is a valid file and zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a file is ready to use.
+
+@SeeAlso
+  @@CreateFile, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = FileProgress(#File)
+
+@Description
+  Return the current progress (in percent) of the current file loading. It is only available with @@ReadFile
+  without the @#PB_File_Streaming flag. Can be useful to monitor big files loading.
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Return the current progress (in percent) of the current file loading.
+
+@Example
+@Code
+  Procedure ReadCallback(Status, Filename$, File, Size)
+    If Status = #PB_Status_Loaded
+      Debug "File: " + Filename$ + " - Size read: " + Size + " bytes"
+      
+    ElseIf Status = #PB_Status_Progress
+      Debug "Loading file: " + Filename$ + " (" + FileProgress(0) + "%)"
+
+    ElseIf Status = #PB_Status_Error
+      Debug "Error when loading the file: " + Filename$
+    EndIf
+  EndProcedure
+  
+  ReadFile(0, "yourbigfilehere", @ReadCallback())
+@EndCode
+
+@SeeAlso
+  @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Position.q = Loc(#File)
+
+@Description
+  Returns the read/write pointer position in the file.
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns the file pointer position relative to the start of the file in bytes.
+
+@Example
+@Code
+  If CreateFile(0, "Text.txt")         ; we create a new text file
+    WriteString(0, "Hello world")
+    
+    Debug Loc(0) ; will print '11'
+    
+    FileSeek(0, 2, #PB_Absolute) ; Change the file pointer position
+    Debug Loc(0) ; will print '2'
+    
+    CloseFile(0)                       
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FileSeek, @@Lof
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Length.q = Lof(#File)
+
+@Description
+  Returns the length of the specified file.
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns the length of the file in bytes.
+
+@Example
+@Code
+  If CreateFile(0, "Text.txt")         ; we create a new text file
+    WriteString(0, "Hello world")
+    
+    Debug "Length of file: " + Lof(0) ; will print '11'
+    CloseFile(0)                       
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Loc, @@FileSeek
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.a = ReadAsciiCharacter(#File)
+
+@Description
+  Read an ascii character (1 byte) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read ascii character or zero if there was an error.
+
+@SeeAlso
+  @@WriteAsciiCharacter, @@ReadUnicodeCharacter, @@ReadCharacter, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.b = ReadByte(#File)
+
+@Description
+  Read a byte (1 byte) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read byte or zero if there was an error.
+
+@SeeAlso
+  @@WriteByte, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.c = ReadCharacter(#File [, Format])
+
+@Description
+
+  Read a character from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@OptionalParameter "Format"
+  The format of the character to read. It can be one of the following value:
+@FixedFont
+  @#PB_Ascii  : 1 byte character.
+  @#PB_Unicode: 2 bytes character UTF-16.
+  @#PB_UTF8   : multi-bytes character (default).
+@EndFixedFont  
+
+@ReturnValue
+  Returns the read character or zero if there was an error.
+
+@SeeAlso
+  @@WriteCharacter, @@ReadAsciiCharacter, @@ReadUnicodeCharacter, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.d = ReadDouble(#File)
+
+@Description
+  Read a double (8 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read double value or zero if there was an error.
+
+@SeeAlso
+  @@WriteDouble, @@ReadFile
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenFile(#File, Filename$, Callback [, Flags])
+
+@Description
+  Open an existing file for read and write operations.
+
+@Parameter "#File"
+  The number to identify the file. @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@Parameter "Filename$"
+   The name of the file to read. The filename can be an URL or a local file (if the flag @#PB_LocalFile is set).
+
+@Parameter "Callback"
+  The callback to be called when data has been read from the file. If the flag @#PB_File_Streaming is not
+  set, the callback will be called only when the whole file has been read. It has to use the following syntax:
+
+@Code
+  Procedure Callback(Status, Filename$, File, SizeRead)
+    Select Status
+      Case #PB_Status_Loaded
+        ; File correctly loaded
+        
+      Case #PB_Status_Saved
+        ; File correctly saved
+        
+      Case #PB_Status_Progress
+        ; File loading in progress, use FileProgress() get the current progress
+
+      Case #PB_Status_Error
+        ; File loading has failed
+    EndSelect
+  EndProcedure
+@EndCode
+
+@OptionalParameter "Flags"
+  It can be a combination (using the '| operand) of the following values:
+@FixedFont
+  @#PB_LocalFile: the filename is a local file. @@OpenFileRequester needs to be called before
+                 to have access to local files. @@SelectedFileID is used to get the
+                 local file identifier.
+  @#PB_GoogleDriveFile: the filename is a google drive file identifier. @@OpenFileRequester can be called with the @#PB_Requester_GoogleDrive
+                 flag, @@SelectedFileID() can be used to get the google drive file identifier.
+  @#PB_File_Streaming: the file will be read chunk by chunk, using @@FetchData. It is only 
+                      supported with @#PB_LocalFile. 
+  @#PB_LocalStorage: will save the file on client side using its filename when @@CloseFile is called. This file
+                  could be opened again in anothe session in the same browser later, but it can be wiped if the
+                  user clear its local cache. It's also domain related, so if the application domain name change,
+                  the files won't be accessible anymore.
+
+@EndFixedFont
+  combined with one of the following values (the following flags affect the @@ReadString and @@ReadCharacter behaviour):
+@FixedFont
+  @#PB_Ascii  : all read/write string operation will use ascii if not specified otherwise.
+  @#PB_UTF8   : all read/write string operation will use UTF-8 if not specified otherwise (default).
+  @#PB_Unicode: all read/write string operation will use Unicode if not specified otherwise.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the file was opened successfully and zero if there was an error.
+  If @#PB_Any was used as the #File parameter then the new generated number is returned on success.
+
+@Remarks
+  To create a new and empty file, use the @@CreateFile function.
+
+@Example
+@Code
+
+  Procedure ReadCallback(Status, Filename$, File, Size)
+    If Status = #PB_Status_Loaded
+      Debug "File: " + Filename$ + " - Size: " + Size + " bytes"
+      
+      ; Read the first 10 lines
+      ;
+      While Eof(0) = 0 And NbLine < 10 
+        Debug ReadString(0)            
+        NbLine+1
+      Wend
+      
+      CloseFile(0)
+      
+    ElseIf Status = #PB_Status_Error
+      Debug "Error when loading the file: " + Filename$
+    EndIf
+  EndProcedure
+  
+  Procedure OpenFileRequesterCallback()
+    If NextSelectedFile()
+      OpenFile(0, SelectedFileID(), @ReadCallback(), #PB_LocalFile)
+    EndIf
+  EndProcedure
+  
+  Procedure ChooseFileEvent()
+    OpenFileRequester("*.txt", @OpenFileRequesterCallback())
+  EndProcedure
+  
+  OpenWindow(0, 0, 0, 300, 50, "Read file example", #PB_Window_ScreenCentered)
+    ButtonGadget(0, 10, 10, 280, 30, "Choose a file...")
+    
+  BindGadgetEvent(0, @ChooseFileEvent())
+
+@EndCode
+
+@SeeAlso
+  @@CreateFile, @@ReadFile, @@CloseFile, @@FileProgress
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReadFile(#File, Filename$, Callback [, Flags])
+
+@Description
+  Open an existing file for read-only operations.
+
+@Parameter "#File"
+  The number to identify the file. @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@Parameter "Filename$"
+   The name of the file to read. The filename can be an URL or a local file (if the flag @#PB_LocalFile is set).
+
+@Parameter "Callback"
+  The callback to be called when data has been read from the file. If the flag @#PB_File_Streaming is not
+  set, the callback will be called only when the whole file has been read. It has to use the following syntax:
+
+@Code
+  Procedure Callback(Status, Filename$, File, SizeRead)
+    Select Status
+      Case #PB_Status_Loaded
+        ; File correctly loaded
+        
+      Case #PB_Status_Progress
+        ; File loading in progress, use FileProgress() get the current progress
+
+      Case #PB_Status_Error
+        ; File loading has failed
+    EndSelect
+  EndProcedure
+@EndCode
+
+@OptionalParameter "Flags"
+  It can be a combination (using the '| operand) of the following values:
+@FixedFont
+  @#PB_LocalFile: the filename is a local file. @@OpenFileRequester needs to be called before
+                 to have access to local files. @@SelectedFileID is used to get the
+                 local file identifier.
+  @#PB_GoogleDriveFile: the filename is a google drive file identifier. @@OpenFileRequester() can be called with the @#PB_Requester_GoogleDrive
+                 flag, @@SelectedFileID() can be used to get the google drive file identifier.
+  @#PB_File_Streaming: the file will be read chunk by chunk, using @@FetchData. It is only 
+                      supported with @#PB_LocalFile. 
+  @#PB_LocalStorage: will read the file on client side using its filename. The file should have been created before with @@OpenFile or @@CreateFile
+                  using the  @#PB_LocalStorage flag.
+@EndFixedFont
+  combined with one of the following values (the following flags affect the @@ReadString and @@ReadCharacter behaviour):
+@FixedFont
+  @#PB_Ascii  : all read string operation will use ascii if not specified otherwise.
+  @#PB_UTF8   : all read string operation will use UTF-8 if not specified otherwise (default).
+  @#PB_Unicode: all read string operation will use Unicode if not specified otherwise.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the file was opened successfully and zero if there was an error.
+  If @#PB_Any was used as the #File parameter then the new generated number is returned on success.
+
+@Remarks
+  To create a new and empty file, use the @@CreateFile function.
+
+@Example
+@Code
+
+  Procedure ReadCallback(Status, Filename$, File, Size)
+    If Status = #PB_Status_Loaded
+      Debug "File: " + Filename$ + " - Size: " + Size + " bytes"
+      
+      ; Read the first 10 lines
+      ;
+      While Eof(0) = 0 And NbLine < 10 
+        Debug ReadString(0)            
+        NbLine+1
+      Wend
+      
+      CloseFile(0)
+      
+    ElseIf Status = #PB_Status_Error
+      Debug "Error when loading the file: " + Filename$
+    EndIf
+  EndProcedure
+  
+  Procedure OpenFileRequesterCallback()
+    If NextSelectedFile()
+      ReadFile(0, SelectedFileID(), @ReadCallback(), #PB_LocalFile)
+    EndIf
+  EndProcedure
+  
+  Procedure ChooseFileEvent()
+    OpenFileRequester("*.txt", @OpenFileRequesterCallback())
+  EndProcedure
+  
+  OpenWindow(0, 0, 0, 300, 50, "Read file example", #PB_Window_ScreenCentered)
+    ButtonGadget(0, 10, 10, 280, 30, "Choose a file...")
+    
+  BindGadgetEvent(0, @ChooseFileEvent())
+
+@EndCode
+
+@SeeAlso
+  @@CreateFile, @@CloseFile, @@FileProgress
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.f = ReadFloat(#File)
+
+@Description
+  Read a float (4 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read float value or zero if there was an error.
+
+@SeeAlso
+  @@WriteFloat, @@ReadDouble, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.i = ReadInteger(#File)
+
+@Description
+  Read an integer (8 bytes) from a file. 
+  In SpiderBasic 'integer' is not 64-bit but 53-bit type (Javascript standard). If a number read
+  is greater than 2^53, it will be rounded.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read value or zero if there was an error.
+
+@SeeAlso
+  @@WriteInteger, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.l = ReadLong(#File)
+
+@Description
+  Read a long (4 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read value or zero if there was an error.
+
+@SeeAlso
+  @@WriteLong, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.q = ReadQuad(#File)
+
+@Description
+  Read a quad (8 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read number or zero if there was an error.
+
+@SeeAlso
+  @@WriteQuad, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReadData(#File, *Buffer, SizeToRead)
+
+@Description
+  Read the content from the file to the specified memory buffer.
+
+@Parameter "#File"
+  The file to read from.
+
+@Parameter "*Buffer"
+  The buffer to write the read data to. It has to be allocated with @@AllocateMemory.
+
+@Parameter "LengthToRead"
+  The number of bytes to read.
+
+@ReturnValue
+  Returns the number of bytes actually read from the file. If there is an error,
+  the return value is zero.
+
+@SeeAlso
+  @@WriteData, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = ReadString(#File [, Flags [, Length]])
+
+@Description
+  Read a string from a file until an 'End Of Line' character is found (Unix, DOS and Macintosh
+  file formats are supported).
+
+@Parameter "#File"
+  The file to read from.
+
+@OptionalParameter "Flags"
+  The flags to apply while reading the string. It may be one of the following values:
+@FixedFont
+  @#PB_Ascii  : reads the string as ASCII.
+  @#PB_UTF8   : reads the string as UTF8 (default).
+  @#PB_Unicode: reads the string as UTF16.
+@EndFixedFont
+  combined with:
+@FixedFont
+  @#PB_File_IgnoreEOL: ignores the end of line (but the resulting string will still contain them) until the specified
+                      length or the end of file.
+@EndFixedFont
+
+@OptionalParameter "Length"
+  Read the file until the length (in characters) have been reached. If an end of line is encountered
+  before the length is reached, the read will stop (unless the flag @#PB_File_IgnoreEOL has been set).
+
+@ReturnValue
+  Returns the read string, or an empty string if the read has failed.
+
+@SeeAlso
+  @@WriteString, @@ReadStringFormat, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReadStringFormat(#File)
+
+@Description
+  Checks if the current file position contains a BOM (Byte Order Mark) and tries to identify the
+  String encoding used in the file. 
+
+@Parameter "#File"
+  The file to use.
+
+@ReturnValue
+  Returns one of the following values:
+@FixedFont
+  @#PB_Ascii  : No BOM detected. This usually means a plain text file.
+  @#PB_UTF8   : UTF-8 BOM detected.
+  @#PB_Unicode: UTF-16 (little endian) BOM detected.
+
+  @#PB_UTF16BE: UTF-16 (big endian) BOM detected.
+  @#PB_UTF32  : UTF-32 (little endian) BOM detected.
+  @#PB_UTF32BE: UTF-32 (big endian) BOM detected.
+@EndFixedFont
+  The @#PB_Ascii, @#PB_UTF8 and @#PB_Unicode results may be used directly
+  in further calls to @@ReadString to read the file. The other results represent string
+  formats that cannot be directly read with SpiderBasic string functions. They are included for completeness so that an
+  application can display a proper error-message.
+
+@Remarks
+  If a BOM is detected, the @Link "FileSeek" "file pointer" will be placed
+  at the end of the BOM. If no BOM is detected, the file pointer remains unchanged.
+
+@LineBreak
+@LineBreak
+
+  The Byte Order Mark is a commonly used way to indicate the encoding for a textfile. It is usually placed
+  at the beginning of the file. It is however not a standard, just a commonly used practice. So if no BOM is
+  detected at the start of a file, it does not necessarily mean that it is a plain text file. It could also
+  just mean that the program that created the file did not use this practice.
+  @@WriteStringFormat may be used to place such a BOM in a file.
+
+@LineBreak
+@LineBreak
+
+  For more information, see this @InternetLink "http://en.wikipedia.org/wiki/Byte_Order_Mark" "Wikipedia Article."
+
+@SeeAlso
+  @@WriteStringFormat, @@ReadString, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.u = ReadUnicodeCharacter(#File)
+
+@Description
+  Read a unicode character (2 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read character or zero if there was an error.
+
+@SeeAlso
+  @@WriteUnicodeCharacter, @@ReadAsciiCharacter, @@ReadCharacter, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Number.w = ReadWord(#File)
+
+@Description
+  Read a word (2 bytes) from a file.
+
+@Parameter "#File"
+  The file to read from.
+
+@ReturnValue
+  Returns the read number or zero if there was an error.
+
+@SeeAlso
+  @@WriteWord, @@ReadFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteAsciiCharacter(#File, Number.a)
+
+@Description
+  Write an ascii character (1 byte) to a file. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The ascii character value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@SeeAlso
+  @@ReadAsciiCharacter, @@WriteUnicodeCharacter, @@WriteCharacter, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteByte(#File, Number.b)
+
+@Description
+  Write a byte number (1 byte) to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@SeeAlso
+  @@ReadByte, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteCharacter(#File, Character.c [, Format])
+
+@Description
+  Write a character value to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Character"
+  The character value to write.
+
+@OptionalParameter "Format"
+  The format of the character to write. It can be one of the following value:
+@FixedFont
+  @#PB_Ascii  : 1 byte character.
+  @#PB_Unicode: 2 bytes character UTF-16.
+  @#PB_UTF8   : multi-bytes character (default).
+@EndFixedFont  
+
+@ReturnValue
+  Returns nonzero if the operation was successful or zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@SeeAlso
+  @@ReadCharacter, @@writeAsciiCharacter, @@WriteUnicodeCharacter, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteDouble(#File, Number.d)
+
+@Description
+  Write a double number (8 bytes) to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number.d"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@SeeAlso
+  @@ReadDouble, @@WriteFloat, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteFloat(#File, Number.f)
+
+@Description
+  Write a float number (4 bytes) to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number.f"
+  The float value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@SeeAlso
+  @@ReadFloat, @@WriteDouble, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteInteger(#File, Number)
+
+@Description
+  Write an integer number (8 bytes) to a file.
+  In SpiderBasic 'integer' is not 64-bit but 53-bit type (Javascript standard). If a number written
+  is greater than 2^53, it will be rounded.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@SeeAlso
+  @@ReadInteger, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteLong(#File, Number)
+
+@Description
+  Write a long number (4 bytes) to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@SeeAlso
+  @@ReadLong, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteData(#File, *Buffer, Size)
+
+@Description
+  Write the content of the specified memory buffer to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "*Buffer"
+  The memory address of the data to write to the file. It has to be allocated with @@AllocateMemory.
+
+@Parameter "Size"
+  The number of bytes to write to the file.
+
+@ReturnValue
+  Returns the number of bytes actually written to the file.
+  If there is an error, the return-value is zero.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@Example
+@Code
+
+  *Buffer = AllocateMemory(128)       ; allocating a memory block
+  If *Buffer
+    PokeS(*Buffer, 0, "Store this string in the memory area")   ; we write a string into the memory block (in UTF-8 format)
+    If CreateFile(0, "Text.txt")          
+      WriteData(0, *Buffer, 10)       ; write the first 10 chars from the memory block into the file
+      
+      ExportFile(0, "text/plain")
+      CloseFile(0)                    ; close the previously opened file and so store the written data
+    EndIf
+  EndIf
+
+@EndCode
+
+@SeeAlso
+  @@ReadData, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteQuad(#File, Number.q)
+
+@Description
+  Write a quad number (8 bytes) to a file. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number.q"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@SeeAlso
+  @@ReadQuad, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteString(#File, Text$ [, Format])
+
+@Description
+  Write a string to a file. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Text$"
+  The string to write.
+
+@OptionalParameter "Format"
+  The format in which to write the string. It can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Writes the string in ASCII format.
+  @#PB_UTF8   : Writes the string in UTF8 format (default).
+  @#PB_Unicode: Writes the string in UTF16 format.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+  The null ending string character is not written to the file.
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function.
+
+@SeeAlso
+  @@ReadString, @@WriteStringN, @@WriteStringFormat, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteStringN(#File, Text$ [, Format])
+
+@Description
+  Write a string to a file and add an 'end of line' character. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Text$"
+  The string to write.
+
+@OptionalParameter "Format"
+  The format in which to write the string. It can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Writes the string in ASCII format.
+  @#PB_UTF8   : Writes the string in UTF8 format (default).
+  @#PB_Unicode: Writes the string in UTF16 format.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+@LineBreak
+@LineBreak
+  For an example see the @@CreateFile function.
+
+@SeeAlso
+  @@ReadString, @@WriteString, @@WriteStringFormat, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteStringFormat(#File, Format)
+
+@Description
+  Writes a BOM (Byte Order Mark) at the current position in the file. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Format"
+  The format for which the mark should be written. It can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Writes no BOM at all (this is usually interpreted as an plain Ascii file.)
+  @#PB_UTF8   : UTF-8 BOM
+  @#PB_Unicode: UTF-16 (little endian) BOM
+
+  @#PB_UTF16BE: UTF-16 (big endian) BOM
+  @#PB_UTF32  : UTF-32 (little endian) BOM
+  @#PB_UTF32BE: UTF-32 (big endian) BOM
+@EndFixedFont
+  The @#PB_Ascii, @#PB_UTF8 and @#PB_Unicode correspond to the flags supported
+  by @@WriteString and @@WriteStringN. After placing such a BOM,
+  the strings which follow should all be written with this flag. The other formats represent string
+  formats that can not be written directly with the PureBasic string functions. They are included only for completeness.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@LineBreak
+@LineBreak
+  The Byte Order Mark is a commonly used method with which to indicate the encoding of a textfile. It is usually placed
+  at the beginning of the file. It is however not a standard, just a commonly used practice. So if no BOM is
+  detected at the start of a file, it does not necessarily mean that it is a plain text file. It could also
+  just mean that the program that created the file did not use this practice.
+@@ReadStringFormat may be used detect a BOM within a file.
+
+@LineBreak
+@LineBreak
+  For more information, see this @InternetLink "http://en.wikipedia.org/wiki/Byte_Order_Mark" "Wikipedia Article."
+
+@SeeAlso
+  @@ReadStringFormat, @@WriteString, @@WriteStringN, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteUnicodeCharacter(#File, Number)
+
+@Description
+  Write a unicode character (2 bytes) to a file.
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The unicode character value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@SeeAlso
+  @@ReadUnicodeCharacter, @@WriteAsciiCharacter, @@WriteCharacter, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteWord(#File, Number)
+
+@Description
+  Write a word number (2 bytes) to a file. 
+
+@Parameter "#File"
+  The file to write to.
+
+@Parameter "Number"
+  The value to write.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  The file must be opened using a write-capable function (i.e. not with @@ReadFile).
+
+@SeeAlso
+  @@ReadWord, @@CreateFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

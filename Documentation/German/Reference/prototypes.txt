@@ -1,0 +1,73 @@
+@Title Prototypes
+
+@Syntax
+
+  @Keyword Prototype.<Typ> Name(<Parameter>, [, <Parameter> [= StandardWert]...])
+
+@Description
+
+  Für fortgeschrittene Programmierer. @Keyword Prototype ermöglicht das Deklarieren eines Typs,
+  welcher eine Funktion abbildet (englisch "mapped"). Dies ist nützlich bei der Verwendung mit
+  einer Variable, um einen Funktionszeiger zu erstellen (der Variablen-Wert wird die Adresse
+  der aufzurufenden Funktion sein, und kann auf Wunsch verändert werden).
+  @LineBreak
+  @LineBreak
+  Dieses Feature kann die @@OpenLibrary und 
+  @@CallFunction Sequenz ersetzen, da sie einige Vorteile hat:
+  Es erfolgt eine Typen-Überprüfung, die Anzahl an Parametern wird geprüft. 
+  @LineBreak
+  @LineBreak
+  Anders als CallFunction() können Prototypes problemlos mit Doubles, Fließkomma und
+  Quad @ReferenceLink "variables" "Variablen" umgehen. Um einfach den @ReferenceLink "memory" "Zeiger"
+  einer Library-Funktion zu erhalten, verwenden Sie @@GetFunction. 
+  @LineBreak
+  @LineBreak
+  Die letzten Parameter können einen Standard-Wert (muss ein konstanter Ausdruck sein) haben. 
+  Wenn also diese Parameter beim Funktionsaufruf weggelassen werden, wird der Standardwert verwendet.
+  @LineBreak
+  @LineBreak
+  Standardmäßig wird die Funktionen die Standardaufruf Konvention (stdcall) verwenden. Wenn der 
+  Funktionszeiger ein C üblicher ist, dann sollte stattdessen die @Keyword PrototypeC Variante 
+  verwendet werden.
+  @LineBreak
+  @LineBreak
+  Die @ReferenceLink "pseudotypes" "Pseudotypes" können für die Parameter verwendet werden, jedoch
+  nicht für den Rückgabewert.
+  
+@Example 
+
+@Code
+
+  Prototype.i ProtoMessageBox(Window.i, Body$, Title$, Flags.i = 0)
+
+  If OpenLibrary(0, "User32.dll")
+   
+    ; 'MsgBox' ist eine Variable mit einem 'ProtoMessageBox' Typ
+    ;
+    MsgBox.ProtoMessageBox = GetFunction(0, "MessageBoxA")
+    
+    MsgBox(0, "Hello", "World") ; wir geben keine Flags an
+  EndIf
+    
+@EndCode
+
+
+@Example Mit Pseudotypes
+
+@Code
+  ; Wir verwenden den 'p-unicode' Pseudotype für die String Parameter, da
+  ; MessageBoxW() eine nur unter Unicode verwendbare Funktion ist. Der Compiler
+  ; wird - sofern notwendig - die Strings automatisch nach Unicode konvertieren.
+  ;
+  Prototype.i ProtoMessageBoxW(Window.i, Body.p-unicode, Title.p-unicode, Flags.i = 0)
+
+  If OpenLibrary(0, "User32.dll")
+   
+    ; 'MsgBox' ist eine Variable mit einem 'ProtoMessageBoxW' Typ
+    ;
+    MsgBox.ProtoMessageBoxW = GetFunction(0, "MessageBoxW")
+    
+    MsgBox(0, "Hello", "World") ; wir geben keine Flags an
+  EndIf
+    
+@EndCode

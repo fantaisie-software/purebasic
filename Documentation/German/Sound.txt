@@ -1,0 +1,844 @@
+;
+;     Sound library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Sound
+
+@Overview
+  Das PureBasic Soundsystem bietet eine einfache Möglichkeit, Sound innerhalb
+  von Applikationen oder Spielen zu integrieren. Es benutzt spezielle 
+  Funktionen, um die maximale Geschwindigkeit auf der verfügbaren Hardware
+  zu erhalten.
+@LineBreak
+@LineBreak
+  Es verwendet DirectX auf Windows. Auf Linux benötigt es die SDL-Bibliothek.
+
+@CommandList
+
+@ExampleFile All Sound.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CatchSound(#Sound, *Puffer [, Größe [, Flags]])
+
+@Description
+  Lädt einen WAV-Sound (im PCM-Format, ADPCM wird nicht unterstützt) oder jedes andere
+  von der @LibraryLink "SoundPlugin" "SoundPlugin Bibliothek" unterstützte Format,
+  der sich an der angegebenen Speicheradresse befindet. 
+@LineBreak
+@LineBreak
+  Die folgenden Funktionen können verwendet werden, um automatisch mehr Sound-Formate zu aktivieren:
+@LineBreak
+@LineBreak
+  @@UseFLACSoundDecoder
+@LineBreak
+  @@UseOGGSoundDecoder
+
+@Parameter "#Sound"
+  Eine Nummer zum Identifizieren des neuen Sounds. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "*Puffer"
+  Der für das Erstellen des Sounds zu verwendende Puffer. Dies ist eine reguläre
+  @LibraryLink "memory" "Speicher"-Adresse.
+
+@OptionalParameter "Größe"
+  Die Puffer-Größe (in Bytes). Bei WAV-Dateien muss dieser Parameter nicht angegeben werden.
+  Bei Verwendung anderer Sound-Decoder muss er angegeben werden.
+  
+@OptionalParameter "Flags"
+  Dies kann der folgende Wert sein:
+@FixedFont
+  @#PB_Sound_Streaming: Aktiviert "Streaming Playback" - einem System zum gleichzeitigen 
+           Laden und Abspielen, wodurch nicht erst die gesamte Sound-Datei in den Speicher
+           geladen werden muss (nur unterstützt für @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC" und @Link "SoundPlugin/UseOGGSoundDecoder" "OGG")
+@EndFixedFont
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn der Sound erfolgreich erstellt wurde, andernfalls Null.
+
+@Example
+@Code
+  CatchSound(0, ?Music)
+  End
+
+  DataSection
+    Music:
+      IncludeBinary "Sound.wav"
+@EndCode
+
+@Remarks
+  Das "?" ist ein Zeiger auf eine Sprungmarke. Weitere Informationen über Zeiger und
+  Speicherzugriff finden Sie im zugehörigen Kapitel @ReferenceLink "memory" "hier".
+
+@SeeAlso
+  @@LoadSound, @@FreeSound, @@PlaySound
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetSoundPosition(#Sound [, Modus [, Kanal]])
+
+@Description
+  Ermittelt die aktuelle Sound-Position.
+  
+@Parameter "#Sound"
+  Der zu verwendende Sound.
+
+@OptionalParameter "Modus"
+  Der für die Ermittlung der Position zu verwendende Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Sound_Frame      : die Position wird in Frames zurückgegeben (Standard).
+  @#PB_Sound_Millisecond: die Position wird in Millisekunden zurückgegeben.
+@EndFixedFont
+
+@OptionalParameter "Kanal"
+  Der Kanal, um die Position zu erhalten. Dabei handelt es sich um den von den @@PlaySound
+  zurückgegebenen Wert, wenn das @#PB_Sound_MultiChannel Flag verwendet wird.
+
+@ReturnValue
+  Gibt die aktuelle Sound-Position zurück, oder -1 wenn ein Fehler auftrat.
+
+@Remarks
+  Sounds, die mit dem @#PB_Sound_Streaming Flag geladen wurden, werden nicht unterstützt.
+
+@Example
+@Code  
+ InitSound()           ; Initialisiert das Sound-System
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Laden von 2 Sounds
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ LoadSound(1, #PB_Compiler_Home +"Examples\3D\Data\Roar.ogg")
+ 
+ ; Die Sirene wird abgespielt
+ PlaySound(0)
+ 
+ ; Zeigt die Position an
+  Repeat
+   Pos=GetSoundPosition(0, #PB_Sound_Millisecond)
+   Delay(100)   ; Warten über 100 ms
+   Debug Pos    ; Anzeigen der Position
+   If Pos>1000  ; Stoppen nach 1 Sekunde
+     Break
+   EndIf
+  ForEver
+ 
+ ; Dann werden 2 Sounds zusammen abgespielt
+   PlaySound(1)
+
+ MessageRequester("Info", "Ok zum Stoppen.") 
+ End 
+@EndCode
+
+@SeeAlso
+  @@SetSoundPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetSoundPosition(#Sound, Position, [, Modus [, Kanal]])
+
+@Description
+  Legt die aktuelle Sound-Position fest.
+  
+@Parameter "#Sound"
+  Der zu verwendende Sound.
+
+@Parameter "Position"
+  Die neu festzulegende Position.
+
+@OptionalParameter "Modus"
+  Der zu verwendende Modus, um die Position zu setzen. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Sound_Frame      : die Position wird in Frames angegeben (Standard).
+  @#PB_Sound_Millisecond: die Position wird in Millisekunden angegeben.
+@EndFixedFont
+
+@OptionalParameter "Kanal"
+  Der Kanal, um die Position festzulegen. Dabei handelt es sich um den von den @@PlaySound
+  zurückgegebenen Wert, wenn das @#PB_Sound_MultiChannel Flag verwendet wird.
+
+@NoReturnValue
+
+@Remarks
+  Sounds, die mit dem @#PB_Sound_Streaming Flag geladen wurden, werden nicht unterstützt.
+
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ 
+ ; Dieser wird abgespielt
+ PlaySound(0)
+ 
+ ; Ändert die Position auf 2 Sekunden
+ SetSoundPosition(0, 2000, #PB_Sound_Millisecond)
+ 
+ MessageRequester("Info", "Ok zum Stoppen.") 
+ End 
+@EndCode
+
+@SeeAlso
+  @@GetSoundPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeSound(#Sound)
+
+@Description
+  Hält den zuvor mit @@LoadSound oder @@CatchSound geladenen Sound an und
+  entfernt ihn aus dem Speicher. Sobald ein Sound freigegeben wurde, kann er nicht mehr
+  abgespielt werden.
+
+@Parameter "#Sound"
+  Der freizugebende Sound. Wenn @#PB_All angegeben wird, dann werden alle verbleibenden
+  Sounds freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Alle verbliebenen Sounds werden automatisch freigegeben, wenn das Programm endet.
+
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Der Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop)
+ 
+ MessageRequester("Info", "Ok zum Stoppen.")
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = InitSound()
+
+@Description
+  Initialisiert die Sound-Programmumgebung. Diese Funktion muss immer vor allen anderen
+  Soundbefehlen aufgerufen und ihr Ergebnis überprüft werden. Wenn die Initialisierung
+  der Sound-Umgebung fehlschlägt, ist es absolut notwendig, alle weiteren Aufrufe von
+  Soundbefehlen zu deaktivieren.
+
+@NoParameters
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn die Sound-Umgebung korrekt eingerichtet wurde,
+  andernfalls Null.
+
+@OS Windows
+  @LineBreak
+  @LineBreak
+  Mögliche Fehlerursachen unter MS Windows: DirectX 7 kann nicht aufgerufen werden oder
+  es ist keine Soundkarte verfügbar. Wenn Ihr Programm unter NT4.0 laufen soll, markieren
+  sie unbedingt 'NT4.0 kompatibles Executable' in den Compiler-Optionen.
+
+@OS Linux
+  @LineBreak
+  @LineBreak
+  Mögliche Fehlerursachen unter Linux: SDL ist nicht verfügbar oder es ist keine
+  Soundkarte vorhanden.
+
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Der Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop)  
+ 
+ MessageRequester("Info", "Ok zum Stoppen.") 
+ 
+ End
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsSound(#Sound)
+
+@Description
+  Überprüft, ob die angegebene Nummer gültig und ein korrekt initialisierter Sound ist.
+  
+@Parameter "#Sound"
+  Der zu verwendende Sound.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn die angegebene Nummer ein gültiger Sound ist,
+  andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. 
+  Dies ist der richtige Weg, um sicher zu stellen, dass ein Sound bereit zur Verwendung ist.
+  
+@Example
+@Code  
+  If IsSound(0) = 0
+    MessageRequester("Info", "Der Sound ist nicht gültig.") 
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@FreeSound
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LoadSound(#Sound, Dateiname$ [, Flags])
+
+@Description
+  Lädt einen WAV-Sound (im PCM-Format, ADPCM wird nicht unterstützt) oder jedes andere
+  von der @LibraryLink "SoundPlugin" "SoundPlugin Bibliothek" unterstützte Format
+  in den Speicher.
+@LineBreak
+@LineBreak
+  Die folgenden Funktionen können verwendet werden, um automatisch mehr Sound-Formate zu aktivieren:
+@LineBreak
+@LineBreak
+  @@UseFLACSoundDecoder
+@LineBreak
+  @@UseOGGSoundDecoder
+
+@Parameter "#Sound"
+  Eine Nummer zum Identifizieren des neuen Sounds. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "Dateiname$"
+  Der für das Laden des Sounds zu verwendende Dateiname.
+
+@OptionalParameter "Flags"
+  Dies kann der folgende Wert sein:
+@FixedFont
+  @#PB_Sound_Streaming: Aktiviert "Streaming Playback" - einem System zum gleichzeitigen 
+           Laden und Abspielen, wodurch nicht erst die gesamte Sound-Datei in den Speicher
+           geladen werden muss (nur unterstützt für @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC" und @Link "SoundPlugin/UseOGGSoundDecoder" "OGG")
+@EndFixedFont
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn der Sound erfolgreich geladen wurde, andernfalls Null.
+
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Dieser Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop)
+ 
+ MessageRequester("Info", "Ok zum Stoppen.")
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode 
+
+@SeeAlso
+  @@CatchSound, @@FreeSound, @@PlaySound
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PauseSound(#Sound [, Kanal])
+
+@Description
+  Hält den Sound an (pausiert ihn).
+  
+@Parameter "#Sound"
+  Der zu verwendende Sound. Wenn @#PB_All angegeben wird, dann werden alle Sounds (und
+  alle Kanäle) angehalten.
+
+@OptionalParameter "Kanal"
+  Der zu verwendende Kanal. Dabei handelt es sich um den von den @@PlaySound
+  zurückgegebenen Wert, wenn das @#PB_Sound_MultiChannel Flag verwendet wird.
+  Wenn @#PB_All angegeben wird, dann werden alle Kanäle des Sounds angehalten.
+
+@NoReturnValue
+
+@Remarks
+  Sounds, die mit dem @#PB_Sound_Streaming Flag geladen wurden, werden nicht unterstützt.
+    
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Dieser Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop)
+ 
+ MessageRequester("Info", "Ok zum Anhalten.")
+ PauseSound(0)  ; Pause
+ 
+ MessageRequester("Info", "Ok zum Fortsetzen.")
+ ResumeSound(0)  ; Fortsetzen
+ 
+ MessageRequester("Info", "Ok zum Stoppen.")
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode
+     
+@SeeAlso
+  @@LoadSound, @@ResumeSound
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResumeSound(#Sound [, Kanal])
+
+@Description
+  Setzt die Sound-Wiedergabe fort.
+  
+@Parameter "#Sound"
+  Der zu verwendende Sound. Wenn @#PB_All angegeben wird, dann werden alle Sounds (und alle Kanäle) fortgesetzt.
+
+@OptionalParameter "Kanal"
+  Der zu verwendende Kanal. Dabei handelt es sich um den von den @@PlaySound
+  zurückgegebenen Wert, wenn das @#PB_Sound_MultiChannel Flag verwendet wird.
+  Wenn @#PB_All angegeben wird, dann werden alle Kanäle des Sounds fortgesetzt.
+
+@NoReturnValue
+
+@Remarks
+  Sounds, die mit dem @#PB_Sound_Streaming Flag geladen wurden, werden nicht unterstützt.
+
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Dieser Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop)
+ 
+ MessageRequester("Info", "Ok zum Anhalten.")
+ PauseSound(0)  ; Pause
+ 
+ MessageRequester("Info", "Ok zum Fortsetzen.")
+ ResumeSound(0)  ; Fortsetzen
+ 
+ MessageRequester("Info", "Ok zum Stoppen.")
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode
+
+@SeeAlso
+  @@LoadSound, @@PauseSound
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = PlaySound(#Sound [, Flags [, Lautstärke]])
+
+@Description
+  Startet das Abspielen des angegebenen Sounds. 
+
+@Parameter "#Sound"
+  Der abzuspielende Sound.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Sound_Loop        : spielt den Sound kontinuierlich (startet ihn erneut, sobald das Ende erreicht ist)
+  @#PB_Sound_MultiChannel: spielt den Sound in einem neuen Kanal, anstelle den zuvor 
+        abgespielten Sound zu stoppen. Dies ermöglicht die Verwendung des gleichen Sounds und dessen
+        gleichzeitiges Abspielen auf verschiedenen Kanälen. 'Ergebnis' wird dann der neu allokierte
+        Kanal sein, und kann von den anderen Sound-Befehlen wie @@SoundVolume, @@SoundPan, etc. verwendet werden.
+@EndFixedFont
+
+@OptionalParameter "Lautstärke"
+  Legt die anfängliche Lautstärke des #Sound fest.
+  Die gültigen Werte liegen zwischen 0 (keine Lautstärke) und 100 (volle Lautstärke). Der Standardwert ist 100.
+
+@ReturnValue
+  Die Kanal-Nummer, wenn das @#PB_Sound_MultiChannel Flag verwendet wird.
+
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Der Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop, 20)
+ 
+ MessageRequester("Info", "Ok zum Stoppen.")
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode
+
+@SeeAlso
+  @@StopSound, @@FreeSound, @@PauseSound, @@ResumeSound
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetSoundFrequency(#Sound, [, Kanal])
+
+@Description
+  Ermittelt die aktuelle Frequenz des Sounds.
+
+@Parameter "#Sound"
+  Der zu verwendende Sound.
+
+@OptionalParameter "Kanal"
+  Der zu verwendende Kanal. Dabei handelt es sich um den von den @@PlaySound
+  zurückgegebenen Wert, wenn das @#PB_Sound_MultiChannel Flag verwendet wird.
+
+@ReturnValue 
+  Gibt die aktuelle Frequenz (in Hz) des Sounds zurück.
+  
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Der Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop, 20)
+ 
+ MessageRequester("Info", "Die durchschnittliche Frequenz ist " + Str(GetSoundFrequency(0))+" Hz")
+ 
+ MessageRequester("Info", "Ok zum Stoppen.")
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode
+
+@SeeAlso
+  @@SetSoundFrequency
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetSoundFrequency(#Sound, Frequenz [, Kanal])
+
+@Description
+  Legt in Echtzeit die neue Frequenz für den Sound fest.
+  Der neue Frequenz-Wert wird für den Sound gespeichert - deshalb ist es nicht nötig, diesen jedes Mal aufzurufen. 
+
+@Parameter "#Sound"
+  Der zu verwendende Sound.
+
+@Parameter "Frequenz"
+  Die für den Sound festzulegende neue Frenquenz (in Hz). Gültige Werte reichen von 1000 Hz bis 100000 Hz.
+
+@OptionalParameter "Kanal"
+  Der zu verwendende Kanal. Dabei handelt es sich um den von den @@PlaySound
+  zurückgegebenen Wert, wenn das @#PB_Sound_MultiChannel Flag verwendet wird.
+  Wenn @#PB_All angegeben wird, dann sind alle Kanäle des Sounds betroffen.
+
+@NoReturnValue 
+  
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Der Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop, 20)
+ 
+ MessageRequester("Info", "Die durchschnittliche Frequenz ist " + Str(GetSoundFrequency(0))+" Hz")
+ PauseSound(0)
+ 
+ SetSoundFrequency(0,16000)
+ 
+ ResumeSound(0)
+ 
+ MessageRequester("Info", "Die durchschnittliche Frequenz ist " + Str(GetSoundFrequency(0))+" Hz")
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode
+
+@SeeAlso
+  @@GetSoundFrequency  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SoundStatus(#Sound [, Kanal])
+
+@Description
+  Ermittelt den aktuellen Status des Sounds.
+    
+@Parameter "#Sound"
+  Der zu verwendende Sound.
+
+@OptionalParameter "Kanal"
+  Der zu verwendende Kanal. Dabei handelt es sich um den von den @@PlaySound
+  zurückgegebenen Wert, wenn das @#PB_Sound_MultiChannel Flag verwendet wird.
+
+@ReturnValue
+  Gibt den aktuellen Sound-Status zurück. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Sound_Stopped: der Sound ist gestoppt.
+  @#PB_Sound_Playing: der Sound wird abgespielt.
+  @#PB_Sound_Paused : der Sound ist angehalten (pausiert).
+  @#PB_Sound_Unknown: der Sound befindet sich in einem unbekannten Status 
+                     (es trat ein Fehler auf, als der Status ermittelt wurde).
+@EndFixedFont
+
+@Example
+@Code  
+  Procedure SelectStatus(Status)
+    Select Status
+      Case #PB_Sound_Stopped
+        MessageRequester("Info", "Der Sound wurde gestoppt.")
+        
+      Case #PB_Sound_Playing
+        MessageRequester("Info", "Der Sound wird abgespielt.")
+        
+      Case  #PB_Sound_Paused
+        MessageRequester("Info", "Der Sound ist angehalten.")
+        
+      Case #PB_Sound_Unknown
+        MessageRequester("Info", "Status unbekannt.")
+        
+      Default
+        MessageRequester("Info", "Status unbekannt.")
+        
+    EndSelect
+  EndProcedure
+
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Der Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop, 20)
+ SelectStatus(SoundStatus(0))
+
+ PauseSound(0)
+ SelectStatus(SoundStatus(0))
+ 
+ ResumeSound(0)
+ SelectStatus(SoundStatus(0))
+ 
+ StopSound(0)
+ SelectStatus(SoundStatus(0))
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundPan(#Sound, Balance [, Kanal])
+
+@Description
+  Legt in Echtzeit die 'Balance' des Sounds fest. Der 'Balance'-Wert wird für den #Sound
+  gespeichert - deshalb ist es nicht nötig, diesen jedes Mal aufzurufen. Die Balance ist eine
+  Möglichkeit, das Abspielen eines Sounds auf einem Stereo-Equiqment zu beeinflussen.
+  
+@Parameter "#Sound"
+  Der zu verwendende Sound.
+
+@Parameter "Balance"
+  Der neue Balance-Wert.
+  Gültige Werte reichen von -100 (voll links) bis 100 (voll rechts). Ist die Balance
+  gleich Null, wird der Sound gleichmäßig auf linkem und rechtem Lautsprecher abgespielt.
+
+@OptionalParameter "Kanal"
+  Der zu verwendende Kanal. Dabei handelt es sich um den Wert, der von @@PlaySound bei
+  Verwendung des @#PB_Sound_MultiChannel Flags zurückgegeben wird.
+
+@NoReturnValue
+
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Der Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop, 20)
+
+ MessageRequester("Info", "Der Sound wird in Stereo abgespielt.")
+ 
+ SoundPan(0, -100)
+ MessageRequester("Info", "Der Sound wird nur auf dem linken Kanal abgespielt.")
+ 
+ SoundPan(0, 100)
+ MessageRequester("Info", "Der Sound wird nur auf dem rechten Kanal abgespielt.")
+ 
+ SoundPan(0, 0)
+ MessageRequester("Info", "Der Sound wird in Stereo abgespielt.")
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundLength(#Sound [, Modus])
+
+@Description
+  Ermittelt die Länge des Sounds.
+  
+@Parameter "#Sound"
+  Der zu verwendende Sound.
+
+@OptionalParameter "Modus"
+  Der für die Ermittlung der Länge verwendete Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Sound_Frame      : die Länge wird in Frames zurückgegeben (Standard).
+  @#PB_Sound_Millisecond: die Länge wird in Millisekunden zurückgegeben.
+@EndFixedFont
+
+@ReturnValue
+  Gibt die Länge des Sounds zurück - oder -1, wenn ein Fehler auftrat.
+
+@Remarks
+  Sounds, die mit dem @#PB_Sound_Streaming Flag geladen wurden, werden nicht unterstützt.
+    
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Der Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop, 20)
+  
+ MessageRequester("Info", "Die Länge des Sounds ist "+ Str(SoundLength(0)) + " Frames.")
+   
+ MessageRequester("Info", "Die Länge des Sounds ist "+ Str(SoundLength(0, #PB_Sound_Millisecond)) + " ms.")
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundVolume(#Sound, Lautstärke [, Kanal])
+
+@Description
+  Ändert in Echtzeit die Lautstärke des Sounds.
+  
+@Parameter "#Sound"
+  Der zu verwendende Sound. Wenn @#PB_All angegeben wird, dann sind alle Sounds (und alle Kanäle) betroffen.
+
+@Parameter "Lautstärke"
+  Die neue Lautstärke des Sounds. Gültige Werte reichen von 0 (keine Lautstärke) bis 100 (volle Lautstärke).
+
+@OptionalParameter "Kanal"
+  Der zu verwendende Kanal. Dabei handelt es sich um den von den @@PlaySound
+  zurückgegebenen Wert, wenn das @#PB_Sound_MultiChannel Flag verwendet wird.
+  Wenn @#PB_All angegeben wird, dann sind alle Kanäle des Sounds betroffen.
+
+@NoReturnValue
+
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Der Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop, 20)
+  
+ MessageRequester("Info", "Die Sound-Lautstärke liegt bei 20%")
+ 
+ SoundVolume(0, 80)
+ MessageRequester("Info", "Die Sound-Lautstärke liegt bei 80%")
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode
+
+@SeeAlso
+  @@LoadSound
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopSound(#Sound [, Kanal])
+
+@Description
+  Stoppt den angegebenen Sound (sofern er abgespielt wird).
+  
+@Parameter "#Sound"
+  Der zu stoppende Sound. Wird dieser Wert auf @#PB_All gesetzt, dann werden alle gerade
+  abgespielten Sounds gestoppt.
+
+@OptionalParameter "Kanal"
+  Der zu verwendende Kanal. Dabei handelt es sich um den von den @@PlaySound
+  zurückgegebenen Wert, wenn das @#PB_Sound_MultiChannel Flag verwendet wird.
+
+@NoReturnValue
+
+@Example
+@Code  
+ InitSound()           ; Initialisieren des Sound-Systems
+ UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
+
+ ; Lädt einen Sound aus einer Datei
+ LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+ ; Der Sound wird abgespielt
+ PlaySound(0, #PB_Sound_Loop, 20)
+  
+ MessageRequester("Info", "Ok zum Stoppen.")
+ 
+ StopSound(0)
+ MessageRequester("Info", "Sound gestoppt")
+ 
+ FreeSound(0) ; Der Sound wird freigegeben
+ End
+@EndCode
+
+@SeeAlso
+  @@PlaySound
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

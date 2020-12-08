@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Multiplication and Division operators - Simple Processing - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Simple Processing: Multiplication and Division operators</h1>
+The multiplication and division operators are very similar. Both can only be
+ used with numeric items and both perform their mathematical functions.
+ That is the value on the left hand side of the operator is multiplied
+ or divided by the value on the right hand side.
+
+<p>Both operators can be used in the shortcut mode (the result of the
+ calculation cannot be used in another expression or as a parameter to
+ a command and the item on the left hand side of the operator must be
+ a variable). In the shortcut mode the variable on the left hand side
+ of the operator will be multiplied or divided by the value on the right
+ hand side, with the result being stored in the variable on the left
+ hand side of the operator. These lines illustrate the point and
+ equivalent:
+
+<pre class="codepart">a = a * b
+a * b
+
+c = c / d
+c / d</pre>
+
+The example below shows some uses of the multiplication and division
+ operators. You can also get the source <a href="multdiv_op.pb">here</a>.
+
+<pre class="code">OpenConsole()
+
+width.l = 3
+length.l = 2
+height.l = 2
+
+area.l = width * length
+volume.l = height * area
+volume2.l = width * length * height
+PrintN(&quot;Plan view area = &quot;+Str(area))
+PrintN(&quot;Volume = &quot;+Str(volume)+&quot; and should be the same as Volume2 = &quot;+Str(volume2))
+
+total_cost.f = 13.67
+quantity.l = 9
+price_each.f = total_cost / quantity
+price_each / 1.175
+PrintN(&quot;Price of each item (excluding UK VAT) = &quot;+StrF(price_each))
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="multdiv_op_run.png" alt="Output of the multiplication and division example" width="603" height="85">
+ This image shows the output of the above example program.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="subtraction.html">Subtraction</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="brackets.html">Operator precedence</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

@@ -1,0 +1,122 @@
+@Title Le Concepteur de fenêtre (Form)
+
+  L'IDE du PureBasic a un concepteur de fenêtre (formulaire) très puissant et intégré à l'éditeur, 
+  qui permet de créer et d'organiser des gadgets sur une fenêtre. Il supporte presque tous les 
+  @LibraryLink "gadget" "gadgets", les @LibraryLink "menu" "menus" et même les 
+  @LibraryLink "statusbar" "barres d'état". Un fichier de formulaire est un fichier PureBasic, 
+  de sorte qu'il peut être facilement modifié sans même ouvrir le concepteur de formulaire. 
+  L'analyseur de code n'est pas le même que celui utilisé par le compilateur, donc il ne 
+  prend pas en charge toutes les fonctions PureBasic, alors quand on fait des modifications 
+  manuelles dans un fichier formulaire, elles doivent rester basique.
+
+@Section Menu "Form":
+
+@Image ide_menu_form.png
+
+@Bold "Nouveau Form"
+@LineBreak
+  Crée un nouveau formulaire vide. Noter que l'onglet "Form" appelé panneau de conception 
+  muni de ses gadgets standards apparait automatiquement.
+@LineBreak
+@LineBreak
+
+@Bold "Changer vue Code/Design"
+@LineBreak
+  Change la vue du formulaire. Cela permet de passer du mode de conception au mode écriture de code. 
+  Un formulaire est construit à partir du code, donc si une modification est apportée 
+  directement en mode code, il sera traduit visuellement.
+@LineBreak
+@LineBreak
+
+@Bold "Duplicer l'objet"
+@LineBreak
+  Duplique l'objet sélectionné.
+@LineBreak
+@LineBreak
+
+@Bold "Manager d'image"
+@LineBreak
+  @Image ide_form_imagemanager.png
+@LineBreak
+@LineBreak
+  Affiche toutes les images actuellement utilisées par le formulaire. 
+  L'image et son chemin peuvent être changés facilement ici.
+  
+@Section Panneau de conception
+
+  @Image ide_form_designpanel.png
+
+  Ce panneau liste tous les gadgets disponibles. Sélectionnez-en un, et de dessinez-le 
+  directement sur le formulaire. Lorsqu'un gadget est sélectionné sur le formulaire, 
+  ses propriétés sont afficher sur le panneau et peuvent être modifiées.
+  
+@Section Utilisation du concepteur de formulaire dans un projet
+
+  Le concepteur du formulaire a été créé pour permettre la création et la maintenance aisée de 
+  formulaires de façon modulaires. Chaque formulaire doit avoir son propre fichier. Il ne peut pas 
+  y avoir deux formulaires dans un même fichier (en d'autres termes, il ne faut jamais avoir 
+  deux @@OpenWindow dans le même fichier). Une procédure d'événement peut être attribué à 
+  tous les gadgets, et sera traitée automatiquement dans la boucle d'événements. Les 
+  procédures d'événements doivent être définies quelque part dans le code source. @LineBreak
+  Chaque fichier de formulaire devrait être nommé avec l'extension '.pbf', pour  
+  être correctement ouvert par l'IDE. Les fichiers de formulaire ('.pbf') peuvent 
+  également être ajoutés dans un @ReferenceLink "ide_projects" "projet".
+@LineBreak
+@LineBreak
+  Par exemple, pour construire un programme qui gèrent deux fenêtres, il va falloir créer 
+  deux fichiers de formulaire et un fichier principal. La structure du projet pourrait 
+  ressembler à ça :
+@FixedFont  
+  Main.pb        ; Le fichier principal qui inclut les liens vers les deux fichiers de formulaire,
+                 ; ainsi que le code des événements
+  MainWindow.pbf ; La fenêtre principale
+  DateWindow.pbf ; Une autre fenêtre
+@EndFixedFont
+  Si nous supposons que MainWindow.pbf dispose de deux boutons ('OK' et 'Annuler') et 
+  que DateWindow.pbf contient un gadget cadendrier, voici à quoi le fichier principal devrait 
+  ressembler (le fichier principal n'est pas géré par le concepteur de formulaire, 
+  il doit être écrit manuellement):
+  
+@Code
+;  Main.pb
+  XIncludeFile "MainWindow.pbf" ; Inclusion de la première fenêtre
+  XIncludeFile "DateWindow.pbf" ; Inclusion de la seconde fenêtre
+  
+  OpenMainWindow() ; Création de la première fenêtre. Ce nom de procédure est toujours 'Open' suivi du nom de la fenêtre
+  OpenDateWindow() ; Création de la seconde fenêtre
+  
+  ; Les procédures d'événements, tels que spécifiées dans la propriété 'procédure événement' de chaque gadget
+  Procedure OkButtonEvent(EventType)
+    Debug "Evénement Bouton OK"
+  EndProcedure
+  
+  Procedure CancelButtonEvent(EventType)
+    Debug "Evénement Bouton Annuler"
+  EndProcedure
+  
+  Procedure TrainCalendarEvent(EventType)
+    Debug "Evénement Calendrier"
+  EndProcedure
+  
+  ; La boucle principale, comme d'habitude, le seul changement est l'appel de la procédure 
+  ; événementielle automtiquement générée pour chaque fenêtre.
+  Repeat
+    Event = WaitWindowEvent()
+    
+    Select EventWindow()
+      Case MainWindow
+        MainWindow_Events(Event) ; Le nom de la procédure est toujours le nom de la fenêtre suivi de '_Events'
+        
+      Case DateWindow
+        DateWindow_Events(Event)
+        
+    EndSelect
+    
+  Until Event = #PB_Event_CloseWindow ; Ferme toutes les fenêtres en quittant l'une d'elle
+@EndCode
+
+  Comme on le voit, il est facile d'intégrer des formulaire dans un programme. 
+  De plus, il est également possible de continuer à créer une fenêtre manuellement aussi. 
+  Pour avoir tout le contrôle sur le code généré, il suffit de passer en mode code.
+@LineBreak
+@LineBreak

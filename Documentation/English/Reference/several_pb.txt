@@ -1,0 +1,30 @@
+@Title Using several PureBasic versions on Windows
+
+@Section Overview
+
+  It is possible to install several PureBasic versions on your hard disk at the same time.
+  This is useful to finish one project with an older PureBasic version, and
+  start developing a new project with a new PureBasic version.
+
+@Section How to do it
+
+  Create different folders like "PureBasic_v3.94" and "PureBasic_v4" and install the related
+  PureBasic version in each folders.
+@LineBreak
+@LineBreak
+  When one "PureBasic.exe" is started, it will assign all ".pb" files 
+  with this version of PureBasic. So when a source code is loaded by double-clicking 
+  on the related file, the currently assigned PureBasic version will be started.
+  Beside PureBasic will change nothing, which can affect other PureBasic versions in different
+  folders.
+@LineBreak
+@LineBreak
+  To avoid the automatic assignment of ".pb" files when starting the IDE, a
+  shortcut can be created from PureBasic.exe with "/NOEXT" as parameter. The command line
+  options for the IDE are described @ReferenceLink "ide_commandline" "here".
+@LineBreak
+@LineBreak
+  @Bold "Note:" Since PureBasic 4.10, the settings for the IDE are no longer saved in the PureBasic
+  directory but rather in the %APPDATA%\PureBasic directory. To keep the multiple versions from using
+  the same configuration files, the /P /T and /A @ReferenceLink "ide_commandline" "switches" can be used. Furthermore there is the /PORTABLE
+  switch which puts all files back into the PureBasic directory and disabled the creation of the .pb extension.

@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Analyse - Ihr erstes Programm - PureBasic Benutzerhandbuch</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Ihr erstes Programm: Analyse</h1>
+Fast jedem Beispiel in diesem Benutzerhandbuch folgt eine Seite wie diese, wo
+neue Befehle und Konzepte des Beispiel-Quellcodes auseinander genommen und im
+Detail erklärt werden. Dies beinhaltet, was die Anweisungen tun, warum sie bei einem
+besonderen Umstand verwendet werden und alle Dinge, auf die bei deren Benutzung geachtet
+werden sollte.
+
+<p>Nicht alle Analysen werden so gründlich wie diese sein, da zukünftige nur neue
+Angelegenheiten erörtern. 
+
+<p><h2>Analyse des ersten Programms</h2>
+Die erste Zeile in unserem Code war <span class="code">OpenConsole()</span>.
+Diese Anweisung enthält einen einzelnen Befehl; Sie wissen, dass es ein Befehl ist, weil
+ein Set mit Klammern auf den Namen folgt.
+
+<p>Der Zweck dieses Befehls ist, das Konsolenfenster zu öffnen, welches beim Ausführen
+Ihres Programms erscheint. Er hat keine Parameter (es ist nichts zwischen den Klammern
+angegeben) und gibt einen Wert zurück, der zeigt, ob das Konsolenfenster erfolgreich
+geöffnet wurde oder nicht. Jedoch ignorieren wir in diesem Fall den zurückgegebenen Wert,
+zum Vereinfachen und weil wir die Schlüsselwörter zu dessen Verarbeitung noch nicht
+behandelt haben.
+
+<p>Die zweite Anweisung im Programm war <span class="code">PrintN(&quot;Hallo, Welt&quot;)</span>.
+Dies ist ein weiterer Befehl (wie Sie an den Klammern erkennen können).
+
+<p>Der PrintN Befehl schreibt Text in ein Konsolenfenster und bewegt dann den Cursor
+auf die nächste Zeile. Wir verwenden ihn dafür, um den "Hallo, Welt" Text in der Konsole
+auszugeben. Der Befehl PrintN hat einen Parameter, welcher ein String sein muss. In diesem
+Fall verwenden wir den festen (englisch: fixed) String "Hallo, Welt" (erinnern Sie sich an die
+Grundlagen, feste Strings sind eine Folge von in Anführungszeichen eingeschlossenen Zeichen).
+Der Befehl PrintN gibt keinen Wert zurück. 
+
+<p>Die dritte Anweisung war <span class="code">Input()</span>, welche wiederum ein
+Befehl ist. Er besitzt keine Parameter und das Ergebnis wird nicht verwendet. Dieser
+Befehl registriert die Eingaben (englisch: Input) vom Anwender (wie in das Konsolenfenster
+geschriebener Text), bis der Benutzer die Returntaste drückt. Der Grund für das Verwenden
+dieses Befehls ist, das Programm zu pausieren und dem Benutzer eine Chance zu geben, das
+von uns im Konsolenfenster gedruckte zu sehen. Wenn der Input Befehl nicht im Programm
+enthalten wäre, dann gäbe es keine Pause; das Konsolenfenster würde schließen und das 
+Programm würde beendet, bevor wir irgendetwas sehen konnten. Somit ist sogar die
+Verwendung auf diese einfache Weise sehr nützlich.
+
+<p>Als nächstes wird der <span class="code">CloseConsole()</span> Befehl aufgerufen.
+Erneut gibt es keine Parameter und er liefert auch kein Ergebnis zurück.
+Wie Sie vielleicht bereits geahnt haben, schließt dieser Befehl das Konsolenfenster.
+Es ist immer eine gute Idee, etwas zu schließen oder freizugeben, was Sie in einem
+Programm geöffnet, erstellt oder reserviert haben, obwohl alle PureBasic Bibliotheken
+dies normalerweise auch automatisch für Sie tun, wenn das Programm endet. 
+
+<p>Als letztes folgt das <span class="code">End</span> Schlüsselwort (Sie
+wissen, es ist ein Schlüsselwort, weil es keine Klammern hat). Der Zweck des End
+Schlüsselworts ist, Ihrem Programm mitzuteilen, die Ausführung anzuhalten und es zu
+beenden.
+
+<p>Es ist nur das Ende des Programms, wenn diese Anweisung ausgeführt wird, nicht
+wenn sie vom Compiler in Ihrem Quellcode gefunden wird. Häufig kann es sein, dass
+Sie Daten oder weiteren Code nach einer End Anweisung speichern, wenn Sie
+sichergehen wollen, dass der Computer nicht versucht, sie auszuführen, ohne dass sie
+es ihm ausdrücklich sagen. Also verwenden Sie die End Anweisung, um sicherzugehen,
+dass das Programm vor diesem Punkt stehen geblieben ist. 
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="example.html">Ihr erstes Programm!</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="summary.html">Zusammenfassung</a></td>
+</tr>
+</table>
+
+</body>
+</html>

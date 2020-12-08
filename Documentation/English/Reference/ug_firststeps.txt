@@ -1,0 +1,44 @@
+@Title UserGuide - First steps with the Debug output (variables & operators)
+
+Normally we would present here the typical "Hello World". You want to see it?
+Ok here we go with two examples:
+
+@Section Debug output
+
+"Hello World" in the @ReferenceLink "debugger" "Debug" output window:
+
+@Code
+  Debug "Hello World!"
+@EndCode
+
+@Section MessageRequester
+
+"Hello World" in a @@MessageRequester:
+
+@Code
+  MessageRequester("", "Hello World!")
+@EndCode
+
+@Section Advanced Debug example
+
+We now continue with a short example using the available variable types,
+arithmetic operators and displaying the result:
+
+@Code
+  a = 5
+  b = 7
+  c = 3
+
+  d = a + b  ; we use the values stored in variables 'a' and 'b' and save the sum of them in 'd'
+  d / c      ; we directly use the value of 'd' (= 12) divided by the value of 'c' (= 3) and save the result in 'd'
+
+  Debug d   ; will output 4
+@EndCode
+
+This way you have used variables "on the fly". To force the compiler always
+declaring variables before their first use, just use the keyword
+@ReferenceLink "compilerdirectives" "EnableExplicit". 
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_variables" "Next: Variables >"

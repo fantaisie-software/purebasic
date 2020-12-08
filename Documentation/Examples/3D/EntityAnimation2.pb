@@ -1,0 +1,126 @@
+;
+; ------------------------------------------------------------
+;
+;   PureBasic - EntityAnimation
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+;Cursor = Move Robot
+;Speed animation = PageUp and PageDown 
+
+
+IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
+
+Define.f KeyX, KeyY, MouseX, MouseY, Speed = 1.0
+Define.i RobotMove
+
+
+If InitEngine3D()
+  
+  
+  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
+  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)
+  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts", #PB_3DArchive_FileSystem)
+  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/Desert.zip", #PB_3DArchive_Zip)
+  Parse3DScripts()
+  
+  InitSprite()
+  InitKeyboard()
+  InitMouse()
+  
+  If Screen3DRequester()
+    
+    WorldShadows(#PB_Shadow_Modulative, -1, RGB(75, 75, 75))
+    
+    ;Ground
+    ;
+    CreateMaterial(0, LoadTexture(0, "Dirt.jpg"))
+    CreatePlane(0, 1500, 1500, 40, 40, 15, 15)
+    CreateEntity(0,MeshID(0),MaterialID(0))
+    EntityRenderMode(0, 0)
+    
+    ;Mesh
+    ;
+    LoadMesh(1, "robot.mesh")
+    
+    ; Entity
+    ;
+    CreateEntity(1, MeshID(1), #PB_Material_None)
+    
+    ; SkyBox
+    ;
+    SkyBox("Desert07.jpg")
+    
+    ; Camera
+    ;
+    CreateCamera(0, 0, 0, 100, 100)
+    MoveCamera(0, 50, 100, 180,#PB_Absolute)
+    CameraLookAt(0, EntityX(1), EntityY(1) + 40, EntityZ(1))
+    
+    
+    CreateLight(0, RGB(255, 255, 255), -40, 100, 80)
+    AmbientColor(RGB(80, 80, 80))
+    
+    Repeat
+      Screen3DEvents()
+      
+      If ExamineMouse()
+        MouseX = -MouseDeltaX()/10 
+        MouseY = -MouseDeltaY()/10
+      EndIf
+      
+      RobotMove = #False    
+      If ExamineKeyboard()
+        
+        If KeyboardPushed(#PB_Key_Left)
+          MoveEntity(1, -1 * Speed, 0, 0)
+          RotateEntity(1, 0, 180, 0)
+          RobotMove = #True
+        ElseIf KeyboardPushed(#PB_Key_Right)
+          MoveEntity(1, 1 * Speed, 0, 0)
+          RotateEntity(1, 0, 0, 0)
+          RobotMove = #True
+        ElseIf KeyboardPushed(#PB_Key_Up)
+          MoveEntity(1, 0, 0, -1 * Speed)
+          RotateEntity(1, 0, 90, 0)
+          RobotMove = #True
+        ElseIf KeyboardPushed(#PB_Key_Down)
+          MoveEntity(1, 0, 0, 1 * Speed)
+          RotateEntity(1, 0, -90, 0)
+          RobotMove = #True
+        EndIf
+        
+        If KeyboardPushed(#PB_Key_PageUp) And Speed < 1.0
+          Speed + 0.05
+        ElseIf KeyboardPushed(#PB_Key_PageDown) And Speed > 0.1 
+          Speed - 0.05
+        EndIf
+        
+      EndIf
+      
+      If RobotMove
+        If EntityAnimationStatus(1, "Walk") = #PB_EntityAnimation_Stopped ; Loop
+          StartEntityAnimation(1, "Walk", #PB_EntityAnimation_Manual) ; Start the animation from the beginning
+        EndIf
+      Else
+        StopEntityAnimation(1, "Walk")
+      EndIf
+      
+      AddEntityAnimationTime(1, "Walk", TimeSinceLastFrame)
+      
+      RotateCamera(0, MouseY, MouseX, RollZ, #PB_Relative)
+      MoveCamera  (0, KeyX, 0, KeyY)
+      
+      TimeSinceLastFrame = RenderWorld() * Speed
+      
+      FlipBuffers()
+    Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
+  EndIf
+  
+Else
+  MessageRequester("Error", "The 3D Engine can't be initialized",0)
+EndIf
+
+End

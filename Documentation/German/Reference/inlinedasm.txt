@@ -1,0 +1,124 @@
+@Title Inline x86 ASM
+
+@Section Einführung
+
+  PureBasic erlaubt das direkte Einfügen von allen x86 Assembler Befehlen (einschließlich MMX- 
+  und FPU-Befehlen) in den Sourcecode, so als wäre es ein echter Assembler. Und es bietet 
+  noch mehr: Sie können direkt alle @ReferenceLink "variables" "Variablen" oder @ReferenceLink "memory" "Zeiger" in den Assembler Schlüsselwörtern benutzen, 
+  Sie können beliebige Assembler Befehle auf derselben Zeile verwenden, ...
+
+  Auf Windows und Linux verwendet PureBasic @Bold "fasm" (@InternetLink "http://flatassembler.net/" "http://flatassembler.net"), wenn Sie also weitere Informationen über den Syntax wünschen, lesen Sie einfach die @Bold "fasm" Anleitung. @LineBreak
+  Auf OS X verwendet PureBasic @Bold "yasm" (@InternetLink "http://yasm.tortall.net/" "http://yasm.tortall.net/"), wenn Sie also weitere Informationen über den Syntax wünschen, lesen Sie einfach die @Bold "yasm" Anleitung. @LineBreak
+  @LineBreak
+  Zum Aktivieren des Inline-Assemblers verwenden Sie die Compiler-Direktiven @ReferenceLink "CompilerDirectives" "EnableASM"
+  und @ReferenceLink "CompilerDirectives" "DisableASM". @LineBreak
+  Es ist möglich, in der IDE mit der @ReferenceLink "ide_compiler" "Compiler-Option" "InlineASM Syntax-Einfärbung einschalten"
+  die ASM-Syntaxeinfärbung zu aktivieren. @LineBreak
+
+@Section Regeln
+
+  Sie müssen einige Regeln genau beachten, wenn Sie ASM im Basic Code einbinden möchten: @LineBreak
+  @LineBreak
+  - Die benutzten @ReferenceLink "variables" "Variablen" oder @ReferenceLink "memory" "Zeiger" müssen @Bold vor ihrer Benutzung in einem Assembler Schlüsselwort deklariert werden.
+  Ihre Namen in Assembler sind 'v_variablename' und 'p_pointername', und in einer @ReferenceLink "procedures" "Prozedur" lauten ihre Namen
+  'p.v_variablename' und 'p.p_pointername'.
+  @LineBreak
+  - Sprungmarken (Labels): Die Sprungmarken müssen in Kleinbuchstaben referenziert werden, wenn der Inline-ASM verwendet wird.
+  Wenn Sie auf eine @ReferenceLink "general_rules" "Sprungmarke" verweisen, müssen Sie das Präfix 'l_' vor dem Namen einfügen.
+  @LineBreak
+  Wenn die Sprungmarke in einer @ReferenceLink "procedures" "Prozedur" definiert wird, dann lautet ihr Präfix 'll_procedurename_', in Kleinbuchstaben.
+  @LineBreak
+  - Wenn Sie auf einen @ReferenceLink "module" "Module"-Eintrag verweisen, dann müssen Sie das Präfix 'module_name.l_' (alles in
+  Kleinbuchstaben) vor dem Eintrag einfügen.
+  @LineBreak
+  Wenn die Sprungmarke in einer @ReferenceLink "procedures" "Prozedur" innerhalb eines @ReferenceLink "module" "Moduls" definiert wird, dann lautet ihr Präfix 'module_name.ll_procedurename_', in Kleinbuchstaben.
+
+  @Example
+
+@Code
+  DeclareModule MyModule
+    LabelDeclareModule:  ; sein Name ist mymodule.l_labeldeclaremodule:
+    Declare Init()
+  EndDeclareModule
+
+  Module MyModule
+    Procedure Init() 
+      LabelModuleProcedure:  ; sein Name ist mymodule.ll_init_labelmoduleprocedure: 
+      Debug "InitFerrari()"  
+    EndProcedure
+  
+    LabelModule1:  ; sein Name ist mymodule.l_labelmodule1:
+  EndModule
+
+  Procedure Test (*Pointer, Variable)
+    TokiSTART:  ; sein Name ist ll_test_tokistart:
+  
+    ! MOV dword [p.p_Pointer], 20
+    ! MOV dword [p.v_Variable], 30
+    Debug *Pointer  ; sein Name ist p.p_Pointer
+    Debug Variable  ; sein Name ist p.v_Variable
+  EndProcedure
+  
+  VAR=1                       ; sein Name ist v_VAR
+  *Pointt=AllocateMemory(10)  ; sein Name ist p_Pointt
+  
+  MyModule::Init()
+  Test(0,0)
+
+  Label1:  ; sein Name ist l_label1:
+  
+  !jmp l_labelend  ; Eine Anweisung in Assembler muss die o.g. Regeln beachten. Hier ist es l_namelabel
+  ;...
+  LabelEnd:  ; sein Name ist l_labelend:
+@EndCode
+
+  - Die Fehler in einem ASM Programmteil werden nicht von PureBasic gemeldet, jedoch von FAsm. Überprüfen Sie einfach 
+    Ihren Programmcode, wenn ein solcher Fehler auftritt. @LineBreak
+  - Bei eingeschaltetem InlineASM können Sie keine ASM Schlüsselwörter als Namen für Sprungmarken benutzen. @LineBreak
+  - Auf x86-Prozessoren, die zur Verfügung stehenden flüchtigen Register sind: eax, edx und ecx, xmm0, xmm1, xmm2 und xmm3. Alle anderen müssen immer reserviert bleiben. @LineBreak
+  - Auf x64-Prozessoren, die zur Verfügung stehenden flüchtigen Register sind: rax, rcx, rdx, r8, r9, xmm0, xmm1, xmm2 und xmm3. Alle anderen müssen immer reserviert bleiben. @LineBreak
+  - Nur auf Windows: Eine ASM Hilfe-Datei kann @InternetLink "http://www.purebasic.com/download/AsmHelp.zip" "hier" geladen werden. Wenn Sie die 'ASM.HLP' ins 'Help/' Verzeichnis von PureBasic 
+    verschieben, können Sie nach Drücken von F1 auch Hilfe zu ASM Schlüsselwörtern erhalten. (Hinweis: Dieses Feature 
+    ist nur bei aktiviertem InlineASM eingeschalten.) @LineBreak
+  @LineBreak
+  Bei Benutzung des Assemblers in einer Prozedur müssen Sie auf verschiedene wichtige Dinge achten: @LineBreak
+  @LineBreak
+  - Um den Inhalt des 'eax' Registers (oder 'rax' auf x64) direkt zurückzugeben, benutzen Sie einfach @Keyword "ProcedureReturn" ohne einen weiteren Ausdruck. 
+    Dies lässt den Inhalt des 'eax' Registers unangetastet und benutzt ihn als Rückgabewert.
+
+  @Example
+
+@Code
+  Procedure.l MyTest()
+    MOV eax, 45
+    ProcedureReturn  ; Der zurückgegebene Wert wird 45 sein
+  EndProcedure
+@EndCode
+
+  - Lokale @ReferenceLink "variables" "Variablen" in PureBasic werden direkt durch den Stack-Pointer indexiert, was bedeutet: 
+    Wenn der Stack-Pointer durch eine ASM Anweisung (wie PUSH, POP etc.) verändert wird, dann wird 
+    der Variablen-Index fehlerhaft sein und ein direkter Verweis auf Variablen funktioniert nicht mehr.
+    @LineBreak
+    @LineBreak
+  - Durch die Verwendung des '!' Zeichens am Zeilenbeginn ist es möglich, dem Assembler eine Zeile 
+    Assembler-Code direkt zu übergeben, ohne dass diese erst durch den Compiler verarbeitet wird.
+    Dies ermöglicht vollen Zugriff auf die Assembler-Direktiven. Bei der Nutzung dieses Features
+    kann auf lokale Variablen durch die Verwendung der Schreibweise 'p.v_Variablenname' für eine
+    reguläre @ReferenceLink "variables" "Variable" oder 'p.p_Variablenname' für einen @ReferenceLink "memory" "Zeiger"
+    verwiesen werden.
+    
+   @Example
+
+@Code
+  Procedure Test(*Pointer, Variable)
+    ! MOV dword [p.p_Pointer], 20
+    ! MOV dword [p.v_Variable], 30
+    Debug *Pointer
+    Debug Variable
+  EndProcedure
+  
+  Test(0, 0)
+@EndCode 
+  
+
+    @ExampleFile All AsmInline.pb

@@ -1,0 +1,115 @@
+
+@Title Commutateurs de la ligne de commande
+
+  L'IDE de PureBasic permet de modifier les chemins et les fichiers
+  utilisés lors de son lancement. Cela permet de créer plusieurs raccourcis
+  qui vont lancer l'IDE avec une configuration particulière pour chaque
+  utilisateur, ou pour chaque projet.
+
+@LineBreak
+@LineBreak
+
+  Il existe également des options pour la compilation des projets 
+  PureBasic directement en ligne de commande. 
+  Construire un projet à partir de la ligne de commande comporte 
+  les mêmes actions, comme le choix de la 'Cible' ou "Créer toutes 
+  les cibles" du menu @ReferenceLink "ide_compiler" "Compilateur".
+
+@LineBreak
+@LineBreak
+
+; == WINDOWS ONLY ==
+@OS Windows
+
+ Options générales:
+@FixedFont
+  /VERSION                 affiche la version de l'IDE
+  /HELP ou /?              affiche une description des arguments de la ligne de commande
+@EndFixedFont
+
+@fixedfont
+  /P <fichier Préférences>             charge (et enregistre) la configuration à partir du fichier spécifié.
+  /T <fichier Modèle>                  charge (et enregistre) les modèles de code à partir du fichier spécifié.
+  /A <fichier outils>                  charge (et enregistre) la configuration des outils externes à partir du fichier spécifié.
+  /S <Chemin Source>                   change l'option "Répertoire principal" des préférences.
+  /E <Chemin Explorateur>              démarre l'outil 'Explorateur' avec le chemin spécifié.
+  /L <Numéro ligne>                    déplace le curseur à la ligne indiquée (seulement dans le dernier fichier chargé).
+  /H <Base de données de l'Historique> le fichier à utiliser pour la base de données de l'historique de la session.
+  /NOEXT                               désactive l'association automatique des fichiers '.pb' dans la base de registre.
+  /LOCAL                               place tous les fichiers préférences dans le répertoire de PureBasic au lieu du répertoire personnel de l'utilisateur. 
+  /PORTABLE                            combinaison de /LOCAL et de /NOEXT 
+@endfixedfont
+
+  Options pour compiler les projets:
+@FixedFont
+  /BUILD <file>            spécifie le fichier de projet à construire
+  /TARGET <target>         spécifie la cible à construire (la valeur par défaut est de construire toutes les cibles)
+  /QUIET                   cache tous les messages lors de la construction sauf les erreurs
+  /READONLY                ne met pas à jour le fichier de projet après la compilation (ni nouvelle date d'accès et ni nouveaux compteurs de construction )
+@EndFixedFont
+
+  Par défaut, les fichiers paramètres utilisés 
+  avec /P /T et /A se trouvent dans le répertoire 
+  %APPDATA%\PureBasic\. 
+
+@FixedFont
+  Le paramètre /NOEXT est particulièrement utile lorque plusieurs versions de PureBasic 
+  cohabitent sur un même système (pour tester les versions bêta par exemple). Ainsi les 
+  fichiers .pb seront toujours associés à la même version de PureBasic.
+@LineBreak
+@LineBreak
+  Le paramètre /PORTABLE peut être utilisé afin de garder l'ensemble de la configuration 
+  dans le répertoire local pour copier facilement PureBasic sur différents ordinateurs 
+  (ou le faire fonctionner depuis une clé USB par exemple).
+@EndFixedFont
+
+  Exemple:
+@Code
+  PureBasic.exe Example.pb /PORTABLE
+@EndCode
+
+; == LINUX / MAC ONLY ==
+; bidouille: le formatelse @ inverses seulement la précédente option "ignorer le texte donc nous l'utilisons ici comme un else pour le compte de l'@os 
+ 
+@formatelse
+
+ Options générales:
+@FixedFont
+  -v or --version             affiche la version IDE et quitte
+  -h or --help                affiche une description des arguments de la ligne de commande
+@EndFixedFont
+
+@fixedfont
+  -p <fichier Préférences>  charge (et enregistre) la configuration à partir du fichier spécifié.
+  -t <Templates file>       charge (et enregistre) les modèles de code à partir du fichier spécifié.
+  -a <tools file>           charge (et enregistre) la configuration des outils externes à partir du fichier spécifié.
+  -s <Source path>          change l'option "Répertoire principal" des préférences.
+  -e <Explorer path>        démarre l'outil 'Explorer' avec le chemin spécifié.
+  -l <Line number>          déplace le curseur à la ligne indiquée (seulement dans le dernier fichier chargé).
+  -H ou --history <fichier> le fichier à utiliser pour la base de données de l'historique de la session.
+ 
+@endfixedfont
+
+  Options pour compiler les projets:
+@FixedFont
+  -b ou --build <file>        spécifie le fichier de projet de construction
+  -T ou --target <target>     spécifie la cible à construire (la valeur par défaut est de construire toutes les cibles)
+  -q ou --quiet               cache tous les messages lors de la construction sauf les erreurs
+  -r ou --readonly            ne met pas à jour le fichier de projet après la compilation (ni nouvelle date d'accès et ni nouveaux compteurs de construction )
+@EndFixedFont
+ 
+  Par défaut, les fichiers utilisés par les paramètres -p -t et -a se trouvent dans le répertoire '.purebasic'
+  du dossier de l'utilisateur.
+@LineBreak
+@LineBreak
+@formatendif
+; == END OS SPECIFIC ==
+
+  Il est aussi possible d'ouvrir des fichiers en ligne de commande, 
+  par exemple la commande: PureBasic.exe Exemple.pb, ouvrira le 
+  fichier Exemple.pb dans l'éditeur de PureBasic. 
+  Il est même possible de spécifier un masque en entrée, par exemple 
+  "*.pb" chargera tous les fichiers sources du répertoire.
+
+
+

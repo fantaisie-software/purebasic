@@ -1,0 +1,383 @@
+;
+;     System library documentation
+;
+;      (c) 2020 - Fantaisie Software
+;
+
+@Library System
+
+@Overview
+  Die System-Bibliothek bietet Zugriff auf einige system-spezifische Informationen, wie die
+  Anzahl der CPU's, die Größe des verfügbaren Speichers, und mehr.
+
+@CommandList
+
+@ExampleFile All System.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CocoaMessage(RückgabeWertAdresse, Objekt, Methode$ [, ParameterWert [, Parameter$, [, ParamaterWert, ...]]])
+
+@Description
+  Für fortgeschrittene Anwender. Verfügbar nur auf OS X, erlaubt diese Funktion das einfache Senden einer
+  "Objective-C Message" (Nachricht) an das OS X Framework und den Zugriff auf jede API.
+  Normalerweise verwendet Objective-C Klammern, um eine klare Syntax für Nachrichten zu haben.
+  Da PureBasic jedoch keine Ojective-C Unterstützung eingebaut hat, muss es sie emulieren,
+  deshalb ist die Syntax etwas anders. Einmal erlernt, ist es einfach, die erforderliche API
+  aufzurufen. Um weitere Beispiele zu erhalten, lesen Sie bitte folgenden Thread im
+  @InternetLink "http://www.purebasic.fr/english/viewtopic.php?f=19&t=50795" "englischen Forum".
+  
+@Parameter "RückgabeWertAdresse"
+  Wenn der API-Aufruf eine Struktur oder einen anderen Typ als 'Integer' zurückgibt, wird dieses Feld
+  verwendet, um das zurückgegebene Ergebnis festzuhalten. Eine Adresse der Struktur oder Variable muss
+  angegeben werden. Wird Null angegeben, wird das Ergebnis ignoriert.
+
+@Parameter "Objekt"
+  Das Objekt, auf welches die Objective-C Methoden aufgerufen werden. Dies kann Null sein, wenn die
+  Methode eine statische Methode ist (meist bei der Erstellung eines Objekts).
+
+@Parameter "Methode$"
+  Die auf das Objekt aufzurufende Methode, üblicherweise gefolgt von einem Semikolon (':'). Wenn die Methode
+  eine Struktur als Parameter benötigt, muss '@' nach dem Semikolon angehängt werden. Wenn die Methode
+  einen String als Parameter erwartet, kann '$' nach dem Semikolon angehängt werden, wodurch der String
+  automatisch in einen temporären NSString konvertiert wird. Dies ist nicht erforderlich, aber es kann
+  nützlich sein und das Programmieren vereinfachen. Wenn die Methode vom Objekt nicht unterstützt wird,
+  wird während der Laufzeit eine Debugger-Meldung ausgegeben.
+  
+@OptionalParameter "ParameterWert"
+  Der Parameter-Wert, welcher der vorherigen Methode zugeordnet ist.
+
+@OptionalParameter "Parameter$"
+  Der nächste Methoden-Parameter. PureBasic unterstützt bis zu 7 Methoden-Parameter.
+
+@ReturnValue
+  Integer-Rückgabewert. Nützlich für die ID zur Objekt-Erstellung.
+
+@Remarks
+  PureBasic hat bereits einen temporären Speicher-Pool eingerichtet, welcher bei jedem Aufruf von
+  @@WindowEvent oder @@WaitWindowEvent geleert wird. Wenn Sie große Objekte sofort freigeben
+  müssen, müssen Sie einen lokalen Speicher-Pool rund um Ihre Aufrufe schaffen.
+
+@Example mit String
+@Code
+  ; Objective-C: 
+  ;   ColorList = [NSColorList colorListNamed:@"Crayons"];
+  ;
+  ColorList = CocoaMessage(0, 0, "NSColorList colorListNamed:$", @"Crayons") ; Wird einen NSString für "Crayons" unter der Haube erstellen
+@EndCode
+
+@Example mit komplexem Typ
+@Code
+  ; Objective-C: 
+  ;   Transform = [NSAffineTransform transform];
+  ;
+  Transform = CocoaMessage(0, 0, "NSAffineTransform transform") ; Sorgt für eine "Identity"-Umwandlung
+
+  ; Objective-C: 
+  ;   [TransForm scaleXBy:sx yBy:sy];
+  ;
+  sx.CGFloat = 5.5
+  sy.CGFloat = 20
+  CocoaMessage(0, TransForm, "scaleXBy:@", @sx, "yBy:@", @sy) ; Skaliere x mit 5.5, y mit 20. Da sx kein Integer ist, muss '@' angegeben werden
+  
+  ; Objective-C: 
+  ;   NSAffineTransform TransformStruct = [TransForm transformStruct];
+  ;
+  CocoaMessage(@TransformStruct.NSAffineTransform, TransForm, "transformStruct") ; Umwandlungs-Struktur ermitteln
+  
+  Debug TransformStruct\m11 ; debug outputs 5.5
+@EndCode
+
+@SupportedOS
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = CPUName()
+
+@Description
+  Gibt den Namen der CPU zurück.
+  
+@NoParameters
+
+@ReturnValue
+  Gibt den Namen der CPU (die vollständigen Herstellerangaben) zurück. Es gibt keine
+  standardisierten Ausgabe über der CPU, so dass diese Informationen nicht für die
+  Ermittlung der CPU zur Laufzeit verwendet werden sollten. Sie können jedoch nützlich
+  für Protokollierungszwecke (Logs) sein.
+
+@Example
+
+@Code
+  Debug CPUName() ; Könnte z.B. ausgeben: "Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz"
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Delay(Zeit)
+
+@Description
+  Hält die Programmausführung für die angegebene Zeit an.
+  
+@Parameter "Zeit"
+  Die Halte- oder auch Wartezeit (englisch "delay time") in Millisekunden.
+  Das tatsächliche Anhalten kann länger als die angegebene Zeit dauern.
+
+@NoReturnValue
+
+@Remarks
+  Delay ist insbesondere nützlich in Ereignis-Warteschleifen mit @@WindowEvent oder
+  @@ExamineKeyboard, damit diese Funktionen nicht die gesamte Rechenzeit "schlucken".
+@LineBreak
+@LineBreak
+  Tatsächlich hält diese Funktion den aktuellen Thread an.
+
+@SeeAlso
+  @@ElapsedMilliseconds
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.q = ElapsedMilliseconds()
+
+@Description
+  Gibt die Anzahl an Millisekunden zurück, welche seit einer bestimmten Zeit
+  in der Vergangenheit abgelaufen sind.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die abgelaufene Zeit in Millisekunden zurück.
+  
+@Remarks
+  Der zurückgegebene absolute Wert ist
+  nutzlos, da er abhängig vom Betriebssystem variiert. Stattdessen sollte diese
+  Funktion verwendet werden, um Zeitunterschiede zwischen mehreren ElapsedMilliseconds()
+  Aufrufen zu berechnen.
+@LineBreak
+@LineBreak
+  Diese Funktion ist relativ genau: es kann eine leichte Differenz auftreten, je nachdem 
+  auf welchem Betriebssystem sie ausgeführt wird, da manche Systeme eine niedrigere
+  Timer-Auflösung als andere haben.
+
+@Example
+@Code
+  StartTime.q = ElapsedMilliseconds()     ; ermittelt den aktuellen Wert
+  Delay(1000)                             ; wartet 1000 Millisekunden
+  Debug ElapsedMilliseconds() - StartTime ; der angezeigte Wert sollte ca. 1000 Millisekunden betragen
+@EndCode
+
+@SeeAlso
+  @@Delay
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DoubleClickTime()
+
+@Description
+  Gibt die System-Einstellung für die Zeit eines Doppelklicks zurück.
+  Wenn zwei Mausklicks innerhalb dieser Zeit stattfinden, werden sie als Doppelklick
+  erkannt.
+  
+@NoParameters
+
+@ReturnValue
+  Gibt die Doppelklick-Zeit in Millisekunden zurück.
+  
+@Remarks
+  Diese Funktion kann verwendet werden, um das Maus-Handling auf einem
+  @Link "Screen/OpenScreen" "Screen (Bildschirm)" oder in einem @@CanvasGadget
+  konsistent zu den globalen System-Einstellungen zu machen.
+  
+@SeeAlso
+  @@ElapsedMilliseconds, @@OpenScreen, @@OpenWindowedScreen, @@CanvasGadget
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = OSVersion()
+
+@Description
+  Ermittelt die Version des Betriebssystems (OS - "Operating System"), auf welchem das
+  Programm gestartet wurde. Dies kann z.B. nützlich sein, um abhängig vom laufenden
+  Betriebssystem einige Features automatisch ein- oder auszuschalten.
+
+@NoParameters
+
+@ReturnValue
+  Gibt einen der folgenden Werte zurück, abhängig vom OS auf dem der Befehl läuft:
+@LineBreak
+@LineBreak
+
+  @Bold "Windows"
+@Indent
+@FixedFont
+  @#PB_OS_Windows_NT3_51
+  @#PB_OS_Windows_95
+  @#PB_OS_Windows_NT_4
+  @#PB_OS_Windows_98
+  @#PB_OS_Windows_ME
+  @#PB_OS_Windows_2000
+  @#PB_OS_Windows_XP
+  @#PB_OS_Windows_Server_2003
+  @#PB_OS_Windows_Vista
+  @#PB_OS_Windows_Server_2008
+  @#PB_OS_Windows_7
+  @#PB_OS_Windows_Server_2008_R2
+  @#PB_OS_Windows_8
+  @#PB_OS_Windows_Server_2012
+  @#PB_OS_Windows_8_1
+  @#PB_OS_Windows_Server_2012_R2
+  @#PB_OS_Windows_10
+  @#PB_OS_Windows_Future  ; neue Windows Version (nicht existent, als das Programm geschrieben wurde)
+@EndFixedFont
+@EndIndent
+
+  @Bold "Linux"
+@Indent
+@FixedFont
+  @#PB_OS_Linux_2_2
+  @#PB_OS_Linux_2_4
+  @#PB_OS_Linux_2_6
+  @#PB_OS_Linux_Future  ; neue Linux Version (nicht existent, als das Programm geschrieben wurde)
+@EndFixedFont
+@EndIndent
+
+  @Bold "Mac OSX"
+@Indent
+@FixedFont
+  @#PB_OS_MacOSX_10_0
+  @#PB_OS_MacOSX_10_1
+  @#PB_OS_MacOSX_10_2
+  @#PB_OS_MacOSX_10_3
+  @#PB_OS_MacOSX_10_4
+  @#PB_OS_MacOSX_10_5
+  @#PB_OS_MacOSX_10_6
+  @#PB_OS_MacOSX_10_7
+  @#PB_OS_MacOSX_10_8
+  @#PB_OS_MacOSX_10_9
+  @#PB_OS_MacOSX_10_10
+  @#PB_OS_MacOSX_10_11
+  @#PB_OS_MacOSX_Future  ; neue MacOS X Version (nicht existent, als das Programm geschrieben wurde)
+@EndFixedFont
+@EndIndent
+
+@Example
+@Code
+  Select OSVersion()
+    Case #PB_OS_Windows_98
+      MessageRequester("Info", "Windows 98")
+
+    Case #PB_OS_Windows_2000
+      MessageRequester("Info", "Windows 2000")
+
+    Case #PB_OS_Windows_XP
+      MessageRequester("Info", "Windows XP")
+
+    Default
+      MessageRequester("Info", "Unsupported Windows version")
+  EndSelect
+@EndCode
+
+  Hinweis: Der Wert dieser Konstanten wird vor dem Zeitpunkt der Veröffentlichung jeder Version
+  festgelegt, daher können Tests wie der folgende verwendet werden, um alle Versionen älter 
+  oder neuer als die angegebene Version zu überprüfen:
+
+@Code
+  If OSVersion() < #PB_OS_Windows_2000
+    ;
+    ; Alle Versionen älter als Windows 2000
+    ;
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = ComputerName()
+
+@Description
+  Gibt den Namen des Computers zurück.
+
+@NoParameters
+  
+@ReturnValue
+  Gibt den Namen des Computers zurück.
+
+@Example
+@Code
+  Debug "Computer-Name: "+ComputerName()
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = UserName()
+
+@Description
+  Gibt den Namen des derzeit eingeloggten Anwenders zurück.
+
+@NoParameters
+  
+@ReturnValue
+  Gibt den Namen des derzeit eingeloggten Anwenders zurück.
+
+@Example
+@Code
+  Debug "Aktuell eingeloggter Anwender: "+UserName()
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.q = MemoryStatus(Typ)
+
+@Description
+  Gibt eine Information zum angegebenen Speichertyp zurück.
+
+@Parameter "Typ"
+  Der Typ des zu ermittelnden Speichers. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_System_TotalPhysical: die Gesamtmenge des installierten Speichers, in Bytes
+  @#PB_System_FreePhysical : der verfügbare Speicher, in Bytes
+  @#PB_System_TotalVirtual : die gesamte Größe des virtuellen Speichers, in Bytes (nur Windows)
+  @#PB_System_FreeVirtual  : der verfügbare virtuelle Speicher, in Bytes (nur Windows)
+  @#PB_System_TotalSwap    : der gesamte Auslagerungsspeicher, in Bytes (nur Windows und Linux)
+  @#PB_System_FreeSwap     : der verfügbare Auslagerungsspeicher, in Bytes (nur Windows und Linux)
+  @#PB_System_PageSize     : die Speicher-Page-Größe, in Bytes (in der Regel 4 KB).
+@EndFixedFont
+
+@ReturnValue
+  Gibt eine Information zum angegebenen Speichertyp zurück.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CountCPUs([Typ])
+
+@Description
+  Gibt die Anzahl der verfügbaren CPU-Kerne zurück.
+
+@OptionalParameter "Typ"
+  Der abzufragende CPU-Typ. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_System_CPUs        : die Gesamtzahl der CPU-Kerne, die in diesem Computer installiert sind. (Standard)
+  @#PB_System_ProcessCPUs : die für den aktuellen Prozess verfügbaren CPU-Kerne. Dies ist nützlich, da das
+                           OS einen Prozess auf die Verwendung einer kleinen CPU-Anzahl begrenzen kann.
+@EndFixedFont
+  
+@ReturnValue
+  Gibt die Anzahl der verfügbaren CPU-Kerne zurück.
+
+@SupportedOS

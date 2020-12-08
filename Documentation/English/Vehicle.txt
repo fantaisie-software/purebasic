@@ -1,0 +1,291 @@
+;
+;     Vehicle library documentation
+;
+;      (c) 2016 - Fantaisie Software
+;
+
+@Library Vehicle
+
+@Overview
+
+Vehicle are usually composed of one body and one or many wheels (cars, trucks, bicycle, etc.). The new created vehicle 
+is a regular @LibraryLink "entity" "entity", so all entity functions can be used to manipulate a vehicle.
+@LineBreak
+@LineBreak
+@@InitEngine3D should be called successfully before using the vehicle functions.
+
+@CommandList
+
+@ExampleFile All Vehicle.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddVehicleWheel(#Entity, #WheelEntity, ConnectX.f, ConnectY.f, ConnectZ.f, AxisX.f, AxisY.f, AxisZ.f, MaxSuspensionLength.f, WheelRadius.f, TractionWheel, RollInfluence.f)
+
+@Description
+  Add a new wheel to a vehicle previous created with @@CreateVehicle.
+
+@Parameter "#Entity"
+  The vehicle entity to use.
+
+@Parameter "#WheelEntity"
+  The entity to use for the wheel.
+
+@Parameter "ConnectX, ConnectY, ConnectZ"
+  The starting point of the ray, where the suspension connects to the chassis.
+  
+@Parameter "AxisX, AxisY, AxisZ"
+  The axis the wheel rotates around.
+  
+@Parameter "MaxSuspensionLength"
+  The maximum length of the suspension (in meters).
+
+@Parameter "WheelRadius"
+  Radius of the wheel.
+  
+@Parameter "TractionWheel"
+  If sets to @#True, this wheel will be a traction wheel: @@ApplyVehicleForce and @@ApplyVehicleSteering can be
+  used on it. If sets to @#False, no force can be applied to the wheel.
+
+@Parameter "RollInfluence"
+  Reduces the rolling torque applied from the wheels that cause the vehicle to roll over.
+  (0.0: no roll, 1.0: physical behaviour). If friction is too high, it could be needed to reduce 
+  this value to stop the vehicle rolling over.
+
+@NoReturnValue
+
+@SeeAlso @@ApplyVehicleBrake, @@ApplyVehicleForce, @@CreateVehicle
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ApplyVehicleForce(#Entity, Wheel, Force.f)
+
+@Description
+  Apply the specified traction force to the vehicle wheel. The new traction force value replace any previous force previously
+  applied to the vehicle wheel.
+
+@Parameter "#Entity"
+  The vehicle entity to use.
+
+@Parameter "Wheel"
+  The wheel index, starting from 0.
+
+@Parameter "Force"
+  The traction force to apply on the wheel.
+
+@NoReturnValue
+
+@SeeAlso @@ApplyVehicleSteering, @@ApplyVehicleBrake, @@AddVehicleWheel
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ApplyVehicleBrake(#Entity, Wheel, Brake.f)
+
+@Description
+  Apply the specified brake force to the vehicle wheel. The new brake force value replace any previous force previously
+  applied to the vehicle wheel.
+
+@Parameter "#Entity"
+  The vehicle entity to use.
+
+@Parameter "Wheel"
+  The wheel index, starting from 0.
+
+@Parameter "Brake"
+  The brake force to apply on the wheel.
+
+@NoReturnValue
+
+@SeeAlso @@ApplyVehicleSteering, @@ApplyVehicleForce, @@AddVehicleWheel
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ApplyVehicleSteering(#Entity, Wheel, Steering.f)
+
+@Description
+  Apply the specified steering force to the vehicle wheel. The new steering force value replace any previous force previously
+  applied to the vehicle wheel.
+
+@Parameter "#Entity"
+  The vehicle entity to use.
+
+@Parameter "Wheel"
+  The wheel index, starting from 0.
+
+@Parameter "Steering"
+  The steering force to apply on the wheel.
+
+@NoReturnValue
+
+@SeeAlso @@ApplyVehicleBrake, @@ApplyVehicleForce, @@AddVehicleWheel
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateVehicle(#Entity)
+
+@Description
+  Creates a new vehicle #Entity.
+  
+@Parameter "#Entity" 
+  The number to identify the new entity. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@ReturnValue
+  Returns zero if the vehicle entity can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used 
+  as '#Entity' parameter, the new vehicle entity number is returned.
+
+@SeeAlso
+  @@FreeEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateVehicleBody(#Entity, Mass.f, Restitution.f, Friction.f [, SuspensionStiffness.f, SuspensionCompression.f, SuspensionDamping.f, MaxSuspensionCompression.f, Friction.f)
+
+@Description
+  Creates a physic body associated with the vehicle #Entity. 
+@LineBreak
+@LineBreak
+  To have its collisions managed by the physic engine, an entity has to set a body. 
+  In fact, only the body is known by the physic engine, which will
+  do all the calculation about the entity, check the mass, friction and if it collides will move back
+  the real entity. 
+@LineBreak
+@LineBreak
+  To have any effect, the physic engine needs to be activated with the @@EnableWorldPhysics.
+  
+@Parameter "#Entity"
+  The vehicle entity to use.
+  
+@Parameter "Mass"
+  Mass of the vehicle. Don't use too big value or it could produce physic incoherencies (1 is the preferred value). 
+ 
+@Parameter "Restitution"
+  Restitution of the vehicle. This value can also be get or set via @@GetEntityAttribute and @@SetEntityAttribute
+
+@Parameter "Friction"
+  Friction of the vehicle. This value can also be get or set via @@GetEntityAttribute and @@SetEntityAttribute
+
+@OptionalParameter "SuspensionStiffness"
+  The stiffness value for the suspension (10: Offroad buggy, 50: Sports car, 200: F1 Car)
+
+@OptionalParameter "SuspensionCompression"
+  The damping coefficient to use when the suspension is compressed. Sets to value * 2 * SquareRoot(SuspensionStiffness), so it is proportional to critical damping.
+  Value examples:
+@FixedFont
+  value = 0: undamped & bouncy
+  value = 1: critical damping
+@EndFixedFont
+  Recommanded values are from 0.1 to 0.3.
+
+@OptionalParameter "SuspensionDamping"
+  The damping when the suspension is expanding. See the SuspensionCompression to know how to set this value.
+  SuspensionDamping should be slightly larger than SuspensionCompression. Recommanded values are from 0.2 to 0.5.
+  
+@OptionalParameter "MaxSuspensionCompression"
+  The length the suspension can be compressed (in centimeters).
+
+@OptionalParameter "Friction"
+  The friction between the tyre and the ground. Should be about 0.8 for realistic cars, but can increased for better handling.
+  A large value (10000.0) can be used for kart racers like handling.
+
+@NoReturnValue
+
+@SeeAlso
+  @@FreeEntityBody
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = GetVehicleAttribute(#Entity, Attribute, Wheel)
+
+@Description
+  Get the specified attribute of the given vehicle entity.
+
+@Parameter "#Entity"
+  The vehicle entity to use.
+
+@Parameter "Attribute"
+  The attribute to get. The following attributes are available:
+@FixedFont
+  @#PB_Vehicle_Friction: get the wheel friction value (see @@CreateVehicleBody for more info).
+  @#PB_Vehicle_MaxSuspensionForce: get the wheel maximum suspension force value (see @@CreateVehicleBody for more info).
+  @#PB_Vehicle_SuspensionStiffness: get the stiffness value for the suspension (see @@CreateVehicleBody for more info).
+  @#PB_Vehicle_MaxSuspensionCompression: get the wheel maximum suspension compression value (see @@CreateVehicleBody for more info).
+  @#PB_Vehicle_MaxSuspensionLength: get the maximum length of the suspension (meters).
+  @#PB_Vehicle_WheelDampingCompression: get the wheel damping compression value.
+  @#PB_Vehicle_WheelDampingRelaxation: get the wheel damping relaxation value.
+  @#PB_Vehicle_RollInfluence: get the wheel roll influence value (see @@AddVehicleWheel for more info).
+  @#PB_Vehicle_IsInContact: return @#True if the vehicule is in contact with another object, @#False otherwise.
+  @#PB_Vehicle_CurrentSpeedKmHour: get the current vehicule speed in Km/Hour.
+  @#PB_Vehicle_ContactPointX: get the X contact point coordinate.
+  @#PB_Vehicle_ContactPointY: get the Y contact point coordinate.
+  @#PB_Vehicle_ContactPointZ: get the Z contact point coordinate.
+  @#PB_Vehicle_ContactPointNormalX: get the X normal value of the contact point.
+  @#PB_Vehicle_ContactPointNormalY: get the Y normal value of the contact point.
+  @#PB_Vehicle_ContactPointNormalZ: get the Z normal value of the contact point.
+  @#PB_Vehicle_ForwardVectorX: get the X forward vector value of the contact point.
+  @#PB_Vehicle_ForwardVectorY: get the Y forward vector value of the contact point.
+  @#PB_Vehicle_ForwardVectorZ: get the Z forward vector value of the contact point.
+@EndFixedFont
+
+@Parameter "Wheel"
+  The wheel index, starting from 0. 
+
+@ReturnValue
+  Returns the value of the specified attribute or 0 if the vehicle does not support the attribute.
+
+@SeeAlso
+  @@SetVehicleAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetVehicleAttribute(#Entity, Attribute, Value.f [, Wheel])
+
+@Description
+  Set the specified attribute value to the given vehicle entity.
+  For more info about attributes possible value, .
+
+@Parameter "#Entity"
+  The vehicle entity to use.
+
+@Parameter "Attribute"
+  The attribute to set. The following attributes are available:
+@FixedFont
+  @#PB_Vehicle_Friction: set the wheel friction value (see @@CreateVehicleBody for more info).
+  @#PB_Vehicle_MaxSuspensionForce: set the wheel maximum suspension force value (see @@CreateVehicleBody for more info).
+  @#PB_Vehicle_SuspensionStiffness: set the stiffness value for the suspension (see @@CreateVehicleBody for more info).
+  @#PB_Vehicle_MaxSuspensionCompression: set the wheel maximum suspension compression value (see @@CreateVehicleBody for more info).
+  @#PB_Vehicle_MaxSuspensionLength: set the maximum length of the suspension (meters).
+  @#PB_Vehicle_WheelDampingCompression: set the wheel damping compression value.
+  @#PB_Vehicle_WheelDampingRelaxation: set the wheel damping relaxation value.
+  @#PB_Vehicle_RollInfluence: set the wheel roll influence value (see @@AddVehicleWheel for more info).
+@EndFixedFont
+
+@Parameter "Value"
+  Value of the attribute to set.
+  
+@OptionalParameter "Wheel"
+  The wheel index, starting from 0. If not specified, or sets to @#PB_All, the new attribute value is applied to all wheels.
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetVehicleAttribute
+
+@SupportedOS
+

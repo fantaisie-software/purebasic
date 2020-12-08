@@ -1,0 +1,172 @@
+;
+;     Scintilla library documentation
+;
+;      (c) 2018 - Fantaisie Software
+;
+
+@Library Scintilla
+
+@Overview
+  Scintilla ist eine freie Quellcode-Editor-Komponente. Sie kommt mit komplettem Quellcode und
+  einer Lizenz, welche die Verwendung in jedem freien oder kommerziellen Projekt bzw. Produkt erlaubt.
+  Die Lizenz kann @MainGuideLink "scintilla" "hier" eingesehen werden. Der Quellcode wie auch
+  die Dokumentation der Bibliothek ist auf der @InternetLink "http://www.scintilla.org/" "Scintilla-Homepage" zu finden.
+@LineBreak
+@LineBreak
+  @Bold "Von der Scintilla-Homepage: "
+  Neben den auch bei anderen Standard-Texteditor-Komponenten zu findenden Features beinhaltet Scintilla 
+  auch Funktionen, welche speziell beim Editieren und Debuggen von Quellcode nützlich sind.
+  Dies schließt Unterstützung für Syntax-Styling, Fehler-Anzeiger, Code-Komplettierung und Aufruf-Tipps ein.
+  Der Auswahl-Seitenrand kann Markierungen enthalten, wie sie in Debuggern verwendet werden, um Haltepunkte
+  und die aktuelle Zeile anzuzeigen. Die Styling-Optionen sind umfangreicher als bei vielen Editoren, sie
+  erlauben die Verwendung proportionaler Zeichensätze, Fett- und Kursivschrift, mehrere Vorder- und 
+  Hintergrundfarben sowie Zeichensätze.
+@LineBreak
+@LineBreak
+  @Bold "Wichtig:" Die Scintilla-Lizenz erfordert es, dass in jeder Software, welche Scintilla verwendet,
+  eine Copyright-Notiz in der Software selbst und der Lizenztext in der Dokumentation der Software aufgenommen werden.
+  Wenn also diese Bibliothek in einer Software verwendet wird, welche öffentlich gemacht werden soll, dann MUSS
+  die oben verlinkte Lizenz in diese Software aufgenommen werden.
+@LineBreak
+@LineBreak
+  PureBasic integriert die Scintilla-Bibliothek mit der @LibraryLink "Gadget" "Gadget Bibliothek", somit können 
+  Standard-Befehle wie @@ResizeGadget oder @@HideGadget 
+  mit dem Scintilla-Control verwendet werden. Weiterhin bietet sie die @@ScintillaSendMessage 
+  Funktion, um mit dem Control zu kommunizieren, um dessen volles Potential zu nutzen. Alle benötigten
+  Strukturen und Konstanten sind bereits in PureBasic definiert.
+@LineBreak
+@LineBreak
+
+@CommandList
+ 
+; @ExampleFile ; TODO
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = InitScintilla([LibraryName$])
+
+@Description
+  Lädt die Scintilla DLL, welche benötigt wird, um die Befehle dieser Bibliothek nutzen zu können.
+
+@OptionalParameter "LibraryName$"
+  Gibt den Pfad und den Namen der DLL-Datei an (Standard ist 'scintilla.dll').
+  Die Scintilla DLL-Datei befindet sich im "Compilers" Ordner des PureBasic-Paketes.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn die Bibliothek erfolgreich geladen wurde, andernfalls Null.
+  Auf OS X und Linux ist der Rückgabewert immer @#True, da die Library statisch verlinkt ist.
+
+@Remarks
+  Dieser Befehl ist nur auf Windows nützlich, da auf den anderen OS die
+  Scintilla-Library statisch mit dem Executable verlinkt wird und somit nicht geladen oder 
+  mit dem Programm verteilt werden muss.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ScintillaGadget(#Gadget, x, y, Breite, Höhe, @Callback())
+
+@Description
+  Erstellt ein neues Scintilla Editor-Control innerhalb der aktuellen Gadgetliste.
+  @@InitScintilla muss erfolgreich aufgerufen worden sein, bevor dieser Befehl verwendet wird.
+  
+@Parameter "#Gadget"
+  Eine Nummer zum Identifizieren des neuen Gadgets. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "x, y, Breite, Höhe"
+  Die Position und Dimensionen des neuen Gadgets.
+
+@Parameter "@Callback()"
+  Die Adresse einer Prozedur, um Ereignisse vom Control zu empfangen.
+  Sie muss wie folgt definiert werden, wobei 'Gadget' die Gadgetnummer des Controls ist und
+  *scinotify auf eine Struktur mit Informationen über das Ereignis zeigt:
+@Code
+
+  Procedure ScintillaCallBack(Gadget, *scinotify.SCNotification)
+    ; Ihr Code hier
+  EndProcedure
+
+@EndCode
+
+@ReturnValue
+  Gibt im Erfolgsfall einen Wert ungleich Null zurück. Wenn @#PB_Any als #Gadget Parameter
+  verwendet wurde, dann wird im Erfolgsfall die automatisch generierte Gadget-Nummer
+  zurückgegeben.
+
+@Remarks
+  Die folgenden Ereignisse werden durch @@EventType unterstützt:
+@FixedFont
+  @#PB_EventType_RightClick
+@EndFixedFont
+
+  Nach der Erstellung können Scintilla-spezifische Befehle mit dem 
+  @@ScintillaSendMessage Befehl an das Control gesandt werden.
+  Zusätzlich können ebenfalls die gebräuchlichen Gadget-Befehle wie @@ResizeGadget 
+  oder @@HideGadget mit dem Control verwendet werden.
+  
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 330, 90, "ScintillaGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    
+    If InitScintilla()
+      ScintillaGadget(0, 10, 10, 320, 70, 0)
+      
+      ; Ausgabe auf rote Farbe setzen
+      ScintillaSendMessage(0, #SCI_STYLESETFORE, 0, RGB(255, 0, 0))
+      
+      ; Anfänglichen Text des ScintillaGadgets festlegen
+      *Text = UTF8("This is a simple ScintillaGadget with text...")
+      ScintillaSendMessage(0, #SCI_SETTEXT, 0, *Text)
+      FreeMemory(*Text)  ; Der von UTF8() erstellte Puffer muss freigegeben werden, um ein Speicherleck zu vermeiden
+      
+      ; Hinzufügen einer zweiten Zeile mit einem vorherigen Zeilenumbruch
+      Text$ = Chr(10) + "Second line"
+      *Text = UTF8(Text$)
+      ScintillaSendMessage(0, #SCI_APPENDTEXT, Len(Text$), *Text)
+      FreeMemory(*Text)
+    EndIf
+    
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@Image scintillagadget.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ScintillaSendMessage(#Gadget, Message [, Param [, lParam]])
+
+@Description
+  Sendet eine Nachricht ("Message") an das Scintilla-Control, um eine bestimmte Aktion auszuführen.
+
+@Parameter "#Gadget"
+  Das zu verwendende Scintilla-Gadget.
+
+@Parameter "Message"
+  Die zu sendende Nachricht.
+  Weitere Informationen über die möglichen Nachrichten sind auf der @InternetLink "http://www.scintilla.org/" "Scintilla Homepage"
+  zu finden. Die @#SCI_[...] Konstanten, welche die mögliche Werte für 'Message' repräsentieren,
+  sind bereits in PureBasic definiert.
+  
+@OptionalParameter "Param"
+  Der erste benutzerdefinierte ("custom") Parameter für die angegebene Nachricht.
+  Der Standard-Wert, wenn nicht angegeben, ist Null.
+
+@OptionalParameter "LParam"
+  Der zweite benutzerdefinierte ("custom") Parameter für die angegebene Nachricht.
+  Der Standard-Wert, wenn nicht angegeben, ist Null.
+
+@ReturnValue
+  Das Ergebnis der gesendeten Nachricht.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+

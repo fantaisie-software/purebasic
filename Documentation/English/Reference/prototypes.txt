@@ -1,0 +1,74 @@
+@Title Prototypes
+
+@Syntax
+
+  @Keyword Prototype.<type> name(<parameter>, [, <parameter> [= DefaultValue]...])
+
+@Description
+
+  For advanced programmers. @Keyword Prototype allows to declare a type which will map
+  a function. It's useful when used with a variable, to do a function pointer (the
+  variable value will be the address the function to call, and can be changed at will).
+  @LineBreak
+  @LineBreak
+  This feature can replace the @@OpenLibrary and 
+  @@CallFunction sequence as it has some 
+  advantages: type checking is done, number of of parameters is validated. 
+  @LineBreak
+  @LineBreak
+  Unlike CallFunction(), it can deal with double, float and quad @ReferenceLink "variables" "variables"
+  without any problem. To get easily the pointer
+  of a library function, use @@GetFunction. 
+  @LineBreak
+  @LineBreak
+  The last parameters can have a default value (need to be a constant expression), so if 
+  these parameters are omitted when the function is called, the default value will be used.
+  @LineBreak
+  @LineBreak
+  By default the function will use the standard call convention (stdcall on x86, or fastcall on x64). If the function pointer will be
+  a C one, the @Keyword PrototypeC variant should be used instead.
+  @LineBreak
+  @LineBreak
+  The @ReferenceLink "pseudotypes" "pseudotypes" can be used for the parameters, but not for the returned
+  value.
+  
+@Example 
+
+@Code
+
+  Prototype.i ProtoMessageBox(Window.i, Body$, Title$, Flags.i = 0)
+
+  If OpenLibrary(0, "User32.dll")
+   
+    ; 'MsgBox' is a variable with a 'ProtoMessageBox' type
+    ;
+    MsgBox.ProtoMessageBox = GetFunction(0, "MessageBoxA")
+    
+    MsgBox(0, "Hello", "World") ; We don't specify the flags
+  EndIf
+    
+@EndCode
+
+
+@Example With pseudotypes
+
+@Code
+  ; We use the 'p-unicode' pseudotype for the string parameters, as
+  ; MessageBoxW() is an unicode only function. The compiler will 
+  ; automatically converts the strings to unicode when needed.
+  ;
+  Prototype.i ProtoMessageBoxW(Window.i, Body.p-unicode, Title.p-unicode, Flags.i = 0)
+
+  If OpenLibrary(0, "User32.dll")
+   
+    ; 'MsgBox' is a variable with a 'ProtoMessageBoxW' type
+    ;
+    MsgBox.ProtoMessageBoxW = GetFunction(0, "MessageBoxW")
+    
+    MsgBox(0, "Hello", "World") ; We don't specify the flags
+  EndIf
+    
+@EndCode
+
+
+

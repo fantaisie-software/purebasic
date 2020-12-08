@@ -1,0 +1,370 @@
+;
+;     System library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library System
+
+@Overview
+
+The system library offers access to some system specific information, like the number of CPUs,
+amount of memory available, and more.
+
+@CommandList
+
+@ExampleFile All System.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CocoaMessage(ReturnValueAddress, Object, Method$ [, ParameterValue [, Parameter$, [, ParamaterValue, ...]]])
+
+@Description
+  For advanced users. Available on OS X only, it allows to easily send an Objective-C message to the OS X framework and access
+  any API. Usually Objective-C use brackets to have a clear syntax for messages. As PureBasic doesn't have built-in Objective-C
+  support, it needs to emulate it, so the syntax is a bit different. Once learnt, it's easy to call the required API.
+  To get more examples, please read the following thread on the @InternetLink "http://www.purebasic.fr/english/viewtopic.php?f=19&t=50795" "forums".
+  
+@Parameter "ReturnValueAddress"
+  If the API call return a structure or a type different than 'integer', this field is used to set the returning result. 
+  An address to the structure or variable needs to be specified. If zero is specified, the result will be ignored.
+
+@Parameter "Object"
+  The object on which the Objective-C methods will be called. It can be zero if the method is a static method
+  (mostly when creating an object).
+
+@Parameter "Method$"
+  The method to call on the object, usually followed by a semicolon (':'). If the method needs a structure as parameter, '@'
+  needs to be appended after the semicolon. If the method expect a string as parameter, '$' can be appended after the
+  semicolon, so the string will be automatically converted in a temporary NSString. This is not required, but it can be useful
+  and ease the coding. If the method isn't supported by the object, a debugger message will be raised at runtime.
+  
+@OptionalParameter "ParameterValue"
+  The parameter value associated to the previous method.
+
+@OptionalParameter "Parameter$"
+  The next method parameter. PureBasic support up to 7 method parameters.
+
+@ReturnValue
+  Integer return value. Useful for object creation id.
+
+@Remarks
+  PureBasic has already setup a temporary memory pool which is flushed every time @@WindowEvent or @@WaitWindowEvent is called. If you need
+  to release big objects immediately, you will have to create a local memory pool around your calls.
+
+@Example with string
+@Code
+  ; Objective-C: 
+  ;   ColorList = [NSColorList colorListNamed:@"Crayons"];
+  ;
+  ColorList = CocoaMessage(0, 0, "NSColorList colorListNamed:$", @"Crayons") ; Will create an NSString for "Crayons" under the hood
+@EndCode
+
+@Example with complex type
+@Code
+  ; Objective-C: 
+  ;   Transform = [NSAffineTransform transform];
+  ;
+  Transform = CocoaMessage(0, 0, "NSAffineTransform transform") ; Get an identity transform
+
+  ; Objective-C: 
+  ;   [TransForm scaleXBy:sx yBy:sy];
+  ;
+  sx.CGFloat = 5.5
+  sy.CGFloat = 20
+  CocoaMessage(0, TransForm, "scaleXBy:@", @sx, "yBy:@", @sy) ; Scale x by 5.5, y by 20. As sx is not an integer, '@' needs to be specified
+  
+  ; Objective-C: 
+  ;   NSAffineTransform TransformStruct = [TransForm transformStruct];
+  ;
+  CocoaMessage(@TransformStruct.NSAffineTransform, TransForm, "transformStruct") ; Get the transform structure
+  
+  Debug TransformStruct\m11 ; debug outputs 5.5
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = CPUName()
+
+@Description
+  Returns the name of the CPU.
+
+@NoParameters
+
+@ReturnValue
+  Returns the name of the CPU (the full vendor information). There is no standardized output across
+  CPU, so this information shouldn't be used to identify the CPU at runtime, but can be useful for logging
+  purpose.
+
+@Example
+
+@Code
+  Debug CPUName() ; Could print: "Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz"
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Delay(Time)
+
+@Description
+  Halts the program execution for the specified amount of time.
+  
+@Parameter "Time"
+  The delay time in milliseconds. The actual delay may be longer than the specified time.
+
+@NoReturnValue
+
+@Remarks
+  Delay is especially useful in event loops with @@WindowEvent or
+  @@ExamineKeyboard, so these functions do not "eat" the entire CPU power.
+@LineBreak
+@LineBreak
+  In fact, this function halts the current thread.
+
+@SeeAlso
+  @@ElapsedMilliseconds
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.q = ElapsedMilliseconds()
+
+@Description
+  Returns the number of milliseconds that have elapsed since a specific time
+  in the past. 
+
+@NoParameters
+
+@ReturnValue
+  Returns the elapsed time in milliseconds.
+  
+@Remarks
+  The absolute value returned is of no use since it varies depending
+  on the operating system. Instead, this function should be used to calculate time
+  differences between multiple ElapsedMilliseconds() calls.
+@LineBreak
+@LineBreak
+  This function is relatively accurate: it may have a slight variation, depending
+  on which operating system it is executed on, this is due to the fact that some
+  systems have a lower timer resolution than others.
+
+@Example
+@Code
+  StartTime.q = ElapsedMilliseconds()     ; Get the actual value
+  Delay(1000)                             ; Wait 1000 milliseconds
+  Debug ElapsedMilliseconds() - StartTime ; Displayed value should be about 1000 milliseconds
+@EndCode
+
+@SeeAlso
+  @@Delay
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DoubleClickTime()
+
+@Description
+  Returns the system setting for the double-click time. If two mouse clicks happen within this
+  time, they are considered a double-click.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the double-click time in milliseconds.
+  
+@Remarks
+  This function can be used to make mouse handling in a @Link "Screen/OpenScreen" "screen" or @@CanvasGadget
+  consistent with the overall system settings.
+  
+@SeeAlso
+  @@ElapsedMilliseconds, @@OpenScreen, @@OpenWindowedScreen, @@CanvasGadget
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OSVersion()
+
+@Description
+  Returns the version of the operating system on which the program has been launched.
+
+@NoParameters
+
+@ReturnValue
+  Returns one of the following values, depending on the OS on which the command run:
+@LineBreak
+@LineBreak
+
+  @Bold "Windows"
+@Indent
+@FixedFont
+  @#PB_OS_Windows_NT3_51
+  @#PB_OS_Windows_95
+  @#PB_OS_Windows_NT_4
+  @#PB_OS_Windows_98
+  @#PB_OS_Windows_ME
+  @#PB_OS_Windows_2000
+  @#PB_OS_Windows_XP
+  @#PB_OS_Windows_Server_2003
+  @#PB_OS_Windows_Vista
+  @#PB_OS_Windows_Server_2008
+  @#PB_OS_Windows_7
+  @#PB_OS_Windows_Server_2008_R2
+  @#PB_OS_Windows_8
+  @#PB_OS_Windows_Server_2012
+  @#PB_OS_Windows_8_1
+  @#PB_OS_Windows_Server_2012_R2
+  @#PB_OS_Windows_10
+  @#PB_OS_Windows_Future  ; New Windows version (not existing when the program was written)
+@EndFixedFont
+@EndIndent
+
+  @Bold "Linux"
+@Indent
+@FixedFont
+  @#PB_OS_Linux_2_2
+  @#PB_OS_Linux_2_4
+  @#PB_OS_Linux_2_6
+  @#PB_OS_Linux_Future  ; New Linux version (not existing when the program was written)
+@EndFixedFont
+@EndIndent
+
+  @Bold "Mac OSX"
+@Indent
+@FixedFont
+  @#PB_OS_MacOSX_10_0
+  @#PB_OS_MacOSX_10_1
+  @#PB_OS_MacOSX_10_2
+  @#PB_OS_MacOSX_10_3
+  @#PB_OS_MacOSX_10_4
+  @#PB_OS_MacOSX_10_5
+  @#PB_OS_MacOSX_10_6
+  @#PB_OS_MacOSX_10_7
+  @#PB_OS_MacOSX_10_8
+  @#PB_OS_MacOSX_10_9
+  @#PB_OS_MacOSX_10_10
+  @#PB_OS_MacOSX_10_11
+  @#PB_OS_MacOSX_Future  ; New MacOS X version (not existing when the program was written)
+@EndFixedFont
+@EndIndent
+
+@Example
+@Code
+  Select OSVersion()
+    Case #PB_OS_Windows_98
+      MessageRequester("Info", "Windows 98")
+
+    Case #PB_OS_Windows_2000
+      MessageRequester("Info", "Windows 2000")
+
+    Case #PB_OS_Windows_XP
+      MessageRequester("Info", "Windows XP")
+
+    Default
+      MessageRequester("Info", "Unsupported Windows version")
+  EndSelect
+@EndCode
+
+  Note: the value of these constants are established before the release date of each version,
+  therefore tests such as the one which follows, may be used, in order to catch all versions
+  which are older or newer than a given one:
+
+@Code
+  If OSVersion() < #PB_OS_Windows_2000
+    ;
+    ; All versions older than Windows 2000
+    ;
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ComputerName()
+
+@Description
+  Returns the computer name.
+
+@NoParameters
+  
+@ReturnValue
+  Returns the computer name.
+
+@Example
+@Code
+  Debug "Computer name: "+ComputerName()
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = UserName()
+
+@Description
+  Returns the currently logged user name.
+
+@NoParameters
+  
+@ReturnValue
+  Returns the currently logged user name.
+
+@Example
+@Code
+  Debug "Currently logged user: "+UserName()
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.q = MemoryStatus(Type)
+
+@Description
+  Returns the specified memory type information.
+
+@Parameter "Type"
+  The type of memory to get. It can be one of the following value:
+@FixedFont
+  @#PB_System_TotalPhysical: the total amount of installed memory, in bytes
+  @#PB_System_FreePhysical : the available memory, in bytes
+  @#PB_System_TotalVirtual : the total virtual memory size, in bytes (Windows only)
+  @#PB_System_FreeVirtual  : the available virtual memory size, in bytes (Windows only)
+  @#PB_System_TotalSwap    : the total swap memory size, in bytes (Windows and Linux only)
+  @#PB_System_FreeSwap     : the available swap memory size, in bytes (Windows and Linux only)
+  @#PB_System_PageSize     : the memory page size, in bytes (usually 4KB).
+@EndFixedFont
+
+@ReturnValue
+  Returns the specified memory type information.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CountCPUs([Type])
+
+@Description
+  Returns the number of CPU cores available.
+
+@OptionalParameter "Type"
+  The CPU type to request. It can be one of the following value:
+@FixedFont
+  @#PB_System_CPUs        : the total number of CPU cores installed in the computer (default). 
+  @#PB_System_ProcessCPUs : the available CPU cores for the current process. This is useful as the OS 
+                           can limit a process to use only a small number of CPU.
+@EndFixedFont
+  
+@ReturnValue
+  Returns the number of CPU cores available.
+
+@SupportedOS

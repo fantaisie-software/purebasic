@@ -1,0 +1,250 @@
+@Title Data
+
+@Section Einführung
+
+  PureBasic erlaubt die Benutzung von @Keyword Data, um vordefinierte Blöcke mit Informationen 
+  innerhalb Ihres Programms zu speichern. Dies ist sehr nützlich für Standard-Werte 
+  eines Programms (Sprachen-Strings zum Beispiel) oder, in einem Spiel, zum Definieren 
+  eines (vorberechneten) Sprite-Weges.
+  @LineBreak
+  @LineBreak
+  @Keyword DataSection muss zuerst aufgerufen werden, um den nachfolgenden Datenabschnitt (englisch "Data section") anzukündigen. 
+  Dies bedeutet, dass alle Sprungmarken (Labels) und Datenbestandteile in der @Keyword DataSection des 
+  Programms gespeichert werden, welche einen viel schnelleren Zugriff als der Code-Abschnitt hat. 
+  @Keyword Data wird benutzt zum Eingeben der Daten. @Keyword EndDataSection muss angegeben werden, wenn nach dem 
+  Datenabschnitt weiterer Programmcode folgt. Einer der Vorteile ist, dass Sie ohne Probleme 
+  verschiedene @Keyword Datenabschnitte in ihrem Code definieren können. Die @Keyword Restore und @Keyword Read Befehle werden 
+  benutzt, um die Daten auszulesen. 
+  @LineBreak
+  @LineBreak
+  Diese Funktionen sind nicht "thread-sicher", verwenden Sie sie daher nicht innerhalb eines @LibraryLink "thread" "Threads".
+
+@Section Befehle
+
+@Syntax
+  
+  @Keyword DataSection
+
+@Description  
+  
+  Beginnt einen Datenabschnitt (englisch "Data section").
+  
+@Example
+
+@Code
+  Label:
+    
+  DataSection
+    Data.i ?Label, @Max()
+  EndDataSection
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+  
+  @Keyword EndDataSection
+
+@Description
+  
+  Beendet einen Datenabschnitt.
+
+@Example
+
+@Code
+  Label:
+    
+  DataSection
+    Data.i ?Label, @Max()
+  EndDataSection
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+  
+  @Keyword Data.TypName
+
+  @Description
+  
+    Definiert Daten. Der Typ kann nur ein einfacher @ReferenceLink "variables" "Basic Typ" (Integer, Long, Word, Byte, Ascii, Unicode, Float, Double, Quad, Character, String) 
+    sein. Eine beliebige Anzahl Daten kann sich auf einer Zeile befinden, jede abgegrenzt durch 
+    ein Komma ','.
+    
+  @Example
+
+@Code
+  Data.l 100, 200, -250, -452, 145
+  Data.s "Hello", "This", "is ", "What ?"
+@EndCode
+
+
+  Für fortgeschrittene Programmierer: Es ist auch möglich, eine @ReferenceLink "procedures" "Prozedur"-@ReferenceLink "memory" "Adresse"
+  oder die @ReferenceLink "memory" "Adresse einer Sprungmarke" innerhalb eines @Keyword "Data"-Blocks zu speichern,
+  wenn dessen Typ auf Integer (.i) gesetzt wird.
+  (Die Verwendung des Typs 'Integer' speichert die (verschiedenen) Adressen in 32-Bit bzw. 64-Bit Umgebungen korrekt.)
+  Dies kann verwendet werden, um z.B. einfach virtuelle Funktionstabellen aufzubauen.
+  
+
+@Example
+
+@Code
+  Procedure Max(Number, Number2)
+  EndProcedure
+  
+  Label:
+    
+  DataSection
+    Data.i ?Label, @Max()
+  EndDataSection
+@EndCode
+
+
+@Example
+
+@Code
+  Interface MyObject
+    DoThis()
+    DoThat()
+  EndInterface
+
+  Procedure This(*Self)
+    MessageRequester("MyObject", "This")
+  EndProcedure
+
+  Procedure That(*Self)
+    MessageRequester("MyObject", "That")
+  EndProcedure
+
+  m.MyObject = ?VTable
+
+  m\DoThis()
+  m\DoThat()
+
+
+  DataSection
+    VTable:
+      Data.i ?Procedures
+    Procedures:
+      Data.i @This(), @That()
+  EndDataSection
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+    
+  @Keyword Restore Label
+
+@Description
+
+  Dieses Schlüsselwort ist nützlich, um die Startposition für ein nachfolgendes @Keyword "Read" auf eine angegebene 
+  Sprungmarke (Label) zu setzen. Alle für diesen Zweck verwendeten Sprungmarken sollten sich innerhalb einer
+  @Keyword "DataSection" (des Datenabschnitts) befinden, da die Daten beim Kompilieren als ein vom Programmcode seperater Block 
+  behandelt werden und möglicherweise von einer Sprungmarke getrennt werden, wenn die Sprungmarke außerhalb
+  der @Keyword "DataSection" platziert wurde.
+     
+@Example
+
+@Code
+  Restore StringData
+  Read.s MyFirstData$
+  Read.s MySecondData$
+  
+  Restore NumericalData
+  Read.l a
+  Read.l b
+
+  Debug MyFirstData$
+  Debug a
+  
+  End  
+  
+  DataSection
+    NumericalData:    
+      Data.l 100, 200, -250, -452, 145
+      
+    StringData:
+      Data.s "Hello", "This", "is ", "What ?"
+  EndDataSection
+@EndCode  
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+  
+  @Keyword Read[.<Typ>] <Variable>
+    
+@Description    
+
+  Liest die nächsten verfügbaren Daten ein. Die nächsten verfügbaren Daten können mittels des @Keyword Restore 
+  Befehls geändert werden. Standardmäßig sind die nächsten verfügbaren Daten die zuerst deklarierten Daten. 
+  Der Typ der zu lesenden Daten wird durch den 'Typ'-Suffix festgelegt. Der @ReferenceLink "define" "Standard-Typ"
+  wird verwendet, wenn dieser nicht angegeben wird.
+  @LineBreak
+  Es ist jedoch ratsam, den Ad-hoc-Typ zu verwenden, um eine Fehlermeldung beim Lesen des Daten-Strings zu
+  vermeiden, und um Verwirrung bzgl. des Integer-Typs zu vermeiden, der für 32-Bit-Compiler vom Typ
+  'Long' und für 64-Bit-Compiler vom Typ 'Quad' ist.
+  
+@Example
+
+@Code
+  Restore StringData
+  Read.s MyFirstData$  
+  
+  Restore NumericalData
+  Read a   ; Achtung, es wird eine Integer-Zahl gelesen (Long bei 32-Bit bzw. Quad bei 64-Bit-Compilern).
+  Read.q b
+  Read c   ; Achtung, es wird eine 'Quad'-Zahl bei 64-Bit-Compilern gelesen, auch wenn es sich bei den Daten um 'Long' handelt!
+  Read.l d
+  
+  Debug MyFirstData$ ; Zeigt 'Hello' an
+  Debug a  ; Display 100
+  Debug b  ; Display 111111111111111111
+  Debug c  ; Achtung, die Anzeige hängt von Ihrem Compiler ab! : 200 bei 32-Bit bzw. 1288490189000 bei 64-Bit
+  Debug d  ; ...analog: 300 bei 32-Bit bzw. 400 bei 64-Bit
+  
+  End  
+  
+  DataSection
+    NumericalData:    
+      Data.i 100
+      Data.q 111111111111111111
+      Data.l 200, 300, 400
+
+    StringData:
+      Data.s "Hello", "This", "is ", "What ?"
+  EndDataSection
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

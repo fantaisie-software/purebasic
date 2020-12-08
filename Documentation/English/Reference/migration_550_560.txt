@@ -1,0 +1,28 @@
+@Title Migration from PureBasic 5.50 to 5.60
+
+@Section Cipher library
+
+@LineBreak
+Base64Encoder: function renamed
+@Code
+  ; Old
+  Base64Encoder()
+
+  ; New
+  Base64EncoderBuffer()
+@EndCode
+
+Base64Decoder: function renamed
+@Code
+  ; Old
+  Base64Decoder()
+
+  ; New
+  Base64DecoderBuffer()
+@EndCode
+
+@Section Others
+
+'Define.b' standalone syntax, to change default type for untyped variables is now forbidden and will
+result in a 'Syntax error'. Removing the statement will solve this (ensure to type your
+untyped variables accordindly). Note: 'Define.b a, b, c' is still supported.

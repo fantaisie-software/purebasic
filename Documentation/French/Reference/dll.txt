@@ -1,0 +1,126 @@
+@Title Construire une DLL
+
+@Section Introduction
+
+  PureBasic permet de créer des DLL Microsoft 
+  Windows (DLL : Dynamic Linked Library), des 
+  objets partagés (.so) sous Linux, et des 
+  bibliothèques dynamiques (.dylib) sous MacOS X. 
+  Le code d'une DLL est de même nature que le code 
+  PureBasic excepté qu'aucun code ne peut exister 
+  en dehors d'une procédure. Tout le code est intégré 
+  dans des procédures, sauf la déclaration des 
+  variables globales et des structures. 
+  @LineBreak
+  @LineBreak 
+  L'avantage d'une DLL est de pouvoir partager du code 
+  déjà compilé avec un programme tiers. Pour cela 
+  il faut déclarer la DLL avec le mot clef 
+  @Keyword ProcedureDLL au lieu de 
+  @ReferenceLink "Procedures" Procedure.
+  Si la procédure partagée doit être au format 'CDecl' 
+  (ce qui n'est pas le cas pour les DLL standards de 
+  Windows), le mot clef @Keyword ProcedureCDLL doit 
+  être utilisé.@LineBreak
+  De même @ReferenceLink "Procedures" Declare doit 
+  être remplacé par 
+  @Keyword DeclareDLL ou @Keyword DeclareCDLL. 
+  @LineBreak
+  @LineBreak
+  Avant de compiler a DLL, il est necessaire de 
+  sélectionner 'Shared DLL' comme format de sortie 
+  dans le menu 'Compiler\Option' de l'éditeur 
+  PureBasic (ou d'utiliser le commutateur /DLL dans 
+  la ligne de commande). Une fois compilé, une DLL 
+  apparait avec le même nom que le fichier PureBasic.
+
+@Example
+@Code
+  ; Créer et enregistrer ce fichier sous le nom 'PureBasic.pb'
+  ; La DLL 'PureBasic.dll' sera créée.
+  
+  ProcedureDLL MaFonction()
+    MessageRequester("Bonjour", "Voici une DLL PureBasic !", 0)
+  EndProcedure
+  
+  ; Créer un deuxième fichier PureBasic avec le code suivant:
+  ; Voici le programme client qui utilise la DLL
+  ; Compiler et executer ce programme dans le dossier
+  ; contenant la dll 'PureBasic.dll'. 
+  
+  If OpenLibrary(0, "PureBasic.dll")
+    CallFunction(0, "MaFonction")
+    CloseLibrary(0)
+  EndIf
+@EndCode  
+  
+  @Bold "Pour les programmeurs avancés", il existe 4 
+  procédures spéciales qui sont appelées automatiquement 
+  par l'OS lorsque l'un des évènements suivants surviennent: @LineBreak
+  - une DLL est attachée à un nouveau process @LineBreak
+  - une DLL est détachée d'un process @LineBreak
+  - une DLL est attachée à un nouveau thread @LineBreak
+  - une DLL est détachée d'un thread 
+@LineBreak
+@LineBreak
+  Pour gérer cela, il est possible de déclarer 4 
+  procédures spéciales nommées: 
+  @FunctionColor AttachProcess(Instance), 
+  @FunctionColor DetachProcess(Instance), 
+  @FunctionColor AttachThread(Instance) et 
+  @FunctionColor DetachThread(Instance). 
+  Cela signifie que ces 4 noms sont réservés et ne 
+  peuvent être utilisés par le programmeur pour 
+  d'autres usages.
+@LineBreak
+@LineBreak
+  @Bold "Notes à propos de la création des DLL's:" 
+@LineBreak
+  - La déclaration des tableaux avec 
+  @ReferenceLink "Dim" Dim, des listes avec 
+  @ReferenceLink "NewList" NewList ou des maps avec 
+  @ReferenceLink "NewMap" NewMap doit toujours 
+  être faite dans la procédure 'AttachProcess()'. 
+  @LineBreak
+  - Ne pas écrire de code en dehors des procédures. 
+  La seule exception est la déclaration des 
+  variables et des structures. @LineBreak
+  - Les routines d'initialisation DirectX ne 
+  doivent pas être dans la procédure 'AttachProcess()'. 
+@LineBreak
+@LineBreak
+  @Bold "A propos du renvoi de chaîne de caractères (string) par une DLL:" 
+@LineBreak
+  Pour qu'une fonction puisse renvoyer une string, 
+  elle doit être déclarée en @ReferenceLink "Global" "global".
+
+@Example
+@Code
+  Global ReturnString$
+  
+  ProcedureDLL.s MaFonction(var.s)
+    ReturnString$ = var + " test"
+    ProcedureReturn ReturnString$
+  EndProcedure
+@EndCode
+
+  Si la chaîne de caractères n'est pas déclarée en 
+  @ReferenceLink "Global" "global" alors elle sera 
+  locale à la procédure et donc libérée à la fin de 
+  la procédure. Elle ne pourra pas être utilisée par 
+  le programme appelant la fonction.
+@LineBreak
+@LineBreak
+  Quand @@CallFunction ou une fonction similaire de 
+  type CallXXX est utilisée dans un programme pour 
+  appeler une fonction dans une DLL, le programme 
+  reçoit un pointeur vers une chaîne de caractères, 
+  qui pourra être lu avec @@PeekS.
+
+@Example
+@Code
+  String.s = PeekS(CallFunction(0, "NomFonction", Parametre1, Parametre2))
+@EndCode 
+
+  @Bold "Vous trouverez ci dessous un exemple complet:"  
+  @ExampleFile All DLLSample.pb 

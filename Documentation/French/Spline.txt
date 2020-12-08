@@ -1,0 +1,408 @@
+;
+;     Spline library documentation
+;
+;      (c)  - Fantaisie Software
+;
+
+@Library Spline
+
+@Overview
+
+  Un ou une spline est une courbe qui contient 
+  un certain nombre de points qui sont interpolés 
+  de façon à donner une courbe très lisse. Le 
+  temps qu'il faut pour aller d'un point à un 
+  autre est toujours le même, indépendamment 
+  de la distance.@LineBreak
+  Une spline n'existe pas physiquement dans le 
+  monde 3D, c'est un objet virtuel qui peut 
+  être utilisé à des fins diverses, comme la 
+  création d'un chemin de poursuite 
+  (pathfinding), le lissage du mouvement 
+  d'un noeud (n'oubliez pas de consulter la 
+  bibliothèque 
+  @LibraryLink "nodeanimation" "NodeAnimation" 
+  pour cela) et plus encore.
+@LineBreak
+  Spline est souvent prononcé à la française, 
+  sinon la prononciation anglaise est "splaïne" 
+  et quant à la traduction officelle en 
+  français, le mot "cerce" n'est quasiment 
+  jamais utilisé.
+@LineBreak
+@LineBreak
+  @@InitEngine3D doit être appelé avec succès 
+  avant d'utiliser les fonctions splines.
+@LineBreak
+@LineBreak
+  Voir aussi l'article de wikipedia 
+  @InternetLink "http://fr.wikipedia.org/wiki/Spline" "splines".
+  
+@Image spline.png
+
+@CommandList
+
+@ExampleFile All Spline.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateSpline(#Spline)
+
+@Description
+  Crée une nouvelle courbe spline. 
+  
+@Parameter "#Spline"
+   Le numéro d'identification de la nouvelle 
+   spline. 
+@LineBreak
+@LineBreak
+   @ReferenceLink "purebasic_objects" "#PB_Any" 
+   peut être utilisé pour générer 
+   automatiquement ce numéro.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+@LineBreak
+@LineBreak
+   Si @ReferenceLink "purebasic_objects" "#PB_Any" 
+   est utilisé pour le paramètre '#Spline' 
+   alors son numéro est renvoyé.
+ 
+@Remarks
+  Une spline n'existe pas physiquement dans le 
+  monde 3D, il s'agit d'un objet virtuel qui 
+  peut être utilisé à des différentes fins, 
+  la création d'un chemin de poursuite (path 
+  finding), le lissage du mouvement d'un noeud 
+  (n'oubliez pas de consulter 
+  @LibraryLink "nodeanimation" "NodeAnimation") 
+  et plus encore. 
+@LineBreak
+@LineBreak  
+  Pour calculer la position d'un point 
+  intermédiaire, voir @@ComputeSpline.
+
+@SeeAlso
+  @@FreeSpline, @@ComputeSpline, 
+  @@AddSplinePoint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeSpline(#Spline)
+
+@Description
+  Libère une spline et toute la mémoire 
+  associée. 
+
+@Parameter "#Spline"
+  La spline à utiliser.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, toutes les splines 
+  restantes sont libérées.
+
+@NoReturnValue
+
+@Remarks
+  La spline ne doit pas être utilisée 
+  après l'appel de cette fonction, (en 
+  utilisant son numéro, avec les autres 
+  fonctions de cette bibliothèque) à moins 
+  de la recréer.
+@LineBreak
+@LineBreak 
+  Toutes les splines restantes sont 
+  automatiquement libérées lorsque le 
+  programme se termine.
+
+@SeeAlso
+  @@CreateSpline
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddSplinePoint(#Spline, X, Y, Z)
+
+@Description
+  Ajoute un nouveau point à une spline. 
+
+@Parameter "#Spline"
+  La spline à utiliser.
+
+@Parameter "X, Y, Z"
+  La position du nouveau point dans le monde.
+  
+@NoReturnValue
+
+@Remarks
+  Le temps qu'il faut pour aller d'un point 
+  à un autre est toujours le même, 
+  indépendamment de la distance. 
+
+@SeeAlso
+  @@CreateSpline, @@ComputeSpline
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearSpline(#Spline)
+
+@Description
+  Efface une spline. 
+
+@Parameter "#Spline"
+  La spline à effacer.
+
+@NoReturnValue
+
+@Remarks
+  Tous les points seront retirés de la spline.
+
+@SeeAlso
+  @@CreateSpline, @@AddSplinePoint
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CountSplinePoints(#Spline)
+
+@Description
+  Renvoie le nombre de points d'une spline.
+
+@Parameter "#Spline"
+  La spline à utiliser.
+
+@ReturnValue
+  Renvoie le nombre de points de la spline.
+
+@SeeAlso
+  @@CreateSpline, @@AddSplinePoint
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SplinePointX(#Spline, IndexPoint)
+
+@Description
+  Renvoie la position 'X' d'un point d'une 
+  spline.
+
+@Parameter "#Spline"
+  La spline à utiliser.
+  
+@Parameter "IndexPoint"
+  L'index du point. 
+@LineBreak
+@LineBreak
+  L'index du premier point est égal à zéro. 
+@LineBreak
+@LineBreak
+  L'index doit être inférieur au résultat de 
+  @@CountSplinePoints.
+   
+@ReturnValue
+  Renvoie la position 'X' du point.
+
+@SeeAlso
+  @@CreateSpline, @@AddSplinePoint, 
+  @@SplinePointY, @@SplinePointZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SplinePointY(#Spline, IndexPoint)
+
+@Description
+  Renvoie la position 'Y' d'un point d'une 
+  spline.
+
+@Parameter "#Spline"
+  La spline à utiliser.
+  
+@Parameter "IndexPoint"
+  L'index du point. 
+@LineBreak
+@LineBreak
+  L'index du premier point est égal à zéro. 
+@LineBreak
+@LineBreak
+  L'index doit être inférieur au résultat de 
+  @@CountSplinePoints.
+   
+@ReturnValue
+  Renvoie la position 'Y' du point.
+
+@SeeAlso
+  @@CreateSpline, @@AddSplinePoint, 
+  @@SplinePointX, @@SplinePointZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SplinePointZ(#Spline, IndexPoint)
+
+@Description
+  Renvoie la position 'Z' d'un point d'une 
+  spline.
+
+@Parameter "#Spline"
+  La spline à utiliser.
+  
+@Parameter "IndexPoint"
+  L'index du point. 
+@LineBreak
+@LineBreak
+  L'index du premier point est égal à zéro. 
+@LineBreak
+@LineBreak
+  L'index doit être inférieur au résultat de 
+  @@CountSplinePoints.
+  
+@ReturnValue
+  Renvoie la position 'Z' du point.
+
+@SeeAlso
+  @@CreateSpline, @@AddSplinePoint, 
+  @@SplinePointX, @@SplinePointY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateSplinePoint(#Spline, IndexPoint, X, Y, Z)
+
+@Description
+  Mise à jour d'un point d'une spline. 
+
+@Parameter "#Spline"
+  La spline à utiliser.
+
+@Parameter "IndexPoint"
+  L'index du point. 
+@LineBreak
+@LineBreak
+  L'index du premier point est égal à zéro. 
+@LineBreak
+@LineBreak
+  L'index doit être inférieur au résultat de 
+  @@CountSplinePoints.
+
+@Parameter "X, Y, Z"
+  La nouvelle position du point dans le monde.
+  
+@NoReturnValue
+
+@Remarks 
+  Chaque point sera également réparti autour 
+  de la spline, ce qui signifie que le temps 
+  est constant pour aller d'un point à un 
+  autre, indépendamment de la distance entre 
+  ces points.
+
+@SeeAlso
+  @@CreateSpline, @@ComputeSpline
+  
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ComputeSpline(#Spline, Deplacement.f)
+
+@Description
+  Calcule la nouvelle position d'un point 
+  après un déplacement sur une spline. 
+
+@Parameter "#Spline"
+  La spline à utiliser.
+
+@Parameter "Deplacement.f"
+  Le déplacement (décalage) dans la spline. 
+@LineBreak
+@LineBreak  
+  La valeur de décalage varie de 0.0 (début 
+  de la spline) à 1.0 (fin de la spline).
+ 
+@NoReturnValue
+
+@Remarks 
+  Une fois que le point a été calculé, sa 
+  position est disponible avec @@SplineX, 
+  @@SplineY et @@SplineZ.
+
+@SeeAlso
+  @@CreateSpline, @@SplineX, @@SplineY, 
+  @@SplineZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SplineX(#Spline)
+
+@Description
+  Renvoie la position 'X' d'une spline dans 
+  le monde.
+
+@Parameter "#Spline"
+  La spline à utiliser.
+  
+@ReturnValue
+  Renvoie la position 'X' de la spline dans 
+  le monde après exécution de @@ComputeSpline.
+
+@SeeAlso
+  @@ComputeSpline, @@SplineY, @@SplineZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SplineY(#Spline)
+
+@Description
+  Renvoie la position 'Y' d'une spline dans 
+  le monde.
+
+@Parameter "#Spline"
+  La spline à utiliser.
+  
+@ReturnValue
+  Renvoie la position 'Y' de la spline dans 
+  le monde après exécution de @@ComputeSpline.
+
+@SeeAlso
+  @@ComputeSpline, @@SplineX, @@SplineZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SplineZ(#Spline)
+
+@Description
+  Renvoie la position 'Z' d'une spline dans 
+  le monde.
+
+@Parameter "#Spline"
+  La spline à utiliser.
+  
+@ReturnValue
+  Renvoie la position 'Z' de la spline dans 
+  le monde après exécution de @@ComputeSpline.
+
+@SeeAlso
+  @@ComputeSpline, @@SplineX, @@SplineY
+
+@SupportedOS

@@ -1,0 +1,27 @@
+@Title Repeat : Until
+
+@Syntax
+
+  @Keyword Repeat
+    ...
+  @Keyword Until <expression> [or @Keyword Forever] 
+
+@Description
+
+  This function will loop until the <expression> becomes true. The number of loops is unlimited.
+  If an endless loop is needed then use the @Keyword Forever keyword instead of @Keyword Until. 
+
+  With the @ReferenceLink "Break_Continue" Break command, it is possible to exit the 
+  @Keyword Repeat : @Keyword Until loop during any iteration. With @ReferenceLink "Break_Continue" Continue 
+  command, the end of the current iteration may be skipped. 
+
+@Example
+
+@Code
+  a=0
+  Repeat 
+    a=a+1
+  Until a>100 
+@EndCode
+
+  This will loop until "a" takes a value > to 100, (it will loop 101 times). 

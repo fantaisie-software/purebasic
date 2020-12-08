@@ -1,0 +1,64 @@
+vertex_program perpixel_vertexHLSL hlsl
+{
+	source perpixel.hlsl
+	target vs_3_0
+	entry_point perpixel_vertex
+}
+
+fragment_program perpixel_pixelHLSL hlsl
+{
+	source perpixel.hlsl
+	target ps_3_0
+	entry_point perpixel_pixel
+}
+vertex_program perpixel_vertexGLSL glsl
+{
+	source perpixel_v.glsl
+}
+fragment_program perpixel_pixelGLSL glsl
+{
+	source perpixel_p.glsl
+}
+// Unified definition
+vertex_program perpixel_vertex unified
+{
+	delegate perpixel_vertexGLSL
+	delegate perpixel_vertexHLSL
+}
+fragment_program perpixel_pixel unified
+{
+	delegate perpixel_pixelGLSL
+	delegate perpixel_pixelHLSL
+}
+
+material perpixel
+{
+	technique
+	{
+		pass
+		{			
+			vertex_program_ref perpixel_vertex
+			{
+				param_named_auto 	viewproj_matrix  	worldviewproj_matrix
+				param_named_auto 	lightPosition 		light_position_object_space 0
+				param_named_auto 	lightAttenuation 	light_attenuation 0 
+				param_named_auto 	view_position 		camera_position_object_space	
+				param_named_auto 	texmatx 			texture_matrix 0
+				param_named_auto 	fog 				fog_params
+			}
+			fragment_program_ref perpixel_pixel
+			{
+				param_named_auto 	lightdif 	derived_light_diffuse_colour 0
+				param_named_auto 	lightspec 	derived_light_specular_colour 0				
+				param_named_auto 	lightamb 	derived_ambient_light_colour 0
+				param_named_auto 	shininess 	surface_shininess				
+				param_named_auto	fogcolor	fog_colour
+				param_named_auto	diffuseMap 	int 0
+			}
+			texture_unit
+			{
+				texture_alias texture1
+			}
+		}
+	}
+}

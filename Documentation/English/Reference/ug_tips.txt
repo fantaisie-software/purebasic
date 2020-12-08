@@ -1,0 +1,110 @@
+@Title UserGuide - Some Tips & Tricks
+
+@Section "Using a map to index a list"
+
+@ReferenceLink "newlist" "lists" provide a powerful way to build a structured
+storage system - however they have a disadvantage. If you aren't sure exactly where
+in the list a particular item is, you must examine each entry in the list to find the
+right one.
+@LineBreak
+@LineBreak
+@ReferenceLink "newmap" "Maps" also provide a similar function but are indexed by a
+key value instead - however they too have a disadvantage, they don't maintain the
+order elements are inserted into the list.
+@LineBreak
+@LineBreak
+However by using a combination of the two, you can neatly avoid both of these issues...
+@LineBreak
+@LineBreak
+This example loads a @ReferenceLink "structures" "structured" @ReferenceLink "newlist" "list"
+of book data and builds an index of ISBN numbers using a @ReferenceLink "newmap" "map".
+It then demonstrates how to access the list using the index in the map.
+
+@Code
+  EnableExplicit
+  
+  ; A book catalog structure.
+  Structure BOOK
+    Title.s
+    Author.s
+    ISBN13.s
+    Price.d
+  EndStructure
+  
+  ; Create a list to hold the catalog entries.
+  NewList Catalog.BOOK()
+  ; Create a map to hold the ISBN index.
+  NewMap ISBN13.l()
+  ; Working variables.
+  Define.l Count, Index
+  Define.s ISBN
+  
+  ; Add an empty element at the top of the list.
+  ; The first element in a list is numbered zero, however the map will return zero if a requested entry isn't present.
+  ; This empty element avoids a potential problem with an incorrect reference to the first catalog item being returned.
+  AddElement(Catalog())
+  
+  For Count = 1 To 5
+    
+    ; Read the data from the table into the list.
+    AddElement(Catalog())
+    Read.s Catalog()\Title
+    Read.s Catalog()\Author
+    Read.s Catalog()\ISBN13
+    Read.d Catalog()\Price
+    
+    ; Index the ISBN to the map.
+    ISBN13(Catalog()\ISBN13) = ListIndex(Catalog())
+    
+  Next Count
+  
+  ; Find an entry.
+  ISBN = "978-0340896983"
+  Index = ISBN13(ISBN)
+  
+  If Index > 0
+    Debug "Book with ISBN13 " + ISBN + " is at list index " + StrU(Index) + "."
+    Debug ""
+    
+    ; We can now directly select the right list element without having to perform a search.
+    SelectElement(Catalog(), Index)
+    Debug "'" + Catalog()\Title + "' by " + Catalog()\Author
+    Debug "ISBN: " + Catalog()\ISBN13
+    Debug "Price: " + StrD(Catalog()\Price, 2)
+    
+  Else
+    Debug "No book with that ISBN in the catalog."
+    
+  EndIf
+  
+  End
+  
+  ; Some test data.
+  DataSection
+    
+    BookData:
+    
+    Data.s "Carte Blanche", "Jeffery Deaver", "978-1444716474"
+    Data.d 19.99
+    
+    Data.s "One Day", "David Nicholls", "978-0340896983"
+    Data.d 7.99
+    
+    Data.s "Madeleine", "Kate McCann", "978-0593067918"
+    Data.d 20.00
+    
+    Data.s "The Dukan Diet", "Dr Pierre Dukan", "978-1444710335"
+    Data.d 8.99
+    
+    Data.s "A Game of Thrones", "George R. R. Martin", "978-0006479888"
+    Data.d 9.99
+    
+    Data.s "The Help", "Kathryn Stockett", "978-0141039282"
+    Data.d 8.99
+    
+  EndDataSection
+@EndCode
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_advanced" "< Previous: Advanced functions" | @ReferenceLink "ug_overview" "Overview" 

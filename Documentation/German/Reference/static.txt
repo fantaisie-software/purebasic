@@ -1,0 +1,92 @@
+@Title Static
+
+@Syntax
+
+  @Keyword Static[.<Typ>] <Variable[.<Typ>]> [= <konstanter Ausdruck>] [, ...]
+
+@Description
+
+  @Keyword Static ermöglicht das Deklarieren einer lokalen (statischen) @ReferenceLink "variables" "Variable", die ihren Wert behält,
+  in einer @ReferenceLink "Procedures" "Prozedur", auch wenn die gleiche Variable im Hauptprogramm bereits 
+  als @ReferenceLink "Global" "Global" deklariert wurde.
+  @LineBreak
+  @LineBreak
+  Wenn nach @Keyword Static ein Typ angegeben wird, dann wird der Standard-Typ für diese Deklaration geändert.
+  @Keyword Static kann auch zusammen mit @ReferenceLink "dim" "Arrays", @ReferenceLink "newlist" "Listen" und @ReferenceLink "newmap" "Maps" verwendet werden. 
+  Beim Deklarieren eines statischen Arrays muss der Größen-Parameter ein konstanter Wert sein.
+  @LineBreak
+  @LineBreak
+  Der Wert der Variable wird nicht bei jedem Prozedur-Aufruf neu initialisiert (zurückgesetzt). Dies bedeutet, 
+  dass Sie lokale Variablen parallel zu globalen Variablen (mit dem gleichen Namen) verwenden können und beide ihre Werte beibehalten.
+  Jeder Variable kann auch sofort ein Standard-Wert zugewiesen werden, dies muss aber ein konstanter Wert sein.
+  @LineBreak
+  @LineBreak
+  Neben @Keyword Static können Sie auch das Schlüsselwort @ReferenceLink "Protected" "Protected" verwenden, 
+  um globale von lokalen Variablen zu trennen.
+  Mit @ReferenceLink "Protected" "Protected" behalten die lokalen Variablen jedoch nicht ihren Wert.
+
+  @Example Mit Variable
+
+@Code
+  Global a
+  a = 10
+  
+  Procedure Change()
+    Static a
+    a+1
+    Debug "In Procedure: "+Str(a) ; Wird 1, 2, 3 ausgeben, da sich die Variable bei jedem Prozedur-Aufruf um eins erhöht.
+  EndProcedure 
+  
+  Change()
+  Change()
+  Change()
+  Debug a ; Wird 10 ausgeben, da die statische Variable nicht die globale beeinflusst.
+@EndCode  
+
+  @Example Mit Array
+
+@Code
+  Global Dim Array(2)
+  Array(0) = 10
+  
+  Procedure Change()
+    Static Dim Array(2)
+    Array(0)+1
+    Debug "In Procedure: "+Str(Array(0)) ; Wird 1, 2, 3 ausgeben, da sich der Wert des Array-Felds bei jedem Prozedur-Aufruf um eins erhöht.
+  EndProcedure 
+  
+  Change()
+  Change()
+  Change()
+  Debug Array(0) ; Wird 10 ausgeben, da das statische Array nicht das globale beeinflusst.
+@EndCode    
+    
+  @Example Mit mehreren Prozeduren
+
+@Code
+  Procedure Foo()
+    Static x = 100  ; die Deklaration und die Zuweisung erfolgt nur einmal am Programmstart.
+  
+    Debug x
+    x + 1
+  EndProcedure
+
+  Foo() ; Display 100
+  Foo() ; Display 101
+  Foo() ; Display 102
+
+  Debug "---"
+
+  Procedure Bar()
+    Static x  ; die Deklaration erfolgt nur einmal am Programmstart.
+    x = 100   ; die Zuweisung erfolgt bei jedem Prozeduraufruf.
+  
+    Debug x
+    x + 1
+  EndProcedure
+
+  Bar() ; Wird 100 ausgeben
+  Bar() ; Wird 100 ausgeben
+  Bar() ; Wird 100 ausgeben
+
+@EndCode

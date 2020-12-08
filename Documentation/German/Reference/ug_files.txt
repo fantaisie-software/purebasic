@@ -1,0 +1,124 @@
+@Title Einsteiger-Kapitel - Lesen und Schreiben von Dateien
+
+Dieses Beispiel wird 100 zufällige Datensätze schreiben, wobei jeder ein @ReferenceLink "variables" "Byte",
+eine @ReferenceLink "variables" "Fließkomma-Zahl", ein @ReferenceLink "variables" "Long-Integer"
+und einen @ReferenceLink "variables" "String" enthält. Danach liest es alle Datensätze wieder
+ein und zeigt sie im @ReferenceLink "ide_debugger" "Debug-Fenster" an.
+@LineBreak
+@LineBreak
+Es demonstriert die @@GetTemporaryDirectory, @@CreateFile, @@OpenFile, @@EOF und auch eine
+Reihe der Befehle zum @LibraryLink "file" "Lesen und Schreiben" von Daten.
+@LineBreak
+@LineBreak
+Es funktioniert soweit recht gut, hat aber einen Nachteil. Da der String-Wert eine variable
+Länge hat, können Sie nicht zufällig auf die Datensätze zugreifen - denn man kann nicht
+vorhersagen, wo jeder neue Datensatz in der Datei beginnt. Sie müssen alle wieder in der
+gleichen Reihenfolge eingelesen werden, wie sie geschrieben wurden. Das ist kein Problem
+mit der kleinen Anzahl an Datensätzen, welche hier erzeugt werden, dies kann aber mit einer
+größeren Datei problematisch werden. PureBasic bietet einen Weg, um auch mit dieser Situation
+umzugehen - aber ein Beispiel wäre zu komplex für dieses Thema. Sehen Sie in das
+@LibraryLink "database" "Datenbank"-Kapitel dieser Hilfe-Datei, um zu sehen, wie es gemacht
+werden kann.
+
+@Code
+  EnableExplicit
+  ; Definieren der Konstanten:
+  #MAXBYTE = 255
+  #MAXLONG = 2147483647
+  
+  ; Definieren einiger Variablen.
+  Define.f Float
+  Define.i Count, File
+  Define.s Folder, FileName, String
+  
+  ; Erstellen eines temporären Dateinamens.
+  Folder = GetTemporaryDirectory()
+  FileName = Folder + "test.data"
+  
+  ; Erstellen der temporären Datei.
+  ; Wenn #PB_Any verwendet wird, gibt CreateFile die Dateinummer zurück.
+  ; Dies ist nützlich, wenn Sie mehr als eine Datei gleichzeitig geöffnet haben.
+  File = CreateFile(#PB_Any, FileName)
+  
+  If File
+    ; Wenn dies erfolgreich war - schreibe 100 zufällige Datensätze.
+    For Count = 1 To 100
+      
+      ; Schreibe ein zufällges Byte (0 - 255).
+      WriteByte(File, Random(#MAXBYTE))
+      
+      ; Erstellen und Schreiben einer zufälligen Fließkommazahl (Float).
+      ; Diese Berechnung erfolgt, damit die Zahl (wahrscheinlich) eine Fließkomma-Komponente hat.
+      Float = Random(#MAXLONG) / ((Random(7) + 2) * 5000)
+      WriteFloat(File, Float)
+      
+      ; Schreibe einen zufälligen Long-Wert.
+      WriteLong(File, Random(#MAXLONG))
+      
+      ; Erstellt und schreibt einen zufälligen String im Unicode-Format.
+      ; Beachten Sie die Verwendung von WriteStringN, um den String mit einem "End of line" (Ende der Zeile) Zeichen zu begrenzen.
+      String = "String " + StrU(Random(#MAXLONG))
+      WriteStringN(File, String, #PB_Unicode)
+      
+    Next Count
+    
+    ; Schließen der Datei.
+    CloseFile(File)
+    
+  Else
+    ; Wenn dies nicht erfolgreich war.
+    Debug "Could not create the file: " + FileName 
+    
+  EndIf
+  
+  ; Öffnen der Datei - diesmal zum Lesen.
+  File = ReadFile(#PB_Any, FileName)
+  
+  If File
+    ; Wenn dies erfolgreich war - lesen und darstellen der Datensätze aus der Datei.
+    
+    ; Den Zähler zurücksetzen.
+    Count = 1
+    
+    ; Schleife bis das Ende der Datei ('end of file') erreicht wird.
+    ; Dies wird alle Datensätze einlesen - unabhängig davon, wie viele es sind.
+    While Eof(File) = 0
+      
+      ; Ausgeben einer Kopfzeile.
+      Debug "------------------------------------------------------------------------------------------------"
+      
+      Debug "[" + StrU(Count) + "]"
+      Count + 1
+      ; Lesen und ausgeben eines Byte-Wertes.
+      Debug StrU(ReadByte(File), #PB_Byte)
+      
+      ; Lesen eines Fließkomma-Wertes.
+      Debug StrF(ReadFloat(File))
+      
+      ; Lesen eines Long-Wertes.
+      Debug StrU(ReadLong(File), #PB_Long)
+      
+      ; Lesen eines String-Wertes.
+      Debug ReadString(File, #PB_Unicode)
+      
+    Wend
+    
+    ; Ausgeben einer Abschlusszeile.
+    Debug "------------------------------------------------------------------------------------------------"
+    
+    ; Schließen der Datei.
+    CloseFile(File)
+    
+    ; Aufräumen.
+    DeleteFile(FileName)
+    
+  Else
+    ; Wenn dies nicht erfolgreich war.
+    Debug "Could not open the file: " + FileName
+    
+  EndIf
+@EndCode
+
+
+@Section Einsteiger-Kapitel Navigation
+@ReferenceLink "ug_directives" "< Vorheriges: Compiler-Direktiven" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_memory" "Nächstes: Speicher-Zugriff >"

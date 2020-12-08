@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Additions-Operator - Einfache Verarbeitung - PureBasic Benutzerhandbuch</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Einfache Verarbeitung: Additions-Operator</h1>
+Der nächste Operator ist das Additionssymbol, +. Wenn er zusammen mit numerischen
+Variablen (und anderen numerischen Werten) verwendet wird, führt er die mathematische
+Funktion aus, die Werte zusammenzuzählen (Addition). Wenn er zusammen mit Stringvariablen
+(und anderen Strings) verwendet wird, fügt er sie zusammen (Verkettung). Sie können keine
+numerischen Typen und Strings mit Hilfe des Additions-Operators vermischen, ohne sie vorher
+zu konvertieren (dies wurde teilweise bereits anhand des Befehls Str besprochen und wird in
+einem späteren Kapitel komplettiert).
+
+<p><h2>Beispiel zur Verwendung mit numerischen Variablen</h2>
+Das Beispiel unten zeigt einige der Anwendungen des Additions-Operators. Sie können den
+Quellcode <a href="addition_op.pb">hier</a> erhalten.
+
+<pre class="code">OpenConsole()
+
+; Part 1 - Simple example of using the addition operator
+DefType.l apples
+DefType.l oranges
+apples = 5
+oranges = 3
+fruit.l = apples + oranges
+PrintN(&quot;Total number of fruit is:&quot;)
+PrintN(Str(fruit))
+
+; Part 2 - Multiple operators can be used in the same calculation
+fruit = 2 + 4 + 1 + apples + 6 + 2 + oranges + 9
+PrintN(&quot;New fuit total:&quot;)
+PrintN(Str(fruit))
+
+; Part 3 - Shortcut version of the addition operator
+apples + 2
+PrintN(&quot;New number of apples:&quot;)
+PrintN(Str(apples))
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="addition_op_run.png" alt="Ausgabe des Beispiels" width="213" height="92">
+Der erste Teil des Beispiels zeigt ein einfaches Beispiel zur Verwendung des Additions-Operators, 
+um die Werte von zwei numerischen Variablen zu addieren. Dieser Wert wird dann zusammen mit
+dem Gleichheits-Operator verwendet, um den Wert der <var>fruit</var> Variablen festzulegen.
+Dieser Wert wird dann ausgegeben, wie auf der vorherigen Seite gezeigt. Dies zeigt auch, wie eine
+Variable einfach durch ihre Verwendung deklariert wird, ohne sie extra mit dem Befehl DefType zu
+definieren. In diesem Fall wird die Variable <var>fruit</var> erstellt, sobald sie in der
+Berechnung verwendet wird.
+
+<p>Der nächste Teil des Beispiels zeigt, dass Sie mehr als einen Additions-Operator in derselben
+Berechnung verwenden können. Jedes Element, das als numerischer Wert verwendet werden kann,
+kann bei der Berechnung verwendet werden. Dieses Beispiel zeigt das Mischen von Variablen und
+Zahlen. Es zählt alle numerischen Werte zusammen und speichert den Wert (durch den
+Gleichheits-Operator) in der <var>fruit</var> Variablen.
+
+<p>Der letzte Teil des Beispiels zeigt, wie der Additions-Operator in einer abgekürzten Form zu
+verwenden ist. Die Berechnung muss auf einer Zeile stehen und das Ergebnis der Berechnung sollte
+nirgendwo (zum Beispiel mit jedem anderen Operator oder als ein Parameter zu einem Befehl)
+verwendet werden. Das am weitesten links befindliche Element in der Berechnung muss eine
+Variable sein, da bei dieser Arbeitsweise die Variable auf der linken Seite um den Rests der
+Berechnung gesteigert wird. In diesem Beispiel wird die Variable <var>apples</var> um 2
+erhöht.
+
+<p><h2>Beispiel zur Verwendung von Strings</h2>
+Dieses Beispiel zeigt die Wirkung des Additions-Operators bei der Verwendung mit Strings.
+Wie oben erwähnt, werden Strings bei der Verwendung des Additions-Operators verkettet.
+Sie finden den Quellcode <a href="addition_op_str.pb">hier</a>.
+
+<pre class="code">OpenConsole()
+
+; Part 1 - Adding items and using the result as a parameter
+fruit.l = 8
+PrintN("Total number of fruit is: " + Str(fruit))
+
+; Part 2 - Adding multiple items
+DefType.s forename, surname
+forename = "John"
+surname = "Smith"
+person$ = surname + ", " + forename
+PrintN(person$)
+
+PrintN("Press return to exit")
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="addition_op_str_run.png" alt="Ausgabe des Beispiels zur String-Addition" width="332" height="64">
+
+Der erste Teil des Beispiels demonstriert, wie zwei Strings addiert werden. Der feste String
+und der Rückgabewert des Befehls Str (ein String) werden zusammengefügt. Das Ergebnis
+der Addition wird direkt als Parameter des Befehls PrintN verwendet.
+
+<p>Teil zwei des Beispiels zeigt die Addition von drei Strings (der Variablen <var>surname</var>,
+einem festen String und der <var>forename</var> Variablen), das Ergebnis davon wird
+zusammen mit dem Gleichheits-Operator verwendet und in <var>person$</var> gespeichert.
+Die <var>person$</var> Variable wird an dieser Stelle erstellt (und zeigt auch, dass .s und $
+beides Stringtypen darstellen - denken Sie daran, immer die Endung zu verwenden, mit der Sie
+die Variable erstellt haben!).
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="equals.html">Gleich</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="subtraction.html">Subtraktion</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

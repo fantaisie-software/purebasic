@@ -1,0 +1,75 @@
+@Title Break : Continue
+
+@Syntax
+
+  @Keyword Break [Level]
+  
+@Description
+
+  @Keyword Break provides the ability to exit during any iteration, for the following loops: 
+  @ReferenceLink "Repeat_Until" Repeat, @ReferenceLink "For_Next" For, @ReferenceLink "ForEach_Next" ForEach and @ReferenceLink "While_Wend" While. 
+  The optional 'level' parameter specifies the number of loops to exit from, given several nested loops. 
+  If no parameter is given, @Keyword Break exits from the current loop.
+  
+  @Example Simple loop
+  
+@Code    
+  For k=0 To 10
+    If k=5
+      Break  ; Will exit directly from the For/Next loop
+    EndIf
+    Debug k
+  Next
+@EndCode
+  
+  @Example Nested loops
+  
+@Code  
+  For k=0 To 10
+    Counter = 0
+    Repeat
+      If k=5
+        Break 2 ; Will exit directly from the Repeat/Until and For/Next loops
+      EndIf
+      Counter+1
+    Until Counter > 1
+    Debug k
+  Next
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword Continue
+  
+@Description
+
+  @Keyword Continue provides the ability to skip straight to the end of the current iteration 
+  (bypassing any code in between) in the following loops: 
+  @ReferenceLink "Repeat_Until" Repeat, @ReferenceLink "For_Next" For, @ReferenceLink "ForEach_Next" ForEach, and @ReferenceLink "While_Wend" While.
+  
+  @Example
+  
+@Code
+  For k=0 To 10
+    If k=5
+      Continue  ; Will skip the 'Debug 5' and go directly to the next iteration
+    EndIf
+    Debug k
+  Next
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

@@ -1,0 +1,80 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - ToolBar example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Procedure MenuEvents()
+  Debug "ToolBar or menu item selected: " + EventMenu()
+EndProcedure
+
+Procedure Start()
+
+  If OpenWindow(0, 0, 0, 295, 260, "ToolBar example", #PB_Window_TitleBar | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+  
+    If CreateToolBar(0, WindowID(0))
+      ToolBarImageButton(0, ImageID(0))
+      ToolBarImageButton(1, ImageID(1))
+      ToolBarImageButton(2, ImageID(2))
+      ToolBarSeparator()
+      ToolBarImageButton(3, ImageID(3))
+      ToolBarToolTip(0, 3, "Cut")
+      
+      ToolBarImageButton(4, ImageID(4))
+      ToolBarToolTip(0, 4, "Copy")
+      
+      ToolBarImageButton(5, ImageID(5))
+      ToolBarToolTip(0, 5, "Paste")
+      
+      ToolBarSeparator()
+  
+      ToolBarImageButton(6, ImageID(6))
+      ToolBarToolTip(0, 6, "Find a document")
+    EndIf
+    
+    If CreateMenu(0, WindowID(0))
+      MenuTitle("Project")
+        MenuItem(0, "New", ImageID(0))
+        MenuItem(1, "Open...", ImageID(1))
+        MenuItem(2, "Save", ImageID(2))
+    EndIf
+    
+    DisableToolBarButton(0, 2, #True) ; Disable the button '2'
+    DisableMenuItem(0, 2, #True) ; Disable the menu item '2'
+    
+    BindEvent(#PB_Event_Menu, @MenuEvents())
+  EndIf
+EndProcedure
+
+
+Procedure Loading(Type, Filename$)
+  Static NbLoadedElements
+  
+  NbLoadedElements+1
+  If NbLoadedElements = 7 ; Finished the loading of all images, we can start the application
+    Start()
+  EndIf
+EndProcedure
+
+
+Procedure LoadingError(Type, Filename$)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loading())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+
+LoadImage(0, "Data/ToolBar/New.png")
+LoadImage(1, "Data/ToolBar/Open.png")
+LoadImage(2, "Data/ToolBar/Save.png")
+      
+LoadImage(3, "Data/ToolBar/Cut.png")
+LoadImage(4, "Data/ToolBar/Copy.png")
+LoadImage(5, "Data/ToolBar/Paste.png")
+LoadImage(6, "Data/ToolBar/Find.png")

@@ -481,6 +481,7 @@ Procedure LoadPreferences()
   FindCaseSensitive          = ReadPreferenceLong("CaseSensitive", 0)
   FindWholeWord              = ReadPreferenceLong("WholeWord", 0)
   FindSelectionOnly          = ReadPreferenceLong("SelectionOnly", 0)
+  FindAutoWrap               = ReadPreferenceLong("AutoWrap", 0)
   FindNoComments             = ReadPreferenceLong("NoComments", 0)
   FindNoStrings              = ReadPreferenceLong("NoStrings", 0)
   
@@ -1266,6 +1267,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("CaseSensitive", FindCaseSensitive)
     WritePreferenceLong  ("WholeWord",     FindWholeWord)
     WritePreferenceLong  ("SelectionOnly", FindSelectionOnly)
+    WritePreferenceLong  ("AutoWrap",      FindAutoWrap)
     WritePreferenceLong  ("NoComments",    FindNoComments)
     WritePreferenceLong  ("NoStrings",     FindNoStrings)
     
@@ -2946,16 +2948,31 @@ Procedure OpenPreferencesWindow()
   Restore DefaultColorSchemes
   Read.l NbSchemes
   
+  CurrentScheme = -1
   For i = 1 To NbSchemes
     Read.s Name$
     AddGadgetItem(#GADGET_Preferences_ColorSchemes, -1, Name$)
-    For c = 0 To #COLOR_Last+2 ; also read the 2 toolspanel colors
+    ; also read the 2 toolspanel colors
+    Read.l color
+    Read.l color
+    IsMatch = #True
+    For c = 0 To #COLOR_Last
       Read.l color
+      If Colors(c)\Enabled And (c <> #COLOR_Selection) And (c <> #COLOR_SelectionFront)
+        If color <> Colors(c)\UserValue
+          IsMatch = #False
+        EndIf
+      EndIf
     Next c
+    If IsMatch
+      CurrentScheme = i - 1
+    EndIf
   Next i
   
   SetGadgetItemText(#GADGET_Preferences_ColorSchemes, CountGadgetItems(#GADGET_Preferences_ColorSchemes)-1, Language("Preferences", "Accessibility"), 0)
-  
+  If CurrentScheme >= 0
+    SetGadgetState(#GADGET_Preferences_ColorSchemes, CurrentScheme)
+  EndIf
   
   ;- ------> Custom Keywords
   ;
@@ -4382,6 +4399,26 @@ Procedure PreferencesWindowEvents(EventID)
         DisableGadget(#GADGET_Preferences_Ok, 0)
         DisableGadget(#GADGET_Preferences_Cancel, 0)
         
+      Case #GADGET_Preferences_PageUp
+        index = GetGadgetState(#GADGET_Preferences_Tree)
+        If index > 0
+          SetGadgetState(#GADGET_Preferences_Tree, index - 1)
+        ElseIf index = -1
+          SetGadgetState(#GADGET_Preferences_Tree, 0)
+        EndIf
+        SetActiveGadget(#GADGET_Preferences_Tree)
+        PostEvent(#PB_Event_Gadget, #WINDOW_Preferences, #GADGET_Preferences_Tree, #PB_EventType_Change)
+        
+      Case #GADGET_Preferences_PageDown
+        index = GetGadgetState(#GADGET_Preferences_Tree)
+        If index < CountGadgetItems(#GADGET_Preferences_Tree) - 1
+          SetGadgetState(#GADGET_Preferences_Tree, index + 1)
+        ElseIf index = -1
+          SetGadgetState(#GADGET_Preferences_Tree, 0)
+        EndIf
+        SetActiveGadget(#GADGET_Preferences_Tree)
+        PostEvent(#PB_Event_Gadget, #WINDOW_Preferences, #GADGET_Preferences_Tree, #PB_EventType_Change)
+        
       Case #GADGET_Preferences_EnableHistory
         Enabled = GetGadgetState(#GADGET_Preferences_EnableHistory)
         For i = #GADGET_Preferences_HistoryTimer To #GADGET_Preferences_HistoryCount
@@ -5414,10 +5451,10 @@ DataSection
     ; in order if the enumeration.
     
     Data$ "SpiderBasic"
-    Data.l $000000
-    Data.l $FFFFFF
-    Data.l $800000
-    Data.l $FFFFFF ; #COLOR_ASMKeyword
+    Data.l $000000 ;  ToolsPanelFrontColor
+    Data.l $FFFFFF ;  ToolsPanelBackColor
+    Data.l $800000 ; #COLOR_ASMKeyword
+    Data.l $FFFFFF ; #COLOR_GlobalBackground
     Data.l $C37B23 ; #COLOR_BasicKeyword
     Data.l $009001 ; #COLOR_Comment
     Data.l $724B92 ; #COLOR_Constant
@@ -5467,10 +5504,10 @@ DataSection
   ; in order if the enumeration.
   
   Data$ "PureBasic"
-  Data.l 0
-  Data.l $DFFFFF
-  Data.l $724B92
-  Data.l $DFFFFF ; #COLOR_ASMKeyword
+  Data.l 0       ;  ToolsPanelFrontColor
+  Data.l $DFFFFF ;  ToolsPanelBackColor
+  Data.l $724B92 ; #COLOR_ASMKeyword
+  Data.l $DFFFFF ; #COLOR_GlobalBackground
   Data.l $666600 ; #COLOR_BasicKeyword
   Data.l $AAAA00 ; #COLOR_Comment
   Data.l $724B92 ; #COLOR_Constant
@@ -5510,10 +5547,10 @@ DataSection
   
   
   Data$ "Visual Studio"
-  Data.l $000000
-  Data.l $FFFFFF
-  Data.l $800000
-  Data.l $FFFFFF ; #COLOR_ASMKeyword
+  Data.l $000000 ;  ToolsPanelFrontColor
+  Data.l $FFFFFF ;  ToolsPanelBackColor
+  Data.l $800000 ; #COLOR_ASMKeyword
+  Data.l $FFFFFF ; #COLOR_GlobalBackground
   Data.l $FF0000 ; #COLOR_BasicKeyword
   Data.l $008000 ; #COLOR_Comment
   Data.l $000000 ; #COLOR_Constant
@@ -5552,11 +5589,11 @@ DataSection
   Data.l $FFFFFF ; #COLOR_PlainBackground
   
   
-  Data$ "PHP extended"
-  Data.l $000000
-  Data.l $F4F4F4
-  Data.l $724B92
-  Data.l $FFFFFF ; #COLOR_ASMKeyword
+  Data$ "PHP Extended"
+  Data.l $000000 ;  ToolsPanelFrontColor
+  Data.l $F4F4F4 ;  ToolsPanelBackColor
+  Data.l $724B92 ; #COLOR_ASMKeyword
+  Data.l $FFFFFF ; #COLOR_GlobalBackground
   Data.l $008000 ; #COLOR_BasicKeyword
   Data.l $0080FF ; #COLOR_Comment
   Data.l $724B92 ; #COLOR_Constant
@@ -5595,10 +5632,10 @@ DataSection
   Data.l $FFFFFF ; #COLOR_PlainBackground
   
   Data$ "Black Style"
-  Data.l $008000
-  Data.l $000000
-  Data.l $FFFFFF
-  Data.l $000000 ; #COLOR_ASMKeyword
+  Data.l $008000 ;  ToolsPanelFrontColor
+  Data.l $000000 ;  ToolsPanelBackColor
+  Data.l $FFFFFF ; #COLOR_ASMKeyword
+  Data.l $000000 ; #COLOR_GlobalBackground
   Data.l $00CCCC ; #COLOR_BasicKeyword
   Data.l $808080 ; #COLOR_Comment
   Data.l $808000 ; #COLOR_Constant
@@ -5638,10 +5675,10 @@ DataSection
   
   ; Based on the Monokai color scheme, copyright by Wimer Hazenberg (https://monokai.nl)
   Data$ "Monokai"
-  Data.l $C2CFCF
-  Data.l $222827
+  Data.l $C2CFCF ;  ToolsPanelFrontColor
+  Data.l $222827 ;  ToolsPanelBackColor
   Data.l $EFD966 ; #COLOR_ASMKeyword
-  Data.l $222827 ; #COLOR_Background
+  Data.l $222827 ; #COLOR_GlobalBackground
   Data.l $7226F9 ; #COLOR_BasicKeyword
   Data.l $5E7175 ; #COLOR_Comment
   Data.l $FF81AE ; #COLOR_Constant
@@ -5680,10 +5717,10 @@ DataSection
   Data.l $222827 ; #COLOR_PlainBackground
   
   Data$ "Blue Style"
-  Data.l $80FFFF
-  Data.l $804000
-  Data.l $724B92
-  Data.l $FFEAD9 ; #COLOR_ASMKeyword
+  Data.l $80FFFF ;  ToolsPanelFrontColor
+  Data.l $804000 ;  ToolsPanelBackColor
+  Data.l $724B92 ; #COLOR_ASMKeyword
+  Data.l $FFEAD9 ; #COLOR_GlobalBackground
   Data.l $800000 ; #COLOR_BasicKeyword
   Data.l $006400 ; #COLOR_Comment
   Data.l $000080 ; #COLOR_Constant
@@ -5722,10 +5759,10 @@ DataSection
   Data.l $FFEAD9 ; #COLOR_PlainBackground
   
   Data$ "White Style"
-  Data.l $000000
-  Data.l $FFFFFF
-  Data.l $0000FF
-  Data.l $FFFFFF ; #COLOR_ASMKeyword
+  Data.l $000000 ;  ToolsPanelFrontColor
+  Data.l $FFFFFF ;  ToolsPanelBackColor
+  Data.l $0000FF ; #COLOR_ASMKeyword
+  Data.l $FFFFFF ; #COLOR_GlobalBackground
   Data.l $800000 ; #COLOR_BasicKeyword
   Data.l $008000 ; #COLOR_Comment
   Data.l $000080 ; #COLOR_Constant
@@ -5765,10 +5802,10 @@ DataSection
   
   
   Data$ "Grey Style"
-  Data.l $6F3F00
-  Data.l $8F8F8F
-  Data.l $FF0000
-  Data.l $AFAFAF ; #COLOR_ASMKeyword
+  Data.l $6F3F00 ;  ToolsPanelFrontColor
+  Data.l $8F8F8F ;  ToolsPanelBackColor
+  Data.l $FF0000 ; #COLOR_ASMKeyword
+  Data.l $AFAFAF ; #COLOR_GlobalBackground
   Data.l $000000 ; #COLOR_BasicKeyword
   Data.l $FFFFFF ; #COLOR_Comment
   Data.l $7F007F ; #COLOR_Constant
@@ -5807,10 +5844,10 @@ DataSection
   Data.l $FFFFFF ; #COLOR_PlainBackground
   
   Data$ "Accessibility"
-  Data.l 0
-  Data.l $FFFFFF
-  Data.l $000000
-  Data.l $FFFFFF  ; #COLOR_ASMKeyword
+  Data.l 0        ;  ToolsPanelFrontColor
+  Data.l $FFFFFF  ;  ToolsPanelBackColor
+  Data.l $000000  ; #COLOR_ASMKeyword
+  Data.l $FFFFFF  ; #COLOR_GlobalBackground
   Data.l $FF0000  ; #COLOR_BasicKeyword
   Data.l $0000FF  ; #COLOR_Comment
   Data.l 0        ; #COLOR_Constant

@@ -1,0 +1,239 @@
+@Title Data
+
+@Section Introduction
+
+  PureBasic allows the use of @Keyword Data, to store predefined blocks of information inside of your program. 
+  This is very useful for default values of a program (language string for example) or, in a game, to 
+  define the sprite way to follow (precalculated). 
+  @LineBreak
+  @LineBreak
+  @Keyword DataSection must be called first to indicate a data section follow. This means all labels 
+  and data component will be stored in the @Keyword data section of the program, which has a much faster access 
+  than the code section. @Keyword Data will be used to enter the data. @Keyword EndDataSection must be specified if some 
+  code follows the data declaration. One of good stuff is you can define different @Keyword Data sections in the 
+  code without any problem. @Keyword Restore and @Keyword Read command will be used to retrieve the data.
+  @LineBreak
+  @LineBreak
+  These functions are not thread safe so don't use them inside a thread.
+  
+@Section Commands
+
+@Syntax
+
+  @Keyword DataSection
+
+@Description
+
+  Start a data section. 
+  
+@Example
+
+@Code
+  Label:
+    
+  DataSection
+    Data.i ?Label, @Max()
+  EndDataSection
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword EndDataSection
+
+@Description
+
+  End a data section. 
+  
+@Example
+
+@Code
+  Label:
+    
+  DataSection
+    Data.i ?Label, @Max()
+  EndDataSection
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+@Syntax
+
+  @Keyword Data.TypeName
+
+@Description
+  
+  Defines data. The type can only be a native @ReferenceLink "variables" "basic type" (integer, long, word, byte, ascii, unicode, float, double, quad, character, string). Any 
+  number of data can be put on the same line, each one delimited with a comma ','. 
+    
+@Example
+
+@Code
+  Data.l 100, 200, -250, -452, 145
+  Data.s "Hello", "This", "is ", "What ?"
+@EndCode
+
+For advanced programmers: it's also possible to put a @ReferenceLink "procedures" "procedure" @ReferenceLink "memory" "address"
+or a @ReferenceLink "memory" "label address" inside @Keyword "Data" when its type is set to integer (.i).
+(Using the 'integer' type will store the (different) addresses accurate on both 32-bit and 64-bit environments.)
+This can be used to build easy virtual function tables for example.
+
+@Example
+
+@Code
+  Procedure Max(Number, Number2)
+  EndProcedure
+  
+  Label:
+    
+  DataSection
+    Data.i ?Label, @Max()
+  EndDataSection
+@EndCode
+
+
+@Example
+
+@Code
+  Interface MyObject
+    DoThis()
+    DoThat()
+  EndInterface
+
+  Procedure This(*Self)
+    MessageRequester("MyObject", "This")
+  EndProcedure
+
+  Procedure That(*Self)
+    MessageRequester("MyObject", "That")
+  EndProcedure
+
+  m.MyObject = ?VTable
+
+  m\DoThis()
+  m\DoThat()
+
+
+  DataSection
+    VTable:
+      Data.i ?Procedures
+    Procedures:
+      Data.i @This(), @That()
+  EndDataSection
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword Restore label
+
+@Description
+
+  This keyword is useful to set the start indicator for the @Keyword "Read" to a specified label. All labels used
+  for this purpose should be placed within the @Keyword "DataSection" because the data is treated as a separate
+  block from the program code when it is compiled and may become disassociated from a label if the label
+  were placed outside of the DataSection.
+  
+@Example
+
+@Code
+  Restore StringData
+  Read.s MyFirstData$
+  Read.s MySecondData$
+  
+  Restore NumericalData
+  Read.l a
+  Read.l b
+
+  Debug MyFirstData$
+  Debug a
+  
+  End  
+  
+  DataSection
+    NumericalData:    
+      Data.l 100, 200, -250, -452, 145
+      
+    StringData:
+      Data.s "Hello", "This", "is ", "What ?"
+  EndDataSection
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword Read[.<type>] <variable>
+  
+@Description
+
+  Read the next available data. The next available data can be changed by using the @Keyword Restore command. 
+  By default, the next available data is the first data declared. The type of data to read is determined by the
+  type suffix. The @ReferenceLink "define" "default type" will be used if it is not specified.
+  It is however advisable to use the ad-hoc type in order to avoid the error message that will appear when you 
+  read data string and to avoid an integer type confusion which is a 'Long' type for 32-bit compilers and which 
+  is a 'Quad' type for 64-bit compilers.
+  
+@Example
+
+@Code
+  Restore StringData
+  Read.s MyFirstData$  
+  
+  Restore NumericalData
+  Read a   ; Beware, it will read an Integer (Long in 32-bits or Quad in 64-bits compilers)
+  Read.q b
+  Read c   ; Beware, read a 'Quad' in a 64-bit compiler even if the Data is a 'Long'!
+  Read.l d
+  
+  Debug MyFirstData$ ; Display Hello
+  Debug a  ; Display 100
+  Debug b  ; Display 111111111111111111
+  Debug c  ; Beware, the display depends of your compiler! : 200 in 32-bits or 1288490189000 in 64-bits
+  Debug d  ; Idem : 300  in 32-bits or 400 in 64-bits
+  
+  End  
+  
+  DataSection
+    NumericalData:    
+      Data.i 100
+      Data.q 111111111111111111
+      Data.l 200, 300, 400
+
+    StringData:
+      Data.s "Hello", "This", "is ", "What ?"
+  EndDataSection
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

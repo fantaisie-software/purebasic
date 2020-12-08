@@ -1,0 +1,756 @@
+;
+;     Menu library documentation
+;
+;      (c) 2013 - Fantaisie Software
+;
+
+@Library Menu
+
+@Overview
+
+  Creating and managing menus in SpiderBasic is easy. You can, of course, tailor the menus to your specific needs.
+@LineBreak
+@LineBreak
+  To use a menu you must first start by creating one with either @@CreateMenu for normal
+  menus, or @@CreatePopupMenu for pop-up menus.
+
+@CommandList
+
+@ExampleFile All Menu.sb
+@ExampleFile All PopupMenu.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseSubMenu() 
+
+@Description
+  Close the current sub menu and return to the enclosing menu after a previous call to @@OpenSubMenu.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  For an example and a preview image see @@OpenSubMenu.
+
+@SeeAlso
+  @@OpenSubMenu
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateMenu(#Menu, WindowID)
+
+@Description
+  Creates a new empty menu on the given window.
+  
+@Parameter "#Menu"
+  A number to identify the new menu.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "WindowID"
+  The window for the new menu. It can be obtained using the @@WindowID function.
+
+@ReturnValue
+  Nonzero if the menu was created successfully, zero otherwise. If @#PB_Any was used
+  for the #Menu parameter then the generated number is returned on success.
+
+@Remarks
+  To create a menu with support for images, use @@CreateImageMenu.
+@LineBreak
+@LineBreak
+  Once created, this menu becomes the current menu for further item additions. It's now 
+  possible to use functions such as @@MenuTitle, @@MenuItem, @@MenuBar, @@OpenSubMenu to populate the menu.
+@LineBreak
+@LineBreak
+  To handle menu events, use @@BindEvent, @@EventWindow and @@EventMenu.
+
+@Example
+@Code
+  Procedure MenuEvents()
+    Debug "Menu item selected: " + EventMenu()
+  EndProcedure
+    
+  If OpenWindow(0, 200, 200, 200, 100, "Menu Example")
+    If CreateMenu(0, WindowID(0))    ; menu creation starts....
+      MenuTitle("Project")
+      MenuItem(1, "Open"    + #TAB$ + "Shift+O")
+      MenuItem(2, "Save"    + #TAB$ + "Shift+S")
+      MenuItem(3, "Save as" + #TAB$ + "Shift+A")
+      MenuItem(4, "Close"   + #TAB$ + "Shift+C")
+    EndIf
+    
+    BindEvent(#PB_Event_Menu, @MenuEvents())
+  EndIf
+@EndCode
+@Image createmenu.png
+
+@SeeAlso
+  @@CreateImageMenu, @@CreatePopupMenu, @@CreatePopupImageMenu, @@FreeMenu, @@MenuTitle, @@MenuItem, @@MenuBar, @@OpenSubMenu
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateImageMenu(#Menu, WindowID [, Flags])
+
+@Description
+  Creates a new empty menu on the given window with support for images in the menu items.
+  
+@Parameter "#Menu"
+  A number to identify the new menu.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "WindowID"
+  The window for the new menu. It can be obtained using the @@WindowID function.
+
+@OptionalParameter "Flags"
+  Not used.
+
+@ReturnValue
+  Nonzero if the menu was successfully created, zero otherwise. If @#PB_Any was used
+  for the #Menu parameter then the generated number is returned on success.
+
+@Remarks
+  Once created, this menu becomes the current menu for further item additions. It's now 
+  possible to use functions such as @@MenuTitle, @@MenuItem, @@MenuBar, @@OpenSubMenu to populate the menu.
+@LineBreak
+@LineBreak
+  To handle menu events, use @@BindEvent, @@EventWindow and @@EventMenu.
+
+@Example
+@Code
+  Procedure MenuEvents()
+    Debug "Menu item selected: " + EventMenu()
+  EndProcedure
+  
+  CreateImage(0, 16, 16)
+  If StartDrawing(ImageOutput(0))
+    Box(0, 0, 16, 16, RGB(255, 0, 0)) ; red box
+    StopDrawing()
+  EndIf
+  
+  
+  If OpenWindow(0, 200, 200, 200, 100, "Menu Example")
+    If CreateMenu(0, WindowID(0))    ; menu creation starts....
+      MenuTitle("Project")
+      MenuItem(1, "Open", ImageID(0))
+      MenuItem(2, "Save")
+      MenuItem(3, "Save as")
+      MenuItem(4, "Close", ImageID(0))
+    EndIf
+    
+    BindEvent(#PB_Event_Menu, @MenuEvents())
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@CreateMenu, @@CreatePopupMenu, @@CreatePopupImageMenu, @@FreeMenu, @@MenuTitle, @@MenuItem, @@MenuBar, @@OpenSubMenu
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreatePopupMenu(#Menu) 
+
+@Description
+  Creates a new empty popup menu. 
+  
+@Parameter "#Menu"
+  A number to identify the new menu.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@ReturnValue
+  Nonzero if the menu was successfully created, zero otherwise. If @#PB_Any was used
+  for the #Menu parameter then the generated number is returned on success.
+
+@Remarks
+  To create a popup menu with support for images, use @@CreatePopupImageMenu.
+@LineBreak
+@LineBreak
+  Once created, this menu becomes the current menu for further item additions. It's now 
+  possible to use functions such as @@MenuTitle, @@MenuItem, @@MenuBar, @@OpenSubMenu to populate the menu.
+@LineBreak
+@LineBreak
+  @@DisplayPopupMenu can be used to display this popup menu at any position on the screen.
+@LineBreak
+@LineBreak
+  To handle menu events, use @@BindEvent, @@EventWindow and @@EventMenu.
+
+@Example
+@Code
+  If CreatePopupMenu(0)
+    MenuItem(1, "Cut")
+    MenuItem(2, "Copy")
+    MenuItem(3, "Paste")
+    MenuBar()
+    OpenSubMenu("Options")
+      MenuItem(4, "Window...")
+      MenuItem(5, "Gadget...")
+    CloseSubMenu()
+    MenuBar()
+    MenuItem( 6, "Quit")
+  EndIf
+    
+  Procedure GadgetEvents()
+    If EventGadget() = 0 And EventType() = #PB_EventType_RightClick
+      DisplayPopupMenu(0, WindowID(0))
+    EndIf
+  EndProcedure
+    
+  Procedure MenuEvents()
+    Debug EventMenu()  ; To see which menu has been selected
+  EndProcedure
+  
+  ;
+  ; We just have to open a window and see when an event happen on the menu
+  ;
+  If OpenWindow(0, 100, 100, 300, 260, "SpiderBasic - PopupMenu Example")
+  
+    ListIconGadget(0, 10, 10, 280, 240, "Tools", 200)
+      AddGadgetItem(0, -1, "Hammer")
+      AddGadgetItem(0, -1, "Screwdriver")
+          
+    BindEvent(#PB_Event_Menu, @MenuEvents())
+    BindEvent(#PB_Event_Gadget, @GadgetEvents())
+  EndIf
+@EndCode
+@Image createpopupmenu.png
+
+@SeeAlso
+  @@CreatePopupImageMenu, @@DisplayPopupMenu, 
+  @@CreateMenu, @@CreateImageMenu, @@FreeMenu, @@MenuTitle, @@MenuItem, @@MenuBar, @@OpenSubMenu
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreatePopupImageMenu(#Menu [, Flags]) 
+
+@Description
+  Creates a new empty popup menu, with image support for its items.
+  
+@Parameter "#Menu"
+  A number to identify the new menu.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@OptionalParameter "Flags"
+  Not used.
+
+@ReturnValue
+  Returns nonzero if the menu was created successfully and zero if not. If @#PB_Any was used
+  for the #Menu parameter then the generated number is returned on success.
+
+@Remarks
+  Once created, this menu becomes the current menu for further item additions. It's now 
+  possible to use functions such as @@MenuTitle, @@MenuItem, @@MenuBar, @@OpenSubMenu to populate the menu.
+@LineBreak
+@LineBreak
+  @@DisplayPopupMenu can be used to display this popup menu at any position on the screen.
+@LineBreak
+@LineBreak
+  To handle menu events, use @@BindEvent, @@EventWindow and @@EventMenu.
+
+@SeeAlso
+  @@CreatePopupMenu, @@DisplayPopupMenu, 
+  @@CreateMenu, @@CreateImageMenu, @@FreeMenu, @@MenuTitle, @@MenuItem, @@MenuBar, @@OpenSubMenu
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisplayPopupMenu(#Menu, WindowID [, x, y])
+
+@Description
+  Displays a PopupMenu under the current mouse position or at the given screen location.
+
+@Parameter "#Menu"
+  The menu to display. It must have been created with @@CreatePopupMenu or
+  @@CreatePopupImageMenu.
+  
+@Parameter "WindowID"
+  The window with which to associate the popup menu. This value can be obtained with
+  the @@WindowID function.
+
+@OptionalParameter "x, y"
+  The location at which the menu should be displayed in screen coordinates. These are
+  coordinates in pixels relative to the upper-left corner of the primary monitor.
+@LineBreak
+@LineBreak
+  If this parameter is not specified, the menu is displayed at the current mouse position.
+
+@NoReturnValue
+  
+@Remarks
+  The popup menu will be hidden again when the user selects an item or clicks somewhere outside of 
+  the area of the popup menu.
+@LineBreak
+@LineBreak
+  For an example and a preview image see @@CreatePopupMenu.
+
+@SeeAlso
+  @@CreatePopupMenu, @@CreatePopupImageMenu
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableMenuItem(#Menu, MenuItem, State)
+
+@Description
+  Disable (or enable) a menu item in the given menu.
+
+@Parameter "#Menu"
+  The menu to use.
+
+@Parameter "MenuItem"
+  The number of the menu item to disable or enable.
+
+@Parameter "State"
+  The new state for the menu item. A value of 1 disables
+  the menu item and a value of 0 enables it.
+  
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 200, 200, 200, 100, "Menu Example")
+    If CreateMenu(0, WindowID(0))    ; menu creation starts....
+      MenuTitle("Project")
+      MenuItem(1, "Open")
+      MenuItem(2, "Save")
+      MenuItem(3, "Save as")
+      MenuItem(4, "Close")
+      
+      DisableMenuItem(0, 2, 1)     ; disable the second menu item (Save)
+    EndIf
+  EndIf
+@EndCode
+@Image disablemenuitem.png
+
+@SeeAlso
+  @@MenuItem, @@SetMenuItemText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMenu(#Menu)
+
+@Description
+  Frees the specified menu and all its resources.
+  
+@Parameter "#Menu"
+  The menu to free. If @#PB_All is specified, all the remaining menus are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining menus are automatically freed when the program ends.
+
+@SeeAlso
+  @@CreateMenu, @@CreateImageMenu, @@CreatePopupMenu, @@CreatePopupImageMenu
+
+@SupportedOS
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = GetMenuItemText(#Menu, Item)
+
+@Description
+  Returns the text from the specified menu item.
+  
+@Parameter "#Menu"
+  The menu to use.
+
+@Parameter "Item"
+  The item to get the text from.
+
+@ReturnValue
+  Returns the menu item text.
+  
+@SeeAlso
+  @@SetMenuItemText, @@MenuItem
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = GetMenuTitleText(#Menu, Title)
+
+@Description
+  Returns the title text of the specified menu title item.
+  
+@Parameter "#Menu"
+  The menu to use.
+
+@Parameter "Title"
+  The index of the menu title item to read the title from.
+
+@ReturnValue
+  Returns the text of the menu title item.
+
+@SeeAlso
+  @@MenuTitle, @@SetMenuTitleText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsMenu(#Menu)
+
+@Description
+  Tests if the given menu is valid and correctly initialized. 
+  
+@Parameter "#Menu"
+    The menu to test.
+
+@ReturnValue
+  Nonzero if the menu is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a menu is ready to use.
+
+@SeeAlso
+  @@CreateMenu, @@CreatePopupMenu, @@CreateImageMenu, @@CreatePopupImageMenu
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MenuBar() 
+
+@Description
+  Creates a separator bar in the current menu.
+  
+@NoParameters
+@NoReturnValue
+  
+@Example
+@Code
+  If OpenWindow(0, 200, 200, 200, 100, "MenuBar Example")
+    If CreateMenu(0, WindowID(0))  ; here the menu creating starts....
+      MenuTitle("Project")
+        MenuItem(1, "Open")
+        MenuBar()                  ; here the separator bar will be inserted
+        MenuItem(4, "Close")
+    EndIf
+  EndIf
+@EndCode
+@Image menubar.png
+
+@SeeAlso
+  @@MenuTitle, @@MenuItem, @@OpenSubMenu, @@CreateMenu, @@CreatePopupMenu
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MenuItem(MenuItemID, Text$ [, ImageID]) 
+
+@Description
+  Creates a new item on the current menu.
+  
+@Parameter "MenuItemID"
+  A number to identify this menu item. This value should be between 0 and 65535.
+
+@Parameter "Text$"
+  The text for the menu item. The special '&' character to underline a specific 
+  letter:
+@LineBreak
+@LineBreak
+  "&File" will actually display: @Underline "F"ile  
+@EndOS
+
+@OptionalParameter "ImageID"
+  The image to be displayed next to the menu item. The menu must be created with
+  @@CreateImageMenu or @@CreatePopupImageMenu for the image to be displayed. This value can be
+  obtained using the @@ImageID function.
+
+@NoReturnValue
+
+@Remarks
+  To have a keyboard shortcut aligned to the right side of the menu
+  (for example, "Save    Ctrl+S") use the tab character (#TAB$ or Chr(9))
+  to give the correct space.
+  The code may look something like this:
+@Code
+  MenuItem(1, "&Open" + #TAB$ + "Ctrl+O")
+@EndCode
+  The supported modifiers are:
+@Code
+  - "Ctrl"  : Control key
+  - "Shift" : Shift key
+  - "Alt"   : Alt key
+@EndCode
+  They can be mixed together with the "+" character: "Save As" + #TAB$ + "Ctrl+Shift+S".
+
+@Example
+@Code
+  If OpenWindow(0, 200, 200, 200, 100, "MenuItem Example")
+    If CreateMenu(0, WindowID(0))
+      MenuTitle("Project")
+        MenuItem(1, "Open")    ; normal item
+        MenuItem(2, "&Save")   ; item with underlined character, the underline will only
+                               ; be displayed, if menu is called with F10 + arrow keys
+        MenuItem(3, "Quit" + #TAB$ + "Shift+Q")   ; item with separate shortcut text
+    EndIf
+  EndIf
+@EndCode
+
+@Image menuitem.png
+
+@SeeAlso
+  @@MenuTitle, @@MenuBar, @@OpenSubMenu
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MenuID = MenuID(#Menu)
+
+@Description
+  Returns the unique system identifier of the given menu.
+
+@Parameter "#Menu"
+  The menu to use.
+  
+@ReturnValue
+  Returns the ID of the menu. This sometimes also known as 'Handle'. Look at the extra chapter @ReferenceLink "handles" 
+  "Handles and Numbers" for more information.
+
+@SeeAlso
+  @@CreateMenu, @@CreatePopupMenu, @@CreateImageMenu, @@CreatePopupImageMenu
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MenuTitle(Title$)
+
+@Description
+  Creates a new title item on the menu.
+  
+@Parameter "Title$"
+  The text to display in the title item.
+  
+@OS Windows
+  On Windows you can use the special '&' character to underline a specific 
+  letter:
+@LineBreak
+@LineBreak
+  "&File" will actually display: @Underline "F"ile
+@EndOS
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 200, 200, 200, 100, "MenuTitle Example")
+    If CreateMenu(0, WindowID(0))
+      MenuTitle("&Project")      ; normal menu title with following item
+        MenuItem(1, "Open")  
+        MenuItem(2, "Close")
+      MenuTitle("&Edit")        ; menu title with underlined character, the underline
+                                ; will only be displayed, when called with F10 key
+        MenuItem(3, "Undo")
+        MenuItem(4, "Redo")
+      MenuTitle("&About")        ; only menu title
+    EndIf
+  EndIf
+@EndCode
+@Image menutitle.png
+
+@SeeAlso
+  @@MenuItem, @@MenuBar, @@OpenSubMenu
+
+@SupportedOS
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function OpenSubMenu(Text$ [, ImageID]) 
+
+@Description
+  Creates an empty submenu in the current menu. 
+
+@Parameter "Text$"
+  The text for the submenu.
+@LineBreak
+@LineBreak
+  In the Text$ argument, the special '&' character can be used to underline a specific letter:
+  "&File" will actually display: @Underline "F"ile
+
+@OptionalParameter "ImageID"
+  An optional image to display next to the submenu. This parameter only has an effect
+  if the current menu was created using the @@CreateImageMenu or @@CreatePopupImageMenu command.
+  This value can be obtained using the @@ImageID function.
+  
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 200, 200, 220, 100, "SubMenu Example")
+    If CreateMenu(0, WindowID(0))
+      MenuTitle("Project") 
+        MenuItem(1, "Open")  
+        MenuItem(2, "Close")
+        MenuBar()
+        OpenSubMenu("Recent files")       ; begin submenu
+          MenuItem( 3, "Cookie1.txt")
+          MenuItem( 4, "Cookie2.txt")
+        CloseSubMenu()                    ; end submenu
+    EndIf
+  EndIf
+@EndCode
+
+@Image opensubmenu.png
+
+@SeeAlso
+  @@CloseSubMenu, @@MenuTitle, @@MenuItem, @@MenuBar
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMenuItemText(#Menu, Item, Text$)
+
+@Description
+  Changes the text of the specified menu item.
+  
+@Parameter "#Menu"
+  The menu to use.
+  
+@Parameter "Item"
+  The item number of the item to change.
+  
+@Parameter "Text$"
+  The new text for the item.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@GetMenuItemText, @@MenuItem
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMenuTitleText(#Menu, Title, Text$)
+
+@Description
+  Changes the specified menu title item text.
+  
+@Parameter "#Menu"
+  The menu to use.
+  
+@Parameter "Title"
+  The title item index to change.
+  
+@Parameter "Text$"
+  The new text for the title item.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@GetMenuTitleText, @@MenuTitle
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BindMenuEvent(#Menu, MenuItem, @Callback())
+
+@Description
+  Bind a menu event to a callback. A menu event can be unbinded with @@UnbindMenuEvent.
+  
+@Parameter "#Menu"
+  The menu to bind the event to.
+
+@Parameter "MenuItem"
+  The menu item within the menu to bind the event to.
+
+@Parameter "@Callback()"
+  The callback procedure to call when the event occurs. It has to be declared like this:
+@Code
+  Procedure EventHandler()
+    ; Code
+  EndProcedure
+@EndCode
+  Regular functions like @@EventGadget, @@EventWindow, @@EventMenu, @@EventType and @@EventData are
+  available within the callback to get more information about the event.
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure TestHandler()
+    Debug "Test menu event"
+  EndProcedure
+  
+  Procedure QuitHandler()
+    Debug "Quit menu event"
+    End
+  EndProcedure
+  
+  OpenWindow(0, 100, 100, 200, 50, "Click test", #PB_Window_SystemMenu)
+  
+  CreateMenu(0, WindowID(0))
+    MenuTitle("File")
+      MenuItem(0, "Test")
+      MenuItem(1, "Quit")
+  
+  BindMenuEvent(0, 0, @TestHandler())
+  BindMenuEvent(0, 1, @QuitHandler())
+@EndCode
+
+@SeeAlso @@BindGadgetEvent, @@BindMenuEvent, @@UnbindEvent
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UnbindMenuEvent(#Menu, MenuItem, @Callback())
+
+@Description
+  Unbind a menu event from a callback. If no matching event callback is found, this
+  command has no effect.
+  
+@Parameter "#Menu"
+  The menu to unbind the event.
+
+@Parameter "MenuItem"
+  The menu item within the menu to unbind the event.
+  
+@Parameter "@Callback()"
+  The callback procedure to unbind.
+  
+@NoReturnValue
+
+@Example
+@Code
+  Procedure TestHandler()
+    Debug "Test menu event"
+  EndProcedure
+  
+  Procedure QuitHandler()
+    Debug "Quit menu event"
+  EndProcedure
+  
+  OpenWindow(0, 100, 100, 200, 50, "Click test", #PB_Window_SystemMenu)
+  
+  CreateMenu(0, WindowID(0))
+    MenuTitle("File")
+      MenuItem(0, "Test")
+      MenuItem(1, "Quit")
+  
+  BindMenuEvent(0, 0, @TestHandler())
+  BindMenuEvent(0, 1, @QuitHandler())
+  
+  UnbindMenuEvent(0, 1, @QuitHandler()) ; Unbind the quit event
+@EndCode
+
+@SeeAlso @@BindEvent, @@BindGadgetEvent, @@BindMenuEvent
+
+@SupportedOS

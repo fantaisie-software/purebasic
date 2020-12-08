@@ -1,0 +1,61 @@
+@Title Threaded
+
+@Syntax
+
+  @Keyword Threaded[.<type>] <variable[.<type>]> [= <constant expression>] [, ...]
+
+@Description
+
+  @Keyword Threaded allows to create a @LibraryLink "thread" "thread based" persistent @ReferenceLink "variables" "variable",
+  @ReferenceLink "dim" "arrays" (except multi-dimensional arrays), @ReferenceLink "newlist" "lists" or @ReferenceLink "newmap" "maps". This means
+  every @LibraryLink "thread" "thread" will have its own version of the object. This is only useful when writing multithreaded programs.
+  If a type is specified after @Keyword Threaded, the default type is changed for this declaration. @LineBreak
+  @LineBreak
+  Each variable can have a default value directly assigned to it, but it has to be a constant value.
+  Threaded initialization is done at thread first start.
+  That implies when declaring and assigning a threaded variable in the same time, the variable is assigned for all threads. See example 2.
+  When declaring a threaded array, the dimension parameter has to be a constant value. @LineBreak
+  @LineBreak
+  A Threaded object can't be declared in a procedure, its scope is always global.
+
+
+@Example 1 With variables
+
+@Code
+  Threaded Counter
+  
+  Counter = 128
+  
+  Procedure Thread(Parameter)
+    
+    Debug Counter ; Will display zero as this thread doesn't have used this variable for now
+    Counter = 256
+    Debug Counter ; Will display 256
+    
+  EndProcedure
+  
+  Thread = CreateThread(@Thread(), 0)
+  WaitThread(Thread) ; Wait for thread ending
+  
+  Debug Counter ; Will display 128, even if Counter has been changed in the thread
+@EndCode
+
+
+@Example 2 All threads
+
+@Code
+  Threaded Counter = 128 ; Defined for all threads
+  
+  Procedure Thread(Parameter)
+    
+    Debug Counter ; Will display 128 because a programme started, starts a thread too
+    Counter = 256
+    Debug Counter ; Will display 256
+    
+  EndProcedure
+  
+  Thread = CreateThread(@Thread(), 0)
+  WaitThread(Thread) ; Wait for thread ending
+  
+  Debug Counter ; Will display 128, even if Counter has been changed in the thread
+@EndCode

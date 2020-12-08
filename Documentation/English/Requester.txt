@@ -1,0 +1,528 @@
+;
+;     Requester library documentation
+;
+;      (c) 2016 - Fantaisie Software
+;
+
+@Library Requester
+
+@Overview
+
+Computer users are well used to requesters as almost any graphical application use
+at least one of them. They are very handy as some basic tasks (like opening a file,
+choose a color, choose a font etc...) are all performed through standard windows
+called 'requesters'.
+
+@CommandList
+
+@ExampleFile All Requester.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Color = ColorRequester([CurrentColor])
+
+@Description
+  Opens the standard requester to choose a color. The chosen color is returned 
+  under a 24-bit number containing the red, green and blue value, as usual. 
+
+@OptionalParameter "CurrentColor"
+  Sets the default color when the requester is opened. @@RGB can be used to get a valid color.
+  
+@ReturnValue
+  The selected color, or -1 if the user canceled the requester. To easily get each RGB component value, @@Red, @@Green
+  and @@Blue can be used.
+
+@Example
+@Code
+  Color = ColorRequester()
+  If Color > -1
+    a$ = "You have selected following color value:" + Chr(10)  ; Chr(10) only needed
+    a$ + "24 Bit value: " + Str(Color)              + Chr(10)  ; for line-feed
+    a$ + "Red value:    " + Str(Red(Color))         + Chr(10)
+    a$ + "Green value:  " + Str(Green(Color))       + Chr(10)
+    a$ + "Blue value:   " + Str(Blue(Color))
+  Else  
+    a$ = "The requester was canceled."
+  EndIf
+  MessageRequester("Information", a$, 0)
+  End
+@EndCode
+@LineBreak
+@Image colorrequester.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = FontRequester(FontName$, FontSize, Flags [, Color [, Style]])
+
+@Description
+  Opens the standard requester to choose a font. The functions @@SelectedFontColor, @@SelectedFontName, @@SelectedFontSize 
+  and @@SelectedFontStyle can be used after a successful 
+  call to get the needed information about the selected font. 
+
+@Parameter "FontName$"
+  The default font name to use when the requester is opened.
+
+@Parameter "FontSize"
+  The default font size to use when the requester is opened.
+
+@Parameter "Flags"
+  It can be one of the following values:
+@FixedFont
+  @#PB_FontRequester_Effects : Enable the requesters effects, including color chooser (Windows only).
+@EndFixedFont
+
+@OptionalParameter "Color"
+  Sets the default color when the requester is opened. A valid color value you can get with the function @@RGB.
+
+@OptionalParameter "Style"
+  Sets the default style when the requester is opened. See @@SelectedFontStyle for available styles.
+
+@ReturnValue
+  Nonzero if a font has been choosen, zero if the user canceled the requester.
+
+@Example
+@Code
+  FontName$ = "Arial"   ; set initial font  (could also be blank)
+  FontSize  = 14        ; set initial size  (could also be null)
+  Result = FontRequester(FontName$, FontSize, #PB_FontRequester_Effects)
+  If Result
+    Message$ = "You have selected following font:"  + #LF$ 
+    Message$ + "Name:  " + SelectedFontName()       + #LF$
+    Message$ + "Size:  " + Str(SelectedFontSize())  + #LF$
+    Message$ + "Color: " + Str(SelectedFontColor()) + #LF$
+    If SelectedFontStyle() & #PB_Font_Bold
+      Message$ + "Bold" + #LF$
+    EndIf
+    If SelectedFontStyle() & #PB_Font_StrikeOut
+      Message$ + "StrikeOut" + #LF$
+    EndIf
+    If SelectedFontStyle() & #PB_Font_Underline
+      Message$ + "Underline" + #LF$
+    EndIf
+  Else 
+    Message$ = "The requester was canceled."
+  EndIf
+  
+  MessageRequester("FontRequester", Message$, #PB_MessageRequester_Ok) 
+@EndCode
+@LineBreak
+@Image fontrequester.png
+
+@SeeAlso  
+  @@SelectedFontColor, @@SelectedFontName, @@SelectedFontSize, @@SelectedFontStyle
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = InputRequester(Title$, Message$, DefaultText$ [, Flags])
+
+@Description
+  Opens a blocking input requester to enter some text. 
+  
+@Parameter "Title$"
+  Title of the requester.
+  
+@Parameter "Message$"
+  Message displayed before the input field.
+
+@Parameter "DefaultText$"
+  Default text in the input field.
+
+@OptionalParameter "Flags"
+  Can be the following value:
+@FixedFont
+  @#PB_InputRequester_Password: set the field type as 'password'. The displayed text will be hidden.
+@EndFixedFont
+
+@ReturnValue
+  Returns the text in the input field, or an empty string if the requester has been closed without hitting the "OK" button.
+
+@Example
+@Code
+  Input$ = InputRequester("Title", "Please make your input:", "I'm the default input.")
+
+  If Input$ > ""
+    a$ = "You entered in the requester:" + Chr(10)  ; Chr(10) only needed
+    a$ + Input$                                                  ; for line-feed
+  Else  
+    a$ = "The requester was canceled or there was nothing entered."
+  EndIf
+  MessageRequester("Information", a$, 0)
+@EndCode
+@LineBreak
+@Image inputrequester.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MessageRequester(Title$, Text$ [, Flags])
+
+@Description
+  Opens a blocking requester to display some information. The program execution 
+  is totally stopped until the user close the requester.
+
+@Parameter "Title$"
+  The title of the requester window.
+
+@Parameter "Text$"
+  The text displayed in the requester window.
+
+@OptionalParameter "Flags"
+  It can be one of the following value:
+@FixedFont
+  @#PB_MessageRequester_Ok          : to have the 'ok' only button (default)
+  @#PB_MessageRequester_YesNo       : to have 'yes' or 'no' buttons
+  @#PB_MessageRequester_YesNoCancel : to have 'yes', 'no' and 'cancel' buttons
+@EndFixedFont
+  Combined with one of the following value:
+@FixedFont
+  @#PB_MessageRequester_Info   : displays an info icon
+  @#PB_MessageRequester_Warning: displays a warning icon
+  @#PB_MessageRequester_Error  : displays an error icon
+@EndFixedFont
+  
+
+@ReturnValue
+  It can be one of the following constants:
+@FixedFont
+  @#PB_MessageRequester_Yes    : the 'yes' button was pressed
+  @#PB_MessageRequester_No     : the 'no' button was pressed
+  @#PB_MessageRequester_Cancel : the 'Cancel' button was pressed
+@EndFixedFont
+
+@Example Simple MessageRequester  (usually for information purposes only)
+@Code
+  MessageRequester("Information", "Just a short information text.", #PB_MessageRequester_Ok | #PB_MessageRequester_Info)
+@EndCode
+
+@Example MessageRequester with Yes / No buttons  (usually to question)
+@Code
+  Result = MessageRequester("Title", "Please make your input:", #PB_MessageRequester_YesNo)
+  a$ = "Result of the requester was: "
+  If Result = #PB_MessageRequester_Yes    ; pressed Yes button
+    a$ + "Yes"
+  Else                                    ; pressed No button
+    a$ + "No"
+  EndIf
+  MessageRequester("Information", a$, #PB_MessageRequester_Ok)
+@EndCode
+
+@Example MessageRequester with Yes / No / Cancel buttons  (usually to question)
+@Code
+  Result = MessageRequester("Title", "Please make your input:", #PB_MessageRequester_YesNoCancel) 
+  a$ = "Result of the previously requester was: "
+  If Result = #PB_MessageRequester_Yes       ; pressed Yes button
+    a$ + "Yes"
+  ElseIf Result = #PB_MessageRequester_No    ; pressed No button
+    a$ + "No"
+  Else                                       ; pressed Cancel button or Esc
+    a$ + "Cancel"
+  EndIf
+  MessageRequester("Information", a$, #PB_MessageRequester_Ok)
+@EndCode
+@LineBreak
+@Image messagerequester.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Filename$ = NextSelectedFilename()
+
+@Description
+  After @@OpenFileRequester with #PB_Requester_MultiSelection, it returns the next selected
+  file (if any). 
+
+@NoParameters
+
+@ReturnValue
+  A filename, or an empty string if there are no more selected filenames.
+
+@Example
+@Code
+  Filename$ = OpenFileRequester("Choose some files","","",0, #PB_Requester_MultiSelection)
+
+  While Filename$ 
+    Debug Filename$ 
+    Filename$ = NextSelectedFilename() 
+  Wend 
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Filename$ = OpenFileRequester(Title$, DefaultFile$, Pattern$, PatternPosition [, Flags])
+
+@Description
+  Opens the standard requester for the user to choose a file. The title can be 
+  specified to replace the default one. The DefaultFile$ is useful to initialize 
+  the requester in the right directory and with the right filename. 
+
+@Parameter "Title$"
+  The title of the requester window.
+
+@Parameter "DefaultFile$"
+  The default file displayed when the requester is opened.
+
+@Parameter "Pattern$"
+  A standard filter which allow to display only the files which 
+  end with such or such extension. It has to be in the following form : "Text 
+  file | *.txt | Music file | *.mus;*.mod" The pattern always works in pairs: name 
+  (which really appears in the filter) and extension (ie: *.txt). Several 
+  extensions can be specified for a single type by using the ; (semi-colon) 
+  separator (not supported on OSX, the requester always displays all files).
+  
+@Parameter "PatternPosition"
+  Specifies which pattern must be the default. It begins from 0 up to the number of pattern
+  minus 1 (because the index for the first pattern begins at 0). Once the requester has been closed, 
+  @@SelectedFilePattern can be used to get back the selected pattern (not supported on OSX).
+
+@OptionalParameter "Flags"
+  It can be a one of the following values:
+@FixedFont
+  @#PB_Requester_MultiSelection: Enable the multiselection. (see @@NextSelectedFilename)
+@EndFixedFont
+
+@ReturnValue
+  The selected filename, or an empty string if the requester has been canceled by the user.
+
+@Remarks
+  The returned 'Filename$' can be easily split into file, path and extension string with the following
+  functions: @@GetFilePart, @@GetPathPart and @@GetExtensionPart.
+
+@Example
+@Code
+  StandardFile$ = "C:\autoexec.bat"   ; set initial file+path to display
+  ; With next string we will set the search patterns ("|" as separator) for file displaying:
+  ;  1st: "Text (*.txt)" as name, ".txt" and ".bat" as allowed extension
+  ;  2nd: "PureBasic (*.pb)" as name, ".pb" as allowed extension
+  ;  3rd: "All files (*.*) as name, "*.*" as allowed extension, valid for all files
+  Pattern$ = "Text (*.txt)|*.txt;*.bat|PureBasic (*.pb)|*.pb|All files (*.*)|*.*"
+  Pattern = 0    ; use the first of the three possible patterns as standard
+  File$ = OpenFileRequester("Please choose file to load", StandardFile$, Pattern$, Pattern)
+  If File$
+    MessageRequester("Information", "You have selected following file:" + Chr(10) + File$, 0)
+  Else
+    MessageRequester("Information", "The requester was canceled.", 0) 
+  EndIf
+@EndCode
+@LineBreak
+@Image openfilerequester.png
+
+@SeeAlso
+  @@NextSelectedFilename
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Path$ = PathRequester(Title$, InitialPath$)
+
+@Description
+  Opens the standard path requester for the user to select a path.
+
+@Parameter "Title$"
+  The title of the requester window.
+
+@Parameter "InitialPath$"
+  The initial path to use when the requester is opened.
+
+@ReturnValue
+  The selected path, or an empty string if the requester has been canceled by the user.
+
+@Remarks
+  The path is returned with the terminating '\' on Windows, or the terminating '/' on Linux and OS X.
+
+@Example
+@Code
+  InitialPath$ = "C:\"   ; set initial path to display (could also be blank)
+  Path$ = PathRequester("Please choose your path", InitialPath$)
+  If Path$
+    MessageRequester("Information", "You have selected following path:"+Chr(10)+Path$, 0)
+  Else
+    MessageRequester("Information", "The requester was canceled.", 0) 
+  EndIf
+@EndCode
+@LineBreak
+@Image pathrequester.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Filename$ = SaveFileRequester(Title$, DefaultFile$, Pattern$, PatternPosition)
+
+@Description
+  Opens the standard requester for the user to save a file.
+
+@Parameter "Title$"
+  The title of the requester window.
+
+@Parameter "DefaultFile$"
+  The filename to use when the requester is opened.
+
+@Parameter "Pattern$"
+  A standard filter which allow to display only the files which 
+  end with such or such extension. It must be in the following form : "Text 
+  file | *.txt | Music file | *.mus;*.mod" The pattern always work by pair: name 
+  (which really appears in the filter) and extension (ie: *.txt). Several 
+  extensions can be specified for a single type by using the ; (semi-colon) 
+  separator (not supported on OSX, the requester always displays all files).
+  
+@Parameter "PatternPosition"
+  Specifies which pattern must be the default. It begins from 0 up to the number of pattern
+  minus 1 (because the index for the first pattern begins at 0). Once the requester has been closed, 
+  @@SelectedFilePattern can be used to get back 
+  the selected pattern (not supported on OSX).
+
+@ReturnValue
+  The selected filename, or an empty string if the requester has been canceled by the user.
+
+@Remarks
+  The returned 'Filename$' can be easily split into file, path and extension string with the following
+  functions: @@GetFilePart, @@GetPathPart and @@GetExtensionPart.
+
+@Example
+@Code
+  StandardFile$ = "C:\autoexec.bat"   ; set initial file+path to display
+  ; With next string we will set the search patterns ("|" as separator) for file displaying:
+  ;  1st: "Text (*.txt)" as name, ".txt" and ".bat" as allowed extension
+  ;  2nd: "PureBasic (*.pb)" as name, ".pb" as allowed extension
+  ;  3rd: "All files (*.*) as name, "*.*" as allowed extension, valid for all files
+  Pattern$ = "Text (*.txt)|*.txt;*.bat|PureBasic (*.pb)|*.pb|All files (*.*)|*.*"
+  Pattern = 0    ; use the first of the three possible patterns as standard
+  File$ = SaveFileRequester("Please choose file to save", StandardFile$, Pattern$, Pattern)
+  If File$
+    MessageRequester("Information", "You have selected following file:"+Chr(10)+File$, 0)
+  Else
+    MessageRequester("Information", "The requester was canceled.", 0) 
+  EndIf
+@EndCode
+@LineBreak
+@Image savefilerequester.png
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SelectedFilePattern()
+
+@Description
+  Returns the selected pattern index chosen with @@OpenFileRequester or @@SaveFileRequester.
+
+@NoParameters
+
+@ReturnValue
+  The selected pattern index chosen with @@OpenFileRequester or @@SaveFileRequester.
+  The first pattern is at position 0.
+
+@Example
+@Code
+  StandardFile$ = "C:\autoexec.bat"        ; initial path + file
+  Pattern$ = "Text (*.txt)|*.txt;*.bat|"   ; set first pattern  (index = 0)
+  Pattern$ + "PureBasic (*.pb)|*.pb|"      ; set second pattern (index = 1)
+  Pattern$ + "Bmp (*.bmp)|*.bmp|"          ; set third pattern  (index = 2)
+  Pattern$ + "Jpeg (*.jpg)|*.jpg|"         ; set fourth pattern (index = 3)
+  Pattern$ + "All files (*.*)|*.*"         ; set fifth pattern  (index = 4)
+  Pattern = 1    ; use the second of the five possible patterns as standard
+
+  ; Now we open a filerequester, you can change the pattern and will get the index after closing
+  File$ = OpenFileRequester("Please choose file to load", StandardFile$, Pattern$, Pattern)
+  Index = SelectedFilePattern()
+  If Index > -1
+    MessageRequester("Information", "Following pattern index was selected: "+Str(Index), 0)
+  Else
+    MessageRequester("Information", "The requester was canceled.", 0)
+  EndIf
+@EndCode
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Color = SelectedFontColor()
+
+@Description
+  Returns the color of the font chosen by the user with the @@FontRequester.
+
+@NoParameters
+
+@ReturnValue
+  The color of the font chosen by the user with the @@FontRequester. 
+  To get individual color RGB values @@Red, @@Green and @@Blue can be used.
+
+@SeeAlso
+  @@FontRequester
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Name$ = SelectedFontName()
+
+@Description
+  Returns the name of the font chosen by the user with the @@FontRequester.
+  
+@NoParameters
+
+@ReturnValue
+  The name of the font chosen by the user with the @@FontRequester. This 
+  name can be used directly by the @@LoadFont function.
+
+@SeeAlso
+  @@FontRequester
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Size = SelectedFontSize()
+
+@Description
+  Returns the size of the font chosen by the user with the @@FontRequester.
+  
+@NoParameters
+
+@ReturnValue
+  The size of the font chosen by the user with the @@FontRequester.
+  
+@SeeAlso
+  @@FontRequester
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Style = SelectedFontStyle()
+
+@Description
+  Returns the style of the font chosen by the user with the @@FontRequester.
+
+@NoParameters
+
+@ReturnValue
+  The style of the font chosen by the user with the @@FontRequester.
+  It can contain one or several of the following values:
+@FixedFont
+  @#PB_Font_Bold  : Font is bold.
+  @#PB_Font_Italic: Font is italic.
+@EndFixedFont
+  To test if a value is present, use the '&' (bitwise AND) operator:
+@Code
+  If SelectedFontStyle() & #PB_Font_Bold
+    ; The font is bold
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FontRequester
+  
+@SupportedOS
+

@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Operatoren Vorrang - Einfache Verarbeitung - PureBasic Benutzerhandbuch</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Einfache Verarbeitung: Operatoren Vorrang</h1>
+
+Während Sie jetzt die grundlegenden mathematischen Operatoren kennen, müssen Sie
+wissen, in welcher Reihenfolge (dem sogenannten Operatoren-Vorrang) sie berechnet
+werden. PureBasic folgt in dieser Hinsicht denselben Regeln wie die Mathematik, so
+dass Multiplikations- und Divisions-Operatoren zuerst berechnet werden (und in der
+geschriebenen Reihenfolge - von links nach rechts - wenn sie sich nebeneinander
+befinden). Additions- und Subtraktions-Operatoren werden danach berechnet (auch in
+der Reihenfolge von links nach rechts, wenn sie sich nebeneinander befinden). 
+
+<p>Zum Beispiel, nehmen wir die folgende Berechnung:
+
+<pre class="codepart">a = b + c - d + e * f * g / h</pre>
+
+Dann lautet die Reihenfolge, in der die einzelnen Teile der Berechnung ausgearbeitet
+werden, wie folgt:
+
+<ol>
+<li>e * f
+<li>... * g
+<li>... / h
+<li>b + c
+<li>... - d
+<li>Abschließend werden die zwei Teile der Berechnung zusammenaddiert
+und das Ergebnis der Variablen <var>a</var> zugewiesen.
+</ol>
+
+<p>Glücklicherweise können Sie die Reihenfolge, in der die Berechnungen ausgeführt werden,
+verändern. Dies erfolgt durch das Platzieren von Klammern um die Teile der Berechnung,
+die zuerst ausgeführt werden sollen. Sie können auch Klammern innerhalb von Klammern
+platzieren, um eine bestimmte Reihenfolge der Auswertung zu erzwingen. Das Beispiel unten
+zeigt einige Beispiele der Anwendung von Operatoren-Vorrang und Klammern. Sie können
+den Quellcode auch <a href="brackets.pb">hier</a> finden.
+
+<pre class="code">OpenConsole()
+
+a = 3
+b = 5
+c = 2
+d = 7
+
+; Verschiedene Operatoren - Multiplikation vor Addition
+e = a + b * c
+PrintN(&quot;The value of e should be 13: &quot;+Str(e))
+
+; Ändern der Berechnungs-Reihenfolge
+e = (a + b) * c
+PrintN(&quot;E should now be 16: &quot;+Str(e))
+
+; Verschiedene Operatoren des gleichen Ranges - von links nach rechts
+e = a + b - c
+PrintN(&quot;E should now be 6: &quot;+Str(e))
+
+DefType.f f
+
+; Verschiedene Operatoren des gleichen Ranges - von links nach rechts
+f = a / b * c
+PrintN(&quot;f = &quot;+StrF(f)+&quot; (should be 1.2)&quot;)
+
+; Die Reihenfolge der Auswertung ändern - ergibt jedoch das Gleiche, da in
+; diesem Fall die Position der Klammern der regulären Berechnungsfolge entspricht.
+f = (a / b) * c
+PrintN(&quot;f = &quot;+StrF(f)+&quot; (should be 1.2)&quot;)
+
+; Ändern der Berechnungsfolge
+f = a / (b * c)
+PrintN(&quot;f = &quot;+StrF(f)+&quot; (should be 0.3)&quot;)
+
+; Verschachtelte Klammern
+f = (a - ((b + d) / (c + d)))
+PrintN(&quot;f = &quot;+StrF(f)+&quot; (should be 1.6666...)&quot;)
+
+; Ohne Klammern
+f = a - b + d / c + d
+PrintN(&quot;f = &quot;+StrF(f)+&quot; (should be 8.5)&quot;)
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="brackets_run.png" alt="Ausgabe des Klammern-Beispiels" width="447" height="200">
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="multiplication.html">Multiplikation und Division</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="expressions.html">Ausdrücke</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

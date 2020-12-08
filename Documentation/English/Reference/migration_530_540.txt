@@ -1,0 +1,146 @@
+@Title Migration from PureBasic 5.30 to 5.40
+
+@Section Cipher library
+
+@LineBreak
+ExamineMD5Fingerprint(): code change
+@Code
+  ; Old
+  ExamineMD5Fingerprint(#FingerPrint)
+
+  ; New
+  UseMD5FingerPrint()  
+  StartFingerprint(#FingerPrint, #PB_Cipher_MD5)
+@EndCode
+
+@LineBreak
+ExamineSHA1Fingerprint(): code change
+@Code
+  ; Old
+  ExamineSHA1Fingerprint(#FingerPrint)
+  
+  ; New
+  UseSHA1FingerPrint()
+  StartFingerprint(#FingerPrint, #PB_Cipher_SHA1)
+@EndCode
+
+@LineBreak
+MD5FileFingerprint(): code change
+@Code
+  ; Old
+  Result$ = MD5FileFingerprint(Filename$)
+  
+  ; New
+  UseMD5FingerPrint()
+  Result$ = FileFingerprint(Filename$, #PB_Cipher_MD5)
+@EndCode
+
+@LineBreak
+MD5Fingerprint(): code change
+@Code
+  ; Old
+  Result$ = MD5Fingerprint(*Buffer, Size)
+  
+  ; New
+  UseMD5FingerPrint()
+  Result$ = Fingerprint(*Buffer, Size, #PB_Cipher_MD5)
+@EndCode
+
+@LineBreak
+SHA1FileFingerprint(): code change
+@Code
+  ; Old
+  Result$ = SHA1FileFingerprint(Filename$)
+  
+  ; New
+  UseSHA1FingerPrint()
+  Result$ = FileFingerprint(Filename$, #PB_Cipher_SHA1)
+@EndCode
+
+@LineBreak
+SHA1Fingerprint(): code change
+@Code
+  ; Old
+  Result$ = SHA1Fingerprint(*Buffer, Size)
+  
+  ; New
+  UseSHA1FingerPrint()
+  Result$ = Fingerprint(*Buffer, Size, #PB_Cipher_SHA1)
+@EndCode
+
+@LineBreak
+CRC32FileFingerprint(): code change
+@Code
+  ; Old
+  Result = CRC32FileFingerprint(Filename$)
+  
+  ; New
+  UseCRC32FingerPrint()
+  Result.l = Val("$"+FileFingerprint(Filename$, #PB_Cipher_CRC32))
+@EndCode
+
+@LineBreak
+CRC32Fingerprint(): code change
+@Code
+  ; Old
+  Result = CRC32Fingerprint(*Buffer, Size)
+  
+  ; New
+  UseCRC32FingerPrint()
+  Result.l = Val("$"+Fingerprint(*Buffer, Size, #PB_Cipher_CRC32))
+@EndCode
+
+@LineBreak
+NextFingerprint(): rename only
+@Code
+  ; Old
+  NextFingerprint(#FingerPrint, *Buffer, Size)
+  
+  ; New
+  AddFingerprintBuffer(#FingerPrint, *Buffer, Size)
+@EndCode
+
+
+
+@LineBreak
+@Section Mail library
+
+@LineBreak
+SendMail(): code change if the 'Asynchronous' parameter was used
+@Code
+  ; Old
+  SendMail(#Mail, Smtp$, Port, 1)
+  
+  ; New
+  SendMail(#Mail, Smtp$, Port, #PB_Mail_Asynchronous)
+@EndCode
+
+
+
+@LineBreak
+@Section Packer library
+
+@LineBreak
+RemovePackFile(): removed @LineBreak
+PackerEntrySize(): @#PB_Packer_CompressedSize support removed for ZIP and 7z archives @LineBreak
+
+
+
+@LineBreak
+@Section Screen library
+
+@LineBreak
+AvailableScreenMemory() removed as new API doesn't support this info anymore. It was mostly returning '0' anyway.
+
+
+
+@LineBreak
+@Section Engine3D library
+
+@LineBreak
+WorldCollisionAppliedImpulse() now returns a float about the applied impulse. GetX/Y/Z() are no more supported.
+
+
+@LineBreak
+@LineBreak
+@LineBreak

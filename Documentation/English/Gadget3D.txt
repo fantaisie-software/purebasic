@@ -1,0 +1,1501 @@
+;
+;     Gadget3D library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Gadget3D
+
+@Overview
+  The Gadget3D library allows to create complex Graphical User Interface (GUI) directly over the screen area,
+  using the 3D engine. This is mainly intended for game or application which needs user inputs while running in
+  fullscreen mode. This library is based on the regular PureBasic @LibraryLink "gadget" "gadget library", and offer
+  similar syntax and behavior. The GUI engine used is CEGUI, which offer some nice options like skinning, good
+  speed and a lot of built-in gadgets. More information about CEGUI can be found here: @InternetLink "http://www.cegui.org.uk" "http://www.cegui.org.uk".
+@LineBreak
+@LineBreak
+  It uses the 3D engine, so @@InitEngine3D has to be called successfully before using these functions.  
+@LineBreak
+@LineBreak
+  Before using gadgets there will be normally opened a @Link "Window3D/OpenWindow3D" "window" first.
+
+@CommandList
+
+@ExampleFile All Gadget3D.pb
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddGadgetItem3D(#Gadget3D, Position, Text$)
+
+@Description
+  Add an item to the specified #Gadget3D.
+
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+  
+@Parameter "Position"
+  The item index where the new item should be inserted. To add
+  the item at the start, use a value of 0. To add this item to the end of the current
+  item list, use a value of -1. Remember that when you add an item that all current
+  items which come after the new one will have their positions increased by 1.
+  
+@Parameter "Text$"
+  The new item text.
+  
+@NoReturnValue
+  
+@Remarks
+  The following gadgets are supported:
+@LineBreak
+@LineBreak
+  - @@ComboBoxGadget3D @LineBreak
+  - @@ListViewGadget3D @LineBreak
+  - @@PanelGadget3D @LineBreak
+@LineBreak
+
+@SeeAlso
+  @@ComboBoxGadget3D, @@ListViewGadget3D, @@PanelGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ButtonGadget3D(#Gadget3D, x, y, Width, Height, Text$)
+
+@Description
+  Creates a button gadget in the current GadgetList.
+
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Text$"
+  The text to display on the button.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D. @LineBreak
+@LineBreak
+  The following functions can be used to control the gadget: @LineBreak
+  - @@SetGadgetText3D: Changes the text of the ButtonGadget. @LineBreak
+  - @@GetGadgetText3D: Returns the text of the ButtonGadget.
+
+@SeeAlso
+  @@GadgetToolTip3D, @@SetGadgetText3D, @@GetGadgetText3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CheckBoxGadget3D(#Gadget3D, x, y, Width, Height, Text$)
+
+@Description
+  Creates a checkbox gadget in the current GadgetList.
+
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Text$"
+  The text to display at the right of the checkbox.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks  
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D. @LineBreak
+@LineBreak
+  The following functions can be used to control the gadget: @LineBreak
+  - @@GetGadgetState3D can be used to get the current gadget state (checked or unchecked). @LineBreak
+  - @@SetGadgetState3D can be used to change the gadget state (checked or unchecked). @LineBreak
+
+@SeeAlso
+  @@GadgetToolTip3D, @@GetGadgetState3D, @@SetGadgetState3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearGadgetItems3D(#Gadget3D)
+
+@Description
+  Clears all the items from the specified #Gadget3D. 
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+  
+@NoReturnValue
+
+@Remarks
+  The Gadget must be one of the following types:  @LineBreak
+  - @@ComboBoxGadget3D @LineBreak
+  - @@ListViewGadget3D @LineBreak
+  - @@PanelGadget3D
+
+@SeeAlso
+  @@AddGadgetItem3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseGadgetList3D()
+
+@Description
+  Closes the current gadget list creation and go back to the previous GadgetList.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak  
+  - @@ContainerGadget3D @LineBreak
+  - @@PanelGadget3D @LineBreak
+  - @@ScrollAreaGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ComboBoxGadget3D(#Gadget3D, x, y, Width, Height [, Flags])
+
+@Description
+  Creates a ComboBox gadget in the current GadgetList. Once a ComboBox
+  is created, its list of items is empty.
+
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@OptionalParameter "Flags"
+  It can be a combination (using the '|' operator) of the following constants:
+@FixedFont
+  @#PB_ComboBox3D_Editable  : Makes the ComboBox editable
+@EndFixedFont
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D. @LineBreak
+@LineBreak
+  The following functions can be used to act on the list contents: @LineBreak
+  - @@AddGadgetItem3D: Add an item. @LineBreak
+  - @@GetGadgetItemText3D: Returns the gadget item text. @LineBreak
+  - @@CountGadgetItems3D: Count the items in the current combobox. @LineBreak
+  - @@ClearGadgetItems3D: Remove all the items. @LineBreak
+  - @@RemoveGadgetItem3D: Remove an item. @LineBreak
+  - @@SetGadgetItemText3D: Changes the gadget item text. @LineBreak
+@LineBreak
+  - @@GetGadgetState3D: Get the index (starting from 0) of the current element. @LineBreak
+  - @@GetGadgetText3D: Get the (text) content of the current element. @LineBreak
+  - @@SetGadgetState3D: Change the selected element. @LineBreak
+  - @@SetGadgetText3D: Set the displayed text. If the ComboBoxGadget is not editable, the text must be in the dropdown list.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ContainerGadget3D(#Gadget3D, x, y, Width, Height)
+
+@Description
+  Creates a container gadget in the current GadgetList. It's a simple panel gadget which
+  can contain other gadgets. Once the gadget is created,
+  all future created gadgets will be created inside the container. When all the needed
+  gadgets have been created, @@CloseGadgetList3D must be called to return to the
+  previous GadgetList. @@OpenGadgetList3D can be used later to add others gadgets
+  on the fly in the container area.
+
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CountGadgetItems3D(#Gadget3D)
+
+@Description
+  Returns the number of items in the specified #Gadget3D. 
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+  
+@ReturnValue
+  The number of items in the specified #Gadget3D.
+  
+@Remarks
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@ComboBoxGadget3D @LineBreak
+  - @@ListViewGadget3D @LineBreak
+  - @@PanelGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableGadget3D(#Gadget3D, State)
+
+@Description
+  Disable or enable the gadget.
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to enable or disable.
+
+@Parameter "State"
+  The new state of the gadget.
+  If State = 1, the gadget will be disabled, if State = 0 it will be enabled.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = EditorGadget3D(#Gadget3D, x, y, Width, Height [, Flags])
+
+@Description
+  Creates an editor gadget in the current GadgetList.
+
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@OptionalParameter "Flags"
+  It can be one of the following value:
+@FixedFont
+  @#PB_Editor3D_ReadOnly: The user cannot edit the text in the gadget.
+@EndFixedFont
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D. @LineBreak
+@LineBreak
+  The following functions can be used to act on the editor content: @LineBreak
+@LineBreak
+  - @@GetGadgetText3D: Get the text content of the editor gadget. @LineBreak
+  - @@SetGadgetText3D: Change the text content of the editor gadget. @LineBreak
+  - @@SetGadgetAttribute3D: With the following attribute:
+@FixedFont
+  @#PB_Editor3D_ReadOnly: Set the read-only state. (0 means editable, nonzero means read-only)
+@EndFixedFont
+  - @@GetGadgetAttribute3D: With the following attribute:
+@FixedFont
+  @#PB_Editor3D_ReadOnly: Get the read-only state. (0 means editable, nonzero means read-only)
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = FrameGadget3D(#Gadget3D, x, y, Width, Height, Text$)
+
+@Description
+  Creates a frame gadget in the current GadgetList. This kind of gadget is decorative only. 
+  
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@OptionalParameter "Text$"
+  The text to display in the frame.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  As this Gadget is decorative only, @@GadgetToolTip3D cannot be used. This Gadget also receives no events.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeGadget3D(#Gadget3D)
+
+@Description
+  Free and remove the 3D gadget from the display (and free its gadgetlist if the gadget was a container).
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to free. If @#PB_All is specified, all the remaining 3D gadgets are freed.
+  
+@NoReturnValue
+
+@Remarks
+  All remaining 3D gadgets are automatically freed when the program ends.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function GadgetID = GadgetID3D(#Gadget3D)
+
+@Description
+  Returns the unique system identifier of the 3D gadget.
+
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@ReturnValue
+  Returns the unique system identifier of the 3D gadget.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function GadgetToolTip3D(#Gadget3D, Text$)
+
+@Description
+  Associates the specified Text$ with the 3D gadget. A tooltip text is text which is displayed
+  when the mouse cursor is over the gadget for a small amount of time (typically a yellow floating box).
+
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@Parameter "Text$"
+  The text to display in the tooltip.
+
+@NoReturnValue
+
+@Remarks
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@ButtonGadget3D @LineBreak
+  - @@CheckBoxGadget3D @LineBreak
+  - @@ComboBoxGadget3D @LineBreak
+  - @@ContainerGadget3D @LineBreak
+  - @@EditorGadget3D @LineBreak
+  - @@ImageGadget3D @LineBreak
+  - @@ListViewGadget3D @LineBreak
+  - @@OptionGadget3D @LineBreak
+  - @@PanelGadget3D @LineBreak
+  - @@ProgressBarGadget3D @LineBreak
+  - @@ScrollBarGadget3D @LineBreak
+  - @@SpinGadget3D @LineBreak
+  - @@StringGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GadgetX3D(#Gadget3D)
+
+@Description
+  Returns the X position of the specified 3D gadget. 
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@ReturnValue  
+  The X position, in pixels, of the specified 3D gadget starting from
+  the inside of the left edge of the gadget list that the gadget is in.
+
+@SeeAlso
+  @@GadgetY3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GadgetY3D(#Gadget3D)
+
+@Description
+  Returns the Y position of the specified 3D gadget. 
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@ReturnValue  
+  The Y position, in pixels, of the specified 3D gadget starting from
+  the inside of the top edge of the gadget list that the gadget is in.
+
+@SeeAlso
+  @@GadgetX3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GadgetHeight3D(#Gadget3D)
+
+@Description
+  Returns the height of the specified 3D gadget.
+
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@ReturnValue  
+  The height, in pixels, of the specified 3D gadget starting from
+  the inside of the top edge of the gadget list that the gadget is in.
+
+@SeeAlso
+  @@GadgetWidth3D
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GadgetType3D(#Gadget3D)
+
+@Description
+  Returns the type of gadget that is represented by the specified 3D gadget. It can be useful
+  to write generic functions that work with more than one type of gadget.
+
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@ReturnValue
+  It can be one of the following values:
+@FixedFont
+  @#PB_GadgetType3D_Button        : @@ButtonGadget3D
+  @#PB_GadgetType3D_CheckBox      : @@CheckBoxGadget3D
+  @#PB_GadgetType3D_ComboBox      : @@ComboBoxGadget3D
+  @#PB_GadgetType3D_Container     : @@ContainerGadget3D
+  @#PB_GadgetType3D_Editor        : @@EditorGadget3D
+  @#PB_GadgetType3D_Frame         : @@FrameGadget3D
+  @#PB_GadgetType3D_Image         : @@ImageGadget3D
+  @#PB_GadgetType3D_ListView      : @@ListViewGadget3D
+  @#PB_GadgetType3D_Option        : @@OptionGadget3D
+  @#PB_GadgetType3D_Panel         : @@PanelGadget3D
+  @#PB_GadgetType3D_ProgressBar   : @@ProgressBarGadget3D
+  @#PB_GadgetType3D_ScrollArea    : @@ScrollAreaGadget3D
+  @#PB_GadgetType3D_ScrollBar     : @@ScrollBarGadget3D
+  @#PB_GadgetType3D_Spin          : @@SpinGadget3D
+  @#PB_GadgetType3D_String        : @@StringGadget3D
+  @#PB_GadgetType3D_Text          : @@TextGadget3D
+  @#PB_GadgetType3D_Unknown       : The type is unknown. Most likely it is not a PB gadget at all.
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GadgetWidth3D(#Gadget3D)
+
+@Description
+  Returns the width of the specified 3D gadget.
+
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@ReturnValue  
+  The width, in pixels, of the specified 3D gadget starting from
+  the inside of the top edge of the gadget list that the gadget is in.
+
+@SeeAlso
+  @@GadgetHeight3D
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetActiveGadget3D()
+
+@Description
+  Returns the #Gadget3D number of the Gadget that currently has the keyboard focus.
+  
+@NoParameters
+
+@ReturnValue
+  The 3D gadget number that currently has the keyboard focus. If no 3D gadget has the
+  focus, -1 is returned.
+
+@SeeAlso
+  @@SetActiveGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value = GetGadgetAttribute3D(#Gadget3D, Attribute)
+
+@Description
+  Gets the attribute value of the specified 3D gadget.
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@Parameter "Attribute"
+  The attribute to get.
+  
+@ReturnValue
+  The attribute value of the specified 3D gadget.
+
+@Remarks
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@EditorGadget3D @LineBreak
+  - @@PanelGadget3D @LineBreak
+  - @@ProgressBarGadget3D @LineBreak
+  - @@ScrollAreaGadget3D @LineBreak
+  - @@ScrollBarGadget3D @LineBreak
+  - @@SpinGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetGadgetData3D(#Gadget3D)
+
+@Description
+  Returns the data value that has been stored for this gadget with the @@SetGadgetData3D function.
+  This allows to associate a custom value with any gadget. 
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@ReturnValue
+  The current data value associated with the 3D gadget, or zero if no value has been set.
+
+@Remarks
+  This function is supported by all 3D gadgets. See @@SetGadgetData3D for an example.
+
+@SeeAlso
+  @@SetGadgetData3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetGadgetItemData3D(#Gadget3D, Item)
+
+@Description
+  Returns the value that was previously stored with this 3D gadget item with the @@SetGadgetItemData3D
+  function. This allows to associate a custom value with the items of a gadget.
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@Parameter "Item"
+  The item to get the data value. First item index starts from zero.
+
+@ReturnValue
+  The current data value associated with the 3D gadget item, or zero if no value has been set.
+    
+@Remarks
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@ComboBoxGadget3D @LineBreak
+  - @@ListViewGadget3D @LineBreak
+@LineBreak
+  See @@SetGadgetItemData3D for an example.
+
+@SeeAlso
+  @@SetGadgetItemData3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetGadgetState3D(#Gadget3D)
+
+@Description
+  Returns the current state of the 3D gadget. 
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@ReturnValue
+  The current state of the 3D gadget. 
+
+@Remarks  
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@CheckBoxGadget3D: returns 1 if checked, 0 otherwise. @LineBreak
+  - @@ComboBoxGadget3D: returns the currently selected item index, -1 if none is selected. @LineBreak
+  - @@ImageGadget3D: returns the TextureID of the currently displayed image. @LineBreak
+  - @@ListViewGadget3D: returns the currently selected item index, -1 if none is selected. @LineBreak
+  - @@OptionGadget3D: returns 1 if activated, 0 otherwise. @LineBreak
+  - @@PanelGadget3D: returns the current panel index, -1 if no panel. @LineBreak
+  - @@ProgressBarGadget3D: returns the current value of the ProgressBar. @LineBreak
+  - @@ScrollBarGadget3D: returns the current slider position. @LineBreak
+  - @@SpinGadget3D: returns the current value of the SpinGadget.
+
+@SeeAlso
+  @@SetGadgetState3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetGadgetItemText3D(#Gadget3D, Item [, Column])
+
+@Description
+  Returns the item text of the specified 3D gadget item. 
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@Parameter "Item"
+  The item to get the text. First item index starts from zero.
+
+@OptionalParameter "Column"
+  Not used for now.
+
+@ReturnValue
+  The item text of the specified 3D gadget item. 
+  
+@Remarks  
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@ComboBoxGadget3D - 'Item' is the index of the item in the ComboBox list. 'Column' will be ignored. @LineBreak
+  - @@ListViewGadget3D - 'Item' is the index of the entry from which you want to receive the content. 'Column' will be ignored. @LineBreak
+  - @@PanelGadget3D - 'Item' is the panel from which you want to receive the header text. @LineBreak
+
+@SeeAlso
+  @@SetGadgetItemText3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetGadgetItemState3D(#Gadget3D, Item)
+
+@Description
+  Returns the item state of the specified 3D gadget item. 
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@Parameter "Item"
+  The item to get the state. First item index starts from zero.
+
+@ReturnValue
+  The item state of the specified 3D gadget item. 
+  
+@Remarks  
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@ListViewGadget3D: returns 1 if the item is selected, 0 otherwise.
+
+@SeeAlso
+  @@SetGadgetItemState3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = GetGadgetText3D(#Gadget3D)
+
+@Description
+  Returns the text content of the specified 3D gadget. 
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@ReturnValue
+  The text content of the specified 3D gadget. 
+  
+@Remarks
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@ButtonGadget3D: return the text of the ButtonGadget. @LineBreak
+  - @@ComboBoxGadget3D - return the content of the current item. @LineBreak
+  - @@EditorGadget3D - return the text content of the editor gadget. Please note, that several
+    lines of text are normally separated with "Chr(13)+Chr(10)". @LineBreak
+  - @@ListViewGadget3D - return the content of the current item. @LineBreak
+  - @@StringGadget3D - return contents of the StringGadget. @LineBreak
+  - @@TextGadget3D - return contents of the TextGadget.
+
+@SeeAlso
+  @@SetGadgetText3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideGadget3D(#Gadget3D, State)
+
+@Description
+  Hide or show a 3D gadget.
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@Parameter "State"
+  The new state of the 3D gadget.
+  If State = 1, the gadget will be hidden, if State = 0 it will be shown.
+
+@NoReturnValue
+
+@SeeAlso
+  @@DisableGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ImageGadget3D(#Gadget3D, x, y, Width, Height, TextureID [, Flags])
+
+@Description
+  Creates an image gadget in the current GadgetList.
+  
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "TextureID"
+  The texture to display in the 3D gadget. @@TextureID can be used to get a valid value.
+  If this value is sets to zero, then the texture is removed from the gadget.
+
+@OptionalParameter "Flags"
+  It can be one of the following constants:
+@FixedFont
+  @#PB_Image3D_Border : display a sunken border around the image.
+@EndFixedFont
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D.
+@LineBreak
+@LineBreak
+  The following function can be used to act on the gadget: @LineBreak
+@LineBreak
+  - @@SetGadgetState3D: Change the current Image of the gadget. A valid TextureID can be easily
+  obtained with the @@TextureID function.
+  If the TextureID is sets to zero, then the texture is removed from the gadget.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsGadget3D(#Gadget3D)
+
+@Description
+  Tests if the given 3D gadget is valid and correctly initialized. 
+  
+@Parameter "#Gadget3D"
+  The 3D gadget to test.
+
+@ReturnValue
+  Nonzero if the gadget is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value.
+  This is the correct way to ensure a gadget is ready to use.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ListViewGadget3D(#Gadget3D, x, y, Width, Height)
+
+@Description
+  Creates a ListView gadget in the current GadgetList. Once a ListView
+  is created, its list of items is empty.
+
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D. @LineBreak
+@LineBreak
+  The following functions can be used to act on the list content: @LineBreak
+@LineBreak
+  - @@AddGadgetItem3D: Add an item. @LineBreak
+  - @@RemoveGadgetItem3D: Remove an item. @LineBreak
+  - @@ClearGadgetItems3D: Remove all the items @LineBreak
+  - @@CountGadgetItems3D: Returns the number of items currently in the #Gadget3D. @LineBreak
+@LineBreak
+  - @@GetGadgetItemData3D: Get the value that was stored with the gadget item. @LineBreak
+  - @@GetGadgetItemState3D: Returns nonzero if the item is selected, zero otherwise. @LineBreak
+  - @@GetGadgetItemText3D: Get the content of the given item. @LineBreak
+  - @@GetGadgetState3D: Get the index of the selected item or -1 if there is no selected item. @LineBreak
+  - @@GetGadgetText3D: Get the content of the selected item. @LineBreak
+  - @@SetGadgetItemData3D: store a value with the given item. @LineBreak
+  - @@SetGadgetItemState3D: Selects or deselects the given item. @LineBreak
+  - @@SetGadgetItemText3D: Set the text of the given item. @LineBreak
+  - @@SetGadgetState3D: Change the selected item. If -1 is specified, the selection will be removed. @LineBreak
+  - @@SetGadgetText3D: Selects the item with the given text (the text must match exactly).
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OpenGadgetList3D(#Gadget3D [, Item])
+
+@Description
+  Use the specified 3D gadget as a GadgetList, to dynamically add new gadgets
+  to it. Once the all the needed changes are done, @@CloseGadgetList3D should be called.
+
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@OptionalParameter "Item"
+  The 3D gadget item to use. This is only supported for @@PanelGadget3D.
+
+@Remarks
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@ContainerGadget3D @LineBreak
+  - @@PanelGadget3D : The optional 'Item' parameter needs to be specified @LineBreak
+  - @@ScrollAreaGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OptionGadget3D(#Gadget3D, x, y, Width, Height, Text$)
+
+@Description
+  Creates an OptionGadget in the current GadgetList. The first time this function is called,
+  a group is created and all following calls of @@OptionGadget3D will add a gadget to
+  this group. To finish the group, just create a gadget of another type. These kind of gadgets
+  are very useful as only one gadget from the group can be selected at any time.
+
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Text$"
+  The text to display, near the selection button.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PanelGadget3D(#Gadget3D, x, y, Width, Height)
+
+@Description
+  Creates a panel gadget in the current GadgetList. Once a panel is created, its list of panels is empty.
+
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D.
+@LineBreak
+@LineBreak
+  The following functions can be used to act on the gadget: @LineBreak
+@LineBreak
+  - @@AddGadgetItem3D: Add a panel. @LineBreak
+  - @@RemoveGadgetItem3D: Remove a panel. @LineBreak
+  - @@CountGadgetItems3D: Count the number of panels. @LineBreak
+  - @@ClearGadgetItems3D: Remove all panels. @LineBreak
+  - @@GetGadgetItemText3D: Retrieve the text of the specified item. @LineBreak
+  - @@SetGadgetItemText3D: Change the text of the specified item. @LineBreak
+@LineBreak
+  - @@SetGadgetState3D: Change the active panel. @LineBreak
+  - @@GetGadgetState3D: Get the index of the current panel. @LineBreak
+  - @@GetGadgetAttribute3D: With one of the following attributes: (there must be at least 1 item for this to work)
+@FixedFont
+  @#PB_Panel3D_ItemWidth : Returns the width of the inner area where the gadgets are displayed.
+  @#PB_Panel3D_ItemHeight: Returns the height of the inner area where the gadgets are displayed.
+  @#PB_Panel3D_TabHeight : Returns height of the panel tabs on top of the gadget.
+@EndFixedFont
+
+  You must call @@AddGadgetItem3D to add a panel before you can create other
+  gadgets inside the panel gadget. The next gadgets will then be created automatically in the new panel.
+  This is very convenient. When the PanelGadget item has been filled with all the
+  needed gadgets, @@CloseGadgetList3D must be called to return to the previous GadgetList.
+  This means that a PanelGadget can be created inside another PanelGadget.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ProgressBarGadget3D(#Gadget3D, x, y, Width, Height, Minimum, Maximum)
+
+@Description
+  Creates a ProgressBar gadget in the current GadgetList.
+  
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Minimum, Maximum"
+  The minimum and maximum values that the progress bar can take.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D. @LineBreak
+@LineBreak
+  The following functions can be used to act on the gadget: @LineBreak
+@LineBreak
+  - @@SetGadgetState3D: Change progress bar value. @LineBreak
+  - @@GetGadgetState3D: Get the current progress bar value. @LineBreak
+  - @@SetGadgetAttribute3D: With the following attributes:
+@FixedFont
+  @#PB_ProgressBar3D_Minimum   : Changes the minimum value.
+  @#PB_ProgressBar3D_Maximum   : Changes the maximum value.
+@EndFixedFont
+
+  - @@GetGadgetAttribute3D: With the following attributes:
+@FixedFont
+  @#PB_ProgressBar3D_Minimum   : Returns the minimum value.
+  @#PB_ProgressBar3D_Maximum   : Returns the maximum value.
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveGadgetItem3D(#Gadget3D, Position)
+
+@Description
+  Removes an item of the specified #Gadget3D at the given Position. 
+
+@Parameter "#Gadget3D"
+  The 3D gadget to use.
+
+@Parameter "Position"
+  The item position to remove. The first position index starts from zero.
+
+@NoReturnValue
+  
+@Remarks  
+  Supported gadgets: @LineBreak
+@LineBreak
+  - @@ComboBoxGadget3D @LineBreak
+  - @@PanelGadget3D @LineBreak
+  - @@ListViewGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeGadget3D(#Gadget3D, x, y, Width, Height)
+
+@Description
+  Resize the specified 3D gadget to the given position and dimensions. 
+  
+@Parameter "#Gadget"
+  The gadget to resize.
+
+@Parameter "x, y, Width, Height"
+  The new position and dimensions of the gadget. To ease the building of real-time resizable
+  Graphical User Interfaces (GUIs), @#PB_Ignore can be passed as any parameter (x, y, Width or Height) and this
+  parameter will not be changed. 
+
+@NoReturnValue
+
+@Example
+@Code
+  [...]
+
+  ResizeGadget3D(0, #PB_Ignore, #PB_Ignore, 300, #PB_Ignore) ; Only change the gadget width.
+
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScrollBarGadget3D(#Gadget3D, x, y, Width, Height, Minimum, Maximum, PageLength [, Flags])
+
+@Description
+  Creates a scrollbar gadget in the current GadgetList. It's widely used when displaying only a part of an object. 
+
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Minimum, Maximum"
+  The range of values that the scrollbar can take. These values should be between 0 and 10,000 to avoid
+  limitations on some operating systems.
+
+@Parameter "PageLength"
+  The amount of values that are part of the current displayed "page". @LineBreak
+@LineBreak
+  For example you can have a picture
+  which is 100 pixels width and you only see 25 pixels. What you see is a called a 'page',
+  in this example, the page length will be 25, the Minimum will be 0 and the Maximum will be 100.
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_ScrollBar3D_Vertical : The scrollbar is vertical (instead of horizontal, which is the default).
+@EndFixedFont
+  
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D. @LineBreak
+@LineBreak
+  The following functions can be used to act on this gadget: @LineBreak
+@LineBreak
+  - @@GetGadgetState3D: Returns the current slider position (value between the Minimum-Maximum range). @LineBreak
+  - @@SetGadgetState3D: Changes the current slider position. @LineBreak
+  - @@GetGadgetAttribute3D: With one of the following attributes:
+@FixedFont
+  @#PB_ScrollBar3D_Minimum   : Returns the minimum scroll position.
+  @#PB_ScrollBar3D_Maximum   : Returns the maximum scroll position.
+  @#PB_ScrollBar3D_PageLength: Returns the PageLength value.
+@EndFixedFont
+
+  - @@SetGadgetAttribute3D: With one of the following attributes:
+@FixedFont
+  @#PB_ScrollBar3D_Minimum   : Changes the minimum scroll position.
+  @#PB_ScrollBar3D_Maximum   : Changes the maximum scroll position.
+  @#PB_ScrollBar3D_PageLength: Changes the PageLength value.
+@EndFixedFont
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScrollAreaGadget3D(#Gadget3D, x, y, Width, Height, ScrollAreaWidth, ScrollAreaHeight, ScrollStep)
+
+@Description
+  Creates a ScrollArea gadget in the current GadgetList. It's very useful when a gadget is 
+  too big to fit the window dimension. In that case, it can be put into a scrollarea. All the
+  scrolling is handled automatically by the gadget. This is a container gadget, intended
+  to have one or several gadget in its scroll area. Once the gadget is created,
+  all future created gadgets will be created inside the scroll area. When all the needed
+  gadgets have been created, @@CloseGadgetList3D must be called to return to the
+  previous GadgetList. @@OpenGadgetList3D can be used later to add others gadgets
+  on the fly in the scroll area.
+  
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "ScrollAreaWidth, ScrollAreaHeight"
+  The dimensions of the scrollable area inside the gadget. These can also be smaller than the outer dimensions, in 
+  this case scrolling will be disabled.
+
+@OptionalParameter "ScrollStep"
+  The amount of pixels to scroll when the user presses the scroll bar arrows.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  The following functions can be used to act on a ScrollAreaGadget: @LineBreak
+@LineBreak
+  @@GetGadgetAttribute3D: With one of the following attribute:
+@FixedFont
+  @#PB_ScrollArea3D_InnerWidth  : Returns the width (in pixels) of the contained scrollable area.
+  @#PB_ScrollArea3D_InnerHeight : Returns the height (in pixels) of the contained scrollable area.
+  @#PB_ScrollArea3D_X           : Returns the current horizontal scrolling position (in pixels).
+  @#PB_ScrollArea3D_Y           : Returns the current vertical scrolling position (in pixels).
+@EndFixedFont
+  @@SetGadgetAttribute3D: With one of the following attribute:
+@FixedFont
+  @#PB_ScrollArea3D_InnerWidth  : Changes the width (in pixels) of the contained scrollable area.
+  @#PB_ScrollArea3D_InnerHeight : Changes the height (in pixels) of the contained scrollable area.
+  @#PB_ScrollArea3D_X           : Changes the current horizontal scrolling position (in pixels).
+  @#PB_ScrollArea3D_Y           : Changes the current vertical scrolling position (in pixels).
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetActiveGadget3D(#Gadget3D)
+
+@Description
+  Activates (sets the focus on) the gadget specified by the given #Gadget3D number. This is mainly used
+  with @@ComboBoxGadget3D and @@StringGadget3D. Activating a gadget allows
+  it to become the current object to receive messages and handle keystrokes. 
+  
+@Parameter "#Gadget3D"
+  The gadget to activate. If sets to -1, then the focus is removed (if any).
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetActiveGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetGadgetAttribute3D(#Gadget3D, Attribute, Value)
+
+@Description
+  Changes the attribute value of the specified 3D gadget.
+
+@Parameter "#Gadget3D"
+  The gadget to use.
+
+@Parameter "Atttribute"
+  The attribute to set.
+
+@Parameter "Value"
+  The new attribute value.
+
+@NoReturnValue
+
+@Remarks
+  This function is available for all gadgets which support attributes: @LineBreak
+@LineBreak
+  - @@EditorGadget3D @LineBreak
+  - @@ProgressBarGadget3D @LineBreak
+  - @@ScrollAreaGadget3D @LineBreak
+  - @@ScrollBarGadget3D @LineBreak
+  - @@SpinGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetGadgetData3D(#Gadget3D, Value)
+
+@Description
+  Stores the given value with the specified #Gadget3D. This value can later be read with the @@GetGadgetData3D
+  function. This allows to associate a custom value with any gadget.
+
+@Parameter "#Gadget3D"
+  The gadget to use.
+
+@Parameter "Value"
+  The new value to associate with the 3D gadget.
+
+@NoReturnValue
+
+@Remarks
+  This function is supported by all PureBasic gadgets.
+
+@SeeAlso
+  @@GetGadgetData3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetGadgetItemData3D(#Gadget3D, Item, Value)
+
+@Description
+  Stores the given value with the specified #Gadget3D item. This value can later be read with the @@GetGadgetItemData3D
+  function. This allows to associate a custom value with the items of a gadget. This value will remain with the item, even
+  if the item changes its index (for example because other items were deleted).
+
+@Parameter "#Gadget3D"
+  The gadget to use.
+  
+@Parameter "Item"
+  The item to set the data value. First item index starts from zero.
+
+@Parameter "Value"
+  The new value to associate with the 3D gadget item.
+
+@NoReturnValue
+
+@Remarks
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@ComboBoxGadget3D @LineBreak
+  - @@ListViewGadget3D
+
+@SeeAlso
+  @@GetGadgetItemData3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetGadgetItemState3D(#Gadget3D, Item, State)
+
+@Description
+  Changes the item state of the specified #Gadget3D. 
+  
+@Parameter "#Gadget3D"
+  The gadget to use.
+  
+@Parameter "Item"
+  The item to set the state. First item index starts from zero.
+
+@Parameter "State"
+  The new state of the 3D gadget item. Its value depends of the gadget type: @LineBreak
+  - @@ListViewGadget3D: 1 if the item should be selected, 0 otherwise.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetGadgetItemText3D(#Gadget3D, Item, Text$ [, Column])
+
+@Description
+  Changes the item text of the specified #Gadget3D. 
+
+@Parameter "#Gadget3D"
+  The gadget to use.
+  
+@Parameter "Item"
+  The item to set the text. First item index starts from zero.
+
+@Parameter "Text$"
+  The new text for the item.
+  
+@OptionalParameter "Column"
+  Not used for now.
+
+@NoReturnValue
+
+@Remarks
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@ComboBoxGadget3D @LineBreak
+  - @@ListViewGadget3D @LineBreak
+  - @@PanelGadget3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetGadgetState3D(#Gadget3D, State)
+
+@Description
+  Changes the current state of the specified #Gadget3D. 
+  
+@Parameter "#Gadget3D"
+  The gadget to use.
+  
+@Parameter "State"
+  The new 3D gadget state.
+
+@NoReturnValue
+  
+@Remarks
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@CheckBoxGadget3D: 1 to check it, 0 otherwise. @LineBreak
+  - @@ComboBoxGadget3D: change the currently selected item. @LineBreak
+  - @@ImageGadget3D: change the current image of the gadget. @LineBreak
+  - @@ListViewGadget3D: change the currently selected item. . If -1 is specified, it will remove the selection. @LineBreak
+  - @@OptionGadget3D: 1 to activate it, 0 otherwise. @LineBreak
+  - @@PanelGadget3D: change the current panel. @LineBreak
+  - @@ProgressBarGadget3D: change progress bar value. @LineBreak
+  - @@ScrollBarGadget3D: change the current slider position. @LineBreak
+  - @@SpinGadget3D: change the current value.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetGadgetText3D(#Gadget3D, Text$)
+
+@Description
+  Change the gadget text content of the specified 3D gadget. 
+  
+@Parameter "#Gadget3D"
+  The gadget to use.
+  
+@Parameter "Text$"
+  The new 3D gadget text.
+
+@NoReturnValue
+  
+@Remarks
+  This function is supported by the following 3D gadgets: @LineBreak
+@LineBreak
+  - @@ButtonGadget3D: change the text of the ButtonGadget. @LineBreak
+  - @@ComboBoxGadget3D: Set the displayed text. If the ComboBoxGadget is not editable, the text must be in the dropdown list. @LineBreak
+  - @@EditorGadget3D: change the text content of the editor gadget. If you want to add several lines of text at once, separate them with "Chr(13)+Chr(10)". @LineBreak
+  - @@FrameGadget3D: change the title of the FrameGadget. @LineBreak
+  - @@ListViewGadget3D: selects the item that exactly matches the given text. @LineBreak
+  - @@StringGadget3D: change the content of the StringGadget. @LineBreak
+  - @@TextGadget3D: change the content of the TextGadget.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SpinGadget3D(#Gadget3D, x, y, Width, Height, Minimum, Maximum)
+
+@Description
+  Creates a spin gadget in the current GadgetList.
+  
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Minimum, Maximum"
+  The minimum and maximum values that the SpinGadget can take.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D. @LineBreak
+@LineBreak
+  The following functions can be used to act on the gadget: @LineBreak
+@LineBreak
+  @@GetGadgetState3D: Get the current gadget value. @LineBreak
+  @@SetGadgetState3D: Change the gadget value. For displaying the new value you still must use @@SetGadgetText3D! @LineBreak
+  @@GetGadgetText3D: Get the text contained in the gadget. @LineBreak
+  @@SetGadgetText3D: Change the text contained in the gadget. @LineBreak
+  @@GetGadgetAttribute3D: With one of the following attributes:
+@FixedFont
+  @#PB_Spin3D_Minimum   : Returns the minimum value.
+  @#PB_Spin3D_Maximum   : Returns the maximum value.
+@EndFixedFont
+
+  @@SetGadgetAttribute3D: With one of the following attributes:
+@FixedFont
+  @#PB_Spin3D_Minimum   : Changes the minimum value.
+  @#PB_Spin3D_Maximum   : Changes the maximum value.
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = StringGadget3D(#Gadget3D, x, y, Width, Height, Content$ [, Flags])
+
+@Description
+  Creates a String gadget in the current GadgetList.
+  This gadget accepts only one line of text. To get multi-line input, use the @@EditorGadget3D function.
+
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Content$"
+  The initial text content.
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_String3D_Numeric    : Only (positive) integer numbers are accepted.
+  @#PB_String3D_Password   : Password mode, displaying only '*' instead of normal characters.
+  @#PB_String3D_ReadOnly   : Read-only mode. No text can be entered.
+@EndFixedFont
+  
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  Later the content can be changed with @@SetGadgetText3D and received with @@GetGadgetText3D.
+@LineBreak
+@LineBreak
+  The following events are supported through @@EventType3D:
+@FixedFont
+  @#PB_EventType3D_Change    : The text has been modified by the user.
+  @#PB_EventType3D_Focus     : The StringGadget got the focus.
+  @#PB_EventType3D_LostFocus : The StringGadget lost the focus.
+@EndFixedFont
+
+  To add a 'mini help' to this gadget, use @@GadgetToolTip3D.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TextGadget3D(#Gadget3D, x, y, Width, Height, Text$)
+
+@Description
+  Creates a text gadget in the current GadgetList. This is a basic text area for displaying,
+  not entering, text.
+
+@Parameter "#Gadget3D"
+  A number to identify the new 3D gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Text$"
+  The text to display.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget3D parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks  
+  The content can be changed with the function @@SetGadgetText3D and can be
+  obtained with @@GetGadgetText3D.
+@LineBreak
+@LineBreak
+  This Gadget doesn't receive any user events, and @@GadgetToolTip3D can't be used with it.
+
+@SupportedOS

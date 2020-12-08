@@ -1,0 +1,463 @@
+;
+;     Library library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Library
+
+@Overview
+
+  Libraries are shared OS components which contain specific functions available to the programmer. For example,
+  a library may contain functions designed to handle and manipulate pictures with ease. Each OS provides a number of
+  shared libraries which help to ease the programmers life. With PureBasic, it is possible to access these external
+  libraries not only easily, but also dynamically!
+
+@LineBreak
+@LineBreak
+
+  The reason that libraries are so useful, is due to the fact that they are separate from the applications
+  which use them, but at the same time shared between these applications. A library file requires only that
+  it be loaded into memory once, this therefore saves memory, especially when it is a commonly used library.
+  The programmer also benefits, since there is no need to keep re-inventing the wheel every time
+  a clever feature is called for within an application.
+
+@LineBreak
+@LineBreak
+
+  In addition, libraries are an excellent place to store procedures which are used by several programs.
+  These libraries are easy to update, and when changes are made, there is no need to change the main
+  executable which makes use of this library.
+
+@LineBreak
+@LineBreak
+
+@OS Windows
+  Under the Windows OS, shared libraries are well known as: 'DLL's, or Dynamic Link Libraries.
+@OS Linux
+  Under Linux shared libraries are known as: 'SO's, System Objects.
+
+@CommandList
+
+@ExampleFile All Library.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseLibrary(#Library)
+
+@Description
+  Closes a library previously opened using @@OpenLibrary, and frees any memory associated
+  with this library.
+
+@Parameter "#Library"
+  The library to close. If @#PB_All is specified, all the remaining libraries are closed.
+
+@NoReturnValue
+
+@SeeAlso
+  @@OpenLibrary
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CallCFunction(#Library, FunctionName$ [,Parameter1 [, Parameter2...]])
+
+@Description
+
+  Calls a function, in the specified library, in such a manner that the parameters are handled
+  in the same fashion as a normal 'C' language function.
+
+@Parameter "#Library"
+  The library from which the function will be called.
+
+@Parameter "FunctionName$"
+  The name of the function to call. The function name is case sensitive.
+
+@Parameter "Parameter1, Parameter2, ..."
+  The parameters for the function. The number of parameters must match the parameters
+  of the called function. The maximum number of supported parameters is 20. 
+
+@ReturnValue
+  Returns the return-value of the called function or zero if the library does not contain
+  a function with the given name.
+
+@Remarks
+  If the function is described as 'cdecl' then this function must be used. However,
+  most DLLs used within the Microsoft Windows OS do not use this form, so @@CallFunction
+  should be sufficient in most cases.
+  To call a function that uses the 'stdcall' calling convention, use the @@CallFunction function.
+
+@LineBreak
+@LineBreak
+  Note: This function is not very flexible and does not handle string/float/double/quad parameters or string/float/double/quad returns.
+  The use of @ReferenceLink "prototypes" "prototypes" is now strongly recommended.
+
+@SeeAlso
+  @@CallFunction, @@GetFunction, @ReferenceLink "prototypes" "prototypes"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CallCFunctionFast(*FunctionPointer [,Parameter1 [, Parameter2...]])
+
+@Description
+  Calls a function directly, using its address. The function is expected to use the cdecl calling
+  convention (the convention used by the C language).
+
+@Parameter "*FunctionPointer"
+  The address of the function to call.
+@LineBreak
+@LineBreak
+  This pointer may be found using the
+  @@GetFunction, @@GetFunctionEntry or @@LibraryFunctionAddress functions.
+  The use of this function is the fastest method with which to call library functions, especially when
+  the results of a call to: GetFunction() or LibraryFunctionAddress() have been stored. This is due to
+  the fact that this function is not required to search for the name of the library function. 
+
+@Parameter "Parameter1, Parameter2, ..."
+  The parameters for the function. The number of parameters must match the parameters
+  of the called function. The maximum number of supported parameters is 20. 
+
+@ReturnValue
+  Returns the return-value of the called function.
+
+@Remarks
+  If the function is described as 'cdecl' then the use of this function is required. However,
+  most DLLs used within the Microsoft Windows OS do not use this form, so @@CallFunctionFast
+  should be sufficient in most cases.
+  To call a function that uses the 'stdcall' calling convention, use the @@CallFunctionFast function.
+
+@LineBreak
+@LineBreak
+  Note: This function is not very flexible and does not handle string/float/double/quad parameters or string/float/double/quad returns.
+  The use of @ReferenceLink "prototypes" "prototypes" is now strongly recommended.
+
+@Example
+@Code
+  ProcedureC Function1()
+      Debug "I call Function1 by its name"
+  EndProcedure
+
+  NewMap *FuncPtr()
+  *FuncPtr("Function1") = @Function1()
+
+
+  CallCFunctionFast(*FuncPtr("Function1"))
+@EndCode
+
+@SeeAlso
+  @@GetFunction, @@CallFunctionFast, @ReferenceLink "prototypes" "prototypes"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CallFunction(#Library, FunctionName$ [,Parameter1 [, Parameter2...]])
+
+@Description
+
+  Calls a function in the specified library, by using its name. The specified library must have previously
+  been opened with the @@OpenLibrary function. The function is expected to use the stdcall
+  calling convention (the standard in most DLLs on Windows).
+
+@Parameter "#Library"
+  The library from which the function will be called.
+
+@Parameter "FunctionName$"
+  The name of the function to call. The function name is case sensitive.
+
+@Parameter "Parameter1, Parameter2, ..."
+  The parameters for the function. The number of parameters must match the parameters
+  of the called function. The maximum number of supported parameters is 20. 
+
+@ReturnValue
+  Returns the return-value of the called function or zero if the library does not contain
+  a function with the given name.
+
+@Remarks
+  To call a function that uses the 'cdecl' calling convention, use the @@CallCFunction function.
+@LineBreak
+@LineBreak
+  Note: This function is not very flexible and does not handle string/float/double/quad parameters or string/float/double/quad returns.
+  The use of @ReferenceLink "prototypes" "prototypes" is now strongly recommended.
+
+@SeeAlso
+  @@CallCFunction, @@GetFunction, @ReferenceLink "prototypes" "prototypes"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CallFunctionFast(*FunctionPointer [,Parameter1 [, Parameter2...]])
+
+@Description
+
+  Calls a function directly, using its address. The function is expected to use the stdcall
+  calling convention (the standard in most DLLs on Windows).
+
+@Parameter "*FunctionPointer"
+  The address of the function to call.
+@LineBreak
+@LineBreak
+  This pointer may be found using the
+  @@GetFunction, @@GetFunctionEntry or @@LibraryFunctionAddress functions.
+  The use of this function is the fastest method with which to call library functions, especially when
+  the results of a call to: GetFunction() or LibraryFunctionAddress() have been stored. This is due to
+  the fact that this function is not required to search for the name of the library function. 
+
+@Parameter "Parameter1, Parameter2, ..."
+  The parameters for the function. The number of parameters must match the parameters
+  of the called function. The maximum number of supported parameters is 20. 
+
+@ReturnValue
+  Returns the return-value of the called function.
+
+@Remarks
+  To call a function that uses the 'cdecl' calling convention, use the @@CallCFunctionFast function.
+@LineBreak
+@LineBreak
+  Note: This function is not very flexible and does not handle string/float/double/quad parameters or string/float/double/quad returns.
+  The use of @ReferenceLink "prototypes" "prototypes" is now strongly recommended.
+
+@SeeAlso
+  @@CallCFunctionFast, @@GetFunction, @ReferenceLink "prototypes" "prototypes"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CountLibraryFunctions(#Library)
+
+@Description
+  Counts the number of functions available in a library. The library must be open when this function is called.
+
+@Parameter "#Library"
+  The number of the library which contains the functions to count. This number
+  must be identical to that used previously with @@OpenLibrary.
+
+@ReturnValue
+  Returns the number of functions available in the library.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineLibraryFunctions(#Library)
+
+@Description
+  Initiates the process of examining the functions contained within a library. 
+
+@Parameter "#Library"
+  The number of the library which contains the functions to examine. This number
+  must be identical to that used previously with: @@OpenLibrary.
+
+@ReturnValue
+  Returns nonzero if the functions can be examined and zero if not.
+
+@Remarks
+  If this function succeeds, the
+  programmer may then step through the functions in the library by using @@NextLibraryFunction.
+  At that point, information such as the name and address of each function may be obtained by using the
+  @@LibraryFunctionName and @@LibraryFunctionAddress functions respectively.
+
+@SeeAlso
+  @@NextLibraryFunction, @@LibraryFunctionAddress, @@LibraryFunctionName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetFunction(#Library, FunctionName$)
+
+@Description
+  Checks if the library, previously opened using the @@OpenLibrary function,
+  contains the given function and returns the function pointer.
+
+@Parameter "#Library"
+  The number of the library which contains the functions to find. This number
+  must be identical to that used previously with @@OpenLibrary.
+
+@Parameter "FunctionName$"
+  The name of the function from which to get the pointer.
+  The function name is case sensitive.
+
+@ReturnValue
+  Returns the address to the function in the library on success and zero
+  if the library does not contain a function with that name.
+
+@Remarks
+  The function can be called by its address using @ReferenceLink "prototypes" "prototypes". The functions
+  @@CallFunctionFast and @@CallCFunctionFast can also be used for that, but prototypes are the recommended method
+  as they are more flexible.
+@LineBreak
+@LineBreak
+  See the @ReferenceLink "prototypes" "prototype" section for an example.
+
+@SeeAlso
+  @@GetFunctionEntry, @@CallFunctionFast, @@CallCFunctionFast, @ReferenceLink "prototypes" "prototypes"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetFunctionEntry(#Library, FunctionEntry)
+
+@Description
+
+  Checks if the library, contains the given function entry. This searches for a library function by its position
+  within the libraries function table, rather than by its name.
+
+@Parameter "#Library"
+  The number of the library which contains the functions to find. This number
+  must be identical to that used previously with @@OpenLibrary.
+
+@Parameter "FunctionEntry"
+  A number representing the function index in the library. The first
+  function is at index 1.
+
+@ReturnValue
+  Returns the address to the function in the library on success and zero
+  if the library does not contain a function with that index.
+
+@Remarks
+  The function can be called by its address using @ReferenceLink "prototypes" "prototypes". The functions
+  @@CallFunctionFast and @@CallCFunctionFast can also be used for that, but prototypes are the recommended method
+  as they are more flexible.
+
+@SeeAlso
+  @@GetFunction, @@CallFunctionFast, @@CallCFunctionFast, @ReferenceLink "prototypes" "prototypes"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsLibrary(#Library)
+
+@Description
+  Tests if the given library number is valid and if the library has been correctly initialized.
+
+@Parameter "#Library"
+  The library value to test.
+
+@ReturnValue
+  Returns nonzero if the input is a valid library and zero if not.
+
+@Remarks
+
+  This function is bulletproof and may be used with any value. 
+  This is the correct way to ensure a
+  library is ready for use.
+
+@SeeAlso
+  @@OpenLibrary, @@CloseLibrary
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LibraryFunctionAddress()
+
+@Description
+
+  Returns the address of the function in the library currently being examined with the
+  @@ExamineLibraryFunctions and @@NextLibraryFunction functions.
+
+@NoParameters
+
+@ReturnValue
+  Returns the address of the current function in memory. This is useful as parameter for the 
+  functions @@CallFunctionFast or @@CallCFunctionFast.
+
+@Remarks
+  The function can be called by its address using @ReferenceLink "prototypes" "prototypes". The functions
+  @@CallFunctionFast and @@CallCFunctionFast can also be used for that, but prototypes are the recommended method
+  as they are more flexible.
+
+@SeeAlso
+  @@ExamineLibraryFunctions, @@NextLibraryFunction, @@LibraryFunctionName, @@CallFunctionFast, @@CallCFunctionFast
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = LibraryFunctionName()
+
+@Description
+
+  Returns the name of the function in the library currently being examined with the
+  @@ExamineLibraryFunctions and @@NextLibraryFunction functions.
+
+@NoParameters
+
+@ReturnValue
+  Returns the name of the current function.
+
+@SeeAlso
+  @@ExamineLibraryFunctions, @@NextLibraryFunction, @@LibraryFunctionAddress
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LibraryID(#Library)
+
+@Description
+
+  Returns the unique ID which identifies the specified library in the operating system.
+
+@Parameter "#Library"
+  The library to use.
+
+@ReturnValue
+  Returns the unique ID.
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextLibraryFunction()
+
+@Description
+  Moves to the next library function in an enumeration started with @@ExamineLibraryFunctions.
+
+@NoParameters
+
+@ReturnValue
+  Returns nonzero if the next library function was found and zero if there are no more functions
+  to be examined.
+
+@SeeAlso
+  @@ExamineLibraryFunctions, @@LibraryFunctionName, @@LibraryFunctionAddress
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenLibrary(#Library, Filename$)
+
+@Description
+  Opens a shared library in order that the functions within it may be accessed. 
+
+@Parameter "#Library"
+  A number to identify this library. @ReferenceLink "purebasic_objects" "#PB_Any" can be used
+  to auto-generate this number.
+
+@Parameter "Filename$"
+  The filename of the library to load. If the filename does not include a path, then the 
+  operating system will search for the library in its system folders, the applications directory and
+  the current directory.
+
+@ReturnValue
+  Returns nonzero if the library was opened successfully and zero if not.
+  If @#PB_Any was used as the #Library parameter then the generated number for the
+  library is returned on success.
+
+@SeeAlso
+  @@CloseLibrary, @@GetFunction, @ReferenceLink "prototypes" "prototypes"
+
+@SupportedOS

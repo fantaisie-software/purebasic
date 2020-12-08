@@ -1,0 +1,788 @@
+;
+;     Material library documentation
+;
+;       (c) 2020 - Fantaisie Software
+;
+
+@Library Material
+
+@Overview
+  Materialien bestehen aus einer oder mehreren @LibraryLink "texture" "Texturen" und manchmal aus einigen Farben.
+  Sie werden häufig von anderen Objekten der 3D-Welt wie @LibraryLink "entity" "Entities" ("Wesen"), 
+  @LibraryLink "billboard" "Billboards" (3D-Ebenen) und @LibraryLink "particle" "Partikeln" genutzt, 
+  um diesen eine "Haut" (englisch: Skin) zu geben.
+@LineBreak
+@LineBreak
+  Jedes Material hat eine Menge an Eigenschaften, wie Schattierung, Umgebungs- und
+  Spiegelfarbe (englisch: "ambient color" bzw. "specular color") etc., um realistisch
+  aussehendes Material wie Holz, Wasser, Glas und mehr zu ermöglichen.
+@LineBreak
+@LineBreak
+  @@InitEngine3D muss erfolgreich aufgerufen worden sein, bevor Sie
+  die Material-Befehle verwenden.
+
+@CommandList
+
+@ExampleFile All Material.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddMaterialLayer(#Material, TexturID [, Modus [, TexturKoordinatenIndex]])
+
+@Description
+  Fügt dem Material einen neuen Layer (Schicht) hinzu und legt die angegebene
+  Textur darin ab.
+  
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "TextureID"
+  Die hinzuzufügende Textur. Eine gültige 'TexturID' kann einfach mittels dem
+  @@TextureID Befehl ermittelt werden.
+
+@OptionalParameter "Modus"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Material_Add        : Führt eine Pixel 'Add' (Hinzufügen) Operation über dem vorherigen
+                            Layer aus (schwarze Farbe ist wie transparent).
+  @#PB_Material_Replace    : Führt eine Pixel 'Replace' (Ersetzen) Operation über dem
+                            vorherigen Layer aus.
+  @#PB_Material_AlphaBlend : Benutzt den Alpha-Kanal Layer der Textur (sollte im TGA- oder
+                            PNG-Format vorliegen) und mischt ihn mit dem vorherigen Layer.
+  @#PB_Material_Modulate   : Führt eine Pixel 'Modulate' (Modulieren) Operation über dem
+                            vorherigen Layer aus.
+@EndFixedFont
+
+@OptionalParameter "TexturKoordinatenIndex"
+  Der Textur-Koordinaten-Index (Standardwert ist 0).
+
+@NoReturnValue
+
+@SeeAlso
+  @@RemoveMaterialLayer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CopyMaterial(#Material, #NeuesMaterial)
+
+@Description
+  Erstellt ein neues Material, wobei es sich um eine exakte Kopie des angegebenen
+  Materials handelt.
+
+@Parameter "#Material"
+  Das zu kopierende Material.
+  
+@Parameter "#NeuesMaterial"
+  Eine Nummer zum Identifizieren des neuen Materials.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
+  Nummer automatisch zu generieren.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Material erfolgreich dupliziert wurde, andernfalls
+  Null. Wenn @#PB_Any als Parameter #NeuesMaterial verwendet wurde, dann wird im
+  Erfolgsfall die generierte Nummer zurückgegeben.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CountMaterialLayers(#Material)
+
+@Description
+  Gibt die Anzahl an Layern (Schichten) zurück, die das Material beinhaltet.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+  
+@ReturnValue
+  Die Anzahl an Layern, die das Material beinhaltet.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateMaterial(#Material, TexturID)
+
+@Description
+  Erstellt ein neues Material, basierend auf der angegebenen Textur.
+  
+@Parameter "#Material"
+  Eine Nummer zum Identifizieren des neuen Materials.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
+  Nummer automatisch zu generieren.
+  
+@Parameter "TexturID"
+  Die zu verwendende Textur. Eine gültige 'TexturID' kann einfach mittels dem
+  @@TextureID Befehl ermittelt werden.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Material erfolgreich erstellt wurde, andernfalls
+  Null. Wenn @#PB_Any als Parameter #Material verwendet wurde, dann wird im
+  Erfolgsfall die generierte Nummer zurückgegeben.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableMaterialLighting(#Material, Status)
+
+@Description
+  Aktiviert oder deaktiviert das dynamische (Be-) Leuchten des '#Material'. Das Objekt, das dieses
+  Material verwendet, wird nicht durch ein dynamisches Licht beeinflusst werden,
+  welches mit der @@CreateLight Funktion erstellt wurde. Dynamische Beleuchtung ist
+  standardmäßig aktiviert, wenn ein Material erstellt wird.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "Status"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#True : dynamische Beleuchtung ist ausgeschalten.
+  @#False: dynamische Beleuchtung ist eingeschalten.
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Um den aktuellen Status der Material-Beleuchtung zu ermitteln, verwenden Sie @@GetMaterialAttribute.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMaterial(#Material)
+
+@Description
+  Gibt das angegebene '#Material' frei. Sein gesamter zugehöriger Speicher wird freigegeben und
+  das Objekt kann nicht mehr benutzt werden.
+
+@Parameter "#Material"
+  Das freizugebende Material. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Materiale freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Alle verbleibenden Materiale werden automatisch freigegeben, wenn das Programm endet.  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsMaterial(#Material)
+
+@Description
+  Überprüft, ob das angegebene Material gültig und korrekt initialisiert ist.
+
+@Parameter "#Material"
+  Das zu überprüfende Material.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Material gültig ist, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. Dies ist
+  der korrekte Weg, um sicherzugehen, dass ein Material fertig zur Benutzung ist.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetMaterialAttribute(#Material, Attribut)
+
+@Description
+  Ermittelt das angegebene Material-Attribut.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "Attribut"
+  Das zu ermittelnde Attribut. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Material_Shininess     : ermittelt den Material-Glanz, wie mit @@MaterialShininess festgelegt.
+  @#PB_Material_TextureRotate : ermittelt den Material-Rotationswert, in Grad.
+  @#PB_Material_TextureUScale : ermittelt den Material 'uscale' Wert, siehe @@ScaleMaterial.
+  @#PB_Material_TextureVScale : ermittelt den Material 'vscale' Wert, siehe @@ScaleMaterial.
+  @#PB_Material_TextureUScroll: ermittelt den Material 'uscroll' Wert, siehe @@ScrollMaterial.
+  @#PB_Material_TextureVScroll: ermittelt den Material 'vscroll' Wert, siehe @@ScrollMaterial.
+  @#PB_Material_DepthCheck    : ermittelt den Materialtiefe-Prüfstatus (aktiviert oder deaktiviert).
+  @#PB_Material_DepthWrite    : ermittelt den Materialtiefe-Schreibstatus (aktiviert oder deaktiviert).
+  @#PB_Material_Lighting      : ermittelt den Material-Beleuchtungswert, wie mit @@DisableMaterialLighting festgelegt.
+  @#PB_Material_ShadingMode   : ermittelt den Material-Schattierungswert, wie mit @@MaterialShadingMode festgelegt.
+  @#PB_Material_CullingMode   : ermittelt den Material-Ausblendmodus-Wert, wie mit @@MaterialCullingMode festgelegt.
+@EndFixedFont
+
+@ReturnValue
+  Der Wert des angegebenen Attributs.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetMaterialColor(#Material, Typ)
+
+@Description
+  Ermittelt die angegebene Material-Farbe.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "Typ"
+  Der zu ermittelnde Farbtyp. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Material_AmbientColor:  die standardmäßig verwendete Farbe, ohne andere Beleuchtung.
+  @#PB_Material_DiffuseColor:  die Farbe, welche das Material reflektieren wird, wenn es dynamisch beleuchtet wird.
+                               Zum Beispiel wird die Verwendung einer vollständig weißen Farbe in normaler Beleuchtung
+                               resultieren (alle Farben werden reflektiert). Wenn Sie ein Rot verwenden, dann werden
+                               nur die roten Farben des Materials reflektiert, resultierend in einem vollständig
+                               rotem Material (oder in einem schwarzen, wenn das Material keine rote Farbe enthält).
+  @#PB_Material_SpecularColor: die Farbe, welche das Material reflektieren wird, wenn es dynamisch von einem Licht
+                               beleuchtet wird, welches einen spiegelnden Farbwert hat. Zum Beispiel wird die
+                               Verwendung einer vollständig weißen Farbe in normaler Beleuchtung resultieren (alle
+                               Farben werden reflektiert). Wenn Sie ein Rot verwenden, dann werden
+                               nur die roten Farben des Materials reflektiert, resultierend in einem vollständig
+                               rotem Material (oder in einem schwarzen, wenn das Material keine rote Farbe enthält).
+  @#PB_Material_SelfIlluminationColor: die Farbe, welche das Material ausstrahlt, auch wenn es kein Licht erreicht.
+@EndFixedFont
+
+@ReturnValue
+  Gibt den RGB-Farbwert zurück. Die einzelnen Farb-Kanäle können einfach mit @@Red, @@Green und @@Blue
+  ermittelt werden.
+
+@SeeAlso
+  @@SetMaterialColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMaterialColor(#Material, Typ, Farbe)
+
+@Description
+  Legt die angegebene Material-Farbe fest.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "Typ"
+  Der festzulegende Farb-Typ. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Material_AmbientColor:  die standardmäßig verwendete Farbe, ohne andere Beleuchtung.
+  @#PB_Material_DiffuseColor:  die Farbe, welche das Material reflektieren wird, wenn es dynamisch beleuchtet wird.
+                               Zum Beispiel wird die Verwendung einer vollständig weißen Farbe in normaler Beleuchtung
+                               resultieren (alle Farben werden reflektiert). Wenn Sie ein Rot verwenden, dann werden
+                               nur die roten Farben des Materials reflektiert, resultierend in einem vollständig
+                               rotem Material (oder in einem schwarzen, wenn das Material keine rote Farbe enthält).
+  @#PB_Material_SpecularColor: die Farbe, welche das Material reflektieren wird, wenn es dynamisch von einem Licht
+                               beleuchtet wird, welches einen spiegelnden Farbwert hat. Zum Beispiel wird die
+                               Verwendung einer vollständig weißen Farbe in normaler Beleuchtung resultieren (alle
+                               Farben werden reflektiert). Wenn Sie ein Rot verwenden, dann werden
+                               nur die roten Farben des Materials reflektiert, resultierend in einem vollständig
+                               rotem Material (oder in einem schwarzen, wenn das Material keine rote Farbe enthält).
+  @#PB_Material_SelfIlluminationColor: die Farbe, welche das Material ausstrahlt, auch wenn es kein Licht erreicht.
+@EndFixedFont
+
+@Parameter "Farbe"
+  Der festzulegende RGB-Farbwert. Ein gültiger RGB-Wert kann mittels @@RGB erstellt werden.
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetMaterialColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialBlendingMode(#Material, Modus)
+
+@Description
+  Ändert die Art, wie das Material mit der Szene (Bildschirm-Hintergrund) gemischt wird.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "Modus"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Material_Add        : Führt eine Pixel 'Add' (Hinzufügen) Operation über der Szene aus
+                            (schwarze Farbe ist wie transparent).
+  @#PB_Material_AlphaBlend : Benutzt den Alpha-Kanal Layer der Textur (sollte im TGA- oder
+                            PNG-Format vorliegen) und mischt ihn mit der Szene.
+  @#PB_Material_Color      : Verwendet die Transparenzfarbe der Textur beim Mischen des Materials
+                            mit der Szene.
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialFilteringMode(#Material, Modus [, MaxAnisotropWert])
+
+@Description
+  Ändert den Filterungsmodus des Materials.
+
+@Parameter "#Material"
+  Das zu verwendende Material. Wenn dieser Parameter auf @#PB_Default gesetzt wird,
+  dann wird der Filtermodus-Wert für künftig erstellte Materiale geändert.
+
+@Parameter "Modus"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Material_None      : Das Material wird nicht gefiltert, beim Näherkommen der Kamera
+                            wird dieses dadurch sehr pixelig.
+  @#PB_Material_Bilinear  : Führt ein bilineares Filtern durch, resultiert beim Näherkommen
+                            der Kamera in einem glatten, etwas verwischten Bild.
+  @#PB_Material_Trilinear : Führt ein trilineares Filtern durch, resultiert beim Näherkommen
+                            der Kamera in einer bestmöglichen Bildqualität.
+  @#PB_Material_Anisotropic: Legt den maximalen anisotropen Wert fest.
+@EndFixedFont
+  Wenn ein Material erstellt wird, wird standardmäßig das bilineare Filtern verwendet. Die Benutzung
+  eines Filters hat keine großartige Auswirkung auf die Performanz der Grafikausgabe, da viele
+  Grafikkarten dies per Hardware unterstützen.
+  
+@OptionalParameter "MaxAnisotropWert"
+  Der maximale anisotrope Wert, wenn der Modus @#PB_Material_Anisotropic verwendet wird.
+  Dieser Wert liegt üblicherweise zwischen 1 und 8.  
+  
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialID = MaterialID(#Material)
+
+@Description
+  Gibt den einmaligen Bezeichner (englisch "Identifier") des Materials im System zurück.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@ReturnValue
+  Der einmalige System-Bezeichner des Materials.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShadingMode(#Material, Modus)
+
+@Description
+  Ändert den Schattierungsmodus des Materials.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+  
+@Parameter "Modus"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont  
+  @#PB_Material_Flat     : Das Material verwendet den Flat-Modus, die Beleuchtung erfolgt
+                         "von Gesicht zu Gesicht" (englisch: "face by face").
+  @#PB_Material_Gouraud  : Führt eine Schattierung mittels des Gouraud-Algorithmus aus. (Standard)
+  @#PB_Material_Phong    : Führt eine Schattierung mittels des Phong-Algorithmus aus. 
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
+@FixedFont  
+  @#PB_Material_Solid    : Das Material wird im massiven, texturierten (englisch "solid, textured") Modus gerendert. (Standard)
+  @#PB_Material_Wireframe: Das Material wird im Drahtgitter-Modus (englisch "wireframe") gerendert.
+  @#PB_Material_Point    : Das Material wird nur mit den Randpunkten (englisch "edge points") gerendert.
+@EndFixedFont 
+  
+@NoReturnValue
+
+@Remarks
+  Um den aktuellen Material-Schattierungsmodus zu erhalten, verwenden Sie @@GetMaterialAttribute.
+
+@SeeAlso
+  @@GetMaterialAttribute
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialCullingMode(#Material, Modus)
+
+@Description
+  Legt den "Culling"-Modus (Ausblend-Modus) für das Material fest.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "Modus"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Material_NoCulling        : kein Culling.
+  @#PB_Material_ClockWiseCull    : Culling im Uhrzeigersinn.
+  @#PB_Material_AntiClockWiseCull: Culling gegen den Uhrzeigersinn.
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Um den aktuellen Culling-Modus des Materials zu erhalten, verwenden Sie @@GetMaterialAttribute.
+
+@SeeAlso
+  @@GetMaterialAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShininess(#Material, Glanz)
+
+@Description
+  Ändert den Glanz des Materials (die Größe der Glanzlichter).
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "Shininess"
+  Der neue Glanz-Wert.
+
+@NoReturnValue
+
+@Remarks
+  Um den aktuellen Glanz-Wert zu erhalten, verwenden Sie @@GetMaterialAttribute.
+
+@SeeAlso
+  @@GetMaterialAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialTextureAliases(#Material, TextureID1, TextureID2, TextureID3, TextureID4)
+
+@Description
+  Legt die Texturen für die Verwendung in einem Materialskript fest. Es erlaubt die Verwendung
+  des gleichen Materialskripts mit dynamischen Texturen. Im Material-Skript muss die Texturreferenz
+  von 'texture mytexture.jpg' in 'texture_alias texture1' (oder 'texture_alias texture2',
+  'texture_alias texture3', 'texture_alias texture4') geändert werden.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "TextureID1"
+  Die @@TextureID, die für den ersten Textur-Alias verwendet werden soll (im Material-Skript als
+  'texture_alias texture1' bezeichnet) oder Null, wenn keine Textur erforderlich ist.
+
+@Parameter "TextureID2"
+  Die @@TextureID, die für den zweiten Textur-Alias verwendet werden soll (im Material-Skript als
+  'texture_alias texture2' bezeichnet) oder Null, wenn keine Textur erforderlich ist.
+
+@Parameter "TextureID3"
+  Die @@TextureID, die für den dritten Textur-Alias verwendet werden soll (im Material-Skript als
+  'texture_alias texture3' bezeichnet) oder Null, wenn keine Textur erforderlich ist.
+
+@Parameter "TextureID4"
+  Die @@TextureID, die für den vierten Textur-Alias verwendet werden soll (im Material-Skript als
+  'texture_alias texture4' bezeichnet) oder Null, wenn keine Textur erforderlich ist.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@GetScriptMaterial, @@TextureID
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetScriptMaterial(#Material, Name$)
+
+@Description
+  Ermittelt ein Material, welches in der OGRE Script-Datei definiert wurde.
+  Skripte werden geladen und durchlaufen (englisch "parsed"), wenn @@Parse3DScripts
+  aufgerufen wird.
+
+@Parameter "#Material"
+  Eine Nummer zum Identifizieren des neuen Materials. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Nummer automatisch zu generieren.
+  
+@Parameter "Name$"
+  Der Name des Materials in den Skript-Dateien.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Material erfolgreich erstellt wurde, andernfalls Null.
+  Wenn @#PB_Any als Parameter #Material verwendet wurde, dann wird im Erfolgsfall die
+  generierte Nummer zurückgegeben.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialFog(#Material, Farbe, Intensität, StartDistanz, EndDistanz)
+
+@Description
+  Erstellt einen Nebel-Effekt (englisch "fog") auf dem angegebenen Material.
+  
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "Farbe"
+  Die Farbe des Nebeleffekts. @@RGB kann verwendet werden, um einen gültigen Farbwert
+  zu erhalten.
+  
+@Parameter "Intensität"
+  Die Nebel-Intensität. Wird diese auf Null gesetzt, wird der Nebeneffekt entfernt.
+
+@Parameter "StartDistanz"
+  Die Entfernung (in Welt-Einheiten), von der aus der Nebel beginnt.
+  
+@Parameter "EndDistanz"
+  Die Entfernung (in Welt-Einheiten), ab der der Nebel völlig undurchsichtig wird.
+  
+@NoReturnValue  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ReloadMaterial(MaterialName$, SkriptDateiname$, ParseSkript)
+
+@Description
+  Lädt ein Material erneut aus einem OGRE-Skript, basierend auf seinem Namen. Dies ist
+  nützlich bei der Verwendung selbst erstellter Materialien, welche in Skript-Dateien
+  gespeichert sind.
+
+@Parameter "MaterialName$"
+  Der Material-Name in den Skripten.
+
+@Parameter "SkriptDateiname$"
+  Der Skript-Dateiname.
+
+@Parameter "ParseSkript"
+  Wenn auf @#True gesetzt, wird 'SkriptDateiname$' erneut analysiert ("geparst"), um
+  aktualisierte Material-Informationen zu erhalten. Wenn auf @#False gesetzt, dann das
+  beim ersten Parsen des Skripts verwendete Material genutzt.
+  Ein Material kann mittels @@GetScriptMaterial aus OGRE-Skripts ermittelt werden.
+  
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResetMaterial(ObjektTyp)
+
+@Description
+  Setzt alle Materialien für die angegebenen Objekt-Typen zurück.
+
+@Parameter "ObjektTyp"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Entity: setzt die Materialien für alle @LibraryLink "entity" "Entities" zurück.
+  @#PB_ParticleEmitter: setzt die Materialien für alle @LibraryLink "particle" "Partikel-Strahler" zurück.
+  @#PB_BillboardGroup: setzt die Materialien für alle @LibraryLink "billboard" "Billboards" zurück.
+@EndFixedFont
+
+@NoReturnValue
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMaterialAttribute(#Material, Attribut, Wert [, Layer])
+
+@Description
+  Setzt den angegebenen Attribut-Wert beim angegebenen Material.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "Attribut"
+  Das zu setzende Attribut. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Material_DepthCheck : Aktiviert oder deaktiviert die Tiefenprüfung für das Material.
+                            Der Wert kann @#True (Tiefenprüfung aktiviert) oder @#False (Tiefenprüfung deaktiviert) sein.
+  @#PB_Material_DepthWrite : Aktiviert oder deaktiviert die Tiefen-Schreibung ("depth write") für das Material.
+                            Der Wert kann @#True (Tiefen-Schreibung aktiviert) oder @#False (Tiefen-Schreibung deaktiviert) sein.
+  @#PB_Material_AlphaReject: Aktiviert Alpha-Reject auf der Textur (nützlich für semi-transparente Texturen wie
+                            Bäume, Fenster, etc.).
+  @#PB_Material_TAM        : Ändert den 'Texture Addressing Mode' (TAM). Dies kann einer der folgenden Werte sein
+                            - @#PB_Material_WrapTAM  : Wrap-Modus
+                            - @#PB_Material_MirrorTAM: Spiegel-Modus ("mirror")
+                            - @#PB_Material_ClampTAM : Clamp-Modus
+                            - @#PB_Material_BorderTAM: Rahmen-Modus ("border")
+  @#PB_Material_EnvironmentMap: Aktiviert die Umgebungskarte ("environment map"). Dies kann einer der folgenden
+                               Werte sein
+                            - @#PB_Material_NoMap        : deaktiviert die Umgebungskarte
+                            - @#PB_Material_PlanarMap    : Planare Umgebungskarte
+                            - @#PB_Material_CurvedMap    : Gekrümmte Umgebungskarte
+                            - @#PB_Material_ReflectionMap: Reflexion-Umgebungskarte
+                            - @#PB_Material_NormalMap    : normale Umgebungskarte
+  @#PB_Material_ProjectiveTexturing: Aktiviert die projektive Texturierung für dieses Material. Der Wert ist die
+                            zu verwendende #Kamera-Nummer.
+@EndFixedFont
+@Parameter "Wert"
+  Der Wert des zu setzenden Attributs.
+
+@OptionalParameter "Layer"
+  Der zu verwendende Layer ("Schicht"). Der erste Layer hat den Wert Null (wenn dieser Parameter weggelassen
+  wird, wird der Layer Null verwendet).
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetMaterialAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScrollMaterial(#Material, x, y, Modus [, Layer])
+
+@Description
+  Scrollt den Layer des Materials entsprechend den x,y Werten.
+  
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "x, y"
+  Der Textur-Scroll-Offset, in Pixel.
+
+@Parameter "Modus"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Material_Fixed   : Das Material wird vom angegebenen x,y Offset gescrollt, ohne
+                          Rücksicht auf den vorherigen Scroll-Befehl.
+  @#PB_Material_Animated: Jedes Frame wird das Material wird vom angegebenen x,y Offset
+                          automatisch gescrollt.
+@EndFixedFont
+
+@OptionalParameter "Layer"
+  Der zu scrollende Layer. Der erste Layer hat den Wert Null (wird dieser Parameter
+  weggelassen, dann wird der Layer Null gescrollt).
+
+@NoReturnValue
+
+@Remarks
+  Um die aktuellen Scroll-Werte zu erhalten, verwenden Sie @@GetMaterialAttribute.
+
+@SeeAlso
+  @@GetMaterialAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveMaterialLayer(#Material)
+
+@Description
+  Entfernt den obersten (zuletzt hinzugefügten) Layer des Materials.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddMaterialLayer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleMaterial(#Material, x, y [, Layer])
+
+@Description
+  Skaliert das Material. Die Parameter 'x' und 'y' sind Skalierungsfaktoren.
+  
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "x, y"
+  Die Skalierungsfaktoren (die aktuelle Materialgröße wird mit diesen Werten multipliziert):
+  @LineBreak
+  - ein Wert von 1.0 bedeutet, dass die Größe nicht verändert wird @LineBreak
+  - ein Wert zwischen 0.0 und 1.0 bedeutet, dass das Material verkleinert wird (z.B. ein Faktor von 0.5 wird die Größe halbieren) @LineBreak
+  - ein Wert oberhalb von 1.0 bedeutet, dass das Material vergrößert wird (z.B. ein Faktor von 2.0 wird die Größe verdoppeln) @LineBreak
+
+@OptionalParameter "Layer"
+  Der zu skalierende Layer. Der erste Layer hat den Wert Null (wird dieser Parameter
+  weggelassen, dann wird der Layer Null skaliert).
+
+@NoReturnValue
+
+@Remarks
+  Um die aktuellen Skalierungs-Werte zu erhalten, verwenden Sie @@GetMaterialAttribute.
+
+@SeeAlso
+  @@GetMaterialAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateMaterial(#Material, Winkel, Modus [, Layer])
+
+@Description
+  Rotiert (dreht) den Layer des Materials entsprechend dem Winkel-Wert.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "Winkel"
+  Der Rotations-Winkel, in Grad.
+  
+@Parameter "Modus"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Material_Fixed   : Das Material wird um den angegebenen 'Winkel' rotiert, ohne
+                          Rücksicht auf den vorherigen Rotier-Befehl.
+  @#PB_Material_Animated: Jedes Frame wird das Material um den angegebenen 'Winkel'
+                          automatisch rotiert.
+@EndFixedFont
+
+@OptionalParameter "Layer"
+  Der zu rotierende Layer. Der erste Layer hat den Wert Null (wird dieser Parameter
+  weggelassen, dann wird der Layer Null gedreht).
+
+@NoReturnValue
+
+@Remarks
+  Um die aktuellen Rotations-Werte zu erhalten, verwenden Sie @@GetMaterialAttribute.
+
+@SeeAlso
+  @@GetMaterialAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialAnimation(#Material, Textur$, AnzFrames, Zeit.f)
+
+@Description
+  Fügt eine animierte Textur zum Material hinzu. Eine animierte Textur setzt sich aus einer beliebigen
+  Anzahl an Texturen zusammen, alle in der gleichen Größe, mit der Frame-Nummer vor der Dateiendung im
+  Dateinamen angehängt.
+  @LineBreak
+  Wenn beispielsweise "test.jpg" als "Textur$" angegeben und "AnzFrames" auf 3 gesetzt wird, werden die
+  Texturen "test_0.jpg", "test_1.jpg" und "test_2.jpg" geladen und für das Material verwendet.
+    
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "Textur$"
+  Der zu verwendende Textur-Dateiname.
+  
+@Parameter "AnzFrames"
+  Anzahl an Frames der animierten Textur.
+
+@Parameter "Zeit.f"
+  Zeit (in Millisekunden), um die gesamte Animation abzuspielen. Sobald diese vollständig abgespielt
+  wurde, startet sie von vorn.
+
+@NoReturnValue
+
+@Remarks
+  Normalerweise sind alle Frames in einer Zip-Datei mit demselben Namen wie die Textur (z.B. Texture.zip)
+  enthalten und können von @@Add3DArchive und @@Parse3DScripts aufgerufen werden.
+  
+@SupportedOS

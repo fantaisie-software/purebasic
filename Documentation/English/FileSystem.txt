@@ -1,0 +1,975 @@
+;
+;     FileSystem library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library FileSystem
+
+@Overview
+
+FileSystem is a generic term which deal with all advanced file related manipulations. For example, it's
+possible to read a directory content, create a new directory and more...
+@LineBreak
+@LineBreak
+  If you want to examine the contents of a directory start with the @@ExamineDirectory function.
+@LineBreak
+@LineBreak
+  All file and directory names in this library can be specified either with a full or a relative path. Relative paths are interpreted
+  relative to the current directory of the program. The @@GetCurrentDirectory and @@SetCurrentDirectory functions
+  can be used to modify the current directory.
+@LineBreak
+@LineBreak
+  Specific OS path seperator characters are available @#PS, @#NPS, @ConstantColor "#PS$" ('\') and @ConstantColor "#NPS$" ('/').
+@LineBreak
+@LineBreak
+  In addition to the functions in this library you will also functions for manipulating file contents in the @LibraryLink "file" "File"
+  library. To get the name of a running program use the function @@ProgramFilename from the 
+  @LibraryLink "process" "Process" library.
+
+@CommandList
+
+@ExampleFile All FileSystem.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CopyDirectory(SourceDirectory$, DestinationDirectory$, Pattern$ [, Mode])
+
+@Description
+  Copy the contents of the source directory to the destination. 
+
+@Parameter "SourceDirectory$"
+  The directory to copy.
+
+@Parameter "DestinationDirectory$"
+  The destination to copy the directory to.
+
+@Parameter "Pattern$"
+  A pattern identifying the files to copy. For example: "*.*" will copy any files in the directory.
+  "*.exe" will copy only the .exe files. By default, a null Pattern$ ("") will copy all the files.
+
+@OptionalParameter "Mode"
+  Options for the copy operation. It can be a combination of the following values:
+@FixedFont
+  @#PB_FileSystem_Recursive: Copy the directory with all subdirectories.
+  @#PB_FileSystem_Force    : Overwrites the files which are protected (read-only).
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  If the target directory already exists, its content will be overwritten automatically. The
+  @@FileSize function can be used to determine if the target exists or not.
+
+@Example
+@Code
+  Debug CopyDirectory("D:\Games\MyGame\", "D:\Games\Backup\", "", #PB_FileSystem_Recursive)
+@EndCode
+
+@SeeAlso
+  @@CreateDirectory, @@ExamineDirectory, @@DeleteDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CopyFile(SourceFilename$, DestinationFilename$)
+
+@Description
+  Copy the source file to the destination.
+
+@Parameter "SourceFilename$"
+  The file to copy.
+
+@Parameter "DestinationFilename$"
+  The location to copy the file to.
+
+@ReturnValue
+  Returns nonzero if the operation was successful or zero if it failed.
+
+@Remarks
+  If the destination file already exists, it will be overwritten. The @@FileSize function
+  can be used to determine if the target exists or not. If source file and destination file
+  are the same, a copy will not occurs and zero will be returned.
+
+@SeeAlso
+  @@RenameFile, @@DeleteFile, @@FileSize, 
+  @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateDirectory(DirectoryName$)
+
+@Description
+
+  Creates a new directory. 
+
+@Parameter "DirectoryName$"
+  The name of the new directory.
+
+@ReturnValue
+  Returns nonzero if the operation was successful or zero if it failed.
+
+@Remarks
+  This function fails if the parent directory of the new directory does not exist. To create
+  multiple levels of directories, this function has to be called for each directory level
+  to create separately.
+
+
+@SeeAlso
+  @@CopyDirectory, @@ExamineDirectory, @@DeleteDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DeleteDirectory(Directory$, Pattern$ [, Mode])
+
+@Description
+  Deletes the specified Directory$. 
+
+@Parameter "Directory$"
+  The directory to delete.
+
+@Parameter "Pattern$"
+  A pattern for deleting files within the directory. For example: "*.*" will delete any files in the directory.
+  "*.exe" will delete only the .exe files. By default, a null Pattern$ ("") will delete all the files.
+
+@OptionalParameter "Mode"
+  Options for the delete operation. It can be a combination of the following values:
+@FixedFont
+  @#PB_FileSystem_Recursive: Deletes the directory with all subdirectories.
+  @#PB_FileSystem_Force    : Deletes even the files which are protected (read-only).
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the operation was successful or zero if it failed.
+
+
+@SeeAlso
+  @@CreateDirectory, @@ExamineDirectory, @@CopyDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DeleteFile(Filename$ [, Mode])
+
+@Description
+  Deletes the specified file. 
+
+@Parameter "Filename$"
+  The file to delete.
+
+@OptionalParameter "Mode"
+  Options for the delete operation. It can be one of the following values:
+@FixedFont
+  @#PB_FileSystem_Force: Also deletes the file which are protected (read-only).
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the operation was successful or zero if it failed.
+
+@SeeAlso
+  @@CopyFile, @@RenameFile, @@FileSize, 
+  @@CreateFile, @@OpenFile  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Attributes = DirectoryEntryAttributes(#Directory)
+
+@Description
+  Returns the attributes of the current entry in the directory being listed with @@ExamineDirectory and
+  @@NextDirectoryEntry functions. 
+
+@Parameter "#Directory"
+  The directory examined with @@ExamineDirectory.
+
+@ReturnValue
+  Returns the attributes of the current file.
+@LineBreak
+@LineBreak
+  On Windows, Attributes is a combination of the following values:
+@FixedFont
+  @#PB_FileSystem_Hidden    : File is hidden
+  @#PB_FileSystem_Archive   : File has been changed and not archived since the last time
+  @#PB_FileSystem_Compressed: File is compressed
+  @#PB_FileSystem_Normal    : Normal attributes
+  @#PB_FileSystem_ReadOnly  : File is in read-only mode
+  @#PB_FileSystem_System    : File is a system file
+@EndFixedFont
+
+  On Linux or MacOSX, Attributes is a combination of these values:
+@FixedFont
+  @#PB_FileSystem_Link      : The file is a symbolic link
+  @#PB_FileSystem_ReadUser  : Access flags for the owning user
+  @#PB_FileSystem_WriteUser
+  @#PB_FileSystem_ExecUser
+  @#PB_FileSystem_ReadGroup : Access flags for the owning user's group
+  @#PB_FileSystem_WriteGroup
+  @#PB_FileSystem_ExecGroup
+  @#PB_FileSystem_ReadAll   : Access flags for all other users
+  @#PB_FileSystem_WriteAll
+  @#PB_FileSystem_ExecAll
+@EndFixedFont  
+
+
+@Remarks
+  To check if one attribute is actually set, just use the '&' (binary AND) and the attribute constant value:
+
+@Code
+  [...]
+  
+  FileAttributes = DirectoryEntryAttributes(#Directory)
+  If FileAttributes & #PB_FileSystem_Hidden
+    Debug "This file is hidden !"
+  EndIf
+@EndCode  
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DirectoryEntryDate(#Directory, DateType)
+
+@Description
+  Returns the date of the current entry in the directory being listed with @@ExamineDirectory and
+  @@NextDirectoryEntry functions. 
+
+@Parameter "#Directory"
+  The directory examined with @@ExamineDirectory.
+
+@Parameter "DateType"
+  The kind of date to return. It can be one of the following values:
+@FixedFont
+  @#PB_Date_Created : returns the file creation date.
+  @#PB_Date_Accessed: returns the last file access date.
+  @#PB_Date_Modified: returns the last file modification date.
+@EndFixedFont
+
+@ReturnValue
+  Returns the specified date of the current directory entry in the format of the PureBasic @LibraryLink "Date" "Date" library.
+
+@Remarks
+  On Linux and Mac OSX, the date returned for @#PB_Date_Created is the same as the date for
+  @#PB_Date_Modified, because most file systems do not store a file creation date.
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Filename$ = DirectoryEntryName(#Directory)
+
+@Description
+  Returns the name of the current entry in the directory being listed with @@ExamineDirectory and
+  @@NextDirectoryEntry functions.
+
+@Parameter "#Directory"
+  The directory examined with @@ExamineDirectory.
+
+@ReturnValue
+  Returns the name of the current directory entry.
+
+@Remarks
+  The pseudo-directories "." and ".." can be returned in a directory enumeration, so they have to be filtered if they should not 
+  be included in the program output.
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DirectoryEntryType(#Directory)
+
+@Description
+  Returns the type of the current entry in the directory being listed with @@ExamineDirectory and
+  @@NextDirectoryEntry functions. 
+
+@Parameter "#Directory"
+  The directory examined with @@ExamineDirectory.
+
+@ReturnValue
+  Returns one of the following values:
+@FixedFont
+  @#PB_DirectoryEntry_File     : This entry is a file.
+  @#PB_DirectoryEntry_Directory: This entry is a directory.
+@EndFixedFont
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Size.q = DirectoryEntrySize(#Directory)
+
+@Description
+  Returns the size of the current entry in the directory being listed with @@ExamineDirectory and
+  @@NextDirectoryEntry functions.
+
+@Parameter "#Directory"
+  The directory examined with @@ExamineDirectory.
+
+@ReturnValue
+  Returns the size of the current directory entry in bytes.
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineDirectory(#Directory, DirectoryName$, Pattern$)
+
+@Description
+  Start to examine a directory for listing with the functions @@NextDirectoryEntry,
+  @@DirectoryEntryName and @@DirectoryEntryType. 
+
+@Parameter "#Directory"
+  A number to identify the new directory listing. @ReferenceLink "purebasic_objects" "#PB_Any" can be used as
+  a parameter to auto-generate this number.
+
+@Parameter "DirectoryName$"
+  The directory to examine.
+
+@Parameter "Pattern$"
+  A pattern to filter the returned entries by.
+  For example: A 'Pattern$' like "*.*" or "" will list all the files (and sub-directories) in the directory. 
+  A 'Pattern$' like "*.exe" will list only .exe files (and sub-directories ending with .exe if any).
+@LineBreak
+@LineBreak
+  Please be aware of a MS Windows specific behaviour: When using a 3-char file name extension any extension
+  starting with those 3 chars will match, e.g. "*.log" will also match a file name/extension "test.log_1".
+
+@ReturnValue
+  Returns nonzero if the directory can be enumerated or zero if there was an error. If @#PB_Any
+  was used as the #Directory parameter then the generated directory number is returned.
+
+@Remarks
+  Once the enumeration is done, @@FinishDirectory must
+  be called to free the resources associated to the listing.
+@LineBreak
+@LineBreak 
+  Specific OS path seperator characters are available @#PS, @#NPS, @ConstantColor "#PS$" ('\') and @ConstantColor "#NPS$" ('/').
+
+@Example
+@Code
+  Directory$ = GetHomeDirectory() ; Lists all files and folder in the home directory
+  If ExamineDirectory(0, Directory$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = "[File] "
+        Size$ = " (Size: " + DirectoryEntrySize(0) + ")"
+      Else
+        Type$ = "[Directory] "
+        Size$ = "" ; A directory doesn't have a size
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Size$
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FinishDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishDirectory(#Directory)
+
+@Description
+  Finish the enumeration started with @@ExamineDirectory. This frees
+  the resources associated with the #Directory listing.
+
+@Parameter "#Directory"
+  The directory examined with @@ExamineDirectory.
+
+@NoReturnValue
+
+@SeeAlso
+  @@ExamineDirectory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Extension$ = GetExtensionPart(FullPathName$)
+
+@Description
+  Retrieves the file extension part of a full path. 
+
+@Parameter "FullPathName$"
+  The full path to get the extension from.
+
+@ReturnValue
+  Returns the file extension. For example, if the full path is
+  "C:\PureBasic\PB.exe", the result will be "exe".
+
+@Remarks
+  To retrieve the file or the path part from a full path, look at the
+  @@GetFilePart and @@GetPathPart
+  functions.
+
+@SeeAlso
+  @@GetFilePart,
+  @@GetPathPart
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Filename$ = GetFilePart(FullPathName$ [, Mode])
+
+@Description
+  Retrieves the file part of a full path. 
+
+@Parameter "FullPathName$"
+  The full path to get the filename from.
+
+@OptionalParameter "Mode"
+  It can be one of the following values:
+@FixedFont
+  @#PB_FileSystem_NoExtension: Get the filename without its extension (if any).
+@EndFixedFont
+
+@ReturnValue
+  Returns the file name. For example, if the full path is
+  "C:\PureBasic\PB.exe", the result will be "PB.exe".
+
+@Remarks
+  To retrieve the extension or the path part from a full path, look at the
+  @@GetExtensionPart and @@GetPathPart functions.
+
+@SeeAlso
+  @@GetExtensionPart, @@GetPathPart
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Path$ = GetPathPart(FullPathName$)
+
+@Description
+  Retrieves the path part of a full path.
+
+@Parameter "FullPathName$"
+  The full path to get the path part from.
+
+@ReturnValue
+  Returns the path part. For example, if the full path is
+  "C:\PureBasic\PB.exe", the result will be "C:\PureBasic\".
+
+@Remarks
+  To retrieve the extension or the file part from a full path, look at the
+  @@GetExtensionPart and @@GetFilePart 
+  functions.
+
+@SeeAlso
+  @@GetExtensionPart,
+  @@GetFilePart 
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsDirectory(#Directory)
+
+@Description
+  Tests if the given directory number is a valid and correctly initialized directory enumeration. 
+
+@Parameter "#Directory"
+  The directory enumeration to test.
+
+@ReturnValue
+  Returns nonzero if the given input is a valid enumeration and zero otherwise.
+
+@Remarks
+  This function is bulletproof and can be used with any value. This is the correct way to ensure a directory is ready to use.
+
+@SeeAlso
+  @@ExamineDirectory  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CheckFilename(Filename$)
+
+@Description
+  Checks if the specified Filename$ doesn't contain invalid characters for the file-system. For example, on Windows
+  '/' and '\' characters are not allowed in the filename. 
+
+@Parameter "Filename$"
+  The filename to check without a path.
+
+@ReturnValue
+  Returns nonzero if the filename does not contain invalid characters and zero if it does.
+  
+@Remarks
+  Even if the syntax-check of this function doesn't complain, there are different 'forbidden' filenames on
+  different OS. For example on Windows filenames containing "COM1" till "COM9", "LPT1" till "LPT9" or "aux"
+  are not allowed. For more informations see @InternetLink "https://en.wikipedia.org/wiki/Filename" "here".
+
+@SupportedOS
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.q = FileSize(Filename$)
+
+@Description
+  Returns the size of the specified file. This function can also be used to check if a file or directory
+  exists or not.
+
+@Parameter "Filename$" 
+  The filename to get the size from.
+
+@ReturnValue
+  Returns the size of the file in bytes, or one of the following values:
+@FixedFont
+  -1: File not found.
+  -2: File is a directory.
+@EndFixedFont
+
+@SeeAlso
+  @@DirectoryEntrySize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetCurrentDirectory()
+
+@Description
+  Returns the current directory for the program.
+
+@NoParameters
+
+@ReturnValue
+  Returns the full path of the current directory. 
+  It will end with a directory separator ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
+@LineBreak
+@LineBreak
+  It's very unlikely, but if this function fails, it will return an empty string.
+
+@Remarks
+  All files accesses are relative to this directory, when
+  no absolute path is specified. To change the current directory, use @@SetCurrentDirectory.
+
+@SeeAlso
+  @@SetCurrentDirectory,
+  @@GetHomeDirectory,
+  @@GetUserDirectory,
+  @@GetTemporaryDirectory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetHomeDirectory()
+
+@Description
+  Returns the home directory path of the currently logged user. 
+
+@NoParameters
+
+@ReturnValue
+  Returns the full path of the home directory. 
+  It will end with a directory separator ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
+@LineBreak
+@LineBreak
+  It's very unlikely, but if this function fails, it will return an empty string.
+
+@Remarks
+  The home directory is the directory for the user data (preferences, plugins etc.) of the current user.
+  Read and write access should be possible in this directory.
+
+@SeeAlso
+  @@GetCurrentDirectory,
+  @@GetTemporaryDirectory,
+  @@GetUserDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetUserDirectory(Type)
+
+@Description
+  Returns the directory path of the specified directory type. 
+
+@Parameter "Type"
+  The type of directory to get the path. It can be one of the following value:
+@FixedFont
+  @#PB_Directory_Desktop    : desktop directory of the current logged user
+  @#PB_Directory_Downloads  : downloads directory of the current logged user
+  @#PB_Directory_Documents  : documents directory path of the current logged user
+  @#PB_Directory_Videos     : videos directory path of the current logged user
+  @#PB_Directory_Musics     : musics directory path of the current logged user
+  @#PB_Directory_Pictures   : pictures directory path of the current logged user
+  @#PB_Directory_Public     : public directory of the current logged user
+  @#PB_Directory_ProgramData: program data directory of the current logged user. 
+                             On Linux and OSX, it is the home directory followed by '/.' to be able to create
+                             hidden config directory in the home user.
+  @#PB_Directory_AllUserData: common program data directory (accessible to all users)
+  @#PB_Directory_Programs   : global program files path (can be read only)
+@EndFixedFont
+
+@ReturnValue
+  Returns the full path of the specified directory. It will end with a directory separator 
+  ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
+  If the type is not found it will return an empty string.
+
+@SeeAlso
+  @@GetCurrentDirectory,
+  @@GetHomeDirectory,
+  @@GetTemporaryDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetTemporaryDirectory()
+
+@Description
+  Returns the temporary directory name. 
+
+@NoParameters
+
+@ReturnValue
+  Returns the full path to the temporary directory. It will end with a directory separator 
+  ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
+@LineBreak
+@LineBreak
+  It's very unlikely, but if this function fails, it will return an empty string.
+
+@Remarks
+  This directory provides read and write access and should be used to store temporary files. Depending on the operating system 
+  and settings, the contents of this directory may be deleted on a regular basis. It is however better to delete temporary files
+  when they are no longer needed and not rely on such automatic cleanup.
+
+@SeeAlso
+  @@GetCurrentDirectory,
+  @@GetHomeDirectory, @@GetUserDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetFileDate(Filename$, DateType)
+
+@Description
+  Returns the date of the specified file. 
+
+@Parameter "Filename$"
+  The file to get the date from.
+
+@Parameter "DateType"
+  The kind of date to return. It can be one of the following values:
+@FixedFont
+  @#PB_Date_Created : returns the file creation date.
+  @#PB_Date_Accessed: returns the last file access date.
+  @#PB_Date_Modified: returns the last file modification date.
+@EndFixedFont
+
+@ReturnValue
+  Returns the requested date in the format of the PureBasic @LibraryLink "Date" "Date" library.
+
+@Remarks
+  On Linux and Mac OSX, the date returned for @#PB_Date_Created is the same as the date for
+  @#PB_Date_Modified, because most file systems do not store a file creation date.
+
+@SeeAlso
+  @@SetFileDate, @@DirectoryEntryDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Attributes = GetFileAttributes(Filename$)
+
+@Description
+  Returns the attributes of the given file. 
+
+@Parameter "Filename$"
+  The file to read the attributes from. This can also specify the name of a directory.
+
+@ReturnValue
+  Returns the attributes of the file. If the file does not exist or the attributes cannot be read,
+  the result is the value -1.
+@LineBreak
+@LineBreak
+  On Windows, Attributes is a combination of the following values:
+@FixedFont
+  @#PB_FileSystem_Hidden    : File is hidden
+  @#PB_FileSystem_Archive   : File has been changed and not archived since the last time
+  @#PB_FileSystem_Compressed: File is compressed
+  @#PB_FileSystem_Normal    : Normal attributes
+  @#PB_FileSystem_ReadOnly  : File is in read-only mode
+  @#PB_FileSystem_System    : File is a system file
+@EndFixedFont
+
+  On Linux or MacOSX, Attributes is a combination of these values:
+@FixedFont
+  @#PB_FileSystem_Link      : The file is a symbolic link
+  @#PB_FileSystem_ReadUser  : Access flags for the owning user
+  @#PB_FileSystem_WriteUser
+  @#PB_FileSystem_ExecUser
+  @#PB_FileSystem_ReadGroup : Access flags for the owning user's group
+  @#PB_FileSystem_WriteGroup
+  @#PB_FileSystem_ExecGroup
+  @#PB_FileSystem_ReadAll   : Access flags for all other users
+  @#PB_FileSystem_WriteAll
+  @#PB_FileSystem_ExecAll
+@EndFixedFont  
+
+@Remarks
+  To check if one attribute is actually set, just use the '&' (binary AND) and the attribute constant value:
+@Code
+  FileAttributes = GetFileAttributes("C:\Text.txt")
+  If FileAttributes & #PB_FileSystem_Hidden
+    Debug "This file is hidden !"
+  EndIf
+@EndCode  
+
+@Example
+@Code
+  Value = GetFileAttributes("c:\autoexec.bat") 
+  
+  If Value = -1 
+    Debug "Error reading file attributes!"
+  Else 
+    If Value & #PB_FileSystem_Hidden     : txt$ + "H" : Else : txt$+"-" : EndIf 
+    If Value & #PB_FileSystem_Archive    : txt$ + "A" : Else : txt$+"-" : EndIf 
+    If Value & #PB_FileSystem_Compressed : txt$ + "C" : Else : txt$+"-" : EndIf 
+    If Value & #PB_FileSystem_Normal     : txt$ + "N" : Else : txt$+"-" : EndIf 
+    If Value & #PB_FileSystem_ReadOnly   : txt$ + "R" : Else : txt$+"-" : EndIf 
+    If Value & #PB_FileSystem_System     : txt$ + "S" : Else : txt$+"-" : EndIf 
+    Debug txt$ 
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SetFileAttributes, @@DirectoryEntryAttributes
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextDirectoryEntry(#Directory)
+
+@Description
+  This function must be called after an @@ExamineDirectory. It will go step-by-step into
+  the directory and list its contents. 
+
+@Parameter "#Directory"
+  The directory examined with @@ExamineDirectory
+
+@ReturnValue
+  Returns nonzero if a new entry was read from the directory and zero if there are no more entries.
+
+@Remarks
+  The entry name can be read with the @@DirectoryEntryName
+  function. If you want to know whether an entry is a subdirectory or a file, use
+  the @@DirectoryEntryType function.
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RenameFile(OldFilename$, NewFilename$)
+
+@Description
+  Rename the old file to the new file. 
+
+@Parameter "OldFilename$"
+  The old name of the file.
+
+@Parameter "NewFilename$"
+  The new name of the file.
+
+@ReturnValue
+  Returns nonzero if the operation succeeded and zero if it failed.
+
+@Remarks
+  The old and new filename do not have to be in the same directory, so this function can be used
+  to move a file to a different directory. This function can also be used to rename/move directories.
+
+@Example
+@Code
+  If RenameFile("C:\test.txt", "D:\temp\test_backup.txt")   
+    Debug "Moving and renaming successful."    ; Moving and renaming of the file was successful
+  Else 
+    Debug "Moving and renaming failed."        ; Moving and renaming failed, e.g. because of a not found source file
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CopyFile, @@DeleteFile, @@CreateFile, @@CopyDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SetFileDate(Filename$, DateType, Date)
+
+@Description
+  Changes the date of the specified file. 
+
+@Parameter "Filename$"
+  The name of the file to modify.
+
+@Parameter "DateType"
+  The kind of date to modify. It can be one of the following values:
+@FixedFont
+  @#PB_Date_Created : change the file creation date.
+  @#PB_Date_Accessed: change the last file access date.
+  @#PB_Date_Modified: change the last file modification date.
+@EndFixedFont
+
+@Parameter "Date"
+  The date to set. This has to be a value from the @LibraryLink "Date" "Date" library.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero otherwise.
+
+@Remarks
+  On Linux and Mac OSX, the date used for @#PB_Date_Created is the same as the date for
+  @#PB_Date_Modified, because most file systems do not store a file creation date.
+
+@SeeAlso
+  @@GetFileDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SetFileAttributes(Filename$, Attributes)
+
+@Description
+  Set the attributes of the given Filename$. 
+
+@Parameter "Filename$"
+  The name of the file to modify. This can also specify the name of a directory.
+
+@Parameter "Attributes"
+  The new attributes.
+@LineBreak
+@LineBreak 
+  On Windows, 'Attributes' is a combination of the following values:
+@FixedFont
+  @#PB_FileSystem_Hidden    : File is hidden
+  @#PB_FileSystem_Archive   : File has been changed and not archived since the last time
+  @#PB_FileSystem_Normal    : Normal attributes
+  @#PB_FileSystem_ReadOnly  : File is in read-only mode
+  @#PB_FileSystem_System    : File is a system file
+@EndFixedFont
+
+  On Linux and MacOSX, the following values can be used:
+@FixedFont
+  @#PB_FileSystem_ReadUser  : Access flags for the owning user
+  @#PB_FileSystem_WriteUser
+  @#PB_FileSystem_ExecUser
+  @#PB_FileSystem_ReadGroup : Access flags for the owning user's group
+  @#PB_FileSystem_WriteGroup
+  @#PB_FileSystem_ExecGroup
+  @#PB_FileSystem_ReadAll   : Access flags for all other users
+  @#PB_FileSystem_WriteAll
+  @#PB_FileSystem_ExecAll
+@EndFixedFont  
+  
+  To combine several attributes, just use the '|' (binary OR) operand:  
+@Code
+  SetFileAttributes("C:\Text.txt", #PB_FileSystem_Hidden | #PB_FileSystem_ReadOnly)
+@EndCode  
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero otherwise.
+
+@SeeAlso
+  @@GetFileAttributes
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SetCurrentDirectory(Directory$)
+
+@Description
+  Changes the current directory for the program. 
+
+@Parameter "Directory$"
+  The full path to the new current directory, or a path relative to the existing current directory.
+
+@ReturnValue
+  Returns nonzero if the current directory has been successfully changed, return zero otherwise.
+
+@Remarks
+  All files accesses are relative to this directory, when
+  no absolute path is specified. To get the current directory, use @@GetCurrentDirectory.
+@LineBreak
+@LineBreak
+  Specific OS path seperator characters are available @#PS, @#NPS, @ConstantColor "#PS$" ('\') and @ConstantColor "#NPS$" ('/').
+
+@SeeAlso
+  @@GetCurrentDirectory
+  
+@SupportedOS

@@ -1,0 +1,697 @@
+;
+;     Memory library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Memory
+
+@Overview
+
+  Sometimes, it's useful have dynamically allocated block to deal with unknown number of data. SpiderBasic already
+  provides built-in @LibraryLink "List" "list" and @LibraryLink "Map" "map" for this, but this library
+  allows for more flexibility.
+
+@CommandList
+
+@ExampleFile All Memory.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Buffer = AllocateMemory(Size [, Flags])
+
+@Description
+  Allocates a contiguous memory area with the specified size in bytes.
+  The new memory area will be cleared and filled with zeros.
+  
+@Parameter "Size"
+  The size in bytes for the new memory area.
+  
+@OptionalParameter "Flags"
+  It can be one of the following values:
+@FixedFont  
+  @#PB_Memory_NoClear: don't fill the new memory area with zeros. It can help to have faster allocation if the
+                      allocated memory is used immediately.
+@EndFixedFont
+
+@ReturnValue
+  Returns the address of the allocated memory, or zero if the memory cannot be allocated.
+  
+@Remarks
+  @@FreeMemory can be used to return the allocated memory back to the system.
+  All the allocated memory areas are automatically freed when the programs ends.
+  
+@Example
+@Code
+  *Buffer = AllocateMemory(5000)
+  If *Buffer
+    PokeS(*Buffer, 0, "Store this string in the memory buffer")
+    
+    ; Read it back
+    Debug PeekS(*Buffer, 0)
+    
+    FreeMemory(*Buffer)  ; will also be done automatically at the end of program
+  Else
+    Debug "Couldn't allocate the requested memory!"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FreeMemory, @@MemorySize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Item.StructureName = AllocateStructure(StructureName)
+
+@Description
+  Allocates a new dynamic structure item. This dynamic structure item is properly initialized
+  and ready to use. To access the structure data, a @ReferenceLink "memory" "pointer" associated with the specified 'StructureName' has to be used.
+  
+@Parameter "StructureName"
+  The name of the structure used to create the new dynamic item. The structure has to be already
+  created.
+  
+@ReturnValue
+  The address of the new dynamic structure item, zero otherwise.
+  
+@Remarks
+  This command is for advanced users and shouldn't be needed for most of programs. It's often a better choice
+  to use a structured @LibraryLink "array" "array", @LibraryLink "list" "list" or @LibraryLink "map" "map" to store dynamic structured items.
+@LineBreak
+@LineBreak
+  @@FreeStructure can be used to free the dynamic structure item.
+  All dynamic structures are automatically freed when the programs ends.
+  
+@Example
+@Code
+  Structure People
+    Name$
+    List Friends$()
+  EndStructure
+  
+  *DynamicPeople.People = AllocateStructure(People)
+  *DynamicPeople\Name$ = "Fred"
+  AddElement(*DynamicPeople\Friends$())
+  *DynamicPeople\Friends$() = "Stef"
+  
+  Debug *DynamicPeople\Name$
+  Debug *DynamicPeople\Friends$()
+  
+  FreeStructure(*DynamicPeople)
+@EndCode
+
+@SeeAlso
+  @@FreeStructure
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CompareMemory(*Buffer1, Offset1, *Buffer2, Offset2, Size)
+
+@Description
+  Compares the content of two memory buffers.
+
+@Parameter "*Buffer1"
+  The addresses of the first memory buffer to compare.
+   This buffer must have been allocated with @@AllocateMemory.
+
+@Parameter "Offset1"
+  The '*Buffer1' offset (in bytes) to compare. 
+
+@Parameter "*Buffer2"
+  The addresses of the second memory buffer to compare.
+   This buffer must have been allocated with @@AllocateMemory.
+
+@Parameter "Offset2"
+  The '*Buffer2' offset (in bytes) to compare. 
+
+@Parameter "Size"
+  The amount of bytes to compare.
+
+@ReturnValue
+  Returns nonzero if the two areas contain the same bytes or zero if the content does not match.
+
+@SeeAlso
+  @@AllocateMemory, @@MemorySize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMemory(*Buffer)
+
+@Description
+  Free the memory previously allocated with @@AllocateMemory or @@ReAllocateMemory. 
+  
+@Parameter "*Buffer"
+  The address of the memory area to free. This must be a value returned from
+  either @@AllocateMemory or @@ReAllocateMemory.
+  
+@NoReturnValue
+
+@Remarks
+  All remaining allocated memory blocks are automatically freed when the program ends.
+  
+@SeeAlso
+  @@AllocateMemory, @@ReAllocateMemory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeStructure(*Item)
+
+@Description
+  Free the dynamic structure item previously allocated with @@AllocateStructure. There is no
+  need to call @ReferenceLink "compilerfunctions" "ClearStructure()" before freeing the 
+  structure.
+  
+@Parameter "*Item"
+  The address of the dynamic structure item to free. This must be a value returned from
+  @@AllocateStructure.
+  
+@NoReturnValue
+
+@Remarks
+  All remaining allocated dynamic structure items are automatically freed when the program ends.
+  
+@SeeAlso
+  @@AllocateStructure
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MemorySize(*Buffer)
+
+@Description  
+  Returns the size of the given memory buffer.
+  
+@Parameter "*Buffer"
+  The address of the memory area to get the size from. This must be a value returned from
+  either @@AllocateMemory or @@ReAllocateMemory.
+
+@ReturnValue
+  Returns the size of the given memory area in bytes.
+
+@SeeAlso
+  @@AllocateMemory, @@ReAllocateMemory, @@FreeMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Buffer = ReAllocateMemory(*Buffer, Size [, Flags])
+
+@Description
+  Resizes the given memory buffer to a new size. The memory may be copied to a new location in the
+  process if there is not enough memory available at its current location.
+  
+@Parameter "*Buffer"
+  The address of the memory area to resize. This value must be the result of a call to
+  @@AllocateMemory or @@ReAllocateMemory.
+@LineBreak
+@LineBreak
+  If this parameter is @#Null, the command acts like @@AllocateMemory and allocates
+  a new memory area of the given size.
+
+@Parameter "Size"
+  The size in bytes for the resized or allocated buffer.
+
+@OptionalParameter "Flags"
+  It can be one of the following values:
+@FixedFont  
+  @#PB_Memory_NoClear: don't fill the extended memory area with zeros. It can help to have faster allocation if the
+                      extended memory is used immediately. If the memory size is reduced, this flag has no effect.
+@EndFixedFont  
+
+@ReturnValue
+  Returns the new address of the memory area if it could be resized. In this case, the old '*Buffer' address can
+  no longer be used. If resizing the memory area failed (because there is not enough memory available), the result 
+  is zero, and the '*Buffer' address is still valid with the existing memory area and the old size.
+
+@Remarks
+  If the size of the memory area is increased, any new bytes are initially filled with zeros unless the @#PB_Memory_NoClear flag is specified.
+@LineBreak
+@LineBreak
+  All remaining allocated memory blocks are automatically freed when the program ends.
+  
+@Example
+@Code
+  *Buffer = AllocateMemory(1000)
+  PokeS(*Buffer, 0, "Store this string")
+  
+  Debug "Buffer size: " + MemorySize(*Buffer)
+  
+  *NewBuffer = ReAllocateMemory(*Buffer, 2000) ; need more memory
+  If *NewBuffer
+    Debug "New buffer size: " + MemorySize(*NewBuffer)
+    
+    Debug "The old content is still here:"
+    Debug PeekS(*NewBuffer, 0)
+    
+    FreeMemory(*NewBuffer) 
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AllocateMemory, @@FreeMemory, @@MemorySize
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.a = PeekA(*Buffer, Offset)
+
+@Description
+  Reads an ascii character (1 byte) from the specified memory buffer.
+
+@Parameter "*Buffer"
+  The buffer to read from. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@ReturnValue
+  Returns the value of the ascii character.
+
+@SeeAlso
+  @@PokeA
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.b = PeekB(*Buffer, Offset)
+
+@Description
+  Reads a byte (1 byte) number from the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to read from. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@ReturnValue
+  Returns the value of the byte.
+
+@SeeAlso
+  @@PokeB
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.c = PeekC(*Buffer, Offset)
+
+@Description
+  Reads a character (UTF-16) from the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to read from. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@ReturnValue
+  Returns the value of the character.
+
+@SeeAlso
+  @@PokeC
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.d = PeekD(*Buffer, Offset)
+
+@Description
+  Reads a double (8 bytes) number from  the specified memory address.
+  
+@Parameter "*Buffer"
+  The buffer to read from. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@ReturnValue
+  Returns the value of the double.
+
+@SeeAlso
+  @@PokeD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.l = PeekL(*Buffer, Offset)
+
+@Description
+  Reads a long (4 bytes) number from the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to read from. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@ReturnValue
+  Returns the value of the long.
+
+@SeeAlso
+  @@PokeL
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.w = PeekW(*Buffer, Offset)
+
+@Description
+  Reads a word (2 bytes) number from the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to read from. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@ReturnValue
+  Returns the value of the word.
+
+@SeeAlso
+  @@PokeW
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.f = PeekF(*Buffer, Offset)
+
+@Description
+  Reads a float (4 bytes) from the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to read from. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@ReturnValue
+  Returns the value of the float.
+
+@SeeAlso
+  @@PokeF
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = PeekS(*Buffer, Offset [, Length [, Format]])
+
+@Description
+  Reads a string from the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to read from. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+  
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@OptionalParameter "Length"
+  The maximum number of characters to read. If this parameter is not specified or -1 is used then
+  there is no maximum.
+  The string is read until a terminating null-character is encountered or the maximum length is reached.
+
+@OptionalParameter "Format"  
+  The string format to use when reading the string. This can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Reads the strings as ascii.
+  @#PB_UTF8   : Reads the strings as UTF8 (default).
+  @#PB_Unicode: Reads the strings as unicode.
+@EndFixedFont
+
+@ReturnValue
+  Returns the read string.
+
+@SeeAlso
+  @@PokeS
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value.u = PeekU(*Buffer, Offset)
+
+@Description
+  Reads an unicode character (2 bytes) from 
+  the specified memory address.
+  
+@Parameter "*Buffer"
+  The buffer to read from. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@ReturnValue
+  Returns the value of the unicode character.
+
+@SeeAlso
+  @@PokeU
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeA(*Buffer, Number)
+
+@Description
+  Writes an ascii character (1 byte) to the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to write to. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekA
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeB(*Buffer, Offset, Number)
+
+@Description
+  Writes a byte (1 byte) number to the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to write to. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekB
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeC(*Buffer, Offset, Number)
+
+@Description
+  Writes a character (UTF-16) to the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to write to. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@Parameter "Number"
+  The character value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekC
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeD(*Buffer, Offset, Number)
+
+@Description
+  Writes a double (8 bytes) number to the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to write to. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeL(*Buffer, Offset, Number)
+
+@Description
+  Writes a long (4 bytes) number to the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to write to. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekL
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeW(*Buffer, Offset, Number)
+
+@Description
+  Writes a word (2 bytes) number to the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to write to. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekW  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeF(*Buffer, Offset, Number.f)
+
+@Description
+  Writes a float (4 bytes) to the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to write to. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekF
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PokeS(*Buffer, Offset, Text$ [, Length [, Flags]])
+
+@Description
+  Writes a string to the specified memory address, followed by a null-character for termination.
+  
+@Parameter "*Buffer"
+  The buffer to write to. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@Parameter "Text$"
+  The string to write.
+  
+@OptionalParameter "Length"
+  The maximum number of characters to write. If this parameter is not specified or -1 is used then
+  the full length is written.
+  The terminating null-character that is always written (unless the @#PB_String_NoZero flag is set) is not included in this count.
+
+@OptionalParameter "Flags"  
+  The string format to use when writing the string. This can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : Writes the strings in ascii.
+  @#PB_UTF8   : Writes the strings in UTF8 (default).
+  @#PB_Unicode: Writes the strings in unicode.
+@EndFixedFont
+  It can be combined with the following constants:
+@FixedFont
+  @#PB_String_NoZero: Doesn't write the terminating null-character.
+@EndFixedFont
+
+@ReturnValue
+  The amount of bytes written to memory, not including the terminating null-character.
+  The amount of written bytes differs from the string length in characters if the format is 
+  @#PB_UTF8 or @#PB_Unicode.
+
+@SeeAlso
+  @@PeekS
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PokeU(*Buffer, Offset, Number)
+
+@Description
+  Writes an unicode character (2 bytes) to the specified memory buffer.
+  
+@Parameter "*Buffer"
+  The buffer to write to. It must have been allocated with @@AllocateMemory or @@ReAllocateMemory.
+  
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@Parameter "Number"
+  The value to write.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PeekU
+  
+@SupportedOS
+

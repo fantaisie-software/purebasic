@@ -1,0 +1,95 @@
+@Title UserGuide - Decisions & Conditions
+
+There are different ways of processing data obtained from user input or other way
+(loading from a file, ...). The common @ReferenceLink "variables" "arithmetic functions"
+(+, -, *, /, ...) can be combined with conditions. You can use the
+@ReferenceLink "if_endif" "If : Else/ElseIf : EndIf" set of keywords or the 
+@ReferenceLink "select_endselect" "Select : Case/Default : EndSelect" keywords, just
+use what is the best for your situation!
+@LineBreak
+@LineBreak
+This example shows the use of @Keyword "If : ElseIf : Else : EndIf" for creating a message, possibly
+for showing in the status bar of a form (@LibraryLink "gadget" "GUI") or something similar, based upon the number
+of items and filtered items in an, imaginary, list. Note that unlike some other BASIC
+languages, PureBasic doesn't use the "Then" keyword and that there is no space in the
+ElseIf and EndIf keywords.
+
+@Code
+  Define.l Items = 10, Filter = 6
+  Define.s Message
+  
+  If Items = 0 
+    Message = "List is empty."
+    
+  ElseIf Items = 1 And Filter = 0
+    Message = "One item. Not shown by filter."
+    
+  ElseIf Items > 1 And Filter = 0
+    Message = StrU(Items) + " items. All filtered."
+    
+  ElseIf Items > 1 And Filter = 1
+    Message = StrU(Items) + " items. One shown by filter."
+    
+  ElseIf Items = Filter
+    Message = StrU(Items) + " items. None filtered."
+    
+  Else
+    ; None of the other conditions were met.
+    Message = StrU(Items) + " items. " + StrU(Filter) +" shown by filter."
+    
+  EndIf
+  
+  Debug Message
+@EndCode
+
+@LineBreak
+This example shows the use of @Keyword "Select : Case : Default : EndSelect" to categorize the
+first 127 @ReferenceLink "ascii" "ASCII" characters into groups. The "For : Next" loop counts to 130 to
+demonstrate the @ReferenceLink "select_endselect" "Default" keyword.
+
+@Code
+  Define.c Char
+  Define.s Message
+  
+  For Char = 0 To 130
+    
+    Select Char
+
+      Case 0 To 8, 10 To 31, 127
+        Message = StrU(Char) + " is a non-printing control code."
+        
+      Case 9
+        Message = StrU(Char) + " is a tab."
+        
+      Case 32
+        Message = StrU(Char) + " is a space."
+        
+      Case 36, 128   
+        Message = StrU(Char) + " is a currency symbol. (" + Chr(Char) + ")"
+        
+      Case 33 To 35, 37 To 47, 58 To 64, 91 To 96
+        Message = StrU(Char) + " is a punctuation mark or math symbol. (" + Chr(Char) + ")"
+        
+      Case 48 To 57
+        Message = StrU(Char) + " is a numeral. (" + Chr(Char) + ")"
+        
+      Case 65 To 90
+        Message = StrU(Char) + " is an upper case letter. (" + Chr(Char) + ")"
+        
+      Case 97 To 122
+        Message = StrU(Char) + " is a lower case letter. (" + Chr(Char) + ")"
+        
+      Default
+        ; If none of the preceding Case conditions are met.
+        Message = "Sorry, I don't know what " + StrU(Char) + " is!"
+        
+    EndSelect
+    
+    Debug Message
+    
+  Next Char
+@EndCode
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_constants" "< Previous: Constants" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_loops" "Next: Loops >"

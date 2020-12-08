@@ -1,0 +1,56 @@
+@Title Pseudotypes
+
+@Description
+
+  For advanced programmers. The pseudotypes are a way to ease the programming when dealing with
+  external libraries which need datatypes that are not internally supported by PureBasic. In this
+  case, it is possible to use the predefined pseudotype which will do the appropriate conversion
+  on the fly, without extra work. As they are not 'real' types, the chosen naming scheme is explicitly
+  different: a 'p-' prefix (for 'pseudo') is part of the type name. The available pseudotypes are:
+@FixedFont
+  p-ascii: acts as a string type, but will always convert the string to ascii before
+           calling the function, even when the program is compiled in @ReferenceLink "unicode" "unicode" mode. 
+           It is very useful when accessing a shared library which doesn't have unicode 
+           support in an unicode program for example.
+           
+  p-utf8: acts as a string type, but will always convert the string to utf8 before calling the
+          function. It is very useful when accessing a shared library which needs its @ReferenceLink "unicode" "unicode"
+          string be passed as UTF8 instead of ascii or unicode strings.
+
+  p-bstr: acts as a string type, but will always convert the string to bstr before calling the
+          function. It is very useful when accessing a shared library which needs bstr parameters,
+          like COM components.
+
+  p-unicode: acts as a string type, but will always convert the string to @ReferenceLink "unicode" "unicode" before
+             calling the function, even when the program is compiled in ascii mode. 
+             It is very useful when accessing a shared library which only supports unicode
+             in an ascii program for example.
+
+  p-variant: acts as a numeric type, will adjust the function call to use the variant parameter
+             correctly. It is very useful when accessing a shared library which needs 'variant' parameters,
+             like COM components.
+@EndFixedFont
+  
+  The pseudotypes can only be used with @ReferenceLink "prototypes" "prototypes", @ReferenceLink "interfaces" "interfaces"
+  and @ReferenceLink "import_endimport" "imported" functions. The pseudotypes does the appropriate
+  conversion only if it is necessary.
+  
+@Example 
+
+@Code
+  Import "User32.lib"
+   
+    ; We use the 'p-ascii' pseudotype for the string parameters, as
+    ; MessageBoxA() is an ASCII only function. The compiler will 
+    ; automatically converts the strings to ASCII when needed.
+    ;
+    MessageBoxA(Window.i, Body.p-ascii, Title.p-ascii, Flags.i = 0)
+                                                  
+  EndImport
+  
+  ; It will work correctly even if the internal PureBasic strings are in unicode
+  ; because the compiler will take care of the ASCII conversion automatically.
+  ;
+  MessageBoxA(0, "Hello", "World")
+    
+@EndCode

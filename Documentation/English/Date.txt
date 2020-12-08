@@ -1,0 +1,383 @@
+  ;
+  ;   Date library documentation
+  ;
+  ;    (c) 2020 - Fantaisie Software
+  ;
+
+@Library Date
+
+@Overview
+  The Date library allows for the manipulation of Date and Time from 1970 up to 2038 using the Unix 32-bit method
+  (i.e. the number of seconds elapsed since the 1st of January 1970).
+@LineBreak
+@LineBreak
+  Note: supported date/time values are 1970-01-01, 00:00:00 for the minimum and 2038-01-19, 03:14:07 for the maximum.
+  See also @InternetLink "https://en.wikipedia.org/wiki/Year_2038_problem" "https://en.wikipedia.org/wiki/Year_2038_problem".
+
+@CommandList
+
+@ExampleFile All Date.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Date = AddDate(Date, Type, Value)
+
+@Description
+  Add an amount of time to a date. 
+
+@Parameter "Date"
+  The date value to which the value should be added.
+
+@Parameter "Type"
+  The value type. It can be one of the following constants:
+@FixedFont
+  @#PB_Date_Year   : Will add 'Value' Years to the date
+  @#PB_Date_Month  : Will add 'Value' Months to the date
+  @#PB_Date_Week   : Will add 'Value' Weeks to the date
+  @#PB_Date_Day    : Will add 'Value' Days to the date
+  @#PB_Date_Hour   : Will add 'Value' Hours to the date
+  @#PB_Date_Minute : Will add 'Value' Minutes to the date
+  @#PB_Date_Second : Will add 'Value' Seconds to the date
+@EndFixedFont
+
+  Note: when @#PB_Date_Month is used, it will automatically account for the fact that
+  the numbers of days per month varies, for example: if a month is added to '31 march 2008' the result
+  will be '30 april 2008', since april does not have 31 days.
+
+@Parameter "Value"
+  The value to add to the date. A negative value can be used to subtract a date.
+
+@ReturnValue
+  Returns the new date, -1 otherwise.
+
+@Example
+@Code
+
+  Debug FormatDate("%yyyy/%mm/%dd", AddDate(Date(), #PB_Date_Year, 2)) ; Returns the current date + 2 years
+
+  Debug FormatDate("%mm/%dd/%yyyy", AddDate(Date(), #PB_Date_Year, 2)) ; Returns the current date + 2 years
+
+@EndCode
+
+@SeeAlso
+  @@Date, @@FormatDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Date = Date([Year, Month, Day, Hour, Minute, Second])
+
+@Description
+  Returns the date value expressing the given parameters, or the current system
+  date if no parameters are specified.
+
+@OptionalParameter "Year, Month, Day, Hour, Minute, Second"
+  The components of the date to return. If these parameters are
+  not specified, then the current system date and time are used.
+
+@ReturnValue
+  Returns the specified date value.
+  If the given parameters are not valid (or outside the supported date range) then -1 will be returned.
+
+@Example
+@Code
+  Debug Date() / (3600*24*365)  ; will print the number of years since 01/01/1970 and now
+  Debug Date(1999, 12, 31, 23, 59, 59)  ; will print '946684799' (number of seconds between 01/01/1970 0:00:00 and 12/31/1999 23:59:59)
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Day(Date)
+
+@Description
+  Returns the day component of the specified date. 
+
+@Parameter "Date"
+  The date value from which to extract the day.
+  
+@ReturnValue
+  Returns the day component, -1 otherwise. The result is always between 1 and 31.
+
+@Example
+@Code
+  Debug Day(Date(2002, 10, 3, 0, 0, 0))  ; Outputs '3'.
+@EndCode
+
+@SeeAlso 
+  @@Date,
+  @@Year, @@Month, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DayOfWeek(Date)
+
+@Description
+  Returns the weekday of the specified date.
+
+@Parameter "Date"
+  The date value from which to extract the weekday.
+
+@ReturnValue
+  Returns a number between 0 and 6 representing the day of the week, -1 otherwise:
+@FixedFont
+  0 : Sunday
+  1 : Monday
+  2 : Tuesday
+  3 : Wednesday
+  4 : Thursday
+  5 : Friday
+  6 : Saturday
+@EndFixedFont
+
+@Example
+@Code
+  Debug DayOfWeek(Date(2006, 10, 30, 0, 0, 0))  ; Outputs '1' for Monday.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DayOfYear(Date)
+
+@Description
+  Returns the number of days elapsed since the beginning of the year of the specified date.
+
+@Parameter "Date"
+  The date value from which to extract the number of days.
+
+@ReturnValue
+  Returns the number of days since the beginning of the year, -1 otherwise.
+  The result is always between 1 and 366.
+
+@Example
+@Code
+  Debug DayOfYear(Date(2002, 2, 1, 0, 0, 0))  ; Outputs '32'. (31 days for January + 1)
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Month(Date)
+
+@Description
+  Returns the month value of the specified date. 
+
+@Parameter "Date"
+  The date from which to extract the month.
+
+@ReturnValue
+  Returns the month component of the date, -1 otherwise. The result is always between 1 and 12.
+
+@Example
+@Code
+  Debug Month(Date(2002, 10, 3, 0, 0, 0))  ; Outputs '10'.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Day, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Year(Date)
+
+@Description
+  Returns the year value of the specified date. 
+
+@Parameter "Date"
+  The date from which to extract the year.
+
+@ReturnValue
+  Returns the year component of the date, -1 otherwise. 
+
+@Example
+@Code
+  Debug Year(Date(2002, 10, 3, 0, 0, 0))  ; Outputs '2002'.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Month, @@Day, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Hour(Date)
+
+@Description
+  Returns the hour value of the specified date.
+
+@Parameter "Date"
+  The date from which to extract the hour.
+
+@ReturnValue
+  Returns the hour component of the date, -1 otherwise. The result is always between 0 and 23.
+
+@Example
+@Code
+  Debug Hour(Date(1970, 1, 1, 11, 3, 45))  ; Outputs '11'.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Minute(Date)
+
+@Description
+  Returns the minute value of the specified date. 
+
+@Parameter "Date"
+  The date from which to extract the minutes.
+
+@ReturnValue
+  Returns the minute component of the date, -1 otherwise.
+  The result is always between 0 and 59.
+
+@Example
+@Code
+  Debug Minute(Date(1970, 1, 1, 11, 3, 45))  ; Outputs '3'.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Second(Date)
+
+@Description
+  Returns the second value of the specified date.
+
+@Parameter "Date"
+  The date from which to extract the seconds.
+
+@ReturnValue
+  Returns the second component of the date, -1 otherwise.  The result is always between 0 and 59.
+
+@Example
+@Code
+  Debug Second(Date(1970, 1, 1, 11, 3, 45))  ; Outputs '45'.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, @@Minute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = FormatDate(Mask$, Date)
+
+@Description
+  Returns a string representation of the given Date.
+
+@Parameter "Mask$"
+  The mask used to format the date. The following tokens in the mask string will be replaced according to the given date:
+@FixedFont
+  %yyyy: Will be replaced by the year value, on 4 digits.
+  %yy: Will be replaced by the year value, on 2 digits.
+  %mm: Will be replaced by the month value, on 2 digits.
+  %dd: Will be replaced by the day value, on 2 digits.
+  %hh: Will be replaced by the hour value, on 2 digits.
+  %ii: Will be replaced by the minute value, on 2 digits.
+  %ss: Will be replaced by the second value, on 2 digits.
+@EndFixedFont
+
+@Parameter "Date"
+  The date value to use.
+
+@ReturnValue
+  Returns the mask string with all tokens replaced by the date values, -1 otherwise.
+
+@Example
+@Code
+
+  Debug FormatDate("Y=%yyyy, M= %mm, D=%dd", Date()) ; Will display the actual date with
+                                                     ; the form "Y=2010, M=01, D=07"
+
+  Debug FormatDate("%mm/%dd/%yyyy", Date()) ; Will display the actual date with
+                                            ; the form "01/07/2010"
+
+  Debug FormatDate("%hh:%ii:%ss", Date())   ; Will display the time using the 00:00:00 format
+
+@EndCode
+
+@SeeAlso
+  @@Date, @@ParseDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Date = ParseDate(Mask$, String$)
+
+@Description
+  Transforms a string date into a regular date value which then can be used by other date functions. 
+
+@Parameter "Mask$"
+  A mask string which defines how the date string is formatted. Possible tokens are:
+@FixedFont
+  %yyyy: Will be replaced by the year value, on 4 digits.
+  %yy: Will be replaced by the year value, on 2 digits.
+  %mm: Will be replaced by the month value, on 2 digits.
+  %dd: Will be replaced by the day value, on 2 digits.
+  %hh: Will be replaced by the hour value, on 2 digits.
+  %ii: Will be replaced by the minute value, on 2 digits.
+  %ss: Will be replaced by the second value, on 2 digits.
+@EndFixedFont
+
+@Parameter "String$"
+  The string with the date to be parsed.
+
+@ReturnValue
+  Returns the date representing the parsed string. If the input string did not match the mask
+  then the result is -1.
+
+@Example
+@Code
+
+  Debug ParseDate("%yy/%mm/%dd", "10/01/07")     ; Returns the date value of "10/01/07"
+
+  Debug ParseDate("%mm/%dd/%yyyy", "01/07/2010") ; Returns the date value of "01/07/2010"
+
+@EndCode
+
+@SeeAlso
+  @@Date, @@FormatDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

@@ -1,0 +1,699 @@
+;
+;     RegularExpression library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library RegularExpression
+
+@Overview
+  Regular expressions allow to do advanced pattern matching to quickly match, extract or replace an arbitrary information
+  in a string. These kind of expressions are often difficult to read an write, but once you master them
+  it makes a lot of things easier. Therefore this library is not for beginners, and you need to have some
+  solid basis with PureBasic and programming in general to be able to use this library efficiently.
+@LineBreak
+@LineBreak
+  This library uses PCRE, which is an open source implementation of the Perl regular expression. All the regular
+  expressions supported in PCRE will be supported in PureBasic. To have a complete list of supported pattern
+  and arguments, please visit the PCRE page: @InternetLink "http://www.pcre.org/pcre.txt" "http://www.pcre.org/pcre.txt"
+@LineBreak
+  The PCRE license can be viewed @MainGuideLink "pcre" "here".
+@LineBreak
+@LineBreak
+  @Bold "Important:" The PCRE license requires that a copyright notice and the license text itself be included
+  in any software that uses the library. So if the RegularExpression library is used in software that is to
+  be made public, the above linked license must be included with the software.
+
+@CommandList
+
+@ExampleFile All RegularExpression.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CountRegularExpressionGroups(#RegularExpression)
+
+@Description
+  Returns the number of groups defined in the #RegularExpression.
+  The matches of regular expression groups can be accessed with functions
+  like @@RegularExpressionGroup.
+
+@Parameter "#RegularExpression"
+  The regular expression to use.
+
+@ReturnValue
+  The number of groups defined in the regular expression.
+  
+@Remarks
+  Groups in a regular expression are defined by surrounding a sub-expression
+  with braces "(" and ")". The groups are numbered as they appear in the
+  regular expression from left to right. The first group has index 1.
+  
+@SeeAlso
+  @@RegularExpressionGroup
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateRegularExpression(#RegularExpression, Pattern$ [, Flags])
+
+@Description
+  Create a new regular expression using the specified pattern.
+  
+@Parameter "#RegularExpression"
+  A number to identify the new regular expression.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "Pattern$"
+  The regular expression which will be applied to the string to match, extract or replace.
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_RegularExpression_DotAll    : '.' matches anything including newlines.
+  @#PB_RegularExpression_Extended  : whitespace and '#' comments will be ignored.
+  @#PB_RegularExpression_MultiLine : '^' and '$' match newlines within data.
+  @#PB_RegularExpression_AnyNewLine: recognize 'CR', 'LF', and 'CRLF' as newline sequences.
+  @#PB_RegularExpression_NoCase    : comparison and matching will be case-insensitive
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the regular expression was created successfully and zero if not. If @#PB_Any was used
+  for the #RegularExpression parameter then the generated number is returned on success.
+  If an error has been detected in the pattern, the result will be zero. To get more
+  information about the error, see @@RegularExpressionError.
+
+@Remarks
+  If a regular expression isn't used anymore, use @@FreeRegularExpression to free up some resources.
+
+@Example
+@Code
+  ; This expression will match every word of 3 letter which begin by a lower case letter,
+  ; followed with the character 'b' and which ends with an uppercase letter. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Debug MatchRegularExpression(0, "abC") ; Will print 1
+    Debug MatchRegularExpression(0, "abc") ; Will print 0
+  Else
+    Debug RegularExpressionError()
+  EndIf
+
+@EndCode
+
+@SeeAlso
+  @@RegularExpressionError, @@FreeRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineRegularExpression(#RegularExpression, String$)
+
+@Description
+  Starts matching the #RegularExpression against the given String$. Individual
+  matches can be iterated using the @@NextRegularExpressionMatch function.
+  From each match, the matching string, its position/length and any groups within
+  the match can be extracted with the appropriate function.
+
+@Parameter "#RegularExpression"
+  The regular expression to use.
+
+@Parameter "String$"
+  The string to apply the regular expression on.
+  
+@ReturnValue
+  Returns non-zero if the matching was started successfully. Whether an actual match
+  was found can be determined by calling @@NextRegularExpressionMatch.
+  
+@Example
+@Code
+  ; This expression will match every word of 3 letter which begin by a lower case letter,
+  ; followed with the character 'b' and which ends with an uppercase letter. ex: abC
+  ; Each match is printed with its position in the original string.
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    If ExamineRegularExpression(0, "abC ABc zbA abc")
+      While NextRegularExpressionMatch(0)
+        Debug "Match: " + RegularExpressionMatchString(0)
+        Debug "    Position: " + Str(RegularExpressionMatchPosition(0))
+        Debug "    Length: " + Str(RegularExpressionMatchLength(0))
+      Wend
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@NextRegularExpressionMatch, 
+  @@RegularExpressionMatchString, @@RegularExpressionMatchPosition, @@RegularExpressionMatchLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExtractRegularExpression(#RegularExpression, String$, Array$())
+
+@Description
+  Extracts strings according to the #RegularExpression into an array. 
+
+@Parameter "#RegularExpression"
+  The regular expression to use.
+
+@Parameter "String$"
+  The string to apply the regular expression on.
+
+@Parameter "Array$()"
+  The extracted strings will be stored in this array. The array is automatically resized
+  to the number of element matching the expression found in the specified string.
+  
+@ReturnValue
+  Returns the number of elements matching the regular expression in the string.
+
+@Example
+@Code
+  ; This expression will match every word of 3 letter which begin by a lower case letter,
+  ; followed with the character 'b' and which ends with an uppercase letter. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Dim Result$(0)
+    NbFound = ExtractRegularExpression(0, "abC ABc zbA abc", Result$())
+    For k = 0 To NbFound-1
+      Debug Result$(k)
+    Next
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeRegularExpression(#RegularExpression)
+
+@Description
+  Free the specified #RegularExpression and release its associated memory.
+  
+@Parameter "#RegularExpression"
+  Free the regular expression. If @#PB_All is specified, all the remaining regular expressions are freed.  
+
+@NoReturnValue
+
+@Remarks  
+  All remaining regular expressions are automatically freed when the program ends.
+
+@SeeAlso
+  @@CreateRegularExpression
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsRegularExpression(#RegularExpression)
+
+@Description
+  Tests if the given #RegularExpression number is a valid and correctly initialized, regular expression. 
+  
+@Parameter "#RegularExpression"
+  The regular expression to use.
+
+@ReturnValue
+  Returns nonzero if #RegularExpression is a valid regular expression and zero otherwise.
+  
+@Remarks
+  This function is bulletproof and can be used with any value. If the 'Result' is not zero then the object is valid and
+  initialized, otherwise it will equal zero. This is the correct way to ensure a regular expression is ready to use.
+  
+@SeeAlso
+  @@CreateRegularExpression
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MatchRegularExpression(#RegularExpression, String$)
+
+@Description
+  Tests the string against the #RegularExpression.
+
+@Parameter "#RegularExpression"
+  The regular expression to use.
+
+@Parameter "String$"
+  The string to apply the regular expression on.
+
+@ReturnValue
+  Returns nonzero if the string matches the regular expression, returns zero otherwise.
+
+@Example
+@Code
+  ; This expression will match every word of 3 letter which begin by a lower case letter,
+  ; followed with the character 'b' and which ends with an uppercase letter. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    If MatchRegularExpression(0, "abC ABc zbA abc")
+      Debug "The string match !"
+    Else
+      Debug "No pattern found in the string"
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextRegularExpressionMatch(#RegularExpression)
+
+@Description
+  Iterates over all regular expression matches in the target string
+  after a call to @@ExamineRegularExpression.
+
+@Parameter "#RegularExpression"
+  The regular expression to use. @@ExamineRegularExpression must have been
+  called on this regular expression.
+
+@ReturnValue
+  Returns non-zero if another match was found. If there are no more matches
+  in the string, the result is zero.
+  
+@Remarks
+  The following functions can be used to get information about the current match:
+@LineBreak
+@LineBreak
+  - @@RegularExpressionMatchString: Get the current matching string
+@LineBreak
+  - @@RegularExpressionMatchPosition: Get the position of the current match
+@LineBreak
+  - @@RegularExpressionMatchLength: Get the length of the current match
+@LineBreak
+  - @@RegularExpressionGroup: Extract the matching string of a group
+@LineBreak
+  - @@RegularExpressionGroupPosition: Get the position (within the match) of a group
+@LineBreak
+  - @@RegularExpressionGroupLength: Get the length of a group
+@LineBreak
+  - @@RegularExpressionNamedGroup: Extract the matching string of a named group
+@LineBreak
+  - @@RegularExpressionNamedGroupPosition: Get the position (within the match) of a named group
+@LineBreak
+  - @@RegularExpressionNamedGroupLength: Get the length of a named group
+  
+@Example
+  See @@ExamineRegularExpression for an example.
+  
+@SeeAlso
+  @@ExamineRegularExpression
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = RegularExpressionMatchString(#RegularExpression)
+
+@Description
+  Returns the string that matched the #RegularExpression in the last call
+  to @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  The regular expression to use. @@ExamineRegularExpression and
+  @@NextRegularExpressionMatch must have been called on this regular expression.
+
+@ReturnValue
+  The sub-string that matched the regular expression.
+  
+@Example
+  See @@ExamineRegularExpression for an example.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionMatchPosition, @@RegularExpressionMatchLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RegularExpressionMatchPosition(#RegularExpression)
+
+@Description
+  Returns the position within the input string (passed to @@ExamineRegularExpression)
+  of the current match after a call to @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  The regular expression to use. @@ExamineRegularExpression and
+  @@NextRegularExpressionMatch must have been called on this regular expression.
+
+@ReturnValue
+  The position of the match within the original string. The first character
+  in the string is at position 1.
+  
+@Example
+  See @@ExamineRegularExpression for an example.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionMatchString, @@RegularExpressionMatchLength
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RegularExpressionMatchLength(#RegularExpression)
+
+@Description
+  Returns the length in characters of the current matching string
+  after a call to @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  The regular expression to use. @@ExamineRegularExpression and
+  @@NextRegularExpressionMatch must have been called on this regular expression.
+
+@ReturnValue
+  The length of the current match in characters. 
+  
+@Example
+  See @@ExamineRegularExpression for an example.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionMatchString, @@RegularExpressionMatchPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = RegularExpressionGroup(#RegularExpression, Group)
+
+@Description
+  Extract the string matched by a group within the regular expression
+  after a call to @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  The regular expression to use. @@ExamineRegularExpression and
+  @@NextRegularExpressionMatch must have been called on this regular expression.
+
+@Parameter "Group"
+  The index of the group to extract. The first group has index 1. 
+
+@ReturnValue
+  Returns the string matched by the regular expression group.
+
+@Remarks
+  Groups in a regular expression are defined by surrounding a sub-expression
+  with braces "(" and ")". The groups are numbered as they appear in the
+  regular expression from left to right. The first group has index 1.
+  The @@CountRegularExpressionGroups function can be used to find out the number
+  of groups in a regular expression.
+@LineBreak
+@LineBreak
+  As an alternative, the @@RegularExpressionNamedGroup function can be used.  
+  
+@Example
+@Code
+  ; This expression matches a color setting string (with value red, green or blue)
+  ; The colors are grouped with () and the color value is extracted in case of a match
+  ;  
+  If CreateRegularExpression(0, "color=(red|green|blue)")
+    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+      While NextRegularExpressionMatch(0)
+        Debug "The color is " + RegularExpressionGroup(0, 1)
+      Wend
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionGroupPosition, @@RegularExpressionGroupLength,
+  @@RegularExpressionNamedGroup
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RegularExpressionGroupPosition(#RegularExpression, Group)
+
+@Description
+  Returns the position (within the current matching string) of the specified group
+  after a call to @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  The regular expression to use. @@ExamineRegularExpression and
+  @@NextRegularExpressionMatch must have been called on this regular expression.
+
+@Parameter "Group"
+  The index of the group. The first group has index 1. 
+
+@ReturnValue
+  Returns the character position of the group within the matching string 
+  (not within the orginal input string!). 
+  The first character of the match has position 1.
+
+@Remarks
+  Groups in a regular expression are defined by surrounding a sub-expression
+  with braces "(" and ")". The groups are numbered as they appear in the
+  regular expression from left to right. The first group has index 1.
+  The @@CountRegularExpressionGroups function can be used to find out the number
+  of groups in a regular expression.
+@LineBreak
+@LineBreak
+  As an alternative, the @@RegularExpressionNamedGroupPosition function can be used.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionGroup, @@RegularExpressionGroupLength,
+  @@RegularExpressionNamedGroupPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RegularExpressionGroupLength(#RegularExpression, Group)
+
+@Description
+  Returns the length of the specified regular expression group
+  after a call to @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  The regular expression to use. @@ExamineRegularExpression and
+  @@NextRegularExpressionMatch must have been called on this regular expression.
+
+@Parameter "Group"
+  The index of the group. The first group has index 1. 
+
+@ReturnValue
+  Returns the character position of the group.
+
+@Remarks
+  Groups in a regular expression are defined by surrounding a sub-expression
+  with braces "(" and ")". The groups are numbered as they appear in the
+  regular expression from left to right. The first group has index 1.
+  The @@CountRegularExpressionGroups function can be used to find out the number
+  of groups in a regular expression.
+@LineBreak
+@LineBreak
+  As an alternative, the @@RegularExpressionNamedGroupLength function can be used.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionGroup, @@RegularExpressionGroupPosition,
+  @@RegularExpressionNamedGroupLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = RegularExpressionNamedGroup(#RegularExpression, GroupName$)
+
+@Description
+  Extract the string matched by a named group within the regular expression
+  after a call to @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  The regular expression to use. @@ExamineRegularExpression and
+  @@NextRegularExpressionMatch must have been called on this regular expression.
+
+@Parameter "GroupName$"
+  The name of the group to extract. The group name is case sensitive.
+
+@ReturnValue
+  Returns the string matched by the regular expression group.
+
+@Remarks
+  Groups in a regular expression are defined by surrounding a sub-expression
+  with braces "(" and ")". Groups can either accessed by index using functions
+  like @@RegularExpressionGroup or they can be assigned a name using the 
+  "(?<name>)" syntax as shown in the example below.
+  
+@Example
+@Code
+  ; This expression matches a color setting string (with value red, green or blue)
+  ; The colors are grouped with () which has the name "col" assigned to it.
+  ; This color name is then extracted
+  ;  
+  If CreateRegularExpression(0, "color=(?<col>red|green|blue)")
+    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+      While NextRegularExpressionMatch(0)
+        Debug "The color is " + RegularExpressionNamedGroup(0, "col")
+      Wend
+    EndIf
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionNamedGroupPosition, @@RegularExpressionNamedGroupLength,
+  @@RegularExpressionGroup
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RegularExpressionNamedGroupPosition(#RegularExpression, GroupName$)
+
+@Description
+  Returns the position (within the current matching string) of the specified named 
+  group after a call to @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  The regular expression to use. @@ExamineRegularExpression and
+  @@NextRegularExpressionMatch must have been called on this regular expression.
+
+@Parameter "GroupName$"
+  The name of the group to extract. The group name is case sensitive.
+
+@ReturnValue
+  Returns the character position of the group within the matching string 
+  (not within the orginal input string!). 
+  The first character of the match has position 1.
+
+@Remarks
+  Groups in a regular expression are defined by surrounding a sub-expression
+  with braces "(" and ")". Groups can either accessed by index using functions
+  like @@RegularExpressionGroupPosition or they can be assigned a name using the 
+  "(?<name>)" syntax as shown in the example for the @@RegularExpressionNamedGroup
+  function.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionNamedGroup, @@RegularExpressionNamedGroupLength,
+  @@RegularExpressionGroupPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RegularExpressionNamedGroupLength(#RegularExpression, GroupName$)
+
+@Description
+  Returns the length of the specified named regular expression group
+  after a call to @@NextRegularExpressionMatch.
+
+@Parameter "#RegularExpression"
+  The regular expression to use. @@ExamineRegularExpression and
+  @@NextRegularExpressionMatch must have been called on this regular expression.
+
+@Parameter "GroupName$"
+  The name of the group to extract. The group name is case sensitive.
+
+@ReturnValue
+  Returns the character position of the group.
+
+@Remarks
+  Groups in a regular expression are defined by surrounding a sub-expression
+  with braces "(" and ")". Groups can either accessed by index using functions
+  like @@RegularExpressionGroupLength or they can be assigned a name using the 
+  "(?<name>)" syntax as shown in the example for the @@RegularExpressionNamedGroup
+  function.
+  
+@SeeAlso
+  @@ExamineRegularExpression, @@NextRegularExpressionMatch,
+  @@RegularExpressionNamedGroup, @@RegularExpressionNamedGroupPosition,
+  @@RegularExpressionGroupLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ReplaceRegularExpression(#RegularExpression, String$, ReplaceString$)
+
+@Description
+  Replaces all strings matching the #RegularExpression with 'ReplaceString$'.
+
+@Parameter "#RegularExpression"
+  The regular expression to use.
+
+@Parameter "String$"
+  The string to apply the regular expression on.
+
+@Parameter "ReplaceString$"
+  The string to use to replace the matched expression.
+
+@ReturnValue
+  Returns a new string with all matched expressions replaced with 'ReplaceString$'.
+
+@Remarks
+  Back references (usually described as \1, \2, etc.) are not supported. @@ExtractRegularExpression
+  combined with @@ReplaceString should achieve the requested behaviour.
+
+@Example
+@Code
+  ; This expression will match every word of 3 letter which begin by a lower case letter,
+  ; followed with the character 'b' and which ends with an uppercase letter. ex: abC
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[A-Z]")
+    Result$ = ReplaceRegularExpression(0, "abC ABc zbA abc", "---")
+    Debug Result$ ; Will print "--- ABc --- abc"
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@CreateRegularExpression
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = RegularExpressionError()
+
+@Description
+  Returns an human readable error (in english) about the latest failure of @@CreateRegularExpression.
+
+@NoParameters
+
+@ReturnValue
+  Returns an human readable error (in english) about the latest failure of @@CreateRegularExpression.
+
+@Example
+@Code
+  ; Here we put an extra bracket '[', so there is a syntax error in the regular expression
+  ;    
+  If CreateRegularExpression(0, "[a-z]b[[A-Z][]")
+    Debug "Success"
+  Else
+    Debug RegularExpressionError()
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@CreateRegularExpression
+
+@SupportedOS

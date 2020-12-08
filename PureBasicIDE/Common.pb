@@ -205,6 +205,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_Ok
   #GADGET_Preferences_Cancel
   #GADGET_Preferences_Apply
+  #GADGET_Preferences_PageUp    ; Not actually a gadget, for now, just a shortcut
+  #GADGET_Preferences_PageDown  ; Not actually a gadget, for now, just a shortcut
   #GADGET_Preferences_MonitorFileChanges
   #GADGET_Preferences_SystemMessages
   #GADGET_Preferences_DebugToLog
@@ -495,6 +497,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Find_Case
   #GADGET_Find_WholeWord
   #GADGET_Find_SelectionOnly
+  #GADGET_Find_AutoWrap
   #GADGET_Find_NoComments
   #GADGET_Find_NoStrings
   #GADGET_Find_FindNext
@@ -1053,6 +1056,11 @@ Enumeration 0
   
   #MENU_DeleteLines
   #MENU_DuplicateSelection
+  
+  #MENU_UpperCase
+  #MENU_LowerCase
+  #MENU_InvertCase
+  #MENU_SelectWord
   
   #MENU_ZoomIn
   #MENU_ZoomOut
@@ -1764,7 +1772,7 @@ Structure SourceItem
   EndStructureUnion
 EndStructure
 
-; spechial scope value (in addition to the debugger ones)
+; special scope value (in addition to the debugger ones)
 #SCOPE_UNKNOWN = -1
 
 #PARSER_VTSize = 27   ; number of indexed entries per sorted array
@@ -2457,6 +2465,7 @@ Global UseTabIndentForSplittedLines
 ;
 Global FindWindowDialog.DialogWindow, FindWindowPosition.DialogPosition
 Global FindDoReplace, FindCaseSensitive, FindWholeWord, FindSelectionOnly, FindNoComments, FindNoStrings
+Global FindAutoWrap
 Global FindHistorySize, FindSearchString$, FindReplaceString$
 Global WarningWindowPosition.DialogPosition
 Global *WarningWindowSource.SourceFile
@@ -2609,6 +2618,7 @@ Global NbIndentKeywords, IndentMode, BackspaceUnindent
 
 Global ProjectOptionsDialog.DialogWindow, ProjectOptionsPosition.DialogPosition
 Global IsProject = 0, IsProjectCreation = 0, NewProjectFile$
+Global IsProjectBusy = 0
 Global ProjectFile$, ProjectName$, ProjectComments$, DefaultProjectFile$, LastOpenProjectFile$
 Global ProjectExplorerPattern, ProjectExplorerPath$
 Global ProjectCloseFiles.l

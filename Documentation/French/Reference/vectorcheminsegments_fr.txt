@@ -1,0 +1,838 @@
+@Title AddPathSegment Suite
+
+Traduction FR de la page @InternetLink "https://www.w3.org/TR/SVGTiny12/paths.html#PathData" "Standard SVG Tiny"
+
+@FormatIf HTML
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"></head><body><p align="right">
+<a target="_blank"><font size="4" color="#3366CC">.: </font></a><a href="https://www.w3.org/TR/SVGTiny12/paths.html#PathData" target="_blank"><font size="4" color="#3366CC">Lien 
+original</font></a><font size="4" color="#3366CC"> :.</font></p>
+<h1>    <b><font color="#3366CC">8 Chemins</font> 
+
+</b></h1>
+<ul type="disc">
+    <li>
+        Sommaire</li>
+    <ul type="circle">
+        <li>
+            8.3.1 
+            
+                <a href="#chemin">Informations générales sur les données de chemin
+            
+        </a>&nbsp;(<a href='https://www.w3.org/TR/SVGTiny12/paths.html#PathDataGeneralInformation"' target="_blank">en 
+        anglais</a>)</li>
+        <li>
+            8.3.2
+            
+                <a href="#moveto">Les commandes &quot;moveto&quot;
+            
+        </a>&nbsp;(<a href="https://www.w3.org/TR/SVGTiny12/paths.html#PathDataMovetoCommands" target="_blank">en anglais</a>)</li>
+        <li>
+            8.3.3
+            
+                <a href="#closepath">La commande &quot;closepath&quot;
+            
+        </a>&nbsp;(<a href="https://www.w3.org/TR/SVGTiny12/paths.html#PathDataClosePathCommand" target="_blank">en anglais</a>)</li>
+        <li>
+            8.3.4
+            
+                <a href="#lineto">Les commandes &quot;lineto&quot;
+            
+        </a>&nbsp;(<a href="https://www.w3.org/TR/SVGTiny12/paths.html#PathDataLinetoCommands" target="_blank">en anglais</a>)</li>
+        <li>
+            8.3.5
+            
+                <a href="#courbe">Les commandes de courbe
+            
+        </a>&nbsp;(<a href="https://www.w3.org/TR/SVGTiny12/paths.html#PathDataCurveCommands" target="_blank">en anglais</a>)</li>
+        <li>
+            8.3.6
+            
+                <a href="#Bézier cubique">Les commandes de Bézier cubique courbe
+            
+        </a>&nbsp;(<a href="https://www.w3.org/TR/SVGTiny12/paths.html#PathDataCubicBezierCommands" target="_blank">en anglais</a>)</li>
+        <li>
+            8.3.7           
+                <a href="#Bézier quadratique">Les commandes de courbe de Bézier quadratique
+            
+        </a>&nbsp;(<a href="https://www.w3.org/TR/SVGTiny12/paths.html#PathDataQuadraticBezierCommands" target="_blank">en anglais</a>)</li>
+    </ul>
+</ul>
+<p>
+    &nbsp;</p>
+<p>&nbsp;</p>
+<h2><b><font color="#3366CC">8.3 Chemin Data ou données de chemin</font></b><font color="#3366CC">
+</font></h2>
+<h3>    <b><font color="#3366CC">8.3.1 Informations générales sur les données de </font><a name="chemin"><font color="#3366CC">chemin</font></a><font color="#3366CC"> 
+</font></b></h3>
+<p>
+    Un chemin est défini en incluant un élément de chemin qui contient un attribut
+    
+        <a href="https://translate.googleusercontent.com/translate_c?act=url&amp;depth=1&amp;hl=fr&amp;ie=UTF8&amp;prev=_t&amp;rurl=translate.google.fr&amp;sl=en&amp;tl=fr&amp;u=https://www.w3.org/TR/SVGTiny12/paths.html&amp;usg=ALkJrhgCnKE8k9Xt38W1lewi8F0OZGz3PQ#DAttribute" target="_blank">'d'
+    
+    </a>, où l’attribut
+    
+        'd'
+    
+contient les instructions<i> </i><em>moveto</em>, <em>line</em>, <em>curve</em> (courbes de Béziers à la fois cubique et quadratique) et    <i>closepath.</i>
+</p>
+<p>
+    Exemple 08_01 spécifie un chemin sous la forme d'un triangle.
+    <br>
+    (Le <b>M</b> indique un <i>moveto,</i> les <b>L</b> indiquent les <i>lineto</i>s, et <b>z</b> indique un <i>closepath).</i>
+</p>
+<table border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="931" bgcolor="#999933"><p>
+    <b>Exemple:</b>
+    <a href="https://www.w3.org/TR/SVGTiny12/examples/08_01.svg" target="_blank">08_01.svg</a>
+</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="931" bgcolor="#FFFFCC"><p>
+    Chemin d$ = &quot;M 100 100 L 300 100 L 200 300 z&quot;
+</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="931"><p align="center">
+<img src="HelpPictures/vectorsegment1.jpg" alt="Rendu de 08_01.svg" border="0" height="189" width="189"></p>
+        </td>
+    </tr>
+</table>
+<p>
+&nbsp;</p>
+<p>
+
+&nbsp;</p>
+<p align="center">
+    
+&nbsp;</p>
+<p>
+    Les données peuvent contenir des caractères &quot;retour à la ligne&quot;, LF =CHR(10)=LineFeed, et peuvent donc être divisées en
+    plusieurs lignes pour améliorer la lisibilité.
+</p>
+<p>
+    La syntaxe des données de chemin est concis et voici quelques-uns 
+des moyens pour minimiser la taille des données de trajectoire:
+</p>
+<ul type="disc">
+    <li>
+        Toutes les instructions sont exprimées sous forme d'un caractère (par exemple, un <i>moveto</i> est exprimé en <b>M).</b>
+    </li>
+    <li>
+        L’espace et des séparateurs tels que des virgules, des espaces 
+superflus peuvent être éliminés (par exemple, 'M 100 100 L 200
+        200' contient des espaces inutiles et pourraient être exprimé de
+ façon plus compacte comme 'M100 100L200 200').
+    </li>
+    <li>
+        La lettre de commande peut être éliminée sur les commandes 
+ultérieures si la même commande est utilisée plusieurs fois dans
+        une rangée (par exemple, vous pouvez déposer le deuxième «L» 
+dans 'M 100 200 L 200 100 L -100 -200 ' et utiliser 'M 100 200 L
+        200 100 -100 -200 ' à la place).
+    </li>
+    <li>
+        Une versions relative de toutes les commandes est disponible (en
+ majuscules signifie coordonnées absolues, minuscules signifie 
+coordonnées
+        relatives).
+    </li>
+    <li>
+        Les formes alternatives de <i>lineto</i> sont disponibles pour optimiser les cas particuliers de lignes horizontales et verticales (absolues et
+        relatives).
+    </li>
+    <li>
+        D’autres formes de <i>courbes</i> sont disponibles pour optimiser les cas particuliers où des points de contrôle sur le segment en
+        cours peuvent être déterminés automatiquement à partir des points de contrôle sur le segment précédent.
+    </li>
+</ul>
+<p>
+    Le seul point décimal admissible est un Unicode U + 002E PLEIN STOP (
+ &quot;.&quot;) Caractère (également appelé en Unicode  PÉRIODE,
+    point et point décimal) [
+    
+        <a href="https://translate.googleusercontent.com/translate_c?act=url&amp;depth=1&amp;hl=fr&amp;ie=UTF8&amp;prev=_t&amp;rurl=translate.google.fr&amp;sl=en&amp;tl=fr&amp;u=https://www.w3.org/TR/SVGTiny12/refs.html&amp;usg=ALkJrhgmhhhPzN6TdXK2O3cx_AdAXmk89Q#ref-UNICODE" target="_blank">UNICODE
+    
+    </a>] et aucun autres caractères délimiteurs sont autorisés. (Par 
+exemple, ce qui suit est une valeur non valide numérique dans les
+    données de chemin: &quot;13,000.56&quot; Au lieu de cela, écrire: &quot;13000,56&quot;)
+</p>
+<p>
+    Pour les versions relatives des commandes, toutes les valeurs de 
+coordonnées sont situées par rapport au point courant au début de la
+    commande.
+</p>
+<p>
+    Dans les tableaux ci-dessous, la notation suivante est utilisée:
+</p>
+<ul type="disc">
+    <li>
+        (): Regroupement de paramètres
+    </li>
+    <li>
+        +: 1 ou plusieurs paramètre (s) donné est requis
+    </li>
+    <li>
+        Les coordonnées suivant une commande en majuscule (par exemple, <b>M)</b> sont traitées comme des coordonnées absolues.
+    </li>
+    <li>
+        Les coordonnées suivant une commande en minuscules (par exemple, <b>m)</b> sont traitées comme les coordonnées relatives suivantes.
+    </li>
+</ul>
+<p>
+    Les sections suivantes répertorient les commandes.
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>    <b><font color="#3366CC">8.3.2 Les commandes '</font><a name="moveto"><font color="#3366CC">moveto</font></a><font color="#3366CC">'</font> 
+</b></h3>
+<p>
+    Les commandes
+    
+        '<a href="https://translate.googleusercontent.com/translate_c?act=url&amp;depth=1&amp;hl=fr&amp;ie=UTF8&amp;prev=_t&amp;rurl=translate.google.fr&amp;sl=en&amp;tl=fr&amp;u=https://www.w3.org/TR/SVGTiny12/paths.html&amp;usg=ALkJrhgCnKE8k9Xt38W1lewi8F0OZGz3PQ#PathDataMovetoCommands" target="_blank">moveto'
+    
+    </a><b>(M</b>
+    ou <b>m)</b> établissent un nouveau point courant. L'effet est comme si le &quot;stylo&quot; était soulevé et déplacé vers un
+    nouvel emplacement. Un segment de données de chemin (s'il y en a un) doit commencer par une commande
+    
+        'moveto'
+    
+    . Ainsi un
+    
+        'moveto'
+    
+    (ie, lorsque le
+    
+        'moveto'
+    
+    n’est pas la première commande) représente le début d'un nouveau sous chemin:
+</p>
+<table summary="moveto command" border="1" cellpadding="0" width="941">
+    <tbody>
+        <tr>
+            <td width="118">
+                <p align="center">
+                    <b>Commande </b>
+                </p>
+            </td>
+            <td width="176">
+                <p align="center">
+                    <b>Nom </b>
+                </p>
+            </td>
+            <td width="97">
+                <p align="center">
+                    <b>Paramètres </b>
+                </p>
+            </td>
+            <td width="530">
+                <p align="center">
+                    <b>La description </b>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td width="118">
+                <p>
+                    <b>M</b>
+                    (absolue)
+                    <br>
+                    <b>m</b>
+                    (relative)
+                </p>
+            </td>
+            <td width="176">
+                <p align="center">
+                    déplacer le curseur vers 
+                </p>
+            </td>
+            <td width="97">
+                <p align="center">
+                    (Xy) +
+                </p>
+            </td>
+            <td width="530">
+                <p>
+                    Un nouveau sous chemin aux coordonnées (x, y) doit 
+être démarré. Cela doit également établir un nouveau point
+                    courant. Si un
+                    
+                        'moveto'
+                    
+                    relatif <b>(m)</b> apparaît comme étant le premier élément du
+                    
+                        'chemin'
+                    
+                    , il est traité comme une paire de coordonnées absolues. Si un
+                    
+                        &quot;moveto&quot;
+                    
+                    est suivi par plusieurs paires de coordonnées, les paires suivantes sont traitées comme des commandes
+                    
+                        <a href="#lineto">'lineto'
+                    
+                    </a>implicite.
+                </p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    &nbsp;</p>
+<p>&nbsp;</p>
+<h3><b><font color="#3366CC">8.3.3 La commande '</font><a name="closepath"><font color="#3366CC">closepath</font></a><font color="#3366CC">' 
+</font></b></h3>
+<p>
+    Une ligne droite est dessinée du point courant au point initial du sous 
+chemin courant, et terminera le tracé courant. Si un
+    
+        <a href="https://translate.googleusercontent.com/translate_c?act=url&amp;depth=1&amp;hl=fr&amp;ie=UTF8&amp;prev=_t&amp;rurl=translate.google.fr&amp;sl=en&amp;tl=fr&amp;u=https://www.w3.org/TR/SVGTiny12/paths.html&amp;usg=ALkJrhgCnKE8k9Xt38W1lewi8F0OZGz3PQ#PathDataClosePathCommand" target="_blank">'closepath'
+    
+    </a><b>(Z</b>
+    ou <b>z)</b> est immédiatement suivie d’une autre commande, alors le prochain sous 
+chemin doit commencer au même point initial du
+    sous chemin courant.
+</p>
+<p>
+    Un sous chemin qui se termine par un
+    
+        'closepath'
+    
+    diffère dans le résultat de ce qui se passe lors de la fermeture du chemin se fait manuellement via un
+    
+        'lineto'
+    
+     à cause des jonctions
+    
+        <a href="https://translate.googleusercontent.com/translate_c?act=url&amp;depth=1&amp;hl=fr&amp;ie=UTF8&amp;prev=_t&amp;rurl=translate.google.fr&amp;sl=en&amp;tl=fr&amp;u=https://www.w3.org/TR/SVGTiny12/painting.html&amp;usg=ALkJrhha72ElpUpXChHeYIfeKrq_dYRP7w#StrokeLinejoinProperty" target="_blank">'stroke-linejoin'
+    
+    </a>et
+    
+        <a href="https://translate.googleusercontent.com/translate_c?act=url&amp;depth=1&amp;hl=fr&amp;ie=UTF8&amp;prev=_t&amp;rurl=translate.google.fr&amp;sl=en&amp;tl=fr&amp;u=https://www.w3.org/TR/SVGTiny12/painting.html&amp;usg=ALkJrhha72ElpUpXChHeYIfeKrq_dYRP7w#StrokeLinecapProperty" target="_blank">'stroke-linecap'
+    
+    </a>. Avec
+    
+        'closepath'
+    
+    , la fin du dernier segment du sous chemin rejoint le début du segment initial en utilisant la valeur actuelle de
+    
+        'stroke-linejoin'
+    
+    . Si  on ferme le chemin &quot;manuellement&quot; via un
+    
+        'lineto'
+    
+    , le début du premier segment et la fin du dernier segment ne sont 
+pas joints mais doivent être soudés en utilisant la valeur actuelle de
+    
+        'stroke-linecap'
+    
+    . À la fin de la commande, le nouveau point courant doit être réglé sur le point initial du sous 
+chemin courant.
+</p>
+<table summary="closepath command" border="1" cellpadding="0" width="941">
+    <tbody>
+        <tr>
+            <td width="104">
+                <p align="center">
+                    <b>Commande </b>
+                </p>
+            </td>
+            <td width="94">
+                <p align="center">
+                    <b>Nom </b>
+                </p>
+            </td>
+            <td width="85">
+                <p align="center">
+                    <b>Paramètres </b>
+                </p>
+            </td>
+            <td width="638">
+                <p align="center">
+                    <b>La description </b>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td width="104">
+                <p>
+                    <b>Z</b>
+                    ou
+                    <br>
+                    <b>z</b>
+                </p>
+            </td>
+            <td width="94">
+                <p align="center">
+                    closepath
+                </p>
+            </td>
+            <td width="85">
+                <p align="center">
+                    (aucun)
+                </p>
+            </td>
+            <td width="638">
+                <p>
+                    Le tracé courant doit être fermé en traçant une 
+ligne droite du point courant jusqu'au point initial de tracé
+                    actuel, qui deviendra alors le nouveau point 
+courant. Étant donné que les Z et z commandes ne prennent pas de 
+paramètres,
+                    ils ont un effet identique.
+                </p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    &nbsp;</p>
+<p>&nbsp;</p>
+<h3><b><font color="#3366CC">8.3.4 Les commandes '</font><a name="lineto"><font color="#3366CC">lineto</font></a><font color="#3366CC">' 
+</font></b></h3>
+<p>
+    Les différents
+    
+        <a href="https://translate.googleusercontent.com/translate_c?act=url&amp;depth=1&amp;hl=fr&amp;ie=UTF8&amp;prev=_t&amp;rurl=translate.google.fr&amp;sl=en&amp;tl=fr&amp;u=https://www.w3.org/TR/SVGTiny12/paths.html&amp;usg=ALkJrhgCnKE8k9Xt38W1lewi8F0OZGz3PQ#PathDataLinetoCommands" target="_blank">'lineto'
+    
+    </a>tracent des lignes droites à partir du point courant vers un nouveau point:
+</p>
+<table summary="lineto command" border="1" cellpadding="0" width="941">
+    <tbody>
+        <tr>
+            <td width="100">
+                <p align="center">
+                    <b>Commande </b>
+                </p>
+            </td>
+            <td width="159">
+                <p align="center">
+                    <b>Nom </b>
+                </p>
+            </td>
+            <td width="76">
+                <p align="center">
+                    <b>Paramètres </b>
+                </p>
+            </td>
+            <td width="586">
+                <p align="center">
+                    <b>La description </b>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td width="100">
+                <p>
+                    <b>L</b>
+                    (absolue)
+                    <br>
+                    <b>l</b>
+                    (relative)
+                </p>
+            </td>
+            <td width="159">
+                <p align="center">
+                    lineto
+                </p>
+            </td>
+            <td width="76">
+                <p align="center">
+                    (xy) +
+                </p>
+            </td>
+            <td width="586">
+                <p>
+                    Une ligne est tirée du point courant jusqu'au 
+point(x, y), qui devient alors le nouveau point courant. Si plus 
+d'une paire
+                    de coordonnées est spécifiée, une polyligne est 
+dessinée. À la fin de la commande, le nouveau point courant doit
+                    être réglé sur le dernier jeu de coordonnées 
+fournies.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td width="100">
+                <p>
+                    <b>H</b>
+                    (absolue)
+                    <br>
+                    <b>h</b>
+                    (relative)
+                </p>
+            </td>
+            <td width="159">
+                <p align="center">
+                    lineto horizontale
+                </p>
+            </td>
+            <td width="76">
+                <p align="center">
+                    x +
+                </p>
+            </td>
+            <td width="586">
+                <p>
+                    Une ligne horizontale est tirée du point courant 
+(cpx, cpy) à (x, cpy). Si plus d'une valeur x est spécifiée, plusieurs
+                    lignes Horizontales sont établies (bien que 
+généralement cela n'ait pas de sens). À la fin de la commande, le nouveau
+                    point courant est (x, cpy) pour la valeur finale de 
+x.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td width="100">
+                <p>
+                    <b>V</b>
+                    (absolue)
+                    <br>
+                    <b>v</b>
+                    (relative)
+                </p>
+            </td>
+            <td width="159">
+                <p align="center">
+                    lineto verticale
+                </p>
+            </td>
+            <td width="76">
+                <p align="center">
+                    y +
+                </p>
+            </td>
+            <td width="586">
+                <p>
+                    Une ligne verticale est dessinée à partir du point 
+courant (cpx, cpy) jusqu’à (cpx, y). Si plus d'une valeur y est
+                    spécifiée, plusieurs lignes verticales sont établies
+ (bien que généralement cela n’ait pas de sens). À
+                    la fin de la commande, le nouveau point courant est 
+(cpx, y) pour la valeur finale de y.
+                </p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    &nbsp;</p>
+<p>&nbsp;</p>
+<h3><b><font color="#3366CC">8.3.5 Les commandes de </font><a name="courbe"><font color="#3366CC">courbe</font></a><font color="#3366CC"> 
+</font></b></h3>
+<p>
+    Ces groupes de commandes dessinent des courbes:
+</p>
+<ul type="disc">
+    <li>
+        
+            <a href="#Bézier cubique">Commandes de Bézier cubique
+        
+        </a><b>(C,</b>
+        <b>c,</b>
+        <b>S</b>
+        et <b>s).</b> Un segment de Bézier cubique est défini par un point de départ, un point d'extrémité, et deux points de
+        contrôle.
+    </li>
+    <li>
+        
+            <a href="#Bézier quadratique">Commandes de Bézier quadratique
+        
+        </a><b>(Q,</b>
+        <b>q,</b>
+        <b>T</b>
+        et <b>T).</b> Un segment de Bézier est défini par un point de départ, un point d'extrémité, et un point de contrôle.
+    </li>
+</ul>
+<p>&nbsp;</p>
+<h3>    <b><font color="#3366CC">8.3.6 Les commandes courbe de </font><a name="Bézier cubique"><font color="#3366CC">Bézier cubique</font></a></b></h3>
+<p>
+    Les commandes
+    
+        de courbes de&nbsp;<a href="https://translate.googleusercontent.com/translate_c?act=url&amp;depth=1&amp;hl=fr&amp;ie=UTF8&amp;prev=_t&amp;rurl=translate.google.fr&amp;sl=en&amp;tl=fr&amp;u=https://www.w3.org/TR/SVGTiny12/paths.html&amp;usg=ALkJrhgCnKE8k9Xt38W1lewi8F0OZGz3PQ#PathDataCubicBezierCommands" target="_blank">Béziers 
+cubiques</a> sont les suivantes:
+</p>
+<table summary="cubic Bézier command" border="1" cellpadding="0">
+    <tbody>
+        <tr>
+            <td>
+                <p align="center">
+                    <b>Commande </b>
+                </p>
+            </td>
+            <td>
+                <p align="center">
+                    <b>Nom </b>
+                </p>
+            </td>
+            <td>
+                <p align="center">
+                    <b>Paramètres </b>
+                </p>
+            </td>
+            <td>
+                <p align="center">
+                    <b>La description </b>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>
+                    <b>C</b>
+                    (absolue)
+                    <br>
+                    <b>c</b>
+                    (relative)
+                </p>
+            </td>
+            <td>
+                <p align="center">
+                    curveto
+                </p>
+            </td>
+            <td>
+                <p align="center">
+                    (X1 y1 x2 y2 xy) +
+                </p>
+            </td>
+            <td>
+                <p>
+                    Une courbe de Bézier cubique est établie au point 
+courant (x, y) en utilisant (x1, y1) comme point de début et (x2, y2)
+                    comme point de fin de la courbe. Si plusieurs jeux 
+de coordonnées sont spécifiés, un polybézier est établi. À
+                    la fin de la commande, le nouveau point courant est 
+la paire finale (x, y).
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>
+                    <b>S</b>
+                    (absolue)
+                    <br>
+                    <b>s</b>
+                    (relative)
+                </p>
+            </td>
+            <td>
+                <p align="center">
+                    shorthand / curveto lisse
+                </p>
+            </td>
+            <td>
+                <p align="center">
+                    (X2 y2 xy) +
+                </p>
+            </td>
+            <td>
+                <p>
+                    Une courbe de Bézier cubique est établie au point 
+courant (x, y). Le premier point de contrôle doit être le reflet du
+                    second point sur la commande précédente par rapport 
+au point courant de commande. (S'il n'y a pas de commande
+                    précédente ou si la commande précédente n'a pas été 
+un C, c, S ou s, le premier point de contrôle doit
+                    coïncider avec le point courant.) (X2, y2) doit être
+ utilisé comme le deuxième point de contrôle (à savoir le
+                    point à l'extrémité de la courbe de contrôle). Si 
+plusieurs jeux de coordonnées sont spécifiés, un
+                    polybézier est établi. À la fin de la commande, le 
+nouveau point courant est la paire de coordonnées finale (x, y)
+                    utilisé dans le polybézier.
+                </p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    Exemple 08_02 montredes utilisations simples de commandes
+    
+        courbe de Bézie'
+    
+    dans un  chemin
+    
+    . Notez que le point de la commande &quot;S&quot; est calculé automatiquement 
+comme le reflet du point de la précédente commande &quot;C&quot; par rapport au
+    point de la commande &quot;S&quot; de début de commande.
+</p>
+<table border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="931" bgcolor="#999933"><p>
+    <b>Exemple:</b>
+    <a href="https://www.w3.org/TR/SVGTiny12/examples/08_02.svg" target="_blank">08_02.svg</a>
+</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="931" bgcolor="#FFFFCC"><p>     Chemin d$ =&quot;M100,200 C100,100 250,100 250,200
+                                       S400,300 400,200&quot;</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="931"><p align="center">
+<img src="HelpPictures/vectorsegment2.jpg" alt="Rendu de 08_02.svg" border="0" height="189" width="235"></p>
+        </td>
+    </tr>
+</table>
+<p>
+
+    
+&nbsp;</p>
+<p>
+    L'image suivante montre comment certaines courbes de Bézier cubique 
+changent de forme en fonction de la position des points de contrôle. Les
+ cinq
+    premiers exemples illustrent un seul segment cubique de chemin de 
+Bézier. L'exemple en bas à droite montre une commande 'C' suivie par
+    une commande 'S'.
+</p>
+<p align="center">
+    <img src="HelpPictures/vectorsegment3.jpg" alt="Exemple cubic02 - commandes de Bézier cubique dans les données de chemin" border="0" height="444" width="444">
+</p>
+<p>
+    <a href="https://www.w3.org/TR/SVGTiny12/images/paths/cubic02.svg" target="_blank">Voir cet exemple en SVG (navigateurs SVG compatible uniquement)</a>
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>    <b><font color="#3366CC">8.3.7 Les commandes de courbe de </font><a name="Bézier quadratique"><font color="#3366CC">Bézier quadratique</font></a><font color="#3366CC"> 
+</font></b></h3>
+<p>
+    Les commandes de courbes de
+    
+        <a href="https://translate.googleusercontent.com/translate_c?act=url&amp;depth=1&amp;hl=fr&amp;ie=UTF8&amp;prev=_t&amp;rurl=translate.google.fr&amp;sl=en&amp;tl=fr&amp;u=https://www.w3.org/TR/SVGTiny12/paths.html&amp;usg=ALkJrhgCnKE8k9Xt38W1lewi8F0OZGz3PQ#PathDataQuadraticBezierCommands" target="_blank">'Bézier quadratiques'
+    
+    </a>sont les suivantes:
+</p>
+<table summary="quadratic Bézier command" border="1" cellpadding="0" width="941">
+    <tbody>
+        <tr>
+            <td width="101">
+                <p align="center">
+                    <b>Commande </b>
+                </p>
+            </td>
+            <td width="211">
+                <p align="center">
+                    <b>Nom </b>
+                </p>
+            </td>
+            <td width="77">
+                <p align="center">
+                    <b>Paramètres </b>
+                </p>
+            </td>
+            <td width="532">
+                <p align="center">
+                    <b>La description </b>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td width="101">
+                <p>
+                    <b>Q</b>
+                    (absolue)
+                    <br>
+                    <b>q</b>
+                    (relative)
+                </p>
+            </td>
+            <td width="211">
+                <p align="center">
+Bézier                    quadratique
+                </p>
+            </td>
+            <td width="77">
+                <p align="center">
+                    (X1 y1 xy) +
+                </p>
+            </td>
+            <td width="532">
+                <p>
+                    Une courbe de Bézier est tirée du point courant (x, 
+y) en utilisant (x1, y1) comme point de contrôle. Si plusieurs jeux de
+                    coordonnées sont spécifiés, un polybézier est 
+établi. À la fin de la commande, le nouveau point courant est
+                    la finale paire de coordonnées (x, y) utilisée dans 
+le polybézier.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td width="101">
+                <p>
+                    <b>T</b>
+                    (absolue)
+                    <br>
+                    <b>t</b>
+                    (relative)
+                </p>
+            </td>
+            <td width="211">
+                <p align="center">
+                     Bézier quadratique lisse 
+                </p>
+            </td>
+            <td width="77">
+                <p align="center">
+                    (Xy) +
+                </p>
+            </td>
+            <td width="532">
+                <p>
+                    Une courbe de Bézier est tirée du point courant (x, 
+y). Le point de contrôle doit être le reflet du point sur la
+                    commande précédente par rapport au point courant de 
+commande. (S'il n'y a pas de commande précédente ou si la commande
+                    précédente n’était pas un Q, q, T ou t, le point de 
+contrôle doit être le point courant.) Si plusieurs
+                    ensembles de coordonnées sont spécifiées, un 
+polybézier est établi. À la fin de la commande, le nouveau point
+                    courant est la paire de coordonnées finale (x, y) 
+utilisé dans le polybézier.
+                </p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    L’exemple 08_03 montre des utilisations simples de commandes de bourbe de Bézier Quadratique
+    
+    dans un chemin. Notez que le point de la commande &quot;T&quot; de commande 
+est calculée automatiquement comme le reflet du point de la précédente
+    commande &quot;Q&quot; par rapport au point de la commande &quot;T&quot;.
+</p>
+<table border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+    <tr>
+        <td width="931" bgcolor="#999933"><p>
+    <b>Exemple:</b>
+    <a href="https://www.w3.org/TR/SVGTiny12/examples/08_03.svg" target="_blank">08_03.svg</a>
+</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="931" bgcolor="#FFFFCC"><p>
+    Chemin d$ = &nbsp;&quot;M200,300 Q400,50 600.300 T1000,300&quot;
+</p>
+        </td>
+    </tr>
+    <tr>
+        <td width="931"><p align="center">
+<img src="HelpPictures/vectorsegment4.jpg" alt="Rendu de 08_03.svg" border="0" height="283" width="566"></p>
+        </td>
+    </tr>
+</table>
+</body></html>
+@FormatEndIf 
+
+@SeeAlso
+  @@PathSegments, @@AddPathSegments

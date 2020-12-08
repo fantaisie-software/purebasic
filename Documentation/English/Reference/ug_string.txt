@@ -1,0 +1,114 @@
+@Title UserGuide - String Manipulation
+
+The following example shows step by step the different commands of the @LibraryLink "string" "string"
+library - their purpose and their correct use.
+
+@Code
+  Define.s String1, String2, String3
+  
+  String1 = "The quick brown fox jumps over the lazy dog."
+  
+  ; Left returns a number of characters from the left hand end of a string.
+  ; Mid returns a number of characters from the given start location in the middle of a string.
+  ; Right returns a number of characters from the right hand end of a string.
+  ; Space returns the specified number of space characters as a string.
+  ; Shows "The brown dog."
+  Debug "* Left, Mid and Right"
+  String2 = Left(String1, 3) + Space(1) + Mid(String1, 11, 5) + Space(1) + Right(String1, 4)
+  Debug String2
+  
+  ; CountString returns the number of instances of the second string in the first string, it is case sensitive.
+  ; Shows 1.
+  Debug "* CountString"
+  Debug CountString(String1, "the")
+  
+  ; However the LCase (and UCase) functions can be used to switch a string to all lower (or upper) case
+  ; Shows 2
+  Debug "* CountString and LCase"
+  String2 = LCase(String1)
+  Debug CountString(String2, "the")
+  
+  ; FindString can be used to find the location of one string within another.
+  ; Shows 17.
+  Debug "* FindString"
+  Debug FindString(String1, "fox")
+  
+  ; RemoveString can be used to remove one string from within another.
+  ; Shows The quick fox jumps over the lazy dog.
+  Debug "* RemoveString"
+  String2 = RemoveString(String1, " brown")
+  Debug String2
+  
+  ; ReplaceString can be used to change the occurrence of a substring within another string.
+  ; Shows The quick brown fox jumps over the sleeping dog.
+  Debug "* ReplaceString"
+  String2 = ReplaceString(String1, "lazy", "sleeping")
+  Debug String2
+  
+  ; StringByteLength returns the length of a string in bytes in the specified format, or the current default
+  ; if one is not specified (excluding the terminating null).
+  Debug "* StringByteLength"
+  ; Shows 44.
+  Debug StringByteLength(String1, #PB_Ascii)
+  ; Shows 88.
+  Debug StringByteLength(String1, #PB_Unicode)
+  
+  ; StringField can be used to obtain an indexed substring from a target string. 
+  ; Useful for converting strings to lists for example.
+  ; StringField will work with space as a delimiter too 
+  ; but hopefully this example makes the functions behaviour more apparent.
+  ; Shows jumps.
+  Debug "* StringField"
+  String2 = ReplaceString(String1, " ", "\")
+  Debug String2
+  String3 = StringField(String2, 5, "\")
+  Debug String3
+  
+  ; Trim removes white space characters from the start and end of a given string.
+  ; Similarly, LTrim acts on the left hand end (start) of a string and RTrim the right hand end.
+  Debug "* Trim, LTrim and RTrim"
+  String2 = Space(10) + String1 + Space(8)
+  Debug #DQUOTE$ + String2 + #DQUOTE$
+  String3 = Trim(String2)
+  Debug #DQUOTE$ + String3 + #DQUOTE$
+  String3 = LTrim(String2)
+  Debug #DQUOTE$ + String3 + #DQUOTE$
+  String3 = RTrim(String2)
+  Debug #DQUOTE$ + String3 + #DQUOTE$
+  
+  ; LSet sets a string to be a specific length from the left hand end, padding with spaces, 
+  ; or other specified character, as necessary.
+  ; If the string is already longer than the specified length it will be truncated.
+  Debug "*LSet"
+  Debug LSet("Abc", 10, "*")
+  Debug LSet("Abcd", 10, "*")
+  Debug LSet("Abcde", 10, "*")
+  
+  ; Similarly RSet pads a string from its right hand end.
+  Debug "* RSet"
+  Debug RSet("1.23", 10, "0")
+  Debug RSet("10.23", 10, "0")
+  Debug RSet("100.23", 10, "0")
+  
+  ; Str converts a signed quad value to a string, similarly StrF converts floats, 
+  ; StrD converts doubles and StrU converts unsigned values, these two function have an optional 
+  ; parameter to specify the number of decimal places to show.
+  Debug "* Str, StrF and StrD"
+  Debug Str(100)
+  Debug StrF(1.234, 3)
+  Debug StrD(123456.789, 3)
+  
+  ; Val will convert a string value into its numeric (quad) equivalent.
+  ; ValD and ValF perform the same function for floats and doubles.
+  Debug "* Val"
+  Debug Val("123")
+  
+  ; Bin will convert a numeric value into its binary equivalent.
+  ; Hex will convert one into its hexadecimal equivalent.
+  Debug "* Bin and Hex"
+  Debug Bin(19)
+  Debug Hex(19)
+@EndCode
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_loops" "< Previous: Loops" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_data" "Next: Storing data in memory >"

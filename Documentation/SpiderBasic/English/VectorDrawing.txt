@@ -1,0 +1,2831 @@
+;
+;     VectorDrawing library documentation
+;
+;      (c) 2015 - Fantaisie Software
+;
+
+@Library VectorDrawing
+
+@Overview
+  The VectorDrawing library provides resolution independent, high-quality
+  drawing operations for display, image manipulation or printing. Unlike the
+  @LibraryLink "2ddrawing" "2DDrawing" library, function in this library can
+  operate in a variety of measurement units and allows for arbitrary coordinate
+  transformations. This allows to easily write drawing routines that are independent
+  of the actual output resolution and can easily scale to different sizes.
+  The VectorDrawing library supports alpha transparency in all its operations.
+
+@Section Drawing sequence
+  Drawing operations in this library involve three basic steps:
+@LineBreak
+@LineBreak
+  1) Construct a path with functions such as @@AddPathLine, @@AddPathCurve, etc.
+@LineBreak
+  2) Select a drawing source such as @@VectorSourceColor
+@LineBreak
+  3) @Link "StrokePath" "stroke", @Link "FillPath" "fill", @Link "DotPath" "dot" or @Link "DashPath" dash the path
+@LineBreak
+@LineBreak
+  After stroking or filling a path, the path is reset and a new path can be constructed
+  for the next drawing operation. The selection of the drawing source (step 2) does not need to 
+  be repeated every time, as the drawing source is not reset. 
+@LineBreak
+@LineBreak
+  The path based drawing model allows the drawing complex shapes with properties such as
+  thick lines with rounded/diagonal corners and dot/dash patterns without introducing any
+  visible artifacts in the places where segments of the figures meet. Since the entire path
+  is drawn at once, such artifacts can be avoided.
+@LineBreak
+@LineBreak  
+  See the @@AddPathLine function for a basic example of the drawing steps.
+
+@Section Measurement units
+  Every drawing output has a default unit of measurement. The default unit is pixels for screen or
+  raster image outputs and points for vector image outputs. All drawing operations will use the selected unit of 
+  measurement and internally convert the values to the actual device coordinates. 
+  This allows to write the drawing code in the prefered unit of measurement independent of the used output.  
+  The selected unit of measurement for an output can be checked with @@VectorUnit.  
+
+@Section Coordinate transformation
+  It is possible to @Link "TranslateCoordinates" "move", @Link "ScaleCoordinates" scale,
+  @Link "RotateCoordinates" "rotate" or @Link "SkewCoordinates" "skew" the coordinate system used for drawing. The transformations can be freely combined. Such
+  transformations affect all drawing operations. 
+@LineBreak
+@LineBreak
+  Possible uses of coordinate transformations is to draw figures in a rotated or stretched manner
+  without the need to modify the actual drawing code. For example, printing code can easily switch
+  to landscape printing by simply rotating the coordinates (and therefore all output) at the start
+  of the drawing options.
+@LineBreak
+@LineBreak 
+  There are four different coordinate systems and some functions take an optional parameter to
+  select which system should be used. These are the available options:
+@LineBreak 
+@LineBreak 
+
+  @#PB_Coordinate_Device
+@Indent
+  This coordinate system represents the physical coordinates of the output device. It cannot
+  be transformed. This coordinate system is useful when converting values between the device
+  and the actual drawing coordinate system with @@ConvertCoordinateX and @@ConvertCoordinateY.
+@EndIndent
+
+  @#PB_Coordinate_Output
+@Indent
+  This coordinate system represents the initial output coordinates in the selected unit
+  of measurement. This coordinate system is equal to @#PB_Coordinate_Device except for possible
+  scaling by a different measurement unit. This coordinate system cannot be transformed.
+@EndIndent
+
+  @#PB_Coordinate_User
+@Indent
+  This is the coordinate system used for all drawing operations. This coordinate system is used
+  whenever a different system is not explicity specified. It can be freely transformed.
+  Initially, this coordinate system is equal to the @#PB_Coordinate_Output system and can be
+  reset that way with @@ResetCoordinates.
+@EndIndent
+
+  For most purposes, the @#PB_Coordinate_User is the intresting coordinate system and is therefore
+  the default. The other systems are useful mainly for coordinate conversion or for special purposes
+  such as transforming the source image.
+
+; ====== Code to generate the various coordinate translation images (do not show in the actual docs) ====
+;   Procedure DrawSample(Color)
+;     SaveVectorState()
+;     VectorSourceColor(Color)     
+;   
+;     ; draw triangle shape
+;     ResetPath()
+;     MovePathCursor(150, 50)
+;     AddPathLine(210, 150)
+;     AddPathLine(90, 150)
+;     ClosePath()
+;     FillPath()
+;     
+;     ; draw text
+;     MovePathCursor(150-VectorTextWidth("Test")/2, 200)
+;     DrawVectorText("Test")
+;   
+;     ; draw rulers
+;     TranslateCoordinates(0.5, 0.5) ; align with pixel center
+;   
+;     ResetPath()
+;     AddPathLine(0, 300)
+;     MovePathCursor(0, 0)
+;     AddPathLine(300, 0)    
+;     
+;     For a = 5 To 300 Step 5
+;       If a % 25 = 0
+;         b = 25
+;       Else
+;         b = 10
+;       EndIf
+;       
+;       If b > (a - 5)
+;         b = a - 2
+;       EndIf
+;             
+;       MovePathCursor(0, a)
+;       AddPathLine(b, a)
+;       
+;       MovePathCursor(a, 0)
+;       AddPathLine(a, b)           
+;     Next a
+; 
+;     ResetCoordinates() ; do not stretch the line lengths!
+;     StrokePath(1)
+;     RestoreVectorState()
+;   EndProcedure
+;   
+;   
+;   If OpenWindow(0, 0, 0, 400, 400, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+;     CanvasGadget(0, 0, 0, 400, 400)
+;     LoadFont(0, "Times New Roman", 20, #PB_Font_Bold)
+; 
+;     If StartVectorDrawing(CanvasVectorOutput(0))    
+;       VectorFont(FontID(0), 75)
+;       TranslateCoordinates(50, 50)      
+;       DrawSample(RGBA(0, 0, 255, 128))      
+;       
+;       TranslateCoordinates(50, -30)
+;       ;RotateCoordinates(150, 150, 30)
+;       ;FlipCoordinatesX(172)
+;       ;FlipCoordinatesY(102)
+;       ;SkewCoordinates(15, 0)
+;       ;ScaleCoordinates(0.7, 0.9)
+;       
+;       DrawSample(RGBA(255, 0, 0, 128))    
+;       
+;       StopVectorDrawing()
+;     EndIf
+;     
+;     Repeat
+;       Event = WaitWindowEvent()
+;     Until Event = #PB_Event_CloseWindow
+;   EndIf
+; =============================================================================================
+  
+  
+@Section Drawing state and layers
+  A number of properties of the drawing output such as coordinate transformations, clipping or the
+  drawing source can be saved and later restored with @@SaveVectorState and @@RestoreVectorState
+  respectively. This allows to make temporary modifications to the drawing output and later
+  restoring the previous state. The commands work in a stack, so it is possible to save/restore
+  multiple drawing states.
+@LineBreak
+@LineBreak
+  The @@BeginVectorLayer allows to save the current drawing state, constructs a new virtual drawing
+  layer. Future drawing operations will be directed to that layer. A call to @@EndVectorLayer will
+  combine the layer with the below drawing output and restore the previous drawing state. This allows
+  to combine a number of drawing operations and then applying them as a layer to the output. 
+  Multiple temporary layers can be created this way.  
+
+@CommandList
+
+; TODO
+; @ExampleFile All VectorDrawing.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = StartVectorDrawing(Output)
+
+@Description
+  Prepares the vector drawing library to draw to the specified output.
+
+@Parameter "Output"
+  The output to draw on. These functions can be used to get an output for vector drawing:
+@LineBreak
+@LineBreak
+  @@ImageVectorOutput: Drawing will be rendered directly on the Image data (see @@CreateImage)
+@LineBreak
+  @@CanvasVectorOutput: Drawing will be rendered directly on the @@CanvasGadget
+
+@ReturnValue
+  Returns nonzero if drawing is possible or zero if the operation failed.
+  
+@Remarks
+  Drawing must be finished with @@StopVectorDrawing.
+
+@SeeAlso
+  @@StopVectorDrawing
+
+@SupportedOS
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopVectorDrawing()
+
+@Description
+  Finishes a sequence of drawing operations and frees all resources allocated by it.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@StartVectorDrawing
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = VectorOutputWidth()
+
+@Description
+  Returns the width of the vector drawing output area.
+
+@NoParameters
+
+@ReturnValue
+  Returns the output width.
+
+@Example 
+
+@Code
+@EndCode
+
+@SeeAlso
+  @@VectorOutputHeight, @@VectorUnit, @@VectorResolutionX, @@VectorResolutionY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = VectorOutputHeight()
+
+@Description
+  Returns the height of the vector drawing output area.
+
+@NoParameters
+
+@ReturnValue
+  Returns the output height.
+
+@Example 
+
+@Code
+@EndCode
+
+@SeeAlso
+  @@VectorOutputWidth, @@VectorUnit, @@VectorResolutionX, @@VectorResolutionY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = VectorResolutionX()
+
+@Description
+  Returns the horizontal resolution of the vector drawing output area.
+
+@NoParameters
+
+@ReturnValue
+  Returns the horizontal resolution in DPI (dots per inch).
+
+@SeeAlso
+  @@VectorResolutionY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = VectorResolutionY()
+
+@Description
+  Returns the vertical resolution of the vector drawing output area.
+
+@NoParameters
+
+@ReturnValue
+  Returns the vertical resolution in DPI (dots per inch).
+
+@SeeAlso
+  @@VectorResolutionX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = VectorUnit()
+
+@Description
+  Returns the unit in which all corrdinates and sizes are measured on the
+  current vector drawing output. This unit has been specified when the output
+  was created.
+
+@NoParameters
+
+@ReturnValue
+  Returns one of the following values:
+@FixedFont
+  @#PB_Unit_Pixel     : Values are measured in pixels
+  @#PB_Unit_Point     : Values are measured in points (1/72 inch)
+  @#PB_Unit_Inch      : Values are measured in inches
+  @#PB_Unit_Millimeter: Values are measured in millimeters
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SaveVectorState()
+
+@Description
+  Saves the current vector drawing state to be restored later. Multiple states can be saved
+  on a stack and restored in the reverse order they were saved.
+@LineBreak
+@LineBreak
+  The following information is saved with this command:
+@LineBreak
+- The coordinate transformations
+@LineBreak
+- The drawing source
+@LineBreak
+- The drawing font
+@LineBreak
+@LineBreak
+  Note that the current path is @Underline "not" saved by this command.
+
+@NoParameters
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    LoadFont(0, "Times New Roman", 30, #PB_Font_Bold)    
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      VectorFont(FontID(0))
+      
+      MovePathCursor(20, 20)
+      DrawVectorText("Normal text")
+      
+      ; Changes made to the drawing state within this block do not affect the other commands
+      SaveVectorState()
+        MovePathCursor(120, 160)
+        RotateCoordinates(120, 160, -50)
+        VectorSourceColor(RGBA(0, 0, 255, 255))
+        DrawVectorText("Rotated text")
+      RestoreVectorState()
+      
+      MovePathCursor(220, 140)
+      DrawVectorText("Normal text")
+
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@RestoreVectorState, @@BeginVectorLayer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RestoreVectorState()
+
+@Description
+  Restores the vector drawing state that was stored in the corresponding call
+  to @@SaveVectorState.
+
+@NoParameters
+@NoReturnValue
+
+@Example
+  See @@SaveVectorState for an example.
+
+@SeeAlso
+  @@SaveVectorState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BeginVectorLayer([Alpha])
+
+@Description
+  Begins a new empty layer on top of the current vector drawing output.
+  All future drawing operations will be performed on this layer until @@EndVectorLayer is called.
+  This command also saves the current drawing state in the same way as @@SaveVectorState.
+  Multiple layers can be created.
+
+@OptionalParameter "Alpha"
+  Specifies the alpha transparency of the new vector layer. 
+  Allowed values are from 0 (fully transparent) to 255 (fully opaque).
+  The default is 255 (fully opaque).
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      ; Semi-transparent drawing on the base layer
+      AddPathCircle(75, 100, 60)      
+      VectorSourceColor(RGBA(255, 0, 0, 127))
+      FillPath()      
+      AddPathCircle(125, 100, 60)
+      VectorSourceColor(RGBA(0, 0, 255, 127))
+      FillPath()    
+      
+      ; Opaque drawing on a semi-transparent layer
+      BeginVectorLayer(127)
+        AddPathCircle(275, 100, 60)    
+        VectorSourceColor(RGBA(255, 0, 0, 255))
+        FillPath()        
+        AddPathCircle(325, 100, 60)
+        VectorSourceColor(RGBA(0, 0, 255, 255))
+        FillPath()    
+      EndVectorLayer()
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@LineBreak
+@Image beginvectorlayer.png
+
+@SeeAlso
+  @@EndVectorLayer, @@SaveVectorState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EndVectorLayer()
+
+@Description
+  Finishes drawing on a temporary layer created by @@BeginVectorLayer. The contents
+  of the layer are drawn to the next lower layer using the alpha transparency of
+  the temporary layer. This command also restores the drawing state that was in effect
+  when @@BeginVectorLayer was called.
+
+@NoParameters
+@NoReturnValue
+
+@Example
+  See @@BeginVectorLayer for an example.
+
+@SeeAlso
+  @@BeginVectorLayer, @@SaveVectorState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FillVectorOutput()
+
+@Description
+  Fills the entire drawing area (except areas outside the clipping path) with the
+  current drawing source. This operation is equivalent to constructing a path that
+  covers the entire drawing area and calling @@FillPath on it.
+
+@NoParameters
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      ; make the entire output red
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      FillVectorOutput()
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FillPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResetCoordinates([System])
+
+@Description
+  Reset any coordinate transformations that were applied to the current vector drawing output
+  and restore the coordinate system that was in effect when @@StartVectorDrawing was called.
+
+@OptionalParameter "System"
+  Specifies the coordinate system to change. This can be one of the following values:
+@FixedFont
+  @#PB_Coordinate_User  : Change the coordinate system for points in the drawing path (default)
+  @#PB_Coordinate_Source: Change the coordinate system for the vector drawing source
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+
+@SeeAlso
+  @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates, @@SkewCoordinates
+  @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TranslateCoordinates(x.d, y.d [, System])
+
+@Description
+  Move the origin of the vector drawing coordinate system. The move will be applied
+  along the x/y axis of the current coordinate system. All future drawing operations will be
+  relative to the new origin.
+
+@Parameter "x.d, y.d"
+  Specifies the amount to move the coordinate origin along the x/y axis.
+
+@OptionalParameter "System"
+  Specifies the coordinate system to change. This can be one of the following values:
+@FixedFont
+  @#PB_Coordinate_User  : Change the coordinate system for points in the drawing path (default)
+  @#PB_Coordinate_Source: Change the coordinate system for the vector drawing source
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+@LineBreak
+@LineBreak
+  The following image demonstrates the effect of translated coordinates. The same figure is drawn
+  twice, the original is in blue, and the version with translated coordinates is in red.
+
+@Image translatecoordinates.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      TranslateCoordinates(30, 30) ; all coordinates are moved 30 pixels in each direction
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image translatecoordinates2.png
+
+@SeeAlso
+  @@ResetCoordinates, @@ScaleCoordinates, @@RotateCoordinates, @@SkewCoordinates
+  @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleCoordinates(ScaleX.d, ScaleY.d [, System])
+
+@Description
+  Scale the vector drawing coordinate system by stretching it in the x/y direction.
+
+@Parameter "ScaleX.d, ScaleY.d"
+  The scale factor for each direction. A factor of 1.0 leaves the coordinates unchanged while
+  factors above and below 1.0 stretch the coordinate system. A negative factor mirrors the
+  output corrordinates.
+
+@OptionalParameter "System"
+  Specifies the coordinate system to change. This can be one of the following values:
+@FixedFont
+  @#PB_Coordinate_User  : Change the coordinate system for points in the drawing path (default)
+  @#PB_Coordinate_Source: Change the coordinate system for the vector drawing source
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+@LineBreak
+@LineBreak
+  The following image demonstrates the effect of scaled coordinates. The same figure is drawn
+  twice, the original is in blue, and the version with scaled coordinates is in red.
+  
+@Image scalecoordinates.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      ScaleCoordinates(0.7, 0.9)
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image scalecoordinates2.png
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@RotateCoordinates, @@SkewCoordinates
+  @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SkewCoordinates(AngleX.d, AngleY.d [, System])
+
+@Description
+  Apply a shearing angle in the x and/or y direction to the vector drawing
+  coordinate system.
+
+@Parameter "AngleX.d, AngleY.d"
+  Specifies the shearing angle in each direction in degrees.
+
+@OptionalParameter "System"
+  Specifies the coordinate system to change. This can be one of the following values:
+@FixedFont
+  @#PB_Coordinate_User  : Change the coordinate system for points in the drawing path (default)
+  @#PB_Coordinate_Source: Change the coordinate system for the vector drawing source
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+@LineBreak
+@LineBreak
+  The following image demonstrates the effect of skewed coordinates. The same figure is drawn
+  twice, the original is in blue, and the version with skewed coordinates is in red.
+
+@Image skewcoordinates.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      SkewCoordinates(45, 0)
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image skewcoordinates2.png
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates,
+  @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateCoordinates(x.d, y.d, Angle.d [, System])
+
+@Description
+  Rotate the vector drawing coordinate system around the given center point. The center point is
+  expressed in terms of the current coordinate system.
+
+@Parameter "x.d, y.d"
+  Specifies the center point for the rotation.
+
+@Parameter "Angle.d"
+  Specifies the rotation angle in degrees. A positive angle rotates the coordinate
+  system clockwise.
+
+@OptionalParameter "System"
+  Specifies the coordinate system to change. This can be one of the following values:
+@FixedFont
+  @#PB_Coordinate_User  : Change the coordinate system for points in the drawing path (default)
+  @#PB_Coordinate_Source: Change the coordinate system for the vector drawing source
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+@LineBreak
+@LineBreak
+  The following image demonstrates the effect of rotated coordinates. The same figure is drawn
+  twice, the original is in blue, and the version with rotated coordinates is in red.
+
+@Image rotatecoordinates.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      RotateCoordinates(50, 50, -20) ; rotate by -20 degrees around the (50, 50) point
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image rotatecoordinates2.png
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = ConvertCoordinateX(x.d, y.d [, Source, Target])
+
+@Description
+  Convert a point from one coordinate system to another in the vector drawing output.
+  This function returns the X coordinate of the conversion. The Y coordinate can be
+  retrieved with the @@ConvertCoordinateY function.
+
+@Parameter "x.d, y.d"
+  Specifies the coordinates of the point to convert in terms of the source
+  coordinate system.
+
+@OptionalParameter "Source, Target"
+  Specifies the source and target coordinates for the conversion. Each can be one of these values:
+@FixedFont
+  @#PB_Coordinate_Device: The coordinate system of the output device
+  @#PB_Coordinate_Output: The coordinate system as it was created with the drawing output function
+  @#PB_Coordinate_User  : The coordinate system for points in the drawing path
+  @#PB_Coordinate_Source: The coordinate system for the vector drawing source
+@EndFixedFont 
+  The default conversion is from @#PB_Coordinate_User to @#PB_Coordinate_Output.
+
+@ReturnValue
+  Returns the X coordinate of the point in the target coordinate system.
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+  
+@Example 
+
+@Code
+  ; This example draws a dot at the mouse location even in a modified coordinate system
+  ; by mapping the coordinates from the device system (pixels) to the user system (points)
+  ;
+  
+  Procedure OnCanvas()
+      If EventType() = #PB_EventType_LeftButtonDown
+        
+        If StartVectorDrawing(CanvasVectorOutput(0, #PB_Unit_Point))
+          RotateCoordinates(0, 0, 30)
+          
+          CanvasX = GetGadgetAttribute(0, #PB_Canvas_MouseX)
+          CanvasY = GetGadgetAttribute(0, #PB_Canvas_MouseY)
+          
+          DrawingX = ConvertCoordinateX(CanvasX, CanvasY, #PB_Coordinate_Device, #PB_Coordinate_User)
+          DrawingY = ConvertCoordinateY(CanvasX, CanvasY, #PB_Coordinate_Device, #PB_Coordinate_User)
+          
+          AddPathBox(DrawingX, DrawingY, 30, 30)
+          VectorSourceColor(RGBA(Random(255), Random(255), Random(255), 255))
+          FillPath()
+        
+          StopVectorDrawing()
+        EndIf
+        
+      EndIf
+  EndProcedure
+  
+  
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)   
+    BindGadgetEvent(0, @OnCanvas())
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates, @@SkewCoordinates
+  @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = ConvertCoordinateY(x.d, y.d [, Source, Target])
+
+@Description
+  Convert a point from one coordinate system to another in the vector drawing output.
+  This function returns the Y coordinate of the conversion. The X coordinate can be
+  retrieved with the @@ConvertCoordinateX function.
+
+@Parameter "x.d, y.d"
+  Specifies the coordinates of the point to convert in terms of the source
+  coordinate system.
+
+@OptionalParameter "Source, Target"
+  Specifies the source and target coordinates for the conversion. Each can be one of these values:
+@FixedFont
+  @#PB_Coordinate_Device: The coordinate system of the output device
+  @#PB_Coordinate_Output: The coordinate system as it was created with the drawing output function
+  @#PB_Coordinate_User  : The coordinate system for points in the drawing path
+  @#PB_Coordinate_Source: The coordinate system for the vector drawing source
+@EndFixedFont 
+  The default conversion is from @#PB_Coordinate_User to @#PB_Coordinate_Output.
+
+@ReturnValue
+  Returns the Y coordinate of the point in the target coordinate system.
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+  
+@Example 
+  See @@ConvertCoordinateX for an example.
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates, @@SkewCoordinates
+  @@ConvertCoordinateX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResetPath()
+
+@Description
+  Resets the vector drawing path to an empty path and moves to cursor to position (0, 0).
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@IsPathEmpty
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClosePath()
+
+@Description
+  Closes the current figure in the vector drawing path by adding a straight line to the starting 
+  point of the figure. The starting point is the location of the last @@MovePathCursor call. 
+  When a path is @Link "FillPath" "filled", only closed figures are taken into account.
+
+@NoParameters
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      ; Create a path with two closed triangles
+      MovePathCursor(20, 160)
+      AddPathLine(100, 20)
+      AddPathLine(180, 160)
+      ClosePath()
+      
+      MovePathCursor(220, 160)
+      AddPathLine(300, 20)
+      AddPathLine(380, 160)
+      ClosePath()      
+
+      ; fill the path
+      VectorSourceColor(RGBA(0, 0, 255, 255))
+      FillPath()
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@LineBreak
+@Image closepath.png
+
+@SeeAlso
+  @@FillPath, @@IsInsidePath, @@MovePathCursor, @@AddPathLine
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MovePathCursor(x.d, y.d [, Flags])
+
+@Description
+  Moves the cursor of the vector drawing path to a new location. This also starts a new figure within
+  the path, which means that a call to @@ClosePath will draw a line back to this location.
+
+@Parameter "x.d, y.d"
+  The new position for the path cursor.
+
+@OptionalParameter "Flags"
+  Can be one of the following values:
+@FixedFont
+  @#PB_Path_Default : The new position is absolute (default)
+  @#PB_Path_Relative: The new position is relative to the last cursor position.
+@EndFixedFont  
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 40)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        MovePathCursor(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@LineBreak
+@Image movepathcursor.png
+
+@SeeAlso
+  @@ClosePath, @@AddPathLine, @@FillPath, @@StrokePath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathLine(x.d, y.d [, Flags])
+
+@Description
+  Adds a straight line to the vector drawing path. The line starts at the current cursor position
+  and ends at the given coordinates.  
+
+@Parameter "x.d, y.d"
+  The position for the end of the line. This will become the new position of the path cursor.
+
+@OptionalParameter "Flags"
+  Can be one of the following values:
+@FixedFont
+  @#PB_Path_Default : The new position is absolute (default)
+  @#PB_Path_Relative: The new position is relative to the last cursor position.
+@EndFixedFont  
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10, #PB_Path_RoundCorner)
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@LineBreak
+@Image addpathline.png
+
+@SeeAlso
+  @@MovePathCursor, @@ClosePath, @@AddPathArc, @@AddPathCurve, 
+  @@AddPathCircle, @@AddPathEllipse, @@AddPathBox
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathArc(x1.d, y1.d, x2.d, y2.d, Radius.d, [, Flags])
+
+@Description
+  Adds a straight line towards (x1, y2) followed by an arc in the direction of (x2, y2)
+  to the vector drawing path. This function can be used to create paths with rounded corners.
+  The new cursor position will be the endpoint of the arc.
+
+@Parameter "x1.d, y1.d"
+  The target position for the straight line.
+
+@Parameter "x2.d, y2.d"
+  The target position to indicate the direction of the arc.
+
+@Parameter "Radius.d"
+  The radius for the rounded corner.
+
+@OptionalParameter "Flags"
+  Can be one of the following values:
+@FixedFont
+  @#PB_Path_Default : The positions are absolute (default)
+  @#PB_Path_Relative: The positions are relative to the last cursor position.
+@EndFixedFont  
+
+
+@NoReturnValue
+
+@Remarks
+  The following image illustrates the meaning of the two reference points and the
+  the segments that are added to the path. Note that no second straight line is added
+  towards the (x2, y2) point by the command. This makes it possible to use 
+  @@AddPathArc again to add a further rounded corner also at the (x2, y2) position.
+  
+; === Code to produce the below image (don't show this in the manual) ===
+;   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+;     CanvasGadget(0, 0, 0, 400, 200)
+;     LoadFont(0, "Times New Roman", 10, #PB_Font_Bold)
+;     
+;     If StartVectorDrawing(CanvasVectorOutput(0))
+;       VectorFont(FontID(0), 20)
+;     
+;       MovePathCursor(50, 80)
+;       AddPathArc(320, 150, 250, 40, 20)
+;       VectorSourceColor($FF0000FF)
+;       StrokePath(10)
+;     
+;       MovePathCursor(50, 80)
+;       AddPathLine(320, 150)
+;       AddPathLine(250, 40)
+;       VectorSourceColor($FF000000)
+;       DashPath(2, 5)
+;       
+;       MovePathCursor(25, 50)      
+;       DrawVectorText("cursor")
+;       
+;       MovePathCursor(305, 155)
+;       DrawVectorText("x1,y1")      
+;     
+;       MovePathCursor(230, 15)
+;       DrawVectorText("x2,y2")       
+;     
+;       StopVectorDrawing()
+;     EndIf
+;     
+;     Repeat
+;       Event = WaitWindowEvent()
+;     Until Event = #PB_Event_CloseWindow
+;   EndIf
+; ========
+
+@Image addpatharc2.png
+
+@Example 
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      MovePathCursor(40, 60)
+      AddPathArc(100, 140, 160, 20, 20)
+      AddPathArc(160, 20, 220, 180, 20)
+      AddPathArc(220, 180, 280, 80, 20)
+      AddPathArc(280, 80, 340, 120, 20)
+      AddPathLine(340, 120)
+
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+          
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@LineBreak
+@Image addpatharc.png
+
+@SeeAlso
+  @@MovePathCursor, @@AddPathLine, @@AddPathCurve, 
+  @@AddPathCircle, @@AddPathEllipse, @@AddPathBox
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathCurve(x1.d, y1.d, x2.d, y2.d, x3.d, y3.d [, Flags])
+
+@Description
+  Adds a cubic bezier curve to the vector drawing path. The curve starts at the
+  current path position and ends at (x3, y3). The other two points determine the
+  shape of the curve.
+
+@Parameter "x1.d, y1.d"
+  The first control point of the curve.
+
+@Parameter "x2.d, y2.d"
+  The second control point of the curve.
+
+@Parameter "x3.d, y3.d"
+  The endpoint of the curve. This point will become the new path position.
+
+@OptionalParameter "Flags"
+  Can be one of the following values:
+@FixedFont
+  @#PB_Path_Default : The positions are absolute (default)
+  @#PB_Path_Relative: The positions are relative to the last cursor position.
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  The below image shows the position of the reference points. 
+  See @InternetLink "http://en.wikipedia.org/wiki/B%C3%A9zier_curve" "here" for more information on 
+  bezier curves.
+  
+;=== Code to produce this image (do not show this in the docs)
+;   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+;     CanvasGadget(0, 0, 0, 400, 200)
+;     LoadFont(0, "Times New Roman", 10, #PB_Font_Bold)
+;     
+;     If StartVectorDrawing(CanvasVectorOutput(0))
+;       VectorFont(FontID(0), 20)
+;     
+;       MovePathCursor(50, 100)
+;       AddPathCurve(90, 30, 250, 180, 350, 100)
+;       VectorSourceColor($FF0000FF)
+;       StrokePath(10)
+;     
+;       MovePathCursor(50, 100)
+;       AddPathLine(90, 30)
+;       AddPathLine(250, 180)
+;       AddPathLine(350, 100)
+;       VectorSourceColor($FF000000)
+;       DashPath(2, 5)
+;       
+;       MovePathCursor(25, 105)      
+;       DrawVectorText("cursor")
+;       
+;       MovePathCursor(110, 20)
+;       DrawVectorText("x1,y1")      
+;     
+;       MovePathCursor(190, 170)
+;       DrawVectorText("x2,y2")  
+;       
+;       MovePathCursor(325, 70)
+;       DrawVectorText("x3,y3")      
+;     
+;       StopVectorDrawing()
+;     EndIf
+;     
+;     Repeat
+;       Event = WaitWindowEvent()
+;     Until Event = #PB_Event_CloseWindow
+;   EndIf
+;===  
+@Image addpathcurve.png
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      MovePathCursor(50, 100)
+      AddPathCurve(90, 30, 250, 180, 350, 100)
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@MovePathCursor, @@AddPathLine, @@AddPathArc, 
+  @@AddPathCircle, @@AddPathEllipse, @@AddPathBox
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathBox(x.d, y.d, Width.d, Height.d [, Flags])
+
+@Description
+  Add a box to the vector drawing path. This is a convenience function that combines
+  the needed @@AddPathLine calls to create a simple box shape.
+@LineBreak
+@LineBreak
+  By default, this function ends the current figure in the path and adds the box
+  as an unconnected and closed figure to the path (i.e. a box that can be filled). 
+  This behavior can be changed with the appropriate flags.  
+
+@Parameter "x.d, y.d"
+  Specifies the origin of the box.
+
+@Parameter "Width.d, Height.d"
+  Specifies the width and height of the box.
+
+@OptionalParameter "Flags"
+  This can be a combination of the following values:
+@FixedFont
+  @#PB_Path_Default  : No special behavior (default value)
+  @#PB_Path_Relative : The positions are relative to the last cursor position.
+  @#PB_Path_Connected: The box is connected to the existing path with a line and not automatically a closed figure.
+@EndFixedFont  
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      AddPathBox(50, 50, 200, 50)
+      AddPathBox(150, 75, 200, 50)
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image addpathbox.png
+
+@SeeAlso
+  @@MovePathCursor, @@AddPathLine, @@AddPathArc, 
+  @@AddPathCircle, @@AddPathEllipse, @@AddPathCurve
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathCircle(x.d, y.d, Radius.d [, StartAngle.d, EndAngle.d [, Flags]])
+
+@Description
+  Add a circle (or a partial circle) to the vector drawing path. 
+@LineBreak
+@LineBreak
+  By default, this function ends the current figure in the path and adds the circle
+  as an unconnected figure to the path (full circles are marked as closed). 
+  This behavior can be changed with the appropriate flags. 
+
+@Parameter "x.d, y.d"
+  Specifies the center point for the circle.
+
+@Parameter "Radius.d"
+  Specifies the radius for the circle.
+
+@OptionalParameter "StartAngle.d, EndAngle.d"
+  Specifies the angle for start and end of the circle in degrees. The angle 0 marks
+  at the positive X axis. The defaults are 0 and 360 degrees respectively.
+
+@OptionalParameter "Flags"
+  This can be a combination of the following values:
+@FixedFont
+  @#PB_Path_Default          : No special behavior (default value)
+  @#PB_Path_Relative         : The positions are relative to the last cursor position.
+  @#PB_Path_Connected        : The circle is connected to the existing path with a line and not automatically a closed figure.
+  @#PB_Path_CounterClockwise : The drawing direction between the start/end angles is counter-clockwise.
+@EndFixedFont 
+
+@NoReturnValue
+
+@Remarks
+  This function is indended for drawing standaline circles or arcs. To draw figures with rounded
+  corners, the @@AddPathArc function can be used which automatically calculates the proper angles
+  and center point to draw rounded corners.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      ; partial circle
+      AddPathCircle(100, 100, 75, 0, 235)
+      
+      ; partial circle with lines to the center
+      MovePathCursor(300, 100)
+      AddPathCircle(300, 100, 75, 0, 235, #PB_Path_Connected)
+      ClosePath()
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image addpathcircle.png
+
+@SeeAlso
+  @@MovePathCursor, @@AddPathLine, @@AddPathArc, 
+  @@AddPathBox, @@AddPathEllipse, @@AddPathCurve
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathEllipse(x.d, y.d, RadiusX.d, RadiusY.d [, Flags])
+
+@Description
+  Add an ellipse (or a partial ellipse) to the vector drawing path. 
+@LineBreak
+@LineBreak
+  By default, this function ends the current figure in the path and adds the ellipse
+  as an unconnected figure to the path (full ellipses are marked as closed). 
+  This behavior can be changed with the appropriate flags. 
+
+@Parameter "x.d, y.d"
+  Specifies the center point for the ellipse.
+
+@Parameter "RadiusX.d, RadiusY.d"
+  Specifies the radius for the ellipse in the X and Y direction.
+
+@OptionalParameter "Flags"
+  This can be a combination of the following values:
+@FixedFont
+  @#PB_Path_Default          : No special behavior (default value)
+  @#PB_Path_Relative         : The positions are relative to the last cursor position.
+  @#PB_Path_Connected        : The circle is connected to the existing path with a line and not automatically a closed figure.
+  @#PB_Path_CounterClockwise : The drawing direction between the start/end angles is counter-clockwise.
+@EndFixedFont 
+
+@NoReturnValue
+
+@Remarks
+  This function draws an ellipse shape with a defined radius at the X and Y axis of the current 
+  coordinate system. To draw an ellipse at any rotation, rotate the coordinate system around the
+  ellipse's center point before adding the ellipse as shown in the example below. The current
+  coordinate system can be preserved by using @@SaveVectorState and @@RestoreVectorState.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      ; regular ellipse
+      AddPathEllipse(100, 100, 80, 30)
+      
+      ; rotated ellipse
+      SaveVectorState()
+        RotateCoordinates(300, 100, 45)
+        AddPathEllipse(300, 100, 80, 30)
+      RestoreVectorState()
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10)
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image addpathellipse.png
+
+@SeeAlso
+  @@MovePathCursor, @@AddPathLine, @@AddPathArc, 
+  @@AddPathBox, @@AddPathCircle, @@AddPathCurve
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddPathSegments(Segments$ [, Flags])
+
+@Description
+  Add multiple segments described in string format to the vector drawing path. This command
+  can be used to reproduce the path commands recorded with the @@PathSegments command.
+
+@Parameter "Segments$"
+  Specifies the path commands to execute.
+@LineBreak
+@LineBreak
+  The segment description consists of one-letter commands followed by the appropriate number of coordinates for
+  the command. Values can be separated by whitespace or comma. Commands in uppercase interpret their arguments as
+  absolute coordinates, the equivalent command in lowercase interprets its arguments as relative the most recent
+  added path segment.
+  
+@FixedFont
+  M x y                @@MovePathCursor
+  L x y                @@AddPathLine
+  C x1 y1 x2 y2 x3 y3  @@AddPathCurve
+  Z                    @@ClosePath
+@EndFixedFont   
+
+  In addition to this simplified segments syntax, the command also accepts path descriptions in the format defined 
+  by the @InternetLink "https://www.w3.org/TR/SVGTiny12/paths.html#PathData" "SVG Tiny standard" which contains some
+  additional command letters.
+  
+@OptionalParameter "Flags"
+  This can be a combination of the following values:
+@FixedFont
+  @#PB_Path_Default          : No special behavior (default value)
+  @#PB_Path_Relative         : Interpret all coordinates as relative to the current path cursor
+@EndFixedFont 
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      
+      AddPathSegments("M 40 20 L 120 20 L 120 60 L 200 60 L 200 100 L 280 100 L 280 140 L 360 140 L 360 180")
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10, #PB_Path_RoundCorner)
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image addpathline.png
+
+@SeeAlso
+  @@PathSegments
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsInsidePath(x.d, y.d [, CoordinateSystem])
+
+@Description
+  Tests if the given coordinates are within a closed figure in the
+  current vector drawing path. That is, this function returns non-zero if the
+  given point would be filled by a call to @@FillPath.  
+
+@Parameter "x.d, y.d"
+  Specifies the coordinates of the point to test.
+
+@OptionalParameter "CoordinateSystem"
+  Specifies the coordinate system for the point to test. This can be one of the following values:
+@FixedFont
+  @#PB_Coordinate_Device: The coordinate system of the output device
+  @#PB_Coordinate_Output: The coordinate system as it was created with the drawing output function
+  @#PB_Coordinate_User  : The coordinate system for points in the drawing path (default)
+  @#PB_Coordinate_Source: The coordinate system for the vector drawing source
+@EndFixedFont 
+
+@ReturnValue
+  Returns non-zero if the point is within the path and zero if not.
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+  
+@Example 
+
+@Code
+  
+  ; This example uses the IsInsidePath() function to color the figure in green
+  ; while the mouse is inside of it and blue otherwise
+  ;
+  Procedure Draw()
+    x = GetGadgetAttribute(0, #PB_Canvas_MouseX)
+    y = GetGadgetAttribute(0, #PB_Canvas_MouseY)
+  
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorSourceColor(RGBA(255, 255, 255, 255))   ; erase previous content
+      FillVectorOutput()
+      
+      AddPathEllipse(200, 100, 150, 75)             ; prepare path
+      
+      If IsInsidePath(x, y, #PB_Coordinate_Device)  ; check if the mouse is inside
+        VectorSourceColor(RGBA(0, 255, 0, 255))
+      Else
+        VectorSourceColor(RGBA(0, 0, 255, 255))
+      EndIf
+      
+      FillPath()                                    ; fill path
+      StopVectorDrawing()
+    EndIf      
+  EndProcedure
+  
+ 
+  Procedure OnMouseMove()
+    Draw()
+  EndProcedure
+  
+  
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    LoadFont(0, "Times New Roman", 20, #PB_Font_Bold)
+    Draw()
+    
+    BindGadgetEvent(0, @OnMouseMove(), #PB_EventType_MouseMove)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FillPath, @@ClosePath, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsPathEmpty()
+
+@Description
+  Tests if the current vector drawing path is empty.
+
+@NoParameters
+
+@ReturnValue
+  Returns non-zero if the path is empty and zero if the path contains any line segments.
+
+@SeeAlso
+  @@ResetPath, @@IsInsidePath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StrokePath(Width.d [, Flags])
+
+@Description
+  Stroke the current drawing path with the current drawing source. This draws the path
+  as a solid line.
+@LineBreak
+@LineBreak
+  By default, the path is reset after calling this function. This can be prevented with the appropriate flags.
+
+@Parameter "Width.d"
+  Specifies the width for the stroked line.
+
+@OptionalParameter "Flags"
+  Specifies optional characteristics for the drawn stroke. This can be a combination of the following values:
+@FixedFont
+  @#PB_Path_Default       : No special behavior (default value)
+  @#PB_Path_Preserve      : Don't reset the path after this function
+  @#PB_Path_RoundEnd      : Draw the line(s) with a rounded ends
+  @#PB_Path_SquareEnd     : Draw the line(s) with a square box at the ends
+  @#PB_Path_RoundCorner   : Draw the line(s) with rounded corners
+  @#PB_Path_DiagonalCorner: Draw the line(s) with diagonally cut corners
+@EndFixedFont    
+
+@NoReturnValue
+
+@Remarks
+  The following image demonstrates the effect of the different flags. The Corner and End flags can
+  be combined with the binary or ('|') operator to combine the effects.
+  
+; ==== Code to generate the image (do not show this in the help)
+;   Procedure Draw(Flags, x, y, Text$)
+;     VectorSourceColor($FF0000FF)
+;     StrokePath(30, Flags|#PB_Path_Preserve)      
+;     
+;     VectorSourceColor($FF000000)
+;     DashPath(2, 7)
+;     
+;     MovePathCursor(x, y)
+;     DrawVectorText(Text$)
+;   EndProcedure
+;   
+;   If OpenWindow(0, 0, 0, 375, 300, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+;     CanvasGadget(0, 0, 0, 375, 300)
+;     LoadFont(0, "Courier New", 7, #PB_Font_Bold)
+;     
+;     If StartVectorDrawing(CanvasVectorOutput(0))
+;       VectorFont(FontID(0), 20)
+;       ScaleCoordinates(0.75, 0.75)
+;       
+;       MovePathCursor(50, 40)
+;       AddPathLine(170, 40)
+;       Draw(0, 200, 30, "#PB_Path_Default")
+;     
+;       MovePathCursor(50, 90)
+;       AddPathLine(170, 90)
+;       Draw(#PB_Path_SquareEnd, 200, 80, "#PB_Path_SquareEnd")
+;       
+;       MovePathCursor(50, 140)
+;       AddPathLine(170, 140)
+;       Draw(#PB_Path_RoundEnd, 200, 130, "#PB_Path_RoundEnd")
+;    
+;       MovePathCursor(50, 210)
+;       AddPathLine(110, 250)
+;       AddPathLine(170, 210)
+;       Draw(0, 200, 210, "#PB_Path_Default")
+;       
+;       MovePathCursor(50, 260)
+;       AddPathLine(110, 300)
+;       AddPathLine(170, 260)
+;       Draw(#PB_Path_DiagonalCorner, 200, 260, "#PB_Path_DiagonalCorner")
+;       
+;       MovePathCursor(50, 310)
+;       AddPathLine(110, 350)
+;       AddPathLine(170, 310)
+;       Draw(#PB_Path_RoundCorner, 200, 310, "#PB_Path_RoundCorner")  
+;     
+;       StopVectorDrawing()
+;     EndIf
+;     
+;     Repeat
+;       Event = WaitWindowEvent()
+;     Until Event = #PB_Event_CloseWindow
+;   EndIf
+; ================
+  
+@Image strokepath.png
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(20, #PB_Path_RoundCorner|#PB_Path_RoundEnd)
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image strokepath2.png
+
+@SeeAlso
+  @@FillPath, @@DotPath, @@DashPath, @@CustomDashPath, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DotPath(Width.d, Distance.d [, Flags [, StartOffset.d]])
+
+@Description
+  Draw the current drawing path as a line of dots.
+@LineBreak
+@LineBreak
+  By default, the path is reset after calling this function. This can be prevented with the appropriate flags.
+
+@Parameter "Width.d"
+  Specifies the width for the dotted line.
+
+@Parameter "Distance.d"
+  Specifies the distance between the center of each dot.
+  
+@OptionalParameter "Flags"
+  Specifies optional characteristics for the drawn dots. This can be a combination of the following values:
+@FixedFont
+  @#PB_Path_Default     : No special behavior (default value)
+  @#PB_Path_Preserve    : Don't reset the path after this function
+  @#PB_Path_RoundEnd    : Draw the dots round
+  @#PB_Path_SquareEnd   : Draw the dots as squares
+@EndFixedFont  
+
+@OptionalParameter "StartOffset.d"
+  Specifies the distance to skip within the dot pattern before starting to draw the path. 
+  The default value is 0.
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      DotPath(5, 10, #PB_Path_RoundEnd)
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image dotpath.png
+
+@SeeAlso
+  @@FillPath, @@StrokePath, @@DashPath, @@CustomDashPath, @@ResetPath
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DashPath(Width.d, Length.d [, Flags [, StartOffset.d]]) 
+
+@Description
+  Draw the current drawing path as a series of dashes of equal length and distance.
+@LineBreak
+@LineBreak
+  By default, the path is reset after calling this function. This can be prevented with the appropriate flags.
+
+@Parameter "Width.d"
+  Specifies the width for the dashed line. This value does not include any round/square line ends.
+
+@Parameter "Length.d"
+  Specifies the length of each dash (and the space between the dashes).
+
+@OptionalParameter "Flags"
+  Specifies optional characteristics for the drawn dashes. This can be a combination of the following values:
+@FixedFont
+  @#PB_Path_Default       : No special behavior (default value)
+  @#PB_Path_Preserve      : Don't reset the path after this function
+  @#PB_Path_RoundEnd      : Draw the dashes with a rounded ends
+  @#PB_Path_SquareEnd     : Draw the dashes with a square box at the ends
+  @#PB_Path_RoundCorner   : Draw the dashes with rounded corners
+  @#PB_Path_DiagonalCorner: Draw the dashes with diagonally cut corners
+@EndFixedFont    
+
+@OptionalParameter "StartOffset.d"
+  Specifies the distance to skip within the dash pattern before starting to draw the path. 
+  The default value is 0.
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      DashPath(5, 15)
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image dashpath.png
+
+@SeeAlso
+  @@FillPath, @@StrokePath, @@DotPath, @@CustomDashPath, @@ResetPath
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CustomDashPath(Width.d, Array.d() [, Flags [, StartOffset.d]])
+
+@Description
+  Draw the current drawing path with a custom dashing pattern.
+@LineBreak
+@LineBreak
+  By default, the path is reset after calling this function. This can be prevented with the appropriate flags.
+
+@Parameter "Width.d"
+  Specifies the width for the dashed line.
+
+@Parameter "Array.d()"
+  Specifies the length of each dash and each space to the next dash. The array must have
+  an even number of entries. When the drawing operation reaches the end of the array, the
+  pattern is repeated. A dash length of 0 will draw a single dot.
+
+@OptionalParameter "Flags"
+  Specifies optional characteristics for the drawn dashes. This can be a combination of the following values:
+@FixedFont
+  @#PB_Path_Default       : No special behavior (default value)
+  @#PB_Path_Preserve      : Don't reset the path after this function
+  @#PB_Path_RoundEnd      : Draw the dashes with a rounded ends
+  @#PB_Path_SquareEnd     : Draw the dashes with a square box at the ends
+  @#PB_Path_RoundCorner   : Draw the dashes with rounded corners
+  @#PB_Path_DiagonalCorner: Draw the dashes with diagonally cut corners
+@EndFixedFont   
+
+@OptionalParameter "StartOffset.d"
+  Specifies the distance to skip within the dash pattern before starting to draw the path. 
+  The default value is 0.
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      
+      Dim dashes.d(7)
+      dashes(0) = 20
+      dashes(1) = 10
+      dashes(2) = 0 ; draw a dot
+      dashes(3) = 10
+      dashes(4) = 0
+      dashes(5) = 10
+      dashes(6) = 20
+      dashes(7) = 10
+      CustomDashPath(5, dashes())
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image customdashpath.png
+
+@SeeAlso
+  @@FillPath, @@StrokePath, @@DotPath, @@DashPath, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FillPath([Flags])
+
+@Description
+  Fill all closed figures in the current vector drawing path with color from the drawing source.
+@LineBreak
+@LineBreak
+  By default, the path is reset after calling this function. This can be prevented with the appropriate flags.
+
+@OptionalParameter "Flags"
+  Can be one of the following values:
+@FixedFont
+  @#PB_Path_Default     : No special behavior (default value)
+  @#PB_Path_Preserve    : Don't reset the path after this function
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  If the path has overlapping figures, it is filled in an odd/even fashion. Areas enclosed in 
+  an odd number of borders are filled, while areas enclosed in an even number of borders are not 
+  filled. That is, everything with in the outer border is filed, while enclosed figures are not
+  filled. If the enclosed figure again contains another figure, that 3rd figure will be filled 
+  again, and so on.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      AddPathBox(50, 50, 200, 50)
+      AddPathBox(150, 75, 200, 50)
+      VectorSourceColor(RGBA(0, 0, 255, 255))
+      FillPath()
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image fillpath.png
+
+@SeeAlso
+  @@StrokePath, @@DotPath, @@DashPath, @@CustomDashPath, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = PathCursorX()
+
+@Description
+  Returns the current X coordinate of the vector drawing cursor. This is the location
+  where new path segments will be added or text will be drawn.
+
+@NoParameters
+
+@ReturnValue
+  The X coordinate of the path cursor.
+
+@SeeAlso
+  @@PathCursorY, @@MovePathCursor, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = PathCursorY()
+
+@Description
+  Returns the current Y coordinate of the vector drawing cursor. This is the location
+  where new path segments will be added or text will be drawn.
+
+@NoParameters
+
+@ReturnValue
+  The Y coordinate of the path cursor.
+
+@SeeAlso
+  @@PathCursorX, @@MovePathCursor, @@ResetPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = PathPointX(Distance.d)
+
+@Description
+  Returns the X coordinate of the point at the given distance from the start of the
+  current vector drawing path.
+
+@Parameter "Distance.d"
+  Specifies the distance from the start of the path. If this parameter is negative or
+  larger than the total path length, the start/endpoint of the path is returned.  
+  The full length of the path can be determined with @@PathLength.
+
+@ReturnValue
+  The X coordinate of the point of the path.
+
+@Example
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      ; construct path
+      MovePathCursor(150, 125)
+      AddPathCurve(0, 270, 0, -150, 350, 180)
+      
+      ; get location & angle of point on the path
+      x = PathPointX(200)
+      y = PathPointY(200)
+      a = PathPointAngle(200)
+      
+      ; stroke the path
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(5)
+      
+      ; draw a marker at the path point
+      AddPathCircle(x, y, 10)
+      VectorSourceColor(RGBA(0, 0, 255, 255))
+      FillPath()
+      
+      MovePathCursor(x, y)
+      AddPathLine(30*Cos(Radian(a)), 30*Sin(Radian(a)), #PB_Path_Relative)
+      StrokePath(5)
+
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image pathpointx.png
+  
+@SeeAlso
+  @@PathPointY, @@PathPointAngle, @@PathLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = PathPointY(Distance.d)
+
+@Description
+  Returns the Y coordinate of the point at the given distance from the start of the
+  current vector drawing path.
+
+@Parameter "Distance.d"
+  Specifies the distance from the start of the path. If this parameter is negative or
+  larger than the total path length, the start/endpoint of the path is returned.  
+  The full length of the path can be determined with @@PathLength.
+
+@ReturnValue
+  The Y coordinate of the point of the path.
+
+@Example
+  See @@PathPointX for an example.
+  
+@SeeAlso
+  @@PathPointX, @@PathPointAngle, @@PathLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = PathPointAngle(Distance.d)
+
+@Description
+  Returns the angle of the path at the point at the given distance from the start of the
+  current vector drawing path.
+
+@Parameter "Distance.d"
+  Specifies the distance from the start of the path. If this parameter is negative or
+  larger than the total path length, the start/endpoint of the path is returned.  
+  The full length of the path can be determined with @@PathLength.
+
+@ReturnValue
+  The angle of the path at the given point in degrees.
+  The angle 0 marks at the positive X axis.
+
+@Example
+  See @@PathPointX for an example.
+  
+@SeeAlso
+  @@PathPointX, @@PathPointY, @@PathLength
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = PathLength()
+
+@Description
+  Returns the total length of the current vector drawing path.
+
+@NoParameters
+
+@ReturnValue
+  Returns the length of the current path. 
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      ; construct path
+      MovePathCursor(150, 125)
+      AddPathCurve(0, 270, 0, -150, 350, 180)
+      
+      ; get length
+      Debug "Path length: " + PathLength()
+
+      ; stroke the path
+      VectorSourceColor($FF0000FF)
+      StrokePath(5)
+
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@PathPointX, @@PathPointY, @@PathPointAngle
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = PathBoundsX()
+
+@Description
+  Returns the X coordinate (top/left corner) of the bounding box for the current vector
+  drawing path. The result is the lowest X coordinate that stroking/filling the current
+  path would reach.
+
+@NoParameters
+
+@ReturnValue
+  The X coordinate of the bounding box.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      ; construct path
+      MovePathCursor(150, 125)
+      AddPathCurve(0, 270, 0, -150, 350, 180)
+      
+      ; get path bounds
+      x = PathBoundsX()
+      y = PathBoundsY()
+      w = PathBoundsWidth()
+      h = PathBoundsHeight()
+      
+      ; stroke the path
+      VectorSourceColor($FF0000FF)
+      StrokePath(5)
+      
+      ; draw bounding box
+      AddPathBox(x, y, w, h)
+      VectorSourceColor($FF000000)
+      DashPath(2, 5)
+
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image pathboundsx.png
+  
+@SeeAlso
+  @@PathBoundsY, @@PathBoundsWidth, @@PathBoundsHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = PathBoundsY()
+
+@Description
+  Returns the Y coordinate (top/left corner) of the bounding box for the current vector
+  drawing path. The result is the lowest Y coordinate that stroking/filling the current
+  path would reach.
+
+@NoParameters
+
+@ReturnValue
+  The Y coordinate of the bounding box.
+
+@Example
+  See @@PathBoundsX for an example.
+  
+@SeeAlso
+  @@PathBoundsX, @@PathBoundsWidth, @@PathBoundsHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = PathBoundsWidth()
+
+@Description
+  Returns the width of the bounding box for the current vector
+  drawing path. The result is the difference between the lowest & highest X coordinate that
+  stroking/filling the current path would reach.
+
+@NoParameters
+
+@ReturnValue
+  The width of the bounding box.
+
+@Example
+  See @@PathBoundsX for an example.
+  
+@SeeAlso
+  @@PathBoundsX, @@PathBoundsY, @@PathBoundsHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = PathBoundsHeight()
+
+@Description
+  Returns the height of the bounding box for the current vector
+  drawing path. The result is the difference between the lowest & highest Y coordinate that
+  stroking/filling the current path would reach.
+
+@NoParameters
+
+@ReturnValue
+  The height of the bounding box.
+
+@Example
+  See @@PathBoundsX for an example.
+  
+@SeeAlso
+  @@PathBoundsX, @@PathBoundsY, @@PathBoundsWidth
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = PathSegments()
+
+@Description
+  Returns a string description of the current vector drawing path. The result can be used 
+  to examine the current path or in the @@AddPathSegments command to reproduce the same path later.
+
+@NoParameters
+
+@ReturnValue
+  The returned string contains one letter commands followed by the appropriate number of coordinate parameters.
+  Each value is separated by a single space. All coordinates are absolute.
+  
+@FixedFont
+  M x y                @@MovePathCursor
+  L x y                @@AddPathLine
+  C x1 y1 x2 y2 x3 y3  @@AddPathCurve
+  Z                    @@ClosePath
+@EndFixedFont
+
+  There are no string representations for commands like @@AddPathCircle or @@AddPathEllipse, as their results
+  are internally converted to @Link "AddPathCurve" "curves" by the vector drawing library.  
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      
+      MovePathCursor(40, 20)
+      For i = 1 To 4
+        AddPathLine(80, 0, #PB_Path_Relative)
+        AddPathLine(0, 40, #PB_Path_Relative)
+      Next i
+      
+      ; Show the path segments
+      Debug PathSegments()
+      
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      StrokePath(10, #PB_Path_RoundCorner)
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddPathSegments
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorSourceColor(Color)
+
+@Description
+  Selects a single color as the source for vector drawing operations such
+  as @@FillPath, @@StrokePath and others.
+
+@Parameter "Color"
+  The 32bit @Link "2DDrawing/RGBA" "RGBA" color including alpha transparency.
+
+@NoReturnValue
+
+@SeeAlso
+  @@VectorSourceLinearGradient, @@VectorSourceCircularGradient,
+  @@FillPath, @@FillVectorOutput, @@StrokePath, @@DotPath, @@DashPath, @@CustomDashPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorSourceLinearGradient(x1.d, y1.d, x2.d, y2.d)
+
+@Description
+  Selects a linear color gradient as the source for vector drawing operations
+  such as @@FillPath or @@StrokePath. Initially, the gradient is solid black.
+  Color stops have to be added with the @@VectorSourceGradientColor after this
+  function.
+
+@Parameter "x1.d, y1.d"
+  Specifies the point that represents the start (Position 0.0) of the gradient.
+  The coordinates are specified in terms of the @#PB_Coordinate_Source coordinate system.
+
+@Parameter "x2.d, y2.d"
+  Specifies the point that represents the end (Position 1.0) of the gradient.
+  The coordinates are specified in terms of the @#PB_Coordinate_Source coordinate system.
+
+@NoReturnValue
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+@LineBreak
+@LineBreak
+  The color gradient is only defined in the area between the (x1, y1) and (x2, y2)
+  points. Outside of these points, the used source color is depending on the operating
+  system, so drawing operations outside of the defined gradient's area should be avoided.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      VectorSourceLinearGradient(50, 0, 350, 0)
+      VectorSourceGradientColor(RGBA(255, 0, 0, 255), 0.0)
+      VectorSourceGradientColor(RGBA(0, 255, 0, 255), 0.5)
+      VectorSourceGradientColor(RGBA(0, 0, 255, 255), 1.0)
+      
+      AddPathBox(50, 25, 300, 150)
+      FillPath()
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image vectorsourcelineargradient.png
+
+@SeeAlso
+  @@VectorSourceGradientColor, @@VectorSourceCircularGradient, @@VectorSourceColor
+
+@SupportedOS
+ 
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorSourceCircularGradient(x.d, y.d, Radius.d) 
+
+@Description
+  Selects a circular gradient as the source for vector drawing operations
+  such as @@FillPath or @@StrokePath. Initially, the gradient is solid black.
+  Color stops have to be added with the @@VectorSourceGradientColor after this
+  function.
+
+@Parameter "x.d, y.d"
+  Specifies the center point of the circle that defines the gradient.    
+  The coordinates are specified in terms of the @#PB_Coordinate_Source coordinate system.
+@LineBreak
+@LineBreak
+  The center point of the circle represents the start (Position 0.0) of the gradient and
+  the perimeter of the circle represents the end (Position 1.0) of the gradient.
+  
+@Parameter "Radius.d"
+  Specifies the radius of the circle that defines the gradient.
+
+@NoReturnValue
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+@LineBreak
+@LineBreak
+  The color gradient is only defined in the area inside the circle.
+  Outside of the circle, the used source color is depending on the operating
+  system, so drawing operations outside of the defined gradient's area should be avoided.
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+
+      VectorSourceCircularGradient(200, 100, 150, -50, -50)
+      VectorSourceGradientColor(RGBA(255, 255, 255, 255), 0.0)
+      VectorSourceGradientColor(RGBA(0, 0, 0, 255), 1.0)
+      
+      FillVectorOutput()
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image vectorsourcecirculargradient.png
+
+@SeeAlso
+ @@VectorSourceGradientColor, @@VectorSourceLinearGradient, @@VectorSourceColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorSourceGradientColor(Color, Position.d)
+
+@Description
+  Add a new color stop (a defined color position) to the gradient defined by
+  @@VectorSourceLinearGradient or @@VectorSourceCircularGradient.
+@LineBreak
+@LineBreak
+  A gradient must at least have a color at position 0.0 and 1.0. If no colors are
+  added for these positions then they default to solid black. Any number of color
+  positions can be added to a gradient.
+
+@Parameter "Color"
+  The 32bit @Link "2DDrawing/RGBA" "RGBA" color including alpha transparency.
+
+@Parameter "Position.d"
+  The position at which to add the color. The value must be between and including
+  0.0 (the gradient start) and 1.0 (the gradient end).
+
+@NoReturnValue
+
+@Example 
+  See @@VectorSourceLinearGradient for an example.
+  
+@SeeAlso
+  @@VectorSourceLinearGradient, @@VectorSourceCircularGradient
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DrawVectorImage(ImageID [, Alpha [, Width.d, Height.d]])
+
+@Description
+  Draw the specified image directly to the vector drawing output.
+@LineBreak
+@LineBreak  
+  The image will be drawn at the location of the @Link "MovePathCursor" "path cursor".
+  The cursor will be moved to the location of the bottom/right corner of the image
+  after the image is drawn.
+
+@OptionalParameter "ImageID"
+  Specifies the image to draw. Use the @@ImageID function to
+  get this value from an image.
+
+@OptionalParameter "Alpha"
+  Specifies an optional alpha transparency to apply to the image. 
+  This transparency is applied in addition to any transparent pixels already
+  present in the image.
+  The default is value is 255 (no additional transparency).
+
+@OptionalParameter "Width.d, Height.d"
+  Specifies an optional with and height for the image. If no width and height
+  are specified, then the dimensions of the source image (in pixels) are converted
+  into the unit of the vector drawing output and used (i.e. the image has its original
+  size).
+
+@NoReturnValue
+
+@Example 
+
+@Code
+  Procedure Loaded(Type, Filename$, ObjectId)
+    If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+      CanvasGadget(0, 0, 0, 400, 200)
+      
+      If StartVectorDrawing(CanvasVectorOutput(0))
+        
+        MovePathCursor(120, 0)
+        RotateCoordinates(120, 0, 35)
+        DrawVectorImage(ImageID(0), 127)
+        
+        StopVectorDrawing()
+      EndIf
+    EndIf
+  EndProcedure
+  
+  Procedure LoadingError(Type, Filename$, ObjectId)
+    Debug Filename$ + ": loading error"
+  EndProcedure
+  
+  ; Register the loading event before calling any resource load command
+  BindEvent(#PB_Event_Loading, @Loaded())
+  BindEvent(#PB_Event_LoadingError, @LoadingError())
+  
+  LoadImage(0, "Data/Spider.png")
+@EndCode
+
+@SeeAlso
+  @@MovePathCursor, @@PathCursorX, @@PathCursorY
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DrawVectorText(Text$)
+
+@Description
+  Draw the given text at the current location of the @Link "MovePathCursor" "path cursor".
+  The cursor will be moved horizontally to the end of the drawn text. The font to use
+  can be set with @@VectorFont.
+
+@Parameter "Text$"
+  The text to draw (single line).
+
+@NoReturnValue
+
+@Remarks
+  This function draws single lines of text only. Multiple calls must be made
+  to draw multiple lines. Use @@VectorTextWidth and @@VectorTextHeight to determine 
+  the dimensions of the text to draw in order to properly align the text with other content. 
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    LoadFont(0, "Impact", 20, #PB_Font_Bold)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      VectorFont(FontID(0), 25)
+      VectorSourceColor(RGBA(0, 0, 0, 80))
+      Text$ = "The quick brown fox jumped over the lazy doc"
+      
+      For i = 1 To 6
+        MovePathCursor(200 - VectorTextWidth(Text$)/2, 100 - VectorTextHeight(Text$)/2)
+        DrawVectorText(Text$)
+        RotateCoordinates(200, 100, 30)
+      Next i
+
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@VectorTextWidth, @@VectorTextHeight, @@VectorFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorFont(FontID [, Size.d])
+
+@Description
+  Specifies the font to use for vector drawing.
+
+@Parameter "FontID"
+  The @@FontID of the font to use for drawing.
+
+@OptionalParameter "Size.d"
+  Specifies the size for the font. The size is measured in the units of the
+  vector drawing output. If no size is specified, then the size used in the
+  @@LoadFont command for the font will be converted to the current vector drawing unit.
+
+@NoReturnValue
+
+@SeeAlso
+  @@DrawVectorText, @@VectorTextWidth, @@VectorTextHeight
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = VectorTextWidth(Text$ [, Flags])
+
+@Description
+  Measures the width of the given text in the current vector drawing font.
+
+@Parameter "Text$"
+  The text (single-line) to measure.
+
+@OptionalParameter "Flags"
+  Can be a combination of the following values:
+@FixedFont
+  @#PB_VectorText_Default: Return the logical bounding box of the text
+  @#PB_VectorText_Visible: Return the visible bounding box of the text
+  @#PB_VectorText_Offset : Return the offset of the bounding box from the current position rather than the width
+@EndFixedFont
+  
+@ReturnValue
+  Returns the text width in units of the vector drawing output.
+
+@Remarks
+  The dimensions of drawn text can be defined in terms of two bounding boxes: 
+@LineBreak
+@LineBreak
+  The "logical bounding box" of a character or text defines the space that the cursor must move to 
+  properly draw text next to each other. However, the actual drawn characters may extend beyond that
+  box (for example in case of cursive or serif fonts). When determining where to draw text, the
+  logical bounding box is the interesting one.
+@LineBreak
+@LineBreak
+  The "visible bounding box" of a character or text defines the area in which the text is actually drawn.
+  This area is usually larger than the logical bounding box. The visible dimensions of the text can
+  be retrieved by specifying the @#PB_VectorText_Visible flag. The visible dimensions of the text can
+  be at an offset to the logical ones. This offset can be calculated by specifying the
+  @#PB_VectorText_Offset flag.
+@LineBreak
+@LineBreak
+  The following example shows a sample text with the logical bounding box in blue, the visible bounding
+  box in red and the location of the baseline in green. The origin at which the text is drawn is
+  the upper left corner of the logical bounding box (blue).
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 500, 250, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 500, 250)
+    LoadFont(0, "Monotype Corsiva", 50, #PB_Font_Bold)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      VectorFont(FontID(0), 125)
+      Text$ = "Sample"
+      
+      ; draw text
+      MovePathCursor(25, 25)
+      DrawVectorText(Text$)
+      
+      ; draw logical bounding box
+      AddPathBox(25, 25, VectorTextWidth(Text$), VectorTextHeight(Text$))
+      VectorSourceColor(RGBA(0, 0, 255, 255))
+      DashPath(2, 10)
+
+      ; draw visible bounding box
+      AddPathBox(25 + VectorTextWidth(Text$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
+                 25 + VectorTextHeight(Text$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
+                 VectorTextWidth(Text$, #PB_VectorText_Visible), 
+                 VectorTextHeight(Text$, #PB_VectorText_Visible))
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      DotPath(2, 10)        
+      
+      ; draw baseline
+      MovePathCursor(25, 25 + VectorTextHeight(Text$, #PB_VectorText_Baseline))
+      AddPathLine(VectorTextWidth(Text$), 0, #PB_Path_Relative)
+      VectorSourceColor(RGBA(0, 255, 0, 255))
+      DashPath(2, 10)                    
+
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image vectortextwidth.png  
+
+@SeeAlso
+  @@VectorTextHeight, @@DrawVectorText, @@VectorFont
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = VectorTextHeight(Text$ [, Flags])
+
+@Description
+  Measures the height of the given text in the current vector drawing font.
+
+@Parameter "Text$"
+  The text (single-line) to measure.
+
+@OptionalParameter "Flags"
+  Can be a combination of the following values:
+@FixedFont
+  @#PB_VectorText_Default : Return the logical bounding box of the text
+  @#PB_VectorText_Visible : Return the visible bounding box of the text
+  @#PB_VectorText_Offset  : Return the offset of the bounding box from the current position rather than the height
+  @#PB_VectorText_Baseline: Return the offset of the text baseline from the current position
+@EndFixedFont
+  
+@ReturnValue
+  Returns the text height in units of the vector drawing output.  
+  
+@Remarks
+  The dimensions of drawn text can be defined in terms of two bounding boxes: 
+@LineBreak
+@LineBreak
+  The "logical bounding box" of a character or text defines the space that the cursor must move to 
+  properly draw text next to each other. However, the actual drawn characters may extend beyond that
+  box (for example in case of cursive or serif fonts). When determining where to draw text, the
+  logical bounding box is the interesting one.
+@LineBreak
+@LineBreak
+  The "visible bounding box" of a character or text defines the area in which the text is actually drawn.
+  This area is usually larger than the logical bounding box. The visible dimensions of the text can
+  be retrieved by specifying the @#PB_VectorText_Visible flag. The visible dimensions of the text can
+  be at an offset to the logical ones. This offset can be calculated by specifying the
+  @#PB_VectorText_Offset flag.
+@LineBreak
+@LineBreak
+  The "baseline" defines the vertical distance from the origin of the drawn text to the line where
+  the letters "sit". It is useful to draw text of different heights on a single line. The baseline
+  value for the text can be retrieved by specifying the @#PB_VectorText_Baseline flag.
+@LineBreak
+@LineBreak
+  The following example shows a sample text with the logical bounding box in blue, the visible bounding
+  box in red and the location of the baseline in green. The origin at which the text is drawn is
+  the upper left corner of the logical bounding box (blue).
+
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 500, 250, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 500, 250)
+    LoadFont(0, "Monotype Corsiva", 50, #PB_Font_Italic)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+    
+      VectorFont(FontID(0), 125)
+      Text$ = "Sample"
+      
+      ; draw text
+      MovePathCursor(25, 25)
+      DrawVectorText(Text$)
+      
+      ; draw logical bounding box
+      AddPathBox(25, 25, VectorTextWidth(Text$), VectorTextHeight(Text$))
+      VectorSourceColor(RGBA(0, 0, 255, 255))
+      DashPath(2, 10)
+
+      ; draw visible bounding box
+      AddPathBox(25 + VectorTextWidth(Text$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
+                 25 + VectorTextHeight(Text$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
+                 VectorTextWidth(Text$, #PB_VectorText_Visible), 
+                 VectorTextHeight(Text$, #PB_VectorText_Visible))
+      VectorSourceColor(RGBA(255, 0, 0, 255))
+      DotPath(2, 10)        
+      
+      ; draw baseline
+      MovePathCursor(25, 25 + VectorTextHeight(Text$, #PB_VectorText_Baseline))
+      AddPathLine(VectorTextWidth(Text$), 0, #PB_Path_Relative)
+      VectorSourceColor(RGBA(0, 255, 0, 255))
+      DashPath(2, 10)                    
+
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@Image vectortextwidth.png  
+
+@SeeAlso
+  @@VectorTextWidth, @@DrawVectorText, @@VectorFont
+
+@SupportedOS
+

@@ -1,0 +1,33 @@
+@Title Die Verwendung verschiedener PureBasic Versionen auf Windows
+
+@Section Überblick
+
+  Es ist möglich, verschiedene PureBasic Versionen zur gleichen Zeit auf Ihrer Festplatte zu installieren.
+  Dies ist nützlich, wenn Sie zum Beispiel ein Projekt mit einer älteren PureBasic Version
+  fertig stellen, aber bereits ein neues Projekt mit einer neuen PureBasic Version beginnen möchten.
+
+@Section Wie Sie dabei vorgehen
+
+  Erstellen Sie einfach verschiedene Verzeichnisse wie "PureBasic_v3.94" sowie "PureBasic_v4" und 
+  installieren Sie die entsprechenden PureBasic Versionen in den jeweiligen Ordner.
+  @LineBreak
+  @LineBreak
+  Wenn eine "PureBasic.exe" gestartet wird, wird diese alle ".pb" Dateien 
+  mit dieser Version von PureBasic verknüpfen. Wenn Sie daher das nächste Mal einen
+  Quellcode durch Doppelklick auf eine entsprechende Datei laden, wird die aktuell verknüpfte
+  PureBasic Version gestartet.
+  Daneben wird PureBasic nichts verändern, was Auswirkungen auf andere PureBasic Versionen in
+  unterschiedlichen Verzeichnissen haben kann.
+  @LineBreak
+  @LineBreak
+  Um das automatische Verknüpfen der ".pb" Dateien beim Starten der IDE zu verhindern, können
+  Sie z.B. eine Verknüpfung zur PureBasic.exe anlegen und dabei die Option "/NOEXT" als Parameter
+  verwenden. Die Kommandozeilen-Optionen für die IDE sind @ReferenceLink "ide_commandline" "hier"
+  beschrieben.
+  @LineBreak
+  @LineBreak
+  @Bold "Hinweis:" Seit PureBasic 4.10 werden die Einstellungen der IDE nicht mehr im PureBasic Verzeichnis
+  gespeichert, stattdessen im %APPDATA%\PureBasic Verzeichnis. Um zu verhindern, dass mehrere Versionen
+  die gleichen Konfigurations-Dateien verwenden, können die /P /T und /A @ReferenceLink "ide_commandline" "Switches"
+  genutzt werden. Weiterhin gibt es den /PORTABLE Switch, welcher alle Dateien zurück ins PureBasic Verzeichnis bringt
+  und die Erstellung der .pb Erweiterung (Registry-Eintrag) deaktiviert.

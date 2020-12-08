@@ -1,0 +1,368 @@
+;
+;     Keyboard library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Keyboard
+
+@Overview
+
+  SpiderBasic provides fast and easy access to the keyboard. This capability
+  should only be used in applications where raw and extremely fast access is
+  required, such as in games for instance.
+
+@CommandList
+
+@ExampleFile All Keyboard.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitKeyboard()
+
+@Description
+  Initializes the keyboard environment for later use. This function has to be called before any other
+  function in this library.
+
+@NoParameters
+
+@ReturnValue
+  Nonzero if the keyboard access can be initialized, zero otherwise. 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineKeyboard()
+
+@Description
+  Updates the keyboard state. This function has to be called before using @@KeyboardInkey,
+  @@KeyboardPushed or @@KeyboardReleased.
+
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@KeyboardInkey, @@KeyboardPushed @@KeyboardReleased.
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = KeyboardInkey()
+
+@Description
+  Returns the last typed character, very useful when keyboard input is required within a
+  gaming application, such as the name in highscore, in game console, etc.).
+
+@NoParameters
+
+@ReturnValue
+  The last typed character.
+
+@Example
+@Code
+  OpenScreen(800, 600, 32, "Test")
+  
+  Procedure RenderFrame()
+    Static x, y, FullText$
+    
+    ClearScreen(RGB(0, 0, 0))
+    
+    If ExamineKeyboard()
+      ; If we press the 'Back' key, we will delete the last character
+      ;
+      If KeyboardReleased(#PB_Key_Back)
+        FullText$ = Left(FullText$, Len(FullText$)-1)
+      Else
+        Result$ = KeyboardInkey()
+        If FindString("1234567890 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", Result$) ; Or your chosen valid characters
+          FullText$ + Result$
+          Debug FullText$
+        EndIf ; Add the new text to the current one (if any)
+      EndIf
+    EndIf
+    
+    FlipBuffers(); // continue the rendering
+  EndProcedure
+  
+  Procedure Loading(Type, Filename$, ObjectId)
+    Static NbLoadedElements
+    
+    NbLoadedElements+1
+    If NbLoadedElements = 1 ; The loading of all images and sounds is finished, we can start the rendering
+      FlipBuffers()         ; // start the rendering
+    EndIf
+  EndProcedure
+  
+  Procedure LoadingError(Type, Filename$, ObjectId)
+    Debug Filename$ + ": loading error"
+  EndProcedure
+  
+  ; Register the loading event before calling any resource load command
+  BindEvent(#PB_Event_Loading, @Loading())
+  BindEvent(#PB_Event_LoadingError, @LoadingError())
+  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+  
+  LoadSprite(0, "Data/SpiderBasicLogo.png")
+@EndCode
+
+@SeeAlso
+  @@ExamineKeyboard
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = KeyboardPushed(KeyID)
+
+@Description
+  Checks if the specified key is pressed. Any number of keys may be pressed at the same time. The function
+  @@ExamineKeyboard must be called before this function in order to update the keyboard
+  state.
+@LineBreak
+@LineBreak
+  To check if a specified key has been pushed and released, see @@KeyboardReleased.
+
+@Parameter "KeyID"
+  The identifier of the key to be checked. List of available keys:
+@FixedFont
+  @#PB_Key_All   ; All keys are tested. Very useful for any key checks.
+
+  @#PB_Key_1
+  @#PB_Key_2
+  @#PB_Key_3
+  @#PB_Key_4
+  @#PB_Key_5
+  @#PB_Key_6
+  @#PB_Key_7
+  @#PB_Key_8
+  @#PB_Key_9
+  @#PB_Key_0
+
+  @#PB_Key_A
+  @#PB_Key_B
+  @#PB_Key_C
+  @#PB_Key_D
+  @#PB_Key_E
+  @#PB_Key_F
+  @#PB_Key_G
+  @#PB_Key_H
+  @#PB_Key_I
+  @#PB_Key_J
+  @#PB_Key_K
+  @#PB_Key_L
+  @#PB_Key_M
+  @#PB_Key_N
+  @#PB_Key_O
+  @#PB_Key_P
+  @#PB_Key_Q
+  @#PB_Key_R
+  @#PB_Key_S
+  @#PB_Key_T
+  @#PB_Key_U
+  @#PB_Key_V
+  @#PB_Key_W
+  @#PB_Key_X
+  @#PB_Key_Y
+  @#PB_Key_Z
+
+  @#PB_Key_Escape
+  @#PB_Key_Minus
+  @#PB_Key_Equals
+  @#PB_Key_Back
+  @#PB_Key_Tab
+  @#PB_Key_LeftBracket
+  @#PB_Key_RightBracket
+  @#PB_Key_Return
+  @#PB_Key_LeftControl
+  @#PB_Key_SemiColon
+  @#PB_Key_Apostrophe
+  @#PB_Key_Grave
+  @#PB_Key_LeftShift
+  @#PB_Key_BackSlash
+  @#PB_Key_Comma
+  @#PB_Key_Period
+  @#PB_Key_Slash
+  @#PB_Key_RightShift
+  @#PB_Key_Multiply
+  @#PB_Key_LeftAlt
+  @#PB_Key_Space
+  @#PB_Key_Capital
+  @#PB_Key_F1
+  @#PB_Key_F2
+  @#PB_Key_F3
+  @#PB_Key_F4
+  @#PB_Key_F5
+  @#PB_Key_F6
+  @#PB_Key_F7
+  @#PB_Key_F8
+  @#PB_Key_F9
+  @#PB_Key_F10
+  @#PB_Key_F11
+  @#PB_Key_F12
+  @#PB_Key_NumLock
+  @#PB_Key_Scroll
+  @#PB_Key_Pad0
+  @#PB_Key_Pad1
+  @#PB_Key_Pad2
+  @#PB_Key_Pad3
+  @#PB_Key_Pad4
+  @#PB_Key_Pad5
+  @#PB_Key_Pad6
+  @#PB_Key_Pad7
+  @#PB_Key_Pad8
+  @#PB_Key_Pad9
+  @#PB_Key_Add
+  @#PB_Key_Subtract
+  @#PB_Key_Decimal
+  @#PB_Key_PadEnter
+  @#PB_Key_RightControl
+  @#PB_Key_PadComma
+  @#PB_Key_Divide
+  @#PB_Key_RightAlt
+  @#PB_Key_Pause
+  @#PB_Key_Home
+  @#PB_Key_Up
+  @#PB_Key_Down
+  @#PB_Key_Left
+  @#PB_Key_Right
+  @#PB_Key_End
+  @#PB_Key_PageUp
+  @#PB_Key_PageDown
+  @#PB_Key_Insert
+  @#PB_Key_Delete
+@EndFixedFont
+  
+@ReturnValue
+  Nonzero if the specified key is pushed, zero otherwise.
+
+@Example
+@Code
+  OpenScreen(800, 600, 32, "Test")
+  
+  Procedure RenderFrame()
+    Static x, y
+    
+    ClearScreen(RGB(0, 0, 0))
+    
+    If ExamineKeyboard()
+      If KeyboardPushed(#PB_Key_Left)
+        x-2
+      ElseIf KeyboardPushed(#PB_Key_Right)
+        x+2
+      EndIf
+      
+      If KeyboardPushed(#PB_Key_Up)
+        y-2
+      ElseIf KeyboardPushed(#PB_Key_Down)
+        y+2
+      EndIf
+      
+      DisplaySprite(0, x, y)
+    EndIf
+    
+    FlipBuffers(); // continue the rendering
+  EndProcedure
+  
+  Procedure Loading(Type, Filename$, ObjectId)
+    Static NbLoadedElements
+    
+    NbLoadedElements+1
+    If NbLoadedElements = 1 ; The loading of all images and sounds is finished, we can start the rendering
+      FlipBuffers(); // start the rendering
+    EndIf
+  EndProcedure
+  
+  Procedure LoadingError(Type, Filename$, ObjectId)
+    Debug Filename$ + ": loading error"
+  EndProcedure
+  
+  ; Register the loading event before calling any resource load command
+  BindEvent(#PB_Event_Loading, @Loading())
+  BindEvent(#PB_Event_LoadingError, @LoadingError())
+  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+  
+  LoadSprite(0, "Data/SpiderBasicLogo.png")
+@EndCode
+
+@SeeAlso
+  @@ExamineKeyboard, @@KeyboardReleased
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = KeyboardReleased(KeyID)
+
+@Description
+  Checks if the specified key has been pushed and released. This function is useful for 
+  switch key checks, like a 'Pause' key in a game (one time the game is paused, next time 
+  it will continue). The function @@ExamineKeyboard must be called before this function to update the keyboard
+  state.
+  
+@Parameter "KeyID"
+  The identifier of the key to be checked. For a full list of available keys see @@KeyboardPushed.
+
+@ReturnValue
+  Nonzero if the specified key has been pushed and released, zero otherwise.
+
+@Example
+@Code
+  Debug "The sprite will only move when the key are released"
+
+  OpenScreen(800, 600, 32, "Test")
+  
+  Procedure RenderFrame()
+    Static x, y
+    
+    ClearScreen(RGB(0, 0, 0))
+    
+    If ExamineKeyboard()
+      If KeyboardReleased(#PB_Key_Left)
+        x-10
+      ElseIf KeyboardReleased(#PB_Key_Right)
+        x+10
+      EndIf
+      
+      If KeyboardReleased(#PB_Key_Up)
+        y-10
+      ElseIf KeyboardReleased(#PB_Key_Down)
+        y+10
+      EndIf
+      
+      DisplaySprite(0, x, y)
+    EndIf
+    
+    FlipBuffers(); // continue the rendering
+  EndProcedure
+  
+  Procedure Loading(Type, Filename$, ObjectId)
+    Static NbLoadedElements
+    
+    NbLoadedElements+1
+    If NbLoadedElements = 1 ; The loading of all images and sounds is finished, we can start the rendering
+      FlipBuffers(); // start the rendering
+    EndIf
+  EndProcedure
+  
+  Procedure LoadingError(Type, Filename$, ObjectId)
+    Debug Filename$ + ": loading error"
+  EndProcedure
+  
+  ; Register the loading event before calling any resource load command
+  BindEvent(#PB_Event_Loading, @Loading())
+  BindEvent(#PB_Event_LoadingError, @LoadingError())
+  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+  
+  LoadSprite(0, "Data/SpiderBasicLogo.png")
+@EndCode
+
+@SeeAlso
+  @@ExamineKeyboard, @@KeyboardPushed
+
+@SupportedOS

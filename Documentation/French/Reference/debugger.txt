@@ -1,0 +1,136 @@
+@Title Commandes de débogage
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#CallDebugger"><u>CallDebugger</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Debug"><u>Debug</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#DebugLevel"><u>DebugLevel</u></a></td>
+  </tr>
+    <tr>
+    <td align="center" vAlign="center" nowrap><a href="#DisableDebugger"><u>DisableDebugger</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#EnableDebugger"><u>EnableDebugger</u></a></td>
+    <td align="center" vAlign="center" nowrap><u>...</u></td>
+  </tr>
+
+    </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+  
+; -------------------------------------------------------------------------------------------------
+@Section Introduction
+
+  La description complète des fonctionnalités du débogueur se trouve dans
+  les chapitres @ReferenceLink "ide_debugger" "Utilisation du débogueur" et
+  @ReferenceLink "ide_debugtools" "Utiliser les outils de déboguage".
+@LineBreak
+@LineBreak
+  Une bibliothèque @LibraryLink "Debugger" "Debugger" est également disponible
+  pour controler le comportement du débogueur à partir du code source.
+@LineBreak
+@LineBreak
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="CallDebugger"></a>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword CallDebugger
+  
+@Description    
+
+  Appel du "débogueur" et arrêt immédiat du programme au point courant du code. 
+@LineBreak
+@LineBreak
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="Debug"></a>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword Debug <expression> [, NiveauDebug]
+
+@Description    
+
+  Affiche la fenêtre DebugOutput et le résultat correspondant. L'expression peut être toute 
+  expression valide en PureBasic, de forme numérique ou chaine. Un point important est que 
+  toute commande @Keyword Debug et les expressions associées sont totalement ignorées (non compilées) 
+  si le débogueur est désactivé. Cela singifie qu'il n'est pas nécessaire de passer les instruction 
+  @Keyword Debug en commentaires lors de la création de l'exécutable final tout en ayant la possibilité 
+  de tracer facilement l'exécution du programme pour le développeur. @LineBreak
+  @LineBreak
+  'NiveauDebug' est le niveau de priorité des messages du débogueur. Tous les messages (avec un niveau 
+  non spécifié) sont affichés automatiquement. Lorsqu'un niveau est spécifié alors le message correspondant 
+  ne sera affiché que si le niveau de debug courant est égal ou supérieur au niveau associé au message. 
+  Cela permet de réaliser une traçabilité hiérarchisée en affichant des informations de plus en plus 
+  précises en fonction de la valeur 'NiveauDebug' utilisée. 
+@LineBreak
+@LineBreak
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="DebugLevel"></a>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword DebugLevel <expression constante >
+
+@Description    
+
+  Fixe le niveau courant pour les messages 'Debug'. 
+  @LineBreak
+  @LineBreak
+  Note: Le niveau est fixé au moment de la compilation, ce qui signifie que vous devez mettre la commande
+  @Keyword "DebugLevel" avant les commandes debug pour être sûr qu'elles seront bien toutes affectées.
+@LineBreak
+@LineBreak
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="DisableDebugger"></a>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword DisableDebugger
+
+@Description    
+
+    Interromps l'utilisation du débogueur sur les lignes du code qui suivent cette commande. 
+@LineBreak
+@LineBreak
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="EnableDebugger"></a>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword EnableDebugger
+
+@Description    
+
+  Active l'utilisation du débogueur sur les lignes de code qui suivent cette commande (lorsque 
+  le débogueur a été préalablement interrompu par la commande @Keyword DisableDebugger). 
+@LineBreak
+@LineBreak
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

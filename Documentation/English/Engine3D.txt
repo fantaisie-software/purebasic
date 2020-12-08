@@ -1,0 +1,1378 @@
+;
+;     Engine3D library documentation
+;
+;      (c) 2017 - Fantaisie Software
+;
+
+@Library Engine3D
+
+@Overview
+
+PureBasic provides easy access to a very powerful OpenSource
+3D Engine called OGRE. This choice has been made because we don't like to reinvent the
+wheel every time and when we saw the OGRE code quality, we felt that it would make a considerable contribution to the PureBasic 3D library.
+@LineBreak
+@LineBreak
+OGRE is still under heavy development and will probably become a
+very advanced engine soon. Its community is growing more and more and many tools
+are available to make the most of this engine (e.g. Blender, Lightwave and 3DS Max exporters,
+Terrain manager etc.). More information about OGRE is available at @InternetLink "http://www.ogre3d.org" "OGRE web site".
+The OGRE license file can be consulted @MainGuideLink "ogre_mit" "here" (read more in @InternetLink "http://www.ogre3d.org/licensing/licensing-faq" "Licensing FAQ").
+@LineBreak
+@LineBreak
+  Note: If you use the 3D engine of PureBasic in your projects and you
+  intent to distribute your executable, you will have to copy the Engine3D.dll from
+  the PureBasic/Compilers directory to your main project directory.
+@LineBreak
+@LineBreak
+
+@Section  Spatial conventions
+  OGRE uses the following spatial conventions: @LineBreak
+  The spatial reference of OGRE is direct and the rule of the 'three fingers' of the right hand 
+  allows us to find easily the position of the axes X, Y and Z in the 3D World.
+@Image ogre_axes.png
+  @Underline "Attention, the Z axis is facing you."
+@LineBreak
+@LineBreak
+  @Bold "Definition of: Roll, Pitch and Yaw:" @LineBreak
+  - Pitch is a rotation around the x axis. @LineBreak
+  - Yaw is a rotation around the y axis. @LineBreak
+  - Roll is a rotation around the z axis.
+@LineBreak
+@LineBreak
+  @Bold "Positive direction:" @LineBreak
+  The positive direction for a rotation around an axis. @LineBreak
+  Thumb in the direction of the axis as indicated, the direction of the fingers gives the positive 
+  direction of the rotation. @LineBreak
+  (Use your right hand).
+@Image ogre_directrotation.png
+@LineBreak
+@LineBreak
+
+@Section  Important note:
+  In all 3D libraries supplied with PureBasic, all variables and returned values are 
+  Float-type except for IDs and indexes, even if not indicated by a '.f'.
+@LineBreak
+@LineBreak
+
+@CommandList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Add3DArchive(Path$, Type)
+
+@Description
+  Add a new absolute or relative path to the current 3D path list. All the 3D functions which need
+  to load data (e.g. @LibraryLink "texture" "texture", @LibraryLink "mesh" "mesh", @Link "SkyBox" "sky",
+  @Link "RenderWorld" "world") will use this path. 
+@LineBreak
+@LineBreak
+  You may wonder why there is a special
+  way to handle the files for 3D functions? Because it makes the data access more flexible and now,
+  you can access the data using the standard filesystem or directly via the archive file like a .zip file. It's a
+  very cool feature because you can pack all your data in one big compressed file, and then access the assets as
+  if these were contained a standard directory. 
+
+@Parameter "Path$"
+  The path to add to the 3D path list. It can be a real filesystem path, or a ZIP archive.
+
+@Parameter "Type"
+  It can be one of the following value:
+@FixedFont
+  @#PB_3DArchive_FileSystem : Standard directory
+  @#PB_3DArchive_Zip        : Compressed zip file
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  Add3DArchive("MyData.zip", #PB_3DArchive_Zip) ; Add the .zip as a directory in the path
+  LoadTexture(0, "MyTexture.jpg")               ; load the MyTexture.jpg from the zip
+  LoadTexture(1, "World/Grass.jpg")             ; load the Grass.jpg from the zip, in the World\ path
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AmbientColor(Color)
+
+@Description
+
+  Changes the ambient color of the world. 
+
+@Parameter "Color"
+  The new ambient color to set. @@RGB can be used to get a valid Color value.
+  
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AntialiasingMode(Mode)
+
+@Description
+
+  Changes the fullscreen antialiasing mode. This function has to be called before @@OpenScreen to have
+  any effect. 
+
+@Parameter "Mode"
+  It can be one of the following constants:
+@FixedFont
+  @#PB_AntialiasingMode_None: No antialiasing (default).
+  @#PB_AntialiasingMode_x2  : x2 fullscreen antialiasing (FSAA).
+  @#PB_AntialiasingMode_x4  : x4 fullscreen antialiasing (FSAA).
+  @#PB_AntialiasingMode_x6  : x6 fullscreen antialiasing (FSAA).
+@EndFixedFont
+
+@Remarks  
+  Depending of the graphic card, this command can have a severe impact on rendering performance.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ConvertLocalToWorldPosition(ObjectID, x, y, z)
+
+@Description
+  Converts the local x,y,z coordinates into world coordinates. @@GetX, @@GetY and @@GetZ
+  will be used to get the converted coordinates.
+  
+@Parameter "ObjectID"
+  The object ID to convert the coordinate from. It can be one of the following type:
+@FixedFont
+  - Camera         : use @@CameraID to get a valid ID.
+  - Entity         : use @@EntityID to get a valid ID.
+  - Light          : use @@LightID to get a valid ID.
+  - Mesh           : use @@MeshID to get a valid ID.
+  - Node           : use @@NodeID to get a valid ID.
+  - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
+  - BillboardGroup : use @@BillboardGroupID to get a valid ID.
+  - Text3D         : use @@Text3DID to get a valid ID.
+@EndFixedFont
+
+@Parameter "x, y, z"
+  The local coordinates to convert.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@ConvertWorldToLocalPosition
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ConvertWorldToLocalPosition(ObjectID, x, y, z)
+
+@Description
+  Converts the world x,y,z coordinates into local coordinates. @@GetX, @@GetY and @@GetZ
+  will be used to get the converted coordinates.
+  
+@Parameter "ObjectID"
+  The object ID to convert the coordinate from. It can be one of the following type:
+@FixedFont
+  - Camera         : use @@CameraID to get a valid ID.
+  - Entity         : use @@EntityID to get a valid ID.
+  - Light          : use @@LightID to get a valid ID.
+  - Mesh           : use @@MeshID to get a valid ID.
+  - Node           : use @@NodeID to get a valid ID.
+  - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
+  - BillboardGroup : use @@BillboardGroupID to get a valid ID.
+  - Text3D         : use @@Text3DID to get a valid ID.
+@EndFixedFont
+
+@Parameter "x, y, z"
+  The world coordinates to convert.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@ConvertLocalToWorldPosition
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Engine3DStatus(Type)
+
+@Description
+  Gets the 3D engine current status.
+  
+@Parameter "Type"
+  This can be one of the following values:
+@FixedFont
+  @#PB_Engine3D_NbRenderedTriangles: Nb rendered triangles in the last frame.
+  @#PB_Engine3D_NbRenderedBatches  : Nb rendered batches in the last frame.
+  @#PB_Engine3D_CurrentFPS         : Current frame rate.
+  @#PB_Engine3D_AverageFPS         : Average frame rate achieved since the engine started running.
+  @#PB_Engine3D_MaximumFPS         : Best frame rate achieved since the engine started running.
+  @#PB_Engine3D_MinimumFPS         : Worst frame rate achieved since the engine started running.
+  @#PB_Engine3D_ResetFPS           : Reset all the frame rate related statistics.
+@EndFixedFont 
+
+@ReturnValue
+  The value depending of the specified 'Type'.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EnableWorldCollisions(State)
+
+@Description
+  Enable or disable the collisions in the world.
+
+@Parameter "State"
+  If nonzero, the collisions will be enabled (default). The collisions is applied to all the @LibraryLink "entity" "entities" which 
+  have a body set with @@CreateEntityBody. Collisions only work if the physics engine is enabled with @@EnableWorldPhysics.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@EnableWorldPhysics
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EnableWorldPhysics(State)
+
+@Description
+  Enable or disable the physics engine in the world.
+  
+@Parameter "State"
+  If nonzero, the physics engine will be enabled (default). The physics engine is applied to all the @LibraryLink "entity" "entities" which 
+  have a body set with @@CreateEntityBody. Collisions can be enabled with @@EnableWorldCollisions. To have working collisions, the physics
+  engine has to be enabled.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@EnableWorldCollisions
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineWorldCollisions(Contacts)
+
+@Description
+  Examine the collisions which have occurred in the world since the last call. Collisions have to be
+  enabled with @@EnableWorldCollisions before using this command. To step through the collisions,
+  use @@NextWorldCollision.
+  
+@Parameter "Contacts"
+  If set the @#True, contact information about the colliding objects are collected and can be retrieved with
+  @@WorldCollisionContact, @@WorldCollisionNormal and @@WorldCollisionAppliedImpulse. If set to @#False,
+  no contact informations are collected (faster).
+  
+@ReturnValue
+  Returns nonzero if the collisions can be examined, returns zero otherwise.
+
+@SeeAlso
+  @@EnableWorldCollisions, @@NextWorldCollision
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextWorldCollision()
+
+@Description
+  Go to the next collision. @@ExamineWorldCollisions needs to be called successfully before using this command.
+  To get more information about the current collision, use @@FirstWorldCollisionEntity, 
+  @@SecondWorldCollisionEntity, @@WorldCollisionContact, @@WorldCollisionNormal and @@WorldCollisionAppliedImpulse.
+    
+@ReturnValue
+  Returns nonzero if there is another collision to be examined, or zero if there is no more collisions.
+
+@SeeAlso
+  @@ExamineWorldCollisions, @@FirstWorldCollisionEntity, @@SecondWorldCollisionEntity, @@WorldCollisionContact, @@WorldCollisionNormal, @@WorldCollisionAppliedImpulse
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = FirstWorldCollisionEntity()
+
+@Description
+  Returns the #Entity number of the first object in the collision being examined with @@ExamineWorldCollisions.
+      
+@ReturnValue
+  Returns the #Entity number of the first object in the current collision.
+
+@SeeAlso
+  @@ExamineWorldCollisions, @@SecondWorldCollisionEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SecondWorldCollisionEntity()
+
+@Description
+  Returns the #Entity number of the second object in the collision being examined with @@ExamineWorldCollisions().
+      
+@ReturnValue
+  Returns the #Entity number of the second object in the current collision.
+
+@SeeAlso
+  @@ExamineWorldCollisions, @@FirstWorldCollisionEntity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WorldCollisionContact()
+
+@Description
+  Fetch contact information about the collision being examined with @@ExamineWorldCollisions(). 
+  @@ExamineWorldCollisions 'Contacts' parameter has to be set to @#True to have this command working.
+  The contact vector values can be retrieved with @@GetX, @@GetY and @@GetZ.
+      
+@NoReturnValue
+
+@SeeAlso
+  @@ExamineWorldCollisions, @@GetX, @@GetY, @@GetZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WorldCollisionNormal()
+
+@Description
+  Fetch contact normal information about the collision being examined with @@ExamineWorldCollisions(). 
+  @@ExamineWorldCollisions 'Contacts' parameter has to be set to @#True to have this command working.
+  The contact normal vector values can be retrieved with @@GetX, @@GetY and @@GetZ.
+      
+@NoReturnValue
+
+@SeeAlso
+  @@ExamineWorldCollisions, @@GetX, @@GetY, @@GetZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = WorldCollisionAppliedImpulse()
+
+@Description
+  Returns the applied impulse about the collision being examined with @@ExamineWorldCollisions. 
+  @@ExamineWorldCollisions 'Contacts' parameter has to be set to @#True to have this command working.
+      
+@ReturnValue
+  The applied impulse about the collision being examined with @@ExamineWorldCollisions.
+
+@SeeAlso
+  @@ExamineWorldCollisions
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FetchOrientation(ObjectID [, Mode])
+
+@Description
+  Get the orientation of the specified object. @@GetX, @@GetY, @@GetZ and @@GetW
+  will be used to get orientation values.
+  
+@Parameter "ObjectID"
+  The object ID to get the orientation. It can be one of the following type:
+@FixedFont
+  - Camera         : use @@CameraID to get a valid ID.
+  - Entity         : use @@EntityID to get a valid ID.
+  - Light          : use @@LightID to get a valid ID.
+  - Mesh           : use @@MeshID to get a valid ID.
+  - Node           : use @@NodeID to get a valid ID.
+  - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
+  - BillboardGroup : use @@BillboardGroupID to get a valid ID.
+  - Text3D         : use @@Text3DID to get a valid ID.
+@EndFixedFont
+
+@OptionalParameter "Mode"
+  The mode to get the orientation. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute orientation of the object in the world (default).
+  @#PB_Relative: get the orientation of the object relative to its parent.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetX, @@GetY, @@GetZ, @@GetW, @@SetOrientation
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetOrientation(ObjectID, x, y, z, w)
+
+@Description
+  Set the orientation of the specified object.
+  
+@Parameter "ObjectID"
+  The object ID to set the orientation. It can be one of the following type:
+@FixedFont
+  - Camera         : use @@CameraID to get a valid ID.
+  - Entity         : use @@EntityID to get a valid ID.
+  - Light          : use @@LightID to get a valid ID.
+  - Mesh           : use @@MeshID to get a valid ID.
+  - Node           : use @@NodeID to get a valid ID.
+  - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
+  - BillboardGroup : use @@BillboardGroupID to get a valid ID.
+  - Text3D         : use @@Text3DID to get a valid ID.
+@EndFixedFont
+
+@Parameter "x, y, z, w"
+  The new orientation value.
+
+@NoReturnValue
+
+@SeeAlso
+  @@FetchOrientation
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetX()
+
+@Description
+  Returns the x value of the last called command. Supported commands are @@FetchOrientation, @@ConvertLocalToWorldPosition
+  and @@ConvertWorldToLocalPosition.
+
+@ReturnValue
+  Returns the x value of the last called command. 
+  
+@SeeAlso
+  @@GetY, @@GetZ, @@GetW, @@FetchOrientation, @@ConvertLocalToWorldPosition, @@ConvertWorldToLocalPosition
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetY()
+
+@Description
+  Returns the y value of the last called command. Supported commands are @@FetchOrientation, @@ConvertLocalToWorldPosition
+  and @@ConvertWorldToLocalPosition.
+
+@ReturnValue
+  Returns the y value of the last called command. 
+  
+@SeeAlso
+  @@GetX, @@GetZ, @@GetW, @@FetchOrientation, @@ConvertLocalToWorldPosition, @@ConvertWorldToLocalPosition
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetZ()
+
+@Description
+  Returns the z value of the last called command. Supported commands are @@FetchOrientation, @@ConvertLocalToWorldPosition
+  and @@ConvertWorldToLocalPosition.
+
+@ReturnValue
+  Returns the z value of the last called command. 
+  
+@SeeAlso
+  @@GetX, @@GetY, @@GetW, @@FetchOrientation, @@ConvertLocalToWorldPosition, @@ConvertWorldToLocalPosition
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetW()
+
+@Description
+  Returns the w value of the last called command. The only supported command is @@FetchOrientation.
+
+@ReturnValue
+  Returns the w value of the last called command. 
+  
+@SeeAlso
+  @@GetX, @@GetY, @@GetZ, @@FetchOrientation
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Fog(Color, Intensity, StartDistance, EndDistance)
+
+@Description
+
+  Creates a fog at the specified distance of the camera. The fog effect is
+  applied to all cameras. The fog is also applied automatically to
+  the @@SkyBox and @@SkyDome commands if called before them.
+    
+@Parameter "Color"
+  The fog color. @@RGB can be used to get a valid color value.
+  
+@Parameter "Intensity"
+  The fog intensity. If sets to zero, the fog effect is disable.
+  
+@Parameter "StartDistance"
+  The distance from the camera (in world units) where the fog should start. 
+
+@Parameter "EndDistance"
+  The distance from the camera where the fog is fully opaque.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@SkyDome, @@SkyBox
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitEngine3D([Flags [, LibraryName$]) 
+
+@Description
+  Initializes the 3D environment for later use. You must put this function at 
+  the top of your source code if you want to use any of the 3D functions.
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_Engine3D_NoLog      : No log will be written to disk or printed to the console (default).
+  @#PB_Engine3D_DebugLog   : A debug log file named 'Ogre.log' will be created in the current directory, to help
+                            debugging or user reports. A lot of actions are logged in this file, but it shouldn't 
+                            affect performances so it can even be activated for a release product.
+  @#PB_Engine3D_DebugOutput: The actions are printed to the console. You must remember to set the executable format 
+                            to 'Console' when you are compiling your programs.
+  @#PB_Engine3D_EnableCG   : Enable CG library support. It needs to be installed before use from @InternetLink "https://developer.nvidia.com/cg-toolkit-download" "nvidia website".
+@EndFixedFont
+
+@OptionalParameter "LibraryName$"
+  Name of the Engine3D file which should be loaded. If it is put to another place than the current
+  directory, it could be specified here.
+  
+@ReturnValue
+  Returns non-zero if the library has been successfully loaded, zero otherwise.
+  If initialization fails, the program should quit or all 3D function calls should be disabled.
+  
+@Remarks  
+  InitEngine3D() tries to load the Engine3D library (named 'Engine3D.dll' on Windows, 'engine3d.so' on Linux
+  and 'engine3d.dylib' on OS X, found in the PureBasic/compilers/ directory). If it fails, it's probably because the library
+  is not found or doesn't match the current PureBasic version. On Windows, a recent version of DirectX 9 needs to be installed (can be found here: 
+  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
+
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen, @@Add3DArchive
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LoadWorld(Filename$)
+
+@Description
+  This function loads an entire world. Currently, the Quake3 BSP format is the only one supported but more formats will follow.
+  The Filename$ must be accessible in the 3D path, so the @@Add3DArchive function should be used
+  before calling this function. A world can be easily created using third party tools like 'Quark'. A world can contain a sky,
+  building, lights and more. Actually, all Quake 3 maps can be loaded out of the box with full detail.
+  If the 'Result' is 0, the world could not be loaded.
+@LineBreak  
+@LineBreak
+  The BSP format is owned by iD Software and can only be used in freeware programs. Commercial software must acquire a license
+  from iD to use this format. The license scheme is beyond PureBasic and Fantaisie Software can't be responsible
+  for the incorrect use of this function.
+  
+@SupportedOS Windows, Linux
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MousePick(#Camera, x, y [, PickMask])
+
+@Description
+
+  Simulates a mouse click and returns which object is under the specified 2D point on the
+  specified camera. 
+  
+@Parameter "#Camera"
+  The camera to use.
+
+@Parameter "x, y"
+  The coordinates, in pixels, of the point.
+  
+@OptionalParameter "PickMask"
+  The entity mask used while performing the ray cast. Only the entities with a mask matching
+  the PickMask value will be reported. If this parameter is omitted, all the entities are valid
+  for the ray detection. The mask can be a combination, to select more than one entity group.
+  To have more information about pick mask, see @@CreateEntity.
+
+@ReturnValue
+  The returned value can be:
+@FixedFont
+  -1 : Nothing has been detected
+  @#PB_World_WaterPick: the click occurred on the water.
+  @#PB_World_TerrainPick: the click occurred on a terrain.
+  0 and above: the click occurred on the #Entity. The entity pick is based on its bounding box, not on its mesh.
+@EndFixedFont
+  To get more information about the picked object position, use @@PickX, @@PickY and @@PickZ.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PointPick(#Camera, x, y)
+
+@Description
+  Allows to get the direction the specified 2D point on the
+  specified camera.
+  
+@Parameter "#Camera"
+  The camera to use.
+
+@Parameter "x, y"
+  The coordinates, in pixels, of the point.
+  
+@ReturnValue
+  Returns non-zero if the pick was successful.
+  To get the point direction, use @@PickX, @@PickY and @@PickZ.
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = BodyPick(#Camera, Picked, x, y, Locked)
+
+@Description
+
+  Simulates a mouse click and starts the manipulate the entity at the specified coordinate. 
+  
+@Parameter "#Camera"
+  The camera to use.
+
+@Parameter "Picked"
+  If @#True, the picked body won't be released until a new function call with this parameter sets to @#False.
+  It can only have one picked body at the same time.
+
+@Parameter "x, y"
+  The coordinates, in pixels, of the point.
+  
+@OptionalParameter "Locked"
+  If sets to @#True, the picked body won't be able to freely rotate when moving it. If sets to @#False, the body will rotate
+  freely according to body move.
+
+@ReturnValue
+  The #Entity picked, or -1 if no entity are found at these coordinates.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = PickX()
+
+@Description
+
+  After @@MousePick or @@RayPick, it returns the 'x' position of the picked object in world coordinates. 
+@LineBreak
+  After @@PointPick, it returns the 'x' direction of the picked point, between -1 and 1.
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = PickY()
+
+@Description
+
+  After @@MousePick or @@RayPick, it returns the 'y' position of the picked object in world coordinates. 
+@LineBreak
+  After @@PointPick, it returns the 'y' direction of the picked point, between -1 and 1.
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = PickZ()
+
+@Description
+
+  After @@MousePick or @@RayPick, it returns the 'z' position of the picked object in world coordinates. 
+@LineBreak
+  After @@PointPick, it returns the 'z' direction of the picked point, between -1 and 1.
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RayCollide(x, y, z, DestinationX, DestinationY, DestinationZ [, CollisionGroup , CollisionMask]])
+
+@Description
+  Casts a ray between the first point and the second point, and checks if an @LibraryLink "Entity" "entity" is 
+  colliding the ray. This function relies on the physic engine, which needs to be activated with @@EnableWorldPhysics before using this command.
+  Only entities with bodies will react to the ray. 
+   To get the position about the collide point, use @@PickX, @@PickY and @@PickZ.
+   The normals values at the collide point are available with @@NormalX, @@NormalY and @@NormalZ.
+
+@Parameter "x, y, z"
+  The first point coordinates, in world unit.
+  
+@Parameter "DestinationX, DestinationY, DestinationZ"
+  The second point coordinates, in world unit.
+  
+@OptionalParameter "CollisionGroup, CollisionMask"
+  The collision group and collision mask to use. Can be useful to filter which entity should collide to the ray. Collision
+  group and mask can be changed with @@SetEntityCollisionFilter.
+
+@ReturnValue
+  Returns the @LibraryLink "Entity" "entity" number if the ray has collided with one, or -1 if no collision has occurred.
+
+@SeeAlso
+  @@NormalX, @@NormalY, @@NormalZ, @@SetEntityCollisionFilter
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RayCast(x, y, z, DestinationX, DestinationY, DestinationZ, PickMask)
+
+@Description
+  Casts a ray between the first point and the second point, and checks if an object is 
+  crossing the ray. This function doesn't rely on the physic engine. The normals
+  value at the impact point are available with @@NormalX, @@NormalY and @@NormalZ.
+
+@Parameter "x, y, z"
+  The first point coordinates, in world unit.
+  
+@Parameter "DestinationX, DestinationY, DestinationZ"
+  The second point coordinates, in world unit.
+  
+@Parameter "PickMask"
+  The entity mask used while performing the ray cast. Only the entities with a mask matching
+  the PickMask value will be reported. If this parameter is omitted, all the entities are valid
+  for the ray detection. The mask can be a combination, to select more than one entity group.
+  To have more information about pick mask, see @@CreateEntity.
+
+@ReturnValue
+  Returns -1 if the ray has collided with any object.
+
+@SeeAlso
+  @@NormalX, @@NormalY, @@NormalZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MouseRayCast(#Camera, x, y, PickMask)
+
+@Description
+  Casts a ray from the 2D point through the scene, and checks if an object is 
+  crossing the ray. This function doesn't rely on the physic engine. The normals
+  value at the impact point are available with @@NormalX, @@NormalY and @@NormalZ.
+
+@Parameter "#Camera"
+  The camera to use.
+
+@Parameter "x, y"
+  The coordinates, in pixels, of the point.
+  
+@Parameter "PickMask"
+  The entity mask used while performing the ray cast. Only the entities with a mask matching
+  the PickMask value will be reported. If this parameter is omitted, all the entities are valid
+  for the ray detection. The mask can be a combination, to select more than one entity group.
+  To have more information about pick mask, see @@CreateEntity.
+
+@ReturnValue
+  Returns non-zero if the ray has collided with any object.
+
+@SeeAlso
+  @@NormalX, @@NormalY, @@NormalZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = NormalX()
+
+@Description
+  Returns the 'x' normal value at the crossed point, after @@RayCast, @@RayCollide or @@MouseRayCast.
+
+@ReturnValue
+  Returns the 'x' normal value at the crossed point.
+
+@SeeAlso
+  @@RayCast, @@RayCollide, @@MouseRayCast, @@NormalY, @@NormalZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = NormalY()
+
+@Description
+  Returns the 'y' normal value at the crossed point, after @@RayCast, @@RayCollide or @@MouseRayCast.
+
+@ReturnValue
+  Returns the 'y' normal value at the crossed point.
+
+@SeeAlso
+  @@RayCast, @@RayCollide, @@MouseRayCast, @@NormalX, @@NormalZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = NormalZ()
+
+@Description
+  Returns the 'z' normal value at the crossed point, after @@RayCast, @@RayCollide or @@MouseRayCast.
+
+@ReturnValue
+  Returns the 'z' normal value at the crossed point.
+
+@SeeAlso
+  @@RayCast, @@RayCollide, @@MouseRayCast, @@NormalX, @@NormalY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RayPick(x, y, z, DestinationX, DestinationY, DestinationZ [, PickMask])
+
+@Description
+  Casts a ray between the first point and the second point, and checks if an object is 
+  crossing the ray.
+  
+@Parameter "x, y, z"
+  The first point coordinates, in world unit.
+  
+@Parameter "DestinationX, DestinationY, DestinationZ"
+  The second point coordinates, in world unit.
+  
+@OptionalParameter "PickMask"
+  The entity mask used while performing the ray pick. Only the entities with a mask matching
+  the PickMask value will be reported. If this parameter is omitted, all the entities are valid
+  for the ray detection. The mask can be a combination, to select more than one entity group.
+  To have more information about pick mask, see @@CreateEntity.
+
+@ReturnValue
+  The returned value can be:
+@FixedFont
+  -1 : Nothing has been crossed.
+  @#PB_World_WaterPick: the ray crossed the water.
+  @#PB_World_TerrainPick: the ray crossed a terrain.
+  0 and above: the ray crossed an #Entity. The entity detection is based on its bounding box, not on its mesh.
+@EndFixedFont
+  To get more information about the picked object position, use @@PickX, @@PickY and @@PickZ.
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowGUI(Transparency, ShowMouse [, #Camera, Enable])
+
+@Description
+  Shows or hides the whole GUI elements, which are composed of @LibraryLink "Window3D" "3d windows" and
+  @LibraryLink "Gadget3D" "3d gadgets". 
+  
+@Parameter "Transparency"
+  Transparency level of the GUI. Valid values are between 0 (hidden) and 255 (fully opaque).
+
+@Parameter "ShowMouse"
+  Change the mouse cursor visibility. If ShowMouse = 1, the mouse cursor will be displayed,
+  if ShowMouse = 0 it will be hidden.
+
+@OptionalParameter "#Camera"
+  If set the GUI will be displayed or not on this camera. Works together with the following 'Enable' parameter.
+  
+@OptionalParameter "Enable"
+  Enable or disable the GUI display on the previously selected camera. Works together with the previous '#Camera' parameter.
+
+@NoReturnValue
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetGUITheme3D(ThemeName$, FontName$)
+
+@Description
+
+  As CEGUI support skinning, this command allow to select which theme and which font to use for the GUI.
+  This command has to be called before any other GUI commands to have an effect.
+  
+@Parameter "ThemeName$"
+  The new theme to use, specified without the '.scheme' extension.
+  
+@Parameter "FontName$"
+  The new font to use, specified without the '.font' extension.
+
+@NoReturnValue
+
+@Remarks  
+  For more information about skins, visit the @InternetLink "http://www.cegui.org.uk/wiki/index.php/Main_Page" "CEGUI web site".
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Parse3DScripts()
+
+@Description
+  Parses all the .materials OGRE scripts found in the paths set with @@Add3DArchive. This
+  allows the use of @LibraryLink "mesh" "meshes" with complex materials scripts directly in PureBasic.
+  When creating the @LibraryLink "entity" "entity" the constant @#PB_Material_None
+  has to be specified, so all the material information will be taken from the
+  script, if it was correctly loaded.
+
+@NoReturnValue
+
+@Remarks
+  More information about OGRE material scripts can be found at @InternetLink "http://www.ogre3d.org/docs/manual/manual_14.html" "OGRE online manual".
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RenderWorld([ElapsedPhysicTime])
+
+@Description
+  Renders the whole world on the screen. This function should be called once all 3D operations are
+  finished and only one time per frame. 
+
+@OptionalParameter "ElapsedPhysicTime"
+  If set it will force the physic engine to use this value, in milliseconds, as elapsed time since the last call of RenderWorld.
+  It can be useful to makes the physic simulation faster or slower than real-time.
+
+@ReturnValue
+  Returns the elapsed time since the last frame in milliseconds. It can be useful to have an accurate time based simulation
+  if the frame render time isn't stable.
+
+@Remarks
+  Once the RenderWorld() function has been performed, it's possible
+  to use regular 2D functions like @@DisplaySprite to display 2D sprites over the 3D world.
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetRenderQueue(ObjectID, Queue [, Priority])
+
+@Description
+  Change the render order of the specified object.
+
+@Parameter "ObjectID"
+  The object ID to convert the coordinate from. It can be one of the following type:
+@FixedFont
+  - Entity         : use @@EntityID to get a valid ID.
+  - Light          : use @@LightID to get a valid ID.
+  - Mesh           : use @@MeshID to get a valid ID.
+  - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
+  - BillboardGroup : use @@BillboardGroupID to get a valid ID.
+  - Text3D         : use @@Text3DID to get a valid ID.
+@EndFixedFont
+
+@Parameter "Queue"
+  The queue number to use to render the object. Queue number can be from 0 (background) to 100 (foreground). The default queue is 0, and is render
+  behind all the other render queues.
+
+@OptionalParameter "Priority"
+  The priority to use within the queue. Valid values are from 0 (background) to 10000 (foreground).
+
+@NoReturnValue
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SkyBox(TextureName$ [, FogColor, FogIntensity, FogStartDistance, FogEndDistance])
+
+@Description
+
+  Loads a 6 face cube and creates an artificial box which is far away from the camera but close to the world.
+  This is a very useful function to easily make a closed world.
+  
+@Parameter "TextureName$"
+  The @LibraryLink "texture" "textures" must be in a path previously declared with the @@Add3DArchive function.
+  The base name of the textures, which should be named using the following rule:
+@FixedFont
+  TextureName_BK ; BacK face
+  TextureName_FR ; FRont face
+  TextureName_DN ; DowN face
+  TextureName_UP ; UP face
+  TextureName_LF ; LeFt face
+  TextureName_RT ; RighT face
+@EndFixedFont
+
+@OptionalParameter "FogColor"
+  The fog color. @@RGB can be used to get a valid color value. If not specified, the fog settings are inherited from
+  the @@Fog command.
+  
+@OptionalParameter "FogIntensity"
+  The fog intensity. If sets to zero, the fog effect is disable.
+  
+@OptionalParameter "FogStartDistance"
+  The distance from the camera (in world units) where the fog should start. 
+
+@OptionalParameter "FogEndDistance"
+  The distance from the camera where the fog is fully opaque.
+
+
+@ReturnValue
+  Returns non-zero if the SkyBox has been successfully created. If the textures can't be loaded, the skybox is created with
+  blank textures.
+
+@SeeAlso
+  @@SkyDome
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SkyDome(TextureName$, Curve.f [, FogColor, FogIntensity, FogStartDistance, FogEndDistance])
+
+@Description
+
+  Creates a new SkyDome which is a curved moving sky displayed using the specified texture.
+  
+@Parameter "TextureName$"
+  The texture to use. The @LibraryLink "texture" "texture" must be in a path previously declared with the @@Add3DArchive function.
+  
+@Parameter "Curve"
+  The curve value indicates how much the sky should be curved (can be either negative or positive).
+
+@OptionalParameter "FogColor"
+  The fog color. @@RGB can be used to get a valid color value. If not specified, the fog settings are inherited from
+  the @@Fog command.
+  
+@OptionalParameter "FogIntensity"
+  The fog intensity. If sets to zero, the fog effect is disable.
+  
+@OptionalParameter "FogStartDistance"
+  The distance from the camera (in world units) where the fog should start. 
+
+@OptionalParameter "FogEndDistance"
+  The distance from the camera where the fog is fully opaque.
+
+@ReturnValue
+  Returns non-zero if the SkyDome has been successfully created. If the texture can't be loaded, the skydome is created with
+  blank texture.
+
+@SeeAlso
+  @@SkyBox
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateWater(#Camera, x, y, z, Transparency, Flags)
+
+@Description
+
+  Creates a water plane at the given position.
+  
+@Parameter "#Camera"
+  The camera to use. 
+
+@Parameter "x, y, z"
+  The absolute coordinates where the water plane has to be created.
+  
+@Parameter "Transparency"
+  Sets the whole water transparency, from 0 (fully opaque) to 255 (transparent).
+
+@Parameter "Flags"
+  Can be a combination of the following constants:
+@FixedFont
+  @#PB_World_WaterMediumQuality: medium quality (default).
+  @#PB_World_WaterLowQuality   : low quality, which means less polygons (but faster rendering).
+  @#PB_World_WaterHighQuality  : high quality, which means more polygons (but slower rendering).
+  @#PB_World_WaterCaustics     : Enable the water caustics effects, which are small patterns created by the light on the water surface.
+  @#PB_World_WaterSmooth       : Enable smooth wave transition.
+  @#PB_World_WaterFoam         : Enable foam effect, which affect underwater objects when viewed out of the water plane.
+  @#PB_World_WaterSun          : Enable sun reflection on water. To control the sun position and color, use @@Sun.
+  @#PB_World_UnderWater        : Activate an underwater effect, to have opaque underwater.
+  @#PB_World_WaterGodRays      : Activate sun god rays rendering when being underwater. @#PB_World_WaterSun has to be specified.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@FreeWater
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeWater(#Camera)
+
+@Description
+  Free the current water plane associated with the specified camera.
+
+@Parameter "#Camera"
+  The camera to use.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateWater
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WaterColor(#Camera, Color)
+
+@Description
+  Changes the water color on the specified camera. @@CreateWater has to be called before calling this function.
+
+@Parameter "#Camera"
+  The camera to use.
+  
+@Parameter "Color"
+  The new color for the water. A valid color value can be get with @@RGB.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateWater
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WaterHeight(#Camera, x, y)
+
+@Description
+  Gets the current water height at the specified position. @@CreateWater has to be called before calling this function.
+  As water can have waves, the height isn't always the same accross the water. This function can be useful to allow an
+  object to float over the water.
+
+@Parameter "#Camera"
+  The camera to use.
+  
+@Parameter "x, y"
+  The coordinates to use get the height.
+  
+@ReturnValue
+  The absolute water height, in world units.
+
+@SeeAlso
+  @@CreateWater
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Sun(x, y, z, Color)
+
+@Description
+   Changes the sun position and color. This affects @Link "CreateWater" "water" created with the @#PB_World_WaterSun support.
+   
+@Parameter "x, y, z"
+  The new absolute position of the sun in the world.
+  
+@Parameter "Color"
+   The new sun color. @@RGB can be used to get a valid color value.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateWater
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WorldShadows(Type [, Distance.f [, Color [, TextureSize]]])
+
+@Description
+  Sets how shadows will be rendered in the world. 
+
+@Parameter "Type"
+  Type can be one of the following values:
+@FixedFont
+  @#PB_Shadow_None      : No shadows will be displayed in the world. This can save a lot of CPU
+                         power if shadows aren't needed (default)
+  @#PB_Shadow_Modulative: shadows will be displayed for @LibraryLink "entity" "entities" that have the cast
+                         shadow set with @@EntityRenderMode and @#PB_Entity_CastShadow.
+                         This shadow mode is the fastest available, but is not very good-looking as the shadows are not translucent.
+  @#PB_Shadow_Additive  : shadows will be displayed for the @LibraryLink "entity" "entities" which have the cast
+                         shadow set with @@EntityRenderMode and @#PB_Entity_CastShadow.
+                         This mode is slower than the modulative mode, but it looks much better as the shadows are translucent. 
+                         Also if some shadows overlap, the shadows will be added resulting in a more realistic darker result.
+  @#PB_Shadow_TextureAdditive: shadows will be displayed for the @LibraryLink "entity" "entities" which have the cast
+                         shadow set with @@EntityRenderMode and @#PB_Entity_CastShadow. This mode
+                         is average in speed and quality between modulative and additive shadow, and will work even with water.
+  @#PB_Shadow_TextureModulative: shadows will be displayed for the @LibraryLink "entity" "entities" which have the cast
+                         shadow set with @@EntityRenderMode and @#PB_Entity_CastShadow. 
+                         This shadow mode is the faster than @#PB_Shadow_TextureAdditive but is not very good-looking as the shadows are not translucent.
+@EndFixedFont
+
+@OptionalParameter "Distance"
+  Maximum distance from the camera, in world unit, above which the shadows won't be calculated anymore.
+  
+@OptionalParameter "Color"
+  Color of the shadows. @@RGB can be used to get a valid Color value.
+
+@OptionalParameter "TextureSize"
+  Pixel size of the texture used to render the shadow. The bigger it is it, the better the shadow
+  will be looking, but the slower it will be. The default value is 512, and this value shouldn't be
+  bigger than 4096.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WorldGravity(Gravity.f)
+
+@Description
+  Changes the gravity of the world when the physics engine is enabled with @@EnableWorldPhysics.
+  
+@Parameter "Gravity"  
+  The new gravity to set. The default gravity value is set to -9.806 (which is Earth's gravitational value).
+
+@NoReturnValue
+
+@SeeAlso
+  @@EnableWorldPhysics
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WorldDebug(Mode)
+
+@Description
+  Changes the world debug mode. This can be very useful to help finding issues with collisions or picking for example.
+  
+@Parameter "Mode"
+  Can be a combination of the following constants:
+@FixedFont
+  @#PB_World_DebugNone  : no debug information (default).
+  @#PB_World_DebugEntity: shows the entities bounding boxes.
+  @#PB_World_DebugBody  : shows the physics bodies, both static and dynamic.
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Pitch(ObjectID, Value.f, Mode)
+
+@Description
+  Pitch the specified object.
+
+@Parameter "ObjectID"
+  The entity to pitch. It can be one of the following type:
+@FixedFont
+  - Camera         : use @@CameraID to get a valid ID.
+  - Entity         : use @@EntityID to get a valid ID.
+  - Light          : use @@LightID to get a valid ID.
+  - Mesh           : use @@MeshID to get a valid ID.
+  - Node           : use @@NodeID to get a valid ID.
+  - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
+  - BillboardGroup : use @@BillboardGroupID to get a valid ID.
+  - Text3D         : use @@Text3DID to get a valid ID.
+@EndFixedFont
+
+@Parameter "Value"
+  The pitch value (in degree).
+
+@Parameter "Mode"
+  The pitch mode. It can be one of the following values:
+@FixedFont
+  @#PB_Local : local pitch.
+  @#PB_Parent: pitch relative to the parent.
+  @#PB_World : pitch relative to the world.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@Roll, @@Yaw
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Roll(ObjectID, Value.f, Mode)
+
+@Description
+  Roll the specified object.
+
+@Parameter "ObjectID"
+  The entity to roll. It can be one of the following type:
+@FixedFont
+  - Camera         : use @@CameraID to get a valid ID.
+  - Entity         : use @@EntityID to get a valid ID.
+  - Light          : use @@LightID to get a valid ID.
+  - Mesh           : use @@MeshID to get a valid ID.
+  - Node           : use @@NodeID to get a valid ID.
+  - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
+  - BillboardGroup : use @@BillboardGroupID to get a valid ID.
+  - Text3D         : use @@Text3DID to get a valid ID.
+@EndFixedFont
+
+@Parameter "Value"
+  The roll value (in degree).
+
+@Parameter "Mode"
+  The roll mode. It can be one of the following values:
+@FixedFont
+  @#PB_Local : local roll.
+  @#PB_Parent: roll relative to the parent.
+  @#PB_World : roll relative to the world.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@Pitch, @@Yaw
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Yaw(ObjectID, Value.f, Mode)
+
+@Description
+  Yaw the specified object.
+
+@Parameter "ObjectID"
+  The entity to yaw. It can be one of the following type:
+@FixedFont
+  - Camera         : use @@CameraID to get a valid ID.
+  - Entity         : use @@EntityID to get a valid ID.
+  - Light          : use @@LightID to get a valid ID.
+  - Mesh           : use @@MeshID to get a valid ID.
+  - Node           : use @@NodeID to get a valid ID.
+  - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
+  - BillboardGroup : use @@BillboardGroupID to get a valid ID.
+  - Text3D         : use @@Text3DID to get a valid ID.
+@EndFixedFont
+
+@Parameter "Value"
+  The yaw value (in degree).
+
+@Parameter "Mode"
+  The yaw mode. It can be one of the following values:
+@FixedFont
+  @#PB_Local : local yaw.
+  @#PB_Parent: yaw relative to the parent.
+  @#PB_World : yaw relative to the world.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@Pitch, @@Roll
+
+@SupportedOS

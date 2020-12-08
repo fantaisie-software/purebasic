@@ -1,0 +1,704 @@
+@Title Kompilieren Ihrer Programme
+
+  Das Kompilieren ist einfach. Wählen Sie einfach "Kompilieren/Starten" (standardmäßig auch
+  mittels der F5-Taste möglich) und Ihr Programm wird kompiliert und für einen Testlauf
+  gestartet.
+@LineBreak
+@LineBreak
+  Um den Kompilierungsprozess anzupassen, können Sie das Dialog-Fenster "Compiler-Optionen"
+  öffnen. Die dort gemachten Einstellungen werden mit der aktuellen Quellcode-Datei oder dem aktuellen Projekt verknüpft
+  und auch nach deren Schließen beibehalten. Der Platz, wo diese Informationen
+  gespeichert werden, kann selbst konfiguriert werden. Standardmäßig werden sie an das Ende
+  des Quellcodes als Kommentar (unsichtbar in der IDE) gespeichert.
+@LineBreak
+@LineBreak
+  Im Falle eines Fehlers, welches den Compiler von einer Fertigstellung der Kompilierung
+  abhält, wird eine Fehlernachricht angezeigt. Diese Nachricht wird auch in einem 
+  Fehlerprotokoll aufgezeichnet, und die für den Fehler verantwortliche Zeile wird markiert.
+@LineBreak
+@LineBreak
+  Eine Reihe von Funktionen aus älteren Versionen von PureBasic, welche aus dem Paket entfernt
+  wurden, existieren noch für eine Weile als "Kompatibilitäts-Wrapper", um das Testen /
+  Portieren älterer Quellcodes zu erleichtern. Wenn eine solche Funktion im Code verwendet
+  wird, gibt der Compiler eine Warnung aus.
+  Ein Fenster wird geöffnet, welches alle während dem Kompilieren ausgegebenen Warnungen anzeigt.
+  Das Doppelklicken auf eine Warnung stellt die Datei/Codezeile dar, welche die Warnung verursachte.
+  Beachten Sie, dass solche "Kompatibilitäts-Wrapper" nicht endlos bestehen bleiben und in einem
+  künftigen Update entfernt werden können. Daher ist es empfehlenswert, entsprechende Dinge zu
+  bereinigen, die eine Compiler-Warnung verursachen, anstatt sich auf solche veralteten Funktionen
+  zu verlassen.
+
+
+@Section Das Compiler-Menü
+
+@Image ide_menu_compile.png
+
+@Bold "Kompilieren/Starten"
+@LineBreak
+  Dies kompiliert den aktuellen Quellcode mit den eingestellten Compiler-Optionen und führt
+  ihn aus. Das Executable (die ausführbare Datei) wird an einem temporären Platz gespeichert,
+  der aktuelle Pfad wird jedoch auf das Verzeichnis des Quellcodes gesetzt. (Das Laden einer
+  Datei aus dem gleichen Verzeichnis wie der Quellcode funktioniert somit.)
+@LineBreak
+@LineBreak
+  Der Quellcode muss dafür nicht gespeichert werden. (Jedoch müssen @ReferenceLink "includes" "Include-Dateien" gespeichert
+  werden.)
+@LineBreak
+@LineBreak
+  Die "Kompilieren/Starten"-Option berücksichtigt die Debugger-Einstellungen (ein oder aus)
+  in den Compiler-Optionen sowie dem Debugger-Menü. (Beides sind die gleichen.)
+
+@LineBreak
+@LineBreak
+
+@Bold Starten
+@LineBreak
+  Dies führt den zuletzt kompilierten Quellcode ein weiteres Mal aus. Ob der Debugger eingeschalten
+  ist oder nicht, hängt von den Einstellungen bei der letzten Kompilierung ab.
+
+@LineBreak
+@LineBreak
+
+@Bold "Mit Debugger kompilieren"
+@LineBreak
+  Dies ist das gleiche wie "Kompilieren/Starten", außer dass dabei die Debugger-Einstellungen 
+  ignoriert werden und der Debugger für diese Kompilierung immer aktiv ist. Dies ist nützlich,
+  wenn Sie gewöhnlich den Debugger ausgeschalten haben, ihn aber für diese eine Kompilierung
+  eingeschalten haben möchten.
+
+@LineBreak
+@LineBreak
+
+@Bold "Ohne Debugger kompilieren"
+@LineBreak
+  Das gleiche wie "Mit Debugger kompilieren", nur dass für diese Kompilierung der Debugger
+  abgeschalten bleibt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Compiler neustarten" (nicht auf allen OS verfügbar)
+@LineBreak
+  Dies zwingt den Compiler zu einem Neustart. Es veranlasst den Compiler auch zu einem Neuladen 
+  aller Libraries und Resident-Dateien - damit wird auch die Liste bekannter PureBasic-Funktionen, 
+  Strukturen, Interfaces und Konstanten aktualisiert. 
+@LineBreak
+@LineBreak
+  Diese Funktion ist nützlich, wenn Sie eine neue User-Library zum PureBasic-Verzeichnis
+  hinzugefügt haben, aber nicht die gesamte IDE neustarten wollen.
+  Das ist besonders nützlich für Library-Entwickler zum Testen ihrer Library.
+
+@LineBreak
+@LineBreak
+
+@Bold "Compiler-Optionen"
+@LineBreak
+  Dies öffnet das Compiler-Optionen Dialogfenster, welches Sie die Einstellungen für die
+  Kompilierung dieser Quellcode-Datei vornehmen lässt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Executable erstellen"
+@LineBreak
+  Dies öffnet einen Speichern-Dialog, und bittet um den Namen des zu erstellenden Executable.
+  Wenn das Executable-Format auf DLL eingestellt ist, wird eine 'DLL' auf Windows, ein 'Shared Object'
+  auf Linux und eine 'dylib' auf OS X erstellt. 
+@LineBreak
+  Beim Erstellen eines Executable auf OS X wird durch das Anfügen von '.app' am Executable-Namen
+  ein "bundled" (gebündeltes) Executable mit der notwendigen Verzeichnisstruktur einschließlich des
+  Icons erstellt. Wenn kein '.app' angegeben wird, dann wird ein reguläres Konsolen-artiges Executable
+  erstellt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Standard-Ziel setzen"
+@LineBreak
+  Wenn ein Projekt geöffnet ist, zeigt dieses Untermenü alle Kompilier-Ziele und ermöglicht
+  das schnelle Umschalten des aktuellen Standard-Ziels. Das Standard-Ziel ist dasjenige, 
+  welches mit dem "Kompilieren/Starten"-Menüeintrag kompiliert/ausgeführt wird.
+
+@LineBreak
+@LineBreak
+
+@Bold "Ziel erstellen"
+@LineBreak
+  Wenn ein Projekt geöffnet ist, zeigt dieses Untermenü alle Kompilier-Ziele und erlaubt
+  das direkte Kompilieren eines davon.
+
+@LineBreak
+@LineBreak
+
+@Bold "Alle Ziele erstellen"
+@LineBreak
+  Wenn ein Projekt geöffnet ist, kompiliert dieser Menüeintrag alle Ziele, bei denen diese Option
+  in den Compiler-Optionen aktiviert ist. Ein Fenster wird geöffnet, um den Erstellungsprozess
+  anzuzeigen.
+@LineBreak
+@LineBreak
+
+@Section Compiler-Optionen für Nicht-Projektdateien
+
+@Image ide_compiler_options.png
+
+@Bold "Haupt-Quellcode:"
+@LineBreak
+  Mit dem Aktivieren dieser Option können Sie eine andere Datei definieren, welche anstelle
+  der aktuellen Datei an den Compiler geschickt wird. Der Sinn dieser Einstellung besteht darin,
+  dass Sie eine Datei - welche nicht selbständig läuft, aber in einer anderen Datei eingebunden 
+  wird (@ReferenceLink "includes" "Include-Datei") - bearbeiten können, und dem Compiler stattdessen 
+  mitteilen können, die andere Quellcode-Datei zum Starten der Kompilierung zu nutzen.
+@LineBreak
+@LineBreak
+  Hinweis: Bei der Verwendung dieser Option MÜSSEN Sie Ihren Quellcode vor dem Kompilieren
+  speichern, da nur auf Disk gespeicherte Dateien in dieser Einstellung verwendet werden.
+  Die meisten der Compiler-Einstellungen werden vom Haupt-Quellcode benutzt - darum werden
+  auch die meisten Einstellungen zu den Compiler-Optionen des aktuellen Quellcodes deaktiviert.
+  Nur einige Einstellungen wie die Debugger-Einstellungen werden vom aktuellen Quellcode
+  verwendet.
+
+@LineBreak
+@LineBreak
+
+@Bold "Verwende Compiler"
+@LineBreak
+  Mit dieser Option kann die Verwendung eines anderen Compilers ausgewählt werden, als den Compiler der
+  aktuellen PureBasic-Version. Dies macht es einfach, verschiedene Versionen des gleichen Programms
+  (x86, und x64) zu kompilieren, ohne die IDE des anderen Compilers extra nur für das Kompilieren 
+  starten zu müssen. Zusätzliche Compiler für diese Option müssen in den @ReferenceLink "ide_preferences" "Einstellungen"
+  konfiguriert werden.
+@LineBreak
+@LineBreak
+  Wenn die Compiler-Version mit dem Standard-Compiler übereinstimmt, aber der Ziel-Prozessor ein anderer ist,
+  dann kann der eingebaute Debugger der IDE trotzdem verwendet werden, um das kompilierte Executable zu debuggen.
+  Dies bedeutet, dass ein mit dem x86-Compiler kompiliertes Executable mittels der x64-IDE debuggt werden kann,
+  und umgekehrt.
+  Wenn die Version nicht übereinstimmt, dann wird der - mit dem ausgewählten Compiler 
+  mitgelieferte - eigenständige Debugger zum Debuggen verwendet, um Versions-Konflikte zu vermeiden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Benutze Icon" (nur auf Windows und MacOS X)
+@LineBreak
+  Hier können Sie ein Icon einstellen, welches beim Anzeigen des erstellten Executable im
+  Explorer dargestellt wird. Es wird auch in der Titelzeile Ihres Programms und in der 
+  Taskleiste angezeigt.
+@LineBreak
+@LineBreak
+  Windows: Das Icon muss im ICO-Format (Windows-Icon) vorliegen.
+@LineBreak
+@LineBreak
+  MacOS X:
+  Das Icon muss im ICNS-Format (Macintosh-Icon) vorliegen. Um solch ein Icon zu erstellen, sollten Sie
+  PNG-Dateien mit den Dimensionen 128x128, 48x48, 32x32 und 16x16 Ihres Bildes erstellen. 
+  Dann können sie das Programm "Icon Composer" aus den OSX Developer Tools verwenden, um die
+  ICNS-Datei zu erstellen. Diese sollte sich im Ordner "/Developer/Applications/Utilities/" befinden.
+  Um angezeigt zu werden, wenn die Anwendung gerade erstellt wurde, muss der Finder ggf. neu
+  gestartet werden.
+@EndOs
+
+@LineBreak
+@LineBreak
+
+@Bold "InlineASM Syntax-Einfärbung einschalten"
+@LineBreak
+  Schaltet die InlineASM Syntax-Einfärbung ein. Sehen Sie in den @ReferenceLink "inlinedasm" "Inline x86 ASM" 
+  Abschnitt der Hilfedatei für weitere Informationen zu dieser Option.
+
+@LineBreak
+@LineBreak
+
+@Bold "Threadsicheres Executable erstellen"
+@LineBreak
+  Diese Option teilt dem Compiler mit, dass er eine spezielle Version von bestimmten Befehlen verwenden soll,
+  um diese sicher zur Verwendung in Threads zu machen.
+  Siehe die @LibraryLink "Thread" "Thread" Bibliothek für weitere Informationen.
+@LineBreak
+@LineBreak
+  Dies aktiviert auch den @ReferenceLink "ide_debugger" "Debugger", damit dieser korrekte Informationen anzeigt,
+  wenn Threads verwendet werden. Ohne diese Option gibt der Debugger zum Beispiel möglicherweise falsche 
+  Zeilennummern aus, wenn Threads im Spiel sind.
+
+@LineBreak
+@LineBreak
+
+@Bold "Moderne Themen-Unterstützung aktivieren" (nur bei Windows)
+@LineBreak
+  Fügt "Skin-Unterstützung" (verschiedene Designs) für Fenster auf Windows XP, Windows Vista, Windows 7 oder
+  Windows 8 hinzu.
+
+@LineBreak
+@LineBreak
+
+@Bold "Administrator-Modus für Windows Vista anfordern" (nur bei Windows)
+@LineBreak
+  Das erstellte Executable wird auf Windows Vista immer mit Administrator-Rechten gestartet
+  (es wird nicht starten, wenn das Administrator-Passwort nicht eingegeben wurde). Diese
+  Option sollte für Programme aktiviert werden, welche Zugriff auf eingeschränkte Verzeichnisse
+  oder eingeschränkte Bereiche der Registry benötigen, um vollen Zugriff zu erhalten.
+@LineBreak
+  Wenn diese Option eingeschaltet wird, wird für das Debuggen automatisch der 
+  @ReferenceLink "ide_debugger" "eigenständige Debugger" ausgewählt, damit das Programm
+  im Administrator-Modus getestet werden kann.
+@LineBreak
+@LineBreak
+  Hinweis: Diese Option hat keinen Effekt, wenn das Programm auf anderen Windows-Versionen läuft.
+
+@LineBreak
+@LineBreak
+
+@Bold "User-Modus für Windows Vista anfordern" (nur bei Windows)
+@LineBreak
+  Diese Option deaktiviert für dieses Executable das "Virtualisierungs"-Feature auf Windows Vista.
+  Virtualisierung veranlasst die Umleitung von Datei- und Registry-Zugriffen auf einen speziellen
+  Anwender-Ordner, wenn der Anwender nicht die benötigten Rechten für das Ausführen der Operation
+  hat. (Dies erfolgt zwecks Kompatibilität mit älteren Programmen.)
+@LineBreak
+  Bitte beachten Sie, dass diese Umleitung erfolgt, ohne den Anwender darüber zu informieren.
+  Dies kann zu einiger Verwirrung führen, wenn er versucht die gespeicherten Daten im Dateisystem
+  zu finden. Daher ist es empfehlenswert dieses Feature zu deaktivieren, wenn das Programm den
+  Windows Vista Datei-/Registry-Zugriffsregeln entspricht.
+@LineBreak
+@LineBreak
+  Hinweis: Diese Option hat keinen Effekt, wenn das Programm auf anderen Windows-Versionen läuft.
+  Sie kann nicht mit der vorgenannten "Administrator-Modus" Option kombiniert werden.
+
+@LineBreak
+@LineBreak
+
+@Bold "DPI-kompatibles Executable (Windows) erstellen" (nur bei Windows)
+@LineBreak
+  Diese Option aktiviert die DPI-Erkennung beim Erstellen eines Executable. Dies bedeutet, dass
+  die in PureBasic erstellte GUI automatisch skaliert wird, wenn die DPI des Bildschirms über
+  100% liegt. Der größte Teil des Prozesses ist automatisch sichtbar, aber einige Dinge müssen
+  manuell beachtet werden, wie pixelbasierte Gadgets (ImageGadget, CanvasGadget usw.).
+
+@LineBreak
+@LineBreak
+
+@Bold "OnError-Unterstützung einschalten" (nur bei Windows)
+@LineBreak
+  Bindet Informationen zu den Zeilennummern zur Verwendung mit der @LibraryLink "onerror" "OnError" Bibliothek in
+  das Executable ein.
+
+@LineBreak
+@LineBreak
+
+@Bold "Library Subsystem"
+@LineBreak
+  Hier können Sie verschiedene PB-Subsysteme für die Kompilierung auswählen. Es kann mehr als ein Subsystem
+  angegeben werden, getrennt durch Leerzeichen.
+  Für weitere Informationen siehe das Kapitel @ReferenceLink "subsystems" "Subsysteme".
+@LineBreak
+@LineBreak
+
+@Bold "Executable-Format"
+@LineBreak
+
+; == WINDOWS SPECIFIC ==
+
+@Os Windows
+  Ermöglicht Ihnen das zu erstellende Executable-Format einzustellen:
+@LineBreak
+@underline Windows : ein normales Windows-Executable.
+@LineBreak
+@underline Console : ein Executable mit der Standard-Konsole. Dieses kann trotzdem Fenster usw. öffnen, 
+  hat jedoch stets ein Konsolenfenster geöffnet. Bei der Ausführung über die Eingabeaufforderung 
+  verwendet dieser Executable-Typ die Eingabeaufforderung als seine Konsole und schreibt dort hinein,
+  während das "Windows"-Executable bei der Verwendung von @@OpenConsole 
+  ein separates Konsolenfenster erstellt.
+  Diese Einstellung muss zum Erstellen von @LibraryLink "Console" "Konsolen-Anwendungen" verwendet werden, 
+  deren Eingabe/Ausgabe mittels Pipes umgeleitet werden kann.
+@LineBreak
+@underline "Shared DLL" : erstellt eine Windows DLL. Siehe @ReferenceLink "dll" "Erstellung einer DLL" für weitere Informationen.
+@LineBreak
+  Hinweis: Wenn Sie "Kompilieren/Starten" mit einem DLL-Quellcode ausführen, wird dieser als normales
+  Executable ausgeführt. Eine DLL wird nur dann erstellt, wenn Sie "Executable erstellen" verwenden.
+
+; == LINUX SPECIFIC ==
+
+@Os Linux
+  Ermöglicht Ihnen das zu erstellende Executable-Format einzustellen:
+@LineBreak
+@LineBreak
+@underline Linux : ein normales Linux-Executable.
+@LineBreak
+@LineBreak
+@underline Console : Diese Einstellung teilt der IDE mit, dass sie das Programm innerhalb eines Terminal-Emulators (wie z.B.
+  xterm) ausführen soll. Das erstellte Program ist gleich dem der ersten Option.
+  Wenn Ihr Programm mit der Konsole interagiert, sollten Sie diese Option auf "Console" setzen, um beim
+  Ausführen aus der IDE heraus deren Ein-/Ausgabe sehen zu können.
+@LineBreak
+  Bitte beachten Sie, dass auf Linux @@OpenConsole kein separates Konsolenfenster
+  öffnet, sondern nur die zugehörige Konsole (wenn vorhanden) zum Schreiben.
+@LineBreak
+@LineBreak
+@underline "Shared .so" : erstellt eine .so Bibliothek. Siehe @ReferenceLink "dll" "Erstellung einer DLL" für weitere Informationen.
+@LineBreak
+  Hinweis: Wenn Sie "Kompilieren/Starten" mit einem .so-Quellcode ausführen, wird dieser als normales
+  Executable ausgeführt. Eine Bibliothek wird nur dann erstellt, wenn Sie "Executable erstellen" verwenden.
+
+; == MAC SPECIFIC ==
+
+@OS MacOS
+  Diese Einstellung teilt der IDE mit, ob sie das Programm innerhalb eines Terminals
+  ausführen soll oder nicht. Dies hat keine Auswirkung auf das erstellte Executable selbst.
+  Wenn Ihr Programm mit der Konsole interagiert, sollten Sie diese Option auf "Console" setzen, um beim
+  Ausführen aus der IDE heraus deren Ein-/Ausgabe sehen zu können.
+@LineBreak
+@LineBreak
+  Bitte beachten Sie, dass auf MacOS @@OpenConsole kein separates Konsolenfenster
+  öffnet, sondern nur die zugehörige Konsole (wenn vorhanden) zum Schreiben.
+
+
+; == END OS SPECIFIC ==
+@EndOS
+
+@LineBreak
+@LineBreak
+
+@Bold "CPU-Optimierung" (rechts neben Executable-Format)
+@LineBreak
+  Diese Einstellung ermöglicht Ihnen das Einbinden CPU-optimierter PB-Funktionen in
+  Ihrem Executable:
+@LineBreak
+@underline "Alle CPU" : Die generischen Funktionen, welche auf allen CPUs laufen, werden eingebunden.
+@LineBreak
+@underline "Dynamische CPU" : Die generischen Funktionen wie auch alle CPU-spezifischen Funktionen
+  werden eingebunden. Die auszuführende Funktion wird zur Laufzeit ausgewählt. Dies erstellt ein 
+  größeres Executable, läuft jedoch auf allen CPUs so schnell wie möglich.
+@LineBreak
+@underline "Alle anderen Optionen" : Es werden nur die Funktionen für eine spezifische CPU eingebunden.
+  Das Executable wird auf keiner CPU laufen, die dieses Feature nicht unterstützt.
+@LineBreak
+@LineBreak
+  Hinweis: Derzeit unterstützen keine PB-Funktionen dieses Feature (es wird bei ihnen ignoriert).
+  Jedoch besitzen einige User-Libraries solche Optimierungen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Linker-Optionen Datei"
+@LineBreak
+  Hier kann eine Text-Datei definiert werden mit weiteren Kommandozeilen-Optionen, welche beim 
+  Erstellen des Executable an den Linker übergeben werden sollen. Die Datei sollte eine Option
+  pro Zeile enthalten.
+
+
+@Section Kompilieren/Starten
+
+  Dieser Bereich beinhaltet Optionen, welche beeinflussen, wie das Executable zum Testen von der 
+  IDE aus gestartet wird. Mit Ausnahme der Werkzeuge-Option haben diese keinen Effekt, wenn der
+  Menüpunkt "Executable erstellen" verwendet wird.
+
+@Image ide_compiler_compile.png
+
+@Bold "Debugger einschalten"
+@LineBreak
+  Dies legt den Debugger-Status (ein/aus) für diesen Quellcode fest, oder - wenn die
+  Haupt-Quellcode Option verwendet wird - auch für diese Datei. Diese Einstellung kann auch
+  über das Debugger-Menü gesetzt werden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Purifier einschalten"
+@LineBreak
+  Dies aktiviert die Purifier-Unterstützung für den Debugger. Der Purifier kann bestimmte
+  Arten von Programmierfehlern erkennen, wie z.B. das Schreiben über das Ende eines 
+  reservierten Speicherbereichs hinaus. Siehe @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge"
+  für weitere Details.
+
+@LineBreak
+@LineBreak
+
+@Bold "Verwende ausgewählten Debugger"
+@LineBreak
+  Dies ermöglicht, einen anderen @ReferenceLink "ide_debugger" "Debugger-Typen" nur für diese
+  Datei zu wählen. Wenn diese Option deaktiviert ist, wird der Standard-Debugger verwendet,
+  welcher in den @ReferenceLink "ide_preferences" "Einstellungen" festgelegt werden kann.
+
+@LineBreak
+@LineBreak
+
+@Bold "Verwende Warnungs-Modus"
+@LineBreak
+  Dies ermöglicht es, nur für diese Datei einen anderen @ReferenceLink "ide_debugger" "Warnungs-Modus" zu wählen.
+  Wenn diese Option deaktiviert ist, wird die Standardeinstellung verwendet, welche in den
+  @ReferenceLink "ide_preferences" "Einstellungen" definiert werden kann. Die möglichen Optionen
+  sind:
+@LineBreak
+  @Underline "Warnungen ignorieren:" Warnungen werden ignoriert, ohne dass etwas angezeigt wird.
+@LineBreak
+  @Underline "Warnungen anzeigen:" Warnungen werden im Fehlerprotokoll angezeigt und die Quellcode-Zeile
+  wird markiert, aber das Programm läuft weiter.
+@LineBreak
+  @Underline "Warnungen als Fehler behandeln:" Eine Warnung wird wie ein Fehler behandelt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Executable-Kommandozeile"
+@LineBreak
+  Die hier eingegebene Zeichenfolge wird als Kommandozeile an das Programm übergeben, wenn dieses
+  von der IDE gestartet wird. 
+
+@LineBreak
+@LineBreak
+
+@Bold "Aktuelles Verzeichnis"
+@LineBreak
+  Das hier angegebene Verzeichnis wird als das gültige Verzeichnis für das Programm vorgemerkt, wenn
+  dieses von der IDE aus gestartet wird.
+
+@LineBreak
+@LineBreak
+
+@Bold "Temporäres Executable im Quellcode-Verzeichnis erstellen"
+@LineBreak
+  Mit dieser Option eingeschalten, wird das temporäre Executable - für das Starten des Programms von
+  der IDE aus - innerhalb des Quellcode-Verzeichnisses platziert. Dies kann nützlich sein, wenn das
+  Programm zum Testen von Dateien im Quellcode-Verzeichnis abhängt. Mit dieser Option ausgeschalten, 
+  wird das Executable im Temporären Verzeichnis des Systems erstellt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Werkzeuge ausführen"
+@LineBreak
+  Hier können @ReferenceLink "ide_externaltools" "Externe Werkzeuge" auf einer pro-Quellcode Basis aktiviert 
+  werden. Die Spalte "Globale Einstellungen" zeigt, ob das Werkzeug in der 
+  @ReferenceLink "ide_externaltools" "Werkzeuge Konfiguration" aktiviert oder deaktiviert ist. Ein
+  Werkzeug wird auf den Quellcode nur dann ausgeführt, wenn beides - sowohl die globale Einstellung als
+  auch die Einstellung für diesen Quellcode - aktiviert ist.
+  
+@LineBreak
+@LineBreak
+  Hinweis. Für ein hier aufgelistetes Werkzeug muss es die "Werkzeug auf einer pro-Quellcode Basic aktivieren"
+  Option in @ReferenceLink "ide_externaltools" "Werkzeuge konfigurieren" aktiviert haben und muss durch
+  einen mit der Quellcode-Datei verbundenen Auslöser ausgelöst werden (d.h. nicht durch das Menü oder
+  eine Editor-Startdatei zum Beispiel).
+
+
+@Section Konstanten
+  
+  In diesem Abschnitt können eine Reihe spezieller Editor-Konstanten wie auch selbst definierte Konstanten
+  eingestellt werden, welche beim Kompilieren dieses Quellcodes vor-definiert werden.
+
+@Image ide_compiler_constants.png
+
+@Bold "#PB_Editor_CompileCount"
+@LineBreak
+  Wenn aktiviert enthält dieses Konstante die Anzahl, wie oft der Code von der IDE aus kompiliert wurde 
+  (sowohl mit "Kompilieren/Starten" als auch "Executable erstellen").
+  Der Zähler kann im Eingabefeld manuell geändert werden.
+
+@LineBreak
+@LineBreak
+
+@Bold "#PB_Editor_BuildCount"
+@LineBreak
+  Wenn aktiviert enthält diese Konstante die Anzahl, wie oft der Code nur mit "Executable erstellen"
+  kompiliert wurde. Der Zähler kann im Eingabefeld manuell geändert werden.
+
+@LineBreak
+@LineBreak
+
+@Bold "#PB_Editor_CreateExecutable"
+@LineBreak
+  Wenn aktiviert enthält diese Konstante einen Wert von 1, wenn der Code mit dem Menüpunkt
+  "Executable erstellen" kompiliert wurde - bzw. 0, wenn "Kompilieren/Starten" verwendet wurde.
+
+@LineBreak
+@LineBreak
+
+@Bold "Eigene Konstanten"
+@LineBreak
+  Hier können eigene Konstanten definiert werden und dann einfach mittels Häkchen ein- und
+  ausgeschaltet werden. Konstanten-Definitionen können so hinzugefügt werden, wie sie sonst
+  auch innerhalb des Quellcodes geschrieben werden. 
+  Dies bietet eine Möglichkeit, bestimmte Features in einem Programm zu aktivieren oder
+  deaktivieren, indem hier eine Konstante definiert wird und diese anschließend im Quellcode
+  überprüft wird, um einzelne Features mit @ReferenceLink "compilerdirectives" "CompilerIf/CompilerEndIf"
+  zu aktivieren bzw. deaktivieren.
+@LineBreak
+@LineBreak
+  Innerhalb der Definition dieser Konstanten können Umgebungsvariablen verwendet werden,
+  indem diese in einem "bash"-ähnlichen Stil mit einem vorangestellten "$" definiert werden.
+  Die Umgebungsvariable wird in der Konstanten-Definition vor dem Kompilieren ersetzt.
+  Dies ermöglicht die Übergabe bestimmter Optionen des Betriebssystems, auf dem der Code 
+  kompiliert wird, an das Programm in Form von Konstanten.
+@LineBreak
+@LineBreak
+  Beispiel: #Creator=$USERNAME
+@LineBreak
+  Hier wird $USERNAME durch den Benutzernamen des Anwenders ersetzt, welcher auf dem aktuellen
+  Windows System angemeldet ist. Wenn eine Umgebungsvariable nicht existiert, wird diese durch
+  einen leeren String ersetzt.
+  
+@LineBreak
+@LineBreak
+  Hinweis: Um innerhalb des Quellcodes zu testen, ob eine Konstante definiert ist oder nicht,
+  kann die @ReferenceLink "compilerfunctions" "Compiler-Funktion" @FunctionColor "Defined"()
+  verwendet werden.
+
+
+; == WINDOWS ONLY ==
+
+@OS Windows
+
+@Section Versions-Informationen
+
+@Image ide_compiler_version.png
+
+  Durch Aktivieren dieses Felds wird eine Ressource mit Informationen über Ihr Programm in das
+  Executable eingebunden. Diese können im Windows-Explorer durch einen Rechtsklick auf das Executable
+  und Auswahl von "Eigenschaften" angesehen werden. Sie können auch von anderen Programmen, wie z.B.
+  Setup-Tools, ausgelesen werden.
+@LineBreak
+@LineBreak
+  Mit einem * markierte Felder werden benötigt, wenn Sie die Versions-Info einbinden möchten. (Wenn 
+  nicht alle benötigten Felder ausgefüllt wurden, werden die Informationen auf einigen Windows-Versionen
+  möglicherweise nicht korrekt dargestellt.)
+@LineBreak
+@LineBreak
+  Die ersten beiden Felder MÜSSEN aus 4 durch Komma getrennte Zahlen bestehen. Alle anderen Felder
+  können eine beliebige Zeichenfolge (Strings) enthalten. In den 3 leeren Eingabefeldern können Sie 
+  Ihre eigenen Felder zum Einbinden in den Versions-Info-Block definieren.
+@LineBreak
+@LineBreak
+  In allen String-Feldern können Sie spezielle Zeichen (Token) einbinden, welche beim Kompilieren
+  ersetzt werden:
+@LineBreak
+  %OS : wird ersetzt durch die beim Kompilieren des Programms verwendete Windows-Version
+@LineBreak
+  %SOURCE : wird ersetzt mit dem Dateinamen (ohne Pfad) der Quellcode-Datei.
+@LineBreak
+  %EXECUTABLE : wird ersetzt mit dem Namen des erstellten Executable (dies funktioniert nur, wenn "Executable erstellen" verwendet wird, nicht mit "Kompilieren/Starten".
+@LineBreak
+  %COMPILECOUNT : wird ersetzt mit dem Wert der @#PB_Editor_CompileCount Konstante.
+@LineBreak
+  %BUILDCOUNT : wird ersetzt mit dem Wert der @#PB_Editor_BuildCount Konstante.
+@LineBreak
+@LineBreak
+  Weiterhin können Sie alle beim Befehl @@FormatDate aufgelisteten Tokens 
+  verwenden. Diese Tokens werden ersetzt durch ihre entsprechende Bedeutung beim 
+  @@FormatDate Befehl unter Einbeziehung des Zeitpunkts der
+  Kompilierung (z.B. ergibt %yy das Jahr der Kompilierung).
+
+@LineBreak
+@LineBreak
+  Bedeutung der 3 unteren Felder:
+@LineBreak
+@LineBreak
+
+@Bold "Datei-OS"
+@LineBreak
+  Gibt das OS an, für welches dieses Programm kompiliert wurde.
+@LineBreak
+  (Die Benutzung von VOS_DOS oder VOS_WINDOWS16 machen nicht viel Sinn. Sie sind nur enthalten,
+   um eine vollständige Liste zu haben.)
+
+@LineBreak
+@LineBreak
+
+@Bold "Datei-Typ" 
+@LineBreak
+  Typ des Executable. (Hier machen nur VFT_UNKNOWN, VFT_APP oder VFT_DLL wirklich Sinn für PB-Programme.)
+
+@LineBreak
+@LineBreak
+
+@Bold "Sprache"
+@LineBreak
+  Gibt die Sprache an, in welcher diese Versions-Info geschrieben wurde.
+@LineBreak
+@LineBreak
+  Auf die Werte der Felder kann bei der Kompilierung des Programms aus der IDE mit den folgenden Konstanten
+  (gleiche Reihenfolge) zugegriffen werden:
+@FixedFont
+  @#PB_Editor_FileVersionNumeric
+  @#PB_Editor_ProductVersionNumeric
+  @#PB_Editor_CompanyName
+  @#PB_Editor_ProductName
+  @#PB_Editor_ProductVersion
+  @#PB_Editor_FileVersion
+  @#PB_Editor_FileDescription
+  @#PB_Editor_InternalName
+  @#PB_Editor_OriginalFilename
+  @#PB_Editor_LegalCopyright
+  @#PB_Editor_LegalTrademarks
+  @#PB_Editor_PrivateBuild
+  @#PB_Editor_SpecialBuild
+  @#PB_Editor_Email
+  @#PB_Editor_Website
+@EndFixedFont
+
+
+@Section Ressourcen
+
+@Image ide_compiler_ressources.png
+
+  Hier können Sie so viele Ressource-Skripte (*.rc Dateien) einbinden, wie Sie möchten.
+  Sie werden kompiliert und in das Executable eingebunden. Sie können jeden Ressourcen-Editor
+  (zum Beispiel die @InternetLink "http://www.christian-heffner.de/index.php?page=start&lang=de" "PellesC" IDE) verwenden, um solche Skripte zu erstellen.
+
+@LineBreak
+@LineBreak
+
+  Hinweis: Da Ressourcen spezifisch für die Windows-Plattform sind, wird von PB keine Library
+  zu deren Verwaltung eingebunden. Daher sind diese hier auch nicht weiter dokumentiert. Sehen
+  Sie in die Dokumentation der @InternetLink "http://msdn.microsoft.com/library/" "Windows API" 
+  über Ressourcen für weitere Informationen.
+
+
+; == END WINDOWS ONLY ==
+
+@EndOS
+
+
+@Section Compiler-Optionen für Projekte
+
+@Image ide_compiler_targets.png
+
+  Die Compiler-Optionen für Projekte ermöglichen die Definition mehrerer Kompilier-Ziele. Jedes Ziel
+  ist im Grunde ein Set von Compiler-Optionen mit einer bestimmten Quelldatei und Ausgabe-Executable.
+  Die linke Seite des Compiler-Optionen Fensters ist erweitert um die Liste von definierten
+  Kompilier-Zielen. Die Werkzeugleiste darüber ermöglicht das Erstellen, Löschen, Kopieren, 
+  Bearbeiten und Verschieben von Zielen in der Liste.
+@LineBreak
+@LineBreak
+  Das Standard-Ziel ist dasjenige, welches beim Auswählen des Menüeintrags "Kompilieren/Starten" 
+  kompiliert wird. Dies kann schnell umgeschalten werden mittels dem "Als Standard-Ziel festlegen"
+  Häkchen-Schalter oder über das Compiler-Menü.
+  Die Option "In 'Alle Ziele erstellen' einschalten" gibt an, ob beim Verwenden des 'Alle Ziele
+  erstellen' Menüeintrags das ausgewählte Ziel erstellt wird oder nicht.
+@LineBreak
+@LineBreak
+  Die rechte Seite der Compiler-Optionen ist nahezu identisch wie im Nicht-Projekt-Modus und
+  reflektiert die Einstellungen für das Kompilier-Ziel, welches aktuell im linken Bereich
+  ausgewählt ist.
+  Die einzigen Unterschiede sind die Felder "Eingabe-Quellcode" und "Ausgabe-Executable" in der
+  ersten Registerkarte. Diese Felder müssen für alle Kompilier-Ziele angegeben werden.
+  Davon abgesehen sind die Compiler-Optionen identisch zu den weiter oben beschriebenen.
+@LineBreak
+@LineBreak
+  Im Projekt-Modes werden die Informationen über das Kompilier-Ziel in der Projekt-Datei gespeichert
+  und nicht in den individuellen Quellcode-Dateien. Informationen, welche zur Datei gehören (wie z.B.
+  der Status der Faltung), werden trotzdem für die individuellen Quellcode-Dateien an dem Platz
+  gespeichert, wie dies in den @ReferenceLink "ide_preferences" "Einstellungen" angegeben wurde.
+
+
+@Section Das Erstellungs-Fortschritts-Fenster
+
+@Image ide_compiler_build.png
+
+  Wenn der Menüeintrag 'Alle Ziele erstellen' bei einem geöffneten Projekt ausgewählt wird, werden
+  alle Ziele (die die korrespondierende Option in den Compiler-Optionen gesetzt haben) in der
+  Reihenfolge kompiliert, wie sie in den Compiler-Optionen definiert wurden. 
+  Das Fortschritts-Fenster zeigt den aktuellen Kompilier-Fortschritt wie auch den Status jedes
+  einzelnen Ziels. Sobald der Prozess abgeschlossen ist, kann das Erstellungs-Protokoll ("Build-Log")
+  in die Zwischenablage oder auf Disk gespeichert werden.
+

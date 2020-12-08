@@ -1,0 +1,657 @@
+;
+;     Terrain library documentation
+;
+;      (c) 2012 - Fantaisie Software
+;
+
+@Library Terrain
+
+@Overview
+
+  Terrains are outdoor 3D scenes which simulate a realistic natural environment
+  based on pre-calculated 2D maps. They are useful in many cases, for example 3D representations
+  of land, simulation games and more. @@InitEngine3D must be called
+  successfully before using the terrain functions. Multiple terrains are supported, with multiple
+  tiles for each terrain, to create really huge landscapes.
+
+@CommandList
+
+@ExampleFile All Terrain.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeTerrain(#Terrain)
+
+@Description
+  Frees a terrain and releases all its associated memory. This terrain must not be used
+  (by using its number with the other functions in this library) after
+  calling this function, unless you create it again.
+
+@Parameter "#Terrain"
+  The terrain to free. If @#PB_All is specified, all the remaining terrains are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining terrains are automatically freed when the program ends.
+
+@SeeAlso
+  @@CreateTerrain 
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeTerrainBody(#Terrain)
+
+@Description
+  Free the body associated with the terrain.
+  
+@Parameter "#Terrain"
+  The terrain to use.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrainBody
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetupTerrains(LightID, CompositeMapDistance.f, Flags)
+
+@Description
+  Setup the default parameters for all the future created terrains.
+
+@Parameter "LightID"
+  The light to use for the terrain rendering. To get a valid light id, use @@LightID.
+
+@Parameter "CompositeMapDistance"
+  The distance at which to start using a composite map if present, in world unit.
+
+@Parameter "Flags"
+  Can be a combination of the following values:
+@FixedFont
+  @#PB_Terrain_Lightmap:      enable the light map for the terrains (a texture with static shadows).
+  @#PB_Terrain_NormalMapping: enable the normal mapping for the terrains. This is a special texture
+                             which simulate relief like small rocks, etc.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateTerrain(#Terrain, Size, WorldSize, Scale, NbLayers, Filename$, Extension$)
+
+@Description
+  Creates a new terrain. @@SetupTerrains has to be called before to set the default parameter
+  for the new terrain. After the terrain creation, new tiles can be defined with
+  @@DefineTerrainTile and textures applied with @@AddTerrainTexture. Once the terrain definition
+  is finished, @@BuildTerrain needs to be called to build the final terrain.
+
+@Parameter "#Terrain"
+  The number to identify the new terrain. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+  
+@Parameter "Size"
+  The size of the new terrain down one edge in vertices.
+
+@Parameter "WorldSize"
+  The world size of the new terrain.
+
+@Parameter "Scale"
+  The scale factor to apply to the new terrain.
+
+@Parameter "NbLayers"
+  The number of texture layers the new terrain will have. To add a texture layer, use @@AddTerrainTexture.
+
+@Parameter "Filename$"
+  The filename (without the extension) to store the precomputed terrain data. As the terrain can be complex
+  and take a lot of time to create, a cache will be written to disk and reloaded automatically if present (and not outdated).
+
+@Parameter "Extension$"
+  The extension used by the data files.
+
+@ReturnValue
+  Returns zero if the #Terrain can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used 
+  as '#Terrain' parameter, the new terrain number is returned.
+
+@SeeAlso
+  @@FreeTerrain, @@SetupTerrains, @@BuildTerrain, @@DefineTerrainTile, @@AddTerrainTexture
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateTerrainBody(#Terrain, Restitution, Friction)
+
+@Description
+  Adds a static physic body to the terrain. This enable physic objects to collide with the
+  terrain.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "Restitution"
+  The restitution factor. If set to 0.0, the terrain will not restitute any force, which means than
+  the colliding object will not bounce on the terrain. If sets to a value above 0.0, it will
+  restitute some force so the colliding object will bounce when colliding to the terrain
+  (the higher is the value, the more the bouncing will be).
+  
+@Parameter "Friction"
+  The friction factor. If set to 0.0, the colliding object will slide on the terrain without
+  loosing force. If sets to a value above 0.0, the colliding object will loose speed when
+  colliding to the terrain (the higher is the value, the more the speed will decrease).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain, @@FreeTerrainBody
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DefineTerrainTile(#Terrain, TileX, TileY, HeightMap$, FlipX, FlipY)
+
+@Description
+   Defines the content of a tile in the terrain grid.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "TileX"
+  The tile x index, relative to the center tile of the terrain. The center tile starts to 0,0. The value can be negative.
+  
+@Parameter "TileY"
+  The tile y index, relative to the center tile of the terrain. The center tile starts to 0,0. The value can be negative.
+
+@Parameter "HeightMap$"
+  The name of the height map image to apply to this tile.
+  
+@Parameter "FlipX"
+  If sets to @#True, the image will be flipped on horizontally. If sets to @#False, no horizontal flip will be performed.
+
+@Parameter "FlipY"
+  If sets to @#True, the image will be flipped on vertically. If sets to @#False, no vertical flip will be performed.
+
+@ReturnValue
+  Returns zero if the #Terrain can't be created.
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddTerrainTexture(#Terrain, Layer, WorldSize, DiffuseSpecular$, NormalHeight$)
+
+@Description
+   Adds a texture to the #Terrain.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "Layer"
+  The layer index to apply the texture. The first layer index starts from 0. The maximum number of layers is defined
+  when creating the terrain, see @@CreateTerrain.
+  
+@Parameter "WorldSize"
+  The world size of the applied texture.
+
+@Parameter "DiffuseSpecular$"
+  The name of the diffuse specular map image to apply to this layer.
+  
+@Parameter "NormalHeight$"
+  The name of the normal height map image to apply to this layer.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BuildTerrain(#Terrain)
+
+@Description
+   Builds the terrain. Before building a terrain, tiles have to be defined with @@DefineTerrainTile, and textures
+   added with @@AddTerrainTexture.
+
+@Parameter "#Terrain"
+  The terrain to build.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile, @@AddTerrainTexture
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TerrainLocate(#Terrain, x, y, z)
+
+@Description
+  Changes the terrain absolute location in the world.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "x, y, z"
+  The new absolute location in the world (in world unit).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TerrainHeight(#Terrain, x, z)
+
+@Description
+  Gets the terrain height at the specified position in the world.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "x, z"
+  The position in the world (in world unit) to get the terrain height.
+
+@ReturnValue
+  Returns the terrain height (in world unit) at the specified position. If the terrain is not found at the specified position,
+  the result will be zero.
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TerrainTileHeightAtPosition(#Terrain, TileX, TileY, Layer, x, y)
+
+@Description
+  Returns the height of the terrain tile at the specified coordinates.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "TileX"
+  The tile 'x' index.
+
+@Parameter "TileY"
+  The tile 'y' index.
+
+@Parameter "Layer"
+  The layer index. The first layer index starts from 0. The maximum number of layers is defined
+  when creating the terrain, see @@CreateTerrain.
+
+@Parameter "x, y"
+  The position in the tile (in pixels) to get the terrain height.
+
+@ReturnValue
+  Returns the terrain tile height (in world unit) at the specified coordinates.
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TerrainTilePointX(#Terrain, TileX, TileY, x, y, z)
+
+@Description
+  Returns the 'x' position of the point in the terrain tile.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "TileX"
+  The tile 'x' index.
+
+@Parameter "TileY"
+  The tile 'y' index.
+
+@Parameter "x, y, z"
+  The position of the point in the world (in world unit).
+
+@ReturnValue
+  Returns 'x' position (in pixels) of the point in the terrain tile.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TerrainTilePointY(#Terrain, TileX, TileY, x, y, z)
+
+@Description
+  Returns the 'y' position of the point in the terrain tile.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "TileX"
+  The tile 'x' index.
+
+@Parameter "TileY"
+  The tile 'y' index.
+
+@Parameter "x, y, z"
+  The position of the point in the world (in world unit).
+
+@ReturnValue
+  Returns 'y' position (in pixels) of the point in the terrain tile.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TerrainTileSize(#Terrain, TileX, TileY)
+
+@Description
+  Returns the size of the terrain tile.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "TileX"
+  The tile 'x' index.
+
+@Parameter "TileY"
+  The tile 'y' index.
+
+@ReturnValue
+  Returns the size (in pixels) of the terrain tile. As a tile is always square, the size is the width and the height of the tile.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetTerrainTileHeightAtPoint(#Terrain, TileX, TileY, x, y)
+
+@Description
+  Returns the height of the terrain tile at the specified position.
+ 
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "TileX"
+  The tile 'x' index.
+
+@Parameter "TileY"
+  The tile 'y' index.
+
+@Parameter "x, y"
+  The position in the tile (in pixels) to get the terrain height.
+
+@ReturnValue
+  Returns the terrain tile height (in world unit) at the specified coordinates.
+
+@SeeAlso
+  @@CreateTerrain, @@SetTerrainTileHeightAtPoint
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetTerrainTileHeightAtPoint(#Terrain, TileX, TileY, x, y, Height)
+
+@Description
+  Sets the height of the terrain tile at the specified position. The change will not
+  be reflected immediately, @@UpdateTerrain has to be called once all the modifications
+  are done.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "TileX"
+  The tile 'x' index.
+
+@Parameter "TileY"
+  The tile 'y' index.
+
+@Parameter "x, y"
+  The position in the tile (in pixels) to set the terrain height.
+
+@Parameter "Height"
+  The new terrain height (in world unit) at the specified position in the tile.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain, @@GetTerrainTileHeightAtPoint, @@UpdateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateTerrain(#Terrain)
+
+@Description
+  Updates the terrain. This is needs after altering the terrain with commands like @@SetTerrainTileHeightAtPoint.
+
+@Parameter "#Terrain"
+  The terrain to update.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain, @@SetTerrainTileHeightAtPoint
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TerrainTileLayerMapSize(#Terrain, TileX, TileY)
+
+@Description
+  Returns the terrain tile layer blend map size.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "TileX"
+  The tile 'x' index.
+
+@Parameter "TileY"
+  The tile 'y' index.
+
+@ReturnValue
+  Returns the size (in pixels) of the terrain blend map. As a blend map layer is always square, the size is the width and the height of the blend map layer.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetTerrainTileLayerBlend(#Terrain, TileX, TileY, Layer, x, y)
+
+@Description
+  Returns the terrain tile layer blend value at the specified position.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "TileX"
+  The tile 'x' index.
+
+@Parameter "TileY"
+  The tile 'y' index.
+
+@Parameter "Layer"
+  The layer index. The first layer index starts from 0. The maximum number of layers is defined
+  when creating the terrain, see @@CreateTerrain.
+
+@Parameter "x, y"
+  The position in the tile (in pixels) to get the blend value.
+
+@ReturnValue
+  Returns the terrain tile layer blend value at the specified position. The blend value ranges from 0.0 (fully transparent) to
+  1.0 (fully opaque).
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetTerrainTileLayerBlend(#Terrain, TileX, TileY, Layer, x, y, Value)
+
+@Description
+  Changes the terrain tile layer blend value at the specified position. The change will not
+  be reflected immediately, @@UpdateTerrainTileLayerBlend has to be called once all the modifications
+  are done.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "TileX"
+  The tile 'x' index.
+
+@Parameter "TileY"
+  The tile 'y' index.
+
+@Parameter "Layer"
+  The layer index. The first layer index starts from 0. The maximum number of layers is defined
+  when creating the terrain, see @@CreateTerrain.
+
+@Parameter "x, y"
+  The position in the tile (in pixels) to set the blend value.
+
+@Parameter "Value"
+  The new terrain tile layer blend value to set at the specified position. The blend value ranges from 0.0 (fully transparent) to
+  1.0 (fully opaque).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateTerrainTileLayerBlend(#Terrain, TileX, TileY, Layer)
+
+@Description
+  Updates the terrain tile blend layer. This is needed after modifying the
+  layer blend value with @@SetTerrainTileLayerBlend.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "TileX"
+  The tile 'x' index.
+
+@Parameter "TileY"
+  The tile 'y' index.
+
+@Parameter "Layer"
+  The layer index to update. The first layer index starts from 0. The maximum number of layers is defined
+  when creating the terrain, see @@CreateTerrain.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain, @@SetTerrainTileLayerBlend
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TerrainMousePick(#Terrain, CameraID, x, y)
+
+@Description
+  Simulates a mouse click on the terrain under the specified 2D point (x,y - in pixels) on the
+  specified camera.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "CameraID"
+  The camera to use. To get a valid camera id, use @@CameraID.
+  
+@Parameter "x, y"
+  The position (in pixels) in the camera view of the point.
+
+@ReturnValue 
+  If the terrain has been hit by the simulated mouse click, it will return @#True, else it will return @#False.
+  To get information about the pick position, use @@PickX, @@PickY and @@PickZ.
+
+@SeeAlso
+  @@CreateTerrain, @@CreateCamera
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SaveTerrain(#Terrain, ModifiedOnly)
+
+@Description
+  Saves the terrain to disk, using the filename and extension defined with @@CreateTerrain.
+
+@Parameter "#Terrain"
+  The terrain to save.
+
+@Parameter "ModifiedOnly"
+  If sets to @#True, the terrain will be saved only if it has been modified since the last save.
+  If sets to @#False, it will always be saved.
+
+@NoReturnValue 
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TerrainRenderMode(#Terrain, Flag)
+
+@Description
+  Changes the way the terrain is rendered.
+
+@Parameter "#Terrain"
+  The terrain to use.
+
+@Parameter "Flag"
+  It can be one of the following values:
+@FixedFont
+  @#PB_Terrain_CastShadows:   enables dynamic shadow casting on the terrain (can be slow).
+  @#PB_Terrain_LowLODShadows: enables low quality shadow casting (to have a faster rendering).
+@EndFixedFont
+
+@NoReturnValue 
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS

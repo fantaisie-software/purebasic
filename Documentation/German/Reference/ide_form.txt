@@ -1,0 +1,231 @@
+@Title Integrierter Form-Designer
+
+  Die PureBasic IDE hat einen sehr leistungsfähigen integrierten Form-Designer (auch
+  "Formular-Designer"), welcher einfach die Gestaltung von Fenstern und das Anordnen von
+  Gadgets darauf ermöglicht. Er unterstützt nahezu alle nativen PureBasic
+  @LibraryLink "gadget" "Gadgets", @LibraryLink "menu" "Menü" und sogar
+  @LibraryLink "statusbar" "Statusleisten". Eine Form-Datei (auch "Formular-Datei") ist eine
+  reguläre PureBasic-Datei, welche somit einfach verändert werden kann, ohne den Form-Designer
+  zu öffnen. Der Code-Parser ist nicht der Gleiche, wie er vom Compiler verwendet wird,
+  und unterstützt daher nicht alle Funktionen - wenn Sie daher manuelle Änderungen an
+  einer Form-Datei vornehmen, müssen diese grundlegend bleiben.
+
+@Section Contents of the "Form" menu:
+
+@Image ide_menu_form.png
+
+@Bold "New Form"
+@LineBreak
+  Create a new empty form. It will bring automatically the form panel tool on top.
+@LineBreak
+@LineBreak
+
+@Bold "Switch Code/Design View"
+@LineBreak
+  Change the form view, switch from design mode to code view. A form is built from code,
+  so if a change is made directly in code view, it will be reflected visually.
+@LineBreak
+@LineBreak
+
+@Bold "Duplicate Object"
+@LineBreak
+  Duplicate the currently selected object.
+@LineBreak
+@LineBreak
+
+@Bold "Image manager"
+@LineBreak
+  @Image ide_form_imagemanager.png
+@LineBreak
+@LineBreak
+  Display all the images currently used by the form. The image and its path can be changed easily here.
+  
+@Section Form design panel
+
+  @Image ide_form_designpanel.png
+
+  This panel list all available gadgets. Select one, and draw directly on the form the size needed. When
+  a gadget is selected on the form, its properties are display on this panel and can be modified here.
+  
+@Section Using the form designer in real world projects
+
+  The form designer has been created to allow modular forms and easy maintenance. Each form has to be
+  in its own file. It can not have two form in the file (in other words, it should never have two
+  @@OpenWindow in the same file). An event procedure can be assigned to every gadget, and will be handled
+  automatically in the event loop. The event procedures needs to be defined somewhere in the source code.
+  Every form file should be named with the '.pbf' extension, so it will be correctly opened by the IDE.
+  Form files can also be added to a @ReferenceLink "ide_projects" "project".
+@LineBreak
+@LineBreak
+  For example, to build a program which handle two windows, we will have to create two form files and
+  one main file. The directory structure could look like that:
+@FixedFont  
+  Main.pb        ; The main PureBasic file, which will includes the two forms file, and defines the events
+  MainWindow.pbf ; The main window
+  DateWindow.pbf ; Another window
+@EndFixedFont
+  If we assume MainWindow.pbf has two buttons ('OK' and 'Cancel') and DateWindow.pbf has one
+  cadenlar gadget, here is how the main file would look like (the main file is not handled by
+  the form designer, it has to be written manually):
+  
+@Code  
+  XIncludeFile "MainWindow.pbf" ; Include the first window definition
+  XIncludeFile "DateWindow.pbf" ; Include the second window definition
+  
+  OpenMainWindow() ; Open the first window. This procedure name is always 'Open' followed by the window name
+  OpenDateWindow() ; Open the second window
+  
+  ; The event procedures, as specified in the 'event procedure' property of each gadget
+  Procedure OkButtonEvent(EventType)
+    Debug "OkButton event"
+  EndProcedure
+  
+  Procedure CancelButtonEvent(EventType)
+    Debug "CancelButton event"
+  EndProcedure
+  
+  Procedure TrainCalendarEvent(EventType)
+    Debug "TrainCalendar event"
+  EndProcedure
+  
+  ; The main event loop as usual, the only change is to call the automtically
+  ; generated event procedure for each window.
+  Repeat
+    Event = WaitWindowEvent()
+    
+    Select EventWindow()
+      Case MainWindow
+        MainWindow_Events(Event) ; This procedure name is always window name followed by '_Events'
+        
+      Case DateWindow
+        DateWindow_Events(Event)
+        
+    EndSelect
+    
+  Until Event = #PB_Event_CloseWindow ; Quit on any window close
+@EndCode
+
+  As seen, it's easy to integrate visually designed forms in a program. Indeed it's also possible to continue to
+  create window manually, or mix the two. To have all the control over the generated code, just switch to code
+  mode and inspect it.
+@LineBreak
+@LineBreak=======
+@Title Integrierter Form-Designer
+
+  Die PureBasic IDE hat einen sehr leistungsfähigen integrierten Form-Designer (auch
+  "Formular-Designer"), welcher einfach die Gestaltung von Fenstern und das Anordnen von
+  Gadgets darauf ermöglicht. Er unterstützt nahezu alle nativen PureBasic
+  @LibraryLink "gadget" "Gadgets", @LibraryLink "menu" "Menüs" und sogar
+  @LibraryLink "statusbar" "Statusleisten". Eine Form-Datei (auch "Formular-Datei") ist eine
+  reguläre PureBasic-Datei, welche somit einfach verändert werden kann, ohne den Form-Designer
+  zu öffnen. Der Code-Parser ist nicht der Gleiche, wie er vom Compiler verwendet wird,
+  und unterstützt daher nicht alle Funktionen - wenn Sie daher manuelle Änderungen an
+  einer Form-Datei vornehmen, müssen diese grundlegend bleiben.
+
+@Section Inhalt des "Form" Menüs:
+
+@Image ide_menu_form.png
+
+@Bold "Neues Formular"
+@LineBreak
+  Erstellt ein neues leeres Formular. Dies bringt automatisch die Form-Werkzeugleiste in den Vordergrund.
+@LineBreak
+@LineBreak
+
+@Bold "Ansicht umschalten (Code/Design)"
+@LineBreak
+  Ändert die Formular-Ansicht, wechselt vom Design-Modus in die Code-Ansicht. Ein Formular wird
+  aus Quellcode erstellt - wenn daher eine Änderung direkt in der Code-Ansicht erfolgt, so wird
+  diese auch visuell wiedergespiegelt.
+@LineBreak
+@LineBreak
+
+@Bold "Objekt duplizieren"
+@LineBreak
+  Dupliziert das aktuell ausgewählte Objekt.
+@LineBreak
+@LineBreak
+
+@Bold "Bild-Manager"
+@LineBreak
+  @Image ide_form_imagemanager.png
+@LineBreak
+@LineBreak
+  Zeigt alle Bilder an, die aktuell vom Formular verwendet werden. Das Bild und sein Pfad können
+  hier einfach verändert werden.
+  
+@Section Form-Designleiste
+
+  @Image ide_form_designpanel.png
+
+  Diese Werkzeugleiste listet alle verfügbaren Gadgets auf. Wählen Sie eins aus, und zeichnen
+  Sie direkt auf dem Formular die benötigte Größe. Wenn ein Gadget auf dem Formular ausgewählt
+  wird, dann werden seine Eigenschaften auf dieser Leiste angezeigt und können auch hier
+  verändert werden.
+  
+@Section Verwendung des Form-Designers in echten Projekten
+
+  Der Form-Designer wurde erschaffen, um modulare Formulare und deren einfache Wartung zu ermöglichen.
+  Jedes Formular muss seine eigene Datei haben. Es können sich keine zwei Formulare in der gleichen
+  Datei befinden (mit anderen Worten, es sollten sich niemals zwei @@OpenWindow in der gleichen Datei
+  befinden). Jedem Gadget kann eine Ereignis-Prozedur zugewiesen werden, welche automatisch in der
+  Ereignisschleife behandelt werden. Die Ereignis-Prozeduren müssen irgendwo im Quellcode definiert
+  werden. Jede Formular-Datei sollte mit der '.pbf' Endung benannt werden, damit sie von der IDE
+  richtig erkannt werden. Formular-Dateien können auch zu einem @ReferenceLink "ide_projects" "Projekt"
+  hinzugefügt werden.
+@LineBreak
+@LineBreak
+  Um zum Beispiel ein Programm, welches zwei Fenster besitzt, zu erstellen, müssen wir zwei Formular-Dateien
+  und eine Haupt-Datei erstellen. Die Verzeichnisstruktur könnte wie folgt aussehen:
+@FixedFont  
+  Main.pb        ; Die Haupt-PureBasic-Datei, welche die zwei Formular-Dateien einbindet und die Ereignisse definiert.
+  MainWindow.pbf ; Das Hauptfenster.
+  DateWindow.pbf ; Ein anderes Fenster.
+@EndFixedFont
+  Wenn wir davon ausgehen, dass MainWindow.pbf über zwei @Link "gadget/buttongadget" "Tasten" ('OK'
+  und 'Cancel') verfügt und DateWindow.pbf ein @Link "gadget/calendargadget" "CalendarGadget" besitzt,
+  dann würde die Haupt-Datei wie folgt aussehen (die Haupt-Datei wird nicht über den Form-Designer
+  verwaltet und muss manuell geschrieben werden):
+  
+@Code  
+  XIncludeFile "MainWindow.pbf" ; Einbinden der ersten Fenster-Definition
+  XIncludeFile "DateWindow.pbf" ; Einbinden der zweiten Fenster-Definition
+  
+  OpenMainWindow() ; Öffnet das erste Fenster. Dieser Prozedurname ist immer 'Open' gefolgt vom Fensternamen.
+  OpenDateWindow() ; Öffnet das zweite Fenster.
+  
+  ; Die Ereignis-Prozedur, wie diese in der Eigenschaft 'Ereignis-Prozedur' jedes Gadgets definiert wurde.
+  Procedure OkButtonEvent(EventType)
+    Debug "OkButton event"
+  EndProcedure
+  
+  Procedure CancelButtonEvent(EventType)
+    Debug "CancelButton event"
+  EndProcedure
+  
+  Procedure TrainCalendarEvent(EventType)
+    Debug "TrainCalendar event"
+  EndProcedure
+  
+  ; Die übliche Haupt-Ereignisschleife, die einzige Änderung ist der automatische Aufruf der
+  ; für jedes Fenster generierten Ereignis-Prozedur.
+  Repeat
+    Event = WaitWindowEvent()
+    
+    Select EventWindow()
+      Case MainWindow
+        MainWindow_Events(Event) ; Dieser Prozedurname ist immer der Fenstername gefolgt von '_Events'
+        
+      Case DateWindow
+        DateWindow_Events(Event)
+        
+    EndSelect
+    
+  Until Event = #PB_Event_CloseWindow ; Beenden, wenn eines der Fenster geschlossen wird.
+@EndCode
+
+  Wie man sieht, ist es einfach, visuell entworfene Formulare in ein Programm zu integrieren.
+  In der Tat ist es auch weiterhin möglich, Fenster manuell zu erstellen, oder beides zu mischen.
+  Um die komplette Kontrolle über den generierten Code zu haben, wechseln Sie einfach die
+  Ansicht in den Code-Modus und überprüfen diesen.
+@LineBreak

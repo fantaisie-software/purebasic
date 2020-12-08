@@ -1,0 +1,24 @@
+@Title Migration de PureBasic 5.40 vers 5.50
+
+@Section Bibliothèque Particule
+
+@LineBreak
+ParticleVelocity(): code changé pour supporter la vélocité en cours.
+@Code
+  ; Ancien
+  ParticleVelocity(#EmetteurParticule, Minimum, Maximum)
+
+  ; Nouveau
+  ParticleVelocity(#EmetteurParticule, Mode, Valeur)
+@EndCode
+
+@LineBreak
+@Section Divers
+
+@LineBreak
+  La manipulation interne des chaînes de caractères est maintenant uniquement unicode. @LineBreak
+  Le mode ASCII n'est plus prise en charge de façon interne. La fonction 
+  *Resultat = Ascii(Chaine$) permet la manipulation de chaînes de caractères ASCII 
+  par l'utilisateur.
+@LineBreak
+@LineBreak

@@ -1,0 +1,32 @@
+# stop the script if an error occurs
+set -e
+
+if [ "x$1" == "x" ]; then
+	echo "Usage: CompareSize <directory>"
+	exit 0
+fi
+
+# Rebuild all the residents
+make --quiet
+
+COMPARE_FILENAME="compare_out" 
+
+# 'structurevalidator' is the tool found in svn/Fr34k/StructureValidator.pb
+structurevalidator /INPUT $1/ /OUTPUT ${COMPARE_FILENAME} /DIRECTORY
+
+
+gcc ${COMPARE_FILENAME}.c `pkg-config --cflags gtk+-2.0` `pkg-config --` `sdl-config --cflags`
+./a.out >${COMPARE_FILENAME}_result.c
+
+pbcompiler ${COMPARE_FILENAME}.pb -e purebasic.exe --quiet
+./purebasic.exe >${COMPARE_FILENAME}_result.pb
+
+sort ${COMPARE_FILENAME}_result.c  >${COMPARE_FILENAME}_result_sorted.c
+sort ${COMPARE_FILENAME}_result.pb >${COMPARE_FILENAME}_result_sorted.pb
+
+meld ${COMPARE_FILENAME}_result_sorted.c ${COMPARE_FILENAME}_result_sorted.pb
+
+rm ${COMPARE_FILENAME}_result.c
+rm ${COMPARE_FILENAME}_result.pb
+rm ${COMPARE_FILENAME}_result_sorted.c
+rm ${COMPARE_FILENAME}_result_sorted.pb

@@ -1,0 +1,1019 @@
+;
+;     Math library documentation
+;
+;      (c) 2020 - Fantaisie Software
+;
+
+@Library Math
+
+@Overview
+
+  Math library provides basic mathematical functions such as: @@Cos, @@Sin, @@Pow, @@Log etc...
+  Almost all these functions work with floats or doubles, i.e. numbers with the .f or .d extensions.
+  @Bold"If a function is used with a double value as input or output, it will automatically switch to "
+  @Bold"double precision instead of single precision for its calculations."
+
+@CommandList
+
+@ExampleFile All Math.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Abs(Number.f(.d))
+
+@Description
+  Returns the absolute value of the given float value. 
+
+@Parameter "Number.f or Number.d"
+  The number from which to get the absolute value.
+  This function will only work correctly with float numbers.
+  With integers, it will fail if the integer is too large (due to a loss of precision).
+
+@ReturnValue
+  Returns the absolute value. The return-value is always positive.
+  
+@Remarks
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug Abs(3.14159)  ; Will display '3.14159'
+  Debug Abs(-3.14159) ; will display '3.14159'
+    
+  pif.f = -3.14159
+  pid.d = -3.14159
+  Debug Abs(pif)  ; Retuns a float number
+  Debug Abs(pid)  ; Retuns a double number
+@EndCode
+
+@SeeAlso
+  @@Sign
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = ACos(Value.f(.d))
+
+@Description
+  Returns the arc-cosine of the specified value. 
+  
+@Parameter "Value.f or Value.d"
+  The input value. It must be
+  between -1.0 and 1.0 (-1.0 and 1.0 included).
+  
+@ReturnValue
+  Returns the resulting angle in radian. It can be transformed into degrees
+  using the @@Degree function.
+
+@Remarks
+  This is the inverse function of @@Cos.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug ACos(1)  ; will display '0.0'
+  Debug Acos(-1) ; will display 'pi' (approximately 3.14159...)
+@EndCode
+
+@SeeAlso
+  @@Cos, @@ACosH, @@Degree
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = ACosH(Value.f(.d))
+
+@Description
+  Returns the area hyperbolic cosine of the specified value.
+  
+@Parameter "Value.f or Value.d"
+  The input value. It must be
+  between greater than or equal to 1. 
+
+@ReturnValue
+  Returns the hyperbolic angle.
+
+@Remarks
+  This is the inverse function of @@CosH.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug ACosH(1)                 ; will display '0.0'
+  Debug Exp(ACosH(0.5 * Sqr(5))) ; will display '1.618033...' (the golden ratio)
+@EndCode
+
+@SeeAlso
+  @@CosH, @ACos
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = ASin(Value.f(.d))
+
+@Description
+  Returns the arc-sine of the specified value. 
+  
+@Parameter "Value.f or Value.d"
+  The input value. It must be between
+  -1.0 and 1.0 (-1.0 and 1.0 included).
+  
+@ReturnValue
+  Returns the resulting angle in radian. It can be transformed into degrees
+  using the @@Degree function.
+
+@Remarks
+  This is the inverse function of @@Sin.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug ASin(1) ; will display '1.570796...' (pi/2)
+  Debug ASin(0) ; will display '0.0'
+@EndCode
+
+@SeeAlso
+  @@Sin, @@ASinH, @@Degree  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = ASinH(Value.f(.d))
+
+@Description
+  Returns the area hyperbolic sine of the specified value. 
+  
+@Parameter "Value.f or Value.d"
+  The input value. The range of Value.f(.d) is not limited.
+  
+@ReturnValue
+  Returns the hyperbolic angle.
+  
+@Remarks
+  This is the inverse function of @@SinH.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+  
+@Example
+@Code
+  Debug ASinH(0)        ; will display '0.0'
+  Debug Exp(ASinH(0.5)) ; will display '1.618033...' (the golden ratio)
+@EndCode
+  
+@SeeAlso
+  @@SinH, @@ASin
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = ATan(Value.f(.d))
+
+@Description
+  Returns the arc-tangent of the specified value. 
+  
+@Parameter "Value.f or Value.d"
+  The input value. Its range is not limited.
+  
+@ReturnValue
+  Returns the resulting angle in radian. It can be transformed into degrees
+  using the @@Degree function.
+
+@Remarks
+  This is the inverse function of @@Tan.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug ATan(1) ; will display '0.785398...' (pi/4)
+@EndCode
+
+@SeeAlso
+  @@Tan, @@ATanH, @@Degree  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = ATan2(x.f(.d), y.f(.d))
+
+@Description
+  Calculates the angle in radian between the x axis and a line drawn in the direction specified by 'x'
+  and 'y'. It can be used to calculate angles between lines in 2D or to transform rectangular coordinates
+  into polar coordinates.
+  
+@Parameter "x.f, y.f or x.d, y.d"
+  The direction of the line to calculate the angle from. Zero values are allowed.
+  
+@ReturnValue
+  Returns the resulting angle in radian. The result can be transformed into degrees
+  using the @@Degree function.
+  
+@Remarks
+  This function calculates the value @Link "ATan" "ATan(y/x)" and examines the sign of x and y to place
+  the angle in the correct quadrant. It also handles the cases where y is zero to avoid division by zero 
+  errors.
+@LineBreak
+@LineBreak
+  The result is always between @ConstantColor "-#PI" and @ConstantColor "+#PI". Negative angles indicate that the 
+  line is below the x axis, positive values indicate that line is above the x axis. If 'x' and 'y' are zero
+  then the function returns 0.0.
+@LineBreak
+@LineBreak
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug ATan2(10, 10) ; will display #PI/4 (45 degrees in radian)
+@EndCode
+
+@SeeAlso
+  @@ATan, @@Degree
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = ATanH(Value.f(.d))
+
+@Description
+  Returns the area hyperbolic tangent of the specified value. 
+  
+@Parameter "Value.f or Value.d"
+  The input value. It must be between
+  -1.0 and 1.0 (not including -1.0 and 1.0). 
+  
+@ReturnValue
+  Returns the hyperbolic angle.
+
+@Remarks
+  This is the inverse function of @@TanH.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug Exp(ATanH(0.2 * Sqr(5))) ; will display '1.618033...' (the golden ratio)
+@EndCode
+
+@SeeAlso
+  @@TanH, @@ATan
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Cos(Angle.f(.d))
+
+@Description
+  Returns the cosine of the specified angle.
+  
+@Parameter "Angle.f or Angle.d"
+  The input angle in radians. 
+  Use @@Radian to convert an angle from degrees to radian.
+  
+@ReturnValue
+  Returns the cosine of the angle. The result is always between -1.0 and 1.0.
+
+@Remarks
+  The inverse function of Cos() is @@ACos.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug Cos(3.141593) 
+@EndCode
+
+@SeeAlso
+  @@ACos, @@CosH, @@Radian
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = CosH(Angle.f(.d))
+
+@Description
+  Returns the hyperbolic cosine of the specified hyperbolic angle. 
+  
+@Parameter "Angle.f or Angle.d"
+  The input hyperbolic angle.
+  
+@ReturnValue
+  Returns the hyperbolic cosine of the angle.
+  The result will be greater than or equal to 1.
+
+@Remarks
+  The inverse function of CosH() is @@ACosH.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug CosH(0)  ; will display 1.0
+@EndCode
+
+@SeeAlso
+  @@ACosH, @@Cos
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Degree(Angle.f(.d))
+
+@Description
+  Converts the given angle from radian to degree.   
+
+@Parameter "Angle.f or Angle.d"
+  The input angle in radian.
+  
+@ReturnValue
+  Returns the angle in degrees. 
+
+@Remarks
+  There is no normalization to ensure that the resulting angle is between 0 and 360.
+  If the input was larger than @#PI*2 then the result will be larger than 360.
+  Likewise, a negative input will result in a negative output.
+@LineBreak
+@LineBreak
+  The reverse transformation can be made with the @@Radian function.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug Degree(#PI/4) ; will display 45.0
+@EndCode
+
+@SeeAlso
+  @@Radian
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Exp(Number.f(.d))
+
+@Description
+  Returns the result of the exponential function. This is the value e raised to the power 'Number'.
+  
+@Parameter "Number.f or Number.d"
+  The input for the exponential function.
+  
+@ReturnValue
+  Returns the value e raised to the power 'Number'.
+
+@Remarks
+  This is the inverse function of @@Log.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@SeeAlso
+  @@Log
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Infinity()
+
+@Description
+  Returns the special floating-point value representing positive infinity. Negative infinity can
+  be calculated using "-Infinity()".
+  
+@NoParameters
+
+@ReturnValue
+  Returns the value representing infinity. The result is a float or double value depending on whether
+  it is assigned to a @ReferenceLink "variables" "float or double" variable.
+  
+@Remarks
+  Infinity and negative infinity are special values. They behave in calculations in the way you would 
+  generally expect. For example dividing infinity by any positive number (except 0 or infinity) will result in 
+  infinity again. The @@IsInfinity function can be used to check if a value represents
+  positive or negative infinity.
+
+@Example
+@Code
+  Debug IsInfinity(Infinity() / 1000) ; will display 1.0
+@EndCode
+
+@SeeAlso
+  @@IsInfinity, @@NaN
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Int(Number.f(.d))
+
+@Description
+  Returns the integer part of a float number.
+
+@Parameter "Number.f or Number.d"
+  The input value. This can be a @ReferenceLink "variables" "float or double" value.
+
+@ReturnValue
+  Returns the integer part by cutting off the fractional part. 
+
+@Remarks
+  This function returns an @ReferenceLink "variables" "integer" value. To get a quad value, 
+  use the @@IntQ function.
+@LineBreak
+@LineBreak
+  The integer part is created by cutting off the fractional part of the value. There is no rounding.
+  To perform rounding, use the @@Round function.
+
+@Example
+@Code
+  Debug Int(10.565)  ; will display '10'
+@EndCode
+
+@SeeAlso
+  @@IntQ, @@Round
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IntQ(Number.f(.d))
+
+@Description
+  Returns the integer part of a float number as a quad.
+  
+@Parameter "Number.f or Number.d"
+  The input value. This can be a @ReferenceLink "variables" "float or double" value.
+
+@ReturnValue
+  Returns the integer part by cutting off the fractional part. 
+
+@Remarks
+  This function returns a @ReferenceLink "variables" "quad" value. The @@Int function has only the
+  range of an integer, but it may be faster to execute on 32-bit systems.
+@LineBreak
+@LineBreak
+  The integer part is created by cutting off the fractional part of the value. There is no rounding.
+  To perform rounding, use the @@Round function.
+
+@Example
+@Code
+  Debug IntQ(12345678901.565)  ; will display '12345678901'
+@EndCode
+
+@SeeAlso
+  @@Int, @@Round
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = IsInfinity(Value.f(.d))
+
+@Description
+  Returns nonzero if the given value represents positive or negative infinity.
+
+@Parameter "Value.f or Value.d"
+  The value to check for infinity.
+
+@ReturnValue
+  Returns nonzero if the input value represents positive or negative infinity and zero otherwise.  
+
+@Remarks
+  Checking for the infinity values should not be done using normal comparison, because it depends
+  on the hardware implementation whether infinity is considered equal to itself or not. The value
+  of positive infinity can be generated with the @@Infinity function.
+@LineBreak
+@LineBreak
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Result = IsInfinity(Infinity())  ; infinity
+  Result = IsInfinity(Log(0))      ; -infinity
+  Result = IsInfinity(1234.5)      ; a finite number
+  Result = IsInfinity(NaN())       ; NaN is not the same as infinity
+@EndCode
+
+@SeeAlso
+  @@Infinity, @@IsNaN
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = IsNaN(Value.f(.d))
+
+@Description
+  Returns nonzero if the given value 'Not a Number'. This value is the result of some invalid
+  calculations. It can also be generated using the @@NaN function.
+  
+@Parameter "Value.f or Value.d"
+  The value to check for NaN.
+
+@ReturnValue
+  Returns nonzero if the input value is not a number and zero otherwise.  
+  
+@Remarks
+  NaN is a special value. Testing for it should not be done using normal comparisons because
+  there are actually many different values for NaN and whether or not NaN is considered equal
+  with itself in comparisons depends on the hardware.
+@LineBreak
+@LineBreak
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Result = IsNAN(NaN())       ; NaN
+  Result = IsNAN(Sqr(-1))     ; NaN
+  Result = IsNAN(1234.5)      ; a normal number
+  Result = IsNAN(Infinity())  ; infinity is not NaN 
+@EndCode
+
+@SeeAlso
+  @@NaN, @@IsInfinity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Pow(Number.f(.d), Power.f(.d))
+
+@Description
+  Returns the given number, raised to the given power.
+  
+@Parameter "Number.f or Number.d"
+  The mantissa.
+
+@Parameter "Power.f(.d)"
+  The exponent. If 'Number.f(.d)' is negative, the exponent must be a whole number.
+
+@ReturnValue
+  Returns the value of 'Number' raised to the power 'Power'. 
+
+@Remarks
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+  @LineBreak
+  The symbol '^' itself is not a supported operator. This is what the Pow() function is available for.
+
+@Example
+@Code
+  Debug Pow(2.0, 3.0)    ; will display '8.0'
+  Debug Pow(27.0, 1/3.0) ; will display '3.0', the cubic-root
+@EndCode
+
+@SeeAlso
+  @@Sqr
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Log(Number.f(.d))
+
+@Description
+  Returns the natural Log (ie log to the base e) of the given number. 
+
+@Parameter "Number.f or Number.d"
+  The number to calculate the Log from. This must be a positive value.
+
+@ReturnValue
+  Returns the natural Log of the number.
+
+@Remarks
+  This is the inverse function of @@Exp.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@SeeAlso
+  @@Exp, @@Log10
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Log10(Number.f(.d))
+
+@Description
+  Returns the log in base 10 of the given number.
+
+@Parameter "Number.f or Number.d"
+  The number to calculate the log from. This must be a positive value.
+
+@ReturnValue
+  Returns the log in base 10.  
+  
+@Remarks
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@SeeAlso
+  @@Log
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Mod(Number.f(.d), Divisor.f(.d))
+
+@Description
+  Returns the remainder of the division of Number.f(.d) by Divisor.f(.d). 
+
+@Parameter "Number.f or Number.d"
+  The number to divide. The input does not need to be a whole number.
+
+@Parameter "Divisor.f or Divisor.d"
+  The number by which to divide. The input does not need to be a whole number.
+
+@ReturnValue
+  Returns the remainder of the division. The result has the same sign as the Number.f(.d) parameter.
+
+@Remarks
+  This is the floating-point version of the '%' operator for integers.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = NaN()
+
+@Description
+  Returns the special floating-point value representing 'Not a Number'. This value is returned from
+  invalid calculations such as calculating the @Link "Sqr" "square root" of a negative number.
+
+@NoParameters
+
+@ReturnValue
+  Returns the value representing NaN. The result is a float or double value depending on whether
+  it is assigned to a @ReferenceLink "variables" "float or double" variable.  
+
+@Remarks
+  NaN is a special value. Using NaN in any calculation with other values will again return the value NaN. 
+  The @@IsNaN function can be used to check whether a variable represents the value NaN.
+
+@Example
+@Code
+  Debug IsNaN(NaN() * 5 + 2) ; will display 1.0
+@EndCode
+
+@SeeAlso
+  @@IsNaN, @@Infinity
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Radian(Angle.f(.d))
+
+@Description
+  Converts the given angle from degrees into radian.
+
+@Parameter "Angle.f or Angle.d"
+  The input angle in degree.
+  
+@ReturnValue
+  Returns the angle in radian. 
+
+@Remarks
+  There is no normalization to ensure that the resulting angle is between 0 and @#PI*2.
+  If the input was larger than 360 then the result will be larger than @#PI*2.
+  Likewise, a negative input will result in a negative output.
+@LineBreak
+@LineBreak
+  The reverse transformation can be made with the @@Degree function.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug Radian(90) ; will display #PI/2
+@EndCode
+
+@SeeAlso
+  @@Degree
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Random(Maximum [, Minimum])
+
+@Description
+  Returns a random number from zero to the given maximum value (both values included).
+  
+@Parameter "Maximum"
+  The maximum value. This value needs to be positive (zero included) and
+  may not exceed the maximum positive @ReferenceLink "variables" "integer" value.
+  
+@OptionalParameter "Minimum"
+  The minimum value. It may not exceed the maximum value. If specified, the random
+  number will be from the minimum value to the maximum value (both values included).
+  This value needs to be positive (zero included) and may not exceed the maximum positive @ReferenceLink "variables" "integer" value.
+
+@ReturnValue
+  Returns a value from zero to the maximum value (both values included), unless a minimum value is specified.
+  
+@Remarks
+  Additionally @@RandomSeed may be used to change the random number seed.
+  @@RandomData can be used to fill a memory buffer with random data.
+  @@RandomizeArray or @@RandomizeList can be used, to randomize the elements of an array
+  or a list.
+@LineBreak
+@LineBreak
+  @Bold "Note:" This command uses a pseudorandom number generator which is very fast and produces 
+  randomly looking output but it is not strong enough for cryptographic purposes. 
+  The slower @@CryptRandom command can be used if more secure random 
+  number generation is required.
+
+@Example
+@Code
+  Repeat
+    Dice = Random(6, 1)  ; get a value between 1 and 6, including 1 and 6
+    Choice = MessageRequester("Roll the dice", "You got a " + Dice + ", roll again?", #PB_MessageRequester_YesNo)
+  Until Choice = #PB_MessageRequester_No
+@EndCode
+
+@SeeAlso
+  @@RandomSeed, @@RandomData, @@CryptRandom, @@RandomizeArray, @@RandomizeList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RandomData(*Buffer, Length)
+
+@Description
+  Fills the specified memory buffer with random data. 
+  
+@Parameter "*Buffer"
+  The memory address of the buffer to fill.
+
+@Parameter "Length"
+  The size of the buffer to fill.
+
+@NoReturnValue
+
+@Remarks
+  This command uses the same random seed as the
+  @@Random command. @@RandomSeed may be used to change the random number seed.
+@LineBreak
+@LineBreak
+  @Bold "Note:" This command uses a pseudorandom number generator which is very fast and produces 
+  randomly looking output but it is not strong enough for cryptographic purposes. 
+  The slower @@CryptRandomData command can be used if more secure 
+  random number generation is required.
+
+@Example
+@Code
+  ; Create an image with random content
+  ;
+  CreateImage(0, 200, 200)
+  If StartDrawing(ImageOutput(0))
+    *Buffer = DrawingBuffer()
+    Pitch   = DrawingBufferPitch()
+        
+    RandomData(*Buffer, Pitch*200)    
+    
+    StopDrawing()
+  EndIf
+  
+  OpenWindow(0, 0, 0, 200, 200, "Random Image", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+  
+  Repeat
+  Until WaitWindowEvent() = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso
+  @@RandomSeed, @@Random, @@CryptRandomData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RandomSeed(Value)
+
+@Description
+  Changes the random number seed for the values returned with @@Random and @@RandomData.
+  
+@Parameter "Value"
+  The new seed for the random number generator.
+
+@NoReturnValue
+
+@Remarks
+  Each time a program is started, a new seed is generated, therefore @@RandomSeed
+  is useful only when the goal is to generate the same random numbers in the same order every time the program
+  is executed.
+
+@SeeAlso
+  @@Random, @@RandomData, @@RandomizeArray, @@RandomizeList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Round(Number.f(.d), Mode)
+
+@Description
+  Round the specified float number according to the given mode.
+
+@Parameter "Number.f or Number.d"
+  The number to round.
+  
+@Parameter "Mode"
+  The rounding mode. This can be one of the following values:
+@FixedFont
+  @#PB_Round_Down   : rounds down the number
+  @#PB_Round_Up     : rounds up the number
+  @#PB_Round_Nearest: rounds to the nearest integer number (0.5 and up will round up)
+@EndFixedFont
+
+@Remarks
+  To turn a floating-point number into an integer without rounding, use @@Int or @@IntQ.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug Round(11.6, #PB_Round_Down)    ; Will print '11.0'
+  Debug Round(-3.6, #PB_Round_Down)    ; Will print '-4.0'
+
+  Debug Round(11.6, #PB_Round_Up)      ; Will print '12.0'
+  Debug Round(-1.6, #PB_Round_Up)      ; Will print '-1.0'
+
+  Debug Round(11.6, #PB_Round_Nearest) ; Will print '12.0'
+  Debug Round(11.4, #PB_Round_Nearest) ; Will print '11.0'
+  Debug Round(11.5, #PB_Round_Nearest) ; Will print '12.0'
+  Debug Round(-7.5, #PB_Round_Nearest) ; Will print '-8.0'
+@EndCode
+
+@SeeAlso
+  @@Int, @@IntQ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Sign(Number.f(.d))
+
+@Description
+  Returns an integer value representing the sign of the given number.
+  
+@Parameter "Number.f or Number.d"
+  The number to get the sign from.
+
+@ReturnValue
+ - Returns 0 if Number is zero.
+@LineBreak
+ - Returns 1 if Number is positive.
+@LineBreak
+ - Returns -1 if Number is negative.
+
+@Remarks
+  This function handles @ReferenceLink "variables" "float or double" values but 
+  returns an integer.
+
+@Example
+@Code
+  Debug Sign(-7)   ; will display -1
+  Debug Sign(0)    ; will display  0
+  Debug Sign(7)    ; will display  1
+@EndCode
+
+@SeeAlso
+  @@Abs
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Sin(Angle.f(.d))
+
+@Description
+  Returns the sine of the specified angle.
+  
+@Parameter "Angle.f or Angle.d"
+  The input angle in radian. 
+  The @@Radian function can be used to transform an angle from degrees to radian.
+  
+@ReturnValue
+  Returns the sine of the angle. The result will be between -1.0 and 1.0.
+
+@Remarks
+  The inverse function of Sin() is @@ASin.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug Sin(1.5708)
+@EndCode
+
+@SeeAlso
+  @@ASin, @@SinH, @@Radian
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = SinH(Angle.f(.d))
+
+@Description
+  Returns the hyperbolic sine of the specified hyperbolic angle.
+
+@Parameter "Angle.f or Angle.d"
+  The input angle.
+  
+@ReturnValue
+  Returns the hyperbolic sine of the angle.
+
+@Remarks
+  The inverse function of SinH() is @@ASinH.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug SinH(Log(1.618033)) ; Will be approximately 0.5
+@EndCode
+  
+@SeeAlso
+  @@ASinH, @@Sin
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Sqr(Number.f(.d))
+
+@Description
+  Returns the square root of the specified number.
+  
+@Parameter "Number.f or Number.d"
+  The input number. This must be a positive value.
+  
+@ReturnValue
+  Returns the square root of the number.
+  
+@Remarks
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@SeeAlso
+  @@Pow
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = Tan(Angle.f(.d))
+
+@Description
+  Returns the tangent of the specified angle. 
+  
+@Parameter "Angle.f or Angle.d"
+  The input angle in radian. 
+  The @@Radian function can be used to transform an angle from degrees to radian.
+  
+@ReturnValue
+  Returns the tangent of the specified angle.
+
+@Remarks
+  The inverse function of Tan() is @@ATan.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+  
+@Example
+@Code
+  Debug Tan(0.785398) ; will be approximately '1.0'
+@EndCode
+  
+@SeeAlso
+  @@ATan, @@ATan2, @@TanH, @@Radian
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f(.d) = TanH(Angle.f(.d))
+
+@Description
+  Returns the hyperbolic tangent of the specified hyperbolic angle.
+
+@Parameter "Angle.f or Angle.d"
+  The input angle.
+  
+@ReturnValue
+  Returns the hyperbolic tangent of the angle.
+
+@Remarks
+  The inverse function of TanH() is @@ATanH.
+  This function handles and returns @ReferenceLink "variables" "float or double" values.
+
+@Example
+@Code
+  Debug TanH(Log(1.618033)) ; will display '0.447213...' (1/5 * Sqr(5))
+@EndCode
+  
+@SeeAlso
+  @@ATanH, @@Tan
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+

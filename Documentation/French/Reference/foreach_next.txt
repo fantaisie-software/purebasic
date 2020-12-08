@@ -1,0 +1,59 @@
+@Title ForEach : Next
+
+@Syntax
+
+  @Keyword ForEach @FunctionColor Liste() @Bold "Ou" @FunctionColor Map()
+    ...
+  @Keyword Next [Liste() @Bold "Ou" Map()]
+
+@Description
+
+  @Keyword ForEach énumère tous les élèments d'une @LibraryLink "List" "liste" ou d'une @LibraryLink "Map" "map".
+  Si la @LibraryLink "List" "liste" ou la @LibraryLink "Map" "map" est vide, @Keyword ForEach : @Keyword Next quitte immédiatement, sans entrer dans la boucle. 
+  @LineBreak
+  @LineBreak
+  Lors du l'utilisation en conjonction avec une liste: comme la boucle se termine seulement lorsque le dernier élément de la liste est atteint (en terme de position), 
+  il est tout à fait possible de @Link "List/DeleteElement" "supprimer" ou d' @Link "List/AddElement" "ajouter" 
+  des éléments durant un cycle de boucle. 
+  De même il est permis de changer l'élément courant avec @@ChangeCurrentElement. 
+  Après l'un de ces changements, le prochain cycle de boucle continue avec l'élément qui suit l'élément courant.
+  @LineBreak
+  @LineBreak
+  Il est possible de quitter une boucle @Keyword ForEach : @Keyword Next à tout moment à l'aide de la commande 
+  @ReferenceLink "Break_Continue" Break. La commande @ReferenceLink "Break_Continue" Continue permet de passer 
+  directement à l'itération suivante, sans exécuter la fin du code contenu dans la boucle. @LineBreak
+  @LineBreak
+  
+  @Example Liste
+  
+@Code       
+  NewList Nombre()
+  
+  AddElement(Nombre())
+  Nombre() = 10
+    
+  AddElement(Nombre())
+  Nombre() = 20
+    
+  AddElement(Nombre())
+  Nombre() = 30
+    
+  ForEach Nombre()
+    Debug Nombre() ; Affichera 10, 20 et 30
+  Next
+@EndCode  
+
+
+  @Example Map
+
+@Code       
+  NewMap Pays.s()
+
+  Pays("US") = "United States"
+  Pays("FR") = "France"
+  Pays("DE") = "Allemagne"
+
+  ForEach Pays()
+    Debug Pays()
+  Next
+@EndCode  

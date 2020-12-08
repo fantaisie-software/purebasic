@@ -1,0 +1,382 @@
+;
+;     Sound library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Sound
+
+@Overview
+
+SpiderBasic provides an easy way to have sound inside
+application or game. It uses special functions to get the maximum speed
+of available hardware.
+
+@CommandList
+
+@ExampleFile All Sound.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetSoundPosition(#Sound [, Mode [, Channel]])
+
+@Description
+  Get the current sound position.
+  
+@Parameter "#Sound"
+  The sound to use.
+
+@OptionalParameter "Mode"
+  The mode used to get the position. It can be one of the following value:
+@FixedFont
+  @#PB_Sound_Frame      : the position is returned in frame (default). 
+  @#PB_Sound_Millisecond: the position is returned in milliseconds.
+@EndFixedFont
+
+@OptionalParameter "Channel"
+  The channel to get the position. It's the value returned by @@PlaySound when using the
+  @#PB_Sound_MultiChannel flag.
+
+@ReturnValue
+  The current sound position or -1 if an error occurred.
+
+@Remarks
+  Sounds loaded with the @#PB_Sound_Streaming flag are not supported.
+
+@SeeAlso
+  @@SetSoundPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetSoundPosition(#Sound, Position, [, Mode [, Channel]])
+
+@Description
+  Set the current sound position.
+  
+@Parameter "#Sound"
+  The sound to use.
+
+@Parameter "Position"
+  The new position to set.
+
+@OptionalParameter "Mode"
+  The mode used to set the position. It can be one of the following value:
+@FixedFont
+  @#PB_Sound_Frame      : the position is specified in frame (default). 
+  @#PB_Sound_Millisecond: the position is specified in milliseconds.
+@EndFixedFont
+
+@OptionalParameter "Channel"
+  The channel to set the position. It's the value returned by @@PlaySound when using the
+  @#PB_Sound_MultiChannel flag.
+
+@NoReturnValue
+
+@Remarks
+  Sounds loaded with the @#PB_Sound_Streaming flag are not supported.
+
+@SeeAlso
+  @@GetSoundPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeSound(#Sound)
+
+@Description
+  Stops and removes a sound previously loaded with @@LoadSound from memory. Once a sound has been
+  freed, it can't be played anymore. 
+
+@Parameter "#Sound"
+  The sound to free. If @#PB_All is specified, all the remaining sounds are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining sounds are automatically freed when the program ends.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitSound()
+
+@Description
+  Initializes the sound environment. This function must be always called before
+  any other sound function and should always check its result. If the sound environment fails,
+  it's absolutely necessary to disable all the sound functions calls.
+
+@NoParameters
+
+@ReturnValue
+  Nonzero if the sound environment has been setup correctly, zero otherwise.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsSound(#Sound)
+
+@Description
+  Tests if the specified number is a valid and correctly initialized sound. 
+
+@Parameter "#Sound"
+  The sound to use.
+
+@ReturnValue
+  Nonzero if the specified number is a valid sound, zero otherwise.
+
+@Remarks
+  This function is bulletproof and can be used with any value. This is the correct way to ensure a sound is ready to use.
+
+@SeeAlso
+  @@FreeSound
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LoadSound(#Sound, Filename$ [, Flags])
+
+@Description
+  Load any sound format supported by the web browser from an URL. 
+  
+@Parameter "#Sound"
+  A number to identify the new sound. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Filename$"
+  The filename to use to load the sound.
+
+@OptionalParameter "Flags"
+  Ignored.
+
+@ReturnValue
+  Nonzero if the sound has been created, zero otherwise.
+  The sound is still not loaded, the callbacks binded to @#PB_Event_Loading and @#PB_Event_LoadingError
+  will be called once the loading is done.
+  If @#PB_Any was used for the #Sound parameter then the generated number is returned on success.
+
+
+@Example
+@Code
+  InitSound()
+  
+  Procedure Loading(Type, Filename$, ObjectId)
+    Debug Filename$ + " loaded (id = " + ObjectId + ")"
+    
+    PlaySound(0) ; play the sound
+  EndProcedure
+    
+  Procedure LoadingError(Type, Filename$)
+    Debug Filename$ + ": loading error"
+  EndProcedure
+    
+  ; Register the loading event before calling any resource load command
+  BindEvent(#PB_Event_Loading, @Loading())
+  BindEvent(#PB_Event_LoadingError, @LoadingError())
+  
+  LoadSound(0, "Data/Lazer.wav") ; Be sure this sound is available (the source file should be saved in the SpiderBasic/Examples drawer)
+@EndCode
+@SeeAlso
+  @@FreeSound, @@PlaySound
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PauseSound(#Sound [, Channel])
+
+@Description
+  Pause the sound.
+  
+@Parameter "#Sound"
+  The sound to use. If @#PB_All is specified, all the sounds (and all channels) are paused.
+
+@OptionalParameter "Channel"
+  The channel to use. It's the value returned by @@PlaySound when using the
+  @#PB_Sound_MultiChannel flag. If @#PB_All is specified, all the channels of the sound are paused.
+
+@NoReturnValue
+
+@SeeAlso
+  @@LoadSound, @@ResumeSound
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResumeSound(#Sound [, Channel])
+
+@Description
+  Resume the sound playing.
+  
+@Parameter "#Sound"
+  The sound to use. If @#PB_All is specified, all the sounds (and all channels) are resumed.
+
+@OptionalParameter "Channel"
+  The channel to use. It's the value returned by @@PlaySound when using the
+  @#PB_Sound_MultiChannel flag. If @#PB_All is specified, all the channels of the sound are resumed.
+
+@NoReturnValue
+
+@SeeAlso
+  @@LoadSound, @@PauseSound
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PlaySound(#Sound [, Flags [, Volume]])
+
+@Description
+  Start to play the specified sound.
+  
+@Parameter "#Sound"
+  The sound to play.
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_Sound_Loop        : play the sound continuously (starts again when end is reached)
+  @#PB_Sound_MultiChannel: play the sound in a new channel instead of stopping the
+        previously played sound. This allows to use the same sound and to play it on different
+        channels at once. 'Result' will be new allocated channel, and can be used by the
+        other sound commands like @@SoundVolume, @@SoundPan etc.
+@EndFixedFont
+
+@OptionalParameter "Volume"
+  Sets the initial volume of the #Sound. The valid values are from 0 (no volume) to 100 (full volume). 
+  The default value is 100.
+
+@ReturnValue
+  The channel number, if the @#PB_Sound_MultiChannel flag is used.
+
+@SeeAlso
+  @@StopSound, @@FreeSound, @@PauseSound, @@ResumeSound
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SoundStatus(#Sound [, Channel])
+
+@Description
+  Get the current sound status.
+    
+@Parameter "#Sound"
+  The sound to use.
+
+@OptionalParameter "Channel"
+  The channel to use. It's the value returned by @@PlaySound when using the
+  @#PB_Sound_MultiChannel flag.
+
+@ReturnValue
+  The current sound status. It can be one of the following value:
+@FixedFont
+  @#PB_Sound_Stopped: the sound is stopped.
+  @#PB_Sound_Playing: the sound is playing.
+  @#PB_Sound_Paused : the sound is paused.
+  @#PB_Sound_Unknown: the sound is in an unknown state (an error occurred when getting the state).
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundPan(#Sound, Pan [, Channel])
+
+@Description
+  Sets the new pan value, in real-time, for the #Sound. The pan value is saved for the #Sound, so it's not
+  needed to call it every time. The panning is a way to play a sound on a stereo equipment.
+
+@Parameter "#Sound"
+  The sound to use.
+
+@Parameter "Pan"
+  The new pan value. Valid values are from -100 (full left) to 100 (full right). 
+  If the pan value is zero, then the sound is played on right and left speaker, equally.
+
+@OptionalParameter "Channel"
+  The channel to use. It's the value returned by @@PlaySound when using the
+  @#PB_Sound_MultiChannel flag.
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundLength(#Sound [, Mode])
+
+@Description
+  Get the length of the sound.
+  
+@Parameter "#Sound"
+  The sound to use.
+
+@OptionalParameter "Mode"
+  The mode used to get the length. It can be one of the following value:
+@FixedFont
+  @#PB_Sound_Frame      : the length is returned in frame (default). 
+  @#PB_Sound_Millisecond: the length is returned in milliseconds.
+@EndFixedFont
+
+@ReturnValue
+  The length of the sound, or -1 if an error occurred.
+
+@Remarks
+  Sounds loaded with the @#PB_Sound_Streaming flag are not supported.
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundVolume(#Sound, Volume [, Channel])
+
+@Description
+  Change the sound volume, in real-time.
+  
+@Parameter "#Sound"
+  The sound to use. If @#PB_All is specified, all the sounds (and all channels) are affected.
+
+@Parameter "Volume"
+  The new volume for the sound. Valid values are from 0 (no volume) to 100 (full volume).
+
+@OptionalParameter "Channel"
+  The channel to use. It's the value returned by @@PlaySound when using the
+  @#PB_Sound_MultiChannel flag. If @#PB_All is specified, all the channels of the sound are affected.
+
+@NoReturnValue
+
+@SeeAlso
+  @@LoadSound
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopSound(#Sound [, Channel])
+
+@Description
+  Stops the specified sound (if it was playing). 
+
+@Parameter "#Sound"
+  The sound to stop. If this value is set to @#PB_All, then all sounds currently playing
+  are stopped.
+
+@OptionalParameter "Channel"
+  The channel to use. It's the value returned by @@PlaySound when using the
+  @#PB_Sound_MultiChannel flag.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PlaySound
+  
+@SupportedOS

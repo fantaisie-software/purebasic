@@ -764,7 +764,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         FoldLevel = ScintillaSendMessage(Gadget, #SCI_GETFOLDLEVEL, firstline, 0) & (~#SC_FOLDLEVELHEADERFLAG)
       EndIf
       
-      ; We need to find outwether line is inside a macro for proper handling
+      ; We need to find out whether line is inside a macro for proper handling
       ; of the foldpoints from here on
       ; We also need to know if we are inside a procedure for the
       ; adding the "Procedure Background color" markers
@@ -2593,7 +2593,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             If *OriginalItem And *OriginalItem\Type = #ITEM_Keyword
               *Item.SourceItem = 0
               
-              ; spechial treatment is needed for some keywords
+              ; special treatment is needed for some keywords
               Select *OriginalItem\Keyword
                   
                 Case #KEYWORD_For, #KEYWORD_ForEach, #KEYWORD_Repeat, #KEYWORD_While, #KEYWORD_Procedure, #KEYWORD_ProcedureC, #KEYWORD_ProcedureDLL, #KEYWORD_ProcedureCDLL
@@ -3214,7 +3214,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ProcedureReturn 0
     EndProcedure
     
-    ; Spechial handler for the double-click on linux, as the Scintilla event does
+    ; Special handler for the double-click on linux, as the Scintilla event does
     ; not provide the modifier keys, so we do not know if Ctrl+Double-click was done.
     ;
     ProcedureC ScintillaDoubleclickHandler(*Widget, *Event.GdkEventButton, user_data)
@@ -3485,6 +3485,77 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         NewText$ + "; " + StringField(ClipboardText$, i, #LF$)
       Next i
       InsertCodeString(NewText$)
+    EndIf
+  EndProcedure
+  
+  Procedure.s InvertCase(Text$)
+    Protected *C.CHARACTER = @Text$
+    While (*C\c)
+      Protected Upper.c = Asc(UCase(Chr(*C\c)))
+      Protected Lower.c = Asc(LCase(Chr(*C\c)))
+      If Upper <> Lower
+        If *C\c = Upper
+          *C\c = Lower
+        Else
+          *C\c = Upper
+        EndIf
+      EndIf
+      *C + SizeOf(CHARACTER)
+    Wend
+    ProcedureReturn Text$
+  EndProcedure
+  
+  Procedure AdjustSelection(Mode)
+    ; Mode
+    ; 0  = Upper case selection
+    ; 1  = Lower case selection
+    ; 2  = Invert case selection (Hello --> hELLO)
+    ; 3  = Select whole word at cursor
+    If *ActiveSource And *ActiveSource\IsForm = 0
+      Current  = SendEditorMessage(#SCI_GETCURRENTPOS)
+      Anchor   = SendEditorMessage(#SCI_GETANCHOR)
+      SelStart = SendEditorMessage(#SCI_GETSELECTIONSTART)
+      SelEnd   = SendEditorMessage(#SCI_GETSELECTIONEND)
+      If (SelStart = SelEnd) Or (Mode = 3)
+        WordStart = SendEditorMessage(#SCI_WORDSTARTPOSITION, SelStart, #True)
+        WordEnd   = SendEditorMessage(#SCI_WORDENDPOSITION, SelEnd, #True)
+        If WordStart < WordEnd
+          SelStart = WordStart
+          SelEnd   = WordEnd
+          SendEditorMessage(#SCI_SETSEL, SelStart, SelEnd)
+        EndIf
+      EndIf
+      If SelStart < SelEnd
+        SendEditorMessage(#SCI_BEGINUNDOACTION)
+        Select Mode
+          Case 0 ; Upper Case
+            SendEditorMessage(#SCI_UPPERCASE)
+          Case 1 ; Lower Case
+            SendEditorMessage(#SCI_LOWERCASE)
+          Case 2 ; Invert Case
+            BufferSize = SendEditorMessage(#SCI_GETSELTEXT, 0, #Null)
+            If BufferSize > 0
+              *Buffer = AllocateMemory(BufferSize)
+              If *Buffer
+                SendEditorMessage(#SCI_GETSELTEXT, 0, *Buffer)
+                If (*ActiveSource\Parser\Encoding = 1) ; UTF-8
+                  PokeS(*Buffer, InvertCase(PeekS(*Buffer, BufferSize, #PB_UTF8 | #PB_ByteLength)), -1, #PB_UTF8)
+                Else
+                  PokeS(*Buffer, InvertCase(PeekS(*Buffer, BufferSize, #PB_Ascii)), -1, #PB_Ascii)
+                EndIf
+                SendEditorMessage(#SCI_REPLACESEL, 0, *Buffer)
+                FreeMemory(*Buffer)
+              EndIf
+            EndIf
+          Case 3 ; Select Word
+            ;
+        EndSelect
+        If Mode <> 3
+          SendEditorMessage(#SCI_SETCURRENTPOS, Current)
+          SendEditorMessage(#SCI_SETANCHOR, Anchor)
+        EndIf
+        SendEditorMessage(#SCI_ENDUNDOACTION)
+      EndIf
     EndIf
   EndProcedure
   
@@ -3851,13 +3922,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             ; We use OkCancel instead of YesNo as the 'Esc' key is handled with a 'Cancel' button
             ;
             If Reverse
-              If MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+"."+#NewLine+Language("Find","ContinueSearchReverse"), #FLAG_Question|#PB_MessageRequester_OkCancel) = #PB_MessageRequester_ResultOk
+              If FindAutoWrap Or (MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+"."+#NewLine+Language("Find","ContinueSearchReverse"), #FLAG_Question|#PB_MessageRequester_OkCancel) = #PB_MessageRequester_ResultOk)
                 Find\chrg\cpMin = SendEditorMessage(#SCI_GETTEXTLENGTH, 0, 0)
                 Find\chrg\cpMax = 0
                 Result = 0 ; do not end the loop yet!
               EndIf
             Else
-              If MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+"."+#NewLine+Language("Find","ContinueSearch"), #FLAG_Question|#PB_MessageRequester_OkCancel) = #PB_MessageRequester_ResultOk
+              If FindAutoWrap Or (MessageRequester(#ProductName$, Language("Find","NoMoreMatches")+"."+#NewLine+Language("Find","ContinueSearch"), #FLAG_Question|#PB_MessageRequester_OkCancel) = #PB_MessageRequester_ResultOk)
                 Find\chrg\cpMin = 0
                 Result = 0 ; do not end the loop yet!
               EndIf

@@ -1,0 +1,159 @@
+@Title Structures
+
+@Syntax
+
+  @Keyword Structure <name> [@Keyword Extends <name>]
+    ...
+  @Keyword EndStructure 
+
+@Description
+
+  @Keyword Structure is useful to define user type, and access some OS memory areas. Structures can be used 
+  to enable faster and easier handling of data files. It is very useful as you can group into the same 
+  object the information which are common. Structures fields are accessed with the @Keyword "\" option. Structures 
+  can be nested. Statics arrays are supported inside structures. @LineBreak
+  @LineBreak
+  Dynamic objects like arrays, lists and maps are supported inside structure and are automatically initialized
+  when the object using the structure is created. To declare such field, use the following keywords:
+  @Keyword "Array", @Keyword "List" and @Keyword "Map". @LineBreak
+  @LineBreak
+  The optional @Keyword Extends parameter allows to extends another structure with new fields. All fields 
+  found in the extended structure will be available in the new structure and will be placed before 
+  the new fields. This is useful to do basic inheritance of structures. @LineBreak
+  @LineBreak
+  @ReferenceLink "compilerfunctions" "SizeOf" can be used with structures to get the size of the structure and @ReferenceLink "compilerfunctions" "OffsetOf" can be used to retrieve 
+  the index of the specified field. @LineBreak 
+  @LineBreak
+  Please note, that in structures a static array[] doesn't behave like the normal BASIC array (defined using @ReferenceLink "Dim" Dim)
+  to be conform to the C/C++/JavaScript structure format (to allow direct API structure porting). This means that a[2] will 
+  allocate an array from 0 to 1 where Dim a(2) will allocate an array from 0 to 2.
+  @LineBreak
+  @LineBreak
+  When using @ReferenceLink "memory" "pointers" in structures, the '*' has to be omitted when using the field, once more to ease API code porting. It can be
+  seen as an oddity (and to be honest, it is) but it's like that since the very start of SpiderBasic and many, many sources rely
+  on that so it won't be changed.
+  @LineBreak
+  @LineBreak
+  When using a lot of structure fields you can use the @ReferenceLink "with_endwith" "With" : @ReferenceLink "with_endwith" "EndWith" 
+  keywords to reduce the amount of code to type and ease its readability.
+  @LineBreak
+  @LineBreak
+  It's possible to perform a full structure copy by using the equal affectation between two structure element of the same type.
+  @LineBreak
+  @LineBreak
+  @ReferenceLink "compilerfunctions" "ClearStructure" can be used to clear a structured memory area. It's for advanced use only, when
+  @ReferenceLink "memory" "pointers" are involved. @LineBreak 
+
+
+@Example 
+
+@Code
+  Structure Person
+    Name.s
+    ForName.s 
+    Age.w 
+  EndStructure
+
+  Dim MyFriends.Person(100)
+
+  ; Here the position '0' of the array MyFriend()
+  ; will contain one person and it's own information
+
+  MyFriends(0)\Name = "Andersson"
+  MyFriends(0)\Forname = "Richard" 
+  MyFriends(0)\Age = 32
+@EndCode
+
+@Example A more complex structure (Nested and static array)
+
+@Code
+  Structure Window
+    *NextWindow.Window  ; Points to another window object
+    x.w 
+    y.w
+    Name.s[10]  ; 10 Names available (from 0 to 9)
+  EndStructure
+@EndCode
+
+@Example Extended structure 
+
+@Code
+  Structure MyPoint
+    x.l 
+    y.l
+  EndStructure
+
+  Structure MyColoredPoint Extends MyPoint
+    color.l 
+  EndStructure
+
+  ColoredPoint.MyColoredPoint\x = 10
+  ColoredPoint.MyColoredPoint\y = 20
+  ColoredPoint.MyColoredPoint\color = RGB(255, 0, 0)
+@EndCode
+
+
+@Example Structure copy
+
+@Code
+  Structure MyPoint
+    x.l 
+    y.l
+  EndStructure
+
+  LeftPoint.MyPoint\x = 10
+  LeftPoint\y = 20
+  
+  RightPoint.MyPoint = LeftPoint
+  
+  Debug RightPoint\x
+  Debug RightPoint\y
+@EndCode
+
+@Example Dynamic object
+
+@Code
+  Structure Person
+    Name$
+    Age.l
+    List Friends$()
+  EndStructure
+
+  John.Person
+  John\Name$ = "John"
+  John\Age   = 23
+  
+  ; Now, add some friends to John
+  ;
+  AddElement(John\Friends$())
+  John\Friends$() = "Jim"
+
+  AddElement(John\Friends$())
+  John\Friends$() = "Monica"
+  
+  ForEach John\Friends$()
+    Debug John\Friends$()
+  Next
+@EndCode
+
+
+@Example Pointers
+
+@Code
+  Structure Person
+    *Next.Person ; Here the '*' is mandatory to declare a pointer
+    Name$
+    Age.b
+  EndStructure
+
+  Timo.Person\Name$ = "Timo"
+  Timo\Age = 25
+  
+  Fred.Person\Name$ = "Fred"
+  Fred\Age = 25
+  
+  Timo\Next = @Fred ; When using the pointer, the '*' is omitted
+  
+  Debug Timo\Next\Name$ ; Will print 'Fred'
+@EndCode
+

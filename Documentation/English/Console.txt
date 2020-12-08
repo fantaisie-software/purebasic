@@ -1,0 +1,722 @@
+;
+;     Console library documentation
+;
+;      (c) 2011 - Fantaisie Software
+;
+
+@Library Console
+
+@Overview
+
+  This library allow the programmer to create console mode applications. This is used to create small programs
+  that don't require a user interface or be executed from the function line.
+  Also, console functions can be really helpful to debug a program by printing
+  out some information to the console, without stopping the program flow.
+
+@LineBreak
+@LineBreak
+  If your program is intended to be a pure console application (i.e. not a GUI application
+  which sometimes opens a console) then you must remember to set the executable format to
+  'Console' when you are compiling your programs.
+
+@LineBreak
+@LineBreak
+  You should start with the @@OpenConsole function, since you must use that function to
+  open a console (character mode) display window before you use any other console-related functions.
+
+@OS Windows
+  @LineBreak
+  @LineBreak
+  Please note, that if you create console programs with PureBasic you will still need Windows 95 or later to
+  run them. These programs must be executed only from the Windows function prompt. These programs are not real MS-DOS programs!
+
+@CommandList
+
+@ExampleFile All Console.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearConsole()
+
+@Description
+  Clears the whole console content using the current background color. The background color is set
+  with @@ConsoleColor. The console has to be in graphical mode, see
+  @@EnableGraphicalConsole.
+
+@NoParameters
+@NoReturnValue
+
+@Example
+@Code
+  If OpenConsole()
+    EnableGraphicalConsole(1)
+  
+    PrintN("You will never see me")
+    ClearConsole()
+    
+    PrintN("Press return to exit")
+    Input()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@EnableGraphicalConsole, @@ConsoleColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseConsole()
+
+@Description
+  Close the console previously opened with @@OpenConsole. Once the console has been closed, it's
+  not possible to use any console-related functions unless you open the console again. The
+  console will automatically be closed when your program ends. No effects with Linux and MacOS.
+
+@NoParameters
+@NoReturnValue
+
+@Example
+@Code
+  For i = 0 To 4
+    If OpenConsole()
+      PrintN("This is console #"+Str(i))
+      PrintN("Press return to close console")
+      Input()
+      CloseConsole()
+    EndIf
+  Next
+@EndCode
+
+@SeeAlso
+  @@OpenConsole
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ConsoleError(Message$)
+
+@Description
+  Writes the Message string (plus a newline) to the standard error output of the program. This output can be
+  read for example with the @@ReadProgramError function of the
+  @LibraryLink "process" "Process" library.
+
+@Parameter "Message$"
+  The string to send.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@Print, @@PrintN
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ConsoleTitle(Title$)
+
+@Description
+  Changes the console title to the specified string. The console title is typically shown in the
+  title bar of the window which the console is in (when you are viewing the console in a
+  graphical environment such as your desktop).
+
+@OS Windows
+@LineBreak
+@LineBreak
+  Under Windows, the console title is also the text shown in the start bar and
+  in the task manager representing your console application. 
+@EndOS
+
+@Parameter "Title$"
+  The new title for the console.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenConsole()
+    ConsoleTitle("The ConsoleTitle example program")
+    PrintN("Press return to exit")
+    Input()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@EnableGraphicalConsole
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ConsoleColor(CharacterColor, BackgroundColor)
+
+@Description
+  Change the colors used by the text display. Any characters printed after calling this
+  function will use the new colors. 
+
+@Parameter "CharacterColor"
+  The color to be used for the characters. The color values range from 0 to 15, which are the
+  16 colors available in console mode:
+@FixedFont
+  0 - Black (default background)
+  1 - Blue
+  2 - Green
+  3 - Cyan
+  4 - Red
+  5 - Magenta
+  6 - Brown
+  7 - Light grey (default foreground)
+  8 - Dark grey
+  9 - Bright blue
+  10 - Bright green
+  11 - Bright cyan
+  12 - Bright red
+  13 - Bright magenta
+  14 - Yellow
+  15 - White
+@EndFixedFont
+
+@Parameter "BackgroundColor"
+  The color for the character background. The values are the same as for the CharacterColor.
+
+@NoReturnValue
+    
+@Example
+@Code
+  If OpenConsole()
+    For Foreground = 0 To 15
+      For Background = 0 To 15
+        ConsoleColor(Foreground, Background)
+        Print(Right(Hex(Background), 1))
+      Next
+        
+      PrintN("")
+    Next
+    
+    ConsoleColor(7, 0)
+    PrintN("Press return to exit")
+    Input()
+  EndIf
+@EndCode
+@Image consolecolor.png
+
+@SeeAlso
+  @@EnableGraphicalConsole
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EnableGraphicalConsole(State)
+
+@Description
+  Changes the way the characters are drawn on the console between a graphical and a text-only mode.
+
+@Parameter "State"
+  If 'State' is 1, then console will be switched to graphical mode, else if 'State' is 0, it will switch back to text mode.
+
+@NoReturnValue
+
+@Remarks
+  The default mode of the console is the text mode, which means the text can't be positioned anywhere
+  in the console, but redirections (through pipes) work correctly. 
+@LineBreak
+@LineBreak
+  When being in the graphical mode, functions like @@ClearConsole or 
+  @@ConsoleLocate are available and the text can be positioned anywhere in the console 
+  screen, which allow to do console games or text only applications (which can be useful when accessed remotely 
+  through telnet or ssh). The redirection (pipes) doesn't work correctly when being in graphical mode.
+
+@Example
+@Code
+  If OpenConsole()
+    EnableGraphicalConsole(1)
+    ConsoleLocate(7, 8)
+    PrintN("Press return to exit")
+    Input()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ConsoleLocate, @@ConsoleColor, @@ClearConsole
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = Inkey()
+
+@Description
+  Returns a character string if a key is pressed during the call of Inkey(). It doesn't
+  interrupt (halt) the program flow. If special keys (non-ASCII) have to be handled, 
+  @@RawKey should be called after Inkey(). 
+
+@NoParameters
+
+@ReturnValue
+  Returns a string containing the pressed character if it is a non-special key, and 
+  an empty string otherwise.
+
+
+@Example
+@Code
+  If OpenConsole()
+    PrintN("Press Escape to exit")
+  
+    Repeat
+      KeyPressed$ = Inkey()
+      
+      If KeyPressed$ <> ""
+        
+        PrintN("You pressed: " + KeyPressed$)
+        PrintN("It has a raw code of: "+Str(RawKey()))
+        
+      ElseIf RawKey()
+      
+        PrintN("You pressed a non ASCII key.")
+        PrintN("It has a raw code of: "+Str(RawKey()))
+        
+      Else
+        Delay(20) ; Don't eat all the CPU time, we're on a multitask OS
+      EndIf
+    
+    Until KeyPressed$ = Chr(27) ; Wait until escape is pressed
+  EndIf
+@EndCode
+
+@Remarks
+  The ASCII codes and numeric values reported in this description may change depending on
+  the code page you have configured at boot time for keyboard input. However, the concepts
+  should be the same and you can use the above example to figure out the real values for
+  your system.
+@LineBreak
+@LineBreak
+  A table with ASCII codes is available @ReferenceLink "ascii" "here".
+
+@SeeAlso
+  @@RawKey, @@Input
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = Input()
+
+@Description
+  Allows the program to catch an entire line of characters. This function locks the
+  program execution and waits until the user presses the return key. 
+
+@NoParameters
+
+@ReturnValue
+  Returns the string that the user entered before pressing the return key.
+
+@Remarks
+  If the console is in graphical mode (see @@EnableGraphicalConsole), 
+  the line can't be longer than the console width (no more keys are accepted when the line gets too long).
+@LineBreak
+@LineBreak
+  In non-graphical mode, a special return-value of @#PB_Input_Eof (equals Chr(4)) will be received
+  if the user enters a single Ctrl+D in the console, or a file that has been redirected to the programs input
+  has reached its end.
+@Os Windows
+  For compatibility with other console applications on Windows, @#PB_Input_Eof is also received
+  when Ctrl+Z is entered in the console.
+@EndOs
+
+@LineBreak
+@LineBreak
+  If not line based or raw input is needed, @@ReadConsoleData can be used in non-graphical mode. 
+
+@Example
+@Code
+  If OpenConsole()
+    Print("Enter your name and press return: ")
+    Name$ = Input()
+    
+    PrintN("Hello " + Name$ + ", nice to meet you.")
+    PrintN("Press return to exit")
+    Input()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Inkey, @@RawKey
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ConsoleLocate(x, y)
+
+@Description
+  Moves the cursor to the given position, in character coordinates. Any text you
+  print after calling this function will start from the specified coordinates.
+
+@Parameter "x"
+  The horizontal position in the console to move to (starting from 0)
+
+@Parameter "y"
+  The vertical position in the console to move to (starting from 0)
+
+@NoReturnValue
+
+@Remarks
+  The console has to be in graphical mode, see @@EnableGraphicalConsole.
+
+@Example
+@Code
+  If OpenConsole()
+    EnableGraphicalConsole(1)
+    
+    For i = 0 To 200
+      ConsoleLocate(Random(79), Random(24))
+      Print("*")
+    Next
+    
+    ConsoleLocate(30, 10)
+    PrintN("Press return to exit")
+    Input()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@EnableGraphicalConsole
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ConsoleCursor(Height)
+
+@Description
+  Changes the display of the cursor, which is the indicator used to show where the next displayed character
+  will be drawn. This function allows you to change the height of the cursor.
+
+@Parameter "Height"
+  The new height of the cursor indicator. This value can be zero (for an invisible cursor) or range
+  from 1 to 10 for the height of the cursor. Currently, 3 values are available:
+
+@FixedFont
+  1 : Underline cursor (default)
+  5 : Mid-height cursor
+  10: Full-height cursor
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+@OS Windows
+  By default the cursor is a flashing underline in consoles under the Windows OS. Note that you
+  might need to make the console window full-screen to see the true effect of this function.
+  @LineBreak
+  @LineBreak
+@EndOS
+  The console has to be in graphical mode, see @@EnableGraphicalConsole.
+
+@Example
+@Code
+  If OpenConsole()
+    EnableGraphicalConsole(1)
+
+    For CursorHeight = 0 To 10
+      ConsoleCursor(CursorHeight)
+      PrintN("Press return to increase cursor size")
+      Input()
+    Next
+    
+    PrintN("Press return to exit")
+    Input()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@EnableGraphicalConsole
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Print(Text$)
+
+@Description
+  Displays the specified 'Text$' in the console.
+
+@Parameter "Text$"
+  The text to display. In @Link "EnableGraphicalConsole" "graphical mode" the length of the string can't
+  excess the width of the console, otherwise the string will be truncated (have the end cut off).
+
+@NoReturnValue
+
+@Remarks
+  In @Link "EnableGraphicalConsole" "graphical mode" it's possible to change the position with the function 
+  @@ConsoleLocate. To change the appearance of the string when it is printed, 
+  the function @@ConsoleColor should be used.
+@LineBreak
+@LineBreak
+  The cursor will be moved to the next character after the end of the
+  string that is printed. If you print over the right edge of the console the text will
+  wrap around to the left edge on the next line down. If you print off the bottom of
+  the console window, the console window will scroll its contents up.
+@LineBreak
+@LineBreak
+  To output raw data on the non-graphical console (for pipe communication) @@WriteConsoleData
+  can be used.
+
+@Example
+@Code
+  If OpenConsole()
+    Print("This is quite a long string.")
+    Print("You see how this one joins onto the end of the previous one?")
+    Print("That is because the cursor moves to the end of the string and not onto a new line.")
+    Print("Hopefully the text will also have been wrapped by now.")
+
+    PrintN("")
+    PrintN("")
+    PrintN("Press return to exit")
+    Input()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@PrintN, @@Input
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PrintN(Text$)
+
+@Description
+  Displays the specified 'Text$' in the console and adds a new line. 
+
+@Parameter "Text$"
+  The text to display before the newline. In @Link "EnableGraphicalConsole" "graphical mode" the length of the string can't
+  excess the width of the console, otherwise the string will be truncated (have the end cut off).
+
+@NoReturnValue
+
+@Remarks
+  In @Link "EnableGraphicalConsole" "graphical mode" it's possible to change the position with the function 
+  @@ConsoleLocate. To change the appearance of the string when it is printed, 
+  the function @@ConsoleColor should be used.
+@LineBreak
+@LineBreak
+  The cursor will be moved to the start of the next line after the end of the string.
+  If you print over the right edge of the console the text will
+  wrap around to the left edge on the next line down. If you print off the bottom of
+  the console window, the console window will scroll its contents up.
+  You can use @@Print instead, if you want to continue the output directly after last character.
+@LineBreak
+@LineBreak
+  To output raw data on the non-graphical console (for pipe communication) @@WriteConsoleData
+  can be used.
+
+@Example
+@Code
+  If OpenConsole()
+    PrintN("This is quite a long string.")
+    PrintN("You see how this one does not join onto the end of the previous one?")
+    PrintN("That is because the cursor moves to the start of the next line after the end of the string.")
+
+    PrintN("Press return to exit")
+    Input()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Print, @@Input
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenConsole([Title$ [, Mode]])
+
+@Description
+  Open a console window. This function must be called before any other function
+  of this library. Only one console can be opened at the same time in a PureBasic program. 
+
+@OptionalParameter "Title$"
+  The title for the new console window. On Windows, specifying a title allow the saving of
+  custom console parameter, like font, color etc. It has no effect on other OS.
+  
+@OptionalParameter "Mode"
+  The mode to use for console output. It can one of the following value:
+@FixedFont
+  - @#PB_UTF8: string will use UTF-8 format when printed to the console (default).
+  - @#PB_Ascii: string will use ASCII format when printed to the console.
+  - @#PB_Unicode: string will use UTF-16 format when printed to the console. Can be useful on Windows
+                 when using string redirection, and the target program expect UTF-16 input. Has no effect
+                 on Linux or OS X (will use UTF-8).
+@EndFixedFont
+  
+
+@ReturnValue
+  If Result is 0, it has failed and all further call to console functions must be disabled.
+
+@Remarks
+  The console can be closed using the @@CloseConsole function.
+@LineBreak
+@LineBreak
+  With @@EnableGraphicalConsole the console can be switched
+  between text and graphics mode.
+@LineBreak
+@LineBreak
+  On Microsoft Windows, there are two different executable formats: Win32 and Console. If you want to
+  create a standard console application, like 'dir', 'del' etc. you must compile the executable using 
+  the 'Console' format (@ReferenceLink "ide_compiler" "Compiler Option" menu in the PureBasic IDE). 
+  On Linux and OS X, there is no special Console format however setting the Compiler option to 'Console' 
+  will launch a terminal window automatically when you run your program from the IDE.
+
+@Example
+@Code
+  OpenConsole()
+  PrintN("Waiting 5 secs before quit...")
+  Delay(5000)
+@EndCode
+
+@SeeAlso
+  @@CloseConsole, @@EnableGraphicalConsole  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReadConsoleData(*Buffer, Size)
+
+@Description
+  Reads raw input from the console. This function is only supported in non-graphical mode. It can be used
+  to read not line-based data, or text like files redirected to the program through a pipe.
+
+@Parameter "*Buffer"
+  The memory buffer to which the data should be read.
+
+@Parameter "Size"
+  The maximum amount of data (in bytes) to be read.
+
+@ReturnValue
+  Returns the number of bytes actually read from the input. If zero is returned, this means that
+  there is no more input to read. (an end of file was received)
+
+@Remarks
+  This function waits until there is some input to read. It will only return without reading data
+  if there was an error or an EOF (End Of File) condition.
+
+@Example
+@Code
+  ; This reads a passed image from the console and displays it in a window
+  ; Compile this to an exe and run it like "myexe < image.bmp"
+  ;
+  ; (set "Executable format" To "Console" in the compiler options!)
+  ; (works only with Bitmaps and icons unless you use an Image Decoder)
+  ;
+  OpenConsole()
+  TotalSize = 0
+  BufferFree = 10000
+  *Buffer = AllocateMemory(BufferFree)
+  
+  Repeat
+    ReadSize = ReadConsoleData(*Buffer+TotalSize, BufferFree) ; read a block of data
+    TotalSize + ReadSize
+    BufferFree - ReadSize
+    If BufferFree < 100  ; resize the buffer if it is not large enough
+      BufferFree = 10000
+      *Buffer = ReAllocateMemory(*Buffer, TotalSize+10000)
+    EndIf
+  Until ReadSize = 0 ; once 0 is returned, there is nothing else to read
+  
+  If TotalSize > 0 ; display the image if successful
+    If CatchImage(0, *Buffer, TotalSize)
+      If OpenWindow(0, 0, 0, ImageWidth(0), ImageHeight(0), "Image", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+        ImageGadget(0, 0, 0, ImageWidth(0), ImageHeight(0), ImageID(0))
+        Repeat
+        Until WaitWindowEvent() = #PB_Event_CloseWindow
+        End
+      EndIf
+    EndIf
+  EndIf
+  MessageRequester("Error", "Not a valid image.")
+@EndCode
+
+@SeeAlso
+  @@WriteConsoleData, @@AllocateMemory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RawKey()
+
+@Description
+  Returns the raw key code of the last @@Inkey function call.
+  It's useful for extended (non-ASCII) keys (for example, function keys, arrows, etc).
+
+@NoParameters
+
+@ReturnValue
+  Returns the key code of the last pressed key.
+
+@Remarks
+  It is not only alphanumeric keys that have an ASCII value. The escape key (27),
+  return key (13) tab key (9) and backspace key (8) are just four examples.
+  A table with ASCII codes you find @ReferenceLink "ascii" "here".
+
+@Example
+@Code
+  If OpenConsole()
+    PrintN("Press Escape to exit")
+  
+    Repeat
+      KeyPressed$ = Inkey()
+      
+      If KeyPressed$ <> ""
+        
+        PrintN("You pressed: " + KeyPressed$)
+        PrintN("It has a raw code of: "+Str(RawKey()))
+        
+      ElseIf RawKey()
+      
+        PrintN("You pressed a non ASCII key.")
+        PrintN("It has a raw code of: "+Str(RawKey()))
+        
+      Else
+        Delay(20) ; Don't eat all the CPU time, we're on a multitask OS
+      EndIf
+    
+    Until KeyPressed$ = Chr(27) ; Wait until escape is pressed
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Inkey, @@Input
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WriteConsoleData(*Buffer, Size)
+
+@Description
+  Writes raw data to the console output. This function is only supported in non-graphical mode.
+  It can be used to output data other than text to the console that can then be redirected to
+  a file or another program.
+
+@Parameter "*Buffer"
+  The memory buffer from which the data is read.
+
+@Parameter "Size"
+  The amount of data (in bytes) to write.
+
+@ReturnValue
+  Returns the number of bytes actually written to the output.  
+
+@SeeAlso
+  @@ReadConsoleData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

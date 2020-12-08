@@ -1,0 +1,182 @@
+;
+;     Runtime library documentation
+;
+;      (c) 2013 - Fantaisie Software
+;
+
+@Library Runtime
+
+@Overview
+
+  Runtime objects are accessible even when the program is compiled, using their string references.
+  For more information about the runtime concept, see @ReferenceLink "Runtime" "Runtime".
+  
+@CommandList
+
+@ExampleFile All Runtime.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetRuntimeInteger(Object$)
+
+@Description
+  Returns the integer value of the runtime object. If the runtime object is a procedure,
+  it returns the procedure address.
+
+@Parameter "Object$"
+  Name of the object to get the value from. The following objects are supported: @LineBreak
+- Variable: the object name is 'VariableName' (case insensitive). @LineBreak
+- Constant: the object name is '#Constantame' (case insensitive). @LineBreak
+- Procedure: the object name is 'ProcedureName()' (case insensitive). @LineBreak
+  @LineBreak
+  When accessing public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used.
+
+@ReturnValue
+  Returns the integer value of specified object, or zero if not found. As zero is a valid integer
+  value, @@IsRuntime can be used to determine if the runtime object really exists. If the variable
+  is of float or double type, it is automatically converted to integer. If the runtime object is a procedure,
+  it returns the procedure address.
+
+@SeeAlso
+  @@SetRuntimeInteger, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetRuntimeDouble(Object$)
+
+@Description
+  Returns the double value of the runtime object.
+
+@Parameter "Object$"
+  Name of the object to get the value from. The following objects are supported: @LineBreak
+- Variable: the object name is 'VariableName' (case insensitive). @LineBreak
+- Constant: the object name is '#Constantame' (case insensitive). @LineBreak
+  @LineBreak
+  When accessing public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used.
+
+@ReturnValue
+  Returns the double value of specified object, or zero if not found. As zero is a valid double
+  value, @@IsRuntime can be used to determine if the runtime object really exists. If the variable
+  is of integer or float type, it is automatically converted to double.
+
+@SeeAlso
+  @@SetRuntimeDouble, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetRuntimeString(Object$)
+
+@Description
+  Returns the string value of the runtime object.
+
+@Parameter "Object$"
+  Name of the object to get the value from. The following objects are supported: @LineBreak
+- Variable: the object name is 'VariableName' (case insensitive). @LineBreak
+- Constant: the object name is '#Constantame' (case insensitive). @LineBreak
+  @LineBreak
+  When accessing public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used. 
+
+@ReturnValue
+  Returns the string value of specified object, or an empty string if not found. As an empty string is a valid string
+  value, @@IsRuntime can be used to determine if the runtime object really exists.
+
+@SeeAlso
+  @@SetRuntimeString, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsRuntime(Object$)
+
+@Description
+  Checks if the specified object is declared as @ReferenceLink "Runtime" "runtime".
+
+@Parameter "Object$"
+  Name of the object to check. The following objects are supported: @LineBreak
+- Variable: the object name is 'VariableName' (case insensitive). @LineBreak
+- Constant: the object name is '#Constantame' (case insensitive). @LineBreak
+- Procedure: the object name is 'ProcedureName()' (case insensitive). @LineBreak
+  @LineBreak
+  When accessing public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used.
+
+@ReturnValue
+  Returns nonzero if the specified object has been declared as @ReferenceLink "Runtime" "runtime" and zero otherwise.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetRuntimeDouble(Object$, Value)
+
+@Description
+  Changes the double value of the runtime object.
+
+@Parameter "Object$"
+  Name of the object to set the value to. The following objects are supported: @LineBreak
+- Variable: the object name is 'VariableName' (case insensitive). @LineBreak
+  @LineBreak
+  When setting public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used. 
+
+@Parameter "Value"
+  The new double value to set.
+
+@NoReturnValue
+  
+
+@SeeAlso
+  @@GetRuntimeDouble, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetRuntimeInteger(Object$, Value)
+
+@Description
+  Changes the integer value of the runtime object.
+
+@Parameter "Object$"
+  Name of the object to set the value to. The following objects are supported: @LineBreak
+- Variable: the object name is 'VariableName' (case insensitive). @LineBreak
+  @LineBreak
+  When setting public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used.  
+
+@Parameter "Value"
+  The new integer value to set.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@GetRuntimeInteger, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetRuntimeString(Object$, Value$)
+
+@Description
+  Changes the string value of the runtime object.
+
+@Parameter "Object$"
+  Name of the object to set the value to. The following objects are supported: @LineBreak
+- Variable: the object name is 'VariableName' (case insensitive). @LineBreak
+  @LineBreak
+  When setting public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used.  
+
+@Parameter "Value$"
+  The new string value to set.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@GetRuntimeInteger, @@IsRuntime
+
+@SupportedOS

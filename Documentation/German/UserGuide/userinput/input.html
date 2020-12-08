@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Interagieren mit dem Benutzer - PureBasic Benutzerhandbuch</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Interagieren mit dem Benutzer: Einlesen von Benutzereingaben</h1>
+Nun, da Sie wissen, wie Text für den Benutzer anzuzeigen ist, wollen wir uns ansehen, wie
+Sie in Ihren Programmen Text einlesen können. Es gibt für die Verwendung im Konsolenmodus
+zwei Befehle, beide werden unten beschrieben.
+
+<p><h2>Der Input Befehl</h2>
+Der erste Befehl ist <span class="code">Input()</span>, welchen Sie bereits in den
+Beispielen und Übungen gesehen haben. Der Input Befehl hat keine Parameter, gibt
+jedoch einen String zurück (den String, welchen der Anwender im Konsolenfenster
+eingegeben hat). Bei der Benutzung des Input Befehls, liest dieser Zeichen von der
+Tastatur ein (wenn das Konsolenfenster aktiv ist), bis der Benutzer die Returntaste drückt. Der
+Input Befehl akzeptiert Zeichen nur bis zur Breite des Konsolenfensters.
+
+<p>Da der Input Befehl auf das Drücken von Return wartet, werden Sie ihn normalerweise
+verwenden, wenn der Anwender Eingaben in Ihr Programm machen <em>muss</em>. Ein Beispiel
+dafür ist seine bisherige Verwendung im Benutzerhandbuch, um das Programm anzuhalten,
+bis der Anwender Return drückt (gab uns die Chance, den Text im Konsolenfenster zu sehen,
+bevor das Programm endet). Ein anderes Beispiel kann sein, wenn ein Benutzer einen
+Dateinamen, einen Benutzernamen oder ein Kennwort eingibt. Alles davon würde normalerweise
+eingegeben, bevor das Programm fortfährt.
+
+<p>Nachfolgend ein Beispiel zur Verwendung des Input Befehls. Sie finden den Quellcode
+<a href="input.pb">hier</a>. Unter dem Beispiel finden Sie eine beispielhafte Ausgabe
+und eine Erklärung des Quellcodes.
+
+<pre class="code">OpenConsole()
+
+Print(&quot;Enter your name: &quot;)
+
+name$ = Input()
+PrintN(&quot;&quot;)
+PrintN(&quot;Hello, &quot;+name$+&quot;, nice to meet you&quot;)
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="input_run.png" alt="Ausgabe des Input Beispiels" width="367" height="63">
+Sie werden bemerken, dass wir die Zeile <span class="code">Print(&quot;Enter your name: &quot;)</span>
+benutzen, bevor wir zum Input Befehl kommen. Dies erfolgt, um dem Anwender eine
+<dfn>Aufforderung</dfn> zu liefern; einige Anweisungen, die ihm sagen, was er eingeben
+soll, anstatt einfach einen blinkenden Cursor anzuzeigen. Sie sehen auch, dass wir Print
+verwendet haben, um diese Aufforderung auszugeben. Dadurch erscheinen die Benutzereingaben
+auf derselben Zeile wie die Eingabeaufforderung, obwohl das einfach Geschmackssache ist,
+wie Sie die Aufforderung angezeigt erhalten möchten.
+
+<p>Jedoch sind die wichtigen Teile des oben genannten Beispiels die folgenden Zeilen:
+<pre class="codepart">name$ = Input()
+PrintN(&quot;&quot;)
+PrintN(&quot;Hello, &quot;+name$+&quot;, nice to meet you&quot;)</pre>
+Die erste Zeile liest mit Hilfe des Input Befehls den vom Benutzer eingegebenen Text. Der
+vom Input Befehl zurückgegebene Wert (der String, den der Anwender eingegeben hat)
+ist in der Variablen <var>name$</var> gespeichert. Die nächste Zeile 
+<span class="code">PrintN(&quot;&quot;)</span> sieht vielleicht etwas
+seltsam aus, aber wenn der Anwender die Return-Taste gedrückt hat, wird dies nicht
+in der Konsole angezeigt. Also müssen wir "manuell" auf eine neue Zeile springen,
+nachdem der Benutzer seinen String eingegeben hat. Zuletzt wird der vom Anwender
+eingegebene String angezeigt, um zu bestätigen, dass er erfolgreich eingelesen wurde.
+
+<p><h2>Der Inkey Befehl</h2>
+Die zweite Methode zum Einlesen von Benutzereingaben in einem Konsolenfenster
+ist der <span class="code">Inkey()</span> Befehl. Er hat keine Parameter
+und gibt einen String mit zwei Zeichen zurück, welche anzeigen, was für
+eine Taste der Anwender gedrückt hat. Anders als der Input Befehl, wartet
+Inkey nicht darauf, dass der Anwender Return drückt. Er überprüft die
+Tastatur und gibt umgehend einen String zurück, welcher anzeigt, was
+für eine Taste in diesem Moment gedrückt wurde. Wenn keine Taste gedrückt
+wurde, dann ist der zurückgegebene String leer (&quot;&quot;).
+
+<p>Das erste Zeichen im zurückgegebenen String ist das ASCII-Zeichen, welches diesen
+Tastendruck darstellt. Zum Beispiel, wenn der Benutzer die 'F' Taste drückte, dann wird
+das erste Zeichen im String ein "F" sein. Das zweite Zeichen im String ist nützlich, wenn
+der Anwender Tasten drückt, die keinen Buchstaben oder Zahlen entsprechen (zum
+Beispiel die Pfeiltasten). Das zweite Zeichen im String erlaubt Ihnen, nach jenen
+Sondertasten zu suchen.
+ 
+<p>Typische Fälle, wo Sie den Befehl Inkey verwenden können, wären jene, wo der
+Benutzer eine Taste drücken kann, aber - wenn er es nicht tut - das Programm seine
+Verarbeitung fortsetzt. Ein Beispiel hierfür wäre, wenn Sie einen Wert berechnen (was
+eine längere Zeit benötigt) und dem Anwender die Möglichkeit geben wollen, dies
+durch Drücken einer Taste auf der Tastatur abzubrechen. Ein anderes Beispiel hierfür
+könnte sein, wenn Sie ein Auswahlmenü anzeigen und möchten, dass Ihr Programm
+umgehend auf alle gedrückten Tasten reagiert, anstelle auf ein Drücken der Return-Taste
+zu warten.
+
+<p>Es gibt im Moment kein Beispiel für den Befehl Inkey, weil wir bisher noch nicht
+genug von der PureBasic Sprache behandelt haben, was uns erlauben würde, die Zeichen
+im String zu verarbeiten und den Programmfluss rund um den Befehl Inkey zu kontrollieren.
+Beide dieser Themen werden in den nächsten zwei Kapiteln besprochen.
+
+<p><h2>Einlesen von Zahlen</h2>
+Die zwei oben beschriebenen Befehle sind nur für das Einlesen von Strings vom Anwender
+bestimmt, was tun Sie also, wenn Sie eine Zahl einlesen wollen? Dafür müssen Sie zwei
+weitere Befehle kennen lernen, nämlich <span class="code">Val()</span> und
+<span class="code">ValF()</span>. Diese zwei Befehle führen die entgegengesetzte
+Funktion der Befehle Str und StrF aus, welche im
+<a href="../variables/index.html">Variablen Kapitel</a> eingeführt wurden.
+
+<p>Der Befehl Val erwartet einen String (welcher einer Zahl enthält) als Parameter und
+gibt einen Long-Wert als Ergebnis (welches dem Wert der Zahl im String entspricht)
+zurück. Die im String enthaltene Zahl sollte ausschließlich eine ganze Zahl sein.
+
+<p>Der Befehl ValF ist ähnlich, wird aber verwendet, um Zahlen mit Bruchteilen
+umzuwandeln. Er erwartet auch einen String (der die umzuwandelnde Zahl enthält)
+als Parameter, gibt diesmal jedoch eine Fließkomma-Zahl (Float) zurück. 
+
+<p>Dieses Beispiel zeigt die Arbeitsweise von Val und ValF. Sie finden den
+Quellcode <a href="val.pb">hier</a> und die Ausgabe des Beispiels weiter
+darunter.
+
+<pre class="code">OpenConsole()
+
+Print(&quot;Please enter your name: &quot;)
+name$ = Input()
+PrintN(&quot;&quot;)
+
+Print(&quot;How old are you? &quot;)
+age.w = Val(Input())
+PrintN(&quot;&quot;)
+
+Print(&quot;Please enter a number (with decimal places if you like): &quot;)
+num1.f = ValF(Input())
+PrintN(&quot;&quot;)
+
+Print(&quot;and another (with decimal places if you like): &quot;)
+num2.f = ValF(Input())
+PrintN(&quot;&quot;)
+
+; Display the results to the user
+PrintN(&quot;&quot;)
+PrintN(&quot;Hello, &quot;+name$+&quot;. I see that you are &quot;+Str(age)+&quot; years old.&quot;)
+PrintN(&quot;You have an affinity with the number &quot;+StrF(num1 * num2)+&quot;!&quot;)
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="val_run.png" alt="Ausgabe des Val und ValF Beispiels" width="492" height="102">
+Wie Sie sehen können, ist der Großteil dieses Beispiels analog dem Input Beispiel. Die Hauptunterschiede
+liegen in den Zeilen, die entweder den Val oder den ValF Befehl verwenden. In diesen Fällen wird der
+vom Input Befehl zurückgegebene Wert (welcher dem vom Anwender eingegebenen String entspricht)
+direkt als Parameter vom Val oder ValF Befehl verwendet, um den numerischen Wert der Zahl im
+String zu erhalten. Natürlich müssen wir diese - bevor wir sie wieder ausgeben können - mit Hilfe der
+Befehle Str oder StrF zurück in einen String umwandeln.
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="print.html">Darstellen von Text</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="appearance.html">Aussehen der Anzeige</a></td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+@Title Others Commands 
+
+@Syntax
+  
+  @Keyword Goto <label>
+
+@Description
+
+  This command is used to transfer the program directly to the labels position. Be cautious when using 
+  this function, as incorrect use could cause a program to crash... @LineBreak
+  @LineBreak
+  Note: To exit a loop safely, you always must use @ReferenceLink "Break_Continue" Break instead of @Keyword Goto,
+  and never use it inside a Select/EndSelect block (Unless you have the ability to manage the stack yourself, correctly.)  
+  @LineBreak
+  
+; ---------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+  
+  @Keyword End [ExitCode]
+
+@Description
+
+  Ends the program execution correctly. The 'ExitCode' optional parameter can be specified if the 
+  program need to returns an error code (widely used in console programs). 
+  @LineBreak
+  @LineBreak
+  The 'ExitCode' can be further used e.g. with the @@ProgramExitCode command.
+  @LineBreak
+  
+; ---------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+  
+@Syntax
+  
+  @Keyword Swap <expression>, <expression>
+
+@Description
+
+  Swaps the value of the both expression, in an optimized way. The both <expression> have to be
+  a @ReferenceLink "variables" "variable", an @ReferenceLink "dim" "array" element, a @ReferenceLink "newlist" "list" element or a  @ReferenceLink "newmap" "map"
+  element (structured or not) and have to be one of the
+  PureBasic native type like long (.l), quad (.q), string etc.
+
+@Example Swapping of strings
+@Code
+  Hello$ = "Hello"
+  World$ = "World"
+  
+  Swap Hello$, World$
+  
+  Debug Hello$+" "+World$
+@EndCode
+
+@Example Swapping of multi-dimensional arrays elements
+@Code
+  Dim Array1(5,5) 
+  Dim Array2(5,5) 
+  Array1(2,2) = 10     ; set initial contents
+  Array2(3,3) = 20
+  
+  Debug Array1(2,2) ; will print 10
+  Debug Array2(3,3) ; will print 20
+  
+  Swap Array1(2,2) , Array2(3,3)  ; swap 2 arrays elements
+  
+  Debug "Array contents after swapping:"
+  Debug Array1(2,2)    ; will print 20
+  Debug Array2(3,3)    ; will print 10
+@EndCode
+  
+; ---------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

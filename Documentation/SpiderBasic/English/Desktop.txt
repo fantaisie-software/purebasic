@@ -1,0 +1,302 @@
+;
+;     Desktop library documentation
+;
+;       (c) Fantaisie Software
+;
+
+@Library Desktop
+
+@Overview
+
+  The desktop library allows access to information about the user's desktop environment. In SpiderBasic
+  the desktop is the current web browser page. It can be useful to get information about browser width, height, depth, 
+  mouse position etc.
+
+@CommandList
+
+@ExampleFile All Desktop.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineDesktops()
+
+@Description
+  This function is available for PureBasic compatibility only. It always returns 1, as the web browser can only
+  have one web page active at once. This function must be called before using the following functions: 
+  @@DesktopDepth, @@DesktopFrequency, @@DesktopHeight,  @@DesktopName and @@DesktopWidth.
+
+@NoParameters
+
+@ReturnValue
+  Always 1.
+
+@Example
+@Code
+  MessageRequester("Desktop Information", "You have " + ExamineDesktops() + " active web page")
+@EndCode
+
+@SeeAlso
+  @@DesktopDepth, @@DesktopFrequency,
+  @@DesktopHeight, @@DesktopName, @@DesktopWidth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopDepth(#Desktop)
+
+@Description
+  Returns the color depth of the specified desktop.
+
+@Parameter "#Desktop"
+  The index of the desktop. Should be always zero as only one web page is active at once.
+
+@ReturnValue
+  Returns the depth in bits-per-pixel: 1, 2, 4, 8, 15, 16, 24 or 32-bit
+
+@Remarks
+  @@ExamineDesktops must be called before using this function to retrieve information about the available desktops.
+
+@Example
+@Code
+  ExamineDesktops()
+  MessageRequester("Display Information", "Current resolution = "+ DesktopWidth(0) + "x" +  DesktopHeight(0) + "x" + DesktopDepth(0))
+@EndCode
+
+@SeeAlso
+  @@ExamineDesktops,
+  @@DesktopFrequency,
+  @@DesktopHeight, @@DesktopName, @@DesktopWidth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopFrequency(#Desktop)
+
+@Description
+  Returns the frequency of the specified desktop. 
+
+@Parameter "#Desktop"
+  The index of the desktop. Should be always zero as only one web page is active at once.
+
+@ReturnValue
+  Returns the frequency of the specified desktop in Hertz. 
+  If the return-value is 0 then the default hardware frequency is being used, or the actual frequency could not be determined.
+
+@Remarks
+  @@ExamineDesktops must be called before using this function to retrieve information about the available desktops.
+
+@Example
+@Code
+  ExamineDesktops()
+  Debug DesktopFrequency(0)
+@EndCode
+
+@SeeAlso
+  @@ExamineDesktops,
+  @@DesktopDepth,
+  @@DesktopHeight, @@DesktopName, @@DesktopWidth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopHeight(#Desktop)
+
+@Description
+  Returns the height of the specified desktop. 
+
+@Parameter "#Desktop"
+  The index of the desktop. Should be always zero as only one web page is active at once.
+
+@ReturnValue
+  Returns the height in pixels.
+
+@Remarks
+  @@ExamineDesktops must be called before using this function to retrieve information about the available desktops.
+
+@Example
+@Code
+  ExamineDesktops()
+  MessageRequester("Display Information", "Current resolution = " + DesktopWidth(0) + "x" +  DesktopHeight(0) + "x" + DesktopDepth(0))
+@EndCode
+
+@SeeAlso
+  @@ExamineDesktops,
+  @@DesktopDepth, @@DesktopX, @@DesktopY, 
+  @@DesktopWidth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopX(#Desktop)
+
+@Description
+  Returns the x coordinate of the specified desktop.
+
+@Parameter "#Desktop"
+  The index of the desktop. Should be always zero as only one web page is active at once.
+
+@ReturnValue
+  Will always retuns zero, as the web page has no offset.
+
+@Remarks
+  @@ExamineDesktops must be called before using this function to retrieve information about the available desktops.
+
+@SeeAlso
+  @@ExamineDesktops,
+  @@DesktopDepth, @@DesktopY, 
+  @@DesktopHeight, @@DesktopWidth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopY(#Desktop)
+
+@Description
+  Returns the y coordinate of the specified desktop.
+
+@Parameter "#Desktop"
+  The index of the desktop. Should be always zero as only one web page is active at once.
+
+@ReturnValue
+  Will always retuns zero, as the web page has no offset.
+
+@Remarks
+  @@ExamineDesktops must be called before using this function to retrieve information about the available desktops.
+
+@SeeAlso
+  @@ExamineDesktops,
+  @@DesktopDepth, @@DesktopX, 
+  @@DesktopHeight, @@DesktopWidth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopMouseX()
+
+@Description
+  Returns the absolute x position of the mouse on the desktop.
+
+@NoParameters
+
+@ReturnValue
+  Returns the x coordinate (in pixel) of the mouse relative to the top left corner of the web page. If the mouse
+  cursor is not inside the web page, it will returns -1.
+  
+@Example
+@Code
+  Procedure TimerEvent()
+    SetGadgetText(0, "Desktop mouse position: " + DesktopMouseX() + "," + DesktopMouseY())
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 300, 30, "Desktop mouse monitor", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    TextGadget(0, 10, 6, 200, 20, "")
+    
+    AddWindowTimer(0, 1, 50) ; Uses a 50 ms timer for the realtime refresh
+    BindEvent(#PB_Event_Timer, @TimerEvent(), 0, 1)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DesktopMouseY, @@DesktopX, @@DesktopWidth, @@WindowMouseX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopMouseY()
+
+@Description
+  Returns the absolute y position of the mouse on the desktop.
+
+@NoParameters
+
+@ReturnValue
+  Returns the y coordinate (in pixel) of the mouse relative to the top left corner of the web page. If the mouse
+  cursor is not inside the web page, it will returns -1.
+
+@Example
+@Code
+  Procedure TimerEvent()
+    SetGadgetText(0, "Desktop mouse position: " + DesktopMouseX() + "," + DesktopMouseY())
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 300, 30, "Desktop mouse monitor", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    TextGadget(0, 10, 6, 200, 20, "")
+    
+    AddWindowTimer(0, 1, 50) ; Uses a 50 ms timer for the realtime refresh
+    BindEvent(#PB_Event_Timer, @TimerEvent(), 0, 1)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DesktopMouseX, @@DesktopY, @@DesktopHeight, @@WindowMouseY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = DesktopName(#Desktop)
+
+@Description
+  Returns the web browser full name for the active web page. 
+
+@Parameter "#Desktop"
+  The index of the desktop. Should be always zero as only one web page is active at once.
+
+@ReturnValue
+  Returns a string with the web browser full name. If this information can't be retieved, an empty string is returned.
+
+@Remarks
+  @@ExamineDesktops must be called before using this function to retrieve information about the available desktops.
+
+@Example
+@Code
+  ExamineDesktops()
+  MessageRequester("Display Information", "Primary desktop name = "+DesktopName(0))
+@EndCode
+
+@SeeAlso
+  @@ExamineDesktops,
+  @@DesktopDepth, @@DesktopFrequency,
+  @@DesktopHeight, @@DesktopWidth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopWidth(#Desktop)
+
+@Description
+  Returns the width for the specified desktop. 
+
+@Parameter "#Desktop"
+  The index of the desktop. Should be always zero as only one web page is active at once.
+
+@ReturnValue
+  Returns the width in pixels.
+
+@Remarks
+  @@ExamineDesktops must be called before using this function to retrieve information about the available desktops.
+
+@Example
+@Code
+  ExamineDesktops()
+  MessageRequester("Display Information", "Current resolution = " + DesktopWidth(0) + "x" +  DesktopHeight(0) + "x" + DesktopDepth(0))
+@EndCode
+
+@SeeAlso
+  @@ExamineDesktops,
+  @@DesktopDepth, @@DesktopX, @@DesktopY, 
+  @@DesktopHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

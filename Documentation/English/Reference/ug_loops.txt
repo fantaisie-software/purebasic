@@ -1,0 +1,79 @@
+@Title UserGuide - Loops
+
+Data, Events or many other things can also be processed using loops, which are always
+checked for a specific condition. Loops can be: @ReferenceLink "repeat_until" "Repeat : Until",
+@ReferenceLink "repeat_until" "Repeat : Forever", @ReferenceLink "while_wend" "While : Wend",
+@ReferenceLink "for_next" "For : Next", @ReferenceLink "foreach_next" "ForEach : Next". 
+@LineBreak
+@LineBreak
+In this loop the counter A is increased by two each time, this loop will always perform
+the same number of iterations.
+@Code
+  Define.i A
+  For A = 0 To 10 Step 2
+    Debug A
+  Next A
+@EndCode
+
+This loop will increment the variable B by a @Link "math/random" "random" amount between 0 and 20 each time,
+until B exceeds 100. The number of iterations actually performed in the loop will vary
+depending on the random numbers. The check is performed at the start of the loop - so
+if the condition is already true, zero iterations may be performed. Take the ; away
+from the second line to see this happen.
+@Code
+  Define.i B
+  ; B = 100
+  While B < 100
+    B + Random(20)
+    Debug B
+  Wend
+@EndCode
+
+This loop is very similar to the last except that the check is performed at the end
+of the loop. So one iteration, at least, will be performed. Again remove the ; from
+the second line to demonstrate.
+@Code
+  Define.i C
+  ; C = 100
+  Repeat
+    C + Random(20)
+    Debug C
+  Until C > 99
+@EndCode
+
+
+This loop is infinite. It won't stop until you stop it (use the red X button on the
+IDE toolbar).
+@Code
+  Define.i D
+  Repeat
+    Debug D
+  Forever
+@EndCode
+
+
+There is a special loop for working with @ReferenceLink "newlist" "lists" and
+@ReferenceLink "newmap" "maps", it will iterate every member of the list (or map) in turn.
+@Code
+  NewList Fruit.s()
+  
+  AddElement(Fruit())
+  Fruit() = "Banana"
+  
+  AddElement(Fruit())
+  Fruit() = "Apple"
+  
+  AddElement(Fruit())
+  Fruit() = "Pear"
+  
+  AddElement(Fruit())
+  Fruit() = "Orange"
+  
+  ForEach Fruit()
+    Debug Fruit()
+  Next Fruit()
+@EndCode
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_decisions" "< Previous: Decisions & Conditions" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_string" "Next: String Manipulation >"

@@ -1,0 +1,64 @@
+@Title Select : EndSelect
+
+@Syntax
+
+  @Keyword Select <expression1>
+    @Keyword Case <expression> [, <expression> [<numeric expression> To <numeric expression>]]
+       ...
+    [@Keyword Case <expression>]
+       ...
+    [@Keyword Default] 
+       ...
+  @Keyword EndSelect 
+
+@Description
+
+  @Keyword Select provides the ability to determine a quick choice. The program will execute the <expression1> and retain its' value in memory. 
+  It will then compare this value to all of the @Keyword "Case" <expression> values and if a given @Keyword "Case" <expression> value is true,
+  it will then execute the corresponding code and quit the @Keyword Select structure. @Keyword Case supports multi-values and value ranges
+  through the use of the optional @Keyword To keyword (numeric values only). If none of the @Keyword Case values are true, then the @Keyword Default 
+  code will be executed (if specified).
+
+@LineBreak
+@LineBreak
+  Note: @Keyword Select will accept @ReferenceLink "variables" "floats" as <expression1> but will round them down to the nearest integer (comparisons
+  will be done only with integer values).
+  
+
+@Example Simple example
+
+@Code
+  Value = 2
+  
+  Select Value
+    Case 1
+      Debug "Value = 1"
+      
+    Case 2 
+      Debug "Value = 2"
+      
+    Case 20 
+      Debug "Value = 20"
+      
+    Default
+      Debug "I don't know"
+  EndSelect
+@EndCode
+
+@Example Multicase and range example
+
+@Code
+  Value = 2
+  
+  Select Value
+    Case 1, 2, 3
+      Debug "Value is 1, 2 or 3"
+      
+    Case 10 To 20, 30, 40 To 50
+      Debug "Value is between 10 and 20, equal to 30 or between 40 and 50"
+      
+    Default
+      Debug "I don't know"
+      
+  EndSelect
+@EndCode

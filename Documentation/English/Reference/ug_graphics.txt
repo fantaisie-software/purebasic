@@ -1,0 +1,251 @@
+@Title UserGuide - Displaying graphics output & simple drawing
+
+This example show how to create a simple drawing. It uses the @LibraryLink "2ddrawing" "2D drawing commands"
+to draw two sine waves at different frequencies and shows the harmonic produced by combining
+the two waves. It uses @ReferenceLink "procedures" "procedures", which we will discuss in
+more detail later on, to break the drawing tasks into three self-contained tasks:
+@LineBreak
+@LineBreak
+Drawing the axes - demonstrates the @@Line command. @LineBreak
+Drawing the legend - demonstrates the @@Box and @@DrawText commands. @LineBreak
+Drawing the wave forms - demonstrates the @@LineXY command and shows how to use color.
+
+@Code
+  ; Window
+  Enumeration
+    #WinHarmonic
+  EndEnumeration
+  
+  ; Gadgets
+  Enumeration
+    #txtPlot1
+    #cboPlot1
+    #txtPlot2
+    #cboPlot2
+    #imgPlot
+  EndEnumeration
+  
+  ; Image
+  Enumeration
+    #drgPlot
+  EndEnumeration
+  
+  ; Image dimensions are used in several places so define constants.
+  #imgPlotX = 8
+  #imgPlotY = 40
+  #imgPlotW = 745
+  #imgPlotH = 645
+  
+  ; Event variables
+  Define.l Event, EventWindow, EventGadget, EventType, EventMenu
+  
+  ; Implementation
+  Procedure CreateWindow()
+    ; Creates the window and gadgets.  
+    
+    If OpenWindow(#WinHarmonic, 30, 30, #imgPlotW + 20, #imgPlotH + 55, "Harmonics", #PB_Window_SystemMenu | #PB_Window_MinimizeGadget | #PB_Window_TitleBar)
+      
+      ; This is a non-visual gadget used to draw the image, later its contents will be displayed in #imgPlot.
+      CreateImage(#drgPlot, #imgPlotW - 5, #imgPlotH - 5, 24)
+      
+      ; Label for the Plot 1 combo.
+      TextGadget(#txtPlot1, 2, 5, 50, 25, "Plot 1:")
+      
+      ; The Plot 1 combo.
+      ComboBoxGadget(#cboPlot1, 55, 5, 150, 25)
+      AddGadgetItem(#cboPlot1, 0, "Sin(X)")
+      AddGadgetItem(#cboPlot1, 1, "Sin(X * 2)")
+      AddGadgetItem(#cboPlot1, 2, "Sin(X * 3)")
+      AddGadgetItem(#cboPlot1, 3, "Sin(X * 4)")
+      AddGadgetItem(#cboPlot1, 4, "Sin(X * 5)")
+      AddGadgetItem(#cboPlot1, 5, "Sin(X * 6)")
+      
+      ; Select Sin(X)
+      SetGadgetState(#cboPlot1, 0)
+      
+      ; Label for the Plot 2 combo.
+      TextGadget(#txtPlot2, 230, 5, 50, 25, "Plot 2:")
+      
+      ; The Plot 2 combo.
+      ComboBoxGadget(#cboPlot2, 280, 5, 150, 25)
+      AddGadgetItem(#cboPlot2, 0, "Sin(X)")
+      AddGadgetItem(#cboPlot2, 1, "Sin(X * 2)")
+      AddGadgetItem(#cboPlot2, 2, "Sin(X * 3)")
+      AddGadgetItem(#cboPlot2, 3, "Sin(X * 4)")
+      AddGadgetItem(#cboPlot2, 4, "Sin(X * 5)")
+      AddGadgetItem(#cboPlot2, 5, "Sin(X * 6)")
+      
+      ; Select Sin(X * 2), otherwise the initial display is a bit uninteresting.
+      SetGadgetState(#cboPlot2, 1)
+      
+      ; The visual image gadget on the window.
+      ImageGadget(#imgPlot, #imgPlotX, #imgPlotY, #imgPlotW, #imgPlotH, 0, #PB_Image_Border)
+      
+    EndIf
+    
+  EndProcedure
+  
+  Procedure PlotAxes()
+    ; Draws the axes on the image #drgPlot.
+    
+    ; Send drawing commands to #drgPlot.
+    StartDrawing(ImageOutput(#drgPlot))
+    
+      ; Draw a white background.
+      Box(0, 0, ImageWidth(#drgPlot), ImageHeight(#drgPlot), RGB(255, 255, 255))
+      
+      ; Draw the axes in black.
+      Line(1, 1, 1, ImageHeight(#drgPlot) - 2, RGB(0, 0, 0))
+      Line(1, (ImageHeight(#drgPlot) - 2) /2, ImageWidth(#drgPlot) -2, 1, RGB(0, 0, 0))
+      
+      ; Finished drawing.
+    StopDrawing()
+  EndProcedure
+  
+  Procedure PlotLegend(alngPlot1, alngPlot2)
+    ; Draws the legend on the image #drgPlot.
+    
+    Protected.s strFunc1, strFunc2, strLabel1, strLabel2, strLabel3
+    
+    ; Set label text 1.
+    If alngPlot1 = 0 
+      strFunc1 = "Sin(X)"
+    Else
+      strFunc1 = "Sin(X * " + StrU(alngPlot1 + 1) + ")"
+    EndIf
+    
+    ; Set label text 2.
+    If alngPlot2 = 0 
+      strFunc2 = "Sin(X)"
+    Else
+      strFunc2 = "Sin(X * " + StrU(alngPlot2 + 1) + ")"
+    EndIf
+    
+    ; Set label text.
+    strLabel1 = "Y = " + strFunc1
+    strLabel2 = "Y = " + strFunc2
+    strLabel3 = "Y = " + strFunc1 + " + " + strFunc2 
+    
+    ; Draw legend.
+    StartDrawing(ImageOutput(#drgPlot))
+    
+      ; Box.
+      DrawingMode(#PB_2DDrawing_Outlined)
+      Box(20, 10, TextWidth(strLabel3) + 85, 80, RGB(0, 0, 0))
+      
+      ; Label 1.
+      Line(30, 30, 50, 1, RGB(0, 0, 255))
+      DrawText(95, 22, strLabel1, RGB(0, 0, 0), RGB(255, 255, 255))
+      
+      ; Label 2.
+      Line(30, 50, 50, 1, RGB(0, 255, 200))
+      DrawText(95, 42, strLabel2, RGB(0, 0, 0), RGB(255, 255, 255))
+      
+      ; Label 3.
+      Line(30, 70, 50, 1, RGB(255, 0, 0))
+      DrawText(95, 62, strLabel3, RGB(0, 0, 0), RGB(255, 255, 255))
+    
+    StopDrawing()
+    
+  EndProcedure
+  
+  Procedure PlotFunction(alngPlot1, alngPlot2)
+    ; Draws the waveforms on the image #drgPlot.
+    
+    Protected.l lngSX, lngEX
+    Protected.f fltRad1, fltRad2, fltSY1, fltEY1, fltSY2, fltEY2, fltSY3, fltEY3
+    
+    StartDrawing(ImageOutput(#drgPlot))
+    
+      ; Set initial start points for each wave.
+      lngSX = 1
+      fltSY1 = ImageHeight(#drgPlot) / 2
+      fltSY2 = fltSY1
+      fltSY3 = fltSY1
+      
+      ; Plot wave forms.
+      For lngEX = 1 To 720
+        ; Sine function works in radians, so convert from degrees and calculate sine.
+        
+        ; Function 1
+        If alngPlot1 = 0 
+          fltRad1 = Sin(Radian(lngEX))
+        Else
+          ; If the function should have a multiplier, account for this.
+          fltRad1 = Sin(Radian(lngEX) * (alngPlot1 + 1))
+        EndIf
+        
+        ; Function 2
+        If alngPlot2 = 0 
+          fltRad2 = Sin(Radian(lngEX))
+        Else
+          fltRad2 = Sin(Radian(lngEX) * (alngPlot2 + 1))
+        EndIf
+        
+        ; Plot function 1 in blue.
+        ; Calculate end Y point.
+        fltEY1 = (ImageHeight(#drgPlot) / 2) + (fltRad1 * 100)
+        ; Draw a line from the start point to the end point.
+        LineXY(lngSX, fltSY1, lngEX, fltEY1, RGB(0, 0, 255))
+        ; Update the next start Y point to be the current end Y point.
+        fltSY1 = fltEY1
+        
+        ; Plot function 2 in green.
+        fltEY2 = (ImageHeight(#drgPlot) / 2) + (fltRad2 * 100)
+        LineXY(lngSX, fltSY2, lngEX, fltEY2, RGB(0, 255, 200))
+        fltSY2 = fltEY2
+        
+        ; Plot harmonic in red.
+        fltEY3 = (ImageHeight(#drgPlot) / 2) + ((fltRad1 + fltRad2) * 100)
+        LineXY(lngSX, fltSY3, lngEX, fltEY3, RGB(255, 0, 0))
+        fltSY3 = fltEY3
+        
+        ; Update the start X point to be the current end X point.
+        lngSX = lngEX
+      Next lngEX
+      
+    StopDrawing()
+    
+  EndProcedure
+  
+  ;- Main
+  CreateWindow()
+  PlotAxes()
+  PlotLegend(GetGadgetState(#cboPlot1), GetGadgetState(#cboPlot2))
+  PlotFunction(GetGadgetState(#cboPlot1), GetGadgetState(#cboPlot2))
+  
+  ; Reload the image gadget now drawing is complete.
+  ImageGadget(#imgPlot, #imgPlotX, #imgPlotY, #imgPlotW, #imgPlotH, ImageID(#drgPlot), #PB_Image_Border)
+  
+  ;- Event loop
+  Repeat
+    Event = WaitWindowEvent()
+    EventWindow = EventWindow()
+    EventGadget = EventGadget()
+    EventType = EventType()
+    
+    Select Event
+      Case #PB_Event_Gadget
+        If EventGadget = #txtPlot1 Or EventGadget = #txtPlot2
+          ; Do nothing.
+        ElseIf EventGadget = #imgPlot
+          ; Do nothing.
+        ElseIf EventGadget = #cboPlot1 Or EventGadget = #cboPlot2
+          ; If one of the combo boxes changed, redraw the image.
+          PlotAxes()
+          PlotLegend(GetGadgetState(#cboPlot1), GetGadgetState(#cboPlot2))
+          PlotFunction(GetGadgetState(#cboPlot1), GetGadgetState(#cboPlot2))
+          ImageGadget(#imgPlot, #imgPlotX, #imgPlotY, #imgPlotW, #imgPlotH, ImageID(#drgPlot), #PB_Image_Border)
+        EndIf
+      Case #PB_Event_CloseWindow
+        If EventWindow = #WinHarmonic
+          CloseWindow(#WinHarmonic)
+          Break
+        EndIf
+    EndSelect
+  ForEver
+@EndCode
+
+
+@Section UserGuide Navigation
+@ReferenceLink "ug_gui" "< Previous: Building a graphical user interface (GUI)" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_procedures" "Next: Structuring code in Procedures >"

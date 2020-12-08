@@ -1,0 +1,633 @@
+;
+;     Mail library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Mail
+
+@Overview
+  Mail is now a common way for information to be exchanged between two distant computers.
+  The functions within this library allow for not only the creation of mail, but also the
+  ability send this mail to either a single recipient or to multiple recipients. In addition,
+  optional attachments may be made when desired. This may then be sent through a mail server.
+@LineBreak
+@LineBreak
+  All the mail commands are based on the @LibraryLink "Network" "network library",
+  therefore the @@InitNetwork function must be called before any
+  of them are used.
+@LineBreak
+@LineBreak
+  Note: on Linux, 'libcurl' needs to be installed to have the mail commands working (most of Linux 
+  distributions comes with it already installed).
+  
+  
+@CommandList
+
+@ExampleFile All Mail.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AddMailAttachment(#Mail, Description$, Filename$ [, MimeType$])
+
+@Description
+  Add a file attachment to the mail. 
+
+@Parameter "#Mail"
+  The mail to use.
+
+@Parameter "Description$"
+  The information string displayed for the attachment in the mail.
+
+@Parameter "Filename$"
+  The file to be added as an attachment. If the filename does not include a full path, it
+  is interpreted relative to the @Link "FileSystem/GetCurrentDirectory" "current directory".
+  Once the attachment is added, the local
+  file may changed or deleted, as the entire content of the file is copied and attached to the mail.
+
+@OptionalParameter "MimeType$"
+  The type of the attached file.
+  If this parameter is omitted, then the file extension will be used to determine that files mime type.
+  Below there is a list of the available mime types. If the extension of the file does not match any of
+  the available mime types, then the "application/octet-stream" mime type will be used.
+
+@ReturnValue
+  Returns nonzero if the attachment was added successfully and zero if not.
+
+@Remarks
+  Any number of attachments may be added to the mail, but the size limit available for a single
+  attachment is currently set at 100MB. Most servers and clients do not have the capacity to handle
+  attachments of that size, therefore it is advised that each attachment be kept to a reasonable size
+@LineBreak
+@LineBreak
+  The available mime types are:
+@FixedFont
+  application/acad          | AutoCAD    dwg
+  application/clariscad     | ClarisCAD  ccad
+  application/drafting      | MATRA Prelude drafting   drw
+  application/dxf           | AutoCAD  dxf
+  application/i-deas        | SDRC I-deas  unv
+  application/iges          | Exchange format CAO IGES   igs,iges
+  application/oda           | ODA  oda
+  application/pdf           | Adobe Acrobat  pdf
+  application/postscript    | PostScript   ai,eps,ps
+  application/pro_eng       | ProEngineer  prt
+  application/rtf           | Rich text   rtf
+  application/set           | CAO SET  set
+  application/sla           | stereolithography   stl
+  application/solids        |  MATRA Solids   dwg
+  application/step          | data STEP  step
+  application/vda           | surface   vda
+  application/x-mif         | Framemaker   mif
+  application/x-csh         | Script C-Shell (UNIX)   dwg
+  application/x-dvi         | text dvi  dvi
+  application/hdf           | data hdf
+  application/x-latex       | LaTEX  latex
+  application/x-netcdf      | netCDF   nc,cdf
+  application/x-sh          | Script Bourne Shell   dwg
+  application/x-tcl         | Script Tcl  tcl
+  application/x-tex         | file Tex  tex
+  application/x-texinfo     | eMacs  texinfo,texi
+  application/x-troff       | Troff  t,tr,troff
+  application/x-troff-man   | Troff/macro man  man
+  application/x-troff-me    | Troff/macro ME   me
+  application/x-troff-ms    | Troff/macro MS   ms
+  application/x-wais-source | Source Wais   src
+  application/x-bcpio       | CPIO binary  bcpio
+  application/x-cpio        | CPIO Posix  cpio
+  application/x-gtar        | Tar GNU   gtar
+  application/x-shar        | Archives Shell  shar
+  application/x-sv4cpio     | CPIO SVR4n  sv4cpio
+  application/x-sv4crc      | CPIO SVR4 avec CRC  sc4crc
+  application/x-tar         | archive tar   tar
+  application/x-ustar       | archive tar Posix   man
+  application/zip           | archive ZIP   man
+  audio/basic               | audio au,snd
+  audio/x-aiff              | audio AIFF   aif,aiff,aifc
+  audio/x-wav               | audio Wave   wav
+  image/gif                 | Images gif  man
+  image/ief                 | Images exchange format  ief
+  image/jpeg                | Images Jpeg   jpg,jpeg,jpe
+  image/png                 | Images Png  png
+  image/tiff                | Images Tiff   tiff,tif
+  image/x-cmu-raster        | Raster cmu  cmu
+  image/x-portable-anymap   | Anymap PBM   pnm
+  image/x-portable-bitmap   | Bitmap PBM   pbm
+  image/x-portable-graymap  | Graymap PBM  pgm
+  image/x-portable-pixmap   | Pixmap PBM   ppm
+  image/x-rgb               | Image RGB   rgb
+  image/x-xbitmap           | Images Bitmap X   xbm
+  image/x-xpixmap           | Images Pixmap X   xpm
+  image/x-xwindowdump       | Images dump X Window  man
+  multipart/x-zip           | archive zip  zip
+  multipart/x-gzip          | archive GNU zip  gz,gzip
+  text/html                 | HTML   htm,html
+  text/plain                | raw text txt,g,h,c,cc,hh,m,f90
+  text/richtext             | rich text   rtx
+  text/tab-separated-value  | value splitted text  tsv
+  text/x-setext             | text Struct   etx
+  video/mpeg                | Video MPEG   mpeg,mpg,mpe
+  video/quicktime           | Video QuickTime  qt,mov
+  video/msvideo             | Video Microsoft Windows  avi
+  video/x-sgi-movie         | Video MoviePlayer  movie
+@EndFixedFont
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    If AddMailAttachment(0, "Attachment 1", OpenFileRequester("Choose an attachment", "", "", 0))
+      Debug "Attachment correctly added"
+    Else
+      Debug "Attachment failed"
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddMailAttachmentData, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AddMailAttachmentData(#Mail, Description$, *Buffer, BufferLength [, MimeType$])
+
+@Description
+  Add memory data as an attachment to the mail. 
+
+@Parameter "#Mail"
+  The mail to use.
+
+@Parameter "Description$"
+  The information string displayed for the attachment in the mail.
+
+@Parameter "*Buffer"
+  The @LibraryLink "Memory" "memory area" of the data that should be added as the attachment.
+  Once the attachment has been added, the memory area may be changed or freed, since
+  its entire contents are copied into the mail.
+
+@Parameter "BufferLength"
+  The size of the attachment in bytes.
+
+@OptionalParameter "MimeType$"
+  The type of the attached file.
+  If this parameter is omitted, then the file extension will be used to determine that files mime type.
+  See the @@AddMailAttachment command for a list of available mime types. If the extension of the file does not match any of
+  the available mime types, then the "application/octet-stream" mime type will be used.
+
+@ReturnValue
+  Returns nonzero if the attachment was added successfully and zero if not.
+
+@Remarks
+  Any number of attachments may be added to the mail, but the size limit available for a single
+  attachment is currently set at 100MB. Most servers and clients do not have the capacity to handle
+  attachments of that size, therefore it is advised that each attachment be kept to a reasonable size
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+
+    If AddMailAttachmentData(0, "Attachment 1", ?Hello, 5)
+      Debug "Attachment correctly added"
+    Else
+      Debug "Attachment failed"
+    EndIf
+  EndIf
+
+
+  DataSection
+    Hello:
+      Data.b 'H', 'e', 'l', 'l', 'o'
+@EndCode
+
+@SeeAlso
+  @@AddMailAttachment, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddMailRecipient(#Mail, Address$, Flags)
+
+@Description
+  Add a recipient to the specified mail. 
+
+@Parameter "#Mail"
+  The mail to use.
+
+@Parameter "Address$"
+  The address of the recipient. The address have to be one of the following format:
+@FixedFont
+  "joe.doe@domain.com"
+  "<joe.doe@domain.com>"
+  "Joe Doe <joe.doe@domain.com>"
+@EndFixedFont
+
+@Parameter "Flags"
+  The categories to which to add the recipient. It can be a combination of the
+  following values:
+@FixedFont
+  @#PB_Mail_To : Main(s) recipient(s) of the mail
+  @#PB_Mail_Cc : Recipient(s) which are in copy of the mail (and everybody see it)
+  @#PB_Mail_Bcc: Recipient(s) which are in copy of the mail (but nobody see it)
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre is the main recipient
+    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred is in copy
+    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo is in copy as well, but Andre and Fred doesn't know it
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@RemoveMailRecipient, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateMail(#Mail, From$, Subject$ [, Encoding])
+
+@Description
+  Create a new, empty mail.
+
+@Parameter "#Mail"
+  A number to identify the new mail. @ReferenceLink "purebasic_objects" "#PB_Any" can be used
+  to auto-generate this number.
+
+@Parameter "From$"
+  The sender address for the mail. The address have to be one of the following format:
+@FixedFont
+  "joe.doe@domain.com"
+  "<joe.doe@domain.com>"
+  "Joe Doe <joe.doe@domain.com>"
+@EndFixedFont
+
+@Parameter "Subject$"
+  The subject line for the mail.
+
+@OptionalParameter "Encoding"
+  The encoding for the mail. It can be one of the following values:
+@FixedFont
+  @#PB_Ascii : The mail body will be in ascii 
+  @#PB_UTF8  : The mail body will be in @ReferenceLink "unicode" "UTF-8" (default)
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the mail was created successfully and zero if not.
+  If @#PB_Any was used as the #Mail parameter, then the auto-generated number is returned in case of success.
+
+@Remarks
+  @@SetMailBody, @@SetMailAttribute, @@AddMailAttachment and
+  @@AddMailAttachmentData can be used to change the content of the  #Mail.
+@LineBreak
+@LineBreak
+  Note: According to the @InternetLink "http://www.ietf.org/rfc/rfc2822.txt" "RFC 2822" standard
+  a line break in an e-mail need to be done always using the CRLF chars. @LineBreak
+@LineBreak
+  On Linux, 'libcurl' needs to be installed to have the mail commands working (most of Linux 
+  distributions comes with it already installed).
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    SetMailBody(0, "This is a body !" + #CRLF$ + "Second line")
+    Debug "Mail created"
+  Else
+    Debug "Can't create the mail"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@InitNetwork, @@SetMailBody, @@SetMailAttribute, @@AddMailAttachment, @@AddMailAttachmentData, @@SendMail, @@FreeMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMail(#Mail)
+
+@Description
+  Free the specified mail and release its associated memory.
+
+@Parameter "#Mail"
+  The mail to free. If @#PB_All is specified, all the remaining mails are freed.
+
+@NoReturnValue
+
+@Remarks
+  If there is any mail remaining, they are all automatically freed when the program ends.
+
+@SeeAlso
+  @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetMailAttribute(#Mail, Attribute)
+
+@Description
+  Return the specified mail attribute. 
+
+@Parameter "#Mail"
+  The mail to use.
+
+@Parameter "Attribute"
+  The attribute to get. It may be one of the following values:
+@FixedFont
+  @#PB_Mail_From   : Get the 'From' attribute, set with @@CreateMail.
+  @#PB_Mail_Subject: Get the 'Subject' attribute, set with @@CreateMail.
+  @#PB_Mail_XMailer: Get the 'X-Mailer' attribute (if any)
+  @#PB_Mail_Date   : Get the 'Date' attribute (if any)
+  @#PB_Mail_Custom : Get customs fields (if any)
+@EndFixedFont
+
+@ReturnValue
+  Returns the attribute as a string. An empty string is returned if the attribute does not exist.
+
+@Remarks
+  @@SetMailAttribute may be used to change the #Mail attributes.
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    Debug GetMailAttribute(0, #PB_Mail_From)    ; Will print "test@purebasic.com"
+    Debug GetMailAttribute(0, #PB_Mail_Subject) ; Will print "Hello"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SetMailAttribute, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetMailBody(#Mail)
+
+@Description
+  Return the specified mail body, previously set with @@SetMailBody.
+
+@Parameter "#Mail"
+  The mail to use.
+
+@ReturnValue
+  Returns the body as a string.
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    SetMailBody(0, "This is the body")
+    Debug GetMailBody(0) ; Will print "This is the body"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SetMailBody, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsMail(#Mail)
+
+@Description
+  Tests if the given mail number is valid and if the mail has been correctly initialized.
+
+@Parameter "#Mail"
+  The number to test.
+
+@ReturnValue
+  Returns nonzero if the specified number was valid.
+
+@Remarks
+  This function is bulletproof and may be used with any value.  This is the correct way
+  to ensure that the mail is ready for use.
+
+@SeeAlso
+  @@CreateMail, @@FreeMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MailProgress(#Mail)
+
+@Description
+  Return the progress of the specified mail transfer, started with @@SendMail.
+
+@Parameter "#Mail"
+  The mail to use.
+
+@ReturnValue
+  Returns the number of transferred bytes, or one of the following values:
+@FixedFont
+  @#PB_Mail_Connected: The mail transfer is in its initialization phase.
+  @#PB_Mail_Finished : The mail transfer is finished correctly.
+  @#PB_Mail_Error    : The mail transfer is finished but an error occurred.
+@EndFixedFont
+
+@SeeAlso
+  @@SendMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveMailRecipient(#Mail [, Address$ [, Flags])
+
+@Description
+  Remove a recipient from the specified mail. 
+
+@Parameter "#Mail"
+  The mail to use.
+
+@OptionalParameter "Address$"
+  The address to remove. It must match an address from a call to @@AddMailRecipient.
+  If not specified, all the recipients are removed from the mail.
+
+@OptionalParameter "Flags"
+  The categories from which to remove the recipient. It can be a combination of the
+  following values:
+@FixedFont
+  @#PB_Mail_To : Main(s) recipient(s) of the mail
+  @#PB_Mail_Cc : Recipient(s) which are in copy of the mail (and everybody see it)
+  @#PB_Mail_Bcc: Recipient(s) which are in copy of the mail (but nobody see it)
+@EndFixedFont
+  If not specified, all the categories are removed for the specified address.
+
+@NoReturnValue
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre is the main recipient
+    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred is in copy
+    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo is in copy as well, but Andre and Fred are not aware of it
+
+    ; Ensure Fred is removed from every destination :-)
+    RemoveMailRecipient(0, "fred@purebasic.com")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddMailRecipient
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SendMail(#Mail, Smtp$ [, Port [, Flags [, User$, Password$]]])
+
+@Description
+   Send the specified mail.
+
+@Parameter "#Mail"
+  The mail to send.
+
+@Parameter "Smtp$"
+  The address of the mail server to use for sending the mail.
+  
+
+@OptionalParameter "Port"
+  The port of the mail server. The default is port 25.
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_Mail_Asynchronous: sends the mail in the background. @@MailProgress can be used to follow the progress.
+  @#PB_Mail_UseSSL      : uses TLS/SSL to send the mail (the server needs to support this protocol).
+@EndFixedFont
+
+@OptionalParameter "User$, Password$"
+  The user and password used for SMTP authentication, if the server requires it.
+
+@ReturnValue
+  Returns nonzero if the mail was sent correctly and zero otherwise.
+
+@Example Simple SMTP
+@Code
+  InitNetwork()
+
+  ; Note: change the address and smtp to have a working example
+  ;
+  If CreateMail(0, "test@youraddress.com", "Hello")
+    AddMailRecipient(0, "youraddress@youraddress.com", #PB_Mail_To)
+
+    Debug SendMail(0, "smtp.yourfavoritesmtp.com")
+  EndIf
+@EndCode
+
+@Example Using GMail (TLS)
+@Code
+  InitNetwork()
+
+  ; Be sure to use the right login and right password
+  ;
+  Login$ = "yourlogin"
+  If CreateMail(0, Login$ + "@gmail.com", "Hello")
+    AddMailRecipient(0, "youraddress@youraddress.com", #PB_Mail_To)
+
+    Debug SendMail(0, "smtp.gmail.com", 465, #PB_Mail_UseSSL, Login$, "password")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CreateMail, @@MailProgress
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMailAttribute(#Mail, Attribute, Value$)
+
+@Description
+  Change the specified mail attribute with the new value.
+
+@Parameter "#Mail"
+  The mail to use.
+
+@Parameter "Attribute"
+  The attribute to change. It may be one of the following values:
+@FixedFont
+  @#PB_Mail_From   : Change the 'From' attribute, set with @@CreateMail.
+  @#PB_Mail_Subject: Change the 'Subject' attribute, set with @@CreateMail.
+  @#PB_Mail_XMailer: Change the 'X-Mailer' attribute (not sent by default).
+  @#PB_Mail_Date   : Change the 'Date' attribute (default is the computer date).
+  @#PB_Mail_Custom : Add customs fields (can be multi-line).
+@EndFixedFont
+
+@Parameter "Value$"
+  The new value for the attribute.
+
+@NoReturnValue
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    SetMailAttribute(0, #PB_Mail_XMailer, "PureMailer")
+    Debug GetMailAttribute(0, #PB_Mail_XMailer) ; Will print "PureMailer"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetMailAttribute, @@CreateMail
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMailBody(#Mail, Body$)
+
+@Description
+  Change the mail body. @@GetMailBody can be used to read the body content.
+
+@Parameter "#Mail"
+  The mail to use.
+
+@Parameter "Body$"
+  The string for the new mail body.
+
+@NoReturnValue
+
+@Remarks
+  According to the @InternetLink "http://www.ietf.org/rfc/rfc2822.txt" "RFC 2822" standard
+  a line break in an e-mail need to be done always using the @#CRLF$ chars.
+
+@Example
+@Code
+  InitNetwork()
+
+  If CreateMail(0, "test@purebasic.com", "Hello")
+    SetMailBody(0, "This is the body")
+    Debug GetMailBody(0) ; Will print "This is the body"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetMailAttribute, @@CreateMail
+
+@SupportedOS

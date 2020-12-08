@@ -1,0 +1,405 @@
+;
+;     Joint library documentation
+;
+;      (c) 2012 - Fantaisie Software
+;
+
+@Library Joint
+
+@Overview
+  Joints are used to define a link between two @LibraryLink "Entity" "entities", to have an automatic
+  behavior when one of the entity is moved. It can be used to simulate real life interaction between
+  two objects, like for example: a door, a train and so on.
+  @@InitEngine3D must be called successfully before using the
+  joint functions.
+
+@CommandList
+
+@ExampleFile All Joint.pb
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EnableHingeJointAngularMotor(#Joint, Enable, TargetVelocity, MaxMotorImpulse)
+
+@Description
+  Enables the angular motor on the specified hinge joint.
+
+@Parameter "#Joint"
+  The joint to use. The joint has to be created with @@HingeJoint.
+
+@Parameter "Enable"
+  Enables or disables the hinge joint angular motor. If set to @#True, the motor is enabled,
+  if set to @#False, the motor is disabled.
+  
+@Parameter "TargetVelocity"
+  The velocity the motor should produce.
+
+@Parameter "MaxMotorImpulse"
+  The maximum impulse the motor can set.
+
+@NoReturnValue
+
+@SeeAlso
+  @@HingeJoint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HingeJointMotorTarget(#Joint, Angle, Velocity)
+
+@Description
+  Sets the specified hinge joint motor target.
+
+@Parameter "#Joint"
+  The joint to use. The joint has to be created with @@HingeJoint.
+
+@Parameter "Angle"
+  The angle (in degree) of the motor to reach.
+
+@Parameter "Velocity"
+  The velocity the motor should produce.
+
+@NoReturnValue
+
+@SeeAlso
+  @@HingeJoint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeJoint(#Joint)
+
+@Description
+  Frees the specified joint and releases all its associated memory. The joint must not be used
+  (by using its number with the other functions in this library) after calling this function.
+
+@Parameter "#Joint"
+  The joint to free. If @#PB_All is specified, all the remaining joints are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining joints are automatically freed when the program ends.
+
+@SeeAlso
+  @@PointJoint, @@HingeJoint, @@ConeTwistJoint, @@SliderJoint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsJoint(#Joint)
+
+@Description
+  Tests if the given joint number is a valid and correctly initialized joint. 
+
+@Parameter "#Joint"
+  The joint to test.
+
+@ReturnValue
+  Nonzero if the joint is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a joint is ready to use.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GenericJoint(#Joint, EntityID, TransformX, TransformY, TransformZ, EntityID2, TransformX2, TransformY2, TransformZ2)
+
+@Description
+  Creates a new joint, based on one or two points.
+
+@Parameter "#Joint"
+  The number to identify the new joint. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "EntityID"
+  The entity id associated to the joint. To get a valid entity id, use @@EntityID.
+
+@Parameter "TransformX, TransformY, TransformZ"
+  The transformation to apply for the first entity.
+
+@OptionalParameter "EntityID2"
+  The second entity associated to the joint. If this parameter isn't specified, a single
+  joint is created between the pivot point and the entity. If this parameter is specified,
+  the first entity is anchored to the second entity. To get a valid entity id, use @@EntityID.
+
+@OptionalParameter "TransformX2, TransformY2, TransformZ2"
+  The transformation to apply for the second entity.
+
+@ReturnValue
+  Returns zero if the joint can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used 
+  as '#Joint' parameter, the new joint number will be returned as 'Result'.
+
+@Remarks
+  @@GetJointAttribute and @@SetJointAttribute can be used with the following attribute to change the joint behavior:
+@FixedFont
+  @#PB_Joint_EnableSpring: sets to @#True to enable spring, @#False to disable it (default)
+  @#PB_Joint_Stiffness   : sets the stiffness. Values should be between 1 and 10000
+  @#PB_Joint_Damping     : sets the damping. Values should be between 0 and 1 (0 means a very strong damping).
+  @#PB_Joint_Position    : sets the position on the axis
+  @#PB_Joint_NoLimit     : free axis position
+  @#PB_Joint_LowerLimit  : lower limit
+  @#PB_Joint_UpperLimit  : upper limit
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PointJoint(#Joint, EntityID, PivotX, PivotY, PivotZ [, EntityID2, PivotX2, PivotY2, PivotZ2])
+
+@Description
+  Creates a new joint, based on one or two points.
+
+@Parameter "#Joint"
+  The number to identify the new joint. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "EntityID"
+  The entity id associated to the joint. To get a valid entity id, use @@EntityID.
+
+@Parameter "PivotX, PivotY, PivotZ"
+  The coordinates of the first pivot point for the joint. Relative to the center of the first entity.
+
+@OptionalParameter "EntityID2"
+  The second entity associated to the joint. If this parameter isn't specified, a single
+  joint is created between the pivot point and the entity. If this parameter is specified,
+  the first entity is anchored to the second entity. To get a valid entity id, use @@EntityID.
+
+@Parameter "PivotX2, PivotY2, PivotZ2"
+  The coordinates of the second pivot point for the joint. Relative to the center of the second entity.
+
+@ReturnValue
+  Returns zero if the joint can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used 
+  as '#Joint' parameter, the new joint number will be returned as 'Result'.
+
+@Remarks
+  @@GetJointAttribute and @@SetJointAttribute can be used with the following attribute to change the joint behavior:
+@FixedFont
+  @#PB_PointJoint_Tau : Tau value of the joint
+  @#PB_PointJoint_Damping: Damping value of the joint
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = HingeJoint(#Joint, EntityID, PivotX, PivotY, PivotZ, AxisX, AxisY, AxisZ, EntityID2, PivotX2, PivotY2, PivotZ2, AxisX2, AxisY2, AxisZ2)
+
+@Description
+  Creates a new hinge joint between the two given entities. Hinge can be used to simulate door, moving bridge etc.
+
+@Parameter "#Joint"
+  The number to identify the new joint. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+  
+@Parameter "EntityID"
+  The first entity id associated to the joint. To get a valid entity id, use @@EntityID.
+  
+@Parameter "PivotX, PivotY, PivotZ"
+  The coordinates of the first pivot point for the joint. Relative to the center of the first entity.
+
+@Parameter "AxisX, AxisY, AxisZ"
+  The orientation of the axis for the joint.
+
+@Parameter "EntityID2"
+  The second entity id associated to the joint. To get a valid entity id, use @@EntityID.
+
+@Parameter "PivotX2, PivotY2, PivotZ2"
+  The coordinates of the second pivot point for the joint. Relative to the center of the second entity.
+
+@Parameter "AxisX2, AxisY2, AxisZ2"
+  The orientation of the axis for the joint.
+
+@ReturnValue
+  Returns zero if the joint can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used 
+  as '#Joint' parameter, the new joint number will be returned as 'Result'.
+
+@Remarks
+  @@GetJointAttribute and @@SetJointAttribute can be used with the following attribute to change the joint behavior:
+@FixedFont
+  @#PB_HingeJoint_LowerLimit : Lower limit of the joint
+  @#PB_HingeJoint_UpperLimit : Upper limit of the joint
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute, @@EnableHingeJointAngularMotor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ConeTwistJoint(#Joint, EntityID, TransformX, TransformY, TransformZ, EntityID2, TransformX2, TransformY2, TransformZ2)
+
+@Description
+  Creates a new cone twist joint between the two given entities. Cone twist can be used to attach arm or legs to body, etc.
+
+@Parameter "#Joint"
+  The number to identify the new joint. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+  
+@Parameter "EntityID"
+  The first entity id associated to the joint. To get a valid entity id, use @@EntityID.
+
+@Parameter "TransformX, TransformY, TransformZ"
+  The transformation to apply for the first entity.
+
+@Parameter "EntityID2"
+  The second entity id used to create the joint. To get a valid entity id, use @@EntityID.
+
+@Parameter "TransformX2, TransformY2, TransformZ2"
+  The transformation to apply for the second entity.
+
+@ReturnValue
+  Returns zero if the joint can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used 
+  as '#Joint' parameter, the new joint number will be returned as 'Result'.
+
+@Remarks
+  @@GetJointAttribute and @@SetJointAttribute can be used with the following attribute to change the joint behavior:
+@FixedFont
+  @#PB_ConeTwistJoint_SwingSpan  : First swing span of the joint
+  @#PB_ConeTwistJoint_SwingSpan2 : Second swing span of the joint
+  @#PB_ConeTwistJoint_TwistSpan  : Twist span of the joint
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SliderJoint(#Joint, EntityID, TransformX, TransformY, TransformZ, EntityID2, TransformX2, TransformY2, TransformZ2)
+
+@Description
+  Create a new slider joint between the two given entities. Slider can be used to move an entity with constraint on
+  a plane surface, etc.
+
+@Parameter "#Joint"
+  The number to identify the new joint. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+  
+@Parameter "EntityID"
+  The first entity id associated to the joint. To get a valid entity id, use @@EntityID. 
+  
+@Parameter "TransformX"
+  The X value of the transformation for the first entity.
+
+@Parameter "TransformY"
+  The Y value of the transformation for the first entity.
+
+@Parameter "TransformZ"
+  The Z value of the transformation for the first entity.
+
+@Parameter "EntityID2"
+  The second entity used to create the joint. To get a valid entity id, use @@EntityID.
+
+@Parameter "TransformX2"
+  The X value of the transformation for the second entity.
+
+@Parameter "TransformY2"
+  The Y value of the transformation for the second entity.
+
+@Parameter "TransformZ2"
+  The Z value of the transformation for the second entity.
+
+@ReturnValue
+  Returns zero if the joint can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used 
+  as '#Joint' parameter, the new joint number will be returned as 'Result'.
+
+@Remarks
+  @@GetJointAttribute and @@SetJointAttribute can be used with the following attribute to change the joint behavior:
+@FixedFont
+  @#PB_SliderJoint_LowerLimit : Lower limit of the joint
+  @#PB_SliderJoint_UpperLimit : Upper limit of the joint
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetJointAttribute(#Joint, Attribute)
+
+@Description
+  Get the specified attribute value of the given joint and its associated entities.
+
+@Parameter "#Joint"
+  The joint to use.
+
+@Parameter "Attribute"
+  The attribute to get.  
+
+@ReturnValue
+  Returns the value of the specified attribute or 0 if the joint does
+  not support the attribute.
+
+@Remarks
+  This function is available for all joints which support attributes. See the individual joint commands for the supported attributes:
+@LineBreak
+@LineBreak
+  - @@PointJoint @LineBreak
+  - @@ConeTwistJoint @LineBreak
+  - @@HingeJoint @LineBreak
+  - @@SliderJoint
+
+@SeeAlso
+  @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJointAttribute(#Joint, Attribute, Value [, Axis])
+
+@Description
+  Set the specified attribute value of the given joint and its associated entities.
+
+@Parameter "#Joint"
+  The joint to use.
+
+@Parameter "Attribute"
+  The attribute to set.  
+
+@Parameter "Value"
+  Value of the attribute to set.
+
+@OptionalParameter "Axis"
+  The Axis to use to set the attribute. Only supported by @@GenericJoint, the axis are indexed as following:
+@FixedFont
+  0, 1 and 2: translation axis (x, y, z)
+  3, 4 and 5: rotation axis (x, y, z)
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  This function is available for all joints which support attributes. See the individual joint commands for the supported attributes:
+@LineBreak
+@LineBreak
+  - @@GenericJoint @LineBreak
+  - @@PointJoint @LineBreak
+  - @@ConeTwistJoint @LineBreak
+  - @@HingeJoint @LineBreak
+  - @@SliderJoint
+
+@SeeAlso
+  @@GetJointAttribute
+
+@SupportedOS

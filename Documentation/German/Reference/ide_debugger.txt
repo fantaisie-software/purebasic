@@ -1,0 +1,601 @@
+@Title Verwenden des Debuggers
+
+  PureBasic bietet einen leistungsstarken Debugger, welcher Ihnen beim Finden von Fehlern
+  und Bugs in Ihrem Quellcode hilft. Er ermöglicht Ihnen die Kontrolle der Programmausführung,
+  Überwachen Ihrer @ReferenceLink "variables" "Variablen", @ReferenceLink "dim" "Arrays",
+  @ReferenceLink "newlist" "Listen" bzw. @ReferenceLink "newmap" "Maps" oder das Darstellen
+  der Debug-Ausgabe Ihres Programms.
+
+  Er bietet auch fortgeschrittene Funktionen für @ReferenceLink "inlinedasm" "Assembler"-Programmierer 
+  zum Untersuchen und Verändern von CPU-Registern sowie Anzeigen des Programmstacks oder des Speichers
+  Ihres Programms. Er bietet auch die Möglichkeit zum Debuggen eines Programms über ein Netzwerk
+  ("remotely" - aus der Ferne).
+  
+@LineBreak
+@LineBreak
+
+  Um den Debugger für Ihr Programm zu aktivieren, können Sie "Debugger verwenden" aus dem
+  Debugger-Menü verwenden oder diese Einstellungen in den Compiler-Optionen Ihres Programms
+  vornehmen. Durch Verwendung von "Mit Debugger kompilieren" aus dem Compiler-Menü können Sie
+  den Debugger nur für diese eine Kompilierung aktivieren.
+
+@LineBreak
+@LineBreak
+
+  Sie können direkt in Ihrem Quellcode auch @ReferenceLink "debugger" "Debugger-Befehle" wie 
+  @Keyword CallDebugger, @Keyword Debug, @Keyword DebugLevel, @Keyword DisableDebugger und
+  @Keyword EnableDebugger verwenden.
+
+@LineBreak
+@LineBreak
+
+
+@Bold "Der PureBasic Debugger ist in drei verschiedenen Formen verfügbar:"
+
+@LineBreak
+@LineBreak
+
+  Ein Debugger direkt in die IDE integriert, um auf einfache und schnelle Art und Weise 
+  Ihre Programme direkt aus der Programmierumgebung heraus zu debuggen. Dieser Debugger
+  bietet auch die meisten Funktionen.
+
+@LineBreak
+@LineBreak
+
+  Ein separater, eigenständiger Debugger, welcher nützlich für einige spezielle Anwendungszwecke
+  (zum Beispiel, wenn das gleiche Programm mehrfach zur gleichen Zeit ausgeführt und debuggt 
+  werden muss) oder die Verwendung mit Code-Editoren von Drittanbietern ist. Er bietet die
+  meisten Funktionen des integrierten IDE-Debuggers - da er jedoch unabhängig von der IDE ist,
+  geht einiges der Effizienz des direkten Zugriffs aus der IDE verloren. Der eigenständige
+  Debugger kann verwendet werden, um Programme aus der Ferne ("remote") über eine Netzwerk-Verbindung
+  zu debuggen.
+
+@LineBreak
+@LineBreak
+
+  Ein Debugger nur für die @LibraryLink "console" "Konsole". Die Hauptanwendung dieses Debuggers 
+  liegt im Testen auf nicht-grafischen Umgebungen wie Linux-Systemen ohne X-Server oder für das 
+  Entwickeln "aus der Ferne" mittels ssh.
+
+@LineBreak
+@LineBreak
+
+  Der Typ des zu verwendenden Debuggers kann in den @ReferenceLink "ide_preferences" "Einstellungen"
+  festgelegt werden.
+
+@LineBreak
+@LineBreak
+
+  Alle diese Funktionalität des Debuggens hat ihren Preis. Der Programmablauf eines im Debug-Modus
+  gestarteten Programms ist deutlich langsamer als ohne Debugger. Dies sollte trotzdem
+  kein Problem darstellen, da dies nur zum Testen genutzt wird.
+@LineBreak
+@LineBreak
+  Wenn Sie den Debugger verwenden wollen, jedoch einige Teile in Ihrem Programm haben, welche die
+  volle Ausführungsgeschwindigkeit benötigen, können Sie durch Verwendung der @Keyword DisableDebugger 
+  / @Keyword EnableDebugger Schlüsselwörter genau für diesen Programmteil den Debugger ausschalten.
+
+
+@Section Der in die IDE integrierte Debugger
+
+@Image ide_debugger_integrated.png
+
+  Sie können während des Programmablaufs über das Debugger-Menü oder die zugehörigen Schalter der 
+  Werkzeugleiste bzw. Tastenkürzel auf alle Debugger-Features zugreifen.
+
+@LineBreak
+@LineBreak
+
+  Während Sie Ihr Programm debuggen, werden bis zum Programmende alle zum Programm gehörenden 
+  Quellcode-Dateien (auch Include-Dateien) auf 'nur Lesen' (Read-Only) gesetzt. 
+  Dies hilft sicherzustellen, dass der aktuell als ausgeführt markierte Code nicht ohne
+  erneute Kompilierung verändert wurde.
+
+@LineBreak
+@LineBreak
+
+  Beachten Sie, dass ein Programm nur einmalig laufen kann, wenn Sie sich im IDE-Debugger-Modus
+  befinden. Wenn Sie das Programm ein weiteres Mal ausführen, wird Ihnen die Option angeboten, dieses
+  mit dem eigenständigen Debugger starten.
+
+
+
+; == WINDOWS ONLY ==
+@OS Windows
+
+@LineBreak
+@LineBreak
+
+@Bold "Tipp:"
+@LineBreak
+  Das Debugger-Menü wird auch zum Systemmenü (das Menü, welches Sie beim Klicken auf das PB-Icon 
+  in der linken oberen Ecke des Fensters erhalten) des Hauptfensters der IDE hinzugefügt.
+  Dies ermöglicht Ihnen auch den Zugriff auf das Debugger-Menü über die Startleiste (Taskbar), 
+  indem Sie mit der rechten Maustaste auf das Icon der IDE in der Startleiste klicken.
+
+@formatendif
+; == END WINDOWS ONLY ==
+
+
+
+@Section Programmkontrolle
+
+  Es gibt Funktionen für die grundlegende Kontrolle des laufenden Programms.
+  Sie können die Ausführung anhalten, um Variablen oder die Code-Position zu untersuchen
+  oder den Quellcode Zeile für Zeile auszuführen, um dem Programmablauf zu folgen.
+  Während das Programm angehalten wird, wird die gerade ausgeführte Zeile in Ihrem
+  Quellcode markiert (mit hellblauer Hintergrundfarbe in den Standard-Farben).
+@LineBreak
+@LineBreak
+  Der Status des Programms kann in der IDE-Statusleiste oder im Bereich des Fehlerberichts
+  eingesehen werden.
+
+@LineBreak
+@LineBreak
+
+  Befehle im Debugger-Menü für den Programmablauf:
+
+@LineBreak
+@LineBreak
+
+@Bold Stop
+@LineBreak
+  Hält das Programm an und zeigt die aktuelle Zeile an.
+
+@LineBreak
+@LineBreak
+
+@Bold Fortsetzen
+@LineBreak
+  Setzt die Programmausführung fort, bis eine erneute Stop-Bedingung eintritt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Programm beenden"
+@LineBreak
+  Dies veranlasst das Beenden des Programms und schließt alle zugehörigen Debugger-Fenster.
+
+@LineBreak
+@LineBreak
+
+@Bold Schritt
+@LineBreak
+  Dies führt eine Zeile an Quellcode aus und hält dann die Programmausführung wieder an.
+
+@LineBreak
+@LineBreak
+
+@Bold "Schritt <n>"
+@LineBreak
+  Dies wird eine Anzahl an Schritten, welche Sie angeben können, ausführen und dann
+  die Ausführung wieder anhalten.
+
+
+@LineBreak
+@LineBreak
+
+@Bold "Schritt über"
+@LineBreak
+  Dies führt die aktuelle Zeile im Quellcode aus und hält dann erneut an, einfach wie der normale 'Schritt'.
+  Der Unterschied besteht darin, dass wenn die aktuelle Zeile Aufrufe zu @ReferenceLink "procedures" "Prozeduren"
+  enthält, die Ausführung nicht innerhalb dieser Prozeduren anhält - wie es dies beim normalen 'Schritt' macht, 
+  sondern die ganze Prozedur ausgeführt wird und nach der Rückkehr aus dieser angehalten wird.
+  Dies ermöglicht das schnelle Überspringen von Prozeduren im "Schritt"-Modus.
+
+@LineBreak
+@LineBreak
+
+@Bold "Schritt aus"
+@LineBreak
+  Dies führt den verbleibenden Code innerhalb der aktuellen @ReferenceLink "procedures" "Prozedur" aus und
+  hält nach Rückkehr aus dieser erneut an. Wenn sich die aktuelle Zeile nicht innerhalb einer Prozedur
+  befindet, wird ein normaler 'Schritt' ausgeführt.
+
+
+@Section Zeilen-Haltepunkte
+
+  Haltepunkte sind ein weiterer Weg, um die Ausführung Ihres Programms zu kontrollieren.
+  Mit der Menü-Option "Haltepunkt" markieren Sie die aktuell ausgewählte Zeile als
+  Haltepunkt (oder entfernen jeden Haltepunkt, der in dieser Zeile bereits existiert).
+@LineBreak
+@LineBreak
+  Wenn die Ausführung des Quellcodes diese Zeile erreicht, wird sie an diesem Punkt
+  anhalten. Beachten Sie, dass wenn Sie eine nicht-ausführbare Zeile (wie eine Leerzeile
+  oder eine Struktur-Definition) auswählen, die Programmausführung auf der nächsten
+  ausführbaren Zeile danach angehalten wird.
+
+@LineBreak
+@LineBreak
+
+  Nachdem die Ausführung Ihres Programms am Haltepunkt gestoppt wurde, können Sie 
+  jeden Menü-Befehl zur Programmkontrolle verwenden, um die Ausführung fortzusetzen
+  oder zu beenden.
+
+@LineBreak
+@LineBreak
+
+  Haltepunkte können dynamisch gesetzt und entfernt werden, während Ihr Programm läuft
+  oder während Sie Ihren Quellcode bearbeiten. Mit dem Menü-Befehl "Haltepunkte löschen"
+  können Sie alle Haltepunkte in einer Quellcode-Datei entfernen.
+
+@LineBreak
+@LineBreak
+  Hinweis: Sie können auch Haltepunkte setzen/entfernen, indem Sie die Alt-Taste gedrückt
+  halten und auf den Rand, welcher die Haltepunkt-Markierungen enthält, klicken.
+
+
+@Section Daten-Haltepunkte
+
+@Image ide_debugger_databreak.png
+
+  Zusätzlich zu den Zeilen-spezifischen Haltepunkten bietet der Debugger auch Daten-Haltepunkte (englisch "data breakpoints").
+  Daten-Haltepunkte halten das Programm an, wenn eine bestimmte Bedingung erfüllt ist. Auf
+  diesem Weg ist es einfach herauszufinden, wenn sich eine Variable oder anderer Wert im Programm
+  verändert und das Programm anzuhalten, wenn dies passiert. Die Bedingung kann jeder
+  @ReferenceLink "general_rules" "PureBasic-Ausdruck" sein, der zu wahr oder falsch ausgewertet
+  werden kann. Dies kann alles sein, was auf ein @Keyword "If" Schlüsselwort folgen kann,
+  einschließlich @ReferenceLink "variables" "logische Operatoren" wie @Keyword "And", @Keyword "Or" oder @Keyword "Not". 
+  Die meisten Funktionen der @LibraryLink "Math" "Math", @LibraryLink "Memory" "Memory" und @LibraryLink "String" "String"
+  Bibliotheken wie auch alle Funktionen zur Gültigkeitsüberprüfung von Objekten in der Form IsXXX()
+  und die XxxID-Funktionen zur Ermittlung des OS-Bezeichners für ein Objekt sind ebenfalls verfügbar.
+
+@LineBreak
+@LineBreak
+  Beispiel-Bedingungen:
+@Code
+  MyVariable$ <> "Hello" Or Counter < 0  ; hält an, wenn MyVariable$ von "Hello" wechselt oder der Counter (Zähler) unter null fällt
+  PeekL(*SomeAddress+500) <> 0           ; hält an, wenn der Long-Wert an der angegebenen Speicherstelle nicht gleich null ist
+@EndCode
+
+  Daten-Haltepunkte können mit der 'Daten-Haltepunkt' Option im Debugger-Menü hinzugefügt werden.
+  Sie können auf eine bestimmte @ReferenceLink "procedures" "Prozedur" beschränkt werden, oder sie
+  können für den gesamten Code hinzufügt werden. Der spezielle Eintrag "Hauptcode" der Prozedur-Auswahl
+  gibt an, dass der Daten-Haltepunkt nur überprüft werden soll, wenn sich die Programmausführung nicht
+  in einer Prozedur befindet.
+
+@LineBreak
+@LineBreak
+
+  Die Spalte "Status" zeigt den Status aller Haltepunkt-Bedingungen bei ihrer letzten Auswertung.
+  Dies kann wahr, falsch oder ein Fehler (wenn die Bedingung kein gültiger Ausdruck ist) sein.
+  Sobald eine Bedingung als wahr ausgewertet wird, wird die Programmausführung angehalten. Diese
+  Bedingung wird automatisch aus der Liste entfernt, sobald das Programm fortgesetzt wird, sodass
+  sie nicht das Programm unmittelbar erneut anhält.
+
+@LineBreak
+@LineBreak
+
+  Hinweis: Das Überprüfen von Daten-Haltepunkten verlangsamt die Programmausführung, da die
+  Haltepunkt-Bedingungen für jede ausgeführte Zeile an Code erneut überprüft werden müssen,
+  um zu überprüfen, ob eine Bedingung erfüllt ist. Daher sollten Daten-Haltepunkte nur
+  wenn nötig hinzugefügt werden, um andernfalls die Programmausführung schnell zu erhalten.
+  Die Beschränkung eines Daten-Haltepunkts auf eine bestimmte Prozedur erhöht auch die
+  Geschwindigkeit, da die Überprüfung dann nur die angegebene Prozedur betrifft und nicht
+  das gesamte Programm.
+
+
+@Section Untersuchen von Variablen während der Laufzeit
+
+  Der Wert einer Variablen kann sehr schnell angesehen werden, während das Programm läuft, 
+  indem der Mauspfeil über eine Variable im Quellcode bewegt und einen kleinen Moment
+  gewartet wird. Wenn die Variable aktuell im Sichtbereich ist und angezeigt werden kann,
+  dann wird ihr Wert als Tooltip an der Mausposition angezeigt.
+
+  @Image ide_debugger_showstructure.png
+
+
+  Komplexere @ReferenceLink "general_rules" "Ausdrücke" (zum Beispiel @ReferenceLink "dim" "Array"-Felder)
+  können angesehen werden, indem sie im Quellcode mit der Maus ausgewählt werden und der Mauspfeil
+  über diese Auswahl bewegt wird.
+
+  @Image ide_debugger_showexpression.png
+
+
+  Die @ReferenceLink "ide_debugtools" "Debugger Werkzeuge" bieten auch eine Anzahl an Möglichkeiten,
+  um den Inhalt von @ReferenceLink "variables" "Variablen", @ReferenceLink "dim" "Arrays", 
+  @LibraryLink "list" "Listen" oder @LibraryLink "map" "Maps" zu untersuchen.
+
+
+
+
+@Section Fehler im Programm
+
+  Wenn der Debugger auf einen Fehler in Ihrem Programm stößt, wird er die Ausführung anhalten,
+  die Zeile mit dem aufgetretenen Fehler markieren (roter Hintergrund in den Standardfarben)
+  und die Fehlernachricht im Fehlerbericht und in der Statusleiste anzeigen.
+
+@LineBreak
+@LineBreak
+
+  Zu diesem Zeitpunkt können Sie immer noch die Variablen Ihres Programms untersuchen, genauso
+  die Aufrufverfolgung oder den Speicher. Jedoch andere Features wie die Register-Anzeige
+  oder Stackverfolgung sind nach einem Fehler nicht mehr verfügbar.
+@LineBreak
+@LineBreak
+  Wird der Fehler als schwerwiegend eingeschätzt (wie ein ungültiger Speicherzugriff oder
+  Division durch 0), ist es Ihnen nicht erlaubt, die Ausführung ab diesem Punkt fortzusetzen.
+  Wenn der Fehler von einer PureBasic Library gemeldet wurde, ist Ihnen ein Fortsetzen des
+  Programmablaufs möglich. Dies kann jedoch zu weiteren Fehlern führen, da Fortsetzen des
+  Programms in diesem Fall den angezeigten Fehler einfach ignoriert.
+
+@LineBreak
+@LineBreak
+  Nach einem Fehler (auch einem schwerwiegenden), müssen Sie den Menü-Befehl "Programm beenden"
+  verwenden, um das Programm zu beenden und mit dem Editieren des Quellcodes fortzufahren. Der 
+  Grund, warum das Programm nicht automatisch beendet wird, liegt darin, dass Ihnen sonst
+  die Verwendung der anderen Debugger-Features (wie Anzeigen von Variablen) zum Aufspüren
+  des Fehlers nicht möglich wäre.
+@LineBreak
+@LineBreak
+  Hinweis: Sie können den Debugger so konfigurieren, dass das Programm automatisch bei jedem
+  Fehler beendet wird. Siehe hierfür in @referencelink "ide_preferences" "Anpassen der IDE".
+
+
+@Section Debugger-Warnungen
+
+  Unter bestimmten Umständen kann sich der Debugger nicht sicher sein, ob es sich bei einem angegebenen
+  Parameter um einen Fehler im Programm handelt oder ob er absichtlich so angegeben wurde. In einem
+  solchen Fall gibt der Debugger eine Warnung aus. Standardmäßig wird eine Warnung zusammen mit der
+  Datei und der Zeilennummer im Fehlerbericht angezeigt, und die Zeile wird markiert (orange in 
+  den Standard-Farben). Auf diesem Weg bleiben die Warnungen nicht unbeachtet, aber sie unterbrechen
+  nicht den Programmablauf.
+
+; NOTE: This image shows a compiler warning, not a debugger warning!
+; @Image ide_debugger_warnings.png
+
+  Es gibt auch die Option, dass entweder alle Warnungen ignoriert werden oder alle Warnungen wie
+  Fehler behandelt werden (das Programm anhalten). Der Umgang mit Debugger-Warnungen kann global
+  in den @ReferenceLink "ide_preferences" "Einstellungen" eingestellt werden, oder für das aktuell
+  kompilierte Programm in den @ReferenceLink "ide_compiler" "Compiler-Optionen".
+
+
+@Section Der Fehlerbericht
+
+  Der Fehlerbericht (oder auch "Fehlerprotokoll") wird verwendet, um die Compiler-Fehler
+  aufzuzeichnen, genauso wie die Nachrichten vom Debuggen. Nachrichten werden für die
+  Datei aufgezeichnet, die sie betreffen. Wenn also ein Fehler in einer @ReferenceLink "includes" "Include-Datei" 
+  auftritt, dann wird diese Datei angezeigt und der Fehler für diese aufgezeichnet.
+
+@LineBreak
+@LineBreak
+
+  Das "Fehlerbericht" Untermenü des Debugger-Menüs bietet Funktionen hierfür:
+
+@LineBreak
+@LineBreak
+
+@Bold "Fehlerbericht anzeigen"
+@LineBreak
+  Zeigt / versteckt den Bericht für den aktuellen Quellcode.
+
+@LineBreak
+@LineBreak
+
+@Bold "Bericht löschen"
+@LineBreak
+  Löscht den Bericht für diese Datei.
+
+@LineBreak
+@LineBreak
+
+@Bold "Bericht kopieren"
+@LineBreak
+  Kopiert den Inhalt des Fehlerberichts in die Zwischenablage.
+
+@LineBreak
+@LineBreak
+
+@Bold "Fehlermarkierungen löschen"
+@LineBreak
+  Nachdem Sie das Programm beendet haben, bleiben alle Fehlermarkierungen im Quellcode
+  trotzdem erhalten. Dies soll Ihnen helfen, die den Fehler verursachende Zeile zu finden
+  und diesen zu beheben. Der "Fehlermarkierungen löschen" Menü-Befehl kann verwendet werden,
+  um diese Markierungen zu entfernen.
+@LineBreak
+@LineBreak
+  Sie können die IDE auch so konfigurieren, dass die Fehlermarkierungen am Programmende
+  automatisch gelöscht werden. Siehe hierfür in @referencelink "ide_preferences" "Anpassen der IDE".
+
+
+
+@Section Der eigenständige Debugger
+
+
+@Image ide_debugger_extern.png
+
+  Der eigenständige (auch "standalone") Debugger ist dem der IDE sehr ähnlich und wird daher
+  hier nur kurz beschrieben:
+@LineBreak
+@LineBreak
+  Auf dem Debugger-Fenster haben Sie Kontrollschalter, um damit die grundlegende 
+  Programmkontrolle auszuüben, so wie oben beschrieben. Der "Schritt"-Schalter führt
+  so viele Schritte aus, wie in dem daneben liegenden Eingabefeld angegeben sind.
+  Das Schließen des Debuggers mit "Beenden" oder dem Schließknopf am Fenster wird
+  auch das debuggte Programm beenden.
+
+@LineBreak
+@LineBreak
+  Der Bereich des Fehlerberichts kann versteckt werden, indem Sie auf den Pfeil
+  auf der rechten Seite klicken um das Debuggerfenster kleiner zu machen.
+
+@LineBreak
+@LineBreak
+
+  Die Code-Anzeige wird verwendet, um die aktuell ausgeführte Code-Zeile genauso wie
+  alle Fehler oder Haltepunkte anzuzeigen. Verwenden Sie das oberhalb befindliche Aufklappmenü,
+  um die gewünschte Include-Datei anzuzeigen. Die Schalter "Haltepunkt setzen", "Haltepunkt
+  entfernen" und "Haltepunkte löschen" können verwendet werden, um die Haltepunkte in der
+  aktuell angezeigte Quellcode-Datei zu verwalten. Die Code-Anzeige bietet auch ein
+  "Mouse over"-Feature (d.h. wenn sich der Mauspfeil über einem Code-Element befindet) 
+  durch den integrierten Debugger, um schnell den Inhalt einer Variablen ansehen zu können.
+
+@LineBreak
+@LineBreak
+
+  Auf die Debugger-Werkzeuge kann mittels der Schalter unterhalb der Codeanzeige zugegriffen
+  werden. Ihre Benutzung ist die gleiche wie beim integrierten Debugger.
+
+@LineBreak
+@LineBreak
+
+  Hinweis: Der eigenständige Debugger hat keine eigenen Einstellmöglichkeiten. Er verwendet
+  die Debugger- und Farbeinstellungen der IDE. Wenn Sie also einen Editors eines Drittanbieters
+  und den eigenständigen Debugger verwenden, sollten Sie wenigstens einmal die IDE starten, um
+  die Debugger-Einstellungen vorzunehmen.
+
+@LineBreak
+@LineBreak
+
+  @Bold "Ausführen des eigenständigen Debuggers von der Kommandozeile:"
+@LineBreak
+
+  Um ein über die Kommandozeile kompiliertes Programm mit eingeschaltetem Debugger (-d oder /Debugger
+  Option) auszuführen, rufen Sie den Debugger wie folgt auf:
+@LineBreak
+@LineBreak
+
+  pbdebugger <Executable-Datei> <Executable-Kommandozeile>
+
+@LineBreak
+@LineBreak
+  Wenn Sie ein Executable mit aktiviertem Debugger direkt von der Kommandozeile ausführen, 
+  wird nur der Kommandozeilen-Debugger verwendet.
+
+@Section Remote-Debugging mit dem (eigenständigen) Standalone-Debugger:
+
+  Das Netzwerk-Debugging-Feature ermöglicht das einfache Debuggen von Programmen auf entfernten
+  (englisch "remote") Servern oder innerhalb von virtuellen Maschinen (englisch "virtual maschines"
+  oder kurz "VM"), während immer noch eine komfortable grafische Oberfläche anstelle des
+  Kommandozeilen-Debuggers verwendet werden kann. Die Kompilierung des Programms muss separat
+  entweder auf dem Remote-Rechner oder auf dem lokalen Rechner erfolgen, vor der Übertragung
+  der Datei auf den Zielcomputer.
+@LineBreak
+@LineBreak
+  Die Debugger zwischen allen von PureBasic unterstützten Betriebssystemen und Prozessor-Typen 
+  sind kompatibel, solange die PureBasic-Version zwischen dem Debugger und dem Compiler, der das
+  Programm kompiliert, übereinstimmt. Dies bedeutet, dass z.B. ein auf Linux x64 laufendes
+  Programm problemlos mit Hilfe einer x86 Windows-Maschine debuggt werden kann. Sowohl der
+  Debugger als auch das kompilierte Executable können beide sowohl als Client als auch als
+  Server für die Netzwerk-Verbindung agieren, abhängig von den Kommandozeilen-Parametern.
+  Eine Instanz des Debuggers kann für das Debuggen nur eines Programms verwendet werden.
+  Mehrfache Verbindungen sind nicht möglich.
+@LineBreak
+@LineBreak
+
+  @Bold "Betrieb des Debuggers im Netzwerk-Modus:"
+@LineBreak
+  Die folgenden Kommandozeilen-Parameter kontrollieren die Netzwerkfähigkeiten des
+  Standalone-Debuggers.
+
+@OS Windows
+@FixedFont
+  pbdebugger.exe /CONNECT=host[:port]  [/PASSWORD=password]
+  pbdebugger.exe /LISTEN[=interface][:port]  [/PASSWORD=password]
+@EndFixedFont
+@ElseOS
+@FixedFont
+  pbdebugger --connect=host[:port]  [--password=password]
+  pbdebugger --listen[=interface][:port]  [--password=password]
+@EndFixedFont
+@EndOS
+
+  Der Modus "connect" verbindet den Debugger als einen Client mit einem Executable, das vorher als
+  Server gestartet worden sein muss. Der Modus "listen" erstellt einen Server und wartet auf die
+  eingehende Verbindung von einem Executable. Wenn die IP-Adresse einer lokalen Netzwerk-Schnittstelle
+  angegeben wird, dann wird der Server nur auf diese bestimmte Schnittstelle hören.
+  Andernfalls wird er auf alle Netzwerk-Schnittstellen nach Verbindungen zum angegebenen Port "hören".
+  Wenn kein Port angegeben wird, dann wird der Standard-Port (Port 10101) verwendet.
+@LineBreak
+@LineBreak
+  Die Passwort-Option ermöglicht die Verschlüsselung des Debugger-Datenstroms mittels AES. Wurde
+  der Client ohne die Passwort-Option gestartet, aber der Server benötigt ein Passwort, werden Sie
+  aufgefordert, das Passwort einzugeben, um eine Verbindung herzustellen.
+
+@LineBreak
+@LineBreak
+
+  @Bold "Betrieb des Executable im Netzwerk-Modus:"
+@LineBreak
+  Das Executable muss wie üblich im Debugger-Modus kompiliert werden (unter Verwendung des /DEBUGGER
+  bzw. --debugger Compiler-Switch).
+  Es kann dann von der Kommandozeile mit den folgenden Parametern gestartet werden, um den
+  Netzwerk-Modus zu aktivieren. Die Regeln für den Client- und den Server-Modus sind die gleichen
+  wie oben beschrieben.
+  
+@OS Windows
+@FixedFont
+  yourprogram.exe /DEBUGCONNECT=host[:port]  [/PASSWORD=password]
+  yourprogram.exe /DEBUGLISTEN[=interface][:port]  [/PASSWORD=password]
+@EndFixedFont
+@ElseOS
+@FixedFont
+  ./yourprogram --debugconnect=host[:port]  [--password=password]
+  ./yourprogram --debuglisten[=interface][:port]  [--password=password]
+@EndFixedFont
+@EndOS
+
+  Wenn beim Start des Programms im Netzwerk-Modus keine Kommandozeilen-Parameter verwendet werden
+  können (z.B. weil das Programm seine eigenen Kommandozeilen-Parameter liest, und durch
+  die Debugger-relevanten Optionen verwirrt werden könnte), gibt es einen alternativen Weg
+  durch das Setzen der folgenden Umgebungsvariable vor dem Ausführen des Programms (unter
+  Beachtung der Groß- und Kleinschreibung):
+@FixedFont
+  PB_DEBUGGER_Communication=NetworkClient;host[:port][;password]
+  PB_DEBUGGER_Communication=NetworkServer[;interface][:port][;password]
+@EndFixedFont
+
+  Sobald die Netzwerk-Verbindung zwischen Debugger und Executable aufgebaut wurde, 
+  funktioniert die Debug-Sitzung in der gleichen Weise wie beim lokalen Debuggen.
+  Wenn der Debugger geschlossen ist, wird das Überprüfte ("debugged") Executable
+  ebenfalls beendet. Es ist nicht möglich, den Debugger zu trennen oder erneut zu
+  verbinden, nachdem die Verbindung aufgebaut wurde.
+
+
+@Section Der Kommandozeilen-Debugger:
+
+@Image ide_debugger_console.png
+
+  Der Kommandozeilen-Debugger ist kein Bestandteil der IDE und daher nicht im Detail
+  hier erklärt.
+@LineBreak
+@LineBreak
+  Während das Programm läuft, drücken Sie Strg+C in der Konsole, um eine Konsolen-Eingabeaufforderung
+  für den Debugger zu öffnen. Dort geben Sie "help" ein, um einen Überblick über alle verfügbaren 
+  Befehle zu erhalten. Geben Sie "help <Befehlsname>" ein, um eine detailliertere Beschreibung eines
+  Befehls zu erhalten.
+
+
+@Section Debuggen von Programmen mit Threads:
+  
+  Um den Debugger mit einem Programm zu verwenden, welches @LibraryLink "thread" "Threads" erstellt, muss
+  die Option 'Threadsicheres Executable erstellen' in den @ReferenceLink "ide_compiler" "Compiler Optionen"
+  gesetzt sein, da andernfalls die vom Debugger angezeigten Informationen betreffs Zeilennummern, Fehlern,
+  lokalen Variablen usw. aufgrund der mehrfachen Threads falsch sein können.
+
+@LineBreak
+@LineBreak
+
+  Die folgenden Features und Einschränkungen sollten beim Debuggen eines Programms mit enthaltenen Threads beachtet werden:
+
+@LineBreak
+@LineBreak
+
+  Während das Programm läuft, werden die Variablenliste, die Aufrufverfolgung oder der Assembler-Debugger
+  Informationen nur über den Haupt-Thread anzeigen. Wenn das Programm angehalten wird, zeigen sie 
+  Informationen über den Thread, in dem sie gestoppt wurden. Wenn also lokale Variablen oder der
+  Aufrufstapel eines Threads untersucht werden sollen, muss die Ausführung innerhalb dieses Threads
+  angehalten werden (durch Einfügen eines Haltepunkts oder einer @Keyword CallDebugger Anweisung darin).
+  Die verschiedenen 'Schritt' Optionen betreffen immer den Thread, worin die Ausführung zuletzt
+  angehalten wurde.
+@LineBreak
+  Wenn ein Fehler auftritt, wird die Ausführung innerhalb dieses Threads angehalten, sodass sich jede
+  von der Variablenliste oder der Aufrufverfolgung angezeigte Information auf den Thread bezieht,
+  welcher den Fehler verursachte.
+@LineBreak
+  Die Beobachtungsliste beobachtet nur lokale Variablen des Haupt-Threads, nicht die von weiteren
+  zusätzlich laufenden Threads.
+@LineBreak
+@LineBreak
+  Während die Ausführung innerhalb eines Threads angehalten ist, wird auch die Ausführung aller 
+  anderen Threads unterbrochen.

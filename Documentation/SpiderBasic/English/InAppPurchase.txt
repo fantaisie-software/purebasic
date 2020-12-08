@@ -1,0 +1,301 @@
+;
+;     InAppPurchase library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library InAppPurchase
+
+@Overview
+  In-App purchase is a system supported by GooglePlay and iOS AppStore to buy items directly from inside an
+  application. It is mostly used for games, but can used for any kind of application to unlock special features
+  against a fee. 
+
+@Remarks
+  For Android, the GooglePlay public app API key needs to be specified in the create app dialog. 
+  It can be found in the google play console 'Service & API' -> 'Public key RSA for this app'
+  (the key which looks like: MIIB......AQAB).
+
+@CommandList
+
+@ExampleFile All InAppPurchase.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RegisterAppProduct(ProductID$, Callback [, Type])
+
+@Description
+  Register a new product for In-App purchase store. This product has to be existing
+  in the app store. Once all needed products have been registered, @@FetchAppProducts
+  has to be called to contact the store and retreive information about each products
+  (like price, description etc.)
+  
+  
+@Parameter "ProductID$"
+  The unique product identifier.
+
+@Parameter "Callback"
+  A callback which will be called when a state change occurs on this product. It has to respect the following
+  declaration:
+@Code
+  Procedure OnPurchase(State, ProductID$)
+    Select State 
+      Case #PB_Product_Approved
+        ; A product has been successfully purchased. Do the logic and then call FinishAppProductPurchase() to finish the order process
+        
+      Case #PB_Product_Owned
+        ; A non-consommable product has been already purchased. It will trigger this at program start
+
+      Case #PB_Product_Cancelled
+        ; An order has been initialized, but cancelled by the user. Mostly for statistical purpose
+
+      Case #PB_Product_Refunded
+        ; An order has been refunded, you should take appropriate action to remove the previously purchased item
+        
+    EndSelect
+  EndProcedure
+@EndCode
+  State can be one of the following value:
+@FixedFont
+  @#PB_Product_Approved : Product successfully purchased.
+  @#PB_Product_Owned    : Product already owned (only for non-consummable product).
+  @#PB_Product_Cancelled: Product paiement cancelled (paiement was initialized, but cancelled.
+                       Mainly useful for statistical purpose.
+  @#PB_Product_Refunded : Product paiement has been refunded. Previously purchased item should removed from the user account.
+@EndFixedFont
+  Note: the same callback can be used for more than one product.
+
+@OptionalParameter "Type"
+  Type can be one of the following value:
+@FixedFont
+  @#PB_Product_Consumable   : Product that can be purchased many times (like rubies, gems, wings for a game).
+  @#PB_Product_NonConsumable: Product that can be purchased only once (like sword, helmet for a game).
+                             If a non-consumable item has been already purchased, the @#PB_Product_Owned state
+                             will be triggered at program start.
+@EndFixedFont
+  
+
+@NoReturnValue
+
+@SeeAlso
+  @@FetchAppProducts
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FetchAppProducts(Callback)
+
+@Description
+  Fetch information from the store about all previously registered products with @@RegisterAppProduct.
+  
+@Parameter "Callback"
+  A callback which will be called when the fetch will be finish. It has to respect the following
+  declaration:
+@Code
+  Procedure OnFetchAppProducts(Success)
+    ; Success will be #True if fetch has been successful, or #False if it failed.
+  EndProcedure
+@EndCode
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure OnFetchAppProducts(Success)
+    If Success
+      If ExamineAppProducts()
+        While NextAppProduct()
+          Debug "id: " + AppProductId() + ", name: " + AppProductName() + ", price: " + AppProductPrice()
+        Wend
+      Else
+        Debug "ExamineAppProducts() failed."
+      EndIf
+    Else
+      Debug "FetchAppProducts() failed."
+    EndIf
+  EndProcedure
+
+  Procedure OnPurchaseAppProduct(State, ProductId$)
+    Debug "Product: " + ProductId$ + ", state : " + State
+  EndProcedure
+
+  RegisterAppProduct("gems", @OnPurchaseAppProduct()) ; can be purchased more than once
+  RegisterAppProduct("helmet", @OnPurchaseAppProduct(), #PB_Product_NonConsumable) ; can be purchased only once
+  
+  FetchAppProducts(@OnFetchAppProducts())
+@EndCode
+
+@SeeAlso
+  @@RegisterAppProduct
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineAppProducts()
+
+@Description
+  Start to examine the products previously fetch with @@FetchAppProducts.
+  To step through all products, use @@NextAppProduct.
+    
+@NoParameters
+
+@ReturnValue
+  Nonzero if the examine is successful, zero otherwise.
+
+@Example
+@Code
+  Procedure OnFetchAppProducts(Success)
+    If Success
+      If ExamineAppProducts()
+        While NextAppProduct()
+          Debug "id: " + AppProductId() + ", name: " + AppProductName() + ", price: " + AppProductPrice()
+        Wend
+      Else
+        Debug "ExamineAppProducts() failed."
+      EndIf
+    Else
+      Debug "FetchAppProducts() failed."
+    EndIf
+  EndProcedure
+
+  Procedure OnPurchaseAppProduct(State, ProductId$)
+    Debug "Product: " + ProductId$ + ", state : " + State
+  EndProcedure
+
+  RegisterAppProduct("gems", @OnPurchaseAppProduct()) ; can be purchased more than once
+  RegisterAppProduct("helmet", @OnPurchaseAppProduct(), #PB_Product_NonConsumable) ; can be purchased only once
+  
+  FetchAppProducts(@OnFetchAppProducts())
+@EndCode
+
+@SeeAlso
+  @@NextAppProduct
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextAppProduct()
+
+@Description
+  Go to the next product, if any. @@ExamineAppProducts needs to be called before using this function.
+  @@AppProductName, @@AppProductDescription, @@AppProductPrice and @@AppProductID can be used
+  to get information about the current product.
+  
+@NoParameters
+
+@ReturnValue
+  Nonzero if there is a next product, zero otherwise (meaning it's the end of the product list).
+
+@Remarks
+  For a full code example, see @@ExamineAppProducts
+
+@SeeAlso
+  @@ExamineAppProducts, @@AppProductName, @@AppProductDescription, @@AppProductPrice, @@AppProductID
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = AppProductName()
+
+@Description
+  Get the name of the current product, listed with @@ExamineAppProducts and @@NextAppProduct.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the name of the current product.
+
+@Remarks
+  For a full code example, see @@ExamineAppProducts
+
+@SeeAlso
+  @@AppProductDescription, @@AppProductPrice, @@AppProductID
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = AppProductDescription()
+
+@Description
+  Get the description of the current product, listed with @@ExamineAppProducts and @@NextAppProduct.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the description of the current product.
+
+@Remarks
+  For a full code example, see @@ExamineAppProducts
+
+@SeeAlso
+  @@AppProductName, @@AppProductPrice, @@AppProductID
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = AppProductPrice()
+
+@Description
+  Get the price of the current product, listed with @@ExamineAppProducts and @@NextAppProduct.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the price of the current product (including the currency).
+
+@Remarks
+  For a full code example, see @@ExamineAppProducts
+
+@SeeAlso
+  @@AppProductDescription, @@AppProductName, @@AppProductID
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = AppProductID()
+
+@Description
+  Get the identifier of the current product, listed with @@ExamineAppProducts and @@NextAppProduct.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the identifier of the current product. This is the same identifier used when
+  registering a product with @@RegisterAppProduct.
+
+@Remarks
+  For a full code example, see @@ExamineAppProducts
+
+@SeeAlso
+  @@AppProductDescription, @@AppProductName, @@AppProductPrice
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PurchaseAppProduct(ProductID$)
+
+@Description
+  Launch the purchase process of the specified product. A system window will be opened automatically
+  with the product price and description asking for the user paiement. The callback defined with
+  @@RegisterAppProduct will be called if the product state change.
+
+
+@Parameter "ProductID$"
+  The product identifier to use for the purchase.
+
+@NoReturnValue
+
+@SeeAlso
+  @@RegisterAppProduct, @@AppProductID
+
+@SupportedOS Android, iOS

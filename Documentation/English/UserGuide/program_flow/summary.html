@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Summary - Program Flow - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Program Flow: Summary</h1>
+
+<p>This is the end of the program flow chapter which has described the various keywords
+ which PureBasic offers, to allow you to control which parts of your programs are
+ executed, in what order and how often. The next chapter will show you how to liven
+ up your programs by making them more interactive.
+
+<p>The remainder of this chapter focuses on reviewing the information which has been
+ presented in this chapter. Below you will find a summary of the main points which you
+ should remember from this chapter. On the next page you will find some exercises
+ which you can use to test your knowledge.
+
+<ul>
+<li><p>There are six comparison operators which give a true or false result, and can be
+ used with all the built in variable types. There are two logical operators which can be
+ used to combine these true or false results to allow more complex expressions. These
+ operators are most commonly used to control loops, but can also be used anywhere another
+ operator is used.</p>
+
+<li><p>The process of enclosing one block or loop within another is also called nesting.
+ When you work with nested block or loops you must make sure that one block or loop is
+ enclosed entirely within the other. You can nest any kind of block or loop, and nest
+ as many times as you like.</p>
+
+<li><p>The If...EndIf block is a simple way to decide whether to execute a sequence of
+ instructions or not. Using the Else keyword allows you to execute instructions if no
+ other If or ElseIf condition is true. The ElseIf keyword can be used to add more than
+ one condition which can be checked to decide whether multiple different sequences of
+ instructions are executed.</p>
+
+<li><p>Select...EndSelect blocks are useful where you want to compare a single expression
+ (of any type, not just logical) to many different values. You must always have at least
+ one Case condition in a Select...EndSelect block. The Case keyword must be followed by a constant
+ which is to be compared against the value of the expression. The optional Default condition
+ specifies the instructions which are executed if none of the Case conditions match.</p>
+
+<li><p>For...Next loops are mostly used when you need to repeat some instructions for a known
+ number of repetitions (although you can use them in almost any way anything you like). You
+ need to specify a counter variable, a start value and an end value. The instructions in
+ the loop will not be executed at all if the start value has already passed the end value.
+ If the loop is entered then it will repeat up to and including the end value. Using the
+ optional keyword Step allows you to control what value is added to the counter variable at the
+ end of each loop.</p>
+
+<li><p>If you need to repeatedly execute some instructions while something is happening
+ then you would normally use the While...Wend loop. It has a simpler structure than the For...Next loop
+ and offers more flexibility since the execution of the loop is controlled by a single
+ expression being true or false. The expression is checked at the start of every loop
+ so it is possible that the loop will never execute.</p>
+
+<li><p>A Repeat...Until loop can be thought of as the opposite of a While...Wend loop.
+ The instructions inside the loop are always executed at least once and the expression
+ for controlling the loop is checked at the end of each iteration. The loop is repeated
+ if the expression is false.</p>
+
+<li><p>One reason to choose a While loop over a Repeat loop, or vice versa, is whether you know your program
+ will always execute the loop at least once. For example, setting a variable to zero and then
+ looping while that value is zero (with a While...Wend loop) is probably better done by setting
+ the variable to zero and then using a Repeat...Until loop.</p>
+
+<li><p>The decision to exit a block or loop will typically always be based on the result
+ of checking some condition. When you want to exit a block or loop early there are two
+ methods which you can use to achieve this. The first is to enclose the instructions you
+ want to avoid in another If...EndIf block and the second is to use the Goto keyword
+ to jump past them. Note that the logic for checking the condition will probably be
+ the opposite depending on which method you use.</p>
+
+<li><p>You must not use the Goto keyword to jump from the inside to the outside of a
+ Select...EndSelect block. (In general, jumping from the inside directly to the outside
+ of any kind of block or loop can be messy.) When exiting loops you can either build an extra check into
+ the loop control expression (or modify an already existing one to make it appear as if
+ the loop has ended) or use the Goto keyword to jump out of the loop.</p>
+
+<li><p>To make your code easier to read you might want to consider indenting the instructions
+ inside loops and blocks to make it look as if they really are &quot;inside&quot;. Indenting
+ is simply putting some extra spaces or tabs at the start of some lines in your source code. This can help
+ you recognise sections of instructions more easily and quickly, especially when you are
+ consistent.</p>
+</ul>
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="exitloops.html">Exiting loops early</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="exercises.html">Exercises</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

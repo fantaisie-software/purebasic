@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Subtraktions-Operator - Einfache Verarbeitung - PureBasic Benutzerhandbuch</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Einfache Verarbeitung: Subtraktions-Operator</h1>
+
+Der Subtraktions-Operator, <b>-</b>, ist dem Additions-Operator sehr ähnlich.
+Wenn er zusammen mit numerischen Variablentypen verwendet wird, führt er die
+mathematische Operation der Subtraktion aus, d.h. der Wert auf der rechten Seite
+des Operators wird vom Wert auf der linken Seite subtrahiert. Sie können diesen
+Operator nicht mit Stringtypen verwenden.
+
+<p>Es ist möglich, den Subtraktions-Operator auf normale Art und Weise, bei der
+das Ergebnis der Subtraktion mit einem anderen Operator oder als Parameter eines
+Befehls benutzt wird, oder in der auf der vorherigen Seite gezeigten abgekürzten
+Form zu verwenden. Dieselben Einschränkungen wie beim Additions-Operator
+treffen hier zu: das Ergebnis der Berechnung darf nicht verwendet werden und das
+am weitesten links befindliche Element muss eine Variable sein (so dass sie
+vermindert werden kann).
+
+<p>Dieses Beispiel demonstriert einige der Anwendungen des Subtraktions-Operators.
+Den Quellcode erhalten Sie <a href="subtraction_op.pb">hier</a>.
+
+<pre class="code">OpenConsole()
+
+; Part 1 - Simple example of using the subtraction operator
+x2 = 50
+x1 = 25
+distance = x2 - x1
+PrintN(&quot;Distance between two points: &quot; + Str(distance))
+
+; Part 2 - Multiple operators can be used in the same calculation
+total = 100
+half = 50
+quarter = 25
+tenth = 10
+leftovers = total - half - quarter - tenth - 2
+PrintN(&quot;Remaining quantity: &quot; + Str(leftovers))
+
+; Part 3 - Shortcut version of the subtraction operator
+leftovers - 3
+PrintN(&quot;After decreasing using shortcut method: &quot; + Str(leftovers))
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="subtraction_op_run.png" alt="Ausgabe des Subtraktions-Beispiels" width="557" height="91">
+Dieses Bild zeigt die Ausgabe des Beispielprogramms.
+
+<p><table class="footer">
+<tr>
+<th>Vorheriges Thema</td>
+<th>Kapitel-Inhalt</td>
+<th>Nächstes Thema</td>
+</tr>
+
+<tr>
+<td><a href="addition.html">Addition</a></td>
+<td><a href="../userguide.html">Benutzerhandbuch Inhalt</a></td>
+<td><a href="multiplication.html">Multiplikation und Division</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

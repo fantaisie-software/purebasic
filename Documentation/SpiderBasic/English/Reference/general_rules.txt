@@ -1,0 +1,163 @@
+@Title General Rules
+
+
+SpiderBasic has established rules which never change. These are:
+
+
+@Section Comments
+
+  Comments are marked by @Keyword ";". All text entered after @Keyword ; is ignored by the compiler.
+
+  @Example
+  
+@Code
+  If a = 10 ; This is a comment to indicate something.
+@EndCode
+
+
+
+@Section Keywords
+
+  All @Bold "keywords" are used for general things inside SpiderBasic, like creating arrays (Dim) or lists (NewList),
+  or controlling the program flow (If : Else : EndIf). They are not followed by the brackets '()', which are
+  typically for SpiderBasic @Bold "functions".
+
+  @Example
+  
+@Code  
+    If a = 1      ; If, Else and EndIf are keywords; while 'a = 1'
+      ...         ; is a variable used inside an expression.
+    Else
+      ...
+    EndIf
+@EndCode  
+
+  @Bold "Keywords" are regularly described in the chapters on the left side of
+  the index page in the reference manual.
+
+
+
+@Section Functions
+
+  All @Bold "functions" must be followed by a ( or else it will not be considered as a function, (even for null parameter functions).
+
+  @Example
+  
+@Code  
+    EventWindow() ; it is a function.
+    EventWindow   ; it is a variable.
+@EndCode  
+
+  @Bold "Functions" are regularly included in the SpiderBasic "Command libraries", described on the right side of
+  the index page in the reference manual.
+
+
+@Section Constants
+
+  All constants are preceded by @Keyword #. They can only be declared once in the source and always keep their predefined values. 
+  (The compiler replaces all constant names with their corresponding values when compiling the executable.)
+
+  @Example
+  
+@Code  
+  #Hello = 10 ; it is a constant.
+  Hello  = 10 ; it is a variable.
+@EndCode
+
+
+
+@Section Labels
+
+  All labels must be followed by a @Keyword : (colon). Label names may not contain any operators (+,-,...) as 
+  well special characters (ß,ä,ö,ü,...). When defined in a @ReferenceLink "procedures" "procedure", the label will be only available in this
+  procedure.
+
+  @Example
+  
+@Code  
+  I_am_a_label:
+@EndCode  
+
+
+
+@Section Expressions
+
+  An expression is something which can be evaluated. An expression can mix any variables, constants, 
+  or functions, of the same type. When you use numbers in an expression, you can add the Keyword $ sign 
+  in front of it to mean a hexadecimal number, or a Keyword % sign to mean a binary number. 
+  Without either of those, the number will be treated as decimal. Strings must be enclosed by inverted commas.
+
+  @Example
+  
+@Code  
+  a = a + 1 + (12 * 3)
+
+  a = a + WindowHeight(#Window) + b/2 + #MyConstant
+
+  If a <> 12 + 2
+    b + 2 >= c + 3
+  EndIf
+
+  a$ = b$ + "this is a string value" + c$
+
+  Foo = Foo + $69 / %1001  ; Hexadecimal and binary number usage
+@EndCode      
+
+
+
+@Section Concatenation of commands
+
+  Any number of commands can be added to the same line by using the @Keyword : option.
+
+  @Example
+
+@Code  
+  If IsCrazy = 0 : Debug "Not Crazy" : Else : Debug "Crazy" : EndIf
+@EndCode  
+
+
+@Section Line continuation
+
+  If the line contains a big expression, it can be split on several lines. A split line has to end
+  with one of the following operator: plus (+), comma (,), or (|), And, Or, Xor.
+
+  @Example
+
+@Code  
+  Text$ = "Very very very very long text" + #LF$ +
+          "another long text" + #LF$ +
+          " and the end of the long text"
+
+  OpenWindow(0, 
+             10, 10,
+             320, 200,
+             "Image viewer")
+@EndCode  
+
+
+
+@Section Typical words in this manual
+
+  Words used in this manual:
+
+  @Indent
+    <variable> : a basic variable. @LineBreak
+    <expression> : an expression as explained above. @LineBreak
+    <constant> : a numeric constant. @LineBreak
+    <label> : a program label. @LineBreak
+    <type> : any type, (standard or structured). @LineBreak
+  @EndIndent
+
+
+@Section Others
+
+  - In this guide, all topics are listed in alphabetical order to decrease any search time.
+  @LineBreak
+  @LineBreak
+  - @Bold "Return values" of commands are always @ReferenceLink "variables" "Integer" if no other type
+    is specified in the Syntax line of the command description.
+  @LineBreak
+  - In the SpiderBasic documentation are used the terms "commands" and "functions" as well - this is one and the same,
+    independently of a return-value. If a value is returned by the command or function, you can read in the
+    related command description.
+  @LineBreak

@@ -1,0 +1,62 @@
+@Title Select : EndSelect
+
+@Syntax
+
+  @Keyword Select <expression1>
+    @Keyword Case <expression> [, <expression> [<expression numerique> To <expression numerique>]]
+       ...
+    [@Keyword Case <expression>]
+       ...
+    [@Keyword Default] 
+       ...
+  @Keyword EndSelect 
+
+@Description
+
+  @Keyword Select permet d'opérer des choix rapides. Le programme exécute <expression1> et retient 
+  la valeur en mémoire. Cette valeur est ensuite comparée à chacune des valeurs "Case <expression>" 
+  et s'il y a égalité, le code du bloc @Keyword Case est exécuté pour quitter ensuite la structure 
+  @Keyword Select. @Keyword Case supporte les valeurs multiples ainsi que les intervalles à l'aide du mot-clef @Keyword To (seulement pour les intervalles numériques).
+  Si aucune des valeurs @Keyword Case n'est vraie, alors le code du bloc @Keyword Default, (s'il est spécifié) est exécuté.
+@LineBreak
+@LineBreak
+  Note: @Keyword Select accepte les nombres à virgules (float) comme <expression1>, mais ils seront arrondis à l'entier
+  inférieur (les comparaisons ne se font que sur des nombres entiers).
+
+@Example
+
+@Code
+  Valeur = 2
+  
+  Select Valeur
+    Case 1
+      Debug "Valeur = 1"
+      
+    Case 2 
+      Debug "Valeur = 2"
+      
+    Case 20 
+      Debug "Valeur = 20"
+      
+    Default
+      Debug "Je ne sais pas"
+  EndSelect
+@EndCode
+
+@Example Cas multiples et intervalles
+
+@Code
+  Valeur = 2
+  
+  Select Valeur
+    Case 1, 2, 3
+      Debug "Valeur est 1, 2 ou 3"
+      
+    Case 10 To 20, 30, 40 To 50
+      Debug "Valeur est entre 10 et 20, égale à 30 ou entre 40 et 50"
+      
+    Default
+      Debug "Je ne sais pas"
+      
+  EndSelect
+@EndCode

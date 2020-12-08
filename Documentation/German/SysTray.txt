@@ -1,0 +1,143 @@
+;
+;     SysTray library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library SysTray
+
+@Overview
+  "SysTray" ist der rechte Abschnitt der Taskleiste, welcher einige Icons
+  und Datum/Uhrzeit enthält. PureBasic bietet vollen Zugriff auf diesen Bereich
+  und erlaubt das Hinzufügen einer beliebigen Anzahl von Bildern.
+  @LineBreak
+  @LineBreak
+  Auf einigen Linux-Distributionen (wie Ubuntu) können die Systray-Icons standardmäßig
+  auch versteckt sein. Für weitere Informationen siehe diesen
+  @InternetLink "http://ubuntugenius.wordpress.com/2011/06/25/ubuntu-11-04-fix-show-all-iconsindicators-in-unity-panels-notification-area/" "Link".
+
+@CommandList
+
+@ExampleFile All SysTray.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = AddSysTrayIcon(#SysTrayIcon, WindowID, ImageID)
+
+@Description
+  Fügt ein Icon in den "SysTray" Bereich hinzu.
+@LineBreak
+@LineBreak
+  Wenn ein Ereignis auf irgendeinem der SysTray Icons auftritt, wird ein @#PB_Event_SysTray
+  Ereignis zurückgegeben. @@EventGadget kann benutzt werden, um das benutzte
+  SysTrayIcon zu ermitteln. Der @@EventType Befehl wird ebenfalls durch diesen
+  Befehl aktualisiert.
+
+@Parameter "#SysTrayIcon"
+  Eine Nummer zum Identifizieren des neuen Systray-Icons.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
+  automatisch zu generieren.
+  
+@Parameter "WindowID"
+  Das Fenster, auf dem die Systray-Ereignisse verwaltet werden. @@WindowID kann
+  verwendet werden, um diesen Wert zu erhalten.
+  
+@Parameter "ImageID"
+  Das für das Systray-Icon zu verwendende Bild. Auf Windows werden nur Icon-Bildtypen
+  (.ico) unterstützt, auf Linux und OS X ist die Verwendung eines PNG-Bildes 
+  ratsam (um einen Transparenz-Layer zu haben).
+  @@ImageID kann benutzt werden, um einfach diese ID zu ermitteln.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Systray-Icon erfolgreich hinzugefügt wurde,
+  andernfalls Null.
+
+@Remarks
+  Alle SysTray-Icons werden automatisch entfernt, wenn das Programm endet.
+
+@SeeAlso
+  @@RemoveSysTrayIcon, @@ChangeSysTrayIcon
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ChangeSysTrayIcon(#SysTrayIcon, ImageID)
+
+@Description
+  Ändert das angegebene Icon im SysTray-Bereich.
+  
+@Parameter "#SysTrayIcon"
+  Das zu ändernde Systray-Icon.
+  
+@Parameter "ImageID"
+  Das neue Bild, welches für das Systray-Icon verwendet werden soll. Auf Windows werden nur Icon-Bildtypen
+  (.ico) unterstützt, auf Linux und OS X ist die Verwendung eines PNG-Bildes 
+  ratsam (um einen Transparenz-Layer zu haben).
+  @@ImageID kann benutzt werden, um einfach diese ID zu ermitteln.
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddSysTrayIcon
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsSysTrayIcon(#SysTrayIcon)
+
+@Description
+  Überprüft, ob das angegebene Systray-Icon gültig und korrekt initialisiert ist.
+
+@Parameter "#SysTrayIcon"
+  Das zu überprüfende Systray-Icon.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Systray-Icon gültig ist, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. Dies ist der
+  richtige Weg, um sicher zu stellen, dass ein SysTray-Icon bereit zur Verwendung ist.
+
+@SeeAlso
+  @@AddSysTrayIcon
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SysTrayIconToolTip(#SysTrayIcon, Text$)
+
+@Description
+  Verknüpft den angegebenen Text$ mit dem SysTray-Icon. Tooltip-Text ist der Text, welcher (in einer
+  gelben Box) angezeigt wird, wenn der Mauspfeil eine Weile über dem Systray-Icon verharrt.
+
+@Parameter "#SysTrayIcon"
+  Das zu verwendende Systray-Icon.
+
+@Parameter "Text$"
+  Der für den Systray-Icon-Tooltip zu verwendende Text.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveSysTrayIcon(#SysTrayIcon)
+
+@Description
+  Entfernt das angegebene SysTray-Icon.
+
+@Parameter "#SysTrayIcon"
+  Entfernt das Systray-Icon. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Systray-Icons freigegeben.
+  
+@NoReturnValue
+
+@Remarks  
+  Alle verbleibenden SysTray-Icons werden automatisch entfernt, wenn das Programm endet.
+
+@SupportedOS

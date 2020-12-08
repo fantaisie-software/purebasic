@@ -1,0 +1,986 @@
+;
+;     Database library documentation
+;
+;       (c) Fantaisie Software
+;
+
+@Library Database
+
+@Overview
+  The database library is an easy set of functions to access and create databases. For now, it only allows to access
+  client side database in the SQLite format.
+  Accessing and updating data is done using SQL queries, therefore it is necessary to have an understanding of SQL syntax.
+@LineBreak
+@LineBreak
+  Here are some links about SQL syntax:
+@LineBreak
+  @InternetLink "http://www.w3schools.com/sql/default.asp" "W3Schools SQL Tutorial"
+@LineBreak
+  @InternetLink "http://www.hwaci.com/sw/sqlite/lang.html" "SQLite SQL functions"
+@LineBreak
+  @InternetLink "http://www.postgresql.org/docs/8.4/interactive/index.html" "PostgreSQL manual"
+@LineBreak
+@LineBreak
+
+@CommandList
+
+@ExampleFile All Database.sb
+@ExampleFile All DatabasePersistent.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AffectedDatabaseRows(#Database)
+
+@Description
+  Returns the number of rows affected by the last @@DatabaseUpdate operation.
+
+@Parameter "#Database"
+  The database to use.
+
+@ReturnValue
+  Returns the number of rows affected by the last @@DatabaseUpdate operation.
+
+@SeeAlso
+  @@DatabaseUpdate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseDatabase(#Database)
+
+@Description
+  Close the specified #Database (and connections/transactions if any). No further operations
+  are allowed on this database. 
+
+@Parameter "#Database"
+  The database to close. If @#PB_All is specified, all remaining databases are closed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining opened databases are automatically closed when the program ends.
+
+@SeeAlso
+  @@OpenDatabase
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DatabaseColumns(#Database)
+
+@Description
+  Returns the numbers of columns (fields) from the last executed database query with @@DatabaseQuery.
+  This command is only valid after a successful @@FirstDatabaseRow or @@NextDatabaseRow.
+
+@Parameter "#Database"
+  The database to use.
+
+@ReturnValue
+  Returns the number of columns from the last database query.
+
+@SeeAlso
+  @@DatabaseColumnName
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DatabaseColumnIndex(#Database, ColumnName$)
+
+@Description
+  Returns the index of the column after executing a query with @@DatabaseQuery in the opened #Database.
+  This can be useful for use with commands like @@GetDatabaseLong which require a column index.
+  This command is only valid after a successful @@FirstDatabaseRow or @@NextDatabaseRow.
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "#ColumnName$"
+  The name of the column to get the index of.
+
+@ReturnValue
+  Returns the index of the specified column. This is only valid after having executed a query with @@DatabaseQuery.
+
+@SeeAlso
+  @@DatabaseQuery, @@GetDatabaseBlob, @@GetDatabaseDouble, @@GetDatabaseFloat, @@GetDatabaseString, @@GetDatabaseQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = DatabaseColumnName(#Database, Column)  
+
+@Description
+  Return the name of the specified column in the #Database.
+  This command is only valid after a successful @@FirstDatabaseRow or @@NextDatabaseRow.
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "Column"
+  The column to use.
+
+@ReturnValue
+  Returns the name of the column.
+
+@SeeAlso
+  @@DatabaseColumns
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Error$ = DatabaseError()
+
+@Description
+  Returns a description of the last database error in text format. This is especially useful with the following 
+  functions: @@OpenDatabase, @@DatabaseQuery and @@DatabaseUpdate.
+
+@NoParameters
+
+@ReturnValue
+  Returns the error description.
+
+@Example  
+@Code
+  ; First, connect to a database with an employee table
+  ;
+  If DatabaseQuery(#Database, "SELECT * FROM employee") ; Get all the records in the 'employee' table
+    ; ...
+    FinishDatabaseQuery(#Database)
+  Else
+    Debug "Can't execute the query: "+DatabaseError()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DatabaseID = DatabaseID(#Database)
+
+@Description
+  Returns the unique ID which identifies the given '#Database' in the operating system. This 
+  function is useful when another library needs a database reference.
+
+@Parameter "#Database"
+  The database to use.
+
+@ReturnValue
+  Returns the ID for this database connection.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DatabaseQuery(#Database, Request$ [, Flags])
+
+@Description
+  Executes a SQL query on the given database. Only queries which doesn't change the database
+  records are accepted ('SELECT' like queries). To performs database modification, use @@DatabaseUpdate.
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "Request$"
+  The SQL query to execute.
+
+@OptionalParameter "Flags"
+  The flags to use. It can be one of the following value:
+@FixedFont
+  @#PB_Database_StaticCursor : performs the query to access the result in a sequential manner. It's not possible to rewind 
+                              with @@FirstDatabaseRow on some drivers, but it is the faster way to get the data (default).
+  @#PB_Database_DynamicCursor: performs the query to access the result in a random manner using @@FirstDatabaseRow. 
+                              It can be slower, or even unsupported on some drivers.
+@EndFixedFont  
+
+@ReturnValue
+  Returns nonzero if the query was successful or zero if it failed (due to a SQL error or a badly-formatted query).
+
+@Remarks
+  If the query has succeeded then @@NextDatabaseRow can be used to list returned records
+  (see the example below). In the event of an error, the error text can be retrieved with
+  @@DatabaseError. It is safe to use @@NextDatabaseRow even if the request
+  doesn't return any records. To get the number of columns returned by the query, use @@DatabaseColumns.
+@LineBreak
+@LineBreak
+  Once the query results aren't needed anymore, @@FinishDatabaseQuery has to be called
+  to release all the query resources.
+@LineBreak
+@LineBreak
+  The query can contain place holders for bind variables. Such variables must be set before
+  calling the function using @@SetDatabaseString, @@SetDatabaseLong etc. After executing the query, 
+  the bound variables are cleared and have to be set again for future calls. The syntax for specifying
+  bind variables in SQL is dependent on the database. The example below demonstrate the syntax.
+
+@Example  
+@Code
+  ; First, connect to a database with an employee table
+  ;
+  If DatabaseQuery(#Database, "SELECT * FROM employee") ; Get all the records in the 'employee' table
+  
+    While NextDatabaseRow(#Database) ; Loop for each records
+      Debug GetDatabaseString(#Database, 0) ; Display the content of the first field      
+    Wend
+  
+    FinishDatabaseQuery(#Database)
+  EndIf
+@EndCode
+
+@Example Bind variables with SQLite
+@Code
+  ; SQLite and ODBC shares the same syntax for bind variables. It is indicated by the '?' character
+  ;
+  SetDatabaseString(#Database, 0, "test")  
+  If DatabaseQuery(#Database, "SELECT * FROM employee WHERE id=?")    
+    ; ...
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DatabaseUpdate, @@NextDatabaseRow
+  @@SetDatabaseString, @@SetDatabaseLong, @@SetDatabaseQuad, @@SetDatabaseFloat, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@SetDatabaseNull
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DatabaseUpdate(#Database, Request$)
+
+@Description
+  Executes a modification query on the given database. This command doesn't return
+  any record. To perform a 'SELECT' like query, use @@DatabaseQuery.
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "Request$"
+  The query to execute.
+
+@ReturnValue
+  Returns nonzero if the query was successful or zero if it failed (due to a SQL error or a badly-formatted query).
+
+@Remarks
+  This function is similar to @@DatabaseQuery but is independent from the
+  @@NextDatabaseRow function. Therefore it's not possible to do a 'SELECT' like query
+  with this function. This function is useful for updating records in the database.
+  In the event of an error, the error text can be retrieved with @@DatabaseError.
+@LineBreak
+@LineBreak
+  The update request can contain place holders for bind variables. Such variables must be set before
+  calling the function using @@SetDatabaseString, @@SetDatabaseLong etc. After executing the update, 
+  the bound variables are cleared and have to be set again for future calls. The syntax for specifying
+  bind variables in SQL is dependent on the database. The example below demonstrate the syntax.
+
+@Example
+@Code
+  ; First, connect to a database with an employee table
+  ;
+  If DatabaseQuery(#Database, "SELECT * FROM employee") ; Get all the records in the 'employee' table
+  
+    While NextDatabaseRow(#Database) ; Loop for each records
+      
+      ; Update the 'checked' field for each records, assuming the 'id' field is 
+      ; the first one in the 'employee' table
+      ;
+      DatabaseUpdate(#Database, "UPDATE employee SET checked=1 WHERE id="+GetDatabaseString(#Database, 0)) 
+    Wend
+    
+    FinishDatabaseQuery(#Database)
+  EndIf
+@EndCode
+
+@Example Bind variables with SQLite
+@Code
+  ; SQLite and ODBC shares the same syntax for bind variables. It is indicated by the '?' character
+  ;
+  SetDatabaseLong(0, 0, 1)
+  SetDatabaseString(0, 1, "test")
+  DatabaseUpdate(0, "UPDATE employee SET checked=? WHERE id=?")
+@EndCode
+
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExportDatabase(#Database, Filename$)
+
+@Description
+  Exports the specified file to the user through a download. 
+
+@Parameter "#File"
+  The file to export.
+
+@Parameter "Filename$"
+  The filename to use for the download.
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Create a new empty database in memory
+  If OpenDatabase(0) 
+  
+    ; Add new table in it
+    DatabaseUpdate(0, "CREATE TABLE food (name CHAR(50), weight REAL, image BLOB)")
+    
+    ; Add some records
+    DatabaseUpdate(0, "INSERT INTO food (name, weight) VALUES ('apple', '10.5')")
+    DatabaseUpdate(0, "INSERT INTO food (name, weight) VALUES ('pear', '5')")
+    
+    ; Export it as a download
+    ExportDatabase(0, "Food.db")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExportDatabaseMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Buffer = ExportDatabaseMemory(#Database)
+
+@Description
+  Exports the full content of the specified database to a new memory buffer.
+
+@Parameter "#Database"
+  The database to export.
+
+@ReturnValue
+  A new memory buffer internally allocated with @@AllocateMemory containing the database content as binary form, or zero if it failed. 
+  Once the buffer is no more needed @@FreeMemory must be called to release the memory.
+
+@Example
+@Code
+  ; Create a new empty database in memory
+  If OpenDatabase(0) 
+  
+    ; Add new table in it
+    DatabaseUpdate(0, "CREATE TABLE food (name CHAR(50), weight REAL, image BLOB)")
+    
+    ; Add some records
+    DatabaseUpdate(0, "INSERT INTO food (name, weight) VALUES ('apple', '10.5')")
+    DatabaseUpdate(0, "INSERT INTO food (name, weight) VALUES ('pear', '5')")
+    
+    ; Export it as a memory buffer
+    *Buffer = ExportDatabaseMemory(0)
+    If *Buffer
+      Debug "Export success (size: " + MemorySize(*Buffer) + ") bytes"
+    Else
+      Debug "Export failed"
+    EndIf
+  EndIf
+@EndCode
+
+
+@SupportedOS
+
+@SeeAlso
+  @@ExportDatabase
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishDatabaseQuery(#Database)
+
+@Description
+  Finish the current database SQL query and release its associated resources. Query related functions like
+  @@FirstDatabaseRow or @@NextDatabaseRow can't be used anymore.
+
+@Parameter "#Database"
+  The database to use.
+
+@NoReturnValue
+
+@Example  
+@Code
+  ; First, connect to a database with an employee table
+  ;
+  If DatabaseQuery(#Database, "SELECT * FROM employee") ; Get all the records in the 'employee' table
+  
+    While NextDatabaseRow(#Database) ; Loop for each records
+      Debug GetDatabaseString(#Database, 0) ; Display the content of the first field      
+    Wend
+    
+    FinishDatabaseQuery(#Database)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DatabaseQuery
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = FirstDatabaseRow(#Database)
+
+@Description
+  Retrieves information about the first #Database row. The flag @#PB_Database_DynamicCursor has to be
+  specified to @@DatabaseQuery to have this command working.
+
+@Parameter "#Database"
+  The database to use.
+
+@ReturnValue
+  If Result is zero, then no row is available
+
+@Remarks
+  To access fields within a row, @@GetDatabaseLong, @@GetDatabaseFloat, @@GetDatabaseString can be used.
+
+@SeeAlso
+  @@NextDatabaseRow, @@GetDatabaseLong
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Buffer = GetDatabaseBlob(#Database, Column)
+
+@Description
+  Returns the content of the specified database colum as a new memory buffer. This command
+  is only valid after a successful @@FirstDatabaseRow or @@NextDatabaseRow.
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "Column"
+  The column to use. @@DatabaseColumnIndex is available to get the index of a named column.
+
+@ReturnValue
+  Returns the new memory buffer contained the blob, or zero if it failed. The returned memory buffer is allocated with 
+  @@AllocateMemory() and must be freed with @@FreeMemory() when no more used.
+
+@Remarks
+  To determine the size of the blob, @@MemorySize can be used.
+
+@Example  
+@Code
+  ; Create a new empty database in memory
+  If OpenDatabase(0) 
+  
+    ; Add new table in it
+    DatabaseUpdate(0, "CREATE TABLE food (name CHAR(50), image BLOB)")
+    
+    
+    ; Create a dummy blob (125 kb)
+    *Buffer = AllocateMemory(125000)
+    
+    ; Add a record with a blob. For this, we need to use the bind method using '?'
+    SetDatabaseString(0, 0, "blob test")
+    SetDatabaseBlob(0, 1, *Buffer, MemorySize(*Buffer)) ; Assign it to the 2nd paramater
+    
+    DatabaseUpdate(0, "INSERT INTO food (name, image) VALUES (?, ?)")
+    
+    ; Now check if it's really in the db
+    If DatabaseQuery(0, "SELECT * FROM food")
+    
+      While NextDatabaseRow(0)
+        Debug "name: '" + GetDatabaseString(0, 0) + "', blob size: " + MemorySize(GetDatabaseBlob(0, 1))
+      Wend
+    
+      FinishDatabaseQuery(0)
+    Else 
+      Debug  "query error: " + DatabaseError()
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetDatabaseDouble, @@GetDatabaseFloat, @@GetDatabaseLong, @@GetDatabaseString, @@GetDatabaseQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = GetDatabaseDouble(#Database, Column)
+
+@Description
+  Returns the content of the specified database column as a double precision floating-point number. This command
+  is only valid after a successful @@FirstDatabaseRow or @@NextDatabaseRow.
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "Column"
+  The column to use. @@DatabaseColumnIndex is available to get the index of a named column.
+
+@ReturnValue
+  Returns a double precision floating-point value.
+
+@SeeAlso
+  @@GetDatabaseBlob, @@GetDatabaseFloat, @@GetDatabaseLong, @@GetDatabaseString, @@GetDatabaseQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = GetDatabaseFloat(#Database, Column)
+
+@Description
+  Returns the content of the specified database column as a floating-point number. This command
+  is only valid after a successful @@FirstDatabaseRow or @@NextDatabaseRow. 
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "Column"
+  The column to use. @@DatabaseColumnIndex is available to get the index of a named column.
+
+@ReturnValue
+  Returns a single precision floating-point value.
+
+@SeeAlso
+  @@GetDatabaseBlob, @@GetDatabaseDouble, @@GetDatabaseLong, @@GetDatabaseString, @@GetDatabaseQuad
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetDatabaseLong(#Database, Column)
+
+@Description
+  Returns the content of the specified #Database column as an integer number. This command
+  is only valid after a successful @@FirstDatabaseRow or @@NextDatabaseRow.
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "Column"
+  The column to use. @@DatabaseColumnIndex is available to get the index of a named column.
+
+@ReturnValue
+  Returns the content of the column as an integer value.
+
+@SeeAlso
+  @@GetDatabaseBlob, @@GetDatabaseDouble, @@GetDatabaseFloat, @@GetDatabaseString, @@GetDatabaseQuad
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.q = GetDatabaseQuad(#Database, Column)
+
+@Description
+  Returns the content of the specified #Database column as a quad number. This command
+  is only valid after a successful @@FirstDatabaseRow or @@NextDatabaseRow.
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "Column"
+  The column to use. @@DatabaseColumnIndex is available to get the index of a named column.
+
+@ReturnValue
+  Returns the content of the column as a quad value.
+
+@SeeAlso
+  @@GetDatabaseBlob,
+  @@GetDatabaseDouble,
+  @@GetDatabaseFloat,
+  @@GetDatabaseString,
+  @@GetDatabaseLong
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = GetDatabaseString(#Database, Column)
+
+@Description
+  Returns the content of the specified #Database column as a string. This command
+  is only valid after a successful @@FirstDatabaseRow or @@NextDatabaseRow.
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "Column"
+  The column to use. @@DatabaseColumnIndex is available to get the index of a named column.
+
+@ReturnValue
+  Returns the content of the column as a string.
+
+@SeeAlso
+  @@GetDatabaseBlob,
+  @@GetDatabaseDouble,
+  @@GetDatabaseFloat,
+  @@GetDatabaseLong,
+  @@GetDatabaseQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = CheckDatabaseNull(#Database, Column)
+
+@Description
+  Checks if the content of the specified database column is null. This command
+  is only valid after a successful @@FirstDatabaseRow or @@NextDatabaseRow.
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "Column"
+  The column to use. @@DatabaseColumnIndex is available to get the index of a named column.
+
+@ReturnValue
+  Returns @#True is the data is null, @#False otherwise.
+
+
+@SeeAlso
+  @@GetDatabaseBlob,
+  @@GetDatabaseDouble,
+  @@GetDatabaseFloat,
+  @@GetDatabaseLong,
+  @@GetDatabaseQuad
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsDatabase(#Database)
+
+@Description
+  This function evaluates if the given #Database number is a valid and correctly-initialized database.
+
+@Parameter "#Database"
+  The database to use.
+
+@ReturnValue
+  Returns nonzero if #Database is a valid database connection and zero otherwise.
+
+@Remarks  
+  This function is bulletproof and can be used with any value. If Result is not zero then the object is valid and
+  initialized, otherwise it returns zero. This is a good way to check that a database is ready to use.
+
+@SeeAlso
+  @@OpenDatabase
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextDatabaseRow(#Database)
+
+@Description
+  Retrieves information about the next database row in the #Database.
+  To access fields within a row, @@GetDatabaseLong,
+  @@GetDatabaseFloat, @@GetDatabaseString can be used.
+
+@Parameter "#Database"
+  The database to use.
+
+@ReturnValue
+  If Result is 0, then no more rows are available (i.e. reached the end of the table). 
+
+@SeeAlso
+  @@GetDatabaseBlob, @@GetDatabaseDouble, @@GetDatabaseFloat, @@GetDatabaseLong, @@GetDatabaseQuad, @@GetDatabaseString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenDatabase(#Database [, *DatabaseBuffer]) 
+
+@Description
+  Opens or create a new database. If '*DatabaseBuffer' is not specified, a new empty
+  database is created. A database is always created in memory.
+
+@Parameter "#Database"
+  A number to identify the new database.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@OptionalParameter "*DatabaseBuffer"
+  A memory buffer containing a SQLite database. The database will be initialized using the
+  specified database data. @@ExportDatabaseMemory can be used to get a raw memory buffer of a database.
+  
+@ReturnValue
+  Returns nonzero if the database has been successfully created, zero otherwise. Error information
+  can be received with the @@DatabaseError command.
+  If @#PB_Any was used for the #Database parameter, then the generated number is returned.
+
+@SeeAlso
+  @@CloseDatabase, @@ExportDatabaseMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseBlob(#Database, StatementIndex, *Buffer, BufferLength)
+
+@Description
+  Set the blob for future use with @@DatabaseUpdate.
+
+@Parameter "#Database"
+  The database to use.
+
+@Parameter "StatementIndex"
+  Undefined query parameter index the blob should be inserted for.
+  The first undefined parameter index starts from zero.
+  The SQL syntax to specify undefined parameter is database manager dependent. 
+  See the following examples to see how to proceed.
+
+@Parameter "*Buffer"
+  The address of the blob data.
+
+@Parameter "BufferLength"
+  The size of the blob data in bytes.
+
+@NoReturnValue
+  
+@Example  
+@Code
+  ; Create a new empty database in memory
+  If OpenDatabase(0) 
+  
+    ; Add new table in it
+    DatabaseUpdate(0, "CREATE TABLE food (name CHAR(50), image BLOB)")
+    
+    
+    ; Create a dummy blob (125 kb)
+    *Buffer = AllocateMemory(125000)
+    
+    ; Add a record with a blob. For this, we need to use the bind method using '?'
+    SetDatabaseString(0, 0, "blob test")
+    SetDatabaseBlob(0, 1, *Buffer, MemorySize(*Buffer)) ; Assign it to the 2nd paramater
+    
+    DatabaseUpdate(0, "INSERT INTO food (name, image) VALUES (?, ?)")
+    
+    ; Now check if it's really in the db
+    If DatabaseQuery(0, "SELECT * FROM food")
+    
+      While NextDatabaseRow(0)
+        Debug "name: '" + GetDatabaseString(0, 0) + "', blob size: " + MemorySize(GetDatabaseBlob(0, 1))
+      Wend
+    
+      FinishDatabaseQuery(0)
+    Else 
+      Debug  "query error: " + DatabaseError()
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DatabaseUpdate, @@GetDatabaseBlob
+  
+@SupportedOS
+
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseString(#Database, StatementIndex, Value$)
+
+@Description
+  Set a string as a bind variable for the next call to @@DatabaseQuery or @@DatabaseUpdate.
+
+@Parameter "#Database"
+  The database to use.
+  
+@Parameter "StatementIndex"
+  The index of the bind variable within the statement. The first variable has index 0.
+
+@Parameter "Value$"
+  The value to use for the bind variable.
+
+@NoReturnValue
+
+@Remarks
+  Bind variables make constructing statements with variable data easier, because there is no
+  need to add the data into the string. The statement string can contain the placeholders and
+  the data is bound before executing the statement. This method also avoids vulnerabilities
+  due to possible SQL injection which can be done if data (such as strings) is directly
+  inserted in the statement text. Since the statement only contains the placeholder, there
+  is no danger.
+@LineBreak
+@LineBreak
+  See @@DatabaseQuery and @@DatabaseUpdate for examples how to specify bind variables in an
+  SQL statement.
+  
+@SeeAlso
+  @@SetDatabaseLong, @@SetDatabaseQuad, @@SetDatabaseFloat, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@SetDatabaseNull, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseLong(#Database, StatementIndex, Value)
+
+@Description
+  Set a long value as a bind variable for the next call to @@DatabaseQuery or @@DatabaseUpdate.
+
+@Parameter "#Database"
+  The database to use.
+  
+@Parameter "StatementIndex"
+  The index of the bind variable within the statement. The first variable has index 0.
+
+@Parameter "Value"
+  The value to use for the bind variable.
+
+@NoReturnValue
+
+@Remarks
+  Bind variables make constructing statements with variable data easier, because there is no
+  need to add the data into the string. The statement string can contain the placeholders and
+  the data is bound before executing the statement. This method also avoids vulnerabilities
+  due to possible SQL injection which can be done if data (such as strings) is directly
+  inserted in the statement text. Since the statement only contains the placeholder, there
+  is no danger.
+@LineBreak
+@LineBreak
+  See @@DatabaseQuery and @@DatabaseUpdate for examples how to specify bind variables in an
+  SQL statement.
+  
+@SeeAlso
+  @@SetDatabaseString, @@SetDatabaseQuad, @@SetDatabaseFloat, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@SetDatabaseNull, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseQuad(#Database, StatementIndex, Value.q)
+
+@Description
+  Set a quad value as a bind variable for the next call to @@DatabaseQuery or @@DatabaseUpdate.
+
+@Parameter "#Database"
+  The database to use.
+  
+@Parameter "StatementIndex"
+  The index of the bind variable within the statement. The first variable has index 0.
+
+@Parameter "Value.q"
+  The value to use for the bind variable.
+
+@NoReturnValue
+
+@Remarks
+  Bind variables make constructing statements with variable data easier, because there is no
+  need to add the data into the string. The statement string can contain the placeholders and
+  the data is bound before executing the statement. This method also avoids vulnerabilities
+  due to possible SQL injection which can be done if data (such as strings) is directly
+  inserted in the statement text. Since the statement only contains the placeholder, there
+  is no danger.
+@LineBreak
+@LineBreak
+  See @@DatabaseQuery and @@DatabaseUpdate for examples how to specify bind variables in an
+  SQL statement.
+  
+@SeeAlso
+  @@SetDatabaseString, @@SetDatabaseLong, @@SetDatabaseFloat, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@SetDatabaseNull, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseFloat(#Database, StatementIndex, Value.f)
+
+@Description
+  Set a float as a bind variable for the next call to @@DatabaseQuery or @@DatabaseUpdate.
+
+@Parameter "#Database"
+  The database to use.
+  
+@Parameter "StatementIndex"
+  The index of the bind variable within the statement. The first variable has index 0.
+
+@Parameter "Value.f"
+  The value to use for the bind variable.
+
+@NoReturnValue
+
+@Remarks
+  Bind variables make constructing statements with variable data easier, because there is no
+  need to add the data into the string. The statement string can contain the placeholders and
+  the data is bound before executing the statement. This method also avoids vulnerabilities
+  due to possible SQL injection which can be done if data (such as strings) is directly
+  inserted in the statement text. Since the statement only contains the placeholder, there
+  is no danger.
+@LineBreak
+@LineBreak
+  See @@DatabaseQuery and @@DatabaseUpdate for examples how to specify bind variables in an
+  SQL statement.
+  
+@SeeAlso
+  @@SetDatabaseString, @@SetDatabaseLong, @@SetDatabaseQuad, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@SetDatabaseNull, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseDouble(#Database, StatementIndex, Value.d)
+
+@Description
+  Set a double value as a bind variable for the next call to @@DatabaseQuery or @@DatabaseUpdate.
+
+@Parameter "#Database"
+  The database to use.
+  
+@Parameter "StatementIndex"
+  The index of the bind variable within the statement. The first variable has index 0.
+
+@Parameter "Value.d"
+  The value to use for the bind variable.
+
+@NoReturnValue
+
+@Remarks
+  Bind variables make constructing statements with variable data easier, because there is no
+  need to add the data into the string. The statement string can contain the placeholders and
+  the data is bound before executing the statement. This method also avoids vulnerabilities
+  due to possible SQL injection which can be done if data (such as strings) is directly
+  inserted in the statement text. Since the statement only contains the placeholder, there
+  is no danger.
+@LineBreak
+@LineBreak
+  See @@DatabaseQuery and @@DatabaseUpdate for examples how to specify bind variables in an
+  SQL statement.
+  
+@SeeAlso
+  @@SetDatabaseString, @@SetDatabaseLong, @@SetDatabaseQuad, @@SetDatabaseFloat
+  @@SetDatabaseBlob, @@SetDatabaseNull, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetDatabaseNull(#Database, StatementIndex)
+
+@Description
+  Set a bind variable to a NULL value for the next call to @@DatabaseQuery or @@DatabaseUpdate.
+
+@Parameter "#Database"
+  The database to use.
+  
+@Parameter "StatementIndex"
+  The index of the bind variable within the statement. The first variable has index 0.
+
+@NoReturnValue
+
+@Remarks
+  See @@DatabaseQuery and @@DatabaseUpdate for examples how to specify bind variables in an
+  SQL statement.
+  
+@SeeAlso
+  @@SetDatabaseString, @@SetDatabaseLong, @@SetDatabaseQuad, @@SetDatabaseFloat, @@SetDatabaseDouble
+  @@SetDatabaseBlob, @@DatabaseQuery, @@DatabaseUpdate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+

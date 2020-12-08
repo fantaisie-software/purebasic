@@ -1,0 +1,106 @@
+
+@Title Kommandozeilen-Optionen der IDE
+
+  Die PureBasic IDE ermöglicht Ihnen über die Kommandozeile die verwendeten
+  Pfade und Dateien zu ändern. Damit sind Sie in der Lage, verschiedene
+  Verknüpfungen zu erstellen, welche die IDE mit verschiedenen Konfigurationen
+  für verschiedene Anwender oder für verschiedene Projekte starten.
+
+@LineBreak
+@LineBreak
+
+  Es gibt auch Optionen für das Kompilieren von PureBasic-Projekten direkt aus der Kommandozeile.
+  Das Erstellen eines Projekts über die Kommandozeile beinhaltet die gleichen Aktionen wie bei der
+  Auswahl von "Ziel erstellen" bzw. "Alle Ziele erstellen" im @ReferenceLink "ide_compiler" "Compiler-Menü".
+
+@LineBreak
+@LineBreak
+
+; == WINDOWS ONLY ==
+@OS Windows
+
+  Allgemeine Optionen:
+@FixedFont
+  /VERSION                 zeigt die IDE-Version an und beendet sich
+  /HELP oder /?            zeigt eine Beschreibung der Kommandozeilen-Argumente an
+@EndFixedFont
+
+  Optionen für das Starten der IDE:
+@fixedfont
+  /P <Preferences Datei>   lädt/speichert alle Einstellungen aus der bzw. in die angegebene Datei.
+  /T <Templates Datei>     lädt/speichert alle Code-Bausteine aus der bzw. in die angegebene Datei.
+  /A <Tools Datei>         lädt/speichert die Einstellungen der externen Werkzeuge aus dieser bzw. in dieser Datei.
+  /S <Source Pfad>         überschreibt den in den Voreinstellungen eingestellten "Quellcode-Pfad".
+  /E <Explorer Pfad>       startet das Explorer-Werkzeug mit dem angegebenen Pfad.
+  /L <Zeilennummer>        setzt den Cursor auf die angegebene Zeilennummer in der zuletzt geöffneten Datei.
+  /H <Geschichtsdatenbank> gibt die Datei an, welche für die Sitzungsgeschichte-Datenbank verwendet werden soll.
+  /NOEXT                   schaltet das Registrieren der .pb Endung in der Windows Registry aus.
+  /LOCAL                   speichert alle Einstellungen in das PureBasic Verzeichnis.
+  /PORTABLE                das gleiche wie /LOCAL und /NOEXT zusammen.
+@endfixedfont
+
+  Optionen für das Erstellen von Projekten:
+@FixedFont
+  /BUILD <Datei>           gibt die zu erstellende Projekt-Datei an
+  /TARGET <Ziel>           gibt das zu erstellende Ziel an (der Standard ist das Erstellen aller Ziele)
+  /QUIET                   versteckt alle Erstellungs-Nachrichten außer Fehlermeldungen
+  /READONLY                aktualisiert nicht die Projekt-Datei nach dem Kompilieren (mit neuer Zugriffszeit und Erstellungszähler)
+@EndFixedFont
+
+  Die Standarddateien für /P /T und /A werden auf Ihrem System im %APPDATA%\PureBasic\ Verzeichnis gespeichert.
+
+@LineBreak
+@LineBreak
+  Der /NOEXT Befehl ist nützlich, wenn Sie @ReferenceLink "several_pb" "mehrere PB-Versionen gleichzeitig" im Einsatz haben (z.B. zum Testen
+  von Beta-Versionen), aber die .pb Endung nur mit einer von ihnen verknüpft haben möchten.
+  Der /PORTABLE Befehl kann verwendet werden, um alle Konfigurationen innerhalb des lokalen Verzeichnisses zu behalten, damit 
+  PureBasic einfach auf verschiedene Computer kopiert werden kann (oder es zum Beispiel von USB-Sticks gestartet werden kann).
+
+@LineBreak
+@LineBreak
+  Beispiel:
+@Code
+  PureBasic.exe Beispiel.pb /PORTABLE
+@EndCode
+
+; == LINUX / MAC ONLY ==
+; a dirty trick: the @formatelse just inverse the previous "ignore text" flag, so we use it here as an else for the @os statement
+@formatelse
+
+  Allgemeine Optionen:
+@FixedFont
+  -v oder --version               zeigt die IDE-Version an und beendet sich
+  -h oder --help                  zeigt eine Beschreibung der Kommandozeilen-Argumente an
+@EndFixedFont
+
+  Optionen für das Starten der IDE:
+@fixedfont
+  -p oder --preferences <Datei>   lädt/speichert alle Einstellungen aus der bzw. in die angegebene Datei.
+  -t oder --templates <Datei>     lädt/speichert alle Code-Bausteine aus der bzw. in die angegebene Datei.
+  -a oder --tools <Datei>         lädt/speichert die Einstellungen der externen Werkzeuge aus dieser bzw. in dieser Datei.
+  -s oder --sourcepath <Pfad>     überschreibt den in den Voreinstellungen eingestellten "Quellcode-Pfad".
+  -e oder --explorerpath <Pfad>   startet das Explorer-Werkzeug mit dem angegebenen Pfad.
+  -l oder --line <Zeilennummer>   setzt den Cursor auf die angegebene Zeilenimmer in der zuletzt geöffneten Datei.
+  -H oder --history <Datei>       gibt die Datei an, welche für die Sitzungsgeschichte-Datenbank verwendet werden soll.
+@endfixedfont
+
+  Optionen für das Erstellen von Projekten:
+@FixedFont
+  -b oder --build <Datei>         gibt die zu erstellende Projekt-Datei an
+  -T oder --target <Ziel>         gibt das zu erstellende Ziel an (der Standard ist das Erstellen aller Ziele)
+  -q oder --quiet                 versteckt alle Erstellungs-Nachrichten außer Fehlermeldungen
+  -r oder --readonly              aktualisiert nicht die die Projekt-Datei nach dem Kompilieren (mit neuer Zugriffszeit und Erstellungszähler)
+@EndFixedFont
+ 
+  Die Standarddateien für -p -t und -a werden gespeichert im .purebasic 
+  Unterverzeichnis Ihres 'Home'-Verzeichnisses.
+
+@formatendif
+; == END OS SPECIFIC ==
+
+@LineBreak
+@LineBreak
+
+  Sie können auch Dateinamen von zu ladenden Quellcode-Dateien auf der Kommandozeile angeben.
+  Sie können sogar Platzhalter für sie verwenden (z.B. können Sie mit "*.pb" ein gesamtes Verzeichnis
+  laden).

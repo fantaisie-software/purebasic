@@ -1,0 +1,735 @@
+;
+;     Terrain library documentation
+;
+;      (c) 2020 - Fantaisie Software
+;
+
+@Library Terrain
+
+@Overview
+  Terrains (Gelände) sind 3D-Szenen im Freien, die eine realistische natürliche
+  Umgebung simulieren, basierend auf vorberechneten 2D-Landkarten. Sie sind
+  in vielen Fällen nützlich, z.B. 3D-Darstellungen von Land, Spiele-Simulationen
+  und mehr.
+@LineBreak
+@LineBreak
+  @@InitEngine3D muss erfolgreich aufgerufen worden sein, bevor die Terrain-Befehle
+  verwendet werden.
+@LineBreak
+@LineBreak
+  Mehrere Terrains werden unterstützt, mit vielen Kacheln (englisch "Tiles") für
+  jedes Terrain, um wirklich riesige Landschaften zu erschaffen.
+
+@CommandList
+
+@ExampleFile All Terrain.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeTerrain(#Terrain)
+
+@Description
+  Gibt ein Terrain und seinen gesamten zugehörigen Speicher frei. Dieses Terrain darf
+  (durch Verwendung seiner Nummer mit anderen Funktionen dieser Bibliothek) nach dem
+  Aufruf dieses Befehls nicht mehr verwendet werden, außer Sie erstellen es erneut.
+
+@Parameter "#Terrain"
+  Das freizugebende Terrain. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen
+  Terrains freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Alle verbleibenden Terrains werden automatisch freigegeben, wenn das Programm endet.
+
+@SeeAlso
+  @@CreateTerrain 
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeTerrainBody(#Terrain)
+
+@Description
+  Gibt den mit dem Terrain verknüpften Körper (englisch "body") frei.
+  
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrainBody
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetupTerrains(LightID, CompositeMapDistanz.f, Flags)
+
+@Description
+  Legt die Standard-Parameter für alle Zukunft geschaffenen Terrains (Gelände) fest.
+
+@Parameter "LightID"
+  Das für das Terrain-Rendering zu verwendende Licht. Um eine gültige Licht-ID zu erhalten,
+  verwenden Sie @@LightID.
+
+@Parameter "CompositeMapDistanz"
+  Der Abstand (in Welt-Einheiten), ab dem - falls vorhanden - mit der Verwendung einer
+  zusammengesetzten Karte (englisch "composite map") begonnen wird.
+
+@Parameter "Flags"
+  Kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Terrain_Lightmap:      aktiviert Licht-"Mapping" (Anzeige) für die Terrains (eine Textur mit
+                             statischen Schatten).
+  @#PB_Terrain_NormalMapping: aktiviert das normale Mapping (Anzeige) für die Terrains. Dies ist eine
+                             spezielle Textur, welche Relief wie kleine Steine, etc. simuliert.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateTerrain(#Terrain, Größe, WeltGröße, Skalierung, AnzLayer, Dateiname$, Endung$)
+
+@Description
+  Erstellt ein neues Terrain (Gelände). @@SetupTerrains muss vorher aufgerufen werden, um
+  die Standard-Parameter für das neue Terrain festzulegen.
+@LineBreak
+@LineBreak
+  Nach der Terrain-Erstellung können neue Kacheln (Tiles) mittels @@DefineTerrainTile
+  definiert und Texturen mit @@AddTerrainTexture hinzugefügt werden. Sobald die
+  Terrain-Definition abgeschlossen ist, muss @@BuildTerrain zum Aufbau des endgültigen
+  Terrains aufgerufen werden.
+
+@Parameter "#Terrain"
+  Die Nummer zum Identifizieren des neuen Terrains. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+  
+@Parameter "Größe"
+  Die Größe des neuen Terrains in Eck-/Scheitelpunkten (englisch "vertices")
+  vermindert um einen Rand / Kante (englisch "down one edge").
+
+@Parameter "WeltGröße"
+  Die Welt-Größe des neuen Terrains.
+
+@Parameter "Skalierung"
+  Der Skalierungsfaktor, welcher auf das neue Terrain angewandt werden soll.
+
+@Parameter "AnzLayer"
+  Die Anzahl an Textur-Layern (Ebenen), die das neue Terrain haben soll. Um einen
+  Textur-Layer hinzuzufügen, verwenden Sie @@AddTerrainTexture.
+
+@Parameter "Dateiname$"
+  Der Dateiname (ohne seine Endung), um die vorberechneten Terrain-Daten zu speichern.
+  Da das Terrain sehr komplex sein und eine Menge an Zeit zur Erstellung benötigen kann,
+  wird ein Cache auf Festplatte geschrieben und automatisch nachgeladen, wenn vorhanden
+  (und nicht veraltet).
+
+@Parameter "Endung$"
+  Die von den Daten-Dateien verwendete Endung.
+
+@ReturnValue
+  Gibt null zurück, wenn das #Terrain nicht erstellt werden konnte. Wenn
+  @ReferenceLink "purebasic_objects" "#PB_Any" als '#Terrain' Parameter verwendet wird,
+  dann wird die neue Terrain-Nummer zurückgegeben.
+
+@SeeAlso
+  @@FreeTerrain, @@SetupTerrains, @@BuildTerrain, @@DefineTerrainTile, @@AddTerrainTexture
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateTerrainBody(#Terrain, Restitution, Reibung)
+
+@Description
+  Fügt dem Terrain (Gelände) einen statischen physischen Körper hinzu. Das ermöglicht physischen
+  Objekten das Kollidieren mit dem Gelände.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "Restitution"
+  Der Restitutions-Faktor. Wenn auf 0.0 eingestellt, wird das Terrain keinerlei Kraft
+  zurückgeben (restituieren), weshalb das kollidierende Objekt auf dem Gelände nicht 
+  abprallt. Wenn auf einen Wert über 0.0 eingestellt, wird das Terrain etwas Kraft
+  zurückgeben, wodurch das kollidierende Objekt beim Aufprallen auf das Gelände abprallt
+  (je höher der Wert, desto mehr wird es abprallen).
+  
+@Parameter "Reibung"
+  Der Reibungs-Faktor. Wenn auf 0.0 eingestellt, wird das kollidierene Objekt auf dem
+  Terrain gleiten/rutschen, ohne dabei Kraft zu verlieren. Wenn auf einen Wert über
+  0.0 eingestellt, wird das kollidierende Objekt beim Kollidieren mit dem Terrain
+  an Geschwindigkeit verlieren (je höher der Wert, desto größer wird der
+  Geschwindigkeitsverlust).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain, @@FreeTerrainBody
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DefineTerrainTile(#Terrain, TileX, TileY, HöhenKarte$, FlipX, FlipY)
+
+@Description
+  Definiert den Inhalt eines Tile (Kachel) im Gelände/Terrain-Raster.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "TileX"
+  Der x-Index des Tile, relativ zum mittleren Tile des Terrains. Das mittlere Tile beginnt
+  bei 0,0. Der Wert kann negativ sein.
+  
+@Parameter "TileY"
+  Der y-Index des Tile, relativ zum mittleren Tile des Terrains. Das mittlere Tile beginnt
+  bei 0,0. Der Wert kann negativ sein.
+
+@Parameter "HöhenKarte$"
+  Der Name des Bildes mit der Höhenkarte (englisch "height map"), welches auf dieses Tile
+  angewandt werden soll.
+  
+@Parameter "FlipX"
+  Wenn auf @#True gesetzt, wird das Bild horizontal gedreht. Wenn auf @#False gesetzt,
+  wird keine horizontale Drehung ausgeführt.
+
+@Parameter "FlipY"
+  Wenn auf @#True gesetzt, wird das Bild vertikal gedreht. Wenn auf @#False gesetzt,
+  wird keine vertikale Drehung ausgeführt.
+
+@ReturnValue
+  Gibt null zurück, wenn das #Terrain nicht erstellt werden konnte
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddTerrainTexture(#Terrain, Layer, WeltGröße, DiffusSpiegelnd$, NormaleHöhe$)
+
+@Description
+  Fügt eine Textur zum #Terrain hinzu.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "Layer"
+  Der Index des Layer (der Ebene), auf welche die Textur angewandt werden soll. Der Index
+  des ersten Layers beginnt bei 0. Die maximale Zahl an Layern wird beim Erstellen des
+  Terrain definiert, siehe hierfür @@CreateTerrain.
+  
+@Parameter "WeltGröße"
+  Die Welt-Größe der hinzugefügten Textur.
+
+@Parameter "DiffusSpiegelnd$"
+  Der Name des Bildes mit der diffus spiegelnden Karte (englisch "diffuse specular map"),
+  welche auf diesen Layer angewandt werden soll.
+  
+@Parameter "NormaleHöhe$"
+  Der Name des Bildes mit der Karte normaler Höhe (englisch "normal height map"),
+  welche auf diesen Layer angewandt werden soll.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BuildTerrain(#Terrain)
+
+@Description
+  Erstellt ("baut") das Terrain. Vor dem Aufbau eines Terrains (Geländes), müssen Tiles
+  (Kacheln) mittels @@DefineTerrainTile definiert werden, und Texturen mit
+  @@AddTerrainTexture hinzugefügt werden.
+
+@Parameter "#Terrain"
+  Das zu erstellende Terrain.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile, @@AddTerrainTexture
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TerrainLocate(#Terrain, x, y, z)
+
+@Description
+  Ändert die absolute Position des Terrains (Geländes) in der Welt.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "x"
+  Die neue absolute 'x' Position in der Welt (in Welt-Einheiten).
+
+@Parameter "y"
+  Die neue absolute 'y' Position in der Welt (in Welt-Einheiten).
+
+@Parameter "z"
+  Die neue absolute 'z' Position in der Welt (in Welt-Einheiten).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = TerrainHeight(#Terrain, x, z)
+
+@Description
+  Ermittelt die Höhe des Terrains (Geländes) an der angegebenen Position in der Welt.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "x"
+  Die 'x' Position in der Welt (in Welt-Einheiten), um die Terrain-Höhe zu ermitteln.
+
+@Parameter "z"
+  Die 'z' Position in der Welt (in Welt-Einheiten), um die Terrain-Höhe zu ermitteln.
+
+@ReturnValue
+  Gibt die Terrain-Höhe (in Welt-Einheiten) an der angegebenen Position zurück.
+  Wenn das Terrain an dieser Position nicht gefunden wird, dann wird das Ergebnis null sein.
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = TerrainTileHeightAtPosition(#Terrain, TileX, TileY, Layer, x, y)
+
+@Description
+  Gibt die Höhe des Terrain-Tile (Kachel im Gelände) an den angegebenen Koordinaten zurück.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "TileX"
+  Der 'x' Index des Tile (Kachels).
+
+@Parameter "TileY"
+  Der 'y' Index des Tile (Kachels).
+
+@Parameter "Layer"
+  Der Index des Layers (der Ebene). Der Index des ersten Layers beginnt bei 0. Die maximale
+  Zahl an Layern wird beim Erstellen des Terrain definiert, siehe hierfür @@CreateTerrain.
+
+@Parameter "x"
+  Die 'x' Position im Tile (in Pixel), um die Terrain-Höhe zu ermitteln.
+
+@Parameter "y"
+  Die 'y' Position im Tile (in Pixel), um die Terrain-Höhe zu ermitteln.
+
+@ReturnValue
+  Gibt die Höhe des Terrain-Tile (in Welt-Einheiten) an den angegebenen Koordinaten zurück.
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = TerrainTilePointX(#Terrain, TileX, TileY, x, y, z)
+
+@Description
+  Gibt die 'x' Position des Punktes im Terrain-Tile (Kachel im Gelände) zurück.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "TileX"
+  Der 'x' Index des Tile (Kachels).
+
+@Parameter "TileY"
+  Der 'y' Index des Tile (Kachels).
+
+@Parameter "x"
+  Die 'x' Position des Punktes in der Welt (in Welt-Einheiten).
+
+@Parameter "y"
+  Die 'y' Position des Punktes in der Welt (in Welt-Einheiten).
+
+@Parameter "z"
+  Die 'z' Position des Punktes in der Welt (in Welt-Einheiten).
+
+@ReturnValue
+  Gibt die 'x' Position (in Pixel) des Punktes im Terrain-Tile zurück.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = TerrainTilePointY(#Terrain, TileX, TileY, x, y, z)
+
+@Description
+  Gibt die 'y' Position des Punktes im Terrain-Tile (Kachel im Gelände) zurück.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "TileX"
+  Der 'x' Index des Tile (Kachels).
+
+@Parameter "TileY"
+  Der 'y' Index des Tile (Kachels).
+
+@Parameter "x"
+  Die 'x' Position des Punktes in der Welt (in Welt-Einheiten).
+
+@Parameter "y"
+  Die 'y' Position des Punktes in der Welt (in Welt-Einheiten).
+
+@Parameter "z"
+  Die 'z' Position des Punktes in der Welt (in Welt-Einheiten).
+
+@ReturnValue
+  Gibt die 'y' Position des Punktes (in Pixel) im Terrain-Tile zurück.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = TerrainTileSize(#Terrain, TileX, TileY)
+
+@Description
+  Gibt die Größe des Terrain-Tile (Kachel im Gelände) zurück.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "TileX"
+  Der 'x' Index des Tile (Kachels).
+
+@Parameter "TileY"
+  Der 'y' Index des Tile (Kachels).
+
+@ReturnValue
+  Gibt die Größe (in Pixel) des Terrain-Tile zurück. Da ein Tile immer quadratisch ist,
+  ist die Größe gleichzeitig Breite und Höhe des Tile.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetTerrainTileHeightAtPoint(#Terrain, TileX, TileY, x, y)
+
+@Description
+  Gibt die Höhe des Terrain-Tile (Kachel im Gelände) an der angegebenen Position zurück.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "TileX"
+  Der 'x' Index des Tile (Kachels).
+
+@Parameter "TileY"
+  Der 'y' Index des Tile (Kachels).
+
+@Parameter "x"
+  Die 'x' Position im Tile (in Pixel), um die Terrain-Höhe zu ermitteln.
+
+@Parameter "y"
+  Die 'y' Position im Tile (in Pixel), um die Terrain-Höhe zu ermitteln.
+
+@ReturnValue
+  Gibt die Höhe (in Welt-Einheiten) des Terrain-Tile an der angegebenen Position zurück.
+
+@SeeAlso
+  @@CreateTerrain, @@SetTerrainTileHeightAtPoint
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetTerrainTileHeightAtPoint(#Terrain, TileX, TileY, x, y, Höhe)
+
+@Description
+  Legt die Höhe des Terrain-Tile (Kachel im Gelände) an der angegebenen Position fest.
+  Diese Änderung wird nicht sofort sichtbar - @@UpdateTerrain muss aufgerufen werden,
+  sobald alle Änderungen durchgeführt wurden.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "TileX"
+  Der 'x' Index des Tile (Kachels).
+
+@Parameter "TileY"
+  Der 'y' Index des Tile (Kachels).
+
+@Parameter "x"
+  Die 'x' Position im Tile (in Pixel), um die Terrain-Höhe festzulegen.
+
+@Parameter "y"
+  Die 'y' Position im Tile (in Pixel), um die Terrain-Höhe festzulegen.
+
+@Parameter "Height"
+  Die neue Terrain-Höhe (in Welt-Einheiten) an der angegebenen Position im Tile.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain, @@GetTerrainTileHeightAtPoint, @@UpdateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateTerrain(#Terrain)
+
+@Description
+  Aktualisiert das Terrain. Dies ist nötig, nachdem das Terrain mit Befehlen wie
+  @@SetTerrainTileHeightAtPoint verändert wurde.
+
+@Parameter "#Terrain"
+  Das zu aktualisierende Terrain.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain, @@SetTerrainTileHeightAtPoint
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = TerrainTileLayerMapSize(#Terrain, TileX, TileY)
+
+@Description
+  Gibt die Größe des "Blend Map"-Layers vom Terrain zurück.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "TileX"
+  Der 'x' Index des Tile (Kachels).
+
+@Parameter "TileY"
+  Der 'y' Index des Tile (Kachels).
+
+@ReturnValue
+  Gibt die Größe (in Pixel) der "Blend Map" des Terrains zurück.
+  Da ein "Blend Map"-Layer immer quadratisch ist, ist die Größe gleichzeitig Breite
+  und Höhe des "Blend Map"-Layer.
+
+@SeeAlso
+  @@CreateTerrain, @@DefineTerrainTile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetTerrainTileLayerBlend(#Terrain, TileX, TileY, Layer, x, y)
+
+@Description
+  Gibt den "Blend"-Wert des Terrain-Tile-Layers an der angegebenen Position zurück.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "TileX"
+  Der 'x' Index des Tile (Kachels).
+
+@Parameter "TileY"
+  Der 'y' Index des Tile (Kachels).
+
+@Parameter "Layer"
+  Der Index des Layers (der Ebene). Der Index des ersten Layers beginnt bei 0. Die maximale
+  Zahl an Layern wird beim Erstellen des Terrain definiert, siehe hierfür @@CreateTerrain.
+
+@Parameter "x"
+  Die 'x' Position im Tile (in Pixel), um den "Blend"-Wert zu ermitteln.
+
+@Parameter "y"
+  Die 'y' Position im Tile (in Pixel), um den "Blend"-Wert zu ermitteln.
+
+@ReturnValue
+  Gibt den "Blend"-Wert des Terrain-Tile-Layers an der angegebenen Position zurück.
+  Der "Blend"-Wert reicht von 0.0 (völlig transparent) bis zu 1.0 (völlig undurchsichtig).
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetTerrainTileLayerBlend(#Terrain, TileX, TileY, Layer, x, y, Wert)
+
+@Description
+  Ändert den "Blend"-Wert des Terrain-Tile-Layers an der angegebenen Position.
+  Diese Änderung wird nicht sofort sichtbar - @@UpdateTerrainTileLayerBlend muss
+  aufgerufen werden, sobald alle Änderungen durchgeführt wurden.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "TileX"
+  Der 'x' Index des Tile (Kachels).
+
+@Parameter "TileY"
+  Der 'y' Index des Tile (Kachels).
+
+@Parameter "Layer"
+  Der Index des Layers (der Ebene). Der Index des ersten Layers beginnt bei 0. Die maximale
+  Zahl an Layern wird beim Erstellen des Terrain definiert, siehe hierfür @@CreateTerrain.
+
+@Parameter "x"
+  Die 'x' Position im Tile (in Pixel), um den "Blend"-Wert zu ändern.
+
+@Parameter "y"
+  Die 'y' Position im Tile (in Pixel), um den "Blend"-Wert zu ändern.
+
+@Parameter "Wert"
+  Der an der angegebenen Position neu festzulegende "Blend"-Wert des Tiles im Terrain-Layer.
+  Der "Blend"-Wert reicht von 0.0 (völlig transparent) bis zu 1.0 (völlig undurchsichtig).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateTerrainTileLayerBlend(#Terrain, TileX, TileY, Layer)
+
+@Description
+  Aktualisiert den "Blend-Layer" des Terrain-Tiles. Dies ist nötig, nachdem der 
+  "Blend-Wert" des Layers mittels @@SetTerrainTileLayerBlend geändert wurde.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "TileX"
+  Der 'x' Index des Tile (Kachels).
+
+@Parameter "TileY"
+  Der 'y' Index des Tile (Kachels).
+
+@Parameter "Layer"
+  Der Index des Layers (der Ebene), welcher aktualisiert werden soll. Der Index des ersten Layers beginnt bei 0. Die maximale
+  Zahl an Layern wird beim Erstellen des Terrain definiert, siehe hierfür @@CreateTerrain.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateTerrain, @@SetTerrainTileLayerBlend
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = TerrainMousePick(#Terrain, CameraID, x, y)
+
+@Description
+  Simuliert einen Maus-Klick auf dem Terrain (Gelände) am angegebenen 2D-Punkt 'x, y'
+  auf der angegebenen Kamera.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "CameraID"
+  Die zu verwendende Kamera. Um eine gültige CameraID zu erhalten, verwenden Sie @@CameraID.
+  
+@Parameter "x"
+  Die 'x' Position (in Pixel) in der Kamera-Ansicht des Punktes.
+
+@Parameter "y"
+  Die 'y' Position (in Pixel) in der Kamera-Ansicht des Punktes.
+
+@ReturnValue 
+  Wenn das Terrain vom simulierten Maus-Klick getroffen wurde, wird @#True zurückgegeben,
+  andernfalls wird @#False zurückgegeben.
+  Um Informationen über die "Pick"-Position zu erhalten, verwenden Sie @@PickX, @@PickY
+  und @@PickZ.
+
+@SeeAlso
+  @@CreateTerrain, @@CreateCamera
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SaveTerrain(#Terrain, NurGeändert)
+
+@Description
+  Speichert das Terrain auf Festplatte - unter Verwendung des Dateinamens und der Endung,
+  welche bei @@CreateTerrain definiert wurden.
+
+@Parameter "#Terrain"
+  Das zu speichernde Terrain.
+
+@Parameter "NurGeändert"
+  Wenn auf @#True gesetzt, wird das Terrain nur gespeichert, wenn es seit dem letzten
+  Speichern verändert wurde.
+  Wenn auf @#False gesetzt, wird es immer gespeichert.
+
+@NoReturnValue 
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function TerrainRenderMode(#Terrain, Flag)
+
+@Description
+  Ändert die Art und Weise, wie das Terrain "gerendert" (dargestellt) wird.
+
+@Parameter "#Terrain"
+  Das zu verwendende Terrain.
+
+@Parameter "Flag"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Terrain_CastShadows:   aktiviert dynamischen Schattenwurf auf dem Gelände (kann langsam sein).
+  @#PB_Terrain_LowLODShadows: aktiviert Schattenwurf niedriger Qualität (um eine schnellere Darstellung zu haben).
+@EndFixedFont
+
+@NoReturnValue 
+
+@SeeAlso
+  @@CreateTerrain
+  
+@SupportedOS

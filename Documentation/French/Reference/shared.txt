@@ -1,0 +1,46 @@
+@Title Shared
+
+@Syntax
+
+  @Keyword Shared <variable> [, ...] 
+
+@Description
+
+  @Keyword Shared permet de rendre une @ReferenceLink "variables" "variable", un @ReferenceLink "dim" "tableau", une @ReferenceLink "newlist" "liste" 
+  ou une @ReferenceLink "newmap" "map" non @ReferenceLink "global" "global" accessible depuis une @ReferenceLink "procedures" "procédure". Quand @Keyword Shared est utilisé
+  avec un tableau, une liste ou une map, seul le nom suivi de '()' doit être spécifié.
+
+@Example Avec une variable
+
+@Code
+  a = 10
+  
+  Procedure Change()
+    Shared a
+    a = 20 
+  EndProcedure 
+  
+
+  Change()
+  Debug a   ; Affichera 20, car la variable est partagée.
+@EndCode
+
+@LineBreak
+@Example Avec un tableau et une liste
+
+@Code
+  Dim Array(2)
+  NewList List()
+  AddElement(List())
+  
+  Procedure Change()
+    Shared Array(), List()
+    Array(0) = 1
+    List() = 2
+  EndProcedure 
+  
+  Change()
+  Debug Array(0)  ; Affichera 1, car le tableau est partagé.
+  Debug List()    ; Affichera 2, car la liste est partagée.
+@EndCode
+

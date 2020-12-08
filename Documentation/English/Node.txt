@@ -1,0 +1,449 @@
+;
+;     Node library documentation
+;
+;      (c) 2012 - Fantaisie Software
+;
+
+@Library Node
+
+@Overview
+
+Nodes are containers which can be used to group objects like @LibraryLink "entity" "entities", 
+@LibraryLink "sound3d" "sound", @LibraryLink "camera" "camera", @LibraryLink "billboard" billboard and even
+nodes together. Once an object is attached to a node, its position and movement is relative to the node
+position. It allows easy hierarchical object management.
+@LineBreak
+@LineBreak
+@@InitEngine3D must be called successfully before using the node functions.
+
+@CommandList
+
+@ExampleFile All Node.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AttachNodeObject(#Node, ObjectID)
+
+@Description
+
+  Attachs an existing object to a node.
+  
+@Parameter "#Node"
+  The node to use.
+
+@Parameter "ObjectID"
+  The object to attach. The supported objects are the followings:
+@FixedFont
+  - Entity : use @@EntityID as 'ObjectID'.
+  - Sound3D: use @@SoundID3D as 'ObjectID'.
+  - Camera : use @@CameraID as 'ObjectID'.
+  - Light  : use @@LightID as 'ObjectID'.
+  - Node   : use @@NodeID as 'ObjectID'.
+  - Mesh   : use @@MeshID as 'ObjectID' (supported only if #PB_Mesh_Dynamic flag is set).
+  - BillboardGroup : use @@BillboardGroupID as 'ObjectID'.
+  - ParticleEmitter: use @@ParticleEmitterID as 'ObjectID'.
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  An object can be detached from a node with @@DetachNodeObject.
+
+@SeeAlso
+  @@DetachNodeObject
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DetachNodeObject(#Node, ObjectID)
+
+@Description
+
+  Detachs a previously attached object from a node.
+  
+@Parameter "#Node"
+  The node to use.
+
+@Parameter "ObjectID"
+  The object to detach. The supported objects are the followings:
+@FixedFont
+  - Entity : use @@EntityID as 'ObjectID'.
+  - Sound3D: use @@SoundID3D as 'ObjectID'.
+  - Camera : use @@CameraID as 'ObjectID'.
+  - Node   : use @@NodeID as 'ObjectID'.
+  - BillboardGroup : use @@BillboardGroupID as 'ObjectID'.
+  - ParticleEmitter: use @@ParticleEmitterID as 'ObjectID'.
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  An object can be attached to a node with @@AttachNodeObject.
+
+@SeeAlso
+  @@AttachNodeObject
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateNode(#Node [, x, y, z])
+
+@Description
+
+  Creates a new node at the specified position.
+  
+@Parameter "#Node"
+  A number to identify the new node.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@OptionalParameter "x, y, z"
+  The absolute position in the world of the new node. 
+  By default the new node is created at position "0, 0, 0".
+
+@ReturnValue
+  Nonzero if the node was successfully created, zero otherwise. If @#PB_Any was used
+  for the #Node parameter then the generated number is returned on success.
+  
+@SeeAlso
+  @@FreeNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NodeID = NodeID(#Node)
+
+@Description
+  Returns the unique system identifier of the node.
+
+@Parameter "#Node"
+  The node to use.
+
+@ReturnValue
+  Returns the unique system identifier of the node.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NodeLookAt(#Node, x, y, z [, DirectionX, DirectionY, DirectionZ])
+
+@Description
+  The point (in world unit) that a node is facing.
+  The position of the node is not changed.
+
+@Parameter "#Node"
+  The node to use.
+
+@Parameter "x, y, z"
+  The position (in world unit) to point the node at.
+
+@OptionalParameter "DirectionX, DirectionY, DirectionZ"
+  The vector direction of the node (values between -1.0 and 1.0).
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NodeX(#Node [, Mode])
+
+@Description
+  Returns the 'x' position of the node in the world.
+
+@Parameter "#Node"
+  The node to use.
+
+@OptionalParameter "Mode"
+  The mode to get the 'x' position. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'x' position of the node in the world (default).
+  @#PB_Relative: get the 'x' position of the node relative to its parent.
+@EndFixedFont  
+  
+@ReturnValue
+  The 'x' position of the node in the world.
+
+@SeeAlso
+  @@NodeY, @@NodeZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NodeY(#Node [, Mode])
+
+@Description
+  Returns the 'y' position of the node in the world.
+
+@Parameter "#Node"
+  The node to use.
+  
+@OptionalParameter "Mode"
+  The mode to get the 'y' position. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'y' position of the node in the world (default).
+  @#PB_Relative: get the 'y' position of the node relative to its parent.
+@EndFixedFont  
+
+@ReturnValue
+  The 'y' position of the node in the world.
+
+@SeeAlso
+  @@NodeX, @@NodeZ
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NodeZ(#Node [, Mode])
+
+@Description
+  Returns the 'z' position of the node in the world.
+
+@Parameter "#Node"
+  The node to use.
+
+@OptionalParameter "Mode"
+  The mode to get the 'z' position. It can be one of the following value:
+@FixedFont
+  @#PB_Absolute: get the absolute 'z' position of the node in the world (default).
+  @#PB_Relative: get the 'z' position of the node relative to its parent.
+@EndFixedFont
+
+@ReturnValue
+  The 'z' position of the node in the world.
+
+@SeeAlso
+  @@NodeX, @@NodeY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeNode(#Node)
+
+@Description
+  Frees the specified #Node created with @@CreateNode before.
+  All its associated memory is released and this object can't be used anymore. The attached objects are not freed automatically,
+  and can be re-used.
+  
+@Parameter "#Node"  
+  The node to free. If @#PB_All is specified, all the remaining nodes are freed.
+  
+@NoReturnValue
+
+@Remarks
+  All remaining nodes are automatically freed when the program ends.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsNode(#Node)
+
+@Description
+  Tests if the given node is valid and correctly initialized. 
+
+@Parameter "#Node"
+  The node to test.
+
+@ReturnValue
+  Nonzero if the node is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a node is ready to use.
+
+@SeeAlso
+  @@CreateNode
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveNode(#Node, x, y, z [, Mode])
+
+@Description
+  Move the specified node.
+
+@Parameter "#Node"
+  The node to move.
+
+@Parameter "x, y, z"  
+  The new position of the node.
+
+@OptionalParameter "Mode"
+  The move mode. It can be one of the following values:
+@FixedFont
+  @#PB_Relative: relative move, from the current node position (default).
+  @#PB_Absolute: absolute move to the specified position.
+@EndFixedFont
+  combined with one of the following values:
+@FixedFont
+  @#PB_Local : local move.
+  @#PB_Parent: move relative to the parent position.
+  @#PB_World : move relative to the world.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@RotateNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateNode(#Node, x, y, z [, Mode])
+
+@Description
+
+  Rotates the node according to the specified x,y,z angle values.
+
+@Parameter "#Node"
+  The node to rotate.
+
+@Parameter "x, y, z"  
+  The new rotation to apply to the node. Values are in degree, 
+  ranging from 0 to 360.
+
+@OptionalParameter "Mode"
+  The rotate mode. It can be one of the following values:
+@FixedFont
+  @#PB_Absolute: absolute rotation (default).
+  @#PB_Relative: relative rotation based on the previous node rotation.  
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@MoveNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleNode(#Node, x, y, z [, Mode])
+
+@Description
+  Scales the node according to the specified x,y,z values. When using @#PB_Relative mode,
+  this is a factor based scale which means the node size will be multiplied with the 
+  given value to obtain the new size.
+
+@Parameter "#Node"
+  The node to use.
+ 
+@Parameter "x, y, z"
+  The scale values.
+
+@OptionalParameter "Mode"
+ The scale mode. It can be one of the following value:
+@FixedFont
+  @#PB_Relative: relative scale, based on the previous size (default). Using 1.0 for scale value will let this value unchanged.
+  @#PB_Absolute: absolute scale, in world unit.
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NodeFixedYawAxis(#Node, Enable [, VectorX, VectorY, VectorZ])
+
+@Description
+  Change the fixed yaw axis of the node. The default behaviour of a node is to yaw around its own Y axis.
+
+@Parameter "#Node"
+  The node to use.
+
+@Parameter "Enable"
+  Enable or disable the use of a custom yaw axis. If set to @#True, a new axis vector has to be specified.
+  If set to @#False, the node will yaw around its own Y axis.
+
+@OptionalParameter "VectorX, VectorY, VectorZ"
+  Vector direction of the new yaw axis (values between -1.0 and 1.0). 'Enable' parameter has to be set to @#True to have any effect.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NodeRoll(#Node [, Mode])
+
+@Description
+  Get the roll of the #Node.
+
+@Parameter "#Node"
+  The node to use.
+
+@OptionalParameter "Mode"
+  The mode to get the roll. It can be one of the following value:
+@FixedFont
+  @#True : the roll is the raw value, but it can't be used in @@RotateNode to get back the same orientation (default).
+  @#False: the roll is adjusted, so it can be put back in @@RotateNode to get back the same orientation.
+@EndFixedFont
+
+@ReturnValue
+  The current roll value of the node.
+
+@SeeAlso
+  @@NodeYaw, @@NodePitch
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NodePitch(#Node [, Mode])
+
+@Description
+  Get the pitch of the #Node.
+
+@Parameter "#Node"
+  The node to use.
+
+@OptionalParameter "Mode"
+  The mode to get the pitch. It can be one of the following value:
+@FixedFont
+  @#True : the pitch is adjusted, so it can put back in @@RotateNode to get back the same orientation (default).
+  @#False: the pitch is the raw value, but it can't be used in @@RotateNode to get back the same orientation.
+@EndFixedFont
+
+@ReturnValue
+  The current pitch value of the node.
+
+@SeeAlso
+  @@NodeYaw, @@NodeRoll
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NodeYaw(#Node [, Mode])
+
+@Description
+  Get the yaw of the #Node.
+
+@Parameter "#Node"
+  The node to use.
+
+@OptionalParameter "Mode"
+  The mode to get the yaw. It can be one of the following value:
+@FixedFont
+  @#True : the yaw is adjusted, so it can put back in @@RotateNode to get back the same orientation (default).
+  @#False: the yaw is the raw value, but it can't be used in @@RotateNode to get back the same orientation.
+@EndFixedFont
+
+@ReturnValue
+  The current yaw value of the node.
+
+@SeeAlso
+  @@NodePitch, @@NodeRoll
+  
+@SupportedOS

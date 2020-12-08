@@ -1,0 +1,794 @@
+;
+;     Image library documentation
+;
+;      (c) 2017 - Fantaisie Software
+;
+
+@Library Image
+
+@Overview
+  Images are graphics objects which can be displayed in a window or in several gadgets.
+  PureBasic supports beside BMP and ICON (.ico, Windows only) image types all other image types,
+  which are supported by the @LibraryLink "ImagePlugin" "ImagePlugin Library".
+@LineBreak
+@LineBreak
+  Transparent PNG images can be used to enable transparency in the @LibraryLink "Gadget" "gadgets", 
+  @LibraryLink "menu" "menu" and @LibraryLink "Toolbar" "toolbars" images. On Windows, transparent 
+  ICON images can be used as well but PNG should be preferred as it works on all platforms.
+  Transparency of BMP images is not supported.
+
+@CommandList
+
+@ExampleFile All Image.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AddImageFrame(#Image [, Index])
+
+@Description
+  Adds a new frame to the specified image. The new frame will have the same dimension and depth
+  like the image.
+
+@Parameter "#Image"
+  The image to add a frame.
+
+@OptionalParameter "Index"
+  The index (starting from 0) to insert the frame. If not specified the new frame will be added at the
+  end of the frame list.
+
+@ReturnValue
+  Returns nonzero if the new frame has been successfully created, zero otherwise.
+
+@SeeAlso
+  @@CreateImage, @@RemoveImageFrame, @@ImageFrameCount, @@SetImageFrame, @@GetImageFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RemoveImageFrame(#Image, Index)
+
+@Description
+  Removes the specified frame from the image.
+
+@Parameter "#Image"
+  The image to remove a frame.
+
+@Parameter "Index"
+  The index (starting from 0) of the frame to remove. 
+
+@ReturnValue
+  Returns nonzero if the frame has been successfully removed, zero otherwise.
+
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@ImageFrameCount, @@SetImageFrame, @@GetImageFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Index = GetImageFrame(#Image)
+
+@Description
+  Gets the current frame index of the image.
+
+@Parameter "#Image"
+  The image to use.
+
+@ReturnValue
+  The current frame index (starting from 0).
+  If the image is not multi-frame, it will always return 0.
+
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, @@ImageFrameCount, @@GetImageFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetImageFrame(#Image, Index)
+
+@Description
+  Changes the current frame of the image. If the image is not multi-frame, this function has no effect.
+  @@ImageOutput, @@ImageVectorOutput, @@CopyImage and @@GrabImage works on the current frame.
+
+@Parameter "#Image"
+  The image to use.
+
+@Parameter "Index"
+  The index (starting from 0) of the frame to set as current. 
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, @@ImageFrameCount, @@GetImageFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ImageFrameCount(#Image)
+
+@Description
+  Returns the number of frames of the image. 
+
+@Parameter "#Image"
+  The image to get the frame count.
+
+@ReturnValue
+  Returns the frame count of the image.
+  If the image is not multi-frame, it will always return 1.
+  
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, @@SetImageFrame, @@GetImageFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetImageFrameDelay(#Image)
+
+@Description
+  Returns the display delay (in millisecond) for the current image frame. Each frame can have its own
+  delay.
+
+@Parameter "#Image"
+  The image to get the frame delay.
+
+@ReturnValue
+  Returns the display delay (in millisecond) for the current image frame.
+  
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, @@SetImageFrame, @@GetImageFrame, @@SetImageFrameDelay
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SetImageFrameDelay(#Image, Delay)
+
+@Description
+  Sets the display delay (in millisecond) for the current image frame. Each frame can have its own
+  delay.
+
+@Parameter "#Image"
+  The image to set the frame delay.
+
+@ReturnValue
+  Sets the display delay (in millisecond) for the current image frame.
+  
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, @@SetImageFrame, @@GetImageFrame, @@GetImageFrameDelay
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CatchImage(#Image, *MemoryAddress [, Size])
+
+@Description
+  Load the specified image from the given memory area. 
+
+@Parameter "#Image"
+  A number to identify the loaded image. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be specified to auto-generate this number.
+
+@Parameter "*MemoryAddress"
+  The memory address from which to load the image.
+
+@OptionalParameter "Size"
+  The size of the image in bytes. The size is optional as the loader can determine from the image when to 
+  stop reading. It is however advisable to provide a size when loading unknown images, as the loader can then handle
+  corrupted images correctly (without specifying the image size, a corrupt image can crash the program).
+
+@ReturnValue
+  Returns nonzero if the image was loaded successfully and zero if the image could not be loaded.
+  If @#PB_Any was specified as the #Image parameter then the auto-generated number is returned on success.
+
+@Remarks
+  The limit for the image size that can be handled depends on the operating system and the available amount of memory.
+  If enough memory is available, then images up to at least 8192x8192 pixel can be handled by all operating systems supported by PureBasic.
+@LineBreak
+@LineBreak
+  When an image is loaded, it is converted either in 24-bit (if the image depth
+  is less or equal to 24-bit) or in 32-bit (if the image has an alpha-channel).
+  A loaded image can be freed by using the @@FreeImage function.
+@LineBreak
+@LineBreak
+  This function is useful when using the @ReferenceLink "includes" "'IncludeBinary'" PureBasic keyword. Then images can be packed inside
+  the executable. Nevertheless, use this option with care, as it will take
+  more memory than storing the file in an external file (the file are both in
+  executable memory and load in physical memory).
+@LineBreak
+@LineBreak
+  The image can be in BMP, icon (.ico, only on Windows) or any other format supported by the ImagePlugin library.
+  Transparency of BMP images is not supported.
+  The following functions can be used to enable automatically more image formats:
+@LineBreak
+@LineBreak
+  @@UseJPEGImageDecoder @LineBreak
+  @@UseJPEG2000ImageDecoder @LineBreak
+  @@UsePNGImageDecoder @LineBreak
+  @@UseTIFFImageDecoder @LineBreak
+  @@UseTGAImageDecoder @LineBreak
+  @@UseGIFImageDecoder @LineBreak
+  
+@Example
+@Code
+  CatchImage(0, ?Logo)
+  End
+
+  DataSection
+    Logo: 
+      IncludeBinary "Logo.bmp"
+  EndDataSection
+@EndCode
+  Note: The "?" is a pointer to a label. More information about pointers and memory access can be found
+  in the relating chapter @ReferenceLink "memory" "here". 
+
+@SeeAlso
+  @@CreateImage, @@LoadImage, @@FreeImage,
+  @LibraryLink "ImagePlugin" "ImagePlugin library"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CopyImage(#Image1, #Image2)
+
+@Description
+  Creates an identical copy of an image. If the image is multi-frame, the current frame will be used
+  for the copy.
+
+@Parameter "#Image1"
+  The source image.
+
+@Parameter "#Image2"
+  A number to identify the new copy. @ReferenceLink "purebasic_objects" "#PB_Any" can be specified to
+  auto-generate this number.
+@LineBreak
+@LineBreak
+  Note: The number of an existing image created using @#PB_Any can not be used as the target image.
+  Instead, the existing image must be freed and a new number generated by passing @#PB_Any here.
+
+@ReturnValue
+  Returns nonzero if the image was copied successfully and zero if the copy could not be created.
+  If @#PB_Any was specified as the #Image2 parameter then the auto-generated number is returned on success.
+
+@SeeAlso
+  @@GrabImage, @@FreeImage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateImage(#Image, Width, Height [, Depth [, BackColor]])
+
+@Description
+  Create an empty image (with black background) which can be used to do rendering on it.
+
+@Parameter "#Image"
+  A number to identify the new image. @ReferenceLink "purebasic_objects" "#PB_Any" can be specified to
+  auto-generate this number.
+
+@Parameter "Width, Height"
+  The dimensions of the new image. Both the width and height must be greater than zero.
+
+@OptionalParameter "Depth"
+  The color depth for the new image.
+  Valid values can be: 24 and 32. The default is 24-bit if no depth is specified.
+
+@OptionalParameter "BackColor"
+  The back @@RGB color used when the image is created. This color can be set to @#PB_Image_Transparent to create an image with the 
+  alpha channel set to full transparent. This only has an effect on 32-bit images. The default
+  backcolor is black if not specified.
+
+@ReturnValue
+  Returns nonzero if the image was created successfully and zero if the image could not be created.
+  If @#PB_Any was specified as the #Image parameter then the auto-generated number is returned on success.
+
+@Remarks
+  The limit for the image size that can be handled depends on the operating system and the available amount of memory.
+  If enough memory is available, then images up to at least 8192x8192 are can be handled by all operating systems supported by PureBasic.
+@LineBreak
+@LineBreak
+  You can use the several other functions for acting with the created image:
+@LineBreak
+  @@StartDrawing with @@ImageOutput to draw on the created image
+@LineBreak
+  @@StartVectorDrawing with @@ImageVectorOutput to draw on the created image using vector drawing
+@LineBreak
+  @@CopyImage to create another image from the actual one
+@LineBreak
+  @@GrabImage to create another image from a given area of the actual one
+@LineBreak
+  @@DrawImage with @@ImageID to draw the image on actual output channel.
+@LineBreak
+  @@ImageGadget for displaying image on an application window
+@LineBreak
+  @@ButtonImageGadget for creating an image button on an application window
+
+@SeeAlso
+  @@LoadImage, @@CatchImage, @@FreeImage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Buffer = EncodeImage(#Image [, ImagePlugin [, Flags [, Depth]]])
+
+@Description
+  Encode the specified image into a memory buffer. 
+
+@Parameter "#Image"
+  The image to encode.
+
+@OptionalParameter "ImagePlugin"
+  The format to encode the image in. This can be one of the following values:
+@FixedFont
+  @#PB_ImagePlugin_BMP      : encode the image in BMP (default)
+  @#PB_ImagePlugin_JPEG     : encode the image in JPEG (@@UseJPEGImageEncoder has to be used)
+  @#PB_ImagePlugin_JPEG2000 : encode the image in JPEG2000 (@@UseJPEG2000ImageEncoder has to be used)
+  @#PB_ImagePlugin_PNG      : encode the image in PNG (@@UsePNGImageEncoder has to be used)
+@EndFixedFont
+
+@OptionalParameter "Flags"
+  Parameters for the image plug-in. For now, only the quality setting is supported:
+  a number from 0 (worse quality) to 10 (maximum quality). Only the JPEG and JPEG 2000 plugins currently support it (default
+  quality is set to '7' if no flags are specified).
+@LineBreak
+@LineBreak
+  When an image is encoded using palletized depth (1, 4 or 8), the following
+  flag is available for combination:
+@FixedFont
+  @#PB_Image_FloydSteinberg: Apply a Floyd-Steinberg dithering.
+@EndFixedFont
+
+@OptionalParameter "Depth"
+  The depth in which to save the image. Valid values are 1, 4, 8, 24 and 32.
+  The default value is the original image depth. 
+  For now, only PNG encoder support palletized image format (1, 4 or 8-bit).
+
+@ReturnValue
+  Returns a @ReferenceLink "memory" "pointer" to a newly allocated memory buffer containing the encoded image, or zero if the encoding has failed.
+  @@MemorySize can be used to get the size of the encoded image. @@FreeMemory has to be used to free the buffer
+  after use.
+
+@SeeAlso 
+  @@LoadImage,
+  @LibraryLink "ImagePlugin" "ImagePlugin library"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeImage(#Image)
+
+@Description
+  Free the specified image and release its associated memory.
+
+@Parameter "#Image"
+  The image to free. If @#PB_All is specified, all the remaining images are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining images are automatically freed when the program ends.
+  
+@SeeAlso
+  @@CreateImage, @@LoadImage, @@CatchImage, @@CopyImage, @@GrabImage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GrabImage(#Image1, #Image2, x, y, Width, Height)
+
+@Description
+  Create a new image with the selected area on the source image.
+  If the image is multi-frame, the current frame will be used for the grab.
+
+@Parameter "#Image1"
+  The source image.
+
+@Parameter "#Image2"
+  A number to identify the new image. @ReferenceLink "purebasic_objects" "#PB_Any" can be specified to
+  auto-generate this number.
+@LineBreak
+@LineBreak
+  Note: The number of an existing image created using @#PB_Any can not be used as the target image.
+  Instead, the existing image must be freed and a new number generated by passing @#PB_Any here.
+
+@Parameter "x, y, Width, Height"
+  The location and size of the area to copy into the new image.
+  
+@ReturnValue
+  Returns nonzero if the image was created successfully and zero if the image could not be created.
+  If @#PB_Any was specified as the #Image2 parameter then the auto-generated number is returned on success.
+
+@SeeAlso
+  @@CreateImage, @@LoadImage, @@CatchImage, @@CopyImage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ImageDepth(#Image [, Flags])
+
+@Description
+  Returns the depth of the #Image, as it is stored internally by PureBasic.
+
+@Parameter "#Image"
+  The image to use.
+
+@OptionalParameter "Flags"
+  The kind of depth to return. It can be one of the following values:
+@FixedFont
+  @#PB_Image_InternalDepth: Returns the depth of the decoded image (default). Valid return values are:
+                                    - 24 (24-bit, 16 millions colors)
+                                    - 32 (32-bit, 16 millions colors + 8-bit alpha channel)
+  @#PB_Image_OriginalDepth: Returns the original depth, as it was before the decoding. Valid return values are:
+                                    - 1 (1-bit, 2 colors, monochrome image)
+                                    - 4 (4-bit, 16 colors)
+                                    - 8 (8-bit, 256 colors)
+                                    - 16 (16-bit, 65536 colors)
+                                    - 24 (24-bit, 16 millions colors)
+                                    - 32 (32-bit, 16 millions colors + 8-bit alpha channel)
+@EndFixedFont
+
+@ReturnValue
+  Returns one of the possible depth values described above.
+
+@Remarks
+  When loading an image, PureBasic converts it either in 24-bit or in 32-bit, depending
+  if the source image got an alpha-channel or not. Every image which has a 
+  depth less than 24-bit will be internally converted to 24-bit.
+
+@SeeAlso
+  @@ImageWidth, @@ImageHeight
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ImageFormat(#Image)
+
+@Description
+  Return the original image format. 
+
+@Parameter "#Image"
+  The image to use.
+
+@ReturnValue
+  Returns the image original format. It can be one of the following value:
+@FixedFont  
+  @#PB_ImagePlugin_JPEG
+  @#PB_ImagePlugin_JPEG2000
+  @#PB_ImagePlugin_PNG
+  @#PB_ImagePlugin_TGA
+  @#PB_ImagePlugin_TIFF
+  @#PB_ImagePlugin_BMP
+  @#PB_ImagePlugin_ICON
+  @#PB_ImagePlugin_GIF
+@EndFixedFont
+  If the image was not loaded from one of this format, it will return zero. This is the case for images created with
+  @@CreateImage or @@GrabImage.
+
+@SeeAlso  
+  @@LoadImage, @@CreateImage, @@CatchImage, @@GrabImage,
+  @LibraryLink "ImagePlugin" "ImagePlugin library"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ImageHeight(#Image) 
+
+@Description
+  Returns the height of the given image.
+
+@Parameter "#Image"
+  The image to use.
+
+@ReturnValue
+  Returns the height of the image in pixels.
+
+@SeeAlso
+  @@ImageWidth, @@ImageDepth  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ImageID(#Image)
+
+@Description
+  Returns the ImageID of the image.
+
+@Parameter "#Image"
+  The image to use.
+
+@ReturnValue
+  Returns the operating system @ReferenceLink "handles" "handle" of the image.
+
+@SeeAlso
+  @@DrawImage,
+  @@ImageGadget,
+  @@ButtonImageGadget,
+  @@CanvasGadget
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OutputID = ImageOutput(#Image)
+
+@Description
+  Returns the OutputID of the image to perform @LibraryLink "2ddrawing" "2D rendering operation" on it.
+  Alternatively, the @@ImageVectorOutput command can be used to perform vector drawing on the image.
+  If the image is multi-frame, the current frame will be used.
+
+
+@Parameter "#Image"
+  The image to draw on.
+
+@ReturnValue
+  Returns the output ID or zero if drawing is not possible. This value should be passed directly to the
+  @@StartDrawing function to start the drawing operation. The return-value
+  is valid only for one drawing operation and cannot be reused.
+
+@Example
+@Code
+  StartDrawing(ImageOutput(#Image))
+    ; do some drawing stuff here...
+  StopDrawing()
+@EndCode
+
+@Remarks
+  This command cannot be used with loaded icon files (*.ico).
+
+@SeeAlso
+  @@StartDrawing, @@ImageVectorOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorOutputID = ImageVectorOutput(#Image [, Unit])
+
+@Description
+  Returns the OutputID of the image to perform @LibraryLink "vectordrawing" "2D vector drawing operations" on it. 
+  If the image is multi-frame, the current frame will be used.
+
+@Parameter "#Image"
+  The image to draw on.
+  
+@OptionalParameter "Unit"
+  Specifies the unit used for measuring distances on the drawing output. 
+  The default unit for images is @#PB_Unit_Pixel.
+@FixedFont
+  @#PB_Unit_Pixel     : Values are measured in pixels (or dots in case of a printer)
+  @#PB_Unit_Point     : Values are measured in points (1/72 inch)
+  @#PB_Unit_Inch      : Values are measured in inches
+  @#PB_Unit_Millimeter: Values are measured in millimeters
+@EndFixedFont
+
+@ReturnValue
+  Returns the output ID or zero if drawing is not possible. This value should be passed directly to the
+  @@StartVectorDrawing function to start the drawing operation. The return-value
+  is valid only for one drawing operation and cannot be reused.
+
+@Example
+@Code
+  StartVectorDrawing(ImageVectorOutput(#Image, #PB_Unit_Millimeter))
+    ; do some drawing stuff here...
+  StopVectorDrawing()
+@EndCode
+
+@Remarks
+  This command cannot be used with loaded icon files (*.ico).
+
+@SeeAlso
+  @@StartVectorDrawing, @@ImageOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ImageWidth(#Image)
+
+@Description
+  Returns the width of the given image.
+
+@Parameter "#Image"
+  The image to use.
+
+@ReturnValue
+  Returns the width of the image in pixels.
+
+@SeeAlso
+  @@ImageHeight, @@ImageDepth
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsImage(#Image)
+
+@Description
+  Tests if the given image number is a valid and correctly initialized image. 
+
+@Parameter "#Image"
+  The image to test.
+
+@ReturnValue
+  Returns nonzero if #Image is a valid image and zero if not.
+
+@Remarks
+  This function is bulletproof and can be used with any value. 
+  This is the correct way to ensure an image is ready to use.
+
+@SeeAlso
+  @@CreateImage, @@LoadImage, @@CatchImage, @@CopyImage, @@GrabImage  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LoadImage(#Image, Filename$ [, Flags])
+
+@Description
+  Load the specified image from a file. 
+
+@Parameter "#Image"
+  A number to identify the loaded image. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be specified to auto-generate this number.
+
+@Parameter "Filename$"
+  The name of the file to load. If the filename does not include a full path, it
+  is interpreted relative to the @Link "FileSystem/GetCurrentDirectory" "current directory".
+
+@OptionalParameter "Flags"
+  This parameter currently has no meaning. If it is specified, 0 should be used for future compatibility.
+
+@ReturnValue
+  Returns nonzero if the image was loaded successfully and zero if the image could not be loaded.
+  If @#PB_Any was specified as the #Image parameter then the auto-generated number is returned on success.
+
+@Remarks
+  The limit for the image size that can be handled depends on the operating system and the available amount of memory.
+  If enough memory is available, then images up to at least 8192x8192 are can be handled by all operating systems supported by PureBasic.
+@LineBreak
+@LineBreak
+  When an image is loaded, it is converted either in 24-bit (if the image depth
+  is less or equal to 24-bit) or in 32-bit (if the image has an alpha-channel).
+  A loaded image can be freed by using the @@FreeImage function.
+@LineBreak
+@LineBreak
+  The image can be in BMP, icon (.ico, only on Windows) or any other format supported by the ImagePlugin library.
+  Transparency of BMP images is not supported.
+  The following functions can be used to enable automatically more image formats:
+@LineBreak
+@LineBreak
+  @@UseJPEGImageDecoder @LineBreak
+  @@UseJPEG2000ImageDecoder @LineBreak
+  @@UsePNGImageDecoder @LineBreak
+  @@UseTIFFImageDecoder @LineBreak
+  @@UseTGAImageDecoder @LineBreak
+  @@UseGIFImageDecoder @LineBreak
+@LineBreak
+  You can use the several other functions for acting with the loaded image:
+@LineBreak
+  @@StartDrawing with @@ImageOutput to draw on the loaded image
+@LineBreak
+  @@StartVectorDrawing with @@ImageVectorOutput to draw on the created image using vector drawing
+@LineBreak
+  @@CopyImage to create another image from the actual one
+@LineBreak
+  @@GrabImage to create another image from a given area of the actual one
+@LineBreak
+  @@DrawImage with @@ImageID to draw the image on actual output channel.
+@LineBreak
+  @@DrawAlphaImage with @@ImageID to draw the image (with alpha channel) on actual output channel.
+@LineBreak
+  @@ImageGadget for displaying image on an application window
+@LineBreak
+  @@ButtonImageGadget for creating an image button on an application window
+
+@SeeAlso
+  @@CreateImage, @@CatchImage, @@CopyImage, @@GrabImage,
+  @LibraryLink "ImagePlugin" "ImagePlugin library"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ResizeImage(#Image, Width, Height [, Mode])
+
+@Description  
+  Resize the #Image to the given dimension.
+
+@Parameter "#Image"
+  The image to resize.
+
+@Parameter "Width, Height"
+  The new dimensions of the image. Both width and height must be greater than zero.
+  @#PB_Ignore can be specified for width or height, so this value won't be changed.
+
+@OptionalParameter "Mode"
+  The resize method. It can be one of the following values:
+@FixedFont
+  @#PB_Image_Smooth: Resize the image with smoothing (default).
+  @#PB_Image_Raw   : Resize the image without any interpolation.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the operation succeeded and zero if it failed.
+
+@Remarks
+  This function changes the @ReferenceLink "handles" "handle" of the
+  used image. Therefore it must be newly assigned e.g. to an @@ImageGadget with
+  @@SetGadgetState.
+@LineBreak
+@LineBreak
+  This function does not work with icon images (.ico) and with a multi-frame image.
+@LineBreak
+@LineBreak
+  The limit for the image size that can be handled depends on the operating system and the available amount of memory.
+  If enough memory is available, then images up to at least 8192x8192 are can be handled by all operating systems supported by PureBasic.
+
+@SeeAlso
+  @@ImageWidth, @@ImageHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SaveImage(#Image, Filename$ [, ImagePlugin [, Flags [, Depth]]])
+
+@Description
+  Saves the specified image to disk. 
+
+@Parameter "#Image"
+  The image to save.
+
+@Parameter "Filename$"
+  The file to save to. If the filename does not include a full path, it
+  is interpreted relative to the @Link "FileSystem/GetCurrentDirectory" "current directory".
+
+@OptionalParameter "ImagePlugin"
+  The format to save the image in. This can be one of the following values:
+@FixedFont
+  @#PB_ImagePlugin_BMP      : Save the image in BMP (default)
+  @#PB_ImagePlugin_JPEG     : Save the image in JPEG (@@UseJPEGImageEncoder has to be used)
+  @#PB_ImagePlugin_JPEG2000 : Save the image in JPEG2000 (@@UseJPEG2000ImageEncoder has to be used)
+  @#PB_ImagePlugin_PNG      : Save the image in PNG (@@UsePNGImageEncoder has to be used)
+@EndFixedFont
+
+@OptionalParameter "Flags"
+  Optional parameters for the image plug-in. For now, only the quality setting is supported:
+  a number from 0 (worse quality) to 10 (maximum quality). Only the JPEG and JPEG 2000 plugins currently support it (default
+  quality is set to '7' if no flags are specified).
+@LineBreak
+@LineBreak
+  When an image is saved using palletized depth (1, 4 or 8), the following
+  flag is available for combination:
+@FixedFont
+  @#PB_Image_FloydSteinberg: Apply a Floyd-Steinberg dithering.
+@EndFixedFont
+
+@OptionalParameter "Depth"
+  The depth in which to save the image. Valid values are 1, 4, 8, 24 and 32.
+  The default value is the original image depth. 
+  For now, only BMP and PNG encoders support palletized image format (1, 4 or 8-bit).
+
+@ReturnValue
+  Returns nonzero if the operation succeeded and zero if it failed.
+
+@SeeAlso 
+  @@ImageDepth,
+  @LibraryLink "ImagePlugin" "ImagePlugin library"
+
+@SupportedOS

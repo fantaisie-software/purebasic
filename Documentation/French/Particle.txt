@@ -1,0 +1,746 @@
+;
+; Particle library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Particle
+
+@Overview
+
+  Les systèmes de particules sont largement utilisés 
+  dans les scènes 3D pour simuler des objets aux 
+  comportements non prédictibles tels que la pluie, 
+  le feu, des explosions etc.
+@LineBreak
+@LineBreak
+  PureBasic permet de créer un nombre quelconque 
+  d'émetteurs de particules fonctionnant de manière 
+  autonome. Chaque émetteur a sa forme propre et 
+  ses propriétés propres comme la vélocité, la 
+  vitesse, le taux d'émission et plus encore. 
+@LineBreak
+@LineBreak
+  Les particules sont des plans en 2D (Billboards) 
+  qui font toujours face à la caméra et qui ont 
+  toutes la même taille.
+@LineBreak
+@LineBreak
+  @@InitEngine3D doit être appelé avec succès avant 
+  l'utilisation des commandes Particle.
+
+@CommandList
+
+@ExampleFile All Particle.pb
+@ExampleFile All GetScriptParticle.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateParticleEmitter(#EmetteurParticule, Largeur, Hauteur, Profondeur, Type, [, X.f, Y.f, Z.f])
+
+@Description
+  Crée un émetteur de particules. 
+  
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "
+  Le nouvel émetteur de particules.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro.
+
+@Parameter "Largeur, Hauteur, Profondeur"
+  Dimensions du nouvel émetteur de particules.
+@LineBreak
+@LineBreak
+  La taille par défaut des futures particules peuvent 
+  être spécifiées avec la commande @@ParticleSize. 
+
+@Parameter "Type"
+@FixedFont
+  @#PB_Particle_Point: L'émetteur est un point unique
+  @#PB_Particle_Box  : L'émetteur est une boîte, avec une largeur, une hauteur et une profondeur
+@EndFixedFont
+
+@OptionalParameter "X.f, Y.f, Z.f"
+  Position du nouvel émetteur de particules. 
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, 
+  zéro sinon.@LineBreak
+  Si @ReferenceLink "purebasic_objects" "#PB_Any" 
+  est utilisé pour le paramètre '#EmetteurParticule', 
+  le numéro de l'émetteur de particules sera 
+  renvoyé dans 'Resultat'.
+
+@Remarks  
+  Si #EmetteurParticule a déjà été créé, sa place 
+  mémoire est automatiquement libérée et il est 
+  remplacé par le nouvel émetteur de particules.
+
+@SeeAlso
+  @@FreeParticleEmitter, @@IsParticleEmitter, @@ParticleEmitterID
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsParticleEmitter(#EmetteurParticule)
+
+@Description
+  Teste si un émetteur de particules est 
+  correctement initialisé. 
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas 
+  de succès, zéro sinon.
+  
+@Remarks
+  Cette fonction a été créée pour pouvoir passer n'importe 
+  quelle valeur en paramètre sans qu'il ne puisse y avoir 
+  de plantage. 
+@LineBreak
+@LineBreak
+   C'est la fonction idéale pour vérifier 
+   qu'un objet est correctement initialisé.
+ 
+@SeeAlso
+  @@CreateParticleEmitter, @@ParticleEmitterID
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableParticleEmitter(#EmetteurParticule, Etat)
+
+@Description
+  Active ou désactive un émetteur de particules
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "Etat"
+  Peut prendre l'une des valeurs suivantes:
+@FixedFont
+  @#True : Activé.
+  @#False: Désactivé.
+@EndFixedFont  
+
+@NoReturnValue
+  
+@SeeAlso
+  @@CreateParticleEmitter
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ParticleEmitterID(#EmetteurParticule)
+
+@Description  
+  Renvoie l'identifiant unique d'un émetteur 
+  de particules. 
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@ReturnValue
+  Renvoie le numéro de l'émetteur.
+  
+@Remarks
+  Cette fonction est très utile quand une fonction 
+  d'une autre bibliothèque nécessite l'identifiant 
+  d'un émetteur de particules. 
+
+@SeeAlso
+  @@CreateParticleEmitter, @@IsParticleEmitter
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ParticleEmitterX(#EmetteurParticule [, Mode]))
+
+@Description
+  Renvoie la position en X dans le monde 3D  
+  d'un émetteur de particules.
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@OptionalParameter "Mode"
+  Peut prendre l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la position 'X' absolue dans le monde (par défaut).
+  @#PB_Relative: Renvoie la position 'X' par rapport à son parent.
+@EndFixedFont
+
+@ReturnValue
+   Renvoie la position en X de l'émetteur, en 
+   fonction du mode choisi.
+   
+@SeeAlso
+  @@ParticleEmitterY, @@ParticleEmitterZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ParticleEmitterY(#EmetteurParticule [, Mode]))
+
+@Description
+  Renvoie la position en Y dans le monde 3D 
+  d'un émetteur de particules.
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@OptionalParameter "Mode"
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la position 'Y' absolue dans le monde (par défaut).
+  @#PB_Relative: Renvoie la position 'Y' par rapport à son parent.
+@EndFixedFont
+
+@ReturnValue
+   Renvoie la position en Y de l'émetteur, 
+   en fonction du mode choisi.
+   
+@SeeAlso
+  @@ParticleEmitterX, @@ParticleEmitterZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ParticleEmitterZ(#EmetteurParticule [, Mode]))
+
+@Description
+  Renvoie la position en Z dans le monde 3D 
+  d'un émetteur de particules.
+  
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@OptionalParameter "Mode"
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la position 'Z' absolue dans le monde (par défaut).
+  @#PB_Relative: Renvoie la position 'Z' par rapport à son parent.
+@EndFixedFont
+
+@ReturnValue
+   Renvoie la position en Z de l'émetteur, 
+   en fonction du mode choisi.
+   
+@SeeAlso
+  @@ParticleEmitterX, @@ParticleEmitterY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleEmitterAngle(#EmetteurParticule, Angle.f)
+
+@Description
+  Modifie les angles des particules émises. Toutes les particules auront le même angle.
+  
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "Angle.f"
+  Le nouvel angle des particules, en degré.
+   
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleEmissionRate(#EmetteurParticule, Taux)
+
+@Description
+  Change le taux d'émission.
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "Taux"
+  Nouveau taux d'émission, en particules 
+  par seconde.
+
+@NoReturnValue
+
+@SeeAlso
+  @@ParticleEmitterDirection, @@ParticleSize, 
+  @@ParticleTimeToLive, @@ParticleSpeedFactor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleMaterial(#EmetteurParticule, MatiereID)
+
+@Description
+  Assigne une matière. 
+  
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "MatiereID"
+  Le numéro de la matière.
+@LineBreak
+@LineBreak
+  Peut être facilement obtenu avec la 
+  commande @@MaterialID.
+ 
+@NoReturnValue
+
+@Remarks
+  Cette matière sera utilisée par toutes 
+  les particules de cet émetteur. 
+@LineBreak
+@LineBreak
+  Un émetteur peut seulement avoir une 
+  matière assignée à la fois. 
+
+@SeeAlso
+  @@GetScriptParticleEmitter, @@MaterialID
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleTimeToLive(#EmetteurParticule, TempsMininum, TempsMaximum)
+
+@Description
+  Change la durée de vie des particules.  
+  
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "TempsMininum, TempsMaximum"
+  Durée de vie minimum et maximum de chaque 
+  particule dans l'unité de temps du monde 3D.
+@LineBreak
+@LineBreak
+  La durée de vie des particules est une 
+  valeur aléatoire à l'intérieur de cette 
+  plage.
+   
+@NoReturnValue
+
+@SeeAlso
+  @@ParticleVelocity, @@ParticleEmissionRate
+  @@ParticleEmitterDirection, @@ParticleSize, 
+  @@ParticleSpeedFactor
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleVelocity(#EmetteurParticule, Mode, Valeur)
+
+@Description
+  Change la vitesse des particules. 
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "Mode"
+  Peut être une des valeurs suivantes:
+
+@FixedFont
+  @#PB_Particle_MinimumVelocity : Vélocité minimum (une valeur aléatoire sera choisie entre mini et maxi).
+  @#PB_Particle_MaximumVelocity : Vélocité maximum (une valeur aléatoire sera choisie entre mini et maxi).
+  @#PB_Particle_Velocity        : Vélocité constante.
+@EndFixedFont
+
+@Parameter "Valeur"
+  La valeur à donner au mode.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@ParticleTimeToLive,
+  @@ParticleEmitterDirection, @@ParticleSize, 
+  @@ParticleSpeedFactor, @@ParticleEmissionRate
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+@Function ParticleAcceleration(#EmetteurParticule, X.f, Y.f, Z.f)
+
+@Description
+   Modifie le vecteur accélération des particules. 
+   Peut être utile pour simuler la gravité, le vent, etc.
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "X.f, Y.f, Z.f"
+  Le vecteur accélération (force) à appliquer à toutes les particules.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleSize(#EmetteurParticule, Largeur, Hauteur)
+
+@Description
+  Change les dimensions des particules. 
+ 
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "Largeur, Hauteur"
+  Nouvelles dimensions des particules.
+
+@NoReturnValue
+
+@Remarks
+  Les particules sont des plans en 2D 
+  (Billboards) qui font toujours face 
+  à la Caméra.
+@LineBreak
+@LineBreak
+  Toutes les particules d'un même émetteur 
+  ont toujours la même taille.
+ 
+@SeeAlso
+  @@ParticleEmissionRate, @@ParticleEmitterDirection
+  @@ParticleTimeToLive, @@ParticleEmitterDirection, 
+  @@ParticleSpeedFactor, @@ParticleEmissionRate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleColorRange(#EmetteurParticule, PremiereCouleur, DerniereCouleur)
+
+@Description
+  Change la plage de couleurs des particules. 
+   
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "PremiereCouleur, DerniereCouleur"
+  Chaque particule émise obtiendra une valeur 
+  aléatoire dans la plage située entre 
+  'PremiereCouleur' et 'DerniereCouleur'.
+@LineBreak
+@LineBreak
+  La commande @@RGB peut être utilisée pour
+  obtenir rapidement une couleur.
+
+@NoReturnValue
+
+@SeeAlso
+  @@ParticleColorFader
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleColorFader(#EmetteurParticule, TauxRouge.f, TauxVert.f, TauxBleu.f, TauxAlpha.f))
+
+@Description
+  Change le niveau d'intensité des couleurs des particules (fader).
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "TauxRouge.f, TauxVert.f, TauxBleu.f, TauxAlpha.f"
+  Taux de chacune des couleurs Rouge, Vert, Bleu et de la transparence (alpha), par seconde. 
+  Exemples de valeurs et leurs effets:
+@FixedFont
+     0: Aucun changement ne sera appliqué
+    -1: Soustraira 256 à la composante couleur toutes les secondes.
+     1: Ajoutera 256 à la composante couleur toutes les seconde.
+ -0.25: Soustraira 64 à la composante couleur toutes les secondes.
+@EndFixedFont
+@NoReturnValue
+
+@SeeAlso
+  @@ParticleColorRange
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeParticleEmitter(#EmetteurParticule)
+
+@Description
+  Supprime et libère la mémoire associée à 
+  un émetteur de particules.
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à supprimer.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, tous les émetteurs 
+  de particules restants sont libérés.
+ 
+@NoReturnValue
+
+@Remarks
+  Tous les émetteurs de particules restants sont 
+  automatiquement supprimés quand le programme 
+  se termine.
+
+@SeeAlso
+  @@CreateParticleEmitter
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideParticleEmitter(#EmetteurParticule, Etat)
+
+@Description
+  Cache ou affiche un émetteur de particules. 
+   
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "Etat"
+@FixedFont
+  @#True : L'émetteur est caché
+  @#False: L'émetteur est affiché
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateParticleEmitter
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveParticleEmitter(#EmetteurParticule, X.f, Y.f, Z.f [, Mode])
+
+@Description
+  Déplace un émetteur de particules dans le monde 3D.
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à déplacer.
+
+@Parameter "X.f, Y.f, Z.f"
+  Valeur du déplacement.
+@LineBreak
+@LineBreak
+  La nouvelle position de l'émetteur de particules. 
+
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Relative: Déplacement relatif (par défaut).
+  @#PB_Absolute: Déplacement absolu à la position spécifiée.
+@EndFixedFont
+  combinée avec l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Local : Déplacement local.
+  @#PB_Parent: Déplacement par rapport à la position du parent.
+  @#PB_World : Déplacement par rapport au monde.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@ParticleEmitterX, @@ParticleEmitterY, 
+  @@ParticleEmitterZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleEmitterDirection(#EmetteurParticule, X.f, Y.f, Z.f)
+
+@Description
+  Change la direction d'émission de particules. 
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "X.f, Y.f, Z.f"
+  L'émetteur pointera vers le point désigné par 
+  les coordonnées X,Y et Z.
+
+@NoReturnValue
+
+@SeeAlso
+  @@ParticleEmissionRate
+  @@ParticleTimeToLive, @@ParticleEmitterDirection, 
+  @@ParticleSpeedFactor, @@ParticleEmissionRate
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeParticleEmitter(#Particle, #EmetteurParticule, Largeur, Hauteur, Profondeur)
+
+@Description
+  Redimensionne un émetteur de particules
+
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "Largeur, Hauteur, Profondeur"
+  Nouvelles dimensions de l'émetteur.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@MoveParticleEmitter, @@ParticleSize
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetScriptParticleEmitter(#EmetteurParticule, Nom$)
+
+@Description
+  Obtenir un émetteur de particules défini dans 
+  un fichier de script OGRE.
+  
+@Parameter "#EmetteurParticule"
+  Le numéro du nouvel émetteur de particules à 
+  trouver.
+@LineBreak
+@LineBreak
+ @ReferenceLink "purebasic_objects" "#PB_Any" 
+ peut être utilisé pour générer 
+ automatiquement ce numéro.
+
+@Parameter "Nom$"
+   Le nom de l'émetteur de particules 
+   dans le fichier de script OGRE. 
+   @LineBreak
+   Ce nom est sensible à la casse.
+
+@ReturnValue
+  Renvoie zéro si l'émetteur de particules est 
+  introuvable ou ne peut pas être chargé à 
+  partir des fichiers de script. 
+@LineBreak
+@LineBreak
+  Si @#PB_Any a été utilisé alors le numéro 
+  auto-généré est renvoyé en cas de succès.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateParticleEmitter
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleSpeedFactor(#EmetteurParticule, FacteurVitesse.f)
+
+@Description
+  Modifie la vitesse d'émission.
+  
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "FacteurVitesse.f"
+  Le nouveau facteur vitesse de l'émetteur 
+  de particules. 
+@LineBreak
+@LineBreak
+  Le facteur de vitesse par défaut est 1. 
+  @LineBreak
+  Lorsque vous utilisez une valeur supérieure 
+  à 1 alors la vitesse d'émission est 
+  augmentée. Lors de l'utilisation 
+  d'une valeur inférieure à 1, la vitesse 
+  d'émission est diminuée.@LineBreak 
+  Par exemple, un facteur vitesse de 4.5, 
+  multipliera la vitesse d'émission des 
+  particulese par 4,5.
+  L'utilisation d'un facteur de vitesse 
+  de 0.5, divisera par deux la vitesse 
+  d'émission des particules .
+
+@NoReturnValue
+
+@SeeAlso
+  @@ParticleEmissionRate
+  @@ParticleTimeToLive, 
+  @@ParticleEmitterDirection, 
+  @@ParticleEmissionRate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleScaleRate(#EmetteurParticule, TauxTailleParticule.f)
+
+@Description
+  Modifie la taille des particules au cours du temps.
+  
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "TauxTailleParticule"
+  Le nouveau taux d'accroissement ou de réduction de la taille des particules au cours du temps.
+  @LineBreak
+  @LineBreak
+  Le taux par défaut est 0, ce qui signifie que la taille des particules ne varie pas 
+  au cours du temps .@LineBreak
+  Une valeur supérieure à 0 augmente la taille des particules au cours du temps (chaque 
+  seconde, la taille des particules sera augmentée du taux).@LineBreak
+  Une valeur inférieure à 0 réduit la taille des particules au cours du temps (chaque 
+  seconde, la taille des particules sera soustraite du taux).@LineBreak
+  @LineBreak
+  @LineBreak
+  Par exemple: @LineBreak
+  Un taux de 10 augmentera la taille de particules de 10 unités par seconde.@LineBreak
+  Un taux de -2 réduira la taille de particules de 2 unités par seconde.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ParticleAngle(#EmetteurParticule, AngleDepart.f, AngleFin.f [, VitesseAngleDepart.f, VitesseAngleFin.f])
+
+@Description
+  Modifie l'angle des particules une fois émisent.
+  
+@Parameter "#EmetteurParticule"
+  L'émetteur de particules à utiliser.
+
+@Parameter "AngleDepart.f, AngleFin.f"
+  La plage d'émission des particules (en degré), entre 0 et 360. @LineBreak
+  Par exemple, une plage de 45 à 90 n'émettra que des particules avec un angle aléatoire 
+  compris entre 45 et 90 degrés.
+
+@Parameter "VitesseAngleDepart.f, VitesseAngleFin.f"
+  Spécifie la plage de vitesse de rotation des particules.@LineBreak
+  Une vitesse de rotation aléatoire sera choisie dans cette plage lorsqu'une nouvelle 
+  particule est émise.
+
+@Remarks
+  Pour éviter des problèmes d'affichage, le matériau de la particule doit être configuré 
+  pour être non répétable à l'aide de SetMaterialAttribute(Matiere, @#PB_Material_TAM, @#PB_Material_ClampTAM).
+
+@NoReturnValue
+
+@SupportedOS
+
+
+
+

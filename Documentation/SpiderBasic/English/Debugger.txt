@@ -1,0 +1,85 @@
+;
+;     Debugger library documentation
+;
+;      (c) 2010 - Fantaisie Software
+;
+
+@Library Debugger
+
+@Overview
+
+  The Debugger library provides functions for controlling the debugger,
+  for example to empty the debug output window.
+@LineBreak
+@LineBreak
+  The functions in this library are only compiled into the executable if the debugger is enabled on compilation.
+  If the debugger is disabled then the entire call to these functions will be ignored.
+  
+@LineBreak
+@LineBreak
+  There are also a number of special @ReferenceLink "debugger" "keywords" to control the debugger from code.
+
+@CommandList
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowDebugOutput()
+
+@Description
+  Open the debug output window or bring it to the front if it is already open.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "debugger" "Debug", @@ClearDebugOutput, @@CloseDebugOutput
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseDebugOutput()
+
+@Description
+  Close the debug output window.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "debugger" "Debug",  @@ShowDebugOutput, @@ClearDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearDebugOutput()
+
+@Description
+  Clear the content of the debug output window.
+
+@NoParameters
+@NoReturnValue
+
+@Example
+@Code
+  ; Show 10 debug values only, not a continuous list
+  Repeat
+    ClearDebugOutput()
+    For i = 1 To 10
+      Debug x
+      x + 1
+    Next i
+    
+    Delay(500)
+  ForEver
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "debugger" "Debug"
+  @@ShowDebugOutput
+@SupportedOS
+

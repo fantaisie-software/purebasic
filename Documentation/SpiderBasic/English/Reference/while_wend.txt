@@ -1,0 +1,31 @@
+@Title While : Wend
+
+@Syntax
+
+  @Keyword While <expression>
+    ...
+  @Keyword Wend
+
+@Description 
+
+  @Keyword Wend will loop until the <expression> becomes false. A good point to keep in mind with a @Keyword While test 
+  is that if the first test is false, then the program will never enter the loop and will skip this part. 
+  A @ReferenceLink "Repeat_Until" Repeat loop is executed at least once, (as the test is performed after each loop). @LineBreak
+  @LineBreak
+  With the @ReferenceLink "Break_Continue" Break command it is possible to exit the @Keyword While : @Keyword Wend loop during any iteration, 
+  with the @ReferenceLink "Break_Continue" Continue command the end of the current iteration may be skipped.
+
+@Example
+
+@Code
+  b = 0
+  a = 10
+  While a = 10 
+    b = b+1 
+    If b=10 
+      a=11 
+    Endif 
+  Wend 
+@EndCode
+
+  This program loops until the 'a' value is <> 10. The value of 'a' becomes 11 when b=10, the program will loop 10 times. 

@@ -1,0 +1,52 @@
+vertex_program flow_vertex hlsl
+{
+	source flow.hlsl
+	target vs_3_0
+	entry_point flow_vertex
+}
+
+fragment_program flow_pixel hlsl
+{
+	source flow.hlsl
+	target ps_3_0
+	entry_point flow_pixel
+}
+
+
+material flow
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref flow_vertex
+			{
+				param_named_auto 	viewproj_matrix  	worldviewproj_matrix
+				param_named_auto 	lightPosition 		light_position_object_space 0
+				param_named_auto 	view_position 		camera_position_object_space	
+				param_named_auto 	texmatx 			texture_matrix 0
+				param_named_auto 	fog 				fog_params
+			}
+			fragment_program_ref flow_pixel
+			{
+				param_named_auto 	lightdif 	derived_light_diffuse_colour 0
+				param_named_auto 	lightspec 	derived_light_specular_colour 0				
+				param_named_auto 	lightamb 	derived_ambient_light_colour 0
+				param_named_auto 	shininess 	surface_shininess				
+				param_named_auto	fogcolor	fog_colour
+				param_named_auto 	timeval 	time 0.5
+				param_named			texrepeat	float 1
+
+			}
+			texture_unit		//flowMap
+			{
+				texture_alias texture1
+			}
+			texture_unit		//diffusemap
+			{
+				texture_alias texture2
+			}
+		}
+	}
+}
+

@@ -1,0 +1,445 @@
+;
+;     Joint library documentation
+;
+;      (c) 2016 - Fantaisie Software
+;
+
+@Library Joint
+
+@Overview
+  Joints (zu deutsch "Gelenke" oder "Verbindungen") werden verwendet, um eine Verbindung zwischen
+  zwei @LibraryLink "Entity" "Entities" (Einheiten) zu definieren, um ein automatisches Verhalten
+  zu haben, wenn eine der Einheiten (Entity) bewegt wird. Dies kann benutzt werden, um eine "Real
+  Life" (wirkliches Leben) Interaktion zwischen zwei Objekten zu simulieren, wie zum Beispiel:
+  einer Tür, eines Zugs und so weiter.
+@LineBreak
+@LineBreak
+  @@InitEngine3D muss erfolgreich aufgerufen worden sein, bevor
+  die Joint-Befehle verwendet werden.
+
+@CommandList
+
+@ExampleFile All Joint.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EnableHingeJointAngularMotor(#Joint, Aktivieren, ZielGeschwindigkeit, MaxMotorImpuls)
+
+@Description
+  Aktiviert den Winkel-Motor an der angegebenen Gelenkverbindung (englisch "Hinge Joint").
+
+@Parameter "#Joint"
+  Das zu verwendende Gelenk (Joint). Das Gelenk muss mittels @@HingeJoint erstellt werden.
+
+@Parameter "Aktivieren"
+  Aktiviert oder deaktiviert den Winkel-Motor der Gelenkverbindung. Wenn auf @#True gesetzt,
+  wird der Motor aktiviert - wenn auf @#False gesetzt, wird der Motor deaktiviert.
+  
+@Parameter "ZielGeschwindigkeit"
+  Die Geschwindigkeit, welche der Motor erreichen/produzieren soll.
+
+@Parameter "MaxMotorImpuls"
+  Der maximale Impuls, welchen der Motor geben kann.
+
+@NoReturnValue
+
+@SeeAlso
+  @@HingeJoint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HingeJointMotorTarget(#Joint, Winkel, Geschwindigkeit)
+
+@Description
+  Legt das Ziel des Motors der Gelenkverbindung (Joint) fest.
+
+@Parameter "#Joint"
+  Das zu verwendende Gelenk (Joint). Das Gelenk muss mittels @@HingeJoint erstellt werden.
+
+@Parameter "Winkel"
+  Der Winkel (in Grad), welchen der Motor erreichen soll.
+
+@Parameter "Geschwindigkeit"
+  Die Geschwindigkeit, welche der Motor produzieren soll.
+
+@NoReturnValue
+
+@SeeAlso
+  @@HingeJoint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeJoint(#Joint)
+
+@Description
+  Gibt die mit dem angegebenen Entity verknüpfte Verbindung bzw. das Gelenk (Joint) frei.
+  Das Gelenk darf (unter Verwendung seiner Nummer mit anderen Funktionen dieser Bibliothek)
+  nach diesem Befehl nicht mehr verwendet werden.
+
+@Parameter "#Joint"
+  Das freizugebende Gelenk (Joint). Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Gelenke freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Alle verbliebenen Gelenke/Verbindungen (Joints) werden automatisch freigegeben, wenn das Programm endet.
+
+@SeeAlso
+  @@PointJoint, @@HingeJoint, @@ConeTwistJoint, @@SliderJoint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsJoint(#Joint)
+
+@Description
+  Überprüft, ob die angegebene Joint-Nummer eine gültige und korrekt initialisierte
+  Verbindung (Joint) ist.
+
+@Parameter "#Joint"
+  Die zu testende Verbindung.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn die Verbindung gültig ist, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" (englisch "bulletproof") und kann mit jedem Wert
+  verwendet werden. Dies ist der richtige Weg um sicher zu gehen, dass ein Joint
+  bereit zur Verwendung ist.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GenericJoint(#Joint, EntityID, TransformX, TransformY, TransformZ, EntityID2, TransformX2, TransformY2, TransformZ2)
+
+@Description
+  Erstellt eine neue Verbindung bzw. Gelenk (Joint), basierend auf einem oder zwei Punkten.
+
+@Parameter "#Joint"
+  Die Nummer zum Identifizieren des neuen Gelenks (Joint). @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "EntityID"
+  Die mit dem Gelenk (Joint) verknüpfte Entity ID. Um eine gültige Entity ID zu erhalten,
+  verwenden Sie @@EntityID.
+
+@Parameter "TransformX, TransformY, TransformZ"
+  Die auf das erste Entity anzuwendende Transformation.
+
+@OptionalParameter "EntityID2"
+  Das zweite mit dem Gelenk (Joint) verknüpfte Entity. Wenn dieser Parameter nicht angegeben
+  wird, dann wird ein einfaches Gelenk zwischen dem Drehpunkt (Pivot) und dem Entity erstellt.
+  Wird dieser Parameter angegeben, dann wird das erste Entity am zweiten Entity verankert.
+  Um eine gültige Entity ID zu erhalten, verwenden Sie @@EntityID.
+
+@OptionalParameter "TransformX2, TransformY2, TransformZ2"
+  Die auf das zweite Entity anzuwendende Transformation.
+
+@ReturnValue
+  Gibt Null zurück, wenn die Verbindung bzw. das Gelenk (Joint) nicht erstellt werden konnte.
+  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als Parameter '#Joint' verwendet wird,
+  dann wird die neue Joint-Nummer als 'Ergebnis' zurückgegeben.
+
+@Remarks
+  @@GetJointAttribute und @@SetJointAttribute können mit den folgenden Attributen verwendet
+  werden, um das Verhalten der Verbindung zu ändern:
+@FixedFont
+  @#PB_Joint_EnableSpring: auf @#True setzen zur Aktivierung der Federung, @#False um sie zu
+                          deaktivieren (Standard)
+  @#PB_Joint_Stiffness   : setzt die Steifigkeit. Die Werte sollten zwischen 1 und 10000 liegen.
+  @#PB_Joint_Damping     : legt die Dämpfung fest. Die Werte sollten zwischen 0 und 1 liegen
+                          (0 bedeutet eine sehr starke Dämpfung).
+  @#PB_Joint_Position    : legt die Position auf der Achse fest.
+  @#PB_Joint_NoLimit     : freie Achsenposition
+  @#PB_Joint_LowerLimit  : unteres Limit
+  @#PB_Joint_UpperLimit  : oberes Limit
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = PointJoint(#Joint, EntityID, PivotX, PivotY, PivotZ [, EntityID2, PivotX2, PivotY2, PivotZ2])
+
+@Description
+  Erstellt eine neue Verbindung bzw. Gelenk (Joint), basierend auf einem oder zwei Punkten.
+
+@Parameter "#Joint"
+  Die Nummer zum Identifizieren des neuen Gelenks (Joint). @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "EntityID"
+  Die mit dem Gelenk (Joint) verknüpfte Entity ID. Um eine gültige Entity ID zu erhalten,
+  verwenden Sie @@EntityID.
+
+@Parameter "PivotX, PivotY, PivotZ"
+  Die Koordinaten des ersten Drehpunkts (Pivot) für die Verbindung. Relativ zum Zentrum des ersten Entity.
+
+@OptionalParameter "EntityID2"
+  Das zweite Entity, welches mit dem Gelenk (Joint) verknüpft werden soll. Wenn dieser Parameter nicht
+  angegeben wird, wird eine einzige Verbindung zwischen dem Drehpunkt (Pivot) und dem Entity
+  geschaffen. Wird der Parameter angegeben, wird das erste Entity mit dem zweiten Entity
+  verankert. Um eine gültige Entity ID zu erhalten, verwenden Sie @@EntityID.
+
+@Parameter "PivotX2, PivotY2, PivotZ2"
+  Die Koordinaten des zweiten Drehpunkts (Pivot) für die Verbindung. Relativ zum Zentrum des zweiten Entity.
+
+@ReturnValue
+  Gibt Null zurück, wenn die Verbindung bzw. das Gelenk (Joint) nicht erstellt werden konnte.
+  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als Parameter '#Joint' verwendet wird,
+  dann wird die neue Joint-Nummer als 'Ergebnis' zurückgegeben.
+
+@Remarks
+  @@GetJointAttribute und @@SetJointAttribute können mit den folgenden Attributen verwendet
+  werden, um das Verhalten der Verbindung zu ändern:
+@FixedFont
+  @#PB_PointJoint_Tau : Tau-Wert der Verbindung
+  @#PB_PointJoint_Damping: Dämpfungs-Wert der Verbindung
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = HingeJoint(#Joint, EntityID, PivotX, PivotY, PivotZ, AchseX, AchseY, AchseZ, EntityID2, PivotX2, PivotY2, PivotZ2, AchseX2, AchseY2, AchseZ2)
+
+@Description
+  Erstellt eine neue Gelenk-Verbindung (englisch "hinge joint") zwischen den zwei angegebenen
+  Entities (Objekten). Ein Gelenk kann verwendet werden, um eine Tür, eine bewegliche Brücke,
+  etc. zu simulieren.
+
+@Parameter "#Joint"
+  Die Nummer zum Identifizieren des neuen Gelenks (Joint). @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "EntityID"
+  Das erste mit dem Gelenk (Joint) verknüpfte Entity. Um eine gültige EntityID zu erhalten,
+  verwenden Sie @@EntityID.
+
+@Parameter "PivotX, PivotY, PivotZ"
+  Die Koordinaten des ersten Drehpunkts (Pivot) für die Verbindung. Relativ zum Zentrum des ersten Entity.
+
+@Parameter "AchseX, AchseY, AchseZ"
+  Die Ausrichtung der Achse (englisch "Axis") für die Verbindung.
+
+@Parameter "EntityID2"
+  Das zweite mit dem Gelenk (Joint) verknüpfte Entity. Um eine gültige EntityID zu erhalten,
+  verwenden Sie @@EntityID.
+
+@Parameter "PivotX2, PivotY2, PivotZ2"
+  Die Koordinaten des zweiten Drehpunkts (Pivot) für die Verbindung. Relativ zum Zentrum des zweiten Entity.
+
+@Parameter "AchseX2, AchseY2, AchseZ2"
+  Die Ausrichtung der Achse (englisch "Axis") für die Verbindung.
+
+@ReturnValue
+  Gibt null zurück, wenn die Verbindung bzw. das Gelenk (Joint) nicht erstellt werden konnte.
+  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als Parameter '#Joint' verwendet wird,
+  dann wird die neue Joint-Nummer als 'Ergebnis' zurückgegeben.
+
+@Remarks
+  @@GetJointAttribute und @@SetJointAttribute können mit den folgenden Attributen verwendet
+  werden, um das Verhalten der Verbindung zu ändern:
+@FixedFont
+  @#PB_HingeJoint_LowerLimit : unteres Limit der Verbindung
+  @#PB_HingeJoint_UpperLimit : oberes Limit der Verbindung
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute, @@EnableHingeJointAngularMotor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ConeTwistJoint(#Joint, EntityID, TransformX, TransformY, TransformZ, EntityID2, TransformX2, TransformY2, TransformZ2)
+
+@Description
+  Erstellt eine neue Kegeldrehungs-Verbindung (englisch "cone twist joint") zwischen den zwei angegebenen
+  Entities (Objekten). Eine Kegeldrehung kann verwendet werden, um Arme oder Beine an einem Körper
+  zu befestigen, etc.
+
+@Parameter "#Joint"
+  Die Nummer zum Identifizieren des neuen Gelenks (Joint). @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "EntityID"
+  Das erste mit dem Gelenk (Joint) verknüpfte Entity. Um eine gültige EntityID zu erhalten,
+  verwenden Sie @@EntityID.
+
+@Parameter "TransformX, TransformY, TransformZ"
+  Die auf das erste Entity (Objekt) anzuwendende Transformation.
+
+@Parameter "EntityID2"
+  Das zweite zur Erstellung des Gelenks (Joint) verwendete Entity. Um eine gültige EntityID zu erhalten,
+  verwenden Sie @@EntityID.
+
+@Parameter "TransformX2, TransformY2, TransformZ2"
+  Die auf das zweite Entity (Objekt) anzuwendende Transformation.
+
+@ReturnValue
+  Gibt null zurück, wenn die Verbindung bzw. das Gelenk (Joint) nicht erstellt werden konnte.
+  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als Parameter '#Joint' verwendet wird,
+  dann wird die neue Joint-Nummer als 'Ergebnis' zurückgegeben.
+
+@Remarks
+  @@GetJointAttribute und @@SetJointAttribute können mit den folgenden Attributen verwendet
+  werden, um das Verhalten der Verbindung zu ändern:
+@FixedFont
+  @#PB_ConeTwistJoint_SwingSpan  : Erste Schaukel-Spannweite der Verbindung
+  @#PB_ConeTwistJoint_SwingSpan2 : Zweite Schaukel-Spannweite der Verbindung
+  @#PB_ConeTwistJoint_TwistSpan  : Dreh-Spannweite der Verbindung
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SliderJoint(#Joint, EntityID, TransformX, TransformY, TransformZ, EntityID2, TransformX2, TransformY2, TransformZ2)
+
+@Description
+  Erstellt eine neue Schieberegler-Verbindung (englisch "slider joint") zwischen den beiden
+  angegebenen Entities (Objekten). Ein "Slider" kann verwendet werden, um ein Entity mit
+  Einschränkungen auf einer ebenen Fläche etc. zu bewegen.
+
+@Parameter "#Joint"
+  Die Nummer zum Identifizieren des neuen Gelenks (Joint). @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "EntityID"
+  Das erste mit der Verbindung (Joint) verknüpfte Entity. Um eine gültige EntityID zu erhalten,
+  verwenden Sie @@EntityID.
+
+@Parameter "TransformX"
+  Der X-Wert der Transformation für das erste Entity (Objekt).
+
+@Parameter "TransformY"
+  Der Y-Wert der Transformation für das erste Entity.
+
+@Parameter "TransformZ"
+  Der Z-Wert der Transformation für das erste Entity.
+
+@Parameter "EntityID2"
+  Das zweite zur Erstellung der Verbindung (Joint) verwendete Entity. Um eine gültige EntityID zu erhalten,
+  verwenden Sie @@EntityID.
+
+@Parameter "TransformX2"
+  Der X-Wert der Transformation für das zweite Entity (Objekt).
+
+@Parameter "TransformY2"
+  Der Y-Wert der Transformation für das zweite Entity.
+
+@Parameter "TransformZ2"
+  Der Z-Wert der Transformation für das zweite Entity.
+
+@ReturnValue
+  Gibt null zurück, wenn die Verbindung bzw. das Gelenk (Joint) nicht erstellt werden konnte.
+  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als Parameter '#Joint' verwendet wird,
+  dann wird die neue Joint-Nummer als 'Ergebnis' zurückgegeben.
+
+@Remarks
+  @@GetJointAttribute und @@SetJointAttribute können mit den folgenden Attributen verwendet
+  werden, um das Verhalten der Verbindung zu ändern:
+@FixedFont
+  @#PB_SliderJoint_LowerLimit : Untere Grenze der Verbindung
+  @#PB_SliderJoint_UpperLimit : Obere Grenze der Verbindung
+@EndFixedFont
+
+@SeeAlso
+  @@FreeJoint, @@GetJointAttribute, @@SetJointAttribute
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetJointAttribute(#Joint, Attribut)
+
+@Description
+  Ermittelt einen bestimmten Attribut-Wert der angegebenen Verbindung/des Gelenks (englisch "Joint")
+  und seiner verknüpften Entity-Objekte.
+
+@Parameter "#Joint"
+  Die zu verwendende Verbindung (Joint).
+
+@Parameter "Attribut"
+  Gibt das zu ermittelnde Attribut an.
+
+@ReturnValue
+  Gibt den Wert des angegebenen Attributs zurück, oder 0 wenn die Verbindung
+  das Attribut nicht unterstützt.
+
+@Remarks
+  Diese Funktion ist für alle Verbindungen verfügbar, welche Attribute unterstützen.
+  Siehe die einzelnen Joint-Befehle für die unterstützten Attribute:
+@LineBreak
+@LineBreak
+  - @@PointJoint @LineBreak
+  - @@ConeTwistJoint @LineBreak
+  - @@HingeJoint @LineBreak
+  - @@SliderJoint
+
+@SeeAlso
+  @@SetJointAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetJointAttribute(#Joint, Attribut, Wert [, Achse])
+
+@Description
+  Setzt den angegebenen Attribut-Wert für die angegebene Verbindung/das Gelenk (englisch "Joint")
+  und seiner verknüpften Entity-Objekte.
+
+@Parameter "#Joint"
+  Die zu verwendende Verbindung (Joint).
+
+@Parameter "Attribute"
+  Gibt das zu setzende Attribut an.
+
+@Parameter "Wert"
+  Wert des zu setzenden Attributs.
+
+@OptionalParameter "Achse"
+  Die zu verwendende Achse zum Setzen des Attributs. Nur unterstützt von @@GenericJoint, die Achsen
+  sind wie folgt indiziert:
+@FixedFont
+  0, 1 und 2: Translations-/Verschiebungsachse (x, y, z)
+  3, 4 und 5: Rotationsachse (x, y, z)
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Diese Funktion ist für alle Verbindungen verfügbar, welche Attribute unterstützen.
+  Siehe die einzelnen Joint-Befehle für die unterstützten Attribute:
+@LineBreak
+@LineBreak
+  - @@GenericJoint @LineBreak
+  - @@PointJoint @LineBreak
+  - @@ConeTwistJoint @LineBreak
+  - @@HingeJoint @LineBreak
+  - @@SliderJoint
+
+@SeeAlso
+  @@GetJointAttribute
+
+@SupportedOS

@@ -1,0 +1,125 @@
+@Title Les fonctions 'Include'
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#IncludeFile"><u>IncludeFile</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#XIncludeFile"><u>XIncludeFile</u></a></td>
+  </tr>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#IncludeBinary"><u>IncludeBinary</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#IncludePath"><u>IncludePath</u></a></td>
+  </tr>
+    </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+  
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<a name="IncludeFile"></a>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword IncludeFile  "NomFichier" 
+  @Keyword XIncludeFile "NomFichier" 
+
+@Description
+  @Keyword IncludeFile permet d'inclure tout 
+  fichier source spécifié à l'endroit où la 
+  commande est située dans le code même si 
+  @Keyword XIncludeFile a été appelé avant.
+@Linebreak
+@Linebreak  
+  Cette commande est utile, si vous voulez 
+  séparer votre code source en plusieurs 
+  fichiers, afin de réutiliser un même code 
+  dans différents projets. 
+  
+@Example
+@Code
+  IncludeFile "Sources\myfile.pb" ; Ce fichier sera inséré à cet endroit du code.
+@EndCode
+  
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="XIncludeFile"></a>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword XIncludeFile "NomFichier"
+  
+@Description
+  @Keyword XIncludeFile est similaire 
+  à @Keyword IncludeFile, mais en 
+  évitant toutefois d'inclure le 
+  même fichier plusieurs fois.
+@Linebreak
+@Linebreak  
+  Cette commande est utile, si vous voulez 
+  séparer votre code source en plusieurs 
+  fichiers, afin de réutiliser un même code 
+  dans différents projets.
+@Example
+@Code
+  XIncludeFile "Sources\monfichier.pb" ; monfichier.pb sera inséré.
+  XIncludeFile "Sources\monfichier.pb" ; monfichier.pb sera ignoré dans tout appel supplémentaire. 
+@EndCode
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="IncludeBinary"></a>
+@FormatEndIf 
+
+@Syntax
+
+  @Keyword IncludeBinary "NomFichier"
+
+@Description
+
+  @Keyword IncludeBinary inclut le 
+  fichier nommé à l'endroit où la 
+  commande est placée.
+
+@Example
+@Code  
+  IncludeBinary "Data\map.data"
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+<a name="IncludePath"></a>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword IncludePath "Chemin"
+
+@Description
+  @Keyword IncludePath spécifie le 
+  chemin d'accès par défaut pour 
+  tous les fichiers inclus appelés 
+  après la commande. Très pratique 
+  pour l'inclusion de nombreux 
+  fichiers provenant d'un même 
+  répertoire.
+
+@Example
+@Code  
+  IncludePath  "Sources\Data"
+  IncludeFile  "Sprite.pb"
+  XIncludeFile "Music.pb"
+@EndCode  
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf  
+

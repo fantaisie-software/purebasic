@@ -1,0 +1,32 @@
+@Title Résidents
+
+@Description
+  Les résidents sont des fichiers pré-compilés qui sont chargés lors du démarrage du 
+  compilateur. Ils se trouvent dans le dossier des 'residents' dans le chemin 
+  d'installation de PureBasic. Un fichier résident doit avoir l'extension '.res' et peut 
+  contenir les éléments suivants:  @ReferenceLink "structures" "Structures", 
+  @ReferenceLink "interfaces" "interfaces",  @ReferenceLink "macros" "macros" et 
+  @ReferenceLink "general_rules" "constantes". Il ne peut pas contenir un code dynamique 
+  ni des @ReferenceLink "procedures" "procédures".
+  @LineBreak
+  @LineBreak
+  Lorsqu'un résident est chargé, tout son contenu est disponible pour le programme en cours 
+  de compilation. C'est pourquoi toutes les constantes intégrées comme @#PB_Event_CloseWindow 
+  sont disponibles, elles sont dans le fichier 'PureBasic.res.@LineBreak
+  Toutes les structures et les constantes de l'API sont également dans un fichier résident. 
+  L'utilisation des résidents est un bon moyen pour stocker les macros, les structures et 
+  les constantes  communes afin qu'elles soient disponibles pour tous les programmes.@LineBreak
+  Lors de la distribution d'une bibliothèque utilisateur, c'est aussi une bonne solution 
+  pour fournir les constantes et les structures nécessaires. 
+  @LineBreak
+  @LineBreak
+  Pour créer un nouveau résident, le @ReferenceLink "cli_compiler" "compilateur en ligne de commande" 
+  doit être utilisé, car il n'y a pas d'option pour le faire à partir de l'IDE. 
+  Il est souvent nécessaire d'utiliser /IGNORERESIDENT et /CREATERESIDENT en même temps afin 
+  d'éviter des erreurs, car la version précédente du résident est chargée avant la 
+  création de la nouvelle.
+  @LineBreak
+  @LineBreak
+  Les résidents aident grandement à avoir une compilation et un démarrage du compilateur 
+  plus rapide, car toutes les informations sont stockées au format binaire. C'est beaucoup 
+  plus rapide que l'analyse d'un fichier d'inclusion à chaque compilation.

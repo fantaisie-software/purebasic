@@ -1,0 +1,712 @@
+;
+;     Ftp library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Ftp
+
+@Overview
+Ftp (File Transfer Protocol) is a way to share files based amongst users on a client-server model. 
+This library implement the client side of Ftp, and allows to connect to a remote server and
+manipulate files (like download, upload, list available files, navigate through the directories
+and more).
+@LineBreak
+@LineBreak
+All the Ftp commands are based on the @LibraryLink "Network" "network library", so @@InitNetwork 
+has to be called before using them.
+
+@CommandList
+
+@ExampleFile All Ftp.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AbortFTPFile(#Ftp)
+
+@Description
+  Aborts the current background file transfer previously started with @@SendFTPFile
+  or @@ReceiveFTPFile. If no file transfer is in progress, this function has
+  no effect.
+
+@Parameter "#Ftp"
+  The FTP connection to use.
+
+@NoReturnValue
+
+@SeeAlso
+  @@SendFTPFile, @@ReceiveFTPFile, @@FTPProgress
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CheckFTPConnection(#Ftp)
+
+@Description
+  Checks if the specified #Ftp connection is still connected to the server.
+
+@Parameter "#Ftp"
+  The FTP connection to use.
+
+@ReturnValue
+  Returns nonzero if the connection is still open and zero if the server closed the connection.
+
+@SeeAlso
+  @@OpenFTP
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseFTP(#Ftp)
+
+@Description
+  Closes the specified #Ftp client connection previously opened with @@OpenFTP
+  and free any associated resources.
+
+@Parameter "#Ftp"
+  The connection to close. If @#PB_All is specified, all the remaining FTP connection are closed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining ftp connection are automatically closed when the program ends.
+
+@SeeAlso
+  @@OpenFTP, @@IsFTP
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateFTPDirectory(#Ftp, Directory$)
+
+@Description
+  Creates a new directory on the FTP server. 
+
+@Parameter "#Ftp"
+  The FTP connection to use.
+
+@Parameter "Directory$" 
+  The name of the directory to create.
+  The new directory will be created in the current directory (see @@GetFTPDirectory and @@SetFTPDirectory). 
+  It is not possible to specify a subpath in the Directory$.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@SeeAlso
+  @@DeleteFTPDirectory, @@SetFTPDirectory, @@GetFTPDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DeleteFTPDirectory(#Ftp, Directory$)
+
+@Description
+  Deletes a directory on the FTP server. 
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@Parameter "Directory$"
+  The directory to delete. The directory has to be in the current 
+  directory (see @@GetFTPDirectory and @@SetFTPDirectory). It is not possible to specify a subpath in the Directory$.
+  The directory has to be empty, or the delete with fail.
+
+@ReturnValue
+  Returns nonzero if the directory was deleted or zero if the operation failed.
+
+@SeeAlso
+  @@CreateFTPDirectory, @@SetFTPDirectory, @@GetFTPDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DeleteFTPFile(#Ftp, Filename$)
+
+@Description
+  Deletes a file on the FTP server. 
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@Parameter "Filename$"
+  The file to delete. The file has to be in the current directory (see @@GetFTPDirectory
+  and @@SetFTPDirectory). It is not possible to specify a subpath in the Filename$.
+
+@ReturnValue
+  Returns nonzero if the file was deleted or zero if the operation failed.
+
+@SeeAlso
+  @@SendFTPFile, @@SetFTPDirectory, @@GetFTPDirectory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineFTPDirectory(#Ftp)
+
+@Description
+  Starts to examine the content of the current FTP directory.
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@ReturnValue
+  Returns nonzero if the operation succeeded or zero if it failed.
+
+@Remarks
+  For now, only Unix-like servers are supported for directory listing. The FTP protocol doesn't specify
+  how a directory listing has to be returned, so every server has its own way to returns the directory information.
+  Fortunately, most of the world servers are running under Unix/Linux and uses the same way to return the
+  data. That said, there is no warranty that the listing works on every servers. This command will be updated
+  on demand to automatically handle more servers type. If the server isn't supported, please use @@FTPDirectoryEntryRaw
+  to get back the raw information about each entry.
+@LineBreak
+@LineBreak
+  The functions 
+  @@NextFTPDirectoryEntry, @@FTPDirectoryEntryName, @@FTPDirectoryEntryType,
+  @@FTPDirectoryEntryAttributes, @@FTPDirectoryEntryDate and @@FTPDirectoryEntrySize
+  can be used to read the directory entries. To change the current directory, use @@SetFTPDirectory.
+
+@Example
+@Code
+  InitNetwork()
+  
+  If OpenFTP(0, "ftp.free.fr", "anonymous", "")
+    If ExamineFTPDirectory(0)
+      While NextFTPDirectoryEntry(0)
+        Debug FTPDirectoryEntryName(0)
+      Wend
+      FinishFTPDirectory(0)
+    EndIf
+  Else
+    Debug "Can't connect to ftp.free.fr"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@NextFTPDirectoryEntry,
+  @@FinishFTPDirectory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetFTPDirectory(#Ftp)
+
+@Description
+  Returns the current FTP directory.
+  
+@Parameter "#Ftp"
+  The connection to use.
+
+@ReturnValue
+  Return the current FTP directory, relative to the FTP root. 
+
+@Remarks
+  To change the current directory, use @@SetFTPDirectory.
+
+@SeeAlso
+  @@SetFTPDirectory, @@ExamineFTPDirectory, @@SendFTPFile, @@ReceiveFTPFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishFTPDirectory(#Ftp)
+
+@Description
+  Finishes the enumeration started with @@ExamineFTPDirectory. This allows to free
+  the resources associated with the FTP listing. 
+
+@Parameter "#Ftp"
+  The connection to use. 
+
+@NoReturnValue
+
+@SeeAlso
+  @@ExamineFTPDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Attributes = FTPDirectoryEntryAttributes(#Ftp)
+
+@Description
+  Returns the attributes of the current entry in the FTP enumeration being listed with the @@ExamineFTPDirectory and
+  @@NextFTPDirectoryEntry functions. 
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@ReturnValue
+  Returns a combination of the following values:
+@FixedFont
+  @#PB_FTP_ReadUser  : Access flags for the owning user
+  @#PB_FTP_WriteUser
+  @#PB_FTP_ExecuteUser
+  @#PB_FTP_ReadGroup : Access flags for the owning user's group
+  @#PB_FTP_WriteGroup
+  @#PB_FTP_ExecuteGroup
+  @#PB_FTP_ReadAll   : Access flags for all other users
+  @#PB_FTP_WriteAll
+  @#PB_FTP_ExecuteAll
+@EndFixedFont
+
+@Example
+  To check if one attribute is actually set, just use the '&' (binary AND) and the attribute constant value:
+  
+@Code
+  [...]
+  
+  FileAttributes = FTPDirectoryEntryAttributes(#Ftp)
+  If FileAttributes & #PB_FTP_ReadUser
+    Debug "This file has the ReadUser flag"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineFTPDirectory,
+  @@NextFTPDirectoryEntry,
+  @@FTPDirectoryEntryType,
+  @@FTPDirectoryEntryName,
+  @@FTPDirectoryEntryDate,
+  @@FTPDirectoryEntrySize,
+  @@FTPDirectoryEntryRaw
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = FTPDirectoryEntryDate(#Ftp)
+
+@Description
+  Returns the date of the current entry in the FTP enumeration being listed with @@ExamineFTPDirectory and
+  @@NextFTPDirectoryEntry functions. 
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@ReturnValue
+  Returns the date of the entry in the format of the @LibraryLink "Date" "Date" library.
+
+@SeeAlso
+  @@ExamineFTPDirectory,
+  @@NextFTPDirectoryEntry,
+  @@FTPDirectoryEntryType,
+  @@FTPDirectoryEntryName,
+  @@FTPDirectoryEntrySize,
+  @@FTPDirectoryEntryRaw,
+  @@FTPDirectoryEntryAttributes
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Filename$ = FTPDirectoryEntryName(#Ftp)
+
+@Description
+  Returns the name of the current entry in the FTP enumeration being listed with @@ExamineFTPDirectory and
+  @@NextFTPDirectoryEntry functions.
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@ReturnValue
+  Returns the entry name.
+
+@SeeAlso
+  @@ExamineFTPDirectory,
+  @@NextFTPDirectoryEntry,
+  @@FTPDirectoryEntryType,
+  @@FTPDirectoryEntryDate,
+  @@FTPDirectoryEntrySize,
+  @@FTPDirectoryEntryRaw,
+  @@FTPDirectoryEntryAttributes  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = FTPDirectoryEntryType(#Ftp)
+
+@Description
+  Returns the type of the current entry in the FTP enumeration being listed with @@ExamineFTPDirectory and
+  @@NextFTPDirectoryEntry functions. 
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@ReturnValue
+  Returns one of the following constants:
+@FixedFont
+  @#PB_FTP_File     : This entry is a file.
+  @#PB_FTP_Directory: This entry is a directory.
+@EndFixedFont
+
+@SeeAlso
+  @@ExamineFTPDirectory,
+  @@NextFTPDirectoryEntry,
+  @@FTPDirectoryEntryName,
+  @@FTPDirectoryEntryDate,
+  @@FTPDirectoryEntrySize,
+  @@FTPDirectoryEntryRaw,
+  @@FTPDirectoryEntryAttributes
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Entry$ = FTPDirectoryEntryRaw(#Ftp)
+
+@Description
+  Returns the raw line of the current entry in the FTP enumeration being listed with @@ExamineFTPDirectory and
+  @@NextFTPDirectoryEntry functions, as it has been sent by the FTP server. It can be useful when
+  the server isn't supported by @@ExamineFTPDirectory, so the information about the directory listing
+  can still be retrieved and parsed accordingly.
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@ReturnValue
+  Returns the entry line as sent by the FTP server.
+
+@Example
+@Code
+  InitNetwork()
+  
+  If OpenFTP(0, "ftp.free.fr", "anonymous", "")
+    If ExamineFTPDirectory(0)
+      While NextFTPDirectoryEntry(0)
+        Debug FTPDirectoryEntryRaw(0)
+      Wend
+      FinishFTPDirectory(0)
+    EndIf
+  Else
+    Debug "Can't connect to ftp.free.fr"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineFTPDirectory,
+  @@NextFTPDirectoryEntry,
+  @@FTPDirectoryEntryType,
+  @@FTPDirectoryEntryName,
+  @@FTPDirectoryEntryDate,
+  @@FTPDirectoryEntrySize,
+  @@FTPDirectoryEntryAttributes
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Size = FTPDirectoryEntrySize(#Ftp)
+
+@Description
+  Returns the size of the current entry in the FTP enumeration being listed with @@ExamineFTPDirectory and
+  @@NextFTPDirectoryEntry functions.
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@ReturnValue
+  Returns the size in bytes.
+
+@SeeAlso
+  @@ExamineFTPDirectory,
+  @@NextFTPDirectoryEntry,
+  @@FTPDirectoryEntryType,
+  @@FTPDirectoryEntryName,
+  @@FTPDirectoryEntryDate,
+  @@FTPDirectoryEntryRaw,
+  @@FTPDirectoryEntryAttributes
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.q = FTPProgress(#Ftp)
+
+@Description
+  Returns the progress of the current file transfer, started either with @@ReceiveFTPFile or
+  @@SendFTPFile.
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@ReturnValue
+  Returns the actual number of bytes which has been received/sent or one of the following values:
+@FixedFont
+  @#PB_FTP_Started : The file transfer is in the initialization phase.
+  @#PB_FTP_Finished: The file transfer is finished correctly.
+  @#PB_FTP_Error   : The file transfer is finished but an error occurred.
+@EndFixedFont
+
+@SeeAlso
+  @@SendFTPFile, @@ReceiveFTPFile, @@AbortFTPFile
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsFtp(#Ftp)
+
+@Description
+  Tests if the given #Ftp number is a valid and correctly initialized ftp client. 
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@ReturnValue
+  Returns nonzero if the given number is a valid and correctly initialized client connection.
+
+@Remarks
+  This function is bulletproof
+  and can be used with any value. If the 'Result' is not zero then the object is valid and
+  initialized, else it returns zero. This is the correct way to ensure an ftp handle is ready to use.
+
+@SeeAlso
+  @@OpenFTP, @@CloseFTP, @@CheckFTPConnection  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextFTPDirectoryEntry(#Ftp)
+
+@Description
+  Moves to the next entry in an enumeration started with @@ExamineFTPDirectory.
+
+@Parameter "#Ftp"
+  The connection to use.
+
+@ReturnValue
+  Returns nonzero if the next entry is available or zero if there are no more entries to examine.
+
+@Remarks
+  The entry name can be read with @@FTPDirectoryEntryName. To know whether an 
+  entry is a file or directory, use @@FTPDirectoryEntryType.
+
+@SeeAlso
+  @@ExamineFTPDirectory,
+  @@FTPDirectoryEntryType,
+  @@FTPDirectoryEntryName,
+  @@FTPDirectoryEntryDate,
+  @@FTPDirectoryEntrySize,
+  @@FTPDirectoryEntryRaw,
+  @@FTPDirectoryEntryAttributes  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenFTP(#Ftp, ServerName$, User$, Password$ [, Passive [, Port]])
+
+@Description
+  Tries to open a connection on the specified FTP server. 
+
+@Parameter "#Ftp"
+  The number to identify the new connection. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@Parameter "ServerName$"
+  The URL or address of the server to connect to.
+
+@Parameter "User$"
+  The user name to authenticate on the server.
+
+@Parameter "Password$"
+  The password to authenticate on the server.
+
+@OptionalParameter "Passive"
+  Enables or disables passive mode for the connection (valid values are @#True or @#False).
+  If this parameter is not specified, passive mode will be used.
+
+@OptionalParameter "Port"
+  The port to use for the connection. The default is port 21.
+
+@ReturnValue
+  Returns nonzero if the connection was established correctly and zero if there was an error.
+  If @#PB_Any is used as the #Ftp parameter then the generated number for the connection
+  is returned on success.
+
+@Remarks
+  @@InitNetwork has to be called before using this command, as all the FTP commands
+  are based on the @LibraryLink "network" "network library".
+
+@Example
+@Code
+  InitNetwork()
+  
+  If OpenFTP(0, "ftp.free.fr", "anonymous", "")
+    Debug "Successfully connected"
+  Else
+    Debug "Can't connect to ftp.free.fr"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CloseFTP, @@SetFTPDirectory, @@ReceiveFTPFile, @@SendFTPFile, @@ExamineFTPDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReceiveFTPFile(#Ftp, RemoteFilename$, Filename$ [, Asynchronous])
+
+@Description
+  Receives a file from a FTP server. 
+
+@Parameter "#Ftp"
+  The connection to use. 
+
+@Parameter "RemoteFilename$"
+  The name of the file to download. It has to be in the current ftp directory
+  (see @@GetFTPDirectory and @@SetFTPDirectory).
+
+@Parameter "Filename$"
+  The location to save the file on the local system. If the filename does not include a full path, it
+  is interpreted relative to the @Link "FileSystem/GetCurrentDirectory" "current directory".
+  If the file exists, it will be overwritten.
+
+@OptionalParameter "Asynchronous"
+  If set to a @#True, the transfer will be made in the background. The default is to block the program
+  until the file has been received. The progress of an asynchronous transfer can be received with the @@FTPProgress
+  command and it can be aborted using the @@AbortFTPFile command.
+
+@ReturnValue
+  Returns nonzero if the file was downloaded correctly, or the asynchronous transfer was initialized correctly.
+  On failure, the return-value is zero.
+
+@Remarks
+  Only one file can be downloaded or uploaded (see @@SendFTPFile) in the background at once.
+
+@SeeAlso
+  @@SendFTPFile, @@SetFTPDirectory, @@GetFTPDirectory,
+  @@FTPProgress, @@AbortFTPFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = RenameFTPFile(#Ftp, Filename$, NewFilename$)
+
+@Description
+  Renames a file on the FTP server. 
+
+@Parameter "#Ftp"
+  The connection to use. 
+
+@Parameter "Filename$"
+  The name of the file on the server to be renamed.
+  The renamed file has to be in the current directory (see @@GetFTPDirectory
+  and @@SetFTPDirectory). It is not possible to specify a subpath in the Filename$.
+
+@Parameter "NewFilename$"
+  The new name for the file on the server.
+  The renamed file has to be in the current directory (see @@GetFTPDirectory
+  and @@SetFTPDirectory). It is not possible to specify a subpath in the NewFilename$.
+
+@ReturnValue
+  Returns nonzero if the file was renamed successfully and zero otherwise.
+
+@SeeAlso
+  @@SendFTPFile, @@SetFTPDirectory, @@GetFTPDirectory,
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SendFTPFile(#Ftp, Filename$, RemoteFilename$ [, Asynchronous])
+
+@Description
+  Sends a file to a FTP server. 
+
+@Parameter "#Ftp"
+  The connection to use. 
+
+@Parameter "Filename$"
+  The name of the file to send. If the filename does not include a full path, it
+  is interpreted relative to the @Link "FileSystem/GetCurrentDirectory" "current directory".
+
+@Parameter "RemoteFilename$"
+  The remote filename.
+  It has to be in the current ftp directory
+  (see @@GetFTPDirectory and @@SetFTPDirectory).
+
+@OptionalParameter "Asynchronous"
+  If set to a @#True, the transfer will be made in the background. The default is to block the program
+  until the file has been fully sent. The progress of an asynchronous transfer can be received with the @@FTPProgress
+  command and it can be aborted using the @@AbortFTPFile command.
+
+@ReturnValue
+  Returns nonzero if the file was uploaded correctly, or the asynchronous transfer was initialized correctly.
+  On failure, the return-value is zero.
+
+@Remarks
+  Only one file can be downloaded or uploaded (see @@ReceiveFTPFile) in the background at once.
+
+@SeeAlso
+  @@ReceiveFTPFile, @@SetFTPDirectory, @@GetFTPDirectory,
+  @@FTPProgress, @@AbortFTPFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SetFTPDirectory(#Ftp, Directory$)
+
+@Description
+  Changes the current #Ftp directory, relative to the current directory. 
+
+@Parameter "#Ftp"
+  The connection to use. 
+
+@Parameter "Directory$"
+  The directory to change to. This parameter must refer to a directory inside
+  the current FTP directory. Nested paths are not allowed. Use the value ".." to return
+  to the parent directory of the current directory.
+
+@ReturnValue
+  Returns nonzero if the operation was successful and zero if it failed.
+
+@Remarks
+  To get the current FTP directory, use the @@GetFTPDirectory function.
+
+@Example
+@Code
+  InitNetwork()
+  
+  If OpenFTP(0, "ftp.free.fr", "anonymous", "")
+    
+    Debug "Successfully connected"
+    
+    If SetFTPDirectory(0, "pub")
+      If SetFTPDirectory(0, "Linux")
+        Debug "Cool, changed to '/pub/Linux'"
+        Debug GetFTPDirectory(0)
+      Else
+        Debug "Can't change to '/pub/Linux'"
+      EndIf
+    Else
+      Debug "Can't change to 'pub'"
+    EndIf
+    
+  Else
+    Debug "Can't connect to ftp.free.fr"
+  EndIf  
+@EndCode
+
+@SeeAlso
+  @@GetFTPDirectory, @@ExamineFTPDirectory, @@SendFTPFile, @@ReceiveFTPFile
+
+@SupportedOS

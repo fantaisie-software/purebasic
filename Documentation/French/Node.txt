@@ -1,0 +1,561 @@
+;
+; Node library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Node
+
+@Overview
+
+  Les noeuds sont des conteneurs qui peuvent 
+  être utilisés pour grouper des objets 
+  comme @LibraryLink "entity" "des entités", 
+  @LibraryLink "sound3D" "des sons 3D", 
+  @LibraryLink "camera" "des caméras", 
+  @LibraryLink "billboard" "des billboards",
+  @LibraryLink "Particle" "des émetteurs de particules" 
+  et également d'autres noeuds.
+@LineBreak
+@LineBreak
+  Une fois qu'un objet est attaché à un noeud, 
+  sa position et ses mouvements sont relatifs 
+  à la position du noeud.
+@LineBreak
+@LineBreak  
+  Les noeuds permettent une gestion 
+  hiérarchique des objets.
+@LineBreak
+@LineBreak
+  @@InitEngine3D doit être appelé avec succès 
+  avant de pouvoir utiliser les commandes 
+  relatives aux noeuds.
+
+@CommandList
+
+@ExampleFile All Node.pb
+@ExampleFile All AttachNodeObject.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AttachNodeObject(#Noeud, ObjetID)
+
+@Description
+  Attache un objet à un noeud. 
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+  
+@Parameter "ObjetID"
+  Le numéro de l'objet. 
+@LineBreak
+@LineBreak
+  Cet objet peut être :
+@FixedFont
+  - Une entité : Utiliser @@EntityID à la place de 'ObjetID'
+  - Un son 3D  : Utiliser @@SoundID3D à la place de 'ObjetID' 
+  - Une caméra : Utiliser @@CameraID à la place de 'ObjetID' 
+  - Une lumière: Utiliser @@LightID à la place de 'ObjectID'.
+  - Un noeud   : Utiliser @@NodeID à la place de 'ObjetID'. 
+  - Mesh       : Utiliser @@MeshID à la place de 'ObjectID' (supporté seulement avec l'option #PB_Mesh_Dynamic).
+  - Un groupe de billboards : @@BillboardGroupID à la place de 'ObjetID' 
+  - Un émetteur de particules: @@ParticleEmitterID à la place de 'ObjetID'.
+@EndFixedFont
+ 
+@NoReturnValue 
+ 
+@SeeAlso
+  @@DetachNodeObject
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DetachNodeObject(#Noeud, ObjetID)
+
+@Description
+  Détache un objet précédemment attaché à 
+  un noeud. 
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+  
+@Parameter "ObjetID"
+  Le numéro de l'objet. 
+@LineBreak
+@LineBreak
+  Cet objet peut être :
+@FixedFont
+  - Une entité : Utiliser @@EntityID à la place de 'ObjetID'
+  - Un son 3D  : Utiliser @@SoundID3D à la place de 'ObjetID' 
+  - Une caméra : Utiliser @@CameraID à la place de 'ObjetID' 
+  - Une lumière: Utiliser @@LightID à la place de 'ObjectID'.
+  - Un noeud   : Utiliser @@NodeID à la place de 'ObjetID'. 
+  - Un groupe de billboards : @@BillboardGroupID à la place de 'ObjetID' 
+  - Un émetteur de particules: @@ParticleEmitterID à la place de 'ObjetID'.
+@EndFixedFont
+
+@NoReturnValue 
+ 
+@SeeAlso
+  @@AttachNodeObject
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateNode(#Noeud [, X, Y, Z])
+
+@Description
+  Crée un nouveau noeud. 
+  
+@Parameter "#Noeud"
+  Le noeud à créer.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro.
+
+@OptionalParameter "X, Y, Z"
+  Les coordonnées du nouveau noeud.
+  
+@ReturnValue 
+  Renvoie une valeur non nulle en cas 
+  de succès, zéro sinon.
+@LineBreak
+@LineBreak  
+  Si le noeud était déjà créé alors il 
+  sera automatiquement supprimé et remplacé 
+  par le nouveau.
+ 
+@SeeAlso
+  @@IsNode, @@NodeID
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NoeudID = NodeID(#Noeud)
+
+@Description
+  Renvoie l'identifiant unique d'un noeud. 
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+  
+@ReturnValue
+  Renvoie le numéro du noeud.
+
+@Remarks
+  Cette fonction est très utile quand une 
+  fonction d'une autre bibliothèque 
+  nécessite l'identifiant d'un noeud.
+
+@SeeAlso
+  @@CreateNode, @@IsNode
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NodeLookAt(#Noeud, X, Y, Z [, DirectionX.f, DirectionY.f, DirectionZ.f])
+
+@Description
+  Change l'orientation d'un noeud dans 
+  le monde.  
+
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+
+@Parameter "X, Y, Z"
+  Le noeud pointe vers la nouvelle position 
+  'X, Y, Z' (dans l'unité du monde).
+
+@OptionalParameter "DirectionX.f, DirectionY.f, DirectionZ.f"
+  La direction en X, Y et Z du vecteur du 
+  noeud (valeur comprise entre -1.0 et 1.0).
+
+@NoReturnValue
+
+@Remarks 
+  La position du noeud n'est pas modifiée. 
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = NodeX(#Noeud [, Mode])
+
+@Description
+  Renvoie la position en 'X' d'un noeud 
+  dans le Monde. 
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la position absolue en 'X' dans le monde (par défaut).
+  @#PB_Relative: Renvoie la position relative à son parent en 'X'.
+@EndFixedFont  
+ 
+@ReturnValue
+  Renvoie la position 'X' du noeud dans 
+  le Monde.
+ 
+@SeeAlso
+  @@NodeY, @@NodeZ, @@MoveNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = NodeY(#Noeud [, Mode])
+
+@Description
+  Renvoie la position relative en 'Y' 
+  d'un noeud dans le Monde. 
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la position absolue en 'Y' dans le monde (par défaut).
+  @#PB_Relative: Renvoie la position relative à son parent en 'Y'.
+@EndFixedFont  
+  
+@ReturnValue
+  Renvoie la position 'Y' du noeud dans 
+  le Monde.
+
+@SeeAlso
+  @@NodeX, @@NodeZ, @@MoveNode
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = NodeZ(#Noeud [, Mode])
+
+@Description
+
+  Renvoie la position relative en 'Z' 
+  d'un noeud dans le Monde.
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Absolute: Renvoie la position absolue en 'Z' dans le monde (par défaut).
+  @#PB_Relative: Renvoie la position relative à son parent en 'Z'.
+@EndFixedFont  
+  
+@ReturnValue
+  Renvoie la position 'Z' du noeud dans 
+  le Monde.
+ 
+@SeeAlso
+  @@NodeX, @@NodeY, @@MoveNode
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeNode(#Noeud)
+
+@Description
+  Supprime un noeud.
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, tous les nœuds 
+  restants sont libérés.
+  
+@NoReturnValue  
+
+@Remarks 
+  La mémoire qui lui était associée est 
+  libérée et le noeud ne peut plus être 
+  utilisé. @LineBreak 
+  Par contre les objets qui lui étaient 
+  attachés ne sont pas supprimés et peuvent
+  être réutilisés.
+@LineBreak  
+@LineBreak
+  Tous les noeuds restants sont 
+  automatiquement supprimés quand le 
+  programme se termine. 
+  
+@SeeAlso  
+  @@CreateNode, @@NodeID, @@IsNode
+
+@@CreateNode  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsNode(#Noeud)
+
+@Description
+  Teste si un noeud est correctement 
+  initialisé. 
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+  
+@ReturnValue  
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+  
+@Remarks  
+  C'est la fonction idéale pour vérifier 
+  qu'un objet est correctement initialisé. 
+@LineBreak
+@LineBreak  
+  Cette fonction a été créée pour pouvoir 
+  passer n'importe quelle valeur en 
+  paramètre sans qu'il ne puisse y avoir 
+  de plantage.  
+
+@SeeAlso
+  @@CreateNode, @@NodeID, @@FreeNode
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveNode(#Noeud, X, Y, Z [, Mode])
+
+@Description
+  Déplace un noeud dans le monde 3D. 
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+  
+@Parameter "X, Y, Z"
+  Nouvelles coordonnées du noeud.
+  
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Relative: Déplacement relatif, à partir de la position actuelle du noeud (par défaut).
+  @#PB_Absolute: Déplacement absolu à la position spécifiée.
+@EndFixedFont
+  combinée avec l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Local : Déplacement local.
+  @#PB_Parent: Déplacement par rapport à la position du parent.
+  @#PB_World : Déplacement par rapport au monde.
+@EndFixedFont
+
+@NoReturnValue 
+  
+@Remarks  
+  Le déplacement est relatif à la position 
+  actuelle d'un noeud. 
+
+@SeeAlso
+  @@NodeX, @@NodeY, @@NodeZ, @@RotateNode
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateNode(#Noeud, X, Y, Z [, Mode])
+
+@Description
+  Effectue une rotation d'un noeud en 
+  fonction de la valeur des angles X, Y, Z. 
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+  
+@Parameter "X, Y, Z"
+  Angles de rotation en X, Y, Z.
+@LineBreak
+@LineBreak 
+  Tous les angles sont en degrés de 0° à 360°.
+ 
+@OptionalParameter "Mode"
+@FixedFont
+  @ConstantColor "PB_Absolute": Rotation absolue (par défaut).
+  @ConstantColor "PB_Relative": Rotation relative basée sur la rotation précédente de l'entité.  
+@EndFixedFont
+
+@NoReturnValue 
+
+@SeeAlso
+  @@NodePitch, @@NodeRoll, @@NodeYaw, 
+  @@MoveNode
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleNode(#Noeud, X, Y, Z [, Mode])
+
+@Description
+  Change la taille d'un noeud. 
+
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+  
+@Parameter "X, Y, Z"
+  Les facteurs d'échelle sur les trois axes.
+
+@OptionalParameter "Mode"
+ Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_Relative: Facteur d'échelle relatif, sur la base de la taille initiale (par défaut). L'utilisation de 1.0 pour facteur d'échelle conservera la taille inchangée.
+  @#PB_Absolute: Facteur d'échelle absolue, dans l'unité du monde.
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Lorsque vous utilisez le mode
+  @#PB_Relative, alors la taille 
+  du noeud sera multiplié par la 
+  valeur donnée pour obtenir la 
+  nouvelle taille.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NodeFixedYawAxis(#Noeud, Activer [, VecteurX.f, VecteurY.f, VecteurZ.f])
+
+@Description
+    Changer l'axe de lacet du nœud. 
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+  
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+
+@Parameter "Activer"
+  Active ou désactive l'utilisation d'un 
+  axe de lacet personnalisé. 
+@FixedFont
+  @#True : Un nouvel axe vecteur doit être spécifié.
+  @#False: La caméra effectuera un lacet autour de son propre axe Y.
+@EndFixedFont
+
+@OptionalParameter "VecteurX.f, VecteurY.f, VecteurZ.f"
+  Direction du vecteur du nouvel axe de 
+  lacet (valeur comprise entre -1.0 et 1.0). 
+@LineBreak
+@LineBreak 
+  Le paramètre "Activer" doit être réglé 
+  sur @#True pour avoir un effet.
+
+@NoReturnValue
+
+@Remarks
+  Le comportement par défaut d'un noeud 
+  
+  est un lacet autour de son propre axe Y.
+
+@SeeAlso
+  @@NodeYaw
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = NodeRoll(#Noeud [, Mode])
+
+@Description
+  Renvoie le roulis d'un noeud.
+
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#True : La valeur brute, mais elle ne peut pas être utilisée avec @@RotateNode pour récupérer la même orientation (par défaut).
+  @#False: Le roulis est ajusté, de sorte qu'il peut être réutilisé avec @@RotateNode pour récupérer la même orientation.
+@EndFixedFont  
+
+@ReturnValue
+  La valeur courante du roulis du noeud.
+@linebreak
+@linebreak
+  Valeur toujours comprise entre -180.0 
+  et 180.0 degrés.
+
+@SeeAlso
+  @@NodeYaw, @@NodePitch
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = NodePitch(#Noeud[, Mode])
+
+@Description
+  Renvoie le tangage d'un noeud.
+
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#True : La valeur brute, mais elle ne peut pas être utilisée avec @@RotateNode pour récupérer la même orientation (par défaut).
+  @#False: Le tangage est ajusté, de sorte qu'il peut être réutilisé avec @@RotateNode pour récupérer la même orientation.
+@EndFixedFont  
+
+@ReturnValue
+  La valeur courante du tangage du noeud.
+@linebreak
+@linebreak
+  Valeur toujours comprise entre -180.0 
+  et 180.0 degrés.
+
+@SeeAlso
+  @@NodeYaw, @@NodeRoll
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = NodeYaw(#Noeud [, Mode])
+
+@Description
+  Renvoie le lacet d'un noeud.
+
+@Parameter "#Noeud"
+  Le noeud à utiliser.
+
+@OptionalParameter "Mode"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#True : La valeur brute, mais elle ne peut pas être utilisée avec @@RotateNode pour récupérer la même orientation (par défaut).
+  @#False: Le lacet est ajusté, de sorte qu'il peut être réutilisé avec @@RotateNode pour récupérer la même orientation.
+@EndFixedFont  
+
+@ReturnValue
+  La valeur courante du lacet du noeud.
+@linebreak
+@linebreak
+  Valeur toujours comprise entre -180.0 
+  et 180.0 degrés.
+
+@SeeAlso
+  @@NodePitch, @@NodeRoll
+  
+@SupportedOS

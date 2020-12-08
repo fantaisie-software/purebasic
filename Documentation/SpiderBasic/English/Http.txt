@@ -1,0 +1,166 @@
+;
+;     Http library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Http
+
+@Overview
+
+  Http is the name of the protocol used by web browsers to access remote information,
+  such as a web page. Each item has an unique address in order to access it from anywhere,
+  this is its: URL (Uniform Resource Locator). The functions within this library are
+  designed to provide easy manipulation of URLs and the capability to retrieve remote files.
+
+@CommandList
+
+@ExampleFile All Http.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HTTPRequest(Type, URL$, Parameters, Callback [, UserData [, Headers()]])
+
+@Description
+  Download a file to disk from the given URL$. 
+
+@Parameter "Type"
+  The type of the request. Can be one of the following value:
+@FixedFont
+  @#PB_HTTP_Get:  executes a "GET" type request. The result will be returned in the callback 
+                 once the request has been fully executed.
+  @#PB_HTTP_Post: executes a "POST" type request. The result will be returned in the callback 
+                 once the request has been fully executed.
+  @#PB_HTTP_Put: executes a "PUT" type request. The result will be returned in the callback 
+                 once the request has been fully executed.
+  @#PB_HTTP_Patch: executes a "PATCH" type request. The result will be returned in the callback 
+                 once the request has been fully executed.
+  @#PB_HTTP_Delete: executes a "DELETE" type request. The result will be returned in the callback 
+                 once the request has been fully executed.
+@EndFixedFont
+
+@Parameter "URL$"
+  The URL to execute the request. Due to security constraints, it is only possible to execute a
+  request on the same domain.
+
+@Parameter "Parameters"
+  The parameter list.
+
+@Parameter "Callback"
+  The callback to be called once the request has been executed. It has to use the following syntax:
+
+@Code
+  Procedure Callback(Success, Result$, UserData)
+    ; Success : #True if the request has been correctly executed, #False otherwise
+    ; Result$ : The result of the request, as a text object
+    ; UserData: The value specified in UserData parameter of HTTPRequest() or zero if not specified.
+  EndProcedure
+@EndCode
+
+@OptionalParameter "UserData"
+  A custom user value which will be passed to the callback in the "UserData" parameter.
+
+@OptionalParameter "Headers()"
+  A string map of custom headers to set when sending the request.
+    
+    
+@NoReturnValue
+
+@Example
+@Code
+  Procedure HttpGetEvent(Success, Result$, UserData)
+    If Success
+      Debug Result$
+    Else
+      Debug "HTTPRequest(): Error"
+    EndIf
+  EndProcedure
+  
+  ; Get the content of this file, and display it in the debug window
+  ;
+  HTTPRequest(#PB_HTTP_Get, #PB_Compiler_Filename, "", @HttpGetEvent())
+@EndCode
+
+@Example With custom headers
+@Code
+  Procedure HttpGetEvent(Success, Result$, UserData)
+    If Success
+      Debug Result$
+    Else
+      Debug "HTTPRequest(): Error"
+    EndIf
+  EndProcedure
+
+  NewMap Headers$()
+  Headers$("x-customheader") = "test"
+  Headers$("x-customvalue") = "10"
+  
+  HTTPRequest(#PB_HTTP_Get, #PB_Compiler_Filename, "", @HttpGetEvent(), 0, Headers$())
+@EndCode
+
+@SeeAlso
+  @@URLEncoder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = URLDecoder(URL$)
+
+@Description
+  Returns a decoded URL$ which has been encoded with the HTTP format.
+
+@Parameter "URL$"
+  The URL to decode. To encode an URL, use @@URLEncoder.
+
+@ReturnValue
+  Returns the decoded URL.
+
+@Remarks
+  A URL$ may not contain certain characters such as: tab, space, accent letter etc.,
+  therefore these characters must be encoded, which basically involves using "%" as an escape
+  character. If the URL$ is not in an encoded format, this function will have no effect on the
+  given "URL$" and the return-value of that "URL$" will remain unchanged.
+
+@Example
+@Code
+  Debug URLDecoder("http://www.spiderbasic.com/test%20with%20space.php3")
+  ; Will print "http://www.spiderbasic.com/test with space.php3"
+@EndCode
+
+@SeeAlso
+  @@URLEncoder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = URLEncoder(URL$)
+
+@Description
+  Returns the URL$ encoded to the HTTP format.
+
+@Parameter "URL$"
+  The URL to encode.
+
+@ReturnValue
+  Returns the encoded URL.
+  To convert an encoded URL back to a unencoded format, use @@URLDecoder
+
+@Remarks
+  A URL$ may not contain certain characters such as: tab, space, accent letter etc.,
+  therefore these characters must be encoded, which basically involves using "%" as an escape
+  character.
+
+@Example
+@Code
+  Debug URLEncoder("http://www.spiderbasic.com/test with space.php3")
+  ; Will print "http://www.spiderbasic.com/test%20with%20space.php3"
+@EndCode
+
+@SeeAlso
+  @@URLDecoder
+
+@SupportedOS

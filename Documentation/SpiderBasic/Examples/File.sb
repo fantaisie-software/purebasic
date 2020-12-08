@@ -1,0 +1,44 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - File example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+
+Procedure ReadCallback(Status, Filename$, File, Size)
+  If Status = #PB_Status_Loaded
+    Debug "File: " + Filename$ + " - Size: " + Size + " bytes"
+    Debug "Reading first 3 lines:"
+    
+    ; Read the first 3 lines
+    ;
+    While Eof(0) = 0 And NbLine < 3 
+      Debug ReadString(0)            
+      NbLine+1
+    Wend
+    
+    CloseFile(0)
+    
+  ElseIf Status = #PB_Status_Error
+    Debug "Error when loading the file: " + Filename$
+  EndIf
+EndProcedure
+
+Procedure OpenFileRequesterCallback()
+  If NextSelectedFile()
+    ReadFile(0, SelectedFileID(), @ReadCallback(), #PB_LocalFile)
+  EndIf
+EndProcedure
+
+Procedure ChooseFileEvent()
+  OpenFileRequester("text/plain", @OpenFileRequesterCallback())
+EndProcedure
+
+OpenWindow(0, 0, 0, 300, 50, "Read file example", #PB_Window_ScreenCentered)
+ButtonGadget(0, 10, 10, 280, 30, "Choose a text file...")
+
+BindGadgetEvent(0, @ChooseFileEvent())

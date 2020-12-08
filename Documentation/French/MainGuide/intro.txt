@@ -1,0 +1,183 @@
+@Title Introduction
+
+  PureBasic est un langage de programmation de "haut niveau" basé sur les règles du 
+  langage BASIC. 
+  Il est identique à tout autre compilateur BASIC que vous auriez pu déjà utiliser. 
+  PureBasic a été créé pour être aussi accessible au débutant qu'à l'expert, il est 
+  donc très facile à apprendre. La compilation est très rapide, presque instantanée.
+  Nous avons consacré beaucoup de temps et d'efforts pour vous proposer un langage 
+  rapide, fiable et convivial. 
+  @LineBreak
+  @LineBreak
+  La syntaxe de PureBasic est simple, mais ses possibilités sont infinies grâce à 
+  certaines caractéristiques évoluées comme, entre autres, les pointeurs, structures, 
+  procédures, listes dynamiques, les maps, les interfaces, la programmation modulaire 
+  (modules), un assembleur en ligne, etc. Le programmeur expérimenté n'aura 
+  aucune difficulté à accéder aux structures du système d'exploitation et aux API's. 
+  @LineBreak
+  @LineBreak
+  PureBasic est un langage portable qui fonctionne actuellement sur les ordinateurs 
+  PC dotés du système d'exploitation Windows, Linux ou Mac OS X. 
+  Cela signifie qu'un même programme peut être compilé sur chacune de ces machines 
+  et en exploiter toute la puissance. PureBasic est un compilateur. Il n'utilise 
+  donc pas de code intermédiaire ou de machine virtuelle, mais produit un code 
+  optimisé directement exécutable par la machine ou le système d'exploitation sur 
+  lequel il est compilé. Les bibliothèques externes sont écrites et optimisées 
+  manuellement en assembleur. Les commandes sont donc très rapides, souvent plus 
+  rapides que leurs équivalentes écrites en langage C/C++. 
+  @LineBreak
+  @LineBreak
+  Pour information, les passionnés de machines anciennes
+  trouveront une version en opensource pour AmigaOS 
+  (680x0 et PowerPC) 
+  @InternetLink "http://www.purebasic.com/french/download.php" "ici"
+
+
+@Section Caractéristiques techniques 
+
+  - Supporte nativement les microprocesseurs x86 et x64 @LineBreak 
+  - 83 bibliothèques natives @LineBreak 
+  - Des centaines de fonctions @LineBreak 
+  - Définitions intégrées de tableaux, listes dynamiques, structures complexes, maps, pointeurs et variables @LineBreak
+  - Types supportés : Byte (8-bit), Word (16-bit), Long (32-bit), Quad (64-bit), Flottant (32 et 64-bit) et Caractère (8 ou 16-bit) @LineBreak
+  - Types définis par l'utilisateur (structures) @LineBreak
+  - Définition intégrée des chaines de caractères avec de nombreuses fonctions dédiées, y compris en mode unicode @LineBreak
+  - Puissant support des macros @LineBreak
+  - Support des constantes et valeurs octales et hexadécimales @LineBreak
+  - Réducteur d'expression (regroupement des constantes et valeurs explicites) @LineBreak
+  - Calcul arithmétique standard avec respect de la priorité des opérateurs et parenthèses : +, -, /, *, and, or, lsl, asl, lsr, asr @LineBreak
+  - Compilation extrêmement rapide @LineBreak
+  - Support des procédures pour une programmation structurée avec variables globales, statiques et locales @LineBreak
+  - Supporte tous les mots-clé évolués du langage Basic : If-Else-EndIf, Repeat-Until, For-Next, etc. @LineBreak
+  - Support de bibliothèques externes pour la manipulation d'objets Windows : Images, fenêtres, composants graphiques, DirectX, etc. @LineBreak
+  - Les bibliothèques externes sont également toutes écrites en langage assembleur optimisé pour plus de rapidité et de compacité @LineBreak
+  - Les API's de Windows (Linux et OSX) sont supportées et considérées comme des mots-clé du BASIC @LineBreak
+  - Langage assembleur intégré permettant d'insérer toute commande ou routine assembleur dans le corps du programme Basic @LineBreak
+  - Constantes et structures précompilées pour une compilation encore plus rapide @LineBreak
+  - Débogueur intégré pour suivre l'exécution d'un programme et corriger les erreurs plus facilement@LineBreak
+  - Options de compilation configurables @LineBreak
+  - Editeur dédié avec syntaxe automatiquement surlignée @LineBreak
+  - Système convivial, facile à installer, à comprendre et utiliser @LineBreak
+  - Entièrement en français @LineBreak
+  - SDK Visual C @LineBreak
+@LineBreak
+@LineBreak
+  - Compilation de programme fenêtré, console ou DLL @LineBreak
+  - Création de fenêtres wysiwyg intégré @LineBreak
+  - Création de fenêtres avec réorganisation automatique des gadgets (layout) avec la bibliothèque 'Dialog' @LineBreak
+  - 33 gadgets natifs @LineBreak
+  - 1 gadget spécialisé dans l'OpenGL @LineBreak
+  - 1 gadget scintilla @LineBreak
+  - Processus, thread, mutex, semaphore @LineBreak
+  - Drag'n drop @LineBreak
+  - DPI pour MS Windows@ LineBreak
+  - QT and GTK3 pour Linux @LineBreak
+  - Sous système DirectX et OpenGL @LineBreak
+  - Import de bibliothèques statiques (lib) ou dynamiques (dll, so, etc) @LineBreak
+  - Dessin avec antialiasing avec la bibliothèque 'Vector' @LineBreak
+  - Fonction 3D avec le moteur 3D OGRE @LineBreak
+  - Pseudotypes : p-ascii, p-utf8,  p-bstr, p-unicode,  p-variant @LineBreak
+  - Array, listes, maps, Base de données (MySQL, SQLite, ODBC, PostgreSQL, Maria) @LineBreak
+  - json, xml @LineBreak
+  - Expression régulière@LineBreak
+  - http, ftp, mail, application server/client@LineBreak, CGI et FastCGI @LineBreak
+  - Cypher @LineBreak 
+  - OnError@LineBreak
+  - Compresseur/décompresseur : BriefLZ, JCALG1, LZMA, Tar, Zip@LineBreak
+  - ini file@LineBreak
+  - Imprimante, port série@LineBreak
+  - Runtime@LineBreak
+@LineBreak
+  Voici la liste exhaustives de toutes les bibliothèques que propose PureBasic:@LineBreak
+@LineBreak
+@Code
+  Fenêtres & systèmes :
+    arrays
+    cgi
+    cipher
+    clipboard
+    console
+    database
+    date
+    debugger
+    desktop
+    dialog
+    dragdrop
+    file
+    filesystem
+    font
+    ftp
+    gadget
+    help
+    http
+    json
+    library
+    lists
+    mail
+    maps
+    math
+    memory
+    menu
+    network
+    onerror
+    packer
+    preference
+    printer
+    process
+    regularexpression
+    requester
+    runtimes
+    scintilla
+    serialport
+    sort
+    statusbar
+    string
+    system
+    systray
+    thread
+    toolbar
+    window
+    xml
+
+ 2D & Multimédia :
+    2ddrawing
+    audiocd
+    font
+    image
+    imageplugin
+    joystick
+    keyboard
+    mouse
+    movie
+    music
+    screen
+    sound
+    soundplugin
+    sprite
+    vectordrawing
+
+  Moteur 3D :
+    billboard
+    camera
+    engine3d
+    entity
+    entityanimation
+    gadget3d
+    joint
+    light
+    material
+    mesh
+    node
+    nodeanimation
+    particle
+    sound3d
+    specialeffect
+    spline
+    staticgeometry
+    terrain
+    text3d
+    texture
+    vehicle
+    vertexanimation
+    window3d
+@EndCode

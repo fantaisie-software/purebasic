@@ -1,0 +1,35 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - List example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+NewList Numbers() ; create a list of integer
+
+AddElement(Numbers())
+Numbers() = 1
+
+AddElement(Numbers())
+Numbers() = 2
+
+AddElement(Numbers())
+Numbers() = 3
+
+ForEach Numbers()
+  Debug Numbers()
+Next
+
+Debug "Deleting second item"
+
+SelectElement(Numbers(), 1) ; First index position is 0
+DeleteElement(Numbers())
+
+ForEach Numbers()
+  Debug Numbers()
+Next
+
+

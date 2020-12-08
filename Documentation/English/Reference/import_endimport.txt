@@ -1,0 +1,85 @@
+@Title Import : EndImport
+
+@Syntax
+
+  @Keyword Import "Filename"
+    FunctionName.<type>(<parameter>, [, <parameter> [= DefaultValue]...]) [As "SymbolName"]
+    ...
+    VariableName.<type> [As "SymbolName"]
+  @Keyword EndImport
+
+@Description
+
+  For advanced programmers. @Keyword Import : @Keyword EndImport allows to easy declare external functions and variables from
+  a library (.lib) or an object (.obj) file. 
+  @LineBreak
+  @LineBreak
+  Once declared, the imported functions are directly available
+  for use in the program, like any other commands. The compiler doesn't check if the functions really exists
+  in the imported file, so if an error occurs, it will be reported by the linker. 
+  @LineBreak
+  @LineBreak
+  This feature can replace the @@OpenLibrary/@@CallFunction
+  sequence as it has some advantages: type checking is done, number of
+  parameters is validated. Unlike CallFunction(), it can deal with double, float and quad
+  without any problem. 
+  @LineBreak
+  @LineBreak
+  The last parameters can have a default value (need to be a constant
+  expression), so if these parameters are omitted when the function is called, the default value will be used.
+  @LineBreak
+  @LineBreak
+  By default the imported function symbol is 'decorated' in the following way: _FunctionName@CallSize. That 
+  should work for most of the functions which use the standard call convention (stdcall). If the library is a C one, and 
+  the function are not stdcall, the @Keyword ImportC variant should be used instead. In this case, the default function
+  symbol is decorated like: _FunctionName.
+  @LineBreak
+  @LineBreak
+  The @ReferenceLink "pseudotypes" "pseudotypes" can be used for the parameters, but not for the returned
+  value.
+@Remarks
+  On x64, there is only one calling convention, so @Keyword ImportC will behave the sames as @Keyword Import.
+  
+@Example 
+
+@Code
+  Import "User32.lib"
+   
+    ; No need to use 'As' as PureBasic decorates the function correctly
+    ; We also define the 'Flags' as optional, with a default value of 0 (when omitted)
+    ;
+    MessageBoxA(Window.i, Body$, Title$, Flags.i = 0)
+    
+    ; This time PureBasic can't find it alone as the function 
+    ; name isn't the same than the one used by the symbol
+    ;
+    MsgBox(Window.i, Body$, Title$, Flags.i) As "_MessageBoxA@16" 
+                                                   
+  EndImport
+  
+  MessageBoxA(0, "Hello", "World") ; We don't specify the flags
+  MsgBox(0, "Hello", "World 2", 0)
+    
+@EndCode
+
+
+@Example With pseudotypes
+
+@Code
+  Import "User32.lib"
+   
+    ; We use the 'p-unicode' pseudotype for the string parameters, as
+    ; MessageBoxW() is an unicode only function. The compiler will 
+    ; automatically converts the strings to unicode when needed.
+    ;
+    MessageBoxW(Window.l, Body.p-unicode, Title.p-unicode, Flags.l = 0)
+                                                  
+  EndImport
+  
+  ;
+  MessageBoxW(0, "Hello", "World")
+    
+@EndCode
+
+
+

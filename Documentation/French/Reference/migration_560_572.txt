@@ -1,0 +1,27 @@
+@Title Migration de PureBasic 5.60 to 5.72 LTS
+
+@Section Bibliothèque Math
+
+@LineBreak
+Sign(): renvoie maintenant un entier au lieu d'un flottant.
+@Code
+  ; Ancien
+  Var.d(f) = Sign(X)
+
+  ; Nouveau
+  Var.i = Sign(X)
+@EndCode
+
+@LineBreak
+@Section Bibliothèque Window
+
+@LineBreak
+PostEvent(): renvoie maintenant un résultat car il pouvait échouer dans certains cas extrêmes.@LineBreak
+
+@LineBreak
+@Section Divers
+
+Sous MS WIndows, la police de caractères par défaut est passée de MS Shell Dlg à Segoe UI taille 9. @LineBreak
+
+@LineBreak
+@LineBreak

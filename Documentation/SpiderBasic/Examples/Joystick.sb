@@ -1,0 +1,60 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Joystick example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+; Please use 'Chrome' browser to test Joystick support
+;
+
+OpenScreen(800, 600, 32, "Test")
+
+
+Procedure RenderFrame()
+  Static x, y
+  
+  NbJoysticks = InitJoystick()
+
+  ClearScreen(0)
+  
+  If NbJoysticks
+    If ExamineJoystick(0)
+      x + JoystickAxisX(0)
+      y + JoystickAxisY(0)
+      
+      Debug(JoystickName(0))
+      Debug(JoystickButton(0, 1))
+      
+      DisplaySprite(0, x, y)
+    EndIf
+  Else
+    Debug "No Joystick found"
+  EndIf
+  
+  FlipBuffers() ; continue the rendering
+EndProcedure
+
+
+Procedure Loading(Type, Filename$)
+  Static NbLoadedElements
+  
+  NbLoadedElements+1
+  If NbLoadedElements = 1 ; Finished the loading of all images and sounds, we can start the applications
+    FlipBuffers() ; start the rendering
+  EndIf
+EndProcedure
+
+
+Procedure LoadingError(Type, Filename$)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loading())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+
+LoadSprite(0, "Data/Spider.png")

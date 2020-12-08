@@ -1,0 +1,17 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Cipher example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+UseMD5Fingerprint()
+UseSHA2Fingerprint()
+UseSHA3Fingerprint()
+
+Debug "MD5: "      + StringFingerprint("The quick brown fox jumps over the lazy dog", #PB_Cipher_MD5)
+Debug "SHA2-256: " + StringFingerprint("The quick brown fox jumps over the lazy dog", #PB_Cipher_SHA2, 256)
+Debug "SHA3-512: " + StringFingerprint("The quick brown fox jumps over the lazy dog", #PB_Cipher_SHA3, 512)

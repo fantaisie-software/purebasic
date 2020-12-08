@@ -1,0 +1,684 @@
+;
+;     Network library documentation
+;
+;      (c) 2018 - Fantaisie Software
+;
+
+@Library Network
+
+@Overview
+
+PureBasic supports the official protocol to exchange data
+via the internet: @InternetLink "http://en.wikipedia.org/wiki/TCP/IP" "TCP/IP" in both IPv4 and IPv6 form.
+This means that games and applications can be written using the well-established 
+client/server model. With these functions, its possible to
+create any kind of internet-related application (browsers, web servers,
+ftp clients, etc) or even multiplayer games.
+
+@CommandList
+
+@ExampleFile All NetworkClient.pb
+@ExampleFile All NetworkServer.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseNetworkConnection(Connection)
+
+@Description
+  Close the specified connection. 
+  
+@Parameter "Connection"
+  The connection to close. This is the result of either a call to
+  @@OpenNetworkConnection or @@EventClient.
+  
+@NoReturnValue
+  
+@Remarks
+  If a client calls this function the server will receive a @#PB_NetworkEvent_Disconnect event. 
+  If this function is called from a server the connection will be closed without further notice to the client. 
+  When a server receives a @#PB_NetworkEvent_Disconnect event its associated client connection is automatically 
+  closed and CloseNetworkConnection() must not be called in this case.
+@LineBreak
+@LineBreak
+  All remaining opened connections are automatically closed when the program ends.
+
+@SeeAlso
+  @@OpenNetworkConnection, @@EventClient, @@CloseNetworkServer
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ConnectionID(Connection)
+
+@Description
+  Returns the unique system identifier of the connection.
+  
+@Parameter "Connection"
+  The connection to use. This is the result of either a call to
+  @@OpenNetworkConnection or @@EventClient.
+  
+@ReturnValue
+  Returns the system identifier. 
+  This result is sometimes also known as 'Handle'. Look at the extra chapter @ReferenceLink "handles" "Handles and Numbers" for
+  more information.
+  
+@SeeAlso
+  @@ServerID
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ServerID(#Server)
+
+@Description
+  Returns the unique system identifier of the server.
+ 
+@Parameter "#Server"
+  The server to use.
+  
+@ReturnValue
+  Returns the system identifier.
+  This result is sometimes also known as 'Handle'. Look at the extra chapter @ReferenceLink "handles" "Handles and Numbers" for
+  more information.
+
+@SeeAlso
+  @@ConnectionID
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseNetworkServer(#Server)
+
+@Description
+  Shutdown the specified running server. All clients connected to this 
+  server are automatically removed. The port is freed and can be reused.
+  
+@Parameter "#Server"
+  The server to close.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateNetworkServer, @@CloseNetworkConnection
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateNetworkServer(#Server, Port [, Mode [, BindedIP$]])
+
+@Description
+  Create a new network server on the local computer using the specified port. 
+  
+@Parameter "#Server"
+  A number to identify the new server.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+  
+@Parameter "Port"
+  The port to use for the server.
+  Port values can range from 6000 to 7000 (this is a recommended area space, 
+  but it can go from 0 to 65000 in reality). 
+  
+@OptionalParameter "Mode"
+  Can be one of the following values:
+@FixedFont
+  @#PB_Network_TCP: The server will use the @InternetLink "http://en.wikipedia.org/wiki/Transmission_Control_Protocol" "TCP network protocol" (default)
+  @#PB_Network_UDP: The server will use the @InternetLink "http://en.wikipedia.org/wiki/User_Datagram_Protocol" "UDP network protocol"
+@EndFixedFont
+  combined with one of the following values (using the '|' operand):
+@FixedFont
+  @#PB_Network_IPv4: create a server using IPv4 (default)
+  @#PB_Network_IPv6: create a server using IPv6
+@EndFixedFont
+
+@OptionalParameter "BindedIP$"
+  The local IP address to bind the server. By default, the server is created on all available local interfaces, and accept
+  connections from them. It can be useful to restrict the server to only one interface (for example "127.0.0.1")
+  to avoid connection attempt from other interfaces. On Windows, binding only to the localhost avoid to trigger the
+  built-in firewall.
+
+@ReturnValue
+  Returns nonzero if the server was created successfully and zero if creation 
+  failed, for example, due to the port being already in use. 
+  If #PB_Any was used as the #Server parameter then the generated number is returned on success. 
+  
+@Remarks
+  Any number of servers can run simultaneously on the same computer, the only restriction
+  being that two servers can not run using the same port and the same protocol (@#PB_Network_TCP and @#PB_Network_UDP).
+  It's possible to create two servers using the same port, one using IPv4 and the other using IPv6.
+  @@NetworkServerEvent can be used to monitor server for events.
+@LineBreak
+@LineBreak
+  @@InitNetwork must be called before using any other commands from the network library.
+
+@SeeAlso
+  @@OpenNetworkConnection, @@CloseNetworkServer, @@NetworkServerEvent, @@InitNetwork
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineIPAddresses([Format]) 
+
+@Description
+  Start examining the available IP addresses on the local computer. @@NextIPAddress is used
+  to retrieve each IP.
+  
+@OptionalParameter "Format"
+  The format of the IP to examine. It can be one of the following value:
+@FixedFont  
+  @#PB_Network_IPv4: examine IPv4 addresses (default).
+  @#PB_Network_IPv6: examine IPv6 addresses. Returned addresses needs to be freed with @@FreeIP after use.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if examining the addresses works and zero if it failed.
+  
+@Example IPv4
+@Code
+  InitNetwork()
+  If ExamineIPAddresses()
+    Repeat
+      IP = NextIPAddress()
+      If IP
+        Debug "IPv4: " + IPString(IP) 
+      EndIf
+    Until IP = 0
+  EndIf
+@EndCode
+
+@Example IPv6
+@Code
+  InitNetwork()
+  If ExamineIPAddresses(#PB_Network_IPv6)
+    Repeat
+      IP = NextIPAddress()
+      If IP
+        Debug "IPv6: " + IPString(IP, #PB_Network_IPv6) 
+        FreeIP(IP)                                     
+      EndIf
+    Until IP = 0
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@NextIPAddress
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeIP(IPAddress) 
+
+@Description
+  Free an IPv6 address. This function only works with IPv6 addresses returned by @@MakeIPAddress, @@NextIPAddress
+  and @@GetClientIP, and must not be used with IPv4 addresses.
+  
+@Parameter "IPAddress"
+  The IPv6 address to free.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@NextIPAddress, @@MakeIPAddress, @@GetClientIP
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = HostName() 
+
+@Description
+  Returns the computer's hostname.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the host name.
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitNetwork() 
+
+@Description
+  This function must be called before any other function from the Network library.
+  
+@NoParameters
+
+@ReturnValue
+  Returns nonzero if the network was initialized correctly or zero if not.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = IPString(IPAddress [, Format]) 
+
+@Description
+  Returns the string representation in dotted form (ie: "127.0.0.1" for IPv4 or "::1" for IPv6) of the specified numerical IPAddress. 
+
+@Parameter "IPAddress"
+  The IP address. For IPv6, this address needs to be the result of @@MakeIPAddress, @@NextIPAddress or @@GetClientIP.
+
+@OptionalParameter "Format"
+  The format of the IP to convert. It can be one of the following value:
+@FixedFont  
+  @#PB_Network_IPv4: convert an IPv4 address (default).
+  @#PB_Network_IPv6: convert an IPv6 address.
+@EndFixedFont
+
+@ReturnValue
+  Returns the IP address as a string.
+  
+@SeeAlso
+  @@MakeIPAddress, @@IPAddressField
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IPAddressField(IPAddress, Field [, Format])
+
+@Description
+  Returns the given field value of the specified IP address. 
+  
+@Parameter "IPAddress"
+  The IP address. For IPv6, this address needs to be created with @@MakeIPAddress.
+
+@Parameter "Field"
+  The field to return. This value can be a value between 0 and 3 
+  (0 being the leftmost value, 3 being the rightmost) for IPv4 and 0 to 7 for IPv6.
+
+@OptionalParameter "Format"
+  The format of the IP. It can be one of the following value:
+@FixedFont  
+  @#PB_Network_IPv4: an IPv4 address (default).
+  @#PB_Network_IPv6: an IPv6 address.
+@EndFixedFont
+ 
+@ReturnValue
+  Returns the value of the specified field, in the range 0 to 255.
+  
+@Remarks
+  This function is especially useful with:
+@LineBreak  
+@LineBreak
+  - @@IPAddressGadget
+@LineBreak
+  - @@MakeIPAddress
+  
+@SeeAlso
+  @@MakeIPAddress, @@IPString, @@IPAddressGadget
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MakeIPAddress(Field0, Field1, Field2, Field3 [, Field4, Field5, Field6, Field7]) 
+
+@Description
+  Returns the equivalent numeric value of the specified IP address.
+  
+@Parameter "Field0, Field1, Field2, Field3"
+  The individual fields of the address.  
+  Each field can only have a value between 0 and 255. 
+  
+@OptionalParameter "Field4, Field5, Field6, Field7"
+  The remaining individual fields for IPv6 address.
+  Each field can only have a value between 0 and 255. 
+  When these fields are specified, an IPv6 address is created. When the address is no more needed, it has
+  to be manually freed with @@FreeIP. IPv4 address must not be freed with @@FreeIP.
+
+@ReturnValue
+  Returns the IP address.
+  
+@Remarks
+   This function is especially useful with:
+@LineBreak  
+@LineBreak
+  - @@IPAddressGadget
+  
+@SeeAlso
+  @@IPString, @@IPAddressField
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Server = EventServer() 
+
+@Description
+  This function returns the number of the server which has received
+  data, allowing multiple servers to be managed on one computer.
+  It is only needed on the server side. 
+  
+@NoParameters
+
+@ReturnValue
+  Returns the #Server number of the server causing the event.
+
+@SeeAlso
+  @@NetworkServerEvent, @@EventClient
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Connection = EventClient() 
+
+@Description
+  This function returns the connection of the client that sent data and is only needed on the server side.
+   
+@NoParameters
+
+@ReturnValue
+  Returns the connection of the client that caused the event.
+   
+@Remarks
+  The functions @@GetClientIP and @@GetClientPort can be used to get more information on the client that sent data. 
+
+@SeeAlso
+  @@NetworkServerEvent, @@GetClientIP, @@GetClientPort
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function IP = GetClientIP(Client) 
+
+@Description
+  This function returns the IP address of the client and should be called after EventClient(). 
+  If the connection is an IPv6 connection the returned address must be freed with FreeIP().
+  
+@Parameter "Client"
+  The client for which to get the IP.
+
+@ReturnValue
+  Returns the IP address of the client.
+
+@SeeAlso
+  @@GetClientPort, @@IPString, @@EventClient
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Port = GetClientPort(Client) 
+
+@Description
+  Returns the client port and should be called after @@EventClient.
+
+@Parameter "Client"
+  The client for which to get the port.
+
+@ReturnValue
+  Returns the port of the client.
+
+@SeeAlso
+  @@GetClientIP, @@EventClient
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NetworkClientEvent(Connection) 
+
+@Description
+  Checks if an event happened on a network connection created with @@OpenNetworkConnection.
+
+@Parameter "Connection"
+  The connection to check.
+
+@ReturnValue
+  Returns one of the following values:
+@FixedFont
+  @#PB_NetworkEvent_None      : Nothing has happened
+  @#PB_NetworkEvent_Data      : Raw data has been received (to be read with @@ReceiveNetworkData)
+  @#PB_NetworkEvent_Disconnect: The client has been disconnected (connection closed).
+@EndFixedFont
+
+@SeeAlso
+  @@ReceiveNetworkData, @@NetworkServerEvent
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NetworkServerEvent([#Server]) 
+
+@Description
+  Checks if an event happened on one of the open network servers.
+
+@OptionalParameter "#Server"
+  The server to use to check the events. When used, only the events which belongs to this
+  server are handled, all other events are left untouched.
+
+@ReturnValue
+  Returns one of the following values:
+@FixedFont
+  @#PB_NetworkEvent_None      : Nothing has happened
+  @#PB_NetworkEvent_Connect   : A new client has been connected to the server (not available with @#PB_Network_UDP connections)
+  @#PB_NetworkEvent_Data      : Raw data has been received (to be read with @@ReceiveNetworkData)
+  @#PB_NetworkEvent_Disconnect: A client has quit the server (disconnection). Its associated connection is 
+                               automatically closed, @@CloseNetworkConnection must not be called for this client.
+                               (Not available with @#PB_Network_UDP connections.)
+@EndFixedFont
+
+@Remarks
+  The server that received the event can be determined with @@EventServer. The client that caused the event
+  can be determined with @@EventClient.
+
+@SeeAlso
+  @@ReceiveNetworkData, @@EventServer, @@EventClient, @@CreateNetworkServer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextIPAddress()
+
+@Description
+  Returns the next IP address of the local machine. @@ExamineIPAddresses must be called
+  before this command. 
+
+@NoParameters
+
+@ReturnValue
+  Returns the next IP address in numerical form. If the result is 0 then there are no more IP addresses to be examined.
+  If @@ExamineIPAddresses is called with the @#PB_Network_IPv6 format, the returned IP needs to freed with @@FreeIP after use.
+
+@Example IPv4
+@Code
+  InitNetwork()
+  If ExamineIPAddresses()
+    Repeat
+      IP = NextIPAddress()
+      If IP
+        Debug "IPv4: " + IPString(IP) 
+      EndIf
+    Until IP = 0
+  EndIf
+@EndCode
+
+@Example IPv6
+@Code
+  InitNetwork()
+  If ExamineIPAddresses(#PB_Network_IPv6)
+    Repeat
+      IP = NextIPAddress()
+      If IP
+        Debug "IPv6: " + IPString(IP, #PB_Network_IPv6) 
+        FreeIP(IP)                                     
+      EndIf
+    Until IP = 0
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineIPAddresses, @@IPString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Connection = OpenNetworkConnection(ServerName$, Port [, Mode [, TimeOut [, LocalIP$ [, LocalPort]]]]) 
+
+@Description
+  Opens a network connection to the specified server. 
+
+@Parameter "ServerName$"
+  The server to connect to. This can be an 
+  IP address or a full name (ie: "127.0.0.1" or "ftp.home.net").
+  
+@Parameter "Port"
+  The port on the server to connect to.
+
+@OptionalParameter "Mode"
+  This can be one of the following values:
+@FixedFont
+  @#PB_Network_TCP: The connection will use the @InternetLink "http://en.wikipedia.org/wiki/Transmission_Control_Protocol" "TCP network protocol" (default)
+  @#PB_Network_UDP: The connection will use the @InternetLink "http://en.wikipedia.org/wiki/User_Datagram_Protocol" "UDP network protocol". The connection will not be
+                   explicitly created, as UDP is a connectionless protocol, but it will add an 
+                   entry in the PureBasic management stack and allow to send data via UDP using 
+                   the regular @@SendNetworkData (and related) functions.
+@EndFixedFont
+  combined with one of the following values (using the '|' operand):
+@FixedFont
+  @#PB_Network_IPv4: open the connection using IPv4 (default)
+  @#PB_Network_IPv6: open the connection using IPv6
+@EndFixedFont
+
+@OptionalParameter "TimeOut"
+  The maximum time (in milliseconds) before aborting the connection attempt. Usually, it shouldn't be
+  set to a too low value (less than 5000 milliseconds), as initializing a connection over the net
+  can take some time.
+
+@OptionalParameter "LocalIP$"
+  The local IP address to bind the connection to.
+
+@OptionalParameter "LocalPort"
+  The local port to bind the connection to. By default a random local port is automatically chosen for the new connection,
+  but it can be overridden with this parameter.
+
+@ReturnValue
+  Returns the connection identifier for the opened connection if the connection was established correctly.
+  If there was an error the result is zero.
+
+@SeeAlso
+  @@NetworkClientEvent, @@SendNetworkData, @@ReceiveNetworkData, @@CloseNetworkConnection
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReceiveNetworkData(Connection, *DataBuffer, DataBufferLength)  
+
+@Description
+  Receives raw data from the specified client. This function can be used by both client and server applications 
+  and should be called only after having received a @#PB_NetworkEvent_Data event.
+  
+@Parameter "Connection"
+  The connection to receive data from.
+  On the server side 'Connection' is the client which has send the data (can be easily obtained with 
+  @@EventClient).
+  On client side, 'Connection' is returned by @@OpenNetworkConnection. 
+
+@Parameter "*DataBuffer"
+  The memory address to receive the data to.
+
+@Parameter "DataBufferLength"
+  The length of the buffer to receive data to.
+
+@ReturnValue
+  Returns the number of bytes received. If 'Result' is equal to DataBufferLength then more data is available to be read.
+  If an error occurred on the connection (link broken, connection close by the server etc...) 'Result' will be -1. 
+  
+@Remarks
+  On UDP connections, the maximum 'DataBufferLength' is 2048. On TCP connections, the maximum 'DataBufferLength' is 65536.
+
+@SeeAlso
+  @@NetworkClientEvent, @@NetworkServerEvent, @@SendNetworkData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SendNetworkData(Connection, *MemoryBuffer, Length)
+
+@Description
+  Sends raw data to the specified client. This function can be used by both 
+  client and server applications. 
+
+@Parameter "Connection"
+  The connection to send data to.
+  On the server side, 'Connection' is the client which should receive this data. 
+  On the client side, 'Connection' is returned by @@OpenNetworkConnection. 
+
+@Parameter "*MemoryBuffer"
+  The address of the data to send.
+
+@Parameter "Length"
+  The length of the data to send.
+
+@ReturnValue
+  Returns the number of bytes actually sent. If the number of bytes returned is not equal 
+  to the 'Length' parameter the receiving buffer of the user is probably full. 
+  If nothing could be sent then 'Result' will equal -1. 
+
+@Remarks
+  On UDP connections, the maximum 'Length' is 2048. On TCP connections, the maximum 'Length' is 65536.
+
+@SeeAlso
+  @@SendNetworkString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SendNetworkString(Connection, String$ [, Format])
+
+@Description
+  Send a string to the specified client. This function can be used by both 
+  client and server applications. 
+  
+@Parameter "Connection"
+  The connection to send the string to.
+  On the server side, 'Connection' is the client which should receive this data. 
+  On the client side, 'Connection' is returned by @@OpenNetworkConnection. 
+  
+@Parameter "String$"
+  The string to send.
+
+@OptionalParameter "Format"
+  The string format to use when sending the string. This can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : sends the strings as ASCII
+  @#PB_UTF8   : sends the strings as UTF8 (default) 
+  @#PB_Unicode: send the strings as unicode
+@EndFixedFont
+
+@ReturnValue
+  Returns the number of bytes sent.
+  
+@Remarks
+  SendNetworkString() provides a solution to quickly send strings. The string will be sent without the
+  terminating null-character, and can be received using @@ReceiveNetworkData, after 
+  @@NetworkServerEvent / @@NetworkClientEvent returned @#PB_NetworkEvent_Data).
+  In @ReferenceLink "unicode" "unicode" mode the string is sent as UTF-8, which is processor independent (unlike UTF-16 which is tied to processor endianness).
+  There is no ReceiveNetworkString() command.
+
+@SeeAlso
+  @@SendNetworkData, @@ReceiveNetworkData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+

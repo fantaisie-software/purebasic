@@ -1,0 +1,1324 @@
+;
+; Image library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Image
+
+@Overview
+  Les images sont des objets graphiques qui 
+  peuvent être affichés dans une fenêtre
+  ou dans un gadget. Actuellement, PureBasic 
+  accepte les images aux formats BMP,
+  Icône (.ico - seulement sous Windows) et 
+  tous les autres formats qui sont supportés 
+  via la bibliothèque 
+  @LibraryLink "ImagePlugin" "ImagePlugin".
+@LineBreak
+@LineBreak  
+  Le format PNG peut être utilisé pour afficher 
+  des images transparentes dans les 
+  @LibraryLink "Gadget" "gadgets", 
+  @LibraryLink "menu" "menus" et 
+  @LibraryLink "Toolbar" "toolbars". 
+  Sous Windows, les icônes peuvent aussi 
+  remplir ce rôle, mais l'utilisation des 
+  images PNG est recommandée, car elles sont 
+  supportées sur toutes les plateformes. 
+  La transparence des images BMP n'est pas prise en charge.
+  
+@CommandList
+
+@ExampleFile All Image.pb
+@ExampleFile All MDI_ImageViewer.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AddImageFrame(#Image [, Index])
+
+@Description
+  Ajoute une nouvelle trame (frame = image dans une liste d'image) à l'image spécifiée. 
+
+@Parameter "#Image"
+  L'image à utiliser.
+
+@OptionalParameter "Index"
+  L'index (à partir de 0) où sera inséré la trame.
+@LineBreak  
+@LineBreak
+  Si non spécifié, la nouvelle trame sera ajoutée à la fin de la liste des images.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, zéro sinon.
+
+@Remarks
+  La nouvelle trame aura les mêmes dimensions et la même profondeur de couleur que l'image.
+
+@SeeAlso
+  @@CreateImage, @@RemoveImageFrame, @@ImageFrameCount, @@SetImageFrame, @@GetImageFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = RemoveImageFrame(#Image, Index)
+
+@Description
+  Retire une trame (frame = image dans une liste d'image) de l'image spécifiée. 
+
+@Parameter "#Image"
+  L'image à utiliser.
+
+@Parameter "Index"
+  L'index (à partir de 0) de la trame à retirer. 
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, zéro sinon.
+  
+@Remarks
+   Si l'image n'est pas multi-trames, cette fonction n'a aucun effet.
+@LineBreak
+@LineBreak
+   @@ImageOutput, @@ImageVectorOutput, @@CopyImage et @@GrabImage fonctionne sur l'image courante.
+
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@ImageFrameCount, @@SetImageFrame, @@GetImageFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Index = GetImageFrame(#Image)
+
+@Description
+  Renvoie l'index de la trame (frame = image dans une liste d'image) en cours.
+
+@Parameter "#Image"
+  L'image à utiliser.
+
+@ReturnValue
+  L'index de la trame en cours. (à partir de 0).@LineBreak
+  Renvoie toujours zéro si l'image n'est pas multi-trames.
+
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, @@ImageFrameCount, @@GetImageFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetImageFrame(#Image, Index)
+
+@Description
+  Spécifie la trame courante.
+
+@Parameter "#Image"
+  L'image à utiliser.
+
+@Parameter "Index"
+  L'index de la trame. (Commence à 0).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, @@ImageFrameCount, @@GetImageFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ImageFrameCount(#Image)
+
+@Description
+  Renvoie le nombre de trames de l'image. 
+
+@Parameter "#Image"
+  L'image à utiliser.
+
+@ReturnValue
+  Renvoie le nombre de trames de l'image.
+  Renvoie toujours 1 si l'image n'est pas multi-trames.
+  
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, @@SetImageFrame, @@GetImageFrame
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetImageFrameDelay(#Image)
+
+@Description
+  Renvoie le délai d'affichage de la trame courante. 
+  
+@Parameter "#Image"
+  L'image à utiliser.
+
+@ReturnValue
+  Renvoie le délai d'affichage (en millisecondes) de la trame en cours 
+  d'affichage.
+
+@Remarks
+  Chaque trame peut avoir son propre délai d'affichage.
+ 
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, 
+  @@SetImageFrame, @@GetImageFrame, @@SetImageFrameDelay
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SetImageFrameDelay(#Image, Delai)
+
+@Description
+  Définit le délai d'affichage de la trame courante.
+
+@Parameter "#Image"
+  L'image à utiliser.
+
+@ReturnValue
+  Définit le délai d'affichage (en millisecondes) de la trame en cours d'affichage.
+ 
+@Remarks
+  Chaque trame peut avoir son propre délai d'affichage.
+ 
+@SeeAlso
+  @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, 
+  @@SetImageFrame, @@GetImageFrame, @@GetImageFrameDelay
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CatchImage(#Image, *AdresseMemoire [, Taille])
+
+@Description
+  Charge une image à partir de l'emplacement 
+  mémoire spécifié.
+
+@Parameter "#Image"
+  Le numéro d'identification de l'image.
+@LineBreak
+@LineBreak 
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+  
+@Parameter "*AdresseMemoire"  
+  L'adresse mémoire où se trouve l'image à 
+  charger.
+  
+@OptionalParameter "Taille"  
+  La taille de l'image en octets. 
+@LineBreak
+@LineBreak   
+  La taille est facultative car le chargeur 
+  (loader) peut déterminer quand arrêter la 
+  lecture, à partir de l'image. Il est cependant 
+  conseillé de prévoir une taille lors du 
+  chargement d'images inconnues, car le chargeur 
+  peut ensuite gérer correctement les images 
+  corrompues (sans préciser la taille de 
+  l'image, une image corrompue peut faire 
+  planter le  programme).
+
+@ReturnValue  
+  Renvoie une valeur non nulle si l'image a été 
+  chargée avec succès , zéro sinon. 
+  Si @#PB_Any a été spécifié comme paramètre 
+  #Image alors le numéro généré automatiquement 
+  est renvoyé dans 'Resultat' en cas de succès.
+
+@Remarks
+  La taille maximale de l'image est fonction du 
+  système d'exploitation et de la quantité de 
+  mémoire disponible. 
+  Si la mémoire disponible est suffisante alors 
+  une image de 8192x8192 pixels au moins peut 
+  être traitée par tous les systèmes 
+  d'exploitation pris en charge par PureBasic.
+@LineBreak
+@LineBreak
+  Quand une image est chargée, elle est 
+  convertie soit en 24 bits (si la profondeur de 
+  l'image est inférieure ou égale à 24 bits) 
+  soit en 32 bits (si l'image a un canal alpha).
+  La transparence des images BMP n'est pas prise en charge.
+@LineBreak
+@LineBreak   
+  Quand une image n'est plus utile, elle peut 
+  être détruite avec la commande @@FreeImage
+  pour libérer de la mémoire.
+@LineBreak
+@LineBreak
+  Cette commande est utile pour inclure 
+  des images (logo etc..) directement dans 
+  l'exécutable avec la commande 
+  @ReferenceLink "includes" "IncludeBinary".
+  Néanmoins, n'abusez pas de cette 
+  fonctionnalité car une image incluse
+  dans un exécutable consomme automatiquement 
+  de la mémoire supplémentaire puisque tout 
+  l'exécutable, y compris les images, est 
+  chargé en mémoire.
+@LineBreak
+@LineBreak   
+  L'image peut être au format BMP, icône (.ico, 
+  seulement supporté sous Windows) ou dans un 
+  des formats supportés par la bibliothèque 
+  ImagePlugin. 
+  Sous Windows, si le format de l'image est une 
+  icône (.ico), les commandes suivantes ne 
+  seront pas disponibles pour la manipuler: 
+  @@SaveImage et @@ImageOutput.
+@LineBreak
+@LineBreak
+  Les commandes suivantes peuvent être 
+  utilisées pour activer automatiquement le 
+  support des formats d'images suivants:
+@LineBreak
+@LineBreak
+  @@UseJPEGImageDecoder @LineBreak
+  @@UseJPEG2000ImageDecoder @LineBreak
+  @@UsePNGImageDecoder @LineBreak
+  @@UseTIFFImageDecoder @LineBreak
+  @@UseTGAImageDecoder @LineBreak
+  @@UseGIFImageDecoder @LineBreak
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 256, 256, "CatchImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CatchImage(0, ?Image_Start, ?Image_End - ?Image_Start)
+      ImageGadget(0, 0, 0, ImageWidth(0), ImageHeight(0), ImageID(0))
+      Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+    EndIf
+  EndIf
+
+  DataSection
+    Image_Start:
+      IncludeBinary #PB_Compiler_Home+"Examples\Sources\Data\Background.bmp"
+    Image_End:
+  EndDataSection
+@EndCode
+
+  Notes: Le "?" est un pointeur vers un label. 
+  Vous trouverez plus d'informations au sujet 
+  des pointeurs et des accès mémoire
+  @ReferenceLink "memory" "ici"
+ 
+@SeeAlso
+  @@CreateImage, @@LoadImage, @@FreeImage,
+  @LibraryLink "ImagePlugin" "ImagePlugin library"
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CopyImage(#Image1, #Image2)
+
+@Description
+  Copie une image. 
+  
+@Parameter "#Image1"
+  Le numéro de l'image à copier.
+
+@Parameter "#Image2"
+  Le numéro de la copie. 
+@LineBreak
+@LineBreak 
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+@LineBreak
+@LineBreak
+  Note: Si l'#Image2 existait déjà, l'ancienne 
+  image est automatiquement supprimée.
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'image a été 
+  copiée avec succès, zéro sinon. 
+  Si @#PB_Any a été spécifié comme paramètre 
+  #Image2 alors le numéro généré automatiquement 
+  est renvoyé dans 'Resultat' en cas de succès.
+
+@Remarks
+  Si l'image est multi-image (multi-trame), l'image courante sera utilisée pour la copie.
+  
+@Example
+@Code  
+  If OpenWindow(0, 0, 0, 622, 256, "CopyImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ImageGadget(0, 0, 0, 256, 256, LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\Background.bmp"))
+    ButtonGadget(1, 266, 100, 90, 30, "Copie ->")
+    ImageGadget(2, 366, 0, 256, 256, 0)
+     
+    Repeat
+      Event = WaitWindowEvent()          
+      If Event = #PB_Event_Gadget  
+        Select EventGadget()
+          Case 1 
+            CopyImage(0,1) ; Crée l'image 1 et copie image 0 dedans.
+            SetGadgetState(2,ImageID(1)) ; Affichage
+        EndSelect
+      EndIf
+    Until Event = #PB_Event_CloseWindow
+   EndIf
+@EndCode   
+   
+@SeeAlso
+  @@GrabImage, @@FreeImage  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateImage(#Image, Largeur, Hauteur [, Profondeur [, CouleurDeFond]])
+
+@Description
+  Crée une nouvelle image vierge (fond noir). 
+
+@Parameter "#Image"
+  Le numéro d'identification de l'image. 
+@LineBreak
+@LineBreak 
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+
+@Parameter "Largeur, Hauteur"
+  Les dimensions de la nouvelle image.
+@LineBreak
+@LineBreak   
+  À la fois la largeur et la hauteur doivent 
+  être supérieures à zéro.
+  
+@OptionalParameter "Profondeur"
+  La profondeur de couleur de la nouvelle image.
+@LineBreak
+@LineBreak
+  Les valeurs valides sont: 24 et 32. @LineBreak
+  La valeur par défaut est 24 bits, si la 
+  profondeur n'est pas spécifiée.
+  
+@OptionalParameter "CouleurDeFond"
+  La couleur de fond @@RGB utilisée. 
+@LineBreak
+@LineBreak
+  Cette couleur peut être réglée sur 
+  @#PB_Image_Transparent pour créer une image 
+  avec le canal alpha fixé pour 
+  une transparence totale. @LineBreak
+  Cela n'a d'effet que sur les images 32 bits. 
+@LineBreak
+@LineBreak
+  Si non spécifié alors la couleur par défaut 
+  est le noir.
+  
+@ReturnValue
+  Renvoie une valeur non nulle si l'image a été 
+  créée avec succès et zéro sinon. 
+  Si @#PB_Any a été spécifié comme paramètre 
+  #Image alors le numéro généré automatiquement 
+  est renvoyé dans 'Resultat' en cas de succès.
+
+@Remarks
+  La taille maximale de l'image est fonction du 
+  système d'exploitation et de la quantité de 
+  mémoire disponible. 
+  Si la mémoire disponible est suffisante alors 
+  une image de 8192x8192 peut être traitée par 
+  tous les systèmes d'exploitation pris en 
+  charge par PureBasic.
+@LineBreak
+@LineBreak
+  Avec l'image créée , vous pouvez notamment 
+  utiliser les commandes suivantes : 
+@LineBreak
+  @@StartDrawing avec @@ImageOutput pour 
+  dessiner dans l'image. @LineBreak
+  @@StartVectorDrawing avec @@ImageVectorOutput 
+  pour faire du dessin vectoriel.
+  @LineBreak
+  @@CopyImage pour créer une copie de l'image. 
+  @LineBreak
+  @@GrabImage pour créer une autre image en 
+  copiant une zone définie dans l'image. 
+  @LineBreak
+  @@DrawImage avec @@ImageID pour dessiner 
+  l'image sur la surface de dessin en cours. 
+  @LineBreak
+  @@ImageGadget pour afficher l'image dans 
+  une application fenêtrée. @LineBreak
+  @@ButtonImageGadget pour créer un bouton 
+  avec image dans une application fenêtrée. 
+  @LineBreak
+@LineBreak
+ 
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 256, 256, "CreateImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ImageGadget(0, 0, 0, 256, 256, 0)
+    
+    If CreateImage(0, 256, 256, 32, RGB(255,255,255))
+      StartDrawing(ImageOutput(0))
+      Ellipse(70, 50, 30, 10, RGB(0,0,255))
+      Ellipse(186, 50, 30, 10, RGB(0,0,255))
+      LineXY(128, 80, 128, 150, RGB(255, 0, 255))
+      RoundBox(70, 200, 110, 30, 20, 20, RGB(255, 0, 0))
+      StopDrawing()
+    EndIf
+    
+    SetGadgetState(0, ImageID(0)) ; Affichage
+    
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+   EndIf
+@EndCode 
+   
+@SeeAlso
+  @@LoadImage, @@CatchImage, @@FreeImage
+     
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Resultat = EncodeImage(#Image [, ImagePlugin [, Options [, Profondeur]]])
+
+@Description
+  Encode une image dans une mémoire tampon. 
+
+@Parameter "#Image"
+  L'image à encoder.
+
+@OptionalParameter "ImagePlugin"
+  Le format de l'image à encoder. 
+  Il peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_ImagePlugin_BMP      : Encoder l'image en BMP (Par défaut)
+  @#PB_ImagePlugin_JPEG     : Encoder l'image en JPEG (@@UseJPEGImageEncoder doit être utilisé)
+  @#PB_ImagePlugin_JPEG2000 : Encoder l'image en JPEG2000 (@@UseJPEG2000ImageEncoder doit être utilisé)
+  @#PB_ImagePlugin_PNG      : Encoder l'image en PNG (@@UsePNGImageEncoder doit être utilisé)
+@EndFixedFont
+
+@OptionalParameter "Options"
+  Qualité de l'image pour @#PB_ImagePlugin_JPEG 
+  et @#PB_ImagePlugin_JPEG2000:@LineBreak
+  De 0 = Qualité médiocre à 10 = Qualité maximale. 
+  @LineBreak
+  Qualité par défaut = 7, si aucune option 
+  n'est spécifiée.
+@LineBreak
+@LineBreak
+  Quand une image est codée en utilisant une 
+  palette (1, 4 ou 8), la constante suivante 
+  peut faire partie de la combinaison:
+@FixedFont
+  @#PB_Image_FloydSteinberg: Applique un filtre Floyd-Steinberg.
+@EndFixedFont
+
+@OptionalParameter "Profondeur"
+  La profondeur dans lequel vous souhaitez 
+  enregistrer l'image. 
+@LineBreak
+@LineBreak
+  Les valeurs valides sont 1, 4, 8, 24 et 32.
+  @LineBreak
+  La valeur par défaut est la profondeur de 
+  l'image originale.@LineBreak
+  Pour l'instant, seul l'encodeur PNG supporte 
+  le format d'image palettisée (1, 4 ou 8 bits).
+
+@ReturnValue
+  Renvoie un @ReferenceLink "memory" "pointeur" 
+  vers une mémoire tampon nouvellement allouée 
+  contenant l'image encodée, ou zéro si 
+  l'encodeur a échoué.
+@LineBreak
+@LineBreak  
+   @@MemorySize peut être utilisé pour obtenir 
+   la taille de l'image encodée. @LineBreak 
+   @@FreeMemory doit être utilisé pour libérer 
+   la mémoire tampon après utilisation.
+
+@Example
+@Code
+  UsePNGImageEncoder()
+  UsePNGImageDecoder()
+  If OpenWindow(0, 0, 0, 426, 128, "EncodeImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ImageGadget(0, 0, 0, 128, 128, LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\GeeBee2.bmp"))
+    ButtonGadget(1, 138, 50, 150, 30, "Encodage PNG 2 bits ->")
+    ImageGadget(2, 298, 0, 128, 128, 0)
+    
+    *ptr=EncodeImage(0 ,#PB_ImagePlugin_PNG, #PB_Image_FloydSteinberg, 2) ; Encodage 2 bits
+    
+    Repeat
+      Event = WaitWindowEvent()          
+      If Event = #PB_Event_Gadget  
+        Select EventGadget()
+          Case 1 
+            CatchImage(2, *ptr)          ; L'image est en mémoire
+            SetGadgetState(2,ImageID(2)) ; Affichage
+        EndSelect
+      EndIf
+    Until Event = #PB_Event_CloseWindow
+   EndIf
+@EndCode 
+  
+@SeeAlso 
+  @@LoadImage,
+  @LibraryLink "ImagePlugin" "ImagePlugin library"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeImage(#Image)
+
+@Description
+  Supprime une image et libère la mémoire 
+  associée.
+
+@Parameter "#Image"
+  L'image à supprimer.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, toutes les images 
+  restantes seront libérées.
+
+@NoReturnValue
+
+@Remarks
+  Toutes les images restantes sont 
+  automatiquement supprimées quand le programme 
+  se termine. 
+  
+@Example
+@Code 
+  If OpenWindow(0, 0, 0, 426, 128, "FreeImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ImageGadget(0, 0, 0, 128, 128, LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\GeeBee2.bmp"))
+    ButtonGadget(1, 138, 50, 150, 30, "Couper l'image en 2 ->")
+    ImageGadget(2, 298, 0, 128, 128, 0)
+    
+    Repeat
+      Event = WaitWindowEvent()          
+      If Event = #PB_Event_Gadget  
+        Select EventGadget()
+          Case 1 
+            If IsImage(0)
+            GrabImage(0, 1, 0, 0, 128, 64); Coupe l'image
+            SetGadgetState(2, ImageID(1)) ; Affichage
+            SetGadgetState(0, 0) ; Efface l'image d'origine
+            FreeImage(0)         ; Detruit l'image d'origine
+          EndIf
+          
+        EndSelect
+      EndIf
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode   
+  
+@SeeAlso
+  @@CreateImage, @@LoadImage, 
+  @@CatchImage, @@CopyImage, 
+  @@GrabImage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GrabImage(#Image1, #Image2, X, Y, Largeur, Hauteur)
+
+@Description
+  Crée une nouvelle image avec la zone 
+  sélectionnée de l'#Image1. 
+
+@Parameter "#Image1"
+  L'image source.
+
+@Parameter "#Image2"
+  Le numéro de la nouvelle image. 
+@LineBreak
+@LineBreak 
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+@LineBreak
+@LineBreak
+  Note: Si l'#Image2 existait déjà, l'ancienne 
+  image est automatiquement supprimée.
+
+@Parameter "X, Y, Largeur, Hauteur"
+  La position et la taille de la zone à copier.
+  
+@ReturnValue
+  Renvoie une valeur non nulle si l'image a été 
+  créée avec succès et zéro sinon. @LineBreak
+  Si @#PB_Any a été spécifié comme paramètre 
+  #Image2 alors le numéro généré automatiquement 
+  est renvoyé dans 'Resultat' en cas de succès.
+
+@Remarks
+  Si l'image est multi-image (multi-trame), l'image courante sera utilisée pour la création.
+  
+@Example
+@Code 
+  If OpenWindow(0, 0, 0, 426, 128, "GrabImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ImageGadget(0, 0, 0, 128, 128, LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\GeeBee2.bmp"))
+    ButtonGadget(1, 138, 50, 150, 30, "Couper l'image en 2 ->")
+    ImageGadget(2, 298, 0, 128, 128, 0)
+    
+    Repeat
+      Event = WaitWindowEvent()          
+      If Event = #PB_Event_Gadget  
+        Select EventGadget()
+          Case 1 
+            GrabImage(0, 1, 0, 0, 128, 64); Coupe l'image
+            SetGadgetState(2, ImageID(1)) ; Affichage
+        EndSelect
+      EndIf
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode 
+  
+@SeeAlso
+  @@CreateImage, @@LoadImage, @@CatchImage, 
+  @@CopyImage
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ImageDepth(#Image [, Options])
+
+@Description
+  Renvoie la profondeur de couleur d'une image. 
+
+@Parameter "#Image"
+  L'image à utiliser.
+
+@OptionalParameter "Options"
+  Peut prendre une des valeurs suivantes:
+@FixedFont
+  @#PB_Image_InternalDepth: Renvoie la profondeur de l'image une fois décodée (défaut). Valeurs valides:
+                                    - 24 (24 bits soit 16 millions de couleurs)
+                                    - 32 (32 bits soit 16 millions de couleurs + 8 bits de canal alpha)
+  @#PB_Image_OriginalDepth: Renvoie la profondeur originale de l'image avant le décodage. Valeurs valides:
+                                    - 1 (1 bit  soit 2 couleurs, image monochrome)
+                                    - 4 (4 bits soit 16 couleurs)
+                                    - 8 (8 bits soit 256 couleurs)
+                                    - 16 (16 bits soit 65536 couleurs)
+                                    - 24 (24 bits soit 16 millions de couleurs)
+                                    - 32 (32 bits soit 16 millions de couleurs + 8 bits de canal alpha)
+@EndFixedFont
+
+@ReturnValue
+  Renvoie l'une des valeurs de profondeur 
+  possibles décrites ci-dessus.
+  
+@Remarks
+  Quand une image est chargée, elle est 
+  convertie soit en 24 bits (si la profondeur de 
+  l'image  est inférieure ou égale à 24 bits) 
+  soit en 32 bits (si l'image a un canal alpha).
+
+@Example
+@Code 
+  LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\GeeBee2.bmp")
+
+  Debug "La profondeur de l'image une fois décodée"
+  Debug ImageDepth(0, #PB_Image_InternalDepth)
+
+  Debug "La profondeur originale de l'image avant le décodage"
+  Debug ImageDepth(0, #PB_Image_OriginalDepth)
+@EndCode  
+  
+@SeeAlso
+  @@ImageWidth, @@ImageHeight
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ImageFormat(#Image)
+
+@Description
+  Renvoie le format d'une image.
+
+@Parameter "#Image"
+  L'image à utiliser.
+
+@ReturnValue
+  Renvoie le format d'origine de l'image. 
+  Il peut être une des valeurs suivantes:
+@FixedFont  
+  @#PB_ImagePlugin_JPEG
+  @#PB_ImagePlugin_JPEG2000
+  @#PB_ImagePlugin_PNG
+  @#PB_ImagePlugin_TGA
+  @#PB_ImagePlugin_TIFF
+  @#PB_ImagePlugin_BMP
+  @#PB_ImagePlugin_ICON
+  @#PB_ImagePlugin_GIF
+@EndFixedFont
+  Si l'image n'a pas été chargée avec l'un de 
+  ces formats, la fonction renverra zéro. 
+  C'est le cas pour les images créées avec 
+  @@CreateImage ou @@GrabImage.
+
+@Example
+@Code   
+  LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\GeeBee2.bmp")
+
+  Select ImageFormat(0)
+    Case #PB_ImagePlugin_JPEG
+       Debug "JPEG"
+    Case #PB_ImagePlugin_JPEG2000
+       Debug "JPEG2000"
+    Case #PB_ImagePlugin_PNG
+       Debug "PNG" 
+    Case #PB_ImagePlugin_TGA
+       Debug "TGA"
+    Case #PB_ImagePlugin_TIFF
+       Debug "TIFF" 
+    Case #PB_ImagePlugin_BMP
+       Debug "BMP" 
+    Case #PB_ImagePlugin_ICON
+       Debug "ICON "
+    Default 
+       Debug "Inconnu"
+  EndSelect
+@EndCode 
+
+@SeeAlso  
+  @@LoadImage, @@CreateImage, @@CatchImage, 
+  @@GrabImage,
+  @LibraryLink "ImagePlugin" "ImagePlugin library"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Hauteur = ImageHeight(#Image) 
+
+@Description
+  Renvoie la hauteur d'une image.
+  
+@Parameter "#Image"
+  L'image à utiliser.
+
+@ReturnValue
+  Renvoie la hauteur de l'image en pixels.
+  
+@Example
+@Code  
+  LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\GeeBee2.bmp")
+
+  Debug "Hauteur de l'image"
+  Debug ImageHeight(0)
+
+  Debug "Largeur de l'image"
+  Debug ImageWidth(0)
+@EndCode 
+  
+@SeeAlso
+  @@ImageWidth, @@ImageDepth  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ImageID(#Image)
+
+@Description
+  Renvoie l'identifiant système d'une image.
+  
+@Parameter "#Image"
+  L'image à utiliser.
+
+@ReturnValue
+  Renvoie le @ReferenceLink "handles" "handle" 
+  de l'image (envoyé par le système 
+  d'exploitation).
+
+@Example
+@Code 
+  hImg=LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\GeeBee2.bmp")
+
+  Debug ImageID(0)
+  Debug hImg
+@EndCode 
+  
+@SeeAlso
+  @@DrawImage,
+  @@ImageGadget,
+  @@ButtonImageGadget,
+  @@CanvasGadget
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ImageOutput(#Image)
+
+@Description
+  Renvoie l'identifiant OutputID nécessaire 
+  pour les opérations de rendu 
+  @LibraryLink "2ddrawing" "2D".
+
+@Parameter "#Image"
+  L'image qui reçoit le dessin.
+
+@ReturnValue
+  Renvoie l'identifiant 'OutputID' ou zéro si 
+  le dessin n'est pas possible. 
+@LineBreak
+@LineBreak 
+  Cette valeur doit être transmise directement 
+  à la fonction @@StartDrawing pour commencer 
+  l'opération de dessin. La valeur de retour 
+  n'est valide que pour une seule opération 
+  de dessin et ne peut pas être réutilisée. 
+  Chaque @@StartDrawing nécessite
+  un nouvel appel à ImageOutput().
+
+@Remarks
+  A la place de cette fonction, la commande 
+  @@ImageVectorOutput peut être utilisée pour 
+  effectuer du dessin vectoriel sur l'image.
+  @LineBreak
+  @LineBreak
+  Cette fonction ne peut pas être utilisée avec 
+  les fichiers icône (*.ico).
+@LineBreak
+@LineBreak
+  Si l'image est multi-image (multi-trame), l'image courante sera utilisée.
+  
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 256, 256, "CreateImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ImageGadget(0, 0, 0, 256, 256, 0)
+    
+    If CreateImage(0, 256, 256, 32, RGB(255,255,255))
+      StartDrawing( ImageOutput(0))
+      Ellipse(70, 50, 30, 10, RGB(0,0,255))
+      Ellipse(186, 50, 30, 10, RGB(0,0,255))
+      LineXY(128, 80, 128, 150, RGB(255, 0, 255))
+      RoundBox(70, 200, 110, 30, 20, 20, RGB(255, 0, 0))
+      StopDrawing()
+    EndIf
+    
+    SetGadgetState(0,ImageID(0)) ; Affichage
+    
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+   EndIf
+@EndCode 
+
+    
+@SeeAlso
+  @@StartDrawing, @@ImageVectorOutput
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ImageVectorOutput(#Image [, UniteDeMesure])
+
+@Description 
+  Renvoie le numéro d'identification OutputID 
+  d'une image afin d'effectuer des opérations 
+  de @LibraryLink "vectordrawing" "dessin vectoriel".
+  
+@Parameter "#Image"
+  L'image à utiliser.
+  
+@OptionalParameter "UniteDeMesure"
+  Spécifie l'unité utilisée pour mesurer les distances sur le dessin.@LineBreak
+@FixedFont
+  @#PB_Unit_Pixel     : Les valeurs sont mesurées en pixels (Par défaut)(ou point (dots) pour les imprimantes)
+  @#PB_Unit_Point     : Les valeurs sont mesurées en points (1/72 pouce = 25.4/72 mm = 0,352 778 mm)
+  @#PB_Unit_Inch      : Les valeurs sont mesurées en pouces (25,4 millimètres)
+  @#PB_Unit_Millimeter: Les valeurs sont mesurées en millimètres (0,039 370 pouce)
+@EndFixedFont
+ 
+@ReturnValue
+  Renvoie l'identifiant ouputID ou zéro si le 
+  dessin n'est pas possible. 
+@LineBreak
+@LineBreak
+  Cette valeur doit être transmise directement 
+  à la fonction @@StartVectorDrawing pour lancer 
+  l'opération de dessin. 
+@LineBreak
+@LineBreak
+  La valeur de retour n'est valable que pour 
+  une seule opération de dessin et ne peut pas 
+  être réutilisée.
+
+@Remarks
+  Si l'image est multi-image (multi-trame), l'image courante sera utilisée.
+  
+@Example
+@Code
+  StartVectorDrawing(ImageVectorOutput(#Image, #PB_Unit_Millimeter))
+    ; code de dessin ici ...
+  StopVectorDrawing()
+@EndCode
+
+@Remarks
+  Cette fonction ne peut pas être utilisée avec 
+  les fichiers icône (*.ico).
+
+@SeeAlso
+  @@StartVectorDrawing, @@ImageOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Largeur = ImageWidth(#Image)
+
+@Description
+  Renvoie la largeur d'une image.
+
+@Parameter "#Image"
+  L'image à utiliser.
+
+@ReturnValue
+  Renvoie la largeur de l'image en pixels.
+  
+@Example
+@Code  
+  LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\GeeBee2.bmp")
+
+  Debug "Hauteur de l'image"
+  Debug ImageHeight(0)
+
+  Debug "Largeur de l'image"
+  Debug ImageWidth(0)
+@EndCode 
+ 
+@SeeAlso
+  @@ImageHeight, @@ImageDepth
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsImage(#Image)
+
+@Description
+  Teste si une image est correctement initialisée. 
+
+@Parameter "#Image"
+  L'image à tester.
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'image est 
+  une image valide et zéro sinon.
+  
+@Remarks
+  Cette fonction a été créée pour pouvoir passer 
+  n'importe quelle valeur en paramètre sans 
+  qu'il ne puisse y avoir de plantage. C'est la 
+  fonction idéale pour vérifier qu'un
+  objet est correctement initialisé.
+  
+@Example
+@Code 
+  If OpenWindow(0, 0, 0, 426, 128, "IsImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ImageGadget(0, 0, 0, 128, 128, LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\GeeBee2.bmp"))
+    ButtonGadget(1, 138, 50, 150, 30, "Couper l'image en 2 ->")
+    ImageGadget(2, 298, 0, 128, 128, 0)
+    
+    Repeat
+      Event = WaitWindowEvent()          
+      If Event = #PB_Event_Gadget  
+        Select EventGadget()
+          Case 1 
+            If IsImage(0) ; L'image existe-t-elle ?
+            GrabImage(0, 1, 0, 0, 128, 64); Coupe l'image
+            SetGadgetState(2, ImageID(1)) ; Affichage
+            SetGadgetState(0, 0) ; Efface l'image d'origine
+            FreeImage(0)         ; Detruit l'image d'origine
+          EndIf
+          
+        EndSelect
+      EndIf
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode   
+  
+@SeeAlso
+  @@CreateImage, @@LoadImage, @@CatchImage, 
+  @@CopyImage, @@GrabImage  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = LoadImage(#Image, Fichier$ [, Options])
+
+@Description
+  Charge une image contenue dans fichier.
+
+@Parameter "#Image"
+  Le numéro d'identification de l'image à 
+  charger. 
+@LineBreak
+@LineBreak 
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+
+@Parameter "Fichier$"
+  Le chemin et le nom du fichier à charger. 
+@LineBreak
+@LineBreak   
+  Si le nom de fichier ne contient pas de 
+  chemin complet, le chemin est relatif. 
+  Voir @Link "FileSystem/GetCurrentDirectory" "répertoire courant".
+  
+@OptionalParameter "Options"
+  Ce paramètre n'a pour l'instant pas d'utilité. 
+  S'il est spécifié, 0 doit être utilisé pour 
+  assurer une future compatibilité.
+  
+@ReturnValue
+  Renvoie une valeur non nulle si l'image a été 
+  chargée avec succès et zéro sinon. 
+  Si @#PB_Any a été spécifié comme paramètre 
+  #Image alors le numéro généré automatiquement 
+  est renvoyé dans 'Resultat' en cas de succès.
+  
+@Remarks
+  La taille maximale de l'image est fonction du 
+  système d'exploitation et de la quantité de 
+  mémoire disponible. 
+  Si la mémoire disponible est suffisante alors 
+  une image de 8192x8192 peut être traitée par 
+  tous les systèmes d'exploitation pris en 
+  charge par PureBasic.
+@LineBreak
+@LineBreak
+  Quand une image est chargée, elle est convertie 
+  soit en 24 bits (si la profondeur de l'image
+  est inférieure ou égale à 24 bits) soit en 
+  32 bits (si l'image a un canal alpha).
+  La transparence des images BMP n'est pas prise en charge.
+@LineBreak
+@LineBreak 
+  Une image chargée peut être libérée en 
+  utilisant la fonction @@FreeImage.
+@LineBreak
+@LineBreak
+  L'image peut être au format BMP, icône (.ico, 
+  seulement supporté sous Windows) ou dans un des 
+  formats supportés par la bibliothèque 
+  @LibraryLink "ImagePlugin" "ImagePlugin".
+@LineBreak
+@LineBreak  
+  Les commandes suivantes peuvent être utilisées 
+  pour activer automatiquement davantage de 
+  formats d'images:
+@LineBreak
+@LineBreak
+  @@UseJPEGImageDecoder @LineBreak
+  @@UseJPEG2000ImageDecoder @LineBreak
+  @@UsePNGImageDecoder @LineBreak
+  @@UseTIFFImageDecoder @LineBreak
+  @@UseTGAImageDecoder @LineBreak
+  @@UseGIFImageDecoder @LineBreak  
+@LineBreak
+  Avec l'image chargée, vous pouvez notamment 
+  utiliser les commandes suivantes : 
+@LineBreak
+  @@StartDrawing avec @@ImageOutput pour 
+  dessiner dans l'image. 
+  @LineBreak
+  @@StartVectorDrawing avec @@ImageVectorOutput 
+  pour faire du dessin vectoriel dans l'image. 
+  @LineBreak
+  @@CopyImage pour créer une copie de l'image. 
+  @LineBreak
+  @@GrabImage pour créer une autre image en 
+  copiant une zone définie dans l'image. 
+  @LineBreak
+  @@DrawImage avec @@ImageID pour dessiner 
+  l'image sur la surface de dessin en cours. 
+  @LineBreak
+  @@DrawAlphaImage avec @@ImageID pour dessiner 
+  l'image.
+  (avec ses composantes alpha) sur la surface 
+  de dessin en cours. @LineBreak
+  @@ImageGadget pour afficher l'image dans une 
+  application fenêtrée. @LineBreak
+  @@ButtonImageGadget pour créer un bouton avec 
+  image dans une application fenêtrée.
+  
+@Example
+@Code 
+  If OpenWindow(0, 0, 0, 128, 128, "FreeImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    
+    LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\GeeBee2.bmp") ; Charge l'image depuis un fichier
+    ImageGadget(0, 0, 0, 128, 128, ImageID(0)) ; Affichage
+    
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode 
+  
+@SeeAlso
+  @@CreateImage, @@CatchImage, @@CopyImage, 
+  @@GrabImage,
+  @LibraryLink "ImagePlugin" "ImagePlugin library"
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ResizeImage(#Image, Largeur, Hauteur [, Mode])
+
+@Description
+  Redimensionne une image. 
+
+@Parameter "#Image"
+  L'image à redimensionner.
+
+@Parameter "Largeur, Hauteur"
+  Les nouvelles dimensions de l'image.
+@LineBreak   
+@LineBreak   
+  À la fois la largeur et la hauteur doivent 
+  être supérieures à zéro.@LineBreak
+  @#PB_Ignore peut être spécifié pour la largeur 
+  ou la hauteur, ainsi la valeur ne sera pas 
+  modifiée.
+  
+@OptionalParameter "Mode"
+Peut prendre une des valeurs suivantes:
+@FixedFont
+  @#PB_Image_Smooth: Redimensionne l'image avec interpolation (mode par défaut).
+  @#PB_Image_Raw   : Redimensionne l'image sans interpolation (peut donner des résultats peu satisfaisants).
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'opération a 
+  réussi et zéro sinon.
+
+@Remarks
+  Cette fonction modifie le 
+  @ReferenceLink "handles" "handle" de l'image 
+  utilisée. Par conséquent, il doit être 
+  ré-affecté par exemple à un @@ImageGadget 
+  avec @@SetGadgetState.
+@LineBreak
+@LineBreak
+   Cette fonction ne fonctionne pas avec des 
+   icônes (.ico) ni avec les images multi-frame.
+@LineBreak
+@LineBreak
+  La limite de la taille de l'image qui peut 
+  être traitée est fonction du système 
+  d'exploitation et de la quantité de mémoire 
+  disponible. Si la mémoire disponible est 
+  suffisante alors une image de 8192x8192 peut 
+  être traitée par tous les systèmes 
+  d'exploitation pris en charge par PureBasic.
+  
+@Example
+@Code 
+  If OpenWindow(0, 0, 0, 426, 128, "ResizeImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ImageGadget(0, 0, 0, 128, 128, LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\GeeBee2.bmp"))
+    ButtonGadget(1, 138, 50, 150, 30, "Réduire l'image ->")
+    ImageGadget(2, 298, 0, 128, 128, 0)
+    
+    Repeat
+      Event = WaitWindowEvent()          
+      If Event = #PB_Event_Gadget  
+        Select EventGadget()
+          Case 1 
+            CopyImage(0,1)
+            ResizeImage(1, 64, 64); Coupe l'image
+            SetGadgetState(2, ImageID(1)) ; Affichage         
+        EndSelect
+      EndIf
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode   
+     
+@SeeAlso
+  @@ImageWidth, @@ImageHeight
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SaveImage(#Image, NomFichier$ [, ImagePlugin [, Options [, Profondeur]]])
+
+@Description
+  Enregistre une image sur un disque.
+
+@Parameter "#Image"
+  L'image à enregistrer.
+
+@Parameter "NomFichier$"
+  Le nom du fichier. 
+@LineBreak
+@LineBreak 
+  Si le nom de fichier ne contient pas de chemin 
+  complet alors le chemin est relatif. 
+  Voir @Link "FileSystem/GetCurrentDirectory""répertoire courant".
+
+@OptionalParameter "ImagePlugin"
+  Le format de l'image enregistrée:
+@FixedFont
+  @#PB_ImagePlugin_BMP      : Enregistre l'image en BMP (défaut).
+  @#PB_ImagePlugin_JPEG     : Enregistre l'image en JPEG (@@UseJPEGImageEncoder doit être utilisé)
+  @#PB_ImagePlugin_JPEG2000 : Enregistre l'image en JPEG2000 (@@UseJPEG2000ImageEncoder doit être utilisé)
+  @#PB_ImagePlugin_PNG      : Enregistre l'image en PNG  (@@UsePNGImageEncoder doit être utilisé)
+@EndFixedFont
+
+@OptionalParameter "Options"
+  N'est utilisé qu'avec les plugin JPEG  et 
+  JPEG 2000. Il est possible de régler la 
+  qualité d'une image à l'aide d'une valeur 
+  allant de 0 (plus mauvaise qualité) à 10 
+  (qualité maximale), la qualité par défaut 
+  étant fixée à 7 si aucune option n'est 
+  spécifiée avec l'encodeur JPEG ou JPEG 2000.
+@LineBreak
+@LineBreak
+  Quand une image est enregistrée en utilisant 
+  une palette (1, 4 ou 8), l'option suivante est 
+  disponible:
+@FixedFont
+   @#PB_Image_FloydSteinberg: Appliquer un filtre Floyd-Steinberg.
+@EndFixedFont
+
+@OptionalParameter "Profondeur"
+  La profondeur de couleur de l'image lors de 
+  son enregistrement. 
+@LineBreak
+@LineBreak 
+  Les valeurs valides sont 1, 4, 8, 24 et 32. 
+  La valeur par défaut est la profondeur originale
+  de l'image.
+  Pour l'instant, seuls les encodeurs BMP et PNG 
+  supportent le mode palettisé (1, 4 ou 8 bits).
+  
+@ReturnValue
+  Renvoie une valeur non nulle si l'opération a 
+  réussi et zéro sinon.
+  
+@Example
+@Code 
+  LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\GeeBee2.bmp") ; Charge l'image depuis un fichier
+  SaveImage(0, GetTemporaryDirectory() + "ok.bmp") ; Enregistre
+@EndCode
+  
+@SeeAlso 
+  @@ImageDepth,
+  @LibraryLink "ImagePlugin" "ImagePlugin library"
+ 
+@SupportedOS

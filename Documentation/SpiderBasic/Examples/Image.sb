@@ -1,0 +1,28 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Image example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Procedure Loaded(Type, Filename$, ObjectId)
+  
+  ; Display the image in a new window
+  OpenWindow(#PB_Any, 10, 10, ImageWidth(ObjectId), ImageHeight(ObjectId), "Image")
+  ImageGadget(#PB_Any, 0, 0, ImageWidth(ObjectId), ImageHeight(ObjectId), ImageID(ObjectId))
+  
+EndProcedure
+
+Procedure LoadingError(Type, Filename$, ObjectId)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loaded())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+
+LoadImage(0, "Data/SpiderBasicLogo.png")
+

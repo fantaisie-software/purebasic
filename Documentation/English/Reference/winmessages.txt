@@ -1,0 +1,58 @@
+@Title Windows Message Handling
+
+@Section Introduction
+
+  The messages for your program will be sent by Windows into a queue, which is worked 
+  off only if you want this. Windows sends thousand messages to your program without 
+  noticing this directly. @LineBreak
+  @LineBreak
+  For example if you change the status of a gadget (identical whether you add a new entry 
+  or change the image of an ImageGadget), a message is sent to the queue of your program. @LineBreak
+  @LineBreak
+  There are two possibilities to receive and to process the Windows messages in PureBasic: 
+  @@WaitWindowEvent and @@WindowEvent.
+  The difference is, that WaitWindowEvent() waits till 
+  a message arrives and WindowEvent() continues to work also so. The messages in the queue 
+  will be processed however only, after you have called WindowEvent() or WaitWindowEvent().
+
+@Section Specials of WindowEvent()
+
+  The command WindowEvent() don't wait, until a message arrives, but checks only whether one is in the queue. 
+  If yes, the message is processed and WindowEvent() gives back the number of the message. If no message 
+  lines up, then zero (0) is given back.
+
+  @Example
+
+@Code
+  While WindowEvent() : Wend
+@EndCode
+
+  cause, that WindowEvent() becomes called as long till it gives back 0, i.e. until all 
+  messages of the queue are processed. @LineBreak
+  @LineBreak
+  It doesn't reach, if you insert a simple 'WindowEvent()' after a @@SetGadgetState to process 
+  this 1 message. Firstly there still can be other messages in the queue, which have arrived 
+  before, and secondly Windows also sends quite a number of other messages, we don't have to 
+  take care of... which nevertheless are in the queue. @LineBreak
+  @LineBreak
+  A simple call of
+@Code
+  WindowEvent()
+@EndCode
+  doesn't reach, the code then runs correct under circumstances on one Windows version, but on 
+  another version not. The different Windows versions are internally very different, so that 
+  one version only sends 1 message but another Windows version sends 5 messages for the same circumstance. @LineBreak
+  @LineBreak
+  Because of this one always uses for updating:
+@Code
+  While WindowEvent() : Wend
+@EndCode
+  Of course there is also the alternative
+@Code
+  Repeat : Until WindowEvent() = 0
+@EndCode
+  possible, what isn't rather usual however. @LineBreak
+  @LineBreak
+  The described method While : WindowEvent() : Wend is frequently useful in connection with 
+  the command @@Delay, where the loop is inserted BEFORE the Delay(), e.g. to firstly wait 
+  for the update of an ImageGadget after changing an image with SetGadgetState(). 

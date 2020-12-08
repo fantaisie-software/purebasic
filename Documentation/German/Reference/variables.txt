@@ -1,0 +1,1024 @@
+@Title Variablen, Typen und Operatoren
+
+@Section Variablen Definition
+
+  Um eine Variable in PureBasic zu definieren, geben Sie ihren Namen ein oder den Typ, den die Variable annehmen
+  soll. Standardmäßig, wenn kein Typ angegeben wird, wird der Datentyp ein Integer sein.
+  Variablen müssen nicht ausdrücklich deklariert werden, sie können auch als Variablen "on-the-fly" benutzt
+  werden. Das @ReferenceLink "define" "Define" Schlüsselwort kann benutzt werden, um eine ganze Reihe von Variablen zu definieren.
+  Wenn Sie der Variable keinen Anfangswert zuweisen, wird ihr Wert 0 sein.
+
+  @Example
+
+@Code
+  a.b ; Deklariert eine Variable genannt 'a' vom Typ Byte (.b).
+  c.l = a*d.w ; 'd' wird hier mitten im Ausdruck deklariert und es ist ein Word!
+@EndCode
+
+  @Underline "Hinweise:"
+  @Indent
+  Variablen-Namen dürfen nicht mit einer Zahl (0,1,...) beginnen und keine Operatoren (+,-,...) sowie
+  Sonderzeichen (ß,ä,ö,ü,...) enthalten.
+  @LineBreak
+  @LineBreak
+  Die Variablen in PureBasic beachten nicht die Groß- und Kleinschreibung, daher bezeichnet "pure" und 
+  "PURE" die gleiche Variable.
+  @LineBreak
+  @LineBreak
+  Wenn Sie während des Programmablaufs den Inhalt einer Variable nicht ändern müssen (z.B. Sie nutzen feste Werte
+  für ID's etc.), können Sie auch einen Blick auf @ReferenceLink "general_rules" "Konstanten" als Alternative werfen.
+  @LineBreak
+  @LineBreak
+  Zur Vermeidung von Schreibfehlern etc. ist es möglich, den PureBasic Compiler dazu zu bringen, immer erst eine
+  Deklaration von Variablen zu erwarten, bevor sie erstmals verwendet werden. Verwenden Sie einfach das
+  @ReferenceLink "compilerdirectives" "EnableExplicit" Schlüsselwort in Ihrem Quellcode, um dieses Feature zu aktivieren.
+  @EndIndent
+
+@Section Basic Typen
+
+  PureBasic erlaubt viele Variablen-Typen, welche standardmäßige Ganzzahlen (Integer), Fließkommazahlen (Floats),
+  Doubles (Fließkomma mit doppelter Genauigkeit), Quads und Chars oder auch String-Zeichen sein können.
+  Hier folgt eine Liste der unterstützten Typen und eine Kurzbeschreibung:
+  @LineBreak
+  @LineBreak
+
+@FormatIf HTML WEBSITE
+  <table width="75%" border="1" bordercolorlight="#FFFFFF" bordercolordark="#999900">
+    <tr>
+      <td>
+        <div align="center"><b><font face="Arial" size="2">Name</font></b></div>
+      </td>
+      <td>
+        <div align="center"><b><font face="Arial" size="2">Erweiterung</font></b></div>
+      </td>
+
+      <td>
+        <div align="center"><b><font face="Arial" size="2">Speicherverbrauch</font></b></div>
+      </td>
+      <td>
+        <div align="center"><b><font face="Arial" size="2">Bereich</font></b></div>
+      </td>
+    </tr>
+    <tr>
+      <td><font face="Arial" size="2">Byte</font></td>
+      <td><font face="Arial" size="2">.b</font></td>
+      <td><font face="Arial" size="2">1 Byte</font></td>
+      <td><font face="Arial" size="2">-128 bis +127</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Ascii</font></td>
+      <td><font face="Arial" size="2">.a</font></td>
+      <td><font face="Arial" size="2">1 Byte</font></td>
+      <td><font face="Arial" size="2">0 bis +255</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Character</font></td>
+      <td><font face="Arial" size="2">.c</font></td>
+      <td><font face="Arial" size="2">2 Byte</font></td>
+      <td><font face="Arial" size="2">0 to +65535</font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial" size="2">Word</font></td>
+      <td><font face="Arial" size="2">.w</font></td>
+      <td><font face="Arial" size="2">2 Byte</font></td>
+      <td><font face="Arial" size="2"> -32768 bis +32767</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Unicode</font></td>
+      <td><font face="Arial" size="2">.u</font></td>
+      <td><font face="Arial" size="2">2 Byte</font></td>
+      <td><font face="Arial" size="2">0 bis +65535</font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial" size="2">Long</font></td>
+      <td><font face="Arial" size="2">.l</font></td>
+      <td><font face="Arial" size="2">4 Byte</font></td>
+      <td><font face="Arial" size="2">-2147483648 bis +2147483647</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Integer</font></td>
+      <td><font face="Arial" size="2">.i</font></td>
+      <td><font face="Arial" size="2">4 Byte (bei Verwendung eines 32-Bit Compilers)</font></td>
+      <td><font face="Arial" size="2">-2147483648 bis +2147483647</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Integer</font></td>
+      <td><font face="Arial" size="2">.i</font></td>
+      <td><font face="Arial" size="2">8 Byte (bei Verwendung eines 64-Bit Compilers)</font></td>
+      <td><font face="Arial" size="2">-9223372036854775808 bis +9223372036854775807</font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial" size="2">Float</font></td>
+      <td><font face="Arial" size="2">.f</font></td>
+      <td><font face="Arial" size="2">4 Byte</font></td>
+      <td><font face="Arial" size="2">unlimitiert (siehe unten)</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Quad</font></td>
+      <td><font face="Arial" size="2">.q</font></td>
+      <td><font face="Arial" size="2">8 Byte</font></td>
+      <td><font face="Arial" size="2">-9223372036854775808 bis +9223372036854775807</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Double</font></td>
+      <td><font face="Arial" size="2">.d</font></td>
+      <td><font face="Arial" size="2">8 bytes</font></td>
+      <td><font face="Arial" size="2">unlimitiert (siehe unten)</font></td>
+    </tr>
+    <tr>
+      <td height="24"><font face="Arial" size="2">String</font></td>
+      <td height="24"><font face="Arial" size="2">.s</font></td>
+      <td height="24"><font face="Arial" size="2">Länge des Strings + 1</font></td>
+      <td height="24"><font face="Arial" size="2">unlimitiert</font></td>
+    </tr>
+    <tr> 
+      <td height="24"><font face="Arial" size="2">Fixed (fester) String</font></td>
+      <td height="24"><font face="Arial" size="2">.s{Länge}</font></td>
+      <td height="24"><font face="Arial" size="2">Länge des Strings</font></td>
+      <td height="24"><font face="Arial" size="2">unlimitiert</font></td>
+    </tr>
+  </table>
+@FormatElse
+
+@FixedFont
+  Name         | Erweiterung | Speicherverbrauch                              | Bereich
+  -------------+-------------+------------------------------------------------+----------------------------------------------
+  Byte         |    .b       | 1 Byte                                         | -128 bis +127
+  Ascii        |    .a       | 1 Byte                                         | 0 bis +255
+  Character    |    .c       | 2 Byte                                         | 0 bis +65535
+  Word         |    .w       | 2 Byte                                         | -32768 bis +32767
+  Unicode      |    .u       | 2 Byte                                         | 0 bis +65535
+  Long         |    .l       | 4 Byte                                         | -2147483648 bis +2147483647
+  Integer      |    .i       | 4 Byte (bei Verwendung eines 32-Bit Compilers) | -2147483648 bis +2147483647
+  Integer      |    .i       | 8 Byte (bei Verwendung eines 64-Bit Compilers) | -9223372036854775808 bis +9223372036854775807
+  Float        |    .f       | 4 Byte                                         | unlimitiert (siehe unten)
+  Quad         |    .q       | 8 Byte                                         | -9223372036854775808 bis +9223372036854775807
+  Double       |    .d       | 8 Byte                                         | unlimitiert (siehe unten)
+  String       |    .s       | Stringlänge + 1                                | unlimitiert
+  Fixed String |  .s{Länge}  | Stringlänge                                    | unlimitiert
+@EndFixedFont
+
+@FormatEndIf
+
+@LineBreak
+  @Bold "Vorzeichenlose ('Unsigned') Variablen": 
+  Purebasic bietet native Unterstützung für vorzeichenlose Variablen mit Byte- und Word-Typen durch die Ascii (.a) und Unicode (.u) Typen.
+  Der Character (.c) Typ ist ein vorzeichenloses Word in @ReferenceLink "unicode" "Unicode", welcher
+  auch als vorzeichenloser Typ verwendet werden kann.
+@LineBreak
+@LineBreak
+  @Bold "Schreibweise von String-Variablen": Es ist möglich, '$' als letztes Zeichen eines Variablennamens
+  zu verwenden, um die Variable als String zu kennzeichnen. Auf diesem Weg können Sie 'a$' und 'a.s' als
+  zwei unterschiedliche String-Variablen verwenden. Bitte beachten Sie, dass das '$' zum Variablennamen
+  gehört und immer hinzugefügt werden muss, während das '.s' nur beim ersten Deklarieren der String-Variable
+  benötigt wird.
+@Code
+  a.s = "One string"
+  a$ = "Another string"
+  Debug a   ; wird "One string" ergeben
+  Debug a$  ; wird "Another string" ergeben
+@EndCode
+
+@LineBreak
+@Bold "Hinweis": Die Fließkomma-Zahlen (Floats + Doubles) können auch wie folgt geschrieben werden: 123.5e-20
+@Code
+  wert.d = 123.5e-20
+  Debug wert   ; wird 0.000000000000000001235 ergeben
+@EndCode
+  
+
+@Section Operatoren
+
+  Operatoren sind die Funktionen, die Sie in Ausdrücken zum Kombinieren von Variablen, Konstanten oder was
+  auch immer verwenden können. Die nachfolgende Tabelle zeigt die Operatoren, die Sie in PureBasic verwenden
+  können (ohne bestimmte Reihenfolge). Als Abkürzungen werden LS = "Linke Seite" (links vom Operator) bzw.
+  RS = "Rechte Seite" (rechts vom Operator) verwendet.
+  @LineBreak
+  @LineBreak
+
+@FormatIf HTML WEBSITE
+
+  <table border="1" bordercolorlight="#FFFFFF" bordercolordark="#999900">
+  <tr>
+      <td><div align="center"><b>Operator</b></div></td>
+      <td><div align="center"><b>Beschreibung / Beispiel</b></div></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">=</div></td>
+      <td><font face="Arial" size="2">Gleich. Dies kann auf zwei Arten benutzt werden. Die erste Möglichkeit ist, den Wert
+      des Ausdrucks von RS der Variablen von LS zuzuweisen. Die zweite Möglichkeit ist, wenn das Ergebnis des Operators
+      in einem Ausdruck benutzt wird, um zu testen, ob die Werte der Ausdrücke von LS und RS dieselben sind (sind sie
+      gleich, wird der Operator als Ergebnis wahr / 'true' zurückliefern, andernfalls falsch / 'false').<br>
+      <br><i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">a=b+c <font color="#006666">; Weist den Wert des Ausdrucks &quot;b+c&quot; der Variablen &quot;a&quot; zu</font><br>
+
+      <b><font color="#006666">If</font></b> abc=def <font color="#006666">; Testet, ob die Werte von abc und def gleich sind, und benutzt dieses Ergebnis für den If Befehl</font>
+      </font>
+
+      <br><br>
+      Bei Strings dient '=' ebenfalls sowohl als Zuweisungs- als auch als Vergleichsoperator. Hinweis: Der Vergleich zweier Strings erfolgt "Case-sensitive", es wird also auf Groß- und Kleinschreibung geachtet.<br>
+      <br><i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">a$ = b$ <font color="#006666">; Weist den Inhalt des Strings &quot;b$&quot; dem String &quot;a$&quot; zu</font><br>
+      <b><font color="#006666">If</font></b> a$ = b$ <font color="#006666">; Testet, ob der Inhalt der Strings a$ und b$ gleich ist, und benutzt dieses Ergebnis für den If Befehl.</font>
+      </font>
+
+      </font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">+</div></td>
+      <td><font face="Arial" size="2">Plus. Addiert den Wert des Ergebnisses vom Ausdruck auf RS zum Wert des Ausdrucks auf LS.
+      Wird das Ergebnis dieses Operators nicht benutzt und es befindet sich eine Variable auf LS, dann wird der Wert des Ausdrucks
+      von RS direkt zur Variablen auf LS addiert.<br>
+
+      <br><i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      number=something+2 <font color="#006666">; Addiert den Wert 2 zu &quot;something&quot; und benutzt das Ergebnis mit dem 'Gleich' Operator.</font><br>
+      variable+expression <font color="#006666">; Der Wert des Ausdrucks &quot;expression&quot; wird direkt zur Variablen &quot;variable&quot; addiert.</font>
+
+      </font>
+
+      <br><br>
+      Bei Strings dient '+' ebenfalls zum Verknüpfen zweier String-Inhalte, deren Ergebnis entweder mit dem '=' Operator dem String auf LS zugewiesen oder
+      direkt in den String auf LS gespeichert wird. Numerische Werte werden auch für eine Verknüpfung mit einem String akzeptiert. Diese verhalten
+      sich wie die Verwendung von @@Str, @@StrF oder @@StrD mit ihren Standardwerten als optionale Parameter.<br>
+      <br><i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      a$ = b$ + " more" <font color="#006666">; Verbindet den Inhalt vom String &quot;b$&quot; mit dem String &quot; more&quot; und speichert diesen in den String &quot;a$&quot;</font><br>
+      a$ + b$ <font color="#006666">; Fügt den Inhalt des Strings b$ direkt dem String a$ hinzu.</font>
+      a$ = b$ + 123
+      </font>
+
+      </font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">-</div></td>
+      <td><font face="Arial" size="2">Minus. Subtrahiert den Wert des Ausdrucks auf RS vom Wert des Ausdrucks auf LS.
+      Wenn sich auf LS kein Ausdruck befindet, dann liefert dieser Operator den negativen Wert des Ausdrucks auf RS.
+      Wird das Ergebnis dieses Ausdrucks nicht benutzt und es befindet sich eine Variable auf LS, dann wird der Wert des
+      Ausdrucks von RS direkt von der Variablen auf LS subtrahiert. Dieser Operator kann nicht mit Variablen vom Typ 'String'
+      benutzt werden.<br>
+      <br><i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      var=#MyConstant-foo <font color="#006666">; Subtrahiert den Wert von &quot;foo&quot; von &quot;#MyConstant&quot; und benutzt das Ergebnis miz dem 'Gleich' Operator.</font><br>
+
+      another=another+ -var <font color="#006666">; Rechnet mit dem negativen Wert von &quot;var&quot; und benutzt das Ergebnis mit dem 'Plus' Operator.</font><br>
+      variable-expression <font color="#006666">; Der Wert des Ausdrucks &quot;expression&quot; wird direkt von der Variablen &quot;variable&quot; subtrahiert.</font>
+
+      </font></font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">*</div></td>
+      <td><font face="Arial" size="2">Multiplikation. Multipliziert den Wert des Ausdrucks auf LS mit dem Wert des Ausdrucks
+      auf RS. Wird das Ergebnis dieses Operators nicht benutzt und es befindet sich eine Variable auf LS, dann wird der Wert
+      der Variablen direkt mit dem Wert des Ausdrucks auf RS multipliziert. Dieser Operator kann nicht mit Variablen vom Typ
+      'String' benutzt werden.<br>
+      <br><i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      total=price*count <font color="#006666">; Multipliziert den Wert von &quot;price&quot; mit dem Wert von &quot;count&quot; und benutzt das Ergebnis mit dem 'Gleich' Operator.</font><br>
+
+      variable*expression <font color="#006666">; &quot;variable&quot; wird direkt mit dem Wert von &quot;expression&quot; multipliziert.</font>
+      </font></font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">/</div></td>
+
+      <td><font face="Arial" size="2">Division. Dividiert den Wert des Ausdrucks auf LS durch den Wert des Ausdrucks auf RS.
+      Wird das Ergebnis dieses Operators nicht benutzt und es befindet sich eine Variable auf LS, dann wird der Wert der
+      Variablen direkt durch den Wert des Ausdrucks auf RS dividiert. Dieser Operator kann nicht mit Variablen vom Typ
+      'String' benutzt werden.<br>
+      <br><i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      count=total/price <font color="#006666">; Dividiert den Wert von &quot;total&quot; durch den Wert von &quot;price&quot; und benutzt das Ergebnis mit dem 'Gleich' Operator.</font><br>
+
+      variable/expression <font color="#006666">; &quot;variable&quot; wird direkt durch den Wert von &quot;expression&quot; dividiert.</font>
+      </font></font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">&</div></td>
+
+      <td><font face="Arial" size="2">Bitweises AND. Sie sollten sich mit Binär-Zahlen auskennen, wenn Sie diesen Operator
+      benutzen. Das Ergebnis dieses Operators ist der Wert des Ausdrucks auf LS, durch 'AND' (Und) verknüpft mit dem Wert
+      des Ausdrucks auf RS, und dies Bit für Bit. Der Wert jedes Bits wird entsprechend der nachfolgenden Tabelle gesetzt.
+      Wird das Ergebnis des Operators nicht benutzt und es befindet sich eine Variable auf LS, dann wird das Ergebnis des
+      Ausdrucks direkt in dieser Variable gespeichert. Dieser Operator kann nicht mit Variablen vom Typ 'String' benutzt werden.<br>
+      <font size="3"><pre> LS  | RS  | Ergebnis
+  ---------------------
+    0  |  0  |    0
+    0  |  1  |    0
+    1  |  0  |    0
+    1  |  1  |    1</pre></font>
+      <i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      <font color="#006666">; Zeigt die Benutzung mit Binär-Zahlen, da es so leichter ist, das Ergebnis zu sehen</font><br>
+      a.w = %1000 & %0101 <font color="#006666">; Ergebnis wird 0 sein</font><br>
+
+      b.w = %1100 & %1010 <font color="#006666">; Ergebnis wird %1000 sein</font><br>
+      bits = a & b <font color="#006666">; verknüpft jedes Bit von a und b durch AND und benutzt das Ergebnis mit dem 'Gleich' Operator</font><br>
+      a & b <font color="#006666">; verknüpft jedes Bit von a und b durch AND und speichert das Ergebnis direkt in der Variable &quot;a&quot;</font>
+      </font></font></td>
+
+  </tr>
+
+  <tr>
+      <td><div align="center">|</div></td>
+      <td><font face="Arial" size="2">Bitweises OR. Sie sollten sich mit Binär-Zahlen auskennen, wenn Sie diesen Operator
+      benutzen. Das Ergebnis dieses Operators ist der Wert des Ausdrucks auf LS, durch 'OR' (Oder) verknüpft mit dem Wert
+      des Ausdrucks auf RS, und dies Bit für Bit. Der Wert jedes Bits wird entsprechend der nachfolgenden Tabelle gesetzt.
+      Wird das Ergebnis des Operators nicht benutzt und es befindet sich eine Variable auf LS, dann wird das Ergebnis des
+      Ausdrucks direkt in dieser Variable gespeichert. Dieser Operator kann nicht mit Variablen vom Typ 'String' benutzt werden.<br>
+      <font size="3"><pre> LS  | RS  | Ergebnis
+  ---------------------
+    0  |  0  |    0
+    0  |  1  |    1
+    1  |  0  |    1
+    1  |  1  |    1</pre></font>
+      <i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+
+      <font color="#006666">; Zeigt die Benutzung mit Binär-Zahlen, da es so leichter ist, das Ergebnis zu sehen</font><br>
+      a.w = %1000 | %0101 <font color="#006666">; Ergebnis wird %1101 sein</font><br>
+      b.w = %1100 | %1010 <font color="#006666">; Ergebnis wird %1110 sein</font><br>
+      bits = a | b <font color="#006666">; verknüpft jedes Bit von a und b durch OR und benutzt das Ergebnis mit dem 'Gleich' Operator</font><br>
+      a | b <font color="#006666">; verknüpft jedes Bit von a und b durch OR und speichert das Ergebnis direkt in der Variable &quot;a&quot;</font>
+
+      </font></font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">!</div></td>
+      <td><font face="Arial" size="2">Bitweises XOR. Sie sollten sich mit Binär-Zahlen auskennen, wenn Sie diesen Operator
+      benutzen. Das Ergebnis dieses Operators ist der Wert des Ausdrucks auf LS, durch 'XOR' (Exklusives Oder) verknüpft mit dem Wert
+      des Ausdrucks auf RS, und dies Bit für Bit. Der Wert jedes Bits wird entsprechend der nachfolgenden Tabelle gesetzt.
+      Wird das Ergebnis des Operators nicht benutzt und es befindet sich eine Variable auf LS, dann wird das Ergebnis des
+      Ausdrucks direkt in dieser Variable gespeichert. Dieser Operator kann nicht mit Variablen vom Typ 'String' benutzt werden.<br>
+      <font size="3"><pre> LS  | RS  | Ergebnis
+  ---------------------
+    0  |  0  |    0
+    0  |  1  |    1
+    1  |  0  |    1
+    1  |  1  |    0</pre></font>
+      <i><b>Beispiel:</b></i><br>
+
+      <font face="Courier New, Courier, mono">
+      <font color="#006666">; Zeigt die Benutzung mit Binär-Zahlen, da es so leichter ist, das Ergebnis zu sehen</font><br>
+      a.w = %1000 ! %0101 <font color="#006666">; Ergebnis wird %1101 sein</font><br>
+      b.w = %1100 ! %1010 <font color="#006666">; Ergebnis wird %0110 sein</font><br>
+      bits = a ! b <font color="#006666">; verknüpft jedes Bit von a und b durch XOR und benutzt das Ergebnis mit dem 'Gleich' Operator</font><br>
+
+      a ! b <font color="#006666">; verknüpft jedes Bit von a und b durch XOR und speichert das Ergebnis direkt in der Variable &quot;a&quot;</font>
+      </font></font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">~</div></td>
+      <td><font face="Arial" size="2">Bitweises NOT. Sie sollten sich mit Binär-Zahlen auskennen, wenn Sie diesen Operator
+      benutzen. Das Ergebnis dieses Operators ist der - durch 'NOT' (Nicht) verknüpfte - Wert des Ausdrucks auf RS, und
+      dies Bit für Bit. Der Wert jedes Bits wird entsprechend der nachfolgenden Tabelle gesetzt.
+      Dieser Operator kann nicht mit Variablen vom Typ 'String' benutzt werden.<br>
+      <font size="3"><pre> RS | Ergebnis
+  --------------
+    0 |    1
+    1 |    0
+  </pre></font>
+      <i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      <font color="#006666">; Zeigt die Benutzung mit Binär-Zahlen, da es so leichter ist, das Ergebnis zu sehen</font><br>
+      a.b = ~%1000 <font color="#006666">; Theoretisch lautet das Ergebnis %0111, tatsächlich ist es aber %11110111 (= -9 da ein Byte vorzeichenbehaftet 'signed' ist).</font><br>
+      b.b = ~%1010 <font color="#006666">; Theoretisch lautet das Ergebnis %0101, tatsächlich ist es aber %11110101 (= -11 da ein Byte vorzeichenbehaftet 'signed' ist).</font><br>
+      </font></font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">()</div></td>
+      <td><font face="Arial" size="2">Klammern. Sie können Klammern paarweise setzen, um einen Teil eines Ausdrucks zuerst
+      zu berechnen, oder in einer bestimmten Reihenfolge.<br>
+      <br><i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      a = (5 + 6) * 3 <font color="#006666">; Ergebnis wird 33 sein, da 5+6 zuerst berechnet wird</font><br>
+
+      b = 4 * (2 - (3 - 4)) <font color="#006666">; Ergebnis wird 12 sein, da zuerst 3-4 berechnet wird, dann 2-Zwischenergebnis,
+      danach die Multiplikation</font><br>
+      </font></font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">&lt;</div></td>
+      <td><font face="Arial" size="2">Kleiner als. Dies wird benutzt, um die Werte der Ausdrücke auf LS und RS zu vergleichen.
+      Ist der Wert des Ausdrucks auf LS kleiner als der Wert des Ausdrucks auf RS, dann ergibt dieser Operator als Ergebnis
+      'true' (wahr), andernfalls das Ergebnis 'false' (falsch).<br>
+      <br><i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      <b><font color="#006666">If</font></b> a &lt; b <font color="#006666">; Testet, ob der Wert von a kleiner als b ist, und benutzt dieses Ergebnis für den If Befehl</font>
+      </font>
+      <br>
+      <br>Hinweis: Der Vergleich von Strings erfolgt "case-sensitive", d.h. es wird auf Groß- und Kleinschreibung geachtet.
+      </font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">&gt;</div></td>
+      <td><font face="Arial" size="2">Größer als. Dies wird benutzt, um die Werte der Ausdrücke auf LS und RS zu vergleichen.
+      Ist der Wert des Ausdrucks auf LS größer als der Wert des Ausdrucks auf RS, dann ergibt dieser Operator als Ergebnis
+      'true' (wahr), andernfalls das Ergebnis 'false' (falsch).<br>
+      <br><i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      <b><font color="#006666">If</font></b> a &gt; b <font color="#006666">; Testet, ob der Wert von a größer als b ist, und benutzt dieses Ergebnis für den If Befehl</font>
+      </font>
+      <br>
+      <br>Hinweis: Der Vergleich von Strings erfolgt "case-sensitive", d.h. es wird auf Groß- und Kleinschreibung geachtet.
+      </font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">&lt;= <br> =&lt;</div></td>
+      <td><font face="Arial" size="2">Kleiner als oder gleich. Dies wird benutzt, um die Werte der Ausdrücke auf LS und RS
+      zu vergleichen. Ist der Wert des Ausdrucks auf LS kleiner als oder gleich dem Wert des Ausdrucks auf RS, dann ergibt
+      dieser Operator als Ergebnis 'true' (wahr), andernfalls das Ergebnis 'false' (falsch).<br>
+
+      <!-- <i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      </font>-->
+
+      </font></td>
+
+  </tr>
+
+  <tr>
+      <td><div align="center">&gt;= <br> =&gt;</div></td>
+      <td><font face="Arial" size="2">Größer als oder gleich. Dies wird benutzt, um die Werte der Ausdrücke auf LS und RS
+      zu vergleichen. Ist der Wert des Ausdrucks auf LS größer als oder gleich dem Wert des Ausdrucks auf RS, dann ergibt
+      dieser Operator als Ergebnis 'true' (wahr), andernfalls das Ergebnis 'false' (falsch).<br>
+      <!-- <i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      </font>-->
+
+      </font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">&lt;&gt;</div></td>
+
+      <td><font face="Arial" size="2">Ungleich (nicht gleich zu). Dies wird benutzt, um die Werte der Ausdrücke auf LS und RS
+      zu vergleichen. Ist der Wert des Ausdrucks auf LS gleich dem Wert des Ausdrucks auf RS, dann ergibt
+      dieser Operator als Ergebnis 'false' (falsch), andernfalls das Ergebnis 'true' (wahr).<br>
+      <!-- <i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      </font>-->
+      </font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">And</div></td>
+      <td><font face="Arial" size="2">Logisches AND (Und). Kann zum Kombinieren der logisch wahren ('true') und falschen
+      ('false') Ergebnisse der Vergleichsoperatoren benutzt werden und ergibt die in der folgenden Tabelle enthaltenen
+      Resultate.<br>
+      <font size="3"><pre>   LS  |   RS  | Ergebnis
+  -------------------------
+   false | false |  false
+   false |  true |  false
+    true | false |  false
+    true |  true |   true</pre></font>
+
+      <!-- <i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      </font>--></font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">Or</div></td>
+      <td><font face="Arial" size="2">Logisches OR (Oder). Kann zum Kombinieren der logisch wahren ('true') und falschen
+      ('false') Ergebnisse der Vergleichsoperatoren benutzt werden und ergibt die in der folgenden Tabelle enthaltenen
+      Resultate.<br>
+      <font size="3"><pre>  LHS  |  RHS  | Ergebnis
+  -------------------------
+   false | false |  false
+   false |  true |   true
+    true | false |   true
+    true |  true |   true</pre></font>
+      <!-- <i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      </font>--></font></td>
+  </tr>
+
+<tr>
+    <td><div align="center">XOr</div></td>
+    <td><font face="Arial" size="2">Logisches XOR. Kann zum Kombinieren der logisch wahren ('true') und falschen
+      ('false') Ergebnisse der Vergleichsoperatoren benutzt werden und ergibt die in der folgenden Tabelle enthaltenen
+      Resultate. Dieser Operator kann nicht mit Strings verwendet werden.<br>
+    <font size="3"><pre>  LHS  |  RHS  | Ergebnis
+-----------------------
+ false | false | false
+ false |  true |  true
+  true | false |  true
+  true |  true | false</pre></font>
+    <!-- <i><b>Beispiel:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    </font>--></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">Not</div></td>
+    <td><font face="Arial" size="2">Das Resultat dieses Operators wird der umgekehrte Wert des logischen Ausdrucks auf RS sein.
+  Der Wert wird entsprechend der nachfolgenden Tabelle gesetzt. Dieser Operator kann nicht mit Strings verwendet werden.<br>
+    <font size="3"><pre>  RHS  | Ergebnis
+---------------
+ false |  true
+  true | false
+</pre></font>
+    <!-- <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    </font>--></font></td>
+</tr>
+
+  <tr>
+      <td><div align="center">&lt;&lt;</div></td>
+      <td><font face="Arial" size="2">Bitweises Shift (Verschieben) nach Links. Durch die Verwendung dieses Operators
+      verschieben Sie die einzelnen Bits der Variablen auf der linken Seite des Operators um die auf der rechten Seite
+      des Operators angegebene Anzahl an Bits nach links. Weggefallene Bits auf der rechten Seite der Variablen werden
+      mit 0 aufgefüllt. Sofern das Ergebnis dieses Ausdrucks nicht benutzt wird und auf der linken Seite des Operators
+      eine Variable steht, dann wird der Wert dieser Variable verschoben. Es ist auf jeden Fall hilfreich, wenn Sie vor dem
+      Verwenden dieses Operators die Binärzahlen verstanden haben. Obwohl Sie ihn auch anwenden können, als ob Sie jede
+      Position, die Sie verschieben, mit dem Faktor 2 multiplizieren.<br>
+      Anmerkung: Die Ausführung dieser Verschiebeoperation ist in der Regel weniger aufwendig als die vergleichbare Multiplikation.
+      <p>
+      <i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+
+      a=%1011 &lt;&lt; 1 <font color="#006666">; Der Wert von a ergibt %10110. %1011=11, %10110=22</font><br>
+      b=%111 &lt;&lt; 4 <font color="#006666">; Der Wert von b ergibt %1110000. %111=7, %1110000=112</font><br>
+      c.l=$80000000 &lt;&lt; 1 <font color="#006666">; Der Wert von c ergibt 0. Bits, die über den linken Rand des
+      Ergebnisses hinaus verschoben werden, gehen verloren.</font><br>
+
+      </font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">&gt;&gt;</div></td>
+      <td><font face="Arial" size="2">Bitweises Shift (Verschieben) nach Rechts. Durch die Verwendung dieses Operators
+      verschieben Sie die einzelnen Bits der Variablen auf der linken Seite des Operators um die auf der rechten Seite
+      des Operators angegebene Anzahl an Bits nach rechts. Weggefallene Bits auf der linken Seite der Variablen werden
+      mit 0 aufgefüllt. Sofern das Ergebnis dieses Ausdrucks nicht benutzt wird und auf der linken Seite des Operators
+      eine Variable steht, dann wird der Wert dieser Variable verschoben. Es ist auf jeden Fall hilfreich, wenn Sie vor dem
+      Verwenden dieses Operators die Binärzahlen verstanden haben. Obwohl Sie ihn auch anwenden können, als ob Sie jede
+      Position die Sie verschieben durch den Faktor 2 dividieren.<br>
+      Anmerkung: Die Ausführung dieser Verschiebeoperation ist in der Regel weniger aufwendig als die vergleichbare Division.
+      <p>
+      <i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+
+      d=16 &gt;&gt;  1 <font color="#006666">; Der Wert von d ergibt 8. 16=%10000, 8=%1000</font><br>
+      e.w=%10101010 &gt;&gt;  4 <font color="#006666">; Der Wert von e ergibt %1010. %10101010=170, %1010=10.
+      Bits, die über den rechten Rand des Ergebnisses hinaus verschoben werden, gehen verloren. (Deshalb sehen Sie
+      keine gerade Division durch 16.)</font><br>
+      f.b=-128 &gt;&gt;  1 <font color="#006666">; Der Wert von f ergibt -64. -128=%10000000, -64=%11000000. Beim
+      Verschieben nach Rechts bleibt das Vorzeichen ("most significant bit") gleich.</font><br>
+
+      </font></td>
+  </tr>
+
+  <tr>
+      <td><div align="center">%</div></td>
+      <td><font face="Arial" size="2">Modulo. Gibt den Rest der Integer-Division der Variable auf der linken Seite des
+      Operators durch die Variable auf der rechten Seite zurück.<br>
+      <br><i><b>Beispiel:</b></i><br>
+      <font face="Courier New, Courier, mono">
+      a=16 % 2 <font color="#006666">; Der Wert von a wird 0 sein, da 16/2 = 8 (kein Rest)</font><br>
+
+      b=17 % 2 <font color="#006666">; Der Wert von a wird 1 sein, da 17/2 = 8*2+1 (1 bleibt als Rest)</font><br>
+      </font></font></td>
+  </tr>
+
+  </table>
+
+@FormatElse
+
+@Section Operator = (Gleich)
+
+  Dies kann auf zwei Arten benutzt werden. Die erste Möglichkeit ist, den Wert des Ausdrucks von RS der 
+  Variablen von LS zuzuweisen. Die zweite Möglichkeit ist, wenn das Ergebnis des Operators in einem Ausdruck 
+  benutzt wird, um zu testen, ob die Werte der Ausdrücke von LS und RS dieselben sind (sind sie gleich, wird 
+  der Operator als Ergebnis wahr / 'true' zurückliefern, andernfalls falsch / 'false').
+
+  @Example
+  
+@Code
+  a=b+c ; Weist den Wert des Ausdrucks "b+c" der Variablen "a" zu
+  If abc=def ; Testet, ob die Werte von abc und def gleich sind, und benutzt dieses Ergebnis für den If Befehl
+@EndCode
+
+
+@Section Operator + (Plus)
+
+  Addiert den Wert des Ergebnisses vom Ausdruck auf RS zum Wert des Ausdrucks auf LS. Wird das Ergebnis dieses 
+  Operators nicht benutzt und es befindet sich eine Variable auf LS, dann wird der Wert des Ausdrucks von RS 
+  direkt zur Variablen auf LS addiert.
+
+  @Example
+  
+@Code
+  number=something+2 ; Addiert den Wert 2 zu "something" und benutzt das Ergebnis mit dem 'Gleich' Operator.
+  variable+expression ; Der Wert des Ausdrucks "expression" wird direkt zur Variablen "variable" addiert.
+@EndCode
+
+
+@Section Operator - (Minus)
+
+  Subtrahiert den Wert des Ausdrucks auf RS vom Wert des Ausdrucks auf LS. Wenn sich auf LS kein Ausdruck befindet, 
+  dann liefert dieser Operator den negativen Wert des Ausdrucks auf RS. Wird das Ergebnis dieses Ausdrucks nicht 
+  benutzt und es befindet sich eine Variable auf LS, dann wird der Wert des Ausdrucks von RS direkt von der 
+  Variablen auf LS subtrahiert. Dieser Operator kann nicht mit Variablen vom Typ 'String' benutzt werden.
+
+  @Example
+  
+@Code
+  var=#MyConstant-foo ; Subtrahiert den Wert von "foo" von "#MyConstant" und benutzt das Ergebnis miz dem 'Gleich' Operator.
+  another=another+ -var ; Rechnet mit dem negativen Wert von "var" und benutzt das Ergebnis mit dem 'Plus' Operator.
+  variable-expression ; Der Wert des Ausdrucks "expression" wird direkt von der Variablen "variable" subtrahiert.
+@EndCode
+
+
+@Section Operator * (Multiplikation)
+
+  Multipliziert den Wert des Ausdrucks auf LS mit dem Wert des Ausdrucks auf RS. Wird das Ergebnis dieses
+  Operators nicht benutzt und es befindet sich eine Variable auf LS, dann wird der Wert der Variablen 
+  direkt mit dem Wert des Ausdrucks auf RS multipliziert. Dieser Operator kann nicht mit Variablen vom 
+  Typ 'String' benutzt werden.
+
+  @Example
+  
+@Code
+  total=price*count ; Multipliziert den Wert von "price" mit dem Wert von "count" und benutzt das Ergebnis mit dem 'Gleich' Operator.
+  variable*expression ; "variable" wird direkt mit dem Wert von "expression" multipliziert.
+@EndCode
+
+
+@Section Operator / (Division)
+
+  Dividiert den Wert des Ausdrucks auf LS durch den Wert des Ausdrucks auf RS. Wird das Ergebnis dieses Operators nicht 
+  benutzt und es befindet sich eine Variable auf LS, dann wird der Wert der Variablen direkt durch den Wert des Ausdrucks 
+  auf RS dividiert. Dieser Operator kann nicht mit Variablen vom Typ 'String' benutzt werden.
+
+  @Example
+  
+@Code
+  count=total/price ; Dividiert den Wert von "total" durch den Wert von "price" und benutzt das Ergebnis mit dem 'Gleich' Operator.
+  variable/expression ; "variable" wird direkt durch den Wert von "expression" dividiert.
+@EndCode
+
+
+@Section Operator & (Bitweises AND)
+
+  Sie sollten sich mit Binär-Zahlen auskennen, wenn Sie diesen Operator benutzen. Das Ergebnis dieses Operators 
+  ist der Wert des Ausdrucks auf LS, durch 'AND' (Und) verknüpft mit dem Wert des Ausdrucks auf RS, und dies Bit 
+  für Bit. Der Wert jedes Bits wird entsprechend der nachfolgenden Tabelle gesetzt. Wird das Ergebnis des Operators 
+  nicht benutzt und es befindet sich eine Variable auf LS, dann wird das Ergebnis des Ausdrucks direkt in dieser 
+  Variable gespeichert. Dieser Operator kann nicht mit Variablen vom Typ 'String' benutzt werden.
+
+@FixedFont
+   LS  | RS  | Ergebnis
+  ---------------------
+    0  |  0  |    0
+    0  |  1  |    0
+    1  |  0  |    0
+    1  |  1  |    1
+@EndFixedFont
+
+  @Example
+  
+@Code
+  ; Zeigt die Benutzung mit Binär-Zahlen, da es so leichter ist, das Ergebnis zu sehen
+  a.w = %1000 & %0101 ; Ergebnis wird 0 sein
+  b.w = %1100 & %1010 ; Ergebnis wird %1000 sein
+  bits = a & b ; verknüpft jedes Bit von a und b durch AND und benutzt das Ergebnis mit dem 'Gleich' Operator
+  a & b ; verknüpft jedes Bit von a und b durch AND und speichert das Ergebnis direkt in der Variable "a"
+@EndCode
+
+
+@Section Operator | (Bitweises OR)
+  
+  Sie sollten sich mit Binär-Zahlen auskennen, wenn Sie diesen Operator benutzen. Das Ergebnis dieses 
+  Operators ist der Wert des Ausdrucks auf LS, durch 'OR' (Oder) verknüpft mit dem Wert des Ausdrucks 
+  auf RS, und dies Bit für Bit. Der Wert jedes Bits wird entsprechend der nachfolgenden Tabelle gesetzt. 
+  Wird das Ergebnis des Operators nicht benutzt und es befindet sich eine Variable auf LS, dann wird das 
+  Ergebnis des Ausdrucks direkt in dieser Variable gespeichert. Dieser Operator kann nicht mit Variablen 
+  vom Typ 'String' benutzt werden.
+
+@FixedFont
+   LS  | RS  | Ergebnis
+  ---------------------
+    0  |  0  |    0
+    0  |  1  |    1
+    1  |  0  |    1
+    1  |  1  |    1
+@EndFixedFont
+
+  @Example
+  
+@Code
+  ; Zeigt die Benutzung mit Binär-Zahlen, da es so leichter ist, das Ergebnis zu sehen
+  a.w = %1000 | %0101 ; Ergebnis wird %1101 sein
+  b.w = %1100 | %1010 ; Ergebnis wird %1110 sein
+  bits = a | b ; verknüpft jedes Bit von a und b durch OR und benutzt das Ergebnis mit dem 'Gleich' Operator
+  a | b ; verknüpft jedes Bit von a und b durch OR und speichert das Ergebnis direkt in der Variable "a"
+@EndCode
+
+
+@Section Operator ! (Bitweises XOR)
+
+  Sie sollten sich mit Binär-Zahlen auskennen, wenn Sie diesen Operator benutzen. Das Ergebnis dieses Operators 
+  ist der Wert des Ausdrucks auf LS, durch 'XOR' (Exklusives Oder) verknüpft mit dem Wert des Ausdrucks auf RS, 
+  und dies Bit für Bit. Der Wert jedes Bits wird entsprechend der nachfolgenden Tabelle gesetzt. Wird das Ergebnis
+  des Operators nicht benutzt und es befindet sich eine Variable auf LS, dann wird das Ergebnis des Ausdrucks direkt
+  in dieser Variable gespeichert. Dieser Operator kann nicht mit Variablen vom Typ 'String' benutzt werden.
+
+@FixedFont
+   LS  | RS  | Ergebnis
+  ---------------------
+    0  |  0  |    0
+    0  |  1  |    1
+    1  |  0  |    1
+    1  |  1  |    0
+@EndFixedFont
+
+  @Example
+  
+@Code
+  ; Zeigt die Benutzung mit Binär-Zahlen, da es so leichter ist, das Ergebnis zu sehen
+  a.w = %1000 ! %0101 ; Ergebnis wird %1101 sein
+  b.w = %1100 ! %1010 ; Ergebnis wird %0110 sein
+  bits = a ! b ; verknüpft jedes Bit von a und b durch XOR und benutzt das Ergebnis mit dem 'Gleich' Operator
+  a ! b ; verknüpft jedes Bit von a und b durch XOR und speichert das Ergebnis direkt in der Variable "a"
+@EndCode
+
+
+@Section Operator ~ (Bitweises NOT)
+
+  Sie sollten sich mit Binär-Zahlen auskennen, wenn Sie diesen Operator benutzen. Das Ergebnis dieses Operators 
+  ist der - durch 'NOT' (Nicht) verknüpfte - Wert des Ausdrucks auf RS, und dies Bit für Bit. Der Wert jedes Bits 
+  wird entsprechend der nachfolgenden Tabelle gesetzt. Dieser Operator kann nicht mit Variablen vom Typ 'String'
+  benutzt werden.
+
+@FixedFont
+   RS | Ergebnis
+  --------------
+    0 |    1
+    1 |    0
+@EndFixedFont
+
+  @Example
+  
+@Code
+  ; Zeigt die Benutzung mit Binär-Zahlen, da es so leichter ist, das Ergebnis zu sehen
+  a.w = ~%1000 ; Ergebnis wird %0111 sein
+  b.w = ~%1010 ; Ergebnis wird %0101 sein
+@EndCode
+
+
+@Section Operator () (Klammern)
+
+  Sie können Klammern paarweise setzen, um einen Teil eines Ausdrucks zuerst zu berechnen, oder 
+  in einer bestimmten Reihenfolge.
+
+  @Example
+  
+@Code
+  a = (5 + 6) * 3 ; Ergebnis wird 33 sein, da 5+6 zuerst berechnet wird
+  b = 4 * (2 - (3 - 4)) ; Ergebnis wird 12 sein, da zuerst 3-4 berechnet wird, dann 2-Zwischenergebnis, danach die Multiplikation
+@EndCode
+
+
+@Section Operator < (Kleiner als)
+
+  Dies wird benutzt, um die Werte der Ausdrücke auf LS und RS zu vergleichen. Ist der Wert des Ausdrucks 
+  auf LS kleiner als der Wert des Ausdrucks auf RS, dann ergibt dieser Operator als Ergebnis 'true' (wahr), 
+  andernfalls das Ergebnis 'false' (falsch).
+
+
+@Section Operator > (Größer als) 
+
+  Dies wird benutzt, um die Werte der Ausdrücke auf LS und RS zu vergleichen. Ist der Wert des Ausdrucks auf 
+  LS größer als der Wert des Ausdrucks auf RS, dann ergibt dieser Operator als Ergebnis 'true' (wahr), 
+  andernfalls das Ergebnis 'false' (falsch).
+
+
+@Section Operator <=, =< (Kleiner als oder gleich)
+
+  Dies wird benutzt, um die Werte der Ausdrücke auf LS und RS zu vergleichen. Ist der Wert des Ausdrucks auf 
+  LS kleiner als oder gleich dem Wert des Ausdrucks auf RS, dann ergibt dieser Operator als Ergebnis 'true' (wahr), 
+  andernfalls das Ergebnis 'false' (falsch).
+
+
+@Section Operator >=, => (Größer als oder gleich)
+
+  Dies wird benutzt, um die Werte der Ausdrücke auf LS und RS zu vergleichen. Ist der Wert des Ausdrucks auf LS 
+  größer als oder gleich dem Wert des Ausdrucks auf RS, dann ergibt dieser Operator als Ergebnis 'true' (wahr), 
+  andernfalls das Ergebnis 'false' (falsch).
+
+
+@Section Operator <> (Ungleich - nicht gleich zu)
+
+  Dies wird benutzt, um die Werte der Ausdrücke auf LS und RS zu vergleichen. Ist der Wert des Ausdrucks auf 
+  LS gleich dem Wert des Ausdrucks auf RS, dann ergibt dieser Operator als Ergebnis 'false' (falsch), andernfalls 
+  das Ergebnis 'true' (wahr).
+
+
+@Section Operator And (Logisches AND (Und))
+
+  Kann zum Kombinieren der logisch wahren ('true') und falschen ('false') Ergebnisse der Vergleichsoperatoren 
+  benutzt werden und ergibt die in der folgenden Tabelle enthaltenen Resultate.
+
+@FixedFont
+     LS  |   RS  | Ergebnis
+  -------------------------
+   false | false |  false
+   false |  true |  false
+    true | false |  false
+    true |  true |   true
+@EndFixedFont
+    
+
+@Section Operator Or (Logisches OR (Oder))
+
+  Kann zum Kombinieren der logisch wahren ('true') und falschen ('false') Ergebnisse der Vergleichsoperatoren 
+  benutzt werden und ergibt die in der folgenden Tabelle enthaltenen Resultate.
+
+@FixedFont
+    LHS  |  RHS  | Ergebnis
+  -------------------------
+   false | false |  false
+   false |  true |   true
+    true | false |   true
+    true |  true |   true
+@EndFixedFont
+
+
+@Section Operator XOr (Logisches XOR)
+
+  Kann zum Kombinieren der logisch wahren ('true') und falschen ('false') Ergebnisse der 
+  Vergleichsoperatoren benutzt werden und ergibt die in der folgenden Tabelle enthaltenen
+  Resultate. Dieser Operator kann nicht mit Strings verwendet werden.
+
+@FixedFont
+  LHS  |  RHS  | Result
+-----------------------
+ false | false | false
+ false |  true |  true
+  true | false |  true
+  true |  true | false
+@EndFixedFont
+
+@Section Operator Not (Logisches NOT)
+
+  Das Resultat dieses Operators wird der umgekehrte Wert des logischen Ausdrucks auf RS sein.
+  Der Wert wird entsprechend der nachfolgenden Tabelle gesetzt. 
+  Dieser Operator kann nicht mit Strings verwendet werden.
+
+@FixedFont
+  RHS  | Result
+---------------
+ false |  true
+  true | false
+@EndFixedFont
+
+
+@Section Operator << (Bitweises Shift (Verschieben) nach Links)
+
+  Durch die Verwendung dieses Operators verschieben Sie die einzelnen Bits der Variablen auf der linken Seite 
+  des Operators um die auf der rechten Seite des Operators angegebene Anzahl an Bits nach links. Weggefallene 
+  Bits auf der rechten Seite der Variablen werden mit 0 aufgefüllt. Sofern das Ergebnis dieses Ausdrucks nicht 
+  benutzt wird und auf der linken Seite des Operators eine Variable steht, dann wird der Wert dieser Variable verschoben. 
+  Es ist auf jeden Fall hilfreich, wenn Sie vor dem Verwenden dieses Operators die Binärzahlen verstanden haben. Obwohl Sie 
+  ihn auch anwenden können, als ob Sie jede Position die Sie verschieben mit dem Faktor 2 multiplizieren. @LineBreak
+  @LineBreak
+  Anmerkung: Die Ausführung dieser Verschiebeoperation ist in der Regel weniger aufwendig als die vergleichbare Multiplikation.
+
+  @Example
+  
+@Code
+  a=%1011 << 1 ; Der Wert von a ergibt %10110. %1011=11, %10110=22
+  b=%111 << 4 ; Der Wert von b ergibt %1110000. %111=7, %1110000=112
+  c.l=$80000000 << 1 ; Der Wert von c ergibt 0. Bits, die über den linken Rand des Ergebnisses hinaus verschoben werden, gehen verloren.
+@EndCode
+
+
+@Section Operator >> (Bitweises Shift (Verschieben) nach Rechts)
+
+  Durch die Verwendung dieses Operators verschieben Sie die einzelnen Bits der Variablen auf der linken Seite 
+  des Operators um die auf der rechten Seite des Operators angegebene Anzahl an Bits nach rechts. Weggefallene
+  Bits auf der linken Seite der Variablen werden mit 0 aufgefüllt. Sofern das Ergebnis dieses Ausdrucks nicht
+  benutzt wird und auf der linken Seite des Operators eine Variable steht, dann wird der Wert dieser Variable
+  verschoben. Es ist auf jeden Fall hilfreich, wenn Sie vor dem Verwenden dieses Operators die Binärzahlen
+  verstanden haben. Obwohl Sie ihn auch anwenden können, als ob Sie jede Position die Sie verschieben durch 
+  den Faktor 2 dividieren. @LineBreak
+  @LineBreak
+  Anmerkung: Die Ausführung dieser Verschiebeoperation ist in der Regel weniger aufwendig als die vergleichbare Division.
+
+  @Example
+  
+@Code
+  d=16 >> 1 ; Der Wert von d ergibt 8. 16=%10000, 8=%1000
+  e.w=%10101010 >> 4 ; Der Wert von e ergibt %1010. %10101010=170, %1010=10. Bits, die über den rechten Rand des Ergebnisses hinaus verschoben werden, gehen verloren. (Deshalb sehen Sie keine gerade Division durch 16.)
+  f.b=-128 >> 1 ; Der Wert von f ergibt -64. -128=%10000000, -64=%11000000. Beim Verschieben nach Rechts bleibt das Vorzeichen ("most significant bit") gleich.
+@EndCode
+
+
+@Section Operator % (Modulo)
+
+  Gibt den Rest der Integer-Division der Variable auf der linken Seite des Operators durch die Variable auf der rechten Seite zurück.
+
+  @Example
+  
+@Code
+  a=16 % 2 ; Der Wert von a wird 0 sein, da 16/2 = 8 (kein Rest)
+  b=17 % 2 ; Der Wert von a wird 1 sein, da 17/2 = 8*2+1 (1 bleibt als Rest)
+@EndCode
+
+@FormatEndIf
+
+@Section Operatoren-Kürzel
+
+  Jede Mathe-Operator kann auch in einer Kurzform verwendet werden.
+
+@Example
+@Code
+  Value + 1  ; Das gleiche wie: Value = Value + 1
+  Value * 2  ; Das gleiche wie: Value = Value * 2
+  Value << 1 ; Das gleiche wie: Value = Value << 1
+@EndCode
+  
+  Hinweis: Dies kann in einigen seltenen Fällen zu "unerwarteten" Ergebnissen führen,
+  wenn die Zuweisung ("assignement") vor der Neigung ("affection") modifiziert wird.
+
+@Example
+@Code
+  Dim MyArray(10)
+  MyArray(Random(10)) + 1 ; Das gleiche wie: MyArray(Random(10)) = MyArray(Random(10)) + 1, nur wird hier Random() nicht bei jedem Aufruf das gleiche Ergebnis zurückliefern.
+@EndCode
+
+@Section Priorität von Operatoren
+
+@FixedFont
+  Prioritäts-Level |     Operatoren
+  -----------------+---------------------------
+       8 (hoch)    |         ~, - (negativ)
+       7           |      <<, >>, %, !
+       6           |         |, &
+       5           |         *, /
+       4           |         +, - (Substraktion)
+       3           | >, >=, =>, <, <=, =<, =, <>
+       2           |          Not
+       1 (niedrig) |      And, Or, XOr
+@EndFixedFont
+
+@Section Strukturierte Typen
+
+  Erstellt strukturierte Typen mit Hilfe des @Keyword Structure Schlüsselworts. Weitere Informationen sind
+  im @ReferenceLink "Structures" "Kapitel Strukturen" zu finden.
+
+@Section Zeiger-Typen
+
+  Zeiger (Pointer) werden mit einem '*' zu Beginn des Variablennamens deklariert. Weitere Informationen sind
+  im @ReferenceLink "memory" "Zeiger Kapitel" zu finden.
+
+@Section Spezielle Informationen über Fließkommazahlen (Floats und Doubles)
+
+  Eine Fließkomma-Zahl (auch Gleitkomma-Zahl, englisch: Floating Point Number) wird in einer Art und Weise 
+  gespeichert, die den Binär-Punkt (trennt "Ganzzahlteil" vom "Kommateil") innerhalb der Zahl "gleiten" lässt, 
+  wodurch das Speichern sehr großer aber auch sehr kleiner Zahlen (mit vielen Nachkommastellen) möglich wird. 
+  Wie auch immer, Sie können nicht sehr große Zahlen mit gleichzeitig sehr hoher Genauigkeit (sozusagen große 
+  und kleine Zahlen zur selben Zeit) speichern. 
+  @LineBreak
+  @LineBreak
+  Eine weitere Einschränkung von Fließkomma-Zahlen ist, dass sie 
+  stets im Binärmodus arbeiten, weshalb sie nur die Zahlen exakt speichern können, welche mittels 
+  Multiplikation oder Division mit 2 ermittelt werden können. Dies ist insbesondere wichtig zu wissen, wenn 
+  Sie versuchen, eine Fließkommazahl in einer visuell lesbaren Form darzustellen (oder mit ihr 
+  Rechenoperationen auszuführen) - das Speichern von Zahlen wie 0.5 oder 0.125 ist einfach, da sie Divisionen 
+  von 2 sind. Das Speichern von Zahlen wie 0.11 ist schwieriger, diese wird möglicherweise als Zahl 0.10999999
+  gespeichert. Sie können versuchen, nur eine begrenzte Anzahl an (Nachkomma-) Stellen darzustellen, seien Sie 
+  aber nicht überrascht, wenn die Darstellung der Zahl anders aussieht, als Sie dies erwarten!
+  @LineBreak
+  @LineBreak
+  Dies gilt für alle Fließkomma-Zahlen, nicht nur die in PureBasic.
+  @LineBreak
+  @LineBreak
+  Wie der Name schon sagt, haben Doubles eine doppelte Genauigkeit (64 Bit) gegenüber der einfachen
+  Genauigkeit von Floats (32 Bit). Wenn Sie also genauere Ergebnisse mit Fließkommazahlen erwarten,
+  verwenden Sie Doubles anstelle von Floats.
+  @LineBreak
+  @LineBreak
+  Der genaue Wertebereich, in dessen Rahmen beim Rechnen mit Floats und Doubles korrekte Ergebnisse erzielt werden, 
+  sieht wie folgt aus:
+  @Indent
+    Float: +- 1.175494e-38 bis +- 3.402823e+38  @LineBreak
+    Double: +- 2.2250738585072013e-308 bis +- 1.7976931348623157e+308 
+  @EndIndent
+  Weitere Informationen über den 'IEEE 754' Standard erhalten Sie auf
+  @InternetLink "http://de.wikipedia.org/wiki/IEEE_754" "Wikipedia".
+

@@ -1,0 +1,99 @@
+@Title Runtime
+
+@Syntax
+
+  @Keyword Runtime Variable
+  @Keyword Runtime #Constante
+  @Keyword Runtime declaration Procedure() 
+  @Keyword Runtime declaration Enumeration 
+  
+@Description
+
+  Pour les programmeurs chevronnés. @Keyword Runtime est utilisé pour créer une liste dite 
+  "runtime" ("en cours d'exécution") pour avoir accès aux objets du programme en cours, comme les 
+  variables, les constantes et les procédures. 
+  Une fois compilé, un programme n'a plus d'étiquette (labels) ni de variable, 
+  ni de constantes ou de noms de procédure car tout est converti en code binaire. 
+  @Keyword Runtime force le compilateur à ajouter une référence supplémentaire à chaque 
+  objet qui sera alors disponible à travers la bibliothèque @LibraryLink "Runtime" "Runtime". 
+  Les objets peuvent être manipulés à l'aide de leur référence qui est une chaîne de caractère, 
+  même lorsque le programme est compilé.
+  @LineBreak
+  @LineBreak
+  Pour illustrer l'utilisation d'un @Keyword Runtime, jetez un coup d'oeil à la bibliothèque 
+  @LibraryLink "Dialog" "Dialog" qui l'utilise pour accéder aux procédures d'événement associées 
+  à un @LibraryLink "Gadget" "gadget". Ici, le nom de la procédure à utiliser par le gestionnaire 
+  d'événements est spécifié dans le fichier XML (qui est un fichier texte), puis 
+  la bibliothèque @LibraryLink "Dialog" "Dialog" utilise la fonction @@GetRuntimeInteger pour 
+  retrouver l'adresse de la procédure pendant l'exécution du programme. 
+  Il n'est pas nécessaire de recompiler le programme pour la changer.
+  @LineBreak
+  @LineBreak
+  Une autre utilisation serait d'ajouter un petit langage de script en temps réel pour le 
+  programme, ce qui permet de modifier facilement les variables exposées, en utilisant les 
+  valeurs des constantes à l'exécution. Alors que cela pourrait être fait manuellement par 
+  la construction d'une Map d'objets, le mot clé  @Keyword Runtime permet de le faire d'une 
+  manière standard et unifiée.
+
+  @Example Procedure
+
+@Code
+  Runtime Procedure OnEvent()
+    Debug "OnEvent"
+  EndProcedure 
+
+  Debug GetRuntimeInteger("OnEvent()") ; Affichera l'adresse de la procédure
+@EndCode
+
+  @Example Enumeration
+  
+@Code  
+  Runtime Enumeration
+    #Constante1 = 10
+    #Constante2
+    #Constante3
+  EndEnumeration
+
+  Debug GetRuntimeInteger("#Constante1")
+  Debug GetRuntimeInteger("#Constante2")
+  Debug GetRuntimeInteger("#Constante3")
+@EndCode
+
+  @Example Variable
+  
+@Code  
+  Define a = 20
+  Runtime a
+
+  Debug GetRuntimeInteger("a")
+  SetRuntimeInteger("a", 30)
+  
+  Debug a ; La variable a été modifiée
+@EndCode
+
+  @Example Appeler une fonction par son nom
+  
+@Code  
+ Prototype Fonction()
+
+  Runtime Procedure Fonction1()
+      Debug "J'appelle la Fonction1 par son nom"; 
+  EndProcedure
+
+  Runtime Procedure Fonction2()
+      Debug "J'appelle la Fonction2 par son nom"
+  EndProcedure
+
+  Procedure LancerProcedure(Nom.s)
+      Protected ProcedureNom.Fonction = GetRuntimeInteger(Nom + "()")
+      ProcedureNom()
+  EndProcedure
+
+  LancerProcedure("Fonction1") ; Affiche "J'appelle la Fonction1 par son nom"
+  LancerProcedure("Fonction2") ; Affiche "J'appelle la Fonction2 par son nom"
+  
+@EndCode  
+  
+  
+  
+  

@@ -1,0 +1,82 @@
+@Title Gosub : Return
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#Gosub"><u>Gosub/Return</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#FakeReturn"><u>FakeReturn</u></a></td>
+  </tr>
+    </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+
+@FormatIf HTML
+<a name="Gosub"></a>
+@FormatEndIf
+@Syntax
+  @Keyword Gosub MonLabel
+ 
+  MonLabel: 
+    ...
+  @Keyword Return
+
+@Description
+  @Keyword Gosub signifie 'Go to sub routine', en français: 'Aller au sous-programme'. Un label doit être spécifié 
+  après Gosub pour que l'exécution du programme se poursuive à la position du label et jusqu'à ce qu'un 
+  @Keyword Return soit rencontré. Lorsque le @Keyword Return est atteint, le programme revient à l'instruction suivant 
+  le @Keyword Gosub. @Keyword Gosub est pratique pour construire rapidement un code structuré.
+  @LineBreak
+  @LineBreak
+  Les @ReferenceLink "procedures" "procédures" sont une autre alternative pour la conception rapide d'un programme
+  structuré. @Keyword Gosub peut être seulement utilisé dans la partie principale du programme, pas dans 
+  les @ReferenceLink "procedures" "procedures".
+
+@Example
+@Code       
+  a = 1
+  b = 2
+  Gosub OperationComplexe
+  Debug a 
+  End
+       
+  OperationComplexe: 
+    a = b*2+a*3+(a+b) 
+    a = a+a*a 
+  Return 
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="FakeReturn"></a>
+@FormatEndIf
+@Syntax
+  @Keyword FakeReturn
+
+@Description
+  Lorsque vous souhaitez sauter d'un sous-programme à une autre partie du code extérieur au sous-programme 
+  (en utilisant une commande @ReferenceLink "Others" Goto), vous pouvez utiliser un @Keyword FakeReturn qui 
+  simule un @Keyword Return sans l'effectuer réellement. Si vous n'utilisez pas ce dispositif, votre programme 
+  génèrera une erreur. Cette commande ne devrait pas avoir d'utilité car un programme bien conçu ne devrait pas 
+  utiliser de @ReferenceLink "Others" Goto. Toutefois, dans certains cas où la performance est critique, cela 
+  peut aider le programmeur.
+
+@Example
+@Code     
+  Gosub SousProgramme1
+     
+  SousProgramme1:
+    ...
+    If a = 10
+      FakeReturn 
+      Goto ProgrammePrincipal 
+    Endif 
+  Return
+@EndCode         
+

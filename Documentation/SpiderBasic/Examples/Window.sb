@@ -1,0 +1,19 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Requester example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+Procedure CloseWindowEvent()
+  Debug "Closing window: " + EventWindow()
+  CloseWindow(EventWindow()) ; Close the specific window
+EndProcedure
+
+OpenWindow(0, 100, 100, 320, 200, "Window 0 - Resizable", #PB_Window_SizeGadget)
+OpenWindow(1, 500, 100, 320, 200, "Window 1")
+OpenWindow(2, 100, 400, 320, 200, "Window 2")
+
+BindEvent(#PB_Event_CloseWindow, @CloseWindowEvent())

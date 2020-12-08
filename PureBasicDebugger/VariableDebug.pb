@@ -1326,7 +1326,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
           AddNew = 1
         Else
           AddNew = 0
-          Protected Dim InfoStrings$(*Debugger\Command\Value2)
+          Dim InfoStrings$(*Debugger\Command\Value2)
         EndIf
       Else
         Gadget   = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalListInfo]
@@ -1431,7 +1431,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
           AddNew = 1
         Else
           AddNew = 0
-          Protected Dim InfoStrings$(*Debugger\Command\Value2)
+          Dim InfoStrings$(*Debugger\Command\Value2)
         EndIf
       Else
         Gadget   = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_LocalMapInfo]

@@ -1,0 +1,22 @@
+@Title Residents
+
+@Description
+  Residents are precompiled files which are loaded when the compiler starts. They can be found in the 'residents'
+  folder of the PureBasic installation path. A resident file must have the extension '.res' and can contain the
+  following items: @ReferenceLink "structures" "structures", @ReferenceLink "interfaces" "interfaces", 
+  @ReferenceLink "macros" "macros" and @ReferenceLink "general_rules" "constants". It can not contain
+  dynamic code or @ReferenceLink "procedures" "procedures". @LineBreak
+  @LineBreak
+  When a resident is loaded, all its content is available for the program being compiled. That's why all
+  built-in constants like @#PB_Event_CloseWindow are available, they are in the 'PureBasic.res' file.
+  All the API structures and constants are also in a resident file. Using residents is a good way to
+  store the common macros, structure and constants so they will be available for every programs.
+  When distributing an user library, it's also a nice solution to provide the needed constants and structures,
+  as PureBasic does. @LineBreak
+  @LineBreak
+  To create a new resident, the @ReferenceLink "cli_compiler" "command-line compiler" needs to be used, as there is no option to do it from the IDE.
+  It is often needed to use /IGNORERESIDENT and /CREATERESIDENT at the same time to avoid duplicate errors, as the previous version
+  of the resident is loaded before creating the new one. @LineBreak
+  @LineBreak
+  Residents greatly help to have a faster compilation and compiler start, as all the information is stored
+  in binary format. It is much faster to load than parsing an include file at every compilation.

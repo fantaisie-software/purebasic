@@ -499,7 +499,7 @@ EndProcedure
 ;  So to avoid any confustion from a disappearing character we handle this conversion
 ;  as well when doing the Source encoding change.
 ;
-;  Lets hope there are no more such spechial characters.
+;  Let's hope there are no more such special characters.
 ;
 ; Some notes:
 ;  - unrepresentable chars become '?'
@@ -1658,6 +1658,26 @@ EndProcedure
 Procedure LoadSourceFile(FileName$, Activate = 1)
   success = 0
   
+  AddTools_RunFileViewer = 1 ; to tell if some tool has been executed
+  AddTools_File$ = FileName$
+  Ext$ = LCase(GetExtensionPart(FileName$))
+  
+  AddTools_Execute(#TRIGGER_FileViewer_Special, 0) ; special file tools have highest priority
+  
+  If AddTools_RunFileViewer
+    AddTools_Execute(#TRIGGER_FileViewer_All, 0)
+  EndIf
+  
+  If AddTools_RunFileViewer
+    If Ext$ <> "bmp" And Ext$ <> "png" And Ext$ <> "jpg" And Ext$ <> "jpeg" And Ext$ <> "tga" And Ext$ <> "ico" And Ext$ <> "txt"
+      AddTools_Execute(#TRIGGER_FileViewer_Unknown, 0)
+    EndIf
+  EndIf
+  
+  If AddTools_RunFileViewer = 0  ; stop if a tool has been run
+    ProcedureReturn
+  EndIf
+  
   ; Check if this is a project file
   ;
   If IsProjectFile(FileName$)
@@ -2352,7 +2372,6 @@ Procedure RemoveSource(*Source.SourceFile = 0)
   EndIf
   
   ChangeActiveSourcecode()
-  FreeEditorGadget(Gadget)
   
   ; make sure the options are closed (for non-project files)
   ; If this is true, we switched from a project file to non-project file while the options
@@ -2372,6 +2391,11 @@ Procedure RemoveSource(*Source.SourceFile = 0)
   ; progress, instead of just an unresponsive window for quite a while.
   ; There is almost no flicker anymore, so it actually looks quite good.
   FlushEvents()
+  
+  ; Remove old EditorGadget
+  ; Fix a stack corruption on OSX, needs to be after FlushEvent().
+  ; All events must be processed before the EditorGadget is removed.
+  FreeEditorGadget(Gadget)
   
 EndProcedure
 

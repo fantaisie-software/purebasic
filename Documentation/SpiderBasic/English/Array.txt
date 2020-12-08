@@ -1,0 +1,135 @@
+;
+;     Array library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Array
+
+@Overview
+
+  Arrays are structures to store indexed elements. Unlike 
+  a @LibraryLink "List" "list" or a @LibraryLink "Map" "map", the
+  elements are allocated in a contiguous manner in memory. Therefore, it's
+  not possible to easily insert or remove an element. On other hand,
+  it provides a very fast direct access to a random element.
+@LineBreak
+@LineBreak
+  To work with arrays, they have to be declared first. This could be
+  done with the keyword @ReferenceLink "dim" "Dim". 
+@LineBreak
+@LineBreak
+  Arrays can be sorted using @@SortArray, and can also be randomized using @@RandomizeArray.
+  
+@CommandList
+
+@ExampleFile All Array.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ArraySize(Array() [, Dimension])
+
+@Description
+  Returns the size of the array, as specified with @Keyword Dim or @Keyword ReDim.
+
+@Parameter "Array()"
+  The array to get the size from.
+
+@OptionalParameter "Dimension"
+  For multidimensional arrays, this parameter can be specified to get a specific dimension size. 
+  The first dimension starts from 1. 
+
+@ReturnValue
+  Returns the size of the array dimension.
+  If the array isn't yet declared (or its allocation has failed), it will return -1.
+
+@Example 
+
+@Code
+  Dim MyArray(10)
+  Debug ArraySize(MyArray()) ; will print '10'
+
+  Dim MultiArray(10, 20, 30)
+  Debug ArraySize(MultiArray(), 2) ; will print '20'
+@EndCode
+
+@Example 
+
+@Code
+  Dim Test.q(99999999999999999)
+  
+  If ArraySize(Test()) <> -1
+    Test(12345) = 123  ; everything fine
+  Else
+    Debug "Array 'Test()' couldn't be initialized."
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ListSize, @@MapSize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CopyArray(SourceArray(), DestinationArray())
+
+@Description
+  Copy every elements of 'SourceArray()' into 'DestinationArray()'. 
+  After a successful copy, the two arrays are identical. The arrays must have the
+  same number of dimensions.
+
+@Parameter "SourceArray()"
+  The array to copy from.
+
+@Parameter "DestinationArray()"
+  The array to copy to. Every element previously found in this array will be deleted.
+  This array must be of the same type (native or structured) and the same
+  number of dimensions of the source array.
+
+@ReturnValue
+  Returns nonzero if the copy succeeded or zero if it failed.
+
+@Example 
+
+@Code
+  Dim Numbers(5)
+  Dim NumbersCopy(10)
+  
+  Numbers(0) = 128
+  Numbers(5) = 256
+  
+  Debug "Array size before copy: "+Str(ArraySize(NumbersCopy())) ; will print 10
+  
+  CopyArray(Numbers(), NumbersCopy())
+  
+  Debug "Array size after copy: "+Str(ArraySize(NumbersCopy())) ; will print 5
+  Debug NumbersCopy(0)
+  Debug NumbersCopy(5)
+@EndCode
+
+@SeeAlso
+  @@CopyList, @@CopyMap
+
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeArray(Array())
+
+@Description
+  Free the specified 'Array()' and release all its associated memory. To access it again
+  @ReferenceLink "dim" "Dim" has to be called.
+
+@Parameter "Array()"
+  The array to free.
+
+@NoReturnValue
+
+@SeeAlso
+  @@FreeList, @@FreeMap
+
+@SupportedOS

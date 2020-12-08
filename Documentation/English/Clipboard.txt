@@ -1,0 +1,140 @@
+;
+;     Clipboard library documentation
+;
+;      (c) 2010 - Fantaisie Software
+;
+
+@Library Clipboard
+
+@Overview
+
+  The clipboard is the standard way to share information and data between applications,
+  which are currently running on the OS. It also gives the user a temporary location,
+  where information and data may be stored and accessed quickly and easily. For instance,
+  when text is cut within an editor, that text goes to the clipboard, where it may be
+  retrieved later, by pasting it into another application. PureBasic gives the programmer
+  the ability to develop applications capable of cutting, copying and pasting text or images
+  via the standard clipboard.
+
+@CommandList
+
+@ExampleFile All Clipboard.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearClipboard()
+
+@Description
+
+  Clears the clipboard. This means that any data contained within the clipboard, is totally flushed and is no
+  longer available from the clipboard.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@SetClipboardText, @@SetClipboardImage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetClipboardImage(#Image [, Depth])
+
+@Description
+  Creates a new image from the clipboard image data (if any). 
+
+@Parameter "#Image"
+  The number for the new image.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@OptionalParameter "Depth"
+  The depth of the new image. Valid values are 24 (default) or 32-bit.
+
+@ReturnValue
+  Returns nonzero on success and zero on failure.
+  If @#PB_Any was used as the #Image parameter then the new image number is returned.
+
+@Remarks
+  The image may be freed by using the @@FreeImage function.
+  For further use of the image, there are functions available such as @@DrawImage
+  or @@ImageGadget.
+
+@SeeAlso
+  @@GetClipboardText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = GetClipboardText()
+
+@Description
+  Returns the text string currently contained within the clipboard.
+
+@NoParameters
+
+@ReturnValue
+  Returns the content of the clipboard if it contains text.
+  If the clipboard contains no data or no text data, then an empty string is returned.
+
+@SeeAlso
+  @@GetClipboardImage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetClipboardImage(#Image)
+
+@Description
+  Places a copy of the given image into the clipboard. If the clipboard currently
+  contains an image then it will be overwritten.
+
+@Parameter "#Image"
+  The image to put into the clipboard.
+
+@NoReturnValue
+
+@Example
+@Code
+  If CreateImage(0, 26, 20)
+    StartDrawing(ImageOutput(0))
+      Box(0, 0, 26, 20, RGB(255, 255, 255))
+      Circle(13, 10, 5, RGB(255, 0, 0))
+    StopDrawing()
+    SetClipboardImage(0)
+  EndIf
+
+  ; now if you open a graphics application and paste the clipboard contents,
+  ; you will see a Japanese flag ;-)
+@EndCode
+
+@SeeAlso
+  @@SetClipboardText, @@ClearClipboard
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetClipboardText(Text$)
+
+@Description
+  Stores a string into the clipboard. If the clipboard already contains text, it will be overwritten.
+
+@Parameter "Text$"
+  The string you want to store in the clipboard.
+
+@NoReturnValue 
+
+@SeeAlso
+  @@SetClipboardImage, @@ClearClipboard
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+

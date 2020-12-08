@@ -1,0 +1,395 @@
+;
+;     Date library documentation
+;
+;      (c) 2020 - Fantaisie Software
+;
+
+@Library Date
+
+@Overview
+  Die 'Date' (Datums) Bibliothek ermöglicht den Umgang mit Datums- und Zeitangaben zwischen 1970 und 2038.
+  Benutzt wird dabei die Unix-32-Bit-Methode (d.h. die Anzahl der seit dem 1. Januar 1970 vergangenen Sekunden).
+@LineBreak
+@LineBreak
+  Hinweis: Unterstützte Datums-/Zeit-Werte sind 01.01.1970, 00:00:00 als Minimum und 19.01.2038,
+  03:14:07 als Maximum. Siehe auch @InternetLink "https://de.wikipedia.org/wiki/Jahr-2038-Problem" "https://de.wikipedia.org/wiki/Jahr-2038-Problem".
+
+@CommandList
+
+@ExampleFile All Date.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Datum = AddDate(Datum, Typ, Wert)
+
+@Description
+  Fügt einen Wert zu einem Datum hinzu.
+
+@Parameter "Datum"
+  Der Datums-Wert, zu welchem der Wert hinzu addiert werden soll.
+
+@Parameter "Typ"
+  Der Typ des Wertes. Dies kann eine der folgenden Konstanten sein:
+@FixedFont
+  @#PB_Date_Year   : fügt 'Wert' Jahre zum Datum hinzu
+  @#PB_Date_Month  : fügt 'Wert' Monate zum Datum hinzu 
+  @#PB_Date_Week   : fügt 'Wert' Wochen zum Datum hinzu
+  @#PB_Date_Day    : fügt 'Wert' Tage zum Datum hinzu
+  @#PB_Date_Hour   : fügt 'Wert' Stunden zum Datum hinzu
+  @#PB_Date_Minute : fügt 'Wert' Minuten zum Datum hinzu
+  @#PB_Date_Second : fügt 'Wert' Sekunden zum Datum hinzu
+@EndFixedFont
+
+  Hinweis: Wenn @#PB_Date_Month verwendet wird, dann wird automatisch der Fakt beachtet,
+  dass die Anzahl an Tagen pro Monat variiert. Zum Beispiel: wenn ein Monat zum '31. März 2008' addiert
+  wird, dann wird das Ergebnis '30. April 2008' sein, da der April keine 31 Tage hat.
+
+@Parameter "Wert"
+  Der Wert, welcher zum Datum addiert werden soll.
+
+@ReturnValue
+  Gibt das neue Datum zurück, andernfalls -1.
+
+@Example
+@Code
+
+  Debug FormatDate("%yyyy/%mm/%dd", AddDate(Date(), #PB_Date_Year, 2)) ; gibt das aktuelle Datum + 2 Jahre zurück
+
+  Debug FormatDate("%mm/%dd/%yyyy", AddDate(Date(), #PB_Date_Year, 2)) ; gibt das aktuelle Datum + 2 Jahre zurück
+
+@EndCode
+
+@SeeAlso
+  @@Date, @@FormatDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Datumswert = Date([Jahr, Monat, Tag, Stunde, Minute, Sekunde])
+
+@Description
+  Gibt den Datumswert entsprechend der angegebenen Parameter zurück, oder den
+  aktuellen Systemdatums-Wert (Anzahl der Sekunden zwischen dem 01.01.1970 00:00:00 Uhr
+  und der aktuellen Zeit), wenn keine Parameter angegeben wurden.
+
+@OptionalParameter "Jahr, Monat, Tag, Stunde, Minute, Sekunde"
+  Die Komponenten des zurückzugebenden Datums.
+  Wenn diese Parameter nicht angegeben werden, dann werden das aktuelle
+  Systemdatum und die aktuelle Systemzeit verwendet.
+
+@ReturnValue
+  Gibt den angegebenen Datumswert zurück.
+  Wenn die angegebenen Parameter ungültig sind (oder außerhalb des unterstützten Datumsbereichs liegen),
+  dann wird -1 zurückgegeben.
+
+@Remarks
+  @@FormatDate kann benutzt werden, um den Datumswert in ein für
+  den Anwender lesbares Format umzuwandeln.
+
+@Example
+@Code
+  Debug Date() / (3600*24*365)  ; gibt die Anzahl der seit 01.01.1970 vergangenen Jahre aus
+  Debug Date(1999, 12, 31, 23, 59, 59)  ; gibt '946684799' aus (zwischen 01.01.1970 0:00:00 Uhr und 31.12.1999 23:59:59 Uhr vergangene Sekunden)
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = Day(Datum)
+
+@Description
+  Gibt den Tages-Wert des angegebenen Datums zurück.
+
+@Parameter "Datum"
+  Der Datumswert, von dem der Tag ausgegeben werden soll.
+  
+@ReturnValue
+  Gibt die Tages-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 1 und 31.
+
+@Example
+@Code
+  Debug Day(Date(2002, 10, 3, 0, 0, 0))  ; Gibt '3' aus.
+@EndCode
+
+@SeeAlso 
+  @@Date,
+  @@Year, @@Month, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DayOfWeek(Datum)
+
+@Description
+  Gibt den Wochentag des angegebenen Datums zurück.
+
+@Parameter "Datum"
+  Der Datumswert, von dem der Wochentag ausgegeben werden soll.
+
+@ReturnValue
+  Gibt eine Zahl zwischen 0 und 6 zurück, welche den Tag der Woche repräsentieren, andernfalls -1:
+@FixedFont
+  0 : Sonntag
+  1 : Montag
+  2 : Dienstag 
+  3 : Mittwoch
+  4 : Donnerstag
+  5 : Freitag
+  6 : Sonnabend
+@EndFixedFont
+
+@Example
+@Code
+  Debug DayOfWeek(Date(2006, 10, 30, 0, 0, 0))  ; Gibt '1' für Montag aus.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DayOfYear(Datum)
+
+@Description
+  Gibt die Anzahl der bis zum angegebenen Datum seit Jahresanfang vergangenen Tage zurück.
+
+@Parameter "Datum"
+  Der Datumswert, von dem die Anzahl der Tage ausgegeben werden soll, andernfalls -1.
+
+@ReturnValue
+  Gibt die Anzahl an Tagen seit Jahresbeginn zurück.
+  Das Ergebnis liegt immer zwischen 1 und 366.
+
+@Example
+@Code
+  Debug DayOfYear(Date(2002, 2, 1, 0, 0, 0))  ; gibt '32' aus. (31 Tage im Januar + 1)
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = Month(Datum)
+
+@Description
+  Gibt den Monats-Wert des angegebenen Datums zurück. 
+
+@Parameter "Datum"
+  Der Datumswert, von dem der Monat ausgegeben werden soll.
+  
+@ReturnValue
+  Gibt die Monats-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 1 und 12.
+
+@Example
+@Code
+  Debug Month(Date(2002, 10, 3, 0, 0, 0))  ; gibt '10' aus.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Day, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = Year(Datum)
+
+@Description
+  Gibt den Jahres-Wert des angegebenen Datums zurück. 
+
+@Parameter "Datum"
+  Der Datumswert, von dem das Jahr ausgegeben werden soll.
+  
+@ReturnValue
+  Gibt die Jahres-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 1970 und 2034.
+
+@Example
+@Code
+  Debug Year(Date(2002, 10, 3, 0, 0, 0))  ; gibt '2002' aus.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Month, @@Day, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = Hour(Datum)
+
+@Description
+  Gibt den Stunden-Wert des angegebenen Datums zurück. 
+
+@Parameter "Datum"
+  Der Datumswert, von dem die Stunden ausgegeben werden sollen.
+  
+@ReturnValue
+  Gibt die Stunden-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 0 und 23.
+
+@Example
+@Code
+  Debug Hour(Date(1970, 1, 1, 11, 3, 45))  ; gibt '11' aus.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = Minute(Datum)
+
+@Description
+  Gibt den Minuten-Wert des angegebenen Datums zurück. 
+
+@Parameter "Datum"
+  Der Datumswert, von dem die Minuten ausgegeben werden sollen.
+  
+@ReturnValue
+  Gibt die Minuten-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 0 und 59.
+
+@Example
+@Code
+  Debug Minute(Date(1970, 1, 1, 11, 3, 45))  ; gibt '3' aus.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = Second(Datum)
+
+@Description
+  Gibt den Sekunden-Wert des angegebenen Datums zurück. 
+
+@Parameter "Datum"
+  Der Datumswert, von dem die Sekunden ausgegeben werden sollen.
+  
+@ReturnValue
+  Gibt die Sekunden-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 0 und 59.
+
+@Example
+@Code
+  Debug Second(Date(1970, 1, 1, 11, 3, 45))  ; gibt '45' aus.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, @@Minute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = FormatDate(Maske$, Datum)
+
+@Description
+  Gibt einen formatierten String vom angegebenen Datum zurück.
+
+@Parameter "Maske$"
+  Die für das Formatieren des Datums zu verwendende Maske. Die folgenden "Tokens" (reservierten Zeichen)
+  im Masken-String werden entsprechend des angegebenen Datums ersetzt:
+@FixedFont
+  %yyyy: wird durch den Jahres-Wert ersetzt, auf 4 Stellen.
+  %yy: wird durch den Jahres-Wert ersetzt, auf 2 Stellen.
+  %mm: wird durch den Monats-Wert ersetzt, auf 2 Stellen.
+  %dd: wird durch den Tages-Wert ersetzt, auf 2 Stellen.
+  %hh: wird durch den Stunden-Wert ersetzt, auf 2 Stellen.
+  %ii: wird durch den Minuten-Wert ersetzt, auf 2 Stellen.
+  %ss: wird durch den Sekunden-Wert ersetzt, auf 2 Stellen.
+@EndFixedFont
+
+@Parameter "Datum"
+  Der zu verwendende Datumswert.
+
+@ReturnValue
+  Gibt den maskierten String zurück, in dem alle Tokens durch ihre jeweiligen Datumswerte ersetzt werden,
+  andernfalls -1.
+
+@Example
+@Code
+  Debug FormatDate("J=%yyyy, M=%mm, T=%dd", Date()) ; zeigt das aktuelle Datum in 
+                                                    ; der Form "J=2010, M=04, T=16"
+  
+  Debug FormatDate("%dd.%mm.%yyyy", Date()) ; zeigt das aktuelle Datum in 
+                                            ; der Form "16.04.2010"
+  
+  Debug FormatDate("%hh:%ii:%ss", Date())  ; zeigt die aktuelle Zeit mittels dem 00:00:00 Format
+@EndCode
+
+@SeeAlso
+  @@Date, @@ParseDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Datum = ParseDate(Maske$, String$)
+
+@Description
+  Wandelt einen Datums-String in einen regulären Datums-Wert um, welcher danach mit
+  den anderen Datums-Funktionen verwendet werden kann. 
+
+@Parameter "Maske$"
+  Ein Masken-String, welcher definiert, wie der Datums-String formatiert ist.
+  Mögliche "Tokens" (reservierte Zeichen) sind:
+@FixedFont
+  %yyyy: wird durch den Jahres-Wert ersetzt, auf 4 Stellen.
+  %yy: wird durch den Jahres-Wert ersetzt, auf 2 Stellen.
+  %mm: wird durch den Monats-Wert ersetzt, auf 2 Stellen.
+  %dd: wird durch den Tages-Wert ersetzt, auf 2 Stellen.
+  %hh: wird durch den Stunden-Wert ersetzt, auf 2 Stellen.
+  %ii: wird durch den Minuten-Wert ersetzt, auf 2 Stellen.
+  %ss: wird durch den Sekunden-Wert ersetzt, auf 2 Stellen.
+@EndFixedFont
+
+@Parameter "String$"
+  Der String mit dem zu analysierenden (zu "parsenden") Datum.
+
+@ReturnValue
+  Gibt das Datum entsprechend dem analysierten String zurück. Wenn der Eingabestring
+  nicht mit der Maske übereinstimmt, dann ist das Ergebnis gleich -1.
+
+@Remarks
+  Diese Funktion ist sehr nützlich, um bereits gespeicherte Daten (zum Beispiel in einer
+  Log-Datei) zu ermitteln und weitere Operationen damit auszuführen.
+
+@Example
+@Code
+
+  Debug ParseDate("%yy/%mm/%dd", "10/01/07") ; Gibt den Datums-Wert von "10/01/07" aus
+  
+  Debug ParseDate("%mm/%dd/%yyyy", "01/07/2010") ; Gibt den Datums-Wert von "01/07/2010" aus
+
+@EndCode
+
+@SeeAlso
+  @@Date, @@FormatDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

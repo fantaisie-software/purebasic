@@ -1,0 +1,70 @@
+vertex_program water_rtt_vertexHLSL hlsl
+{
+	source water_rtt.hlsl
+	target vs_3_0
+	entry_point water_rtt_vertex
+}
+
+fragment_program water_rtt_pixelHLSL hlsl
+{
+	source water_rtt.hlsl
+	target ps_3_0
+	entry_point water_rtt_pixel
+}
+vertex_program water_rtt_vertexGLSL glsl
+{
+	source water_rtt_v.glsl
+}
+fragment_program water_rtt_pixelGLSL glsl
+{
+	source water_rtt_p.glsl
+}
+// Unified definition
+vertex_program water_rtt_vertex unified
+{
+	delegate water_rtt_vertexGLSL
+	delegate water_rtt_vertexHLSL
+}
+fragment_program water_rtt_pixel unified
+{
+	delegate water_rtt_pixelGLSL
+	delegate water_rtt_pixelHLSL
+}
+material water_rtt
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref water_rtt_vertex
+			{
+				param_named_auto 	viewproj_matrix worldviewproj_matrix
+				param_named_auto 	texmatx 		texture_matrix 0
+			}
+			fragment_program_ref water_rtt_pixel
+			{
+				param_named_auto 	lightp 		light_position_object_space 0
+				param_named_auto 	viewp 		camera_position_object_space	
+				param_named_auto 	lightspec 	derived_light_specular_colour 0				
+				param_named_auto 	shininess 	surface_shininess
+				param_named_auto 	fog 		fog_params
+				param_named_auto	fogcolor	fog_colour
+				param_named		 	water 		float4 0.0 0.0 20 0.05
+				param_named			watercolor	float4 0.0 0.3 0.3 1.0
+				param_named_auto 	wavespeed 	time 0.05
+				param_named 		waveheight	float 1				
+				param_named 		normalMap	int 0				
+				param_named 		reflectMap	int 1				
+			}
+			texture_unit				//normalMap
+			{
+				texture_alias texture1	
+			}
+			texture_unit				//reflectMap
+			{
+				texture_alias texture2
+				tex_address_mode clamp
+			}
+		}
+	}
+}

@@ -1,0 +1,42 @@
+@Title Break : Continue
+
+@Syntax
+
+  @Keyword Break
+  
+@Description
+
+  @Keyword Break provides the ability to exit during any iteration, for the following loops: 
+  @ReferenceLink "Repeat_Until" Repeat, @ReferenceLink "For_Next" For, @ReferenceLink "ForEach_Next" ForEach and @ReferenceLink "While_Wend" While. 
+    
+  @Example
+  
+@Code    
+  For k=0 To 10
+    If k=5
+      Break  ; Will exit directly from the For/Next loop
+    EndIf
+    Debug k
+  Next
+@EndCode
+  
+@Syntax
+
+  @Keyword Continue
+  
+@Description
+
+  @Keyword Continue provides the ability to skip straight to the end of the current iteration 
+  (bypassing any code in between) in the following loops: 
+  @ReferenceLink "Repeat_Until" Repeat, @ReferenceLink "For_Next" For, @ReferenceLink "ForEach_Next" ForEach, and @ReferenceLink "While_Wend" While.
+  
+  @Example
+  
+@Code
+  For k=0 To 10
+    If k=5
+      Continue  ; Will skip the 'Debug 5' and go directly to the next iteration
+    EndIf
+    Debug k
+  Next
+@EndCode

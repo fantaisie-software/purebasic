@@ -1,0 +1,206 @@
+@Title Migration de PureBasic 5.20 LTS vers 5.40 LTS
+
+@Section Bibliothèque Billboard
+
+AddBillboard(): code changé
+@Code
+  ; Ancien
+  AddBillboard(Billboard, BillboardGroup, x, y, z)
+
+  ; Nouveau
+  Resultat = AddBillboard(BillboardGroup, x, y, z)
+@EndCode
+
+
+
+@LineBreak
+@Section Bibliothèque Cipher
+
+ExamineMD5Fingerprint(): code changé
+@Code
+  ; Ancien
+  ExamineMD5Fingerprint(#FingerPrint)
+
+  ; Nouveau
+  UseMD5FingerPrint()  
+  StartFingerprint(#FingerPrint, #PB_Cipher_MD5)
+@EndCode
+
+@LineBreak
+ExamineSHA1Fingerprint(): code changé
+@Code
+  ; Ancien
+  ExamineSHA1Fingerprint(#FingerPrint)
+  
+  ; Nouveau
+  UseSHA1FingerPrint()
+  StartFingerprint(#FingerPrint, #PB_Cipher_SHA1)
+@EndCode
+
+@LineBreak
+MD5FileFingerprint(): code changé
+@Code
+  ; Ancien
+  Resultat$ = MD5FileFingerprint(Fichier$)
+  
+  ; Nouveau
+  UseMD5FingerPrint()
+  Resultat$ = FileFingerprint(Fichier$, #PB_Cipher_MD5)
+@EndCode
+
+@LineBreak
+MD5Fingerprint(): code changé
+@Code
+  ; Ancien
+  Resultat$ = MD5Fingerprint(*Memoire, Taille)
+  
+  ; Nouveau
+  UseMD5FingerPrint()
+  Resultat$ = Fingerprint(*Memoire, Taille, #PB_Cipher_MD5)
+@EndCode
+
+@LineBreak
+SHA1FileFingerprint(): code changé
+@Code
+  ; Ancien
+  Resultat$ = SHA1FileFingerprint(Fichier$)
+  
+  ; Nouveau
+  UseSHA1FingerPrint()
+  Resultat$ = FileFingerprint(Fichier$, #PB_Cipher_SHA1)
+@EndCode
+
+@LineBreak
+SHA1Fingerprint(): code changé
+@Code
+  ; Ancien
+  Resultat$ = SHA1Fingerprint(*Memoire, Taille)
+  
+  ; Nouveau
+  UseSHA1FingerPrint()
+  Resultat$ = Fingerprint(*Memoire, Taille, #PB_Cipher_SHA1)
+@EndCode
+
+@LineBreak
+CRC32FileFingerprint(): code changé
+@Code
+  ; Ancien
+  Resultat = CRC32FileFingerprint(Fichier$)
+  
+  ; Nouveau
+  UseCRC32FingerPrint()
+  Resultat.l = Val("$"+FileFingerprint(Fichier$, #PB_Cipher_CRC32))
+@EndCode
+
+@LineBreak
+CRC32Fingerprint(): code changé
+@Code
+  ; Ancien
+  Resultat = CRC32Fingerprint(*Memoire, Taille)
+  
+  ; Nouveau
+  UseCRC32FingerPrint()
+  Resultat.l = Val("$"+Fingerprint(*Memoire, Taille, #PB_Cipher_CRC32))
+@EndCode
+
+@LineBreak
+NextFingerprint(): renommé
+@Code
+  ; Ancien
+  NextFingerprint(#FingerPrint, *Memoire, Taille)
+  
+  ; Nouveau
+  AddFingerprintBuffer(#FingerPrint, *Memoire, Taille)
+@EndCode
+
+
+
+@LineBreak
+@Section Bibliothèque Mail
+
+@LineBreak
+SendMail(): code changé si le paramètre 
+'Asynchronous' est utilisé
+@Code
+  ; Ancien
+  SendMail(#Mail, Smtp$, Port, 1)
+  
+  ; Nouveau
+  SendMail(#Mail, Smtp$, Port, #PB_Mail_Asynchronous)
+@EndCode
+
+@LineBreak
+@Section Bibliothèque Packer
+
+@LineBreak
+RemovePackFile(): supprimé @LineBreak
+PackerEntrySize(): @#PB_Packer_CompressedSize 
+supprimé pour les archives ZIP et 7z @LineBreak
+
+
+
+@LineBreak
+@Section Bibliothèque XML
+
+@LineBreak
+CreateXMLNode(): code changé
+@Code
+  ; Ancien
+  Resultat = CreateXMLNode(NoeudParent...)
+  SetXMLNodeName(Noeud, Nom$)
+  
+  ; Nouveau
+  Resultat = CreateXMLNode(NoeudParent, Nom$...)
+@EndCode
+
+
+
+@LineBreak
+@Section Bibliothèque Screen
+
+@LineBreak
+AvailableScreenMemory() Supprimée car la nouvelle API 
+ne le prend plus en charge. Elle renvoyait toujour 
+un zéro de toute façon.
+
+
+
+@LineBreak
+@Section Bibliothèque Window
+
+@LineBreak
+@#PB_Event_SizeWindow et 
+@#PB_Event_MoveWindow ne sont plus en 
+temps réel, utiliser @@BindEvent() pour 
+avoir l'action en temps réel.
+
+
+
+@LineBreak
+@Section Engine3D library
+
+@LineBreak
+WorldCollisionAppliedImpulse() renvoie maintenant un float qui est l'impulsion appliquée. @LineBreak
+GetX/Y/Z() ne sont plus supportées.
+
+
+
+@LineBreak
+@Section Divers
+
+@LineBreak
+- Les étiquettes(labels) en DataSection 
+dans les procédures sont maintenant 
+des étiquettes (labels) locales. @LineBreak
+
+- Les préfixes des étiquettes(labels) 
+locales en ASM ont été changées de "l_" 
+en "ll_", afin d'éviter tout problème 
+avec les étiquettes principales. @LineBreak
+
+- La constante @#PB_LinkedList a été renommée 
+en @#PB_List pour une meilleure cohérence.
+
+@LineBreak
+@LineBreak
+@LineBreak

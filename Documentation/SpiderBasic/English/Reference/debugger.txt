@@ -1,0 +1,79 @@
+@Title Debugger keywords in SpiderBasic
+
+@Section Overview
+
+  Following is a list of special keywords to control the debugger from your source code.
+  There is also a @LibraryLink "Debugger" "Debugger library" which provides further
+  functions to modify the behavior of the debugger should it be present.
+@LineBreak
+@LineBreak
+
+
+  @Syntax
+  
+    @Keyword CallDebugger
+    
+  @Description
+
+    This invokes the "debugger" and freezes the program immediately. This will invoke the web browser debugger.
+    
+  
+  @Syntax
+
+    @Keyword Debug <expression> [, DebugLevel]
+    
+  @Description
+
+    Display the DebugOutput window and the result inside it. The expression can be
+    any valid SpiderBasic expression, from numeric to string. An important point is
+    the Debug command and its associated expression is totally ignored (not compiled)
+    when the debugger is deactivated. @LineBreak
+    @LineBreak
+    Note: This is also true, if you're using complete command lines after Debug 
+    (e.g. Debug LoadImage(1,"test.bmp")). They will not be compiled with disabled debugger! @LineBreak
+    @LineBreak
+    This means this command can be used to trace easily in the program without having 
+    to comment all the debug commands when creating the final executable. @LineBreak
+    @LineBreak
+    The 'DebugLevel' is the level of priority of the debug message. All normal debug message 
+    (without specifying a debug level) are automatically displayed. When a level is specified 
+    then the message will be only displayed if the current DebugLevel (set with the 
+    following @Keyword DebugLevel command) is equals or above this number. This allows hierarchical 
+    debug mode, by displaying more and more precise information in function of the used DebugLevel. 
+
+
+  @Syntax
+  
+    @Keyword DebugLevel <constant expression>
+
+  @Description
+
+    Set the current debug level for the 'Debug' message. 
+    @LineBreak
+    @LineBreak
+    Note: The debug level is set at compile time, which means you have to put the 
+    @Keyword "DebugLevel" command before any other Debug commands to be sure it affects them all. 
+
+
+  @Syntax
+    
+    @Keyword DisableDebugger
+
+  @Description
+
+    This will disable the debugger checks on the source code which follow this command. 
+
+
+  @Syntax
+    
+    @Keyword EnableDebugger
+    
+  @Description
+
+    This will enable the debugger checks on the source code which follow this command 
+    (if the debugger was previously disabled with @Keyword DisableDebugger). 
+    @LineBreak
+    @LineBreak
+    Note: @Keyword EnableDebugger doesn't have an effect, if the debugger is completely 
+    disabled in the IDE.
+

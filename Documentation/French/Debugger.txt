@@ -1,0 +1,496 @@
+;
+;  Debugger library documentation
+;
+;  (c) Fantaisie Software
+;
+
+@Library Debugger
+
+@Overview
+
+  La bibliothèque 'Debugger' fournit les fonctions 
+  nécessaires au contrôle du 
+  @ReferenceLink "ide_debugger" "débogueur",
+  par exemple pour vider le contenu de la fenêtre de 
+  déboguage, ou pour ouvrir le visualisateur de 
+  mémoire à une adresse mémoire donnée. Tous les 
+  outils de déboguage mentionnés dans cette 
+  bibliothèque sont décrits dans le chapitre 
+  @ReferenceLink "ide_debugtools" "outils de déboguage".
+@LineBreak
+@LineBreak
+  Les fonctions de cette bibliothèque ne sont 
+  compilées dans l'exécutable que si le débogueur est 
+  activé.
+  Si le débogueur est désactivé, les appels sont 
+  complètement ignorés et ne sont pas intégrés dans 
+  l'exécutable final.
+@LineBreak
+@LineBreak
+  Il y a aussi des 
+  @ReferenceLink "debugger" "mots clés spécifiques" 
+  au contrôle du débogueur à partir du code.
+
+@CommandList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CopyDebugOutput()
+
+@Description
+  Copie le contenu de la 
+  @ReferenceLink "ide_debugtools" "fenêtre de deboggage" 
+  dans le presse-papier.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools",
+  @ReferenceLink "debugger" "Debug",
+  @@ShowDebugOutput,
+  @@ClearDebugOutput,
+  @@SaveDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowDebugOutput()
+
+@Description
+  Ouvre la @ReferenceLink "ide_debugtools" "fenêtre de déboguage" 
+  ou la ramène au premier plan si elle était déjà 
+  ouverte.
+
+@NoParameters
+  
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne",
+  @ReferenceLink "debugger" "Debug",
+  @@ClearDebugOutput, @@SaveDebugOutput, @@CopyDebugOutput, @@CloseDebugOutput
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseDebugOutput()
+
+@Description
+  Ferme la @ReferenceLink "ide_debugtools" "fenêtre de déboguage".
+
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne",
+  @ReferenceLink "debugger" "Debug",
+  @@CopyDebugOutput, @@ShowDebugOutput, @@ClearDebugOutput, @@SaveDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearDebugOutput()
+
+@Description
+  Efface le contenu de la fenêtre de déboguage.
+
+@NoParameters
+  
+@NoReturnValue
+
+@Example
+@Code
+  ; Montre 10 valeurs dans le debugger tout les 500 ms
+  Repeat
+    ClearDebugOutput()
+    For i = 1 To 10
+      Debug x
+      x + 1
+    Next i
+    
+    Delay(500)
+  ForEver
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne",
+  @ReferenceLink "debugger" "Debug",
+  @@ShowDebugOutput,
+  @@SaveDebugOutput, @@CopyDebugOutput
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DebuggerError(Message$)
+
+@Description
+  Génère une erreur du débogueur pendant l'exécution.@LineBreak 
+  L'exécution du programme sera arrêté si le débogueur est activé.@LineBreak 
+  Peut être utile lors de la création de modules réutilisables destinés à être partagés.
+
+@Parameter "Message$"
+  Le message d'erreur à afficher.
+
+@NoReturnValue
+
+@SeeAlso
+  @@DebuggerWarning
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DebuggerWarning(Message$)
+
+@Description
+  Génère un avertissement d'exécution du débogueur. @LineBreak 
+  Peut être utile lors de la création de modules réutilisables destinés à être partagés.
+
+@Parameter "Message$"
+  Le message d'avertissement à afficher.
+
+@NoReturnValue
+
+@SeeAlso
+  @@DebuggerError
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SaveDebugOutput(NomFichier$)
+
+@Description
+  Enregistre le contenu de la fenêtre de déboguage 
+  dans un fichier. 
+
+@Parameter "NomFichier$"
+  Le nom du fichier dans lequel sera enregistré le 
+  contenu de la fenêtre du débogueur.
+  
+@NoReturnValue
+
+@Remarks
+  Une erreur est rapportée si le fichier ne peut pas être enregistré.
+
+@Example
+@Code
+  For i = 1 To 100
+    Debug Random(i)
+  Next i
+  SaveDebugOutput("C:\log.txt")
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne",
+  @ReferenceLink "debugger" "Debug",
+  @@ShowDebugOutput,
+  @@ClearDebugOutput, @@CopyDebugOutput
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowProfiler()
+
+@Description
+  Ouvre @ReferenceLink "ide_debugtools" "la fenêtre de profilage" 
+  ou la ramène au premier plan si elle était déjà 
+  ouverte.
+
+@NoParameters
+  
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne",
+  @@ResetProfiler,
+  @@StartProfiler, 
+  @@StopProfiler
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResetProfiler()
+
+@Description
+  Réinitialise le compteur pour le profileur.
+
+@NoParameters
+  
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne",
+  @@ShowProfiler,
+  @@StartProfiler, 
+  @@StopProfiler
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StartProfiler()
+
+@Description
+  Démarre le décompte des lignes exécutées 
+  enregistré par le profileur.
+
+@NoParameters
+  
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne",
+  @@ShowProfiler,
+  @@ResetProfiler, 
+  @@StopProfiler
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopProfiler()
+
+@Description
+  Arrête le décompte des lignes exécutées 
+  enregistré par le profileur.
+
+@NoParameters
+  
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne",
+  @@ShowProfiler,
+  @@ResetProfiler, 
+  @@StartProfiler
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowMemoryViewer([*AdresseMemoire, Longueur])
+
+@Description
+  Ouvre @ReferenceLink "ide_debugtools" "le visualisateur de mémoire" 
+  ou le ramène au premier plan si il était déjà 
+  ouvert. 
+
+@OptionalParameter "*AdresseMemoire, Longueur"
+  Si une zone mémoire (Buffer) représentée par 
+  *AdresseMemoire' de longueur 'Longueur' est 
+  spécifiée alors le contenu de cette zone mémoire 
+  sera affiché dans le visualisateur de mémoire.
+  
+@NoReturnValue
+
+@Example
+@Code
+  *Memoire = AllocateMemory(1000)
+  If *Memoire
+    RandomData(*Memoire, 1000)       ; Remplir la mémoire avec des données
+  
+    ShowMemoryViewer(*Memoire, 1000) ; Ouvrir le visualisateur de mémoire
+    CallDebugger                     ; Stoppe le programme qui ne se termine pas correctement
+  EndIf
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne"
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowLibraryViewer([Bibliotheque$ [, #Objet]])
+
+@Description
+  Ouvre @ReferenceLink "ide_debugtools" "le visualisateur de bibliothèques" 
+  ou le ramène au premier plan si il était déjà 
+  ouvert.  
+
+@OptionalParameter "Bibliotheque$"
+  Le visualisateur montre tous les objets de cette 
+  Bibliotheque$.@LineBreak
+  Sans cette option, le visualisateur n'affiche 
+  aucune bibliothèque en particulier.
+  
+@OptionalParameter "#Objet"
+  Le visualisateur affichera seulement cette entrée 
+  de la 'Bibliotheque$'.@LineBreak
+  Sans cette option, le visualisateur n'affiche 
+  aucun objet en particulier.
+  
+@NoReturnValue
+
+@Example
+@Code
+  If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+    DrawingMode(#PB_2DDrawing_Transparent)
+    Box(0, 0, 200, 200, RGB(255, 255, 255))
+    For i = 1 To 30
+      DrawText(Random(200), Random(200), "Hello le Monde !", RGB(Random(255), Random(255), Random(255)))
+    Next i
+    StopDrawing() 
+    
+    ShowLibraryViewer("Image", 0)  ; Montre l'image
+    CallDebugger                   ; Stoppe le programme qui ne se termine pas correctement
+  EndIf
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne"
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowWatchlist()
+
+@Description
+  Ouvre @ReferenceLink "ide_debugtools" "la fenêtre de surveillance" 
+  ou la ramène au premier plan si elle était déjà 
+  ouverte.
+
+@NoParameters
+  
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne"
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowVariableViewer()
+
+@Description
+  Ouvre @ReferenceLink "ide_debugtools" "la fenêtre des variables" 
+  ou la ramène au premier plan si elle était
+  déjà ouverte.
+
+@NoParameters
+  
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne"
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowCallstack()
+
+@Description
+  Ouvre @ReferenceLink "ide_debugtools" "la fenêtre d'historique des procédures" 
+  ou la ramène au premier plan si elle était
+  déjà ouverte.
+
+@NoParameters
+  
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne"
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowAssemblyViewer()
+
+@Description
+  Ouvre @ReferenceLink "ide_debugtools" "la fenêtre assembleur" 
+  ou la ramène au premier plan si elle était
+  déjà ouverte.
+
+@NoParameters
+  
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne"
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PurifierGranularity(GranularitéGlobale, GranularitéLocale, GranularitéChainesDeCaratere, GranularitéBlocsDynamique)
+
+@Description
+  Modifie l'intervalle de vérification d'intégrité des données par le @ReferenceLink "ide_debugtools" "purificateur".
+  
+@Parameter "GranularitéGlobale"
+  Le nombre de lignes de code source à exécuter entre 
+  les contrôles d'intégrité des données sur les 
+  variables globales.
+@LineBreak
+@LineBreak
+  @#PB_Ignore gardera la valeur de l'intervalle 
+  existant. 
+@LineBreak
+@LineBreak  
+  Une valeur de 0 désactive la vérification.
+  
+@Parameter "GranularitéLocale"
+  Le nombre de lignes de code source à exécuter entre 
+  les contrôles d'intégrité des données sur les 
+  variables locales.
+@LineBreak
+@LineBreak
+  @#PB_Ignore gardera la valeur de l'intervalle 
+  existant. 
+@LineBreak
+@LineBreak  
+  Une valeur de 0 désactive la vérification.
+
+@Parameter "GranularitéChainesDeCaratere"
+  Le nombre de lignes de code source à exécuter entre 
+  les contrôles d'intégrité des données sur les 
+  chaînes de caractères en mémoire.
+@LineBreak
+@LineBreak
+  @#PB_Ignore gardera la valeur de l'intervalle 
+  existant. 
+@LineBreak
+@LineBreak  
+  Une valeur de 0 désactive la vérification.
+
+@Parameter "GranularitéBlocsDynamique"
+  Le nombre de lignes de code source à exécuter entre 
+  les contrôles d'intégrité des données sur les 
+  blocs de mémoire alloués dynamiquement.
+@LineBreak
+@LineBreak
+  @#PB_Ignore gardera la valeur de l'intervalle 
+  existant. 
+@LineBreak
+@LineBreak  
+  Une valeur de 0 désactive la vérification.
+  
+@NoReturnValue
+
+@Example
+@Code
+  ; Désactive la vérification des chaînes de caractères en mémoire ainsi que l'allocation mémoire toutes les 10 lignes
+  PurifierGranularity(#PB_Ignore, #PB_Ignore, 0, 10)
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Débogueur interne"
+  
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------
+

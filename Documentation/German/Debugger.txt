@@ -1,0 +1,427 @@
+;
+;     Debugger library documentation
+;
+;      (c) 2018 - Fantaisie Software
+;
+
+@Library Debugger
+
+@Overview
+
+  Die Debugger Bibliothek bietet Funktionen zur Kontrolle des @ReferenceLink "ide_debugger" "Debuggers",
+  zum Beispiel für das Leeren des Debug-Ausgabefensters oder für das Öffnen der Speicheranzeige mit der Anzeige
+  eines bestimmten Speicherbereichs.
+  Alle diese Debugger-Werkzeuge werden im Kapitel @ReferenceLink "ide_debugtools" "Debugger-Werkzeuge" beschrieben.
+@LineBreak
+@LineBreak
+  Die Funktionen in dieser Bibliothek werden nur in das Executable kompiliert, wenn der Debugger bei der
+  Kompilierung aktiviert ist.
+  Wenn der Debugger deaktiviert ist, dann wird der Aufruf dieser Funktionen komplett ignoriert.
+  
+@LineBreak
+@LineBreak
+  Es gibt auch eine Reihe an speziellen @ReferenceLink "debugger" "Schlüsselwörtern" zum Kontrollieren des 
+  Debuggers über den Quellcode.
+
+@CommandList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CopyDebugOutput()
+
+@Description
+  Kopiert den Fensterinhalt der @ReferenceLink "ide_debugtools" "Debug-Ausgabe" in die Zwischenablage.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Enthaltene Debugging-Werkzeuge",
+  @ReferenceLink "debugger" "Debug",
+  @@ShowDebugOutput,
+  @@ClearDebugOutput,
+  @@SaveDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowDebugOutput()
+
+@Description
+  Öffnet das @ReferenceLink "ide_debugtools" "Debug-Ausgabefenster" oder bringt es in den Vordergrund, wenn es bereits offen ist.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge",
+  @ReferenceLink "debugger" "Debug",
+  @@ClearDebugOutput, @@SaveDebugOutput, @@CopyDebugOutput, @@CloseDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseDebugOutput()
+
+@Description
+  Schließt die @ReferenceLink "ide_debugtools" "Debug-Ausgabe".
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Included debugging tools",
+  @ReferenceLink "debugger" "Debug",
+  @@CopyDebugOutput, @@ShowDebugOutput, @@ClearDebugOutput, @@SaveDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearDebugOutput()
+
+@Description
+  Löscht den Inhalt des Debug-Ausgabefensters.
+
+@NoParameters
+@NoReturnValue
+
+@Example
+@Code
+  ; Zeige nur 10 (einzelne) Debug-Werte, keine fortlaufende Liste
+  Repeat
+    ClearDebugOutput()
+    For i = 1 To 10
+      Debug x
+      x + 1
+    Next i
+    
+    Delay(500)
+  ForEver
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge",
+  @ReferenceLink "debugger" "Debug",
+  @@ShowDebugOutput,
+  @@SaveDebugOutput, @@CopyDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DebuggerError(Nachricht$)
+
+@Description
+  Erzeugt einen Runtime Debugger Fehler. Die Programmausführung wird gestoppt, wenn der Debugger
+  aktiviert ist. Dies kann nützlich sein, wenn wiederverwendbare Module erstellt werden, die für
+  die gemeinsame Nutzung gedacht sind.
+
+@Parameter "Nachricht$"
+  Die anzuzeigende Fehler-Nachricht.
+
+@NoReturnValue
+
+@SeeAlso
+  @@DebuggerWarning
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DebuggerWarning(Nachricht$)
+
+@Description
+  Erzeugt eine Runtime Debugger Warnung. Dies kann nützlich sein, wenn wiederverwendbare Module
+  erstellt werden, die für die gemeinsame Nutzung gedacht sind.
+
+@Parameter "Nachricht$"
+  Die anzuzeigende Warnmeldung.
+
+@NoReturnValue
+
+@SeeAlso
+  @@DebuggerError
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SaveDebugOutput(Dateiname$)
+
+@Description
+  Speichert den Inhalt des Debug-Ausgabefensters in die angegebene Datei.
+
+@Parameter "Dateiname$"
+  Der Dateiname, wohin die Ausgabe gespeichert werden soll.
+
+@NoReturnValue
+
+@Remarks
+  Eine Fehlermeldung wird angezeigt, wenn die Datei nicht gespeichert werden konnte.
+
+@Example
+@Code
+  For i = 1 To 100
+    Debug Random(i)
+  Next i
+  SaveDebugOutput("C:\log.txt")
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge",
+  @ReferenceLink "debugger" "Debug",
+  @@ShowDebugOutput,
+  @@ClearDebugOutput, @@CopyDebugOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowProfiler()
+
+@Description
+  Öffnet das @ReferenceLink "ide_debugtools" "Profiler"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge",
+  @@ResetProfiler,
+  @@StartProfiler, 
+  @@StopProfiler
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResetProfiler()
+
+@Description
+  Setzt die Linien-Zähler des Profilers zurück.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge",
+  @@ShowProfiler,
+  @@StartProfiler, 
+  @@StopProfiler
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StartProfiler()
+
+@Description
+  Startet das Zählen ausgeführter Zeilen durch den @ReferenceLink "ide_debugtools" "Profiler".
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge",
+  @@ShowProfiler,
+  @@ResetProfiler, 
+  @@StopProfiler
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopProfiler()
+
+@Description
+  Stoppt das Zählen ausgeführter Zeilen durch den Profiler.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge",
+  @@ShowProfiler,
+  @@ResetProfiler, 
+  @@StartProfiler
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowMemoryViewer([*Puffer, Länge])
+
+@Description
+  Öffnet das @ReferenceLink "ide_debugtools" "Speicheranzeige"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+
+@OptionalParameter "*Puffer, Länge"
+  Der in der Speicheranzeige darzustellende Speicherbereich.
+  Wenn diese Parameter nicht angegeben werden, dann wird die Speicheranzeige einfach
+  nur geöffnet, ohne einen bestimmten Speicherbereich anzuzeigen.
+
+@NoReturnValue
+
+@Example
+@Code
+  *Memory = AllocateMemory(1000)
+  If *Memory
+    RandomData(*Memory, 1000)       ; den Speicher mit einigen Daten füllen
+  
+    ShowMemoryViewer(*Memory, 1000) ; die Speicheranzeige öffnen
+    CallDebugger     ; das Programm anhalten, damit es nicht sofort beendet wird
+  EndIf
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowLibraryViewer([Bibliothek$ [, #Objekt]])
+
+@Description
+  Öffnet das @ReferenceLink "ide_debugtools" "Library-Anzeiger"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+  Wenn 'Bibliothek$' angegeben wird, dann wird der Anzeiger die Objekte dieser Bibliothek (Library) anzeigen.
+  Wenn eine '#Objekt'-Nummer angegeben wird, dann wird der Anzeiger das angegebene Objekt dieser
+  Bibliothek anzeigen.
+
+@OptionalParameter "Bibliothek$"
+  Die Bibliothek, welche im Anzeiger dargestellt werden soll.
+  Wenn dieser Parameter nicht angegeben wird, dann wird der Anzeiger geöffnet,
+  ohne eine bestimmte Bibliothek anzuzeigen.
+
+@OptionalParameter "#Objekt"
+  Das Objekt der Bibliothek, welches im Anzeiger dargestellt werden soll.
+  Wenn dieser Parameter nicht angegeben wird, dann wird kein Objekt angezeigt.
+
+@NoReturnValue
+
+@Example
+@Code
+  If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+    DrawingMode(#PB_2DDrawing_Transparent)
+    Box(0, 0, 200, 200, RGB(255, 255, 255))
+    For i = 1 To 30
+      DrawText(Random(200), Random(200), "Hello World!", RGB(Random(255), Random(255), Random(255)))
+    Next i
+    StopDrawing() 
+    
+    ShowLibraryViewer("Image", 0)  ; das Bild anzeigen
+    CallDebugger     ; das Programm anhalten, damit es nicht sofort beendet wird
+  EndIf
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowWatchlist()
+
+@Description
+  Öffnet das @ReferenceLink "ide_debugtools" "Beobachtungslisten"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowVariableViewer()
+
+@Description
+  Öffnet das @ReferenceLink "ide_debugtools" "Variablenlisten"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowCallstack()
+
+@Description
+  Öffnet das Fenster zur @ReferenceLink "ide_debugtools" "Prozeduren-Aufrufverfolgung" oder bringt es in den Vordergrund,
+  wenn es bereits offen ist.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowAssemblyViewer()
+
+@Description
+  Öffnet das @ReferenceLink "ide_debugtools" "Assembler-Debugger"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PurifierGranularity(GlobaleGranularität, LokaleGranularität, StringGranularität, DynamikGranularität)
+
+@Description
+  Ändert das Intervall, in welchem der @ReferenceLink "ide_debugtools" "Purifier" ("Reiniger") die
+  verschiedenen Bereiche auf Speicherfehler überprüft.
+
+@Parameter "GlobaleGranularität"
+  Die Anzahl an Quellcode-Zeilen (= Granularität), die zwischen jeder Überprüfung der
+  globalen Variablen ausgeführt werden. Die Verwendung von @#PB_Ignore 
+  lässt den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die Überprüfung.
+
+@Parameter "LokaleGranularität"
+  Die Anzahl an Quellcode-Zeilen (= Granularität), die zwischen jeder Überprüfung der
+  lokalen Variablen ausgeführt werden. Die Verwendung von @#PB_Ignore 
+  lässt den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die Überprüfung.
+
+@Parameter "StringGranularität"
+  Die Anzahl an Quellcode-Zeilen (= Granularität), die zwischen jeder Überprüfung des
+  String-Speichers ausgeführt werden. Die Verwendung von @#PB_Ignore 
+  lässt den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die Überprüfung.
+
+@Parameter "DynamikGranularität"
+  Die Anzahl an Quellcode-Zeilen (= Granularität), die zwischen jeder Überprüfung des
+  reservierten Speichers ausgeführt werden. Die Verwendung von @#PB_Ignore 
+  lässt den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die Überprüfung.
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Deaktiviert die Überprüfung für den String-Speicher und überprüft 
+  ; den reservierten Speicher alle 10 Zeilen
+  PurifierGranularity(#PB_Ignore, #PB_Ignore, 0, 10)
+@EndCode
+
+@SeeAlso
+  @ReferenceLink "ide_debugtools" "Eingebaute Debugger-Werkzeuge"
+
+;--------------------------------------------------------------------------------------------------------

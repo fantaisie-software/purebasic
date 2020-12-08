@@ -1,0 +1,84 @@
+@Title Static
+
+@Syntax
+
+  @Keyword Static[.<type>] <variable[.<type>]> [= <constant expression>] [, ...]
+
+@Description
+
+  @Keyword Static permet de créer des variables locales persistantes dans une @ReferenceLink "Procedures" procedure.
+  Les variables statiques sont prioritaires sur les variables @ReferenceLink "Global" globales, ce qui implique
+  qu'une variable globale sera ignorée dans une procédure si une variable statique portant
+  le même nom est déjà déclarée. La valeur de la variable statique n'est pas réinitialisée
+  à chaque appel de la procédure: c'est donc un bon moyen pour avoir une variable globale
+  affectée à une seule procédure.
+  @LineBreak
+  @LineBreak
+  @Keyword Static peut aussi être utilisé avec les @ReferenceLink "dim" "tableaux", les @ReferenceLink "newlist" "listes" et les
+  @ReferenceLink "newmap" "maps". Lors de la déclaration d'un tableau static, ses paramètres doivent être une valeur constante.
+  
+@Example Avec une variable
+
+@Code
+  Global a
+  a = 10
+  
+  Procedure Change()
+    Static a
+    a+1
+    Debug "Dans la Procédure: "+Str(a) ; Affichera 1, 2, 3 car la variable s'incrémente à chaque appel de la procédure.
+  EndProcedure 
+
+  Change()
+  Change()
+  Change()
+  Debug a ; Affichera 10, car une variable 'static' n'affecte pas une variable 'global'.
+@EndCode  
+
+@Example Avec un tableau
+
+@Code
+  Global Dim Tableau(2)
+  Tableau(0) = 10
+  
+  Procedure Change()
+    Static Dim Tableau(2)
+    Tableau(0)+1
+    Debug "Dans la Procédure: "+Str(Tableau(0)) ; Affichera 1, 2, 3 car la valeur du champ du tableau s'incrémente à chaque appel de la procédure.
+  EndProcedure 
+  
+  Change()
+  Change()
+  Change()
+  Debug Tableau(0) ; Affichera 10, car un tableau 'static' n'affecte pas un tableau 'global'.
+@EndCode 
+
+  @Example Avec plusieurs procedures
+
+@Code
+  Procedure Foo()
+    Static x = 100  ; La déclaration et l'affectation sont effectuées une seule fois, au lancement du programme.
+  
+    Debug x
+    x + 1
+  EndProcedure
+
+  Foo() ; Affiche 100
+  Foo() ; Affiche 101
+  Foo() ; Affiche 102
+
+  Debug "---"
+
+  Procedure Bar()
+    Static x  ; La déclaration est effectuée une seule fois, au lancement du programme.  
+    x = 100   ; L'affectation est effectuée à chaque lancement de la Procedure.
+  
+    Debug x
+    x + 1
+  EndProcedure
+
+  Bar() ; Affiche 100
+  Bar() ; Affiche 100
+  Bar() ; Affiche 100
+
+@EndCode  

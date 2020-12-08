@@ -1,0 +1,916 @@
+@Title Variables and Types
+
+@Section Variables declaration
+
+  To declare a variable in PureBasic, simply type its name. You can also specify the type 
+  you want this variable to be. By default, when a data type is not indicated, the data is an integer.
+  Variables do not need to be explicitly declared, as they 
+  can be used as "variables on-the-fly". The @ReferenceLink "define" "Define" keyword can be used to declare 
+  multiple variables in one statement. If you don't assign an initial value to the variable, their
+  value will be 0.
+
+  @Example
+  
+@Code
+  a.b         ; Declare a variable called 'a' from byte (.b) type.
+  c.l = a*d.w ; 'd' is declared here within the expression and it's a word !
+@EndCode
+  
+  @Underline "Notes:"
+  @Indent
+  Variable names must not start with a number (0,1,...), contain operators (+,-,...) or special characters (ß,ä,ö,ü,...). 
+  @LineBreak
+  @LineBreak
+  The variables in PureBasic are not case sensitive, so "pure" and "PURE" are the same variable.
+  @LineBreak
+  @LineBreak
+  If you don't need to change the content of a variable during the program flow (e.g. you're using fixed 
+  values for ID's etc.), you can also take a look at @ReferenceLink "general_rules" "constants" as an alternative.
+  @LineBreak
+  @LineBreak
+  To avoid typing errors etc. it's possible to force the PureBasic compiler to always want a declaration 
+  of variables, before they are first used. Just use @ReferenceLink "compilerdirectives" "EnableExplicit" 
+  keyword in your source code to enable this feature.
+  @EndIndent
+
+@Section Basic types
+
+  PureBasic allows many type variables which can be standard integers, float, double, quad and char numbers 
+  or even string characters. Here is the list of the native supported types and a brief description : 
+  @LineBreak
+  @LineBreak
+  
+@FormatIf HTML WEBSITE
+
+  <table width="75%" border="1" bordercolorlight="#FFFFFF" bordercolordark="#999900">
+    <tr> 
+      <td> 
+        <div align="center"><b><font face="Arial" size="2">Name</font></b></div>
+      </td>
+      <td> 
+        <div align="center"><b><font face="Arial" size="2">Extension</font></b></div>
+      </td>
+      <td> 
+        <div align="center"><b><font face="Arial" size="2">Memory 
+          consumption</font></b></div>
+      </td>
+      <td> 
+        <div align="center"><b><font face="Arial" size="2">Range</font></b></div>
+      </td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Byte</font></td>
+      <td><font face="Arial" size="2">.b</font></td>
+      <td><font face="Arial" size="2">1 byte</font></td>
+      <td><font face="Arial" size="2">-128 to +127</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Ascii</font></td>
+      <td><font face="Arial" size="2">.a</font></td>
+      <td><font face="Arial" size="2">1 byte</font></td>
+      <td><font face="Arial" size="2">0 to +255</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Character</font></td>
+      <td><font face="Arial" size="2">.c</font></td>
+      <td><font face="Arial" size="2">2 bytes</font></td>
+      <td><font face="Arial" size="2">0 to +65535</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Word</font></td>
+      <td><font face="Arial" size="2">.w</font></td>
+      <td><font face="Arial" size="2">2 bytes</font></td>
+      <td><font face="Arial" size="2">-32768 to +32767</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Unicode</font></td>
+      <td><font face="Arial" size="2">.u</font></td>
+      <td><font face="Arial" size="2">2 bytes</font></td>
+      <td><font face="Arial" size="2">0 to +65535</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Long</font></td>
+      <td><font face="Arial" size="2">.l</font></td>
+      <td><font face="Arial" size="2">4 bytes</font></td>
+      <td><font face="Arial" size="2">-2147483648 to +2147483647</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Integer</font></td>
+      <td><font face="Arial" size="2">.i</font></td>
+      <td><font face="Arial" size="2">4 bytes (using 32-bit compiler)</font></td>
+      <td><font face="Arial" size="2">-2147483648 to +2147483647</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Integer</font></td>
+      <td><font face="Arial" size="2">.i</font></td>
+      <td><font face="Arial" size="2">8 bytes (using 64-bit compiler)</font></td>
+      <td><font face="Arial" size="2">-9223372036854775808 to +9223372036854775807</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Float</font></td>
+      <td><font face="Arial" size="2">.f</font></td>
+      <td><font face="Arial" size="2">4 bytes</font></td>
+      <td><font face="Arial" size="2">unlimited (see below)</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Quad</font></td>
+      <td><font face="Arial" size="2">.q</font></td>
+      <td><font face="Arial" size="2">8 bytes</font></td>
+      <td><font face="Arial" size="2">-9223372036854775808 to +9223372036854775807</font></td>
+    </tr>
+    <tr> 
+      <td><font face="Arial" size="2">Double</font></td>
+      <td><font face="Arial" size="2">.d</font></td>
+      <td><font face="Arial" size="2">8 bytes</font></td>
+      <td><font face="Arial" size="2">unlimited (see below)</font></td>
+    </tr>
+    <tr> 
+      <td height="24"><font face="Arial" size="2">String</font></td>
+      <td height="24"><font face="Arial" size="2">.s</font></td>
+      <td height="24"><font face="Arial" size="2">string length + 1</font></td>
+      <td height="24"><font face="Arial" size="2">unlimited</font></td>
+    </tr>
+    <tr> 
+      <td height="24"><font face="Arial" size="2">Fixed String</font></td>
+      <td height="24"><font face="Arial" size="2">.s{Length}</font></td>
+      <td height="24"><font face="Arial" size="2">string length</font></td>
+      <td height="24"><font face="Arial" size="2">unlimited</font></td>
+    </tr>
+  </table>
+  
+@FormatElse
+
+@FixedFont
+  Name         | Extension  | Memory consumption              | Range
+  -------------+------------+---------------------------------+----------------------------------------------
+  Byte         |    .b      | 1 byte                          | -128 to +127
+  Ascii        |    .a      | 1 byte                          | 0 to +255
+  Character    |    .c      | 2 bytes                         | 0 to +65535
+  Word         |    .w      | 2 bytes                         | -32768 to +32767
+  Unicode      |    .u      | 2 bytes                         | 0 to +65535
+  Long         |    .l      | 4 bytes                         | -2147483648 to +2147483647
+  Integer      |    .i      | 4 bytes (using 32-bit compiler) | -2147483648 to +2147483647
+  Integer      |    .i      | 8 bytes (using 64-bit compiler) | -9223372036854775808 to +9223372036854775807
+  Float        |    .f      | 4 bytes                         | unlimited (see below)
+  Quad         |    .q      | 8 bytes                         | -9223372036854775808 to +9223372036854775807
+  Double       |    .d      | 8 bytes                         | unlimited (see below)
+  String       |    .s      | string length + 1               | unlimited
+  Fixed String | .s{Length} | string length                   | unlimited
+@EndFixedFont
+
+@FormatEndIf
+
+@LineBreak
+  @Bold "Unsigned variables": 
+  Purebasic offers native support for unsigned variables with byte and word types via the ascii (.a) and unicode (.u) types. 
+  The character (.c) type is an unsigned word in @ReferenceLink "unicode" "unicode" that may be used as an unsigned type. 
+@LineBreak
+@LineBreak
+  @Bold "Notation of string variables": it is possible to use the '$' as last char of a variable name to
+  mark it as string. This way you can use 'a$' and 'a.s' as different string variables. Please note, that
+  the '$' belongs to the variable name and must be always attached, unlike the '.s' which is only needed
+  when the string variable is declared the first time.
+@Code
+  a.s = "One string"
+  a$ = "Another string"
+  Debug a   ; will give "One string"
+  Debug a$  ; will give "Another string"
+@EndCode
+
+@LineBreak
+@Bold "Note": The floating numbers (floats + doubles) can also be written like this: 123.5e-20
+@Code
+  value.d = 123.5e-20
+  Debug value   ; will give 0.000000000000000001235
+@EndCode
+
+
+@Section Operators
+
+  Operators are the functions you can use in expressions to combine the variables, constants, and whatever else. 
+  The table below shows the operators you can use in PureBasic, in no particular order (LHS = Left Hand Side, 
+  RHS = Right Hand Side). @LineBreak
+  @LineBreak
+
+@FormatIf HTML WEBSITE
+
+<table border="1" bordercolorlight="#FFFFFF" bordercolordark="#999900">
+<tr>
+    <td><div align="center"><b>Operator</b></div></td>
+    <td><div align="center"><b>Description / Example</b></div></td>
+</tr>
+
+<tr>
+    <td><div align="center">=</div></td>
+    <td><font face="Arial" size="2">Equals. This can be used in two ways. The first is to assign the value of the expression on the RHS to the variable on the LHS. The second way is when the result of the operator is used in an expression and is to test whether the values of the expressions on the LHS and RHS are the same (if they are the same this operator will return a true result, otherwise it will be false).<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">a=b+c <font color="#006666">; Assign the value of the expression &quot;b+c&quot; to the variable &quot;a&quot;</font><br>
+    <b><font color="#006666">If</font></b> abc=def <font color="#006666">; Test if the values of abc and def are the same, and use this result in the If command</font>
+      </font>
+
+    <br><br>
+    When using with strings the '=' is used as assigning operator as well as operator for comparing. Note: the comparing of two strings is "Case-sensitive".<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">a$ = b$ <font color="#006666">; Assign the content of the string &quot;b$&quot; to the string &quot;a$&quot; zu</font><br>
+    <b><font color="#006666">If</font></b> a$ = b$ <font color="#006666">; Test, if the content of the strings a$ and b$ is equal, and use this result in the If command.</font>
+    </font>
+
+    </font></td>
+</tr>
+
+<tr>
+    <td><div align="center">+</div></td>
+    <td><font face="Arial" size="2">Plus. Gives a result of the value of the expression on the RHS added to the value of the expression on the LHS. If the result of this operator is not used and there is a variable on the LHS, then the value of the expression on the RHS will be added directly to the variable on the LHS.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    number=something+2 <font color="#006666">; Adds the value 2 to &quot;something&quot; and uses the result with the equals operator</font><br>
+    variable+expression <font color="#006666">; The value of &quot;expression&quot; will be added directly to the variable &quot;variable&quot;</font>
+
+    </font>
+    <br><br>
+    With strings the '+' is also valid for combining the contents of two strings, where the result will be assigned to the string on the LHS with the '=' 
+    operator or will be directly stored into the string on the LHS. Numeric values are also accepted for combination with a string. It will behave like using
+    Str(), Str() or StrD() with their defaults for the optional parameters.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    a$ = b$ + " more" <font color="#006666">; Combines the content of the string &quot;b$&quot; with the string &quot; more&quot; and save this into the string &quot;a$&quot;</font><br>
+    a$ + b$ <font color="#006666">; Attach the content of the string b$ directly to the string a$.</font>
+    a$ = b$ + 123
+    </font>
+    </font></td>
+</tr>
+
+<tr>
+    <td><div align="center">-</div></td>
+    <td><font face="Arial" size="2">Minus. Subtracts the value of the expression on the RHS from the value of the expression on the LHS. When there is no expression on the LHS this operator gives the negative value of the value of the expression on the RHS. If the result of this operator is not used and there is a variable on the LHS, then the value of the expression on the RHS will be subtracted directly from the variable on the LHS. This operator cannot be used with string type variables.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    var=#MyConstant-foo <font color="#006666">; Subtracts the value of &quot;foo&quot; from &quot;#MyConstant&quot; and uses the result with the equals operator</font><br>
+    another=another+ -var <font color="#006666">; Calculates the negative value of &quot;var&quot; and uses the result in the plus operator</font><br>
+    variable-expression <font color="#006666">; The value of &quot;expression&quot; will be subtracted directly from the variable &quot;variable&quot;</font>
+    </font></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">*</div></td>
+    <td><font face="Arial" size="2">Multiplication. Multiplies the value of the expression on the LHS by the value of the expression on the RHS. If the result of this operator is not used and there is a variable on the LHS, then the value of the variable is directly multiplied by the value of the expression on the RHS. This operator cannot be used with string type variables.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    total=price*count <font color="#006666">; Multiplies the value of &quot;price&quot; by the value of &quot;count&quot; and uses the result with the equals operator</font><br>
+    variable*expression <font color="#006666">; &quot;variable&quot; will be multiplied directly by the value of &quot;expression&quot;</font>
+    </font></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">/</div></td>
+    <td><font face="Arial" size="2">Division. Divides the value of the expression on the LHS by the value of the expression on the RHS. If the result of this operator is not used and there is a variable on the LHS, then the value of the variable is directly divided by the value of the expression on the RHS. This operator cannot be used with string type variables.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    count=total/price <font color="#006666">; Divides the value of &quot;total&quot; by the value of &quot;price&quot; and uses the result with the equals operator</font><br>
+    variable/expression <font color="#006666">; &quot;variable&quot; will be divided directly by the value of &quot;expression&quot;</font>
+    </font></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">&</div></td>
+    <td><font face="Arial" size="2">Bitwise AND. You should be familiar with binary numbers when using this operator. The result of this operator will be the value of the expression on the LHS anded with the value of the expression on the RHS, bit for bit. The value of each bit is set according to the table below. Additionally, if the result of the operator is not used and there is a variable on the LHS, then the result will be stored directly in that variable. This operator cannot be used with strings.<br>
+    <font size="3"><pre>LHS | RHS | Result
+------------------
+ 0  |  0  |    0
+ 0  |  1  |    0
+ 1  |  0  |    0
+ 1  |  1  |    1</pre></font>
+    <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    <font color="#006666">; Shown using binary numbers as it will be easier to see the result</font><br>
+    a.w = %1000 & %0101 <font color="#006666">; Result will be 0</font><br>
+    b.w = %1100 & %1010 <font color="#006666">; Result will be %1000</font><br>
+    bits = a & b <font color="#006666">; AND each bit of a and b and use result in equals operator</font><br>
+    a & b <font color="#006666">; AND each bit of a and b and store result directly in variable &quot;a&quot;</font>
+    </font></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">|</div></td>
+    <td><font face="Arial" size="2">Bitwise OR. You should be familiar with binary numbers when using this operator. The result of this operator will be the value of the expression on the LHS or'ed with the value of the expression on the RHS, bit for bit. The value of each bit is set according to the table below. Additionally, if the result of the operator is not used and there is a variable on the LHS, then the result will be stored directly in that variable. This operator cannot be used with strings.<br>
+    <font size="3"><pre>LHS | RHS | Result
+------------------
+ 0  |  0  |    0
+ 0  |  1  |    1
+ 1  |  0  |    1
+ 1  |  1  |    1</pre></font>
+    <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    <font color="#006666">; Shown using binary numbers as it will be easier to see the result</font><br>
+    a.w = %1000 | %0101 <font color="#006666">; Result will be %1101</font><br>
+    b.w = %1100 | %1010 <font color="#006666">; Result will be %1110</font><br>
+    bits = a | b <font color="#006666">; OR each bit of a and b and use result in equals operator</font><br>
+    a | b <font color="#006666">; OR each bit of a and b and store result directly in variable &quot;a&quot;</font>
+    </font></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">!</div></td>
+    <td><font face="Arial" size="2">Bitwise XOR. You should be familiar with binary numbers when using this operator. The result of this operator will be the value of the expression on the LHS xor'ed with the value of the expression on the RHS, bit for bit. The value of each bit is set according to the table below. Additionally, if the result of the operator is not used and there is a variable on the LHS, then the result will be stored directly in that variable. This operator cannot be used with strings.<br>
+    <font size="3"><pre>LHS | RHS | Result
+------------------
+ 0  |  0  |    0
+ 0  |  1  |    1
+ 1  |  0  |    1
+ 1  |  1  |    0</pre></font>
+    <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    <font color="#006666">; Shown using binary numbers as it will be easier to see the result</font><br>
+    a.w = %1000 ! %0101 <font color="#006666">; Result will be %1101</font><br>
+    b.w = %1100 ! %1010 <font color="#006666">; Result will be %0110</font><br>
+    bits = a ! b <font color="#006666">; XOR each bit of a and b and use result in equals operator</font><br>
+    a ! b <font color="#006666">; XOR each bit of a and b and store result directly in variable &quot;a&quot;</font>
+    </font></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">~</div></td>
+    <td><font face="Arial" size="2">Bitwise NOT. You should be familiar with binary numbers when using this operator. The result of this operator will be the not'ed value of the expression on the RHS, bit for bit. The value of each bit is set according to the table below. This operator cannot be used with strings.<br>
+    <font size="3"><pre>RHS | Result
+----------
+ 0  |    1
+ 1  |    0
+</pre></font>
+    <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    <font color="#006666">; Shown using binary numbers as it will be easier to see the result</font><br>
+    a.b = ~%1000 <font color="#006666">; In theory the result will be %0111 but in fact is %11110111 (= -9 because a byte is signed).</font><br>
+    b.b = ~%1010 <font color="#006666">; In theory the result will be %0101 but in fact is %11110101 (= -11 because a byte is signed)</font><br>
+    </font></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">()</div></td>
+    <td><font face="Arial" size="2">Brackets. You can use sets of brackets to force part of an expression to be evaluated first, or in a certain order.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    a = (5 + 6) * 3 <font color="#006666">; Result will be 33 since the 5+6 is evaluated first</font><br>
+    b = 4 * (2 - (3 - 4)) <font color="#006666">; Result will be 12 since the 3-4 is evaluated first, then the 2-result, then the multiplication</font><br>
+    </font></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">&lt;</div></td>
+    <td><font face="Arial" size="2">Less than. This is used to compare the values of the expressions on the LHS and RHS. If the value of the expression on the LHS is less than the value of the expression on the RHS this operator will give a result of true, otherwise the result is false.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    <b><font color="#006666">If</font></b> a &lt; b <font color="#006666">; Tests, if the value a is smaller than b, and uses this result in the If command</font>
+    </font>
+    <br>
+    <br>Note: The comparing of strings will always be "case-sensitive".
+    </font></td>
+</tr>
+
+<tr>
+    <td><div align="center">&gt;</div></td>
+    <td><font face="Arial" size="2">More than. This is used to compare the values of the expressions on the LHS and RHS. If the value of the expression on the LHS is more than the value of the expression on the RHS this operator will give a result of true, otherwise the result is false.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    <b><font color="#006666">If</font></b> a &gt; b <font color="#006666">; Tests, if the value a is greater than b, and uses this result in the If command</font>
+    </font>
+    <br>
+    <br>Note: The comparing of strings will always be "case-sensitive".
+    </font></td>
+</tr>
+
+<tr>
+    <td><div align="center">&lt;= <br> =&lt;</div></td>
+    <td><font face="Arial" size="2">Less than or equal to. This is used to compare the values of the expressions on the LHS and RHS. If the value of the expression on the LHS is less than or equal to the value of the expression on the RHS this operator will give a result of true, otherwise the result is false.<br>
+    <!-- <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    </font>-->
+    </font></td>
+</tr>
+
+<tr>
+    <td><div align="center">&gt;= <br> =&gt;</div></td>
+    <td><font face="Arial" size="2">More than or equal to. This is used to compare the values of the expressions on the LHS and RHS. If the value of the expression on the LHS is more than or equal to the value of the expression on the RHS this operator will give a result of true, otherwise the result is false.<br>
+    <!-- <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    </font>-->
+    </font></td>
+</tr>
+
+<tr>
+    <td><div align="center">&lt;&gt;</div></td>
+    <td><font face="Arial" size="2">Not equal to. This is used to compare the values of the expressions on the LHS and RHS. If the value of the expression on the LHS is equal to the value of the expression on the RHS this operator will give a result of false, otherwise the result is true.<br>
+    <!-- <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    </font>-->
+    </font></td>
+</tr>
+
+<tr>
+    <td><div align="center">And</div></td>
+    <td><font face="Arial" size="2">Logical AND. Can be used to combine the logical true and false results of the comparison operators to give a result shown in the following table.<br>
+    <font size="3"><pre>  LHS  |  RHS  | Result
+-----------------------
+ false | false | false
+ false |  true | false
+  true | false | false
+  true |  true |  true</pre></font>
+    <!-- <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    </font>--></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">Or</div></td>
+    <td><font face="Arial" size="2">Logical OR. Can be used to combine the logical true and false results of the comparison operators to give a result shown in the following table.<br>
+    <font size="3"><pre>  LHS  |  RHS  | Result
+-----------------------
+ false | false | false
+ false |  true |  true
+  true | false |  true
+  true |  true |  true</pre></font>
+    <!-- <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    </font>--></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">XOr</div></td>
+    <td><font face="Arial" size="2">Logical XOR. Can be used to combine the logical true ot false results of the comparison operators to give a result shown in the following table.
+    This operator cannot be used with strings.<br>
+    <font size="3"><pre>  LHS  |  RHS  | Result
+-----------------------
+ false | false | false
+ false |  true |  true
+  true | false |  true
+  true |  true | false</pre></font>
+    <!-- <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    </font>--></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">Not</div></td>
+    <td><font face="Arial" size="2">The result of this operator will be the not'ed value of the logical on the RHS.
+  The value is set according to the table below. This operator cannot be used with strings.<br>
+    <font size="3"><pre>  RHS  | Result
+---------------
+ false |  true
+  true | false
+</pre></font>
+    <!-- <i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    </font>--></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">&lt;&lt;</div></td>
+    <td><font face="Arial" size="2">Arithmetic shift left. Shifts each bit in the value of the expression on the LHS left by the number of places given by the value of the expression on the RHS. Additionally, when the result of this operator is not used and the LHS contains a variable, that variable will have its value shifted. It probably helps if you understand binary numbers when you use this operator, although you can use it as if each position you shift by is multiplying by an extra factor of 2.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    a=%1011 &lt;&lt; 1 <font color="#006666">; The value of a will be %10110. %1011=11, %10110=22</font><br>
+    b=%111 &lt;&lt; 4 <font color="#006666">; The value of b will be %1110000. %111=7, %1110000=112</font><br>
+    c.l=$80000000 &lt;&lt; 1 <font color="#006666">; The value of c will be 0. Bits that are shifted off the left edge of the result are lost.</font><br>
+    </font></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">&gt;&gt;</div></td>
+    <td><font face="Arial" size="2">Arithmetic shift right. Shifts each bit in the value of the expression on the LHS right by the number of places given by the value of the expression on the RHS. Additionally, when the result of this operator is not used and the LHS contains a variable, that variable will have its value shifted. It probably helps if you understand binary numbers when you use this operator, although you can use it as if each position you shift by is dividing by an extra factor of 2.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    d=16 &gt;&gt; 1 <font color="#006666">; The value of d will be 8. 16=%10000, 8=%1000</font><br>
+    e.w=%10101010 &gt;&gt; 4 <font color="#006666">; The value of e will be %1010. %10101010=170, %1010=10. Bits shifted out of the right edge of the result are lost (which is why you do not see an equal division by 16)</font><br>
+    f.b=-128 &gt;&gt; 1 <font color="#006666">; The value of f will be -64. -128=%10000000, -64=%11000000. When shifting to the right, the most significant bit is kept as it is.</font><br>
+    </font></font></td>
+</tr>
+
+<tr>
+    <td><div align="center">%</div></td>
+    <td><font face="Arial" size="2">Modulo. Returns the remainder of the RHS by LHS integer division.<br>
+    <br><i><b>Example:</b></i><br>
+    <font face="Courier New, Courier, mono">
+    a=16 % 2 <font color="#006666">; The value of a will be 0 as 16/2 = 8 (no remainder)</font><br>
+    b=17 % 2 <font color="#006666">; The value of a will be 1 as 17/2 = 8*2+1 (1 is remaining)</font><br>
+    </font></font></td>
+</tr>
+
+</table>
+
+@FormatElse
+
+@Section Operator = (Equals) 
+
+  This can be used in two ways. The first is to assign the value of the expression on the RHS 
+  to the variable on the LHS. The second way is when the result of the operator is used in an 
+  expression and is to test whether the values of the expressions on the LHS and RHS are the 
+  same (if they are the same this operator will return a true result, otherwise it will be false).
+
+  @Example
+  
+@Code  
+  a = b+c      ; Assign the value of the expression "b+c" to the variable "a"
+  If abc = def ; Test if the values of abc and def are the same, and use this result in the If command
+@EndCode  
+
+
+@Section Operator + (Plus)
+
+  Gives a result of the value of the expression on the RHS added to the value of 
+  the expression on the LHS. If the result of this operator is not used and 
+  there is a variable on the LHS, then the value of the expression on the RHS 
+  will be added directly to the variable on the LHS.
+
+  @Example
+  
+@Code  
+  number=something+2 ; Adds the value 2 to "something" and uses the result with the equals operator
+  variable+expression ; The value of "expression" will be added directly to the variable "variable"
+@EndCode
+  
+
+@Section Operator - (Minus)
+
+  Subtracts the value of the expression on the RHS from the value of the expression on the LHS. 
+  When there is no expression on the LHS this operator gives the negative value of the value 
+  of the expression on the RHS. If the result of this operator is not used and there is a variable 
+  on the LHS, then the value of the expression on the RHS will be subtracted directly from the variable on the LHS. 
+  This operator cannot be used with string type variables.
+
+  @Example
+  
+@Code  
+  var=#MyConstant-foo ; Subtracts the value of "foo" from "#MyConstant" and uses the result with the equals operator
+  another=another+ -var ; Calculates the negative value of "var" and uses the result in the plus operator
+  variable-expression ; The value of "expression" will be subtracted directly from the variable "variable"
+@EndCode  
+
+
+@Section Operator * (Multiplication)
+
+  Multiplies the value of the expression on the LHS by the value of the expression on the RHS. 
+  If the result of this operator is not used and there is a variable on the LHS, then the 
+  value of the variable is directly multiplied by the value of the expression on the RHS. 
+  This operator cannot be used with string type variables.
+
+  @Example
+  
+@Code
+  total=price*count ; Multiplies the value of "price" by the value of "count" and uses the result with the equals operator
+  variable*expression ; "variable" will be multiplied directly by the value of "expression"
+@EndCode  
+
+
+@Section Operator / (Division)
+
+  Divides the value of the expression on the LHS by the value of the expression on the RHS. 
+  If the result of this operator is not used and there is a variable on the LHS, then the value 
+  of the variable is directly divided by the value of the expression on the RHS. This operator 
+  cannot be used with string type variables.
+
+  @Example
+  
+@Code
+  count=total/price ; Divides the value of "total" by the value of "price" and uses the result with the equals operator
+  variable/expression ; "variable" will be divided directly by the value of "expression"
+@EndCode  
+
+
+@Section Operator & (Bitwise AND)
+
+  You should be familiar with binary numbers when using this operator. 
+  The result of this operator will be the value of the expression on the LHS anded 
+  with the value of the expression on the RHS, bit for bit. The value of each bit is 
+  set according to the table below. Additionally, if the result of the operator is not 
+  used and there is a variable on the LHS, then the result will be stored directly in 
+  that variable. This operator cannot be used with strings.
+
+@FixedFont
+  LHS | RHS | Result
+  ------------------
+   0  |  0  |    0
+   0  |  1  |    0
+   1  |  0  |    0
+   1  |  1  |    1
+@EndFixedFont
+
+@Example
+
+@Code
+  ; Shown using binary numbers as it will be easier to see the result
+  a.w = %1000 & %0101 ; Result will be 0
+  b.w = %1100 & %1010 ; Result will be %1000
+  bits = a & b ; AND each bit of a and b and use result in equals operator
+  a & b ; AND each bit of a and b and store result directly in variable "a"
+@EndCode  
+
+
+@Section Operator | (Bitwise OR)
+
+  You should be familiar with binary numbers when using this operator. 
+  The result of this operator will be the value of the expression on the LHS or'ed 
+  with the value of the expression on the RHS, bit for bit. The value of each bit is 
+  set according to the table below. Additionally, if the result of the operator is not 
+  used and there is a variable on the LHS, then the result will be stored directly 
+  in that variable. This operator cannot be used with strings.
+
+@FixedFont
+  LHS | RHS | Result
+  ------------------
+   0  |  0  |    0
+   0  |  1  |    1
+   1  |  0  |    1
+   1  |  1  |    1
+@EndFixedFont
+
+  @Example
+  
+@Code
+  ; Shown using binary numbers as it will be easier to see the result
+  a.w = %1000 | %0101 ; Result will be %1101
+  b.w = %1100 | %1010 ; Result will be %1110
+  bits = a | b ; OR each bit of a and b and use result in equals operator
+  a | b ; OR each bit of a and b and store result directly in variable "a"
+@EndCode
+
+
+@Section Operator ! (Bitwise XOR)
+
+  You should be familiar with binary numbers when using this operator. 
+  The result of this operator will be the value of the expression on the LHS xor'ed 
+  with the value of the expression on the RHS, bit for bit. The value of each bit 
+  is set according to the table below. Additionally, if the result of the operator 
+  is not used and there is a variable on the LHS, then the result will be 
+  stored directly in that variable. This operator cannot be used with strings.
+
+@FixedFont
+LHS | RHS | Result
+------------------
+ 0  |  0  |    0
+ 0  |  1  |    1
+ 1  |  0  |    1
+ 1  |  1  |    0
+@EndFixedFont
+
+  @Example
+
+@Code
+  ; Shown using binary numbers as it will be easier to see the result
+  a.w = %1000 ! %0101 ; Result will be %1101
+  b.w = %1100 ! %1010 ; Result will be %0110
+  bits = a ! b ; XOR each bit of a and b and use result in equals operator
+  a ! b ; XOR each bit of a and b and store result directly in variable "a"
+@EndCode
+
+
+@Section Operator ~ (Bitwise NOT)
+
+  You should be familiar with binary numbers when using this operator. 
+  The result of this operator will be the not'ed value of the expression on the RHS, bit for bit. 
+  The value of each bit is set according to the table below. This operator cannot be used with strings.
+
+@FixedFont
+RHS | Result
+----------
+ 0  |    1
+ 1  |    0
+@EndFixedFont
+
+  @Example
+  
+@Code
+  ; Shown using binary numbers as it will be easier to see the result
+  a.w = ~%1000 ; Result will be %0111
+  b.w = ~%1010 ; Result will be %0101
+@EndCode  
+
+
+@Section Operator () (Brackets)
+
+  You can use sets of brackets to force part of an expression to be evaluated 
+  first, or in a certain order.
+
+  @Example
+  
+@Code
+  a = (5 + 6) * 3 ; Result will be 33 since the 5+6 is evaluated first
+  b = 4 * (2 - (3 - 4)) ; Result will be 12 since the 3-4 is evaluated first, then the 2-result, then the multiplication
+@EndCode  
+
+
+@Section Operator < (Less than)
+
+  This is used to compare the values of the expressions on the LHS and RHS. 
+  If the value of the expression on the LHS is less than the value of the 
+  expression on the RHS this operator will give a result of true, otherwise the result is false.
+
+
+@Section Operator > (More than)
+  
+  This is used to compare the values of the expressions on the LHS and RHS. 
+  If the value of the expression on the LHS is more than the value of the 
+  expression on the RHS this operator will give a result of true, otherwise the result is false.
+
+
+@Section Operator <=, =< (Less than or equal to)
+
+  This is used to compare the values of the expressions on the LHS and RHS. 
+  If the value of the expression on the LHS is less than or equal to the value of 
+  the expression on the RHS this operator will give a result of true, otherwise the result is false.
+
+
+@Section Operator >=, => (More than or equal to)
+
+  This is used to compare the values of the expressions on the LHS and RHS. 
+  If the value of the expression on the LHS is more than or equal to the value 
+  of the expression on the RHS this operator will give a result of true, otherwise the result is false.
+
+
+@Section Operator <> (Not equal to) 
+  
+  This is used to compare the values of the expressions on the LHS and RHS. 
+  If the value of the expression on the LHS is equal to the value of the expression on 
+  the RHS this operator will give a result of false, otherwise the result is true.
+
+
+@Section Operator And (Logical AND)
+
+  Can be used to combine the logical true and false results of the comparison operators 
+  to give a result shown in the following table.
+
+@FixedFont
+  LHS  |  RHS  | Result
+-----------------------
+ false | false | false
+ false |  true | false
+  true | false | false
+  true |  true |  true
+@EndFixedFont
+
+
+@Section Operator Or (Logical OR)
+
+  Can be used to combine the logical true and false results of the comparison operators to 
+  give a result shown in the following table.
+
+@FixedFont
+  LHS  |  RHS  | Result
+-----------------------
+ false | false | false
+ false |  true |  true
+  true | false |  true
+  true |  true |  true
+@EndFixedFont
+
+
+@Section Operator XOr (Logical XOR)
+
+  Can be used to combine the logical true and false results of the comparison operators to 
+  give a result shown in the following table. This operator cannot be used with strings.
+
+@FixedFont
+  LHS  |  RHS  | Result
+-----------------------
+ false | false | false
+ false |  true |  true
+  true | false |  true
+  true |  true | false
+@EndFixedFont
+
+@Section Operator Not (Logical NOT)
+
+  The result of this operator will be the not'ed value of the logical on the RHS.
+  The value is set according to the table below. This operator cannot be used with strings.
+
+@FixedFont
+  RHS  | Result
+---------------
+ false |  true
+  true | false
+@EndFixedFont
+
+
+@Section Operator << (Arithmetic shift left)
+
+  Shifts each bit in the value of the expression on the LHS left by the number 
+  of places given by the value of the expression on the RHS. Additionally, when 
+  the result of this operator is not used and the LHS contains a variable, that 
+  variable will have its value shifted. It probably helps if you understand binary 
+  numbers when you use this operator, although you can use it as if each position 
+  you shift by is multiplying by an extra factor of 2.
+
+  @Example
+  
+@Code  
+  a=%1011 << 1 ; The value of a will be %10110. %1011=11, %10110=22
+  b=%111 << 4 ; The value of b will be %1110000. %111=7, %1110000=112
+  c.l=$80000000 << 1 ; The value of c will be 0. Bits that are shifted off the left edge of the result are lost.
+@EndCode
+
+
+@Section Operator >> (Arithmetic shift right)
+
+   Shifts each bit in the value of the expression on the LHS right by the number of 
+   places given by the value of the expression on the RHS. Additionally, when the result 
+   of this operator is not used and the LHS contains a variable, that variable will have 
+   its value shifted. It probably helps if you understand binary numbers when you use 
+   this operator, although you can use it as if each position you shift by is dividing by 
+   an extra factor of 2.
+
+  @Example
+  
+@Code  
+  d=16 >> 1 ; The value of d will be 8. 16=%10000, 8=%1000
+  e.w=%10101010 >> 4 ; The value of e will be %1010. %10101010=170, %1010=10. Bits shifted out of the right edge of the result are lost (which is why you do not see an equal division by 16)
+  f.b=-128 >> 1 ; The value of f will be -64. -128=%10000000, -64=%11000000. When shifting to the right, the most significant bit is kept as it is.
+@EndCode  
+
+
+@Section Operator % (Modulo)
+
+  Returns the remainder of the RHS by LHS integer division.
+
+  @Example
+
+@Code
+  a=16 % 2 ; The value of a will be 0 as 16/2 = 8 (no remainder)
+  b=17 % 2 ; The value of a will be 1 as 17/2 = 8*2+1 (1 is remaining)
+@EndCode
+
+@FormatEndIf
+
+@Section Operators shorthands
+
+  Every math operators can be used in a shorthand form.
+
+@Example
+@Code
+  Value + 1  ; The same as: Value = Value + 1
+  Value * 2  ; The same as: Value = Value * 2
+  Value << 1 ; The same as: Value = Value << 1
+@EndCode
+  
+  Note: this can lead to 'unexpected' results is some rare cases, if the assignment is modified before the affection.
+
+@Example
+@Code
+  Dim MyArray(10)
+  MyArray(Random(10)) + 1 ; The same as: MyArray(Random(10)) = MyArray(Random(10)) + 1, but here Random() won't return the same value for each call.
+@EndCode
+
+@Section Operators priorities
+
+@FixedFont
+  Priority Level |     Operators
+  ---------------+---------------------------
+       8 (high)  |         ~, - (negative)
+       7         |      <<, >>, %, !
+       6         |         |, &
+       5         |         *, /
+       4         |         +, - (substraction)
+       3         | >, >=, =>, <, <=, =<, =, <>
+       2         |          Not
+       1 (low)   |      And, Or, XOr
+@EndFixedFont
+
+@Section Structured types
+
+  Build structured types, via the @Keyword Structure keyword. More information 
+  can be found in the @ReferenceLink "structures" "structures chapter".
+  
+@Section Pointer types
+
+  Pointers are declared with a '*' in front of the variable name. More information 
+  can be found in the @ReferenceLink "memory" "pointers chapter".
+
+@Section Special information about Floats and Doubles
+
+  A floating-point number is stored in a way that makes the binary point "float" around the number,
+  so that it is possible to store very large numbers or very small numbers. However, you cannot 
+  store very large numbers with very high accuracy (big and small numbers at the same time, so to speak). 
+  @LineBreak
+  @LineBreak
+  Another limitation of floating-point numbers is that they still work in binary, so they can only store 
+  numbers exactly which can be made up of multiples and divisions of 2. This is especially important to 
+  realize when you try to print a floating-point number in a human readable form (or when performing 
+  operations on that float) - storing numbers like 0.5 or 0.125 is easy because they are divisions of 
+  2. Storing numbers such as 0.11 are more difficult and may be stored as a number such as 0.10999999. 
+  You can try to display to only a limited range of digits, but do not be surprised if the number displays 
+  different from what you would expect!
+  @LineBreak
+  @LineBreak
+  This applies to floating-point numbers in general, not just those in PureBasic.
+  @LineBreak
+  @LineBreak
+  Like the name says the doubles have double-precision (64-bit) compared to the single-precision of
+  the floats (32-bit). So if you need more accurate results with floating-point numbers use doubles instead
+  of floats.
+  @LineBreak
+  @LineBreak
+  The exact range of values, which can be used with floats and doubles to get correct results from arithmetic 
+  operations, looks as follows: 
+  @Indent
+    Float: +- 1.175494e-38 till +- 3.402823e+38  @LineBreak
+    Double: +- 2.2250738585072013e-308 till +- 1.7976931348623157e+308 
+  @EndIndent
+  More information about the 'IEEE 754' standard you can get on 
+  @InternetLink "http://en.wikipedia.org/wiki/IEEE_754" "Wikipedia".

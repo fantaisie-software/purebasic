@@ -1,0 +1,156 @@
+@Title Gestion des fichiers
+
+  Le menu "Fichier" permet de réaliser les opérations de base tel que l'ouverture
+  ou l'enregistrement des fichiers.
+@LineBreak
+@LineBreak
+  Il est possible d'éditer plusieurs codes sources
+  simultanément, et de passer de l'un à l'autre grâce aux onglets situés sous la
+  barre d'outils. Par défaut, les raccourcis claviers Ctrl+Tab et Ctrl+Shift+Tab
+  permettent de passer au fichier suivant (ou précédent).
+
+@LineBreak
+@LineBreak
+  L'IDE permet l'édition de fichiers texte qui ne sont pas du code source. Dans ce mode "texte brut", 
+  les caractéristiques liées au code tels que la coloration synthaxique, la correction des cas, 
+  l'auto-completion automatique sont désactivées. Lors de l'enregistrement de ces fichiers, l'IDE 
+  n'ajoutera pas ses paramètres à la fin du fichier, même si cela est configuré pour les fichiers 
+  de code dans les @ReferenceLink "ide_preferences" "préférences". Un fichier qui contient du code 
+  ou non dépend de son extension. Les extensions  de fichiers standard PureBasic (pb, pbi et pbf) 
+  sont reconnues comme des fichiers contenant du code. Plusieurs extensions de fichier peuvent être 
+  reconnues comme des fichiers de code en les configurant dans la section "Editeur" 
+  des @ReferenceLink "ide_preferences" "Préférences".
+
+@LineBreak
+@LineBreak
+
+@Section Contenu du menu "Fichier"
+
+@Image ide_menu_file.png
+
+@Bold Nouveau
+@LineBreak
+  Créé un nouveau code source vide.
+
+@LineBreak
+@LineBreak
+
+@Bold Ouvrir 
+@LineBreak
+  Ouvre un code source existant pour l'éditer.
+@LineBreak
+@LineBreak
+  Les fichiers de type 'texte' seront tous chargés dans la zone d'édition. Il est aussi possible
+  d'ouvrir des fichiers binaires et dans ce cas ils seront ouverts par le
+  @ReferenceLink "ide_tools" "visualisateur de fichier" interne.
+
+@LineBreak
+@LineBreak
+
+@Bold Enregistrer
+@LineBreak
+  Enregistre le source en cours d'édition sur le disque. S'il n'a pas encore été enregistré,
+  son nom et son emplacement devront être définis à l'aide de la fenêtre de dialogue, sinon le code
+  sera enregistré dans le fichier précédent.
+
+@LineBreak
+@LineBreak
+
+@Bold "Enregistrer sous"
+@LineBreak
+  Enregistre le code source en cours d'édition à un emplacement différent. Une boîte de dialogue
+  demandant le nom du nouveau fichier sera affichée. L'ancien code source restera inchangé.
+
+@LineBreak
+@LineBreak
+
+@Bold "Enregistrer tout"
+@LineBreak
+  Enregistre tous les codes source ouverts.
+
+@LineBreak
+@LineBreak
+
+@Bold Recharger
+@LineBreak
+  Recharge le fichier courant à partir du disque. Cela annulera tous les changements non sauvegardés.
+
+@LineBreak
+@LineBreak
+
+@Bold Fermer
+@LineBreak
+  Ferme le code source en cours d'édition. Si c'était le dernier fichier, l'IDE affichera un nouveau fichier
+  vide.
+
+@LineBreak
+@LineBreak
+
+@Bold "Fermer tout"
+@LineBreak
+  Ferme tous les codes source en cours d'édition. L'IDE affichera un nouveau fichier vide.
+
+@LineBreak
+@LineBreak
+
+
+@Bold "Voir changements" 
+@LineBreak
+  Affiche les modifications qui ont été apportées au code source courant par rapport à la 
+  version qui existe sur le disque dur.
+
+@LineBreak
+@LineBreak
+
+@Bold "Format du fichier"
+@LineBreak
+  Dans ce sous-menu, il est possible de sélectionner le format d'encodage ainsi que les terminaisons de lignes
+  du fichier courant. L'IDE supporte les fichiers textes ASCII ou UTF-8. Les terminaisons de ligne supportées sont:
+  Windows (CRLF), Linux/Unix (LF) et MacOSX (CR). Les paramètres par défaut appliqués lors de la création
+  d'un nouveau fichier peuvent être changés dans les @ReferenceLink "ide_preferences" "préférences" de l'IDE.
+
+@LineBreak
+@LineBreak
+
+@Bold "Préférences"
+@LineBreak
+  Cette fenêtre permet de contrôler le look et le comportement de l'IDE pour qu'il s'adapte aux
+  besoins de chacun. Pour une description détaillée des fonctions disponibles, voir
+  @referencelink ide_preferences "Configurer l'IDE".
+
+@LineBreak
+@LineBreak
+
+@Bold "Historique de session"
+@LineBreak
+  L'historique de session est un outil puissant qui enregistre régulièrement les 
+  modifications apportées aux fichiers ouverts dans l'IDE, dans une base de données. 
+  Une session est créée lors du lancement de l'IDE, et est fermée lorsque l'IDE se ferme. 
+  Cette option est utile pour revenir à une version antérieure d'un fichier ou pour 
+  retrouver un fichier supprimé ou corrompu. C'est un peu comme un outil de sauvegarde des 
+  sources mais limité dans le temps (par défaut, un mois d'enregistrement). Il n'est pas 
+  destiné à remplacer un vrai système de gestion des sources comme SVN ou GIT. Le code 
+  source sera stocké sans chiffrement, donc si vous travaillez sur un code source sensible, 
+  assurez-vous d'avoir ce fichier de base de données dans un endroit sûr, ou désactiver 
+  cette fonction.@LineBreak
+  Pour configurer l'outil historique de la session, voir @ReferenceLink "ide_preferences" "préférences".
+  
+@Image ide_sessionhistory.png
+
+@LineBreak
+@LineBreak
+
+@Bold "Fichiers récents"
+@LineBreak
+  Le sous-menu affiche la liste des dix derniers fichiers ouverts. Sélectionner un fichier dans le
+  sous-menu l'ouvrira à nouveau.
+
+@LineBreak
+@LineBreak
+
+@Bold Quitter
+@LineBreak
+  Cela permet bien entendu de quitter l'IDE. Si un ou plusieurs fichiers ne sont pas 
+  enregistrés, une confirmation pour chacun des fichiers sera demandée.
+
+

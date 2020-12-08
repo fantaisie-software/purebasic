@@ -10,7 +10,7 @@
 ; selection, scroll position and open nodes stay consistent
 ;
 ; For this, we store the ProjectFiles() pointer in the GadgetItemData
-; Spechal values for the GadgetItemData:
+; Special values for the GadgetItemData:
 ;
 #ProjectPanel_Directory    = 0
 #ProjectPanel_InternalBase = -1

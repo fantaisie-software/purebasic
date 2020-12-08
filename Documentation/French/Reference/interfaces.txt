@@ -1,0 +1,108 @@
+@Title Interfaces
+
+@Syntax
+
+  @Keyword Interface <nom> [@Keyword Extends <nom>]
+    <Methode[.<type>]()>
+  ...
+  @Keyword EndInterface
+
+@Description
+
+  Les Interfaces sont utilisées pour accéder facilement aux modules 'Orientés Objets' tels que les 
+  bibliothèques COM (Component Object Model) ou DirectX. Ce type de bibliothèques sont de plus en 
+  plus courantes sous Windows et les interfaces permettent une exploitation de ces fonctions sans 
+  impacts de performances. Les interfaces jettent aussi les bases pour une 'Programmation Orientée 
+  Object' (OOP en anglais) avec PureBasic mais de solides connaissances sont nécessaires pour en tirer parti 
+  (les interfaces n'ont pas été conçues pour ajouter une couche objet à PureBasic mais plutôt pour 
+  accéder facilement à des objets dejà conçus). La plupart des interfaces utilisées sous Windows sont 
+  déjà incluses dans les fichiers résidents 'Interfaces.res' et 'InterfaceDX.res', ce qui rend leur 
+  utilisation immédiate. 
+  @LineBreak
+  @LineBreak
+  Le paramètre optionnel @Keyword Extends permet d'étendre une interface sans avoir à dupliquer ses 
+  fonctions (ces 'fonctions' sont aussi communément appelées 'méthodes' dans les autres langages objet 
+  tels que C++ ou Java). Toutes les fonctions contenues dans l'interface étendue seront disponibles 
+  dans la nouvelle interface. C'est utile pour un héritage simple d'objets. 
+  @LineBreak
+  @LineBreak
+  @ReferenceLink "dim" "les tableaux (Arrays)" peuvent être passés en paramètres à l'aide du mot clé @Keyword Array,
+  @ReferenceLink "newlist" "Les listes" en utilisant le mot clé @Keyword List et 
+  @ReferenceLink "newmap" "les maps" en utilisant le mot clé @Keyword Map.
+  @LineBreak
+  @LineBreak
+  Un type de retour peut être défini dans la déclaration de l'interface en ajoutant le type après la méthode.
+  @LineBreak
+  @LineBreak  
+  La commande @ReferenceLink "compilerfunctions" SizeOf peut être utilisée avec les interfaces pour déterminer la taille d'une interface 
+  et la commande @ReferenceLink "compilerfunctions" OffsetOf peut être utilisée pour déterminer l'index d'une fonction dans une interface. 
+  @LineBreak
+  @LineBreak
+  Les @ReferenceLink "pseudotypes" "pseudotypes" peuvent être utilisés pour les paramètres des fonctions
+  de l'interface, mais pas pour le type de retour.  
+  @LineBreak
+  @LineBreak
+  Note: Les concepts objets sont principalement appropriés pour les développeurs expérimentés et il n'est pas 
+  nécessaire de les maîtriser ou même les comprendre pour réaliser des applications ou jeux professionnels.
+
+  @Example Appel à une fonction objet
+
+@Code
+  ; Nous allons considérer que vous voulez accéder à un objet externe (à l'intérieur d'une DLL par exemple).
+  ; Premièrement, déclarez son interface.
+  ;
+  Interface MonObjet
+    Deplacer(x,y)
+    DeplacerF(x.f,y.f)
+    Detruire()
+  EndInterface
+  
+  ; Si 'CreationObjet()' est la fonction qui crée l'objet, à partir de la DLL,
+  ; dont l'interface vient d'être définie...
+  ; Alors créons le premier objet.
+  ;
+  Objet1.MonObjet = CreationObjet()
+  
+  ; Et le deuxième.
+  ;
+  Objet2.MonObjet = CreationObjet()
+  
+  ; Ensuite, les fonctions qui viennent d'être définies, peuvent être utilisées, 
+  ; afin d'agir sur l'objet désiré.
+  
+  Objet1\Deplacer(10, 20)
+  Objet1\Detruire()
+  
+  Objet2\DeplacerF(10.5, 20.1)
+  Objet2\Detruire()
+@EndCode
+
+  @Example Utilisation de 'Extends'
+
+@Code
+  ; Définition d'une interface générique 'Cube'
+  ;
+  Interface Cube
+    EnvoyerPosition()
+    DefinirPosition(x)
+    EnvoyerLargeur()
+    DefinirLargeur(Largeur)
+  EndInterface
+  
+  Interface CubeColorer Extends Cube
+    EnvoyerCouleur()
+    DefinirCouleur(Couleur)
+  EndInterface
+  
+  Interface CubeTexturer Extends Cube
+    EnvoyerTexture()
+    DefinirTexture(TextureID)
+  EndInterface
+  
+  ; Nous avons maintenant 3 interfaces pour chaque objet:
+  ;
+  ; - 'Cube' a les fonctions Envoyer/DefinirPosition() et Envoyer/DefinirLargeur()
+  ; - 'CubeColorer' a les fonctions Envoyer/DefinirPosition(), Envoyer/DefinirLargeur() et Envoyer/DefinirCouleur() 
+  ; - 'CubeTexturer' a les fonctions Envoyer/DefinirPosition(),Envoyer/DefinirLargeur() et Envoyer/DefinirTexture()
+  ;
+@EndCode

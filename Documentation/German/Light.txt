@@ -1,0 +1,626 @@
+;
+;     Light library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Light
+
+@Overview
+  Lichter (englisch "Lights") sind wesentliche Bestandteile, um realistisch aussehende Welten zu
+  erstellen. Wie bei echtem Licht ist es möglich, viele Attribute dieses Lichts wie
+  Farbe, Spiegel-Farbe, Richtung und mehr festzulegen. @@InitEngine3D 
+  muss erfolgreich aufgerufen worden sein, bevor die "Licht"-Befehle benutzt werden.
+
+@CommandList
+
+@ExampleFile All Light.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CopyLight(#Light, #NewLight)
+
+@Description
+  Erstellt ein neues Licht als eine exakte Kopie des angegebenen Lichts.
+  Alle Licht-Attribute, wie Farbe, Spiegel-Farbe, Position etc., werden dabei mit
+  dupliziert.
+  
+@Parameter "#Light"
+  Das zu kopierende Licht.
+  
+@Parameter "#NewLight"
+  Eine Nummer zum Identifizieren des neuen Lichts.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Licht erfolgreich dupliziert wurde, andernfalls Null.
+  Wenn @#PB_Any als #NewLight Parameter verwendet wurde, dann wird im Erfolgsfall die
+  generierte Nummer zurückgegeben.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateLight(#Light, Farbe [, x, y, z [, Flags]])
+
+@Description
+  Erstellt ein neues Licht '#Light' mit der angegebenen Farbe innerhalb der aktuellen
+  Welt. 
+  
+@Parameter "#Light"
+  Eine Nummer zum Identifizieren des Lichts.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
+  automatisch zu generieren.
+
+@Parameter "Farbe"
+  Die Farbe des neuen Lichts. Gültige Farben können einfach mit dem @@RGB Befehl erstellt werden.
+  
+@OptionalParameter "x, y, z"
+  Die anfängliche absolute Position des Lichts. Wenn diese Parameter weggelassen werden,
+  dann wird das Licht an der Position "0, 0, 0" erstellt.
+
+@OptionalParameter "Flags"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Light_Point       : Erstellt ein Punktlicht (das Licht wird in alle Richtungen ausgestrahlt) (Standard).
+  @#PB_Light_Directional : Erstellt ein Richtungslicht.
+  @#PB_Light_Spot        : Erstellt ein Spot-artiges Licht. @@SpotLightRange kann verwendet werden, um das Verhalten des Lichts zu ändern.
+@EndFixedFont
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Licht erfolgreich erstellt wurde, andernfalls Null.
+  Wenn @#PB_Any als #Light Parameter verwendet wurde, dann wird im Erfolgsfall die
+  generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  CreateLight(0, RGB(255,0,0))   ; Erstellt ein rotes Licht
+  
+  CreateLight(1, RGB(0,255,0),  0, 100.7, 50)  ; Erstellt ein grünes Licht, an der Position (0, 100.7, 50)
+@EndCode
+
+@SeeAlso
+  @@FreeLight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeLight(#Light)
+
+@Description
+  Gibt das angegebene Licht '#Light' frei. Sein gesamter zugehöriger Speicherplatz wird freigegeben
+  und an dieser Stelle darf das Objekt nicht mehr verwendet werden.
+
+@Parameter "#Light"
+  Das freizugebende Licht. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Lichter freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Alle verbleibenden Lichter werden automatisch freigegeben, wenn das Programm endet.
+
+@SeeAlso
+  @@CreateLight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideLight(#Light, Status)
+
+@Description
+  Versteckt oder zeigt das angegebene Licht.
+  
+@Parameter "#Light"
+  Das zu verwendende Licht.
+  
+@Parameter "Status"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#True : das '#Light' wird versteckt
+  @#False: das '#Light' wird gezeigt
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsLight(#Light)
+
+@Description
+  Überprüft, ob das angegebene Licht gültig und ein korrekt initialisiertes Licht ist.
+
+@Parameter "#Light"
+  Das zu überprüfende Licht.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Licht gültig ist, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. 
+  Dies ist der korrekte Weg, um sicherzugehen, dass ein Licht fertig zur Benutzung ist.
+
+@SeeAlso
+  @@CreateLight
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetLightColor(#Light, Typ)
+
+@Description
+  Ermittelt den Farb-Wert des angegebenen Lichts.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+  
+@Parameter "Typ"
+  Der zu ermittelnde Farbtyp. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Light_DiffuseColor : ermittelt den diffusen Farbwert.
+  @#PB_Light_SpecularColor: ermittelt den Glanz-/Spiegel-Farbwert.
+@EndFixedFont
+    
+@ReturnValue
+  Gibt den RGB-Farbwert des angegebenen Lichts zurück.
+
+@SeeAlso
+  @@SetLightColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetLightColor(#Light, Typ, Farbe)
+
+@Description
+  Ändert den Farbwert des Lichts.
+  
+@Parameter "#Light"
+  Das zu verwendende Licht.
+  
+@Parameter "Typ"
+  Der zu ändernde Farbtyp. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Light_DiffuseColor : ändert die diffuse Farbe.
+  @#PB_Light_SpecularColor: ändert die Glanz-/Spiegelfarbe.
+@EndFixedFont
+    
+@Parameter "Farbe"
+  Der neue RGB-Farbwert. Dieser kann einfach mit @@RGB erstellt werden.
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetLightColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SpotLightRange(#Light, Innenwinkel, Außenwinkel [, Abnahme])
+
+@Description
+  Ändert das Verhalten des Spot-Lichts '#Light'. Das Licht muss mittels des
+  @#PB_Light_Spot Flag erstellt werden.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+  
+@Parameter "Innenwinkel"
+  Innerer Winkel des Lichts.
+
+@Parameter "Außenwinkel"
+  Äußerer Winkel des Lichts.
+  
+@Parameter "Abnahme"
+  Abnahme des Lichts über die Entfernung. Ein Wert von 1 bedeutet eine lineare Abnahme,
+  ein Wert kleiner als 1 bedeutet eine langsamere Abnahme, während ein Wert größer als
+  1 eine schnellere Abnahme bedeutet.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LightLookAt(#Light, x, y, z)
+
+@Description
+  Ändert die Orientierung des Lichts '#Light' innerhalb der Welt, um in Richtung des
+  angegebenen x, y, z Punkts zu zeigen.
+  
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@Parameter "x, y, z"
+  Der Punkt, auf den das Licht zeigen soll.
+
+@NoReturnValue  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableLightShadows(#Light, Status)
+
+@Description
+  Deaktiviert oder aktiviert den Schattenwurf des Lichts.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@Parameter "Status"
+  Der neue Status des Licht-Schattenwurfs (englisch "light shadow casting").
+  Wird dieser auf @#True gesetzt, wird der Schattenwurf des Lichts ausgeschalten.
+  Wird er auf @#False gesetzt, wird er aktiviert.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveLight(#Light, x, y, z [, Modus])
+
+@Description
+  Bewegt das angegebene Licht.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@Parameter "x, y, z"  
+  Die neue Position des Lichts.
+
+@OptionalParameter "Modus"
+  Der Bewegungsmodus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Bewegung, ausgehend von der aktuellen Licht-Position (Standard).
+  @#PB_Absolute: absolute Bewegung an die angegebene Position.
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_Local : lokale Bewegung.
+  @#PB_Parent: Bewegung relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Bewegung relativ zur Welt.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@RotateLight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LightDirection(#Light, x, y, z)
+
+@Description
+  Ändert die Richtung des Lichts. Die Position des Lichts wird dabei nicht verändert.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@Parameter "x, y, z"
+  Der Richtungsvektor (normalerweise Werte zwischen -1.0 und 1.0 - wenn nicht, werden sie automatisch normalisiert).
+
+@NoReturnValue
+
+@SeeAlso
+  @@LightDirectionX, @@LightDirectionY, @@LightDirectionZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LightDirectionX(#Light [, Modus])
+
+@Description
+  Gibt den 'x' Richtungsvektor des Lichts zurück.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@OptionalParameter "Modus"
+  Der Modus, nach dem der 'x' Richtungsvektor ermittelt wird. Dies kann einer der
+  folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt den absoluten 'x' Richtungsvektor des Lichts in der Welt (Standard).
+  @#PB_Relative: ermittelt den 'x' Richtungsvektor des Lichts relativ zu seinem übergeordneten ("parent").
+@EndFixedFont
+
+@ReturnValue
+  Gibt den 'x' Richtungsvektor des Lichts zurück. Dieser Wert liegt immer zwischen -1.0
+  und 1.0.
+
+@SeeAlso
+  @@LightDirectionY, @@LightDirectionZ, @@LightDirection
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LightDirectionY(#Light [, Modus])
+
+@Description
+  Gibt den 'y' Richtungsvektor des Lichts zurück.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@OptionalParameter "Modus"
+  Der Modus, nach dem der 'y' Richtungsvektor ermittelt wird. Dies kann einer der
+  folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt den absoluten 'y' Richtungsvektor des Lichts in der Welt (Standard).
+  @#PB_Relative: ermittelt den 'y' Richtungsvektor des Lichts relativ zu seinem übergeordneten ("parent").
+@EndFixedFont
+
+@ReturnValue
+  Gibt den 'y' Richtungsvektor des Lichts zurück. Dieser Wert liegt immer zwischen -1.0
+  und 1.0.
+
+@SeeAlso
+  @@LightDirectionX, @@LightDirectionZ, @@LightDirection
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LightDirectionZ(#Light [, Modus])
+
+@Description
+  Gibt den 'z' Richtungsvektor des Lichts zurück.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@OptionalParameter "Modus"
+  Der Modus, nach dem der 'z' Richtungsvektor ermittelt wird. Dies kann einer der
+  folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt den absoluten 'z' Richtungsvektor des Lichts in der Welt (Standard).
+  @#PB_Relative: ermittelt den 'z' Richtungsvektor des Lichts relativ zu seinem übergeordneten ("parent").
+@EndFixedFont
+
+@ReturnValue
+  Gibt den 'z' Richtungsvektor des Lichts zurück. Dieser Wert liegt immer zwischen -1.0
+  und 1.0.
+
+@SeeAlso
+  @@LightDirectionX, @@LightDirectionY, @@LightDirection
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LightX(#Light [, Modus])
+
+@Description
+  Gibt die aktuelle Position des Lichts in der Welt zurück.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@OptionalParameter "Modus"
+  Der Modus, nach dem die 'x' Position ermittelt wird. Dies kann einer der
+  folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'x' Position des Lichts in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'x' Position des Lichts relativ zu seinem übergeordneten ("parent").
+@EndFixedFont
+
+@ReturnValue
+  Die 'x' Position des Lichts.
+  
+@SeeAlso
+  @@LightY, @@LightZ, @@MoveLight
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LightY(#Light [, Modus])
+
+@Description
+  Gibt die aktuelle Position des Lichts in der Welt zurück.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@OptionalParameter "Modus"
+  Der Modus, nach dem die 'y' Position ermittelt wird. Dies kann einer der
+  folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'y' Position des Lichts in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'y' Position des Lichts relativ zu seinem übergeordneten ("parent").
+@EndFixedFont
+
+@ReturnValue
+  Die 'y' Position des Lichts.
+  
+@SeeAlso
+  @@LightX, @@LightZ, @@MoveLight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LightZ(#Light [, Modus])
+
+@Description
+  Gibt die aktuelle Position des Lichts in der Welt zurück.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@OptionalParameter "Modus"
+  Der Modus, nach dem die 'z' Position ermittelt wird. Dies kann einer der
+  folgenden Werte sein:
+@FixedFont
+  @#PB_Absolute: ermittelt die absolute 'z' Position des Lichts in der Welt (Standard).
+  @#PB_Relative: ermittelt die 'z' Position des Lichts relativ zu seinem übergeordneten ("parent").
+@EndFixedFont
+
+@ReturnValue
+  Die 'z' Position des Lichts.
+
+@SeeAlso
+  @@LightX, @@LightY, @@MoveLight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LightAttenuation(#Light, Reichweite, Abschwächung)
+
+@Description
+  Ändert die Abschwächung (englisch "Attenuation") des Lichts.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@Parameter "Reichweite"
+  Die Reichweite bzw. den Bereich des Lichts (in Welt-Einheiten), über den hinaus
+  sich das Licht nicht mehr auf die Welt auswirkt.
+
+@Parameter "Abschwächung"
+  Die globale Abschwächung des Lichts. Ein Wert von 0.0 bedeutet keine globale Abschwächung
+  bzw. Dämpfung (es wird sich abhängig von der Reichweite trotzdem abschwächen).
+  Dies kann verwendet werden, um die Helligkeit des Lichts einzustellen.
+
+@NoReturnValue
+
+@SeeAlso
+  @@SetLightColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RotateLight(#Light, x, y, z [, Modus])
+
+@Description
+  Rotiert bzw. dreht das #Light entsprechend den x,y,z Winkel-Werten.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@Parameter "x, y, z"  
+  Die neue Rotation, welche auf das Licht angewandt werden soll.
+  Die Werte werden in Grad angegeben, mit Werten zwischen 0 und 360.
+
+@OptionalParameter "Modus"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @ConstantColor "PB_Absolute": absolute Rotation (Standard).
+  @ConstantColor "PB_Relative": relative Rotation in Abhängigkeit von der vorherigen Drehung des Lichts.
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LightRoll(#Light [, Modus])
+
+@Description
+  Ermittelt den Roll-Wert (englisch "Roll") des Lichts.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@OptionalParameter "Modus"
+  Der Modus, um den Roll-Wert zu ermitteln. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#True : Der Roll-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateLight
+          verwendet werden, um wieder die gleiche Ausrichtung zu erhalten (Standard).
+  @#False: Der Roll-Wert wird bereinigt/justiert, womit er erneut mit @@RotateLight verwendet
+          werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+@EndFixedFont  
+
+@ReturnValue
+  Der aktuelle Roll-Wert des Lichts.
+
+@SeeAlso
+  @@LightYaw, @@LightPitch
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LightPitch(#Light [, Modus])
+
+@Description
+  Ermittelt den Nick-Wert (englisch "Pitch") des Lichts.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@OptionalParameter "Modus"
+  Der Modus, um den Nick-Wert zu ermitteln. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#True : Der Nick-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateLight
+          verwendet werden, um wieder die gleiche Ausrichtung zu erhalten (Standard).
+  @#False: Der Nick-Wert wird bereinigt/justiert, womit er erneut mit @@RotateLight verwendet
+          werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+@EndFixedFont  
+
+@ReturnValue
+  Der aktuelle Nick-Wert des Lichts.
+
+@SeeAlso
+  @@LightYaw, @@LightRoll
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LightYaw(#Light [, Modus])
+
+@Description
+  Ermittelt den Gier-Wert (englisch "Yaw") des Lichts.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@OptionalParameter "Modus"
+  Der Modus, um den Gier-Wert zu ermitteln. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#True : Der Gier-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateLight
+          verwendet werden, um wieder die gleiche Ausrichtung zu erhalten (Standard).
+  @#False: Der Gier-Wert wird bereinigt/justiert, womit er erneut mit @@RotateLight verwendet
+          werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+@EndFixedFont  
+
+@ReturnValue
+  Der aktuelle Gier-Wert des Lichts.
+
+@SeeAlso
+  @@LightPitch, @@LightRoll
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LightID = LightID(#Light)
+
+@Description
+  Gibt den eindeutigen System-Bezeichner (ID) des Lichts zurück.
+
+@Parameter "#Light"
+  Das zu verwendende Licht.
+
+@ReturnValue
+  Gibt den eindeutigen System-Bezeichner (ID) des Lichts zurück.
+
+@SupportedOS

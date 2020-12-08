@@ -1,0 +1,57 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Keyboard example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Debug "Use the arrow keys to move the sprite"
+
+OpenScreen(800, 600, 32, "Test")
+
+Procedure RenderFrame()
+  Static x, y
+  
+  ClearScreen(RGB(0, 0, 0))
+  
+  If ExamineKeyboard()
+    If KeyboardPushed(#PB_Key_Left)
+      x-2
+    ElseIf KeyboardPushed(#PB_Key_Right)
+      x+2
+    EndIf
+    
+    If KeyboardPushed(#PB_Key_Up)
+      y-2
+    ElseIf KeyboardPushed(#PB_Key_Down)
+      y+2
+    EndIf
+    
+    DisplaySprite(0, x, y)
+  EndIf
+  
+  FlipBuffers(); // continue the rendering
+EndProcedure
+
+Procedure Loading(Type, Filename$, ObjectId)
+  Static NbLoadedElements
+  
+  NbLoadedElements+1
+  If NbLoadedElements = 1 ; The loading of all images and sounds is finished, we can start the rendering
+    FlipBuffers()         ; // start the rendering
+  EndIf
+EndProcedure
+
+Procedure LoadingError(Type, Filename$, ObjectId)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loading())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+
+LoadSprite(0, "Data/Spider.png")

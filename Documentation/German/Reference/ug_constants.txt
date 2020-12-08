@@ -1,0 +1,46 @@
+@Title Einsteiger-Kapitel - Konstanten
+
+Zusätzlich zu @ReferenceLink "variables" "Variablen" bietet PureBasic auch eine Methode
+zum Definieren von @ReferenceLink "general_rules" "Konstanten". Eigentlich bietet es
+sogar mehrere. Wir werden jetzt einen kurzen Blick darauf werfen.
+
+Vordefinierte Konstanten - durch PureBasic selbst bereitgestellt (alle beginnen 
+mit @ConstantColor "#PB_"), oder aus der API des Betriebssystems (OS). Der @ReferenceLink "ide_tools" "Strukturenanzeiger"
+der IDE verfügt über eine Werkzeugtafel (Panel), welche alle vordefinierten Konstanten anzeigt.
+
+Anwender-definierte Konstanten - durch das Definieren eines Konstantennamens mit dem Vorsatz #
+können Sie Ihre eigenen Konstanten bereitstellen, um den Code besser lesbar zu machen.
+@Code
+  #MyConstant1 = 10
+  #MyConstant2 = "Hello, World!"
+@EndCode
+
+@ReferenceLink "enumerations" "Enumerations" (Aufzählungen) – PureBasic wird innerhalb einer
+Enumeration automatisch eine Reihe von Konstanten fortlaufend nummerieren. Standardmäßig
+beginnen solche Aufzählungen bei Null - aber dies kann wenn nötig auch geändert werden.
+
+@Code
+  Enumeration
+    #MyConstantA
+    #MyConstantB
+    #MyConstantC
+  EndEnumeration
+  
+  Enumeration 10 Step 5
+    #MyConstantD
+    #MyConstantE
+    #MyConstantF
+  EndEnumeration
+  
+  Debug #MyConstantA   ; wird 0 sein
+  Debug #MyConstantB   ; wird 1 sein
+  Debug #MyConstantC   ; wird 2 sein
+  
+  Debug #MyConstantD   ; wird 10 sein
+  Debug #MyConstantE   ; wird 15 sein
+  Debug #MyConstantF   ; wird 20 sein
+@EndCode
+
+
+@Section Einsteiger-Kapitel Navigation
+@ReferenceLink "ug_variables" "< Vorheriges: Variablen" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_decisions" "Nächstes: Entscheidungen & Bedingungen >"

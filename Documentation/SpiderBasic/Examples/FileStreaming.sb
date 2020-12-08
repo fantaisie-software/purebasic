@@ -1,0 +1,69 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - File streaming example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Enumeration
+  #SelectFileGadget
+  #ProgressGadget
+EndEnumeration
+
+#ChunkSize = 1024 * 1024 ; 1 MB chunk
+
+Global *Buffer = AllocateMemory(#ChunkSize) ; Allocate a global memory buffer to avoid realloc
+
+Procedure ReadCallback(Status, Filename$, File, Size)
+  If Status = #PB_Status_Loaded
+    ; Read all data into the memory buffer
+    ReadData(0, *Buffer, 0, Size)
+    
+    ; Continue the fingerprint calculation
+    AddFingerprintBuffer(0, *Buffer, 0, Size)
+    
+    ; Update the progressbar
+    SetGadgetState(#ProgressGadget, (Loc(0) * 100) / Lof(0));
+    
+    If Not Eof(0)
+      FetchData(0, #ChunkSize) ; Continue the reading if the end of file hasn't be reach yet
+    Else
+      Debug "MD5 Result:" + FinishFingerprint(0) ; Display the MD5 result
+    EndIf
+    
+  ElseIf Status = #PB_Status_Error
+    Debug "Error when loading the file: " + Filename$
+  EndIf
+EndProcedure
+
+Procedure OpenFileRequesterCallback()
+  
+  ; Start the read the file, in stream mode
+  ;
+  If NextSelectedFile()
+    If ReadFile(0, SelectedFileID(), @ReadCallback(), #PB_LocalFile | #PB_File_Streaming)
+      
+      ; Initialize fingerprint calc
+      StartFingerprint(0, #PB_Cipher_MD5)
+      
+      ; Read the first chunk from the file
+      FetchData(0, #ChunkSize) 
+    EndIf 
+  EndIf
+EndProcedure
+
+Procedure ChooseFileEvent()
+  OpenFileRequester("*.txt", @OpenFileRequesterCallback())
+EndProcedure
+
+If OpenWindow(0, 0, 0, 300, 80, "MD5 calculator", #PB_Window_ScreenCentered)
+  ButtonGadget(#SelectFileGadget, 10, 10, 280, 25, "Please choose a (big) file for MD5 sum...")
+  TextGadget(#PB_Any, 10, 45, 60, 25, "Progress: ")
+  ProgressBarGadget(#ProgressGadget, 70, 45, 220, 25, 0, 100)
+  
+  BindGadgetEvent(0, @ChooseFileEvent())
+EndIf
+

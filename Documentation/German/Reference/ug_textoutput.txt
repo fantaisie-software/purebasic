@@ -1,0 +1,131 @@
+@Title Einsteiger-Kapitel - Anzeigen von Text-Ausgabe (Konsole)
+
+Im vorangegangenen Thema @ReferenceLink "ug_inputoutput" "Eingabe & Ausgabe" haben Sie
+bereits einen Überblick über die verschiedenen Möglichkeiten gesehen, Text an den
+Anwender auszugeben. Und im Thema @ReferenceLink "ug_data" "Speichern von Daten im Speicher"
+haben wir begonnen eine kleine Applikation zu erstellen, welche uns die Eigenschaften
+der Dateien in einem bestimmten Ordner im @ReferenceLink "debugger" "Debug-Fenster" anzeigt.
+@LineBreak
+@LineBreak
+Jetzt werden wir uns dieses Beispiel noch einmal ansehen, um den Abschnitt der
+Datenausgabe zu verbessern und damit einige Probleme bei der Verwendung des Debug-Fensters
+zu lösen. Erstens ist dieses Fenster nur in der PureBasic IDE verfügbar - was bedeutet, dass
+es nur für Programmierer nützlich ist; und zweitens gibt es uns nicht wirklich viel Kontrolle
+darüber, wie unsere Ausgabe aussieht.
+@LineBreak
+@LineBreak
+PureBasic bietet ein Textmodus-Fenster bzw. @Link "Console/OpenConsole" "Konsolen-Fenster",
+welches in kompilierten Programmen verwendet werden kann. Lassen Sie uns also unser Beispiel
+aktualisieren, um diese Ausgabemöglichkeit zu verwenden.
+@LineBreak
+@LineBreak
+Zuerst benötigen wir einige weitere Variablen, um dies ordentlich umzusetzen.
+Die Änderung der Variablen-Definitionen sieht wie folgt aus:
+@Code
+  ...
+  
+  ; Jetzt definieren wir eine neue Liste an Dateien unter Verwendung der zuvor spezifizierten
+  ; Struktur, und einige andere Variablen welche wir später verwenden werden.
+  NewList Files.FILEITEM()
+  Define.s Access, Attrib, Create, Folder, Modify, Msg, Num, Size
+  Define.l Result
+  
+  ...
+@EndCode
+
+Als nächstes entfernen wir den Ausgabe-Abschnitt im Code komplett, beginnend bei der
+Kommentar-Zeile:
+@Code
+  ; Wenn es einige Einträge in der Liste gibt, zeigen wir die Ergebnisse im Debug-Ausgabefenster.
+  ...
+@EndCode
+
+Und ersetzen diesen mit:
+@Code
+  ; Öffnen eines Textmodus-Fenster zum Anzeigen der Ergebnisse.
+  OpenConsole()
+  
+  ; Anzeigen eines Titels.
+  ; PrintN zeigt den angegebenen String im Konsolen-Fenster an und bewegt die
+  ;        Ausgabe-Position an den Anfang der darauffolgenden Zeile.
+  ; Space(n) gibt n Leerzeichen in einem String zurück.
+  PrintN("File list of " + Folder + ".")
+  PrintN("-------------------------------------------------------------------------------")
+  Msg = "Num Name"
+  PrintN(Msg)
+  Msg = Space(4) + "Create" + Space(5) + "Access" + Space(5) + "Modify" + Space(5) + "Attrib Size"
+  PrintN(Msg)
+  
+  ; Verkettete Liste durchlaufen, um die Ergebnisse anzuzeigen.
+  ForEach Files()
+
+    ; Tabellarisieren der Nummer des Listen-Index
+    ; ListIndex() gibt die aktuelle Position in der Liste, beginnend bei Null, zurück.
+    ; StrU wandelt eine Zahl ohne Vorzeichen in einen String.
+    ; RSet erweitert einen String auf eine angegebene Länge mit der notwendigen Anzahl
+    ; eines angegebenen Zeichens am Beginn.
+    ; Hier haben wir dies verwendet, um (mit zusätzlichen Leerzeichen) sicherzustellen,
+    ; dass alle Index-Nummern auf 3 Zeichen Länge erweitert sind.
+    Num = RSet(StrU(ListIndex(Files()) + 1), 3, " ")
+    
+    ; Eintrag-Nummer und Dateiname anzeigen.
+    Msg = Num + " " + Files()\Name
+    PrintN(Msg)
+    
+    ; Diese Zeilen konvertieren die drei Datumswerte in eine gebräuchlichere Ansicht.
+    Create = FormatDate("%dd/%mm/%yyyy", Files()\DateCreated)
+    Access = FormatDate("%dd/%mm/%yyyy", Files()\DateAccessed)
+    Modify = FormatDate("%dd/%mm/%yyyy", Files()\DateModified)
+    
+    ; Konvertiert die Dateigröße in einen String - genauso wie vorhin den Index-Wert,
+    ; lässt aber Platz für die maximale Größe eines Quad-Wertes.
+    Size = RSet(StrU(Files()\Size), 19)
+    
+    ; Konvertiert die Attribute vorerst in einen String.
+    Attrib = RSet(StrU(Files()\Attributes), 6, " ")
+    
+    ; Zeigt die Datei-Eigenschaften an.
+    Msg = Space(4) + Create + " " + Access + " " + Modify + " " + Attrib + " " + Size
+    PrintN(Msg)
+    
+    ; Anzeigen einer Leerzeile.
+    PrintN("")
+    
+  Next Files()
+  
+  ; Warten auf die Return-Taste, damit die Ergebnisse angesehen werden können, bevor das Fenster schließt.
+  PrintN("")
+  PrintN("Press return to exit")
+  Input()
+@EndCode
+
+Wenn alles gut geht, sollte die Ausgabe in einem Konsolenfenster in etwa so aussehen:
+@Code
+  File list of C:\Documents and Settings\user\.
+  -------------------------------------------------------------------------------
+  Num Name
+      Create     Access     Modify     Attrib Size
+    1 NTUSER.DAT
+      03/07/2008 04/04/2011 02/04/2011     34            18874368
+  
+    2 kunzip.dll
+      14/07/2008 04/04/2011 14/07/2008     32               18432
+  
+    3 ntuser.dat.LOG
+      03/07/2008 04/04/2011 04/04/2011     34                1024
+  
+    4 ntuser.ini
+      03/07/2008 02/04/2011 02/04/2011      6                 278
+  
+  Press return to exit
+@EndCode
+
+Diese Ausgabe ist von einem Windows XP System, spätere Versionen von Windows sowie Linux und
+Mac OSX werden natürlich andere Datei anzeigen.
+@LineBreak
+@Bold "Hinweis für Linux/MacOS:" Bitte darauf achten, dass Sie "Konsole" als Executable-Format in den
+@ReferenceLink "ide_compiler" "Compiler-Optionen" auswählen.
+
+
+@Section Einsteiger-Kapitel Navigation
+@ReferenceLink "ug_inputoutput" "< Vorheriges: Eingabe & Ausgabe" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_gui" "Nächstes: Erstellen einer grafischen Benutzeroberfläche (GUI) >"

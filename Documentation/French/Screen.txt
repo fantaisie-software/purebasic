@@ -1,0 +1,1131 @@
+;
+;     Screen library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Screen
+
+@Overview
+
+  Un Screen (écran) est une surface utilisée 
+  pour afficher du contenu qui requiert une 
+  accélération matérielle comme les 
+  @LibraryLink "Sprite" "sprites", ou 
+  @LibraryLink "Engine3D" "des objets et des 
+  mondes 3D". 
+  Un écran peut être créé soit dans une 
+  @LibraryLink "window" "fenêtre" standard, 
+  soit en plein écran.
+@LineBreak
+@LineBreak
+  @Bold "Windows": Par défaut, c'est DirectX9 
+  qui utilise l'accélération matérielle, si 
+  elle est disponible. 
+@LineBreak
+@LineBreak
+  Sous Windows, une version récente de 
+  DirectX 9  doit être installée (voir ici: 
+  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
+@LineBreak
+  En fonction des besoins, deux autres 
+  @ReferenceLink "ide_compiler" "sous-systèmes" 
+  sont également disponibles. Il s'agit de 
+  "OpenGL" et de "DirectX11". À utiliser dans 
+  le menu "Compilateur\Options du Compilateur
+  \Option de Compilation\Bibliothèque 
+  sous-système".
+@LineBreak
+@LineBreak
+  @Bold "Linux": OpenGL est utilisé pour 
+  gérer l'écran ce qui permet d'utiliser 
+  l'accélération matérielle.
+@LineBreak
+@LineBreak
+  @Bold "MacOS X": OpenGL est utilisé pour 
+  gérer l'écran ce qui permet d'utiliser 
+  l'accélération matérielle.
+
+@CommandList
+
+@ExampleFile All Sprite.pb
+@ExampleFile Linux Sprite.pb
+@ExampleFile All WindowedScreen.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ChangeGamma(IntensiteRouge, IntensiteVert, IntensiteBleu)
+
+@Description
+  Change la composante Gamma de l'écran en 
+  cours. 
+ 
+@Parameter "IntensiteRouge, IntensiteVert, IntensiteBleu"
+  Les nouvelles intensités. 
+  @LineBreak
+  @LineBreak
+  Les valeurs valides sont comprises 
+  entre 0 et 255.
+
+@NoReturnValue  
+ 
+@Remarks
+  ATTENTION : Cela ne fonctionne qu'en mode 
+  plein écran (pas en mode fenêtré).
+  @LineBreak  
+  @LineBreak    
+  L'intensité des canaux Rouge, Vert et 
+  Bleu peut être modifiée individuellement. 
+  @LineBreak    
+  @LineBreak
+  Cette fonction peut être utilisée pour 
+  faire des fondus enchaînés (fade in/fade 
+  out) en mode plein écran, des splashs de 
+  couleurs, etc. S'il ne fait rien, le 
+  matériel ne supporte pas cette fonction 
+  (Pas d'émulation prévue, en raison du 
+  nombre élevé d'opérations nécessaires à 
+  effectuer).
+  
+@Example   
+@Code
+ ;Initialisation du système d'affichage.
+  InitSprite()
+
+  ; Ouverture d'un écran 800*600 32 bits, noir par défaut
+  OpenScreen(800, 600, 32, "Sprite")
+
+  For i=0 To 255
+  ;Ecran jaune
+  ClearScreen(RGB(255,255,i))
+  ;Changement de la composante bleue et affichage du résultat dans le buffer
+  ChangeGamma(255, 255, i)
+  ;Inversion des buffers = affichage sur l'écran
+  FlipBuffers()  
+  Next i
+
+ ;Attendre 1 seconde
+  Delay(1000)
+
+ ;Fermer l'écran
+  CloseScreen() 
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearScreen(Couleur)
+
+@Description
+  Efface la totalité de l'écran avec la 
+  couleur spécifiée. 
+
+@Parameter "Couleur" 
+  La couleur qui remplira l'écran.
+  @LineBreak
+  @LineBreak
+  @@RGB  peut être utilisé pour obtenir une 
+  valeur de couleur valide.@LineBreak  
+  Un tableau avec les couleurs communes est 
+  disponible 
+  @ReferenceLink "colortable" "ici".
+
+@NoReturnValue
+
+@Remarks
+  ClearScreen() doit toujours être appelé 
+  en dehors d'un bloc @@StartDrawing : 
+  @@StopDrawing.
+
+@Example
+@Code
+ ;Initialisation du système d'affichage.
+  InitSprite()
+
+ ;Ouverture d'un écran 800*600 32 bits, noir par défaut
+  OpenScreen(800, 600, 32, "Sprite")
+
+ ; Attendre 3 secondes
+  Delay(3000) 
+
+ ; L'écran est noir pendant 3s
+
+ ; L'écran est rouge mais dans l'autre buffer 
+  ClearScreen(RGB(255,0,0))
+
+ ; Il faut inverser les buffers pour afficher l'écran rouge
+  FlipBuffers() 
+
+ ; Attendre 3 secondes
+  Delay(3000) 
+ ; L'écran est rouge pendant 1s 
+
+ ; Fermer l'écran
+  CloseScreen()  
+
+@EndCode  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseScreen()
+
+@Description
+  Ferme l'écran en cours.
+      
+@NoParameters
+
+@NoReturnValue
+
+@Remarks 
+  L'écran est fermé qu'il soit en mode 
+  fenêtré ou en mode plein écran.@LineBreak 
+  Après la fermeture d'un écran, tous les 
+  sprites doivent être rechargés car le 
+  format de l'écran a été perdu et sa 
+  mémoire vidéo libérée. @LineBreak 
+  Une application ou un jeu peut passer du
+  plein écran au mode fenêtré à la volée 
+  sans aucun problème.
+
+@Example
+@Code
+  CloseScreen()
+@EndCode
+
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen
+      
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FlipBuffers()
+
+@Description
+  Les deux tampons, celui de l'écran visible 
+  (Front) et celui de l'écran invisible 
+  (Back) sont interchangés.
+  La zone invisible est désormais visible 
+  et vice versa, ce qui permet de faire un 
+  effet de "double-buffering" et d'éviter 
+  le scintillement (flickering).
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  La fonction FlipBuffers() doit toujours 
+  être appelée en dehors d'un bloc 
+  @@StartDrawing : @@StopDrawing.
+@LineBreak
+@LineBreak
+  Un écran doit avoir été ouvert avec 
+  @@OpenScreen ou @@OpenWindowedScreen.
+  @LineBreak 
+  La manière dont les tampons sont 
+  interchangés (avec ou sans synchronisation) 
+  est fixé par @@OpenScreen ou 
+  @@OpenWindowedScreen.
+  
+@Example
+@Code
+ ;Initialisation du système d'affichage.
+InitSprite() 
+
+ ;Ouverture d'un écran 800*600 32 bits, noir par défaut
+OpenScreen(800, 600, 32, "Sprite")
+ ;Par défaut, les deux buffers sont remplis par un fond noir
+ ;Appelons-les : Buffer_NonAffiché et Buffer_Affiché
+ ;Buffer_Affiché = Fond noir / Buffer_NonAffiché = Fond noir
+
+Delay(1000) ; Attendre 1 seconde
+ ;L'écran est noir pendant 1s
+
+ ;ATTENTION : Toutes les actions 2D se font sur le Buffer_NonAffiché
+ClearScreen(RGB(255,0,0))
+ ;Buffer_Affiché = Fond noir / Buffer_NonAffiché = Fond rouge
+
+FlipBuffers() ; Il faut inverser les buffers pour afficher l'écran rouge
+ ;Buffer_Affiché = Fond rouge / Buffer_NonAffiché = Fond noir
+
+Delay(1000) ; Attendre 1 seconde
+ ;L'écran est rouge pendant 1s 
+
+ClearScreen(RGB(0,255,0))
+ ;Buffer_Affiché = Fond rouge / Buffer_NonAffiché = Fond vert
+
+FlipBuffers(); Il faut inverser les buffers pour afficher l'écran vert
+ ;Buffer_Affiché = Fond vert / Buffer_NonAffiché = Fond rouge
+
+Delay(1000) ; Attendre 1 seconde
+ ;L'écran est vert pendant 1s 
+
+ClearScreen(RGB(0,0,255))
+ ;Buffer_Affiché = Fond vert / Buffer_NonAffiché = Fond bleu
+
+FlipBuffers(); Il faut inverser les buffers pour afficher l'écran bleu
+ ;Buffer_Affiché = Fond bleu / Buffer_NonAffiché = Fond vert
+
+Delay(1000) ; Attendre 1 seconde
+ ;L'écran est bleu pendant 1s 
+
+FlipBuffers(); l'écran est vert !!!
+ ;Buffer_Affiché = Fond vert / Buffer_NonAffiché = Fond bleu
+
+Delay(1000) ; Attendre 1 seconde
+ ;L'écran est vert pendant 1s
+
+CloseScreen()  
+@EndCode
+
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsScreenActive()
+
+@Description
+  Les jeux et les applications en mode plein 
+  écran programmés en PureBasic fonctionnent 
+  toujours en mode multitâche, pour éviter 
+  de bloquer tout le système. En d'autre 
+  termes, l'utilisateur peut à tout moment 
+  revenir sur son bureau. Si c'est le cas, 
+  cette commande le détectera en renvoyant 
+  zéro. Le programmeur devra alors prendre 
+  les mesures nécessaires comme libérer la 
+  souris avec @@ReleaseMouse, mettre le 
+  jeu en pause, arrêter les sons et 
+  les musiques, etc... 
+  
+@NoParameters
+
+@ReturnValue 
+  Renvoie une valeur non nulle si l'écran 
+  est actif, zéro sinon. 
+  
+@Remarks
+  Cette commande doit être obligatoirement 
+  placée après @@FlipBuffers.
+
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen, 
+  @@ReleaseMouse, @@FlipBuffers
+           
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ScreenID()
+
+@Description
+  Renvoie l'identifiant système de l'écran.
+
+@NoParameters
+
+@ReturnValue
+  L'identifiant de l'écran. 
+  
+@OS Windows
+@LineBreak
+@LineBreak
+  Sous Windows, l'écran n'est autre qu'une 
+  fenêtre, donc n'importe quelle commande 
+  nécessitant un 'WindowID' peut être 
+  utilisée (comme @@PlayMovie). 
+@EndOS 
+     
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ScreenWidth()
+
+@Description
+  Renvoie la largeur de l'écran courant, 
+  précédemment ouvert avec @@OpenScreen ou 
+  @@OpenWindowedScreen.
+ 
+@NoParameters
+  
+@ReturnValue
+ Renvoie la largeur de l'écran en cours, 
+ ou zéro si aucun écran est ouvert.
+ 
+@Example
+@Code
+;Initialisation du système d'affichage.
+InitSprite()
+
+ ; Ouverture d'un écran 800*600 32 bits, noir par défaut
+OpenScreen(800, 600, 32, "Sprite")
+
+StartDrawing(ScreenOutput())
+W=ScreenWidth()
+H=ScreenHeight()
+D=ScreenDepth()
+DrawText(10,50,"Largeur de l'écran : " + Str(W))
+DrawText(10,100,"Hauteur de l'écran : " + Str(H))
+DrawText(10,150,"Profondeur des couleurs : " + Str(D))
+StopDrawing()
+
+ ;Inversion des buffers = affichage sur l'écran
+FlipBuffers()  
+
+ ;Attendre 4 secondes
+Delay(4000)
+
+ ;Fermer l'écran
+CloseScreen() 
+@EndCode
+ 
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen, @@ScreenHeight, @@ScreenDepth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ScreenHeight()
+
+@Description
+  Renvoie la hauteur de l'écran courant, 
+  précédemment ouvert avec @@OpenScreen ou 
+  @@OpenWindowedScreen.
+ 
+@NoParameters
+  
+@ReturnValue
+ Renvoie la hauteur de l'écran en cours, 
+ ou zéro si aucun écran est ouvert.
+
+@Example
+  Voir l'exemple de la fonction @@ScreenWidth
+ 
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen, @@ScreenWidth, @@ScreenDepth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ScreenDepth()
+
+@Description
+  Renvoie la profondeur de couleur de 
+  l'écran courant, précédemment ouvert avec 
+  @@OpenScreen ou @@OpenWindowedScreen.
+  
+@NoParameters
+   
+@ReturnValue
+ Renvoie la profondeur de couleur (entre 
+ 8 et 32) de l'écran en cours, ou zéro si 
+ aucun écran est ouvert. 
+
+@Example
+  Voir l'exemple de la fonction 
+  @@ScreenWidth
+  
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen, 
+  @@ScreenWidth, @@ScreenHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetFrameRate(ImagesParSeconde)
+
+@Description
+  Définit le nombre d'images par seconde 
+  affiché dans l'écran en cours. 
+
+@Parameter "ImagesParSeconde"
+  Le nouveau taux d'affichage d'images.
+  
+@NoReturnValue
+
+@Remarks
+  C'est particulièrement utile en mode 
+  fenêtré.@LineBreak
+  Cette fonction définit le nombre maximal 
+  de fois par seconde que la fonction 
+  @@FlipBuffers est appelée.   
+      
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen, 
+  @@FlipBuffers
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = OpenScreen(Largeur, Hauteur, Profondeur, Titre$ [, FlipMode [, TauxDeRafraichissement])
+
+@Description
+  Ouvre un nouvel écran. 
+
+@Parameter "Largeur, Hauteur"
+  La résolution de l'écran, en pixels.  
+@LineBreak
+@LineBreak
+  Attention, la résolution voulue doit 
+  pouvoir être supportée par le matériel.
+  @LineBreak
+  La fonction @@ExamineScreenModes permet 
+  d'obtenir la liste des résolutions 
+  supportées par le matériel.
+
+@Parameter "Profondeur"
+  Peut prendre l'une des valeurs suivantes :
+@FixedFont
+  16: 65536 couleurs, palette fixe
+  24: 16777216 couleurs, palette fixe
+  32: 16777216 couleurs, plus rapide que le mode 24-bit, la transparence (alphablending) est autorisée.
+@EndFixedFont 
+
+@Parameter "Titre$" 
+  Le titre de l'application.@LineBreak
+  Sous Windows seulement. Le paramètre 
+  'Titre$' sera affiché dans la barre des 
+  tâches lors d'un retour vers le bureau. 
+  Il est conseillé de choisir un nom 
+  approprié à l'application. 
+
+@OptionalParameter "FlipMode"  
+  Définit le mode de synchronisation utilisé 
+  avant l'échange des buffers.@LineBreak  
+  (Vertical blank synchronization = Synchro 
+  verticale)').@LineBreak   
+  @LineBreak  
+  Peut prendre l'une des valeurs suivantes :
+@FixedFont
+   @#PB_Screen_NoSynchronization   : Désactive la synchronisation 
+   @#PB_Screen_WaitSynchronization : Active la synchronisation (mode par défaut)
+   @#PB_Screen_SmartSynchronization: Active la synchronisation en essayant de préserver le temps processeur,lorsque le jeu 
+                                    est en mode plein écran.
+@EndFixedFont
+  Attendre la synchronisation permet d'avoir 
+  des inversions de buffers parfaites, sans 
+  'tearing' (ancienne et nouvelle image à 
+  moitié visible) ou autres effets parasites 
+  car l'inversion est effectuée lorsque que 
+  le faisceau lumineux est en dehors de la 
+  partie visible de l'écran. De plus, 
+  l'inversion se fait à un rythme régulier, 
+  en relation avec sa fréquence de 
+  rafraîchissement: par exemple, pour un 
+  écran en 60 Hz, l'inversion pourra se 
+  faire au maximum 60 fois par seconde 
+  (donc on aura un rythme régulier de 60 
+  images/secondes). 
+
+@OptionalParameter "TauxDeRafraichissement" 
+  Définit le taux de rafraîchissement (en Hz).
+@LineBreak 
+  Si l'écran ne supporte pas ce taux de 
+  rafraîchissement, alors @@OpenScreen 
+  échouera.
+@LineBreak
+@LineBreak 
+  La fonction @@ExamineScreenModes permet 
+  d'obtenir la liste des taux de 
+  rafraîchissement supportés par le 
+  matériel.
+@LineBreak
+@LineBreak  
+  Note: Sous Windows, le taux de 
+  rafraîchissement peut être bloqué par le 
+  système ou par les pilotes vidéo. Le 
+  résultat de cette fonction n'est donc 
+  pas forcément fiable.
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'écran 
+  a été créé avec succès, zéro sinon.
+  
+@Remarks  
+  L'écran est créé avec deux buffers vidéo, 
+  ce qui permet l'affichage successif des 
+  deux buffers avec la fonction 
+  @@FlipBuffers, particulièrement utile
+  pour les jeux. 
+@LineBreak 
+@LineBreak  
+  Pour ouvrir un écran à l'intérieur d'une 
+  fenêtre, il convient d'utiliser la 
+  commande @@OpenWindowedScreen.
+@LineBreak 
+@LineBreak
+  Il n'est pas possible d'utiliser la 
+  bibliothèque 
+  @LibraryLink "Requester" "Requester" 
+  dans un écran. 
+
+@Example
+@Code
+ ;ATTENTION le retour vers le bureau (ALT+TAB) n'est pas géré dans cet exemple.
+
+ ;Initialisation des sprites, du clavier et de la souris 
+If InitSprite() = 0 Or InitKeyboard() = 0 Or InitMouse() = 0
+  MessageRequester("Erreur", "Impossible d'initialiser l'écran.")
+  End
+EndIf
+
+ ;Ouverture de l'écran
+If OpenScreen(800,600,32,"Exemple OpenScreen") = 0
+  MessageRequester("Erreur", "Impossible d'ouvrir l'écran.")
+  End
+EndIf
+
+ ;Curseur de la souris
+CreateSprite(0,20,20,#PB_Sprite_PixelCollision)
+StartDrawing(SpriteOutput(0))
+Box(0, 0, 20, 20, RGB(255, 255, 255))
+StopDrawing()
+
+ ;Afficheur "Survoler pour quitter"
+CreateSprite(1,200,100,#PB_Sprite_PixelCollision)
+StartDrawing(SpriteOutput(1))
+Box(0, 0, 200, 100, RGB(255, 255, 0))
+DrawText(10,25,"Survoler pour quitter",RGB(255,255,255), RGB(255,0,0))
+StopDrawing()
+
+ ;Boucle principale
+Repeat
+  
+  ;Effacer complètement l'écran et afficher un fond gris
+  ClearScreen(RGB(128,128,128))
+  
+  ;On lit les évènements clavier et souris
+  ExamineMouse()
+  ExamineKeyboard()
+  
+  ;Position de la souris
+  x = MouseX()
+  y = MouseY()
+  
+  ;Affichage du curseur de la souris en temps réel
+  DisplaySprite(0, X, Y)
+  ;Affichage de l'afficheur "Survoler pour quitter"
+  DisplaySprite(1, 500, 50)
+  
+  ;Détection de collision entre le curseur de la souris et l'afficheur
+  If SpriteCollision(0, X, Y, 1, 500, 50) <> 0
+    End ; Si collision alors on ferme le programme
+  EndIf 
+  
+  ;Calcul du FPS  (image par seconde)
+  FPS_Counter + 1
+  If FPS_Counter >= FPS
+    FPS = FPS_Counter * 1000 / (ElapsedMilliseconds() - FPS_ElapsedTime)
+    FPS_Counter = 0
+    FPS_ElapsedTime = ElapsedMilliseconds()
+  EndIf
+  
+  ;Affichage du FPS et du texte
+  StartDrawing(ScreenOutput())
+  DrawText(0, 0, "FPS : " + StrD(FPS, 1))
+  DrawText(0, 75, "Appuyez sur ESC pour quitter",RGB(0,0,0), RGB(255,255,255))
+  DrawText(0, 550, "Appuyez sur les touches fléchées du clavier tout en bougeant la souris",RGB(255,0,0), RGB(0,255,0))
+  StopDrawing()
+  
+  ;Gestion des 4 touches fléchées du clavier
+  If KeyboardPushed(#PB_Key_Right)
+    RotateSprite(0,45,#PB_Relative)
+  EndIf
+  If KeyboardPushed(#PB_Key_Left)
+    RotateSprite(0,1,#PB_Relative)
+  EndIf
+  If KeyboardPushed(#PB_Key_Up)
+    ZoomSprite(0,100,100)
+  EndIf
+  If KeyboardPushed(#PB_Key_Down)
+    ZoomSprite(0,20,20)
+  EndIf
+  
+  ;Maintenant que tout est calculé et affiché dans le buffer invisible,
+  ;on inverse les buffers pour rendre la scène visible à l'écran.
+  FlipBuffers()
+  
+Until KeyboardPushed(#PB_Key_Escape) ;On quitte l'application en  appuyant sur la touche Echap (ESC)
+
+ ; Idée   : Remplacer la ligne de code : If OpenScreen(800,600,32,"Exemple OpenScreen") = 0
+ ; par    : If OpenScreen(800,600,32,"Exemple OpenScreen", #PB_Screen_NoSynchronization) = 0
+ ; ou par : If OpenScreen(800,600,32,"Exemple OpenScreen", #PB_Screen_SmartSynchronization) = 0
+ ; et observez le FPS ainsi que la qualité de l'image (bouger la souris)
+
+@EndCode
+
+@SeeAlso
+  @@OpenWindowedScreen, @@FlipBuffers
+  
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = OpenWindowedScreen(FenetreID, X, Y, Largeur, Hauteur [, RedimensionnementAuto, OffsetDroit, OffsetBas [, FlipMode]])
+
+@Description
+  Ouvre un écran dans une fenêtre standard.
+  
+@Parameter "FenetreID"  
+  La fenêtre qui contient l'écran.
+@Linebreak  
+@Linebreak
+  @@WindowID peut être utilisé pour obtenir 
+  un identifiant valide.
+
+@Parameter "X, Y"
+  La position de l'écran, en pixels, dans 
+  la fenêtre.
+
+@Parameter "Largeur, Hauteur"
+  Les dimensions de l'écran, en pixels.
+
+@OptionalParameter "RedimensionnementAuto"
+@FixedFont
+  @#True  : L'écran sera redimensionné et sont contenu sera zoomé quand les dimensions de la fenêtre changeront.
+  @#False : Pas de redimensionnement de l'écran (par défaut).   
+@EndFixedFont
+
+@OptionalParameter "OffsetDroit, OffsetBas"
+  Définissent les marges droite et basse 
+  dans la fenêtre, en pixels.
+  (Pour prendre en compte la 
+  @Link "StatusBar/CreateStatusBar" "barre d'état" 
+  (statusbar) par exemple). 
+
+@OptionalParameter "FlipMode"
+  Mode de synchronisation avant 
+  d'interchanger les buffers (Synchro 
+  Vertical).@LineBreak
+  Peut être une des valeurs suivantes :
+@FixedFont
+   @#PB_Screen_NoSynchronization   : désactive la synchronisation 
+   @#PB_Screen_WaitSynchronization : active la synchronisation (mode par défaut)
+   @#PB_Screen_SmartSynchronization: active la synchronisation en essayant de préserver le temps processeur, lorsque le jeu 
+                                    est en mode plein écran.
+@EndFixedFont
+  Attendre la synchronisation permet d'avoir 
+  des inversions de buffers parfaites, sans 
+  'tearing' (ancienne et nouvelle image à 
+  moitié visible) ou autres effets parasites 
+  car l'inversion est effectuée lorsque que 
+  le faisceau lumineux est en dehors de la 
+  partie visible de l'écran. De plus, 
+  l'inversion se fait à un rythme régulier, 
+  en relation avec sa fréquence de 
+  rafraîchissement: par exemple, pour un 
+  écran en 60 Hz, l'inversion pourra se 
+  faire au maximum 60 fois par seconde 
+  (donc on aura un rythme régulier de 60 
+  images/secondes).
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'écran 
+  a été créé avec succès, zéro sinon.
+  
+@Remarks  
+  Il n'est pas possible de créer plus d'un
+  écran fenêtré à la fois. 
+@Linebreak 
+@Linebreak 
+ Les dimensions de l'écran ne peuvent 
+ être supérieures à celles de la fenêtre 
+ sinon des artéfacts apparaitront.
+@Linebreak 
+@Linebreak 
+  L'écran fenêtré emploie l'accélération 
+  matérielle de la même manière que le mode 
+  plein écran utilisant la commande 
+  @@OpenScreen.
+@Linebreak  
+@Linebreak
+  Comme une fenêtre est ouverte, les 
+  évènements de la fenêtre doivent être 
+  traitées avec @@WindowEvent pour avoir 
+  un comportement correct. Tous les 
+  évènements doivent être traités avant de 
+  'flipper' (interchanger) les tampons 
+  (voir les exemples ci-dessous et 
+  @@FlipBuffers).
+@Linebreak  
+@Linebreak   
+  L'écran est créé avec deux buffers vidéo, 
+  ce qui permet l'affichage successif des 
+  deux buffers avec la fonction 
+  @@FlipBuffers, particulièrement utile
+  pour les jeux. 
+
+@Example
+  Example 1:   Ecran fenêtré de taille fixe 
+  avec gadgets
+@Code
+  If InitSprite() = 0
+    MessageRequester("Erreur", "Impossible d'ouvrir l'écran & l'environnement nécessaire aux sprites !", 0)
+    End
+  EndIf
+  
+  If OpenWindow(0, 0, 0, 220, 160, "Un écran dans une fenêtre...", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ButtonGadget(0, 170, 135, 45, 20, "Quitter")
+
+    If OpenWindowedScreen(WindowID(0), 0, 0, 160, 160)
+      CreateSprite(0, 20, 20)
+      If StartDrawing(SpriteOutput(0))
+        Box(0, 0, 20, 20, RGB(255, 0, 155))
+        Box(5, 5, 10, 10, RGB(155, 0, 255))
+        StopDrawing()
+      EndIf
+    Else
+      MessageRequester("Erreur", "Impossible d'ouvrir un écran dans la fenêtre!", 0)
+      End
+    EndIf
+  EndIf
+  
+  direction = 2
+  Repeat
+    ; Il est très important de traiter tous les évènements restants dans la file d'attente à chaque tour
+    ;
+    Repeat
+      Event = WindowEvent()
+      
+      Select Event 
+        Case #PB_Event_Gadget
+          If EventGadget() = 0
+            End
+          EndIf
+        
+        Case #PB_Event_CloseWindow
+          End 
+      EndSelect
+    Until Event = 0
+  
+    FlipBuffers() 
+    ClearScreen(RGB(0, 0, 0))
+    DisplaySprite(0, x, x)
+    x + direction
+    If x > 140 : direction = -2 : EndIf
+    If x < 0   : direction =  2 : EndIf
+    Delay(1)
+  ForEver
+@EndCode
+@Image openwindowedscreen.png
+@Linebreak
+
+@Example 
+  Example 2:  Avec redimensionnement 
+  automatique et marge du bas
+@Code
+  If InitSprite() = 0
+    MessageRequester("Erreur", "Impossible d'ouvrir l'écran & l'environnement nécessaire aux sprites !", 0)
+    End
+  EndIf
+  
+  If OpenWindow(0, 0, 0, 420, 200, "Un écran dans une fenêtre...", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+    CreateStatusBar(0, WindowID(0))
+      AddStatusBarField(420)
+      
+    StatusBarText(0, 0, "Zoom automatique lors du changement de taille de la fenêtre...")
+    
+  If OpenWindowedScreen(WindowID(0), 0, 0,320, 200, #True, 0, 20) 
+  
+    CreateSprite(0, 50, 50) ; Crée un sprite vide qui sera tout noir
+  
+  Repeat
+    ; Il est très important de traiter tous les évènements restants dans la file d'attente à chaque tour
+    ;
+    Repeat
+      Event = WaitWindowEvent(10)
+      
+      If Event = #PB_Event_CloseWindow
+        End 
+      EndIf
+    Until Event = 0
+    
+    FlipBuffers() 
+    ClearScreen(RGB(0, 0, 200)) ; Un fond bleu
+    
+    DisplaySprite(0, 10, 10)  ; Affichez notre boîte noire dans le coin en haut à gauche
+    DisplaySprite(0, 260, 10) ; Affichez notre boîte noire dans le coin en haut à droite
+  ForEver
+   
+    Else
+      MessageRequester("Erreur", "Impossible d'ouvrir l'écran fenêtré !", 0)
+    EndIf
+  EndIf
+@EndCode
+@Image openwindowedscreen2.png
+@Linebreak  
+  Pour plus de détail, voir cet exemple @ExampleFile All WindowedScreen.pb
+
+@SeeAlso
+  @@OpenScreen, @@FlipBuffers
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ScreenOutput()
+
+@Description
+  Renvoie l'identifiant de l'écran courant 
+  nécessaire aux opérations 2D.
+
+@NoParameters
+
+@ReturnValue
+  L'identifiant de l'écran en cours.
+
+@Remarks 
+  Ne peut être utilisé que dans un bloc 
+  @@StartDrawing / @@StopDrawing de la 
+  @LibraryLink "2ddrawing" "bibliothèque 2D, 2DDrawing". 
+  @Linebreak  
+  La mémoire allouée à ScreenOutput() est 
+  libérée avec StopDrawing().
+@Linebreak   
+@Linebreak
+  Sous Linux et OS X, ScreenOutput() copie 
+  la totalité de l'écran tampon dans la 
+  mémoire principale pour effectuer des 
+  opérations de dessin 2D (OpenGL ne permet 
+  pas d'accéder directement au tampon). 
+  Par conséquent dessiner sur un écran peut 
+  être très lent et devrait être évité.
+@Linebreak   
+@Linebreak  
+  ScreenOutput() doit être appelé dans le 
+  même thread où @@OpenScreen a été appelé.
+ 
+@Example
+@Code
+  StartDrawing(ScreenOutput())
+    Box(0, 0, 200, 50, RGB(255, 255, 255))
+  StopDrawing()
+@EndCode  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ExamineScreenModes()
+
+@Description
+  Démarre l'examen des modes d'écrans 
+  disponibles sur l'ordinateur. 
+@Linebreak   
+@Linebreak  
+  La liste des modes d'écran peut être 
+  énumérée à l'aide de la commande 
+  @@NextScreenMode. 
+     
+@NoParameters
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'énumération des modes d'affichage 
+  est un succès, zéro sinon.
+
+@Example
+@Code
+  InitSprite()
+
+  If ExamineScreenModes()
+    While NextScreenMode()
+      Debug Str(ScreenModeWidth())+"x"+Str(ScreenModeHeight())+"x"+Str(ScreenModeDepth())+"@"+Str(ScreenModeRefreshRate())+"Hz"
+    Wend
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@NextScreenMode
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = NextScreenMode()
+
+@Description
+  Cette commande doit être appelée après 
+  @@ExamineScreenModes. Elle permet de 
+  lister les modes d'écran disponible 
+  un par un. 
+@LineBreak
+@LineBreak   
+  Les informations disponibles sur le mode 
+  d'écran en cours d'examen peuvent être 
+  récupérées à l'aide des commandes suivantes:  
+  @@ScreenModeWidth, @@ScreenModeHeight, 
+  @@ScreenModeDepth et 
+  @@ScreenModeRefreshRate.
+
+@NoParameters
+  
+@ReturnValue
+  Renvoie une valeur non nulle s'il existe 
+  un mode suivant ou zéro s'il ne reste 
+  plus de mode à lister.
+
+@Example
+@Code
+  InitSprite()
+
+  If ExamineScreenModes()
+    While NextScreenMode()
+      Debug Str(ScreenModeWidth())+"x"+Str(ScreenModeHeight())+"x"+Str(ScreenModeDepth())+"@"+Str(ScreenModeRefreshRate())+"Hz"
+    Wend
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineScreenModes, @@ScreenModeWidth, @@ScreenModeHeight, @@ScreenModeDepth, @@ScreenModeRefreshRate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ScreenModeDepth()
+
+@Description
+  Renvoie la profondeur de couleur (en bits) 
+  du mode d'écran actuellement listé par 
+  @@ExamineScreenModes et @@NextScreenMode. 
+
+@NoParameters
+  
+@ReturnValue
+  La profondeur peut être une des valeurs 
+  suivantes en fonction de la carte 
+  graphique: 8, 15, 16, 24 ou 32 bits.
+
+@Example
+@Code
+  InitSprite()
+
+  If ExamineScreenModes()
+    While NextScreenMode()
+      Debug Str(ScreenModeWidth())+"x"+Str(ScreenModeHeight())+"x"+Str(ScreenModeDepth())+"@"+Str(ScreenModeRefreshRate())+"Hz"
+    Wend
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineScreenModes, @@NextScreenMode, 
+  @@ScreenModeWidth, @@ScreenModeHeight, 
+  @@ScreenModeRefreshRate
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ScreenModeHeight()
+
+@Description
+  Renvoie la hauteur (en pixels) du mode 
+  d'écran actuellement listé par 
+  @@ExamineScreenModes et @@NextScreenMode.
+  
+@NoParameters
+  
+@ReturnValue
+  Renvoie la hauteur (en pixels) du mode 
+  d'écran.
+
+@Example
+@Code
+  InitSprite()
+
+  If ExamineScreenModes()
+    While NextScreenMode()
+      Debug Str(ScreenModeWidth())+"x"+Str(ScreenModeHeight())+"x"+Str(ScreenModeDepth())+"@"+Str(ScreenModeRefreshRate())+"Hz"
+    Wend
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineScreenModes, @@NextScreenMode, @@ScreenModeWidth, @@ScreenModeDepth, @@ScreenModeRefreshRate
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ScreenModeRefreshRate()
+
+@Description
+  Renvoie le taux de rafraîchissement 
+  (en hertz) du mode d'écran actuellement 
+  listé par 
+  @@ExamineScreenModes et @@NextScreenMode. 
+  
+@NoParameters
+  
+@ReturnValue
+  Renvoie le taux de rafraîchissement 
+  (en hertz) du mode d'écran.
+
+@Remarks 
+  Sous OS X de nombreux portables et 
+  moniteurs ne supportent pas cette 
+  commande, qui renvoie souvent 0.
+
+@Example
+@Code
+  InitSprite()
+
+  If ExamineScreenModes()
+    While NextScreenMode()
+      Debug Str(ScreenModeWidth())+"x"+Str(ScreenModeHeight())+"x"+Str(ScreenModeDepth())+"@"+Str(ScreenModeRefreshRate())+"Hz"
+    Wend
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineScreenModes, @@NextScreenMode, 
+  @@ScreenModeWidth, @@ScreenModeHeight, 
+  @@ScreenModeDepth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ScreenModeWidth()
+
+@Description
+  Renvoie la largeur (en pixels) du mode 
+  d'écran actuellement listé par 
+  @@ExamineScreenModes et @@NextScreenMode.
+  
+@NoParameters
+  
+@ReturnValue
+  Renvoie la largeur (en pixels) du mode 
+  d'écran.
+
+@Example
+@Code
+  InitSprite()
+
+  If ExamineScreenModes()
+    While NextScreenMode()
+      Debug Str(ScreenModeWidth())+"x"+Str(ScreenModeHeight())+"x"+Str(ScreenModeDepth())+"@"+Str(ScreenModeRefreshRate())+"Hz"
+    Wend
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineScreenModes, @@NextScreenMode, 
+  @@ScreenModeHeight, @@ScreenModeDepth, 
+  @@ScreenModeRefreshRate
+  
+@SupportedOS

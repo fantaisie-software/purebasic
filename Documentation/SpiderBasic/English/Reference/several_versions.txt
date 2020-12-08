@@ -1,0 +1,29 @@
+@Title Using several SpiderBasic versions on Windows
+
+@Section Overview
+
+  It is possible to install several SpiderBasic versions on your hard disk at the same time.
+  This is useful to finish one project with an older SpiderBasic version, and
+  start developing a new project with a new SpiderBasic version.
+
+@Section How to do it
+
+  Create different folders like "SpiderBasic_1.00" and "SpiderBasic_1.10" and install the related
+  SpiderBasic version in each folders.
+@LineBreak
+@LineBreak
+  When one "SpiderBasic.exe" is started, it will assign all ".sb" files 
+  with this version of SpiderBasic. So when a source code is loaded by double-clicking 
+  on the related file, the currently assigned SpiderBasic version will be started.
+  Beside SpiderBasic will change nothing, which can affect other SpiderBasic versions in different
+  folders.
+@LineBreak
+@LineBreak
+  To avoid the automatic assignment of ".sb" files when starting the IDE, a
+  shortcut can be created from SpiderBasic.exe with "/NOEXT" as parameter. The command line
+  options for the IDE are described @ReferenceLink "ide_commandline" "here".
+@LineBreak
+@LineBreak
+  @Bold "Note:" The settings for the IDE are saved in the %APPDATA%\SpiderBasic directory. To keep the multiple versions from using
+  the same configuration files, the /P /T and /A @ReferenceLink "ide_commandline" "switches" can be used. Furthermore there is the /PORTABLE
+  switch which puts all files back into the SpiderBasic directory and disabled the creation of the .sb extension.

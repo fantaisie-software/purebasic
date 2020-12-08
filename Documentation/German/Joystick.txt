@@ -1,0 +1,220 @@
+;
+;     Joystick library documentation
+;
+;      (c) 2013 - Fantaisie Software
+;
+
+@Library Joystick
+
+@Overview
+  PureBasic bietet vollen Zugriff auf die Joysticks, welche am Computer angeschlossen sind.
+  Diese Bibliothek unterstützt Joysticks und komplexe Gamepads mit mehreren Pads, Triggern
+  und vielen Tasten.
+
+@Remarks  
+  Auf Windows verwendet diese Bibliothek die DirectX Technologie. Auf Linux verwendet sie SDL.
+
+@CommandList
+
+@ExampleFile All Joystick.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = InitJoystick()
+
+@Description
+  Initialisiert die gesamte Programmumgebung zur späteren Benutzung der Joystick-Befehle.
+  Diese Funktion muss vor allen anderen Befehlen aus dieser Bibliothek aufgerufen werden.
+
+@ReturnValue
+  Gibt die Anzahl an Joysticks zurück, welche bereit zur Verwendung sind.
+   
+@Remarks
+  Diese Funktion kann regelmäßig aufgerufen werden, um festzustellen, ob neue Joysticks
+  angeschlossen wurden.
+
+@SeeAlso
+  @@ExamineJoystick
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ExamineJoystick(#Joystick)
+
+@Description
+  Aktualisiert den momentanen Joystick-Status. 
+  Diese Funktion muss vor der Verwendung der nachfolgenden Befehle aufgerufen werden:
+  @@JoystickButton, @@JoystickAxisX,  @@JoystickAxisY und @@JoystickAxisZ.
+
+@Parameter "#Joystick"
+  Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
+  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Joystick-Status korrekt aktualisiert
+  wurde, andernfalls Null.
+
+@SeeAlso
+  @@JoystickButton, @@JoystickAxisX, @@JoystickAxisY, @@JoystickAxisZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = JoystickAxisX(#Joystick [, Pad [, Modus]])
+
+@Description
+  Gibt den Status der X-Achse des Joysticks zurück.
+  
+@Parameter "#Joystick"
+  Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
+  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+
+@OptionalParameter "Pad"
+  Der zu verwendende Pad, wenn der Joystick mehrere Pads besitzt. Der Index des
+  ersten Pads lautet 0.
+
+@OptionalParameter "Modus"
+  Der Modus kann einer der folgenden Werte sein:
+
+@FixedFont
+  @#PB_Absolute: Der zurückgegebene Wert ist entweder -1 (links), 0 (keine Bewegung) oder 1 (rechts). (Standard)
+  @#PB_Relative: Der zurückgegebene Wert liegt im Bereich zwischen -1000 (links) und 1000 (rechts). Wenn das 
+                Gamepad keine relative Bewegung unterstützt, wird das Ergebnis -1000, 0 oder 1000 lauten.
+@EndFixedFont
+
+@ReturnValue
+  Gibt den Wert der X-Achse des Joysticks zurück, abhängig vom angegebenen Modus.
+
+@Remarks
+  @@ExamineJoystick muss vor der Verwendung dieser Funktion aufgerufen werden, um den momentanen
+  Joystick-Status zu aktualisieren.
+
+@SeeAlso
+  @@ExamineJoystick, @@JoystickAxisY, @@JoystickAxisZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = JoystickAxisY(#Joystick [, Pad [, Modus]])
+
+@Description
+  Gibt den Status der Y-Achse des Joysticks zurück.
+  
+@Parameter "#Joystick"
+  Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
+  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+
+@OptionalParameter "Pad"
+  Der zu verwendende Pad, wenn der Joystick mehrere Pads besitzt. Der Index des
+  ersten Pads lautet 0.
+
+@OptionalParameter "Modus"
+  Der Modus kann einer der folgenden Werte sein:
+
+@FixedFont
+  @#PB_Absolute: Der zurückgegebene Wert ist entweder -1 (oben), 0 (keine Bewegung) oder 1 (unten). (Standard)
+  @#PB_Relative: Der zurückgegebene Wert liegt im Bereich zwischen -1000 (oben) und 1000 (unten). Wenn das 
+                Gamepad keine relative Bewegung unterstützt, wird das Ergebnis -1000, 0 oder 1000 lauten.
+@EndFixedFont
+
+@ReturnValue
+  Gibt den Wert der Y-Achse des Joysticks zurück, abhängig vom angegebenen Modus.
+
+@Remarks
+  @@ExamineJoystick muss vor der Verwendung dieser Funktion aufgerufen werden, um den momentanen
+  Joystick-Status zu aktualisieren.
+
+@SeeAlso
+  @@ExamineJoystick, @@JoystickAxisX, @@JoystickAxisZ
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = JoystickAxisZ(#Joystick [, Pad [, Modus]])
+
+@Description
+  Gibt den Status der Z-Achse des Joysticks zurück.
+  Diese Achse wird auf neuen Gamepads oft als Trigger (Auslöser) bezeichnet.
+  
+@Parameter "#Joystick"
+  Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
+  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+
+@OptionalParameter "Pad"
+  Der zu verwendende Pad, wenn der Joystick mehrere Pads besitzt. Der Index des
+  ersten Pads lautet 0.
+
+@OptionalParameter "Modus"
+  Der Modus kann einer der folgenden Werte sein:
+
+@FixedFont
+  @#PB_Absolute: Der zurückgegebene Wert ist entweder -1, 0 (keine Bewegung) oder 1. (Standard)
+  @#PB_Relative: Der zurückgegebene Wert liegt im Bereich zwischen -1000 (oben) und 1000 (unten). Wenn das 
+                Gamepad keine relative Bewegung unterstützt, wird das Ergebnis -1000, 0 oder 1000 lauten.
+@EndFixedFont
+
+@ReturnValue
+  Gibt den Wert der Z-Achse des Joysticks zurück, abhängig vom angegebenen Modus.
+
+@Remarks
+  @@ExamineJoystick muss vor der Verwendung dieser Funktion aufgerufen werden, um den momentanen
+  Joystick-Status zu aktualisieren.
+
+@SeeAlso
+  @@ExamineJoystick, @@JoystickAxisX, @@JoystickAxisY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = JoystickName(#Joystick)
+
+@Description
+  Gibt den Joystick-Namen zurück. Dies kann nützlich sein, wenn mehrere Joysticks angeschlossen
+  sind, um den richtigen zu identifizieren.
+
+@Parameter "#Joystick"
+  Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
+  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+
+@ReturnValue
+  Gibt den Joystick-Namen zurück.
+
+@SeeAlso
+  @@InitJoystick
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = JoystickButton(#Joystick, Button)
+
+@Description
+  Gibt den Status des Joystick-Buttons (Knopfes) zurück.
+
+@Parameter "#Joystick"
+  Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
+  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+
+@Parameter "Button"
+  Der abzufragende Joystick-Knopf. Der Index des ersten Knopfes lautet 1.
+
+@LineBreak
+  Gibt Null zurück, wenn der angegebene Knopf nicht gedrückt ist, andernfalls wird
+  ein Wert ungleich Null zurückgegeben. Eine beliebige Anzahl an Knöpfen kann zur
+  gleichen Zeit gedrückt sein.
+  
+@Remarks
+  @@ExamineJoystick muss vor der Verwendung dieser Funktion aufgerufen werden, um den momentanen
+  Joystick-Status zu aktualisieren.
+
+@SeeAlso
+  @@ExamineJoystick
+
+@SupportedOS

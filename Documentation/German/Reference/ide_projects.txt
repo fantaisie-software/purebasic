@@ -1,0 +1,351 @@
+
+@Title Verwalten von Projekten
+
+  Die IDE kommt mit Funktionen zum einfachen Handhaben größerer Projekte. Diese
+  Features sind komplett optional. Programme können erstellt und kompiliert werden,
+  ohne das Projekt-Management zu verwenden. Sobald ein Programm jedoch aus mehreren
+  Quellcodes und möglicherweise weiteren zugehörigen Dateien besteht, kann es jedoch
+  einfacher sein, diese alle in einem Projekt zu verwalten.
+
+
+@Section Projekt-Management im Überblick
+
+  Ein Projekt erlaubt das Verwalten mehrerer Quellcodes und anderer zugehöriger Dateien
+  an einer Stelle, mit schnellem Zugriff auf die Dateien über die @ReferenceLink "ide_tools" "Projektliste".
+  In einem Projekt enthaltene Quellcode-Dateien können für das 'Auto-Vervollständigen' gescannt
+  werden, auch wenn sie in der IDE derzeit nicht geöffnet sind. Auf diesem Weg können Funktionen,
+  Konstanten, Variablen etc. des gesamten Projekts beim 'Auto-Vervollständigen' verwendet
+  werden. Das Projekt kann sich auch die beim Schließen des Projekts geöffneten Quellcode-Dateien 
+  merken, und diese das nächste Mal erneut öffnen, damit Sie dort weiterarbeiten können, wo
+  Sie aufgehört haben.
+@LineBreak
+@LineBreak
+  Weiterhin speichert ein Projekt alle Compiler-Einstellung an einer Stelle (der Projekt-Datei)
+  und erlaubt auch das Verwenden mehrerer "Kompilier-Ziele" pro Projekt. Ein Kompilier-Ziel ist
+  einfach ein Set an Compiler-Einstellungen. Auf diesem Weg können mehrere Versionen des gleichen
+  Programms, oder mehrere kleine Programme in einem Projekt einfach mit einmal kompiliert werden.
+@LineBreak
+@LineBreak
+  Um ein Projekt durch ein Skript oder ein "Makefile" zu kompilieren, bietet die IDE
+  Kommandozeilen-Optionen, um ein Projekt ohne Öffnen der Benutzeroberfläche zu kompilieren.
+  Siehe das Kapitel @ReferenceLink "ide_commandline" "Kommandozeilen-Optionen" für weitere Details.
+@LineBreak
+@LineBreak
+  Alle Dateinamen und -pfade in einem Projekt werden relativ zur Projekt-Datei gespeichert, was
+  das einfache Verschieben eines Projekts an eine andere Stelle erlaubt, solange die relative
+  Verzeichnis-Struktur intakt bleibt.
+
+
+@Section Das Projekt-Menü
+
+@Image ide_menu_project.png
+
+@Bold "Neues Projekt"
+@LineBreak
+  Erstellt ein neues Projekt. Ist zu dieser Zeit ein Projekt geöffnet, wird dieses geschlossen.
+  Das "Projekt-Optionen" Fenster wird geöffnet, wo der Projekt-Dateiname angegeben werden muss
+  und das Projekt konfiguriert werden kann.
+
+@LineBreak
+@LineBreak
+
+@Bold "Projekt öffnen"
+@LineBreak
+  Öffnet ein existierendes Projekt. Ist zu dieser Zeit ein Projekt geöffnet, wird dieses geschlossen.
+  Zuvor geöffnete Quellcodes des Projekts werden auch geöffnet, abhängig von der Projekt-Einstellung.
+
+@LineBreak
+@LineBreak
+
+@Bold "Letzte Projekte"
+@LineBreak
+  Dieses Untermenü zeigt eine Liste mit zuvor geöffneten Projekt-Dateien. Das Auswählen eines der
+  Einträge öffnet dieses Projekt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Projekt schließen"
+@LineBreak
+  Schließt das aktuell offene Projekt. Die Einstellungen werden gespeichert und die aktuell
+  geöffneten Quellcode-Dateien des Projekts werden geschlossen, abhängig von der Projekt-Einstellung.
+
+@LineBreak
+@LineBreak
+
+@Bold "Projekt-Optionen"
+@LineBreak
+  Öffnet das "Projekt-Optionen" Fenster. Siehe weiter unten für mehr Informationen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Datei zum Projekt hinzufügen"
+@LineBreak
+  Fügt den derzeit aktiven Quellcode zum aktuellen Projekt hinzu. Dateien, die zum Projekt gehören,
+  werden mit einem ">" im Datei-Panel gekennzeichnet.
+
+@LineBreak
+@LineBreak
+
+@Bold "Datei vom Projekt entfernen"
+@LineBreak
+  Entfernt den derzeit aktiven Quellcode vom aktuellen Projekt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Projektordner öffnen"
+@LineBreak
+  Öffnet den Ordner, der die Projekt-Datei beinhaltet, in dem auf dem System verfügbaren
+  Datei-Manager.
+
+
+@Section Das "Projekt-Optionen" Fenster
+
+  Das "Projekt-Optionen" Fenster stellt die zentrale Konfiguration des Projekts dar. Die
+  allgemeinen Projekt-Einstellungen wie auch die Einstellungen für die einzelnen Dateien
+  im Projekt können hier vorgenommen werden.
+
+@Image ide_project_options.png
+
+  Die folgenden Einstellungen können im "Projekt-Optionen" Register vorgenommen werden:
+@LineBreak
+@LineBreak
+
+@Bold "Projekt-Datei"
+@LineBreak
+  Zeigt den Dateinamen der Projekt-Datei. Dieser kann nur während der Projekt-Erstellung
+  geändert werden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Projekt-Name"
+@LineBreak
+  Der Name des Projekts. Dieser Name wird in der IDE-Titelzeile und im "Letzte Projekte"-Menü
+  angezeigt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Kommentare"
+@LineBreak
+  Dieses Feld ermöglicht das Hinzufügen einiger Kommentare zum Projekt. Sie werden im 
+  "Projekt-Info"-Register angezeigt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Als Standard-Projekt festlegen"
+@LineBreak
+  Das Standard-Projekt wird bei jedem Start der IDE geladen. Nur ein Projekt kann zur 
+  gleichen Zeit das Standard-Projekt sein. Wenn es kein Standard-Projekt gibt, lädt 
+  die IDE das Projekt, welches beim letzten Schließen der IDE geöffnet war (sofern es eines gab).
+
+@LineBreak
+@LineBreak
+
+@Bold "Alle Quellcodes schließen, wenn das Projekt geschlossen wird"
+@LineBreak
+  Wenn aktiviert, werden alle zum Projekt gehörenden Quellcodes beim Schließen des
+  Projekts automatisch geschlossen.
+
+@LineBreak
+@LineBreak
+
+Beim Öffnen des Projekts...
+@Indent
+
+  @Bold "alle Quellcodes laden, die beim letzten Mal geöffnet waren"
+@LineBreak
+  Wenn das Projekt geöffnet wird, werden auch alle Quellcodes erneut geöffnet, die beim
+  (letzten) Schließen des Projekts offen waren.
+
+@LineBreak
+@LineBreak
+  
+  @Bold "alle Quellcodes des Projekts laden"
+@LineBreak
+  Wenn das Projekt geöffnet wird, werden auch alle (Quellcode-) Dateien des Projekts geöffnet.
+
+@LineBreak
+@LineBreak
+
+  @Bold "nur Quellcodes laden, die in 'Projekt-Dateien' markiert sind"
+@LineBreak
+  Wenn das Projekt geöffnet wird, werden nur die im Register 'Projekt-Dateien' markierten Dateien geöffnet.
+  Auf diesem Weg können Sie eine (Programmier-) Sitzung immer mit diesem Set geöffneter Dateien starten.
+
+@LineBreak
+@LineBreak
+
+  @Bold "nur die Hauptdatei des Standard-Ziels laden"
+@LineBreak
+  Wenn das Projekt geöffnet wird, wird auch die Hauptdatei des Standard-Ziels geöffnet.
+
+@LineBreak
+@LineBreak
+
+  @Bold "keine Dateien laden"
+@LineBreak
+  Es werden keine Quellcode-Dateien geöffnet, wenn das Projekt geöffnet wird.
+
+@EndIndent
+
+  Das Register "Projekt-Dateien" zeigt die Liste an Dateien im Projekt auf der rechten Seite
+  und ermöglicht deren Einstellungen zu ändern.
+  Der Explorer auf der linken Seite ist für die Auswahl von neu hinzuzufügenden Dateien.
+
+@Image ide_project_files.png
+
+  Die Schalter oben haben folgende Funktion:
+
+@Indent
+@Bold "Hinzufügen"
+@LineBreak
+  Fügt das/die im Explorer ausgewählte(n) Datei(en) zum Projekt hinzu.
+
+@LineBreak
+@LineBreak
+
+@Bold "Entfernen"
+@LineBreak
+  Entfernt die ausgewählten Dateien in der Dateileiste vom Projekt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Neu"
+@LineBreak
+  Zeigt einen Datei-Requester, um darin einen Dateinamen für eine neu zu erstellende Quellcode-Datei
+  auszuwählen. Die neue Datei wird erstellt, in der IDE geöffnet und auch zum Projekt hinzugefügt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Öffnen"
+@LineBreak
+  Zeigt einen Datei-Requester, um darin eine existierende Datei zum Öffnen auszuwählen. Die Datei
+  wird in der IDE geöffnet und zum Projekt hinzugefügt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Zeigen"
+@LineBreak
+  Öffnet das/die in der Dateiliste ausgewählte(n) Datei(en) in der IDE oder im Dateibetrachter,
+  wenn es sich um binäre Dateien handelt.
+
+@EndIndent
+
+
+  Die unteren Häkchen-Schalter definieren die Optionen für die Dateien im Projekt. Sie können einer
+  einzelnen Datei oder mehreren Dateien auf einmal zugewiesen werden, indem die Dateien ausgewählt
+  werden und der Status der Häkchen-Schalter geändert wird. Die Einstellungen haben die folgende
+  Bedeutung:
+
+@Indent
+
+@Bold "Datei laden, wenn das Projekt geöffnet wird"
+@LineBreak
+  Dateien mit dieser Option werden geladen, wenn das Projekt geöffnet wird und 
+  "nur Quellcodes laden, die in 'Projekt-Dateien' markiert sind" im Register "Projekt-Optionen"
+  aktiviert ist.
+
+@LineBreak
+@LineBreak
+
+@Bold "Eine Warnung anzeigen, wenn Datei verändert wurde"
+@LineBreak
+  Wenn das Projekt geschlossen wird, berechnet die IDE eine Prüfsumme aller Dateien, bei denen diese
+  Option aktiviert ist, und zeigt beim nächsten Öffnen des Projekts eine Warnung an, wenn die Datei
+  verändert wurde. Dies ermöglicht eine Benachrichtigung, wenn eine Datei von mehreren Projekten
+  verwendet wird und beim Arbeiten an einem anderen Projekt verändert wurde.
+  Diese Option sollte für große Daten-Dateien deaktiviert sein, um das Laden und Speichern des
+  Projekts zu beschleunigen, oder für regelmäßig veränderte Dateien, um den Erhalt einer Warnung
+  bei jedem Öffnen des Projekts zu vermeiden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Datei scannen für AutoVervollständigen"
+@LineBreak
+  Dateien mit dieser Option werden nach Daten zum Auto-Vervollständigen Daten durchsucht, auch wenn sie aktuell
+  nicht in der IDE geladen sind. Diese Option ist standardmäßig für alle nicht-binären Dateien
+  aktiviert. Sie sollte für alle Dateien ausgeschalten sein, die keinen Quellcode enthalten wie
+  auch für alle Dateien, deren Einträge Sie nicht in der Auto-Vervollständigen Liste haben möchten.
+
+@LineBreak
+@LineBreak
+
+@Bold "Datei in der Projektliste anzeigen"
+@LineBreak
+  Dateien mit dieser Option werden in der Projektliste angezeigt. Wenn ein Projekt viele Dateien
+  hat, kann es sinnvoll sein, einige von ihnen von der Projektliste zu verbergen, um einen besseren
+  Überblick und schnelleren Zugriff auf die wichtigen Dateien im Projekt zu haben.
+
+@EndIndent
+
+@Section Der Projekt-Überblick
+
+  Wenn ein Projekt geöffnet ist, zeigt das erste Register des Datei-Panels einen Überblick über 
+  das Projekt und seine Dateien.
+
+@Image ide_project_info.png
+
+@Bold "Projekt-Info"
+@LineBreak
+  Dieser Abschnitt zeigt einige allgemeine Informationen über das Projekt, wie den Projekt-Dateinamen,
+  seine Kommentare und wo das Projekt zuletzt geöffnet war.
+
+@LineBreak
+@LineBreak
+
+@Bold "Projekt-Dateien"
+@LineBreak
+  Dieser Abschnitt zeigt alle Dateien im Projekt und ihre Einstellungen auf dem Projekt-Optionen Fenster.
+  Ein Doppelklick auf eine der Dateien öffnet die Datei in der IDE. Ein Rechtsklick öffnet ein
+  Kontext-Menü mit weiteren Optionen:
+
+@Indent
+  @Image ide_popupmenu_project.png
+
+  @Underline "Öffnen" - Öffnet die Datei in der IDE.
+@LineBreak
+  @Underline "Im Dateibetrachter öffnen" - Öffnet die Datei im Dateibetrachter der IDE.
+@LineBreak
+  @Underline "Im Explorer öffnen" - Öffnet die Datei im Datei-Manager des Betriebssystems.
+@LineBreak
+  @Underline "Datei zum Projekt hinzufügen" - Fügt eine neue Datei zum Projekt hinzu.
+@LineBreak
+  @Underline "Datei vom Projekt entfernen" - Entfernt die ausgewählte(n) Datei(en) vom Projekt.
+@LineBreak
+  @Underline "AutoVervollständigen-Daten aktualisieren" - Durchsucht die Datei erneut nach Auto-Vervollständigen Einträgen.
+  
+@EndIndent
+
+
+@Bold "Projekt-Ziele"
+@LineBreak
+  Dieser Abschnitt zeigt alle Kompilier-Ziele im Projekt und einige ihrer Einstellungen.
+  Ein Doppelklick auf eines der Ziele öffnet dieses Ziel in den @ReferenceLink "ide_compiler" "Compiler-Optionen".
+  Ein Rechtsklick auf eines der Ziele zeigt ein Kontext-Menü mit weiteren Optionen an:
+
+@Indent
+
+  @Underline "Ziel bearbeiten" - Öffnet das Ziel in den Compiler-Optionen.
+@LineBreak
+  @Underline "Als Standard-Ziel festlegen" - Definiert dieses Ziel als Standard-Ziel.
+@LineBreak
+  @Underline "In 'Alle Ziele erstellen' aktivieren" - Schließt dieses Ziel bei der Option 'Alle Ziele erstellen' im Compiler-Menü ein.
+
+@EndIndent
+
+
+@Section Die Projektliste
+
+  Es gibt ein Werkzeug, welches schnellen Zugriff auf die zum Projekt gehörenden Dateien ermöglicht. Für weitere
+  Informationen sehen Sie in den Abschnitt @ReferenceLink "ide_tools" "Eingebaute Werkzeuge".
+
+

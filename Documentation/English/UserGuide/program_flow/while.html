@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Repeating instructions while something is happening - Program Flow - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Program Flow: Repeating instructions while something is happening</h1>
+
+If you want to repeatedly perform a set of instructions while something is
+ happening then you would normally use a While...Wend loop. Again, the name
+ comes from the keywords which are used to indicate the start and end of the
+ loop. A While...Wend loop gives the programmer more control over the
+ decision used to determine if the loop should exit or not, than a For...Next
+ loop. The basic structure of a While...Wend loop is shown below:
+
+<pre class="codepart">
+While &lt;expression&gt;
+    ; Instructions
+Wend
+</pre>
+
+As you can see, the While...Wend loop has a very simple structure. The way it operates
+ is similar to the loop of a For...Next loop. The loop starts by checking the value of
+ the expression. If this value is false then the loop is exited and the program continues
+ executing from the next instruction after the Wend keyword. If the value of the expression
+ is true then the instructions inside the loop are executed. The loop then repeats.
+ So the overall behaviour of a While...Wend loop is that while the expression is
+ true, the loop executes.
+
+<p>The source code below shows some example uses of While...Wend loops. You can also get
+ it from <a href="while.pb">here</a>:
+<pre class="code">If OpenConsole()
+    age.w = 0
+    While age &lt;= 120
+        PrintN(&quot;Happy birthday at &quot;+Str(age)+&quot; years old&quot;)
+        age = age + 20
+    Wend
+    PrintN(&quot;Died at &quot;+Str(age)+&quot; years old&quot;)
+    
+    
+    bottom = 0
+    top = 10
+    While bottom&lt;&gt;top And bottom&lt;4
+        PrintN(&quot;Bottom=&quot;+Str(bottom)+&quot;  Top=&quot;+Str(top))
+        
+        bottom + 1
+        top - 1
+    Wend
+    
+    
+    While 0
+        PrintN(&quot;You will never see me&quot;)
+    Wend
+    
+    
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p><img class="output" src="while_run.png" alt="Output from the While...Wend example" width="415" height="290">
+The first While...Wend loop in that example shows something which behaves in
+ a similar way to a For...Next loop. The loop counter variable, in this case
+ called <var>age</var>, is set to a value before the loop starts. The loop repeats
+ while the <var>age</var> variable is less than or equal to some other value
+ (in this case 120) - this is the same operation as is performed by For...Next loops,
+ if you could see the loop condition. During the loop some information showing the current
+ value of the counter variable is printed out. Finally, at the end of every loop
+ another value (in this case 20) is added to the counter variable.
+
+<p>The second While...Wend loop in this example shows that you can have more flexible
+ loop conditions than with a For...Next loop, because you can use any kind of expression
+ to control whether the loop repeats or not. In this case, both variables <var>top</var>
+ and <var>bottom</var> are checked against each other and <var>bottom</var> is also
+ checked against a numeric constant.
+
+<p>The final While...Wend loop in the example proves that the expression for controlling
+ the execution of the loop really is checked before anything else is done. If you remember,
+ we previously said that zero is the same as false, so in this case the loop expression is
+ always false and therefore the loop never executes. Since the string is never displayed in the
+ console, we know that the expression was checked first.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="for.html">Repeating instructions a number of times</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="repeat.html">Repeating instructions until something happens</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

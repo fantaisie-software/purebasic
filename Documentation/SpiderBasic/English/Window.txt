@@ -1,0 +1,1172 @@
+;
+;     Window library documentation
+;
+;      (c) Fantaisie Software
+;
+;
+@Library Window
+
+@Overview
+
+  Windows are essential components of modern interfaces. SpiderBasic provides
+  full access to them. 
+
+@CommandList
+
+@ExampleFile All Window.sb
+@ExampleFile All MultiWindows.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddKeyboardShortcut(#Window, Shortcut, Event)
+
+@Description
+
+  Add or replace a keyboard shortcut to the specified window. A shortcut generates a @LibraryLink "Menu" "menu" event
+  (like a menu item) as most of them are used in conjunction with menus.
+
+@Parameter "#Window"
+  The window to use.
+  
+@Parameter "Shortcut"
+  It can be one of the following constants:
+@FixedFont
+  @#PB_Shortcut_Back
+  @#PB_Shortcut_Tab
+  @#PB_Shortcut_Clear
+  @#PB_Shortcut_Return
+  @#PB_Shortcut_Capital
+  @#PB_Shortcut_Escape
+  @#PB_Shortcut_Space
+  @#PB_Shortcut_PageUp
+  @#PB_Shortcut_PageDown
+  @#PB_Shortcut_End
+  @#PB_Shortcut_Home
+  @#PB_Shortcut_Left
+  @#PB_Shortcut_Up
+  @#PB_Shortcut_Right
+  @#PB_Shortcut_Down
+  @#PB_Shortcut_Insert
+  @#PB_Shortcut_Delete
+  @#PB_Shortcut_0
+  @#PB_Shortcut_1
+  @#PB_Shortcut_2
+  @#PB_Shortcut_3
+  @#PB_Shortcut_4
+  @#PB_Shortcut_5
+  @#PB_Shortcut_6
+  @#PB_Shortcut_7
+  @#PB_Shortcut_8
+  @#PB_Shortcut_9
+  @#PB_Shortcut_A
+  @#PB_Shortcut_B
+  @#PB_Shortcut_C
+  @#PB_Shortcut_D
+  @#PB_Shortcut_E
+  @#PB_Shortcut_F
+  @#PB_Shortcut_G
+  @#PB_Shortcut_H
+  @#PB_Shortcut_I
+  @#PB_Shortcut_J
+  @#PB_Shortcut_K
+  @#PB_Shortcut_L
+  @#PB_Shortcut_M
+  @#PB_Shortcut_N
+  @#PB_Shortcut_O
+  @#PB_Shortcut_P
+  @#PB_Shortcut_Q
+  @#PB_Shortcut_R
+  @#PB_Shortcut_S
+  @#PB_Shortcut_T
+  @#PB_Shortcut_U
+  @#PB_Shortcut_V
+  @#PB_Shortcut_W
+  @#PB_Shortcut_X
+  @#PB_Shortcut_Y
+  @#PB_Shortcut_Z
+  @#PB_Shortcut_Pad0
+  @#PB_Shortcut_Pad1
+  @#PB_Shortcut_Pad2
+  @#PB_Shortcut_Pad3
+  @#PB_Shortcut_Pad4
+  @#PB_Shortcut_Pad5
+  @#PB_Shortcut_Pad6
+  @#PB_Shortcut_Pad7
+  @#PB_Shortcut_Pad8
+  @#PB_Shortcut_Pad9
+  @#PB_Shortcut_Multiply
+  @#PB_Shortcut_Add
+  @#PB_Shortcut_Separator
+  @#PB_Shortcut_Subtract
+  @#PB_Shortcut_Decimal
+  @#PB_Shortcut_Divide
+  @#PB_Shortcut_F1
+  @#PB_Shortcut_F2
+  @#PB_Shortcut_F3
+  @#PB_Shortcut_F4
+  @#PB_Shortcut_F5
+  @#PB_Shortcut_F6
+  @#PB_Shortcut_F7
+  @#PB_Shortcut_F8
+  @#PB_Shortcut_F9
+  @#PB_Shortcut_F10
+  @#PB_Shortcut_F11
+  @#PB_Shortcut_F12
+@EndFixedFont
+  The above key can be combined with any of the following constants:
+@FixedFont
+  @#PB_Shortcut_Shift
+  @#PB_Shortcut_Control
+  @#PB_Shortcut_Alt
+  @#PB_Shortcut_Command
+@EndFixedFont
+
+@Parameter "Event"
+  The number which will be returned by the @@EventMenu function. By default, a window already has the @#PB_Shortcut_Tab and @#PB_Shortcut_Tab|@#PB_Shortcut_Shift shortcuts to handle tab and shift-tab
+  correctly through the @LibraryLink "gadget" "gadgets". A shortcut can be removed with @@RemoveKeyboardShortcut.
+
+@NoReturnValue
+
+@Remarks 
+  The @#PB_Shortcut_Command constant is only useful on Mac OSX and allow to use the
+  'Apple' key (left or right) to define shortcuts. This constant is also supported on others OS (to ease
+  portability), but will act like @#PB_Shortcut_Control.
+
+@Example
+@Code
+  Procedure MenuEvents()
+    Debug "Menu event: " + EventMenu()
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 295, 260, "CTRL+F Shortcut", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+    
+    AddKeyboardShortcut(0, #PB_Shortcut_Control | #PB_Shortcut_F, 15)
+    
+    BindEvent(#PB_Event_Menu, @MenuEvents())
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@RemoveKeyboardShortcut
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddWindowTimer(#Window, Timer, Timeout)
+
+@Description
+  Adds a new timer to the specified window. @@BindEvent can be used with @#PB_Event_Timer
+  to get the event. @@RemoveWindowTimer function can be used to remove the timer.
+
+@Parameter "#Window"
+  The window to use. A timer is always attached to a window and will be removed if that window is closed.
+
+@Parameter "Timer"
+  An user-defined number that identifies this timer. Timers on separate windows may
+  have overlapping numbers. This value will later be returned from @@EventTimer when a 
+  @#PB_Event_Timer is received. It can also be used to remove the timer again with 
+  the @@RemoveWindowTimer function.
+
+@Parameter "Timeout"
+  Specifies the amount of time (in milliseconds) between each @#PB_Event_Timer events.
+  The timer events will only be generated when there are no other events to be processed (timers are
+  low-priority events). This means that the time that elapses between two timer events may be larger than
+  the specified Timeout value. Timers are therefore not suited for precise timing but are rather intended
+  to perform periodic tasks such as updating a gadget content or similar.
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure TimerEvents()
+    Debug "Timer event: " + EventTimer()
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 295, 260, "Timer example", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+    
+    AddWindowTimer(0, 0, 1000) ; First timer every seconds
+    AddWindowTimer(0, 1, 3000) ; Second timer every 3 seconds
+      
+    BindEvent(#PB_Event_Timer, @TimerEvents())
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@RemoveWindowTimer, @@EventTimer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveWindowTimer(#Window, Timer)
+
+@Description
+  Removes the timer from the specified window.
+
+@Parameter "#Window"
+  The window to use.
+
+@Parameter "Timer"
+  The same value that was used in @@AddWindowTimer to create the timer. 
+  There will be no further events received for this timer.
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddWindowTimer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Timer = EventTimer()
+
+@Description
+  After an event of type @#PB_Event_Timer use this function to determine which timer caused the event.
+
+@NoParameters
+
+@ReturnValue
+  The same value that was used in @@AddWindowTimer to create the timer.
+  
+@SeeAlso
+  @@AddWindowTimer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseWindow(#Window)
+
+@Description
+  Close the specified window. 
+
+@Parameter "#Window"
+  The window to close. If @#PB_All is specified, all the remaining windows are closed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining opened windows are automatically closed when the program ends.
+
+@SeeAlso
+  @@OpenWindow
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableWindow(#Window, State)
+
+@Description
+  Enables or disables user input to the specified Window. 
+
+@Parameter "#Window"
+  The window to disable or enable.
+
+@Parameter "State"
+  It can be one of the following values:
+@FixedFont
+  @#True : the window is disabled.
+  @#False: The window is enabled.
+@EndFixedFont
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function GadgetNumber = EventGadget()
+
+@Description
+  After an event of type @#PB_Event_Gadget, use this function to determine which gadget has been triggered.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the #Gadget number associated to the event.
+
+@SeeAlso
+  @@EventMenu, @@EventTimer, @@EventType
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MenuItem = EventMenu()
+
+@Description
+  After an event of type @#PB_Event_Menu use this function to determine which menu item, @LibraryLink "toolbar" "toolbar" item
+  or @Link "addkeyboardshortcut" "keyboard" shortcut has been selected.
+
+@NoParameters
+
+@ReturnValue
+  Returns the menu item, toolbar item or keyboard shortcut number associated to the event.
+
+@Remarks
+  A toolbar event is like a menu event (as toolbars are shortcuts for menu items most of the time). 
+  So it's a good idea, if the toolbar buttons and the menu items have the same ID, then the same
+  operation can be done on both without any additional code.
+
+@SeeAlso
+  @@EventGadget, @@EventWindow
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Data = EventData() 
+
+@Description
+  Get the data associated with the current event. The event needs to be a custom event sent
+  with @@PostEvent.
+
+@NoParameters
+  
+@ReturnValue
+  Returns the value associated with the current event. If the current event isn't a custom
+  event sent with @@PostEvent, this value is undefined.
+
+@SeeAlso
+  @@PostEvent, @@EventGadget, @@EventWindow
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EventType = EventType() 
+
+@Description
+  
+  After a @#PB_Event_Gadget, use this function to determine of which
+  type the event is. The following gadgets support EventType():
+@LineBreak
+@LineBreak
+  - @@CanvasGadget - The CanvasGadget has a special set of event types. @LineBreak
+  - @@ComboBoxGadget @LineBreak
+  - @@EditorGadget @LineBreak
+  - @@ImageGadget @LineBreak
+  - @@ListViewGadget @LineBreak
+  - @@ListIconGadget @LineBreak
+  - @@SpinGadget @LineBreak
+  - @@StringGadget @LineBreak
+  - @@WebGadget - The WebGadget has a special set of event types. @LineBreak
+@LineBreak
+ (See the gadget definition to see which events are supported.)  
+
+@NoParameters
+
+@ReturnValue
+  The following values are possible, if an event of the type @#PB_Event_Gadget (library 
+  @LibraryLink "Gadget" "Gadget") occurs:
+@FixedFont
+  @#PB_EventType_LeftClick       : Left mouse button click
+  @#PB_EventType_RightClick      : right mouse button click
+  @#PB_EventType_LeftDoubleClick : Left mouse button double click
+  @#PB_EventType_RightDoubleClick: Right mouse button double click
+  @#PB_EventType_Focus           : Get the focus.
+  @#PB_EventType_LostFocus       : Lose the focus.
+  @#PB_EventType_Change          : Content change.
+@EndFixedFont
+
+@Example
+@Code
+  Procedure GadgetEvents()
+    Select EventGadget()
+      Case 1 
+        Select EventType()
+          Case #PB_EventType_LeftClick        : Debug "Click with left mouse button"
+          Case #PB_EventType_RightClick       : Debug "Click with right mouse button"
+          Case #PB_EventType_LeftDoubleClick  : Debug "Double-click with left mouse button"
+          Case #PB_EventType_RightDoubleClick : Debug "Double-click with right mouse button"
+       EndSelect
+    EndSelect
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 330, 320, "EventType example...", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+     ListIconGadget(1, 10, 10, 310, 300, "ListIcon", 280)
+     For k = 1 To 4 
+       AddGadgetItem(1, -1, "Line " + k)
+     Next
+     
+     BindEvent(#PB_Event_Gadget, @GadgetEvents())
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@EventGadget, @@EventType, @@EventTimer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WindowNumber = EventWindow()
+
+@Description
+  After an event, use this function to determine on which window
+  the event has occurred.
+  
+@NoParameters
+
+@ReturnValue
+  The window number on which the event has occured.
+  
+@SeeAlso
+  @@EventGadget, @@EventMenu, @@EventTimer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WindowNumber = GetActiveWindow()
+
+@Description
+  Returns the number of the window which currently has the keyboard focus or -1 if no window is active.
+
+@NoParameters
+
+@ReturnValue
+  The number of the window which currently has the keyboard focus or -1 if no window is active.
+
+@Remarks
+  A window can be activated (set the focus on it) with the @@SetActiveWindow function.
+  
+@SeeAlso
+  @@SetActiveWindow
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Color = GetWindowColor(#Window)
+
+@Description
+  Returns the background color of the specified window that was set with @@SetWindowColor.
+
+@Parameter "#Window"
+  The window to use.
+
+@ReturnValue
+  The background color of the specified window that was set with @@SetWindowColor.
+  If no background color was set yet, -1 is returned.
+
+@SeeAlso
+  @@SetWindowColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetWindowData(#Window)
+
+@Description
+  Returns the 'Data' value that has been stored for this window with the @@SetWindowData function.
+  This allows to associate a custom value with any window.
+
+@Parameter "#Window"
+  The window to use.
+
+@ReturnValue
+  Returns the current data value. If there was never a data value set for this window, the return-value
+  will be 0.
+
+@SeeAlso
+  @@SetWindowData, @@GetGadgetData, @@SetGadgetData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetWindowTitle(#Window) 
+
+@Description
+  Returns the text currently displayed in the specified window's title bar.
+
+@Parameter "#Window"
+  The window to use.
+  
+@ReturnValue
+  The text currently displayed in the specified window's title bar.
+
+@Remarks
+  The title of a window can be changed with @@SetWindowTitle.
+
+@Example
+@Code  
+  If OpenWindow(2, 100, 100, 200, 100, "My cool title")
+    Title$ = GetWindowTitle(2)  ; Will return "My cool title"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SetWindowTitle
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideWindow(#Window, State [, Flags]) 
+
+@Description
+  Hides or shows the specified window. 
+
+@Parameter "#Window"
+  The window to use.
+  
+@Parameter "State"
+  It can be one of the following values:
+@FixedFont
+  @#True : the window is hidden.
+  @#False: the window is shown. The window is automatically activated (gets the focus), 
+          unless the @#PB_Window_NoActivate flag is set.
+@EndFixedFont
+
+@Parameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_Window_NoActivate    : the window will be shown but not activated (only valid when un-hiding the window).
+  @#PB_Window_ScreenCentered: the window will be screen centered (only valid when un-hiding the window).
+  @#PB_Window_WindowCentered: the window will be window centered (only valid when un-hiding the window).
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso 
+  @@OpenWindow
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsWindow(#Window)
+
+@Description
+  Tests if the given #Window number is a valid and correctly initialized, window. 
+  
+@Parameter "#Window"
+  The window to use.
+
+@ReturnValue
+  Returns nonzero if #Window is a valid window and zero otherwise.
+  
+@Remarks
+  This function is bulletproof and can be used with any value. If the 'Result' is not zero then the object is valid and
+  initialized, otherwise it will equal zero. This is the correct way to ensure a window is ready to use.
+  
+@SeeAlso
+  @@OpenWindow
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenWindow(#Window, x, y, InnerWidth, InnerHeight, Title$ [, Flags [, ParentWindowID]])
+
+@Description
+  Opens a new window according to the specified parameters. The new window becomes the active window, 
+  it's not needed to use @@SetActiveWindow (unless the window is created as invisible).
+
+@Parameter "#Window"
+  A number to identify the new window.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "x, y"
+  The initial position of the window, in pixels (unless one of the center flags is used).
+  If 'x' or 'y' is set to @#PB_Ignore, the OS will choose a position for the window.
+
+@Parameter "InnerWidth, InnerHeight"
+  The required client area, in pixels (without borders and window decorations). 
+  
+@Parameter "Title$"
+  The title of the newly created window.
+
+@OptionalParameter "Flags"
+  Can be a combination of the following values:
+@FixedFont
+  @#PB_Window_SystemMenu    : Enables the system menu on the window title bar (default).
+  @#PB_Window_Background    : The window doesn't have a frame and is put in the web browser background. It can only have one window
+                             with the background flag opened at the same time. This window will be automatically resized when the
+                             web browser is resized.
+  @#PB_Window_SizeGadget    : Adds the sizeable feature to a window.
+  @#PB_Window_Invisible     : Creates the window but don't display.
+  @#PB_Window_TitleBar      : Creates a window with a titlebar.
+  @#PB_Window_BorderLess    : Creates a window without any borders.
+  @#PB_Window_ScreenCentered: Centers the window in the middle of the screen. x,y parameters are ignored.
+  @#PB_Window_NoActivate    : Don't activate the window after opening.
+  @#PB_Window_AllowSelection : Allows text selection on gadgets displaying text (to copy/paste content easily)
+@EndFixedFont
+
+@OptionalParameter "ParentWindowID"
+  This parameter is not supported yet.
+
+@ReturnValue
+  Nonzero if the window was successfully created, zero otherwise. If @#PB_Any was used
+  for the #Window parameter then the generated number is returned on success.
+
+@SeeAlso
+  @@CloseWindow
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PostEvent(Event [, Window, Object [, Type [, Data]]])
+
+@Description
+  Posts an event at the end of the internal event queue.
+  
+@Parameter "Event"
+  The event to post. For a list of SpiderBasic events, see @@BindEvent. When using custom event,
+  the first value must be at least @#PB_Event_FirstCustomValue, to not clash with internal events.
+  
+@OptionalParameter "Window"
+  The window number associated with the event. When using
+  a custom event, it can be any integer number. This value can be retrieved with @@EventWindow.
+
+@OptionalParameter "Object"
+  The object number associated with the event. It can be for example a @LibraryLink "gadget" "gadget"
+  or @LibraryLink "menu" "menu" number. When using
+  a custom event, it can be any integer number. This value can be retrieved with @@EventGadget.
+
+@OptionalParameter "Type"  
+  The type associated with the event. When using custom event, the first value must be at 
+  least @#PB_EventType_FirstCustomValue, to not clash with internal values.
+  This value can be retrieved with @@EventType.
+
+@OptionalParameter "Data"  
+  A data associated with the event. It is only valid when using a custom event and can be any integer number.
+  This value can be retrieved with @@EventData.
+
+@NoReturnValue
+
+@SeeAlso
+  @@EventWindow, @@EventGadget, @@EventType, @@EventData
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveKeyboardShortcut(#Window, Shortcut)
+
+@Description
+  Removes a keyboard shortcut previously defined with @@AddKeyboardShortcut.
+  
+@Parameter "#Window"
+  The window to use.
+  
+@Parameter "Shortcut"
+  The shortcut to remove. For a full list of the available shortcut, see @@AddKeyboardShortcut.
+  If this parameter is set to @#PB_Shortcut_All, all the shortcuts are removed.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@AddKeyboardShortcut
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeWindow(#Window, x, y, Width, Height)  
+
+@Description
+  Move and resize the given window to the given position and size. If any of the parameters should
+  be ignored (not be changed) @#PB_Ignore can be passed at this place.
+
+@Parameter "#Window"
+  The window to resize.
+  
+@Parameter "x, y"
+  The new window position, in pixels. If 'x' or 'y' is set to @#PB_Ignore, the current value
+  of 'x' or 'y' won't be changed.
+  
+@Parameter "Width, Height"
+  The new window size, in pixels. If 'Width' or 'Height' is set to @#PB_Ignore, the current value
+  of 'Width' or 'Height' won't be changed.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetActiveWindow(#Window)
+
+@Description
+  Activates the specified window, which means the focus has been put on this window.
+
+@Parameter "#Window"
+  The window to activate.
+
+@NoReturnValue
+  
+@Remarks
+  The function will only change the focus within the program. It can not bring the program to the foreground when another program
+  has the focus.
+  
+@SeeAlso
+  @@GetActiveWindow
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetWindowColor(#Window, Color) 
+
+@Description
+  Changes the background color of the specified window.
+
+@Parameter "#Window"
+  The window to use.
+  
+@Parameter "Color"
+  The new color to use for the window background. @@RGB can be used to get a valid color value.
+  A color table with common colors is available @ReferenceLink "colortable" "here".
+  If color is set to @#PB_Default, it will reset the background to the default color.
+
+@NoReturnValue
+
+@Remark
+  @@GetWindowColor can be used to get the current background color of the window.
+
+@SeeAlso
+  @@GetWindowColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetWindowData(#Window, Value)
+
+@Description
+  Stores the given value with the specified window. This value can later be read with the @@GetWindowData
+  function. This allows to associate a custom value with any window.
+
+@Parameter "#Window"
+  The window to use.
+
+@Parameter "Value"
+  The value to set.
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetWindowData, @@SetGadgetData, @@GetGadgetData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetWindowTitle(#Window, Title$) 
+
+@Description
+  Changes the text which is currently displayed in the window title bar.
+
+@Parameter "#Window"
+  The window to use.
+
+@Parameter "Title$"
+  The new title to set.
+
+@NoReturnValue
+
+@Remarks
+  @@GetWindowTitle can be used to get the current window title.
+
+@Example
+@Code  
+  If OpenWindow(2, 100, 100, 200, 100, "My cool title")
+    SetWindowTitle(2, "Even cooler title !")
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetWindowTitle
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StickyWindow(#Window, State) 
+
+@Description
+  Makes the specified window stay on top of all other open windows (also from other programs), even if
+  it does not have the focus.
+
+@Parameter "#Window"
+  The window to use.
+
+@Parameter "State"
+  It can be one the following values:
+@FixedFont
+  @#True : the window will stay on top of all others.
+  @#False: the window will not stay on top of all others when it does not have the focus.
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BindEvent(Event, @Callback() [, Window [, Object [, EventType]]])  
+
+@Description
+  Bind an event to a callback. It's the way to handle events in SpiderBasic.
+  An event can be unbound with @@UnbindEvent.
+  
+@Parameter "Event"
+  The event to bind. Custom events are also supported, when using @@PostEvent.
+  Possible Events are:
+@FixedFont
+  @#PB_Event_Menu            : a @LibraryLink "menu" "menu" has been selected
+  @#PB_Event_Gadget          : a @LibraryLink "gadget" "gadget" has been pushed
+  @#PB_Event_Timer           : a @Link "AddWindowTimer" "timer" has reached its timeout
+  @#PB_Event_CloseWindow     : the window close gadget has been pushed
+  @#PB_Event_SizeWindow      : the window has been resized
+  @#PB_Event_MoveWindow      : the window has been moved
+  @#PB_Event_ActivateWindow  : the window has been activated (got the focus)
+  @#PB_Event_DeactivateWindow: the window has been deactivated (lost the focus)
+  @#PB_Event_RightClick      : a right mouse button click has occurred on the window. This can be useful to display a popup menu
+  @#PB_Event_LeftClick       : a left mouse button click has occurred on the window
+  @#PB_Event_LeftDoubleClick : a left mouse button double-click has occurred on the window
+  @#PB_Event_Loading         : a new item has been loaded. It needs a specific event callback, see below for more information.
+  @#PB_Event_LoadingError    : an error occured when loading an item. It needs a specific event callback, see below for more information.
+  @#PB_Event_RenderFrame     : a new frame is ready to be rendered. @@FlipBuffers has to be called to trigger this event.
+  @#PB_Event_SizeDesktop     : the deskop has been resized. For example, it can be the browser window which has been resized, 
+                              or the device orientation which has been changed.
+@EndFixedFont
+
+@Parameter "@Callback()"
+  The callback procedure to call when the event occurs. It has to be declared like this:
+@Code
+  Procedure EventHandler()
+    ; Code
+  EndProcedure
+@EndCode
+  Regular functions like @@EventGadget, @@EventWindow, @@EventMenu, @@EventType and @@EventData are
+  available within the callback to get more information about the event. @LineBreak
+  @LineBreak
+  If the event is @#PB_Event_Loading or @#PB_Event_LoadingError, the callback has to be declared like this:
+@Code
+  Procedure EventLoading(Type, Filename$, ObjectId)
+    ; Code
+  EndProcedure
+@EndCode
+  The 'type' argument will be one of the following value:
+
+@FixedFont
+  @#PB_Loading_Image : The item is an image loaded with @LoadImage()
+  @#PB_Loading_Sound : The item is a sound loaded with @LoadSound()
+  @#PB_Loading_Sprite: The item is a sprite loaded with @LoadSprite()
+  @#PB_Loading_Xml   : The item is a XML object loaded with @LoadXML()
+  @#PB_Loading_JSON  : The item is a JSON object loaded with @LoadJSON()
+@EndFixedFont
+
+  The 'Filename$' argument will be the original filename as specified in the load command.
+  The 'ObjectId' argument is the object number, as specified in the load command. 
+
+
+@OptionalParameter "Window"
+  The #Window number to bind the event to. The event will be dispatched only when occurring on this
+  window. @#PB_All can be specified to bind the event to all windows.
+
+@OptionalParameter "Object"
+  The object number to bind the event to. It can be a @LibraryLink "gadget" "gadget"
+  or @LibraryLink "menu" "menuitem" number. @#PB_All
+  can be used to bind the event to any objects.
+
+@OptionalParameter "EventType"
+  The event type to bind the event to. For a full list of supported type, see @@EventType.
+  @#PB_All can be used to bind the event to any type.
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure SizeWindowHandler()
+    Debug "Size event on window #" + EventWindow()
+  EndProcedure
+  
+  OpenWindow(0, 100, 100, 200, 200, "Resize test", #PB_Window_SizeGadget | #PB_Window_SystemMenu)
+  
+  BindEvent(#PB_Event_SizeWindow, @SizeWindowHandler())
+@EndCode
+
+@SeeAlso @@BindGadgetEvent, @@BindMenuEvent, @@UnbindEvent
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UnbindEvent(Event, @Callback() [, Window [, Object [, EventType]]])  
+
+@Description
+  Unbind an event from a callback. If no matching event callback is found, this
+  command has no effect.
+  
+@Parameter "Event"
+  The event to unbind. For a full list of events, see @@BindEvent. Custom
+  events are also supported, when using @@PostEvent.
+
+@Parameter "@Callback()"
+  The callback procedure to unbind.
+  
+@OptionalParameter "Window"
+  The #Window number to unbind the event.
+
+@OptionalParameter "Object"
+  The object number to unbind the event. It can be a gadget or menuitem number. 
+
+@OptionalParameter "EventType"
+  The event type to unbind the event from. For a full list of supported types, see @@EventType.
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure SizeWindowHandler()
+    Debug "Size event on window #" + EventWindow()
+  EndProcedure
+  
+  OpenWindow(0, 100, 100, 200, 200, "Resize test", #PB_Window_SizeGadget | #PB_Window_SystemMenu)
+  
+  BindEvent(#PB_Event_SizeWindow, @SizeWindowHandler())
+  UnbindEvent(#PB_Event_SizeWindow, @SizeWindowHandler()) ; Unbind it immediately
+@EndCode
+
+@SeeAlso @@BindEvent, @@BindGadgetEvent, @@BindMenuEvent
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WindowBounds(#Window, MinimumWidth, MinimumHeight, MaximumWidth, MaximumHeight)  
+
+@Description
+  Changes the minimal and maximal #Window dimensions (in pixels). This is useful to prevent a window from
+  becoming too small or too big when the user resizes it. 
+  
+@Parameter "#Window"
+  The window to use.
+
+@Parameter "MinimumWidth"
+  The minimum width of the window. If sets to @#PB_Ignore, the current minimum width value is not changed.
+  If sets to @#PB_Default, the minimum width value is reset to the system default (as it was before calling 
+  this command).
+  
+@Parameter "MinimumHeight"
+  The minimum height of the window. If sets to @#PB_Ignore, the current minimum height value is not changed.
+  If sets to @#PB_Default, the minimum height value is reset to the system default (as it was before calling 
+  this command).
+
+@Parameter "MaximumWidth"
+  The maximum width of the window. If sets to @#PB_Ignore, the current maximum width value is not changed.
+  If sets to @#PB_Default, the maximum width value is reset to the system default (as it was before calling 
+  this command).
+  
+@Parameter "MaximumHeight"
+  The maximum height of the window. If sets to @#PB_Ignore, the current maximum height value is not changed.
+  If sets to @#PB_Default, the maximum height value is reset to the system default (as it was before calling 
+  this command).
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 300, 300, "Resize me !", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    WindowBounds(0, 200, 200, 400, 400)
+  EndIf
+@EndCode 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WindowHeight(#Window [, Mode])  
+
+@Description
+  Returns the height (in pixels) of the given window.
+  
+@Parameter "#Window"
+  The window to use.
+
+@OptionalParameter "Mode"
+  The mode used to calculate the height of the window. It can be one of the following value:
+@FixedFont  
+  @#PB_Window_InnerCoordinate: height of the window inner area (where gadget can be added), 
+                              excluding borders (default).
+  @#PB_Window_FrameCoordinate: height of the window, including borders.
+@EndFixedFont
+
+@ReturnValue
+  Returns the height (in pixels) of the given window.
+
+@SeeAlso
+  @@OpenWindow, @@WindowWidth
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WindowID = WindowID(#Window)
+
+@Description
+  Returns the unique system identifier of the window.
+
+@Parameter "#Window"
+  The window to use.
+
+@ReturnValue
+  The system identifier. This result is sometimes also known as 'Handle'. Look at the extra chapter @ReferenceLink "handles" "Handles and Numbers" for
+  more information.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WindowWidth(#Window [, Mode])  
+
+@Description
+  Returns the width (in pixels) of the given window.
+  
+@Parameter "#Window"
+  The window to use.
+
+@OptionalParameter "Mode"
+  The mode used to calculate the width of the window. It can be one of the following value:
+@FixedFont  
+  @#PB_Window_InnerCoordinate: width of the window inner area (where gadget can be added), 
+                              excluding borders (default).
+  @#PB_Window_FrameCoordinate: width of the window, including borders.
+@EndFixedFont
+
+@ReturnValue
+  Returns the width (in pixels) of the given window.
+
+@SeeAlso
+  @@OpenWindow, @@WindowHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WindowX(#Window [, Mode])  
+
+@Description
+  Returns the x position on the screen of the given window.
+  
+@Parameter "#Window"
+  The window to use.
+
+@OptionalParameter "Mode"
+  The mode used to calculate the x position of the window. It can be one of the following value:
+@FixedFont  
+  @#PB_Window_FrameCoordinate: x position of the window, including borders (default).
+  @#PB_Window_InnerCoordinate: x position of the window inner area (where gadget can be added),
+                              excluding borders.
+@EndFixedFont
+
+@ReturnValue
+  Returns the x position (from the left) on the screen (in pixels) of the given window.
+
+@SeeAlso
+  @@OpenWindow, @@WindowY    
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WindowY(#Window [, Mode])  
+
+@Description
+  Returns the y position on the screen of the given window.
+  
+@Parameter "#Window"
+  The window to use.
+
+@OptionalParameter "Mode"
+  The mode used to calculate the y position of the window. It can be one of the following value:
+@FixedFont  
+  @#PB_Window_FrameCoordinate: y position of the window, including borders (default).
+  @#PB_Window_InnerCoordinate: y position of the window inner area (where gadget can be added), 
+                              excluding borders.
+@EndFixedFont
+
+@ReturnValue
+  Returns the y position (from the top) on the screen (in pixels) of the given window.
+
+@SeeAlso
+  @@OpenWindow, @@WindowX    
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function x = WindowMouseX(#Window)  
+
+@Description
+  Returns the mouse x position in the inner area of the specified window.
+
+@Parameter "#Window"
+  The window to use.
+
+@ReturnValue
+  The mouse x position in the inner area of the given window. If the
+  mouse is outside of the window area, it will return -1.
+
+@Remarks
+  To get the absolute x position of the mouse on the desktop, use @@DesktopMouseX.
+
+@Example
+@Code
+  Procedure TimerEvent()
+    SetGadgetText(0, "Window mouse position: " + WindowMouseX(0) + ", " + WindowMouseY(0))
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 300, 30, "Window mouse monitor", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    TextGadget(0, 10, 6, 200, 20, "")
+    
+    AddWindowTimer(0, 0, 50) ; every 50 ms
+    BindEvent(#PB_Event_Timer, @TimerEvent())
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function y = WindowMouseY(#Window)   
+
+@Description
+  Returns the mouse y position in the inner area of the given window.
+
+@Parameter "#Window"
+  The window to use.
+
+@ReturnValue
+  The mouse y position in the inner area of the specified window. If the
+  mouse is outside of the window area, it will return -1.
+
+@Remarks
+  To get the absolute y position of the mouse on the desktop, use @@DesktopMouseY.
+
+@Code
+  Procedure TimerEvent()
+    SetGadgetText(0, "Window mouse position: " + WindowMouseX(0) + ", " + WindowMouseY(0))
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 300, 30, "Window mouse monitor", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    TextGadget(0, 10, 6, 200, 20, "")
+    
+    AddWindowTimer(0, 0, 50) ; every 50 ms
+    BindEvent(#PB_Event_Timer, @TimerEvent())
+  EndIf
+@EndCode
+
+@SupportedOS

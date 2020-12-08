@@ -1,0 +1,137 @@
+@Title UserGuide - Variables and Processing of variables
+
+@Bold "A" is an integer - but note that you can't declare @ReferenceLink "variables" "variables"
+this way if you use the @ReferenceLink "compilerdirectives" "EnableExplicit" directive.
+Outside of a @ReferenceLink "procedures" "procedure" A will exist at Main scope, within
+a procedure it will become local.
+@Code
+  A = 0
+@EndCode
+
+@LineBreak
+@Bold "B" is a long integer, @Bold "C" is a floating-point number, they will be initialized to zero.
+@Code
+  Define B.l, C.f
+@EndCode
+
+@LineBreak
+@Bold "D" and @Bold "E" are long integers too. However, they will be initialized to the stated
+constants. Notice too the alternative syntax of @ReferenceLink "define" "Define" used.
+@Code
+  Define.l D = 10, E = 20
+@EndCode
+
+@LineBreak
+@Bold "F" is a string.
+@Code
+  Define.s F
+@EndCode
+
+@LineBreak
+So is @Bold "G$", however, if you declare strings this way, you must always use the $ notation.
+@Code
+  G$ = "Hello, "
+@EndCode
+
+This won't work. (G becomes a new integer variable and a compiler error occurs).
+@Code
+  G = "Goodbye, World!"
+@EndCode
+
+@LineBreak
+@Bold "H" is an @ReferenceLink "dim" "array" of 20 strings, array indexing begins at zero.
+@Code
+  Dim H.s(19)
+@EndCode
+
+Now H is an array of 25 strings. If the array is resized larger, its original contents
+will be preserved.
+@Code
+  ReDim H.s(24)
+@EndCode
+
+@LineBreak
+@Bold "J" will appear at @ReferenceLink "global" "Global", rather than Main, scope. It will
+appear in all procedures, but maybe a better way would be to use the @ReferenceLink "shared" "Shared"
+keyword inside a procedure on a main scope variable, so that the chances of accidental
+changes are minimized.
+@Code
+  Global.i J
+@EndCode
+
+@LineBreak
+@Bold "K" will be a new, empty, @ReferenceLink "newlist" "list" of strings at main scope.
+@Code
+  NewList K.s()
+@EndCode
+
+@LineBreak
+@Bold "M" will be a new, empty, @ReferenceLink "newmap" "map" of strings at main scope.
+@Code
+  NewMap M.s()
+@EndCode
+
+@LineBreak
+Note that you can't use the alternative syntax of the @ReferenceLink "define" "Define"
+keyword with @ReferenceLink "newlist" "NewList" or @ReferenceLink "newmap" "NewMap"
+though. A compiler error will result.
+@LineBreak
+@LineBreak
+Within a procedure:
+@Code
+  Procedure TestVariables()
+    
+    ; N and P will be local.
+    Define.l N
+    Protected.l P
+    
+    ; Q will be a static local.
+    Static.l Q
+    
+    ; The main scope variable F and the string list K will be available within this procedure.
+    Shared F, K()
+    
+    ; The global scope variable J will be available here implicitly.
+    
+  EndProcedure
+@EndCode
+
+@LineBreak
+Using @ReferenceLink "variables" "operators" on variables:
+@Code
+  ; Add two to A.
+  A + 2
+  
+  ; Bitwise Or with 21 (A will become 23)
+  A | 21
+  
+  ; Bitwise And with 1 (A will become 1)
+  A & 1
+  
+  ; Arithmetic shift left (A will become 2, that is 10 in binary).
+  A << 1
+@EndCode
+
+@LineBreak
+String concatenation:
+@Code
+  G$ + "World!"
+@EndCode
+
+@LineBreak
+Add an element to the K list:
+@Code
+  AddElement(K())
+  K() = "List element one"
+@EndCode
+
+@LineBreak
+Add an element to the M map:
+@Code
+  M("one") = "Map element one"
+@EndCode
+
+
+@LineBreak
+@Section UserGuide Navigation
+@ReferenceLink "ug_firststeps" "< Previous: First steps" | @ReferenceLink "ug_overview" "Overview" | @ReferenceLink "ug_constants" "Next: Constants >"

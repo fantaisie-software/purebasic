@@ -1,0 +1,58 @@
+@Title Handles and Numbers
+
+@Section Numbers
+
+  All created objects are identified by an arbitrary number (which is not the object's handle, as seen below).
+  In this manual, these numbers are marked as #Number (for example, each gadget created have a #Gadget number). 
+@LineBreak
+@LineBreak
+  The numbers you assign to them do not need to be constants, but they need to be unique for each object in 
+  your program (an image can get the same number as a gadget, because these are different types of objects).
+  These numbers are used to later access these objects in your program.  
+@LineBreak
+@LineBreak
+  For example, the event handling functions return these numbers:
+
+@Code  
+  EventGadget()
+  EventMenu()
+  EventWindow()
+@EndCode
+
+
+@Section Handles
+
+  All objects also get a unique number assigned to them by the system. 
+  These identifiers are called handles.
+
+  Sometimes, a PureBasic function doesn't need the number as argument, but the handle. 
+  In this manual, such things are mentioned, as an ID.
+
+@Example
+  
+@Code  
+  ImageGadget(#Gadget, x, y, Width, Height, ImageID [, Flags])
+  ; #Gadget needs to be the number you want to assign to the Gadget
+  ; ImageID needs to a handle to the image.
+@EndCode
+
+  To get the handle to an object, there are special functions like:
+
+@Code  
+  FontID()
+  GadgetID()
+  ImageID()
+  ThreadID()
+  WindowID()
+@EndCode  
+
+  Also, most of the functions that create these objects also return this handle as a result, if they were successful.
+  This is only the case if @#PB_Any was not used to create the object. If @#PB_Any is
+  used, these commands return the object number that was assigned by PB for them, not the handle.
+
+@Example
+
+@Code
+  GadgetHandle = ImageGadget(...)
+@EndCode    
+

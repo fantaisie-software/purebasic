@@ -1,0 +1,186 @@
+@Title Les objets PureBasic
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#objets indexés"><u>objets indexés</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#objets dynamiques"><u>objets dynamiques</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#objets PureBasic"><u>objets PureBasic</u></a></td>
+  </tr>
+  </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+
+@Section Introduction
+  L'objectif de ce chapitre est d'assimiler 
+  la création et la manipulation des objets 
+  en PureBasic. 
+  Pour cette présentation nous allons utiliser 
+  l'objet @LibraryLink Image Image, mais la 
+  même logique s'applique à tous les autres 
+  objets PureBasic. Quand nous voulons créer 
+  une image, nous avons deux possibilités: 
+  la méthode indexée et la méthode dynamique.
+
+@FormatIf HTML
+<a name="objets indexés"></a>
+@FormatEndIf
+@Section I. Les objets indexés
+  La manière indexée (statique) permet de 
+  référencer un objet à l'aide d'une valeur 
+  numérique que nous déterminons. Elle doit 
+  être comprise entre 0 et un nombre maximum 
+  qui va dépendre du type de l'objet (en 
+  principe entre 5000 et 64000). Ainsi, si 
+  vous utilisez la valeur 0 pour votre premier 
+  objet et la valeur 1000 pour votre deuxième 
+  objet, il y aura 1001 index de disponibles 
+  et 999 seront inutilisés, ce qui n'est pas 
+  très efficace (gâchis de mémoire vive). 
+  C'est pour cette raison qu'il faut autant 
+  que possible utiliser une indexation 
+  sequentielle, qui commence à 0. Si vous 
+  avez besoin d'une méthode plus flexible, 
+  il vous faudra probablement utiliser la 
+  méthode dynamique, décrite dans la section II. 
+  La méthode indexée offre plusieurs avantages:
+  @Indent @Section
+        - Manipulation plus facile, pas besoin de 
+        @ReferenceLink "Variables" variables ni de 
+        @ReferenceLink "Dim" tableaux. @LineBreak
+        - Manipulation 'Groupée' sans avoir à utiliser 
+        de tableaux supplémentaires. @LineBreak
+        - Utilisation des objets dans les 
+        @ReferenceLink "Procedures" procédures 
+        sans avoir à déclarer de 
+        @ReferenceLink "Global" globales (si on 
+        utilise une @ReferenceLink "General_Rules" constante 
+        ou un nombre). @LineBreak
+        - Destruction automatique des objets 
+        précédents quand un index est réutilisé. 
+        @LineBreak
+  @EndIndent
+  Les @ReferenceLink "Enumerations" Enumérations 
+  sont fortement recommandées si vous 
+  souhaitez utiliser des constantes 
+  séquentielles pour identifier vos objets.
+
+@Example
+@Code
+  CreateImage(0, 640, 480) ; Crée une image à l'index n°0 dans l'indexation des images
+  ResizeImage(0, 320, 240) ; Redimensionne l'image n°0
+@EndCode  
+
+@Example
+@Code  
+  CreateImage(2, 640, 480) ; Crée une image à l'index n°2 dans l'indexation des images
+  ResizeImage(2, 320, 240) ; Redimensionne l'image n°2
+  CreateImage(2, 800, 800) ; Crée une nouvelle image à l'emplacement n°2. L'ancienne image n°2 est désallouée automatiquement
+@EndCode  
+  
+@Example
+@Code  
+  For k = 0 To 9
+    CreateImage(k, 640, 480) ; Crée 10 images, aux emplacements 0 à 9
+    ResizeImage(k, 320, 240) ; Recrée une nouvelle image à l'emplacement n°2. L'ancienne image n°2 est désallouée automatiquement
+  Next
+@EndCode  
+  
+@Example
+@Code  
+  #ImageBackground = 0
+  #ImageButton     = 1
+
+  CreateImage(#ImageBackground, 640, 480) ; Crée une image à l'emplacement #ImageBackground (0)
+  ResizeImage(#ImageBackground, 320, 240) ; Redimensionne l'image 0 (ImageBackground)
+  CreateImage(#ImageButton    , 800, 800) ; Crée une image (n°1)
+@EndCode  
+
+@FormatIf HTML
+<a name="objets dynamiques"></a>
+@FormatEndIf
+@Section II. Les objets dynamiques
+  Quelquefois, les objets indexés ne sont 
+  pas pratiques pour gérer des situations 
+  où l'on ne connaît pas à l'avance le nombre 
+  d'objets nécessaire à un instant donné. 
+  Pour cela PureBasic permet de créer très 
+  facilement des objets dynamiques. 
+  Les deux méthodes (indexée et dynamique) 
+  peuvent être utilisées en même temps sans 
+  risque de conflit. Pour créer un objet 
+  dynamique, il suffit de spécifier la 
+  constante @#PB_Any à la place du numéro 
+  et un numéro dynamique sera retourné comme 
+  résultat de la fonction. 
+  Cette manière de gérer les objets se marie 
+  bien avec les @LibraryLink "List" "listes", 
+  qui sont aussi un moyen dynamique de gérer 
+  des données. 
+
+@Example
+@Code  
+  DynamicImage1 = CreateImage(#PB_Any, 640, 480) ; Crée une image dynamiquement
+  ResizeImage(DynamicImage1, 320, 240) ; Redimensionne l'image 
+@EndCode  
+
+@LineBreak
+@LineBreak
+   
+  Code complet d'exemple de gestion 
+  dynamique d'objets avec une liste 
+  chainée:
+    
+@ExampleFile All MDI_ImageViewer.pb
+
+@LineBreak
+@LineBreak
+ 
+@FormatIf HTML
+<a name="objets PureBasic"></a>
+@FormatEndIf
+@Section Présentation des différents objets PureBasic
+
+  Différents objets PureBasic (Windows, 
+  gadgets, sprites, etc) peuvent utiliser 
+  la même énumération de numéros d'objet 
+  et pas d'autres. Ainsi, chacun des objets 
+  suivants peuvent être énumérés en commençant 
+  à 0 (ou autre valeur) car PureBasic les 
+  gère par leur type:
+  @Indent
+  - @LibraryLink "database" "Database" @LineBreak
+  - @LibraryLink "dialog" "Dialog" @LineBreak
+  - @LibraryLink "entity" "Entity" @LineBreak
+  - @LibraryLink "file" "File" @LineBreak
+  - @LibraryLink "ftp" "FTP" @LineBreak
+  - @LibraryLink "gadget" "Gadget" (@@ScintillaGadget inclus) @LineBreak
+  - @LibraryLink "gadget3d" "Gadget3D" @LineBreak
+  - @LibraryLink "image" "Image" @LineBreak
+  - @LibraryLink "library" "Library" @LineBreak
+  - @LibraryLink "light" "Light" @LineBreak
+  - @LibraryLink "mail" "Mail" @LineBreak
+  - @LibraryLink "material" "Material" @LineBreak
+  - @LibraryLink "menu" "Menu" (sauf les @@MenuItem qui ne sont pas des objets) @LineBreak
+  - @LibraryLink "mesh" "Mesh" @LineBreak
+  - @LibraryLink "movie" "Movie" @LineBreak  
+  - @LibraryLink "music" "Music" @LineBreak
+  - @LibraryLink "network" "Network" @LineBreak
+  - @LibraryLink "node" "Node" @LineBreak
+  - @LibraryLink "particle" "Particle" @LineBreak
+  - @LibraryLink "regularexpression" "RegularExpression" @LineBreak
+  - @LibraryLink "serialport" "SerialPort" @LineBreak
+  - @LibraryLink "sound" "Sound" @LineBreak
+  - @LibraryLink "sound3d" "Sound3D" @LineBreak
+  - @LibraryLink "sprite" "Sprite" @LineBreak
+  - @LibraryLink "statusbar" "StatusBar" @LineBreak
+  - @LibraryLink "texture" "Texture" @LineBreak
+  - @LibraryLink "toolbar" "ToolBar" @LineBreak
+  - @LibraryLink "window" "Window" @LineBreak
+  - @LibraryLink "window3d" "Window3D" @LineBreak
+  - @LibraryLink "xml" "XML" @LineBreak
+  @EndIndent

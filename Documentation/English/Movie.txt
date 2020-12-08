@@ -1,0 +1,377 @@
+;
+;     Movie library documentation
+;
+;      (c) 2013 - Fantaisie Software
+;
+
+@Library Movie
+
+@Overview
+
+  PureBasic provides simple, yet powerful functions to integrate movie
+  playback inside an application or game. @LineBreak
+@LineBreak
+@LineBreak  
+@Bold "Windows": as it uses the DirectX technology (DirectShow), any kind of media can be
+played with this library: AVI, MPG, DivX, etc. @LineBreak
+@LineBreak
+@Bold "MacOS X": it uses QuickTime technology, therefore any kind of media (depending of the installed plugins) 
+can be played with this library: AVI, MPG, DivX, etc. @LineBreak
+@LineBreak
+@Bold Note: on some OS, music files can also played by this library but it is not officially supported and somewhat broken.
+Better use the @LibraryLink "sound" "sound library"  for this.
+
+@CommandList
+
+@ExampleFile All Movie.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMovie(#Movie)
+
+@Description
+  Frees the specified movie and all its resources.
+  
+@Parameter "#Move"
+  The movie to free. If @#PB_All is specified, all the remaining movies are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining movies are automatically freed when the program ends.
+
+@SeeAlso
+  @@IsMovie, @@LoadMovie
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitMovie()
+
+@Description
+  Initialize the movie environment for later use. You must call this function before any other functions in 
+  this library. 
+  
+@NoParameters
+
+@ReturnValue
+  Returns nonzero if initialization was successful. If zero is returned then the movie library cannot be used.
+  
+@OS Windows
+@Remarks
+  This function tries to open DirectX (v3.0 with NT4.0 compatibility or v7.0 else); if it fails then DirectX
+  is either not available or is too old be used. 
+@EndOS
+
+@SeeAlso
+  @@LoadMovie
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsMovie(#Movie)
+
+@Description
+  Tests if the given #Movie number is a valid and correctly initialized movie. 
+  
+@Parameter "#Movie"
+  The movie to use.
+
+@ReturnValue
+  Returns nonzero if #Movie is a valid movie and zero otherwise. 
+
+@Remarks
+  This function is bulletproof and can be used with any value.
+  If the 'Result' is not zero then the object is valid and
+  initialized, otherwise it will equal zero. This is the correct way to ensure a movie is ready to use.
+  
+@SeeAlso
+  @@LoadMovie
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LoadMovie(#Movie, Filename$)
+
+@Description
+  Loads the specified movie file and prepares it for playback.
+
+@Parameter "#Movie"
+  A number to identify the loaded movie.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "Filename$"
+  The file name of the movie.
+
+@ReturnValue
+  Returns nonzero if the movie was loaded correctly and zero if loading the
+  movie failed (format not supported or file not found).
+  If @#PB_Any was used for the #Movie parameter then the generated number is returned on success.
+
+@Remarks
+  @@InitMovie must be called once before loading movies. Further information about the loaded movie can be
+  read with the @@MovieInfo, @@MovieLength, @@MovieWidth and @@MovieHeight commands.
+
+@SeeAlso
+  @@PlayMovie, @@MovieInfo, @@MovieLength, @@MovieWidth, @@MovieHeight, @@FreeMovie, @@InitMovie
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MovieAudio(#Movie, Volume, Balance)
+
+@Description
+  Control the audio stream of a movie. Volume and balance can be modified during playback.
+  Changes occur immediately.
+
+@Parameter "#Movie"
+  The movie to use.
+
+@Parameter "Volume"
+  The volume for the movie. This value can be between 0 and 100 (100 being the loudest).
+
+@Parameter "Balance"
+  The balance for the movie. This value can be between -100 and 100
+  (-100 is full left, 0 is middle (normal mode) and 100 is full right).
+
+@NoReturnValue
+
+@SeeAlso
+  @@PlayMovie
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Height = MovieHeight(#Movie)
+
+@Description 
+  Returns the height of the movie. 
+  
+@Parameter "#Movie"
+  The movie to use.
+
+@ReturnValue
+  Returns the height of the movie in pixels.
+  If the result equals -1, then no video stream is
+  found (or isn't compatible), however the audio stream can still be played.
+
+@SeeAlso
+  @@MovieWidth, @@MovieLength, @@MovieInfo
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MovieInfo(#Movie, Flags)
+
+@Description
+  Returns additional information about the movie.
+  
+@Parameter "#Movie"
+  The movie to use.
+
+@Parameter "Flags"
+  The information to return.
+  Supported values are:
+@LineBreak
+  0: return the number of frame per seconds (*1000).
+  
+@ReturnValue
+  Returns the value specified in the 'Flags' parameter.
+  
+@SeeAlso
+  @@MovieLength, @@MovieWidth, @@MovieHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Length = MovieLength(#Movie)
+
+@Description  
+  Returns the length of the movie.  
+  
+@Parameter "#Movie"
+  The movie to use.
+  
+@ReturnValue
+  Returns the length of the movie in frames.
+
+@SeeAlso
+  @@MovieInfo, @@MovieWidth, @@MovieHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MovieSeek(#Movie, Frame.q)
+
+@Description
+  Change the movie's playback position to the given frame. 
+  
+@Parameter "#Movie"
+  The movie to use.
+
+@Parameter "Frame"
+  The frame to be the new playback position.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@MovieStatus
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.q = MovieStatus(#Movie)
+
+@Description
+  Get the playback status of the movie.
+  
+@Parameter "#Movie"
+  The movie to use.
+
+@ReturnValue
+  Returns one of the following values:
+@LineBreak
+@LineBreak
+  -1: Movie is paused.
+@LineBreak
+  0: Movie is stopped
+@LineBreak
+  > 0: Movie is playing. The returned value is the current frame number displayed.
+
+@SeeAlso
+  @@MovieSeek
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Width = MovieWidth(#Movie)
+
+@Description 
+  Returns the width of the movie. 
+  
+@Parameter "#Movie"
+  The movie to use.
+
+@ReturnValue
+  Returns the width of the movie in pixels.
+  If the result equals -1, then no video stream is
+  found (or isn't compatible), however the audio stream can still be played.
+
+@SeeAlso
+  @@MovieWidth, @@MovieLength, @@MovieInfo
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PauseMovie(#Movie)
+
+@Description
+  Pauses the movie playback. Playback can be resumed using the @@ResumeMovie function.
+
+@Parameter "#Movie"
+  The movie to pause.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@PlayMovie, @@ResumeMovie, @@StopMovie
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PlayMovie(#Movie, WindowID)
+
+@Description
+  Start to play a movie previously loaded with @@LoadMovie on the specified window.
+
+@Parameter "#Movie"
+  The movie to play.
+  
+@Parameter "WindowID"
+  The window to play the movie on.
+  This value can be easily obtained by using the @@WindowID function.
+@LineBreak
+@LineBreak
+  It's also possible to play a movie on a full screen, simply use the result of @@ScreenID as
+  'WindowID'.
+  
+@ReturnValue  
+  Returns nonzero if the movie started playing correctly and zero if there was an error.
+  
+@Remarks
+  The function @@ResizeMovie can be used to resize and move the movie on this window (to not use the
+  full window area, for example).
+
+@SeeAlso
+  @@LoadMovie, @@StopMovie, @@MovieWidth, @@MovieHeight, @@MovieLength, @@MovieInfo
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeMovie(#Movie, x, y, Width, Height)
+
+@Description
+  Resize and move the movie display area on the movie window.
+
+@Parameter "#Movie"
+  The movie to resize.
+
+@Parameter "x, y, Width, Height"
+  The new location and size of the movie in pixels.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PlayMovie, @@MovieWidth, @@MovieHeight
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResumeMovie(#Movie)
+
+@Description
+  Continue to play the movie, after a @@PauseMovie call.
+
+@Parameter "#Movie"
+  The movie to resume.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@PauseMovie, @@PlayMovie, @@StopMovie
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopMovie(#Movie)
+
+@Description
+  Stop playing the movie. If the movie is played again, it will restart from the beginning.
+
+@Parameter "#Movie"
+  The movie to stop.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@PlayMovie, @@PauseMovie, @@ResumeMovie
+  
+@SupportedOS
+

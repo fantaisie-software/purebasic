@@ -1,0 +1,115 @@
+@Title Einsteiger-Kapitel - String-Manipulation
+
+Das folgende Beispiel zeigt Schritt für Schritt die verschiedenen Befehle der
+@LibraryLink "string" "String" Bibliothek zum Arbeiten mit Zeichenfolgen (Strings) -
+ihren Verwendungszweck und ihre korrekte Anwendung.
+
+@Code
+  Define.s String1, String2, String3
+  
+  String1 = "The quick brown fox jumps over the lazy dog."
+  
+  ; Left gibt eine Anzahl an Zeichen von der linken Seite eines Strings zurück.
+  ; Mid gibt eine Anzahl an Zeichen vom angegebenen Startpunkt in der Mitte eines Strings zurück.
+  ; Right gibt eine Anzahl an Zeichen von der rechten Seite eines Strings zurück.
+  ; Space gibt die angegebene Anzahl an Leerzeichen als einen String zurück.
+  ; Zeigt "The brown dog."
+  Debug "* Left, Mid and Right"
+  String2 = Left(String1, 3) + Space(1) + Mid(String1, 11, 5) + Space(1) + Right(String1, 4)
+  Debug String2
+  
+  ; CountString gibt die Anzahl, wie oft der zweite String im ersten String vorkommt, zurück. Dabei wird die Groß-/Kleinschreibung beachtet.
+  ; Zeigt 1.
+  Debug "* CountString"
+  Debug CountString(String1, "the")
+  
+  ; Die LCase (und UCase) Funktionen können verwendet werden, um einen String komplett in kleine (oder große) Buchstaben umzuwandeln.
+  ; Zeigt 2
+  Debug "* CountString and LCase"
+  String2 = LCase(String1)
+  Debug CountString(String2, "the")
+  
+  ; FindString kann verwendet werden, um die Position eines Strings in einem anderen zu finden.
+  ; Zeigt 17.
+  Debug "* FindString"
+  Debug FindString(String1, "fox")
+  
+  ; RemoveString kann verwendet werden, um einen String aus einem anderen zu entfernen.
+  ; Zeigt The quick fox jumps over the lazy dog.
+  Debug "* RemoveString"
+  String2 = RemoveString(String1, " brown")
+  Debug String2
+  
+  ; ReplaceString kann verwendet werden, um das Vorkommen eines Teilstrings innerhalb eines anderen Strings zu ändern.
+  ; Zeigt The quick brown fox jumps over the sleeping dog.
+  Debug "* ReplaceString"
+  String2 = ReplaceString(String1, "lazy", "sleeping")
+  Debug String2
+  
+  ; StringByteLength gibt die Länge eines Strings in Bytes zurück - im angegebenen Format oder
+  ; den aktuellen Standard, wenn kein Format angegeben wird (ohne das abschließende Nullzeichen).
+  Debug "* StringByteLength"
+  ; Zeigt 44.
+  Debug StringByteLength(String1, #PB_Ascii)
+  ; Zeigt 88.
+  Debug StringByteLength(String1, #PB_Unicode)
+  
+  ; StringField kann verwendet werden, um einen indexierten Teilstring aus einem Zielstring zu erhalten.
+  ; Nützlich zum Beispiel für das Konvertieren von String in Listen.
+  ; StringField funktioniert auch mit einem Leerzeichen als Trennzeichen, 
+  ; aber hoffentlich macht dieses Beispiel das Verhalten der Funktion noch deutlicher.
+  ; Zeigt jumps.
+  Debug "* StringField"
+  String2 = ReplaceString(String1, " ", "\")
+  Debug String2
+  String3 = StringField(String2, 5, "\")
+  Debug String3
+  
+  ; Trim entfernt Leerzeichen vom Anfang und Ende eines Strings.
+  ; Ähnlich verhält sich LTrim am linken Ende (Start) eines Strings und RTrim am rechten Ende.
+  Debug "* Trim, LTrim and RTrim"
+  String2 = Space(10) + String1 + Space(8)
+  Debug #DQUOTE$ + String2 + #DQUOTE$
+  String3 = Trim(String2)
+  Debug #DQUOTE$ + String3 + #DQUOTE$
+  String3 = LTrim(String2)
+  Debug #DQUOTE$ + String3 + #DQUOTE$
+  String3 = RTrim(String2)
+  Debug #DQUOTE$ + String3 + #DQUOTE$
+  
+  ; LSet setzt einen String - ausgehend vom linken Ende - auf eine bestimmte Länge. Dabei wird
+  ; gegebenenfalls mit Leerzeichen aufgefüllt oder einem anderen angegebenen Zeichen.
+  ; Ist der String bereits länger als die angegebene Länge, wird er abgeschnitten.
+  Debug "*LSet"
+  Debug LSet("Abc", 10, "*")
+  Debug LSet("Abcd", 10, "*")
+  Debug LSet("Abcde", 10, "*")
+  
+  ; Ähnlich füllt RSet einen String ausgehend vom rechten Ende auf.
+  Debug "* RSet"
+  Debug RSet("1.23", 10, "0")
+  Debug RSet("10.23", 10, "0")
+  Debug RSet("100.23", 10, "0")
+  
+  ; Str wandelt einen vorzeichenbehafteten ("signed") Quad-Wert in einen String, ähnlich wandelt StrF Float-Werte um,
+  ; StrD wandelt Doubles und StrU konvertiert vorzeichenlose ("unsigned") Werte - die letzten zwei Funktionen haben
+  ; einen optionalen Parameter, um anzuzeigen, wieviele Dezimalstellen angezeigt werden sollen.
+  Debug "* Str, StrF and StrD"
+  Debug Str(100)
+  Debug StrF(1.234, 3)
+  Debug StrD(123456.789, 3)
+  
+  ; Val wird einen String-Wert in sein numerisches Äquivalent (Quad) umwandeln.
+  ; ValD und ValF führen die gleiche Funktion für Floats und Doubles aus.
+  Debug "* Val"
+  Debug Val("123")
+  
+  ; Bin wird einen numerischen Wert in sein binäres Äquivalent konvertieren.
+  ; Hex wird einen in sein hexadezimales Äquivalent umwandeln.
+  Debug "* Bin and Hex"
+  Debug Bin(19)
+  Debug Hex(19)
+@EndCode
+
+@Section Einsteiger-Kapitel Navigation
+@ReferenceLink "ug_loops" "< Vorheriges: Schleifen" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_data" "Nächstes: Speichern von Daten im Speicher >"

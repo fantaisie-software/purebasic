@@ -1,0 +1,81 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Persistent database example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+; NOTE: when running in browser, if the user clear its cache it will be gone.
+; When creating a mobile application, the data will be persistent.
+;
+
+Procedure CreateFileCallback(Status, Filename$, File, SizeRead)
+  Select Status
+    Case #PB_Status_Saved
+      Debug "Database file saved: " + Filename$
+      Debug "Please relaunch the program to test the persitency."
+     
+    Case #PB_Status_Error
+      Debug "Can't save the database: " + Filename$
+  EndSelect
+EndProcedure
+
+
+Procedure ReadFileCallback(Status, Filename$, File, SizeRead)
+  Select Status
+    Case #PB_Status_Loaded
+      Debug "Database file found and loaded: " + Filename$
+     
+      ; Get all the file as a memory buffer
+      ;
+      *DatabaseBuffer = ExportFileMemory(File)
+     
+      If OpenDatabase(0, *DatabaseBuffer)
+        Debug "OpenDatabase() created with previous database data. Performing a query..."
+        
+        If DatabaseQuery(0, "SELECT * FROM superheroes WHERE weight > 72")
+          While NextDatabaseRow(0)
+            Debug "superhero: " + GetDatabaseString(0, 0) + " " + GetDatabaseString(0, 1) + " (weight: " + GetDatabaseDouble(0, 2) + " kg)"
+          Wend
+         
+          FinishDatabaseQuery(0)
+        Else
+          Debug "DatabaseQuery() failed: " + DatabaseError()
+        EndIf
+      Else
+        Debug "OpenDatabase() failed"
+      EndIf
+      
+     
+    Case #PB_Status_Error
+      Debug "Database not found in localstorage: " + Filename$
+      Debug "Creating a new database..."
+     
+      If OpenDatabase(0)
+  
+        DatabaseUpdate(0, "CREATE TABLE superheroes (firstname TEXT, name TEXT, weight REAL)")
+       
+        DatabaseUpdate(0, "INSERT INTO superheroes (firstname, name, weight) Values ('Peter', 'Parker', '80.8')")
+        DatabaseUpdate(0, "INSERT INTO superheroes (firstname, name, weight) Values ('Bruce', 'Wayne', '70.5')")
+        DatabaseUpdate(0, "INSERT INTO superheroes (firstname, name, weight) Values ('Clark', 'Kent', '75.1')")
+  
+        ; Now save the database to a persistent file
+        ;
+        *DatabaseBuffer = ExportDatabaseMemory(DB)
+        If CreateFile(0, "testdb.sqlite", @CreateFileCallback(), #PB_LocalStorage)
+          WriteData(0, *DatabaseBuffer, 0, MemorySize(*DatabaseBuffer))
+          CloseFile(0)
+        EndIf
+        
+        CloseDatabase(0)
+      Else
+        Debug "OpenDatabase() failed"
+      EndIf
+  EndSelect
+EndProcedure
+
+; Try to read the database if already present, or it will create a new one
+;
+ReadFile(0, "testdb.sqlite", @ReadFileCallback(), #PB_LocalStorage)

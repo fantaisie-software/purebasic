@@ -1,0 +1,186 @@
+BODY {
+	background-color: #FFFFDF;
+	font-family: Arial;
+	/*font-size: 12pt;*/
+}
+
+/* All new paragraphs should wait for clear margins
+   before being displayed (after all it is a new
+   paragraph, so it should be separate from any previous
+   stuff) */
+P {
+	clear: both;
+}
+
+/* A class which does not wait for borders to be cleared.
+   Useful in the rare circumstances when a lot of page space
+   is likely to be wasted. */
+P.noclear {
+	clear: none;
+}
+
+A:link {
+	color: #009999;
+}
+
+A:visited {
+	color: #006666;
+}
+
+A:active {
+	color: #00CCCC;
+}
+
+A:hover {
+	color: #00CCCC;
+}
+
+A.solution {
+	font-size: 84%; /*10pt;*/
+	vertical-align: middle;
+}
+
+
+/* Formatting for the paragraphs which contain contents listings
+   only. They look a bit strange when they are left aligned, so
+   here we have given those paragraphs some wide margins */
+DIV.contents {
+	margin-left: 15%;
+	margin-right: 15%;
+}
+
+/* Styles for the different levels in the table of contents */
+
+/* Styles for the heading levels in the main body of the document */
+H1 {
+	text-align: center;
+	font-size: 116%; /*14pt;*/
+	font-weight: bold;
+}
+
+H2 {
+	text-align: left;
+	font-size: 100%; /*12pt;*/
+	font-weight: bold;
+	margin: 0;			/* No space between heading and body */
+}
+
+H3 {
+	text-align: left;
+	font-size: 100%; /*12pt;*/
+	font-weight: normal;
+	margin: 0;			/* No space between heading and body */
+}
+
+
+/* Styles for the various sections of the main body text */
+
+
+/* General table in body text */
+TABLE.body {
+	/*font-size: 12pt;*/
+	width: 96%;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+/* Header cells of body tables */
+TABLE.body TH {
+	text-align: center;
+	vertical-align: baseline;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+/* Data cells of body tables */
+TABLE.body TD {
+	text-align: center;
+	vertical-align: middle;
+}
+
+/* Table at bottom of each page providing links backwards and forwards
+  between topics / chapters / pages */
+TABLE.footer {
+	text-align: center;
+	vertical-align: middle;
+	font-size: 84%; /*10pt;*/
+	width: 90%;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+/* Header cells in footer tables */
+TABLE.footer TH {
+	vertical-align: baseline;
+	font-style: normal;
+	font-weight: bold;
+	width: 33.3%;
+}
+
+/* Formatting for important paragraphs */
+DIV.important {
+    background-image: url("Images/readme.png");
+    background-repeat: no-repeat;
+    background-position: left center;
+	padding-left: 60px;
+}
+
+/* Formatting for paragraphs showing tips and/or tricks */
+DIV.tip {
+    background-image: url("Images/tipstricks.png");
+    background-repeat: no-repeat;
+    background-position: left center;
+	padding-left: 60px;
+}
+
+/* Formatting for paragraphs showing tips and/or tricks as a piece of code */
+PRE.tip {
+    border: solid gray;
+    border-width: thin;
+    background-color: white;
+    background-image: url("Images/tipstricks.png");
+    background-repeat: no-repeat;
+    background-position: left center;
+	padding-left: 60px;
+	white-space: pre;
+}
+
+/* Example code is shown using the PRE element because the CODE
+   element does not preserve whitespace. This would result in
+   some ugly looking examples when there was indentation.
+
+   Setting the whitespace handling to pre did not seem to have
+   any effect under IE, so the code element could not be used
+   (since IE is the HTML Help viewer) */
+PRE.code {
+    border: solid gray;
+    border-width: thin;
+    background-color: white;
+    background-image: url("Images/keyboard2.png");
+    background-repeat: no-repeat;
+    background-position: left center;
+	padding-left: 60px;
+	white-space: pre;
+}
+
+/* Inline example code */
+SPAN.code {
+    background-color: white;
+    padding: 2px;
+    font-family: monospace;
+	white-space: pre;
+}
+
+/* For displaying a fragment of example code, but without the
+   icon and border */
+PRE.codepart {
+    background-color: white;
+	white-space: pre;
+}
+
+/* This class of image is used to display the output of examples
+   in the body of the user guide */
+IMG.output {
+	float: right;
+}
+

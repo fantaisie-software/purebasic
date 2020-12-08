@@ -1,0 +1,241 @@
+;
+;     Sound3D library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Sound3D
+
+@Overview
+
+  Die Sound3D Bibliothek ermöglicht den Umgang mit Sounds im 3D-Raum. Zum Beispiel kann sie mit
+  automatischem "Fading" (lauter und leiser werdend) abhängig von der Distanz umgehen.
+  Sie basiert auf dem Syntax und Verhalten der regulären @LibraryLink "Sound" "Sound" Bibliothek.
+@LineBreak
+@LineBreak
+  Sie verwendet die 3D engine, daher muss @@InitEngine3D erfolgreich
+  aufgerufen worden sein, bevor diese Funktionen verwendet werden können.
+
+@CommandList
+
+@ExampleFile All Sound3D.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeSound3D(#Sound3D)
+
+@Description
+  Hält den zuvor mit @@LoadSound3D geladenen Sound an und entfernt ihn aus dem Speicher.
+  Sobald ein Sound freigegeben wurde, kann er nicht mehr abgespielt werden.
+
+@Parameter "#Sound3D"
+  Der freizugebende 3D-Sound. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen 3D-Sounds freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Alle verbleibenden Sounds werden automatisch freigegeben, wenn das Programm endet.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsSound3D(#Sound3D)
+
+@Description
+  Überprüft, ob der angegebene Sound gültig und korrekt initialisiert ist.
+
+@Parameter "#Sound3D"
+  Der zu prüfende Sound.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn der Sound gültig ist, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden.
+  Dies ist der richtige Weg, um sicher zu stellen, dass ein Sound bereit zur Verwendung ist.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LoadSound3D(#Sound3D, Dateiname$ [, Flags])
+
+@Description
+  Lädt eine WAV- oder OGG-Sounddatei. Der Sound muss Mono sein, da Stereo-Sounds
+  keine Positionierung im Raum erlauben. 
+
+@Parameter "#Sound3D"
+  Eine Nummer zum Identifizieren des neuen Sounds.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
+  automatisch zu generieren.
+
+@Parameter "Dateiname$"
+  Der Dateiname des zu ladenden Sounds.
+
+@OptionalParameter "Flags"
+  Dies kann folgender Wert sein:
+@FixedFont
+  @#PB_Sound3D_Streaming: Aktiviert "Streaming Playback" - einem System zum gleichzeitigen 
+           Laden und Abspielen, wodurch nicht erst die gesamte Sound-Datei in den Speicher
+           geladen werden muss.
+@EndFixedFont
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn der Sound erfolgreich geladen wurde, andernfalls Null.
+
+@Remarks
+  Ein Sound beinhaltet nicht seine Position. Er kann zu einem @LibraryLink "Node" "Node"-Objekt 
+  hinzugefügt werden, um seine eigene Position zu haben.
+  Ein Sound wird relativ zum Ort des Hörers abgespielt. Um die Position des Hörers zu verändern,
+  kann @@SoundListenerLocate verwendet werden.
+
+@SeeAlso
+  @@PlaySound3D, @@SoundListenerLocate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PlaySound3D(#Sound3D [, Flags])
+
+@Description
+  Startet das Abspielen des angegebenen Sounds.
+
+@Parameter "#Sound3D"
+  Der abzuspielende Sound.
+
+@OptionalParameter "Flags"
+  Dies kann folgender Wert sein:
+@FixedFont
+  @#PB_Sound3D_Loop: spielt den Sound kontinuierlich (startet ihn erneut, sobald das Ende erreicht ist)
+@EndFixedFont
+  
+@NoReturnValue
+
+@SeeAlso
+  @@StopSound
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundVolume3D(#Sound3D, Lautstärke)
+
+@Description
+  Legt in Echtzeit den neuen Lautstärke-Wert für den Sound fest.
+  Der Lautstärke-Wert wird für den #Sound3D gespeichert - deshalb ist es nicht nötig,
+  diesen Befehl jedes Mal aufzurufen.
+  
+@Parameter "#Sound3D"
+  Der zu verwendende Sound.
+
+@Parameter "Lautstärke"
+  Die neue Lautstärke für den Sound. Die gültigen Werte reichen von 0 (keine Lautstärke)
+  bis 100 (volle Lautstärke).
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopSound3D(#Sound3D)
+
+@Description
+  Stoppt den angegebenen Sound (sofern er abgespielt wird).
+  
+@Parameter "#Sound3D"
+  Der zu stoppende Sound. Wenn dieser Wert auf @#PB_All gesetzt wird, dann werden alle
+  aktuell abgespielten Sounds gestoppt.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PlaySound
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundID3D = SoundID3D(#Sound3D)
+
+@Description
+  Gibt den einmaligen Systembezeichner ("Identifier" bzw. ID) des Sounds zurück.
+
+@Parameter "#Sound3D"
+  Der zu verwendende Sound.
+
+@ReturnValue
+  Der einmalige Systembezeichner ("Identifier" bzw. ID) des Sounds.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundRange3D(#Sound3D, Minimum, Maximum)
+
+@Description
+  Legt die Reichweite, in Welt-Einheiten, für die Sound-Ausstrahlung fest.
+  
+@Parameter "#Sound3D"
+  Der zu verwendende Sound.
+  
+@Parameter "Minimum"
+  Die Entfernung von der Sound-Position, ab der die Sound-Lautstärke abzuklingen beginnt.
+  
+@Parameter "Maximum"
+  Die Entfernung von der Sound-Position, bis wann der Sound immer noch gehört werden kann.
+  Über diese Distanz hinaus, hört das Abspielen des Sounds auf.
+@LineBreak
+@LineBreak
+  Zwischen dem Minimum- und Maximum-Wert wird der Sound abhängig von der aktuellen Position
+  des Hörers an- bzw. abschwellen. Um die Position des Hörers zu verändern, kann
+  @@SoundListenerLocate verwendet werden.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@SoundListenerLocate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundCone3D(#Sound3D, InnenKegel.f, AußenKegel.f, AußenKegelLautstärke)
+
+@Description
+  Legt den Winkel des Kegels (englisch "cone") fest, um einen ausgerichteten (englisch
+  "directional") Sound zu erstellen. 
+
+@Parameter "#Sound3D"
+  Der zu verwendende Sound.
+
+@Parameter "InnenKegel, AußenKegel"
+  Bestimmen den Winkel des Kegels, in Grad (Werte reichen von 0 bis 360).
+  
+@Parameter "AußenKegelLautstärke"
+  Die Sound-Lautstärke außerhalb des Kegels (Werte von 0 bis 100).
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundListenerLocate(x, y, z)
+
+@Description
+  Ändert die absolute Position des Sound-Hörers ("das Ohr") innerhalb der Welt.
+
+@Parameter "x, y, z"
+  Die neue absolute Position des Sound-Hörers, in Welt-Einheiten.
+
+@NoReturnValue
+
+@SeeAlso
+  @@SoundRange3D
+
+@SupportedOS

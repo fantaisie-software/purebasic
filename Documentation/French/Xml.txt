@@ -1,0 +1,2683 @@
+;
+; XML library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library XML
+
+@Overview
+
+  Cette bibliothèque permet de manipuler très 
+  facilement les fichiers XML, que ce soit en
+  en lecture ou en écriture. Elle est basée sur 
+  @InternetLink "http://expat.sourceforge.net/" "expat" 
+  qui est sous licence MIT consultable 
+  @MainGuideLink "expat" "ici". Expat est déjà 
+  utilisée dans de nombreux projets d'envergures 
+  (comme Mozilla ou Perl), et est à la fois 
+  robuste et rapide.
+@LineBreak
+@LineBreak
+  @Bold "Important:" La licence d'expat est très 
+  permissive, et permet son utilisation gratuite 
+  dans n'importe quel type de projet (commercial 
+  ou non) à partir du moment ou le texte de la 
+  licence est fourni avec l'application lors de 
+  sa distribution. Donc si vous utilisez cette 
+  bibliothèque, vous devez inclure un fichier
+  contenant la licence mentionnée ci-dessus.
+@LineBreak  
+@LineBreak  
+  Les fonctions d'expat peuvent être utilisées 
+  directement dans PureBasic comme n'importe 
+  quelle autre fonction API (avec un 'underscore' 
+  à la fin du nom de la fonction).
+  Les constantes et les structures définies dans 
+  expat.h sont aussi directement disponibles. 
+  Pour plus de détails sur les fonctions d'expat, 
+  consultez la documentation sur
+  @InternetLink "http://expat.sourceforge.net/" "http://expat.sourceforge.net/"
+@LineBreak  
+@LineBreak  
+  La bibliothèque supporte partiellement les  
+  'Document Type Definitions' DTD et les espaces 
+  de noms. Le but est de garder l'ensemble des 
+  commandes très simple tout en permettant à 
+  cette bibliothèque de manipuler n'importe 
+  quel document XML.
+@LineBreak  
+@LineBreak  
+  Le parser de la bibliothèque expat est un 
+  analyseur syntaxique ("parser") non validant, 
+  ce qui signifie qu'il vérifie si les documents 
+  parsés comportent des erreurs dans les balises 
+  (un document doit être "bien formé" selon la 
+  norme XML), mais il ne valide pas le document 
+  par rapport à un DTD. En parsant le document 
+  cette bibliothèque place les DTDs dans un 
+  noeud spécifique de l'arbre XML en lui 
+  attribuant le @Link "XMLNodeType" "type" 
+  @#PB_XML_DTD. Ce noeud contient la balise 
+  DOCTYPE complète. De cette manière on peut 
+  facilement y accèder et en manipuler le 
+  contenu mais on peut aussi l'ignorer si ces 
+  informations ne sont pas nécessaires. 
+  La balise est simplement recopiée quand le 
+  document est exporté ou sauvegardé.
+@LineBreak  
+@LineBreak
+  Les espaces de noms ne sont pas résolus lors 
+  de l'analyse syntaxique du document ("parsing"). 
+  Cela signifie que dans un document utilisant 
+  des espaces de noms, ces espaces de noms sont 
+  accessibles comme des attributs de noeud 
+  normaux, et les noms des noeuds/attributs 
+  utilisant les espaces de noms seront visibles 
+  en tant que : "namespace:tagname" (i.e 
+  "espace_de_noms:balise"). 
+  Cela permet à un document utilisant les 
+  espaces de noms d'être lu et sauvegardé comme 
+  n'importe quel autre document sans détruire 
+  sa structure. 
+  Pour fonctionner avec des espaces de noms plus 
+  simples, les fonctions @@ResolveXMLNodeName et 
+  @@ResolveXMLAttributeName sont fournies pour 
+  résoudre les conflits éventuels de noms à 
+  l'intérieur des documents qui utilisent les 
+  espaces de noms.
+@LineBreak  
+@LineBreak  
+  Le @ReferenceLink "ide_debugger" "débogueur" 
+  PureBasic permet d'examiner les objets XML 
+  pendant l'exécution du programme à l'aide du 
+  @ReferenceLink "ide_debugtools" "visualisateur de bibliothèques".
+@LineBreak  
+@LineBreak  
+  La spécification officielle du XML et des 
+  Namespaces XML par le W3C est disponible ici:
+@LineBreak
+  @InternetLink "http://www.w3.org/TR/REC-xml/" "Spécification XML" @LineBreak
+  @InternetLink "http://www.w3.org/TR/REC-xml-names/" "Namespaces XML" @LineBreak
+  @InternetLink "http://www.w3.org/XML/Core/Translations" "Traductions de divers documents relatifs au XML" @LineBreak
+@LineBreak
+  @InternetLink "http://en.wikipedia.org/wiki/Xml" "XML sur Wikipedia" 
+  fournit aussi une bonne introduction au XML.
+@CommandList
+
+@ExampleFile All Xml.pb
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = IsXML(#XML)
+
+@Description
+  Teste si un arbre XML est valide et 
+  correctement initialisé. 
+  
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+
+@ReturnValue
+  Renvoie une valeur non nulle si 
+  l'arbre est valide, zéro sinon.
+  
+@Remarks  
+  Cette fonction a été créée pour pouvoir 
+  passer n'importe quelle valeur en paramètre 
+  sans qu'il ne puisse y avoir de plantage. 
+  C'est la fonction idéale pour vérifier qu'un
+  arbre est correctement initialisé.
+  
+@SeeAlso
+  @@LoadXML, @@CreateXML
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function FreeXML(#XML)
+
+@Description
+  Supprime l'arbre XML et toutes les 
+  données qu'il contenait.
+ 
+@Parameter "#XML"
+  L'arbre XML à supprimer. 
+@LineBreak
+@LineBreak  
+  Si @#PB_All est spécifié, tous les 
+  objets XML restants sont libérés.
+
+@NoReturnValue
+
+@Remarks  
+ Tous les objets XML restants sont 
+ automatiquement supprimés quand le 
+ programme se termine.
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = CreateXML(#XML [, Encodage])
+
+@Description
+  Crée un nouvel arbre XML vide.
+ 
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+    
+@OptionalParameter "Encodage"  
+  L'encodage de l'arbre XML. 
+@FixedFont   
+  @#PB_UTF8 (valeur par défaut)
+  @#PB_Ascii
+  @#PB_Unicode
+@EndFixedFont  
+
+@ReturnValue 
+  Renvoie une valeur non nulle si l'arbre 
+  a été créé correctement, zéro sinon.
+  
+@Remarks
+  Le nouvel arbre ne contient qu'un noeud 
+  racine, accessible avec @@RootXMLNode.
+  Pour ajouter de nouveaux noeuds, utiliser 
+  @@CreateXMLNode.
+
+@Example
+@Code
+  ; Création d'un arbre xml 
+  xml = CreateXML(#PB_Any) 
+  mainNode = CreateXMLNode(RootXMLNode(xml), "Zoo") 
+  SetXMLNodeName(mainNode, "Zoo") 
+  
+  ; Création du premier noeud 
+  item = CreateXMLNode(mainNode, "Animal") 
+  SetXMLNodeName(item, "Animal") 
+  SetXMLAttribute(item, "id", "1") 
+  SetXMLNodeText(item, "Elephant") 
+  
+  ; Création du second noeud
+  item = CreateXMLNode(mainNode, "Animal") 
+  SetXMLNodeName(item, "Animal") 
+  SetXMLAttribute(item, "id", "2") 
+  SetXMLNodeText(item, "Tigre") 
+  
+  ; Enregistre l'arbre XML dans le fichier spécifié. 
+  SaveXML(xml, "demo.xml")
+@EndCode
+
+@SeeAlso
+  @@FreeXML, @@CreateXMLNode, @@RootXMLNode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = LoadXML(#XML, Fichier$ [, Encodage]))
+
+@Description
+  Charge un arbre XML depuis un fichier.
+ 
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+  
+@Parameter "Fichier$" 
+  Le nom du fichier contenant le code XML.
+    
+@OptionalParameter "Encodage"  
+  Force l'encodage de l'arbre XML quelque soit 
+  celui trouvé dans le fichier.
+@FixedFont   
+  @#PB_UTF8 (valeur par défaut)
+  @#PB_Ascii
+  @#PB_Unicode
+@EndFixedFont  
+  Ce paramètre devra être utilisé lorsque le 
+  document n'a pas de déclaration XML, ou si 
+  l'information d'encodage est fournie 
+  en dehors du document XML, par exemple à 
+  travers un en-tête de type "mime" d'un 
+  protocole de communication.
+  
+@ReturnValue
+  Renvoie une valeur non nulle si le fichier a 
+  pu être ouvert et lu correctement.@LineBreak
+  Cela ne veut pas dire que le XML contenu dans 
+  ce fichier était valide. Pour vérifier 
+  les erreurs d'interprétation, il convient 
+  d'utiliser @@XMLStatus.@LineBreak
+  Dans le cas d'une erreur d'interprétation, 
+  toutes les données correctement lues avant 
+  l'erreur sont quand même disponibles dans 
+  l'arbre XML.
+@LineBreak
+@LineBreak
+  Si @#PB_Any a été utilisé comme paramètre 
+  alors le numéro du nouvel arbre est renvoyé 
+  dans 'Resultat'.
+
+@SeeAlso
+  @@CreateXML, @@FreeXML, @@ParseXML, 
+  @@CatchXML
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = CatchXML(#XML, *Adresse, Taille [, Options [, Encodage]])
+
+@Description
+  Crée un arbre XML à partir d'un code XML déjà 
+  chargé en mémoire.
+@LineBreak
+@LineBreak 
+  La création de l'arbre XML peut se faire 
+  en une seule fois, ou de manière progressive 
+  par exemple lors de la réception d'un flux 
+  XML par le @LibraryLink "network" "réseau". 
+   
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+@LineBreak
+@LineBreak  
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.  
+  
+@Parameter "*Adresse"
+  L'adresse d'une zone mémoire valide.
+  
+@Parameter "Taille"  
+  La taille en octets de la zone mémoire.
+  
+@OptionalParameter "Options"
+  Si ce paramètre est omis, la zone mémoire 
+  doit être suffisamment grande pour contenir 
+  toutes les données XML.@LineBreak
+  Pour interpréter un flux XML en plusieurs 
+  fois, les options suivantes sont disponibles:
+@FixedFont
+  @#PB_XML_StreamStart: Démarre l'interprétation du premier bloc
+  @#PB_XML_StreamNext : Continue l'interprétation avec un nouveau bloc
+  @#PB_XML_StreamEnd  : Termine l'interprétation après ce bloc
+@EndFixedFont
+  Lors de l'appel de cette fonction avec 
+  l'option @#PB_XML_StreamStart ou 
+  @#PB_XML_StreamEnd, le paramètre 'Taille' 
+  peut être égal à 0.
+@LineBreak
+@LineBreak
+  A noter que lors de l'interprétation par blocs, 
+  toute donnée fournie est immédiatement 
+  accessible dans l'arbre XML avant même que 
+  l'appel avec @#PB_XML_StreamEnd n'ait eu lieu.
+
+@OptionalParameter "Encodage" 
+  Force l'encodage de l'arbre XML quelque soit 
+  celui trouvé dans la déclaration XML.
+  (la déclaration XML est modifiée selon 
+  l'encodage choisi). 
+@FixedFont
+  @#PB_UTF8 (Par défaut) 
+  @#PB_Ascii
+  @#PB_Unicode 
+@EndFixedFont
+  Ce paramètre devra être utilisé lorsque le 
+  document n'a pas de déclaration XML, ou si 
+  l'information d'encodage est fournie en 
+  dehors du document XML, par exemple à travers 
+  un en-tête de type "mime" d'un protocole de 
+  communication.
+
+@ReturnValue
+  Cette commande renvoie 0 seulement lors 
+  d'options invalides ou si une zone de mémoire 
+  est corrompue.@Linebreak
+  Pour vérifier les erreurs d'interprétation, 
+  utiliser @@XMLStatus. Dans le cas d'une erreur 
+  d'interprétation, toutes les données 
+  correctement lues avant l'erreur sont quand 
+  même disponibles dans l'arbre XML.
+
+@SeeAlso
+  @@FreeXML, @@CreateXML, @@LoadXML, @@ParseXML
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = ParseXML(#XML, Chaîne$)
+
+@Description
+  Crée un nouvel arbre XML à partir de données 
+  XML d'une chaîne de caractères. 
+
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro.
+
+@Parameter "Chaîne$"
+  La chaîne de caractères contenant le code XML.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, 
+  zéro pour les erreurs de mémoire.@LineBreak
+  Pour vérifier les erreurs d'analyse 
+  @@XMLStatus doit être utilisé.@LineBreak
+  En cas d'une erreur d'analyse, toutes les 
+  données déjà analysées sont quand même 
+  accessibles dans l'arborescence XML.
+   
+@Remarks
+  Le XML est encodé dans le format des chaînes 
+  de l'exécutable (ASCII ou Unicode). Si un 
+  autre encodage doit être utilisé, la fonction 
+  @@CatchXML peut être utilisée à la place.  
+  
+@SeeAlso
+  @@FreeXML, @@CreateXML, @@LoadXML
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = XMLStatus(#XML)
+
+@Description
+  Renvoie le statut de la dernière 
+  interprétation faite sur un arbre 
+  XML avec @@LoadXML ou @@CatchXML. 
+   
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+ 
+@ReturnValue
+  Une valeur nulle (@#PB_XML_Success) indique 
+  une interprétation réussie, toutes les
+  autres valeurs indiquent un type d'erreurs.
+@FixedFont
+  @#PB_XML_Success                   : Aucune erreur
+  @#PB_XML_NoMemory                  : Plus assez de mémoire
+  @#PB_XML_Syntax                    : Erreur de syntaxe
+  @#PB_XML_NoElements                : Aucun élément trouvé
+  @#PB_XML_InvalidToken              : Document malformé (balise invalide)
+  @#PB_XML_UnclosedToken             : Balise fermante manquante
+  @#PB_XML_PartialCharacter          : Caractère partiel
+  @#PB_XML_TagMismatch               : Balise qui ne correspond pas 
+  @#PB_XML_DublicateAttribute        : Attribut en double
+  @#PB_XML_JunkAfterDocElement       : Erreur après un élément du document
+  @#PB_XML_ParamEntityRef            : Paramètre illégal dans la référence de l'entité
+  @#PB_XML_UndefinedEntity           : Entité indéfinie
+  @#PB_XML_RecursiveEntityRef        : Référence récursive d'entités 
+  @#PB_XML_AsyncEntity               : Entité asynchrone
+  @#PB_XML_BadCharacterRef           : Référence à un numéro de caractère invalide
+  @#PB_XML_BinaryEntityRef           : Référence à une entité binaire
+  @#PB_XML_AttributeExternalEntityRef: Référence à une entité externe dans un attribut
+  @#PB_XML_MisplacedXML              : XML ou texte de déclaration mal placé
+  @#PB_XML_UnknownEncoding           : Encodage inconnu
+  @#PB_XML_IncorrectEncoding         : L'encodage de la déclaration XML est incorrect
+  @#PB_XML_UnclosedCDataSection      : Section CDATA non fermée
+  @#PB_XML_ExternalEntityHandling    : Erreur dans l'interprétation d'une entité externe
+  @#PB_XML_NotStandalone             : Le document n'est pas autonome
+  @#PB_XML_UnexpectedState           : Erreur d'interprétation inattendue
+  @#PB_XML_EntityDeclaredInPE        : Entité déclarée dans le paramètre entité
+  @#PB_XML_FeatureRequiresDTD        : La fonctionnalité requise nécessite le support XML_DTD d'Expat
+  @#PB_XML_CantChangeFeatures        : Impossible de changer de paramètre pendant l'interprétation
+  @#PB_XML_UnboundPrefix             : Préfixe non lié
+  @#PB_XML_UndeclaringPrefix         : Ne pas enlever la déclaration du préfix
+  @#PB_XML_IncompletePE              : Balise incomplète dans le paramètre entité
+  @#PB_XML_XMLDeclaration            : XML déclaration malformée
+  @#PB_XML_TextDeclaration           : Texte de déclaration malformé
+  @#PB_XML_PublicID                  : Caractère illégal dans un identifiant public
+  @#PB_XML_Suspended                 : Interpréteur suspendu
+  @#PB_XML_NotSuspended              : Interpréteur non suspendu
+  @#PB_XML_Aborted                   : Interprétation annulée
+  @#PB_XML_Finished                  : Interprétation finie
+  @#PB_XML_SuspendedPE               : Suspension impossible dans un paramètre entité externe
+  @#PB_XML_ReservedPrefixXML         : Le préfixe réservé (xml) ne doit pas être délié ou lié à un autre espace de noms
+  @#PB_XML_ReservedPrefixXMLNS       : Le préfixe réservé (xmlns) ne doit pas être déclaré ou enlevé
+  @#PB_XML_ReservedNamespaceURI      : Un prefixe ne doit pas empiéter sur un espace de noms réservé
+@EndFixedFont
+
+@Remarks
+  Cette commande devrait être utilisée 
+  après chaque appel de @@LoadXML ou
+  @@CatchXML pour s'assurer que tout 
+  s'est correctement déroulé.
+  Le message de l'erreur sous forme 
+  textuelle (en anglais) est disponible 
+  grâce à la commande @@XMLError.
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat$ = XMLError(#XML)
+
+@Description
+  Quand une erreur d'interprétation XML survient, 
+  cette commande renvoie un message (en anglais) 
+  décrivant succintement l'erreur. 
+  @@XMLStatus peut être utilisée pour détecter 
+  si une erreur est survenue.
+   
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+
+@ReturnValue
+  L'erreur sous forme de texte en anglais.
+  
+@Remarks  
+  Pour avoir plus d'informations sur l'erreur, 
+  @@XMLErrorLine et @@XMLErrorPosition sont 
+  disponibles.
+
+@SeeAlso
+  @@XMLErrorLine, @@XMLErrorPosition, 
+  @@XMLStatus
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = XMLErrorLine(#XML)
+
+@Description
+  Quand une erreur d'interprétation XML 
+  survient, cette commande renvoie la 
+  ligne incriminée dans le document.
+  @@XMLStatus peut être utilisée pour 
+  détecter si une erreur est survenue.
+   
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+  
+@ReturnValue
+  Renvoie la ligne qui contient une erreur 
+  d'interprétation.
+@LineBreak  
+@LineBreak
+  La numérotation des lignes commence à 1
+  
+@Remarks  
+  Pour savoir à quelle position dans la ligne 
+  l'erreur est apparue , utiliser 
+  @@XMLErrorPosition.
+
+@SeeAlso
+  @@XMLError, @@XMLErrorPosition, @@XMLStatus
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = XMLErrorPosition(#XML)
+
+@Description
+  Quand une erreur d'interprétation XML survient, 
+  cette commande renvoie la position du caractère 
+  dans la ligne incriminée (voir @@XMLErrorLine).
+  @@XMLStatus peut être utilisée pour détecter si
+  une erreur est survenue.
+   
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+
+@ReturnValue
+  La position du caractère.
+@LineBreak  
+@LineBreak
+  La numérotation des caractères commence à 1
+
+@SeeAlso
+  @@XMLError, @@XMLErrorLine, @@XMLStatus
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = SaveXML(#XML, Fichier$ [, Options])
+
+@Description
+  Enregistre un arbre XML dans un fichier.
+   
+@Parameter "#XML"
+  L'arbre XML à sauvegarder.
+  
+@Parameter "Fichier$"
+  Le nom du fichier.
+  
+@OptionalParameter "Options" 
+  Peut être une combinaison des valeurs 
+  suivantes (avec l'opérateur '|'):
+@FixedFont
+  @#PB_XML_StringFormat : Ecrit un BOM (Byte Order Mark). Voir @@WriteStringFormat pour plus d'informations.
+  @#PB_XML_NoDeclaration: La déclaration XML n'est pas incluse.
+@EndFixedFont
+  Note: Selon les spécifications XML, la 
+  déclaration XML peut être omise seulement 
+  si le document est encodé en UTF-8 ou 
+  UTF-16 ou si l'information d'encodage 
+  est fournie en dehors du document 
+  (par l'intermédiaire d'un protocole de 
+  communication par exemple). Malgré tout, 
+  il est conseillé de conserver la déclaration 
+  dans le document.
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'enregistrement 
+  s'est déroulé avec succès, zéro sinon.
+
+@Remarks  
+  Le code XML ainsi créé n'est pas reformaté. 
+  Il est écrit comme il avait été interprété lors
+  de son chargement ou de sa création. Le nombre 
+  d'espaces ou de retour à la ligne est conservé 
+  dans le champ 'text' de chaque noeud XML (voir 
+  @@GetXMLNodeText pour plus d'informations).
+  Pour reformater le XML avant de l'enregistrer, 
+  le champ 'text' de chaque noeud XML peut être
+  modifié manuellement ou avec @@FormatXML.
+
+@SeeAlso
+  @@LoadXML, @@CreateXML, @@FormatXML, 
+  @@ExportXML, @@ComposeXML
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = ExportXMLSize(#XML [, Options])
+
+@Description
+  Renvoie la taille en octets qui sera nécessaire 
+  pour exporter complètement un arbre XML dans une
+  @Link "memory/allocatememory" "zone de mémoire" 
+  (Buffer). Cette commande est nécessaire à 
+  la fonction @@ExportXML.
+   
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+  
+@OptionalParameter "Options"  
+  Peut être utilisé pour indiquer les mêmes options 
+  que dans la commande @@ExportXML. Ce qui permet 
+  de tenir compte des options pour le calcul de 
+  la taille.
+
+@ReturnValue
+  La taille en octets pour exporter l'arbre XML 
+  dans un 
+  @Link "memory/allocatememory" "buffer mémoire".
+
+@SeeAlso
+  @@ExportXML
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = ExportXML(#XML, *Adresse, Taille [, Options])
+
+@Description
+  Ecrit un arbre XML dans une zone 
+  @Link "memory/allocatememory" "mémoire" 
+  (buffer).
+   
+@Parameter "#XML"
+  L'arbre XML à exporter.
+
+@Parameter "*Adresse"
+  L'adresse de la zone mémoire. 
+
+@Parameter "Taille"
+  La taille de la zone mémoire, en octets. 
+  
+@OptionalParameter "Options"  
+  Peut être une combinaison des valeurs 
+  suivantes (avec l'opérateur '|'):
+@FixedFont
+  @#PB_XML_StringFormat : Ecrit un BOM (Byte Order Mark). Voir @@WriteStringFormat pour plus d'informations.
+  @#PB_XML_NoDeclaration: La déclaration XML n'est pas incluse.
+@EndFixedFont
+  Note: Selon les spécifications XML, la 
+  déclaration XML peut être omise seulement si le
+  document est encodé en UTF-8 ou UTF-16 ou 
+  si l'information d'encodage est fournie en 
+  dehors du document (par l'intermédiaire
+  d'un protocole de communication par exemple). 
+  Malgré tout, il est conseillé de conserver 
+  la déclaration dans le document.
+
+@ReturnValue
+  Renvoie une valeur non nulle si la 'Taille' 
+  était suffisante pour contenir l'arbre XML 
+  au complet, zéro sinon. 
+@LineBreak
+@LineBreak
+  @@ExportXMLSize permet de déterminer la 
+  taille nécessaire à l'export.
+
+@Remarks  
+  Le code XML ainsi créé n'est pas reformaté. 
+  Il est écrit comme il avait été interprété lors
+  de son chargement ou de sa création. Le nombre 
+  d'espaces ou de retour à la ligne est conservé 
+  dans le champ 'text' de chaque noeud XML (voir 
+  @@GetXMLNodeText pour plus d'informations).
+  Pour reformater le XML avant de l'enregistrer, 
+  le champ 'text' de chaque noeud XML peut être
+  modifié manuellement ou avec @@FormatXML.
+
+@SeeAlso
+  @@ExportXMLSize, @@FormatXML, @@ComposeXML, 
+  @@SaveXML
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat$ = ComposeXML(#XML [, Options])
+
+@Description
+  Renvoie le code XML dans une chaîne de caractères. 
+  
+@Parameter "#XML"
+  L'arbre XML à exporter. 
+  
+@OptionalParameter "Options"
+  Peut être une combinaison des valeurs suivantes 
+  (avec l'opérateur '|'):
+@FixedFont
+  @#PB_XML_StringFormat : Inclut un BOM (byte order mark). Voir @@WriteStringFormat.
+  @#PB_XML_NoDeclaration: Ne pas inclure la déclaration XML.
+@EndFixedFont
+  Note: Selon la spécification XML, la déclaration 
+  XML ne peut être omise si le document est encodé 
+  en UTF-8 ou UTF-16 ou si les informations de 
+  codage sont prévues à l'extérieur grâce à un 
+  protocole de transfert par exemple. Même alors, 
+  il est conseillé de conserver la déclaration 
+  dans le document.
+  
+@ReturnValue
+  Renvoie le balisage XML dans une chaîne de 
+  caractères.
+
+@Remarks
+  Le XML sera renvoyé dans le format des chaînes 
+  de l'exécutable (ASCII ou Unicode) 
+  indépendamment du réglage renvoyé par 
+  @@GetXMLEncoding. 
+  La fonction @@ExportXML peut être utilisée pour 
+  créer des balises dans un codage différent.
+@LineBreak
+@LineBreak
+  Le balisage XML créé n'est pas reformaté. 
+  Il est renvoyé comme il a été initialement 
+  analysé/créé. Les sauts de ligne/espaces 
+  entre les balises sont stockés dans le 'texte' 
+  de chaque noeud XML. Voir @@GetXMLNodeText 
+  pour plus d'informations.
+  Pour reformater le balisage XML avant 
+  d'enregistrer, le 'texte' de chaque noeud XML 
+  peut être modifié ou @@FormatXML peut être 
+  utilisé pour appliquer certaines options de 
+  reformatage de l'arbre.
+
+@SeeAlso
+  @@FormatXML, @@ExportXML, @@SaveXML
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function FormatXML(#XML, Options [, Indentation])
+
+@Description
+  Nettoie ou reformate un arbre XML pour le 
+  rendre plus lisible lors d'un 
+  @Link "ExportXML" "export" ou d'un 
+  @Link "SaveXML" "enregistrement", ou plus 
+  compact si la taille est primordiale (avant un transfert réseau par exemple).
+   
+@Parameter "#XML"
+  L'arbre XML à formater.
+
+@Parameter "Options"
+  Peut être une combinaison des valeurs 
+  suivantes:
+@FixedFont
+  @#PB_XML_WindowsNewline: Change tous les retours chariot en CRLF
+  @#PB_XML_LinuxNewline  : Change tous les retours chariot en LF
+  @#PB_XML_MacNewline    : Change tous les retours chariot en CR
+
+  @#PB_XML_CutNewline    : Enlève tous les retours chariot
+  @#PB_XML_ReduceNewline : Enlève toutes les lignes vides
+
+  @#PB_XML_CutSpace      : Enlève tous les espaces
+  @#PB_XML_ReduceSpace   : Enlève tous les espaces en double
+ 
+  @#PB_XML_ReFormat      : Reformate complètement l'arbre XML
+  @#PB_XML_ReIndent      : Change l'indentation des lignes
+@EndFixedFont
+  Pour @#PB_XML_ReFormat et 
+  @#PB_XML_ReIndent, le paramètre 
+  'Indentation' définit le nombre 
+  d'espaces à rajouter par niveau 
+  d'indentation.
+@LineBreak
+@LineBreak
+  Note: Il n'y a pas de reformatage dans 
+  les sections CData et 'Processing 
+  Instructions' mis à part les retours 
+  chariots, car les espaces contenus dans 
+  ces sections peuvent être importants.
+@LineBreak
+@LineBreak
+  Note: Depuis MacOSX, le retour chariot 
+  'CR' est devenu de moins en moins commun 
+  au profit du retour de ligne 'LF' utilisé 
+  sur tous les systèmes unix. L'option 
+  @#PB_XML_MacNewline est fournie pour des 
+  raisons de compatibilité, mais il est 
+  conseillé d'utiliser 
+  @#PB_XML_LinuxNewline sur MacOS X.
+  
+@OptionalParameter "Indentation"
+  L'Indentation à appliquer (en caractères) 
+  avec @#PB_XML_ReFormat ou @#PB_XML_ReIndent
+  
+@NoReturnValue
+
+@Remarks
+  Le formatage de l'arbre XML est stocké 
+  dans les champs 'text' et 'offset' de 
+  chaque noeud (voir @@GetXMLNodeText et 
+  @@GetXMLNodeOffset pour plus 
+  d'informations).
+ 
+@SeeAlso
+  @@ExportXML, @@SaveXML
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = GetXMLEncoding(#XML)
+
+@Description
+  Renvoie l'encodage du texte utilisé 
+  pour exporter ou enregistrer un arbre 
+  XML.
+   
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+  
+@ReturnValue
+  Renvoie une des valeurs suivantes:
+@FixedFont  
+  @#PB_Ascii
+  @#PB_Unicode (UTF16)
+  @#PB_UTF8
+@EndFixedFont
+
+@SeeAlso  
+  @@ExportXML, @@SaveXML, @@SetXMLEncoding
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function SetXMLEncoding(#XML, Encodage)
+
+@Description
+  Change l'encodage du texte utilisé 
+  pour exporter ou enregistrer un arbre 
+  XML.
+     
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+  
+@Parameter "Encodage"
+  Peut être une des valeurs suivantes:
+@FixedFont  
+  @#PB_Ascii
+  @#PB_Unicode (UTF16)
+  @#PB_UTF8
+@EndFixedFont
+  Ce paramètre affecte seulement l'
+  @Link "ExportXML" "export" et l'
+  @Link "SaveXML" "enregistrement" de 
+  l'arbre. 
+  Les données internes de l'arbre XML 
+  sont toujours stockées dans le format 
+  de 'string' de PureBasic (unicode).
+  Donc l'encodage peut sans problème être changé en @#PB_Ascii lors de 
+  l'enregistrement et effectuer d'autres 
+  changements sans craindre une altération 
+  de ses données.
+  
+@NoReturnValue
+
+@SeeAlso  
+  @@ExportXML, @@SaveXML, @@GetXMLEncoding
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = GetXMLStandalone(#XML)
+
+@Description
+  Renvoie la valeur de l'attribut 
+  "autonome" (standalone) de la 
+  déclaration XML du document.
+     
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+    
+@ReturnValue
+  Renvoie une des valeurs suivantes:
+@FixedFont
+  @#PB_XML_StandaloneYes  : Le mode du document est autonome.
+  @#PB_XML_StandaloneNo   : Le mode du document n'est pas autonome.
+  @#PB_XML_StandaloneUnset: Le mode autonome n'est pas spécifié dans la déclaration.
+@EndFixedFont
+
+@SeeAlso
+  @@SetXMLStandalone
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function SetXMLStandalone(#XML, Autonome)
+
+@Description
+  Change l'attribut "autonome" (standalone) 
+  de la déclaration XML lors de l'export 
+  ou de l'enregistrement du document.
+     
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+    
+@Parameter "Autonome"
+  Peut être une des valeurs suivantes:
+@FixedFont
+  @#PB_XML_StandaloneYes  : Le mode du document est autonome.
+  @#PB_XML_StandaloneNo   : Le mode du document n'est pas autonome.
+  @#PB_XML_StandaloneUnset: Le mode autonome n'est pas spécifié dans la déclaration.
+@EndFixedFont
+
+  @Bold "Note :" Tant que la bibliothèque 
+  ne valide pas les définitions de type de 
+  document (DTDs), la valeur de cet attribut 
+  n'a aucun effet sur l'analyse syntaxique /
+  l'enregistrement des documents avec cette 
+  bibliothèque excepté qu'ils sont lus 
+  depuis la déclaration XML ou écrits dans 
+  cette déclaration. 
+  Cette valeur est cependant importante 
+  quand on travaille avec des documents 
+  XML qui sont destinés à un analyseur 
+  syntaxique validant, c'est la raison 
+  pour laquelle cette commande existe.
+
+@SeeAlso
+  @@GetXMLStandalone
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = RootXMLNode(#XML)
+
+@Description
+  Renvoie le noeud racine. 
+     
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+    
+@ReturnValue
+  Renvoie toujours un noeud XML valide 
+  si l'arbre #XML est correctement 
+  initialisé.
+
+@Remarks
+  Ce noeud est toujours présent.
+  Il représente le document XML au complet. 
+  Le @Link "GetXMLNodeText" "texte" de ce 
+  noeud contient les espaces en dehors de
+  tout noeud XML (il ne peut pas y avoir de 
+  texte en dehors des noeuds). Les fils de 
+  ce noeud sont le 
+  @Link "MainXMLNode" "noeud principal"
+  et tous les commentaires situés en dehors 
+  du noeud principal. Le 
+  @Link "XMLNodeType" "type" 
+  de ce noeud est @#PB_Xml_Root.
+  
+@SeeAlso
+  @@XMLNodeType, @@MainXMLNode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = MainXMLNode(#XML)
+
+@Description
+  Renvoie le noeud principal. 
+     
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+  
+@ReturnValue
+  Renvoie le noeud principal, ou zéro 
+  si l'arbre XML n'a pas de noeud
+  principal (ce qui peut arriver si 
+  l'arbre est vide ou que le noeud 
+  principal a été effacé).
+
+@Remarks
+  Un arbre XML valide doit toujours avoir 
+  un noeud principal qui contient tous 
+  les autres noeuds. En dehors de ce noeud, 
+  il peut seulement y avoir des commentaires.
+  Le @Link "XMLNodeType" "type" de ce noeud 
+  est @#PB_Xml_Normal.
+ 
+
+@SeeAlso
+  @@XMLNodeType, @@RootXMLNode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = ChildXMLNode(Noeud [, Index])
+
+@Description  
+  Renvoie un noeud fils.
+
+@Parameter "Noeud"
+  Le noeud XML qui contient le noeud fils.
+  
+@OptionalParameter "Index"
+  L'index du noeud fils. 
+@LineBreak
+@LineBreak
+  Le premier index commence à 1. @Linebreak
+  S'il est  omis alors le premier noeud 
+  est renvoyé.
+
+@ReturnValue
+  Renvoie le noeud fils indiqué, ou zéro 
+  s'il n'existe pas.
+
+@SeeAlso
+  @@ParentXMLNode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = ParentXMLNode(Noeud)
+
+@Description
+  Renvoie le noeud parent. 
+
+ 
+@Parameter "Noeud"
+  Le noeud XML qui contient le noeud 
+  parent.
+   
+@ReturnValue
+  Renvoie le noeud parent, ou zéro si 
+  'Noeud' est le noeud racine.
+
+@Remarks
+  Chaque noeud XML a un parent, sauf le
+  @Link "RootXMLNode" "noeud racine".
+
+@SeeAlso
+  @@ChildXMLNode, @@RootXMLNode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = XMLChildCount(Noeud)
+
+@Description
+  Renvoie le nombre de noeuds fils.
+  
+@Parameter "Noeud"
+  Le noeud XML à utiliser.
+  
+@ReturnValue
+  Le nombre de noeuds fils du noeud 
+  considéré.
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = NextXMLNode(Noeud)
+
+@Description
+  Renvoie le noeud suivant de même 
+  niveau.
+  
+@Parameter "Noeud"
+  Le noeud XML à utiliser.
+   
+@ReturnValue
+  Renvoie le noeud suivant, ou zéro s'il 
+  n'y a plus de noeud après celui-ci.
+
+@SeeAlso
+  @@PreviousXMLNode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = PreviousXMLNode(Noeud)
+
+@Description
+  Renvoie le noeud précédent de même 
+  niveau.
+  
+@Parameter "Noeud"
+  Le noeud XML à utiliser.
+
+@ReturnValue
+  Renvoie le noeud précédent, ou zéro s'il 
+  n'y a plus de noeud avant celui-ci.
+
+@SeeAlso
+  @@NextXMLNode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = XMLNodeFromPath(NoeudParent, Chemin$)
+
+@Description
+  Renvoie le noeud contenu dans un 
+  noeud parent, dans un 'Chemin$'.
+
+@Parameter "NoeudParent"
+  Le noeud parent à utiliser.
+  
+@Parameter "Chemin$"
+  Contient la liste des noeuds séparée 
+  par '/' indiquant le chemin à suivre 
+  pour aller du noeud parent au noeud 
+  cible. @LineBreak
+  Par exemple "voitures/cabriolet" 
+  représente le premier noeud avec le 
+  nom "cabriolet" dans le noeud nommé 
+  "voitures" du 'NoeudParent'.
+@LineBreak
+@LineBreak
+  Le nom d'un noeud peut avoir un index 
+  (commençant à 1) pour spécifier lequel 
+  des noeuds fils portant le même nom
+  doit être sélectionné. 
+  "voitures/cabriolet[3]" 
+  représente le 3ème "cabriolet" dans 
+  "voitures".
+@LineBreak
+@LineBreak
+  Autres règles: @LineBreak
+  - Si un chemin commence avec '/', il est 
+  relatif à la racine de l'arbre XML. 
+  Le paramètre 'NoeudParent' est ignoré. 
+  @LineBreak
+  - Un motif "*" est utilisable à la 
+  place d'un nom de noeud pour indiquer 
+  que n'importe quel noeud est valide. 
+  @LineBreak
+  - Un noeud de commentaire porte le 
+  nom "#comment" @LineBreak
+  - Un noeud CData porte le nom "#cdata" 
+  @LineBreak
+  - Un noeud de DTD porte le nom "#dtd" 
+  @LineBreak
+  - Un noeud traitement d'instruction 
+  porte le nom "#instruction" 
+
+@LineBreak
+  Quelques exemples de chemins:  
+@FixedFont
+  "/mainnode/#comment[4]" - le 4ème commentaire dans le noeud "mainnode" du noeud racine.
+  "*[10]"                 - le 10ème noeud (de n'importe quel type) du 'NoeudParent'
+  "*/*/*"                 - le premier noeud 3 niveau en dessous du 'NoeudParent' en ne tenant pas compte de leurs types
+  "node[3]/*[3]/#cdata"   - la première section CData dans le 3ème noeud de n'importe quel type dans le 3ème noeud "node" du 'NoeudParent'
+@EndFixedFont
+  
+  @Bold "Note: " Cette commande n'est pas 
+  mise en œuvre de la spécification XPath. 
+  La syntaxe utilisée et comprise par cette 
+  commande est seulement un petit sous 
+  ensemble de XPath. Cela signifie un 
+  chemin de retour de @@XMLNodePath est 
+  une requête XPath valide, mais cette 
+  commande ne comprend que la syntaxe 
+  décrite ici, pas n'importe quelle 
+  requête XPath.
+
+@ReturnValue
+  Renvoie le noeud cible, ou zéro si 
+  le chemin ne représente pas un noeud 
+  valide.
+
+@Remarks
+  @@XMLNodePath peut être utilisé pour 
+  obtenir un tel chemin pour un noeud 
+  donné.  
+  
+@SeeAlso
+  @@XMLNodePath
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = XMLNodeFromID(#XML, ID$)
+
+@Description
+  Renvoie le noeud correspondant à 
+  son attribut ID.
+
+@Parameter "#XML"
+  L'arbre XML à utiliser.
+
+@Parameter "ID$"
+  L'identifiant (ID) à rechercher.
+
+@ReturnValue
+  Renvoie le noeud correspondant à l'ID 
+  spécifié, ou zéro si aucun noeud n'a 
+  été trouvé.
+
+@Remarks
+  Dans un arbre XML valide, si un noeud a 
+  un attribut nommé "ID", la valeur de cet 
+  attribut doit être unique dans tout le 
+  document.  
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = XMLNodeType(Noeud)
+
+@Description
+  Renvoie le type d'un noeud. 
+ 
+@Parameter "Noeud"
+  Le noeud à utiliser.
+  
+@ReturnValue  
+  Les différentes valeurs possibles sont:
+@LineBreak
+@LineBreak
+
+@#PB_XML_Root
+@Indent
+  C'est le noeud racine de l'arbre. Il 
+  représente le document lui-même. 
+  Ce noeud ne peut pas être ajouté ou 
+  supprimé. 
+  A l'intérieur de ce noeud racine, il ne 
+  peut seulement y avoir qu'un seul noeud 
+  du type @#PB_XML_Normal et, de plus, 
+  aucun texte. 
+  (Ceci est indispensable pour obtenir un 
+  document XML bien formé).
+@EndIndent
+
+  @#PB_XML_Normal
+@Indent
+  C'est un noeud normal dans 
+  l'arborescence. 
+  Il peut avoir des attributs et contenir 
+  du texte ou / et des fils.
+@LineBreak
+  @Bold "Exemple: "<attribut noeud="bonjour"> 
+  texte contenu </node> 
+@EndIndent
+
+  @#PB_XML_Comment
+@Indent
+  Ce noeud contient un commentaire. 
+  Il ne peut avoir ni fils ni attribut, 
+  seulement du texte.
+@LineBreak
+  @Bold "Exemple: "<!-- texte du commentaire --> 
+@EndIndent
+
+  @#PB_XML_CData
+@Indent
+  C'est une section CData. 
+  Une section CData contient seulement du 
+  texte. 
+  Son contenu n'est pas interprété par 
+  l'analyseur lexical elle peut donc 
+  contenir des caractères spéciaux non 
+  décorés comme "<" ou ">" par exemple. 
+  Les sections CData peuvent être utilisées 
+  pour inclure d'autres balises ou codes à 
+  l'intérieur d'un document sans avoir à 
+  décorer tous les caractères spéciaux 
+  qui pourraient être interprétés comme 
+  étant du XML.
+@LineBreak
+  @Bold "Exemple: "<![CDATA[ contenu de cdata ]]> 
+@EndIndent
+
+  @#PB_XML_DTD
+@Indent
+  C'est une déclaration de type de 
+  document (DTD). 
+  Cette bibliothèque n'utilise pas un 
+  analyseur lexical validant, ainsi ces 
+  déclarations sont en réalité ignorées 
+  quand le document est analysé. Afin de 
+  pouvoir les sauvegarder correctement 
+  elles sont insérées à l'intérieur de 
+  ce type de noeud DTD. 
+  Elles peuvent être lues et modifiées
+  grâce à des commandes telles que 
+  @@SetXMLNodeText et seront sauvegardées 
+  en l'état dans le document lors de 
+  l'export / enregistrement. 
+  La commande @@SetXMLStandalone peut 
+  également être très utile pour travailler 
+  avec les DTDs.
+@LineBreak
+  @Bold "Exemple: "<!DOCTYPE name SYSTEM "external dtd uri"> 
+@EndIndent
+
+  @#PB_XML_Instruction
+@Indent
+  Ce noeud représente une instruction (un 
+  ordre). Les instructions contiennent des 
+  informations destinées à être interprétées 
+  / exécutées par l'application cible. Elles 
+  ont un @Link "GetXMLNodeName" "nom" pour 
+  préciser le contenu de l'instruction et 
+  les données de l'instruction auxquelles 
+  @@GetXMLNodeText doit pouvoir accéder.
+@LineBreak
+  @Bold "Exemple: "<?php if (...) ... ?>
+@LineBreak
+  (Ici "php" est le nom du noeud, et ce qui 
+  suit le "?>" est le texte du noeud.) 
+@EndIndent
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetXMLNodeText(Noeud)
+
+@Description
+  Renvoie le texte contenu dans un noeud.
+ 
+@Parameter "Noeud"
+  Le noeud XML à utiliser.
+@LineBreak
+@LineBreak  
+  Pour un noeud de @Link "XMLNodeType" "type" 
+  @#PB_XML_Normal, c'est tout le texte
+  et les espaces contenus dans le noeud 
+  qui ne sont pas situés dans des noeuds 
+  fils.
+@LineBreak
+@LineBreak
+  Pour le @Link "RootXMLNode" "noeud racine", 
+  c'est tout les espaces situés en dehors du
+  noeud principal (il ne peut pas y avoir de 
+  texte en dehors du noeud principal).
+@LineBreak
+@LineBreak
+  Pour les noeuds @#PB_XML_Comment ou 
+  @#PB_XML_CData, c'est tout le texte 
+  du noeud.
+
+@ReturnValue 
+  Le texte à l'intérieur du noeud XML.
+  
+@SeeAlso
+  @@SetXMLNodeText
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function SetXMLNodeText(Noeud, Texte$)
+
+@Description
+  Change le texte contenu dans un noeud. 
+
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+
+@Parameter "Texte$"
+  Le nouveau texte à attribuer au noeud.
+
+@NoReturnValue
+
+@Remarks
+  Voir @@GetXMLNodeText pour plus 
+  d'informations.
+@Linebreak
+@Linebreak  
+  Si le noeud contient des fils, changer 
+  son contenu peut aussi demander un 
+  ajustement du
+  @Link "SetXMLNodeOffset" "décalage"
+  des noeuds fils.
+
+@SeeAlso
+  @@GetXMLNodeText
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = GetXMLNodeOffset(Noeud)
+
+@Description
+  Renvoie le décalage en caractères d'un 
+  noeud par rapport à son parent.
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+
+@ReturnValue
+  La valeur renvoyée représente le nombre 
+  de caractères dans le 
+  @Link "GetXMLNodeText" "texte" 
+  du noeud parent qui lie ce noeud et le 
+  fils précédent. Donc si ce noeud suit 
+  directement le noeud précédent, 
+  cette valeur sera zéro.
+
+@SeeAlso
+  @@SetXMLNodeOffset
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function SetXMLNodeOffset(Noeud, Decalage)
+
+@Description
+  Change le décalage en caractères d'un 
+  noeud par rapport au 
+  @Link "GetXMLNodeText" "texte" de son 
+  parent.
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+  
+@Parameter "Decalage"
+  Le nouveau décalage, en caractères.
+  
+@NoReturnValue
+
+@Remarks
+  Voir @@GetXMLNodeOffset pour plus 
+  d'informations.
+
+@SeeAlso
+  @@GetXMLNodeOffset
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetXMLNodeName(Noeud)
+
+@Description
+  Renvoie le nom d'un noeud. 
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+  
+ReturnValue
+  Le nom 'tagname' du noeud.@LineBreak
+  Si le noeud n'est pas du 
+  @Link "XMLNodeType" "type" 
+  @#PB_XML_Normal ou @#PB_XML_Instruction 
+  alors une chaîne vide sera renvoyée.
+
+@SeeAlso
+  @@SetXMLNodeName
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function SetXMLNodeName(Noeud, Nom$)
+
+@Description
+  Change le nom d'un noeud. 
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+  
+@Parameter "Nom$"
+  Le nouveau nom (tag-name).
+
+@NoReturnValue
+
+@Remarks
+  Si le noeud n'est pas du 
+  @Link "XMLNodeType" "type" 
+  @#PB_XML_Normal ou @#PB_XML_Instruction
+  alors cette fonction n'aura aucun effet.
+@LineBreak
+@LineBreak
+  Pour rappel, d'après le standard XML,
+  le nom d'un noeud doit suivre les 
+  règles suivantes:@LineBreak
+  - Sensible à la casse@LineBreak
+  - Doit commencer par une lettre ou un soulignement '_'@LineBreak
+  - Ne doit pas commencer par XML et ses déclinaison (Xml, xml, etc)@LineBreak
+  - Sont autorisés les lettres, chiffres, tiret '-' ou point '.' mais pas ' ! " # $ % & ' ( ) * + , / ; < = > ? @ [ \ ] ^ ` { | } ~ ' : @LineBreak
+  - Les espaces sont interdits @LineBreak
+  
+@SeeAlso
+  @@GetXMLNodeName
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat$ = XMLNodePath(Noeud [, NoeudParent])
+
+@Description
+  Renvoie la réprésentation textuelle de 
+  la relation entre un noeud et son 
+  noeud parent. 
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+
+@OptionalParameter "NoeudParent"
+  Doit être un parent ou un grandparent 
+  du noeud. 
+@LineBreak
+@LineBreak  
+  si omis, le noeud racine est utilisé.
+
+@ReturnValue
+  Une chaîne de caractères réprésentant la 
+  relation entre le 'Noeud' et son 
+  'NoeudParent'. 
+  @LineBreak 
+  Voir @@XMLNodeFromPath pour une 
+  description  sur le format du résultat 
+  renvoyé.
+
+@SeeAlso
+  @@XMLNodeFromPath
+   
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetXMLAttribute(Noeud, Attribut$)
+
+@Description
+  Renvoie la valeur d'un attribut d'un 
+  noeud. 
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+  
+@Parameter "Attribut$"
+  Le nom de l'attribut.  
+  
+@ReturnValue 
+  La valeur d'un attribut du Noeud.
+@LineBreak
+@LineBreak  
+  Si l'attribut n'existe pas, une chaîne 
+  vide sera renvoyée.
+
+@Remarks 
+  Seuls les noeuds du 
+  @Link "XMLNodeType" "type" @#PB_XML_Normal 
+  peuvent avoir des attributs. 
+  Pour tous les autres types de noeuds, 
+  cette fonction renvoie une chaîne vide.
+
+@SeeAlso
+  @@SetXMLAttribute, @@RemoveXMLAttribute
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function SetXMLAttribute(Noeud, Attribut$, Valeur$)
+
+@Description
+  Change la valeur d'un attribut d'un noeud. 
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+   
+@Parameter "Attribut$"
+  Le nom de l'attribut à changer ou à créer. 
+
+@Parameter "Valeur$"
+  La valeur à attribuer.  
+    
+@NoReturnValue
+  
+@Remarks 
+  Si l'attribut n'existe pas encore, il 
+  sera ajouté.
+@LineBreak
+@LineBreak 
+  Seuls les noeuds du 
+  @Link "XMLNodeType" "type" 
+  @#PB_XML_Normal peuvent avoir des 
+  attributs. 
+  Pour tous les autres types de noeuds, 
+  cette fonction renvoie une chaîne vide.
+
+@SeeAlso
+  @@GetXMLAttribute, @@RemoveXMLAttribute
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function RemoveXMLAttribute(Noeud, Attribut$)
+
+@Description
+  Supprime l'attribut d'un noeud.
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+  
+@Parameter "Attribut$"
+  L'attribut à supprimer. 
+@LineBreak
+@LineBreak  
+  Si l'attribut n'existe pas, il ne se 
+  passera rien.  
+  
+@NoReturnValue
+
+@Remarks 
+  Seuls les noeuds du 
+  @Link "XMLNodeType" "type" 
+  @#PB_XML_Normal peuvent avoir des 
+  attributs. 
+  Pour tous les autres types de noeuds, 
+  cette fonction sera sans effet.
+
+@SeeAlso
+  @@GetXMLAttribute, @@SetXMLAttribute
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = ExamineXMLAttributes(Noeud)
+
+@Description
+  Démarre l'énumération des attributs d'un 
+  noeud.
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+  
+@ReturnValue
+  Renvoie une valeur non nulle si le noeud 
+  est de @Link "XMLNodeType" "type" 
+  @#PB_XML_Normal, zéro sinon (car ces 
+  noeuds ne peuvent pas avoir d'attributs).
+
+@SeeAlso
+  @@NextXMLAttribute, @@XMLAttributeName, 
+  @@XMLAttributeValue
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = NextXMLAttribute(Noeud)
+
+@Description
+  Cette fonction doit être appelée après 
+  @@ExamineXMLAttributes et permet de passer
+  à l'attribut suivant.
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+  
+@ReturnValue
+  Renvoie une valeur non nulle ou zéro s'il 
+  n'y a plus d'attributs à énumérer.
+
+@SeeAlso
+  @@ExamineXMLAttributes, @@XMLAttributeName, 
+  @@XMLAttributeValue
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat$ = XMLAttributeName(Noeud)
+
+@Description
+  Après avoir appelé @@ExamineXMLAttributes 
+  et @@NextXMLAttribute cette fonction 
+  renvoie le nom de l'attribut du noeud 
+  en cours d'examen.
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+
+@ReturnValue
+  Le nom de l'attribut en cours d'examen.
+
+@SeeAlso
+  @@ExamineXMLAttributes, @@NextXMLAttribute, 
+  @@XMLAttributeValue
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat$ = XMLAttributeValue(Noeud)
+
+@Description
+  Après avoir appelé @@ExamineXMLAttributes 
+  et @@NextXMLAttribute cette fonction 
+  renvoie la valeur de l'attribut du 
+  noeud en cours d'examen.
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+ 
+@ReturnValue
+  La valeur de l'attribut en cours d'examen.
+
+@SeeAlso
+  @@ExamineXMLAttributes, @@NextXMLAttribute, 
+  @@XMLAttributeName
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = CreateXMLNode(NoeudParent, Nom$ [, NoeudPrecedent [, Type]])
+
+@Description
+  Crée un nouveau noeud et l'insert 
+  sous un noeud parent.
+
+@Parameter "NoeudParent"
+  Le noeud sous lequel le nouveau noeud doit 
+  être inséré. Pour insérer le noeud à la 
+  racine de l'arbre XML, utiliser 
+  @@RootXMLNode.
+  
+@Parameter "Nom$"
+  Le nom du noeud, c'est une chaîne de 
+  caractères. @Linebreak
+  Peut être une chaine vide si le nom 
+  du noeud n'est pas requis par le parse.
+
+@OptionalParameter "NoeudPrecedent"
+  Représente le noeud fils de 'NoeudParent' 
+  après lequel le nouveau noeud devra être 
+  inséré. Si sa valeur est omise ou égale 
+  à 0, le nouveau noeud est inséré en tant 
+  que premier fils du noeud parent. Si sa 
+  valeur est -1, alors le nouveau noeud 
+  est inséré comme dernier fils du noeud 
+  parent.
+
+@OptionalParameter "Type"
+  Spécifie le @Link "XMLNodeType" "type" 
+  pour ce nouveau noeud. Le type par défaut 
+  est @#PB_XML_Normal.
+  Note: le type du noeud ne peut plus être 
+  modifié une fois qu'il a été créé.
+
+@ReturnValue
+  Renvoie le noeud nouvellement créé ou 
+  zéro s'il n'a pas pu être inséré à cet 
+  endroit.
+
+@Remarks  
+  Les règles suivantes doivent être respectées 
+  pour que l'insertion se passe correctement: 
+  @LineBreak
+  - 'NoeudParent' ne peut pas être de type 
+  @#PB_XML_Comment ou @#PB_XML_CData 
+  @LineBreak
+  - 'NoeudPrecedent' doit être un fils 
+  direct du 'NoeudParent' (s'il est 
+  spécifié) @LineBreak
+  - Un noeud de type @#PB_XML_Root ne peut 
+  pas être créé manuellement @LineBreak
+  - Si l'arbre XML a déjà un 
+  @Link "MainXMLNode" "noeud principal", 
+  seuls les noeuds de type autres que 
+  @#PB_XML_Normal et @#PB_XML_CData peuvent 
+  être insérés à la racine
+
+@SeeAlso
+  @@DeleteXMLNode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = CopyXMLNode(Noeud, NoeudParent [, NoeudPrecedent])
+
+@Description
+  Duplique un noeud et tout son contenu (texte 
+  et noeuds fils) à un nouvel emplacement. 
+@Linebreak  
+@Linebreak
+  Cette fonction peut copier des noeuds de 
+  documents XML différents.@Linebreak
+  Pour déplacer un noeud à un nouvel 
+  emplacement, utiliser @@MoveXMLNode.
+
+@Parameter "Noeud"
+  Le noeud à dupliquer.
+  
+@Parameter "NoeudParent"
+  Le noeud sous lequel le noeud copié sera 
+  inséré. @Linebreak
+  Pour insérer le noeud à la racine de 
+  l'arbre XML, utiliser @@RootXMLNode.
+
+@OptionalParameter "NoeudPrecedent"
+  Le noeud fils de 'NoeudParent' après 
+  lequel le nouveau noeud devra être inséré. 
+  Si sa valeur est omise ou égale à 0, le 
+  nouveau noeud est inséré en tant que 
+  premier fils du noeud parent. Si sa valeur 
+  est -1 alors le nouveau noeud est inséré 
+  comme dernier fils du noeud parent.
+
+@ReturnValue
+  Le nouveau noeud si la copie est un succès, 
+  zéro sinon.
+
+@Remarks
+  Les règles suivantes doivent être respectées 
+  pour que la copie se déroule correctement: 
+  @LineBreak
+  - Le @Link "RootXMLNode" "noeud racine" ne 
+  peut pas être copié @LineBreak
+  - 'NoeudParent' ne peut pas être de type 
+  @#PB_XML_Comment ou @#PB_XML_CData 
+  @LineBreak
+  - 'NoeudPrecedent' doit être un fils 
+  direct du 'NoeudParent' (s'il est spécifié)
+  @LineBreak
+  - Si l'arbre XML a déjà un 
+  @Link "MainXMLNode" "noeud principal", 
+  seuls les noeuds de type autres que 
+  @#PB_XML_Normal et @#PB_XML_CData peuvent 
+  être insérés à la racine
+
+@SeeAlso
+  @@DeleteXMLNode, @@MoveXMLNode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = MoveXMLNode(Noeud, NoeudParent [, NoeudPrecedent])
+
+@Description
+  Déplace un noeud et tout son contenu (texte 
+  et noeuds fils) à un nouvel emplacement. 
+@Linebreak
+@Linebreak  
+  Cette fonction peut déplacer des noeuds de 
+  documents XML différents.@Linebreak
+  Pour copier un noeud à un nouvel 
+  emplacement, utiliser @@CopyXMLNode.
+
+@Parameter "Noeud"
+  Le noeud à déplacer.
+ 
+@Parameter "NoeudParent"
+  Le noeud sous lequel le noeud déplacé 
+  sera inséré. Pour insérer le noeud
+  à la racine de l'arbre XML, utiliser 
+  @@RootXMLNode.
+
+@OptionalParameter "NoeudPrecedent"
+  Le noeud fils de 'NoeudParent' après 
+  lequel le nouveau noeud devra être 
+  inséré. Si sa valeur est omise ou 
+  égale à 0, le nouveau noeud est inséré 
+  en tant que premier fils du noeud 
+  parent. Si sa valeur est -1 alors 
+  le nouveau noeud est inséré comme 
+  dernier fils du noeud parent.
+
+@ReturnValue
+  Renvoie une valeur non nulle si le 
+  déplacement est un succès, zéro sinon.
+
+@Remarks  
+  Les règles suivantes doivent être respectées 
+  pour que le déplacement se déroule 
+  correctement: 
+  @LineBreak
+  - Le @Link "RootXMLNode" "noeud racine" ne 
+  peut pas être déplacé @LineBreak
+  - 'NoeudParent' ne peut pas être de type 
+  @#PB_XML_Comment ou @#PB_XML_CData 
+  @LineBreak
+  - 'NoeudPrecedent' doit être un fils 
+  direct du 'NoeudParent' (s'il est spécifié) 
+  @LineBreak
+  - 'Noeud' et 'NoeudPrecedent' ne peuvent 
+  pas être identiques @LineBreak
+  - 'NoeudParent' ne peut pas être égal à 
+  'Noeud' ou à un de ses fils (un noeud ne 
+  peut pas être déplacé dans lui-même) 
+  @LineBreak
+  - Si l'arbre XML a déjà un 
+  @Link "MainXMLNode" "noeud principal", 
+  seuls les noeuds de type autres que 
+  @#PB_XML_Normal et @#PB_XML_CData peuvent 
+  être insérés à la racine.
+
+@SeeAlso
+  @@DeleteXMLNode, @@CopyXMLNode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function DeleteXMLNode(Noeud)
+
+@Description
+  Efface un noeud et tout son contenu 
+  (texte et fils).
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+
+@Remarks  
+  Le @Link "RootXMLNode" "noeud racine" 
+  d'un document XML ne peut pas être effacé.
+
+@SeeAlso
+  @@CreateXMLNode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat$ = ResolveXMLNodeName(Noeud [, Separateur$])
+
+@Description
+  Renvoie le nom du noeud fourni dans le 
+  document qui utilise les espaces de noms 
+  XML. 
+@Linebreak  
+@Linebreak
+  Ce nom comporte l'URI (Uniform Resource Identifier) de l'espace 
+  de noms (s'il existe) et le nom du noeud 
+  local, séparés par le caractère de 
+  séparation donné dans 'Separateur$'. 
+  Le caractère de séparation par défaut 
+  est "/".
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+  
+@OptionalParameter "Separateur$"
+  Le séparateur (chaîne de caractères) à 
+  utiliser.@LineBreak 
+  Par défaut : "/".
+     
+@ReturnValue
+  Dans un document utilisant les espaces de 
+  noms, cette fonction renvoie le nom 
+  qualifié du noeud s'il a été correctement 
+  résolu ou une chaîne vide si un préfixe 
+  d'espaces de noms est utilisé mais n'a 
+  jamais été déclaré (ce qui n'est pas 
+  valide).
+@LineBreak
+@LineBreak
+  Dans un document sans espaces de noms, 
+  la fonction renvoie le nom du noeud.
+
+@SeeAlso
+  @@ResolveXMLAttributeName
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat$ = ResolveXMLAttributeName(Noeud, Attribut$ [, Separateur$])
+
+@Description
+  Renvoie le nom complet du noeud 
+  donné en attribut dans un document qui 
+  utilise les espaces de noms XML.
+@Linebreak
+@Linebreak  
+  Le nom complet se compose de 
+  l'URI (Uniform Resource Identifier) de l'espace de noms (s'il existe) et 
+  du nom de l'attribut local), séparé par le 
+  séparateur donné par 'Separateur$'. Le 
+  caractère de séparation (séparateur) par 
+  défaut est "/".
+
+@Parameter "Noeud"
+  Le noeud à utiliser.
+  
+@Parameter "Attribut$"
+  L'attribut à trouver.
+
+@OptionalParameter "Separateur$" 
+  Le séparateur (chaîne de caractères) à 
+  utiliser.@LineBreak 
+  Par défaut : "/".
+ 
+@ReturnValue
+  Dans un document utilisant les espaces de 
+  noms, renvoie le nom complet de l'attribut 
+  s'il peut-être correctement résolu ou une 
+  chaîne vide si le préfixe de l'espace de 
+  noms est utilisé sans être jamais déclaré 
+  (ce qui n'est pas valide).
+@LineBreak
+@LineBreak
+  Dans un document sans espaces de noms, 
+  renvoie le nom de l'attribut.
+  
+@Remarks  
+  @Bold "Note: " à la différence des 
+  @Link "ResolveXMLNodeName" "noms de noeuds", 
+  l'espace de noms par défaut n'est pas 
+  utilisé pour qualifier un nom qui n'a pas 
+  de préfixe lié à un espace de noms. 
+  Ainsi, les noms qualifiés sans préfixe 
+  d'espace de noms ont simplement leur nom 
+  local renvoyé.
+
+@SeeAlso
+  @@ResolveXMLNodeName
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = InsertXMLArray(NoeudParent, Tableau() [, NoeudPrecedent])
+
+@Description
+  Insère un tableau dans un noeud. 
+  
+@Parameter "NoeudParent"
+  Le noeud dans lequel insérer le nouveau 
+  noeud.
+@LineBreak
+@LineBreak
+  Pour insérer le nouveau noeud à la racine 
+  de l'arbre, utiliser @@RootXMLNode.
+
+@Parameter "Tableau()"
+  Le tableau à insérer.
+
+@OptionalParameter "NoeudPrecedent"
+  Un noeud enfant du noeud parent après qui 
+  le nouveau noeud doit être inséré.
+  @LineBreak 
+  Si cette valeur est 0 ou non spécifiée, le 
+  nouveau noeud est inséré comme premier 
+  enfant de son parent. @LineBreak
+  Si cette valeur est -1, le noeud est 
+  inséré comme dernier enfant de son parent.
+ 
+@ReturnValue
+  Le nouveau noeud XML s'il a été créé 
+  avec succès, zéro sinon. 
+
+@Remarks
+  Les règles spécifiées dans 
+  @@CreateXMLNode pour le cas où un nouveau 
+  noeud est inséré s'appliquent également 
+  à cette fonction.
+@LineBreak
+@LineBreak
+  Le noeud inséré est nommé "array" et les 
+  éléments du tableau sont insérés sous le 
+  nom "element".
+  Si le tableau a plusieurs dimensions, 
+  chaque élément aura des attributs 
+  indiquant la coordonnée de l'élément à 
+  l'intérieur du tableau, nommée "a", "b" 
+  et ainsi de suite. Voir ci-dessous un 
+  exemple.
+
+@Example
+@Code
+  ; Cet exemple produit l'arbre XML suivant:
+  ;
+  ; <array>
+  ;   <element>rouge</element>
+  ;   <element>vert</element>
+  ;   <element>bleu</element>
+  ; </array>
+  ;
+  Dim Couleurs$(2)
+  Couleurs$(0) = "rouge"
+  Couleurs$(1) = "vert"
+  Couleurs$(2) = "bleu"
+  
+  If CreateXML(0)
+    InsertXMLArray(RootXMLNode(0), Couleurs$())
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@Example
+@Code
+  ; Cet exemple produit l'arbre XML suivant:
+  ;
+  ; <array>
+  ;   <element a="0" b="0">0</element>
+  ;   <element a="0" b="1">1</element>
+  ;   <element a="1" b="0">10</element>
+  ;   <element a="1" b="1">11</element>
+  ;   <element a="2" b="0">20</element>
+  ;   <element a="2" b="1">21</element>
+  ; </array>
+  ;
+  Dim MultiArray(2, 1)
+  For a = 0 To 2
+    For b = 0 To 1
+      MultiArray(a, b) = a * 10 + b
+    Next b
+  Next a
+  
+  If CreateXML(0)
+    InsertXMLArray(RootXMLNode(0), MultiArray())
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExtractXMLArray, @@InsertXMLList, 
+  @@InsertXMLMap, @@InsertXMLStructure,   
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = InsertXMLList(NoeudParent, Liste() [, NoeudPrecedent])
+
+@Description
+  Insère une liste dans un noeud.
+  
+@Parameter "NoeudParent"
+  Le noeud dans lequel insérer le nouveau 
+  noeud.
+@LineBreak
+@LineBreak
+  Pour insérer le nouveau noeud à la 
+  racine de l'arbre, utiliser @@RootXMLNode.
+
+@Parameter "Liste()"
+  La liste à insérer.
+
+@OptionalParameter "NoeudPrecedent"
+  Un noeud enfant du noeud parent après qui 
+  le nouveau noeud doit être inséré.
+  @LineBreak 
+  Si cette valeur est 0 ou non spécifiée, le 
+  nouveau noeud est inséré comme premier 
+  enfant de son parent. @LineBreak
+  Si cette valeur est -1, le noeud est 
+  inséré comme dernier enfant de son parent.
+  
+@ReturnValue
+  Le nouveau noeud XML s'il a été créé avec 
+  succès, zéro sinon. 
+
+@Remarks
+  Les règles spécifiées dans @@CreateXMLNode pour 
+  le cas où un nouveau noeud est inséré 
+  s'appliquent également à cette fonction.
+@LineBreak
+@LineBreak
+  Le noeud inséré est nommé "list" et les 
+  éléments de la liste sont insérés sous 
+  le nom "element".
+  Voir ci-dessous un exemple.
+  
+@Example
+@Code
+  ; Cet exemple produit l'arbre XML suivant:
+  ;
+  ; <list>
+  ;   <element>carré</element>
+  ;   <element>cercle</element>
+  ;   <element>triangle</element>
+  ; </list>
+  ;
+  NewList Formes$()
+  AddElement(Formes$()): Formes$() = "carré"
+  AddElement(Formes$()): Formes$() = "cercle"
+  AddElement(Formes$()): Formes$() = "triangle"
+
+  If CreateXML(0)
+    InsertXMLList(RootXMLNode(0), Formes$())
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@Example
+@Code
+  ; Cet exemple produit l'arbre XML suivant:
+  ;
+  ; <list>
+  ;   <element>
+  ;     <x>100</x>
+  ;     <y>200</y>
+  ;   </element>
+  ;   <element>
+  ;     <x>200</x>
+  ;     <y>400</y>
+  ;   </element>
+  ; </list>
+  ;
+  Structure Position
+    x.l
+    y.l
+  EndStructure
+  
+  NewList Positions.Position()
+  
+  For i = 1 To 2
+    AddElement(Positions())
+    Positions()\x = 100 * i
+    Positions()\y = 200 * i
+  Next i
+
+  If CreateXML(0)
+    InsertXMLList(RootXMLNode(0), Positions())
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExtractXMLList, @@InsertXMLArray, @@InsertXMLMap, 
+  @@InsertXMLStructure
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = InsertXMLMap(NoeudParent, Map() [, NoeudPrecedent])
+
+@Description
+  Insère une map dans un noeud.
+  
+@Parameter "NoeudParent"
+  Le noeud dans lequel insérer le nouveau 
+  noeud.
+@LineBreak
+@LineBreak
+  Pour insérer le nouveau noeud à la racine 
+  de l'arbre, utiliser @@RootXMLNode.
+
+@Parameter "Map()"
+  La map à insérer.
+
+@OptionalParameter "NoeudPrecedent"
+  Un noeud enfant du noeud parent après qui 
+  le nouveau noeud doit être inséré.
+  @LineBreak 
+  Si cette valeur est 0 ou non spécifiée, le 
+  nouveau noeud est inséré comme premier 
+  enfant de son parent. @LineBreak
+  Si cette valeur est -1, le noeud est 
+  inséré comme dernier enfant de son parent.
+  
+@ReturnValue
+  Le nouveau noeud XML s'il a été créé avec 
+  succès, zéro sinon. 
+
+@Remarks
+  Les règles spécifiées dans @@CreateXMLNode pour 
+  le cas où un nouveau noeud est inséré 
+  s'appliquent également à cette fonction.
+@LineBreak
+@LineBreak
+  Le noeud inséré est nommé "map" et les 
+  éléments de la liste sont insérés sous le 
+  nom "element".
+  Chaque noeud d'élément aura un attribut 
+  nommé "key" contenant la clé de l'élément. 
+
+@Example
+@Code
+  ; Cet exemple produit l'arbre XML suivant:
+  ;
+  ; <map>
+  ;   <element key="DE">Allemagne</element>
+  ;   <element key="US">United States</element>
+  ;   <element key="FR">France</element>
+  ; </map>
+  ;
+  NewMap Pays.s()
+  Pays("DE") = "Allemagne"
+  Pays("FR") = "France"  
+  Pays("US") = "United States"
+
+  If CreateXML(0)
+    InsertXMLMap(RootXMLNode(0), Pays())
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExtractXMLMap, @@InsertXMLArray, 
+  @@InsertXMLList, @@InsertXMLStructure
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = InsertXMLStructure(NoeudParent, *Memoire, Structure [, NoeudPrecedent])
+
+@Description
+  Insère une structure dans un noeud.
+  
+@Parameter "NoeudParent"
+  Le noeud dans lequel insérer le nouveau 
+  noeud.
+@LineBreak
+@LineBreak
+  Pour insérer le nouveau noeud à la racine 
+  de l'arbre, utiliser @@RootXMLNode.
+
+@Parameter "*Memoire"
+  L'adresse de la structure à insérer.
+  
+@Parameter "Structure"
+  Le type de la structure à insérer.
+
+@OptionalParameter "NoeudPrecedent"
+  Un noeud enfant du noeud parent après qui 
+  le nouveau noeud doit être inséré.
+  @LineBreak 
+  Si cette valeur est 0 ou non spécifiée, le 
+  nouveau noeud est inséré comme premier 
+  enfant de son parent. @LineBreak
+  Si cette valeur est -1, le noeud est 
+  inséré comme dernier enfant de son parent.
+  
+@ReturnValue
+  Le nouveau noeud XML s'il a été créé avec 
+  succès, zéro sinon.  
+
+@Remarks
+  Les règles spécifiées dans @@CreateXMLNode 
+  pour le cas où un nouveau noeud est inséré 
+  s'appliquent également à cette fonction.
+@LineBreak
+@LineBreak 
+  Le noeud inséré est nommé comme la 
+  structure. 
+  Chaque élément de la structure est ajouté 
+  sous forme d'un sous-noeud à l'intérieur 
+  du noeud de la structure. Chaque caractère 
+  '*' ou '$' est retiré du nom de l'élément 
+  de la structure. 
+  Si l'élément de la structure contient un 
+  tableau, une liste, une map ou une 
+  structure, plusieurs noeuds sont ajoutés 
+  de manière récursive.
+
+@Example
+@Code
+  ; Cet exemple produit l'arbre XML suivant:
+  ;
+  ; <Personne>
+  ;  <Nom>John Smith</Nom>
+  ;  <Age>42</Age>
+  ;  <Livres>
+  ;   <element>Investir pour les Nuls</element>
+  ;   <element>Programmer pour les Nuls</element>
+  ;  </Livres>
+  ; </Personne> 
+  ;
+  Structure Personne
+    Nom$
+    Age.l
+    List Livres.s()
+  EndStructure
+  
+  Define P.Personne
+  
+  P\Nom$ = "John Smith"
+  P\Age   = 42
+  AddElement(P\Livres()): P\Livres() = "Investir pour les Nuls"
+  AddElement(P\Livres()): P\Livres() = "Programmer pour les Nuls"
+
+  If CreateXML(0)
+    InsertXMLStructure(RootXMLNode(0), @P, Personne)
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExtractXMLStructure, @@InsertXMLArray, 
+  @@InsertXMLList, @@InsertXMLMap
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function ExtractXMLArray(Noeud, Tableau() [, Options])
+
+@Description
+  Extrait les éléments d'un noeud dans un 
+  @LibraryLink "Array" "tableau".
+
+@Parameter "Noeud"
+  Le noeud XML contenant les données à 
+  extraire.
+  
+@Parameter "Tableau()"
+  Le tableau à remplir avec les éléments XML. 
+  Le tableau sera redimensionné pour avoir 
+  la même taille que le nombre d'éléments. 
+  Tout contenu précédent du tableau sera 
+  perdu.
+
+@OptionalParameter "Options"
+  Si ce paramètre est réglé sur 
+  @#PB_XML_NoCase alors la comparaison des 
+  noms de noeuds et d'attribut XML 
+  est insensible à la casse.@LineBreak 
+  La valeur par défaut est d'être sensible 
+  à la casse.
+  
+@NoReturnValue
+
+@Remarks
+  L'extraction est réalisée de manière 
+  récursive si le tableau est structuré.
+  Les noeuds XML doivent avoir la forme 
+  décrite dans la fonction @@InsertXMLArray. 
+  Les noeuds avec des noms différents sont 
+  ignorés par l'extraction. 
+  Si le tableau comporte plus d'une 
+  dimension, il est prévu pour chaque 
+  élément d'avoir des attributs indiquant 
+  les coordonnées de l'élément nommé "a", 
+  "b" et ainsi de suite.
+
+@Example
+@Code
+  Xml$ = "<array><element>1</element><element>10</element><element>100</element></array>"
+  
+  If ParseXML(0, Xml$) And XMLStatus(0) = #PB_XML_Success
+    Dim MyArray(0) ; il sera redimensionné lors du prochain appel
+    ExtractXMLArray(MainXMLNode(0), MyArray())
+    
+    For i = 0 To ArraySize(MyArray())
+      Debug MyArray(i)
+    Next i
+  Else
+    Debug XMLError(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@InsertXMLArray, @@ExtractXMLList, 
+  @@ExtractXMLMap, @@ExtractXMLStructure
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function ExtractXMLList(Noeud, Liste() [, Options])
+
+@Description
+  Extrait les éléments d'un noeud dans une 
+  @LibraryLink "List" "liste".
+  
+@Parameter "Noeud"
+  Le noeud XML contenant les données à 
+  extraire.
+  
+@Parameter "List()"
+  La liste à remplir avec les éléments XML.
+  @LineBreak 
+  La liste sera effacée avant d'extraire 
+  les éléments.
+
+@OptionalParameter "Options"
+  Si ce paramètre est réglé sur 
+  @#PB_XML_NoCase alors la comparaison des 
+  noms de noeuds et d'attribut XML 
+  est insensible à la casse.@LineBreak 
+  La valeur par défaut est d'être sensible 
+  à la casse.
+  
+@NoReturnValue
+
+@Remarks
+  L'extraction est réalisée de manière 
+  récursive si la liste est structurée.
+  Les noeuds XML doivent avoir la forme 
+  décrite dans la fonction @@InsertXMLList. 
+  Les noeuds avec des noms différents sont 
+  ignorés par l'extraction. 
+
+@Example
+@Code
+  Xml$ = "<list><element>1</element><element>10</element><ELEMENT>100</ELEMENT></list>"
+  
+  If ParseXML(0, Xml$) And XMLStatus(0) = #PB_XML_Success
+    NewList Values()
+    ExtractXMLList(MainXMLNode(0), Values(), #PB_XML_NoCase)
+    
+    ForEach Values()
+      Debug Values()
+    Next
+  Else
+    Debug XMLError(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@InsertXMLList, @@ExtractXMLArray, 
+  @@ExtractXMLMap, @@ExtractXMLStructure
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function ExtractXMLMap(Noeud, Map() [, Options])
+
+@Description
+  Extrait les éléments d'un noeud dans une 
+  @LibraryLink "Map" "map".
+
+@Parameter "Noeud"
+  Le noeud XML contenant les données à 
+  extraire.
+  
+@Parameter "Map()"
+  La map à remplir avec les éléments XML.
+  @LineBreak
+  La map sera effacée avant d'extraire les 
+  éléments.
+  
+@OptionalParameter "Options"
+  Si ce paramètre est réglé sur 
+  @#PB_XML_NoCase alors 
+  la comparaison des noms de noeuds et 
+  d'attribut XML est insensible à la casse.
+  @LineBreak 
+  La valeur par défaut est d'être sensible 
+  à la casse.
+  
+@NoReturnValue
+
+@Remarks
+  L'extraction est réalisée de manière 
+  récursive si la map est structurée.
+  Les noeuds XML doivent avoir la forme 
+  décrite dans la fonction @@InsertXMLMap. 
+  Les noeuds avec des noms différents sont 
+  ignorés par l'extraction. 
+
+@Example
+@Code
+  Xml$ = "<map><element key=" + Chr(34) + "La clé" + Chr(34) + ">La valeur</element></map>"
+  
+  If ParseXML(0, Xml$) And XMLStatus(0) = #PB_XML_Success
+    NewMap Test.s()
+    ExtractXMLMap(MainXMLNode(0), Test())
+    
+    ForEach Test()
+      Debug MapKey(Test()) + " -> " + Test()
+    Next
+  Else
+    Debug XMLError(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@InsertXMLMap, @@ExtractXMLArray, 
+  @@ExtractXMLList, @@ExtractXMLStructure
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function ExtractXMLStructure(Noeud, *Memoire, Structure [, Options])
+
+@Description
+  Extrait les éléments d'un noeud dans 
+  une @ReferenceLink "structures" "structure".
+
+@Parameter "Noeud"
+  Le noeud XML contenant les données à 
+  extraire.
+  
+@Parameter "*Memoire"
+  L'adresse de la mémoire de la structure.
+  
+@Parameter "Structure"
+  La structure à remplir avec les éléments 
+  XML.@LineBreak
+  La structure sera effacée avant d'extraire 
+  les éléments.
+  
+@OptionalParameter "Options"
+  Si ce paramètre est réglé sur 
+  @#PB_XML_NoCase alors 
+  la comparaison des noms de noeuds et 
+  d'attribut XML est insensible à la casse.
+  @LineBreak 
+  La valeur par défaut est d'être sensible 
+  à la casse.
+  
+@NoReturnValue
+
+@Remarks
+  Si un élément de structure ne dispose pas 
+  d'un noeud correspondant dans le fichier 
+  XML, il est laissé vide.
+@LineBreak
+@LineBreak
+  Les noeuds XML doivent avoir la forme 
+  décrite avec la fonction 
+  @@InsertXMLStructure. A savoir, chaque 
+  noeud doit être nommé d'après un membre 
+  de la structure sans les caractères '*' 
+  ou '$'. Si un noeud pour le même élément 
+  de structure existe en plusieurs 
+  exemplaires, le premier noeud sera utilisé.
+
+@Example
+@Code
+  Structure Personne
+    Nom$
+    Age.l
+  EndStructure
+  
+  Xml$ = "<Personne><Nom>John Smith</Nom><Age>42</Age></Personne>"
+
+  If ParseXML(0, Xml$) And XMLStatus(0) = #PB_XML_Success
+    Define P.Personne
+    ExtractXMLStructure(MainXMLNode(0), @P, Personne)
+    
+    Debug P\Nom$
+    Debug P\Age
+  Else
+    Debug XMLError(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@InsertXMLStructure, @@ExtractXMLArray, 
+  @@ExtractXMLList, @@ExtractXMLMap
+
+@SupportedOS
+
+
+;------------------------------------------------------------------------------------

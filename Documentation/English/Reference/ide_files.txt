@@ -1,0 +1,146 @@
+@Title Working with source files
+
+  The file menu allows you to do basic file operations like opening 
+  and saving source codes. 
+@LineBreak
+@LineBreak
+  You can edit multiple source code files at the same 
+  time. You can switch between them using the panel located under 
+  the Toolbar. Also the shortcut keys Ctrl+Tab and Ctrl+Shift+Tab can 
+  be used to jump to the next or previous open source file, respectively.
+
+@LineBreak
+@LineBreak
+
+  The IDE allows the editing of non-sourcecode text files. In this "plain text" mode, code-related
+  features such as coloring, case correction, auto complete are disabled. When saving plain text
+  files, the IDE will not append its settings to the end of the file, even if this is configured
+  for code files in the @ReferenceLink "ide_preferences" "Preferences".
+  Whether or not a file is considered a code-file or not depends on the file extension. The standard
+  PureBasic file extensions (pb, pbi and pbf) are recognized as code files. More file extensions
+  can be recognized as code files by configuring their extension in the "Editor" section of the
+  @ReferenceLink "ide_preferences" "Preferences".
+
+@LineBreak
+@LineBreak
+
+@Section Contents of the "File" menu:
+
+@Image ide_menu_file.png
+
+@Bold New
+@LineBreak
+  Create a new empty source code file.
+
+@LineBreak
+@LineBreak
+
+@Bold Open 
+@LineBreak
+  Open an existing source code file for editing. 
+@LineBreak
+@LineBreak
+  Any text file will be loaded into the source-editing field. You can also load binary 
+  files with the Open menu. These will be displayed in the internal 
+  @ReferenceLink "ide_tools" "File Viewer".
+
+@LineBreak
+@LineBreak
+
+@Bold Save
+@LineBreak
+  Saves the currently active source to disk. If the file isn't saved yet, you will be 
+  prompted for a filename. Otherwise the code will be saved in the file it was saved in before.
+
+@LineBreak
+@LineBreak
+
+@Bold "Save As..."
+@LineBreak
+  Save the currently active source to a different location than it was saved before. This prompts 
+  you for a new filename and leaves the old file (if any) untouched.
+
+@LineBreak
+@LineBreak
+
+@Bold "Save All"
+@LineBreak
+  Saves all currently opened sources.
+
+@LineBreak
+@LineBreak
+
+@Bold Reload
+@LineBreak
+  Reloads the currently active source code from disk. This discards any changes not yet saved.
+
+@LineBreak
+@LineBreak
+
+@Bold Close
+@LineBreak
+  Closes the currently active source code. If it was the only open code, the IDE will display a new empty file.
+
+@LineBreak
+@LineBreak
+
+@Bold "Close All"
+@LineBreak
+  Closes all currently opened sources.
+
+@LineBreak
+@LineBreak
+
+@Bold "View changes"
+@LineBreak
+  Shows the changes made to the current source code compared to its version that exists on the hard drive.
+
+@LineBreak
+@LineBreak
+
+@Bold "File format"
+@LineBreak
+  In this submenu you can select the text encoding as well as the newline format which should be used when the currently
+  active source code is saved to disk. The IDE can handle files in Ascii or UTF-8. The newline formats it can handle are
+  Windows (CRLF), Linux/Unix (LF) and MacOSX (CR). The defaults for newly created source codes can be set in the
+  @ReferenceLink "ide_preferences" "preferences".
+
+@LineBreak
+@LineBreak
+
+@Bold Preferences
+@LineBreak
+  Here you can change all the settings that control the look & behavior of the IDE. For a detailed 
+  description of that see @referencelink ide_preferences "Customizing the IDE".
+
+@LineBreak
+@LineBreak
+
+@Bold "Session history"
+@LineBreak
+  Session history is a powerful tool which regularly records changes made to any files in a database. 
+  A session is created when the IDE launch, and is closed when the IDE quits.
+  This is useful to rollback to a previous version of a file, or to find back a deleted 
+  or corrupted file. It's like source backup tool, limited in time (by default one month
+  of recording). It's not aimed to replace a real source code version control system like SVN or GIT. It's complementary
+  to have finer change trace. The source code will be stored without encryption, so if you are working on
+  sensitive source code, be sure to have this database file in a secure location, or disable this feature.
+  To configure the session history tool, see @ReferenceLink "ide_preferences" "preferences".
+
+@Image ide_sessionhistory.png
+
+  
+@LineBreak
+@LineBreak
+
+@Bold "Recent Files"
+@LineBreak
+  Here you can see a list of the last accessed files. Selecting a file in this submenu will open it again.
+
+@LineBreak
+@LineBreak
+
+@Bold Quit
+@LineBreak
+  This of course closes the IDE. You will be asked to save any non-saved source codes.
+

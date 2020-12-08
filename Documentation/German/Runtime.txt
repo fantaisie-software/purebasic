@@ -1,0 +1,181 @@
+;
+;     Runtime library documentation
+;
+;      (c) 2013 - Fantaisie Software
+;
+
+@Library Runtime
+
+@Overview
+
+  Auf Runtime-Objekte (in Deutsch auch "Laufzeit-Objekte") kann durch Verwendung ihrer String-Referenzen
+  auch dann zugegriffen werden, wenn das Programm kompiliert wurde, 
+  Für weitere Informationen über das "Runtime"-Konzept siehe @ReferenceLink "Runtime" "Runtime".
+  
+@CommandList
+
+@ExampleFile All Runtime.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetRuntimeInteger(Objekt$)
+
+@Description
+  Gibt den Integer-Wert des Runtime-Objekts zurück. Ist das Runtime-Objekt eine Prozedur,
+  wird die Prozedur-Adresse zurückgegeben.
+
+@Parameter "Objekt$"
+  Name des Objekts, von dem der Wert ermittelt werden soll. Die folgenden Objekte werden
+  unterstüzt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groß- und Kleinschreibung). @LineBreak
+- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Groß- und Kleinschreibung). @LineBreak
+- Prozedur: der Objektname ist 'ProzedurName()' (ohne Beachtung von Groß- und Kleinschreibung). 
+
+@ReturnValue
+  Gibt den Integer-Wert des angegebenen Objekts zurück - oder Null, wenn es nicht gefunden wurde.
+  Da Null ein gültiger Integer-Wert ist, kann @@IsRuntime verwendet werden, um zu ermitteln, 
+  ob das Runtime-Objekt wirklich existiert. Ist die Variable vom Typ Float oder Double, wird
+  sie automatisch in Integer umgewandelt. Ist das Runtime-Objekt eine Prozedur,
+  wird die Prozedur-Adresse zurückgegeben.
+
+@SeeAlso
+  @@SetRuntimeInteger, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetRuntimeDouble(Object$)
+
+@Description
+  Gibt den Double-Wert des Runtime-Objekts zurück.
+
+@Parameter "Object$"
+  Name des Objekts, von dem der Wert ermittelt werden soll. Die folgenden Objekte werden
+  unterstüzt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groß- und Kleinschreibung). @LineBreak
+- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Groß- und Kleinschreibung). 
+
+@ReturnValue
+  Gibt den Double-Wert des angegebenen Objekts zurück - oder Null, wenn es nicht gefunden wurde.
+  Da Null ein gültiger Double-Wert ist, kann @@IsRuntime verwendet werden, um zu ermitteln, 
+  ob das Runtime-Objekt wirklich existiert. Ist die Variable vom Typ Integer oder Float, wird
+  sie automatisch in Double umgewandelt.
+
+@SeeAlso
+  @@SetRuntimeDouble, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetRuntimeString(Objekt$)
+
+@Description
+  Gibt den String-Wert des Runtime-Objekts zurück.
+
+@Parameter "Objekt$"
+  Name des Objekts, von dem der Wert ermittelt werden soll. Die folgenden Objekte
+  werden unterstützt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groß- und Kleinschreibung). @LineBreak
+- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Groß- und Kleinschreibung). @LineBreak
+
+@ReturnValue
+  Gibt den String-Wert des angegebenen Objekts zurück - oder einen leeren String, wenn es nicht gefunden wurde.
+  Da ein leerer String ein gültiger String-Wert ist, kann @@IsRuntime verwendet werden, um zu ermitteln, 
+  ob das Runtime-Objekt wirklich existiert.
+
+@SeeAlso
+  @@SetRuntimeString, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsRuntime(Objekt$)
+
+@Description
+  Überprüft ob das Objekt als "Runtime"-Objekt deklariert wurde.
+
+@Parameter "Objekt$"
+  Name des zu überprüfenden Objekts. Die folgenden Objekte werden unterstützt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groß- und Kleinschreibung). @LineBreak
+- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Groß- und Kleinschreibung). @LineBreak
+- Prozedur: der Objektname ist 'ProzedurName()' (ohne Beachtung von Groß- und Kleinschreibung). 
+  @LineBreak
+  Beim Zugriff auf öffentliche @ReferenceLink "module" "Modul"-Elemente ist das Modul-Präfix obligatorisch,
+  auch wenn @Keyword UseModule verwendet wird.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Objekt als @ReferenceLink "Runtime" "Runtime" deklariert
+  wurde, und andernfalls Null.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetRuntimeDouble(Objekt$, Wert)
+
+@Description
+  Ändert den Double-Wert des Runtime-Objekts.
+
+@Parameter "Objekt$"
+  Name des Objekts, bei welchem der Wert geändert werden soll. Die folgenden Objekte
+  werden unterstützt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groß- und Kleinschreibung).
+
+@Parameter "Wert"
+  Der neu zu setzende Double-Wert.
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetRuntimeDouble, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetRuntimeInteger(Objekt$, Wert)
+
+@Description
+  Ändert den Integer-Wert des Runtime-Objekts.
+
+@Parameter "Objekt$"
+  Name des Objekts, bei welchem der Wert geändert werden soll. Die folgenden Objekte
+  werden unterstützt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groß- und Kleinschreibung).
+
+@Parameter "Wert"
+  Der neu zu setzende Integer-Wert.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@GetRuntimeInteger, @@IsRuntime
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetRuntimeString(Objekt$, Wert$)
+
+@Description
+  Ändert den String-Wert des Runtime-Objekts.
+
+@Parameter "Objekt$"
+  Name des Objekts, bei welchem der Wert geändert werden soll. Die folgenden Objekte
+  werden unterstützt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groß- und Kleinschreibung).
+
+@Parameter "Wert$"
+  Der neu zu setzende String-Wert.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@GetRuntimeInteger, @@IsRuntime
+
+@SupportedOS

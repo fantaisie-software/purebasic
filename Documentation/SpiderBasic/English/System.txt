@@ -1,0 +1,291 @@
+;
+;     System library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library System
+
+@Overview
+
+The system library offers access to specialized commands.
+
+@CommandList
+
+@ExampleFile All System.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ElapsedMilliseconds()
+
+@Description
+  Returns the number of milliseconds that have elapsed since a specific time
+  in the past. 
+
+@NoParameters
+
+@ReturnValue
+  Returns the elapsed time in milliseconds.
+  
+@Remarks
+  The absolute value returned is of no use since it varies depending
+  on the operating system. Instead, this function should be used to calculate time
+  differences between multiple ElapsedMilliseconds() calls.
+@LineBreak
+@LineBreak
+  This function is relatively accurate: it may have a slight variation, depending
+  on which operating system it is executed on, this is due to the fact that some
+  systems have a lower timer resolution than others.
+
+@Example
+@Code
+  Global Start = ElapsedMilliseconds()
+  
+  Procedure TimerEvent()
+    Debug "Elapsed time in ms: " + Str(ElapsedMilliseconds()-Start)
+  EndProcedure
+  
+  OpenWindow(0, 0, 0, 100, 100, "Timer")
+  AddWindowTimer(0, 0, 1000)
+  BindEvent(#PB_Event_Timer, @TimerEvent())
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CountProgramParameters()
+
+@Description
+  Returns the number of parameters specified when calling the web page. Parameters are usually
+  set in the URL: http://www.website.com/index.html?param1=hello&param2=world.
+
+@NoParameters
+
+@ReturnValue
+  The number of parameters specified when calling the web page.
+
+@Remarks
+  @@ProgramParameter may be used to read the individual parameters.
+
+@SeeAlso
+  @@ProgramParameter 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ProgramParameter(Index)
+
+@Description
+  Gets the specified parameter that was set in the URL.
+  
+@Parameter "Index"
+  The parameter to get. The first parameter index starts from 0.
+  
+@ReturnValue
+  The parameter and it's associated value, if any. @@StringField can be used to split the parameter and its value.
+
+@Example
+@Code
+  For Index = 0 to CountProgramParameters() - 1
+    Debug ProgramParameter(Index)
+    Debug "name: " + StringField(ProgramParameter(Index), 1, "=")
+    Debug "value: " + StringField(ProgramParameter(Index), 2, "=")
+  Next
+@EndCode
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = BatteryLevel()
+
+@Description
+  Returns the current battery level of the device.
+  
+@ReturnValue
+  The current battery level between 0 (empty) and 100 (fully charged). If the device is plugged, 
+  @#PB_Battery_Plugged will be returned. If an error occured while retrieving the battery status, 
+  @#PB_Battery_Unknown will be returned.
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = DeviceInfo(Type)
+
+@Description
+  Returns information about the device.
+  
+@Parameter "Type"
+  It can be one of the following value:
+@FixedFont
+  @#PB_Device_Model   : The device codename model. This value can be different across versions of the same product.
+  @#PB_Device_Platform: The underlying platform ("Android" or "iOS").
+  @#PB_Device_UUID    : The unique ID identifier of the device
+  @#PB_Device_Version : The OS version (ie: "4" for iOS 4, "4.1" for Android 4.1 etc.)
+  @#PB_Device_Manufacturer: The manufcaturer ("Apple", "Motorola" etc.)
+  @#PB_Device_Serial  : The device hardware serial number
+@EndFixedFont  
+    
+@ReturnValue
+  The required system information, or an empty string if it can't be retreived.
+
+@Example
+@Code
+  Debug "Model: " + DeviceInfo(#PB_Device_Model)
+  Debug "Platform: " + DeviceInfo(#PB_Device_Platform)
+  Debug "UUID: " + DeviceInfo(#PB_Device_UUID)
+  Debug "Version: " + DeviceInfo(#PB_Device_Version)
+  Debug "Manufacturer: " + DeviceInfo(#PB_Device_Manufacturer)
+  Debug "Serial number: " + DeviceInfo(#PB_Device_Serial)
+@EndCode
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VibrateDevice(Time)
+
+@Description
+  Vibrates the device for a specific length of time.
+  
+@Parameter "Time"
+  The time (in milliseconds) to vibrate the device.
+  
+@NoReturnValue
+
+@Remarks
+  When used in an Android application, the user needs to interact at least once to enable vibration.
+  For example a 'Start' button can be set to force a first interaction. Once unlocked, it will
+  work for the whole app lifetime.
+  It's a Chrome protection to avoid nasty app to vibrate without any user consent.
+
+@Example
+@Code
+  VibrateDevice(1000) ; Vibrate the device for 1 second.
+@EndCode
+  
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DeviceAlwaysOn(AlwaysOn)
+
+@Description
+  Change the behavior of the device screen auto off setting while the app is displayed.
+  
+@Parameter "AlwaysOn"
+  If set to @#True, the screen  won't be turned off automatically when no action is happening (useful for a game for example).
+  If set to @#False, it reset to the default screen auto off settings.
+  
+@NoReturnValue
+
+@Example
+@Code
+  DeviceAlwaysOn(#True) ; Starting from now, the screen won't turn off while the app is displayed
+@EndCode
+  
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DeviceBrightness(Brightness)
+
+@Description
+  Change the screen brightness value.
+  
+@Parameter "Brightness"
+  A value between 0 (full dark) and 100 (full bright). If set to @#PB_Default, it will reset the brightness value to 
+  the default system value
+  
+@NoReturnValue
+
+@Example
+@Code
+  DeviceBrightness(100) ; Full brightness, for example to display a barcode/QR code to scan
+@EndCode
+  
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LoadScript(URL$, Callback [, Type])
+
+@Description
+  Load a JavaScript script (.js) into the app
+  
+@Parameter "URL$"
+  The URL of the javascript to load.
+  
+@Parameter "Callback"
+  The callback called once the loading has finished.
+  If the loading is successful, the 'Success' callback parameter will be set to @#True, if
+  not it will be set to @#False. It has to use the following syntax:
+
+@OptionalParameter "Type"
+  Can be one of the following values:
+@FixedFont  
+  @#PB_Script_JavaScript: the script to load is a JavaScript (default)
+  @#PB_Script_CSS: the script to load is a CSS
+@EndFixedFont
+
+@Code
+  Procedure Callback(URL$, Success)
+    ; Code here
+  EndProcedure
+@EndCode
+  
+@NoReturnValue
+   
+@Example Loading a JavaScript
+@Code
+  Procedure Main(URL$, Success)
+    Debug "Script URL: " + URL$
+    Debug "Loading status: " + Success
+  EndProcedure
+
+  LoadScript("https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/js/materialize.min.js", @Main())
+@EndCode
+
+@Example Loading a CSS
+@Code
+  Procedure Main(URL$, Success)
+    Debug "Script URL: " + URL$
+    Debug "Loading status: " + Success
+  EndProcedure
+
+  LoadScript("http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css", @Main(), #PB_Script_CSS)
+@EndCode
+  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LoadStyle(URL$, Callback)
+
+@Description
+  Load a CSS script (.css) into the app
+  
+@Parameter "URL$"
+  The URL of the CSS script to load.
+  
+@Parameter "Callback"
+  The callback called once the loading has finished.
+  If the loading is successful, the 'Success' callback parameter will be set to @#True, if
+  not it will be set to @#False. It has to use the following syntax:
+
+@Code
+  Procedure Callback(URL$, Success)
+    ; Code here
+  EndProcedure
+@EndCode
+  
+@NoReturnValue
+   
+
+@SupportedOS

@@ -1,0 +1,613 @@
+@Title Changes
+
+@Bold "Changes by libraries from v3.94 to v4.00"
+
+@Section Image
+
+@Red "removed": UseImage() - change UseImage(#Image) to ImageID(#Image) where just the ID is needed. @LineBreak
+@LineBreak
+@Green "added": CreateImage(#Image, Width, Height [, Depth]) - New Parameter @LineBreak
+@Green "added": LoadImage(#Image, Filename$ [, Flags]) - New Parameter @LineBreak
+@Green "added": CatchImage(#Image, Filename$ [, Length [, Flags]]) - New Parameters @LineBreak
+@LineBreak
+@Orange "changed": ImageDepth(#Image)        - new parameter @LineBreak
+@Orange "changed": ImageHeight(#Image)       - new parameter @LineBreak
+@Orange "changed": ImageWidth(#Image)        - new parameter @LineBreak
+@Orange "changed": ImageID(#Image)           - new parameter @LineBreak
+@Orange "changed": ImageOutput(#Image)       - new parameter @LineBreak
+
+
+@Section String
+
+@Green "added": StrD(Number [, NbDecimals]) @LineBreak
+@Green "added": StrQ() @LineBreak
+@Green "added": HexQ() @LineBreak
+@Green "added": BinQ() @LineBreak
+@Green "added": StrU(): added a #PB_Quad flag @LineBreak
+@Green "added": ValD(), ValQ() @LineBreak
+@Green "added": StringByteLength() - to calculate the needed length of a string in the different encoding supported by PureBasic 
+
+
+@Section Math
+
+@Green "added": IntQ()
+
+
+@Section Thread
+
+@Green "added": IsThread(Thread)    - test if thread (still) exists. @LineBreak
+@Green "added": CreateMutex()       - create a mutex object @LineBreak
+@Green "added": FreeMutex(Mutex)    - destroy the object @LineBreak
+@Green "added": LockMutex(Mutex)    - wait until mutex is available and lock it @LineBreak
+@Green "added": TryLockMutex(Mutex) - lock mutex if available, otherwise return 0 immediately @LineBreak
+@Green "added": UnlockMutex(Mutex)  - unlock the mutex so other threads can lock it @LineBreak
+
+
+@Section Process (New)
+
+@Green "added": GetEnvironmentVariable(Name$)         - get value of an en var @LineBreak
+@Green "added": SetEnvironmentVariable(Name$, Value$) - set the value @LineBreak
+@Green "added": RemoveEnvironmentVariable(Name$)      - delete environment variable @LineBreak
+@Green "added": ExamineEnvironmentVariables()         - examine the currently set env variables @LineBreak
+@Green "added": NextEnvironmentVariable()             - get the next variable @LineBreak
+@Green "added": EnvironmentVariableName()             - get the variable name @LineBreak
+@Green "added": EnvironmentVariableValue()            - get the variable value @LineBreak
+@Green "added": ProgramName()               - get full path to executable @LineBreak
+@Green "added": CountProgramParameters()    - get parameters count @LineBreak
+@Green "added": IsProgram(Program)          - check if Program is a valid program created with RunProgram @LineBreak
+@Green "added": ProgramID(Program)          - get the ProcessID of the program @LineBreak
+@Green "added": ProgramRunning(Program)     - returns 1 if the program is still running @LineBreak
+@Green "added": WaitProgram(Program [, Timeout])  - waits for the program to quit (with optional timeout) returns 1 if the program has ended @LineBreak
+@Green "added": KillProgram(Program)        - forcibly terminates the program @LineBreak
+@Green "added": ProgramExitCode(Program)    - get the exitcode of the program (only valid after program has ended) @LineBreak
+@Green "added": CloseProgram(Program)       - close the interaction with the program @LineBreak
+@Green "added": AvailableProgramOutput(Program)         - returns the number of bytes available for reading @LineBreak
+@Green "added": ReadProgramString(Program)              - read a string from the program output @LineBreak
+@Green "added": ReadProgramData(Program, *Buffer, size) - read data from the output @LineBreak
+@Green "added": ReadProgramError(Program)               - read a message from STDERR @LineBreak
+@Green "added": WriteProgramString(Program, String$)    - write to the programs input (string) @LineBreak
+@Green "added": WriteProgramData(Program, *Buffer, size)- write data to the programs input @LineBreak
+@LineBreak
+@Orange "changed": ProgramParameter([Index])   - get next (or at position index) parameter @LineBreak
+@Orange "changed": RunProgram() with new Flags:
+@FixedFont
+  #PB_Program_Open    - open the program communicate/get information
+  #PB_Program_Read    - allow to read the programs output (STDOUT)
+  #PB_Program_Write   - allow to write to the programs input (STDIN)
+  #PB_Program_Error   - allow to catch messages on standard error (STDERR)
+  #PB_Program_Connect - connect another program's output to this program's input
+@EndFixedFont
+
+
+
+@Section File
+
+@Green "added": FileBuffersSize(#File, Size) - Change the size of the buffers for the specified file. @LineBreak
+@Green "added": FileID(#File) - Returns the unique ID which identifies the file in the operating system. @LineBreak
+@Green "added": FlushFileBuffers(#File) - Ensures all buffered operations are written to disk. @LineBreak
+@Green "added": ReadChar(#File) @LineBreak
+@Green "added": ReadQuad(#File) @LineBreak
+@Green "added": ReadDouble(#File) @LineBreak
+@Green "added": WriteChar(#File, Value) @LineBreak
+@Green "added": WriteQuad(#File, Value) @LineBreak
+@Green "added": WriteDouble(#File, Value) @LineBreak
+@Green "added": ReadStringFormat(#File) @LineBreak
+@Green "added": WriteStringFormat(#File, Format) @LineBreak
+
+@LineBreak
+@Orange "changed": FileSeek(#File, NewPosition)   - new parameter @LineBreak
+@Orange "changed": WriteData(#File)               - new parameter @LineBreak
+@Orange "changed": ReadData(#File)                - new parameter @LineBreak
+@Orange "changed": Lof(#File)                     - new parameter @LineBreak
+@Orange "changed": Loc(#File)                     - new parameter @LineBreak
+@Orange "changed": ReadByte(#File)                - new parameter @LineBreak
+@Orange "changed": ReadWord(#File)                - new parameter @LineBreak
+@Orange "changed": ReadLong(#File)                - new parameter @LineBreak
+@Orange "changed": ReadFloat(#File)               - new parameter @LineBreak
+@Orange "changed": ReadString(#File [,Format])    - new parameter @LineBreak
+@Orange "changed": ReadData(#File)                - new parameter @LineBreak
+@Orange "changed": WriteByte(#File, Data)         - new parameter @LineBreak
+@Orange "changed": WriteWord(#File, Data)         - new parameter @LineBreak
+@Orange "changed": WriteLong(#File, Data)         - new parameter @LineBreak
+@Orange "changed": WriteFloat(#File, Data)        - new parameter @LineBreak
+@Orange "changed": WriteString(#File, Data [,Format])       - new parameter @LineBreak
+@Orange "changed": WriteStringN(#File, Data [,Format])      - new parameter @LineBreak
+@Orange "changed": WriteData(#File, Data, Length) - new parameter @LineBreak
+@LineBreak
+@Red "removed": UseFile()                - change UseFile(#File) to FileID(#File) where just the ID is needed. @LineBreak
+
+
+@Section 2DDrawing
+
+@Green "added": DrawAlphaImage() @LineBreak
+@Green "added": TextHeight(Text$)     - returns the height required for the string with the current drawing font/output @LineBreak
+@Green "added": FillArea(x, y, BorderColor [, Color]) - if BorderColor = -1, it fills the area with the same color as on (x,y) @LineBreak
+@LineBreak
+@Orange "changed": FrontColor(Color)     - joined the red, green, blue to only one color value. (add RGB() for a quick adjustment of old code) @LineBreak
+@Orange "changed": BackColor(Color)      - joined the red, green, blue to only one color value. @LineBreak
+@Orange "changed": NewX = DrawText(x, y, Text$ [, FrontColor [, BackColor]]) - added x/y coordinates and optional color values @LineBreak
+@Orange "changed": TextLength(Text$) -> TextWidth(Text$) - renamed @LineBreak
+@LineBreak
+@Red "removed": Locate(x, y)   - no longer useful.
+
+
+@Section Palette
+
+@Red "removed": UsePalette() @LineBreak
+@LineBreak
+@Orange "changed": GetPaletteColor(#Palette, Index)        - new Parameter @LineBreak
+@Orange "changed": SetPaletteColor(#Palette, Index, Color) - new Parameter
+
+
+@Section Module
+
+@Orange "changed": SetModulePosition(#Module, Position)    - new Parameter @LineBreak
+@Orange "changed": GetModulePosition(#Module)    - new Parameter @LineBreak
+@Orange "changed": GetModuleRow(#Module)    - new Parameter @LineBreak
+@Orange "changed": StopModule(#Module)    - new Parameter and -1 = stop all the modules
+
+
+@Section Database
+
+@Orange "changed": FirstDatabaseRow(#Database)    - new Parameter @LineBreak
+@Orange "changed": PreviousDatabaseRow(#Database) - new Parameter @LineBreak
+@Orange "changed": NextDatabaseRow(#Database)     - new Parameter @LineBreak
+@Orange "changed": GetDatabaseLong(#Database)     - new Parameter @LineBreak
+@Orange "changed": GetDatabaseFloat(#Database)    - new Parameter @LineBreak
+@Orange "changed": GetDatabaseString(#Database)   - new Parameter @LineBreak
+@Orange "changed": DatabaseUpdate(#Database, Query$) - new Parameter @LineBreak
+@Orange "changed": DatabaseQuery(#Database, Query$) - new Parameter @LineBreak
+@Orange "changed": DatabaseColumnType(#Database, Column) - new Parameter @LineBreak
+@Orange "changed": DatabaseColumns(#Database) - new Parameter @LineBreak
+@Orange "changed": DatabaseColumnName(#Database, Column) - new Parameter @LineBreak
+@LineBreak
+@Red "removed": UseDatabase() @LineBreak
+
+
+@Section Movie
+
+@Orange "changed": MovieAudio(#Movie)        - new Parameter @LineBreak
+@Orange "changed": MovieHeight(#Movie)       - new Parameter @LineBreak
+@Orange "changed": MovieWidth(#Movie)        - new Parameter @LineBreak
+@Orange "changed": MovieInfo(#Movie)         - new Parameter @LineBreak
+@Orange "changed": MovieLength(#Movie)       - new Parameter @LineBreak
+@Orange "changed": RenderMovieFrame(#Movie)  - new Parameter @LineBreak
+@Orange "changed": ResizeMovie(#Movie, x, y, Width, Height) - new Parameter @LineBreak
+@Orange "changed": ResumeMovie(#Movie)       - new Parameter @LineBreak
+@Orange "changed": PauseMovie(#Movie)        - new Parameter @LineBreak
+@Orange "changed": StopMovie(#Movie)         - new Parameter @LineBreak
+@Orange "changed": MovieSeek(#Movie, Position) - new Parameter @LineBreak
+@Orange "changed": MovieStatus(#Movie)       - new Parameter @LineBreak
+@LineBreak
+@Red "removed": UseMovie()
+
+
+
+@Section FileSystem
+
+@Green "added": FinishDirectory(#Directory) @LineBreak
+@Green "added": DirectoryEntryType(#Directory) @LineBreak
+@Green "added": DirectoryEntryDate(#Directory, DateType) - #PB_Date_Created, #PB_Date_Accessed, #PB_Date_Modified @LineBreak
+@Green "added": GetFileDate(Filename$, DataType) @LineBreak
+@Green "added": SetFileDate(Filename$, DataType) @LineBreak
+@LineBreak
+@Orange "changed": NextDirectoryEntry(#Directory)  - new Parameter @LineBreak
+@Orange "changed": DirectoryEntryName(#Directory)  - new Parameter @LineBreak
+@Orange "changed": DirectoryEntryAttributes(#Directory) - new Parameter @LineBreak
+@Orange "changed": DirectoryEntrySize(#Directory)       - new Parameter @LineBreak
+@LineBreak
+@blue "renamed": IsFilename() to CheckFilename()      - function name changed @LineBreak
+@LineBreak
+@Red "removed": UseDirectory() @LineBreak
+@LineBreak
+Important notes: NextDirectoryEntry() no longer returns the type of entry (file/type). To be consistent
+with other Examine...()/Next...() functions in PB, it now only returns 0 or 1 (0 means no more objects). 
+Use DirectoryEntryType() to find out the type of entry like you did before with the result of NextDirectoryEntry().
+FinishDirectory() has to be called after each ExamineDirectory().
+
+
+@Section Menu
+
+@Green "added": GetMenuItemText(#Menu, ItemID) @LineBreak
+@Green "added": GetMenuTitleText(#Menu, ItemID) @LineBreak
+@Green "added": SetMenuItemText(#Menu, ItemID, Text$) @LineBreak
+@Green "added": SetMenuTitleText(#Menu, ItemID, Text$) @LineBreak
+@LineBreak
+@Orange "changed": DisableMenuItem(#Menu, ItemID, State)  - new Parameter @LineBreak
+@Orange "changed": MenuID(#Menu)  - new Parameter
+
+
+@Section Console
+
+@Green "added": EnableGraphicalConsole(State) @LineBreak
+@Green "added": RawKey() @LineBreak
+@Green "added": Redirection and standard output support @LineBreak
+@LineBreak
+@Orange "changed": Inkey()  - now returns only 1 char or nothing (instead of always 2), use RawKey() for the extra character @LineBreak
+@LineBreak
+Note: the old console lib used a graphical console mode, which did not output to stdout correctly.
+(you could not call it from command-line like: myprogram.exe > test.txt)
+Now you have the choice with EnableGraphicalConsole(State), and if you do
+not explicitly set the graphical mode, the printed stuff should be properly sent to stdout, enabling
+you to write better console tools. This also applies to stdin and the Input() command.
+
+
+@Section AudioCD
+
+@Orange "changed": all function name from 'CDAudio' to 'AudioCD' (less french-english..)
+
+
+@Section Toolbar
+
+@Green "added": ToolBarHeight(#ToolBar) @LineBreak
+@Green "added": ToolBarID(#ToolBar) @LineBreak
+@LineBreak
+@Orange "changed": ToolBarTooltip(#ToolBar, Button, Text$) - New parameter @LineBreak
+@Orange "changed": DisableToolBarButton(#ToolBar, Button, State) - New parameter
+
+
+@Section Statusbar
+
+@Green "added": StatusBarHeight(#StatusBar) @LineBreak
+@Green "added": StatusBarID(#StatusBar)
+
+
+@Section Font
+
+@Orange "changed": FontID(#Font) - New parameter @LineBreak
+@Orange "changed": CloseFont() to FreeFont() @LineBreak
+@LineBreak
+@Red "removed": UseFont()
+
+@Section Preferences
+
+@Green "added": ability to add/change/delete keys to existing prefs files. @LineBreak
+@Green "added": RemovePreferenceKey(Name$) @LineBreak
+@Green "added": RemovePreferenceGroup(Name$) @LineBreak
+@Green "added": ExaminePreferenceGroups() - get all the group names in the file @LineBreak
+@Green "added": NextPreferenceGroup()     - go to the next group name. (the group will be set as the current one) @LineBreak
+@Green "added": PreferenceGroupName()     - get the group name.  @LineBreak
+@Green "added": ExaminePreferenceKeys()   - get all key names in the current group @LineBreak
+@Green "added": NextPreferenceKey()       - go to the next key. @LineBreak
+@Green "added": PreferenceKeyName()       - get key name @LineBreak
+@Green "added": ReadPreferenceQuad(Key$, Default) @LineBreak
+@Green "added": ReadPreferenceDouble(Key$, Default) @LineBreak
+@Green "added": WritePreferenceQuad(Key$, Value) @LineBreak
+@Green "added": WritePreferenceDouble(Key$, Value)
+
+
+
+@Section Sprite
+
+@Green "added": SpriteID(#Sprite) @LineBreak
+@Green "added": FlipBuffer() - added a flag, to have a CPU optimized synchro in fullscreen mode @LineBreak
+@LineBreak
+@blue "renamed": DisplayTranslucideSprite() to DisplayTranslucentSprite() @LineBreak
+@LineBreak
+@Orange "changed": TransparentSpriteColor(#Sprite, R, G, B) to TransparentSpriteColor(#Sprite, Color) @LineBreak
+@Orange "changed": ClearScreen(R, G, B) to ClearScreen(Color)
+
+
+@Section Library
+
+@blue "renamed": IsFunction() -> GetFunction()
+
+
+
+@Section Network
+
+@Green "added": UDP support through the flags #PB_Network_UDP and #PB_Network_TCP @LineBreak
+@Green "added": GetClientIP() @LineBreak
+@Green "added": GetClientPort() @LineBreak
+@Green "added": EventServerNumber() @LineBreak
+@LineBreak
+@blue "renamed": NetworkClientID() -> EventClient()
+
+
+@Section Keyboard
+
+@Green "added": #PB_Keyboard_International and #PB_Keyboard_AllowSystemKeys flags to KeyboardMode()
+
+
+@Section Clipboard
+
+@Orange "changed": GetClipboardData(Type) to GetClipboardImage(#Image) @LineBreak
+@Orange "changed": SetClipboardData(Type, Data) to SetClipboardImage(#Image)
+
+
+@Section Memory
+
+@Green "added": Unicode conversion support to PeekS() and PokeS() between ascii, UTF8 and UTF16 @LineBreak
+@Green "added": PeekC(), PeekD(), PeekQ() @LineBreak
+@Green "added": PokeC(), PokeD(), PokeQ() @LineBreak
+@Green "added": MemorySize() - return size of a memory block @LineBreak
+@Green "added": MoveMemory() @LineBreak
+@Green "added": CompareMemoryString(*Text1, *Test2 [Mode [, MaxLength [, Flags]]]) - New flags parameter for UTF16/UTF8/Ascii compare @LineBreak
+@Green "added": MemoryStringLength() - New flags parameter for UTF16/UTF8/Ascii support @LineBreak
+@LineBreak
+Note: The commands PeekS, PokeS, CompareMemoryString, MemoryStringLength now have a parameter that specifies the string format.
+Possible options are: #PB_Ascii, #PB_Unicode or #PB_UTF8. This allows you do work with strings in memory
+independent of the actual String mode the executable was compiled with (unicode or not).
+
+
+@Section Engine3D
+
+@Orange "changed": CreateMesh(#Mesh, MaximumVertex) - new parameter @LineBreak
+@Orange "changed": MaterialAmbientColor(#Matrix1, -1) - -1 new parameter @LineBreak
+@LineBreak
+@Green "added": EntityRenderMode() @LineBreak
+@Green "added": WorldShadows(#PB_Shadow_Additive)  @LineBreak
+@Green "added": ParticleEmitterDirection() @LineBreak
+@Green "added": GetEntityMass @LineBreak
+@Green "added": SetEntityMass @LineBreak
+@Green "added": GetEntityFriction @LineBreak
+@Green "added": SetEntityFriction @LineBreak
+@Green "added": EntityPhysicBody @LineBreak
+@Green "added": ExamineWorldCollisions @LineBreak
+@Green "added": NextWorldCollision @LineBreak
+@Green "added": CheckWorldCollisionEntity @LineBreak
+@Green "added": FirstWorldCollisionEntity @LineBreak
+@Green "added": SecondWorldCollisionEntity @LineBreak
+@Green "added": WorldGravity @LineBreak
+@Green "added": EnableWorldCollision @LineBreak
+@Green "added": EnableWorldPhysics @LineBreak
+@Green "added": Parse3DScripts @LineBreak
+@LineBreak
+@Red "removed": RotateParticleEmitter() (was useless for now) @LineBreak
+
+
+@Section Window
+
+@Green "added": GetActiveWindow()       - returns the Window with the focus @LineBreak
+@Green "added": DisableWindow(#Window, State) - disable user input to a window @LineBreak
+@Green "added": GetWindowState(#Window)       - get minimized/maximized state @LineBreak
+@Green "added": SetWindowState(#Window, State)- set minimized/maximized state @LineBreak
+@Green "added": StickyWindow(#Window, State)  - make the window stay on top of all others even if disabled @LineBreak
+@Green "added": SetWindowColor(#Window, Color)- set background color of the window @LineBreak
+@Green "added": GetWindowColor(#Window)       - get the current background color of the window @LineBreak
+@Green "added": SmartWindowRefresh(#Window, State) - enable or disable the smart refresh feature @LineBreak
+@LineBreak
+@Orange "changed": OpenWindow(#Window, x, y, Width, Height, Title$ [, Flags [, ParentID]]) - flags are now at the end and optionals @LineBreak
+@Orange "changed": WaitWindowEvent([Timeout])                  - added optional timeout value @LineBreak
+@Orange "changed": ResizeWindow(#Window, x, y, width, height)  - '-1' parameters must be changed to #PB_Ignore @LineBreak
+@Orange "changed": SetWindowCallback(@Procedure() [, #Window]) - added optional window parameter (to set callback for 1 window only) @LineBreak
+@Orange "changed": ResizeWindow(#Window, x, y, Width, Height) - now same as ResizeGadget() @LineBreak
+@Orange "changed": WindowID(#Window)       - parameter no longer optional @LineBreak
+@Orange "changed": WindowHeight(#Window)   - new parameter @LineBreak
+@Orange "changed": WindowWidth(#Window)    - new parameter @LineBreak
+@Orange "changed": WindowX(#Window)        - new parameter @LineBreak
+@Orange "changed": WindowY(#Window)        - new parameter @LineBreak
+@Orange "changed": WindowMouseX(#Window)   - new parameter @LineBreak
+@Orange "changed": WindowMouseY(#Window)   - new parameter @LineBreak
+@Orange "changed": WindowOutput(#Window)   - new parameter @LineBreak
+@LineBreak
+@blue "renamed": EventWindowID() to EventWindow() @LineBreak
+@blue "renamed": EventGadgetID() to EventGadget() @LineBreak
+@blue "renamed": EventMenuID()   to EventMenu() @LineBreak
+@blue "renamed": ActivateWindow() to SetActiveWindow(#Window) @LineBreak
+@LineBreak
+@Red "removed": MoveWindow() @LineBreak
+@Red "removed": DetachMenu() @LineBreak
+@Red "removed": UseWindow() @LineBreak
+@Red "removed": Compatibility constants like #PB_EventCloseWindow (use the documented #PB_Event_CloseWindow instead) @LineBreak
+
+
+@Section Gadget
+
+@Green "added": GetActiveGadget()      - returns the currently active Gadget @LineBreak
+@Green "added": GadgetType(#Gadget) - returns a constant that identifies what kind of Gadget this is @LineBreak
+@Green "added": SetGadgetData(#Gadget, Value) - associate a value with the Gadget (works for all Gadgets.) @LineBreak
+@Green "added": GetGadgetData(#Gadget)        - read the associated value @LineBreak
+@Green "added": SetGadgetItemData(#Gadget, Item, Value) - associate value with gadget item (works for specific gadgets only) @LineBreak
+@Green "added": GetGadgetItemData(#Gadget, Item) @LineBreak
+@Green "added": SetGadgetColor(#Gadget, ColorType, Color) @LineBreak
+@Green "added": GetGadgetColor(#Gadget, ColorType) @LineBreak
+@Green "added": SetGadgetItemColor(#Gadget, Item, ColorType, color [, Column]) @LineBreak
+@Green "added": GetGadgetItemColor(#Gadget, Item, ColorType [, Column]) @LineBreak
+@LineBreak
+@Orange "changed": ActivateGadget(#Gadget) is now SetActiveGadget(#Gadget) @LineBreak
+@Orange "changed": ResizeGadget(#Gadget, x, y, width, height), -1 should now be changed to #PB_Ignore @LineBreak
+@LineBreak
+@Red "removed": #PB_String_MultiLine
+@LineBreak
+@LineBreak
+
+
+@Section Individual Gadget changes:
+
+@Bold "CalendarGadget()" @LineBreak
+ - supports SetGadgetColor() with the following colortypes: @LineBreak
+ @Indent
+   #PB_Gadget_BackColor       - background @LineBreak
+   #PB_Gadget_FrontColor      - text to display days @LineBreak
+   #PB_Gadget_TitleBackColor  - background of month title @LineBreak
+   #PB_Gadget_TitleFrontColor - text color of month title @LineBreak
+   #PB_Gadget_GreyTextColor   - color for days not of the current month @LineBreak
+ @EndIndent
+@LineBreak
+
+@Bold "ComboBoxGadget()" @LineBreak
+ - Supports SetGadgetItemData() @LineBreak
+@LineBreak
+
+@Bold "ContainerGadget()" @LineBreak
+ - supports SetGadgetColor() for backcolor @LineBreak
+@LineBreak
+
+@Bold "DateGadget()" @LineBreak
+ - supports SetGadgetColor() with the same values as CalendarGadget to color the drop-down calendar @LineBreak
+ - the input area can not be colored at this time @LineBreak
+@LineBreak
+
+@Bold "EditorGadget()" @LineBreak
+ - supports SetGadgetColor for front & backcolor @LineBreak
+ - new Flag: #PB_Editor_ReadOnly  @LineBreak
+ - supports SetGadgetAttribute() with #PB_Editor_ReadOnly to get/set the read-only flag @LineBreak
+@LineBreak
+
+@Bold "ExplorerListGadget()" @LineBreak
+ - supports SetGadgetColor() for front & backcolor & #PB_Gadget_LineColor @LineBreak
+ - Supports GetGadgetItemAttribute(#Gadget, 0, #PB_Explorer_ColumnWidth, 2) ; return width of column 2 @LineBreak
+ - Supports SetGadgetItemAttribute(#Gadget, 0, #PB_Explorer_ColumnWidth, 100, 2) ; set width of column 2 to 100 @LineBreak
+ - Supports GetGadgetItemText(#Gadget, -1, 2)             ; return header text for column 2 @LineBreak
+ - Supports SetGadgetItemText(#Gadget, -1, "New Text", 2) ; change header text for column 2 @LineBreak
+@LineBreak
+
+@Bold "ExplorerTreeGadget()" @LineBreak
+ - supports SetGadgetColor() for front & backcolor & #PB_Gadget_LineColor @LineBreak
+@LineBreak
+
+@Bold "HyperLinkGadget()" @LineBreak
+ - Supports SetGadgetColor() for frontcolor (background is always transparent) @LineBreak
+ - new Flag: #PB_Hyperlink_Underline - draw a line under the text (without the need for an underlined font) @LineBreak
+@LineBreak
+
+@Bold "ListIconGadget()" @LineBreak
+ - Supports SetGadgetColor() for front and backcolor and #PB_Gadget_LineColor (for #PB_ListIcon_GridLines) @LineBreak
+ - Supports SetGadgetItemColor() for front and backcolor (can be set for each cell individually) @LineBreak
+ - Supports SetGadgetItemData() @LineBreak
+ - The event to detected a checkbox change is now #PB_EventType_Change @LineBreak
+ - Supports GetGadgetItemAttribute(#Gadget, 0, #PB_ListIcon_ColumnWidth, 2) ; return width of column 2 @LineBreak
+ - Supports SetGadgetItemAttribute(#Gadget, 0, #PB_ListIcon_ColumnWidth, 100, 2) ; set width of column 2 to 100 @LineBreak
+ - Supports GetGadgetItemText(#Gadget, -1, 2)             ; return header text for column 2 @LineBreak
+ - Supports SetGadgetItemText(#Gadget, -1, "New Text", 2) ; change header text for column 2 @LineBreak
+@LineBreak
+
+@Bold "ListViewGadget()" @LineBreak
+ - Supports SetGadgetColor() for front and backcolor (not for individual items) @LineBreak
+ - Supports SetGadgetItemData() @LineBreak
+ - new Flags: @LineBreak
+ @Indent
+   #PB_ListView_Multiselect - allow multi selection @LineBreak
+   #PB_ListView_ClickSelect - multiselect + clicking an item selects/deselects it @LineBreak
+ @EndIndent
+@LineBreak
+
+@Bold "MDIGadget()" @LineBreak
+ - The child windows of the MDIGadget are no longer "GadgetItems", but real PB Windows.
+   This means that you can use ANY command from the WindowLib with them (except StickyWindow()). This makes some of the MDIGadget
+   features obsolete, therefore there are some changes: @LineBreak
+ - The Gadget no longer sends any events: all close, resize, activate events are received as Window events @LineBreak
+ - GetGadgetAttribute(), Get/SetGadgetItemAttribute, Get/SetGadgetItemState(), Get/SetGadgetItemText
+   are all no longer supported. All this can be easily done through the Window lib commands. @LineBreak
+ - RemoveGadgetItem() no longer supported, use CloseWindow(). @LineBreak
+@LineBreak
+The Commands useable with MDIGadget now are only these: (+ the whole window lib!) @LineBreak
+ - ClearGadgetItemList() : closes all child windows @LineBreak
+ - CountGadgetItems()    : get the number of child windows in the gadget @LineBreak
+ - GetGadgetState()      : get the WindowID of the Window currently in the foreground of the gadget @LineBreak
+ - SetGadgetState()      : set a specific window to the foreground or arrange the child windows (All like the old MDIGadget) @LineBreak
+ - AddGadgetItem()       : create an MDI Child: works like this: @LineBreak
+@FixedFont
+   AddGadgetItem(#MDI, #Window, Title$ [, ImageID [, Flags]])
+     - #Window - Number for the new window (can be #PB_Any!)
+     - Title$  - new window title
+     - ImageID - Icon for the window (optional)
+     - Flags   - Supports most of the flags for OpenWindow,
+                 if none are specified, the default MDI flags are used. 
+   Unsupported Flags: #PB_Window_Borderless, #PB_Window_ScreenCentered, #PB_Window_WindowCentered
+@EndFixedFont
+   Note: you must now call CreateGadgetList() to add items to a MDI child, just like with normal windows. @LineBreak
+@LineBreak
+ - SetGadgetColor()     can be used with #PB_Gadget_BackColor to set the MDI backcolor @LineBreak
+ - SetGadgetAttribute() can be used with #PB_MDI_Image to set a background image, #PB_MDI_TileImage can set the tile mode of the image on or off @LineBreak
+@LineBreak
+@LineBreak
+
+@Bold "PanelGadget()" @LineBreak
+ - added GetGadgetAttribute() with #PB_Panel_ItemWidth, #PB_Panel_ItemHeight (read-only) 
+   (there must be at least 1 tab in the panel for this to work) @LineBreak
+@LineBreak
+
+@Bold "ProgressBarGadget()" @LineBreak
+ - supports SetGadgetColor() for front & backcolor  (not working with XP skins) @LineBreak
+ - supports SetGadgetAttribute() with #PB_ProgressBar_Minimum, #PB_ProgressBar_Maximum @LineBreak
+@LineBreak
+
+@Bold "ScrollAreaGadget()" @LineBreak
+ - supports SetGadgetColor() for backcolor @LineBreak
+ - new Flag: #PB_ScrollArea_Center - when the inner size is smaller than the outer, the inner area will be centered automatically @LineBreak
+ - new options for SetGadgetAttribute(): #PB_ScrollArea_X/#PB_ScrollArea_Y to read/set the current scroll pos. @LineBreak
+ - now generates an event when being scrolled @LineBreak
+@LineBreak
+
+@Bold "ScrollBarGadget()" @LineBreak
+ - Supports SetGadgetAttribute() with #PB_ScrollBar_Minimum, #PB_ScrollBar_Maximum, #PB_ScrollBar_PageLength @LineBreak
+@LineBreak
+
+@Bold "SpinGadget()" @LineBreak
+ - supports SetGadgetColor for front & backcolor (to color the edit area) @LineBreak
+ - supports SetGadgetAttribute() with #PB_Spin_Minimum, #PB_Spin_Maximum @LineBreak
+ - New Flags: @LineBreak
+   @Indent
+     #PB_Spin_ReadOnly - The StringGadget is not editable, the number is only changeable by the arrows @LineBreak
+     #PB_Spin_Numeric  - The SpinGadget will automatically update the text with value of the state, so SetGadgetText is not needed. @LineBreak
+   @EndIndent
+ - EventType values: @LineBreak
+   @Indent
+                    1 - the up button was pressed @LineBreak
+                   -1 - the down button was pressed @LineBreak
+ #PB_EventType_Change - the text in the edit box was changed @LineBreak
+   @EndIndent
+@LineBreak
+
+@Bold "SplitterGadget()" @LineBreak
+ - new flags for Get/SetGadgetAttribute(): #PB_Splitter_FirstGadget, #PB_Splitter_SecondGadget @LineBreak
+   With GetGadgetAttribute(), they return the #Gadget Number of the stored Gadget @LineBreak
+   With SetGadgetAttribute(), you can place a new Gadget in the Splitter. @LineBreak
+@LineBreak
+   Note: The old Gadget will not be automatically freed! (it will be put out of the splitter and on the same window as the splitter)
+   So if you do not want the old gadget to remain, remove it with FreeGadget()
+   This allows you to switch Gadgets in a splitter without the need to re-create any of them. @LineBreak
+@LineBreak
+   Note: You cannot have a Gadget in 2 Splitters at once. So to move a Gadget from one splitter to another,
+   replace it in the first splitter first, and then put it in the second one. @LineBreak
+@LineBreak
+
+@Bold "StringGadget()" @LineBreak
+ - supports SetGadgetColor() for front and backcolor @LineBreak
+@LineBreak
+
+@Bold "TextGadget()" @LineBreak
+ - Supports SetGadgetColor() for front and backcolor @LineBreak
+@LineBreak
+
+@Bold "TrackBarGadget()" @LineBreak
+ - supports SetGadgetAttribute() with #PB_TrackBar_Minimum, #PB_TrackBar_Maximum @LineBreak
+@LineBreak
+
+@Bold "TreeGadget()" @LineBreak
+ - Supports SetGadgetColor() for front & backcolor & #PB_Gadget_LineColor @LineBreak
+ - Supports SetGadgetItemColor() for front & backcolor @LineBreak
+ - changed management of items completely. There are no longer any nodes,
+   just a continuous list where each item has a "sublevel". The sublevels
+   of all items define the tree structure like this:
+@FixedFont
+   + sublevel 0
+   +-+ sublevel 1
+   | | sublevel 1
+   | +-+ sublevel 2
+   | | sublevel 1
+   | sublevel 0
+@EndFixedFont
+ - new parameter to AddGadgetItem: AddGadgetItem(#Gadget, Position, Text$ [, ImageID [, Flags]]) @LineBreak
+   The "Flags" parameter is always required for TreeGadget and specifies the
+   Sublevel in which to put this item. @LineBreak
+@LineBreak   
+   To create the above tree, you do this:
+@Code
+   AddGadgetItem(#TreeGadget, -1, "sublevel 0", 0, 0)
+   AddGadgetItem(#TreeGadget, -1, "sublevel 1", 0, 1)
+   AddGadgetItem(#TreeGadget, -1, "sublevel 1", 0, 1)
+   AddGadgetItem(#TreeGadget, -1, "sublevel 2", 0, 2)
+   AddGadgetItem(#TreeGadget, -1, "sublevel 1", 0, 1)
+   AddGadgetItem(#TreeGadget, -1, "sublevel 0", 0, 0)    
+@EndCode
+ - new GetGadgetItemAttribute() with #PB_Tree_SubLevel (read-only) to get the sublevel of any item @LineBreak
+ - @Red "removed": OpenTreeGadgetNode() @LineBreak
+ - @Red "removed": CloseTreeGadgetNode() @LineBreak
+ - @Red "removed": TreeGadgetItemNumber()     - can be easily emulated by GadgetItemID() + a run through the item list @LineBreak
+ - @Red "removed": CountTreeGadgetNodeItems() - can be easily emulated by comparing the sublevel of the items @LineBreak
+@LineBreak
+
+@MainGuideLink "history" "Back to History"

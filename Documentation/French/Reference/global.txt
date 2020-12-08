@@ -1,0 +1,121 @@
+@Title Global
+
+@Syntax
+
+  @Keyword Global[.<type>] <variable[.<type>]> [= <expression>] [, ...]
+
+@Description
+
+  Une variable déclarée @Keyword Global n'importe où dans le code est visible et utilisable 
+  n'importe où dans le code à l'exception du cas suivant: Les  @ReferenceLink "module" "modules" 
+  n'ont pas accès aux variables déclarées globales en dehors de ce module.  @LineBreak
+
+  @Keyword Global peut aussi être utilisé avec les @ReferenceLink "dim" "tableaux", 
+  les @ReferenceLink "newlist" "listes" et les @ReferenceLink "newmap" "maps". @LineBreak
+  @LineBreak
+  Les instructions @ReferenceLink "Protected" Protected et @ReferenceLink "Static" Static 
+  permettent de déclarer une variable locale dans une procédure qui a le même nom qu'une 
+  variable globale, sans risque de conflit.
+
+
+@Example Avec des variables
+
+@Code
+  Global a.l, b.b, c, d = 20
+  
+  Procedure Change()
+    Debug a  ; Affiche 10 car la variable 'a' est globale
+  EndProcedure
+  
+  a = 10
+  Change()
+@EndCode
+
+@LineBreak
+@Example Avec un tableau
+
+@Code
+  Global Dim Tableau(2)
+  
+  Procedure Change()
+    Debug Tableau(0)  ; Affiche 10 car le tableau 'Tableau()' est global
+  EndProcedure
+  
+  Tableau(0) = 10
+  Change()
+@EndCode
+     
+@LineBreak
+@Example Complexe avec un module: Tous les cas de figure
+
+@Code
+  Global Var_GlobaleHorsModule = 12
+  Debug  Var_GlobaleHorsModule ; Affiche 12
+
+  DeclareModule Ferrari
+    Global Var_GlobaleModule = 308
+    #FerrariName$ = "458 Italia"
+    Debug #FerrariName$ ; Affiche "458 Italia"
+  
+    ; Debug Var_GlobaleHorsModule ; Affiche une erreur car le compilateur veut créer une var globale qui exste déjà
+    Debug Var_GlobaleModule       ; Affiche 308
+  
+    Declare CreateFerrari() 
+  EndDeclareModule
+
+
+  ; Tous les éléments de cette section seront privés. Tous les noms peuvent être utilisés sans conflit
+  ; --------------------------------------------------------------------------------------------------
+  Module Ferrari
+    Debug Var_GlobaleHorsModule  ; Affiche 0  <== Regarder !
+    Debug Var_GlobaleModule      ; Affiche 308
+  
+    Global Initialized = 205
+    Debug Initialized ; Affiche 205
+  
+    Procedure Init()
+      Debug Var_GlobaleHorsModule ; Affiche 0
+      Debug Var_GlobaleModule     ; Affiche 308
+      Debug "InitFerrari()"  
+    EndProcedure  
+  
+    Procedure CreateFerrari()    ; Procédure publique (car déclarée dans la section 'DeclareModule')
+      Init()
+      Debug "CreateFerrari()"
+      Debug Var_GlobaleHorsModule ; Affiche 0
+      Debug Var_GlobaleModule     ; Affiche 308
+    EndProcedure
+  
+  EndModule
+
+
+  ; Code principal
+  ; -------------------------------------------------------------------------------------------------- 
+  Procedure Init()               ; Procédure d'initialisation principale, n'entre pas en conflit avec la procédure 
+                                 ; Init() du Module Ferrari
+  
+    Debug "Procédure init() du code principal."
+    Debug Var_GlobaleHorsModule ; Affiche 12
+    Debug Var_GlobaleModule     ; Affiche 0
+  EndProcedure
+
+  Init()
+
+  Ferrari::CreateFerrari()
+  Debug Ferrari::#FerrariName$ ; Affiche 458 Italia
+  Debug Var_GlobaleHorsModule  ; Affiche 12
+  ; Debug Var_GlobaleModule    ; Affiche une erreur car le compilateur veut créer une var globale qui exste déjà
+
+
+  UseModule Ferrari           ; Maintenant, importer tous les éléments publics directement dans le programme principal
+
+  CreateFerrari()
+  Debug #FerrariName$         ; Affiche 458 Italia
+  Debug Var_GlobaleHorsModule ; Affiche 12
+  Debug Var_GlobaleModule     ; Affiche 308  <== Regarder !
+
+  UnuseModule Ferrari
+  ; Debug #FerrariName$       ; Affiche une erreur, introuvable
+  Debug Var_GlobaleHorsModule ; Affiche 12
+  Debug Var_GlobaleModule     ; Affiche 0  <== Regarder !
+@EndCode

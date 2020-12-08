@@ -1,0 +1,1092 @@
+;
+;     List library documentation
+;
+;      (c) 2018 - Fantaisie Software
+;
+
+@Library List
+
+@Overview
+
+  Lists (also known as linked-lists) are structures for storing data which are dynamically allocated
+  depending of your need. It is a list of elements (the data you want to store)
+  and each element is fully independent of the others. You can add as many elements
+  you want (or as many as will fit into the memory of your computer), insert
+  elements at the position you need, delete some other and more. This kind of data
+  management is very useful as it's one of the best ways to handle data when you
+  do not know how many elements you will need to store, or if you are often changing
+  how many elements there are. 
+@LineBreak
+@LineBreak
+  Before you can work with Lists, you must declare them first. This could be
+  done with the keyword @ReferenceLink "newlist" "NewList". For saving
+  the contents are also often used @ReferenceLink "structures" "structures".
+@LineBreak
+@LineBreak
+  Lists can be sorted using @@SortList or @@SortStructuredList, and can also
+  be randomized using @@RandomizeList.
+@LineBreak
+@LineBreak
+  To specifically search the contents of a List, using of loops is recommended: 
+  @ReferenceLink "for_next" "For : Next", @ReferenceLink "foreach_next" "ForEach : Next", 
+  @ReferenceLink "repeat_until" "Repeat : Until" or @ReferenceLink "while_wend" "While : Wend".
+@LineBreak
+@LineBreak
+  The first  element is at position 0, the next at 1 and so on.
+@LineBreak
+@LineBreak
+  Other possibilities for storing data are the use of @LibraryLink "array" "Arrays"
+  and @LibraryLink "map" "Maps".
+
+@CommandList
+
+@ExampleFile All List.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Result = AddElement(List())
+
+@Description
+  Adds a new empty element after the current element or as the first item in the
+  list if there are no elements in it. This new element becomes the current
+  element of the list.
+
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@ReturnValue
+  Returns non-zero if the new element was created and zero otherwise. The value returned is
+  a @ReferenceLink "memory" "pointer" to the new element data.
+
+@Example
+@Code
+  ; The simplest way to use AddElement
+  NewList simple.w()
+  AddElement(simple())    ; Creates the first new element in the list
+  simple() = 23
+
+  AddElement(simple())    ; Current position is the first element, so we add one to the second position
+  simple() = 45
+
+
+  ; This shows how to use the return-value of AddElement
+  NewList advanced.l()
+  If AddElement(advanced()) <> 0
+    advanced() = 12345
+  Else
+    MessageRequester("Error!", "Unable to allocate memory for new element", #PB_MessageRequester_OK)
+  EndIf
+
+
+  ; A small structure to demonstrate the use of the pointer to the new element
+  Structure Programmer
+    Name.s
+    Strength.b
+  EndStructure
+
+  NewList Programmers.Programmer()  ; The list for storing the elements
+
+  *Element.Programmer = AddElement(Programmers())
+  If *Element<>0
+    *Element\Name = "Dave"
+    *Element\Strength = 3   ; Wow, super-strong geek! ;)
+  Else
+    MessageRequester("Error!", "Unable to allocate memory for new element", #PB_MessageRequester_OK)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@InsertElement, @@DeleteElement, @@ClearList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ChangeCurrentElement(List(), *NewElement)
+
+@Description
+  Changes the current element of the specified list to the given new element.  
+  This function is very useful if you want to "remember" an element, and restore it after 
+  performing other processing.
+
+@Parameter "List()"
+  The name of the list, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@Parameter "*NewElement"
+  The new element to set as the current element for the list.
+  The element must be a @ReferenceLink "memory" "pointer" to another element which exists in this list.
+  You should get this address by using the @ operator on the list name and not through
+  any other method.
+
+@NoReturnValue
+
+@Example Simplified
+@Code
+  *Old_Element = @mylist()   ; Get the address of the current element 
+  
+  ResetList(mylist())        ; Perform a search for all elements named
+  While NextElement(mylist())   ; "John" and change them to "J" 
+    If mylist()\name = "John"
+      mylist()\name = "J"     
+    EndIf 
+  Wend     
+  
+  ChangeCurrentElement(mylist(), *Old_Element) ; Restore previous current element (from before the search)
+@EndCode
+
+@Example Complete
+@Code
+  NewList myList()
+  
+  AddElement(myList())
+  myList() = 100
+  
+  AddElement(myList())
+  myList() = 200
+  *element = @myList()
+  
+  AddElement(myList())
+  myList() = 300
+  
+  Debug myList()                             ; Displays 300 (last element)
+  ChangeCurrentElement(myList(), *element)   ; Restore list position
+  Debug myList()                             ; Displays 200
+  
+  ForEach myList()
+    If @myList() = *element
+      Debug "element: " + myList()           ; Displays "element: 200"
+    EndIf
+  Next
+@EndCode
+  
+@SeeAlso
+  @@SelectElement, @@PushListPosition, @@PopListPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearList(List()) 
+
+@Description
+  Clears all the elements in this list and releases their memory. After this call 
+  the list is still usable, but the list is empty (i.e. there are no elements in it).
+
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@NoReturnValue
+
+@Remarks
+  PureBasic will only free the memory for the elements. If you have been using the
+  list for something such as storing handles of objects that you create
+  directly with the OS, there is no way PureBasic (or any other language) can know
+  what they are. Therefore, in cases such as that, you should go through the
+  elements in the list and free the objects yourself.
+
+@Example
+@Code
+  NewList Numbers.w()
+
+  ; A small loop to add many items to the list
+  For i=1 To 100
+    AddElement(Numbers())
+    Numbers() = i
+  Next
+
+  ; Proof that items have been added to the list
+  MessageRequester("Information", "There are "+Str(ListSize(Numbers()))+" elements in the list", #PB_MessageRequester_OK)
+ 
+  ; Clear the list and show that the list really is empty
+  ClearList(Numbers())
+  MessageRequester("Information", "There are "+Str(ListSize(Numbers()))+" elements in the list", #PB_MessageRequester_OK)
+@EndCode
+
+@SeeAlso
+  @@DeleteElement, @@FreeList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CopyList(SourceList(), DestinationList())
+
+@Description
+  Copy the contents of one list to another list. After a successful copy, the two lists are identical.
+
+@Parameter "SourceList()"
+  The list from which the elements will be copied.
+
+@Parameter "DestinationList()"
+  The list to which the elements will be copied. The elements in this list before the copy will be deleted.
+  If this list does not have the same type (native or structured) as the SourceList() then the copy will fail.
+
+@ReturnValue
+  Returns non-zero if the copy succeeded and zero otherwise.
+
+@Example
+@Code
+  NewList Friends$()
+  NewList FriendsCopy$()
+  
+  AddElement(Friends$())
+  Friends$() = "John"
+  
+  AddElement(Friends$())
+  Friends$() = "Elise"
+
+  CopyList(Friends$(), FriendsCopy$())
+  
+  ForEach FriendsCopy$()
+    Debug FriendsCopy$()
+  Next
+@EndCode
+
+@SeeAlso
+  @@CopyArray, @@CopyMap
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeList(List())
+
+@Description
+  Free the specified list and release all its associated memory. To access this list again later,
+  @ReferenceLink "newlist" "NewList" has to be called for it.
+
+@Parameter "List()"
+  The name of the list to free. 
+
+@NoReturnValue
+
+@SeeAlso
+  @@ClearList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ListSize(List()) 
+
+@Description
+  Returns the number of elements in the list. It does not change the 
+  current element. This function is very fast (it doesn't iterates all the list but
+  uses a cached result) and can be safely used to determine if a list is empty or not.
+
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@ReturnValue
+  The total number of elements in the list.
+
+@Example
+@Code
+  NewList countme.w()
+
+  ; Small loop to add some elements to the list.
+  For i=0 To 10
+    AddElement(countme())
+    countme() = i * 23
+  Next
+
+  ; Show how many elements there are in the list. I hope you thought
+  ; of the same value as this example ;)
+  MessageRequester("Information", "There are "+Str(ListSize(countme()))+" elements in the list", #PB_MessageRequester_OK)
+@EndCode
+
+@SeeAlso
+  @@ListIndex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CountList(List())
+
+@Description
+@Deprecated
+  
+  This function has been replaced by @@ListSize. Use that instead.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Result = DeleteElement(List() [, Flags])  
+
+@Description
+  Remove the current element from the list. After this call, the new current 
+  element is the previous element (the one before the deleted element). If that
+  element does not exist (in other words, you deleted the first element in the list)
+  then there is no more current element, as it will be before the first element, like
+  after a @@ResetList. 
+
+@Parameter "List()"
+  List() - The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@OptionalParameter "Flags"
+  If this parameter is set to 1 and the first element is deleted, the new current element will be the second one. This flag
+  ensures there will be always a valid current element after a delete as long as there are still elements in the list.
+
+@ReturnValue
+  Returns the memory address of the new current element of the list. If the list has no 
+  current element after the deletion, the result is 0.
+
+@Example
+@Code
+  NewList people.s()
+
+  AddElement(people()) : people() = "Tom"
+  AddElement(people()) : people() = "Dick"
+  AddElement(people()) : people() = "Harry"
+  AddElement(people()) : people() = "Bob"
+
+  FirstElement(people())
+  DeleteElement(people(), 1)
+  MessageRequester("Information", "First person in list is "+people(), #PB_MessageRequester_Ok)
+
+  LastElement(people())      ; Moves to "Bob"
+  PreviousElement(people())  ; Moves to "Harry"
+  DeleteElement(people())    ; And deletes him. there is an element before Harry, so it becomes the current
+  MessageRequester("Information", "Current person in list is "+people(), #PB_MessageRequester_Ok)
+@EndCode
+
+@SeeAlso
+  @@AddElement, @@InsertElement, @@ClearList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Result = FirstElement(List())  
+
+@Description
+  Changes the current list element to the first list element.
+
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@ReturnValue
+  Returns the address of the data in the first list element if successful and zero
+  if there if there are no elements in the list.
+
+@Example
+@Code
+  ; An example of simple usage
+  NewList Numbers.w()
+
+  AddElement(Numbers())
+  Numbers() = 5
+  AddElement(Numbers())
+  Numbers() = 8
+
+  FirstElement(Numbers())
+  MessageRequester("Information", "First element value is "+Str(Numbers()), #PB_MessageRequester_OK)
+
+
+  ; An example which uses the return-value
+  NewList Numbers.w()
+
+  If FirstElement(Numbers()) <> 0
+    MessageRequester("Information", "First element value is "+Str(Numbers()), #PB_MessageRequester_OK)
+  Else
+    MessageRequester("Information", "List is empty", #PB_MessageRequester_OK)
+  EndIf
+
+  AddElement(Numbers())
+  Numbers() = 5
+  AddElement(Numbers())
+  Numbers() = 8
+
+  If FirstElement(Numbers()) <> 0
+    MessageRequester("Information", "First element value is "+Str(Numbers()), #PB_MessageRequester_OK)
+  Else
+    MessageRequester("Information", "List is empty", #PB_MessageRequester_OK)
+  EndIf
+
+
+  ; An example which is only for advanced users
+  NewList Numbers.w()
+
+  AddElement(Numbers())
+  Numbers() = 5
+  AddElement(Numbers())
+  Numbers() = 8
+
+  *Element.Word = FirstElement(Numbers())
+  If *Element
+    MessageRequester("Information", "First element value is "+Str(*Element\w), #PB_MessageRequester_OK)
+  Else
+    MessageRequester("Information", "List is empty", #PB_MessageRequester_OK)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@LastElement, @@PreviousElement, @@NextElement, 
+  @@SelectElement, @@ListIndex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Result = InsertElement(List()) 
+
+@Description
+  Inserts a new empty element before the current element, or at the start of the list
+  if the list is empty (i.e. has no elements in it). This new element becomes
+  the current element of the list.
+  
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@ReturnValue
+  Returns non-zero if the new element was created and zero otherwise. The value returned is
+  a @ReferenceLink "memory" "pointer" to the new element data.
+
+@Example
+@Code
+  ; The simplest way to use InsertElement
+  NewList simple.w()
+  InsertElement(simple())    ; Creates the first new element in the list
+  simple() = 23
+
+  InsertElement(simple())    ; Current position is the first element, so we add this element to the start of the list
+  simple() = 45              ; The old first element is now the second element in the list
+
+
+  ; This shows how to use the return-value of InsertElement
+  NewList advanced.l()
+  If InsertElement(advanced()) <> 0
+    advanced() = 12345
+  Else
+    MessageRequester("Error!", "Unable to allocate memory for new element", #PB_MessageRequester_OK)
+  EndIf
+
+
+  ; A small structure to demonstrate the use of the pointer to the new element
+  Structure Programmer
+    Name.s
+    Strength.b
+  EndStructure
+
+  NewList Programmers.Programmer()  ; The list for storing the elements
+
+  *Element.Programmer = InsertElement(Programmers())
+  If *Element<>0
+    *Element\Name = "Dave"
+    *Element\Strength = 3   ; Wow, super-strong geek! ;)
+  Else
+    MessageRequester("Error!", "Unable to allocate memory for new element", #PB_MessageRequester_OK)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddElement, @@DeleteElement, @@ClearList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Result = LastElement(List())
+
+@Description
+  Change the current list element to the last list element. 
+  
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@ReturnValue
+  Returns the address of the data in the last list element if successful and zero
+  if there if there are no elements in the list.
+
+@Example
+@Code
+  ; An example of simple usage
+  NewList Numbers.w()
+
+  AddElement(Numbers())
+  Numbers() = 5
+  AddElement(Numbers())
+  Numbers() = 8
+
+  LastElement(Numbers())
+  MessageRequester("Information", "Last element value is "+Str(Numbers()), #PB_MessageRequester_OK)
+
+
+  ; An example which uses the return-value
+  NewList Numbers.w()
+
+  If LastElement(Numbers()) <> 0
+    MessageRequester("Information", "Last element value is "+Str(Numbers()), #PB_MessageRequester_OK)
+  Else
+    MessageRequester("Information", "List is empty", #PB_MessageRequester_OK)
+  EndIf
+
+  AddElement(Numbers())
+  Numbers() = 5
+  AddElement(Numbers())
+  Numbers() = 8
+
+  If LastElement(Numbers()) <> 0
+    MessageRequester("Information", "Last element value is "+Str(Numbers()), #PB_MessageRequester_OK)
+  Else
+    MessageRequester("Information", "List is empty", #PB_MessageRequester_OK)
+  EndIf
+
+
+  ; An example which is only for advanced users
+  NewList Numbers.w()
+
+  AddElement(Numbers())
+  Numbers() = 5
+  AddElement(Numbers())
+  Numbers() = 8
+
+  *Element.Word = LastElement(Numbers())
+  If *Element
+    MessageRequester("Information", "Last element value is "+Str(*Element\w), #PB_MessageRequester_OK)
+  Else
+    MessageRequester("Information", "List is empty", #PB_MessageRequester_OK)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FirstElement, @@PreviousElement, @@NextElement, 
+  @@SelectElement, @@ListIndex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Index = ListIndex(List()) 
+
+@Description
+  Find out the position of the current element in the list, considering that the first element 
+  is at the position 0. This function is very fast, and can be used a lot without performance
+  issue (it doesn't iterate the list but uses a cached value).
+  
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@ReturnValue
+  A number containing the position of the current element within the list. The first
+  element is at position 0, the next at 1 and so on. A value of -1 means there is no
+  current element (either the list is empty or @@ResetList has been used).
+
+@Example
+@Code
+  NewList fruit.s()
+
+  AddElement(fruit()) : fruit() = "oranges"
+  AddElement(fruit()) : fruit() = "bananas"
+  AddElement(fruit()) : fruit() = "apples"
+  AddElement(fruit()) : fruit() = "pears"
+
+  FirstElement(fruit())
+  MessageRequester("Fruit: "+fruit(), "Now at position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
+
+  NextElement(fruit())
+  MessageRequester("Fruit: "+fruit(), "Now at position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
+
+  NextElement(fruit())
+  MessageRequester("Fruit: "+fruit(), "Now at position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
+
+  NextElement(fruit())
+  MessageRequester("Fruit: "+fruit(), "Now at position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
+@EndCode
+
+@SeeAlso
+  @@SelectElement, @@ListSize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Result = NextElement(List())  
+
+@Description
+  Moves from the current element to the next element in the list, or onto the first
+  element if you have previously called @@ResetList
+  
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@ReturnValue
+  Returns the address of the data in the next list element if successful and zero
+  if there if there is no next element.
+
+@Example
+@Code
+  NewList Scores.w()
+
+  For i=1 To 10
+    AddElement(Scores())
+    Scores() = 100 - i
+  Next
+
+  ResetList(Scores())
+  While NextElement(Scores())
+    ; This is OK since the first call to NextElement() will move the current element to the first item in the list
+    MessageRequester("Score", Str(Scores()), #PB_MessageRequester_OK)
+  Wend
+@EndCode
+
+@SeeAlso
+  @@ResetList, @@PreviousElement, 
+  @@FirstElement, @@LastElement, 
+  @@SelectElement, @@ListIndex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Result = PreviousElement(List()) 
+
+@Description
+  Moves from the current element to the previous element in the list.
+  
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@ReturnValue
+  Returns the address of the data in the previous list element if successful and zero
+  if there if there is no previous element.
+
+@Example
+@Code
+  NewList Numbers.w()
+
+  For i=1 To 10
+    AddElement(Numbers())
+    Numbers() = i
+  Next
+
+  Repeat
+    MessageRequester("Number", Str(Numbers()), #PB_MessageRequester_OK)
+  Until PreviousElement(Numbers()) = 0
+@EndCode
+
+@SeeAlso
+  @@NextElement,
+  @@FirstElement, @@LastElement, 
+  @@SelectElement, @@ListIndex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResetList(List()) 
+
+@Description
+  Resets the current list element to be before the first element. This means no element
+  is actually valid. However, this is very useful to allow you to process all the elements
+  by using @@NextElement.
+
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@NoReturnValue
+
+@Example
+@Code
+  NewList Friends.s()
+  
+  AddElement(Friends())
+  Friends() = "Arnaud"
+  
+  AddElement(Friends())
+  Friends() = "Seb"
+  
+  ResetList(Friends())
+  While NextElement(Friends())
+    Debug Friends() ; Display all the list elements
+  Wend
+@EndCode
+
+@SeeAlso
+  @@NextElement, @@ListIndex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Result = SelectElement(List(), Position)
+  
+@Description
+  Change the current list element to the element at the specified position.
+  This is very useful if you want to jump to a specific position in the list without using an own loop for this.
+
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@Parameter "Position"
+  The position to move to in the list, considering that the first item in the list
+  is at position 0, the next is at 1 and so on. You must make sure that you do not specify a position
+  that is outside of the number of elements in the list!
+
+@ReturnValue
+  Returns the data address of the selected element if successful or zero
+  if the position is out of range.
+
+@Remarks
+  As lists don't use an index internally, this function will jump compulsory to every element 
+  in the list until the target position is reached which will take time if the list is large.
+  If a faster method is needed, @@ChangeCurrentElement should be used.
+
+@Example
+@Code
+  NewList mylist.l()
+
+  AddElement(mylist()) : mylist() = 23
+  AddElement(mylist()) : mylist() = 56
+  AddElement(mylist()) : mylist() = 12
+  AddElement(mylist()) : mylist() = 73
+
+  SelectElement(mylist(), 0)
+  MessageRequester("Position", "At position 0, the value is "+Str(mylist()),0)
+
+  SelectElement(mylist(), 2)
+  MessageRequester("Position", "At position 2, the value is "+Str(mylist()),0)
+
+  SelectElement(mylist(), 1)
+  MessageRequester("Position", "At position 1, the value is "+Str(mylist()),0)
+
+  SelectElement(mylist(), 3)
+  MessageRequester("Position", "At position 3, the value is "+Str(mylist()),0)
+@EndCode
+
+@SeeAlso 
+  @@ChangeCurrentElement
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SwapElements(List(), *FirstElement, *SecondElement)
+
+@Description
+  Swaps the position of two elements in the specified list. This command is a fast
+  way to reorganize a list, because it does not actually move the element data itself.
+
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@Parameter "*FirstElement"
+  Address of the first element to swap. You can get this address by using the @ operator on the list name.
+
+@Parameter "*SecondElement"
+  Address of the second element to swap. You can get this address by using the @ operator on the list name.
+
+@NoReturnValue
+
+@Example
+@Code
+  NewList Numbers()
+  
+  For k=0 To 10
+    AddElement(Numbers())
+    Numbers() = k
+  Next
+    
+  SelectElement(Numbers(), 3) ; Get the 4th element (first element is 0)
+  *FirstElement = @Numbers()
+  
+  SelectElement(Numbers(), 9) ; Get the 10th element
+  *SecondElement = @Numbers()
+  
+  ; Swap the 3 with the 9
+  ;
+  SwapElements(Numbers(), *FirstElement, *SecondElement)
+    
+  ; Prove it
+  ;
+  ForEach Numbers()
+    Debug Numbers()
+  Next
+@EndCode
+
+@SeeAlso
+  @@MoveElement
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MoveElement(List(), Location [, *RelativeElement])
+
+@Description
+  Moves the current element of the specified list to a different position in the list. The moved element
+  remains the current element of the list. This is a fast operation because the element data itself is not moved to
+  change the location in the list.
+
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@Parameter "Location"
+  Location where to move the current element. This can be one of the following values:
+@FixedFont
+  @#PB_List_First : Move the element to the beginning of the list
+  @#PB_List_Last  : Move the element to the end of the list
+  @#PB_List_Before: Move the element before the *RelativeElement
+  @#PB_List_After : Move the element after the *RelativeElement
+@EndFixedFont
+
+@OptionalParameter "*RelativeElement"
+  The address of another element in relation to which the current element should be moved. This
+  parameter is required when the 'Location' parameter is @#PB_List_Before or @#PB_List_After.
+  You can get this address from an element by using the @ operator on the list name.
+
+@NoReturnValue
+
+@Example
+@Code
+  NewList Numbers()
+  
+  For k=0 To 10
+    AddElement(Numbers())
+    Numbers() = k
+  Next
+  
+  SelectElement(Numbers(), 5) 
+  *Relative = @Numbers()                             ; get address of element 5
+  
+  SelectElement(Numbers(), 0)
+  MoveElement(Numbers(), #PB_List_After, *Relative)  ; move after element 5
+    
+  SelectElement(Numbers(), 10)
+  MoveElement(Numbers(), #PB_List_First)             ; move to the beginning
+    
+  ; Result
+  ;
+  ForEach Numbers()
+    Debug Numbers()
+  Next
+@EndCode
+
+@SeeAlso
+  @@SwapElements
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PushListPosition(List())
+
+@Description
+  Remembers the current element (if any) of the list so it can later be restored using @@PopListPosition. The position
+  is remembered on a stack structure, so multiple calls to this function are possible.
+
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@NoReturnValue
+
+@Remarks
+  This function can be used to remember the current element, so an iteration can be made over the list
+  using @@NextElement or @ReferenceLink "foreach_next" "ForEach" and the current element can be restored
+  after the iteration using @@PopListPosition. Multiple calls can be made to this function, as long as
+  each is balanced with a corresponding @@PopListPosition call later.
+@LineBreak
+@LineBreak
+  Note: It is not allowed to delete an element that is a remembered current element using the @@DeleteElement or
+  @@ClearList function. This may result in a crash when @@PopListPosition is called because the elements memory
+  is no longer valid. 
+
+@Example
+@Code
+  NewList Numbers()
+  AddElement(Numbers()): Numbers() = 1
+  AddElement(Numbers()): Numbers() = 2
+  AddElement(Numbers()): Numbers() = 5
+  AddElement(Numbers()): Numbers() = 3
+  AddElement(Numbers()): Numbers() = 5
+  AddElement(Numbers()): Numbers() = 2
+  
+  ; A simple duplicate elimination using a nested iteration
+  ;
+  ForEach Numbers()
+    Value = Numbers()
+    PushListPosition(Numbers())
+    While NextElement(Numbers())
+      If Numbers() = Value 
+        DeleteElement(Numbers())
+      EndIf
+    Wend
+    PopListPosition(Numbers())
+  Next
+  
+  ForEach Numbers()
+    Debug Numbers()
+  Next
+@EndCode
+
+@SeeAlso
+  @@PopListPosition, @@SelectElement, @@ChangeCurrentElement, @@NextElement, @@PreviousElement, 
+  @ReferenceLink "foreach_next" "ForEach"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PopListPosition(List())
+
+@Description
+  Restores the current element of the list previously remembered using @@PushListPosition.
+
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  You must include the brackets after the list name.
+
+@NoReturnValue
+
+@Remarks
+  The state of the list will be the same as it was on the corresponding call to @@PushListPosition. If there
+  was no current element when @@PushListPosition was called then there is no current element after this call 
+  as well.
+@LineBreak
+@LineBreak
+  See the @@PushListPosition function for an example.
+
+@SeeAlso
+  @@PushListPosition, @@SelectElement, @@ChangeCurrentElement, @@NextElement, @@PreviousElement, 
+  @ReferenceLink "foreach_next" "ForEach"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MergeLists(SourceList(), DestinationList() [, Location])
+
+@Description
+  Moves all elements from the SourceList() to the DestinationList(). This is a fast operation because 
+  the element data itself is not moved to merge the two lists.
+
+@Parameter "SourceList()"
+  The list from which the elements will be taken. This list will be empty after the function
+  returns.
+
+@Parameter "DestinationList()"
+  The list to move the elements to. This list will contain the items of both lists after the
+  function returns.
+
+@OptionalParameter "Location"
+  Location where to insert the elements in the DestinationList(). This can be one of the following
+  values:
+@FixedFont
+  @#PB_List_Last  : Append the elements at the end of DestinationList() (default)
+  @#PB_List_First : Insert the elements at the beginning of DestinationList()
+  @#PB_List_Before: Insert the elements before the current element of DestinationList()
+  @#PB_List_After : Insert the elements after the current element of DestinationList()
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  NewList A.s()
+  AddElement(A()): A() = "a0"
+  AddElement(A()): A() = "a1"
+  AddElement(A()): A() = "a2"
+  AddElement(A()): A() = "a3"
+  
+  NewList B.s()
+  AddElement(B()): B() = "b0"
+  AddElement(B()): B() = "b1"
+  AddElement(B()): B() = "b2"
+  AddElement(B()): B() = "b3"
+    
+  ; Insert the elements of A() before the "b1" element in B()
+  SelectElement(B(), 1)
+  MergeLists(A(), B(), #PB_List_Before)
+  
+  ForEach B()
+    Debug B()
+  Next
+@EndCode
+
+@SeeAlso
+  @@SplitList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SplitList(SourceList(), DestinationList() [, KeepCurrent])
+
+@Description
+  Moves the elements in SourceList() from the current element onwards to the DestinationList().
+  This is a fast operation because the element data itself is not moved to split the list. 
+
+@Parameter "SourceList()"
+  The list from which the elements will be split. The current element of this list specifies 
+  the point at which to split the list. If there is no current element, then all elements remain in SourceList().
+
+@Parameter "DestinationList()"
+  The list to move the elements to. Any existing elements in this list are deleted before
+  the new elements are added.
+
+@OptionalParameter "KeepCurrent"
+  Whether the current item in SourceList() remains in SourceList() or is moved to DestinationList().
+  If this parameter is @#True, then the current element remains in SourceList().
+  If it is @#False (default), then the current element is moved to DestinationList().
+
+@NoReturnValue
+
+@Remarks
+  If 'KeepCurrent' is set to @#True then the new current element in SourceList() will be the previous element of
+  the list. If there is no previous element then the list will no longer have a current element after this function returns.
+  The DestinationList() will have no current element.
+
+@Example
+@Code
+  NewList A()
+  NewList B()
+  
+  For i = 0 To 10
+    AddElement(A())
+    A() = i
+  Next i
+  
+  ; split A() at element 5 and move the remaining elements to B()
+  SelectElement(A(), 5)
+  SplitList(A(), B())
+  
+  
+  Debug " -- A() -- "
+  ForEach A()
+    Debug A()
+  Next
+  
+  Debug " -- B() -- "
+  ForEach B()
+    Debug B()
+  Next
+@EndCode
+
+@SeeAlso
+  @@MergeLists
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+

@@ -1,0 +1,2150 @@
+;
+;     Xml library documentation
+;
+;      (c) 2020 - Fantaisie Software
+;
+
+@Library XML
+
+@Overview
+  Die Extensible Markup Language (englisch für "erweiterbare Auszeichnungssprache"), abgekürzt XML, ist eine 
+  Auszeichnungssprache zur Darstellung hierarchisch strukturierter Daten in Form von Textdateien. 
+@LineBreak
+@LineBreak
+  Die XML Bibliothek bietet eine Reihe an Funktionen, um zu Anwendungen leicht das Parsen (syntaktische Analyse) und 
+  die Fähigkeit zum Erstellen von XML hinzuzufügen. Sie basiert auf dem @InternetLink "http://expat.sourceforge.net/" "expat XML Parser",
+  welcher unter der MIT Lizenz (kann @MainGuideLink "expat" "hier" eingesehen werden) lizenziert ist.
+  expat wird in vielen Projekten (wie Mozilla oder Perl) verwendet. Er ist sehr stabil und sehr schnell.
+@LineBreak
+@LineBreak
+  @Bold "Wichtig:" Die expat Lizenz erfordert, dass eine Copyright-Notiz und der Lizenz-Text selbst in jede
+  Software integriert werden, welche den Parser beinhalten. Wenn also die Bibliothek (oder der API-Import) in
+  einer Software verwendet werden, welche öffentlich zugänglich gemacht wird, dann muss die oben verlinkte
+  Lizenz in die Software integriert werden.
+@LineBreak
+@LineBreak  
+  Die expat Funktionen können auch direkt - wie andere API Funktionen - mit einem abschließenden Unterstrich aufgerufen
+  werden. Dies ermöglicht auch die Nutzung von expat Funktionen, welche nicht direkt von dieser Bibliothek angeboten werden.
+  Die in expat.h definierten Konstanten und Strukturen sind direkt in PureBasic verfügbar.
+  Für detaillierte Informationen über die expat Funktionen schauen Sie in die Dokumentation, welche im
+  Download-Paket auf @InternetLink "http://expat.sourceforge.net/" "http://expat.sourceforge.net/" angeboten wird.
+@LineBreak
+@LineBreak  
+  Diese Bibliothek bietet teilweise Unterstützung von "Document Type Definitions" (DTD) und "Namespaces" (Namensräume).
+  Das Ziel besteht darin, den Befehlssatz sehr einfach zu halten, während diese Bibliothek dennoch mit allen
+  XML-fähigen Dokumenten umgehen kann.
+@LineBreak  
+@LineBreak  
+  Der expat Parser (syntaktischer Analysierer) ist ein "non-validating" Parser. Dies bedeutet, er überprüft die 
+  geparsten Dokumente auf Fehler im "Markup" (ein Dokument muss entsprechend der XML-Spezifikation aufgebaut sein),
+  aber er überprüft das Dokument nicht gegenüber einer DTD. Beim Parsen eines Dokuments platziert diese Bibliothek
+  DTDs innerhalb eines speziellen Knotens (Node) im XML-Baum mit dem @Link "XMLNodeType" "Typ" @#PB_XML_DTD. 
+  Der Inhalt dieses Knotens ist der volle DOCTYPE Tag. Auf diesem Weg kann einfach auf diesen zugegriffen und er
+  auch manipuliert werden, aber es ist auch in Ordnung ihn zu ignorieren, wenn diese Information nicht benötigt wird.
+  Der Tag wird beim Exportieren/Speichern des Dokuments einfach wieder zurückgeschrieben.
+@LineBreak  
+@LineBreak
+  "Namespaces" (Namensräume) werden beim Parsen eines Dokuments nicht aufgelöst. Dies bedeutet, dass in
+  einem Dokument, welches Namespaces verwendet, auf die Namespace Deklarationen wie normale Knoten-Attribute
+  zugegriffen werden kann, und Knoten-/Attribut-Namen - welche Namespaces verwenden - als "namespace:tagname"#
+  sichtbar werden. Dies ermöglicht das Lesen und auch das Zurückschreiben eines Dokuments (welches Namespaces verwendet)
+  wie jedes andere Dokument, ohne dessen Struktur zu zerstören.
+  Um das Arbeiten mit Namespaces leichter zu machen, werden die Funktionen @@ResolveXMLNodeName 
+  und @@ResolveXMLAttributeName bereitgestellt, um Namen innerhalb von Dokumenten mit
+  Namespaces aufzulösen.
+@LineBreak  
+@LineBreak  
+  Der @ReferenceLink "ide_debugger" "PureBasic Debugger" bietet die Möglichkeit, #XML Objekte während der 
+  Laufzeit mit dem @ReferenceLink "ide_debugtools" "Library Anzeiger" zu untersuchen.
+@LineBreak  
+@LineBreak  
+  Die offizielle Spezifikation von XML und XML Namespaces des W3C finden Sie hier:
+@LineBreak
+  @InternetLink "http://www.w3.org/TR/REC-xml/" "XML Spezifikation" @LineBreak
+  @InternetLink "http://www.w3.org/TR/REC-xml-names/" "XML Namespaces" @LineBreak
+  @InternetLink "http://www.w3.org/XML/Core/Translations" "Verschiedene Übersetzungen von XML relevanten Dokumenten" @LineBreak
+@LineBreak
+  Auch der @InternetLink "http://de.wikipedia.org/wiki/Xml" "Wikipedia Artikel über XML" bietet einen guten Ausgangspunkt,
+  für alle Leute, welche neu bei XML sind.
+  
+
+@CommandList
+
+@ExampleFile All Xml.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsXML(#XML)
+
+@Description
+  Testet, ob die angegebene #XML Nummer eine gültige und korrekt initialisierte
+  XML-Struktur ist.
+  
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn #XML eine gültige XML-Struktur ist,
+  andernfalls Null.
+  
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. Ist
+  'Ergebnis' ungleich Null, dann ist das Objekt gültig und initialisiert, andernfalls
+  ist es gleich Null. Dies ist der korrekte Weg, um sicherzustellen, dass eine
+  XML-Struktur bereit zur Verwendung ist.
+  
+@SeeAlso
+  @@LoadXML, @@CreateXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeXML(#XML)
+
+@Description
+  Gibt das XML-Objekt und alle enthaltenen Daten frei.
+
+@Parameter "#XML"
+  Das freizugebende XML-Objekt. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen XML-Objekte freigegeben.
+
+@NoReturnValue
+
+@Remarks  
+  Alle verbleibenden XML-Objekte werden automatisch freigegeben, wenn das Programm endet.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateXML(#XML [, Codierung])
+
+@Description
+  Erstellt einen neuen leeren XML-Baum, welcher über die #XML Nummer identifiziert wird.
+  
+@Parameter "#XML"
+  Eine Nummer zum Identifizieren der neuen XML-Struktur.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
+  Nummer automatisch zu generieren.
+  
+@OptionalParameter "Codierung"
+  Die für den XML-Baum zu verwendende Codierung. Gültige Werte sind:
+@FixedFont   
+  @#PB_UTF8 (Standard)
+  @#PB_Ascii
+  @#PB_Unicode
+@EndFixedFont  
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der XML-Baum erfolgreich erstellt wurde,
+  und Null wenn nicht. Wenn @#PB_Any als #XML Parameter verwendet wurde, dann wird
+  bei Erfolg die generierte Nummer zurückgegeben.
+
+@Remarks
+  Der neue Baum hat nur einen "Wurzelknoten" (englisch: root node), auf welchen mittels
+  @@RootXMLNode zugegriffen werden kann.
+  Um neue Knoten hinzuzufügen, kann @@CreateXMLNode verwendet werden.
+@Example
+
+@Example
+@Code
+  ; Erstellt den XML-Baum
+  xml = CreateXML(#PB_Any) 
+  mainNode = CreateXMLNode(RootXMLNode(xml), "Zoo") 
+  
+  ; Erstellt den ersten XML-Knoten (im Hauptknoten)
+  item = CreateXMLNode(mainNode, "Animal") 
+  SetXMLAttribute(item, "id", "1") 
+  SetXMLNodeText(item, "Elephant") 
+  
+  ; Erstellt den zweiten XML-Knoten (im Hauptknoten)
+  item = CreateXMLNode(mainNode, "Animal") 
+  SetXMLAttribute(item, "id", "2") 
+  SetXMLNodeText(item, "Tiger") 
+  
+  ; Speichert den XML-Baum in eine .xml Datei
+  SaveXML(xml, "demo.xml")
+@EndCode
+
+@SeeAlso
+  @@FreeXML, @@CreateXMLNode, @@RootXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = LoadXML(#XML, DateiName$ [, Kodierung])
+
+@Description
+  Lädt einen XML-Baum aus der angegebenen Datei.
+
+@Parameter "#XML"
+  Eine Nummer zum Identifizieren der neuen XML-Struktur.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
+  Nummer automatisch zu generieren.
+
+@Parameter "DateiName$"
+  Der Dateiname, aus der die XML-Struktur geladen werden soll.
+
+@OptionalParameter "Kodierung"
+  Die beim Laden des XML-Baums zu verwendende Kodierung (dies überschreibt das
+  Kodierungs-Set in der XML-Deklaration). Gültige Werte sind:
+@FixedFont   
+  @#PB_UTF8 (Standard)
+  @#PB_Ascii
+  @#PB_Unicode
+@EndFixedFont  
+  Dieser Parameter sollte verwendet werden, wenn das Dokument keine XML-Deklaration hat, oder die Kodierungs-Information
+  außerhalb des XML-Dokuments bereitgestellt wird, zum Beispiel durch einen Mime-Type-Header in einem
+  Kommunikationsprotokoll.
+
+@ReturnValue
+  Es wird ein Wert ungleich Null zurückgegeben, wenn die Datei geöffnet und gelesen werden konnte.
+  Berücksichtigen Sie bitte, dass dies nicht heißt, dass das in der Datei beinhaltete XML gültig war.
+  Um eine Überprüfung auf Parser-Fehler vorzunehmen, sollte @@XMLStatus verwendet werden.
+  Im Falle eines Parser-Fehlers kann auf alle vor dem Fehler analysierten ("geparsten") Daten im
+  XML-Baum zugegriffen werden.
+
+@SeeAlso
+  @@CreateXML, @@FreeXML, @@ParseXML, @@CatchXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CatchXML(#XML, *Adresse, Größe [, Flags [, Kodierung]])
+
+@Description
+  Erstellt einen neuen XML-Baum aus den XML-Daten des angegebenen Speicherbereichs.
+  Das "Markup" (Formatierung) kann durch mehrfachen Aufruf dieser Funktion in Blöcken analysiert 
+  werden, um das Analysieren (Parsen) von XML-Daten zu erlauben, während diese zum Beispiel vom
+  @LibraryLink "network" "Netzwerk" eintreffen.
+
+@Parameter "#XML"
+  Eine Nummer zum Identifizieren der neuen XML-Struktur.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
+  Nummer automatisch zu generieren.
+
+@Parameter "*Adresse"
+  Eine lesbare Speicherposition.
+
+@Parameter "Größe"
+  Größe (in Bytes) des Speicherbereichs.
+  
+@OptionalParameter "Flags"
+  Wird dieser nicht angegeben, dann muss der Speicherblock alle XML-Daten beinhalten.
+  Um XML in mehreren Blöcken zu parsen, können die folgenden Flags verwendet werden:
+@FixedFont
+  @#PB_XML_StreamStart: Startet das Parsen mit dem ersten Block
+  @#PB_XML_StreamNext : Setzt das Parsen mit einem neuen Block fort
+  @#PB_XML_StreamEnd  : Beendet das Parsen nach diesem Block
+@EndFixedFont
+  Wenn diese Funktion mit @#PB_XML_StreamStart oder @#PB_XML_StreamEnd
+  aufgerufen wird, dann kann der Parameter 'Größe' 0 sein, um die Parser-Operation zu starten/zu beenden, 
+  ohne dabei weitere Daten zu analysieren.
+@LineBreak
+@LineBreak
+  Beachten Sie beim Parsen in Blöcken, dass auf alle schon analysierten Daten im XML-Baum bereits
+  vor einem Aufruf mit @#PB_XML_StreamEnd zugegriffen werden kann.
+
+@OptionalParameter "Kodierung"
+  Die beim Laden des XML-Baums zu verwendende Kodierung (dies überschreibt das
+  Kodierungs-Set in der XML-Deklaration). Gültige Werte sind:
+@FixedFont   
+  @#PB_UTF8 (Standard)
+  @#PB_Ascii
+  @#PB_Unicode
+@EndFixedFont  
+  Dieser Parameter sollte verwendet werden, wenn das Dokument keine XML-Deklaration hat, oder die Kodierungs-Information
+  außerhalb des XML-Dokuments bereitgestellt wird, zum Beispiel durch einen Mime-Type-Header in einem
+  Kommunikationsprotokoll.
+
+@ReturnValue
+  Diese Funktion gibt nur Null bei Speicherfehlern oder ungültigen Flags zurück.
+  Um eine Überprüfung auf Parser-Fehler vorzunehmen, sollte @@XMLStatus verwendet werden.
+  Im Falle eines Parser-Fehlers kann auf alle vor dem Fehler analysierten ("geparsten") Daten im
+  XML-Baum zugegriffen werden.
+
+@SeeAlso
+  @@FreeXML, @@CreateXML, @@LoadXML, @@ParseXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ParseXML(#XML, Eingabe$)
+
+@Description
+  Erstellt einen neuen XML-Baum ausgehend von den XML-Daten im String. Vom XML wird
+  erwartet, dass es in dem vom Executable verwendeten String-Format (ASCII oder
+  @ReferenceLink "unicode" "Unicode") kodiert ist.
+@LineBreak
+@LineBreak
+  Wenn eine andere Kodierung analysiert ("parsed") werden soll, kann stattdessen die 
+  @@CatchXML Funktion verwendet werden.
+
+@Parameter "#XML"
+  Eine Nummer zum Identifizieren des neuen XML.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
+  automatisch zu generieren.
+
+@Parameter "Eingabe$"
+  Der String, welcher die zu analysierenden ("zu parsenden") XML-Daten enthält.
+
+@ReturnValue
+  Diese Funktion gibt nur bei Speicherfehlern Null zurück.
+@LineBreak
+  Um Parser-Fehler zu überprüfen, sollte @@XMLStatus verwendet werden.
+  Im Fall eines Parser-Fehlers sind alle vor dem Fehler bereits analysierten Daten
+  im XML-Baum verfügbar.
+
+@SeeAlso
+  @@FreeXML, @@CreateXML, @@LoadXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = XMLStatus(#XML)
+
+@Description
+  Gibt den Status der letzten auf diesen XML-Baum (mittels @@LoadXML oder
+  @@CatchXML) ausgeführten "Parsing"-Operation zurück.
+  Diese Funktion sollte nach jedem @@LoadXML oder @@CatchXML 
+  aufgerufen werden, um sicherzustellen, dass das Parsing erfolgreich war.
+  Eine String-Darstellung des Parsing-Status (d.h. eine lesbare Fehler-Nachricht) wird von der
+  @@XMLError Funktion zurückgegeben.
+
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@ReturnValue
+  Ein Wert von 0 (@#PB_XML_Success) zeigt ein erfolgreiches Parsing an, alle
+  anderen Werte übermitteln verschiedene Fehler-Bedingungen.
+@LineBreak
+@LineBreak
+  Die folgenden Rückgabewerte sind möglich:
+@FixedFont
+  @#PB_XML_Success             : kein Fehler
+  @#PB_XML_NoMemory            : Speicher voll
+  @#PB_XML_Syntax              : Syntax-Fehler
+  @#PB_XML_NoElements          : kein Element gefunden
+  @#PB_XML_InvalidToken        : nicht wohlgeformt (ungültiger Token)
+  @#PB_XML_UnclosedToken       : nicht abgeschlossener Token
+  @#PB_XML_PartialCharacter    : teilweises Zeichen
+  @#PB_XML_TagMismatch         : falscher Tag
+  @#PB_XML_DublicateAttribute  : doppeltes Attribut
+  @#PB_XML_JunkAfterDocElement : "Junk" (Müll) nach dem Dokumenten-Element
+  @#PB_XML_ParamEntityRef      : illegaler Parameter Subjekt (Entity) Verweis
+  @#PB_XML_UndefinedEntity     : undefiniertes Subjekt (Entity)
+  @#PB_XML_RecursiveEntityRef  : rekursiver Subjekt (Entity) Verweis
+  @#PB_XML_AsyncEntity         : asynchrones Subjekt (Entity)
+  @#PB_XML_BadCharacterRef     : Verweis auf eine ungültige Zeichen-Zahl
+  @#PB_XML_BinaryEntityRef     : Verweis auf ein binäres Subjekt (Entity)
+  @#PB_XML_AttributeExternalEntityRef: Verweis auf ein externes Subjekt (Entity) im Attribut
+  @#PB_XML_MisplacedXML        : XML- oder Text-Deklaration nicht zu Beginn des Subjekts (Entity)
+  @#PB_XML_UnknownEncoding     : unbekannte Codierung
+  @#PB_XML_IncorrectEncoding   : die in der XML-Deklaration spezifizierte Codierung ist falsch
+  @#PB_XML_UnclosedCDataSection: nicht abgeschlossene CDATA Sektion
+  @#PB_XML_ExternalEntityHandling: Fehler in der Verarbeitung eines externen Subjekt (Entity) Verweis
+  @#PB_XML_NotStandalone       : Dokument ist nicht eigenständig
+  @#PB_XML_UnexpectedState     : unerwarteter Parser-Status
+  @#PB_XML_EntityDeclaredInPE  : Subjekt (Entity) im Parameter-Subjekt deklariert
+  @#PB_XML_FeatureRequiresDTD  : angefordertes Feature erfordert XML_DTD Support in Expat
+  @#PB_XML_CantChangeFeatures  : Einstellungen können nicht verändert werden, da das Parsen begonnen hat
+  @#PB_XML_UnboundPrefix       : ungebundenes Präfix
+  @#PB_XML_UndeclaringPrefix   : Präfix darf undeklariert sein
+  @#PB_XML_IncompletePE        : unkomplettes Markup (Formatierung) im Parameter-Subjekt (Entity)
+  @#PB_XML_XMLDeclaration      : XML-Deklaration ist nicht wohlgeformt
+  @#PB_XML_TextDeclaration     : Text-Deklaration ist nicht wohlgeformt
+  @#PB_XML_PublicID            : Ungültige(s) Zeichen in der öffentlichen (public) ID
+  @#PB_XML_Suspended           : Parser unterbrochen
+  @#PB_XML_NotSuspended        : Parser nicht unterbrochen
+  @#PB_XML_Aborted             : Parsing abgebrochen
+  @#PB_XML_Finished            : Parsing abgeschlossen
+  @#PB_XML_SuspendedPE         : kann nicht in externem Parameter-Subjekt (Entity) unterbrechen
+  @#PB_XML_ReservedPrefixXML   : reserviertes Präfix (xml) darf nicht undeklariert sein oder an einen anderen Namespace-Namen grenzen
+  @#PB_XML_ReservedPrefixXMLNS : reserviertes Präfix (xmlns) darf nicht deklariert oder undeklariert werden
+  @#PB_XML_ReservedNamespaceURI: Präfix darf nicht an einen der reservierten Namespace-Namen grenzen
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = XMLError(#XML)
+
+@Description
+  Im Fall eines Fehlers während dem Parsen von XML-Daten gibt diese Funktion eine Fehlermeldung
+  zurück, welche den Fehler beschreibt.
+  @@XMLStatus kann verwendet werden, um Parser-Fehler zu entdecken.
+
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@ReturnValue
+  Die (in Englisch) lesbare Fehlermeldung.
+  
+@Remarks
+  Um weitere Informationen über den Fehler zu erhalten, kann @@XMLErrorLine 
+  oder @@XMLErrorPosition verwendet werden.
+
+@SeeAlso
+  @@XMLErrorLine, @@XMLErrorPosition, @@XMLStatus
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = XMLErrorLine(#XML)
+
+@Description
+  Im Fall eines Fehlers während dem Parsen von XML-Daten gibt diese Funktion die Zeile (ausgehend von 
+  eins) in der Eingabe zurück, welche den Fehler verursachte.
+  @@XMLStatus kann verwendet werden, um Parser-Fehler zu entdecken.
+
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+  
+@ReturnValue
+  Die Zeile in der XML-Struktur, in der der Fehler auftrat. Der Index der ersten
+  Zeile beginnt bei 1.
+
+@Remarks
+  Um die Position innerhalb der Zeile, in welcher der Fehler passierte, zu erhalten, kann
+  @@XMLErrorPosition verwendet werden.
+
+@SeeAlso
+  @@XMLError, @@XMLErrorPosition, @@XMLStatus
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = XMLErrorPosition(#XML)
+
+@Description
+  Im Fall eines Fehlers während dem Parsen von XML-Daten gibt diese Funktion die Zeichenposition innerhalb
+  der von @@XMLErrorLine zurückgegebenen Zeile zurück, in welcher der Fehler auftrat.
+  (Das erste Zeichen der Zeile befindet sich an Position 1.)
+  @@XMLStatus kann verwendet werden, um Parser-Fehler zu entdecken.
+
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@ReturnValue
+  Die Zeichenposition in der XML-Struktur, an der der Fehler auftrat. Der Index des ersten
+  Zeichens beginnt bei 1.
+
+@SeeAlso
+  @@XMLError, @@XMLErrorLine, @@XMLStatus
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SaveXML(#XML, DateiName$ [, Flags])
+
+@Description
+  Speichert den #XML Baum in der angegebenen Datei.
+
+@Parameter "#XML"
+  Die zu speichernde XML-Struktur (Baum).
+
+@Parameter "DateiName$"
+  Der Dateiname, unter dem die XML-Struktur gespeichert werden soll.
+  
+@OptionalParameter "Flags"
+  Dies kann eine Kombination (mittels dem '|' Operator) der folgenden Werte sein:
+@FixedFont
+  @#PB_XML_StringFormat : Schließt einen Byte-Order-Mark ein. Siehe @@WriteStringFormat für weitere Informationen.
+  @#PB_XML_NoDeclaration: Schließt die XML-Deklaration nicht mit ein.
+@EndFixedFont
+  Hinweis: Entsprechend der XML-Spezifikation kann die XML-Deklaration nur weggelassen werden,
+  wenn das Dokument in UTF-8 oder UTF-16 kodiert wird, oder wenn die Kodierungs-Information
+  extern - z.B. durch ein Transfer-Protokoll - bereitgestellt wird. Aber auch dann ist es
+  ratsam, die Deklaration im Dokument zu belassen.
+  
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Datei erfolgreich gespeichert wurde, andernfalls Null.
+
+@Remarks  
+  Das erstellte XML-"Markup" (Formatierung) wird nicht neu formatiert. Es wird so zurückgeschrieben,
+  wie es anfänglich geparst/erstellt wurde. Die Anzahl der zwischen den Tags geschriebenen
+  Zeilenumbrüche/Leerzeichen wird im 'Text' jedes XML-Knotens gespeichert (siehe 
+  @@GetXMLNodeText für weitere Informationen).
+@LineBreak
+@LineBreak
+  Um das XML-Markup vor dem Speichern neu zu formatieren, kann der 'Text' jedes XML-Knotens
+  verändert werden oder @@FormatXML kann benutzt werden, um einige 
+  gebräuchliche Neuformatierungs-Optionen auf den Baum anzuwenden.
+
+@SeeAlso
+  @@LoadXML, @@CreateXML, @@FormatXML, @@ExportXML, @@ComposeXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ExportXMLSize(#XML [, Flags])
+
+@Description
+  Gibt die Größe in Bytes zurück, welche benötigt wird, um den angegebenen XML-Baum in einen
+  @Link "memory/allocatememory" "Speicherpuffer" zu exportieren oder ihn in eine Datei zu speichern.
+  Diese Funktion sollte verwendet werden, um die benötigte Puffergröße für den
+  @@ExportXML Befehl zu ermitteln.
+
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@OptionalParameter "Flags"
+  Dieses kann verwendet werden, um die gleichen Optionen anzugeben, wie diese auch
+  vom @@ExportXML Befehl akzeptiert werden. Er ermöglicht, diese Optionen bei
+  der Berechnung der Größe zu berücksichtigen.
+
+@ReturnValue
+  Die benötigte Größe in Bytes, um den angegebenen XML-Baum in einen
+  @Link "memory/allocatememory" "Speicherpuffer" zu exportieren.
+
+@SeeAlso
+  @@ExportXML
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ExportXML(#XML, *Adresse, Größe [, Flags])
+
+@Description
+  Schreibt den XML-Baum als Markup in den angegebenen @Link "memory/allocatememory" "Speicherpuffer".
+  
+@Parameter "#XML"
+  Die zu exportierende XML-Struktur (Baum).
+
+@Parameter "*Adresse"
+  Ein beschreibbarer Speicherbereich.
+
+@Parameter "Größe"
+  Größe (in Bytes) des Speicherbereichs.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination (mit dem '|' Operator) der folgenden Werte sein:
+@FixedFont
+  @#PB_XML_StringFormat : Schließt einen Byte-Order-Mark ein. Siehe @@WriteStringFormat für weitere Informationen.
+  @#PB_XML_NoDeclaration: Schließt die XML-Deklaration nicht mit ein.
+@EndFixedFont
+  Hinweis: Entsprechend der XML-Spezifikation kann die XML-Deklaration nur weggelassen werden,
+  wenn das Dokument in UTF-8 oder UTF-16 kodiert wird, oder wenn die Kodierungs-Information
+  extern - z.B. durch ein Transfer-Protokoll - bereitgestellt wird. Aber auch dann ist es
+  ratsam, die Deklaration im Dokument zu belassen.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die angegebene Länge groß genug war, um das
+  gesamte Markup des Baums zu enthalten. @@ExportXMLSize kann verwendet werden, um die
+  benötigte Größe für diesen Puffer zu ermitteln.
+
+@Remarks
+  Das erstellte XML-"Markup" (Formatierung) wird nicht neu formatiert. Es wird so zurückgeschrieben,
+  wie es anfänglich geparst/erstellt wurde. Die Anzahl der zwischen den Tags geschriebenen
+  Zeilenumbrüche/Leerzeichen wird im 'Text' jedes XML-Knotens gespeichert (siehe 
+  @@GetXMLNodeText für weitere Informationen).
+@LineBreak
+@LineBreak
+  Um das XML-Markup vor dem Speichern neu zu formatieren, kann der 'Text' jedes XML-Knotens
+  verändert werden oder @@FormatXML kann benutzt werden, um einige 
+  gebräuchliche Neuformatierungs-Optionen auf den Baum anzuwenden.
+
+@SeeAlso
+  @@ExportXMLSize, @@FormatXML, @@ComposeXML, @@SaveXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = ComposeXML(#XML [, Flags])
+
+@Description
+  Gibt die XML-Struktur als Markup in einem einzelnen String zurück. Das XML wird im
+  Stringformat des Executables (ASCII oder @ReferenceLink "unicode" ""Unicode")
+  zurückgegeben, unabhängig von der durch @@GetXMLEncoding zurückgegebenen Einstellung.
+  Die @@ExportXML Funktion kann verwendet werden, um das Markup in einer anderen
+  Kodierung zu erstellen.
+
+@Parameter "#XML"
+  Das zu exportierende XML.
+  
+@OptionalParameter "Flags"
+  Dies kann eine Kombination (mit Hilfe des '|' Operators) der folgenden Werte sein:
+@FixedFont
+  @#PB_XML_StringFormat : Schließt einen Byte-Order-Mark ein. Siehe @@WriteStringFormat für weitere Informationen.
+  @#PB_XML_NoDeclaration: Schließt die XML-Deklaration nicht mit ein.
+@EndFixedFont
+  Hinweis: Entsprechend der XML-Spezifikation kann die XML-Deklaration nur weggelassen werden,
+  wenn das Dokument in UTF-8 oder UTF-16 kodiert wird, oder wenn die Kodierungs-Information
+  extern - z.B. durch ein Transfer-Protokoll - bereitgestellt wird. Aber auch dann ist es
+  ratsam, die Deklaration im Dokument zu belassen.
+
+@ReturnValue
+  Gibt das Markup als einen String zurück.
+
+@Remarks
+  Das erstellte XML-"Markup" (Formatierung) wird nicht neu formatiert. Es wird so zurückgegeben,
+  wie es anfänglich geparst/erstellt wurde. Die Anzahl der zwischen den Tags geschriebenen
+  Zeilenumbrüche/Leerzeichen wird im 'Text' jedes XML-Knotens gespeichert (siehe 
+  @@GetXMLNodeText für weitere Informationen).
+@LineBreak
+@LineBreak
+  Um das XML-Markup vor dem Speichern neu zu formatieren, kann der 'Text' jedes XML-Knotens
+  verändert werden oder @@FormatXML kann benutzt werden, um einige 
+  gebräuchliche Neuformatierungs-Optionen auf den Baum anzuwenden.
+
+@SeeAlso
+  @@FormatXML, @@ExportXML, @@SaveXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FormatXML(#XML, Flags [, EinrückungsSchritt])
+
+@Description
+  Säubert oder formatiert den XML-Baum neu - für ein besseres Aussehen beim @Link "ExportXML" "Exportieren"/@Link "SaveXML" "Speichern".
+  Die Funktion kann verwendet werden, um eine sehr kompakte Ausgabe für effizienten Transfer 
+  oder eine besser formatierte Ausgabe für bessere Lesbarkeit zu erhalten.
+@LineBreak
+@LineBreak
+  Die Formatierung des analysierten XML-Dokuments wird in den 'Text' und 'Offset' Feldern
+  jedes Knotens im Baum gespeichert (siehe @@GetXMLNodeText und 
+  @@GetXMLNodeOffset für weitere Informationen).
+
+@Parameter "#XML"
+  Die zu formatierende XML-Struktur (Baum).
+
+@Parameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein (mittels des '|' Operators):
+@FixedFont
+  @#PB_XML_WindowsNewline: Ändert alle 'Newline' (Zeilenumbrüche) in CRLF
+  @#PB_XML_LinuxNewline  : Ändert alle 'Newline' (Zeilenumbrüche) in LF
+  @#PB_XML_MacNewline    : Ändert alle 'Newline' (Zeilenumbrüche) in CR
+
+  @#PB_XML_CutNewline    : Entfernt alle 'Newline' (Zeilenumbrüche)
+  @#PB_XML_ReduceNewline : Entfernt alle leeren Zeilen
+
+  @#PB_XML_CutSpace      : Entfernt alle Leerzeichen
+  @#PB_XML_ReduceSpace   : Entfernt alle mehrfachen Leerzeichen
+ 
+  @#PB_XML_ReFormat      : Formatiert die komplette Baumstruktur neu
+  @#PB_XML_ReIndent      : Ändert die Einrückung der Zeilen
+@EndFixedFont
+  Bei @#PB_XML_ReFormat und @#PB_XML_ReIndent gibt der 'EinrueckungsSchritt' 
+  Parameter an, wie viele Leerzeichen für die Einrückung jeder Ebene (Level) verwendet werden sollen.
+@LineBreak
+@LineBreak
+  Hinweis: Es gibt keine Neuformatierung in CData Sektionen und Verarbeitungs-Instruktionen, außer den 'Newline' Änderungen,
+  da in diesen Sektionen enthaltene Leerzeichen möglicherweise bedeutend sind - abhängig davon,
+  was in der Sektion enthalten ist.
+@LineBreak
+@LineBreak
+  Hinweis: Seit MacOSX ist der CR-Zeilenumbruch ('Newline') weniger gebräuchlich und der 
+  LF-Zeilenumbruch wird - wie auf den meisten anderen Unix-Systemen - genutzt.
+  @#PB_XML_MacNewline wird der Vollständigkeit halber angeboten, aber es
+  ist normalerweise besser @#PB_XML_LinuxNewline auch auf MacOSX zu verwenden.
+
+@OptionalParameter "EinrückungsSchritt"
+  Die anzuwendende Einrückung (in Zeichen) bei der Anwendung der @#PB_XML_ReFormat bzw. @#PB_XML_ReIndent Flags.
+  
+@NoReturnValue
+  
+@SeeAlso
+  @@ExportXML, @@SaveXML
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetXMLEncoding(#XML)
+
+@Description
+  Gibt die verwendete Text-Codierung zurück, welche für das Exportieren/Speichern des
+  angegebenen XML-Baums verwendet wurde.
+  
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@ReturnValue
+  Gibt einen der folgenden Werte zurück:
+@FixedFont
+   @#PB_Ascii
+   @#PB_Unicode (UTF16)
+   @#PB_UTF8
+@EndFixedFont
+
+@SeeAlso  
+  @@ExportXML, @@SaveXML, @@SetXMLEncoding
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetXMLEncoding(#XML, Codierung)
+
+@Description
+  Ändert die Text-Codierung, welche für das Exportieren/Speichern des angegebenen XML-Baums verwendet wird.
+
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@Parameter "Encoding"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+   @#PB_Ascii
+   @#PB_Unicode (UTF16)
+   @#PB_UTF8
+@EndFixedFont
+
+  Dies beeinflusst nur das @Link "ExportXML" "Exportieren"/@Link "SaveXML" "Speichern" des Baums.
+  Die Daten im #XML Objekt werden immer im PB String-Format gespeichert (Unicode).
+  Die Codierung kann für das Speichern ohne Probleme in @#PB_Ascii und anschließend zurück in eine andere
+  geändert werden, ohne dabei Informationen zum Baum im Speicher zu verlieren.
+
+@NoReturnValue
+
+@SeeAlso  
+  @@ExportXML, @@SaveXML, @@GetXMLEncoding
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetXMLStandalone(#XML)
+
+@Description
+  Gibt den Wert des "Standalone" Attributs in der XML-Deklaration des Dokuments zurück.
+  
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@ReturnValue
+  Gibt einen der folgenden Werte zurück:
+@FixedFont
+  @#PB_XML_StandaloneYes  : Der Dokument-Modus ist "standalone" (eigenständig)
+  @#PB_XML_StandaloneNo   : Der Dokument-Modus ist nicht "standalone" 
+  @#PB_XML_StandaloneUnset: Der Standalone-Modus ist in der Deklaration nicht spezifiziert
+@EndFixedFont
+
+@SeeAlso
+  @@SetXMLStandalone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetXMLStandalone(#XML, Standalone)
+
+@Description
+  Ändert das "Standalone" Attribut der XML-Deklaration beim Exportieren/Speichern des Dokuments.
+
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@Parameter "Standalone"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_XML_StandaloneYes  : Der Dokument-Modus ist "standalone" (eigenständig)
+  @#PB_XML_StandaloneNo   : Der Dokument-Modus ist nicht "standalone" 
+  @#PB_XML_StandaloneUnset: Der Standalone-Modus ist in der Deklaration nicht spezifiziert
+@EndFixedFont
+
+  @Bold "Hinweis:" Da diese Bibliothek keine Document Type Definitions (DTDs) überprüft, hat der Wert dieses
+  Attributs keinen Einfluss auf das Parsen/Speichern von Dokumenten mit dieser Bibliothek - außer dass er
+  aus der XML-Deklaration gelesen und in diese geschrieben wird. Dieser Wert ist jedoch wichtig, wenn mit 
+  XML-Dokumenten gearbeitet wird, welche für das Überprüfen von Parsern bestimmt sind - das ist der Grund,
+  warum dieser Befehl existiert.
+
+@SeeAlso
+  @@GetXMLStandalone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Ergebnis = RootXMLNode(#XML)
+
+@Description
+  Gibt einen @ReferenceLink "memory" "Zeiger" auf den Wurzelknoten (root node) des XML-Baums zurück.
+  Dieser Knoten ist immer vorhanden. Er repräsentiert das XML-Dokument selbst.
+  Der in diesem Knoten beinhaltete @Link "GetXMLNodeText" "Text" repräsentiert die Leerzeichen
+  außerhalb jeglicher XML-Knoten (es kann sich kein Text außerhalb von Knoten befinden).
+  Die Unterknoten (englisch "Children") dieses Knotens sind der @Link "MainXMLNode" "Hauptknoten"
+  und jegliche Kommentare außerhalb des Hauptknotens. Der @Link "XMLNodeType" "Typ" dieses Knotens
+  ist @#PB_Xml_Root.
+
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@ReturnValue
+  Gibt immer einen gültigen XML Knoten-Zeiger zurück, wenn #XML ein existierender XML-Baum ist.
+
+@SeeAlso
+  @@XMLNodeType, @@MainXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Ergebnis = MainXMLNode(#XML)
+
+@Description
+  Gibt den Hauptknoten ("main node") des XML-Baums zurück. Ein gültiges XML-Dokument muss einen
+  "main" oder "document" Knoten beinhalten, welcher alle anderen Knoten beinhaltet. Neben diesem
+  Knoten können sich nur noch Kommentare auf der ersten Ebene (englisch "Level") unterhalb des
+  @Link "RootXMLNode" "Wurzelknotens" befinden. Der @Link "XMLNodeType" "Typ" dieses Knotens
+  ist @#PB_Xml_Normal.
+
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@ReturnValue
+  Gibt einen @ReferenceLink "memory" "Zeiger" auf den Hauptknoten zurück, oder 0 wenn der Baum 
+  keinen Hauptknoten hat. (Was dann passiert, wenn der Baum leer ist oder der Hauptknoten 
+  gelöscht wurde.)
+
+@SeeAlso
+  @@XMLNodeType, @@RootXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Ergebnis = ChildXMLNode(*Knoten [, Index])
+
+@Description
+  Gibt einen @ReferenceLink "memory" "Zeiger" zu einem Unterknoten (englisch "child node") des 
+  angegebenen XML-Knotens '*Knoten' zurück.
+
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem der Unterknoten (child) ermittelt werden soll.
+  
+@OptionalParameter "Index"
+  Der Index des Unterknotens. Der Index des ersten beginnt bei 1.
+  Wenn dieser nicht angegeben wird, dann wird der erste Knoten zurückgegeben.
+
+@ReturnValue
+  Gibt einen Zeiger auf den angeforderten Unterknoten zurück - oder Null, wenn es keine
+  Unterknoten gibt oder der Index zu groß ("out of range") ist.
+
+@SeeAlso
+  @@ParentXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Ergebnis = ParentXMLNode(*Knoten)
+
+@Description
+  Gibt den übergeordneten Knoten (englisch "parent node") des angegebenen XML-Knotens
+  zurück. Jeder XML-Knoten hat einen übergeordneten Knoten, außer der @Link "RootXMLNode" "Wurzelknoten".
+
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem der übergeordnete Knoten ("parent") ermittelt werden soll.
+  
+@ReturnValue
+  Gibt einen @ReferenceLink "memory" "Zeiger" auf den übergeordneten Knoten zurück, oder Null wenn 
+  '*Knoten' bereits der Wurzelknoten ist.
+
+@SeeAlso
+  @@ChildXMLNode, @@RootXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = XMLChildCount(*Knoten)
+
+@Description
+  Gibt die Anzahl an untergeordneten Knoten (englisch "child nodes") innerhalb
+  des angegebenen XML-Knotens zurück.
+
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem die untergeordneten Knoten ("childs") gezählt werden sollen.
+  
+@ReturnValue
+  Die Anzahl an untergeordneten Knoten innerhalb des angegebenen XML-Knotens.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Ergebnis = NextXMLNode(*Knoten)
+
+@Description
+  Gibt den nächsten XML-Knoten nach dem angegebenen Knoten zurück (innerhalb
+  ihres gleichen übergeordneten bzw. "Parent"-Knotens).
+
+@Parameter "*Knoten"
+  Der zu verwendende XML-Knoten.
+
+@ReturnValue
+  Gibt einen @ReferenceLink "memory" "Zeiger" auf den nächsten Knoten zurück, oder Null wenn 
+  es keine weiteren Knoten nach dem angegebenen mehr gibt.
+
+@SeeAlso
+  @@PreviousXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Ergebnis = PreviousXMLNode(*Knoten)
+
+@Description
+  Gibt den vorherigen XML-Knoten nach dem angegebenen Knoten zurück (innerhalb
+  ihres gleichen übergeordneten bzw. "Parent"-Knotens).
+
+@Parameter "*Knoten"
+  Der zu verwendende XML-Knoten.
+
+@ReturnValue
+  Gibt einen @ReferenceLink "memory" "Zeiger" auf den vorherigen Knoten zurück, oder Null wenn 
+  der angegebene Knoten der erste Knoten ("Child") seines übergeordneten Knotens ("Parent") war.
+
+@SeeAlso
+  @@NextXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Ergebnis = XMLNodeFromPath(*ElternKnoten, Pfad$)
+
+@Description
+  Gibt den XML-Knoten innerhalb des '*ElternKnoten' (übergeordneter Knoten, in englisch "ParentNode") zurück, 
+  dessen Verbindung zum '*ElternKnoten' mittels des 'Pfad$' beschrieben wird.
+  @@XMLNodePath kann verwendet werden, um einen solchen Pfad zu einem Knoten
+  zu erhalten.
+
+@Parameter "*ElternKnoten"
+  Der übergeordnete XML-Knoten.
+
+@Parameter "Pfad$"
+  Beinhaltet eine Liste von durch '/' getrennten Knoten-Namen, um den Weg vom Elternknoten 
+  zum Zielknoten aufzuzeigen. Zum Beispiel definiert "childtag/subchildtag" den ersten Knoten mit dem
+  Namen "subchildtag" innerhalb des ersten Knoten mit Namen "childtag" innerhalb des '*ElternKnoten'.
+@LineBreak
+@LineBreak
+  Ein Knotenname kann einen Index (beginnend bei eins) haben, um genau zu spezifieren, welchen von
+  mehreren 'Child-Tags' (untergeordnete "Kinderknoten") mit dem gleichen Namen ausgewählt werden sollen.
+  "childtag/subchildtag[3]" definiert den dritten "subchildtag" innerhalb des ersten "childtag" vom 
+  '*ElternKnoten'.
+@LineBreak
+@LineBreak
+  Andere Regeln: @LineBreak
+  - Wenn ein Pfad mit '/' beginnt, ist dieser relativ zur Wurzel des Baums - ganz gleich, welchen Knoten '*ElternKnoten' spezifiziert. @LineBreak
+  - Ein Platzhalter "*" kann anstelle eines Tag-Namens verwendet werden, um damit anzugeben, dass jeder Tag ausgewählt werden soll. @LineBreak
+  - Ein Kommentar-Knoten hat den Tag-Namen "#comment". @LineBreak
+  - Ein CData-Knoten hat den Tag-Namen "#cdata". @LineBreak
+  - Ein DTD-Knoten hat den Tag-Namen "#dtd". @LineBreak
+  - Eine Verarbeitungsanweisung hat den Tag-Namen "#instruction". @LineBreak
+
+@LineBreak
+  Einige Beispiele für gültige Pfade:
+@FixedFont
+  "/mainnode/#comment[4]" - der vierte Kommentar innerhalb des "mainnode" Knotens ausgehend von der Wurzel des Baums
+  "*[10]"                 - der zehnte Knoten (jeden Typs) innerhalb vom '*ElternKnoten'
+  "*/*/*"                 - der ersten Knoten 3 Ebenen (Level) unterhalb vom '*ElternKnoten' unabhängig von seinem Typ
+  "node[3]/*[3]/#cdata"   - die erste CData Sektion innerhalb des dritten Knotens (beliebiger Art) innerhalb des dritten Knotens "node" innerhalb vom '*ElternKnoten'
+@EndFixedFont
+  
+  @Bold "Hinweis: " Dieser Befehl ist keine Implementation der XPath Spezifikation. Der verwendete und von diesem
+  Befehl verstandene Syntax ist nur eine kleine Untermenge von XPath. Dies bedeutet, ein von @@XMLNodePath 
+  zurückgegebener Pfad ist eine gültige XPath Abfrage, aber dieser Befehl versteht nur den hier beschriebenen Syntax, 
+  nicht generell jede XPath Abfrage.
+
+@ReturnValue
+  Gibt den @ReferenceLink "memory" "Zeiger" des Zielknotens zurück - oder Null, wenn der Pfad nicht zu einem 
+  gültigen Knoten führte.
+
+@SeeAlso
+  @@XMLNodePath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Ergebnis = XMLNodeFromID(#XML, ID$)
+
+@Description
+  Wenn in gültigem XML ein Knoten ein als "ID" bezeichnetes Attribut hat, muss der Wert dieses
+  Attributs einmalig innerhalb des XML-Dokuments sein. Diese Funktion kann verwendet werden, um
+  im Dokument nach einem Knoten anhand seines ID-Attributs zu suchen.
+
+@Parameter "#XML"
+  Die zu verwendende XML-Struktur (Baum).
+
+@Parameter "ID$"
+  Der ID-Wert, nach dem gesucht werden soll.
+
+@ReturnValue
+  Gibt den @ReferenceLink "memory" "Zeiger" auf den Knoten mit dem angegebenen ID-Tag zurück - oder Null, 
+  wenn kein solcher Knoten innerhalb des Baums existiert.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = XMLNodeType(*Knoten)
+
+@Description
+  Gibt den Typ des angegebenen XML-Knotens zurück. 
+  
+@Parameter "*Knoten"
+  Der zu verwendende XML-Knoten.
+  
+@ReturnValue
+  Dies kann einer der folgenden sein:
+@LineBreak
+@LineBreak
+
+  @#PB_XML_Root
+@Indent
+  Dies ist der Wurzelknoten des Baums. Er repräsentiert das Dokument selbst. Dieser Knoten 
+  kann nicht manuell erstellt oder gelöscht werden. Innerhalb des Wurzelknotens kann es nur
+  einen Knoten vom Typ @#PB_XML_Normal und auch keinen blanken Text geben.
+  (Dies ist notwendig, um ein ordentlich formatiertes XML-Dokument zu haben.)
+@EndIndent
+
+  @#PB_XML_Normal
+@Indent
+  Dies ist ein normaler Knoten im Baum. Er kann eine Liste von Attributen haben und Text und/oder untergeordnete Knoten 
+  ("Kinder", englisch "children") beinhalten.
+@LineBreak
+  @Bold "Beispiel: "<node attribute="hello"> beinhalteter Text </node>
+@EndIndent
+
+  @#PB_XML_Comment
+@Indent
+  Dieser Knoten repräsentiert einen Kommentar. Er kann keine untergeordneten Knoten oder Attribute haben.
+  Sein Text repräsentiert den Inhalt des Kommentars.
+@LineBreak
+  @Bold "Beispiel: "<!--  Kommentar Text  -->
+@EndIndent
+
+  @#PB_XML_CData
+@Indent
+  Dies ist eine CData Sektion. Eine CData Sektion beinhaltet nur Text. Deren Inhalt wird nicht vom Parser
+  interpretiert, daher kann er zum Beispiel 'unescaped' "<" and ">" Zeichen enthalten. CData Sektionen
+  können verwendet werden, um andere Markups oder Code innerhalb eines Dokuments einzubinden, ohne alle
+  Zeichen - welche als XML interpretiert werden könnten - erst zu escapen.
+@LineBreak
+  @Bold "Beispiel: "<![CDATA[  cdata Inhalt  ]]>
+@EndIndent
+
+  @#PB_XML_DTD
+@Indent
+  Dies ist eine Document Type Declaration (DTD). Diese Bibliothek verwendet keinen gültigkeitsüberprüfenden
+  Parser, daher werden diese Deklarationen derzeit beim Parsen eines Dokuments ignoriert. Um diese korrekt
+  wieder speichern zu können, befinden sie sich innerhalb eines DTD-Knotens.
+  Der Text-Inhalt des Knotens ist der gesamte DTD Tag. Er kann gelesen und verändert werden durch Befehle
+  wie @@SetXMLNodeText und wird beim Exportieren/Speichern ohne Modifizierung
+  zurück in das Dokument geschrieben. Der @@SetXMLStandalone Befehl kann beim
+  Arbeiten mit DTDs auch nützlich sein.
+@LineBreak
+  @Bold "Beispiel: "<!DOCTYPE name SYSTEM "external dtd uri">
+@EndIndent
+
+  @#PB_XML_Instruction
+@Indent
+  Dieser Knoten repräsentiert eine Verarbeitungsanweisung (englisch "Processing Instruction"). Verarbeitungsanweisungen
+  beinhalten Informationen, welche dafür gedacht sind, von der Ziel-Applikation interpretiert/ausgeführt zu werden.
+  Sie haben einen @Link "GetXMLNodeName" "Namen", um den Inhalt der Anweisung zu spezifieren, und die
+  Anweisungsdaten, auf welche mittels @@GetXMLNodeText zugegriffen werden kann.
+@LineBreak
+  @Bold "Beispiel: "<?php if (...) ... ?>
+@LineBreak
+  (Hier ist "php" der Knotenname, und der Rest bis zum "?>" ist der Knotentext.)
+@EndIndent
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetXMLNodeText(*Knoten)
+
+@Description
+  Gibt den Text innerhalb des angegebenen XML-Knotens zurück.
+
+@Parameter "*Knoten"
+  Der zu verwendende XML-Knoten.
+@LineBreak
+@LineBreak
+  Bei einem Knoten vom @Link "XMLNodeType" "Typ" @#PB_XML_Normal sind dies der
+  gesamte Text und Leerzeichen innerhalb des Knotens, welche nicht in einem "Child"-Knoten 
+  (untergeordnetem Knoten - "Kind") enthalten sind.
+@LineBreak
+  Beim @Link "RootXMLNode" "Wurzelknoten" sind dies alle Leerzeichen außerhalb des Hauptknotens (Main) - 
+  es kann sich kein Text außerhalb des Hauptknotens befinden.
+@LineBreak
+  Bei @#PB_XML_Comment oder @#PB_XML_CData Knoten ist dies der gesamte
+  Text innerhalb des Knotens.
+
+@ReturnValue
+  Der Text innerhalb des angegebenen XML-Knotens.
+  
+@SeeAlso
+  @@SetXMLNodeText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetXMLNodeText(*Knoten, Text$)
+
+@Description
+  Ändert den im angegebenen XML-Knoten enthaltenen Text. Siehe @@GetXMLNodeText 
+  für weitere Informationen.
+
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem der Text geändert werden soll.
+
+@Parameter "Text$"
+  Der zu setzende neue Text.
+
+@NoReturnValue
+
+@Remarks
+  Wenn der Knoten untergeordnete Knoten (Children) enthält, kann das Ändern des beinhalteten 
+  Texts auch eine Anpassung der @Link "SetXMLNodeOffset" "Offset-Werte" der Child-Knoten erforderlich machen.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetXMLNodeOffset(*Knoten)
+
+@Description
+  Gibt die zeichenweise Einrückung (Offset) dieses Knotens innerhalb seines überordneten
+  Knotens (Parent) zurück.
+
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem der Offset ermittelt werden soll.
+
+@ReturnValue
+  Die Anzahl an Zeichen in den @Link "GetXMLNodeText" "Text-Daten"
+  des übergeordneten Knotens (Parent), welche zwischen diesem Knoten und dem vorherigen Child-Knoten liegen.
+  Wenn dieser Knoten also direkt auf den vorherigen folgt, wird dieser Wert 0 sein.
+
+@SeeAlso
+  @@SetXMLNodeOffset
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetXMLNodeOffset(*Knoten, Offset)
+
+@Description
+  Ändert die zeichenweise Einrückung (Offset) des angegebenen XML-Knotens innerhalb der
+  @Link "GetXMLNodeText" "Text-Daten" seines übergeordneten Knotens (Parent).
+  Siehe @@GetXMLNodeOffset für weitere Informationen.
+
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem der Offset geändert werden soll.
+
+@Parameter "Offset"
+  Der neue Offset, in Zeichen.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@GetXMLNodeOffset
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetXMLNodeName(*Knoten)
+
+@Description
+  Gibt den Tag-Namen des angegebenen XML-Knotens zurück.
+  
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem der Namen ermittelt werden soll.
+
+@ReturnValue
+  Der Tag-Name des angegebenen XML-Knotens. Wenn der Knoten nicht vom
+  @Link "XMLNodeType" "Typ" @#PB_XML_Normal oder @#PB_XML_Instruction ist, 
+  wird ein leerer String zurückgegeben.
+
+@SeeAlso
+  @@SetXMLNodeName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetXMLNodeName(*Knoten, Name$)
+
+@Description
+  Ändert den Tag-Namen des angegebenen XML-Knotens. Wenn der Knoten nicht vom
+  @Link "XMLNodeType" "Typ" @#PB_XML_Normal oder @#PB_XML_Instruction ist, 
+  wird diese Funktion ignoriert.
+
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem der Namen geändert werden soll.
+
+@Parameter "Name$"
+  Der neue Tag-Name.
+
+@NoReturnValue
+
+@Remarks
+  Zur Erinnerung - nach dem XML-Standard muss der Namen eines Knotens den folgenden Regeln
+  folgen: @LineBreak
+  - "Case-sensitive" (Groß- und Kleinschreibung beachten) @LineBreak
+  - Muss mit einem Buchstaben oder einem Unterstrich '_' beginnen @LineBreak
+  - Darf nicht mit einem "XML" beginnen (Xml, xml, etc.) @LineBreak
+  - Erlaubt sind: Buchstaben, Zahlen, Bindestrich '-' oder Punkt '.' - aber nicht () * + , / "# $ % & ! ' ; < = > @ [ \ ] ^ ` { | } ~' : @LineBreak
+  - Leerzeichen sind nicht erlaubt @LineBreak
+
+@SeeAlso
+  @@GetXMLNodeName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = XMLNodePath(*Knoten [, *ElternKnoten])
+
+@Description
+  Gibt eine String-Darstellung der Verbindung zwischen '*Knoten' und dem übergeordneten '*ElternKnoten'
+  ("ParentNode") zurück. 
+  
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem der Pfad ermittelt werden soll.
+
+@OptionalParameter "*ElternKnoten"
+  Dies muss ein "Eltern"- oder "Großeltern"-Knoten des '*Knoten' sein. Wenn nicht angegeben,
+  wird der Wurzelknoten des Baums verwendet.
+
+@ReturnValue
+  Ein String mit der Verbindung zwischen '*Knoten' und dem übergeordneten '*ElternKnoten'
+  ("ParentNode"). Siehe @@XMLNodeFromPath für eine Beschreibung des zurückgegebenen Pfad-Strings.
+
+@SeeAlso
+  @@XMLNodeFromPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetXMLAttribute(*Knoten, Attribut$)
+
+@Description
+  Gibt den Wert eines Attributs vom angegebenen XML-Knoten zurück.
+
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem das Attribut ermittelt werden soll.
+  
+@Parameter "Attribut$"
+  Der Attribut-Name.
+  
+@ReturnValue
+  Der Wert des Attributs im angegebenen XML-Knoten. Wenn das
+  Attribut nicht existiert, wird ein leerer String zurückgegeben.
+@LineBreak
+@LineBreak
+  Nur Knoten vom @Link "XMLNodeType" "Typ" @#PB_XML_Normal können Attribute haben.
+  Für alle anderen Knoten-Typen erzeugt der Compiler eine Fehlermeldung.
+
+@SeeAlso
+  @@SetXMLAttribute, @@RemoveXMLAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetXMLAttribute(*Knoten, Attribut$, Wert$)
+
+@Description
+  Setzt den Wert eines Attributs vom angegebenen XML-Knoten. Wenn das Attribut noch nicht
+  existiert, wird es hinzugefügt.
+
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem das Attribut gesetzt werden soll.
+  
+@Parameter "Attribut$"
+  Der zu ändernde bzw. hinzuzufügende Attribut-Name.
+
+@Parameter "Wert$"
+  Der zu setzende neue Wert.
+
+@NoReturnValue
+
+@Remarks
+  Nur Knoten vom @Link "XMLNodeType" "Typ" @#PB_XML_Normal können Attribute haben.
+  Für alle anderen Knoten-Typen wird diese Funktion ignoriert.
+
+@SeeAlso
+  @@GetXMLAttribute, @@RemoveXMLAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveXMLAttribute(*Knoten, Attribut$)
+
+@Description
+  Entfernt das Attribut vom angegebenen XML-Knoten.
+
+@Parameter "*Knoten"
+  Der XML-Knoten, von dem das Attribut entfernt werden soll.
+  
+@Parameter "Attribut$"
+  Der zu entfernende Attribut-Name. Wenn das Attribut nicht existiert, passiert nichts.
+
+@NoReturnValue
+
+@Remarks
+  Nur Knoten vom @Link "XMLNodeType" "Typ" @#PB_XML_Normal können Attribute haben.
+  Für alle anderen Knoten-Typen wird diese Funktion ignoriert.
+
+@SeeAlso
+  @@GetXMLAttribute, @@SetXMLAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ExamineXMLAttributes(*Knoten)
+
+@Description
+  Startet die Untersuchung der Attribute des angegebenen XML-Knotens.
+
+@Parameter "*Node"
+  Der zu untersuchende XML-Knoten.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn der Knoten vom @Link "XMLNodeType" "Typ" @#PB_XML_Normal 
+  ist, andernfalls Null (da solche Knoten keine Attribute haben können).
+
+@SeeAlso
+  @@NextXMLAttribute, @@XMLAttributeName, @@XMLAttributeValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NextXMLAttribute(*Knoten)
+
+@Description
+  Diese Funktion muss nach @@ExamineXMLAttributes aufgerufen werden,
+  um Schritt für Schritt durch die Attribute des angegebenen XML-Knotens zu gehen.
+
+@Parameter "*Knoten"
+  Der gerade mit @@ExamineXMLAttributes untersuchte XML-Knoten.
+
+@ReturnValue
+  Null, wenn es keine Attribute mehr gibt - oder ungleich Null, wenn
+  noch eines existiert.
+
+@SeeAlso
+  @@ExamineXMLAttributes, @@XMLAttributeName, @@XMLAttributeValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = XMLAttributeName(*Knoten)
+
+@Description
+  Nach dem Aufruf von @@ExamineXMLAttributes und @@NextXMLAttribute
+  gibt diese Funktion den Attribut-Namen des gerade untersuchten Attributs vom angegebenen XML-Knoten
+  zurück.
+
+@Parameter "*Knoten"
+  Der gerade mit @@ExamineXMLAttributes untersuchte XML-Knoten.
+
+@ReturnValue
+  Der Attribut-Name des gerade untersuchten Attributs im angegebenen XML-Knoten.
+
+@SeeAlso
+  @@ExamineXMLAttributes, @@NextXMLAttribute, @@XMLAttributeValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = XMLAttributeValue(*Knoten)
+
+@Description
+  Nach dem Aufruf von @@ExamineXMLAttributes und @@NextXMLAttribute
+  gibt diese Funktion den Attribut-Wert des gerade untersuchten Attributs vom angegebenen XML-Knoten
+  zurück.
+
+@Parameter "*Knoten"
+  Der gerade mit @@ExamineXMLAttributes untersuchte XML-Knoten.
+
+@ReturnValue
+  Der Attribut-Wert des gerade untersuchten Attributs im angegebenen XML-Knoten.
+
+@SeeAlso
+  @@ExamineXMLAttributes, @@NextXMLAttribute, @@XMLAttributeName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateXMLNode(ElternKnoten, Name$ [, VorherigerKnoten [, Typ]])
+
+@Description
+  Erstellt einen neuen XML-Knoten und fügt diesen in den angegebenen Elternknoten ein.
+
+@Parameter "ElternKnoten"
+  (englisch "ParentNode"). Der Knoten, in welchen der neue Knoten eingefügt werden soll.
+  Um den neuen Knoten als Wurzel des Baums einzufügen, kann hier @@RootXMLNode verwendet
+  werden.
+
+@Parameter "Name$"
+  Der Knoten Name$. Dies kann ein leerer String sein, wenn der Knotenname nicht benötigt wird.
+
+@OptionalParameter "VorherigerKnoten"
+  (englisch "PreviousNode"). Ein untergeordneter Knoten (englisch "childnode")
+  von 'ElternKnoten', nach welchem der neue Knoten eingefügt werden soll. Wenn dieser Wert 0 ist oder der
+  Parameter nicht angegeben wird, dann wird der neue Knoten als erstes "Kind" (child) seiner "Eltern" eingefügt.
+  Wenn der Wert gleich -1 ist, dann wird der neue Knoten als letztes "Kind" (child) seiner "Eltern" eingefügt.
+
+@OptionalParameter "Typ"
+  Der @Link "XMLNodeType" "Typ" des neuen Knotens. Der Standard ist @#PB_XML_Normal.
+  Beachten Sie, dass der Knoten-Typ nicht mehr geändert werden kann, nachdem der Knoten erstellt wurde.
+
+@ReturnValue
+  Gibt den @ReferenceLink "memory" "Zeiger" auf den neuen XML-Knoten zurück, wenn dieser erfolgreich
+  erstellt wurde - oder Null, wenn an dieser Stelle kein Knoten eingefügt werden konnte.
+
+@Remarks
+  Die folgenden Regeln müssen für ein erfolgreiches Einfügen eingehalten werden: @LineBreak
+  - 'ElternKnoten' darf nicht vom Typ @#PB_XML_Comment oder @#PB_XML_CData sein @LineBreak
+  - VorherigerKnoten' muss ein direktes "Kind" (child) von 'ElternKnoten' sein (wenn dieser spezifiziert wurde) @LineBreak
+  - Ein Knoten vom Typ @#PB_XML_Root kann nicht manuell erstellt werden @LineBreak
+  - Wenn der XML-Baum bereits einen @Link "MainXMLNode" "Hauptknoten" hat, können auf der Wurzel-Ebene
+    nur andere Knoten als @#PB_XML_Normal und @#PB_XML_CData eingefügt werden
+
+@SeeAlso
+  @@DeleteXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Ergebnis = CopyXMLNode(*Knoten, *ElternKnoten [, *VorherigerKnoten])
+
+@Description
+  Kopiert den angegebenen XML-Knoten und all seinen beinhalteten Text und
+  "Kinder" (children) an eine neue Stelle.
+@LineBreak
+  Diese Funktion kann auch verwendet werden, um Knoten in einen anderen XML-Baum zu kopieren.
+  Für das Verschieben eines kompletten Knotens an eine neue Stelle kann @@MoveXMLNode 
+  verwendet werden.
+
+@Parameter "*Knoten"
+  Der zu kopierende Knoten.
+
+@Parameter "*ElternKnoten"
+  (englisch "ParentNode"). Der Knoten, in welchen der neue Knoten eingefügt werden soll.
+  Um den neuen Knoten als Wurzel des Baums einzufügen, kann hier @@RootXMLNode verwendet
+  werden.
+
+@OptionalParameter "*VorherigerKnoten"
+  (englisch "PreviousNode"). Ein untergeordneter Knoten (englisch "childnode")
+  von '*ElternKnoten', nach welchem der neue Knoten eingefügt werden soll. Wenn dieser Wert 0 ist oder der
+  Parameter nicht angegeben wird, dann wird der neue Knoten als erstes "Kind" (child) seiner "Eltern" eingefügt.
+  Wenn der Wert gleich -1 ist, dann wird der neue Knoten als letztes "Kind" (child) seiner "Eltern" eingefügt.
+
+@ReturnValue
+  Der @ReferenceLink "memory" "Zeiger" auf den neuen XML-Knoten, wenn dieser erfolgreich
+  kopiert wurde - oder Null, wenn das Kopieren nicht möglich war.
+
+@Remarks
+  Die folgenden Regeln müssen für ein erfolgreiches Kopieren eingehalten werden: @LineBreak
+  - Der @Link "RootXMLNode" "Wurzel-Knoten" eines Baums kann nicht kopiert werden @LineBreak
+  - '*ElternKnoten' darf nicht vom Typ @#PB_XML_Comment oder @#PB_XML_CData sein @LineBreak
+  - '*VorherigerKnoten' muss ein direktes "Kind" (child) von '*ElternKnoten' sein (wenn dieser spezifiziert wurde) @LineBreak
+  - Wenn der XML-Baum bereits einen @Link "MainXMLNode" "Hauptknoten" hat, können auf der Wurzel-Ebene
+    nur andere Knoten als @#PB_XML_Normal und @#PB_XML_CData eingefügt werden
+
+@SeeAlso
+  @@DeleteXMLNode, @@MoveXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = MoveXMLNode(*Knoten, *ElternKnoten [, *VorherigerKnoten])
+
+@Description
+  Verschiebt den angegebenen XML-Knoten und all seinen beinhalteten Text und
+  "Kinder" (children) an eine neue Stelle.
+@LineBreak
+  Diese Funktion kann auch verwendet werden, um Knoten in einen anderen XML-Baum zu verschieben.
+  Für das Kopieren eines kompletten Knotens an eine neue Stelle kann @@CopyXMLNode 
+  verwendet werden.
+
+@Parameter "*Knoten"
+  Der zu verschiebende Knoten.
+
+@Parameter "*ElternKnoten"
+  (englisch "ParentNode"). Der Knoten, in welchen der neue Knoten eingefügt werden soll.
+  Um den neuen Knoten als Wurzel des Baums einzufügen, kann hier @@RootXMLNode verwendet
+  werden.
+
+@OptionalParameter "*VorherigerKnoten"
+  (englisch "PreviousNode"). Ein untergeordneter Knoten (englisch "childnode")
+  von '*ElternKnoten', nach welchem der neue Knoten eingefügt werden soll. Wenn dieser Wert 0 ist oder der
+  Parameter nicht angegeben wird, dann wird der neue Knoten als erstes "Kind" (child) seiner "Eltern" eingefügt.
+  Wenn der Wert gleich -1 ist, dann wird der neue Knoten als letztes "Kind" (child) seiner "Eltern" eingefügt.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Verschieben erfolgreich war - oder Null, wenn der
+  Knoten nicht verschoben werden konnte.
+
+@Remarks
+  Die folgenden Regeln müssen für ein erfolgreiches Verschieben eingehalten werden: @LineBreak
+  - Der @Link "RootXMLNode" "Wurzel-Knoten" eines Baums kann nicht verschoben werden @LineBreak
+  - '*ElternKnoten' darf nicht vom Typ @#PB_XML_Comment oder @#PB_XML_CData sein @LineBreak
+  - '*VorherigerKnoten' muss ein direktes "Kind" (child) von '*ElternKnoten' sein (wenn dieser spezifiziert wurde) @LineBreak
+  - '*Knoten' und '*VorherigerKnoten' können nicht gleich sein @LineBreak
+  - '*ElternKnoten' kann ebenfalls nicht gleich sein, oder ein "Kind" (child) von '*Knoten' (ein Knoten nicht in sich selbst verschoben werden) @LineBreak
+  - Wenn der XML-Baum bereits einen @Link "MainXMLNode" "Hauptknoten" hat, können auf der Wurzel-Ebene
+    nur andere Knoten als @#PB_XML_Normal und @#PB_XML_CData eingefügt werden
+
+@SeeAlso
+  @@DeleteXMLNode, @@CopyXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DeleteXMLNode(*Knoten)
+
+@Description
+  Löscht den angegebenen XML-Knoten und all seinen beinhalteten Text und seine
+  "Kinder" (children) von seinem XML-Baum.
+
+@Parameter "*Knoten"
+  Der zu löschende Knoten.
+
+@Remarks
+  Der @Link "RootXMLNode" "Wurzelknoten" (englisch "root node") eines Baums kann
+  nicht gelöscht werden.
+
+@SeeAlso
+  @@CreateXMLNode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = ResolveXMLNodeName(*Knoten [, Separator$])
+
+@Description
+  Gibt den erweiterten Namen des angegebenen Knotens in einem Dokument, welches XML Namespaces verwendet,
+  zurück. Der erweiterte Name besteht aus der Namespace uri (wenn vorhanden) und dem lokalen Knotennamen,
+  unterteilt vom Separatorzeichen angegeben in 'Separator$'.
+  
+@Parameter "*Knoten"
+  Der zu verwendende XML-Knoten.
+
+@Parameter "Attribut$"
+  Das aufzulösende Attribut.
+
+@OptionalParameter "Separator$"
+  Der beim Verketten von Namespace und dem lokalen Knotennamen zu verwendende Separator.
+  Das standardmäßige Separator-Zeichen ist "/".
+  
+@ReturnValue
+  In einem Dokument, welches Namespaces verwendet, wird der erweiterte Name des Knotens zurückgegeben,
+  wenn er korrekt aufgelöst werden konnte. Andernfalls wird ein leerer String zurückgegeben, wenn ein
+  Namespace Präfix verwendet wird, welches niemals deklariert wurde (was ungültig ist).
+@LineBreak
+@LineBreak
+  In einem Dokument ohne Namespaces wird der Knotenname selbst zurückgegeben.
+
+@SeeAlso
+  @@ResolveXMLAttributeName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = ResolveXMLAttributeName(*Knoten, Attribut$ [, Separator$])
+
+@Description
+  Gibt den erweiterten Namen des Attributs vom angegebenen Knoten in einem Dokument, welches XML Namespaces verwendet,
+  zurück. Der erweiterte Name besteht aus der Namespace uri (wenn vorhanden) und dem lokalen Attributnamen,
+  unterteilt vom Separatorzeichen angegeben in 'Separator$'.
+  
+@Parameter "*Knoten"
+  Der zu verwendende XML-Knoten.
+
+@Parameter "Attribut$"
+  Das aufzulösende Attribut.
+
+@OptionalParameter "Separator$"
+  Der beim Verketten von Namespace und dem lokalen Attributnamen zu verwendende Separator.
+  Das standardmäßige Separator-Zeichen ist "/".
+
+@ReturnValue
+  In einem Dokument, welches Namespaces verwendet, wird der erweiterte Name des Attributs zurückgegeben,
+  wenn er korrekt aufgelöst werden konnte. Andernfalls wird ein leerer String zurückgegeben, wenn ein
+  Namespace Präfix verwendet wird, welches niemals deklariert wurde (was ungültig ist).
+@LineBreak
+@LineBreak
+  In einem Dokument ohne Namespaces wird der Attributname selbst zurückgegeben.
+
+@Remarks
+  @Bold "Hinweis:" Anders als bei @Link "ResolveXMLNodeName" "Knotennamen", wird der standardmäßige Namespace 
+  nicht auf Attribut-Namen angewandt, welche keinen Namespace-Präfix haben. Daher wird bei Attribut-Namen
+  ohne ein Namespace-Präfix einfach ihr lokaler Name zurückgegeben.
+
+@SeeAlso
+  @@ResolveXMLNodeName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = InsertXMLArray(ElternKnoten, Array() [, VorherigerKnoten])
+
+@Description
+  Fügt das angegebene Array() als einen neuen XML-Knoten in den angegebenen Elternknoten ein.
+  
+@Parameter "ElternKnoten"
+  Der Knoten, in welchen der neue Knoten eingefügt werden soll. Um den neuen Knoten an
+  der Wurzel des XML-Baums einzufügen, kann hier @@RootXMLNode verwendet werden.
+
+@Parameter "Array()"
+  Das in die XML-Struktur einzufügende @LibraryLink "array" "Array".
+
+@OptionalParameter "VorherigerKnoten"
+  Ein Unterknoten ("child") des 'ElternKnoten', nach dem der neue Knoten eingefügt werden soll.
+  Ist dieser Wert gleich 0 oder nicht angegeben, dann wird der neue Knoten als erster
+  Unterknoten seines Elternknotens eingefügt. Ist dieser Wert gleich -1, dann wird der
+  neue Knoten als letzter Unterknoten seines Elternknotens eingefügt.
+  
+@ReturnValue
+  Der neue XML-Knoten, wenn er erfolgreich erstellt wurde - oder Null, wenn an dieser
+  Stelle kein Knoten eingefügt werden konnte.
+
+@Remarks
+  Die bei @@CreateXMLNode angegebenen Regeln, wo ein neuer Knoten eingefügt werden kann,
+  gelten auch für diese Funktion.
+@LineBreak
+@LineBreak
+  Der eingefügte Knoten wird "array" benannt und seine beinhalteten Element-Knoten
+  werden als "element" bezeichnet. Wenn das Array mehrere Dimensionen hat, wird jedes
+  Element Attribute haben, welche die Position des Elements im Array beschreiben,
+  dabei wird jede Koordinate als "a", "b" usw. bezeichnet. Siehe unten für ein
+  Beispiel der erstellten XML-Struktur.
+
+@Example
+@Code
+  ; Dieses Beispiel erzeugt folgende XML-Struktur:
+  ;
+  ; <array>
+  ;   <element>red</element>
+  ;   <element>green</element>
+  ;   <element>blue</element>
+  ; </array>
+  ;
+  Dim Colors$(2)
+  Colors$(0) = "red"
+  Colors$(1) = "green"
+  Colors$(2) = "blue"
+  
+  If CreateXML(0)
+    InsertXMLArray(RootXMLNode(0), Colors$())
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@Example
+@Code
+  ; Dieses Beispiel erzeugt folgende XML-Struktur:
+  ;
+  ; <array>
+  ;   <element a="0" b="0">0</element>
+  ;   <element a="0" b="1">1</element>
+  ;   <element a="1" b="0">10</element>
+  ;   <element a="1" b="1">11</element>
+  ;   <element a="2" b="0">20</element>
+  ;   <element a="2" b="1">21</element>
+  ; </array>
+  ;
+  Dim MultiArray(2, 1)
+  For a = 0 To 2
+    For b = 0 To 1
+      MultiArray(a, b) = a * 10 + b
+    Next b
+  Next a
+  
+  If CreateXML(0)
+    InsertXMLArray(RootXMLNode(0), MultiArray())
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExtractXMLArray, @@InsertXMLList, @@InsertXMLMap, @@InsertXMLStructure,   
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = InsertXMLList(ElternKnoten, Liste() [, VorherigerKnoten])
+
+@Description
+  Fügt die angegebene Liste() als einen neuen XML-Knoten in den angegebenen Elternknoten ein.
+  
+@Parameter "ElternKnoten"
+  Der Knoten, in welchen der neue Knoten eingefügt werden soll. Um den neuen Knoten an
+  der Wurzel des XML-Baums einzufügen, kann hier @@RootXMLNode verwendet werden.
+
+@Parameter "Liste()"
+  Die in die XML-Struktur einzufügende @LibraryLink "list" "Liste".
+
+@OptionalParameter "VorherigerKnoten"
+  Ein Unterknoten ("child") des 'ElternKnoten', nach dem der neue Knoten eingefügt werden soll.
+  Ist dieser Wert gleich 0 oder nicht angegeben, dann wird der neue Knoten als erster
+  Unterknoten seines Elternknotens eingefügt. Ist dieser Wert gleich -1, dann wird der
+  neue Knoten als letzter Unterknoten seines Elternknotens eingefügt.
+  
+@ReturnValue
+  Der neue XML-Knoten, wenn er erfolgreich erstellt wurde - oder Null, wenn an dieser
+  Stelle kein Knoten eingefügt werden konnte.
+
+@Remarks
+  Die bei @@CreateXMLNode angegebenen Regeln, wo ein neuer Knoten eingefügt werden kann,
+  gelten auch für diese Funktion.
+@LineBreak
+@LineBreak
+  Der eingefügte Knoten wird "list" benannt und seine beinhalteten Element-Knoten
+  werden als "element" bezeichnet.
+  Siehe unten für ein Beispiel der erstellten XML-Struktur.
+
+@Example
+@Code
+  ; Dieses Beispiel erzeugt folgende XML-Struktur:
+  ;
+  ; <list>
+  ;   <element>square</element>
+  ;   <element>circle</element>
+  ;   <element>triangle</element>
+  ; </list>
+  ;
+  NewList Shapes$()
+  AddElement(Shapes$()): Shapes$() = "square"
+  AddElement(Shapes$()): Shapes$() = "circle"
+  AddElement(Shapes$()): Shapes$() = "triangle"
+
+  If CreateXML(0)
+    InsertXMLList(RootXMLNode(0), Shapes$())
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@Example
+@Code
+  ; Dieses Beispiel erzeugt folgende XML-Struktur:
+  ;
+  ; <list>
+  ;   <element>
+  ;     <x>100</x>
+  ;     <y>200</y>
+  ;   </element>
+  ;   <element>
+  ;     <x>200</x>
+  ;     <y>400</y>
+  ;   </element>
+  ; </list>
+  ;
+  Structure Position
+    x.l
+    y.l
+  EndStructure
+  
+  NewList Positions.Position()
+  
+  For i = 1 To 2
+    AddElement(Positions())
+    Positions()\x = 100 * i
+    Positions()\y = 200 * i
+  Next i
+
+  If CreateXML(0)
+    InsertXMLList(RootXMLNode(0), Positions())
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExtractXMLList, @@InsertXMLArray, @@InsertXMLMap, @@InsertXMLStructure
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = InsertXMLMap(ElternKnoten, Map() [, VorherigerKnoten])
+
+@Description
+  Fügt die angegebene Map() als einen neuen XML-Knoten in den angegebenen Elternknoten ein.
+  
+@Parameter "ElternKnoten"
+  Der Knoten, in welchen der neue Knoten eingefügt werden soll. Um den neuen Knoten an
+  der Wurzel des XML-Baums einzufügen, kann hier @@RootXMLNode verwendet werden.
+
+@Parameter "Map()"
+  Die in die XML-Struktur einzufügende @LibraryLink "map" "Map".
+
+@OptionalParameter "VorherigerKnoten"
+  Ein Unterknoten ("child") des 'ElternKnoten', nach dem der neue Knoten eingefügt werden soll.
+  Ist dieser Wert gleich 0 oder nicht angegeben, dann wird der neue Knoten als erster
+  Unterknoten seines Elternknotens eingefügt. Ist dieser Wert gleich -1, dann wird der
+  neue Knoten als letzter Unterknoten seines Elternknotens eingefügt.
+  
+@ReturnValue
+  Der neue XML-Knoten, wenn er erfolgreich erstellt wurde - oder Null, wenn an dieser
+  Stelle kein Knoten eingefügt werden konnte.
+
+@Remarks
+  Die bei @@CreateXMLNode angegebenen Regeln, wo ein neuer Knoten eingefügt werden kann,
+  gelten auch für diese Funktion.
+@LineBreak
+@LineBreak
+  Der eingefügte Knoten wird "map" benannt und seine beinhalteten Element-Knoten
+  werden als "element" bezeichnet. Jeder Element-Knoten wird ein als "key" bezeichnetes
+  Attribut haben, welches den Map-Schlüssel (Key) des Elements beinhaltet.
+  Siehe unten für ein Beispiel der erstellten XML-Struktur.
+
+@Example
+@Code
+  ; Dieses Beispiel erzeugt folgende XML-Struktur:
+  ;
+  ; <map>
+  ;   <element key="DE">Germany</element>
+  ;   <element key="US">United States</element>
+  ;   <element key="FR">France</element>
+  ; </map>
+  ;
+  NewMap Countries.s()
+  Countries("DE") = "Germany"
+  Countries("FR") = "France"  
+  Countries("US") = "United States"
+
+  If CreateXML(0)
+    InsertXMLMap(RootXMLNode(0), Countries())
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExtractXMLMap, @@InsertXMLArray, @@InsertXMLList, @@InsertXMLStructure
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = InsertXMLStructure(ElternKnoten, *Puffer, Struktur [, VorherigerKnoten])
+
+@Description
+  Fügt den angegebenen Struktur-Speicher als einen neuen XML-Knoten in den angegebenen
+  Elternknoten ein.
+  
+@Parameter "ElternKnoten"
+  Der Knoten, in welchen der neue Knoten eingefügt werden soll. Um den neuen Knoten an
+  der Wurzel des XML-Baums einzufügen, kann hier @@RootXMLNode verwendet werden.
+
+@Parameter "*Puffer"
+  Die @ReferenceLink "memory" "Adresse" der @ReferenceLink "structures" "Struktur",
+  welche in die XML-Struktur eingefügt werden soll.
+
+@Parameter "Struktur"
+  Der Typ der einzufügenden @ReferenceLink "structures" "Struktur".
+
+@OptionalParameter "VorherigerKnoten"
+  Ein Unterknoten ("child") des 'ElternKnoten', nach dem der neue Knoten eingefügt werden soll.
+  Ist dieser Wert gleich 0 oder nicht angegeben, dann wird der neue Knoten als erster
+  Unterknoten seines Elternknotens eingefügt. Ist dieser Wert gleich -1, dann wird der
+  neue Knoten als letzter Unterknoten seines Elternknotens eingefügt.
+  
+@ReturnValue
+  Der neue XML-Knoten, wenn er erfolgreich erstellt wurde - oder Null, wenn an dieser
+  Stelle kein Knoten eingefügt werden konnte.
+
+@Remarks
+  Die bei @@CreateXMLNode angegebenen Regeln, wo ein neuer Knoten eingefügt werden kann,
+  gelten auch für diese Funktion.
+@LineBreak
+@LineBreak
+  Der eingefügte Knoten wird wie die Struktur benannt. Jedes Struktur-Element wird
+  als ein Unterknoten innerhalb des Struktur-Knotens hinzugefügt. Jedes '*' bzw.
+  '$' Zeichen wird dabei aus dem Namen des Struktur-Elements entfernt. Wenn das
+  Struktur-Element ein @LibraryLink "array" "Array", @LibraryLink "list" "Liste",
+  @LibraryLink "map" "Map" oder @ReferenceLink "structures" "Struktur" beinhaltet,
+  werden rekursiv weitere Knoten hinzugefügt.
+  Siehe unten für ein Beispiel der erstellten XML-Struktur.
+
+@Example
+@Code
+  ; Dieses Beispiel erzeugt folgende XML-Struktur:
+  ;
+  ; <Person>
+  ;   <Name>John Smith</Name>
+  ;   <Age>42</Age>
+  ;   <Books>
+  ;     <element>Investing For Dummies</element>
+  ;     <element>A Little Bit of Everything For Dummies</element>
+  ;   </Books>
+  ; </Person>  
+  ;
+  Structure Person
+    Name$
+    Age.l
+    List Books.s()
+  EndStructure
+  
+  Define P.Person
+  
+  P\Name$ = "John Smith"
+  P\Age   = 42
+  AddElement(P\Books()): P\Books() = "Investing For Dummies"
+  AddElement(P\Books()): P\Books() = "A Little Bit of Everything For Dummies"
+
+  If CreateXML(0)
+    InsertXMLStructure(RootXMLNode(0), @P, Person)
+    FormatXML(0, #PB_XML_ReFormat)
+    Debug ComposeXML(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExtractXMLStructure, @@InsertXMLArray, @@InsertXMLList, @@InsertXMLMap
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExtractXMLArray(Knoten, Array() [, Flags])
+
+@Description
+  Extrahiert Elemente vom angegebenen XML-Knoten in das angegebene Array().
+  Das Array wird in der Größe auf die Anzahl der im Knoten beinhalteten
+  Elemente angepasst.
+
+@Parameter "Knoten"
+  Der XML-Knoten, welcher die Array-Daten enthält.
+  
+@Parameter "Array()"
+  Das @LibraryLink "array" "Array", welches mit den XML-Elementen gefüllt werden soll.
+  Das Array wird in der Größe verändert, um die gleiche Größe wie die Anzahl an
+  Element-Knoten zu haben. Der gesamte vorherige Inhalt des Arrays geht verloren.
+
+@OptionalParameter "Flags"
+  Wird dieser Parameter auf @#PB_XML_NoCase gesetzt, dann erfolgt der Vergleich von
+  XML-Knoten und Attribut-Namen ohne Beachtung der Groß- und Kleinschreibung.
+  Der Standard ist, die Groß- und Kleinschreibung zu beachten.
+  
+@NoReturnValue
+
+@Remarks
+  Die Extrahierung erfolgt rekursiv, wenn das Array einen Struktur-Typ hat.
+  Die XML-Knoten müssen die in der @@InsertXMLArray Funktion beschriebene Form haben.
+  Knoten mit abweichenden Namen werden bei der Extrahierung ignoriert. Wenn ein Array
+  mehr als eine Dimension hat, wird von jedem Element erwartet, dass es Attribute hat,
+  welche die Position des Elements namens "a", "b" usw. anzeigen.
+
+@Example
+@Code
+  Xml$ = "<array><element>1</element><element>10</element><element>100</element></array>"
+  
+  If ParseXML(0, Xml$) And XMLStatus(0) = #PB_XML_Success
+    Dim MyArray(0) ; will be resized by the next call
+    ExtractXMLArray(MainXMLNode(0), MyArray())
+    
+    For i = 0 To ArraySize(MyArray())
+      Debug MyArray(i)
+    Next i
+  Else
+    Debug XMLError(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@InsertXMLArray, @@ExtractXMLList, @@ExtractXMLMap, @@ExtractXMLStructure
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExtractXMLList(Knoten, Liste() [, Flags])
+
+@Description
+  Extrahiert Elemente vom angegebenen XML-Knoten in die angegebene Liste().
+  Die Liste wird geleert, bevor die Elemente extrahiert werden.
+
+@Parameter "Knoten"
+  Der XML-Knoten, welcher die Listen-Daten enthält.
+  
+@Parameter "Liste()"
+  Die @LibraryLink "list" "Liste", welche mit den XML-Elementen gefüllt werden soll.
+  Der gesamte vorherige Inhalt der Liste geht verloren.
+
+@OptionalParameter "Flags"
+  Wird dieser Parameter auf @#PB_XML_NoCase gesetzt, dann erfolgt der Vergleich von
+  XML-Knoten und Attribut-Namen ohne Beachtung der Groß- und Kleinschreibung.
+  Der Standard ist, die Groß- und Kleinschreibung zu beachten.
+  
+@NoReturnValue
+
+@Remarks
+  Die Extrahierung erfolgt rekursiv, wenn die Liste einen Struktur-Typ hat.
+  Die XML-Knoten müssen die in der @@InsertXMLList Funktion beschriebene Form haben.
+  Knoten mit abweichenden Namen werden bei der Extrahierung ignoriert.
+
+@Example
+@Code
+  Xml$ = "<list><element>1</element><element>10</element><ELEMENT>100</ELEMENT></list>"
+  
+  If ParseXML(0, Xml$) And XMLStatus(0) = #PB_XML_Success
+    NewList Values()
+    ExtractXMLList(MainXMLNode(0), Values(), #PB_XML_NoCase)
+    
+    ForEach Values()
+      Debug Values()
+    Next
+  Else
+    Debug XMLError(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@InsertXMLList, @@ExtractXMLArray, @@ExtractXMLMap, @@ExtractXMLStructure
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExtractXMLMap(Knoten, Map() [, Flags])
+
+@Description
+  Extrahiert Elemente vom angegebenen XML-Knoten in die angegebene Map().
+  Die Map wird geleert, bevor die Elemente extrahiert werden.
+
+@Parameter "Knoten"
+  Der XML-Knoten, welcher die Map-Daten enthält.
+  
+@Parameter "Map()"
+  Die @LibraryLink "map" "Map", welche mit den XML-Elementen gefüllt werden soll.
+  Der gesamte vorherige Inhalt der Map geht verloren.
+
+@OptionalParameter "Flags"
+  Wird dieser Parameter auf @#PB_XML_NoCase gesetzt, dann erfolgt der Vergleich von
+  XML-Knoten und Attribut-Namen ohne Beachtung der Groß- und Kleinschreibung.
+  Der Standard ist, die Groß- und Kleinschreibung zu beachten.
+  
+@NoReturnValue
+
+@Remarks
+  Die Extrahierung erfolgt rekursiv, wenn die Map einen Struktur-Typ hat.
+  Die XML-Knoten müssen die in der @@InsertXMLMap Funktion beschriebene Form haben.
+  Knoten mit abweichenden Namen werden bei der Extrahierung ignoriert.
+
+@Example
+@Code
+  Xml$ = "<map><element key=" + Chr(34) + "theKey" + Chr(34) + ">the value</element></map>"
+  
+  If ParseXML(0, Xml$) And XMLStatus(0) = #PB_XML_Success
+    NewMap Test.s()
+    ExtractXMLMap(MainXMLNode(0), Test())
+    
+    ForEach Test()
+      Debug MapKey(Test()) + " -> " + Test()
+    Next
+  Else
+    Debug XMLError(0)
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@InsertXMLMap, @@ExtractXMLArray, @@ExtractXMLList, @@ExtractXMLStructure
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExtractXMLStructure(Knoten, *Puffer, Struktur [, Flags])
+
+@Description
+  Extrahiert Elemente vom angegebenen XML-Knoten in den angegebenen Struktur-Speicher.
+  Die Struktur wird geleert, bevor die Elemente extrahiert werden.
+
+@Parameter "Knoten"
+  Der XML-Knoten, welcher die Struktur-Daten enthält.
+
+@Parameter "*Puffer"
+  Die @ReferenceLink "memory" "Adresse" des zu füllenden @ReferenceLink "structures" "Struktur"-Speichers.
+
+@Parameter "Struktur"
+  Der Typ der zu füllenden @ReferenceLink "structures" "Struktur".
+  
+@OptionalParameter "Flags"
+  Wird dieser Parameter auf @#PB_XML_NoCase gesetzt, dann erfolgt der Vergleich von
+  XML-Knoten und Attribut-Namen ohne Beachtung der Groß- und Kleinschreibung.
+  Der Standard ist, die Groß- und Kleinschreibung zu beachten.
+  
+@NoReturnValue
+
+@Remarks
+  Der Inhalt des Struktur-Speichers wird geleert, bevor die XML-Knoten extrahiert
+  werden. Wenn ein Struktur-Element nicht den korrespondierenden Knoten im XML hat,
+  wird es leer gelassen.
+@LineBreak
+@LineBreak
+  Die XML-Knoten müssen die in der @@InsertXMLStructure Funktion beschriebene Form haben.
+  Das heißt, jeder Knoten muss nach einem Strukturelement (mit allen '*' und '$' aus
+  dem Namen entfernt) benannt sein. Wenn ein Knoten für das gleiche Struktur-Element
+  mehrfach existiert, dann wird der erste Knoten verwendet.
+
+@Example
+@Code
+  Structure Person
+    Name$
+    Age.l
+  EndStructure
+  
+  Xml$ = "<Person><Name>John Smith</Name><Age>42</Age></Person>"
+
+  If ParseXML(0, Xml$) And XMLStatus(0) = #PB_XML_Success
+    Define P.Person
+    ExtractXMLStructure(MainXMLNode(0), @P, Person)
+    
+    Debug P\Name$
+    Debug P\Age
+  Else
+    Debug XMLError(0)
+  EndIf 
+@EndCode
+  
+@SeeAlso
+  @@InsertXMLStructure, @@ExtractXMLArray, @@ExtractXMLList, @@ExtractXMLMap
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

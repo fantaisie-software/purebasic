@@ -1,0 +1,135 @@
+@Title Enumérations
+
+@Syntax
+
+  @Keyword Enumeration [nom] [<constante> [@Keyword Step <constante>]] 
+    @#Constante1
+    @#Constante2 [= <constante>]
+    @#Constante3
+    ...
+  @Keyword EndEnumeration
+
+Ou
+  
+  @Keyword EnumerationBinary [nom] [<constante>] 
+    @#Constante1
+    @#Constante2 [= <constante>]
+    @#Constante3
+    ...
+  @Keyword EndEnumeration
+ 
+@Description
+
+  Les énumérations sont très pratiques pour 
+  déclarer rapidement une série de constantes 
+  sans s'occuper de leur valeur numérique. 
+  La première constante de l'énumération 
+  prendra la valeur 0, la constante suivante 
+  prendra la valeur 1 etc. Il est possible de 
+  changer la valeur de départ de l'énumération 
+  et d'ajuster la valeur utilisée pour 
+  l'incrémentation de chaque constante. 
+  Si nécessaire, il est possible d'affecter 
+  directement une valeur numérique à une constante 
+  (grâce à l'opérateur '=') et les constantes 
+  suivantes utiliseront cette nouvelle valeur comme 
+  valeur de base. Comme les énumerations n'acceptent 
+  que les nombres entiers, les nombres flottants
+  seront arroundis à l'entier le plus proche.
+  @LineBreak
+  @LineBreak
+  Un 'nom' peut être configuré pour identifier 
+  une énumération et permettre de l'interrompre 
+  puis de la poursuivre plus tard. 
+  C'est utile pour regrouper des objets dans une 
+  même énumération tout en les déclarant dans 
+  différents endroits du code.
+  @LineBreak
+  @LineBreak  
+  Pour les utilisateurs avancés seulement : 
+  La constante réservée @#PB_Compiler_EnumerationValue 
+  stocke la prochaine valeur qui sera utilisée par 
+  l'énumération. Cela peut être utile pour connaître 
+  la valeur de la dernière énumération ou pour chaîner 
+  plusieurs énumérations.
+  @LineBreak
+  @LineBreak
+  @Keyword EnumerationBinary peut être utilisé pour 
+  créer des énumérations appropriées pour les options 
+  (flags). 
+  La première valeur de l'élément est 1.
+  
+  @Example Enumération simple
+
+@Code
+  Enumeration
+    #GadgetInfo ; égale à 0
+    #GadgetText ; égale à 1
+    #GadgetOK   ; égale à 2
+  EndEnumeration
+@EndCode
+
+  @Example Enumération avec un pas déterminé
+
+@Code
+  Enumeration 20 Step 3
+    #GadgetInfo ; égale à 20
+    #GadgetText ; égale à 23
+    #GadgetOK   ; égale à 26
+  EndEnumeration
+@EndCode
+
+  @Example Enumération avec un changement dynamique
+
+@Code
+  Enumeration
+    #GadgetInfo      ; égale à 0
+    #GadgetText = 15 ; égale à 15
+    #GadgetOK        ; égale à 16
+  EndEnumeration
+@EndCode
+
+  @Example Enumérations nommées
+
+@Code
+  Enumeration Gadget
+    #GadgetInfo ; égale à 0
+    #GadgetText ; égale à 1
+    #GadgetOK   ; égale à 2
+  EndEnumeration
+  
+  Enumeration Window
+    #FirstWindow  ; égale à 0
+    #SecondWindow ; égale à 1
+  EndEnumeration
+
+  Enumeration Gadget
+    #GadgetCancel ; égale à 3
+    #GadgetImage  ; égale à 4
+    #GadgetSound  ; égale à 5
+  EndEnumeration
+@EndCode
+
+  @Example Obtenir la prochaine valeur d'énumération
+
+@Code
+  Enumeration
+    #GadgetInfo ; égale à 0
+    #GadgetText ; égale à 1
+    #GadgetOK   ; égale à 2
+  EndEnumeration
+  
+  Debug "La prochaine valeur d'énumération est : " + #PB_Compiler_EnumerationValue ; affiche 3
+@EndCode
+
+  @Example Enumération binaire
+
+@Code
+  EnumerationBinary
+    #Flags1 ; égale à 1
+    #Flags2 ; égale à 2
+    #Flags3 ; égale à 4
+    #Flags4 ; égale à 8
+    #Flags5 ; égale à 16
+  EndEnumeration
+@EndCode

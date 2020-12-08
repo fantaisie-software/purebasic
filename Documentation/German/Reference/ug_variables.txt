@@ -1,0 +1,142 @@
+@Title Einsteiger-Kapitel - Variablen und das Verarbeiten von Variablen
+
+@Bold "A" ist ein Integer - aber beachten Sie bitte, dass Sie keine @ReferenceLink "variables" "Variablen"
+auf diesem Weg deklarieren können, wenn Sie die @ReferenceLink "compilerdirectives" "EnableExplicit"
+Direktive verwenden.
+Außerhalb einer @ReferenceLink "procedures" "Prozedur" wird A im Geltungsbereich des Hauptcodes 
+("Main scope") existieren, innerhalb einer Prozedur wird sie lokal werden.
+@Code
+  A = 0
+@EndCode
+
+@LineBreak
+@Bold "B" ist eine Long Integer, @Bold "C" ist eine Fließkommazahl, sie werden mit Null initialisiert.
+@Code
+  Define B.l, C.f
+@EndCode
+
+@LineBreak
+@Bold "D" und @Bold "E" sind ebenfalls Long Integer. Sie werden jedoch mit den angegebenen Werten
+initialisiert. Beachten Sie auch den verwendeten alternativen Syntax von @ReferenceLink "define" "Define".
+@Code
+  Define.l D = 10, E = 20
+@EndCode
+
+@LineBreak
+@Bold "F" ist ein String.
+@Code
+  Define.s F
+@EndCode
+
+@LineBreak
+Dies ist auch @Bold "G$". Wenn Sie Strings allerdings auf diese Weise deklarieren, müssen Sie
+immer die $ Notation verwenden.
+@Code
+  G$ = "Hello, "
+@EndCode
+
+Dies wird nicht funktionieren (G wird eine neue Integer Variable und ein Compiler-Fehler tritt auf).
+@Code
+  G = "Goodbye, World!"
+@EndCode
+
+@LineBreak
+@Bold "H" ist ein @ReferenceLink "dim" "Array" von 20 Strings, die Indizierung von Arrays beginnt bei Null.
+@Code
+  Dim H.s(19)
+@EndCode
+
+Jetzt ist H ein Array von 25 Strings. Wenn das Array vergrößert wird, bleiben seine originalen
+Inhalte erhalten.
+@Code
+  ReDim H.s(24)
+@EndCode
+
+@LineBreak
+@Bold "J" wird als @ReferenceLink "global" "Global" erscheinen, und nicht (nur) im Geltungsbereich
+des Hauptcodes ("Main scope"). Es wird in allen Prozeduren gültig sein, aber es ist möglicherweise
+der bessere Weg, innerhalb einer Prozedur das @ReferenceLink "shared" "Shared" Schlüsselwort auf
+eine Variable des Hauptbereichs anzuwenden, damit die Möglichkeit unbeabsichtigter Änderungen
+minimiert wird.
+@Code
+  Global.i J
+@EndCode
+
+@LineBreak
+@Bold "K" wird eine neue, leere, @ReferenceLink "newlist" "Liste" von Strings im Hauptgeltungsbereich
+("Main scope").
+@Code
+  NewList K.s()
+@EndCode
+
+@LineBreak
+@Bold "M" wird eine neue, leere, @ReferenceLink "newmap" "Map" von Strings im Hauptgeltungsbereich
+("Main scope").
+@Code
+  NewMap M.s()
+@EndCode
+
+@LineBreak
+Beachten Sie bitte, dass Sie jedoch nicht die alternative Syntax des @ReferenceLink "define" "Define"
+Schlüsselworts mit @ReferenceLink "newlist" "NewList" bzw. @ReferenceLink "newmap" "NewMap"
+verwenden können. Sonst wird ein Compiler-Fehler daraus resultieren.
+@LineBreak
+@LineBreak
+Innerhalb einer Prozedur:
+@Code
+  Procedure TestVariables()
+    
+    ; N und P werden lokal sein.
+    Define.l N
+    Protected.l P
+    
+    ; Q wird eine statische lokale Variable sein.
+    Static.l Q
+    
+    ; Die Variable F und die String-Liste K aus dem Geltungsbereich des Hauptcodes werden in dieser Prozedur verfügbar sein.
+    Shared F, K()
+    
+    ; Die globale Variable J des Hauptgeltungsbereich wird hier ebenfalls verfügbar sein.
+    
+  EndProcedure
+@EndCode
+
+@LineBreak
+Das Verwenden von @ReferenceLink "variables" "Operatoren" auf Variablen:
+@Code
+  ; Addiert zwei zu A.
+  A + 2
+  
+  ; Bitweises Or mit 21 (aus A wird 23)
+  A | 21
+  
+  ; Bitweises And mit 1 (aus A wird 1)
+  A & 1
+  
+  ; Arithmetische Verschiebung nach links (aus A wird 2, d.h. 10 in binär).
+  A << 1
+@EndCode
+
+@LineBreak
+String-Verkettung
+@Code
+  G$ + "World!"
+@EndCode
+
+@LineBreak
+Ein Element zur K Liste hinzufügen:
+@Code
+  AddElement(K())
+  K() = "List element one"
+@EndCode
+
+@LineBreak
+Ein Element zur M Map hinzufügen:
+@Code
+  M("one") = "Map element one"
+@EndCode
+
+
+@LineBreak
+@Section Einsteiger-Kapitel Navigation
+@ReferenceLink "ug_firststeps" "< Vorheriges: Erste Schritte" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_constants" "Nächstes: Konstanten >"

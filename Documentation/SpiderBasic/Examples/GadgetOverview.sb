@@ -1,0 +1,226 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Gadget overview
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Global ListIcon1, ListView1, Button1, Tree1
+
+Enumeration
+  #ImageNew
+  #ImageSpider
+EndEnumeration
+
+
+Procedure AddListViewEvent()
+  AddGadgetItem(ListView1, 5, "Inserted at pos 5 "+FormatDate("%hh:%ii:%ss", Date()))
+EndProcedure
+
+
+Procedure SizeWindowEvent()
+  ResizeGadget(0, 10, 10, WindowWidth(0)-20, WindowHeight(0)-20)
+EndProcedure
+
+
+Procedure CloseWindowEvent()
+  CloseWindow(EventWindow())
+EndProcedure
+
+
+Procedure Start()
+  If OpenWindow(0, 0, 0, 640, 480, "Gadget overview", #PB_Window_TitleBar | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    
+    PanelGadget(0, 10, 10, WindowWidth(0)-20, WindowHeight(0)-20)
+    AddGadgetItem(0, -1, "Buttons")
+    
+      ButtonGadget(#PB_Any, 10,  10, 200, 20, "Normal Button")
+      ButtonGadget(#PB_Any, 10,  40, 200, 20, "Left Button", #PB_Button_Left)
+      ButtonGadget(#PB_Any, 10,  70, 200, 20, "Right Button", #PB_Button_Right)
+      ButtonGadget(#PB_Any, 10, 100, 200, 60, "Multiline Button  (longer text gets automatically wrapped)", #PB_Button_MultiLine)
+      Button1 = ButtonGadget(#PB_Any, 10, 170, 200, 30, "Toggle Button", #PB_Button_Toggle)
+      
+      StringGadget(#PB_Any, 230,  10, 170, 20, "Normal StringGadget...")
+      StringGadget(#PB_Any, 230,  35, 170, 20, "1234567", #PB_String_Numeric)
+      StringGadget(#PB_Any, 230,  60, 170, 20, "Read-only StringGadget", #PB_String_ReadOnly)
+      StringGadget(#PB_Any, 230,  85, 170, 20, "lowercase...", #PB_String_LowerCase)
+      StringGadget(#PB_Any, 230, 110, 170, 20, "uppercase...", #PB_String_UpperCase)
+      StringGadget(#PB_Any, 230, 140, 170, 20, "Borderless StringGadget", #PB_String_BorderLess)
+      
+      String1 = StringGadget(#PB_Any, 230, 170, 170, 30, "Password", #PB_String_Password)
+      SetGadgetColor(String1, #PB_Gadget_BackColor, RGB(220, 200, 220))
+      SetGadgetColor(String1, #PB_Gadget_FrontColor, RGB(200, 0, 0))
+        
+                  CheckBoxGadget(#PB_Any, 420,  10, 160, 20, "CheckBox standard")
+      CheckBox1 = CheckBoxGadget(#PB_Any, 420,  35, 160, 20, "CheckBox checked")
+                  CheckBoxGadget(#PB_Any, 420, 60, 160, 20, "CheckBox right", #PB_CheckBox_Right)
+                  CheckBoxGadget(#PB_Any, 420, 85, 160, 20, "CheckBox center", #PB_CheckBox_Center)
+      DisableGadget(CheckBox1, #True)
+    
+                  
+      SetGadgetState(CheckBox1, #PB_Checkbox_Checked)
+                  
+                OptionGadget(#PB_Any, 420, 130, 160, 20, "Option 1")
+      Option2 = OptionGadget(#PB_Any, 420, 155, 160, 20, "Option 2")
+                OptionGadget(#PB_Any, 420, 180, 160, 20, "Option 3")
+      SetGadgetState(Option2, 1)
+      DisableGadget(Option2, 1)
+      
+      Progress1 = ProgressBarGadget(#PB_Any, 10, 210, 390, 30, 0, 100)
+      SetGadgetState(Progress1, 70)
+      
+      TrackBar1 = TrackBarGadget(#PB_Any, 10, 260, 390, 30, 0, 100)
+      SetGadgetState(TrackBar1, 70)
+      
+      TrackBar2 = TrackBarGadget(#PB_Any, 410, 210, 30, 80, 0, 100, #PB_TrackBar_Vertical)
+      SetGadgetState(TrackBar2, 30)
+        
+      Canvas1 = CanvasGadget(#PB_Any, 10, 300, 200, 20)
+      If StartDrawing(CanvasOutput(Canvas1))
+        Box(0, 0, 200, 20, RGB(255, 0, 0))
+        StopDrawing()
+      EndIf
+      
+      ResizeImage(#ImageSpider, 50, 50)
+      ButtonImage1 = ButtonImageGadget(#PB_Any, 450, 210, 70, 70, ImageID(#ImageSpider))
+        
+      ImageGadget(#PB_Any, 450, 290, 70, 70, ImageID(#ImageSpider))
+      
+      TextGadget(#PB_Any, 10, 330, 200, 20, "Label")
+      TextGadget(#PB_Any, 10, 355, 200, 20, "Centered label", #PB_Text_Center)
+      Text1 = TextGadget(#PB_Any, 10, 380, 200, 20, "Gray & red right label", #PB_Text_Right)
+      SetGadgetColor(Text1, #PB_Gadget_BackColor, RGB(200, 200, 200))
+      SetGadgetColor(Text1, #PB_Gadget_FrontColor, RGB(255, 0, 0))
+      
+      ComboBox1 = ComboBoxGadget(#PB_Any, 220, 300, 200, 25)
+      For k = 0 To 5
+        AddGadgetItem(ComboBox1, -1, "Item "+k)
+      Next
+      AddGadgetItem(ComboBox1, 0, "inserted in first position")
+      AddGadgetItem(ComboBox1, 2, "inserted in third position")
+      SetGadgetState(ComboBox1, 2)
+      
+      Spin1 = SpinGadget(#PB_Any, 220, 330, 200, 20, 0, 10, #PB_Spin_ReadOnly)
+      SetGadgetState(Spin1, 6)
+      SetGadgetColor(Spin1, #PB_Gadget_FrontColor, RGB(0, 0, 255))
+      SetGadgetColor(Spin1, #PB_Gadget_BackColor, RGB(200, 200, 200))
+      
+    ; New Panel tab
+    AddGadgetItem(0, -1, "Lists")
+    
+      ListView1 = ListViewGadget(#PB_Any, 10, 10, 200, 200, #PB_ListView_ClickSelect)
+      For k = 0 To 5
+        AddGadgetItem(ListView1, -1, "Item "+k)
+      Next
+      AddGadgetItem(ListView1, 0, "inserted in first position")
+      AddGadgetItem(ListView1, 2, "inserted in third position")
+      
+      SetGadgetItemState(ListView1, 3, 1)
+      SetGadgetItemState(ListView1, 5, 1)
+      
+      AddListViewItem = ButtonGadget(#PB_Any, 10, 220, 100, 25, "Add")
+      BindGadgetEvent(AddListViewItem, @AddListViewEvent())
+      
+      ListIcon1 = ListIconGadget(#PB_Any, 220, 10, 385, 400, "Name", 100, #PB_ListIcon_CheckBoxes | #PB_ListIcon_MultiSelect)
+      AddGadgetColumn(ListIcon1, 1, "City", 50)
+      AddGadgetColumn(ListIcon1, 1, "Code", 100)
+      
+      a = 10
+      For k = 0 To 200
+        AddGadgetItem(ListIcon1, -1, "Name "+ k + Chr(a)+"Code " + k+ Chr(a)+"City " + k)
+      Next
+      
+      AddGadgetItem(ListIcon1, 1, "Second line "+ k + Chr(a)+"Code " + k+ Chr(a)+"City " + k, ImageID(#ImageNew))
+      
+    ; New Panel tab  
+    AddGadgetItem(0, -1, "Splitters")
+      Editor2 = ButtonGadget(#PB_Any, 0, 0, 0, 0, " Hello world")
+      Editor3 = EditorGadget(#PB_Any, 0, 0, 0, 0)
+      SetGadgetText(Editor3, "This is an editor !" + #LF$ + "Second line")
+    
+      Web1 = WebGadget(#PB_Any, 0, 0, 0, 0, "http://www.spiderbasic.com")
+      
+      Splitter = SplitterGadget(#PB_Any, 10, 10, 300, 300, Editor3, Editor2, 0)
+      Splitter1 = SplitterGadget(#PB_Any, 10, 10, 600, 400, Splitter, Web1, #PB_Splitter_Vertical)
+      
+      SetGadgetAttribute(Splitter1, #PB_Splitter_FirstMinimumSize, 80)
+      SetGadgetAttribute(Splitter1, #PB_Splitter_SecondMinimumSize, 90)
+      
+      SetGadgetState(Splitter, 100)
+      SetGadgetState(Splitter1, 110)
+      
+    ; New Panel tab
+    AddGadgetItem(0, -1, "Various", ImageID(#ImageNew))
+    
+      Calendar1 = CalendarGadget(#PB_Any, 10, 10, 200, 190)
+      SetGadgetState(Calendar1, Date(1978, 4, 1, 0, 0, 0))
+      
+      Date1 = DateGadget(#PB_Any, 220, 10, 200, 19)
+      SetGadgetState(Date1, Date(1978, 4, 1, 0, 0, 0))
+      SetGadgetText(Date1, "%dd/%mm/%yyyy")
+      SetGadgetColor(Date1, #PB_Gadget_FrontColor, RGB(0, 0, 255))
+      SetGadgetColor(Date1, #PB_Gadget_BackColor, RGB(200, 200, 200))
+      GadgetToolTip(Date1, "Enter a date")
+      
+      Editor1 = EditorGadget(#PB_Any, 220, 40, 200, 180)
+      SetGadgetText(Editor1, "This is an editor gadget")
+      SetGadgetColor(Editor1, #PB_Gadget_FrontColor, RGB(0, 0, 255))
+      SetGadgetColor(Editor1, #PB_Gadget_BackColor, RGB(200, 200, 200))
+      
+      ScrollAreaGadget(#PB_Any, 10, 230, 200, 150, 400, 400)
+        ButtonGadget(#PB_Any, 150, 100, 100, 25, "Scroll area button")
+      CloseGadgetList()
+        
+      Container1 = ContainerGadget(#PB_Any, 220, 230, 200, 150)
+        ButtonGadget(#PB_Any, 10, 10, 150, 25, "In container button")
+        ButtonGadget(#PB_Any, 100, 50, 150, 25, "Clipped container button")
+      CloseGadgetList()
+      SetGadgetColor(Container1, #PB_Gadget_BackColor, RGB(230, 230, 230))
+      
+      Tree1 = TreeGadget(#PB_Any, 430, 10, 180, 370)
+      
+      For a = 0 To 10
+        AddGadgetItem(Tree1, -1, "Normal Item "+Str(a), 0, 0) ; if you want to add an image, use
+        AddGadgetItem(Tree1, -1, "Node "+Str(a), ImageID(#ImageNew), 0)        ; ImageID(x) as 4th parameter
+        AddGadgetItem(Tree1, -1, "Sub-Item 1", 0, 1)    ; These are on the 1st sublevel
+        AddGadgetItem(Tree1, -1, "Sub-Item 2", 0, 1)
+        AddGadgetItem(Tree1, -1, "Sub-Item 3", ImageID(#ImageNew), 1)
+        AddGadgetItem(Tree1, -1, "Sub-Item 4", 0, 1)
+        AddGadgetItem(Tree1, -1, "File "+Str(a), 0, 0) ; sublevel 0 again
+      Next
+      
+      SetGadgetItemState(Tree1, 1, #PB_Tree_Expanded)
+      SetGadgetItemState(Tree1, 6, #PB_Tree_Selected)
+      
+    SetGadgetState(0, 0)
+    
+    BindEvent(#PB_Event_CloseWindow, @CloseWindowEvent())
+    BindEvent(#PB_Event_SizeWindow, @SizeWindowEvent())
+  EndIf
+EndProcedure
+
+Procedure Loading(Type, Filename$)
+  Static NbLoadedElements
+  
+  NbLoadedElements+1
+  If NbLoadedElements = 2 ; Finished the loading of all images, we can start the application
+    Start()
+  EndIf
+EndProcedure
+
+
+Procedure LoadingError(Type, Filename$)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loading())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+
+LoadImage(#ImageNew, "Data/ToolBar/New.png")
+LoadImage(#ImageSpider, "Data/Spider.png")
+

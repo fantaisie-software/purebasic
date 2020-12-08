@@ -1,0 +1,639 @@
+;
+; ToolBar library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library ToolBar
+
+@Overview
+
+  Les barres d'outils (Toolbar) sont très utiles 
+  pour accéder rapidement aux fonctions d'une 
+  application, comme le copier-coller par exemple, 
+  en cliquant simplement sur une icône. 
+  Les barres d'outils représentent souvent des 
+  raccourcis de menus. PureBasic vous permet de 
+  créer un nombre quelconque de barres d'outils 
+  et de les gérer comme si elles étaient des 
+  menus. 
+
+@CommandList
+
+@ExampleFile All ToolBar.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateToolBar(#BarreOutils, FenetreID [, Options])
+
+@Description
+  Crée une barre d'outils vide.
+  
+@Parameter "#BarreOutils"  
+  L'identifiant de la barre d'outils
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro. 
+  
+@Parameter "FenetreID"  
+  L'identifiant de la fenêtre.
+@LineBreak
+@LineBreak    
+  'FenetreID' peut être récupéré facilement 
+  grâce à la commande @@WindowID. 
+
+@OptionalParameter "Options"
+  Peut être une combinaison des valeurs suivantes:
+@FixedFont
+  - @#PB_ToolBar_Small     : Petites icônes (16x16) (par défaut) 
+  - @#PB_ToolBar_Large     : Grandes icônes (24x24)
+  - @#PB_ToolBar_Text      : Le texte sera affiché sous le bouton
+  - @#PB_ToolBar_InlineText: Le texte sera affiché à droite du bouton (Windows uniquement)
+@EndFixedFont
+  
+@ReturnValue  
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+
+@Remarks
+  Cette barre d'outils devient celle par défaut 
+  pour les créations des éléments qu'elle doit 
+  contenir. 
+  Vous pouvez maintenant utiliser 
+  @@ToolBarStandardButton, 
+  @@ToolBarImageButton et @@ToolBarSeparator 
+  pour ajouter des éléments.
+@LineBreak
+@LineBreak  
+  La détection des évènements sur les barres 
+  d'outils est similaire à celle des menus, 
+  et nécessite donc la commande @@EventMenu. 
+  Les barres d'outils sont souvent utilisées 
+  comme raccourci des éléments de menu, ainsi 
+  en attribuant le même numéro ID à un menu et 
+  à un bouton de la barre d'outils, les deux 
+  événements sont traités en utilisant le même 
+  code.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 150, 25, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateToolBar(0, WindowID(0))
+      ToolBarStandardButton(0, #PB_ToolBarIcon_New)
+      ToolBarStandardButton(1, #PB_ToolBarIcon_Open)
+      ToolBarStandardButton(2, #PB_ToolBarIcon_Save)
+    EndIf
+    Repeat
+      Event = WaitWindowEvent()
+      If Event = #PB_Event_Menu
+        Debug "Identifiant Barre d'outils: "+Str(EventMenu())
+      EndIf
+    Until Event = #PB_Event_CloseWindow 
+  EndIf
+@EndCode
+@LineBreak
+@Image createtoolbar.png
+
+@SeeAlso
+  @@ToolBarStandardButton, @@ToolBarImageButton, 
+  @@ToolBarSeparator, @@FreeToolBar
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeToolBar(#BarreOutils) 
+
+@Description
+  Supprime une barre d'outils. 
+  
+@Parameter "#BarreOutils"  
+  La barre d'outils à supprimer.
+@LineBreak  
+@LineBreak
+  Si @#PB_All est spécifiée, toutes les 
+  barres d'outils restantes sont libérées.
+  
+@NoReturnValue  
+
+@Remarks 
+  Toutes les barres d'outils restantes sont 
+  automatiquement supprimées quand le programme 
+  se termine.
+  
+@SeeAlso
+  @@CreateToolBar
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableToolBarButton(#BarreOutils, Bouton, Etat)
+
+@Description
+  Active ou désactive un bouton d'une 
+  barre d'outils.
+  
+@Parameter "#BarreOutils"  
+  La barre d'outils à supprimer.  
+  
+@Parameter "Bouton"
+  Le bouton à activer ou à désactiver.  
+  
+@Parameter "Etat" 
+@FixedFont 
+  @#False : Le bouton est activé.
+  @#True  : Le bouton est désactivé.
+@EndFixedFont
+
+@NoReturnValue   
+  
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 150, 60, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateToolBar(0, WindowID(0))
+      ToolBarStandardButton(0, #PB_ToolBarIcon_New)
+      ToolBarStandardButton(1, #PB_ToolBarIcon_Open)
+      ToolBarStandardButton(2, #PB_ToolBarIcon_Save)
+      DisableToolBarButton(0, 1, 1) : Disabled = #True
+    EndIf
+
+    ButtonGadget(0, 10, 30, 130, 20, "Active l'icône 'Ouvrir'")
+
+    Repeat
+      Event = WaitWindowEvent()
+      If Event = #PB_Event_Gadget
+        If EventGadget() = 0
+          If Disabled = #True
+            DisableToolBarButton(0, 1, 0)
+            SetGadgetText(0,"Désactive l'icône 'Ouvrir'")
+            Disabled = #False
+          Else
+            DisableToolBarButton(0, 1, 1)
+            SetGadgetText(0,"Active l'icône 'Ouvrir'")
+            Disabled = #True
+          EndIf
+        EndIf
+      EndIf
+    Until Event = #PB_Event_CloseWindow 
+  EndIf
+@EndCode
+@LineBreak
+@Image disabletoolbarbutton.png  
+
+@SeeAlso
+  @@ToolBarStandardButton, @@ToolBarImageButton
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetToolBarButtonState(#BarreOutils, Bouton)
+
+@Description
+  Renvoie l'état d'un Bouton. 
+    
+@Parameter "#BarreOutils"  
+  La barre d'outils à utiliser.  
+  
+@Parameter "Bouton"
+  Le bouton à tester.  
+  
+@ReturnValue
+  Renvoie une valeur non nulle si le bouton de 
+  la barre d'outils est activé (enfoncé), 
+  zéro sinon.
+  
+@Remarks
+  Attention, le bouton doit avoir été créé 
+  avec l'option @#PB_ToolBar_Toggle.
+@LineBreak  
+@LineBreak
+  @@SetToolBarButtonState permet de changer 
+  l'état d'un bouton.
+
+@SeeAlso
+  @@SetToolBarButtonState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsToolBar(#BarreOutils)
+
+@Description
+  Teste si une barre d'outils est correctement 
+  initialisée.
+    
+@Parameter "#BarreOutils"  
+  La barre d'outils à utiliser. 
+  
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, 
+  zéro sinon.
+  
+@Remarks
+  Cette fonction a été créée pour pouvoir passer 
+  n'importe quelle valeur en paramètre sans 
+  qu'il ne puisse y avoir de plantage.
+  
+@SeeAlso
+  @@CreateToolBar
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetToolBarButtonState(#BarreOutils, Bouton, Etat)
+
+@Description
+  Change l'état d'un Bouton. 
+  
+@Parameter "#BarreOutils"  
+  La barre d'outils à utiliser.  
+  
+@Parameter "Bouton"
+  Le bouton à utiliser.  
+  
+@Parameter "Etat" 
+@FixedFont
+  @#False : Etat relâché
+  @#True  : Etat enfoncé  
+@EndFixedFont
+
+@NoReturnValue
+   
+@Remarks
+  Attention, le bouton doit avoir été créé 
+  avec l'option @#PB_ToolBar_Toggle.
+@LineBreak  
+@LineBreak
+  @@GetToolBarButtonState permet de connaître 
+  l'état d'un bouton.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ToolBarHeight(#BarreOutils)
+
+@Description
+  Renvoie la hauteur en pixel d'une 
+  barre d'outils.
+  
+@Parameter "#BarreOutils"  
+  La barre d'outils à utiliser.    
+  
+@ReturnValue 
+  Renvoie la hauteur en pixel de la 
+  barre d'outils. 
+
+@Remarks  
+  C'est utile pour calculer correctement 
+  la hauteur d'une fenêtre lorsqu'une barre 
+  d'outils est utilisée. 
+@LineBreak
+@LineBreak
+  Sous OS X cette commande renvoie 0, car la 
+  barre d'outils ne fait pas partie de 
+  l'intérieur de la fenêtre, aucun calcul 
+  n'est nécessaire.
+
+@SeeAlso
+  @@CreateToolBar
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ToolBarImageButton(#Bouton, ImageID [, Mode [, Texte$]])
+
+@Description
+  Ajoute un bouton image à une barre d'outils en 
+  cours de création. 
+  
+@Parameter "#Button"  
+  Le numéro du nouveau bouton.
+  
+@Parameter "ImageID" 
+  L'identifiant de l'image à utiliser. 
+@LineBreak
+@LineBreak  
+  'ImageID' peut être obtenu simplement 
+  en utilisant @@ImageID de la bibliothèque 
+  Image. Cela peut être une image chargée 
+  avec @@LoadImage ou créée en mémoire 
+  avec @@CreateImage.@LineBreak  
+  Pour avoir un fond transparent, utiliser 
+  le format de fichier Windows .ICO ou .PNG, 
+  ou le format de fichier PNG sous Linux ou 
+  MacOS X.
+  
+@OptionalParameter "Mode"  
+  Peut prendre l'une des valeurs suivantes:
+@FixedFont
+  @#PB_ToolBar_Normal: Bouton standard (par défaut)
+  @#PB_ToolBar_Toggle: Bouton bascule (soit enfoncé, soit relâché)
+@EndFixedFont
+  Les commandes @@GetToolBarButtonState et
+  @@SetToolBarButtonState permettent de changer 
+  l'état d'un bouton de type @#PB_ToolBar_Toggle.  
+
+@OptionalParameter "Texte$"
+  Le texte à afficher avec le bouton.
+@LineBreak
+@LineBreak
+ La barre d'outils doit être créée avec l'option @#PB_ToolBar_Text 
+ sinon le texte ne sera pas affiché.
+
+@NoReturnValue  
+
+@Remarks
+  La fonction @@CreateToolBar doit avoir été 
+  appelée avant d'utiliser cette fonction. 
+@LineBreak
+@LineBreak 
+  La détection des évènements sur les barres 
+  d'outils est similaire à celle des menus, 
+  et nécessite donc la commande @@EventMenu.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 150, 25, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    
+    CreateImage(0, 16, 16)
+    StartDrawing(ImageOutput(0))
+      Box(0, 0, 16, 16, RGB(255, 255, 255))
+      Box(4, 4, 8, 8, RGB(255, 0, 0))
+    StopDrawing()
+    
+    CreateImage(1, 16, 16)
+    StartDrawing(ImageOutput(1))
+      Box(0, 0, 16, 16, RGB(255, 0, 0))
+      Box(4, 4, 8, 8, RGB(255, 255, 255))
+    StopDrawing()
+    
+    If CreateToolBar(0, WindowID(0))
+      ToolBarImageButton(0, ImageID(0))
+      ToolBarImageButton(1, ImageID(1))
+    EndIf
+    
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow 
+  EndIf
+@EndCode
+@LineBreak
+@Image toolbarimagebutton.png  
+
+@SeeAlso
+  @@CreateToolBar, @@ToolBarStandardButton, @@ToolBarSeparator
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ToolBarSeparator()
+
+@Description
+  Ajoute un séparateur vertical à la barre 
+  d'outils en cours de création. 
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks  
+  La fonction @@CreateToolBar doit avoir été 
+  appelée avant d'utiliser cette fonction.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 150, 25, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateToolBar(0, WindowID(0))
+      ToolBarStandardButton(0, #PB_ToolBarIcon_New)
+      ToolBarSeparator()
+      ToolBarStandardButton(1, #PB_ToolBarIcon_Open)
+      ToolBarSeparator()
+      ToolBarStandardButton(2, #PB_ToolBarIcon_Save)
+      ToolBarSeparator()
+      ToolBarSeparator()
+    EndIf
+    Repeat
+      Event = WaitWindowEvent()
+      If Event = #PB_Event_Menu
+        Debug "Identifiant de la barre d'outils : "+Str(EventMenu())
+      EndIf
+    Until Event = #PB_Event_CloseWindow 
+  EndIf
+@EndCode
+@LineBreak
+@Image toolbarseparator.png
+
+@SeeAlso
+  @@CreateToolBar, @@ToolBarStandardButton, 
+  @@ToolBarImageButton
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ToolBarStandardButton(#Bouton, #IconeBouton [, Mode [, Texte$]])
+
+@Description
+  Ajoute un bouton standard à la barre d'outils 
+  en cours de construction. @LineBreak
+  Un bouton standard est un bouton dont l'icône 
+  est fournie par le système d'exploitation.
+  
+@Parameter "#Button"  
+  Le numéro du nouveau bouton.
+  
+@Parameter "#IconeBouton"  
+    Peut être l'une des constantes suivantes :
+@FixedFont
+  @#PB_ToolBarIcon_New          (Nouveau fichier)
+  @#PB_ToolBarIcon_Open         (Ouvrir Fichier)
+  @#PB_ToolBarIcon_Save         (Enregistrer Fichier)
+  @#PB_ToolBarIcon_Print        (Imprimer)
+  @#PB_ToolBarIcon_PrintPreview (Aperçu avant impression)
+  @#PB_ToolBarIcon_Find         (Chercher une occurence)
+  @#PB_ToolBarIcon_Replace      (Remplacer une occurence)
+
+  @#PB_ToolBarIcon_Cut          (Couper)
+  @#PB_ToolBarIcon_Copy         (Copier)
+  @#PB_ToolBarIcon_Paste        (Coller)
+  @#PB_ToolBarIcon_Undo         (Annuler l'action)
+  @#PB_ToolBarIcon_Redo         (Repéter l'action)
+
+  @#PB_ToolBarIcon_Delete       (Effacer)
+  @#PB_ToolBarIcon_Properties   (Propriétés)
+  @#PB_ToolBarIcon_Help         (Aide)
+@EndFixedFont
+
+@OptionalParameter "Mode"
+  Peut prendre l'une des valeurs suivantes:
+@FixedFont
+  @#PB_ToolBar_Normal: Bouton standard (par défaut)
+  @#PB_ToolBar_Toggle: Bouton bascule (soit enfoncé, soit relâché)
+@EndFixedFont
+  Les commandes @@GetToolBarButtonState et
+  @@SetToolBarButtonState permettent de changer 
+  l'état d'un bouton de type @#PB_ToolBar_Toggle.
+
+@OptionalParameter "Texte$"
+  Le texte à afficher avec le bouton.
+@LineBreak
+@LineBreak
+ La barre d'outils doit être créée avec l'option @#PB_ToolBar_Text 
+ sinon le texte ne sera pas affiché.
+
+@NoReturnValue
+
+@Remarks
+  La fonction @@CreateToolBar doit avoir été 
+  appelée avant d'utiliser cette fonction.  
+@LineBreak
+@LineBreak
+  La détection des évènements sur les barres 
+  d'outils est similaire à celle des menus, 
+  et nécessite donc la commande @@EventMenu.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 150, 25, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateToolBar(0, WindowID(0))
+      ToolBarStandardButton(0, #PB_ToolBarIcon_New)
+      ToolBarStandardButton(1, #PB_ToolBarIcon_Open)
+      ToolBarStandardButton(2, #PB_ToolBarIcon_Save)
+    EndIf
+    Repeat
+      Event = WaitWindowEvent()
+      If Event = #PB_Event_Menu
+        Debug "Identifiant de la barre d'outils : "+Str(EventMenu())
+      EndIf
+    Until Event = #PB_Event_CloseWindow 
+  EndIf
+@EndCode
+@LineBreak
+@Image createtoolbar.png
+
+@SeeAlso
+  @@CreateToolBar, @@ToolBarImageButton, 
+  @@ToolBarSeparator
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ToolBarButtonText(#BarreOutils, Bouton, Texte$) 
+
+@Description
+  Modifie le texte d'un bouton.
+   
+@Parameter "#BarreOutils"  
+  La barre d'outils à utiliser. 
+  
+@Parameter "Button"  
+  Le numéro du bouton à utiliser.  
+
+@Parameter "Texte$"
+  Le nouveau texte. @LineBreak  
+  
+@NoReturnValue
+
+@Remarks
+  La barre d'outils a dû être créée avec l'option @#PB_ToolBar_Text.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 150, 20, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateToolBar(0, WindowID(0), #PB_ToolBar_Large | #PB_ToolBar_Text)
+      ToolBarStandardButton(0, #PB_ToolBarIcon_New,  0, "Nouveau")
+      ToolBarStandardButton(1, #PB_ToolBarIcon_Open, 0, "Ouvrir")
+      ToolBarStandardButton(2, #PB_ToolBarIcon_Save, 0, "Enregistrer")
+      ToolBarButtonText(0, 0, "Vieux !")
+    EndIf
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow 
+  EndIf
+@EndCode
+@LineBreak
+
+@SeeAlso
+  @@ToolBarStandardButton, @@ToolBarImageButton, @@ToolBarSeparator, @@CreateToolBar
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ToolBarToolTip(#BarreOutils, Bouton, Texte$)
+
+@Description
+  Crée ou remplace une info-bulle. 
+  
+@Parameter "#BarreOutils"  
+  La barre d'outils à utiliser. 
+  
+@Parameter "Button"  
+  Le numéro du bouton à utiliser.  
+
+@Parameter "Texte$"
+  Le nouveau texte. @LineBreak  
+  Si le texte est vide, l'info-bulle est 
+  supprimée.
+  
+@NoReturnValue
+
+@Remarks
+  Un 'Tooltip' ou info-bulle est un texte 
+  flottant qui apparait au bout d'un certain 
+  temps lorsque le curseur de la souris est 
+  immobile au dessus d'un bouton d'une barre 
+  d'outils.
+ 
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 150, 60, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateToolBar(0, WindowID(0))
+      ToolBarStandardButton(0, #PB_ToolBarIcon_New)
+      ToolBarStandardButton(1, #PB_ToolBarIcon_Open)
+      ToolBarStandardButton(2, #PB_ToolBarIcon_Save)
+      ToolBarToolTip(0, 0, "Nouveau document")
+      ToolBarToolTip(0, 1, "Ouvrir un document")
+      ToolBarToolTip(0, 2, "Enregistrer le document")
+    EndIf
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow 
+  EndIf
+@EndCode
+@LineBreak
+@Image toolbartooltip.png
+
+@SeeAlso
+  @@ToolBarStandardButton, @@ToolBarImageButton, 
+  @@ToolBarSeparator
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ToolBarID(#BarreOutils)
+
+@Description
+  Renvoie l'identifiant d'une barre d'outils.
+  
+@Parameter "#BarreOutils"  
+  La barre d'outils à utiliser. 
+  
+@ReturnValue 
+  Renvoie l'identifiant système unique 
+  de la barre d'outils.
+
+@SeeAlso
+  @@CreateToolBar
+   
+@SupportedOS

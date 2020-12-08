@@ -1,0 +1,62 @@
+@Title NewList
+
+@Syntax
+
+  @Keyword NewList name.<type>()      
+  
+@Description
+
+  @Keyword NewList allows to declare a new dynamic list. Each element of the list is allocated dynamically. 
+  There are no element limits, so there can be as many as needed. A list can have any @ReferenceLink "Variables" Variables standard or @ReferenceLink "Structures" structured type. 
+  To view all commands used to manage lists, see the @LibraryLink "List" "List" library. @LineBreak
+  @LineBreak
+  The new list are always locals, which means @ReferenceLink "Global" Global or @ReferenceLink "Shared" Shared commands
+  have to be used if a list declared in the main source need to be used in procedures.
+  It is also possible to pass a list as parameter to a @ReferenceLink "Procedures" "procedure" by using the
+  keyword @Keyword List.
+  @LineBreak
+  @LineBreak
+  For fast swapping of list contents the @ReferenceLink "others" "Swap" keyword is available.
+
+  @Example Simple list
+
+@Code
+  NewList MyList()
+  
+  AddElement(MyList())
+  MyList() = 10
+  
+  AddElement(MyList())
+  MyList() = 20
+  
+  AddElement(MyList())
+  MyList() = 30
+  
+  ForEach MyList()
+    Debug MyList()
+  Next
+@EndCode
+
+  @Example List as procedure parameter
+
+@Code
+  NewList Test()
+
+  AddElement(Test())
+  Test() = 1
+  AddElement(Test())
+  Test() = 2
+
+  Procedure DebugList(c, List ParameterList())
+
+    AddElement(ParameterList())
+    ParameterList() = 3
+
+    ForEach ParameterList()
+      MessageRequester("List", Str(ParameterList()))
+    Next
+ 
+  EndProcedure
+
+  DebugList(10, Test())
+@EndCode

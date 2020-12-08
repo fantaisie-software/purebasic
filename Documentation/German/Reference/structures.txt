@@ -1,0 +1,338 @@
+@Title Strukturen
+
+@Syntax
+
+  @Keyword Structure <Name> [@Keyword Extends <Name>] [Align <numerischer konstanter Ausdruck>]
+    ...
+  @Keyword EndStructure 
+
+@Description
+
+  @Keyword Structure ist nützlich, um Benutzertypen zu definieren und um Zugriff auf einige Speicherbereiche
+  des OS zu erhalten. Strukturen können für das schnellere und einfachere Verwalten von großen Datenbeständen
+  benutzt werden. Sie sind sehr nützlich, um mit ihrer Hilfe in einem Objekt alle zusammengehörenden Informationen gruppieren
+  zu können. Auf die Struktur-Felder wird mit dem @Keyword "\" Operator zugegriffen. Strukturen können auch verschachtelt werden.
+  Statische Arrays werden innerhalb von Strukturen unterstützt. @LineBreak
+  @LineBreak
+  
+  Dynamische Objekte wie Arrays, Listen und Maps werden innerhalb von Strukturen unterstützt und werden
+  automatisch initialisiert, wenn das Objekt mit Hilfe der Struktur erstellt wird. Um solche Felder
+  zu deklarieren, verwenden Sie die folgende Schlüsselwörter: @Keyword "Array", @Keyword "List" und @Keyword "Map".
+  @LineBreak
+  @LineBreak
+  
+  Im Allgemeinen werden Strukturen in Verbindung mit einer @ReferenceLink "variables" "Variablen",
+  einem @LibraryLink "array" "Array", einer @LibraryLink "list" "List" oder einer
+  @LibraryLink "map" "Map" verwendet.
+  @LineBreak
+  Fortgeschrittene Anwender können eine Speicherstruktur jedoch auch mittels @@AllocateStructure
+  zuweisen und mittels @@FreeStructure freigeben.
+  Es ist auch möglich, eine Struktur im Speicher mit
+  @ReferenceLink "compilerfunctions" "InitializeStructure()" zu initialisieren, sie mit
+  @ReferenceLink "compilerfunctions" "CopyStructure()" zu kopieren, sie mit
+  @ReferenceLink "compilerfunctions" "ClearStructure()" zu löschen und sie mit
+  @ReferenceLink "compilerfunctions" "ResetStructure()" neu zu initialisieren.
+  @LineBreak
+  @LineBreak
+  Es ist möglich, eine komplette Struktur zu kopieren, indem mittels des Gleichheitszeichens (=) eine Zuweisung zwischen
+  zwei Struktur-Elementen des gleichen Typs vorgenommen wird.
+  @LineBreak
+  @LineBreak
+  
+  Der optionale @Keyword Extends Parameter ermöglicht eine Struktur mit neuen Feldern (aus einer bereits definierten Struktur) 
+  zu erweitern. Alle in der erweiterten (nach @Keyword Extends angegebenen) Struktur gefundenen Felder werden in der neu 
+  definierten Struktur verfügbar sein und werden vor den neuen Feldern platziert. Dies ist nützlich, um einfache 
+  Vererbung von Strukturen durchzuführen. @LineBreak
+  @LineBreak
+  
+  Nur für fortgeschrittene Anwender: Der optionale @Keyword Align Parameter ermöglicht es, die Ausrichtung (englisch
+  "Alignment") zwischen jedem Struktur-Feld einzustellen. Die standardmäßige Ausrichtung (auch Anordnung) ist 1,
+  was keine Ausrichtung bedeutet. Zum Beispiel, wenn die Ausrichtugn auf 4 eingestellt wird, dann wird jedes
+  Feld-Offset auf einer 4-Byte-Grenze liegen. Dies kann helfen, eine bessere Leistung beim Zugriff auf die
+  Felder der Struktur zu erreichen. Aber es kann auch mehr Speicher benötigen, da etwas Platz zwischen den
+  einzelnen Feldern verschwendet wird. Der besondere Wert @#PB_Structure_AlignC kann verwendet werden, um die
+  Struktur wie in der Sprache C auszurichten, nützlich beim @ReferenceLink "import_endimport" "Importieren" von
+  C-Strukturen für die Verwendung mit API-Funktionen.
+  @LineBreak
+  @LineBreak
+  
+  @ReferenceLink "compilerfunctions" "SizeOf" kann bei Strukturen benutzt werden, um die Größe der Struktur zu ermitteln. 
+  @ReferenceLink "compilerfunctions" "OffsetOf" kann verwendet werden, um den Index des angegebenen Felds zu ermitteln. @LineBreak
+  @LineBreak
+  
+  Bitte beachten Sie, dass sich in Strukturen ein @Bold "statisches Array[]" nicht so verhält wie das normale BASIC 
+  Array (definiert mittels @ReferenceLink "Dim" Dim), um konform zum C/C++ Strukturen Format zu bleiben (was direkte API Strukturen 
+  Portierung ermöglicht). Dies bedeutet, dass a@Bold "["2@Bold "]" ein Array von 0 bis 1 definiert, wogegen Dim a@Bold "("2@Bold ")" ein 
+  Array von 0 bis 2 anlegt. Funktionen der @LibraryLink "Array" "Array"-Bibliothek arbeiten ebenfalls nicht mit statischen Arrays.
+  @LineBreak
+  @LineBreak
+  
+  Bei der Verwendung von @ReferenceLink "memory" "Zeigern" in Strukturen muss der '*' weggelassen werden, einmal mehr zur
+  Erleichterung der API-Code Portierung. Dies kann als eine Kuriosität angesehen werden (und um ehrlich zu sein, ist sie das auch),
+  aber es ist so seit dem Beginn von PureBasic und viele, viele Quellcodes bauen darauf, weshalb dies auch nicht geändert wird.
+  @LineBreak
+  @LineBreak
+  
+  Bei der Verwendung vieler Strukturfelder können Sie den Umfang einzugebenden Codes vereinfachen und seine Lesbarkeit 
+  erhöhen, wenn Sie die @ReferenceLink "with_endwith" "With" : @ReferenceLink "with_endwith" "EndWith" Schlüsselwörter benutzen.
+
+@Example
+
+@Code
+  Structure Person
+    Name.s
+    ForName.s 
+    Age.w 
+  EndStructure
+  
+  Dim MyFriends.Person(100)
+  
+  ; Hier wird die Position '0' des Arrays MyFriend()
+  ; eine Person und deren Informationen enthalten.
+  
+  MyFriends(0)\Name = "Andersson"
+  MyFriends(0)\Forname = "Richard" 
+  MyFriends(0)\Age = 32
+@EndCode
+
+  @Example Eine komplexere Struktur (verschachtelt und statisches Array)
+
+@Code
+  Structure Window
+    *NextWindow.Window  ; verweist auf ein anderes Window Objekt
+    x.w 
+    y.w
+    Name.s[10]  ; 10 Namen verfügbar (von 0 bis 9)
+  EndStructure
+@EndCode
+
+  @Example Erweiterte ("extended") Struktur
+
+@Code
+  Structure MyPoint
+    x.l 
+    y.l
+  EndStructure
+
+  Structure MyColoredPoint Extends MyPoint
+    color.l 
+  EndStructure
+
+  ColoredPoint.MyColoredPoint\x = 10
+  ColoredPoint.MyColoredPoint\y = 20
+  ColoredPoint.MyColoredPoint\color = RGB(255, 0, 0)
+@EndCode
+
+
+@Example Kopieren von Strukturen
+
+@Code
+  Structure MyPoint
+    x.l 
+    y.l
+  EndStructure
+
+  LeftPoint.MyPoint\x = 10
+  LeftPoint\y = 20
+  
+  RightPoint.MyPoint = LeftPoint
+  
+  Debug RightPoint\x
+  Debug RightPoint\y
+@EndCode
+
+
+@Example Dynamisches Objekt
+
+@Code
+  Structure Person
+    Name$
+    Age.l
+    List Friends$()
+  EndStructure
+
+  John.Person
+  John\Name$ = "John"
+  John\Age   = 23
+  
+  ; Jetzt fügen wir einige Freunde zu John hinzu
+  ;
+  AddElement(John\Friends$())
+  John\Friends$() = "Jim"
+
+  AddElement(John\Friends$())
+  John\Friends$() = "Monica"
+  
+  ForEach John\Friends$()
+    Debug John\Friends$()
+  Next
+@EndCode
+
+
+@Example Statische, dynamische Arrays und Übergabe einer Struktur an eine Prozedur
+@Code
+  Structure Whatever
+    a.l
+    b.l[2]          ; Statisches Array (Standard C) mit 2 Werten b[0] und b[1], nicht in der Größe veränderbar
+    Array c.l(3,3)  ; Dynamisches Array mit 16 Werten c(0,0) bis c(3,3), in der Größe veränderbar mittels ReDim()
+  EndStructure
+
+  MyVar.Whatever
+
+  Procedure MyProcedure(*blahblah.Whatever)
+    *blahblah\a = 5
+    *blahblah\b[0] = 1
+    *blahblah\b[1] = 2
+    *blahblah\c(3,3) = 33
+  EndProcedure
+
+  MyProcedure(@MyVar)
+  Debug MyVar\a
+  Debug MyVar\b[0]
+  Debug MyVar\b[1]
+  Debug MyVar\c(3,3)
+  
+  ;Debug MyVar\c(0,10) ; 'Index außerhalb der erlaubten Grenzen' Fehler
+  ReDim MyVar\c(3,10)  ; Beachte: nur die letzte Dimension kann in der Größe verändert werden!
+  Debug  MyVar\c(0,10) ; Cool, das Array ist jetzt größer!
+@EndCode
+
+
+@Example Verschachtelte Struktur(en)
+@Code
+  Structure pointF 
+    x.f 
+    y.f 
+  EndStructure 
+   
+  Structure Field 
+    Field1.q 
+    Field2.s{6}
+    Field3.s
+    Array Tab.pointF(3)  
+  EndStructure 
+ 
+  Define MyVar.Field 
+ 
+  MyVar\Tab(3)\x = 34.67
+@EndCode
+
+@Example Ausrichtung (Alignment)
+@Code
+  Structure Type Align 4
+    Byte.b
+    Word.w
+    Long.l
+    Float.f
+  EndStructure
+  
+  Debug OffsetOf(Type\Byte)   ; wird 0 ausgeben
+  Debug OffsetOf(Type\Word)   ; wird 4 ausgeben
+  Debug OffsetOf(Type\Long)   ; wird 8 ausgeben
+  Debug OffsetOf(Type\Float)  ; wird 12 ausgeben
+@EndCode
+
+@Example Zeiger (Pointer)
+@Code
+  Structure Person
+    *Next.Person  ; hier ist '*' obligatorisch, um einen Zeiger zu deklarieren
+    Name$
+    Age.b
+  EndStructure
+
+  Timo.Person\Name$ = "Timo"
+  Timo\Age = 25
+  
+  Fred.Person\Name$ = "Fred"
+  Fred\Age = 25
+  
+  Timo\Next = @Fred  ; bei Verwendung des Zeigers wird das '*' weggelassen
+  
+  Debug Timo\Next\Name$  ; wird 'Fred' ausgeben
+@EndCode
+
+@LineBreak
+@LineBreak 
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword StructureUnion
+    Feld1.Typ
+    Feld2.Typ
+    ...
+  @Keyword EndStructureUnion
+
+@Description
+
+  @Keyword StructureUnion sind nur nützlich für fortgeschrittene Programmierer, welche etwas Speicher 
+  sparen wollen, indem sie einige Felder innerhalb derselben Struktur teilen. Sie funktionieren wie 
+  das 'Union' Schlüsselwort in C/C++.
+  @LineBreak
+  @LineBreak
+  Hinweis: Jedes Feld in der @Keyword "StructureUnion" Deklaration kann einen unterschiedlichen
+  @ReferenceLink "variables" "Typ" haben.
+
+  @Example 
+
+@Code
+  Structure Type
+    Name$
+    StructureUnion
+      Long.l      ; Jedes Feld (Long, Float und Byte) befindet sich
+      Float.f     ; an derselben Adresse im Speicher.
+      Byte.b      ;
+    EndStructureUnion
+  EndStructure
+@EndCode
+
+
+  @Example Erweitertes Beispiel (Datums-Verwaltung)
+
+@Code
+  Structure date
+    day.s{2}
+    pk1.s{1}
+    month.s{2}
+    pk2.s{1}
+    year.s{4}
+  EndStructure
+  
+  Structure date2
+    StructureUnion
+      s.s{10}
+      d.date
+    EndStructureUnion
+  EndStructure
+  
+  Dim d1.date2(5)
+  
+  d1(0)\s = "05.04.2008"
+  d1(1)\s = "07.05.2009"
+  
+  Debug d1(0)\d\day
+  Debug d1(0)\d\month
+  Debug d1(0)\d\year
+  
+  Debug d1(1)\d\day
+  Debug d1(1)\d\month
+  Debug d1(1)\d\year
+    
+  d2.date2\s = "15.11.2010"
+  
+  Debug d2\d\day
+  Debug d2\d\month
+  Debug d2\d\year
+@EndCode
+
+@LineBreak
+@LineBreak 
+ 
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf

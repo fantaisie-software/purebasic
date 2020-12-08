@@ -1,0 +1,236 @@
+;
+;     VertexAnimation library documentation
+;
+;      (c) 2012 - Fantaisie Software
+;
+
+@Library VertexAnimation
+
+@Overview
+  Vertex animation allows to handle mesh pose animations.
+  The @LibraryLink "mesh" "mesh" must contain a list of predefined poses.
+
+@CommandList
+
+@ExampleFile All VertexAnimation.pb
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateVertexAnimation(#Mesh, Animation$, Length)
+
+@Description
+  Creates a new vertex animation on the specified mesh.
+
+@Parameter "#Mesh"
+  The mesh to use to create the new animation.
+
+@Parameter "Animation$"
+  The new animation name. This name is case-sensitive.
+  
+@Parameter "Length"
+  The length of new animation (in milliseconds).
+
+@ReturnValue
+  Returns nonzero if the animation has been successfully created.
+
+@SeeAlso
+  @@CreateVertexTrack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateVertexTrack(#Mesh, Animation$, Index)
+
+@Description
+  Creates a new vertex animation track on the specified mesh. The animation should be already be created 
+  with @@CreateVertexAnimation, or be predefined in the mesh. Every track have the same
+  length, as defined in @@CreateVertexAnimation.
+  
+@Parameter "#Mesh"
+  The mesh to use to create the new animation track.
+
+@Parameter "Animation$"
+  The animation name. This name is case-sensitive. The animation should be already be created 
+  with @@CreateVertexAnimation.
+  
+@Parameter "Index"
+  The new index of the track. Index should starts from zero.
+
+@ReturnValue
+  Returns nonzero if the animation track has been successfully created.
+
+@SeeAlso
+  @@CreateVertexAnimation
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateVertexPoseKeyFrame(#Mesh, Animation$, Track, Time)
+
+@Description
+  Creates a new keyframe in the vertex animation. The animation should be already be created 
+  with @@CreateVertexAnimation, or be predefined in the mesh. 
+  
+@Parameter "#Mesh"
+  The mesh to use.
+
+@Parameter "Animation$"
+  The animation name. This name is case-sensitive. The animation should be already be created 
+  with @@CreateVertexAnimation.
+  
+@Parameter "Track"
+  The track index. The track has to be previously created with @@CreateVertexTrack.
+
+@Parameter "Time"
+  The time in the animation to set the keyframe (in milliseconds). This value has to be between zero and the 'Length'
+  defined in @@CreateVertexAnimation.
+
+@ReturnValue
+  Returns the new keyframe index.
+
+@SeeAlso
+  @@CreateVertexAnimation, @@CreateVertexTrack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddVertexPoseReference(#Mesh, Animation$, Track, Keyframe, PoseIndex, Influence)
+
+@Description
+  Adds a new pose reference to the animation. The animation should be already be created 
+  with @@CreateVertexAnimation.
+  
+@Parameter "#Mesh"
+  The mesh to use.
+
+@Parameter "Animation$"
+  The animation name. This name is case-sensitive. The animation should be already be created 
+  with @@CreateVertexAnimation.
+  
+@Parameter "Track"
+  The track index. The track has to be previously created with @@CreateVertexTrack.
+
+@Parameter "Keyframe"
+  The keyframe index. The keyframe has to be previously created with @@CreateVertexPoseKeyFrame.
+
+@Parameter "PoseIndex"
+  The pose index. The first pose index starts from zero.
+
+@Parameter "Influence"
+  The influence of the pose. This value ranges from 0.0 (no influence) to 1.0 (full influence).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateVertexAnimation, @@CreateVertexTrack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateVertexPoseReference(#Mesh, Animation$, Track, Keyframe, PoseIndex, Influence)
+
+@Description
+  Updates a new pose reference to the animation. The animation should be already be created 
+  with @@CreateVertexAnimation, or be predefined in the mesh.
+  
+@Parameter "#Mesh"
+  The mesh to use.
+
+@Parameter "Animation$"
+  The animation name. This name is case-sensitive. The animation should be already be created 
+  with @@CreateVertexAnimation, or be predefined in the mesh.
+  
+@Parameter "Track"
+  The track index. The track has to be previously created with @@CreateVertexTrack.
+
+@Parameter "Keyframe"
+  The keyframe index. The keyframe has to be previously created with @@CreateVertexPoseKeyFrame.
+
+@Parameter "PoseIndex"
+  The pose index. The first pose index starts from zero.
+
+@Parameter "Influence"
+  The new influence of the pose. This value ranges from 0.0 (no influence) to 1.0 (full influence).
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateVertexAnimation, @@CreateVertexTrack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = VertexPoseReferenceCount(#Mesh, Animation$, Track, Keyframe)
+
+@Description
+  Returns the number of pose reference in the specified keyframe. The animation should be already be created 
+  with @@CreateVertexAnimation.
+  
+@Parameter "#Mesh"
+  The mesh to use.
+
+@Parameter "Animation$"
+  The animation name. This name is case-sensitive. The animation should be already be created 
+  with @@CreateVertexAnimation, or be predefined in the mesh.
+  
+@Parameter "Track"
+  The track index. The track has to be previously created with @@CreateVertexTrack.
+
+@Parameter "Keyframe"
+  The keyframe index. The keyframe has to be previously created with @@CreateVertexPoseKeyFrame.
+
+@ReturnValue
+  Returns the number of pose reference in the specified keyframe. 
+
+@SeeAlso
+  @@CreateVertexAnimation, @@CreateVertexTrack, @@AddVertexPoseReference
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MeshPoseCount(#Mesh)
+
+@Description
+  Returns the number of pose in the mesh. A pose is a predefined vertex animation in the mesh.
+  
+@Parameter "#Mesh"
+  The mesh to use.
+
+@ReturnValue
+  Returns the number of pose in the specified mesh. 
+
+@SeeAlso
+  @@MeshPoseName, @@AddVertexPoseReference
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = MeshPoseName(#Mesh, PoseIndex)
+
+@Description
+  Returns the pose name in the mesh. A pose is a predefined vertex animation in the mesh.
+  
+@Parameter "#Mesh"
+  The mesh to use.
+
+@Parameter "PoseIndex"
+  The pose index to get the name. The first pose index starts from zero.
+  The index has to be lower than the result of @@MeshPoseCount.
+
+@ReturnValue
+  Returns the pose name at the specified index. 
+
+@SeeAlso
+  @@MeshPoseName, @@AddVertexPoseReference
+
+@SupportedOS

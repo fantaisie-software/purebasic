@@ -1,0 +1,29 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Font example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+If OpenWindow(0, 100, 200, 300, 200, "Font example")
+  
+  If CreateImage(0, 300, 200)
+    If StartDrawing(ImageOutput(0))
+      Box(0, 0, 300, 200, RGB(255, 255, 255)) ; White background
+      DrawingMode(#PB_2DDrawing_Transparent)
+      
+      LoadFont(0, "times", 30)
+      DrawingFont(FontID(0))
+      DrawText(10, 50, "Hello world !", RGB(255, 0, 0))
+      
+      StopDrawing()
+    EndIf
+  EndIf
+  
+  ; Create a gadget to display the image
+  ;  
+  ImageGadget(0, 0, 0, 300, 200, ImageID(0))
+EndIf

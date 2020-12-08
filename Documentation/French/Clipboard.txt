@@ -1,0 +1,236 @@
+;
+; Clipboard library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Clipboard
+
+@Overview
+
+  Le presse-papier (clipboard) est le 
+  moyen standard pour partager des 
+  informations entre les applications 
+  lancées depuis le système d'exploitation. 
+  Par exemple lorsque l'on coupe un texte 
+  dans un éditeur, il est envoyé dans le 
+  presse-papier et peut ensuite être 
+  retrouvé et déposé dans un autre éditeur 
+  de texte.
+  PureBasic permet de copier et récupérer 
+  facilement du texte et des images dans 
+  le presse-papier.
+  
+@CommandList
+
+@ExampleFile All Clipboard.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearClipboard()
+
+@Description
+  Efface le presse-papier. 
+  
+@NoParameters
+
+@NoReturnValue 
+
+@Example 
+@Code
+  ; On place un texte dans le presse-papier
+  SetClipboardText("Un exemple de texte")
+  MessageRequester("Presse-papier","Le presse papier contient le texte suivant : " + GetClipboardText())
+
+  ; Le presse-papier est effacé
+  ClearClipboard()
+  MessageRequester("Presse-papier","Le presse papier contient le texte suivant : " + GetClipboardText())
+@EndCode
+
+@SeeAlso  
+  @@SetClipboardText, @@SetClipboardImage 
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetClipboardImage(#Image [, Profondeur])
+
+@Description
+  Crée une nouvelle image à partir d'une 
+  image contenue dans le presse-papier (si 
+  elle existe).
+  
+@Parameter "#Image"
+  Numéro de la nouvelle image.
+@LineBreak
+@LineBreak  
+  @ReferenceLink "purebasic_objects" "PB_Any#" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro. 
+ 
+@OptionalParameter "Profondeur"
+  La profondeur de couleur de l'image.
+@LineBreak
+@LineBreak    
+  Les valeurs valides sont 24 bits (par défaut) 
+  ou 32 bits.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, 
+  zéro sinon. 
+@LineBreak
+@LineBreak
+  Si @#PB_Any est utilisé pour le paramètre 
+  '#Image', le numéro de la nouvelle image 
+  sera renvoyé dans 'Resultat'.
+  
+@Remarks   
+  L'image ainsi obtenue peut être détruite à 
+  l'aide de la commande @@FreeImage.
+@LineBreak
+@LineBreak
+  Pour plus d'information sur les images, voir 
+  la bibliothèque 
+  @LibraryLink "Image" "Image" ou le gadget 
+  @@ImageGadget.
+
+@Example 
+@Code
+  If CreateImage(0,26,20)
+    StartDrawing(ImageOutput(0))
+      Box(0,0,26,20,RGB(255,255,255))
+      Circle(13,10,5,RGB(255,0,0))
+    StopDrawing()
+    SetClipboardImage(0)
+  EndIf
+  
+  If OpenWindow(0, 0, 0, 220, 100, "Presse-papier", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+   If StartDrawing(WindowOutput(0))
+     DrawImage(GetClipboardImage(0), 10,10) 
+     DrawImage(GetClipboardImage(0), 100, 30, 65, 50) 
+      StopDrawing()
+   EndIf
+
+   Repeat
+     Event = WaitWindowEvent()
+   Until Event = #PB_Event_CloseWindow
+ EndIf
+ 
+  ; Vous pouvez aussi ouvrir un logiciel de dessin (par exemple 'Paint') 
+  ; et collez le contenu du presse-papier (Edition puis Coller), 
+  ; et vous verrez le drapeau japonais ;-)
+@EndCode
+
+@SeeAlso
+  @@SetClipboardImage, @@GetClipboardText
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetClipboardText()
+
+@Description
+  Renvoie le texte actuellement stocké dans 
+  le presse-papier.
+  
+@NoParameters
+
+@ReturnValue 
+  Renvoie le texte stocké dans le presse-papier 
+  ou une chaîne vide sinon.
+
+@Example 
+@Code
+  ; On place un texte dans le presse papier
+  SetClipboardText("Un exemple de texte")
+  MessageRequester("Presse-papier","Le presse papier contient le texte suivant : " + GetClipboardText())
+@EndCode
+  
+@SeeAlso
+  @@SetClipboardText, @@GetClipboardImage
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetClipboardImage(#Image)
+
+@Description
+  Met une copie d'une image dans le presse-papier. 
+  
+@Parameter "#Image"
+  Numéro de l'image à mettre dans le presse-papier.
+
+@NoReturnValue 
+
+@Remarks  
+  Si une image est déjà présente  dans le 
+  presse-papier, elle sera remplacée par la 
+  nouvelle.
+
+@Example 
+@Code
+  If CreateImage(0,26,20)
+    StartDrawing(ImageOutput(0))
+      Box(0,0,26,20,RGB(255,255,255))
+      Circle(13,10,5,RGB(255,0,0))
+    StopDrawing()
+    SetClipboardImage(0)
+  EndIf
+  
+  If OpenWindow(0, 0, 0, 220, 100, "Presse-papier", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+   If StartDrawing(WindowOutput(0))
+     DrawImage(GetClipboardImage(0), 10,10) 
+     DrawImage(GetClipboardImage(0), 100, 30, 65, 50) 
+      StopDrawing()
+   EndIf
+
+   Repeat
+     Event = WaitWindowEvent()
+   Until Event = #PB_Event_CloseWindow
+ EndIf
+ 
+  ; Vous pouvez aussi ouvrir un logiciel de dessin (par exemple 'Paint') 
+  ; et collez le contenu du presse-papier (Edition puis Coller), 
+  ; et vous verrez le drapeau japonais ;-)
+@EndCode
+
+@SeeAlso
+  @@GetClipboardImage, @@SetClipboardText, 
+  @@ClearClipboard
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetClipboardText(Texte$)
+
+@Description
+ Place un texte dans le presse-papier. 
+ 
+@Parameter "Texte$"
+  Le texte à placer dans le presse-papier
+  
+@NoReturnValue 
+ 
+@Remarks  
+  Si le presse-papier contient déjà un texte 
+  celui-ci est remplacé.
+
+@Example 
+@Code
+  ; On place un texte dans le presse papier
+  SetClipboardText("Un exemple de texte")
+  MessageRequester("Presse-papier","Le presse papier contient le texte suivant : " + GetClipboardText())
+@EndCode
+ 
+@SeeAlso
+  @@GetClipboardText, @@SetClipboardImage, 
+  @@ClearClipboard
+  
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------

@@ -1,0 +1,44 @@
+@Title System requirements
+
+  PureBasic will run on Windows XP, Windows Vista, Windows 7, Windows 8 and Windows 10 (in both 32-bit and 64-bit edition),
+  Linux (kernel 2.2 or above) and MacOS X (10.8.5 or above). @LineBreak
+  @LineBreak
+  If there are any problems, please contact us. 
+
+@Section Windows
+  For many graphic functions like @LibraryLink "engine3d" "3D" or @LibraryLink "sprite" "Sprites"
+  there is needed the DirectX9.0c version. Windows Vista and later don't have installed this
+  from start, so it need to be installed manually.
+  @LineBreak
+  @LineBreak
+  You can download and install it via the "DirectX End-User Runtime Web Installer"
+  here: @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=35" "http://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=35".
+
+@Section Linux
+
+Required packages to use PureBasic: 
+@Indent @Section
+  - sdl 1.2 devel (For games) @LineBreak
+  - gtk 3 (For GUI programs) @LineBreak
+  - libstdc++ devel @LineBreak
+  - gcc correctly installed @LineBreak
+@LineBreak  
+  - iodbc and iodbc-devel to be able to use the @LibraryLink "database" "Database" commands (see @InternetLink "http://www.iodbc.org" "www.iodbc.org") @LineBreak
+@LineBreak
+  - libwebkit should be installed to have the @@WebGadget working. @LineBreak
+@LineBreak
+  - xine and xine-devel for the @LibraryLink "movie" "Movie" commands
+
+  Check the INSTALL and README file for more information.
+
+@EndIndent
+
+@Section MacOS X
+
+You need to install the Apple developer tools to be able to use PureBasic. The tools can be found either on
+one of the install CDs or on the Apple web site: 
+@InternetLink "http://developer.apple.com/" "http://developer.apple.com/" 
+@LineBreak
+@LineBreak
+Be aware to use the latest version of the tools (e.g. XCode), which is needed for your OS version!
+The commandline tools needs to be installed from XCode once installed.

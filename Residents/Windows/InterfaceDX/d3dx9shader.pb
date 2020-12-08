@@ -1,0 +1,83 @@
+
+; ID3DXConstantTable interface definition
+;
+Interface ID3DXConstantTable
+  QueryInterface(a.l, b.l)
+  AddRef()
+  Release()
+  GetBufferPointer()
+  GetBufferSize()
+  GetDesc(a.l)
+  GetConstantDesc(a.l, b.l, c.l)
+  GetSamplerIndex(a.l)
+  GetConstant(a.l, b.l)
+  GetConstantByName(a.l, b.s)
+  GetConstantElement(a.l, b.l)
+  SetDefaults(a.l)
+  SetValue(a.l, b.l, c.l, d.l)
+  SetBool(a.l, b.l, c.l)
+  SetBoolArray(a.l, b.l, c.l, d.l)
+  SetInt(a.l, b.l, c.l)
+  SetIntArray(a.l, b.l, c.l, d.l)
+  SetFloat(a.l, b.l, c.f)
+  SetFloatArray(a.l, b.l, c.l, d.l)
+  SetVector(a.l, b.l, c.l)
+  SetVectorArray(a.l, b.l, c.l, d.l)
+  SetMatrix(a.l, b.l, c.l)
+  SetMatrixArray(a.l, b.l, c.l, d.l)
+  SetMatrixPointerArray(a.l, b.l, c.l, d.l)
+  SetMatrixTranspose(a.l, b.l, c.l)
+  SetMatrixTransposeArray(a.l, b.l, c.l, d.l)
+  SetMatrixTransposePointerArray(a.l, b.l, c.l, d.l)
+EndInterface
+
+; ID3DXTextureShader interface definition
+;
+Interface ID3DXTextureShader
+  QueryInterface(a.l, b.l)
+  AddRef()
+  Release()
+  GetFunction(a.l)
+  GetConstantBuffer(a.l)
+  GetDesc(a.l)
+  GetConstantDesc(a.l, b.l, c.l)
+  GetConstant(a.l, b.l)
+  GetConstantByName(a.l, b.s)
+  GetConstantElement(a.l, b.l)
+  SetDefaults()
+  SetValue(a.l, b.l, c.l)
+  SetBool(a.l, b.l)
+  SetBoolArray(a.l, b.l, c.l)
+  SetInt(a.l, b.l)
+  SetIntArray(a.l, b.l, c.l)
+  SetFloat(a.l, b.f)
+  SetFloatArray(a.l, b.l, c.l)
+  SetVector(a.l, b.l)
+  SetVectorArray(a.l, b.l, c.l)
+  SetMatrix(a.l, b.l)
+  SetMatrixArray(a.l, b.l, c.l)
+  SetMatrixPointerArray(a.l, b.l, c.l)
+  SetMatrixTranspose(a.l, b.l)
+  SetMatrixTransposeArray(a.l, b.l, c.l)
+  SetMatrixTransposePointerArray(a.l, b.l, c.l)
+EndInterface
+
+; ID3DXFragmentLinker interface definition
+;
+Interface ID3DXFragmentLinker
+  QueryInterface(a.l, b.l)
+  AddRef()
+  Release()
+  GetDevice(a.l)
+  GetNumberOfFragments()
+  GetFragmentHandleByIndex(a.l)
+  GetFragmentHandleByName(a.s)
+  GetFragmentDesc(a.l, b.l)
+  AddFragments(a.l)
+  GetAllFragments(a.l)
+  GetFragment(a.l, b.l)
+  LinkShader(a.s, b.l, c.l, d.l, e.l, f.l)
+  LinkVertexShader(a.s, b.l, c.l, d.l, e.l, f.l)
+  LinkPixelShader(a.s, b.l, c.l, d.l, e.l, f.l)
+  ClearCache()
+EndInterface

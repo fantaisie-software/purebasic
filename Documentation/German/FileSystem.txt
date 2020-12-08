@@ -1,0 +1,1009 @@
+;
+;     FileSystem library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library FileSystem
+
+@Overview
+
+@LineBreak
+  FileSystem (in Deutsch "Dateisystem") ist ein Oberbegriff, der alle fortgeschrittenen Funktionen rund um die Dateien beinhaltet.
+  Zum Beispiel ist es möglich, einen Verzeichnisinhalt einzulesen, ein neues Verzeichnis zu erstellen
+  und mehr...
+@LineBreak
+@LineBreak
+  Wenn Sie die Inhalte eines Verzeichnisses untersuchen möchten, beginnen Sie mit dem 
+  @@ExamineDirectory Befehl.
+@LineBreak
+@LineBreak
+  Alle Datei- und Verzeichnisnamen in dieser Bibliothek können entweder mit einem vollständigen oder
+  einem relativen Pfad angegeben werden. Relative Pfade werden relativ zum aktuellen Verzeichnis des
+  Programms interpretiert. Die Funktionen @@GetCurrentDirectory und @@SetCurrentDirectory
+  können verwendet werden, um das aktuelle Verzeichnis zu ändern.
+@LineBreak
+@LineBreak
+  OS-spezifische Pfadtrennzeichen sind verfügbar: @#PS, @#NPS, @ConstantColor "#PS$" ('\') und @ConstantColor "#NPS$" ('/').
+@LineBreak
+@LineBreak
+  In Ergänzung zu den Befehlen dieser Bibliothek finden Sie auch Befehle zum Manipulieren von Datei-Inhalten
+  in der @LibraryLink "file" "File" Bibliothek. Um den Namen eines laufenden Programms zu erhalten, verwenden Sie den
+  Befehl @@ProgramFilename aus der @LibraryLink "process" "Process" Bibliothek.
+
+@CommandList
+
+@ExampleFile All FileSystem.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CopyDirectory(AusgangsVerzeichnis$, ZielVerzeichnis$, Pattern$ [, Modus])
+
+@Description
+  Kopiert den Inhalt des Ausgangsverzeichnisses in das Zielverzeichnis.
+
+@Parameter "AusgangsVerzeichnis$"
+  Das zu kopierende Verzeichnis.
+
+@Parameter "ZielVerzeichnis$"
+  Das Ziel, wohin das Verzeichnis kopiert werden soll.
+
+@Parameter "Pattern$"
+  Ein Pattern (Muster), was die zu kopierenden Dateien identifiziert.
+  Zum Beispiel: "*.*" kopiert alle Dateien in das Zielverzeichnis. "*.exe" kopiert nur die .Exe Dateien.
+  Standardmäßig wird ein Null-String ("") als Pattern$ alle Dateien kopieren.
+
+@OptionalParameter "Modus"
+  Weitere Optionen für die Kopier-Operation. Dies kann eine Kombination der folgenden
+  Werte sein:
+@FixedFont
+  @#PB_FileSystem_Recursive: Kopiert das Verzeichnis mit allen Unterverzeichnissen.
+  @#PB_FileSystem_Force    : Überschreibt auch die geschützten ("ReadOnly") Dateien.
+@EndFixedFont
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+
+@Remarks
+  Wenn das Zielverzeichnis bereits existiert, wird sein Inhalt automatisch überschrieben.
+  Die Funktion @@FileSize kann verwendet werden, um zu ermitteln, ob das
+  Zielverzeichnis existiert oder nicht.
+
+@Example
+@Code
+  Debug CopyDirectory("D:\Games\MyGame\", "D:\Games\Backup\", "", #PB_FileSystem_Recursive)
+@EndCode
+
+@SeeAlso
+  @@CreateDirectory, @@ExamineDirectory, @@DeleteDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CopyFile(Ausgangsdatei$, Zieldatei$)
+
+@Description
+  Kopiert die Ausgangsdatei an das Ziel.
+
+@Parameter "Ausgangsdatei$"
+  Die zu kopierende Datei.
+
+@Parameter "Zieldatei$"
+  Der Speicherort, wohin die Datei kopiert werden soll.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+
+@Remarks
+  Wenn die Zieldatei bereits existiert, wird sie überschrieben.
+  Die Funktion @@FileSize kann verwendet werden, um zu ermitteln, ob das
+  Ziel existiert oder nicht. Wenn die Ausgangs- und die Zieldatei die gleichen
+  sind, wird kein Kopiervorgang stattfinden und es wird Null zurückgegeben.
+
+@SeeAlso
+  @@RenameFile, @@DeleteFile, @@FileSize, 
+  @@CreateFile, @@OpenFile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateDirectory(VerzeichnisName$)
+
+@Description
+  Erstellt ein neues Verzeichnis (Ordner).
+
+@Parameter "VerzeichnisName$"
+  Der Name des neuen Verzeichnisses.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+
+@Remarks
+  Diese Funktion schlägt fehl, wenn das übergeordnete Verzeichnis ("Parent") des neuen
+  Verzeichnisses nicht existiert. Um mehrere Ebenen an Verzeichnissen zu erstellen,
+  muss diese Funktion für jede zu erstellende Verzeichnisebene separat aufgerufen werden.
+
+@SeeAlso
+  @@CopyDirectory, @@ExamineDirectory, @@DeleteDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DeleteDirectory(Verzeichnis$, Pattern$ [, Modus])
+
+@Description
+  Löscht das angegebene Verzeichnis.
+
+@Parameter "Verzeichnis$"
+  Das zu löschende Verzeichnis.
+
+@Parameter "Pattern$"
+  Ein Pattern (Muster) für die innerhalb des Verzeichnisses zu löschenden Dateien.
+  Zum Beispiel: "*.*" wird alle Dateien im Verzeichnis löschen. "*.exe" wird nur die .exe Dateien löschen.
+  Standardmäßig wird ein Null-String ("") als Pattern$ alle Dateien löschen.
+
+@OptionalParameter "Modus"
+  Weitere Optionen für die Lösch-Operation. Dies kann eine Kombination der folgenden
+  Werte sein:
+@FixedFont
+  @#PB_FileSystem_Recursive: Löscht das Verzeichnis mit allen Unterverzeichnissen.
+  @#PB_FileSystem_Force    : Löscht auch die schreibgeschützten ("ReadOnly") Dateien.
+@EndFixedFont
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+
+@SeeAlso
+  @@CreateDirectory, @@ExamineDirectory, @@CopyDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DeleteFile(DateiName$ [, Modus])
+
+@Description
+  Löscht die angegebene Datei. 
+
+@Parameter "DateiName$"
+  Die zu löschende Datei.
+
+@OptionalParameter "Modus"
+  Optionen für die Lösch-Operation. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_FileSystem_Force: Löscht auch die geschützten Dateien ("read-only" / schreibgeschützt).
+@EndFixedFont
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+
+@SeeAlso
+  @@CopyFile, @@RenameFile, @@FileSize, 
+  @@CreateFile, @@OpenFile  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Attribute = DirectoryEntryAttributes(#Verzeichnis)
+
+@Description
+  Gibt die Dateiattribute des aktuellen Eintrags im  Verzeichnis zurück, welches mit den
+  Befehlen @@ExamineDirectory und @@NextDirectoryEntry aufgelistet wird.
+
+@Parameter "#Verzeichnis"
+  Das Verzeichnis, welches mit @@ExamineDirectory untersucht wird.
+
+@ReturnValue
+  Gibt die Attribute der aktuellen Datei zurück.
+@LineBreak
+@LineBreak
+  Auf Windows sind die Attribute eine Kombination der folgenden Werte:
+@FixedFont
+  @#PB_FileSystem_Hidden     : Datei ist versteckt
+  @#PB_FileSystem_Archive    : Datei wurde geändert und nicht archiviert seit dem letzten Mal
+  @#PB_FileSystem_Compressed : Datei ist komprimiert
+  @#PB_FileSystem_Normal     : Normale Attribute
+  @#PB_FileSystem_ReadOnly   : Datei ist im "ReadOnly" Modus (schreibgeschützt)
+  @#PB_FileSystem_System     : Datei ist eine Systemdatei
+@EndFixedFont
+
+  Auf Linux oder MacOSX sind die Attribute eine Kombination der folgenden Werte:
+@FixedFont
+  @#PB_FileSystem_Link       : Die Datei ist ein symbolischer Link 
+  @#PB_FileSystem_ReadUser   : Zugriffs-Flags für den "besitzenden" (englisch: owning) Anwender
+  @#PB_FileSystem_WriteUser
+  @#PB_FileSystem_ExecUser
+  @#PB_FileSystem_ReadGroup  : Zugriffs-Flags für die "besitzende" (englisch: owning) Anwendergruppe
+  @#PB_FileSystem_WriteGroup
+  @#PB_FileSystem_ExecGroup
+  @#PB_FileSystem_ReadAll    : Zugriffs-Flags für alle anderen Anwender
+  @#PB_FileSystem_WriteAll
+  @#PB_FileSystem_ExecAll
+@EndFixedFont  
+
+@Remarks
+  Um zu testen, ob ein Attribut tatsächlich gesetzt ist, benutzen Sie einfach '&' (binäres 'AND', zu deutsch: und)
+  und die Attribut-Konstanten:
+
+@Example
+@Code
+  [...]
+  
+  FileAttribute = DirectoryEntryAttributes(#Verzeichnis)
+  If FileAttribute & #PB_FileSystem_Hidden
+    Debug "Diese Datei ist versteckt !"
+  EndIf
+@EndCode  
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DirectoryEntryDate(#Verzeichnis, DatumsTyp)
+
+@Description
+  Gibt das Datum des aktuellen Eintrags im Verzeichnis zurück, welches mit den
+  Befehlen @@ExamineDirectory und @@NextDirectoryEntry aufgelistet wird.
+
+@Parameter "#Verzeichnis"
+  Das Verzeichnis, welches mit @@ExamineDirectory untersucht wird.
+
+@Parameter "DatumsTyp"
+  Die Art des zurückzugebenden Datums. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Date_Created : gibt das Erstellungsdatum der Datei zurück
+  @#PB_Date_Accessed: gibt das Datum des letzten Zugriffs auf die Datei zurück
+  @#PB_Date_Modified: gibt das Datum der letzten Veränderung an der Datei zurück
+@EndFixedFont
+
+@ReturnValue
+  Gibt das angegebene Datum des aktuellen Verzeichnis-Eintrags im Format der PureBasic @LibraryLink "Date" "Date"
+  Bibliothek zurück.
+
+@Remarks
+  Auf Linux und Mac OSX ist das für @#PB_Date_Created zurückgegebene Datum das gleiche
+  wie bei @#PB_Date_Modified, da die meisten Datei-Systeme kein Erstellungsdatum
+  für Dateien speichern.
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DateiName$ = DirectoryEntryName(#Verzeichnis)
+
+@Description
+  Gibt den Namen des aktuellen Eintrags im mittels der Befehle @@ExamineDirectory und
+  @@NextDirectoryEntry aufgelisteten Verzeichnis zurück.
+
+@Parameter "#Verzeichnis"
+  Das Verzeichnis, welches mit @@ExamineDirectory untersucht wird.
+
+@ReturnValue
+  Gibt den Namen des aktuellen Verzeichnis-Eintrags zurück.
+
+@Remarks
+  Die Pseudo-Verzeichnisse "." und ".." können in einer Verzeichnis-Auflistung zurückgegeben
+  werden. Daher müssen sie (aus)gefiltert werden, wenn sie nicht in der Programmausgabe
+  enthalten sein sollen.
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DirectoryEntryType(#Verzeichnis)
+
+@Description
+  Gibt den Typ des aktuellen Eintrags im mittels der Befehle @@ExamineDirectory und
+  @@NextDirectoryEntry aufgelisteten Verzeichnis zurück.
+
+@Parameter "#Verzeichnis"
+  Das Verzeichnis, welches mit @@ExamineDirectory untersucht wird.
+
+@ReturnValue
+  Gibt einen der folgenden Werte zurück:
+@FixedFont
+  @#PB_DirectoryEntry_File     : dieser Eintrag ist eine Datei
+  @#PB_DirectoryEntry_Directory: dieser Eintrag ist ein Verzeichnis
+@EndFixedFont
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Größe.q = DirectoryEntrySize(#Verzeichnis)
+
+@Description
+  Gibt die Größe des aktuellen Eintrags im mittels der Befehle @@ExamineDirectory und
+  @@NextDirectoryEntry aufgelisteten Verzeichnis zurück.
+
+@Parameter "#Verzeichnis"
+  Das Verzeichnis, welches mit @@ExamineDirectory untersucht wird.
+
+@ReturnValue
+  Gibt die Größe des aktuellen Verzeichnis-Eintrags in Bytes zurück.
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ExamineDirectory(#Verzeichnis, VerzeichnisName$, Pattern$)
+
+@Description
+  Beginnt die Untersuchung eines Verzeichnisses zur weiteren Auflistung mittels der Befehle
+  @@NextDirectoryEntry, @@DirectoryEntryName und @@DirectoryEntryType. 
+
+@Parameter "#Verzeichnis"
+  Eine Nummer, um die neue Verzeichnis-Auflistung zu identifizieren.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann als Parameter verwendet werden,
+  um diese Nummer automatisch zu generieren.
+
+@Parameter "VerzeichnisName$"
+  Das zu untersuchende Verzeichnis.
+
+@Parameter "Pattern$"
+  Ein Pattern (Muster), nach dem die zurückgegebenen Einträge gefiltert werden.
+  @LineBreak
+  Zum Beispiel: Ein Pattern wie "*.*" oder "" wird alle Dateien (und Unter-Verzeichnisse)
+  im Verzeichnis auflisten. Ein Pattern$ wie "*.exe" wird nur die .exe Dateien (und
+  wenn vorhanden: Unterverzeichnisse, welche auf .exe enden) auflisten.
+@LineBreak
+@LineBreak
+  Bitte beachten Sie ein spezielles MS Windows Verhalten: Bei Verwendung einer 3-stelligen
+  Dateinamen-Erweiterung wird jede mit diesen 3 Zeichen beginnende Erweiterung zutreffen,
+  z.B. wird "*.log" auch eine Datei/Endung "test.log_1" finden.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Verzeichnis untersucht werden kann, oder
+  Null bei einem Fehler. Wenn @#PB_Any als #Verzeichnis Parameter verwendet
+  wurde, dann wird die generierte Verzeichnis-Nummer zurückgegeben.
+
+@Remarks
+  Sobald die Untersuchung des Verzeichnisses abgeschlossen ist, muss @@FinishDirectory 
+  aufgerufen werden, um die für das Auflisten benötigten Ressourcen freizugeben.
+  @LineBreak
+  @LineBreak
+  OS-spezifische Pfadtrennzeichen sind verfügbar: @#PS, @#NPS, @ConstantColor "#PS$" ('\') und @ConstantColor "#NPS$" ('/').
+
+@Example
+@Code
+  Directory$ = GetHomeDirectory() ; Listet alle Dateien und Ordner im 'Home'-Verzeichnis auf
+  If ExamineDirectory(0, Directory$, "*.*")  
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = "[File] "
+        Size$ = " (Size: " + DirectoryEntrySize(0) + ")"
+      Else
+        Type$ = "[Directory] "
+        Size$ = "" ; A directory doesn't have a size
+      EndIf
+      
+      Debug Type$ + DirectoryEntryName(0) + Size$
+    Wend
+    FinishDirectory(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FinishDirectory,
+  @@NextDirectoryEntry,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishDirectory(#Verzeichnis)
+
+@Description
+  Beendet die mit @@ExamineDirectory gestartete Untersuchung eines Verzeichnisses.
+  Dies gibt die für das Auflisten des #Verzeichnis benötigten Ressourcen frei.
+
+@Parameter "#Verzeichnis"
+  Das mittels @@ExamineDirectory untersuchte Verzeichnis.
+
+@NoReturnValue
+
+@SeeAlso
+  @@ExamineDirectory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Endung$ = GetExtensionPart(DateiPfad$)
+
+@Description
+  Ermittelt die Dateiendung aus einem kompletten Dateipfad.
+
+@Parameter "DateiPfad$"
+  Der volle Dateipfad, von dem die Endung ermittelt werden soll.
+
+@ReturnValue
+  Gibt die Dateiendung zurück. Zum Beispiel: wenn der volle Pfad
+  "C:\PureBasic\PB.exe" lautet, wird das Resultat "exe" sein.
+
+@Remarks
+  Um den Dateinamen oder den Pfad aus einem kompletten Dateipfad zu ermitteln, 
+  verwenden Sie die @@GetFilePart und @@GetPathPart
+  Befehle.
+
+@SeeAlso
+  @@GetFilePart,
+  @@GetPathPart
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DateiName$ = GetFilePart(DateiPfad$ [, Modus])
+
+@Description
+  Ermittelt den Dateinamen aus einem kompletten Dateipfad.
+
+@Parameter "DateiPfad$"
+  Der volle Dateipfad, von dem der Dateiname ermittelt werden soll.
+
+@OptionalParameter "Modus"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_FileSystem_NoExtension: Ermittelt den Dateinamen ohne seine Endung/Erweiterung (falls vorhanden).
+@EndFixedFont
+
+@ReturnValue
+  Gibt den Dateinamen zurück. Zum Beispiel: wenn der volle Pfad
+  "C:\PureBasic\PB.exe" lautet, wird das Resultat "PB.exe" sein.
+
+@Remarks
+  Um die Dateiendung oder den Pfad aus einem kompletten Dateipfad zu ermitteln, 
+  verwenden Sie die @@GetExtensionPart und @@GetPathPart Befehle.
+
+@SeeAlso
+  @@GetExtensionPart, @@GetPathPart
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Pfad$ = GetPathPart(DateiPfad$)
+
+@Description
+  Ermittelt das Verzeichnis (den Pfad) aus einem kompletten Dateipfad.
+
+@Parameter "DateiPfad$"
+  Der volle Dateipfad, von dem der Pfad ermittelt werden soll.
+
+@ReturnValue
+  Gibt den Pfad (das Verzeichnis) zurück. Zum Beispiel: wenn der volle Pfad
+  "C:\PureBasic\PB.exe" lautet, wird das Resultat "C:\PureBasic\" sein.
+
+@Remarks
+  Um die Dateiendung oder den Dateinamen aus einem kompletten Dateipfad zu ermitteln, 
+  verwenden Sie die @@GetExtensionPart und @@GetFilePart
+  Befehle.
+
+@SeeAlso
+  @@GetExtensionPart,
+  @@GetFilePart 
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsDirectory(#Verzeichnis)
+
+@Description
+  Überprüft, ob die angegebene #Verzeichnis Nummer gültig und eine korrekt initialisierte
+  Verzeichnis-Auflistung ist.
+
+@Parameter "#Verzeichnis"
+  Die zu überprüfende Verzeichnis-Auflistung.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das angegebene #Verzeichnis eine
+  gültige Auflistung ist, und andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. 
+  Dies ist der richtige Weg, um sicher zu stellen, dass ein Verzeichnis bereit zur Verwendung ist.
+
+@SeeAlso
+  @@ExamineDirectory  
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CheckFilename(Dateiname$)
+
+@Description
+  Überprüft, dass der angegebene Dateiname$ keine für das Dateisystem ungültige Zeichen enthält.
+  Zum Beispiel sind unter Windows die '/' und '\' Zeichen nicht in einem Dateinamen erlaubt.
+
+@Parameter "Dateiname$"
+  Der zu überprüfende Dateiname ohne einen Pfad.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Dateiname keine ungültigen Zeichen enthält,
+  und Null wenn er diese enthält.
+
+@Remarks
+  Auch wenn der "Syntax-Check" dieser Funktion keinen Fehler ergibt, gibt es trotzdem einige "verbotene"
+  Dateinamen auf verschiedenen OS. Zum Beispiel sind auf Windows keine Dateinamen erlaubt, die "COM1" bis
+  "COM9", "LPT1" bis "LPT9" oder "aux" enthalten. Für weitere Informationen siehe
+  @InternetLink "https://de.wikipedia.org/wiki/Dateiname" "hier".
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.q = FileSize(DateiName$)
+
+@Description
+  Gibt die Größe der angegebenen Datei zurück. Diese Funktion kann auch verwendet werden,
+  um zu überprüfen, ob eine Datei oder ein Verzeichnis existiert oder nicht.
+
+@Parameter "DateiName$"
+  Der Dateiname, von dem die Größe ermittelt werden soll.
+
+@ReturnValue
+  Gibt die Größe der Datei in Bytes zurück, oder einen der folgenden Werte:
+@FixedFont
+  -1: Datei wurde nicht gefunden.
+  -2: Datei ist ein Verzeichnis.
+@EndFixedFont
+
+@SeeAlso
+  @@DirectoryEntrySize
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetCurrentDirectory()
+
+@Description
+  Gibt das aktuelle Verzeichnis des Programms zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt den vollständigen Pfad des aktuellen Verzeichnisses zurück.
+  Dieser wird mit einem Verzeichnis-Trennzeichen ('\', @#PS, @ConstantColor "#PS$" auf Windows bzw. sonst '/', @#NPS, @ConstantColor "#NPS$") enden.
+@LineBreak
+@LineBreak
+  Es ist sehr unwahrscheinlich, aber wenn diese Funktion fehlschlägt, wird ein leerer String zurückgegeben.
+
+@Remarks
+  Alle Datei-Zugriffe erfolgen relativ zu diesem Verzeichnis, wenn kein absoluter Pfad angegeben wird.
+  Zum Ändern des aktuellen Verzeichnisses verwenden Sie @@SetCurrentDirectory.
+
+@SeeAlso
+  @@SetCurrentDirectory,
+  @@GetHomeDirectory,
+  @@GetUserDirectory,
+  @@GetTemporaryDirectory
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetHomeDirectory()
+
+@Description
+  Gibt den 'Home'-Verzeichnispfad (Anwender-bezogen) des aktuell eingeloggten Anwenders zurück.
+
+@NoParameters
+
+@ReturnValue
+  Gibt den vollständigen Pfad des 'Home'-Verzeichnisses zurück.
+  Dieser wird mit einem Verzeichnis-Trennzeichen ('\', @#PS, @ConstantColor "#PS$" auf Windows bzw. sonst '/', @#NPS, @ConstantColor "#NPS$") enden.
+@LineBreak
+@LineBreak
+  Es ist sehr unwahrscheinlich, aber wenn diese Funktion fehlschlägt, wird ein leerer String zurückgegeben.
+
+@Remarks
+  Das 'Home'-Verzeichnis ist das Verzeichnis für die Anwender-Daten (Voreinstellungen, Plugins, etc.)
+  des aktuellen Anwenders. Lese- und Schreib-Zugriff sollte in diesem Verzeichnis möglich sein.
+
+@SeeAlso
+  @@GetCurrentDirectory,
+  @@GetTemporaryDirectory,
+  @@GetUserDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetUserDirectory(Typ)
+
+@Description
+  Gibt den Verzeichnispfad des angegebenen Verzeichnistyps zurück.
+
+@Parameter "Typ"
+  Der Typ des Verzeichnisses, von dem der Pfad ermittelt werden soll.
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Directory_Desktop    : Desktop-Verzeichnis des aktuell eingeloggten Anwenders
+  @#PB_Directory_Downloads  : Download-Verzeichnis des aktuell eingeloggten Anwenders
+  @#PB_Directory_Documents  : Dokumenten-Verzeichnispfad des aktuell eingeloggten Anwenders
+  @#PB_Directory_Videos     : Videos-Verzeichnispfad des aktuell eingeloggten Anwenders
+  @#PB_Directory_Musics     : Musik-Verzeichnispfad des aktuell eingeloggten Anwenders
+  @#PB_Directory_Pictures   : Bilder-Verzeichnispfad des aktuell eingeloggten Anwenders
+  @#PB_Directory_Public     : 'Public'-Verzeichnis des aktuell eingeloggten Anwenders
+  @#PB_Directory_ProgramData: Programmdaten-Verzeichnis des aktuell eingeloggten Anwenders. 
+                             Auf Linux und OSX handelt es sich um das 'Home'-Verzeichnis - gefolgt von einem '/.', um die
+                             Möglichkeit zu haben, ein verstecktes Konfigurationsverzeichnis im 'Home User' zu erstellen.
+  @#PB_Directory_AllUserData: gemeinsames Programmdatenverzeichnis (für alle Benutzer zugänglich)
+  @#PB_Directory_Programs   : globaler Programmdateienpfad (kann nur lesbar sein)
+@EndFixedFont
+
+@ReturnValue
+  Gibt den vollständigen Pfad des angegebenen Verzeichnisses zurück. 
+  Dieser wird mit einem Verzeichnis-Trennzeichen ('\', @#PS, @ConstantColor "#PS$" auf Windows bzw. sonst '/', @#NPS, @ConstantColor "#NPS$") enden.
+  Wenn der Typ nicht gefunden wird, dann wird ein leerer String zurückgegeben.
+
+@SeeAlso
+  @@GetCurrentDirectory,
+  @@GetHomeDirectory,
+  @@GetTemporaryDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetTemporaryDirectory()
+
+@Description
+  Gibt den Namen des temporären Verzeichnisses ("Temp") zurück. 
+
+@NoParameters
+
+@ReturnValue
+  Gibt den vollständigen Pfad des temporären Verzeichnisses zurück.
+  Dieser wird mit einem Verzeichnis-Trennzeichen ('\', @#PS, @ConstantColor "#PS$" auf Windows bzw. sonst '/', @#NPS, @ConstantColor "#NPS$") enden.
+@LineBreak
+@LineBreak
+  Es ist sehr unwahrscheinlich, aber wenn diese Funktion fehlschlägt, wird ein leerer String zurückgegeben.
+
+@Remarks
+  Dieses Verzeichnis bietet Lese- und Schreib-Zugriff und sollte verwendet werden, um temporäre
+  Dateien zu speichern. Abhängig vom Betriebssystem und den Einstellungen kann der Inhalt dieses
+  Verzeichnisses in regelmäßigen Abständen (automatisch) gelöscht werden. Es ist jedoch besser,
+  temporäre Dateien zu löschen, wenn sie nicht mehr benötigt werden und sich nicht auf solch eine
+  automatische Bereinigung zu verlassen.
+
+@SeeAlso
+  @@GetCurrentDirectory,
+  @@GetHomeDirectory, @@GetUserDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetFileDate(Dateiname$, DatumsTyp)
+
+@Description
+  Gibt das Datum der angegebenen Datei zurück.
+
+@Parameter "Dateiname$"
+  Der Dateiname, von dem das Datum ermittelt werden soll.
+
+@Parameter "DatumsTyp"
+  Die Art des zurückzugebenden Datums. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Date_Created : gibt das Erstellungsdatum der Datei zurück
+  @#PB_Date_Accessed: gibt das Datum des letzten Zugriffs auf die Datei zurück
+  @#PB_Date_Modified: gibt das Datum der letzten Veränderung an der Datei zurück
+@EndFixedFont
+
+@ReturnValue
+  Gibt das gewünschte Datum im Format der PureBasic @LibraryLink "Date" "Date"
+  Bibliothek zurück.
+
+@Remarks
+  Auf Linux und Mac OSX ist das für @#PB_Date_Created zurückgegebene Datum das gleiche
+  wie bei @#PB_Date_Modified, da die meisten Datei-Systeme kein Erstellungsdatum
+  für Dateien speichern.
+
+@SeeAlso
+  @@SetFileDate, @@DirectoryEntryDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Attribute = GetFileAttributes(Dateiname$)
+
+@Description
+  Gibt die Datei-Attribute der angegebenen Datei zurück. 
+
+@Parameter "Dateiname$"
+  Die Datei, von der die Attribute gelesen werden sollen.
+  Dies kann auch der Name eines Verzeichnisses sein.
+
+@ReturnValue
+  Gibt die Attribute der Datei zurück. Wenn die Datei nicht existiert oder die Attribute
+  nicht gelesen werden können, ist das Ergebnis der Wert -1.
+@LineBreak
+@LineBreak
+  Auf Windows sind die Attribute eine Kombination der folgenden Werte:
+@FixedFont
+  @#PB_FileSystem_Hidden     : Datei ist versteckt
+  @#PB_FileSystem_Archive    : Datei wurde geändert und nicht archiviert seit dem letzten Mal
+  @#PB_FileSystem_Compressed : Datei ist komprimiert
+  @#PB_FileSystem_Normal     : Normale Attribute
+  @#PB_FileSystem_ReadOnly   : Datei ist im "ReadOnly" Modus (schreibgeschützt)
+  @#PB_FileSystem_System     : Datei ist eine Systemdatei
+@EndFixedFont
+
+  Auf Linux oder MacOSX sind die Attribute eine Kombination der folgenden Werte:
+@FixedFont
+  @#PB_FileSystem_Link       : Die Datei ist ein symbolischer Link 
+  @#PB_FileSystem_ReadUser   : Zugriffs-Flags für den "besitzenden" (englisch: owning) Anwender
+  @#PB_FileSystem_WriteUser
+  @#PB_FileSystem_ExecUser
+  @#PB_FileSystem_ReadGroup  : Zugriffs-Flags für die "besitzende" (englisch: owning) Anwendergruppe
+  @#PB_FileSystem_WriteGroup
+  @#PB_FileSystem_ExecGroup
+  @#PB_FileSystem_ReadAll    : Zugriffs-Flags für alle anderen Anwender
+  @#PB_FileSystem_WriteAll
+  @#PB_FileSystem_ExecAll
+@EndFixedFont  
+
+@Remarks
+  Um zu testen, ob ein Attribut tatsächlich gesetzt ist, benutzen Sie einfach '&' (binäres 'AND', zu deutsch: und)
+  und die Attribut-Konstanten:
+@Code
+  FileAttributes = GetFileAttributes("C:\Text.txt")
+  If FileAttributes & #PB_FileSystem_Hidden
+    Debug "Diese Datei ist versteckt!"
+  EndIf
+@EndCode  
+
+@Example
+@Code
+  Value = GetFileAttributes("c:\autoexec.bat") 
+  
+  If Value = -1 
+    Debug "Fehler beim Lesen der Datei-Attribute!"
+  Else 
+    If Value & #PB_FileSystem_Hidden     : txt$ + "H" : Else : txt$+"-" : EndIf 
+    If Value & #PB_FileSystem_Archive    : txt$ + "A" : Else : txt$+"-" : EndIf 
+    If Value & #PB_FileSystem_Compressed : txt$ + "C" : Else : txt$+"-" : EndIf 
+    If Value & #PB_FileSystem_Normal     : txt$ + "N" : Else : txt$+"-" : EndIf 
+    If Value & #PB_FileSystem_ReadOnly   : txt$ + "R" : Else : txt$+"-" : EndIf 
+    If Value & #PB_FileSystem_System     : txt$ + "S" : Else : txt$+"-" : EndIf 
+    Debug txt$ 
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SetFileAttributes, @@DirectoryEntryAttributes
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NextDirectoryEntry(#Verzeichnis)
+
+@Description
+  Diese Funktion muss nach einem @@ExamineDirectory aufgerufen werden.
+  Sie wird Schritt für Schritt durch das Verzeichnis gehen und dessen Inhalt auflisten. 
+
+@Parameter "#Verzeichnis"
+  Das Verzeichnis, welches mit @@ExamineDirectory untersucht wird.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn ein neuer Eintrag vom Verzeichnis gelesen wurde,
+  und Null, wenn es keine weiteren Einträge gibt.
+
+@Remarks
+  Der Name des Eintrags kann mit Hilfe der Funktion @@DirectoryEntryName ermittelt
+  werden. Wenn Sie wissen möchten, ob ein Eintrag ein Unterverzeichnis oder eine Datei ist,
+  verwenden Sie die @@DirectoryEntryType Funktion.
+
+@SeeAlso
+  @@ExamineDirectory,
+  @@DirectoryEntryType,
+  @@DirectoryEntryName,
+  @@DirectoryEntrySize,
+  @@DirectoryEntryAttributes,
+  @@DirectoryEntryDate 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = RenameFile(AlterDateiname$, NeuerDateiname$)
+
+@Description
+  Benennt die alte Datei in die neue Datei um.
+
+@Parameter "AlterDateiname$"
+  Der alte Name der Datei.
+
+@Parameter "NeuerDateiname$"
+  Der neue Name der Datei.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+
+@Remarks
+  Der alte und der neue Dateiname müssen sich nicht im gleichen Verzeichnis befinden. Damit kann
+  diese Funktion auch für das Verschieben einer Datei in ein anderes Verzeichnis verwendet werden.
+  Diese Funktion kann auch verwendet werden, um Verzeichnisse umzubenennen/zu verschieben.
+
+@Example
+@Code
+  If RenameFile("C:\test.txt", "D:\temp\test_backup.txt")   
+    Debug "Verschieben und Umbenennen erfolgreich."      ; Verschieben der Datei in ein anderes Verzeichnis und Umbenennen erfolgreich
+  Else 
+    Debug "Verschieben und Umbenennen fehlgeschlagen."   ; Verschieben und Umbenennen fehlgeschlagen, z.B. wegen nicht gefundener Quelldatei
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CopyFile, @@DeleteFile, @@CreateFile, @@CopyDirectory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SetFileDate(Dateiname$, DatumsTyp, Datum)
+
+@Description
+  Ändert das Datum der angegebenen Datei.
+
+@Parameter "Dateiname$"
+  Der Name der Datei, welche geändert werden soll.
+
+@Parameter "DatumsTyp"
+  Die Art des zu ändernden Datums. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Date_Created : ändert das Erstellungsdatum der Datei
+  @#PB_Date_Accessed: ändert das Datum des letzten Zugriffs auf die Datei
+  @#PB_Date_Modified: ändert das Datum der letzten Veränderung an der Datei
+@EndFixedFont
+
+@Parameter "Datum"
+  Das zu setzende Datum. Dieses muss ein Wert von der @LibraryLink "Date" "Date" Bibliothek sein.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+
+@Remarks
+  Auf Linux und Mac OSX ist das für @#PB_Date_Created verwendete Datum das gleiche
+  wie bei @#PB_Date_Modified, da die meisten Datei-Systeme kein Erstellungsdatum
+  für Dateien speichern.
+
+@SeeAlso
+  @@GetFileDate
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SetFileAttributes(Dateiname$, Attribute)
+
+@Description
+  Setzt die Datei-Attribute der angegebenen Datei.
+
+@Parameter "Dateiname$"
+  Der Name der Datei, welche geändert werden soll.
+  Dies kann auch der Name eines Verzeichnisses sein.
+
+@Parameter "Attribute"
+  Die neuen Attribute.
+@LineBreak
+@LineBreak 
+  Auf Windows sind die Attribute eine Kombination der folgenden Werte:
+@FixedFont
+  @#PB_FileSystem_Hidden     : Datei ist versteckt
+  @#PB_FileSystem_Archive    : Datei wurde geändert und nicht archiviert seit dem letzten Mal
+  @#PB_FileSystem_Normal     : Normale Attribute
+  @#PB_FileSystem_ReadOnly   : Datei ist im "ReadOnly" Modus (schreibgeschützt)
+  @#PB_FileSystem_System     : Datei ist eine Systemdatei
+@EndFixedFont
+
+  Auf Linux oder MacOSX können die folgenden Werte verwendet werden:
+@FixedFont
+  @#PB_FileSystem_ReadUser   : Zugriffs-Flags für den "besitzenden" (englisch: owning) Anwender
+  @#PB_FileSystem_WriteUser
+  @#PB_FileSystem_ExecUser
+  @#PB_FileSystem_ReadGroup  : Zugriffs-Flags für die "besitzende" (englisch: owning) Anwendergruppe
+  @#PB_FileSystem_WriteGroup
+  @#PB_FileSystem_ExecGroup
+  @#PB_FileSystem_ReadAll    : Zugriffs-Flags für alle anderen Anwender
+  @#PB_FileSystem_WriteAll
+  @#PB_FileSystem_ExecAll
+@EndFixedFont  
+
+  Um mehrere Attribute zu kombinieren, verwenden Sie einfach den '|' (binäres 'OR', zu deutsch: oder) Operator:
+@Code
+  SetFileAttributes("C:\Text.txt", #PB_FileSystem_Hidden | #PB_FileSystem_ReadOnly)
+@EndCode  
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+
+@SeeAlso
+  @@GetFileAttributes
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SetCurrentDirectory(Verzeichnis$)
+
+@Description
+  Ändert das aktuelle Verzeichnis für das Programm.
+
+@Parameter "Verzeichnis$"
+  Der vollständige Pfad zum neuen Verzeichnis, oder ein Pfad relativ zum
+  existierenden aktuellen Verzeichnis.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das aktuelle Verzeichnis erfolgreich geändert wurde,
+  andernfalls Null.
+
+@Remarks
+  Alle Datei-Zugriffe erfolgen relativ zu diesem Verzeichnis, wenn kein absoluter Pfad angegeben wird.
+  Um das aktuelle Verzeichnis zu ermitteln, verwenden Sie @@GetCurrentDirectory.
+@LineBreak
+@LineBreak
+  OS-spezifische Pfadtrennzeichen sind verfügbar: @#PS, @#NPS, @ConstantColor "#PS$" ('\') und @ConstantColor "#NPS$" ('/').
+
+@SeeAlso
+  @@GetCurrentDirectory
+  
+@SupportedOS

@@ -1,0 +1,27 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Geolocation example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Procedure Events()
+  Debug "GeolocationLatitude: " + GeolocationLatitude()
+  Debug "GeolocationLongitude: " + GeolocationLongitude()
+  Debug "GeolocationAltitude: " + GeolocationAltitude()
+  Debug "GeolocationSpeed: " + GeolocationSpeed()     
+  Debug "GeolocationHeading: " + GeolocationHeading()     
+  Debug "GeolocationTime: " + GeolocationTime()     
+EndProcedure
+
+
+OpenWindow(0, 0, 0, 300, 45, "Geolocation", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+ 
+ButtonGadget(0, 10, 10, 280, 25, "Display geolocation info")
+
+StartGeolocation(100)
+
+BindGadgetEvent(0, @Events())

@@ -1,0 +1,79 @@
+@Title Einsteiger-Kapitel - Schleifen
+
+Daten, Ereignisse oder viele andere Dinge können auch durch die Verwendung von Schleifen
+verarbeitet werden, welche immer auf das Zutreffen einer bestimmten Bedingungen geprüft
+werden. Schleifen können sein: @ReferenceLink "repeat_until" "Repeat : Until",
+@ReferenceLink "repeat_until" "Repeat : Forever", @ReferenceLink "while_wend" "While : Wend",
+@ReferenceLink "for_next" "For : Next", @ReferenceLink "foreach_next" "ForEach : Next". 
+@LineBreak
+@LineBreak
+In dieser Schleife wird der Zähler A jedes Mal um zwei erhöht, diese Schleife durchläuft
+immer die gleiche Anzahl an Wiederholungen (Iterationen).
+@Code
+  Define.i A
+  For A = 0 To 10 Step 2
+    Debug A
+  Next A
+@EndCode
+
+Diese Schleife wird die Variable B jedes Mal um einen @Link "math/random" "Zufallswert"
+zwischen 0 und 20 erhöhen, bis B die 100 überschreitet. Die Anzahl der tatsächlich
+durchgeführten Wiederholungen der Schleife variiert in Abhängigkeit von den Zufallszahlen.
+Die Prüfung wird am Anfang der Schleife durchgeführt - wenn daher die Bedingung bereits
+wahr ist, können null Durchläufe ausgeführt werden. Entfernen Sie das ";" von der zweiten
+Zeile, um dies zu sehen.
+@Code
+  Define.i B
+  ; B = 100
+  While B < 100
+    B + Random(20)
+    Debug B
+  Wend
+@EndCode
+
+Diese Schleife ist sehr ähnlich zur letzten, außer dass die Überprüfung am Ende der
+Schleife ausgeführt wird. Daher wird mindestens ein Durchlauf ausgeführt. Entfernen
+Sie auch hier das ";" von der zweiten Zeile, um dies zu demonstrieren.
+@Code
+  Define.i C
+  ; C = 100
+  Repeat
+    C + Random(20)
+    Debug C
+  Until C > 99
+@EndCode
+
+Diese Schleife ist unendlich. Sie wird nicht anhalten, bis Sie sie stoppen (mittels
+des roten X-Knopfes in der IDE-Werkzeugleiste).
+@Code
+  Define.i D
+  Repeat
+    Debug D
+  Forever
+@EndCode
+
+Es gibt eine spezielle Schleife für das Arbeiten mit @ReferenceLink "newlist" "verkettete Listen"
+und @ReferenceLink "NewMap" "Maps", sie wird jeden Eintrag der Liste (oder der Map) durchlaufen.
+@Code
+  NewList Fruit.s()
+  
+  AddElement(Fruit())
+  Fruit() = "Banana"
+  
+  AddElement(Fruit())
+  Fruit() = "Apple"
+  
+  AddElement(Fruit())
+  Fruit() = "Pear"
+  
+  AddElement(Fruit())
+  Fruit() = "Orange"
+  
+  ForEach Fruit()
+    Debug Fruit()
+  Next Fruit()
+@EndCode
+
+
+@Section Einsteiger-Kapitel Navigation
+@ReferenceLink "ug_decisions" "< Vorheriges: Entscheidungen & Bedingungen" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_string" "Nächstes: String-Manipulation >"

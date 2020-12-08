@@ -1,0 +1,676 @@
+;
+; Requester library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Requester
+
+@Overview
+
+  Les Requesters sont ces 'boîtes de dialogue' 
+  que l'on trouve dans pratiquement toutes les
+  applications avec interface graphique. 
+  Elles sont très pratiques pour effectuer 
+  simplement des tâches de base parfois 
+  complexes (ouvrir un fichier, choisir une 
+  couleur ou une police ...) qui ont chacune 
+  leur boîte de dialogue spécialisée.
+
+@CommandList
+
+@ExampleFile All Requester.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ColorRequester([Couleur])
+
+@Description
+  Ouvre une boîte de dialogue standard 
+  pour choisir une couleur 24 bits (3 octets).
+ 
+@OptionalParameter "Couleur"
+  Couleur par défaut lors de l'ouverture de 
+  la boîte.
+
+@ReturnValue  
+  La couleur 24 bits (3 octets) sélectionnée ou  -1 ou si 
+  l'utilisateur a annulé la sélection.
+@LineBreak
+@LineBreak  
+  Pour récupérer facilement la valeur de 
+  chacune des composantes, utiliser les 
+  commandes @@Red, @@Green et @@Blue.    
+
+@Remarks
+  La bibliothèque @LibraryLink "VectorDrawing" "VectorDrawing" fonctionne avec les 
+  couleurs 32 bits(4 octets), comprenant la transparence alpha. Vous trouverez ci-dessous 
+  un exemple de code pour ajouter la transparence à une couleur 24 bits.  
+  
+  
+@Example
+@Code
+  Couleur = ColorRequester()
+  If Couleur > -1
+    a$ = "Vous avez sélectionné la couleur suivante:" + Chr(10)  ; Chr(10) est seulement nécessaire
+    a$ + "Valeur 24 Bits: " + Str(Couleur)              + Chr(10)  ; pour les retours à la ligne
+    a$ + "Composante rouge:    " + Str(Red(Couleur))    + Chr(10)
+    a$ + "Composante verte:  " + Str(Green(Couleur))    + Chr(10)
+    a$ + "Composante bleue:   " + Str(Blue(Couleur))
+  Else  
+    a$ = "La sélection a été annulée."
+  EndIf
+  MessageRequester("Information",a$,0)
+  End
+@EndCode
+@LineBreak
+@Image colorrequester.png
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = FontRequester(Police$, TaillePolice, Options [, Couleur [, Style]])
+
+@Description
+  Ouvre une boîte de dialogue standard 
+  pour choisir une police de caractères. 
+
+@Parameter "Police$"
+  Le nom de la police affichée par défaut 
+  lors de l'ouverture de la boîte de dialogue.
+
+@Parameter "TaillePolice"
+  La taille de la police affichée par défaut 
+  lors de l'ouverture de la boîte de dialogue.
+
+@Parameter "Options"
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_FontRequester_Effects : Affiche les options effets (Barré, Souligné, Couleur, etc) (Windows uniquement).
+@EndFixedFont
+
+@OptionalParameter "Couleur"
+  La couleur de la police affichée par défaut 
+  lors de l'ouverture de la boîte de dialogue. 
+@LineBreak
+@LineBreak   
+  Utiliser @@RGB pour obtenir une valeur de 
+  couleur valide.
+
+@OptionalParameter "Style"
+  Le style de la police affichée par défaut 
+  lors de l'ouverture de la boîte de dialogue. 
+@LineBreak
+@LineBreak   
+  Voir @@SelectedFontStyle pour obtenir les 
+  styles disponibles.
+  
+@ReturnValue
+  Renvoie une valeur non nulle si une police 
+  a été choisie, zéro si l'utilisateur a annulé 
+  la boîte de dialogue.
+
+@Remarks
+  Les fonctions @@SelectedFontColor, 
+  @@SelectedFontName, @@SelectedFontSize et 
+  @@SelectedFontStyle peuvent être utilisées 
+  après un appel réussi à cette fonction pour 
+  obtenir les informations sur la police 
+  sélectionnée.
+   
+@Example
+@Code
+  Police$ = "Arial"   ; Police initiale (peut aussi être nulle)
+  TaillePolice  = 14  ; Taille initiale (peut aussi être nulle)
+  Resultat = FontRequester(Police$, TaillePolice, #PB_FontRequester_Effects)
+  If Resultat
+    Message$ = "Vous avez sélectionné la police suivante :"  + #LF$
+    Message$ + "Nom :  " + SelectedFontName()       + #LF$
+    Message$ + "Taille :  " + Str(SelectedFontSize())  + #LF$
+    Message$ + "Couleur : " + Str(SelectedFontColor()) + #LF$
+    If SelectedFontStyle() & #PB_Font_Bold
+      Message$ + "Gras" + #LF$
+    EndIf
+    If SelectedFontStyle() & #PB_Font_StrikeOut
+      Message$ + "Barré" + #LF$
+    EndIf
+    If SelectedFontStyle() & #PB_Font_Underline
+      Message$ + "Souligné" + #LF$
+    EndIf
+  Else
+    Message$ = "La sélection a été annulée."
+  EndIf
+ 
+  MessageRequester("FontRequester", Message$, #PB_MessageRequester_Ok)
+@EndCode
+@LineBreak
+@Image fontrequester.png
+
+@SeeAlso  
+  @@SelectedFontColor, @@SelectedFontName, 
+  @@SelectedFontSize, @@SelectedFontStyle
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = InputRequester(Titre$, Message$, TexteParDefaut$ [, Option])
+
+@Description
+  Ouvre une boîte de dialogue permettant 
+  la saisie de texte.
+  
+@Parameter "Titre$"
+  Titre de la boîte de dialogue.
+  
+@Parameter "Message$"
+  Message affiché avant le champ de saisie.
+
+@Parameter "TexteParDefaut$"
+  Texte par défaut du champ de saisie.
+
+@OptionalParameter "Option"
+@FixedFont
+  @#PB_InputRequester_Password: Définir le champ en type 'mot de passe'. 
+                               Le texte affiché sera caché.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie le texte du champ de saisie, 
+  ou une chaîne de caractères vide si
+  l'utilisateur a annulé la boîte.
+
+@Example
+@Code
+  Saisie$ = InputRequester("InputRequester","Saisissez un texte :","Texte par défaut.")
+
+  If Saisie$ > ""
+    a$ = "Vous avez écrit le texte suivant :" + Chr(10)  ; Chr(10) nécessaire seulement
+    a$ + Saisie$                                         ; pour faire un saut de ligne
+  Else 
+    a$ = "La saisie a été annulée ou il n'y a pas de texte saisi."
+  EndIf
+  MessageRequester("Information",a$,0)
+  End
+@EndCode
+@LineBreak
+@Image inputrequester.png
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = MessageRequester(Titre$, Message$ [, Options])
+
+@Description
+  Ouvre une boîte de dialogue permettant 
+  d'afficher un message destiné à fournir 
+  des informations à l'utilisateur. 
+  L'exécution du programme est interrompue 
+  tant que l'utilisateur n'a pas refermé la boîte.
+  
+@Parameter "Titre$"
+  Titre de la boîte de dialogue.
+  
+@Parameter "Message$"
+  Message affiché dans la boîte de dialogue.
+
+@OptionalParameter "Option"
+  Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_MessageRequester_Ok          : Pour afficher seulement le bouton 'OK' (Par défaut)
+  @#PB_MessageRequester_YesNo       : Pour afficher les boutons 'Oui' et 'Non' 
+  @#PB_MessageRequester_YesNoCancel : Pour afficher les boutons 'Oui', 'Non' et 'Annuler' 
+@EndFixedFont 
+  Combiné avec l'une des valeurs suivantes:
+@FixedFont
+  @#PB_MessageRequester_Info   : Affiche une icône Info (I majuscule)
+  @#PB_MessageRequester_Warning: Affiche une icône Attention (!)
+  @#PB_MessageRequester_Error  : Affiche une icône erreur (X)
+@EndFixedFont
+
+@ReturnValue
+  Les valeurs de retour sont les suivantes:
+@FixedFont
+  @#PB_MessageRequester_Yes    : Le bouton 'Oui' a été pressé
+  @#PB_MessageRequester_No     : Le bouton 'Non' a été pressé
+  @#PB_MessageRequester_Cancel : Le bouton 'Annuler' a été pressé
+@EndFixedFont
+
+@Example MessageRequester simple (normalement utilisé uniquement pour afficher des informations)
+@Code
+  MessageRequester("MessageRequester Simple","Juste un petit texte d'information.",#PB_MessageRequester_Ok | #PB_MessageRequester_Info)
+@EndCode
+
+@Example MessageRequester avec boutons Oui / Non (habituellement utilisé pour les questions)
+@Code
+  Resultat = MessageRequester("MessageRequester avec boutons Oui/Non ","Veuillez faire votre choix :",#PB_MessageRequester_YesNo)
+  a$ = "Le résultat du MessageRequester était : "
+  If Resultat = 6     ; le bouton Oui a été choisi (Resultat = 6)
+    a$ + "Oui"
+  Else                ; le bouton Non a été choisi (Resultat = 7)
+    a$ + "Non"
+  EndIf
+  MessageRequester("Information",a$,#PB_MessageRequester_Ok)
+@EndCode
+
+@Example MessageRequester avec boutons Oui / Non / Annuler (habituellement utilisé pour les questions)
+@Code
+  Resultat = MessageRequester("MessageRequester avec boutons Oui / Non / Annuler","Veuillez faire votre choix :",#PB_MessageRequester_YesNoCancel)
+  a$ = "Le résultat du MessageRequester était : "
+  If Result = 6        ; le bouton Oui a été choisi (Resultat = 6)
+    a$ + "Oui"
+  ElseIf Result = 7    ; le bouton Non a été choisi (Resultat = 7)
+    a$ + "Non"
+  Else                 ; le bouton Annuler a été choisi ou la touche Echap a été appuyée (Resultat = 2)
+    a$ + "Annuler"
+  EndIf
+  MessageRequester("Information",a$,#PB_MessageRequester_Ok)
+@EndCode
+@LineBreak
+@Image messagerequester.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = NextSelectedFileName()
+
+@Description
+  Après un @@OpenFileRequester utilisant 
+  la constante @#PB_Requester_MultiSelection, 
+  cette instruction renvoie le fichier 
+  sélectionné suivant, s'il existe. 
+
+@NoParameters
+
+@ReturnValue  
+  Une chaîne de caractères contenant le 
+  nom du fichier suivant ou une chaîne 
+  vide s'il n'y a plus de fichier 
+  à lister.
+
+@Example
+@Code
+  NomFichier$ = OpenFileRequester("Choisissez quelques fichiers","","",0, #PB_Requester_MultiSelection)
+ 
+  While NomFichier$
+    Debug NomFichier$
+    NomFichier$ = NextSelectedFileName()
+  Wend
+@EndCode
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = OpenFileRequester(Titre$, FichierParDefaut$, Filtre$, FiltrePosition [, Options])
+
+@Description
+  Ouvre une boîte de dialogue standard 
+  pour choisir un fichier.    
+
+@Parameter "Titre$"
+  Texte de titre de la boîte de dialogue, 
+  il remplace le titre par défaut.
+
+@Parameter "FichierParDefaut$"
+  Permet d'initialiser la boîte de dialogue 
+  avec un répertoire et un fichier par défaut. 
+
+@Parameter "Filtre$"
+  Permet de n'afficher que les fichiers 
+  dont le nom et/ou l'extension de fin 
+  correspond au filtre. 
+@LineBreak
+@LineBreak  
+  Il doit avoir la forme des exemples suivants : 
+  '*.txt' pour des fichiers texte, '*.mus;*.mod' 
+  pour des fichiers musique ayant l'extension 
+  '.mus' ou '.mod'. Chaque filtre est en fait 
+  une paire composée du label qui sera visible 
+  dans le requester et du filtre proprement dit. 
+  Le séparateur est le caractère '|' (Pipe).
+@LineBreak
+@LineBreak
+  Note: Les paramètres 'Filtre$' et 'FiltrePosition' 
+  n'ont aucun effet sur Mac OSX 
+  (tous les fichiers seront toujours affichés).
+  
+@Parameter "FiltrePosition"
+  Nombre qui précise le filtre utilisé par défaut.
+@LineBreak
+@LineBreak  
+  Valeur entre  0 et le nombre total de filtres moins 1. 
+@LineBreak
+@LineBreak   
+  Une fois la boîte fermée, @@SelectedFilePattern 
+  permet de récupérer la position du filtre choisi.
+@LineBreak
+@LineBreak
+  Note: Les paramètres 'Filtre$' et 'FiltrePosition' 
+  n'ont aucun effet sur Mac OSX 
+  (tous les fichiers seront toujours affichés).
+
+@OptionalParameter "Options"
+  Peut être une combinaison des valeurs suivantes:
+@FixedFont
+  @#PB_Requester_MultiSelection : Active la multi-sélection. (voir @@NextSelectedFileName)
+@EndFixedFont
+
+@ReturnValue
+  Renvoie le chemin et le nom du ou des fichiers 
+  sélectionnés ou une chaîne de caractères vide si
+  l'utilisateur a annulé la boîte.
+  
+@Remarks  
+  Le 'NomFichier$' renvoyé peut être découpé 
+  facilement en chemin, nom ou extension à 
+  l'aide des commandes suivantes: @@GetFilePart, 
+  @@GetPathPart et @@GetExtensionPart.
+
+@Example
+@FixedFont
+  "Fichiers Textes|*.txt"            ; Un seul filtre avec comme label 'Fichiers Textes'
+  "Fichiers Textes|*.txt;*.doc"      ; Un seul filtre avec *.txt et *.doc accepté
+  "Musiques|*.mp3|Video|*.avi;*.asf" ; 2 filtres (Musique et video)
+@EndFixedFont
+
+
+@Example
+@Code
+  FichierParDefaut$ = "C:\autoexec.bat"   ; Répertoire et fichier par défaut qui seront affichés
+  ;  Avec la chaîne suivante nous allons définir les filtres ("|" comme séparateur) pour l'affichage de fichier :
+  ;  1er  : "Texte (*.txt)" comme nom, ".txt" et ".bat" comme extension autorisée
+  ;  2ème : "PureBasic (*.pb)" comme nom, ".pb" comme extension autorisée
+  ;  3ème : "Tous les fichiers (*.*)" comme nom, "*.*" comme extension autorisée, valide pour tous les fichiers
+  Filtre$ = "Texte (*.txt)|*.txt;*.bat|PureBasic (*.pb)|*.pb|Tous les fichiers (*.*)|*.*"
+  Filtre  = 0    ; utiliser  par défaut le premier des trois filtres possibles
+  Fichier$ = OpenFileRequester("Choisissez un fichier à charger", FichierParDefaut$, Filtre$, Filtre)
+  If Fichier$
+    MessageRequester("Information", "Vous avez choisi le fichier suivant :"+Chr(10)+Fichier$, 0)
+  Else
+    MessageRequester("Information", "La sélection a été annulée.", 0)
+  EndIf 
+@EndCode
+@LineBreak
+@Image openfilerequester.png  
+
+@SeeAlso
+  @@NextSelectedFilename
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = PathRequester(Titre$, CheminInitial$)
+
+@Description
+  Ouvre une boîte de dialogue standard 
+  de choix de chemin. 
+
+@Parameter "Titre$"
+  Texte de titre de la boîte de dialogue, 
+  il remplace le titre par défaut.
+
+@Parameter "CheminInitial$"
+  Permet d'initialiser la boîte de dialogue 
+  sur le chemin spécifié. 
+ 
+@Remarks
+  Sous Windows, le chemin est renvoyé avec un  
+  '\' de fin.@LineBreak
+  Sous Linux et OS X, le chemin est renvoyé 
+  avec un  '/' de fin.
+
+@ReturnValue
+  Renvoie le chemin sélectionné ou une chaîne 
+  de caractères vide si l'utilisateur a annulé 
+  la boîte.@LineBreak  
+
+@Example
+@Code
+  CheminInitial$ = "C:\"   ; Répertoire par défaut qui sera affiché (une chaîne vide est aussi possible)
+  Chemin$ = PathRequester("Choisissez un répertoire", CheminInitial$)
+  If Chemin$
+    MessageRequester("Information", "Vous avez choisi le répertoire suivant :"+Chr(10)+Chemin$, 0)
+  Else
+    MessageRequester("Information", "La sélection a été annulée.", 0)
+  EndIf
+@EndCode
+@LineBreak
+@Image pathrequester.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = SaveFileRequester(Titre$, FichierParDefaut$, Filtre$, FiltrePosition)
+
+@Description
+  Ouvre une boîte de dialogue standard pour 
+  enregistrer un fichier.  
+  
+@Parameter "Titre$"
+  Texte de titre de la boîte de dialogue, il 
+  remplace le titre par défaut.
+
+@Parameter "FichierParDefaut$"
+  Permet d'initialiser la boîte de dialogue 
+  avec un répertoire et un fichier par défaut. 
+
+@Parameter "Filtre$"
+  Permet de n'afficher que les fichiers dont 
+  le nom et/ou l'extension de fin correspond
+  au filtre. 
+@LineBreak
+@LineBreak  
+  Il doit avoir la forme des exemples suivants : 
+  '*.txt' pour des fichiers texte, '*.mus;*.mod' 
+  pour des fichiers musique ayant l'extension 
+  '.mus' ou '.mod'. Chaque filtre est en fait 
+  une paire composée du label qui sera visible 
+  dans le requester et du filtre proprement dit. 
+  Le séparateur est le caractère '|' (Pipe).
+@LineBreak
+@LineBreak
+  Note: Les paramètres 'Filtre$' et 'FiltrePosition' 
+  n'ont aucun effet sur Mac OSX 
+  (tous les fichiers seront toujours affichés).
+  
+@Parameter "FiltrePosition"
+  Nombre qui précise le filtre utilisé par défaut.
+@LineBreak
+@LineBreak  
+  Valeur entre  0 et le nombre total de filtres moins 1. 
+@LineBreak
+@LineBreak   
+  Une fois la boîte fermée, @@SelectedFilePattern permet
+  de récupérer la position du filtre choisi.
+@LineBreak
+@LineBreak
+  Note: Les paramètres 'Filtre$' et 'FiltrePosition' 
+  n'ont aucun effet sur Mac OSX 
+  (tous les fichiers seront toujours affichés).
+
+@ReturnValue
+  Renvoie le nom du fichier entré ou une chaîne de 
+  caractères vide si l'utilisateur a annulé la boîte.
+  
+@Remarks  
+  Le 'NomFichier$' renvoyé peut être découpé 
+  facilement en chemin, nom ou extension à 
+  l'aide des commandes suivantes: @@GetFilePart, 
+  @@GetPathPart et @@GetExtensionPart.
+
+@Example
+@Code
+  FichierParDefaut$ = "C:\autoexec.bat"   ; Répertoire et fichier par défaut qui seront affichés
+  ;  Avec la chaîne suivante nous allons définir les filtres ("|" comme séparateur) pour l'affichage de fichier :
+  ;  1er  : "Texte (*.txt)" comme nom, ".txt" et ".bat" comme extension autorisée
+  ;  2ème : "PureBasic (*.pb)" comme nom, ".pb" comme extension autorisée
+  ;  3ème : "Tous les fichiers (*.*)" comme nom, "*.*" comme extension autorisée, valide pour tous les fichiers
+  Filtre$ = "Texte (*.txt)|*.txt;*.bat|PureBasic (*.pb)|*.pb|Tous les fichiers (*.*)|*.*"
+  Filtre = 0    ; utiliser  par défaut le premier des trois filtres possibles
+  Fichier$ = SaveFileRequester("Choisissez un fichier à sauvegarder", FichierParDefaut$, Filtre$, Filtre)
+  If Fichier$
+    MessageRequester("Information", "Vous avez choisi ce fichier :"+Chr(10)+Fichier$, 0)
+  Else
+    MessageRequester("Information", "La sélection a été annulée.", 0)
+  EndIf
+@EndCode
+@LineBreak
+@Image savefilerequester.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SelectedFilePattern()
+
+@Description
+  Renvoie l'index du filtre sélectionné lors 
+  de l'utilisation de la commande 
+  @@OpenFileRequester ou @@SaveFileRequester.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie l'index du filtre sélectionné 
+  lors de l'utilisation de la commande 
+  @@OpenFileRequester ou @@SaveFileRequester.
+  @LineBreak
+  L'index du premier filtre est 0.
+  
+@Example
+@Code
+  FichierParDefaut$ = "C:\autoexec.bat"    ; Répertoire et fichier par défaut
+  Filtre$ = "Texte (*.txt)|*.txt;*.bat|"   ; Premier filtre   (index = 0)
+  Filtre$ + "PureBasic (*.pb)|*.pb|"       ; Deuxième filtre  (index = 1)
+  Filtre$ + "Bmp (*.bmp)|*.bmp|"           ; Troisième filtre (index = 2)
+  Filtre$ + "Jpeg (*.jpg)|*.jpg|"          ; Quatrième filtre (index = 3)
+  Filtre$ + "Tous les fichiers (*.*)|*.*"  ; Cinquième filtre (index = 4)
+  Filtre = 1  ; Le deuxième filtre sera utilisé par défaut.
+
+  ; Ouvre une boîte de dialogue pour choisir un fichier, vous pouvez changer de filtre et obtenir son index après validation
+  Fichier$ = OpenFileRequester("Choisissez un fichier", FichierParDefaut$, Filtre$, Filtre)
+  Index = SelectedFilePattern()
+  If Index > -1
+    MessageRequester("Information", "L'index du filtre sélectionné est le suivant : "+Str(Index), 0)
+  Else
+    MessageRequester("Information", "La sélection a été annulée.", 0)
+  EndIf
+@EndCode
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SelectedFontColor()
+
+@Description
+  Renvoie la couleur sélectionnée par 
+  l'utilisateur avec la fonction 
+  @@FontRequester.
+   
+@NoParameters
+
+@ReturnValue
+  Renvoie la couleur sélectionnée par 
+  l'utilisateur avec la fonction 
+  @@FontRequester.@LineBreak
+  Pour récupérer facilement la valeur 
+  de chacune des composantes, utiliser 
+  les commandes @@Red, @@Green et @@Blue.
+
+@SeeAlso
+  @@FontRequester
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = SelectedFontName()
+
+@Description
+  Renvoie dans  le nom de la police 
+  sélectionnée par l'utilisateur 
+  avec la fonction @@FontRequester.
+   
+@NoParameters
+
+@ReturnValue 
+  Renvoie dans  le nom de la police 
+  sélectionnée par l'utilisateur 
+  avec la fonction @@FontRequester.
+  @LineBreak
+  Ce nom peut être utilisé directement 
+  par la fonction @@LoadFont.
+
+@SeeAlso
+  @@FontRequester
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SelectedFontSize()
+
+@Description
+  Renvoie la taille de la police 
+  sélectionnée par l'utilisateur 
+  avec @@FontRequester.
+  
+@NoParameters
+
+@ReturnValue  
+  Renvoie la taille de la police 
+  sélectionnée par l'utilisateur 
+  avec @@FontRequester.
+  
+@SeeAlso
+  @@FontRequester
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SelectedFontStyle()
+
+@Description
+  Renvoie le style de la police de 
+  caractères sélectionnée par l'utilisateur 
+  avec la fonction @@FontRequester. 
+  
+@NoParameters
+
+@ReturnValue 
+  Renvoie le style de la police de 
+  caractères sélectionnée par 
+  l'utilisateur avec la fonction 
+  @@FontRequester. @LineBreak  
+  'Style' peut contenir une ou 
+  plusieurs des valeurs suivantes:
+@FixedFont
+  @#PB_Font_Bold       : Le style de la police est en 'Gras'.
+  @#PB_Font_Italic     : Le style de la police est en 'Italique'.
+  @#PB_Font_StrikeOut  : Le style de la police est en 'Barré'.
+  @#PB_Font_Underline  : Le style de la police est en 'Souligné'.  
+@EndFixedFont
+  Pour tester si une valeur est présente, 
+  il suffit d'utiliser l'opérateur '&' (And):
+@Code
+  If SelectedFontStyle() & #PB_Font_Bold
+    ; La police est en 'Gras'
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FontRequester
+  
+@SupportedOS

@@ -1,0 +1,21 @@
+@Title Migration from PureBasic 5.40 to 5.50
+
+@Section Particule library
+
+@LineBreak
+ParticleVelocity(): code changed to support current velocity.
+@Code
+  ; Old
+  ParticleVelocity(#ParticleEmitter, Minimum, Maximum)
+
+  ; New
+  ParticleVelocity(#ParticleEmitter, Mode, Value)
+@EndCode
+
+@LineBreak
+@Section Others
+
+@LineBreak
+  PureBasic internal manipulation of strings is now unicode only.@LineBreak
+  ASCII mode is no longer supported internally. The function *Result = Ascii(String$) 
+  allows the manipulation of ASCII strings by the user.

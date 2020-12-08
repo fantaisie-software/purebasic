@@ -1,0 +1,436 @@
+;
+; Sound3D library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Sound3D
+
+@Overview
+
+  Cette bibliothèque permet d'ajouter des 
+  sons avec un effet 3D dans un monde en 3D. 
+@LineBreak
+@LineBreak
+  Un exemple simple est un son qui sera 
+  automatiquement atténué en fonction de 
+  la distance.
+@LineBreak
+@LineBreak
+  La syntaxe est similaire à la bibliothèque 
+  @LibraryLink "Sound" "Sound".
+@LineBreak
+@LineBreak
+   Cette bibliothèque utilise un moteur 
+   graphique pour fonctionner ainsi la 
+   commande @@InitEngine3D doit être 
+   appelée avec succès avant de pouvoir 
+   utiliser les commandes relatives aux 
+   sons 3D. 
+
+@CommandList
+
+@ExampleFile All Sound3D.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeSound3D(#Son3D)
+
+@Description
+  Arrête et supprime de la mémoire un son 3D.
+
+@Parameter "#Son3D"
+  Le son 3D à supprimer.
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, tous les sons 
+  3D restants sont libérés.
+
+@NoReturnValue
+
+@Remarks  
+  Tous les sons restants sont automatiquement 
+  libérés quand le programme se termine.
+      
+@SeeAlso
+  @@LoadSound3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsSound3D(#Son3D)
+
+@Description
+  Teste si un son 3D est correctement 
+  initialisé. 
+
+@Parameter "#Son3D"
+  Le son 3D à utiliser.
+  
+@ReturnValue  
+  Renvoie une valeur non nulle en cas 
+  de succès, zéro sinon. 
+  
+@Remarks
+  Cette fonction a été créée pour pouvoir 
+  passer n'importe quelle valeur en paramètre 
+  sans qu'il ne puisse y avoir de plantage. 
+@LineBreak
+@LineBreak
+  C'est la fonction idéale pour vérifier 
+  qu'un objet est correctement initialisé.
+       
+@SeeAlso
+  @@LoadSound3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = LoadSound3D(#Son3D, NomFichier$ [, Option])
+
+@Description
+  Charge un fichier son 3D en mémoire. 
+  
+@Parameter "#Son3D"
+  Le numéro d'identification du son 3D 
+  chargé.
+@LineBreak
+@LineBreak
+   @ReferenceLink "purebasic_objects" "#PB_Any" 
+   peut être utilisé pour générer 
+   automatiquement ce numéro.
+  
+@Parameter "NomFichier$"
+  Le nom du fichier sonore, de type WAV ou 
+  OGG.
+  
+@OptionalParameter "Option"
+@FixedFont
+  @#PB_Sound_Streaming: Active le support du streaming. 
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+  
+@Remarks
+  Le son 3D doit être en mono.@LineBreak
+  Un son 3D n'a pas de position. @LineBreak
+  Il peut être attaché à un 
+  @LibraryLink "Node" "noeud" 
+  pour avoir sa propre position.
+  Un son 3D est joué par rapport à 
+  l'emplacement d'écoute. 
+  Pour modifier l'emplacement d'écoute, 
+  utilisez @@SoundListenerLocate.
+
+@Example
+@Code
+    ; Initialisation du monde 3D
+    InitEngine3D()
+    InitSprite()
+    InitKeyboard()
+    InitMouse()
+    Add3DArchive(#PB_Compiler_Home+"Examples/3D/Data", #PB_3DArchive_FileSystem)
+    Add3DArchive(#PB_Compiler_Home+"Examples/3D/Data/Packs/skybox.zip", #PB_3DArchive_Zip)
+    Add3DArchive(#PB_Compiler_Home+"Examples/3D/Data/Textures", #PB_3DArchive_FileSystem) 
+
+    ; Ouverture de la fenêtre
+    OpenWindow(0,0,0,1000,1000,"Le Son varie en fonction de la position de la planète",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
+    OpenWindowedScreen(WindowID(0),0,0,1000,1000,1,0,0)
+
+    ;Création du monde 3D
+    SkyBox("stevecube.jpg");
+    cam=CreateCamera(#PB_Any, 0, 0, 100, 100)
+    planete=CreateSphere(#PB_Any, 10)
+    tex_planete=LoadTexture(#PB_Any, "clouds.jpg")
+    material=CreateMaterial(#PB_Any,TextureID(tex_planete))
+    planeteE=CreateEntity(#PB_Any,MeshID(planete),MaterialID(material))
+
+    ; Chargement du fichier Son3d Wav ou Ogg, qui doit être mono
+    son3D= LoadSound3D(#PB_Any,"Roar.ogg",#PB_Sound3D_Loop) 
+
+    SoundVolume3D(son3D, 20)         ; Volume sonore à 20%
+    SoundRange3D(son3D, 1, 100)      ; Zone d'émission du son
+    SoundCone3D(son3D, 90, 360, 20)  ; Facultatif, Cône sonore
+
+    ; Le Son est joué en boucle
+    PlaySound3D(son3D, #PB_Sound3D_Loop)
+
+    ; L'auditeur se déplace avec la caméra
+    SoundListenerLocate(CameraX(cam),CameraY(cam),CameraZ(cam))
+
+    ; Le Son et la planète sont liés, 
+    ; ainsi si l'utilisateur déplace la planète, le son se déplace avec elle
+    noeud=CreateNode(#PB_Any, 0, 0, -75)
+    AttachNodeObject(noeud, SoundID3D(son3D))
+    AttachNodeObject(noeud, EntityID(planeteE))
+
+    ; Gestion de la fenêtre, du clavier et de la souris
+    Repeat
+      Repeat 
+        Event  = WindowEvent() 
+        Select Event 
+          Case #PB_Event_CloseWindow 
+        End 
+            
+        EndSelect 
+      Until Event = 0
+      
+      ExamineKeyboard()
+      ExamineMouse()
+      
+      If MouseDeltaX()>0
+        MoveNode(noeud,0.5,0,0)
+      ElseIf MouseDeltaX()<0
+        MoveNode(noeud,-0.5,0,0)
+      EndIf
+      If MouseDeltaY()>0
+        MoveNode(noeud,0,-0.5,0)
+      ElseIf MouseDeltaY()<0
+        MoveNode(noeud,0,0.5,0)
+      EndIf 
+      If MouseButton(#PB_MouseButton_Left) <>0
+        End
+      EndIf
+      If MouseButton( #PB_MouseButton_Right) <>0
+        MoveNode(noeud,0,0,-75,#PB_Absolute)
+      EndIf
+      
+      If KeyboardPushed(#PB_Key_Escape)
+        quitter + 1
+      EndIf
+      RotateNode(noeud,0.3,0.4,0.5,#PB_Relative) 
+      If KeyboardPushed(#PB_Key_Right)
+        MoveNode(noeud,0.5,0,0)
+      EndIf
+      If KeyboardPushed(#PB_Key_Left)
+        MoveNode(noeud,-0.5,0,0)
+      EndIf
+      If KeyboardPushed(#PB_Key_Up)
+        MoveNode(noeud,0,0.5,0)
+      EndIf
+      If KeyboardPushed(#PB_Key_Down)
+        MoveNode(noeud,0,-0.5,0)
+      EndIf
+      tiks = MouseWheel()
+      If tiks > 0
+        MoveNode(noeud,0,0,5)
+      EndIf
+      If tiks < 0
+        MoveNode(noeud,0,0,-5)
+      EndIf
+      
+      ; Affichage de la scène
+      StartDrawing(WindowOutput(0))
+      DrawText(0,5,"X=" + Str(NodeX(noeud)) + " Y=" + Str(NodeY(noeud)) + " Z="+Str(NodeZ(noeud))) 
+      DrawText(0,30,"Souris ou Clavier: Haut, Bas, Droite, Gauche et Molette souris")  
+      DrawText(0,60,".: Echap ou clic gauche pour quitter :.")
+      StopDrawing()
+      
+      RenderWorld()
+      
+      FlipBuffers()
+      
+    Until quitter
+
+    End
+@EndCode
+
+@SeeAlso
+  @@FreeSound3D, @@IsSound3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PlaySound3D(#Son3D [, Option])
+
+@Description
+  Joue un son 3D.
+
+@Parameter "#Son3D"
+  Le son 3D à utiliser.
+   
+@OptionalParameter "Option"  
+@FixedFont
+  @#PB_Sound3D_Loop : Joue le son en boucle.
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+  Voir @@LoadSound3D
+ 
+@SeeAlso
+  @@StopSound3D, @@LoadSound3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundVolume3D(#Son3D, Volume)
+
+@Description
+  Change le volume en temps réel.  
+
+@Parameter "#Son3D"
+  Le son 3D à utiliser.
+  
+@Parameter "Volume"
+  Le nouveau volume devient la valeur 
+  par défaut pour ce #Son3D. 
+@LineBreak
+@LineBreak
+  Les valeurs valides vont de 0 (muet) 
+  à 100 (volume maximum).
+
+@NoReturnValue
+
+@Example
+  Voir @@LoadSound3D
+
+@SeeAlso
+  @@SoundCone3D, @@SoundRange3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopSound3D(#Son3D)
+
+@Description
+  Arrête l'éxécution d'un son 3D 
+  (s'il était en cours de lecture). 
+
+@Parameter "#Son3D"
+  Le son 3D à utiliser.
+@LineBreak
+@LineBreak
+  Avec @#PB_All tous les sons en cours 
+  de lecture sont arrêtés.
+   
+@NoReturnValue
+
+@SeeAlso
+  @@PlaySound3D, @@LoadSound3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Son3DID = SoundID3D(#Son3D)
+
+@Description
+  Renvoie l'identifiant unique d'un son 3D. 
+
+@Parameter "#Son3D"
+  Le son 3D à utiliser.
+
+@ReturnValue
+  Renvoie le numéro du son 3D.
+  
+@SeeAlso
+  @@IsSound3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundRange3D(#Son3D, Minimum, Maximum)
+
+@Description
+  Modifie le champ d'émission, en unité 
+  du monde 3D.
+ 
+@Parameter "#Son3D"
+  Le son 3D à utiliser.
+   
+@Parameter "Minimum, Maximum"
+  Le paramètre 'Minimum' indique la distance 
+  la plus proche à partir de laquelle le son 
+  sera entendu par l'auditeur. 
+@LineBreak
+@LineBreak
+  Le paramètre 'Maximum' indique la distance 
+  la plus grande jusqu'à laquelle le son sera 
+  entendu. 
+@LineBreak
+  Au delà de cette distance le son ne sera 
+  plus joué.
+@LineBreak
+@LineBreak
+  Entre ces deux valeurs, le son est atténué 
+  en fonction de la position de l'auditeur.
+
+@NoReturnValue
+
+@Example
+  Voir @@LoadSound3D
+
+@SeeAlso
+  @@SoundListenerLocate, @@SoundCone3D, 
+  @@SoundVolume3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundCone3D(#Son3D, ConeInterieur.f, ConeExterieur.f, VolumeConeExterieur)
+
+@Description
+  Change l'angle du cône sonore pour créer 
+  un son 3D directionnel. 
+
+@Parameter "#Son3D"
+  Le son 3D à utiliser.
+  
+@Parameter "ConeInterieur, ConeExterieur" 
+  Angles intérieur et extérieur du cône, 
+  en degré.
+@LineBreak
+@LineBreak  
+  Valeurs allant de 0 à 360°. 
+
+@Parameter "VolumeConeExterieur"
+  Correspond au volume du son en dehors 
+  du cône.
+@LineBreak
+@LineBreak
+  Valeur entre 0 et 100.
+  
+@NoReturnValue
+ 
+@Example
+  Voir @@LoadSound3D
+
+@SeeAlso
+  @@SoundRange3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SoundListenerLocate(X, Y, Z)
+
+@Description
+ Change l'emplacement de l'auditeur 
+ (l'oreille) dans le monde 3D.
+
+@Parameter "X, Y, Z"
+  Nouvelle position de l'auditeur.
+  
+@NoReturnValue
+
+@Example
+  Voir @@LoadSound3D
+
+@SeeAlso
+  @@SoundRange3D, @@SoundCone3D, 
+  @@SoundVolume3D
+
+@SupportedOS

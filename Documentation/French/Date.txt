@@ -1,0 +1,447 @@
+;
+; Date library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Date
+
+@Overview
+
+ La bibliothèque Date permet de gérer le temps et les dates depuis l'année 1970 
+ jusqu'à l'année 2038, en utilisant le modèle Unix 32 bits (nombre de secondes écoulées 
+ depuis le 1er janvier 1970).
+@LineBreak
+@LineBreak
+  @Bold "Note:" Seulement entre le 01 janvier 1970 à 00h 00m 00s et le 19 janvier 2038 
+  à 03h 14m 07s".
+  Voir @InternetLink "https://fr.wikipedia.org/wiki/Bug_de_l%27an_2038" "https://fr.wikipedia.org/wiki/Bug_de_l%27an_2038".
+
+
+@CommandList
+
+@ExampleFile All Date.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AddDate(Date, Plage, Valeur)
+
+@Description
+  Ajouter une quantité de temps à une date. 
+  
+@Parameter "Date"  
+  La date à utiliser.
+  
+@Parameter "Plage"  
+@FixedFont
+  @#PB_Date_Year   : Ajoute 'Valeur' années à la date
+  @#PB_Date_Month  : Ajoute 'Valeur' mois à la date
+  @#PB_Date_Week   : Ajoute 'Valeur' semaines à la date
+  @#PB_Date_Day    : Ajoute 'Valeur' jours à la date
+  @#PB_Date_Hour   : Ajoute 'Valeur' heures à la date
+  @#PB_Date_Minute : Ajoute 'valeur' minutes à la date
+  @#PB_Date_Second : Ajoute 'valeur' secondes à la date
+@EndFixedFont
+
+@Indent
+  Note: l'utilisation de @#PB_Date_Month 
+  peut entrainer un arrondi automatique 
+  du jour si nécessaire: Par exemple, 
+  ajouter un mois au '31 mars 2008' 
+  renverra '30 avril 2008', car il n'y a 
+  pas 31 jours en avril.
+@EndIndent
+
+@Parameter "Valeur
+  La quantité à ajouter à la date.
+  @LineBreak 
+  Une valeur négative est autorisée et 
+  permet de soustraire deux dates.
+
+@ReturnValue
+  Renvoie la nouvelle date. 
+  @LineBreak
+  Si les paramètres donnés ne sont pas valides ou en dehors de la plage de dates supportée, 
+  -1 sera renvoyé.
+  
+@Example
+@Code
+
+  Debug FormatDate("%dd/%mm/%yyyy", AddDate(Date(), #PB_Date_Year, 2))  ; Renvoie la date courante augmentée de 2 ans
+  Debug FormatDate("%dd/%mm/%yyyy", AddDate(Date(), #PB_Date_Year, -2)) ; Renvoie la date courante diminuée de 2 ans
+
+@EndCode
+
+@SeeAlso
+  @@Date, @@FormatDate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Date([Annee, Mois, Jour, Heure, Minute, Seconde])
+
+@Description
+  Renvoie la valeur du temps système 
+  (nombre de secondes écoulées depuis 
+  le '01/01/1970 0:00:00'). 
+
+@OptionalParameter "Annee, Mois, Jour, Heure, Minute, Seconde"
+  Si les variables Annee, Mois, Jour, 
+  Heure, Minute et Seconde sont spécifiées, 
+  la représentation en secondes de cette 
+  date est renvoyée. 
+
+@ReturnValue  
+  Renvoie le nombre de secondes écoulée.
+  @LineBreak
+  Si les paramètres donnés ne sont pas valides ou en dehors de la plage de dates supportée, 
+  -1 sera renvoyé.
+  
+@Example
+@Code
+  Debug Date() / (3600*24*365)  ; Affiche le nombre d'années depuis 01/01/1970 et maintenant
+  Debug Date(1999, 12, 31, 23, 59, 59)  ; Affiche '946684799' (nombre de secondes entre 01/01/1970 0:00:00 et 12/31/1999 23:59:59)
+@EndCode
+
+  Note: Le temps et les dates supportées 
+  vont de '1970-01-01, 00:00:00' pour le 
+  minimum à '2038-01-19, 03:14:07' pour 
+  le maximum.
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, 
+  @@Minute, @@Second
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Day(Date)
+
+@Description
+  Renvoie le jour. 
+
+@Parameter "Date"  
+  La date à utiliser.
+  
+@ReturnValue
+  Renvoie le jour de la date spécifiée ou -1 en cas d'erreur.
+  @LineBreak
+  Le résultat est compris entre 1 et 31.
+  
+
+@Example
+@Code
+  Debug Day(Date(2022, 10, 3, 0, 0, 0))  ; Le résultat est '3'.
+@EndCode
+
+@SeeAlso 
+  @@Date,
+  @@Year, @@Month, @@Hour, @@Minute, 
+  @@Second
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = DayOfWeek(Date)
+
+@Description
+  Renvoie le rang du jour de la semaine. 
+
+@Parameter "Date"  
+  La date à utiliser.
+  
+@ReturnValue
+  Renvoie le rang du jour de la semaine ou -1 en cas d'erreur. 
+  @LineBreak
+  Le résultat est compris entre 0 et 6. 
+@FixedFont
+  0 : Dimanche
+  1 : Lundi
+  2 : Mardi
+  3 : Mercredi
+  4 : Jeudi
+  5 : Vendredi
+  6 : Samedi
+@EndFixedFont
+
+@Example
+@Code
+  Debug DayOfWeek(Date(2026, 10, 30, 0, 0, 0))  ; Renvoie '1' pour Lundi.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, 
+  @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = DayOfYear(Date)
+
+@Description
+  Renvoie le nombre de jours écoulés 
+  depuis le début de l'année. 
+
+@Parameter "Date"  
+  La date à utiliser.
+  
+@ReturnValue
+  Renvoie le nombre de jours écoulés 
+  depuis le début de l'année d'une date 
+  spécifiée ou -1 en cas d'erreur.
+  @LineBreak
+  Le résultat est compris entre 1 et 366.
+  
+@Example
+@Code
+  Debug DayOfYear(Date(2022, 2, 1, 0, 0, 0))  ; Le résultat est '32'. (31 jours pour janvier + 1)
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, 
+  @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Month(Date)
+
+@Description
+  Renvoie le mois. 
+
+@Parameter "Date"  
+  La date à utiliser.
+  
+@ReturnValue
+  Renvoie le mois de la date spécifiée ou -1 en cas d'erreur. 
+  @LineBreak
+  Le résultat est compris entre 1 et 12.
+
+@Example
+@Code
+  Debug Month(Date(2022, 10, 3, 0, 0, 0))  ; Le résultat est '10'.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Day, @@Hour, @@Minute, 
+  @@Second
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Year(Date)
+
+@Description
+  Renvoie l'année. 
+
+@Parameter "Date"  
+  La date à utiliser.
+  
+@ReturnValue
+  Renvoie l'année de la date spécifiée ou -1 en cas d'erreur. 
+  @LineBreak
+  Le résultat est compris entre 1970 et 2034.
+
+@Example
+@Code
+  Debug Year(Date(2022, 10, 3, 0, 0, 0))  ; Le résultat est '2022'.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Month, @@Day, @@Hour, @@Minute, 
+  @@Second
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Hour(Date)
+
+@Description
+  Renvoie l'heure. 
+
+@Parameter "Date"  
+  La date à utiliser.
+  
+@ReturnValue
+  Renvoie l'heure de la date spécifiée ou -1 en cas d'erreur. 
+  @LineBreak
+  Le résultat est compris entre 0 et 23.
+
+@Example
+@Code
+  Debug Hour(Date(1970, 1, 1, 11, 3, 45))  ; Le résultat est '11'.
+@EndCode
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Minute(Date)
+
+@Description
+  Renvoie les minutes.
+
+@Parameter "Date"  
+  La date à utiliser.
+  
+@ReturnValue
+  Renvoie les minutes de la date spécifiée ou -1 en cas d'erreur. 
+  @LineBreak
+  Le résultat est compris entre 0 et 59.
+
+@Example
+@Code
+  Debug Minute(Date(1970, 1, 1, 11, 3, 45))  ; Le résultat est '3'.
+@EndCode
+ 
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, 
+  @@Second
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Second(Date)
+
+@Description
+  Renvoie les secondes. 
+
+@Parameter "Date"  
+  La date à utiliser.
+  
+@ReturnValue
+  Renvoie les secondes de la date spécifiée ou -1 en cas d'erreur. 
+  @LineBreak
+  Le résultat est compris entre 0 et 59.
+
+@Example
+@Code
+  Debug Second(Date(1970, 1, 1, 11, 3, 45))  ; Le résultat est '45'.
+@EndCode
+
+@SeeAlso
+  @@FormatDate, 
+  @@Year, @@Month, @@Day, @@Hour, 
+  @@Minute
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = FormatDate(Masque$, Date)
+
+@Description
+  Renvoie une date formatée par l'utilisateur.
+
+@Parameter "Masque$"
+  Une chaîne de caractères  indiquant 
+  comment formater et afficher la date.
+@FixedFont
+  %yyyy: L'année sera affichée avec 4 chiffres.
+    %yy: L'année sera affichée avec 2 chiffres.
+    %mm: Le mois sera affiché avec 2 chiffres.
+    %dd: Le jour sera affiché avec 2 chiffres.
+    %hh: L'heure sera affichée avec 2 chiffres.
+    %ii: Les minutes seront affichées avec 2 chiffres.
+    %ss: Les secondes seront affichées avec 2 chiffres.
+@EndFixedFont
+
+@Parameter "Date"  
+  La date à utiliser.
+  
+@ReturnValue
+  Renvoie la date sous forme de chaîne 
+  de caractères correspondant au masque 
+  spécifié. 
+  @LineBreak
+  Renvoie "0" ou "-1" en cas d'erreur
+
+@Example
+@Code
+  Debug FormatDate("A=%yyyy, M= %mm, J=%dd", Date()) ; Affiche la date sous la forme 
+                                                     ; "A=2012, M=12, J=21"
+
+  Debug FormatDate("%dd/%mm/%yyyy", Date())          ; Affiche la date sous la forme 
+                                                     ;  "21/12/2012"
+    
+  Debug FormatDate("%hh:%ii:%ss", Date())  ; affiche le temps selon un format 00:00:00
+@EndCode
+
+  Note: Le temps et les dates supportées 
+  vont de '1970-01-01, 00:00:00' pour le 
+  minimum à '2038-01-19, 03:14:07' pour 
+  le maximum.
+
+@SeeAlso
+  @@Date, @@ParseDate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ParseDate(Masque$, Date$)
+
+@Description
+  Transforme une date donnée sous la 
+  forme d'une chaîne de caractères en 
+  valeur numérique. 
+  
+@Parameter "Masque$"
+  Une chaîne de caractères indiquant 
+  comment formater la date. 
+@FixedFont
+  %yyyy: L'année sera affichée avec 4 chiffres.
+    %yy: L'année sera affichée avec 2 chiffres.
+    %mm: Le mois sera affiché avec 2 chiffres.
+    %dd: Le jour sera affiché avec 2 chiffres.
+    %hh: L'heure sera affichée avec 2 chiffres.
+    %ii: Les minutes seront affichées avec 2 chiffres.
+    %ss: Les secondes seront affichées avec 2 chiffres.
+@EndFixedFont
+  
+@Parameter "Date$" 
+  La date à tester. 
+  
+@ReturnValue  
+  Renvoie la date représentant la chaîne 
+  à analyser.
+@LineBreak
+@LineBreak   
+  Si la date est incorrecte, la valeur 
+  renvoyée est -1. 
+@LineBreak
+@LineBreak   
+  Cette fonction est particulièrement 
+  utile pour retrouver et traiter des 
+  dates stockées, dans un fichier de 
+  type journal d'évènements par exemple.
+ 
+@Example
+@Code
+  Debug ParseDate("%yy/%mm/%dd", "20/12/01") ; Renvoie la date numérique correspondant à "01/12/20"
+  Debug ParseDate("%dd/%mm/%yyyy", "01/07/2020") ; Renvoie la date numérique correspondant à "01/07/2020"
+
+@EndCode
+
+@SeeAlso
+  @@Date, @@FormatDate
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

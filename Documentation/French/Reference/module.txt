@@ -1,0 +1,181 @@
+@Title Module
+
+@Syntax
+
+  @Keyword DeclareModule <nom>
+    ...
+  @Keyword EndDeclareModule
+
+  @Keyword Module <nom>
+    ...
+  @Keyword EndModule
+  
+  @Keyword UseModule <nom>
+  @Keyword UnuseModule <nom>
+
+@Description
+
+  Les modules sont un moyen facile d'isoler une morceau de code à partir d'un code principal, 
+  permettant ainsi la réutilisation d'un code et son partage sans risque de conflit de nom. 
+  Dans d'autres langages de programmation, les modules sont connus sous le nom : "espaces de noms".
+  Un module doit avoir une section @Keyword DeclareModule (qui est l'interface publique) et 
+  une section @Keyword Module associée (qui est son implémentation).
+  Seuls les éléments déclarés dans la section @Keyword DeclareModule seront accessibles depuis 
+  l'extérieur du module. Tout le code de la section @Keyword Module sera maintenu privé à 
+  ce module. Les éléments du code principal, comme les procédures, les variables, etc, ne 
+  seront pas accessibles à l'intérieur du module, même s'ils sont déclarés en @ReferenceLink "global" "global". 
+  Un module peut être considéré comme une boîte noire, une feuille de code vide où les noms 
+  des éléments ne peuvent pas entrer en conflit avec les éléments de même nom du code principal. 
+  Il est plus facile d'écrire du code, comme par exemple, on peut utiliser des noms simples 
+  qui peuvent être réutilisées au sein de chaque module sans risque de conflit.
+@LineBreak
+@LineBreak
+  Les éléments acceptés dans la section @Keyword DeclareModule peuvent être les suivants: 
+  procédures (seule la déclaration des procédures est autorisée), structures, macros, variables, constantes, 
+  énumérations, tableaux, listes, maps et les étiquettes (labels).
+@LineBreak
+@LineBreak
+  Pour accéder à un élément d'un module depuis l'extérieur, le nom du module doit 
+  être précisé suivie du séparateur @Bold "'::'". En spécifiant explicitement le nom du module, 
+  l'élément est disponible partout dans le code source, même dans un autre module. 
+  Tous les éléments de la section @Keyword DeclareModule peuvent être automatiquement 
+  importés dans un autre module ou dans le code principal à l'aide de @Keyword UseModule. 
+  Dans ce cas, si un nom de module est en conflit, les éléments du module ne seront pas 
+  importés et une erreur du compilateur sera levée. 
+  @Keyword UnuseModule retire les éléments du module. @Keyword UseModule n'est pas 
+  obligatoire pour accéder à un élément d'un module, mais le nom du module doit être spécifié.
+@LineBreak
+@LineBreak
+  Pour partager des informations entre les modules, un module commun peut être créé et 
+  utilisé par tous les modules qui en ont besoin. C'est la façon normale pour disposer de 
+  données globales disponibles pour tous les modules.
+@LineBreak
+@LineBreak
+  Toutes les commandes PureBasic, les structures et les constantes sont des éléments par 
+  défaut disponibles dans les modules. Par conséquent les éléments de modules ne peuvent pas 
+  avoir le même nom que les commandes internes de PureBasic, les structures ou les constantes.
+@LineBreak
+@LineBreak
+  Tout les codes à l'intérieur des sections @Keyword DeclareModule et des sections @Keyword Module sont 
+  exécutés comme n'importe quel autres codes lorsque le flux du programme atteint le module.
+@LineBreak
+@LineBreak
+  Si les mots clés @Keyword Define, @Keyword EnableExplicit, @Keyword EnableASM sont utilisés dans un module, 
+  ils n'ont pas d'effet en dehors de ce module.
+@LineBreak
+@LineBreak
+  Quand les états @Keyword Define, @Keyword EnableExplicit, @Keyword EnableASM sont utilisés à l'intérieur d'un module, 
+  ils n'ont pas d'effet en dehors du module, ni depuis l'extérieur du module.
+@LineBreak
+@LineBreak
+  Note: Les modules ne sont pas obligatoires dans PureBasic mais sont recommandés lors de la 
+  réalisation de grands projets. Ils aident à la maintenance du code, même si c'est 
+  légèrement plus verbeux. Avoir une section @Keyword DeclareModule rend le module plus ou 
+  moins auto-documenté pour une réutilisation ou un partage.
+
+@Example
+    
+@Code
+  
+  ; Tous les éléments de cette section seront disponibles de l'extérieur
+  ; --------------------------------------------------------------------------------------------------
+  DeclareModule Ferrari
+    
+    #FerrariName$ = "458 Italia" ; Constante publique (accessible depuis l'extérieur du module)
+    Declare CreateFerrari()      ; La Procédure sera publique (accessible depuis l'extérieur du module)
+
+  EndDeclareModule
+  
+  
+  ; Tous les éléments de cette section seront privés. Tous les noms peuvent être utilisés sans conflit
+  ; --------------------------------------------------------------------------------------------------
+  Module Ferrari
+    
+    Global Initialized = #False
+    
+    Procedure Init()             ; Procedure privée Init() (inaccessible depuis l'extérieur du module)
+      If Initialized = #False
+        Initialized = #True
+        Debug "InitFerrari()"
+      EndIf
+    EndProcedure  
+      
+    Procedure CreateFerrari()    ; Procédure publique (car déclarée dans la section 'DeclareModule')
+      Init()
+      Debug "CreateFerrari()"
+    EndProcedure
+    
+  EndModule
+  
+  
+  ; Code principal
+  ; -------------------------------------------------------------------------------------------------- 
+  Procedure Init()               ; Procédure d'initialisation principale, n'entre pas en conflit avec la procédure 
+                                 ; Init() du Module Ferrari
+
+    Debug "Procédure init() du code principal."
+
+  EndProcedure
+  
+  Init()
+  
+  Ferrari::CreateFerrari()
+  Debug Ferrari::#FerrariName$
+  
+  Debug "------------------------------"
+  
+  UseModule Ferrari              ; Maintenant, importer tous les éléments publics directement dans le programme principal
+  
+  CreateFerrari()
+  Debug #FerrariName$
+
+@EndCode
+
+
+@Example Avec un module commun
+
+@Code
+  
+  ; Le module commun, qui sera utilisé par d'autres modules afin de partager des données
+  ; ------------------------------------------------------------------------------------
+  DeclareModule Voitures
+    Global NbVoitures = 0
+  EndDeclareModule
+  
+  Module Voitures 
+  EndModule
+  
+  
+  ; Premier module de voiture
+  ;--------------------------
+  DeclareModule Ferrari
+  EndDeclareModule
+  
+  Module Ferrari
+    
+    UseModule Voitures
+    NbVoitures+1
+ 
+  EndModule
+  
+  
+  ; Second module de voiture
+  ; ------------------------
+  DeclareModule Porsche
+  EndDeclareModule
+  
+  Module Porsche
+    
+    UseModule Voitures
+    NbVoitures+1
+
+  EndModule
+  
+  
+  ; Code principal
+  ; --------------------------------------------------------------------------------------------------
+  
+  Debug Voitures::NbVoitures
+
+@EndCode
+

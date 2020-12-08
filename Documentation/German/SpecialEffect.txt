@@ -1,0 +1,367 @@
+;
+;     SpecialEffect library documentation
+;
+;      (c) 2013 - Fantaisie Software
+;
+
+@Library SpecialEffect
+
+@Overview
+  Die Spezialeffekt-Bibliothek (englisch: "special effect" library) ermöglicht die
+  einfache Anwendung mehrerer Echtzeit-Effekte in der @LibraryLink "Engine3D" "3D-Welt",
+  wie "Post-Processing" und "Ribbon Trails" (Farbband-Spuren).
+
+@CommandList
+
+@ExampleFile All Ribbon.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateCompositorEffect(#Effekt, KameraID, EffektName$)
+
+@Description
+  Erstellt einen neuen "Compositor"-Effekt. Sobald dieser erstellt wurde, wird der Effekt
+  sofort auf das Renderung (Darstellung) angewendet. Es ist möglich, den Effekt mittels
+  @@HideEffect zu verstecken.
+
+@Parameter "#Effekt"
+  Die Nummer, um den neuen Effekt zu identifizieren. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Nummer automatisch zu generieren.
+
+@Parameter "KameraID"
+  Die Kamera, auf die der Effekt angewendet werden soll. Dieser Effekt wird sich nur auf diese
+  Kamera auswirken. Um eine gültige 'KameraID' zu erhalten, verwenden Sie
+  @@CameraID.
+
+@Parameter "EffektName$"
+  Name des Effekts, wie dieser in der OGRE Compositor-Datei (üblicherweise eine '.compositor' Daetei)
+  beschrieben wird.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Effekt erfolgreich erstellt wurde, und Null wenn
+  ein Fehler auftrat. Wenn @#PB_Any als #Effekt Parameter verwendet wurde, dann
+  wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@SeeAlso
+  @@FreeEffect, @@HideEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateRibbonEffect(#Effekt, MaterialID, AnzKetten, AnzElemente, Länge)
+
+@Description
+  Erstellt einen neuen "Ribbon Trail"-Effekt (Farbband-Spuren).  Sobald dieser erstellt wurde, muss der Effekt
+  mittels @@AttachRibbonEffect hinzugefügt werden. Es ist möglich, den Effekt mittels
+  @@HideEffect zu verstecken.
+
+@Parameter "#Effekt"
+  Die Nummer, um den neuen Effekt zu identifizieren. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Nummer automatisch zu generieren.
+
+@Parameter "MaterialID"
+  Das Material, welches auf den "Ribbon Trail" (Farbband-Spuren) angewendet werden soll.
+  Um eine gültige 'MaterialID' zu erhalten, verwenden Sie @@MaterialID.
+
+@Parameter "AnzKetten"
+  Anzahl der Ketten ("Chains") des Farbbands. Je mehr Ketten, desto genauer wird das Farbband sein.
+
+@Parameter "AnzElemente"
+  Anzahl der Elemente pro Kette. Je mehr Elemente, desto genauer wird das Farbband sein.
+
+@Parameter "Länge"
+  Maximale Länge, in Welt-Einheiten ("World Units"), des Farbbands. Sobald die Länge erreicht
+  wird, wird das Farbband komplett ausgeblendet werden.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Effekt erfolgreich erstellt wurde, und Null wenn
+  ein Fehler auftrat. Wenn @#PB_Any als #Effekt Parameter verwendet wurde, dann
+  wird bei Erfolg die neu generierte Nummer zurückgegeben.
+
+@SeeAlso
+  @@FreeEffect, @@HideEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RibbonEffectWidth(#Effekt, FarbbandIndex, Breite, FadeoutBreite) 
+
+@Description
+  Ändert die Kettenbreite des Farbbands (englisch "ribbon chain width").
+
+@Parameter "#Effekt"
+  Der zu verwendende Effekt. Dieser Effekt muss mit @@CreateRibbonEffect erstellt worden sein.
+
+@Parameter "FarbbandIndex"
+  Der Index der Kette, bei welcher die Breite geändert werden soll. Der erste Index beginnt bei
+  Null. Diese Index-Nummer muss kleine als die Anzahl an Farbbändern/Ketten sein, welche mit
+  @@CreateRibbonEffect erstellt wurden.
+
+@Parameter "Breite"
+  Die neue Breite des Farbbands, in Welt-Einheiten.
+
+@Parameter "FadeoutBreite"
+  Die Ausblend (Fade-Out) Breite pro Sekunde. Jede Sekunde wird die Breite des Farbbands
+  um diesen Wert reduziert, bis Null erreicht ist.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AttachRibbonEffect(#Effekt, NodeID) 
+
+@Description
+  Verknüpft das Farbband ("ribbon") mit dem angegebenen Knoten ("Node").
+
+@Parameter "#Effekt"
+  Der zu verwendende Effekt. Dieser Effekt muss mit @@CreateRibbonEffect erstellt worden sein.
+
+@Parameter "NodeID"
+  Der Knoten, bei dem das Farbband hinzugefügt werden soll. Ein einzelnes Farbband kann
+  zu mehreren Knoten hinzugefügt werden. Um eine gültige Node-ID zu erhalten, verwenden
+  Sie @@NodeID.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect, @@DetachRibbonEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DetachRibbonEffect(#Effekt, NodeID) 
+
+@Description
+  Löst das Farbband ("ribbon") vom angegebenen Knoten.
+
+@Parameter "#Effect"
+  Der zu verwendende Effekt. Dieser Effekt muss mit @@CreateRibbonEffect erstellt worden sein.
+
+@Parameter "NodeID"
+  Der Knoten, von dem das Farbband getrennt wird. Wenn das Farbband nicht mit diesem Knoten
+  verknüpft war, dann hat die Funktion keinen Effekt. Um eine gültige Node-ID zu erhalten,
+  verwenden Sie @@NodeID.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect, @@AttachRibbonEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateLensFlareEffect(#Effekt, CameraID, NodeID, BurstGröße, HaloGröße, HaloMaterialID, CircleMaterialID, BurstMaterialID)
+
+@Description
+  Erstellt einen neuen Lensflare-Effekt (in deutsch "Linsenlichtreflex") für die angegebene Kamera.
+  Ein Lensflare ist immer mit einem Knoten verknüpft und wird automatisch dargestellt - abhängig
+  von der Node-Position relativ zur Kamera-Ansicht.
+
+@Parameter "#Effekt"
+  Die Nummer, um den neuen Effekt zu identifizieren. @ReferenceLink "purebasic_objects" "#PB_Any" 
+  kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "CameraID"
+  Die Kamera, zu welcher der Lichtreflex hinzugefügt werden soll. Dieser wird sich nur auf diese
+  Kamera auswirken. Um eine gültige 'CameraID' zu erhalten, verwenden Sie @@CameraID.
+  
+@Parameter "NodeID"
+  Der übergeordnete Knoten (englisch "parent node"), um den Lichtreflex zu verarbeiten.
+  Um eine gültige 'NodeID' zu erhalten, verwenden Sie @@NodeID.
+ 
+@Parameter "BurstSize"
+  Die Größe des "Burst", in Welt-Einheiten.
+
+@Parameter "HaloSize"
+  Die Größe des "Halos" (Lichthofs), in Welt-Einheiten.
+
+@Parameter "HaloMaterialID"
+  Das Halo-Material. Um eine gültige Material-ID zu erhalten, verwenden Sie @@MaterialID.
+
+@Parameter "CircleMaterialID"
+  Das Kreis-Material. Um eine gültige Material-ID zu erhalten, verwenden Sie @@MaterialID.
+
+@Parameter "BurstMaterialID"
+  Das Burst-Material. Um eine gültige Material-ID zu erhalten, verwenden Sie @@MaterialID.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Lensflare-Effekt erfolgreich erstellt wurde, und
+  Null wenn ein Fehler auftrat. Wenn @#PB_Any als #Effekt Parameter verwendet
+  wurde, dann wird bei Erfolg die neu generierte Zahl zurückgegeben.
+
+@SeeAlso
+  @@FreeEffect, @@LensFlareEffectColor
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function LensFlareEffectColor(#Effekt, FarbTyp, Farbe)
+
+@Description
+  Ändert die Farbe des angegebenen Lensflare-Effektteils.
+
+@Parameter "#Effect"
+  Der zu verwendende Effekt. Dieser Effekt muss mit @@CreateLensFlareEffect erstellt worden sein.
+
+@Parameter "FarbTyp"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_LensFlare_HaloColor  : ändert die Halo-Farbe
+  @#PB_LensFlare_CircleColor: ändert die Kreis-Farbe
+  @#PB_LensFlare_BurstColor : ändert die Burst-Farbe
+@EndFixedFont
+  
+@Parameter "Farbe"
+  Die neue Farbe für den ausgewählten Lensflare-Teil. Eine gültige Farbe kann mit
+  @@RGB ermittelt werden.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateLensFlareEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeEffect(#Effekt)
+
+@Description
+  Gibt den angegebenen Effekt frei.
+
+@Parameter "#Effekt"
+  Der freizugebende Effekt. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Effekte freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Sobald der Effekt freigegeben wurde, darf dieser nicht mehr verwendet werden.
+@LineBreak
+@LineBreak
+  Alle verbleibenden Effekte werden automatisch freigegeben, wenn das Programm endet.
+
+@SeeAlso
+  @@CreateRibbonEffect, @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsEffect(#Effekt)
+
+@Description
+  Überprüft, ob die angegebene Effekt-Nummer ein gültiger und korrekt initialisierter
+  Effekt ist.
+
+@Parameter "#Effekt"
+  Der zu verwendende Effekt.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn #Effekt ein gültiger Effekt ist,
+  andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden.
+  Dies ist der richtige Weg, um sicher zu stellen, dass ein Effekt bereit zur Verwendung ist.
+
+@SeeAlso
+  @@CreateRibbonEffect, @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideEffect(#Effekt, Status)
+
+@Description
+  Versteckt oder zeigt den angegebenen Effekt an.
+
+@Parameter "#Effekt"
+  Der zu verwendende Effekt.
+
+@Parameter "Status"
+  Der neue Status des Effekts.
+  Ist der Status = 1, wird der Effekt versteckt. Ist der Status = 0, wird er angezeigt.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect, @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CompositorEffectParameter(#Effekt, TechnikID, PassID, EffektName$, DatenTyp, *Daten)
+
+@Description
+  Legt Echtzeit-Parameter für den angegebenen Effekt fest.
+
+@Parameter "#Effekt"
+  Der zu verwendende Effekt. Der Effekt muss ein "Compositor"-Effekt sein,
+  welcher mit @@CreateCompositorEffect erstellt wurde.
+
+@Parameter "TechnikID"
+  Die TechnikID des Effekts.
+
+@Parameter "PassID"
+  Die PassID des Effekts.
+
+@Parameter "EffektName$"
+  Der Name des Effekts.
+
+@Parameter "DatenTyp"
+  Der Daten-Typ des festzulegenden Parameters.
+
+@Parameter "Daten"
+  Die Daten des festzulegenden Parameters. Diese hängen vom angegebenen Daten-Typ ab.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateCompositorEffect
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RibbonEffectColor(#Effekt, KettenIndex, Farbe, AusblendFarbe)
+
+@Description
+  Legt die Farben für die Farbband-Spur ("Ribbon Trail") fest.
+
+@Parameter "#Effekt"
+  Der zu verwendende Effekt. Dies muss ein Farbband ("Ribbon Trail") sein, welches
+  mit @@CreateRibbonEffect erstellt wurde.
+
+@Parameter "KettenIndex"
+  Der Index der Kette ("chain"), von der die Farbe geändert werden soll. Der erste Index beginnt bei Null.
+  Die Index-Nummer muss niedriger als die Anzahl der mit @@CreateRibbonEffect erstellten Ketten sein.
+
+@Parameter "Farbe"
+  Die Farbe des Farbbands. Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder
+  @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
+ 
+@Parameter "AusblendFarbe"
+  Die Ausblend-Farbe ("fade-out color") des Farbbands - die Ziel-Farbe, wenn das
+  Farbband ausgeblendet wird. Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder
+  @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateRibbonEffect
+
+@SupportedOS

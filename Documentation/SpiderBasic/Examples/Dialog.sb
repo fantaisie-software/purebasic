@@ -1,0 +1,42 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Simple dialog example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+#Xml = 0
+#Dialog = 0
+
+; Define our dialog window here, using regular XML
+;
+XML$ = "<window id='#PB_Any' name='dialog1' text='Dialog example' minwidth='300' minheight='auto' maxheight='auto' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_SizeGadget'>" +
+       "    <vbox>" +
+       "      <option name='option1' text='Enter your credit card:' group='1'/>" +
+       "      <string name='string' width='50' height='30'/>" +
+       "      <option name='option2' text='Use paypal account' group='1'/>" +
+       "      <option name='option3' text='Use wiretransfert' group='1'/>" +
+       "      <hbox>" +
+       "        <button name='ok' text='Continue' height='35'/>" +
+       "        <button name='cancel' text='Cancel'/>" +
+       "      </hbox>" +
+       "    </vbox>" +
+       "  </window>"
+
+If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+
+  If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "dialog1")
+    Debug "Dialog successfully created"
+    
+    ; Use DialogGadget() to retrieve a gadget and use standard commands on it:
+    Option3 = DialogGadget(#Dialog, "option3")
+    SetGadgetState(Option3, #True) ; Set the 3rd option gadget as selected
+  Else
+    Debug "Dialog error: " + DialogError(#Dialog)
+  EndIf
+Else
+  Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
+EndIf  

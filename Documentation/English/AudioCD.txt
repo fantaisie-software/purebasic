@@ -1,0 +1,265 @@
+;
+;     Audio CD library documentation
+;
+;      (c) 2010 - Fantaisie Software
+;
+
+@Library AudioCD
+
+@Overview
+
+  Audio CDs are an excellent way to play very high quality music during a game or
+  an application, without consuming a lot of system resources. This library provides
+  all the functions necessary to manage audio CD playback within PureBasic programs.
+
+@OS Linux
+  On Linux, this library uses the SDL library.
+
+@CommandList
+
+@ExampleFile All AudioCD.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AudioCDLength()
+
+@Description
+  Returns the total length of an entire audio CD.
+
+@NoParameters
+
+@ReturnValue
+  Returns the length in seconds.
+
+@SeeAlso
+  @@AudioCDTrackLength, @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = AudioCDName()
+
+@Description
+  Returns the system-dependent name associated with the current audio CD drive.
+
+@NoParameters
+
+@ReturnValue
+  Returns a string containing the name.
+
+@OS Windows
+  For example, it would return 'D:\' on a Windows-based system, if the audio CD is
+  associated as drive letter 'D'.
+@EndOS
+
+@SeeAlso
+  @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AudioCDTrackLength(TrackNumber)
+
+@Description
+  Returns the length of the specified track.
+
+@Parameter "TrackNumber"
+  The number of the requested track.  The first track is indexed to 1.
+
+@ReturnValue
+  Returns the length in seconds.
+
+@SeeAlso
+  @@AudioCDTracks, @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AudioCDStatus()
+
+@Description
+  Returns the actual state of the current audio CD drive.
+
+@NoParameters
+
+@ReturnValue
+ The return-value may take the following values:
+@LineBreak
+@LineBreak
+  -1: CD drive not ready (it is either empty or opened)
+@LineBreak
+   0: CD drive stopped (but the CD is in the drive and has been detected)
+@LineBreak
+  >0: Audio track which is currently being played.
+
+@SeeAlso
+  @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AudioCDTracks()
+
+@Description
+  Return the total number of tracks on the CD available to be played.
+
+@NoParameters
+
+@ReturnValue
+  Returns the number of tracks.
+
+@SeeAlso
+  @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AudioCDTrackSeconds()
+
+@Description
+  Return the number of seconds elapsed since the current track began to play.
+
+@NoParameters
+
+@ReturnValue
+  Returns the number of seconds since the beginning of the track.
+
+@SeeAlso
+  @@AudioCDTrackLength, @@AudioCDTracks, @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EjectAudioCD(State)
+
+@Description
+  Eject (open) or close the current CD drive. 
+
+@Parameter "State"
+  The action to take.
+  If State = 1, the CD drive is opened, else it is closed.
+
+@NoReturnValue
+
+@SeeAlso
+  @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitAudioCD()
+
+@Description
+  Try to initialize all the necessary resources in order to handle audio CD functions. 
+
+@NoParameters
+
+@ReturnValue
+  If Result is 0, the initialization has failed or there are no
+  CD drives available, else Result contains the number of CD drives attached to the system.
+
+@OS Linux
+  @LineBreak
+  @LineBreak
+  On Linux, this function attempts to open the SDL library. If this function fails, the library is not available.
+@EndOS
+
+@Remarks  
+  This function must be called before any other audio CD function.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PauseAudioCD()
+
+@Description
+  Pause audio CD playback. The playback may be resumed by using the @@ResumeAudioCD function.
+
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PlayAudioCD(StartTrack, EndTrack)
+
+@Description
+  Start to play the audio CD from 'StartTrack' until the end of 'EndTrack'.
+
+@Parameter "StartTrack"
+  The first track to play. (The first track on the CD is indexed to 1)
+
+@Parameter "EndTrack"
+  The last track to play.
+
+@NoReturnValue
+
+@SeeAlso
+  @@AudioCDTracks, @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResumeAudioCD()
+
+@Description
+  Resume audio CD playback, previously paused by the use of the @@PauseAudioCD function.
+
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopAudioCD()
+
+@Description
+  Stop audio CD playback.
+
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseAudioCD(AudioCDDrive)
+
+@Description
+  Select the Drive to which the following AudioCD commands apply. It is possible to play several CDs at the same time.
+
+@Parameter "AudioCDDrive"
+  The drive to use. The first drive has index 0. The amount of drives available in the system is
+  returned from the @@InitAudioCD function.
+
+@NoReturnValue
+
+@SeeAlso
+  @@InitAudioCD
+
+@SupportedOS

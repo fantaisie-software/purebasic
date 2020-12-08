@@ -1,0 +1,229 @@
+;
+;     Mouse library documentation
+;
+;      (c) 2018 - Fantaisie Software
+;
+
+@Library Mouse
+
+@Overview
+  PureBasic provides a full access to mouses plugged into the computer. It 
+  supports standard mouses with up to 3 buttons. This library is optimized and
+  uses very low level functions especially for games. 
+
+  Do not use the functions of this library in a regular application, in this
+  case carry out the mouse queries with @@WindowMouseX,
+  @@WindowMouseY and @@EventType.
+
+@OS Windows
+  On Windows, DirectX is used.
+
+@CommandList
+
+@ExampleFile All Mouse.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InitMouse()
+
+@Description
+  Initializes the Mouse environment for later use. You should call this function before any other functions in 
+  this library. If the result is null, no mouse is available.
+  
+@NoParameters
+
+@ReturnValue
+  Nonzero if the mouse functions are availables, zero otherwise.
+  
+@OS Windows
+  This function tries to open DirectX (v3.0 with NT4.0 compatibility or v7.0 else); if it fails then DirectX
+  is either not available or is too old be used.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExamineMouse() 
+
+@Description
+  Updates the mouse state. This function should be used before @@MouseDeltaX, @@MouseDeltaY, @@MouseX, @@MouseY or
+  @@MouseButton.
+
+@NoParameters
+
+@ReturnValue
+  Nonzero if the mouse state has been updated, zero otherwise. 
+  
+@Remarks
+  The first call to ExamineMouse() captures the mouse to the active @Link "Screen/OpenScreen" "Screen" 
+  or @Link "Screen/OpenWindowedScreen" "'WindowedScreen'".
+  The mouse is available again on your whole system after calling @Link "ReleaseMouse" "ReleaseMouse(#True)" 
+  or after the end of that program.
+
+@SeeAlso
+  @@ExamineMouse, @@MouseDeltaX, @@MouseDeltaY, @@MouseX, @@MouseY, @@MouseButton
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MouseButton(Button)
+
+@Description
+  Returns zero if the specified button number is not pressed, else the button is pressed. 
+  Any number of buttons can be pressed at the same time. @@ExamineMouse must be 
+  called before this function to update the actual button's state.
+
+@Parameter "Button"
+  It can be one of the following constants:
+@FixedFont
+  @#PB_MouseButton_Left  : Tests if the left mouse button is pressed
+  @#PB_MouseButton_Right : Tests if the right mouse button is pressed
+  @#PB_MouseButton_Middle: Tests if the middle mouse button is pressed
+@EndFixedFont
+
+@ReturnValue
+  Nonzero if the specified mouse button is pressed, zero otherwise. 
+
+@SeeAlso
+  @@ExamineMouse
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MouseDeltaX()
+
+@Description
+  Returns the mouse 'x' movement (in pixels) since the last call of this function. 
+
+@NoParameters
+
+@ReturnValue
+  The mouse 'x' movement (in pixels) since the last call of this function. 
+  It can be either a negative or positive value, depending on whether or not the mouse has been moved to 
+  left or right since the last call. @@ExamineMouse should be called before this function 
+  to update the actual mouse position.
+
+@SeeAlso
+  @@ExamineMouse, @@MouseDeltaY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MouseDeltaY()
+
+@Description
+  Returns the mouse 'y' movement (in pixels) since the last call of this function. 
+
+@NoParameters
+
+@ReturnValue
+  The mouse 'y' movement (in pixels) since the last call of this function. 
+  It can be either a negative or positive value, depending on whether or not the mouse has been moved to 
+  up or down since the last call. @@ExamineMouse should be called before this function 
+  to update the actual mouse position.
+
+@SeeAlso
+  @@ExamineMouse, @@MouseDeltaX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MouseLocate(x, y)
+
+@Description
+  Changes the absolute position (in pixels) of the mouse in the current screen. This is useful when using @@MouseX
+  or @@MouseY.
+  
+@Parameter "x, y"
+  The new absolute position (in pixels) of the mouse in the current screen.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@ExamineMouse, @@MouseX, @@MouseY
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MouseWheel()
+
+@Description
+  Returns the number of ticks the mouse wheel has moved since the last function call. @@ExamineMouse should
+  be called before this function to update the mouse status.
+
+@NoParameters
+
+@ReturnValue
+  The number of ticks the mouse wheel has moved since the last function call. The value is positive 
+  if the wheel has moved forward and negative is the wheel has moved backwards.
+  
+@SeeAlso
+  @@ExamineMouse
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MouseX()
+
+@Description
+  Returns the actual mouse 'x' position (in pixels) on the current screen. The position can be changed
+  easily with the @@MouseLocate function. @@ExamineMouse should
+  be called before this function to update the actual mouse position.
+
+@NoParameters
+
+@ReturnValue
+  The actual mouse 'x' position (in pixels) on the current screen. 
+  
+@SeeAlso
+  @@ExamineMouse, @@MouseLocate, @@MouseY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = MouseY()
+
+@Description
+  Returns the actual mouse 'y' position (in pixels) on the current screen. The position can be changed
+  easily with the @@MouseLocate function. @@ExamineMouse should
+  be called before this function to update the actual mouse position.
+
+@NoParameters
+
+@ReturnValue
+  The actual mouse 'y' position (in pixels) on the current screen. 
+  
+@SeeAlso
+  @@ExamineMouse, @@MouseLocate, @@MouseX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ReleaseMouse(State)
+
+@Description
+  Locks or releases the mouse to allow its use under standard OS. This is typically called after checking
+  the result of @@IsScreenActive function. 
+  
+@Parameter "State"
+@FixedFont
+  @#True  : the mouse is released.
+  @#False : the mouse is locked.
+@EndFixedFont
+
+@NoReturnValue
+  
+@SeeAlso
+  @@IsScreenActive
+  
+@SupportedOS

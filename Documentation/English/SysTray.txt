@@ -1,0 +1,135 @@
+;
+;     SysTray library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library SysTray
+
+@Overview
+
+  SysTray is the right part of the taskbar which contains some icons and
+  the date/hour. PureBasic provides full access to this area and the capability to
+  add any number of images to it. @LineBreak
+  @LineBreak
+  On some Linux distributions (like Ubuntu), the systray icons can be hidden by default. For more information
+  see this @InternetLink "http://ubuntugenius.wordpress.com/2011/06/25/ubuntu-11-04-fix-show-all-iconsindicators-in-unity-panels-notification-area/" "link".
+
+@CommandList
+
+@ExampleFile All SysTray.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AddSysTrayIcon(#SysTrayIcon, WindowID, ImageID)
+
+@Description
+  Adds an icon in the SysTray area. 
+@LineBreak
+@LineBreak
+  When an event occurs on any of the SysTray icons the @#PB_Event_SysTray event is
+  sent. @@EventGadget can be used to know which SysTrayIcon has been
+  used. @@EventType functions is also updated by this function.
+
+@Parameter "#SysTrayIcon"
+  A number to identify the new systray icon.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+  
+@Parameter "WindowID"
+  The window on which will handle the systray events. @@WindowID can be used to get this value.
+  
+@Parameter "ImageID"
+  The image to use for the systray icon. Only icon image type (.ico) are supported on Windows, for Linux and OS X it is advised to use a PNG image 
+  (in order to have a transparency layer). @@ImageID may be used to get this ID easily.
+
+@ReturnValue
+  Nonzero if the systray icon has been successfully added, zero otherwise.
+
+@Remarks
+  All SysTray icons are automatically removed when the program ends.
+
+@SeeAlso
+  @@RemoveSysTrayIcon, @@ChangeSysTrayIcon
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ChangeSysTrayIcon(#SysTrayIcon, ImageID)
+
+@Description
+  Changes the specified icon in the SysTray area.
+  
+@Parameter "#SysTrayIcon"
+  The systray icon to change.
+  
+@Parameter "ImageID"
+  The new image to use for the systray icon. Only icon image type (.ico) are supported on Windows, for Linux and OS X it is advised to use a PNG image 
+  (in order to have a transparency layer). @@ImageID may be used to get this ID easily.
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddSysTrayIcon
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsSysTrayIcon(#SysTrayIcon)
+
+@Description
+  Tests if the given systray icon is valid and correctly initialized. 
+
+@Parameter "#SysTrayIcon"
+  The systray icon to test.
+
+@ReturnValue
+  Nonzero if the systray icon is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a systray icon is ready to use.
+
+@SeeAlso
+  @@AddSysTrayIcon
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SysTrayIconToolTip(#SysTrayIcon, Text$)
+
+@Description
+  Associates the specified Text$ with the SysTray icon. Tool-tip text is that text which is displayed
+  when the mouse cursor hovers over the icon for a period of time (yellow floating box).
+
+@Parameter "#SysTrayIcon"
+  The systray icon to use.
+
+@Parameter "Text$"
+  The text to use for systray icon tooltip.
+
+@NoReturnValue
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveSysTrayIcon(#SysTrayIcon)
+
+@Description
+  Remove the specified SysTray icon.
+
+@Parameter "#SysTrayIcon"
+  Remove the SysTray icon. If @#PB_All is specified, all the remaining SysTray icons are freed.
+  
+@NoReturnValue
+
+@Remarks  
+  All remaining SysTray icons are automatically removed when the program ends.
+  
+@SupportedOS
+
+

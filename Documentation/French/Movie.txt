@@ -1,0 +1,457 @@
+;
+; Movie library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Movie
+
+@Overview
+
+  PureBasic propose des commandes simples 
+  mais très efficaces pour intégrer la 
+  diffusion d'une vidéo dans une 
+  application ou un jeu.
+@LineBreak
+@LineBreak
+  @Bold "Windows": Dans la mesure où la 
+  technologie DirectX est utilisée, tous 
+  les types de vidéos ou même de médias 
+  peuvent être diffusés à partir de cette 
+  bibliothèque: AVI, MPG, DivX, etc.
+@LineBreak
+@LineBreak
+  @Bold "MacOS X":  La technologie 
+  QuickTime est utilisée et tous les types 
+  de médias (selon les plugins installés) 
+  peuvent être diffusés avec cette 
+  bibliothèque : AVI, MPG, DivX etc. 
+@LineBreak
+@LineBreak
+  @Bold Note: Sur certains OS, les fichiers 
+  musicaux peuvent également être joués 
+  avec cette bibliothèque, mais ce n'est 
+  pas officiellement supporté et cela peut 
+  provoquer des dysfonctionnements. 
+  @LineBreak
+  Il vaut mieux utiliser la bibliothèque 
+  @LibraryLink "sound" "Sound" pour cela.
+
+@OS Windows
+@LineBreak
+@LineBreak
+  Sous Windows, une version récente de 
+  DirectX 9  doit être installée (voir ici: 
+  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
+@EndOS
+
+@CommandList
+
+@ExampleFile All Movie.pb
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function FreeMovie(#Video)
+
+@Description
+  Libère une vidéo et toutes les ressources 
+  associées.
+
+@Parameter "#Video"
+  La vidéo à libérer. 
+@LineBreak  
+@LineBreak   
+  Si @#PB_All est spécifié, toutes les 
+  vidéos restantes sont libérées.
+
+@NoReturnValue
+
+@Remarks
+  Toutes les vidéos restantes sont 
+  automatiquement libérées quand le 
+  programme se termine. 
+ 
+@SeeAlso
+  @@IsMovie, @@LoadMovie
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = InitMovie()
+
+@Description
+  Initialise l'environnement Vidéo pour 
+  un usage futur. 
+ 
+@NoParameters
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+
+@Remarks  
+  Cette fonction doit être exécutée avant 
+  tout autre commande de cette bibliothèque.
+@LineBreak
+@LineBreak
+@OS Windows
+  Cette commande tente d'ouvrir DirectX 
+  (v3.0 pour la compatibilité NT4.0 ou 
+  v7.0 ou plus sinon).
+  Si la fonction échoue (Resultat = 0), cela peut 
+  donc provenir de l'absence de DirectX sur votre 
+  ordinateur ou d'une version de DirectX trop 
+  ancienne. Sous Windows, une version récente 
+  de DirectX 9 doit être installé (voir ici: 
+  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
+@EndOS
+
+@SeeAlso
+  @@LoadMovie
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = IsMovie(#Video)
+
+@Description
+  Teste si une vidéo est correctement initialisée. 
+ 
+@Parameter "#Video"
+  La vidéo à utiliser.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+
+@Remarks
+  Cette fonction a été créée pour pouvoir passer 
+  n'importe quelle valeur en paramètre sans 
+  qu'il ne puisse y avoir de plantage. 
+  
+@SeeAlso
+  @@LoadMovie
+   
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = LoadMovie(#Video, Fichier$)
+
+@Description
+  Charge une vidéo depuis un fichier.
+
+@Parameter "#Video"
+  Le numéro d'identification de la vidéo.
+@LineBreak
+@LineBreak 
+  @ReferenceLink "purebasic_objects" "PB_Any #" 
+  peut être utilisé pour générer automatiquement 
+  ce numéro. 
+  
+@Parameter "Fichier$"
+  Le nom et le chemin du fichier vidéo.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+
+@SeeAlso
+  @@PlayMovie, @@MovieInfo, @@MovieLength, 
+  @@MovieWidth, @@MovieHeight, @@FreeMovie, 
+  @@InitMovie
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function MovieAudio(#Video, Volume, Balance)
+
+@Description
+  Contrôle le flux audio d'un vidéo, en temps 
+  réel. 
+
+@Parameter "#Video"
+  La vidéo à utiliser.
+
+@Parameter "Volume"
+  Le volume sonore entre 0 (muet) et 100 
+  (volume à fond).
+
+@Parameter "Balance"
+  La balance stéréo entre -100 et 100.
+@FixedFont 
+  -100 : Tout le son sur le canal gauche et rien sur le canal droit
+     0 : Mode normal
+   100 : Tout le son sur le canal droit et rien sur le canal gauche
+@EndFixedFont 
+
+@NoReturnValue
+
+@SeeAlso
+  @@PlayMovie
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = MovieHeight(#Video)
+
+@Description 
+  Renvoie la hauteur de la vidéo. 
+  
+@Parameter "#Video"
+  La vidéo à utiliser.  
+
+@ReturnValue
+  Renvoie la hauteur de la vidéo, en pixels.
+@LineBreak
+@LineBreak
+  Renvoie -1 si le flux vidéo est absent ou 
+  incompatible, cependant le flux audio peut 
+  être joué.
+
+@SeeAlso
+  @@MovieWidth, @@MovieLength, @@MovieInfo
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = MovieInfo(#Video, Options)
+
+@Description
+  Renvoie des informations additionnelles 
+  concernant une vidéo.
+ 
+@Parameter "#Video"
+  La vidéo à utiliser. 
+  
+@Parameter "Options"  
+  Valeur supportée actuellement:
+@FixedFont
+  0: Renvoie le nombre de trames par seconde (*1000).
+@EndFixedFont
+  
+@ReturnValue
+  Renvoie la valeur spécifiée en fonction 
+  du paramètre 'Options'.
+  
+@SeeAlso
+  @@MovieLength, @@MovieWidth, @@MovieHeight
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = MovieLength(#Video)
+
+@Description  
+  Renvoie la longueur (en trames) d'une vidéo.
+ 
+@Parameter "#Video"
+  La vidéo à utiliser. 
+ 
+@ReturnValue
+  Renvoie la longueur de la vidéo en nombre de 
+  trames.
+
+@SeeAlso
+  @@MovieInfo, @@MovieWidth, @@MovieHeight
+  
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = MovieSeek(#Video, Trame.q)
+
+@Description
+  Déplace la position courante d'une vidéo à 
+  une trame spécifiée.
+ 
+@Parameter "#Video"
+  La vidéo à utiliser. 
+
+@Parameter "Trame.q"
+  La trame (frame) à atteindre.
+  
+@NoReturnValue
+
+@SeeAlso
+  @@MovieStatus
+   
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat.q = MovieStatus(#Video)
+
+@Description
+  Obtient le statut d'une vidéo.
+@LineBreak
+ 
+@Parameter "#Video"
+  La vidéo à utiliser. 
+
+@ReturnValue 
+  Renvoie l'une des valeurs suivantes :
+@FixedFont
+   -1: La vidéo est en pause.
+    0: La vidéo est stoppée
+  > 0: La vidéo est en cours d'exécution. 
+       La valeur renvoyée est le numéro de la trame en cours d'affichage.
+@EndFixedFont
+
+@SeeAlso
+  @@MovieSeek
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = MovieWidth(#Video)
+
+@Description
+  Renvoie la largeur d'une vidéo.
+
+@Parameter "#Video"
+  La vidéo à utiliser. 
+
+@ReturnValue
+  Renvoie la largeur d'une vidéo, en pixels.
+@LineBreak
+@LineBreak
+  Renvoie -1 si le flux vidéo est absent ou 
+  incompatible, cependant le flux audio peut 
+  être joué.
+
+@SeeAlso
+  @@MovieWidth, @@MovieLength, @@MovieInfo
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function PauseMovie(#Video)
+
+@Description  
+  Met en pause une vidéo. 
+  
+@Parameter "#Video"
+  La vidéo à utiliser.  
+  
+@NoReturnValue
+
+@Remarks
+  L'exécution peut être reprise en utilisant 
+  la commande @@ResumeMovie.
+ 
+@SeeAlso
+  @@PlayMovie, @@ResumeMovie, @@StopMovie
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = PlayMovie(#Video, Fenetre)
+
+@Description
+  Joue une vidéo dans une fenêtre spécifiée.
+
+@Parameter "#Video"
+  La vidéo à lire.
+  
+@Parameter "Fenetre"
+  La fenêtre dans laquelle sera lue la vidéo.
+  @LineBreak
+  Cette valeur peut être facilement obtenue en 
+  utilisant la fonction @@WindowID.
+@LineBreak
+@LineBreak
+  Il est aussi possible de jouer une vidéo en 
+  plein écran, il suffit d'utiliser le résultat 
+  de la commande @@ScreenID dans 'Fenetre'.
+  
+@ReturnValue  
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+  
+@Remarks
+  Veillez à charger la vidéo au préalable 
+  avec @@LoadMovie.
+@LineBreak
+@LineBreak  
+  La commande @@ResizeMovie peut être utilisée 
+  pour dimensionner et déplacer la vidéo dans 
+  cette fenêtre (pour ne pas utiliser la fenêtre 
+  entière par exemple). 
+  
+@SeeAlso
+  @@LoadMovie, @@StopMovie, @@MovieWidth, 
+  @@MovieHeight, @@MovieLength, @@MovieInfo
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function ResizeMovie(#Video, X, Y, Largeur, Hauteur)
+
+@Description  
+  Déplace et redimensionne la zone d'affichage 
+  d'une vidéo.
+
+@Parameter "#Video"
+  La vidéo à utiliser. 
+
+@Parameter "X, Y, Largeur, Hauteur"
+  Les nouvelles coordonnées et dimensions 
+  de la vidéo, en pixels.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PlayMovie, @@MovieWidth, @@MovieHeight
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function ResumeMovie(#Video)
+
+@Description
+  Reprend l'exécution d'une vidéo après un 
+  appel à la commande @@PauseMovie. 
+  
+@Parameter "#Video"
+  La vidéo à utiliser. 
+  
+@NoReturnValue
+
+@SeeAlso
+  @@PauseMovie, @@PlayMovie, @@StopMovie
+   
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function StopMovie(#Video)
+
+@Description
+  Arrête une vidéo. 
+  
+@Parameter "#Video"
+  La vidéo à utiliser.   
+  
+@NoReturnValue
+
+@SeeAlso
+  @@PlayMovie, @@PauseMovie, @@ResumeMovie
+
+@SupportedOS
+
+

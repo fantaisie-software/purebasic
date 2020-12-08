@@ -1,0 +1,250 @@
+;
+;     Music library documentation
+;
+;      (c) 2013 - Fantaisie Software
+;
+
+@Library Music
+
+@Overview
+
+PureBasic can replay standard music modules to have nice music background
+during a game or an application. The music modules are well known from Demo makers,
+as its an efficient way to build music on a computer. The tools used to
+create the music modules are named 'Trackers' (ProTracker, FastTracker, Impulse
+Tracker...). The advantages of a music module against a .wav/mp3 file are its very low size,
+a virtually endless length, the very fast replay, possible jump on a certain
+music part to fit to the screen action etc... It's of course possible to mix
+@LibraryLink "sound" "standard sound" and music to have both played simultaneously.
+@LineBreak
+@LineBreak
+The @InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" library is used to have a very high quality music playback and multiple
+tracker support.
+@LineBreak
+@LineBreak
+The command @@InitSound has to be called with success
+before using any of the music related functions.
+
+@CommandList
+
+@ExampleFile All Music.pb
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CatchMusic(#Music, *Buffer, Size)
+
+@Description
+  Loads the specified music from the specified memory buffer. 
+  @@PlayMusic can be used to start playing the music. @InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" supports a lot of music formats, which includes: Protracker (4 channels),
+  FastTracker (up to 32 channels, 16-bit quality), Impulse Tracker, etc.
+
+@Parameter "#Music"
+  A number to identify the new music module.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "*Buffer"
+  The memory buffer to load the music module from.
+
+@Parameter "Size"
+  The buffer size.
+
+@ReturnValue
+  Nonzero if the music module has been successfully loaded, zero otherwise.
+
+@Remarks
+  This function is useful when using the '@ReferenceLink "includes" "IncludeBinary"' PureBasic keyword. Then music modules can be packed inside
+  the executable. Nevertheless, use this option with care, as it will take
+  more memory than storing the music in an external file (the music is both in
+  executable memory and load in physical memory). 
+
+@Example
+@Code
+  CatchMusic(0, ?Music, ?MusicEnd-?Music)
+  End
+
+  DataSection
+    Music: 
+      IncludeBinary "Music.xm"
+    MusicEnd:
+  EndDataSection
+@EndCode
+
+@SeeAlso
+  @@LoadMusic, @@PlayMusic
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMusic(#Music)
+
+@Description
+  Stop and remove the specified music previously loaded with the @@LoadMusic function from memory. Once a music has been
+  freed, it can't be played anymore. 
+  
+@Parameter "#Music"
+  The music to free. If @#PB_All is specified, all the remaining musics are freed.  
+
+@NoReturnValue
+
+@Remarks
+  All remaining musics are automatically freed when the program ends.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Position = GetMusicPosition(#Music)
+
+@Description
+  Returns the current pattern position of the playing music module.
+
+@Parameter "#Music"
+  The music module to use.
+
+@ReturnValue
+  The current pattern position of the playing music module. The first pattern position is zero.
+
+@SeeAlso
+  @@SetMusicPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Row = GetMusicRow(#Music)
+
+@Description
+  Returns the current row position in the pattern of the playing music module.
+  
+@Parameter "#Music"
+  The music module to use.
+
+@ReturnValue
+  The current row position of the playing music module. The first row position is zero.
+
+@SeeAlso
+  @@SetMusicPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsMusic(#Music)
+
+@Description
+  Tests if the given music module is valid and correctly initialized. 
+
+@Parameter "#Music"
+  The music module to test.
+
+@ReturnValue
+  Nonzero if the music module is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a music module is ready to use.
+
+@SeeAlso
+  @@LoadMusic, @@CatchMusic
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = LoadMusic(#Music, Filename$)
+
+@Description
+  Loads the specified music module. @@PlayMusic can be used to start playing the music.
+   @InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" supports a lot of music formats, which includes: Protracker (4 channels),
+  FastTracker (up to 32 channels, 16-bit quality), Impulse Tracker, etc.
+
+@Parameter "#Music"
+  A number to identify the new music module.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "Filename$"
+  The music module filename to load.
+
+@ReturnValue
+  Nonzero if the music module has been successfully loaded, zero otherwise.
+ 
+@SeeAlso
+  @@CatchMusic, @@PlayMusic
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MusicVolume(#Music, Volume)
+
+@Description
+  Change the master volume of the specified music, in real-time. 
+  
+@Parameter "#Music"
+  The music module to use.
+
+@Parameter "Volume"
+  The new volume to set for the music. Volume values can be from 0 to 100. Can be useful for fade-in/fade-out.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PlayMusic(#Music)
+
+@Description
+  Starts to play the specified music previously loaded with the @@LoadMusic function.
+  
+@Parameter "#Music"
+  The music module to play.
+
+@NoReturnValue  
+
+@SeeAlso
+  @@LoadMusic, @@CatchMusic, @@StopMusic
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMusicPosition(#Music, Position)
+
+@Description
+  Changes the current pattern position of the playing #Music to the new one.
+  
+@Parameter "#Music"
+  The music module to use.
+
+@Parameter "Position"
+  The new music module pattern position. The first pattern position starts from 0.
+
+@NoReturnValue  
+
+@SeeAlso
+  @@GetMusicPosition
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopMusic(#Music)
+
+@Description
+  Stop the #Music (if it was playing). 
+  
+@Parameter "#Music"
+  The music module to stop. If sets to @#PB_All, then all the musics currently playing are stopped.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PlayMusic
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

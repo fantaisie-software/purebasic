@@ -1,0 +1,191 @@
+@Title Les macros
+
+@FormatIf HTML
+  <p>&nbsp;</p>
+  <center> 
+  <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
+  <caption> <b>Résumé des fonctions:</b> </caption>
+  <tr>
+    <td align="center" vAlign="center" nowrap><a href="#Macro"><u>Macro/EndMacro</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#UndefineMacro"><u>UndefineMacro</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#MacroExpandedCount"><u>MacroExpandedCount</u></a></td>
+  </tr>
+  </table>
+  </center>
+  <p>&nbsp;</p>
+@FormatEndIf
+
+@FormatIf HTML
+<a name="Macro"></a>
+@FormatEndIf
+@Syntax
+
+  @Keyword Macro <nom> [(Parametre [, ...])]
+    ...
+  @Keyword EndMacro 
+
+@Description
+  Le système de macro est une fonctionnalité très puissante, principalement utile pour les programmeurs
+  chevronnés. Une macro est un bout de code quelconque (un mot clef, une ligne, plusieurs lignes) qui peut
+  être inséré à n'importe quel endroit dans le code source en indiquant le nom de la macro. En ce sens,
+  une macro est différente d'une @ReferenceLink "procedures" "procedure", car les procédures ne dupliquent
+  pas leur code à chaque appel.
+@LineBreak
+@LineBreak
+  La déclaration Macro : EndMacro doit être effectuée avant le premier appel à la macro. 
+  Comme les macros seront complètement remplacées par le code correspondant au moment de la compilation, 
+  elles ne sont pas locales à une procédure. 
+@LineBreak
+@LineBreak
+  Une macro ne peut pas avoir un type de retour, ou des paramètres typés, car cela n'a pas de sens. Quand une
+  macro a des paramètres, ils sont remplacés dans le code de la macro par l'expression littérale qui a été
+  passée lors de l'appel. Aucune évaluation n'est faite à ce stade, ce qui est très important à comprendre:
+  l'évaluation de la ligne ne commence uniquement lorsque toutes les macros trouvées sur cette ligne ont été
+  traitées.
+@LineBreak
+@LineBreak
+  Les macros sont divisées en deux catégories: les simples (sans paramètres) et les complexes
+  (avec paramètres, obligation d'utiliser les parenthèses pour les appeler). Quand aucun paramètre
+  n'est spécifié, il est possible de remplacer n'importe quel mot avec un autre mot (ou une autre
+  expression). Les macros ne peuvent pas être appelées de manière récursive.
+
+@Example Macro simple
+
+@Code
+
+  Macro MonNot
+    Not
+  EndMacro
+
+  a = 0
+  If MonNot a   ; Ici la ligne sera remplacée par : 'If Not a'
+    Debug "Ok"
+  EndIf
+@EndCode
+
+  En utilisant les paramètres, il est possible de créer des macros très flexibles. Le caractère
+  de concaténation '#' est disponible pour créer des nouveaux mots ou labels en combinant le code
+  de la macro et l'expression passée en paramètre (les espaces ne sont pas acceptées entre chaque
+  mots devant être concaténés). Il est aussi possible de définir des valeurs par défaut pour chaque
+  paramètre, pour qu'ils puissent être omis lors de l'appel de la macro.
+    
+@Example Macro avec paramètres
+
+@Code
+  Macro BoiteDeMessageEnMajuscule(Titre, Corps)
+    MessageRequester(Titre, UCase(Corps), 0)
+  EndMacro
+
+  Texte$ = "le Monde"
+  BoiteDeMessageEnMajuscule("Salut", "-"+Texte$+"-") ; Ici la ligne sera remplacée comme ça :
+                                                     ; MessageRequester("Salut", UCase("-"+Texte$+"-"), 0)
+@EndCode
+
+@Example Macro avec paramètre par défaut
+
+@Code
+  Macro BoiteDeMessageEnMajuscule(Titre, Corps = "Ah, aucun corps spécifié")
+    MessageRequester(Titre, UCase(Corps), 0)
+  EndMacro
+
+  BoiteDeMessageEnMajuscule("Salut") ; Ici la ligne sera remplacée comme ça :
+                                     ; MessageRequester("Salut", UCase("Ah, aucun corps spécifié"), 0)
+@EndCode
+
+@Example Macro et concaténation
+
+@Code
+  Macro XCase(Type, Texte) ; renvoie le texte dans la casse du type spécifié
+    Type#Case(Texte)        ; Type U => MAJUSCULES
+  EndMacro                 ; Type L => minuscules
+
+  Debug XCase(U, "Salut") ; macro remplacée par UCase("Salut")
+  Debug XCase(L, "Salut") ; macro remplacée par LCase("Salut")
+  
+@EndCode
+
+@Example Macro complexe sur plusieurs lignes
+
+@Code
+  Macro Guillemet
+    "
+  EndMacro
+
+  Macro Assertion(Expression)
+    CompilerIf #PB_Compiler_Debugger  ; active uniquement l'assertion lorsque le débogueur est actif
+      If Expression
+        Debug "Assertion (Ligne " + #PB_Compiler_Line + ") : " + Guillemet#Expression#Guillemet
+      EndIf
+    CompilerEndIf
+  EndMacro
+
+  Assertion(10 <> 10) ; N'affichera rien
+  Assertion(10 <> 15) ; Devrait afficher l'assertion 
+  
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="UndefineMacro"></a>
+@FormatEndIf
+@Syntax
+
+  @Keyword UndefineMacro <nom>
+
+@Description
+  @Keyword UndefineMacro permet d'annuler une macro définie précédemment, 
+  et de la redéfinir d'une manière différente. @LineBreak
+  Une fois que la macro a été annulée, elle n'est plus disponible.
+    
+@Example annulation de macro
+
+@Code
+  Macro Test
+    Debug "1"
+  EndMacro
+  
+  Test ; Appel de la macro
+  
+  UndefineMacro Test ; Annule la définition du macro, elle n'existe plus.
+  
+  Macro Test ; Maintenant, nous pouvons redéfinir la macro.
+    Debug "2"
+  EndMacro
+  
+  Test ; Appel de la macro
+  
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br>
+<br>
+<hr>
+<a name="MacroExpandedCount"></a>
+@FormatEndIf
+@Syntax
+
+  @Keyword MacroExpandedCount
+
+@Description
+  @Keyword MacroExpandedCount permet d'obtenir le nombre de fois que la macro 
+  a été utilisée/appel. 
+  Il peut être utile de générer des identifiants uniques dans la même macro 
+  pour chaque utilisation (comme un label, le nom de la procédure, etc.)
+    
+@Example Comptage
+
+@Code
+  Macro Test
+    Debug MacroExpandedCount
+  EndMacro
+  
+  Test ; Appel de la macro
+  Test ; Appel de la macro
+  Test ; Appel de la macro
+  
+@EndCode
+

@@ -1,0 +1,22 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Array example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Dim Numbers(5) ; Declare a numeric array of 6 elements (0 to 5)
+
+For k = 0 To ArraySize(Numbers())
+  Numbers(k) = Random(1000) ; Pick a random number between 0 and 1000 
+Next
+
+SortArray(Numbers(), #PB_Sort_Ascending)
+
+; Display the sorted array
+For k = 0 To ArraySize(Numbers())
+  Debug Numbers(k)
+Next

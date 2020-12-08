@@ -1,0 +1,46 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - 2D Drawing example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+If OpenWindow(0, 100, 200, 300, 200, "2D Drawing Test", #PB_Window_TitleBar)
+
+  ; Create an offscreen image, with a green circle in it.
+  ; It will be displayed later
+  ;
+  If CreateImage(0, 300, 200)
+    If StartDrawing(ImageOutput(0))
+      Box(0, 0, 300, 300, RGB(230,230,230))  ; Set the background to white
+            
+      Circle(100,100,50,RGB(0,0,255))  ; a nice blue circle...
+
+      Box(150,20,20,20, RGB(0,255,0))  ; and a green box
+      
+      FrontColor(RGB(255,0,0)) ; Finally, red lines..
+      For k=0 To 20
+        LineXY(10,10+k*8,200, 0)
+      Next
+      
+      DrawingMode(#PB_2DDrawing_Transparent)
+      BackColor(RGB(0,155,155)) ; Change the text back and front colour
+      FrontColor(RGB(0,0,0)) 
+      Text$ = "Hello World !"
+      
+      LoadFont(0, "times", 30)
+      DrawingFont(FontID(0))
+      
+      DrawText(10, 150, Text$)
+      
+      StopDrawing()
+    EndIf
+  EndIf
+
+  ; Create a gadget to display our nice image
+  ;  
+  ImageGadget(0, 0, 0, 300, 200, ImageID(0))
+EndIf

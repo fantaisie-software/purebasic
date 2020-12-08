@@ -1,0 +1,41 @@
+@Title Prototypes
+
+@Syntax
+
+  @Keyword Prototype.<type> name(<parameter>, [, <parameter> [= DefaultValue]...])
+
+@Description
+
+  For advanced programmers. @Keyword Prototype allows to declare a type which will map
+  a function. It's useful when used with a variable, to do a function pointer (the
+  variable value will be the address the function to call, and can be changed at will).
+  @LineBreak
+  @LineBreak
+  The last parameters can have a default value (need to be a constant expression), so if 
+  these parameters are omitted when the function is called, the default value will be used.
+  @LineBreak
+  @LineBreak
+  
+@Example 
+
+@Code
+  Prototype ProtoMax(Value, Print = #False)
+
+  Procedure Max1(Value, Print)
+    Debug "Max1 : " + Value
+  EndProcedure
+
+  Procedure Max2(Value, Print)
+    Debug "Max2 : " + Value
+  EndProcedure
+
+  Max.ProtoMax = @Max1() ; Set the function pointer
+  Max(10)
+
+  Max.ProtoMax = @Max2() ; Change the function pointer
+  Max(20) ; the function call doesn't change
+@EndCode
+
+
+
+

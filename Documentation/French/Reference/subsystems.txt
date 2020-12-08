@@ -1,0 +1,90 @@
+@Title Sous-systèmes
+
+@Section Introduction
+  Les commandes  intégrées de PureBasic s'appuient sur les bibliothèques disponibles 
+  de chaque système d'exploitation. Parfois, il est possible d'atteindre un même résultat 
+  de différentes façons. Pour ce faire, PureBasic offre la possibilité de changer de 
+  bibliothèque, sans changer une ligne de code source. Par exemple, sous Windows, OpenGL  
+  peut être utiisé en utilisant le sous-système 'OpenGL' de PureBasic, qui lui, utilisera 
+  les fonctions OpenGL pour rendre les sprites par exemple, en lieu et place de DirectX 
+  (sous-système par défaut).
+  @LineBreak
+  @LineBreak
+  Pour activer un sous-système, son nom doit être défini dans l'IDE avec le menu 
+  @ReferenceLink "ide_compiler" "Options du compilateur", ou par l'intermédiaire du 
+  commutateur /SUBSYSTEM en /@ReferenceLink "cli_compiler" "ligne de commande". 
+  Il s'agit d'une option de compilation, ce qui signifie qu'un exécutable ne peut pas 
+  incorporer plus d'un sous-système à la fois. Si le support de multiple sous-systèmes 
+  est nécessaire (par exemple l'envoi d'une version OpenGL et DirectX d'un jeu), 
+  deux exécutables doivent être créés.
+  @LineBreak
+  @LineBreak
+  Les sous-systèmes disponibles sont situés dans le dossier 'subsystems' de PureBasic. 
+  Lorsqu'un sous-système est spécifié, tous les résidents ou les bibliothèques trouvées 
+  dans ce dossier auront préséance sur les bibliothèques par défaut et les résidents.
+  N'importe quel nombre de sous-systèmes différents peuvent être spécifiés (pour autant 
+  que cela n'affecte pas les mêmes bibliothèques).
+  @LineBreak
+  @LineBreak
+  La @ReferenceLink "compilerfunctions" "fonction du compilateur" @Keyword Subsystem peut 
+  être utilisée pour détecter si un sous-système spécifique est utilisé pour la compilation.
+  
+@Section Sous-systèmes disponibles
+  Voici une liste des sous-systèmes disponibles, et les bibliothèques concernées: 
+  @LineBreak
+  @LineBreak
+  @Bold "Windows"
+@FixedFont
+  OpenGL: Utiliser OpenGL au lieu de DirectX. Bibliothèques concernées: 
+          - Sprite
+          - Screen
+          - Toutes les bibliothèques connexes du moteur 3D
+@EndFixedFont
+@LineBreak
+  @Bold "Linux"
+@FixedFont
+  gtk2: Bibliothèques affectées:
+
+          - 2D Drawing
+          - AudioCD
+          - Clipboard
+          - Desktop
+          - Drag & Drop
+          - Font
+          - Gadget
+          - Image
+          - Menu
+          - Movie
+          - Printer
+          - Requester
+          - Scintilla
+          - StatusBar
+          - SysTray
+          - Toolbar
+          - Window
+                              
+  qt: Bibliothèques affectées:
+          - 2D Drawing
+          - AudioCD
+          - Clipboard
+          - Desktop
+          - Drag & Drop
+          - Font
+          - Gadget
+          - Image
+          - Menu
+          - Movie
+          - Printer
+          - Requester
+          - Scintilla
+          - StatusBar
+          - SysTray
+          - Toolbar
+          - Window          
+@EndFixedFont
+@LineBreak
+  @Bold "MacOS X"
+@FixedFont
+  Rien
+@EndFixedFont  
+

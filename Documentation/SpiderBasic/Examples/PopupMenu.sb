@@ -1,0 +1,51 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - PopupMenu example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+;
+; Create the popup menu. Note the indent for a good lisibility
+;
+If CreatePopupMenu(0)
+  MenuItem(1, "Cut")
+  MenuItem(2, "Copy")
+  MenuItem(3, "Paste")
+  MenuBar()
+  OpenSubMenu("Options")
+    MenuItem(4, "Window...")
+    MenuItem(5, "Gadget...")
+  CloseSubMenu()
+  MenuBar()
+  MenuItem( 6, "Quit")
+EndIf
+
+
+Procedure GadgetEvents()
+  If EventGadget() = 0 And EventType() = #PB_EventType_RightClick
+    Debug "here"
+    DisplayPopupMenu(0, WindowID(0))
+  EndIf
+EndProcedure
+
+
+Procedure MenuEvents()
+  Debug EventMenu()  ; To see which menu has been selected
+EndProcedure
+
+;
+; We just have to open a window and see when an event happen on the menu
+;
+If OpenWindow(0, 100, 100, 300, 260, "PopupMenu example", #PB_Window_TitleBar)
+
+  ListIconGadget(0, 10, 10, 280, 240, "Tools", 200)
+    AddGadgetItem(0, -1, "Hammer")
+    AddGadgetItem(0, -1, "Screwdriver")
+        
+  BindEvent(#PB_Event_Menu, @MenuEvents())
+  BindEvent(#PB_Event_Gadget, @GadgetEvents())
+EndIf

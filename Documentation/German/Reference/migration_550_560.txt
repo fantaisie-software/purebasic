@@ -1,0 +1,29 @@
+@Title Migration von PureBasic 5.50 nach 5.60
+
+@Section Cipher Bibliothek
+
+@LineBreak
+Base64Encoder: Funktion umbenannt
+@Code
+  ; Alt
+  Base64Encoder()
+
+  ; Neu
+  Base64EncoderBuffer()
+@EndCode
+
+Base64Decoder: Funktion umbenannt
+@Code
+  ; Alt
+  Base64Decoder()
+
+  ; Neu
+  Base64DecoderBuffer()
+@EndCode
+
+@Section Sonstiges
+
+Der 'Define.b' Standalone-Syntax, um den Standardtyp für nicht typisierte Variablen zu ändern,
+ist nun verboten und führt zu einem 'Syntaxfehler'. Das Entfernen der Anweisung wird diesen beheben
+(stellen Sie sicher, dass Sie Ihre untypisierten Variablen entsprechend eingeben).
+Hinweis: 'Define.b a, b, c' wird weiterhin unterstützt.

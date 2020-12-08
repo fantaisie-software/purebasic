@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Expressions - Simple Processing - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Simple Processing: Expressions</h1>
+<dfn>Expression</dfn> is the general name given to any kind of calculation
+ in PureBasic, whether it be numeric or string. Expressions can be as simple
+ as a fixed value or it could be a complex mathematical formula involving
+ many operators, variables and fixed values.
+
+<p>Anything which represents a value can be used in an expression. For
+ example, commands can be used in expressions (as you have already experienced
+ with the operators and the Str command) if they return a value. It is
+ then that value which is used in the expression.
+
+<p>You can make your expressions as complex as you like (or fully expand
+ them for readability and clarity). PureBasic will automatically simplify
+ the expression to increase the speed at which is calculated when your
+ program runs.
+
+<p>The following example shows a variety of expressions. You can find the
+ source <a href="expression.pb">here</a>.
+
+<pre class="code">OpenConsole()
+
+; A simple expression
+simple.l = 8
+expression.f = simple * 3 + 2
+
+; More complex example
+detail$ = &quot;This is the value of &quot;
+var_name.s = &quot; expression&quot;
+output_string.s = detail$ + var_name + &quot;: &quot; + StrF(expression)
+PrintN(output_string)
+
+PrintN(&quot;Press return to exit&quot;)
+Input()
+CloseConsole()
+End</pre>
+
+<p><img class="output" src="expression_run.png" alt="Output of the expression example" width="479" height="44">
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="brackets.html">Operator Precedence</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="summary.html">Summary</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

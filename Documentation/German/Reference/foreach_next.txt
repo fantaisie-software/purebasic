@@ -1,0 +1,58 @@
+@Title ForEach : Next
+
+@Syntax
+
+  @Keyword ForEach @FunctionColor Liste() @Bold "oder" @FunctionColor Map()
+    ...
+  @Keyword Next [Liste() @Bold "oder" Map()]
+
+@Description
+
+  @Keyword ForEach durchläuft alle Elemente der angegebenen verknüpften 'Liste' oder 'Map', beginnend 
+  beim ersten Element bis zum letzten Element. Ist die Liste oder die Map leer, wird die @Keyword "ForEach : Next" Schleife 
+  umgehend abgebrochen. Für eine Liste aller Befehle zur Verwaltung von verknüpften Listen siehe die @LibraryLink "list" "Linked List" Bibliothek.
+  Alle Befehle zur Verwaltung von Maps finden Sie in der @LibraryLink "Map" "Map" Bibliothek.
+  @LineBreak
+  @LineBreak
+  Bei der Verwendung mit verknüpften Listen ist es möglich, während der Schleife Elemente zu @Link "List/DeleteElement" "löschen"
+  oder @Link "List/AddElement" "hinzuzufügen". Ebenso darf  mit @@ChangeCurrentElement
+  auch das aktuelle Element geändert werden. 
+  Nach einer der genannten Änderungen wird der nächste Schleifendurchlauf mit dem auf das aktuelle Element folgenden
+  Element fortgesetzt.
+  @LineBreak
+  @LineBreak
+  Mit dem @ReferenceLink "Break_Continue" Break Befehl kann die @Keyword "ForEach : Next" Schleife (vorzeitig) verlassen 
+  werden, mit dem @ReferenceLink "Break_Continue" Continue Befehl kann das Ende des aktuellen Schleifendurchlaufs übersprungen werden.
+
+  @Example Verknüpfte Liste
+
+@Code       
+  NewList Number()
+  
+  AddElement(Number())
+  Number() = 10
+    
+  AddElement(Number())
+  Number() = 20
+    
+  AddElement(Number())
+  Number() = 30
+    
+  ForEach Number()
+    Debug Number() ; wird 10, 20 und 30 ausgeben
+  Next
+@EndCode  
+
+  @Example Map
+
+@Code       
+  NewMap Country.s()
+
+  Country("US") = "United States"
+  Country("FR") = "France"
+  Country("GE") = "Germany"
+
+  ForEach Country()
+    Debug Country()
+  Next
+@EndCode  

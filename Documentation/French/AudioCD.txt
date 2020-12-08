@@ -1,0 +1,313 @@
+;
+; AudioCD library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library AudioCD
+
+@Overview
+
+Les CDs Audio sont un bon moyen d'écouter de 
+la musique en qualité Hi-Fi pendant que l'on 
+joue ou travaille sur son ordinateur, sans 
+que cela ne pénalise trop les performances 
+de la machine. Cette bibliothèque propose 
+toutes les fonctions nécessaires
+pour gérer facilement la lecture de CDs 
+Audio dans un programme PureBasic.
+
+@OS Linux
+  PureBasic utilise la bibliothèque SDL.
+@EndOS
+
+@CommandList
+
+@ExampleFile All AudioCD.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AudioCDLength()
+
+@Description
+  Renvoie la durée totale d'un CD-Audio 
+  en secondes.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie la durée du CD, en secondes.
+
+@SeeAlso
+  @@AudioCDTrackLength, @@UseAudioCD  
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = AudioCDName()
+
+@Description
+  Renvoie le nom du lecteur de CD.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie une chaîne de caractères 
+  contenant le nom du lecteur de CD 
+  (dépendant de l'O.S.).
+
+@OS Windows
+  Par exemple, le nom retourné peut 
+  être 'D:\' dans un système Windows.
+@EndOS
+
+@SeeAlso
+  @@UseAudioCD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AudioCDTrackLength(NumeroPiste)
+
+@Description
+   Renvoie la longueur d'une piste audio.
+
+@Parameter "NumeroPiste"
+  Le numéro de la piste demandée. 
+@LineBreak
+@LineBreak
+  La première piste est indexée à 1.
+
+@ReturnValue
+  Renvoie la durée en secondes.
+
+@SeeAlso
+  @@AudioCDTracks, @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AudioCDStatus()
+
+@Description
+  Renvoie l'état actuel du lecteur de CD. 
+
+@NoParameters
+
+@ReturnValue
+  Peut prendre les valeurs suivantes:
+@FixedFont
+  -1 : Lecteur de CD non prêt (vide ou avec tiroir ouvert)
+   0 : Lecteur de CD arrêté (mais un CD est à l'intérieur et détecté)
+  >0 : Plage audio en cours de lecture.
+@EndFixedFont
+
+@SeeAlso
+  @@UseAudioCD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AudioCDTracks()
+
+@Description
+  Renvoie le nombre total de pistes d'un CD.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie le nombre de pistes du CD.
+
+@SeeAlso
+  @@UseAudioCD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AudioCDTrackSeconds()
+
+@Description
+  Renvoie le nombre de secondes écoulées 
+  en lecture depuis le début de la piste.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie le nombre de secondes écoulées 
+  depuis le début de la piste.
+
+@SeeAlso
+  @@AudioCDTrackLength, @@AudioCDTracks, 
+  @@UseAudioCD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function EjectAudioCD(Etat)
+
+@Description
+  Ouvre ou ferme le tiroir du lecteur de CD. 
+
+@Parameter "Etat" 
+@FixedFont 
+   =1 : Le tiroir est ouvert. 
+  <>1 : Le tiroir est fermé.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = InitAudioCD() 
+
+@Description
+  Tente d'initialiser les ressources 
+  nécessaires pour exécuter les fonctions 
+  CD audios.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie le nombre de lecteurs de CD 
+  reconnus par le système en cas de succès 
+  ou zéro sinon. 
+  
+@OS Linux
+@LineBreak
+@LineBreak
+  Sous Linux, cette fonction tente d'ouvrir 
+  la bibliothèque SDL, et renvoie zéro si elle
+  n'est pas disponible.
+@EndOS
+
+@Remarks
+  Cette fonction doit être appelée avant 
+  toute autre fonction de la bibliothèque
+  CD-Audio.  
+
+@SeeAlso
+  @@UseAudioCD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PauseAudioCD()
+
+@Description
+  Met sur pause la lecture d'un CD-Audio. 
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  La lecture peut être reprise en appelant 
+  la fonction @@ResumeAudioCD.
+
+@SeeAlso
+  @@UseAudioCD, @@ResumeAudioCD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PlayAudioCD(PisteDebut, PisteFin)
+
+@Description
+  Commence la lecture du CD-Audio.
+  
+@Parameter "PisteDebut"  
+  La première piste lue porte le numéro 1.
+
+@Parameter "PisteFin"
+  La dernière piste à jouer.
+
+@NoReturnValue
+
+@SeeAlso
+  @@AudioCDTracks, @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResumeAudioCD()
+
+@Description
+  Reprend la lecture du CD après un pause 
+  demandée par la fonction @@PauseAudioCD.
+
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@UseAudioCD
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopAudioCD()
+
+@Description
+  Arrête la lecture du CD-Audio en cours.
+
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@UseAudioCD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseAudioCD(LecteurCD)
+
+@Description
+  Sélectionne le lecteur CD auquel les 
+  commandes AudioCD s'appliquent.
+
+@Parameter "LecteurCD"
+  Le lecteur à utiliser. 
+@LineBreak
+@LineBreak
+  Le premier lecteur a le numéro 0. 
+
+@NoReturnValue
+
+@Remarks
+  Il est possible de jouer plusieurs 
+  CD en même temps.
+@LineBreak
+@LineBreak
+  Comme la fonction @@InitAudioCD nous 
+  permet de savoir combien de lecteurs de CD
+  sont reconnus par le système, UseAudioCD() 
+  permet de changer le lecteur CD en cours. 
+@LineBreak
+@LineBreak
+  La quantité d'unités disponibles dans le 
+  système est renvoyée par la fonction 
+  @@InitAudioCD
+
+@SeeAlso
+  @@InitAudioCD
+
+@SupportedOS

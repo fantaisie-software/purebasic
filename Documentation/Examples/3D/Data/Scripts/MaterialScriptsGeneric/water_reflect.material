@@ -1,0 +1,63 @@
+vertex_program water_reflect_vertexHLSL hlsl
+{
+	source water_reflect.hlsl
+	target vs_3_0
+	entry_point water_reflect_vertex
+}
+
+fragment_program water_reflect_pixelHLSL hlsl
+{
+	source water_reflect.hlsl
+	target ps_3_0
+	entry_point water_reflect_pixel
+}
+vertex_program water_reflect_vertexGLSL glsl
+{
+	source water_reflect_v.glsl
+}
+fragment_program water_reflect_pixelGLSL glsl
+{
+	source water_reflect_p.glsl
+}
+// Unified definition
+vertex_program water_reflect_vertex unified
+{
+	delegate water_reflect_vertexGLSL
+	delegate water_reflect_vertexHLSL
+}
+fragment_program water_reflect_pixel unified
+{
+	delegate water_reflect_pixelGLSL
+	delegate water_reflect_pixelHLSL
+}
+material water_reflect
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref water_reflect_vertex
+			{
+				param_named_auto 	view_position 	camera_position_object_space	
+				param_named_auto 	viewproj_matrix worldviewproj_matrix
+				param_named_auto 	texmatx 		texture_matrix 0
+				param_named_auto 	fog 			fog_params
+			}
+			fragment_program_ref water_reflect_pixel
+			{
+				param_named_auto	fogcolor	fog_colour
+				param_named_auto 	watercolor 	derived_light_diffuse_colour 0
+				param_named_auto 	wavespeed 	time 0.1
+				param_named 		waveheight	float 0.2				
+			}
+			texture_unit				//reflectmap
+			{
+				texture_alias texture1
+			}
+			texture_unit				//normalmap
+			{
+				texture_alias texture2	
+			}
+		}
+	}
+}

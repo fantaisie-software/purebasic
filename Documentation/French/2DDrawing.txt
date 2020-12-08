@@ -1,0 +1,3166 @@
+;
+; 2DDrawing library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library 2DDrawing
+
+@Overview
+
+La bibliothèque 2DDrawing contient toutes 
+les commandes permettant de dessiner en 
+deux dimensions sur une fenêtre, un écran 
+ou même une imprimante. Vous pourrez ainsi 
+tracer un trait, un rectangle, un cercle,
+une ellipse, créer des dégradés de formes 
+diverses et écrire du texte. 
+@LineBreak
+@LineBreak
+Les dessins commencent toujours après avoir 
+appelé la fonction @@StartDrawing et
+se terminent lorsque @@StopDrawing est appelé.
+
+@CommandList
+
+@ExampleFile All 2DDrawing.pb
+@ExampleFile All 2DDrawingAlpha.pb
+@ExampleFile All MDI_ImageViewer.pb
+@ExampleFile Windows DirectScreenDrawing.pb
+@ExampleFile Windows Win32_API.pb
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = Red(Couleur)
+
+@Description
+  Renvoie la valeur de la composante rouge 
+  d'une couleur. 
+  
+@Parameter "Couleur"
+  La valeur de la couleur.
+@LineBreak
+@LineBreak  
+ Cela peut être une valeur RGB 24 bits ou 
+ une valeur RGBA 32 bits.
+ 
+@ReturnValue
+  Renvoie la valeur de la composante rouge.
+  @LineBreak
+  Le résultat sera compris entre 0 et 255.
+  
+@Remarks  
+  @@RGB permet de combiner les valeurs rouge, 
+  verte et bleue en une couleur 24 bits.
+  @LineBreak
+  @@RGBA permet de combiner les valeurs rouge, 
+  verte, bleue et alpha en une couleur 32 bits.
+  @LineBreak
+  Ces fonctions sont utiles lors des opérations 
+  de @LibraryLink "2ddrawing" "dessin 2D".
+
+@Example
+@Code
+  ; Charge une image
+  If LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\Geebee2.bmp")
+    StartDrawing(ImageOutput(0))
+    Couleur=Point(10,10)  ; Couleur aux coordonnées 10, 10
+    Debug Red(Couleur)    ; Affiche la composante rouge de la couleur
+    Debug Green(Couleur)  ; Affiche la composante verte de la couleur
+    Debug Blue(Couleur)   ; Affiche la composante bleue de la couleur
+    StopDrawing()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Green, @@Blue, @@Alpha, @@RGB, @@RGBA
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = Green(Couleur)
+
+@Description
+  Renvoie la valeur de la composante verte 
+  d'une couleur. 
+  
+@Parameter "Couleur"
+  La valeur de la couleur.
+@LineBreak
+@LineBreak  
+ Cela peut être une valeur RGB 24 bits ou une 
+ valeur RGBA 32 bits.
+ 
+@ReturnValue
+  Renvoie la valeur de la composante verte.
+  @LineBreak
+  Le résultat sera compris entre 0 et 255.
+  
+@Remarks  
+  @@RGB permet de combiner les valeurs rouge, 
+  verte et bleue en une couleur 24 bits.
+  @LineBreak
+  @@RGBA permet de combiner les valeurs rouge, 
+  verte, bleue et alpha en une couleur 32 bits.
+  @LineBreak
+  Ces fonctions sont utiles lors des opérations 
+  de @LibraryLink "2ddrawing" "dessin 2D".
+
+@Example
+@Code
+  ; Charge une image
+  If LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\Geebee2.bmp")
+    StartDrawing(ImageOutput(0))
+    Couleur=Point(10,10)  ; Couleur aux coordonnées 10, 10
+    Debug Red(Couleur)    ; Affiche la composante rouge de la couleur
+    Debug Green(Couleur)  ; Affiche la composante verte de la couleur
+    Debug Blue(Couleur)   ; Affiche la composante bleue de la couleur
+    StopDrawing()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Red, @@Blue, @@Alpha, @@RGB, @@RGBA
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = Blue(Couleur)
+
+@Description
+  Renvoie la valeur de la composante bleue 
+  d'une couleur. 
+  
+@Parameter "Couleur"
+  La valeur de la couleur.
+@LineBreak
+@LineBreak  
+ Cela peut être une valeur RGB 24 bits ou une 
+ valeur RGBA 32 bits.
+ 
+@ReturnValue
+  Renvoie la valeur de la composante bleue.
+  @LineBreak
+  Le résultat sera compris entre 0 et 255.
+  
+@Remarks  
+  @@RGB permet de combiner les valeurs rouge, 
+  verte et bleue en une couleur 24 bits.@LineBreak
+  @@RGBA permet de combiner les valeurs rouge,
+  verte, bleue et alpha en une couleur 32 bits.
+  @LineBreak
+  Ces fonctions sont utiles lors des opérations
+  de @LibraryLink "2ddrawing" "dessin 2D".
+
+@Example
+@Code
+  ; Charge une image
+  If LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\Geebee2.bmp")
+    StartDrawing(ImageOutput(0))
+    Couleur=Point(10,10)  ; Couleur aux coordonnées 10, 10
+    Debug Red(Couleur)    ; Affiche la composante rouge de la couleur
+    Debug Green(Couleur)  ; Affiche la composante verte de la couleur
+    Debug Blue(Couleur)   ; Affiche la composante bleue de la couleur
+    StopDrawing()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Red, @@Green, @@Alpha, @@RGB, @@RGBA
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+ 
+@Function Resultat = Alpha(Couleur)
+
+@Description
+  Renvoie la valeur de la composante alpha 
+  (transparence) d'une couleur. 
+  
+@Parameter "Couleur"
+  La valeur de la couleur.
+@LineBreak
+@LineBreak  
+ Cela ne peut être qu'une valeur RGBA 32 bits.
+  
+@ReturnValue
+  Renvoie la valeur de la composante alpha.
+  @LineBreak
+  Une valeur de 0 signifie une complète 
+  transparence et une valeur de 255 signifie 
+  opacité totale.@LineBreak
+  Le résultat sera compris entre 0 et 255.
+  
+@Remarks  
+  @@RGBA permet de combiner les valeurs rouge,
+  verte, bleue et alpha en une couleur 32 bits.
+  @LineBreak
+  Ces fonctions sont utiles lors des opérations de 
+  @LibraryLink "2ddrawing" "dessin 2D".
+
+@Example
+@Code
+ If OpenWindow(0, 0, 0, 200, 200, "Alpha", #PB_Window_SystemMenu|#PB_Window_ScreenCentered)
+  If CreateImage(0, 800, 600, 32) And StartDrawing(ImageOutput(0)) ; création d'une image fond noir par défaut
+    DrawingMode(#PB_2DDrawing_AlphaChannel) ; le Canal alpha (transparence) sera modifié
+    Box(0, 0, 200, 200, $00000000)          ; le noir est complètement transparent
+   
+    DrawingMode(#PB_2DDrawing_AlphaBlend)   ; le dessin sera fusionné avec le fond en utilisant le canal alpha pour gérer la transparence de chaque pixel
+    Circle( 75,  75, 50, RGBA(255,   0,   0, 64))  ; Cercle rouge très transparent
+    Circle(125,  75, 50, RGBA(  0, 255,   0, 128)) ; Cercle vert moyennement transparent
+    Circle(100, 125, 50, RGBA(  0,   0, 255, 192)) ; Cercle bleu peu transparent
+    DrawText(20, 180, "Cliquer sur le dessin")     ; Texte sans transparence
+    StopDrawing()
+  EndIf
+ 
+  ImageGadget(0, 0, 0, 0, 0, ImageID(0))  ; Affichage du dessin dans un gadget
+  
+    Repeat
+      Event = WaitWindowEvent(0) 
+      If  Event = #PB_Event_Gadget And EventType() = #PB_EventType_LeftClick  
+        x = WindowMouseX(0)
+        y = WindowMouseY(0)
+        If Bool(x>0  And y>0)      
+          StartDrawing(ImageOutput(0))
+          DrawingMode(#PB_2DDrawing_AlphaBlend)
+          Couleur = Point(x,y)
+          Transparence = Alpha(Couleur)
+          Debug "La composante Transparence vaut : " + Str(Transparence)
+          StopDrawing()
+        EndIf
+      EndIf
+    Until Event = #PB_Event_CloseWindow   
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Red, @@Green, @@Blue, @@RGBA
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = RGB(Rouge, Vert, Bleu)
+
+@Description
+  Renvoie la valeur de la couleur 24 bits 
+  correspondant aux valeurs Rouge, Verte et 
+  Bleue.
+  
+@Parameter "Rouge, Vert, Bleu"
+  La valeur des composantes rouge, vert et 
+  bleu de la couleur. 
+@LineBreak
+@LineBreak
+  Chaque valeur doit être comprise entre 0 
+  et 255.
+
+@ReturnValue
+  Renvoie la valeur de la couleur.  
+
+@Remarks  
+  Pour extraire la valeur d'une des composantes 
+  'Rouge', 'Verte' ou 'Bleue' à partir de la 
+  valeur d'une couleur 24 Bits, utilisez les 
+  commandes suivantes @@Red, @@Green et 
+  @@Blue.
+@LineBreak
+@LineBreak  
+  Ces fonctions sont utiles pour effectuer des
+  @LibraryLink "2ddrawing" "opérations de dessin".
+@LineBreak  
+@LineBreak
+  Un tableau représentant les couleurs les plus 
+  communes est disponible 
+  @ReferenceLink "colortable" "ici".
+
+@Example
+@Code
+  Debug RGB(0, 0, 0)   ; 0  
+  Debug RGB(255, 0, 0) ; 255
+  Debug RGB(0, 1, 0)   ; 256
+  Debug RGB(0, 255, 0) ; 65280
+  Debug RGB(0, 0, 255) ; 16 711 680
+  Debug RGB(255, 255, 255) ; 16 777 215 : Voici les 16 millions de couleurs...
+  Debug HEX(RGB(255, 255, 255)) ; FFFFFF
+@EndCode 
+ 
+@SeeAlso
+  @@Red, @@Green, @@Blue, @@RGBA
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = RGBA(Rouge, Vert, Bleu, Alpha)
+
+@Description
+  Renvoie la valeur de la couleur 32 bits 
+  correspondant aux valeurs Rouge, Verte, 
+  Bleue et Alpha.
+ 
+@Parameter "Rouge, Vert, Bleu"
+  La valeur des composantes rouge, verte et 
+  bleue de la couleur. 
+@LineBreak  
+@LineBreak
+  Chaque valeur doit être comprise entre 0 et 
+  255.
+  
+@Parameter "Alpha"
+  La composante alpha (transparence) de la 
+  couleur.
+@LineBreak  
+@LineBreak
+  La valeur doit être comprise entre 0 et 255.
+@LineBreak  
+@LineBreak
+  Une valeur de 0 signifie une transparence 
+  complète et une valeur de 255 signifie une 
+  opacité totale. 
+
+@ReturnValue
+  Renvoie la valeur de la couleur.  
+
+@Remarks   
+  Resultat varie de 0 à 4 294 967 295 teintes. 
+  Il est donc conseillé d'utiliser un 'quad', (Resultat.q) et de mettre à zéro les octets 
+  inutilisés.
+  En effet, sur un système d'exploitation 32 Bits, Resultat est un integer de type Long 
+  (par défaut) dont la plage d'utilisation va de - 2 147 483 648 à + 2 147 483 647,
+  alors comparer deux couleurs est hasardeux.
+@LineBreak
+@LineBreak
+  Utiliser les commandes suivantes @@Red, @@Green, 
+  @@Blue et @@Alpha pour extraire la valeur d'une 
+  des composantes 'Rouge', 'Verte', 'Bleue' ou 'Alpha'.
+@LineBreak
+@LineBreak
+  Un tableau représentant les couleurs les plus 
+  communes est disponible 
+  @ReferenceLink "colortable" "ici".
+  Ces fonctions sont utiles lors des opérations 
+  de @LibraryLink "2ddrawing" "dessin 2D".
+
+@Example
+@Code
+  Couleur.q = RGBA(255, 255, 255, 255) ; Blanc totalement opaque
+  Debug LSet(Hex(Couleur, #PB_Quad), 16, "0")
+  Couleur = Couleur  & $FFFFFFFF  ; mise à zéro des octets inutilisés, 
+                                  ; utile pour la comparaison de couleur
+  Debug LSet(Hex(Couleur, #PB_Quad), 16, "0")
+@EndCode
+  
+@Example
+@Code
+  Debug RGBA(0, 0, 0, 0)     ; Noir totalement transparent 
+  Debug RGBA(0, 0, 0, 128)   ; Noir à moitié transparent
+  Debug RGBA(0, 0, 0, 255)   ; Noir totalement opaque
+  Debug RGBA(255, 0, 0, 255) ; Rouge totalement opaque
+  Debug RGBA(0, 0, 255, 0)   ; Bleu totalement transparent
+  Debug RGBA(255, 255, 255, 255) ; Blanc totalement opaque
+  Debug HEX(RGBA(255, 255, 255, 255)) ; Affiche FFFFFFFFFFFFFFFF
+@EndCode 
+ 
+@Example Couleur 24 bits vers couleur 32 bits
+@Code
+  Alpha = 255 ; de 0 à 255,  255 = aucune transparence (Opacité = 100 %)
+  
+  ; Pour les couleurs, il est conseillé d'utiliser des variables de type Quad (Voir remarques)
+  Couleur24.q  = ColorRequester()
+  
+  Couleur32.q = RGBA(Red(Couleur24), Green(Couleur24), Blue(Couleur24), alpha) 
+  Couleur32 = Couleur32 & $FFFFFFFF ; Mise à zéro des octets inutilisés
+
+  ; Il est aussi possible de remplacer les deux lignes ci-dessus par:
+  ; Couleur32 = Couleur24 | Alpha << 24
+  
+  Debug "Rouge " + Red(Couleur32)
+  Debug "Vert  " + Green(Couleur32)
+  Debug "Bleu  " + Blue(Couleur32)
+  Debug "Opacité " + Alpha(Couleur32)
+@EndCode  
+ 
+@SeeAlso
+  @@Red, @@Green, @@Blue, @@Alpha, @@RGB
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Couleur = AlphaBlend(Couleur1, Couleur2)
+
+@Description
+  Renvoie une couleur 32 bits qui est 
+  le résultat du mélange de deux autres 
+  couleurs 32 bits.
+  
+@Parameter "Couleur1"
+  La couleur d'avant-plan qui sera mélangée 
+  à 'Couleur2'.
+
+@Parameter "Couleur2"
+  La couleur d'arrière-plan.
+
+@ReturnValue
+  Renvoie la couleur mélangée.
+  
+@Remarks
+  @@RGBA peut être utilisé pour créer des 
+  couleurs 32 bits avec transparence alpha.
+@LineBreak
+@LineBreak
+  Ces fonctions sont utiles lors des opérations 
+  de @LibraryLink "2ddrawing" "dessin 2D".
+  
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "AlphaBlend", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      DrawingMode(#PB_2DDrawing_Default)
+      ;DrawingMode(#PB_2DDrawing_AlphaBlend) ; Enlever le point virgule pour voir la différence.
+      
+      T = 128 ; Transparence
+        Box(0  , 0  , 100, 100, RGBA(255, 0, 0, T)) ; Affiche du rouge
+        Box(100, 0  , 200, 100, RGBA(0  , 0, 0, T)) ; Affiche du noir
+        Box(0  , 100, 100, 200, AlphaBlend(RGBA(0  , 0, 0, T), RGBA(255, 0, 0, T))) ; Affiche du marron
+        Box(100, 100, 200, 200, AlphaBlend(RGBA(255, 0, 0, T), RGBA(0  , 0, 0, T))) ; Affiche du bordeaux
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+
+  ; Le changement de transparence donnera d'autres teintes.
+  ; Un autre mode comme DrawingMode(#PB_2DDrawing_Default)
+  ; donnera aussi d'autres couleurs
+@EndCode 
+   
+@SeeAlso
+  @@RGBA
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function BackColor(Couleur)
+
+@Description
+  Définit la couleur d'arrière plan. 
+  
+@Parameter "Couleur"  
+  La couleur d'arrière plan à utiliser 
+  pour le dessin et le texte. 
+@LineBreak
+@LineBreak
+  Les fonctions @@RGB ou @@RGBA peuvent 
+  être utilisées pour définir facilement 
+  une couleur. 
+@LineBreak
+@LineBreak  
+  C'est le @Link "DrawingMode" "mode de dessin" 
+  qui indique si la transparence (canal alpha) 
+  est prise en compte.
+  @LineBreak
+  @LineBreak
+  Un tableau avec les couleurs les plus 
+  courantes est disponible 
+  @ReferenceLink "colortable" "ici".
+
+@NoReturnValue
+  
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "BackColor", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      BackColor(RGB(Random(255), Random(255), Random(255)))
+      FrontColor(RGB(Random(255), Random(255), Random(255)))
+        Box(0, 0, 100, 100)
+        DrawText(50, 50, "PureBasic")
+      BackColor(RGB(Random(255), Random(255), Random(255)))
+      FrontColor(RGB(Random(255), Random(255), Random(255)))
+        Box(100, 100, 100, 100)
+        DrawText(50, 100, "PureBasic")
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode 
+
+@SeeAlso
+  @@FrontColor, @@RGB, @@RGBA, @@DrawingMode
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Box(X, Y, Largeur, Hauteur [, Couleur])
+
+@Description
+  Dessine un rectangle sur la surface de 
+  dessin en cours.
+
+@Parameter "X, Y, Largeur, Hauteur"
+  Position et dimensions du rectangle.
+  
+@OptionalParameter "Couleur"  
+  La couleur du rectangle. @LineBreak
+  @LineBreak
+  S'il n'est pas spécifié, la couleur fixée 
+  par la fonction @@FrontColor sera utilisée.
+  @LineBreak
+  @LineBreak
+  Les fonctions @@RGB ou @@RGBA peuvent être 
+  utilisées pour définir facilement
+  une couleur.
+
+@NoReturnValue  
+
+@Remarks
+  Le mode de remplissage du rectangle est 
+  défini par la fonction @@DrawingMode.
+  
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Rectangles", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      y = 0
+      For x = 0 To 95 Step 10
+        Box(x, y, 200-2*x, 200-2*y, RGB(Random(255), Random(255), Random(255)))
+        y + 10        ; C'est équivalent à 'y = y + 10'
+      Next x
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image box.png
+
+@SeeAlso
+  @@RoundBox, @@Line, @@Circle, @@Ellipse
+  @@FrontColor, @@RGB, @@RGBA, @@DrawingMode
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function RoundBox(X, Y, Largeur, Hauteur, ArrondiX, ArrondiY [, Couleur])
+
+@Description
+  Dessine un rectangle aux coins arrondis 
+  sur la surface de dessin en cours.
+  
+@Parameter "X, Y, Largeur, Hauteur" 
+  Position et dimensions du rectangle.
+  
+@Parameter "ArrondiX, ArrondiY"
+  Le rayon de l'arrondi des coins.
+
+@OptionalParameter "Couleur"  
+  La couleur du rectangle.
+  @LineBreak
+  @LineBreak
+  S'il n'est pas spécifié, la couleur fixée 
+  par la fonction @@FrontColor sera utilisée.
+  @LineBreak
+  @LineBreak
+  Les fonctions @@RGB ou @@RGBA peuvent être 
+  utilisées pour définir facilement une 
+  couleur. 
+  
+@NoReturnValue
+
+@Remarks
+  Le mode de remplissage du rectangle est 
+  défini par la fonction @@DrawingMode.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Rectangle arrondi", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      y = 0
+      For x = 0 To 95 Step 10
+        RoundBox(x, y, 200-2*x, 200-2*y, 20, 20, RGB(Random(255), Random(255), Random(255)))
+        y + 10 
+      Next x
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image roundbox.png
+
+@SeeAlso
+  @@Box, @@Line, @@Circle, @@Ellipse
+  @@FrontColor, @@RGB, @@RGBA, @@DrawingMode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Circle(X, Y, Rayon [, Couleur])  
+
+@Description
+  Dessine un cercle sur la surface de dessin 
+  en cours.
+
+@Parameter "X, Y" 
+  Position du centre du cercle.
+  
+@Parameter "Rayon"
+  Le rayon du cercle. @LineBreak
+  Attention, le centre du cercle n'est pas 
+  inclus dans le rayon.
+
+@OptionalParameter "Couleur"  
+  La couleur du cercle.@LineBreak
+@LineBreak
+  S'il n'est pas spécifié, la couleur fixée 
+  par la fonction @@FrontColor sera utilisée.
+  @LineBreak
+  @LineBreak
+  Les fonctions @@RGB ou @@RGBA peuvent être 
+  utilisées pour définir facilement une 
+  couleur. 
+  
+@NoReturnValue  
+
+@Remarks 
+  Le mode de remplissage du rectangle est 
+  défini par la fonction @@DrawingMode.
+
+@NoReturnValue
+ 
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Cercles", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For Radius = 100 To 10 Step -10
+        Circle(100, 100, Radius, RGB(Random(255), Random(255), Random(255)))
+      Next
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image circle.png
+
+@SeeAlso
+  @@Box, @@RoundBox, @@Line, @@Ellipse
+  @@FrontColor, @@RGB, @@RGBA, @@DrawingMode
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function DrawImage(ImageID, X, Y [, Largeur, Hauteur])  
+
+@Description
+  Affiche une image sur la surface de 
+  dessin en cours. 
+  
+@Parameter "ImageID"  
+  Le numéro d'identification de l'image.
+  @LineBreak
+  @LineBreak
+  L'ImageID peut être obtenu facilement
+  en utilisant la fonction @@ImageID de 
+  la bibliothèque Image. 
+  
+@Parameter "X, Y" 
+  La position du coin en haut et à gauche 
+  de l'image.
+
+@OptionalParameter "Largeur, Hauteur"  
+  L'image sera redimensionnée en temps réel avant d'être affichée.
+  @LineBreak
+  @LineBreak 
+  La taille de l'image originale n'est pas modifiée. 
+
+@NoReturnValue
+
+@Remarks  
+  L'image sera transparente si le mode 
+  d'affichage courant @@DrawingMode est 
+  utilisé avec une des options d'alpha 
+  blending (transparence) sinon l'image 
+  est simplement copiée sur la surface de 
+  dessin en cours. 
+  Pour dessiner une image en utilisant la 
+  transparence, voir la commande 
+  @@DrawAlphaImage.
+ 
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "DrawImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      DrawText(60,80,"CLIQUER !")
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    If CreateImage(1, 100, 50) And StartDrawing(ImageOutput(1))
+      DrawText(0,0,"PUREBASIC", $0000FF, $00FFFF)
+      StopDrawing() 
+    EndIf
+    Repeat
+      Event = WaitWindowEvent()
+      If Event = #PB_Event_Gadget
+        StartDrawing(ImageOutput(0))
+        x=WindowMouseX(0) 
+        y=WindowMouseY(0) 
+        DrawImage(ImageID(1),x,y)
+        StopDrawing()
+        SetGadgetState(0, ImageID(0))
+      EndIf
+      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function DrawAlphaImage(ImageID, X, Y [, Transparence])
+
+@Description
+  Affiche une image transparente sur la 
+  surface de dessin en cours. 
+
+@Parameter "ImageID"  
+  Le numéro d'identification de l'image. 
+  @LineBreak
+@LineBreak
+  L'ImageID' peut être obtenu facilement
+  en utilisant la fonction @@ImageID de la 
+  bibliothèque Image. 
+  
+@Parameter "X, Y" 
+  La position du coin en haut et à gauche 
+  de l'image.
+
+@OptionalParameter "Transparence"  
+  Le coefficient de transparence de l'image.
+  @LineBreak
+@LineBreak
+  Sa valeur varie de 0 (complètement 
+  transparente) à 255 (complètement opaque).
+  De fait, même les images qui n'ont pas de 
+  canal alpha peuvent être affichées de 
+  manière transparente.
+
+@NoReturnValue
+
+@Remarks  
+  L'image sera fusionnée avec le fond du 
+  dessin en tenant compte de son canal alpha 
+  (même si le 
+  @Link "DrawingMode" "mode de dessin" actuel 
+  n'est pas @#PB_2DDrawing_AlphaBlend).
+@LineBreak
+@LineBreak
+  Cette commande fonctionne sur toutes les 
+  surfaces de dessin, même celles qui ne 
+  supportent pas les options de transparence 
+  (alpha blending) de @@DrawingMode.
+@LineBreak
+@LineBreak
+  L'image sera affichée dans sa taille 
+  originale.@LineBreak
+  @@ResizeImage peut être utilisé pour 
+  changer la taille d'une image.
+   
+@OS Windows
+  @LineBreak
+  @LineBreak
+  Cette commande ne peut pas être utilisée 
+  pour afficher une icône (chargée à partir 
+  d'un fichier '.ico').
+ 
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "DrawImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200, 32, RGB(255, 255, 255)) And StartDrawing(ImageOutput(0))
+      DrawingMode(#PB_2DDrawing_Transparent)
+      DrawText(60,80,"CLIQUER !", RGBA(0, 255, 0, 255), RGBA(0, 0, 0, 0))
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    If CreateImage(1, 100, 50, 32,  #PB_Image_Transparent ) And StartDrawing(ImageOutput(1))
+      DrawingMode(#PB_2DDrawing_AlphaChannel) ; Le noir est transparent
+      Box(0, 0, 100, 50, $00000000)
+      DrawingMode(#PB_2DDrawing_AlphaBlend)
+      DrawText(0,0,"PUREBASIC", RGBA(255, 0, 0, 128), RGBA(0, 0, 0, 0))
+      StopDrawing() 
+    EndIf
+    Repeat
+      Event = WaitWindowEvent()
+      If Event = #PB_Event_Gadget
+        StartDrawing(ImageOutput(0))
+        DrawingMode(#PB_2DDrawing_AlphaBlend)
+        x=WindowMouseX(0) 
+        y=WindowMouseY(0) 
+        DrawAlphaImage(ImageID(1),x,y)
+        StopDrawing()
+        SetGadgetState(0, ImageID(0))
+      EndIf
+      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DrawImage, @@ImageID
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function *Resultat = DrawingBuffer()
+
+@Description
+  Renvoie le tampon (buffer) 
+  de dessin, ce qui permet la manipulation 
+  des pixels directement en mémoire.
+
+@NoParameters
+
+@ReturnValue  
+  Renvoie le pointeur de données des pixels 
+  si l'accès direct aux pixels est possible 
+  ou zéro sinon.
+  
+@Remarks 
+  Cette fonction doit être appelée à nouveau si 
+  d'autres commandes de dessin de cette bibliothèque 
+  ont été utilisées depuis la dernière manipulation de pixels.
+@LineBreak
+@LineBreak 
+  Une fois que @@StopDrawing a été appelé, le 
+  tampon est invalidé et ne peut plus être utilisé.
+@LineBreak
+@LineBreak 
+  Cette commande est destinée aux programmeurs 
+  chevronnés. Pour obtenir plus d'informations 
+  sur le buffer, les commandes suivantes 
+  peuvent être utilisées : 
+  @@DrawingBufferPixelFormat et 
+  @@DrawingBufferPitch.
+@LineBreak
+@LineBreak  
+  Cela peut correspondre directement à la 
+  mémoire vidéo si la sortie est 
+  @@ScreenOutput ou @@SpriteOutput et permet 
+  des manipulations très rapide des pixels.
+  @LineBreak
+  Avec @@ImageOutput cette commande permet 
+  l'accès direct aux pixels de l'image. 
+
+@ExampleFile All DirectScreenDrawing.pb
+ 
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Buffer Image", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200, 32) And StartDrawing(ImageOutput(0))
+      DrawText(60,80,"PUREBASIC", RGB(255, 255, 0))
+      Debug "Adresse mémoire : " + Str(DrawingBuffer())
+      Debug "Longueur réelle d'une ligne en octet : " + Str(DrawingBufferPitch())    
+      Debug "Format de pixel : " + Str(DrawingBufferPixelFormat())
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DrawingBufferPixelFormat, 
+  @@DrawingBufferPitch
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = DrawingBufferPitch()
+
+@Description
+  Renvoie la longueur réelle d'une ligne 
+  du buffer courant, en octets. 
+  
+@NoParameters
+
+@ReturnValue
+  Renvoie la longueur en octets d'une ligne 
+  de la surface de dessin, y compris toutes 
+  les données annexes de chaque pixel.
+
+@Remarks  
+  @@DrawingBuffer doit être appelé avant 
+  d'utiliser cette fonction.
+ 
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Buffer Image", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200, 32) And StartDrawing(ImageOutput(0))
+      DrawText(60,80,"PUREBASIC", RGB(255, 255, 0))
+      Debug "Adresse mémoire : " + Str(DrawingBuffer())
+      Debug "Longueur réelle d'une ligne en octet : " + Str(DrawingBufferPitch())    
+      Debug "Format de pixel : " + Str(DrawingBufferPixelFormat())
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@DrawingBuffer, @@DrawingBufferPixelFormat
+
+@SupportedOS
+
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = DrawingBufferPixelFormat()
+
+@Description
+  Renvoie le format de pixel. 
+
+@NoParameters
+
+@ReturnValue
+  Peut être la combinaison des valeurs 
+  suivantes:
+  
+@FixedFont
+  @#PB_PixelFormat_8Bits       : 1 octet par pixel, palettisé
+  @#PB_PixelFormat_15Bits      : 2 octets par pixel
+  @#PB_PixelFormat_16Bits      : 2 octets par pixel
+  @#PB_PixelFormat_24Bits_RGB  : 3 octets par pixel (RRGGBB)
+  @#PB_PixelFormat_24Bits_BGR  : 3 octets par pixel (BBGGRR)
+  @#PB_PixelFormat_32Bits_RGB  : 4 octets par pixel (RRGGBB)
+  @#PB_PixelFormat_32Bits_BGR  : 4 octets par pixel (BBGGRR)
+  @#PB_PixelFormat_ReversedY   : Les lignes sont inversées en hauteur (la dernière ligne est la première)
+@EndFixedFont
+
+@Remarks
+  @@DrawingBuffer doit être appelé avant 
+  d'utiliser cette fonction.
+
+@Example
+  Les exemples suivants montrent comment 
+  gérer différents formats:
+@Code
+  If DrawingBufferPixelFormat() = #PB_PixelFormat_32Bits_RGB | #PB_PixelFormat_ReversedY
+    ; RGB 32 bits en mode inversé
+  EndIf
+  
+  If DrawingBufferPixelFormat() = #PB_PixelFormat_32Bits_RGB
+    ; RGB 32 bits
+  EndIf
+  
+  If DrawingBufferPixelFormat() & #PB_PixelFormat_32Bits_RGB
+    ; RGB 32 bits (mode inversé ou non)
+  EndIf 
+@EndCode
+ 
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Buffer Image", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200, 32) And StartDrawing(ImageOutput(0))
+      DrawText(60,80,"PUREBASIC", RGB(255, 255, 0))
+      Debug "Adresse mémoire : " + Str(DrawingBuffer())
+      Debug "Longueur réelle d'une ligne en octet : " + Str(DrawingBufferPitch())    
+      Debug "Format de pixel : " + Str(DrawingBufferPixelFormat())
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@StartDrawing, @@DrawingBufferPitch
+  
+@SupportedOS
+
+
+;------------------------------------------------------------------------------------
+
+@Function DrawingFont(PoliceID)
+
+@Description
+  Change la police de caractères de la 
+  surface de dessin en cours.
+  
+@Parameter "PoliceID"  
+  Le numéro d'identification de la police 
+  à utiliser.@LineBreak
+@LineBreak
+  Il peut être obtenu par la fonction 
+  @@FontID de la bibliothèque 'Font'. 
+@LineBreak
+@LineBreak  
+  
+@Remarks  
+  Tous les textes affichés ensuite le seront 
+  avec cette nouvelle police. @LineBreak
+  Avant d'utiliser cette fonction, la police 
+  doit être chargée à l'aide de la fonction 
+  @@LoadFont. 
+ 
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "DrawingFont", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    Police = LoadFont(0, "Arial", 20, #PB_Font_Underline) 
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      DrawText(50,30,"PUREBASIC", RGB(255, 255, 0))
+      DrawingFont(Police)
+      DrawText(5,80,"PUREBASIC", RGB(255, 255, 0))
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@LoadFont, @@FontID
+   
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function DrawingMode(Mode)
+
+@Description
+  Change le mode d'affichage pour les 
+  textes et les dessins.
+
+@Parameter "Mode"  
+  Peut être une combinaison des valeurs 
+  suivantes:
+@LineBreak
+@LineBreak
+  @#PB_2DDrawing_Default
+@Indent
+  C'est le mode de dessin par défaut quand @@StartDrawing est appelé.@LineBreak
+  Le texte est affiché avec un fond solide et les formes géométriques sont pleines.@LineBreak
+  Si la surface de dessin gère un canal alpha, les opérations de dessin n'affecteront
+  que les composantes couleurs et laisseront le canal alpha inchangé.
+@LineBreak
+@Image PB_2DDrawing_Default.png
+@EndIndent
+@LineBreak
+@LineBreak
+  @#PB_2DDrawing_Transparent
+@Indent
+  Si ce mode est activé alors le fond du texte affiché avec @@DrawText sera transparent.
+@LineBreak
+@Image PB_2DDrawing_Transparent.png
+@EndIndent
+@LineBreak
+@LineBreak
+  @#PB_2DDrawing_XOr
+@Indent
+  Active le mode XOR. Toutes les couleurs des graphiques seront inversées par rapport à la couleur du fond. La
+  couleur courante n'a plus d'importance et n'est pas prise en compte. Ce mode ne peut pas
+  être combiné avec les mode alpha ci-dessous.
+@LineBreak
+@LineBreak
+@Bold "Note:" Ce mode ne fonctionne pas avec la sortie @@PrinterOutput.
+@LineBreak
+@Image PB_2DDrawing_XOr.png
+@EndIndent
+@LineBreak
+@LineBreak
+  @#PB_2DDrawing_Outlined
+@Indent
+  Si ce mode est activé, seuls les contours des figures géométriques seront dessinés (les figures ne seront
+  pas pleines). Ceci s'applique aux commandes telles que @@Circle(), @@Box, etc.
+@LineBreak
+@LineBreak
+@Image PB_2DDrawing_Outlined.png
+@LineBreak
+@EndIndent
+@Bold "Note:" Les modes suivants ne fonctionnent qu'avec @@ImageOutput et @@CanvasOutput. Ils sont ignorés pour toutes les autres sorties:
+@LineBreak
+@LineBreak
+  @#PB_2DDrawing_AlphaBlend
+@Indent
+  Les opérations de dessin seront fusionnées avec le fond en utilisant le canal alpha pour gérer la transparence de chaque pixel.
+  @@RGBA peut être utilisé pour définir une couleur qui intègre un degré de transparence pour les
+  commandes comme @@FrontColor, @@Box, @@DrawText etc.
+@LineBreak
+@Image PB_2DDrawing_AlphaBlend.png  
+@EndIndent
+@LineBreak
+@LineBreak
+  @#PB_2DDrawing_AlphaClip
+@Indent
+  Les opérations de dessin seront fusionnées avec le fond en utilisant le canal alpha pour gérer la transparence de chaque pixel, comme
+  avec le mode @#PB_2DDrawing_AlphaBlend mode, mais avec la différence que le fond agit comme un masque.
+  Cela signifie que les zones du fond qui étaient transparentes avant la fusion le resteront après. Si la surface de dessin ne gère
+  pas de canal alpha, alors ce mode agit exactement comme @#PB_2DDrawing_AlphaBlend.
+@EndIndent
+@LineBreak
+@LineBreak
+  @#PB_2DDrawing_AlphaChannel
+@Indent
+  Les opérations de dessin ne modifieront que les valeurs du canal alpha de la surface de dessin. Toutes les informations
+  concernant les couleurs seront ignorées. Par exemple, dessiner un @Link "Circle" "cercle" avec une couleur 
+  @Link "2DDrawing/RGBA" "RGBA"(0, 0, 0, 0) fera un 'trou' en forme de cercle dans la surface, car cette zone sera
+   alors complètement transparente. Si la surface de dessin n'a pas de canal alpha, comme le CanvasGadget, alors les opérations de dessin
+   n'auront aucun effet dans ce mode.
+@EndIndent
+@LineBreak
+@LineBreak
+  @#PB_2DDrawing_AllChannels
+@Indent
+  Les opérations de dessin modifieront les composantes couleurs ainsi que les valeurs du canal alpha de la surface de dessin.
+  Il n'y a plus de mélange lors des opérations de dessin. Ce mode est équivalent à l'enchainement des
+  modes @#PB_2DDrawing_Default et de @#PB_2DDrawing_AlphaChannel.
+  Si la surface de dessin n'a pas de canal alpha, comme le CanvasGadget, alors ce mode est identique à @#PB_2DDrawing_Default.
+@EndIndent
+@LineBreak
+@Image AlphaBlending.png
+@LineBreak
+@LineBreak
+  @#PB_2DDrawing_Gradient
+@Indent
+  Ce mode permet de dessiner un dégradé à la place d'une couleur solide. La forme du dégradé peut être modifiée à l'aide des
+  commandes telles que @@LinearGradient, @@CircularGradient etc. Les couleurs qui composeront le dégradé peuvent
+  être définies avec @@GradientColor. Les paramètres de couleur spécifiés pour chaque opération de dessin
+  seront ignorés dans ce mode. Il est possible de combiner ce mode avec les modes alpha ci-dessus pour avoir des dégradés semi-transparents.
+@LineBreak
+@Image PB_2DDrawing_Gradient.png
+@EndIndent
+@LineBreak
+@LineBreak
+  @#PB_2DDrawing_CustomFilter
+@Indent
+  Dans ce mode, la couleur de chaque pixel pourra être définie par la procédure spécifiée par @@CustomFilterCallback.
+  Cela permet d'implémenter des rendus complètement libres tout en utilisant des formes géométriques pour le dessin.
+@LineBreak
+@Image customfilter.png  
+@EndIndent
+@LineBreak
+@LineBreak
+@NoReturnValue
+
+@Remarks
+  Pour utiliser plusieurs modes en même 
+  temps, il suffit d'utiliser l'opérateur 
+  '|' (OR). Exemple pour des dessins 
+  détourés en mode 'xor':
+@Code
+  DrawingMode(#PB_2DDrawing_Outlined | #PB_2DDrawing_XOr)
+@EndCode  
+
+@SeeAlso
+  @@FrontColor, @@BackColor
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function DrawRotatedText(X, Y, Texte$, Angle.f [, Couleur])
+
+@Description
+  Affiche une chaîne de caractères avec 
+  un angle donné sur la surface de 
+  dessin en cours.
+  
+@Parameter "X, Y" 
+  L'emplacement du coin en haut et à 
+  gauche du texte.@LineBreak
+@LineBreak
+  C'est aussi le centre de rotation du texte.
+  
+@Parameter "Texte$" 
+  Le texte à dessiner.
+
+@Parameter "Angle.f"  
+  L'angle de rotation en degrés 
+  (sens anti-horaire).
+
+@OptionalParameter "Couleur"
+  La couleur du texte. @LineBreak
+@LineBreak
+  Si ce paramètre n'est pas spécifié 
+  alors la couleur par défaut @@FrontColor 
+  sera utilisée.
+@LineBreak
+@LineBreak
+  Cette couleur peut être au format @@RGB 
+  ou @@RGBA.
+@LineBreak
+@LineBreak
+  Le fond du texte est toujours transparent.
+
+@NoReturnValue
+   
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "DrawRotatedText Exemple", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For Angle = 0 To 360 Step 45
+        DrawRotatedText(100, 100, "Hello World!", Angle, RGB(0, 0, 0))
+      Next Angle
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image rotatedtext.png
+
+@SeeAlso
+  @@DrawText, @@DrawingFont, @@FrontColor
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function FillArea(X, Y, CouleurBord [, Couleur])
+
+@Description
+  Remplit une zone de dessin avec une 
+  couleur définie.
+  
+@Parameter "X, Y"  
+  Le remplissage commence à la position X, Y.
+  
+@Parameter "CouleurBord"  
+  Le remplissage s'arrête quand il 
+  rencontre la couleur 'CouleurBord'. 
+@LineBreak
+@LineBreak
+  Si défini avec la valeur -1 alors la 
+  zone est remplie avec la couleur 
+  trouvée en 'X, Y' jusqu'à ce qu'une 
+  couleur différente soit rencontrée.
+@LineBreak
+@LineBreak   
+  Sur les images en 32 bits, le canal alpha 
+  est ignoré pour savoir si un pixel fait 
+  office de bordure ou non.
+
+@OptionalParameter "Couleur"  
+  Couleur de remplissage. @LineBreak
+@LineBreak
+  Si le paramètre  n'est pas précisé, 
+  la couleur définie par @@FrontColor 
+  sera utilisée par défaut. @LineBreak
+@LineBreak
+  Les fonctions @@RGB ou @@RGBA peuvent 
+  être utilisées pour définir facilement 
+  une couleur.
+
+@NoReturnValue
+
+@Remarks 
+  Cette commande ne fonctionne pas avec 
+  @@PrinterOutput.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 300, 300, "FillArea", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 300, 300) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 300, 300, RGB(255, 255, 255))
+
+      Circle(150, 150, 125 ,$00FF00)
+      Circle(150, 150, 120 ,$FF0000)
+      LineXY(30, 150, 270, 150, $FFFFFF)
+      FillArea(150, 155, -1, $0000FF) ; Remplacez -1 par $00FF00 et comparez le résultat.
+
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 300, 300, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+@Image fillarea.png
+
+@SeeAlso
+  @@FrontColor
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = GrabDrawingImage(#Image, X, Y, Largeur, Hauteur)
+
+@Description
+  Crée une nouvelle image en copiant 
+  une zone de la surface dessin en cours.
+
+@Parameter "#Image"  
+  Le numéro de la nouvelle image. 
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" 
+  peut être utilisé pour générer 
+  automatiquement ce numéro. 
+  
+@Parameter "X, Y, Largeur, Hauteur"
+  Position et simensions de la zone à copier.
+@LineBreak
+@LineBreak
+  La nouvelle image aura les même dimensions.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon. 
+@LineBreak
+@LineBreak
+  Si @#PB_Any a été utilisé comme paramètre 
+  "#Image" alors le numéro de la nouvelle 
+  image est renvoyé dans 'Resultat'.
+
+@Remarks
+  Cette commande ne fonctionne pas avec 
+  @@PrinterOutput.
+@LineBreak
+@LineBreak
+  Toute partie de la zone spécifiée qui se 
+  trouve en dehors de la surface de dessin 
+  sera indéfinie dans l'image créée. De même,
+  si la sortie est @@WindowOutput, toute 
+  partie de la fenêtre qui n'est pas visible 
+  à l'écran peut être indéfinie dans l'image 
+  créée.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 410, 100, "GrabDrawingImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 100) And StartDrawing(ImageOutput(0))
+      DrawText(50,30,"PUREBASIC", RGB(255, 255, 0))
+      GrabDrawingImage(1,0,0,100,100)
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 100, ImageID(0))
+      ImageGadget(1, 210, 0, 200, 100, ImageID(1))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GrabImage
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = StartDrawing(OutputID)
+
+@Description
+  Change la surface de dessin par celle 
+  mentionnée par 'OutputID'. Après avoir 
+  utilisé cette fonction, toutes les 
+  commandes de dessin seront exécutées 
+  sur la nouvelle surface.
+  
+@Parameter "OutputID"  
+  Les dessins seront rendus directement sur:
+@FixedFont
+  @@WindowOutput  : La fenêtre.
+  @@ScreenOutput  : L'écran (utile pour les jeux).
+  @@SpriteOutput  : Le sprite (utile pour les jeux).
+  @@ImageOutput   : L'image (voir aussi @@CreateImage)
+  @@PrinterOutput : L'imprimante.
+  @@CanvasOutput  : Le @@CanvasGadget.
+  @@TextureOutput : La texture (pour les jeux 3D).
+@EndFixedFont
+   
+@ReturnValue
+  Renvoie une valeur non nulle si le dessin 
+  est possible, zéro sinon.
+
+@Remarks  
+  Lorsque tous les dessins sont terminés, 
+  la fonction @@StopDrawing doit être appelée. 
+@LineBreak
+@LineBreak
+  La couleur d'arrière plan est le noir 
+  (RGB(0,0,0)) et la couleur d'avant plan 
+  est le blanc (RGB(255,255,255)).
+@LineBreak
+@LineBreak
+  Si "Activer la gestion des Threads" est 
+  coché dans les 
+  @ReferenceLink "ide_compiler" "options du compilateur" 
+  alors chaque thread a sa propre surface de 
+  dessin, ce qui signifie que deux threads 
+  peuvent dessiner sur des surfaces de dessin 
+  différentes en même temps.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 100, "StartDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 100) And StartDrawing(ImageOutput(0))
+      DrawText(50,30,"PUREBASIC", RGB(255, 255, 0))
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 100, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+  
+@SeeAlso
+  @@StopDrawing
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = DrawText(X, Y, Texte$ [, CouleurTexte [, CouleurFond]])
+
+@Description
+  Affiche une chaîne de caractères sur 
+  la surface de dessin en cours.
+
+@Parameter "X, Y"
+  Position du texte.
+  
+@Parameter "Texte$"
+  Le texte à afficher.
+  
+@OptionalParameter "CouleurTexte"   
+  Couleur du texte.@LineBreak
+@LineBreak
+  Si le paramètre  n'est pas précisé, 
+  la couleur définie par @@FrontColor 
+  sera utilisée par défaut. @LineBreak
+@LineBreak
+  Les fonctions @@RGB ou @@RGBA peuvent 
+  être utilisées pour définir facilement 
+  une couleur.
+  
+@OptionalParameter "CouleurFond"  
+  Couleur de fond.@LineBreak
+@LineBreak
+  Si le paramètre  n'est pas précisé, la 
+  couleur définie par @@BackColor sera 
+  utilisée par défaut. @LineBreak
+@LineBreak
+  Les fonctions @@RGB ou @@RGBA peuvent être 
+  utilisées pour définir facilement une 
+  couleur.
+@LineBreak
+@LineBreak
+  Si le @@DrawingMode courant utilise 
+  l'option @#PB_2DDrawing_Transparent 
+  alors ce paramètre est ignoré et le fond 
+  est transparent.@LineBreak 
+  Si @@DrawingMode est configuré pour avoir 
+  un fond opaque et que le mode de dessin 
+  courant utilise le canal alpha alors le 
+  texte est d'abord mélangé au fond 
+  et ensuite appliqué sur la zone de dessin.
+
+@ReturnValue  
+  Renvoie la nouvelle position en X du 
+  curseur texte, juste après le dernier 
+  caractère affiché. 
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "DrawText Exemple", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      DrawingMode(#PB_2DDrawing_Transparent)
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For i = 1 To 30
+        DrawText(Random(200), Random(200), "Hello World!", RGB(Random(255), Random(255), Random(255)))
+      Next i
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image text.png
+
+@SeeAlso 
+  @@DrawRotatedText, @@DrawingFont, 
+  @@FrontColor, @@BackColor
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Ellipse(X, Y, RayonX, RayonY [, Couleur]) 
+
+@Description
+  Dessine une ellipse sur la surface 
+  de dessin en cours.
+  
+@Parameter "X, Y"  
+  La position du centre de l'ellipse.
+  
+@Parameter "RayonX, RayonY"  
+  Dimension de l'ellipse. @LineBreak
+@LineBreak
+  RayonX est le demi grand axe de 
+  l'ellipse et RayonY est le demi petit 
+  axe de l'ellipse. @LineBreak
+  Attention, le centre l'ellipse qui est 
+  un pixel, n'est pas inclu dans ces 
+  valeurs.
+  
+@OptionalParameter "Couleur"
+  Couleur de l'ellipse. @LineBreak
+@LineBreak
+  Si ce paramètre n'est pas spécifié, la 
+  couleur fixée par la fonction 
+  @@FrontColor sera utilisée. @LineBreak
+@LineBreak 
+  Les fonctions @@RGB ou @@RGBA peuvent 
+  être utilisées pour définir facilement
+  une couleur. @LineBreak
+@LineBreak 
+  Le mode de remplissage est contrôlé par 
+  @@DrawingMode.
+  
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Ellipse", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For radius=50 To 10 Step -10
+        Ellipse(100, 100, radius*2, radius, RGB(Random(255), Random(255), Random(255)))
+      Next radius
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image ellipse.png
+
+@SeeAlso
+  @@Box, @@RoundBox, @@Line, @@Circle
+  @@FrontColor, @@RGB, @@RGBA, 
+  @@DrawingMode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function FrontColor(Couleur)
+
+@Description
+  Fixe la couleur d'avant plan.
+  
+@Parameter "Couleur"  
+  La nouvelle couleur d'avant plan à 
+  utiliser pour le dessin et le texte. 
+@LineBreak
+@LineBreak
+  Les fonctions @@RGB ou @@RGBA peuvent 
+  être utilisées pour définir facilement
+  une couleur. @LineBreak
+@LineBreak
+  L'utilisation de la transparence (canal 
+  alpha) dépend du 
+  @Link "DrawingMode" "mode de dessin".
+@LineBreak
+@LineBreak  
+  Un tableau avec les couleurs les plus 
+  courantes est disponible 
+  @ReferenceLink "colortable" "ici".
+
+@NoReturnValue
+  
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "FrontColor", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      BackColor(RGB(Random(255), Random(255), Random(255)))
+      FrontColor(RGB(Random(255), Random(255), Random(255)))
+        Box(0, 0, 100, 100)
+        DrawText(50, 50, "PureBasic")
+      BackColor(RGB(Random(255), Random(255), Random(255)))
+      FrontColor(RGB(Random(255), Random(255), Random(255)))
+        Box(100, 100, 100, 100)
+        DrawText(50, 100, "PureBasic")
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode 
+
+@SeeAlso
+  @@BackColor, @@RGB, @@RGBA, @@DrawingMode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Line(X, Y, Largeur, Hauteur [, Couleur])
+
+@Description
+  Trace une ligne sur la surface de dessin 
+  en cours. 
+
+@Parameter "X, Y"  
+  L'origine de la ligne.
+  
+@Parameter "Largeur, Hauteur"  
+  Dimension de la ligne. @LineBreak
+@LineBreak
+  Ces valeurs incluent le point d'origine 
+  'X, Y'. @LineBreak
+@LineBreak
+  Une hauteur de '1' dessine une ligne horizontale tandis qu'une 
+  hauteur de '0' ne dessinera rien du tout.
+  
+@OptionalParameter "Couleur"  
+  Couleur de la ligne. @LineBreak
+@LineBreak
+  Si ce paramètre n'est pas spécifié, 
+  la couleur fixée par la fonction 
+  @@FrontColor sera utilisée. @LineBreak
+@LineBreak 
+  Les fonctions @@RGB ou @@RGBA peuvent 
+  être utilisées pour définir facilement 
+  une couleur.
+
+@NoReturnValue
+
+@Remarks
+  Pour dessiner une ligne avec des 
+  coordonnées de départ et de fin de ligne, 
+  utiliser la fonction @@LineXY. 
+  
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Line", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For Width = 1 To 180 Step 5
+        Line(10, 10, Width, 180, RGB(Random(255), Random(255), Random(255)))
+      Next Width
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image line.png
+
+@SeeAlso
+  @@LineXY, @@Box, @@RoundBox, @@Ellipse, 
+  @@Circle, @@FrontColor, @@RGB, @@RGBA
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function LineXY(X1, Y1, X2, Y2 [, Couleur])
+
+@Description
+  Trace une ligne sur la surface de dessin 
+  en cours en fonction de ses coordonnées 
+  de début et de fin.
+
+@Parameter "X1, Y1"
+  Position du point de départ.
+  
+@Parameter "X2, Y2"  
+  Position du point d'arrivée.
+  
+@OptionalParameter "Couleur"
+  Couleur de la ligne. @LineBreak
+@LineBreak
+  Si ce paramètre n'est pas spécifié, 
+  la couleur fixée par la fonction 
+  @@FrontColor sera utilisée. @LineBreak
+@LineBreak 
+  Les fonctions @@RGB ou @@RGBA peuvent 
+  être utilisées pour définir facilement 
+  une couleur.
+
+@NoReturnValue
+
+@Remarks
+   Pour dessiner une ligne en fonction de 
+   ses dimensions, utiliser la fonction 
+   @@Line.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "LineXY", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 200, 200, RGB(255, 255, 255))
+      For Angle = 0 To 360 Step 3
+        LineXY(100, 100, 100+Cos(Angle)*90, 100+Sin(Angle)*90, RGB(Random(255), Random(255), Random(255)))
+      Next Angle
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image linexy.png
+
+@SeeAlso
+  @@Line, @@Box, @@RoundBox, @@Ellipse, 
+  @@Circle, @@FrontColor, @@RGB, @@RGBA
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Plot(X, Y [, Couleur])
+
+@Description
+  Affiche un point sur la surface de 
+  dessin en cours. 
+  
+@Parameter "X, Y"  
+  Position du point (pixel).
+@LineBreak
+@LineBreak  
+  Les coordonnées X, Y doivent être 
+  obligatoirement à l'intérieur de la 
+  surface de dessin, car il n'y a pas 
+  de contrôle pour des raisons de rapidité.
+@LineBreak
+  @@OutputWidth et @@OutputHeight peuvent 
+  être utilisés pour cela. @LineBreak
+  Cette commande n'est pas affectée par le 
+  clipping (écrêtage) imposé par 
+  @@ClipOutput.
+  
+@OptionalParameter "Couleur"  
+  Couleur du point. @LineBreak
+@LineBreak
+  Si ce paramètre n'est pas spécifié, la 
+  couleur fixée par la fonction 
+  @@FrontColor sera utilisée. @LineBreak
+@LineBreak 
+  Les fonctions @@RGB ou @@RGBA peuvent 
+  être utilisées pour définir facilement 
+  une couleur.
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Plot", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      For x = 0 To 199
+        For y = 0 To 199
+          Plot(X, Y, RGB(Random(255), Random(255), Random(255)))
+        Next y
+      Next x
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Point, @@FrontColor
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = Point(X, Y)
+
+@Description
+  Renvoie la couleur d'un point de la 
+  surface de dessin en cours. 
+  
+@Parameter "X, Y"  
+  Position du pixel.
+@LineBreak
+@LineBreak  
+  Les coordonnées X, Y doivent être 
+  obligatoirement à l'intérieur de la 
+  surface de dessin, car il n'y a pas de 
+  contrôle pour des raisons de rapidité.
+  @LineBreak
+  @@OutputWidth et @@OutputHeight peuvent 
+  être utilisés pour cela.@LineBreak
+  Cette commande n'est pas affectée par le 
+  clipping (écrêtage) imposé par 
+  @@ClipOutput.
+  
+@ReturnValue  
+  Renvoie la couleur du pixel.
+@LineBreak
+@LineBreak  
+  Cette couleur contiendra une valeur 
+  alpha uniquement si la zone de dessin 
+  est en 32 bits et que le @@DrawingMode 
+  est configuré sur un des modes alpha 
+  (transparence). Sinon la valeur alpha 
+  de la couleur sera égale à zéro.
+
+@Remarks
+  Cette commande ne fonctionne pas avec 
+  @@PrinterOutput.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Point", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 200, 200, RGB(255, 0, 0))
+      Debug Point(100, 100)
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Plot, @@Red, @@Green,
+  @@Blue, @@Alpha
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function StopDrawing()
+
+@Description
+  Lorsque tous les affichages graphiques 
+  ont été réalisés, cette fonction doit
+  être appelée afin de terminer le dessin 
+  et libérer les ressources.
+
+@NoParameters
+
+@NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 100, "StopDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 100) And StartDrawing(ImageOutput(0))
+      DrawText(50,30,"PUREBASIC", RGB(255, 255, 0))
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 100, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@StartDrawing
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = TextHeight(Texte$)
+
+@Description
+  Renvoie la hauteur d'une chaîne de 
+  caractère sur la surface de dessin 
+  en cours. 
+  
+
+@Parameter "Texte$"
+  Le texte à mesurer.
+
+@ReturnValue
+  Renvoie la hauteur du texte donné en 
+  pixels avec la police de caractères 
+  actuelle.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Dimensions texte", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      DrawText(50, 80, "PUREBASIC", RGB(255, 255, 0))
+      Debug "Longueur du texte en pixels : " + Str(TextWidth("PUREBASIC"))
+      Debug "Hauteur du texte en pixels  : " + Str(TextHeight("PUREBASIC"))
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@TextWidth, @@DrawingFont
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = TextWidth(Texte$)
+
+@Description
+  Renvoie la longueur d'une chaîne de 
+  caractère sur la surface de dessin 
+  en cours.
+
+@Parameter "Texte$"
+  Le texte à mesurer.
+
+@ReturnValue
+  Renvoie la longueur du texte donné en 
+  pixels avec la police de caractères 
+  actuelle.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Dimensions texte", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      DrawText(50, 80, "PUREBASIC", RGB(255, 255, 0))
+      Debug "Longueur du texte en pixels : " + Str(TextWidth("PUREBASIC"))
+      Debug "Hauteur du texte en pixels  : " + Str(TextHeight("PUREBASIC"))
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@TextHeight, @@DrawingFont  
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = OutputDepth()
+
+@Description
+  Renvoie le niveau de profondeur de 
+  couleurs de la surface de dessin en 
+  cours. 
+  
+@NoParameters
+
+@ReturnValue  
+  Renvoie la profondeur de couleur en 
+  bits par pixel.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Dimensions", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      DrawText(50, 80, "PUREBASIC", RGB(255, 255, 0))
+      Debug "Longueur de la surface de dessin en pixels : " + Str(OutputWidth())
+      Debug "Hauteur de la surface de dessin en pixels  : " + Str(OutputHeight())
+      Debug "Profondeur de couleur de la surface de dessin en bits par pixels  : " + Str(OutputDepth())
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso 
+  @@OutputWidth, @@OutputHeight
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = OutputWidth()
+
+@Description
+  Renvoie la largeur de la surface de 
+  dessin en cours.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie la largeur de la surface de 
+  dessin, en pixels.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Dimensions", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      DrawText(50, 80, "PUREBASIC", RGB(255, 255, 0))
+      Debug "Longueur de la surface de dessin en pixels : " + Str(OutputWidth())
+      Debug "Hauteur de la surface de dessin en pixels  : " + Str(OutputHeight())
+      Debug "Profondeur de couleur de la surface de dessin en bits par pixels  : " + Str(OutputDepth())
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OutputHeight, @@OutputDepth
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = OutputHeight()
+
+@Description
+  Renvoie la hauteur de la surface de 
+  dessin courante.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie la largeur de la surface de 
+  dessin, en pixels.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "Dimensions", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
+      DrawText(50, 80, "PUREBASIC", RGB(255, 255, 0))
+      Debug "Longueur de la surface de dessin en pixels : " + Str(OutputWidth())
+      Debug "Hauteur de la surface de dessin en pixels  : " + Str(OutputHeight())
+      Debug "Profondeur de couleur de la surface de dessin en bits par pixels  : " + Str(OutputDepth())
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OutputWidth, @@OutputDepth
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function CustomFilterCallback(@CallbackFiltre())
+
+@Description
+  Spécifie une procédure qui sera appelée 
+  pour chaque pixel affiché par une 
+  opération de dessin en @Link "DrawingMode" "mode"
+  @#PB_2DDrawing_CustomFilter.
+
+@Parameter "@CallbackFiltre()"
+  L'adresse de la procédure de callback. 
+@LineBreak
+@LineBreak
+  La procédure doit avoir la forme suivante:
+@Code
+  Procedure CustomCallback(X, Y, CouleurSource, CouleurCible)
+    ;
+    ; Calcule la nouvelle Couleur à partir des entrées
+    ; et la renvoie avec ProcedureReturn
+    ;
+    ProcedureReturn Couleur
+  EndProcedure
+@EndCode
+
+  La procédure sera appelée pour chaque 
+  pixel affiché par les commandes telles 
+  que @@Line, @@Box ou @@DrawText. 
+@LineBreak
+@LineBreak
+  'CouleurSource' représente la couleur 
+  donnée  à l'opération de dessin, et 
+  'CouleurCible' représente la couleur 
+  du pixel cible aux coordonnées X, Y de la 
+  surface de dessin.
+@LineBreak
+  Ces deux couleurs sont toujours en 32 bits 
+  (avec canal alpha) indépendamment de la 
+  résolution de la surface de dessin. 
+@LineBreak
+@LineBreak
+  Les coordonnées X et Y sont toujours 
+  orientées par rapport au coin supérieur 
+  gauche de la surface de dessin.
+@LineBreak 
+  Les coordonnées ne sont pas affectées par 
+  les appels à @@SetOrigin ou à @@ClipOutput.
+  
+@NoReturnValue
+
+@Remarks
+  Cette procédure sera appelée de nombreuses 
+  fois (pour chaque pixel à appeler), donc 
+  elle devra être la plus courte et la plus 
+  optimisée possible, sinon l'impact sur 
+  les performances de dessin sera conséquent.
+@LineBreak
+@LineBreak
+  @Bold "Note:" le 
+  @Link "DrawingMode" "mode de dessin" 
+  pour @#PB_2DDrawing_CustomFilter 
+  fonctionne uniquement avec 
+  @@ImageOutput et @@CanvasOutput.
+
+@Example
+@Code
+  Procedure CallbackFiltre(X, Y, CouleurSource, CouleurCible)
+    ; Ne modifie que la composante rouge de la Source
+    ProcedureReturn RGBA(Red(CouleurSource), Green(CouleurCible), Blue(CouleurCible), Alpha(CouleurCible))
+  EndProcedure
+  
+  UseJPEGImageDecoder()
+
+  If OpenWindow(0, 0, 0, 400, 200, "CustomFilterCallback", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    LoadImage(1, #PB_Compiler_Home + "Examples/3D/Data/Textures/clouds.jpg")
+  
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      DrawImage(ImageID(1), 0, 0, 400, 200)
+      
+      DrawingMode(#PB_2DDrawing_CustomFilter)      
+      CustomFilterCallback(@CallbackFiltre())
+      Circle(100, 100, 100, $0000FF)   
+      Circle(300, 100, 100, $000000)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image customfilter.png
+
+@SeeAlso 
+  @@DrawingMode, @@CustomGradient
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function GradientColor(Position.f, Couleur)
+
+@Description
+  Ajoute une couleur au dégradé de couleur.
+
+@Parameter "Position.f"
+  La position de la couleur dans le dégradé.
+@LineBreak
+@LineBreak
+  C'est une valeur de type float comprise 
+  entre 0.0 et 1.0.
+
+@Parameter "Couleur"  
+  La couleur à ajouter. 
+@LineBreak
+@LineBreak
+  Les fonctions @@RGB ou @@RGBA peuvent 
+  être utilisées pour définir facilement 
+  une couleur. @LineBreak
+  
+@NoReturnValue
+
+@Remarks
+  Par défaut, le dégradé de couleur va de 
+  la @Link "BackColor" "couleur de fond" à 
+  la position 0.0 à la
+  @Link "FrontColor" "couleur d'avant plan" 
+  à la position 1.0. 
+@LineBreak
+@LineBreak
+  Avec cette commande, des couleurs 
+  intermédiaires peuvent être ajoutées, 
+  et les couleurs à 0.0 et 1.0 remplacées.
+@LineBreak
+@LineBreak
+  La commande @@ResetGradientColors permet 
+  de revenir au dégradé par défaut, si 
+  nécessaire.
+@LineBreak
+@LineBreak
+  Les commandes suivantes peuvent être 
+  utilisées pour indiquer la forme du 
+  dégradé :
+@LineBreak
+  - @@LinearGradient @LineBreak
+  - @@CircularGradient @LineBreak
+  - @@EllipticalGradient @LineBreak
+  - @@BoxedGradient @LineBreak
+  - @@ConicalGradient @LineBreak
+  - @@CustomGradient 
+@LineBreak
+@LineBreak
+  @Bold "Note:" Cette commande a un effet 
+  uniquement sur des surface de type 
+  @@ImageOutput et @@CanvasOutput. 
+  Le dégradé est dessiné uniquement si le 
+  mode @#PB_2DDrawing_Gradient est activé 
+  avec @@DrawingMode.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "GradientColor", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($0000FF)
+      GradientColor(0.4, $00FFFF)
+      GradientColor(0.6, $FFFF00)
+      FrontColor($FF0000)
+      
+      LinearGradient(0, 0, 200, 200)    
+      Circle(100, 100, 100)   
+      LinearGradient(350, 100, 250, 100)
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image gradientcolor.png
+
+@SeeAlso
+  @@ResetGradientColors,
+  @@LinearGradient, @@CircularGradient, 
+  @@EllipticalGradient, @@BoxedGradient, 
+  @@ConicalGradient, @@CustomGradient,
+  @@DrawingMode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function ResetGradientColors()
+
+@Description
+  Retire toutes les couleurs personnalisées 
+  du dégradé et revient au dégradé par 
+  défaut qui part de 
+  @Link "BackColor" "couleur de fond" 
+  jusqu'à la 
+  @Link "FrontColor" "couleur d'avant plan".
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  La commande @@GradientColor peut être 
+  utilisée pour ajouter des couleurs au 
+  dégradé.
+@LineBreak
+@LineBreak
+  @Bold "Note:" Cette commande a un effet 
+  uniquement sur des surfaces de type 
+  @@ImageOutput et @@CanvasOutput. 
+  Le dégradé est dessiné uniquement si le 
+  mode @#PB_2DDrawing_Gradient est activé 
+  avec @@DrawingMode.
+
+@Example
+@Code
+If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 600, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 600, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+      
+      LinearGradient(0, 0, 200, 200) 
+      LineXY(0, 0, 200, 200) 
+      Circle(100, 100, 100)
+      
+      GradientColor(0.3, $0000FF)
+      LinearGradient(200, 0, 400, 200)
+      LineXY(200, 0, 400, 200)
+      Circle(300, 100, 100)
+      
+      ResetGradientColors()
+      LinearGradient(400, 0, 600, 200)
+      LineXY(400, 0, 600, 200)
+      Circle(500, 100, 100)
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GradientColor, @@LinearGradient, 
+  @@CircularGradient, @@EllipticalGradient,
+  @@BoxedGradient, @@ConicalGradient, 
+  @@CustomGradient, @@DrawingMode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function LinearGradient(x1, y1, x2, y2)
+
+@Description
+  Crée un dégradé linéaire entre deux 
+  points. 
+
+@Parameter "x1, y1"
+  La position à laquelle est appliquée la 
+  @Link "BackColor" "couleur d'arrière plan".
+
+@Parameter "x2, y2"
+  La position à laquelle est appliquée la 
+  @Link "FrontColor" "couleur d'avant plan".
+
+@NoReturnValue
+
+@Remarks@LineBreak
+  il est possible d'ajouter des couleurs 
+  au dégradé avec @@GradientColor.
+@LineBreak
+@LineBreak
+  @Bold "Note:" Cette commande a un effet 
+  uniquement sur des surfaces de type 
+  @@ImageOutput et @@CanvasOutput. 
+  Le dégradé est dessiné uniquement si 
+  le mode @#PB_2DDrawing_Gradient est 
+  activé avec @@DrawingMode.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "LinearGradient", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+      
+      LinearGradient(0, 0, 200, 200)    
+      Circle(100, 100, 100)   
+      LinearGradient(350, 100, 250, 100)
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image lineargradient.png
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@CircularGradient, @@EllipticalGradient,
+  @@BoxedGradient, @@ConicalGradient, 
+  @@CustomGradient,
+  @@DrawingMode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function CircularGradient(X, Y, Rayon)
+
+@Description
+  Crée un dégradé circulaire autour 
+  d'un point. 
+
+@Parameter "X, Y"
+  Position du point autour duquel est 
+  appliqué la 
+  @Link "BackColor" "couleur d'arrière plan".
+
+@Parameter "Rayon"
+  Distance autour de 'X, Y' à laquelle est 
+  appliqué la 
+  @Link "FrontColor" "couleur d'avant plan".
+
+@NoReturnValue
+
+@Remarks
+  Des couleurs additionnelles peuvent être 
+  ajoutées au dégradé avec @@GradientColor.
+@LineBreak
+@LineBreak
+  @Bold "Note:" Cette commande a un effet 
+  uniquement sur des surfaces de type 
+  @@ImageOutput et @@CanvasOutput. 
+  Le dégradé est dessiné uniquement si 
+  le mode @#PB_2DDrawing_Gradient est 
+  activé avec @@DrawingMode.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "CircularGradient", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+      
+      CircularGradient(100, 100, 100)     
+      Circle(100, 100, 100)
+      CircularGradient(350, 100, 75)
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image circulargradient.png
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@LinearGradient, @@EllipticalGradient,
+  @@BoxedGradient, @@ConicalGradient, 
+  @@CustomGradient,
+  @@DrawingMode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function EllipticalGradient(X, Y, RayonX, RayonY)
+
+@Description
+  Crée un dégradé de forme elliptique 
+  autour d'un point. 
+
+@Parameter "X, Y"
+  Position du point autour duquel est 
+  appliqué la 
+  @Link "BackColor" "couleur d'arrière plan".
+
+@Parameter "RayonX, RayonY"
+  Distances en X et en Y autour de 'X, Y' 
+  auxquelles est appliqué la 
+  @Link "FrontColor" "couleur d'avant plan".
+
+@NoReturnValue
+
+@Remarks
+  Des couleurs additionnelles peuvent être 
+  ajoutées au dégradé avec @@GradientColor.
+@LineBreak
+@LineBreak
+  @Bold "Note:" Cette commande a un effet 
+  uniquement sur des surfaces de type 
+  @@ImageOutput et @@CanvasOutput. 
+  Le dégradé est dessiné uniquement si 
+  le mode @#PB_2DDrawing_Gradient est 
+  activé avec @@DrawingMode.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "EllipticalGradient", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+       
+      EllipticalGradient(100, 100, 150, 50)
+      Circle(100, 100, 100)   
+      EllipticalGradient(300, 100, 50, 150)
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image ellipticalgradient.png
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@LinearGradient, @@CircularGradient,
+  @@BoxedGradient, @@ConicalGradient, 
+  @@CustomGradient,
+  @@DrawingMode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function BoxedGradient(X, Y, Largeur, Hauteur)
+
+@Description
+  Crée un dégradé de forme rectangulaire. 
+
+@Parameter "X, Y, Largeur, Hauteur"
+  Position et taille du rectangle. 
+  @LineBreak
+@LineBreak
+  Le dégradé de couleur va de la 
+  @Link "BackColor" "couleur d'arrière plan" 
+  au centre du rectangle à la
+  @Link "FrontColor" "couleur d'avant plan" 
+  à son contour.
+
+@NoReturnValue
+
+@Remarks
+@LineBreak
+   Des couleurs additionnelles peuvent 
+   être ajoutées au dégradé avec 
+   @@GradientColor.
+@LineBreak
+@LineBreak
+  @Bold "Note:" Cette commande a un effet 
+  uniquement sur des surfaces de type 
+  @@ImageOutput et @@CanvasOutput. 
+  Le dégradé est dessiné uniquement si le 
+  mode @#PB_2DDrawing_Gradient est activé 
+  avec @@DrawingMode.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "BoxedGradient", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+      
+      BoxedGradient(0, 0, 200, 200)      
+      Circle(100, 100, 100)
+      BoxedGradient(225, -100, 150, 400)
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image boxedgradient.png
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@LinearGradient, @@CircularGradient,
+  @@EllipticalGradient, @@ConicalGradient, 
+  @@CustomGradient, @@DrawingMode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function ConicalGradient(X, Y, Angle.f)
+
+@Description
+  Crée un dégradé de forme conique autour 
+  d'un point.
+
+@Parameter "X, Y"
+  Position du centre du cône.
+
+@Parameter "Angle.f"
+  L'angle de départ du dégradé en degré. 
+@LineBreak
+@LineBreak
+  Le dégradé de couleur va de la 
+  @Link "BackColor" "couleur d'arrière plan" 
+  à partir de l'angle spécifié, puis change 
+  jusqu'à la 
+  @Link "FrontColor" "couleur d'avant plan" 
+  dans le sens des aiguilles d'une montre
+  en revenant à l'angle spécifié.
+  
+@NoReturnValue
+
+@Remarks
+  Des couleurs additionnelles peuvent être 
+  ajoutées au dégradé avec @@GradientColor.
+@LineBreak
+@LineBreak
+  @Bold "Note:" Cette commande a un effet 
+  uniquement sur des surfaces de type 
+  @@ImageOutput et @@CanvasOutput. 
+  Le dégradé est dessiné uniquement si le 
+  mode @#PB_2DDrawing_Gradient est activé 
+  avec @@DrawingMode.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "ConicalGradient", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+      
+      ConicalGradient(100, 100, 0.0)     
+      Circle(100, 100, 100)
+      ConicalGradient(300, 0, 90.0)     
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image conicalgradient.png
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@LinearGradient, @@CircularGradient,
+  @@EllipticalGradient, @@BoxedGradient, 
+  @@CustomGradient, @@DrawingMode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function CustomGradient(@GradientCallback())
+
+@Description
+  Crée un dégradé avec une forme personnalisée.
+
+@Parameter "@GradientCallback()"
+  L'adresse de la procédure de callback. 
+@LineBreak
+@LineBreak
+  La procédure doit avoir la forme suivante:
+@Code
+  Procedure.f GradientCallback(X, Y)
+    ;
+    ; Renvoie une valeur entre 0.0 et 1.0 pour définir le dégradé à la position x,y
+    ; 
+    ProcedureReturn 1.0
+  EndProcedure
+@EndCode
+
+  La procédure sera appelée pour chaque 
+  pixel affiché par l'opération de dessin. 
+  @LineBreak
+  La procédure doit renvoyer une valeur 
+  comprise entre 0.0 and 1.0 (pas une 
+  valeur de couleur) pour définir la valeur
+  du dégradé à une position donnée.
+@LineBreak
+@LineBreak
+  Les coordonnées X et Y sont toujours 
+  orientées par rapport au coin supérieur 
+  gauche de la surface de dessin.@LineBreak 
+  Les coordonnées ne sont pas affectées 
+  par les appels à @@SetOrigin ou à 
+  @@ClipOutput.
+  
+@NoReturnValue
+
+@Remarks
+  Par défaut, la valeur 0.0 représente la 
+  @Link "BackColor" "couleur d'arrière plan" 
+  et la valeur 1.0 représente la 
+  @Link "FrontColor" "couleur d'avant plan".
+@LineBreak
+@LineBreak
+  Des couleurs additionnelles peuvent être 
+  ajoutées au dégradé avec @@GradientColor.
+@LineBreak
+@LineBreak
+  Cette procédure sera appelée de nombreuse 
+  fois (pour chaque pixel à appeler), donc 
+  elle devra être la plus courte et la 
+  plus optimisée possible, sinon l'impact 
+  sur les performances de dessin sera
+  conséquent.
+@LineBreak
+@LineBreak
+  @Bold "Note:" Cette commande a un effet 
+  uniquement sur des surfaces de type 
+  @@ImageOutput et @@CanvasOutput. 
+  Le dégradé est dessiné uniquement si le 
+  mode @#PB_2DDrawing_Gradient est activé 
+  avec @@DrawingMode.
+
+@Example
+@Code
+  Procedure.f GradientCallback(X, Y)
+    ProcedureReturn Sin(x * 0.1) * Sin(y * 0.1) ; Valeur comprise entre 0 et 1
+  EndProcedure
+
+  If OpenWindow(0, 0, 0, 400, 200, "CustomGradient", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 400, 200) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 400, 200, $FFFFFF)
+      
+      DrawingMode(#PB_2DDrawing_Gradient)      
+      BackColor($00FFFF)
+      FrontColor($FF0000)
+      
+      CustomGradient(@GradientCallback())
+      Circle(100, 100, 100)   
+      Circle(300, 100, 100)
+      
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 400, 200, ImageID(0))
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image customgradient.png
+
+@SeeAlso
+  @@GradientColor, @@ResetGradientColors,
+  @@LinearGradient, @@CircularGradient,
+  @@EllipticalGradient, @@BoxedGradient, 
+  @@ConicalGradient, @@DrawingMode
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function SetOrigin(X, Y)  
+
+@Description
+  Définit un décalage (offset) d'affichage 
+  que subira tout dessin.
+@LineBreak
+@LineBreak  
+   Ceci définit l'emplacement des 
+   coordonnées (0,0) dans la surface de 
+   sortie pour toutes les commandes 
+   de dessin. @LineBreak  
+   Par défaut, l'origine se trouve dans 
+   le coin supérieur gauche de la sortie.
+  
+@Parameter "X, Y"
+  La nouvelle position de l'origine du 
+  dessin.
+@LineBreak
+@LineBreak    
+  Il s'agit d'une position absolue et 
+  n'est pas affectée par un appel précédent
+  à cette fonction.
+   
+@NoReturnValue
+
+@Remarks
+  Cette commande affecte l'emplacement du 
+  dessin pour l'utilisation de toutes les 
+  futures fonctions de dessin à l'exception 
+  de la fonction @@ClipOutput et de la 
+  fonction @@SetOrigin elle-même. En outre, 
+  les coordonnées reçues dans 
+  @@CustomGradient ou dans 
+  @@CustomFilterCallback sont toujours 
+  absolues, indépendamment de tout appel 
+  à cette fonction.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "SetOrigin", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
+        
+      ; Dessine la même figure à différents endroits en déplaçant l'origine dessin
+      For x = 0 To 120 Step 40
+        For y = 0 To 120 Step 60
+          SetOrigin(X, Y)
+          Box(0, 0, 30, 30, $FF0000)
+          Circle(15, 15, 10, $00FF00)
+        Next y
+      Next x   
+         
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))      
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image setorigin.png
+
+@SeeAlso
+  @@GetOriginX, @@GetOriginY, @@ClipOutput
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = GetOriginX()
+
+@Description
+  Renvoie la coordonnée X de l'origine 
+  du dessin qui a été définie à l'aide 
+  de @@SetOrigin.
+  
+@NoParameters
+
+@ReturnValue
+  Renvoie la coordonnée X de l'origine 
+  du dessin.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "GetOriginX", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
+        
+      ; Dessine la même figure à différents endroits en déplaçant l'origine dessin
+      For x = 0 To 120 Step 40
+        For y = 0 To 120 Step 60
+          SetOrigin(X, Y)
+          Debug GetOriginX()
+          Debug GetOriginY()          
+          Box(0, 0, 30, 30, $FF0000)
+          Circle(15, 15, 10, $00FF00)
+        Next y
+      Next x 
+  
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))      
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetOriginY, @@SetOrigin
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Resultat = GetOriginY()
+
+@Description
+  Renvoie la coordonnée Y de l'origine 
+  du dessin qui a été définie à l'aide 
+  de @@SetOrigin.
+  
+@NoParameters
+
+@ReturnValue
+  Renvoie la coordonnée Y de l'origine 
+  du dessin.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "GetOriginY", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
+        
+      ; Dessine la même figure à différents endroits en déplaçant l'origine dessin
+      For x = 0 To 120 Step 40
+        For y = 0 To 120 Step 60
+          SetOrigin(X, Y)
+          Debug GetOriginX()
+          Debug GetOriginY()          
+          Box(0, 0, 30, 30, $FF0000)
+          Circle(15, 15, 10, $00FF00)
+        Next y
+      Next x 
+  
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))      
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetOriginX, @@SetOrigin
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function ClipOutput(X, Y, Largeur, Hauteur)  
+
+@Description
+  Définit un cadre d'affichage qui limite 
+  tous les dessins à ce cadre.@LineBreak 
+  Tous les pixels établis en dehors de 
+  cette zone ne seront pas affichés.
+  
+@Parameter "X, Y, Largeur, Hauteur"
+  La position et les dimensions de la zone 
+  de découpage.
+@LineBreak
+@LineBreak    
+  Les coordonnées (X, Y) sont toujours 
+  absolues et ne sont pas affectées par 
+  les appels à @@SetOrigin.
+
+@NoReturnValue
+
+@Remarks
+  Cette commande n'a d'effet que sur les 
+  sorties de dessin créées par 
+  @@ImageOutput ou @@CanvasOutput.
+@LineBreak
+@LineBreak  
+  L'origine du dessin n'est pas modifiée 
+  par un appel à cette fonction. 
+  Pour dessiner dans le coin supérieur 
+  gauche de la boîte de découpage, un 
+  appel séparé à @@SetOrigin doit être 
+  fait si cela est souhaité.
+@LineBreak
+@LineBreak
+  Les fonctions @@Plot et @@Point 
+  n'effectuent pas de vérification des 
+  limites pour des raisons de performance 
+  et ne sont donc pas concernées par cette 
+  commande.
+  
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "ClipOutput", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
+
+      ClipOutput(50, 50, 100, 100) ; restriction de l'affichage du dessin à cette région
+      Circle( 50,  50, 50, $0000FF)  
+      Circle( 50, 150, 50, $00FF00)  
+      Circle(150,  50, 50, $FF0000)  
+      Circle(150, 150, 50, $00FFFF)  
+      
+      DrawingMode(#PB_2DDrawing_Outlined)
+      Box(50, 50, 100, 100, $000000)
+         
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))      
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@LineBreak
+@Image clipoutput.png
+
+@SeeAlso
+  @@UnclipOutput, @@SetOrigin, 
+  @@OutputWidth, @@OutputHeight
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function UnclipOutput()  
+
+@Description
+  Retire tout écrêtage (clipping) imposé 
+  par la commande @@ClipOutput.@LineBreak
+  Les commandes de dessin qui suivront, 
+  seront en mesure d'utiliser toute la 
+  surface de dessin à nouveau.
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Cette commande n'a d'effet que sur les 
+  dessins créés par @@ImageOutput ou 
+  @@CanvasOutput.
+  
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 200, 200, "ClipOutput", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
+      ClipOutput(50, 50, 100, 100) ; Avec restriction de l'affichage du dessin à cette région
+      Circle( 50,  50, 50, $0000FF)  
+      Circle( 50, 150, 50, $00FF00)  
+      Circle(150,  50, 50, $FF0000)  
+      Circle(150, 150, 50, $00FFFF)  
+      DrawText(55,90, "Cliquer ici !")
+      DrawingMode(#PB_2DDrawing_Outlined)
+      Box(50, 50, 100, 100, $000000)
+      StopDrawing() 
+      ImageGadget(0, 0, 0, 200, 200, ImageID(0))      
+    EndIf
+    
+    Repeat
+      Event = WaitWindowEvent()
+      If Event = #PB_Event_Gadget 
+      StartDrawing(ImageOutput(0))
+      UnclipOutput() ; Sans restriction de l'affichage du dessin à cette région
+      Circle( 50,  50, 50, $0000FF)  
+      Circle( 50, 150, 50, $00FF00)  
+      Circle(150,  50, 50, $FF0000)  
+      Circle(150, 150, 50, $00FFFF)  
+      DrawingMode(#PB_2DDrawing_Outlined)
+      Box(50, 50, 100, 100, $000000)  
+      StopDrawing() 
+      SetGadgetState(0,ImageID(0))
+      EndIf
+      
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ClipOutput, @@SetOrigin, 
+  @@OutputWidth, @@OutputHeight
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+    

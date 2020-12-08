@@ -1,0 +1,79 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Sprite example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Debug "use arrow keys to move"
+
+OpenScreen(800, 600, 32, "400 sprites")
+
+Procedure RenderFrame()
+  Static x, y
+  
+  ClearScreen(RGB(0, 0, 0))
+
+  If ExamineKeyboard()
+    
+    If KeyboardPushed(#PB_Key_Left)
+      x-1
+    ElseIf KeyboardPushed(#PB_Key_Right)
+      x+1
+    EndIf
+    
+    If KeyboardPushed(#PB_Key_Up)
+      y-1
+    ElseIf KeyboardPushed(#PB_Key_Down)
+      y+1
+    EndIf
+    
+    ; Reduce the sprite size before display
+    ;
+    ZoomSprite(0, 60, 60)
+    
+    ; Display 100 sprites !
+    ;
+    For xDelta = 0 To 9
+      For yDelta = 0 To 9 
+        DisplayTransparentSprite(0, x+xDelta*60, y+yDelta*60, 128) ; half transparency
+      Next
+    Next
+    
+    ; and another 100 sprites !
+    ;
+    For xDelta = 0 To 9
+      For yDelta = 0 To 9
+        DisplaySprite(0, x*2+xDelta*60, y*2+yDelta*60)
+      Next
+    Next
+    
+  EndIf
+  
+  FlipBuffers() ; continue the rendering
+EndProcedure
+
+
+Procedure Loading(Type, Filename$)
+  Static NbLoadedElements
+  
+  NbLoadedElements+1
+  If NbLoadedElements = 1 ; Finished the loading of all images and sounds, we can start the applications
+    FlipBuffers() ; start the rendering
+  EndIf
+EndProcedure
+
+
+Procedure LoadingError(Type, Filename$)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loading())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+
+LoadSprite(0, "Data/Spider.png")

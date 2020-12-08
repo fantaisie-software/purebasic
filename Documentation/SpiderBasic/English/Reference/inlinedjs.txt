@@ -1,0 +1,76 @@
+@Title Inline Javascript
+
+@Section Introduction
+
+  SpiderBasic allows you to include raw JavaScript directly into the source code.
+  
+  To activate the inline JavaScript input, you can use the compiler directives @ReferenceLink "CompilerDirectives" "EnableJS" and @ReferenceLink "CompilerDirectives" "DisableJS". 
+  Another way is to put '!' (exclamation mark) at the beginning of the line, and the whole line will be
+  put as is in the generated source. @LineBreak
+  @LineBreak
+  Please note than the JavaScript code isn't checked by the SpiderBasic compiler, so if a syntax error occurs in this
+  code, it will be reported in the browser when executing the code. @LineBreak
+  @LineBreak
+  The IDE coloring can also be wrong sometimes with JavaScript input, but it won't impact the generated code.
+   
+  
+@Section Rules
+
+  Here are the naming rules to use when accessing SpiderBasic items:
+  
+  - JavaScript variable name is the same in lowercase with a 'v_' prefix. It's the same
+  for local variable, global variable and function parameter.
+
+  @Example
+
+@Code
+  MyVariable = 10
+  !v_myvariable++;
+  Debug MyVariable
+@EndCode
+
+  - JavaScript pointer name is the same in lowercase with a 'p_' prefix. It's the same
+  for local pointer, global pointer and function parameter.
+
+  @Example
+
+@Code
+  *Pointer = 10
+  !p_pointer = 20;
+  Debug *Pointer
+@EndCode
+
+  - JavaScript procedure name is the same in lowercase with a 'f_' prefix.
+
+  @Example
+
+@Code
+  Procedure MyProcedure()
+    Debug "Hello world"
+  EndProcedure
+  
+  ; Call in SpiderBasic
+  MyProcedure()
+  
+  ; Call using Javascript
+  !f_myprocedure();
+@EndCode
+
+  - JavaScript module name is the same in lowercase and using the '$' sign to access module items.
+
+  Example
+
+@Code  
+  DeclareModule MyModule
+    MyModuleVariable.i
+  EndDeclareModule
+  
+  Module MyModule
+  EndModule
+  
+  !mymodule$v_mymodulevariable = 12
+  Debug MyModule::MyModuleVariable
+@EndCode
+
+    @ExampleFile All InlinedJS.sb
+

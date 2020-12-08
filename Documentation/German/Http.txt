@@ -1,0 +1,886 @@
+;
+;     Http library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library Http
+
+@Overview
+  Http ist der Name eines Protokolls, welches von Web-Browsern verwendet wird, um auf 
+  entfernt ("remote") liegende Informationen zuzugreifen, z.B. eine Internetseite.
+  Jedes Element hat eine einmalige Adresse, um darauf von überall zuzugreifen: die URL
+  (Uniform Resource Locator).
+@LineBreak
+@LineBreak
+  Die Funktionen innerhalb dieser Bibliothek wurden entworfen, um einfache Manipulationen
+  von URLs und den Empfang von entfernten Dateien zu ermöglichen.
+@LineBreak
+@LineBreak
+ Die Http-Befehle basieren auf der @LibraryLink "Network" "Network Bibliothek", daher muss
+ vor deren Verwendung @@InitNetwork erfolgreich aufgerufen worden sein.
+@LineBreak
+@LineBreak
+  Auf Linux muss 'libcurl' installiert sein, damit die Http-Befehle funktionieren (die meisten
+  Linux-Distributionen haben es bereits standardmäßig installiert).
+
+@CommandList
+
+@ExampleFile All Http.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AbortHTTP(HttpVerbindung)
+
+@Description
+  Bricht den Fortschritt des angegebenen asynchronen Downloads ab, der entweder mit @@ReceiveHTTPFile
+  oder @@ReceiveHTTPMemory gestartet wurde.
+  Der Befehl ist auch nutzbar mit @@HTTPRequest und @@HTTPRequestMemory (wenn @#PB_HTTP_Asynchronous
+  verwendet wurde).
+
+@Parameter "HttpVerbindung"
+  Dei abzubrechende Http-Verbindung.
+
+@NoReturnValue
+
+@Remarks
+  Der Wert @#PB_HTTP_Aborted wird von @@HTTPProgress zurückgegeben. @@FinishHTTP muss aufgerufen
+  werden, sobald der Download abgebrochen wurde.
+
+@SeeAlso
+  @@HTTPProgress, @@FinishHTTP
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = FinishHTTP(HttpVerbindung)
+
+@Description
+  Gibt die mit dem angegebenen asynchronen Download, der entweder mit @@ReceiveHTTPFile
+  oder @@ReceiveHTTPMemory gestartet wurde, verknüpften Ressourcen frei.
+
+@Parameter "HttpVerbindung"
+  Die zu beendende Http-Verbindung.
+
+@ReturnValue
+  Abhängig davon, mit welchem Receive-Befehl der Download gestartet wurde, gibt FinishHTTP() folgendes zurück:
+  @LineBreak
+  @@ReceiveHTTPFile: Anzahl der empfangenen Bytes (Größe der gespeicherten Datei).
+  @LineBreak
+  @@ReceiveHTTPMemory mit gesetztem @#PB_HTTP_Asynchronous Flag: Adresse des Speicherbereichs, ab dem die empfangenen
+  Daten gespeichert wurden. Mit @@MemorySize kann dann der Umfang der empfangenen Daten ermittelt werden.
+
+@Remarks
+  Der Wert @#PB_HTTP_Aborted wird von @@HTTPProgress zurückgegeben.
+
+@SeeAlso
+  @@HTTPProgress, @@AbortHTTP
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetHTTPHeader(URL$ [, Flags [, UserAgent$]])
+
+@Description
+  Ermittelt die HTTP-Header (Kopfzeilen) der angegebenen URL.
+
+@Deprecated
+  Hinweis: Diese Funktion wurde von @@HTTPRequest ersetzt. Verwenden Sie diese stattdessen.
+
+@Parameter "URL$"
+  Die URL (Adresse) für die Abfrage.
+  Die URL muss vollständig angegeben werden, einschließlich dem Präfix "http://" oder "https://".
+  
+@OptionalParameter "Flags"
+  Dies kann der folgenden Werte sein:
+@FixedFont
+  @#PB_HTTP_NoRedirect: folgt keinen automatischen Umleitungen.
+@EndFixedFont
+
+@OptionalParameter "UserAgent$"
+  Ändert den  Benutzeragenten (englisch "User agent") für die HTTP-Anforderung. Der
+  Standardbenutzer-Agent ist gesetzt auf "Mozilla/5.0 Gecko/41.0 Firefox/41.0" für maximale Kompatibilität.
+
+@ReturnValue
+  Gibt einen String zurück, welcher die Kopfzeilen (Header) enthält.
+  Jede Zeile endet mit einem @Link "String/Chr" "Chr(10)" Zeichen.
+  @@StringField kann verwendet werden, um diese
+  in einzelne Strings zu aufzuteilen.
+@LineBreak
+@LineBreak
+  Der Inhalt der Header ist vom Typ des Web-Servers abhängig und ihr Inhalt variiert daher,
+  aber der vom Server zurückgegebene Header bietet sehr nützliche Informationen über die
+  Datei, wie das Datum, den Server-Typ, die Version und mehr. 
+
+@Remarks
+  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl benutzt werden kann.
+@LineBreak
+@LineBreak
+  Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten
+  Linux-Distributionen haben es bereits standardmäßig installiert).
+
+@Example
+@Code
+  InitNetwork()
+
+  Header$ = GetHTTPHeader("http://www.purebasic.com/index.php")
+
+  Repeat
+   Index+1
+   Line$ = StringField(Header$, Index, #LF$)
+   Debug Line$
+  Until Line$ = ""
+@EndCode
+
+  Beispiel für zurückgegebene Header:
+
+@FixedFont
+  HTTP/1.1 200 OK
+  Date: Fri, 21 Mar 2008 09:49:30 GMT
+  Server: Apache/1.3.34 (Debian) mod_vhost_online/1.1 mod_fastcgi/2.4.2 mod_log_online/0.1
+  X-Powered-By: PHP/4.4.8-1
+  Content-Type: text/html
+@EndFixedFont
+
+@SeeAlso
+  @@ReceiveHTTPFile, @@URLEncoder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetURLPart(URL$, Parameter$)
+
+@Description
+  Ermittelt einen bestimmten Teil der angegebenen URL. Dies kann ein benannter Parameter im
+  URL-String oder einem anderen Teil der URL sein.
+
+@Parameter "URL$"
+  Die URL, von welcher ein Teil ermittelt werden soll.
+  Eine URL$ kann Parameter enthalten, welche nützlich sind, wenn eine Skriptsprache (wie PHP)
+  auf dem Web-Server verwendet wird. 
+  Der Syntax ist folgender: http://www.purebasic.com/index.php3?test=1.
+  Hier trägt der Parameter die Bezeichnung "test" und sein zugewiesener Wert lautet "1".
+
+@Parameter "Parameter$"
+  Der Parameter, welcher vom URL$ zurückgegeben werden soll.
+  Die Parameter sind nicht "case-sensitive" (d.h. beachten nicht die Groß-/Kleinschreibung). 
+  Dieser Parameter kann auch eine der folgenden Konstanten verwenden, um auf einen bestimmten Teil
+  der URL zuzugreifen:  
+@FixedFont
+  @#PB_URL_Protocol: gibt das Protokoll aus der URL$ zurück
+  @#PB_URL_Site: gibt die Seite aus der URL$ zurück
+  @#PB_URL_Port: gibt den Port aus der URL$ zurück (wenn spezifiziert)
+  @#PB_URL_Parameters: gibt alle Parameter aus der URL$ zurück
+  @#PB_URL_Path: gibt den Pfad aus der URL$ zurück
+  @#PB_URL_User: gibt den Usernamen aus der URL$ zurück (wenn spezifiziert)
+  @#PB_URL_Password: gibt das Passwort aus der URL$ zurück (wenn spezifiziert)
+@EndFixedFont
+
+@ReturnValue
+  Gibt den Wert des angegebenen Parameters oder einen anderen Teil der URL zurück.
+
+@Remarks
+  Dieser Befehl kann sehr nützlich sein, um z.B. beim Schreiben eines CGI Programms 
+  eine URL zu analysieren ("zu parsen").
+
+@Example
+@Code
+  URL$ = "http://user:pass@www.purebasic.com:80/index.php3?test=1&ok=2"
+
+  Debug GetURLPart(URL$, #PB_URL_Protocol) ; Wird "http" ausgeben
+  Debug GetURLPart(URL$, #PB_URL_Site)     ; Wird "www.purebasic.com" ausgeben 
+  Debug GetURLPart(URL$, #PB_URL_Port)     ; Wird "80" ausgeben 
+  Debug GetURLPart(URL$, #PB_URL_Parameters) ; Wird "test=1&ok=2" ausgeben 
+  Debug GetURLPart(URL$, #PB_URL_Path)     ; Wird "index.php3" ausgeben 
+  Debug GetURLPart(URL$, #PB_URL_User)     ; Wird "user" ausgeben 
+  Debug GetURLPart(URL$, #PB_URL_Password) ; Wird "pass" ausgeben 
+  Debug GetURLPart(URL$, "test")           ; Wird "1" ausgeben 
+  Debug GetURLPart(URL$, "ok")             ; Wird "2" ausgeben 
+@EndCode
+
+@SeeAlso
+  @@SetURLPart, @@URLDecoder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = HTTPProgress(HttpVerbindung)
+
+@Description
+  Gibt den Fortschritt des angegebenen asynchronen Downloads zurück, der entweder mittels
+  @@ReceiveHTTPFile oder @@ReceiveHTTPMemory gestartet wurde.
+
+@Parameter "HttpVerbindung"
+  Die zu überwachende Http-Verbindung.
+
+@ReturnValue
+  Der Status des Downloads. Dies kann die aktuelle Anzahl empfangener Bytes sein, oder einer
+  der folgenden Werte:
+@FixedFont
+  @#PB_Http_Success    : der Download wurde erfolgreich abgeschlossen.
+  @#PB_Http_Failed     : der Download ist fehlgeschlagen.
+  @#PB_Http_Aborted    : der Download wurde mittels @@AbortHTTP abgebrochen.
+@EndFixedFont
+
+@Example
+@Code
+  InitNetwork()
+
+  Download = ReceiveHTTPMemory("http://www.purebasic.com/download/OgreAssimpConverter.zip", #PB_HTTP_Asynchronous)
+  If Download
+    Repeat
+      Progress = HTTPProgress(Download)
+      Select Progress
+        Case #PB_Http_Success
+          *Buffer = FinishHTTP(Download)
+          Debug "Download finished (size: " + MemorySize(*Buffer) + ")"
+          FreeMemory(*Buffer)
+          End
+
+        Case #PB_Http_Failed
+          Debug "Download failed"
+          FinishHTTP(Download)
+          End
+
+        Case #PB_Http_Aborted
+          Debug "Download aborted"
+          FinishHTTP(Download)
+          End
+          
+        Default
+          Debug "Current download: " + Progress
+       
+      EndSelect
+      
+      Delay(500) ; Don't stole the whole CPU
+    ForEver
+  Else
+    Debug "Download error"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = HTTPInfo(HttpRequest, Typ [, Flags])
+
+@Description
+  Gibt Informationen über den mit @@HTTPRequest oder @@HTTPRequestMemory erstellten
+  "HTTP-Request" (HTTP-Anfrage) zurück.
+
+@Parameter "HttpRequest"
+  Die HTTP-Anfrage, zu der Informationen ermittelt werden sollen.
+  
+@Parameter "Typ"
+  Die spezifische Information, die ermittelt werden soll. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Http_StatusCode   : der Server-Status-Code (200: OK, 404: page not found etc.).
+  @#PB_Http_Response     : die Server-Antwort, als Text. Um die "rohe" Server-Antwort zu erhalten, verwenden Sie @@HTTPMemory.
+  @#PB_Http_Headers      : die "Request-Header" (Kopfzeilen / Anforderungsheader).
+  @#PB_Http_ErrorMessage : die HTTP-Request Fehlernachricht, wenn etwas schief geht (meist für Debugging-Zwecke).
+@EndFixedFont
+
+@OptionalParameter "Flags"
+  Das Format der HTTP-Antwort oder der Header-Codierung. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_UTF8  (Standard)
+  @#PB_Ascii
+@EndFixedFont  
+
+@ReturnValue
+  Ein String abhängig vom 'Typ' Parameter.
+
+@Example
+@Code
+  InitNetwork()
+  
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
+  If HttpRequest
+    Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    
+    FinishHTTP(HTTPRequest)
+  Else
+    Debug "Request creation failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@HTTPRequest, @@HTTPRequestMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Puffer = HTTPMemory(HttpRequest)
+
+@Description
+  Gibt einen Speicherpuffer zurück, der die gesamte Antwort einer mittels @@HTTPRequest oder @@HTTPRequestMemory
+  erstellten HTTP-Anfrage ("HTTP request") enthält.
+  Sobald der Vorgang abgeschlossen ist, muss der Puffer mit @@FreeMemory freigegeben werden.
+
+@Parameter "HttpRequest"
+  Die HTTP-Anfrage zum Abfragen der "rohen" (raw) Antwort.
+  
+@ReturnValue
+  Ein Speicherpuffer, der die gesamte Antwort einer HTTP-Anfrage ("HTTP request") enthält.
+  Sobald der Vorgang abgeschlossen ist, muss der Puffer mit @@FreeMemory freigegeben werden.
+
+@Example
+@Code
+  InitNetwork()
+  
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
+  If HttpRequest
+    Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    
+    *Response = HTTPMemory(HTTPRequest)
+    
+    FinishHTTP(HTTPRequest)
+    
+    Debug "Response size: " + MemorySize(*Response)
+    FreeMemory(*Response)
+    
+  Else
+    Debug "Request creation failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@HTTPRequest, @@HTTPRequestMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HTTPProxy(URL$ [, User$, Passwort$])
+
+@Description
+  Gibt einen Proxy an, der für die folgenden HTTP-Befehle verwendet werden soll:
+  @@GetHTTPHeader, @@ReceiveHTTPFile, @@ReceiveHTTPMemory,
+  @@ReceiveHTTPMemory, @@HTTPRequest und @@HTTPRequestMemory.
+  
+@Parameter "URL$"
+  Die URL, die für den Proxy verwendet werden soll. Der Standardwert ist HTTP-Proxy,
+  wenn kein Präfix angegeben ist. Verfügbare Präfixe zum Festlegen des Proxy-Typs:
+@FixedFont
+  http://    - HTTP Proxy (Standard)
+  socks4://  - SOCKS4 Proxy
+  socks4a:// - SOCKS4 Proxy mit Domain-Namen-Unterstützung anstelle der IP-Adresse
+  socks5://  - SOCKS5 Proxy
+  socks5h:// - SOCKS5 Proxy und fragt den Proxy, das Auflösen des Hostnamens zu übernehmen
+@EndFixedFont  
+
+@OptionalParameter "User$, Passwort$"
+  Der Benutzer (englisch "User") und das Passwort für die Verbindung zum Proxy
+  (falls vorhanden).
+
+@NoReturnValue
+
+@Remarks
+  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl verwendet wird.
+@LineBreak
+@LineBreak
+  Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert
+  (die meisten Linux-Distributionen haben es bereits installiert).
+  
+@Example
+@Code
+  InitNetwork()
+
+  HTTPProxy("socks4://127.0.0.1")
+
+  Filename$ = SaveFileRequester("Where to save index.php ?", "", "", 0)
+
+  If ReceiveHTTPFile("http://www.purebasic.com/index.php", Filename$)
+    Debug "Success"
+  Else
+    Debug "Failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetHTTPHeader, @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ReceiveHTTPFile(URL$, Dateiname$ [, Flags [, UserAgent$]])
+
+@Description
+  Lädt eine Datei von der angegebenen URL$ auf Disk herunter.
+
+@Parameter "URL$"
+  Die URL, von der geladen werden soll.
+
+@Parameter "Dateiname$"
+  Der lokale Dateiname, wohin die Datei geschrieben werden soll.
+  Wenn der Dateiname keinen vollständigen Pfad enthält, wird dieser relativ zum
+  @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis" interpretiert.
+  Wenn die Datei existiert, wird sie überschrieben.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_HTTP_Asynchronous: startet den Download asynchron.
+  @#PB_HTTP_NoRedirect  : folgt keinen automatischen Weiterleitungen.
+@EndFixedFont
+
+@OptionalParameter "UserAgent$"
+  Ändert den  Benutzeragenten (englisch "User agent") für die HTTP-Anforderung. Der
+  Standardbenutzer-Agent ist gesetzt auf "Mozilla/5.0 Gecko/41.0 Firefox/41.0" für maximale Kompatibilität.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der Download erfolgreich war, andernfalls Null.
+  Wenn @#PB_HTTP_Asynchronous angegeben wurde, dann wird der für @@HTTPProgress, @@AbortHTTP
+  und @@FinishHTTP benötigte 'HttpVerbindung'-Wert zurückgegeben. Bei der Verwendung von
+  @#PB_HTTP_Asynchronous muss @@FinishHTTP aufgerufen werden, sobald der Download beendet
+  wurde (erfolgreich oder nicht).
+  
+@Remarks
+  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl benutzt werden kann.
+@LineBreak
+@LineBreak
+  Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten
+  Linux-Distributionen haben es bereits standardmäßig installiert).
+
+@Example
+@Code
+  InitNetwork()
+
+  Filename$ = SaveFileRequester("Where to save index.php ?", "", "", 0)
+
+  If ReceiveHTTPFile("http://www.purebasic.com/index.php3", Filename$)
+    Debug "Success"
+  Else
+    Debug "Failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetHTTPHeader, @@URLEncoder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Puffer = ReceiveHTTPMemory(URL$ [, Flags [, UserAgent$]])
+
+@Description
+  Lädt eine Datei von der angegebenen URL in einen neuen Speicherpuffer.
+
+@Parameter "URL$"
+  Die URL, von der der Download erfolgen soll.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_HTTP_Asynchronous: startet den Download asynchron. Um die Adresse des Speicherpuffers
+                         zu erhalten, verwenden Sie @@FinishHTTP.
+  @#PB_HTTP_NoRedirect  : folgt keinen automatischen Weiterleitungen.
+@EndFixedFont
+
+@OptionalParameter "UserAgent$"
+  Ändert den  Benutzeragenten (englisch "User agent") für die HTTP-Anforderung. Der
+  Standardbenutzer-Agent ist gesetzt auf "Mozilla/5.0 Gecko/41.0 Firefox/41.0" für maximale Kompatibilität.
+
+@ReturnValue
+  Gibt die Adresse des neuen Speicherpuffers zurück, wenn der Download erfolgreich war,
+  andernfalls Null. @@MemorySize kann verwendet werden, um die Größe des Downloads zu
+  ermitteln. Der Speicherpuffer muss mittels @@FreeMemory freigegeben werden, sobald
+  dessen Nutzung abgeschlossen ist. Wenn @#PB_HTTP_Asynchronous angegeben wurde, dann
+  wird der für @@HTTPProgress, @@AbortHTTP und @@FinishHTTP benötigte 'HttpVerbindung'-Wert
+  zurückgegeben.
+
+@Remarks
+  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl benutzt werden kann.
+@LineBreak
+@LineBreak
+  Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten
+  Linux-Distributionen haben es bereits standardmäßig installiert).
+
+@Example
+@Code
+  InitNetwork()
+
+  *Buffer = ReceiveHTTPMemory("http://www.purebasic.com/index.php")
+  If *Buffer
+    Size = MemorySize(*Buffer)
+    Debug "Content: " + PeekS(*Buffer, Size, #PB_UTF8|#PB_ByteLength)
+    FreeMemory(*Buffer)
+  Else
+    Debug "Failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GetHTTPHeader, @@URLEncoder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = HTTPRequest(Typ, URL$ [, Daten$ [, Flags [, Header()]]])
+
+@Description
+  Sendet eine HTTP-Anfrage ("HTTP request") mit optionalen Text-Daten. Falls Binär-Daten gesendet werden
+  müssen, kann @@HTTPRequestMemory verwendet werden.
+  Dieser Befehl kann die REST Web-API problemlos verarbeiten. @@FinishHTTP muss immer aufgerufen werden,
+  nachdem die Anforderung ausgeführt wurde.
+
+@Parameter "Typ"
+  Der Typ der Anfrage. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_HTTP_Get    : GET Request ('Daten$' Parameter wird ignoriert)
+  @#PB_HTTP_Post   : POST Request ('Daten$' Parameter wird gesendet, sofern angegeben)
+  @#PB_HTTP_Put    : PUT Request ('Daten$' Parameter wird gesendet, sofern angegeben)
+  @#PB_HTTP_Patch  : PATCH Request ('Daten$' Parameter wird gesendet, sofern angegeben)
+  @#PB_HTTP_Delete : DELETE Request ('Daten$' Parameter wird gesendet, sofern angegeben)
+@EndFixedFont
+
+@Parameter "URL$"
+  Die URL zum Senden der Anfrage.
+
+@OptionalParameter "Daten$"
+  Die mit der Anfrage zu sendenden Text-Daten (werden im UTF-8 Format gesendet).
+  
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_HTTP_Asynchronous : startet den Download asynchron.
+  @#PB_HTTP_NoRedirect   : folgt keinen automatischen Weiterleitungen.
+  @#PB_HTTP_NoSSLCheck   : prüft nicht, ob das SSL-Zertifikat gültig ist (kann zu Testzwecken nützlich sein).
+  @#PB_HTTP_HeadersOnly  : ermittelt nur die Header (Kopfzeilen).
+  @#PB_HTTP_WeakSSL      : zum Unterstützen älterer Server.
+  @#PB_HTTP_Debug        : zum Ausgeben von Debug-Informationen in der Konsole.
+@EndFixedFont
+
+@OptionalParameter "Header()"
+  Eine Map aus Stringpaaren, um zusätzliche Header für die Anforderung anzugeben. Beispiel:
+@Code
+  NewMap Header$()
+  Header$("Content-Type") = "text/plain"
+  Header$("UserAgent") = "Firefox 54.0"
+  Header$("NoParamHeader") = ""  ; Ohne Angabe eines String-Wertes, wird dies ein leerer Parameter sein.
+@EndCode
+
+@ReturnValue
+  Gibt die HTTP-Request-Kennung zurück, wenn der Aufruf erfolgreich initialisiert wurde, andernfalls Null.
+  @@HTTPInfo kann verwendet werden, um Informationen zur Anfrage zu erhalten. Wenn @#PB_HTTP_Asynchronous
+  angegeben wurde, können @@HTTPProgress und @@AbortHTTP verwendet werden.
+  @LineBreak
+  @@HTTPMemory kann verwendet werden, um das Ergebnis als Rohpuffer ("raw") abzurufen (der Rohpuffer muss
+  mit @@FreeMemory freigegeben werden).
+  @LineBreak
+  @@FinishHTTP muss immer aufgerufen werden, um eine erfolgreich initialisierte HTTP-Anforderung zu beenden,
+  auch wenn der Aufruf synchron erfolgte.
+
+@Remarks
+  @@InitNetwork muss vor der Verwendung dieses Befehls aufgerufen werden.
+@LineBreak
+@LineBreak
+  Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten Linux-Distributionen
+  haben es bereits vorinstalliert).
+
+@Example
+@Code
+  InitNetwork()
+
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
+  If HttpRequest
+    Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    
+    FinishHTTP(HTTPRequest)
+  Else
+    Debug "Request creation failed"
+  EndIf
+@EndCode
+
+@Example mit Header
+@Code
+  InitNetwork()
+  
+  NewMap Header$()
+  Header$("Content-Type") = "plaintext"
+  Header$("UserAgent") = "Firefox 54.0"
+  
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com", "", 0, Header$())
+  If HttpRequest
+    Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    
+    FinishHTTP(HTTPRequest)
+  Else
+    Debug "Request creation failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@URLEncoder, @@AbortHTTP
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = HTTPRequestMemory(Typ, URL$ [, *Daten, Datengröße [, Flags [, Header()]]])
+
+@Description
+  Sendet eine HTTP-Anfrage ("HTTP request") mit optionalen Binär-Daten. Falls nur Text-Daten gesendet werden
+  müssen, kann @@HTTPRequest verwendet werden.
+  Dieser Befehl kann die REST Web-API problemlos verarbeiten. @@FinishHTTP muss immer aufgerufen werden,
+  nachdem die Anforderung ausgeführt wurde.
+
+@Parameter "Typ"
+  Der Typ der Anfrage. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_HTTP_Get    : GET Request ('*Daten' Parameter wird ignoriert)
+  @#PB_HTTP_Post   : POST Request ('*Daten' Parameter wird gesendet, sofern angegeben)
+  @#PB_HTTP_Put    : PUT Request ('*Daten' Parameter wird gesendet, sofern angegeben)
+  @#PB_HTTP_Patch  : PATCH Request ('*Daten' Parameter wird gesendet, sofern angegeben)
+  @#PB_HTTP_Delete : DELETE Request ('*Daten' Parameter wird gesendet, sofern angegeben)
+@EndFixedFont
+
+@Parameter "URL$"
+  Die URL zum Senden der Anfrage.
+
+@OptionalParameter "*Daten"
+  Der mit der Anfrage zu sendende Speicherpuffer.
+
+@OptionalParameter "Datengröße"
+  Die Größe (in Bytes) des mit der Anfrage zu sendenden Speicherpuffers.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_HTTP_Asynchronous: startet den Download asynchron.
+  @#PB_HTTP_NoRedirect  : folgt keinen automatischen Weiterleitungen.
+  @#PB_HTTP_NoSSLCheck  : prüft nicht, ob das SSL-Zertifikat gültig ist (kann zu Testzwecken nützlich sein).
+@EndFixedFont
+
+@OptionalParameter "Headers()"
+  Eine Map aus Stringpaaren, um zusätzliche Header für die Anforderung anzugeben. Beispiel:
+@Code
+  NewMap Header$()
+  Header$("ContentType") = "octectstream"
+  Header$("UserAgent") = "Firefox 54.0"
+  Header$("NoParamHeader") = ""  ; Ohne Angabe eines String-Wertes, wird dies ein leerer Parameter sein.
+@EndCode
+
+@ReturnValue
+  Gibt die HTTP-Request-Kennung zurück, wenn der Aufruf erfolgreich initialisiert wurde, andernfalls Null.
+  @@HTTPInfo kann verwendet werden, um Informationen zur Anfrage zu erhalten. Wenn @#PB_HTTP_Asynchronous
+  angegeben wurde, können @@HTTPProgress und @@AbortHTTP verwendet werden.
+  @LineBreak
+  @@HTTPMemory kann verwendet werden, um das Ergebnis als Rohpuffer ("raw") abzurufen (der Rohpuffer muss
+  mit @@FreeMemory freigegeben werden).
+  @LineBreak
+  @@FinishHTTP muss immer aufgerufen werden, um eine erfolgreich initialisierte HTTP-Anforderung zu beenden,
+  auch wenn der Aufruf synchron erfolgte.
+
+@Remarks
+  @@InitNetwork muss vor der Verwendung dieses Befehls aufgerufen werden.
+@LineBreak
+@LineBreak
+  Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten Linux-Distributionen
+  haben es bereits vorinstalliert).
+
+@Example
+@Code
+  InitNetwork()
+
+  HttpRequest = HTTPRequestMemory(#PB_HTTP_Get, "https://www.google.com")
+  If HttpRequest
+    Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    
+    FinishHTTP(HTTPRequest)
+  Else
+    Debug "Request creation failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@HTTPRequest, @@URLEncoder, @@AbortHTTP
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = URLDecoder(URL$ [, Format])
+
+@Description
+  Gibt eine dekodierte URL$ zurück, welche im HTTP-Format kodiert (verschlüsselt) wurde.
+
+@Parameter "URL$"
+  Die zu entschlüsselnde URL. Um eine URL zu verschlüsseln, verwenden Sie
+  @@URLEncoder.
+
+@OptionalParameter "Format"
+  Das Format der URL-Kodierung. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_UTF8  (Standard)
+  @#PB_Ascii
+@EndFixedFont  
+
+@ReturnValue
+  Gibt die dekodierte (entschlüsselte) URL zurück.
+
+@Remarks
+  Eine URL$ darf bestimmte Zeichen (wie Tab, Leerzeichen, Buchstaben mit Akzent, etc.)
+  nicht enthalten. Daher müssen diese Zeichen verschlüsselt werden, was grundsätzlich 
+  mit Hilfe von "%" als Escape-Zeichen erfolgt. 
+  @LineBreak
+  Wenn die URL$ nicht in einem kodierten Format vorliegt, dann hat diese Funktion keinen
+  Einfluss auf die angegebene "URL$" und der Rückgabewerte dieser "URL$" bleibt unverändert.
+
+
+@Example
+@Code
+  Debug URLDecoder("http://www.purebasic.com/test%20with%20space.php3")
+  ; Will print "http://www.purebasic.com/test with space.php3"
+@EndCode
+
+@SeeAlso
+  @@URLEncoder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = URLEncoder(URL$ [, Format])
+
+@Description
+  Gibt eine ins HTTP-Format kodierte (verschlüsselte) URL$ zurück.
+
+@Parameter "URL$"
+  Die zu verschlüsselnde URL.
+
+@OptionalParameter "Format"
+  Das Format des Strings, bevor dieser kodiert wird. Dies kann einer der folgenden
+  Werte sein:
+@FixedFont
+  @#PB_UTF8  (Standard)
+  @#PB_Ascii
+@EndFixedFont  
+
+@ReturnValue
+  Gibt die kodierte URL zurück.
+  Um eine verschlüsselte URL zurück in das unverschlüsselte Format zu konvertieren,
+  verwenden Sie @@URLDecoder.
+
+@Remarks
+  Eine URL$ darf bestimmte Zeichen (wie Tab, Leerzeichen, Buchstaben mit Akzent, etc.)
+  nicht enthalten. Daher müssen diese Zeichen verschlüsselt werden, was grundsätzlich 
+  mit Hilfe von "%" als Escape-Zeichen erfolgt. 
+@LineBreak
+@LineBreak
+  Da diese Funktion den RFC 3986 Standard verwendet, werden manche Zeichen nicht kodiert,
+  wie z.B. (keine erschöpfende Liste):
+@FixedFont
+  "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")" | 
+  ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" | "$" |
+  "," | """ | "#" | "%" | 
+@EndFixedFont 
+  Wenn Sie diese doch kodieren müssen, dann müssen Sie die folgende Tabelle verwenden:
+  https://www.w3schools.com/tags/ref_urlencode.asp
+@LineBreak
+@LineBreak
+  Zum Beispiel in UTF8:@LineBreak
+ @FixedFont
+   "-" -> %2D | "_" -> %5F | "." -> %2E | "!" -> %21 | "~" -> %7E | 
+   
+   "*" -> %2A | "'" -> %27 | "(" -> %28 | ")" -> %29 | ";" -> %3B | 
+   
+   "/" -> %2F | "?" -> %3F | ":" -> %3A | "@" -> %40 | "&" -> %26 | 
+   
+   "=" -> %3D | "+" -> %2B | "$" -> %24 | "," -> %2C | """ -> %22 | 
+   
+   "#" -> %23 | "%" -> %25 |  
+@EndFixedFont
+  
+@Example
+@Code
+  Debug URLEncoder("http://www.purebasic.com/test with space.php3")
+  ; Wird "http://www.purebasic.com/test%20with%20space.php3" ausgeben
+  
+  Debug URLEncoder("http://www.ok.com value=zzz ?yyy/")
+  ; Wird "http://www.ok.com%20value=zzz%20?yyy/" ausgeben
+@EndCode
+
+@SeeAlso
+  @@URLDecoder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = SetURLPart(URL$, Parameter$, Wert$)
+
+@Description
+  Ändert einen bestimmten Teil der angegebenen URL$.
+
+@Parameter "URL$"
+  Die zu ändernde URL.
+  Eine URL$ kann Parameter enthalten, welche nützlich sind, wenn eine Skriptsprache (wie PHP)
+  auf dem Web-Server verwendet wird. 
+@LineBreak
+@LineBreak
+  Der Syntax ist folgender: (http://www.purebasic.com/index.php3?test=1).
+  Hier trägt der Parameter die Bezeichnung "test" und sein zugewiesener Wert lautet "1".
+@LineBreak
+@LineBreak
+  Um einen bestimmten Teil einer URL zu ändern, müssen die in "URL$" übermittelten
+  Informationen (mindestens) folgendes Format haben: ("http://www.purebasic.com")
+
+@Parameter "Parameter$"
+  Der zu ändernde Paramter.
+  Die Parameter sind nicht "case-sensitive" (d.h. beachten nicht die Groß-/Kleinschreibung). 
+  Darüber hinaus kann Parameter$ eine der folgenden Konstanten sein:
+@FixedFont
+  @#PB_URL_Protocol   : ändert das Protokoll der URL$
+  @#PB_URL_Site       : ändert die Seite der URL$
+  @#PB_URL_Port       : ändert den Port der URL$ (oder fügt ihn hinzu, wenn noch nicht vorhanden)
+  @#PB_URL_Parameters : ändert alle Parameter der URL$ (oder fügt sie hinzu, wenn noch nicht vorhanden)
+  @#PB_URL_Path       : ändert den Pfad der URL$ (oder fügt ihn hinzu, wenn noch nicht vorhanden)
+  @#PB_URL_User       : ändert den Usernamen in der URL$ (oder fügt ihn hinzu, wenn noch nicht vorhanden)
+  @#PB_URL_Password   : ändert das Passwort in der URL$ (oder fügt es hinzu, wenn noch nicht vorhanden - der "User" muss existieren)
+@EndFixedFont
+
+@Parameter "Wert$"
+  Der Wert, welcher mit dem angegebenen Parameter oder URL-Teil verknüpft werden soll.
+
+@ReturnValue
+  Gibt die geänderte URL zurück.
+
+@Example
+@Code
+  URL$ = "http://www.test.com/hello.php3"
+
+  URL$ = SetURLPart(URL$, #PB_URL_Protocol, "ftp")
+  URL$ = SetURLPart(URL$, #PB_URL_Site, "www.purebasic.com")
+  URL$ = SetURLPart(URL$, #PB_URL_Port, "80")
+  URL$ = SetURLPart(URL$, #PB_URL_Path, "english/index.php3")
+  URL$ = SetURLPart(URL$, #PB_URL_User, "user")
+  URL$ = SetURLPart(URL$, #PB_URL_Password, "pass")
+  URL$ = SetURLPart(URL$, "test", "1")
+  URL$ = SetURLPart(URL$, "ok", "2")
+
+  Debug URL$ ; Wird "ftp://user:pass@www.purebasic.com:80/english/index.php3?test=1&ok=2" ausgeben
+@EndCode
+
+@SeeAlso
+  @@GetURLPart, @@URLEncoder
+
+@SupportedOS

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Types of variables - Variables - PureBasic User Guide</title>
+  <link href="../user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Variables: Types of variables</h1>
+
+<p>There are five built-in types, which allow you to store integers (whole numbers in
+ three different ranges), floating point numbers (numbers with fractional parts or very
+ large numbers) and strings (sequences of letters, numbers or any other character).
+ You define a variable and its type by either:
+<ul>
+<li>specifically creating the variable using the <span class="code">DefType</span> keyword, or
+<li>using the variable for the first time.
+</ul>
+
+Both methods will be shown in the examples below. When you create a variable it will
+ have its initial value set to zero or an empty string.
+
+<p><h2>The built-in types</h2>
+As mentioned above, there are five built-in types. A variables type is shown by the
+ extension after the variable name in the form <span class="code">&lt;variable name&gt;.&lt;extension&gt;</span>.
+ You only need to tell PureBasic the extension for the first time and PureBasic will
+ remember what type the variable is. The five basic types are shown in the table below:
+
+<p><table class="body">
+<tr>
+<th>Type</th>
+<th>Extension</th>
+<th>Use</th>
+<th>Range</th>
+</tr>
+
+<tr>
+<td align="center">Byte</td>
+<td align="center">b</td>
+<td align="center">Small whole numbers</td>
+<td align="center">-128 to +127</td>
+</tr>
+
+<tr>
+<td align="center">Word</td>
+<td align="center">w</td>
+<td align="center">Medium sized whole numbers</td>
+<td align="center">-32768 to +32767</td>
+</tr>
+
+<tr>
+<td align="center">Long</td>
+<td align="center">l (lower case 'L')</td>
+<td align="center">Large whole numbers</td>
+<td align="center">-2147483648 to +2147483647</td>
+</tr>
+
+<tr>
+<td align="center">Float</td>
+<td align="center">f</td>
+<td align="center">Numbers with fractional parts or very large numbers</td>
+<td align="center"></td>
+</tr>
+
+<tr>
+<td align="center">String</td>
+<td align="center">s</td>
+<td align="center">Sequences of letters, digits or other characters (e.g. an address)</td>
+<td align="center">Up to 65536 characters</td>
+</tr>
+</table>
+
+<p>You cannot change the type of a variable once it has been defined. The compiler
+ will give you an error if you try to do this.
+
+<p>As an alternative for string variables you can use the dollar symbol ($)
+ to indicate that it is a string. If you do this you must always use the dollar
+ symbol after the variable name. You should not put a full stop between the
+ variable name and the dollar symbol.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="whatarevariables.html">What are variables?</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="creating.html">Creating variables</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+

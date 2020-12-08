@@ -1,0 +1,396 @@
+;
+; Printer library documentation
+;
+; (c) Fantaisie Software
+;
+
+@Library Printer
+
+@Overview
+
+  Les imprimantes sont des périphériques 
+  essentiels pour transformer les 
+  informations numériques virtuelles
+  en informations écrites. La plupart des 
+  logiciels nécessitent l'impression des 
+  informations sur papier pour être 
+  pleinement efficaces. PureBasic permet 
+  d'imprimer tous types de données depuis 
+  le texte de base jusqu'aux images dans 
+  toutes les résolutions.
+  
+@CommandList
+
+@ExampleFile All Printer.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = DefaultPrinter()
+
+@Description
+  Sélectionne l'imprimante par défaut. 
+  
+@NoParameters
+
+@ReturnValue
+   Renvoie une valeur non nulle en cas de 
+   succès, zéro sinon (pas d'imprimante 
+   par défaut disponible).
+  
+@Remarks
+  Cette fonction doit être utilisée avant 
+  toute autre de la bibliothèque Printer.
+@LineBreak
+@LineBreak
+  Une fois la commande @@DefaultPrinter 
+  terminée avec succès la commande 
+  @@StartPrinting est utilisée pour 
+  démarrer l'impression.
+
+@Example
+@Code
+  Resultat = DefaultPrinter()
+  If Resultat <> 0
+    MessageRequester("Info","L'imprimante par défaut est "+ Resultat)
+  Else
+    MessageRequester("Info","Pas d'imprimante par défaut.") 
+  EndIf
+
+@EndCode 
+  
+@SeeAlso
+  @@StartPrinting, @@PrinterOutput
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NewPrinterPage()
+
+@Description
+  Créé une nouvelle page vide. 
+  
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  La page précédente est envoyée à 
+  l'imprimante et ne peut plus être 
+  modifiée.
+@LineBreak
+@LineBreak
+  Cette commande doit être appelée à 
+  l'intérieur d'un bloc 
+  @@StartDrawing/@@StopDrawing.
+
+@Example
+@Code
+  If PrintRequester()
+    If StartPrinting("Deux feuilles")
+      If StartDrawing(PrinterOutput())
+        DrawingMode(#PB_2DDrawing_Transparent)
+        DrawText(10, 10, "Première page !", RGB(0, 0, 0))
+      
+        ; Informe l'imprimante qu'elle doit commencer une nouvelle page
+        NewPrinterPage()
+        
+        DrawText(10, 10, "Deuxième page !", RGB(0, 0, 0))
+      
+        StopDrawing()
+      EndIf
+      
+      StopPrinting()
+    EndIf
+  EndIf
+@EndCode 
+ 
+@SeeAlso
+  @@StartDrawing, @@StopDrawing
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = PrinterOutput()
+
+@Description
+  Renvoie l'identifiant OutputID de l'imprimante 
+  courante, à utiliser avec la commande @@StartDrawing.
+  
+@NoParameters
+
+@ReturnValue
+   Renvoie le numéro d'identification de 
+   l'imprimante en cours.
+  
+@Remarks
+  L'impression sera effectuée en utilisant 
+  les opérations de dessin à base de pixels.
+@LineBreak
+@LineBreak
+  Dessiner sur une imprimante en utilisant le 
+  dessin à base de pixels peut réduire la qualité 
+  d'impression et de plus, ajoute de la complexité 
+  supplémentaire parce que la résolution des 
+  imprimantes doit être prise en compte. 
+  Le dessin à base de vecteurs avec la fonction 
+  @@PrinterVectorOutput devrait être préféré, car 
+  il fournit des fonctions indépendantes de la 
+  résolution du matériel, et permet une impression 
+  de haute qualité.
+
+@Example
+@Code
+  StartDrawing(PrinterOutput())
+    ; faire des trucs de dessin ici ...
+  StopDrawing()
+@EndCode 
+  
+@SeeAlso
+  @@StartDrawing, @@PrinterVectorOutput
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = PrinterVectorOutput([UniteDeMesure])
+
+@Description
+  Renvoie le numéro d'identificationt OutputID 
+  de l'imprimante courante afin d'effectuer des opérations 
+  de dessin vectoriel, à utiliser avec @@StartVectorDrawing.
+  
+@OptionalParameter "UniteDeMesure"
+  Spécifie l'unité utilisée pour mesurer les distances sur le dessin.@LineBreak
+@FixedFont
+  @#PB_Unit_Pixel     : Les valeurs sont mesurées en pixels (Par défaut)(ou point (dots) pour les imprimantes)
+  @#PB_Unit_Point     : Les valeurs sont mesurées en points (1/72 pouce = 25.4/72 mm = 0,352 778 mm)
+  @#PB_Unit_Inch      : Les valeurs sont mesurées en pouces (25,4 millimètres)
+  @#PB_Unit_Millimeter: Les valeurs sont mesurées en millimètres (0,039 370 pouce)
+@EndFixedFont
+
+@ReturnValue
+  Le OutputID de l'imprimante en cours afin 
+  d'être utilisé avec la fonction @@StartVectorDrawing.
+
+@Example
+@Code
+  StartVectorDrawing(PrinterVectorOutput(#PB_Unit_Point))
+    ; code de dessin ici ...
+  StopVectorDrawing()
+@EndCode
+
+@SeeAlso
+  @@StartVectorDrawing, @@PrinterOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = PrintRequester()
+
+@Description
+  Ouvre une boîte de dialogue pour 
+  sélectionner l'imprimante et ajuster 
+  les paramètres. 
+ 
+@NoParameters
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon ou si l'utilisateur 
+  a interrompu la sélection en fermant 
+  la boîte de dialogue.
+  
+@Remarks
+  Cette fonction doit être utilisée avant 
+  toute autre de la bibliothèque Printer. 
+@LineBreak
+@LineBreak
+  Une fois la commande @@PrintRequester 
+  terminée avec succès la commande 
+  @@StartPrinting est utilisée pour 
+  démarrer l'impression.
+ 
+@Example
+@Code 
+  Resultat = PrintRequester()
+  If Resultat <> 0
+    MessageRequester("Info", "Une imprimante a été sélectionnée : " + Resultat) 
+  Else
+    MessageRequester("Info", "Erreur ou Sélection annulée")
+  EndIf
+@EndCode 
+ 
+@SeeAlso
+  @@StartPrinting
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = StartPrinting(Impression$)
+
+@Description
+  Initialise l'imprimante et démarre 
+  l'impression. 
+  
+@Parameter "Impression$"
+ Le nom qui apparaîtra dans la file 
+ d'attente et qui identifie la tâche 
+ d'impression. 
+ 
+@ReturnValue
+ Renvoie une valeur non nulle en cas 
+ de succès, zéro sinon.
+
+@Example
+@Code
+  If PrintRequester()
+  
+  If StartPrinting("Test")
+    
+      If StartDrawing(PrinterOutput())
+        DrawingMode(#PB_2DDrawing_Transparent)
+        DrawText(10, 10, "Première page !", RGB(0, 0, 0))
+        DrawingMode(#PB_2DDrawing_Outlined)
+        Circle(500,500,500 , RGB(255,0,0))     
+        StopDrawing()
+      EndIf
+      
+      StopPrinting()
+    EndIf
+    
+  EndIf
+@EndCode 
+  
+@SeeAlso
+  @@StopPrinting
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function StopPrinting()
+
+@Description
+  Arrête toutes les opérations d'impression 
+  et envoie les données à l'imprimante.
+ 
+@NoParameters
+
+@NoReturnValue
+
+@Example
+@Code
+  If PrintRequester()
+  
+  If StartPrinting("Test")
+    
+      If StartDrawing(PrinterOutput())
+        DrawingMode(#PB_2DDrawing_Transparent)
+        DrawText(10, 10, "Première page !", RGB(0, 0, 0))
+        DrawingMode(#PB_2DDrawing_Outlined)
+        Circle(500,500,500 , RGB(255,0,0))     
+        StopDrawing()
+      EndIf
+      
+      StopPrinting()
+    EndIf
+    
+  EndIf
+@EndCode 
+   
+@SeeAlso
+  @@StartPrinting
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = PrinterPageWidth()
+
+@Description
+  Renvoie la largeur de la zone de tracé. 
+  
+@NoParameters
+
+@ReturnValue
+  Renvoie la largeur de la zone 
+  d'impression en pixels.
+
+@Remarks
+  Ce nombre change en fonction de la valeur 
+  DPI de l'imprimante. @LineBreak
+  Cela signifie qu'un document imprimé en 
+  75 DPI aura une largeur de zone 
+  d'impression 4 fois plus petite qu'un 
+  document imprimé en 150 DPI.
+@LineBreak
+@LineBreak
+  La valeur renvoyée représente la zone 
+  client, c'est la largeur disponible pour 
+  imprimer, sans compter les marges 
+  'hardware' (qu'on ne peux pas changer) 
+  propres à chaque imprimante.
+
+@Example
+@Code
+  If PrintRequester()
+    MessageRequester("Info", "Hauteur marge matérielle : " + PrinterPageHeight() + " Pixels")
+    MessageRequester("Info", "Largeur marge matérielle : " + PrinterPageWidth() + " Pixels")
+  Else
+    MessageRequester("Info", "Pas d'imprimante sélectionnée.") 
+  EndIf
+@EndCode 
+  
+@SeeAlso
+  @@PrinterPageHeight
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = PrinterPageHeight()
+
+@Description
+  Renvoie la hauteur de la zone de tracé. 
+  
+@NoParameters
+
+@ReturnValue
+  Renvoie la hauteur de la zone 
+  d'impression en pixels.
+
+@Remarks
+  Ce nombre change en fonction de la 
+  valeur DPI de l'imprimante. @LineBreak
+  Cela signifie qu'un document imprimé en 
+  75 DPI aura une hauteur de zone 
+  d'impression 4 fois plus petite qu'un 
+  document imprimé en 150 DPI.
+@LineBreak
+@LineBreak
+  La valeur renvoyée représente la zone 
+  client, c'est la largeur disponible pour 
+  imprimer, sans compter les marges 
+  'hardware' (qu'on ne peux pas changer) 
+  propres à chaque imprimante.
+ 
+@Example
+@Code
+  If PrintRequester()
+    MessageRequester("Info", "Hauteur marge matérielle : " + PrinterPageHeight() + " Pixels")
+    MessageRequester("Info", "Largeur marge matérielle : " + PrinterPageWidth() + " Pixels")
+  Else
+    MessageRequester("Info", "Pas d'imprimante sélectionnée.") 
+  EndIf
+@EndCode 
+   
+@SeeAlso
+  @@PrinterPageWidth
+  
+@SupportedOS

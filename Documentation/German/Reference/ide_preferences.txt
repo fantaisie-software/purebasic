@@ -1,0 +1,1373 @@
+
+@Title Anpassen der IDE
+
+  Die PureBasic IDE bietet viele Optionen zum Anpassen oder Deaktivieren
+  einiger seiner Features, um das perfekte Werkzeug für Sie zu werden.
+@LineBreak
+@LineBreak
+  Auf diese Optionen kann über den "Einstellungen" Menü-Befehl im Datei-Menü
+  zugegriffen werden, die Bedeutung jeder Einstellmöglichkeit ist hier
+  beschrieben.
+
+@LineBreak
+@LineBreak
+
+  Alle Änderungen werden erst dann umgesetzt, wenn Sie auf die Schalter "OK" 
+  oder "Übernehmen" klicken.
+
+;-------------------------------------------------------------------------------------------------------------------
+; Allgemein
+;-------------------------------------------------------------------------------------------------------------------
+@Section Allgemein
+
+@Image ide_prefs_general.png
+
+  Optionen, welche das generelle Verhalten der IDE beeinflussen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Nur eine Instanz starten"
+@LineBreak
+  Wenn dieses Häkchen gesetzt wurde, dann verhindert dies, dass die IDE mehr
+  als einmal geöffnet wird. Das Anklicken einer PB-Datei im Explorer öffnet
+  diese in der bereits geöffneten IDE-Instanz anstelle eine neue zu öffnen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Startschirm ausschalten"
+@LineBreak
+  Deaktiviert den Startschirm (mit PureBasic-Logo), der bei jedem Start
+  angezeigt wird.
+
+@LineBreak
+@LineBreak
+
+@Bold "Fensterpositionen merken"
+@LineBreak
+  Merkt sich die Position aller IDE-Fenster, wenn Sie diese schließen. Wenn Sie
+  es bevorzugen, alle Fenster an einer bestimmten Position und mit bestimmter 
+  Größe zu öffnen, dann aktivieren Sie diese Option, verschieben alle Fenster
+  an ihre perfekte Position und starten die IDE dann erneut (um alle Optionen
+  zu speichern). Danach deaktivieren Sie diese Option, um alle Fenster immer 
+  an ihrer jeweils letzten gespeicherten Position zu öffnen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Fensterinhalte beim Verschieben des Splitters anzeigen"
+@LineBreak
+  Aktivieren Sie dies nur, wenn Sie einen schnellen Computer haben. Anderenfalls
+  flackert es beim Verschieben des Splitters beim Fehlerbericht oder der Werkzeugtafel
+  möglicherweise sehr stark.
+
+@LineBreak
+@LineBreak
+
+@Bold "Automatisches Laden der letzten geöffneten Quellcodes"
+@LineBreak
+  Zum Start der IDE werden alle Quellcodes geöffnet, die beim letzten Schließen der
+  IDE geöffnet waren.
+
+@LineBreak
+@LineBreak
+
+@Bold "Vollständigen Quellcode-Pfad in der Titelzeile anzeigen"
+@LineBreak
+  Wenn diese Option gesetzt ist, wird die Titelzeile der IDE den vollständigen
+  Pfad zur aktuell bearbeiteten Datei anzeigen. Wenn nicht, wird nur der 
+  Dateiname angezeigt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Anzahl 'Letzte Dateien'"
+@LineBreak
+  Diese Einstellung gibt an, wie viele Einträge im "Letzte Dateien" Untermenü
+  des Datei-Menüs angezeigt werden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Protokollgröße (History)"
+@LineBreak
+  Diese Einstellung gibt an, wie viele letzte Suchbegriffe bei
+  "Suchen/Ersetzen" und "Suchen in Dateien" aufgezeichnet werden.
+
+
+@Bold "Auf Updates prüfen"
+@LineBreak
+  Gibt an, wie oft die IDE den purebasic.com Server auf die Verfügbarkeit neuer
+  Updates überprüfen soll. Eine Update-Prüfung kann auch jederzeit manuell im
+  "Hilfe"-Menü ausgeführt werden.
+  
+@LineBreak
+@LineBreak
+
+@Bold "Auf neue Versionen überprüfen"
+@LineBreak
+  Gibt an, welche Art von neuen Versionen zu einem Hinweis führen sollen, sobald sie
+  verfügbar sind.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Allgemein - Sprache
+;-------------------------------------------------------------------------------------------------------------------
+@Section Allgemein - Sprache
+
+@Image ide_prefs_language.png
+
+  Dies ermöglicht Ihnen, die Sprache der IDE zu verändern. Die Aufklapp-Box zeigt 
+  die verfügbaren Sprachen an und Sie können einige Informationen über die 
+  Sprach-Datei ansehen (z.B. wer sie übersetzt hat und den Zeitpunkt der letzten
+  Aktualisierung).
+
+; == LINUX ONLY ==
+@OS Linux
+@LineBreak
+@LineBreak
+  Hinweis: Das Ändern der Sprache in der IDE erfordert unter Umständen auch ein
+  Ändern des Standard-Zeichensatzes von Gtk, um alle String korrekt darzustellen.
+  Sehen Sie sich die Konfigurations-Tools Ihrer Linux-Distribution an, wie dieser
+  geändert wird.
+@formatendif
+; == END LINUX ONLY ==
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Allgemein - Tastenkürzel
+;-------------------------------------------------------------------------------------------------------------------
+@Section Allgemein - Tastenkürzel
+
+@Image ide_prefs_shortcuts.png
+
+  Hier können Sie alle Tastenkürzel der IDE vollständig anpassen. Wählen Sie einen
+  Eintrag aus der Liste, wählen das Tastenkürzel-Feld, geben die neue Tastenkombination 
+  ein und klicken auf "Setzen", um den Eintrag zu ändern.
+
+@LineBreak
+@LineBreak
+
+  Beachten Sie, dass Tab & Shift+Tab für Einrücken von Blöcken bzw. Entfernen der
+  Einrückung reserviert sind und nicht geändert werden können. Weiterhin haben manche
+  Tastenkombinationen möglicherweise eine spezielle Bedeutung für das OS und sollten
+  daher nicht verwendet werden.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Allgemein - Themen
+;-------------------------------------------------------------------------------------------------------------------
+@Section Allgemein - Themen
+
+@Image ide_prefs_themes.png
+
+  Dieser Abschnitt zeigt die für die IDE verfügbaren Icon-Themen und ermöglicht
+  die Auswahl des zu verwendenden Themas. Die IDE wird standardmäßig mit zwei
+  Themen geliefert.
+@LineBreak
+@LineBreak
+  Weitere Themen können einfach hinzugefügt werden, indem eine Zip-Datei mit
+  den Bildern (im PNG-Format) und einer Datei "Theme.prefs" mit der Beschreibung
+  des Themas erstellt wird. Die Zip-Datei muss in den Ordner "Themes" im
+  PureBasic-Installationsverzeichnis kopiert werden, um von der IDE bemerkt zu
+  werden. Die Datei "SilkTheme.zip" kann als ein Beispiel für die Erstellung
+  eines neuen Themas verwendet werden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Symbole im Menü anzeigen"
+@LineBreak
+  Ermöglicht das Anzeigen/Verstecken der Symbole in den IDE-Menüs.
+
+@LineBreak
+@LineBreak
+
+@Bold "Symbolleiste anzeigen"
+@LineBreak
+  Ermöglicht die obere Symbolleiste zu verstecken/anzuzeigen, um ggf. Platz
+  für den Eingabebereich zu gewinnen.
+
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Allgemein - Symbolleiste
+;-------------------------------------------------------------------------------------------------------------------
+@Section Allgemein - Symbolleiste
+
+@Image ide_prefs_toolbar.png
+
+  Hier kann die Symbolleiste vollständig angepasst werden. Durch Markieren eines
+  Eintrags und Verwenden der Schalter im "Position"-Bereich können Sie die 
+  Reihenfolge verändern. Der Bereich "Einstellungen für den Eintrag" kann verwendet
+  werden, um einen Eintrag zu verändern oder einen neuen hinzuzufügen.
+  (Neue Einträge werden immer am Ende der Liste hinzugefügt.)
+
+@LineBreak
+@LineBreak
+
+  Typen von Einträgen:
+@LineBreak
+@Bold Trennzeichen : eine senkrechte Trennungslinie.
+@LineBreak
+@Bold Abstand : ein leerer Bereich, entsprechend der Größe eines Symbolleisten-Icons.
+@LineBreak
+@Bold "Standard-Symbol" : ermöglicht Ihnen, ein Standard-Icon des OS aus der Aufklapp-Box auf der rechten Seite auszuwählen.
+@LineBreak
+@Bold "IDE-Symbol" : ermöglicht Ihnen, eines der IDE-eigenen Icons aus der Aufklapp-Box auf der rechten Seite auszuwählen.
+@LineBreak
+@Bold "Symbol-Datei" : ermöglicht Ihnen, Ihre eigenen Icon-Dateien im Eingabefeld auf der rechten Seite einzugeben.
+  (PNG-Dateien werden auf allen Plattformen unterstützt, Windows unterstützt zusätzlich Icon-Dateien.)
+
+@LineBreak
+@LineBreak
+  Wenn Sie kein 'Trennzeichen' oder 'Abstand' auswählen, dann können Sie eine Aktion auswählen, 
+  welche nach dem Anklicken des Schalters ausgeführt wird:
+@LineBreak
+
+@Bold "Menü-Eintrag" : führt einen Menü-Befehl aus, welcher in der Aufklapp-Box auf der rechten Seite ausgewählt wurde.
+@LineBreak
+@Bold "Werkzeug starten" : führt ein externes Werkzeug aus, welches in der Aufklapp-Box auf der rechten Seite ausgewählt wurde.
+
+@LineBreak
+@LineBreak
+
+  Der Bereich "Standardeinstellungen" beinhaltet zwei Standard-Sets an Symbolleisten,
+  welche Sie auswählen und ggf. später auch verändern können.
+
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor
+
+@Image ide_prefs_editor.png
+
+  Einstellungen, welche die Verwaltung der Quellcodes beeinflussen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Geöffnete Dateien wegen Änderungen auf Disk überwachen"
+@LineBreak
+  Überwacht alle offenen Dateien auf Veränderungen, welche an den auf Disk gespeicherten Dateien vorgenommen
+  werden, während sie in der IDE bearbeitet werden. Wenn Veränderungen durch andere Programme vorgenommen
+  wurden, wird eine Warnung - mit der Möglichkeit zum erneuten Laden der Datei von Disk - angezeigt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Automatisches Speichern vor dem Kompilieren"
+@LineBreak
+  Speichert den aktuellen Quellcode vor jedem "Kompilieren/Starten" oder der Erstellung eines Executable.
+  Beachten Sie, dass alle geöffneten @ReferenceLink "includes" "Include-Dateien"
+  nicht automatisch gespeichert werden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Beim 'automatischen Speichern' alle geöffneten Quellcodes speichern"
+@LineBreak
+  Speichert mit einer der Optionen zum "Automatischen Speichern" alle Quellcodes 
+  anstelle nur des aktuellen Quellcodes.
+
+@LineBreak
+@LineBreak
+
+@Bold "Cursor-Position merken"
+@LineBreak
+  Speichert die aktuelle Cursor-Position, wie auch den Status aller
+  Faltungsmarkierungen, mit den Compiler-Optionen für die Quellcode-Datei.
+
+@LineBreak
+@LineBreak
+
+@Bold "Markierungs-Positionen merken"
+@LineBreak
+  Speichert alle Markierungen mit den Optionen für die Quellcode-Datei.
+
+@LineBreak
+@LineBreak
+
+@Bold "Fehlerbericht immer verstecken"
+@LineBreak
+  Der Fehlerbericht kann angezeigt/versteckt werden auf einer "pro Quellcode"-Basis (d.h. mit
+  einer individuellen Einstellung für jeden Quellcode). Diese Option bietet eine globale
+  Einstellung an, um die "pro Quellcode" Einstellung zu ignorieren und den Fehlerbericht
+  nie anzuzeigen. Sie entfernt auch die zugehörigen Menüeinträge im IDE-Menü.
+
+@LineBreak
+@LineBreak
+
+@Bold "Einstellungen speichern"
+@LineBreak
+  Mit dieser Option kann eingestellt werden, wo die Compiler-Optionen für
+  eine Quellcode-Datei gespeichert werden:
+
+@LineBreak
+@LineBreak
+
+@indent
+
+@underline "ans Ende der Quellcode-Datei"
+@LineBreak
+  Speichert die Einstellungen als einen speziellen Kommentar-Block an das Ende
+  jeder Quellcode-Datei.
+
+@LineBreak
+@LineBreak
+
+@underline "in die Datei <Dateiname>.pb.cfg"
+@LineBreak
+  Erstellt eine .pb.cfg Datei für jeden gespeicherten Quellcode, die dann diese
+  Informationen enthält.
+
+@LineBreak
+@LineBreak
+
+@underline "eine allgemeine Datei project.cfg für jedes Verzeichnis"
+@LineBreak
+  Erstellt eine Datei namens project.cfg in jedem Verzeichnis, wo PB-Dateien
+  gespeichert werden. Diese eine Datei enthält dann die Optionen für alle 
+  Dateien in diesem Verzeichnis.
+
+@LineBreak
+@LineBreak
+
+@underline "Gar nichts speichern"
+@LineBreak
+  Es werden keine Optionen gespeichert. Beim erneuten Öffnen einer Quellcode-Datei
+  werden immer die Standardeinstellungen verwendet.
+
+@endindent
+
+@LineBreak
+@LineBreak
+
+
+@Bold "Tab-Länge"
+@LineBreak
+  Hier kann angegeben werden, wie viele Leerzeichen bei jedem Drücken der 
+  Tabulator-Taste eingefügt werden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Echten Tabulator benutzen (Ascii 9)"
+@LineBreak
+  Wenn gesetzt, wird beim Drücken der Tabulator-Taste ein echtes Tab-Zeichen
+  anstelle von Leerzeichen eingefügt. Wenn nicht ausgewählt, werden Leerzeichen
+  beim Drücken der Tab-Taste eingefügt.
+@LineBreak
+@LineBreak
+  Beachten Sie bei der Verwendung des echten Tabs, dass die Option "Tab-Länge"
+  die Größe eines dargestellten Tab-Zeichens angibt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Quellcode-Verzeichnis"
+@LineBreak
+  Gibt das Standard-Verzeichnis an, welches in den Öffnen- und Speichern-Dialogen
+  verwendet wird, wenn keine anderen Dateien geöffnet sind (wenn eine andere
+  Datei offen ist, wird standardmäßig deren Pfad genutzt). 
+@LineBreak
+@LineBreak
+  Setzen Sie diese Option auf den Pfad, wo Sie gewöhnlich Ihre Quellcodes speichern.
+
+@LineBreak
+@LineBreak
+
+@Bold "Code-Dateiendungen"
+@LineBreak
+  Die IDE bemerkt Quellcode-Dateien anhand ihrer Endung (standardmäßig pb, pbi oder pbf).
+  Nicht-Quellcode-Dateien werden in einem "Nur Text"-Modus editiert, in welchem
+  Code-bezogene Funktionen deaktiviert sind. Diese Einstellung führt dazu, dass die IDE
+  weitere Dateiendungen als Code-Dateien erkennt. Das Feld kann eine durch Komma
+  getrennte Liste (z.B. "pbx, xyz") an zu erkennenden Endungen beinhalten.
+
+@LineBreak
+@LineBreak
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Bearbeiten
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Bearbeiten
+
+@Image ide_prefs_editorfont.png
+
+  Nutzen Sie den Schalter "Zeichensatz", um den Zeichensatz zu ändern, in 
+  welchem der Quellcode angezeigt wird. Um eine gute Ansicht des Quellcodes
+  zu erhalten, sollten Sie einen Zeichensatz mit fester Größe verwenden,
+  und möglicherweise sogar einen, wo fette Zeichen die gleiche Größe wie
+  nicht-fette haben.
+
+@LineBreak
+@LineBreak
+
+; == LINUX ONLY ==
+@OS Linux
+
+  Hinweis: Nur "Single-Byte" Zeichensätze können mit der IDE verwendet werden.
+  Gehen Sie sicher, dass Sie hier keinen "Multibyte" Zeichensatz auswählen!
+@LineBreak
+@LineBreak
+
+@formatendif
+; == END LINUX ONLY ==
+
+
+@Bold "Fettschrift bei Schlüsselwörtern einschalten"
+@LineBreak
+  Wenn Ihr eingestellter Zeichensatz fettgedruckte Zeichen nicht in der 
+  gleichen Größe wie nicht-fette Zeichen darstellt, sollten Sie diese
+  Option deaktivieren. Wenn deaktiviert, werden die Schlüsselwörter nicht
+  fett dargestellt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Korrektur der Groß-/Kleinschreibung einschalten"
+@LineBreak
+  Wenn aktiviert, wird die Groß-/Kleinschreibung der von Ihnen eingegebenen
+  PureBasic-Schlüsselwörter, PureBasic-Funktionen genauso wie von vordefinierten
+  Konstanten automatisch während der Eingabe korrigiert.
+
+@LineBreak
+@LineBreak
+
+@Bold "Markieren von zusammengehörenden Klammern einschalten"
+@LineBreak
+  Wenn aktiviert, wird die zur Klammer unter dem Cursor gehörende Klammer hervorgehoben.
+
+@LineBreak
+@LineBreak
+
+@Bold "Markieren von zusammengehörenden Schlüsselwörtern einschalten"
+@LineBreak
+  Wenn aktiviert, wird/werden das/die zum Schlüsselwort unter dem Cursor gehörende(n) Schlüsselwort/Schlüsselwörter hervorgehoben.
+
+@LineBreak
+@LineBreak
+
+@Bold "Zeilennummern anzeigen"
+@LineBreak
+  Zeigt oder versteckt die Spalte mit den Zeilennummern am linken Rand.
+
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Einfärben
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Einfärben
+
+@Image ide_prefs_editorcolors.png
+
+  Hier können Sie die Farbeinstellungen für die Syntax-Einfärbung ändern,
+  genauso wie die Debugger-Markierungen. Standard-Farbschemas können in 
+  der Box am unteren Rand ausgewählt werden, und nach deren Einstellung auch
+  verändert werden.
+  Individuelle Farbeinstellungen können durch die Verwendung der Häkchen-Boxen
+  deaktiviert werden.
+
+@Os Windows
+
+@LineBreak
+@LineBreak
+   
+  Hinweis: Das Farbschema 'Accessibility' (Erreichbarkeit) hat eine spezielle Einstellung (außer bei 
+  hoch-kontrastreichen Farben), um immer die Systemfarbe für die Auswahl im Code-Editor zu verwenden.
+  Dies hilft "Screen-Readern" (Bildschirmlese-Anwendungen) zum besseren Auffinden des ausgewählten
+  Textes.
+
+@EndOs
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Einfärben - Eigene Schlüsselwörter
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Einfärben - Eigene Schlüsselwörter
+
+@Image ide_prefs_ownkeywords.png
+
+  In diesem Bereich kann eine Liste eigener Schlüsselwörter definiert werden. Diese Schlüsselwörter
+  können eine eigene - ihnen in den Farbeinstellungen zugewiesene - spezielle Farbe haben und die
+  IDE wird auf diese auch eine automatische Korrektur der Groß-/Kleinschreibung anwenden, wenn
+  dieses Feature aktiviert ist. Dies ermöglicht das Zuweisen einer speziellen Farbe zu speziellen
+  Schlüsselwörtern von Pre-Prozessor-Werkzeugen oder Macro-Sets, oder einfach um einige PB Schlüsselwörter
+  in einer anderen Farbe zu haben.
+
+@LineBreak
+@LineBreak
+
+  Bitte beachten Sie, dass diese Schlüsselwörter vorrangig vor allen anderen Einfärbungen in der
+  IDE behandelt werden, daher erlaubt dies auch die Änderung der Farbe oder der automatischen
+  Groß-/Kleinschreibungs-Korrektur selbst für PureBasic Schlüsselwörter.
+
+@LineBreak
+@LineBreak
+
+  Die Schlüsselwörter können sowohl direkt in den Einstellungen eingegeben werden oder in einer
+  Text-Datei mit einem Schlüsselwort pro Zeile definiert werden. (Oder beides)
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Falten
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Falten
+
+@Image ide_prefs_editorfolding.png
+
+  Hier können Sie die Schlüsselwörter im Quellcode definieren, die einen
+  faltbaren Quellcode-Bereich beginnen/abschließen. Sie können eine
+  beliebige Anzahl an Worten hinzufügen, die solch einen Abschnitt markieren.
+  Sie können auch auswählen, die Faltungs-Funktion komplett auszuschalten.
+@LineBreak
+@LineBreak
+  Wörter, welche innerhalb von Kommentaren gefunden werden, werden ignoriert.
+  Außer das definierte Schlüsselwort beinhaltet ein Kommentar-Symbol am Anfang
+  (wie das ";{" Standard-Schlüsselwort).
+@LineBreak
+@LineBreak
+  Ein Schlüsselwort kann keine Leerzeichen enthalten.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Einrückung
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Einrückung
+
+@Image ide_prefs_indent.png
+
+  Hier können Sie einstellen, wie der Editor mit dem Einrücken von Code umgeht, wenn
+  die Return-/Enter-Taste gedrückt wird.
+@LineBreak
+@LineBreak
+
+
+@Bold "Keine Einrückung"
+@LineBreak
+  Das Drücken von Return platziert den Cursor immer am Anfang der nächsten Zeile.
+
+@LineBreak
+@LineBreak
+
+@Bold "Block-Modus"
+@LineBreak
+  Die neu erstellte Zeile bekommt die gleiche Einrückung wie die vorherige.
+
+@LineBreak
+@LineBreak
+
+@Bold "Schlüsselwort-sensitiv"
+@LineBreak
+  Das Drücken der Return-Taste korrigiert sowohl die Einrückung der alten als auch der neuen Zeile,
+  abhängig von den @ReferenceLink "general_rules" "Schlüsselwörtern" auf diesen Zeilen.
+  Die Regeln dafür werden in der unten folgenden Schlüsselwort-Liste eingestellt. Diese
+  Regeln werden auch angewendet, wenn der Eintrag "Einrückung formatieren" im 
+  @ReferenceLink "ide_editing" "Bearbeiten-Menü" ausgewählt wird.
+
+@LineBreak
+@LineBreak
+
+@Bold "Einrückungs-Hilfslinien anzeigen"
+@LineBreak
+  Veranlasst die Darstellung von vertikalen Linien, um den Einzug in jeder Zeile zu visualisieren.
+  Dies macht es leichter zu sehen, welche Quellcode-Zeilen sich auf dem gleichen Level der 
+  Einrückung befinden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Leerzeichen anzeigen"
+@LineBreak
+  Veranlasst die Darstellung von Leerzeichen als kleine Punkte (Leerzeichen) bzw. Pfeile
+  (Tab-Zeichen).
+
+@LineBreak
+@LineBreak
+
+  Die Schlüsselwort-Liste enthält die Schlüsselwörter, die eine Auswirkung auf den Einzug bzw.
+  die Einrückung haben. Die "Vorher"-Einstellung definiert die Veränderung der Einrückung auf
+  der Zeile, welche selbst das Schlüsselwort enthält, während die "Nachher"-Einstellung die
+  Veränderung der nachfolgenden Zeile angibt.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Automatisches Vervollständigen
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Automatisches Vervollständigen
+
+@Image ide_prefs_autocomplete.png
+
+
+@Bold "Vollständige Liste beim 'Automatischen Vervollständigen' anzeigen"
+@LineBreak
+  Zeigt immer alle Schlüsselwörter in der Liste an, wählt jedoch die naheliegendste
+  Übereinstimmung aus.
+
+@LineBreak
+@LineBreak
+
+@Bold "Alle Wörter anzeigen, die beim ersten Zeichen übereinstimmen"
+@LineBreak
+  Zeigt nur die Wörter an, die mit dem gleichen Zeichen - wie von Ihnen 
+  eingegeben - übereinstimmen. Die nächste Übereinstimmung wird ausgewählt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Nur Wörter anzeigen, die mit dem eingegebenen Wort beginnen"
+@LineBreak
+  Stellt keine Wörter dar, die nicht mit der von Ihnen eingegebenen 
+  Zeichenfolge beginnen. Wenn keine Wörter übereinstimmen, wird die
+  Liste überhaupt nicht angezeigt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Fensterbreite / Fensterhöhe"
+@LineBreak
+  Hier können Sie die Größe der 'Auto-Vervollständigen' Liste definieren 
+  (in Pixel). Beachten Sie bitte, dass dies Maximal-Werte sind. Die angezeigte
+  Box kann kleiner sein, wenn es nur einige Einträge anzuzeigen gibt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Öffnende Klammer bei Funktionen/Arrays/Listen hinzufügen"
+@LineBreak
+  Fügt automatisch eine "(" nach jeder mittels 'Auto-Vervollständigen' hinzugefügten
+  Funktion/Array/Liste hinzu. Funktionen ohne Parameter oder @LibraryLink "list" "verknüpfte Listen" bekommen
+  "()" hinzugefügt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Leerzeichen nach PB-Schlüsselwörtern einfügen, wenn diesen ein Ausdruck folgt"
+@LineBreak
+  Beim Einfügen von PB-Schlüsselwörtern, welche nicht allein erscheinen können, wird
+  automatisch ein Leerzeichen nach diesen hinzugefügt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Zugehöriges 'End'-Schlüsselwort hinzufügen, wenn 2x Tab/Enter gedrückt wird"
+@LineBreak
+  Wenn Sie Tab oder Enter zweimal drücken, wird das zugehörige End-Schlüsselwort
+  (zum Beispiel "EndSelect" zu "Select" oder "EndIf" zu "If") zum gerade von Ihnen
+  eingefügten Schlüsselwort hinzugefügt. Das End-Schlüsselwort wird nach dem
+  Cursor eingefügt, weshalb Sie nach dem zuerst eingefügten Schlüsselwort die 
+  Eingabe fortsetzen können.
+
+@LineBreak
+@LineBreak
+
+@Bold "Fenster zum 'Auto-Vervollständigen' bei Strukturen automatisch aufklappen"
+@LineBreak
+  Zeigt die Liste automatisch an, wann immer eine strukturierte Variable oder ein Interface
+  und danach das "\" Zeichen eingegeben wird, um die Liste möglicher Struktur-Felder
+  anzuzeigen. Wenn deaktiviert, kann die Liste immer noch angezeigt werden, indem 
+  das Tastenkürzel zum Öffnen des 'Auto-Vervollständigen' gedrückt wird (üblicherweise
+  Strg+Leertaste, dies kann im Tastenkürzel-Abschnitt der Einstellungen verändert werden).
+
+@LineBreak
+@LineBreak
+
+@Bold "Fenster zum 'Auto-Vervollständigen' außerhalb von Strukturen automatisch aufklappen"
+@LineBreak
+  Zeigt die Liste automatisch an, wenn das aktuelle Wort keine Struktur ist und eine
+  bestimmte Anzahl an Zeichen eingegeben wurde, und eine mögliche Übereinstimmung
+  in der Liste gefunden wurde. Wenn deaktiviert, kann die Liste immer noch angezeigt
+  werden, indem das zugewiesene Tastenkürzel gedrückt wird.
+
+@LineBreak
+@LineBreak
+
+@Bold "Zeichen werden benötigt, bevor die Liste geöffnet wird"
+@LineBreak
+  Hier können Sie angeben, wie viele Zeichen ein Wort mindestens haben muss, 
+  bevor die Liste automatisch angezeigt wird.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Automatisches Vervollständigen - Angezeigte Einträge
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Automatisches Vervollständigen - Angezeigte Einträge
+
+@Image ide_prefs_autocompletelist.png
+
+  Dies zeigt eine Liste aller Einträge, welche mit möglichen Übereinstimmungen in der Auto-Vervollständigen
+  Liste einbezogen werden können.
+
+
+@LineBreak
+@LineBreak
+
+@Bold "Quellcode-Einträge"
+@LineBreak
+  Einträge definiert im aktiven Quellcode, oder anderen geöffneten Quellcodes (siehe weiter unten).
+
+@LineBreak
+@LineBreak
+
+@Bold "Vordefinierte Einträge"
+@LineBreak
+  Einträge, welche von PureBasic vordefiniert sind, wie die PureBasic Schlüsselwörter, 
+  Funktionen oder vordefinierte Konstanten.
+
+@LineBreak
+@LineBreak
+
+@Bold "Einträge hinzufügen von: nur dem aktuellen Quellcode"
+@LineBreak
+  Quellcode-Einträge werden nur vom aktiven Quellcode hinzugefügt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Einträge hinzufügen von: dem aktuellen Projekt (wenn vorhanden)"
+@LineBreak
+  Quellcode-Einträge werden vom aktuellen Projekt hinzugefügt, wenn es eines gibt. Die anderen
+  Quellcodes im Projekt müssen dafür aktuell nicht in der IDE geöffnet sein.
+
+@LineBreak
+@LineBreak
+
+@Bold "Einträge hinzufügen von: dem aktuellen Projekt oder allen Dateien (wenn keines vorhanden)"
+@LineBreak
+  Quellcode-Einträge werden vom aktuellen Projekt hinzugefügt. Wenn der aktuelle Quellcode
+  nicht zum geöffneten Projekt gehört, dann werden alle Einträge von allen geöffneten Quellcodes
+  hinzugefügt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Einträge hinzufügen von: allen geöffneten Dateien"
+@LineBreak
+  Quellcode-Einträge werden von allen aktuell geöffneten Quellcodes hinzugefügt.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Issues/Probleme
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Probleme
+
+@Image ide_prefs_issues.png
+
+  Ermöglicht die Konfiguration einer Reihe von 'Problem' (auch "Fragen, offene Angelegenheiten, 
+  ToDo..." - in Englisch "issue") Markierungen ausgehend von den Kommentaren im Quellcode.
+  Problem-Markierer können im @ReferenceLink "ide_tools" "Probleme" bzw. Prozedurliste Tool
+  angezeigt werden, und sie können im Quellcode mit einer separaten Hintergrundfarbe
+  markiert werden.
+
+@LineBreak
+@LineBreak
+
+  Eine Definition für ein Problem besteht aus dem folgenden:
+  
+@Indent
+
+  @Underline "Problemname"
+  @LineBreak
+    Ein Name für den Typ des Problems.
+  
+  @LineBreak
+  @LineBreak
+  
+  @Underline "Regulärer Ausdruck"
+  @LineBreak
+    Ein regulärer Ausdruck, welcher das Muster ("Pattern") für das Problem definiert.
+    Dieser reguläre Ausdruck wird auf alle Kommentare im Quellcode angewandt. Jede
+    Übereinstimmung des Ausdrucks gilt als Übereinstimmung mit dem Problem-Typ.
+  
+  @LineBreak
+  @LineBreak
+  
+  @Underline "Priorität"
+  @LineBreak
+    Jedem Problem-Typ wird eine Priorität zugewiesen. Die Priorität kann verwendet
+    werden, um die in der Problemliste angezeigten Probleme zu ordnen und zu filtern.
+  
+  @LineBreak
+  @LineBreak
+
+  @Underline "Farbe"
+  @LineBreak
+    Die zum Markieren des Problems im Quellcode verwendete Farbe (wenn aktiviert).
+    Die Farbe wird zum Markieren des Hintergrundes von entweder nur des Problem-Textes
+    selbst, oder der gesamten Code-Zeile verwendet (abhängig von der Farbeinstellung).
+  
+  @LineBreak
+  @LineBreak  
+  
+  @Underline "In der Problemliste anzeigen"
+  @LineBreak
+    Wenn aktiviert, werden alle gefundenen Probleme dieses Typs in der Problemliste
+    angezeigt. Diese Option kann deaktiviert werden, damit auf Wunsch ein Problem 
+    nur im Quellcode mit einer speziellen Hintergrundfarbe markiert wird.
+  
+  @LineBreak
+  @LineBreak 
+  
+  @Underline "In der Prozedurliste anzeigen"
+  @LineBreak
+    Wenn aktiviert, werden alle gefundenen Probleme als ein Eintrag im
+    Prozedurlisten-Werkzeug angezeigt.
+
+@EndIndent
+
+;-------------------------------------------------------------------------------------------------------------------
+; Editor - Sitzungsgeschichte
+;-------------------------------------------------------------------------------------------------------------------
+@Section Editor - Sitzungsgeschichte
+
+@Image ide_prefs_sessionhistory.png
+
+  Ermöglicht die Konfiguration, wie die Sitzungsgeschichte (englisch "Session history") Änderungen aufzeichnet.
+
+@LineBreak
+@LineBreak
+
+@Bold "Aufzeichnen der Geschichte aktivieren"
+@LineBreak
+  Aktiviert oder deaktiviert die Aufzeichnung der Sitzungsgeschichte. Ist sie aktiviert, dann werden alle Änderungen
+  an einer Datei im Hintergrund in einer Datenbank aufgezeichnet. Eine Sitzung wird erstellt, wenn die IDE gestartet
+  wird, und sie wird beim Beenden der IDE geschlossen. Dies ist nützlich, um zu einer früheren Version einer Datei
+  zurückzukehren, oder eine gelöschte oder beschädigte Datei wiederzufinden.
+@LineBreak
+  Sie funktioniert wie ein sehr mächtiges Quellcode-Backup-Tool, ist zeitlich begrenzt (standardmäßig erfolgt das
+  Aufzeichnen für 1 Monat). Sie hat nicht das Ziel, ein echtes Quellcode Versionskontrollsystem wie SVN oder GIT zu
+  ersetzen. Sie ist ergänzend zu sehen, um eine feinere Überwachung von Änderungen zu haben. Der Quellcode wird
+  ohne Verschlüsselung gespeichert - wenn Sie an sensiblem Quellcode arbeiten, gehen Sie sicher, diese
+  Datenbank-Datei an einem sicheren Ort zu haben, oder deaktivieren Sie diese Funktion.
+@LineBreak
+  Es ist möglich, den Speicherort der Sitzungsgeschichte-Datenbank mit Hilfe eines
+  @ReferenceLink "ide_commandline" "IDE Kommandozeilen"-Switches zu definieren.
+@LineBreak
+@LineBreak
+
+@Bold "Änderungen aufzeichnen jede X Minuten"
+@LineBreak
+  Ändert den zeitlichen Abstand zwischen jedem einzelnen "lautlosen" Aufzeichnen (während des Editierens). Eine
+  Datei wird automatisch aufgezeichnet, wenn sie gespeichert oder geschlossen wird.
+
+@LineBreak
+@LineBreak
+
+@Bold "Änderungen nur aufzeichnen bei Dateien kleiner als X Kilobytes"
+@LineBreak
+  Ändert die maximale Größe (in Kilobytes) von Dateien, die aufgezeichnet werden. Dies ermöglicht es, sehr
+  große Dateien auszuschließen, wodurch die Größe der Datenbank stark anwachsen könnte.
+
+@LineBreak
+@LineBreak
+
+@Bold "Gesamte Geschichte aufzeichnen"
+@LineBreak
+  Behält die ganze Geschichte, die Datenbank wird nie gelöscht. Sie wird daher immer anwachsen, weshalb sie
+  beobachtet werden sollte.
+
+@LineBreak
+@LineBreak
+
+@Bold "Maximal X Sitzungen aufzeichnen"
+@LineBreak
+  Nach Erreichen der maximalen Anzahl von Sitzungen, wird die älteste Session aus der Datenbank entfernt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Sitzungen aufzeichnen für X Tage"
+@LineBreak
+  Nach Erreichen der maximalen Anzahl an Tagen, wird die älteste Session aus der Datenbank entfernt.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Compiler
+;-------------------------------------------------------------------------------------------------------------------
+@Section Compiler
+
+@Image ide_prefs_compiler.png
+
+  Diese Seite ermöglicht die Auswahl zusätzlicher Compiler, welche in den
+  @ReferenceLink "ide_compiler" "Compiler-Optionen" für die Kompilierung verfügbar sein sollen.
+  Dies ermöglicht das einfache Umschalten zwischen verschiedenen Compilern der gleichen Version
+  (wie den x86 und x64 Compilern) oder sogar dem Umschalten zwischen verschiedenen Versionen.
+@LineBreak
+@LineBreak
+  Jeder PureBasic Compiler beginnend ab der Version 4.10 kann hier hinzugefügt werden.
+  Der Ziel-Prozessor der ausgewählten Compiler muss nicht dem des Standard-Compilers entsprechen,
+  solange das Ziel-Betriebssystem das gleiche ist. Die Liste zeigt die Compiler-Version und den
+  Pfad des ausgewählten Compilers an.
+@LineBreak
+@LineBreak
+  Die von der IDE verwendete Information (für Code-Hervorhebung, Auto-Vervollständigen,
+  Strukturenverzeichnis) kommt immer vom Standard-Compiler. Die zusätzlichen Compiler
+  werden nur für die Kompilierung verwendet.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Compiler - Standards
+;-------------------------------------------------------------------------------------------------------------------
+@Section Compiler - Standards
+
+@Image ide_prefs_editorstandards.png
+
+  Diese Seite ermöglicht die Einstellung der Standard-Compiler-Optionen,
+  welche verwendet werden, wenn Sie einen neuen Quellcode mit der IDE erstellen.
+@LineBreak
+@LineBreak
+  Für eine Erläuterung der Bedeutung der einzelnen Felder siehe die
+  @ReferenceLink "ide_compiler" "Compiler-Optionen".
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Debugger
+;-------------------------------------------------------------------------------------------------------------------
+@Section Debugger
+
+@Image ide_prefs_debugger.png
+
+  Einstellungen für den internen @ReferenceLink "ide_debugger" "Debugger" oder den eigenständigen 
+  Debugger. Der Konsolen-Debugger wird nur über die Kommandozeile konfiguriert.
+
+@LineBreak
+@LineBreak
+
+@Bold "Debugger-Typ auswählen"
+@LineBreak
+  Wählen Sie hier den Typ des Debuggers, den Sie beim Kompilieren von der IDE verwenden möchten.
+
+@LineBreak
+@LineBreak
+
+@Bold "Warnungsstufe auswählen"
+@LineBreak
+  Wählen Sie die Aktion, welche ausgeführt werden soll, wenn der Debugger eine Warnung ausgibt.
+  Die verfügbaren Optionen sind:
+@LineBreak
+  @Underline "Warnungen ignorieren:" Warnungen werden ignoriert, ohne dass etwas angezeigt wird.
+@LineBreak
+  @Underline "Warnungen anzeigen:" Warnungen werden im Fehlerprotokoll angezeigt und die Quellcode-Zeile
+  wird markiert, aber das Programm läuft weiter.
+@LineBreak
+  @Underline "Warnungen als Fehler behandeln:" Eine Warnung wird wie ein Fehler behandelt.
+@LineBreak
+  Siehe @ReferenceLink "ide_debugger" "Verwenden des Debuggers" für weitere Informationen über 
+  Debugger-Warnungen und Fehler.
+
+@LineBreak
+@LineBreak
+
+@Bold "Fensterpositionen des Debuggers merken"
+@LineBreak
+  Die gleiche Funktion wie "Fensterpositionen merken" im allgemeinen Abschnitt, hier 
+  jedoch für die Debugger-Fenster.
+
+@LineBreak
+@LineBreak
+
+@Bold "Alle Debugger-Fenster im Vordergrund halten"
+@LineBreak
+  Alle Debugger-Fenster werden im Vordergrund von allen anderen Fenstern gehalten,
+  auch von anderen Anwendungen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Alle Debugger-Fenster in den Vordergrund, wenn eines den Fokus erhält"
+@LineBreak
+  Wenn diese Option angewählt ist, dann werden alle Fenster einer Debugging-Sitzung
+  in den Vordergrund gebracht, wenn ein zum Debugger gehörendes Fenster den Fokus
+  erhält.
+
+@LineBreak
+@LineBreak
+
+@Bold "Zeitangabe im Fehlerprotokoll anzeigen"
+@LineBreak
+  Fügt die Zeit eines Ereignisses zum Fehlerbericht hinzu.
+
+@LineBreak
+@LineBreak
+
+@Bold "Ausführung am Programmstart stoppen"
+@LineBreak
+  Jedes Programm wird gestartet und sofort angehalten, was Ihnen 
+  die Möglichkeit gibt, es direkt vom Start an Schritt für Schritt
+  auszuführen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Ausführung vor dem Programmende stoppen"
+@LineBreak
+  Hält die Programmausführung unmittelbar vor dem Beenden des Executable 
+  an. Dies gibt Ihnen eine letzte Chance, die Debugger-Werkzeuge zum 
+  Untersuchen von Variablen oder des Speichers zu nutzen, bevor das
+  Programm beendet wird.
+
+@LineBreak
+@LineBreak
+
+@Bold "Programm nach einem Fehler beenden"
+@LineBreak
+  Wenn ein Programm auf einen Fehler stößt, wird es sofort beendet und 
+  alle Debugger-Fenster geschlossen. Dies gibt Ihnen die Möglichkeit,
+  ohne gesondertes "Programm beenden" sofort am Code weiterzuarbeiten.
+  Jedoch haben Sie hier keine Chance, das Programm mittels des Debuggers
+  nach einem Fehler zu untersuchen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Fehler-Markierungen nach Programmende beibehalten"
+@LineBreak
+  Entfernt beim Beenden des Programms nicht die Markierungen an den Zeilen mit 
+  aufgetretenen Fehlern. Dies gibt Ihnen die Möglichkeit, während dem
+  Weiterarbeiten am Code immer noch die Stellen mit einem aufgetretenen Fehler
+  zu sehen.
+@LineBreak
+@LineBreak
+  Die Markierungen können mittels des Befehls "Fehlermarkierungen löschen" im
+  Fehlerbericht-Untermenü des Debugger-Menüs manuell entfernt werden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Fehlerprotokoll bei jedem Start löschen"
+@LineBreak
+  Löscht das Protokollfenster, wenn Sie ein Programm ausführen. Dies stellt sicher,
+  dass das Protokoll nicht zu groß wird. (Diese Option ist auch bei ausgewähltem
+  Kommandozeilen-Debugger verfügbar.)
+
+@LineBreak
+@LineBreak
+
+@Bold "Zeitlimit für den Start des Debuggers"
+@LineBreak
+  Definiert die Zeit in Millisekunden, wie lange der Debugger auf den Start eines
+  Programms wartet, bevor er abbricht. Dieses Zeitlimit ("Timeout") verhindert, 
+  dass der Debugger einfriert, wenn das Executable aus einem bestimmten Grund
+  nicht gestartet werden kann.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Debugger - Individuelle Einstellungen
+;-------------------------------------------------------------------------------------------------------------------
+@Section Debugger - Individuelle Einstellungen
+
+  Dies ermöglicht Ihnen Optionen für die individuellen Debugger-Werkzeuge einzustellen.
+  Die "Hex-Werte anzeigen" Option schaltet zwischen der Darstellung von 
+  @ReferenceLink "variables" "Byte, Long und Word" als Dezimal- bzw. Hexadezimal-Zahlen
+  um.
+
+@Image ide_prefs_debugsettings.png
+
+@Bold "Debug-Ausgabe – Zeitangabe hinzufügen"
+@LineBreak
+  Fügt eine Zeitangabe zur angezeigten Ausgabe des @Referencelink "debugger" "Debug"-Befehls 
+  hinzu.
+
+@LineBreak
+@LineBreak
+
+@Bold "Debug-Ausgabe - Debug-Ausgabe im Fehlerbericht anzeigen"
+@LineBreak
+  Wenn diese Option aktiviert ist, wird ein @ReferenceLink "debugger" "Debug" Befehl im
+  Code nicht das @ReferenceLink "ide_debugtools" "Debugger-Ausgabefenster" öffnen, sondern 
+  stattdessen die Ausgabe im @ReferenceLink "ide_start" "Fehlerbericht" anzeigen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Debug-Ausgabe – Eigenen Zeichensatz verwenden"
+@LineBreak
+  Ein eigener Zeichensatz für das @ReferenceLink "ide_debugtools" "Debugger-Ausgabefenster" kann hier ausgewählt werden.
+  Dies ermöglicht es bei Bedarf einen kleineren Zeichensatz für umfangreiche Ausgaben 
+  oder einen proportionalen Zeichensatz (mit fester Breite) einzustellen.
+
+@LineBreak
+@LineBreak
+
+; =======================================================
+; NOTE: due to problems, this option has been removed from the IDE for now. will maybe be added again later
+;
+;@Bold "Debug Output - Display System messages"
+;@LineBreak
+;
+; == WINDOWS ONLY ==
+;@OS Windows
+;  With this option set, the Debugger will display messages sent by the OutputDebugString Windows API command
+;  in the debug output window. This allows you to call OutputDebugString_() in your programs to output debug text,
+;  for example in sections where the debugger is disabled (with @referencelink debugger DisableDebugger), or inside
+;  a dll, where the normal debug commands do not work.
+;@NewLine
+;  It will also output messages sent by some Windows dlls.
+;
+; == LINUX ONLY ==
+;@OS Linux
+;  With this option set, the Debugger will display Gtk+/Gdk warnings and errors in the debug output window, specifying
+;  the file and line in which the problem happened. This can help to debug your own Gtk+/Gdk specific code.
+;
+; == MACOS ONLY ==
+;@OS MacOS
+;  This option is not supported on PureBasic for MacOSX.
+;
+;@EndOS
+; == END OS SPECIFIC ==
+;
+;@LineBreak
+;@LineBreak
+; =======================================================
+
+@Bold "Profiler - Profiler zum Programmstart starten"
+@LineBreak
+  Bestimmt, ob das Profiler-Werkzeug das Aufzeichnen von Daten gleich zum Programmstart beginnen soll.
+
+@LineBreak
+@LineBreak
+
+@Bold "Asm-Debugger – Stapelverfolgung automatisch aktualisieren"
+@LineBreak
+  Aktualisiert die Stapelverfolgung (auch Stackverfolgung) automatisch bei jedem
+  von Ihnen ausgeführten Schritt oder Stop. Wenn deaktiviert, wird ein Schalter
+  zum manuellen Aktualisieren im Asm-Fenster angezeigt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Speicheranzeiger - Array-Ansicht nur in einer Spalte"
+@LineBreak
+  Wenn der Speicherbereich in der Array-Ansicht angezeigt wird, wird mit dieser
+  Option eingestellt, ob die Darstellung in mehreren Spalten (mit 16 Bytes in 
+  jeder Spalte) oder in nur einer Spalte erfolgt.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Debugger - Standardfenster
+;-------------------------------------------------------------------------------------------------------------------
+@Section Debugger - Standardfenster
+
+@Image ide_prefs_debugwindows.png
+
+  Die Debugger-Werkzeuge, die Sie auf dieser Seite auswählen, werden automatisch
+  bei jedem - mit eingeschaltetem Debugger gestarteten - Programm gestartet.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Form
+;-------------------------------------------------------------------------------------------------------------------
+@Section Form
+
+@Image ide_prefs_form.png
+
+  Ermöglicht das Verhalten des integrierten Formular-Designers anzupassen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Neue Gadgets verwenden standardmäßig #PB_Any"
+@LineBreak
+  Wenn aktiviert, wird bei der Erstellung neuer Gadgets #PB_Any anstelle einer statischen fortlaufenden
+  Nummerierung verwendet.
+
+@LineBreak
+@LineBreak
+
+@Bold "Neue Gadgets verwenden eine Variable als Beschriftung"
+@LineBreak
+  Wenn aktiviert, dann verwenden neue Gadgets eine Variable anstelle eines festen Textes zur Beschriftung.
+  Dies kann nützlich sein, um das Formular einfach zu lokalisieren (mehrsprachig zu machen).
+
+@LineBreak
+@LineBreak
+
+@Bold "Sichtbares Gitternetz"
+@LineBreak
+  Wenn aktiviert, dann ist das Gitter (Grid) auf dem Form-Designer sichtbar, um die Gadget-Ausrichtung zu
+  vereinfachen.
+  
+@LineBreak
+@LineBreak
+
+@Bold "Ereignisprozedur generieren"
+@LineBreak
+  Wenn aktiviert, dann wird eine Ereignisprozedur automatisch generiert (und aktualisiert).
+
+@LineBreak
+@LineBreak
+
+@Bold "Ereignis-Schleife generieren"
+@LineBreak
+  Wenn aktiviert, wird eine einfache Ereignis-Schleife für das Formular erzeugt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Gitter-Größe"
+@LineBreak
+  Abstand zwischen zwei Gitterpunkten in Pixel.
+  
+@LineBreak
+@LineBreak
+
+@Bold "OS-Skin"
+@LineBreak
+  Das für den Formular-Designer zu verwendende Skin.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Werkzeugtafel
+;-------------------------------------------------------------------------------------------------------------------
+@Section Werkzeugtafel
+
+@Image ide_prefs_toolspanel.png
+
+  Hier können Sie die @ReferenceLink "ide_tools" "internen Werkzeuge" konfigurieren,
+  die in der Schalttafel an der Seite des Editier-Bereichs angezeigt werden können.
+@LineBreak
+@LineBreak
+  Auf jedes dort nicht angezeigte Werkzeug kann über das Werkzeuge-Menü als 
+  separates Fenster zugegriffen werden.
+@LineBreak
+@LineBreak
+  Platzieren Sie nur solche Werkzeuge in der seitlichen Werkzeugtafel, die Sie 
+  regelmäßig verwenden, und platzieren Sie das am meisten genutzte Werkzeug 
+  an die erste Stelle, das dieses beim Öffnen der IDE das aktive ist.
+
+@LineBreak
+@LineBreak
+
+  Durch Auswählen eines Werkzeugs in einer der Listen erhalten Sie weitere
+  Konfigurationsoptionen für dieses Werkzeug (sofern es welche gibt) im
+  Konfigurationsbereich unterhalb.
+
+@LineBreak
+@LineBreak
+  Hier eine Erklärung der Werkzeuge, die spezielle Optionen haben:
+
+@LineBreak
+@LineBreak
+
+@Bold "Dateiexplorer"
+@LineBreak
+  Sie können zwischen einer Listen- und einer Baum-Ansicht des Dateisystems
+  wählen. Sie können auch angeben, ob die IDE sich das zuletzt angezeigte 
+  Verzeichnis merken soll oder ob der Quellcode-Pfad das Standardverzeichnis
+  beim Starten der IDE sein soll.
+
+@LineBreak
+@LineBreak
+
+@Bold "Prozedurliste"
+@LineBreak
+  "Prozeduren nach Namen sortieren" : sortiert die Liste alphabetisch (standardmäßig werden sie in der Reihenfolge aufgelistet, wie sie im Code auftreten)
+@LineBreak
+  "Markierungen gruppieren" : gruppiert die ";-" Markierungen zusammen.
+@LineBreak
+  "Prozedur-Argumente anzeigen" : zeigt die vollständige Deklaration jeder Prozedur in der Liste an.
+
+@LineBreak
+@LineBreak
+
+@Bold "Variablenliste"
+@LineBreak
+  Die Option "Elemente von allen geöffneten Quellcodes anzeigen" bestimmt, ob die
+  Liste nur Einträge dieses Codes oder von allen geöffneten Codes beinhalten soll.
+@LineBreak
+@LineBreak
+  Weiterhin können Sie den Typ der in der Variablenliste angezeigten Einträge 
+  auswählen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Hilfe-Tool"
+@LineBreak
+  "Hilfe in der Seitenleiste bei F1 öffnen": gibt an, ob das Hilfe-Tool anstelle des separaten
+  Hilfe-Viewers geöffnet werden soll, wenn F1 gedrückt wird.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Werkzeugtafel - Optionen
+;-------------------------------------------------------------------------------------------------------------------
+@Section Werkzeugtafel - Optionen
+
+@Image ide_prefs_toolspanel_options.png
+
+  Hier können Sie das Aussehen der Werkzeugtafel etwas genauer anpassen.
+  Sie können die Seite auswählen, auf der sie angezeigt wird. Ebenso können Sie
+  einen Zeichensatz für ihren Text auswählen, genauso wie Vorder- und Hintergrundfarben
+  für die angezeigten Werkzeuge.
+  Die Zeichensatz- und Farb-Einstellungen können deaktiviert werden, um stattdessen
+  die OS-Standardeinstellungen zu verwenden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Farben/Zeichensätze nicht für Werkzeuge in externen Fenstern benutzen"
+@LineBreak
+  Wenn diese Option gesetzt ist, wirken sich die Farb-/Zeichensatzeinstellungen
+  nur auf die in der Werkzeugtafel angezeigten Werkzeuge aus. Die von Ihnen
+  über das Werkzeuge-Menü geöffneten Werkzeuge verwenden die Standardfarben.
+
+@LineBreak
+@LineBreak
+
+@Bold "Werkzeugtafel automatisch verstecken"
+@LineBreak
+  Um Platz einzusparen, wird die Tafel versteckt, wenn sich nicht die Maus
+  darüber befindet. Das Bewegen des Mauspfeils an die entsprechende Seite
+  der IDE zeigt sie erneut an.
+
+@LineBreak
+@LineBreak
+
+@Bold "Millisekunden Wartezeit, bevor die Tafel versteckt wird"
+@LineBreak
+  Legt ein Zeitlimit in ms fest, nach dessen Ablauf die Tafel versteckt
+  wird, wenn Sie sie mit der Maus verlassen haben.
+
+
+;-------------------------------------------------------------------------------------------------------------------
+; Import/Export
+;-------------------------------------------------------------------------------------------------------------------
+@Section Import/Export
+
+@Image ide_prefs_import.png
+
+  Dieser Bereich ermöglicht Ihnen den Export der Layout-Einstellung der IDE in ein
+  plattformunabhängiges Format, welches Ihnen das erneute Importieren in der 
+  PureBasic IDE auf einem anderen Betriebssystem ermöglicht, genauso wie das
+  Austauschen Ihrer Einstellungen mit anderen PB-Anwendern.
+
+@LineBreak
+@LineBreak
+
+  Um Ihre Einstellungen zu exportieren, stellen Sie die einzubindenden Einstellungstypen
+  ein, wählen einen Dateinamen und drücken den "Speichern"-Knopf.
+
+@LineBreak
+@LineBreak
+
+  Um Einstellungen zu importieren, wählen Sie den Dateinamen und drücken "Öffnen".
+  Sie werden dann die in dieser Datei beinhalteten Optionen als gesetzte Häkchen
+  sehen. Nach dem Auswählen der zu importierenden Einstellungen klicken Sie 
+  auf den Schalter "Import Einstellungen".
+
+@LineBreak
+@LineBreak
+
+  Damit sich die neuen Einstellungen auswirken, müssen Sie zuerst den "Übernehmen" 
+  Schalter anklicken.
+
+@LineBreak
+@LineBreak
+
+  Hinweis: Sie können die Style-Dateien des jaPBe-Editors importieren, jedoch 
+  werden davon nur die Farbeinstellungen verwendet.
+

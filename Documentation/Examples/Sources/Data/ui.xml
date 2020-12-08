@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!-- Window -->
+<window id="0" name="hello" text="Window" minwidth="auto" minheight="auto" flags="#PB_Window_SizeGadget | #PB_Window_MaximizeGadget | #PB_Window_MinimizeGadget">
+  <hbox expand="item:2">
+    <vbox expand="no">
+      <checkbox name="OneInstanceCheckbox" text="Run only one instance ?" disabled="yes" Flags=""/>
+      <progressbar height="25"/>
+      <trackbar invisible="no" Flags="#PB_TrackBar_Ticks" height="25"/>
+      <option text="option 1" name="option1"/>
+      <option text="option 2"/>
+      <checkbox name="EnableAlphaBlendingCheckbox" text="Enable alpha-blending" Flags="" onevent="EnableAlphaBlendingEvent()"/>
+      <option text="scale x2" name="scale"/>
+      <option text="scale x3"/>
+    </vbox>
+    <editor name="editor" width="200" height="50"/>
+  </hbox>
+</window>

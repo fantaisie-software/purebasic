@@ -1,0 +1,336 @@
+;
+;     VertexAnimation library documentation
+;
+;      (c)  - Fantaisie Software
+;
+
+@Library VertexAnimation
+
+@Overview
+  Les animations vertex permettent de gérer 
+  les "animations-poses" d'un mesh .
+@LineBreak
+@LineBreak
+  Le @LibraryLink "mesh" "mesh" doit contenir 
+  une liste prédéfinie de poses.
+
+@CommandList
+
+@ExampleFile All VertexAnimation.pb
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateVertexAnimation(#Mesh, Animation$, Durée)
+
+@Description
+  Crée une nouvelle animation.
+
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "Animation$"
+  Le nom de la nouvelle animation . @LineBreak
+  Attention ce nom est sensible à la casse.
+  
+@Parameter "Durée"
+  La durée de la nouvelle animation, en 
+  millisecondes.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+
+@SeeAlso
+  @@CreateVertexTrack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateVertexTrack(#Mesh, Animation$, Index)
+
+@Description
+  Crée une nouvelle piste d'animation. 
+  
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "Animation$"
+  Le nom de l'animation. @LineBreak
+  Attention ce nom est sensible à la casse.
+  
+@Parameter "Index"
+  Le nouvel index de la piste. 
+@LineBreak
+@LineBreak
+  Index doit commencer à partir de zéro.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de 
+  succès, zéro sinon.
+
+@Remarks
+  L'animation doit déjà être créée avec 
+  @@CreateVertexAnimation ou être prédéfinie 
+  dans le mesh. Toutes les pistes ont la 
+  même longueur, tel que défini dans 
+  @@CreateVertexAnimation.  
+  
+@SeeAlso
+  @@CreateVertexAnimation
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateVertexPoseKeyFrame(#Mesh, Animation$, Piste, Temps)
+
+@Description
+  Crée une nouvelle image-clé dans une 
+  animation. 
+  
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "Animation$"
+  Le nom de l'animation. @LineBreak
+  Attention ce nom est sensible à la casse.
+  
+@Parameter "Piste"
+   L'index de piste. 
+@LineBreak
+@LineBreak
+   La piste doit être préalablement créée 
+   avec @@CreateVertexTrack.
+
+@Parameter "Temps"
+   Le temps dans l'animation de l'image clé, 
+   en millisecondes. 
+@LineBreak
+@LineBreak
+   Cette valeur doit être comprise entre zéro 
+   et la 'longueur' définie dans 
+   @@CreateVertexAnimation.
+
+@ReturnValue
+  Renvoie l'index de la nouvelle image-clé.
+  
+@Remarks
+ L'animation doit déjà être créée avec 
+ @@CreateVertexAnimation ou être prédéfinie 
+ dans le mesh. 
+ 
+@SeeAlso
+  @@CreateVertexAnimation, @@CreateVertexTrack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddVertexPoseReference(#Mesh, Animation$, Piste, ImageClé, IndexPose, Influence.f)
+
+@Description
+  Ajoute une nouvelle pose de référence 
+  pour une animation. 
+  
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "Animation$"
+  Le nom de l'animation. @LineBreak
+  Attention ce nom est sensible à la casse.
+  
+@Parameter "Piste"
+  L'index de la piste. 
+@LineBreak
+@LineBreak  
+  La piste doit être préalablement créée 
+  avec @@CreateVertexTrack.
+
+@Parameter "ImageClé"
+  L'index de l'image-clé. 
+@LineBreak
+@LineBreak
+  L'image-clé doit être préalablement créée 
+  avec @@CreateVertexPoseKeyFrame.
+
+@Parameter "IndexPose"
+   L'index de pose. 
+@LineBreak
+@LineBreak
+   La première pose a un index qui commence 
+   à zéro.
+
+@Parameter "Influence.f"
+  L'influence de la pose. 
+@LineBreak
+@LineBreak
+  Cette valeur varie de 0.0 (pas d'influence) 
+  à 1.0 (influence totale).
+
+@NoReturnValue
+  
+@Remarks
+ L'animation doit déjà être créée avec 
+ @@CreateVertexAnimation ou être prédéfinie 
+ dans le mesh. 
+ 
+@SeeAlso
+  @@CreateVertexAnimation, @@CreateVertexTrack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UpdateVertexPoseReference(#Mesh, Animation$, Piste, ImageClé, IndexPose, Influence.f)
+
+@Description
+  Mise à jour d'une nouvelle pose de 
+  référence pour une animation. 
+  
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "Animation$"
+  Le nom de l'animation. @LineBreak
+  Attention ce nom est sensible à la casse.
+  
+@Parameter "Piste"
+  L'index de piste. 
+@LineBreak
+@LineBreak
+  La piste doit être préalablement créée 
+  avec @@CreateVertexTrack.
+
+@Parameter "ImageClé"
+  L'index de l'image-clé. 
+@LineBreak
+@LineBreak
+  L'image-clé doit être préalablement créée 
+  avec @@CreateVertexPoseKeyFrame.
+
+@Parameter "IndexPose"
+  L'index de pose. 
+@LineBreak
+@LineBreak
+  La première pose a un index qui commence 
+  à zéro.
+
+@Parameter "Influence.f"
+  L'influence de la pose. 
+@LineBreak
+@LineBreak
+  Cette valeur varie de 0.0 (pas d'influence) 
+  à 1.0 (influence totale).
+
+@NoReturnValue
+  
+@Remarks
+ L'animation doit déjà être créée avec 
+ @@CreateVertexAnimation ou être prédéfinie 
+ dans le mesh. 
+ 
+@SeeAlso
+  @@CreateVertexAnimation, @@CreateVertexTrack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = VertexPoseReferenceCount(#Mesh, Animation$, Piste, ImageClé)
+
+@Description
+  Renvoie le nombre de poses de référence 
+  dans l'image-clé spécifiée. 
+  
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "Animation$"
+  Le nom de l'animation. @LineBreak
+  Attention ce nom est sensible à la casse.
+  
+@Parameter "Piste"
+   L'index de piste. 
+@LineBreak
+@LineBreak
+   La piste doit être préalablement créée 
+   avec @@CreateVertexTrack.
+
+@Parameter "ImageClé"
+  L'index de l'image-clé. 
+@LineBreak
+@LineBreak
+  L'image-clé doit être préalablement créée 
+  avec @@CreateVertexPoseKeyFrame.
+
+@ReturnValue
+  Renvoie le nombre de poses de référence 
+  dans l'image-clé spécifiée.
+  
+@Remarks
+ L'animation doit déjà être créée avec 
+ @@CreateVertexAnimation ou être prédéfinie 
+ dans le mesh. 
+ 
+@SeeAlso
+  @@CreateVertexAnimation, @@CreateVertexTrack, 
+  @@AddVertexPoseReference
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = MeshPoseCount(#Mesh)
+
+@Description
+  Renvoie le nombre de poses dans un mesh. 
+ 
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@ReturnValue
+  Renvoie le nombre de poses dans le mesh 
+  spécifié. 
+  
+@Remarks
+   Une pose est une animation vertex prédéfinie 
+   dans le mesh.
+
+@SeeAlso
+  @@MeshPoseName, @@AddVertexPoseReference
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = MeshPoseName(#Mesh, IndexPose)
+
+@Description
+  Renvoie le nom d'une pose dans un mesh. 
+  
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "IndexPose"
+  L'index de la pose. La première pose 
+  commence à zéro.
+@LineBreak
+@LineBreak
+  L'index doit être inférieur au résultat de 
+  @@MeshPoseCount.
+
+@ReturnValue
+  Renvoie le nom de la pose à l'index spécifié. 
+  
+@Remarks
+   Une pose est une animation vertex prédéfinie 
+   dans le mesh.
+
+@SeeAlso
+  @@MeshPoseName, @@AddVertexPoseReference
+
+@SupportedOS

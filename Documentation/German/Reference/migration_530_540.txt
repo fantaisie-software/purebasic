@@ -1,0 +1,138 @@
+@Title Migration von PureBasic 5.30 nach 5.40
+
+@Section Cipher Bibliothek
+
+@LineBreak
+ExamineMD5Fingerprint(): Code-Änderung
+@Code
+  ; Alt
+  ExamineMD5Fingerprint(#FingerPrint)
+
+  ; Neu
+  UseMD5FingerPrint()  
+  StartFingerprint(#FingerPrint, #PB_Cipher_MD5)
+@EndCode
+
+@LineBreak
+ExamineSHA1Fingerprint(): Code-Änderung
+@Code
+  ; Alt
+  ExamineSHA1Fingerprint(#FingerPrint)
+  
+  ; Neu
+  UseSHA1FingerPrint()
+  StartFingerprint(#FingerPrint, #PB_Cipher_SHA1)
+@EndCode
+
+@LineBreak
+MD5FileFingerprint(): Code-Änderung
+@Code
+  ; Alt
+  Ergebnis$ = MD5FileFingerprint(Dateiname$)
+  
+  ; Neu
+  UseMD5FingerPrint()
+  Ergebnis$ = FileFingerprint(Dateiname$, #PB_Cipher_MD5)
+@EndCode
+
+@LineBreak
+MD5Fingerprint(): Code-Änderung
+@Code
+  ; Alt
+  Ergebnis$ = MD5Fingerprint(*Puffer, Größe)
+  
+  ; Neu
+  UseMD5FingerPrint()
+  Ergebnis$ = Fingerprint(*Puffer, Größe, #PB_Cipher_MD5)
+@EndCode
+
+@LineBreak
+SHA1FileFingerprint(): Code-Änderung
+@Code
+  ; Alt
+  Ergebnis$ = SHA1FileFingerprint(Dateiname$)
+  
+  ; Neu
+  UseSHA1FingerPrint()
+  Ergebnis$ = FileFingerprint(Dateiname$, #PB_Cipher_SHA1)
+@EndCode
+
+@LineBreak
+SHA1Fingerprint(): Code-Änderung
+@Code
+  ; Alt
+  Ergebnis$ = SHA1Fingerprint(*Puffer, Größe)
+  
+  ; Neu
+  UseSHA1FingerPrint()
+  Ergebnis$ = Fingerprint(*Puffer, Größe, #PB_Cipher_SHA1)
+@EndCode
+
+@LineBreak
+CRC32FileFingerprint(): Code-Änderung
+@Code
+  ; Alt
+  Ergebnis = CRC32FileFingerprint(Dateiname$)
+  
+  ; Neu
+  UseCRC32FingerPrint()
+  Ergebnis.l = Val("$"+FileFingerprint(Dateiname$, #PB_Cipher_CRC32))
+@EndCode
+
+@LineBreak
+CRC32Fingerprint(): Code-Änderung
+@Code
+  ; Alt
+  Ergebnis = CRC32Fingerprint(*Puffer, Größe)
+  
+  ; Neu
+  UseCRC32FingerPrint()
+  Ergebnis.l = Val("$"+Fingerprint(*Puffer, Größe, #PB_Cipher_CRC32))
+@EndCode
+
+@LineBreak
+NextFingerprint(): nur Umbenennung
+@Code
+  ; Alt
+  NextFingerprint(#FingerPrint, *Puffer, Größe)
+  
+  ; Neu
+  AddFingerprintBuffer(#FingerPrint, *Puffer, Größe)
+@EndCode
+
+@LineBreak
+@Section Mail Bibliothek
+
+@LineBreak
+SendMail(): Code-Änderung, wenn der 'Asynchron' Parameter verwendet wurde
+@Code
+  ; Alt
+  SendMail(#Mail, Smtp$, Port, 1)
+  
+  ; Neu
+  SendMail(#Mail, Smtp$, Port, #PB_Mail_Asynchronous)
+@EndCode
+
+@LineBreak
+@Section Packer Bibliothek
+
+@LineBreak
+RemovePackFile(): entfernt @LineBreak
+PackerEntrySize(): @#PB_Packer_CompressedSize Unterstützung für ZIP- und 7z-Archive entfernt @LineBreak
+
+
+@LineBreak
+@Section Screen Bibliothek
+
+@LineBreak
+AvailableScreenMemory() entfernt, da die neue API diese Information nicht mehr unterstützt. Es wurde ohnehin zumeist '0' zurückgegeben.
+
+@LineBreak
+@Section Engine3D Bibliothek
+
+@LineBreak
+WorldCollisionAppliedImpulse() gibt jetzt einen Fließkomma-Wert über den angewandten Impuls zurück. GetX/Y/Z() werden nicht mehr unterstützt.
+
+@LineBreak
+@LineBreak
+@LineBreak

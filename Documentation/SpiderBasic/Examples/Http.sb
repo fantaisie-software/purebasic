@@ -1,0 +1,21 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Http
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+Procedure HttpGetEvent(Success, Result$, UserData)
+  If Success
+    Debug Result$
+  Else
+    Debug "HTTPRequest(): Error"
+  EndIf
+EndProcedure
+
+; Get the content of this file, and display it in the debug window
+;
+HTTPRequest(#PB_HTTP_Get, #PB_Compiler_Filename, "", @HttpGetEvent())

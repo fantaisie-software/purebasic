@@ -1,0 +1,84 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Multi window example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+; In this example, we will use the 'module' feature to handle two windows in a clean way
+;
+
+; Declare the find window
+;
+DeclareModule FindWindow  ; DeclareModule is the module public items (here only 2 functions)
+  Declare Open(ParentWindow)
+  Declare Close()
+EndDeclareModule
+
+
+Module FindWindow ; Everything here is private to the module, so we can reuse the same variable names
+  Global Window, CloseButton, FindField
+ 
+  Procedure OnClose()
+    Debug "Find field content: " + GetGadgetText(FindField)
+    Close()
+  EndProcedure
+  
+  Procedure Open(ParentWindow)
+    If Not IsWindow(Window)
+      Window = OpenWindow(#PB_Any, 10, 400, 300, 90, "Find...", #PB_Window_WindowCentered, WindowID(ParentWindow))
+      FindField = StringGadget(#PB_Any, 10, 10, 280, 30, "")
+      CloseButton = ButtonGadget(#PB_Any, 10, 50, 100, 30, "Close")
+      BindGadgetEvent(CloseButton, @OnClose())
+    Else
+      SetActiveWindow(Window)
+    EndIf
+    
+    SetActiveGadget(FindField) ; Always put the focus on the field
+  EndProcedure
+ 
+  Procedure Close()
+    CloseWindow(Window)
+  EndProcedure
+EndModule
+
+
+; An now the main window
+;
+DeclareModule MainWindow
+  Declare Open()
+  Declare Close()
+EndDeclareModule
+
+
+Module MainWindow 
+  Global Window
+ 
+  Procedure OnFind()
+    FindWindow::Open(Window)
+  EndProcedure
+ 
+  Procedure OnShortcut()
+    Debug "Shortcut main: " + EventMenu()
+  EndProcedure
+  
+  Procedure Open()
+    Window = OpenWindow(#PB_Any, 10, 10, 500, 310, "Main")
+    EditorGadget = EditorGadget(#PB_Any, 10, 10, 480, 250)
+    FindGadget = ButtonGadget(#PB_Any, 10, 270, 150, 30, "Open find window")
+    
+    BindGadgetEvent(FindGadget, @OnFind())
+  EndProcedure
+ 
+  Procedure Close()
+    CloseWindow(Window)
+  EndProcedure
+EndModule
+
+
+; Open our main window
+;
+MainWindow::Open()

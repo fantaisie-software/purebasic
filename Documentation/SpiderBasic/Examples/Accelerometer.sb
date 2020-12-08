@@ -1,0 +1,27 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Accelerometer example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+; Note: if run from the browser, it needs to be hosted on an HTTPS site or the browser won't allow geolocation access
+;
+
+Procedure Events()
+  Debug "AccelerometerX: " + AccelerometerX()
+  Debug "AccelerometerY: " + AccelerometerY()
+  Debug "AccelerometerZ: " + AccelerometerZ()
+  Debug "AccelerometerTime: " + AccelerometerTime()
+EndProcedure
+
+
+OpenWindow(0, 0, 0, 300, 45, "Geolocation", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+ 
+ButtonGadget(0, 10, 10, 280, 25, "Geolocation info")
+
+StartAccelerometer(100)
+
+BindGadgetEvent(0, @Events())

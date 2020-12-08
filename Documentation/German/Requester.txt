@@ -1,0 +1,565 @@
+;
+;     Requester library documentation
+;
+;      (c) 2020 - Fantaisie Software
+;
+
+@Library Requester
+
+@Overview
+  Computernutzer kennen alle die Requester, da fast alle Applikationen mit einer
+  grafischen Benutzeroberfläche wenigstens einen davon benutzen. Sie sind sehr
+  nützlich bei einigen grundlegenden Dingen (wie Öffnen einer Datei, Auswählen
+  einer Farbe, Auswählen eines Zeichensatzes etc.), welche durch standardmäßige
+  Auswahlfenster - genannt 'Requester' - sichergestellt werden.
+
+@CommandList
+
+@ExampleFile All Requester.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Farbe = ColorRequester([AktuelleFarbe])
+
+@Description
+  Öffnet einen Standard-Requester zum Auswählen einer Farbe. Die ausgewählte Farbe
+  wird als 24 Bit-Wert zurückgegeben, der wie üblich die Rot-, Grün- und Blau-Werte
+  enthält.
+  
+@OptionalParameter "AktuelleFarbe"
+  Legt die Standardfarbe fest, wenn der Requester geöffnet wird. @@RGB kann verwendet
+  werden, um eine gültige Farbe zu erhalten.
+  
+@ReturnValue
+  Die ausgewählte Farbe - oder -1, wenn der Benutzer den Requester abgebrochen hat.
+  Um einfach die Werte der RGB-Komponenten zu ermitteln, können
+  @@Red, @@Green und @@Blue verwendet werden. 
+
+@Example
+@Code
+  Farbe = ColorRequester()
+  If Farbe > -1
+    a$ = "Sie haben folgende Farbwerte ausgewählt:" + Chr(10)  ; Chr(10) wird nur
+    a$ + "24 Bit Wert: " + Str(Farbe)               + Chr(10)  ; für den Zeilen-
+    a$ + "Rot-Wert:    " + Str(Red(Farbe))          + Chr(10)  ; umbruch benötigt
+    a$ + "Grün-Wert:  " + Str(Green(Farbe))         + Chr(10)
+    a$ + "Blau-Wert:   " + Str(Blue(Farbe))
+  Else  
+    a$ = "Der Requester wurde abgebrochen."
+  EndIf
+  MessageRequester("Information", a$, 0)
+  End
+@EndCode
+@LineBreak
+@Image colorrequester.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = FontRequester(FontName$, FontGröße, Flags [, Farbe [, Stil]])
+
+@Description
+  Öffnet den Standard-Requester zum Auswählen eines Zeichensatzes.
+@LineBreak
+@LineBreak
+  Die Befehle @@SelectedFontColor, @@SelectedFontName, @@SelectedFontSize 
+  und @@SelectedFontStyle können nach einem erfolgreichen Aufruf benutzt werden,
+  um die benötigten Informationen über den ausgewählten Zeichensatz zu erhalten.
+
+@Parameter "FontName$"
+  Der zu verwendende Standard-Fontname, wenn der Requester geöffnet wird.
+
+@Parameter "FontGröße"
+  Die zu verwendend Standard-Fontgröße, wenn der Requester geöffnet wird.
+
+@Parameter "Flags"
+  Dies kann kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_FontRequester_Effects : Aktiviert die "Effekte" des Requesters, einschließlich Farbauswahl (nur auf Windows).
+@EndFixedFont
+
+@OptionalParameter "Farbe"
+  Legt die Standardfarbe fest, wenn der Requester geöffnet wird.
+  Einen gültigen Farbwert erhalten Sie mit dem Befehl @@RGB.
+
+@OptionalParameter "Stil"
+  Legt den Standardstil fest, wenn der Requester geöffnet wird.
+  Siehe @@SelectedFontStyle für die verfügbaren Stile.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn ein Zeichensatz ausgewählt wurde, und Null wenn der
+  Nutzer den Requester abgebrochen hat.
+
+@Example
+@Code
+  FontName$ = "Arial"   ; Anfangs-Zeichensatz festlegen  (Kann auch ein leer sein)
+  FontSize  = 14        ; Anfangs-Größe festlegen  (kann auch Null sein)
+  Result = FontRequester(FontName$, FontSize, #PB_FontRequester_Effects)
+  If Result
+    Message$ = "Sie haben folgenden Zeichensatz ausgewählt:"  + #LF$ 
+    Message$ + "Name:  " + SelectedFontName()       + #LF$
+    Message$ + "Größe: " + Str(SelectedFontSize())  + #LF$
+    Message$ + "Farbe: " + Str(SelectedFontColor()) + #LF$
+    If SelectedFontStyle() & #PB_Font_Bold
+      Message$ + "Fett" + #LF$
+    EndIf
+    If SelectedFontStyle() & #PB_Font_StrikeOut
+      Message$ + "Durchgestrichen" + #LF$
+    EndIf
+    If SelectedFontStyle() & #PB_Font_Underline
+      Message$ + "Unterstrichen" + #LF$
+    EndIf
+  Else 
+    Message$ = "Der Requester wurde abgebrochen."
+  EndIf
+  
+  MessageRequester("FontRequester", Message$, #PB_MessageRequester_Ok) 
+@EndCode
+@LineBreak
+@Image fontrequester.png
+
+@SeeAlso  
+  @@SelectedFontColor, @@SelectedFontName, @@SelectedFontSize, @@SelectedFontStyle
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = InputRequester(Titel$, Mitteilung$, StandardText$ [, Flags])
+
+@Description
+  Öffnet einen (das Programm) "blockierenden" Eingabe-Requester, um eine
+  Texteingabe zu ermöglichen.
+
+@Parameter "Titel$"
+  Titel des Requesters.
+  
+@Parameter "Mitteilung$"
+  Die vor dem Eingabefeld angezeigte Mitteilung.
+
+@Parameter "StandardText$"
+  Standard-Text im Eingabefeld.
+
+@OptionalParameter "Flags"
+  Kann der folgende Wert sein:
+@FixedFont
+  @#PB_InputRequester_Password: setzt den Feld-Typ auf 'Passwort'. Der angezeigte Text wird versteckt.
+@EndFixedFont
+
+@ReturnValue
+  Gibt den Text im Eingabefeld zurück, oder einen leeren String, wenn der Requester ohne Anklicken
+  des "OK"-Schalters geschlossen wurde.
+
+@Example
+@Code
+  Input$ = InputRequester("Titel", "Bitte machen Sie Ihre Eingabe:", "Ich bin die Standardeingabe.")
+
+  If Input$ > ""
+    a$ = "Sie haben folgendes in den Requester geschrieben:" + Chr(10)  ; Chr(10) wird nur für
+    a$ + Input$                                                   ; den Zeilenumbruch benötigt
+  Else  
+    a$ = "Der Requester wurde abgebrochen oder es wurde nichts eingegeben."
+  EndIf
+  MessageRequester("Information", a$, 0)
+@EndCode
+@LineBreak
+@Image inputrequester.png
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = MessageRequester(Titel$, Text$, [, Flags])
+
+@Description
+  Öffnet einen ('blocking') Requester zum Anzeigen einiger Informationen. Die
+  Programmausführung wird vollständig angehalten, bis der Benutzer den Requester
+  schließt. 
+
+@Parameter "Titel$"
+  Der Titel des Requester-Fensters.
+
+@Parameter "Text$"
+  Der im Requester-Fenster angezeigte Text.
+
+@OptionalParameter "Flags"
+  Dies kann eine der folgenden Konstanten sein:
+@FixedFont
+  @#PB_MessageRequester_Ok          : Um nur einen 'Ok' Schalter zu erhalten (Standard)
+  @#PB_MessageRequester_YesNo       : Um die 'Yes' (Ja) oder 'No' (Nein) Schalter zu erhalten
+  @#PB_MessageRequester_YesNoCancel : Um die 'Yes' (Ja), 'No' (Nein) und 'Cancel' (Abbruch) Schalter zu erhalten
+@EndFixedFont
+  kombiniert mit einer der folgenden Werte:
+@FixedFont
+  @#PB_MessageRequester_Info   : zeigt ein Info-Icon an
+  @#PB_MessageRequester_Warning: zeigt ein Warnungs-Icon an
+  @#PB_MessageRequester_Error  : zeigt ein Fehler-Icon an
+@EndFixedFont  
+
+@ReturnValue
+  Dies kann eine der folgenden Konstanten sein:
+@FixedFont
+  @#PB_MessageRequester_Yes    : es wurde der 'Yes' (Ja) Schalter gedrückt
+  @#PB_MessageRequester_No     : es wurde der 'No' (Nein) Schalter gedrückt
+  @#PB_MessageRequester_Cancel : es wurde der 'Cancel' (Abbruch) Schalter gedrückt
+@EndFixedFont
+
+@Example Einfacher MessageRequester  (normalerweise nur zur Informationsausgabe benutzt)
+@Code
+  MessageRequester("Information", "Nur ein kurzer Informationstext.", #PB_MessageRequester_Ok | #PB_MessageRequester_Info)
+@EndCode
+
+@Example MessageRequester mit Ja / Nein Schaltern  (normalerweise für Fragen benutzt)
+@Code
+  Result = MessageRequester("Titel", "Bitte machen Sie Ihre Eingabe:", #PB_MessageRequester_YesNo)
+  a$ = "Ergebnis des Requesters war: "
+  If Result = #PB_MessageRequester_Yes       ; Ja-Schalter wurde gedrückt
+    a$ + "Ja"
+  Else                                       ; Nein-Schalter wurde gedrückt
+    a$ + "Nein"
+  EndIf
+  MessageRequester("Information", a$, #PB_MessageRequester_Ok)
+@EndCode
+
+@Example MessageRequester mit Ja / Nein / Abbrechen Schaltern (normalerweise für Fragen benutzt)
+@Code
+  Result = MessageRequester("Titel", "Bitte machen Sie Ihre Eingabe:", #PB_MessageRequester_YesNoCancel) 
+  a$ = "Das Ergebnis des vorherigen Requesters war: "
+  If Result = #PB_MessageRequester_Yes       ; Ja-Schalter wurde gedrückt
+    a$ + "Ja"
+  ElseIf Result = #PB_MessageRequester_No    ; Nein-Schalter wurde gedrückt
+    a$ + "Nein"
+  Else                                       ; Abbrechen-Schalter oder Esc wurde gedrückt
+    a$ + "Abbrechen"
+  EndIf
+  MessageRequester("Information", a$, #PB_MessageRequester_Ok)
+@EndCode
+@LineBreak
+@Image messagerequester.png
+
+@OS Windows
+  @LineBreak
+  Hinweis: In PureBasic werden auch viele weitere Konstanten der Windows API unterstützt. Diese sind 
+  dann allerdings nicht plattformübergreifend kompatibel! Einen Überblick finden Sie in der MSDN Library zur Funktion
+  @InternetLink "http://msdn.microsoft.com/en-us/library/windows/desktop/ms645505%28v=vs.85%29.aspx" "MessageBox". 
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Dateiname$ = NextSelectedFileName()
+
+@Description
+  Nach einem mit #PB_Requester_MultiSelection (Mehrfach-Selektion) aufgerufenen
+  @@OpenFileRequester gibt dieser Befehl (wenn vorhanden) die nächste ausgewählte
+  Datei zurück. 
+  
+@NoParameters
+
+@ReturnValue
+  Ein Dateiname - oder ein leerer String, wenn es keine weiteren ausgewählten
+  Dateinamen gibt.
+
+@Example
+@Code
+  FileName$ = OpenFileRequester("Wählen Sie einige Dateien aus", "", "", 0, #PB_Requester_MultiSelection)
+
+  While FileName$ 
+    Debug FileName$ 
+    FileName$ = NextSelectedFileName() 
+  Wend 
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DateiName$ = OpenFileRequester(Titel$, StandardDatei$, Pattern$, PatternPosition [, Flags])
+
+@Description
+  Öffnet einen Standard-Requester für den Anwender zum Auswählen einer Datei. Der Titel kann
+  angegeben werden, um den standardmäßigen Titel zu ersetzen. StandardDatei$ ist
+  nützlich, um den Requester mit dem richtigen Verzeichnis und dem richtigen Dateinamen
+  zu initialisieren.
+
+@Parameter "Titel$"
+  Der Titel des Requester-Fensters.
+
+@Parameter "StandardDatei$"
+  Die Standard-Datei, welche beim Öffnen des Requesters angezeigt wird.
+
+@Parameter "Pattern$"
+  Ein Standard-Filter, welcher nur die Anzeige von Dateien mit dieser
+  oder jener Dateiendung erlaubt. Er muss in der folgenden Form angegeben werden:
+  "Text-Dateien | *.txt | Musik-Dateien | *.mus;*.mod". Der Pattern arbeitet immer
+  paarweise: Name (welcher wirklich im Filter erscheint) und Endung (z.B. *.txt).
+  Mehrere für einen Typ mögliche Endungen können unter Benutzung des ; (Semikolon)
+  angegeben werden. (Nicht unterstützt auf OSX, der Requester zeigt immer alle
+  Dateien.)
+
+@Parameter "PatternPosition"
+  Gibt an, welcher Pattern als Standard eingestellt sein soll. Mögliche Werte sind 0 bis zur
+  Anzahl der Patterns minus 1 (da der Index für den ersten Pattern bei 0 beginnt). Sobald der Requester
+  geschlossen wurde, kann @@SelectedFilePattern benutzt 
+  werden, um den ausgewählten Pattern zu ermitteln. (Nicht unterstützt auf OSX.)
+
+@OptionalParameter "Flags"
+  Dies kann der folgende Wert sein:
+@FixedFont
+  @#PB_Requester_MultiSelection : Schaltet die Mehrfach-Selektion ein. (siehe @@NextSelectedFileName)
+@EndFixedFont
+
+@ReturnValue
+  Der ausgewählte Dateiname - oder ein leerer String, wenn der Requester vom Anwender
+  abgebrochen wurde.
+
+@Remarks
+  Der zurückgegebene 'DateiName$' kann mit den folgenden Funktionen einfach in Datei-, Pfad-
+  und Dateiendung-String zerlegt werden: @@GetFilePart, @@GetPathPart und
+  @@GetExtensionPart.
+
+@Example
+@Code
+  StandardFile$ = "C:\autoexec.bat"   ; anfänglichen Pfad + Dateiname festlegen
+  ; Mit dem nächsten String werden die Pattern (mit "|" als Trennzeichen) für anzuzeigende
+  ; Dateitypen festgelegt:
+  ;  Erster:  "Text (*.txt)" als Name, ".txt" und ".bat" als erlaubte Dateiendungen
+  ;  Zweiter: "PureBasic (*.pb)" als Name, ".pb" als erlaubte Dateiendung
+  ;  Dritter: "Alle Dateien (*.*) als Name, "*.*" als erlaubte Dateiendung, gültig für alle Dateien
+  Pattern$ = "Text (*.txt)|*.txt;*.bat|PureBasic (*.pb)|*.pb|Alle Dateien (*.*)|*.*"
+  Pattern = 0    ; wir verwenden den ersten von drei möglichen Pattern als Standard
+  File$ = OpenFileRequester("Bitte Datei zum Laden auswählen", StandardFile$, Pattern$, Pattern)
+  If File$
+    MessageRequester("Information", "Sie haben folgende Datei ausgewählt:" + Chr(10) + File$, 0)
+  Else
+    MessageRequester("Information", "Der Requester wurde abgebrochen.", 0) 
+  EndIf
+@EndCode
+@LineBreak
+@Image openfilerequester.png
+
+@SeeAlso
+  @@NextSelectedFilename
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Pfad$ = PathRequester(Titel$, UrsprungsPfad$)
+
+@Description
+  Öffnet den Standard-Verzeichnis-Requester für den Anwender zum Auswählen eines
+  Verzeichnispfades.
+  
+@Parameter "Titel$"
+  Der Titel des Requester-Fensters.
+
+@Parameter "UrsprungsPfad$"
+  Der beim Öffnen des Requesters zu verwendende anfängliche Pfad.
+
+@ReturnValue
+  Der ausgewählte Pfad - oder ein leerer String, wenn der Requester vom Anwender
+  abgebrochen wurde.
+
+@Remarks
+  Der wird mit einem abschließenden '\' auf Windows zurückgegeben, oder einem
+  abschließenden '/' auf Linux und OS X.
+
+@Example
+@Code
+  InitialPath$ = "C:\"   ; anfänglichen Pfad für die Anzeige festlegen (kann auch leer sein)
+  Path$ = PathRequester("Bitte wählen Sie einen Pfad aus", InitialPath$)
+  If Path$
+    MessageRequester("Information", "Sie haben folgenden Pfad ausgewählt:"+Chr(10)+Path$, 0)
+  Else
+    MessageRequester("Information", "Der Requester wurde abgebrochen.", 0) 
+  EndIf
+@EndCode
+@LineBreak
+@Image pathrequester.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DateiName$ = SaveFileRequester(Titel$, StandardDatei$, Pattern$, PatternPosition)
+
+@Description
+  Öffnet einen Standard-Requester für den Anwender zum Auswählen einer zu
+  speichernden Datei.
+  
+@Parameter "Titel$"
+  Der Titel des Requester-Fensters.
+
+@Parameter "StandardDatei$"
+  Der beim Öffnen des Requesters zu verwendende Dateiname.
+
+@Parameter "Pattern$"
+  Ein Standard-Filter, welcher nur die Anzeige von Dateien mit dieser
+  oder jener Dateiendung erlaubt. Er muss in der folgenden Form angegeben werden:
+  "Text-Dateien | *.txt | Musik-Dateien | *.mus;*.mod". Der Pattern arbeitet immer
+  paarweise: Name (welcher wirklich im Filter erscheint) und Endung (z.B. *.txt).
+  Mehrere für einen Typ mögliche Endungen können unter Benutzung des ; (Semikolon)
+  angegeben werden. (Nicht unterstützt auf OSX, der Requester zeigt immer alle
+  Dateien.)
+
+@Parameter "PatternPosition"
+  Gibt an, welcher Pattern als Standard eingestellt sein soll. Mögliche Werte sind 0 bis zur
+  Anzahl der Patterns minus 1 (da der Index für den ersten Pattern bei 0 beginnt). Sobald der Requester
+  geschlossen wurde, kann @@SelectedFilePattern benutzt 
+  werden, um den ausgewählten Pattern zu ermitteln. (Nicht unterstützt auf OSX.)
+
+@ReturnValue
+  Der ausgewählte Dateiname - oder ein leerer String, wenn der Requester vom
+  Anwender abgebrochen wurde.
+
+@Remarks
+  Der zurückgegebene 'DateiName$' kann mit den folgenden Funktionen einfach in Datei-, Pfad-
+  und Dateiendung-String zerlegt werden: @@GetFilePart, @@GetPathPart und
+  @@GetExtensionPart.
+
+@Example
+@Code
+  StandardFile$ = "C:\autoexec.bat"   ; anfänglichen Pfad + Dateiname festlegen
+  ; Mit dem nächsten String werden die Pattern (mit "|" als Trennzeichen) für anzuzeigende
+  ; Dateitypen festgelegt:
+  ;  Erster:  "Text (*.txt)" als Name, ".txt" und ".bat" als erlaubte Dateiendungen
+  ;  Zweiter: "PureBasic (*.pb)" als Name, ".pb" al erlaubte Dateiendung
+  ;  Dritter: "Alle Dateien (*.*) als Name, "*.*" als erlaubte Dateiendung, gültig für alle Dateien
+  Pattern$ = "Text (*.txt)|*.txt;*.bat|PureBasic (*.pb)|*.pb|Alle Dateien (*.*)|*.*"
+  Pattern = 0    ; wir verwenden den ersten von drei möglichen Pattern als Standard
+  File$ = SaveFileRequester("Bitte Datei zum Speichern auswählen", StandardFile$, Pattern$, Pattern)
+  If File$
+    MessageRequester("Information", "Sie haben folgende Datei ausgewählt:"+Chr(10)+File$, 0)
+  Else
+    MessageRequester("Information", "Der Requester wurde abgebrochen.", 0) 
+  EndIf
+@EndCode
+@LineBreak
+@Image savefilerequester.png
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Index = SelectedFilePattern()
+
+@Description
+  Gibt den mittels @@OpenFileRequester oder @@SaveFileRequester ausgewählten
+  Pattern-Index (Dateien-Filter) zurück. 
+
+@NoParameters
+
+@ReturnValue
+  Der mittels @@OpenFileRequester oder @@SaveFileRequester ausgewählte
+  Pattern-Index (Dateien-Filter).
+  Das erste Pattern befindet sich an Position 0.
+
+@Example
+@Code
+  StandardFile$ = "C:\autoexec.bat"        ; anfänglicher Pfad + Dateiname
+  Pattern$ = "Text (*.txt)|*.txt;*.bat|"   ; ersten Pattern festlegen  (Index = 0)
+  Pattern$ + "PureBasic (*.pb)|*.pb|"      ; zweiten Pattern festlegen (Index = 1)
+  Pattern$ + "Bmp (*.bmp)|*.bmp|"          ; dritten Pattern festlegen (Index = 2)
+  Pattern$ + "Jpeg (*.jpg)|*.jpg|"         ; vierten Pattern festlegen (Index = 3)
+  Pattern$ + "All files (*.*)|*.*"         ; fünften Pattern festlegen (Index = 4)
+  Pattern = 1    ; wir verwenden den zweiten von fünf möglichen Pattern als Standard
+
+  ; Jetzt öffnen wir den Dateirequester, Sie können den Dateityp (Pattern) ändern
+  ; und erhalten nach dem Schließen des Requesters den Index zurück.
+  File$ = OpenFileRequester("Bitte Datei zum Laden auswählen", StandardFile$, Pattern$, Pattern)
+  Index = SelectedFilePattern()
+  If Index > -1
+    MessageRequester("Information", "Folgender Pattern-Index wurde ausgewählt: "+Str(Index), 0)
+  Else
+    MessageRequester("Information", "Der Requester wurde abgebrochen.", 0)
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Farbe = SelectedFontColor() 
+
+@Description
+  Gibt die vom Benutzer im @@FontRequester ausgewählte Zeichensatz-Farbe zurück. 
+  
+@NoParameters
+
+@ReturnValue
+  Die vom Benutzer im @@FontRequester ausgewählte Zeichensatz-Farbe.
+  Um die individuellen RGB-Farbwerte zu erhalten, können @@Red,
+  @@Green und @@Blue benutzt werden.
+
+@SeeAlso
+  @@FontRequester
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Name$ = SelectedFontName()
+
+@Description
+  Gibt den Namen des vom Benutzer im @@FontRequester ausgewählten Zeichensatzes
+  zurück. 
+  
+@NoParameters
+
+@ReturnValue
+  Der Name des vom Benutzer im @@FontRequester ausgewählten Zeichensatzes.
+  Dieser Name kann direkt vom @@LoadFont Befehl verwendet werden. 
+
+@SeeAlso
+  @@FontRequester
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Größe = SelectedFontSize()
+
+@Description
+  Gibt die Größe des vom Benutzer im @@FontRequester ausgewählten Zeichensatzes zurück. 
+
+@NoParameters
+
+@ReturnValue
+  Die Größe des vom Benutzer im @@FontRequester ausgewählten Zeichensatzes.
+  
+@SeeAlso
+  @@FontRequester
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Stil = SelectedFontStyle()
+
+@Description
+  Gibt den Stil des vom Benutzer im @@FontRequester ausgewählten Zeichensatzes zurück.
+  
+@NoParameters
+
+@ReturnValue
+  Der Stil des vom Benutzer im @@FontRequester ausgewählten Zeichensatzes.
+  Dieser kann einen oder mehrere der folgenden Werte enthalten:
+@FixedFont
+  @#PB_Font_Bold  : Zeichensatz ist "fett".
+  @#PB_Font_Italic: Zeichensatz ist "kursiv".
+@EndFixedFont
+  Um zu testen, ob ein Wert vorhanden ist, benutzen Sie den '&' (bitweiser 'AND', zu deutsch: UND) Operator:
+@Code
+  If SelectedFontStyle() & #PB_Font_Bold
+    ; Der Zeichensatz ist fett
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@FontRequester
+
+@SupportedOS

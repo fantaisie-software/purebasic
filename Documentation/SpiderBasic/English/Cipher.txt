@@ -1,0 +1,729 @@
+;
+;     Cipher library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library Cipher
+
+@Overview
+
+The cipher library is a set of functions useful to cipher or encode data. For example
+the SHA-2 is a very popular fingerprint routine, used in many areas
+due to its strong resistance to attacks.
+
+@CommandList
+
+@ExampleFile All Cipher.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddCipherBuffer(#Cipher, *Input, InputOffset, *Output, OutputOffset, Size)
+
+@Description
+  Add new data to the cipher started with @@StartAESCipher and copy the ciphered data into the
+  output buffer.
+
+@Parameter "#Cipher"
+  The cipher to which the data should be added.
+
+@Parameter "*Input"
+  The input buffer. It has to be allocated with @@AllocateMemory.
+
+@Parameter "InputOffset"
+  The offset (in bytes) in the input buffer.
+
+@Parameter "*Output"
+  The output buffer. It has to be allocated with @@AllocateMemory and be different than the
+  input buffer.
+
+@Parameter "InputOffset"
+  The offset (in bytes) in the output buffer.
+
+@Parameter "Size"
+  The size of the data to be ciphered. This is the amount of bytes which will be read from
+  the input buffer and also written to the output buffer.
+
+@NoReturnValue
+
+@SeeAlso
+  @@StartAESCipher, @@FinishCipher, @@AESDecoder, @@AESEncoder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AESEncoder(*Input, InputOffset, *Output, OutputOffset, Size, *Key, Bits, *InitializationVector [, Mode])
+
+@Description
+  Encodes the specified input buffer using the AES algorithm into the output buffer. 
+
+@Parameter "*Input"
+  The input buffer. It has to be allocated with @@AllocateMemory.
+
+@Parameter "InputOffset"
+  The offset (in bytes) in the input buffer.
+
+@Parameter "*Output"
+  The output buffer. It has to be allocated with @@AllocateMemory and be different than the
+  input buffer.
+
+@Parameter "InputOffset"
+  The offset (in bytes) in the output buffer.
+
+@Parameter "Size"
+  The amount of bytes to encode. It has to be at least 16 bytes. To encode something 
+  smaller, padding has to be added before the encoding.
+
+@Parameter "*Key"
+  A buffer containing the key for encoding.
+  Its size depends of the 'Bits' parameter: 16 bytes for 128-bit encryption, 24 bytes for 192 bit
+  and 32 bytes for 256-bit.
+
+@Parameter "Bits"
+  The size of the key used by the ciphering. Valid values are 128, 192 and 256.
+
+@Parameter "*InitializationVector"
+  The InitializationVector is a random data block, used to initialize the ciphering
+  to avoid breach in decoding (only needed when using the @#PB_Cipher_CBC mode).
+  The initialization vector is always 16 bytes long.
+
+@OptionalParameter "Mode"
+  This can be one of the following value:
+@FixedFont  
+  @#PB_Cipher_CBC: Default mode of encoding (Cipher Block Chaining). Needs an '*InitializationVector'.
+                  Recommended as more secure than ECB mode.
+  @#PB_Cipher_ECB: Alternative mode (Electronic CodeBook). It doesn't uses random value nor chaining 
+                  (each block is ciphered independently) making it very weak compared to CBC, and shouldn't be used for
+                  serious ciphering.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the encoding was successful, zero otherwise.
+
+@Remarks
+  AES is an industry class cipher algorithm and is good balanced between speed and security. Here is
+  the Wikipedia introduction about AES:
+  'In cryptography, the Advanced Encryption Standard (AES) is an encryption standard adopted by the U.S. government. 
+  The standard comprises three block ciphers, AES-128, AES-192 and AES-256, adopted from a larger collection originally 
+  published as Rijndael. Each AES cipher has a 128-bit block size, with key sizes of 128, 192 and 256-bit, respectively. 
+  The AES ciphers have been analyzed extensively and are now used worldwide.'
+@LineBreak
+@LineBreak
+  PureBasic uses a RFC compliant implementation of AES.
+  More information can be found in the RFC 3602: @InternetLink "http://www.ietf.org/rfc/rfc3602.txt" "http://www.ietf.org/rfc/rfc3602.txt".
+
+@Example CBC
+@Code
+  ; Easy procedure to convert a datasection to an allocated memory block
+  ;
+  Procedure DataSectionToMemory(Size)
+    Protected *Buffer
+    
+    *Buffer = AllocateMemory(Size)
+    For k = 0 To Size-1
+      Read.b value
+      PokeB(*Buffer, k, value)
+    Next
+    
+    ProcedureReturn *Buffer
+  EndProcedure
+  
+  Text$ = "Single block msg"
+  Debug "Original text: " + Text$
+  
+  ; AES encoder can only work with memory buffer, so put our text in a memory buffer
+  ;
+  *AsciiText = AllocateMemory(128)
+  PokeS(*AsciiText, 0, Text$, -1, #PB_Ascii)
+  
+  ; Get the InitializationVector value (needed for CBC encoding)
+  ;
+  Restore AESInitializationVector1
+  *AESInitializationVector1 = DataSectionToMemory(16)
+  
+  ; Our private key
+  ;
+  Restore AESKey1
+  *AESKey1 = DataSectionToMemory(16)
+  
+  ; The output buffer, needs to be input buffer size+1, aligned to the next 16-byte block
+  ;
+  *Output = AllocateMemory(16+16)
+  AESEncoder(*AsciiText, 0, *Output, 0, 16, *AESKey1, 128, *AESInitializationVector1)
+  
+  ; Display the encoded message
+  ;
+  For k = 0 To 15
+    HexView$ + Hex(PeekB(*Output, k), #PB_Byte) + " "
+  Next
+  Debug "Text encoded (hex view): " + HexView$
+  
+  ; Decode it with the same InitializationVector and private key
+  ;
+  *DecodedText = AllocateMemory(128)
+  AESDecoder(*Output, 0, *DecodedText, 0, 32, *AESKey1, 128, *AESInitializationVector1)
+  Debug "Decoded text: " + PeekS(*DecodedText, 0, 16, #PB_Ascii)
+  
+  DataSection
+    AESInitializationVector1:
+      Data.b $3d, $af, $ba, $42, $9d, $9e, $b4, $30, $b4, $22, $da, $80, $2c, $9f, $ac, $41
+  
+    AESKey1:
+      Data.b $06, $a9, $21, $40, $36, $b8, $a1, $5b, $51, $2e, $03, $d5, $34, $12, $00, $06
+  EndDataSection
+@EndCode
+
+@SeeAlso
+  @@AESDecoder, @@StartAESCipher
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AESDecoder(*Input, InputOffset, *Output, OutputOffset, Size, *Key, Bits, *InitializationVector [, Mode])
+
+@Description
+  Decodes the specified input buffer using the AES algorithm into the output buffer. 
+
+@Parameter "*Input"
+  The input buffer. It has to be allocated with @@AllocateMemory.
+
+@Parameter "InputOffset"
+  The offset (in bytes) in the input buffer.
+
+@Parameter "*Output"
+  The output buffer. It has to be allocated with @@AllocateMemory and be different than the
+  input buffer.
+
+@Parameter "InputOffset"
+  The offset (in bytes) in the output buffer.
+
+@Parameter "Size"
+  The amount of bytes to decode. It has to be at least 16 bytes. To decode something 
+  smaller, padding has to be added before the encoding.
+
+@Parameter "*Key"
+  A buffer containing the key for decoding.
+  Its size depends of the 'Bits' parameter: 16 bytes for 128-bit encryption, 24 bytes for 192 bit
+  and 32 bytes for 256-bit.
+
+@Parameter "Bits"
+  The size of the key used by the ciphering. Valid values are 128, 192 and 256.
+
+@Parameter "*InitializationVector"
+  The InitializationVector is a random data block, used to initialize the ciphering
+  to avoid breach in decoding (only needed when using the @#PB_Cipher_CBC mode).
+  Its size is always 16 bytes long. The contents of this data block must match the one which was used
+  when @Link "AESEncoder" "encoding" the data.
+
+@OptionalParameter "Mode"
+  This can be one of the following value:
+@FixedFont  
+  @#PB_Cipher_CBC: Default mode of encoding (Cipher Block Chaining). Needs an '*InitializationVector'.
+                  Recommended as more secure than ECB mode.
+  @#PB_Cipher_ECB: Alternative mode (Electronic CodeBook). It doesn't uses random value nor chaining 
+                  (each block is ciphered independently) making it very weak compared to CBC, and shouldn't be used for
+                  serious ciphering.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the decoding was successful, zero otherwise.
+
+@Remarks
+  For more information about AES and source examples, see @@AESEncoder.
+
+@SeeAlso
+  @@AESEncoder, @@StartAESCipher
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = StartFingerprint(#Fingerprint, Plugin [, Bits])
+
+@Description
+  Initializes the calculation of a fingerprint in several steps. Unlike
+  @@Fingerprint function this allows to calculate the fingerprint of
+  large data without the need to load it all into one continuous memory buffer.
+
+@Parameter "#Fingerprint"
+  The number to refer to this checksum calculation in later calls.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "Plugin"
+  The plugin to use. It can be one of the following value:
+@FixedFont
+  @#PB_Cipher_CRC32: uses CRC32 algorithm. @@UseCRC32Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_MD5  : uses MD5 algorithm. @@UseMD5Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA1 : uses SHA1 algorithm. @@UseSHA1Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA2 : uses SHA2 algorithm. @@UseSHA2Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA3 : uses SHA3 algorithm. @@UseSHA3Fingerprint needs to be called before to register this plugin.
+@EndFixedFont
+
+@OptionalParameter "Bits"
+  The bits number to use for the fingerprint. It is only supported for the following plugin:
+@FixedFont
+  @#PB_Cipher_SHA2 : can be 224, 256 (default), 384 or 512.
+  @#PB_Cipher_SHA3 : can be 224, 256 (default), 384 or 512.
+@EndFixedFont
+
+@ReturnValue
+  Returns the #Fingerprint value if @#PB_Any was used for that parameter.
+
+@Remarks
+  @@AddFingerprintBuffer can be used to add memory blocks into the calculation
+  and @@FinishFingerprint to finish the calculation and read the resulting hash.
+
+@Example
+@Code
+  UseMD5Fingerprint()
+
+  *Buffer = AllocateMemory(128) ; Prepare a buffer with data
+  If *Buffer
+    Text$ = "The quick brown fox jumps over the lazy dog."
+    PokeS(*Buffer, 0, Text$, -1, #PB_Ascii)
+    Length = Len(Text$)
+    
+    If StartFingerprint(0, #PB_Cipher_MD5)          ; start the calculation
+      AddFingerprintBuffer(0, *Buffer, 0, Length/2)          ; calculate part 1
+      AddFingerprintBuffer(0, *Buffer, Length/2, Length/2) ; calculate part 2
+      
+      MD5$ = FinishFingerprint(0)                  ; finish calculation
+      Debug "MD5 checksum = " + MD5$
+      
+      MD5$ = Fingerprint(*Buffer, 0, Length, #PB_Cipher_MD5)  ; compare to a calculation in 1 step
+      Debug "MD5 checksum = " + MD5$
+    EndIf
+
+    FreeMemory(*Buffer)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@Fingerprint, @@StringFingerprint
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishCipher(#Cipher)
+
+@Description
+  Finish a cipher stream previously started with @@StartAESCipher.
+
+@Parameter "#Cipher"
+  The cipher to finish.
+
+@NoReturnValue
+
+@Remarks
+  This command should be called to finish a cipher calculation, even if the cipher is actually
+  no longer needed as it does free any data associated with the cipher calculation.
+
+@SeeAlso
+  @@StartAESCipher, @@AddCipherBuffer
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddFingerprintBuffer(#Fingerprint, *Buffer, Offset, Size)
+
+@Description
+  Add a new memory buffer into the calculation of a checksum started by @@StartFingerprint.
+  The checksum returned at the end of the calculation will include all the added buffers as if the checksum
+  was calculated with all of them in one continuous memory buffer.
+
+@Parameter "#Fingerprint"
+  The fingerprint to which the data should be added.
+
+@Parameter "*Buffer"
+  The buffer to be added to the fingerprint.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+  
+@Parameter "Size"
+  The amount of bytes to be added to the fingerprint.
+
+@NoReturnValue
+
+@Remarks
+  See @@StartFingerprint for a code example and more information.
+
+@SeeAlso
+  @@StartFingerprint, @@FinishFingerprint
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = FinishFingerprint(#Fingerprint)
+
+@Description
+  Finishes the calculation of a fingerprint started by @@StartFingerprint
+  and returns it as an hexadecimal string.
+
+@Parameter "#Fingerprint"
+  The fingerprint to finish.
+
+@ReturnValue
+  Returns the fingerprint as an hexadecimal string.
+
+@Remarks
+  This command should be called to finish a fingerprint calculation, even if the fingerprint is actually
+  no longer needed as it frees up any data associated with the calculation as well.
+@LineBreak
+@LineBreak
+  See @@StartFingerprint for a code example and more information.
+
+@SeeAlso
+  @@StartFingerprint, @@AddFingerprintBuffer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsFingerprint(#Fingerprint)
+
+@Description
+  Tests if the given #Fingerprint is a valid fingerprint calculation created by 
+  @@StartFingerprint.
+
+@Parameter "#Fingerprint"
+  The fingerprint to test.
+
+@ReturnValue
+  Returns nonzero if the given fingerprint is valid and zero otherwise.
+
+@Remarks
+  This function is bulletproof and can be used with any value. 
+
+@SeeAlso
+  @@StartFingerprint
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = Fingerprint(*Buffer, Offset, Size, Plugin [, Bits])
+
+@Description 
+  Returns a fingerprint for the given buffer.
+
+@Parameter "*Buffer"
+  The buffer containing the data.
+
+@Parameter "Offset"
+  The offset (in bytes) in the buffer.
+
+@Parameter "Size"
+  The size of the given buffer.
+
+@Parameter "Plugin"
+  The plugin to use. It can be one of the following value:
+@FixedFont
+  @#PB_Cipher_CRC32: uses CRC32 algorithm. @@UseCRC32Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_MD5  : uses MD5 algorithm. @@UseMD5Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA1 : uses SHA1 algorithm. @@UseSHA1Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA2 : uses SHA2 algorithm. @@UseSHA2Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA3 : uses SHA3 algorithm. @@UseSHA3Fingerprint needs to be called before to register this plugin.
+@EndFixedFont
+
+@OptionalParameter "Bits"
+  The bits number to use for the fingerprint. It is only supported for the following plugin:
+@FixedFont
+  @#PB_Cipher_SHA2 : can be 224, 256 (default), 384 or 512.
+  @#PB_Cipher_SHA3 : can be 224, 256 (default), 384 or 512.
+@EndFixedFont
+
+@ReturnValue
+  Returns the fingerprint as an hexadecimal string.
+
+@Example
+@Code
+  UseMD5Fingerprint()
+
+  *Buffer = AllocateMemory(500)    
+  If *Buffer
+    PokeS(*Buffer, "The quick brown fox jumps over the lazy dog.", -1, #PB_Ascii)
+    MD5$ = Fingerprint(*Buffer, MemoryStringLength(*Buffer, #PB_Ascii), #PB_Cipher_MD5)
+    Debug "MD5 Fingerprint = " + MD5$
+    FreeMemory(*Buffer)  ; would also be done automatically at the end of the program
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@StartFingerprint, @@StringFingerprint
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = StringFingerprint(String$, Plugin [, Bits [, Format]])
+
+@Description 
+  Returns a fingerprint for the given string.
+
+@Parameter "String$"
+  The string to hash.
+
+@Parameter "Plugin"
+  The plugin to use. It can be one of the following value:
+@FixedFont
+  @#PB_Cipher_CRC32: uses CRC32 algorithm. @@UseCRC32Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_MD5  : uses MD5 algorithm. @@UseMD5Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA1 : uses SHA1 algorithm. @@UseSHA1Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA2 : uses SHA2 algorithm. @@UseSHA2Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA3 : uses SHA3 algorithm. @@UseSHA3Fingerprint needs to be called before to register this plugin.
+@EndFixedFont
+
+@OptionalParameter "Bits"
+  The bits number to use for the fingerprint. It is only supported for the following plugin:
+@FixedFont
+  @#PB_Cipher_SHA2 : can be 224, 256 (default), 384 or 512.
+  @#PB_Cipher_SHA3 : can be 224, 256 (default), 384 or 512.
+@EndFixedFont
+
+@OptionalParameter "Format"
+  The string format to use before hashing it. It can be one of the following value:
+@FixedFont  
+  @#PB_UTF8    : the string will be hashed in UTF8 format (default).
+  @#PB_Ascii   : the string will be hashed in ASCII format.
+  @#PB_Unicode : the string will be hashed in Unicode (UTF16) format.
+@EndFixedFont
+
+@ReturnValue
+  Returns the fingerprint as an hexadecimal string.
+
+@Example
+@Code
+  UseMD5Fingerprint()
+
+  Debug StringFingerprint("yourpassword", #PB_Cipher_MD5)
+@EndCode
+
+@SeeAlso
+  @@StartFingerprint, @@Fingerprint
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseMD5Fingerprint()
+
+@Description
+  Register the MD5 fingerprint plugin for future use.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Here is a quick explanation taken from the RFC 1321 on MD5:
+@LineBreak
+@LineBreak
+  'The algorithm takes as input a message of arbitrary length and produces
+   as output a 128-bit "fingerprint" or "message digest" of the input.
+   It is conjectured that it is computationally infeasible to produce
+   two messages having the same message digest, or to produce any
+   message having a given pre-specified target message digest. The MD5
+   algorithm is intended for digital signature applications.'
+@LineBreak
+@LineBreak
+  MD5 hashs are often used for password encryption, but it should be
+  avoided as it has been found to be vulnerable to severals attacks.
+  More information about MD5 can be found in the RFC 1321: 
+  @InternetLink "http://www.ietf.org/rfc/rfc1321.txt" "http://www.ietf.org/rfc/rfc1321.txt".
+
+@Example  
+@Code
+  UseMD5Fingerprint()
+
+  Debug StringFingerprint("yourpassword", #PB_Cipher_MD5)
+@EndCode
+
+@SeeAlso
+  @@UseSHA1Fingerprint(), @@UseSHA2Fingerprint(), @@UseSHA3Fingerprint(), @@UseCRC32Fingerprint()
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseSHA1Fingerprint()
+
+@Description
+  Register the SHA1 fingerprint plugin for future use.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  SHA1 can be used to calculate a checksum to verify that a 'message' has not been altered. Unlike
+  @Link "UseCRC32Fingerprint" "CRC32" it is nearly impossible to modify the original message and still
+  produce the same SHA1 fingerprint.
+@LineBreak
+@LineBreak
+  Here is a quick explanation taken from the RFC 3174 on SHA1:
+@LineBreak
+@LineBreak
+   'The SHA-1 is called secure because it is computationally infeasible
+   to find a message which corresponds to a given message digest, or to
+   find two different messages which produce the same message digest.
+   Any change to a message in transit will, with very high probability,
+   result in a different message digest, and the signature will fail to
+   verify.'
+@LineBreak
+@LineBreak
+  More information can be found in the RFC 3174: 
+  @InternetLink "http://www.ietf.org/rfc/rfc3174.txt" "http://www.ietf.org/rfc/rfc3174.txt".
+
+@Example  
+@Code
+  UseSHA1Fingerprint()
+
+  Debug StringFingerprint("yourpassword", #PB_Cipher_SHA1)
+@EndCode
+
+@SeeAlso
+  @@UseMD5Fingerprint(), @@UseSHA2Fingerprint(), @@UseSHA3Fingerprint(), @@UseCRC32Fingerprint()
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseSHA2Fingerprint()
+
+@Description
+  Register the SHA2 fingerprint plugin for future use. The standard 224-bit, 256-bit, 384-bit and 512-bit
+  variants are supported.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  From @InternetLink "https://en.wikipedia.org/wiki/SHA-2" "Wikipedia": SHA-2 includes significant changes from its predecessor, SHA-1.
+  In 2005, an algorithm emerged for finding SHA-1 collisions in about 2000-times fewer steps than was previously thought possible.
+  Although (as of 2015) no example of a SHA-1 collision has been published yet, the security margin left by SHA-1 is weaker than intended, 
+  and its use is therefore no longer recommended for applications that depend on collision resistance, such as digital signatures. 
+  Although SHA-2 bears some similarity to the SHA-1 algorithm, these attacks have not been successfully extended to SHA-2.
+  
+@Example  
+@Code
+  UseSHA2Fingerprint()
+
+  Debug StringFingerprint("yourpassword", #PB_Cipher_SHA2, 512) ; Use SHA2-512 variant
+@EndCode
+
+@SeeAlso
+  @@UseMD5Fingerprint(), @@UseSHA1Fingerprint(), @@UseSHA3Fingerprint(), @@UseCRC32Fingerprint()
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseSHA3Fingerprint()
+
+@Description
+  Register the SHA3 fingerprint plugin for future use. The standard 224-bit, 256-bit, 384-bit and 512-bit
+  variants are supported.
+
+@NoParameters
+@NoReturnValue
+
+@Example  
+@Code
+  UseSHA3Fingerprint()
+
+  Debug StringFingerprint("yourpassword", #PB_Cipher_SHA3, 512) ; Use SHA3-512 variant
+@EndCode
+
+@SeeAlso
+  @@UseMD5Fingerprint(), @@UseSHA1Fingerprint(), @@UseSHA2Fingerprint(), @@UseCRC32Fingerprint()
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseCRC32Fingerprint()
+
+@Description
+  Register the CRC32 fingerprint plugin for future use.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  CRC32 is a 32-bit fingerprint not intended for password
+  storage as it's easily crackable, but for quick data integrity check. For example, zip files have a CRC32
+  checksum at the end of each file to be sure that the zip is not corrupted. The main advantage of CRC32
+  over MD5 or other fingerprint algorithm is its very high speed.
+
+@Example  
+@Code
+  UseCRC32Fingerprint()
+
+  Debug StringFingerprint("any text", #PB_Cipher_CRC32)
+@EndCode
+
+@SeeAlso
+  @@UseMD5Fingerprint(), @@UseSHA1Fingerprint(), @@UseSHA2Fingerprint(), @@UseSHA3Fingerprint()
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = StartAESCipher(#Cipher, *Key, Bits, *InitializationVector, Mode)
+
+@Description
+  Initializes a new AES cipher stream where data can be added using @@AddCipherBuffer.
+
+@Parameter "#Cipher"
+  The number which identifies this new cipher.
+  @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "*Key"
+  A buffer containing the key for decoding.
+  Its size depends of the 'Bits' parameter: 16 bytes for 128-bit encryption, 24 bytes for 196-bit
+  and 32 bytes for 256-bit.
+
+@Parameter "Bits"
+  The size of the key used by the ciphering. Valid values are 128, 192 and 256.
+
+@Parameter "*InitializationVector"
+  The InitializationVector is a random data block, used to initialize the ciphering
+  to avoid breach in decoding (only needed when using the @#PB_Cipher_CBC mode).
+  Its size depends of the 'Bits' parameter: 16 bytes for 128-bit encryption, 24 bytes for 196-bit
+  and 32 bytes for 256-bit. 
+
+@Parameter "Mode"
+  This parameter can be a combination of one the following values:
+@FixedFont  
+  @#PB_Cipher_Decode: The stream is used to decode data.
+  @#PB_Cipher_Encode: The stream is used to encode data.
+
+with
+
+  @#PB_Cipher_CBC: Default mode of encoding (Cipher Block Chaining). Needs an '*InitializationVector'.
+                  Recommended as more secure than ECB mode.
+  @#PB_Cipher_ECB: Alternative mode (Electronic CodeBook). It doesn't uses random value nor chaining 
+                  (each block is ciphered independently) making it very weak compared to CBC, and shouldn't be used for
+                  serious ciphering.
+@EndFixedFont
+
+@ReturnValue
+  If @#PB_Any was used as the #Cipher parameter then the auto-generated #Cipher number is returned.
+
+@Remarks
+  New buffers to be encoded or decoded can be added with @@AddCipherBuffer.
+  Once a cipher is finished, @@FinishCipher has to be called.
+  @LineBreak
+  @LineBreak
+  For more information about AES, see @@AESEncoder.
+
+@SeeAlso
+  @@AddCipherBuffer, @@FinishCipher, @@AESEncoder, @@AESDecoder
+ 
+@SupportedOS

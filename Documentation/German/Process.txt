@@ -1,0 +1,822 @@
+;
+;     Process library documentation
+;
+;      (c) 2020 - Fantaisie Software
+;
+
+@Library Process
+
+@Overview
+  Die Prozess Bibliothek ermöglicht die Ermittlung von Informationen über das aktuelle
+  Programm sowie das Ausführen anderer Programme und die Kommunikation mit diesen.
+  Sie bietet einen plattform-unabhängigen Zugriff auf den Umgebungsblock eines Programms,
+  auf die Programm-Parameter sowie die Standard Ein- und Ausgabe.
+
+@CommandList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = AvailableProgramOutput(Programm)
+
+@Description
+  Gibt die Anzahl an Bytes zurück, die zum Lesen von der Programmausgabe zur Verfügung stehen.
+
+@Parameter "Programm"
+  Das zu verwendende Programm. Dieses muss mit @@RunProgram unter Verwendung des 
+  @#PB_Program_Read Flag gestartet worden sein.
+  
+@ReturnValue
+  Die Anzahl an Bytes, die zum Lesen von der Programmausgabe zur Verfügung stehen.
+
+@Remarks
+  Die Ausgabe kann entweder mittels @@ReadProgramString oder
+  @@ReadProgramData gelesen werden.
+@LineBreak
+@LineBreak
+  Allerdings bleiben @@ReadProgramString bzw. @@ReadProgramData unbegrenzt gesperrt, wenn
+  das Programm einen Eingriff des Nutzers anfordert. Geben Sie z.B. eine Ja/Nein-Auswahl
+  an das Programm zurück, um fortzufahren.
+  
+@SeeAlso
+  @@ReadProgramString, @@ReadProgramData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseProgram(Programm)
+
+@Description
+  Schließt die Verbindung mit dem angegebenen Programm (welches mit @@RunProgram gestartet
+  wurde) und gibt alle zugehörigen Daten frei.
+  
+@Parameter "Programm"
+  Das zu schließende Programm. Dies muss zuvor mit @@RunProgram gestartet worden sein.
+
+@NoReturnValue
+
+@Remarks
+  Dies beendet nicht das Programm, sondern schließt lediglich die Verbindung mit ihm.
+  Um das Programm zu beenden, rufen Sie erst @@KillProgram auf. Auch wenn das
+  Programm normal beendet wurde, muss dieser Befehl zum richtigen Freigeben aller Daten aufgerufen werden.
+@LineBreak
+@LineBreak
+  Wenn das Programm mit dem @#PB_Program_Write Flag gestartet wurde, veranlasst CloseProgram()
+  das Programm, ein 'EOF' (Ende der Datei) auf seiner Standardeingabe zu empfangen. Diese
+  Bedingung kann auch "produziert" werden, ohne die Verbindung zum Programm zu schließen,
+  indem @@WriteProgramData mit dem speziellen @#PB_Program_Eof Wert aufgerufen wird.
+
+@SeeAlso
+  @@KillProgram, @@RunProgram
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CountProgramParameters()
+
+@Description
+  Gibt die Anzahl der diesem Programm per Kommandozeile (oder via @@RunProgram)
+  übergebenen Parameter zurück.
+
+@NoParameters
+
+@ReturnValue
+  Die Anzahl der per Kommandozeile (oder via @@RunProgram) angegebenen Parameter.
+
+@Remarks
+  @@ProgramParameter kann verwendet werden, um die individuellen Parameter
+  auszulesen.
+
+@SeeAlso
+  @@ProgramParameter 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = EnvironmentVariableName()
+
+@Description
+  Gibt den Namen der aktuellen Umgebungsvariable zurück, welche gerade mittels
+  @@ExamineEnvironmentVariables und @@NextEnvironmentVariable untersucht wird.
+  @@EnvironmentVariableValue kann verwendet werden, um deren Wert zu ermitteln.
+
+@NoParameters
+
+@ReturnValue
+  Der Name der aktuellen Umgebungsvariable, welche gerade mittels
+  @@ExamineEnvironmentVariables und @@NextEnvironmentVariable untersucht wird.
+
+@SeeAlso
+  @@ExamineEnvironmentVariables, @@NextEnvironmentVariable, @@EnvironmentVariableValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = EnvironmentVariableValue()
+
+@Description
+  Gibt den Wert der aktuellen Umgebungsvariable zurück, welche gerade mittels
+  @@ExamineEnvironmentVariables und @@NextEnvironmentVariable untersucht wird.
+  @@EnvironmentVariableName kann verwendet werden, um deren Namen zu ermitteln.
+
+@NoParameters
+
+@ReturnValue
+  Der Wert der aktuellen Umgebungsvariable, welche gerade mittels
+  @@ExamineEnvironmentVariables und @@NextEnvironmentVariable untersucht wird.
+
+@SeeAlso
+  @@ExamineEnvironmentVariables, @@NextEnvironmentVariable, @@EnvironmentVariableName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ExamineEnvironmentVariables()
+
+@Description
+  Beginnt die Untersuchung des Umgebungsblocks vom Programm. 
+@LineBreak
+@LineBreak
+  @@NextEnvironmentVariable, @@EnvironmentVariableName 
+  und @@EnvironmentVariableValue können verwendet werden,
+  um die individuellen Umgebungsvariablen auszulesen.
+
+@NoParameters
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn der Umgebungsblock gelesen werden konnte, andernfalls Null.
+
+@Example
+@Code
+  ; Wird alle Umgebungsvariablen des Programms ausgeben
+  ;
+  OpenConsole()
+  If ExamineEnvironmentVariables()
+    While NextEnvironmentVariable()
+      PrintN(EnvironmentVariableName() + " = " + EnvironmentVariableValue())
+    Wend
+  EndIf
+  PrintN("")
+  PrintN("Druecken Sie Enter zum Beenden.")
+  Input() 
+@EndCode
+
+@SeeAlso
+  @@NextEnvironmentVariable, @@EnvironmentVariableName, @@EnvironmentVariableValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetEnvironmentVariable(Name$)
+
+@Description
+  Gibt den Inhalt der angegebenen Umgebungsvariable aus dem Umgebungsblock des Programms zurück.
+
+@Parameter "Name$"
+  Der Name der zu ermittelnden Umgebungsvariable.
+
+@ReturnValue
+  Der Wert der Umgebungsvariable - oder ein leerer String, wenn die Umgebungsvariable nicht
+  existiert.
+
+@Example
+@Code
+  ; Gibt den Inhalt der "PATH" Umgebungsvariable aus
+  ;
+  Debug GetEnvironmentVariable("PATH")
+@EndCode
+
+@SeeAlso
+  @@SetEnvironmentVariable
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsProgram(Programm)
+
+@Description
+  Überprüft, ob das angegebene 'Programm' ein Programm ist, welches mittels der
+  @@RunProgram Funktion gestartet wurde.
+  
+@Parameter "Programm"
+  Das zu überprüfende Programm.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Programm durch die @@RunProgram Funktion ausgeführt
+  wird, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden.
+
+@SeeAlso
+  @@RunProgram
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function KillProgram(Programm)
+
+@Description
+  Beendet umgehend das angegebene Programm (welches zuvor mittels @@RunProgram gestartet wurde).
+
+@Parameter "Programm"
+  Das zu beendende Programm. Dieses muss zuvor mittels @@RunProgram gestartet worden sein.
+
+@NoReturnValue
+
+@Remarks
+  Dies beendet das Programm, schließt jedoch nicht die Verbindung mit dem Programmobjekt
+  des beendeten Programms. @@CloseProgram muss trotzdem aufgerufen werden, um
+  korrekt alle dem Programm zugewiesenen Daten freizugeben.
+
+@SeeAlso
+  @@CloseProgram
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NextEnvironmentVariable()
+
+@Description
+  Dieser Befehl muss nach @@ExamineEnvironmentVariables aufgerufen werden.
+  Er geht Schritt für Schritt durch die Umgebungsvariablen des Programms.
+  
+@NoParameters
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn es weitere zu lesende Variablen gibt, andernfalls Null.
+  
+@Remarks
+  Verwenden Sie @@EnvironmentVariableName und @@EnvironmentVariableValue, um den
+  Namen und den Inhalt der aktuellen Variable zu ermitteln.
+
+@SeeAlso
+  @@ExamineEnvironmentVariables, @@EnvironmentVariableName, @@EnvironmentVariableValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ProgramExitCode(Programm)
+
+@Description
+  Gibt den "Exitcode" zurück, der vom angegebenen Programm bei dessen Beendigung zurückgegeben wurde.
+  
+@Parameter "Programm"
+  Das zu verwendende Programm. Dieses muss zuvor mittels @@RunProgram gestartet worden sein.
+
+@ReturnValue
+  Der 'ExitCode', der zurückgegeben wurde, als das angegebene Programm endete.
+
+@Remarks
+  Dieser Befehl sollte nur verwendet werden, nachdem das angegebene Programm beendet wurde.
+  Verwenden Sie @@ProgramRunning oder @@WaitProgram, um hierbei sicher zu gehen. 
+@LineBreak
+@LineBreak
+  Der Exitcode ermöglicht die Rückgabe eines einzelnen Wertes durch das Programm an das Programm, welches 
+  es ausgeführt hat. Dieser wird üblicherweise verwendet, um einen Fehler oder Erfolg des Programms anzuzeigen.
+  Bitte beachten, dass aufgrund von OS-Limitierungen auf OS X und Linux die unterstützten Exitcodes zwischen
+  0 und 255 liegen.
+@LineBreak
+@LineBreak
+  Um einen "Exitcode" durch ein PB Programm zurückgeben zu lassen, verwenden Sie den optionalen
+  Wert bei der @Keyword "End" Anweisung:
+@Code
+  End 1   ; gibt den Exitcode 1 zurück
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = ProgramFilename()
+
+@Description
+  Gibt den vollen Pfad und den Dateinamen des (laufenden) Programms zurück.
+  Dies kann verwendet werden, um den Namen des Executables herauszufinden oder wohin das
+  Programm installiert wurde.
+@LineBreak
+@LineBreak
+  @@GetPathPart oder @@GetFilePart können verwendet werden, um den Pfad oder Dateinamen
+  des Programms vom zurückgegebenen String zu ermitteln.
+
+@NoParameters
+
+@ReturnValue
+  Der volle Pfad und Dateiname dieses Programms.
+
+@OS Windows
+@LineBreak
+@LineBreak
+  Wenn dieser Befehl innerhalb einer @ReferenceLink "dll" "DLL" verwendet wird, gibt er
+  den Pfad und den Namen der DLL zurück - nicht des Hauptprogramms, welches diese geladen hat.
+@EndOS
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ProgramID(Programm)
+
+@Description
+  Gibt den eindeutigen Systembezeichner ("system identifier") des angegebenen Programms
+  zurück. Dabei handelt es sich um die sogenannte "Prozess-ID" oder "PID".
+
+@Parameter "Programm"
+  Das zu verwendende Programm. Dieses muss zuvor mittels @@RunProgram gestartet worden sein.
+
+@ReturnValue
+  Der eindeutige Systembezeichner (Identifier) für das angegebene Programm.
+
+@OS Windows
+@LineBreak
+@LineBreak
+  Wenn der Identifier nicht zurückgegeben werden kann, wird -1 zurückgegeben.
+@LineBreak
+  Dies passiert, wenn @@RunProgram zum Öffnen einer Datei in einem anderen
+  Programm verwendet wird, wie z.B. RunProgram("Source.pb").
+@LineBreak
+@LineBreak
+  Hinweis: der hier zurückgegebene Wert ist kein Handle (wie bei den meisten anderen ...ID() Befehlen).
+  Es ist stattdessen die Prozess-ID, welche auch im TaskManager zu sehen ist. Um ein Prozess-Handle
+  zu erhalten, verwenden Sie die OpenProcess_() API.
+@LineBreak
+@LineBreak
+   Hinweis: Der zurückgegebene Wert kann falsch sein, wenn der Prozess durch einen Wrapper
+   gestartet wurde, wie dies bei Windows 10 der Fall ist und bei UWP (Universal Windows Platform)
+   Programmen, die durch ApplicationFrameHost.exe (AFH) gestartet wurden.
+@EndOS
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Parameter$ = ProgramParameter([Index])
+
+@Description
+  Ermittelt den nächsten Parameter-String, der dem Executable beim Start übergeben wurde.
+  
+@OptionalParameter "Index"
+  Wenn angegeben, wird der Parameter für diesen Index zurückgegeben. Der erste
+  Parameter-Index beginnt bei 0.
+  
+@ReturnValue
+  Der nächste Parameter-Wert - oder einen leeren String, wenn keine weiteren Parameter
+  gefunden wurden. Wenn ein 'Index' angegeben wurde, dann wird der angegebene Parameter-Wert
+  zurückgegeben.
+
+@Remarks  
+  Dieser Befehl ist insbesondere nützlich für @LibraryLink "console" "Konsolen-Programme",
+  wo der Anwender beim Programmstart einen oder mehrere Parameter übergibt.
+@LineBreak
+@LineBreak
+  @Bold "Hinweis:" Sich zur Ermittlung des letzten Parameters auf die Rückgabe eines leeren 
+  Strings zu verlassen, ist keine gute Praxis, da der Befehl auch einen leeren String 
+  zurückgibt, wenn in "" ein leerer String in der Kommandozeile übergeben wurde.
+  Der bessere Weg zur Ermittlung aller Parameter ist es, die Anzahl mittels
+  @@CountProgramParameters zu ermitteln und dann 
+  ProgramParameter() sooft wie nötig aufzurufen.
+
+@Example
+@Code
+  MyProgram.exe MyText.txt /FAST "Special Mode"
+@EndCode
+  Das erste Mal, wenn ProgramParameter() aufgerufen wird, gibt es "MyText.txt" zurück,
+  beim zweiten Mal "/FAST" und beim dritten Mal "Special Mode".
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ProgramRunning(Programm)
+
+@Description
+  Überprüft, ob das angegebene Programm noch läuft.
+
+@Parameter "Programm"
+  Das zu verwendende Programm. Dies muss zuvor mittels @@RunProgram gestartet worden sein.
+
+@ReturnValue
+  Ein Wert ungleich Null, solange wie das Programm noch nicht beendet wurde, andernfalls Null.
+@LineBreak
+  Wenn das Programm mit dem @#PB_Program_Read Flag gestartet wurde, wird solange einen Wert
+  ungleich Null zurückgegeben, wie es noch etwas zum Lesen gibt, auch wenn das Programm
+  tatsächlich bereits beendet ist.
+
+@SeeAlso
+  @@RunProgram 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ReadProgramData(Programm, *Puffer, Größe)
+
+@Description
+  Liest Daten von der angegebenen Programmausgabe (stdout) und speichert diese in den
+  angegebenen Puffer.
+@LineBreak
+  Dieser Befehl wartet, bis Daten vom Programm einzulesen sind. Um diesen Wartevorgang
+  zu vermeiden, kann zuerst @@AvailableProgramOutput verwendet werden, um zu überprüfen,
+  ob etwas zum Einlesen vorhanden ist.
+  
+@Parameter "Programm"
+  Das zu verwendende Programm. Dieses muss zuvor mittels @@RunProgram und dem
+  @#PB_Program_Read Flag gestartet worden sein.
+
+@Parameter "*Puffer"
+  Der Speicherpuffer, in den die Daten eingelesen werden sollen. Ein Speicherpuffer
+  kann zum Beispiel mit @@AllocateMemory erstellt werden.
+
+@Parameter "Größe"
+  Die zu lesende Größe, in Bytes. Der Puffer sollte groß genug sein, um mit dieser
+  Größe umgehen zu können.
+  
+@ReturnValue
+  Die Anzahl an gerade gelesenen Bytes.
+
+@Remarks
+  Diese Funktion liest bis zu 'Größe' an Bytes - aber auch weniger, wenn nicht soviel verfügbar ist
+  (sie gibt jedoch nicht Null Bytes zurück, da immer auf einige zu lesende Daten gewartet wird).
+  Überprüfen Sie den Rückgabewert, um den Umfang der gelesenen Daten zu wissen.
+@LineBreak
+@LineBreak
+  Allerdings bleibt die Funktion unbegrenzt gesperrt, wenn das Programm einen Eingriff des Nutzers
+  anfordert. Geben Sie z.B. eine Ja/Nein-Auswahl an das Programm zurück, um fortzufahren.
+  
+@SeeAlso
+  @@ReadProgramString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = ReadProgramError(Programm [, Flags])
+
+@Description
+  Liest eine Zeile von der Fehlerausgabe (stderr) des angegebenen Programms.
+  Anders als @@ReadProgramData hält diese Funktion nicht den Programmablauf an,
+  wenn keine Fehlerausgabe verfügbar ist.
+
+@Parameter "Programm"
+  Das zu verwendende Programm. Dieses muss zuvor mittels @@RunProgram und dem
+  @#PB_Program_Error Flag gestartet worden sein.
+  
+@OptionalParameter "Flags"
+  Das zu verwendende String-Format, wenn die Fehlerausgabe gelesen wird.
+  Das Standard-Format kann bestimmt werden mit den @#PB_Program_Ascii, @#PB_Program_Unicode 
+  und @#PB_Program_UTF8 Flags für @@RunProgram.
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Ascii  : Liest die Fehlerausgabe als ASCII
+  @#PB_UTF8   : Liest die Fehlerausgabe als UTF8 (Standard)
+  @#PB_Unicode: Liest die Fehlerausgabe als @ReferenceLink "unicode" "Unicode"
+@EndFixedFont  
+
+@ReturnValue
+  Der Fehlerstring - oder ein leerer String, wenn es keine Fehlerausgabe gibt.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = ReadProgramString(Programm [, Flags])
+
+@Description
+  Liest eine Zeile von der Ausgabe (stdout) des angegebenen Programms.
+@LineBreak
+@LineBreak
+  Diese Funktion wartet, bis für das Programm Daten zum Einlesen verfügbar sind.
+  Zur Vermeidung dieses Wartevorgangs kann zuerst @@AvailableProgramOutput verwendet werden,
+  um zu überprüfen, ob etwas zum Einlesen vorhanden ist. Dieser Befehl wartet auch, bis eine
+  vollständige Zeile von der Ausgabe verfügbar ist. Wenn nicht zeilenbasierte oder Roh-Daten von
+  der Ausgabe einzulesen sind, kann @@ReadProgramData verwendet werden.
+  
+@Parameter "Programm"
+  Das zu verwendende Programm. Dieses muss zuvor mittels @@RunProgram und dem
+  @#PB_Program_Read Flag gestartet worden sein.
+
+@OptionalParameter "Flags"
+  Das beim Lesen der Ausgabe zu verwendende Stringformat.
+  Das Standard-Format kann bestimmt werden mit den @#PB_Program_Ascii, @#PB_Program_Unicode 
+  und @#PB_Program_UTF8 Flags für @@RunProgram.
+  Dies kann einer der folgenden
+  Werte sein:
+@FixedFont
+  @#PB_Ascii  : Liest die Ausgabe als ASCII
+  @#PB_UTF8   : Liest die Ausgabe als UTF8 (Standard)
+  @#PB_Unicode: Liest die Ausgabe als @ReferenceLink "unicode" "Unicode"
+@EndFixedFont  
+
+@ReturnValue
+  Ein von der Programmausgabe erstellter String.
+
+@Remarks
+  Allerdings bleibt die Funktion unbegrenzt gesperrt, wenn das Programm einen Eingriff des Nutzers
+  anfordert. Geben Sie z.B. eine Ja/Nein-Auswahl an das Programm zurück, um fortzufahren.
+  
+@SeeAlso
+  @@ReadProgramData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveEnvironmentVariable(Name$)
+
+@Description
+  Entfernt die angegebene Umgebungsvariable vom Umgebungsblock des Programms.
+
+@Parameter "Name$"
+  Die zu entfernende Umgebungsvariable.
+  
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = RunProgram(DateiName$ [, Parameter$, Arbeitsverzeichnis$ [, Flags [, SenderProgramm]]])
+
+@Description
+  Startet ein externes Programm.
+  
+@Parameter "DateiName$"
+  Der Name des Executables einschließlich dessen Pfad.
+  
+@OptionalParameter "Parameter$"
+  Definiert die Kommandozeilen-Parameter, welche an das Programm übergeben werden.
+  
+@OptionalParameter "Arbeitsverzeichnis$"
+  Gibt das Verzeichnis an, welches dann das aktuelles Verzeichnis für das gestartete
+  Programm sein wird.
+
+@OptionalParameter "Flags"
+  Dies kann eine Kombination (mittels '|' OR-Operator) der folgenden Werte sein:
+@FixedFont
+  @#PB_Program_Wait   : Wartet bis das gestartete Programm beendet wird
+  @#PB_Program_Hide   : Startet das Programm im unsichtbaren Modus
+  @#PB_Program_Open   : Öffnet ein Programm, um mit diesem zu kommunizieren oder Informationen darüber zu erhalten
+  @#PB_Program_Read   : Liest die Konsolenausgabe des Programms (stdout)
+  @#PB_Program_Write  : Schreibt in die Eingabe des Programms (stdin)
+  @#PB_Program_Error  : Liest die Fehlerausgabe des Programms (stderr)
+  @#PB_Program_Connect: Verbindet die Ausgabe eines anderen Programms mit der Eingabe dieses Programms
+  @#PB_Program_Ascii  : Standard Lese/Schreib Operationen erfolgen in ASCII.
+  @#PB_Program_Unicode: Standard Lese/Schreib Operationen erfolgen in Unicode.
+  @#PB_Program_UTF8   : Standard Lese/Schreib Operationen erfolgen in UTF8 (Standard).
+@EndFixedFont
+
+  Ein mittels @#PB_Program_Open ausgeführtes Programm muss mit @@CloseProgram
+  geschlossen werden. Die 'Read', 'Write', 'Error' und 'Connect' Flags benötigen
+  auch ein gleichzeitig gesetztes @#PB_Program_Open Flag.
+@LineBreak
+@LineBreak
+  Beim Verwenden des @#PB_Program_Connect Flags muss zuvor ein anderes Programm mit den
+  @#PB_Program_Open und @#PB_Program_Read Flags gestartet worden sein.
+  Die beim Starten dieses Programms zurückgegebene Nummer muss als 'SenderProgramm' Parameter
+  an RunProgram() übergeben werden.
+@LineBreak
+@LineBreak
+  Die folgenden Befehle können verwendet werden, wenn ein Programm mit dem @#PB_Program_Open Flag ausgeführt wurde:
+@LineBreak
+@LineBreak
+ - @@IsProgram: überprüft, ob eine Nummer ein gültiges - mittels RunProgram() ausgeführtes Programm - darstellt.
+@LineBreak
+ - @@ProgramID: gibt die OS Prozess-ID des Programms zurück.
+@LineBreak
+ - @@ProgramRunning: überprüft, ob ein Programm noch läuft.
+@LineBreak
+ - @@WaitProgram: wartet auf das Ende eines Programms.
+@LineBreak
+ - @@KillProgram: beendet das Programm.
+@LineBreak
+ - @@ProgramExitCode: ermittelt den Exitcode des Programms.
+@LineBreak
+ - @@CloseProgram: schließt die Verbindung zum Programm.
+@LineBreak
+@LineBreak
+  Die folgenden Befehle können für Programme, welche mit den 'Read', 'Write' und 'Error' Flags ausgeführt wurden, verwendet werden:
+@LineBreak
+@LineBreak
+ - @@AvailableProgramOutput: überprüft, ob die Ausgabe eines Programms verfügbar ist.
+@LineBreak
+ - @@ReadProgramString: liest einen String von der Ausgabe des Programms.
+@LineBreak
+ - @@ReadProgramData: liest Daten von der Ausgabe des Programms.
+@LineBreak
+ - @@ReadProgramError: liest einen String von der Fehlerausgabe des Programms.
+@LineBreak
+ - @@WriteProgramString: schreibt einen String in die Eingabe des Programms.
+@LineBreak
+ - @@WriteProgramData: schreibt Daten in die Eingabe des Programms.
+
+@OptionalParameter "Sender-Programm"
+  Wird in Verbindung mit dem @#PB_Program_Connect Flag benötigt, und muss die Nummer eines
+  zuvor mittels RunProgram() und den @#PB_Program_Open und @#PB_Program_Read Flags gestarteten
+  anderen Programms beinhalten. Die Ausgabe des "Sender-Programms" wird dann direkt an
+  die Eingabe des nun ausgeführten Programms geschickt. Verschiedene Programme können auf
+  diese Art und Weise verbunden werden, um Daten zwischen verschiedenen Programmen
+  weiterzureichen (der englische Begriff ist 'pipe' - bildlich auch so vorstellbar:
+  "der Datenstrom geht in einer Richtung durch alle Programme").
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Programm erfolgreich gestartet wurde, andernfalls Null.
+@Linebreak
+@Linebreak
+  Wenn @#PB_Program_Open in den übergebenen Flags enthalten war, ist der
+  Rückgabewert eine Nummer, welche das Programm identifiziert. Diese kann beim Aufruf von
+  Befehlen wie @@ReadProgramString oder @@ProgramExitCode verwendet werden, um Informationen
+  über das Programm zu erhalten. Gleiches gilt analog bei anderen der oben genannten Befehle.
+
+@Example
+@Code
+  ; Führt den PB Compiler mit der -h Option aus und stellt die Ausgabe dar
+  ;
+  Compiler = RunProgram(#PB_Compiler_Home+"compilers/pbcompiler", "-h", "", #PB_Program_Open | #PB_Program_Read)
+  Output$ = ""
+  If Compiler
+    While ProgramRunning(Compiler)
+      If AvailableProgramOutput(Compiler)
+        Output$ + ReadProgramString(Compiler) + Chr(13)
+      EndIf
+    Wend
+    Output$ + Chr(13) + Chr(13)
+    Output$ + "Exitcode: " + Str(ProgramExitCode(Compiler))
+    
+    CloseProgram(Compiler) ; Schließt die Verbindung zum Programm
+  EndIf
+  
+  MessageRequester("Output", Output$)
+@EndCode  
+
+@OS Windows
+  Unter Windows verwendet RunProgram() die Standard-Applikation, welche mit dem Dateityp der angegebenen
+  Datei verknüpft ist. Ein Beispiel: RunProgram("Test.html") öffnet den WebBrowser, welcher auf Ihrem
+  System standardmäßig für das Anzeigen von Webseiten verwendet wird.
+@EndOS
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetEnvironmentVariable(Name$, Wert$)
+
+@Description
+  Erstellt eine Umgebungsvariable im Umgebungsblock des Programms mit dem angegebenen Namen
+  und Wert. Wenn eine Variable mit diesem Namen bereits existiert, wird ihr Inhalt auf den
+  neuen Wert geändert.
+@Linebreak
+@Linebreak
+  Der Umgebungsblock eines Programms wird auch an andere - mit @@RunProgram
+  ausgeführte - Programme übergeben. Damit kann diese Methode benutzt werden, um Informationen
+  an ein von diesem Programm aufgerufenes Programm weiterzugeben. (Das ausgeführte Programm kann
+  @@GetEnvironmentVariable verwenden, um die Variablen zu lesen.)
+
+@Parameter "Name$"
+  Der Name der Umgebungsvariablen.
+
+@Parameter "Wert$"
+  Der neue Wert der Umgebungsvariablen.
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetEnvironmentVariable
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = WaitProgram(Programm [, Timeout])
+
+@Description
+  Hält die Ausführung des Programmcodes an, bis das angegebene Programm 
+  beendet oder der optionale 'Timeout'-Wert erreicht wurde.
+  
+@Parameter "Programm"
+  Das zu verwendende Programm. Dieses muss zuvor mittels @@RunProgram gestartet
+  worden sein.
+
+@OptionalParameter "Timeout"
+  Der zu verwendende 'Timeout'-Wert, in Millisekunden.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Programm endete.
+  Null, wenn das Timeout erreicht wurde.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = WriteProgramData(Programm, *Puffer, Größe)
+
+@Description
+  Schreibt die Daten aus dem Puffer in die Eingabe (stdin) des angegebenen Programms.
+
+@Parameter "Programm"
+  Das zu verwendende Programm. Dieses muss zuvor mittels @@RunProgram und dem
+  @#PB_Program_Write Flag gestartet worden sein.
+
+@Parameter "*Puffer"
+  Der Speicherpuffer, von dem die Daten geschrieben werden sollen.
+@Linebreak
+  Der spezielle Wert @#PB_Program_Eof kann anstelle eines tatsächlichen Speicherpuffers
+  verwendet werden, damit das Programm ein EOF ("Ende der Datei") in seiner Eingabe empfängt.
+  (Damit wird diesem mitgeteilt, dass keine weiteren Eingaben folgen.)
+@Linebreak
+  Der Parameter 'Größe' wird in diesem Fall ignoriert. Nach dem Aufruf von WriteProgramData() 
+  mit diesem speziellen Wert, können keine weiteren Eingaben an das Programm geschrieben werden.
+
+@Parameter "Größe"
+  Die zu schreibende Größe.
+
+@ReturnValue
+  Die Anzahl an gerade geschriebenen Bytes.
+  
+@SeeAlso
+  @@WriteProgramString, @@WriteProgramStringN
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = WriteProgramString(Programm, String$ [, Flags])
+
+@Description
+  Schreibt den angegebenen String$ in die Eingabe des angegebenen Programms (stdin). 
+  
+@Parameter "Programm"
+  Das zu verwendende Programm. Dieses muss zuvor mittels @@RunProgram und dem
+  @#PB_Program_Write Flag gestartet worden sein.
+
+@Parameter "String$"
+  Der zu schreibende String. Nach diesem String wird kein Zeilenumbruch an das Programm
+  geschickt. Um den Zeilenumbruch hinzuzufügen, kann @@WriteProgramStringN verwendet werden.
+  Für das Schreiben von Roh-Daten an das Programm kann @@WriteProgramData benutzt werden.
+  Diese Funktion kann auch verwendet werden, um ein EOF ("Ende der Datei") an das Programm
+  zu senden, um diesem mitzuteilen, dass keine weiteren Daten folgen werden.
+
+@OptionalParameter "Flags"
+  Das beim Schreiben des Strings in die Programmeingabe zu verwendende Stringformat.
+  Das Standard-Format kann bestimmt werden mit den @#PB_Program_Ascii, @#PB_Program_Unicode 
+  und @#PB_Program_UTF8 Flags für @@RunProgram.
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Ascii  : Schreibt den String als ASCII
+  @#PB_UTF8   : Schreibt den String als UTF8 (Standard)
+  @#PB_Unicode: Schreibt den String als @ReferenceLink "unicode" "Unicode"
+@EndFixedFont  
+
+@NoReturnValue
+
+@SeeAlso
+  @@WriteProgramStringN, @@ReadProgramString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = WriteProgramStringN(Programm, String$ [, Flags])
+
+@Description
+  Schreibt den angegebenen String$ mit einem extra Zeilenumbruch-Zeichen in die Eingabe
+  des angegebenen Programms (stdin).
+  
+@Parameter "Programm"
+  Das zu verwendende Programm. Dieses muss zuvor mittels @@RunProgram und dem
+  @#PB_Program_Write Flag gestartet worden sein.
+
+@Parameter "String$"
+  Der zu schreibende String. Ein extra Zeilenumbruch-Zeichen wird an den String angehängt.
+  Um einen String ohne einen Zeilenumbruch zu schreiben, kann @@WriteProgramString verwendet werden.
+  Für das Schreiben von Roh-Daten an das Programm kann @@WriteProgramData benutzt werden.
+  Diese Funktion kann auch verwendet werden, um ein EOF ("Ende der Datei") an das Programm
+  zu senden, um diesem mitzuteilen, dass keine weiteren Daten folgen werden.
+
+@OptionalParameter "Flags"
+  Das beim Schreiben des Strings in die Programmeingabe zu verwendende Stringformat.
+  Das Standard-Format kann bestimmt werden mit den @#PB_Program_Ascii, @#PB_Program_Unicode 
+  und @#PB_Program_UTF8 Flags für @@RunProgram.
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Ascii  : Schreibt den String als ASCII
+  @#PB_UTF8   : Schreibt den String als UTF8 (Standard)
+  @#PB_Unicode: Schreibt den String als @ReferenceLink "unicode" "Unicode"
+@EndFixedFont  
+
+@NoReturnValue
+
+@SeeAlso
+  @@WriteProgramString, @@ReadProgramString
+
+@SupportedOS

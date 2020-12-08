@@ -1,0 +1,467 @@
+@Title Bearbeitungsfunktionen
+
+  Die PureBasic IDE verhält sich wie jeder andere Texteditor, wenn wir auf die grundlegenden
+  Bearbeitungsfunktionen zu sprechen kommen. Die Cursortasten, genauso wie die Bild auf-/Bild ab-,
+  Pos 1- und Ende-Tasten können zur Navigation durch den Code verwendet werden.
+  Strg+Pos 1 springt an den Anfang der Datei und Strg+Ende an das Ende.
+@LineBreak
+@LineBreak
+  Die Standard-Tastenkürzel Strg+A (Alles markieren), Strg+C (Kopieren), Strg+X (Ausschneiden) und Strg+V (Einfügen) können
+  für das Bearbeiten verwendet werden. Über die "Einfg"-Taste wird bestimmt, ob Text eingefügt oder
+  überschrieben wird. Die "Entf"-Taste veranlasst ein vorwärts löschen. Durch Festhalten der 
+  Umschalt-Taste (Shift) und Benutzung der Pfeiltasten wird Text ausgewählt.
+@LineBreak
+@LineBreak
+  Die Tastenkürzel Strg+Shift+Up und Strg+Shift+Down ermöglichen Ihnen, eine Zeile nach
+  oben oder unten zu verschieben.
+@LineBreak
+  Das Tastenkürzel Strg+D dupliziert eine Auswahl.
+@LineBreak
+@LineBreak
+  Auf Windows ermöglichen Ihnen die Tastenkürzel Strg+Plus und Strg+Minus das Rein- bzw. Rauszoomen
+  der Anzeige in allen Tabs, und Strg+0 stellt den Standardzoom wieder her. Linux- und OSX-Nutzer
+  können diese selbst erstellen. Das Tastenkürzel Strg+Mausrad zoomt nur im aktuellen Tab.
+@LineBreak
+@LineBreak
+  Die Tastenkürzel Strg+Tab bzw. Strg+Shift+Tab ermöglichen Ihnen das Verschieben der offenen Tabs.
+@LineBreak
+@LineBreak
+  Es sind viele weitere Tastenkürzel verfügbar, wie z.B. Strg+Shift+U/L/X zum Verändern der Groß-/Kleinschreibung.
+  Gehen Sie in die @ReferenceLink "ide_preferences" "Einstellungen" (Menü "Datei" / "Einstellungen / Allgemein / Tastenkürzel".
+@LineBreak
+@LineBreak
+  Weiterhin hat die IDE viele zusätzliche Bearbeitungsfunktionen, die speziell für die
+  Programmierung bzw. PureBasic sind.
+@LineBreak
+@LineBreak
+
+
+@Section Einrückung:
+  Wenn Sie Return/Enter drücken, dann wird die Einrückung (Anzahl an Leerzeichen/Tabs am Anfang der Zeile)
+  der aktuellen und der nächsten Zeile automatisch korrigiert, abhängig von den auf diesen Zeilen
+  vorhandenen @ReferenceLink "general_rules" "Schlüsselwörtern".
+  @LineBreak
+  Ein "Block-Modus" ist ebenfalls verfügbar, wobei die neue Zeile einfach die gleiche Einrückung
+  wie die vorherige erhält. Die Details dieser Funktion können in den @referencelink "ide_preferences" "Einstellungen"
+  angepasst werden.
+
+
+@Section Tabulator-Zeichen:
+  Standardmäßig fügt die IDE beim Drücken der Tabulator-Taste keine echten Tabulator-Zeichen
+  ein, da viele Programmierer es als eine nicht so gute Sache ansehen, echte Tabs im Quellcode
+  zu verwenden.
+@LineBreak
+@LineBreak
+  Die IDE fügt stattdessen zwei Leerzeichen ein. Dieses Verhalten kann in den Voreinstellungen
+  geändert werden. Siehe @Referencelink "ide_preferences" "Anpassen der IDE" für weitere
+  Informationen.
+
+
+@Section Spezielles Tabulator-Verhalten:
+  Wenn die Tabulator-Taste gedrückt wird, während nichts oder nur einige Zeichen ausgewählt
+  sind, agiert die Tab-Taste wie oben beschrieben (es werden eine Anzahl Leerzeichen oder
+  ein echtes Tab-Zeichen eingefügt, wenn entsprechend konfiguriert).
+@LineBreak
+@LineBreak
+  Wenn jedoch eine oder mehrere vollständige Zeilen selektiert sind, dann ist die Reaktion
+  anders. In diesem Fall werden am Anfang jeder ausgewählten Zeile Leerzeichen oder ein
+  Tab-Zeichen (abhängig von der Konfiguration) eingefügt. Dies vergrößert die Einrückung 
+  des gesamten selektierten Blocks.
+@LineBreak
+@LineBreak
+  Das Markieren mehrerer Zeilen Text und Drücken von Shift+Tab kehrt dieses Verhalten um.
+  Es entfernt Leerzeichen/Tabs am Anfang jeder Zeile, um die Einrückung des gesamten Blocks
+  zu verringern.
+
+
+@Section Einrückung/Ausrichtung von Kommentaren:
+  Ähnlich dem speziellen Tabulator-Verhalten oben können die Tastenkürzel Strg+E und
+  Strg+Shift+E (CMD+E und CMD+Shift+E auf OSX) verwendet werden, um nur die Einrückung
+  der Kommentare in einem ausgewählten Block des Quellcodes zu verändern. Dies hilft
+  beim Ausrichten von Kommentaren am Ende von Code-Zeilen, um den Code besser lesbar
+  zu machen. Die verwendeten Tastenkürzel können in den
+  @referencelink "ide_preferences" "Einstellungen" geändert werden.
+  
+
+@Section Auswahl von Code-Blöcken:
+  Das Tastenkürzel Strg+M (CMD+M auf OSX) kann verwendet werden, um den Block des
+  Quellcodes auszuwählen, der die aktuelle Cursor-Position beinhaltet (d.h. der
+  umgebende If-Block, die Schleife oder Prozedur). Die wiederholte Nutzung dieses
+  Tastenkürzels wählt weitere umgebende Code-Blöcke aus.
+@LineBreak
+@LineBreak
+  Das Tastenkürzel Strg+Shift+M (CMD+Shift+M auf OSX) kehrt dieses Verhalten um
+  und ändert die Auswahl wieder auf den Block, der vor der letzten Verwendung des
+  Strg+M Tastenkürzels ausgewählt war.
+@LineBreak
+@LineBreak
+  Die verwendeten Tastenkürzel können in den
+  @referencelink "ide_preferences" "Einstellungen" geändert werden.
+
+
+@Section Doppelklick auf Quellcode-Text:
+  Ein Doppelklick auf ein "Wort" markiert wie üblich das gesamte Wort. Dennoch hat unter
+  manchen Umständen ein Doppelklick eine spezielle Bedeutung:
+@LineBreak
+@LineBreak
+  Beim Doppelklick auf den Namen eines @ReferenceLink "procedures" "Prozedur"-Aufrufs,
+  während die Strg-Taste gedrückt ist, springt der Cursor automatisch zur Prozedur-Deklaration
+  (der Quellcode, der diese enthält, muss geöffnet oder Teil des selben Projektes sein).
+@LineBreak
+@LineBreak
+  Beim Doppelklick auf eine @ReferenceLink "includes" "IncludeFile" bzw.
+  @ReferenceLink "includes" "XincludeFile" Anweisung wird die IDE versuchen, diese
+  Datei zu öffnen. (Die ist nur möglich, wenn der Name der einzubindenden Datei als ein
+  Buchstaben-String geschrieben wurde, und nicht z.B. als Konstante.)
+@LineBreak
+@LineBreak
+  In der gleichen Art und Weise wird bei einem Doppelklick auf die 
+  @ReferenceLink "includes" "IncludeBinary" Anweisung die IDE versuchen, diese
+  Datei mit dem internen @ReferenceLink "ide_tools" "Dateibetrachter" anzuzeigen.
+
+
+@Section Markierung passender Klammern und Schlüsselwörter:
+
+@Image ide_main_match.png
+
+  Wenn sich der Cursor auf einer öffnenden oder schließenden Klammer befindet, wird die IDE die andere
+  dazugehörende Klammer hervorheben. Wenn eine passende Klammer nicht gefunden werden konnte (was in
+  PureBasic einen Syntax-Fehler darstellt), wird die IDE die aktuelle Klammer in rot hervorheben.
+  Das gleiche Konzept gilt auch für Schlüsselwörter. Befindet sich der Cursor auf einem Schlüsselwort
+  wie "If", wird die IDE dieses Schlüsselwort unterstreichen und ebenso alle dazugehörigen Schlüsselwörter
+  wie "Else" oder "EndIf". Gibt es unter den Schlüsselwörtern eine Nichtübereinstimmung, werden diese
+  in rot unterstrichen. Der weiter unten beschriebene Menüeintrag "Gehe zum dazugehörenden Schlüsselwort"
+  kann verwendet werden, um schnell zwischen zusammengehörenden Schlüsselwörtern hin und her zu springen.
+@LineBreak
+@LineBreak
+  Die Klammern- und Schlüsselwort-Übereinstimmung kann in den @ReferenceLink "ide_preferences" "Einstellungen"
+  angepasst werden.
+
+
+@Section Befehls-Hilfe in der Statuszeile:
+
+@Image ide_main_commandhelp.png
+  Während der Eingabe wird die IDE für jede PureBasic-Funktion, deren Parameter gerade 
+  eingegeben werden, alle benötigten Parameter anzeigen. Dies macht es einfach zu sehen, 
+  welche Parameter Sie noch zu dieser Funktion hinzufügen müssen. Dies funktioniert auch
+  bei @ReferenceLink "procedures" "Prozeduren", @ReferenceLink "prototypes" "Prototypes",
+  @ReferenceLink "interfaces" "Interfaces" und @ReferenceLink "import_endimport" "importierten Funktionen"
+  in Ihrem Code, solange sie im gleichen Quellcode bzw. @ReferenceLink "ide_projects" "Projekt"
+  deklariert wurden.
+
+
+@Section Faltungs-Optionen:
+
+@Image ide_main_folding.png
+  Wenn die IDE auf spezielle Faltungs-Schlüsselwörter stößt (@Keyword Procedure /
+  @Keyword EndProcedure zum Beispiel, weitere können hinzugefügt werden), dann markiert
+  die IDE den Bereich zwischen diesen Schlüsselwörtern auf der linken Seite neben den
+  Zeilennummern mit einem [-] am Startpunkt, gefolgt von einer senkrechten Linie bis
+  zum Endpunkt.
+@LineBreak
+@LineBreak
+  Durch Anklicken des [-] können Sie diesen Teil des Quellcodes verstecken ("falten"), um bei
+  größeren Quellcode-Dateien einen besseren Überblick zu behalten. Das [-] wird dann in ein
+  [+] geändert. Durch erneutes Anklicken wird der Code wieder angezeigt ("entfaltet").
+@LineBreak
+@LineBreak
+  Hinweis: Auch wenn der Status dieser gefalteten Code-Zeilen erhalten bleibt, wenn Sie die
+  Datei speichern/erneut öffnen, so behält doch die gerade erstellte Quellcode-Datei alle
+  Zeilen. Die Faltung wirkt sich nur auf die Darstellung des Codes in der IDE aus, nicht
+  auf den Code selbst.
+@LineBreak
+@LineBreak
+  Weitere Standardschlüsselwörter für das Falten sind ";{" und ";}". Da ";" einen Kommentar 
+  in PB markiert, wird dieser vom Compiler vollständig ignoriert. Diese bieten damit jedoch 
+  die Möglichkeit, selbst erstellte Faltungspunkte - die nicht einem speziellen PB-Schlüsselwort 
+  entsprechen - im Code zu platzieren.
+
+
+@Section Automatisches Vervollständigen:
+
+@Image ide_main_autocomplete.png
+  Damit Sie sich nicht den exakten Namen jedes einzelnen Befehls merken müssen, gibt es die 
+  Funktion zum "Automatischen Vervollständigen", um Ihnen das Leben einfacher zu machen.
+@LineBreak
+@LineBreak
+  Nachdem Sie den Anfang eines Befehls eingegeben haben, wird eine Liste möglicher
+  Übereinstimmungen mit dem eben von Ihnen eingegebenen Anfangswort angezeigt. Eine Liste 
+  mit Optionen wird auch angezeigt, wenn Sie eine strukturierte Variable oder Interface
+  gefolgt von einem "\" eingegeben haben.
+@LineBreak
+@LineBreak
+  Sie können nun eines dieser Worte mit den Hoch-/Runter-Pfeiltasten auswählen und an der 
+  aktuellen Cursor-Stelle mittels der Tab-Taste einfügen. Sie können auch einfach 
+  weiterschreiben, während die Liste geöffnet ist. Es wird dann 
+  die erste Übereinstimmung - die nach Ihrem Weiterschreiben immer noch möglich ist - genommen
+  und die Liste automatisch geschlossen, wenn entweder eine exakte Übereinstimmung vorliegt
+  oder es keine weiteren möglichen Übereinstimmungen in der Liste mehr gibt.
+@LineBreak
+@LineBreak
+  Escape schließt die "Auto-Vervollständigen" Liste zu jeder Zeit. Sie wird auch geschlossen,
+  wenn Sie mit der Maus irgendwohin in die IDE klicken.
+@LineBreak
+@LineBreak
+  Hinweis: Sie können in den Voreinstellungen konfigurieren, was in der "Auto-Vervollständigen"-Liste 
+  angezeigt wird, genauso wie auch das automatische Aufklappen der Liste ausschalten (benötigt 
+  dann einen Tastenkürzel wie Strg+Leertaste, um die Liste zu öffnen).
+  Siehe auch den Abschnitt zum "Automatischen Vervollständigen" in 
+  @referencelink "ide_preferences" "Anpassung der IDE" für weitere Informationen.
+
+
+@Section Werkzeugtafel an der Seite:
+
+@Image ide_main_toolspanel.png
+  Viele Werkzeuge, um das Navigieren/Bearbeiten des Quellcodes einfacher zu machen, können zur
+  Werkzeugtafel an der Seite des Editorfensters hinzugefügt werden. Für einen Überblick darüber
+  und wie Sie diese konfigurieren, sehen Sie in @referencelink ide_tools "Eingebaute Werkzeuge".
+
+
+@Section Das Bearbeiten-Menü:
+  Im folgenden Abschnitt erhalten Sie eine Erklärung der Einträge im Bearbeiten-Menü. 
+  Beachten Sie, dass auf viele der Bearbeiten-Menüeinträge auch durch einen Rechtsklick 
+  in den Quellcode zugegriffen werden kann, weil dann ein Aufklapp-Menü geöffnet wird.
+
+@Image ide_menu_edit.png
+
+@Bold Rückgängig
+@LineBreak
+  Macht die zuletzt im Editier-Bereich gemachte Änderung am Code rückgängig.
+  Es gibt einen Puffer dafür, weshalb mehrere Aktionen rückgängig gemacht werden können.
+
+@LineBreak
+@LineBreak
+
+@Bold Wiederholen
+@LineBreak
+  Wiederholt die letzte Aktion, die durch die Rückgängig-Funktion rückgängig gemacht wurde.
+
+@LineBreak
+@LineBreak
+
+@Bold Ausschneiden
+@LineBreak
+  Kopiert den ausgewählten Teil des Quellcodes in die Zwischenablage und entfernt ihn
+  aus dem Code.
+
+@LineBreak
+@LineBreak
+
+@Bold Kopieren
+@LineBreak
+  Kopiert den ausgewählten Text in die Zwischenablage, ohne diesen aus dem Code zu löschen.
+
+@LineBreak
+@LineBreak
+
+@Bold Einfügen
+@LineBreak
+  Fügt den Inhalt der Zwischenablage an der aktuellen Position in den Code ein.
+  Wenn irgendwelcher Text vorher markiert war, wird dieser entfernt und durch den
+  Inhalt der Zwischenablage ersetzt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Blockkommentar einfügen"
+@LineBreak
+  Fügt einen Kommentar (";") vor jeder Zeile des ausgewählten Code-Blocks ein.
+  Dies macht das Auskommentieren größerer Code-Abschnitte einfacher, als das ";"
+  manuell vor jeder Zeile einzufügen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Blockkommentar entfernen"
+@LineBreak
+  Entfernt die Kommentar-Zeichen am Anfang jeder ausgewählten Zeile. Dies kehrt
+  den Menü-Befehl "Blockkommentar einfügen" um, funktioniert jedoch auch mit 
+  manuell gesetzten Kommentaren.
+
+@LineBreak
+@LineBreak
+
+@Bold "Einrückung formatieren"
+@LineBreak
+  Formatiert den Einzug (Einrückung) der markierten Zeilen neu - ausgerichtet am Code über ihnen
+  und unter Beachtung ihrer enthaltenen @ReferenceLink "general_rules" "Schlüsselwörter".
+  Die Regeln für den Einzug können in den @ReferenceLink "ide_preferences" "Einstellungen"
+  angegeben werden.
+
+@LineBreak
+@LineBreak
+
+@Bold "Alles auswählen"
+@LineBreak
+  Markiert den gesamten Quellcode.
+
+@LineBreak
+@LineBreak
+
+@Bold "Gehe zu"
+@LineBreak
+  Dies ermöglicht Ihnen, zu einer bestimmten Zeile in Ihrem Quellcode zu springen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Gehe zum dazugehörenden Schlüsselwort"
+@LineBreak
+  Befindet sich der Cursor aktuell auf einem Schlüsselwort wie "If", springt die Menü-Option direkt
+  zum dazugehörenden Schlüsselwort (in diesem Fall "EndIf").
+
+@LineBreak
+@LineBreak
+
+@Bold "Letzte Zeile"
+@LineBreak
+  Die IDE merkt sich die Zeilen, die Sie angesehen haben (wo der Cursor stand). Zum Beispiel, 
+  wenn Sie mit der oben beschriebenen "Gehe zu"-Funktion oder dem @ReferenceLink "ide_tools" "Prozedurliste"-Werkzeug 
+  zu einer anderen Zeile springen. Mit diesem Menü-Befehl springen Sie an die zuletzt 
+  aufgesuchte Position zurück. 20 solcher letzten Positionen werden aufgezeichnet.
+@LineBreak
+@LineBreak
+  Beachten Sie, dass hier nur größere Sprünge im Code aufgezeichnet werden. Nicht, wenn Sie
+  sich einfach ein paar Zeilen mit den Pfeiltasten hoch oder runter bewegen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Aktuelle Faltung umschalten"
+@LineBreak
+  Dies öffnet/schließt den Faltungspunkt, an dem sich der Cursor gerade befindet.
+
+@LineBreak
+@LineBreak
+
+@Bold "Faltung umschalten"
+@LineBreak
+  Dies öffnet/schließt alle Faltungspunkte im aktuellen Quellcode. Sehr nützlich, um zum
+  Beispiel alle Prozeduren im Code zu verstecken. Oder um auf die Schnelle wieder den 
+  gesamten Code sehen zu können, wenn manche Code-Abschnitte zusammengefaltet sind.
+
+@LineBreak
+@LineBreak
+
+@Bold "Markierung hinzufügen/entfernen"
+@LineBreak
+  Markierungen verhalten sich wie Lesezeichen im Quellcode. Ihre Anwesenheit wird durch
+  einen kleinen Pfeil nahe der Zeilennummer angezeigt. Sie können später mit dem "Springe
+  zu Markierung" Menü-Befehl zu diesen Markierungen springen.
+@LineBreak
+@LineBreak
+  "Markierung hinzufügen/entfernen" setzt oder entfernt eine Markierung auf der gerade
+  von Ihnen bearbeiteten Zeile.
+@LineBreak
+@LineBreak
+  Hinweis: Sie können Markierungen auch hinzufügen/entfernen, indem Sie die Strg-Taste
+  gedrückt halten und auf den Rand (welcher die Markierungen beinhaltet, nicht auf den
+  Bereich der Zeilennummern) klicken.
+
+@LineBreak
+@LineBreak
+
+@Bold "Springe zu Markierung"
+@LineBreak
+  Die veranlasst den Cursor, ausgehend von der aktuellen Cursor-Position zur nächsten 
+  Markierung weiter unten zu springen. Gibt es keine weitere Markierung nach der aktuellen
+  Cursor-Position, springt er zur ersten Markierung im Quellcode.
+@LineBreak
+@LineBreak
+  Wenn Sie also das "Springe zu Markierung" Tastenkürzel (standardmäßig F2) mehrere Male 
+  drücken, können Sie zu allen Markierungen im Code springen.
+
+@LineBreak
+@LineBreak
+
+@Bold "Markierungen entfernen"
+  Dies entfernt alle Markierungen im aktuellen Quellcode.
+
+@LineBreak
+@LineBreak
+
+@Bold "Suchen/Ersetzen"
+
+@Image ide_edit_search.png
+
+  Der "Suchen/Ersetzen"-Dialog gibt Ihnen die Möglichkeit, nach speziellen Worten in
+  Ihrem Code zu suchen und diese auch mit etwas anderem zu ersetzen.
+@LineBreak
+@LineBreak
+  Der "Weitersuchen"-Schalter startet die Suche. Die Suche kann nach einer Übereinstimmung
+  auch mit dem "Weitersuchen" Menü-Befehl (standardmäßig F3) fortgesetzt werden.
+@LineBreak
+@LineBreak
+  Sie können die Suche genauer machen, indem Sie eines oder mehrere der Häkchen setzen:
+@LineBreak
+@underline "Groß-/Kleinschreibung beachten" : Nur Text, der auch in der Groß-/Kleinschreibung 
+  exakt mit dem Suchbegriff übereinstimmt, wird gefunden.
+@LineBreak
+@underline "Nur ganze Wörter" : Sucht nach dem angegebenen Suchbegriff als ganzes Wort. In diesem 
+  Fall werden keine Ergebnisse angezeigt, bei denen der Suchbegriff ein Teil des Worts ist.
+@LineBreak
+@underline "Nicht in Kommentaren suchen" : Jede gefundene Übereinstimmung in einem Kommentar wird ignoriert.
+@LineBreak
+@underline "Nicht in Strings suchen" : Jede gefundene Übereinstimmung, welche in einer Zeichenfolge 
+  (String, innerhalb von " ") auftritt, wird ignoriert.
+@LineBreak
+@underline "Nur innerhalb der Auswahl suchen" : Sucht nur in dem markieren Bereich des Quellcodes. Dies ist
+  nur bei der Verwendung mit dem "Alle ersetzen"-Schalter nützlich, bei dem jede Übereinstimmung ersetzt
+  wird, jedoch nur innerhalb des ausgewählten Bereichs.
+@LineBreak
+@LineBreak
+  Durch Setzen des "Ersetzen mit" Häkchens gelangen Sie in den Ersetzen-Modus. "Weitersuchen" wird
+  weiterhin nur Suchen, aber mit jedem Klick auf den "Ersetzen"-Schalter wird die nächste Übereinstimmung 
+  der Suche mit dem ersetzt, was zuvor in der "Ersetzen mit:"-Box eingegeben wurde.
+@LineBreak
+@LineBreak
+  Durch Anklicken von "Alle ersetzen" werden alle Übereinstimmungen von der aktuellen Position abwärts
+  ersetzt (außer "Nur innerhalb der Auswahl suchen" ist markiert). 
+
+@LineBreak
+@LineBreak
+
+@Bold "Weitersuchen"
+@LineBreak
+  Dies setzt die Suche nach der nächsten Übereinstimmung entsprechend der letzten über den
+  "Suchen/Ersetzen"-Dialog gestarteten Suche fort.
+
+@LineBreak
+@LineBreak
+
+@Bold "Vorheriges finden"
+@LineBreak
+  Dies setzt die Suche nach der vorherigen Übereinstimmung entsprechend der letzten über den
+  "Suchen/Ersetzen"-Dialog gestarteten Suche fort.
+
+@LineBreak
+@LineBreak
+
+@Bold "Suchen in Dateien"
+
+@Image ide_edit_searchfiles.png
+
+  Der "Suchen in Dateien"-Dialog gibt Ihnen die Möglichkeit, eine Suche innerhalb vieler
+  Dateien eines bestimmten Verzeichnisses auszuführen.
+@LineBreak
+@LineBreak
+  Sie müssen dazu einen Suchbegriff angeben, genauso wie ein Stammverzeichnis ("root" oder
+  Ausgangsverzeichnis), in welchem gesucht werden soll. Sie können die zu durchsuchenden
+  Dateien durch Angabe eines Dateiendungs-Filter genauer spezifizieren. Eine beliebige 
+  Anzahl an Filtern kann getrennt durch "," angegeben werden (*.* oder ein leeres 
+  Dateiendungs-Feld sucht in allen Dateien). Wie bei "Suchen/Ersetzen" gibt es Häkchen-Boxen, 
+  um die Suche genauer einzugrenzen.
+@LineBreak
+@LineBreak
+  Das Häkchen "Unterverzeichnisse einschließen" veranlasst die IDE, auch (rekursiv) innerhalb 
+  aller Unterverzeichnisse des angegebenen Stammverzeichnisses zu suchen.
+@LineBreak
+@LineBreak
+  Nach dem Starten der Suche wird ein separates Fenster geöffnet, welches alle Suchresultate
+  beinhaltet. Dort werden die gefundenen Ergebnisse angezeigt - mit Pfad und Dateinamen,
+  Zeilennummer und zutreffender Zeile jedes gefundenen Suchresultats.
+@LineBreak
+@LineBreak
+  Durch einen Doppelklick auf einen Eintrag im Ergebnisfenster wird die Datei in der IDE
+  geöffnet und der Cursor auf die zutreffende Ergebniszeile gesetzt.
+

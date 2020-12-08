@@ -1407,6 +1407,15 @@ Procedure MainMenuEvent(MenuItemID)
         SendEditorMessage(#SCI_SELECTIONDUPLICATE)
       EndIf
       
+    Case #MENU_UpperCase
+      AdjustSelection(0)
+    Case #MENU_LowerCase
+      AdjustSelection(1)
+    Case #MENU_InvertCase
+      AdjustSelection(2)
+    Case #MENU_SelectWord
+      AdjustSelection(3)
+      
     Case #MENU_ZoomIn
       If *ActiveSource And *ActiveSource\IsForm = 0 And *ActiveSource <> *ProjectInfo
         ZoomStep(1)
@@ -1703,7 +1712,7 @@ Procedure MainMenuEvent(MenuItemID)
       CompilerIf #CompileWindows | #CompileMac
         
       Case #MENU_Scintilla_Enter
-        If AutoCompleteWindowOpen And KeyboardShortcuts(#MENU_AutoComplete_OK) = #PB_Shortcut_Return    ; spechial handling when enter is used here
+        If AutoCompleteWindowOpen And KeyboardShortcuts(#MENU_AutoComplete_OK) = #PB_Shortcut_Return    ; special handling when enter is used here
           AutoComplete_Insert()
           
         ElseIf GetFocusGadgetID(#WINDOW_Main) = GadgetID(*ActiveSource\EditorGadget)
@@ -1722,7 +1731,7 @@ Procedure MainMenuEvent(MenuItemID)
         EndIf
         
       Case #MENU_Scintilla_Tab
-        If AutoCompleteWindowOpen And KeyboardShortcuts(#MENU_AutoComplete_OK) = #PB_Shortcut_Tab ; spechial handling when tab is used
+        If AutoCompleteWindowOpen And KeyboardShortcuts(#MENU_AutoComplete_OK) = #PB_Shortcut_Tab ; special handling when tab is used
           AutoComplete_Insert()
           
         ElseIf GetFocusGadgetID(#WINDOW_Main) = GadgetID(*ActiveSource\EditorGadget)
@@ -2561,7 +2570,7 @@ Procedure DispatchEvent(EventID)
                   ResizeTools()
                   
                 ElseIf EventID = #PB_Event_GadgetDrop
-                  ; spechial case for the Templates D+D
+                  ; special case for the Templates D+D
                   If EventGadget() = #GADGET_Template_Tree
                     Template_DropEvent()
                   EndIf

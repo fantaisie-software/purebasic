@@ -1,0 +1,16 @@
+Enumeration   ; GAsciiType
+  #G_ASCII_ALNUM = 1<<0
+  #G_ASCII_ALPHA = 1<<1
+  #G_ASCII_CNTRL = 1<<2
+  #G_ASCII_DIGIT = 1<<3
+  #G_ASCII_GRAPH = 1<<4
+  #G_ASCII_LOWER = 1<<5
+  #G_ASCII_PRINT = 1<<6
+  #G_ASCII_PUNCT = 1<<7
+  #G_ASCII_SPACE = 1<<8
+  #G_ASCII_UPPER = 1<<9
+  #G_ASCII_XDIGIT = 1<<10
+EndEnumeration
+
+#G_STR_DELIMITERS = "_-|><."
+#G_ASCII_DTOSTR_BUF_SIZE = (29+10)

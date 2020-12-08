@@ -1,0 +1,26 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Memory example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+; Note: this is for advanced users only
+;
+
+Structure People
+  Name$
+  List Friends$()
+EndStructure
+
+*DynamicPeople.People = AllocateStructure(People)
+*DynamicPeople\Name$ = "Fred"
+AddElement(*DynamicPeople\Friends$())
+*DynamicPeople\Friends$() = "Stef"
+
+Debug *DynamicPeople\Name$
+Debug *DynamicPeople\Friends$()
+
+FreeStructure(*DynamicPeople)

@@ -1,0 +1,52 @@
+@Title Protected
+
+@Syntax
+
+  @Keyword Protected[.<Typ>] <Variable[.<Typ>]> [= <Ausdruck>] [, ...]
+
+@Description
+
+  @Keyword Protected ("geschützt") ermöglicht den Zugriff auf eine @ReferenceLink "variables" "Variable" nur innerhalb einer 
+  @ReferenceLink "Procedures" "Prozedur", auch wenn die gleiche Variable im Hauptprogramm bereits als @ReferenceLink "Global" Global deklariert wurde. 
+  @Keyword Protected in seiner Funktion ist aus anderen BASIC-Dialekten oftmals als 'Local' bekannt. 
+  Jeder Variable kann auch sofort ein Standard-Wert zugewiesen werden.
+  @LineBreak
+  @LineBreak
+  Wenn nach @Keyword Protected ein Typ angegeben wird, dann wird der Standard-Typ für diese Deklaration geändert.
+  @Keyword Protected kann auch zusammen mit @ReferenceLink "dim" "Arrays", @ReferenceLink "newlist" "verknüpften Listen" und @ReferenceLink "newmap" "Maps" verwendet werden. 
+  @LineBreak
+  @LineBreak
+  Der Wert der lokalen Variablen wird bei jedem Prozedur-Aufruf neu initialisiert (zurückgesetzt). Um 
+  dies zu vermeiden, können Sie alternativ das Schlüsselwort @ReferenceLink "Static" Static verwenden, um globale von lokalen 
+  Variablen zu trennen, während diese ihren Wert behalten.
+
+  @Example Mit Variable
+
+@Code
+  Global a
+  a = 10
+  
+  Procedure Change()
+    Protected a
+    a = 20 
+  EndProcedure 
+  
+  Change()
+  Debug a ; Wird 10 ausgeben, da die Variable geschützt ("protected") wurde.
+@EndCode
+
+  @LineBreak
+  @Example Mit Array
+
+@Code
+  Global Dim Array(2)
+  Array(0) = 10
+  
+  Procedure Change()
+    Protected Dim Array(2) ; Dieses Array ist geschützt, es wird nur lokal verfügbar sein.
+    Array(0) = 20 
+  EndProcedure 
+  
+  Change()
+  Debug Array(0) ; Wird 10 ausgeben, da das Array geschützt wurde.
+@EndCode

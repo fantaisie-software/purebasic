@@ -1,0 +1,27 @@
+@Title Migration von PureBasic 5.60 nach 5.72 LTS
+
+@Section Math Bibliothek
+
+@LineBreak
+Sign(): gibt jetzt eine Ganzzahl (Integer) anstelle einer Fließkommazahl zurück.
+@Code
+  ; Alt
+  Var.d(f) = Sign(X)
+
+  ; Neu
+  Var.i = Sign(X)
+@EndCode
+
+@LineBreak
+@Section Window Bibliothek
+
+@LineBreak
+PostEvent(): gibt jetzt ein Ergebnis zurück, da es in einigen extremen Fällen fehlschlagen könnte @LineBreak
+
+@LineBreak
+@Section Sonstiges
+
+Auf MS WIndows wurde der Standard-Zeichensatz von MS Shell Dlg in Segoe UI Größe 9 geändert.
+
+@LineBreak
+@LineBreak

@@ -1,0 +1,117 @@
+@Title Enumerations
+
+@Syntax
+
+  @Keyword Enumeration [Name] [<Konstante> [@Keyword Step <Konstante>]] 
+    @#Konstante1
+    @#Konstante2 [= <Konstante>]
+    @#Konstante3
+    ...
+  @Keyword EndEnumeration
+
+Oder
+  
+  @Keyword EnumerationBinary [Name] [<Konstante>] 
+    @#Konstante1
+    @#Konstante2 [= <Konstante>]
+    @#Konstante3
+    ...
+  @Keyword EndEnumeration
+
+@Description
+
+  @Keyword Enumerations (Aufzählungen) sind sehr nützlich, um schnell eine Sequenz von Konstanten zu 
+  deklarieren, ohne feste Zahlen zu benutzen. Die erste Konstante in der Enumeration (Aufzählung) 
+  erhält den Wert 0 und die nächste den Wert 1 etc... Es ist möglich, den Wert der ersten Konstante
+  zu ändern und einen @Keyword Step Wert für jede neue Konstante innerhalb der Aufzählung einzustellen. 
+  Wenn nötig, kann der aktuelle Konstanten-Wert durch Zuweisen eines neuen Wertes mittels '=' zur 
+  angegebenen Konstante geändert werden. Da @Keyword "Enumeration"s nur Ganzzahlen akzeptieren,
+  werden Fließkommazahlen auf die nächste Ganzzahl gerundet.
+  @LineBreak
+  @LineBreak
+  Für die Enumeration kann ein 'Name' angegeben werden, um diese zu identifizieren und später
+  fortzusetzen. Dies ist nützlich, um Objekte zusammen zu gruppieren, während sie an unterschiedlichen
+  Stellen im Code deklariert werden.
+  @LineBreak
+  @LineBreak
+  Nur für fortgeschrittene Anwender: Die reservierte Konstante @#PB_Compiler_EnumerationValue speichert den nächsten Wert, welcher in der 
+  Aufzählung benutzt wird. Dies kann nützlich sein, um den letzten Aufzählungswert zu erhalten oder um mehrere Aufzählungen zu verketten. 
+  @LineBreak
+  @LineBreak
+  @Keyword EnumerationBinary (binäre Aufzählungen) kann verwendet werden, um für Flags geeignete
+  Aufzählungen zu erstellen. Der Wert des ersten Eintrags lautet 1.
+
+  @Example Einfache Enumeration
+
+@Code
+  Enumeration
+    #GadgetInfo ; wird 0 sein
+    #GadgetText ; wird 1 sein
+    #GadgetOK   ; wird 2 sein
+  EndEnumeration
+@EndCode
+
+  @Example Enumeration mit Step (und Festlegen des ersten Konstanten-Wertes)
+
+@Code
+  Enumeration 20 Step 3
+    #GadgetInfo ; wird 20 sein
+    #GadgetText ; wird 23 sein
+    #GadgetOK   ; wird 26 sein
+  EndEnumeration
+@EndCode
+
+  @Example Enumeration mit dynamischer Änderung
+
+@Code
+  Enumeration
+    #GadgetInfo      ; wird 0 sein
+    #GadgetText = 15 ; wird 15 sein
+    #GadgetOK        ; wird 16 sein
+  EndEnumeration
+@EndCode
+
+  @Example Benannte Aufzählung (englisch "Named enumeration")
+
+@Code
+  Enumeration Gadget
+    #GadgetInfo ; wird 0 sein
+    #GadgetText ; wird 1 sein
+    #GadgetOK   ; wird 2 sein
+  EndEnumeration
+  
+  Enumeration Window
+    #FirstWindow  ; wird 0 sein
+    #SecondWindow ; wird 1 sein
+  EndEnumeration
+
+  Enumeration Gadget
+    #GadgetCancel ; wird 3 sein
+    #GadgetImage  ; wird 4 sein
+    #GadgetSound  ; wird 5 sein
+  EndEnumeration
+@EndCode
+
+  @Example Ermitteln des nächsten Aufzählungswertes
+
+@Code
+  Enumeration
+    #GadgetInfo ; wird 0 sein
+    #GadgetText ; wird 1 sein
+    #GadgetOK   ; wird 2 sein
+  EndEnumeration
+  
+  Debug "Next enumeration value: " + #PB_Compiler_EnumerationValue ; wird 3 ausgeben
+@EndCode
+
+  @Example Binäre Aufzählung
+
+@Code
+  EnumerationBinary
+    #Flags1 ; wird 1 sein
+    #Flags2 ; wird 2 sein
+    #Flags3 ; wird 4 sein
+    #Flags4 ; wird 8 sein
+    #Flags5 ; wird 16 sein
+  EndEnumeration
+@EndCode

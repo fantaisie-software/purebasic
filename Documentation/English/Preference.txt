@@ -1,0 +1,965 @@
+;
+;     Preference library documentation
+;
+;      (c) 2020 - Fantaisie Software
+;
+
+@Library Preference
+
+@Overview
+
+  Preference file contains user defined program parameters stored on the disk and
+  read back when the program start again (like '.INI' files under Windows for example). PureBasic offers the possibility to create
+  hierarchical preference file easily useable on any computer platform. The file format is in unicode 
+   UTF-8 with a BOM one preference per line, using the 'Keyword = Value' syntax. Groups can be created for better
+  reading.
+
+@CommandList
+
+@ExampleFile All Preference.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClosePreferences()
+
+@Description
+  Closes a preference file previously opened with @@OpenPreferences or created with @@CreatePreferences. 
+  
+@NoParameters
+  
+@NoReturnValue
+
+@Example
+@Code
+  ; Open a preference file
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Choose the group "Window"
+  PreferenceGroup("Window")
+  
+  ; Display the "w" key of this group
+  MessageRequester("Info", "w = " + ReadPreferenceLong ("w", 0))
+  
+  ; Close the preference file
+  ClosePreferences()
+@EndCode
+
+@SeeAlso
+  @@CreatePreferences, @@OpenPreferences
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreatePreferences(Filename$ [, Flags])
+
+@Description
+  Creates a new empty preference file. If the file already exists, the file is erased.
+  
+@Parameter "Filename$"
+  The filename of the new preference file. 
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_Preference_NoSpace: no spaces will be put around the equal sign joining key and values.
+                          It can be useful when dealing with external preferences files which doesn't
+                          accept spaces around equal sign.
+  @#PB_Preference_GroupSeparator: add an empty line between the groups to ease readability of the file.
+@EndFixedFont
+
+@ReturnValue
+  Nonzero if the file has been successfully created, zero otherwise.
+  
+@Remarks  
+  Once created, the functions like @@WritePreferenceString can be used to write data. When values are written in preferences, 
+  it's possible to read them back with the functions like @@ReadPreferenceString. 
+@LineBreak
+@LineBreak
+  To remove a key or a group, use @@RemovePreferenceKey and @@RemovePreferenceGroup.
+  To create or change the current group, use @@PreferenceGroup.
+@LineBreak
+@LineBreak
+  Once all write operations are done, @@ClosePreferences needs to be called to really write the preferences back to disk.
+
+@Example
+@Code
+  ; Create a preference file nammed Setup.ini
+  CreatePreferences(GetTemporaryDirectory()+"Setup.ini")
+  
+  ; Create a group named "Window"
+  PreferenceGroup("Window")
+    WritePreferenceLong ("X", 10)     ; X = 10
+    WritePreferenceLong ("Y", 10)     ; Y = 10
+    WritePreferenceLong("W", 800)     ; W = 800
+    WritePreferenceLong("H", 600)     ; H = 600
+    WritePreferenceFloat("%", 20)     ; % = 20.000000
+    WritePreferenceString("Title", "PureNote") ; Title = "PureNote"
+  
+  ; Close the preference file
+  ClosePreferences()
+@EndCode
+
+@SeeAlso
+  @@ClosePreferences
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExaminePreferenceGroups()
+
+@Description
+  Starts the enumeration of all the groups found in the current preference file. @@NextPreferenceGroup
+  can be used to list all the group found.
+  
+@NoParameters
+
+@ReturnValue
+  Nonzero if the enumeration has been successfully started, zero otherwise.
+
+@Example
+@Code
+  ; Open a preference file
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Examine groups
+  ExaminePreferenceGroups()
+  While NextPreferenceGroup() ; While group exists
+    MessageRequester("Groups", PreferenceGroupName())  ; Display this group
+  Wend
+  
+  ; Close the preference file
+  ClosePreferences() 
+@EndCode  
+  
+@SeeAlso
+  @@NextPreferenceGroup
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ExaminePreferenceKeys()
+
+@Description
+  Starts the enumeration of all the keys found in the current group of the preference file. The current group can be selected with 
+  @@PreferenceGroup or by examining all groups with @@ExaminePreferenceGroups. 
+  @@NextPreferenceKey can be used to list all the keys found. 
+  
+@NoParameters
+
+@ReturnValue
+  Nonzero if the enumeration has been successfully started, zero otherwise.
+  
+@Example
+@Code
+  ; Open a preference file
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Select a group
+  PreferenceGroup("Window")
+  
+  ; Examine keys in the group 'Window'
+  ExaminePreferenceKeys()
+  While  NextPreferenceKey() ; While a key exists
+    MessageRequester("Key group 'Window'", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; Display the key with its data
+  Wend
+  
+  ; Close the preference file
+  ClosePreferences()  
+@EndCode  
+  
+@SeeAlso
+  @@ExaminePreferenceGroups, @@NextPreferenceGroup, @@NextPreferenceKey
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = FlushPreferenceBuffers()
+
+@Description
+  Ensures that all preferences changes are written to disk.
+  
+@NoParameters
+  
+@ReturnValue
+  Nonzero if the preferences has been successfully written the disk. If an error occurred (ie: disk full, disk error),
+  it will return zero.
+
+@SeeAlso
+  @@CreatePreferences, @@OpenPreferences
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextPreferenceGroup()
+
+@Description
+  Retrieves information about the next group found in the enumeration started with @@ExaminePreferenceGroups.
+  To get the name of the group, use @@PreferenceGroupName. The current examined preference group will also be used 
+  when values are read from the preferences or when the keys are examined with @@ExaminePreferenceKeys.
+  
+@NoParameters
+
+@ReturnValue
+  Nonzero if more groups are available in the current enumeration, zero otherwise.
+
+@Example
+@Code
+  ; Open a preference file
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Examine groups
+  ExaminePreferenceGroups()
+  While NextPreferenceGroup() ; While group exists
+    MessageRequester("Groups", PreferenceGroupName())  ; Display this group
+  Wend
+  
+  ; Close the preference file
+  ClosePreferences() 
+@EndCode  
+    
+@SeeAlso
+  @@ExaminePreferenceGroups, @@PreferenceGroupName, @@ExaminePreferenceKeys
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextPreferenceKey()
+
+@Description
+  Retrieves information about the next key found in the enumeration started with @@ExaminePreferenceKeys.
+  To get the name and the value of the key, use @@PreferenceKeyName and
+  @@PreferenceKeyValue.
+  
+@NoParameters
+
+@ReturnValue
+  Nonzero if more keys are available in the current enumeration, zero otherwise.
+ 
+@Example
+@Code
+  ; Open a preference file
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Select a group
+  PreferenceGroup("Window")
+  
+  ; Examine keys in the group 'Window'
+  ExaminePreferenceKeys()
+  While  NextPreferenceKey() ; While a key exists
+    MessageRequester("Key group 'Window'", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; Display the key with its data
+  Wend
+  
+  ; Close the preference file
+  ClosePreferences()  
+@EndCode  
+    
+@SeeAlso
+  @@ExaminePreferenceKeys, @@PreferenceKeyName, @@PreferenceKeyValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Group$ = PreferenceGroupName()
+
+@Description
+  Returns the name of the current group being enumerated with @@ExaminePreferenceGroups or previously selected with @@PreferenceGroup.
+
+@NoParameters
+
+@ReturnValue
+  The name of the current group being enumerated with @@ExaminePreferenceGroups or previously selected with @@PreferenceGroup.
+
+@Example
+@Code
+  ; Open a preference file
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Examine groups
+  ExaminePreferenceGroups()
+  While NextPreferenceGroup() ; While group exists
+    MessageRequester("Groups", PreferenceGroupName())  ; Display this group
+  Wend
+  
+  ; Close the preference file
+  ClosePreferences() 
+@EndCode  
+    
+@SeeAlso
+  @@ExaminePreferenceGroups
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Key$ = PreferenceKeyName()
+
+@Description
+  Returns the name of the current key being enumerated with @@ExaminePreferenceKeys.
+  To get the value of the key, use @@PreferenceKeyValue.
+  
+@NoParameters
+
+@ReturnValue
+  The name of the current key being enumerated with @@ExaminePreferenceKeys.
+ 
+@Example
+@Code
+  ; Open a preference file
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Select a group
+  PreferenceGroup("Window")
+  
+  ; Examine keys in the group 'Window'
+  ExaminePreferenceKeys()
+  While  NextPreferenceKey() ; While a key exists
+    MessageRequester("Key group 'Window'", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; Display the key with its data
+  Wend
+  
+  ; Close the preference file
+  ClosePreferences()  
+@EndCode  
+   
+@SeeAlso
+  @@ExaminePreferenceKeys, @@PreferenceKeyValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Value$ = PreferenceKeyValue()
+
+@Description
+  Returns the value, in string form, of the current key being enumerated with @@ExaminePreferenceKeys.
+  To get the name of the key, use @@PreferenceKeyName.
+  
+@NoParameters
+
+@ReturnValue
+  The value, in string form, of the current key being enumerated with @@ExaminePreferenceKeys.
+ 
+@Example
+@Code
+  ; Open a preference file
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Select a group
+  PreferenceGroup("Window")
+  
+  ; Examine keys in the group 'Window'
+  ExaminePreferenceKeys()
+  While  NextPreferenceKey() ; While a key exists
+    MessageRequester("Key group 'Window'", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; Display the key with its data
+  Wend
+  
+  ; Close the preference file
+  ClosePreferences()  
+@EndCode  
+   
+@SeeAlso
+  @@ExaminePreferenceKeys, @@PreferenceKeyName
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenPreferences(Filename$ [, Flags])
+
+@Description
+  Opens a previously existing preference file. 
+  
+@Parameter "Filename$"
+  The filename of the preference file. 
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_Preference_NoSpace: no spaces will be put around the equal sign joining key and values.
+                          It can be useful when dealing with external preferences files which doesn't
+                          accept spaces around equal sign.
+  @#PB_Preference_GroupSeparator: add an empty line between the groups to ease readability of the file.
+@EndFixedFont
+
+@ReturnValue
+  Nonzero if the file has been successfully opened, zero otherwise. 
+
+@Remarks
+  If the file wasn't found or can't be opened, it is still possible to use the read functions and it 
+  will return the specified default value. It is very useful to initialize in one step the program variables. 
+  The functions like @@ReadPreferenceString can be used to read the preference values stored in the file. 
+@LineBreak
+@LineBreak
+  To remove a key or a group, use @@RemovePreferenceKey and @@RemovePreferenceGroup.
+  To create or change the current group, use @@PreferenceGroup. 
+@LineBreak
+@LineBreak
+  It is possible to change existing values with @@WritePreferenceString and similar functions.
+@LineBreak
+@LineBreak
+  Once all write operations are done, @@ClosePreferences needs to be called to really write the preferences back to disk
+  (if it has been modified inbetween).
+ 
+@Example
+@Code
+  ; Open a preference file
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Examine Groups
+  ExaminePreferenceGroups()
+  ; For each group
+  While NextPreferenceGroup()
+    text$ = text$ + PreferenceGroupName() + #LF$ ; its name
+    ; Examine keys for the current group  
+    ExaminePreferenceKeys()
+    ; For each key  
+    While  NextPreferenceKey()                      
+      text$ = text$ + PreferenceKeyName() + " = " + PreferenceKeyValue() + #LF$ ; its name and its data
+    Wend
+    text$ = text$ + #LF$
+  Wend
+
+  ; Display all groups and all keys with datas
+  MessageRequester("test.pref", text$)
+
+  ; Close the preference file
+  ClosePreferences()    
+@EndCode  
+   
+@SeeAlso
+  @@ClosePreferences
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PreferenceGroup(Name$)
+
+@Description
+  Creates a new group (in the form: [Name$]) or changes the current group in the preference file. 
+  All following read or write operations will be restricted to this group. 
+  To move outside of any groups, an empty 'Name$' can be used.
+
+@Parameter "Name$"
+  The new group name.
+
+@ReturnValue
+  Nonzero if the group was already created, zero otherwise.
+ 
+@Example
+@Code
+  ; Open a preference file
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Select a group
+  PreferenceGroup("Window")
+  
+  ; Examine keys in the group 'Window'
+  ExaminePreferenceKeys()
+  While  NextPreferenceKey() ; While a key exists
+    MessageRequester("Keys from the 'Window' group", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; Display the key with its data
+  Wend
+  
+  ; Close the preference file
+  ClosePreferences()  
+@EndCode  
+ 
+@Remarks
+  If the group does not exist yet, it will not be created immediately. It will instead be created once
+  the first key is written to it. This allows to use the PreferenceGroup() function to test if a group exists
+  without creating many empty groups.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function PreferenceComment(Text$)
+
+@Description
+  Writes a new comment line in the current preference file.
+  
+@Parameter "Text$"
+  The new comment to write.
+
+@NoReturnValue
+ 
+@Example
+@Code
+  ; Creating the file prefs.txt
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt")
+
+    PreferenceComment("The coordinates of the window.") ; Write a comment
+    PreferenceComment("") ; Write a comment (empty line)
+
+    PreferenceGroup("Window")
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+
+      ClosePreferences()
+    
+      RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+  EndIf
+@EndCode  
+   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = ReadPreferenceDouble(Key$, DefaultValue)
+
+@Description
+  Try to read the specified associated 'Key$' value. 
+  
+@Parameter "Key$"  
+  The key to read the value from. If @@PreferenceGroup has been
+  used, then the search is restricted to the current group. 
+
+@Parameter "DefaultValue"  
+  The default value to return if the key isn't found or the
+  preference file haven't been opened correctly (file missing for example).
+
+@ReturnValue
+  The value associated to the specified key, as a double number. if the key isn't found
+  the default value is returned.
+
+@Example
+@Code
+  ; Open a preference file
+  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  
+  ; Open the group 'Window'
+  PreferenceGroup("Window")
+  
+  ; Examine keys until w = 800
+  NextPreferenceKey() ; x = 0
+  NextPreferenceKey() ; y = 0
+  NextPreferenceKey() ; w = 800
+  
+  ; Read the key
+  cle$= PreferenceKeyName()
+  
+  ; Display the key and its data with different format
+    MessageRequester("Clé Integer", Str(ReadPreferenceInteger(cle$,0)))
+    MessageRequester("Clé Float", StrF(ReadPreferenceFloat(cle$,0),6))
+    MessageRequester("Clé Double", StrD(ReadPreferenceDouble(cle$,0),15))
+    MessageRequester("Clé Long", Str(ReadPreferenceLong(cle$,0)))
+    MessageRequester("Clé Quad", Str(ReadPreferenceQuad(cle$,0)))
+    MessageRequester("Clé String", ReadPreferenceString(cle$,"0"))
+    
+  ; Close the preference file
+  ClosePreferences() 
+@EndCode  
+ 
+@SeeAlso
+  @@ReadPreferenceFloat, @@ReadPreferenceInteger, @@ReadPreferenceLong, @@ReadPreferenceQuad, @@ReadPreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = ReadPreferenceFloat(Key$, DefaultValue)
+
+@Description
+  Try to read the specified associated 'Key$' value. 
+  
+@Parameter "Key$"  
+  The key to read the value from. If @@PreferenceGroup has been
+  used, then the search is restricted to the current group. 
+
+@Parameter "DefaultValue"  
+  The default value to return if the key isn't found or the
+  preference file haven't been opened correctly (file missing for example).
+
+@ReturnValue
+  The value associated to the specified key, as a float number. if the key isn't found
+  the default value is returned.
+
+@Example  
+  See the example at @@ReadPreferenceDouble
+  
+@SeeAlso
+  @@ReadPreferenceDouble, @@ReadPreferenceInteger, @@ReadPreferenceLong, @@ReadPreferenceQuad, @@ReadPreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReadPreferenceInteger(Key$, DefaultValue)
+
+@Description
+  Try to read the specified associated 'Key$' value. 
+  
+@Parameter "Key$"  
+  The key to read the value from. If @@PreferenceGroup has been
+  used, then the search is restricted to the current group. 
+
+@Parameter "DefaultValue"  
+  The default value to return if the key isn't found or the
+  preference file haven't been opened correctly (file missing for example).
+
+@ReturnValue
+  The value associated to the specified key, as an integer number. if the key isn't found
+  the default value is returned.
+
+@Example  
+  See the example at @@ReadPreferenceDouble
+ 
+@SeeAlso
+  @@ReadPreferenceDouble, @@ReadPreferenceFloat, @@ReadPreferenceLong, @@ReadPreferenceQuad, @@ReadPreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReadPreferenceLong(Key$, DefaultValue)
+
+@Description
+  Try to read the specified associated 'Key$' value. 
+  
+@Parameter "Key$"  
+  The key to read the value from. If @@PreferenceGroup has been
+  used, then the search is restricted to the current group. 
+
+@Parameter "DefaultValue"  
+  The default value to return if the key isn't found or the
+  preference file haven't been opened correctly (file missing for example).
+
+@ReturnValue
+  The value associated to the specified key, as a long number. if the key isn't found
+  the default value is returned.
+
+@Example  
+  See the example at @@ReadPreferenceDouble
+ 
+@SeeAlso
+  @@ReadPreferenceDouble, @@ReadPreferenceFloat, @@ReadPreferenceInteger, @@ReadPreferenceQuad, @@ReadPreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.q = ReadPreferenceQuad(Key$, DefaultValue)
+
+@Description
+  Try to read the specified associated 'Key$' value. 
+  
+@Parameter "Key$"  
+  The key to read the value from. If @@PreferenceGroup has been
+  used, then the search is restricted to the current group. 
+
+@Parameter "DefaultValue"  
+  The default value to return if the key isn't found or the
+  preference file haven't been opened correctly (file missing for example).
+
+@ReturnValue
+  The value associated to the specified key, as a quad number. if the key isn't found
+  the default value is returned.
+
+@Example  
+  See the example at @@ReadPreferenceDouble
+ 
+@SeeAlso
+  @@ReadPreferenceDouble, @@ReadPreferenceFloat, @@ReadPreferenceInteger, @@ReadPreferenceLong, @@ReadPreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ReadPreferenceString(Key$, DefaultValue$)
+
+@Description
+  Try to read the specified associated 'Key$' value. 
+  
+@Parameter "Key$"  
+  The key to read the value from. If @@PreferenceGroup has been
+  used, then the search is restricted to the current group. 
+
+@Parameter "DefaultValue"  
+  The default value to return if the key isn't found or the
+  preference file haven't been opened correctly (file missing for example).
+
+@ReturnValue
+  The value associated to the specified key, as a string. if the key isn't found
+  the default value is returned.
+
+@Example  
+  See the example at @@ReadPreferenceDouble
+ 
+@SeeAlso
+  @@ReadPreferenceDouble, @@ReadPreferenceFloat, @@ReadPreferenceInteger, @@ReadPreferenceLong, @@ReadPreferenceQuad
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemovePreferenceGroup(Group$)
+
+@Description
+  Removes the specified 'Group$' and all its keys.
+
+@Parameter "Group$"
+  The group name to remove.
+  
+@NoReturnValue
+
+@Example
+@Code
+  ; Create the preference file prefs.txt
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+
+    PreferenceGroup("Window")
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+      WritePreferenceString("Title", "PureNote")
+      
+      PreferenceGroup("event")
+      WritePreferenceString("percentage", "percentage")
+      WritePreferenceFloat("%", 100)
+      
+      ClosePreferences()
+    
+      RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+    EndIf  
+    
+    MessageRequester("Info", "Delete the group 'event' ")
+    
+  ; Open a preference file
+    OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
+    
+  ; Delete the group 'event'  
+    RemovePreferenceGroup("event")
+    
+    ClosePreferences()
+      
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+@EndCode  
+ 
+@SeeAlso
+  @@PreferenceGroup, @@ExaminePreferenceGroups
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemovePreferenceKey(Key$)
+
+@Description
+  Removes the specified key and its value.
+  
+@Parameter "Key$"
+  The key name to remove.
+  
+@NoReturnValue
+
+@Example
+@Code
+ If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+    PreferenceGroup("Window")
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+      WritePreferenceString("Title", "PureNote")    
+    ClosePreferences()   
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+    EndIf  
+    
+    MessageRequester("Info", "Delete the key 'Title' ")
+    
+  ; Open the preference file
+    OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
+    PreferenceGroup("Window")
+       
+  ; Delete the key 'Title'  
+    RemovePreferenceKey("Title")
+    
+    ClosePreferences()      
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+@EndCode  
+ 
+@SeeAlso
+  @@ExaminePreferenceKeys
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WritePreferenceFloat(Key$, Value.f)
+
+@Description
+  Creates or changes the specified key and its associated float value under the form: 'Key$ = Value' in the
+  preference file, previously created with @@CreatePreferences or opened
+  with @@OpenPreferences.
+  
+@Parameter "Key$"  
+  The key name to write. If @@PreferenceGroup has been
+  used, then the write is restricted to the current group. If the key was already created,
+  its associated value is replaced with the new specified value.
+
+@Parameter "Value"  
+  The float value to associate with the key.
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Create the preference file prefs.txt
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+    PreferenceGroup("Window")
+      WritePreferenceString("Title", "PureNote") 
+      WritePreferenceLong ("X", 100)
+      WritePreferenceLong ("Y", 125)
+      WritePreferenceInteger("I", 1024) 
+      WritePreferenceQuad("Q", 9223372036854775807)
+      WritePreferenceFloat("%", 20.10)
+      WritePreferenceDouble("D", 0.0123456789 )
+    ClosePreferences()   
+    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+    EndIf
+@EndCode  
+
+@SeeAlso
+  @@WritePreferenceDouble, @@WritePreferenceInteger, @@WritePreferenceLong, @@WritePreferenceQuad, @@WritePreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WritePreferenceDouble(Key$, Value.d)
+
+@Description
+  Creates or changes the specified key and its associated double value under the form: 'Key$ = Value' in the
+  preference file, previously created with @@CreatePreferences or opened
+  with @@OpenPreferences.
+  
+@Parameter "Key$"  
+  The key name to write. If @@PreferenceGroup has been
+  used, then the write is restricted to the current group. If the key was already created,
+  its associated value is replaced with the new specified value.
+
+@Parameter "Value"  
+  The double value to associate with the key.
+
+@NoReturnValue
+
+@Example
+  See the example at @@WritePreferenceFloat
+
+@SeeAlso
+  @@WritePreferenceFloat, @@WritePreferenceInteger, @@WritePreferenceLong, @@WritePreferenceQuad, @@WritePreferenceString
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WritePreferenceInteger(Key$, Value)
+
+@Description
+  Creates or changes the specified key and its associated integer value under the form: 'Key$ = Value' in the
+  preference file, previously created with @@CreatePreferences or opened
+  with @@OpenPreferences.
+  
+@Parameter "Key$"  
+  The key name to write. If @@PreferenceGroup has been
+  used, then the write is restricted to the current group. If the key was already created,
+  its associated value is replaced with the new specified value.
+
+@Parameter "Value"  
+  The integer value to associate with the key.
+
+@NoReturnValue
+
+@Example
+  See the example at @@WritePreferenceFloat
+
+@SeeAlso
+  @@WritePreferenceFloat, @@WritePreferenceDouble, @@WritePreferenceLong, @@WritePreferenceQuad, @@WritePreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WritePreferenceLong(Key$, Value)
+
+@Description
+  Creates or changes the specified key and its associated long value under the form: 'Key$ = Value' in the
+  preference file, previously created with @@CreatePreferences or opened
+  with @@OpenPreferences.
+  
+@Parameter "Key$"  
+  The key name to write. If @@PreferenceGroup has been
+  used, then the write is restricted to the current group. If the key was already created,
+  its associated value is replaced with the new specified value.
+
+@Parameter "Value"  
+  The long value to associate with the key.
+
+@NoReturnValue
+
+@Example
+  See the example at @@WritePreferenceFloat
+
+@SeeAlso
+  @@WritePreferenceFloat, @@WritePreferenceDouble, @@WritePreferenceInteger, @@WritePreferenceQuad, @@WritePreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WritePreferenceQuad(Key$, Value.q)
+
+@Description
+  Creates or changes the specified key and its associated float value under the form: 'Key$ = Value' in the
+  preference file, previously created with @@CreatePreferences or opened
+  with @@OpenPreferences.
+  
+@Parameter "Key$"  
+  The key name to write. If @@PreferenceGroup has been
+  used, then the write is restricted to the current group. If the key was already created,
+  its associated value is replaced with the new specified value.
+
+@Parameter "Value"  
+  The quad value to associate with the key.
+
+@NoReturnValue
+
+@Example
+  See the example at @@WritePreferenceFloat
+
+@SeeAlso
+  @@WritePreferenceFloat, @@WritePreferenceDouble, @@WritePreferenceInteger, @@WritePreferenceLong, @@WritePreferenceString
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WritePreferenceString(Key$, Value$)
+
+@Description
+  Creates or changes the specified key and its associated string value under the form: 'Key$ = Value' in the
+  preference file, previously created with @@CreatePreferences or opened
+  with @@OpenPreferences.
+  
+@Parameter "Key$"  
+  The key name to write. If @@PreferenceGroup has been
+  used, then the write is restricted to the current group. If the key was already created,
+  its associated value is replaced with the new specified value.
+
+@Parameter "Value$"  
+  The string value to associate with the key.
+
+@NoReturnValue
+
+@Example
+  See the example at @@WritePreferenceFloat
+
+@SeeAlso
+  @@WritePreferenceFloat, @@WritePreferenceDouble, @@WritePreferenceInteger, @@WritePreferenceLong, @@WritePreferenceQuad
+  
+@SupportedOS

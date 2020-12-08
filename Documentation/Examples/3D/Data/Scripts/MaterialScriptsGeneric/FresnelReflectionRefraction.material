@@ -1,0 +1,156 @@
+//----------------------------
+// Distortion effects
+//----------------------------
+
+vertex_program Examples/FresnelRefractReflectVPCg cg
+{
+	source Example_Fresnel.cg
+	entry_point main_vp
+	profiles vs_4_0 vs_1_1 arbvp1
+}
+vertex_program Examples/FresnelRefractReflectVPold cg
+{
+	source Example_Fresnel.cg
+	entry_point main_vp_old
+	profiles vs_1_1 arbvp1
+}
+vertex_program Examples/FresnelRefractReflectVPHLSL hlsl
+{
+	source Example_Fresnel.cg
+	entry_point main_vp
+	target vs_2_0
+}
+vertex_program Examples/FresnelRefractReflectVPGLSLES glsles
+{
+	source Example_FresnelVp.glsles
+	entry_point main
+	profiles glsles
+}
+vertex_program Examples/FresnelRefractReflectVPGLSL glsl
+{
+	source Example_FresnelVp.glsl
+	syntax glsl150
+}
+
+vertex_program Examples/FresnelRefractReflectVP unified
+{
+	delegate Examples/FresnelRefractReflectVPGLSL
+	delegate Examples/FresnelRefractReflectVPGLSLES
+	delegate Examples/FresnelRefractReflectVPHLSL
+	delegate Examples/FresnelRefractReflectVPCg
+}
+
+fragment_program Examples/FresnelRefractReflectFPCg cg
+{
+	source Example_Fresnel.cg
+	entry_point main_fp
+	// sorry, ps_1_1 and fp20 can't do this
+	profiles ps_4_0 ps_2_0 arbfp1
+}
+
+fragment_program Examples/FresnelRefractReflectFPHLSL hlsl
+{
+	source Example_Fresnel.cg
+	entry_point main_fp
+	target ps_2_0
+}
+
+fragment_program Examples/FresnelRefractReflectPS asm
+{
+	source Example_FresnelPS.asm
+	// sorry, only for ps_1_4 :)
+	syntax ps_1_4
+}
+
+fragment_program Examples/FresnelRefractReflectFPGLSLES glsles
+{
+	source Example_FresnelFp.glsles
+	entry_point main
+	profiles glsles
+	default_params
+	{
+		// assign samplers as required by GLSL
+		param_named noiseMap int 0
+		param_named reflectMap int 1
+		param_named refractMap int 2
+	}
+}
+
+fragment_program Examples/FresnelRefractReflectFPGLSL glsl
+{
+	source Example_FresnelFp.glsl
+	syntax glsl150
+	default_params
+	{
+		// assign samplers as required by GLSL
+		param_named noiseMap int 0
+		param_named reflectMap int 1
+		param_named refractMap int 2
+	}
+}
+
+fragment_program Examples/FresnelRefractReflectFP unified
+{
+	delegate Examples/FresnelRefractReflectFPGLSL
+	delegate Examples/FresnelRefractReflectFPGLSLES
+	delegate Examples/FresnelRefractReflectFPHLSL
+	delegate Examples/FresnelRefractReflectFPCg
+}
+
+material FresnelReflectionRefraction
+{
+	// ps_2_0 / arbfp1
+	technique
+	{
+		pass 
+		{
+			
+			vertex_program_ref Examples/FresnelRefractReflectVP
+			{
+				param_named_auto worldViewProjMatrix worldviewproj_matrix
+				param_named_auto eyePosition camera_position_object_space
+				param_named_auto timeVal time 0.05
+				param_named scroll float 1  
+				param_named scale float 1 
+				param_named noise float 1 
+				// scroll and noisePos will need updating per frame
+			}
+			fragment_program_ref Examples/FresnelRefractReflectFP
+			{
+				param_named fresnelBias float -0.1 
+				param_named fresnelScale float 2
+				param_named fresnelPower float 4  
+				//param_named tintColour float4 0 0.05 0.05 1
+				param_named tintColour float4 0.0 0.1 0.1 1
+				param_named noiseScale float 0.02 
+			}
+			// Noise
+			texture_unit
+			{
+				// Perlin noise volume
+				//texture waves2.dds
+				texture_alias texture1
+				// min / mag filtering, no mip
+				filtering linear linear none
+			}
+			// Reflection
+			texture_unit
+			{
+				// Will be filled in at runtime
+				//texture reflection
+				texture_alias texture2
+				tex_address_mode clamp
+			}
+			// Refraction
+			texture_unit
+			{
+				// Will be filled in at runtime
+				//texture refraction
+				texture_alias texture3
+				tex_address_mode clamp
+			}
+		}
+		
+			
+	}
+}

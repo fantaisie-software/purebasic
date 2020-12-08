@@ -1,0 +1,955 @@
+;
+;     String library documentation
+;
+;      (c) 2014 - Fantaisie Software
+;
+
+@Library String
+
+@Overview
+  Strings are the method used in order to store a list of characters. With the functions supplied in
+  this library, many essential actions may be performed upon strings.
+
+@CommandList
+
+@ExampleFile All String.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Asc(String$)
+
+@Description
+  Return the first character value of the specified string.
+
+@Parameter "String$"
+  The string to get the first character value.
+
+@ReturnValue
+  The string first character value.
+
+@Example
+@Code
+  Debug Asc("!") ; will print '33'
+@EndCode
+
+@Remarks
+  It is also possible to obtain a constant character value while placing it between apostrophes.
+
+@Example
+@Code
+  Debug '!' ; will print '33'
+@EndCode
+
+  A table with all Ascii values and their relating figures may be found @ReferenceLink "ascii" "here".
+
+@SeeAlso
+  @@Chr
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = Bin(Value.q [, Type])
+
+@Description
+  Converts a quad numeric number into a string, in binary format.
+
+@Parameter "Value.q"
+  The number to convert.
+
+@OptionalParameter "Type"
+  If the value should be handled as another type, one of the following value can be specified:
+@FixedFont
+  @#PB_Byte   : The value is handled as a byte number, ranging from 0 to 255
+  @#PB_Ascii  : The value is handled as a ascii character, ranging from 0 to 255
+  @#PB_Word   : The value is handled as a word number, ranging from 0 to 65535
+  @#PB_Unicode: The value is handled as a unicode character, ranging from 0 to 65535
+  @#PB_Long   : The value is handled as a long number, ranging from 0 to 4294967296
+  @#PB_Quad   : The value is handled as a quad number, ranging from 0 to 18446744073709551615
+@EndFixedFont
+
+@ReturnValue
+  A string holding the binary representation of the specified value.
+
+@Example
+@Code
+  Debug Bin(32) ; Will display "100000"
+  Debug Bin(1024*1024*1024*1024) ; Will display "10000000000000000000000000000000000000000"
+@EndCode
+
+@Remarks
+  If leading zero are needed in the output string, use the @@RSet function as follows:
+
+@Code
+  Debug RSet(Bin(32), 16, "0") ; Will display "0000000000100000"
+@EndCode
+
+@SeeAlso 
+  @@Str, @@Val and @@Hex.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Text$ = Chr(CharacterValue)
+
+@Description
+  Returns a string created with the given character value.
+
+@Parameter "CharacterValue"
+  The character value.
+
+@ReturnValue
+  Returns a string created with the given character value.
+
+@Example
+@Code
+  Debug Chr(33) ; Will display "!"
+@EndCode
+
+@Remarks
+  A table with all Ascii values and their relating figures may be found @ReferenceLink "ascii" "here".
+
+@SeeAlso
+  @@Asc
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CountString(String$, StringToCount$)
+
+@Description
+  Returns the number of occurrences of StringToCount$ found in String$.
+
+@Parameter "String$"
+  The input string to use.
+
+@Parameter "StringToCount$"
+  The string to be counted in the input string.
+
+@ReturnValue
+  The number of occurrences of 'StringToCount$' found in 'String$'.
+
+@Remarks
+  The counting is not word based, which means that if the 'StringToCount$' is a part of a word, it will
+  be counted as well, as shown in the following example.
+
+@Example
+@Code
+  Debug CountString("How many 'ow' contains Bow ?", "ow") ; will display 3
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Position = FindString(String$, StringToFind$ [, StartPosition [, Mode]])
+
+@Description
+  Find the 'StringToFind$' within the given 'String$'.
+  
+@Parameter "String$"
+  The string to use.
+  
+@Parameter "StringToFind$"
+  The string to find.
+  
+@OptionalParameter "StartPosition"
+  The start position to begin the search. The first valid character index is 1. 
+  If this parameter isn't specified, the whole string is searched.
+  
+@OptionalParameter "Mode"
+  It can be one of the following values:
+@FixedFont
+  @#PB_String_CaseSensitive: case sensitive search (a=a) (default).
+  @#PB_String_NoCase       : case insensitive search (A=a).
+@EndFixedFont
+
+@ReturnValue
+  Returns the position (in character) of the string to find, or zero is the string isn't found. The first character index is 1.
+
+@Code
+  Debug FindString("SpiderBasic", "Bas") ; will display 7
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = Hex(Value.q [, Type])
+
+@Description
+  Converts a quad numeric number into a string, in hexadecimal format.
+    
+@Parameter "Value.q"
+  The number to convert.
+
+@OptionalParameter "Type"
+  If the value should be handled as another type, one of the following value can be specified:
+@FixedFont
+  @#PB_Byte   : The value is handled as a byte number, ranging from 0 to 255
+  @#PB_Ascii  : The value is handled as a ascii character, ranging from 0 to 255
+  @#PB_Word   : The value is handled as a word number, ranging from 0 to 65535
+  @#PB_Unicode: The value is handled as a unicode character, ranging from 0 to 65535
+  @#PB_Long   : The value is handled as a long number, ranging from 0 to 4294967296
+  @#PB_Quad   : The value is handled as a quad number, ranging from 0 to 18446744073709551615
+@EndFixedFont
+
+@ReturnValue
+  A string holding the hexadecimal representation of the specified value.
+
+@Example
+@Code
+  Debug Hex(12) ; Will display "C"
+  Debug Hex(1234567890) ; Will display "499602D2"
+@EndCode
+
+@Remarks
+  If leading zero are needed in the output string, use the @@RSet function as follows:
+
+@Code
+  Debug RSet(Hex(12), 4, "0") ; Will display "000C"
+@EndCode
+
+@Example
+@Code
+  Debug Hex(-1)
+  Debug Hex(-1, #PB_Byte)
+  Debug Hex(-1, #PB_Word)
+  Debug Hex(-1, #PB_Long)
+  Debug Hex(-1, #PB_Quad)    ; quad value is the default
+@EndCode
+
+@SeeAlso 
+  @@Str, @@Val and @@Bin.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = InsertString(String$, StringToInsert$, Position)
+
+@Description
+  Inserts 'StringToInsert$' into 'String$' at the specified 'Position'.
+
+@Parameter "String$"
+  The string to use.
+  
+@Parameter "StringToInsert$"
+  The string to insert.
+  
+@Parameter "Position"
+  The position in the string to insert the new string. The first position index is 1.
+
+@ReturnValue
+  A new string with the inserted string at the specified position.
+
+@Example
+@Code
+  Debug InsertString("Hello !", "World", 7)  ; Will display "Hello World!"
+  Debug InsertString("Hello !", "World", 1)  ; Will display "WorldHello !"
+@EndCode
+
+@SeeAlso 
+  @@RemoveString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = LCase(String$)
+
+@Description
+  Returns the string converted into lower case characters.
+
+@Parameter "String$"
+  The string to convert into lowercase.
+  
+@ReturnValue
+  The string converted into lowercase.
+
+@Remarks
+  This function also supports accent letters, so if a upper 'É' is found, it will be transformed into 'é'.
+
+@Example
+@Code
+  Debug LCase("This is Art") ; Will display "this is art"
+@EndCode
+
+@SeeAlso
+  @@UCase
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = Left(String$, Length)
+
+@Description
+  Returns the specified number of characters from the left side of the string.
+
+@Parameter "String$"
+  The string to use.
+
+@Parameter "Length"
+  The number of characters to return. If this value exceeds the number of characters
+  of the string, it will be returns the whole string.
+  
+@ReturnValue
+  A string holding the specified number of characters from the left side of the string.
+
+@Example
+@Code
+  Debug Left("This is Art",4) ; Will display "This"
+@EndCode
+
+@SeeAlso
+  @@Right
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Length = Len(String$)
+
+@Description
+  Returns the character length of the string.
+
+@Parameter "String$"
+  The string to use.
+
+@ReturnValue
+  The character length of the string.
+
+@Example
+@Code
+  Debug Len("This is Art") ; will display 11
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = LSet(String$, Length [, Character$])
+
+@Description
+  Pads a string to the left by adding extra characters to fit the specified length.
+
+@Parameter "String$"
+  The string to pad.
+
+@Parameter "Length"
+  The total length (in characters) of the new string.
+
+@OptionalParameter "Character$"
+  The character used to pad extra space in the new string. The default character is 'space'. 
+  'Character$' has to be a one character length string.
+
+@ReturnValue
+  A new string holding the original string padded with the specified character to fit the
+  length.
+
+@Remarks
+  If the string is longer than the specified length, it will be truncated starting from 
+  the left side of the string.
+
+@Example
+@Code
+  Debug LSet("L", 8)          ; will display "L       "
+  Debug LSet("L", 8, "-")     ; will display "L-------"
+  Debug LSet("LongString", 4) ; will display "Long"
+@EndCode
+
+@SeeAlso
+  @@RSet, @@LTrim, @@RTrim
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = LTrim(String$ [, Character$])
+
+@Description
+  Removes all the specified characters located in the front of a string. 
+
+@Parameter "String$"
+  The string to trim.
+
+@OptionalParameter "Character$"
+  The character used to trim the string. The default character is 'space'.
+  'Character$' has to be a one character length string.
+
+@ReturnValue
+  A new string holding the original string with the front characters removed.
+
+@Example
+@Code
+  Debug LTrim("     This is Art")  ; Will display "This is Art"
+  Debug LTrim("!!Hello Word", "!") ; Will display "Hello World"
+@EndCode
+
+@SeeAlso
+  @@RSet, @@LSet, @@RTrim, @@Trim
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = Mid(String$, StartPosition [, Length])
+
+@Description
+  Extracts a string of specified length from the given string.
+  
+@Parameter "String$"
+  The string to use.
+
+@Parameter "StartPosition"
+  Specifies the character position to start the extracting. The first character position is 1.
+
+@OptionalParameter "Length"
+  Specifies how many characters needs to be extracted. If this parameter is omitted, characters
+  are extracted until the end of string.
+
+@ReturnValue
+  A new string holding the extracted characters.
+  
+@Example
+@Code
+  Debug Mid("Hello", 2) ; Will display "ello"
+  Debug Mid("Hello", 2, 1) ; Will display "e"
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = RemoveString(String$, StringToRemove$ [, Mode [, StartPosition [, NbOccurrences]]])
+
+@Description
+  Finds all occurrences of 'StringToRemove$' within the specified 'String$' and removes them.
+
+@Parameter "String$"
+  The string to use.
+
+@Parameter "StringToRemove$"
+  The string to remove.
+
+@OptionalParameter "Mode"
+  It can be one of the following values:
+@FixedFont
+  @#PB_String_CaseSensitive: case sensitive remove (a=a) (default)
+  @#PB_String_NoCase       : case insensitive remove (A=a)
+@EndFixedFont
+
+@OptionalParameter "StartPosition"
+  Specifies the character position to start the removing. The first character position is 1.
+  If omitted the whole string is used.
+
+@OptionalParameter "NbOccurrences"
+  Specifies how many strings should be removed before stopping the operation. If omitted, all strings
+  are removed.
+
+@ReturnValue
+  A new string without the removed strings.
+
+@Example
+@Code
+  Debug RemoveString("This is Art", "is") ; Will display "Th  Art"
+  Debug RemoveString("This is Art", "is", #PB_String_CaseSensitive, 1, 1) ; Will display "Th is Art"
+@EndCode
+
+@SeeAlso
+  @@InsertString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = ReplaceString(String$, StringToFind$, ReplacementString$ [, Mode [, StartPosition [, NbOccurrences]]])
+
+@Description
+  Try to find any occurrences of 'StringToFind$' in the given 'String$' and replace them
+  with 'ReplacementString$'.
+
+@Parameter "String$"
+  The string to use.
+
+@Parameter "StringToFind$"
+  The string to find.
+
+@Parameter "ReplacementString$"
+  The string to use as replacement.
+  
+@OptionalParameter "Mode"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_String_CaseSensitive : Case sensitive search (a=a) (default)
+  @#PB_String_NoCase : Case insensitive search (A=a)
+@EndFixedFont
+
+@OptionalParameter "StartPosition"
+  Specifies the character position to start the replacement. The first character position is 1.
+  If omitted the whole string is used.
+
+@OptionalParameter "NbOccurrences"
+  Specifies how many strings should be replaced before stopping the operation. If omitted, all strings
+  are replaced.
+
+@ReturnValue
+  A new string with the replaced strings.
+
+@Example
+@Code
+  Debug ReplaceString("This is Art", " is", " was") ; Will display "This was Art"
+  Debug ReplaceString("Hello again, hello again", "HELLO", "oh no...", 1, 10) ; Will display "Hello again, oh no... again"
+
+  test$ = "Bundy, Barbie, Buddy"
+  ReplaceString(test$, "B", "Z", 2, 1)  ; all B gets changed to Z  (directly in memory, no valid return-value here)
+  Debug test$   ; Output of the changed string
+@EndCode
+
+@SeeAlso
+  @@RemoveString, @@InsertString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = Right(String$, Length)
+
+@Description
+  Returns the specified number of characters from the right side of the string.
+
+@Parameter "String$"
+  The string to use.
+
+@Parameter "Length"
+  The number of characters to return. If this value exceeds the number of characters
+  of the string, it will be returns the whole string.
+  
+@ReturnValue
+  A string holding the specified number of characters from the right side of the string.
+
+@Example
+@Code
+  Debug Right("This is Art", 3) ; Will display "Art"
+@EndCode
+
+@SeeAlso
+  @@Left
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = RSet(String$, Length [, Character$])
+
+@Description
+  Pads a string to the right by adding extra characters to fit the specified length.
+
+@Parameter "String$"
+  The string to pad.
+
+@Parameter "Length"
+  The total length (in characters) of the new string.
+
+@OptionalParameter "Character$"
+  The character used to pad extra space in the new string. The default character is 'space'.
+  'Character$' has to be a one character length string.
+
+@ReturnValue
+  A new string holding the original string padded with the specified character to fit the
+  length.
+
+@Remarks
+  If the string is longer than the specified length, it will be truncated starting from 
+  the right side of the string.
+
+@Example
+@Code
+  Debug RSet("R", 8)          ; will display "       R"
+  Debug RSet("R", 8, "-")     ; will display "-------R"
+  Debug RSet("LongString", 4) ; will display "Long"
+@EndCode
+
+@SeeAlso
+  @@LSet, @@LTrim, @@RTrim
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = RTrim(String$ [, Character$])
+
+@Description
+  Removes all the specified characters located at the end of a string. 
+
+@Parameter "String$"
+  The string to trim.
+
+@OptionalParameter "Character$"
+  The character used to trim the string. The default character is 'space'.
+  'Character$' has to be a one character length string.
+
+@ReturnValue
+  A new string holding the original string with the end characters removed.
+
+@Example
+@Code
+  Debug RTrim("This is Art     ") ; Will display "This is Art"
+  Debug RTrim("Hello Word!!", "!") ; Will display "Hello World"
+@EndCode
+
+@SeeAlso
+  @@RSet, @@LSet, @@LTrim, @@Trim
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = StringField(String$, Index, Delimiter$)
+
+@Description
+  Returns the string field at the specified index.
+
+@Parameter "String$"
+  The string to parse.
+
+@Parameter "Index"
+  The field index to return. The first index is 1.
+
+@Parameter "Delimiter$"
+  The string delimiter to use to separate the fields. It can be a multi-characters delimiter.
+
+@Example
+@Code
+  For k = 1 To 6
+    Debug StringField("Hello I am a splitted string", k, " ")
+  Next
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = StrF(Value.f [, NbDecimal])
+
+@Description
+  Converts a float number into a string.
+
+@Parameter "Value.f"
+  The value to convert.
+
+@OptionalParameter "NbDecimal"
+  The maximum number of decimal places for the converted number. If omitted, it will be set to 10 decimal places, with removing the trailing zeros.
+  The number will be rounded, if 'NbDecimal' is smaller than existing decimal places of 'Value.f'.
+
+@ReturnValue
+  A string holding the converted value.
+
+@Remarks
+  Signed integer numbers have to be converted with @@Str and unsigned numbers with @@StrU. 
+  It is possible to omit this command when concatenating string and float, it will then use the default behaviour of @@StrF.
+
+@Example
+@Code
+  value.f = 10.54
+  Debug "Result: " + StrF(value)    ; we do not use the 2nd parameter, so we get a float number rounded to 10 decimal places
+  Debug "Result: " + value          ; same as previous line
+  Debug "Result: " + StrF(value,2)  ; we want a result with two decimal places, no rounding needed as we have only two
+  Debug "Result: " + StrF(value,0)  ; we want a result with no decimal places, so the value is rounded
+@EndCode
+
+@SeeAlso
+  @@StrD, @@Str, @@StrU
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = StrD(Value.d [, NbDecimal])
+
+@Description
+  Converts a double number into a string.
+
+@Parameter "Value.d"
+  The value to convert.
+
+@OptionalParameter "NbDecimal
+  The maximum number of decimal places for the converted number. If omitted, it will be set to 10 decimal places, with removing the trailing zeros.
+  The number will be rounded, if 'NbDecimal' is smaller than existing decimal places of 'Value.d'.
+
+@ReturnValue
+  A string holding the converted value.
+
+@Remarks
+  Signed integer numbers have to be converted with @@Str and unsigned numbers with @@StrU. 
+  It is possible to omit this command when concatenating string and double, it will then use the default behaviour of @@StrD.
+
+@Example
+@Code
+  Value.d = 10.54
+  Debug "Result: " + StrD(Value)     ; we do not use the 2nd parameter, so we get a float number rounded to 10 decimal places
+  Debug "Result: " + Value           ; same as previous line
+  Debug "Result: " + StrD(Value, 2)  ; we want a result with two decimal places, no rounding needed as we have only two
+  Debug "Result: " + StrD(Value, 0)  ; we want a result with no decimal places, so the value is rounded
+@EndCode
+
+@SeeAlso
+  @@StrF, @@Str, @@StrU
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = Str(Value.q)
+
+@Description
+  Convert a signed quad number into a string.
+
+@Parameter "Value.q"
+  The value to convert.
+
+@ReturnValue
+  A string holding the converted value.
+
+@Remarks
+  Floats must be converted with @@StrF, doubles with @@StrD and unsigned numbers with @@StrU. 
+  It is possible to omit this command when concatenating string and integer, it will then use the default behaviour of @@Str.
+
+@Example
+@Code
+  Value.q = 100000000000000001
+  Debug "Result: " + Str(Value)
+@EndCode
+
+@SeeAlso
+  @@Val, @@Hex, @@Bin, @@StrF, @@StrD, @@StrU
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = StrU(Value.q, Type)
+
+@Description
+  Converts an unsigned numeric number into a string.
+
+@Parameter "Value.q"
+  The value to convert.
+
+@Parameter "Type"
+  It can be one of the following value:
+@FixedFont
+  @#PB_Byte   : The value is handled as a byte number, ranging from 0 to 255
+  @#PB_Ascii  : The value is handled as a ascii character, ranging from 0 to 255
+  @#PB_Word   : The value is handled as a word number, ranging from 0 to 65535
+  @#PB_Unicode: The value is handled as a unicode character, ranging from 0 to 65535
+  @#PB_Long   : The value is handled as a long number, ranging from 0 to 4294967296
+  @#PB_Quad   : The value is handled as a quad number, ranging from 0 to 18446744073709551615
+@EndFixedFont
+
+@ReturnValue
+  A string holding the converted value.
+
+@Remarks
+  Signed integer numbers must be converted with @@Str and float numbers with @@StrF or @@StrD.
+
+@Example
+@Code
+  byte.b = 255
+  Debug Str(byte) ; Will display -1
+  Debug StrU(byte, #PB_Byte) ; Will display 255
+@EndCode
+
+@SeeAlso
+  @@Str,
+  @@StrD,
+  @@StrF,
+  @@Val,
+  @@ValD,
+  @@ValF, @@Hex, @@Bin
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = ReverseString(String$)
+
+@Description
+  Reverses all the characters in the 'String$'. The last characters becomes the first characters, and
+  vice-versa.
+
+@Parameter "String$"
+  The string to reverse.
+
+@ReturnValue
+  A string holding the reversed string.
+
+@Example
+@Code
+  Debug ReverseString("Hello")  ; Will display "olleH"
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = Space(Length)
+
+@Description
+  Creates a string of the given length filled with 'space' characters.
+
+@Parameter "Length"
+  The length (in characters) of the new string.
+
+@ReturnValue
+  A new string filled with 'space' characters.
+
+@Example
+@Code
+  Debug "-" + Space(5) + "-" ; Will display "-     -"
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = Trim(String$ [, Character$])
+
+@Description
+  Removes all the specified characters located at the beginning and at the end of a string.
+
+@Parameter "String$"
+  The string to trim.
+
+@OptionalParameter "Character$"
+  The character used to trim the string. The default character is 'space'.
+  'Character$' has to be a one character length string.
+
+@ReturnValue
+  A new string holding the original string without the removed characters.
+
+@Example
+@Code
+  Debug Trim("   Hello     ")  ; Will display "Hello"
+  Debug Trim("!!Hello!!", "!") ; Will display "Hello"
+@EndCode
+
+@SeeAlso
+  @@LTrim, @@RTrim
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = UCase(String$)
+
+@Description
+  Returns the original string converted into upper case characters.
+
+@Parameter "String$"
+  The string to convert into uppercase.
+  
+@ReturnValue
+  The string converted into uppercase.
+
+@Remarks
+  This function also supports accent letters, so if a lower 'é' is found, it will be transformed into 'É'.
+
+@Example
+@Code
+  Debug UCase("This is Art") ; Will display "THIS IS ART"
+@EndCode
+
+@SeeAlso
+  @@LCase
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = ValD(String$)
+
+@Description
+  Converts a string into a double value. The string must be a double in
+  decimal format. The number parsing stops at the first non numeric character.
+
+@Parameter "String$"
+  The string to convert.
+
+@ReturnValue
+  The double value of the string.
+
+@Remarks
+  Strings holding an integer can also be converted with @@Val, and 32-bit floats with @@ValF (with less accuracy than @@ValD).
+
+@Example
+@Code
+  Debug ValD("10.000024") ; will display 10.000024.
+@EndCode
+
+@SeeAlso
+  @@ValF, @@Val, @@Str, @@StrF, @@StrD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = ValF(String$)
+
+@Description
+  Converts a string into a float value. The string must be a float in
+  decimal format. The number parsing stops at the first non numeric character.
+
+@Parameter "String$"
+  The string to convert.
+
+@ReturnValue
+  The float value of the string.
+
+@Remarks
+  Strings holding an integer can also be converted with @@Val and 64-bit floats with @@ValD (with more accuracy than @@ValF).
+
+@Example
+@Code
+  Debug ValF("10.24") ; Will display 10.24.
+@EndCode
+
+@SeeAlso
+  @@ValD, @@Val, @@Str, @@StrF, @@StrD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.q = Val(String$)
+
+@Description
+  Converts a string into a quad numeric value. The string may be an integer in
+  decimal, hexadecimal (with '$' prefix) or binary (with '%' prefix) format.
+  The number parsing stops at the first non numeric character.
+
+@Parameter "String$"
+  The string to convert.
+
+@ReturnValue
+  The numeric value of the string.
+
+@Remarks
+  Strings holding a 32-bit floats may be converted with @@ValF and 64-bit floats with @@ValD.
+
+@Example
+@Code
+  Debug Val("1024102410241024") ; will print '1024102410241024'.
+  Debug Val("$10FFFFFFFF")      ; will print '73014444031'.
+  Debug Val("%1000")            ; will print '8'.
+@EndCode
+
+@SeeAlso
+  @@ValD, @@ValD, @@Str, @@StrF, @@StrD
+
+@SupportedOS

@@ -579,7 +579,12 @@ EndProcedure
 ; Apply preferences changes
 Procedure UpdateProjectInfoPreferences()
   If *ProjectInfo
-    SetTabBarGadgetItemText(#GADGET_FilesPanel, 0, "> " + Language("Project","TabTitle"))
+    
+    ; Find Project tab (position may have changed!) and update its text
+    PushListPosition(FileList())
+    ChangeCurrentElement(FileList(), *ProjectInfo)
+    SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), Language("Project","TabTitle"))
+    PopListPosition(FileList())
     
     SetGadgetText(#GADGET_ProjectInfo_FrameProject, Language("Project","ProjectInfo"))
     SetGadgetText(#GADGET_ProjectInfo_FrameFiles, Language("Project","FileTab"))
@@ -820,6 +825,11 @@ EndProcedure
 ; displays an error if it fails, returns true/false
 ;
 Procedure LoadProject(Filename$)
+  
+  If IsProjectBusy = #True
+    ProcedureReturn #False
+  EndIf
+  
   Error$  = ""
   Success = #False
   
@@ -845,6 +855,8 @@ Procedure LoadProject(Filename$)
     If CheckProjectVersion(FileName$) And CloseProject() ; Close the previous project (If any). If the user cancel the previous project closing, we have to stop.
       Success = #True
       *Main   = MainXMLNode(#XML_LoadProject)
+      
+      IsProjectBusy = #True
       
       ; add new project to "Recent projects"
       ;
@@ -1268,6 +1280,8 @@ Procedure LoadProject(Filename$)
         
       EndIf
       
+      IsProjectBusy = #False
+      
     Else
       ;
       ; The loading fails here, but we do not display a requester, as the
@@ -1663,6 +1677,10 @@ EndProcedure
 
 Procedure OpenProject()
   
+  If IsProjectBusy = #True
+    ProcedureReturn
+  EndIf
+  
   If IsProjectCreation = 0
     
     If IsProject
@@ -1683,7 +1701,15 @@ Procedure OpenProject()
 EndProcedure
 
 Procedure CloseProject(IsIDEShutdown = #False)
+  
+  ; If project is busy loading, don't allow close (prevents crash)
+  If (IsProjectBusy = #True) And (IsIDEShutdown = #False)
+    ProcedureReturn #False
+  EndIf
+  
   If IsProject
+    
+    IsProjectBusy = #True
     
     ; close options
     If IsWindow(#WINDOW_ProjectOptions)
@@ -1774,6 +1800,7 @@ Procedure CloseProject(IsIDEShutdown = #False)
       EndIf
       
       If Result = #False
+        IsProjectBusy = #False
         ProcedureReturn #False
       EndIf
       
@@ -1801,8 +1828,11 @@ Procedure CloseProject(IsIDEShutdown = #False)
       CreateIDEMenu()
       StopFlickerFix(#WINDOW_Main, 1)
     Else
+      IsProjectBusy = #False
       ProcedureReturn #False ; The project has not been closed.
     EndIf
+    
+    IsProjectBusy = #False
   EndIf
   
   ProcedureReturn #True

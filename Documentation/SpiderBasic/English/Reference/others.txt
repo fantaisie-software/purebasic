@@ -1,0 +1,54 @@
+@Title Others Commands 
+
+
+@Syntax
+  
+  @Keyword End [ExitCode]
+
+@Description
+
+  Ends the program execution correctly. If the application is a mobile application, it quits the app. If the app runs in
+  a browser, it will try to close the current window or tab (but can fail depending of the browser).
+  @LineBreak
+  @LineBreak
+  'ExitCode' is currently ignored.
+
+; ---------------------------------------------------------------------------------------------------
+
+@Syntax
+  
+  @Keyword Swap <expression>, <expression>
+
+@Description
+
+  Swaps the value of the both expression, in an optimized way. The both <expression> have to be
+  a @ReferenceLink "variables" "variable", @ReferenceLink "dim" "array", @ReferenceLink "newlist" "list" or a  @ReferenceLink "newmap" "map"
+  element (structured or not) and have to be one of the
+  SpiderBasic native type like long (.l), quad (.q), string etc.
+
+@Example Swapping of strings
+@Code
+  Hello$ = "Hello"
+  World$ = "World"
+  
+  Swap Hello$, World$
+  
+  Debug Hello$+" "+World$
+@EndCode
+
+@Example Swapping of multi-dimensional arrays elements
+@Code
+  Dim Array1(5,5) 
+  Dim Array2(5,5) 
+  Array1(2,2) = 10     ; set initial contents
+  Array2(3,3) = 20
+  
+  Debug Array1(2,2) ; will print 10
+  Debug Array2(3,3) ; will print 20
+  
+  Swap Array1(2,2) , Array2(3,3)  ; swap 2 arrays elements
+  
+  Debug "Array contents after swapping:"
+  Debug Array1(2,2)    ; will print 20
+  Debug Array2(3,3)    ; will print 10
+@EndCode

@@ -1,0 +1,169 @@
+@Title Using the command line compiler
+
+@Section Introduction
+
+  The command line compiler is located in the subdirectory 'compilers' from the PureBasic folder. 
+  The easier way to access it is to add this directory in the PATH variable, 
+  which will give access to all the commands of this directory at all times. 
+  Every command switch which starts with '/' are Windows only.
+
+@Section Cross-platform command switches
+
+  -h, --help, /?: displays a quick help about the compiler. @LineBreak
+  @LineBreak
+  -c, --commented, /COMMENTED: creates a commented '.asm' output file when creating an executable. 
+  This file can be re-assembled later when the needed modifications have been made. 
+  This option is for advanced programmers only. @LineBreak
+  @LineBreak
+  -d, --debugger, /DEBUGGER: enables the debugger support. @LineBreak
+  @LineBreak
+  -pf, --purifier, /PURIFIER: enables the purifier. The debugger needs to be activated to have any effect. @LineBreak
+  @LineBreak
+  -e, --executable, /EXE "filename": creates a standalone executable or DLL specified by the filename at the desired path location. 
+  On MacOS X it's possible to create an application bundle by adding '.app' to the name of the executable. This way the whole
+  directory structure will be automatically created. @LineBreak
+  @LineBreak
+  -r, --resident, /RESIDENT "filename": creates a resident file specified by the filename. @LineBreak
+  @LineBreak
+  -i, --import, /IMPORT "filename": creates an import file to the given filename. Only one Import/EndImport block is allowed
+  in the file. The imported functions will be loaded automatically for every PureBasic projects.
+@LineBreak
+  @LineBreak
+  -l or --linenumbering, /LINENUMBERING: adds lines and files information to the executable, which can slow it considerably. 
+  This allows the @LibraryLink "OnError" "OnError library" to report the file and line-number of an error. @LineBreak
+  @LineBreak
+  -q, --quiet, /QUIET: disables all unnecessary text output, very useful when using another editor. @LineBreak
+  @LineBreak
+  -sb, --standby, /STANDBY: loads the compiler in memory and wait for external commands (editor, scripts...). 
+  More information about using this flag is available in the file 'CompilerInterface.txt' from the PureBasic 'SDK' directory. @LineBreak
+  @LineBreak
+  -ir, --ignoreresident, /IGNORERESIDENT "filename": doesn't load the specified resident file when the compiler starts. It's
+  mostly useful when updating a resident which already exists, so it won't load it. @LineBreak
+  @LineBreak
+  -o, --constant, /CONSTANT name=value: creates the specified constant with the given expression. 
+  Example: 'pbcompiler test.pb /CONSTANT MyConstant=10'. The constant @#MyConstant
+  will be created on the fly with a value of 10 before the program gets compiled. @LineBreak
+  @LineBreak
+  -t, --thread, /THREAD: uses thread safe runtime for strings and general routines.@LineBreak
+  @LineBreak
+  -s, --subsystem, /SUBSYSTEM "name": uses the specific subsystem to replace a set of internal functions. For
+  more information, see @ReferenceLink "subsystems" "subsystems". @LineBreak
+  @LineBreak
+  -k, --check, /CHECK: checks the syntax only, doesn't create or launch the executable. @LineBreak
+  @LineBreak 
+  -pp, --preprocess, /PREPROCESS "filename": preprocess the source code and write the output in the specified "Filename". 
+  The processed file is a single file with all macro expanded, compiler directive handled and
+  multiline resolved. This allows an easier parsing of a PureBasic source file, as all is expanded
+  and is available in a flat file format. No comments are included by default, but the flag '--commented' can be
+  used to have all untouched original source as comments and allow comments processing. The preprocessed
+  file can be recompiled as any other PureBasic source file to create the final executable. @LineBreak
+  @LineBreak
+  -g, --language, /LANGUAGE \"language\": uses the specified language for the compiler error messages. @LineBreak
+  @LineBreak
+  -v, --version, /VERSION: displays the compiler version. @LineBreak
+  @LineBreak
+  @Bold "Examples:"
+  
+@FixedFont
+  CLI> pbcompiler sourcecode.pb
+@EndFixedFont
+  
+  The compiler will compile the source code and execute it. @LineBreak
+  @LineBreak
+  
+@FixedFont
+  CLI> pbcompiler sourcecode.pb --debugger
+@EndFixedFont
+  
+  The compiler will compile the source code and execute it with debugger.
+  @LineBreak
+  @LineBreak
+
+@Section Windows specific command switches
+
+  /ICON "IconName.ico" : add the specified icon to the executable. @LineBreak
+  @LineBreak
+  /CONSOLE: output file in @LibraryLink "console" "Console" format. Default format is Win32. @LineBreak
+  @LineBreak
+  /DLL: output file is a @ReferenceLink "dll" "DLL". @LineBreak
+  @LineBreak
+  /XP: Add the Windows XP theme support to the executable. @LineBreak
+  @LineBreak
+  /REASM: Reassemble the PureBasic.asm file into an executable. This allow to use the /COMMENTED function, 
+  modify the ASM output and creates the executable again. @LineBreak
+  @LineBreak
+  /MMX, /3DNOW, /SSE or /SSE2: Creates a processor specific executable. This means if a 
+  processor specific routine is available it will be used for this executable. 
+  Therefore, the executable will run correctly only on computer with this kind of CPU. @LineBreak
+  @LineBreak
+  /DYNAMICCPU: Creates a executable containing all the available processor specific routines. 
+  When the program is started, it looks for the processor type and then select the more 
+  appropriates routines to use. This makes a bigger executable, but result in the 
+  fastest possible program.@LineBreak
+  @LineBreak
+  /RESOURCE "Filename": Add a Windows resource file (.rc) to the created executable or DLL. This
+  should be not a compiled resource file, but an ascii file with the directives in it. It's possible
+  to specify only one resource, but this file can include other resource script if needed. @LineBreak
+  @LineBreak
+  /LINKER "ResponseFile": Specify a file which contains commands to be passed directly to the linker.
+  On Windows, PureBasic use the PellesC linker (polink), more information about the possible
+  options can be found in the related documentation. @LineBreak
+  @LineBreak
+  @LineBreak
+  The following two compiler options are needed for creating programs running on Microsoft Vista OS or above (Windows 7/8/10).
+  They are both options for the included manifest, so they are ignored on older windows versions. 
+  With none of these switches, the exe will run as a normal user as well, but with virtualization 
+  turned on (i.e. registry and file redirection). It is recommended to use the /USER switch to turn 
+  of virtualization for all programs that comply to the standard user privileges, as it is only 
+  intended for compatibility for older programs. These options are also available in the 
+  @ReferenceLink "ide_compiler" "IDE compiler options". @LineBreak
+  @LineBreak
+  /ADMINISTRATOR: Will cause the program to request admin privileges at start. The program 
+  will not run without it. This option is needed. Note: You can also @ReferenceLink "ide_debugger" "debug" 
+  programs with this flag, but only with the standalone gui debugger (as it must run in elevated mode as well). @LineBreak
+  @LineBreak
+  /USER: The program will run as the user who started it. Virtualization for the exe is turned off. @LineBreak
+  @LineBreak
+  /DPIAWARE: Enable DPI support to the executable. @LineBreak
+  @LineBreak
+  
+  @Bold "Examples:"
+  
+@FixedFont
+  CLI> pbcompiler "C:\Project\Source\DLLSource.pb" /EXE "C:\Project\project.dll" /DLL
+@EndFixedFont
+  
+  The compiler will compile the source code (here with full path) and create the DLL "project.dll" in the given directory.
+  @LineBreak
+  @LineBreak
+  
+@Section Linux specific command switches
+
+  -so or --sharedobject "filename": Create a dynamic library (shared object). @LineBreak
+  @LineBreak
+  -mmx, -3dnow, -sse or -sse2: Creates a processor specific executable. This means if a 
+  processor specific routine is available it will be used for this executable. 
+  Therefore, the executable will run correctly only on computer with this kind of CPU. @LineBreak
+  @LineBreak
+  -dc or --dynamiccpu: Creates a executable containing all the available processor specific routines. 
+  When the program is started, it looks for the processor type and then select the more 
+  appropriates routines to use. This makes a bigger executable, but result in the 
+  fastest possible program.
+  
+  @LineBreak
+  @LineBreak
+  
+@Section OS X specific command switches
+
+  -n or --icon "filename.icns" : add the specified icon to the executable. @LineBreak
+  @LineBreak
+  -dl or --dylib "filename": Create a dynamic library (dylib object). @LineBreak
+  @LineBreak
+  -f or --front: put the launched process to front. @LineBreak
+  @LineBreak
+  -ibp or --ignorebundlepath: don't use the bundle path as current directory.
+
+  @LineBreak
+  @LineBreak
+
+

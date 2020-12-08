@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Choosing to execute some instructions - Program Flow - Pure Basic User Guide</title>  
+    <link href="..\user_guide.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Program Flow: Choosing to execute some instructions</h1>
+
+<h2>If and EndIf keywords</h2>
+The simplest way to make your program decide whether it should execute a
+ sequence of instructions is to use the If (and associated) keywords.
+ The simplest structure of code when using the If keyword looks like this:
+
+<pre class="codepart">
+If &lt;expression&gt;
+    ; Instructions
+EndIf
+</pre>
+
+<p>How this works is that PureBasic will calculate the value of the expression
+ which comes after the <span class="code">If</span> keyword. If the value of
+ the expression is true then the instructions which follow the If keyword will
+ be executed. If the value of the expression is false those instructions will
+ be skipped and the program will continue executing from the next instruction
+ after the <span class="code">EndIf</span> keyword. Consider this example (also
+ <a href="if_simple.pb">here</a>):
+
+<pre class="code">
+If OpenConsole()
+    PrintN(&quot;Console was opened successfully&quot;)
+
+    a.l = 3
+    b.l = 3
+    If a=b
+        PrintN(&quot;The values of the variables are the same.&quot;)
+    EndIf
+
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End
+</pre>
+
+<p>This example has demonstrated three important points about the use of the If keyword.
+ The first is that any kind of expression can be used, as has been done by using the
+ result of the OpenConsole() command in the first line. If you look at the reference manual, or the next chapter,
+ for the description of the OpenConsole() command you will see that it returns 
+ a non-zero value if the console could be opened or a zero value if it failed to open.
+ Remember from the previous page that a non-zero value is treated as true and a zero
+ value is treated as false. What this boils down to is that the instructions inside
+ the If block will be executed if the console could be opened successfully (in that
+ case, OpenConsole() returns a non-zero value, which is true, causing the code to
+ be executed). This is how consoles should really be opened, by checking to see if they were.
+
+<p>The second point is shown by the second use of the If keyword (on the 6th line). This illustrates a
+ &quot;normal&quot; use of If by using a comparison operator as the expression
+ which controls whether the code gets executed or not.
+
+<p>The final point is that the If...EndIf sequences are inside each other (also
+ known as <dfn>nested</dfn>). When nesting If...EndIf blocks, or any other type
+ of loop, you must enclose the end of the block or loop fully inside the other
+ block or loop. You cannot, for example, start one block or loop, then start another
+ and then end the first before ending the second.
+
+<p>As an additional thought you may want to consider <dfn>indenting</dfn> the code inside
+ If...EndIf blocks, and any other kinds of loops. Indenting is simply putting some spaces
+ or tabs in front of the lines to make it look like they are inside. It can make code
+ easier to read, especially when you make the size of the indents consistent.
+
+<p><h2>Else keyword</h2>
+What happens when you want to execute some other instructions if the value of the expression
+ is false? In that case you can use the Else keyword. The structure of an If block with an
+ Else condition is shown below:
+<pre class="codepart">
+If &lt;expression&gt;
+    ; Instructions
+Else
+    ; Alternative instructions
+EndIf
+</pre>
+
+<p>This behaves in a similar way to the simple If block. The value of the expression is
+ calculated and if it is true then the instructions following the If keyword are executed.
+ When the Else keyword is reached the execution stops and jumps to the next instruction
+ after the EndIf keyword.
+
+<p>However, if the value of the expression is false then the program continues executing
+ from the instructions which follow the Else keyword.
+
+<p>The effect of an If...Else...EndIf block can be shown in the following example (which
+ can also be downloaded from <a href="if_else.pb">here</a>):
+<pre class="code">If OpenConsole()
+    a.l = 3
+    b.l = 4
+    If a=b
+        PrintN(&quot;The values of the variables are the same.&quot;)
+    Else
+        PrintN(&quot;The values of the variables are different.&quot;)
+    EndIf
+
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+The example is almost the same as the first one, except that it shows the effect of using an
+ Else condition inside the If block that compares the values of the variables. Running the
+ above example will show that the code in the Else condition is executed. If you now change the
+ value of one of the variables so they are the same, you will see what happens under the
+ other condition.
+
+<p><h2>ElseIf keyword</h2>
+You can now check expressions and execute instructions based on whether the value of the expression
+ is true or false. But how do you check lots of different expressions? Well, one solution would
+ be to nest a lot of If...EndIf blocks inside each other. However, a neater solution is to
+ use the ElseIf keyword. This behaves like a mixture of the Else and If keywords (as you may have
+ guessed :). The structure of an If block containing ElseIf conditions is shown below:
+
+<pre class="codepart">
+If &lt;expression 1&gt;
+    ; Instructions
+ElseIf &lt;expression 2&gt;
+    ; Instructions
+[ElseIf &lt;expression 3&gt;
+    ; Instructions]
+;...
+ElseIf &lt;expression whatever&gt;
+    ; Instructions
+Else
+    ; Alternative instructions
+EndIf
+</pre>
+
+<p>The ElseIf conditions are enclosed in square brackets to show that they are optional. You can have
+ as many or as few of them as you need. You also do not need to use the Else condition if you do not
+ need it. The code starts by checking the value of expression 1, which
+ is after the If keyword. If this is true then the instructions following the If keyword are
+ executed. When the code reaches the next ElseIf condition it skips on to the next instruction after the
+ EndIf keyword. If the value of the expression is false then the program jumps to the next ElseIf
+ condition and checks the value of the expression. If this is true then the instructions which follow it
+ are executed, otherwise the program jumps to the next ElseIf condition. This is then repeated
+ until one of the conditions match or there are no more expressions to check.
+
+<p>PureBasic carries out the checks in If and ElseIf conditions in the order they are written
+ in your source. Therefore you must put the checks in the order you want them carried out
+ if any of them overlap. You must also make sure that you put the Else keyword as the last
+ condition in an If block. Any conditions which appear after it will not be checked.
+
+<p>This example demonstrates the use of the ElseIf keyword, and it can also be downloaded from
+ <a href="if_elseif.pb">here</a>:
+
+<pre class="code">If OpenConsole()
+    name$ = &quot;John&quot;
+    
+    If name$=&quot;Frank&quot;
+        PrintN(&quot;Hi Frank, good to see you again.&quot;)
+    ElseIf name$=&quot;Bob&quot;
+        PrintN(&quot;Bob! How are you?&quot;)
+    ElseIf name$&lt;&gt;&quot;John&quot;
+        PrintN(&quot;You are not John&quot;)
+    Else
+        PrintN(&quot;Sorry, I do not know who you are&quot;)
+    EndIf
+
+    PrintN(&quot;Press return to exit&quot;)
+    Input()
+    CloseConsole()
+EndIf
+End</pre>
+
+<p>The operation of this example is as follows. The <var>name$</var> variable is assigned
+ the string &quot;John&quot;. It is then compared for equality against the string &quot;Frank&quot;.
+ Since these two do not match the result of the expression is false and the code jumps to the
+ first ElseIf condition. Again, the <var>name$</var> variable is compared for equality, but
+ they will not match so the code moves onto the second ElseIf. On this occasion the variable
+ is compared for inequality, so even though the string is the same the result will be false.
+ The code then finds the Else condition, which is executed because no other condition has
+ been found to be true.
+
+<p><table class="footer">
+<tr>
+<th>Previous topic</td>
+<th>Chapter contents</td>
+<th>Next topic</td>
+</tr>
+
+<tr>
+<td><a href="comparison.html">Comparison operators</a></td>
+<td><a href="../userguide.html">User Guide contents</a></td>
+<td><a href="select.html">Choosing one set of instructions</a></td>
+</tr>
+</table>
+
+</body>
+</html>
+
