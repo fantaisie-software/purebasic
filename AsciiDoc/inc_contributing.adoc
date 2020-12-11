@@ -1,0 +1,40 @@
+
+:PBRepoURL: https://github.com/fantaisie-software/purebasic
+:PBRepoLink: pass:q,m,a[link:{PBRepoURL}[*PureBasic Open Source*^,title="Visit the PureBasic Open Source repository on GitHub"]]
+:docSrcURL: {PBRepoURL}/tree/devel/AsciiDoc/{docname}{docfilesuffix}
+
+ifeval::[0==0]
+////
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"inc_contributing.adoc" by Tristano Ajmone                   v1.0.0 | 2020/12/10
+--------------------------------------------------------------------------------
+This include file contains the commonly-shared aside-box indicating to end-users
+how to contribute to a document or contact Fantaisie Software to obtain support
+or share thoughts and opinions on possible improvements.
+
+By leveraging the above-defined custom attributes, along with the document's
+header attributes and Asciidoctor's environment and built-in attributes, the
+reference link to each document's AsciiDoc source is auto-magically generated
+*ad hoc* at build time -- Yep, Asciidoctor is the coolest documentation tool!
+
+IMPORTANT:  All AsciiDoc sources are assumed to be inside the "AsciiDoc/" folder
+            of the repository, when generating links to their upstream sources.
+            Furthermore, all source links point to the "devel" branch, since
+            that is the branch against which all pull requests should be
+            submitted, as well as being the branch with the latest version of
+            the documents (which might be ahead of their version on the main
+            public branch).
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+////
+endif::[]
+
+============================
+[discrete]
+=== Contributing and Support
+
+Feel free to contribute to this document by submitting your own fixes and improvements via https://git-scm.com/[Git^,title="Visit Git's website"] and creating a pull request on the {PBRepoLink} repository:
+
+* {docSrcURL}[^,title="View the AsciiDoc source of this document on GitHub"]
+
+If you have any questions, remarks or suggestions, just write to: <{email}>.
+============================
