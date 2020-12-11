@@ -1,6 +1,6 @@
 # AsciiDoc Sources
 
-This directory contains the [AsciiDoc] sources and assets of various HTML documents found in the repository (currently, only in the [`../Documentation/`][Documentation/] folder).
+This directory contains the [AsciiDoc] sources and assets of various HTML documents found in the repository.
 
 
 -----
@@ -20,9 +20,13 @@ This directory contains the [AsciiDoc] sources and assets of various HTML docume
 
 # Directory Contents
 
+- [`CompilerInterface.asciidoc`][CompilerInterface.asciidoc] — _[PureBasic Compiler Interface]_.
 - [`DocMaker-Help.asciidoc`][DocMaker-Help.asciidoc] — _[PureBasic DocMaker Help]_.
 - [`DocMaker-Tags.asciidoc`][DocMaker-Tags.asciidoc] — _[PureBasic DocMaker Tags Guide]_.
+- [`PB-DLL-Importer.asciidoc`][PB-DLL-Importer.asciidoc] — _[PureBasic DLL Importer]_.
 - [`PB-Documentation-Guide.asciidoc`][PB-Documentation-Guide.asciidoc] — _[PureBasic Documentation Guidelines]_.
+- [`PB-Library-SDK.asciidoc`][PB-Library-SDK.asciidoc] — _[PureBasic Library SDK]_.
+- [`PureUnit-Help.asciidoc`][PureUnit-Help.asciidoc] — _[PureUnit: Automated Testing in PureBasic]_.
 - [`inc_contributing.adoc`][inc_contributing.adoc] — shared include file for "Contributing and Support" aside-box.
 - [`inc_warn-editing.adoc`][inc_warn-editing.adoc] — shared include file with HTML commented warning about editing.
 - [`asciidoc2html.sh`][asciidoc2html.sh] — converter script.
@@ -34,9 +38,13 @@ The following table maps the AsciiDoc sources of this folder to their generated 
 
 |                         AsciiDoc Source File                         |                              Generated HTML File                              |
 |----------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| [`CompilerInterface.asciidoc`][CompilerInterface.asciidoc]           | [`../PureBasicIDE/sdk/CompilerInterface.html`][CompilerInterface.html]        |
 | [`DocMaker-Help.asciidoc`][DocMaker-Help.asciidoc]                   | [`../Documentation/DocMaker-Help.html`][DocMaker-Help.html]                   |
 | [`DocMaker-Tags.asciidoc`][DocMaker-Tags.asciidoc]                   | [`../Documentation/DocMaker-Tags.html`][DocMaker-Tags.html]                   |
+| [`PB-DLL-Importer.asciidoc`][PB-DLL-Importer.asciidoc]               | [`../PureBasicIDE/sdk/PB-DLL-Importer.html`][PB-DLL-Importer.html]            |
 | [`PB-Documentation-Guide.asciidoc`][PB-Documentation-Guide.asciidoc] | [`../Documentation/PB-Documentation-Guide.html`][PB-Documentation-Guide.html] |
+| [`PB-Library-SDK.asciidoc`][PB-Library-SDK.asciidoc]                 | [`../PureBasicIDE/sdk/PB-Library-SDK.html`][PB-Library-SDK.html]              |
+| [`PureUnit-Help.asciidoc`][PureUnit-Help.asciidoc]                   | [`../PureBasicIDE/sdk/PureUnit-Help.html`][PureUnit-Help.html]                |
 
 
 # About
@@ -53,7 +61,7 @@ Although for the purpose of this repository we only convert the documents to HTM
 
 HTML is an ideal format for distributing documents, since every end user has a web browser, whereas formats like Markdown require a previewer tool which might not be present natively on every OS.
 
-Currently, there are only the sources for the HTML documents found in the [`../Documentation/`][Documentation/] folder, but the [`asciidoc2html.sh`][asciidoc2html.sh] conversion script couples each source file with a designated target folder via an associative array (aka _map_ or _hash table_) thus allowing each converted document to be created in any repository folder.
+The [`asciidoc2html.sh`][asciidoc2html.sh] conversion script couples each source file with a designated target folder via an associative array (aka _map_ or _hash table_) thus allowing each converted HTML document to be stored in any repository folder.
 
 
 # System Requirements
@@ -81,24 +89,35 @@ Furthermore, in order to use other AsciiDoc implementations, you'll need to adap
 
 <!-- project files -->
 
+[CompilerInterface.asciidoc]: ./CompilerInterface.asciidoc "View source document"
 [DocMaker-Help.asciidoc]: ./DocMaker-Help.asciidoc "View source document"
 [DocMaker-Tags.asciidoc]: ./DocMaker-Tags.asciidoc "View source document"
+[PB-DLL-Importer.asciidoc]: ./PB-DLL-Importer.asciidoc "View source document"
 [PB-Documentation-Guide.asciidoc]: ./PB-Documentation-Guide.asciidoc "View source document"
+[PB-Library-SDK.asciidoc]: ./PB-Library-SDK.asciidoc "View source document"
+[PureUnit-Help.asciidoc]: ./PureUnit-Help.asciidoc "View source document"
 [asciidoc2html.sh]: ./asciidoc2html.sh "View source script"
 [inc_contributing.adoc]: ./inc_contributing.adoc "View source document"
 [inc_warn-editing.adoc]: ./inc_warn-editing.adoc "View source document"
 
 <!-- html output files -->
 
+[CompilerInterface.html]: ../PureBasicIDE/sdk/CompilerInterface.html "View generated HTML document"
 [DocMaker-Help.html]: ../Documentation/DocMaker-Help.html "View generated HTML document"
 [DocMaker-Tags.html]: ../Documentation/DocMaker-Tags.html "View generated HTML document"
+[PB-DLL-Importer.html]: ../PureBasicIDE/sdk/PB-DLL-Importer.html "View generated HTML document"
 [PB-Documentation-Guide.html]: ../Documentation/PB-Documentation-Guide.html "View generated HTML document"
+[PB-Library-SDK.html]: ../PureBasicIDE/sdk/PB-Library-SDK.html "View generated HTML document"
+[PureUnit-Help.html]: ../PureBasicIDE/sdk/PureUnit-Help.html "View generated HTML document"
 
 <!-- html outpt docs by title -->
 
+[PureBasic Compiler Interface]: ../PureBasicIDE/sdk/CompilerInterface.html "View generated HTML document"
+[PureBasic DLL Importer]: ../PureBasicIDE/sdk/PB-DLL-Importer.html "View generated HTML document"
 [PureBasic DocMaker Help]: ../Documentation/DocMaker-Help.html "View generated HTML file"
 [PureBasic DocMaker Tags Guide]: ../Documentation/DocMaker-Tags.html "View generated HTML file"
 [PureBasic Documentation Guidelines]: ../Documentation/PB-Documentation-Guide.html "View generated HTML file"
-
+[PureBasic Library SDK]: ../PureBasicIDE/sdk/PB-Library-SDK.html "View generated HTML document"
+[PureUnit: Automated Testing in PureBasic]: ../PureBasicIDE/sdk/PureUnit-Help.html "View generated HTML document"
 
 <!-- EOF -->
