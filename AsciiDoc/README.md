@@ -23,6 +23,7 @@ This directory contains the [AsciiDoc] sources and assets of various HTML docume
 - [`DocMaker-Help.asciidoc`][DocMaker-Help.asciidoc] — _[PureBasic DocMaker Help]_.
 - [`DocMaker-Tags.asciidoc`][DocMaker-Tags.asciidoc] — _[PureBasic DocMaker Tags Guide]_.
 - [`PB-Documentation-Guide.asciidoc`][PB-Documentation-Guide.asciidoc] — _[PureBasic Documentation Guidelines]_.
+- [`inc_contributing.adoc`][inc_contributing.adoc] — shared include file for "Contributing and Support" aside-box.
 - [`inc_warn-editing.adoc`][inc_warn-editing.adoc] — shared include file with HTML commented warning about editing.
 - [`asciidoc2html.sh`][asciidoc2html.sh] — converter script.
 
@@ -52,8 +53,8 @@ Although for the purpose of this repository we only convert the documents to HTM
 
 HTML is an ideal format for distributing documents, since every end user has a web browser, whereas formats like Markdown require a previewer tool which might not be present natively on every OS.
 
-Currently, there are only the sources for the HTML documents found in the [`../Documentation/`][Documentation/] folder, so the [`asciidoc2html.sh`][asciidoc2html.sh] conversion script simply targets that single output folder.
-In the future we might be adding new documents targeting other folders; when this happens the converter script will be adapted to support multiple target folders.
+Currently, there are only the sources for the HTML documents found in the [`../Documentation/`][Documentation/] folder, but the [`asciidoc2html.sh`][asciidoc2html.sh] conversion script couples each source file with a designated target folder via an associative array (aka _map_ or _hash table_) thus allowing each converted document to be created in any repository folder.
+
 
 # System Requirements
 
@@ -84,6 +85,7 @@ Furthermore, in order to use other AsciiDoc implementations, you'll need to adap
 [DocMaker-Tags.asciidoc]: ./DocMaker-Tags.asciidoc "View source document"
 [PB-Documentation-Guide.asciidoc]: ./PB-Documentation-Guide.asciidoc "View source document"
 [asciidoc2html.sh]: ./asciidoc2html.sh "View source script"
+[inc_contributing.adoc]: ./inc_contributing.adoc "View source document"
 [inc_warn-editing.adoc]: ./inc_warn-editing.adoc "View source document"
 
 <!-- html output files -->

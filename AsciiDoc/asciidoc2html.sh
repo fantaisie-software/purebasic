@@ -1,11 +1,27 @@
 #!/bin/bash
 
-# "asciidoc2html.sh"  by Tristano Ajmone                     v2.0.0 | 2020/12/07
+# "asciidoc2html.sh" by Tristano Ajmone                      v2.1.0 | 2020/12/10
 #-------------------------------------------------------------------------------
-# Convert to HTML all AsciiDoc files with extension "*.asciidoc" inside current
-# folder. Requires Asciidoctor (Ruby) to be installed:
+# Convert to HTML an array of AsciiDoc files from the current folder to specific
+# destination folders designated for each document.
+# Requires Asciidoctor (Ruby) to be installed:
 # 	https://asciidoctor.org
 #-------------------------------------------------------------------------------
+
+# ==============
+# Documents List
+# ==============
+# Each source document and its destination folder are stored in an associative
+# array (aka map or hash table). AsciiDoc source files must be stored without
+# file extension (the "*.asciidoc" extension is implicitly assumed); all output
+# paths are relative to the repository root folder.
+
+declare -A docsL
+docsL=( \
+	["DocMaker-Help"]=Documentation \
+	["DocMaker-Tags"]=Documentation \
+	["PB-Documentation-Guide"]=Documentation \
+)
 
 # ==================
 # Check Dependencies
@@ -26,10 +42,15 @@ fi
 # ===============
 # Convert to HTML
 # ===============
-# Every document in current folder with extension "*.asciidoc".
-# Currently, all HTML docs will be generated in the "../Documentation" folder.
+# Convert every "*.asciidoc" document in the array, from the current folder, to
+# its designated output folder.
 
-for doc in *.asciidoc ; do
+for doc in "${!docsL[@]}"; do
+	destDir=${docsL[$doc]}
+	echo -e "\033[1;34m========================================================================"
+	echo -e "\033[1;34mSource: \033[1;33m${doc}.asciidoc"
+	echo -e "\033[1;34mTarget: \033[1;33m../$destDir/${doc}.html"
+	echo -e "\033[1;34m========================================================================\033[1;30m"
 	asciidoctor \
 		--failure-level WARN \
 		--timings \
@@ -41,6 +62,8 @@ for doc in *.asciidoc ; do
 		-a sectanchors \
 		-a toc=left \
 		-a reproducible \
-		-D ../Documentation \
-			$doc
+		-D ../$destDir \
+			${doc}.asciidoc
 done
+
+echo -e "\n\033[1;32m/// Finished ///"
