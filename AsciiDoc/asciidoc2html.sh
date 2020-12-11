@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# "asciidoc2html.sh" by Tristano Ajmone                      v2.1.0 | 2020/12/10
+# "asciidoc2html.sh" by Tristano Ajmone                      v2.1.1 | 2020/12/10
 #-------------------------------------------------------------------------------
 # Convert to HTML an array of AsciiDoc files from the current folder to specific
 # destination folders designated for each document.
@@ -21,6 +21,10 @@ docsL=( \
 	["DocMaker-Help"]=Documentation \
 	["DocMaker-Tags"]=Documentation \
 	["PB-Documentation-Guide"]=Documentation \
+	["PureUnit-Help"]=PureBasicIDE/sdk \
+	["CompilerInterface"]=PureBasicIDE/sdk \
+	["PB-Library-SDK"]=PureBasicIDE/sdk \
+	["PB-DLL-Importer"]=PureBasicIDE/sdk \
 )
 
 # ==================
