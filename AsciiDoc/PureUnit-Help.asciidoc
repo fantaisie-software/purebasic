@@ -1,0 +1,473 @@
+= PureUnit: Automated Testing in PureBasic
+Fantaisie Software <support@purebasic.com>
+:revdate: 2020-12-11
+:PBVer: 5.73
+:revremark: PureBasic v{PBVer}
+:revnumber!:
+:lang: en
+:favicon: https://www.purebasic.com/img/favicon.png
+// TOC Settings:
+:toclevels: 5
+:toc: left
+// Sections Numbering:
+:sectnums:
+:sectnumlevels: 1
+// Misc Settings:
+:experimental:
+:icons: font
+:linkattrs:
+:reproducible:
+:sectanchors:
+
+include::inc_warn-editing.adoc[]
+
+// IMPORTANT!!!
+// *****************************************************************************
+// If you edit the contents of this document, don't forget to update also the
+// :revdate: line accordingly (3rd line), so end users will always know which
+// version of the document they're dealing with, and which one is the latest.
+// *****************************************************************************
+
+//              PureUnit -- Automated testing in PureBasic
+//
+//                     (c) 2008 - Fantaisie Software
+
+
+== Introduction
+
+PureUnit allows automated unit testing for PureBasic code with similar concepts to other xUnit frameworks like JUnit.
+The basic idea of unit testing is the creation of a set of tests that can run without user interaction so they can be repeated many times during the development process to ensure that the code still does what it is supposed to do.
+
+The main reason for the creation of PureUnit was the testing of (user-)libraries for PureBasic, but it can just as well be used to test code written in PureBasic itself.
+Because the goal is testing without user interaction, PureUnit is not intended for testing entire application or a finished program, but rater for testing those parts of a program like individual functions, which can be executed separately from the rest of the program, in order to verify their correctness (for example an include file with commonly used functions, etc.).
+
+PureUnit consists of a set of keywords (in the form of macros) to write the actual test code and a tool which will analyze the code to extract information, compile and run the test code and report its status back to the user.
+The tool comes with both a command-line interface, for use in makefiles or scrips, as well as with a graphical user interface, to allow testing directly from the PureBasic IDE, for example.
+
+
+NOTE: The Windows version comes as 2 separate executables for console/GUI use.
+The reason for this is that a console application on Windows will always open a console window, even when started from File Explorer, which is annoying when using it as a GUI tool.
+Therefore, these two files contain the exact same program: one being compiled in console mode, the other in GUI mode.
+Similarly, the Mac OSX version comes as `PureUnit.app` (for GUI use) and as `pureunit` for console use.
+
+
+
+== Installation
+
+
+* The `PureUnit.res` needs to be copied the `Residents` Directory of your PureBasic installation.
+
+* Optionally, the `PureUnitKeywords.txt` file can be selected in the preferences of the PureBasic IDE (menu:Preferences[Colors > Custom Keywords]) as a keyword file to color all PureUnit specific keywords in a separate color.
+
+* The PureUnit executables can be executed from anywhere.
+
+IMPORTANT: PureUnit requires a minimum compiler version of 4.10 due to its use of the compiler interface introduced in that version.
+
+
+
+
+== Writing the Test Code
+
+
+All test code must be written inside procedures.
+Code outside of the test procedures will not be executed.
+So just like in a DLL there should only be stuff like constant definitions, structures etc. on the main level.
+(Note though that PureUnit does not compile the code to a DLL for the tests; the code is compiled to an executable with extra embedded code to execute the tests.)
+
+Test procedures are created just like normal procedures but with one of the below described keywords instead of `Procedure`.
+Test procedures MUST have no arguments.
+They should have descriptive names (representing what they actually test for), as the names are reported in case of a failure.
+
+A test is considered to be passed if the procedure ends normally (or is left with `ProcedureReturn`).
+A test is considered to be failed if the below described `Assert()` macro fails, the `Fail()` macro is called, or a runtime error (OnError library) happened.
+
+
+=== Macros
+
+PureUnit adds the following new keywords (as macros without arguments):
+
+
+[.red]`ProcedureUnit` :::
+
+A procedure created with this keyword is considered to be a test procedure.
++
+The test procedures in a given code will be executed in RANDOM order.
+The reason for this is to find problems from possible side-effects of the tests which would go unnoticed if the tests always get executed in the same order.
+(for example if some test always succeeds just because the test before it sets certain conditions that were not realized when the test code got written)
+
+
+[.red]`ProcedureUnitStartup` :::
+
+All procedures created with this keyword will be executed at the startup of the compiled program (there can be more than one startup procedure).
+Use this to set up global conditions (variables etc.) for all tests.
+
+
+[.red]`ProcedureUnitShutdown` :::
+
+All procedures with this keyword will be executed at the end of all tests.
+Note that they will also be executed when the program ends because of a failed test.
+Use this to do any cleanup after the tests.
+
+
+[.red]`ProcedureUnitBefore` :::
+
+All procedures with this keyword will be executed before every single test.
+Use this to do preparations that should be done before every test separately.
+
+
+[.red]`ProcedureUnitAfter` :::
+
+All procedures with this keyword will be executed after every single test.
+(also after a failed test.)
+
+
+[.red]`EndProcedureUnit` :::
+
+This keyword has no special meaning to PureUnit.
+It is just defined as a macro for `EndProcedure` to have a matching end keyword (`ProcedureUnit`/`EndProcedureUnit`).
+Using this or `EndProcedure` makes no difference whatsoever.
+It's there just for aesthetic reasons.
+
+
+
+=== Macros with Arguments
+
+PureUnit adds the following new macros with arguments:
+
+
+
+[.red]`Assert( <expression> [, Message$] )` :::
+
+This is the central macro of the testing concept.
+It is used to check all conditions that must be true for the test to succeed.
+If any of the conditions is found to be false, the entire test is considered to have failed.
++
+--
+`<expression>` can be any expression that evaluates to true (nonzero) or false (zero).
+Since the macro evaluates the expression with an `If` statement, the logical operators `And`, `Or`, `XOr` and `Not` can be used.
+
+`Message$` is an optional argument that can contain a message to be shown (in the test protocol or in the console) if the `Assert` fails.
+
+.Example
+[source,PureBasic]
+Assert(MyVariable = 123 And aFunction() = 0)
+--
+
+
+[.red]`AssertString( String1$, String2$ [, Message$] )` :::
+
+This is a special macro intended to test results from string functions inside (user-)libraries.
+For any other purpose, `Assert(String1$ = String2$)` will work just fine.
++
+.Detailed Information
+[TIP]
+===========================
+If a string function inside a library does not correctly allocate the internal string buffer (i.e. allocating more characters than are actually filled), the result will look just fine if seen as a single value.
+It will however become wrong if the string function result is added together with other strings (because there will be a NULL character inside the string then).
+
+In order to test for this exact situation in a convenient way, this macro actually maps to:
+
+[source,PureBasic]
+Assert(Chr(1)+String1$+Chr(1) = Chr(1)+String2$+Chr(1))
+
+Since this situation cannot happen with PB code directly, there is no need to use this macro to test string equality in normal PB code.
+===========================
+
+
+[.red]`Fail( [Message$] )` :::
+
+If this macro is executed, the test will be considered as having failed, and the specified optional message will be reported.
+It is used to indicate failure if the test code reaches a position that it is not supposed to reach.
+
+
+[.red]`UnitDebug( String$ )` :::
+
+Since the tests are executed without debugger (because the debugger is an interactive tool), there is no quick and dirty way like `Debug ...` to print information.
+This command will show the specified string in the GUI in a different color and also list this output in the HTML report.
+
+[CAUTION]
+=================================
+This command should _not_ be used for extensive output, like test results or similar -- remember that the goal is unattended automated testing!
+
+This is rather meant as a quick way to provide some output when tracking a problem in the test code, etc.
+=================================
+
+
+[.red]`PureUnitOptions( Option1 [, Option2 [, ...]])` :::
+
+This macro controls the compilation of the source code for testing.
+It's the only macro that should only appear once in each test code.
+If this macro is not present, or if no flags are specified, the code will be compiled/tested twice: once normally and once in Unicode mode.
+The following flags are possible:
++
+--
+[horizontal]
+`NoUnicode`         :: -> no Unicode tests.
+`Thread`            :: -> test also in thread mode.
+`SubSystem[<name>]` :: -> test also with the given subsystem.
+
+The code will be compiled in all possible combinations of the given flags (on/off), so when using `PureUnitOptions(Thread)`, the code will be compiled once normally, once in Unicode mode, once in thread mode, and once in thread+Unicode mode.
+So every added option (except for `NoUnicode`) actually doubles the number of times the given test source is compiled/executed.
+This can be a speed concern when carrying out many tests, so only those options which are truly needed should be enabled here.
+--
+
+
+
+
+=== Handling of Included Files
+
+
+PureUnit needs to parse the source code in order to know about the used test-procedures, etc.
+The parser does not do a full analysis of the code, so there are some limits to what it can handle, especially when it comes to include files.
+The parser does handle correctly `IncludePath` and (`X`)`IncludeFile` statements, but only as long as the paths are given as literal strings.
+The parser does NOT resolve constants or macros and also it does not take care of compiler directives like `CompilerIf`.
+So `IncludePath` and (`X`)`IncludeFile` can be used in test code (to include common startup code for example), even in nested files, but they may only contain literal strings.
+
+
+
+=== Code Example
+
+Note that everything in the example is optional, except that one `ProcedureUnit` must be present otherwise the file is skipped (which makes sense, since in that case there would be no tests).
+
+[source,PureBasic]
+--------------------------------------------------------------------------------
+; Set the options. This Code will be compiled/tested once normally and once with the OpenGl subsystem:
+;
+PureUnitOptions(NoUnicode, SubSystem[OpenGl])
+
+; called once on program start
+;
+ProcedureUnitStartup startup()
+  UnitDebug("Startup...")
+EndProcedureUnit
+
+; called once on program end
+;
+ProcedureUnitShutdown shutdown()
+  UnitDebug("Shutdown...")
+EndProcedureUnit
+
+; Same goes for ProcedureUnitBefore / ProcedureUnitAfter
+
+; Here comes our test procedure
+;
+ProcedureUnit mytest()
+
+  Assert(#True <> #False, "If this fails, the world has gone crazy :)")
+
+  For i = 1 To 10
+    Continue
+    Fail("This point should never be reaced")
+  Next i
+
+  ; here our test will fail.
+  Assert(#True = #False, "This is bound to fail!")
+
+EndProcedureUnit
+--------------------------------------------------------------------------------
+
+
+
+Note that all PureUnit macros have a fallback to Messagerequester/Debugger display if the code is not executed from within PureUnit.
+This allows any PureUnit test code to be executed from the Editor or compiler without PureUnit for quick syntax checks or debugging while creating the test code.
+
+
+
+== Command-Line Arguments
+
+
+PureUnit supports on all OSs the POSIX-style short and long versions of the command-line arguments described below (but not combining short versions: e.g. `-x -y -z` does not equal `-xyz`).
+The Windows style command-line parameters (e.g. `/HELP`) are only supported by the Windows version though.
+For portable testing, the POSIX-style arguments should be preferred.
+
+On exit, PureUnit returns a standard exit code to indicate success (0) or failure (1) of the tests to allow running test from scripts or makefiles.
+When executed without any command-line options, PureUnit will enter GUI mode and display a window which allows the selections of files/folders for testing.
+
+
+=== Usage
+
+............................
+pureunit [Options] TestFiles
+............................
+
+Wildcards are allowed to specify multiple TestFiles for testing easily.
+
+
+=== Options
+
+.....................
+-c         <compiler>
+--compiler <compiler>
+/COMPILER  <compiler>
+.....................
+
+This option allows to specify the PureBasic compiler to use for compilation.
+If this option is not specified, PureUnit will try to locate a compiler to use in the following places in the given order:
+
+. The `PUREBASIC_HOME` environment variable.
+. The `PATH` environment variable.
+. The Registry (Windows only).
+. The fixed path `/usr/share/purebasic` (Linux and OSX only).
+
+
+IMPORTANT: The compiler must have a version of 4.10 or higher to work with PureUnit.
+
+
+'''
+..................
+-f      <listfile>
+--files <listfile>
+/FILES  <listfile>
+..................
+
+Specify a file that contains a list of source files for testing.
+The file should contain one entry per line.
+Wildcards are allowed.
+
+
+'''
+.....
+-g
+--gui
+/GUI
+.....
+
+With this switch present, PureUnit will not output anything on the console, but rather display a window to show the progress and information messages.
+Without this switch, messages are printed on the console only.
+This switch is useful to configure PureUnit as a tool for the PureBasic IDE, for example.
+
+
+'''
+.........
+-v
+--verbose
+/VERBOSE
+.........
+
+Increases the verbosity of the output.
+(For example, prints the currently running test and similar information instead of just error messages as it is in normal mode.)
+
+This affects the console mode only.
+
+
+'''
+.......
+-q
+--quiet
+/QUIET
+.......
+
+Hides all warning messages.
+(Warning messages appear when the parser skips a file and similar minor issues)
+
+This affects both console and GUI mode.
+
+
+'''
+[[switch-ignore]]
+........
+-i
+--ignore
+/IGNORE
+........
+
+With this switch set, the testing does not stop with a failed test but continues until all tests have been executed.
+
+The normal behavior is to quit testing at the first failed test, since a failed test is considered fatal.
+This switch, however, allows to change this in order to get an overview of how many tests actually do fail in a test code.
+
+[NOTE]
+=============================
+If a test fails, PureUnit will call the `...After` and `...Shutdown` procedures and then terminate the testing executable no matter if this switch is set or not.
+
+If this switch is set, PureUnit will restart the executable.
+Call the `...Startup` Procedures again and then keep executing the remaining tests in the executable.
+The reason for this is to provide a clean state of the program for the remaining tests, as the failed test could have messed up the state of the program.
+(For example, if the failure was a stack problem/memory error reported by the OnError library, the remaining tests could fail as well, just because of this stack problem.)
+=============================
+
+
+'''
+....................
+-r       <html file>
+--report <html file>
+/REPORT  <html file>
+....................
+
+This switch creates a test report in HTML format in the given file.
+
+Note that in GUI mode, there is also an option to view/save this report after the tests have been done.
+
+
+'''
+.........
+-v
+--version
+/VERSION
+.........
+
+Displays version information and quits.
+
+
+'''
+......
+-h
+--help
+/HELP
+/?
+......
+
+Displays command-line arguments and quits.
+
+
+
+
+== Using the Graphic User Interface
+
+
+Starting PureUnit without any command-line options will launch it in GUI mode.
+The settings entered there will be saved in `PureUnit.prefs` in the standard location for PureBasic preference files.
+
+
+The GUI provides the following options:
+
+
+[.red]#Compiler Executable# :::
+Select the compiler to use.
+Must be of version 4.10 or above.
+
+
+[.red]#Source Directory# :::
+Select the base directory in which to look for files to test.
+
+
+[.red]#Source Pattern# :::
+Select the pattern to search for when processing a whole directory.
+
+
+[.red]#Process the whole directory# :::
+With this switch set, all files in '`Source Directory`' matching '`Source Pattern`' will be tested.
+Without this switch, you will be prompted to select a file for testing when '`Start`' is pressed.
+
+[.red]#Include subdirectories# :::
+Recursively scans subdirectories for files to be tested.
+
+[.red]#Do not abort on errors# :::
+Same as the `--ignore` command-line switch.
+<<switch-ignore,See there>> for more information.
+
+[.red]#Hide warnings# :::
+Hides warning messages.
+Same as the `--quiet` command-line switch.
+
+
+After pressing '`Start`' (and selecting a test file if needed), a progress window will be displayed showing log and debug messages while the tests are executed.
+After finishing
+or aborting the tests, a report in HTML format can be viewed or saved.
+
+
+Starting PureUnit with options on the command-line (including the `--gui` switch) will cause PureUnit to directly show the progress window and start the testing with the provided command-line options.
+
+include::inc_contributing.adoc[]
+
+// EOF //

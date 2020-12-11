@@ -1,0 +1,90 @@
+= PureBasic DLL Importer
+Fantaisie Software <support@purebasic.com>
+:revdate: 2020-12-11
+:DLLImporterVer: 3.60
+:revremark: DLL Importer v{DLLImporterVer}
+:revnumber!:
+:lang: en
+:favicon: https://www.purebasic.com/img/favicon.png
+// TOC Settings:
+:toclevels: 5
+:toc: left
+// Sections Numbering:
+:sectnums:
+:sectnumlevels: 1
+// Misc Settings:
+:experimental: true
+:icons: font
+:linkattrs: true
+:reproducible: true
+:sectanchors:
+
+include::inc_warn-editing.adoc[]
+
+// IMPORTANT!!!
+// *****************************************************************************
+// If you edit the contents of this document, don't forget to update also the
+// :revdate: line accordingly (3rd line), so end users will always know which
+// version of the document they're dealing with, and which one is the latest.
+// *****************************************************************************
+
+
+//              PureBasic DLL Importer - v3.60
+//
+//              (c) 2003 - Fantaisie Software
+
+
+== Introduction
+
+PureBasic allows to uses external DLL as it was standard commands, with an trailing underscore (i.e. `SendMessage_()`, `CreateWindowEx_()`...).
+Almost all the Win32 API is natively supported by PureBasic, and with this tool, it's now possible to add your own dll or update the actual one.
+
+
+== Building a DLL Definition-File
+
+The DLL definition file is a list of all the DLL functions you want to support in PureBasic.
+It's plain ASCII and use a very easy format:
+
+.......................
+DLLNAME.DLL
+Function1 NbParameters
+Function2 NbParameters
+Function3 NbParameters
+...
+.......................
+
+Comments are accepted, using the ';' character.
+
+Example (which works with the DLLSample.pb example):
+
+...........................
+; PureBasic DLL import file
+;
+PUREBASIC.DLL
+EasyRequester 1
+...........................
+
+Once the file is finished, just save it with the .pbl (PureBasic Library) extension.
+
+
+== Using DLL Importer with the GUI
+
+. Selects the `PureLibraries` directory.
+It's located in the PureBasic folder and should contains a `Windows` directory, inside which it should have a `Bin\BuildLib.exe` tool.
+This tool is needed to make the DLL, and it's used internally by the DLL Importer.
+You don't need to use it.
+
+. Select the `PureDLL` folder.
+Just create a new folder and choose it.
+A drawer folder `Exports` will be created automatically if none are found.
++
+NOTE: When the program quits, these settings are automatically saved.
+
+. Now, you can select the .pbl file by clicking on '`Start`'.
+If you have lots of files to import, you can check the '`Process whole directory`' checkbox and the all the .pbl files found in the `PureDLL` folder will be imported.
+
+
+include::inc_contributing.adoc[]
+
+
+// EOF //

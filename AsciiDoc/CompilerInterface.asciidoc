@@ -1,0 +1,495 @@
+= PureBasic Compiler Interface
+Fantaisie Software <support@purebasic.com>
+:revdate: 2020-12-11
+:PBVer: 5.73
+:revremark: PureBasic v{PBVer}
+:revnumber!:
+:lang: en
+:favicon: https://www.purebasic.com/img/favicon.png
+// TOC Settings:
+:toclevels: 5
+:toc: left
+// Sections Numbering:
+:sectnums!:
+:sectnumlevels: 2
+// Misc Settings:
+:experimental: true
+:icons: font
+:linkattrs: true
+:reproducible: true
+:sectanchors:
+
+include::inc_warn-editing.adoc[]
+
+// IMPORTANT!!!
+// *****************************************************************************
+// If you edit the contents of this document, don't forget to update also the
+// :revdate: line accordingly (3rd line), so end users will always know which
+// version of the document they're dealing with, and which one is the latest.
+// *****************************************************************************
+
+// *****************************************************************************
+// *                            Document Preamble                              *
+// *****************************************************************************
+
+Pipe interface for communication with editors/Scripts
+
+== Introduction
+
+=== Backward Compatibility
+
+We will try to keep this interface backward compatible as much as possible, so older editors/scripts should be able to continue working with newer versions of PB.
+Exceptions will be noted in this document that will be provided with the
+new compiler version.
+
+The Windows Versions of PB up to 4.0 used a Message based interface.
+Later versions of the compiler will not support this interface anymore, so if you used this, you will need to change to this new pipe interface.
+
+
+=== General
+
+When the compiler is started with the `/STANDBY` (Windows) or `--standby` (Linux/Mac) switch, the compiler will wait for commands on the standard input and give any responds to commands on the standard output.
+This allows to control the compiler from any language or script that is able to access the standard pipes of a program. In PB, the '`Process`' library can be used for this.
+
+Commands must be given as one line of text followed by a newline (CRLF or LF).
+It is important that the pipe is flushed after each command was sent, so the compiler can receive it and respond to it without delay.
+The `WriteProgramStringN()` function of the PB process library ensures this.
+Other languages should have a command for this as well (such as `fflush()` in C)
+
+A Command is given at the beginning of the line in uppercase, followed by any arguments separated with a Tab (Tabs are written as `<T>` in this document).
+There should be no spaces, except if they belong to an argument of the command.
+
+Except on startup, the compiler will write on the standard output only as a response of a command, so you only need to check it for data after a command was sent.
+The amount of lines that are sent as a response depends on the command that was sent.
+If not noted otherwise, the response is a single line only.
+Immediately on startup, the compiler writes this line:
+
+.....................................
+STARTING<T><VersionNr><VersionString>
+.....................................
+
+Where `<VersionNr>` contains the compiler version number in the form "4.10".
+This value should be used to determine which commands of this spec are supported by the compiler.
+`<VersionString>` is the compiler version in the form "PureBasic 4.10 (Windows - x86)".
+
+The compiler then continues with loading its libraries and residents and will then write one
+of the following lines:
+
+
+`READY` ::
+The compiler finished loading and is ready for input
+`ERROR<T><Message>` ::
+The compiler could not properly start for the reason given in the message.
+`ERROR<T>SUBSYSTEM<T><SubsystemName>` ::
+The compiler could not find the specified subsystem.
+
+
+After the `READY` message, the compiler now waits for commands to respond to, after an `ERROR` message, the compiler will quit immediately.
+
+
+
+=== Subsystems and Unicode Mode
+
+The library subsystem option, as well as the unicode option cannot be changed while the compiler is running.
+For such a change, the compiler must be restarted.
+This is why this spec does not contain any options for this.
+These options are set with the appropriate commandline switches when starting the compiler.
+
+
+
+== Supported Commands
+
+
+Unless otherwise specified, commands have been supported since PureBasic 4.10.
+
+
+=== [.red]`END`
+
+Causes the compiler to shut down.
+
+[horizontal]
+Parameters: :: none
+Response:   :: none
+
+=== [.red]`SOURCE<T><SourceFile>`
+
+Set the sourcefile for the next compilation.
+
+[horizontal]
+Parameters: :: The filename. It should contain the full path.
+Response:   :: none
+
+
+=== [.red]`SOURCEALIAS<T><SouceFile Alias>`
+
+Set the filename that will be returned in `#PB_Compiler_File` for the main sourcecode instead of the file from the `SOURCE` command.
+
+This is useful for editors that compile from a temporary file, but want the real sourcefile to be reported here.
+
+[horizontal]
+Parameters: :: The filename. It should contain the full path.
+Response:   :: none
+
+
+=== [.red]`INCLUDEPATH<T><Path>`
+
+Set the path from which all `IncludeFile` statements will be resolved.
+This allows to put the sourcefile in a temporary location while still including files relative to the original files position.
+If no includepath is specified, the current directory is used.
+
+[horizontal]
+Parameters: :: The directory.
+It should be a full path, ending with a `\` or `/` (depending on the OS).
+Response:   :: none
+
+
+
+=== [.red]`RESOURCE<T><File>`
+
+Windows only: Specify a resource script ({asterisk}.rc) to be included in the compilation.
+
+[horizontal]
+Parameters: :: The filename. It should contain the full path.
+Response;   :: none
+
+
+
+=== [.red]`ICON<T><File>`
+
+Specify an icon for the Application.
+
+[horizontal]
+Parameters: :: The filename. It should contain the full path.
+Response:   :: none
+Supported filetypes: :: {blank}
+
+[horizontal]
+Windows: :::: {asterisk}.ico
+MacOSX:  :::: {asterisk}.icns
+Linux:   :::: not supported
+
+
+
+=== [.red]`TARGET<T><TargetFile>`
+
+Set the output file for the next compilation.
+It should contain the full path.
+
+[horizontal]
+Parameters: :: The filename. It should contain the full path.
+Response:   :: none
+
+
+=== [.red]`CONSTANT<T><ConstantDefinition>`
+
+Define a constant for the next compilation.
+
+[horizontal]
+Parameters: :: The full line defining the constant.
+Response:   :: none.
+If defining this constant causes an error, it will be reported on the next COMPILE command only.
+
+[NOTE]
+============================
+The same rules as for the `/CONSTANT` commandline switch apply.
+This means that the format must be "`NAME=Value`", without a `#`, and without spaces before the `=`.
+It also means that numbers will be interpreted as numeric constants while anything that is not a number will become a string constant.
+============================
+
+
+
+=== [.red]`LINKER<T><LinkerCommandFile>`
+
+Set commandline options for the linker.
+(same as the `/LINKER` commandline switch)
+
+[horizontal]
+Parameters: :: A Filename containing commands for the linker (must include full path)
+Response:   :: none.
+
+
+=== [.red]`COMPILE<T><FlagsList>`
+
+
+Start the compilation with a previously set source and target, and the given flags.
+
+[horizontal]
+Parameters:     :: list of flags, separated by a Tab.
+Possible Flags:
++
+--
+[horizontal]
+`DEBUGGER`         ::: compile with enabled debugger
+`INLINEASM`        ::: enable InlineASM support
+`DLL`              ::: create a dll
+`XPSKIN`           ::: enable XP Skin support           (Windows only)
+`ADMINISTRATOR`    ::: request admin mode on vista      (Windows only)
+`USER`             ::: request user mode on vista       (Windows only)
+`CONSOLE`          ::: create a console mode executable (Windows only)
+`ONERROR`          ::: enable OnError lines support
+`MMX`              ::: create MMX optimitzed exe
+`3DNOW`            ::: create 3DNOW optimitzed exe
+`SSE`              ::: create SSE optimitzed exe
+`SSE2`             ::: create SSE2 optimitzed exe
+`DYNAMICCPU`       ::: create an exe with all processor specific routines
+`THREAD`           ::: create threadsafe executable
+`PROGRESS`         ::: indicate compilation progress with 'PROGRESS' responses (see below)
+`WARNINGS`         ::: turn on warning messages (since 4.30, see below)
+`REDIRECT`         ::: turn on file redirection messages (since 4.40, see below)
+`IGNOREBUNDLEPATH` ::: don't set the current directory to the bundle one (since 4.70, OS X only)
+`FRONT`            ::: gives the focus to the created bundle and push it to front , even if launched from the terminal (since 4.70, OS X only)
+--
+
++
+Example: ::
+`COMPILE<T>DEBUGGER<T>THREAD` will compile with threads support and debugger enabled.
++
+After the `COMPILE` command was executed (successfully or not), all the previously set options (`SOURCE`, `TARGET`, `ICON`, `RESOURCE`, `INCLUDEPATH`, `CONSTANT`, `LINKER`) will be reset.
+So they need to be set again for another compilation.
++
+Response: ::
+If the `PROGRESS` flag is set, the compiler will respond with some of the following lines to indicate its progress:
++
+--
+[horizontal]
+`PROGRESS{wj}<{wj}T{wj}>{wj}INCLUDE{wj}<{wj}T{wj}>{wj}<{wj}FileName{wj}>` ::: a new file is included
+`PROGRESS<T>LINES<T><LinesCount>` ::: notifies total progressed lines every 1000 lines and also after all lines are read
+`PROGRESS<T>ASSEMBLING`           ::: notifies that the assembling is next
+`PROGRESS<T>LINKING`              ::: notifies that the linking is next
+--
+
++
+IMPORTANT: New progress indicators may be added in the future, so to ensure compatibility any line in the form `PROGRESS<T>XXX` that is not understood should be ignored.
+
+.4.30 and Newer
+[NOTE]
+========================
+If the `WARNINGS` flag is set, the compiler may send warning messages.
+There may be multiple warnings sent.
+The sequence is very similar to the one of syntax errors below:
+
+`WARNING<T><Source LineNumber>` :::
+A warning messages is sent about the given line.
++
+Following is a number of optional information lines, where the `OUTPUT<T>COMPLETE` signals the end of the output.
+In the future there may be more response lines added here, so to ensure compatibility, it is recommended
+to read all lines until `OUTPUT<T>COMPLETE` is reached, and ignore anything that is not recognized.
+
+`INCLUDEFILE<T><FileName><T><LineNumber>` :::
+The error occured inside an included file.
+The arguments give the file and linenumber inside the included file.
+
+`MESSAGE<T><Text>` :::
+The actual warning message.
+
+`OUTPUT<T>COMPLETE` :::
+Signals the end of the warning information.
+========================
+
+
+.4.40 and Newer
+[NOTE]
+========================
+If the `REDIRECT` flag is set, the compiler will send a message for every source file it tries to open.
+This allows the caller to give the compiler a different (maybe preprocessor output etc) file to process.
+These are the possible messages:
+
+* `REDIRECT<T>MAINFILE<T><Filename>`
+* `REDIRECT<T>INCLUDEFILE<T><Filename>`
+* `REDIRECT<T>INCLUDEBINARY<T><Filename>`
+
+The given Filename includes the full path.
+The caller MUST respond with a line specifying a filename including a full path to use (can be the same name that was passed by the compiler of course).
+The compiler will wait for this response before continuing, so if such a message is not handled properly there will be a deadlock.
+
+In the future there may be more redirection types added here, so to ensure compatibility,
+any message in the form `REDIRECT<T>XXX<T><Filename>` that is not understood should be handled by passing `<Filename>` directly back to the compiler.
+========================
+
+
+When compiling is done, the response can be one of the following:
+
+`SUCCESS` :::
+The compilation was successfull.
+
+
+`ERROR<T>SYNTAX<T><Source LineNumber>` :::
+An error was detected during the compilation of the PureBasic code.
+The `<Source LineNumber>` specifies the line in the sourcefile where the error occurred.
++
+Following is a number of optional information lines, where the `OUTPUT<T>COMPLETE` signals the end of the output.
+In the future there may be more response lines added here, so to ensure compatibility, it is recommended to read all lines until `OUTPUT<T>COMPLETE` is reached, and ignore anything that is not recognized.
+
+`INCLUDEFILE<T><FileName><T><LineNumber>` :::
+The error occured inside an included file.
+The arguments give the file and linenumber inside the included file.
+
+`MACRO<T><ErrorLine><T><TotalMacroLines>` :::
+The error occures inside a macro. Following this line is the expanded macro content
+(`<TotalMacroLines>` number of lines).
+It is terminated by a line containing `MACRO<T>COMPLETE`.
+The `<ErrorLine>` gives the line inside the macro that caused the error.
+
+`MESSAGE<T><Text>` :::
+The actual error message.
+
+`OUTPUT<T>COMPLETE` :::
+Signals the end of the syntax error information.
+
+NOTE: If any of the given linenumbers cannot be closer determined (for example for errors that cannot be exactly located), the linenumber will be `-1`, so you should be prepared for this output.
+
+
+`ERROR<T>ASSEMBLER` ::: {blank}
+`ERROR<T>LINKER` ::: {blank}
+`ERROR<T>RESOURCE` :::
+An error was detected during the assembling or linking stage, or while compiling the resource script.
+The following output is the output given by the assembler, linker or resource compiler.
+The output is terminated by a line containing only `OUTPUT<T>COMPLETE`.
+
+
+
+
+=== [.red]`FUNCTIONLIST`
+
+
+Request a listing of functions known by the compiler.
+(PB functions + Userlibrary functions)
+
+[horizontal]
+Parameters: :: none
+Response:   :: The first line contains the number of functions that will be returned.
+Then follows one line for each function which contains the function name, followed by a short description (only if it was specified when the library was created).
+The output is terminated by a line containing `OUTPUT<T>COMPLETE`.
+
+
+
+=== [.red]`STRUCTURELIST`
+
+Request a listing of all structures known by the compiler.
+
+[horizontal]
+Parameters: :: none
+Response:   :: The first line contains the number of structures to return, then all the structure names, each on its own line.
+The output is terminated by a line containing `OUTPUT<T>COMPLETE`.
+
+
+=== [.red]`INTERFACELIST`
+
+Request a listing of all interfaces known by the compiler.
+
+[horizontal]
+Parameters: :: none
+Response:   :: The first line contains the number of interfaces to return, then all the interface names, each on its own line.
+The output is terminated by a line containing `OUTPUT<T>COMPLETE`.
+
+=== [.red]`CONSTANTLIST`
+
+Request a listing of all constants known by the compiler.
+
+NOTE: Introduced in PB 5.10.
+
+[horizontal]
+Parameters: :: none
+Response:   ::
+The first line contains the number of constants to return, then one constant per line, using the following syntax: `TYPE<T>NAME<T>VALUE`.
++
+--
+TYPE can be one of the following value:
+
+[horizontal]
+`0` ::: numeric value (quad)
+`1` ::: float value (double)
+`2` ::: string value
+
+The output is terminated by a line containing `OUTPUT<T>COMPLETE`.
+
+NOTE: since PureBasic 5.40, the string constants value (TYPE 2) are returned as escaped strings (characters `'\n'`, `'\r'` and `'\\'` are escaped to avoid collision with the end of line character).
+You can use the `UnescapeString()` function to easily get back the original string value.
+--
+
+
+
+
+=== [.red]`IMPORTLIST`
+
+Request a listing of all imported functions known by the compiler.
+
+[horizontal]
+Parameters: :: none
+Response:   ::
+The first line contains the number of imported functions, then all the imported function name with there arguments, each on its own line.
+The output is terminated by a line containing `OUTPUT<T>COMPLETE`.
+
+
+
+=== [.red]`STRUCTURE<T><Name>`
+
+Request the content of a structure known by the compiler.
+
+[horizontal]
+Parameters: :: The name of the structure.
+Response:   :: The structure definition, with each member on one line.
+The output is terminated by a line containing `OUTPUT<T>COMPLETE`.
+
+
+
+=== [.red]`INTERFACE<T><Name>`
+
+Request the content of an interface known by the compiler.
+
+[horizontal]
+Parameters: :: The name of the interface.
+Response:   :: The interface definition, with each member on one line. The output is terminated by a line containing `OUTPUT<T>COMPLETE`.
+
+
+
+=== [.red]`HELPDIRECTORY<T><FunctionName>`
+
+Lookup the 'HelpDirectory' that was set for the library of the given function when it was compiled.
+
+[horizontal]
+Parameters: :: The function name.
+Response:   :: Either `API`, `UNKNOWN` or the requested directory name.
+
+For PureBasic libraries, the HelpDirectory specifies which subdirectory in the PureBasic.chm, the helppage for the command is located.
+Example: for `ButtonGadget`, the result is `Gadget`, so the ButtonGadget help is located in
+`Gadget/ButtonGadget.html` in the PureBasic.chm helpfile.
+
+For user created libraries, this field should contain the name of a {asterisk}.chm file which should be displayed for commands of the library.
+
+If `API` is returned, it means that the function was an API function of an imported dll.
+If the function is unknown, the result is `UNKNOWN`.
+
+
+
+== Example
+
+A simple example communication to compile a source could look like this (on windows):
+Lines with '->' mark responses from the compiler, the others are sent to the compiler.
+
+..................................................
+<compiler is started with /STANDBY>
+->STARTING<T>4.10<T>PureBasic 4.10 (Windows - x86)
+->READY
+SOURCE<T>C:\Temp\TempFile.pb
+INCLUDEPATH<T>C:\SourcePath\
+COMPILE<T>DEBUGGER<T>XPSKIN<T>ONERROR
+->ERROR<T>SYNTAX<T>5
+->INCLUDEFILE<T>25<T>C:\SourcePath\Includes.pb
+->MESSAGE<T>Incorrect number of parameters.
+->OUTPUT<T>COMPLETE
+END
+<compiler quits>
+..................................................
+
+. The compiler is started and responds `STARTING` to indicate its version and then with `READY` to indicate that it loaded correctly.
+. The sourcefile is set, which is a temporary file here, which is why the `INCLUDEPATH` command is used to tell the compiler to include any files from the SourcePath directory.
+. The source is then compiled with enabled debugger, XPSkin and OnError support.
+. The compilation fails because of a syntax error inside a file that is included in the main source at line 5.
+. The real error line is line 25 in the included file.
+. The caller then uses `END` to tell the compiler to quit.
+
+
+include::inc_contributing.adoc[]
+
+// EOF //
