@@ -769,6 +769,9 @@ Procedure ShutdownIDE()
   ; Close main window
   CloseWindow(#WINDOW_Main)
   
+  ; Fix IDE crash on macOS Bug Sur
+  FlushEvents()
+  
   ; end history session. this could take a bit if many files were open (will display a small wait screen if so)
   EndHistorySession()
   
