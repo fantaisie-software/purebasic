@@ -9,7 +9,7 @@
 @Overview
 
   The clipboard is the standard way to share information and data between applications,
-  which are currently running on the OS. It also gives the user a temporary location,
+  which are currently running on the OS. It also gives the user a temporary location
   where information and data may be stored and accessed quickly and easily. For instance,
   when text is cut within an editor, that text goes to the clipboard, where it may be
   retrieved later, by pasting it into another application. PureBasic gives the programmer
@@ -28,7 +28,7 @@
 
 @Description
 
-  Clears the clipboard. This means that any data contained within the clipboard, is totally flushed and is no
+  Clears the clipboard. This means that any data contained within the clipboard, is flushed and no
   longer available from the clipboard.
 
 @NoParameters
@@ -44,7 +44,7 @@
 @Function Result = GetClipboardImage(#Image [, Depth])
 
 @Description
-  Creates a new image from the clipboard image data (if any). 
+  Creates a new image from the clipboard image data (if any).
 
 @Parameter "#Image"
   The number for the new image.
@@ -55,7 +55,7 @@
 
 @ReturnValue
   Returns nonzero on success and zero on failure.
-  If @#PB_Any was used as the #Image parameter then the new image number is returned.
+  If @#PB_Any was used as the #Image parameter, then the new image number is returned.
 
 @Remarks
   The image may be freed by using the @@FreeImage function.
@@ -91,7 +91,7 @@
 
 @Description
   Places a copy of the given image into the clipboard. If the clipboard currently
-  contains an image then it will be overwritten.
+  contains an image, then it will be overwritten.
 
 @Parameter "#Image"
   The image to put into the clipboard.
@@ -127,7 +127,7 @@
 @Parameter "Text$"
   The string you want to store in the clipboard.
 
-@NoReturnValue 
+@NoReturnValue
 
 @SeeAlso
   @@SetClipboardImage, @@ClearClipboard
