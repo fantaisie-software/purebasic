@@ -18,7 +18,7 @@ Structure GtkAccelLabelClass
  *mod_name_control
  *mod_name_alt
  *mod_separator
- *accel_separator
+ *accel_seperator
   packed_flags.l
   ; latin1_to_char:1
   PB_Align(0, 4)
