@@ -8,7 +8,7 @@
 
 @Overview
 
-FileSystem is a generic term which deal with all advanced file related manipulations. For example, it's
+FileSystem is a generic term which deals with all advanced file related manipulations. For example, it's
 possible to read a directory content, create a new directory and more...
 @LineBreak
 @LineBreak
@@ -20,11 +20,11 @@ possible to read a directory content, create a new directory and more...
   can be used to modify the current directory.
 @LineBreak
 @LineBreak
-  Specific OS path seperator characters are available @#PS, @#NPS, @ConstantColor "#PS$" ('\') and @ConstantColor "#NPS$" ('/').
+  Specific OS path separator characters are available @#PS, @#NPS, @ConstantColor "#PS$" ('\') and @ConstantColor "#NPS$" ('/').
 @LineBreak
 @LineBreak
-  In addition to the functions in this library you will also functions for manipulating file contents in the @LibraryLink "file" "File"
-  library. To get the name of a running program use the function @@ProgramFilename from the 
+  In addition to the functions in this library you will also find functions for manipulating file contents in the @LibraryLink "file" "File"
+  library. To get the name of a running program use the function @@ProgramFilename from the
   @LibraryLink "process" "Process" library.
 
 @CommandList
@@ -38,7 +38,7 @@ possible to read a directory content, create a new directory and more...
 @Function Result = CopyDirectory(SourceDirectory$, DestinationDirectory$, Pattern$ [, Mode])
 
 @Description
-  Copy the contents of the source directory to the destination. 
+  Copy the contents of the source directory to the destination.
 
 @Parameter "SourceDirectory$"
   The directory to copy.
@@ -93,10 +93,10 @@ possible to read a directory content, create a new directory and more...
 @Remarks
   If the destination file already exists, it will be overwritten. The @@FileSize function
   can be used to determine if the target exists or not. If source file and destination file
-  are the same, a copy will not occurs and zero will be returned.
+  are the same, a copy will not occur and zero will be returned.
 
 @SeeAlso
-  @@RenameFile, @@DeleteFile, @@FileSize, 
+  @@RenameFile, @@DeleteFile, @@FileSize,
   @@CreateFile, @@OpenFile
 
 @SupportedOS
@@ -107,7 +107,7 @@ possible to read a directory content, create a new directory and more...
 
 @Description
 
-  Creates a new directory. 
+  Creates a new directory.
 
 @Parameter "DirectoryName$"
   The name of the new directory.
@@ -131,7 +131,7 @@ possible to read a directory content, create a new directory and more...
 @Function Result = DeleteDirectory(Directory$, Pattern$ [, Mode])
 
 @Description
-  Deletes the specified Directory$. 
+  Deletes the specified Directory$.
 
 @Parameter "Directory$"
   The directory to delete.
@@ -161,7 +161,7 @@ possible to read a directory content, create a new directory and more...
 @Function Result = DeleteFile(Filename$ [, Mode])
 
 @Description
-  Deletes the specified file. 
+  Deletes the specified file.
 
 @Parameter "Filename$"
   The file to delete.
@@ -169,15 +169,15 @@ possible to read a directory content, create a new directory and more...
 @OptionalParameter "Mode"
   Options for the delete operation. It can be one of the following values:
 @FixedFont
-  @#PB_FileSystem_Force: Also deletes the file which are protected (read-only).
+  @#PB_FileSystem_Force: Also deletes the files which are protected (read-only).
 @EndFixedFont
 
 @ReturnValue
   Returns nonzero if the operation was successful or zero if it failed.
 
 @SeeAlso
-  @@CopyFile, @@RenameFile, @@FileSize, 
-  @@CreateFile, @@OpenFile  
+  @@CopyFile, @@RenameFile, @@FileSize,
+  @@CreateFile, @@OpenFile
 
 @SupportedOS
 
@@ -187,7 +187,7 @@ possible to read a directory content, create a new directory and more...
 
 @Description
   Returns the attributes of the current entry in the directory being listed with @@ExamineDirectory and
-  @@NextDirectoryEntry functions. 
+  @@NextDirectoryEntry functions.
 
 @Parameter "#Directory"
   The directory examined with @@ExamineDirectory.
@@ -218,7 +218,7 @@ possible to read a directory content, create a new directory and more...
   @#PB_FileSystem_ReadAll   : Access flags for all other users
   @#PB_FileSystem_WriteAll
   @#PB_FileSystem_ExecAll
-@EndFixedFont  
+@EndFixedFont
 
 
 @Remarks
@@ -226,12 +226,12 @@ possible to read a directory content, create a new directory and more...
 
 @Code
   [...]
-  
+
   FileAttributes = DirectoryEntryAttributes(#Directory)
   If FileAttributes & #PB_FileSystem_Hidden
     Debug "This file is hidden !"
   EndIf
-@EndCode  
+@EndCode
 
 @SeeAlso
   @@ExamineDirectory,
@@ -249,7 +249,7 @@ possible to read a directory content, create a new directory and more...
 
 @Description
   Returns the date of the current entry in the directory being listed with @@ExamineDirectory and
-  @@NextDirectoryEntry functions. 
+  @@NextDirectoryEntry functions.
 
 @Parameter "#Directory"
   The directory examined with @@ExamineDirectory.
@@ -294,7 +294,7 @@ possible to read a directory content, create a new directory and more...
   Returns the name of the current directory entry.
 
 @Remarks
-  The pseudo-directories "." and ".." can be returned in a directory enumeration, so they have to be filtered if they should not 
+  The pseudo-directories "." and ".." can be returned in a directory enumeration, so they have to be filtered if they should not
   be included in the program output.
 
 @SeeAlso
@@ -303,7 +303,7 @@ possible to read a directory content, create a new directory and more...
   @@DirectoryEntryType,
   @@DirectoryEntrySize,
   @@DirectoryEntryAttributes,
-  @@DirectoryEntryDate  
+  @@DirectoryEntryDate
 
 @SupportedOS
 
@@ -313,7 +313,7 @@ possible to read a directory content, create a new directory and more...
 
 @Description
   Returns the type of the current entry in the directory being listed with @@ExamineDirectory and
-  @@NextDirectoryEntry functions. 
+  @@NextDirectoryEntry functions.
 
 @Parameter "#Directory"
   The directory examined with @@ExamineDirectory.
@@ -355,7 +355,7 @@ possible to read a directory content, create a new directory and more...
   @@DirectoryEntryType,
   @@DirectoryEntryName,
   @@DirectoryEntryAttributes,
-  @@DirectoryEntryDate  
+  @@DirectoryEntryDate
 
 @SupportedOS
 
@@ -365,7 +365,7 @@ possible to read a directory content, create a new directory and more...
 
 @Description
   Start to examine a directory for listing with the functions @@NextDirectoryEntry,
-  @@DirectoryEntryName and @@DirectoryEntryType. 
+  @@DirectoryEntryName and @@DirectoryEntryType.
 
 @Parameter "#Directory"
   A number to identify the new directory listing. @ReferenceLink "purebasic_objects" "#PB_Any" can be used as
@@ -376,7 +376,7 @@ possible to read a directory content, create a new directory and more...
 
 @Parameter "Pattern$"
   A pattern to filter the returned entries by.
-  For example: A 'Pattern$' like "*.*" or "" will list all the files (and sub-directories) in the directory. 
+  For example: A 'Pattern$' like "*.*" or "" will list all the files (and sub-directories) in the directory.
   A 'Pattern$' like "*.exe" will list only .exe files (and sub-directories ending with .exe if any).
 @LineBreak
 @LineBreak
@@ -391,13 +391,13 @@ possible to read a directory content, create a new directory and more...
   Once the enumeration is done, @@FinishDirectory must
   be called to free the resources associated to the listing.
 @LineBreak
-@LineBreak 
-  Specific OS path seperator characters are available @#PS, @#NPS, @ConstantColor "#PS$" ('\') and @ConstantColor "#NPS$" ('/').
+@LineBreak
+  Specific OS path separator characters are available @#PS, @#NPS, @ConstantColor "#PS$" ('\') and @ConstantColor "#NPS$" ('/').
 
 @Example
 @Code
   Directory$ = GetHomeDirectory() ; Lists all files and folder in the home directory
-  If ExamineDirectory(0, Directory$, "*.*")  
+  If ExamineDirectory(0, Directory$, "*.*")
     While NextDirectoryEntry(0)
       If DirectoryEntryType(0) = #PB_DirectoryEntry_File
         Type$ = "[File] "
@@ -406,7 +406,7 @@ possible to read a directory content, create a new directory and more...
         Type$ = "[Directory] "
         Size$ = "" ; A directory doesn't have a size
       EndIf
-      
+
       Debug Type$ + DirectoryEntryName(0) + Size$
     Wend
     FinishDirectory(0)
@@ -421,7 +421,7 @@ possible to read a directory content, create a new directory and more...
   @@DirectoryEntrySize,
   @@DirectoryEntryAttributes,
   @@DirectoryEntryDate
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -439,7 +439,7 @@ possible to read a directory content, create a new directory and more...
 
 @SeeAlso
   @@ExamineDirectory
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -447,7 +447,7 @@ possible to read a directory content, create a new directory and more...
 @Function Extension$ = GetExtensionPart(FullPathName$)
 
 @Description
-  Retrieves the file extension part of a full path. 
+  Retrieves the file extension part of a full path.
 
 @Parameter "FullPathName$"
   The full path to get the extension from.
@@ -472,7 +472,7 @@ possible to read a directory content, create a new directory and more...
 @Function Filename$ = GetFilePart(FullPathName$ [, Mode])
 
 @Description
-  Retrieves the file part of a full path. 
+  Retrieves the file part of a full path.
 
 @Parameter "FullPathName$"
   The full path to get the filename from.
@@ -512,13 +512,13 @@ possible to read a directory content, create a new directory and more...
 
 @Remarks
   To retrieve the extension or the file part from a full path, look at the
-  @@GetExtensionPart and @@GetFilePart 
+  @@GetExtensionPart and @@GetFilePart
   functions.
 
 @SeeAlso
   @@GetExtensionPart,
-  @@GetFilePart 
- 
+  @@GetFilePart
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -526,7 +526,7 @@ possible to read a directory content, create a new directory and more...
 @Function Result = IsDirectory(#Directory)
 
 @Description
-  Tests if the given directory number is a valid and correctly initialized directory enumeration. 
+  Tests if the given directory number is a valid and correctly initialized directory enumeration.
 
 @Parameter "#Directory"
   The directory enumeration to test.
@@ -538,7 +538,7 @@ possible to read a directory content, create a new directory and more...
   This function is bulletproof and can be used with any value. This is the correct way to ensure a directory is ready to use.
 
 @SeeAlso
-  @@ExamineDirectory  
+  @@ExamineDirectory
 
 @SupportedOS
 
@@ -548,21 +548,21 @@ possible to read a directory content, create a new directory and more...
 
 @Description
   Checks if the specified Filename$ doesn't contain invalid characters for the file-system. For example, on Windows
-  '/' and '\' characters are not allowed in the filename. 
+  '/' and '\' characters are not allowed in the filename.
 
 @Parameter "Filename$"
   The filename to check without a path.
 
 @ReturnValue
   Returns nonzero if the filename does not contain invalid characters and zero if it does.
-  
+
 @Remarks
   Even if the syntax-check of this function doesn't complain, there are different 'forbidden' filenames on
   different OS. For example on Windows filenames containing "COM1" till "COM9", "LPT1" till "LPT9" or "aux"
   are not allowed. For more informations see @InternetLink "https://en.wikipedia.org/wiki/Filename" "here".
 
 @SupportedOS
-  
+
 ;--------------------------------------------------------------------------------------------------------
 
 @Function Result.q = FileSize(Filename$)
@@ -571,7 +571,7 @@ possible to read a directory content, create a new directory and more...
   Returns the size of the specified file. This function can also be used to check if a file or directory
   exists or not.
 
-@Parameter "Filename$" 
+@Parameter "Filename$"
   The filename to get the size from.
 
 @ReturnValue
@@ -583,7 +583,7 @@ possible to read a directory content, create a new directory and more...
 
 @SeeAlso
   @@DirectoryEntrySize
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -596,7 +596,7 @@ possible to read a directory content, create a new directory and more...
 @NoParameters
 
 @ReturnValue
-  Returns the full path of the current directory. 
+  Returns the full path of the current directory.
   It will end with a directory separator ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
 @LineBreak
 @LineBreak
@@ -611,7 +611,7 @@ possible to read a directory content, create a new directory and more...
   @@GetHomeDirectory,
   @@GetUserDirectory,
   @@GetTemporaryDirectory
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -619,12 +619,12 @@ possible to read a directory content, create a new directory and more...
 @Function Result$ = GetHomeDirectory()
 
 @Description
-  Returns the home directory path of the currently logged user. 
+  Returns the home directory path of the currently logged user.
 
 @NoParameters
 
 @ReturnValue
-  Returns the full path of the home directory. 
+  Returns the full path of the home directory.
   It will end with a directory separator ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
 @LineBreak
 @LineBreak
@@ -646,7 +646,7 @@ possible to read a directory content, create a new directory and more...
 @Function Result$ = GetUserDirectory(Type)
 
 @Description
-  Returns the directory path of the specified directory type. 
+  Returns the directory path of the specified directory type.
 
 @Parameter "Type"
   The type of directory to get the path. It can be one of the following value:
@@ -658,7 +658,7 @@ possible to read a directory content, create a new directory and more...
   @#PB_Directory_Musics     : musics directory path of the current logged user
   @#PB_Directory_Pictures   : pictures directory path of the current logged user
   @#PB_Directory_Public     : public directory of the current logged user
-  @#PB_Directory_ProgramData: program data directory of the current logged user. 
+  @#PB_Directory_ProgramData: program data directory of the current logged user.
                              On Linux and OSX, it is the home directory followed by '/.' to be able to create
                              hidden config directory in the home user.
   @#PB_Directory_AllUserData: common program data directory (accessible to all users)
@@ -666,7 +666,7 @@ possible to read a directory content, create a new directory and more...
 @EndFixedFont
 
 @ReturnValue
-  Returns the full path of the specified directory. It will end with a directory separator 
+  Returns the full path of the specified directory. It will end with a directory separator
   ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
   If the type is not found it will return an empty string.
 
@@ -682,19 +682,19 @@ possible to read a directory content, create a new directory and more...
 @Function Result$ = GetTemporaryDirectory()
 
 @Description
-  Returns the temporary directory name. 
+  Returns the temporary directory name.
 
 @NoParameters
 
 @ReturnValue
-  Returns the full path to the temporary directory. It will end with a directory separator 
+  Returns the full path to the temporary directory. It will end with a directory separator
   ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
 @LineBreak
 @LineBreak
   It's very unlikely, but if this function fails, it will return an empty string.
 
 @Remarks
-  This directory provides read and write access and should be used to store temporary files. Depending on the operating system 
+  This directory provides read and write access and should be used to store temporary files. Depending on the operating system
   and settings, the contents of this directory may be deleted on a regular basis. It is however better to delete temporary files
   when they are no longer needed and not rely on such automatic cleanup.
 
@@ -709,7 +709,7 @@ possible to read a directory content, create a new directory and more...
 @Function Result = GetFileDate(Filename$, DateType)
 
 @Description
-  Returns the date of the specified file. 
+  Returns the date of the specified file.
 
 @Parameter "Filename$"
   The file to get the date from.
@@ -739,7 +739,7 @@ possible to read a directory content, create a new directory and more...
 @Function Attributes = GetFileAttributes(Filename$)
 
 @Description
-  Returns the attributes of the given file. 
+  Returns the attributes of the given file.
 
 @Parameter "Filename$"
   The file to read the attributes from. This can also specify the name of a directory.
@@ -771,7 +771,7 @@ possible to read a directory content, create a new directory and more...
   @#PB_FileSystem_ReadAll   : Access flags for all other users
   @#PB_FileSystem_WriteAll
   @#PB_FileSystem_ExecAll
-@EndFixedFont  
+@EndFixedFont
 
 @Remarks
   To check if one attribute is actually set, just use the '&' (binary AND) and the attribute constant value:
@@ -780,22 +780,22 @@ possible to read a directory content, create a new directory and more...
   If FileAttributes & #PB_FileSystem_Hidden
     Debug "This file is hidden !"
   EndIf
-@EndCode  
+@EndCode
 
 @Example
 @Code
-  Value = GetFileAttributes("c:\autoexec.bat") 
-  
-  If Value = -1 
+  Value = GetFileAttributes("c:\autoexec.bat")
+
+  If Value = -1
     Debug "Error reading file attributes!"
-  Else 
-    If Value & #PB_FileSystem_Hidden     : txt$ + "H" : Else : txt$+"-" : EndIf 
-    If Value & #PB_FileSystem_Archive    : txt$ + "A" : Else : txt$+"-" : EndIf 
-    If Value & #PB_FileSystem_Compressed : txt$ + "C" : Else : txt$+"-" : EndIf 
-    If Value & #PB_FileSystem_Normal     : txt$ + "N" : Else : txt$+"-" : EndIf 
-    If Value & #PB_FileSystem_ReadOnly   : txt$ + "R" : Else : txt$+"-" : EndIf 
-    If Value & #PB_FileSystem_System     : txt$ + "S" : Else : txt$+"-" : EndIf 
-    Debug txt$ 
+  Else
+    If Value & #PB_FileSystem_Hidden     : txt$ + "H" : Else : txt$+"-" : EndIf
+    If Value & #PB_FileSystem_Archive    : txt$ + "A" : Else : txt$+"-" : EndIf
+    If Value & #PB_FileSystem_Compressed : txt$ + "C" : Else : txt$+"-" : EndIf
+    If Value & #PB_FileSystem_Normal     : txt$ + "N" : Else : txt$+"-" : EndIf
+    If Value & #PB_FileSystem_ReadOnly   : txt$ + "R" : Else : txt$+"-" : EndIf
+    If Value & #PB_FileSystem_System     : txt$ + "S" : Else : txt$+"-" : EndIf
+    Debug txt$
   EndIf
 @EndCode
 
@@ -810,7 +810,7 @@ possible to read a directory content, create a new directory and more...
 
 @Description
   This function must be called after an @@ExamineDirectory. It will go step-by-step into
-  the directory and list its contents. 
+  the directory and list its contents.
 
 @Parameter "#Directory"
   The directory examined with @@ExamineDirectory
@@ -829,7 +829,7 @@ possible to read a directory content, create a new directory and more...
   @@DirectoryEntryName,
   @@DirectoryEntrySize,
   @@DirectoryEntryAttributes,
-  @@DirectoryEntryDate 
+  @@DirectoryEntryDate
 
 @SupportedOS
 
@@ -838,7 +838,7 @@ possible to read a directory content, create a new directory and more...
 @Function Result = RenameFile(OldFilename$, NewFilename$)
 
 @Description
-  Rename the old file to the new file. 
+  Rename the old file to the new file.
 
 @Parameter "OldFilename$"
   The old name of the file.
@@ -855,9 +855,9 @@ possible to read a directory content, create a new directory and more...
 
 @Example
 @Code
-  If RenameFile("C:\test.txt", "D:\temp\test_backup.txt")   
+  If RenameFile("C:\test.txt", "D:\temp\test_backup.txt")
     Debug "Moving and renaming successful."    ; Moving and renaming of the file was successful
-  Else 
+  Else
     Debug "Moving and renaming failed."        ; Moving and renaming failed, e.g. because of a not found source file
   EndIf
 @EndCode
@@ -872,7 +872,7 @@ possible to read a directory content, create a new directory and more...
 @Function Result = SetFileDate(Filename$, DateType, Date)
 
 @Description
-  Changes the date of the specified file. 
+  Changes the date of the specified file.
 
 @Parameter "Filename$"
   The name of the file to modify.
@@ -905,7 +905,7 @@ possible to read a directory content, create a new directory and more...
 @Function Result = SetFileAttributes(Filename$, Attributes)
 
 @Description
-  Set the attributes of the given Filename$. 
+  Set the attributes of the given Filename$.
 
 @Parameter "Filename$"
   The name of the file to modify. This can also specify the name of a directory.
@@ -913,7 +913,7 @@ possible to read a directory content, create a new directory and more...
 @Parameter "Attributes"
   The new attributes.
 @LineBreak
-@LineBreak 
+@LineBreak
   On Windows, 'Attributes' is a combination of the following values:
 @FixedFont
   @#PB_FileSystem_Hidden    : File is hidden
@@ -934,12 +934,12 @@ possible to read a directory content, create a new directory and more...
   @#PB_FileSystem_ReadAll   : Access flags for all other users
   @#PB_FileSystem_WriteAll
   @#PB_FileSystem_ExecAll
-@EndFixedFont  
-  
-  To combine several attributes, just use the '|' (binary OR) operand:  
+@EndFixedFont
+
+  To combine several attributes, just use the '|' (binary OR) operand:
 @Code
   SetFileAttributes("C:\Text.txt", #PB_FileSystem_Hidden | #PB_FileSystem_ReadOnly)
-@EndCode  
+@EndCode
 
 @ReturnValue
   Returns nonzero if the operation was successful and zero otherwise.
@@ -954,7 +954,7 @@ possible to read a directory content, create a new directory and more...
 @Function Result = SetCurrentDirectory(Directory$)
 
 @Description
-  Changes the current directory for the program. 
+  Changes the current directory for the program.
 
 @Parameter "Directory$"
   The full path to the new current directory, or a path relative to the existing current directory.
@@ -967,9 +967,9 @@ possible to read a directory content, create a new directory and more...
   no absolute path is specified. To get the current directory, use @@GetCurrentDirectory.
 @LineBreak
 @LineBreak
-  Specific OS path seperator characters are available @#PS, @#NPS, @ConstantColor "#PS$" ('\') and @ConstantColor "#NPS$" ('/').
+  Specific OS path separator characters are available @#PS, @#NPS, @ConstantColor "#PS$" ('\') and @ConstantColor "#NPS$" ('/').
 
 @SeeAlso
   @@GetCurrentDirectory
-  
+
 @SupportedOS

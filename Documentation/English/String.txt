@@ -8,7 +8,7 @@
 
 @Overview
   Strings are the method used in order to store a list of characters. With the functions supplied in
-  this library, many essential actions may be performed upon strings. By default, Strings are seen 
+  this library, many essential actions may be performed upon strings. By default, Strings are seen
   as unicode strings.
 
 @CommandList
@@ -28,7 +28,7 @@
   The string to get the first character value.
 
 @ReturnValue
-  The string first character value. 
+  The string first character value.
 
 @Example
 @Code
@@ -95,7 +95,7 @@
   Debug RSet(Bin(32), 16, "0") ; Will display "0000000000100000"
 @EndCode
 
-@SeeAlso 
+@SeeAlso
   @@Str, @@Val, @@Hex
 
 @SupportedOS
@@ -167,7 +167,7 @@
 @Function Result$ = EscapeString(String$ [, Mode])
 
 @Description
-  Returns the escaped version of the string. @@UnescapeString can be used to 
+  Returns the escaped version of the string. @@UnescapeString can be used to
   do the reverse operation.
 
 @Parameter "String$"
@@ -192,7 +192,7 @@
   Debug EscapeString("<item>Hello</item>", #PB_String_EscapeXML) ; Will display "&lt;item&gt;Hello&lt;/item&gt;"
 @EndCode
 
-@SeeAlso 
+@SeeAlso
   @@UnescapeString
 
 @SupportedOS
@@ -203,17 +203,17 @@
 
 @Description
   Find the 'StringToFind$' within the given 'String$'.
-  
+
 @Parameter "String$"
   The string to use.
-  
+
 @Parameter "StringToFind$"
   The string to find.
-  
+
 @OptionalParameter "StartPosition"
-  The start position to begin the search. The first valid character index is 1. 
+  The start position to begin the search. The first valid character index is 1.
   If this parameter isn't specified, the whole string is searched.
-  
+
 @OptionalParameter "Mode"
   It can be one of the following values:
 @FixedFont
@@ -236,7 +236,7 @@
 
 @Description
   Converts a quad numeric number into a string, in hexadecimal format.
-    
+
 @Parameter "Value.q"
   The number to convert.
 
@@ -276,7 +276,7 @@
   Debug Hex(-1, #PB_Quad)    ; quad value is the default
 @EndCode
 
-@SeeAlso 
+@SeeAlso
   @@Str, @@Val, @@Bin
 
 @SupportedOS
@@ -290,10 +290,10 @@
 
 @Parameter "String$"
   The string to use.
-  
+
 @Parameter "StringToInsert$"
   The string to insert.
-  
+
 @Parameter "Position"
   The position in the string to insert the new string. The first position index is 1.
 
@@ -306,7 +306,7 @@
   Debug InsertString("Hello !", "World", 1)  ; Will display "WorldHello !"
 @EndCode
 
-@SeeAlso 
+@SeeAlso
   @@RemoveString
 
 @SupportedOS
@@ -320,7 +320,7 @@
 
 @Parameter "String$"
   The string to convert into lowercase.
-  
+
 @ReturnValue
   The string converted into lowercase.
 
@@ -350,7 +350,7 @@
 @Parameter "Length"
   The number of characters to return. If this value exceeds the number of characters
   of the string, it will be returns the whole string.
-  
+
 @ReturnValue
   A string holding the specified number of characters from the left side of the string.
 
@@ -398,7 +398,7 @@
   The total length (in characters) of the new string.
 
 @OptionalParameter "Character$"
-  The character used to pad extra space in the new string. The default character is 'space'. 
+  The character used to pad extra space in the new string. The default character is 'space'.
   'Character$' has to be a one character length string.
 
 @ReturnValue
@@ -406,7 +406,7 @@
   length.
 
 @Remarks
-  If the string is longer than the specified length, it will be truncated starting from 
+  If the string is longer than the specified length, it will be truncated starting from
   the right side of the string.
 
 @Example
@@ -426,7 +426,7 @@
 @Function Result$ = LTrim(String$ [, Character$])
 
 @Description
-  Removes all the specified characters located in the front of a string. 
+  Removes all the specified characters located in the front of a string.
 
 @Parameter "String$"
   The string to trim.
@@ -455,7 +455,7 @@
 
 @Description
   Extracts a string of specified length from the given string.
-  
+
 @Parameter "String$"
   The string to use.
 
@@ -468,7 +468,7 @@
 
 @ReturnValue
   A new string holding the extracted characters.
-  
+
 @Example
 @Code
   Debug Mid("Hello", 2) ; Will display "ello"
@@ -535,7 +535,7 @@
 
 @Parameter "ReplacementString$"
   The string to use as replacement.
-  
+
 @OptionalParameter "Mode"
   It can be a combination of the following values:
 @FixedFont
@@ -544,7 +544,7 @@
   @#PB_String_InPlace: In-place replacing. This means that the string is replaced directly in the memory.
                       The 'StringToFind$' and 'ReplacementString$' parameter must have the same length. This is
                       a dangerous option, for advanced users only. The advantage is the very high speed of the
-                      replacement. When using this option, the result of ReplaceString() has to be ignored. 
+                      replacement. When using this option, the result of ReplaceString() has to be ignored.
                       Only the string passed in parameter 'String$' is changed and it's the result.
 @EndFixedFont
 
@@ -566,7 +566,7 @@
   test$ = "Hello again, hello again"
   Result$ = ReplaceString(test$, "HELLO", "oh no...", 1, 10) ; Will display "Hello again, oh no... again"
   Debug Result$
-  
+
   test$ = "Bundy, Barbie, Buddy"
   ReplaceString(test$, "B", "Z", 2, 1)  ; all B gets changed to Z  (directly in memory, no valid return-value here)
   Debug test$   ; Output of the changed string and will display "Zundy, Zarbie, Zuddy"
@@ -590,7 +590,7 @@
 @Parameter "Length"
   The number of characters to return. If this value exceeds the number of characters
   of the string, it will be returns the whole string.
-  
+
 @ReturnValue
   A string holding the specified number of characters from the right side of the string.
 
@@ -626,7 +626,7 @@
   length.
 
 @Remarks
-  If the string is longer than the specified length, it will be truncated starting from 
+  If the string is longer than the specified length, it will be truncated starting from
   the right side of the string.
 
 @Example
@@ -646,7 +646,7 @@
 @Function Result$ = RTrim(String$ [, Character$])
 
 @Description
-  Removes all the specified characters located at the end of a string. 
+  Removes all the specified characters located at the end of a string.
 
 @Parameter "String$"
   The string to trim.
@@ -674,8 +674,8 @@
 @Function Result = StringByteLength(String$ [, Format])
 
 @Description
-  Returns the number of bytes required to store the string in memory in a given format. 
-  
+  Returns the number of bytes required to store the string in memory in a given format.
+
 @Parameter "String$"
   The string to use.
 
@@ -689,7 +689,7 @@
   If omitted, the mode of the executable (@ReferenceLink "unicode" "unicode" or ascii) is used.
 
 @ReturnValue
-  The number of bytes required to store the string in memory in a given format. 
+  The number of bytes required to store the string in memory in a given format.
 
 @Remarks
   The number of bytes returned does not include the terminating Null-Character of the string.
@@ -745,7 +745,7 @@
   A string holding the converted value.
 
 @Remarks
-  Signed integer numbers have to be converted with @@Str and unsigned numbers with @@StrU. 
+  Signed integer numbers have to be converted with @@Str and unsigned numbers with @@StrU.
   It is possible to omit this command when concatenating string and float, it will then use the default behaviour of @@StrF.
 
 @Example
@@ -780,7 +780,7 @@
   A string holding the converted value.
 
 @Remarks
-  Signed integer numbers have to be converted with @@Str and unsigned numbers with @@StrU. 
+  Signed integer numbers have to be converted with @@Str and unsigned numbers with @@StrU.
   It is possible to omit this command when concatenating string and double, it will then use the default behaviour of @@StrD.
 
 @Example
@@ -811,7 +811,7 @@
   A string holding the converted value.
 
 @Remarks
-  Floats must be converted with @@StrF, doubles with @@StrD and unsigned numbers with @@StrU. 
+  Floats must be converted with @@StrF, doubles with @@StrD and unsigned numbers with @@StrU.
   It is possible to omit this command when concatenating string and integer, it will then use the default behaviour of @@Str.
 
 @Example
@@ -947,7 +947,7 @@
 
 @Parameter "String$"
   The string to convert into uppercase.
-  
+
 @ReturnValue
   The string converted into uppercase.
 
@@ -969,7 +969,7 @@
 @Function Result$ = UnescapeString(String$ [, Mode])
 
 @Description
-  Returns the unescaped version of the string. @@EscapeString can be used to 
+  Returns the unescaped version of the string. @@EscapeString can be used to
   do the reverse operation.
 
 @Parameter "String$"
@@ -994,7 +994,7 @@
   Debug UnescapeString("&lt;item&gt;Hello&lt;/item&gt;", #PB_String_EscapeXML) ; Will display "<item>Hello</item>"
 @EndCode
 
-@SeeAlso 
+@SeeAlso
   @@EscapeString
 
 @SupportedOS
@@ -1100,13 +1100,13 @@
   The Ascii representation of the string.
 
 @Remarks
-  This function is mainly useful when interacting with third-party libraries which requiers Ascii as input. 
+  This function is mainly useful when interacting with third-party libraries which requiers Ascii as input.
   @ReferenceLink "pseudotypes" "Pseudotype" 'p-ascii' can also be used to automated the converting process when importing external
   functions.
 @LineBreak
 @LineBreak
   The buffer includes a null-terminated character.
-  
+
 @Example
 @Code
   *Ascii = Ascii("Hélé")
@@ -1133,7 +1133,7 @@
   The UTF8 representation of the string.
 
 @Remarks
-  This function is mainly useful when interacting with third-party libraries which requiers UTF8 as input. 
+  This function is mainly useful when interacting with third-party libraries which requiers UTF8 as input.
   @ReferenceLink "pseudotypes" "Pseudotype" 'p-utf8' can also be used to automated the converting process when importing external
   functions.
 @LineBreak
@@ -1144,7 +1144,7 @@
 @Code
   *UTF8 = UTF8("Hélé")
   ShowMemoryViewer(*UTF8, MemorySize(*UTF8))
-  
+
   Debug PeekS(*UTF8, -1, #PB_UTF8) ; Displays "Hélé"
 @EndCode
 
@@ -1158,10 +1158,10 @@
   *Mem2 = UTF8("Test - éàîöÊÜ")
 
   Text.s = Unicode(*Mem1)
-  Debug Text 
+  Debug Text
 
   Text2.s = Unicode(*Mem2, #PB_UTF8)
-  Debug Text2 
+  Debug Text2
 @EndCode
 
 @SeeAlso
@@ -1171,7 +1171,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result$ = FormatNumber(Number.d [, NbDecimals [, DecimalPoint$ [, ThousandSeperator$]]])
+@Function Result$ = FormatNumber(Number.d [, NbDecimals [, DecimalPoint$ [, ThousandSeparator$]]])
 
 @Description
   Format a number into money-like format.
@@ -1185,7 +1185,7 @@
 @OptionalParameter "DecimalPoint$"
   The string to use to split the decimal and integer parts. It can be a multiple character string. Default value is ".".
 
-@OptionalParameter "ThousandSeperator$"
+@OptionalParameter "ThousandSeparator$"
   The string to use to separate thousands. It can be a multiple character string. Default value is ",".
 
 @ReturnValue
