@@ -12,8 +12,8 @@
   which are supported by the @LibraryLink "ImagePlugin" "ImagePlugin Library".
 @LineBreak
 @LineBreak
-  Transparent PNG images can be used to enable transparency in the @LibraryLink "Gadget" "gadgets", 
-  @LibraryLink "menu" "menu" and @LibraryLink "Toolbar" "toolbars" images. On Windows, transparent 
+  Transparent PNG images can be used to enable transparency in the @LibraryLink "Gadget" "gadgets",
+  @LibraryLink "menu" "menu" and @LibraryLink "Toolbar" "toolbars" images. On Windows, transparent
   ICON images can be used as well but PNG should be preferred as it works on all platforms.
   Transparency of BMP images is not supported.
 
@@ -57,7 +57,7 @@
   The image to remove a frame.
 
 @Parameter "Index"
-  The index (starting from 0) of the frame to remove. 
+  The index (starting from 0) of the frame to remove.
 
 @ReturnValue
   Returns nonzero if the frame has been successfully removed, zero otherwise.
@@ -98,7 +98,7 @@
   The image to use.
 
 @Parameter "Index"
-  The index (starting from 0) of the frame to set as current. 
+  The index (starting from 0) of the frame to set as current.
 
 @NoReturnValue
 
@@ -112,7 +112,7 @@
 @Function Result = ImageFrameCount(#Image)
 
 @Description
-  Returns the number of frames of the image. 
+  Returns the number of frames of the image.
 
 @Parameter "#Image"
   The image to get the frame count.
@@ -120,7 +120,7 @@
 @ReturnValue
   Returns the frame count of the image.
   If the image is not multi-frame, it will always return 1.
-  
+
 @SeeAlso
   @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, @@SetImageFrame, @@GetImageFrame
 
@@ -131,15 +131,15 @@
 @Function Result = GetImageFrameDelay(#Image)
 
 @Description
-  Returns the display delay (in millisecond) for the current image frame. Each frame can have its own
+  Returns the display delay (in milliseconds) for the current image frame. Each frame can have its own
   delay.
 
 @Parameter "#Image"
   The image to get the frame delay.
 
 @ReturnValue
-  Returns the display delay (in millisecond) for the current image frame.
-  
+  Returns the display delay (in milliseconds) for the current image frame.
+
 @SeeAlso
   @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, @@SetImageFrame, @@GetImageFrame, @@SetImageFrameDelay
 
@@ -150,15 +150,15 @@
 @Function Result = SetImageFrameDelay(#Image, Delay)
 
 @Description
-  Sets the display delay (in millisecond) for the current image frame. Each frame can have its own
+  Sets the display delay (in milliseconds) for the current image frame. Each frame can have its own
   delay.
 
 @Parameter "#Image"
   The image to set the frame delay.
 
 @ReturnValue
-  Sets the display delay (in millisecond) for the current image frame.
-  
+  Sets the display delay (in milliseconds) for the current image frame.
+
 @SeeAlso
   @@CreateImage, @@AddImageFrame, @@RemoveImageFrame, @@SetImageFrame, @@GetImageFrame, @@GetImageFrameDelay
 
@@ -169,7 +169,7 @@
 @Function Result = CatchImage(#Image, *MemoryAddress [, Size])
 
 @Description
-  Load the specified image from the given memory area. 
+  Load the specified image from the given memory area.
 
 @Parameter "#Image"
   A number to identify the loaded image. @ReferenceLink "purebasic_objects" "#PB_Any" can
@@ -179,7 +179,7 @@
   The memory address from which to load the image.
 
 @OptionalParameter "Size"
-  The size of the image in bytes. The size is optional as the loader can determine from the image when to 
+  The size of the image in bytes. The size is optional as the loader can determine from the image when to
   stop reading. It is however advisable to provide a size when loading unknown images, as the loader can then handle
   corrupted images correctly (without specifying the image size, a corrupt image can crash the program).
 
@@ -189,7 +189,7 @@
 
 @Remarks
   The limit for the image size that can be handled depends on the operating system and the available amount of memory.
-  If enough memory is available, then images up to at least 8192x8192 pixel can be handled by all operating systems supported by PureBasic.
+  If enough memory is available, then images up to at least 8192x8192 pixels can be handled by all operating systems supported by PureBasic.
 @LineBreak
 @LineBreak
   When an image is loaded, it is converted either in 24-bit (if the image depth
@@ -205,7 +205,7 @@
 @LineBreak
   The image can be in BMP, icon (.ico, only on Windows) or any other format supported by the ImagePlugin library.
   Transparency of BMP images is not supported.
-  The following functions can be used to enable automatically more image formats:
+  The following functions can be used to enable additional image formats:
 @LineBreak
 @LineBreak
   @@UseJPEGImageDecoder @LineBreak
@@ -214,19 +214,19 @@
   @@UseTIFFImageDecoder @LineBreak
   @@UseTGAImageDecoder @LineBreak
   @@UseGIFImageDecoder @LineBreak
-  
+
 @Example
 @Code
   CatchImage(0, ?Logo)
   End
 
   DataSection
-    Logo: 
+    Logo:
       IncludeBinary "Logo.bmp"
   EndDataSection
 @EndCode
   Note: The "?" is a pointer to a label. More information about pointers and memory access can be found
-  in the relating chapter @ReferenceLink "memory" "here". 
+  in the relating chapter @ReferenceLink "memory" "here".
 
 @SeeAlso
   @@CreateImage, @@LoadImage, @@FreeImage,
@@ -281,7 +281,7 @@
   Valid values can be: 24 and 32. The default is 24-bit if no depth is specified.
 
 @OptionalParameter "BackColor"
-  The back @@RGB color used when the image is created. This color can be set to @#PB_Image_Transparent to create an image with the 
+  The back @@RGB color used when the image is created. This color can be set to @#PB_Image_Transparent to create an image with the
   alpha channel set to full transparent. This only has an effect on 32-bit images. The default
   backcolor is black if not specified.
 
@@ -291,7 +291,7 @@
 
 @Remarks
   The limit for the image size that can be handled depends on the operating system and the available amount of memory.
-  If enough memory is available, then images up to at least 8192x8192 are can be handled by all operating systems supported by PureBasic.
+  If enough memory is available, then images up to at least 8192x8192 pixels can be handled by all operating systems supported by PureBasic.
 @LineBreak
 @LineBreak
   You can use the several other functions for acting with the created image:
@@ -320,7 +320,7 @@
 @Function *Buffer = EncodeImage(#Image [, ImagePlugin [, Flags [, Depth]]])
 
 @Description
-  Encode the specified image into a memory buffer. 
+  Encode the specified image into a memory buffer.
 
 @Parameter "#Image"
   The image to encode.
@@ -348,7 +348,7 @@
 
 @OptionalParameter "Depth"
   The depth in which to save the image. Valid values are 1, 4, 8, 24 and 32.
-  The default value is the original image depth. 
+  The default value is the original image depth.
   For now, only PNG encoder support palletized image format (1, 4 or 8-bit).
 
 @ReturnValue
@@ -356,7 +356,7 @@
   @@MemorySize can be used to get the size of the encoded image. @@FreeMemory has to be used to free the buffer
   after use.
 
-@SeeAlso 
+@SeeAlso
   @@LoadImage,
   @LibraryLink "ImagePlugin" "ImagePlugin library"
 
@@ -376,7 +376,7 @@
 
 @Remarks
   All remaining images are automatically freed when the program ends.
-  
+
 @SeeAlso
   @@CreateImage, @@LoadImage, @@CatchImage, @@CopyImage, @@GrabImage
 
@@ -403,7 +403,7 @@
 
 @Parameter "x, y, Width, Height"
   The location and size of the area to copy into the new image.
-  
+
 @ReturnValue
   Returns nonzero if the image was created successfully and zero if the image could not be created.
   If @#PB_Any was specified as the #Image2 parameter then the auto-generated number is returned on success.
@@ -443,12 +443,12 @@
 
 @Remarks
   When loading an image, PureBasic converts it either in 24-bit or in 32-bit, depending
-  if the source image got an alpha-channel or not. Every image which has a 
+  if the source image has an alpha-channel or not. Every image which has a
   depth less than 24-bit will be internally converted to 24-bit.
 
 @SeeAlso
   @@ImageWidth, @@ImageHeight
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -456,14 +456,14 @@
 @Function Result = ImageFormat(#Image)
 
 @Description
-  Return the original image format. 
+  Return the original image format.
 
 @Parameter "#Image"
   The image to use.
 
 @ReturnValue
   Returns the image original format. It can be one of the following value:
-@FixedFont  
+@FixedFont
   @#PB_ImagePlugin_JPEG
   @#PB_ImagePlugin_JPEG2000
   @#PB_ImagePlugin_PNG
@@ -473,10 +473,10 @@
   @#PB_ImagePlugin_ICON
   @#PB_ImagePlugin_GIF
 @EndFixedFont
-  If the image was not loaded from one of this format, it will return zero. This is the case for images created with
+  If the image was not loaded from one of these formats, it will return zero. This is the case for images created with
   @@CreateImage or @@GrabImage.
 
-@SeeAlso  
+@SeeAlso
   @@LoadImage, @@CreateImage, @@CatchImage, @@GrabImage,
   @LibraryLink "ImagePlugin" "ImagePlugin library"
 
@@ -484,7 +484,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = ImageHeight(#Image) 
+@Function Result = ImageHeight(#Image)
 
 @Description
   Returns the height of the given image.
@@ -496,7 +496,7 @@
   Returns the height of the image in pixels.
 
 @SeeAlso
-  @@ImageWidth, @@ImageDepth  
+  @@ImageWidth, @@ImageDepth
 
 @SupportedOS
 
@@ -518,7 +518,7 @@
   @@ImageGadget,
   @@ButtonImageGadget,
   @@CanvasGadget
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -559,14 +559,14 @@
 @Function VectorOutputID = ImageVectorOutput(#Image [, Unit])
 
 @Description
-  Returns the OutputID of the image to perform @LibraryLink "vectordrawing" "2D vector drawing operations" on it. 
+  Returns the OutputID of the image to perform @LibraryLink "vectordrawing" "2D vector drawing operations" on it.
   If the image is multi-frame, the current frame will be used.
 
 @Parameter "#Image"
   The image to draw on.
-  
+
 @OptionalParameter "Unit"
-  Specifies the unit used for measuring distances on the drawing output. 
+  Specifies the unit used for measuring distances on the drawing output.
   The default unit for images is @#PB_Unit_Pixel.
 @FixedFont
   @#PB_Unit_Pixel     : Values are measured in pixels (or dots in case of a printer)
@@ -610,7 +610,7 @@
 
 @SeeAlso
   @@ImageHeight, @@ImageDepth
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -618,7 +618,7 @@
 @Function Result = IsImage(#Image)
 
 @Description
-  Tests if the given image number is a valid and correctly initialized image. 
+  Tests if the given image number is a valid and correctly initialized image.
 
 @Parameter "#Image"
   The image to test.
@@ -627,11 +627,11 @@
   Returns nonzero if #Image is a valid image and zero if not.
 
 @Remarks
-  This function is bulletproof and can be used with any value. 
+  This function is bulletproof and can be used with any value.
   This is the correct way to ensure an image is ready to use.
 
 @SeeAlso
-  @@CreateImage, @@LoadImage, @@CatchImage, @@CopyImage, @@GrabImage  
+  @@CreateImage, @@LoadImage, @@CatchImage, @@CopyImage, @@GrabImage
 
 @SupportedOS
 
@@ -640,7 +640,7 @@
 @Function Result = LoadImage(#Image, Filename$ [, Flags])
 
 @Description
-  Load the specified image from a file. 
+  Load the specified image from a file.
 
 @Parameter "#Image"
   A number to identify the loaded image. @ReferenceLink "purebasic_objects" "#PB_Any" can
@@ -659,7 +659,7 @@
 
 @Remarks
   The limit for the image size that can be handled depends on the operating system and the available amount of memory.
-  If enough memory is available, then images up to at least 8192x8192 are can be handled by all operating systems supported by PureBasic.
+  If enough memory is available, then images up to at least 8192x8192 pixels are can be handled by all operating systems supported by PureBasic.
 @LineBreak
 @LineBreak
   When an image is loaded, it is converted either in 24-bit (if the image depth
@@ -707,7 +707,7 @@
 
 @Function Result = ResizeImage(#Image, Width, Height [, Mode])
 
-@Description  
+@Description
   Resize the #Image to the given dimension.
 
 @Parameter "#Image"
@@ -737,7 +737,7 @@
 @LineBreak
 @LineBreak
   The limit for the image size that can be handled depends on the operating system and the available amount of memory.
-  If enough memory is available, then images up to at least 8192x8192 are can be handled by all operating systems supported by PureBasic.
+  If enough memory is available, then images up to at least 8192x8192 pixels can be handled by all operating systems supported by PureBasic.
 
 @SeeAlso
   @@ImageWidth, @@ImageHeight
@@ -749,7 +749,7 @@
 @Function Result = SaveImage(#Image, Filename$ [, ImagePlugin [, Flags [, Depth]]])
 
 @Description
-  Saves the specified image to disk. 
+  Saves the specified image to disk.
 
 @Parameter "#Image"
   The image to save.
@@ -773,7 +773,7 @@
   quality is set to '7' if no flags are specified).
 @LineBreak
 @LineBreak
-  When an image is saved using palletized depth (1, 4 or 8), the following
+  When an image is saved using palettized depth (1, 4 or 8), the following
   flag is available for combination:
 @FixedFont
   @#PB_Image_FloydSteinberg: Apply a Floyd-Steinberg dithering.
@@ -781,13 +781,13 @@
 
 @OptionalParameter "Depth"
   The depth in which to save the image. Valid values are 1, 4, 8, 24 and 32.
-  The default value is the original image depth. 
+  The default value is the original image depth.
   For now, only BMP and PNG encoders support palletized image format (1, 4 or 8-bit).
 
 @ReturnValue
   Returns nonzero if the operation succeeded and zero if it failed.
 
-@SeeAlso 
+@SeeAlso
   @@ImageDepth,
   @LibraryLink "ImagePlugin" "ImagePlugin library"
 
