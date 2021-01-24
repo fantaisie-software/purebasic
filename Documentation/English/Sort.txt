@@ -8,22 +8,22 @@
 
 @Overview
 
-  Sometimes, elements has to be sorted to be usable or more convenient. PureBasic offers
+  Sometimes, elements have to be sorted to be usable or more convenient. PureBasic offers
   highly optimized functions in order to sort @ReferenceLink "dim" "arrays" and @LibraryLink "List" "lists",
   either in ascending or descending order.
   @LineBreak
   @LineBreak
-  SortStructuredList and SortList use Mergesort which is a stable sort, so if you first sort 
-  all the list by titles and then again by album you will get a list which is sorted by album 
+  SortStructuredList and SortList use Mergesort which is a stable sort, so if you first sort
+  all the list by titles and then again by album you will get a list which is sorted by album
   and each album is sorted by title.
   @LineBreak
-  Note that this does not work with Arrays, as SortArray uses Quicksort which is unstable. 
-  (ie the sorting of the secondary key would be lost)
+  Note that this does not work with Arrays, as SortArray uses Quicksort which is unstable.
+  (ie. the sorting of the secondary key would be lost)
   @LineBreak
   @LineBreak
   Furthermore there are functions to reorder the elements of an array or a list in a random order.
 
-  
+
 @CommandList
 
   @ExampleFile All Sort_(Numeric).pb
@@ -39,7 +39,7 @@
 
   Sorts the specified @ReferenceLink "dim" "array", according to the given options. The array may be of one of
   @ReferenceLink "variables" "basic type": byte, word, long, integer, string or float. For structured
-  array, use @@SortStructuredArray. Multi-dimensioned arrays are not supported.
+  arrays, use @@SortStructuredArray. Multi-dimensioned arrays are not supported.
 
 @Parameter "ArrayName()"
   The array to sort.
@@ -49,7 +49,7 @@
 @FixedFont
   @#PB_Sort_Ascending : Sort the array in ascending order (lower values first)
   @#PB_Sort_Descending: Sort the array in descending order (higher values first)
-  @#PB_Sort_NoCase    : Sort the string array without case sensitive (a=A, b=B etc..)
+  @#PB_Sort_NoCase    : Sort the string array without case sensitivity (a=A, b=B etc..)
 @EndFixedFont
 
 @OptionalParameter "Start, End"
@@ -59,14 +59,14 @@
 @NoReturnValue
 
 @Remarks
-  If an array is not fully filled then null elements will be sorted first in ascending order and
+  If an array is not fully filled, then null elements will be sorted first in ascending order and
   last in descending order.
   @LineBreak
   @Link "Math/IsNaN" "NaN numbers" are not accepted when sorting as it produces random results.
-  
+
 @SeeAlso
   @@SortStructuredArray, @@RandomizeArray
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -78,7 +78,7 @@
   Sorts the specified @LibraryLink "List" "list", according to the given options. The list may be of one of
   @ReferenceLink "variables" "basic type": byte, word, long, integer, string or float.
   For structured list, use @@SortStructuredList.
-  
+
 @Parameter "ListName()"
   The list to sort.
 
@@ -87,7 +87,7 @@
 @FixedFont
   @#PB_Sort_Ascending : Sort the list in ascending order (lower values first)
   @#PB_Sort_Descending: Sort the list in descending order (higher values first)
-  @#PB_Sort_NoCase    : Sort the string list without case sensitive (a=A, b=B etc..)
+  @#PB_Sort_NoCase    : Sort the string list without case sensitivity (a=A, b=B etc..)
 @EndFixedFont
 
 @OptionalParameter "Start, End"
@@ -109,7 +109,7 @@
 
 @Description
 
-  Sorts the specified structured @ReferenceLink "dim" "array", according to the given options. 
+  Sorts the specified structured @ReferenceLink "dim" "array", according to the given options.
   The array must have an associated @ReferenceLink "Structures" "structure".
 
 @Parameter "ArrayName()"
@@ -120,16 +120,16 @@
 @FixedFont
   @#PB_Sort_Ascending : Sort the array in ascending order (lower values first)
   @#PB_Sort_Descending: Sort the array in descending order (higher values first)
-  @#PB_Sort_NoCase    : Sort the string array without case sensitive (a=A, b=B etc..)
+  @#PB_Sort_NoCase    : Sort the string array without case sensitivity (a=A, b=B etc..)
 @EndFixedFont
 
 @Parameter "OffsetOf(Structure\Field)"
   Offset of the field in the structure.
   @ReferenceLink "compilerfunctions" "OffsetOf()" may be used to retrieve the field offset in the structure associated to the array.
-  
+
 @Parameter "TypeOf(Structure\Field)"
-  The field type of the field in the structure. It has to match the real structure field type. 
-  @ReferenceLink "compilerfunctions" "TypeOf()" may be used to automatically retrieve the field type. 
+  The field type of the field in the structure. It has to match the real structure field type.
+  @ReferenceLink "compilerfunctions" "TypeOf()" may be used to automatically retrieve the field type.
   Available types are:
 @FixedFont
   @#PB_Byte     : The structure field to sort is a byte (.b)
@@ -151,7 +151,7 @@
 
 @Remarks
   @ReferenceLink "variables" "Fixed strings" are not supported by the sort routine.
-  If an array is not fully filled then null elements will be sorted first in ascending order and last in descending order. 
+  If an array is not fully filled, then null elements will be sorted first in ascending order and last in descending order.
   @LineBreak
   @Link "Math/IsNaN" "NaN numbers" are not accepted when sorting as it produces random results.
 
@@ -203,7 +203,7 @@
 
 @Description
 
-  Sorts the specified structured @LibraryLink "List" "list", according to the given options. 
+  Sorts the specified structured @LibraryLink "List" "list", according to the given options.
   The list must have an associated @ReferenceLink "Structures" "structure".
 
 @Parameter "ListName()"
@@ -214,16 +214,16 @@
 @FixedFont
   @#PB_Sort_Ascending : Sort the list in ascending order (lower values first)
   @#PB_Sort_Descending: Sort the list in descending order (higher values first)
-  @#PB_Sort_NoCase    : Sort the string list without case sensitive (a=A, b=B etc..)
+  @#PB_Sort_NoCase    : Sort the string list without case sensitivity (a=A, b=B etc..)
 @EndFixedFont
 
 @Parameter "OffsetOf(Structure\Field)"
   Offset of the field in the structure.
   @ReferenceLink "compilerfunctions" "OffsetOf()" may be used to retrieve the field offset in the structure associated to the list.
-  
+
 @Parameter "TypeOf(Structure\Field)"
-  The field type of the field in the structure. It has to match the real structure field type. 
-  @ReferenceLink "compilerfunctions" "TypeOf()" may be used to automatically retrieve the field type. 
+  The field type of the field in the structure. It has to match the real structure field type.
+  @ReferenceLink "compilerfunctions" "TypeOf()" may be used to automatically retrieve the field type.
   Available types are:
 @FixedFont
   @#PB_Byte     : The structure field to sort is a byte (.b)
@@ -244,7 +244,7 @@
   are not specified, then the whole list is sorted.
   @LineBreak
   The first list element is at position 0, the next at 1 and so on.
-  
+
 @Remarks
   @ReferenceLink "variables" "Fixed strings" are not supported by the sort routine.
 
@@ -310,7 +310,7 @@
 @NoReturnValue
 
 @Remarks
-  This function uses the pseudorandom number generator of the @@Random function to determine the new order of the array elements. 
+  This function uses the pseudorandom number generator of the @@Random function to determine the new order of the array elements.
   It is therefore dependent on the current @@RandomSeed.
 
 @SeeAlso
@@ -337,7 +337,7 @@
 @NoReturnValue
 
 @Remarks
-  This function uses the pseudorandom number generator of the @@Random function to determine the new order of the list elements. 
+  This function uses the pseudorandom number generator of the @@Random function to determine the new order of the list elements.
   It is therefore dependent on the current @@RandomSeed.
 
 @SeeAlso
