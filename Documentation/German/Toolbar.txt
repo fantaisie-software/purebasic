@@ -11,7 +11,7 @@
   Icons schnellen Zugriff auf einige Funktionen der Applikation zu erhalten.
   Die Icons sind oftmals 'Shortcuts' (Kürzel) von Menüpunkten. PureBasic ermöglicht die
   Erstellung einer beliebigen Zahl von Toolbars und deren Handhabung als wären
-  es Menüs. 
+  es Menüs.
 
 @CommandList
 
@@ -43,12 +43,12 @@
   - @#PB_ToolBar_Text      : Text wird unterhalb des Schalters dargestellt
   - @#PB_ToolBar_InlineText: Text wird rechts vom Schalter dargestelt (nur auf Windows)
 @EndFixedFont
-  
+
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Werkzeugleiste erfolgreich erstellt
   wurde, und Null wenn nicht. Wenn @#PB_Any als #ToolBar Parameter verwendet wurde,
   dann wird im Erfolgsfall die generierte Nummer zurückgegeben.
-  
+
 @Remarks
   Diese Toolbar wird die aktuelle Toolbar für die Erstellung, zu der mittels
   @@ToolBarStandardButton, @@ToolBarImageButton und @@ToolBarSeparator einige
@@ -56,7 +56,7 @@
 @LineBreak
 @LineBreak
   Die Ereignisse werden genauso wie Menü-Ereignisse behandelt, mittels der Funktion
-  @@EventMenu. Werkzeugleisten werden oft als Kürzel für Menü-Einträge verwendet - 
+  @@EventMenu. Werkzeugleisten werden oft als Kürzel für Menü-Einträge verwendet -
   wenn daher die gleiche Menü-Eintrag-Nummer zu einem Werkzeugleisten-Schalter
   zugewiesen wird, werden beide Ereignisse durch den gleichen Code behandelt.
 
@@ -73,12 +73,12 @@
       If Event = #PB_Event_Menu
         Debug "ToolBar ID: "+Str(EventMenu())
       EndIf
-    Until Event = #PB_Event_CloseWindow 
+    Until Event = #PB_Event_CloseWindow
   EndIf
 @EndCode
 @LineBreak
 @Image createtoolbar.png
-  
+
 @SeeAlso
   @@ToolBarStandardButton, @@ToolBarImageButton, @@ToolBarSeparator, @@FreeToolBar
 
@@ -94,10 +94,10 @@
 @Parameter "#ToolBar"
   Die freizugebende Werkzeugleiste. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen
   Werkzeugleisten freigegeben.
-  
+
 @NoReturnValue
 
-@Remarks  
+@Remarks
   Alle verbleibenden Werkzeugleisten werden automatisch freigegeben, wenn das Programm endet.
 
 @SeeAlso
@@ -111,7 +111,7 @@
 
 @Description
   Deaktiviert (oder aktiviert) einen Werkzeugleisten-Schalter auf der angegebenen Werkzeugleiste.
-  
+
 @Parameter "#ToolBar"
   Die zu verwendende Werkzeugleiste.
 
@@ -151,7 +151,7 @@
           EndIf
         EndIf
       EndIf
-    Until Event = #PB_Event_CloseWindow 
+    Until Event = #PB_Event_CloseWindow
   EndIf
 @EndCode
 @LineBreak
@@ -169,7 +169,7 @@
 @Description
   Ermittelt den Status des angegebenen Werkzeugleisten-Schalters.
   Der Schalter muss mittels des @#PB_ToolBar_Toggle Modus erstellt worden sein.
-  
+
 @Parameter "#ToolBar"
   Die zu verwendende Werkzeugleiste.
 
@@ -202,7 +202,7 @@
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn #ToolBar eine gültige Werkzeugleiste ist,
   andernfalls Null.
-  
+
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. Ist das 'Ergebnis'
   ungleich Null, dann ist das Objekt gültig und initialisiert, andernfalls wird Null zurückgegeben.
@@ -220,7 +220,7 @@
 @Description
   Setzt den Status des angegebenen Werkzeugleisten-Schalters.
   Der Schalter muss mittels des @#PB_ToolBar_Toggle Modus erstellt worden sein.
-  
+
 @Parameter "#ToolBar"
   Die zu verwendende Werkzeugleiste.
 
@@ -240,12 +240,12 @@
 
 @SeeAlso
   @@GetToolBarButtonState
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Höhe = ToolBarHeight(#ToolBar) 
+@Function Höhe = ToolBarHeight(#ToolBar)
 
 @Description
   Gibt die Höhe (in Pixel) der Werkzeugleiste zurück. Dies ist nützlich für eine korrekte
@@ -256,7 +256,7 @@
 
 @ReturnValue
   Gibt die Höhe (in Pixel) der Werkzeugleiste zurück.
-  
+
 @Remarks
   Auf OS X gibt dieser Befehl 0 zurück, da die Werkzeugleiste kein Bestandteil der inneren
   Fensterhöhe ist, weshalb hier keine Berechnung nötig ist.
@@ -271,7 +271,7 @@
 @Function ToolBarImageButton(#Button, ImageID [, Modus [, Text$]])
 
 @Description
-  Fügt einen Image-Schalter (Bild-Schalter) zur konstruierten Werkzeugleiste hinzu. 
+  Fügt einen Image-Schalter (Bild-Schalter) zur konstruierten Werkzeugleiste hinzu.
   @@CreateToolBar muss vor Benutzung dieses Befehls aufgerufen werden.
 
 @Parameter "#Button"
@@ -317,7 +317,7 @@
       ToolBarImageButton(1,ImageID(1))
     EndIf
     Repeat
-    Until WaitWindowEvent() = #PB_Event_CloseWindow 
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode
 @LineBreak
@@ -333,7 +333,7 @@
 @Function ToolBarSeparator()
 
 @Description
-  Fügt der zu konstruierenden Toolbar einen vertikalen Balken (Seperator) hinzu.
+  Fügt der zu konstruierenden Toolbar einen vertikalen Balken (Separator) hinzu.
   Vor diesem Befehl muss @@CreateToolBar aufgerufen worden sein.
 
 @NoParameters
@@ -356,7 +356,7 @@
       If Event = #PB_Event_Menu
         Debug "ToolBar ID: "+Str(EventMenu())
       EndIf
-    Until Event = #PB_Event_CloseWindow 
+    Until Event = #PB_Event_CloseWindow
   EndIf
 @EndCode
 @LineBreak
@@ -373,16 +373,16 @@
 
 @Description
   Fügt der zu konstruierenden Werkzeugleiste einen Standard-Schalter hinzu. Vor diesem
-  Befehl muss @@CreateToolBar aufgerufen worden sein. 
+  Befehl muss @@CreateToolBar aufgerufen worden sein.
 @LineBreak
 @LineBreak
-  Ein Standard-Schalter ist ein Icon, welches direkt im OS verfügbar ist. 
-  
+  Ein Standard-Schalter ist ein Icon, welches direkt im OS verfügbar ist.
+
 @Parameter "#Button"
   Der Bezeichner des neuen Werkzeugleisten-Schalters.
 
 @Parameter "#ButtonIcon"
-  Dies kann eine der folgenden Konstanten sein: 
+  Dies kann eine der folgenden Konstanten sein:
 @FixedFont
   Konstante                     Dargestelltes Symbol
   ---------------------------------------------------
@@ -419,7 +419,7 @@
   @#PB_ToolBar_Text Flag erstellt werden, oder der Text wird nicht angezeigt.
 
 @NoReturnValue
-  
+
 @Example
 @Code
   If OpenWindow(0, 0, 0, 150, 25, "ToolBar", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
@@ -433,7 +433,7 @@
       If Event = #PB_Event_Menu
         Debug "ToolBar ID: "+Str(EventMenu())
       EndIf
-    Until Event = #PB_Event_CloseWindow 
+    Until Event = #PB_Event_CloseWindow
   EndIf
 @EndCode
 @LineBreak
@@ -446,7 +446,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ToolBarButtonText(#ToolBar, Schalter, Text$) 
+@Function ToolBarButtonText(#ToolBar, Schalter, Text$)
 
 @Description
   Ändert den Text für den angegebenen #ToolBar Schalter. Die Werkzeugleiste muss mit dem
@@ -460,7 +460,7 @@
 
 @Parameter "Text$"
   Der neu anzuzeigende Text.
-  
+
 @NoReturnValue
 
 @Example
@@ -473,7 +473,7 @@
       ToolBarButtonText(0, 0, "Old")
     EndIf
     Repeat
-    Until WaitWindowEvent() = #PB_Event_CloseWindow 
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode
 @LineBreak
@@ -485,7 +485,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ToolBarToolTip(#ToolBar, Button, Text$) 
+@Function ToolBarToolTip(#ToolBar, Button, Text$)
 
 @Description
   Verknüpft den angegebenen Text mit dem Werkzeugleisten-Schalter.
@@ -501,7 +501,7 @@
 @Parameter "Text$"
   Der neue Text, welcher mit dem Werkzeugleisten-Schalter verknüpft werden soll.
   Ist der Text leer, dann wird der Tooltip entfernt.
-  
+
 @NoReturnValue
 
 @Example
@@ -516,7 +516,7 @@
       ToolBarToolTip(0, 2, "Save file")
     EndIf
     Repeat
-    Until WaitWindowEvent() = #PB_Event_CloseWindow 
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode
 @LineBreak
