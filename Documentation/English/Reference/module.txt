@@ -9,13 +9,13 @@
   @Keyword Module <name>
     ...
   @Keyword EndModule
-  
+
   @Keyword UseModule <name>
   @Keyword UnuseModule <name>
 
 @Description
 
-  Modules are an easy way to isolate code part from the main code, allowing code reuse and sharing
+  Modules are an easy way to isolate code parts from the main code, allowing code reuse and sharing
   without risk of name conflict. In some other programming languages, modules are known as 'namespaces'.
   A module must have a @Keyword DeclareModule section (which is the public interface) and an associated
   @Keyword Module section (which is the implementation).
@@ -26,23 +26,23 @@
   to write specific code, as simple names can be reused within each module without risk of conflict.
 @LineBreak
 @LineBreak
-  Items allowed in the @Keyword DeclareModule section can be the following: procedure (only procedure declaration allowed), structure, macro, variable, 
+  Items allowed in the @Keyword DeclareModule section can be the following: procedure (only procedure declaration allowed), structure, macro, variable,
   constant, enumeration, array, list, map and label.
 @LineBreak
 @LineBreak
   To access a module item from outside the module, the module name has to be specified followed by the '::' separator. When explicitly specifying
   the module name, the module item is available everywhere in the code source, even in another module.
-  All items in the @Keyword DeclareModule section can be automatically imported into another module or in the main code using @Keyword UseModule. 
-  In this case, if a module name conflict, the module items won't be imported and a compiler error will be raised.
-  @Keyword UnuseModule remove the module items. @Keyword UseModule is not mandatory to access a module item, but the module name needs to be specified.
+  All items in the @Keyword DeclareModule section can be automatically imported into another module or in the main code using @Keyword UseModule.
+  In the case of a module name conflict, the module items won't be imported and a compiler error will be raised.
+  @Keyword UnuseModule removes the module items. @Keyword UseModule is not mandatory to access a module item, but the module name needs to be specified.
 @LineBreak
 @LineBreak
-  To share information between modules, a common module can be created and then used in every modules which needs it. It's the common way
+  To share information between modules, a common module can be created and then used in every module which needs it. It's the common way
   have global data available for all modules.
 @LineBreak
 @LineBreak
   Default items available in modules are all PureBasic commands, structure and constants. Therefore module items can not be named like
-  internal PureBasic commands, structure or constants.
+  internal PureBasic commands, structures or constants.
 @LineBreak
 @LineBreak
   All code put inside @Keyword DeclareModule and @Keyword Module sections is executed like any other code when the program flow reaches the module.
@@ -56,51 +56,51 @@
   for use when reusing and sharing it.
 
 @Example
-    
+
 @Code
-  
+
   ; Every items in this sections will be available from outside
   ;
   DeclareModule Ferrari
     #FerrariName$ = "458 Italia"
-    
+
     Declare CreateFerrari()
   EndDeclareModule
-  
+
   ; Every items in this sections will be private. Every names can be used without conflict
   ;
   Module Ferrari
-    
+
     Global Initialized = #False
-    
+
     Procedure Init() ; Private init procedure
       If Initialized = #False
         Initialized = #True
         Debug "InitFerrari()"
       EndIf
-    EndProcedure  
-      
+    EndProcedure
+
     Procedure CreateFerrari()
       Init()
       Debug "CreateFerrari()"
     EndProcedure
-    
+
   EndModule
-  
-  
+
+
   Procedure Init() ; Main init procedure, doesn't conflict with the Ferrari Init() procedure
     Debug "Main init()"
   EndProcedure
-  
+
   Init()
-  
+
   Ferrari::CreateFerrari()
   Debug Ferrari::#FerrariName$
-  
+
   Debug "------------------------------"
-  
+
   UseModule Ferrari ; Now import all public item directly in the main program scope
-  
+
   CreateFerrari()
   Debug #FerrariName$
 
@@ -109,38 +109,38 @@
 @Example With a common module
 
 @Code
-  
+
   ; The common module, which will be used by others to share data
   ;
   DeclareModule Cars
     Global NbCars = 0
   EndDeclareModule
-  
-  Module Cars 
+
+  Module Cars
   EndModule
-  
+
   ; First car module
   ;
   DeclareModule Ferrari
   EndDeclareModule
-  
+
   Module Ferrari
     UseModule Cars
-    
+
     NbCars+1
   EndModule
-  
+
   ; Second car module
   ;
   DeclareModule Porsche
   EndDeclareModule
-  
+
   Module Porsche
     UseModule Cars
-    
+
     NbCars+1
   EndModule
-  
+
   Debug Cars::NbCars
 
 @EndCode
