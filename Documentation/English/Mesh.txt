@@ -1,7 +1,7 @@
 ;
 ;     Mesh library documentation
 ;
-;      (c) 2015 - Fantaisie Software
+;      (c) 2020 - Fantaisie Software
 ;
 
 @Library Mesh
@@ -26,13 +26,13 @@
 @Function Result = CreateMesh(#Mesh [, Type [, Mode])
 
 @Description
-  Creates a new empty #Mesh. After creation the further commands of this library like 
-  @@MeshVertexPosition or @@MeshFace can be used, to build it.
-  
+  Creates a new empty #Mesh. After creation, the further commands of this library like
+  @@MeshVertexPosition or @@MeshFace can be used to build it.
+
 @Parameter "#Mesh"
   The number to identify the new mesh. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
   auto-generate this number.
-  
+
 @OptionalParameter "Type"
   The type of the new mesh. It can be one of the following value:
 @FixedFont
@@ -47,13 +47,13 @@
 @OptionalParameter "Mode"
   The mode of the new mesh. It can be one of the following value:
 @FixedFont
-  @#PB_Mesh_Static : once created, the mesh can't be modified anymore with the mesh update functions (default). 
+  @#PB_Mesh_Static : once created, the mesh can't be modified anymore with the mesh update functions (default).
   @#PB_Mesh_Dynamic: once created, the mesh can be modified with the mesh update functions.
 @EndFixedFont
 
 @ReturnValue
   Returns nonzero if the mesh was created successfully and zero if there was an error.
-  If @#PB_Any was used as the #Mesh parameter then the new generated number is returned on success.
+  If @#PB_Any was used as the #Mesh parameter, then the new generated number is returned on success.
 
 @Remarks
   If the #Mesh was already created, then it is freed and replaced by a new one.
@@ -67,11 +67,11 @@
 @Description
   Creates a new #Mesh from the specified 2 dimensional array of PB_MeshVertex type. This command allows
   faster mesh creation than using @@CreateMesh by preparing an array and submitting in one batch to the command.
-  
+
 @Parameter "#Mesh"
   The number to identify the new mesh. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
   auto-generate this number.
-  
+
 @Parameter "Array"
   A 2 dimensional array of type PB_MeshVertex, which will be used to create the new mesh. The PB_MeshVertex structure is
   defined as the following:
@@ -85,16 +85,16 @@
     NormalZ.f
     TangentX.f
     TangentY.f
-    TangentZ.f 
+    TangentZ.f
     u.f
     v.f
     Color.l
-  EndStructure   
+  EndStructure
 @EndCode
 
 @Remarks
   If the #Mesh was already created, then it is freed and replaced by a new one.
-  
+
 
 @SupportedOS
 
@@ -171,7 +171,7 @@
   for the #Mesh parameter then the generated number is returned on success.
 
 @Remarks
-  Mesh is required to be in the OGRE .mesh format. A command-line tool based on @InternetLink "http://assimp.sourceforge.net/main_features_formats.html" "assimp" is available to convert 
+  Mesh is required to be in the OGRE .mesh format. A command-line tool based on @InternetLink "http://assimp.sourceforge.net/main_features_formats.html" "assimp" is available to convert
   many 3d formats into the OGRE mesh, including materials and animations. It can be downloaded
   here: @InternetLink "http://www.purebasic.com/download/OgreAssimpConverter.zip" "OgreAssimpConverter.zip" (Windows only). Some problems
   have been reported with shadow and converted meshes, if that happen use OgreMeshUpdater.exe on the newly converted mesh and it should fix
@@ -201,7 +201,7 @@
 @Function Result = GetMeshData(#Mesh, SubMesh, DataArray(), Flags, FirstIndex, LastIndex)
 
 @Description
-  Get internal mesh data, like vertices, face etc. Dynamic meshes are not supported (meshes created with the @#PB_Mesh_Dynamic flag). 
+  Get internal mesh data, like vertices, face etc. Dynamic meshes are not supported (meshes created with the @#PB_Mesh_Dynamic flag).
 
 @Parameter "#Mesh"
   The mesh to use.
@@ -214,7 +214,7 @@
   depending of the specified flags.
 
 @Parameter "Flags"
-  Specifies which kind of data needs to be retrieved. It can be one of the following values: 
+  Specifies which kind of data needs to be retrieved. It can be one of the following values:
 @FixedFont
   @#PB_Mesh_Vertex: DataArray() is an array of type "PB_MeshVertex".
   @#PB_Mesh_Face  : DataArray() is an array of type "PB_MeshFace".
@@ -242,11 +242,11 @@
     u.f       ; only used if @#PB_Mesh_UVCoordinate flag is set
     v.f       ;
     Color.l   ; only used if @#PB_Mesh_Color flag is set
-  @Keyword EndStructure    
-  
+  @Keyword EndStructure
+
   @Keyword Structure PB_MeshFace
     Index.l
-  @Keyword EndStructure   
+  @Keyword EndStructure
 @EndFixedFont
 
 @Parameter "FirstIndex, LastIndex"
@@ -265,7 +265,7 @@
 @Function Result = SetMeshData(#Mesh, SubMesh, DataArray(), Flags, FirstIndex, LastIndex)
 
 @Description
-  Set internal mesh data, like vertices, face etc. Dynamic meshes are not supported (meshes created with the @#PB_Mesh_Dynamic flag). 
+  Set internal mesh data, like vertices, face etc. Dynamic meshes are not supported (meshes created with the @#PB_Mesh_Dynamic flag).
 
 @Parameter "#Mesh"
   The mesh to use.
@@ -275,10 +275,10 @@
 
 @Parameter "DataArray()"
   The array containing the data to set. It has to be an array of type "PB_MeshVertex" or "PB_MeshFace"
-  depending of the specified flags.
+  depending on the specified flags.
 
 @Parameter "Flags"
-  Specifies which kind of data needs to be set. It can be one of the following values: 
+  Specifies which kind of data needs to be set. It can be one of the following values:
 @FixedFont
   @#PB_Mesh_Vertex: DataArray() is an array of type "PB_MeshVertex".
   @#PB_Mesh_Face  : DataArray() is an array of type "PB_MeshFace".
@@ -305,11 +305,11 @@
     u.f       ; only used if @#PB_Mesh_UVCoordinate flag is set
     v.f       ;
     Color.l   ; only used if @#PB_Mesh_Color flag is set
-  @Keyword EndStructure    
-  
+  @Keyword EndStructure
+
   @Keyword Structure PB_MeshFace
     Index.l
-  @Keyword EndStructure   
+  @Keyword EndStructure
 @EndFixedFont
 
 @Parameter "FirstIndex, LastIndex"
@@ -328,7 +328,7 @@
 @Function BuildMeshShadowVolume(#Mesh)
 
 @Description
-  Create the shadow volume for the specified #Mesh. It is required if the mesh needs to cast shadow. It should be
+  Create the shadow volume for the specified #Mesh. It is required if the mesh needs to cast a shadow. It should be
   done once the mesh creation is completely done, or the shadow will not match the mesh.
 
 @Parameter "#Mesh"
@@ -338,7 +338,7 @@
 
 @SeeAlso
   @@CreateMesh
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -372,24 +372,24 @@
 
 @Example
 @Code
-  InitEngine3D() 
-  InitSprite() 
-  
+  InitEngine3D()
+  InitSprite()
+
   OpenWindow(0, 0, 0, 640, 480, "Line3D example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
-  
+
   ; Light
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
-  
+
   ; Camera
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
-  
+
   ; Create the line and attach it to the scene
   CreateLine3D(0, 0, 0, 0, RGB(255, 0, 0), 1, 1, 1, RGB(0, 0, 255))
   CreateEntity(0, MeshID(0), #PB_Material_None)
-  
+
   Repeat
     RenderWorld()
     FlipBuffers()
@@ -398,7 +398,7 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateSphere, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateCylinder
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -417,28 +417,28 @@
 
 @ReturnValue
   Returns nonzero if the mesh was created successfully and zero if there was an error.
-  If @#PB_Any was used as the #Mesh parameter then the new generated number is returned on success.
+  If @#PB_Any was used as the #Mesh parameter, then the new generated number is returned on success.
 
 @Example
 @Code
-  InitEngine3D() 
-  InitSprite() 
-  
+  InitEngine3D()
+  InitSprite()
+
   OpenWindow(0, 0, 0, 640, 480, "Cube example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
-  
+
   ; Light
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
-  
+
   ; Camera
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
-  
+
   ; Create the cube and attach it to the scene
   CreateCube(0, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
-  
+
   Repeat
     RenderWorld()
     FlipBuffers()
@@ -447,7 +447,7 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateSphere, @@CreateMesh, @@CreateCylinder, @@CreatePlane, @@CreateLine3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -465,11 +465,11 @@
   Radius, in world unit, of the sphere.
 
 @OptionalParameter "NbSegments"
-  Number of segments to create the sphere (default: 16). The segments are the vertical lines of the sphere. The more segments, 
+  Number of segments to create the sphere (default: 16). The segments are the vertical lines of the sphere. The more segments,
   the more realistic the sphere will be, but it will also affect the rendering speed if too many of them are specified.
 
 @OptionalParameter "NbRings"
-  Number of rings to create the sphere (default: 16). The rings are the horizontal lines of the sphere. The more rings, 
+  Number of rings to create the sphere (default: 16). The rings are the horizontal lines of the sphere. The more rings,
   the more realistic the sphere will be, but it will also affect the rendering speed if too many of them are specified.
 
 @ReturnValue
@@ -478,24 +478,24 @@
 
 @Example
 @Code
-  InitEngine3D() 
-  InitSprite() 
-  
+  InitEngine3D()
+  InitSprite()
+
   OpenWindow(0, 0, 0, 640, 480, "Sphere example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
-  
+
   ; Light
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
-  
+
   ; Camera
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
-  
+
   ; Create the sphere and attach it to the scene
   CreateSphere(0, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
-  
+
   Repeat
     RenderWorld()
     FlipBuffers()
@@ -504,7 +504,7 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -539,24 +539,24 @@
 
 @Example
 @Code
-  InitEngine3D() 
-  InitSprite() 
-  
+  InitEngine3D()
+  InitSprite()
+
   OpenWindow(0, 0, 0, 640, 480, "Tube example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
-  
+
   ; Light
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
-  
+
   ; Camera
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 4, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
-  
+
   ; Create the tube and attach it to the scene
   CreateTube(0, 0.5, 0.4, 2)
   CreateEntity(0, MeshID(0), #PB_Material_None)
-  
+
   Repeat
     RenderWorld()
     FlipBuffers()
@@ -565,7 +565,7 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -600,24 +600,24 @@
 
 @Example
 @Code
-  InitEngine3D() 
-  InitSprite() 
-  
+  InitEngine3D()
+  InitSprite()
+
   OpenWindow(0, 0, 0, 640, 480, "Torus example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
-  
+
   ; Light
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
-  
+
   ; Camera
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 4, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
-  
+
   ; Create the torus and attach it to the scene
   CreateTorus(0, 1, 0.3)
   CreateEntity(0, MeshID(0), #PB_Material_None)
-  
+
   Repeat
     RenderWorld()
     FlipBuffers()
@@ -626,7 +626,7 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -657,28 +657,28 @@
 
 @ReturnValue
   Returns nonzero if the mesh was created successfully and zero if there was an error.
-  If @#PB_Any was used as the #Mesh parameter then the new generated number is returned on success.
+  If @#PB_Any was used as the #Mesh parameter, then the new generated number is returned on success.
 
 @Example
 @Code
-  InitEngine3D() 
-  InitSprite() 
-  
+  InitEngine3D()
+  InitSprite()
+
   OpenWindow(0, 0, 0, 640, 480, "Capsule example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
-  
+
   ; Light
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
-  
+
   ; Camera
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 0, 5, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
-  
+
   ; Create the capsule and attach it to the scene
   CreateCapsule(0, 1, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
-  
+
   Repeat
     RenderWorld()
     FlipBuffers()
@@ -687,7 +687,7 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -709,28 +709,28 @@
 
 @ReturnValue
   Returns nonzero if the mesh was created successfully and zero if there was an error.
-  If @#PB_Any was used as the #Mesh parameter then the new generated number is returned on success.
+  If @#PB_Any was used as the #Mesh parameter, then the new generated number is returned on success.
 
 @Example
 @Code
-    InitEngine3D() 
-  InitSprite() 
-  
+    InitEngine3D()
+  InitSprite()
+
   OpenWindow(0, 0, 0, 640, 480, "IcoSphere example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
-  
+
   ; Light
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
-  
+
   ; Camera
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 0, 5, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
-  
+
   ; Create the icosphere and attach it to the scene
   CreateIcoSphere(0, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
-  
+
   Repeat
     RenderWorld()
     FlipBuffers()
@@ -739,7 +739,7 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -767,28 +767,28 @@
 
 @ReturnValue
   Returns nonzero if the mesh was created successfully and zero if there was an error.
-  If @#PB_Any was used as the #Mesh parameter then the new generated number is returned on success.
+  If @#PB_Any was used as the #Mesh parameter, then the new generated number is returned on success.
 
 @Example
 @Code
-  InitEngine3D() 
-  InitSprite() 
-  
+  InitEngine3D()
+  InitSprite()
+
   OpenWindow(0, 0, 0, 640, 480, "Cone example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
-  
+
   ; Light
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
-  
+
   ; Camera
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
-  
+
   ; Create the cone and attach it to the scene
   CreateCone(0, 0.5, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
-  
+
   Repeat
     RenderWorld()
     FlipBuffers()
@@ -797,7 +797,7 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateSphere, @@CreateCylinder, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -833,24 +833,24 @@
 
 @Example
 @Code
-  InitEngine3D() 
-  InitSprite() 
-  
+  InitEngine3D()
+  InitSprite()
+
   OpenWindow(0, 0, 0, 640, 480, "Cylinder example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
-  
+
   ; Light
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
-  
+
   ; Camera
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
-  
+
   ; Create the cylinder and attach it to the scene
   CreateCylinder(0, 0.5, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
-  
+
   Repeat
     RenderWorld()
     FlipBuffers()
@@ -859,7 +859,7 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateSphere, @@CreateCone, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -874,11 +874,11 @@
   auto-generate this number.
 
 @Parameter "TileSizeX"
-  X size of the a single tile, in world unit, of the plane. A tile is the base component of a plane. A plane  
+  X size of the a single tile, in world unit, of the plane. A tile is the base component of a plane. A plane
   can be composed of lot of tiles to make it bigger and allow deformation.
 
 @Parameter "TileSizeZ"
-  Z size of the a single tile, in world unit, of the plane. A tile is the base component of a plane. A plane  
+  Z size of the a single tile, in world unit, of the plane. A tile is the base component of a plane. A plane
   can be composed of lot of tiles to make it bigger and allow deformation.
 
 @Parameter "TileCountX"
@@ -901,24 +901,24 @@
 
 @Example
 @Code
-  InitEngine3D() 
-  InitSprite() 
-  
+  InitEngine3D()
+  InitSprite()
+
   OpenWindow(0, 0, 0, 640, 480, "Plane example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
-  
+
   ; Light
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
-  
+
   ; Camera
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
-  
+
   ; Create the plane and attach it to the scene
   CreatePlane(0, 2, 2, 1, 1, 0, 0)
   CreateEntity(0, MeshID(0), #PB_Material_None)
-  
+
   Repeat
     RenderWorld()
     FlipBuffers()
@@ -927,7 +927,7 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateSphere, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -935,8 +935,8 @@
 @Function AddSubMesh([Type])
 
 @Description
-  Add a new submesh to the currently mesh previously created with @@CreateMesh. A mesh can have any number of
-  submeshes. A submesh position is relative the mesh position. Once a submesh is created, use the following
+  Add a new submesh to the current mesh previously created with @@CreateMesh. A mesh can have any number of
+  submeshes. A submesh position is relative to the mesh position. Once a submesh is created, use the following
   commands to build it: @@MeshVertexPosition, @@MeshFace and @@MeshIndex.
 
 @OptionalParameter "Type"
@@ -954,7 +954,7 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateMesh, @@MeshVertexPosition, @@MeshFace
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -975,7 +975,7 @@
 
 @SeeAlso
   @@CreateMesh, @@LoadMesh, @@MeshVertexCount
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -992,11 +992,11 @@
   If specified, it will return the number of vertices of the specified submesh. The first submesh index is 0 (main mesh).
 
 @ReturnValue
-  Returns the vertices number of the mesh, or zero if the mesh or the submesh doesn't exists.
+  Returns the vertices number of the mesh, or zero if the mesh or the submesh doesn't exist.
 
 @SeeAlso
   @@CreateMesh, @@LoadMesh, @@MeshIndexCount
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1004,7 +1004,7 @@
 @Function UpdateMeshBoundingBox(#Mesh)
 
 @Description
-  Update the bounding box of the mesh. If a mesh has been manually modified, its bounding box has to be 
+  Update the bounding box of the mesh. If a mesh has been manually modified, its bounding box has to be
   recalculated, especially if the mesh is used for collisions. The bounding box is the smallest box
   which can contain the whole mesh.
 
@@ -1015,7 +1015,7 @@
 
 @SeeAlso
   @@CreateMesh
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1040,7 +1040,7 @@
 @SeeAlso
   @@CreateMesh, @@MeshIndex, @@MeshFace, @@MeshVertexPosition, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor
   @@MeshVertexTextureCoordinate
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1052,7 +1052,7 @@
   It behaves like the command @@MeshFace, but with an arbitrary number of vertices. When using
   the mode @#PB_Mesh_LineList or @#PB_Mesh_LineStrip, there are only two vertices per line,
   so @@MeshIndex needs to be used in this case.
-  
+
 @Parameter "Index"
   The vertex index.
 
@@ -1061,7 +1061,7 @@
 @SeeAlso
   @@UpdateMesh, @@MeshIndex, @@MeshFace, @@MeshVertexPosition, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor
   @@MeshVertexTextureCoordinate
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1069,7 +1069,7 @@
 @Function Result = MeshRadius(#Mesh)
 
 @Description
-  Returns the radius of the smallest sphere which can contains the mesh.
+  Returns the radius of the smallest sphere which can contain the mesh.
 
 @Parameter "Mesh"
   The mesh to use.
@@ -1079,7 +1079,7 @@
 
 @SeeAlso
   @@CreateMesh
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1092,27 +1092,27 @@
 
 @Parameter "x, y, z"
   The position of the new vertex.
-  
+
 @Parameter "u"
-  The u value. This value is the X position in the texture where the vertex should map. This value is 
+  The u value. This value is the X position in the texture where the vertex should map. This value is
   usually between 0 and 1, where 0 is the texture X origin and 1 is the texture X end (see @@MeshVertexTextureCoordinate for more information).
 
 @Parameter "v"
-  The v value. This value is the Y position in the texture where the vertex should map. This value is 
+  The v value. This value is the Y position in the texture where the vertex should map. This value is
   usually between 0 and 1, where 0 is the texture Y origin and 1 is the texture Y end (see @@MeshVertexTextureCoordinate for more information).
 
 @Parameter "Color"
-  Color of the vertex. This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format 
+  Color of the vertex. This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format
   (see @@MeshVertexColor for more information).
 
 @Parameter "NormalX, NormalY, NormalZ"
   The normal vector (see @@MeshVertexNormal for more information).
-  
+
 @NoReturnValue
 
 @SeeAlso
   @@CreateMesh, @@MeshFace, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor, @@MeshVertexTextureCoordinate
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1132,7 +1132,7 @@
 
 @SeeAlso
   @@CreateMesh, @@MeshFace, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor, @@MeshVertexTextureCoordinate, @@MeshVertex
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1151,7 +1151,7 @@
 
 @SeeAlso
   @@CreateMesh, @@MeshVertexPosition, @@MeshVertexColor, @@MeshVertexTextureCoordinate, @@NormalizeMesh, @@MeshVertex
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1160,7 +1160,7 @@
 
 @Description
   Set tangent information to the current vertex previously added with @@MeshVertexPosition or @@MeshVertex. The tangent
-  vector is mainly used in shader scripts. To automatically computes the tangent vector
+  vector is mainly used in shader scripts. To automatically compute the tangent vector
   once the mesh is created, use @@BuildMeshTangents.
 
 @Parameter "x, y, z"
@@ -1170,7 +1170,7 @@
 
 @SeeAlso
   @@CreateMesh, @@MeshVertexPosition, @@MeshVertexNormal, @@MeshVertexColor, @@MeshVertexTextureCoordinate, @@BuildMeshTangents, @@MeshVertex
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1181,7 +1181,7 @@
   Set color information to the current vertex previously added with @@MeshVertexPosition or @@MeshVertex.
   To have any effect, the material associated to the mesh has to be defined with
   SetMaterialColor(@#Material, @#PB_Material_AmbientColor, -1) and @@AmbientColor() set to a positive value.
-  This function needs a Vertex created before to apply color to it.
+  This function needs a vertex created before to apply color to it.
 
 @Parameter "Color"
   Color of the vertex. This color can be in @Link "2DDrawing/RGB" "RGB" or @Link "2DDrawing/RGBA" "RGBA" format.
@@ -1190,7 +1190,7 @@
 
 @SeeAlso
   @@CreateMesh, @@MeshVertexPosition, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexTextureCoordinate, @@MeshVertex
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1198,22 +1198,22 @@
 @Function MeshVertexTextureCoordinate(u.f, v.f)
 
 @Description
-  Set UV information to the current vertex previously added with @@MeshVertexPosition or @@MeshVertex. The UV information is 
+  Set UV information to the current vertex previously added with @@MeshVertexPosition or @@MeshVertex. The UV information is
   used to apply the texture on the mesh.
 
 @Parameter "u"
-  The u value. This value is the X position in the texture where the vertex should map. This value is 
+  The u value. This value is the X position in the texture where the vertex should map. This value is
   usually between 0 and 1, where 0 is the texture X origin and 1 is the texture X end.
 
 @Parameter "v"
-  The v value. This value is the Y position in the texture where the vertex should map. This value is 
+  The v value. This value is the Y position in the texture where the vertex should map. This value is
   usually between 0 and 1, where 0 is the texture Y origin and 1 is the texture Y end.
 
 @NoReturnValue
 
 @SeeAlso
   @@CreateMesh, @@MeshVertexPosition, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor, @@MeshVertex
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1221,8 +1221,8 @@
 @Function MeshFace(Vertex1, Vertex2, Vertex3)
 
 @Description
-  Add or update a face to the current mesh previously created with @@CreateMesh. The specified vertices must 
-  exists. The first vertex index starts from 0. The created face is a triangle. @@MeshIndex can be used
+  Add or update a face to the current mesh previously created with @@CreateMesh. The specified vertices must
+  exist. The first vertex index starts from 0. The created face is a triangle. @@MeshIndex can be used
   if the number of vertices is not three.
 
 @Parameter "Vertex1"
@@ -1238,7 +1238,7 @@
 
 @SeeAlso
   @@CreateMesh, @@MeshVertexPosition, @@MeshVertex
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1246,7 +1246,7 @@
 @Function FinishMesh(Mode)
 
 @Description
-  Finish the creation of the current mesh started with @@CreateMesh. 
+  Finish the creation of the current mesh started with @@CreateMesh.
 
 @Parameter "Mode"
   If set to @#True, the mesh will be converted to a static mesh and will be not modifiable anymore.
@@ -1257,7 +1257,7 @@
 
 @SeeAlso
   @@CreateMesh
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1265,8 +1265,8 @@
 @Function NormalizeMesh(#Mesh [, SubMesh])
 
 @Description
-  Normalize the mesh or the submesh. It will automatically computes the normal vector for every vertices
-  of the specified mesh or submesh. Dynamic meshes are not supported (meshes created with the @#PB_Mesh_Dynamic flag). 
+  Normalize the mesh or the submesh. It will automatically compute the normal vector for all vertices
+  of the specified mesh or submesh. Dynamic meshes are not supported (meshes created with the @#PB_Mesh_Dynamic flag).
 
 @Parameter "Mesh"
   The mesh to use.
@@ -1278,7 +1278,7 @@
 
 @SeeAlso
   @@CreateMesh, @@MeshVertexNormal
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1286,7 +1286,7 @@
 @Function BuildMeshTangents(#Mesh)
 
 @Description
-  Automatically computes the tangent vectors for every vertices of the specified mesh.
+  Automatically computes the tangent vectors for all vertices of the specified mesh.
   Dynamic meshes are not supported (meshes created with the @#PB_Mesh_Dynamic flag).
 
 @Parameter "Mesh"
@@ -1296,7 +1296,7 @@
 
 @SeeAlso
   @@CreateMesh, @@MeshVertexTangent
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1304,7 +1304,7 @@
 @Function AddMeshManualLOD(#Mesh, #MeshLOD, Distance.f)
 
 @Description
-  Add a new level of detail (LOD) to the mesh. The #Mesh will be replaced automatically 
+  Add a new level of detail (LOD) to the mesh. The #Mesh will be replaced automatically
   with #MeshLOD (which is often a simplified version of #Mesh, with less details) when
   displayed above the specified distance from the camera. Several LOD mesh can be used for the same
   #Mesh depending of the distance.
@@ -1322,7 +1322,7 @@
 
 @SeeAlso
   @@CreateMesh, @@BuildMeshLOD
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1330,7 +1330,7 @@
 @Function BuildMeshLOD(#Mesh, NbLOD, Distance.f, ReductionValue.f)
 
 @Description
-  Build automatically one or several level of detail (LOD) for the mesh. The #Mesh will be replaced automatically 
+  Build automatically one or several level of detail (LOD) for the mesh. The #Mesh will be replaced automatically
   with less complex mesh when displayed above the specified distance from the camera. If more precise LOD
   meshes are requiered, @@AddMeshManualLOD can be used.
 
@@ -1346,7 +1346,7 @@
 
 @Parameter "ReductionValue"
   The reduction to apply, between 0 (no reduction) and 1 (100% reduction). @LineBreak
-  
+
 @LineBreak
 Example: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 - The first reduction of the original mesh starts from 100 units of the camera, vertices number halved by 4 (75% reduction).
@@ -1357,7 +1357,7 @@ Example: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 @SeeAlso
   @@CreateMesh, @@AddMeshManualLOD
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1378,7 +1378,7 @@ Example: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 @SeeAlso
   @@CreateMesh, @@LoadMesh
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1401,7 +1401,7 @@ Example: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 @SeeAlso
   @@CreateMesh, @@LoadMesh
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1419,7 +1419,7 @@ Example: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 @SeeAlso
   @@CreateMesh, @@LoadMesh, @@AddSubMesh
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1469,5 +1469,5 @@ Example: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 @SeeAlso
   @@CreateMesh, @@LoadMesh
-  
+
 @SupportedOS

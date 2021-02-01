@@ -10,19 +10,19 @@
 
 PureBasic can replay standard music modules to have nice music background
 during a game or an application. The music modules are well known from Demo makers,
-as its an efficient way to build music on a computer. The tools used to
+as it's an efficient way to create music on a computer. The tools used to
 create the music modules are named 'Trackers' (ProTracker, FastTracker, Impulse
-Tracker...). The advantages of a music module against a .wav/mp3 file are its very low size,
+Tracker...). The advantages of a music module against a .wav/mp3 file are its very small size,
 a virtually endless length, the very fast replay, possible jump on a certain
 music part to fit to the screen action etc... It's of course possible to mix
 @LibraryLink "sound" "standard sound" and music to have both played simultaneously.
 @LineBreak
 @LineBreak
-The @InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" library is used to have a very high quality music playback and multiple
+The @InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" library is used to have very high quality music playback and multiple
 tracker support.
 @LineBreak
 @LineBreak
-The command @@InitSound has to be called with success
+The command @@InitSound has to be called successfully
 before using any of the music related functions.
 
 @CommandList
@@ -37,7 +37,7 @@ before using any of the music related functions.
 @Function Result = CatchMusic(#Music, *Buffer, Size)
 
 @Description
-  Loads the specified music from the specified memory buffer. 
+  Loads the specified music from the specified memory buffer.
   @@PlayMusic can be used to start playing the music. @InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" supports a lot of music formats, which includes: Protracker (4 channels),
   FastTracker (up to 32 channels, 16-bit quality), Impulse Tracker, etc.
 
@@ -58,7 +58,7 @@ before using any of the music related functions.
   This function is useful when using the '@ReferenceLink "includes" "IncludeBinary"' PureBasic keyword. Then music modules can be packed inside
   the executable. Nevertheless, use this option with care, as it will take
   more memory than storing the music in an external file (the music is both in
-  executable memory and load in physical memory). 
+  executable memory and load in physical memory).
 
 @Example
 @Code
@@ -66,7 +66,7 @@ before using any of the music related functions.
   End
 
   DataSection
-    Music: 
+    Music:
       IncludeBinary "Music.xm"
     MusicEnd:
   EndDataSection
@@ -74,7 +74,7 @@ before using any of the music related functions.
 
 @SeeAlso
   @@LoadMusic, @@PlayMusic
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -83,16 +83,16 @@ before using any of the music related functions.
 
 @Description
   Stop and remove the specified music previously loaded with the @@LoadMusic function from memory. Once a music has been
-  freed, it can't be played anymore. 
-  
+  freed, it can't be played anymore.
+
 @Parameter "#Music"
-  The music to free. If @#PB_All is specified, all the remaining musics are freed.  
+  The music to free. If @#PB_All is specified, all the remaining musics are freed.
 
 @NoReturnValue
 
 @Remarks
   All remaining musics are automatically freed when the program ends.
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ before using any of the music related functions.
 
 @Description
   Returns the current row position in the pattern of the playing music module.
-  
+
 @Parameter "#Music"
   The music module to use.
 
@@ -136,7 +136,7 @@ before using any of the music related functions.
 @Function Result = IsMusic(#Music)
 
 @Description
-  Tests if the given music module is valid and correctly initialized. 
+  Tests if the given music module is valid and correctly initialized.
 
 @Parameter "#Music"
   The music module to test.
@@ -149,7 +149,7 @@ before using any of the music related functions.
 
 @SeeAlso
   @@LoadMusic, @@CatchMusic
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -170,7 +170,7 @@ before using any of the music related functions.
 
 @ReturnValue
   Nonzero if the music module has been successfully loaded, zero otherwise.
- 
+
 @SeeAlso
   @@CatchMusic, @@PlayMusic
 
@@ -181,8 +181,8 @@ before using any of the music related functions.
 @Function MusicVolume(#Music, Volume)
 
 @Description
-  Change the master volume of the specified music, in real-time. 
-  
+  Change the master volume of the specified music, in real-time.
+
 @Parameter "#Music"
   The music module to use.
 
@@ -199,15 +199,15 @@ before using any of the music related functions.
 
 @Description
   Starts to play the specified music previously loaded with the @@LoadMusic function.
-  
+
 @Parameter "#Music"
   The music module to play.
 
-@NoReturnValue  
+@NoReturnValue
 
 @SeeAlso
   @@LoadMusic, @@CatchMusic, @@StopMusic
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -216,14 +216,14 @@ before using any of the music related functions.
 
 @Description
   Changes the current pattern position of the playing #Music to the new one.
-  
+
 @Parameter "#Music"
   The music module to use.
 
 @Parameter "Position"
   The new music module pattern position. The first pattern position starts from 0.
 
-@NoReturnValue  
+@NoReturnValue
 
 @SeeAlso
   @@GetMusicPosition
@@ -235,8 +235,8 @@ before using any of the music related functions.
 @Function StopMusic(#Music)
 
 @Description
-  Stop the #Music (if it was playing). 
-  
+  Stop the #Music (if it was playing).
+
 @Parameter "#Music"
   The music module to stop. If sets to @#PB_All, then all the musics currently playing are stopped.
 
@@ -244,7 +244,7 @@ before using any of the music related functions.
 
 @SeeAlso
   @@PlayMusic
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
