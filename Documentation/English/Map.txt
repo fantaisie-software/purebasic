@@ -1,7 +1,7 @@
 ;
 ;     Map library documentation
 ;
-;      (c) Fantaisie Software
+;      (c) 2021 - Fantaisie Software
 ;
 
 @Library Map
@@ -13,8 +13,8 @@
   and each element is fully independent of the others. You can add as many elements
   as you want (or as many as will fit into the memory of your computer), and accessing
   it back using a key. This kind of data management is very useful when you need fast
-  access to a random element. The inserting order of the elements are not kept when using
-  a map (unlike a @LibraryLink "List" "List") and therefore they can't be sorted.  
+  access to a random element. The inserting order of the elements is not kept when using
+  a map (unlike a @LibraryLink "List" "List") and therefore they can't be sorted.
 @LineBreak
 @LineBreak
   Before you can work with Maps, you must declare them first. This could be
@@ -22,8 +22,8 @@
   often used to store multiple data in a single element.
 @LineBreak
 @LineBreak
-  To specifically search the contents of a Map, using of loops is recommended: 
-  @ReferenceLink "for_next" "For : Next", @ReferenceLink "foreach_next" "ForEach : Next", 
+  To specifically search the contents of a Map, the use of loops is recommended:
+  @ReferenceLink "for_next" "For : Next", @ReferenceLink "foreach_next" "ForEach : Next",
   @ReferenceLink "repeat_until" "Repeat : Until" or @ReferenceLink "while_wend" "While : Wend".
 @LineBreak
 @LineBreak
@@ -53,17 +53,17 @@
 
 @OptionalParameter "Flags"
   Flags can be one of the following values:
-@FixedFont  
+@FixedFont
   @#PB_Map_ElementCheck  : Checks if an element with a same key already exists, and replaces it (default).
-  @#PB_Map_NoElementCheck: No element check, so if a previous element with the same key was already present, it 
-                      will be not replaced but kept in the map, unreachable with direct access. It will remain unreachable 
+  @#PB_Map_NoElementCheck: No element check, so if a previous element with the same key was already present, it
+                      will be not replaced but kept in the map, unreachable with direct access. It will remain unreachable
                       until the newly added element has been deleted. Such unreachable elements will still be listed when enumerating
-                      all the map elements with @ReferenceLink "foreach_next" "ForEach" or @@NextMapElement. This mode is faster but also more 
+                      all the map elements with @ReferenceLink "foreach_next" "ForEach" or @@NextMapElement. This mode is faster but also more
                       error prone, so use it with caution.
 @EndFixedFont
 
 @ReturnValue
-  Returns nonzero on success and zero on failure. 
+  Returns nonzero on success and zero on failure.
   The value returned is a @ReferenceLink "memory" "pointer" to the new element data.
 
 @Remarks
@@ -72,14 +72,14 @@
 @Example
 @Code
   NewMap Country.s()
-  
+
   ; Regular way to add an element
   Country("US") = "United States"
-  
+
   ; The same using AddMapElement()
   AddMapElement(Country(), "FR")
   Country() = "France"
-  
+
   ForEach Country()
     Debug Country()
   Next
@@ -92,10 +92,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ClearMap(Map()) 
+@Function ClearMap(Map())
 
 @Description
-  Clears all the elements in the specified map and releases their memory. After this call 
+  Clears all the elements in the specified map and releases their memory. After this call
   the map is still usable, but is empty (i.e. there are no more elements in it).
 
 @Parameter "Map()"
@@ -118,11 +118,11 @@
   Country("US") = "United States"
 
   ; Proof that items have been added to the map
-  MessageRequester("Information", "There are "+Str(MapSize(Country()))+" elements in the map")
- 
+  MessageRequester("Information", "There are " + Str(MapSize(Country())) + " elements in the map")
+
   ; Clear the map and show that the map really is empty
   ClearMap(Country())
-  MessageRequester("Information", "There are "+Str(MapSize(Country()))+" element in the map")
+  MessageRequester("Information", "There are " + Str(MapSize(Country())) + " element in the map")
 @EndCode
 
 @SeeAlso
@@ -145,19 +145,19 @@
   After a successful copy, the two maps are identical.
 
 @ReturnValue
-  Returns nonzero on success and zero on failure. If the two maps do not have the 
+  Returns nonzero on success and zero on failure. If the two maps do not have the
   same type then the copy will fail.
 
 @Example
 @Code
   NewMap Age()
   NewMap AgeCopy()
-  
+
   Age("John")  = 15
   Age("Elise") = 30
-  
+
   CopyMap(Age(), AgeCopy())
-  
+
   Debug AgeCopy("John")
   Debug AgeCopy("Elise")
 @EndCode
@@ -187,11 +187,11 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = MapSize(Map()) 
+@Function Result = MapSize(Map())
 
 @Description
-  Returns the number of elements in the specified map. It does not change the 
-  current element. 
+  Returns the number of elements in the specified map. It does not change the
+  current element.
 
 @Parameter "Map()"
   The map to use.
@@ -200,7 +200,7 @@
   Returns the number of elements in the map.
 
 @Remarks
-  This function is very fast (it doesn't iterates all the map but
+  This function is very fast (it doesn't iterate all the map but
   uses a cached result) and can be safely used to determine if a map is empty or not.
 
 @Example
@@ -209,7 +209,7 @@
 
   Country("FR") = "France"
   Country("US") = "United States"
-  
+
   ; Will print '2'
   Debug "Size of the map: " + Str(MapSize(Country()))
 @EndCode
@@ -218,10 +218,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = DeleteMapElement(Map() [, Key$])  
+@Function Result = DeleteMapElement(Map() [, Key$])
 
 @Description
-  Removes the current element or the element with the given key from the specified map. 
+  Removes the current element or the element with the given key from the specified map.
 
 @Parameter "Map()"
   The map to use.
@@ -231,21 +231,21 @@
   of the map is removed.
 
 @ReturnValue
-  Returns the memory address of the new current element of the map. If the map has no 
+  Returns the memory address of the new current element of the map. If the map has no
   current element after the deletion, the result is 0.
 
 @Remarks
-  After this call, the new current 
+  After this call, the new current
   element is the previous element (the one before the deleted element), which is an arbitrary
   element, as a map isn't sorted. If that element does not exist (in other words, you deleted the first element in the map)
   then there is no more current element, as it will be before the first element, like
-  after a @@ResetMap. If there was only one element in the map when you deleted it then you are left
+  after a @@ResetMap. If there was only one element in the map when you deleted it, then you are left
   with no current element!
 @linebreak
 @linebreak
   If the optional 'Key$' parameter is specified then there will be no more current element after this call.
   So don't use this parameter if the command is used inside a @ReferenceLink "foreach_next" "ForEach : Next" loop!
-  
+
 @Example
 @Code
   NewMap Country.s()
@@ -256,7 +256,7 @@
 
   ; Delete a country
   DeleteMapElement(Country(), "FR")
-  
+
   ForEach Country()
     Debug Country()
   Next
@@ -270,9 +270,9 @@
 ;--------------------------------------------------------------------------------------------------------
 
 @Function Result = FindMapElement(Map(), Key$)
-  
+
 @Description
-  Change the current map element to the element associated at the specified key. 
+  Change the current map element to the element associated at the specified key.
 
 @Parameter "Map()"
   The map to use.
@@ -293,11 +293,11 @@
   Country("GE") = "Germany"
 
   If FindMapElement(Country(), "US")
-    Debug "'US' is in the country list."    
+    Debug "'US' is in the country list."
   Else
-    Debug "'US' is NOT in the country list !"    
+    Debug "'US' is NOT in the country list !"
   EndIf
-  
+
   If FindMapElement(Country(), "UK")
     Debug "'UK' is in the country list."
   Else
@@ -313,9 +313,9 @@
 ;--------------------------------------------------------------------------------------------------------
 
 @Function Key$ = MapKey(Map())
-  
+
 @Description
-  Returns the key of the current map element. 
+  Returns the key of the current map element.
 
 @Parameter "Map()"
   The map to use.
@@ -344,11 +344,11 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = NextMapElement(Map())  
+@Function Result = NextMapElement(Map())
 
 @Description
   Moves from the current element to the next element in the specified map, or onto the first
-  element if @@ResetMap was previously called. 
+  element if @@ResetMap was previously called.
 
 @Parameter "Map()"
   The map to use.
@@ -378,7 +378,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ResetMap(Map()) 
+@Function ResetMap(Map())
 
 @Description
   Resets the current element of the specified map to be before the first element. This means no more current element.
@@ -430,7 +430,7 @@
 @LineBreak
   Note: It is not allowed to delete an element that is a remembered current element using the @@DeleteMapElement or
   @@ClearMap function. This may result in a crash when @@PopMapPosition is called because the elements memory
-  is no longer valid. 
+  is no longer valid.
 
 @Example
 @Code
@@ -441,20 +441,20 @@
   Numbers("D") = 3
   Numbers("E") = 2
   Numbers("F") = 5
-  
+
   ; A simple duplicate elimination using a nested iteration
   ;
   ForEach Numbers()
     Value = Numbers()
     PushMapPosition(Numbers())
     While NextMapElement(Numbers())
-      If Numbers() = Value 
+      If Numbers() = Value
         DeleteMapElement(Numbers())
       EndIf
     Wend
     PopMapPosition(Numbers())
   Next
-  
+
   ForEach Numbers()
     Debug Numbers()
   Next
@@ -480,7 +480,7 @@
 
 @Remarks
   The state of the map will be the same as it was on the corresponding call to @@PushMapPosition. If there
-  was no current element when @@PushMapPosition was called then there is no current element after this call 
+  was no current element when @@PushMapPosition was called then there is no current element after this call
   as well.
 @LineBreak
 @LineBreak
