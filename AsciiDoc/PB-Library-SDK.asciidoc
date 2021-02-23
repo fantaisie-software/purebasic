@@ -1,6 +1,6 @@
 = PureBasic Library SDK
 Fantaisie Software <support@purebasic.com>
-:revdate: 2020-12-11
+:revdate: 2021-02-23
 :PBVer: 5.10
 :revremark: PureBasic v{PBVer}
 :revnumber!:
@@ -103,7 +103,7 @@ Every line beginning by a semi-column `;` is considered a comment (like in PureB
 
 ............................................
 ;
-; Langage used to code the library: ASM or C
+; Language used to code the library: ASM or C
 ASM
 ;
 ; Number of Windows DLLs than the library need
@@ -167,13 +167,13 @@ Possible parameter type (only one parameter type can be put at once):
 * `Byte` -- The parameter will be a byte (1 byte).
 * `Word` -- The parameter will be a word (2 bytes).
 * `Long` -- The parameter will be a long (4 bytes).
-* `String` -- The parameter will be a string (see below for an explaination of string handling).
+* `String` -- The parameter will be a string (see below for an explanation of string handling).
 * `Quad` -- The parameter will be a quad (8 bytes).
 * `Float` -- The parameter will be a float (4 bytes).
 * `Double` -- The parameter will be a double (8 bytes).
 * `Any` -- The parameter can be anything (the compiler won't check the type).
 * `Array` -- The parameter will be an array. It will have to be passed like: `array()`.
-* `LinkedList` -- The parameter will be an linkedlist. It will have to be passed like: `list()`.
+* `LinkedList` -- The parameter will be a linkedlist. It will have to be passed like: `list()`.
 
 
 Possible return flags (flags can be combined with the `|` operand):
@@ -268,7 +268,7 @@ MyDLLWrapper, Long, Long, () - My DLL wrapper
 Long | StdCall
 .............................................
 
-* It's possible to put an `ANY` flag, instead of the ``Long``, `Float`, etc. arguments type.
+* It's possible to put an `ANY` flag, instead of the `Long`, `Float`, etc. arguments type.
 This mean that's the last type which is used, without conversion.
 For example, you can create a function which sometimes needs float, sometimes long, depending of the flags.
 It's used especially with the `CallFunction()` and `CallFunctionFast()` commands.
@@ -350,7 +350,7 @@ But when it returns a string, there are two different cases:
 . *The function doesn't have string parameters*
 +
 --
-It's the easiest one, and you can use the `SYS_GetOutputBuffer()` funtion:
+It's the easiest one, and you can use the `SYS_GetOutputBuffer()` function:
 
 [source,c]
 --------------------------------------------------------------------
@@ -408,6 +408,9 @@ In such cases, you can request a fixed size and adjust it at the end with the `S
 If you have requested a buffer of 4096 with `SYS_GetOutputBuffer()` and your string do only 4000 bytes, you will have to reduce it from 96 bytes -- i.e. `SYS_ReduceStringSize(96)`.
 --
 
+// @NOTE: Should be "split library" instead of "splitted library"!
+//        Unless it's intended to be so, or if it should be kept for historical
+//        reasons, it should be corrected.
 
 == Splitted Library Format
 
