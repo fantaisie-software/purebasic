@@ -52,15 +52,22 @@ These are the main areas where you could help us:
 - __[The Wiki]__ — the [project Wiki] can be edited by any GitHub user, directly in the browser, and only requires learning [GitHub Flavored Markdown]  (similar to the [BBCode] syntax used in [PureBasic Forums], but simpler).
 - __Internationalization__ (aka _i18n_ or _localization_) — keeping translations of the software interfaces and its documentation up to date across the various supported languages (_locales_) is an area where there's never enough help, and we need native speaker to help improve and fix translations.
     Translating the PureBasic IDE menus and interfaces to new languages would be a significant improvement.
+    To find out pending translation tasks, check the Issues labeled as:
+    + <button>[:lips: French][label French]</button>
+    + <button>[:lips: German][label German]</button>
 - __Documentation__ — keeping the project documentation up to date with its evolution is a time-consuming task, and volunteers in this area are always welcome.
+    To find out pending documentation tasks, check the Issues labeled as:
+    + <button>[:books: documentation][label documentation]</button> — repository documentation.
+    + <button>[:gear: PB Help][label PB Help]</button> — PureBasic Help documentation.
 - __Coding__ — the codebase of the project can always be improved, whether it's through the introduction of new features or optimization of the existing code.
 - __Maintenance__ — the repository needs volunteers to help integrating external services, standards and tools that can improve the collaborative experience and its outreach in the open source echo-system.
     Third party services evolve in time, we need help from the community to ensure that the project keeps up with these changes and doesn't lag behind.
 
 Below follow some basic guidelines devised to render cooperation a smooth process.
-These are not "sacred rules" engraved in holy stone — _far from it!_ — they're just guideline based on well established best practices, personal experience and common sense, for the sole purpose of making long-term collaboration a pleasant and smooth experience.
+These are not "sacred rules" engraved in holy stone — _far from it!_ — they're just guidelines based on well established best practices, personal experience and common sense, for the sole purpose of making long-term collaboration a pleasant and smooth experience.
 We'd like to shape the project around the needs of its participants, and not the other way round.
 So, if you think that these guidelines could be improved, [let us know how it can be done][open an Issue].
+
 
 ## Submitted Contents and License
 
@@ -103,14 +110,16 @@ PureBasic has been around since the late 90's, with over two decades of constant
 
 ## Contributing Feedback
 
-Communications about the project happen via [Issues]; which are threads around specific topics, similar to forums, but designed to interconnect to other aspects of the project, as well as other repositories too, making it easier for maintainers to track development of the project by keeping relevant information accessible throughout the project.
+Communications about the project happen via [Issues], which are threads around specific topics, similar to forums, but designed to interconnect to other aspects of the project, as well as other repositories too, making it easier for maintainers to track development of the project by keeping relevant information accessible throughout the project.
 
-To create issues, all you need is a GitHub account and a browser.
+The repository also has a [Discussions] area, aimed to promote general discussions about the project which are not directly related to its maintenance and development.
+
+To create Issues, all you need is a GitHub account and a browser.
 
 The basic guidelines for Issue are:
 
 - __Is It an Issue?__ — Issues are used for bug reports, features requests, questions and any feedback that _directly addresses development_ of the project.
-    For generic topics and discussions, it might be better to post on the [PureBasic Forums], so that repository Issues can focus on development tasks, ideas and feedback.
+    For generic topics and discussions, it might be better to either use the repository's [Discussions] area, or post on the [PureBasic Forums], so that repository Issues can focus on development tasks, ideas and feedback.
 - __Avoid duplicate Issues__ — Before opening an Issue check that it doesn't already exist; you can use the Search box to look up the keyword of your proposed topic to verify that there isn't already an open (or closed) Issue on the same topic.
     You can comment on a closed Issue if you need to add to it (e.g. a bug that was fixed and is now back), and it might get reopend if necessary.
 - __Use intuitive titles__ — Give to your Issues a self-explaining title, so that users sifting through the list of current Issues can immediately understand what it addresses.
@@ -140,6 +149,8 @@ It's a collaborative joint effort where PureBasic and SpiderBasic users can free
 Participating to the Wiki doesn't require using __[Git]__, pages can be edited and created directly in the browser via the GitHub WebUI, which provides an intuitive interface for contents formatting.
 Wiki pages are written in [GitHub Flavored Markdown] syntax (GFM), which is similar in principle to the [BBCode] syntax used in [PureBasic Forums]  (but actually simpler).
 
+To discover pending Wiki tasks which you might help with, check the Issues labeled as <button>[:books: Wiki][label Wiki]</button>.
+
 There aren't strict rules regarding the Wiki, and users should feel free to add contents that they deem useful, as long as they stick to the general topic of the main repository.
 
 The __[project Wiki]__ is dual licensed under [CC BY-SA 4.0] and [Fantaisie Software License], and any contents you submit to the Wiki will fall under the same license terms.
@@ -157,7 +168,7 @@ Always mention the author and the assets source, providing a back-link to the or
 
 Submission of contents to the main project require using __[Git]__, the famous version control tool, and embracing [GitHub's Fork & Pull Workflow].
 
-In this workflow, you won't be editing the project contents directly on the main repository (the _upstream_ repository), instead you'll be editing your own copy (a _fork_) of the repository, on your local machine, by working on a custom branch (never editing the `master` branch directly) and then, when you're ready to submit your changes, you create a _pull request_ on GitHub, which is a request to integrate the changes from your custom branch into the upstream repository.
+In this workflow, you won't be editing the project contents directly on the main repository (the _upstream_ repository), instead you'll be editing your own copy (a _fork_) of the repository, on your local machine, by working on a custom branch derived from the `devel` branch (and _never_ editing the `master` branch directly), then when you're ready to submit your changes, you create a _pull request_ on GitHub, which is a request to integrate the changes from your custom branch into the upstream repository.
 
 This approach is at the core of the _version control_ collaborative model, and it's what allows different people to work independently on the same files and then be able to integrate each other's changes without disrupting the main project.
 
@@ -169,7 +180,7 @@ This approach is at the core of the _version control_ collaborative model, and i
 Since May 2020 the repository has adopted a new development strategy:
 
 - `master` branch can be modified only by the maintainers.
-- `devel` branch is now the baseline branch for all contributions.
+- `devel` branch (now the default branch) is the baseline branch for all contributions.
 
 All pull-requests should be made to the [`devel` branch][devel].
 
@@ -187,25 +198,49 @@ Additional commits might be added to `master` branch between tagged-releases, so
 
 ### Setting-up Your Fork for Contributions
 
-If you intend to contribute contents to this project, you'll need to carry out some additional set-up steps in your local fork in order to be able to contribute to the _upstream_ repository:
+If you intend to contribute contents to this project, you'll need to first clone the repository on GitHub, create a local copy of your fork, and then carry out some additional set-up steps in your local fork in order to be able to contribute to the _upstream_ repository.
+You'll need to create a GitHub account, if you don't already have one.
 
-1. **REMOTE SETTINGS** — You need to ensure that your fork is able to track the upstream repository by adding the `upstream` remote:
+1. **FORK THE REPOSITORY** — Log-into GitHub and browse to the landing page of the official PureBasic repository:
+
+    - https://github.com/fantaisie-software/purebasic
+
+    then click on the <kbd>Fork</kbd> button that appears on the right side at beginning of the page (you need to be logged-in to see this option).
+    For more info on forking, see [GitHub Docs » Fork a repo][Fork a repo].
+
+2. **CLONE YOUR FORK LOCALLY** — You then need to _clone_ your fork locally, i.e. make a copy on your machine.
+Open up the Git Bash and type:
 
     ```bash
-    $ git remote add upstream https://github.com/fantaisie-software/purebasic.git
+    $ git clone https://github.com/<your-GitHub-account>/purebasic
+    $ cd purebasic
     ```
 
-    From here-on your repository fork will recognize `upstream` as a reference to the main project (as opposed to the `origin` remote, which points to your fork on GitHub).
+    replacing in the above command `<your-GitHub-account>` with whatever your GitHub account is (without brackets, exact letter casing).
+    For more info on how to clone a fork, see [GitHub Docs » Cloning a repository][Cloning a repository].
 
-2. **TRACKING `devel`** — You then also need to ensure that your local fork of the repository contains a copy of the `devel` branch (which is not created automatically when you fork the repository):
+
+3. **CONFIGURE THE UPSTREAM REMOTE** — You need to ensure that your fork is able to track the upstream repository by adding the `upstream` remote and _fetching_ it (i.e. updating its status information):
 
     ```bash
-    $ git checkout --track -b devel upstream/devel
+    $ git remote add upstream https://github.com/fantaisie-software/purebasic
+    $ git fetch upstream
     ```
 
-    From here-on you're fork will contain a local copy of the `devel` branch which tracks `upstream/devel`.
+    Henceforth, your repository fork will recognize `upstream` as a reference to the main project (as opposed to the `origin` remote, which points to your fork on GitHub).
+    For more info on how to add remotes, see [GitHub Docs » Adding a remote][Adding a remote].
 
-The above commands only needs to be executed once.
+
+4. **TRACKING `master` BRANCH** — The default branch of the PureBasic repository is set to `devel`, not `master`, because it's main goal is development.
+So, you might also want to ensure that your local fork of the repository contains a copy of the `master` branch (which is not created automatically when you fork and clone) in order to gain access to the stable status of the project:
+
+    ```bash
+    $ git checkout --track -b master upstream/master
+    ```
+
+    Henceforth you're fork will contain a local copy of the `master` branch which tracks `upstream/master` too.
+    The above commands only needs to be executed once.
+
 Now that you're set-up and ready to start contributing, the next section will introduce the main steps of the contribution cycle.
 
 
@@ -223,7 +258,7 @@ All changes should be made to a new custom branch created from `devel`, but you 
 
     ```bash
     $ git checkout devel
-    $ git pull upstream/devel
+    $ git pull upstream devel
     ```
 
     The above commands will synchronize your local copy of `devel` to mirror the current state of the upstream repository (a _pull_ command carries out a _fetch_ operation followed by a _merge_).
@@ -234,26 +269,39 @@ All changes should be made to a new custom branch created from `devel`, but you 
 
     ```bash
     $ git checkout devel
-    $ git checkout -b your-branch-name
+    $ git checkout -b <your-branch-name>
     ```
 
-    where `your-branch-name` will be whatever name you choose for the contribution you're planning to work on (e.g. `new-themes`, `bug-fix`, etc.).
+    where `<your-branch-name>` will be replaced by whatever name you choose for the contribution you're planning to work on (e.g. `new-themes`, `bug-fix`, etc., without angle brackets).
     Try to choose a short and concise name that intuitively conveys the nature of the changes contained in the new branch.
 
     The newly created branch is what you'll be working on (locally) to implement the changes you want to contribute to the upstream repository.
+    Once your changes are approved, your pull-request branch will be merged into the `devel` branch of the upstream repository and the pull request is closed.
+    At that point you usually delete your working branch since it's no longer needed, its contents having now become part of the `upstream/devel` branch.
 
-3. **REBASE** — As you're working on your new features, chances are that in the meanwhile the upstream repository might get updated with new pull-requests being merged into `devel`. When this happens, you'll need to _rebase_ your local working branch in order to integrate the new commits that were added to `upstream/devel` since you created your branch (or since your last rebase operation):
+3. **REBASE** — As you're working on your new features, chances are that in the meanwhile the upstream repository might get updated with new pull-requests being merged into `devel`. When this happens, you'll need to:
+
+    1. Update your local copy of the `devel` branch (as explained above, in the **SYNCH** step).
+    2. _Rebase_ your local working branch in order to integrate the new commits that were added to `upstream/devel` since you created your branch (or since your last rebase operation).
+
+    So, after having updated your local `devel` branch, checkout your working branch (here called `<your-branch-name>`, for the sake of example), and then rebase via the `git rebase` command, like this:
 
     ```bash
-    $ git checkout devel
-    $ git rebase upstream/devel
+    $ git checkout <your-branch-name>
+    $ git rebase upstream devel
     ```
 
     The above commands will update your contributions branch and _replay_ all your changes on the latest `upstream/devel` branch, as if you had started to work on it from its last commit.
 
-    In most cases rebasing will work auto-magically, without requiring any adjustments on your side; but sometimes it might not (e.g. if folders and files were renamed in some later commit) and might fail and/or require some manual intervention on your side.
+    In most cases rebasing will work auto-magically, without requiring any adjustments on your side; but sometimes it might not (e.g. if folders and files were renamed in some later commit) and might fail and/or require some manual intervention on your side — that's called "solving conflicts", and it's beyond the scope of these guidelines.
 
-4. **PULL-REQUEST** — Once you're contribution is ready for submission, you can push your changes to your GitHub fork (i.e. to your `origin` remote) and then create a pull-request from your repository homepage on GitHub.
+4. **COMMIT** — When preparing you commits for the pull request, ensure to create a meaningful commit message that delivers in a concise way the nature of the changes:
+
+    + _[How to Write a Git Commit Message]_ — by Chris Beams.
+
+    Also, if the commit relates to one or more open Issues, don't forget to references them via [Autolinked references and URLs], which greatly helps tracking the project status on GitHub and preventing dangling Issues which are already solved.
+
+5. **PULL-REQUEST** — Once your contribution is ready for submission, you can push your changes (i.e. your contribution branch) to your GitHub fork (i.e. to your `origin` remote) and then create a pull-request from your repository landing page, on GitHub.
     While inside your contribution branch, type:
 
     ```bash
@@ -372,10 +420,17 @@ Free books on Git:
 - _[Das Git-Buch]_ (DE) — Free comprehensive book on Git, in German.
 Includes cross-platform installation guidelines and a chapter dedicated to the GitHub workflow.
 
+    + **English Edition** — An English translation  by PureBasic users [@tajmone] and [@SicroAtGit] is under way:
+
+        * https://github.com/tajmone/Git-Buch_EN
+
+        The latest draft is always available for [LiveHTML Previewing][GitBuch-EN Live]  (the whole book was translated, but needs to be revised and polished).
+
 Git primers and tutorials:
 
 - [Everyday Git] — Learn the basics with 20 of the most common commands.
 - [Backlog Git Tutorials] — a series of introductory tutorials for Git newbies.
+- _[How to Write a Git Commit Message]_ — by Chris Beams.
 
 Video tutorials on Git:
 
@@ -390,11 +445,16 @@ Understanding the _Fork & Pull_ model used on GitHub:
 
 Learning to work on GitHub:
 
-- [GitHub.com Help Documentation](https://help.github.com/en/github)
-- [GitHub Learning Lab](https://lab.github.com/) — Learn new skills by completing fun, realistic projects in your very own GitHub repository.
-    + [Introduction to GitHub](https://lab.github.com/githubtraining/introduction-to-github)
-    + [First Day on GitHub](https://lab.github.com/githubtraining/paths/first-day-on-github)
-    + [First Week on GitHub](https://lab.github.com/githubtraining/paths/first-week-on-github)
+- [GitHub Docs] — Official GitHub Help documentation.
+    + [Fork a repo]
+    + [Cloning a repository]
+    + [Adding a remote]
+    + [Autolinked references and URLs]
+- [GitHub Guides] — Free Git and GitHub guides.
+- [GitHub Learning Lab] — Learn new skills by completing fun, realistic projects in your very own GitHub repository.
+    + [Introduction to GitHub]
+    + [First Day on GitHub]
+    + [First Week on GitHub]
 
 <!-----------------------------------------------------------------------------
                                REFERENCE LINKS
@@ -412,6 +472,7 @@ Learning to work on GitHub:
 [PureBasic OpenSource Projects]: https://github.com/fantaisie-software/purebasic
 [Issues]: https://github.com/fantaisie-software/purebasic/issues "Go the Issue main page"
 [open an Issue]: https://github.com/fantaisie-software/purebasic/issues/new "Open an Issue and talk to us!"
+[Discussions]: https://github.com/fantaisie-software/purebasic/discussions "Go to the repository Discussions page"
 [project Wiki]: https://github.com/fantaisie-software/purebasic/wiki "Visit the Wiki of the PureBasic OpenSource Projects"
 
 <!-- repo issues and milestones -->
@@ -419,6 +480,14 @@ Learning to work on GitHub:
 [#24]: https://github.com/fantaisie-software/purebasic/issues/24 "Issue #24 — Achieving Full Git Compliance"
 [#35]: https://github.com/fantaisie-software/purebasic/issues/35 "Issue #35 — Machine Agnostic Build Scripts"
 [machine-agnostic]: https://github.com/fantaisie-software/purebasic/milestone/1 "See milestone: machine agnosis"
+
+<!-- repo labels -->
+
+[label documentation]: https://github.com/fantaisie-software/purebasic/labels/%3Abooks%3A%20documentation "View all Issues labeled as 'documentation'"
+[label French]: https://github.com/fantaisie-software/purebasic/labels/%3Alips%3A%20French "View all Issues labeled as 'French'"
+[label German]: https://github.com/fantaisie-software/purebasic/labels/%3Alips%3A%20German "View all Issues labeled as 'German'"
+[label PB Help]: https://github.com/fantaisie-software/purebasic/labels/%3Agear%3A%20PB%20Help "View all Issues labeled as 'PB Help'"
+[label Wiki]: https://github.com/fantaisie-software/purebasic/labels/%3Abooks%3A%20Wiki "View all Issues labeled as 'Wiki'"
 
 <!-- repo branches -->
 
@@ -454,11 +523,31 @@ Learning to work on GitHub:
 [BBCode]: https://www.phpbb.com/community/help/bbcode "Read the BBCode Guide at phpBB"
 [continuous integration]: https://en.wikipedia.org/wiki/Continuous_integration "See Wikipedia page on 'Continuous integration'"
 
-<!-- GitHub Help -->
+<!-- GitHub Help, Docs, Tutorials, etc. --------------------------------------->
 
-[Autolinked references and URLs]: https://help.github.com/en/github/writing-on-github/autolinked-references-and-urls "See GitHub Help to learn more about Autolinked references and URLs"
+<!-- GitHub Docs -->
+
+[GitHub Docs]: https://docs.github.com/en/github "Official GitHub Documentation"
+
+[Adding a remote]: https://docs.github.com/en/github/using-git/adding-a-remote "Learn how to add a remote to a repository"
+[Autolinked references and URLs]: https://docs.github.com/en/enterprise-server@3.0/github/writing-on-github/autolinked-references-and-urls "Learn how to use autolinked references and URLs in your commits"
+[Cloning a repository]: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository "Learn how to clone a repository from GitHub"
+[Fork a repo]: https://docs.github.com/en/github/getting-started-with-github/fork-a-repo "Learn how to fork a repository on GitHub"
+
+<!-- GitHub Guides -->
+
+[GitHub Guides]: https://guides.github.com "Free GitHub Guides at guides.github.co"
+
 [GitHub Flavored Markdown]: https://guides.github.com/features/mastering-markdown/ "Read the 'Mastering Markdown' tutorial (3 minutes)"
 [receive a notification that he/she's being mentioned]: https://guides.github.com/features/issues/#notifications "See GitHub Help to learn more about notification on mentions"
+
+<!-- GitHub Learning Lab -->
+
+[GitHub Learning Lab]: https://lab.github.com "Interactive Git and GitHub tutorials"
+
+[First Day on GitHub]: https://lab.github.com/githubtraining/paths/first-day-on-github
+[First Week on GitHub]: https://lab.github.com/githubtraining/paths/first-week-on-github
+[Introduction to GitHub]: https://lab.github.com/githubtraining/introduction-to-github
 
 <!-- Useful links: Git Books -->
 
@@ -466,16 +555,23 @@ Learning to work on GitHub:
 [Pro Git]: https://git-scm.com/book/en/v2 "Read 'Pro Git' on-line for free"
 [Learn Version Control with Git]: https://www.git-tower.com/learn/git/ebook/en/command-line/introduction "Read 'Learn Version Control with Git' on-line for free"
 [Das Git-Buch]: http://gitbu.ch/ "Read or download the free German book 'Das Git-Buch'"
+[GitBuch-EN Live]: https://htmlpreview.github.io/?https://github.com/tajmone/Git-Buch_EN/blob/alpha-dev/docs_src/Git-Buch_EN.html "Preview the latest draft of the English translation of the 'Git Buch'"
 
 <!-- Useful links: Git Tutorials -->
 
 [Everyday Git]: https://git-scm.com/docs/giteveryday "Learn everyday Git with 20 commands or so"
 [Backlog Git Tutorials]: https://backlog.com/git-tutorial/
+[How to Write a Git Commit Message]: https://chris.beams.io/posts/git-commit/ "Learn how to write a good Git commit message, by Chris Beams"
 
 <!-- Useful links: GitHub -->
 
 [GitHub's Fork & Pull Workflow for Git Beginners]: https://reflectoring.io/github-fork-and-pull/ "Read the article 'Github's Fork & Pull Workflow for Git Beginners' by Tom Hombergs"
 [GitHub's Fork & Pull Workflow]: https://reflectoring.io/github-fork-and-pull/ "Read the article 'Github's Fork & Pull Workflow for Git Beginners' by Tom Hombergs"
 [Wikipedia » Fork and pull model]: https://en.wikipedia.org/wiki/Fork_and_pull_model
+
+<!-- people -->
+
+[@tajmone]: https://github.com/tajmone "View @tajmone's GitHub profile"
+[@SicroAtGit]: https://github.com/SicroAtGit "View @SicroAtGit's GitHub profile"
 
 <!-- EOF -->
