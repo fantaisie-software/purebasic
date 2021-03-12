@@ -2409,7 +2409,20 @@ Procedure CheckSourceSaved(*Source.SourceFile = 0)
     ProcedureReturn 1
   EndIf
   
+  ; Decide if a save prompt is needed
+  PromptUser = #False
   If GetSourceModified(*Source)
+    If *Source\FileName$ <> ""
+      PromptUser = #True
+    Else
+      ; Only prompt user to save a 'New' source if it's non-empty
+      If ScintillaSendMessage(*Source\EditorGadget, #SCI_GETLENGTH) > 0
+        PromptUser = #True
+      EndIf
+    EndIf
+  EndIf
+  
+  If PromptUser
     
     ; need to make it current for display of the question
     If *Source <> *ActiveSource
