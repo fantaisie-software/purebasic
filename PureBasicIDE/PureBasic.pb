@@ -770,7 +770,9 @@ Procedure ShutdownIDE()
   CloseWindow(#WINDOW_Main)
   
   ; Fix IDE crash on macOS Big Sur
-  FlushEvents()
+  CompilerIf #CompileMac
+    FlushEvents()
+  CompilerEndIf
   
   ; end history session. this could take a bit if many files were open (will display a small wait screen if so)
   EndHistorySession()
