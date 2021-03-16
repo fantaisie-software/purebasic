@@ -5837,10 +5837,11 @@ Procedure FD_Redraw()
     
     StopDrawing()
     
-    StartDrawing(CanvasOutput(#GADGET_Form_Canvas))
-    DrawingMode(#PB_2DDrawing_Transparent)
-    DrawImage(ImageID(#Drawing_Img),0,0)
-    StopDrawing()
+    If StartDrawing(CanvasOutput(#GADGET_Form_Canvas))
+      DrawingMode(#PB_2DDrawing_Transparent)
+      DrawImage(ImageID(#Drawing_Img),0,0)
+      StopDrawing()
+    EndIf
   EndIf
   duration.q = ElapsedMilliseconds() - starttime
   If duration < 35
