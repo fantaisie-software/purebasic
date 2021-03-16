@@ -883,28 +883,23 @@ Procedure UpdateMenuStates()
     ;
     If *ActiveSource = *ProjectInfo
       NoRealSource = 1
-      DisableMenuAndToolbarItem(#MENU_DiffCurrent, 1)
     Else
       NoRealSource = 0
-      
-      If *ActiveSource\FileName$ And GetSourceModified()
-        DisableMenuAndToolbarItem(#MENU_DiffCurrent, 0)
-      Else
-        ; this cannot be done if the current source is not saved yet
-        DisableMenuAndToolbarItem(#MENU_DiffCurrent, 1)
-      EndIf
     EndIf
     
     ; File menu
     DisableMenuAndToolbarItem(#MENU_Save, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_SaveAs, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_Close, NoRealSource)
-    DisableMenuAndToolbarItem(#MENU_Reload, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_EncodingPlain, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_EncodingUtf8, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_NewlineWindows, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_NewlineLinux, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_NewlineMacOS, NoRealSource)
+    
+    ; File menu special cases
+    DisableMenuAndToolbarItem(#MENU_Reload, Bool( (*ActiveSource\FileName$ = "") Or (*ActiveSource = *ProjectInfo) Or (*ActiveSource\IsForm) ))
+    DisableMenuAndToolbarItem(#MENU_DiffCurrent, Bool( (*ActiveSource\FileName$ = "") Or (*ActiveSource = *ProjectInfo) Or (*ActiveSource\IsForm) Or (GetSourceModified(*ActiveSource) = 0) ))
     
     ; Edit menu (disable all, except FileInFiles)
     ;
@@ -1997,8 +1992,12 @@ Procedure MainWindowEvents(EventID)
               EndIf
               DisableMenuItem(#POPUPMENU_TabBar, #MENU_RemoveProjectFile, Disabled)
               
-              ; Disable the save item if the file is not modified
-              DisableMenuItem(#POPUPMENU_TabBar, #MENU_Save, Bool(Not GetSourceModified()))
+              ; Disable the Save items if project info tab
+              DisableMenuItem(#POPUPMENU_TabBar, #MENU_Save, Bool(*ActiveSource = *ProjectInfo))
+              DisableMenuItem(#POPUPMENU_TabBar, #MENU_SaveAs, Bool(*ActiveSource = *ProjectInfo))
+              
+              ; Disable the Reload item if new source, project info tab, or form
+              DisableMenuItem(#POPUPMENU_TabBar, #MENU_Reload, Bool( (*ActiveSource\FileName$ = "") Or (*ActiveSource = *ProjectInfo) Or (*ActiveSource\IsForm) ))
               
               ; Display the TabBar popup menu
               DisplayPopupMenu(#POPUPMENU_TabBar, WindowID(#WINDOW_Main))
