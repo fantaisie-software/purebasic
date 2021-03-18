@@ -693,11 +693,11 @@ EndMacro
 ;
 Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, ReportErrors)
   
-  If SaveProjectSettings = 3 And IsTempFile = 0 ; don't save anything
+  If SaveProjectSettings = #SAVESETTINGS_DoNotSave And IsTempFile = 0 ; don't save anything
     ProcedureReturn
   EndIf
   
-  If SaveProjectSettings = 0 And IsCodeFile = 0
+  If SaveProjectSettings = #SAVESETTINGS_EndOfFile And IsCodeFile = 0
     ; Do not save settings at the end of non-code files
     ; We do however save settings when they are not appended to the file to memorize cursor position etc
     ProcedureReturn
@@ -1055,7 +1055,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
   
   ; save the config lines now
   ;
-  If SaveProjectSettings = 0 Or IsTempFile ; in source file
+  If SaveProjectSettings = #SAVESETTINGS_EndOfFile Or IsTempFile ; in source file
     
     If *Source
       If *Source\NewLineType = 0
@@ -1077,7 +1077,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
       EndIf
     Next i
     
-  ElseIf *Source And SaveProjectSettings = 1 ; save in "filename.pb.cfg"
+  ElseIf *Source And SaveProjectSettings = #SAVESETTINGS_PerFileCfg ; save in "filename.pb.cfg"
     If CreateFile(#FILE_SaveConfig, *Source\FileName$+".cfg")
       For i = 1 To NbLines
         WriteStringN(#FILE_SaveConfig, ConfigLines$(i))
@@ -1087,7 +1087,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
       MessageRequester(#ProductName$, Language("FileStuff","SaveConfigError")+":"+#NewLine+*Source\FileName$+".cfg", #FLAG_Error)
     EndIf
     
-  ElseIf *Source And  SaveProjectSettings = 2 ; save in "project.cfg"
+  ElseIf *Source And  SaveProjectSettings = #SAVESETTINGS_PerFolderCfg ; save in "project.cfg"
     If CreateFile(#FILE_SaveConfig, GetPathPart(*Source\FileName$)+"project.cfg.new")
       If ReadFile(#FILE_ReadConfig, GetPathPart(*Source\FileName$)+"project.cfg")
         While Eof(#FILE_ReadConfig) = 0
@@ -1557,7 +1557,7 @@ EndProcedure
 Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile)
   
   
-  If SaveProjectSettings = 3 ; don't save anything
+  If SaveProjectSettings = #SAVESETTINGS_DoNotSave ; don't save anything
     ProcedureReturn Length
   EndIf
   
@@ -1601,7 +1601,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     If IsTempFile ; for temp file, it is only inside the current source.
       ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
       
-    ElseIf SaveProjectSettings = 0
+    ElseIf SaveProjectSettings = #SAVESETTINGS_EndOfFile
       Result = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
       If Result < Length ; settings were found
         ReturnValue = Result
@@ -1612,7 +1612,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
         ReturnValue = Length
       EndIf
       
-    ElseIf SaveProjectSettings = 1
+    ElseIf SaveProjectSettings = #SAVESETTINGS_PerFileCfg
       If AnalyzeSettings_ConfigFile(*Source)
         ReturnValue = Length
       ElseIf AnalyzeSettings_ProjectFile(*Source)
@@ -1621,7 +1621,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
         ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
       EndIf
       
-    ElseIf SaveProjectSettings = 2
+    ElseIf SaveProjectSettings = #SAVESETTINGS_PerFolderCfg
       If AnalyzeSettings_ProjectFile(*Source)
         ReturnValue = Length
       ElseIf AnalyzeSettings_ConfigFile(*Source)
@@ -2441,7 +2441,7 @@ Procedure CheckSourceSaved(*Source.SourceFile = 0)
     
     If Result = #PB_MessageRequester_Yes
       Status = SaveSource()
-      If Status = 0 And *ActiveSource\FileName$ <> "" And (SaveProjectSettings = 1 Or SaveProjectSettings = 2 )
+      If Status = 0 And *ActiveSource\FileName$ <> "" And (SaveProjectSettings = #SAVESETTINGS_PerFileCfg Or SaveProjectSettings = #SAVESETTINGS_PerFolderCfg)
         ; if the compiler options are not stored at the end of the sourcefile,
         ; we save them even if the source is not saved.
         ; Do not report an error though (for example if the source was loaded from CD)
@@ -2450,7 +2450,7 @@ Procedure CheckSourceSaved(*Source.SourceFile = 0)
       ProcedureReturn Status
       
     ElseIf Result = #PB_MessageRequester_No
-      If *ActiveSource\FileName$ <> "" And (SaveProjectSettings = 1 Or SaveProjectSettings = 2 )
+      If *ActiveSource\FileName$ <> "" And (SaveProjectSettings = #SAVESETTINGS_PerFileCfg Or SaveProjectSettings = #SAVESETTINGS_PerFolderCfg)
         ; if the compiler options are not stored at the end of the sourcefile,
         ; we save them even if the source is not saved.
         ; Do not report an error though (for example if the source was loaded from CD)
@@ -2467,7 +2467,7 @@ Procedure CheckSourceSaved(*Source.SourceFile = 0)
     
     ; Why should we save the setting even if a source a not modified ?
     ;
-    If *Source\FileName$ <> "" And (SaveProjectSettings = 1 Or SaveProjectSettings = 2 )
+    If *Source\FileName$ <> "" And (SaveProjectSettings = #SAVESETTINGS_PerFileCfg Or SaveProjectSettings = #SAVESETTINGS_PerFolderCfg)
       ; if the compiler options are not stored at the end of the sourcefile,
       ; we save them even if the source is not saved.
       ; Do not report an error though (for example if the source was loaded from CD)
