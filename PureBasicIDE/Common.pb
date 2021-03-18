@@ -2231,7 +2231,7 @@ Structure ProjectFile Extends ProjectFileConfig
   ; Only if the file is currently loaded
   *Source.SourceFile
   
-  ; Only if the file is corrently NOT loaded
+  ; Only if the file is currently NOT loaded
   Parser.ParserData    ; parsed source data
   
   LastOpen.l     ; valid while saving/closing a project
