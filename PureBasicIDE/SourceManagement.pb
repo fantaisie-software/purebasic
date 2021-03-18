@@ -2229,10 +2229,29 @@ Procedure SaveSourceAs()
       EndIf
     EndIf
     
+    ; Check if file already open in IDE
+    *SourceBeingClosed = 0
+    ForEach FileList()
+      If @FileList() <> *ActiveSource
+        If IsEqualFile(FileList()\FileName$, FileName$)
+          PromptedUser = 1
+          If MessageRequester(#ProductName$, Language("FileStuff","FileIsOpen")+#NewLine+Language("FileStuff","CloseOverWrite"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_Yes
+            *SourceBeingClosed = @FileList()
+            Break
+          Else
+            ProcedureReturn SaveSourceAs()  ; try again
+          EndIf
+        EndIf
+      EndIf
+    Next
+    If *SourceBeingClosed <> 0
+      RemoveSource(*SourceBeingClosed)
+    EndIf
+    
     ; On Cocoa the file exists dialog is already in the SavePanel, so only popup if we added an extension
     ;
-    If ForceFileCheck Or #CompileMacCocoa = 0
-      If FileSize(FileName$) > -1  ; file exist check
+    If (ForceFileCheck Or #CompileMacCocoa = 0) And *SourceBeingClosed = 0
+      If FileSize(FileName$) > -1 And IsEqualFile(FileName$, *ActiveSource\FileName$) = 0 ; file exist check
         If MessageRequester(#ProductName$, Language("FileStuff","FileExists")+#NewLine+Language("FileStuff","OverWrite"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_No
           ProcedureReturn SaveSourceAs()  ; try again
         EndIf
@@ -2242,7 +2261,10 @@ Procedure SaveSourceAs()
     Result = SaveSourceFile(FileName$)
     
     If Result
+      UnlinkSourceFromProject(*ActiveSource, #True)
       *ActiveSource\FileName$ = FileName$
+      LinkSourceToProject(*ActiveSource)
+      
       UpdateMainWindowTitle() ; we now have a new filename
       RefreshSourceTitle(*ActiveSource)
       HistoryEvent(*ActiveSource, #HISTORY_SaveAs)
