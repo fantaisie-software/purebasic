@@ -608,6 +608,8 @@ DataSection
   Data$ "FileExists",       "The file you specified already exists!"
   Data$ "OverWrite",        "Do you want to overwrite it?"
   Data$ "CreateError",      "The file cannot be created!"
+  Data$ "FileIsOpen",       "The file you specified is currently open in the IDE!"
+  Data$ "CloseOverWrite",   "Do you want to close that tab and overwrite it?"
   
   Data$ "SaveConfigError",  "Cannot save Compiler options to file"
   Data$ "Modified",         "The file '%filename%'has been modified.%newline%Do you want to save the changes?"

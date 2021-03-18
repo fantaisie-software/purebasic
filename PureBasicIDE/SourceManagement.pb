@@ -2183,6 +2183,48 @@ Procedure OpenIncludeOnDoubleClick()
   
 EndProcedure
 
+Procedure HandleProjectFileSaveAs(*Source.SourceFile)
+  If *Source <> 0 And IsProject
+    
+    *OldProjectFile.ProjectFile = *Source\ProjectFile
+    *NewProjectFile.ProjectFile = 0
+    PushListPosition(ProjectFiles())
+    ForEach ProjectFiles()
+      If IsEqualFile(ProjectFiles()\FileName$, *Source\FileName$)
+        *NewProjectFile = @ProjectFiles()
+        Break
+      EndIf
+    Next
+    PopListPosition(ProjectFiles())
+    
+    If *NewProjectFile <> *OldProjectFile
+      If *OldProjectFile = 0
+        ; Connect source to ProjectFiles() list (new filename is part of project!)
+        If *NewProjectFile\Source <> 0
+          *NewProjectFile\Source\ProjectFile = 0
+        EndIf
+        *NewProjectFile\Source = *Source
+        *Source\ProjectFile = *NewProjectFile
+      ElseIf *NewProjectFile = 0
+        ; Disconnect source from ProjectFiles() list (new filename is not part of project!)
+        *OldProjectFile\Source = 0
+        *Source\ProjectFile = 0
+      Else
+        ; Reconnect source from one ProjectFiles() item to another (both old and new filenames are in project)
+        *OldProjectFile\Source = 0
+        *NewProjectFile\Source = *Source
+        *Source\ProjectFile = *NewProjectFile
+        *NewProjectFile\Md5$ = *OldProjectFile\Md5$
+      EndIf
+    EndIf
+    
+    If *NewProjectFile <> 0
+      ; Update name in ProjectFiles() list because case may have changed ("A.pb" -> "a.pb")
+      *NewProjectFile\FileName$ = *Source\FileName$
+    EndIf
+    
+  EndIf
+EndProcedure
 
 Procedure SaveSourceAs()
   Static NewSourcePath$
@@ -2229,25 +2271,71 @@ Procedure SaveSourceAs()
       EndIf
     EndIf
     
+    ; Check if file already open in IDE
+    *SourceBeingClosed = 0
+    ForEach FileList()
+      If @FileList() <> *ActiveSource
+        If IsEqualFile(FileList()\FileName$, FileName$)
+          PromptedUser = 1
+          If MessageRequester(#ProductName$, Language("FileStuff","FileIsOpen")+#NewLine+Language("FileStuff","CloseOverWrite"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_Yes
+            *SourceBeingClosed = @FileList()
+            Break
+          Else
+            ProcedureReturn SaveSourceAs()  ; try again
+          EndIf
+        EndIf
+      EndIf
+    Next
+    If *SourceBeingClosed <> 0
+      RemoveSource(*SourceBeingClosed)
+    EndIf
+    
     ; On Cocoa the file exists dialog is already in the SavePanel, so only popup if we added an extension
     ;
-    If ForceFileCheck Or #CompileMacCocoa = 0
-      If FileSize(FileName$) > -1  ; file exist check
+    If (ForceFileCheck Or #CompileMacCocoa = 0) And *SourceBeingClosed = 0
+      If FileSize(FileName$) > -1 And IsEqualFile(FileName$, *ActiveSource\FileName$) = 0 ; file exist check
         If MessageRequester(#ProductName$, Language("FileStuff","FileExists")+#NewLine+Language("FileStuff","OverWrite"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_No
           ProcedureReturn SaveSourceAs()  ; try again
         EndIf
       EndIf
     EndIf
     
+    ; On Windows, deleting/renaming a file before saving over it is a workaround to allow case-only changes.
+    ; Ex: If a file "ABC.pb" exists, and you try to save a new file as "abc.pb", Windows preserves the old name "ABC.pb" !
+    ;
+    CompilerIf #CompileWindows
+      TempFile$ = ""
+      If FileSize(FileName$) > -1
+        TempFile$ = FileName$ + ".backup"
+        If RenameFile(FileName$, TempFile$) = 0
+          TempFile$ = ""
+        EndIf
+      EndIf
+    CompilerEndIf
+    
     Result = SaveSourceFile(FileName$)
     
     If Result
       *ActiveSource\FileName$ = FileName$
+      HandleProjectFileSaveAs(*ActiveSource)
       UpdateMainWindowTitle() ; we now have a new filename
       RefreshSourceTitle(*ActiveSource)
       HistoryEvent(*ActiveSource, #HISTORY_SaveAs)
       UpdateIsCodeStatus() ; re-scan/re-highlight in case the IsCode value has changed
     EndIf
+    
+    
+    ; Windows: Remove or restore temporary renamed file (see TempFile$ above)
+    ;
+    CompilerIf #CompileWindows
+      If TempFile$
+        If Result
+          DeleteFile(TempFile$)
+        Else
+          RenameFile(TempFile$, FileName$)
+        EndIf
+      EndIf
+    CompilerEndIf
     
     ProcedureReturn Result
   Else
