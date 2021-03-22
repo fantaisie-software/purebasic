@@ -2183,49 +2183,6 @@ Procedure OpenIncludeOnDoubleClick()
   
 EndProcedure
 
-Procedure HandleProjectFileSaveAs(*Source.SourceFile)
-  If *Source <> 0 And IsProject
-    
-    *OldProjectFile.ProjectFile = *Source\ProjectFile
-    *NewProjectFile.ProjectFile = 0
-    PushListPosition(ProjectFiles())
-    ForEach ProjectFiles()
-      If IsEqualFile(ProjectFiles()\FileName$, *Source\FileName$)
-        *NewProjectFile = @ProjectFiles()
-        Break
-      EndIf
-    Next
-    PopListPosition(ProjectFiles())
-    
-    If *NewProjectFile <> *OldProjectFile
-      If *OldProjectFile = 0
-        ; Connect source to ProjectFiles() list (new filename is part of project!)
-        If *NewProjectFile\Source <> 0
-          *NewProjectFile\Source\ProjectFile = 0
-        EndIf
-        *NewProjectFile\Source = *Source
-        *Source\ProjectFile = *NewProjectFile
-      ElseIf *NewProjectFile = 0
-        ; Disconnect source from ProjectFiles() list (new filename is not part of project!)
-        *OldProjectFile\Source = 0
-        *Source\ProjectFile = 0
-      Else
-        ; Reconnect source from one ProjectFiles() item to another (both old and new filenames are in project)
-        *OldProjectFile\Source = 0
-        *NewProjectFile\Source = *Source
-        *Source\ProjectFile = *NewProjectFile
-        *NewProjectFile\Md5$ = *OldProjectFile\Md5$
-      EndIf
-    EndIf
-    
-    If *NewProjectFile <> 0
-      ; Update name in ProjectFiles() list because case may have changed ("A.pb" -> "a.pb")
-      *NewProjectFile\FileName$ = *Source\FileName$
-    EndIf
-    
-  EndIf
-EndProcedure
-
 Procedure SaveSourceAs()
   Static NewSourcePath$
   
@@ -2316,8 +2273,10 @@ Procedure SaveSourceAs()
     Result = SaveSourceFile(FileName$)
     
     If Result
+      UnlinkSourceFromProject(*ActiveSource, #True)
       *ActiveSource\FileName$ = FileName$
-      HandleProjectFileSaveAs(*ActiveSource)
+      LinkSourceToProject(*ActiveSource)
+      
       UpdateMainWindowTitle() ; we now have a new filename
       RefreshSourceTitle(*ActiveSource)
       HistoryEvent(*ActiveSource, #HISTORY_SaveAs)
