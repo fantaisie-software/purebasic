@@ -1548,6 +1548,16 @@ EndEnumeration
 #MATCH_Exact  = #MATCH_OS|#MATCH_Version|#MATCH_Beta|#MATCH_Processor
 
 ;
+;- Values for "Save Settings to" preference (variable is SaveProjectSettings)
+;
+;  Never modify existing values, because these are saved to prefs files as numbers!
+;
+#SAVESETTINGS_EndOfFile    = 0
+#SAVESETTINGS_PerFileCfg   = 1
+#SAVESETTINGS_PerFolderCfg = 2
+#SAVESETTINGS_DoNotSave    = 3
+
+;
 ;- Values for DragPrivate()
 ;
 Enumeration
@@ -2451,7 +2461,7 @@ Global FileViewerX, FileViewerY, FileViewerWidth, FileViewerHeight, FileViewerPa
 Global HelpWindowX, HelpWindowY, HelpWindowWidth, HelpWindowHeight, HelpWindowMaximized, HelpWindowSplitter
 Global ProcedureBrowserMode, ProcedureBrowserSort, RealTab, EnableFolding, NbFoldStartWords, NbFoldEndWords
 Global ToolbarItemCount.l, PreferenceToolbarCount.l, ToolbarPreferenceMode, ToolbarPreferenceAction
-Global SaveProjectSettings ; 0 = in the source, 1 = in <filename>.pb.cfg, 2 = in project.cfg
+Global SaveProjectSettings
 Global EnableMenuIcons, AutoClearLog, DisplayFullPath, NoSplashScreen, DisplayProtoType, DisplayErrorWindow
 Global InitialSourceLine, MemorizeMarkers, LanguageFile$, ToolsPanelWidth_Hidden, ErrorLogHeight_Hidden
 Global EnableBraceMatch, EnableKeywordMatch, ShowWhiteSpace, ShowIndentGuides, MonitorFileChanges
