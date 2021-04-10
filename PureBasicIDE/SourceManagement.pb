@@ -1,4 +1,4 @@
-﻿;--------------------------------------------------------------------------------------------
+;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -2784,13 +2784,3 @@ Procedure FileMonitorEvent()
     ChangeCurrentElement(FileList(), *ActiveSource)
   EndIf
 EndProcedure
-
-; IDE Options = PureBasic 5.73 beta 2 (Windows - x64)
-; CursorPosition = 1702
-; FirstLine = 1681
-; Folding = --------
-; EnableXP
-; CompileSourceDirectory
-; EnableCompileCount = 0
-; EnableBuildCount = 0
-; EnableExeConstant
