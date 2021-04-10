@@ -1,4 +1,4 @@
-﻿;--------------------------------------------------------------------------------------------
+;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -1700,6 +1700,7 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
   If LCase(GetExtensionPart(FileName$)) = "pbf"
     OpenForm(FileName$)
     RecentFiles_AddFile(FileName$, #False)
+    AddTools_Execute(#TRIGGER_SourceLoad, *ActiveSource)
     LinkSourceToProject(*ActiveSource) ; Link To project (If any)
     ProcedureReturn 1
   EndIf
@@ -1873,7 +1874,8 @@ Procedure SaveSourceFile(FileName$)
     FD_SelectWindow(*ActiveSource\IsForm)
     
     If FormWindows()\current_view = 0 ; Design view, we need to use the special form save routine. In code view, we just save the code as any other source
-      FD_Save(FileName$)
+    	FD_Save(FileName$)
+    	AddTools_Execute(#TRIGGER_SourceSave, *ActiveSource)
       ProcedureReturn 1
     EndIf
   EndIf
