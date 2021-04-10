@@ -1700,6 +1700,7 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
   If LCase(GetExtensionPart(FileName$)) = "pbf"
     OpenForm(FileName$)
     RecentFiles_AddFile(FileName$, #False)
+    AddTools_Execute(#TRIGGER_SourceLoad, *ActiveSource)
     LinkSourceToProject(*ActiveSource) ; Link To project (If any)
     ProcedureReturn 1
   EndIf
@@ -1873,7 +1874,8 @@ Procedure SaveSourceFile(FileName$)
     FD_SelectWindow(*ActiveSource\IsForm)
     
     If FormWindows()\current_view = 0 ; Design view, we need to use the special form save routine. In code view, we just save the code as any other source
-      FD_Save(FileName$)
+    	FD_Save(FileName$)
+    	AddTools_Execute(#TRIGGER_SourceSave, *ActiveSource)
       ProcedureReturn 1
     EndIf
   EndIf
@@ -2782,3 +2784,13 @@ Procedure FileMonitorEvent()
     ChangeCurrentElement(FileList(), *ActiveSource)
   EndIf
 EndProcedure
+
+; IDE Options = PureBasic 5.73 beta 2 (Windows - x64)
+; CursorPosition = 1702
+; FirstLine = 1681
+; Folding = --------
+; EnableXP
+; CompileSourceDirectory
+; EnableCompileCount = 0
+; EnableBuildCount = 0
+; EnableExeConstant
