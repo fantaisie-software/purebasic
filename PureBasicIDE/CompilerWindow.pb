@@ -162,7 +162,7 @@ Procedure DisplayCompilerWindow()
     MacroErrorWindowEvents(#PB_Event_CloseWindow)
   EndIf
   
-  If OpenWindow(#WINDOW_Compiler, 0, 0, 200, 50, #ProductName$, #PB_Window_ScreenCentered | #PB_Window_TitleBar | #PB_Window_Invisible, WindowID(#WINDOW_Main))
+  If OpenWindow(#WINDOW_Compiler, 0, 0, 200, 50, #ProductName$, #PB_Window_WindowCentered | #PB_Window_TitleBar | #PB_Window_Invisible, WindowID(#WINDOW_Main))
     
     Container = ContainerGadget(#PB_Any, 5, 5, 190, 40, #PB_Container_Single)
     ; add a dummy text for size calculation
