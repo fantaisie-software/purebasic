@@ -23,7 +23,8 @@ Some basic guidelines on how to contribute to the __[PureBasic OpenSource Projec
         - [Working With `devel` Branch](#working-with-devel-branch)
         - [PureBasic IDE Settings](#purebasic-ide-settings)
         - [Code Styles Conventions](#code-styles-conventions)
-            - [Code Styles Validation](#code-styles-validation)
+            - [Code Styles Validation of Pull Request](#code-styles-validation-of-pull-request)
+            - [Validating Code Styles Locally](#validating-code-styles-locally)
             - [Linting PureBasic Sources](#linting-purebasic-sources)
 - [Useful Links](#useful-links)
     - [Installing Git](#installing-git)
@@ -293,7 +294,7 @@ Options two and three are fine because the repository is set to ignore any files
 
 This project uses [EditorConfig] settings to enforce consistent coding styles in the repository, protecting it from mixed indentation styles and sizes, file encoding corruption, trailing white spaces and other code inconsistencies commonly found in collaborative editing:
 
-- [`.editorconfig`](./.editorconfig)
+- [`.editorconfig`][.editorconfig]
 
 These settings allow multiple developers to work on the same files across various editors and IDEs without disrupting the adopted code styles conventions.
 Modern editors will automatically detect the settings in the `.editorconfig` file and enforce them project-wide, overriding user settings in favour of project-specific settings.
@@ -304,17 +305,52 @@ For example, if you editor was allowed to change the adopted EOL (end-of-line se
 You should check whether your editor supports [EditorConfig] natively or you need to install a plug-in.
 [A list of free plug-ins is available at editorconfig.org] for editors and IDEs that don't support EditorConfig natively.
 
-#### Code Styles Validation
+#### Code Styles Validation of Pull Request
 
-Every commit and pull request to the project is immediately validated against the `.editorconfig` settings via [Travis CI], an automated on-line service for [continuous integration].
+Every commit and pull request to the GitHub repository is immediately validated against the `.editorconfig` settings via [Travis CI], an automated on-line service for [continuous integration].
 Any commit or pull request that doesn't pass the validation test will be reported as a _build_ failure, providing an error report that lists the files which need to be fixed.
 
-To prevent submitting pull requests that will not pass the build test, you can run these validation checks locally, before committing to GitHub, by launching the validation Bash script found in the project root:
+#### Validating Code Styles Locally
 
-- [`validate.sh`](./validate.sh)
+To prevent submitting pull requests that will not pass the build test, you can run these validation checks locally, before committing to GitHub.
+You have two options for this (both requiring installing __[Node.js]__ and _[EClint]__):
 
-The `validate.sh` script is cross-platform, and under Windows can be launched from the Bash that ships with Git installation.
-The script requires installing __[EClint]__, a __[Node.js]__ command line tool to validate files against EditorConfig settings.
+
+1. Executing in the shell the validation Bash script found in the project root:
+
+    + [`validate.sh`][validate.sh]
+
+    This script will validate the entire repository folder to ensure that all its files meet the EditorConfig code styling conventions.
+
+    Because it acts on the folder level, also files which are ignored by the repository will be checked, although these would not affect the build tests on GitHub.
+    The script was devised mainly for Travis CI usage, but can also be employed to check the status of the local repository clone, bearing in mind its limitations pertaining ignored files.
+
+    The `validate.sh` script is cross-platform, and under Windows can be launched from the Bash that ships with Git installation.
+
+2. Installing our custom Git pre-commit hook by executing:
+
+    + [`git-hook-install.sh`][git-hook-install.sh]
+
+    The script will install/update the pre-commit hook.
+    Once the hook is installed, every time you carry out a commit operation the staged files will be first checked via [EClint] to ensure that they meet the code styles settings in [`.editorconfig`][.editorconfig], and if they don't the commit will fail with an error listing the files that didn't pass the validation test.
+
+    > **NOTE** — You can always bypass the pre-commit hook via the `--no-verify` option, e.g.:
+    >
+    > ```
+    > git commit --no-verify
+    > ```
+
+    You can uninstall the Git hook at any time, by executing:
+
+    - [`git-hook-remove.sh`][git-hook-remove.sh]
+
+    The hook installer and uninstaller scripts are designed to coexist with other pre-commit hooks you might have added to the repository, without disrupting them.
+
+The advantage of using the pre-commit Git hook instead of the [`validate.sh`][validate.sh] script is that the hook will test only the staged files involved in the actual commit, whereas the script will test _every_ file in the repository folder, which is more time consuming, less accurate and not focused on your specific commit changes (the hook only reports errors from your changes, not pre-existing ones).
+
+Furthermore, you won't have to remember to validate the files manually every time, since Git will handle it automatically at each commit.
+Installing the Git hook is a one-time operation, and you don't need to execute again the [`git-hook-install.sh`][git-hook-install.sh] script, unless the script was updated (in which case you'll need to run it again to generated a new hook script); so keep an eye open for changes in the script, or just run it again from time to time, to be on the safe side.
+
 
 #### Linting PureBasic Sources
 
@@ -405,7 +441,11 @@ Learning to work on GitHub:
 
 <!-- repo files -->
 
+[.editorconfig]: ./.editorconfig "View EditorConfig settings"
 [.gitignore]: ./.gitignore "See the '.gitignore' settings file"
+[git-hook-install.sh]: ./git-hook-install.sh "View Git hook installer script"
+[git-hook-remove.sh]: ./git-hook-remove.sh "View Git hook uninstaller script"
+[validate.sh]: ./validate.sh "View source script for code style validation"
 
 <!-- repo links -->
 
