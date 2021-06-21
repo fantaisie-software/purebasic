@@ -2594,6 +2594,13 @@ Procedure OpenProjectOptions(NewProject)
       SetGadgetState(#GADGET_Project_OpenLoadLast, 1)
       
       ProjectExplorerPattern = 0 ; default pattern is "PB files"
+      CompilerIf #CompileLinux
+        ; On Linux we have to check if SourcePath$ is an accessible folder - otherwise a crash will occur!
+        ; If SourcePath$ is no folder then change it to home folder
+        If FileSize(SourcePath$) <> -2
+          SourcePath$ = "~"
+        EndIf
+      CompilerEndIf
       ProjectExplorerPath$   = SourcePath$
       
       ClearList(ProjectConfig()) ; no files in the list yet
