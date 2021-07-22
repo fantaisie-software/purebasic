@@ -1717,6 +1717,12 @@ Procedure MainMenuEvent(MenuItemID)
             SendEditorMessage(#SCI_NEWLINE, 0, 0)
           EndIf
           
+        ElseIf IsProject And (GetFocusGadgetID(#WINDOW_Main) = GadgetID(#GADGET_ProjectInfo_Files))
+          index = GetGadgetState(#GADGET_ProjectInfo_Files)
+          If index <> -1 And SelectElement(ProjectFiles(), index)
+            LoadSourceFile(ProjectFiles()\Filename$) ; will just switch if open
+          EndIf
+          
         Else
           CompilerIf #CompileWindows
             SendMessage_(GetFocus_(), #WM_KEYDOWN, #VK_RETURN, 0) ; for the label editing in Templates for example
