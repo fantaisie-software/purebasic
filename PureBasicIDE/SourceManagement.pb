@@ -1874,8 +1874,8 @@ Procedure SaveSourceFile(FileName$)
     FD_SelectWindow(*ActiveSource\IsForm)
     
     If FormWindows()\current_view = 0 ; Design view, we need to use the special form save routine. In code view, we just save the code as any other source
-    	FD_Save(FileName$)
-    	AddTools_Execute(#TRIGGER_SourceSave, *ActiveSource)
+      FD_Save(FileName$)
+      AddTools_Execute(#TRIGGER_SourceSave, *ActiveSource)
       ProcedureReturn 1
     EndIf
   EndIf
