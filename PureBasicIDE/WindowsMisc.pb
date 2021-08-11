@@ -420,24 +420,6 @@ CompilerIf #CompileWindows
         
         result = #True
         
-      ElseIf *copydata\dwData = AsciiConst('A', 'U', 'T', '1') And *copydata\cbData > 0
-        ; Automation request. Use new values like 'AUT2' for new/incompatible requests
-        ; that are added at a later time (there is no 'version check' or similar)
-        ; See also DispatchEvent() in UserInterface.pb
-        ProcessAutomationRequest(wParam, lParam)
-        result = #True
-        
-      ElseIf *copydata\dwData = AsciiConst('A', 'E', 'X', 'E') And *copydata\cbData > 0
-        ; Request to check executable filename. This is done during the connection of the
-        ; automation, so it is processed specially (for simplicity)
-        Filename$ = PeekS(*copydata\lpData, -1, #PB_UTF8)
-        If IsEqualFile(Filename$, ProgramFilename())
-          ; send positive response
-          PostMessage_(wParam, RunOnceMessageID, AsciiConst3('A', 'O', 'K'), WindowID(#WINDOW_Main))
-        EndIf
-        result = #True
-        
-        
       EndIf
       
       

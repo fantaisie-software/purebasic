@@ -953,7 +953,6 @@ Procedure OpenAutoCompleteWindow()
       AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem, BaseItemLine)
     ElseIf WordStart$ <> "" Or AutoComplete_IsModule
       AutoComplete_FillNormal(WordStart$, ModulePrefix$)
-      ;      AutomationEvent_AutoComplete(AutoCompleteList()) ; send the event only for normal autocomplete, not for structured (as there modification makes no sense anyway)
     EndIf
     
     If AutoComplete_IsStructure Or AutoComplete_IsModule Or WordStart$ <> ""
