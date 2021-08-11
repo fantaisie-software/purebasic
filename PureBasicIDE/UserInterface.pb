@@ -2376,11 +2376,6 @@ Procedure DispatchEvent(EventID)
       If EventwParam() = AsciiConst('F', 'I', 'N', 'D')
         PostMessage_(EventlParam(), RunOnceMessageID, AsciiConst('H', 'W', 'N', 'D'), WindowID(#WINDOW_Main))
         
-      ElseIf EventwParam() = AsciiConst('A', 'U', 'T', 'O')
-        ; broadcast for IDE's that support Automation (since 4.60)
-        ; respond with the kind of automation supported (AUT1 = version 1)
-        PostMessage_(EventlParam(), RunOnceMessageID, AsciiConst('A', 'U', 'T', '1'), WindowID(#WINDOW_Main))
-        
       ElseIf EventwParam() = AsciiConst('O', 'P', 'E', 'N') And Editor_RunOnce
         ; to this one we only answer when RunOnce is enabled
         ; This way non-runonce instances are not affected
