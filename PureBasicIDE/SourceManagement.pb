@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -523,7 +523,7 @@ Procedure AsciiToUTF8(*out.ASCII, *outlen.LONG, *in.ASCII, *inlen.LONG)
       *out\a = $98
       *out + 1
       
-    ElseIf *in\a = $92     ; �-char. Turn this into U+2019
+    ElseIf *in\a = $92     ; ï¿½-char. Turn this into U+2019
       *out\a = $E2
       *out + 1
       *out\a = $80
