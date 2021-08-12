@@ -39,7 +39,6 @@ ifeq ($(PB_WINDOWS),1)
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ONERROR = /LINENUMBERING
-	NETWORKSUPPORT = $(TARGET)/NetworkSupport.obj
 	LIBMBA = $(TARGET)/libmba/libmba.lib
 	DOMAINSOCKET =
 	COLORTABLE = $(HOME)/Catalogs/ColorTable.xml
@@ -81,7 +80,6 @@ endif
 	CPUMONITORLIB =
 	DIALOGCOMPILER = $(PB_BUILDTARGET)/dialogcompiler/dialogcompiler
 	ONERROR = --linenumbering
-	NETWORKSUPPORT = $(TARGET)/NetworkSupport.o
 	DOMAINSOCKET = $(TARGET)/AutomationDomainSocket.o
 	LIBMBA = $(TARGET)/libmba/libmba.a
 	COLORTABLE = $(HOME)/catalogs/ColorTable.xml
@@ -138,7 +136,6 @@ DEPENDENCIES = \
 	$(PROFILERICONS) \
 	$(THEMES) \
 	$(MAKEBUILDINFO) \
-	$(NETWORKSUPPORT) \
 	$(DOMAINSOCKET)
 
 
@@ -310,27 +307,6 @@ ifeq ($(PB_MACOS),1)
 
 $(MACPLIST) : tools/macplist.pb $(TARGET)/dummy
 	$(PBCOMPILER) tools/macplist.pb -e $(MACPLIST)
-
-endif
-
-# compile the NetworkSupport.c
-#
-ifeq ($(PB_WINDOWS),1)
-
-$(NETWORKSUPPORT) : ../PureBasicDebugger/NetworkSupport.c $(PB_LIBRARIES)/Debugger/DebuggerInternal.h $(PB_LIBRARIES)/Debugger/OSSpecific.h
-	$(PB_VC8_ANSI) /O1 /c $< /Fo$@
-
-# not needed on Windows
-$(DOMAINSOCKET):
-
-else
-
-$(NETWORKSUPPORT) : ../PureBasicDebugger/NetworkSupport.c $(PB_LIBRARIES)/Debugger/DebuggerInternal.h $(PB_LIBRARIES)/Debugger/OSSpecific.h
-	$(PB_GCC_ANSI) $(PB_OPT_SPEED) -c $< -o $@
-
-# domain socket function for IDE automation
-$(DOMAINSOCKET) : AutomationDomainSocket.c
-	$(PB_GCC_ANSI) $(PB_OPT_SPEED) -c $< -o $@
 
 endif
 
