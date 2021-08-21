@@ -669,7 +669,7 @@ Procedure History_DiffInsertEdit(List Edits.HistoryDiffEdit(), Op, *Offset, Size
 
   If FirstElement(Edits()) = 0 Or Edits()\Op <> Op
     InsertElement(Edits())
-    Edits()\Op = Op    
+    Edits()\Op = Op
   EndIf
   
   Edits()\Offset = *Offset
@@ -708,7 +708,7 @@ Procedure History_MakeDiff(*Output, *OutSize.INTEGER, *Event.HistoryEvent, *Prev
   ;   https://blog.jcoglan.com/2017/02/15/the-myers-diff-algorithm-part-2/
   ;   https://blog.jcoglan.com/2017/02/17/the-myers-diff-algorithm-part-3/
   ;
-  ; We only implement the simple algorithm (without the linear space refinement) to keep complexity low. 
+  ; We only implement the simple algorithm (without the linear space refinement) to keep complexity low.
   ; Speed testing against a C implementation (libmba) shows that this version is as fast as the more complex
   ; linear space version and the additional memory requirement should not be an issue for regular source
   ; code comparisons.
@@ -720,7 +720,7 @@ Procedure History_MakeDiff(*Output, *OutSize.INTEGER, *Event.HistoryEvent, *Prev
   For D = 0 To MAX
     For k = -D To D Step 2
       If k = -D Or (k <> D And V(D, k-1+MAX) < V(D, k+1+MAX))
-        x = V(D, k+1+MAX)    
+        x = V(D, k+1+MAX)
       Else
         x = V(D, k-1+MAX) + 1
       EndIf
@@ -767,7 +767,7 @@ Procedure History_MakeDiff(*Output, *OutSize.INTEGER, *Event.HistoryEvent, *Prev
       Else
         History_DiffInsertEdit(Edits(), #DIFF_DELETE, A(x-1)\Offset, A(x-1)\Length)
       EndIf
-    EndIf   
+    EndIf
     
     x = prev_x
     y = prev_y
