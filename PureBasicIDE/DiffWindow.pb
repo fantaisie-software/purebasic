@@ -1086,6 +1086,8 @@ EndProcedure
 ;
 ; When I have the time i will try to implement one of these instead of this simple one.
 ;
+; TODO: Consolidate with EditHistory.pb diff implementation (see History_MakeDiff())
+;
 Procedure LCS_Simple(List Blocks.DiffBlock())
   
   ; trim off unchanged areas at the beginning

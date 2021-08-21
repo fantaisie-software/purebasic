@@ -40,7 +40,6 @@ ifeq ($(PB_WINDOWS),1)
 	MACPLISTCOMMAND =
 	ONERROR = /LINENUMBERING
 	NETWORKSUPPORT = $(TARGET)/NetworkSupport.obj
-	LIBMBA = $(TARGET)/libmba/libmba.lib
 	DOMAINSOCKET =
 	COLORTABLE = $(HOME)/Catalogs/ColorTable.xml
 
@@ -83,7 +82,6 @@ endif
 	ONERROR = --linenumbering
 	NETWORKSUPPORT = $(TARGET)/NetworkSupport.o
 	DOMAINSOCKET = $(TARGET)/AutomationDomainSocket.o
-	LIBMBA = $(TARGET)/libmba/libmba.a
 	COLORTABLE = $(HOME)/catalogs/ColorTable.xml
 
 	ECHOQUOTE = "
@@ -150,7 +148,6 @@ endif
 # default target
 #
 ide : VERSION $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -159,7 +156,6 @@ ide : VERSION $(DEPENDENCIES)
 # demo version of the IDE
 #
 demo : VERSION_DEMO $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(CONSTANT) DEMO=1 $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -168,7 +164,6 @@ demo : VERSION_DEMO $(DEPENDENCIES)
 # debug version (with linenumbering / gtk error messages)
 #
 debug : VERSION_DEBUG $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG) $(CONSTANT) DEBUG=1 $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -177,7 +172,6 @@ debug : VERSION_DEBUG $(DEPENDENCIES)
 # debug version + Purifier
 #
 purifier : VERSION_DEBUG $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGFLAGS) $(DEBUGSYMBOLS) $(PURIFIER) $(VERSIONFLAG) $(CONSTANT) DEBUG=1 $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -186,7 +180,6 @@ purifier : VERSION_DEBUG $(DEPENDENCIES)
 # default target, but without stripping debug symbols (for gdk debugging)
 #
 symbols : VERSION $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -195,7 +188,6 @@ symbols : VERSION $(DEPENDENCIES)
 # default target, but with onerror support
 #
 onerror : VERSION $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(ONERROR) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -204,7 +196,6 @@ onerror : VERSION $(DEPENDENCIES)
 # special target to build all needed files, but not the IDE itself. (good for testing from inside the ide)
 #
 nocompile :  $(TARGET)/dummy VERSION  $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 
 #
