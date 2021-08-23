@@ -94,24 +94,6 @@ Structure EventSource
   Size.l
 EndStructure
 
-Structure HistoryDiffLine
-  Checksum.l
-  Offset.l
-  Length.l
-EndStructure
-
-Structure HistoryDiffEdit
-  Op.l
-  *Offset
-  Size.l
-EndStructure
-
-Enumeration
-  #DIFF_MATCH = 1
-  #DIFF_DELETE
-  #DIFF_INSERT
-EndEnumeration
-
 Global NewList EventSourceCache.EventSource()
 
 Global OSSessionID$, SessionID
@@ -612,71 +594,6 @@ Procedure History_AsyncDeleteEvent(EventID)
   
 EndProcedure
 
-
-Procedure History_DiffPreProcess(*Event.HistoryEvent, Array Lines.HistoryDiffLine(1))
-  *Pointer.PTR = *Event\Content
-  *BufferEnd = *Pointer + *Event\Size
-  
-  Lines = 0
-  Space = ArraySize(Lines()) ; don't do +1 to have the extra space for the last line
-  
-  *LineStart = *Pointer
-  While *Pointer < *BufferEnd
-    
-    ; detect next newline
-    If *Pointer\b = 13
-      *Pointer + 1
-      If *Pointer < *BufferEnd And *Pointer\b = 10
-        *Pointer + 1
-      EndIf
-    ElseIf *Pointer\b = 10
-      *Pointer + 1
-    Else
-      ; no newline
-      *Pointer + 1
-      Continue
-    EndIf
-    
-    ; newline found
-    If Space = 0
-      ReDim Lines(Lines * 2)
-      Space = Lines
-    EndIf
-    
-    Lines(Lines)\Checksum = CRC32Fingerprint(*LineStart, *Pointer-*LineStart)
-    Lines(Lines)\Offset = *LineStart - *Event\Content
-    Lines(Lines)\Length = *Pointer - *LineStart
-    Lines + 1
-    Space - 1
-    *LineStart = *Pointer
-  Wend
-  
-  ; add the last line
-  If *Pointer > *LineStart
-    Lines(Lines)\Checksum = CRC32Fingerprint(*LineStart, *Pointer-*LineStart)
-    Lines(Lines)\Offset = *Pointer - *Event\Content
-    Lines(Lines)\Length = *Pointer - *LineStart
-    Lines + 1
-  EndIf
-  
-  ProcedureReturn Lines
-EndProcedure
-
-; Insert a line edit at the beginning of the Edits() list
-; If the first edit command matches what is inserted then both are combined into one edit
-;
-Procedure History_DiffInsertEdit(List Edits.HistoryDiffEdit(), Op, *Offset, Size)
-
-  If FirstElement(Edits()) = 0 Or Edits()\Op <> Op
-    InsertElement(Edits())
-    Edits()\Op = Op
-  EndIf
-  
-  Edits()\Offset = *Offset
-  Edits()\Size + Size
-
-EndProcedure
-
 ; Generates an edit script:
 ; Beginning: <long> full size of target
 ;
@@ -688,90 +605,13 @@ EndProcedure
 ; returns 0 if diff is larger than real file
 Procedure History_MakeDiff(*Output, *OutSize.INTEGER, *Event.HistoryEvent, *Previous.HistoryEvent)
 
-  ; Requires thread safety because of the LinkedList commands
+  ; The diff algorithm needs thread safety because of the LinkedList commands
   CompilerIf #HISTORY_WRITE_ASYNC And #PB_Compiler_Thread = 0
     CompilerError "History_MakeDiff() must be compiled with threadsafe switch"
   CompilerEndIf
 
-  Protected Dim A.HistoryDiffLine(1000)
-  Protected Dim B.HistoryDiffLine(1000)
-  
-  N = History_DiffPreProcess(*Previous, A())
-  M = History_DiffPreProcess(*Event, B())
-  
-  ;
-  ; This implements the Myers Diff algorithm specified in "An O(ND) Difference Algorithm and Its Variations"
-  ; See here: http://www.xmailserver.org/diff2.pdf
-  ;
-  ; A useful tutorial with code examples:
-  ;   https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/
-  ;   https://blog.jcoglan.com/2017/02/15/the-myers-diff-algorithm-part-2/
-  ;   https://blog.jcoglan.com/2017/02/17/the-myers-diff-algorithm-part-3/
-  ;
-  ; We only implement the simple algorithm (without the linear space refinement) to keep complexity low.
-  ; Speed testing against a C implementation (libmba) shows that this version is as fast as the more complex
-  ; linear space version and the additional memory requirement should not be an issue for regular source
-  ; code comparisons.
-  ;
-  
-  MAX = N + M
-  Protected Dim V(MAX+1, MAX*2+1)
-  
-  For D = 0 To MAX
-    For k = -D To D Step 2
-      If k = -D Or (k <> D And V(D, k-1+MAX) < V(D, k+1+MAX))
-        x = V(D, k+1+MAX)
-      Else
-        x = V(D, k-1+MAX) + 1
-      EndIf
-      y = x - k
-      While x < N And y < M And A(x)\Checksum = B(y)\Checksum
-        x + 1
-        y + 1
-      Wend
-      V(D, k+MAX) = x
-      V(D+1, k+MAX) = x
-      If x >= N And y >= M
-        ; shortest edit script found with length D
-        Break 2
-      EndIf
-    Next k
-  Next D
-  
-  ; backtrack to compute edit script
-  Protected NewList Edits.HistoryDiffEdit()
-  For D = D To 0 Step -1
-    k = x - y
-    
-    If k = -D Or (k <> D And V(D, k-1+MAX) < V(D, k+1+MAX))
-      prev_k = k + 1
-    Else
-      prev_k = k - 1
-    EndIf
-    
-    prev_x = V(D, prev_k+MAX)
-    prev_y = prev_x - prev_k
-    
-    ; a snake is one horizontal/vertical move followed by a diagonal (which may be any length)
-    ; do the diagonal first
-    While x > prev_x And y > prev_y
-      History_DiffInsertEdit(Edits(), #DIFF_MATCH, A(x-1)\Offset, A(x-1)\Length)
-      x - 1
-      y - 1
-    Wend
-    
-    ; now do the horizontal/vertical move (insert or delete)
-    If D > 0
-      If x = prev_x
-        History_DiffInsertEdit(Edits(), #DIFF_INSERT, B(y-1)\Offset, B(y-1)\Length)
-      Else
-        History_DiffInsertEdit(Edits(), #DIFF_DELETE, A(x-1)\Offset, A(x-1)\Length)
-      EndIf
-    EndIf
-    
-    x = prev_x
-    y = prev_y
-  Next D
+  Protected Ctx.DiffContext
+  Diff(@Ctx, *Previous\Content, *Previous\Size, *Event\Content, *Event\Size)
   
   ; write the output
   *OutputEnd = *Output + *OutSize\i
@@ -779,33 +619,33 @@ Procedure History_MakeDiff(*Output, *OutSize.INTEGER, *Event.HistoryEvent, *Prev
   *Pointer\l = *Event\Size ; store original size
   *Pointer + 4             ; skip original size storage
   
-  ForEach Edits()
+  ForEach Ctx\Edits()
     If *Pointer + 5 > *OutputEnd
       ProcedureReturn #False
     EndIf
     
-    Select Edits()\Op
+    Select Ctx\Edits()\Op
       Case #DIFF_MATCH
         *Pointer\b = 'C': *Pointer + 1
-        *Pointer\l = Edits()\Size: *Pointer + 4
+        *Pointer\l = Ctx\Edits()\Length: *Pointer + 4
         
       Case #DIFF_DELETE
         *Pointer\b = 'D': *Pointer + 1
-        *Pointer\l = Edits()\Size: *Pointer + 4
+        *Pointer\l = Ctx\Edits()\Length: *Pointer + 4
         
       Case #DIFF_INSERT
         *Pointer\b = 'A': *Pointer + 1
-        *Pointer\l = Edits()\Size: *Pointer + 4
+        *Pointer\l = Ctx\Edits()\Length: *Pointer + 4
         
-        If *Pointer + Edits()\Size > *OutputEnd
+        If *Pointer + Ctx\Edits()\Length > *OutputEnd
           ProcedureReturn #False
         EndIf
         
-        CopyMemory(*Event\Content + Edits()\Offset, *Pointer, Edits()\Size)
-        *Pointer + Edits()\Size
+        CopyMemory(Ctx\Edits()\Start, *Pointer, Ctx\Edits()\Length)
+        *Pointer + Ctx\Edits()\Length
         
     EndSelect
-  Next Edits()
+  Next Ctx\Edits()
   
   *OutSize\i = *Pointer - *Output
   ProcedureReturn #True
