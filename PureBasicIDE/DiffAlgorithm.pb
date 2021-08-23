@@ -233,7 +233,7 @@ Procedure Diff_Recursive(*Ctx.DiffContext, AOffset, N, BOffset, M)
   
   ElseIf N > 0 And M > 0
     D = Diff_FindMiddleSnake(*Ctx, AOffset, N, BOffset, M, @x, @y, @u, @v)
-    Debug "D = " + D + "   x=" + x + " y=" + y + "  ->  u=" + u + " v=" + v
+    ;Debug "D = " + D + "   x=" + x + " y=" + y + "  ->  u=" + u + " v=" + v
 
     If D = 0
       ; both sequences are equal
