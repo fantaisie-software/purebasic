@@ -1092,7 +1092,7 @@ Procedure PerformDiff()
   EndIf
   If DiffIgnoreSpaceRight
     DiffFlags | #DIFF_IgnoreSpaceRight
-  EndIf  
+  EndIf
   
   Ctx.DiffContext
   Diff(@Ctx, *DiffA_Start, DiffA_Size, *DiffB_Start, DiffB_Size, DiffFlags)
@@ -1917,4 +1917,3 @@ Procedure UpdateDiffDialogWindow()
   DiffDialogWindowDialog\GuiUpdate()
   
 EndProcedure
-

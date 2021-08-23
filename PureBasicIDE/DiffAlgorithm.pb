@@ -4,7 +4,7 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ;--------------------------------------------------------------------------------------------
 
-; Implementation of the Myers Diff algorithm with the linear space refinement specified in 
+; Implementation of the Myers Diff algorithm with the linear space refinement specified in
 ; "An O(ND) Difference Algorithm and Its Variations" -- Algorithmica 1, 2 (1986), 251-266.
 ; See here: http://www.xmailserver.org/diff2.pdf
 ;
@@ -194,7 +194,7 @@ Procedure Diff_FindMiddleSnake(*Ctx.DiffContext, AOffset, N, BOffset, M, *x.Inte
     For k = -D To D Step 2
       c = k + DELTA
       If k = D Or (k <> -D And *Ctx\RV(c-1+OFFSET) < *Ctx\RV(c+1+OFFSET))
-        x = *Ctx\RV(c-1+OFFSET)    
+        x = *Ctx\RV(c-1+OFFSET)
       Else
         x = *Ctx\RV(c+1+OFFSET) - 1
       EndIf
@@ -248,7 +248,7 @@ Procedure Diff_Recursive(*Ctx.DiffContext, AOffset, N, BOffset, M)
           ;   |
           Diff_AddEdit(*Ctx, #DIFF_MATCH, *Ctx\A(), AOffset, N)
           Diff_AddEdit(*Ctx, #DIFF_INSERT, *Ctx\B(), BOffset + M-1, 1)
-        Else   
+        Else
           ; |
           ;  \
           ;   \
@@ -262,24 +262,24 @@ Procedure Diff_Recursive(*Ctx.DiffContext, AOffset, N, BOffset, M)
           ;   -
           Diff_AddEdit(*Ctx, #DIFF_MATCH, *Ctx\A(), AOffset, M)
           Diff_AddEdit(*Ctx, #DIFF_DELETE, *Ctx\A(), AOffset + N-1, 1)
-        Else     
+        Else
           ; -
           ;  \
           ;   \
           Diff_AddEdit(*Ctx, #DIFF_DELETE, *Ctx\A(), AOffset, 1)
           Diff_AddEdit(*Ctx, #DIFF_MATCH, *Ctx\A(), AOffset + 1, M)
         EndIf
-      EndIf 
+      EndIf
     
     Else
       ; general case: recurse around the middle snake
-      Diff_Recursive(*Ctx, AOffset, x, BOffset, y)        
+      Diff_Recursive(*Ctx, AOffset, x, BOffset, y)
       Diff_AddEdit(*Ctx, #DIFF_MATCH, *Ctx\A(), AOffset + x, u-x)
       Diff_Recursive(*Ctx, AOffset + u, N-u, BOffset + v, M-v)
       
     EndIf
         
-  EndIf  
+  EndIf
 EndProcedure
 
 ; Main Diff function
@@ -298,8 +298,8 @@ Procedure Diff(*Ctx.DiffContext, *BufferA, SizeA, *BufferB, SizeB, Flags = 0)
   
   ClearList(*Ctx\Edits())
   
-  ; Note: 
-  ; The handling of the D=1 Case in FindMiddleSnake() assumes that we always start 
+  ; Note:
+  ; The handling of the D=1 Case in FindMiddleSnake() assumes that we always start
   ; with an inset Or delete. So strip off common lines at the start to ensure this
   Offset = 0
   While Offset < N And Offset < M And *Ctx\A(Offset)\Checksum = *Ctx\B(Offset)\Checksum
