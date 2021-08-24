@@ -1725,10 +1725,10 @@ Procedure MainMenuEvent(MenuItemID)
           EndIf
           
         ElseIf IsProject And (GetFocusGadgetID(#WINDOW_Main) = GadgetID(#GADGET_ProjectInfo_Files))
-          index = GetGadgetState(#GADGET_ProjectInfo_Files)
-          If index <> -1 And SelectElement(ProjectFiles(), index)
-            LoadSourceFile(ProjectFiles()\Filename$) ; will just switch if open
-          EndIf
+          PostEvent(#PB_Event_Gadget, #WINDOW_Main, #GADGET_ProjectInfo_Files, #PB_EventType_LeftDoubleClick)
+          
+        ElseIf IsProject And (GetFocusGadgetID(#WINDOW_Main) = GadgetID(#GADGET_ProjectInfo_Targets))
+          PostEvent(#PB_Event_Gadget, #WINDOW_Main, #GADGET_ProjectInfo_Targets, #PB_EventType_LeftDoubleClick)
           
         Else
           CompilerIf #CompileWindows
@@ -1753,6 +1753,14 @@ Procedure MainMenuEvent(MenuItemID)
               InsertTab()
             EndIf
           EndIf
+        
+        ElseIf IsProject And (GetFocusGadgetID(#WINDOW_Main) = GadgetID(#GADGET_ProjectInfo_Files))
+          EnsureListIconSelection(#GADGET_ProjectInfo_Targets)
+          SetActiveGadget(#GADGET_ProjectInfo_Targets)
+        ElseIf IsProject And (*ActiveSource = *ProjectInfo)
+          EnsureListIconSelection(#GADGET_ProjectInfo_Files)
+          SetActiveGadget(#GADGET_ProjectInfo_Files)
+
           
         EndIf
         
@@ -1764,6 +1772,14 @@ Procedure MainMenuEvent(MenuItemID)
           Else
             RemoveTab()
           EndIf
+        
+        ElseIf IsProject And (GetFocusGadgetID(#WINDOW_Main) = GadgetID(#GADGET_ProjectInfo_Files))
+          EnsureListIconSelection(#GADGET_ProjectInfo_Targets)
+          SetActiveGadget(#GADGET_ProjectInfo_Targets)
+        ElseIf IsProject And (*ActiveSource = *ProjectInfo)
+          EnsureListIconSelection(#GADGET_ProjectInfo_Files)
+          SetActiveGadget(#GADGET_ProjectInfo_Files)
+        
         EndIf
         
       CompilerEndIf
