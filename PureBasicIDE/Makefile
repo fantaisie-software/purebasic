@@ -311,6 +311,20 @@ $(MACPLIST) : tools/macplist.pb $(TARGET)/dummy
 endif
 
 
+ifeq ($(PB_WINDOWS),1)
+
+# not needed on Windows
+$(DOMAINSOCKET):
+
+else
+
+# domain socket function for IDE automation
+$(DOMAINSOCKET) : AutomationDomainSocket.c
+	$(PB_GCC_ANSI) $(PB_OPT_SPEED) -c $< -o $@
+
+endif
+
+
 
 $(TARGET)/dummy:
 	mkdir "$(TARGET)"
