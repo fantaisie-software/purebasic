@@ -40,11 +40,6 @@ ifeq ($(PB_WINDOWS),1)
 	MACPLISTCOMMAND =
 	ONERROR = /LINENUMBERING
 	NETWORKSUPPORT = $(TARGET)/NetworkSupport.obj
-<<<<<<< HEAD
-	DOMAINSOCKET =
-=======
-	LIBMBA = $(TARGET)/libmba/libmba.lib
->>>>>>> devel
 	COLORTABLE = $(HOME)/Catalogs/ColorTable.xml
 
 	ECHOQUOTE =
