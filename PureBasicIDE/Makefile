@@ -40,7 +40,11 @@ ifeq ($(PB_WINDOWS),1)
 	MACPLISTCOMMAND =
 	ONERROR = /LINENUMBERING
 	NETWORKSUPPORT = $(TARGET)/NetworkSupport.obj
+<<<<<<< HEAD
 	DOMAINSOCKET =
+=======
+	LIBMBA = $(TARGET)/libmba/libmba.lib
+>>>>>>> devel
 	COLORTABLE = $(HOME)/Catalogs/ColorTable.xml
 
 	ECHOQUOTE =
@@ -81,7 +85,6 @@ endif
 	DIALOGCOMPILER = $(PB_BUILDTARGET)/dialogcompiler/dialogcompiler
 	ONERROR = --linenumbering
 	NETWORKSUPPORT = $(TARGET)/NetworkSupport.o
-	DOMAINSOCKET = $(TARGET)/AutomationDomainSocket.o
 	COLORTABLE = $(HOME)/catalogs/ColorTable.xml
 
 	ECHOQUOTE = "
@@ -136,8 +139,7 @@ DEPENDENCIES = \
 	$(PROFILERICONS) \
 	$(THEMES) \
 	$(MAKEBUILDINFO) \
-	$(NETWORKSUPPORT) \
-	$(DOMAINSOCKET)
+	$(NETWORKSUPPORT)
 
 
 ifeq ($(PB_JAVASCRIPT),1)
@@ -270,16 +272,6 @@ dll : tools/HighlightingDll.pb
 	$(PBCOMPILER) tools/HighlightingDll.pb /dll /exe "$(HOME)/SDK/Syntax Highlighting/SyntaxHighlighting.dll" /CONSTANT MAKEFILE=1
 	cp "tools\HighlightingDll_example.pb" "$(HOME)/SDK/Syntax Highlighting/Example.pb"
 
-# (Currently windows only, later hopefully crossplatform)
-# IDE Automation sdk (dll + examples)
-automation_sdk : sdk/Example.pb sdk/Automation.pb AutomationLibrary.pb FileSystem.pb RemoteProcedureCall.pb CompilerFlags.pb Macro.pb
-	-mkdir "$(HOME)/SDK/Automation"
-	$(PBCOMPILER) AutomationLibrary.pb /dll /exe "$(HOME)/SDK/Automation/Automation.dll"
-	$(PBCOMPILER) AutomationLibrary.pb /dll /exe "$(HOME)/SDK/Automation/AutomationUnicode.dll" /UNICODE
-	cp sdk/Automation.pb "$(HOME)/SDK/Automation/Automation.pb"
-	cp sdk/Example.pb "$(HOME)/SDK/Automation/Example.pb"
-
-
 #
 # For other os: dummy version targets
 #
@@ -311,16 +303,9 @@ ifeq ($(PB_WINDOWS),1)
 $(NETWORKSUPPORT) : ../PureBasicDebugger/NetworkSupport.c $(PB_LIBRARIES)/Debugger/DebuggerInternal.h $(PB_LIBRARIES)/Debugger/OSSpecific.h
 	$(PB_VC8_ANSI) /O1 /c $< /Fo$@
 
-# not needed on Windows
-$(DOMAINSOCKET):
-
 else
 
 $(NETWORKSUPPORT) : ../PureBasicDebugger/NetworkSupport.c $(PB_LIBRARIES)/Debugger/DebuggerInternal.h $(PB_LIBRARIES)/Debugger/OSSpecific.h
-	$(PB_GCC_ANSI) $(PB_OPT_SPEED) -c $< -o $@
-
-# domain socket function for IDE automation
-$(DOMAINSOCKET) : AutomationDomainSocket.c
 	$(PB_GCC_ANSI) $(PB_OPT_SPEED) -c $< -o $@
 
 endif
