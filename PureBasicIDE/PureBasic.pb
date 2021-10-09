@@ -294,7 +294,7 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
   ; display the startup logo, as loading could take a little on slower systems..
   ; especially when lots of sources are reloaded.
   If OpenWindow(#WINDOW_Startup, 0, 0, DesktopUnscaledX(500), DesktopUnscaledY(200), #ProductName$ + " loading...", #PB_Window_ScreenCentered|#PB_Window_BorderLess|#PB_Window_Invisible)
-    If CatchPackedImage(#IMAGE_Startup, ?General_Images, 0)
+    If CatchImage(#IMAGE_Startup, ?Image_Startup)
       
       If StartDrawing(ImageOutput(#IMAGE_Startup))
         DrawingMode(1)
@@ -786,7 +786,11 @@ EndProcedure
 
 DataSection
   
-  General_Images:
-  IncludeBinary #BUILD_DIRECTORY + "images.pak"
+  Image_Startup:
+    CompilerIf #SpiderBasic
+      IncludeBinary "data/SpiderBasic/SplashScreen.png"
+    CompilerElse
+      IncludeBinary "data/startuplogo.png"
+    CompilerEndIf
   
 EndDataSection

@@ -480,7 +480,6 @@ Declare ParseString(String$)                                   ; parse a string 
 Declare.s GetStringToken(Index)                                ; return token from previously parsed string
 Declare.s StrByteSize(Size.q)                                  ; get a nice looking filesize / memory size value (with KB, MB, GB attached)
 Declare IsNumeric(Text$, *Output.INTEGER)                      ; check if a text is a valid number and return it if true
-Declare CatchPackedImage(Image, *Address.LONG, Index)          ; load an image that was packed & then included
 Declare.s RGBString(Color)                                     ; turns a color into a string "RGB(a,b,c)" as a platform independent color representation
 Declare ColorFromRGBString(String$)                            ; turns the result of RGBString() back into a color
 Declare StringToUTF8(String$)                                  ; returns the UTF8 version of the string, needs to be freed with FreeMemory()!

@@ -14,7 +14,7 @@ Procedure OpenAboutWindow()
       
       ; Image
       If IsImage(#IMAGE_PureBasiclogo) = 0
-        CatchPackedImage(#IMAGE_PureBasiclogo, ?General_Images, 1)
+        CatchImage(#IMAGE_PureBasiclogo, ?Image_AboutWindow)
         ResizeImage(#IMAGE_PureBasiclogo, DesktopScaledX(ImageWidth(#IMAGE_PureBasiclogo)), DesktopScaledY(ImageHeight(#IMAGE_PureBasiclogo)))
       EndIf
       SetGadgetState(#GADGET_About_Image, ImageID(#IMAGE_PureBasiclogo))
@@ -143,3 +143,14 @@ Procedure AboutWindowEvents(EventID)
   EndIf
   
 EndProcedure
+
+DataSection
+  
+  Image_AboutWindow:
+    CompilerIf #SpiderBasic
+      IncludeBinary "data/SpiderBasic/About.bmp"
+    CompilerElse
+      IncludeBinary "data/purebasiclogo.bmp"
+    CompilerEndIf
+
+EndDataSection

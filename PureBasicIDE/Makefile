@@ -5,16 +5,12 @@ TARGET = $(PB_BUILDTARGET)/ide
 ifeq ($(PB_JAVASCRIPT),1)
 	HOME=$(SPIDERBASIC_HOME)
 	IDENAME=SpiderBasic
-	STARTUPIMAGE=data/SpiderBasic/SplashScreen.png
-	ABOUTIMAGE=data/SpiderBasic/About.bmp
 	ICOFILE=data/SpiderBasic/Logo.ico
 	ICOSOURCEFILE=data/SpiderBasic/Logo.ico
 	OSXICOFILE=data/SpiderBasic/Logo.icns
 else
 	HOME=$(PUREBASIC_HOME)
 	IDENAME=PureBasic
-	STARTUPIMAGE=data/startuplogo.png
-	ABOUTIMAGE=data/purebasiclogo.bmp
 	ICOFILE=data/PBLogoBig.ico
 	ICOSOURCEFILE=data/PBSourceFile.ico
 	OSXICOFILE=data/logo/PB3D_MacIcon.icns
@@ -26,9 +22,8 @@ ifeq ($(PB_WINDOWS),1)
 	IDE = $(HOME)/$(IDENAME).exe
 	IDEFLAGS = /THREAD /UNICODE /XP /USER /ICON "$(ICOFILE)" /DPIAWARE
 	MAKEEXE = /EXE
-	PBPACK = $(TARGET)/pbpack.exe
 	MAKEBUILDINFO = $(TARGET)/makebuildinfo.exe
-	PBPACKFLAGS = /LINENUMBERING /CONSOLE
+	TOOLFLAGS = /LINENUMBERING /CONSOLE
 	DEBUGFLAGS = /LINENUMBERING /DEBUGGER /CONSOLE
 	VERSIONFLAG = /RESOURCE $(TARGET)/VersionInfo.rc
 	CONSTANT = /CONSTANT
@@ -40,9 +35,7 @@ ifeq ($(PB_WINDOWS),1)
 	MACPLISTCOMMAND =
 	ONERROR = /LINENUMBERING
 	COLORTABLE = $(HOME)/Catalogs/ColorTable.xml
-
 	ECHOQUOTE =
-
 	ICON = ico
 	THEMEFOLDER = $(HOME)/Themes
 
@@ -69,9 +62,8 @@ endif
 	CONSTANT = --constant
 	PURIFIER = --purifier
 	MAKEEXE = -e
-	PBPACK = $(TARGET)/pbpack
 	MAKEBUILDINFO = $(TARGET)/makebuildinfo
-	PBPACKFLAGS =
+	TOOLFLAGS =
 	DEBUGFLAGS = -d
 	DEBUGSYMBOLS = -ds
 	VERSIONFLAG =
@@ -79,9 +71,7 @@ endif
 	DIALOGCOMPILER = $(PB_BUILDTARGET)/dialogcompiler/dialogcompiler
 	ONERROR = --linenumbering
 	COLORTABLE = $(HOME)/catalogs/ColorTable.xml
-
 	ECHOQUOTE = "
-
 	ICON = png
 	THEMEFOLDER = $(HOME)/themes
 
@@ -92,14 +82,6 @@ PACKLEVEL = -q -l4
 THEMES = \
 	$(TARGET)/DefaultTheme.zip \
 	$(THEMEFOLDER)/SilkTheme.zip
-
-PROFILERICONS = \
-	$(TARGET)/arrow.$(ICON) \
-	$(TARGET)/select.$(ICON) \
-	$(TARGET)/zoomin.$(ICON) \
-	$(TARGET)/zoomout.$(ICON) \
-	$(TARGET)/zoomall.$(ICON) \
-	$(TARGET)/cross.$(ICON)
 
 DIALOGS = \
 $(TARGET)/Find.pb \
@@ -122,14 +104,12 @@ $(TARGET)/Updates.pb
 
 DEPENDENCIES = \
 	$(COLORTABLE) \
-	$(TARGET)/images.pak \
 	*.pb \
 	../PureBasicDebugger/*.pb \
 	$(DIALOGS) \
 	$(VERSIONINFO) \
 	$(CPUMONITORLIB) \
 	$(MACPLIST) \
-	$(PROFILERICONS) \
 	$(THEMES) \
 	$(MAKEBUILDINFO)
 
@@ -196,28 +176,8 @@ nocompile :  $(TARGET)/dummy VERSION  $(DEPENDENCIES)
 # required other targets
 #
 
-
-$(TARGET)/images.pak :  $(TARGET)/dummy $(STARTUPIMAGE) $(ABOUTIMAGE) $(TARGET)/ToolsPanelRight.$(ICON) $(TARGET)/ToolsPanelLeft.$(ICON) $(TARGET)/CloseButton.$(ICON) data/EmptySpace.png data/MissingIcon.png $(PBPACK)
-	$(PBPACK) $(PACKLEVEL) $(TARGET)/images.pak $(STARTUPIMAGE) $(ABOUTIMAGE) $(TARGET)/ToolsPanelRight.$(ICON) $(TARGET)/ToolsPanelLeft.$(ICON) $(TARGET)/CloseButton.$(ICON) data/EmptySpace.png data/MissingIcon.png
-
-$(PBPACK) : tools/pbpack.pb $(TARGET)/dummy
-	$(PBCOMPILER) tools/pbpack.pb $(MAKEEXE) $(PBPACK) $(PBPACKFLAGS)
-
 $(MAKEBUILDINFO) : tools/makebuildinfo.pb $(TARGET)/dummy
-	$(PBCOMPILER) tools/makebuildinfo.pb $(MAKEEXE) $(MAKEBUILDINFO) $(PBPACKFLAGS)
-
-$(TARGET)/%.ico : ../PureBasicDebugger/Data/%.png $(TARGET)/dummy
-	tools/png2ico.exe $@ $<
-
-$(TARGET)/%.ico : data/%.png $(TARGET)/dummy
-	tools/png2ico.exe $@ $<
-
-# for a few png, we simply copy them to make it easier. (the single cases in images.pak like $(TARGET)/ToolsPanelRight.$(ICON))
-$(TARGET)/%.png : data/%.png $(TARGET)/dummy
-	cp $< $@
-
-$(TARGET)/%.png : ../PureBasicDebugger/Data/%.png $(TARGET)/dummy
-	cp $< $@
+	$(PBCOMPILER) tools/makebuildinfo.pb $(MAKEEXE) $(MAKEBUILDINFO) $(TOOLFLAGS)
 
 $(TARGET)/%.pb : dialogs/%.xml $(DIALOGCOMPILER) $(TARGET)/dummy
 	$(DIALOGCOMPILER) $< $@
