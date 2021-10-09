@@ -12,7 +12,6 @@ ifeq ($(PB_WINDOWS),1)
 	CONSTANT = /CONSTANT
 	UNICODE = /UNICODE
 	DEBUGFLAG = /DEBUGGER
-	NETWORKSUPPORT = $(TARGET)/NetworkSupport.obj
 	PURIFIER = /PURIFIER
 
 	ICONS = \
@@ -30,7 +29,6 @@ else
 	CONSTANT = --constant
 	UNICODE = --unicode
 	DEBUGFLAG = -d
-	NETWORKSUPPORT = $(TARGET)/NetworkSupport.o
 	PURIFIER = --purifier
 
 	ICONS = \
@@ -55,13 +53,13 @@ endif
 	ECHOQUOTE = "
 endif
 
-GuiDebugger : *.pb Data/*.png $(ICONS) $(NETWORKSUPPORT)
+GuiDebugger : *.pb Data/*.png $(ICONS)
 	$(PBCOMPILER) StandaloneDebugger.pb $(MAKEEXE) $(GUIDEBUGGER) $(DEBUGGERFLAGS) $(UNICODE) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 
-debug : *.pb Data/*.png $(ICONS) $(NETWORKSUPPORT)
+debug : *.pb Data/*.png $(ICONS)
 	$(PBCOMPILER) StandaloneDebugger.pb $(MAKEEXE) $(GUIDEBUGGER) $(DEBUGGERFLAGS) $(UNICODE) $(DEBUGFLAG) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/ $(CONSTANT) DEBUG=1
 
-purifier : *.pb Data/*.png $(ICONS) $(NETWORKSUPPORT)
+purifier : *.pb Data/*.png $(ICONS)
 	$(PBCOMPILER) StandaloneDebugger.pb $(MAKEEXE) $(GUIDEBUGGER) $(DEBUGGERFLAGS)  $(UNICODE) $(DEBUGFLAG) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/ $(CONSTANT) DEBUG=1 $(PURIFIER)
 
 # copying / converting of images
@@ -77,20 +75,6 @@ $(TARGET)/%.png : Data/%.png $(TARGET)/dummy
 
 $(TARGET)/%.png : ../PureBasicIDE/data/DefaultTheme/%.png $(TARGET)/dummy
 	cp $< $@
-
-# compile the NetworkSupport.c
-#
-ifeq ($(PB_WINDOWS),1)
-
-$(NETWORKSUPPORT) : NetworkSupport.c $(PB_LIBRARIES)/Debugger/DebuggerInternal.h $(PB_LIBRARIES)/Debugger/OSSpecific.h
-	$(PB_VC8_ANSI) /O1 /c $< /Fo$@
-
-else
-
-$(NETWORKSUPPORT) : NetworkSupport.c $(PB_LIBRARIES)/Debugger/DebuggerInternal.h $(PB_LIBRARIES)/Debugger/OSSpecific.h
-	$(PB_GCC_ANSI) $(PB_OPT_SPEED) -c $< -o $@
-
-endif
 
 $(TARGET)/dummy:
 	mkdir "$(TARGET)"
