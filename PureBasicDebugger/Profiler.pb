@@ -1743,21 +1743,12 @@ EndProcedure
 
 DataSection
   
-  CompilerIf #CompileWindows
-    Profiler_Arrow:   : IncludeBinary #BUILD_DIRECTORY + "arrow.ico"
-    Profiler_Select:  : IncludeBinary #BUILD_DIRECTORY + "select.ico"
-    Profiler_Cross:   : IncludeBinary #BUILD_DIRECTORY + "cross.ico"
-    Profiler_Zoomin:  : IncludeBinary #BUILD_DIRECTORY + "zoomin.ico"
-    Profiler_Zoomout: : IncludeBinary #BUILD_DIRECTORY + "zoomout.ico"
-    Profiler_Zoomall: : IncludeBinary #BUILD_DIRECTORY + "zoomall.ico"
-  CompilerElse
-    Profiler_Arrow:   : IncludeBinary #BUILD_DIRECTORY + "arrow.png"
-    Profiler_Select:  : IncludeBinary #BUILD_DIRECTORY + "select.png"
-    Profiler_Cross:   : IncludeBinary #BUILD_DIRECTORY + "cross.png"
-    Profiler_Zoomin:  : IncludeBinary #BUILD_DIRECTORY + "zoomin.png"
-    Profiler_Zoomout: : IncludeBinary #BUILD_DIRECTORY + "zoomout.png"
-    Profiler_Zoomall: : IncludeBinary #BUILD_DIRECTORY + "zoomall.png"
-  CompilerEndIf
+  Profiler_Arrow:   : IncludeBinary "Data/arrow.png"
+  Profiler_Select:  : IncludeBinary "Data/select.png"
+  Profiler_Cross:   : IncludeBinary "Data/cross.png"
+  Profiler_Zoomin:  : IncludeBinary "Data/zoomin.png"
+  Profiler_Zoomout: : IncludeBinary "Data/zoomout.png"
+  Profiler_Zoomall: : IncludeBinary "Data/zoomall.png"
   
   
   Profiler_Colors:

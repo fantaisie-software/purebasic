@@ -104,8 +104,8 @@ EndProcedure
 ;
 Procedure ToolsPanel_CreateFake_Default()
   
-  CatchPackedImage(#IMAGE_ToolsPanelRight, ?General_Images, 2)
-  CatchPackedImage(#IMAGE_ToolsPanelLeft, ?General_Images, 3)
+  CatchImage(#IMAGE_ToolsPanelRight, ?Image_ToolsPanelRight)
+  CatchImage(#IMAGE_ToolsPanelLeft, ?Image_ToolsPanelLeft)
   
   If ToolsPanelSide = 0
     ImageGadget(#GADGET_ToolsPanelFake, 0, 0, 0, 0, ImageID(#IMAGE_ToolsPanelRight))
@@ -536,3 +536,12 @@ Procedure ToolsPanel_Show()
   
 EndProcedure
 
+DataSection
+  
+  Image_ToolsPanelRight:
+    IncludeBinary "data/ToolsPanelRight.png"
+  
+  Image_ToolsPanelLeft:
+    IncludeBinary "data/ToolsPanelLeft.png"
+  
+EndDataSection
