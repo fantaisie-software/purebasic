@@ -39,7 +39,6 @@ XIncludeFile #DEFAULT_DebuggerSource + "DebuggerCommon.pb"                  ; mu
 XIncludeFile "Declarations.pb"
 XIncludeFile "Macro.pb"
 XIncludeFile ".." + #Separator + "PureBasicConfigPath.pb" ; for the config directory
-XIncludeFile "RemoteProcedureCall.pb"
 XIncludeFile "FormDesigner/declare.pb"
 ; must be here to affect all OpenWindow() calls with a macro
 XIncludeFile "LinuxWindowIcon.pb"
@@ -94,7 +93,6 @@ XIncludeFile #DEFAULT_DebuggerSource + "Plugin_Xml.pb"
 ; debugger ide-files
 XIncludeFile "IDEDebugger.pb"
 
-XIncludeFile "Automation.pb"
 XIncludeFile "CompilerInterface.pb"
 XIncludeFile "Language.pb"
 XIncludeFile "ZipManagement.pb"
@@ -141,6 +139,7 @@ XIncludeFile "Preferences.pb"
 XIncludeFile "StandaloneDebuggerControl.pb"
 XIncludeFile "ErrorHandler.pb"
 XIncludeFile "Commandline.pb"
+XIncludeFile "DiffAlgorithm.pb"
 XIncludeFile "DiffWindow.pb"
 XIncludeFile "LinuxHelp.pb"
 XIncludeFile "EditHistory.pb"
@@ -425,10 +424,6 @@ StartHistorySession()
 CompilerIf #CompileMac
   ReadyForDocumentEvent = 1
 CompilerEndIf
-
-; Initialize automation (do this before opening files)
-;
-InitAutomation()
 
 ; First try to load a project if provided on the commandline
 ; Do this before opening the last open project!
@@ -775,8 +770,6 @@ Procedure ShutdownIDE()
   
   ; end history session. this could take a bit if many files were open (will display a small wait screen if so)
   EndHistorySession()
-  
-  ShutdownAutomation()
   
   Debugger_Quit()     ; kills all running debugger programs (should be before SavePreferences())
   LibraryViewer_End() ; unload all libraryviewer plugin dlls

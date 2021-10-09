@@ -243,19 +243,6 @@ Declare AutoComplete_Insert()                    ; confirm autocomplete
 Declare AutoComplete_InsertEndKEyword()          ; insert "end" keyword on second keypress
 Declare AutoComplete_ChangeSelectedItem(Direction)
 
-;- Automation.pb
-;
-CompilerIf #CompileWindows = 0
-  Declare ProcessAutomationRequest()
-CompilerElse
-  Declare ProcessAutomationRequest(WindowID, *copy.COPYDATASTRUCT)
-CompilerEndIf
-Declare InitAutomation()                  ; initialize automation
-Declare ShutdownAutomation()              ; shutdown automation
-
-Declare IsAutomationEventClient(Event$)    ; automation events
-Declare AutomationEvent_AutoComplete(List Elements.s())
-
 ;- CodeViewer.pb
 ;
 Declare UpdateCodeViewer(Gadget)                ; update preferences for code viewer
@@ -327,6 +314,10 @@ CompilerIf #DEBUG
   Declare DebuggingWindowEvents(EventID)
   Declare OpenDebuggingWindow()
 CompilerEndIf
+
+;- DiffAlgorithm.pb
+;
+Declare Diff(*Ctx.DiffContext, *BufferA, SizeA, *BufferB, SizeB, Flags = 0)
 
 ;- DiffWindow.pb
 ;

@@ -38,20 +38,6 @@ Enumeration
   #DIFF_SourceToFile
 EndEnumeration
 
-Structure DiffLine
-  Hash.l   ; currently a CRC32, can be something else too (does not include newline)
-  Length.l ; length in bytes, including newline sequence
-  *Start   ; line start address (in diff buffer)
-EndStructure
-
-; Represents a block of common lines
-;
-Structure DiffBlock
-  Length.l
-  StartFileA.l
-  StartFileB.l
-EndStructure
-
 ; Represents a block of styled characters for the final diff document
 Structure DiffStyleBlock
   *Start
@@ -70,10 +56,11 @@ EndStructure
 
 ; information about the two files to diff
 ;
-Global Dim DiffA.DiffLine(0), Dim DiffB.DiffLine(0) ; content (freed after diff creation)
+Global DiffA_Size, DiffB_Size
 Global DiffA_Lines, DiffB_Lines                     ; # of lines
 Global DiffA_Utf8, DiffB_Utf8                       ; is utf8 bom present
 Global *DiffA_Buffer, *DiffB_Buffer                 ; memory buffer containing original files (stays allocated until diff is closed)
+Global *DiffA_Start, *DiffB_Start                   ; buffer offset after BOM (if any)
 Global NewList StyleA.DiffStyleBlock()              ; resulting diff blocks (stays allocated until diff is closed)
 Global NewList StyleB.DiffStyleBlock()
 Global DiffA_Title$, DiffB_Title$
@@ -979,7 +966,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
           CompilerIf #SCINTILLA_TEXT_MARGIN
             If Style <> #DIFF_Empty
               Text$ = Str(DisplayLine)
-              ScintillaSendMessage(Gadget, #SCI_MARGINSETTEXT, Line, @Text$)
+              ScintillaSendMessage(Gadget, #SCI_MARGINSETTEXT, Line, ToAscii(Text$))
               ScintillaSendMessage(Gadget, #SCI_MARGINSETSTYLE, Line, #STYLE_LINENUMBER)
               DisplayLine + 1
             EndIf
@@ -1067,116 +1054,9 @@ Procedure UpdateDiffWindow()
 EndProcedure
 
 
-
-; This implements the algorithm for calculating the longest common subsequence (LCS)
-; described in the LCS function in the wikipedia article:
-; http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
-;
-; This is a rather naive algorithm and requires lots of storage space and execution time
-; It is probably not the best solution.
-;
-; Note that this is horribly slow in debug mode because of all the array bounds checks
-; but acceptable fast in non-debug mode.
-;
-; There is a more sophisticated algorithm which is in wide use by diff tools.
-; It is described in the paper: "An O(NP) Sequence Comparison Algorithm" by Gene Myers et al.
-;   http://read.pudn.com/downloads131/sourcecode/delphi_control/558602/O%28NP%29.pdf
-; An earlier algorithm can be found here: "An O(ND) Difference Algorithm and Its Variations" (also by Gene Myers)
-;   http://www.xmailserver.org/diff2.pdf
-;
-; When I have the time i will try to implement one of these instead of this simple one.
-;
-Procedure LCS_Simple(List Blocks.DiffBlock())
-  
-  ; trim off unchanged areas at the beginning
-  ;
-  Start = 0
-  While Start < DiffA_Lines And Start < DiffB_Lines And DiffA(Start)\Hash = DiffB(Start)\Hash
-    Start + 1
-  Wend
-  
-  ; trim off unchanged areas at the end
-  ;
-  End1 = DiffA_Lines-1
-  End2 = DiffB_Lines-1
-  EndBlock = 0
-  While Start <= End1 And Start <= End2 And DiffA(End1)\Hash = DiffB(End2)\Hash
-    End1 - 1
-    End2 - 1
-    EndBlock + 1
-  Wend
-  
-  ; if these are equal then the files are the same
-  ;
-  If End1 <> Start Or End2 <> Start
-    
-    ; build the table
-    Dim Length.l(End1-Start+1, End2-Start+1)
-    Offset = Start-1
-    
-    For i = Start To End1
-      For j = Start To End2
-        If DiffA(i)\Hash = DiffB(j)\Hash
-          Length(i-Offset, j-Offset) = Length(i-Offset-1, j-Offset-1) + 1
-        Else
-          Length(i-Offset, j-Offset) = Max(Length(i-Offset, j-Offset-1), Length(i-Offset-1, j-Offset))
-        EndIf
-      Next j
-    Next i
-    
-    ; read out the LCS from the table
-    i = End1
-    j = End2
-    While i > Start And j > Start
-      If DiffA(i)\Hash = DiffB(j)\Hash
-        InsertElement(Blocks())
-        Blocks()\Length = 1
-        Blocks()\StartFileA = i
-        Blocks()\StartFileB = j
-        i - 1
-        j - 1
-        While i > Start And j > Start And DiffA(i)\Hash = DiffB(j)\Hash ; collapse all changed equal lines into a larger block
-          Blocks()\Length + 1
-          Blocks()\StartFileA - 1
-          Blocks()\StartFileB - 1
-          i - 1
-          j - 1
-        Wend
-      ElseIf Length(i-Offset, j-Offset-1) > Length(i-Offset-1, j-Offset)
-        j - 1
-      Else
-        i - 1
-      EndIf
-    Wend
-    
-  EndIf
-  
-  ; add start block
-  If Start > 0
-    FirstElement(Blocks())
-    InsertElement(Blocks())
-    Blocks()\Length = Start
-    Blocks()\StartFileA = 0
-    Blocks()\StartFileB = 0
-  EndIf
-  
-  ; add the end block
-  If EndBlock > 0
-    LastElement(Blocks())
-    AddElement(Blocks())
-    Blocks()\Length = EndBlock
-    Blocks()\StartFileA = End1+1
-    Blocks()\StartFileB = End2+1
-  EndIf
-EndProcedure
-
-Procedure AddStyleBlock(List Style.DiffStyleBlock(), Array Diff.DiffLine(1), LineStart, Lines, Style)
-  Length = 0
-  For i = LineStart To LineStart + Lines - 1
-    Length + Diff(i)\Length
-  Next i
+Procedure AddStyleBlock(List Style.DiffStyleBlock(), *Start, Length, Lines, Style)
   AddElement(Style())
-  Style()\Start  = Diff(LineStart)\Start
+  Style()\Start  = *Start
   Style()\Length = Length
   Style()\Style  = Style
   Style()\Lines  = Lines
@@ -1190,10 +1070,8 @@ Procedure AddEmptyStyleBlock(List Style.DiffStyleBlock(), Lines)
   Style()\Lines  = Lines
 EndProcedure
 
-; Perform the actual diff after two calls to SetDiffXXX() to set the input
-;
-Procedure PerformDiff(Flags = 0)
-  NewList Blocks.DiffBlock()
+
+Procedure PerformDiff()
   ClearList(StyleA())
   ClearList(StyleB())
   
@@ -1202,112 +1080,90 @@ Procedure PerformDiff(Flags = 0)
   ShowDiffProgress(#True)
   FlushEvents()
   
+  DiffFlags = 0
+  If DiffIgnoreCase
+    DiffFlags | #DIFF_IgnoreCase
+  EndIf
+  If DiffIgnoreSpaceAll
+    DiffFlags | #DIFF_IgnoreSpaceAll
+  EndIf
+  If DiffIgnoreSpaceLeft
+    DiffFlags | #DIFF_IgnoreSpaceLeft
+  EndIf
+  If DiffIgnoreSpaceRight
+    DiffFlags | #DIFF_IgnoreSpaceRight
+  EndIf
+  
+  Ctx.DiffContext
+  Diff(@Ctx, *DiffA_Start, DiffA_Size, *DiffB_Start, DiffB_Size, DiffFlags)
+  DiffA_Lines = Ctx\LineCountA
+  DiffB_Lines = Ctx\LineCountB
+  
   ; Handle the special cases where one or both files are empty/not loadable
   ;
   If DiffA_Lines = 0 And DiffB_Lines = 0
     AddEmptyStyleBlock(StyleA(), 1)
     AddEmptyStyleBlock(StyleB(), 1)
     
-  ElseIf DiffA_Lines = 0
-    AddEmptyStyleBlock(StyleA(), DiffB_Lines)
-    AddStyleBlock(StyleB(), DiffB(), 0, DiffB_Lines, #DIFF_Added)
-    
-  ElseIf DiffB_Lines = 0
-    AddStyleBlock(StyleA(), DiffA(), 0, DiffA_Lines, #DIFF_Removed)
-    AddEmptyStyleBlock(StyleB(), DiffA_Lines)
-    
   Else
+  
+    ResetList(Ctx\Edits())
+  
+    While NextElement(Ctx\Edits())
     
-    ; This does the heavy work using the DiffX() arrays as a basis to calculate
-    ; the longest common subsequence of both files
-    ;
-    LCS_Simple(Blocks())
-    
-    
-    ; Now we have a (sorted) list of all common blocks between the files
-    ; Mark the lines in the files accordingly
-    ; this is fast, no abort check needed in the loop
-    ;
-    CurrentA = 0
-    CurrentB = 0
-    DiffTotalLines = 0 ; this is the same for both files after this
-    ForEach Blocks()
-      ; look at the lines before this common block
-      If CurrentA < Blocks()\StartFileA And CurrentB = Blocks()\StartFileB
-        ; deletion from file 1
-        AddStyleBlock(StyleA(), DiffA(), CurrentA, Blocks()\StartFileA-CurrentA, #DIFF_Removed)
-        AddEmptyStyleBlock(StyleB(), Blocks()\StartFileA-CurrentA)
-        DiffTotalLines + Blocks()\StartFileA-CurrentA
+      If Ctx\Edits()\Op = #DIFF_Match
+        AddStyleBlock(StyleA(), Ctx\Edits()\Start, Ctx\Edits()\Length, Ctx\Edits()\Lines, #DIFF_Equal)
+        AddStyleBlock(StyleB(), Ctx\Edits()\Start, Ctx\Edits()\Length, Ctx\Edits()\Lines, #DIFF_Equal)
         
-      ElseIf CurrentA = Blocks()\StartFileA And CurrentB < Blocks()\StartFileB
-        ; insertion in file 2
-        AddEmptyStyleBlock(StyleA(), Blocks()\StartFileB-CurrentB)
-        AddStyleBlock(StyleB(), DiffB(), CurrentB, Blocks()\StartFileB-CurrentB, #DIFF_Added)
-        DiffTotalLines + Blocks()\StartFileB-CurrentB
+      Else
+    
+        ; Combine Insert+Delete or Delete+Insert into a single "Change" block
+        Op = Ctx\Edits()\Op
+        NextOp = -1
+        PushListPosition(Ctx\Edits())
+          If NextElement(Ctx\Edits())
+            NextOp = Ctx\Edits()\Op
+          EndIf
+        PopListPosition(Ctx\Edits())
         
-      ElseIf CurrentA < Blocks()\StartFileA And CurrentB < Blocks()\StartFileB
-        ; change between the files
-        LinesA = Blocks()\StartFileA-CurrentA
-        LinesB = Blocks()\StartFileB-CurrentB
-        AddStyleBlock(StyleA(), DiffA(), CurrentA, LinesA, #DIFF_Changed)
-        AddStyleBlock(StyleB(), DiffB(), CurrentB, LinesB, #DIFF_Changed)
-        If LinesA < LinesB
-          AddEmptyStyleBlock(StyleA(), LinesB-LinesA)
-          DiffTotalLines + LinesB
-        ElseIf LinesB < LinesA
-          AddEmptyStyleBlock(StyleB(), LinesA-LinesB)
-          DiffTotalLines + LinesA
+        If Op = #DIFF_Delete And NextOp = #DIFF_Insert
+          LinesA = Ctx\Edits()\Lines
+          AddStyleBlock(StyleA(), Ctx\Edits()\Start, Ctx\Edits()\Length, Ctx\Edits()\Lines, #DIFF_Changed)
+          NextElement(Ctx\Edits())
+          LinesB = Ctx\Edits()\Lines
+          AddStyleBlock(StyleB(), Ctx\Edits()\Start, Ctx\Edits()\Length, Ctx\Edits()\Lines, #DIFF_Changed)
+          If LinesA < LinesB
+            AddEmptyStyleBlock(StyleA(), LinesB-LinesA)
+          ElseIf LinesB < LinesA
+            AddEmptyStyleBlock(StyleB(), LinesA-LinesB)
+          EndIf
+        
+        ElseIf Op = #DIFF_Insert And NextOp = #DIFF_Delete
+          LinesB = Ctx\Edits()\Lines
+          AddStyleBlock(StyleB(), Ctx\Edits()\Start, Ctx\Edits()\Length, Ctx\Edits()\Lines, #DIFF_Changed)
+          NextElement(Ctx\Edits())
+          LinesA = Ctx\Edits()\Lines
+          AddStyleBlock(StyleA(), Ctx\Edits()\Start, Ctx\Edits()\Length, Ctx\Edits()\Lines, #DIFF_Changed)
+          If LinesA < LinesB
+            AddEmptyStyleBlock(StyleA(), LinesB-LinesA)
+          ElseIf LinesB < LinesA
+            AddEmptyStyleBlock(StyleB(), LinesA-LinesB)
+          EndIf
+        
+        ElseIf Op = #DIFF_Delete
+          AddStyleBlock(StyleA(), Ctx\Edits()\Start, Ctx\Edits()\Length, Ctx\Edits()\Lines, #DIFF_Removed)
+          AddEmptyStyleBlock(StyleB(), Ctx\Edits()\Lines)
+          
+        Else ; must be an insert
+          AddEmptyStyleBlock(StyleA(), Ctx\Edits()\Lines)
+          AddStyleBlock(StyleB(), Ctx\Edits()\Start, Ctx\Edits()\Length, Ctx\Edits()\Lines, #DIFF_Added)
+          
         EndIf
         
       EndIf
-      
-      ; add the common block to both files
-      ; make sure to use the block from the right file here, as even if they are equal, spaces could be different (if ignored)
-      AddStyleBlock(StyleA(), DiffA(), Blocks()\StartFileA, Blocks()\Length, #DIFF_Equal)
-      AddStyleBlock(StyleB(), DiffB(), Blocks()\StartFileB, Blocks()\Length, #DIFF_Equal)
-      DiffTotalLines + Blocks()\Length
-      
-      CurrentA = Blocks()\StartFileA + Blocks()\Length
-      CurrentB = Blocks()\StartFileB + Blocks()\Length
-    Next Blocks()
-    
-    ; look at the data after the last common block
-    LastA = DiffA_Lines-1
-    LastB = DiffB_Lines-1
-    If CurrentA < LastA And CurrentB = LastB
-      ; deletion from file 1
-      AddStyleBlock(StyleA(), DiffA(), CurrentA, LastA-CurrentA, #DIFF_Removed)
-      AddEmptyStyleBlock(StyleB(), LastA-CurrentA)
-      DiffTotalLines + LastA-CurrentA
-      
-    ElseIf CurrentA = LastA And CurrentB < LastB
-      ; insertion in file 2
-      AddEmptyStyleBlock(StyleA(), LastB-CurrentB)
-      AddStyleBlock(StyleB(), DiffB(), CurrentB, LastB-CurrentB, #DIFF_Added)
-      DiffTotalLines + LastB-CurrentB
-      
-    ElseIf CurrentA < LastA And CurrentB < LastB
-      ; change
-      LinesA = LastA-CurrentA
-      LinesB = LastB-CurrentB
-      AddStyleBlock(StyleA(), DiffA(), CurrentA, LinesA, #DIFF_Changed)
-      AddStyleBlock(StyleB(), DiffB(), CurrentB, LinesB, #DIFF_Changed)
-      If LinesA < LinesB
-        AddEmptyStyleBlock(StyleA(), LinesB-LinesA)
-        DiffTotalLines + LinesB
-      ElseIf LinesB < LinesA
-        AddEmptyStyleBlock(StyleB(), LinesA-LinesB)
-        DiffTotalLines + LinesA
-      EndIf
-      
-    EndIf ; else, the files end in a common block
+    Wend
     
   EndIf
-  
-  ; Free the no longer needed diff data (DiffX_Lines is still needed)
-  ;
-  Dim DiffA(0)
-  Dim DiffB(0)
   
   If DiffSwapped
     SetGadgetText(#GADGET_Diff_Title1, DiffB_Title$)
@@ -1329,112 +1185,6 @@ Procedure PerformDiff(Flags = 0)
 EndProcedure
 
 
-
-Procedure ScanDiffLines(Array Diff.DiffLine(1), *Buffer, Length)
-  Protected Lines = 0, Line
-  Protected *Pointer.Ascii, *Start
-  Protected *BufferEnd = *Buffer + Length
-  
-  ; do a scan to count the lines
-  If *Buffer And Length > 0
-    Lines = 1 ; its at least one line then
-    *Pointer = *Buffer
-    While *Pointer < *BufferEnd
-      If *Pointer\a = 13      ; windows newline
-        Lines + 1
-        If *Pointer < *BufferEnd-1 And PeekA(*Pointer+1) = 10
-          *Pointer + 1
-        EndIf
-      ElseIf *Pointer\a = 10 ; unix newline
-        Lines + 1
-      EndIf
-      *Pointer + 1
-    Wend
-  EndIf
-  
-  If Lines > 0
-    Dim Diff.DiffLine(Lines-1)
-  Else
-    Dim Diff.DiffLine(0)
-  EndIf
-  
-  If DiffIgnoreCase Or DiffIgnoreSpaceAll Or DiffIgnoreSpaceLeft Or DiffIgnoreSpaceRight
-    HashDirect = 0
-  Else
-    HashDirect = 1
-  EndIf
-  
-  ; process the actual lines
-  If *Buffer And Length > 0
-    *Pointer = *Buffer
-    For Line = 0 To Lines-1
-      *Start = *Pointer
-      While *Pointer < *BufferEnd And *Pointer\a <> 13 And *Pointer\a <> 10
-        *Pointer + 1
-      Wend
-      
-      If *Pointer < *BufferEnd
-        If *Pointer\a = 13 And *Pointer < *BufferEnd-1 And PeekA(*Pointer+1) = 10
-          *NextLine = *Pointer + 2
-        Else
-          *NextLine = *Pointer + 1
-        EndIf
-      Else
-        *NextLine = *Pointer
-      EndIf
-      
-      Diff(Line)\Start = *Start
-      Diff(Line)\Length = *NextLine - *Start ; includes newline
-      If *Pointer = *Start
-        Diff(Line)\Hash = 0
-      ElseIf HashDirect
-        Diff(Line)\Hash = CRC32Fingerprint(*Start, *Pointer-*Start)
-      Else
-        ; need to get a string to apply further options first
-        ;
-        Line$ = PeekAsciiLength(*Start, *Pointer-*Start) ; ok for ascii and utf8, as we just need a checksum and no content
-        
-        If DiffIgnoreCase
-          Line$ = LCase(Line$)
-        EndIf
-        
-        If DiffIgnoreSpaceAll
-          Line$ = Trim(ReplaceString(Line$, Chr(9), " ")) ; convert tab, remove space on sides
-          
-          ; collapse any multiple space to single ones, so we have only significant spaces left
-          While FindString(Line$, "  ", 1)
-            Line$ = ReplaceString(Line$, "  ", " ")
-          Wend
-          
-        Else
-          If DiffIgnoreSpaceLeft
-            While Left(Line$, 1) = " " Or Left(Line$, 1) = Chr(9) ; simple trim is not enough here
-              Line$ = Right(Line$, Len(Line$)-1)
-            Wend
-          EndIf
-          
-          If DiffIgnoreSpaceRight
-            While Right(Line$, 1) = " " Or Right(Line$, 1) = Chr(9)
-              Line$ = Left(Line$, Len(Line$)-1)
-            Wend
-          EndIf
-        EndIf
-        
-        If Len(Line$) = 0
-          Diff(Line)\Hash = 0
-        Else
-          Diff(Line)\Hash = CRC32Fingerprint(@Line$, StringByteLength(Line$))
-        EndIf
-      EndIf
-      
-      *Pointer = *NextLine
-    Next Line
-  EndIf
-  
-  ProcedureReturn Lines
-EndProcedure
-
-
 ; Set the left or right diff buffer.
 ;  *Buffer must be AllocateMemory() buffer and will belong to the Diff window then
 ;  *Buffer can be 0 if Length is 0
@@ -1450,10 +1200,11 @@ Procedure SetDiffBuffer(IsLeft, *Buffer, Length, Title$, IsUTF8)
   ;  - with the IsUTF8 parameter (for ScintillaGadget source)
   ;  - with a BOM in the data (for file source)
   ;
+  *OriginalBuffer = Buffer
   If Length >= 3 And PeekA(*Buffer) = $EF And PeekA(*Buffer+1) = $BB And PeekA(*Buffer+2) = $BF
     IsUTF8 = 1
     *Buffer + 3
-    Length - 1
+    Length - 3
   EndIf
   
   ; do the actual scan for the correct side
@@ -1461,18 +1212,20 @@ Procedure SetDiffBuffer(IsLeft, *Buffer, Length, Title$, IsUTF8)
     If *DiffA_Buffer
       FreeMemory(*DiffA_Buffer)  ; free previous buffer (if any)
     EndIf
-    DiffA_Utf8   = IsUTF8
-    DiffA_Lines  = ScanDiffLines(DiffA(), *Buffer, Length)
-    *DiffA_Buffer = *BufferCopy
-    DiffA_Title$ = Title$
+    DiffA_Utf8    = IsUTF8
+    DiffA_Size    = Length
+    *DiffA_Buffer = *OriginalBuffer
+    *DiffA_Start  = *Buffer
+    DiffA_Title$  = Title$
   Else
     If *DiffB_Buffer
       FreeMemory(*DiffB_Buffer)
     EndIf
-    DiffB_Utf8   = IsUTF8
-    DiffB_Lines  = ScanDiffLines(DiffB(), *Buffer, Length)
-    *DiffB_Buffer = *BufferCopy
-    DiffB_Title$ = Title$
+    DiffB_Utf8    = IsUTF8
+    DiffB_Size    = Length
+    *DiffB_Buffer = *OriginalBuffer
+    *DiffB_Start  = *Buffer
+    DiffB_Title$  = Title$
   EndIf
   
   ProcedureReturn #True
@@ -2164,4 +1917,3 @@ Procedure UpdateDiffDialogWindow()
   DiffDialogWindowDialog\GuiUpdate()
   
 EndProcedure
-

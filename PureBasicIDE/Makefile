@@ -39,8 +39,6 @@ ifeq ($(PB_WINDOWS),1)
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ONERROR = /LINENUMBERING
-	LIBMBA = $(TARGET)/libmba/libmba.lib
-	DOMAINSOCKET =
 	COLORTABLE = $(HOME)/Catalogs/ColorTable.xml
 
 	ECHOQUOTE =
@@ -80,8 +78,6 @@ endif
 	CPUMONITORLIB =
 	DIALOGCOMPILER = $(PB_BUILDTARGET)/dialogcompiler/dialogcompiler
 	ONERROR = --linenumbering
-	DOMAINSOCKET = $(TARGET)/AutomationDomainSocket.o
-	LIBMBA = $(TARGET)/libmba/libmba.a
 	COLORTABLE = $(HOME)/catalogs/ColorTable.xml
 
 	ECHOQUOTE = "
@@ -135,8 +131,7 @@ DEPENDENCIES = \
 	$(MACPLIST) \
 	$(PROFILERICONS) \
 	$(THEMES) \
-	$(MAKEBUILDINFO) \
-	$(DOMAINSOCKET)
+	$(MAKEBUILDINFO)
 
 
 ifeq ($(PB_JAVASCRIPT),1)
@@ -147,7 +142,6 @@ endif
 # default target
 #
 ide : VERSION $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -156,7 +150,6 @@ ide : VERSION $(DEPENDENCIES)
 # demo version of the IDE
 #
 demo : VERSION_DEMO $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(CONSTANT) DEMO=1 $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -165,7 +158,6 @@ demo : VERSION_DEMO $(DEPENDENCIES)
 # debug version (with linenumbering / gtk error messages)
 #
 debug : VERSION_DEBUG $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG) $(CONSTANT) DEBUG=1 $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -174,7 +166,6 @@ debug : VERSION_DEBUG $(DEPENDENCIES)
 # debug version + Purifier
 #
 purifier : VERSION_DEBUG $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGFLAGS) $(DEBUGSYMBOLS) $(PURIFIER) $(VERSIONFLAG) $(CONSTANT) DEBUG=1 $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -183,7 +174,6 @@ purifier : VERSION_DEBUG $(DEPENDENCIES)
 # default target, but without stripping debug symbols (for gdk debugging)
 #
 symbols : VERSION $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -192,7 +182,6 @@ symbols : VERSION $(DEPENDENCIES)
 # default target, but with onerror support
 #
 onerror : VERSION $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(ONERROR) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
 	$(MACPLISTCOMMAND)
@@ -201,7 +190,6 @@ onerror : VERSION $(DEPENDENCIES)
 # special target to build all needed files, but not the IDE itself. (good for testing from inside the ide)
 #
 nocompile :  $(TARGET)/dummy VERSION  $(DEPENDENCIES)
-	make --directory libmba
 	$(MAKEBUILDINFO) $(TARGET)
 
 #
@@ -276,16 +264,6 @@ dll : tools/HighlightingDll.pb
 	$(PBCOMPILER) tools/HighlightingDll.pb /dll /exe "$(HOME)/SDK/Syntax Highlighting/SyntaxHighlighting.dll" /CONSTANT MAKEFILE=1
 	cp "tools\HighlightingDll_example.pb" "$(HOME)/SDK/Syntax Highlighting/Example.pb"
 
-# (Currently windows only, later hopefully crossplatform)
-# IDE Automation sdk (dll + examples)
-automation_sdk : sdk/Example.pb sdk/Automation.pb AutomationLibrary.pb FileSystem.pb RemoteProcedureCall.pb CompilerFlags.pb Macro.pb
-	-mkdir "$(HOME)/SDK/Automation"
-	$(PBCOMPILER) AutomationLibrary.pb /dll /exe "$(HOME)/SDK/Automation/Automation.dll"
-	$(PBCOMPILER) AutomationLibrary.pb /dll /exe "$(HOME)/SDK/Automation/AutomationUnicode.dll" /UNICODE
-	cp sdk/Automation.pb "$(HOME)/SDK/Automation/Automation.pb"
-	cp sdk/Example.pb "$(HOME)/SDK/Automation/Example.pb"
-
-
 #
 # For other os: dummy version targets
 #
@@ -309,22 +287,6 @@ $(MACPLIST) : tools/macplist.pb $(TARGET)/dummy
 	$(PBCOMPILER) tools/macplist.pb -e $(MACPLIST)
 
 endif
-
-
-ifeq ($(PB_WINDOWS),1)
-
-# not needed on Windows
-$(DOMAINSOCKET):
-
-else
-
-# domain socket function for IDE automation
-$(DOMAINSOCKET) : AutomationDomainSocket.c
-	$(PB_GCC_ANSI) $(PB_OPT_SPEED) -c $< -o $@
-
-endif
-
-
 
 $(TARGET)/dummy:
 	mkdir "$(TARGET)"

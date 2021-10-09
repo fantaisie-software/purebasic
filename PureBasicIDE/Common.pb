@@ -2231,7 +2231,7 @@ Structure ProjectFile Extends ProjectFileConfig
   ; Only if the file is currently loaded
   *Source.SourceFile
   
-  ; Only if the file is corrently NOT loaded
+  ; Only if the file is currently NOT loaded
   Parser.ParserData    ; parsed source data
   
   LastOpen.l     ; valid while saving/closing a project
@@ -2430,6 +2430,54 @@ Structure ZipEntry
   Compression.l
   Compressed.l
   Uncompressed.l
+EndStructure
+
+;- Diff Implementation
+;
+
+; Possible Flags for the Diff() procedure
+EnumerationBinary
+  #DIFF_IgnoreCase        ; ignore case
+  #DIFF_IgnoreSpaceAll    ; ignore all space changes (also inside of lines)
+  #DIFF_IgnoreSpaceLeft   ; ignore space changes on the left of a line (indentation)
+  #DIFF_IgnoreSpaceRight  ; ignore space changes on the right of a line
+EndEnumeration
+
+; Possible values for DiffEdit\Op
+Enumeration
+  #DIFF_Match = 1
+  #DIFF_Insert
+  #DIFF_Delete
+EndEnumeration
+
+; A line in the parsed diff file
+Structure DiffLine
+  Checksum.l  ; Crc32 of the line
+  Length.l    ; Line length including newline
+  *Start      ; Line start in original buffer
+EndStructure
+
+; One edit command
+; Note that the line information refers to file A for Match/Delete and file B for Insets
+Structure DiffEdit
+  Op.l
+  StartLine.l ; 0 based line start
+  Lines.l     ; number of lines
+  Length.l    ; size in bytes
+  *Start      ; Start in original buffer
+EndStructure
+
+; Result of a Diff computation
+Structure DiffContext
+  Array A.DiffLine(1000)  ; Parsed lines of file A (Array may be larger than total number of lines!)
+  Array B.DiffLine(1000)  ; Parsed lines of file B
+  LineCountA.l            ; Actual lines in file A
+  LineCountB.l            ; Actual lines in file B
+  
+  List Edits.DiffEdit()   ; Edit script (diff result)
+  
+  Array FV.l(0)           ; For internal use. Freed before Diff() returns
+  Array RV.l(0)
 EndStructure
 
 ; NOTE: Each Tool must add itself to the AvailablePanelTools() list and fill the required
@@ -2765,11 +2813,22 @@ CompilerIf Defined(Min, #PB_Procedure) = 0
   EndProcedure
 CompilerEndIf
 
+; Speed improvement:
+; Use the PB internal CRC32 function rather than using the Fingerprint() command to avoid conversion to/from strings
+; This makes a noticable difference when computing file Diffs
+CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+  Import ""
+    PB_Cipher_CalculateCRC32(*buf, len, crc)
+  EndImport
+CompilerElse
+  ImportC ""
+    PB_Cipher_CalculateCRC32(*buf, len, crc)
+  EndImport
+CompilerEndIf
 
-Procedure.l CRC32Fingerprint(*Buffer, Length) ; We need an explicit long return
-  ProcedureReturn Val("$"+Fingerprint(*Buffer, Length, #PB_Cipher_CRC32)) ; Cast the result to long before returning
-EndProcedure
-
+Macro CRC32Fingerprint(Buffer, Length)
+  PB_Cipher_CalculateCRC32(Buffer, Length, 0)
+EndMacro
 
 CompilerIf #PB_Compiler_Debugger
   ; Useful to ensures a ProcessEvent() is NEVER called in the debugger callback as it can generate very weird bug

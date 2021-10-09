@@ -523,7 +523,7 @@ Procedure AsciiToUTF8(*out.ASCII, *outlen.LONG, *in.ASCII, *inlen.LONG)
       *out\a = $98
       *out + 1
       
-    ElseIf *in\a = $92     ; �-char. Turn this into U+2019
+    ElseIf *in\a = $92     ; ï¿½-char. Turn this into U+2019
       *out\a = $E2
       *out + 1
       *out\a = $80
@@ -1700,6 +1700,7 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
   If LCase(GetExtensionPart(FileName$)) = "pbf"
     OpenForm(FileName$)
     RecentFiles_AddFile(FileName$, #False)
+    AddTools_Execute(#TRIGGER_SourceLoad, *ActiveSource)
     LinkSourceToProject(*ActiveSource) ; Link To project (If any)
     ProcedureReturn 1
   EndIf
@@ -1874,6 +1875,7 @@ Procedure SaveSourceFile(FileName$)
     
     If FormWindows()\current_view = 0 ; Design view, we need to use the special form save routine. In code view, we just save the code as any other source
       FD_Save(FileName$)
+      AddTools_Execute(#TRIGGER_SourceSave, *ActiveSource)
       ProcedureReturn 1
     EndIf
   EndIf
@@ -2229,10 +2231,29 @@ Procedure SaveSourceAs()
       EndIf
     EndIf
     
+    ; Check if file already open in IDE
+    *SourceBeingClosed = 0
+    ForEach FileList()
+      If @FileList() <> *ActiveSource
+        If IsEqualFile(FileList()\FileName$, FileName$)
+          PromptedUser = 1
+          If MessageRequester(#ProductName$, Language("FileStuff","FileIsOpen")+#NewLine+Language("FileStuff","CloseOverWrite"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_Yes
+            *SourceBeingClosed = @FileList()
+            Break
+          Else
+            ProcedureReturn SaveSourceAs()  ; try again
+          EndIf
+        EndIf
+      EndIf
+    Next
+    If *SourceBeingClosed <> 0
+      RemoveSource(*SourceBeingClosed)
+    EndIf
+    
     ; On Cocoa the file exists dialog is already in the SavePanel, so only popup if we added an extension
     ;
-    If ForceFileCheck Or #CompileMacCocoa = 0
-      If FileSize(FileName$) > -1  ; file exist check
+    If (ForceFileCheck Or #CompileMacCocoa = 0) And *SourceBeingClosed = 0
+      If FileSize(FileName$) > -1 And IsEqualFile(FileName$, *ActiveSource\FileName$) = 0 ; file exist check
         If MessageRequester(#ProductName$, Language("FileStuff","FileExists")+#NewLine+Language("FileStuff","OverWrite"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_No
           ProcedureReturn SaveSourceAs()  ; try again
         EndIf
@@ -2242,7 +2263,10 @@ Procedure SaveSourceAs()
     Result = SaveSourceFile(FileName$)
     
     If Result
+      UnlinkSourceFromProject(*ActiveSource, #True)
       *ActiveSource\FileName$ = FileName$
+      LinkSourceToProject(*ActiveSource)
+      
       UpdateMainWindowTitle() ; we now have a new filename
       RefreshSourceTitle(*ActiveSource)
       HistoryEvent(*ActiveSource, #HISTORY_SaveAs)
