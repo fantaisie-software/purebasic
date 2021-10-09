@@ -50,7 +50,6 @@ XIncludeFile "Misc.pb"
 XIncludeFile "VariableGadget.pb"
 XIncludeFile "Communication_PipeWindows.pb"
 XIncludeFile "Communication_PipeUnix.pb"
-XIncludeFile "Communication_Network.pb"
 XIncludeFile "Communication.pb"
 XIncludeFile "DebugOutput.pb"
 XIncludeFile "AsmDebug.pb"
@@ -165,10 +164,6 @@ CompilerEndIf
 ;   pbdebugger <exefile> [<exe commandline>]
 ;   pbdebugger [-o <filename>] [<exefile>] [<exe commandline>]
 ;
-; Network mode:
-;   pbdebugger /Connect=<host[:port]> [/password=<passwd>]
-;   pbdebugger --connect=<host[:port]> [--password=<passwd>]
-;
 ; The -o option allows to pass a file to the debugger, which can be used to communicate
 ; stuff like breakpoints or watchlist objects to it.
 ;
@@ -187,19 +182,6 @@ CompilerEndIf
 ; COMMANDLINE <string>
 ;   allows to specify the commandline for the executable in this file, the commandline
 ;   given to the debugger will be ignored
-;
-; NETWORK <Mode>
-;   switch to network mode. <Mode> can be SERVER or CLIENT
-;
-; HOST <host>
-;   specify the host for network CLIENT mode
-;   In SERVER mode, specify the interface to bind to (optional in this case)
-;
-; PORT <port>
-;   specify the port for network mode (CLIENT and SERVER)
-;
-; PASSWORD <passwd>
-;   specify the password for network mode (CLIENT or SERVER)
 ;
 ; SOURCEFILE <filename>
 ;   allows to overwrite the "Main Source" filename, as it is stored in the debugged executable.
@@ -245,82 +227,16 @@ CompilerEndIf
 ;
 ;- Parse Commandline
 
-NetworkMode   = 0
-NetworkHost$  = ""
-NetworkPort   = #DEBUGGER_DefaultPort
-NetworkPass$  = ""
-
 ExeName$  = ProgramParameter()
 ExeNameU$ = UCase(ExeName$)
 
 PurifierSettings$ = ""
 
-; Check for the parameters of Network Client mode
-;
-If Left(ExeNameU$, 9) = "/CONNECT=" Or Left(ExeNameU$, 10) = "--CONNECT="
-  NetworkMode = 1 ; network client mode
-  NetworkHost$ = Right(ExeName$, Len(ExeName$)-FindString(ExeName$, "=", 1))
-  ExeName$ = ""
-  
-  PortSep = FindString(NetworkHost$, ":", 1)
-  If PortSep
-    NetworkPort  = Val(Right(NetworkHost$, Len(NetworkHost$)-PortSep))
-    NetworkHost$ = Left(NetworkHost$, PortSep-1)
-  EndIf
-  
-  Pass$ = ProgramParameter()
-  If UCase(Left(Pass$, 10)) = "/PASSWORD=" Or UCase(Left(Pass$, 11)) = "--PASSWORD="
-    NetworkPass$ = Right(Pass$, Len(Pass$)-FindString(Pass$, "=", 1))
-  EndIf
-  
-ElseIf ExeNameU$ = "/LISTEN" Or ExeNameU$ = "--LISTEN" Or Left(ExeNameU$, 8) = "/LISTEN=" Or Left(ExeNameU$, 9) = "--LISTEN="
-  NetworkMode = 2 ; network server mode
-  
-  ; Option can contain host and port, but all is optional
-  ;
-  OptionSep = FindString(ExeName$, "=", 1)
-  If OptionSep
-    Option$ = Right(ExeName$, Len(ExeName$)-OptionSep)
-    
-    PortSep = FindString(Option$, ":", 1)
-    
-    If PortSep
-      NetworkHost$ = Left(Option$, PortSep-1)
-      NetworkPort  = Val(Right(Option$, Len(Option$)-PortSep))
-      
-    Else
-      ; If Option only contains numbers, we assume it is a port only and not a host interface
-      NonNumber = 0
-      For i = 1 To Len(Option$)
-        If Asc(Mid(Option$, i, 1)) < '0' Or Asc(Mid(Option$, i, 1)) > '9'
-          NonNumber = 1
-          Break
-        EndIf
-      Next i
-      
-      If NonNumber = 0
-        NetworkPort = Val(Option$)
-      Else
-        NetworkHost$ = Option$
-      EndIf
-      
-    EndIf
-    
-  EndIf
-  ExeName$ = ""
-  
-  Pass$ = ProgramParameter()
-  If UCase(Left(Pass$, 10)) = "/PASSWORD=" Or UCase(Left(Pass$, 11)) = "--PASSWORD="
-    NetworkPass$ = Right(Pass$, Len(Pass$)-FindString(Pass$, "=", 1))
-  EndIf
-  
-ElseIf ExenameU$ = "-O"  ; Check for the Parameter of the Option file
+If ExenameU$ = "-O"  ; Check for the Parameter of the Option file
   OptionsFile$ = ProgramParameter()
   ExeName$ = ProgramParameter()
-  
 Else
   OptionsFile$ = ""
-  
 EndIf
 
 ; Read remaining commandline
@@ -349,7 +265,7 @@ CompilerEndIf
 ; use a fixed filename for this case. Ugly, but works
 ;
 CompilerIf #CompileMac
-  If OptionsFile$ = "" And ExeName$ = "" And NetworkMode = 0
+  If OptionsFile$ = "" And ExeName$ = ""
     OptionsFile$ = "/tmp/.pbstandalone.out"
   EndIf
 CompilerEndIf
@@ -373,17 +289,6 @@ If OptionsFile$ <> ""
         Case "PREFERENCES": PreferenceFile$ = Value$
           
         Case "PURIFIER": PurifierSettings$ = Value$
-          
-        Case "NETWORK"
-          If UCase(Value$) = "CLIENT"
-            NetworkMode = 1
-          ElseIf UCase(Value$) = "SERVER"
-            NetworkMode = 2
-          EndIf
-          
-        Case "HOST":     NetworkHost$ = Value$ ; no port allowed here
-        Case "PORT":     NetworkPort  = Val(Value$)
-        Case "PASSWORD": NetworkPass$ = Value$
           
           ; if this option is not set, we use the preferences default
         Case "WARNINGS"
@@ -445,7 +350,7 @@ Standalone_ResizeGUI()
 
 ;- start executable
 
-If NetworkMode = 0 And ExeName$ = ""
+If ExeName$ = ""
   MessageRequester("PureBasic Debugger",Language("StandaloneDebugger","Commandline"), #FLAG_Error)
   End
 EndIf
@@ -467,28 +372,16 @@ CompilerIf #CompileMac
   EndIf
 CompilerEndIf
 
-If NetworkMode = 0 ; no network
-  DebuggerUseFIFO = 0 ; no need for this here
-  *DebuggerData = Debugger_ExecuteProgram(ExeName$, CommandLine$, CurrentDirectory$)
-  If *DebuggerData = 0
-    MessageRequester("PureBasic Debugger",ReplaceString(Language("StandaloneDebugger","ExecuteError"), "%filename%", ExeName$), #FLAG_Error)
-    End
-  EndIf
-  
-  Standalone_AddLog(Language("Debugger","Waiting"), Date())
-  StatusBarText(#STATUSBAR, 0, Language("Debugger","Waiting"))
-  
-Else
-  Standalone_AddLog(Language("NetworkDebugger","Waiting"), Date())
-  StatusBarText(#STATUSBAR, 0, Language("NetworkDebugger","Waiting"))
-  SetGadgetText(#GADGET_Waiting, Language("NetworkDebugger","Waiting"))
-  
-  *DebuggerData = Debugger_NetworkConnect(NetworkMode, NetworkHost$, NetworkPort, NetworkPass$)
-  If *DebuggerData = 0
-    End ; error messages are displayed by the network code
-  EndIf
-  
+DebuggerUseFIFO = 0 ; no need for this here
+*DebuggerData = Debugger_ExecuteProgram(ExeName$, CommandLine$, CurrentDirectory$)
+If *DebuggerData = 0
+  MessageRequester("PureBasic Debugger",ReplaceString(Language("StandaloneDebugger","ExecuteError"), "%filename%", ExeName$), #FLAG_Error)
+  End
 EndIf
+
+Standalone_AddLog(Language("Debugger","Waiting"), Date())
+StatusBarText(#STATUSBAR, 0, Language("Debugger","Waiting"))
+
 
 ;- Event processing
 

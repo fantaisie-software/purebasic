@@ -39,7 +39,6 @@ ifeq ($(PB_WINDOWS),1)
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ONERROR = /LINENUMBERING
-	NETWORKSUPPORT = $(TARGET)/NetworkSupport.obj
 	COLORTABLE = $(HOME)/Catalogs/ColorTable.xml
 
 	ECHOQUOTE =
@@ -79,7 +78,6 @@ endif
 	CPUMONITORLIB =
 	DIALOGCOMPILER = $(PB_BUILDTARGET)/dialogcompiler/dialogcompiler
 	ONERROR = --linenumbering
-	NETWORKSUPPORT = $(TARGET)/NetworkSupport.o
 	COLORTABLE = $(HOME)/catalogs/ColorTable.xml
 
 	ECHOQUOTE = "
@@ -133,8 +131,7 @@ DEPENDENCIES = \
 	$(MACPLIST) \
 	$(PROFILERICONS) \
 	$(THEMES) \
-	$(MAKEBUILDINFO) \
-	$(NETWORKSUPPORT)
+	$(MAKEBUILDINFO)
 
 
 ifeq ($(PB_JAVASCRIPT),1)
@@ -290,22 +287,6 @@ $(MACPLIST) : tools/macplist.pb $(TARGET)/dummy
 	$(PBCOMPILER) tools/macplist.pb -e $(MACPLIST)
 
 endif
-
-# compile the NetworkSupport.c
-#
-ifeq ($(PB_WINDOWS),1)
-
-$(NETWORKSUPPORT) : ../PureBasicDebugger/NetworkSupport.c $(PB_LIBRARIES)/Debugger/DebuggerInternal.h $(PB_LIBRARIES)/Debugger/OSSpecific.h
-	$(PB_VC8_ANSI) /O1 /c $< /Fo$@
-
-else
-
-$(NETWORKSUPPORT) : ../PureBasicDebugger/NetworkSupport.c $(PB_LIBRARIES)/Debugger/DebuggerInternal.h $(PB_LIBRARIES)/Debugger/OSSpecific.h
-	$(PB_GCC_ANSI) $(PB_OPT_SPEED) -c $< -o $@
-
-endif
-
-
 
 $(TARGET)/dummy:
 	mkdir "$(TARGET)"

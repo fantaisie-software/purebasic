@@ -1949,7 +1949,7 @@ DataSection
   Data$ "_GROUP_",            "StandaloneDebugger"
   ; ===================================================
   
-  Data$ "CommandLine",      "Invalid commandline!%newline%You have to specify the executable name or one of the network options on the commandline."
+  Data$ "CommandLine",      "Invalid commandline!%newline%You have to specify the executable name on the commandline."
   Data$ "CommandFile",      "Cannot read command file '%filename%'."
   Data$ "ExecuteError",     "Cannot execute file '%filename%'."
   Data$ "Run",              "Run"
