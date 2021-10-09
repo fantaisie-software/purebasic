@@ -112,18 +112,6 @@ The Guidelines present an introduction to the project and it's goals, providing 
 The list of third party components used in this project, with due credits to their authors and license terms.
 More details can be found inside the folder of each asset.
 
-## Libmba
-
-- [`PureBasicIDE/libmba/`][libmba/]
-
-The PureBasic IDE uses the __[libmba]__ library by Michael B. Allen, released under the terms of the MIT License.
-
-```
-The MIT License
-
-Copyright (c) 2001-2005 Michael B. Allen <mba2000 ioplex.com>
-```
-
 ## Monokai Theme
 
 - [`PureBasicIDE/Preferences.pb`][MonokaiTheme]
