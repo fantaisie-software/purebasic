@@ -1,7 +1,4 @@
 
-# shared with debugger makefile for simplicity
-TARGET = $(PB_BUILDTARGET)/ide
-
 ifeq ($(PB_JAVASCRIPT),1)
 	HOME=$(SPIDERBASIC_HOME)
 	IDENAME=SpiderBasic
@@ -22,15 +19,15 @@ ifeq ($(PB_WINDOWS),1)
 	IDE = $(HOME)/$(IDENAME).exe
 	IDEFLAGS = /THREAD /UNICODE /XP /USER /ICON "$(ICOFILE)" /DPIAWARE
 	MAKEEXE = /EXE
-	MAKEBUILDINFO = $(TARGET)/makebuildinfo.exe
+	MAKEBUILDINFO = Build/makebuildinfo.exe
 	TOOLFLAGS = /LINENUMBERING /CONSOLE
 	DEBUGFLAGS = /LINENUMBERING /DEBUGGER /CONSOLE
-	VERSIONFLAG = /RESOURCE $(TARGET)/VersionInfo.rc
+	VERSIONFLAG = /RESOURCE Build/VersionInfo.rc
 	CONSTANT = /CONSTANT
 	PURIFIER = /PURIFIER
 	DEBUGSYMBOLS =
 	CPUMONITORLIB =
-	DIALOGCOMPILER = $(PB_BUILDTARGET)/dialogcompiler/DialogCompiler.exe
+	DIALOGCOMPILER = ../DialogManager/Build/DialogCompiler.exe
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ONERROR = /LINENUMBERING
@@ -45,8 +42,8 @@ else
 ifeq ($(PB_MACOS),1)
 	IDE = $(HOME)/$(IDENAME).app
 	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)"
-	MACPLIST = $(TARGET)/macplist
-	MACPLISTCOMMAND = $(TARGET)/macplist $(HOME)/$(IDENAME).app
+	MACPLIST = Build/macplist
+	MACPLISTCOMMAND = Build/macplist $(HOME)/$(IDENAME).app
 
 	ifeq ($(PB_CARBON),1)
 		IDEFLAGS += --subsystem carbon
@@ -62,13 +59,13 @@ endif
 	CONSTANT = --constant
 	PURIFIER = --purifier
 	MAKEEXE = -e
-	MAKEBUILDINFO = $(TARGET)/makebuildinfo
+	MAKEBUILDINFO = Build/makebuildinfo
 	TOOLFLAGS =
 	DEBUGFLAGS = -d
 	DEBUGSYMBOLS = -ds
 	VERSIONFLAG =
 	CPUMONITORLIB =
-	DIALOGCOMPILER = $(PB_BUILDTARGET)/dialogcompiler/dialogcompiler
+	DIALOGCOMPILER = ../DialogManager/Build/dialogcompiler
 	ONERROR = --linenumbering
 	COLORTABLE = $(HOME)/catalogs/ColorTable.xml
 	ECHOQUOTE = "
@@ -80,27 +77,27 @@ endif
 PACKLEVEL = -q -l4
 
 THEMES = \
-	$(TARGET)/DefaultTheme.zip \
+	Build/DefaultTheme.zip \
 	$(THEMEFOLDER)/SilkTheme.zip
 
 DIALOGS = \
-$(TARGET)/Find.pb \
-$(TARGET)/Grep.pb \
-$(TARGET)/Goto.pb \
-$(TARGET)/CompilerOptions.pb \
-$(TARGET)/AddTools.pb \
-$(TARGET)/About.pb \
-$(TARGET)/Preferences.pb \
-$(TARGET)/Templates.pb \
-$(TARGET)/StructureViewer.pb \
-$(TARGET)/Projects.pb \
-$(TARGET)/Build.pb \
-$(TARGET)/Diff.pb \
-$(TARGET)/FileMonitor.pb \
-$(TARGET)/History.pb \
-$(TARGET)/HistoryShutdown.pb \
-$(TARGET)/CreateApp.pb \
-$(TARGET)/Updates.pb
+Build/Find.pb \
+Build/Grep.pb \
+Build/Goto.pb \
+Build/CompilerOptions.pb \
+Build/AddTools.pb \
+Build/About.pb \
+Build/Preferences.pb \
+Build/Templates.pb \
+Build/StructureViewer.pb \
+Build/Projects.pb \
+Build/Build.pb \
+Build/Diff.pb \
+Build/FileMonitor.pb \
+Build/History.pb \
+Build/HistoryShutdown.pb \
+Build/CreateApp.pb \
+Build/Updates.pb
 
 DEPENDENCIES = \
 	$(COLORTABLE) \
@@ -122,71 +119,71 @@ endif
 # default target
 #
 ide : VERSION $(DEPENDENCIES)
-	$(MAKEBUILDINFO) $(TARGET)
-	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
+	$(MAKEBUILDINFO) Build
+	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG)
 	$(MACPLISTCOMMAND)
 
 #
 # demo version of the IDE
 #
 demo : VERSION_DEMO $(DEPENDENCIES)
-	$(MAKEBUILDINFO) $(TARGET)
-	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(CONSTANT) DEMO=1 $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
+	$(MAKEBUILDINFO) Build
+	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(CONSTANT) DEMO=1
 	$(MACPLISTCOMMAND)
 
 #
 # debug version (with linenumbering / gtk error messages)
 #
 debug : VERSION_DEBUG $(DEPENDENCIES)
-	$(MAKEBUILDINFO) $(TARGET)
-	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG) $(CONSTANT) DEBUG=1 $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
+	$(MAKEBUILDINFO) Build
+	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG) $(CONSTANT) DEBUG=1
 	$(MACPLISTCOMMAND)
 
 #
 # debug version + Purifier
 #
 purifier : VERSION_DEBUG $(DEPENDENCIES)
-	$(MAKEBUILDINFO) $(TARGET)
-	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGFLAGS) $(DEBUGSYMBOLS) $(PURIFIER) $(VERSIONFLAG) $(CONSTANT) DEBUG=1 $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
+	$(MAKEBUILDINFO) Build
+	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGFLAGS) $(DEBUGSYMBOLS) $(PURIFIER) $(VERSIONFLAG) $(CONSTANT) DEBUG=1
 	$(MACPLISTCOMMAND)
 
 #
 # default target, but without stripping debug symbols (for gdk debugging)
 #
 symbols : VERSION $(DEPENDENCIES)
-	$(MAKEBUILDINFO) $(TARGET)
-	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
+	$(MAKEBUILDINFO) Build
+	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG)
 	$(MACPLISTCOMMAND)
 
 #
 # default target, but with onerror support
 #
 onerror : VERSION $(DEPENDENCIES)
-	$(MAKEBUILDINFO) $(TARGET)
-	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(ONERROR) $(CONSTANT) BUILD_DIRECTORY=$(TARGET)/
+	$(MAKEBUILDINFO) Build
+	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(ONERROR)
 	$(MACPLISTCOMMAND)
 
 #
 # special target to build all needed files, but not the IDE itself. (good for testing from inside the ide)
 #
-nocompile :  $(TARGET)/dummy VERSION  $(DEPENDENCIES)
-	$(MAKEBUILDINFO) $(TARGET)
+nocompile :  Build/dummy VERSION  $(DEPENDENCIES)
+	$(MAKEBUILDINFO) Build
 
 #
 # required other targets
 #
 
-$(MAKEBUILDINFO) : tools/makebuildinfo.pb $(TARGET)/dummy
+$(MAKEBUILDINFO) : tools/makebuildinfo.pb Build/dummy
 	$(PBCOMPILER) tools/makebuildinfo.pb $(MAKEEXE) $(MAKEBUILDINFO) $(TOOLFLAGS)
 
-$(TARGET)/%.pb : dialogs/%.xml $(DIALOGCOMPILER) $(TARGET)/dummy
+Build/%.pb : dialogs/%.xml $(DIALOGCOMPILER) Build/dummy
 	$(DIALOGCOMPILER) $< $@
 
 # theme targets (-mkdir suppresses errors if the directory exists)
 #
-$(TARGET)/DefaultTheme.zip: data/DefaultTheme/*
-	rm -f $(TARGET)/DefaultTheme.zip
-	zip -jq $(TARGET)/DefaultTheme.zip data/DefaultTheme/*
+Build/DefaultTheme.zip: data/DefaultTheme/*
+	rm -f Build/DefaultTheme.zip
+	zip -jq Build/DefaultTheme.zip data/DefaultTheme/*
 
 $(THEMEFOLDER)/SilkTheme.zip: data/SilkTheme/*
 	-mkdir "$(THEMEFOLDER)"
@@ -198,7 +195,7 @@ $(COLORTABLE): data/ColorTable.xml
 
 # this also works on windows
 #
-$(DIALOGCOMPILER) : ../DialogManager/DialogCompiler.pb $(TARGET)/dummy
+$(DIALOGCOMPILER) : ../DialogManager/DialogCompiler.pb Build/dummy
 	make --directory ../DialogManager
 
 
@@ -207,17 +204,17 @@ $(DIALOGCOMPILER) : ../DialogManager/DialogCompiler.pb $(TARGET)/dummy
 #
 ifeq ($(PB_WINDOWS),1)
 
-$(TARGET)/makeversion.exe : tools/makeversion.pb $(TARGET)/dummy
-	$(PBCOMPILER) tools/makeversion.pb /EXE $(TARGET)/makeversion.exe /CONSOLE
+Build/makeversion.exe : tools/makeversion.pb Build/dummy
+	$(PBCOMPILER) tools/makeversion.pb /EXE Build/makeversion.exe /CONSOLE
 
-VERSION: $(TARGET)/makeversion.exe $(TARGET)/dummy
-	$(TARGET)/makeversion.exe ide $(TARGET)/VersionInfo.rc $(shell PWD)/$(ICOSOURCEFILE)
+VERSION: Build/makeversion.exe Build/dummy
+	Build/makeversion.exe ide Build/VersionInfo.rc $(shell PWD)/$(ICOSOURCEFILE)
 
-VERSION_DEBUG: $(TARGET)/makeversion.exe $(TARGET)/dummy
-	$(TARGET)/makeversion.exe debug $(TARGET)/VersionInfo.rc $(shell PWD)/$(ICOSOURCEFILE)
+VERSION_DEBUG: Build/makeversion.exe Build/dummy
+	Build/makeversion.exe debug Build/VersionInfo.rc $(shell PWD)/$(ICOSOURCEFILE)
 
-VERSION_DEMO: $(TARGET)/makeversion.exe $(TARGET)/dummy
-	$(TARGET)/makeversion.exe demo $(TARGET)/VersionInfo.rc $(shell PWD)/$(ICOSOURCEFILE)
+VERSION_DEMO: Build/makeversion.exe Build/dummy
+	Build/makeversion.exe demo Build/VersionInfo.rc $(shell PWD)/$(ICOSOURCEFILE)
 
 # Windows only: Syntax highlighting dll
 dll : tools/HighlightingDll.pb
@@ -243,15 +240,15 @@ endif
 #
 ifeq ($(PB_MACOS),1)
 
-$(MACPLIST) : tools/macplist.pb $(TARGET)/dummy
+$(MACPLIST) : tools/macplist.pb Build/dummy
 	$(PBCOMPILER) tools/macplist.pb -e $(MACPLIST)
 
 endif
 
-$(TARGET)/dummy:
-	mkdir "$(TARGET)"
-	touch $(TARGET)/dummy
+Build/dummy:
+	mkdir "Build"
+	touch Build/dummy
 
 clean:
-	rm -rf $(TARGET)
+	rm -rf Build
 	make clean --directory ../DialogManager

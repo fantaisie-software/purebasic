@@ -3,9 +3,9 @@
 # 
 
 ifeq ($(PB_WINDOWS),1)
-  COLLECTLANGUAGE  = $(PB_BUILDTARGET)/CollectLanguage.exe
+  COLLECTLANGUAGE  = Build/CollectLanguage.exe
 else
-  COLLECTLANGUAGE  = $(PB_BUILDTARGET)/collectlanguage
+  COLLECTLANGUAGE  = Build/collectlanguage
 endif
   
 
@@ -13,18 +13,22 @@ collectlanguage: $(COLLECTLANGUAGE)
 	$(COLLECTLANGUAGE)
 
 
+Build/dummy:
+	mkdir "Build"
+	touch Build/dummy
+
 clean:
-	rm -f $(COLLECTLANGUAGE)
+	rm -rf Build
 
 
 ifeq ($(PB_WINDOWS),1)
 
-$(COLLECTLANGUAGE): CollectLanguage.pb ../PureBasicIDE/Language.pb
+$(COLLECTLANGUAGE): CollectLanguage.pb ../PureBasicIDE/Language.pb Build/dummy
 	pbcompiler CollectLanguage.pb /QUIET /CONSOLE /EXE $(COLLECTLANGUAGE)
 
 else
 
-$(COLLECTLANGUAGE): CollectLanguage.pb ../PureBasicIDE/Language.pb
+$(COLLECTLANGUAGE): CollectLanguage.pb ../PureBasicIDE/Language.pb Build/dummy
 	pbcompiler CollectLanguage.pb --quiet -e $(COLLECTLANGUAGE)
 
 endif
