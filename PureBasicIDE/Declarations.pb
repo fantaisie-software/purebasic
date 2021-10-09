@@ -315,6 +315,10 @@ CompilerIf #DEBUG
   Declare OpenDebuggingWindow()
 CompilerEndIf
 
+;- DiffAlgorithm.pb
+;
+Declare Diff(*Ctx.DiffContext, *BufferA, SizeA, *BufferB, SizeB, Flags = 0)
+
 ;- DiffWindow.pb
 ;
 Declare DiffWindowEvents(EventID)
