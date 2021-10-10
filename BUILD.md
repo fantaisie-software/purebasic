@@ -2,11 +2,7 @@
 
 How to build the __[PureBasic OpenSource Projects]__.
 
-Currently, the only supported toolchain is that for the Windows OS (this will change soon), therefore these instructions only cover building the PureBasic IDE for Windows.
-
-That said, you can try to compile on Linux/OSX as the makefile contains all the required info to do so.
-
-For more detailed information, see also the following pages on the [project Wiki]:
+The following description is an overview for Windows builds. For more detailed information, see also the following pages on the [project Wiki]:
 
 - [Building on Windows]
 - [Building on Linux]
@@ -23,32 +19,17 @@ The build scripts require some Unix utilities from the [GnuWin] project to be pr
 
 Download the Zip archive, unpack it and add it to your [PATH]  (full instructions inside the Zip file).
 
-# 2. Install VisualStudio C++ 2013 Community Edition
+# 2. Prepare a PureBasic directory
 
-The project contains some C source code which requires Visual Studio to compile.
-The recommended version is VS 2013, which is also available as _Community Edition_ for free:
+It is recommended to use a dedicated PureBasic installation for development and testing of the IDE. The build process actually overwrites the IDE in the used PureBasic installation so it is easy to break you IDE if you compile a version that does not work correctly. So install PureBasic in a directory separate from your usual PureBasic installation. The directory should not be a protected system directory (like Program Files) so the build process can write to it.
 
-- [MS Visual Studio 2013 download page]
+# 3. Setup the launch script
 
-You could also try using a more recent version, but we use the 2013 version here.
+The `BuildEnv.cmd` script must be executed with the path to the PureBasic directory to use as an argument whenever you want to compile the IDE. The simplest way to set this up is to create a shortcut to the script and add the path argument as a parameter in the shortcut settings.
 
-# 3. Install the Windows Platform SDK
+# 4. Launch the makefile
 
-We use an old SDK version (7.0) but a newer version might also work.
-
-- [Windows SDK for Windows 7 download page]
-
-# 4. Tune the launch script
-
-Create a copy of the `Window-x64.cmd` or `Window-x86.cmd` script and edit it:
-
-- Set `PUREBASIC_HOME` to a working PureBasic installation.
-- Check all the other paths to see if they match your local system.
-
-
-# 5. Launch the makefile
-
-- Double-click on `Window-x64.cmd`.
+- Launch the `BuildEnv.cmd` with the PureBasic path argument
 - Go to the [`PureBasicIDE`][PureBasicIDE] directory.
 - Type: `make`.
 
@@ -58,8 +39,6 @@ A `Build` directory will be created with all temporary files in it.
 Once you have successfully launched the `make` once, you can then use
 PureBasic to open the "`PureBasicIDE.pbp`" project file and
 run it from PureBasic itself (be sure to adjust the constants in 'Compilers Options.../Contants')
-
-- The `#BUILD_DIRECTORY` constant must point to the `Build/x64/ide/` folder created before by the execution of `make`.
 
 Don't hesitate to [drop a word] to improve this build guide, as right now it's very slim!
 
@@ -100,8 +79,6 @@ Have fun hacking,
 
 <!-- download links -->
 
-[MS Visual Studio 2013 download page]: https://visualstudio.microsoft.com/vs/older-downloads/#visual-studio-2013-and-other-products "Go to the download page of MSVS 2013"
-[Windows SDK for Windows 7 download page]: https://www.microsoft.com/en-us/download/details.aspx?id=8279
 [UnixTools-4-Win.zip]: https://github.com/fantaisie-software/purebasic/wiki/UnixTools-4-Win.zip "Download the ZIP file with the GNU dependencies for Windows"
 
 <!-- people -->
