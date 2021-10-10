@@ -21,7 +21,7 @@ Download the Zip archive, unpack it and add it to your [PATH]  (full instruction
 
 # 2. Prepare a PureBasic directory
 
-It is recommended to use a dedicated PureBasic installation for development and testing of the IDE. The build process actually overwrites the IDE in the used PureBasic installation so it is easy to break you IDE if you compile a version that does not work correctly. So install PureBasic in a directory separate from your usual PureBasic installation. The directory should not be a protected system directory (like Program Files) so the build process can write to it.
+It is recommended to use a dedicated PureBasic installation for development and testing of the IDE. The build process actually overwrites the IDE in the used PureBasic installation so it is easy to break you IDE if you compile a version that does not work correctly. So install PureBasic in a directory separate from your usual PureBasic installation. The directory should not be a protected system directory (like Program Files) so the build process can write to it. It is recommended to use a build path without spaces in it to ensure that there is no trouble with spaces in any of the build scripts.
 
 # 3. Setup the launch script
 
