@@ -5,7 +5,7 @@
 # ************************************************************************
 #
 # Run this script to setup a command shell with the proper environment
-# variables required for building the IDE and other programs in this 
+# variables required for building the IDE and other programs in this
 # repository.
 #
 # The commandline for execution of this script is the following:
@@ -16,14 +16,14 @@
 #
 #    . BuildEnv.sh <TargetPureBasicDirectory>
 #
-# The <TargetPureBasicDirectory> parameter is mandatory. It specifies 
-# the compiler to use and building the IDE will actually override 
-# the IDE and other resources within that target directory. It is 
+# The <TargetPureBasicDirectory> parameter is mandatory. It specifies
+# the compiler to use and building the IDE will actually override
+# the IDE and other resources within that target directory. It is
 # therefore recommended to setup a dedicated PB installation for
 # IDE development and testing.
 #
-# If the target directory is a SpiderBasic installation, the SB IDE 
-# will be built instead. Note that for this case you will need a 
+# If the target directory is a SpiderBasic installation, the SB IDE
+# will be built instead. Note that for this case you will need a
 # regular PB installation available in the PATH as well.
 #
 # By default this script will launch a command shell with the build
@@ -37,8 +37,8 @@
 #
 #    PB_SUBSYSTEM=<path to subsystem folder>
 #
-#      Specify the subsystem subfolder for compilation of residents 
-#      or import definitions. This setting is not needed to compile the 
+#      Specify the subsystem subfolder for compilation of residents
+#      or import definitions. This setting is not needed to compile the
 #      IDE or debugger
 #
 # ************************************************************************
@@ -46,8 +46,8 @@
 
 # Test mandatory PureBasic path parameter
 if [ -z "$1" ]; then
-    echo "Invalid parameters: Missing argument for target PureBasic directory"
-    exit 1
+	echo "Invalid parameters: Missing argument for target PureBasic directory"
+	exit 1
 fi
 
 
@@ -59,37 +59,37 @@ export PATH="$PUREBASIC_HOME/compilers:$PUREBASIC_HOME:$PATH"
 # Test if the PureBasic home is valid and check if this is PB or SB
 if [ -f "$PUREBASIC_HOME/compilers/pbcompiler" ]; then
 
-    unset PB_JAVASCRIPT
+	unset PB_JAVASCRIPT
 
-    # Detect processor architecture
-    $PUREBASIC_HOME/compilers/pbcompiler --version | grep -q "x64"
-    if [ $? == 0 ]; then
-        export PB_PROCESSOR=X64
-    else
-        export PB_PROCESSOR=X86
-    fi
-  
-    echo "Setting environment for PureBasic $PB_PROCESSOR in $PUREBASIC_HOME"
-    echo
+	# Detect processor architecture
+	$PUREBASIC_HOME/compilers/pbcompiler --version | grep -q "x64"
+	if [ $? == 0 ]; then
+		export PB_PROCESSOR=X64
+	else
+		export PB_PROCESSOR=X86
+	fi
+
+	echo "Setting environment for PureBasic $PB_PROCESSOR in $PUREBASIC_HOME"
+	echo
 
 elif [ -f "$PUREBASIC_HOME/compilers/sbcompiler" ]; then
 
-    export PB_JAVASCRIPT=1
-  
-    echo "Setting environment for SpiderBasic in $PUREBASIC_HOME"
-    echo
+	export PB_JAVASCRIPT=1
+
+	echo "Setting environment for SpiderBasic in $PUREBASIC_HOME"
+	echo
 
 else
-    echo "Failed to detect PB or SB compiler in $PUREBASIC_HOME"
-    exit 1
+	echo "Failed to detect PB or SB compiler in $PUREBASIC_HOME"
+	exit 1
 fi
 
 
 # Detect the OS used
 if [ "$(uname -s)" == "Darwin" ]; then
-  export PB_MACOS=1
+	export PB_MACOS=1
 else
-  export PB_LINUX=1
+	export PB_LINUX=1
 fi
 
 
@@ -100,7 +100,7 @@ export PB_SUBSYSTEM=${PB_SUBSYSTEM-purelibraries/}
 
 # Start shell if the script is not sourced and PB_BATCH is not set
 if [ -z "$PB_BATCH" ] && [ "$0" = "$BASH_SOURCE" ]; then
-  bash
+	bash
 fi
 
 
