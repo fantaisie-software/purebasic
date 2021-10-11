@@ -12,6 +12,10 @@
 #
 #    ./BuildEnv.sh <TargetPureBasicDirectory>
 #
+# For inclusion into the .bashrc file or other scripts, it can be sourced:
+#
+#    . BuildEnv.sh <TargetPureBasicDirectory>
+#
 # The <TargetPureBasicDirectory> parameter is mandatory. It specifies 
 # the compiler to use and building the IDE will actually override 
 # the IDE and other resources within that target directory. It is 
