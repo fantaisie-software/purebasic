@@ -44,6 +44,10 @@
 #PB_Processor_PowerPC    = 3
 #PB_Processor_x64        = 4
 #PB_Processor_JavaScript = 5
+#PB_Processor_Arm64      = 6
+
+#PB_Backend_Asm = 0
+#PB_Backend_C = 1
 
 #PB_Structure_AlignC = -1
 

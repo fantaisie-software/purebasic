@@ -335,6 +335,13 @@ CompilerIf #CompileWindows
     EndIf
   EndProcedure
   
+  CompilerIf #PB_Compiler_Backend = #PB_Backend_C
+    Import ""
+      PB_Gadget_IsThemed.l
+    EndImport
+  CompilerEndIf
+    
+  
   ; Windows only
   ;
   ; Column: -1 to reset
@@ -345,7 +352,9 @@ CompilerIf #CompileWindows
     
     ; PB_Gadget_GetCommonControlsVersion() is called by ListIconGadget, so this is ok
     ;
-    CompilerIf #PB_Compiler_Processor = #PB_Processor_x86
+    CompilerIf #PB_Compiler_Backend = #PB_Backend_C
+      IsThemed = PB_Gadget_IsThemed
+    CompilerElseIf #PB_Compiler_Processor = #PB_Processor_x86
       !extrn _PB_Gadget_IsThemed
       !mov eax, [_PB_Gadget_IsThemed]
       !mov [p.v_IsThemed], eax

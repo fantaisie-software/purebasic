@@ -56,6 +56,7 @@ OBJECTS = $(IMPORTS)/version.imp \
           $(IMPORTS)/oledlg.imp \
           $(IMPORTS)/pdh.imp \
           $(IMPORTS)/penwin32.imp \
+          $(IMPORTS)/psapi.imp \
           $(IMPORTS)/rasapi32.imp \
           $(IMPORTS)/rasdlg.imp \
           $(IMPORTS)/rassapi.imp \
