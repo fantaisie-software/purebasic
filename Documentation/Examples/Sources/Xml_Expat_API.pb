@@ -8,21 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-; The original Expat API demo was posted on the English forum by freak » Fri Sep 27, 2013 4:02 pm
-; https://www.purebasic.fr/english/viewtopic.php?p=426511#p426511
-
 EnableExplicit
-
-; Expat returns UTF8-Strings in ascii mode and unicode strings in unicode mode
-CompilerIf #PB_Compiler_Unicode
-  Macro PeekExpat(Ptr)
-    PeekS(Ptr)
-  EndMacro
-CompilerElse
-  Macro PeekExpat(Ptr)
-    PeekS(Ptr, -1, #PB_UTF8)
-  EndMacro
-CompilerEndIf
 
 
 ProcedureC StartElementHandler(*UserData, *Name, *Args)
@@ -30,14 +16,14 @@ ProcedureC StartElementHandler(*UserData, *Name, *Args)
   Protected *Arg.INTEGER = *Args
   Protected Indent$ = Space(6 * *Depth\i), AttName$, AttValue$
   
-  Debug Indent$ + "Start: " + PeekExpat(*Name)
+  Debug Indent$ + "Start: " + PeekS(*Name)
   
   ; Attribute values are an array of pointers with alternating name and value entries
   ; Terminated by null pointer
   While *arg\i <> 0
-    AttName$ = PeekExpat(*arg\i)
+    AttName$ = PeekS(*arg\i)
     *arg + SizeOf(Integer)
-    AttValue$ = PeekExpat(*arg\i)
+    AttValue$ = PeekS(*arg\i)
     *arg + SizeOf(Integer)
     Debug Indent$ + "             " + AttName$ + "=" + AttValue$
   Wend
@@ -48,7 +34,7 @@ EndProcedure
 ProcedureC EndElementHandler(*UserData, *Name)
   Protected *Depth.INTEGER = *UserData
   *Depth\i - 1
-  Debug Space(6 * *Depth\i) + "End: " + PeekExpat(*Name)
+  Debug Space(6 * *Depth\i) + "End: " + PeekS(*Name)
 EndProcedure
 
 
