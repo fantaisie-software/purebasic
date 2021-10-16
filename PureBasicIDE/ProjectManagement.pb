@@ -2595,14 +2595,12 @@ Procedure OpenProjectOptions(NewProject)
       
       ProjectExplorerPattern = 0 ; default pattern is "PB files"
       ProjectExplorerPath$   = SourcePath$
-      
       ClearList(ProjectConfig()) ; no files in the list yet
-      
       ProjectOptionsDialog\GuiUpdate() ; to resize from the new strings
       
       DisableWindow(#WINDOW_Main, 1)
       SetActiveGadget(#GADGET_Project_File)
-      
+
     Else
       IsProjectCreation = 0
       
@@ -2638,9 +2636,19 @@ Procedure OpenProjectOptions(NewProject)
     
     ; This also fills the explorer pattern in the project options and sets the correct state
     UpdateExplorerPatterns()
+
+    CompilerIf #CompileLinux
+      ; On Linux we have to check if ProjectExplorerPath$ is an accessible folder - otherwise a crash
+      ; will occur because of a bug in the following SetGadgetText()!
+      ; If ProjectExplorerPath$ is no folder then change it to home folder
+      If FileSize(ProjectExplorerPath$) <> -2
+        ProjectExplorerPath$ = GetHomeDirectory()
+      EndIf
+    CompilerEndIf
+
     SetGadgetText(#GADGET_Project_Explorer, ProjectExplorerPath$+StringField(ExplorerPatternStrings$, ProjectExplorerPattern+1, "|"))
     SetGadgetText(#GADGET_Project_ExplorerCombo, ProjectExplorerPath$)
-    
+
     UpdateProjectOptionStates() ; disable some buttons as needed
   EndIf
   
