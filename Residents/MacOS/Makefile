@@ -1,9 +1,9 @@
 # Small makefile to build the residents easily
 
 all: residents
+	
 
-
-# We need to separate imports and constants for the build server
+# We need to seperate imports and constants for the build server
 residents:
 	rm -f $(PUREBASIC_HOME)/$(SUBSYSTEM)residents/purebasic.res
 	pbcompiler PureBasic.pb -q -r $(PUREBASIC_HOME)/residents/purebasic.res -ir purebasic.res
