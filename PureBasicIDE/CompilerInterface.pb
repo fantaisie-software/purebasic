@@ -1,4 +1,4 @@
-﻿;--------------------------------------------------------------------------------------------
+;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -645,6 +645,8 @@ Procedure TokenizeCompilerVersion(Version$, *Version.INTEGER, *Beta.INTEGER, *OS
       *Processor\i = #PB_Processor_x64
     ElseIf FindString(Version$, "POWERPC", 1)
       *Processor\i = #PB_Processor_PowerPC
+    ElseIf FindString(Version$, "ARM64", 1)
+      *Processor\i = #PB_Processor_Arm64
     Else
       *Processor\i = #PB_Processor_mc68000 ; also unlikely
     EndIf
