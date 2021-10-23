@@ -41,6 +41,9 @@ set PATH=%PUREBASIC_HOME%\Compilers;%PUREBASIC_HOME%;%PATH%
 IF EXIST Build\ rmdir /Q /S Build
 mkdir Build
 
+:: Create the "Build/dummy" file for compatibility with using the real makefile
+type NUL > Build\dummy
+
 :: Generate dialog files
 @set DIALOGS=Find;Grep;Goto;CompilerOptions;AddTools;About;Preferences;Templates;StructureViewer;Projects;Build;Diff;FileMonitor;History;HistoryShutdown;CreateApp;Updates
 PBCompiler /QUIET /CONSOLE ..\DialogManager\DialogCompiler.pb /EXE Build\DialogCompiler.exe
