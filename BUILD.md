@@ -2,16 +2,29 @@
 
 How to build the __[PureBasic OpenSource Projects]__.
 
-The following description is an overview for Windows builds. For more detailed information, see also the following pages on the [project Wiki]:
+## Precondition: A PureBasic installation
 
-- [Building on Windows]
-- [Building on Linux]
-- [Building on macOS]
+To compile and test the tools in this repository you need a PureBasic installation. This installation is used both for compilation as well as for testing which is why the compiled IDE and debugger are directly copied into that PureBasic installation for direct testing (this will overwrite the original IDE).
 
+It is therefore recommended to set aside a dedicated PureBasic directory for development with this repository. You can just copy your regular installation to a new directory for this. There is no need to install anything.
 
-# 1. Get the GNU Dependencies
+The following conditions should be met for this:
 
-The build scripts require some Unix utilities from the [GnuWin] project to be present on the system.
+- You need write permissions to the PureBasic directory (do not use "Program Files" or similar)
+- You should avoid spaces or special characters in the Path to that directory to avoid any trouble with the build scripts
+
+## Building on Windows (quick & easy method)
+
+To compile the IDE, open a command shell and run the `MakeWindows.cmd` script from within the [`PureBasicIDE`][PureBasicIDE] directory and provide the full path to your PureBasic installation as the parameter:
+```
+MakeWindows.cmd <YourPureBasicPath>
+```
+
+The same can be done in the [`PureBasicDebugger`][PureBasicDebugger] directory. Other directories do not have a such a quick & easy scripts. See below for the setup of the full build environment.
+
+## Building on Windows (official method)
+
+The official way to build is using the makefiles. This requires some Unix utilities from the [GnuWin] project to be present on the system.
 
 [ChrisRfr] has kindly prepared an _ad hoc_ package with all the required tools:
 
@@ -19,26 +32,49 @@ The build scripts require some Unix utilities from the [GnuWin] project to be pr
 
 Download the Zip archive, unpack it and add it to your [PATH]  (full instructions inside the Zip file).
 
-# 2. Prepare a PureBasic directory
+Run the `BuildEnv.cmd` script from the main directory with your PureBasic installation as a parameter:
+```
+BuildEnv.cmd <YourPureBasicPath>
+```
 
-It is recommended to use a dedicated PureBasic installation for development and testing of the IDE. The build process actually overwrites the IDE in the used PureBasic installation so it is easy to break you IDE if you compile a version that does not work correctly. So install PureBasic in a directory separate from your usual PureBasic installation. The directory should not be a protected system directory (like Program Files) so the build process can write to it. It is recommended to use a build path without spaces in it to ensure that there is no trouble with spaces in any of the build scripts.
+In the opened command shell, navigate to the [`PureBasicIDE`][PureBasicIDE] directory and type `make`. To create a debug version, type `make debug`.
 
-# 3. Setup the launch script
+## Building on Linux
 
-The `BuildEnv.cmd` script must be executed with the path to the PureBasic directory to use as an argument whenever you want to compile the IDE. The simplest way to set this up is to create a shortcut to the script and add the path argument as a parameter in the shortcut settings.
+Make sure you have build tools such as `make` installed in your distribution.
 
-# 4. Launch the makefile
+Run the `BuildEnv.sh` script from the main directory with your PureBasic installation as parameter:
+```
+./BuildEnv.sh <YourPureBasicPath>
+```
 
-- Launch the `BuildEnv.cmd` with the PureBasic path argument
-- Go to the [`PureBasicIDE`][PureBasicIDE] directory.
-- Type: `make`.
+Alternatively, you can source the script into your `.bashrc` file to automatically setup the build environment whenever you start a shell:
+```
+source BuildEnv.sh <YourPureBasicPath>
+```
 
-If all is setup correctly, it should compile all the dependencies and the IDE.
-A `Build` directory will be created with all temporary files in it.
+In the opened command shell, navigate to the [`PureBasicIDE`][PureBasicIDE] directory and type `make`. To create a debug version, type `make debug`.
 
-Once you have successfully launched the `make` once, you can then use
-PureBasic to open the "`PureBasicIDE.pbp`" project file and
-run it from PureBasic itself (be sure to adjust the constants in 'Compilers Options.../Contants')
+*Note:* You can compile/run and debug the IDE from within the PureBasic IDE itself after you have build all preconditions with `make`. For this you have to ensure to set the "subsystem" setting to "gtk2" in the compiler options because the IDE cannot be compiled with Gtk3.
+
+## Building on MacOS
+
+PureBasic for MacOS comes as as single `PureBasic.app` package. To prepare a directory for IDE compilation and testing, some additional steps are needed:
+
+- Copy the `PureBasic.app` into an empty directory
+- Ctrl-click (or right-click) on the `PureBasic.app` and select "Show Package Content" from the context menu
+- Copy all files and directories from `Contents/Resources` from inside the package outside next to the `PureBasic.app` file
+- Use this directory with the `PureBasic.app` and the extracted resources as the `<YourPureBasicPath>` parameter for the `BuildEnv.sh` script
+
+After these steps you can follow the build steps for Linux described above to setup the build environment.
+
+## More information
+
+For more detailed information, see also the following pages on the [project Wiki]:
+
+- [Building on Windows]
+- [Building on Linux]
+- [Building on macOS]
 
 Don't hesitate to [drop a word] to improve this build guide, as right now it's very slim!
 
@@ -58,6 +94,7 @@ Have fun hacking,
 <!-- repo files and folders -->
 
 [PureBasicIDE]: ./PureBasicIDE/ "Navigate to the 'PureBasicIDE/' folder"
+[PureBasicDebugger]: ./PureBasicDebugger/ "Navigate to the 'PureBasicDebugger/' folder"
 
 <!-- 3rd party websites -->
 
