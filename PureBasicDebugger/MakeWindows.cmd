@@ -26,7 +26,8 @@
 :: Check presence of the mandatory argument
 IF NOT [%1]==[] GOTO path_argument_ok
 
-@echo Invalid parameters: Missing argument for target PureBasic directory
+echo Invalid parameters: Missing argument for target PureBasic directory
+pause
 exit /b 1
 
 :path_argument_ok
@@ -38,6 +39,9 @@ set PATH=%PUREBASIC_HOME%\Compilers;%PUREBASIC_HOME%;%PATH%
 @echo on
 
 :: ************** Build steps start here *********************************
+
+:: Set path of this script as current directory in case it was started from elsewhere
+cd %~dp0
 
 :: Compile the debugger
 PBCompiler /QUIET StandaloneDebugger.pb /EXE %PUREBASIC_HOME%/Compilers/PBDebugger.exe /XP /USER /ICON ../PureBasicIDE/data/PBLogoSmall.ico /UNICODE

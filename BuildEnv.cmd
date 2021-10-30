@@ -31,7 +31,8 @@
 :: Check presence of the mandatory argument
 IF NOT [%1]==[] GOTO path_argument_ok
 
-@echo Invalid parameters: Missing argument for target PureBasic directory
+echo Invalid parameters: Missing argument for target PureBasic directory
+pause
 exit /b 1
 
 
