@@ -41,7 +41,7 @@ set PATH=%PUREBASIC_HOME%\Compilers;%PUREBASIC_HOME%;%PATH%
 :: ************** Build steps start here *********************************
 
 :: Set path of this script as current directory in case it was started from elsewhere
-cd %~dp0
+cd /d %~dp0
 
 :: Clean/Reset the Build directory
 IF EXIST Build\ rmdir /Q /S Build

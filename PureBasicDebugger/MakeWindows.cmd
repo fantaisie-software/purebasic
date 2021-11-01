@@ -41,7 +41,7 @@ set PATH=%PUREBASIC_HOME%\Compilers;%PUREBASIC_HOME%;%PATH%
 :: ************** Build steps start here *********************************
 
 :: Set path of this script as current directory in case it was started from elsewhere
-cd %~dp0
+cd /d %~dp0
 
 :: Compile the debugger
 PBCompiler /QUIET StandaloneDebugger.pb /EXE %PUREBASIC_HOME%/Compilers/PBDebugger.exe /XP /USER /ICON ../PureBasicIDE/data/PBLogoSmall.ico /UNICODE
