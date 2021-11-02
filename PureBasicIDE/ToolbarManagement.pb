@@ -37,11 +37,11 @@ Procedure InitToolbar()
     Read.l StandardButton(i)
   Next i
   
-  ; For the "Space" option, we have an empty png file in the images.pak
+  ; For the "Space" option, we have an empty png file
   ; (also for missing icons)
   ;
-  CatchPackedImage(#IMAGE_ToolBar_Space,   ?General_Images, 5)
-  CatchPackedImage(#IMAGE_ToolBar_Missing, ?General_Images, 6)
+  CatchImage(#IMAGE_ToolBar_Space,   ?Image_ToolbarSpace)
+  CatchImage(#IMAGE_ToolBar_Missing, ?Image_ToolbarMissing)
   
   ; read the default toolbar set
   ;
@@ -507,6 +507,12 @@ EndProcedure
 
 
 DataSection
+  
+  Image_ToolbarSpace:
+    IncludeBinary "data/EmptySpace.png"
+  
+  Image_ToolbarMissing:
+    IncludeBinary "data/MissingIcon.png"
   
   ; this list specifies all menu items that can have a toolbar button and the name
   ; for them in the Preferences. The preference name also references the

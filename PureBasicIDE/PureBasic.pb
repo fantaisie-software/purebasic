@@ -10,29 +10,7 @@
 ; is decided in each file.
 
 XIncludeFile "CompilerFlags.pb"
-
-; Fred config, easier to handle switch between PB versions when debugging the IDE
-;
-CompilerIf Defined(FredLocalCompile, #PB_Constant) And Not Defined(BUILD_DIRECTORY, #PB_Constant)
-  CompilerIf #SpiderBasic
-    #FredProcessorPath = "javascript"
-  CompilerElseIf #PB_Compiler_Processor = #PB_Processor_x64
-    #FredProcessorPath = "x64"
-  CompilerElse
-    #FredProcessorPath = "x86"
-  CompilerEndIf
-  
-  CompilerIf #PB_Compiler_OS = #PB_OS_Linux
-    #BUILD_DIRECTORY = "/home/fred/svn/"+#SVNVersion+"/Build/"+#FredProcessorPath+"/ide/"
-  CompilerElseIf #PB_Compiler_OS = #PB_OS_MacOS
-    #BUILD_DIRECTORY = "/Users/fred/svn/"+#SVNVersion+"/Build/"+#FredProcessorPath+"/ide/"
-  CompilerElse
-    #BUILD_DIRECTORY = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\"+#FredProcessorPath+"\ide\"
-  CompilerEndIf
-CompilerEndIf
-
-
-XIncludeFile #BUILD_DIRECTORY + "BuildInfo.pb"
+XIncludeFile "Build/BuildInfo.pb"
 XIncludeFile ".." + #Separator + "DialogManager" + #Separator + "Common.pb" ; must be before Common.pb
 XIncludeFile "Common.pb"                                                    ; must be before DebuggerCommon.pb
 XIncludeFile #DEFAULT_DebuggerSource + "DebuggerCommon.pb"                  ; must be before Declarations.pb
@@ -150,24 +128,24 @@ CompilerIf #SpiderBasic
 CompilerEndIf
 
 ; compiled dialogs
-XIncludeFile #BUILD_DIRECTORY + "Find.pb"
-XIncludeFile #BUILD_DIRECTORY + "Grep.pb"
-XIncludeFile #BUILD_DIRECTORY + "Diff.pb"
-XIncludeFile #BUILD_DIRECTORY + "Goto.pb"
-XIncludeFile #BUILD_DIRECTORY + "AddTools.pb"
-XIncludeFile #BUILD_DIRECTORY + "About.pb"
-XIncludeFile #BUILD_DIRECTORY + "Preferences.pb"
-XIncludeFile #BUILD_DIRECTORY + "Templates.pb"
-XIncludeFile #BUILD_DIRECTORY + "StructureViewer.pb"
-XIncludeFile #BUILD_DIRECTORY + "Projects.pb"
-XIncludeFile #BUILD_DIRECTORY + "Build.pb"
-XIncludeFile #BUILD_DIRECTORY + "FileMonitor.pb"
-XIncludeFile #BUILD_DIRECTORY + "History.pb"
-XIncludeFile #BUILD_DIRECTORY + "HistoryShutdown.pb"
-XIncludeFile #BUILD_DIRECTORY + "Updates.pb"
+XIncludeFile "Build/Find.pb"
+XIncludeFile "Build/Grep.pb"
+XIncludeFile "Build/Diff.pb"
+XIncludeFile "Build/Goto.pb"
+XIncludeFile "Build/AddTools.pb"
+XIncludeFile "Build/About.pb"
+XIncludeFile "Build/Preferences.pb"
+XIncludeFile "Build/Templates.pb"
+XIncludeFile "Build/StructureViewer.pb"
+XIncludeFile "Build/Projects.pb"
+XIncludeFile "Build/Build.pb"
+XIncludeFile "Build/FileMonitor.pb"
+XIncludeFile "Build/History.pb"
+XIncludeFile "Build/HistoryShutdown.pb"
+XIncludeFile "Build/Updates.pb"
 
 CompilerIf #SpiderBasic
-  XIncludeFile #BUILD_DIRECTORY + "CreateApp.pb"
+  XIncludeFile "Build/CreateApp.pb"
 CompilerEndIf
 
 ; Here is the trick:
@@ -187,9 +165,9 @@ Macro Dialog_CompilerOptionsMacro()
   CompilerEndIf
 EndMacro
 
-IncludeFile #BUILD_DIRECTORY + "CompilerOptions.pb"
+IncludeFile "Build/CompilerOptions.pb"
 #IDE_ProjectCompilerOptions = 1
-IncludeFile #BUILD_DIRECTORY + "CompilerOptions.pb"
+IncludeFile "Build/CompilerOptions.pb"
 
 
 ; toolspanel plugins
@@ -294,7 +272,7 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
   ; display the startup logo, as loading could take a little on slower systems..
   ; especially when lots of sources are reloaded.
   If OpenWindow(#WINDOW_Startup, 0, 0, DesktopUnscaledX(500), DesktopUnscaledY(200), #ProductName$ + " loading...", #PB_Window_ScreenCentered|#PB_Window_BorderLess|#PB_Window_Invisible)
-    If CatchPackedImage(#IMAGE_Startup, ?General_Images, 0)
+    If CatchImage(#IMAGE_Startup, ?Image_Startup)
       
       If StartDrawing(ImageOutput(#IMAGE_Startup))
         DrawingMode(1)
@@ -786,7 +764,11 @@ EndProcedure
 
 DataSection
   
-  General_Images:
-  IncludeBinary #BUILD_DIRECTORY + "images.pak"
+  Image_Startup:
+    CompilerIf #SpiderBasic
+      IncludeBinary "data/SpiderBasic/SplashScreen.png"
+    CompilerElse
+      IncludeBinary "data/startuplogo.png"
+    CompilerEndIf
   
 EndDataSection
