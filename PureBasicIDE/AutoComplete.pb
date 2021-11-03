@@ -1146,7 +1146,7 @@ Procedure AutoComplete_Insert(FullFunction=#False)
       
       If FullFunction And IsBasicFunction(UCase(String$)) <> -1
         index = IsBasicFunction(UCase(String$))
-        ;String$ = BasicFunctions(index)\Name$ 
+        ;String$ = BasicFunctions(index)\Name$
         If BasicFunctions(index)\Proto$
           String$ + StringField(BasicFunctions(index)\Proto$, 1, " - ")
         Else
