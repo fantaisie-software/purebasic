@@ -685,6 +685,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_AutoComplete_List
   #GADGET_AutoComplete_Abort
   #GADGET_AutoComplete_Ok
+  #GADGET_AutoComplete_Full
   
   ;   #GADGET_CPU_Graph
   ;   #GADGET_CPU_List
@@ -1074,6 +1075,7 @@ Enumeration 0
   #MENU_AutoComplete
   #MENU_AutoComplete_OK ; can now have a custom shortcut too
   #MENU_AutoComplete_Abort
+  #MENU_AutoComplete_Full
   
   #MENU_ProcedureListUpdate
   
