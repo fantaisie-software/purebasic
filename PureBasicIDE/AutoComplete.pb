@@ -81,7 +81,7 @@ Procedure CreateAutoCompleteWindow()
     ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Escape, #MENU_AutoComplete_Abort)
     ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Return, #MENU_AutoComplete_Ok)
     ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Tab, #MENU_AutoComplete_Ok)
-    
+    AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Shift|#PB_Shortcut_Tab, #MENU_AutoComplete_Full)
     ; put all main window shortcuts here too.
     CreateKeyboardShortcuts(#WINDOW_AutoComplete)
     
@@ -1136,13 +1136,24 @@ Procedure AutoComplete_ChangeSelectedItem(Direction)
 EndProcedure
 
 
-Procedure AutoComplete_Insert()
+Procedure AutoComplete_Insert(FullFunction=#False)
   If AutoCompleteWindowOpen
     index = GetGadgetState(#GADGET_AutoComplete_List)
     If index <> -1
       
       AutoComplete_SelectWord()
       String$ = GetGadgetItemText(#GADGET_AutoComplete_List, index, 0)
+      
+      If FullFunction And IsBasicFunction(UCase(String$)) <> -1
+        index = IsBasicFunction(UCase(String$))
+        ;String$ = BasicFunctions(index)\Name$ 
+        If BasicFunctions(index)\Proto$
+          String$ + StringField(BasicFunctions(index)\Proto$, 1, " - ")
+        Else
+          String$ + "()"
+        EndIf
+      EndIf
+      
       InsertCodeString(String$)
       
       ; cache this selection for a next popup
@@ -1200,6 +1211,10 @@ Procedure AutoCompleteWindowEvents(EventID)
         EventID = #PB_Event_Gadget
         EventGadgetID = #GADGET_AutoComplete_Ok
         
+      ElseIf MenuID = #MENU_AutoComplete_Full
+        EventID = #PB_Event_Gadget
+        EventGadgetID = #GADGET_AutoComplete_Full
+        
       ElseIf MenuID = #MENU_AutoComplete_Abort
         EventID = #PB_Event_Gadget
         EventGadgetID = #GADGET_AutoComplete_Abort
@@ -1243,6 +1258,8 @@ Procedure AutoCompleteWindowEvents(EventID)
         Case #GADGET_AutoComplete_Ok
           AutoComplete_Insert()
           
+        Case #GADGET_AutoComplete_Full
+          AutoComplete_Insert(#True)          
           
       EndSelect
       
