@@ -1348,7 +1348,7 @@ Procedure AutoCompleteWindowEvents(EventID)
           AutoComplete_Insert()
           
         Case #GADGET_AutoComplete_Full
-          AutoComplete_Insert(#True)          
+          AutoComplete_Insert(#True)
           
       EndSelect
       
