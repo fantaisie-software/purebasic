@@ -619,10 +619,7 @@ Procedure GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 10000
   *grid\hscroll = ScrollBarGadget(#PB_Any,x,y+height-Grid_Scrollbar_Width,width-Grid_Scrollbar_Width,Grid_Scrollbar_Width,0,1,1)
   
   CompilerIf #PB_Compiler_OS = #PB_OS_Linux
-    Protected *wid.GtkWidget
-    *wid.GtkWidget = GadgetID(*grid\hscroll)
-    Grid_Scrollbar_Width = *wid\allocation\height
-    
+    Grid_Scrollbar_Width = GadgetHeight(*grid\hscroll,#PB_Gadget_RequiredSize)
     ResizeGadget(*grid\hscroll,x,y+height-Grid_Scrollbar_Width,width-Grid_Scrollbar_Width,Grid_Scrollbar_Width)
   CompilerEndIf
   

@@ -51,9 +51,12 @@ ifeq ($(PB_MACOS),1)
 else
 	IDENAME_LOWERCASE = $(shell echo $(IDENAME) | tr A-Z a-z)
 	IDE = $(HOME)/compilers/$(IDENAME_LOWERCASE)
-	IDEFLAGS = --thread --unicode --subsystem gtk2
+	IDEFLAGS = --thread --unicode
 	MACPLIST =
 	MACPLISTCOMMAND =
+	ifeq ($(PB_GTK),2)
+		IDEFLAGS += --subsystem gtk2
+	endif
 endif
 
 	CONSTANT = --constant

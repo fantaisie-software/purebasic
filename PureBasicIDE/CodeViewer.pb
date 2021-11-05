@@ -53,9 +53,9 @@ Procedure UpdateCodeViewer(Gadget)
     LineNumbers = #False
   EndIf
   
-  ; Gtk2 'Pango' need an "!" before the font name (else it will use GDK font)
+  ; Gtk2+ 'Pango' need an "!" before the font name (else it will use GDK font)
   ;
-  CompilerIf #CompileLinuxGtk2
+  CompilerIf #CompileLinuxGtk
     FontName$ = "!"+EditorFontName$
     ScintillaSendMessage(Gadget, #SCI_STYLESETFONT, #STYLE_DEFAULT, ToAscii(FontName$))
   CompilerElse
@@ -85,7 +85,7 @@ Procedure UpdateCodeViewer(Gadget)
     If EnableKeywordBolding
       ; Gtk2 'Pango' need an "!" before the font name (else it will use GDK font)
       ;
-      CompilerIf #CompileLinuxGtk2
+      CompilerIf #CompileLinuxGtk
         FontName$ = "!"+EditorBoldFontName$
         ScintillaSendMessage(Gadget, #SCI_STYLESETFONT,  2, ToAscii(FontName$))
         ScintillaSendMessage(Gadget, #SCI_STYLESETFONT, 14, ToAscii(FontName$))

@@ -378,7 +378,7 @@ SetupFileMonitor()
 ; Calculate the hidden width of the toolspanel (for autohide)
 ; Can be done only after the gadget is displayed
 CompilerIf #CompileLinux
-  ToolsPanelHiddenWidth = GetGadgetAttribute(#GADGET_ToolsPanel, #PB_Panel_TabHeight)
+  ToolsPanelHiddenWidth = GetGadgetAttribute(#GADGET_ToolsPanel, #PB_Panel_TabHeight)  
   If ToolsPanelVisible = 0
     ResizeMainWindow()
   EndIf
@@ -587,14 +587,6 @@ Until QuitIDE
 
 ;- Editor end
 ShutdownIDE()
-
-; ; Gtk Object debugging: to inspect remaining leaked objects with g-insprctor
-; ;
-; PrintN("Calling Endfunctions, invoking gtk_main() - kill the program to quit!")
-; !CALL PB_EndFunctions
-; gtk_main_() ; the g-inspector can send a gtk_main_quit() for this to end
-; !PUSH dword 0
-; !CALL exit
 
 End
 

@@ -226,7 +226,7 @@ Procedure UpdateIssueList()
     
     ; Lock the list update, as on GTK2 it's really slow
     ; Note: we may not call SetGadgetState() after this!
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       *tree_model = gtk_tree_view_get_model_(GadgetID(#GADGET_Issues_List))
       g_object_ref_(*tree_model) ; must be ref'ed or it is destroyed
       gtk_tree_view_set_model_(GadgetID(#GADGET_Issues_List), #Null) ; disconnect the model for a faster update
@@ -265,7 +265,7 @@ Procedure UpdateIssueList()
       
     Next DisplayedIssues()
     
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       gtk_tree_view_set_model_(GadgetID(#GADGET_Issues_List), *tree_model) ; reconnect the model
       g_object_unref_(*tree_model)                                         ; release reference
     CompilerEndIf

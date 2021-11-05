@@ -180,87 +180,67 @@ CompilerIf #CompileWindows
 CompilerEndIf
 
 ; Special linux procedure for the vertical panel
-; Works only with gtk2.6+, so the fallback is there as well
 ;
 CompilerIf #CompileLinux
-  PrototypeC gtk_label_set_angle(*Label.GtkWidget, angle.d)
   
-  Procedure ToolsPanel_CreateFake_Linux(IsUpdate)
+  ImportC ""
+    gtk_label_set_angle_(*Label.GtkWidget, angle.d) As "gtk_label_set_angle" ; Gtk 2.6+
+  EndImport 
+  
+  Procedure ToolsPanel_CreateFake_Linux(IsUpdate)    
+    PanelGadget(#GADGET_ToolsPanelFake, 0, 0, 0, 0)
     
-    ; Changing the angle of a GtkLabel text (which is needed here) only
-    ; works since gtk2.6, so manually load the function for a test.
-    ;
-    GtkLib = OpenLibrary(#PB_Any, "libgtk-x11-2.0.so")
-    If GtkLib
-      gtk_label_set_angle.gtk_label_set_angle = GetFunction(GtkLib, "gtk_label_set_angle")
-      
-      If gtk_label_set_angle ; this is the important check
-        
-        PanelGadget(#GADGET_ToolsPanelFake, 0, 0, 0, 0)
-        
-        ; If the gadget is visible (toolspanel update), then we get the same warning as mentioned below
-        ; So just hide it (this is done after creation anyway, so it does not hurt)
-        If IsUpdate
-          HideGadget(#GADGET_ToolsPanelFake, 1)
-        EndIf
-        
-        ForEach UsedPanelTools()
-          *ToolData.ToolsPanelEntry = UsedPanelTools()
-          If *ToolData\ExternalPlugin
-            AddGadgetItem(#GADGET_ToolsPanelFake, -1, *ToolData\PanelTitle$)
-          Else
-            AddGadgetItem(#GADGET_ToolsPanelFake, -1, Language("ToolsPanel", *ToolData\PanelTitle$))
-          EndIf
-          
-          ; set the needed orientation for the tab label
-          ; Note that the actual label is now inside a container (because of image support)
-          ;
-          *LabelContainer.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(#GADGET_ToolsPanelFake), gtk_notebook_get_nth_page_(GadgetID(#GADGET_ToolsPanelFake), ListIndex(UsedPanelTools())))
-          *Children = gtk_container_get_children_(*LabelContainer)
-          *Label.GtkWidget = g_list_nth_data_(*Children, 1) ; label is the second child (image slot is always present)
-          g_list_free_(*Children)                           ; free this list
-          
-          If ToolsPanelSide = 0
-            gtk_label_set_angle(*Label, 270)
-          Else
-            gtk_label_set_angle(*Label, 90)
-          EndIf
-          
-        Next UsedPanelTools()
-        
-        CloseGadgetList()
-        
-        ; make it vertical
-        ;
-        If ToolsPanelSide = 0
-          gtk_notebook_set_tab_pos_(GadgetID(#GADGET_ToolsPanelFake), #GTK_POS_RIGHT)
-        Else
-          gtk_notebook_set_tab_pos_(GadgetID(#GADGET_ToolsPanelFake), #GTK_POS_LEFT)
-        EndIf
-        
-        ; Note: ToolsPanelHiddenWidth cannot be set here, as the window is not shown
-        ;  yet, and there is no way to calculate the tab height. This variable is set
-        ;  in the main source when the PanelTabHeight is calculated as well.
-        ;
-        ; Note: We have to set this to a high enough value for the startup, else we get
-        ;  a gtk warning by some theme engine (CRITICAL **: clearlooks_style_draw_box_gap: assertion `width >= -1' failed)
-        ;  The real value is set later in PureBasic.pb
-        ;
-        If IsUpdate = #False
-          ToolsPanelHiddenWidth = 50
-        EndIf
-        
-      Else
-        ToolsPanel_CreateFake_Default() ; use fallback
-        
-      EndIf
-      
-      CloseLibrary(GtkLib)
-    Else
-      ToolsPanel_CreateFake_Default() ; use fallback
-      
+    ; If the gadget is visible (toolspanel update), then we get the same warning as mentioned below
+    ; So just hide it (this is done after creation anyway, so it does not hurt)
+    If IsUpdate
+      HideGadget(#GADGET_ToolsPanelFake, 1)
     EndIf
     
+    ForEach UsedPanelTools()
+      *ToolData.ToolsPanelEntry = UsedPanelTools()
+      If *ToolData\ExternalPlugin
+        AddGadgetItem(#GADGET_ToolsPanelFake, -1, *ToolData\PanelTitle$)
+      Else
+        AddGadgetItem(#GADGET_ToolsPanelFake, -1, Language("ToolsPanel", *ToolData\PanelTitle$))
+      EndIf
+      
+      ; set the needed orientation for the tab label
+      ; Note that the actual label is now inside a container (because of image support)
+      ;
+      *LabelContainer.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(#GADGET_ToolsPanelFake), gtk_notebook_get_nth_page_(GadgetID(#GADGET_ToolsPanelFake), ListIndex(UsedPanelTools())))
+      *Children = gtk_container_get_children_(*LabelContainer)
+      *Label.GtkWidget = g_list_nth_data_(*Children, 1) ; label is the second child (image slot is always present)
+      g_list_free_(*Children)                           ; free this list
+      
+      If ToolsPanelSide = 0
+        gtk_label_set_angle_(*Label, 270)
+      Else
+        gtk_label_set_angle_(*Label, 90)
+      EndIf
+    Next UsedPanelTools()
+    
+    CloseGadgetList()
+    
+    ; make it vertical
+    ;
+    If ToolsPanelSide = 0
+      gtk_notebook_set_tab_pos_(GadgetID(#GADGET_ToolsPanelFake), #GTK_POS_RIGHT)
+    Else
+      gtk_notebook_set_tab_pos_(GadgetID(#GADGET_ToolsPanelFake), #GTK_POS_LEFT)
+    EndIf
+    
+    ; Note: ToolsPanelHiddenWidth cannot be set here, as the window is not shown
+    ;  yet, and there is no way to calculate the tab height. This variable is set
+    ;  in the main source when the PanelTabHeight is calculated as well.
+    ;
+    ; Note: We have to set this to a high enough value for the startup, else we get
+    ;  a gtk warning by some theme engine (CRITICAL **: clearlooks_style_draw_box_gap: assertion `width >= -1' failed)
+    ;  The real value is set later in PureBasic.pb
+    ;
+    If IsUpdate = #False
+      ToolsPanelHiddenWidth = 50
+    EndIf
+        
   EndProcedure
 CompilerEndIf
 

@@ -55,7 +55,7 @@ source BuildEnv.sh <YourPureBasicPath>
 
 In the opened command shell, navigate to the [`PureBasicIDE`][PureBasicIDE] directory and type `make`. To create a debug version, type `make debug`.
 
-*Note:* You can compile/run and debug the IDE from within the PureBasic IDE itself after you have build all preconditions with `make`. For this you have to ensure to set the "subsystem" setting to "gtk2" in the compiler options because the IDE cannot be compiled with Gtk3.
+The default is to build the IDE with Gtk3. You can use the Gtk2 subsystem by setting the `PB_GTK=2` environment variable before running the `BuildEnv.sh` script.
 
 ## Building on MacOS
 

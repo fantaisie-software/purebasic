@@ -77,7 +77,7 @@ CompilerIf #CompileWindows
   Declare SetCodePage(Gadget)         ; set the correct codepage for the editorgadget (windows only)
   Declare SetWindowForeground_Real(Window) ; grab focus from other apps
 CompilerEndIf
-CompilerIf #CompileLinux
+CompilerIf #CompileLinuxGtk
   Declare GTKSignalConnect(*Widget, Signal$, Function, user_data)
 CompilerEndIf
 

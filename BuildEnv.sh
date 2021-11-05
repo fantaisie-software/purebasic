@@ -41,6 +41,10 @@
 #      or import definitions. This setting is not needed to compile the
 #      IDE or debugger
 #
+#    PB_GTK=2
+#
+#      Specify to use Gtk2 for IDE and debugger build. Gtk3 is default
+#
 # ************************************************************************
 
 
@@ -96,6 +100,9 @@ fi
 # Subsystem for Imports/Residents compilation (not neede for the IDE build)
 # Default is no subsystem
 export PB_SUBSYSTEM=${PB_SUBSYSTEM-purelibraries/}
+
+# Specify GTK Version to use (default is Gtk2 for now)
+export PB_GTK=${PB_GTK-3}
 
 
 # Start shell if the script is not sourced and PB_BATCH is not set

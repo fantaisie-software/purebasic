@@ -3520,7 +3520,7 @@ Procedure OpenPreferencesWindow()
   
   ; fix required for the centereing of non-resizable windows in the dialog manager
   ; (works only if window is visible)
-  CompilerIf #CompileLinuxGtk2
+  CompilerIf #CompileLinuxGtk
     If PreferenceWindowPosition\x = -1 And PreferenceWindowPosition\y = -1
       While WindowEvent(): Wend
       gtk_window_set_position_(WindowID(#WINDOW_Preferences), #GTK_WIN_POS_CENTER)

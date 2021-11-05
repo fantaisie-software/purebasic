@@ -320,7 +320,7 @@ Procedure UpdateDebugOutputWindow(*Debugger.DebuggerData)
     
     AddGadgetItem(Gadget, -1, *Debugger\DebugMessage$)
     
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       Static *Mark
       
       If *Mark = 0

@@ -511,7 +511,7 @@ CompilerIf #CompileLinux
   EndProcedure
   
   
-  ProcedureC HelpMouseEvents(*Window._GtkWidget, *Event._GdkEventButton, user_type)
+  ProcedureC HelpMouseEvents(*Window.GtkWidget, *Event.GdkEventButton, user_type)
     If *Event\button = 1
       
       position = ScintillaSendMessage(#GADGET_Help_Editor, #SCI_POSITIONFROMPOINTCLOSE, WindowMouseX(#WINDOW_Help)-GadgetX(#GADGET_Help_Editor), WindowMouseY(#WINDOW_Help)-GadgetY(#GADGET_Help_Editor))
