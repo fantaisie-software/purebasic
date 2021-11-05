@@ -378,7 +378,7 @@ SetupFileMonitor()
 ; Calculate the hidden width of the toolspanel (for autohide)
 ; Can be done only after the gadget is displayed
 CompilerIf #CompileLinux
-  ToolsPanelHiddenWidth = GetGadgetAttribute(#GADGET_ToolsPanel, #PB_Panel_TabHeight)  
+  ToolsPanelHiddenWidth = GetGadgetAttribute(#GADGET_ToolsPanel, #PB_Panel_TabHeight)
   If ToolsPanelVisible = 0
     ResizeMainWindow()
   EndIf

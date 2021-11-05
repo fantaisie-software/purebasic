@@ -116,7 +116,7 @@ CompilerIf #CompileLinux
     
   EndProcedure
   
-  Procedure SetWindowForeground(Window)    
+  Procedure SetWindowForeground(Window)
     gdk_window_raise_(gtk_widget_get_window_(WindowID(Window)))
     SetActiveWindow(Window)
   EndProcedure

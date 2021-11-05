@@ -185,9 +185,9 @@ CompilerIf #CompileLinux
   
   ImportC ""
     gtk_label_set_angle_(*Label.GtkWidget, angle.d) As "gtk_label_set_angle" ; Gtk 2.6+
-  EndImport 
+  EndImport
   
-  Procedure ToolsPanel_CreateFake_Linux(IsUpdate)    
+  Procedure ToolsPanel_CreateFake_Linux(IsUpdate)
     PanelGadget(#GADGET_ToolsPanelFake, 0, 0, 0, 0)
     
     ; If the gadget is visible (toolspanel update), then we get the same warning as mentioned below
