@@ -363,7 +363,7 @@ DataSection
   ;Data$ "GetGadgetAttribute,2,"     ; leave out because of the many different constants depending on the gadget type
   ;Data$ "GetGadgetAttribute3D,2,"   ; leave out because of the many different constants depending on the gadget type
   Data$ "GetGadgetColor,2,#PB_Gadget_FrontColor,#PB_Gadget_BackColor,#PB_Gadget_LineColor,#PB_Gadget_TitleFrontColor,#PB_Gadget_TitleBackColor,#PB_Gadget_GrayTextColor"
-  Data$ "GetGadgetItemAttribute,2,#PB_Explorer_ColumnWidth,#PB_ListIcon_ColumnWidth,#PB_Tree_SubLevel" 
+  Data$ "GetGadgetItemAttribute,2,#PB_Explorer_ColumnWidth,#PB_ListIcon_ColumnWidth,#PB_Tree_SubLevel"
   Data$ "GetGadgetItemColor,3,#PB_Gadget_FrontColor,#PB_Gadget_BackColor"
   Data$ "GetHTTPHeader,2,#PB_HTTP_NoRedirect"
   Data$ "GetJointAttribute,2,#PB_PointJoint_Tau,#PB_PointJoint_Damping,#PB_ConeTwistJoint_SwingSpan,#PB_ConeTwistJoint_SwingSpan2,#PB_ConeTwistJoint_TwistSpan,#PB_HingeJoint_LowerLimit,#PB_HingeJoint_UpperLimit,#PB_SliderJoint_LowerLimit,#PB_SliderJoint_UpperLimit"
