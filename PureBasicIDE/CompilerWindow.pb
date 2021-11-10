@@ -104,6 +104,9 @@ Procedure CompilerReady()
     
     ; do this before scanning, as it affects saved data (known constants etc)
     InitStructureViewer()
+    
+    ; Init the AutoComplete context sensitive constants (must be after InitStructureViewer() as it uses the ConstantList)
+    AutoComplete_InitContextConstants()
   EndIf
   
   ; Ok, everything is loaded, now highlight any already open files.

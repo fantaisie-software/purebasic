@@ -29,6 +29,14 @@ Global AutoComplete_CurrentModule$
 Global NewMap AutoComplete_LastStructureItem.s()  ; key and value is lowercase
 Global NewMap AutoComplete_LastModuleItem.s()
 
+Structure AutoCompleteConstants
+  List Constants.s()
+EndStructure
+
+; Map key is "<FunctionName>,<1-based-parameter-index>" in lowercase
+Global NewMap AutoComplete_ContextConstants.AutoCompleteConstants(4096)
+Global NewMap PredefinedPBConstants.l(4096)
+
 Macro AutoComplete_Redraw()
   CompilerIf #CompileLinux
     FlushEvents()
@@ -91,6 +99,53 @@ Procedure CreateAutoCompleteWindow()
   
 EndProcedure
 
+; Called after LoadConstantList() so the constant list is valid
+;
+Procedure AutoComplete_InitContextConstants()
+  
+  ClearMap(AutoComplete_ContextConstants())
+  Restore BasicFunctionConstants ; ConstantsData.pbi
+  
+  Repeat
+    Read.s Entry$
+    
+    If Entry$ <> ""
+      Fields = CountString(Entry$, ",") + 1
+      
+      Function$ = LCase(StringField(Entry$, 1, ","))
+      Index$ = StringField(Entry$, 2, ",")
+      *Entry.AutoCompleteConstants = AddMapElement(AutoComplete_ContextConstants(), Function$ + "," + Index$)
+      
+      For f = 3 To Fields
+        Constant$ = StringField(Entry$, f, ",")
+        
+        If Right(Constant$, 1) = "*"
+          ; Wildcard entry: Have to do a lookup in the ConstantList for all matches
+          Prefix = Len(Constant$)-1
+          For i = 0 To ConstantListSize-1
+            If CompareMemoryString(@Constant$, @ConstantList(i), #PB_String_NoCase, Prefix) = #PB_String_Equal
+              AddElement(*Entry\Constants())
+              *Entry\Constants() = ConstantList(i)
+            EndIf
+          Next i
+        Else
+          AddElement(*Entry\Constants())
+          *Entry\Constants() = Constant$
+        EndIf
+      Next f
+    EndIf
+  Until Entry$ = ""
+  
+  ; Build a map of predefined #PB_ Constants so we can ignore them in context sensitive mode
+  ClearMap(PredefinedPBConstants())
+  For i = 0 To ConstantListSize-1
+    If CompareMemoryString(@"#PB_", @ConstantList(i), #PB_String_NoCase, 4) = #PB_String_Equal
+      PredefinedPBConstants(ConstantList(i)) = 1
+    EndIf
+  Next i
+
+EndProcedure
+
 
 Procedure AutoComplete_AddItem(*Item.SourceItem)
   AddElement(AutoCompleteList())
@@ -134,8 +189,14 @@ EndProcedure
 
 ; Constants are separate as they are clearly marked by the first # char
 ; This way we only have to lookup one kind of item for this
+; Also we now have special handling for PB_ constants in context sensitive mode
 ;
-Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceItem)
+Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceItem, *Context.AutoCompleteConstants)
+  
+  ; Note:
+  ; The source parser detects all constants in the code, even If they are just Read And Not defined).
+  ; So we also have builtin PB constants in these lists. In context sensitive mode we do not want them so
+  ; they are explicitly ignored in this case.
   
   If *Parser\SortedValid
     If Bucket < 0
@@ -145,7 +206,7 @@ Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Bucket, *Ignor
         For Bucket = 0 To #PARSER_VTSize-1
           *Item.SourceItem = *Parser\Modules(UCase(AutoCompleteModules()))\Sorted\Constants[Bucket]
           While *Item
-            If *Item <> *Ignore
+            If *Item <> *Ignore And (*Context = 0 Or FindMapElement(PredefinedPBConstants(), *Item\Name$) = 0)
               AddElement(AutoCompleteList())
               AutoCompleteList() = *Item\Name$
             EndIf
@@ -162,7 +223,7 @@ Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Bucket, *Ignor
       ForEach AutoCompleteModules()
         *Item.SourceItem = *Parser\Modules(UCase(AutoCompleteModules()))\Sorted\Constants[Bucket]
         While *Item
-          If *Item <> *Ignore
+          If *Item <> *Ignore And (*Context = 0 Or FindMapElement(PredefinedPBConstants(), *Item\Name$) = 0)
             AddElement(AutoCompleteList())
             AutoCompleteList() = *Item\Name$
           EndIf
@@ -259,7 +320,7 @@ Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceI
   
 EndProcedure
 
-Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
+Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$, FunctionParameter)
   ; Declares are treated like procedures in AutoComplete and they have no
   ; separate prefs item, so just sync the settings for simplicity
   ;
@@ -325,28 +386,48 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
   ;
   If FirstChar$ = "#" Or WordStart$ = ""  ; constants
     
+    ; Check if we have context sensitive information available
+    *Context.AutoCompleteConstants = 0
+    If EnclosingFunction$ <> ""
+      ; Map has lowercase names and 1-based parameter index
+      *Context = FindMapElement(AutoComplete_ContextConstants(), LCase(EnclosingFunction$) + "," + Str(FunctionParameter))
+    EndIf
+    
     ; add PB constants
     If AutocompletePBOptions(#PBITEM_Constant) And SingleModuleOnly = #False
-      For i = 0 To ConstantListSize-1
-        If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, @ConstantList(i), #PB_String_NoCase, Length) = #PB_String_Equal
-          AddElement(AutoCompleteList())
-          AutoCompleteList() = ConstantList(i)
-        EndIf
-      Next i
+      
+      If *Context = 0
+        ; Normal mode
+        For i = 0 To ConstantListSize-1
+          If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, @ConstantList(i), #PB_String_NoCase, Length) = #PB_String_Equal
+            AddElement(AutoCompleteList())
+            AutoCompleteList() = ConstantList(i)
+          EndIf
+        Next i
+      Else
+        ; Context sensitive mode
+        ForEach *Context\Constants()
+          If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, PeekI(@*Context\Constants()), #PB_String_NoCase, Length) = #PB_String_Equal
+            AddElement(AutoCompleteList())
+            AutoCompleteList() = *Context\Constants()
+          EndIf
+        Next *Context\Constants()
+      EndIf
+      
     EndIf
     
     If AutoCompleteOptions(#ITEM_Constant)
       
       ; Add the constants from this source
-      AutoComplete_AddConstantsFromSorted(@*ActiveSource\Parser, Bucket, *CurrentItem)
+      AutoComplete_AddConstantsFromSorted(@*ActiveSource\Parser, Bucket, *CurrentItem, *Context)
       
       ; Add constants from project sources
       If AutoCompleteProject And *ActiveSource\ProjectFile
         ForEach ProjectFiles()
           If ProjectFiles()\Source = 0
-            AutoComplete_AddConstantsFromSorted(@ProjectFiles()\Parser, Bucket, *CurrentItem)
+            AutoComplete_AddConstantsFromSorted(@ProjectFiles()\Parser, Bucket, *CurrentItem, *Contex)
           ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource
-            AutoComplete_AddConstantsFromSorted(@ProjectFiles()\Source\Parser, Bucket, *CurrentItem)
+            AutoComplete_AddConstantsFromSorted(@ProjectFiles()\Source\Parser, Bucket, *CurrentItem, *Context)
           EndIf
         Next ProjectFiles()
       EndIf
@@ -355,7 +436,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$)
       If AutoCompleteAllFiles
         ForEach FileList()
           If @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource And (AutoCompleteProject = 0 Or FileList()\ProjectFile = 0)
-            AutoComplete_AddConstantsFromSorted(@FileList()\Parser, Bucket, *CurrentItem)
+            AutoComplete_AddConstantsFromSorted(@FileList()\Parser, Bucket, *CurrentItem, *Context)
           EndIf
         Next FileList()
         ChangeCurrentElement(FileList(), *ActiveSource) ; important!
@@ -909,6 +990,12 @@ Procedure OpenAutoCompleteWindow()
           AutoComplete_ModuleStart = (*Cursor - *Buffer) / #CharSize
         EndIf
         
+      Else
+        
+        ; find any enclosing function for context sensitive autocomplete
+        ContinuedLine$ = GetContinuationLine(*ActiveSource\CurrentLine-1, @ContinuationStartOffset)
+        EnclosingFunction$ = FindEnclosingFunction(ContinuedLine$, ContinuationStartOffset + *ActiveSource\CurrentColumnChars-1, @FunctionStartPosition, @FunctionParameter)
+
       EndIf
       
     EndIf
@@ -918,6 +1005,8 @@ Procedure OpenAutoCompleteWindow()
       Debug "Current line: " + Line$
       Debug "Current word: " + WordStart$
       Debug "Module prefix: " + ModulePrefix$
+      Debug "Enclosing Function: " + EnclosingFunction$
+      Debug "Function Parameter: " + Str(FunctionParameter)
       Debug "Structure item: " + Str(*BaseItem)
       Debug "Structure name: " + StructName$ + " (for OffsetOf only)"
       If *BaseItem
@@ -952,7 +1041,7 @@ Procedure OpenAutoCompleteWindow()
     If AutoComplete_IsStructure
       AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem, BaseItemLine)
     ElseIf WordStart$ <> "" Or AutoComplete_IsModule
-      AutoComplete_FillNormal(WordStart$, ModulePrefix$)
+      AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$, FunctionParameter)
     EndIf
     
     If AutoComplete_IsStructure Or AutoComplete_IsModule Or WordStart$ <> ""
@@ -1536,3 +1625,5 @@ CompilerIf #CompileLinux
     PostEvent(#PB_Event_Gadget, #WINDOW_AutoComplete, #GADGET_AutoComplete_List, #PB_EventType_FirstCustomValue, IsInitial)
   EndMacro
 CompilerEndIf
+
+XIncludeFile "ConstantsData.pbi"

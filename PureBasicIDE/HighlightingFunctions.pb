@@ -1323,22 +1323,15 @@ Procedure.s GenerateQuickHelpText(Line$, Word$, Line, Column)
   ProcedureReturn GenerateQuickHelpFromWord(Line$, Word$, line, Column)
 EndProcedure
 
-Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
-  Shared StatusMessageTimeout.q                   ; shared for the special access in QuickHelpFromLine()
+; Find enclosing function (or array) from the given cursor position (0 based)
+;
+; Returns function name or empty string if not inside any
+; *StartPosition\i will be the position of the function name in Line$ (0 based)
+; *Parameter\i will be the parameter index in the function (1 based)
+;
+Procedure.s FindEnclosingFunction(Line$, Cursor, *StartPosition.INTEGER, *Parameter.INTEGER)
   
-  If *ActiveSource\IsCode = 0
-    ChangeStatus("", 0)
-    ProcedureReturn
-  EndIf
-  
-  Line$ = GetContinuationLine(line, @StartOffset)
-  cursorposition + StartOffset
-  
-  If position > Len(Line$) ; something is wrong here
-    ProcedureReturn
-  Else
-    ScanLine$ = UCase(Left(Line$, cursorposition)) ; cut everything after the current position
-  EndIf
+  ScanLine$ = UCase(Left(Line$, Cursor)) ; cut everything after the current position
   
   Stack = 0
   ClearStructure(@QuickHelpStack(0), QuickHelpStack)
@@ -1440,16 +1433,43 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
     
   Wend
   
-  Stack - 1 ; the last stack position is not valid
+  Stack - 1 ; the last stack position is the inside of the () if any
   
-  ; update the quickhelp
-  ;
   While Stack > 0 And QuickHelpStack(Stack)\Word$ = ""  ; go back all empty spaces
     Stack - 1                                           ; Example: Function( ( ( ...
   Wend
   
   If Stack >= 0 And QuickHelpStack(Stack)\Word$ <> ""
-    Message$ = GenerateQuickHelpText(Line$, QuickHelpStack(Stack)\Word$, line, QuickHelpStack(Stack)\Position)
+    *StartPosition\i = QuickHelpStack(Stack)\Position
+    *Parameter\i = QuickHelpStack(Stack+1)\Parameter + 1 ; the argument index is +1 in the stack (because they are inside the '(' )
+    ProcedureReturn QuickHelpStack(Stack)\Word$
+  Else
+    *StartPosition\i = 0
+    *Parameter\i = 0
+    ProcedureReturn ""
+  EndIf
+EndProcedure
+
+
+Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
+  Shared StatusMessageTimeout.q                   ; shared for the special access in QuickHelpFromLine()
+  
+  If *ActiveSource\IsCode = 0
+    ChangeStatus("", 0)
+    ProcedureReturn
+  EndIf
+  
+  Line$ = GetContinuationLine(line, @StartOffset)
+  cursorposition + StartOffset
+  
+  If cursorposition > Len(Line$) ; something is wrong here
+    ProcedureReturn
+  EndIf
+  
+  EnclosingFunction$ = FindEnclosingFunction(Line$, cursorposition, @FunctionStart, @Argument)
+
+  If EnclosingFunction$ <> ""
+    Message$ = GenerateQuickHelpText(Line$, EnclosingFunction$, line, FunctionStart)
     
     If Message$ = "" Or FindString(Message$, "(", 1) = 0 Or FindString(Message$, ")", 1) = 0
       ChangeStatus(Message$, 0)
@@ -1526,15 +1546,13 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
       
       Test$ = Left(Test$, position-1) ; ignore the description part (Test$ now has all strings blocked out)
       
-      Argument = QuickHelpStack(Stack+1)\Parameter ; the argument index is +1 in the stack (because they are inside the '(' )
-      
       If Right(RTrim(Test$), 1) = "(" ; the function had no parameters '()'
         ChangeStatus(Message$, 0)
         
       Else
         
         position = FindString(Test$, "(", 1)
-        While Argument > 0 And position <> 0
+        While Argument > 1 And position <> 0
           position = FindString(Test$, ",", position+1)
           Argument - 1
         Wend
