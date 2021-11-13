@@ -62,6 +62,11 @@ Procedure CreateKeyboardShortcuts(Window)
           ; this shortcut is needed on the main window as well for the "insert end keyword on double press" option
           AddKeyboardShortcut(Window, KeyboardShortcuts(item), item)
         EndIf
+      ElseIf item = #MENU_AutoComplete_Full And Window = #WINDOW_Main
+        If  KeyboardShortcuts(item) <> #PB_Shortcut_Shift | #PB_Shortcut_Tab And KeyboardShortcuts(item) <> #PB_Shortcut_Return
+          ; we have special shortcuts for Shift+Tab on Scintilla ?
+          ;AddKeyboardShortcut(Window, KeyboardShortcuts(item), item)
+        EndIf
       ElseIf item <> #MENU_AutoComplete_Abort Or Window = #WINDOW_AutoComplete ; add "abort" only to the autocomplete window
         AddKeyboardShortcut(Window, KeyboardShortcuts(item), item)
       EndIf
@@ -281,6 +286,9 @@ Procedure IsShortcutUsed(Shortcut, CurrentPrefsItem, *CurrentAddTool)
   ; they are also used for Indent/Unindent (the code handles this)
   ;
   If CurrentPrefsItem = #MENU_AutoComplete_OK And (Shortcut = #PB_Shortcut_Tab Or Shortcut = #PB_Shortcut_Return)
+    ProcedureReturn 0
+  EndIf
+  If CurrentPrefsItem = #MENU_AutoComplete_Full And Shortcut = #PB_Shortcut_Shift | #PB_Shortcut_Tab
     ProcedureReturn 0
   EndIf
   
@@ -693,6 +701,7 @@ CompilerIf #CompileLinux | #CompileWindows
   #SHORTCUT_BreakPoint         = #PB_Shortcut_F9
   #SHORTCUT_AutoComplete       = #PB_Shortcut_Control | #PB_Shortcut_Space
   #SHORTCUT_AutoCompleteConfirm= #PB_Shortcut_Tab
+  #SHORTCUT_AutoCompleteFull   = #PB_Shortcut_Shift   | #PB_Shortcut_Tab
   #SHORTCUT_AutoCompleteAbort  = #PB_Shortcut_Escape
   #SHORTCUT_AutoIndent         = #PB_Shortcut_Control | #PB_Shortcut_I
   #SHORTCUT_UpperCase          = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_U
@@ -765,6 +774,7 @@ CompilerElse
   #SHORTCUT_StepOut            = #PB_Shortcut_F11
   #SHORTCUT_AutoComplete       = #PB_Shortcut_Control | #PB_Shortcut_Space ; CMT+Space is reserved in 10.4
   #SHORTCUT_AutoCompleteConfirm= #PB_Shortcut_Tab                          ; to be tested
+  #SHORTCUT_AutoCompleteFull   = #PB_Shortcut_Shift   | #PB_Shortcut_Tab
   #SHORTCUT_AutoCompleteAbort  = #PB_Shortcut_Escape
   #SHORTCUT_AutoIndent         = #PB_Shortcut_Command | #PB_Shortcut_I
   #SHORTCUT_UpperCase          = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_U
@@ -914,6 +924,7 @@ DataSection
   Data$ "", "ZoomDefault":         Data.l #SHORTCUT_ZoomDefault
   Data$ "", "AutoComplete":        Data.l #SHORTCUT_AutoComplete
   Data$ "", "AutoCompleteConfirm": Data.l #SHORTCUT_AutoCompleteConfirm
+  Data$ "", "AutoCompleteFull":    Data.l #SHORTCUT_AutoCompleteFull
   Data$ "", "AutoCompleteAbort":   Data.l #SHORTCUT_AutoCompleteAbort
   Data$ "", "ProceduresUpdate":    Data.l #SHORTCUT_ProcedureListUpdate
   
