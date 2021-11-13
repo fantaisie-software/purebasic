@@ -1074,8 +1074,8 @@ Enumeration 0
   
   #MENU_AutoComplete
   #MENU_AutoComplete_OK ; can now have a custom shortcut too
-  #MENU_AutoComplete_Abort
   #MENU_AutoComplete_Full
+  #MENU_AutoComplete_Abort
   
   #MENU_ProcedureListUpdate
   

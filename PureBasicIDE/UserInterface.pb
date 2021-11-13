@@ -1751,7 +1751,10 @@ Procedure MainMenuEvent(MenuItemID)
         EndIf
         
       Case #MENU_Scintilla_ShiftTab
-        If GetFocusGadgetID(#WINDOW_Main) = GadgetID(*ActiveSource\EditorGadget)
+        If AutoCompleteWindowOpen And KeyboardShortcuts(#MENU_AutoComplete_Full) = #PB_Shortcut_Shift | #PB_Shortcut_Tab ; special handling when tab is used
+          AutoComplete_Insert(#True)
+          
+        ElseIf GetFocusGadgetID(#WINDOW_Main) = GadgetID(*ActiveSource\EditorGadget)
           GetSelection(@LineStart, 0, @LineEnd, 0)
           If LineStart = LineEnd ; normal tab
             SendEditorMessage(#SCI_BACKTAB, 0, 0)

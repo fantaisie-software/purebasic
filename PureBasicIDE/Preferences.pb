@@ -2557,6 +2557,7 @@ Procedure ApplyPreferences()
     ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Escape, #MENU_AutoComplete_Abort)
     ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Return, #MENU_AutoComplete_Ok)
     ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Tab, #MENU_AutoComplete_Ok)
+    ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Shift|#PB_Shortcut_Tab, #MENU_AutoComplete_Full)
     
     ; put all main window shortcuts here too.
     CreateKeyboardShortcuts(#WINDOW_AutoComplete)
