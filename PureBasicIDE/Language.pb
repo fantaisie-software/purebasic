@@ -437,6 +437,7 @@ DataSection
   Data$ "FindNext",         "Find &Next"
   Data$ "FindPrevious",     "Find &Previous"
   Data$ "FindInFiles",      "Find &in Files..."
+  Data$ "Replace",          "&Replace..."
   
   Data$ "NewProject",       "&New Project..."
   Data$ "OpenProject",      "&Open Project..."
