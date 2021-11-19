@@ -1185,7 +1185,7 @@ Procedure MainMenuEvent(MenuItemID)
       OpenGrepWindow()
       
     Case #MENU_Replace
-      OpenFindWindow()
+      OpenFindWindow(#True)     ; Replace=#True
        
     Case #MENU_NewProject
       OpenProjectOptions(#True) ; creates a new project

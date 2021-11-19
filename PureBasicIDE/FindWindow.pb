@@ -5,8 +5,8 @@
 ;--------------------------------------------------------------------------------------------
 
 
-Procedure OpenFindWindow()
-  Protected FindFromSelection.b
+Procedure OpenFindWindow(Replace = #False)
+  Protected FindFromSelection
   
   If IsWindow(#WINDOW_Find) = 0
     
@@ -33,7 +33,7 @@ Procedure OpenFindWindow()
         SetGadgetState(#GADGET_Find_SelectionOnly,FindSelectionOnly)
         SetGadgetState(#GADGET_Find_AutoWrap,     FindAutoWrap)
         
-        If EventMenu() = #MENU_Replace
+        If Replace
           SetGadgetState(#GADGET_Find_DoReplace,  1)
           DisableGadget(#GADGET_Find_ReplaceWord, 0)
           DisableGadget(#GADGET_Find_Replace, 0)
