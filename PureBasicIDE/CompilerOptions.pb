@@ -136,10 +136,10 @@ Procedure SetTargetOptions(*Target.CompileTarget)
   
   SetGadgetText(#GADGET_Option_SubSystem,   *Target\SubSystem$)
   
-  SetGadgetState(#GADGET_Option_Debugger     , *Target\Debugger)
+  SetGadgetState(#GADGET_Option_Debugger , *Target\Debugger)
+  SetGadgetState(#GADGET_Option_Optimizer, *Target\Optimizer)
   
   CompilerIf #SpiderBasic
-    SetGadgetState(#GADGET_Option_OptimizeJS, *Target\OptimizeJS)
     SetGadgetText(#GADGET_Option_SelectWindowTheme, *Target\WindowTheme$)
     SetGadgetText(#GADGET_Option_SelectGadgetTheme, *Target\GadgetTheme$)
     SetGadgetText(#GADGET_Option_WebServerAddress, *Target\WebServerAddress$)
@@ -255,8 +255,8 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
   EndIf
   
   If *Target\Debugger          <> GetGadgetState(#GADGET_Option_Debugger): Changed = 1: EndIf
+  If *Target\Optimizer         <> GetGadgetState(#GADGET_Option_Optimizer): Changed = 1: EndIf
   CompilerIf #SpiderBasic
-    If *Target\OptimizeJS             <> GetGadgetState(#GADGET_Option_OptimizeJS): Changed = 1: EndIf
     If *Target\WindowTheme$           <> GetGadgetText(#GADGET_Option_SelectWindowTheme): Changed = 1: EndIf
     If *Target\GadgetTheme$           <> GetGadgetText(#GADGET_Option_SelectGadgetTheme): Changed = 1: EndIf
     If *Target\WebServerAddress$      <> GetGadgetText(#GADGET_Option_WebServerAddress): Changed = 1: EndIf
@@ -356,8 +356,8 @@ Procedure GetTargetOptions(*Target.CompileTarget)
   EndIf
   
   *Target\Debugger         = GetGadgetState(#GADGET_Option_Debugger)
+  *Target\Optimizer        = GetGadgetState(#GADGET_Option_Optimizer)
   CompilerIf #SpiderBasic
-    *Target\OptimizeJS      = GetGadgetState(#GADGET_Option_OptimizeJS)
     *Target\WebServerAddress$ = GetGadgetText(#GADGET_Option_WebServerAddress)
     *Target\WindowTheme$    = GetGadgetText(#GADGET_Option_SelectWindowTheme)
     *Target\GadgetTheme$    = GetGadgetText(#GADGET_Option_SelectGadgetTheme)

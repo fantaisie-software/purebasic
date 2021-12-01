@@ -1,4 +1,4 @@
-﻿;--------------------------------------------------------------------------------------------
+;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -607,7 +607,7 @@ Procedure CustomizeTabBarGadget()
           
           If *Components And NbComponents = 2 ; its grey and alpha
             
-            CompilerIf #PB_Compiler_Processor = #PB_Processor_x64 ; CGFloat is a double on 64 bit system
+            CompilerIf #PB_Compiler_64Bit ; CGFloat is a double on 64 bit system
               c = 255 * PeekD(*Components)
             CompilerElse
               c = 255 * PeekF(*Components)
@@ -617,7 +617,7 @@ Procedure CustomizeTabBarGadget()
             
           ElseIf *Components And NbComponents = 4 ; its rgba
             
-            CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+            CompilerIf #PB_Compiler_64Bit
               r = 255 * PeekD(*Components)
               g = 255 * PeekD(*Components + 8)
               b = 255 * PeekD(*Components + 16)

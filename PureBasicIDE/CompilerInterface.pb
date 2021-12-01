@@ -1,4 +1,4 @@
-﻿;--------------------------------------------------------------------------------------------
+;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -645,6 +645,8 @@ Procedure TokenizeCompilerVersion(Version$, *Version.INTEGER, *Beta.INTEGER, *OS
       *Processor\i = #PB_Processor_x64
     ElseIf FindString(Version$, "POWERPC", 1)
       *Processor\i = #PB_Processor_PowerPC
+    ElseIf FindString(Version$, "ARM64", 1)
+      *Processor\i = #PB_Processor_Arm64
     Else
       *Processor\i = #PB_Processor_mc68000 ; also unlikely
     EndIf
@@ -710,12 +712,20 @@ Procedure SortCompilers()
 EndProcedure
 
 Procedure FindCompiler(Version$)
-  ;
-  ; We ignore the OS in our matches to have better crossplatform compatibility
-  ; (you won't find several different OS compilers on the same OS anyway)
-  ;
   
-  ; Look for an exact match first
+  ; Look for the exact same compiler first
+  ;
+  If Version$ = DefaultCompiler\VersionString$
+    ProcedureReturn @DefaultCompiler
+  Else
+    ForEach Compilers()
+      If Compilers()\Validated And Version$ = Compilers()\VersionString$
+        ProcedureReturn @Compilers()
+      EndIf
+    Next Compilers()
+  EndIf
+  
+  ; Look for an exact match, ignoring OS to have better crossplatform compatibility
   ;
   If MatchCompilerVersion(Version$, DefaultCompiler\VersionString$, #MATCH_Version|#MATCH_Beta|#MATCH_Processor)
     ProcedureReturn @DefaultCompiler
@@ -1479,8 +1489,9 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
   
   If *Target\EnableThread  : Command$ + Chr(9) + "THREAD"    : EndIf
   
+  If *Target\Optimizer  : Command$ + Chr(9) + "OPTIMIZER" : EndIf
+
   CompilerIf #SpiderBasic
-    If *Target\OptimizeJS  : Command$ + Chr(9) + "OPTIMIZEJS" : EndIf
     
     Select *Target\AppFormat
       Case #AppFormatWeb ; Can be also when using Compile/Run

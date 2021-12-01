@@ -796,7 +796,6 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddStringConfigLine("ExportArguments"   , *Target\ExportArguments$)
     AddStringConfigLine("ResourceDirectory" , *Target\ResourceDirectory$)
     AddFlagConfigLine("EnableResourceDirectory", *Target\EnableResourceDirectory)
-    AddFlagConfigLine("OptimizeJS"           , *Target\OptimizeJS)
     AddFlagConfigLine("CopyJavaScriptLibrary", *Target\CopyJavaScriptLibrary)
     AddFlagConfigLine("WebAppEnableDebugger" , *Target\WebAppEnableDebugger)
     
@@ -835,6 +834,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     
   CompilerEndIf
   
+  AddFlagConfigLine("Optimizer", *Target\Optimizer)
   
   If *Target\EnableASM And IsCodeFile
     NbLines + 1
@@ -1236,7 +1236,6 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         IsIDEConfigPresent = 1
         
         CompilerIf #SpiderBasic
-        Case "OPTIMIZEJS"           : *Source\OptimizeJS = 1
         Case "WEBSERVERADDRESS"     : *Source\WebServerAddress$ = Value$
         Case "WINDOWTHEME"          : *Source\WindowTheme$ = Value$
         Case "GADGETTHEME"          : *Source\GadgetTheme$ = Value$
@@ -1284,6 +1283,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
           
         CompilerEndIf
         
+      Case "OPTIMIZER":        *Source\Optimizer = 1
       Case "ENABLEASM":        *Source\EnableASM = 1
       Case "ENABLEXP":         *Source\EnableXP = 1
       Case "ENABLEADMIN":      *Source\EnableAdmin = 1

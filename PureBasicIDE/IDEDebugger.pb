@@ -1,4 +1,4 @@
-﻿;--------------------------------------------------------------------------------------------
+;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -831,6 +831,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         Case 1: Text$ + " - x86"
         Case 2: Text$ + " - x64"
         Case 3: Text$ + " - ppc"
+        Case 4: Text$ + " - arm64"
       EndSelect
       
       If *Debugger\Is64bit

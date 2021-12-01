@@ -559,8 +559,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   
   #GADGET_Option_UseCompiler  ; First to be disabled/enabled in "Main file" loop
   #GADGET_Option_SelectCompiler
+  #GADGET_Option_Optimizer
   CompilerIf #SpiderBasic
-    #GADGET_Option_OptimizeJS
     #GADGET_Option_WindowTheme
     #GADGET_Option_SelectWindowTheme
     #GADGET_Option_GadgetTheme
@@ -2020,7 +2020,6 @@ Structure CompileTarget
   CompilerIf #SpiderBasic
     AppFormat.l
     
-    OptimizeJS.l
     WindowTheme$
     GadgetTheme$
     WebServerAddress$
@@ -2073,6 +2072,7 @@ Structure CompileTarget
   
   ; Compiler options
   ;
+  Optimizer.l
   EnableASM.l
   EnableThread.l
   EnableXP.l
