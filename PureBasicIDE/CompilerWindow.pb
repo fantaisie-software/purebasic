@@ -66,6 +66,7 @@ EndProcedure
 
 Procedure SetCompileTargetDefaults(*Target.CompileTarget)
   *Target\Debugger         = OptionDebugger
+  *Target\Optimizer        = OptionOptimizer
   *Target\EnableASM        = OptionInlineASM
   *Target\EnableThread     = OptionThread
   *Target\EnableXP         = OptionXPSkin

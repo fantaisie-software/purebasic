@@ -741,6 +741,7 @@ Procedure LoadPreferences()
   LoadDialogPosition(@ProjectOptionWindowPosition, -1, -1, 0, 0, "ProjectOption")
   OptionDebugger             = ReadPreferenceLong("Debugger",  1)
   OptionPurifier             = ReadPreferenceLong("Purifier",  0)
+  OptionOptimizer            = ReadPreferenceLong("Optimizer", 0)
   OptionInlineASM            = ReadPreferenceLong("InlineASM", 0)
   OptionXPSkin               = ReadPreferenceLong("XPSkin",    1)
   OptionVistaAdmin           = ReadPreferenceLong("VistaAdmin",0)
@@ -1456,6 +1457,7 @@ Procedure SavePreferences()
     SaveDialogPosition(@ProjectOptionWindowPosition, 0, "ProjectOption")
     WritePreferenceLong  ("Debugger",           OptionDebugger)
     WritePreferenceLong  ("Purifier",           OptionPurifier)
+    WritePreferenceLong  ("Optimizer",          OptionOptimizer)
     WritePreferenceLong  ("InlineASM",          OptionInlineASM)
     WritePreferenceLong  ("XPSkin",             OptionXPSkin)
     WritePreferenceLong  ("VistaAdmin",         OptionVistaAdmin)
@@ -1724,6 +1726,7 @@ Procedure IsPreferenceChanged()
     If OptionAppleTeamID$ <> GetGadgetText(#GADGET_Preferences_AppleTeamID): ProcedureReturn 1: EndIf
   CompilerElse
     If OptionPurifier        <> GetGadgetState(#GADGET_Preferences_Purifier): ProcedureReturn 1: EndIf
+    If OptionOptimizer       <> GetGadgetState(#GADGET_Preferences_Optimizer): ProcedureReturn 1: EndIf
     If OptionInlineASM       <> GetGadgetState(#GADGET_Preferences_InlineASM): ProcedureReturn 1: EndIf
     If OptionXPSkin          <> GetGadgetState(#GADGET_Preferences_XPSkin): ProcedureReturn 1: EndIf
     If OptionVistaAdmin      <> GetGadgetState(#GADGET_Preferences_VistaAdmin): ProcedureReturn 1: EndIf
@@ -2134,6 +2137,7 @@ Procedure ApplyPreferences()
     OptionAppleTeamID$  = GetGadgetText(#GADGET_Preferences_AppleTeamID)
   CompilerElse
     OptionPurifier        = GetGadgetState(#GADGET_Preferences_Purifier)
+    OptionOptimizer       = GetGadgetState(#GADGET_Preferences_Optimizer)
     OptionInlineASM       = GetGadgetState(#GADGET_Preferences_InlineASM)
     OptionXPSkin          = GetGadgetState(#GADGET_Preferences_XPSkin)
     OptionVistaAdmin      = GetGadgetState(#GADGET_Preferences_VistaAdmin)
@@ -3203,6 +3207,7 @@ Procedure OpenPreferencesWindow()
     SetGadgetText(#GADGET_Preferences_AppleTeamID, OptionAppleTeamID$)
   CompilerElse
     SetGadgetState(#GADGET_Preferences_Purifier, OptionPurifier)
+    SetGadgetState(#GADGET_Preferences_Optimizer, OptionOptimizer)
     SetGadgetState(#GADGET_Preferences_InlineASM, OptionInlineASM)
     SetGadgetState(#GADGET_Preferences_XPSkin, OptionXPSkin)
     SetGadgetState(#GADGET_Preferences_VistaAdmin, OptionVistaAdmin)

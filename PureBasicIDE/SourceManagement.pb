@@ -325,6 +325,7 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\FileName$        = FileName$
   FileList()\Debugger         = OptionDebugger  ; set the default values
   FileList()\EnablePurifier   = OptionPurifier
+  FileList()\Optimizer        = OptionOptimizer
   FileList()\EnableASM        = OptionInlineASM
   FileList()\EnableXP         = OptionXPSkin
   FileList()\EnableAdmin      = OptionVistaAdmin
