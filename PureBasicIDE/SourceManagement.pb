@@ -1240,6 +1240,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "WINDOWTHEME"          : *Source\WindowTheme$ = Value$
         Case "GADGETTHEME"          : *Source\GadgetTheme$ = Value$
           
+        Case "OPTIMIZEJS"           : *Source\Optimizer = 1 ; Backward compatibility with older sources (now named "Optimizer")
         Case "WEBAPPNAME"           : *Source\WebAppName$ = Value$
         Case "WEBAPPICON"           : *Source\WebAppIcon$ = Value$
         Case "HTMLFILENAME"         : *Source\HtmlFilename$ = Value$
