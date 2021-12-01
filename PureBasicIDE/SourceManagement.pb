@@ -343,9 +343,10 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\UseBuildCount    = OptionUseBuildCount
   FileList()\UseCompileCount  = OptionUseCompileCount
   FileList()\TemporaryExePlace= OptionTemporaryExe
+  FileList()\CustomCompiler   = OptionCustomCompiler
+  FileList()\CompilerVersion$ = OptionCompilerVersion$
   FileList()\CurrentDirectory$= ""
   FileList()\ToggleFolds      = 1
-  FileList()\CustomCompiler   = 0
   FileList()\PurifierGranularity$ = ""
   FileList()\ExistsOnDisk     = #False
   

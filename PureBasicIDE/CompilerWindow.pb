@@ -81,6 +81,8 @@ Procedure SetCompileTargetDefaults(*Target.CompileTarget)
   *Target\UseBuildCount    = OptionUseBuildCount
   *Target\UseCreateExe     = OptionUseCreateExe
   *Target\TemporaryExePlace= OptionTemporaryExe
+  *Target\CustomCompiler   = OptionCustomCompiler
+  *Target\CompilerVersion$ = OptionCompilerVersion$
   *Target\CurrentDirectory$= ""
   *Target\EnablePurifier   = OptionPurifier
   *Target\PurifierGranularity$ = ""

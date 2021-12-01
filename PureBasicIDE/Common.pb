@@ -319,6 +319,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_DPIAware
   #GADGET_Preferences_Thread
   #GADGET_Preferences_OnError
+  #GADGET_Preferences_CustomCompiler
+  #GADGET_Preferences_SelectCustomCompiler
   #GADGET_Preferences_ExecutableFormat
   #GADGET_Preferences_CPU
   #GADGET_Preferences_NewLineType
@@ -2563,6 +2565,7 @@ Global OptionWindowDialog.DialogWindow, OptionWindowPosition.DialogPosition, Pro
 Global OptionDebugger, OptionPurifier, OptionOptimizer, OptionInlineASM, OptionXPSkin, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
 Global OptionNewLineType, OptionSubSystem$, OptionErrorLog, OptionEncoding
 Global OptionUseCompileCount, OptionUseBuildCount, OptionUseCreateExe, OptionTemporaryExe
+Global OptionCustomCompiler, OptionCompilerVersion$
 
 CompilerIf #SpiderBasic
   Global OptionWebBrowser$, OptionWebServerPort, OptionJDK$, OptionAppleTeamID$
