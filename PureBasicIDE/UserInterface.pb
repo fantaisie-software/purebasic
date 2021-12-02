@@ -653,11 +653,7 @@ Procedure CreateGUI()
       EndIf
       
       ; Fix Toolbar style from titlebar to expanded
-      #NSWindowToolbarStyleAutomatic = 0      ; Auto
       #NSWindowToolbarStyleExpanded = 1       ; Top Left
-      #NSWindowToolbarStylePreference = 2     ; Top Center
-      #NSWindowToolbarStyleUnified = 3        ; TitleBar Large
-      #NSWindowToolbarStyleUnifiedCompact = 4 ; TitleBar without text
       CocoaMessage(0, WindowID(#WINDOW_Main), "setToolbarStyle:", #NSWindowToolbarStyleExpanded)
   
     CompilerEndIf
