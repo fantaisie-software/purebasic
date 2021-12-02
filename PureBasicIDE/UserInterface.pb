@@ -592,48 +592,12 @@ Procedure CustomizeTabBarGadget()
   
   CompilerIf #CompileMac
     With TabBarGadgetInclude
-      If OSVersion() >= #PB_OS_MacOSX_10_14
-        \TabBarColor   = GetCocoaColor("windowBackgroundColor")
-      Else
-        ;
-        ; Note: The GetThemeBrushAsColor() color below always gives me full white no matter what brush i try (except the black brush),
-        ;   so i think there is something wrong with that.
-        ;   Try the 10.4+ only alternative first in the x86 version where this is always available
-        ;
-        HIThemeBrushCreateCGColor(#kThemeBrushAlertBackgroundActive, @CGColor.i)
-        If CGColor
-          NbComponents = CGColorGetNumberOfComponents(CGColor)
-          *Components  = CGColorGetComponents(CGColor)
-          
-          If *Components And NbComponents = 2 ; its grey and alpha
-            
-            CompilerIf #PB_Compiler_64Bit ; CGFloat is a double on 64 bit system
-              c = 255 * PeekD(*Components)
-            CompilerElse
-              c = 255 * PeekF(*Components)
-            CompilerEndIf
-            
-            \TabBarColor = RGBA(c, c, c, $FF)
-            
-          ElseIf *Components And NbComponents = 4 ; its rgba
-            
-            CompilerIf #PB_Compiler_64Bit
-              r = 255 * PeekD(*Components)
-              g = 255 * PeekD(*Components + 8)
-              b = 255 * PeekD(*Components + 16)
-            CompilerElse
-              r = 255 * PeekF(*Components)
-              g = 255 * PeekF(*Components + 4)
-              b = 255 * PeekF(*Components + 8)
-            CompilerEndIf
-            
-            \TabBarColor = RGBA(r, g, b, $FF)
-          EndIf
-          
-          CGColorRelease(CGColor)
-        EndIf
-      EndIf
-      \BorderColor   = GetCocoaColor("systemGrayColor")
+      
+      \BorderColor = GetCocoaColor("systemGrayColor")
+      \TabBarColor = GetCocoaColor("windowBackgroundColor")
+      \TextColor   = GetCocoaColor("windowFrameTextColor")
+      \FaceColor   = GetCocoaColor("windowBackgroundColor")
+      
     EndWith
   CompilerEndIf
   
@@ -668,7 +632,7 @@ Procedure CreateGUI()
       DisableMenuItem(#MENU, #MENU_SyntaxCheck, 1)
       DisableMenuItem(#MENU, #MENU_CreateExecutable, 1)
       
-      ContainerGadget(#GADGET_SourceContainer, 0, 0, 0, 0) ; put all the source part in a container
+      ContainerGadget(#GADGET_SourceContainer, 0, 0, 0, 0, #PB_Container_BorderLess) ; put all the source part in a container
       
       ; To remove bad flickering when resizing the editor area
       CompilerIf #CompileWindows
