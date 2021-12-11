@@ -89,6 +89,7 @@ Procedure LoadPreferences()
   MemorizeMarkers             = ReadPreferenceLong  ("MemorizeMarkers"   , 1)
   SelectedFilePattern         = ReadPreferenceLong  ("LastFilePattern"   , 0)
   DisplayFullPath             = ReadPreferenceLong  ("DisplayFullPath"   , 0)
+  DisplayDarkMode             = ReadPreferenceLong  ("DisplayDarkMode"   , 1)
   NoSplashScreen              = ReadPreferenceLong  ("NoSplashScreen"    , 0)
   AlwaysHideLog               = ReadPreferenceLong  ("AlwaysHideLog"     , 0)
   ShowCompilerProgress        = ReadPreferenceLong  ("ShowCompilerProgress", 0)
@@ -1081,6 +1082,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("LastFilePattern",      SelectedFilePattern)
     WritePreferenceLong  ("EnableMenuIcons",      EnableMenuIcons)
     WritePreferenceLong  ("DisplayFullPath",      DisplayFullPath)
+    WritePreferenceLong  ("DisplayDarkMode",      DisplayDarkMode)
     WritePreferenceLong  ("NoSplashScreen",       NoSplashScreen)
     WritePreferenceLong  ("AlwaysHideLog",        AlwaysHideLog)
     WritePreferenceLong  ("ShowCompilerProgress", ShowCompilerProgress)
@@ -1747,6 +1749,7 @@ Procedure IsPreferenceChanged()
   ;  If AutoCompleteNoStrings <> GetGadgetState(#GADGET_Preferences_NoStrings): ProcedureReturn 1: EndIf
   If NoSplashScreen        <> GetGadgetState(#GADGET_Preferences_NoSplashScreen): ProcedureReturn 1: EndIf
   If DisplayFullPath       <> GetGadgetState(#GADGET_Preferences_DisplayFullPath): ProcedureReturn 1: EndIf
+  If DisplayDarkMode       <> GetGadgetState(#GADGET_Preferences_DisplayDarkMode): ProcedureReturn 1: EndIf
   If EnableMenuIcons       <> GetGadgetState(#GADGET_Preferences_EnableMenuIcons): ProcedureReturn 1: EndIf
   If AutoReload            <> GetGadgetState(#GADGET_Preferences_AutoReload): ProcedureReturn 1: EndIf
   If MemorizeWindow        <> GetGadgetState(#GADGET_Preferences_MemorizeWindow): ProcedureReturn 1: EndIf
@@ -2112,6 +2115,7 @@ Procedure ApplyPreferences()
   ;  AutoCompleteNoStrings = GetGadgetState(#GADGET_Preferences_NoStrings)
   NoSplashScreen        = GetGadgetState(#GADGET_Preferences_NoSplashScreen)
   DisplayFullPath       = GetGadgetState(#GADGET_Preferences_DisplayFullPath)
+  DisplayDarkMode       = GetGadgetState(#GADGET_Preferences_DisplayDarkMode)
   EnableMenuIcons       = GetGadgetState(#GADGET_Preferences_EnableMenuIcons)
   AutoReload            = GetGadgetState(#GADGET_Preferences_AutoReload)
   MemorizeWindow        = GetGadgetState(#GADGET_Preferences_MemorizeWindow)
@@ -2780,6 +2784,7 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_MemorizeWindow, MemorizeWindow)
   SetGadgetState(#GADGET_Preferences_AutoReload, AutoReload)
   SetGadgetState(#GADGET_Preferences_DisplayFullPath, DisplayFullPath)
+  SetGadgetState(#GADGET_Preferences_DisplayDarkMode, DisplayDarkMode)
   SetGadgetState(#GADGET_Preferences_NoSplashScreen, NoSplashScreen)
   
   SetGadgetText(#GADGET_Preferences_FileHistorySize, Str(FilesHistorySize))

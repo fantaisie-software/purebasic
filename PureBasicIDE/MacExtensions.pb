@@ -231,4 +231,46 @@ CompilerIf #CompileMacCocoa
     EndIf
   EndProcedure
   
+  Procedure UpdateAppearance()
+    Protected NSApp, NSAppearance, NSAppearanceAqua, NSAppearanceSave
+    Protected Update, OldFaceColor, Item, ItemCount
+    
+    NSApp = CocoaMessage(0, 0, "NSApplication sharedApplication")
+    NSAppearance = CocoaMessage(0, NSApp, "appearance")
+    
+    If Not DisplayDarkMode And NSAppearance = 0
+      NSAppearanceAqua = CocoaMessage(0, 0, "NSAppearance appearanceNamed:$", @"NSAppearanceNameAqua")
+      CocoaMessage(0, NSApp, "setAppearance:", NSAppearanceAqua)
+      Update = #True
+    ElseIf DisplayDarkMode And NSAppearance <> 0
+      NSAppearanceAqua = #nil
+      CocoaMessage(0, NSApp, "setAppearance:", #nil)
+      Update = #True
+    EndIf
+    
+    If Update
+      With TabBarGadgetInclude
+        OldFaceColor = \FaceColor
+        ; Save current appearance
+        NSAppearanceSave = CocoaMessage(0, 0, "NSAppearance currentAppearance")
+        CocoaMessage(0, 0, "NSAppearance setCurrentAppearance:", NSAppearanceAqua)
+        \BorderColor = GetCocoaColor("systemGrayColor")
+        \TabBarColor = GetCocoaColor("windowBackgroundColor")
+        \TextColor   = GetCocoaColor("windowFrameTextColor")
+        \FaceColor   = GetCocoaColor("windowBackgroundColor")
+        ; Resore current appearance
+        CocoaMessage(0, 0, "NSAppearance setCurrentAppearance:", NSAppearanceSave)
+        ; Update tabbar item with default colors
+        ItemCount = CountTabBarGadgetItems(#GADGET_FilesPanel) - 1
+        For Item = 0 To ItemCount
+          If GetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_BackColor) = OldFaceColor
+            SetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_FrontColor, \TextColor)
+            SetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_BackColor, \FaceColor)
+          EndIf
+        Next
+      EndWith
+    EndIf
+    
+  EndProcedure
+  
 CompilerEndIf

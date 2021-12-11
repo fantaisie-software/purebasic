@@ -592,12 +592,10 @@ Procedure CustomizeTabBarGadget()
   
   CompilerIf #CompileMac
     With TabBarGadgetInclude
-      
       \BorderColor = GetCocoaColor("systemGrayColor")
       \TabBarColor = GetCocoaColor("windowBackgroundColor")
       \TextColor   = GetCocoaColor("windowFrameTextColor")
       \FaceColor   = GetCocoaColor("windowBackgroundColor")
-      
     EndWith
   CompilerEndIf
   
@@ -632,7 +630,7 @@ Procedure CreateGUI()
       DisableMenuItem(#MENU, #MENU_SyntaxCheck, 1)
       DisableMenuItem(#MENU, #MENU_CreateExecutable, 1)
       
-      ContainerGadget(#GADGET_SourceContainer, 0, 0, 0, 0, #PB_Container_BorderLess) ; put all the source part in a container
+      ContainerGadget(#GADGET_SourceContainer, 0, 0, 0, 0) ; put all the source part in a container
       
       ; To remove bad flickering when resizing the editor area
       CompilerIf #CompileWindows
@@ -2260,6 +2258,11 @@ EndProcedure
 ;
 Procedure UpdateMainWindow()
   
+  CompilerIf #CompileMac
+    ; Update DarkMode
+    UpdateAppearance()  
+  CompilerEndIf
+
   ToolsPanel_Update()
   
   ToolsPanel_ApplyColors(#GADGET_ErrorLog)
@@ -2670,4 +2673,3 @@ Procedure DisableMenuAndToolbarItem(MenuItemID, State)
     DisableToolBarButton(#TOOLBAR, MenuItemID, State)
   EndIf
 EndProcedure
-
