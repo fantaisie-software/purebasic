@@ -232,7 +232,7 @@ CompilerIf #CompileMacCocoa
   EndProcedure
   
   Procedure UpdateAppearance()
-    Protected NSApp, NSAppearance, NSAppearanceAqua, NSAppearanceSave
+    Protected NSApp, NSAppearance, NSAppearanceAqua, NSEffectiveAppearance, NSAppearanceSave
     Protected Update, OldFaceColor, Item, ItemCount
     
     NSApp = CocoaMessage(0, 0, "NSApplication sharedApplication")
@@ -253,7 +253,8 @@ CompilerIf #CompileMacCocoa
         OldFaceColor = \FaceColor
         ; Save current appearance
         NSAppearanceSave = CocoaMessage(0, 0, "NSAppearance currentAppearance")
-        CocoaMessage(0, 0, "NSAppearance setCurrentAppearance:", NSAppearanceAqua)
+        NSEffectiveAppearance = CocoaMessage(0, NSApp, "effectiveAppearance")
+        CocoaMessage(0, 0, "NSAppearance setCurrentAppearance:", NSEffectiveAppearance)
         \BorderColor = GetCocoaColor("systemGrayColor")
         \TabBarColor = GetCocoaColor("windowBackgroundColor")
         \TextColor   = GetCocoaColor("windowFrameTextColor")
