@@ -274,4 +274,19 @@ CompilerIf #CompileMacCocoa
     
   EndProcedure
   
+  Structure udtOSVersion
+    majorVersion.i
+    minorVersion.i
+    patchVersion.i
+  EndStructure
+  
+  Procedure MacOSVersion()
+    Protected Version, NSProcessInfo, NSVersion.udtOSVersion
+    
+    NSProcessInfo = CocoaMessage(0, 0, "NSProcessInfo processInfo")
+    CocoaMessage(NSVersion, NSProcessInfo, "operatingSystemVersion")
+    Version = NSVersion\majorVersion * 1000 + NSVersion\minorVersion * 10
+    ProcedureReturn Version
+  EndProcedure
+  
 CompilerEndIf

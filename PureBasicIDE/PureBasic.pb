@@ -232,11 +232,13 @@ CompilerIf #CompileMac
 CompilerEndIf
 
 CompilerIf #CompileMac
-  ; Force Appearance Aqua
-  If Not DisplayDarkMode
-    NSApp.i = CocoaMessage(0, 0, "NSApplication sharedApplication")
-    NSAppearanceAqua = CocoaMessage(0, 0, "NSAppearance appearanceNamed:$", @"NSAppearanceNameAqua")
-    CocoaMessage(0, NSApp, "setAppearance:", NSAppearanceAqua)
+  If MacOSVersion() >= 10140
+    ; Force Appearance Aqua
+    If Not DisplayDarkMode
+      NSApp.i = CocoaMessage(0, 0, "NSApplication sharedApplication")
+      NSAppearanceAqua = CocoaMessage(0, 0, "NSAppearance appearanceNamed:$", @"NSAppearanceNameAqua")
+      CocoaMessage(0, NSApp, "setAppearance:", NSAppearanceAqua)
+    EndIf
   EndIf
 CompilerEndIf
 
