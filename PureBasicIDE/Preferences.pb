@@ -741,6 +741,7 @@ Procedure LoadPreferences()
   LoadDialogPosition(@ProjectOptionWindowPosition, -1, -1, 0, 0, "ProjectOption")
   OptionDebugger             = ReadPreferenceLong("Debugger",  1)
   OptionPurifier             = ReadPreferenceLong("Purifier",  0)
+  OptionOptimizer            = ReadPreferenceLong("Optimizer", 0)
   OptionInlineASM            = ReadPreferenceLong("InlineASM", 0)
   OptionXPSkin               = ReadPreferenceLong("XPSkin",    1)
   OptionVistaAdmin           = ReadPreferenceLong("VistaAdmin",0)
@@ -757,6 +758,8 @@ Procedure LoadPreferences()
   OptionUseCompileCount      = ReadPreferenceLong("UseCompileCount", 0)
   OptionUseBuildCount        = ReadPreferenceLong("UseBuildCount", 0)
   OptionUseCreateExe         = ReadPreferenceLong("UseCreateExe", 0)
+  OptionCustomCompiler       = ReadPreferenceLong("CustomCompiler", 0)
+  OptionCompilerVersion$     = ReadPreferenceString("CompilerVersion", "")
   CompilerIf #SpiderBasic
     LoadDialogPosition(@CreateAppWindowPosition, -1, -1, 0, 0, "CreateApp")
     OptionTemporaryExe       = #True ; Always create the output in the source directory as we launch a webserver and don't want to launch it in temp
@@ -1456,6 +1459,7 @@ Procedure SavePreferences()
     SaveDialogPosition(@ProjectOptionWindowPosition, 0, "ProjectOption")
     WritePreferenceLong  ("Debugger",           OptionDebugger)
     WritePreferenceLong  ("Purifier",           OptionPurifier)
+    WritePreferenceLong  ("Optimizer",          OptionOptimizer)
     WritePreferenceLong  ("InlineASM",          OptionInlineASM)
     WritePreferenceLong  ("XPSkin",             OptionXPSkin)
     WritePreferenceLong  ("VistaAdmin",         OptionVistaAdmin)
@@ -1473,6 +1477,8 @@ Procedure SavePreferences()
     WritePreferenceLong  ("UseBuildCount",      OptionUseBuildCount)
     WritePreferenceLong  ("UseCreateExe",       OptionUseCreateExe)
     WritePreferenceLong  ("TemporaryExe",       OptionTemporaryExe)
+    WritePreferenceLong  ("CustomCompiler",     OptionCustomCompiler)
+    WritePreferenceString("CompilerVersion",    OptionCompilerVersion$)
     
     CompilerIf #SpiderBasic
       SaveDialogPosition(@CreateAppWindowPosition, 0, "CreateApp")
@@ -1716,6 +1722,10 @@ Procedure IsPreferenceChanged()
       ProcedureReturn 1
     EndIf
   Next i
+  
+  If OptionOptimizer        <> GetGadgetState(#GADGET_Preferences_Optimizer): ProcedureReturn 1: EndIf
+  If OptionCustomCompiler   <> GetGadgetState(#GADGET_Preferences_CustomCompiler): ProcedureReturn 1: EndIf
+  If OptionCompilerVersion$ <> GetGadgetText(#GADGET_Preferences_SelectCustomCompiler): ProcedureReturn 1: EndIf
   
   CompilerIf #SpiderBasic
     If OptionWebBrowser$ <> GetGadgetText(#GADGET_Preferences_WebBrowser): ProcedureReturn 1: EndIf
@@ -2127,6 +2137,9 @@ Procedure ApplyPreferences()
   ToolsPanelSide        = GetGadgetState(#GADGET_Preferences_ToolsPanelSide)
   FindHistorySize       = Val(GetGadgetText(#GADGET_Preferences_FindHistorySize))
   AlwaysHideLog         = GetGadgetState(#GADGET_Preferences_AlwaysHideLog)
+  OptionOptimizer       = GetGadgetState(#GADGET_Preferences_Optimizer)
+  OptionCustomCompiler  = GetGadgetState(#GADGET_Preferences_CustomCompiler)
+  OptionCompilerVersion$= GetGadgetText(#GADGET_Preferences_SelectCustomCompiler)
   CompilerIf #SpiderBasic
     OptionWebBrowser$   = GetGadgetText(#GADGET_Preferences_WebBrowser)
     OptionWebServerPort = Val(GetGadgetText(#GADGET_Preferences_WebServerPort))
@@ -3196,6 +3209,20 @@ Procedure OpenPreferencesWindow()
   
   SetGadgetText(#GADGET_Preferences_SubSystem, OptionSubSystem$)
   
+  SetGadgetState(#GADGET_Preferences_Optimizer, OptionOptimizer)
+  SetGadgetState(#GADGET_Preferences_CustomCompiler, OptionCustomCompiler)
+  
+  AddGadgetItem(#GADGET_Preferences_SelectCustomCompiler, -1, DefaultCompiler\VersionString$)
+  ForEach PreferenceCompilers()
+    If PreferenceCompilers()\Validated
+      AddGadgetItem(#GADGET_Preferences_SelectCustomCompiler, -1, PreferenceCompilers()\VersionString$)
+    EndIf
+  Next PreferenceCompilers()
+  SetGadgetText(#GADGET_Preferences_SelectCustomCompiler, OptionCompilerVersion$)
+  If OptionCustomCompiler = #False
+    DisableGadget(#GADGET_Preferences_SelectCustomCompiler, #True)
+  EndIf
+  
   CompilerIf #SpiderBasic
     SetGadgetText(#GADGET_Preferences_WebBrowser, OptionWebBrowser$)
     SetGadgetText(#GADGET_Preferences_WebServerPort, Str(OptionWebServerPort))
@@ -4074,6 +4101,7 @@ Procedure Preferences_AddNewCompiler(Executable$)
     
     If PreferenceCompilers()\Validated
       AddGadgetItem(#GADGET_Preferences_CompilerList, -1, PreferenceCompilers()\VersionString$+Chr(10)+PreferenceCompilers()\Executable$)
+      AddGadgetItem(#GADGET_Preferences_SelectCustomCompiler, -1, PreferenceCompilers()\VersionString$)
     Else
       AddGadgetItem(#GADGET_Preferences_CompilerList, -1, Language("Compiler","UnknownVersion")+Chr(10)+PreferenceCompilers()\Executable$)
     EndIf
@@ -5089,13 +5117,28 @@ Procedure PreferencesWindowEvents(EventID)
       Case #GADGET_Preferences_RemoveCompiler
         index = GetGadgetState(#GADGET_Preferences_CompilerList)
         If index <> -1
+          RemovedVersion$ = GetGadgetItemText(#GADGET_Preferences_CompilerList, index, 0)
           RemoveGadgetItem(#GADGET_Preferences_CompilerList, index)
           SelectElement(PreferenceCompilers(), index)
           DeleteElement(PreferenceCompilers())
+          
+          ; remove also from compiler defaults gadget. Never remove the default compiler (index 0)
+          For i = 1 To CountGadgetItems(#GADGET_Preferences_SelectCustomCompiler)-1
+            If GetGadgetItemText(#GADGET_Preferences_SelectCustomCompiler, i, 0) = RemovedVersion$
+              RemoveGadgetItem(#GADGET_Preferences_SelectCustomCompiler, i)
+              Break
+            EndIf
+          Next i
+          ; switch back to default if the selected compiler was removed
+          If GetGadgetState(#GADGET_Preferences_SelectCustomCompiler) = -1
+            SetGadgetState(#GADGET_Preferences_SelectCustomCompiler, 0)
+          EndIf
         EndIf
         
       Case #GADGET_Preferences_ClearCompilers
         ClearGadgetItems(#GADGET_Preferences_CompilerList)
+        ClearGadgetItems(#GADGET_Preferences_SelectCustomCompiler)
+        AddGadgetItem(#GADGET_Preferences_SelectCustomCompiler, -1, DefaultCompiler\VersionString$) ; re-add default compiler
         ClearList(PreferenceCompilers())
         
       Case #GADGET_Preferences_SelectCompiler
@@ -5112,6 +5155,13 @@ Procedure PreferencesWindowEvents(EventID)
         File$ = OpenFileRequester(Language("Preferences","SelectCompiler"), File$, Pattern$, 0)
         If File$ <> ""
           SetGadgetText(#GADGET_Preferences_CompilerExe, File$)
+        EndIf
+        
+      Case #GADGET_Preferences_CustomCompiler
+        If GetGadgetState(#GADGET_Preferences_CustomCompiler)
+          DisableGadget(#GADGET_Preferences_SelectCustomCompiler, #False)
+        Else
+          DisableGadget(#GADGET_Preferences_SelectCustomCompiler, #True)
         EndIf
         
         
