@@ -206,17 +206,36 @@ CompilerIf #CompileMacCocoa
     RunProgram("open", Url$, "")
   EndProcedure
   
+  ; Fixed OSVersion() over macOS v10.14
+  Structure udtOSVersion
+    majorVersion.i
+    minorVersion.i
+    patchVersion.i
+  EndStructure
+  
+  Procedure MacOSVersion()
+    Static Version 
+    Protected NSProcessInfo, NSVersion.udtOSVersion
+    
+    If Not Version
+      NSProcessInfo = CocoaMessage(0, 0, "NSProcessInfo processInfo")
+      CocoaMessage(NSVersion, NSProcessInfo, "operatingSystemVersion")
+      Version = NSVersion\majorVersion * 1000 + NSVersion\minorVersion * 10
+    EndIf
+    ProcedureReturn Version
+  EndProcedure
+  
   Procedure GetCocoaColor(NSColorName.s)
     Protected.CGFloat r, g, b, a
     Protected NSColor, NSColorSpace
     
     ; There is no controlAccentColor on macOS < 10.14
-    If NSColorName = "controlAccentColor" And OSVersion() < #PB_OS_MacOSX_10_14
+    If NSColorName = "controlAccentColor" And MacOSVersion() < 10140
       ProcedureReturn $D5ABAD
     EndIf
     
     ; There are no system colors on macOS < 10.10
-    If Left(NSColorName, 6) = "system" And OSVersion() < #PB_OS_MacOSX_10_10
+    If Left(NSColorName, 6) = "system" And MacOSVersion() < 10100
       NSColorName = LCase(Mid(NSColorName, 7, 1)) + Mid(NSColorName, 8)
     EndIf
     
@@ -272,21 +291,6 @@ CompilerIf #CompileMacCocoa
       EndWith
     EndIf
     
-  EndProcedure
-  
-  Structure udtOSVersion
-    majorVersion.i
-    minorVersion.i
-    patchVersion.i
-  EndStructure
-  
-  Procedure MacOSVersion()
-    Protected Version, NSProcessInfo, NSVersion.udtOSVersion
-    
-    NSProcessInfo = CocoaMessage(0, 0, "NSProcessInfo processInfo")
-    CocoaMessage(NSVersion, NSProcessInfo, "operatingSystemVersion")
-    Version = NSVersion\majorVersion * 1000 + NSVersion\minorVersion * 10
-    ProcedureReturn Version
   EndProcedure
   
 CompilerEndIf
