@@ -5,9 +5,9 @@
 ;--------------------------------------------------------------------------------------------
 
 CompilerIf #SpiderBasic
-  #NB_ToolbarMenuItems = 98-24 ; menu items specified in the datasection
+  #NB_ToolbarMenuItems = 99-24 ; menu items specified in the datasection
 CompilerElse
-  #NB_ToolbarMenuItems = 98 ; menu items specified in the datasection
+  #NB_ToolbarMenuItems = 99 ; menu items specified in the datasection
 CompilerEndIf
 ;#NB_InternalIcons = 45
 #NB_StandardButtons = 14
