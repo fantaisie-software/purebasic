@@ -971,6 +971,7 @@ Enumeration 0
   #MENU_FindNext
   #MENU_FindPrevious       ; last to AutoDisable
   #MENU_FindInFiles
+  #MENU_Replace
   
   #MENU_NewProject
   #MENU_OpenProject

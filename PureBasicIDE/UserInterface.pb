@@ -102,6 +102,7 @@ Procedure CreateIDEMenu()
     ShortcutMenuItem(#MENU_FindNext, Language("MenuItem","FindNext"))
     ShortcutMenuItem(#MENU_FindPrevious, Language("MenuItem","FindPrevious"))
     ShortcutMenuItem(#MENU_FindInFiles, Language("MenuItem","FindInFiles"))
+    ShortcutMenuItem(#MENU_Replace, Language("MenuItem","Replace"))
     
     MenuTitle(Language("MenuTitle","Project"))
     
@@ -1183,6 +1184,9 @@ Procedure MainMenuEvent(MenuItemID)
     Case #MENU_FindInFiles
       OpenGrepWindow()
       
+    Case #MENU_Replace
+      OpenFindWindow(#True)     ; Replace=#True
+       
     Case #MENU_NewProject
       OpenProjectOptions(#True) ; creates a new project
       

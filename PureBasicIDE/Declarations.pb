@@ -353,7 +353,7 @@ Declare IsBinaryFile(*Buffer, Length) ; returns true if the buffer contains nont
 
 ;- FindWindow.pb
 ;
-Declare OpenFindWindow()
+Declare OpenFindWindow(Replace = #False)
 Declare UpdateFindWindow()
 Declare FindWindowEvents(EventID)
 
