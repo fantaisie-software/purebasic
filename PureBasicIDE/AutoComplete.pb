@@ -1293,7 +1293,7 @@ EndProcedure
 Procedure AutoCompleteWindowEvents(EventID)
   
   If AutoCompleteWindowOpen
-      
+  
     If EventID = #PB_Event_Menu
       MenuID = EventMenu()
       
