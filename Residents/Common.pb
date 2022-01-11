@@ -1,4 +1,4 @@
-﻿;--------------------------------------------------------------------------------------------
+;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -139,21 +139,24 @@
 #PB_OS_Linux_Future = 2000
 
 #PB_OS_MacOSX_10_0   = 10000
-#PB_OS_MacOSX_10_1   = 10100
-#PB_OS_MacOSX_10_2   = 10200
-#PB_OS_MacOSX_10_3   = 10300
-#PB_OS_MacOSX_10_4   = 10400
-#PB_OS_MacOSX_10_5   = 10500
-#PB_OS_MacOSX_10_6   = 10600
-#PB_OS_MacOSX_10_7   = 10700
-#PB_OS_MacOSX_10_8   = 10800
-#PB_OS_MacOSX_10_9   = 10900
-#PB_OS_MacOSX_10_10  = 11000
-#PB_OS_MacOSX_10_11  = 11100
-#PB_OS_MacOSX_10_12  = 11200
-#PB_OS_MacOSX_10_13  = 11300
-#PB_OS_MacOSX_10_14  = 11400
-#PB_OS_MacOSX_Future = 60000
+#PB_OS_MacOSX_10_1   = 10010
+#PB_OS_MacOSX_10_2   = 10020
+#PB_OS_MacOSX_10_3   = 10030
+#PB_OS_MacOSX_10_4   = 10040
+#PB_OS_MacOSX_10_5   = 10050
+#PB_OS_MacOSX_10_6   = 10060
+#PB_OS_MacOSX_10_7   = 10070
+#PB_OS_MacOSX_10_8   = 10080
+#PB_OS_MacOSX_10_9   = 10090
+#PB_OS_MacOSX_10_10  = 10100
+#PB_OS_MacOSX_10_11  = 10110
+#PB_OS_MacOSX_10_12  = 10120
+#PB_OS_MacOSX_10_13  = 10130
+#PB_OS_MacOSX_10_14  = 10140
+#PB_OS_MacOSX_10_15  = 10150
+#PB_OS_MacOSX_11     = 11000
+#PB_OS_MacOSX_12     = 12000
+#PB_OS_MacOSX_Future = 99999
 
 #PB_Default = -1  ; Common default value, used by SetGadgetFont(), TransparentSpriteColor, etc..
 #PB_All     = -1
