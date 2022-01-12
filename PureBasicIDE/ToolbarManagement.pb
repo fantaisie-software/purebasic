@@ -562,6 +562,7 @@ DataSection
   Data.l #MENU_FindNext:            Data$ "Menu:FindNext"
   Data.l #MENU_FindPrevious:        Data$ "Menu:FindPrevious"
   Data.l #MENU_FindInFiles:         Data$ "Menu:FindInFiles"
+  Data.l #MENU_Replace:             Data$ "Menu:Replace"
   
   Data.l #MENU_NewProject:          Data$ "Menu:NewProject"
   Data.l #MENU_OpenProject:         Data$ "Menu:OpenProject"

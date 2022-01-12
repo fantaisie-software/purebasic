@@ -311,6 +311,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_Debugger
   #GADGET_Preferences_Purifier
   #GADGET_Preferences_ErrorLog
+  #GADGET_Preferences_Optimizer
   #GADGET_Preferences_InlineASM
   #GADGET_Preferences_XPSkin
   #GADGET_Preferences_VistaAdmin
@@ -318,6 +319,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_DPIAware
   #GADGET_Preferences_Thread
   #GADGET_Preferences_OnError
+  #GADGET_Preferences_CustomCompiler
+  #GADGET_Preferences_SelectCustomCompiler
   #GADGET_Preferences_ExecutableFormat
   #GADGET_Preferences_CPU
   #GADGET_Preferences_NewLineType
@@ -559,8 +562,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   
   #GADGET_Option_UseCompiler  ; First to be disabled/enabled in "Main file" loop
   #GADGET_Option_SelectCompiler
+  #GADGET_Option_Optimizer
   CompilerIf #SpiderBasic
-    #GADGET_Option_OptimizeJS
     #GADGET_Option_WindowTheme
     #GADGET_Option_SelectWindowTheme
     #GADGET_Option_GadgetTheme
@@ -969,6 +972,7 @@ Enumeration 0
   #MENU_FindNext
   #MENU_FindPrevious       ; last to AutoDisable
   #MENU_FindInFiles
+  #MENU_Replace
   
   #MENU_NewProject
   #MENU_OpenProject
@@ -2022,7 +2026,6 @@ Structure CompileTarget
   CompilerIf #SpiderBasic
     AppFormat.l
     
-    OptimizeJS.l
     WindowTheme$
     GadgetTheme$
     WebServerAddress$
@@ -2075,6 +2078,7 @@ Structure CompileTarget
   
   ; Compiler options
   ;
+  Optimizer.l
   EnableASM.l
   EnableThread.l
   EnableXP.l
@@ -2561,9 +2565,10 @@ CompilerIf #SpiderBasic
 CompilerEndIf
 
 Global OptionWindowDialog.DialogWindow, OptionWindowPosition.DialogPosition, ProjectOptionWindowPosition.DialogPosition
-Global OptionDebugger, OptionPurifier, OptionInlineASM, OptionXPSkin, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
+Global OptionDebugger, OptionPurifier, OptionOptimizer, OptionInlineASM, OptionXPSkin, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
 Global OptionNewLineType, OptionSubSystem$, OptionErrorLog, OptionEncoding
 Global OptionUseCompileCount, OptionUseBuildCount, OptionUseCreateExe, OptionTemporaryExe
+Global OptionCustomCompiler, OptionCompilerVersion$
 
 CompilerIf #SpiderBasic
   Global OptionWebBrowser$, OptionWebServerPort, OptionJDK$, OptionAppleTeamID$

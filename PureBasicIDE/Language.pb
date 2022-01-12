@@ -437,6 +437,7 @@ DataSection
   Data$ "FindNext",         "Find &Next"
   Data$ "FindPrevious",     "Find &Previous"
   Data$ "FindInFiles",      "Find &in Files..."
+  Data$ "Replace",          "&Replace..."
   
   Data$ "NewProject",       "&New Project..."
   Data$ "OpenProject",      "&Open Project..."
@@ -1255,9 +1256,9 @@ DataSection
   Data$ "OpenIcon",         "Choose an Icon for the Executable..."
   Data$ "CreateExe",        "Create Executable..."
   Data$ "OpenLinkerFile",   "Choose a file with linker options..."
+  Data$ "Optimizer",      "Optimize generated code"
   
   CompilerIf #SpiderBasic
-    Data$ "OptimizeJS",      "Optimize javascript output"
     Data$ "WindowTheme",     "Theme for windows"
     Data$ "GadgetTheme",     "Theme for gadgets"
     Data$ "WebServerAddress",   "Web server address"

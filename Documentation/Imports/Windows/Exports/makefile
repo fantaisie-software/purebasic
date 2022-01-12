@@ -58,6 +58,7 @@ OBJECTS = $(EXPORTS)/version.lib \
           $(EXPORTS)/opengl32.lib \
           $(EXPORTS)/pdh.lib \
           $(EXPORTS)/penwin32.lib \
+          $(EXPORTS)/psapi.lib \
           $(EXPORTS)/rasapi32.lib \
           $(EXPORTS)/rasdlg.lib \
           $(EXPORTS)/rassapi.lib \

@@ -325,6 +325,7 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\FileName$        = FileName$
   FileList()\Debugger         = OptionDebugger  ; set the default values
   FileList()\EnablePurifier   = OptionPurifier
+  FileList()\Optimizer        = OptionOptimizer
   FileList()\EnableASM        = OptionInlineASM
   FileList()\EnableXP         = OptionXPSkin
   FileList()\EnableAdmin      = OptionVistaAdmin
@@ -342,9 +343,10 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\UseBuildCount    = OptionUseBuildCount
   FileList()\UseCompileCount  = OptionUseCompileCount
   FileList()\TemporaryExePlace= OptionTemporaryExe
+  FileList()\CustomCompiler   = OptionCustomCompiler
+  FileList()\CompilerVersion$ = OptionCompilerVersion$
   FileList()\CurrentDirectory$= ""
   FileList()\ToggleFolds      = 1
-  FileList()\CustomCompiler   = 0
   FileList()\PurifierGranularity$ = ""
   FileList()\ExistsOnDisk     = #False
   
@@ -796,7 +798,6 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddStringConfigLine("ExportArguments"   , *Target\ExportArguments$)
     AddStringConfigLine("ResourceDirectory" , *Target\ResourceDirectory$)
     AddFlagConfigLine("EnableResourceDirectory", *Target\EnableResourceDirectory)
-    AddFlagConfigLine("OptimizeJS"           , *Target\OptimizeJS)
     AddFlagConfigLine("CopyJavaScriptLibrary", *Target\CopyJavaScriptLibrary)
     AddFlagConfigLine("WebAppEnableDebugger" , *Target\WebAppEnableDebugger)
     
@@ -835,6 +836,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     
   CompilerEndIf
   
+  AddFlagConfigLine("Optimizer", *Target\Optimizer)
   
   If *Target\EnableASM And IsCodeFile
     NbLines + 1
@@ -1236,11 +1238,11 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         IsIDEConfigPresent = 1
         
         CompilerIf #SpiderBasic
-        Case "OPTIMIZEJS"           : *Source\OptimizeJS = 1
         Case "WEBSERVERADDRESS"     : *Source\WebServerAddress$ = Value$
         Case "WINDOWTHEME"          : *Source\WindowTheme$ = Value$
         Case "GADGETTHEME"          : *Source\GadgetTheme$ = Value$
           
+        Case "OPTIMIZEJS"           : *Source\Optimizer = 1 ; Backward compatibility with older sources (now named "Optimizer")
         Case "WEBAPPNAME"           : *Source\WebAppName$ = Value$
         Case "WEBAPPICON"           : *Source\WebAppIcon$ = Value$
         Case "HTMLFILENAME"         : *Source\HtmlFilename$ = Value$
@@ -1284,6 +1286,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
           
         CompilerEndIf
         
+      Case "OPTIMIZER":        *Source\Optimizer = 1
       Case "ENABLEASM":        *Source\EnableASM = 1
       Case "ENABLEXP":         *Source\EnableXP = 1
       Case "ENABLEADMIN":      *Source\EnableAdmin = 1

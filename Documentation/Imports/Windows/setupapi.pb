@@ -21,7 +21,6 @@ Import "setupapi.lib"
        Api(InfIsFromOemLocation, (arg1), 4)
   AnsiWide(InstallHinfSection, (arg1, arg2, arg3, arg4), 16)
        Api(InstallStop, (arg1), 4)
-       Api(IsUserAdmin, (), 0)
        Api(LookUpStringInTable, (arg1, arg2, arg3), 12)
        Api(MemoryInitialize, (arg1), 4)
        Api(MultiByteToUnicode, (arg1, arg2), 8)

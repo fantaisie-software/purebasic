@@ -225,7 +225,17 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
     Protected NewList EnvVars.s()
     
     AddTools_SetEnvVar(EnvVars(), "IDE", ProgramFilename())
-    AddTools_SetEnvVar(EnvVars(), "Compiler", *CurrentCompiler\Executable$) ; use *CurrentCompiler to have the real compiler path if multiple compiler are available
+    
+    Protected *TargetCompiler.Compiler
+    If *Target\CustomCompiler
+      *TargetCompiler = FindCompiler(*Target\CompilerVersion$)
+      If *TargetCompiler = 0
+        *TargetCompiler = @DefaultCompiler
+      EndIf
+    Else
+      *TargetCompiler = @DefaultCompiler
+    EndIf
+    AddTools_SetEnvVar(EnvVars(), "Compiler", *TargetCompiler\Executable$)
     
     AddTools_SetEnvVar(EnvVars(), "Preferences", PreferencesFile$)
     AddTools_SetEnvVar(EnvVars(), "MainWindow", Str(WindowID(#WINDOW_Main)))

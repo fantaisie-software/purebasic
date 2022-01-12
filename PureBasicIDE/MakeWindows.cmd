@@ -66,7 +66,7 @@ Build\makebuildinfo.exe Build
 
 :: Generate version info resource
 PBCompiler /QUIET /CONSOLE tools/makeversion.pb /EXE Build/makeversion.exe
-Build\makeversion.exe ide Build/VersionInfo.rc /cygdrive/c/PureBasic/git/purebasic/PureBasicIDE/data/PBSourceFile.ico
+Build\makeversion.exe ide Build/VersionInfo.rc data/PBSourceFile.ico
 
 :: Compile the IDE
 PBCompiler /QUIET PureBasic.pb /EXE %PUREBASIC_HOME%\PureBasic.exe /THREAD /UNICODE /XP /USER /ICON data/PBLogoBig.ico /DPIAWARE /RESOURCE Build/VersionInfo.rc

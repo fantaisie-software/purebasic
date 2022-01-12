@@ -718,7 +718,8 @@
                   <checkbox id="#GADGET_Preferences_InlineASM"  lang="Compiler:EnableASM" />
                   <checkbox id="#GADGET_Preferences_OnError"    lang="Compiler:EnableOnError" />
                   
-                  <checkbox id="#GADGET_Preferences_Thread"     lang="Compiler:EnableThread"  colspan="2" />
+                  <checkbox id="#GADGET_Preferences_Thread"     lang="Compiler:EnableThread" />
+                  <checkbox id="#GADGET_Preferences_Optimizer"  lang="Compiler:Optimizer" />
   
                   <checkbox id="#GADGET_Preferences_XPSkin"     lang="Compiler:EnableXP" colspan="2"/>
                   
@@ -734,9 +735,12 @@
               </gridbox>
 
               <gridbox colspacing="10" colexpand="item:2">
+                <checkbox id="#GADGET_Preferences_CustomCompiler" lang="Compiler:UseCompiler" text=": " />
+                <combobox id="#GADGET_Preferences_SelectCustomCompiler" />
+              
                 <text lang="Preferences:SubSystem" text=": " />
                 <string id="#GADGET_Preferences_SubSystem" />
-
+                
                 <compiler if="#SpiderBasic">
                   <!-- nothing -->
                 <compilerelse/>

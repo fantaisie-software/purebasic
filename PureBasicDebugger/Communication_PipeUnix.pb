@@ -308,6 +308,24 @@ CompilerIf #CompileWindows = 0
                 UnixPipe_Data()\Stack[UnixPipe_Data()\StackCount]\CommandData = *CommandData
                 UnixPipe_Data()\StackCount + 1
                 
+                    
+    CompilerIf #CompileMac And #PB_Compiler_Processor = #PB_Processor_Arm64
+      If Command\Command = #COMMAND_Error
+            CompilerIf #PRINT_DEBUGGER_COMMANDS
+        PrintN("COMMUNICATION::EXE QUIT")
+      CompilerEndIf
+      Command\Command   = #COMMAND_End
+      Command\Value1    = 0
+      Command\Value2    = 0
+      Command\TimeStamp = Date()
+      UnixPipe_Data()\EndReceived = #True
+                ; add to stack
+                CopyMemory(@Command, @UnixPipe_Data()\Stack[UnixPipe_Data()\StackCount]\Command, SizeOf(CommandInfo))
+                UnixPipe_Data()\Stack[UnixPipe_Data()\StackCount]\CommandData = *CommandData
+                UnixPipe_Data()\StackCount + 1
+                endif
+    CompilerEndIf
+                
                 UnlockMutex(UnixPipe_Data()\StackMutex)
                 
               EndIf

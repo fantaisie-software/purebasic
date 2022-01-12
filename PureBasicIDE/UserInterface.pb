@@ -102,6 +102,7 @@ Procedure CreateIDEMenu()
     ShortcutMenuItem(#MENU_FindNext, Language("MenuItem","FindNext"))
     ShortcutMenuItem(#MENU_FindPrevious, Language("MenuItem","FindPrevious"))
     ShortcutMenuItem(#MENU_FindInFiles, Language("MenuItem","FindInFiles"))
+    ShortcutMenuItem(#MENU_Replace, Language("MenuItem","Replace"))
     
     MenuTitle(Language("MenuTitle","Project"))
     
@@ -607,7 +608,7 @@ Procedure CustomizeTabBarGadget()
           
           If *Components And NbComponents = 2 ; its grey and alpha
             
-            CompilerIf #PB_Compiler_Processor = #PB_Processor_x64 ; CGFloat is a double on 64 bit system
+            CompilerIf #PB_Compiler_64Bit ; CGFloat is a double on 64 bit system
               c = 255 * PeekD(*Components)
             CompilerElse
               c = 255 * PeekF(*Components)
@@ -617,7 +618,7 @@ Procedure CustomizeTabBarGadget()
             
           ElseIf *Components And NbComponents = 4 ; its rgba
             
-            CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+            CompilerIf #PB_Compiler_64Bit
               r = 255 * PeekD(*Components)
               g = 255 * PeekD(*Components + 8)
               b = 255 * PeekD(*Components + 16)
@@ -1183,6 +1184,9 @@ Procedure MainMenuEvent(MenuItemID)
     Case #MENU_FindInFiles
       OpenGrepWindow()
       
+    Case #MENU_Replace
+      OpenFindWindow(#True)     ; Replace=#True
+       
     Case #MENU_NewProject
       OpenProjectOptions(#True) ; creates a new project
       

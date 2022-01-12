@@ -1022,9 +1022,10 @@ Procedure LoadProject(Filename$)
                     ProjectTargets()\EnableOnError = Xml_Boolean(GetXMLAttribute(*Entry, "onerror"))
                     ProjectTargets()\Debugger      = Xml_Boolean(GetXMLAttribute(*Entry, "debug"))
                     ProjectTargets()\EnableUnicode = Xml_Boolean(GetXMLAttribute(*Entry, "unicode"))
+                    ProjectTargets()\Optimizer     = Xml_Boolean(GetXMLAttribute(*Entry, "optimizer"))
                     
                     CompilerIf #SpiderBasic
-                      ProjectTargets()\OptimizeJS    = Xml_Boolean(GetXMLAttribute(*Entry, "optimizejs"))
+                      ProjectTargets()\Optimizer    |= Xml_Boolean(GetXMLAttribute(*Entry, "optimizejs")) ; backward compatibility (now named "optimizer")
                       ProjectTargets()\WebServerAddress$ = Xml_SingleLine(GetXMLAttribute(*Entry, "webserveraddress"))
                       ProjectTargets()\WindowTheme$  = Xml_SingleLine(GetXMLAttribute(*Entry, "windowtheme"))
                       ProjectTargets()\GadgetTheme$  = Xml_SingleLine(GetXMLAttribute(*Entry, "gadgettheme"))
@@ -1479,8 +1480,9 @@ Procedure SaveProject(ShowErrors)
         SetXMLAttribute(*Options, "debug",   "1")
       EndIf
       
+      SetXMLAttribute(*Options, "optimizer", Str(ProjectTargets()\Optimizer))
+      
       CompilerIf #SpiderBasic
-        SetXMLAttribute(*Options, "optimizejs", Str(ProjectTargets()\OptimizeJS))
         SetXMLAttribute(*Options, "webserveraddress", ProjectTargets()\WebServerAddress$)
         SetXMLAttribute(*Options, "windowtheme"  , ProjectTargets()\WindowTheme$)
         SetXMLAttribute(*Options, "gadgettheme"  , ProjectTargets()\GadgetTheme$)

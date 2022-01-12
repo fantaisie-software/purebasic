@@ -1001,7 +1001,7 @@ Structure SCNotifyHeader
   hwndFrom.i
   idFrom.i  ; defined as uptr_t in scintilla headers (differs from NMHDR in 64bits mode, but does not hurt)
   code.l    ; defined unsigned int (always 32bit)
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     PB_Alignmnent.b[4]
   CompilerEndIf
 EndStructure ; SizeOf 12
@@ -1016,7 +1016,7 @@ Structure SCNotification
   length.l            ;// SCN_MODIFIED
   linesAdded.l        ;// SCN_MODIFIED
   message.l           ;// SCN_MACRORECORD
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     PB_Alignmnent1.b[4]
   CompilerEndIf
   wParam.i			;// SCN_MACRORECORD --- Unsigned Long
