@@ -127,7 +127,7 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
           *THIS\Gadget = ComboBoxGadget(*StaticData\Gadget, 0, 0, 100, 25, *StaticData\Flags)
         CompilerElse
           *THIS\Gadget = ComboBoxGadget(*StaticData\Gadget, 0, 0, 0, 0, *StaticData\Flags)
-        CompilerEndIf  
+        CompilerEndIf
         *THIS\HasTitle = #False
         
         CompilerIf Defined(DIALOG_USE_EXPLORER, #PB_Constant)
