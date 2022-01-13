@@ -206,13 +206,6 @@ CompilerIf #CompileMacCocoa
     RunProgram("open", Url$, "")
   EndProcedure
   
-  ; Fixed OSVersion() over macOS v10.14
-  Structure udtOSVersion
-    majorVersion.i
-    minorVersion.i
-    patchVersion.i
-  EndStructure
-  
   Procedure GetCocoaColor(NSColorName.s)
     Protected.CGFloat r, g, b, a
     Protected NSColor, NSColorSpace
