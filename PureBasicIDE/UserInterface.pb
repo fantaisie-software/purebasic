@@ -593,7 +593,7 @@ Procedure CustomizeTabBarGadget()
   
   CompilerIf #CompileMac
     With TabBarGadgetInclude
-      If MacOSVersion() >= 10140
+      If OSVersion() >= #PB_OS_MacOSX_10_14
         \TabBarColor   = GetCocoaColor("windowBackgroundColor")
         \TextColor   = GetCocoaColor("windowFrameTextColor")
         \FaceColor   = GetCocoaColor("windowBackgroundColor")
@@ -650,15 +650,13 @@ Procedure CreateGUI()
   If OpenWindow(#WINDOW_Main, EditorWindowX, EditorWindowY, EditorWindowWidth, EditorWindowHeight, DefaultCompiler\VersionString$, #WINDOW_Main_Flags)
     
     CompilerIf #CompileMac
-      ; Quick fix for TabBarGadget And ToolbarGadget lack of transparency support
       If OSVersion() >= #PB_OS_MacOSX_10_14
+        ; Quick fix for TabBarGadget And ToolbarGadget lack of transparency support
         SetWindowColor(#WINDOW_Main, GetCocoaColor("windowBackgroundColor"))
+        ; Fix Toolbar style from titlebar to expanded (Top Left)
+        #NSWindowToolbarStyleExpanded = 1
+        CocoaMessage(0, WindowID(#WINDOW_Main), "setToolbarStyle:", #NSWindowToolbarStyleExpanded)
       EndIf
-      
-      ; Fix Toolbar style from titlebar to expanded
-      #NSWindowToolbarStyleExpanded = 1       ; Top Left
-      CocoaMessage(0, WindowID(#WINDOW_Main), "setToolbarStyle:", #NSWindowToolbarStyleExpanded)
-      
     CompilerEndIf
     
     SmartWindowRefresh(#WINDOW_Main, 1)
@@ -2303,7 +2301,7 @@ EndProcedure
 Procedure UpdateMainWindow()
   
   CompilerIf #CompileMac
-    If MacOSVersion() >= 10140
+    If OSVersion() >= #PB_OS_MacOSX_10_14
       ; Update DarkMode
       UpdateAppearance()
     EndIf

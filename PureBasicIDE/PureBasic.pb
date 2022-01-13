@@ -232,7 +232,7 @@ CompilerIf #CompileMac
 CompilerEndIf
 
 CompilerIf #CompileMac
-  If MacOSVersion() >= 10140
+  If OSVersion() >= #PB_OS_MacOSX_10_14
     ; Force Appearance Aqua
     If Not DisplayDarkMode
       NSApp.i = CocoaMessage(0, 0, "NSApplication sharedApplication")
