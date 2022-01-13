@@ -66,6 +66,7 @@ EndProcedure
 
 Procedure SetCompileTargetDefaults(*Target.CompileTarget)
   *Target\Debugger         = OptionDebugger
+  *Target\Optimizer        = OptionOptimizer
   *Target\EnableASM        = OptionInlineASM
   *Target\EnableThread     = OptionThread
   *Target\EnableXP         = OptionXPSkin
@@ -80,6 +81,8 @@ Procedure SetCompileTargetDefaults(*Target.CompileTarget)
   *Target\UseBuildCount    = OptionUseBuildCount
   *Target\UseCreateExe     = OptionUseCreateExe
   *Target\TemporaryExePlace= OptionTemporaryExe
+  *Target\CustomCompiler   = OptionCustomCompiler
+  *Target\CompilerVersion$ = OptionCompilerVersion$
   *Target\CurrentDirectory$= ""
   *Target\EnablePurifier   = OptionPurifier
   *Target\PurifierGranularity$ = ""

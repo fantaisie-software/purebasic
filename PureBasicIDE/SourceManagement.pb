@@ -336,6 +336,7 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\FileName$        = FileName$
   FileList()\Debugger         = OptionDebugger  ; set the default values
   FileList()\EnablePurifier   = OptionPurifier
+  FileList()\Optimizer        = OptionOptimizer
   FileList()\EnableASM        = OptionInlineASM
   FileList()\EnableXP         = OptionXPSkin
   FileList()\EnableAdmin      = OptionVistaAdmin
@@ -353,9 +354,10 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\UseBuildCount    = OptionUseBuildCount
   FileList()\UseCompileCount  = OptionUseCompileCount
   FileList()\TemporaryExePlace= OptionTemporaryExe
+  FileList()\CustomCompiler   = OptionCustomCompiler
+  FileList()\CompilerVersion$ = OptionCompilerVersion$
   FileList()\CurrentDirectory$= ""
   FileList()\ToggleFolds      = 1
-  FileList()\CustomCompiler   = 0
   FileList()\PurifierGranularity$ = ""
   FileList()\ExistsOnDisk     = #False
   
@@ -1251,6 +1253,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "WINDOWTHEME"          : *Source\WindowTheme$ = Value$
         Case "GADGETTHEME"          : *Source\GadgetTheme$ = Value$
           
+        Case "OPTIMIZEJS"           : *Source\Optimizer = 1 ; Backward compatibility with older sources (now named "Optimizer")
         Case "WEBAPPNAME"           : *Source\WebAppName$ = Value$
         Case "WEBAPPICON"           : *Source\WebAppIcon$ = Value$
         Case "HTMLFILENAME"         : *Source\HtmlFilename$ = Value$
