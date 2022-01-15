@@ -227,7 +227,7 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
     AddTools_SetEnvVar(EnvVars(), "IDE", ProgramFilename())
     
     Protected *TargetCompiler.Compiler
-    If *Target\CustomCompiler
+    If *Target And *Target\CustomCompiler
       *TargetCompiler = FindCompiler(*Target\CompilerVersion$)
       If *TargetCompiler = 0
         *TargetCompiler = @DefaultCompiler
