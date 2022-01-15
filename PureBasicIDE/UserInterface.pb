@@ -651,8 +651,6 @@ Procedure CreateGUI()
     
     CompilerIf #CompileMac
       If OSVersion() >= #PB_OS_MacOSX_10_14
-        ; Quick fix for TabBarGadget And ToolbarGadget lack of transparency support
-        SetWindowColor(#WINDOW_Main, GetCocoaColor("windowBackgroundColor"))
         ; Fix Toolbar style from titlebar to expanded (Top Left)
         #NSWindowToolbarStyleExpanded = 1
         CocoaMessage(0, WindowID(#WINDOW_Main), "setToolbarStyle:", #NSWindowToolbarStyleExpanded)
