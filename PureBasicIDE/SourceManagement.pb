@@ -1661,26 +1661,6 @@ EndProcedure
 Procedure LoadSourceFile(FileName$, Activate = 1)
   success = 0
   
-  AddTools_RunFileViewer = 1 ; to tell if some tool has been executed
-  AddTools_File$ = FileName$
-  Ext$ = LCase(GetExtensionPart(FileName$))
-  
-  AddTools_Execute(#TRIGGER_FileViewer_Special, 0) ; special file tools have highest priority
-  
-  If AddTools_RunFileViewer
-    AddTools_Execute(#TRIGGER_FileViewer_All, 0)
-  EndIf
-  
-  If AddTools_RunFileViewer
-    If Ext$ <> "bmp" And Ext$ <> "png" And Ext$ <> "jpg" And Ext$ <> "jpeg" And Ext$ <> "tga" And Ext$ <> "ico" And Ext$ <> "txt"
-      AddTools_Execute(#TRIGGER_FileViewer_Unknown, 0)
-    EndIf
-  EndIf
-  
-  If AddTools_RunFileViewer = 0  ; stop if a tool has been run
-    ProcedureReturn
-  EndIf
-  
   ; Check if this is a project file
   ;
   If IsProjectFile(FileName$)
@@ -1735,13 +1715,43 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
       
       ; Don't check PB sources, as it can contains weird characters well handled by Scintilla: https://www.purebasic.fr/english/viewtopic.php?f=4&t=61467
       ;
-      If (IsPureBasicFile(FileName$) = #False And IsBinaryFile(*Buffer, FileLength)) Or (Format <> #PB_Ascii And Format <> #PB_UTF8) ; check for binary files
-        FreeMemory(*Buffer)
-        CloseFile(#FILE_LoadSource)
-        ChangeStatus("", 0)
-        FileViewer_OpenFile(Filename$)
-        ProcedureReturn 1
+      If IsPureBasicFile(FileName$) = #False
+        IsBinary = IsBinaryFile(*Buffer, FileLength)
+      
+        ;first check for OpenFile-Triggers
+        If IsCodeFile(FileName$) = 0 ;exclude all code files, even those the user added
+          AddTools_RunFileViewer = 1 ; to check if some tool has been executed
+          AddTools_File$ = FileName$
+          Ext$ = LCase(GetExtensionPart(FileName$))
+          CloseFile(#FILE_LoadSource) ;better close the file here, or the tools might have problems to access it
+          AddTools_Execute(#TRIGGER_OpenFile_Special, 0) ; special open file tools have highest priority
+          If AddTools_RunFileViewer
+            Select IsBinary
+              Case 0
+                AddTools_Execute(#TRIGGER_OpenFile_nonPB_Text, 0)
+              Case 1
+                AddTools_Execute(#TRIGGER_OpenFile_nonPB_Binary, 0)
+            EndSelect
+          EndIf
+          If AddTools_RunFileViewer = 0
+            FreeMemory(*Buffer)
+            ChangeStatus("", 0)
+            ProcedureReturn 1
+          EndIf
+        EndIf
+        ;now check for common FileViewer tools
+        ;common FileViewer tools, will only trigger for binary files and non-PB files with an unknown BOM
+        If IsBinary Or (Format <> #PB_Ascii And Format <> #PB_UTF8)
+          FreeMemory(*Buffer)
+          If IsFile(#FILE_LoadSource)
+            CloseFile(#FILE_LoadSource)
+          EndIf
+          ChangeStatus("", 0)
+          FileViewer_OpenFile(Filename$)
+          ProcedureReturn 1
+        EndIf
       EndIf
+      
       
       NewSource(FileName$, #False)
       
@@ -1846,8 +1856,9 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
       MessageRequester(#ProductName$, Language("FileStuff","LoadError")+#NewLine+FileName$, #FLAG_Error)
       ChangeStatus(Language("FileStuff","LoadError"), 3000)
     EndIf
-    
-    CloseFile(#FILE_LoadSource)
+    If IsFile(#FILE_LoadSource)
+      CloseFile(#FILE_LoadSource)
+    EndIf
   Else
     MessageRequester(#ProductName$, Language("FileStuff","LoadError")+#NewLine+FileName$, #FLAG_Error)
     ChangeStatus(Language("FileStuff","LoadError"), 3000)

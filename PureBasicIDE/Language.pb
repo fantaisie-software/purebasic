@@ -1567,6 +1567,9 @@ DataSection
   Data$ "Trigger12",        "Replace FileViewer - Special file"
   Data$ "Trigger13",        "Sourcecode closed"
   Data$ "Trigger14",        "New Sourcecode created"
+  Data$ "Trigger15",        "Open File - with specific extension"
+  Data$ "Trigger16",        "Open File - non-PB binary file"
+  Data$ "Trigger17",        "Open File - non-PB text file"
   
   Data$ "Argument1",        "%PATH : Path of the current source. Empty if the source wasn't saved yet."
   Data$ "Argument2",        "%FILE : Filename and Path of the current source. Empty if it wasn't saved yet."
