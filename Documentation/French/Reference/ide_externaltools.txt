@@ -260,6 +260,43 @@
   ces fichiers à partir de l'Explorateur, du visualisateur de fichier intégré ou en double-cliquant sur le
   mot-clef "IncludeBinary" dans le source.
 
+@LineBreak
+@LineBreak
+
+@Bold "Open File – with specific extension"
+@LineBreak
+  This will be triggered for specific file extensions. It has a higher priority than
+  the "Open File – non-PB binary file" or "Open File – non-PB text file" triggers.
+  Specify the extensions that the tool should handle in the
+  edit box on the right. Multiple extensions can be given.
+@LineBreak
+@LineBreak
+  Note:
+  The Open File triggers will be active when you open a file via the File/Open menu
+  and also, when you drag and drop a file to the IDE.
+  They have higher priority for File/Open tasks.
+  Only if there is no active tool, the File Viewer triggers will be handled.
+
+@LineBreak
+@LineBreak
+
+@Bold "Open File – non-PB binary file"
+@LineBreak
+  This one will be triggered for binary files, which are not part of PureBasic
+  (more or less any)
+@LineBreak
+@LineBreak
+  Note: Only one tool can have this trigger. Any other tools with this trigger will be ignored.
+
+@LineBreak
+@LineBreak
+
+@Bold "Open File – non-PB text file"
+@LineBreak
+  This one will be triggered for text files, which are not part of PureBasic
+@LineBreak
+@LineBreak
+  Note: Only one tool can have this trigger set.
 
 @Section Autres options sur le côté droit
 
