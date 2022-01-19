@@ -1594,6 +1594,9 @@ Enumeration ; AddTools Trigger values
   #TRIGGER_FileViewer_Special
   #TRIGGER_SourceClose
   #TRIGGER_NewSource
+  #TRIGGER_OpenFile_Special
+  #TRIGGER_OpenFile_nonPB_Binary
+  #TRIGGER_OpenFile_nonPB_Text
 EndEnumeration
 
 
