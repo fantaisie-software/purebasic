@@ -2824,6 +2824,10 @@ Procedure OpenPreferencesWindow()
     DisableGadget(#GADGET_Preferences_RunOnce, 1)
   CompilerEndIf
   
+  CompilerIf Not #CompileMac
+    DisableGadget(#GADGET_Preferences_DisplayDarkMode, 1)
+  CompilerEndIf
+  
   ;- --> Language
   ;
   CollectLanguageInfo()

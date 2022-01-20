@@ -753,7 +753,7 @@ DataSection
   Data$ "Email",            "Email"
   Data$ "EnableMenuIcons",  "Display Icons in the Menu"
   Data$ "DisplayFullPath",  "Display full Source Path in TitleBar"
-  Data$ "DisplayDarkMode",  "Display Enable DarkMode"
+  Data$ "DisplayDarkMode",  "Enable Appearance Dark Mode"
   Data$ "NoSplashScreen",   "Disable Splash Screen"
   
   Data$ "Updates",          "Updates"
