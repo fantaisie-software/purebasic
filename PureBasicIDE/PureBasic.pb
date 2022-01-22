@@ -221,7 +221,6 @@ InitToolbar()       ; must be before LoadPreferences() !
 InitSyntaxCheckArrays() ; must be before LoadPreferences() ! (as it calls BuildFoldingVT() which needs this)
 LoadPreferences()
 
-
 CompilerIf #CompileMac
   ; Avoid to be run from the image disk, as some feature won't work.
   ;
@@ -232,6 +231,16 @@ CompilerIf #CompileMac
   EndIf
 CompilerEndIf
 
+CompilerIf #CompileMac
+  If OSVersion() >= #PB_OS_MacOSX_10_14
+    ; Force Appearance Aqua
+    If Not DisplayDarkMode
+      NSApp.i = CocoaMessage(0, 0, "NSApplication sharedApplication")
+      NSAppearanceAqua = CocoaMessage(0, 0, "NSAppearance appearanceNamed:$", @"NSAppearanceNameAqua")
+      CocoaMessage(0, NSApp, "setAppearance:", NSAppearanceAqua)
+    EndIf
+  EndIf
+CompilerEndIf
 
 If Editor_RunOnce And CommandlineBuild = 0
   ; New RunOnce handling, all in one OS-specifc routine
@@ -265,7 +274,6 @@ Procedure CloseSplashScreen()
     CompilerEndIf
   EndIf
 EndProcedure
-
 
 If CommandlineBuild = 0 And NoSplashScreen = 0
   

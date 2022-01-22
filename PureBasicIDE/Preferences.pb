@@ -89,6 +89,7 @@ Procedure LoadPreferences()
   MemorizeMarkers             = ReadPreferenceLong  ("MemorizeMarkers"   , 1)
   SelectedFilePattern         = ReadPreferenceLong  ("LastFilePattern"   , 0)
   DisplayFullPath             = ReadPreferenceLong  ("DisplayFullPath"   , 0)
+  DisplayDarkMode             = ReadPreferenceLong  ("DisplayDarkMode"   , 1)
   NoSplashScreen              = ReadPreferenceLong  ("NoSplashScreen"    , 0)
   AlwaysHideLog               = ReadPreferenceLong  ("AlwaysHideLog"     , 0)
   ShowCompilerProgress        = ReadPreferenceLong  ("ShowCompilerProgress", 0)
@@ -1084,6 +1085,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("LastFilePattern",      SelectedFilePattern)
     WritePreferenceLong  ("EnableMenuIcons",      EnableMenuIcons)
     WritePreferenceLong  ("DisplayFullPath",      DisplayFullPath)
+    WritePreferenceLong  ("DisplayDarkMode",      DisplayDarkMode)
     WritePreferenceLong  ("NoSplashScreen",       NoSplashScreen)
     WritePreferenceLong  ("AlwaysHideLog",        AlwaysHideLog)
     WritePreferenceLong  ("ShowCompilerProgress", ShowCompilerProgress)
@@ -1757,6 +1759,7 @@ Procedure IsPreferenceChanged()
   ;  If AutoCompleteNoStrings <> GetGadgetState(#GADGET_Preferences_NoStrings): ProcedureReturn 1: EndIf
   If NoSplashScreen        <> GetGadgetState(#GADGET_Preferences_NoSplashScreen): ProcedureReturn 1: EndIf
   If DisplayFullPath       <> GetGadgetState(#GADGET_Preferences_DisplayFullPath): ProcedureReturn 1: EndIf
+  If DisplayDarkMode       <> GetGadgetState(#GADGET_Preferences_DisplayDarkMode): ProcedureReturn 1: EndIf
   If EnableMenuIcons       <> GetGadgetState(#GADGET_Preferences_EnableMenuIcons): ProcedureReturn 1: EndIf
   If AutoReload            <> GetGadgetState(#GADGET_Preferences_AutoReload): ProcedureReturn 1: EndIf
   If MemorizeWindow        <> GetGadgetState(#GADGET_Preferences_MemorizeWindow): ProcedureReturn 1: EndIf
@@ -2122,6 +2125,7 @@ Procedure ApplyPreferences()
   ;  AutoCompleteNoStrings = GetGadgetState(#GADGET_Preferences_NoStrings)
   NoSplashScreen        = GetGadgetState(#GADGET_Preferences_NoSplashScreen)
   DisplayFullPath       = GetGadgetState(#GADGET_Preferences_DisplayFullPath)
+  DisplayDarkMode       = GetGadgetState(#GADGET_Preferences_DisplayDarkMode)
   EnableMenuIcons       = GetGadgetState(#GADGET_Preferences_EnableMenuIcons)
   AutoReload            = GetGadgetState(#GADGET_Preferences_AutoReload)
   MemorizeWindow        = GetGadgetState(#GADGET_Preferences_MemorizeWindow)
@@ -2793,6 +2797,7 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_MemorizeWindow, MemorizeWindow)
   SetGadgetState(#GADGET_Preferences_AutoReload, AutoReload)
   SetGadgetState(#GADGET_Preferences_DisplayFullPath, DisplayFullPath)
+  SetGadgetState(#GADGET_Preferences_DisplayDarkMode, DisplayDarkMode)
   SetGadgetState(#GADGET_Preferences_NoSplashScreen, NoSplashScreen)
   
   SetGadgetText(#GADGET_Preferences_FileHistorySize, Str(FilesHistorySize))
@@ -2817,6 +2822,10 @@ Procedure OpenPreferencesWindow()
   CompilerIf #CompileMac
     SetGadgetState(#GADGET_Preferences_RunOnce, 0)
     DisableGadget(#GADGET_Preferences_RunOnce, 1)
+  CompilerEndIf
+  
+  CompilerIf Not #CompileMac
+    DisableGadget(#GADGET_Preferences_DisplayDarkMode, 1)
   CompilerEndIf
   
   ;- --> Language
@@ -5545,7 +5554,7 @@ DataSection
   CompilerElse
     
     ; total number of defined schemes:
-    Data.l 9
+    Data.l 10
     
   CompilerEndIf
   
@@ -5892,6 +5901,50 @@ DataSection
   Data.l $000000 ; #COLOR_Module
   Data.l $FFA915 ; #COLOR_SelectionRepeat
   Data.l $FFFFFF ; #COLOR_PlainBackground
+  
+  
+  Data$ "Dark Mode"
+  Data.l $FFFFFF ;  ToolsPanel_BackColor
+  Data.l $2A2822 ;  ToolsPanel_FrontColor
+  Data.l $787DFF ; #COLOR_ASMKeyword
+  Data.l $2A2822 ; #COLOR_GlobalBackground
+  Data.l $63C793 ; #COLOR_BasicKeyword
+  Data.l $7B7466 ; #COLOR_Comment
+  Data.l $BD82A0 ; #COLOR_Constant
+  Data.l $8AA399 ; #COLOR_Label
+  Data.l $F3F2F1 ; #COLOR_NormalText
+  Data.l $22CDFF ; #COLOR_Number
+  Data.l $F3F2F1 ; #COLOR_Operator
+  Data.l $8AA399 ; #COLOR_Pointer
+  Data.l $B18C67 ; #COLOR_PureKeyword
+  Data.l $F3F2F1 ; #COLOR_Separator
+  Data.l $0076EC ; #COLOR_String
+  Data.l $8AA399 ; #COLOR_Structure
+  Data.l $494E3F ; #COLOR_LineNumber
+  Data.l $343129 ; #COLOR_LineNumberBack
+  Data.l $AAAA00 ; #COLOR_Marker
+  Data.l $2A2822 ; #COLOR_CurrentLine
+  Data.l $64614F ; #COLOR_Selection
+  Data.l $FFFFFF ; #COLOR_SelectionFront
+  Data.l $FFFFFF ; #COLOR_Cursor
+  Data.l $FFE8E8 ; #COLOR_DebuggerLine
+  Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol
+  Data.l $0000FF ; #COLOR_DebuggerError
+  Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
+  Data.l $463A96 ; #COLOR_DebuggerBreakPoint
+  Data.l $463A96 ; #COLOR_DebuggerBreakpoinSymbol
+  Data.l $494E3F ; #COLOR_DisabledBack
+  Data.l $666600 ; #COLOR_GoodBrace
+  Data.l $0000FF ; #COLOR_BadBrace
+  Data.l $2A2822 ; #COLOR_ProcedureBack
+  Data.l $63C793 ; #COLOR_CustomKeyword
+  Data.l $0076EC ; #COLOR_DebuggerWarning
+  Data.l $0076EC ; #COLOR_DebuggerWarningSymbol
+  Data.l $AAAA00 ; #COLOR_Whitespace
+  Data.l $C08000 ; #COLOR_Module
+  Data.l $594646 ; #COLOR_SelectionRepeat
+  Data.l $000000 ; #COLOR_PlainBackground
+  
   
   Data$ "Accessibility"
   Data.l 0        ;  ToolsPanelFrontColor

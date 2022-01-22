@@ -59,8 +59,19 @@ Procedure RefreshSourceTitle(*Source.SourceFile)
     SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
     SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_ProjectFile)
   Else
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #PB_Default)
+    ; MacOS Colors
+    CompilerIf #CompileMac
+      
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, TabBarGadgetInclude\TextColor)
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, TabBarGadgetInclude\FaceColor)
+      
+    CompilerElse
+      
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #PB_Default)
+    
+    CompilerEndIf
+    
   EndIf
 EndProcedure
 
