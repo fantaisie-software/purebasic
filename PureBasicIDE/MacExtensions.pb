@@ -231,6 +231,8 @@ CompilerIf #CompileMacCocoa
     EndIf
   EndProcedure
   
+  ; Appearance support
+  
   Procedure UpdateAppearance()
     Protected NSApp, NSAppearance, NSAppearanceAqua, NSEffectiveAppearance, NSAppearanceSave
     Protected Update, OldFaceColor, Item, ItemCount
@@ -259,7 +261,7 @@ CompilerIf #CompileMacCocoa
         \TabBarColor = GetCocoaColor("windowBackgroundColor")
         \TextColor   = GetCocoaColor("windowFrameTextColor")
         \FaceColor   = GetCocoaColor("windowBackgroundColor")
-        ; Resore current appearance
+        ; Restore current appearance
         CocoaMessage(0, 0, "NSAppearance setCurrentAppearance:", NSAppearanceSave)
         ; Update tabbar item with default colors
         ItemCount = CountTabBarGadgetItems(#GADGET_FilesPanel) - 1
@@ -272,6 +274,57 @@ CompilerIf #CompileMacCocoa
       EndWith
     EndIf
     
+  EndProcedure
+  
+  EnumerationBinary
+    #NSKeyValueObservingOptionNew
+    #NSKeyValueObservingOptionOld
+  EndEnumeration
+  
+  ProcedureC KVO_Appearance(obj, sel, keyPath, object, change, context)
+    Select PeekS(CocoaMessage(0, keyPath, "UTF8String"), -1, #PB_UTF8)
+      Case "effectiveAppearance"
+        If DisplayDarkMode
+          With TabBarGadgetInclude
+            OldFaceColor = \FaceColor
+            ; Save current appearance
+            NSAppearanceSave = CocoaMessage(0, 0, "NSAppearance currentAppearance")
+            NSEffectiveAppearance = CocoaMessage(0, NSApp, "effectiveAppearance")
+            CocoaMessage(0, 0, "NSAppearance setCurrentAppearance:", NSEffectiveAppearance)
+            \BorderColor = GetCocoaColor("systemGrayColor")
+            \TabBarColor = GetCocoaColor("windowBackgroundColor")
+            \TextColor   = GetCocoaColor("windowFrameTextColor")
+            \FaceColor   = GetCocoaColor("windowBackgroundColor")
+            ; Restore current appearance
+            CocoaMessage(0, 0, "NSAppearance setCurrentAppearance:", NSAppearanceSave)
+            ; Update tabbar item with default colors
+            ItemCount = CountTabBarGadgetItems(#GADGET_FilesPanel) - 1
+            For Item = 0 To ItemCount
+              If GetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_BackColor) = OldFaceColor
+                SetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_FrontColor, \TextColor)
+                SetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_BackColor, \FaceColor)
+              EndIf
+            Next
+          EndWith
+        EndIf
+    EndSelect
+  EndProcedure
+
+  Procedure InitAppearanceObserver()
+    Protected NSApp, KVO_Class, KVO_Object
+ 
+    ; Create Key-Value Observer class (PB_KVO_Appearance)
+    KVO_Class = objc_allocateClassPair_(objc_getClass_("NSObject"), "PB_KVO_Appearance", 0)
+    class_addMethod_(KVO_Class, sel_registerName_("observeValueForKeyPath:ofObject:change:context:"), @KVO_Appearance(), "v@:@@@^v")
+    objc_registerClassPair_(KVO_Class)
+
+    ; Create PB_KVO class instance (KVO)
+    KVO_Object = CocoaMessage(0, 0, "PB_KVO_Appearance new")
+
+    ; Add observer
+    NSApp = CocoaMessage(0, 0, "NSApplication sharedApplication")
+    CocoaMessage(0, NSApp, "addObserver:", KVO_Object, "forKeyPath:$", @"effectiveAppearance", "options:", #NSKeyValueObservingOptionNew, "context:", #nil)
+
   EndProcedure
   
 CompilerEndIf

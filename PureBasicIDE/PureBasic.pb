@@ -239,6 +239,8 @@ CompilerIf #CompileMac
       NSAppearanceAqua = CocoaMessage(0, 0, "NSAppearance appearanceNamed:$", @"NSAppearanceNameAqua")
       CocoaMessage(0, NSApp, "setAppearance:", NSAppearanceAqua)
     EndIf
+    ; Init Apperance Observer
+    InitAppearanceObserver()
   EndIf
 CompilerEndIf
 
