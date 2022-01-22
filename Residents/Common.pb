@@ -131,6 +131,7 @@
 #PB_OS_Windows_8_1            = 100
 #PB_OS_Windows_Server_2012_R2 = 105
 #PB_OS_Windows_10             = 110
+#PB_OS_Windows_11             = 120
 #PB_OS_Windows_Future         = 200
 
 #PB_OS_Linux_2_2 = 1000

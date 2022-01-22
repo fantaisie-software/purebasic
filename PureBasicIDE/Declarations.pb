@@ -242,6 +242,7 @@ Declare AutoComplete_Close()                     ; abort autocomplete
 Declare AutoComplete_Insert()                    ; confirm autocomplete
 Declare AutoComplete_InsertEndKEyword()          ; insert "end" keyword on second keypress
 Declare AutoComplete_ChangeSelectedItem(Direction)
+Declare AutoComplete_InitContextConstants()
 
 ;- CodeViewer.pb
 ;
@@ -396,6 +397,7 @@ Declare.s GetModulePrefix(*Buffer, BufferLength, Position)                      
 Declare.s GetCurrentWord()                                                                               ; get the current word of the source file.
 Declare.s GetCurrentLine()                                                                               ; return the text of the current line
 Declare.s GetNumber(Line$, Position)                                                                     ; position is 0-based
+Declare.s FindEnclosingFunction(Line$, Cursor, *StartPosition.INTEGER, *Parameter.INTEGER)               ; all arguments 0-based
 Declare InsertComments()                                                                                 ; comment this block
 Declare RemoveComments()                                                                                 ; uncomment this block
 Declare InsertTab()                                                                                      ; tab intend a block
