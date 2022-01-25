@@ -232,6 +232,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_AutoHidePanel
   #GADGET_Preferences_NoSplashScreen
   #GADGET_Preferences_DisplayFullPath
+  #GADGET_Preferences_DisplayDarkMode
   #GADGET_Preferences_EnableMenuIcons
   #GADGET_Preferences_DebuggerMode
   #GADGET_Preferences_AutoClearLog
@@ -2517,7 +2518,7 @@ Global HelpWindowX, HelpWindowY, HelpWindowWidth, HelpWindowHeight, HelpWindowMa
 Global ProcedureBrowserMode, ProcedureBrowserSort, RealTab, EnableFolding, NbFoldStartWords, NbFoldEndWords
 Global ToolbarItemCount.l, PreferenceToolbarCount.l, ToolbarPreferenceMode, ToolbarPreferenceAction
 Global SaveProjectSettings
-Global EnableMenuIcons, AutoClearLog, DisplayFullPath, NoSplashScreen, DisplayProtoType, DisplayErrorWindow
+Global EnableMenuIcons, AutoClearLog, DisplayFullPath, DisplayDarkMode, NoSplashScreen, DisplayProtoType, DisplayErrorWindow
 Global InitialSourceLine, MemorizeMarkers, LanguageFile$, ToolsPanelWidth_Hidden, ErrorLogHeight_Hidden
 Global EnableBraceMatch, EnableKeywordMatch, ShowWhiteSpace, ShowIndentGuides, MonitorFileChanges
 Global FormVariable, FormVariableCaption, FormGrid, FormGridSize, FormEventProcedure, FormSkin, FormSkinVersion

@@ -595,6 +595,8 @@ Procedure CustomizeTabBarGadget()
     With TabBarGadgetInclude
       If OSVersion() >= #PB_OS_MacOSX_10_14
         \TabBarColor   = GetCocoaColor("windowBackgroundColor")
+        \TextColor   = GetCocoaColor("windowFrameTextColor")
+        \FaceColor   = GetCocoaColor("windowBackgroundColor")
       Else
         ;
         ; Note: The GetThemeBrushAsColor() color below always gives me full white no matter what brush i try (except the black brush),
@@ -634,7 +636,7 @@ Procedure CustomizeTabBarGadget()
           CGColorRelease(CGColor)
         EndIf
       EndIf
-      \BorderColor   = GetCocoaColor("systemGrayColor")
+      \BorderColor = GetCocoaColor("systemGrayColor")
     EndWith
   CompilerEndIf
   
@@ -648,9 +650,10 @@ Procedure CreateGUI()
   If OpenWindow(#WINDOW_Main, EditorWindowX, EditorWindowY, EditorWindowWidth, EditorWindowHeight, DefaultCompiler\VersionString$, #WINDOW_Main_Flags)
     
     CompilerIf #CompileMac
-      ; Quick fix for TabBarGadget And ToolbarGadget lack of transparency support
       If OSVersion() >= #PB_OS_MacOSX_10_14
-        SetWindowColor(#WINDOW_Main, GetCocoaColor("windowBackgroundColor"))
+        ; Fix Toolbar style from titlebar to expanded (Top Left)
+        #NSWindowToolbarStyleExpanded = 1
+        CocoaMessage(0, WindowID(#WINDOW_Main), "setToolbarStyle:", #NSWindowToolbarStyleExpanded)
       EndIf
     CompilerEndIf
     
@@ -2295,6 +2298,13 @@ EndProcedure
 ;
 Procedure UpdateMainWindow()
   
+  CompilerIf #CompileMac
+    If OSVersion() >= #PB_OS_MacOSX_10_14
+      ; Update DarkMode
+      UpdateAppearance()
+    EndIf
+  CompilerEndIf
+  
   ToolsPanel_Update()
   
   ToolsPanel_ApplyColors(#GADGET_ErrorLog)
@@ -2705,4 +2715,3 @@ Procedure DisableMenuAndToolbarItem(MenuItemID, State)
     DisableToolBarButton(#TOOLBAR, MenuItemID, State)
   EndIf
 EndProcedure
-
