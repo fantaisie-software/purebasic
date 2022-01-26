@@ -1,4 +1,4 @@
-;--------------------------------------------------------------------------------------------
+﻿;--------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -312,22 +312,22 @@ CompilerIf #CompileMacCocoa
           EndIf
       EndSelect
     EndProcedure
-
+    
     Procedure InitAppearanceObserver()
       Protected NSApp, KVO_Class, KVO_Object
-   
+      
       ; Create Key-Value Observer class (PB_KVO_Appearance)
       KVO_Class = objc_allocateClassPair_(objc_getClass_("NSObject"), "PB_KVO_Appearance", 0)
       class_addMethod_(KVO_Class, sel_registerName_("observeValueForKeyPath:ofObject:change:context:"), @KVO_Appearance(), "v@:@@@^v")
       objc_registerClassPair_(KVO_Class)
-
+      
       ; Create PB_KVO class instance (KVO)
       KVO_Object = CocoaMessage(0, 0, "PB_KVO_Appearance new")
-
+      
       ; Add observer
       NSApp = CocoaMessage(0, 0, "NSApplication sharedApplication")
       CocoaMessage(0, NSApp, "addObserver:", KVO_Object, "forKeyPath:$", @"effectiveAppearance", "options:", #NSKeyValueObservingOptionNew, "context:", #nil)
-
+      
     EndProcedure
   CompilerEndIf
   
