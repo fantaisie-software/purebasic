@@ -1239,6 +1239,26 @@ Procedure AutoComplete_Insert(FullFunction=#False)
         ;String$ = BasicFunctions(index)\Name$
         If BasicFunctions(index)\Proto$
           String$ + StringField(BasicFunctions(index)\Proto$, 1, " - ")
+          ; Write in comment the List of constants that apply For this Function ex:
+          Fields = CountString(String$, ",") + 1
+          *Context.AutoCompleteConstants = 0
+          ; loop in case the flags are not at the last fields
+          For f = 0 To Fields - 1
+            ; Map has lowercase names and 1-based parameter index
+            *Context.AutoCompleteConstants = FindMapElement(AutoComplete_ContextConstants(), LCase(BasicFunctions(index)\Name$) + "," + Str(Fields - f))
+            If *Context
+              Break
+            EndIf
+          Next f
+          If *Context
+            ForEach *Context\Constants()
+              If ListIndex(*Context\Constants()) > 0
+                String$ + " | " + *Context\Constants()
+              Else
+                String$ + " ; " + *Context\Constants()
+              EndIf
+            Next *Context\Constants()
+          EndIf
         Else
           String$ + "()"
         EndIf

@@ -1619,6 +1619,7 @@ DataSection
   Data$ "ZoomDefault",      "Zoom default"
   Data$ "AutoComplete",     "Display the AutoComplete Window"
   Data$ "AutoCompleteConfirm","Insert the selected AutoComplete word"
+  Data$ "AutoCompleteFull",   "Insert both the function name and the parameters"
   Data$ "AutoCompleteAbort",  "Close the AutoComplete Window"
   Data$ "ProceduresUpdate", "Trigger Update of Procedure & Variable Viewer"
   
