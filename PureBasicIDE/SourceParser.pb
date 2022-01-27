@@ -1729,6 +1729,22 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
         Case #KEYWORD_EndImport
           InImport = 0
           
+        Case #KEYWORD_Enumeration
+          ; Skip a possible named enumeration name so it does not appear as a variable
+          ;
+          ; We could collect these in their own category and have special autocomplete for enums, but this seems a bit overkill
+          ; since you only type enum names when declaring other enums, never when using enum values.
+          Parser_SkipSpace(*Cursor)
+          If ValidCharacters(*Cursor\a)
+            Parser_GetWord(@*Cursor)
+            Parser_SkipSpace(*Cursor)
+            If *Cursor\a = ':' And *Cursor\a[1] = ':' ; possible enum name with module prefix
+              *Cursor + 2
+              Parser_SkipSpace(*Cursor)
+              Parser_GetWord(@*Cursor)
+            EndIf
+          EndIf
+          
       EndSelect
       
       ;- Scan Other
