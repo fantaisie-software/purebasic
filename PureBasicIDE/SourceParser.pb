@@ -1729,7 +1729,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
         Case #KEYWORD_EndImport
           InImport = 0
           
-        Case #KEYWORD_Enumeration
+        Case #KEYWORD_Enumeration, #KEYWORD_EnumerationBinary
           ; Skip a possible named enumeration name so it does not appear as a variable
           ;
           ; We could collect these in their own category and have special autocomplete for enums, but this seems a bit overkill
