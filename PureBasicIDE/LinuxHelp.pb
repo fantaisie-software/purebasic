@@ -8,6 +8,8 @@
 ; linux only file
 CompilerIf #CompileLinux
   
+  UseBriefLZPacker()
+  
   Structure Help_Contents
     SubLevel.l
     Name$
@@ -119,7 +121,7 @@ CompilerIf #CompileLinux
         File$ = LCase(#ProductName$)+".help"
       EndIf
       
-      If OpenPack(0, PureBasicPath$ + File$)
+      If OpenPack(0, PureBasicPath$ + File$, #PB_PackerPlugin_BriefLZ)
         
         ExaminePack(0)
         
