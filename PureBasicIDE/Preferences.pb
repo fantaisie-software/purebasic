@@ -144,7 +144,6 @@ Procedure LoadPreferences()
   ; Init the color values with the PB defaults
   ;
   Restore DefaultColorSchemes
-  Read.l NbColorSchemes.l          ; read the unneeded values
   Read.s SchemeName$
   Read.l ToolsPanelFrontColor
   Read.l ToolsPanelBackColor
@@ -2968,11 +2967,11 @@ Procedure OpenPreferencesWindow()
   Next i
   
   Restore DefaultColorSchemes
-  Read.l NbSchemes
+  NbSchemes = 0   ; Number of Default Color Schemes is automatically counted below
   
   CurrentScheme = -1
-  For i = 1 To NbSchemes
-    Read.s Name$
+  Read.s Name$
+  While Name$ <> "" ; Empty Name$ indicates end of color schemes
     AddGadgetItem(#GADGET_Preferences_ColorSchemes, -1, Name$)
     ; also read the 2 toolspanel colors
     Read.l color
@@ -2987,9 +2986,12 @@ Procedure OpenPreferencesWindow()
       EndIf
     Next c
     If IsMatch
-      CurrentScheme = i - 1
+      CurrentScheme = NbSchemes
     EndIf
-  Next i
+    
+    NbSchemes + 1
+    Read.s Name$
+  Wend
   
   SetGadgetItemText(#GADGET_Preferences_ColorSchemes, CountGadgetItems(#GADGET_Preferences_ColorSchemes)-1, Language("Preferences", "Accessibility"), 0)
   If CurrentScheme >= 0
@@ -5009,7 +5011,6 @@ Procedure PreferencesWindowEvents(EventID)
         index = GetGadgetState(#GADGET_Preferences_ColorSchemes)
         
         Restore DefaultColorSchemes
-        Read.l NbSchemes
         
         If index >= 0 And index < NbSchemes
           
@@ -5503,8 +5504,6 @@ DataSection
   
   CompilerIf #SpiderBasic
     
-    Data.l 10
-    
     ; now each color scheme. first the name string, then the front & backcolor
     ; for the toolspanel, then all the colors
     ; in order if the enumeration.
@@ -5550,11 +5549,6 @@ DataSection
     Data.l $000000 ; #COLOR_Module
     Data.l $FAECAB ; #COLOR_SelectionRepeat
     Data.l $FFFFFF ; #COLOR_PlainBackground
-    
-  CompilerElse
-    
-    ; total number of defined schemes:
-    Data.l 10
     
   CompilerEndIf
   
@@ -5987,6 +5981,8 @@ DataSection
   Data.l 0        ; #COLOR_Module
   Data.l $FFFFFF  ; #COLOR_SelectionRepeat
   Data.l $FFFFFF  ; #COLOR_PlainBackground
+  
+  Data$ ""        ; Empty string to mark the end of the Default Color Schemes
   
   
   ; List of default Indent keywords (as of 4.50)

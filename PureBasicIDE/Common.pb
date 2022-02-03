@@ -2526,6 +2526,7 @@ Global FilesPanelMultiline, FilesPanelCloseButtons, FilesPanelNewButton
 Global CurrentZoom, SynchronizingZoom
 Global ExtraWordChars$
 Global UseTabIndentForSplittedLines
+Global NbSchemes
 
 ; Dialog Window data
 ;
