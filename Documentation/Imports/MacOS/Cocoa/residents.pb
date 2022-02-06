@@ -198,8 +198,13 @@ EndEnumeration
 
 Enumeration
   #NSLeftTextAlignment
-  #NSRightTextAlignment
-  #NSCenterTextAlignment
+  CompilerIf #PB_Compiler_Processor = #PB_Processor_Arm64
+    #NSCenterTextAlignment
+    #NSRightTextAlignment
+  CompilerElse
+    #NSRightTextAlignment
+    #NSCenterTextAlignment
+  CompilerEndIf
   #NSJustifiedTextAlignment
   #NSNaturalTextAlignment
 EndEnumeration

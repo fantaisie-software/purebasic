@@ -1435,6 +1435,12 @@ EndEnumeration
 #PB_Material_Modulate   = 2
 #PB_Material_AlphaBlend = 3
 #PB_Material_Color      = 4
+#PB_Material_ModulateX2 = 7
+#PB_Material_ModulateX4 = 8
+#PB_Material_AddSigned  = 10
+#PB_Material_Substract  = 12
+#PB_Material_BlendDiffuseAlpha = 13
+#PB_Material_BlendCurrentAlpha = 15
 
 #PB_Material_None        = 0
 #PB_Material_Bilinear    = 1
@@ -1454,10 +1460,10 @@ EndEnumeration
 #PB_Material_AmbientColors = -1
 
 ; Colors
-#PB_Material_DiffuseColor  = 0
-#PB_Material_SpecularColor = 1
-#PB_Material_AmbientColor  = 2
-#PB_Material_SelfIlluminationColor = 3
+#PB_Material_DiffuseColor  = 1 << 0
+#PB_Material_SpecularColor = 1 << 1
+#PB_Material_AmbientColor  = 1 << 2 
+#PB_Material_SelfIlluminationColor = 1 << 3
 
 ; Atttributes
 #PB_Material_Shininess      = 0
