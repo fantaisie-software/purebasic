@@ -556,7 +556,7 @@ DataSection
   Data$ "ReceiveHTTPMemory,2,#PB_HTTP_Asynchronous,#PB_HTTP_NoRedirect"
   Data$ "ReleaseMouse,1,#True,#False"
   Data$ "ReloadMaterial,3,#True,#False"
-  Data$ "RemoveKeyboardShortcut,2,#PB_Key_*"
+  Data$ "RemoveKeyboardShortcut,2,#PB_Shortcut_*"
   Data$ "RemoveMailRecipient,3,#PB_Mail_To,#PB_Mail_Cc,#PB_Mail_Bcc"
   Data$ "RemoveString,3,#PB_String_CaseSensitive,#PB_String_NoCase"
   Data$ "RemoveSysTrayIcon,1,#PB_All"

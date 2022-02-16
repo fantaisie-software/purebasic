@@ -169,7 +169,7 @@ Procedure Standalone_CreateGUI()
     
     ListViewGadget(#GADGET_Log, 0, 0, 0, 0)
     
-    ComboBoxGadget(#GADGET_SelectSource, 0, 0, 0, 300)
+    ComboBoxGadget(#GADGET_SelectSource, 0, 0, 80, 300)
     ButtonGadget(#GADGET_BreakSet, 0, 0, 0, 0, Language("StandaloneDebugger","BreakSetRemove"))
     ButtonGadget(#GADGET_BreakClear, 0, 0, 0, 0, Language("StandaloneDebugger","BreakClear"))
     ButtonGadget(#GADGET_DataBreak, 0, 0, 0, 0, Language("StandaloneDebugger","DataBreak"), #PB_Button_Toggle)

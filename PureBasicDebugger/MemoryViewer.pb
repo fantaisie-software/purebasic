@@ -709,8 +709,13 @@ Procedure OpenMemoryViewerWindow(*Debugger.DebuggerData)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Container]= ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_BorderLess)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List]     = ListIconGadget(#PB_Any, 0, 0, 0, 0, "", 80, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_MultiSelect)
       CloseGadgetList()
-      *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ViewType] = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
-      *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView] = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
+      CompilerIf #CompileMac
+        *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ViewType] = ComboBoxGadget(#PB_Any, 0, 0, 60, 20)
+        *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView] = ComboBoxGadget(#PB_Any, 0, 0, 60, 20)
+      CompilerElse
+        *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ViewType] = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
+        *Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView] = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
+      CompilerEndIf
       
       AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView],0,"DEC")
       AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView],1,"HEX")

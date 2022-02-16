@@ -256,7 +256,11 @@ Procedure CreateDataBreakpointWindow(*Debugger.DebuggerData)
     *Debugger\Gadgets[#DEBUGGER_GADGET_Breakpoint_Frame] = FrameGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","AddBreakPoint")+":")
     *Debugger\Gadgets[#DEBUGGER_GADGET_Breakpoint_Text1] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Procedure")+":", #PB_Text_Right)
     *Debugger\Gadgets[#DEBUGGER_GADGET_Breakpoint_Text2] = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Condition")+":", #PB_Text_Right)
-    *Debugger\Gadgets[#DEBUGGER_GADGET_Breakpoint_Procedure] = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
+    CompilerIf #CompileMac
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Breakpoint_Procedure] = ComboBoxGadget(#PB_Any, 0, 0, 200, 20)
+    CompilerElse
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Breakpoint_Procedure] = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
+    CompilerEndIf  
     *Debugger\Gadgets[#DEBUGGER_GADGET_Breakpoint_Condition] = StringGadget(#PB_Any, 0, 0, 0, 0, "")
     *Debugger\Gadgets[#DEBUGGER_GADGET_Breakpoint_Add] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Add"))
     *Debugger\Gadgets[#DEBUGGER_GADGET_Breakpoint_Remove] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Remove"))

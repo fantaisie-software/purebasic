@@ -1297,7 +1297,11 @@ Procedure ColorPicker_CreateFunction(*Entry.ColorPickerData, PanelItemID)
   TextGadget(#GADGET_Color_Label1, 0, 0, 0, 0, "")
   TextGadget(#GADGET_Color_Label2, 0, 0, 0, 0, "")
   TextGadget(#GADGET_Color_Label3, 0, 0, 0, 0, "")
-  ComboBoxGadget(#GADGET_Color_Scheme, 0, 0, 0, 0)
+  CompilerIf #CompileMac
+    ComboBoxGadget(#GADGET_Color_Scheme, 0, 0, 80, 20)
+  CompilerElse
+    ComboBoxGadget(#GADGET_Color_Scheme, 0, 0, 0, 0)
+  CompilerEndIf  
   ScrollBarGadget(#GADGET_Color_Scroll, 0, 0, 0, 0, 0, 100, 10, #PB_ScrollBar_Vertical)
   StringGadget(#GADGET_Color_Filter, 0, 0, 0, 0, "")
   
