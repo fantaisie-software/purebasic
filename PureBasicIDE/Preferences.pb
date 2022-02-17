@@ -5165,7 +5165,7 @@ Procedure PreferencesWindowEvents(EventID)
         If File$ <> ""
           CompilerIf #CompileMac
             If GetExtensionPart(File$) = "app"
-              File$ + "/"
+              File$ + "/Contents/"
               File$ = OpenFileRequester(Language("Preferences","SelectCompiler"), File$, Pattern$, 0)
               If File$ <> ""
                 SetGadgetText(#GADGET_Preferences_CompilerExe, File$)
