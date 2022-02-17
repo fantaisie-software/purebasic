@@ -587,7 +587,7 @@ CompilerIf #DEBUG
         Debugging_Combo   = ComboBoxGadget(#PB_Any, 0, 0, 80, 20)
       CompilerElse
         Debugging_Combo   = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
-      CompilerEndIf  
+      CompilerEndIf
       Debugging_Display = ButtonGadget(#PB_Any, 0, 0, 0, 0, "Display")
       Debugging_Editor  = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
       

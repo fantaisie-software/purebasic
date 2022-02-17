@@ -422,7 +422,7 @@ CompilerEndIf
 ;
 Enumeration  ; gadget types
   #PB_GadgetType_Unknown = 0
-  
+
   #PB_GadgetType_Button
   #PB_GadgetType_String
   #PB_GadgetType_Text
@@ -909,7 +909,7 @@ CompilerEndIf
 #PB_System_TotalSwap     = 4
 #PB_System_FreeSwap      = 5
 #PB_System_PageSize      = 6
- 
+
 
 ; Sound library
 ;
@@ -1067,7 +1067,7 @@ CompilerIf #PB_Compiler_OS = #PB_OS_Web
     #PB_XML_Success
     #PB_XML_Error
   EndEnumeration
-  
+
 CompilerElse
 
   ; Return values for XMLStatus()
@@ -1116,7 +1116,7 @@ CompilerElse
     #PB_XML_ReservedPrefixXMLNS
     #PB_XML_ReservedNamespaceURI
   EndEnumeration
-  
+
 CompilerEndIf
 
 ; VectorDrawing lib
@@ -1494,7 +1494,7 @@ EndEnumeration
 #PB_Material_MirrorTAM = 1
 #PB_Material_ClampTAM  = 2
 #PB_Material_BorderTAM = 3
-            
+
 #PB_Material_NoCulling         = 1
 #PB_Material_ClockWiseCull     = 2
 #PB_Material_AntiClockWiseCull = 3

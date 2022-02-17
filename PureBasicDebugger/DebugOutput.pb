@@ -238,7 +238,7 @@ Procedure CreateDebugWindow(*Debugger.DebuggerData)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]   = ComboBoxGadget(#PB_Any, 0, 0, 80, 20, #PB_ComboBox_Editable)
     CompilerElse
       *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]   = ComboBoxGadget(#PB_Any, 0, 0, 0, 0, #PB_ComboBox_Editable)
-    CompilerEndIf  
+    CompilerEndIf
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Display] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Display"))
     *Debugger\Gadgets[#DEBUGGER_Gadget_Debug_Text]    = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Debug")+":")
     

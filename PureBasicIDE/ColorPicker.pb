@@ -1301,7 +1301,7 @@ Procedure ColorPicker_CreateFunction(*Entry.ColorPickerData, PanelItemID)
     ComboBoxGadget(#GADGET_Color_Scheme, 0, 0, 80, 20)
   CompilerElse
     ComboBoxGadget(#GADGET_Color_Scheme, 0, 0, 0, 0)
-  CompilerEndIf  
+  CompilerEndIf
   ScrollBarGadget(#GADGET_Color_Scroll, 0, 0, 0, 0, 0, 100, 10, #PB_ScrollBar_Vertical)
   StringGadget(#GADGET_Color_Filter, 0, 0, 0, 0, "")
   
