@@ -1049,7 +1049,7 @@ CompilerEndIf
 
 #PB_XML_CutSpace        = (1 << 5)
 #PB_XML_ReduceSpace     = (1 << 6)
- 
+
 #PB_XML_ReFormat        = (1 << 7)
 #PB_XML_ReIndent        = (1 << 8)
 
@@ -1462,7 +1462,7 @@ EndEnumeration
 ; Colors
 #PB_Material_DiffuseColor  = 1 << 0
 #PB_Material_SpecularColor = 1 << 1
-#PB_Material_AmbientColor  = 1 << 2 
+#PB_Material_AmbientColor  = 1 << 2
 #PB_Material_SelfIlluminationColor = 1 << 3
 
 ; Atttributes
