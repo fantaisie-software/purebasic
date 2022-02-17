@@ -372,7 +372,7 @@ CompilerEndIf
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 
   #PB_Image_FloydSteinberg =  1 << 8 ; SaveImage()
-  
+
   #PB_ImagePlugin_JPEG2000 = $4B32504A
   #PB_ImagePlugin_TGA      = $414754
   #PB_ImagePlugin_TIFF     = $46464954
