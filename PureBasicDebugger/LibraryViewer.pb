@@ -514,11 +514,7 @@ Procedure OpenLibraryViewerWindow(*Debugger.DebuggerData)
       HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData2], 1)
       
       *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Text1]       = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","SelectLibrary")+":", #PB_Text_Right)
-      CompilerIf #CompileMac
-        *Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList] = ComboBoxGadget(#PB_Any, 0, 0, 80, 20)
-      CompilerElse
-          *Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList] = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
-      CompilerEndIf
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Library_LibraryList] = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Update]      = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
       *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList]  = ListIconGadget(#PB_Any, 0, 0, 0, 0, "", 20, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText]  = EditorGadget(#PB_Any, 0, 0, 0, 0)

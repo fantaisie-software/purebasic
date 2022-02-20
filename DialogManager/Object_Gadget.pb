@@ -122,12 +122,7 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
         *THIS\HasTitle = #False
         
       Case #DIALOG_ComboBox
-        CompilerIf #CompileMac
-          ; Fixed macOS background drawing issue from the ComboBox, needs minimum size
-          *THIS\Gadget = ComboBoxGadget(*StaticData\Gadget, 0, 0, 100, 25, *StaticData\Flags)
-        CompilerElse
-          *THIS\Gadget = ComboBoxGadget(*StaticData\Gadget, 0, 0, 0, 0, *StaticData\Flags)
-        CompilerEndIf
+        *THIS\Gadget = ComboBoxGadget(*StaticData\Gadget, 0, 0, 0, 0, *StaticData\Flags)
         *THIS\HasTitle = #False
         
         CompilerIf Defined(DIALOG_USE_EXPLORER, #PB_Constant)
