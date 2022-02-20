@@ -231,19 +231,6 @@ CompilerIf #CompileMacCocoa
     EndIf
   EndProcedure
   
-  ; Fixed macOS background drawing issue from the ComboBox, needs minimum size
-  Procedure MacFixComboBoxGadget(Gadget, x, y, Width, Height, Flags = 0)
-    If Width > 0 And Height > 0
-      ProcedureReturn ComboBoxGadget(Gadget, x, y, Width, Height, Flags)
-    Else
-      ProcedureReturn ComboBoxGadget(Gadget, x, y, 80, 25, Flags)
-    EndIf
-  EndProcedure
-  
-  Macro ComboBoxGadget(Gadget, x, y, Width, Height, Flags = 0)
-    MacFixComboBoxGadget(Gadget, x, y, Width, Height, Flags)
-  EndMacro
-  
   ; Ignore the apparence support if we are compiling the standalone debugger
   CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
     

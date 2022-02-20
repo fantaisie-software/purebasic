@@ -26,11 +26,6 @@ XIncludeFile "ZLib.pb"
 XIncludeFile "TabBarGadget.pbi"
 DisableExplicit
 
-; should be before the debugger files, as they need some of this
-XIncludeFile "WindowsExtensions.pb"
-XIncludeFile "LinuxExtensions.pb"
-XIncludeFile "MacExtensions.pb"
-
 ; dialog manager
 ; We need the explorer and scintilla support for it (for Templates window and Projects)
 #DIALOG_USE_SCINTILLA = 1
@@ -43,6 +38,11 @@ IncludePath ""
 ; debugging functions and macros (mostly active in debug mode only)
 XIncludeFile "WindowsDebugging.pb"
 XIncludeFile "LinuxDebugging.pb"
+
+; should be before the debugger files, as they need some of this
+XIncludeFile "WindowsExtensions.pb"
+XIncludeFile "LinuxExtensions.pb"
+XIncludeFile "MacExtensions.pb"
 
 ; debugger external files
 XIncludeFile #DEFAULT_DebuggerSource + "Misc.pb"

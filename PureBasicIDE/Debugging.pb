@@ -583,7 +583,11 @@ CompilerIf #DEBUG
       
     ElseIf OpenWindow(#WINDOW_Debugging, 0, 0, 600, 400, #ProductName$ + " - IDE Debugging", #PB_Window_SystemMenu|#PB_Window_ScreenCentered|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget|#PB_Window_MaximizeGadget|#PB_Window_Invisible)
       
-      Debugging_Combo   = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
+      CompilerIf #CompileMac
+        Debugging_Combo   = ComboBoxGadget(#PB_Any, 0, 0, 80, 25)
+      CompilerElse
+        Debugging_Combo   = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
+      CompilerEndIf
       Debugging_Display = ButtonGadget(#PB_Any, 0, 0, 0, 0, "Display")
       Debugging_Editor  = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
       
