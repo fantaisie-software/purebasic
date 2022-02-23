@@ -120,7 +120,11 @@ Procedure LoadPreferences()
   
   ;- - Editor
   PreferenceGroup("Editor")
-  IsWindowMaximized  = ReadPreferenceLong("IsWindowMaximized" , 1) ; Default to maximized window, so we have a clean launch if no pref file exists
+  CompilerIf #CompileLinux
+    IsWindowMaximized  = ReadPreferenceLong("IsWindowMaximized" , 0) ; On Raspberry and some X server, maximize doesn't work as expected and loop (and crash)
+  CompilerElse
+    IsWindowMaximized  = ReadPreferenceLong("IsWindowMaximized" , 1) ; Default to maximized window, so we have a clean launch if no pref file exists
+  CompilerEndIf
   EditorWindowX      = ReadPreferenceLong("X"     , 80)            ; to not be directly at the OSX menubar!
   EditorWindowY      = ReadPreferenceLong("Y"     , 80)
   EditorWindowWidth  = ReadPreferenceLong("Width" , 600)
