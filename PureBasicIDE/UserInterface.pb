@@ -891,22 +891,8 @@ Procedure UpdateMenuStates()
     ;
     If *ActiveSource = *ProjectInfo
       NoRealSource = 1
-      DisableMenuAndToolbarItem(#MENU_ShowInFolder, 0)
-      DisableMenuAndToolbarItem(#MENU_DiffCurrent, 1)
     Else
       NoRealSource = 0
-      
-      If *ActiveSource\FileName$
-        DisableMenuAndToolbarItem(#MENU_ShowInFolder, 0)
-      Else
-        DisableMenuAndToolbarItem(#MENU_ShowInFolder, 1)
-      EndIf
-      If *ActiveSource\FileName$ And GetSourceModified()
-        DisableMenuAndToolbarItem(#MENU_DiffCurrent, 0)
-      Else
-        ; this cannot be done if the current source is not saved yet
-        DisableMenuAndToolbarItem(#MENU_DiffCurrent, 1)
-      EndIf
     EndIf
     
     ; File menu
@@ -922,6 +908,7 @@ Procedure UpdateMenuStates()
     ; File menu special cases
     DisableMenuAndToolbarItem(#MENU_Reload, Bool( (*ActiveSource\FileName$ = "") Or (*ActiveSource = *ProjectInfo) Or (*ActiveSource\IsForm) ))
     DisableMenuAndToolbarItem(#MENU_DiffCurrent, Bool( (*ActiveSource\FileName$ = "") Or (*ActiveSource = *ProjectInfo) Or (*ActiveSource\IsForm) Or (GetSourceModified(*ActiveSource) = 0) ))
+    DisableMenuAndToolbarItem(#MENU_ShowInFolder, Bool( (*ActiveSource <> *ProjectInfo) And (*ActiveSource\FileName$ = "") ))
     
     ; Edit menu (disable all, except FileInFiles)
     ;
