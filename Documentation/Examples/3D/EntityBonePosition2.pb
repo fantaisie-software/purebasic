@@ -11,12 +11,6 @@
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
-
 Structure Bullet
   Bullet.i
   timer.f

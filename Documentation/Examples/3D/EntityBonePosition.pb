@@ -10,12 +10,6 @@
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
-
 Define.f KeyX, KeyY, MouseX, MouseY, Speed = 1.0
 Define.i RobotMove
 Define.Vector3 Bone1, Bone2

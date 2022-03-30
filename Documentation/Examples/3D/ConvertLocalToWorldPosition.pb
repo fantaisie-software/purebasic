@@ -9,13 +9,8 @@
 ;
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
-#CameraSpeed = 1
 
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
+#CameraSpeed = 1
 
 Define.f KeyX, KeyY, MouseX, MouseY, RollZ, sens = -1
 Define.Vector3 Resultat, C1, C2

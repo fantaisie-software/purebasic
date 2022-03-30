@@ -9,15 +9,8 @@
 ;
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
-#PB_Material_AmbientColor = 2
 #PlayerSpeed = 0.4
 #CameraSpeed = 1
-
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
 
 Structure s_Key
   Up.i

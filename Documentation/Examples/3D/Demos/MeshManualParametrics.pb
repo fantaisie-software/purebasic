@@ -68,6 +68,11 @@ If InitEngine3D()
   
   If Screen3DRequester()
     
+    LoadSprite(0, #PB_Compiler_Home + "examples/Sources/Data/Geebee2.bmp")
+    
+    ;Debug  StartDrawing(SpriteOutput(0))
+    ;LineXY(0, 0, 100, 100, 255)
+    ;StopDrawing()
     CreateSuperQuadratics()
     CreateMaterial(0, LoadTexture(0, "White.jpg"))
     DisableMaterialLighting(0, #True)
@@ -142,6 +147,8 @@ If InitEngine3D()
       Text3DCaption(0, StrF(Engine3DStatus(#PB_Engine3D_CurrentFPS), 2))
       
       RenderWorld()
+      
+      DisplaySprite(0, 100, 50)
       
       Screen3DStats()
       
