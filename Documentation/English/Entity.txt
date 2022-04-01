@@ -27,7 +27,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ApplyEntityForce(#Entity, x, y, z [, PositionX, PositionY, PositionZ [, Mode]])
+@Function ApplyEntityForce(#Entity, x, y, z [, PositionX, PositionY, PositionZ [, Mode [, PositionMode]])
 
 @Description
   Apply the specified force to the entity. The new force value replace any previous force previously
@@ -49,6 +49,15 @@ saving CPU clocks.
   @#PB_Parent: force relative to the parent position.
   @#PB_World : force relative to the world.
 @EndFixedFont
+
+@OptionalParameter "PositionMode"
+  The applied position mode. It can be one of the following values:
+@FixedFont
+  @#PB_Local : local position.
+  @#PB_Parent: position relative to the parent position.
+  @#PB_World : position relative to the world.
+@EndFixedFont
+
 
 @NoReturnValue
 
@@ -1554,5 +1563,23 @@ saving CPU clocks.
  
 @SeeAlso
   @@EntityDirection, @@EntityDirectionX, @@EntityDirectionY
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function GetEntityMesh(#Entity)
+
+@Description
+  Returns the #Mesh used by the entity.
+
+@Parameter "#Entity"
+  The entity to use.
+
+@ReturnValue
+  Returns the #Mesh used by the entity.
+ 
+@SeeAlso
+  @@CreateEntity
   
 @SupportedOS

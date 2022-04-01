@@ -1228,13 +1228,16 @@ The OGRE license file can be consulted @MainGuideLink "ogre_mit" "here" (read mo
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function WorldGravity(Gravity.f)
+@Function WorldGravity(Gravity.f [x, y, z])
 
 @Description
   Changes the gravity of the world when the physics engine is enabled with @@EnableWorldPhysics.
   
 @Parameter "Gravity"  
   The new gravity to set. The default gravity value is set to -9.806 (which is Earth's gravitational value).
+
+@OptionalParameter "x, y, z"  
+  The gravity force vector to use, to change the gravity direction.
 
 @NoReturnValue
 

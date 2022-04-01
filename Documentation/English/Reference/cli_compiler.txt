@@ -5,8 +5,15 @@
   The command line compiler is located in the subdirectory 'compilers' from the PureBasic folder. 
   The easier way to access it is to add this directory in the PATH variable, 
   which will give access to all the commands of this directory at all times. 
-  Every command switch which starts with '/' are Windows only.
-
+  Every command switch which starts with '/' are Windows only. @LineBreak
+@LineBreak
+  There is two compilers for PureBasic: @LineBreak
+  - 'pbcompiler' which is generating assembly code (x86 and x64)@LineBreak
+  - 'pbcompilerc' (or 'pbcompiler' on platform which doesn't support the assembly backend) which is generating C code@LineBreak
+@LineBreak
+  The C backend compiler is available on all supported platforms, while the ASM backend compiler
+  is only supported on Windows (x86, x64), Linux (x86, x64) and OS X (x64).
+  
 @Section Cross-platform command switches
 
   -h, --help, /?: displays a quick help about the compiler. @LineBreak
@@ -19,7 +26,7 @@
   @LineBreak
   -pf, --purifier, /PURIFIER: enables the purifier. The debugger needs to be activated to have any effect. @LineBreak
   @LineBreak
-  -e, --executable, /EXE "filename": creates a standalone executable or DLL specified by the filename at the desired path location. 
+  -o, --output, /OUTPUT "filename": creates a standalone executable or DLL specified by the filename at the desired path location. 
   On MacOS X it's possible to create an application bundle by adding '.app' to the name of the executable. This way the whole
   directory structure will be automatically created. @LineBreak
   @LineBreak
@@ -40,7 +47,7 @@
   -ir, --ignoreresident, /IGNORERESIDENT "filename": doesn't load the specified resident file when the compiler starts. It's
   mostly useful when updating a resident which already exists, so it won't load it. @LineBreak
   @LineBreak
-  -o, --constant, /CONSTANT name=value: creates the specified constant with the given expression. 
+  -co, --constant, /CONSTANT name=value: creates the specified constant with the given expression. 
   Example: 'pbcompiler test.pb /CONSTANT MyConstant=10'. The constant @#MyConstant
   will be created on the fly with a value of 10 before the program gets compiled. @LineBreak
   @LineBreak
@@ -50,6 +57,8 @@
   more information, see @ReferenceLink "subsystems" "subsystems". @LineBreak
   @LineBreak
   -k, --check, /CHECK: checks the syntax only, doesn't create or launch the executable. @LineBreak
+  @LineBreak 
+  -z, --optimizer, /OPTIMIZER: enable the code optimizer. @LineBreak
   @LineBreak 
   -pp, --preprocess, /PREPROCESS "filename": preprocess the source code and write the output in the specified "Filename". 
   The processed file is a single file with all macro expanded, compiler directive handled and

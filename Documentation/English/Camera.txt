@@ -681,7 +681,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = CreateCamera(#Camera, x, y, Width, Height [, VisibilityMask])
+@Function Result = CreateCamera(#Camera, x, y, Width, Height [, VisibilityMask [, Lod]])
 
 @Description
   Creates a new camera in the current world, at the position x,y with the specified dimensions.
@@ -720,6 +720,11 @@
   to display on this camera. The camera defines
   its own mask, and if the entity or billboard mask match, then it will be displayed. By default
   the entities and billboards have no mask, meaning they will be always displayed on all cameras.
+
+@OptionalParameter "Lod"
+  A Lod bias (Level Of Details) to apply to the entities which supports it. If Lod bias is < 1, 
+  a more detailed object will be display. If Lod bias is > 1, a less detailed entity will be displayed. 
+  The entity distance is divided by the Lod bias (ie: a Lod bias of 0.5 double the distance).
 
 @ReturnValue
   Returns zero if the camera can't be created. If @ReferenceLink "purebasic_objects" "#PB_Any" is used 

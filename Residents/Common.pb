@@ -385,7 +385,7 @@ CompilerEndIf
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 
   #PB_Image_FloydSteinberg =  1 << 8 ; SaveImage()
-  
+
   #PB_ImagePlugin_JPEG2000 = $4B32504A
   #PB_ImagePlugin_TGA      = $414754
   #PB_ImagePlugin_TIFF     = $46464954
@@ -435,7 +435,7 @@ CompilerEndIf
 ;
 Enumeration  ; gadget types
   #PB_GadgetType_Unknown = 0
-  
+
   #PB_GadgetType_Button
   #PB_GadgetType_String
   #PB_GadgetType_Text
@@ -922,7 +922,7 @@ CompilerEndIf
 #PB_System_TotalSwap     = 4
 #PB_System_FreeSwap      = 5
 #PB_System_PageSize      = 6
- 
+
 
 ; Sound library
 ;
@@ -1062,7 +1062,7 @@ CompilerEndIf
 
 #PB_XML_CutSpace        = (1 << 5)
 #PB_XML_ReduceSpace     = (1 << 6)
- 
+
 #PB_XML_ReFormat        = (1 << 7)
 #PB_XML_ReIndent        = (1 << 8)
 
@@ -1080,7 +1080,7 @@ CompilerIf #PB_Compiler_OS = #PB_OS_Web
     #PB_XML_Success
     #PB_XML_Error
   EndEnumeration
-  
+
 CompilerElse
 
   ; Return values for XMLStatus()
@@ -1129,7 +1129,7 @@ CompilerElse
     #PB_XML_ReservedPrefixXMLNS
     #PB_XML_ReservedNamespaceURI
   EndEnumeration
-  
+
 CompilerEndIf
 
 ; VectorDrawing lib
@@ -1510,13 +1510,13 @@ EndEnumeration
 #PB_Material_MirrorTAM = 1
 #PB_Material_ClampTAM  = 2
 #PB_Material_BorderTAM = 3
-            
+
 #PB_Material_NoCulling         = 1
 #PB_Material_ClockWiseCull     = 2
 #PB_Material_AntiClockWiseCull = 3
 
-; 
-Enumeration 
+;
+Enumeration
   #PB_Material_ColorShader = $10000
   #PB_Material_PerpixelShader
   #PB_Material_BumpShader
