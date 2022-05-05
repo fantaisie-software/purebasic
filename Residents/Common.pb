@@ -1255,7 +1255,6 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 #PB_Engine3D_NoLog       = 0
 #PB_Engine3D_DebugLog    = 1 << 0
 #PB_Engine3D_DebugOutput = 1 << 1
-#PB_Engine3D_EnableCG    = 1 << 2
 
 ; Rotations type
 #PB_Orientation_PitchYawRoll = 1 << 7
