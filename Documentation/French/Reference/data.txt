@@ -15,7 +15,6 @@
     <td align="center" vAlign="center" nowrap><a href="#Read"><u>Read</u></a></td>
     <td align="center" vAlign="center" nowrap><u>...</u></td>
   </tr>
-
     </table>
   </center>
   <p>&nbsp;</p>
@@ -56,7 +55,7 @@
 @Code
   DataSection
     DonneesNumeriques:    
-      Data.l 100, 200, -250, -452, 145
+      Data.i 100, 200, -250, -452, 145
       
     DonneesTexte:
       Data.s "Bonjour", "Qu'est-ce", "que ", "c'est ?"
@@ -107,8 +106,11 @@
   
 @Example
 @Code
+  DataSection 
+    Divers:
   Data.l 100, 200, -250, -452, 145
   Data.s "Bonjour", "Qu'est", "ce que ", "c'est ?"
+  EndDataSection
 @EndCode
 
   Pour les programmeurs chevronnés: il est aussi 
@@ -131,6 +133,7 @@
   Etiquette:
     
   DataSection
+    Divers:
     Data.i ?Etiquette, @Max()
   EndDataSection
 @EndCode

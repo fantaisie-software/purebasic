@@ -9,7 +9,17 @@
   ce qui vous donnera un accès permanent à 
   toutes les commandes de ce répertoire.
   Chaque commutateur de commande qui commence 
-  par '/' ne concerne que Windows.  
+  par '/' ne concerne que Windows.
+@LineBreak
+@LineBreak
+  Il existe deux compilateurs pour PureBasic :  @LineBreak
+   - 'pbcompiler' qui génère du code assembleur (x86 et x64). @LineBreak
+   - 'pbcompilerc' (ou 'pbcompiler' sur une plate-forme qui ne prend pas en charge le backend d'assemblage) 
+   qui génère du code C. 
+ @LineBreak
+ @LineBreak
+   Le compilateur backend C est disponible sur toutes les plateformes prises en charge, tandis que le 
+   compilateur backend ASM n'est pris en charge que sur Windows (x86, x64), Linux (x86, x64) et OS X (x64).    
 
 @Section Paramètres du compilateur (multi-plateforme)
 
@@ -34,7 +44,7 @@
   le purifier. 
   @LineBreak
   @LineBreak
-  -e, --executable, /EXE "Fichier" : crée un 
+  -o, --output, /OUTPUT "Fichier" : crée un 
   fichier exécutable ou une DLL indépendant ayant 
   pour nom 'Fichier' et enregistré dans le chemin 
   désiré. Sur MacOS X, il est possible de créer un
@@ -79,7 +89,7 @@
   fichier résident déjà existant. 
   @LineBreak
   @LineBreak
-  -o, --constant, /CONSTANT Nom=Valeur: crée la constante 
+  -co, --constant, /CONSTANT Nom=Valeur: crée la constante 
   spécifiée avec la valeur indiquée. @LineBreak
   Exemple: 'pbcompiler test.pb /CONSTANT MaConstante=10'. 
   La constante @#MaConstante sera créée automatiquement 
@@ -100,6 +110,9 @@
   ne créer pas ni ne lance l'exécutable.
  @LineBreak
  @LineBreak
+  -z, --optimizer, /OPTIMIZER: Active l'optimiseur de code. 
+ @LineBreak
+ @LineBreak 
   -pp, --preprocess, /PREPROCESS "Fichier": Prétraite 
   le code source et écrit la sortie dans le "Fichier" 
   spécifié. @LineBreak

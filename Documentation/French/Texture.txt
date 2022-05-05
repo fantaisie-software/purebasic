@@ -136,6 +136,94 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Resultat = CreateCubicTexture(#Texture, #Texture1, #Texture2, #Texture3, #Texture4, #Texture5, #Texture6)
+
+@Description
+  Crée une nouvelle texture cubique en utilisant les textures spécifiées.@LineBreak 
+  Les textures cubiques sont utiles pour créer des reflets du monde.
+
+@Parameter "#Texture"
+  Un numéro pour identifier la nouvelle texture.
+  @LineBreak
+  @LineBreak
+   @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
+
+@Parameter "#Texture1"
+ La texture à utiliser pour la première face de la texture cubique.
+
+@Parameter "#Texture2"
+  La texture à utiliser pour la seconde face de la texture cubique.
+
+@Parameter "#Texture3"
+  La texture à utiliser pour la troisième face de la texture cubique.
+
+@Parameter "#Texture4"
+  La texture à utiliser pour la quatrième face de la texture cubique.
+
+@Parameter "#Texture5"
+  La texture à utiliser pour la cinquième face de la texture cubique.
+
+@Parameter "#Texture6"
+  La texture à utiliser pour la sixième face de la texture cubique.
+  
+@ReturnValue
+  Renvoie une valeur non nulle si la texture cubique a été créée avec succès, zéro sinon.
+ @LineBreak
+  Si @#PB_Any a été utilisé pour le paramètre #Texture, le nombre généré est renvoyé en cas de succès.
+
+@Remarks
+  @#PB_Material_EnvironmentMap doit être spécifié avec @@SetMaterialAttribute pour activer la réflexion cubique.
+
+@Example
+@Code
+  InitEngine3D() : InitSprite() : InitKeyboard()
+
+  OpenWindow(0, 0,0, 800, 600, "Texture cubique et reflets - [Esc] pour quitter", #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0), 0, 0, 0)
+
+  Add3DArchive(#PB_Compiler_Home + "Examples/3D/Data/Textures", #PB_3DArchive_FileSystem)
+  Add3DArchive(#PB_Compiler_Home + "Examples/3D/Data/Packs/desert.zip", #PB_3DArchive_Zip)
+  Parse3DScripts()
+
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0,0,0,-8)
+  CameraLookAt(0,0,0,0)
+
+  CreateLight(0,$ffffff, -100, 100, 50)
+  AmbientColor($111111*2)
+  CameraBackColor(0,$880044)
+
+  SkyBox("desert07.jpg")
+
+  LoadTexture(0,"desert07_RT.jpg")
+  LoadTexture(1,"desert07_LF.jpg")
+  LoadTexture(2,"desert07_UP.jpg")
+  LoadTexture(3,"desert07_DN.jpg")
+  LoadTexture(4,"desert07_FR.jpg")
+  LoadTexture(5,"desert07_BK.jpg")
+  CreateCubicTexture(10, 0, 1, 2, 3, 4, 5)
+
+  LoadTexture(11, "dirt.jpg")
+  CreateMaterial(0, TextureID(11))
+  AddMaterialLayer(0, TextureID(10), #PB_Material_Add)
+  SetMaterialAttribute(0, #PB_Material_EnvironmentMap, #PB_Material_ReflectionMap, 1)
+
+  CreateTorus(0,2,1,32,32)
+  CreateEntity(0, MeshID(0), MaterialID(0))
+
+  Repeat
+    While WindowEvent():Wend
+    ExamineKeyboard()
+    RotateEntity(0,1,1,1, #PB_Relative)
+    RenderWorld()
+    FlipBuffers()    
+  Until KeyboardReleased(#PB_Key_Escape)
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Resultat = CreateRenderTexture(#Texture, CameraID, Largeur, Hauteur [, Options [, NomTextureRendu$]])
 
 @Description

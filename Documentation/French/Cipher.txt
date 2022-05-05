@@ -1162,7 +1162,8 @@
 @Code
   *Texte = UTF8("Voici un texte !")
     
-  Encoder$ = Base64Encoder(*Texte, MemorySize(*Texte))
+  Encoder$ = Base64Encoder(*Texte, MemorySize(*Texte) - 1)
+ ;Encoder$ = Base64Encoder(*Texte, StringByteLength("Voici un texte !",#PB_UTF8))
   Debug "Texte encodé: " + Encoder$
   
   *TamponDecoder = AllocateMemory(1024)
@@ -1206,7 +1207,8 @@ seulement de 32 à 127 caractères) pour les fichiers binaires bruts.
 @Code
   *Texte = UTF8("Voici un texte !")
     
-  Encoder$ = Base64Encoder(*Texte, MemorySize(*Texte))
+  Encoder$ = Base64Encoder(*Texte, MemorySize(*Texte) - 1)
+ ;Encoder$ = Base64Encoder(*Texte, StringByteLength("Voici un texte !",#PB_UTF8))
   Debug "Texte encodé: " + Encoder$
   
   *TamponDecoder = AllocateMemory(1024)

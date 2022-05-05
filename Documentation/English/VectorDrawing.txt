@@ -1748,6 +1748,9 @@
 @NoReturnValue
 
 @Remarks
+  Only vector fonts are allowed, like TrueType, bitmap fonts are not allowed.
+@LineBreak
+@LineBreak
   Converting text to a path is an expensive operation and may result in a loss of text quality and
   even a slightly different text form (depending on the font) as compared to directly drawing the
   text to the output with @@DrawVectorText. The @@DrawVectorText function is more efficient and can
@@ -3219,6 +3222,9 @@
 @NoReturnValue
 
 @Remarks
+  Only vector fonts are allowed, like TrueType, bitmap fonts are not allowed.
+@LineBreak
+@LineBreak
   This function draws single lines of text only. Multiple calls must be made
   to draw multiple lines. Use @@VectorTextWidth and @@VectorTextHeight to determine 
   the dimensions of the text to draw in order to properly align the text with other content. 
@@ -3295,6 +3301,9 @@
 @EndFixedFont
 
 @NoReturnValue
+
+@Remarks  
+  Only vector fonts are allowed, like TrueType, bitmap fonts are not allowed.
 
 @Example 
 

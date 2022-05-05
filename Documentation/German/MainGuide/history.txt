@@ -1,5 +1,49 @@
 @Title PureBasic Geschichte
 
+@Section xx. April 2022 : Version 6.00 LTS
+
+- @Green "Hinzugefügt": Apple M1 Support ! @LineBreak
+- @Green "Hinzugefügt": Raspberry Support (32-Bit und 64-Bit) ! @LineBreak
+- @Green "Hinzugefügt": ein neuer C-Backend-Compiler für alle PureBasic-Versionen @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_Backend, #PB_Backend_C und #PB_Backend_Asm Compiler-Konstanten @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_64Bit und #PB_Compiler_32Bit Compiler-Konstanten @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_Optimizer Konstante - welche auf #True gesetzt ist, wenn der Optimizer eingeschaltet ist @LineBreak
+- @Green "Hinzugefügt": Support für Windows 11, OS X 11 und 12 bei OSVersion() @LineBreak
+- @Green "Hinzugefügt": /OPTIMIZER, -z, --optimizer Flag bei Nutzung der Kommandozeile, und eine 'Code-Optimizer verwenden' Checkbox in den IDE 'Compiler-Optionen', um die C Optimierungen einzuschalten @LineBreak
+- @Green "Hinzugefügt": WebGadget() Support für GTK3 auf Linux @LineBreak
+- @Green "Hinzugefügt": CreateShader(), CreateShaderMaterial(), MaterialShaderAutoParameter(), MaterialShaderParameter(), MaterialShaderTexture() @LineBreak
+- @Green "Hinzugefügt": optionaler Parameter bei MeshFace() zum Erstellen eines Vierecks (Quads) @LineBreak
+- @Green "Hinzugefügt": optionaler Gravitationskraftvektor bei WorldGravity() @LineBreak
+- @Green "Hinzugefügt": optionaler PositionsModus bei ApplyEntityForce() @LineBreak
+- @Green "Hinzugefügt": GetEntityMesh(), CreateCubicTexture(), CreateAnimatedMaterial() @LineBreak
+- @Green "Hinzugefügt": neuer Modus bei CreateDataMesh(): #PB_Mesh_DiagonalShortestLength, #PB_Mesh_DiagonalClosestNormal, #PB_Mesh_DiagonalAlternate, #PB_Mesh_DiagonalRegular1, #PB_Mesh_DiagonalRegular2 @LineBreak
+- @Green "Hinzugefügt": neue Strukturen: Vector3, Vector4  @LineBreak
+- @Green "Hinzugefügt": vordefinierte Shader: #PB_Material_ColorShader, #PB_Material_PerpixelShader, #PB_Material_BumpShader, #PB_Material_SkyShader, #PB_Material_WaterShader, #PB_Material_WaterShaderRTT, #PB_Material_OceanShader, #PB_Material_PointSpriteSphereShader @LineBreak
+- @Green "Hinzugefügt": neue Modi bei SetMaterialAttribute(): #PB_Material_PointSprite, #PB_Material_DepthBias @LineBreak
+- @Green "Hinzugefügt": neuer optionaler 'Farbe' Parameter bei CreateMaterial() @LineBreak
+- @Green "Hinzugefügt": neuer optionaler 'Glanzfarbe' Parameter bei MaterialShininess() @LineBreak
+- @Green "Hinzugefügt": neue optionale 'v' und 'w' Parameter bei MeshVertexTextureCoordinate() @LineBreak
+- @Green "Hinzugefügt": neuer optionaler 'Lod' Parameter bei CreateCamera() @LineBreak
+- @Green "Hinzugefügt": neue Modi bei AddMaterialLayer(): #PB_Material_ModulateX2, #PB_Material_ModulateX4, #PB_Material_AddSigned, #PB_Material_Substract, #PB_Material_BlendDiffuseAlpha, #PB_Material_BlendCurrentAlpha @LineBreak
+- @Green "Hinzugefügt": Neue kontextbezogene Konstantenanzeige für Auto-Complete in der IDE (Fr34k - https://github.com/fantaisie-software/purebasic/pull/183) @LineBreak
+- @Green "Hinzugefügt": 3 neue Trigger für benutzerdefinierte Werkzeuge in der IDE: "Datei öffnen - nicht-PB Binärdatei", "Datei öffnen - nicht-PB Textdatei", "Datei öffnen - mit spezieller Dateiendung" (HeX0R101 - https://github.com/fantaisie-software/purebasic/pull/195) @LineBreak
+- @Green "Hinzugefügt": Neues 'Ersetzen' Tastenkürzel (CTRL+H) in der IDE, welches den Finden-Dialog mit aktiviertem Ersetzen-Modus öffnet (ChrisRfr - https://github.com/fantaisie-software/purebasic/pull/184) @LineBreak
+@LineBreak
+- @Green "Aktualisiert": SetMaterialColor() kann jetzt mittels '|' mehrere Farbtypen auf einmal nutzen @LineBreak
+- @Green "Aktualisiert": fasm, polink, polib und porc auf die neuesten Versionen (Windows) @LineBreak
+@LineBreak
+- @Orange "Geändert": umbenannte Strukturen PB_MeshFace -> MeshFace und PB_MeshVertex -> MeshVertex @LineBreak
+- @Orange "Geändert": der Name des /EXE Kommandozeilen-Flags in /OUTPUT um kohärenter zu sein (das alte Kürzel funktioniert noch für die Rückwärtskompatibilität, ist aber nicht mehr dokumentiert) @LineBreak
+- @Orange "Geändert": die kurze Version von /CONSTANT von '-o' in '-co' da '-o' jetzt für /OUTPUT genutzt wird @LineBreak
+- @Orange "Geändert": die Art und Weise, wie die Map-Elemente erstellt werden, wenn passiver Syntax verwendet wird, um konsistenter zu sein @LineBreak
+- @Orange "Geändert": OGRE unterstützt jetzt nur noch OpenGL, was die Portierung auf Linux/OSX erleichtert und es erlaubt, sich nur auf GLSL für Shader zu konzentrieren @LineBreak
+- @Orange "Geändert": Das Standard-Subsystem für Screen/Sprite ist jetzt OpenGL unter Windows für mehr Konsistenz. DirectX9 ist weiterhin als Subsystem verfügbar. @LineBreak
+@LineBreak
+- @Red "Entfernt": x86 Version von PureBasic für OS X, da sie seit OS X Catalina nicht mehr unterstützt wurde (das älteste unterstützte OS X ist jetzt 10.10 - veröffentlicht in 2014). @LineBreak
+- @Red "Entfernt": die 'Help' Bibliothek auf Linux @LineBreak
+- @Red "Entfernt": Nvidia CG Support für OGRE, da es von Nvidia seit einiger Zeit nicht mehr unterstützt wird @LineBreak
+
+
 @Section 23. November 2020 : Version 5.73 LTS
 
 - @Green "Hinzugefügt": #PB_HTTP_WeakSSL bei HTTRequest() um ältere Server zu unterstützen @LineBreak
@@ -13,6 +57,7 @@
 - @Blue "Repariert": Auto-Vervollständigung auf Linux (mk-soft) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/94" "link" @LineBreak
 - @Blue "Repariert": IDE-Absturz auf MacOS mit TouchBar (mk-soft) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/110" "link" @LineBreak
 - @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
 
 @Section 30. März 2020 : Version 5.72 LTS
 

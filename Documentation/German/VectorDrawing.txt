@@ -1,7 +1,7 @@
 ;
 ;     VectorDrawing library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2022 - Fantaisie Software
 ;
 
 @Library VectorDrawing
@@ -1796,6 +1796,9 @@
 @NoReturnValue
 
 @Remarks
+  Es sind nur Vektorschriftarten wie TrueType erlaubt, Bitmap-Schriftarten sind nicht erlaubt.
+@LineBreak
+@LineBreak
   Das Konvertieren von Text in einen Pfad ist ein aufwändiger Vorgang und kann zu einem
   Verlust an Textqualität und sogar zu einer etwas anderen Textform (je nach Schriftart)
   führen - im Vergleich zum direkten Zeichnen des Textes auf die Ausgabe mittels
@@ -3312,6 +3315,9 @@
 @NoReturnValue
 
 @Remarks
+  Es sind nur Vektorschriftarten wie TrueType erlaubt, Bitmap-Schriftarten sind nicht erlaubt.
+@LineBreak
+@LineBreak
   Diese Funktion zeichnet nur einzelne Zeilen mit Text. Mehrere Aufrufe müssen erfolgen,
   um mehrere Zeilen zu zeichnen. Verwenden Sie @@VectorTextWidth und @@VectorTextHeight,
   um die Abmessungen des Textes zu bestimmen, um diesen richtig mit anderem Inhalt
@@ -3390,6 +3396,9 @@
 @EndFixedFont
 
 @NoReturnValue
+
+@Remarks
+  Es sind nur Vektorschriftarten wie TrueType erlaubt, Bitmap-Schriftarten sind nicht erlaubt.
 
 @Example 
 

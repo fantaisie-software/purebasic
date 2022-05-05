@@ -135,14 +135,15 @@
   An array of TextureID, with all the textures to use for the animation. @@TextureID can be used
   to get a valid texture identifier.
 
-@OptionalParameter "Duration"
-  The animation duration in seconds. It can be a fractional number, for example: 1.5 wich will be one second and half.
+@Parameter "Duration"
+  The animation duration in seconds. It can be a fractional number, for example: 1.5 which will be one second and half.
   Once the animation is finished, it will automatically start again.
 
 @ReturnValue
   Nonzero if the animated material was successfully created, zero otherwise. If @#PB_Any was used
   for the #Material parameter, then the generated number is returned on success.
-  
+
+@Example
 @Code
   CreateTexture(0, 256, 256)
   CreateTexture(1, 256, 256)
@@ -169,7 +170,7 @@
 
 @Parameter "ShaderID"
   A number between 0 and 65536 to identify the new shader. To select
-  one of the predefined shader, use one the following value as 'ShaderID' (VertexProgram$
+  one of the predefined shader, use one of the following values as 'ShaderID' (VertexProgram$
   and FragmentProgram$ values will be ignored):
 @FixedFont
   @#PB_Material_ColorShader
@@ -234,7 +235,7 @@
   Name of the parameter with the GLSL program to use.
 
 @Parameter "ParameterType"
-   Parameter type. It can be one of the following values:
+  Parameter type. It can be one of the following values:
 @FixedFont
   @#PB_Shader_WorldMatrix
   @#PB_Shader_InverseWorldMatrix
@@ -368,7 +369,7 @@
 @EndFixedFont
 
 @Parameter "ExtraValue"
-   Extra value passed to the program parameter.
+  Extra value passed to the program parameter.
 
 @NoReturnValue
 
@@ -395,7 +396,7 @@
   Name of the parameter with the GLSL program to set the new value.
 
 @Parameter "ParameterType"
-   Parameter type. It can be one of the following values:
+  Parameter type. It can be one of the following values:
 @FixedFont
   @#PB_Shader_Integer: the parameter use an integer type (v2, v3 and v4 parameters are ignored)
   @#PB_Shader_Float  : the parameter use a float type (v2, v3 and v4 parameters are ignored)
@@ -404,16 +405,16 @@
 @EndFixedFont
 
 @Parameter "v1"
-   First parameter value. Mandatory for all parameter types.
+  First parameter value. Mandatory for all parameter types.
 
 @Parameter "v2"
-   Second parameter value. Mandatory for #PB_Shader_Vector3 and #PB_Shader_Vector4 types.
+  Second parameter value. Mandatory for #PB_Shader_Vector3 and #PB_Shader_Vector4 types.
 
 @Parameter "v3"
-   Third parameter value. Mandatory for #PB_Shader_Vector3 and #PB_Shader_Vector4 types.
+  Third parameter value. Mandatory for #PB_Shader_Vector3 and #PB_Shader_Vector4 types.
 
 @Parameter "v4"
-   Fourth parameter value. Mandatory for #PB_Shader_Vector4 type.
+  Fourth parameter value. Mandatory for #PB_Shader_Vector4 type.
 
 @NoReturnValue
 
@@ -439,13 +440,13 @@
   The first texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
 
 @Parameter "TextureID2"
-  The first texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
+  The second texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
 
 @Parameter "TextureID3"
-  The first texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
+  The third texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
 
 @Parameter "TextureID4"
-  The first texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
+  The fourth texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
 
 @NoReturnValue
 
@@ -926,9 +927,9 @@
                             - @#PB_Material_NormalMap    : normal environment map
  @#PB_Material_ProjectiveTexturing: Enable projective texturing for this material. The value is a #Camera number to use.
  @#PB_Material_PointSprite : Enables or disables point sprite for the material.
-                            If greated than zero, the value is the point size / 1000. If zero, point size is disabled
+                            If greater than zero, the value is the point size / 1000. If zero, point size is disabled.
  @#PB_Material_DepthBias   : Enables or disables the depth bias for the material.
-                            If greated than zero, the value is the depth bias / 1000. If zero, depth bias is disabled
+                            If greater than zero, the value is the depth bias / 1000. If zero, depth bias is disabled.
 
 @EndFixedFont
 @Parameter "Value"

@@ -1,7 +1,7 @@
 ;
 ;     Material library documentation
 ;
-;       (c) 2020 - Fantaisie Software
+;       (c) 2022 - Fantaisie Software
 ;
 
 @Library Material
@@ -15,7 +15,7 @@
 @LineBreak
   Jedes Material hat eine Menge an Eigenschaften, wie Schattierung, Umgebungs- und
   Spiegelfarbe (englisch: "ambient color" bzw. "specular color") etc., um realistisch
-  aussehendes Material wie Holz, Wasser, Glas und mehr zu ermöglichen.
+  aussehende Materialien wie Holz, Wasser, Glas und mehr zu ermöglichen.
 @LineBreak
 @LineBreak
   @@InitEngine3D muss erfolgreich aufgerufen worden sein, bevor Sie
@@ -47,12 +47,24 @@
 @FixedFont
   @#PB_Material_Add        : Führt eine Pixel 'Add' (Hinzufügen) Operation über dem vorherigen
                             Layer aus (schwarze Farbe ist wie transparent).
+  @#PB_Material_AddSigned  : Führt eine Pixel-signierte 'Add' (Hinzufügen) Operation über dem
+                            vorherigen Layer aus (schwarze Farbe ist wie transparent).
+  @#PB_Material_Substract  : Führt eine Pixel 'Substract' (Substraktion) Operation über dem
+                            vorherigen Layer aus (schwarze Farbe ist wie transparent).
   @#PB_Material_Replace    : Führt eine Pixel 'Replace' (Ersetzen) Operation über dem
                             vorherigen Layer aus.
   @#PB_Material_AlphaBlend : Benutzt den Alpha-Kanal Layer der Textur (sollte im TGA- oder
                             PNG-Format vorliegen) und mischt ihn mit dem vorherigen Layer.
-  @#PB_Material_Modulate   : Führt eine Pixel 'Modulate' (Modulieren) Operation über dem
+  @#PB_Material_Modulate   : Führt eine Pixel 'Multiply' (Multiplikation) Operation über dem
                             vorherigen Layer aus.
+  @#PB_Material_ModulateX2 : Führt eine Pixel 'Multiply' (Multiplikation) Operation über dem
+                            vorherigen Layer aus und hellt diesen anschließend auf (x2)
+  @#PB_Material_ModulateX4 : Führt eine Pixel 'Multiply' (Multiplikation) Operation über dem
+                            vorherigen Layer aus und hellt diesen anschließend auf (x4)
+  @#PB_Material_BlendDiffuseAlpha: Benutzt den Alpha-Kanal Layer der Textur und mischt diesen
+                                  mit dem vorherigen Layer mit Diffusion.
+  @#PB_Material_BlendCurrentAlpha: Benutzt den Alpha-Kanal Layer der aktuellen Stufe und mischt
+                                  diesen mit dem vorherigen Layer.
 @EndFixedFont
 
 @OptionalParameter "TexturKoordinatenIndex"
@@ -105,7 +117,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateMaterial(#Material, TexturID)
+@Function Ergebnis = CreateMaterial(#Material, TexturID [, Farbe])
 
 @Description
   Erstellt ein neues Material, basierend auf der angegebenen Textur.
@@ -116,13 +128,360 @@
   Nummer automatisch zu generieren.
   
 @Parameter "TexturID"
-  Die zu verwendende Textur. Eine gültige 'TexturID' kann einfach mittels dem
-  @@TextureID Befehl ermittelt werden.
+  Die zu verwendende Textur oder @#Null, wenn keine Textur benötigt wird. Eine gültige 'TexturID'
+  kann einfach mittels dem @@TextureID Befehl ermittelt werden.
+
+@OptionalParameter "Farbe"
+  Die für Ambient und Diffusion zu verwendende Farbe.
+  Eine gültige RGB-Farbe kann mit @@RGB erzeugt werden.
 
 @ReturnValue
   Ein Wert ungleich Null, wenn das Material erfolgreich erstellt wurde, andernfalls
   Null. Wenn @#PB_Any als Parameter #Material verwendet wurde, dann wird im
   Erfolgsfall die generierte Nummer zurückgegeben.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateAnimatedMaterial(#Material, TexturArray(), Dauer.f)
+
+@Description
+  Erstellt ein neues animiertes Material unter Verwendung der angegebenen Texturen.
+
+@Parameter "#Material"
+  Eine Nummer zum Identifizieren des neuen animierten Materials.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
+  Nummer automatisch zu generieren.
+
+@Parameter "TexturArray()"
+  Ein Array mit TexturID's, mit allen für die Animation zu verwendenden Texturen.
+  @@TextureID kann verwendet werden, um eine gültige 'TexturID' zu erhalten.
+
+@Parameter "Dauer"
+  Die Animationsdauer in Sekunden. Dies kann eine Kommazahl sein, zum Beispiel: 1.5, was anderthalb Sekunden entspricht.
+  Sobald die Animation beendet ist, wird sie automatisch wieder gestartet.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das animierte Material erfolgreich erstellt wurde, andernfalls
+  Null. Wenn @#PB_Any als Parameter #Material verwendet wurde, dann wird im
+  Erfolgsfall die generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  CreateTexture(0, 256, 256)
+  CreateTexture(1, 256, 256)
+  CreateTexture(2, 256, 256)
+
+  Dim Textures(2)
+  Textures(0) = TextureID(0)
+  Textures(1) = TextureID(1)
+  Textures(2) = TextureID(2)
+
+  ; Erstellt ein animiertes Material mit 3 Texturen, welches für 500 ms abgespielt wird
+  ;
+  CreateAnimatedMaterial(0, Textures(), 0.5)
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateShader(ShaderID, VertexProgramm$, FragmenteProgramm$)
+
+@Description
+  Erstellt einen neuen Shader mit den angegebenen Vertex- und Fragmentprogrammen.
+
+@Parameter "ShaderID"
+  Eine Zahl zwischen 0 und 65536, um den neuen Shader zu identifizieren.
+  Um einen der vordefinierten Shader auszuwählen, verwenden Sie einen der folgenden
+  Werte als 'ShaderID' (VertexProgramm$ und FragmentProgramm$ Parameter werden ignoriert):
+@FixedFont
+  @#PB_Material_ColorShader
+  @#PB_Material_PerpixelShader
+  @#PB_Material_BumpShader
+  @#PB_Material_SkyShader
+  @#PB_Material_WaterShader
+  @#PB_Material_WaterShaderRTT
+  @#PB_Material_OceanShader
+  @#PB_Material_PointSpriteSphereShader
+@EndFixedFont
+  
+@Parameter "VertexProgramm$"
+  Das für Vertexe (Scheitelpunkte) zu verwendende GLSL-Programm.
+
+@Parameter "FragmenteProgramm$"
+  Das für Fragmente zu verwendende GLSL-Programm.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn der Shader erfolgreich erstellt wurde, andernfalls Null.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateShaderMaterial(#Material, ShaderID)
+
+@Description
+  Erstellt ein neues Shader-basiertes Material.
+
+@Parameter "#Material"
+  Eine Nummer zum Identifizieren des neuen Materials.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
+  Nummer automatisch zu generieren.
+  
+@Parameter "ShaderID"
+  Die Shader-ID. @@CreateShader wird verwendet, um einen neuen Shader zu erstellen.
+  
+@ReturnValue
+  Ein Wert ungleich Null, wenn das Shader-basierte Material erfolgreich erstellt wurde,
+  andernfalls Null. Wenn @#PB_Any als Parameter #Material verwendet wurde, dann wird im
+  Erfolgsfall die generierte Nummer zurückgegeben.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderAutoParameter(#Material, ProgrammTyp, ParameterName$, ParameterTyp, ExtraWert.f)
+
+@Description
+  Legt einen Parameterwert für das Shader-basierte Material fest, das zuvor mit @@CreateShaderMaterial
+  erstellt wurde.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "ProgrammTyp"
+  Der Programm-Typ. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Shader_Vertex  : verwendet das Vertex-Programm.
+  @#PB_Shader_Fragment: verwendet das Fragment-Programm.
+@EndFixedFont
+
+@Parameter "ParameterName$"
+  Name des Parameters mit dem zu verwendenden GLSL-Programm.
+
+@Parameter "ParameterTyp"
+  Der Parameter-Typ. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Shader_WorldMatrix
+  @#PB_Shader_InverseWorldMatrix
+  @#PB_Shader_TransposeWorldMatrix
+  @#PB_Shader_InverseTransposeWorldMatrix
+  @#PB_Shader_WorldMatrixArray3x4
+  @#PB_Shader_WorldMatrixArray
+  @#PB_Shader_WorldDualquaternionArray2x4
+  @#PB_Shader_WorldScaleShearMatrixArray3x4
+  @#PB_Shader_ViewMatrix
+  @#PB_Shader_InverseViewMatrix
+  @#PB_Shader_TransposeViewMatrix
+  @#PB_Shader_InverseTransposeViewMatrix
+  @#PB_Shader_ProjectionMatrix
+  @#PB_Shader_InverseProjectionMatrix
+  @#PB_Shader_TransposeProjectionMatrix
+  @#PB_Shader_InverseTransposeProjectionMatrix
+  @#PB_Shader_ViewprojMatrix
+  @#PB_Shader_InverseViewprojMatrix
+  @#PB_Shader_TransposeViewprojMatrix
+  @#PB_Shader_InverseTransposeViewprojMatrix
+  @#PB_Shader_WorldviewMatrix
+  @#PB_Shader_InverseWorldviewMatrix
+  @#PB_Shader_TransposeWorldviewMatrix
+  @#PB_Shader_InverseTransposeWorldviewMatrix
+  @#PB_Shader_WorldviewprojMatrix
+  @#PB_Shader_InverseWorldviewprojMatrix
+  @#PB_Shader_TransposeWorldviewprojMatrix
+  @#PB_Shader_InverseTransposeWorldviewprojMatrix
+  @#PB_Shader_RenderTargetFlipping
+  @#PB_Shader_VertexWinding
+  @#PB_Shader_FogColour
+  @#PB_Shader_FogParams
+  @#PB_Shader_SurfaceAmbientColour
+  @#PB_Shader_SurfaceDiffuseColour
+  @#PB_Shader_SurfaceSpecularColour
+  @#PB_Shader_SurfaceEmissiveColour
+  @#PB_Shader_SurfaceShininess
+  @#PB_Shader_LightCount
+  @#PB_Shader_AmbientLightColour
+  @#PB_Shader_LightDiffuseColour
+  @#PB_Shader_LightSpecularColour
+  @#PB_Shader_LightAttenuation
+  @#PB_Shader_SpotlightParams
+  @#PB_Shader_LightPosition
+  @#PB_Shader_LightPositionObjectSpace
+  @#PB_Shader_LightPositionViewSpace
+  @#PB_Shader_LightDirection
+  @#PB_Shader_LightDirectionObjectSpace
+  @#PB_Shader_LightDirectionViewSpace
+  @#PB_Shader_LightDistanceObjectSpace
+  @#PB_Shader_LightPowerScale
+  @#PB_Shader_LightDiffuseColourPowerScaled
+  @#PB_Shader_LightSpecularColourPowerScaled
+  @#PB_Shader_LightDiffuseColourArray
+  @#PB_Shader_LightSpecularColourArray
+  @#PB_Shader_LightDiffuseColourPowerScaledArray
+  @#PB_Shader_LightSpecularColourPowerScaledArray
+  @#PB_Shader_LightAttenuationArray
+  @#PB_Shader_LightPositionArray
+  @#PB_Shader_LightPositionObjectSpaceArray
+  @#PB_Shader_LightPositionViewSpaceArray
+  @#PB_Shader_LightDirectionArray
+  @#PB_Shader_LightDirectionObjectSpaceArray
+  @#PB_Shader_LightDirectionViewSpaceArray
+  @#PB_Shader_LightDistanceObjectSpaceArray
+  @#PB_Shader_LightPowerScaleArray
+  @#PB_Shader_SpotlightParamsArray
+  @#PB_Shader_DerivedAmbientLightColour
+  @#PB_Shader_DerivedSceneColour
+  @#PB_Shader_DerivedLightDiffuseColour
+  @#PB_Shader_DerivedLightSpecularColour
+  @#PB_Shader_DerivedLightDiffuseColourArray
+  @#PB_Shader_DerivedLightSpecularColourArray
+  @#PB_Shader_LightNumber
+  @#PB_Shader_LightCastsShadows
+  @#PB_Shader_ShadowExtrusionDistance
+  @#PB_Shader_CameraPosition
+  @#PB_Shader_CameraPositionObjectSpace
+  @#PB_Shader_TextureViewprojMatrix
+  @#PB_Shader_TextureViewprojMatrixArray
+  @#PB_Shader_TextureWorldviewprojMatrix
+  @#PB_Shader_TextureWorldviewprojMatrixArray
+  @#PB_Shader_SpotlightViewprojMatrix
+  @#PB_Shader_SpotlightViewprojMatrixArray
+  @#PB_Shader_SpotlightWorldviewprojMatrix
+  @#PB_Shader_Custom
+  @#PB_Shader_Time
+  @#PB_Shader_Time0X
+  @#PB_Shader_Costime0X
+  @#PB_Shader_Sintime0X
+  @#PB_Shader_Tantime0X
+  @#PB_Shader_Time0XPacked
+  @#PB_Shader_Time01
+  @#PB_Shader_Costime01
+  @#PB_Shader_Sintime01
+  @#PB_Shader_Tantime01
+  @#PB_Shader_Time01Packed
+  @#PB_Shader_Time02pi
+  @#PB_Shader_Costime02pi
+  @#PB_Shader_Sintime02pi
+  @#PB_Shader_Tantime02pi
+  @#PB_Shader_Time02piPacked
+  @#PB_Shader_FrameTime
+  @#PB_Shader_Fps
+  @#PB_Shader_ViewportWidth
+  @#PB_Shader_ViewportHeight
+  @#PB_Shader_InverseViewportWidth
+  @#PB_Shader_InverseViewportHeight
+  @#PB_Shader_ViewportSize
+  @#PB_Shader_ViewDirection
+  @#PB_Shader_ViewSideVector
+  @#PB_Shader_ViewUpVector
+  @#PB_Shader_Fov
+  @#PB_Shader_NearClipDistance
+  @#PB_Shader_FarClipDistance
+  @#PB_Shader_PassNumber
+  @#PB_Shader_PassIterationNumber
+  @#PB_Shader_AnimationParametric
+  @#PB_Shader_TexelOffsets
+  @#PB_Shader_SceneDepthRange
+  @#PB_Shader_ShadowSceneDepthRange
+  @#PB_Shader_ShadowColour
+  @#PB_Shader_TextureSize
+  @#PB_Shader_InverseTextureSize
+  @#PB_Shader_PackedTextureSize
+  @#PB_Shader_TextureMatrix
+  @#PB_Shader_LodCameraPosition
+  @#PB_Shader_LodCameraPositionObjectSpace
+  @#PB_Shader_LightCustom
+@EndFixedFont
+
+@Parameter "ExtraValue"
+  Extra-Wert, der an den Programmparameter übergeben wird.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderParameter(#Material, ProgrammTyp, ParameterName$, ParameterTyp, v1.f, v2.f, v3.f, v4.f)
+
+@Description
+  Legt einen Parameterwert für das Shader-basierte Material fest, das zuvor mit @@CreateShaderMaterial
+  erstellt wurde.
+
+@Parameter "#Material"
+  Das zu verwendende Material.
+
+@Parameter "ProgrammTyp"
+  Der Programm-Typ. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Shader_Vertex  : verwendet das Vertex-Programm.
+  @#PB_Shader_Fragment: verwendet das Fragment-Programm.
+@EndFixedFont
+
+@Parameter "ParameterName$"
+  Name des Parameters mit dem zu verwendenden GLSL-Programm, für das der neue Wert definiert wird.
+
+@Parameter "ParameterTyp"
+  Der Parameter-Typ. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Shader_Integer: der Parameter verwendet einen Ganzzahl-Typ (v2, v3 und v4 Parameter werden ignoriert)
+  @#PB_Shader_Float  : der Parameter verwendet einen Fließkommazahl-Typ (v2, v3 und v4 Parameter werden ignoriert)
+  @#PB_Shader_Vector3: der Parameter verwendet einen Vector3 Typ (v4 Parameter wird ignoriert)
+  @#PB_Shader_Vector4: der Parameter verwendet einen Vector4 Typ
+@EndFixedFont
+
+@Parameter "v1"
+  Erster Parameterwert. Obligatorisch für alle Parametertypen.
+
+@Parameter "v2"
+  Zweiter Parameterwert. Obligatorisch für #PB_Shader_Vector3 und #PB_Shader_Vector4 Typen.
+
+@Parameter "v3"
+  Dritter Parameterwert. Obligatorisch für #PB_Shader_Vector3 und #PB_Shader_Vector4 Typen.
+
+@Parameter "v4"
+  Vierter Parameterwert. Obligatorisch für den #PB_Shader_Vector4 Typ.
+
+@NoReturnValue
+
+@Remarks
+  GLSL-Shader verwenden den Typ vec4, um eine Farbe zu übergeben. Beispiel:
+@Code
+  MaterialShaderParam(0, #PB_Shader_Fragment, 4, Red(Color)/255, Green(Color)/255, Blue(Color)/255, Alpha(Color)/255)
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderTexture(#Material, TexturID1, TexturID2, TexturID3, TexturID4)
+
+@Description
+  Legt die Texturen fest, die für das Shader-basierte Material verwendet werden sollen,
+  das zuvor mit @@CreateShaderMaterial erstellt wurde.
+
+@Parameter "#Material"
+  Das zu verwendende Shader-Material.
+
+@Parameter "TexturID1"
+  Die erste zu verwendende Textur. Verwenden Sie @@TextureID, um eine gültige TexturID zu erhalten,
+  oder #Null, falls nicht erforderlich.
+
+@Parameter "TexturID2"
+  Die zweite zu verwendende Textur. Verwenden Sie @@TextureID, um eine gültige TexturID zu erhalten,
+  oder #Null, falls nicht erforderlich.
+
+@Parameter "TexturID3"
+  Die dritte zu verwendende Textur. Verwenden Sie @@TextureID, um eine gültige TexturID zu erhalten,
+  oder #Null, falls nicht erforderlich.
+
+@Parameter "TexturID4"
+  Die vierte zu verwendende Textur. Verwenden Sie @@TextureID, um eine gültige TexturID zu erhalten,
+  oder #Null, falls nicht erforderlich.
+
+@NoReturnValue
 
 @SupportedOS
 
@@ -269,7 +628,7 @@
   Das zu verwendende Material.
 
 @Parameter "Typ"
-  Der festzulegende Farb-Typ. Dies kann einer der folgenden Werte sein:
+  Der festzulegende Farb-Typ. Dies kann eine Kombination (mittels '|') der folgenden Werte sein:
 @FixedFont
   @#PB_Material_AmbientColor:  die standardmäßig verwendete Farbe, ohne andere Beleuchtung.
   @#PB_Material_DiffuseColor:  die Farbe, welche das Material reflektieren wird, wenn es dynamisch beleuchtet wird.
@@ -435,7 +794,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MaterialShininess(#Material, Glanz)
+@Function MaterialShininess(#Material, Glanz [, Glanzfarbe])
 
 @Description
   Ändert den Glanz des Materials (die Größe der Glanzlichter).
@@ -443,8 +802,12 @@
 @Parameter "#Material"
   Das zu verwendende Material.
 
-@Parameter "Shininess"
-  Der neue Glanz-Wert.
+@Parameter "Glanz"
+  Der neue Glanz-Wert (englisch "shininess").
+
+@OptionalParameter "Glanzfarbe"
+  Die zu verwendende Glanzfarbe (englisch "specular color").
+  Eine gültige RGB-Farbe kann mit @@RGB erzeugt werden.
 
 @NoReturnValue
 
@@ -458,7 +821,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MaterialTextureAliases(#Material, TextureID1, TextureID2, TextureID3, TextureID4)
+@Function MaterialTextureAliases(#Material, TexturID1, TexturID2, TexturID3, TexturID4)
 
 @Description
   Legt die Texturen für die Verwendung in einem Materialskript fest. Es erlaubt die Verwendung
@@ -469,19 +832,19 @@
 @Parameter "#Material"
   Das zu verwendende Material.
 
-@Parameter "TextureID1"
+@Parameter "TexturID1"
   Die @@TextureID, die für den ersten Textur-Alias verwendet werden soll (im Material-Skript als
   'texture_alias texture1' bezeichnet) oder Null, wenn keine Textur erforderlich ist.
 
-@Parameter "TextureID2"
+@Parameter "TexturID2"
   Die @@TextureID, die für den zweiten Textur-Alias verwendet werden soll (im Material-Skript als
   'texture_alias texture2' bezeichnet) oder Null, wenn keine Textur erforderlich ist.
 
-@Parameter "TextureID3"
+@Parameter "TexturID3"
   Die @@TextureID, die für den dritten Textur-Alias verwendet werden soll (im Material-Skript als
   'texture_alias texture3' bezeichnet) oder Null, wenn keine Textur erforderlich ist.
 
-@Parameter "TextureID4"
+@Parameter "TexturID4"
   Die @@TextureID, die für den vierten Textur-Alias verwendet werden soll (im Material-Skript als
   'texture_alias texture4' bezeichnet) oder Null, wenn keine Textur erforderlich ist.
   
@@ -530,7 +893,7 @@
   zu erhalten.
   
 @Parameter "Intensität"
-  Die Nebel-Intensität. Wird diese auf Null gesetzt, wird der Nebeneffekt entfernt.
+  Die Nebel-Intensität. Wird diese auf Null gesetzt, wird der Nebeleffekt entfernt.
 
 @Parameter "StartDistanz"
   Die Entfernung (in Welt-Einheiten), von der aus der Nebel beginnt.
@@ -559,7 +922,7 @@
 
 @Parameter "ParseSkript"
   Wenn auf @#True gesetzt, wird 'SkriptDateiname$' erneut analysiert ("geparst"), um
-  aktualisierte Material-Informationen zu erhalten. Wenn auf @#False gesetzt, dann das
+  aktualisierte Material-Informationen zu erhalten. Wenn auf @#False gesetzt, dann wird das
   beim ersten Parsen des Skripts verwendete Material genutzt.
   Ein Material kann mittels @@GetScriptMaterial aus OGRE-Skripts ermittelt werden.
   
@@ -619,6 +982,10 @@
                             - @#PB_Material_NormalMap    : normale Umgebungskarte
   @#PB_Material_ProjectiveTexturing: Aktiviert die projektive Texturierung für dieses Material. Der Wert ist die
                             zu verwendende #Kamera-Nummer.
+  @#PB_Material_PointSprite : Aktiviert oder deaktiviert Point-Sprite für das Material.
+                             Wenn größer als Null, ist der Wert die Punktgröße / 1000. Wenn Null, wird die Punktgröße deaktiviert.
+  @#PB_Material_DepthBias   : Aktiviert oder deaktiviert die Tiefenverzerrung (englisch "depth bias") für das Material.
+                             Wenn größer als Null, ist der Wert die Tiefenverzerrung / 1000. Wenn Null, wird die Tiefenverzerrung deaktiviert.
 @EndFixedFont
 @Parameter "Wert"
   Der Wert des zu setzenden Attributs.
