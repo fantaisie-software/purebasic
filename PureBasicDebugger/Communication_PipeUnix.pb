@@ -41,15 +41,6 @@ CompilerIf #CompileWindows = 0
   #F_GETFL = 3  ;/* Get file status flags.  */
   #F_SETFL = 4  ;/* Set file status flags.  */
   
-  ; #F_GETFL / #F_SETFL flag value for nonblocking mode
-  ; NOTE: They are different on OSX and Linux!
-  ;
-  CompilerIf #CompileLinux
-    #O_NONBLOCK	= 2048
-  CompilerElse
-    #O_NONBLOCK	= 4
-  CompilerEndIf
-  
   ; errno is a macro on Linux and OSX
   ; We only need the EAGAIN error code here
   ;
@@ -63,7 +54,11 @@ CompilerIf #CompileWindows = 0
     EndMacro
     
     #EAGAIN = 11
-  CompilerElse
+    
+    ; #F_GETFL / #F_SETFL flag value for nonblocking mode
+    #O_NONBLOCK	= 2048
+    
+  CompilerElseIf #CompileMac
     ImportC ""
       __error()
     EndImport
@@ -73,6 +68,42 @@ CompilerIf #CompileWindows = 0
     EndMacro
     
     #EAGAIN = 35
+    
+    ; #F_GETFL / #F_SETFL flag value for nonblocking mode
+    #O_NONBLOCK	= 4
+    
+    CompilerIf #CompileArm64
+      
+      ; Non-blocking read doesn't work on OS X arm64 for an unknown reason. We use another way to check if it's possible to read from the pipe
+      ;
+      Import ""
+        poll(a.i, b.i, c.i)
+      EndImport
+    
+      Structure pollfd
+        fd.l
+        events.w
+        revents.w
+      EndStructure
+    
+      #POLLIN = 1
+    
+      Procedure IsPipeData(fd.l)
+        Protected fds.pollfd
+        
+        fds\fd = fd
+        fds\events = #POLLIN
+        
+        If poll(fds, 1, 0) = 1 And (fds\revents & #POLLIN)
+          ProcedureReturn #True
+        EndIf 
+        
+        ProcedureReturn #False
+      EndProcedure
+    CompilerEndIf
+    
+  CompilerElse
+    CompilerError "Plateform not supported"
   CompilerEndIf
   
   ; required file permission bits for fifos
@@ -187,6 +218,12 @@ CompilerIf #CompileWindows = 0
     ; is read at once! (i tested it also for non-blocking mode)
     ;
     *pCommandData\i = 0
+    
+    CompilerIf #CompileMac And #CompileArm64
+      If IsPipeData(fileno_(*This\InPipeHandle)) = #False
+        ProcedureReturn #False
+      EndIf
+    CompilerEndIf
     
     ; Try to read (maybe a part) of the CommandInfo structure
     ;
@@ -307,24 +344,6 @@ CompilerIf #CompileWindows = 0
                 CopyMemory(@Command, @UnixPipe_Data()\Stack[UnixPipe_Data()\StackCount]\Command, SizeOf(CommandInfo))
                 UnixPipe_Data()\Stack[UnixPipe_Data()\StackCount]\CommandData = *CommandData
                 UnixPipe_Data()\StackCount + 1
-                
-                    
-    CompilerIf #CompileMac And #PB_Compiler_Processor = #PB_Processor_Arm64
-      If Command\Command = #COMMAND_Error
-            CompilerIf #PRINT_DEBUGGER_COMMANDS
-        PrintN("COMMUNICATION::EXE QUIT")
-      CompilerEndIf
-      Command\Command   = #COMMAND_End
-      Command\Value1    = 0
-      Command\Value2    = 0
-      Command\TimeStamp = Date()
-      UnixPipe_Data()\EndReceived = #True
-                ; add to stack
-                CopyMemory(@Command, @UnixPipe_Data()\Stack[UnixPipe_Data()\StackCount]\Command, SizeOf(CommandInfo))
-                UnixPipe_Data()\Stack[UnixPipe_Data()\StackCount]\CommandData = *CommandData
-                UnixPipe_Data()\StackCount + 1
-                endif
-    CompilerEndIf
                 
                 UnlockMutex(UnixPipe_Data()\StackMutex)
                 

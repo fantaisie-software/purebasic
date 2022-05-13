@@ -60,7 +60,13 @@ CompilerIf #CompileMacCocoa
       CompilerEndIf
       
       CompilerIf Defined(FredLocalCompile, #PB_Constant) ; Fred config
-        CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+        CompilerIf #PB_Compiler_Processor = #PB_Processor_Arm64
+          CompilerIf #SpiderBasic
+            PureBasicPath$ = "/Users/fred/svn/"+#SVNVersion+"/Build/SpiderBasic"
+          CompilerElse
+            PureBasicPath$ = "/Users/fred/svn/"+#SVNVersion+"/Build/purebasic_arm64"
+          CompilerEndIf
+        CompilerElseIf #PB_Compiler_Processor = #PB_Processor_x64
           CompilerIf #SpiderBasic
             PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\SpiderBasic_x64\"
           CompilerElse
