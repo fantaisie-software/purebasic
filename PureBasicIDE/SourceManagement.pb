@@ -1580,10 +1580,10 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     *Source\ErrorLog      = 1
     *Source\EnableASM     = 0
     *Source\EnableThread  = 0
-    *Source\EnableXP      = 0
+    *Source\EnableXP      = 1
     *Source\EnableAdmin   = 0
     *Source\EnableUser    = 0
-    *Source\DPIAware      = 0
+    *Source\DPIAware      = 1
     *Source\EnableOnError = 0
     *Source\VersionInfo   = 0
     *Source\ErrorLog      = 1

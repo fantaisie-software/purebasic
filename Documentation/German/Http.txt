@@ -571,7 +571,7 @@
 @Code
   NewMap Header$()
   Header$("Content-Type") = "text/plain"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  ; Ohne Angabe eines String-Wertes, wird dies ein leerer Parameter sein.
 @EndCode
 
@@ -614,7 +614,7 @@
   
   NewMap Header$()
   Header$("Content-Type") = "plaintext"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com", "", 0, Header$())
   If HttpRequest
@@ -674,7 +674,7 @@
 @Code
   NewMap Header$()
   Header$("ContentType") = "octectstream"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  ; Ohne Angabe eines String-Wertes, wird dies ein leerer Parameter sein.
 @EndCode
 
