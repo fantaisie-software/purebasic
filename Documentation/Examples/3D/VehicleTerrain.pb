@@ -7,12 +7,6 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 #CameraSpeed = 2
 Global.f KeyX, KeyY, MouseX, MouseY, ElapsedTime
 
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
-
 Macro VECTOR3(V, a, b, c)
   V\x = a
   V\y = b
@@ -52,8 +46,8 @@ Global MaxSuspensionTravelCm.f = 400.0;
 Global FrictionSlip.f = 1000
 
 Global RollInfluence.f = 0.5
-Global SuspensionRestLength.f = 0.6;
-                                   ;
+Global SuspensionRestLength.f = 0.6
+                                   
 
 
 Global VECTOR3(CameraStart.Vector3, 0, 25, 0)

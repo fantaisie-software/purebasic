@@ -9,7 +9,7 @@
 ;
 
 If InitSound() = 0
-  MessageRequester("Error", "Can't open DirectX 7 or no sound card is available",  0)
+  MessageRequester("Error", "Can't initialize the sound system",  0)
   End
 EndIf
 

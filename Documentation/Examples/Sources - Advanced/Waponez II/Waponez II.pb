@@ -3,31 +3,40 @@
 ;               *
 ; Waponez II     **********************************************
 ;                                                              *
-;   Original Waponez is from NC Gamez ! Check it on Aminet...  *
+;   Original Waponez is from NC Gamez ! Check it on Aminet...   *
 ;                                                                *
 ; *****************************************************************
-;
-; NOTE: This file doesn't compile with the demo version !
 ;
 
 ;
 ; Initialization of all the used resources
 ;
-
 If InitSprite() = 0 Or InitKeyboard() = 0
-  MessageRequester("Error", "Can't open DirectX 7 or later", 0)
+  MessageRequester("Error", "Can't initialize GFX card", 0)
   End
 EndIf
 
 
 If InitSound() = 0
-  MessageRequester("Error", "Can't open DirectX 7 Or Sound Card is not present", 0)
+  MessageRequester("Error", "Sound card is not available", 0)
   End
 EndIf
 
 If InitJoystick()
   EnableJoystick = 1
 EndIf
+
+; Game config
+;
+#ScreenWidth  = 1920
+#ScreenHeight = 1080
+
+#PlayerSpeedX = 6
+#PlayerSpeedY = 6
+
+#BulletSpeed = 10
+
+#EnemyDelay = 5 ; in ms. The lower the value, the more enemies will be spawn
 
 ;
 ; Our bullet structure, which will be used by the linkedlist Bullet()
@@ -85,33 +94,21 @@ Procedure AddBullet(Sprite, x, y, SpeedX, SpeedY)
 EndProcedure
     
 
-MessageRequester("Welcome !", "It's the first game done with PureBasic x86 !"+Chr(10)+"Use the Arrows + Space To blast them all !!"+Chr(10)+Chr(10)+"Enjoy :-) !", 0)
-
-;
-; Now, open a 640*480 - 16 bits colours screen
-;
+MessageRequester("Welcome !", "It was the first game done with PureBasic x86 !"+Chr(10)+"Use the Arrows + Space To blast them all !"+Chr(10)+Chr(10)+"Enjoy !", 0)
 
 Path$ = "Data\"
 
 ; SetRefreshRate(60)
-If OpenScreen(640, 480, 16, "Waponez II")
-
-  PlayerSpeedX = 6
-  PlayerSpeedY = 6
-
-  BulletSpeed = 10
-  
+If OpenScreen(#ScreenWidth, #ScreenHeight, 32, "Waponez II")
   ;
   ; Load the sound effects
   ;
-  
   LoadSound(0, Path$+"Lazer.wav")
   LoadSound(2, Path$+"Explosion.wav")
     
   ;
-  ; Load the 3 player sprites
+  ; Load the player sprites
   ;
-   
   LoadSprite(3, Path$+"Player_1.bmp", #PB_Sprite_PixelCollision)
   LoadSprite(0, Path$+"Player_2.bmp", #PB_Sprite_PixelCollision)
   LoadSprite(2, Path$+"Player_3.bmp", #PB_Sprite_PixelCollision)
@@ -119,7 +116,6 @@ If OpenScreen(640, 480, 16, "Waponez II")
   ;
   ; Load the bullets
   ;
- 
   LoadSprite( 4, Path$+"Bullet_1.bmp", #PB_Sprite_PixelCollision)
   LoadSprite( 6, Path$+"Bullet_Right.bmp", #PB_Sprite_PixelCollision)
   LoadSprite( 7, Path$+"Bullet_Left.bmp", #PB_Sprite_PixelCollision)
@@ -130,7 +126,6 @@ If OpenScreen(640, 480, 16, "Waponez II")
   ;
   ; Sprite 10 to 15 reserved for the rotating animated alien..
   ;
- 
   For k=0 To 5
     LoadSprite(k+10, Path$+"Ennemy_3_"+Str(k+1)+".bmp", #PB_Sprite_PixelCollision)
   Next
@@ -138,7 +133,6 @@ If OpenScreen(640, 480, 16, "Waponez II")
   ;
   ; Sprite 20 to 30 reserved for the explosions...
   ;
- 
   For k=0 To 7
     LoadSprite(k+20, Path$+"Explosion_"+Str(k+1)+".bmp", #PB_Sprite_PixelCollision)
   Next
@@ -146,15 +140,12 @@ If OpenScreen(640, 480, 16, "Waponez II")
   ;
   ; Load the background sprite
   ;
-  
   LoadSprite(20, Path$+"Back_3.bmp", 0)
-  
-  ;
   
   PlayerWidth  = SpriteWidth(3)
   PlayerHeight = SpriteHeight(3)
-  PlayerX = 300
-  PlayerY = 400
+  PlayerX = (#ScreenWidth-PlayerWidth) / 2
+  PlayerY = #ScreenHeight-80
 
   Repeat
     FlipBuffers() ; This should be always in the loop, the events are handle by this functions
@@ -164,8 +155,8 @@ If OpenScreen(640, 480, 16, "Waponez II")
       
       ; Draw the background (an unified one...)
       
-      For BackX=0 To 640 Step 32
-        For BackY=-32 To 480 Step 32
+      For BackX=0 To #ScreenWidth Step 32
+        For BackY=-32 To #ScreenHeight Step 32
           DisplaySprite(20, BackX, BackY+ScrollY)
         Next
       Next
@@ -207,7 +198,7 @@ If OpenScreen(640, 480, 16, "Waponez II")
         
   Until KeyboardPushed(#PB_Key_Escape)
 Else
-  MessageRequester("Waponez II", "Can't open a 640*480 8 bit screen !", 0)
+  MessageRequester("Waponez II", "Can't open a #ScreenWidth*#ScreenHeight 32-bit screen !", 0)
 EndIf
 
 End
@@ -220,8 +211,8 @@ MovePlayers:
   If EnableJoystick
     If ExamineJoystick(0)
     
-      PlayerX+JoystickAxisX(0)*PlayerSpeedX
-      PlayerY+JoystickAxisY(0)*PlayerSpeedY
+      PlayerX+JoystickAxisX(0)*#PlayerSpeedX
+      PlayerY+JoystickAxisY(0)*#PlayerSpeedY
 
       If JoystickAxisX(0) = 1
         PlayerImage = 0
@@ -243,28 +234,28 @@ MovePlayers:
   ExamineKeyboard()
      
   If KeyboardPushed(#PB_Key_Left)
-    PlayerX-PlayerSpeedX
+    PlayerX-#PlayerSpeedX
     PlayerImage = 2  ; Left moving player image
   EndIf
   
   If KeyboardPushed(#PB_Key_Right)
-    PlayerX+PlayerSpeedX
+    PlayerX+#PlayerSpeedX
     PlayerImage = 0  ; Right moving player image
   EndIf
   
   If KeyboardPushed(#PB_Key_Up)
-    PlayerY-PlayerSpeedY
+    PlayerY-#PlayerSpeedY
   EndIf
   
   If KeyboardPushed(#PB_Key_Down)
-    PlayerY+PlayerSpeedY
+    PlayerY+#PlayerSpeedY
   EndIf
 
   If PlayerX < 0 : PlayerX = 0 : EndIf
   If PlayerY < 0 : PlayerY = 0 : EndIf
 
-  If PlayerX > 640-PlayerWidth  : PlayerX = 640-PlayerWidth : EndIf
-  If PlayerY > 480-PlayerHeight : PlayerY = 480-PlayerHeight : EndIf
+  If PlayerX > #ScreenWidth-PlayerWidth  : PlayerX = #ScreenWidth-PlayerWidth : EndIf
+  If PlayerY > #ScreenHeight-PlayerHeight : PlayerY = #ScreenHeight-PlayerHeight : EndIf
 
  
   If Dead = 1
@@ -294,14 +285,14 @@ MovePlayers:
 
         ; AddBullet() syntax: (#Sprite, x, y, SpeedX, SpeedY)
         ;
-        AddBullet(4, PlayerX+5 , PlayerY-10,  0          , -BulletSpeed) ; Front bullet (Double bullet sprite)
-        AddBullet(6, PlayerX+45, PlayerY+6 ,  BulletSpeed, 0)            ; Right side bullet
-        AddBullet(7, PlayerX-11, PlayerY+6 , -BulletSpeed, 0)            ; Left side bullet
-        AddBullet(8, PlayerX+45, PlayerY-6 ,  BulletSpeed, -BulletSpeed) ; Front-Right bullet
-        AddBullet(9, PlayerX-11, PlayerY-6 , -BulletSpeed, -BulletSpeed) ; Front-Left bullet
-        AddBullet(55,PlayerX+20, PlayerY+45,  0          ,  BulletSpeed) ; Rear bullet
+        AddBullet(4, PlayerX+5 , PlayerY-10,  0          , -#BulletSpeed) ; Front bullet (Double bullet sprite)
+        AddBullet(6, PlayerX+45, PlayerY+6 ,  #BulletSpeed, 0)            ; Right side bullet
+        AddBullet(7, PlayerX-11, PlayerY+6 , -#BulletSpeed, 0)            ; Left side bullet
+        AddBullet(8, PlayerX+45, PlayerY-6 ,  #BulletSpeed, -#BulletSpeed) ; Front-Right bullet
+        AddBullet(9, PlayerX-11, PlayerY-6 , -#BulletSpeed, -#BulletSpeed) ; Front-Left bullet
+        AddBullet(55,PlayerX+20, PlayerY+45,  0          ,  #BulletSpeed) ; Rear bullet
      
-        PlaySound(0, 0)    ; Play the 'pffffiiiouuu' laser like sound
+        ;PlaySound(0, 0)    ; Play the 'pffffiiiouuu' laser like sound
       EndIf
     EndIf
   EndIf
@@ -320,10 +311,10 @@ DisplayBullets:
       If Bullet()\x < 0        ; If a bullet is now out of the screen, simply delete it..
         DeleteElement(Bullet())
       Else
-        If Bullet()\x > 640-Bullet()\Width
+        If Bullet()\x > #ScreenWidth-Bullet()\Width
           DeleteElement(Bullet())
         Else
-          If Bullet()\y > 480
+          If Bullet()\y > #ScreenHeight
             DeleteElement(Bullet())
           Else
             DisplayTransparentSprite(Bullet()\Image, Bullet()\x, Bullet()\y)   ; Display the bullet..
@@ -346,39 +337,19 @@ NewAlienWave:
 
     AddElement(Aliens())
 
-    If Boss = 1
-
-      Aliens()\x = 100
-      Aliens()\y = -16
-      Aliens()\Width  = SpriteWidth(50)
-      Aliens()\Height = SpriteHeight(50)
-      Aliens()\Speed  = 2
-      Aliens()\StartImage = 50
-      Aliens()\EndImage   = 50
-      Aliens()\ImageDelay = 1
-      Aliens()\NextImageDelay = 1
-      Aliens()\ActualImage = 50
-      Aliens()\Armor = 20
-   
-      AlienDelay = 80
-
-    Else
-
-      Aliens()\x = Random(600)
-      Aliens()\y = -32
-      Aliens()\Width  = SpriteWidth(10)
-      Aliens()\Height = SpriteHeight(10)
-      Aliens()\Speed  = 3
-      Aliens()\StartImage  = 10
-      Aliens()\EndImage    = 15
-      Aliens()\ImageDelay  =  4
-      Aliens()\NextImageDelay = Aliens()\ImageDelay
-      Aliens()\ActualImage = 10
-      Aliens()\Armor = 5
-      
-      AlienDelay = Random(20)
-
-    EndIf
+    Aliens()\x = Random(#ScreenWidth-40)
+    Aliens()\y = -32
+    Aliens()\Width  = SpriteWidth(10)
+    Aliens()\Height = SpriteHeight(10)
+    Aliens()\Speed  = 3
+    Aliens()\StartImage  = 10
+    Aliens()\EndImage    = 15
+    Aliens()\ImageDelay  =  4
+    Aliens()\NextImageDelay = Aliens()\ImageDelay
+    Aliens()\ActualImage = 10
+    Aliens()\Armor = 5
+    
+    AlienDelay = Random(#EnemyDelay)
   Else
     AlienDelay-1
   EndIf
@@ -416,7 +387,7 @@ DisplayAliens:
       Score+20
       DeleteElement(Aliens())
     Else
-      If Aliens()\y > 480
+      If Aliens()\y > #ScreenHeight
         DeleteElement(Aliens())
       EndIf
     EndIf
@@ -475,7 +446,7 @@ DisplayExplosions:
 
     If Explosion()\Delay = 0
       If Explosion()\State = 0  ; Play the sound only at the explosion start.
-        PlaySound(2, 0)
+        ;PlaySound(2, 0)
       EndIf
 
       If Explosion()\State < 7

@@ -19,12 +19,18 @@ If OpenWindow(0, 0, 0, 340, 285, "Gadget and sprites!", #PB_Window_SystemMenu | 
   ButtonGadget(3, 230,  10, 100, 25, "Button 3")
   TextGadget  (4, 10, 40, 300, 30, "Mouse and keyboard released")
 
-  If OpenWindowedScreen(WindowID(0), 10, 70, 320, 200, 0, 0, 0)
+  If OpenWindowedScreen(WindowID(0), DesktopScaledX(10), DesktopScaledX(70), DesktopScaledX(320), DesktopScaledX(200), 0, 0, 0)
     LoadSprite(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
 
     direction = 1
     playerX = 1
     playerY = 1
+    
+    ; Center the mouse driven sprite
+    ;
+    MouseX = (ScreenWidth() - SpriteWidth(0)) / 2
+    MouseY = (ScreenHeight() - SpriteHeight(0)) / 2
+    MouseLocate(MouseX, MouseY)
     
     ; Start with released input
     ReleaseMouse(#True)
@@ -62,7 +68,10 @@ If OpenWindow(0, 0, 0, 340, 285, "Gadget and sprites!", #PB_Window_SystemMenu | 
       
       If InputReleased = 0
     
-        ExamineMouse()
+        If ExamineMouse()
+          MouseX = MouseX()
+          MouseY = MouseY()
+        EndIf
     
         ; do the sprite & screen management at every frame
         If KeyboardPushed(#PB_Key_Up)    And playerY > 0   : playerY -3 : EndIf
@@ -84,6 +93,9 @@ If OpenWindow(0, 0, 0, 340, 285, "Gadget and sprites!", #PB_Window_SystemMenu | 
       DisplaySprite(0, x, x)
       DisplaySprite(0, 300-x, x)
       DisplaySprite(0, playerX, playerY)
+      
+      ClipSprite(0, #PB_Default , #PB_Default , #PB_Default , #PB_Default)
+      DisplaySprite(0, MouseX, MouseY)
     
       x + direction
       If x > 300 : direction = -1 : EndIf   ; moving back to the left with negative value

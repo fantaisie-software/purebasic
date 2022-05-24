@@ -1631,7 +1631,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
         ReturnValue = Length
       ElseIf AnalyzeSettings_ProjectFile(*Source)
         ReturnValue = Length
-      Else
+       Else
         ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
       EndIf
       

@@ -7,6 +7,8 @@
 ;
 ; ------------------------------------------------------------
 ;
+; Note: run the NetworkServer.pb file first to launch the server
+;
 
 If InitNetwork() = 0
   MessageRequester("Error", "Can't initialize the network !", 0)

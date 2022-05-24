@@ -89,7 +89,7 @@ If InitEngine3D()
     RatioX = CameraViewWidth(0) / 1920
     RatioY = CameraViewHeight(0) / 1080
     OpenWindow3D(#MainWindow, 0, 0, 550 * RatioX, 110 * RatioY, "SetEntityCollisionFilter")
-    StringGadget3D(#Editor, 10 * RatioX, 20 * RatioY, 470 * RatioX, 40 * RatioY, "Clic somewhere", #PB_String3D_ReadOnly)
+    TextGadget3D(#Editor, 10 * RatioX, 20 * RatioY, 470 * RatioX, 40 * RatioY, "Clic somewhere")
         
     ShowGUI(128, 1) ; Display the GUI, semi-transparent and display the mouse cursor
     

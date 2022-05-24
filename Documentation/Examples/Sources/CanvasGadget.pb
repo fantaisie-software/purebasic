@@ -87,8 +87,8 @@ UseJPEGImageEncoder()
 
 CurrentColor = $000000
 CurrentMode  = #GADGET_Brush
-CreateImage(#IMAGE_Color, 35, 35, 24)
-CreateImage(#IMAGE_Content, 380, 380, 24)
+CreateImage(#IMAGE_Color, DesktopScaledX(35), DesktopScaledY(35), 24)
+CreateImage(#IMAGE_Content, DesktopScaledX(380), DesktopScaledY(380), 24)
 
 If OpenWindow(0, 0, 0, 460, 400, "CanvasGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   CanvasGadget(#GADGET_Canvas, 10, 10, 380, 380, #PB_Canvas_ClipMouse)

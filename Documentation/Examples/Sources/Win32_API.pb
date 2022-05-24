@@ -10,6 +10,10 @@
 ; NOTE: This file doesn't compile with the demo version ! (API Calls)
 ;
 
+CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+  CompilerError "This example is Windows only"
+CompilerEndIf
+
 ;
 ; Now, open a window, and do some stuff with it...
 ;

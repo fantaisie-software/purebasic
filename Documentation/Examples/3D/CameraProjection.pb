@@ -59,9 +59,9 @@ If InitEngine3D()
       If ExamineKeyboard()
         
         If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed
-        ElseIf KeyboardPushed(#PB_Key_Right)
           KeyX = #CameraSpeed
+        ElseIf KeyboardPushed(#PB_Key_Right)
+          KeyX = -#CameraSpeed
         Else
           KeyX = 0
         EndIf

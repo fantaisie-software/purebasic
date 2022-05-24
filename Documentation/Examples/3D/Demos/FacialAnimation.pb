@@ -54,7 +54,7 @@ If InitEngine3D()
   InitKeyboard()
   
   OpenWindow(0, 0, 0, 1000, 600, "Facial Animation", #PB_Window_ScreenCentered | #PB_Window_SystemMenu)
-  OpenWindowedScreen(WindowID(0), 0, 0, 800, 600, 0, 0, 0)
+  OpenWindowedScreen(WindowID(0), DesktopScaledX(0), DesktopScaledY(0), DesktopScaledX(800), DesktopScaledY(600), 0, 0, 0)
   
   SetupContent()
   setupControls()

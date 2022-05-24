@@ -46,17 +46,26 @@ Procedure SaveDialogPosition(*Position.DialogPosition, SaveType=0, Prefix$="")
 EndProcedure
 
 
-Procedure UpdatePreferenceSyntaxColor(ColorIndex, Color)
-  If StartDrawing(ImageOutput(#IMAGE_Preferences_FirstColor+ColorIndex))
-    Width = OutputWidth()    ; Don't use hardcoded value (to be DPI compliant)
+Procedure UpdateImageColorGadget(Gadget, Image, Color)
+  If StartDrawing(ImageOutput(Image))
+    Width = OutputWidth()    ; Don't use hardcoded value to be DPI compliant
     Height = OutputHeight()
     
     Box(0, 0, Width, Height, $000000)
     Box(1, 1, Width-2, Height-2, Color)
     StopDrawing()
-    SetGadgetState(#GADGET_Preferences_FirstColor+ColorIndex, ImageID(#IMAGE_Preferences_FirstColor+ColorIndex))
+    
+    ; Update the gadget containing this image
+    SetGadgetState(Gadget, ImageID(Image))
   EndIf
 EndProcedure
+
+
+Procedure UpdatePreferenceSyntaxColor(ColorIndex, Color)
+  UpdateImageColorGadget(#GADGET_Preferences_FirstColor+ColorIndex, #IMAGE_Preferences_FirstColor+ColorIndex, Color)
+EndProcedure
+
+
 
 Procedure LoadPreferences()
   
@@ -3113,14 +3122,8 @@ Procedure OpenPreferencesWindow()
   
   ;- --> Issues
   ;
-  
-  If CreateImage(#IMAGE_Preferences_IssueColor, 45, 20)
-    If StartDrawing(ImageOutput(#IMAGE_Preferences_IssueColor))
-      Box(0, 0, 45, 20, $000000)
-      Box(1, 1, 43, 18, $C0C0C0)
-      StopDrawing()
-    EndIf
-    SetGadgetState(#GADGET_Preferences_IssueColor, ImageID(#IMAGE_Preferences_IssueColor))
+  If CreateImage(#IMAGE_Preferences_IssueColor, DesktopScaledX(45), DesktopScaledY(20))
+    UpdateImageColorGadget(#GADGET_Preferences_IssueColor, #IMAGE_Preferences_IssueColor, $C0C0C0)
   EndIf
   
   ; Small hack:
@@ -3412,22 +3415,12 @@ Procedure OpenPreferencesWindow()
   
   ;- --> Options
   ;
-  If CreateImage(#IMAGE_Preferences_ToolsPanelFrontColor, 45, 21)
-    If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelFrontColor))
-      Box(0, 0, 45, 21, $000000)
-      Box(1, 1, 43, 19, ToolsPanelFrontColor)
-      StopDrawing()
-    EndIf
-    SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))
+  If CreateImage(#IMAGE_Preferences_ToolsPanelFrontColor, DesktopScaledX(45), DesktopScaledY(21))
+    UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelFrontColor, #IMAGE_Preferences_ToolsPanelFrontColor, ToolsPanelFrontColor)
   EndIf
   
-  If CreateImage(#IMAGE_Preferences_ToolsPanelBackColor, 45, 21)
-    If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelBackColor))
-      Box(0, 0, 45, 21, $000000)
-      Box(1, 1, 43, 19, ToolsPanelBackColor)
-      StopDrawing()
-    EndIf
-    SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))
+  If CreateImage(#IMAGE_Preferences_ToolsPanelBackColor, DesktopScaledX(45), DesktopScaledX(21))
+    UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelBackColor, #IMAGE_Preferences_ToolsPanelBackColor, ToolsPanelBackColor)
   EndIf
   
   SetGadgetState(#GADGET_Preferences_ToolsPanelSide, ToolsPanelSide)
@@ -3844,23 +3837,12 @@ Procedure ImportPreferences()
         PreferenceToolsPanelFrontColor = ColorFromRGBString(ReadPreferenceString("ToolsPanel_FrontColor", RGBString(PreferenceToolsPanelFrontColor)))
         PreferenceToolsPanelBackColor = ColorFromRGBString(ReadPreferenceString("ToolsPanel_BackColor", RGBString(PreferenceToolsPanelBackColor)))
         
-        
         If IsImage(#IMAGE_Preferences_ToolsPanelFrontColor)
-          If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelFrontColor))
-            Box(0, 0, 45, 21, $000000)
-            Box(1, 1, 43, 19, PreferenceToolsPanelFrontColor)
-            StopDrawing()
-          EndIf
-          SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))
+          UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelFrontColor, #IMAGE_Preferences_ToolsPanelFrontColor, PreferenceToolsPanelFrontColor)
         EndIf
         
         If IsImage(#IMAGE_Preferences_ToolsPanelBackColor)
-          If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelBackColor))
-            Box(0, 0, 45, 21, $000000)
-            Box(1, 1, 43, 19, PreferenceToolsPanelBackColor)
-            StopDrawing()
-          EndIf
-          SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))
+          UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelBackColor, #IMAGE_Preferences_ToolsPanelBackColor, PreferenceToolsPanelBackColor)
         EndIf
         
       EndIf
@@ -4778,12 +4760,7 @@ Procedure PreferencesWindowEvents(EventID)
         If Color <> -1
           PreferenceToolsPanelFrontColor = Color
           If IsImage(#IMAGE_Preferences_ToolsPanelFrontColor)
-            If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelFrontColor))
-              Box(0, 0, 45, 21, $000000)
-              Box(1, 1, 43, 19, Color)
-              StopDrawing()
-            EndIf
-            SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))
+            UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelFrontColor, #IMAGE_Preferences_ToolsPanelFrontColor, Color)
           EndIf
         EndIf
         
@@ -4792,12 +4769,7 @@ Procedure PreferencesWindowEvents(EventID)
         If Color <> -1
           PreferenceToolsPanelBackColor = Color
           If IsImage(#IMAGE_Preferences_ToolsPanelBackColor)
-            If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelBackColor))
-              Box(0, 0, 45, 21, $000000)
-              Box(1, 1, 43, 19, Color)
-              StopDrawing()
-            EndIf
-            SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))
+            UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelBackColor, #IMAGE_Preferences_ToolsPanelBackColor, Color)
           EndIf
         EndIf
         
@@ -5009,7 +4981,7 @@ Procedure PreferencesWindowEvents(EventID)
           PreferenceDebugOutFontStyle = SelectedFontStyle()
         EndIf
         
-      Case #GADGET_Preferences_ColorSchemeSet
+      Case #GADGET_Preferences_ColorSchemes
         index = GetGadgetState(#GADGET_Preferences_ColorSchemes)
         
         Restore DefaultColorSchemes
@@ -5063,23 +5035,12 @@ Procedure PreferencesWindowEvents(EventID)
           Next i
           
           If IsImage(#IMAGE_Preferences_ToolsPanelFrontColor)
-            If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelFrontColor))
-              Box(0, 0, 45, 21, $000000)
-              Box(1, 1, 43, 19, PreferenceToolsPanelFrontColor)
-              StopDrawing()
-            EndIf
-            SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))
+            UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelFrontColor, #IMAGE_Preferences_ToolsPanelFrontColor, PreferenceToolsPanelFrontColor)
           EndIf
           
           If IsImage(#IMAGE_Preferences_ToolsPanelBackColor)
-            If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelBackColor))
-              Box(0, 0, 45, 21, $000000)
-              Box(1, 1, 43, 19, PreferenceToolsPanelBackColor)
-              StopDrawing()
-            EndIf
-            SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))
+            UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelBackColor, #IMAGE_Preferences_ToolsPanelBackColor, PreferenceToolsPanelBackColor)
           EndIf
-          
         EndIf
         
         
@@ -5275,12 +5236,7 @@ Procedure PreferencesWindowEvents(EventID)
           SetGadgetState(#GADGET_Preferences_IssueInTool, PreferenceIssues()\InTool)
           SetGadgetState(#GADGET_Preferences_IssueInBrowser, PreferenceIssues()\InBrowser)
           
-          If StartDrawing(ImageOutput(#IMAGE_Preferences_IssueColor))
-            Box(0, 0, 45, 20, $000000)
-            Box(1, 1, 43, 18, PreferenceIssues()\Color)
-            StopDrawing()
-          EndIf
-          SetGadgetState(#GADGET_Preferences_IssueColor, ImageID(#IMAGE_Preferences_IssueColor))
+          UpdateImageColorGadget(#GADGET_Preferences_IssueColor, #IMAGE_Preferences_IssueColor, PreferenceIssues()\Color)
           PreferenceIssueColor = PreferenceIssues()\Color
           
           Select PreferenceIssues()\CodeMode
@@ -5378,12 +5334,7 @@ Procedure PreferencesWindowEvents(EventID)
       Case #GADGET_Preferences_SelectIssueColor
         NewColor = ColorRequester(PreferenceIssueColor)
         If NewColor <> -1
-          If StartDrawing(ImageOutput(#IMAGE_Preferences_IssueColor))
-            Box(0, 0, 45, 20, $000000)
-            Box(1, 1, 43, 18, NewColor)
-            StopDrawing()
-          EndIf
-          SetGadgetState(#GADGET_Preferences_IssueColor, ImageID(#IMAGE_Preferences_IssueColor))
+          UpdateImageColorGadget(#GADGET_Preferences_IssueColor, #IMAGE_Preferences_IssueColor, NewColor)
           PreferenceIssueColor = NewColor
         EndIf
         

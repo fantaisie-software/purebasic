@@ -77,7 +77,9 @@ If InitEngine3D(3)
     ;- Light
     CreateLight(0, RGB(255, 255, 255), -40, 100, 80)
     AmbientColor(RGB(80, 80, 80))
-     
+    
+    Offset.f = 0.01
+    
     Repeat
       Screen3DEvents()
       
@@ -86,17 +88,17 @@ If InitEngine3D(3)
         MouseY = -MouseDeltaY()/10
       EndIf
       
-      If ExamineKeyboard()
-        
-        If KeyboardPushed(#PB_Key_PageDown) And Pose < 1
-          Pose + 0.01
-          Clamp(Pose, 0, 1)
-        ElseIf KeyboardPushed(#PB_Key_PageUp) And Pose > 0
-          Pose - 0.01
-          Clamp(Pose, 0, 1)
-        EndIf
-        
+      ; Update the Pose
+      ;
+      If Pose >= 1
+        Offset = -0.01
+      ElseIf (Pose <= 0)
+        Offset = 0.01
       EndIf
+                
+      Pose + Offset
+      Clamp(Pose, 0, 1)
+        
       
       ; update the pose reference
       UpdateVertexPoseReference(#Mesh, Animation$, Track, KeyFrame, PoseIndex, Pose)

@@ -22,6 +22,9 @@
 #GADGET_Antialiasing      = 10
 #GADGET_AntialiasingModes = 11
 
+#MENU_Quit = 0
+#MENU_About = 1
+
 
 Global Screen3DRequester_FullScreen, Screen3DRequester_ShowStats
 
@@ -51,8 +54,11 @@ Procedure Screen3DRequester()
   If OpenWindow(#WINDOW_Screen3DRequester, 0, 0, 396, GadgetHeight*4 + 155, "PureBasic - 3D Demos", #PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_Invisible)
    
     Top = 6
-   
-    ImageGadget  (#GADGET_Logo, 6, Top, 0, 0, LoadImage(0,#PB_Compiler_Home+"examples/3d/Data/PureBasic3DLogo.png"), #PB_Image_Border) : Top+76
+    
+    LoadImage(0,#PB_Compiler_Home+"examples/3d/Data/PureBasic3DLogo.png")
+    ResizeImage(0, DesktopScaledX(ImageWidth(0)), DesktopScaledX(ImageHeight(0)))
+    
+    ImageGadget  (#GADGET_Logo, 6, Top, 0, 0, ImageID(0), #PB_Image_Border) : Top+76
    
     FrameGadget(#GADGET_Frame, 6, Top, 384, GadgetHeight*3 +45, "", 0) : Top+20
    
@@ -209,22 +215,18 @@ Procedure Screen3DRequester()
     If FullScreen
       Result = OpenScreen(ScreenWidth, ScreenHeight, ScreenDepth, "3D Demos", #PB_Screen_WaitSynchronization, RefreshRate)
     Else
-      If OpenWindow(0, 0, 0, ScreenWidth, ScreenHeight+MenuHeight(), "PureBasic - 3D Demos", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+      If OpenWindow(0, 0, 0, DesktopUnscaledX(ScreenWidth), DesktopUnscaledY(ScreenHeight+MenuHeight()), "PureBasic - 3D Demos", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
       
         CreateMenu(0, WindowID(#WINDOW_Screen3DRequester))
           MenuTitle("Project")
-          MenuItem(0, "Quit")
+          MenuItem(#MENU_Quit, "Quit")
     
           MenuTitle("About")
-          MenuItem(1, "About...")
+          MenuItem(#MENU_About, "About...")
               
         Result = OpenWindowedScreen(WindowID(#WINDOW_Screen3DRequester), 0, 0, ScreenWidth, ScreenHeight, 0, 0, 0)
       EndIf
     EndIf
-    
-
-    
-    
   EndIf
      
   ProcedureReturn Result
@@ -243,10 +245,10 @@ Procedure Screen3DEvents()
         Case #PB_Event_Menu
           Select EventMenu()
           
-            Case 0
+            Case #MENU_Quit
               Quit = 1
           
-            Case 2
+            Case #MENU_About
               MessageRequester("Info", "Windowed 3D in PureBasic !", 0)
               
           EndSelect

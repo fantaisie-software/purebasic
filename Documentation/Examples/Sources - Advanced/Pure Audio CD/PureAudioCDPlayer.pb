@@ -98,13 +98,15 @@ If OpenWindow(#Window0, 0, 0, 400, 470, "PureBasic - AudioCD Example", #PB_Windo
   
   RefreshCD() ; Fullfill the ListView with CD's tracks
   
+  AddWindowTimer(#Window0, 0, 100) 
+  
   ;- Loop:
   Repeat
-    Repeat
-      ;- ->Management of the gadgets
-      Event = WindowEvent()  ; This time we use the WindowEvent(), non-blocking command to allow time refreshing
-      
-      If Event = #PB_Event_Gadget
+    Select WaitWindowEvent() 
+        
+      Case #PB_Event_Gadget
+        
+        ;- ->Management of the gadgets
         Select EventGadget()
             
           Case #ButtonPlay              ; Play
@@ -163,69 +165,63 @@ If OpenWindow(#Window0, 0, 0, 400, 470, "PureBasic - AudioCD Example", #PB_Windo
             PlayAudioCD(CurrentTrack, AudioCDTracks())
             
         EndSelect
+      
+      Case #PB_Event_Timer
+        ;- ->Display informations
+        CurrentTrack = AudioCDStatus()
         
-      Else
-        If Event = #PB_Event_CloseWindow ; Close the Window
-          Quit = 1
+        If CurrentTrack > 0 ; A track is playing...
+          If AudioCDTrackSeconds() = 0  ; Update the ListView if a new track is played
+            SetGadgetState(#ListViewTracks, CurrentTrack-1)
+          EndIf
+          SetGadgetText(#TextStatus, "Playing Track " + Str(CurrentTrack) + " (Length: " + GetHourFormat(AudioCDTrackLength(CurrentTrack)) + ")")
+          SetGadgetText(#TextTime, "Time: " + GetHourFormat(AudioCDTrackSeconds()))
+          DisableGadget(#ButtonPlay, 1)
+          DisableGadget(#ButtonPause, 0)
+          DisableGadget(#ButtonStop, 0)
+          DisableGadget(#ListViewTracks, 0)
+          
+        ElseIf CurrentTrack = 0         ; The CD Drive is paused or stopped ?
+          If Pause=#True                ; Pause
+            SetGadgetText(#TextStatus, "Status: Pause.")
+            DisableGadget(#ButtonPlay, 0)
+            DisableGadget(#ButtonPause, 1)
+            DisableGadget(#ButtonStop, 0)
+            DisableGadget(#ListViewTracks, 0)
+          Else                          ; Stopped
+            SetGadgetText(#TextStatus, "Status: Stopped with a CD inside.")
+            SetGadgetText(#TextTime, "")
+            DisableGadget(#ButtonPlay, 0)
+            DisableGadget(#ButtonPause, 1)
+            DisableGadget(#ButtonStop, 1)
+            DisableGadget(#ListViewTracks, 0)
+            If GetGadgetState(#ButtonEject) = 1
+              SetGadgetText(#ButtonEject, "Close")
+              SetGadgetText(#ButtonEject, "Eject CD")
+              SetGadgetState(#ButtonEject, 0)
+              RefreshCD()
+            EndIf
+          EndIf
+          
+        ElseIf CurrentTrack = -1        ; CD Drive not ready
+          DisableGadget(#ListViewTracks, 1)
+          SetGadgetText(#TextStatus, "Status: No CD or Open.")
+          SetGadgetText(#TextCDLength, "Total: ")
+          SetGadgetText(#TextTime, "")
+          SetGadgetText(#TextNbTracks, "Total Tracks: ")
+          DisableGadget(#ButtonPlay, 1)
+          DisableGadget(#ButtonPause, 1)
+          DisableGadget(#ButtonStop, 1)
+          DisableGadget(#ListViewTracks, 1)
+          
+        Else
+          DisableGadget(#ListViewTracks, 0)
+          
         EndIf
-      EndIf
-    Until Event = 0
-    
-    Delay(20) ; Wait 20 ms, which is a long period for the processor, to don't steal the whole CPU power
-              ; for our little application :)
-    
-    ;- ->Display informations
-    CurrentTrack = AudioCDStatus()
-    
-    If CurrentTrack > 0 ; A track is playing...
-      If AudioCDTrackSeconds() = 0  ; Update the ListView if a new track is played
-        SetGadgetState(#ListViewTracks, CurrentTrack-1)
-      EndIf
-      SetGadgetText(#TextStatus, "Playing Track " + Str(CurrentTrack) + " (Length: " + GetHourFormat(AudioCDTrackLength(CurrentTrack)) + ")")
-      SetGadgetText(#TextTime, "Time: " + GetHourFormat(AudioCDTrackSeconds()))
-      DisableGadget(#ButtonPlay, 1)
-      DisableGadget(#ButtonPause, 0)
-      DisableGadget(#ButtonStop, 0)
-      DisableGadget(#ListViewTracks, 0)
       
-    ElseIf CurrentTrack = 0         ; The CD Drive is paused or stopped ?
-      If Pause=#True                ; Pause
-        SetGadgetText(#TextStatus, "Status: Pause.")
-        DisableGadget(#ButtonPlay, 0)
-        DisableGadget(#ButtonPause, 1)
-        DisableGadget(#ButtonStop, 0)
-        DisableGadget(#ListViewTracks, 0)
-      Else                          ; Stopped
-        SetGadgetText(#TextStatus, "Status: Stopped with a CD inside.")
-        SetGadgetText(#TextTime, "")
-        DisableGadget(#ButtonPlay, 0)
-        DisableGadget(#ButtonPause, 1)
-        DisableGadget(#ButtonStop, 1)
-        DisableGadget(#ListViewTracks, 0)
-        If GetGadgetState(#ButtonEject) = 1
-          SetGadgetText(#ButtonEject, "Close")
-          SetGadgetText(#ButtonEject, "Eject CD")
-          SetGadgetState(#ButtonEject, 0)
-          RefreshCD()
-        EndIf
-      EndIf
-      
-    ElseIf CurrentTrack = -1        ; CD Drive not ready
-      DisableGadget(#ListViewTracks, 1)
-      SetGadgetText(#TextStatus, "Status: No CD or Open.")
-      SetGadgetText(#TextCDLength, "Total: ")
-      SetGadgetText(#TextTime, "")
-      SetGadgetText(#TextNbTracks, "Total Tracks: ")
-      DisableGadget(#ButtonPlay, 1)
-      DisableGadget(#ButtonPause, 1)
-      DisableGadget(#ButtonStop, 1)
-      DisableGadget(#ListViewTracks, 1)
-      
-    Else
-      DisableGadget(#ListViewTracks, 0)
-      
-    EndIf
-    
+      Case #PB_Event_CloseWindow ; Close the Window
+        Quit = 1
+    EndSelect
   Until Quit = 1
   
 EndIf

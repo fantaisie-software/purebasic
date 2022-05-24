@@ -18,10 +18,10 @@ If OpenWindow(0, 100, 200, 460, 148, "Font Test") = 0
   End
 EndIf
 
-If CreateImage(0, 450, 130)
+If CreateImage(0, DesktopScaledX(450), DesktopScaledY(130))
 
   If StartDrawing(ImageOutput(0))
-    Box(0, 0, 450, 130, RGB(255, 255, 255)) ; White background
+    Box(0, 0, ImageWidth(0), ImageHeight(0), RGB(255, 255, 255)) ; White background
   
     DrawingMode(1)                          ; Transparent TextBackground
   
@@ -38,7 +38,7 @@ EndIf
 
 ; Display the image on the window
 ;
-ImageGadget(0, 5, 10, 450, 130, ImageID(0))
+ImageGadget(0, 5, 10, ImageWidth(0), ImageHeight(0), ImageID(0))
 
 ;
 ; This is the 'event loop'. All the user actions are processed here.
@@ -46,9 +46,7 @@ ImageGadget(0, 5, 10, 450, 130, ImageID(0))
 ; isn't 0 and we just have to see what have happened...
 ;
 Repeat
-
   Event = WaitWindowEvent()
-  
 Until Event = #PB_Event_CloseWindow    ; If the user has pressed on the close button
 
 End                                    ; All the opened windows are closed automatically by PureBasic

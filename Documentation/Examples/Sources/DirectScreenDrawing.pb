@@ -7,15 +7,16 @@
 ;
 ; ------------------------------------------------------------
 ;
-; Note: disable the debugger to run at full speed !
 ;
 
+; We disable the debugger to run at full speed !
+DisableDebugger
 
 #ScreenWidth  = 800  ; Feel free to change this to see the pixel filling speed !
 #ScreenHeight = 600
 
 If InitSprite() = 0 Or InitKeyboard() = 0
-  MessageRequester("Error", "DirectX is needed.",0)
+  MessageRequester("Error", "Can't initialize the GFX system",0)
 EndIf
 
 Structure Pixel
@@ -39,7 +40,6 @@ Next
 If OpenScreen(#ScreenWidth, #ScreenHeight, 32, "PB Plasma")
 
   Repeat
-
     Wave+6
     If Wave > 320 : Wave = 0 : EndIf
     
@@ -48,14 +48,23 @@ If OpenScreen(#ScreenWidth, #ScreenHeight, 32, "PB Plasma")
       Pitch       = DrawingBufferPitch()        ; Get the length (in byte) took by one horizontal line
       PixelFormat = DrawingBufferPixelFormat()  ; Get the pixel format.
       
-      If PixelFormat = #PB_PixelFormat_32Bits_RGB
+      ; We don't care about Y for this effect, so remove it from the fags
+      PixelFormat & ~#PB_PixelFormat_ReversedY
+      
+      If PixelFormat = #PB_PixelFormat_32Bits_RGB Or PixelFormat = #PB_PixelFormat_24Bits_RGB
         For i = 0 To 255
           ColorTable(i) = i << 16 ; Blue is at the 3th pixel
         Next
-      Else                        ; Else it's 32bits_BGR
+      ElseIf PixelFormat = #PB_PixelFormat_32Bits_BGR Or PixelFormat = #PB_PixelFormat_24Bits_BGR
         For i = 0 To 255
           ColorTable(i) = i       ; Blue is at the 1th pixel
         Next
+      EndIf
+      
+      If PixelFormat = #PB_PixelFormat_32Bits_RGB Or PixelFormat = #PB_PixelFormat_32Bits_BGR
+        Offset = 4
+      Else ; 24-bit
+        Offset = 3
       EndIf
     
       For y = 0 To #ScreenHeight-1
@@ -65,8 +74,12 @@ If OpenScreen(#ScreenWidth, #ScreenHeight, 32, "PB Plasma")
         
         For x = 0 To #ScreenWidth-1
           pos2 = (CosTable(x+Wave) + CosTable(x+y) + pos1)
+          
           *Line\Pixel = ColorTable(pos2) ; Write the pixel directly to the memory !
-          *Line+4
+          *Line+Offset
+          
+          ; You can try with regular plot to see the speed difference
+          ; Plot(x, y, ColorTable(pos2))
         Next
       Next
       

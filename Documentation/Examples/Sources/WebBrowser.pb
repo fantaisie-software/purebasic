@@ -20,19 +20,19 @@ If OpenWindow(0, 100, 200, 500, 300, "PureBasic MiniBrowser v1.0", #PB_Window_Mi
 
   CreateStatusBar(0, WindowID(0))
     AddStatusBarField(#PB_Ignore)
-    StatusBarText(0, 0, "Welcome to the world's smallest Browser ! :)", 0)
+    StatusBarText(0, 0, "Welcome to the world's smallest Browser !", 0)
       
   ButtonGadget(1,   0, 3, 50, 25, "Back")
   ButtonGadget(2,  50, 3, 50, 25, "Next")
   ButtonGadget(3, 100, 3, 50, 25, "Stop")
 
-  StringGadget(4, 155, 5, 0, 20, "http://www.purebasic.com")
+  StringGadget(4, 155, 5, 0, 20, "http://www.google.com")
   
   ButtonGadget(5, 0, 3, 25, 25, "Go")
   
   FrameGadget(6, 0, 30, 0, 2, "", 2) ; Nice little separator
 
-  If WebGadget(10, 0, 31, 0, 0, "http://www.purebasic.com") = 0
+  If WebGadget(10, 0, 31, 0, 0, "http://www.google.com") = 0
     
     CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
       ; Linux and OX uses Webkit
