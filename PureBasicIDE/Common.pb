@@ -1971,6 +1971,14 @@ EndEnumeration
 
 #WORDCHARS_Default = "$#*%"
 
+Enumeration
+  #TOOLBARICONTYPE_Separator
+  #TOOLBARICONTYPE_Space
+  #TOOLBARICONTYPE_Internal
+  #TOOLBARICONTYPE_External
+EndEnumeration
+
+
 
 
 ;

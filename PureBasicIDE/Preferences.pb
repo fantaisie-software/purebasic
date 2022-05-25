@@ -4654,19 +4654,17 @@ Procedure PreferencesWindowEvents(EventID)
           AddGadgetItem(#GADGET_Preferences_ToolbarList, -1, "")
           PreferenceToolbarCount + 1
           index = PreferenceToolbarCount
-          If GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 0
+          If GetGadgetState(#GADGET_Preferences_ToolbarIconType) = #TOOLBARICONTYPE_Separator
             PreferenceToolbar(index)\Name$ = "Separator"
             PreferenceToolbar(index)\Action$ = ""
-          ElseIf GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 1
+          ElseIf GetGadgetState(#GADGET_Preferences_ToolbarIconType) = #TOOLBARICONTYPE_Space
             PreferenceToolbar(index)\Name$ = "Space"
             PreferenceToolbar(index)\Action$ = ""
           Else
             Select GetGadgetState(#GADGET_Preferences_ToolbarIconType)
-              Case 2 ; standard
-                PreferenceToolbar(index)\Name$ = StandardButtonName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
-              Case 3 ; menu
+              Case #TOOLBARICONTYPE_Internal
                 PreferenceToolbar(index)\Name$ = ToolbarMenuName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
-              Case 4 ; external
+              Case #TOOLBARICONTYPE_External
                 PreferenceToolbar(index)\Name$ = "External:"+GetGadgetText(#GADGET_Preferences_ToolbarIconName)
             EndSelect
             
@@ -4685,19 +4683,17 @@ Procedure PreferencesWindowEvents(EventID)
         index = GetGadgetState(#GADGET_Preferences_ToolbarList) + 1
         If index <> 0
           
-          If GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 0
+          If GetGadgetState(#GADGET_Preferences_ToolbarIconType) = #TOOLBARICONTYPE_Separator
             PreferenceToolbar(index)\Name$ = "Separator"
             PreferenceToolbar(index)\Action$ = ""
-          ElseIf GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 1
+          ElseIf GetGadgetState(#GADGET_Preferences_ToolbarIconType) = #TOOLBARICONTYPE_Space
             PreferenceToolbar(index)\Name$ = "Space"
             PreferenceToolbar(index)\Action$ = ""
           Else
             Select GetGadgetState(#GADGET_Preferences_ToolbarIconType)
-              Case 2 ; standard
-                PreferenceToolbar(index)\Name$ = StandardButtonName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
-              Case 3 ; menu
+              Case #TOOLBARICONTYPE_Internal
                 PreferenceToolbar(index)\Name$ = ToolbarMenuName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
-              Case 4 ; external
+              Case #TOOLBARICONTYPE_External
                 PreferenceToolbar(index)\Name$ = "External:"+GetGadgetText(#GADGET_Preferences_ToolbarIconName)
             EndSelect
             
