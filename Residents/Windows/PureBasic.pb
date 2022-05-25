@@ -41,33 +41,13 @@ IncludeFile "..\Common.pb"
 #PB_OnError_PriviledgedInstruction = $C0000096 ; EXCEPTION_PRIV_INSTRUCTION
 #PB_OnError_DivideByZero           = $C0000094 ; EXCEPTION_INT_DIVIDE_BY_ZERO
 
-
-
-; ToolBar icon definitions
+; ToolBar
 ;
-
-#PB_ToolBarIcon_Cut    = 0
-#PB_ToolBarIcon_Copy   = 1
-#PB_ToolBarIcon_Paste  = 2
-#PB_ToolBarIcon_Undo   = 3
-#PB_ToolBarIcon_Redo   = 4
-#PB_ToolBarIcon_Delete = 5
-#PB_ToolBarIcon_New    = 6
-#PB_ToolBarIcon_Open   = 7
-#PB_ToolBarIcon_Save   = 8
-#PB_ToolBarIcon_PrintPreview = 9
-#PB_ToolBarIcon_Properties   = 10
-#PB_ToolBarIcon_Help    = 11
-#PB_ToolBarIcon_Find    = 12
-#PB_ToolBarIcon_Replace = 13
-#PB_ToolBarIcon_Print   = 14
-
 #PB_ToolBar_Normal = 0
 #PB_ToolBar_Toggle = 1
 
 ; StatusBar
 ;
-
 #PB_StatusBar_Raised     = 1
 #PB_StatusBar_BorderLess = 2
 #PB_StatusBar_Center     = 4
