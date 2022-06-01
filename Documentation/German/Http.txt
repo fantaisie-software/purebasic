@@ -571,14 +571,14 @@
 @Code
   NewMap Header$()
   Header$("Content-Type") = "text/plain"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  ; Ohne Angabe eines String-Wertes, wird dies ein leerer Parameter sein.
 @EndCode
 
 @ReturnValue
   Gibt die HTTP-Request-Kennung zurück, wenn der Aufruf erfolgreich initialisiert wurde, andernfalls Null.
   @@HTTPInfo kann verwendet werden, um Informationen zur Anfrage zu erhalten. Wenn @#PB_HTTP_Asynchronous
-  angegeben wurde, können @@HTTPProgress und @@AbortHTTP verwendet werden.
+  angegeben wurde, kann @@HTTPProgress verwendet werden und @@AbortHTTP muss verwendet werden.
   @LineBreak
   @@HTTPMemory kann verwendet werden, um das Ergebnis als Rohpuffer ("raw") abzurufen (der Rohpuffer muss
   mit @@FreeMemory freigegeben werden).
@@ -614,7 +614,7 @@
   
   NewMap Header$()
   Header$("Content-Type") = "plaintext"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com", "", 0, Header$())
   If HttpRequest
@@ -674,7 +674,7 @@
 @Code
   NewMap Header$()
   Header$("ContentType") = "octectstream"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  ; Ohne Angabe eines String-Wertes, wird dies ein leerer Parameter sein.
 @EndCode
 

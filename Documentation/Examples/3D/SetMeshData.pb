@@ -28,7 +28,7 @@ WaveAmplitude=3
 
 Define.f KeyX, KeyY, MouseX, MouseY
 
-Global Dim MeshData.PB_MeshVertex(0)
+Global Dim MeshData.MeshVertex(0)
 
 Declare UpdateMatrix()
 Declare CreateMatrix()

@@ -1,5 +1,48 @@
 @Title History
 
+@Section xx April 2022 : Version 6.00 LTS
+
+- @Green "Added": Apple M1 support ! @LineBreak
+- @Green "Added": Raspberry support (32-bit and 64-bit) ! @LineBreak
+- @Green "Added": a new C backend compiler for all PureBasic versions @LineBreak
+- @Green "Added": #PB_Compiler_Backend, #PB_Backend_C and #PB_Backend_Asm compiler constants @LineBreak
+- @Green "Added": #PB_Compiler_64Bit and #PB_Compiler_32Bit compiler constants @LineBreak
+- @Green "Added": #PB_Compiler_Optimizer which is set to #True if the optimizer is enabled @LineBreak
+- @Green "Added": support for Windows 11, OS X 11 and 12 for OSVersion() @LineBreak
+- @Green "Added": /OPTIMIZER, -z, --optimizer flag to the commandline, and a 'Use code optimizer' checkbox in IDE 'Compiler Options' to turn on C optimizations @LineBreak
+- @Green "Added": WebGadget() support for GTK3 on linux @LineBreak
+- @Green "Added": CreateShader(), CreateShaderMaterial(), MaterialShaderAutoParameter(), MaterialShaderParameter(), MaterialShaderTexture() @LineBreak
+- @Green "Added": optional parameter to MeshFace() to create a quad @LineBreak
+- @Green "Added": optional force vector to WorldGravity() @LineBreak
+- @Green "Added": optional position mode to ApplyEntityForce() @LineBreak
+- @Green "Added": GetEntityMesh(), CreateCubicTexture(), CreateAnimatedMaterial() @LineBreak
+- @Green "Added": new mode to CreateDataMesh(): #PB_Mesh_DiagonalShortestLength, #PB_Mesh_DiagonalClosestNormal, #PB_Mesh_DiagonalAlternate, #PB_Mesh_DiagonalRegular1, #PB_Mesh_DiagonalRegular2 @LineBreak
+- @Green "Added": new structures: Vector3, Vector4  @LineBreak
+- @Green "Added": predefined shaders: #PB_Material_ColorShader, #PB_Material_PerpixelShader, #PB_Material_BumpShader, #PB_Material_SkyShader, #PB_Material_WaterShader, #PB_Material_WaterShaderRTT, #PB_Material_OceanShader, #PB_Material_PointSpriteSphereShader @LineBreak
+- @Green "Added": new modes for SetMaterialAttribute(): #PB_Material_PointSprite, #PB_Material_DepthBias @LineBreak
+- @Green "Added": new optional 'Color' parameter to CreateMaterial() @LineBreak
+- @Green "Added": new optional 'SpecularColor' parameter to MaterialShininess() @LineBreak
+- @Green "Added": new optional 'v' and 'w' parameter to MeshVertexTextureCoordinate() @LineBreak
+- @Green "Added": new optional 'Lod' parameter to CreateCamera() @LineBreak
+- @Green "Added": new modes for AddMaterialLayer(): #PB_Material_ModulateX2, #PB_Material_ModulateX4, #PB_Material_AddSigned, #PB_Material_Substract, #PB_Material_BlendDiffuseAlpha, #PB_Material_BlendCurrentAlpha @LineBreak
+- @Green "Added": New contextual constant display for AutoComplete in IDE (Fr34k - https://github.com/fantaisie-software/purebasic/pull/183) @LineBreak
+- @Green "Added": 3 new triggers for custom tools in IDE: "OpenFile - Non-PB binary file", "OpenFile - Non-PB text file", "OpenFile - with specific extension" (HeX0R101 - https://github.com/fantaisie-software/purebasic/pull/195) @LineBreak
+- @Green "Added": New 'Replace' shortcut (CTRL+H) which opens the find dialog with replace enabled in IDE (ChrisRfr - https://github.com/fantaisie-software/purebasic/pull/184) @LineBreak
+@LineBreak
+- @Green "Updated": SetMaterialColor() can now use several colortypes at once using '|' @LineBreak
+- @Green "Updated": fasm, polink, polib and porc to lastest versions (Windows) @LineBreak
+@LineBreak
+- @Orange "Changed": renamed structures PB_MeshFace -> MeshFace and PB_MeshVertex -> MeshVertex @LineBreak
+- @Orange "Changed": the name of the /EXE commandline flag to /OUTPUT to be more coherent (still work for backcompatibilty but not documented anymore) @LineBreak
+- @Orange "Changed": the short version of /CONSTANT from '-o' to '-co' as '-o' is now used for /OUTPUT @LineBreak
+- @Orange "Changed": the way the map elements are created when using passive syntax, to be more consistent @LineBreak
+- @Orange "Changed": OGRE only supports OpenGL now, which ease the porting to Linux/OSX and allow to focus on only GLSL for shaders @LineBreak
+- @Orange "Changed": the default subsystem for screen/sprite is now OpenGL on Windows for more consistency. DirectX9 is still available as a subsystem. @LineBreak
+@LineBreak
+- @Red "Removed": x86 version of PureBasic for OS X as it's no more supported since OS X Catalina (Minimum supported OS X is now 10.10 - released in 2014). @LineBreak
+- @Red "Removed": the 'Help' library on Linux @LineBreak
+- @Red "Removed": Nvidia CG support for OGRE as it's no more supported by Nvidia since a while @LineBreak
+
 @Section 23th November 2020 : Version 5.73 LTS
 
 - @Green "Added": #PB_HTTP_WeakSSL to HTTRequest() to support older servers @LineBreak
@@ -57,13 +100,13 @@
 - @Green "Added": HTTPRequest(), HTTPRequestMemory() (sponsored by c-wayne) @LineBreak
 - @Green "Added": UseMySQLDatabase() (sponsored by Paul) @LineBreak
 - @Green "Added": DPI aware support for Windows app @LineBreak
-- @Green "Added": #PS, #NPS, #PS$ and #NPS$ constants (Path seperator character depending of the OS) @LineBreak
+- @Green "Added": #PS, #NPS, #PS$ and #NPS$ constants (Path separator character depending of the OS) @LineBreak
 - @Green "Added": #PB_JSON_NoClear support to ExtractJSONStructure @LineBreak
 - @Green "Added": #PB_Path_Winding filling mode for VectorDrawing @LineBreak
 - @Green "Added": DesktopResolutionX(), DesktopResolutionY(), DesktopScaledX(), DesktopScaledY(), DesktopUnscaledX(), DesktopUnscaledY() @LineBreak
 - @Green "Added": an optional 'Mode' parameter for OpenConsole() @LineBreak
 - @Green "Added": MaterialTextureAliases()  @LineBreak
-- @Green "Added": #PB_Vehicle_IsInContact, #PB_Vehicle_ContactPointX/Y/Z for GetVehicleAttribute() @LineBreak 
+- @Green "Added": #PB_Vehicle_IsInContact, #PB_Vehicle_ContactPointX/Y/Z for GetVehicleAttribute() @LineBreak
 - @Green "Added": #PB_Vehicle_ContactPointNormalX/Y/Z for GetVehicleAttribute() @LineBreak
 - @Green "Added": #PB_Vehicle_CurrentSpeedKmHour, #PB_Vehicle_ForwardVectorX/Y/Z for GetVehicleAttribute() @LineBreak
 - @Green "Added": #PB_Material_ProjectiveTexturing for SetMaterialAttribute() @LineBreak
@@ -86,7 +129,7 @@
 
 @Section  12th September 2017 : Version 5.61
 - @Blue "Fixed": The touchbar issue on new MacBook Air and the DebugOutput problem on Windows. @LineBreak
-- @Blue "Fixed": Fix a lot of bugs. Notable bug fixes are prototype and quad return were 
+- @Blue "Fixed": Fix a lot of bugs. Notable bug fixes are prototype and quad return were
                  broken, MacBook Pro crash, and optionGadget on Windows now support keyboard. @LineBreak
 - @Green "Updated": MacOS X package is now self contained to be OSX Sierra compliant @LineBreak
 @LineBreak
@@ -96,7 +139,7 @@
 @Section  10th August 2017 : Version 5.45 LTS
 
 - @Blue "Fixed": The touchbar issue on new MacBook Air and the DebugOutput problem on Windows. @LineBreak
-- @Blue "Fixed": Fix a lot of bugs. Notable bug fixes are prototype and quad return were 
+- @Blue "Fixed": Fix a lot of bugs. Notable bug fixes are prototype and quad return were
                  broken, MacBook Pro crash, and optionGadget on Windows now support keyboard. @LineBreak
 - @Green "Updated": MacOS X package is now self contained to be OSX Sierra compliant @LineBreak
 @LineBreak
@@ -144,12 +187,12 @@
 @Section 19th November 2016 : Version 5.44 LTS
 
 - @Green  "Updated": A bug fix version of the current LTS branch. @LineBreak
-  It fix important Linux issues and brings a new way to install the app on OS X to comply 
-  with OSX Sierra. Now the whole purebasic directory is embedded in the PureBasic.app, 
-  so if you need to use the commandline, you will have to add the path 
+  It fix important Linux issues and brings a new way to install the app on OS X to comply
+  with OSX Sierra. Now the whole purebasic directory is embedded in the PureBasic.app,
+  so if you need to use the commandline, you will have to add the path
   PureBasic.app/MacOS/Content/Resources/compiler to the $PATH. @LineBreak
 
-@Section 25th July 2016 : Version Version 5.43 LTS 
+@Section 25th July 2016 : Version Version 5.43 LTS
 
 - @Green  "Updated": The new version of the long term support branch of PureBasic. @LineBreak
   All the fixes done on the 5.50 should be also in this version.@LineBreak
@@ -280,8 +323,8 @@ created using the '/IMPORT' switch of the pbcompiler. @LineBreak
 
 @Section 25th July 2014 : Version 5.23 LTS
 
-- @Blue "Fixed": The new LTS version which should include most of the latest fixes 
-  (excluding new IDE one, solved by the new Unicode mode). Some other fixes available 
+- @Blue "Fixed": The new LTS version which should include most of the latest fixes
+  (excluding new IDE one, solved by the new Unicode mode). Some other fixes available
   to 5.30 could be missing, as if we changed too many the internals of a lib, we don't
   want to push it in the old branches. So no fancy new stuff, just a stabilisation release.
 
@@ -2284,4 +2327,3 @@ created using the '/IMPORT' switch of the pbcompiler. @LineBreak
   - Built-in OS X API support (only for a few functions for now) @LineBreak
   - The IDE and debuggers are fully written in PureBasic, which prove the portability concept between OS X, Windows and Linux @LineBreak
   - Most of the PureBasic commandset is supported @LineBreak
-    

@@ -17,13 +17,16 @@ If OpenWindow(0, 0, 0, 800, 600, "Alphachannel demo", #PB_Window_SystemMenu|#PB_
 
   ; Alphachannel output image
   ;
-  If CreateImage(0, 800, 600, 32) And StartDrawing(ImageOutput(0))
- 
+  If CreateImage(0, DesktopScaledX(800), DesktopScaledY(600), 32) And StartDrawing(ImageOutput(0))
+    
+    Width  = OutputWidth()
+    Height = OutputHeight()
+    
     ; Make the whole image transparent
 
     ;
     DrawingMode(#PB_2DDrawing_AlphaChannel)
-    Box(0, 0, 800, 600, $00000000)
+    Box(0, 0, Width, Height, $00000000)
    
     ; The classic Circle-thing :)
     ;
@@ -121,14 +124,15 @@ If OpenWindow(0, 0, 0, 800, 600, "Alphachannel demo", #PB_Window_SystemMenu|#PB_
  
   ; Solid image for display
   ;
-  If CreateImage(1, 800, 600, 24) And StartDrawing(ImageOutput(1))
+  If CreateImage(1, DesktopScaledX(800), DesktopScaledY(600), 24) And StartDrawing(ImageOutput(1))
  
     ; create the background effect
     #box_size = 7
-   
-    Box(0, 0, 800, 600, $FFFFFF)
-    For y = 0 To 600 Step #box_size*2
-      For x = 0 To 800 Step #box_size*2
+    Width  = OutputWidth()
+    Height = OutputHeight()
+    Box(0, 0, Width, Height, $FFFFFF)
+    For y = 0 To Height Step #box_size*2
+      For x = 0 To Width Step #box_size*2
         Box(x, y, #box_size, #box_size, $C0C0C0)
         Box(x+#box_size, y+#box_size, #box_size, #box_size, $C0C0C0)
       Next x
@@ -136,8 +140,6 @@ If OpenWindow(0, 0, 0, 800, 600, "Alphachannel demo", #PB_Window_SystemMenu|#PB_
 
     ; draw the alpha image
     DrawAlphaImage(ImageID(0), 0, 0)
-
-
     StopDrawing()
   EndIf
  

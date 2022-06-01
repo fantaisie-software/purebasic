@@ -887,7 +887,8 @@ due to its strong resistance to attacks.
 @Code
   *Text = UTF8("This is a test string!")
     
-  Encoded$ = Base64Encoder(*Text, MemorySize(*Text))
+  Encoded$ = Base64Encoder(*Text, MemorySize(*Text) - 1)
+ ;Encoded$ = Base64Encoder(*Text, StringByteLength("This is a test string!",#PB_UTF8))
   Debug "Encoded: " + Encoded$
   
   *DecodedBuffer = AllocateMemory(1024)
@@ -930,7 +931,8 @@ due to its strong resistance to attacks.
 @Code
   *Text = UTF8("This is a test string!")
     
-  Encoded$ = Base64Encoder(*Text, MemorySize(*Text))
+  Encoded$ = Base64Encoder(*Text, MemorySize(*Text - 1))
+ ;Encoded$ = Base64Encoder(*Text, StringByteLength("This is a test string!",#PB_UTF8))
   Debug "Encoded: " + Encoded$
   
   *DecodedBuffer = AllocateMemory(1024)

@@ -8,6 +8,13 @@
 ; ------------------------------------------------------------
 ;
 
+; NOTE: this a small demonstration of a standalone webserver in PureBasic
+; It is NOT meant to be used on production !
+;
+; To test it: launch the server and open a browser using the following URL:
+; http://127.0.0.1
+;
+
 If InitNetwork() = 0
   MessageRequester("Error", "Can't initialize the network !", 0)
   End
@@ -24,30 +31,45 @@ EOL$ = Chr(13)+Chr(10)
 
 *Buffer = AllocateMemory(10000)
 
-If CreateNetworkServer(0, Port)
+; Only bind on localhost to avoid firewall issues
+;
+If CreateNetworkServer(0, Port, #PB_Network_IPv4 | #PB_Network_TCP, "127.0.0.1")
 
-  OpenWindow(0, 100, 200, 230, 0, "Atomic Web Server (Port "+Str(Port)+")")
+  OpenWindow(0, 100, 200, 320, 50, "Atomic Web Server (127.0.0.1:"+Port+")")
+  ButtonGadget(0, 10, 10, 300, 30, "Quit")
   
   Repeat
     
+    ; Use a non-blocking event poll, to be able to check for the network server events
+    ;
     Repeat
-      WEvent = WindowEvent()
+      Event = WindowEvent()
 
-      If WEvent = #PB_Event_CloseWindow : Quit = 1 : EndIf
-    Until WEvent = 0
+      Select Event 
+        Case #PB_Event_CloseWindow 
+          Quit = 1 
+          
+        Case #PB_Event_Gadget
+          If EventGadget() = 0
+            Quit = 1
+          EndIf
+       EndSelect
+    Until Event = 0
     
-    SEvent = NetworkServerEvent()
+    ServerEvent = NetworkServerEvent()
   
-    If SEvent
+    If ServerEvent
       ClientID = EventClient()
   
-      Select SEvent
+      Select ServerEvent
       
-        Case 1  ; When a new client has been connected...
+        Case #PB_NetworkEvent_Connect  ; When a new client has been connected...
+          Debug "New client connected"
           
-        Case 4  ; When a client has closed the connection...
+        Case #PB_NetworkEvent_Disconnect  ; When a client has closed the connection...
+          Debug "Client disconnected"
   
-        Default
+        Case #PB_NetworkEvent_Data 
           RequestLength = ReceiveNetworkData(ClientID, *Buffer, 2000)
           Gosub ProcessRequest
           
@@ -67,8 +89,7 @@ EndIf
 End
 
 
-
-Procedure.l BuildRequestHeader(*Buffer, DataLength, ContentType$)
+Procedure BuildRequestHeader(*Buffer, DataLength, ContentType$)
 
   Length = PokeS(*Buffer, "HTTP/1.1 200 OK"+EOL$, -1, #PB_UTF8)                     : *Buffer+Length
   Length = PokeS(*Buffer, "Date: Wed, 11 Fec 2017 11:15:43 GMT"+EOL$, -1, #PB_UTF8) : *Buffer+Length

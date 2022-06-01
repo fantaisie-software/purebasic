@@ -28,12 +28,6 @@ Enumeration
   #FirstPerson
 EndEnumeration
 
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
-
 Structure s_Key
   Up.i
   Down.i
@@ -179,11 +173,10 @@ If InitEngine3D()
     ;-GUI
     RatioX = CameraViewWidth(0) / 800
     RatioY = CameraViewHeight(0) / 600
-    OpenWindow3D(#MainWindow, 0, 0, 280 * RatioX, 170 * RatioY, "Camera Track")
-    StringGadget3D(#StFPS , 10 * RatioX, 10 * RatioY, 240 * RatioX, 30 * RatioY, "FPS")
-    StringGadget3D(#StMode, 10 * RatioX, 45 * RatioY, 240 * RatioX, 30 * RatioY, "ThirdPersonChase")
-    EditorGadget3D(#Editor, 10 * RatioX, 85 * RatioY, 240 * RatioX, 30 * RatioY, #PB_Editor3D_ReadOnly)
-    SetGadgetText3D(#Editor, "Use F2, F3 or F4 to change Mode")
+    OpenWindow3D(#MainWindow, 0, 0, 280 * RatioX, 130 * RatioY, "Camera Track")
+    TextGadget3D(#StFPS , 10 * RatioX, 10 * RatioY, 240 * RatioX, 30 * RatioY, "FPS")
+    TextGadget3D(#StMode, 10 * RatioX, 35 * RatioY, 240 * RatioX, 30 * RatioY, "ThirdPersonChase")
+    TextGadget3D(#Editor, 10 * RatioX, 65 * RatioY, 240 * RatioX, 30 * RatioY, "Use F2, F3 Or F4 To change Mode")
 
     ShowGUI(128, 1) ; Display the GUI, semi-transparent and display the mouse cursor
     

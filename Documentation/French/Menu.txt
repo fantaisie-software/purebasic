@@ -19,9 +19,9 @@
   (pop-up).
 @LineBreak
 @LineBreak
-  @Bold "Mac OSX:"
+  @Bold "MacOS:"
 @LineBreak
-  Sur OSX un menu n'est jamais affiché dans une 
+  Sur MacOS un menu n'est jamais affiché dans une 
   fenêtre, mais toujours sur le bureau. Le menu 
   en haut du bureau affiche les éléments de 
   l'application qui a le focus.
@@ -30,7 +30,7 @@
   Il existe les événements de menu prédéfinis 
   suivants @#PB_Menu_Quit, @#PB_Menu_About et 
   @#PB_Menu_Preferences présents dans le menu 
-  de chaque programme OSX. Leurs valeurs sont 
+  de chaque programme MacOS. Leurs valeurs sont 
   négatives pour ne pas entrer en conflit avec 
   les éléments de menu définis par ailleurs 
   dans le programme qui eux sont signalés avec 
@@ -127,13 +127,13 @@
 @LineBreak
   @@EventMenu
 
-@OS MacOS X
+@OS MacOS
 @LineBreak
 @LineBreak
   Note: Sur MacOS vous ne pouvez avoir une 
   barre de menu, qui sera affiché en haut 
   de l'écran. C'est le nouveau designe des 
-  applications OSX. Vous ne pouvez pas avoir 
+  applications MacOS. Vous ne pouvez pas avoir 
   de menus sur les fenêtres individuelles.
 @EndOS
 
@@ -987,7 +987,7 @@ EndIf
   d'affichage (zone client) d'une fenêtre.
 @LineBreak
 @LineBreak 
-  @Bold "Linux & MacOS X": Cette commande renverra 
+  @Bold "Linux & MacOS": Cette commande renverra 
   toujours 0, car la barre de menu ne fait pas 
   partie intégrante de la fenêtre (elle est 
   toujours située dans la barre principale tout 
@@ -1069,7 +1069,7 @@ EndIf
 @LineBreak 
   Si vous désirez associer un raccourci clavier 
   (qui sera créé avec la commande 
-  @@AddKeyboardShortcut, sauf sous OS X) 
+  @@AddKeyboardShortcut, sauf sous MacOS) 
   aligné sur le côté droit du menu (par exemple, 
   "Sauvegarder    Ctrl+S") alors vous pouvez 
   utiliser le caractère 'tabulation' pour donner 
@@ -1085,23 +1085,23 @@ EndIf
   - "Ctrl"  : touche 'Contrôle'
   - "Shift" : touche 'Majuscule'
   - "Alt"   : touche 'Alt'
-  - "Cmd"   : touche 'Commande/Pomme' (OS X seulement)
+  - "Cmd"   : touche 'Commande/Pomme' (MacOS seulement)
 @EndCode
 
   Ils peuvent être combinés entre eux à l'aide 
   du caractère "+": "Enregistrer sous" + Chr(9) 
   + "Ctrl+Shift+S". @LineBreak
-  Sous OS X, quand un raccourci est défini dans 
+  Sous MacOS, quand un raccourci est défini dans 
   le menu, il n'est pas nécessaire de le 
   redéclarer à l'aide de la fonction 
   @@AddKeyboardShortcut.
 @LineBreak
 @LineBreak
-  @Bold "MacOS X" : les éléments 'Quitter', 
+  @Bold "MacOS" : les éléments 'Quitter', 
   'Préférences' et 'A propos' sont considérés 
   comme spéciaux et doivent être placés dans le 
   menu 'Application' pour avoir l'apparence et 
-  le comportement des applications OS X. 
+  le comportement des applications MacOS. 
   PureBasic fournit les constantes 
   @#PB_Menu_Quit, @#PB_Menu_Preferences et 
   @#PB_Menu_About pour gérer ce genre d'éléments 
@@ -1265,7 +1265,7 @@ EndIf
   Ex:@LineBreak 
   SubMenu = OpenSubMenu("Nouveau")@LineBreak 
   SetMenuItemText(0, SubMenu, "Ouvrir")@LineBreak 
-  Sous Linux et MacOsX vous devrez jongler entre plusieurs menus ou détruire et recréer le 
+  Sous Linux et MacOS vous devrez jongler entre plusieurs menus ou détruire et recréer le 
   menu à convenance.
   
 @Example

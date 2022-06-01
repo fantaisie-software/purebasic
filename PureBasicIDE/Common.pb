@@ -232,6 +232,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_AutoHidePanel
   #GADGET_Preferences_NoSplashScreen
   #GADGET_Preferences_DisplayFullPath
+  #GADGET_Preferences_DisplayDarkMode
   #GADGET_Preferences_EnableMenuIcons
   #GADGET_Preferences_DebuggerMode
   #GADGET_Preferences_AutoClearLog
@@ -311,6 +312,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_Debugger
   #GADGET_Preferences_Purifier
   #GADGET_Preferences_ErrorLog
+  #GADGET_Preferences_Optimizer
   #GADGET_Preferences_InlineASM
   #GADGET_Preferences_XPSkin
   #GADGET_Preferences_VistaAdmin
@@ -318,6 +320,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_DPIAware
   #GADGET_Preferences_Thread
   #GADGET_Preferences_OnError
+  #GADGET_Preferences_CustomCompiler
+  #GADGET_Preferences_SelectCustomCompiler
   #GADGET_Preferences_ExecutableFormat
   #GADGET_Preferences_CPU
   #GADGET_Preferences_NewLineType
@@ -559,8 +563,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   
   #GADGET_Option_UseCompiler  ; First to be disabled/enabled in "Main file" loop
   #GADGET_Option_SelectCompiler
+  #GADGET_Option_Optimizer
   CompilerIf #SpiderBasic
-    #GADGET_Option_OptimizeJS
     #GADGET_Option_WindowTheme
     #GADGET_Option_SelectWindowTheme
     #GADGET_Option_GadgetTheme
@@ -968,6 +972,7 @@ Enumeration 0
   #MENU_FindNext
   #MENU_FindPrevious       ; last to AutoDisable
   #MENU_FindInFiles
+  #MENU_Replace
   
   #MENU_NewProject
   #MENU_OpenProject
@@ -1548,6 +1553,16 @@ EndEnumeration
 #MATCH_Exact  = #MATCH_OS|#MATCH_Version|#MATCH_Beta|#MATCH_Processor
 
 ;
+;- Values for "Save Settings to" preference (variable is SaveProjectSettings)
+;
+;  Never modify existing values, because these are saved to prefs files as numbers!
+;
+#SAVESETTINGS_EndOfFile    = 0
+#SAVESETTINGS_PerFileCfg   = 1
+#SAVESETTINGS_PerFolderCfg = 2
+#SAVESETTINGS_DoNotSave    = 3
+
+;
 ;- Values for DragPrivate()
 ;
 Enumeration
@@ -1580,6 +1595,9 @@ Enumeration ; AddTools Trigger values
   #TRIGGER_FileViewer_Special
   #TRIGGER_SourceClose
   #TRIGGER_NewSource
+  #TRIGGER_OpenFile_Special
+  #TRIGGER_OpenFile_nonPB_Binary
+  #TRIGGER_OpenFile_nonPB_Text
 EndEnumeration
 
 
@@ -1953,6 +1971,14 @@ EndEnumeration
 
 #WORDCHARS_Default = "$#*%"
 
+Enumeration
+  #TOOLBARICONTYPE_Separator
+  #TOOLBARICONTYPE_Space
+  #TOOLBARICONTYPE_Internal
+  #TOOLBARICONTYPE_External
+EndEnumeration
+
+
 
 
 ;
@@ -2010,7 +2036,6 @@ Structure CompileTarget
   CompilerIf #SpiderBasic
     AppFormat.l
     
-    OptimizeJS.l
     WindowTheme$
     GadgetTheme$
     WebServerAddress$
@@ -2063,6 +2088,7 @@ Structure CompileTarget
   
   ; Compiler options
   ;
+  Optimizer.l
   EnableASM.l
   EnableThread.l
   EnableXP.l
@@ -2221,7 +2247,7 @@ Structure ProjectFile Extends ProjectFileConfig
   ; Only if the file is currently loaded
   *Source.SourceFile
   
-  ; Only if the file is corrently NOT loaded
+  ; Only if the file is currently NOT loaded
   Parser.ParserData    ; parsed source data
   
   LastOpen.l     ; valid while saving/closing a project
@@ -2422,6 +2448,54 @@ Structure ZipEntry
   Uncompressed.l
 EndStructure
 
+;- Diff Implementation
+;
+
+; Possible Flags for the Diff() procedure
+EnumerationBinary
+  #DIFF_IgnoreCase        ; ignore case
+  #DIFF_IgnoreSpaceAll    ; ignore all space changes (also inside of lines)
+  #DIFF_IgnoreSpaceLeft   ; ignore space changes on the left of a line (indentation)
+  #DIFF_IgnoreSpaceRight  ; ignore space changes on the right of a line
+EndEnumeration
+
+; Possible values for DiffEdit\Op
+Enumeration
+  #DIFF_Match = 1
+  #DIFF_Insert
+  #DIFF_Delete
+EndEnumeration
+
+; A line in the parsed diff file
+Structure DiffLine
+  Checksum.l  ; Crc32 of the line
+  Length.l    ; Line length including newline
+  *Start      ; Line start in original buffer
+EndStructure
+
+; One edit command
+; Note that the line information refers to file A for Match/Delete and file B for Insets
+Structure DiffEdit
+  Op.l
+  StartLine.l ; 0 based line start
+  Lines.l     ; number of lines
+  Length.l    ; size in bytes
+  *Start      ; Start in original buffer
+EndStructure
+
+; Result of a Diff computation
+Structure DiffContext
+  Array A.DiffLine(1000)  ; Parsed lines of file A (Array may be larger than total number of lines!)
+  Array B.DiffLine(1000)  ; Parsed lines of file B
+  LineCountA.l            ; Actual lines in file A
+  LineCountB.l            ; Actual lines in file B
+  
+  List Edits.DiffEdit()   ; Edit script (diff result)
+  
+  Array FV.l(0)           ; For internal use. Freed before Diff() returns
+  Array RV.l(0)
+EndStructure
+
 ; NOTE: Each Tool must add itself to the AvailablePanelTools() list and fill the required
 ; structure data to work.
 
@@ -2451,8 +2525,8 @@ Global FileViewerX, FileViewerY, FileViewerWidth, FileViewerHeight, FileViewerPa
 Global HelpWindowX, HelpWindowY, HelpWindowWidth, HelpWindowHeight, HelpWindowMaximized, HelpWindowSplitter
 Global ProcedureBrowserMode, ProcedureBrowserSort, RealTab, EnableFolding, NbFoldStartWords, NbFoldEndWords
 Global ToolbarItemCount.l, PreferenceToolbarCount.l, ToolbarPreferenceMode, ToolbarPreferenceAction
-Global SaveProjectSettings ; 0 = in the source, 1 = in <filename>.pb.cfg, 2 = in project.cfg
-Global EnableMenuIcons, AutoClearLog, DisplayFullPath, NoSplashScreen, DisplayProtoType, DisplayErrorWindow
+Global SaveProjectSettings
+Global EnableMenuIcons, AutoClearLog, DisplayFullPath, DisplayDarkMode, NoSplashScreen, DisplayProtoType, DisplayErrorWindow
 Global InitialSourceLine, MemorizeMarkers, LanguageFile$, ToolsPanelWidth_Hidden, ErrorLogHeight_Hidden
 Global EnableBraceMatch, EnableKeywordMatch, ShowWhiteSpace, ShowIndentGuides, MonitorFileChanges
 Global FormVariable, FormVariableCaption, FormGrid, FormGridSize, FormEventProcedure, FormSkin, FormSkinVersion
@@ -2501,9 +2575,10 @@ CompilerIf #SpiderBasic
 CompilerEndIf
 
 Global OptionWindowDialog.DialogWindow, OptionWindowPosition.DialogPosition, ProjectOptionWindowPosition.DialogPosition
-Global OptionDebugger, OptionPurifier, OptionInlineASM, OptionXPSkin, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
+Global OptionDebugger, OptionPurifier, OptionOptimizer, OptionInlineASM, OptionXPSkin, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
 Global OptionNewLineType, OptionSubSystem$, OptionErrorLog, OptionEncoding
 Global OptionUseCompileCount, OptionUseBuildCount, OptionUseCreateExe, OptionTemporaryExe
+Global OptionCustomCompiler, OptionCompilerVersion$
 
 CompilerIf #SpiderBasic
   Global OptionWebBrowser$, OptionWebServerPort, OptionJDK$, OptionAppleTeamID$
@@ -2755,11 +2830,22 @@ CompilerIf Defined(Min, #PB_Procedure) = 0
   EndProcedure
 CompilerEndIf
 
+; Speed improvement:
+; Use the PB internal CRC32 function rather than using the Fingerprint() command to avoid conversion to/from strings
+; This makes a noticable difference when computing file Diffs
+CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+  Import ""
+    PB_Cipher_CalculateCRC32(*buf, len, crc)
+  EndImport
+CompilerElse
+  ImportC ""
+    PB_Cipher_CalculateCRC32(*buf, len, crc)
+  EndImport
+CompilerEndIf
 
-Procedure.l CRC32Fingerprint(*Buffer, Length) ; We need an explicit long return
-  ProcedureReturn Val("$"+Fingerprint(*Buffer, Length, #PB_Cipher_CRC32)) ; Cast the result to long before returning
-EndProcedure
-
+Macro CRC32Fingerprint(Buffer, Length)
+  PB_Cipher_CalculateCRC32(Buffer, Length, 0)
+EndMacro
 
 CompilerIf #PB_Compiler_Debugger
   ; Useful to ensures a ProcessEvent() is NEVER called in the debugger callback as it can generate very weird bug

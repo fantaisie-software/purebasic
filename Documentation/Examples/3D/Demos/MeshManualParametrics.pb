@@ -67,7 +67,6 @@ If InitEngine3D()
   InitMouse()
   
   If Screen3DRequester()
-    
     CreateSuperQuadratics()
     CreateMaterial(0, LoadTexture(0, "White.jpg"))
     DisableMaterialLighting(0, #True)

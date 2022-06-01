@@ -838,8 +838,7 @@ consultable @MainGuideLink "ogre_mit" "ici"
                             dans un exécutable distribuable...
   @#PB_Engine3D_DebugOutput: Les actions sont affichées sur la console. Activez au préalable l'option Console du compilateur 
                             dans menu Compilateur \ Options du compilateur... \ Options de compilation \ Format de l'exécutable
-  @#PB_Engine3D_EnableCG   : Utilise le 'Cg ToolKit' de NVIDIA (fonctionne avec DirectX et OpenGL).
-                            Doit être installé au préalable, voir @InternetLink "https://developer.nvidia.com/cg-toolkit-download" "nvidia website".
+
  @EndFixedFont
 
 @OptionalParameter "Bibliotheque$"
@@ -867,9 +866,7 @@ consultable @MainGuideLink "ogre_mit" "ici"
   depuis le dossier PureBasic/compilateurs/). 
   Si elle échoue, c'est probablement parce 
   que la bibliothèque est introuvable. Sous 
-  Windows, une version récente de DirectX 9 
-  doit être installée (voir ici: 
-  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
+  Windows, une version récente du pilote graphique OpenGL doit être installée. 
   
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen, 
@@ -1954,17 +1951,20 @@ suivantes:
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function WorldGravity(Gravitation)
+@Function WorldGravity(Gravitation.f [, x, y, z])
 
 @Description
   Change la gravité du monde 3D.
   
-@Parameter "Gravitation"
+@Parameter "Gravitation.f"
   Valeur de la nouvelle pesanteur.
 @LineBreak
 @LineBreak
   La valeur par défaut est -9.806, ce 
   qui correspond à la gravité terrestre.
+  
+@OptionalParameter "x, y, z"  
+  Les coordonnées du vecteur gravitation à utiliser pour changer la direction de la gravité.
 
 @NoReturnValue
 
@@ -1975,8 +1975,7 @@ suivantes:
 @LineBreak
   Quelques exemples de pesanteur:
 @FixedFont
-  Attraction de la pesanteur en % de 
-  celle de la terre
+  Attraction de la pesanteur en % de celle de la terre
   LUNE   : 16%
   MERCURE: 38%
   VENUS  : 90%

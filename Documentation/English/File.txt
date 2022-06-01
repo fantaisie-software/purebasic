@@ -7,8 +7,8 @@
 @Library File
 
 @Overview
-  Files are the main method for storage on computers. PureBasic allows the programmer to create applications
-  in such a manner that the methods used to manage these files, are simple to use, and yet still optimized.
+  Files are the main method for storing data on computers. PureBasic allows the programmer to create applications
+  in such a manner that the methods used to manage these files are simple to use, and yet still optimized.
   Any number of files may be handled at the same time. This library uses buffered functions to increase the
   reading/writing speed. All the file functions can handle huge files, all the way up to: 2^64 bytes,
   (i.e. if the file-system supports it).
@@ -36,7 +36,7 @@
 @Function CloseFile(#File)
 
 @Description
-  Close the specified file. 
+  Close the specified file.
 
 @Parameter "#File"
   The file to close. If @#PB_All is specified, all the remaining files are closed.
@@ -64,7 +64,7 @@
 
 @Description
 
-  Create an empty file. 
+  Create an empty file.
 
 @Parameter "#File"
   The number to identify the new file. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
@@ -82,7 +82,7 @@
   @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file. 
                         @@FileBuffersSize can not be used on this file.
 @EndFixedFont
-  combined with one of the following values (the following flags affect the @@WriteString(), @@WriteStringN, 
+  combined with one of the following values (the following flags affect the @@WriteString(), @@WriteStringN,
   @@ReadString, @@ReadCharacter and @@WriteCharacter behaviour):
 @FixedFont
   @#PB_Ascii  : all read/write string operation will use ASCII if not specified otherwise.
@@ -95,7 +95,7 @@
   If @#PB_Any was used as the #File parameter then the new generated number is returned on success.
 
 @Remarks
-  If the file already exists, it will be overwritten by the new empty file. 
+  If the file already exists, it will be overwritten by the new empty file.
   The @@FileSize function can be used to determine whether a file exists so the
   user can be prompted before overwriting a file.
 @LineBreak
@@ -154,8 +154,8 @@
   Changes the size of the memory buffer used for file operations.
 
 @Parameter "#File"
-  The file to change. If @#PB_Default is used as this parameter then the
-  new buffer size will apply to all newly opened files with @@OpenFile, 
+  The file to change. If @#PB_Default is used as this parameter, then the
+  new buffer size will apply to all newly opened files with @@OpenFile,
   @@CreateFile or @@ReadFile.
 
 @Parameter "Size"
@@ -167,7 +167,7 @@
   For performance reasons, the buffer size should be kept large enough (1028 seems
   to be ok as a minimum). When buffers are used, the information is really written to the disk once the
   cache buffer is full or when the file is closed. The @@FlushFileBuffers function
-  forces the cache buffer to be written at the time the function is called. 
+  forces the cache buffer to be written at the time the function is called.
   The default buffer size is 4096 bytes per file.
 
 @SeeAlso
@@ -180,7 +180,7 @@
 @Function Result = FileID(#File)
 
 @Description
-  Returns the Operating system handle of the file.
+  Returns the operating system handle of the file.
 
 @Parameter "#File"
   The file to use.
@@ -198,7 +198,7 @@
 @Function FileSeek(#File, NewPosition.q [, Mode])
 
 @Description
-  Change the read/write pointer position in the file. 
+  Change the read/write pointer position in the file.
 
 @Parameter "#File"
   The file to use.
@@ -226,7 +226,7 @@
       Debug "Position: " + Str(Loc(0))      ; show actual file pointer position
       *MemoryID = AllocateMemory(10)        ; allocate the needed memory for 10 bytes
       If *MemoryID
-        bytes = ReadData(0, *MemoryID, 10)  ; read this last 10 chars in the file
+        bytes = ReadData(0, *MemoryID, 10)  ; read the last 10 chars in the file
         Debug PeekS(*MemoryID)
       EndIf
       CloseFile(0)
@@ -245,7 +245,7 @@
 @Function Result = FlushFileBuffers(#File)
 
 @Description
-  Ensures that all buffered operations are written to disk. 
+  Ensures that all buffered operations are written to disk.
 
 @Parameter "#File"
   The file to use.
@@ -267,7 +267,7 @@
 @Function Result = IsFile(#File)
 
 @Description
-  Tests if the given #File number is a valid and correctly initialized file. 
+  Tests if the given #File number is a valid and correctly initialized file.
 
 @Parameter "#File"
   The file to use.
@@ -345,7 +345,7 @@
 @Function Result = OpenFile(#File, Filename$ [, Flags])
 
 @Description
-  Opens a file for reading/writing or creates a new file if it does not exist. 
+  Opens a file for reading/writing or creates a new file if it does not exist.
 
 @Parameter "#File"
   The number to identify the file. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
@@ -361,10 +361,10 @@
   @#PB_File_SharedRead : the opened file can be read by another process (Windows only).
   @#PB_File_SharedWrite: the opened file can be written by another process (Windows only).
   @#PB_File_Append     : the file pointer position will be set at the end of file.
-  @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file. 
+  @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file.
                         @@FileBuffersSize can not be used on this file.
 @EndFixedFont
-  combined with one of the following values (the following flags affect the @@WriteString, @@WriteStringN, 
+  combined with one of the following values (the following flags affect the @@WriteString, @@WriteStringN,
   @@ReadString, @@ReadCharacter and @@WriteCharacter behaviour):
 @FixedFont
   @#PB_Ascii  : all read/write string operation will use ASCII if not specified otherwise.
@@ -484,7 +484,7 @@
   @#PB_Ascii  : 1 byte character.
   @#PB_Unicode: 2 bytes character (default in @ReferenceLink "unicode" "unicode" mode).
   @#PB_UTF8   : multi-bytes character (from 1 to 4 bytes).
-@EndFixedFont  
+@EndFixedFont
 
 @ReturnValue
   Returns the read character or zero if there was an error.
@@ -542,7 +542,7 @@
                         this flag is needed to access it (Windows only).
   @#PB_File_SharedWrite: if the file has been already opened by another process for write operation,
                         this flag is needed to access it (Windows only).
-  @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file. 
+  @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file.
                         @@FileBuffersSize can not be used on this file.
 @EndFixedFont
   combined with one of the following values (the following flags affect the @@ReadString and @@ReadCharacter behaviour):
@@ -744,7 +744,7 @@
 
 @Description
   Checks if the current file position contains a BOM (Byte Order Mark) and tries to identify the
-  String encoding used in the file. 
+  String encoding used in the file.
 
 @Parameter "#File"
   The file to use.
@@ -855,7 +855,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 @LineBreak
 @LineBreak
@@ -884,7 +884,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 
 @LineBreak
@@ -915,14 +915,14 @@
   @#PB_Ascii  : 1 byte character.
   @#PB_Unicode: 2 bytes character (default, see @ReferenceLink "unicode" "unicode" mode).
   @#PB_UTF8   : multi-bytes character (from 1 to 4 bytes).
-@EndFixedFont  
+@EndFixedFont
 
 @ReturnValue
   Returns nonzero if the operation was successful or zero if it failed.
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 
 @LineBreak
@@ -952,7 +952,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 
 @LineBreak
@@ -982,7 +982,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 
 @LineBreak
@@ -1012,7 +1012,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 
 @LineBreak
@@ -1042,7 +1042,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 
 @LineBreak
@@ -1076,7 +1076,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 
 @Example
@@ -1105,7 +1105,7 @@
 @Function Result = WriteQuad(#File, Number.q)
 
 @Description
-  Write a quad number (8 bytes) to a file. 
+  Write a quad number (8 bytes) to a file.
 
 @Parameter "#File"
   The file to write to.
@@ -1118,7 +1118,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 
 @LineBreak
@@ -1135,7 +1135,7 @@
 @Function Result = WriteString(#File, Text$ [, Format])
 
 @Description
-  Write a string to a file. 
+  Write a string to a file.
 
 @Parameter "#File"
   The file to write to.
@@ -1156,7 +1156,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
   The null ending string character is not written to the file.
 @LineBreak
@@ -1178,7 +1178,7 @@
 @Function Result = WriteStringFormat(#File, Format)
 
 @Description
-  Writes a BOM (Byte Order Mark) at the current position in the file. 
+  Writes a BOM (Byte Order Mark) at the current position in the file.
 
 @Parameter "#File"
   The file to write to.
@@ -1204,7 +1204,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 
 @LineBreak
@@ -1232,7 +1232,7 @@
 @Function Result = WriteStringN(#File, Text$ [, Format])
 
 @Description
-  Write a string to a file and add an 'end of line' character. 
+  Write a string to a file and add an 'end of line' character.
 
 @Parameter "#File"
   The file to write to.
@@ -1253,7 +1253,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 @LineBreak
 @LineBreak
@@ -1287,7 +1287,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 
 @LineBreak
@@ -1304,7 +1304,7 @@
 @Function Result = WriteWord(#File, Number)
 
 @Description
-  Write a word number (2 bytes) to a file. 
+  Write a word number (2 bytes) to a file.
 
 @Parameter "#File"
   The file to write to.
@@ -1317,7 +1317,7 @@
 
 @Remarks
   Because of @Link "FileBuffersSize" "file buffering", this function may return successful even if there is not enough
-  space left on the output device for the write operation. 
+  space left on the output device for the write operation.
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 
 @LineBreak

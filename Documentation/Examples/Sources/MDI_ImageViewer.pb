@@ -45,8 +45,8 @@ Enumeration
   #MENU_CloseAll
   #MENU_Quit
   
-  #MENU_TileV
-  #MENU_TileH
+  #MENU_TileVertically
+  #MENU_TileHorizontally
   #MENU_Cascade
   #MENU_Arrange
   #MENU_Previous
@@ -85,8 +85,8 @@ If OpenWindow(#WINDOW, 0, 0, 800, 600, "MDI ImageViewer", #WindowFlags)
     MenuBar()
     MenuItem(#MENU_QUit, "Quit")
     MenuTitle("Windows")
-    MenuItem(#MENU_TileV, "Tile vertically")
-    MenuItem(#MENU_TileH, "Tile horizontally")
+    MenuItem(#MENU_TileVertically, "Tile vertically")
+    MenuItem(#MENU_TileHorizontally, "Tile horizontally")
     MenuItem(#MENU_Cascade, "Cascade")
     MenuItem(#MENU_Previous, "Previous")
     MenuItem(#MENU_Next, "Next")
@@ -95,11 +95,11 @@ If OpenWindow(#WINDOW, 0, 0, 800, 600, "MDI ImageViewer", #WindowFlags)
   EndIf
   
   If CreateToolBar(#TOOLBAR, WindowID(#WINDOW))
-    ToolBarStandardButton(#MENU_Open, #PB_ToolBarIcon_Open)
-    ToolBarStandardButton(#MENU_Close, #PB_ToolBarIcon_Delete)
+    ToolBarImageButton(#MENU_Open, LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Open.png"))
+    ToolBarImageButton(#MENU_Close, LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Delete.png"))
     ToolBarSeparator()
-    ToolBarStandardButton(#MENU_Previous, #PB_ToolBarIcon_Undo)
-    ToolBarStandardButton(#MENU_Next, #PB_ToolBarIcon_Redo)
+    ToolBarImageButton(#MENU_Previous, LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Undo.png"))
+    ToolBarImageButton(#MENU_Next, LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Redo.png"))
   EndIf
   
   MDIGadget(#GADGET_MDI, 0, 0, 0, 0, 1, #MENU_FirstMDI, #PB_MDI_AutoSize)
@@ -219,10 +219,10 @@ If OpenWindow(#WINDOW, 0, 0, 800, 600, "MDI ImageViewer", #WindowFlags)
           Case #MENU_Quit
             Quit = 1
             
-          Case #MENU_TileV
+          Case #MENU_TileVertically
             SetGadgetState(#GADGET_MDI, #PB_MDI_TileVertically)
             
-          Case #MENU_TileH
+          Case #MENU_TileHorizontally
             SetGadgetState(#GADGET_MDI, #PB_MDI_TileHorizontally)
             
           Case #MENU_Cascade

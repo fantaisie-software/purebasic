@@ -2,22 +2,22 @@
 
 @Syntax
 
-  @Keyword Procedure[.<type>] name(<parameter1[.<type>]> [, <parameter2[.<type>] [= DefaultValue]>, ...]) 
+  @Keyword Procedure[.<type>] name(<parameter1[.<type>]> [, <parameter2[.<type>] [= DefaultValue]>, ...])
     ...
     [@Keyword ProcedureReturn value]
-  @Keyword EndProcedure 
-  
+  @Keyword EndProcedure
+
 @Description
 
-  A @Keyword Procedure is a part of code independent from the main code which can have any parameters 
-  and it's own @ReferenceLink "variables" "variables". In PureBasic, a recurrence is fully supported for the procedures 
-  and any procedure can call it itself. At each call of the procedure the variables inside 
-  will start with a value of 0 (null). To access main code variables, they have to be shared 
-  them by using @ReferenceLink "Shared" Shared or @ReferenceLink "Global" Global keywords
-  (see also the @ReferenceLink "Protected" Protected and @ReferenceLink "Static" Static keywords). 
+  A @Keyword Procedure is a part of code independent from the main code which can have any parameters
+  and its own @ReferenceLink "variables" "variables". In PureBasic, a recurrence is fully supported for the procedures
+  and any procedure can call it itself. At each call of the procedure the variables inside
+  will start with a value of 0 (null). To access main code variables, they have to be shared
+  by using @ReferenceLink "Shared" Shared or @ReferenceLink "Global" Global keywords
+  (see also the @ReferenceLink "Protected" Protected and @ReferenceLink "Static" Static keywords).
   @LineBreak
   @LineBreak
-  The last parameters can have a default value (need to be a constant
+  The last parameters can have a default value (needs to be a constant
   expression), so if these parameters are omitted when the procedure is called, the default value will be used.
   @LineBreak
   @LineBreak
@@ -26,8 +26,8 @@
   @LineBreak
   @LineBreak
   A procedure can return a value or a string if necessary. You have to set the type after @Keyword Procedure
-  and use the @Keyword ProcedureReturn keyword at any moment inside the procedure. 
-  A call of @Keyword ProcedureReturn exits immediately the procedure, even when its called inside a loop. 
+  and use the @Keyword ProcedureReturn keyword at any moment inside the procedure.
+  A call of @Keyword ProcedureReturn exits immediately the procedure, even when its called inside a loop.
   @LineBreak
   @Keyword ProcedureReturn can't be used to return an @ReferenceLink "dim" "array", @ReferenceLink "newlist" "list" or a @ReferenceLink "newmap" "map".
   For this purpose pass the array, the list or the map as parameter to the procedure.
@@ -42,7 +42,7 @@
   @LineBreak
   @LineBreak
   Selected procedures can be executed asynchronously to the main program by using of @LibraryLink "thread" "threads".
-  
+
 
   @Example Procedure with a numeric variable as return-value
 
@@ -53,10 +53,10 @@
     Else
       Result = nb2
     Endif
-  
+
     ProcedureReturn Result
-  EndProcedure 
-  
+  EndProcedure
+
   Result = Maximum(15, 30)
   Debug Result
 @EndCode
@@ -67,7 +67,7 @@
 @Code
   Procedure.s Attach(String1$, String2$)
     ProcedureReturn String1$+" "+String2$
-  EndProcedure 
+  EndProcedure
 
   Result$ = Attach("PureBasic", "Coder")
   Debug Result$
@@ -82,7 +82,7 @@
   EndProcedure
 
   a(10, 12)      ; 2 will be used as default value for 3rd parameter
-  a(10, 12, 15) 
+  a(10, 12, 15)
 @EndCode
 
  @Example List as parameter
@@ -103,7 +103,7 @@
     ForEach ParameterList()
       MessageRequester("List", Str(ParameterList()\x))
     Next
- 
+
   EndProcedure
 
   DebugList(10, Test())
@@ -121,7 +121,7 @@
 
     ParameterTable(1, 2)\x = 3
     ParameterTable(2, 2)\x = 4
- 
+
   EndProcedure
 
   TestIt(10, Table())
@@ -155,8 +155,8 @@
 
 
 @Example Call a function by its name
-  
-@Code  
+
+@Code
    Prototype Function()
 
   Runtime Procedure Function1()
@@ -169,48 +169,48 @@
   EndProcedure
 
   LaunchProcedure("Function1") ; Display "I call Function1 by its name"
-@EndCode  
+@EndCode
 
 @LineBreak
-@LineBreak 
- 
+@LineBreak
+
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
 <br><hr><br>
 @FormatEndIf
 
-@Syntax 
+@Syntax
 
   @Keyword Declare[.<type>] name(<parameter1[.<type>]> [, <parameter2[.<type>] [= DefaultValue]>, ...])
 
-@Description 
+@Description
 
-  Sometimes a procedure need to call another procedure which isn't declared before its definition. 
-  This is annoying because the compiler will complain 'Procedure <name> not found'. @Keyword Declare can help 
-  in this particular case by declaring only the header of the procedure. Nevertheless, the @Keyword Declare 
+  Sometimes a procedure need to call another procedure which isn't declared before its definition.
+  This is annoying because the compiler will complain 'Procedure <name> not found'. @Keyword Declare can help
+  in this particular case by declaring only the header of the procedure. Nevertheless, the @Keyword Declare
   and real @Keyword Procedure declaration must be identical (including the correct type and optional parameters, if any).
   @LineBreak
   @LineBreak
-  For advanced programmers @Keyword DeclareC is available and will declare the procedure using 'CDecl' 
+  For advanced programmers @Keyword DeclareC is available and will declare the procedure using 'CDecl'
   instead of 'StandardCall' calling convention.
-  
+
   @Example
 
 @Code
   Declare Maximum(Value1, Value2)
-  
+
   Procedure Operate(Value)
     Maximum(10, 2)      ; At this time, Maximum() is unknown.
   EndProcedure
-  
+
   Procedure Maximum(Value1, Value2)
     ProcedureReturn 0
   EndProcedure
 @EndCode
 
 @LineBreak
-@LineBreak 
- 
+@LineBreak
+
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
 <br><hr><br>

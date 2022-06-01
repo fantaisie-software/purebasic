@@ -25,26 +25,21 @@ CompilerIf #CompileLinux
   Structure _GdkEventClient Extends GdkEventClient: EndStructure
   Structure _GdkEventKey Extends GdkEventKey: EndStructure
   
-  CompilerIf #CompileX64
-    ;CompilerError "check this struct for x64"
-  CompilerEndIf
-  
-  
   Structure XClientMessageEvent
     type.l        ; int
-    CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+    CompilerIf #PB_Compiler_64Bit
       alignment1.l
     CompilerEndIf
     serial.i      ; unsigned long    /* # of last request processed by server */
     send_event.l  ; Bool (=int)    /* true if this came from a SendEvent request */
-    CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+    CompilerIf #PB_Compiler_64Bit
       alignment2.l
     CompilerEndIf
     *display      ; pointer  /* Display the event was read from */
     window.i      ; Window (= pointer)
     message_type.i; Atom (= pointer)
     format.l      ; int
-    CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+    CompilerIf #PB_Compiler_64Bit
       alignment3.l
     CompilerEndIf
     StructureUnion

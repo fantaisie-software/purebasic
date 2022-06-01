@@ -8,10 +8,6 @@
 ; ------------------------------------------------------------
 ;
 
-
-#PB_Material_SpecularColor = 1
-#PB_Material_AmbientColor  = 2
-
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 Define.f KeyX, KeyY, MouseX, MouseY

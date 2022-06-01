@@ -1,7 +1,7 @@
 ;
 ;     Engine3D library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2022 - Fantaisie Software
 ;
 
 @Library Engine3D
@@ -612,8 +612,6 @@
                             sogar bei einem fertigen (Release-) Produkt aktiviert bleiben kann.
   @#PB_Engine3D_DebugOutput: Die Aktionen werden in der Konsole ausgegeben. Sie müssen hier daran denken, das
                             Executable-Format auf 'Console' zu setzen, wenn Sie Ihr Excecutable kompilieren.
-  @#PB_Engine3D_EnableCG   : Aktiviert den "CG Library Support". Diese muss vor der Verwendung von der
-                            @InternetLink "https://developer.nvidia.com/cg-toolkit-download" "nvidia Webseite" installiert werden.
 @EndFixedFont
 
 @OptionalParameter "LibraryName$"
@@ -625,14 +623,13 @@
   Wenn die Initialisierung fehlgeschlagen ist, sollte das Programm beendet oder der Aufruf aller
   3D-Funktionen deaktiviert werden.
 
-@Remarks  
+@Remarks
   InitEngine3D() versucht, die Engine3D-Bibliothek (namens 'Engine3D.dll' auf Windows, 'engine3d.so' auf Linux
-  und 'engine3d.dylib' auf OS X, zu finden im PureBasic/compilers/ Verzeichnis) zu laden. Wenn dies fehlschlägt, dann
+  und 'engine3d.dylib' auf OS X, zu finden im PureBasic/Compilers/ Verzeichnis) zu laden. Wenn dies fehlschlägt, dann
   liegt dies möglicherweise daran, dass die Bibliothek nicht gefunden wurde oder nicht mit aktuellen
   PureBasic-Version zusammenpasst.
   @LineBreak
-  Auf Windows muss eine aktuelle Version von DirectX 9 installiert sein (zu finden hier:
-  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 Runtime Installer"). 
+  Auf Windows muss eine aktuelle Version der OpenGL-Treiber installiert sein.
 
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen, @@Add3DArchive
@@ -1404,7 +1401,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function WorldGravity(Gravitation.f)
+@Function WorldGravity(Gravitation.f [, x, y, z])
 
 @Description
   Ändert die Gravitation (auch: Schwerkraft, Erdanziehungskraft, Masse, englisch "Gravity") der Welt, wenn 
@@ -1413,6 +1410,9 @@
 @Parameter "Gravitation"  
   Die neu festzulegende Gravitation.
   Der Standardwert für die Gravitation beträgt -9.806 (was der Erdanziehungskraft entspricht).
+
+@OptionalParameter "x, y, z"  
+  Der zu verwendende Gravitationskraftvektor, um die Gravitationsrichtung zu ändern.
 
 @NoReturnValue
 

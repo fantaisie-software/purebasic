@@ -85,25 +85,8 @@ IncludeFile "../Common.pb"
 #PB_Sort_Double = 12
 #PB_Sort_Quad = 13
 
-
-; ToolBar icon definitions
+; Toolbar
 ;
-#PB_ToolBarIcon_Cut    = 0
-#PB_ToolBarIcon_Copy   = 1
-#PB_ToolBarIcon_Paste  = 2
-#PB_ToolBarIcon_Undo   = 3
-#PB_ToolBarIcon_Redo   = 4
-#PB_ToolBarIcon_Delete = 5
-#PB_ToolBarIcon_New    = 6
-#PB_ToolBarIcon_Open   = 7
-#PB_ToolBarIcon_Save   = 8
-#PB_ToolBarIcon_PrintPreview = 9
-#PB_ToolBarIcon_Properties   = 10
-#PB_ToolBarIcon_Help    = 11
-#PB_ToolBarIcon_Find    = 12
-#PB_ToolBarIcon_Replace = 13
-#PB_ToolBarIcon_Print   = 14
-
 #PB_ToolBar_Normal = 0
 #PB_ToolBar_Toggle = 1
 

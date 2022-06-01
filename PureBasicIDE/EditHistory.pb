@@ -58,36 +58,6 @@ EndImport
 #SQLITE_ROW = 100
 #SQLITE_DONE = 101
 
-;- Libmba stuff
-;
-CompilerIf #CompileWindows
-  #Diff_Library = "libmba/libmba.lib"
-CompilerElse
-  #Diff_Library = "libmba/libmba.a"
-CompilerEndIf
-
-ImportC #BUILD_DIRECTORY + #Diff_Library
-  
-  diff.l(*a, aoff.l, n.l, *b, boff.l, m.l, *idx_fn, *cmp_fn, *context, dmax.l, *ses, *sn.LONG, *buf)
-  
-  varray_new(membsize, *al)
-  varray_del.l(*va)
-  varray_get(*va, idx)
-  
-EndImport
-
-Enumeration
-  #DIFF_MATCH = 1
-  #DIFF_DELETE
-  #DIFF_INSERT
-EndEnumeration
-
-Structure diff_edit Align #PB_Structure_AlignC
-  op.u
-  __padding.b[2]  ; on all os
-  off.l           ; /* off into s1 if MATCH or DELETE but s2 if INSERT */
-  len.l
-EndStructure
 
 ;- Data types in history
 ;
@@ -624,86 +594,6 @@ Procedure History_AsyncDeleteEvent(EventID)
   
 EndProcedure
 
-Structure HistoryDiffLine
-  Checksum.l
-  Offset.l
-  Length.l
-EndStructure
-
-Structure HistoryDiffLines
-  Line.HistoryDiffLine[0]
-EndStructure
-
-ProcedureC History_Diff_idx(*Lines.HistoryDiffLines, idx.l, *context)
-  ProcedureReturn @*Lines\Line[idx]
-EndProcedure
-
-ProcedureC History_Diff_cmp(*e1.HistoryDiffLine, *e2.HistoryDiffLine, *context)
-  If *e1\Checksum = *e2\Checksum
-    ProcedureReturn 0
-  Else
-    ProcedureReturn 1
-  EndIf
-EndProcedure
-
-Procedure History_DiffEditSize(*edit.diff_edit, Array Lines.HistoryDiffLine(1))
-  Size = 0
-  Last = *edit\off + *edit\len - 1
-  For index = *edit\off To  Last
-    Size + Lines(index)\Length
-  Next index
-  ProcedureReturn Size
-EndProcedure
-
-Procedure History_DiffPreProcess(*Event.HistoryEvent, Array Lines.HistoryDiffLine(1))
-  *Pointer.PTR = *Event\Content
-  *BufferEnd = *Pointer + *Event\Size
-  
-  Lines = 0
-  Space = ArraySize(Lines()) ; don't do +1 to have the extra space for the last line
-  
-  *LineStart = *Pointer
-  While *Pointer < *BufferEnd
-    
-    ; detect next newline
-    If *Pointer\b = 13
-      *Pointer + 1
-      If *Pointer < *BufferEnd And *Pointer\b = 10
-        *Pointer + 1
-      EndIf
-    ElseIf *Pointer\b = 10
-      *Pointer + 1
-    Else
-      ; no newline
-      *Pointer + 1
-      Continue
-    EndIf
-    
-    ; newline found
-    If Space = 0
-      ReDim Lines(Lines * 2)
-      Space = Lines
-    EndIf
-    
-    Lines(Lines)\Checksum = CRC32Fingerprint(*LineStart, *Pointer-*LineStart)
-    Lines(Lines)\Offset = *LineStart - *Event\Content
-    Lines(Lines)\Length = *Pointer - *LineStart
-    Lines + 1
-    Space - 1
-    *LineStart = *Pointer
-  Wend
-  
-  ; add the last line
-  If *Pointer > *LineStart
-    Lines(Lines)\Checksum = CRC32Fingerprint(*LineStart, *Pointer-*LineStart)
-    Lines(Lines)\Offset = *Pointer - *Event\Content
-    Lines(Lines)\Length = *Pointer - *LineStart
-    Lines + 1
-  EndIf
-  
-  ProcedureReturn Lines
-EndProcedure
-
 ; Generates an edit script:
 ; Beginning: <long> full size of target
 ;
@@ -714,55 +604,48 @@ EndProcedure
 ; returns size of diff'ed content
 ; returns 0 if diff is larger than real file
 Procedure History_MakeDiff(*Output, *OutSize.INTEGER, *Event.HistoryEvent, *Previous.HistoryEvent)
-  Protected Dim NewLines.HistoryDiffLine(1000)
-  Protected Dim OldLines.HistoryDiffLine(1000)
+
+  ; The diff algorithm needs thread safety because of the LinkedList commands
+  CompilerIf #HISTORY_WRITE_ASYNC And #PB_Compiler_Thread = 0
+    CompilerError "History_MakeDiff() must be compiled with threadsafe switch"
+  CompilerEndIf
+
+  Protected Ctx.DiffContext
+  Diff(@Ctx, *Previous\Content, *Previous\Size, *Event\Content, *Event\Size)
   
-  LinesNew = History_DiffPreProcess(*Event, NewLines())
-  LinesOld = History_DiffPreProcess(*Previous, OldLines())
-  
-  *ses = varray_new(SizeOf(diff_edit), #Null)
-  sn.l = 0
-  
-  diff(@OldLines(0), 0, LinesOld, @NewLines(0), 0, LinesNew, @History_Diff_idx(), @History_Diff_cmp(), #Null, 0, *ses, @sn, 0)
-  
+  ; write the output
   *OutputEnd = *Output + *OutSize\i
   *Pointer.PTR = *Output
   *Pointer\l = *Event\Size ; store original size
   *Pointer + 4             ; skip original size storage
   
-  For i = 0 To sn-1
-    *edit.diff_edit = varray_get(*ses, i)
+  ForEach Ctx\Edits()
     If *Pointer + 5 > *OutputEnd
-      varray_del(*ses)
       ProcedureReturn #False
     EndIf
     
-    Select *edit\op
+    Select Ctx\Edits()\Op
       Case #DIFF_MATCH
         *Pointer\b = 'C': *Pointer + 1
-        *Pointer\l = History_DiffEditSize(*edit, OldLines()): *Pointer + 4
+        *Pointer\l = Ctx\Edits()\Length: *Pointer + 4
         
       Case #DIFF_DELETE
         *Pointer\b = 'D': *Pointer + 1
-        *Pointer\l = History_DiffEditSize(*edit, OldLines()): *Pointer + 4
+        *Pointer\l = Ctx\Edits()\Length: *Pointer + 4
         
       Case #DIFF_INSERT
         *Pointer\b = 'A': *Pointer + 1
-        EditSize = History_DiffEditSize(*edit, NewLines())
-        *Pointer\l = EditSize: *Pointer + 4
+        *Pointer\l = Ctx\Edits()\Length: *Pointer + 4
         
-        If *Pointer + EditSize > *OutputEnd
-          varray_del(*ses)
+        If *Pointer + Ctx\Edits()\Length > *OutputEnd
           ProcedureReturn #False
         EndIf
         
-        CopyMemory(*Event\Content + NewLines(*edit\off)\Offset, *Pointer, EditSize)
-        *Pointer + EditSize
+        CopyMemory(Ctx\Edits()\Start, *Pointer, Ctx\Edits()\Length)
+        *Pointer + Ctx\Edits()\Length
         
     EndSelect
-  Next i
-  
-  varray_del(*ses)
+  Next Ctx\Edits()
   
   *OutSize\i = *Pointer - *Output
   ProcedureReturn #True

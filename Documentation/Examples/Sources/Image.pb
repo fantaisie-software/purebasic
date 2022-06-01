@@ -32,19 +32,13 @@ If OpenWindow(0, 100, 100, 500, 300, "PureBasic - Image")
   ResizeImage(1, 100, 100)
   
   GrabImage(0, 2, 100, 60, 150, 40)
-
-        
+  
+  ImageGadget(0,  20,  10, 255, 255, ImageID(0))
+  ImageGadget(1, 320,  80, 100, 100, ImageID(1))
+  ImageGadget(2, 320, 200, 150,  40, ImageID(2))
+  
   Repeat
     Event = WaitWindowEvent()
-    
-    If Event = #PB_Event_Repaint
-      StartDrawing(WindowOutput(0))
-        DrawImage(ImageID(0), 20, 10)
-        DrawImage(ImageID(1), 320, 80)
-        DrawImage(ImageID(2), 320, 200)
-      StopDrawing()
-    EndIf
-    
   Until Event = #PB_Event_CloseWindow  ; If the user has pressed on the close button
   
 EndIf

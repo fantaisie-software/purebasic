@@ -66,6 +66,7 @@ EndProcedure
 
 Procedure SetCompileTargetDefaults(*Target.CompileTarget)
   *Target\Debugger         = OptionDebugger
+  *Target\Optimizer        = OptionOptimizer
   *Target\EnableASM        = OptionInlineASM
   *Target\EnableThread     = OptionThread
   *Target\EnableXP         = OptionXPSkin
@@ -80,6 +81,8 @@ Procedure SetCompileTargetDefaults(*Target.CompileTarget)
   *Target\UseBuildCount    = OptionUseBuildCount
   *Target\UseCreateExe     = OptionUseCreateExe
   *Target\TemporaryExePlace= OptionTemporaryExe
+  *Target\CustomCompiler   = OptionCustomCompiler
+  *Target\CompilerVersion$ = OptionCompilerVersion$
   *Target\CurrentDirectory$= ""
   *Target\EnablePurifier   = OptionPurifier
   *Target\PurifierGranularity$ = ""
@@ -104,6 +107,9 @@ Procedure CompilerReady()
     
     ; do this before scanning, as it affects saved data (known constants etc)
     InitStructureViewer()
+    
+    ; Init the AutoComplete context sensitive constants (must be after InitStructureViewer() as it uses the ConstantList)
+    AutoComplete_InitContextConstants()
   EndIf
   
   ; Ok, everything is loaded, now highlight any already open files.
@@ -162,7 +168,7 @@ Procedure DisplayCompilerWindow()
     MacroErrorWindowEvents(#PB_Event_CloseWindow)
   EndIf
   
-  If OpenWindow(#WINDOW_Compiler, 0, 0, 200, 50, #ProductName$, #PB_Window_ScreenCentered | #PB_Window_TitleBar | #PB_Window_Invisible, WindowID(#WINDOW_Main))
+  If OpenWindow(#WINDOW_Compiler, 0, 0, 200, 50, #ProductName$, #PB_Window_WindowCentered | #PB_Window_TitleBar | #PB_Window_Invisible, WindowID(#WINDOW_Main))
     
     Container = ContainerGadget(#PB_Any, 5, 5, 190, 40, #PB_Container_Single)
     ; add a dummy text for size calculation
@@ -438,7 +444,7 @@ Procedure.s BuildProjectTarget(*Target.CompileTarget, Mode, CreateExe, CheckSynt
       CompilerEndIf
       
       ; append the procects settings for the tools if needed
-      If SaveProjectSettings <> 0 And OpenFile(#FILE_SaveSource, TempPath$+"PB_EditorOutput.pb")
+      If SaveProjectSettings <> #SAVESETTINGS_EndOfFile And OpenFile(#FILE_SaveSource, TempPath$+"PB_EditorOutput.pb")
         FileSeek(#FILE_SaveSource, Lof(#FILE_SaveSource)) ; to to the end of the file
         SaveProjectSettings(*Target, #True, 1, 0)
         CloseFile(#FILE_SaveSource)
@@ -836,7 +842,7 @@ Procedure CompileRun(CheckSyntax)
             CompilerEndIf
             
             ; append the procects settings for the tools if needed
-            If SaveProjectSettings <> 0 And OpenFile(#FILE_SaveSource, TempPath$+"PB_EditorOutput.pb")
+            If SaveProjectSettings <> #SAVESETTINGS_EndOfFile And OpenFile(#FILE_SaveSource, TempPath$+"PB_EditorOutput.pb")
               FileSeek(#FILE_SaveSource, Lof(#FILE_SaveSource)) ; to to the end of the file
               SaveProjectSettings(@CompileSource, #True, 1, 0)
               CloseFile(#FILE_SaveSource)
@@ -904,7 +910,7 @@ Procedure CompileRun(CheckSyntax)
               NewCount = CompileSource\CompileCount + 1
               
               Select SaveProjectSettings
-                Case 0 ; end of source
+                Case #SAVESETTINGS_EndOfFile
                   *Buffer = 0
                   
                   If ReadFile(#FILE_ReadConfig, CompileSource\FileName$)
@@ -954,7 +960,7 @@ Procedure CompileRun(CheckSyntax)
                   EndIf
                   
                   
-                Case 1 ; filename.pb.cfg
+                Case #SAVESETTINGS_PerFileCfg ; filename.pb.cfg
                   Success = 0
                   If ReadFile(#FILE_ReadConfig, CompileSource\FileName$+".cfg")
                     If CreateFile(#FILE_SaveConfig, CompileSource\FileName$+".cfg.new")
@@ -983,7 +989,7 @@ Procedure CompileRun(CheckSyntax)
                     DeleteFile(CompileSource\FileName$+".cfg.new")
                   EndIf
                   
-                Case 2 ; project.cfg
+                Case #SAVESETTINGS_PerFolderCfg ; project.cfg
                   Success = 0
                   IsCorrectSection = 0
                   If ReadFile(#FILE_ReadConfig, GetPathPart(CompileSource\FileName$)+"project.cfg")
@@ -1017,7 +1023,7 @@ Procedure CompileRun(CheckSyntax)
                     DeleteFile(GetPathPart(CompileSource\FileName$)+"project.cfg.new")
                   EndIf
                   
-                  ; case 3 - no saving
+                  ; case #SAVESETTINGS_DoNotSave - no saving
               EndSelect
             EndIf
             

@@ -550,7 +550,6 @@ The OGRE license file can be consulted @MainGuideLink "ogre_mit" "here" (read mo
                             affect performances so it can even be activated for a release product.
   @#PB_Engine3D_DebugOutput: The actions are printed to the console. You must remember to set the executable format 
                             to 'Console' when you are compiling your programs.
-  @#PB_Engine3D_EnableCG   : Enable CG library support. It needs to be installed before use from @InternetLink "https://developer.nvidia.com/cg-toolkit-download" "nvidia website".
 @EndFixedFont
 
 @OptionalParameter "LibraryName$"
@@ -564,8 +563,7 @@ The OGRE license file can be consulted @MainGuideLink "ogre_mit" "here" (read mo
 @Remarks  
   InitEngine3D() tries to load the Engine3D library (named 'Engine3D.dll' on Windows, 'engine3d.so' on Linux
   and 'engine3d.dylib' on OS X, found in the PureBasic/compilers/ directory). If it fails, it's probably because the library
-  is not found or doesn't match the current PureBasic version. On Windows, a recent version of DirectX 9 needs to be installed (can be found here: 
-  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
+  is not found or doesn't match the current PureBasic version. On Windows, a recent version of openGL drivers needs to be installed. 
 
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen, @@Add3DArchive
@@ -1228,13 +1226,16 @@ The OGRE license file can be consulted @MainGuideLink "ogre_mit" "here" (read mo
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function WorldGravity(Gravity.f)
+@Function WorldGravity(Gravity.f [, x, y, z])
 
 @Description
   Changes the gravity of the world when the physics engine is enabled with @@EnableWorldPhysics.
   
 @Parameter "Gravity"  
   The new gravity to set. The default gravity value is set to -9.806 (which is Earth's gravitational value).
+
+@OptionalParameter "x, y, z"  
+  The gravity force vector to use, to change the gravity direction.
 
 @NoReturnValue
 

@@ -831,6 +831,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         Case 1: Text$ + " - x86"
         Case 2: Text$ + " - x64"
         Case 3: Text$ + " - ppc"
+        Case 4: Text$ + " - arm64"
       EndSelect
       
       If *Debugger\Is64bit
@@ -1222,17 +1223,8 @@ Procedure ProcessDebuggerEvent()
   
   StandaloneDebuggers_CheckExits()
   
-  CompilerIf #CompileWindows
-    ; automation requests are handled through WM_COPYDATA here
-    If Debugger_ProcessIncomingCommands() = 0
-    EndIf
-    
-  CompilerElse
-    ; process debugger and automation requests
-    ; if there are debugger messages, automation is not checked, so the debugger has priority
-    If Debugger_ProcessIncomingCommands() = 0 And ProcessAutomationRequest() = 0
-    EndIf
-  CompilerEndIf
+  If Debugger_ProcessIncomingCommands() = 0
+  EndIf
   
 EndProcedure
 

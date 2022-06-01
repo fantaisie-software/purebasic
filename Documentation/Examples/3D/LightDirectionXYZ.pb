@@ -8,8 +8,6 @@
 ; ------------------------------------------------------------
 ;
 
-#PB_Material_SelfIlluminationColor = 3
-
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 Define.f x, y, z, Distance = 1500

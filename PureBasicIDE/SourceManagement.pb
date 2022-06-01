@@ -59,8 +59,19 @@ Procedure RefreshSourceTitle(*Source.SourceFile)
     SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
     SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #COLOR_ProjectFile)
   Else
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
-    SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #PB_Default)
+    ; MacOS Colors
+    CompilerIf #CompileMac
+      
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, TabBarGadgetInclude\TextColor)
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, TabBarGadgetInclude\FaceColor)
+      
+    CompilerElse
+      
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #PB_Default)
+    
+    CompilerEndIf
+    
   EndIf
 EndProcedure
 
@@ -325,6 +336,7 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\FileName$        = FileName$
   FileList()\Debugger         = OptionDebugger  ; set the default values
   FileList()\EnablePurifier   = OptionPurifier
+  FileList()\Optimizer        = OptionOptimizer
   FileList()\EnableASM        = OptionInlineASM
   FileList()\EnableXP         = OptionXPSkin
   FileList()\EnableAdmin      = OptionVistaAdmin
@@ -342,9 +354,10 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\UseBuildCount    = OptionUseBuildCount
   FileList()\UseCompileCount  = OptionUseCompileCount
   FileList()\TemporaryExePlace= OptionTemporaryExe
+  FileList()\CustomCompiler   = OptionCustomCompiler
+  FileList()\CompilerVersion$ = OptionCompilerVersion$
   FileList()\CurrentDirectory$= ""
   FileList()\ToggleFolds      = 1
-  FileList()\CustomCompiler   = 0
   FileList()\PurifierGranularity$ = ""
   FileList()\ExistsOnDisk     = #False
   
@@ -523,7 +536,7 @@ Procedure AsciiToUTF8(*out.ASCII, *outlen.LONG, *in.ASCII, *inlen.LONG)
       *out\a = $98
       *out + 1
       
-    ElseIf *in\a = $92     ; �-char. Turn this into U+2019
+    ElseIf *in\a = $92     ; ï¿½-char. Turn this into U+2019
       *out\a = $E2
       *out + 1
       *out\a = $80
@@ -693,11 +706,11 @@ EndMacro
 ;
 Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, ReportErrors)
   
-  If SaveProjectSettings = 3 And IsTempFile = 0 ; don't save anything
+  If SaveProjectSettings = #SAVESETTINGS_DoNotSave And IsTempFile = 0 ; don't save anything
     ProcedureReturn
   EndIf
   
-  If SaveProjectSettings = 0 And IsCodeFile = 0
+  If SaveProjectSettings = #SAVESETTINGS_EndOfFile And IsCodeFile = 0
     ; Do not save settings at the end of non-code files
     ; We do however save settings when they are not appended to the file to memorize cursor position etc
     ProcedureReturn
@@ -796,7 +809,6 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddStringConfigLine("ExportArguments"   , *Target\ExportArguments$)
     AddStringConfigLine("ResourceDirectory" , *Target\ResourceDirectory$)
     AddFlagConfigLine("EnableResourceDirectory", *Target\EnableResourceDirectory)
-    AddFlagConfigLine("OptimizeJS"           , *Target\OptimizeJS)
     AddFlagConfigLine("CopyJavaScriptLibrary", *Target\CopyJavaScriptLibrary)
     AddFlagConfigLine("WebAppEnableDebugger" , *Target\WebAppEnableDebugger)
     
@@ -835,6 +847,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     
   CompilerEndIf
   
+  AddFlagConfigLine("Optimizer", *Target\Optimizer)
   
   If *Target\EnableASM And IsCodeFile
     NbLines + 1
@@ -1055,7 +1068,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
   
   ; save the config lines now
   ;
-  If SaveProjectSettings = 0 Or IsTempFile ; in source file
+  If SaveProjectSettings = #SAVESETTINGS_EndOfFile Or IsTempFile ; in source file
     
     If *Source
       If *Source\NewLineType = 0
@@ -1077,7 +1090,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
       EndIf
     Next i
     
-  ElseIf *Source And SaveProjectSettings = 1 ; save in "filename.pb.cfg"
+  ElseIf *Source And SaveProjectSettings = #SAVESETTINGS_PerFileCfg ; save in "filename.pb.cfg"
     If CreateFile(#FILE_SaveConfig, *Source\FileName$+".cfg")
       For i = 1 To NbLines
         WriteStringN(#FILE_SaveConfig, ConfigLines$(i))
@@ -1087,7 +1100,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
       MessageRequester(#ProductName$, Language("FileStuff","SaveConfigError")+":"+#NewLine+*Source\FileName$+".cfg", #FLAG_Error)
     EndIf
     
-  ElseIf *Source And  SaveProjectSettings = 2 ; save in "project.cfg"
+  ElseIf *Source And  SaveProjectSettings = #SAVESETTINGS_PerFolderCfg ; save in "project.cfg"
     If CreateFile(#FILE_SaveConfig, GetPathPart(*Source\FileName$)+"project.cfg.new")
       If ReadFile(#FILE_ReadConfig, GetPathPart(*Source\FileName$)+"project.cfg")
         While Eof(#FILE_ReadConfig) = 0
@@ -1236,11 +1249,11 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         IsIDEConfigPresent = 1
         
         CompilerIf #SpiderBasic
-        Case "OPTIMIZEJS"           : *Source\OptimizeJS = 1
         Case "WEBSERVERADDRESS"     : *Source\WebServerAddress$ = Value$
         Case "WINDOWTHEME"          : *Source\WindowTheme$ = Value$
         Case "GADGETTHEME"          : *Source\GadgetTheme$ = Value$
           
+        Case "OPTIMIZEJS"           : *Source\Optimizer = 1 ; Backward compatibility with older sources (now named "Optimizer")
         Case "WEBAPPNAME"           : *Source\WebAppName$ = Value$
         Case "WEBAPPICON"           : *Source\WebAppIcon$ = Value$
         Case "HTMLFILENAME"         : *Source\HtmlFilename$ = Value$
@@ -1284,6 +1297,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
           
         CompilerEndIf
         
+      Case "OPTIMIZER":        *Source\Optimizer = 1
       Case "ENABLEASM":        *Source\EnableASM = 1
       Case "ENABLEXP":         *Source\EnableXP = 1
       Case "ENABLEADMIN":      *Source\EnableAdmin = 1
@@ -1557,7 +1571,7 @@ EndProcedure
 Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile)
   
   
-  If SaveProjectSettings = 3 ; don't save anything
+  If SaveProjectSettings = #SAVESETTINGS_DoNotSave ; don't save anything
     ProcedureReturn Length
   EndIf
   
@@ -1566,10 +1580,10 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     *Source\ErrorLog      = 1
     *Source\EnableASM     = 0
     *Source\EnableThread  = 0
-    *Source\EnableXP      = 0
+    *Source\EnableXP      = 1
     *Source\EnableAdmin   = 0
     *Source\EnableUser    = 0
-    *Source\DPIAware      = 0
+    *Source\DPIAware      = 1
     *Source\EnableOnError = 0
     *Source\VersionInfo   = 0
     *Source\ErrorLog      = 1
@@ -1601,7 +1615,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     If IsTempFile ; for temp file, it is only inside the current source.
       ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
       
-    ElseIf SaveProjectSettings = 0
+    ElseIf SaveProjectSettings = #SAVESETTINGS_EndOfFile
       Result = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
       If Result < Length ; settings were found
         ReturnValue = Result
@@ -1612,16 +1626,16 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
         ReturnValue = Length
       EndIf
       
-    ElseIf SaveProjectSettings = 1
+    ElseIf SaveProjectSettings = #SAVESETTINGS_PerFileCfg
       If AnalyzeSettings_ConfigFile(*Source)
         ReturnValue = Length
       ElseIf AnalyzeSettings_ProjectFile(*Source)
         ReturnValue = Length
-      Else
+       Else
         ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
       EndIf
       
-    ElseIf SaveProjectSettings = 2
+    ElseIf SaveProjectSettings = #SAVESETTINGS_PerFolderCfg
       If AnalyzeSettings_ProjectFile(*Source)
         ReturnValue = Length
       ElseIf AnalyzeSettings_ConfigFile(*Source)
@@ -1658,26 +1672,6 @@ EndProcedure
 Procedure LoadSourceFile(FileName$, Activate = 1)
   success = 0
   
-  AddTools_RunFileViewer = 1 ; to tell if some tool has been executed
-  AddTools_File$ = FileName$
-  Ext$ = LCase(GetExtensionPart(FileName$))
-  
-  AddTools_Execute(#TRIGGER_FileViewer_Special, 0) ; special file tools have highest priority
-  
-  If AddTools_RunFileViewer
-    AddTools_Execute(#TRIGGER_FileViewer_All, 0)
-  EndIf
-  
-  If AddTools_RunFileViewer
-    If Ext$ <> "bmp" And Ext$ <> "png" And Ext$ <> "jpg" And Ext$ <> "jpeg" And Ext$ <> "tga" And Ext$ <> "ico" And Ext$ <> "txt"
-      AddTools_Execute(#TRIGGER_FileViewer_Unknown, 0)
-    EndIf
-  EndIf
-  
-  If AddTools_RunFileViewer = 0  ; stop if a tool has been run
-    ProcedureReturn
-  EndIf
-  
   ; Check if this is a project file
   ;
   If IsProjectFile(FileName$)
@@ -1700,6 +1694,7 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
   If LCase(GetExtensionPart(FileName$)) = "pbf"
     OpenForm(FileName$)
     RecentFiles_AddFile(FileName$, #False)
+    AddTools_Execute(#TRIGGER_SourceLoad, *ActiveSource)
     LinkSourceToProject(*ActiveSource) ; Link To project (If any)
     ProcedureReturn 1
   EndIf
@@ -1731,13 +1726,43 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
       
       ; Don't check PB sources, as it can contains weird characters well handled by Scintilla: https://www.purebasic.fr/english/viewtopic.php?f=4&t=61467
       ;
-      If (IsPureBasicFile(FileName$) = #False And IsBinaryFile(*Buffer, FileLength)) Or (Format <> #PB_Ascii And Format <> #PB_UTF8) ; check for binary files
-        FreeMemory(*Buffer)
-        CloseFile(#FILE_LoadSource)
-        ChangeStatus("", 0)
-        FileViewer_OpenFile(Filename$)
-        ProcedureReturn 1
+      If IsPureBasicFile(FileName$) = #False
+        IsBinary = IsBinaryFile(*Buffer, FileLength)
+      
+        ;first check for OpenFile-Triggers
+        If IsCodeFile(FileName$) = 0 ;exclude all code files, even those the user added
+          AddTools_RunFileViewer = 1 ; to check if some tool has been executed
+          AddTools_File$ = FileName$
+          Ext$ = LCase(GetExtensionPart(FileName$))
+          CloseFile(#FILE_LoadSource) ;better close the file here, or the tools might have problems to access it
+          AddTools_Execute(#TRIGGER_OpenFile_Special, 0) ; special open file tools have highest priority
+          If AddTools_RunFileViewer
+            Select IsBinary
+              Case 0
+                AddTools_Execute(#TRIGGER_OpenFile_nonPB_Text, 0)
+              Case 1
+                AddTools_Execute(#TRIGGER_OpenFile_nonPB_Binary, 0)
+            EndSelect
+          EndIf
+          If AddTools_RunFileViewer = 0
+            FreeMemory(*Buffer)
+            ChangeStatus("", 0)
+            ProcedureReturn 1
+          EndIf
+        EndIf
+        ;now check for common FileViewer tools
+        ;common FileViewer tools, will only trigger for binary files and non-PB files with an unknown BOM
+        If IsBinary Or (Format <> #PB_Ascii And Format <> #PB_UTF8)
+          FreeMemory(*Buffer)
+          If IsFile(#FILE_LoadSource)
+            CloseFile(#FILE_LoadSource)
+          EndIf
+          ChangeStatus("", 0)
+          FileViewer_OpenFile(Filename$)
+          ProcedureReturn 1
+        EndIf
       EndIf
+      
       
       NewSource(FileName$, #False)
       
@@ -1842,8 +1867,9 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
       MessageRequester(#ProductName$, Language("FileStuff","LoadError")+#NewLine+FileName$, #FLAG_Error)
       ChangeStatus(Language("FileStuff","LoadError"), 3000)
     EndIf
-    
-    CloseFile(#FILE_LoadSource)
+    If IsFile(#FILE_LoadSource)
+      CloseFile(#FILE_LoadSource)
+    EndIf
   Else
     MessageRequester(#ProductName$, Language("FileStuff","LoadError")+#NewLine+FileName$, #FLAG_Error)
     ChangeStatus(Language("FileStuff","LoadError"), 3000)
@@ -1874,6 +1900,7 @@ Procedure SaveSourceFile(FileName$)
     
     If FormWindows()\current_view = 0 ; Design view, we need to use the special form save routine. In code view, we just save the code as any other source
       FD_Save(FileName$)
+      AddTools_Execute(#TRIGGER_SourceSave, *ActiveSource)
       ProcedureReturn 1
     EndIf
   EndIf
@@ -2229,10 +2256,29 @@ Procedure SaveSourceAs()
       EndIf
     EndIf
     
+    ; Check if file already open in IDE
+    *SourceBeingClosed = 0
+    ForEach FileList()
+      If @FileList() <> *ActiveSource
+        If IsEqualFile(FileList()\FileName$, FileName$)
+          PromptedUser = 1
+          If MessageRequester(#ProductName$, Language("FileStuff","FileIsOpen")+#NewLine+Language("FileStuff","CloseOverWrite"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_Yes
+            *SourceBeingClosed = @FileList()
+            Break
+          Else
+            ProcedureReturn SaveSourceAs()  ; try again
+          EndIf
+        EndIf
+      EndIf
+    Next
+    If *SourceBeingClosed <> 0
+      RemoveSource(*SourceBeingClosed)
+    EndIf
+    
     ; On Cocoa the file exists dialog is already in the SavePanel, so only popup if we added an extension
     ;
-    If ForceFileCheck Or #CompileMacCocoa = 0
-      If FileSize(FileName$) > -1  ; file exist check
+    If (ForceFileCheck Or #CompileMacCocoa = 0) And *SourceBeingClosed = 0
+      If FileSize(FileName$) > -1 And IsEqualFile(FileName$, *ActiveSource\FileName$) = 0 ; file exist check
         If MessageRequester(#ProductName$, Language("FileStuff","FileExists")+#NewLine+Language("FileStuff","OverWrite"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_No
           ProcedureReturn SaveSourceAs()  ; try again
         EndIf
@@ -2242,7 +2288,10 @@ Procedure SaveSourceAs()
     Result = SaveSourceFile(FileName$)
     
     If Result
+      UnlinkSourceFromProject(*ActiveSource, #True)
       *ActiveSource\FileName$ = FileName$
+      LinkSourceToProject(*ActiveSource)
+      
       UpdateMainWindowTitle() ; we now have a new filename
       RefreshSourceTitle(*ActiveSource)
       HistoryEvent(*ActiveSource, #HISTORY_SaveAs)
@@ -2409,7 +2458,20 @@ Procedure CheckSourceSaved(*Source.SourceFile = 0)
     ProcedureReturn 1
   EndIf
   
+  ; Decide if a save prompt is needed
+  PromptUser = #False
   If GetSourceModified(*Source)
+    If *Source\FileName$ <> ""
+      PromptUser = #True
+    Else
+      ; Only prompt user to save a 'New' source if it's non-empty
+      If ScintillaSendMessage(*Source\EditorGadget, #SCI_GETLENGTH) > 0
+        PromptUser = #True
+      EndIf
+    EndIf
+  EndIf
+  
+  If PromptUser
     
     ; need to make it current for display of the question
     If *Source <> *ActiveSource
@@ -2428,7 +2490,7 @@ Procedure CheckSourceSaved(*Source.SourceFile = 0)
     
     If Result = #PB_MessageRequester_Yes
       Status = SaveSource()
-      If Status = 0 And *ActiveSource\FileName$ <> "" And (SaveProjectSettings = 1 Or SaveProjectSettings = 2 )
+      If Status = 0 And *ActiveSource\FileName$ <> "" And (SaveProjectSettings = #SAVESETTINGS_PerFileCfg Or SaveProjectSettings = #SAVESETTINGS_PerFolderCfg)
         ; if the compiler options are not stored at the end of the sourcefile,
         ; we save them even if the source is not saved.
         ; Do not report an error though (for example if the source was loaded from CD)
@@ -2437,7 +2499,7 @@ Procedure CheckSourceSaved(*Source.SourceFile = 0)
       ProcedureReturn Status
       
     ElseIf Result = #PB_MessageRequester_No
-      If *ActiveSource\FileName$ <> "" And (SaveProjectSettings = 1 Or SaveProjectSettings = 2 )
+      If *ActiveSource\FileName$ <> "" And (SaveProjectSettings = #SAVESETTINGS_PerFileCfg Or SaveProjectSettings = #SAVESETTINGS_PerFolderCfg)
         ; if the compiler options are not stored at the end of the sourcefile,
         ; we save them even if the source is not saved.
         ; Do not report an error though (for example if the source was loaded from CD)
@@ -2454,7 +2516,7 @@ Procedure CheckSourceSaved(*Source.SourceFile = 0)
     
     ; Why should we save the setting even if a source a not modified ?
     ;
-    If *Source\FileName$ <> "" And (SaveProjectSettings = 1 Or SaveProjectSettings = 2 )
+    If *Source\FileName$ <> "" And (SaveProjectSettings = #SAVESETTINGS_PerFileCfg Or SaveProjectSettings = #SAVESETTINGS_PerFolderCfg)
       ; if the compiler options are not stored at the end of the sourcefile,
       ; we save them even if the source is not saved.
       ; Do not report an error though (for example if the source was loaded from CD)

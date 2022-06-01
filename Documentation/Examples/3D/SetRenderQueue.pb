@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-;Use [F5]/[F6]
+; Use [F5]/[F6]
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 

@@ -45,7 +45,7 @@
   La sortie peut être effectivement lue soit avec @@ReadProgramString 
   soit avec @@ReadProgramData. 
 @LineBreak
-  Cependant @@ReadProgramString ou @@ReadProgramData restent bloquée indifiniment si le 
+  Cependant @@ReadProgramString ou @@ReadProgramData restent bloquée indéfiniment si le 
   programme réclame l'intervention de l'utilisateur. Comme par exemple, renvoyer un choix 
   oui/non au programme pour qu'il se poursuive.
   
@@ -459,8 +459,8 @@
 @LineBreak
 @LineBreak
   Note: La valeur renvoyée peut être fausse si le process est lancé par un wrapper 
-  comme c'est le cas avec Windows 10 et les application UWP (Universal Windows Platform) 
-  lancée par ApplicationFrameHost.exe (AFH).
+  comme c'est le cas avec Windows 10 et les applications UWP (Universal Windows Platform) 
+  lancées par ApplicationFrameHost.exe (AFH).
 @EndOS
 
 @SupportedOS
@@ -586,7 +586,7 @@
   Pour éviter ce blocage, la commande  @@AvailableProgramOutput peut être 
   utilisée pour vérifier si il y a bien des  données en attente.
   @LineBreak
-  Cependant la fonction reste bloquée indifiniment si le programme réclame l'intervention 
+  Cependant la fonction reste bloquée indéfiniment si le programme réclame l'intervention 
   de l'utilisateur. Comme par exemple, renvoyer un choix oui/non au programme pour qu'il 
   se poursuive.  
 
@@ -644,7 +644,7 @@
 @Function Resultat$ = ReadProgramString(Programme [, Options])
 
 @Description
-  Lit une ligne texte provenant de la 
+  Lit une ligne de texte provenant de la 
   sortie standard (stdout) d'un programme.
 
 @Parameter "Programme"
@@ -652,7 +652,7 @@
 @LineBreak
 @LineBreak  
   Il doit être lancé avant en utilisant 
-  @@RunProgram avec l'option @#PB_Program_Error.
+  @@RunProgram avec l'option @#PB_Program_Read.
   
 @OptionalParameter "Options"
  Le format de chaîne de caractères à utiliser 
@@ -679,7 +679,7 @@
   attend également qu'une ligne complète soit reçue. Si une lecture
   binaire est nécessaire, la commande @@ReadProgramData peut être utilisée.
 @LineBreak
-  Cependant la fonction reste bloquée indifiniment si le programme réclame l'intervention 
+  Cependant la fonction reste bloquée indéfiniment si le programme réclame l'intervention 
   de l'utilisateur. Comme par exemple, renvoyer un choix oui/non au programme pour qu'il 
   se poursuive.
   
@@ -762,7 +762,7 @@
   Les commandes suivantes peuvent être utilisées lorsque l'option @#PB_Program_Open est spécifiée:
 @LineBreak
 @LineBreak
- - @@IsProgram: teste si le numéro réprésente un programme lancé avec RunProgram().
+ - @@IsProgram: teste si le numéro représente un programme lancé avec RunProgram().
 @LineBreak
  - @@ProgramID: renvoie l'identifiant système du programme.
 @LineBreak
@@ -811,7 +811,7 @@
 
 @Example
 @Code
-  ; Execute le compilateur PureBasic avec l'option -h et affiche la sortie
+  ; Exécute le compilateur PureBasic avec l'option -h et affiche la sortie
   ;
   Compilateur = RunProgram(#PB_Compiler_Home+"compilers/pbcompiler", "-h", "", #PB_Program_Open | #PB_Program_Read)
   Sortie$ = ""
@@ -824,7 +824,7 @@
     Sortie$ + Chr(13) + Chr(13)
     Sortie$ + "Code de retour : " + Str(ProgramExitCode(Compilateur))
     
-    CloseProgram(Compilateur) ; Ferme la connection vers le programme
+    CloseProgram(Compilateur) ; Ferme la connexion vers le programme
   EndIf
   
   MessageRequester("Sortie", Sortie$)

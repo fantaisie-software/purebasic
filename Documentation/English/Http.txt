@@ -551,14 +551,14 @@
 @Code
   NewMap Header$()
   Header$("ContentType") = "text/plain"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  ; When putting no string value, it will an empty parameter
 @EndCode
 
 @ReturnValue
   Returns the HTTP request identifier if the call has been successfully initialized, zero otherwise. @@HTTPInfo can be
   used to get some info about the request. If @#PB_HTTP_Asynchronous
-  was specified, @@HTTPProgress and @@AbortHTTP can be used.
+  was specified, @@HTTPProgress can be used and @@AbortHTTP must be used.
   @@HTTPMemory can be used to get the result as a raw buffer (the raw buffer must be freed with @@FreeMemory).
   @@FinishHTTP has to be always called to finish a successfully initialized HTTP request, even if the call was synchronous.
 
@@ -590,7 +590,7 @@
   
   NewMap Header$()
   Header$("Content-Type") = "plaintext"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com", "", 0, Header$())
   If HttpRequest
@@ -648,7 +648,7 @@
 @Code
   NewMap Header$()
   Header$("ContentType") = "octectstream"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  ; When putting no string value, it will be an empty parameter
 @EndCode
 

@@ -46,17 +46,26 @@ Procedure SaveDialogPosition(*Position.DialogPosition, SaveType=0, Prefix$="")
 EndProcedure
 
 
-Procedure UpdatePreferenceSyntaxColor(ColorIndex, Color)
-  If StartDrawing(ImageOutput(#IMAGE_Preferences_FirstColor+ColorIndex))
-    Width = OutputWidth()    ; Don't use hardcoded value (to be DPI compliant)
+Procedure UpdateImageColorGadget(Gadget, Image, Color)
+  If StartDrawing(ImageOutput(Image))
+    Width = OutputWidth()    ; Don't use hardcoded value to be DPI compliant
     Height = OutputHeight()
     
     Box(0, 0, Width, Height, $000000)
     Box(1, 1, Width-2, Height-2, Color)
     StopDrawing()
-    SetGadgetState(#GADGET_Preferences_FirstColor+ColorIndex, ImageID(#IMAGE_Preferences_FirstColor+ColorIndex))
+    
+    ; Update the gadget containing this image
+    SetGadgetState(Gadget, ImageID(Image))
   EndIf
 EndProcedure
+
+
+Procedure UpdatePreferenceSyntaxColor(ColorIndex, Color)
+  UpdateImageColorGadget(#GADGET_Preferences_FirstColor+ColorIndex, #IMAGE_Preferences_FirstColor+ColorIndex, Color)
+EndProcedure
+
+
 
 Procedure LoadPreferences()
   
@@ -80,7 +89,7 @@ Procedure LoadPreferences()
   UseTabIndentForSplittedLines = ReadPreferenceLong ("UseTabIndentForSplittedLines", 0)
   AutoSave                    = ReadPreferenceLong  ("AutoSave"          , 1)
   AutoSaveAll                 = ReadPreferenceLong  ("AutoSaveAll"       , 1)
-  SaveProjectSettings         = ReadPreferenceLong  ("SaveSettingsMode"  , 0)
+  SaveProjectSettings         = ReadPreferenceLong  ("SaveSettingsMode"  , #SAVESETTINGS_EndOfFile)
   Editor_RunOnce              = ReadPreferenceLong  ("RunOnce"           , 1)
   ShowMainToolbar             = ReadPreferenceLong  ("ShowToolbar"       , 1)
   TabLength                   = ReadPreferenceLong  ("TabLength"         , 2)
@@ -89,6 +98,7 @@ Procedure LoadPreferences()
   MemorizeMarkers             = ReadPreferenceLong  ("MemorizeMarkers"   , 1)
   SelectedFilePattern         = ReadPreferenceLong  ("LastFilePattern"   , 0)
   DisplayFullPath             = ReadPreferenceLong  ("DisplayFullPath"   , 0)
+  DisplayDarkMode             = ReadPreferenceLong  ("DisplayDarkMode"   , 1)
   NoSplashScreen              = ReadPreferenceLong  ("NoSplashScreen"    , 0)
   AlwaysHideLog               = ReadPreferenceLong  ("AlwaysHideLog"     , 0)
   ShowCompilerProgress        = ReadPreferenceLong  ("ShowCompilerProgress", 0)
@@ -119,7 +129,11 @@ Procedure LoadPreferences()
   
   ;- - Editor
   PreferenceGroup("Editor")
-  IsWindowMaximized  = ReadPreferenceLong("IsWindowMaximized" , 1) ; Default to maximized window, so we have a clean launch if no pref file exists
+  CompilerIf #CompileLinux
+    IsWindowMaximized  = ReadPreferenceLong("IsWindowMaximized" , 0) ; On Raspberry and some X server, maximize doesn't work as expected and loop (and crash)
+  CompilerElse
+    IsWindowMaximized  = ReadPreferenceLong("IsWindowMaximized" , 1) ; Default to maximized window, so we have a clean launch if no pref file exists
+  CompilerEndIf
   EditorWindowX      = ReadPreferenceLong("X"     , 80)            ; to not be directly at the OSX menubar!
   EditorWindowY      = ReadPreferenceLong("Y"     , 80)
   EditorWindowWidth  = ReadPreferenceLong("Width" , 600)
@@ -741,11 +755,12 @@ Procedure LoadPreferences()
   LoadDialogPosition(@ProjectOptionWindowPosition, -1, -1, 0, 0, "ProjectOption")
   OptionDebugger             = ReadPreferenceLong("Debugger",  1)
   OptionPurifier             = ReadPreferenceLong("Purifier",  0)
+  OptionOptimizer            = ReadPreferenceLong("Optimizer", 0)
   OptionInlineASM            = ReadPreferenceLong("InlineASM", 0)
   OptionXPSkin               = ReadPreferenceLong("XPSkin",    1)
   OptionVistaAdmin           = ReadPreferenceLong("VistaAdmin",0)
   OptionVistaUser            = ReadPreferenceLong("VistaUser", 0)
-  OptionDPIAware             = ReadPreferenceLong("DPIAware", 0)
+  OptionDPIAware             = ReadPreferenceLong("DPIAware",  1)
   OptionThread               = ReadPreferenceLong("Thread",    0)
   OptionOnError              = ReadPreferenceLong("OnError",   0)
   OptionCPU                  = ReadPreferenceLong("CPU",       0)
@@ -757,6 +772,8 @@ Procedure LoadPreferences()
   OptionUseCompileCount      = ReadPreferenceLong("UseCompileCount", 0)
   OptionUseBuildCount        = ReadPreferenceLong("UseBuildCount", 0)
   OptionUseCreateExe         = ReadPreferenceLong("UseCreateExe", 0)
+  OptionCustomCompiler       = ReadPreferenceLong("CustomCompiler", 0)
+  OptionCompilerVersion$     = ReadPreferenceString("CompilerVersion", "")
   CompilerIf #SpiderBasic
     LoadDialogPosition(@CreateAppWindowPosition, -1, -1, 0, 0, "CreateApp")
     OptionTemporaryExe       = #True ; Always create the output in the source directory as we launch a webserver and don't want to launch it in temp
@@ -1081,6 +1098,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("LastFilePattern",      SelectedFilePattern)
     WritePreferenceLong  ("EnableMenuIcons",      EnableMenuIcons)
     WritePreferenceLong  ("DisplayFullPath",      DisplayFullPath)
+    WritePreferenceLong  ("DisplayDarkMode",      DisplayDarkMode)
     WritePreferenceLong  ("NoSplashScreen",       NoSplashScreen)
     WritePreferenceLong  ("AlwaysHideLog",        AlwaysHideLog)
     WritePreferenceLong  ("ShowCompilerProgress", ShowCompilerProgress)
@@ -1456,6 +1474,7 @@ Procedure SavePreferences()
     SaveDialogPosition(@ProjectOptionWindowPosition, 0, "ProjectOption")
     WritePreferenceLong  ("Debugger",           OptionDebugger)
     WritePreferenceLong  ("Purifier",           OptionPurifier)
+    WritePreferenceLong  ("Optimizer",          OptionOptimizer)
     WritePreferenceLong  ("InlineASM",          OptionInlineASM)
     WritePreferenceLong  ("XPSkin",             OptionXPSkin)
     WritePreferenceLong  ("VistaAdmin",         OptionVistaAdmin)
@@ -1473,6 +1492,8 @@ Procedure SavePreferences()
     WritePreferenceLong  ("UseBuildCount",      OptionUseBuildCount)
     WritePreferenceLong  ("UseCreateExe",       OptionUseCreateExe)
     WritePreferenceLong  ("TemporaryExe",       OptionTemporaryExe)
+    WritePreferenceLong  ("CustomCompiler",     OptionCustomCompiler)
+    WritePreferenceString("CompilerVersion",    OptionCompilerVersion$)
     
     CompilerIf #SpiderBasic
       SaveDialogPosition(@CreateAppWindowPosition, 0, "CreateApp")
@@ -1717,6 +1738,10 @@ Procedure IsPreferenceChanged()
     EndIf
   Next i
   
+  If OptionOptimizer        <> GetGadgetState(#GADGET_Preferences_Optimizer): ProcedureReturn 1: EndIf
+  If OptionCustomCompiler   <> GetGadgetState(#GADGET_Preferences_CustomCompiler): ProcedureReturn 1: EndIf
+  If OptionCompilerVersion$ <> GetGadgetText(#GADGET_Preferences_SelectCustomCompiler): ProcedureReturn 1: EndIf
+  
   CompilerIf #SpiderBasic
     If OptionWebBrowser$ <> GetGadgetText(#GADGET_Preferences_WebBrowser): ProcedureReturn 1: EndIf
     If OptionWebServerPort <> Val(GetGadgetText(#GADGET_Preferences_WebServerPort)): ProcedureReturn 1: EndIf
@@ -1747,6 +1772,7 @@ Procedure IsPreferenceChanged()
   ;  If AutoCompleteNoStrings <> GetGadgetState(#GADGET_Preferences_NoStrings): ProcedureReturn 1: EndIf
   If NoSplashScreen        <> GetGadgetState(#GADGET_Preferences_NoSplashScreen): ProcedureReturn 1: EndIf
   If DisplayFullPath       <> GetGadgetState(#GADGET_Preferences_DisplayFullPath): ProcedureReturn 1: EndIf
+  If DisplayDarkMode       <> GetGadgetState(#GADGET_Preferences_DisplayDarkMode): ProcedureReturn 1: EndIf
   If EnableMenuIcons       <> GetGadgetState(#GADGET_Preferences_EnableMenuIcons): ProcedureReturn 1: EndIf
   If AutoReload            <> GetGadgetState(#GADGET_Preferences_AutoReload): ProcedureReturn 1: EndIf
   If MemorizeWindow        <> GetGadgetState(#GADGET_Preferences_MemorizeWindow): ProcedureReturn 1: EndIf
@@ -2112,6 +2138,7 @@ Procedure ApplyPreferences()
   ;  AutoCompleteNoStrings = GetGadgetState(#GADGET_Preferences_NoStrings)
   NoSplashScreen        = GetGadgetState(#GADGET_Preferences_NoSplashScreen)
   DisplayFullPath       = GetGadgetState(#GADGET_Preferences_DisplayFullPath)
+  DisplayDarkMode       = GetGadgetState(#GADGET_Preferences_DisplayDarkMode)
   EnableMenuIcons       = GetGadgetState(#GADGET_Preferences_EnableMenuIcons)
   AutoReload            = GetGadgetState(#GADGET_Preferences_AutoReload)
   MemorizeWindow        = GetGadgetState(#GADGET_Preferences_MemorizeWindow)
@@ -2127,6 +2154,9 @@ Procedure ApplyPreferences()
   ToolsPanelSide        = GetGadgetState(#GADGET_Preferences_ToolsPanelSide)
   FindHistorySize       = Val(GetGadgetText(#GADGET_Preferences_FindHistorySize))
   AlwaysHideLog         = GetGadgetState(#GADGET_Preferences_AlwaysHideLog)
+  OptionOptimizer       = GetGadgetState(#GADGET_Preferences_Optimizer)
+  OptionCustomCompiler  = GetGadgetState(#GADGET_Preferences_CustomCompiler)
+  OptionCompilerVersion$= GetGadgetText(#GADGET_Preferences_SelectCustomCompiler)
   CompilerIf #SpiderBasic
     OptionWebBrowser$   = GetGadgetText(#GADGET_Preferences_WebBrowser)
     OptionWebServerPort = Val(GetGadgetText(#GADGET_Preferences_WebServerPort))
@@ -2780,6 +2810,7 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_MemorizeWindow, MemorizeWindow)
   SetGadgetState(#GADGET_Preferences_AutoReload, AutoReload)
   SetGadgetState(#GADGET_Preferences_DisplayFullPath, DisplayFullPath)
+  SetGadgetState(#GADGET_Preferences_DisplayDarkMode, DisplayDarkMode)
   SetGadgetState(#GADGET_Preferences_NoSplashScreen, NoSplashScreen)
   
   SetGadgetText(#GADGET_Preferences_FileHistorySize, Str(FilesHistorySize))
@@ -2804,6 +2835,10 @@ Procedure OpenPreferencesWindow()
   CompilerIf #CompileMac
     SetGadgetState(#GADGET_Preferences_RunOnce, 0)
     DisableGadget(#GADGET_Preferences_RunOnce, 1)
+  CompilerEndIf
+  
+  CompilerIf Not #CompileMac
+    DisableGadget(#GADGET_Preferences_DisplayDarkMode, 1)
   CompilerEndIf
   
   ;- --> Language
@@ -3087,14 +3122,8 @@ Procedure OpenPreferencesWindow()
   
   ;- --> Issues
   ;
-  
-  If CreateImage(#IMAGE_Preferences_IssueColor, 45, 20)
-    If StartDrawing(ImageOutput(#IMAGE_Preferences_IssueColor))
-      Box(0, 0, 45, 20, $000000)
-      Box(1, 1, 43, 18, $C0C0C0)
-      StopDrawing()
-    EndIf
-    SetGadgetState(#GADGET_Preferences_IssueColor, ImageID(#IMAGE_Preferences_IssueColor))
+  If CreateImage(#IMAGE_Preferences_IssueColor, DesktopScaledX(45), DesktopScaledY(20))
+    UpdateImageColorGadget(#GADGET_Preferences_IssueColor, #IMAGE_Preferences_IssueColor, $C0C0C0)
   EndIf
   
   ; Small hack:
@@ -3195,6 +3224,20 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_UseBuildCount, OptionUseBuildCount)
   
   SetGadgetText(#GADGET_Preferences_SubSystem, OptionSubSystem$)
+  
+  SetGadgetState(#GADGET_Preferences_Optimizer, OptionOptimizer)
+  SetGadgetState(#GADGET_Preferences_CustomCompiler, OptionCustomCompiler)
+  
+  AddGadgetItem(#GADGET_Preferences_SelectCustomCompiler, -1, DefaultCompiler\VersionString$)
+  ForEach PreferenceCompilers()
+    If PreferenceCompilers()\Validated
+      AddGadgetItem(#GADGET_Preferences_SelectCustomCompiler, -1, PreferenceCompilers()\VersionString$)
+    EndIf
+  Next PreferenceCompilers()
+  SetGadgetText(#GADGET_Preferences_SelectCustomCompiler, OptionCompilerVersion$)
+  If OptionCustomCompiler = #False
+    DisableGadget(#GADGET_Preferences_SelectCustomCompiler, #True)
+  EndIf
   
   CompilerIf #SpiderBasic
     SetGadgetText(#GADGET_Preferences_WebBrowser, OptionWebBrowser$)
@@ -3372,22 +3415,12 @@ Procedure OpenPreferencesWindow()
   
   ;- --> Options
   ;
-  If CreateImage(#IMAGE_Preferences_ToolsPanelFrontColor, 45, 21)
-    If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelFrontColor))
-      Box(0, 0, 45, 21, $000000)
-      Box(1, 1, 43, 19, ToolsPanelFrontColor)
-      StopDrawing()
-    EndIf
-    SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))
+  If CreateImage(#IMAGE_Preferences_ToolsPanelFrontColor, DesktopScaledX(45), DesktopScaledY(21))
+    UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelFrontColor, #IMAGE_Preferences_ToolsPanelFrontColor, ToolsPanelFrontColor)
   EndIf
   
-  If CreateImage(#IMAGE_Preferences_ToolsPanelBackColor, 45, 21)
-    If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelBackColor))
-      Box(0, 0, 45, 21, $000000)
-      Box(1, 1, 43, 19, ToolsPanelBackColor)
-      StopDrawing()
-    EndIf
-    SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))
+  If CreateImage(#IMAGE_Preferences_ToolsPanelBackColor, DesktopScaledX(45), DesktopScaledX(21))
+    UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelBackColor, #IMAGE_Preferences_ToolsPanelBackColor, ToolsPanelBackColor)
   EndIf
   
   SetGadgetState(#GADGET_Preferences_ToolsPanelSide, ToolsPanelSide)
@@ -3804,23 +3837,12 @@ Procedure ImportPreferences()
         PreferenceToolsPanelFrontColor = ColorFromRGBString(ReadPreferenceString("ToolsPanel_FrontColor", RGBString(PreferenceToolsPanelFrontColor)))
         PreferenceToolsPanelBackColor = ColorFromRGBString(ReadPreferenceString("ToolsPanel_BackColor", RGBString(PreferenceToolsPanelBackColor)))
         
-        
         If IsImage(#IMAGE_Preferences_ToolsPanelFrontColor)
-          If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelFrontColor))
-            Box(0, 0, 45, 21, $000000)
-            Box(1, 1, 43, 19, PreferenceToolsPanelFrontColor)
-            StopDrawing()
-          EndIf
-          SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))
+          UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelFrontColor, #IMAGE_Preferences_ToolsPanelFrontColor, PreferenceToolsPanelFrontColor)
         EndIf
         
         If IsImage(#IMAGE_Preferences_ToolsPanelBackColor)
-          If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelBackColor))
-            Box(0, 0, 45, 21, $000000)
-            Box(1, 1, 43, 19, PreferenceToolsPanelBackColor)
-            StopDrawing()
-          EndIf
-          SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))
+          UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelBackColor, #IMAGE_Preferences_ToolsPanelBackColor, PreferenceToolsPanelBackColor)
         EndIf
         
       EndIf
@@ -4074,6 +4096,7 @@ Procedure Preferences_AddNewCompiler(Executable$)
     
     If PreferenceCompilers()\Validated
       AddGadgetItem(#GADGET_Preferences_CompilerList, -1, PreferenceCompilers()\VersionString$+Chr(10)+PreferenceCompilers()\Executable$)
+      AddGadgetItem(#GADGET_Preferences_SelectCustomCompiler, -1, PreferenceCompilers()\VersionString$)
     Else
       AddGadgetItem(#GADGET_Preferences_CompilerList, -1, Language("Compiler","UnknownVersion")+Chr(10)+PreferenceCompilers()\Executable$)
     EndIf
@@ -4631,19 +4654,17 @@ Procedure PreferencesWindowEvents(EventID)
           AddGadgetItem(#GADGET_Preferences_ToolbarList, -1, "")
           PreferenceToolbarCount + 1
           index = PreferenceToolbarCount
-          If GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 0
+          If GetGadgetState(#GADGET_Preferences_ToolbarIconType) = #TOOLBARICONTYPE_Separator
             PreferenceToolbar(index)\Name$ = "Separator"
             PreferenceToolbar(index)\Action$ = ""
-          ElseIf GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 1
+          ElseIf GetGadgetState(#GADGET_Preferences_ToolbarIconType) = #TOOLBARICONTYPE_Space
             PreferenceToolbar(index)\Name$ = "Space"
             PreferenceToolbar(index)\Action$ = ""
           Else
             Select GetGadgetState(#GADGET_Preferences_ToolbarIconType)
-              Case 2 ; standard
-                PreferenceToolbar(index)\Name$ = StandardButtonName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
-              Case 3 ; menu
+              Case #TOOLBARICONTYPE_Internal
                 PreferenceToolbar(index)\Name$ = ToolbarMenuName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
-              Case 4 ; external
+              Case #TOOLBARICONTYPE_External
                 PreferenceToolbar(index)\Name$ = "External:"+GetGadgetText(#GADGET_Preferences_ToolbarIconName)
             EndSelect
             
@@ -4662,19 +4683,17 @@ Procedure PreferencesWindowEvents(EventID)
         index = GetGadgetState(#GADGET_Preferences_ToolbarList) + 1
         If index <> 0
           
-          If GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 0
+          If GetGadgetState(#GADGET_Preferences_ToolbarIconType) = #TOOLBARICONTYPE_Separator
             PreferenceToolbar(index)\Name$ = "Separator"
             PreferenceToolbar(index)\Action$ = ""
-          ElseIf GetGadgetState(#GADGET_Preferences_ToolbarIconType) = 1
+          ElseIf GetGadgetState(#GADGET_Preferences_ToolbarIconType) = #TOOLBARICONTYPE_Space
             PreferenceToolbar(index)\Name$ = "Space"
             PreferenceToolbar(index)\Action$ = ""
           Else
             Select GetGadgetState(#GADGET_Preferences_ToolbarIconType)
-              Case 2 ; standard
-                PreferenceToolbar(index)\Name$ = StandardButtonName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
-              Case 3 ; menu
+              Case #TOOLBARICONTYPE_Internal
                 PreferenceToolbar(index)\Name$ = ToolbarMenuName$(GetGadgetState(#GADGET_Preferences_ToolbarIconList)+1)
-              Case 4 ; external
+              Case #TOOLBARICONTYPE_External
                 PreferenceToolbar(index)\Name$ = "External:"+GetGadgetText(#GADGET_Preferences_ToolbarIconName)
             EndSelect
             
@@ -4737,12 +4756,7 @@ Procedure PreferencesWindowEvents(EventID)
         If Color <> -1
           PreferenceToolsPanelFrontColor = Color
           If IsImage(#IMAGE_Preferences_ToolsPanelFrontColor)
-            If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelFrontColor))
-              Box(0, 0, 45, 21, $000000)
-              Box(1, 1, 43, 19, Color)
-              StopDrawing()
-            EndIf
-            SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))
+            UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelFrontColor, #IMAGE_Preferences_ToolsPanelFrontColor, Color)
           EndIf
         EndIf
         
@@ -4751,12 +4765,7 @@ Procedure PreferencesWindowEvents(EventID)
         If Color <> -1
           PreferenceToolsPanelBackColor = Color
           If IsImage(#IMAGE_Preferences_ToolsPanelBackColor)
-            If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelBackColor))
-              Box(0, 0, 45, 21, $000000)
-              Box(1, 1, 43, 19, Color)
-              StopDrawing()
-            EndIf
-            SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))
+            UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelBackColor, #IMAGE_Preferences_ToolsPanelBackColor, Color)
           EndIf
         EndIf
         
@@ -4968,7 +4977,7 @@ Procedure PreferencesWindowEvents(EventID)
           PreferenceDebugOutFontStyle = SelectedFontStyle()
         EndIf
         
-      Case #GADGET_Preferences_ColorSchemeSet
+      Case #GADGET_Preferences_ColorSchemes
         index = GetGadgetState(#GADGET_Preferences_ColorSchemes)
         
         Restore DefaultColorSchemes
@@ -5022,23 +5031,12 @@ Procedure PreferencesWindowEvents(EventID)
           Next i
           
           If IsImage(#IMAGE_Preferences_ToolsPanelFrontColor)
-            If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelFrontColor))
-              Box(0, 0, 45, 21, $000000)
-              Box(1, 1, 43, 19, PreferenceToolsPanelFrontColor)
-              StopDrawing()
-            EndIf
-            SetGadgetState(#GADGET_Preferences_ToolsPanelFrontColor, ImageID(#IMAGE_Preferences_ToolsPanelFrontColor))
+            UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelFrontColor, #IMAGE_Preferences_ToolsPanelFrontColor, PreferenceToolsPanelFrontColor)
           EndIf
           
           If IsImage(#IMAGE_Preferences_ToolsPanelBackColor)
-            If StartDrawing(ImageOutput(#IMAGE_Preferences_ToolsPanelBackColor))
-              Box(0, 0, 45, 21, $000000)
-              Box(1, 1, 43, 19, PreferenceToolsPanelBackColor)
-              StopDrawing()
-            EndIf
-            SetGadgetState(#GADGET_Preferences_ToolsPanelBackColor, ImageID(#IMAGE_Preferences_ToolsPanelBackColor))
+            UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelBackColor, #IMAGE_Preferences_ToolsPanelBackColor, PreferenceToolsPanelBackColor)
           EndIf
-          
         EndIf
         
         
@@ -5089,13 +5087,28 @@ Procedure PreferencesWindowEvents(EventID)
       Case #GADGET_Preferences_RemoveCompiler
         index = GetGadgetState(#GADGET_Preferences_CompilerList)
         If index <> -1
+          RemovedVersion$ = GetGadgetItemText(#GADGET_Preferences_CompilerList, index, 0)
           RemoveGadgetItem(#GADGET_Preferences_CompilerList, index)
           SelectElement(PreferenceCompilers(), index)
           DeleteElement(PreferenceCompilers())
+          
+          ; remove also from compiler defaults gadget. Never remove the default compiler (index 0)
+          For i = 1 To CountGadgetItems(#GADGET_Preferences_SelectCustomCompiler)-1
+            If GetGadgetItemText(#GADGET_Preferences_SelectCustomCompiler, i, 0) = RemovedVersion$
+              RemoveGadgetItem(#GADGET_Preferences_SelectCustomCompiler, i)
+              Break
+            EndIf
+          Next i
+          ; switch back to default if the selected compiler was removed
+          If GetGadgetState(#GADGET_Preferences_SelectCustomCompiler) = -1
+            SetGadgetState(#GADGET_Preferences_SelectCustomCompiler, 0)
+          EndIf
         EndIf
         
       Case #GADGET_Preferences_ClearCompilers
         ClearGadgetItems(#GADGET_Preferences_CompilerList)
+        ClearGadgetItems(#GADGET_Preferences_SelectCustomCompiler)
+        AddGadgetItem(#GADGET_Preferences_SelectCustomCompiler, -1, DefaultCompiler\VersionString$) ; re-add default compiler
         ClearList(PreferenceCompilers())
         
       Case #GADGET_Preferences_SelectCompiler
@@ -5112,6 +5125,13 @@ Procedure PreferencesWindowEvents(EventID)
         File$ = OpenFileRequester(Language("Preferences","SelectCompiler"), File$, Pattern$, 0)
         If File$ <> ""
           SetGadgetText(#GADGET_Preferences_CompilerExe, File$)
+        EndIf
+        
+      Case #GADGET_Preferences_CustomCompiler
+        If GetGadgetState(#GADGET_Preferences_CustomCompiler)
+          DisableGadget(#GADGET_Preferences_SelectCustomCompiler, #False)
+        Else
+          DisableGadget(#GADGET_Preferences_SelectCustomCompiler, #True)
         EndIf
         
         
@@ -5212,12 +5232,7 @@ Procedure PreferencesWindowEvents(EventID)
           SetGadgetState(#GADGET_Preferences_IssueInTool, PreferenceIssues()\InTool)
           SetGadgetState(#GADGET_Preferences_IssueInBrowser, PreferenceIssues()\InBrowser)
           
-          If StartDrawing(ImageOutput(#IMAGE_Preferences_IssueColor))
-            Box(0, 0, 45, 20, $000000)
-            Box(1, 1, 43, 18, PreferenceIssues()\Color)
-            StopDrawing()
-          EndIf
-          SetGadgetState(#GADGET_Preferences_IssueColor, ImageID(#IMAGE_Preferences_IssueColor))
+          UpdateImageColorGadget(#GADGET_Preferences_IssueColor, #IMAGE_Preferences_IssueColor, PreferenceIssues()\Color)
           PreferenceIssueColor = PreferenceIssues()\Color
           
           Select PreferenceIssues()\CodeMode
@@ -5315,12 +5330,7 @@ Procedure PreferencesWindowEvents(EventID)
       Case #GADGET_Preferences_SelectIssueColor
         NewColor = ColorRequester(PreferenceIssueColor)
         If NewColor <> -1
-          If StartDrawing(ImageOutput(#IMAGE_Preferences_IssueColor))
-            Box(0, 0, 45, 20, $000000)
-            Box(1, 1, 43, 18, NewColor)
-            StopDrawing()
-          EndIf
-          SetGadgetState(#GADGET_Preferences_IssueColor, ImageID(#IMAGE_Preferences_IssueColor))
+          UpdateImageColorGadget(#GADGET_Preferences_IssueColor, #IMAGE_Preferences_IssueColor, NewColor)
           PreferenceIssueColor = NewColor
         EndIf
         
@@ -5495,7 +5505,7 @@ DataSection
   CompilerElse
     
     ; total number of defined schemes:
-    Data.l 9
+    Data.l 10
     
   CompilerEndIf
   
@@ -5842,6 +5852,50 @@ DataSection
   Data.l $000000 ; #COLOR_Module
   Data.l $FFA915 ; #COLOR_SelectionRepeat
   Data.l $FFFFFF ; #COLOR_PlainBackground
+  
+  
+  Data$ "Dark Mode"
+  Data.l $FFFFFF ;  ToolsPanel_BackColor
+  Data.l $2A2822 ;  ToolsPanel_FrontColor
+  Data.l $787DFF ; #COLOR_ASMKeyword
+  Data.l $2A2822 ; #COLOR_GlobalBackground
+  Data.l $63C793 ; #COLOR_BasicKeyword
+  Data.l $7B7466 ; #COLOR_Comment
+  Data.l $BD82A0 ; #COLOR_Constant
+  Data.l $8AA399 ; #COLOR_Label
+  Data.l $F3F2F1 ; #COLOR_NormalText
+  Data.l $22CDFF ; #COLOR_Number
+  Data.l $F3F2F1 ; #COLOR_Operator
+  Data.l $8AA399 ; #COLOR_Pointer
+  Data.l $B18C67 ; #COLOR_PureKeyword
+  Data.l $F3F2F1 ; #COLOR_Separator
+  Data.l $0076EC ; #COLOR_String
+  Data.l $8AA399 ; #COLOR_Structure
+  Data.l $494E3F ; #COLOR_LineNumber
+  Data.l $343129 ; #COLOR_LineNumberBack
+  Data.l $AAAA00 ; #COLOR_Marker
+  Data.l $2A2822 ; #COLOR_CurrentLine
+  Data.l $64614F ; #COLOR_Selection
+  Data.l $FFFFFF ; #COLOR_SelectionFront
+  Data.l $FFFFFF ; #COLOR_Cursor
+  Data.l $FFE8E8 ; #COLOR_DebuggerLine
+  Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol
+  Data.l $0000FF ; #COLOR_DebuggerError
+  Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
+  Data.l $463A96 ; #COLOR_DebuggerBreakPoint
+  Data.l $463A96 ; #COLOR_DebuggerBreakpoinSymbol
+  Data.l $494E3F ; #COLOR_DisabledBack
+  Data.l $666600 ; #COLOR_GoodBrace
+  Data.l $0000FF ; #COLOR_BadBrace
+  Data.l $2A2822 ; #COLOR_ProcedureBack
+  Data.l $63C793 ; #COLOR_CustomKeyword
+  Data.l $0076EC ; #COLOR_DebuggerWarning
+  Data.l $0076EC ; #COLOR_DebuggerWarningSymbol
+  Data.l $AAAA00 ; #COLOR_Whitespace
+  Data.l $C08000 ; #COLOR_Module
+  Data.l $594646 ; #COLOR_SelectionRepeat
+  Data.l $000000 ; #COLOR_PlainBackground
+  
   
   Data$ "Accessibility"
   Data.l 0        ;  ToolsPanelFrontColor

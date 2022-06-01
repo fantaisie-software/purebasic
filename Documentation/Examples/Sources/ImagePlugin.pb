@@ -50,7 +50,7 @@ If OpenWindow(0, 0, 0, 250, 130, "PureBasic - Image Converter", #PB_Window_Syste
             If LoadImage(0, Filename$)
               SetGadgetState(0, ImageID(0))  ; change the picture in the gadget
               DisableToolBarButton(0, 1, 0)    ; enable the save button
-              ResizeWindow(0, #PB_Ignore, #PB_Ignore, ImageWidth(0)+4, ImageHeight(0)+34)
+              ResizeWindow(0, #PB_Ignore, #PB_Ignore, DesktopUnscaledX(ImageWidth(0)+4), DesktopUnscaledY(ImageHeight(0)+34))
             EndIf
           
           EndIf

@@ -25,7 +25,6 @@ Welcome to __PureBasic OpenSources Projects__, a central public repository to ac
     - [Forking on GitHub](#forking-on-github)
 - [Contributing](#contributing)
 - [Credits](#credits)
-    - [Libmba](#libmba)
     - [Monokai Theme](#monokai-theme)
     - [Silk Icon Set](#silk-icon-set)
 - [Acknowledgements](#acknowledgements)
@@ -111,18 +110,6 @@ The Guidelines present an introduction to the project and it's goals, providing 
 
 The list of third party components used in this project, with due credits to their authors and license terms.
 More details can be found inside the folder of each asset.
-
-## Libmba
-
-- [`PureBasicIDE/libmba/`][libmba/]
-
-The PureBasic IDE uses the __[libmba]__ library by Michael B. Allen, released under the terms of the MIT License.
-
-```
-The MIT License
-
-Copyright (c) 2001-2005 Michael B. Allen <mba2000 ioplex.com>
-```
 
 ## Monokai Theme
 
@@ -214,7 +201,6 @@ work in the PureBasic package.
 [CC-BY-2.5]: https://creativecommons.org/licenses/by/2.5/ "Creative Commons Attribution 2.5 Generic"
 [Git]: https://git-scm.com "Visit Git website"
 [GitHub]: https://github.com/ "Visit GitHub main page"
-[libmba]: http://www.ioplex.com/~miallen/libmba/ "Visit libmba home page"
 [Silk icon set 1.3]: http://www.famfamfam.com/lab/icons/silk/ "Visit the Silk Icons page at www.famfamfam.com"
 
 <!-- references -->
@@ -250,7 +236,6 @@ work in the PureBasic package.
 [default theme]: ./PureBasicIDE/data/DefaultTheme/ "Navigate to the Default Theme folder"
 [SilkTheme]: ./PureBasicIDE/data/SilkTheme/ "Navigate to the Silk Icon Theme folder"
 [SpiderBasic logo]: ./PureBasicIDE/data/SpiderBasic/ "Navigate to the SpiderBasic logo folder"
-[libmba/]: ./PureBasicIDE/libmba/ "Navigate to the libmba folder"
 
 <!-- people -->
 

@@ -1,7 +1,7 @@
 ;
 ;     Material library documentation
 ;
-;       (c) 2018 - Fantaisie Software
+;       (c) 2021 - Fantaisie Software
 ;
 
 @Library Material
@@ -9,11 +9,11 @@
 @Overview
   Materials are composed of one or several @LibraryLink "texture" "textures" and sometimes of some colors. They are
   widely used by the other objects of the 3D world like the @LibraryLink "entity" "entities",
-  @LibraryLink "billboard" "billboards" and @LibraryLink "particle" "particles" to give them a skin. 
+  @LibraryLink "billboard" "billboards" and @LibraryLink "particle" "particles" to give them a skin.
 @LineBreak
 @LineBreak
   Each material has a lot a properties like the shading, ambient and specular
-  color, etc. to allow realistic looking material like wood, water, glass and more. 
+  color, etc. to allow realistic looking materials like wood, water, glass and more.
 @LineBreak
 @LineBreak
   @@InitEngine3D must be called successfully before using the Material functions.
@@ -29,8 +29,8 @@
 @Function AddMaterialLayer(#Material, TextureID [, Mode [, TextureCoordinateIndex]])
 
 @Description
-  Adds a new layer to the material and put the specified texture in it. 
-    
+  Adds a new layer to the material and put the specified texture in it.
+
 @Parameter "#Material"
   The material to use.
 
@@ -38,13 +38,19 @@
   The texture to add. A valid 'TextureID' can be easily obtained with @@TextureID.
 
 @OptionalParameter "Mode"
-  It can be one of the following value:
-@FixedFont  
+  It can be one of the following values:
+@FixedFont
   @#PB_Material_Add        : Performs a pixel 'Add' operation over previous layer (black color is like transparent)
+  @#PB_Material_AddSigned  : Performs a pixel signed 'Add' operation over previous layer (black color is like transparent)
+  @#PB_Material_Substract  : Performs a pixel 'Substract' operation over previous layer (black color is like transparent)
   @#PB_Material_Replace    : Performs a pixel 'Replace' operation over previous layer
   @#PB_Material_AlphaBlend : Use the AlphaChannel layer of the texture (should be a TGA or PNG one) and blend it with the previous layer
-  @#PB_Material_Modulate   : Performs a pixel 'Modulate' operation over previous layer
-@EndFixedFont  
+  @#PB_Material_Modulate   : Performs a pixel 'Multiply' operation over previous layer
+  @#PB_Material_ModulateX2 : Performs a pixel 'Multiply' operation over previous layer and brighten afterwards (x2)
+  @#PB_Material_ModulateX4 : Performs a pixel 'Multiply' operation over previous layer and brighten afterwards (x4)
+  @#PB_Material_BlendDiffuseAlpha: Use the AlphaChannel layer of the texture and blend it with the previous layer with diffuse
+  @#PB_Material_BlendCurrentAlpha: Use the AlphaChannel layer of the current stage and blend it with the previous layer
+@EndFixedFont
 
 @OptionalParameter "TextureCoordinateIndex"
   Texture coordinate index (default value is 0).
@@ -65,14 +71,14 @@
 
 @Parameter "#Material"
   The material to copy.
-  
+
 @Parameter "#NewMaterial"
   A number to identify the new material.
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
 
 @ReturnValue
   Nonzero if the material was successfully duplicated, zero otherwise. If @#PB_Any was used
-  for the #NewMaterial parameter then the generated number is returned on success.
+  for the #NewMaterial parameter, then the generated number is returned on success.
 
 @SupportedOS
 
@@ -82,10 +88,10 @@
 
 @Description
   Returns the number of layers the material contains.
-  
+
 @Parameter "#Material"
   The material to use.
-  
+
 @ReturnValue
   The number of layers the material contains.
 
@@ -93,7 +99,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = CreateMaterial(#Material, TextureID)
+@Function Result = CreateMaterial(#Material, TextureID [, Color])
 
 @Description
   Creates a new material using the specified texture.
@@ -101,13 +107,348 @@
 @Parameter "#Material"
   A number to identify the new material.
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
-  
+
 @Parameter "TextureID"
-  The texture to use. A valid 'TextureID' can be easily obtained with @@TextureID.
+  The texture to use or @#Null if no texture is needed. A valid 'TextureID' can be easily obtained with @@TextureID.
+
+@OptionalParameter "Color"
+  The color to use for ambiant and diffuse. A valid RGB color can be created with @@RGB.
 
 @ReturnValue
   Nonzero if the material was successfully created, zero otherwise. If @#PB_Any was used
-  for the #Material parameter then the generated number is returned on success.
+  for the #Material parameter, then the generated number is returned on success.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateAnimatedMaterial(#Material, TextureArray(), Duration.f)
+
+@Description
+  Creates a new animated material using the specified textures.
+
+@Parameter "#Material"
+  A number to identify the new animated material.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "TextureArray()"
+  An array of TextureID, with all the textures to use for the animation. @@TextureID can be used
+  to get a valid texture identifier.
+
+@Parameter "Duration"
+  The animation duration in seconds. It can be a fractional number, for example: 1.5 which will be one second and half.
+  Once the animation is finished, it will automatically start again.
+
+@ReturnValue
+  Nonzero if the animated material was successfully created, zero otherwise. If @#PB_Any was used
+  for the #Material parameter, then the generated number is returned on success.
+
+@Example
+@Code
+  CreateTexture(0, 256, 256)
+  CreateTexture(1, 256, 256)
+  CreateTexture(2, 256, 256)
+
+  Dim Textures(2)
+  Textures(0) = TextureID(0)
+  Textures(1) = TextureID(1)
+  Textures(2) = TextureID(2)
+
+  ; Creates an animated material with 3 textures, which will play for 500ms
+  ;
+  CreateAnimatedMaterial(0, Textures(), 0.5)
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateShader(ShaderID, VertexProgram$, FragmentProgram$)
+
+@Description
+  Creates a new shader using the specified vertex and fragment programs.
+
+@Parameter "ShaderID"
+  A number between 0 and 65536 to identify the new shader. To select
+  one of the predefined shader, use one of the following values as 'ShaderID' (VertexProgram$
+  and FragmentProgram$ values will be ignored):
+@FixedFont
+  @#PB_Material_ColorShader
+  @#PB_Material_PerpixelShader
+  @#PB_Material_BumpShader
+  @#PB_Material_SkyShader
+  @#PB_Material_WaterShader
+  @#PB_Material_WaterShaderRTT
+  @#PB_Material_OceanShader
+  @#PB_Material_PointSpriteSphereShader
+@EndFixedFont
+  
+@Parameter "VertexProgram$"
+  The GLSL program to use for vertices.
+
+@Parameter "FragmentProgram$"
+  The GLSL program to use for fragments.
+
+@ReturnValue
+  Nonzero if the shader was successfully created, zero otherwise.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateShaderMaterial(#Material, ShaderID)
+
+@Description
+  Creates a new shader based material.
+
+@Parameter "#Material"
+  A number to identify the new material.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+  
+@Parameter "ShaderID"
+  The shader identifier. @@CreateShader is used to create a new shader.
+  
+@ReturnValue
+  Nonzero if the shader based material was successfully created, zero otherwise. If @#PB_Any was used
+  for the #Material parameter, then the generated number is returned on success.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderAutoParameter(#Material, ProgramType, ParameterName$, ParameterType, ExtraValue.f)
+
+@Description
+  Set a parameter value for the shader based material previous created with @@CreateShaderMaterial.
+
+@Parameter "#Material"
+  The material to use.
+
+@Parameter "ProgramType"
+  Program type. It can be one of the following values:
+@FixedFont
+  @#PB_Shader_Vertex  : use the vertex program.
+  @#PB_Shader_Fragment: use the fragment program.
+@EndFixedFont
+
+@Parameter "ParameterName$"
+  Name of the parameter with the GLSL program to use.
+
+@Parameter "ParameterType"
+  Parameter type. It can be one of the following values:
+@FixedFont
+  @#PB_Shader_WorldMatrix
+  @#PB_Shader_InverseWorldMatrix
+  @#PB_Shader_TransposeWorldMatrix
+  @#PB_Shader_InverseTransposeWorldMatrix
+  @#PB_Shader_WorldMatrixArray3x4
+  @#PB_Shader_WorldMatrixArray
+  @#PB_Shader_WorldDualquaternionArray2x4
+  @#PB_Shader_WorldScaleShearMatrixArray3x4
+  @#PB_Shader_ViewMatrix
+  @#PB_Shader_InverseViewMatrix
+  @#PB_Shader_TransposeViewMatrix
+  @#PB_Shader_InverseTransposeViewMatrix
+  @#PB_Shader_ProjectionMatrix
+  @#PB_Shader_InverseProjectionMatrix
+  @#PB_Shader_TransposeProjectionMatrix
+  @#PB_Shader_InverseTransposeProjectionMatrix
+  @#PB_Shader_ViewprojMatrix
+  @#PB_Shader_InverseViewprojMatrix
+  @#PB_Shader_TransposeViewprojMatrix
+  @#PB_Shader_InverseTransposeViewprojMatrix
+  @#PB_Shader_WorldviewMatrix
+  @#PB_Shader_InverseWorldviewMatrix
+  @#PB_Shader_TransposeWorldviewMatrix
+  @#PB_Shader_InverseTransposeWorldviewMatrix
+  @#PB_Shader_WorldviewprojMatrix
+  @#PB_Shader_InverseWorldviewprojMatrix
+  @#PB_Shader_TransposeWorldviewprojMatrix
+  @#PB_Shader_InverseTransposeWorldviewprojMatrix
+  @#PB_Shader_RenderTargetFlipping
+  @#PB_Shader_VertexWinding
+  @#PB_Shader_FogColour
+  @#PB_Shader_FogParams
+  @#PB_Shader_SurfaceAmbientColour
+  @#PB_Shader_SurfaceDiffuseColour
+  @#PB_Shader_SurfaceSpecularColour
+  @#PB_Shader_SurfaceEmissiveColour
+  @#PB_Shader_SurfaceShininess
+  @#PB_Shader_LightCount
+  @#PB_Shader_AmbientLightColour
+  @#PB_Shader_LightDiffuseColour
+  @#PB_Shader_LightSpecularColour
+  @#PB_Shader_LightAttenuation
+  @#PB_Shader_SpotlightParams
+  @#PB_Shader_LightPosition
+  @#PB_Shader_LightPositionObjectSpace
+  @#PB_Shader_LightPositionViewSpace
+  @#PB_Shader_LightDirection
+  @#PB_Shader_LightDirectionObjectSpace
+  @#PB_Shader_LightDirectionViewSpace
+  @#PB_Shader_LightDistanceObjectSpace
+  @#PB_Shader_LightPowerScale
+  @#PB_Shader_LightDiffuseColourPowerScaled
+  @#PB_Shader_LightSpecularColourPowerScaled
+  @#PB_Shader_LightDiffuseColourArray
+  @#PB_Shader_LightSpecularColourArray
+  @#PB_Shader_LightDiffuseColourPowerScaledArray
+  @#PB_Shader_LightSpecularColourPowerScaledArray
+  @#PB_Shader_LightAttenuationArray
+  @#PB_Shader_LightPositionArray
+  @#PB_Shader_LightPositionObjectSpaceArray
+  @#PB_Shader_LightPositionViewSpaceArray
+  @#PB_Shader_LightDirectionArray
+  @#PB_Shader_LightDirectionObjectSpaceArray
+  @#PB_Shader_LightDirectionViewSpaceArray
+  @#PB_Shader_LightDistanceObjectSpaceArray
+  @#PB_Shader_LightPowerScaleArray
+  @#PB_Shader_SpotlightParamsArray
+  @#PB_Shader_DerivedAmbientLightColour
+  @#PB_Shader_DerivedSceneColour
+  @#PB_Shader_DerivedLightDiffuseColour
+  @#PB_Shader_DerivedLightSpecularColour
+  @#PB_Shader_DerivedLightDiffuseColourArray
+  @#PB_Shader_DerivedLightSpecularColourArray
+  @#PB_Shader_LightNumber
+  @#PB_Shader_LightCastsShadows
+  @#PB_Shader_ShadowExtrusionDistance
+  @#PB_Shader_CameraPosition
+  @#PB_Shader_CameraPositionObjectSpace
+  @#PB_Shader_TextureViewprojMatrix
+  @#PB_Shader_TextureViewprojMatrixArray
+  @#PB_Shader_TextureWorldviewprojMatrix
+  @#PB_Shader_TextureWorldviewprojMatrixArray
+  @#PB_Shader_SpotlightViewprojMatrix
+  @#PB_Shader_SpotlightViewprojMatrixArray
+  @#PB_Shader_SpotlightWorldviewprojMatrix
+  @#PB_Shader_Custom
+  @#PB_Shader_Time
+  @#PB_Shader_Time0X
+  @#PB_Shader_Costime0X
+  @#PB_Shader_Sintime0X
+  @#PB_Shader_Tantime0X
+  @#PB_Shader_Time0XPacked
+  @#PB_Shader_Time01
+  @#PB_Shader_Costime01
+  @#PB_Shader_Sintime01
+  @#PB_Shader_Tantime01
+  @#PB_Shader_Time01Packed
+  @#PB_Shader_Time02pi
+  @#PB_Shader_Costime02pi
+  @#PB_Shader_Sintime02pi
+  @#PB_Shader_Tantime02pi
+  @#PB_Shader_Time02piPacked
+  @#PB_Shader_FrameTime
+  @#PB_Shader_Fps
+  @#PB_Shader_ViewportWidth
+  @#PB_Shader_ViewportHeight
+  @#PB_Shader_InverseViewportWidth
+  @#PB_Shader_InverseViewportHeight
+  @#PB_Shader_ViewportSize
+  @#PB_Shader_ViewDirection
+  @#PB_Shader_ViewSideVector
+  @#PB_Shader_ViewUpVector
+  @#PB_Shader_Fov
+  @#PB_Shader_NearClipDistance
+  @#PB_Shader_FarClipDistance
+  @#PB_Shader_PassNumber
+  @#PB_Shader_PassIterationNumber
+  @#PB_Shader_AnimationParametric
+  @#PB_Shader_TexelOffsets
+  @#PB_Shader_SceneDepthRange
+  @#PB_Shader_ShadowSceneDepthRange
+  @#PB_Shader_ShadowColour
+  @#PB_Shader_TextureSize
+  @#PB_Shader_InverseTextureSize
+  @#PB_Shader_PackedTextureSize
+  @#PB_Shader_TextureMatrix
+  @#PB_Shader_LodCameraPosition
+  @#PB_Shader_LodCameraPositionObjectSpace
+  @#PB_Shader_LightCustom
+@EndFixedFont
+
+@Parameter "ExtraValue"
+  Extra value passed to the program parameter.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderParameter(#Material, ProgramType, ParameterName$, ParameterType, v1.f, v2.f, v3.f, v4.f)
+
+@Description
+  Set a parameter value for the shader based material previous created with @@CreateShaderMaterial.
+
+@Parameter "#Material"
+  The material to use.
+
+@Parameter "ProgramType"
+  Program type. It can be one of the following values:
+@FixedFont
+  @#PB_Shader_Vertex  : use the vertex program.
+  @#PB_Shader_Fragment: use the fragment program.
+@EndFixedFont
+
+@Parameter "ParameterName$"
+  Name of the parameter with the GLSL program to set the new value.
+
+@Parameter "ParameterType"
+  Parameter type. It can be one of the following values:
+@FixedFont
+  @#PB_Shader_Integer: the parameter use an integer type (v2, v3 and v4 parameters are ignored)
+  @#PB_Shader_Float  : the parameter use a float type (v2, v3 and v4 parameters are ignored)
+  @#PB_Shader_Vector3: the parameter use a Vector3 type (v4 parameter is ignored)
+  @#PB_Shader_Vector4: the parameter use a Vector4 type
+@EndFixedFont
+
+@Parameter "v1"
+  First parameter value. Mandatory for all parameter types.
+
+@Parameter "v2"
+  Second parameter value. Mandatory for #PB_Shader_Vector3 and #PB_Shader_Vector4 types.
+
+@Parameter "v3"
+  Third parameter value. Mandatory for #PB_Shader_Vector3 and #PB_Shader_Vector4 types.
+
+@Parameter "v4"
+  Fourth parameter value. Mandatory for #PB_Shader_Vector4 type.
+
+@NoReturnValue
+
+@Remarks
+  GLSL shaders uses vec4 type to pass a color. Example:
+@Code
+  MaterialShaderParam(0, #PB_Shader_Fragment, 4, Red(Color)/255, Green(Color)/255, Blue(Color)/255, Alpha(Color)/255)
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderTexture(#Material, TextureID1, TextureID2, TextureID3, TextureID4)
+
+@Description
+  Sets the textures to use for the shader based material previous created with @@CreateShaderMaterial.
+
+@Parameter "#Material"
+  The shader material to use.
+
+@Parameter "TextureID1"
+  The first texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
+
+@Parameter "TextureID2"
+  The second texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
+
+@Parameter "TextureID3"
+  The third texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
+
+@Parameter "TextureID4"
+  The fourth texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
+
+@NoReturnValue
 
 @SupportedOS
 
@@ -118,13 +459,13 @@
 @Description
   Enables or disables the dynamic #Material lighting. The object which will use
   this material will be not affected by a dynamic light, created with the @@CreateLight
-  function. Dynamic lighting is enabled by default, when a material is created.
+  function. Dynamic lighting is enabled by default when a material is created.
 
 @Parameter "#Material"
   The material to use.
 
 @Parameter "State"
-  It can be one of the following value:
+  It can be one of the following values:
 @FixedFont
   @#True : dynamic lighting is disabled.
   @#False: dynamic lighting is enabled.
@@ -134,7 +475,7 @@
 
 @Remarks
   To get the current material lighting state, use @@GetMaterialAttribute.
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -152,7 +493,7 @@
 
 @Remarks
   All remaining materials are automatically freed when the program ends.
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -160,8 +501,8 @@
 @Function Result = IsMaterial(#Material)
 
 @Description
-  Tests if the given material is valid and correctly initialized. 
-  
+  Tests if the given material is valid and correctly initialized.
+
 @Parameter "#Material"
   The material to test.
 
@@ -170,7 +511,7 @@
 
 @Remarks
   This function is bulletproof and may be used with any value. This is the correct way to ensure a material is ready to use.
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -218,17 +559,17 @@
   The color type to get. It can be one of the following values:
 @FixedFont
   @#PB_Material_AmbientColor:  the color used by default, without other lighting.
-  @#PB_Material_DiffuseColor:  the color the material will reflect when it will be dynamically lighted. 
-                               For example, using a full white color will result at normal lighting (all colors 
-                               are reflected). If you use a red, then only the red colors of the material will be 
+  @#PB_Material_DiffuseColor:  the color the material will reflect when it will be dynamically lighted.
+                               For example, using a full white color will result at normal lighting (all colors
+                               are reflected). If you use a red, then only the red colors of the material will be
                                reflected, resulting as a full red material (or black one, if the material doesn't
                                contain any red color).
-  @#PB_Material_SpecularColor: the color the material will reflect when it will be dynamically lighted by a light 
-                               which has a specular color value. For example, using a full white color will result at 
-                               normal lighting (all colors are reflected). If you use a red, then only the red colors 
-                               of the material will be reflected, resulting as a full red material (or black one, if 
-                               the material doesn't contain any red color).                
-  @#PB_Material_SelfIlluminationColor: the color the material will emit even if no light reach it.
+  @#PB_Material_SpecularColor: the color the material will reflect when it will be dynamically lighted by a light
+                               which has a specular color value. For example, using a full white color will result at
+                               normal lighting (all colors are reflected). If you use a red, then only the red colors
+                               of the material will be reflected, resulting as a full red material (or black one, if
+                               the material doesn't contain any red color).
+  @#PB_Material_SelfIlluminationColor: the color the material will emit even if no light reaches it.
 @EndFixedFont
 
 @ReturnValue
@@ -250,20 +591,20 @@
   The material to use.
 
 @Parameter "Type"
-  The color type to set. It can be one of the following values:
+  The color type to set. It can be a combination of the following values:
 @FixedFont
   @#PB_Material_AmbientColor:  the color used by default, without other lighting.
-  @#PB_Material_DiffuseColor:  the color the material will reflect when it will be dynamically lighted. 
-                               For example, using a full white color will result at normal lighting (all colors 
-                               are reflected). If you use a red, then only the red colors of the material will be 
+  @#PB_Material_DiffuseColor:  the color the material will reflect when it will be dynamically lighted.
+                               For example, using a full white color will result at normal lighting (all colors
+                               are reflected). If you use a red, then only the red colors of the material will be
                                reflected, resulting as a full red material (or black one, if the material doesn't
                                contain any red color).
-  @#PB_Material_SpecularColor: the color the material will reflect when it will be dynamically lighted by a light 
-                               which has a specular color value. For example, using a full white color will result at 
-                               normal lighting (all colors are reflected). If you use a red, then only the red colors 
-                               of the material will be reflected, resulting as a full red material (or black one, if 
-                               the material doesn't contain any red color).                
-  @#PB_Material_SelfIlluminationColor: the color the material will emit even if no light reach it.
+  @#PB_Material_SpecularColor: the color the material will reflect when it will be dynamically lighted by a light
+                               which has a specular color value. For example, using a full white color will result at
+                               normal lighting (all colors are reflected). If you use a red, then only the red colors
+                               of the material will be reflected, resulting as a full red material (or black one, if
+                               the material doesn't contain any red color).
+  @#PB_Material_SelfIlluminationColor: the color the material will emit even if no light reaches it.
 @EndFixedFont
 
 @Parameter "Color"
@@ -273,7 +614,7 @@
 
 @SeeAlso
   @@GetMaterialColor
-  
+
 @SupportedOS
 
 
@@ -288,15 +629,15 @@
   The material to use.
 
 @Parameter "Mode"
-  It can be one of the following value:  
-@FixedFont  
+  It can be one of the following values:
+@FixedFont
   @#PB_Material_Add       : Performs a pixel 'Add' operation over the scene (black color is like transparent).
   @#PB_Material_AlphaBlend: Uses the AlphaChannel layer of the texture (should be a TGA or PNG one) to blend it with the scene.
   @#PB_Material_Color     : Uses the texture transparent color value when blending the material with the scene.
-@EndFixedFont  
+@EndFixedFont
 
 @NoReturnValue
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -304,28 +645,28 @@
 @Function MaterialFilteringMode(#Material, Mode [, MaxAnisotropicValue])
 
 @Description
-  Changes the material filtering mode. 
-  
+  Changes the material filtering mode.
+
 @Parameter "#Material"
   The material to use. If this parameter value is set to @#PB_Default, the filtering mode
   value used for future created material is changed.
 
 @Parameter "Mode"
-   It can be one of the following value:  
-@FixedFont  
-  @#PB_Material_None       : Don't filter the material which becomes very pixilated when the camera gets close.
+   It can be one of the following values:
+@FixedFont
+  @#PB_Material_None       : Don't filter the material which becomes very pixelated when the camera gets close.
   @#PB_Material_Bilinear   : Performs a bilinear filtering when the camera gets close, resulting to a smooth, a bit blured picture.
   @#PB_Material_Trilinear  : Performs a trilinear filtering when the camera gets close, resulting in the best picture quality possible.
-  @#PB_Material_Anisotropic: Set the maximum anisotropic value. 
-@EndFixedFont  
+  @#PB_Material_Anisotropic: Set the maximum anisotropic value.
+@EndFixedFont
   When a material is created, the bilinear filtering is used by default. Using a filter doesn't have a big
   performance impact on the rendering, as many graphics cards do it using the hardware.
 
 @OptionalParameter "MaxAnisotropicValue"
   The maximum anisotropic value, if the mode @#PB_Material_Anisotropic is set. This value is usually between 1 and 8.
-  
+
 @NoReturnValue
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -340,7 +681,7 @@
 
 @ReturnValue
   The unique system identifier of the material.
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -349,32 +690,32 @@
 
 @Description
   Changes the #Material shading mode.
-  
+
 @Parameter "#Material"
   The material to use.
-  
-@Parameter "Mode"  
-  It can be one of the following value:  
-@FixedFont  
-  @#PB_Material_Flat     : The material use the flat mode, the lighting is done face by face.
+
+@Parameter "Mode"
+  It can be one of the following values:
+@FixedFont
+  @#PB_Material_Flat     : The material uses the flat mode, the lighting is done face by face.
   @#PB_Material_Gouraud  : Performs a shading using the Gouraud algorithm (default).
   @#PB_Material_Phong    : Performs a shading using the Phong algorithm.
-@EndFixedFont  
-  combined with one of the following value:
-@FixedFont  
+@EndFixedFont
+  combined with one of the following values:
+@FixedFont
   @#PB_Material_Solid    : The material will be rendered in solid, textured mode (default).
   @#PB_Material_Wireframe: The material will be rendered in wireframe mode.
   @#PB_Material_Point    : The material will be rendered using only edge points.
-@EndFixedFont 
-  
+@EndFixedFont
+
 @NoReturnValue
 
 @Remarks
   To get the current material shading mode, use @@GetMaterialAttribute.
-  
+
 @SeeAlso
   @@GetMaterialAttribute
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -388,7 +729,7 @@
   The material to use.
 
 @Parameter "Mode"
-  It can be one of the following value:
+  It can be one of the following values:
 @FixedFont
   @#PB_Material_NoCulling        : no culling.
   @#PB_Material_ClockWiseCull    : clockwise culling.
@@ -407,7 +748,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MaterialShininess(#Material, Shininess)
+@Function MaterialShininess(#Material, Shininess [, SpecularColor])
 
 @Description
   Changes the shininess of the #Material (the size of the specular highlights).
@@ -417,6 +758,9 @@
 
 @Parameter "Shininess"
   The new shininess value.
+
+@OptionalParameter "SpecularColor"
+  The specular color to use. A valid RGB color can be created with @@RGB.
 
 @NoReturnValue
 
@@ -455,7 +799,7 @@
 @Parameter "TextureID4"
   The @@TextureID to use for the fourth texture alias (identified as 'texture_alias texture4' in the material script),
   or zero if no texture is needed.
-  
+
 @NoReturnValue
 
 @SeeAlso
@@ -469,11 +813,11 @@
 
 @Description
   Get a material defined in an OGRE script file. Scripts are loaded and parsed when calling @@Parse3DScripts.
-  
+
 @Parameter "#Material"
   A number to identify the new material. @ReferenceLink "purebasic_objects" "#PB_Any" can
   be used to auto-generate this number.
-  
+
 @Parameter "Name$"
   The name of the material in the script files.
 
@@ -488,24 +832,24 @@
 @Function MaterialFog(#Material, Color, Intensity, StartDistance, EndDistance)
 
 @Description
-  Adds a fog effect on the specified material. 
-  
+  Adds a fog effect on the specified material.
+
 @Parameter "#Material"
   The material to use.
 
 @Parameter "Color"
   The color of the fog effect. @@RGB can be used to get a valid color value.
-  
+
 @Parameter "Intensity"
-  The fog intensity. If sets to zero, the fog effect is removed. 
+  The fog intensity. If set to zero, the fog effect is removed.
 
 @Parameter "StartDistance"
-  The distance from (in world units) where the fog should start. 
-  
+  The distance from (in world units) where the fog should start.
+
 @Parameter "EndDistance"
   The distance from (in world units) where the fog is fully opaque.
-  
-@NoReturnValue  
+
+@NoReturnValue
 
 @SupportedOS
 
@@ -514,9 +858,9 @@
 @Function ReloadMaterial(MaterialName$, ScriptFilename$, ParseScript)
 
 @Description
-  Reloads a material from an OGRE script based on the its name. This is useful when using
-  customized materials stored in script files. 
-  
+  Reloads a material from an OGRE script based on its name. This is useful when using
+  customized materials stored in script files.
+
 @Parameter "MaterialName$"
   The material name in scripts.
 
@@ -524,10 +868,10 @@
   The script filename.
 
 @Parameter "ParseScript"
-  If set to @#True the 'ScriptFilename$' is parsed again to get updated material information. 
-  If set the @#False, the material when the script was parsed first will used.
-  A material can be get from OGRE scripts with @@GetScriptMaterial.
-  
+  If set to @#True the 'ScriptFilename$' is parsed again to get updated material information.
+  If set to @#False, the material from when the script was parsed first will be used.
+  A material can be retrieved from OGRE scripts with @@GetScriptMaterial.
+
 @NoReturnValue
 
 @SupportedOS
@@ -538,9 +882,9 @@
 
 @Description
   Resets all materials for the specified object types.
-  
+
 @Parameter "ObjectType"
-  It can be one of the following value:  
+  It can be one of the following values:
 @FixedFont
   @#PB_Entity: resets materials for all @LibraryLink "entity" "entities".
   @#PB_ParticleEmitter: resets materials for all @LibraryLink "particle" "particle emitters".
@@ -548,7 +892,7 @@
 @EndFixedFont
 
 @NoReturnValue
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -562,27 +906,31 @@
   The material to use.
 
 @Parameter "Attribute"
-  The attribute to set. It can be one of the following value:
+  The attribute to set. It can be one of the following values:
 @FixedFont
-  @#PB_Material_DepthCheck : Enables or disables the depth check for the material. 
+  @#PB_Material_DepthCheck : Enables or disables the depth check for the material.
                             Value can be @#True (depth check enabled) or @#False (depth check disabled).
-  @#PB_Material_DepthWrite : Enables or disables the depth write for the material. 
+  @#PB_Material_DepthWrite : Enables or disables the depth write for the material.
                             Value can be @#True (depth write enabled) or @#False (depth write disabled).
   @#PB_Material_AlphaReject: Enables alpha reject on the texture (useful for semi transparent textures like
                             trees, window, etc).
-  @#PB_Material_TAM        : Changes the 'Texture Addressing Mode' (TAM). It can be one of the following value
+  @#PB_Material_TAM        : Changes the 'Texture Addressing Mode' (TAM). It can be one of the following values:
                             - @#PB_Material_WrapTAM  : wrap mode
                             - @#PB_Material_MirrorTAM: mirror mode
                             - @#PB_Material_ClampTAM : clamp mode
                             - @#PB_Material_BorderTAM: border mode
-  @#PB_Material_EnvironmentMap: Enables environment map. It can be one of the following value
-                            - @#PB_Material_NoMap        : disable environment map 
+  @#PB_Material_EnvironmentMap: Enables environment map. It can be one of the following values:
+                            - @#PB_Material_NoMap        : disable environment map
                             - @#PB_Material_PlanarMap    : planar environment map
                             - @#PB_Material_CurvedMap    : curved environment map
                             - @#PB_Material_ReflectionMap: reflection environment map
                             - @#PB_Material_NormalMap    : normal environment map
  @#PB_Material_ProjectiveTexturing: Enable projective texturing for this material. The value is a #Camera number to use.
-  
+ @#PB_Material_PointSprite : Enables or disables point sprite for the material.
+                            If greater than zero, the value is the point size / 1000. If zero, point size is disabled.
+ @#PB_Material_DepthBias   : Enables or disables the depth bias for the material.
+                            If greater than zero, the value is the depth bias / 1000. If zero, depth bias is disabled.
+
 @EndFixedFont
 @Parameter "Value"
   Value of the attribute to set.
@@ -611,8 +959,8 @@
   The texture scroll offset, in pixels.
 
 @Parameter "Mode"
-  It can be one of the following value:  
-@FixedFont  
+  It can be one of the following values:
+@FixedFont
   @#PB_Material_Fixed   : The material is scrolled of the specified x,y offset, without regards of the previous scroll function.
   @#PB_Material_Animated: Each frame is the material is scrolled of the specified x,y offset automatically.
 @EndFixedFont
@@ -624,7 +972,7 @@
 
 @Remarks
   To get the current scroll values, use @@GetMaterialAttribute.
-  
+
 @SeeAlso
   @@GetMaterialAttribute
 
@@ -662,7 +1010,7 @@
   - a value of 1.0 means that the size isn't changed @LineBreak
   - a value between 0.0 and 1.0 means that the material is scaled down (ie: a scale of 0.5 will be half the size) @LineBreak
   - a value above 1.0 means that the material is scaled up (ie: a scale of 2.0 will double the size) @LineBreak
-  
+
 @OptionalParameter "Layer"
   The layer to scale. The first layer is zero (if this parameter is omitted, the layer zero is scaled).
 
@@ -681,20 +1029,20 @@
 @Function RotateMaterial(#Material, Angle, Mode [, Layer])
 
 @Description
-  Rotates the material layer according to the angle value. 
-    
+  Rotates the material layer according to the angle value.
+
 @Parameter "#Material"
   The material to use.
 
 @Parameter "Angle"
   The rotation angle, in degree.
-  
+
 @Parameter "Mode"
-  It can be one of the following value:
-@FixedFont  
+  It can be one of the following values:
+@FixedFont
   @#PB_Material_Fixed   : The material is rotated of the specified 'Angle', without regards of the previous rotate function.
   @#PB_Material_Animated: Each frame is the material is rotated of the specified 'Angle' automatically.
-@EndFixedFont 
+@EndFixedFont
 
 @OptionalParameter "Layer"
   The layer to rotate. The first layer is zero (if this parameter is omitted, the layer zero is rotated).
@@ -715,16 +1063,16 @@
 
 @Description
   Add an animated texture to the material. An animated texture is composed of any number of textures, all
-  the same size, with the frame number appended before the extension in their filename. 
+  the same size, with the frame number appended before the extension in their filename.
   For example, if "test.jpg" is specified as 'Texture$' and 'NbFrames' is set to 3, the textures
   "test_0.jpg", "test_1.jpg" and "test_2.jpg" will be loaded and used for the material.
-    
+
 @Parameter "#Material"
   The material to use.
 
 @Parameter "Texture$"
   The texture filename to use.
-  
+
 @Parameter "NbFrames"
   Number of frames of the animated texture.
 
@@ -734,7 +1082,7 @@
 @NoReturnValue
 
 @Remarks
-  Usually, all frames are contained in a zip file with the same name as texture 
+  Usually, all frames are contained in a zip file with the same name as texture
   (ex Texture.zip) and accessible by @@Add3DArchive and @@Parse3DScripts.
-  
+
 @SupportedOS

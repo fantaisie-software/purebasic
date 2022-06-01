@@ -165,6 +165,12 @@
   @#PB_Compiler_Processor : Determines the processor type for which the program is created. It can be one of the following:
     @#PB_Processor_x86     : x86 processor architecture (also called IA-32 or x86-32)
     @#PB_Processor_x64     : x86-64 processor architecture (also called x64, AMD64 or Intel64)
+    @#PB_Processor_arm32   : arm32 processor architecture
+    @#PB_Processor_arm64   : arm64 processor architecture (also called M1 on Apple computers)
+
+  @#PB_Compiler_Backend : Determines which kind of compiler is currently used. It can be one of the following:
+    @#PB_Backend_Asm    : The compiler generating assembly code is used.
+    @#PB_Backend_C      : The compiler generating C code is used.
   
   @#PB_Compiler_ExecutableFormat : Determines executable format. It can be one of the following:
     @#PB_Compiler_Executable : Regular executable
@@ -189,6 +195,9 @@
   @#PB_Compiler_EnableExplicit: Set to 1 if the executable is compiled with enable explicit support, set to 0 else.
   @#PB_Compiler_IsMainFile    : Set to 1 if the file being compiled is the main file, set to 0 else.
   @#PB_Compiler_IsIncludeFile : Set to 1 if the file being compiled has been included by another file, set to 0 else.
+  @#PB_Compiler_32Bit    : Set to 1 if the compiler generates 32-bit code, set to 0 else.
+  @#PB_Compiler_64Bit    : Set to 1 if the compiler generates 64-bit code, set to 0 else.
+  @#PB_Compiler_Optimizer: Set to 1 if the compiler generates optimizer code, set to 0 else.
   
 @EndFixedFont  
 

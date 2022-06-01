@@ -437,6 +437,7 @@ DataSection
   Data$ "FindNext",         "Find &Next"
   Data$ "FindPrevious",     "Find &Previous"
   Data$ "FindInFiles",      "Find &in Files..."
+  Data$ "Replace",          "&Replace..."
   
   Data$ "NewProject",       "&New Project..."
   Data$ "OpenProject",      "&Open Project..."
@@ -608,6 +609,8 @@ DataSection
   Data$ "FileExists",       "The file you specified already exists!"
   Data$ "OverWrite",        "Do you want to overwrite it?"
   Data$ "CreateError",      "The file cannot be created!"
+  Data$ "FileIsOpen",       "The file you specified is currently open in the IDE!"
+  Data$ "CloseOverWrite",   "Do you want to close that tab and overwrite it?"
   
   Data$ "SaveConfigError",  "Cannot save Compiler options to file"
   Data$ "Modified",         "The file '%filename%'has been modified.%newline%Do you want to save the changes?"
@@ -750,6 +753,7 @@ DataSection
   Data$ "Email",            "Email"
   Data$ "EnableMenuIcons",  "Display Icons in the Menu"
   Data$ "DisplayFullPath",  "Display full Source Path in TitleBar"
+  Data$ "DisplayDarkMode",  "Enable Dark Mode appearance"
   Data$ "NoSplashScreen",   "Disable Splash Screen"
   
   Data$ "Updates",          "Updates"
@@ -1253,9 +1257,9 @@ DataSection
   Data$ "OpenIcon",         "Choose an Icon for the Executable..."
   Data$ "CreateExe",        "Create Executable..."
   Data$ "OpenLinkerFile",   "Choose a file with linker options..."
+  Data$ "Optimizer",      "Optimize generated code"
   
   CompilerIf #SpiderBasic
-    Data$ "OptimizeJS",      "Optimize javascript output"
     Data$ "WindowTheme",     "Theme for windows"
     Data$ "GadgetTheme",     "Theme for gadgets"
     Data$ "WebServerAddress",   "Web server address"
@@ -1564,6 +1568,9 @@ DataSection
   Data$ "Trigger12",        "Replace FileViewer - Special file"
   Data$ "Trigger13",        "Sourcecode closed"
   Data$ "Trigger14",        "New Sourcecode created"
+  Data$ "Trigger15",        "Open File - with specific extension"
+  Data$ "Trigger16",        "Open File - non-PB binary file"
+  Data$ "Trigger17",        "Open File - non-PB text file"
   
   Data$ "Argument1",        "%PATH : Path of the current source. Empty if the source wasn't saved yet."
   Data$ "Argument2",        "%FILE : Filename and Path of the current source. Empty if it wasn't saved yet."
@@ -1947,7 +1954,7 @@ DataSection
   Data$ "_GROUP_",            "StandaloneDebugger"
   ; ===================================================
   
-  Data$ "CommandLine",      "Invalid commandline!%newline%You have to specify the executable name or one of the network options on the commandline."
+  Data$ "CommandLine",      "Invalid commandline!%newline%You have to specify the executable name on the commandline."
   Data$ "CommandFile",      "Cannot read command file '%filename%'."
   Data$ "ExecuteError",     "Cannot execute file '%filename%'."
   Data$ "Run",              "Run"

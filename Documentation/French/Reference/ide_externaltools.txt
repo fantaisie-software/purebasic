@@ -260,6 +260,42 @@
   ces fichiers à partir de l'Explorateur, du visualisateur de fichier intégré ou en double-cliquant sur le
   mot-clef "IncludeBinary" dans le source.
 
+@LineBreak
+@LineBreak
+
+@Bold "Ouvrir un fichier avec une extension spéciale"
+@LineBreak
+  Cela sera déclenché pour des extensions de fichiers spécifiques. Il a une priorité plus élevée que
+  les déclencheurs "Ouvrir un fichier binaire non PureBasic" ou "Ouvrir un fichier texte non PureBasic".
+  Spécifie les extensions que l'outil doit gérer dans la zone d'édition à droite. 
+  Plusieurs extensions peuvent être données.
+@LineBreak
+@LineBreak
+  Note:
+  Les déclencheurs d'ouverture de fichier sont actifs lorsque vous ouvrez un fichier via le menu 
+  Fichier/Ouvrir et également lorsque vous glisser-déposer un fichier dans l'IDE.
+  Ils ont une priorité plus élevée pour les tâches Fichier/Ouvrir.
+  Ce n'est que s'il n'y a pas d'outil actif que les déclencheurs de la visionneuse de fichiers seront gérés.
+
+@LineBreak
+@LineBreak
+
+@Bold "Ouvrir un fichier binaire non PureBasic"
+@LineBreak
+  Celui-ci sera déclenché pour les fichiers binaires qui ne font pas partie de PureBasic (plus ou moins)
+@LineBreak
+@LineBreak
+  Note: Un seul outil à la fois peut avoir ce déclencheur. Tous les autres outils avec ce déclencheur seront ignorés.
+
+@LineBreak
+@LineBreak
+
+@Bold "Ouvrir un fichier texte non PureBasic"
+@LineBreak
+  Celui-ci sera déclenché pour les fichiers texte qui ne font pas partie de PureBasic
+@LineBreak
+@LineBreak
+  Note: Un seul outil à la fois peut utiliser ce déclencheur.
 
 @Section Autres options sur le côté droit
 

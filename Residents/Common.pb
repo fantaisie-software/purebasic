@@ -44,6 +44,11 @@
 #PB_Processor_PowerPC    = 3
 #PB_Processor_x64        = 4
 #PB_Processor_JavaScript = 5
+#PB_Processor_Arm64      = 6
+#PB_Processor_Arm32      = 7
+
+#PB_Backend_Asm = 0
+#PB_Backend_C = 1
 
 #PB_Structure_AlignC = -1
 
@@ -126,6 +131,7 @@
 #PB_OS_Windows_8_1            = 100
 #PB_OS_Windows_Server_2012_R2 = 105
 #PB_OS_Windows_10             = 110
+#PB_OS_Windows_11             = 120
 #PB_OS_Windows_Future         = 200
 
 #PB_OS_Linux_2_2 = 1000
@@ -134,21 +140,24 @@
 #PB_OS_Linux_Future = 2000
 
 #PB_OS_MacOSX_10_0   = 10000
-#PB_OS_MacOSX_10_1   = 10100
-#PB_OS_MacOSX_10_2   = 10200
-#PB_OS_MacOSX_10_3   = 10300
-#PB_OS_MacOSX_10_4   = 10400
-#PB_OS_MacOSX_10_5   = 10500
-#PB_OS_MacOSX_10_6   = 10600
-#PB_OS_MacOSX_10_7   = 10700
-#PB_OS_MacOSX_10_8   = 10800
-#PB_OS_MacOSX_10_9   = 10900
-#PB_OS_MacOSX_10_10  = 11000
-#PB_OS_MacOSX_10_11  = 11100
-#PB_OS_MacOSX_10_12  = 11200
-#PB_OS_MacOSX_10_13  = 11300
-#PB_OS_MacOSX_10_14  = 11400
-#PB_OS_MacOSX_Future = 60000
+#PB_OS_MacOSX_10_1   = 10010
+#PB_OS_MacOSX_10_2   = 10020
+#PB_OS_MacOSX_10_3   = 10030
+#PB_OS_MacOSX_10_4   = 10040
+#PB_OS_MacOSX_10_5   = 10050
+#PB_OS_MacOSX_10_6   = 10060
+#PB_OS_MacOSX_10_7   = 10070
+#PB_OS_MacOSX_10_8   = 10080
+#PB_OS_MacOSX_10_9   = 10090
+#PB_OS_MacOSX_10_10  = 10100
+#PB_OS_MacOSX_10_11  = 10110
+#PB_OS_MacOSX_10_12  = 10120
+#PB_OS_MacOSX_10_13  = 10130
+#PB_OS_MacOSX_10_14  = 10140
+#PB_OS_MacOSX_10_15  = 10150
+#PB_OS_MacOSX_11     = 11000
+#PB_OS_MacOSX_12     = 12000
+#PB_OS_MacOSX_Future = 99999
 
 #PB_Default = -1  ; Common default value, used by SetGadgetFont(), TransparentSpriteColor, etc..
 #PB_All     = -1
@@ -204,6 +213,19 @@ EndStructure
 
 Structure Integer
   i.i
+EndStructure
+
+Structure Vector3
+  x.f
+  y.f
+  z.f
+EndStructure
+
+Structure Vector4
+  x.f
+  y.f
+  z.f
+  w.f
 EndStructure
 
 ; 2D Drawing
@@ -363,7 +385,7 @@ CompilerEndIf
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 
   #PB_Image_FloydSteinberg =  1 << 8 ; SaveImage()
-  
+
   #PB_ImagePlugin_JPEG2000 = $4B32504A
   #PB_ImagePlugin_TGA      = $414754
   #PB_ImagePlugin_TIFF     = $46464954
@@ -413,7 +435,7 @@ CompilerEndIf
 ;
 Enumeration  ; gadget types
   #PB_GadgetType_Unknown = 0
-  
+
   #PB_GadgetType_Button
   #PB_GadgetType_String
   #PB_GadgetType_Text
@@ -900,7 +922,7 @@ CompilerEndIf
 #PB_System_TotalSwap     = 4
 #PB_System_FreeSwap      = 5
 #PB_System_PageSize      = 6
- 
+
 
 ; Sound library
 ;
@@ -1040,7 +1062,7 @@ CompilerEndIf
 
 #PB_XML_CutSpace        = (1 << 5)
 #PB_XML_ReduceSpace     = (1 << 6)
- 
+
 #PB_XML_ReFormat        = (1 << 7)
 #PB_XML_ReIndent        = (1 << 8)
 
@@ -1058,7 +1080,7 @@ CompilerIf #PB_Compiler_OS = #PB_OS_Web
     #PB_XML_Success
     #PB_XML_Error
   EndEnumeration
-  
+
 CompilerElse
 
   ; Return values for XMLStatus()
@@ -1107,7 +1129,7 @@ CompilerElse
     #PB_XML_ReservedPrefixXMLNS
     #PB_XML_ReservedNamespaceURI
   EndEnumeration
-  
+
 CompilerEndIf
 
 ; VectorDrawing lib
@@ -1233,7 +1255,6 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 #PB_Engine3D_NoLog       = 0
 #PB_Engine3D_DebugLog    = 1 << 0
 #PB_Engine3D_DebugOutput = 1 << 1
-#PB_Engine3D_EnableCG    = 1 << 2
 
 ; Rotations type
 #PB_Orientation_PitchYawRoll = 1 << 7
@@ -1426,6 +1447,12 @@ EndEnumeration
 #PB_Material_Modulate   = 2
 #PB_Material_AlphaBlend = 3
 #PB_Material_Color      = 4
+#PB_Material_ModulateX2 = 7
+#PB_Material_ModulateX4 = 8
+#PB_Material_AddSigned  = 10
+#PB_Material_Substract  = 12
+#PB_Material_BlendDiffuseAlpha = 13
+#PB_Material_BlendCurrentAlpha = 15
 
 #PB_Material_None        = 0
 #PB_Material_Bilinear    = 1
@@ -1445,10 +1472,11 @@ EndEnumeration
 #PB_Material_AmbientColors = -1
 
 ; Colors
-#PB_Material_DiffuseColor  = 0
-#PB_Material_SpecularColor = 1
-#PB_Material_AmbientColor  = 2
-#PB_Material_SelfIlluminationColor = 3
+
+#PB_Material_AmbientColor  = 1 << 0
+#PB_Material_DiffuseColor  = 1 << 1
+#PB_Material_SpecularColor = 1 << 2
+#PB_Material_SelfIlluminationColor = 1 << 3
 
 ; Atttributes
 #PB_Material_Shininess      = 0
@@ -1466,6 +1494,8 @@ EndEnumeration
 #PB_Material_ProjectiveTexturing = 16
 #PB_Material_AlphaReject    = 17
 #PB_Material_TAM            = 20
+#PB_Material_PointSprite    = 21
+#PB_Material_DepthBias      = 22
 
 ; #PB_Material_EnvironmentMap values
 #PB_Material_NoMap         = -1
@@ -1479,14 +1509,172 @@ EndEnumeration
 #PB_Material_MirrorTAM = 1
 #PB_Material_ClampTAM  = 2
 #PB_Material_BorderTAM = 3
-            
+
 #PB_Material_NoCulling         = 1
 #PB_Material_ClockWiseCull     = 2
 #PB_Material_AntiClockWiseCull = 3
 
+;
+Enumeration
+  #PB_Material_ColorShader = $10000
+  #PB_Material_PerpixelShader
+  #PB_Material_BumpShader
+  #PB_Material_SkyShader
+  #PB_Material_WaterShader
+  #PB_Material_WaterShaderRTT
+  #PB_Material_OceanShader
+  #PB_Material_PointSpriteSphereShader
+EndEnumeration
+
+; Shader type
+;
+#PB_Shader_Vertex   = 0
+#PB_Shader_Fragment = 1
+
+; Shader Parameter
+;
+#PB_Shader_Integer = 0
+#PB_Shader_Float   = 1
+#PB_Shader_Vector3 = 3
+#PB_Shader_Vector4 = 4
+
+; Shader Auto Parameter
+;
+Enumeration
+  #PB_Shader_WorldMatrix
+  #PB_Shader_InverseWorldMatrix
+  #PB_Shader_TransposeWorldMatrix
+  #PB_Shader_InverseTransposeWorldMatrix
+  #PB_Shader_WorldMatrixArray3x4
+  #PB_Shader_WorldMatrixArray
+  #PB_Shader_WorldDualquaternionArray2x4
+  #PB_Shader_WorldScaleShearMatrixArray3x4
+  #PB_Shader_ViewMatrix
+  #PB_Shader_InverseViewMatrix
+  #PB_Shader_TransposeViewMatrix
+  #PB_Shader_InverseTransposeViewMatrix
+  #PB_Shader_ProjectionMatrix
+  #PB_Shader_InverseProjectionMatrix
+  #PB_Shader_TransposeProjectionMatrix
+  #PB_Shader_InverseTransposeProjectionMatrix
+  #PB_Shader_ViewprojMatrix
+  #PB_Shader_InverseViewprojMatrix
+  #PB_Shader_TransposeViewprojMatrix
+  #PB_Shader_InverseTransposeViewprojMatrix
+  #PB_Shader_WorldviewMatrix
+  #PB_Shader_InverseWorldviewMatrix
+  #PB_Shader_TransposeWorldviewMatrix
+  #PB_Shader_InverseTransposeWorldviewMatrix
+  #PB_Shader_WorldviewprojMatrix
+  #PB_Shader_InverseWorldviewprojMatrix
+  #PB_Shader_TransposeWorldviewprojMatrix
+  #PB_Shader_InverseTransposeWorldviewprojMatrix
+  #PB_Shader_RenderTargetFlipping
+  #PB_Shader_VertexWinding
+  #PB_Shader_FogColour
+  #PB_Shader_FogParams
+  #PB_Shader_SurfaceAmbientColour
+  #PB_Shader_SurfaceDiffuseColour
+  #PB_Shader_SurfaceSpecularColour
+  #PB_Shader_SurfaceEmissiveColour
+  #PB_Shader_SurfaceShininess
+  #PB_Shader_LightCount
+  #PB_Shader_AmbientLightColour
+  #PB_Shader_LightDiffuseColour
+  #PB_Shader_LightSpecularColour
+  #PB_Shader_LightAttenuation
+  #PB_Shader_SpotlightParams
+  #PB_Shader_LightPosition
+  #PB_Shader_LightPositionObjectSpace
+  #PB_Shader_LightPositionViewSpace
+  #PB_Shader_LightDirection
+  #PB_Shader_LightDirectionObjectSpace
+  #PB_Shader_LightDirectionViewSpace
+  #PB_Shader_LightDistanceObjectSpace
+  #PB_Shader_LightPowerScale
+  #PB_Shader_LightDiffuseColourPowerScaled
+  #PB_Shader_LightSpecularColourPowerScaled
+  #PB_Shader_LightDiffuseColourArray
+  #PB_Shader_LightSpecularColourArray
+  #PB_Shader_LightDiffuseColourPowerScaledArray
+  #PB_Shader_LightSpecularColourPowerScaledArray
+  #PB_Shader_LightAttenuationArray
+  #PB_Shader_LightPositionArray
+  #PB_Shader_LightPositionObjectSpaceArray
+  #PB_Shader_LightPositionViewSpaceArray
+  #PB_Shader_LightDirectionArray
+  #PB_Shader_LightDirectionObjectSpaceArray
+  #PB_Shader_LightDirectionViewSpaceArray
+  #PB_Shader_LightDistanceObjectSpaceArray
+  #PB_Shader_LightPowerScaleArray
+  #PB_Shader_SpotlightParamsArray
+  #PB_Shader_DerivedAmbientLightColour
+  #PB_Shader_DerivedSceneColour
+  #PB_Shader_DerivedLightDiffuseColour
+  #PB_Shader_DerivedLightSpecularColour
+  #PB_Shader_DerivedLightDiffuseColourArray
+  #PB_Shader_DerivedLightSpecularColourArray
+  #PB_Shader_LightNumber
+  #PB_Shader_LightCastsShadows
+  #PB_Shader_ShadowExtrusionDistance
+  #PB_Shader_CameraPosition
+  #PB_Shader_CameraPositionObjectSpace
+  #PB_Shader_TextureViewprojMatrix
+  #PB_Shader_TextureViewprojMatrixArray
+  #PB_Shader_TextureWorldviewprojMatrix
+  #PB_Shader_TextureWorldviewprojMatrixArray
+  #PB_Shader_SpotlightViewprojMatrix
+  #PB_Shader_SpotlightViewprojMatrixArray
+  #PB_Shader_SpotlightWorldviewprojMatrix
+  #PB_Shader_Custom
+  #PB_Shader_Time
+  #PB_Shader_Time0X
+  #PB_Shader_Costime0X
+  #PB_Shader_Sintime0X
+  #PB_Shader_Tantime0X
+  #PB_Shader_Time0XPacked
+  #PB_Shader_Time01
+  #PB_Shader_Costime01
+  #PB_Shader_Sintime01
+  #PB_Shader_Tantime01
+  #PB_Shader_Time01Packed
+  #PB_Shader_Time02pi
+  #PB_Shader_Costime02pi
+  #PB_Shader_Sintime02pi
+  #PB_Shader_Tantime02pi
+  #PB_Shader_Time02piPacked
+  #PB_Shader_FrameTime
+  #PB_Shader_Fps
+  #PB_Shader_ViewportWidth
+  #PB_Shader_ViewportHeight
+  #PB_Shader_InverseViewportWidth
+  #PB_Shader_InverseViewportHeight
+  #PB_Shader_ViewportSize
+  #PB_Shader_ViewDirection
+  #PB_Shader_ViewSideVector
+  #PB_Shader_ViewUpVector
+  #PB_Shader_Fov
+  #PB_Shader_NearClipDistance
+  #PB_Shader_FarClipDistance
+  #PB_Shader_PassNumber
+  #PB_Shader_PassIterationNumber
+  #PB_Shader_AnimationParametric
+  #PB_Shader_TexelOffsets
+  #PB_Shader_SceneDepthRange
+  #PB_Shader_ShadowSceneDepthRange
+  #PB_Shader_ShadowColour
+  #PB_Shader_TextureSize
+  #PB_Shader_InverseTextureSize
+  #PB_Shader_PackedTextureSize
+  #PB_Shader_TextureMatrix
+  #PB_Shader_LodCameraPosition
+  #PB_Shader_LodCameraPositionObjectSpace
+  #PB_Shader_LightCustom
+EndEnumeration
+
 ; Mesh
 ;
-Structure PB_MeshVertex
+Structure MeshVertex
   x.f
   y.f
   z.f
@@ -1501,7 +1689,7 @@ Structure PB_MeshVertex
   Color.l
 EndStructure
 
-Structure PB_MeshFace
+Structure MeshFace
   Index.l
 EndStructure
 
@@ -1522,6 +1710,12 @@ EndStructure
 
 #PB_Mesh_Static  = 0
 #PB_Mesh_Dynamic = 1
+
+#PB_Mesh_DiagonalShortestLength = 0
+#PB_Mesh_DiagonalClosestNormal= 1
+#PB_Mesh_DiagonalAlternate= 2
+#PB_Mesh_DiagonalRegular1= 3
+#PB_Mesh_DiagonalRegular2= 4
 
 ; NodeAnimation
 ;

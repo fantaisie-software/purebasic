@@ -1,7 +1,7 @@
 ;
 ;     Map library documentation
 ;
-;      (c) 2020 Fantaisie Software
+;      (c) 2022 Fantaisie Software
 ;
 
 @Library Map
@@ -120,11 +120,11 @@
   Country("US") = "United States"
 
   ; Sichergehen, dass die Elemente zur Map hinzugefügt wurden
-  MessageRequester("Information", "Es sind "+Str(MapSize(Country()))+" Elemente in der Map")
+  MessageRequester("Information", "Es sind " + Str(MapSize(Country())) + " Elemente in der Map")
  
   ; Löschen der Map-Inhalte und anzeigen, dass die Map wirklich leer ist
   ClearMap(Country())
-  MessageRequester("Information", "Es sind "+Str(MapSize(Country()))+" Elemente in der Map")
+  MessageRequester("Information", "Es sind " + Str(MapSize(Country())) + " Elemente in der Map")
 @EndCode
 
 @SeeAlso

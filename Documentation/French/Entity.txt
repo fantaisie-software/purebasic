@@ -56,7 +56,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ApplyEntityForce(#Entity, X, Y, Z [, PositionX, PositionY, PositionZ [, Mode]])
+@Function ApplyEntityForce(#Entity, X, Y, Z [, PositionX, PositionY, PositionZ [, Mode [, ModePosition]]])
 
 @Description
   Applique une force sur une entité. 
@@ -78,7 +78,16 @@
   @#PB_Parent: Force relative à la position du parent.
   @#PB_World : Force relative au monde.
 @EndFixedFont
- 
+
+@OptionalParameter "ModePosition"
+  Le mode position à appliquer. Il peut s'agir de l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Local : Position locale.
+  @#PB_Parent: Position relative à la position du parent.
+  @#PB_World : Position relative au monde.
+@EndFixedFont
+
+
 @NoReturnValue
 
 @SeeAlso
@@ -1961,5 +1970,23 @@ Si ce masque correspond au masque spécifié par
  
 @SeeAlso
   @@EntityDirection, @@EntityDirectionX, @@EntityDirectionY
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = GetEntityMesh(#Entity)
+
+@Description
+  Obtenir le #Mesh utilisé par l'entité.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@ReturnValue
+  Renvoie le #Mesh utilisé par l'entité.
+ 
+@SeeAlso
+  @@CreateEntity
   
 @SupportedOS

@@ -10,36 +10,13 @@
 ; is decided in each file.
 
 XIncludeFile "CompilerFlags.pb"
-
-; Fred config, easier to handle switch between PB versions when debugging the IDE
-;
-CompilerIf Defined(FredLocalCompile, #PB_Constant) And Not Defined(BUILD_DIRECTORY, #PB_Constant)
-  CompilerIf #SpiderBasic
-    #FredProcessorPath = "javascript"
-  CompilerElseIf #PB_Compiler_Processor = #PB_Processor_x64
-    #FredProcessorPath = "x64"
-  CompilerElse
-    #FredProcessorPath = "x86"
-  CompilerEndIf
-  
-  CompilerIf #PB_Compiler_OS = #PB_OS_Linux
-    #BUILD_DIRECTORY = "/home/fred/svn/"+#SVNVersion+"/Build/"+#FredProcessorPath+"/ide/"
-  CompilerElseIf #PB_Compiler_OS = #PB_OS_MacOS
-    #BUILD_DIRECTORY = "/Users/fred/svn/"+#SVNVersion+"/Build/"+#FredProcessorPath+"/ide/"
-  CompilerElse
-    #BUILD_DIRECTORY = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\"+#FredProcessorPath+"\ide\"
-  CompilerEndIf
-CompilerEndIf
-
-
-XIncludeFile #BUILD_DIRECTORY + "BuildInfo.pb"
+XIncludeFile "Build/BuildInfo.pb"
 XIncludeFile ".." + #Separator + "DialogManager" + #Separator + "Common.pb" ; must be before Common.pb
 XIncludeFile "Common.pb"                                                    ; must be before DebuggerCommon.pb
 XIncludeFile #DEFAULT_DebuggerSource + "DebuggerCommon.pb"                  ; must be before Declarations.pb
 XIncludeFile "Declarations.pb"
 XIncludeFile "Macro.pb"
 XIncludeFile ".." + #Separator + "PureBasicConfigPath.pb" ; for the config directory
-XIncludeFile "RemoteProcedureCall.pb"
 XIncludeFile "FormDesigner/declare.pb"
 ; must be here to affect all OpenWindow() calls with a macro
 XIncludeFile "LinuxWindowIcon.pb"
@@ -72,7 +49,6 @@ XIncludeFile #DEFAULT_DebuggerSource + "Misc.pb"
 XIncludeFile #DEFAULT_DebuggerSource + "VariableGadget.pb"
 XIncludeFile #DEFAULT_DebuggerSource + "Communication_PipeWindows.pb"
 XIncludeFile #DEFAULT_DebuggerSource + "Communication_PipeUnix.pb"
-XIncludeFile #DEFAULT_DebuggerSource + "Communication_Network.pb"
 XIncludeFile #DEFAULT_DebuggerSource + "Communication.pb"
 XIncludeFile #DEFAULT_DebuggerSource + "DebugOutput.pb"
 XIncludeFile #DEFAULT_DebuggerSource + "AsmDebug.pb"
@@ -95,7 +71,6 @@ XIncludeFile #DEFAULT_DebuggerSource + "Plugin_Xml.pb"
 ; debugger ide-files
 XIncludeFile "IDEDebugger.pb"
 
-XIncludeFile "Automation.pb"
 XIncludeFile "CompilerInterface.pb"
 XIncludeFile "Language.pb"
 XIncludeFile "ZipManagement.pb"
@@ -142,6 +117,7 @@ XIncludeFile "Preferences.pb"
 XIncludeFile "StandaloneDebuggerControl.pb"
 XIncludeFile "ErrorHandler.pb"
 XIncludeFile "Commandline.pb"
+XIncludeFile "DiffAlgorithm.pb"
 XIncludeFile "DiffWindow.pb"
 XIncludeFile "LinuxHelp.pb"
 XIncludeFile "EditHistory.pb"
@@ -152,24 +128,24 @@ CompilerIf #SpiderBasic
 CompilerEndIf
 
 ; compiled dialogs
-XIncludeFile #BUILD_DIRECTORY + "Find.pb"
-XIncludeFile #BUILD_DIRECTORY + "Grep.pb"
-XIncludeFile #BUILD_DIRECTORY + "Diff.pb"
-XIncludeFile #BUILD_DIRECTORY + "Goto.pb"
-XIncludeFile #BUILD_DIRECTORY + "AddTools.pb"
-XIncludeFile #BUILD_DIRECTORY + "About.pb"
-XIncludeFile #BUILD_DIRECTORY + "Preferences.pb"
-XIncludeFile #BUILD_DIRECTORY + "Templates.pb"
-XIncludeFile #BUILD_DIRECTORY + "StructureViewer.pb"
-XIncludeFile #BUILD_DIRECTORY + "Projects.pb"
-XIncludeFile #BUILD_DIRECTORY + "Build.pb"
-XIncludeFile #BUILD_DIRECTORY + "FileMonitor.pb"
-XIncludeFile #BUILD_DIRECTORY + "History.pb"
-XIncludeFile #BUILD_DIRECTORY + "HistoryShutdown.pb"
-XIncludeFile #BUILD_DIRECTORY + "Updates.pb"
+XIncludeFile "Build/Find.pb"
+XIncludeFile "Build/Grep.pb"
+XIncludeFile "Build/Diff.pb"
+XIncludeFile "Build/Goto.pb"
+XIncludeFile "Build/AddTools.pb"
+XIncludeFile "Build/About.pb"
+XIncludeFile "Build/Preferences.pb"
+XIncludeFile "Build/Templates.pb"
+XIncludeFile "Build/StructureViewer.pb"
+XIncludeFile "Build/Projects.pb"
+XIncludeFile "Build/Build.pb"
+XIncludeFile "Build/FileMonitor.pb"
+XIncludeFile "Build/History.pb"
+XIncludeFile "Build/HistoryShutdown.pb"
+XIncludeFile "Build/Updates.pb"
 
 CompilerIf #SpiderBasic
-  XIncludeFile #BUILD_DIRECTORY + "CreateApp.pb"
+  XIncludeFile "Build/CreateApp.pb"
 CompilerEndIf
 
 ; Here is the trick:
@@ -189,9 +165,9 @@ Macro Dialog_CompilerOptionsMacro()
   CompilerEndIf
 EndMacro
 
-IncludeFile #BUILD_DIRECTORY + "CompilerOptions.pb"
+IncludeFile "Build/CompilerOptions.pb"
 #IDE_ProjectCompilerOptions = 1
-IncludeFile #BUILD_DIRECTORY + "CompilerOptions.pb"
+IncludeFile "Build/CompilerOptions.pb"
 
 
 ; toolspanel plugins
@@ -245,7 +221,6 @@ InitToolbar()       ; must be before LoadPreferences() !
 InitSyntaxCheckArrays() ; must be before LoadPreferences() ! (as it calls BuildFoldingVT() which needs this)
 LoadPreferences()
 
-
 CompilerIf #CompileMac
   ; Avoid to be run from the image disk, as some feature won't work.
   ;
@@ -256,6 +231,18 @@ CompilerIf #CompileMac
   EndIf
 CompilerEndIf
 
+CompilerIf #CompileMac
+  If OSVersion() >= #PB_OS_MacOSX_10_14
+    ; Force Appearance Aqua
+    If Not DisplayDarkMode
+      NSApp.i = CocoaMessage(0, 0, "NSApplication sharedApplication")
+      NSAppearanceAqua = CocoaMessage(0, 0, "NSAppearance appearanceNamed:$", @"NSAppearanceNameAqua")
+      CocoaMessage(0, NSApp, "setAppearance:", NSAppearanceAqua)
+    EndIf
+    ; Init Apperance Observer
+    InitAppearanceObserver()
+  EndIf
+CompilerEndIf
 
 If Editor_RunOnce And CommandlineBuild = 0
   ; New RunOnce handling, all in one OS-specifc routine
@@ -290,13 +277,15 @@ Procedure CloseSplashScreen()
   EndIf
 EndProcedure
 
-
 If CommandlineBuild = 0 And NoSplashScreen = 0
   
   ; display the startup logo, as loading could take a little on slower systems..
   ; especially when lots of sources are reloaded.
-  If OpenWindow(#WINDOW_Startup, 0, 0, DesktopUnscaledX(500), DesktopUnscaledY(200), #ProductName$ + " loading...", #PB_Window_ScreenCentered|#PB_Window_BorderLess|#PB_Window_Invisible)
-    If CatchPackedImage(#IMAGE_Startup, ?General_Images, 0)
+  If OpenWindow(#WINDOW_Startup, 0, 0, 500, 200, #ProductName$ + " loading...", #PB_Window_ScreenCentered|#PB_Window_BorderLess|#PB_Window_Invisible)
+    If CatchImage(#IMAGE_Startup, ?Image_Startup)
+      
+      ; Rescale the image if needed
+      ResizeImage(#IMAGE_Startup, DesktopScaledX(ImageWidth(#IMAGE_Startup)), DesktopScaledY(ImageHeight(#IMAGE_Startup)))
       
       If StartDrawing(ImageOutput(#IMAGE_Startup))
         DrawingMode(1)
@@ -311,11 +300,11 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
         If TextWidth(Version$) > 480 And FindString(Version$, "- (c)", 1) <> 0
           CopyRight$ = Trim(Right(Version$, Len(Version$) - FindString(Version$, "- (c)", 1))) ; will still include the (c)
           Version$   = Trim(Left(Version$, FindString(Version$, "- (c)", 1) - 1))
-          DrawText((500-TextWidth(Version$)) / 2, 145, Version$)
-          DrawText((500-TextWidth(CopyRight$)) / 2, 145 + TextHeight(Version$) + 1, CopyRight$)
+          DrawText((OutputWidth()-TextWidth(Version$)) / 2  , DesktopScaledY(145), Version$)
+          DrawText((OutputWidth()-TextWidth(CopyRight$)) / 2, DesktopScaledY(145) + TextHeight(Version$) + 1, CopyRight$)
         Else
-          DrawText((500-TextWidth(Version$)) / 2, 145, Version$)
-          DrawText((500-TextWidth("00/00/0000")) / 2, 145 + TextHeight(Version$) + 1, FormatDate("%mm/%dd/%yyyy", #PB_Compiler_Date))
+          DrawText((OutputWidth()-TextWidth(Version$)) / 2    , DesktopScaledY(145), Version$)
+          DrawText((OutputWidth()-TextWidth("00/00/0000")) / 2, DesktopScaledY(145) + TextHeight(Version$) + 1, FormatDate("%mm/%dd/%yyyy", #PB_Compiler_Date))
         EndIf
         
         StopDrawing()
@@ -426,10 +415,6 @@ StartHistorySession()
 CompilerIf #CompileMac
   ReadyForDocumentEvent = 1
 CompilerEndIf
-
-; Initialize automation (do this before opening files)
-;
-InitAutomation()
 
 ; First try to load a project if provided on the commandline
 ; Do this before opening the last open project!
@@ -769,10 +754,13 @@ Procedure ShutdownIDE()
   ; Close main window
   CloseWindow(#WINDOW_Main)
   
+  ; Fix IDE crash on macOS Big Sur
+  CompilerIf #CompileMac
+    FlushEvents()
+  CompilerEndIf
+  
   ; end history session. this could take a bit if many files were open (will display a small wait screen if so)
   EndHistorySession()
-  
-  ShutdownAutomation()
   
   Debugger_Quit()     ; kills all running debugger programs (should be before SavePreferences())
   LibraryViewer_End() ; unload all libraryviewer plugin dlls
@@ -789,7 +777,11 @@ EndProcedure
 
 DataSection
   
-  General_Images:
-  IncludeBinary #BUILD_DIRECTORY + "images.pak"
+  Image_Startup:
+    CompilerIf #SpiderBasic
+      IncludeBinary "data/SpiderBasic/SplashScreen.png"
+    CompilerElse
+      IncludeBinary "data/startuplogo.png"
+    CompilerEndIf
   
 EndDataSection

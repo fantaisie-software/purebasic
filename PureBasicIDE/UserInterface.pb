@@ -102,6 +102,7 @@ Procedure CreateIDEMenu()
     ShortcutMenuItem(#MENU_FindNext, Language("MenuItem","FindNext"))
     ShortcutMenuItem(#MENU_FindPrevious, Language("MenuItem","FindPrevious"))
     ShortcutMenuItem(#MENU_FindInFiles, Language("MenuItem","FindInFiles"))
+    ShortcutMenuItem(#MENU_Replace, Language("MenuItem","Replace"))
     
     MenuTitle(Language("MenuTitle","Project"))
     
@@ -594,6 +595,8 @@ Procedure CustomizeTabBarGadget()
     With TabBarGadgetInclude
       If OSVersion() >= #PB_OS_MacOSX_10_14
         \TabBarColor   = GetCocoaColor("windowBackgroundColor")
+        \TextColor   = GetCocoaColor("windowFrameTextColor")
+        \FaceColor   = GetCocoaColor("windowBackgroundColor")
       Else
         ;
         ; Note: The GetThemeBrushAsColor() color below always gives me full white no matter what brush i try (except the black brush),
@@ -607,7 +610,7 @@ Procedure CustomizeTabBarGadget()
           
           If *Components And NbComponents = 2 ; its grey and alpha
             
-            CompilerIf #PB_Compiler_Processor = #PB_Processor_x64 ; CGFloat is a double on 64 bit system
+            CompilerIf #PB_Compiler_64Bit ; CGFloat is a double on 64 bit system
               c = 255 * PeekD(*Components)
             CompilerElse
               c = 255 * PeekF(*Components)
@@ -617,7 +620,7 @@ Procedure CustomizeTabBarGadget()
             
           ElseIf *Components And NbComponents = 4 ; its rgba
             
-            CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+            CompilerIf #PB_Compiler_64Bit
               r = 255 * PeekD(*Components)
               g = 255 * PeekD(*Components + 8)
               b = 255 * PeekD(*Components + 16)
@@ -633,7 +636,7 @@ Procedure CustomizeTabBarGadget()
           CGColorRelease(CGColor)
         EndIf
       EndIf
-      \BorderColor   = GetCocoaColor("systemGrayColor")
+      \BorderColor = GetCocoaColor("systemGrayColor")
     EndWith
   CompilerEndIf
   
@@ -647,9 +650,10 @@ Procedure CreateGUI()
   If OpenWindow(#WINDOW_Main, EditorWindowX, EditorWindowY, EditorWindowWidth, EditorWindowHeight, DefaultCompiler\VersionString$, #WINDOW_Main_Flags)
     
     CompilerIf #CompileMac
-      ; Quick fix for TabBarGadget And ToolbarGadget lack of transparency support
       If OSVersion() >= #PB_OS_MacOSX_10_14
-        SetWindowColor(#WINDOW_Main, GetCocoaColor("windowBackgroundColor"))
+        ; Fix Toolbar style from titlebar to expanded (Top Left)
+        #NSWindowToolbarStyleExpanded = 1
+        CocoaMessage(0, WindowID(#WINDOW_Main), "setToolbarStyle:", #NSWindowToolbarStyleExpanded)
       EndIf
     CompilerEndIf
     
@@ -883,28 +887,23 @@ Procedure UpdateMenuStates()
     ;
     If *ActiveSource = *ProjectInfo
       NoRealSource = 1
-      DisableMenuAndToolbarItem(#MENU_DiffCurrent, 1)
     Else
       NoRealSource = 0
-      
-      If *ActiveSource\FileName$ And GetSourceModified()
-        DisableMenuAndToolbarItem(#MENU_DiffCurrent, 0)
-      Else
-        ; this cannot be done if the current source is not saved yet
-        DisableMenuAndToolbarItem(#MENU_DiffCurrent, 1)
-      EndIf
     EndIf
     
     ; File menu
     DisableMenuAndToolbarItem(#MENU_Save, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_SaveAs, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_Close, NoRealSource)
-    DisableMenuAndToolbarItem(#MENU_Reload, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_EncodingPlain, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_EncodingUtf8, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_NewlineWindows, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_NewlineLinux, NoRealSource)
     DisableMenuAndToolbarItem(#MENU_NewlineMacOS, NoRealSource)
+    
+    ; File menu special cases
+    DisableMenuAndToolbarItem(#MENU_Reload, Bool( (*ActiveSource\FileName$ = "") Or (*ActiveSource = *ProjectInfo) Or (*ActiveSource\IsForm) ))
+    DisableMenuAndToolbarItem(#MENU_DiffCurrent, Bool( (*ActiveSource\FileName$ = "") Or (*ActiveSource = *ProjectInfo) Or (*ActiveSource\IsForm) Or (GetSourceModified(*ActiveSource) = 0) ))
     
     ; Edit menu (disable all, except FileInFiles)
     ;
@@ -1188,6 +1187,9 @@ Procedure MainMenuEvent(MenuItemID)
     Case #MENU_FindInFiles
       OpenGrepWindow()
       
+    Case #MENU_Replace
+      OpenFindWindow(#True)     ; Replace=#True
+       
     Case #MENU_NewProject
       OpenProjectOptions(#True) ; creates a new project
       
@@ -1997,8 +1999,12 @@ Procedure MainWindowEvents(EventID)
               EndIf
               DisableMenuItem(#POPUPMENU_TabBar, #MENU_RemoveProjectFile, Disabled)
               
-              ; Disable the save item if the file is not modified
-              DisableMenuItem(#POPUPMENU_TabBar, #MENU_Save, Bool(Not GetSourceModified()))
+              ; Disable the Save items if project info tab
+              DisableMenuItem(#POPUPMENU_TabBar, #MENU_Save, Bool(*ActiveSource = *ProjectInfo))
+              DisableMenuItem(#POPUPMENU_TabBar, #MENU_SaveAs, Bool(*ActiveSource = *ProjectInfo))
+              
+              ; Disable the Reload item if new source, project info tab, or form
+              DisableMenuItem(#POPUPMENU_TabBar, #MENU_Reload, Bool( (*ActiveSource\FileName$ = "") Or (*ActiveSource = *ProjectInfo) Or (*ActiveSource\IsForm) ))
               
               ; Display the TabBar popup menu
               DisplayPopupMenu(#POPUPMENU_TabBar, WindowID(#WINDOW_Main))
@@ -2292,6 +2298,13 @@ EndProcedure
 ;
 Procedure UpdateMainWindow()
   
+  CompilerIf #CompileMac
+    If OSVersion() >= #PB_OS_MacOSX_10_14
+      ; Update DarkMode
+      UpdateAppearance()
+    EndIf
+  CompilerEndIf
+  
   ToolsPanel_Update()
   
   ToolsPanel_ApplyColors(#GADGET_ErrorLog)
@@ -2376,11 +2389,6 @@ Procedure DispatchEvent(EventID)
       
       If EventwParam() = AsciiConst('F', 'I', 'N', 'D')
         PostMessage_(EventlParam(), RunOnceMessageID, AsciiConst('H', 'W', 'N', 'D'), WindowID(#WINDOW_Main))
-        
-      ElseIf EventwParam() = AsciiConst('A', 'U', 'T', 'O')
-        ; broadcast for IDE's that support Automation (since 4.60)
-        ; respond with the kind of automation supported (AUT1 = version 1)
-        PostMessage_(EventlParam(), RunOnceMessageID, AsciiConst('A', 'U', 'T', '1'), WindowID(#WINDOW_Main))
         
       ElseIf EventwParam() = AsciiConst('O', 'P', 'E', 'N') And Editor_RunOnce
         ; to this one we only answer when RunOnce is enabled
@@ -2707,4 +2715,3 @@ Procedure DisableMenuAndToolbarItem(MenuItemID, State)
     DisableToolBarButton(#TOOLBAR, MenuItemID, State)
   EndIf
 EndProcedure
-

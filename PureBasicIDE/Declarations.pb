@@ -242,19 +242,7 @@ Declare AutoComplete_Close()                     ; abort autocomplete
 Declare AutoComplete_Insert()                    ; confirm autocomplete
 Declare AutoComplete_InsertEndKEyword()          ; insert "end" keyword on second keypress
 Declare AutoComplete_ChangeSelectedItem(Direction)
-
-;- Automation.pb
-;
-CompilerIf #CompileWindows = 0
-  Declare ProcessAutomationRequest()
-CompilerElse
-  Declare ProcessAutomationRequest(WindowID, *copy.COPYDATASTRUCT)
-CompilerEndIf
-Declare InitAutomation()                  ; initialize automation
-Declare ShutdownAutomation()              ; shutdown automation
-
-Declare IsAutomationEventClient(Event$)    ; automation events
-Declare AutomationEvent_AutoComplete(List Elements.s())
+Declare AutoComplete_InitContextConstants()
 
 ;- CodeViewer.pb
 ;
@@ -328,6 +316,10 @@ CompilerIf #DEBUG
   Declare OpenDebuggingWindow()
 CompilerEndIf
 
+;- DiffAlgorithm.pb
+;
+Declare Diff(*Ctx.DiffContext, *BufferA, SizeA, *BufferB, SizeB, Flags = 0)
+
 ;- DiffWindow.pb
 ;
 Declare DiffWindowEvents(EventID)
@@ -362,7 +354,7 @@ Declare IsBinaryFile(*Buffer, Length) ; returns true if the buffer contains nont
 
 ;- FindWindow.pb
 ;
-Declare OpenFindWindow()
+Declare OpenFindWindow(Replace = #False)
 Declare UpdateFindWindow()
 Declare FindWindowEvents(EventID)
 
@@ -405,6 +397,7 @@ Declare.s GetModulePrefix(*Buffer, BufferLength, Position)                      
 Declare.s GetCurrentWord()                                                                               ; get the current word of the source file.
 Declare.s GetCurrentLine()                                                                               ; return the text of the current line
 Declare.s GetNumber(Line$, Position)                                                                     ; position is 0-based
+Declare.s FindEnclosingFunction(Line$, Cursor, *StartPosition.INTEGER, *Parameter.INTEGER)               ; all arguments 0-based
 Declare InsertComments()                                                                                 ; comment this block
 Declare RemoveComments()                                                                                 ; uncomment this block
 Declare InsertTab()                                                                                      ; tab intend a block
@@ -489,7 +482,6 @@ Declare ParseString(String$)                                   ; parse a string 
 Declare.s GetStringToken(Index)                                ; return token from previously parsed string
 Declare.s StrByteSize(Size.q)                                  ; get a nice looking filesize / memory size value (with KB, MB, GB attached)
 Declare IsNumeric(Text$, *Output.INTEGER)                      ; check if a text is a valid number and return it if true
-Declare CatchPackedImage(Image, *Address.LONG, Index)          ; load an image that was packed & then included
 Declare.s RGBString(Color)                                     ; turns a color into a string "RGB(a,b,c)" as a platform independent color representation
 Declare ColorFromRGBString(String$)                            ; turns the result of RGBString() back into a color
 Declare StringToUTF8(String$)                                  ; returns the UTF8 version of the string, needs to be freed with FreeMemory()!

@@ -7,7 +7,11 @@
 ;
 ; ------------------------------------------------------------
 ;
- 
+
+CompilerIf #PB_Compiler_Debugger
+  CompilerError "The debugger must be turned OFF for this example"
+CompilerEndIf
+
 Procedure ErrorHandler()
  
   ErrorMessage$ = "A program error was detected:" + Chr(13)
@@ -62,9 +66,6 @@ EndProcedure
 ; Setup the error handler.
 ;
 OnErrorCall(@ErrorHandler())
- 
-MessageRequester("OnError example", "Executing some code with errors. The debugger should be turned off.")
- 
  
 ; Write to protected memory
 ;

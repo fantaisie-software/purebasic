@@ -477,7 +477,8 @@ EndProcedure
 Procedure affiche3d()
   Protected.f MouseX,Mousey,keyx,keyz,a,ai
   Repeat
-    WindowEvent()
+    While WindowEvent()
+    Wend
     ExamineMouse()
     ExamineKeyboard()
     If KeyboardReleased(#PB_Key_F1 ):diff=1-diff:menu():SetLightColor(0,#PB_Light_DiffuseColor ,diff*$111111* 15*diff):EndIf

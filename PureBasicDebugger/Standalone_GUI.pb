@@ -269,21 +269,10 @@ EndProcedure
 
 
 DataSection
-  
-  CompilerIf #CompileWindows
-    
-    MinimizeImageData:
-    IncludeBinary #BUILD_DIRECTORY + "TemplateUp.ico"
-    MaximizeImageData:
-    IncludeBinary #BUILD_DIRECTORY + "TemplateDown.ico"
-    
-  CompilerElse
-    
-    MinimizeImageData:
-    IncludeBinary #BUILD_DIRECTORY + "TemplateUp.png"
-    MaximizeImageData:
-    IncludeBinary #BUILD_DIRECTORY + "TemplateDown.png"
-    
-  CompilerEndIf
-  
+ 
+  MinimizeImageData:
+    IncludeBinary "../PureBasicIDE/data/DefaultTheme/TemplateUp.png"
+  MaximizeImageData:
+    IncludeBinary "../PureBasicIDE/data/DefaultTheme/TemplateDown.png"
+
 EndDataSection

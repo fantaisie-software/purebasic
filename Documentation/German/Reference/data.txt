@@ -32,10 +32,9 @@
 @Example
 
 @Code
-  Label:
-    
   DataSection
-    Data.i ?Label, @Max()
+    NumerischeDaten:
+    Data.w 120, 250, 645 ; drei Zahlen der Größe 'Word'
   EndDataSection
 @EndCode
 
@@ -58,10 +57,9 @@
 @Example
 
 @Code
-  Label:
-    
   DataSection
-    Data.i ?Label, @Max()
+    NumerischeDaten:
+    Data.w 0, 1, 2
   EndDataSection
 @EndCode
 
@@ -86,8 +84,11 @@
   @Example
 
 @Code
-  Data.l 100, 200, -250, -452, 145
-  Data.s "Hello", "This", "is ", "What ?"
+  DataSection
+    GemischteDaten:
+    Data.l 100, 200, -250, -452, 145
+    Data.s "Hello", "This", "is ", "What ?"
+  EndDataSection
 @EndCode
 
 
@@ -107,6 +108,7 @@
   Label:
     
   DataSection
+    GemischteDaten:
     Data.i ?Label, @Max()
   EndDataSection
 @EndCode
@@ -158,7 +160,7 @@
 
   Dieses Schlüsselwort ist nützlich, um die Startposition für ein nachfolgendes @Keyword "Read" auf eine angegebene 
   Sprungmarke (Label) zu setzen. Alle für diesen Zweck verwendeten Sprungmarken sollten sich innerhalb einer
-  @Keyword "DataSection" (des Datenabschnitts) befinden, da die Daten beim Kompilieren als ein vom Programmcode seperater Block 
+  @Keyword "DataSection" (des Datenabschnitts) befinden, da die Daten beim Kompilieren als ein vom Programmcode separater Block 
   behandelt werden und möglicherweise von einer Sprungmarke getrennt werden, wenn die Sprungmarke außerhalb
   der @Keyword "DataSection" platziert wurde.
      

@@ -100,19 +100,42 @@ CompilerEndIf
 ;
 CompilerSelect #PB_Compiler_Processor
   CompilerCase #PB_Processor_x86
-    #CompileX86 = 1
-    #CompileX64 = 0
-    #CompilePPC = 0
-    
+    #CompileX86   = 1
+    #CompileX64   = 0
+    #CompilePPC   = 0
+    #CompileArm64 = 0
+    #CompileArm32 = 0
+      
   CompilerCase #PB_Processor_x64
-    #CompileX86 = 0
-    #CompileX64 = 1
-    #CompilePPC = 0
-    
+    #CompileX86   = 0
+    #CompileX64   = 1
+    #CompilePPC   = 0
+    #CompileArm64 = 0
+    #CompileArm32 = 0
+      
   CompilerCase #PB_Processor_PowerPC
-    #CompileX86 = 0
-    #CompileX64 = 0
-    #CompilePPC = 1
+    #CompileX86   = 0
+    #CompileX64   = 0
+    #CompilePPC   = 1
+    #CompileArm64 = 0
+    #CompileArm32 = 0
+  
+  CompilerCase #PB_Processor_Arm64
+    #CompileX86   = 0
+    #CompileX64   = 0
+    #CompilePPC   = 0
+    #CompileArm64 = 1
+    #CompileArm32 = 0
+    
+  CompilerCase #PB_Processor_Arm32
+    #CompileX86   = 0
+    #CompileX64   = 0
+    #CompilePPC   = 0
+    #CompileArm64 = 0
+    #CompileArm32 = 1
+  
+  CompilerDefault
+    CompilerError "Processor not supported"
     
 CompilerEndSelect
 

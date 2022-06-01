@@ -24,6 +24,10 @@
 ; (like described on the schmatic, with '+' signs)
 ;
 
+CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+  CompilerError "This example code is Windows only."  
+CompilerEndIf
+
 Global RollAxisX.f
 Global RollAxisY.f
 Global RollAxisZ.f
@@ -165,11 +169,11 @@ pfd\cDepthBits   = 16
 
 pixformat = ChoosePixelFormat_(hdc, pfd)
 
-HandleError( SetPixelFormat_(hdc, pixformat, pfd), "SetPixelFormat()")
+HandleError(SetPixelFormat_(hdc, pixformat, pfd), "SetPixelFormat()")
 
 hrc = wglCreateContext_(hdc)
 
-HandleError( wglMakeCurrent_(hdc,hrc), "vglMakeCurrent()")
+HandleError(wglMakeCurrent_(hdc,hrc), "vglMakeCurrent()")
 
 glMatrixMode_(#GL_PROJECTION)
 
@@ -193,20 +197,20 @@ glEnable_(#GL_CULL_FACE)    ; This will enhance the rendering speed as all the b
                             ; ignored. This works only with CLOSED objects like a cube... Singles
                             ; planes surfaces will be visibles only on one side.
 
-glViewport_(0, 0, WindowWidth-30, WindowHeight-30)
+glViewport_(0, 0, DesktopScaledX(WindowWidth-30), DesktopScaledY(WindowHeight-30))
+
+AddWindowTimer(0, 0, 16) ; About 60 fps
 
 Repeat
-
-  Repeat
-    Event = WindowEvent()
-    
-    Select Event
-      Case #PB_Event_CloseWindow
-        Quit = 1
-    EndSelect
+  Event = WaitWindowEvent()
   
-  Until Event = 0
+  Select Event
+    Case #PB_Event_CloseWindow
+      End
+      
+    Case #PB_Event_Timer
+      DrawCube(hdc)
+      
+  EndSelect
+ForEver
   
-  DrawCube(hdc)
-  Delay(20)
-Until Quit = 1

@@ -20,7 +20,7 @@ If OpenWindow(0, 0, 0, #WindowWidth, #WindowHeight, "PureBasic - Gadget Demonstr
 
   TextGadget(7, 10, 5, 700, 15, "PureBasic splitter demonstation with Editor, ScrollArea, ExplorerTree and Web gadgets. Feel the power...")
 
-  WebGadget(0, 10, 10, 300, 20, "http://www.purebasic.com")
+  WebGadget(0, 10, 10, 300, 20, "http://www.google.com")
   
   EditorGadget(1, 115, 10, 100, 190)
   For k=1 To 10

@@ -929,7 +929,7 @@ Suivre un objet.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = CreateCamera(#Camera, X, Y, Largeur, Hauteur [, MasqueVisibilite])
+@Function Resultat = CreateCamera(#Camera, X, Y, Largeur, Hauteur [, MasqueVisibilite] [, NiveauDetails]])
 
 @Description
   Crée une nouvelle caméra dans le monde 
@@ -975,8 +975,13 @@ Suivre un objet.
   n'ont pas de masque, ce qui signifie 
   qu'ils seront toujours affichés par 
   toutes les caméras.
-@LineBreak
-@LineBreak
+  
+@OptionalParameter "NiveauDetails"
+  Le niveau de détails (Lod Bias = Level Of Details) à appliquer aux entités qui le supportent. @LineBreak
+  S'il est inférieur à 1, un objet plus détaillé sera affiché, s'il est supérieur à 1, une entité 
+  moins détaillée sera affichée.@LineBreak
+  La distance de l'entité est divisée par le niveau de détail, par exemple un niveau de détail de 0.5 
+  double la distance.
   
 @ReturnValue
   Renvoie une valeur non nulle en cas de 

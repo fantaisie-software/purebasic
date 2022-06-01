@@ -1,7 +1,7 @@
 ;
 ;     Texture library documentation
 ;
-;      (c) 2017 - Fantaisie Software
+;      (c) 2022 - Fantaisie Software
 ;
 
 @Library Texture
@@ -51,7 +51,7 @@
   Erstellt eine neue leere Textur mit den angegebenen Dimensionen.
 
 @Parameter "#Textur"
-  Eine Nummer zum Identifizieren der Textur.
+  Eine Nummer zum Identifizieren der neuen Textur.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
@@ -78,6 +78,92 @@
 @Example
 @Code
   CreateTexture(0, 256, 256) ; Erstellt eine neue 256x256 Textur
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateCubicTexture(#Textur, #Textur1, #Textur2, #Textur3, #Textur4, #Textur5, #Textur6)
+
+@Description
+  Erzeugt eine neue kubische Textur unter Verwendung der angegebenen Texturen. Kubische Texturen
+  sind nützlich, um weltähnliche Reflexionen zu erzeugen.
+  @#PB_Material_EnvironmentMap sollte bei @@SetMaterialAttribute angegeben werden, um kubische
+  Reflektion zu ermöglichen.
+  
+@Parameter "#Textur"
+  Eine Nummer zum Identifizieren der neuen Textur.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
+  automatisch zu generieren.
+
+@Parameter "#Textur1"
+  Die Textur, die für die erste Fläche der kubischen Textur verwendet werden soll.
+
+@Parameter "#Textur2"
+  Die Textur, die für die zweite Fläche der kubischen Textur verwendet werden soll.
+
+@Parameter "#Textur3"
+  Die Textur, die für die dritte Fläche der kubischen Textur verwendet werden soll.
+
+@Parameter "#Textur4"
+  Die Textur, die für die vierte Fläche der kubischen Textur verwendet werden soll.
+
+@Parameter "#Textur5"
+  Die Textur, die für die fünfte Fläche der kubischen Textur verwendet werden soll.
+
+@Parameter "#Textur6"
+  Die Textur, die für die sechste Fläche der kubischen Textur verwendet werden soll.
+  
+@ReturnValue
+  Ein Wert ungleich Null, wenn die kubische Textur erfolgreich erstellt wurde, andernfalls Null.
+  Wenn @#PB_Any als #Textur Parameter verwendet wurde, dann wird im Erfolgsfall die
+  generierte Nummer zurückgegeben.
+
+@Example
+@Code
+  InitEngine3D() : InitSprite() : InitKeyboard()
+
+  OpenWindow(0, 0,0, 800, 600, "VertexColour - [Esc] quit", #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0), 0, 0, 0)
+
+  Add3DArchive(#PB_Compiler_Home + "Examples/3D/Data/Textures", #PB_3DArchive_FileSystem)
+  Add3DArchive(#PB_Compiler_Home + "Examples/3D/Data/Packs/desert.zip", #PB_3DArchive_Zip)
+  Parse3DScripts()
+
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0,0,0,-8)
+  CameraLookAt(0,0,0,0)
+
+  CreateLight(0,$ffffff, -100, 100, 50)
+  AmbientColor($111111*2)
+  CameraBackColor(0,$880044)
+
+  SkyBox("desert07.jpg")
+
+  LoadTexture(0,"desert07_RT.jpg")
+  LoadTexture(1,"desert07_LF.jpg")
+  LoadTexture(2,"desert07_UP.jpg")
+  LoadTexture(3,"desert07_DN.jpg")
+  LoadTexture(4,"desert07_FR.jpg")
+  LoadTexture(5,"desert07_BK.jpg")
+  CreateCubicTexture(10, 0, 1, 2, 3, 4, 5)
+
+  LoadTexture(11, "dirt.jpg")
+  CreateMaterial(0, TextureID(11))
+  AddMaterialLayer(0, TextureID(10), #PB_Material_Add)
+  SetMaterialAttribute(0, #PB_Material_EnvironmentMap, #PB_Material_ReflectionMap, 1)
+
+  CreateTorus(0,2,1,32,32)
+  CreateEntity(0, MeshID(0), MaterialID(0))
+
+  Repeat
+    While WindowEvent():Wend
+    ExamineKeyboard()
+    RotateEntity(0,1,1,1, #PB_Relative)
+    RenderWorld()
+    FlipBuffers()    
+  Until KeyboardReleased(#PB_Key_Escape)
 @EndCode
 
 @SupportedOS
